@@ -1,6 +1,1 @@
-#!/bin/sh
-aclocal
-autoheader
-autoconf
-automake --foreign --add-missing
-perl admin/am_edit
+make -f admin/Makefile.common
