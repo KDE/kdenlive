@@ -35,64 +35,17 @@ GenTime::GenTime(double frames, double framesPerSecond)
 	m_time = frames/framesPerSecond;
 }
 
-/** returns the time, in seconds */
-double GenTime::seconds()
-{
-	return m_time;
-}
-
 /** Returns the time, in milliseconds */
-double GenTime::ms()
+double GenTime::ms() const
 {
 	return m_time*1000;
 }
 
 /** Returns the time in frames, after being given the number of frames per second */
-double GenTime::frames(double framesPerSecond)
+double GenTime::frames(double framesPerSecond) const
 {
 	return m_time * framesPerSecond;
 }
-
-GenTime GenTime::operator+(GenTime op)
-{
-	return GenTime(m_time + op.seconds());
-}
-
-GenTime GenTime::operator-(GenTime op)
-{
-	return GenTime(m_time - op.seconds());
-}
-
-bool GenTime::operator<(GenTime op)
-{
-	return m_time < op.seconds();
-}
-
-bool GenTime::operator>(GenTime op)
-{
-	return m_time > op.seconds();
-}
-
-bool GenTime::operator>=(GenTime op)
-{
-	return m_time >= op.seconds();
-}
-
-bool GenTime::operator<=(GenTime op)
-{
-	return m_time <= op.seconds();
-}
-
-bool GenTime::operator==(GenTime op)
-{
-	return m_time == op.seconds();
-}
-
-bool GenTime::operator!=(GenTime op)
-{
-	return m_time != op.seconds();
-}
-
 
 GenTime::~GenTime()
 {

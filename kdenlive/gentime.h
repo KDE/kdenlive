@@ -34,37 +34,55 @@ public:
 	GenTime(double frames, double framesPerSecond);
 
 	/** returns the time, in seconds */
-	double seconds();
+	double seconds() const {
+		return m_time;
+	}
 
 	/** Returns the time, in milliseconds */
-	double ms();
+	double ms() const;
 
 	/** Returns the time in frames, after being given the number of frames per second */
-	double frames(double framesPerSecond);
+	double frames(double framesPerSecond) const;
 
 	/** Adds two GenTimes */
-	GenTime operator+(GenTime op);
+	GenTime operator+(GenTime op) const {
+		return GenTime(m_time + op.seconds());
+	}
 
 	/** Subtracts one genTime from another */		
-	GenTime operator-(GenTime op);
+	GenTime operator-(GenTime op) const {
+		return GenTime(m_time - op.seconds());	
+	}
 
 	/* Implementation of < operator; Works identically as with basic types. */
-	bool operator<(GenTime op);
+	bool operator<(GenTime op) const {
+		return m_time < op.seconds();
+	}
 
 	/* Implementation of > operator; Works identically as with basic types. */		
-	bool operator>(GenTime op);
+	bool operator>(GenTime op) const {
+		return m_time > op.seconds();
+	}
 
 	/* Implementation of >= operator; Works identically as with basic types. */
-	bool operator>=(GenTime op);
+	bool operator>=(GenTime op) const {
+		return m_time >= op.seconds();
+	}
 
 	/* Implementation of <= operator; Works identically as with basic types. */
-	bool operator<=(GenTime op);
+	bool operator<=(GenTime op) const {
+		return m_time <= op.seconds();
+	}
 
 	/* Implementation of == operator; Works identically as with basic types. */
-	bool operator==(GenTime op);
+	bool operator==(GenTime op) const {
+		return m_time == op.seconds();
+	}
 
 	/* Implementation of != operator; Works identically as with basic types. */
-	bool operator!=(GenTime op);		
+	bool operator!=(GenTime op) const {
+		return m_time != op.seconds();
+	}
 			
 	~GenTime();
 private: // Private attributes
