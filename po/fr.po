@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
 "POT-Creation-Date: 2003-03-12 22:22+0100\n"
-"PO-Revision-Date: 2003-03-14 08:35+0100\n"
-"Last-Translator: Gilles CAULIER <caulier.gilles@free.fr>\n"
-"Language-Team: Française <fr@li.org>\n"
+"PO-Revision-Date: 2003-03-15 21:51GMT\n"
+"Last-Translator: CAULIER Gilles <caulier.gilles@free.fr>\n"
+"Language-Team: FRANCAIS <fr@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 0.9.6\n"
@@ -14,7 +14,7 @@ msgstr "Configurer Kdenlive"
 
 #: kdenlivesetupdlg.cpp:33
 msgid "Renderer"
-msgstr "Calcul du rendu vidéo"
+msgstr "Rendu vidéo"
 
 #: avformatwidgetcodeclist.moc.cpp:34 avformatwidgetcodeclist.moc.cpp:42
 msgid "AVFormatWidgetCodecList"
@@ -662,7 +662,7 @@ msgstr "&Rendu vidéo"
 
 #: rc.cpp:6
 msgid "&Layout"
-msgstr "&Fenêtre"
+msgstr "Fe&nêtre"
 
 #: rc.cpp:7
 msgid "Timeline Toolbar"
