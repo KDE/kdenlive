@@ -340,6 +340,8 @@ KRuler::KRuler(QWidget *parent, const char *name ) :
 
  // we draw everything ourselves, no need to draw background.
 	setBackgroundMode(Qt::NoBackground);
+
+	m_autoClickSlider = -1;
 }
 
 KRuler::~KRuler()
@@ -602,7 +604,7 @@ void KRuler::activateSliderUnderCoordinate(int x, int y) {
 			return;
 		}
 	}
-	activateSlider(-1);
+	activateSlider(m_autoClickSlider);
 }
 
 void KRuler::activateSlider(int id) {
@@ -730,3 +732,10 @@ double KRuler::valueScale()
 {
 	return m_xValueSize;
 }
+
+/** Sets the slider which will be "selected" if no other slider is under the mouse. Select -1 for no slider. */
+void KRuler::setAutoClickSlider(int ID)
+{
+	m_autoClickSlider = ID;
+}
+

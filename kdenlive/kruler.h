@@ -86,6 +86,8 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
   void setRulerModel(KRulerModel *model);
   /** Returns the valueScale of this ruler*/
   double valueScale();
+  /** Sets the slider which will be "selected" if no other slider is under the mouse. Select -1 for no slider. */
+  void setAutoClickSlider(int ID);
 public slots: // public slots
   /** Sets the slider with the given id to the given value. The display will be updated.  */
   void setSliderValue(const int id, const int value);
@@ -134,7 +136,10 @@ private: // private variables
   /** The minimum value range for this ruler */
   int m_minValue;
   /** The maximum value range for this ruler. */
-  int m_maxValue;  
+  int m_maxValue;
+  /** This slider is automatically "clicked" if a mouse event occurs and no slider
+is under the mouse. */
+  int m_autoClickSlider;  
 
 private: // private methods  
   /** Sets the slider under the specified coordinate to be active, and setting other sliders
