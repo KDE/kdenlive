@@ -157,3 +157,10 @@ int DocClipBase::trackNum()
 {
 	return m_trackNum;
 }
+
+/** Returns the end of the clip on the track. A convenience function, equivalent
+to trackStart() + cropDuration() */
+GenTime DocClipBase::trackEnd()
+{
+	return trackStart() + cropDuration();
+}

@@ -31,6 +31,8 @@
 #include "kscalableruler.h"
 #include "clipdrag.h"
 
+int KMMTimeLine::snapTolerance=20;
+
 KMMTimeLine::KMMTimeLine(QWidget *rulerToolWidget, QWidget *scrollToolWidget, KdenliveDoc *document, QWidget *parent, const char *name ) :
 				QVBox(parent, name),
 				m_document(document),
@@ -76,6 +78,8 @@ KMMTimeLine::KMMTimeLine(QWidget *rulerToolWidget, QWidget *scrollToolWidget, Kd
 
 	m_startedClipMove = false;
 	m_masterClip = 0;
+
+	m_gridSnapTracker = m_snapToGridList.end();
 }
 
 KMMTimeLine::~KMMTimeLine()
@@ -193,6 +197,7 @@ void KMMTimeLine::dragEnterEvent ( QDragEnterEvent *event )
 		if(m_selection.isEmpty()) {
 			event->accept(false);
 		} else {
+			generateSnapToGridList();
       event->accept(true);
 		}
 	} else {	
@@ -205,13 +210,36 @@ void KMMTimeLine::dragEnterEvent ( QDragEnterEvent *event )
 void KMMTimeLine::dragMoveEvent ( QDragMoveEvent *event )
 {
 	QPoint pos = m_trackViewArea->mapFrom(this, event->pos());
-	GenTime timeUnderMouse(mapLocalToValue(pos.x()), 25);
+	GenTime timeUnderMouse(mapLocalToValue(pos.x()), 25);	
 
-	if(m_selection.isEmpty()) {		
+	if(m_gridSnapTracker != m_snapToGridList.end()) {
+		QValueListIterator<GenTime> itt = m_gridSnapTracker;
+		++itt;	
+		while(itt != m_snapToGridList.end()) {
+			if (fabs(((*itt) - timeUnderMouse).seconds()) > fabs(((*m_gridSnapTracker) - timeUnderMouse).seconds())) break;
+			++m_gridSnapTracker;
+			++itt;
+		}
+
+		itt = m_gridSnapTracker;
+		--itt;
+		while(m_gridSnapTracker != m_snapToGridList.begin()) {
+			if (fabs(((*itt) - timeUnderMouse).seconds()) > fabs(((*m_gridSnapTracker) - timeUnderMouse).seconds())) break;	
+			--m_gridSnapTracker;
+			--itt;
+		}
+
+		if( abs((int)mapValueToLocal((*m_gridSnapTracker).frames(25)) - pos.x()) < snapTolerance) {
+			timeUnderMouse = *m_gridSnapTracker;
+		}
+	}	
+	
+	if(m_selection.isEmpty()) {  	     	  
 		moveSelectedClips(trackUnderPoint(pos), timeUnderMouse - m_clipOffset);
 	} else {
 		if(canAddClipsToTracks(m_selection, trackUnderPoint(pos), timeUnderMouse + m_clipOffset)) {
 			addClipsToTracks(m_selection, trackUnderPoint(pos), timeUnderMouse + m_clipOffset, true);
+			generateSnapToGridList();
 			m_selection.clear();
 		}
 	}
@@ -463,6 +491,8 @@ void KMMTimeLine::initiateDrag(DocClipBase *clipUnderMouse, GenTime clipOffset)
 {
 	m_masterClip = clipUnderMouse;
 	m_clipOffset = clipOffset;
+	generateSnapToGridList();
+	
 	m_startedClipMove = true;
 
 	DocClipBaseList selection = listSelected();
@@ -583,4 +613,63 @@ void KMMTimeLine::calculateProjectSize(double rulerScale)
 	
   m_scrollBar->setRange(0, (int)(length.frames(25) * rulerScale) + m_scrollBar->width());
   m_ruler->setRange(0, (int)length.frames(25));  
+}
+
+void KMMTimeLine::generateSnapToGridList()
+{
+	m_snapToGridList.clear();
+
+	QValueList<GenTime> list;
+
+	QPtrListIterator<KMMTrackPanel> trackItt(m_trackList);
+
+	while(trackItt.current()) {
+		QPtrListIterator<DocClipBase> clipItt = trackItt.current()->docTrack().firstClip(false);
+		while(clipItt.current()) {
+			list.append(clipItt.current()->trackStart());
+			list.append(clipItt.current()->trackEnd());
+			++clipItt;
+		}
+		++trackItt;
+	}
+
+	GenTime masterClipOffset = m_masterClip->trackStart() + m_clipOffset;
+
+	trackItt.toFirst();		
+	while(trackItt.current()) {
+		QPtrListIterator<DocClipBase> clipItt = trackItt.current()->docTrack().firstClip(true);
+		while(clipItt.current()) {
+			QValueListIterator<GenTime> timeItt = list.begin();
+
+			while(timeItt != list.end()) {
+				m_snapToGridList.append(masterClipOffset + (*timeItt) - clipItt.current()->trackStart());
+				m_snapToGridList.append(masterClipOffset + (*timeItt) - clipItt.current()->trackEnd());				
+				++timeItt;
+			}			
+
+			++clipItt;
+		}
+		++trackItt;
+	}
+
+  qHeapSort(m_snapToGridList);
+
+  QValueListIterator<GenTime> itt = m_snapToGridList.begin();
+  if(itt != m_snapToGridList.end()) {
+	 	QValueListIterator<GenTime> next = itt;
+	  ++next;
+	  
+	  while(next != m_snapToGridList.end()) {
+	  	if((*itt) == (*next)) {
+	   		m_snapToGridList.remove(next);
+	   		next = itt;
+				++next;
+			} else {
+				++itt;
+				++next;
+			}
+	  }
+	}
+
+  m_gridSnapTracker = m_snapToGridList.begin();
 }

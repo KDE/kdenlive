@@ -75,6 +75,17 @@ private:
   /** This is the "master" Clip - the clip that is actively being dragged by the mouse.
 	All other clips move in relation to the master clip. */
   DocClipBase * m_masterClip;
+  /** A list of all times that are "snapToGrid" times. Generated specifically for a
+	particular mouse/offset and relative to the selected clips, this list of times is the
+	only thing we need to consult when moving back and forth with the mouse to
+	determine when we need to snap to a particular location based upon another
+	clip. */
+  QValueList<GenTime> m_snapToGridList;
+  /** Keeps track of whichever list item is closest to the mouse cursor. */
+  QValueListIterator<GenTime> m_gridSnapTracker;
+  /** The snap tolerance specifies how many pixels away a selection is from a 
+snap point before the snap takes effect. */
+  static int snapTolerance;
   
 public: // Public methods
   /** This method adds a new track to the trackGrid. */
@@ -156,6 +167,8 @@ private: // private methods
   /** Constructs a list of all clips that are currently selected. It does nothing else i.e.
 it does not remove the clips from the timeline. */
   DocClipBaseList listSelected();
+  /** Constructs the snap to grid list, in preperation for using it in a move operation. */
+  void generateSnapToGridList();
   
 public slots: // Public slots
   /** Called when a track within the project has been added or removed.

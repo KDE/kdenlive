@@ -85,6 +85,9 @@ public:
   void setParentTrack(DocTrackBase *track, int trackNum);
   /** Returns the track number. This is a hint as to which track the clip is on, or should be placed on. */
   int trackNum();
+  /** Returns the end of the clip on the track. A convenience function, equivalent
+to trackStart() + cropDuration() */
+  GenTime trackEnd();
 private: // Private attributes
 	/** The name of this clip */
 	QString m_name;
