@@ -263,6 +263,37 @@ double DocClipRef::framesPerSecond() const
 		return m_clip->framesPerSecond();
 	}
 }
+//returns clip video properties -reh
+uint DocClipRef::clipHeight() const
+{
+	return m_clip->toDocClipAVFile()->clipHeight();
+}
+uint DocClipRef::clipWidth() const
+{
+	return m_clip->toDocClipAVFile()->clipWidth();
+}
+QString DocClipRef::avDecompressor()
+{
+	return m_clip->toDocClipAVFile()->avDecompressor();
+}
+//type ntsc/pal
+QString DocClipRef::avSystem()
+{
+	return m_clip->toDocClipAVFile()->avSystem();
+}
+//returns clip audio properties -reh
+uint DocClipRef::audioChannels() const
+{
+	return m_clip->toDocClipAVFile()->audioChannels();
+}
+QString DocClipRef::audioFormat()
+{
+	return m_clip->toDocClipAVFile()->audioFormat();
+}
+uint DocClipRef::audioBits() const
+{
+	return m_clip->toDocClipAVFile()->audioBits();
+}
 
 QDomDocument DocClipRef::toXML() const
 {
@@ -337,6 +368,15 @@ const GenTime &DocClipRef::duration() const
 {
 	return m_clip->duration();
 }
+/*int DocClipRef::clipWidth() const
+{
+	return m_clip->clipWidth();
+}
+
+int DocClipRef::clipHeight() const
+{
+	return m_clip->clipHeight();
+}*/
 
 bool DocClipRef::durationKnown() const
 {

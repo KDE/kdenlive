@@ -77,7 +77,7 @@ case $AUTOMAKE_STRING in
   * )
     echo "*** YOU'RE USING $AUTOMAKE_STRING."
     echo "*** KDE requires automake 1.6"
-    exit 1
+#    exit 1
     ;;
 esac
 }

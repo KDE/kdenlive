@@ -53,6 +53,7 @@
 #include "effectlistdialog.h"
 #include "effectparamdialog.h"
 #include "effectstackdialog.h"
+#include "clippropertiesdialog.h"
 #include "exportdialog.h"
 #include "kaddclipcommand.h"
 #include "kaddavfilecommand.h"
@@ -212,7 +213,7 @@ void KdenliveApp::initActions()
 	projectAddClips->setStatusText( i18n( "Add clips to the project" ) );
 	projectDeleteClips->setStatusText( i18n( "Remove clips from the project" ) );
 	projectClean->setStatusText( i18n( "Remove unused clips from the project" ) );
-	projectClipProperties->setStatusText( i18n( "View the properties of the selected clip" ) );
+	//projectClipProperties->setStatusText( i18n( "View the properties of the selected clip" ) );
 	actionSeekForwards->setStatusText( i18n( "Seek forward one frame" ) );
 	actionSeekBackwards->setStatusText( i18n( "Seek backwards one frame" ) );
 	actionTogglePlay->setStatusText( i18n( "Start or stop playback" ) );
@@ -318,6 +319,13 @@ void KdenliveApp::initView()
 	widget->setDockSite( KDockWidget::DockFullSite );
 	widget->manualDock( projectDock, KDockWidget::DockCenter );
 
+	clipWidget = createDockWidget( "Clip Properties", QPixmap(), 0, i18n( "Clip Properties" ) );
+	m_clipPropertyDialog = new ClipPropertiesDialog( clipWidget, "clip properties" );
+	QToolTip::add( clipWidget, i18n( "Properties of the currently selected clip." ) );
+	clipWidget->setWidget( m_clipPropertyDialog );
+	clipWidget->setDockSite( KDockWidget::DockFullSite );
+	clipWidget->manualDock( projectDock, KDockWidget::DockCenter );
+	
 	widget = createDockWidget( "Effect Stack", QPixmap(), 0, i18n( "Effect Stack" ) );
 	m_effectStackDialog = new EffectStackDialog( this, getDocument(), widget, "effect stack" );
 	QToolTip::add( widget, i18n( "All effects on the currently selected widget." ) );
@@ -342,6 +350,9 @@ void KdenliveApp::initView()
 
 	connect( m_workspaceMonitor, SIGNAL( seekPositionChanged( const GenTime & ) ), m_timeline, SLOT( seek( const GenTime & ) ) );
 	connect( m_workspaceMonitor, SIGNAL( seekPositionChanged( const GenTime & ) ), this, SLOT( slotUpdateCurrentTime( const GenTime & ) ) );
+	//connect editpanel sliders with timeline sliders -reh
+	connect( m_workspaceMonitor, SIGNAL( inpointPositionChanged( const GenTime & ) ), m_timeline, SLOT( setInpointTimeline( const GenTime & ) ) );
+	connect( m_workspaceMonitor, SIGNAL( outpointPositionChanged( const GenTime & ) ), m_timeline, SLOT( setOutpointTimeline( const GenTime & ) ) );
 
 	connect( getDocument(), SIGNAL( signalClipSelected( DocClipRef *) ), this, SLOT( slotSetClipMonitorSource( DocClipRef * ) ) );
 	connect( getDocument(), SIGNAL( signalClipSelected( DocClipRef *) ), m_effectStackDialog, SLOT( slotSetEffectStack( DocClipRef * ) ) );
@@ -380,7 +391,10 @@ void KdenliveApp::initView()
 	connect( m_projectList, SIGNAL( dragDropOccured( QDropEvent * ) ), this, SLOT( slot_insertClips( QDropEvent * ) ) );
 
 	connect( m_timeline, SIGNAL( seekPositionChanged( const GenTime & ) ), m_workspaceMonitor, SLOT( seek( const GenTime & ) ) );
-
+	//connect timeline sliders sliders with editpanel sliders
+	//connect( m_timeline, SIGNAL( inpointTimelineChanged( int ) ), m_workspaceMonitor, SLOT( setInpointTimeline( int ) ) );
+	//connect( m_timeline, SIGNAL( outpointTimelineChanged( int ) ), m_workspaceMonitor, SLOT( setOutpointTimeline( int ) ) );
+	
 	connect( m_timeline, SIGNAL( seekPositionChanged( const GenTime & ) ), this, SLOT( activateWorkspaceMonitor() ) );
 
 	connect( m_timeline, SIGNAL( rightButtonPressed() ), this, SLOT(slotDisplayTimeLineContextMenu()));
@@ -983,11 +997,8 @@ void KdenliveApp::slotProjectClean()
 void KdenliveApp::slotProjectClipProperties()
 {
 	slotStatusMsg( i18n( "Viewing clip properties" ) );
-
-	ClipPropertiesDialog dialog;
-	dialog.setClip( m_projectList->currentSelection() );
-	dialog.exec();
-
+	m_clipPropertyDialog->setClip( m_projectList->currentSelection() );
+	makeDockVisible( clipWidget );
 	slotStatusMsg( i18n( "Ready." ) );
 }
 

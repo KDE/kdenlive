@@ -92,6 +92,36 @@ double DocClipAVFile::framesPerSecond() const
 	return m_framesPerSecond;
 }
 
+//returns clip video properties -reh
+uint DocClipAVFile::clipHeight() const
+{
+	return m_height;
+}
+uint DocClipAVFile::clipWidth() const
+{
+	return m_width;
+}
+QString DocClipAVFile::avDecompressor()
+{
+	return m_decompressor;
+}
+QString DocClipAVFile::avSystem()
+{
+	return m_system;
+}
+//returns clip audio properties -reh
+uint DocClipAVFile::audioChannels() const
+{
+	return m_channels;
+}
+QString DocClipAVFile::audioFormat()
+{
+	return m_format;
+}
+uint DocClipAVFile::audioBits() const
+{
+	return m_bitspersample;
+}
 /*
 // virtual
 QDomDocument DocClipAVFile::generateSceneList() const
@@ -233,13 +263,58 @@ void DocClipAVFile::calculateFileProperties(const QMap<QString, QString> &attrib
 	  		m_duration = GenTime(0.0);
 			m_durationKnown = false;
 		}
-
+		//extend attributes -reh
+		if(attributes.contains("height"))
+		{
+			m_height = attributes["height"].toInt();
+		}else{
+			m_height = 0;
+		}
+		if(attributes.contains("width"))
+		{
+			m_width = attributes["width"].toInt();
+		}else{
+			m_width = 0;
+		}
+		//decoder name
+		if(attributes.contains("name"))
+		{
+			m_decompressor = attributes["name"];
+		}else{
+			m_decompressor = "n/a";
+		}
+		//video type ntsc/pal
+		if(attributes.contains("system"))
+		{
+			m_system = attributes["system"];
+		}else{
+			m_system = "n/a";
+		}
 		if(attributes.contains("fps"))
 		{
 			m_framesPerSecond = attributes["fps"].toInt();
 		} else {
 			// No frame rate known.
 			m_framesPerSecond = 0;
+		}
+		//audio attributes -reh
+		if(attributes.contains("channels"))
+		{
+			m_channels = attributes["channels"].toInt();
+		} else {
+			m_channels = 0;
+		}
+		if(attributes.contains("format"))
+		{
+			m_format = attributes["format"];
+		} else {
+			m_format = "n/a";
+		}
+		if(attributes.contains("bitspersample"))
+		{
+			m_bitspersample = attributes["bitspersample"].toInt();
+		} else {
+			m_bitspersample = 0;
 		}
 
 	} else {

@@ -70,6 +70,7 @@ signals: // Signals
 
   /** Emitted when the previousSnapMarker button has been clicked */
   void previousSnapMarkerClicked();
+  
 private: // Private attributes
   /** The document associated with this edit panel */
   KdenliveDoc * m_document;

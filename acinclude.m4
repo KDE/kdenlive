@@ -5643,6 +5643,7 @@ test -z "$pic_mode" && pic_mode=default
 # Use C for the default configuration in the libtool script
 tagname=
 AC_LIBTOOL_LANG_C_CONFIG
+_LT_AC_TAGCONFIG
 ])# AC_LIBTOOL_SETUP
 
 

@@ -53,6 +53,7 @@ class DocClipBase;
 class EffectListDialog;
 class EffectParamDialog;
 class EffectStackDialog;
+class ClipPropertiesDialog;
 
 
 /**
@@ -374,6 +375,8 @@ class KdenliveApp : public KDockMainWindow
 		EffectListDialog *m_effectListDialog;
 		EffectParamDialog *m_effectParamDialog;
 		EffectStackDialog *m_effectStackDialog;
+		ClipPropertiesDialog *m_clipPropertyDialog;
+		KDockWidget *clipWidget;
 		KRenderManager *m_renderManager;
 		KMMMonitor *m_workspaceMonitor;
 		KMMMonitor *m_clipMonitor;

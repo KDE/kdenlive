@@ -87,6 +87,7 @@ public:
 
 	/** returns the duration of this clip */
 	const GenTime &duration() const;
+	
 	/** Returns a url to a file describing this clip. Exactly what this url is,
 	whether it is temporary or not, and whether it provokes a render will
 	depend entirely on what the clip consists of. */
@@ -112,6 +113,15 @@ public:
 	bool durationKnown() const;
 	// Returns the number of frames per second that this clip should play at.
 	double framesPerSecond() const;
+	//return clip video properties -reh
+	uint clipWidth() const;
+	uint clipHeight() const;
+	QString avDecompressor();
+	QString avSystem();
+	//returns audio properties -reh
+	uint audioChannels() const;
+	QString audioFormat();
+	uint audioBits() const;
 	/** Returns a scene list generated from this clip. */
 	QDomDocument generateSceneList();
 	/** Returns true if this clip is a project clip, false otherwise. Overridden in DocClipProject,

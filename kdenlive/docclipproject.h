@@ -36,7 +36,7 @@ public:
 	~DocClipProject();
 
 	const GenTime &duration() const;
-
+	
 	/** No descriptions */
 	const KURL &fileURL() const;
 
@@ -46,7 +46,7 @@ public:
 
 	/** Returns the frames per second this clip runs at. */
 	virtual double framesPerSecond() const;
-
+		
   	/** Adds a track to the project */
   	void addTrack(DocTrackBase *track);
 	int trackIndex(DocTrackBase *track);

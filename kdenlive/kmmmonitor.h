@@ -146,6 +146,7 @@ public slots: // Public slots
 
 	/** go to the next snap marker from the current seek position */
 	void slotNextSnapMarker();
+	
 signals: // Signals
 	/** Emitted when the monitor's current position has changed. */
 	void seekPositionChanged(const GenTime &);
@@ -155,6 +156,7 @@ signals: // Signals
 	void outpointPositionChanged(const GenTime &);
 	/** Emitted when the mouse is clicked over the window. */
 	void monitorClicked(KMMMonitor *);
+	
 private slots:
 	// Update the edit panel, make sure that it's buttons are in sync.
 	void updateEditPanel(const GenTime &time);

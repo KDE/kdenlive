@@ -84,7 +84,6 @@ void AVListViewItem::setText( int column, const QString &text )
 QString AVListViewItem::text ( int column ) const
 {
 	QString text;
-
  	if(m_listView->columnText(column) == i18n("Filename")) {
  		text = m_node->name();
 	} else 	if(m_listView->columnText(column) == i18n("Duration")) {

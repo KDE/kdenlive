@@ -83,7 +83,7 @@ KAddClipCommand::KAddClipCommand(KdenliveDoc &document,
 			m_xmlClip(clip->toXML())
 {
 	if(!m_parent) {
-		kdWarning() << "Error - all clips create with kaddclipcommand should have a parent!" << endl;
+		kdWarning() << "Error - all clips created with kaddclipcommand should have a parent!" << endl;
 	}
 }
 
@@ -94,7 +94,7 @@ KAddClipCommand::KAddClipCommand(KdenliveDoc &document, const KURL &url, bool cr
 		m_create(create)
 {
 	if(!m_parent) {
-		kdWarning() << "Error - all clips create with kaddclipcommand should have a parent!" << endl;
+		kdWarning() << "Error - all clips created with kaddclipcommand should have a parent!" << endl;
 	}
 
 	DocClipBase *clip = document.clipManager().insertClip(url);

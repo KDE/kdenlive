@@ -535,6 +535,7 @@ bool KRender::topLevelStartElement( const QString & localName, const QString & q
 			m_filePropertyMap.clear();
 			m_filePropertyMap[ "filename" ] = atts.value( "filename" );
 			m_filePropertyMap[ "duration" ] = atts.value( "duration" );
+			
 			pushStack( "reply_getFileProperties",
 			           &KRender::reply_getFileProperties_StartElement,
 			           &KRender::reply_getFileProperties_EndElement );
@@ -1049,6 +1050,18 @@ bool KRender::reply_getFileProperties_stream_container_StartElement( const QStri
 	if ( localName == "codec" ) {
 		if ( atts.value( "type" ) == "video" ) {
 			m_filePropertyMap[ "fps" ] = atts.value( "fps" );
+			//added extended properties -reh
+			m_filePropertyMap[ "format" ] = atts.value( "format" );
+			m_filePropertyMap[ "height" ] = atts.value( "height" );
+			m_filePropertyMap[ "width" ] = atts.value( "width" );
+			m_filePropertyMap[ "system" ] = atts.value( "system" );
+			m_filePropertyMap[ "name" ] = atts.value( "name" );
+		}
+		//added audio properties -reh
+		if ( atts.value( "type" ) == "audio" ) {
+			m_filePropertyMap[ "channels" ] = atts.value( "channels" );
+			m_filePropertyMap[ "format" ] = atts.value( "format" );
+			m_filePropertyMap[ "bitspersample" ] = atts.value( "bitspersample" );
 		}
 	}
 

@@ -158,7 +158,7 @@ void KMMEditPanel::setInpoint()
 {
 	int value = m_ruler->getSliderValue( 0 );
 	m_ruler->setSliderValue( 1, value);
-
+	
 	if(value > m_ruler->getSliderValue( 2 )) {
 		m_ruler->setSliderValue( 2, value );
 	}

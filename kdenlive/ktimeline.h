@@ -236,6 +236,11 @@ public slots:   // Public slots
 
 	/** Re-syncs the scrollbar project size with the ruler project size. */
 	void resetProjectSize();
+	
+	//set inpoint/outpoint -reh
+	void setInpointTimeline( const GenTime &inpoint );
+	void setOutpointTimeline( const GenTime &outpoint );
+	
 private slots:   // Private slots
 	/** Scroll the timeline by a set amount. Should be connected to m_scrollTimer */
 	void slotTimerScroll();

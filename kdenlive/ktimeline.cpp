@@ -34,6 +34,7 @@
 #include "ktrackview.h"
 #include "kresizecommand.h"
 #include "kscalableruler.h"
+#include "kdenlive.h"
 
 uint KTimeLine::snapTolerance = 10;
 
@@ -61,6 +62,9 @@ KTimeLine::KTimeLine( QWidget *rulerToolWidget, QWidget *scrollToolWidget, QWidg
 
 	m_ruler = new KScalableRuler( new KRulerTimeModel(), m_rulerBox, name );
 	m_ruler->addSlider( KRuler::TopMark, 0 );
+	//added inpoint/outpoint markers -reh
+	m_ruler->addSlider( KRuler::StartMark, 0 );
+	m_ruler->addSlider( KRuler::EndMark, m_ruler->maxValue() );
 	m_ruler->setAutoClickSlider( 0 );
 
 	m_scrollToolWidget = scrollToolWidget;
@@ -93,7 +97,7 @@ KTimeLine::KTimeLine( QWidget *rulerToolWidget, QWidget *scrollToolWidget, QWidg
 	connect( &m_scrollTimer, SIGNAL( timeout() ), this, SLOT( slotTimerScroll() ) );
 
 	connect( m_trackViewArea, SIGNAL( rightButtonPressed() ), this, SIGNAL( rightButtonPressed() ) );
-
+	
 	setAcceptDrops( true );
 
 	m_trackList.setAutoDelete( true );
@@ -396,4 +400,14 @@ void KTimeLine::setPanelWidth(int width)
 	m_scrollToolWidget->setMaximumWidth( m_panelWidth );
 
 	resizeTracks();
+}
+
+void KTimeLine::setInpointTimeline( const GenTime &inpoint )
+{
+	m_ruler->setSliderValue( 1, ( int ) floor( inpoint.frames( m_framesPerSecond ) ) );
+}
+
+void KTimeLine::setOutpointTimeline( const GenTime &outpoint )
+{
+	m_ruler->setSliderValue( 2, ( int ) floor( outpoint.frames( m_framesPerSecond ) ) );
 }

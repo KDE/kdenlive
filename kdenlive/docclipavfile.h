@@ -54,7 +54,7 @@ public:
 	const GenTime &duration() const;
 	/** Returns the type of this clip */
 	DocClipBase::CLIPTYPE clipType();
-
+		
 	QDomDocument toXML() const;
 	/** Returns the url of the AVFile this clip contains */
 	const KURL &fileURL() const;
@@ -64,6 +64,15 @@ public:
 	/** Returns true if the clip duration is known, false otherwise. */
 	virtual bool durationKnown() const;
 	virtual double framesPerSecond() const;
+	//returns clip video properties -reh
+	virtual uint clipWidth() const;
+	virtual uint clipHeight() const;
+	virtual QString avDecompressor();
+	virtual QString avSystem();
+	//returns audio properties
+	virtual uint audioChannels() const;
+	virtual QString audioFormat();
+	virtual uint audioBits() const;
 	// Appends scene times for this clip to the passed vector.
 	virtual void populateSceneTimes(QValueVector<GenTime> &toPopulate) const;
 	// Returns an XML document that describes part of the current scene.
@@ -95,6 +104,16 @@ private:
 	double m_framesPerSecond;
 	/** The size in bytes of this AVFile */
 	uint m_filesize;
+	
+	//extended video file properties -reh
+	uint m_height;
+	uint m_width;
+	QString m_decompressor;
+	QString m_system;
+	//audio file properties
+	uint m_channels;
+	QString m_format;
+	uint m_bitspersample;
 };
 
 #endif
