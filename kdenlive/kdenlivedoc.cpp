@@ -64,7 +64,7 @@ KdenliveDoc::KdenliveDoc(KdenliveApp *app, QWidget *parent, const char *name) : 
   connect(this, SIGNAL(avFileListUpdated()), this, SLOT(hasBeenModified()));
   connect(this, SIGNAL(trackListChanged()), this, SLOT(hasBeenModified()));  
 
-	m_domSceneList.appendChild(m_domSceneList.createElement("scenelist"));
+  m_domSceneList.appendChild(m_domSceneList.createElement("scenelist"));
   m_render->setSceneList(generateSceneList());
   
   setModified(false);
@@ -201,7 +201,7 @@ bool KdenliveDoc::openDocument(const KURL& url, const char *format /*=0*/)
     insertAVFile(url);
   }
   	
-	return false;
+  return false;
 }
 
 bool KdenliveDoc::saveDocument(const KURL& url, const char *format /*=0*/)
@@ -598,21 +598,25 @@ QDomDocument KdenliveDoc::generateSceneList()
         if(curClip->trackStart() >= nextTime) continue;
         if(curClip->trackEnd() <= curTime) continue;
 
-       sceneClip = m_domSceneList.createElement("input");
-	     	sceneClip.setAttribute(str_file, curClip->fileURL().path());
-	     	sceneClip.setAttribute(str_inpoint, QString::number((curTime - curClip->trackStart() + curClip->cropStartTime()).seconds()));
-	     	sceneClip.setAttribute(str_outpoint, QString::number((nextTime - curClip->trackStart() + curClip->cropStartTime()).seconds()));
-	    }
+        sceneClip = m_domSceneList.createElement("input");
+     	sceneClip.setAttribute(str_file, curClip->fileURL().path());
+     	sceneClip.setAttribute(str_inpoint, QString::number((curTime - curClip->trackStart() + curClip->cropStartTime()).seconds()));
+     	sceneClip.setAttribute(str_outpoint, QString::number((nextTime - curClip->trackStart() + curClip->cropStartTime()).seconds()));
+      }
 
-	    if(!sceneClip.isNull()) {
-	    	scene.appendChild(sceneClip);
-	    }
+      if(!sceneClip.isNull()) {
+     	scene.appendChild(sceneClip);
+      } else {
+ 	sceneClip = m_domSceneList.createElement("stillcolor");
+	sceneClip.setAttribute("yuvcolor", "#000000");
+	scene.appendChild(sceneClip);
+      }
 
-	    m_domSceneList.documentElement().appendChild(scene);
-	  } 
+      m_domSceneList.documentElement().appendChild(scene);
+    } 
   } while(curTime != nextTime);	
 
-	return m_domSceneList;
+  return m_domSceneList;
 }
 
 /** Creates an xml document that describes this kdenliveDoc. */
@@ -677,6 +681,7 @@ void KdenliveDoc::loadFromXML(QDomDocument &doc)
 /** Called when the document is modifed in some way. */
 void KdenliveDoc::hasBeenModified()
 {
+	m_render->setSceneList(generateSceneList());
 	setModified(true);
 }
 

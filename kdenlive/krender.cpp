@@ -26,6 +26,9 @@ KRender::KRender(KURL appPath, unsigned int port, QObject *parent, const char *n
 	startTimer(200);
 	m_xmlInputSource = 0;
 	m_parsing = false;
+	m_seekPending = false;
+	m_nextSeek = -1.0;
+	m_setSceneListPending = false;
 
 	m_xmlReader.setContentHandler(this);
 
@@ -168,12 +171,13 @@ void KRender::createVideoXWindow(bool show)
 /** Wraps the VEML command of the same name; Seeks the renderer clip to the given time. */
 void KRender::seek(GenTime time)
 {
-	QDomDocument doc;
-	QDomElement elem = doc.createElement("seek");	
-	elem.setAttribute("time", QString::number(time.seconds()));
-	doc.appendChild(elem);
-
-	sendCommand(doc);
+    sendSeekCommand(time);    
+/*  if(m_seekPending) {
+    m_nextSeek = time;
+  } else {
+    sendSeekCommand(time);    
+    m_seekPending = true;
+  }*/
 }
 
 void KRender::getFileProperties(KURL url)
@@ -191,11 +195,8 @@ void KRender::getFileProperties(KURL url)
 be list. */
 void KRender::setSceneList(QDomDocument list)
 {
-	QDomDocument doc;
-	QDomElement elem = doc.createElement("setSceneList");
-	elem.appendChild(doc.importNode(list.documentElement(), true));	
-	doc.appendChild(elem);
-	sendCommand(doc);
+	m_sceneList = list;
+	m_setSceneListPending = true;
 }
 
 /** Wraps the VEML command of the same name - sends a <ping> command to the server, which
@@ -227,6 +228,30 @@ void KRender::render(const KURL &url)
 	sendCommand(doc);
 }
 
+void KRender::sendSeekCommand(GenTime time)
+{
+	kdDebug() << "Seeking..." << endl;
+	if(m_setSceneListPending) {
+		sendSetSceneListCommand(m_sceneList);
+	}
+	
+ 	QDomDocument doc;
+ 	QDomElement elem = doc.createElement("seek");
+ 	elem.setAttribute("time", QString::number(time.seconds()));
+ 	doc.appendChild(elem);
+	sendCommand(doc);  
+}
+
+void KRender::sendSetSceneListCommand(const QDomDocument &list)
+{
+	m_setSceneListPending = false;
+
+	QDomDocument doc;
+	QDomElement elem = doc.createElement("setSceneList");
+	elem.appendChild(doc.importNode(list.documentElement(), true));	
+	doc.appendChild(elem);
+	sendCommand(doc);
+}
 
 
 
@@ -304,6 +329,18 @@ bool KRender::topLevelStartElement(const QString & namespaceURI, const QString &
 			m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
 			m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;
 			return true;
+    } else if(command == "seek") {
+			m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
+			m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;
+      if(m_seekPending) {
+        if(m_nextSeek < 0.0) {
+          m_seekPending = false;
+        } else {
+          sendSeekCommand(m_nextSeek);
+          m_nextSeek = -1.0;
+        }
+      }
+			return true;
 		} else if(command == "render") {
 			m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
 			m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;
@@ -345,4 +382,3 @@ bool KRender::reply_GenericEmpty_EndElement(const QString & namespaceURI, const 
 	m_parsing = false;
 	return true;
 }
-

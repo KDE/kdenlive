@@ -69,11 +69,11 @@ replyCreateVideoXWindow() once the renderer has replied. */
   /** Seeks the renderer clip to the given time. */
   void seek(GenTime time);
   /** Wraps the VEML command of the same name. Requests the file properties
-for the specified url from the renderer. Upon return, the result will be emitted
-via replyGetFileProperties(). */
+	for the specified url from the renderer. Upon return, the result will be emitted
+	via replyGetFileProperties(). */
   void getFileProperties(KURL url);
   /** Wraps the VEML command of the same name. Sets the current scene list to
-be list. */
+	be list. */
   void setSceneList(QDomDocument list);
   /** Wraps the VEML command of the same name - sends a <ping> command to the server, which
 should reply with a <pong> - let's us determine the round-trip latency of the connection. */
@@ -103,12 +103,25 @@ private: // Private attributes
   QXmlInputSource *m_xmlInputSource;
   /** The path to the rendering application. */
   KURL m_appPath;
-	/** A function pointer to the relevant method that should parse tagOpen events */
-	bool (KRender::*m_funcStartElement)(const QString & namespaceURI, const QString & localName,
-																	const QString & qName, const QXmlAttributes & atts );
-	/** A function pointer to the relevant method that should parse tagClose events */
-	bool (KRender::*m_funcEndElement)(const QString & namespaceURI, const QString & localName,
-																	const QString & qName);	
+  /** True if we have sent a seek command but have not yet recieved a reply. */
+  bool m_seekPending;;
+  /** Holds the next seek value to send to the renderer. If negative, we do not send a value. */
+  GenTime m_nextSeek;
+  /** true if we have a setSceneList command pending to be sent */
+  bool m_setSceneListPending;
+  /** Holds the scenelist to be sent, if pending. */
+  QDomDocument m_sceneList;
+  
+  /** A function pointer to the relevant method that should parse tagOpen events */
+  bool (KRender::*m_funcStartElement)(const QString & namespaceURI, const QString & localName,
+                                  const QString & qName, const QXmlAttributes & atts ); 
+  /** A function pointer to the relevant method that should parse tagClose events */
+  bool (KRender::*m_funcEndElement)(const QString & namespaceURI, const QString & localName,
+				const QString & qName);
+  /** The actually seek command, private so people can't avoid the buffering of multiple seek commands. */
+  void sendSeekCommand(GenTime time);
+  /** The actually setScenelist command, private so people can't avoid the buffering of multiple setSceneList commands. */
+  void sendSetSceneListCommand(const QDomDocument &list);
 private slots: // Private slots
   /** Catches errors from the socket. */
   void error(int error);
