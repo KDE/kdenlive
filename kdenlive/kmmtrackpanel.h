@@ -20,7 +20,7 @@
 
 #include <qpixmap.h>
 #include <qpainter.h>
-#include <qframe.h>
+#include <qhbox.h>
 #include <qcursor.h>
 
 #include "doctrackbase.h"
@@ -31,9 +31,11 @@ class KMMTimeLine;
   *@author Jason Wood
   */
 
-class KMMTrackPanel : public QFrame  {
+class KMMTrackPanel : public QHBox  {
 	Q_OBJECT
-public: 
+public:
+	enum ResizeState {None, Start, End};
+  
 	KMMTrackPanel(KMMTimeLine *timeline, DocTrackBase *docTrack, QWidget *parent, const char *name);
 	~KMMTrackPanel();
   /** Read property of KMMTimeLine * m_timeline. */
@@ -54,6 +56,10 @@ public:
   /** Set the mouse cursor to a relevant shape, depending on it's location within the track view area.
   	 The location is obtained from event. */
   virtual QCursor getMouseCursor(QMouseEvent *event) = 0;
+
+   /** This value specifies the resizeTolerance of the KMMTimeLine - that is, how many
+pixels at the start and end of a clip are considered as a resize operation. */
+  static int resizeTolerance;  
 protected: // Protected attributes
   /** The track document class that should be queried to build up this track view. */
   DocTrackBase *m_docTrack;
@@ -65,6 +71,8 @@ signals: // Signals
   void signalClipCropStartChanged(const GenTime &);
   /** Emitted when an operation moves the clip crop end. */
   void signalClipCropEndChanged(const GenTime &);  
+  /** emitted when a tool is "looking" at a clip, it signifies to whatever is listening that displaying this information in some way would be useful. */
+  void lookingAtClip(DocClipBase *, const GenTime &);
 };
 
 #endif

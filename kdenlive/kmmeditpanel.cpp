@@ -38,7 +38,7 @@ KMMEditPanel::KMMEditPanel(KdenliveDoc *document, QWidget* parent, const char* n
 	m_ruler->setMargin(40);
   m_ruler->setAutoClickSlider(0);
 
-	m_ruler->addSlider(KRuler::Diamond, 0);
+	m_ruler->addSlider(KRuler::TopMark, 0);
 	m_ruler->addSlider(KRuler::StartMark, 0);
 	m_ruler->addSlider(KRuler::EndMark, m_ruler->maxValue());
   
@@ -86,10 +86,10 @@ void KMMEditPanel::rulerValueChanged(int ID, int value)
   		emit seekPositionChanged(GenTime(value, m_document->framesPerSecond()));
       break;
     case 1 :
-      emit inpointChanged(GenTime(value, m_document->framesPerSecond()));
+      emit inpointPositionChanged(GenTime(value, m_document->framesPerSecond()));
       break;
     case 2 :
-      emit outpointChanged(GenTime(value, m_document->framesPerSecond()));
+      emit outpointPositionChanged(GenTime(value, m_document->framesPerSecond()));
       break;
   }
 }

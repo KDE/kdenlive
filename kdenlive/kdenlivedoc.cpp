@@ -735,10 +735,3 @@ KRender * KdenliveDoc::renderer()
   return m_render;
 }
 
-/** Blocks all track signals if block==true, or unblocks them otherwise. Use when you want to temporarily ignore emits from tracks. */
-void KdenliveDoc::blockTrackSignals(bool block)
-{
-  for(uint track=0; track<m_tracks.count(); ++track) {
-    m_tracks.at(track)->blockSignals(block);
-  }
-}

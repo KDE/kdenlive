@@ -73,6 +73,10 @@ temporary function, and will be changed in the future. */
 signals: // Signals
   /** Emitted when the monitor's current position has changed. */
   void seekPositionChanged(const GenTime &);
+  /** Emitted when the monitor's current inpoint has changed. */
+  void inpointPositionChanged(const GenTime &);
+  /** Emitted when the monitor's current outpoint has changed. */
+  void outpointPositionChanged(const GenTime &);
 };
 
 #endif

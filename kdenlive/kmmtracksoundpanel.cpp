@@ -24,12 +24,8 @@ KMMTrackSoundPanel::KMMTrackSoundPanel(KMMTimeLine *timeline, DocTrackSound *doc
 												KMMTrackPanel(timeline, docTrack, parent,name),
 												m_trackLabel(this, "Sound Track")
 {
-	setMinimumWidth(200);
-	setMaximumWidth(200);
-
-	setMinimumHeight(30);
-	setMaximumHeight(30);	
-	setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding));
+	setMinimumHeight(20);
+	setMaximumHeight(20);	
 }
 
 KMMTrackSoundPanel::~KMMTrackSoundPanel()
@@ -59,6 +55,7 @@ void KMMTrackSoundPanel::paintClip(QPainter & painter, DocClipBase * clip, QRect
 	painter.drawRect( sx, rect.y(),
 										ex, rect.height());
 }
+
 /** No descriptions */
 bool KMMTrackSoundPanel::mouseMoved(QMouseEvent *event)
 {

@@ -17,6 +17,7 @@
 
 #define _ISOC99_SOURCE
 #include <cmath>
+#include <iostream>
 
 // include files for QT
 #include <qdir.h>
@@ -281,6 +282,11 @@ void KdenliveApp::initView()
   connect(m_timeline, SIGNAL(seekPositionChanged(const GenTime &)), m_workspaceMonitor, SLOT(seek(const GenTime &)));  
   connect(m_timeline, SIGNAL(signalClipCropStartChanged(const GenTime &)), m_clipMonitor, SLOT(seek(const GenTime &)));
   connect(m_timeline, SIGNAL(signalClipCropEndChanged(const GenTime &)), m_clipMonitor, SLOT(seek(const GenTime &)));
+  connect(m_timeline, SIGNAL(lookingAtClip(DocClipBase *, const GenTime &)), this, SLOT(slotLookAtClip(DocClipBase *, const GenTime &)));
+
+
+  // connects for clip/workspace monitor activation (i.e. making sure they are visible when needed)  
+  connect(m_projectList, SIGNAL(AVFileSelected(AVFile *)), this, SLOT(activateClipMonitor()));  
   connect(m_timeline, SIGNAL(signalClipCropStartChanged(const GenTime &)), this, SLOT(activateClipMonitor()));
   connect(m_timeline, SIGNAL(signalClipCropEndChanged(const GenTime &)), this, SLOT(activateClipMonitor()));
   connect(m_timeline, SIGNAL(seekPositionChanged(const GenTime &)), this, SLOT(activateWorkspaceMonitor()));
@@ -942,6 +948,15 @@ void KdenliveApp::activateClipMonitor()
 void KdenliveApp::activateWorkspaceMonitor()
 {
   m_dockWorkspaceMonitor->makeDockVisible();
+}
+
+/** Selects a clip into the clip monitor and seeks to the given time. */
+void KdenliveApp::slotLookAtClip(DocClipBase *clip, const GenTime &time)
+{
+  std::cerr << "Looking at clip " << clip << " with time " << time.seconds() << std::endl;
+  slotSetClipMonitorSource(clip);
+  m_clipMonitor->seek(time);
+}
 }
 
 void KdenliveApp::slotRenderError(const QString &name, const QString &message)

@@ -84,6 +84,7 @@ public:
   bool underMouse(const int x, const int y, const int midx, const int height) const { 
 		if(x < midx - (height/4)-1) return false;
 		if(x > midx + (height/4)+1) return false;
+    if(y > height/2) return false;
 		return true;
   }
 
@@ -116,6 +117,7 @@ public:
   bool underMouse(const int x, const int y, const int midx, const int height) const {
 		if(x < midx - (height/4)-1) return false;
 		if(x > midx + (height/4)+1) return false;
+    if(y < height / 2) return false;
 		return true;
   }
 

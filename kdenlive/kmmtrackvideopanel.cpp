@@ -26,18 +26,12 @@
 #include "kmmtimeline.h"
 #include "kresizecommand.h"
 
-int KMMTrackVideoPanel::resizeTolerance = 4;
-
 KMMTrackVideoPanel::KMMTrackVideoPanel(KMMTimeLine *timeline, DocTrackVideo *docTrack, QWidget *parent, const char *name ) :
 												KMMTrackPanel(timeline, docTrack, parent,name),
-												m_trackLabel(i18n("Video Track"), this, "Video Track")
+												m_trackLabel(i18n("Video Track long long test"), this, "Video Track")
 {
-	setMinimumWidth(200);
-	setMaximumWidth(200);
-
-	setMinimumHeight(50);
-	setMaximumHeight(50);	
-	setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding));
+	setMinimumHeight(20);
+	setMaximumHeight(20);	
 
 	m_resizeState = None;	
 	m_clipUnderMouse = 0;
@@ -92,7 +86,9 @@ void KMMTrackVideoPanel::paintClip(QPainter &painter, DocClipBase *clip, QRect &
 
 		while(count < sx+ex) {
 			if(count+textWidth <= tx) {
+        painter.setPen( selected ? Qt::white : Qt::black );
 				painter.drawText( count, rect.y(), textWidth, rect.height(), AlignVCenter | AlignHCenter, clip->name());
+        painter.setPen(Qt::black);
 			}
 			count += textWidth;		
 		}
@@ -220,6 +216,10 @@ QCursor KMMTrackVideoPanel::getMouseCursor(QMouseEvent *event)
 								}
 								return QCursor(Qt::ArrowCursor);
 		case KdenliveApp::Razor :
+               clip = docTrack()->getClipAt(mouseTime);
+                if(clip) {
+                  emit lookingAtClip(clip, mouseTime - clip->trackStart() + clip->cropStartTime());
+                }
 								return QCursor(Qt::SplitVCursor);
 		case KdenliveApp::Spacer :
 								return QCursor(Qt::SizeHorCursor);

@@ -20,6 +20,7 @@
 
 #include <qwidget.h>
 #include <qlabel.h>
+#include <qhbox.h>
 
 #include "doctrackvideo.h"
 #include "kmmtrackpanel.h"
@@ -34,7 +35,6 @@ which reside in the main video widget
 class KMMTrackVideoPanel : public KMMTrackPanel  {
    Q_OBJECT
 public:
-	enum ResizeState {None, Start, End};
 	KMMTrackVideoPanel(KMMTimeLine *timeline, DocTrackVideo *docTrack, QWidget *parent=0, const char *name=0);
 	~KMMTrackVideoPanel();
   /** Paint the specified clip on screen within the specified rectangle, using the specified painter. */
@@ -50,18 +50,15 @@ public:
   /** The mouse has been moved (whilst we are "dragging") on this track. Performs any
   operations that should be performed. */
   bool mouseMoved(QMouseEvent *event);
-public: // public attributes
-   /** This value specifies the resizeTolerance of the KMMTimeLine - that is, how many
-pixels at the start and end of a clip are considered as a resize operation. */
-  static int resizeTolerance;
 private:
+  QHBox m_horzLayout;
 	QLabel m_trackLabel;
   /** During a resize operation, holds the current resize state, as defined in the ResizeState enum. */
   ResizeState m_resizeState;	
   /** The clip that is under the mouse at present */
   DocClipBase * m_clipUnderMouse;  
   /** True if we are inside a dragging operation, false otherwise. */
-  bool m_dragging;;
+  bool m_dragging;;  
   /** This command holds the resize information during a resize operation */
   KResizeCommand * m_resizeCommand;
 };

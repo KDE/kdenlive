@@ -20,16 +20,21 @@
 #include "kdenlivedoc.h"
 
 #include <kdebug.h>
+#include <iostream>
+
+int KMMTrackPanel::resizeTolerance = 4;
 
 KMMTrackPanel::KMMTrackPanel(KMMTimeLine *timeline, DocTrackBase * docTrack, QWidget *parent, const char *name) :
-					        			QFrame(parent,name),
+					        			QHBox(parent,name),
 												m_docTrack(docTrack),
 												m_timeline(timeline)
 {
-		setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum));
-  	setPalette( QPalette( QColor(170, 170, 170) ) );
+  setMinimumWidth(200);
+  setMaximumWidth(200);
+  setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding));
+  setPalette( QPalette( QColor(170, 170, 170) ) );
 
-		setFrameStyle(QFrame::Panel | QFrame::Sunken);
+  setFrameStyle(QFrame::Panel | QFrame::Sunken);
 }
 
 KMMTrackPanel::~KMMTrackPanel()

@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <iostream>
 #include <math.h>
 
 #include <qpainter.h>
@@ -65,21 +66,17 @@ void KMMTimeLineTrackView::paintEvent(QPaintEvent *event)
 
 void KMMTimeLineTrackView::drawBackBuffer()
 {
-	int totalHeight = 0;
-	int widgetHeight;
-
 	QPainter painter(&m_backBuffer);
 
 	painter.fillRect(0, 0, width(), height(), palette().active().background());
 
 	KMMTrackPanel *panel = m_timeline.trackList().first();
 	while(panel != 0) {
-		widgetHeight = panel->height();
-
-	  QRect rect(0, totalHeight, width(), widgetHeight);
+    int y = panel->y()- this->y();
+    
+	  QRect rect(0, y, width(), panel->height());
 	  panel->drawToBackBuffer(painter, rect);
 
-		totalHeight+=widgetHeight;
 		panel = m_timeline.trackList().next();
 	}
 }
@@ -132,16 +129,14 @@ void KMMTimeLineTrackView::mouseMoveEvent(QMouseEvent *event)
 
 KMMTrackPanel *KMMTimeLineTrackView::panelAt(int y)
 {
-	int totalHeight = 0;
-	int widgetHeight;
 	KMMTrackPanel *panel = m_timeline.trackList().first();
 
 	while(panel != 0) {
-	  widgetHeight = panel->height();
+    int sy = panel->y() - this->y();
+    int ey = sy + panel->height();
+    
+	  if((y >= sy) && (y<ey)) break;
 
-	  if((totalHeight < y) && (totalHeight + widgetHeight > y)) break;
-
-		totalHeight+=widgetHeight;
 		panel = m_timeline.trackList().next();
 	}
 

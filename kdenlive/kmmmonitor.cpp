@@ -24,6 +24,8 @@ KMMMonitor::KMMMonitor(KdenliveApp *app, KdenliveDoc *document, QWidget *parent,
 										m_editPanel(new KMMEditPanel(document, this, name))
 {
 	connect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)), this, SIGNAL(seekPositionChanged(const GenTime &)));
+	connect(m_editPanel, SIGNAL(inpointPositionChanged(const GenTime &)), this, SIGNAL(inpointPositionChanged(const GenTime &)));
+	connect(m_editPanel, SIGNAL(outpointPositionChanged(const GenTime &)), this, SIGNAL(outpointPositionChanged(const GenTime &)));    
 
   connectScreen();
 }

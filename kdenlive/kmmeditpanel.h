@@ -42,9 +42,9 @@ signals: // Signals
   /** Emitted when the seek position has changed */
   void seekPositionChanged(const GenTime &);
   /** Emitted when the outpoint position has changed */
-  void outpointChanged(const GenTime &);
+  void outpointPositionChanged(const GenTime &);
   /** Emitted when the inpoint position has changed */
-  void inpointChanged(const GenTime &);
+  void inpointPositionChanged(const GenTime &);
   /** Emitted by the EditPanel when the playSpeed should change. */
   void playSpeedChanged(double);
 private: // Private attributes

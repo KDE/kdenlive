@@ -236,6 +236,8 @@ class KdenliveApp : public KDockMainWindow
   /** Makes sure that the workspace monitor is activated. This means that the clip monitor should
    have focus, and if enabled, that the clip monitor should have the xv view. */
   void activateWorkspaceMonitor();  
+  /** Selects a clip into the clip monitor and seeks to the given time. */
+  void slotLookAtClip(DocClipBase *clip, const GenTime &time);
   /** Display an error message in a suitable way to the user. */
   void slotRenderError(const QString &name, const QString &message);
 

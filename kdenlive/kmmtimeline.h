@@ -235,6 +235,8 @@ signals: // Signals
   void signalClipCropStartChanged(const GenTime &);
   /** Emitted when the clip crop end has changed for a clip. */
   void signalClipCropEndChanged(const GenTime &);  
+  /** emitted when something of interest is happening over a clip on the timeline. */
+  void lookingAtClip(DocClipBase *, const GenTime &);
 };
 
 #endif
