@@ -87,6 +87,8 @@ backwards. */
 specified sceneList - set with setSceneList() - to the document
 name specified. */
   void render(const KURL &url);
+  /** Wraps the VEML command of the same name. Requests that the renderer should return it's capabilities. */
+  void getCapabilities();
 protected: // Protected methods
   /** Recieves timer events */
   virtual void timerEvent(QTimerEvent *event);

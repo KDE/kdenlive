@@ -85,6 +85,8 @@ void KRender::connected()
 {
 	kdDebug() << "Connected" << endl;
 
+  getCapabilities();
+  
 	emit initialised();
 }
 
@@ -244,6 +246,13 @@ void KRender::sendSetSceneListCommand(const QDomDocument &list)
 	sendCommand(doc);
 }
 
+void KRender::getCapabilities()
+{
+  QDomDocument doc;
+  QDomElement elem = doc.createElement("getCapabilites");
+  doc.appendChild(elem);
+  sendCommand(doc);
+}
 
 
 
@@ -367,3 +376,4 @@ bool KRender::reply_GenericEmpty_EndElement(const QString & namespaceURI, const 
 
 	return true;
 }
+
