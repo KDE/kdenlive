@@ -15,12 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kapplication.h>
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <klocale.h>
 
 #include "kdenlive.h"
-
+#include "kdenlivesplash.h"
 
 static const char *description = I18N_NOOP("Kdenlive"
                     "\nA non-linear video editor for KDE");
@@ -34,44 +35,49 @@ static KCmdLineOptions options[] =
 
 int main(int argc, char *argv[])
 {
-	KAboutData aboutData("kdenlive",
-	                     I18N_NOOP("Kdenlive"),
-		             VERSION,
+	KAboutData aboutData(
+           "kdenlive",
+	         I18N_NOOP("Kdenlive"),
+		       VERSION,
 			     description,
 			     KAboutData::License_GPL,
-		             "(c) 2002-2003, Jason Wood",
+		       "(c) 2002-2003, Jason Wood",
 			     0,
 			     "http://www.uchian.pwp.blueyonder.co.uk/kdenlive.html",
 			     "jasonwood@blueyonder.co.uk");
 
-	aboutData.addAuthor("Jason Wood",
-			    I18N_NOOP("Author and Maintainer"),
-			    "jasonwood@blueyonder.co.uk");
+	aboutData.addAuthor(
+           "Jason Wood",
+			     I18N_NOOP("Author and Maintainer"),
+			     "jasonwood@blueyonder.co.uk");
 
 	KCmdLineArgs::init( argc, argv, &aboutData );
 	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 
   KApplication app;
-
+    
   if (app.isRestored())
-  {
+    {
     RESTORE(KdenliveApp);
-  }
+    }
   else 
-  {
+    {
+    KdenliveSplash *splash = new KdenliveSplash("kdenlive-splash.png");
+    splash->show();
+
     KdenliveApp *kdenlive = new KdenliveApp();
     kdenlive->show();
 
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 		
 		if (args->count())
-		{
-        kdenlive->openDocumentFile(args->arg(0));
-		}
+		  {
+      kdenlive->openDocumentFile(args->arg(0));
+		  }
 		else
-		{
+		  {
 		  kdenlive->openDocumentFile();
-		}
+		  }
 		args->clear();
   }
 
