@@ -949,9 +949,6 @@ void KdenliveApp::slotProjectAddClips()
 		}
 	}
 	addCommand( macroCommand, true );
-//	DocClipRef *refClip = m_projectList->currentSelection();
-//	if(!refClip)
-//		m_projectList->m_listView->setSelected( m_projectList->m_listView->firstChild()->firstChild(), TRUE );
 	
 	m_fileDialogPath.setFileName( QString::null );
 

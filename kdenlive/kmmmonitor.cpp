@@ -293,12 +293,12 @@ void KMMMonitor::slotStartDrag()
 	m_clip->setCropStartTime(GenTime(m_editPanel->inpoint()));
 	m_clip->setTrackStart(GenTime(0));
 	if(m_editPanel->inpoint() >= m_editPanel->outpoint())
-		m_clip->setTrackEnd(GenTime(10.0) - m_editPanel->inpoint());
+		m_clip->setTrackEnd(m_editPanel->inpoint() + m_clip->duration());
 	else
 		m_clip->setTrackEnd(m_editPanel->outpoint() - m_editPanel->inpoint());
 
 	ClipDrag *drag = new ClipDrag(m_clip, this, "Clip from monitor");
-	kdWarning() << "KMMMonitor made it here!" << endl;
+	
 	drag->dragCopy();
 }
 

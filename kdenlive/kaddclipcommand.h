@@ -74,7 +74,7 @@ private: // Private attributes
 	bool m_create;
 	/** An xml representation of the clip */
 	QDomDocument m_xmlClip;
-	ProjectList *m_projectList;
+	
 private: // Private methods
 	/** Deletes the clip */
 	void deleteClip();
