@@ -85,6 +85,8 @@ class KdenliveDoc : public QObject
      * As this view normally repaints itself, it is excluded from the paintEvent.
      */
     void slotUpdateAllViews(KdenliveView *sender);
+	  /** Inserts an Audio/visual file into the project */
+	  void slot_InsertAVFile(const KURL &file);
  	
   public:	
     /** the list of the views currently connected to the document */
@@ -96,8 +98,7 @@ class KdenliveDoc : public QObject
     KURL doc_url;
 
 		/** List of all video and audio clips within this project */
-		int numAVFiles;
-		AVFile *avFiles;
+		QList<AVFile> avFileList;		
 };
 
 #endif // KDENLIVEDOC_H

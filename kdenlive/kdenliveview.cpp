@@ -30,6 +30,8 @@ KdenliveView::KdenliveView(QWidget *parent, const char *name) :
 				timeline(this, name)
 {
   setBackgroundMode(PaletteBase);
+
+  connect(&projectList, SIGNAL(signal_AddFile(const KURL &)), getDocument(), SLOT(slot_InsertAVFile(const KURL &)));
 }
 
 KdenliveView::~KdenliveView()

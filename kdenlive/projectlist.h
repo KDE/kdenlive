@@ -21,6 +21,10 @@
 #include <qwidget.h>
 #include <qvbox.h>
 #include <qlistview.h>
+#include <qpopupmenu.h>
+#include <qevent.h>
+
+#include <kurl.h>
 
 /**
   *@author Jason Wood
@@ -33,6 +37,18 @@ public:
 	~ProjectList();
 private:
 	QListView	listView;
+private: // Private methods
+  /** Initialise the popup menu */
+  void init_menu();
+	QPopupMenu m_menu;
+public slots: // Public slots
+  /** User is requesting to open a file. Open file dialog and let the user pick. */
+  void slot_AddFile();
+  /** No descriptions */
+  void rightButtonPressed ( QListViewItem *listViewItem, const QPoint &pos, int column) ;
+signals: // Signals
+  /** emitted whenever a file is added to the project list */
+  void signal_AddFile(const KURL &url);
 };
 
 #endif
