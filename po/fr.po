@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
 "POT-Creation-Date: 2003-03-12 13:29+0100\n"
-"PO-Revision-Date: 2003-03-12 13:42+0100\n"
-"Last-Translator: \n"
-"Language-Team:  <fr@li.org>\n"
+"PO-Revision-Date: 2003-03-12 18:34GMT\n"
+"Last-Translator: CAULIER Gilles <caulier.gilles@free.fr>\n"
+"Language-Team: FRANCAIS <fr@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 0.9.6\n"
@@ -211,19 +211,19 @@ msgstr "AVFormatWidgetCodec"
 
 #: kdenlivedoc.cpp:61
 msgid "Document"
-msgstr "Document"
+msgstr "Projet"
 
 #: kdenlivedoc.cpp:122
 msgid ""
 "The current file has been modified.\n"
 "Do you want to save it?"
 msgstr ""
-"Le document courant a été modifié.\n"
+"Le projet courant a été modifié.\n"
 "Voulez-vous l'enregistrer ?"
 
 #: kdenlivedoc.cpp:221
 msgid "The current file has been modified.\n"
-msgstr "Le document courant a été modifié.\n"
+msgstr "Le projet courant a été modifié.\n"
 
 #: kdenlivedoc.cpp:222
 msgid "unfinished code"
@@ -307,11 +307,11 @@ msgstr "Enregistrer la fenêtre &4"
 
 #: kdenlive.cpp:139
 msgid "Creates a new document"
-msgstr "Créer un nouveau document"
+msgstr "Créer un nouveau projet"
 
 #: kdenlive.cpp:140
 msgid "Opens an existing document"
-msgstr "Ouvrir un document existant"
+msgstr "Ouvrir un projet existant"
 
 #: kdenlive.cpp:141
 msgid "Opens a recently used file"
@@ -319,19 +319,19 @@ msgstr "Ouvrir un fichier récemment utilisé"
 
 #: kdenlive.cpp:142
 msgid "Saves the actual document"
-msgstr "Enregistrer le document courant"
+msgstr "Enregistrer le projet courant"
 
 #: kdenlive.cpp:143
 msgid "Saves the actual document as..."
-msgstr "Enregistrer le document courant sous..."
+msgstr "Enregistrer le projet courant sous..."
 
 #: kdenlive.cpp:144
 msgid "Closes the actual document"
-msgstr "Fermer le document courant"
+msgstr "Fermer le projet courant"
 
 #: kdenlive.cpp:145
 msgid "Prints out the actual document"
-msgstr "Imprimer le document courant"
+msgstr "Imprimer le projet courant"
 
 #: kdenlive.cpp:146
 msgid "Quits the application"
@@ -359,7 +359,7 @@ msgstr "Activer / Désactiver la barre d'état"
 
 #: kdenlive.cpp:152
 msgid "Moves and resizes the document"
-msgstr "Déplacer et redimensionner le document"
+msgstr "Déplacer et redimensionner les séquences"
 
 #: kdenlive.cpp:153
 msgid "Chops clips into two pieces"
@@ -375,7 +375,7 @@ msgstr "Aligner les séquences sur la trame la plus proche"
 
 #: kdenlive.cpp:156
 msgid "Clips will align with the borders of other clips"
-msgstr "Les séquences seront alignées avec le bords des autres séquences"
+msgstr "Aligner les séquences avec le bords des autres séquences"
 
 #: kdenlive.cpp:157
 msgid "Add clips to the project"
@@ -460,7 +460,7 @@ msgstr "Ouverture du fichier..."
 
 #: kdenlive.cpp:425
 msgid "Creating new document..."
-msgstr "Créer un nouveau document..."
+msgstr "Créer un nouveau projet..."
 
 #: kdenlive.cpp:453
 msgid ""
