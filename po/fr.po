@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Last-Translator: \n"
-"PO-Revision-Date: 2003-03-12 08:49+0100\n"
+"PO-Revision-Date: 2003-03-12 13:20+0100\n"
 "Language-Team:  <fr@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -234,11 +234,11 @@ msgstr "Outil de séparation"
 
 #: kdenlive.cpp:112
 msgid "Snap To Frames"
-msgstr ""
+msgstr "Découper en trames"
 
 #: kdenlive.cpp:113
 msgid "Snap To Border"
-msgstr ""
+msgstr "Encadrer le découpage"
 
 #: kdenlive.cpp:117
 msgid "Clean Project"
@@ -246,7 +246,7 @@ msgstr "Purger le projet"
 
 #: kdenlive.cpp:119
 msgid "&Export Timeline"
-msgstr ""
+msgstr "&Exporter le montage vidéo"
 
 #: kdenlive.cpp:121
 msgid "Seek &Forwards"
@@ -266,35 +266,35 @@ msgstr "Supprimer les séquences sélectionnées"
 
 #: kdenlive.cpp:126
 msgid "Load Layout &1"
-msgstr ""
+msgstr "Charger la fenêtre &1"
 
 #: kdenlive.cpp:127
 msgid "Load Layout &2"
-msgstr ""
+msgstr "Charger la fenêtre &2"
 
 #: kdenlive.cpp:128
 msgid "Load Layout &3"
-msgstr ""
+msgstr "Charger la fenêtre &3"
 
 #: kdenlive.cpp:129
 msgid "Load Layout &4"
-msgstr ""
+msgstr "Charger la fenêtre &4"
 
 #: kdenlive.cpp:130
 msgid "Save Layout &1"
-msgstr ""
+msgstr "Enregistrer la fenêtre &1"
 
 #: kdenlive.cpp:131
 msgid "Save Layout &2"
-msgstr ""
+msgstr "Enregistrer la fenêtre &2"
 
 #: kdenlive.cpp:132
 msgid "Save Layout &3"
-msgstr ""
+msgstr "Enregistrer la fenêtre &3"
 
 #: kdenlive.cpp:133
 msgid "Save Layout &4"
-msgstr ""
+msgstr "Enregistrer la fenêtre &4"
 
 #: kdenlive.cpp:139
 msgid "Creates a new document"
@@ -354,15 +354,15 @@ msgstr "Déplacer et redimensionner le document"
 
 #: kdenlive.cpp:153
 msgid "Chops clips into two pieces"
-msgstr ""
+msgstr "Découper les séquences en deux morceaux"
 
 #: kdenlive.cpp:154
 msgid "Shifts all clips to the right of mouse"
-msgstr ""
+msgstr "Déplacer les séquences à droite de la souris"
 
 #: kdenlive.cpp:155
 msgid "Clips will align to the nearest frame"
-msgstr ""
+msgstr "Aligner les séquences sur la trame la plus proche"
 
 #: kdenlive.cpp:156
 msgid "Clips will align with the borders of other clips"
@@ -517,15 +517,15 @@ msgstr "Outils de déplacement / redimensionnement"
 
 #: kdenlive.cpp:673
 msgid "Razor tool"
-msgstr ""
+msgstr "Outil de découpe"
 
 #: kdenlive.cpp:679
 msgid "Spacer tool"
-msgstr ""
+msgstr "Outil de séparation"
 
 #: kdenlive.cpp:685
 msgid "Exporting Timeline..."
-msgstr ""
+msgstr "Exporter le montage vidéo..."
 
 #: kdenlive.cpp:699
 msgid "Editing Preferences"
@@ -605,6 +605,9 @@ msgid ""
 "renderer with. Change this value if something else is already using the "
 "default port."
 msgstr ""
+"Le port de communication spécifié sera utilisé par Kdenlive pour communiquer "
+"avec le programme de rendu vidéo. Modifiez cette valeur si un autre programme "
+"utilise déjà ce port de communication."
 
 #: rendersetupdlg_ui.cpp:45 rc.cpp:40
 msgid "Program Path"
@@ -621,6 +624,9 @@ msgid ""
 "to have a valid renderer specified if you want to do anything useful with "
 "kdenlive."
 msgstr ""
+"Spécifie l'emplacement du programme effectant le rendu vidéo. Ce programme réalise les "
+"opérations d'affichage et de manipulation du montage vidéo que vous allez creer. Ce "
+"programme est très important pour pouvoir utiliser pleinement Kdenlive."
 
 #: rendersetupdlg_ui.cpp:57 rc.cpp:43
 msgid "Port"
@@ -636,7 +642,7 @@ msgstr "&Projet"
 
 #: rc.cpp:4
 msgid "&Timeline"
-msgstr ""
+msgstr "&Montage vidéo"
 
 #: rc.cpp:5
 msgid "&Render"
@@ -644,15 +650,15 @@ msgstr "&Rendu vidéo"
 
 #: rc.cpp:6
 msgid "&Layout"
-msgstr ""
+msgstr "&Fenêtre"
 
 #: rc.cpp:7
 msgid "Timeline Toolbar"
-msgstr ""
+msgstr "Outil du montage vidéo"
 
 #: rc.cpp:8
 msgid "Layout Toolbar"
-msgstr ""
+msgstr "Outils des fenêtres"
 
 #: rc.cpp:22 kmmrulerpanel_ui.cpp:33
 msgid "1 Frame"
