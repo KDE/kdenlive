@@ -39,8 +39,6 @@ void ClipGroup::addClip(DocClipBase *clip)
 		m_clipList.append(clip);
 		setMasterClip(clip);
 	}
-
-	kdWarning() << "Clips in list : " << m_clipList.count() << endl;	
 }
 
 /** Removes the selected clip from the clip group. If the clip passed is not in the clip group, nothing (other than a warning) will happen. */
@@ -181,7 +179,6 @@ QDomDocument ClipGroup::toXML()
 	QPtrListIterator<DocClipBase> itt(m_clipList);		
 
 	for(DocClipBase *clip; (clip=itt.current()); ++itt) {
-		kdWarning() << "Adding clip" << endl;
 		QDomDocument clipDoc = clip->toXML();
 
 		doc.appendChild(doc.importNode(clipDoc.documentElement(), true));		

@@ -20,12 +20,14 @@
 #include "docclipbase.h"
 #include "docclipavfile.h"
 #include "docclipproject.h"
+#include "doctrackbase.h"
 
 DocClipBase::DocClipBase() :
 	m_trackStart(0.0),
 	m_cropStart(0.0),	
 	m_cropDuration(0.0)
 {
+	m_parentTrack=0;
 }
 
 DocClipBase::~DocClipBase()
@@ -39,6 +41,9 @@ GenTime DocClipBase::trackStart() {
 void DocClipBase::setTrackStart(GenTime time)
 {
 	m_trackStart = time;
+	if(m_parentTrack) {
+		m_parentTrack->clipMoved(this);
+	}
 }
 
 void DocClipBase::setName(QString name)
@@ -129,3 +134,8 @@ DocClipBase *DocClipBase::createClip(KdenliveDoc &doc, const QDomElement element
 	return clip;
 }
 
+/** Sets the parent track for this clip. */
+void DocClipBase::setParentTrack(DocTrackBase *track)
+{
+	m_parentTrack = track;
+}

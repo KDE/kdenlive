@@ -66,30 +66,23 @@ void AVFile::calculateFileProperties()
   	} while(test);
 
 		if(m_player && (!m_player->object().isNull()) ) {
-			/** Determines the format of the file e.g. wav, ogg, mpeg, mov */
-			m_player->play();
 			bool flag = false;
-			while(m_player->state() != Arts::posIdle) {
-				m_duration = GenTime(m_player->overallTime());
-				if(m_duration.seconds() > 0) {
-    			flag=true;
-        	break;
-				}
-				sleep(1);
+
+			m_duration = GenTime(m_player->overallTime());
+			if(m_duration.seconds() > 0) {
+   			flag=true;
 			}
 
    		if(!flag) {
 	     	m_duration = GenTime(0.0);
         m_filesize = -1;
       }
-
-			m_player->halt();
 		}
 
 		if(m_player != 0) {
 			delete m_player;
-		}
-		m_player = 0;
+			m_player = 0;			
+		}		
 	} else {
 		/** If the file is not local, then no file properties are currently returned */
 		m_duration = GenTime(0.0);

@@ -332,7 +332,6 @@ int KMMTimeLine::trackUnderPoint(const QPoint &pos)
  the x offset to clipOffset. */
 void KMMTimeLine::initiateDrag(DocClipBase *clipUnderMouse, double clipOffset)
 {
-	kdWarning() << "Initiating drag" << endl;
 	m_selection.setMasterClip(clipUnderMouse);
 	m_clipOffset = clipOffset;
 	m_startedClipMove = true;

@@ -33,17 +33,8 @@ particular track. */
 bool DocTrackBase::addClip(DocClipBase *clip)
 {
 	if(canAddClip(clip)) {
-		int index = 0;
-		DocClipBase *testclip = m_clips.first();
-		while(testclip!=0) {
-			if(testclip->trackStart().seconds() < clip->trackStart().seconds()) break;
-			
-			testclip = m_clips.next();
-			index++;
-		}
-		
-		m_clips.insert(index, clip);
-		
+		m_clips.inSort(clip);
+		clip->setParentTrack(this);
 		emit trackChanged();
 		return true;
 	} else {
@@ -157,5 +148,33 @@ void DocTrackBase::removeClip(DocClipBase *clip)
 {
 	if(!m_clips.remove(clip)) {
 		kdError() << "Cannot remove clip from track - doesn't exist!" << endl;
+	} else {
+		clip->setParentTrack(0);
+	}
+}
+
+/** The clip specified has moved. This method makes sure that the clips
+are still in the correct order, rearranging them if they are not. */
+void DocTrackBase::clipMoved(DocClipBase *clip)
+{
+	// sanity check
+	if(!clip) {
+		kdError() << "TrackBase has been alerted that a clip has moved... but no clip specified!" << endl;
+		return;
+	}
+	int pos;
+
+	if((pos = m_clips.find(clip))==-1) {
+		kdError() << "Track told that non-existant clip has moved (that's gotta be a bug!)" << endl;
+		return;
+	}
+
+	m_clips.take(pos);
+	m_clips.inSort(clip);
+
+	DocClipBase *t = m_clips.first();
+
+	while(t) {
+		t = m_clips.next();
 	}
 }

@@ -42,7 +42,6 @@ ClipDrag::ClipDrag(ClipGroup &group, QWidget *dragSource, const char *name) :
 			KURLDrag(group.createURLList(), dragSource, name)
 {
 	m_xml = group.toXML().toString();
-	kdWarning() << m_xml << endl;
 }
 
 ClipDrag::~ClipDrag()

@@ -23,6 +23,7 @@
 
 #include <qcursor.h>
 
+#include <kdebug.h>
 #include <klocale.h>
 #include <kiconloader.h>
 #include <kfiledialog.h>
@@ -57,37 +58,27 @@ void ProjectList::init_menu(){
 void ProjectList::slot_AddFile() {
 	// determine file types supported by Arts
 	QString filter = "";
-	
-	std::map<std::string, bool> done;	
-		
+			
 	Arts::TraderQuery query;
 
-	query.supports("Interface", "Arts::PlayObject");
+	query.supports("Interface", "Arts::PlayObject");	
 	std::vector<Arts::TraderOffer> *results = query.query();	
 
 	for(std::vector<Arts::TraderOffer>::iterator i = results->begin(); i != results->end(); i++)
 	{			
 		std::vector<std::string> *mime = (*i).getProperty("MimeType");
-		std::vector<std::string> *ext = (*i).getProperty("Extension");
 
-		std::vector<std::string>::iterator extIt = ext->begin();					
-		std::vector<std::string>::iterator mimeIt = mime->begin();				
+		std::vector<std::string>::iterator mimeIt = mime->begin();
 		
-		while((extIt != ext->end()) && (mimeIt != mime->end())) {			
-			if( ((*extIt).length()) && (!done[*extIt]) ) {
-				if((*mimeIt).find("audio/", 0) == 0) {
-			  		done[*extIt] = true;
+		while(mimeIt != mime->end()) {
+			if((*mimeIt).find("audio/", 0) == 0) {
+					kdWarning() << (*mimeIt).c_str() << endl;					
 					filter += (*mimeIt).c_str();
 					filter += " ";
-				}
-			}			
-					
-			extIt++;
+			}								
 			mimeIt++;
 		}
-		
-		delete ext;		
-	}	
+	}
 	
 	delete results;	
 				

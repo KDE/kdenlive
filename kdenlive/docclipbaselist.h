@@ -29,6 +29,8 @@ class DocClipBaseList : public QPtrList<DocClipBase>  {
 public: 
 	DocClipBaseList();
 	~DocClipBaseList();
+  /** Compares Clips based upon starting time. */
+	int DocClipBaseList::compareItems (QPtrCollection::Item i1, QPtrCollection::Item i2);
 };
 
 #endif

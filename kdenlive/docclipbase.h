@@ -29,6 +29,7 @@
 #include "gentime.h"
 
 class KdenliveDoc;
+class DocTrackBase;
 
 class DocClipBase {
 public:
@@ -81,6 +82,8 @@ public:
 
 	/** Reads in the element structure and creates a clip out of it. */
 	static DocClipBase *createClip(KdenliveDoc &doc, QDomElement element);
+  /** Sets the parent track for this clip. */
+  void setParentTrack(DocTrackBase *track);
 private: // Private attributes
 	/** The name of this clip */
 	QString m_name;
@@ -94,6 +97,9 @@ private: // Private attributes
 	 * time that we actually want.
 	 **/
 	GenTime m_cropDuration;
+  /** The track to which this clip is parented. If NULL, the clip is not
+parented to any track. */
+  DocTrackBase * m_parentTrack;
 };
 
 #endif

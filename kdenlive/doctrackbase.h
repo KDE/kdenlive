@@ -67,6 +67,9 @@ false. */
 			a warning is issued vi kdWarning, but otherwise no bad things
 			will happen. The clip is removed from the track but NOT deleted.*/
   void removeClip(DocClipBase *clip);
+  /** The clip specified has moved. This method makes sure that the clips
+are still in the correct order, rearranging them if they are not. */
+  void clipMoved(DocClipBase *clip);
 public: // Public attributes
   /** Contains a list of all of the clips within this track. */
   DocClipBaseList m_clips;
