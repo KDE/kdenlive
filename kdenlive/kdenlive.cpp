@@ -667,6 +667,7 @@ void KdenliveApp::documentModified(bool modified)
 	} else {
 	  fileSave->setEnabled(false);
 	}
+  	setCaption(doc->URL().fileName(),modified);
 }
 
 /** Called whenever snapToBorder is toggled. */
