@@ -19,7 +19,7 @@
 #define DOCTRACKBASE_H
 
 #include <qobject.h>
-#include <qlist.h>
+#include <qvaluelist.h>
 
 #include "docclipbaselist.h"
 
