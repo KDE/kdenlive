@@ -17,7 +17,7 @@ cd kdenlive
 ./configure --prefix=`kde-config --prefix`
 make
 
-To install, become root.
+To install, become root:
 
 su
 (enter root password at prompt)
@@ -42,34 +42,19 @@ Installing from CVS
 ===================
 if you are checking out CVS :
 
-Type:
-
+Connect to the CVS repository:
 cvs -d:pserver:anonymous@cvs.kdenlive.sourceforge.net:/cvsroot/kdenlive login
 
-
-When asked for a password, press return (there is no password).
-Then type:
-
+When asked for a password, press return (there is no password). Then checkout Kdenlive source code:
 cvs -z3 -d:pserver:anonymous@cvs.kdenlive.sourceforge.net:/cvsroot/kdenlive co kdenlive
 
-Once the sourcecode has been downloaded, create a link called admin to the directory
-that matches the version of automake you are using.
-
-For 2.13 or similar :
-
-ln -s admin2_13 admin
-
-For 2.5x :
-
-ln -s admin2_5 admin
-
-Then, type the following commands to compile and install kdenlive.
-
+Create a ./configure script:
 cd kdenlive
-make -f admin/Makefile.common
-./configure
-make
+sh bootstrap
 
+Compile Kdenlive:
+./configure --prefix=`kde-config --prefix`
+make
 
 To install, become root
 
@@ -77,7 +62,6 @@ su
 (enter root password at prompt)
 
 make install
-
 
 ./configure takes a number of options, type ./configure --help to
 discover what these are. The most important one is --prefix, which
@@ -92,9 +76,6 @@ Note that you should also install Piave to do anything useful with Kdenlive. See
 the README file for details.
 
 Have Fun!
-
-
-
 
 
 Basic Installation
