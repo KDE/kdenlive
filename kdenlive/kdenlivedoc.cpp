@@ -18,6 +18,7 @@
 // include files for Qt
 #include <qdir.h>
 #include <qwidget.h>
+#include <qvaluevector.h>
 #include <qptrvector.h>
 
 // include files for KDE
@@ -529,78 +530,89 @@ bool KdenliveDoc::moveSelectedClips(GenTime startOffset, int trackOffset)
 /** Returns a scene list generated from the current document. */
 QDomDocument KdenliveDoc::generateSceneList()
 {
+	static QString str_sceneList="scenelist";
+	static QString str_inpoint="inpoint";
+	static QString str_outpoint="outpoint";
+	static QString str_file="file";		
+	
+	int totalTracks = numTracks();	
+	
 	QDomDocument doc;
 
-	QDomElement elem = doc.createElement("scenelist");
+	QDomElement elem = doc.createElement(str_sceneList);
 
 	// generate the header
-	QDomElement header = doc.createElement("header");
+/*	QDomElement header = doc.createElement("header");
  	QDomElement version = doc.createElement("version");
   version.setAttribute("major", "0");
   version.setAttribute("minor", "06");
   header.appendChild(version);	
-	elem.appendChild(header);
+	elem.appendChild(header);*/
 				
 	// Generate the scene list.
-  GenTime curTime, nextTime;
-  bool finished;
+  GenTime curTime, nextTime, clipStart, clipEnd;
+  GenTime invalidTime(-1.0);
+  DocClipBase *curClip;  
   int count;
 
-  QPtrVector<DocTrackClipIterator> itt(numTracks());
+  QPtrVector<DocTrackClipIterator> itt(totalTracks);
+
+  QValueVector<GenTime> nextScene(totalTracks);
+  
   itt.setAutoDelete(true);
 
-  for(count=0; count<numTracks(); count++) {
+  for(count=0; count<totalTracks; count++) {
   	itt.insert(count, new DocTrackClipIterator(*(m_tracks.at(count))));
+   	if(itt[count]->current()) {
+	   	nextScene[count] = itt[count]->current()->trackStart();
+    } else {
+	   	nextScene[count] = invalidTime;
+    }
   }
-    
+
+  
   do {
-  	finished = true;
-   	nextTime = curTime;
-    DocClipBase *curClip;
+    curTime = nextTime;	  
 
-    for(count=0; count<numTracks(); count++) {
-   		curClip = itt[count]->current();
-			if(!curClip) continue;
-			if(curClip->trackEnd() <= curTime) {
-				++(*itt[count]);
-	   		curClip = itt[count]->current();				
-			}
-			if(!curClip) continue;				
-			
-			finished = false;			
-
-			if(curClip->trackStart() <= curTime) {
+    for(count=0; count<totalTracks; count++) {
+    	if(nextScene[count] == invalidTime) continue;
+     	if(nextScene[count] <= curTime) {
+	   		curClip = itt[count]->current();          
 				if(curClip->trackEnd() <= curTime) {
 					++(*itt[count]);
-				} else {
-					if(( nextTime == curTime) || (nextTime > curClip->trackEnd())) {
-						nextTime = curClip->trackEnd();
-					}
+		   		curClip = itt[count]->current();
 				}
-			} else {
-				if(( nextTime == curTime) || (nextTime > curClip->trackStart())) {
-					nextTime = curClip->trackStart();
-				}			
+				if(!curClip) {
+					nextScene[count] = invalidTime;
+					continue;
+				} else {
+					nextScene[count] = curClip->trackStart();
+					if(nextScene[count] <= curTime) nextScene[count] = curClip->trackEnd();
+				}
+			}	
+
+			if((nextTime == curTime) || (nextTime > nextScene[count])) {
+				nextTime = nextScene[count];
 			}
     }
 
-    if((!finished) && (nextTime!=curTime)) {
+    if(nextTime!=curTime) {
 	    // generate the next scene.
 	    QDomElement scene = doc.createElement("scene");
 	    scene.setAttribute("duration", QString::number((nextTime-curTime).seconds()));
 
     	QDomElement sceneClip;
-     
-      for(count = numTracks()-1; count>=0; count--) {
+
+      for(count = totalTracks-1; count>=0; count--) {
       	curClip = itt[count]->current();
        	if(!curClip) continue;
         if(curClip->trackStart() >= nextTime) continue;
         if(curClip->trackEnd() <= curTime) continue;
 
 	     sceneClip = doc.createElement("input");
-	     	sceneClip.setAttribute("file", curClip->fileURL().path());
-	     	sceneClip.setAttribute("inpoint", QString::number((curTime - curClip->trackStart() + curClip->cropStartTime()).seconds()));
-	     	sceneClip.setAttribute("outpoint", QString::number((nextTime - curClip->trackStart() + curClip->cropStartTime()).seconds()));
+	     	sceneClip.setAttribute(str_file, curClip->fileURL().path());
+	     	sceneClip.setAttribute(str_inpoint, QString::number((curTime - curClip->trackStart() + curClip->cropStartTime()).seconds()));
+	     	sceneClip.setAttribute(str_outpoint, QString::number((nextTime - curClip->trackStart() + curClip->cropStartTime()).seconds()));
 	    }
 
 	    if(!sceneClip.isNull()) {
@@ -608,10 +620,8 @@ QDomDocument KdenliveDoc::generateSceneList()
 	    }
 	    
 	    elem.appendChild(scene);
-	  }
-
-    curTime = nextTime;	  
-  } while(!finished);	
+	  } 
+  } while(curTime != nextTime);	
 						
 	doc.appendChild(elem);
 
