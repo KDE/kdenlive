@@ -70,7 +70,7 @@ void ProjectList::rightButtonPressed ( QListViewItem *listViewItem, const QPoint
 }
 
 /** Get a fresh copy of files from KdenliveDoc and display them. */
-void ProjectList::slot_UpdateList() 
+void ProjectList::slot_UpdateList()
 {
 	m_listView->clear();
 
@@ -82,8 +82,14 @@ void ProjectList::slot_UpdateList()
 }
 
 /** The clip specified has changed - update the display.
- */ 
+ */
 void ProjectList::slot_clipChanged(DocClipRef *clip)
+{
+	slot_UpdateList();
+	m_listView->triggerUpdate();
+}
+
+void ProjectList::slot_nodeDeleted(DocumentBaseNode *node)
 {
 	slot_UpdateList();
 	m_listView->triggerUpdate();

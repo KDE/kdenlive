@@ -1,3 +1,7 @@
+2003-12-02  Jason Wood  <jasonwood@blueyonder.co.uk>
+	* Partial fix to put splashscreen on a particular screen on a multi-screen display. Unfortunately, it doesn't yet put it on the right screen.
+	* Re-implemented deletion of clips from the project list, it now works with undo as well.
+
 2003-12-01  Jason Wood  <jasonwood@blueyonder.co.uk>
 	* Play button now "sticks down" and changes into a pause button when playing.
 	* Added context menu to monitors.

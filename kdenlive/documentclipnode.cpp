@@ -27,6 +27,9 @@ DocumentClipNode::DocumentClipNode(DocumentBaseNode *parent, DocClipBase *clip) 
 			DocumentBaseNode(parent),
 			m_ref( new DocClipRef(clip) )
 {
+	if(m_ref->durationKnown()) {
+		m_ref->setTrackEnd(m_ref->duration());
+	}
 }
 
 DocumentClipNode::~DocumentClipNode()
@@ -34,7 +37,7 @@ DocumentClipNode::~DocumentClipNode()
 	delete m_ref;
 }
 
-// virtual 
+// virtual
 const QString &DocumentClipNode::name() const
 {
 	return m_ref->name();

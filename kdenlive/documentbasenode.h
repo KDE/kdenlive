@@ -58,7 +58,7 @@ public:
 	void removeChild( const DocumentBaseNode *node );
 
 	const QPtrList<DocumentBaseNode> &children() { return m_children; }
-	bool hasChildren() const { return m_children.isEmpty(); }
+	bool hasChildren() const { return !m_children.isEmpty(); }
 
 	virtual DocumentClipNode *asClipNode() { return 0; }
 	virtual DocumentGroupNode *asGroupNode() { return 0; }

@@ -450,6 +450,7 @@ void KdenliveDoc::deleteClipNode(const QString &name)
 		if(!node->hasChildren()) {
 			if( (node->asClipNode() == NULL) || (!m_projectClip->referencesClip(node->asClipNode()->clipRef()->referencedClip()))) {
 				node->parent()->removeChild(node);
+				emit nodeDeleted(node);
 				delete node;
 			} else {
 				kdError() << "Trying to delete clip that has references in the document - "

@@ -306,6 +306,7 @@ void KdenliveApp::initView()
 	connect(getDocument(), SIGNAL(signalClipSelected(DocClipRef *)), this, SLOT(slotSetClipMonitorSource(DocClipRef *)));
 	connect(getDocument(), SIGNAL(clipListUpdated()), m_projectList, SLOT(slot_UpdateList()));
 	connect(getDocument(), SIGNAL(clipChanged(DocClipRef *)), m_projectList, SLOT(slot_clipChanged(DocClipRef *)));
+	connect(getDocument(), SIGNAL(nodeDeleted(DocumentBaseNode *)), m_projectList, SLOT(slot_nodeDeleted(DocumentBaseNode *)));
 
 	connect(getDocument(), SIGNAL(documentChanged(DocClipBase *)), m_workspaceMonitor, SLOT(slotSetClip(DocClipBase *)));
 
@@ -567,7 +568,7 @@ void KdenliveApp::slotFileOpen()
 void KdenliveApp::slotFileOpenRecent(const KURL& url)
 {
   slotStatusMsg(i18n("Opening file..."));
-	
+
   if(!saveModified())
   {
      // here saving wasn't successful

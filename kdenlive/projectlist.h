@@ -30,6 +30,7 @@
 class DocClipRef;
 class KdenliveDoc;
 class KdenliveApp;
+class DocumentBaseNode;
 
 /**
   * ProjectList is the dialog which contains the project list.
@@ -57,6 +58,8 @@ public slots: // Public slots
 	void slot_UpdateList();
 	/** The clip specified has changed - update the display. */
 	void slot_clipChanged(DocClipRef *clip);
+	/** The node specified has been deleted - update the display. */
+	void slot_nodeDeleted(DocumentBaseNode *node);
 signals: // Signals
 	/** this signal is called when a number of clips have been dropped onto the project list view. */
 	void dragDropOccured(QDropEvent *drop);

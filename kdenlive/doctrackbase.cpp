@@ -489,6 +489,7 @@ DocClipRefList DocTrackBase::referencedClips(DocClipBase *clip) const
 			list.append(itt.current());
 			break;
 		}
+		++itt;
 	}
 
 	return list;

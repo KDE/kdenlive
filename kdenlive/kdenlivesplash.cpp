@@ -39,8 +39,13 @@ KdenliveSplash::KdenliveSplash(QString PNGImageFileName) : QWidget( 0L, "Kdenliv
   int H=pixmap.width();
   int L=pixmap.height();
 
-  setGeometry( QApplication::desktop()->width ()/2-(H/2),
-               QApplication::desktop()->height()/2-(L/2), H, L );
+  int primaryScreen = QApplication::desktop()->primaryScreen();
+  QRect screenGeometry = QApplication::desktop()->screenGeometry(primaryScreen);
+
+  setGeometry(	screenGeometry.x() + (screenGeometry.width()/2 - (H/2)),
+  				screenGeometry.y() + (screenGeometry.height()/2 - (L/2)),
+				H,
+				L);
 
   setFixedSize( H, L );
 

@@ -59,8 +59,6 @@ DocClipBase *ClipManager::findClip(const QDomElement &clip)
 {
 	DocClipBase *result=NULL;
 
-	kdWarning() << "Matching " << clip.text() << endl;
-
 	QPtrListIterator<DocClipBase> itt(m_clipList);
 	while(itt.current()) {
 		if(itt.current()->matchesXML(clip)) {

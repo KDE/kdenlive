@@ -201,7 +201,6 @@ void KMMMonitor::slotSetClip(DocClipRef *clip)
 
 void KMMMonitor::slotSetClip(DocClipBase *clip)
 {
-	kdWarning() << "Slot set clip!" << endl;
 	if(!clip) {
 		kdError() << "Null clip passed, not setting monitor." << endl;
 		return;

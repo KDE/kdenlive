@@ -204,7 +204,6 @@ private slots: // Private slots
 	void hasBeenModified();
 	/** Emitted when a particular clip has changed in someway. E.g, it has recieved it's duration. */
 	void clipChanged(DocClipBase *file);
-
 signals: // Signals
   	/** This signal is emitted whenever tracks are added to or removed from the project. */
   	void trackListChanged();
@@ -215,6 +214,8 @@ signals: // Signals
 	void modified(bool);
 	/** Emitted when a particular clip has changed in someway. E.g, it has recieved it's duration. */
 	void clipChanged(DocClipRef *file);
+	/** Emitted when a particular clip has been deleted.*/
+	void nodeDeleted(DocumentBaseNode *);
 	/** emitted when the document has changed in some way. */
 	void documentChanged();
 	/** Also emitted when the document has changed in some way, fires off the project clip with it */

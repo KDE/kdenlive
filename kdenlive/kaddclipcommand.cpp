@@ -48,6 +48,7 @@ KAddClipCommand::KAddClipCommand(KdenliveDoc &document,
 
 KAddClipCommand::KAddClipCommand(KdenliveDoc &document, const KURL &url, bool create) :
 		m_document(document),
+		m_name(url.filename()),
 		m_parent(document.clipHierarch()->name()),
 		m_create(create)
 {
@@ -116,7 +117,13 @@ void KAddClipCommand::addClip()
 /** Deletes the clip */
 void KAddClipCommand::deleteClip()
 {
-	// TODO - write deleteClip method.
+	DocumentBaseNode *node = m_document.findClipNode(m_parent);
+
+	if(!node) {
+		kdWarning() << "Could not find parent in document, cannot delete document base node" << endl;
+	} else {
+		m_document.deleteClipNode(m_name);
+	}
 }
 
 } // namespace command
