@@ -37,7 +37,7 @@ bool DocTrackSound::canAddClip(DocClipBase * clip)
 	QPtrListIterator<DocClipBase> u_itt(m_unselectedClipList);
 
 	for(; (search=u_itt.current()) != 0; ++u_itt) {
-		if(search->trackStart() + search->cropDuration() < clip->trackStart()) continue;
+		if(search->trackStart() + search->cropDuration() <= clip->trackStart()) continue;
 		if(search->trackStart() < clip->trackStart() + clip->cropDuration()) {
 			return false;
 		}
@@ -49,7 +49,7 @@ bool DocTrackSound::canAddClip(DocClipBase * clip)
 	QPtrListIterator<DocClipBase> s_itt(m_unselectedClipList);
 
 	for(; (search=s_itt.current()) != 0; ++s_itt) {
-		if(search->trackStart() + search->cropDuration() < clip->trackStart()) continue;
+		if(search->trackStart() + search->cropDuration() <= clip->trackStart()) continue;
 		if(search->trackStart() < clip->trackStart() + clip->cropDuration()) return false;
 		// we can safely break here, as the clips are sorted in order - if search->trackStart is already past
 		// the clip that we was looking at, then we are ok.

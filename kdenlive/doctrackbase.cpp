@@ -334,15 +334,15 @@ void DocTrackBase::resizeClipCropDuration(DocClipBase *clip, GenTime newStart)
 		return;
 	}	
 	
-	newStart = newStart - clip->trackStart();
+	newStart = newStart - clip->trackStart();	
 
 	if(newStart > clip->duration() - clip->cropStartTime()) {
 		newStart = clip->duration() - clip->cropStartTime();
 	}
 	
-	if(newStart < clip->cropStartTime()) {
+	if(newStart < 0) {
 		kdWarning() << "Clip has been resized to zero length" << endl;
-		newStart = clip->cropStartTime();
+		newStart = 0;
 	}
 
 	#warning - the following code does not work for large increments - small clips might be overlapped.
