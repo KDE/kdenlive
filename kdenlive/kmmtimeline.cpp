@@ -20,7 +20,7 @@
 KMMTimeLine::KMMTimeLine(QWidget *parent, const char *name ) : QVBox(parent, name),
 				rulerBox(this, "ruler box"),
 				trackView(this, "track view", 0),
-				trackBox(&trackView, "track box"),
+				trackGrid(2, &trackView, "track box"),
 				scrollBox(this, "scroll box"),
 				trackLabel("tracks", &rulerBox),
 				ruler(&rulerBox, name),

@@ -1,34 +1,42 @@
-/***************************************************************************
-                          kmmeditpanel.h  -  description
-                             -------------------
-    begin                : Mon Mar 25 2002
-    copyright            : (C) 2002 by Jason Wood
-    email                : jasonwood@blueyonder.co.uk
- ***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
-
+/****************************************************************************
+** Form interface generated from reading ui file './kmmeditpanel.ui'
+**
+** Created: Tue Apr 9 14:13:30 2002
+**      by:  The User Interface Compiler (uic)
+**
+** WARNING! All changes made in this file will be lost!
+****************************************************************************/
 #ifndef KMMEDITPANEL_H
 #define KMMEDITPANEL_H
 
+#include <qvariant.h>
 #include <qwidget.h>
+class QVBoxLayout; 
+class QHBoxLayout; 
+class QGridLayout; 
+class QSlider;
+class QToolButton;
 
-/**KMMEditPanel contains all of the controls necessary to select areas of video, audio, etc.
-  *@author Jason Wood
-  */
+class KMMEditPanel : public QWidget
+{ 
+    Q_OBJECT
 
-class KMMEditPanel : public QWidget  {
-   Q_OBJECT
-public: 
-	KMMEditPanel(QWidget *parent=0, const char *name=0);
-	~KMMEditPanel();
+public:
+    KMMEditPanel( QWidget* parent = 0, const char* name = 0, WFlags fl = 0 );
+    ~KMMEditPanel();
+
+    QSlider* positionSlider;
+    QToolButton* startButton;
+    QToolButton* rewindButton;
+    QToolButton* stopButton;
+    QToolButton* playButton;
+    QToolButton* forwardButton;
+    QToolButton* endButton;
+
+protected:
+    QGridLayout* KMMEditPanelLayout;
+    QVBoxLayout* Layout2;
+    QHBoxLayout* Layout1;
 };
 
-#endif
+#endif // KMMEDITPANEL_H

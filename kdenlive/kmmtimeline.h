@@ -20,6 +20,7 @@
 
 #include <qwidget.h>
 #include <qvbox.h>
+#include <qgrid.h>
 #include <qlabel.h>
 #include <qscrollbar.h>
 #include <qscrollview.h>
@@ -42,12 +43,12 @@ private:
 		/** GUI elements */
 		QHBox rulerBox;				 	// Horizontal box holding the ruler
 		QScrollView trackView; 	// Scrollview holding the trackBox
-		QVBox trackBox;				 	// trackBox holding the tracks
+		QGrid trackGrid;			 	// trackBox holding the tracks
 		QHBox scrollBox;			 	// Horizontal box holding the horizontal scrollbar.
 		QLabel trackLabel;
 		KMMRuler ruler;
-		QLabel scrollLabel;			// appears to the left of the bottom scroll bar.		
-		QScrollBar scrollBar;		// this scroll bar's movement is measured in pixels, not frames.		
+		QLabel scrollLabel;			// appears to the left of the bottom scroll bar.
+		QScrollBar scrollBar;		// this scroll bar's movement is measured in pixels, not frames.
 };
 
 #endif

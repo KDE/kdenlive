@@ -21,7 +21,7 @@
 #include <qvbox.h>
 
 #include <kmmscreen.h>
-#include <kmmeditpanel.h>
+#include <kmmeditpanelimplementation.h>
 
 /**KMMMonitor provides a multimedia bar and the
 ability to play Arts PlayObjects. It is also capable
@@ -38,7 +38,7 @@ public:
 	~KMMMonitor();
 private:
 	KMMScreen m_screen;
-	KMMEditPanel m_editPanel;	
+	KMMEditPanelImplementation m_editPanel;	
 };
 
 #endif

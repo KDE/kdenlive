@@ -1,0 +1,161 @@
+<!DOCTYPE UI><UI>
+<class>KMMEditPanel</class>
+<widget>
+    <class>QWidget</class>
+    <property stdset="1">
+        <name>name</name>
+        <cstring>KMMEditPanel</cstring>
+    </property>
+    <property stdset="1">
+        <name>geometry</name>
+        <rect>
+            <x>0</x>
+            <y>11</y>
+            <width>588</width>
+            <height>60</height>
+        </rect>
+    </property>
+    <property stdset="1">
+        <name>maximumSize</name>
+        <size>
+            <width>32767</width>
+            <height>60</height>
+        </size>
+    </property>
+    <property stdset="1">
+        <name>caption</name>
+        <string>Form1</string>
+    </property>
+    <property>
+        <name>layoutMargin</name>
+    </property>
+    <property>
+        <name>layoutSpacing</name>
+    </property>
+    <grid>
+        <property stdset="1">
+            <name>margin</name>
+            <number>3</number>
+        </property>
+        <property stdset="1">
+            <name>spacing</name>
+            <number>6</number>
+        </property>
+        <widget row="0"  column="0" >
+            <class>QLayoutWidget</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>Layout2</cstring>
+            </property>
+            <vbox>
+                <property stdset="1">
+                    <name>margin</name>
+                    <number>0</number>
+                </property>
+                <property stdset="1">
+                    <name>spacing</name>
+                    <number>6</number>
+                </property>
+                <widget>
+                    <class>QSlider</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>positionSlider</cstring>
+                    </property>
+                    <property stdset="1">
+                        <name>orientation</name>
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property stdset="1">
+                        <name>tickmarks</name>
+                        <enum>Both</enum>
+                    </property>
+                </widget>
+                <widget>
+                    <class>QLayoutWidget</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>Layout1</cstring>
+                    </property>
+                    <hbox>
+                        <property stdset="1">
+                            <name>margin</name>
+                            <number>0</number>
+                        </property>
+                        <property stdset="1">
+                            <name>spacing</name>
+                            <number>6</number>
+                        </property>
+                        <widget>
+                            <class>QToolButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>startButton</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>text</name>
+                                <string>Start</string>
+                            </property>
+                        </widget>
+                        <widget>
+                            <class>QToolButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>rewindButton</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>text</name>
+                                <string>Rewind</string>
+                            </property>
+                        </widget>
+                        <widget>
+                            <class>QToolButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>stopButton</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>text</name>
+                                <string>Stop</string>
+                            </property>
+                        </widget>
+                        <widget>
+                            <class>QToolButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>playButton</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>text</name>
+                                <string>Play</string>
+                            </property>
+                        </widget>
+                        <widget>
+                            <class>QToolButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>forwardButton</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>text</name>
+                                <string>Fast Forward</string>
+                            </property>
+                        </widget>
+                        <widget>
+                            <class>QToolButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>endButton</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>text</name>
+                                <string>End</string>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+            </vbox>
+        </widget>
+    </grid>
+</widget>
+</UI>
