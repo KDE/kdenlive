@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=MimeType
+MimeType=application/vnd.kde.kdenlive
+Icon=kdenlive
+Patterns=*.kdenlive;
+DefaultApp=kdenlive
+Comment=Kdenlive Project File
+

@@ -78,10 +78,6 @@ class KdenliveDoc : public QObject
 	bool newDocument();
 	/** closes the acutal document */
 	void closeDocument();
-	/** loads the document by filename and format and emits the updateViews() signal */
-	bool openDocument(const KURL& url, const char *format=0);
-	/** saves the document under filename and format.*/
-	bool saveDocument(const KURL& url, const char *format=0);
 	/** returns the KURL of the document */
 	const KURL& URL() const;
 	/** sets the URL of the document */
@@ -111,6 +107,7 @@ class KdenliveDoc : public QObject
 	/** Returns all clips that reference the specified clip. */
 	DocClipRefList referencedClips(DocClipBase *clip);
 
+	void setProjectClip(DocClipProject *projectClip);
 	DocClipProject &projectClip() { return *m_projectClip; }
 
   	/** Returns the number of frames per second. */
@@ -123,8 +120,6 @@ class KdenliveDoc : public QObject
 	DocTrackBase * track(int track);
 	/** Returns the index value for this track, or -1 on failure.*/
 	int trackIndex(DocTrackBase *track) const;
-	/** Creates an xml document that describes this kdenliveDoc. */
-	QDomDocument toXML();
 	/** Sets the modified state of the document, if this has changed, emits modified(state) */
 	void setModified(bool state);
 	/** Returns a scene list generated from the current document. */
@@ -187,8 +182,6 @@ class KdenliveDoc : public QObject
 	DocumentBaseNode *m_clipHierarch;
 	/** Clip manager maintains the list of clips that exist in the document. */
 	ClipManager m_clipManager;
-	/** Parses the XML Dom Document elements to populate the KdenliveDoc. */
-	void loadFromXML(QDomDocument &doc);
 	/** Connects the various project clip signals/slots up to the document. This should be done whenever
 	a new document project clip is created.*/
 	void connectProjectClip();

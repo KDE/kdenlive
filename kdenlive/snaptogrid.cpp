@@ -341,3 +341,4 @@ bool SnapToGrid::snapToMarkers() const
 {
 	return m_snapToMarkers;
 }
+

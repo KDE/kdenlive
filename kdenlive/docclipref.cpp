@@ -64,6 +64,11 @@ const QString &DocClipRef::description() const
 	return m_clip->description();
 }
 
+void DocClipRef::setDescription(const QString &description)
+{
+	m_clip->setDescription(description);
+}
+
 void DocClipRef::setCropStartTime(const GenTime &time)
 {	
 	m_cropStart = time;

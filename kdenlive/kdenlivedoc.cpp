@@ -24,8 +24,6 @@
 // include files for KDE
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kio/job.h>
-#include <kio/netaccess.h>
 #include <kdebug.h>
 #include <kcommand.h>
 
@@ -112,56 +110,6 @@ bool KdenliveDoc::newDocument()
 	setModified(false);
 
 	return true;
-}
-
-bool KdenliveDoc::openDocument(const KURL& url, const char *format)
-{
-	if(url.isEmpty()) return false;
-
-	if(url.filename().right(9) == ".kdenlive") {
-		QString tmpfile;
-		if(KIO::NetAccess::download( url, tmpfile )) {
-			QFile file(tmpfile);
-				if(file.open(IO_ReadOnly)) {
-					QDomDocument doc;
-					doc.setContent(&file, false);
-					loadFromXML(doc);
-    					setURL(url);
-				}
-				KIO::NetAccess::removeTempFile( tmpfile );
-				setModified(false);
-				return true;	  
-		}
-		emit trackListChanged();
-	} else {
-		m_clipManager.insertClip(url);
-	}
-
-	return false;
-}
-
-bool KdenliveDoc::saveDocument(const KURL& url, const char *format /*=0*/)
-{
-  QString save = toXML().toString();
-
-  kdDebug() << save << endl;
-
-  if(!url.isLocalFile()) {
-  	#warning network transparency still to be written.
-    KMessageBox::sorry((KdenliveApp *) parent(), i18n("The current file has been modified.\n"),
-     i18n("unfinished code"));
-
-   	return false;
-  } else {
-  	QFile file(url.path());
-   	if(file.open(IO_WriteOnly)) {
-			file.writeBlock(save, save.length());
-			file.close();
-    }
-  }
-
-  setModified(false);
-  return true;
 }
 
 void KdenliveDoc::deleteContents()
@@ -265,89 +213,6 @@ QDomDocument KdenliveDoc::generateSceneList()
 	}
 	return m_domSceneList;
 
-}
-
-/** Creates an xml document that describes this kdenliveDoc. */
-QDomDocument KdenliveDoc::toXML()
-{
-	QDomDocument document;
-
-	QDomElement elem = document.createElement("kdenlivedoc");
-	document.appendChild(elem);
-
-	elem.appendChild(document.importNode(m_clipManager.toXML("avfilelist").documentElement(), true));
-
-	elem.appendChild(document.importNode(m_projectClip->toXML().documentElement(), true));
-
-	return document;
-}
-
-/** Parses the XML Dom Document elements to populate the KdenliveDoc. */
-void KdenliveDoc::loadFromXML(QDomDocument &doc)
-{
-	bool avListLoaded = false;
-	bool trackListLoaded = false;
-
-	deleteContents();
-
-	QDomElement elem = doc.documentElement();
-
-	if(elem.tagName() != "kdenlivedoc") {
-		kdWarning()	<< "KdenliveDoc::loadFromXML() document element has unknown tagName : " << elem.tagName() << endl;
-	}
-
-	QDomNode n = elem.firstChild();
-
-	while(!n.isNull()) {
-		QDomElement e = n.toElement();
-		if(!e.isNull()) {
-			if(e.tagName() == "avfilelist") {
-				if(!avListLoaded) {
-					m_clipManager.generateFromXML(m_render, e);
-				} else {
-					kdWarning() << "Second AVFileList discovered, skipping..." << endl;
-				}
-			} else if(e.tagName() == "DocTrackBaseList") {
-				kdWarning() << "Loading old project, when this is saved it will no " <<
-				       		"longer be readable by older versions of the " <<
-						"software." << endl;
-
-				if(m_projectClip) {
-					delete m_projectClip;
-					m_projectClip = 0;
-				}
-
-				if(!trackListLoaded) {
-					m_projectClip = new DocClipProject();
-					connectProjectClip();
-					m_projectClip->generateTracksFromXML(m_clipManager, e);
-					trackListLoaded = true;
-				} else {
-					kdWarning() << "Second DocTrackBaseList discovered, skipping... " << endl;
-				}
-			} else if(e.tagName() == "clip") {
-				if(m_projectClip) {
-					delete m_projectClip;
-					m_projectClip = 0;
-				}
-				DocClipBase *clip = DocClipBase::createClip(m_clipManager, e);
-
-				if(clip->isProjectClip()) {
-					m_projectClip = dynamic_cast<DocClipProject *>(clip);
-				} else {
-					delete clip;
-					kdError() << "Base clip detected, not a project clip. Ignoring..." << endl;
-				}
-			} else {
-				kdWarning() << "Unknown tag " << e.tagName() << ", skipping..." << endl;
-			}
-		}
-
-		n = n.nextSibling();
-	}
-
-	emit clipListUpdated();
-	emit trackListChanged();
 }
 
 /** Called when the document is modifed in some way. */
@@ -513,4 +378,14 @@ void KdenliveDoc::clipChanged(DocClipBase *file)
 	} else {
 		kdWarning() << "Got a request for a changed clip that is not in the document" << endl;
 	}
+}
+
+void KdenliveDoc::setProjectClip(DocClipProject *projectClip)
+{
+	if(m_projectClip) {
+		delete m_projectClip;
+	}
+	m_projectClip = projectClip;
+
+	emit trackListChanged();
 }

@@ -51,6 +51,9 @@ public:
 	/** Returns the description of this clip. */
 	const QString &description() const;
 
+	/** Sets the description of this clip */
+	void setDescription(const QString &description);
+
 	/** set the cropStart time for this clip.The "crop" timings are those which define which
 	part of a clip is wanted in the edit. For example, a clip may be 60 seconds long, but the first
 	10 is not needed. Setting the "crop start time" to 10 seconds means that the first 10 seconds isn't

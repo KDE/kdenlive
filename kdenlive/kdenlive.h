@@ -34,6 +34,7 @@
 
 #include "gentime.h"
 #include "monitormanager.h"
+#include "projectformatmanager.h"
 
 // forward declaration of the Kdenlive classes
 class KdenliveDoc;
@@ -359,6 +360,7 @@ class KdenliveApp : public KDockMainWindow
 
 		/** The monitor manager that manages the life of the various monitors.*/
 		MonitorManager m_monitorManager;
+		ProjectFormatManager m_projectFormatManager;
 };
 
 #endif // KDENLIVE_H
