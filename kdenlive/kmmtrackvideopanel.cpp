@@ -22,7 +22,7 @@
 
 KMMTrackVideoPanel::KMMTrackVideoPanel(KMMTimeLine &timeline, DocTrackVideo &docTrack, QWidget *parent, const char *name ) :
 												KMMTrackPanel(timeline, docTrack, parent,name),
-												m_trackLabel(this, "Video Track")
+												m_trackLabel("Video Track", this, "Video Track")
 {
 	setMinimumWidth(200);
 	setMaximumWidth(200);

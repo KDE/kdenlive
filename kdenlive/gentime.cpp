@@ -23,12 +23,6 @@ GenTime::GenTime(double seconds)
 	m_time = seconds;
 }
 
-/** Creates a time object, with the time given by an Arts::poTime structure */
-GenTime::GenTime(const Arts::poTime &time)
-{
-	m_time = time.seconds + (time.ms/1000.0);
-}
-
 /** Creates a time object, by passing number of frames and how many frames per second */
 GenTime::GenTime(double frames, double framesPerSecond)
 {
@@ -51,17 +45,6 @@ double GenTime::ms()
 double GenTime::frames(double framesPerSecond)
 {
 	return m_time * framesPerSecond;
-}
-
-/** Returns the time as an Arts::poTime structure */
-Arts::poTime GenTime::artsTime()
-{
-	Arts::poTime time;
-
-	time.seconds = (int)m_time;
-	time.ms = (int)((m_time - time.seconds)*1000);
-
-	return time;
 }
 
 GenTime::~GenTime()

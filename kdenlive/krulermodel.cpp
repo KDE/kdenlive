@@ -28,7 +28,7 @@ KRulerModel::~KRulerModel()
 {
 }
 
-/** Returns a string representation of the value passed. The default model returns HH:MM:SS and assumes that the value passed is in seconds. Extend this class to provide a different representation. */
+/** Returns a string representation of the value passed. The default model returns H:MM:SS and assumes that the value passed is in seconds. Extend this class to provide a different representation. */
 QString KRulerModel::mapValueToText(const int value) const
 {
 	QString text="";
@@ -45,7 +45,7 @@ QString KRulerModel::mapValueToText(const int value) const
 	minute = second / 60;
 	second %= 60;
 
-	text +=	QString::number(hour).rightJustify(2, '0', FALSE) + ":" +
+	text +=	QString::number(hour).rightJustify(1, '0', FALSE) + ":" +
           QString::number(minute).rightJustify(2, '0', FALSE) + ":" +
           QString::number(second).rightJustify(2, '0', FALSE);
 

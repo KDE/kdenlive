@@ -24,7 +24,6 @@
 
 #include <qdom.h>
 #include <kurl.h>
-#include <arts/kmedia2.h>
 
 #include "gentime.h"
 

@@ -28,8 +28,6 @@
 #include <kiconloader.h>
 #include <kfiledialog.h>
 
-#include "arts/core.h"
-
 #include <iostream>
 #include <string>
 #include <map>
@@ -57,31 +55,8 @@ void ProjectList::init_menu(){
 
 void ProjectList::slot_AddFile() {
 	// determine file types supported by Arts
-	QString filter = "";
-			
-	Arts::TraderQuery query;
+	QString filter = "*.avi";
 
-	query.supports("Interface", "Arts::PlayObject");	
-	std::vector<Arts::TraderOffer> *results = query.query();	
-
-	for(std::vector<Arts::TraderOffer>::iterator i = results->begin(); i != results->end(); i++)
-	{			
-		std::vector<std::string> *mime = (*i).getProperty("MimeType");
-
-		std::vector<std::string>::iterator mimeIt = mime->begin();
-		
-		while(mimeIt != mime->end()) {
-			if((*mimeIt).find("audio/", 0) == 0) {
-					kdWarning() << (*mimeIt).c_str() << endl;					
-					filter += (*mimeIt).c_str();
-					filter += " ";
-			}								
-			mimeIt++;
-		}
-	}
-	
-	delete results;	
-				
 	KURL::List urlList=KFileDialog::getOpenURLs(	QString::null,
 							filter,
 							this,

@@ -27,9 +27,6 @@
 
 #include <kurl.h>
 
-#include <arts/kartsserver.h>
-#include <arts/kartsdispatcher.h>
-
 #include "avfile.h"
 #include "clipgroup.h"
 
@@ -48,9 +45,6 @@ private: // Private methods
   void init_menu();
 	/** The popup menu */	
 	QPopupMenu m_menu;	
-
-  KArtsDispatcher m_dispatcher;
-  KArtsServer m_server;
 public slots: // Public slots
   /** User is requesting to open a file. Open file dialog and let the user pick. */
   void slot_AddFile();

@@ -35,7 +35,6 @@ static KCmdLineOptions options[] =
 
 int main(int argc, char *argv[])
 {
-
 	KAboutData aboutData( "kdenlive", I18N_NOOP("Kdenlive"),
 		VERSION, description, KAboutData::License_GPL,
 		"(c) 2002, Jason Wood", 0, 0, "jasonwood@blueyonder.co.uk");

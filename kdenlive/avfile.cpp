@@ -21,11 +21,7 @@
 
 #include "avfile.h"
 
-KArtsDispatcher dispatcher;
-KArtsServer server;
-
 AVFile::AVFile(const QString name, const KURL url) :
-						m_player(0),
 						m_duration(0.0)
 {
 	if(name.isNull()) {
@@ -51,38 +47,12 @@ void AVFile::calculateFileProperties()
 	if(m_url.isLocalFile()) {
 		QFileInfo fileInfo(m_url.directory(false, false) + m_url.filename());
 
-	 	/** Determines the size of the file */
+	 	/* Determines the size of the file */
 		m_filesize = fileInfo.size();
 
-  	KPlayObjectFactory factory(server.server());
-    factory.setAllowStreaming(false);
+		/* This is a hack since no engine yet exists */
+		m_duration = GenTime(60.0);
 
-    int test = 3;
-    do {
-			m_player = factory.createPlayObject(m_url, true);
-   		if(m_player) break;
-     	sleep(1);
-      test--;
-  	} while(test);
-
-		if(m_player && (!m_player->object().isNull()) ) {
-			bool flag = false;
-
-			m_duration = GenTime(m_player->overallTime());
-			if(m_duration.seconds() > 0) {
-   			flag=true;
-			}
-
-   		if(!flag) {
-	     	m_duration = GenTime(0.0);
-        m_filesize = -1;
-      }
-		}
-
-		if(m_player != 0) {
-			delete m_player;
-			m_player = 0;			
-		}		
 	} else {
 		/** If the file is not local, then no file properties are currently returned */
 		m_duration = GenTime(0.0);

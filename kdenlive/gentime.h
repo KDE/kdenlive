@@ -18,8 +18,6 @@
 #ifndef GENTIME_H
 #define GENTIME_H
 
-#include <arts/kmedia2.h>
-
 /**Encapsulates a time, which can be set in various forms and outputted in various forms. 
   *@author Jason Wood
   */
@@ -28,8 +26,7 @@ class GenTime {
 public:
 	/** Creates a time object, with time given in seconds. */
 	GenTime(double seconds);
-	/** Creates a time object, with the time given by an Arts::poTime structure */
-	GenTime(const Arts::poTime &time);
+	
 	/** Creates a time object, by passing number of frames and how many frames per second */
 	GenTime(double frames, double framesPerSecond);
 
@@ -40,10 +37,7 @@ public:
 	double ms();
 
 	/** Returns the time in frames, after being given the number of frames per second */
-	double frames(double framesPerSecond);
-	
-	/** Returns the time as an Arts::poTime structure */
-	Arts::poTime artsTime();
+	double frames(double framesPerSecond);	
 			
 	~GenTime();
 private: // Private attributes

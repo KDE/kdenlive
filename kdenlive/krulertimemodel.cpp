@@ -50,7 +50,7 @@ QString KRulerTimeModel::mapValueToText(const int value) const
 	int hour = minute/60;
 	minute %= 60;
 
-	text += QString::number(hour).rightJustify(2, '0', FALSE) + ":" +
+	text += QString::number(hour).rightJustify(1, '0', FALSE) + ":" +
           QString::number(minute).rightJustify(2, '0', FALSE) + ":" +
           QString::number(second).rightJustify(2, '0', FALSE) + ":" +
           QString::number(frame).rightJustify(2, '0', FALSE);

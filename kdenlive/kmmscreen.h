@@ -20,11 +20,9 @@
 
 #include <qwidget.h>
 
-/**KMMScreen can display any video that arts plays.
-If audio is being played, it will display a visual representation
-of the music, and if it is a part of the file that has not
-been rendered, it will say "not rendered" or something
-like that.
+/**KMMScreen acts as a wrapper for the window provided by the cutter.
+	It requests a video window from the cutter, and embeds it within
+	itself to allow seamless operation.
   *@author Jason Wood
   */
 

@@ -21,10 +21,6 @@
 #include <qptrlist.h>
 
 #include <kurl.h>
-#include <arts/kmedia2.h>
-#include <arts/kartsdispatcher.h>
-#include <arts/kartsserver.h>
-#include <arts/kplayobjectfactory.h>
 
 #include "gentime.h"
 
@@ -68,8 +64,6 @@ private: // Private attributes
   KURL m_url;;
   /** The size in bytes of this AVFile */
   signed int m_filesize;
-  /** KPlayObject used for calculating file duration, etc. */
- 	KPlayObject *m_player;
 	/** The duration of this file. */
 	GenTime m_duration;	  
   /** The name of this AVFile. */
