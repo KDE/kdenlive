@@ -251,6 +251,12 @@ class KdenliveApp : public KDockMainWindow
   void slotLookAtClip(DocClipBase *clip, const GenTime &time);
   /** Display an error message in a suitable way to the user. */
   void slotRenderError(const QString &name, const QString &message);
+  
+  	/** Configure keys */
+	void slotConfKeys();
+	/** Configure the toolbar */
+	void slotConfToolbars();
+	
 
   private:
     /** the configuration object of the application */
@@ -276,22 +282,24 @@ class KdenliveApp : public KDockMainWindow
 //    KAction* filePrint;
     KAction* fileQuit;
     KAction* editCut;
-    KAction* editCopy;
-    KAction* editPaste;
-    KAction* optionsPreferences;
-    KAction* projectAddClips;
-    KAction* projectDeleteClips;
-    KAction* projectClean;
-    KAction* projectClipProperties;
+    	KAction* editCopy;
+	KAction* editPaste;
+	KAction* optionsPreferences;
+	KAction* projectAddClips;
+	KAction* projectDeleteClips;
+	KAction* projectClean;
+	KAction* projectClipProperties;
+	KAction* keyBindings;
+	KAction* configureToolbars;
 
-    KAction* actionSeekForwards;
-    KAction* actionSeekBackwards;
-    KAction* actionTogglePlay;
+	KAction* actionSeekForwards;
+	KAction* actionSeekBackwards;
+	KAction* actionTogglePlay;
 	KAction* actionNextFrame;
 	KAction* actionLastFrame;
 	KAction* actionSetInpoint;
 	KAction* actionSetOutpoint;
-    KAction* actionDeleteSelected;
+	KAction* actionDeleteSelected;
 
     KAction* actionLoadLayout1;
     KAction* actionLoadLayout2;
@@ -322,10 +330,10 @@ class KdenliveApp : public KDockMainWindow
 
 /** Application view setup */
   	ProjectList *m_projectList;
-    RenderDebugPanel *m_renderDebugPanel;
-    EffectListDialog *m_effectListDialog;
-    EffectParamDialog *m_effectParamDialog;
-    KRenderManager *m_renderManager;
+	RenderDebugPanel *m_renderDebugPanel;
+	EffectListDialog *m_effectListDialog;
+	EffectParamDialog *m_effectParamDialog;
+	KRenderManager *m_renderManager;
   	KMMMonitor *m_workspaceMonitor;
   	KMMMonitor *m_clipMonitor;
 		KMMRulerPanel *m_rulerPanel;	// pointer, because it gets reparented to the timeline widget!

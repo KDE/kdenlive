@@ -37,6 +37,8 @@
 #include <kstdaction.h>
 #include <kcommand.h>
 #include <kdebug.h>
+#include <kkeydialog.h>
+#include <kedittoolbar.h>
 
 // application specific includes
 #include "kdenlive.h"
@@ -111,6 +113,8 @@ void KdenliveApp::initActions()
   viewToolBar = KStdAction::showToolbar(this, SLOT(slotViewToolBar()), actionCollection());
   viewStatusBar = KStdAction::showStatusbar(this, SLOT(slotViewStatusBar()), actionCollection());
   optionsPreferences = KStdAction::preferences(this, SLOT(slotOptionsPreferences()), actionCollection());
+  keyBindings = KStdAction::keyBindings(this, SLOT(slotConfKeys()), actionCollection());
+  configureToolbars = KStdAction::configureToolbars(this, SLOT(slotConfToolbars()), actionCollection());
 
   timelineMoveTool = new KRadioAction(i18n("Move/Resize Tool"), "moveresize.png", 0, this, SLOT(slotTimelineMoveTool()), actionCollection(),"timeline_move_tool");
   timelineRazorTool = new KRadioAction(i18n("Razor Tool"), "razor.png", 0, this, SLOT(slotTimelineRazorTool()), actionCollection(),"timeline_razor_tool");
@@ -989,3 +993,20 @@ void KdenliveApp::slotSetRenderFinished()
 	m_statusBarProgress->setPercentageVisible(false);
 	m_statusBarProgress->setProgress(m_statusBarProgress->totalSteps());
 }
+
+void KdenliveApp::slotConfKeys()
+{
+	    KKeyDialog::configureKeys(actionCollection(), xmlFile(), true, this);
+}
+
+void KdenliveApp::slotConfToolbars()
+{
+	saveMainWindowSettings(KGlobal::config(), "General Options");
+	KEditToolbar *dlg = new KEditToolbar(actionCollection(), "kdenliveui.rc");
+	if (dlg->exec()) {
+		createGUI("kdenliveui.rc");
+		applyMainWindowSettings(KGlobal::config(), "General Options");
+	}
+	delete dlg;
+}
+
