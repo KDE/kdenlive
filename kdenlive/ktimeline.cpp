@@ -254,8 +254,22 @@ const QString &KTimeLine::editMode() const
 /** A ruler slider has moved - do something! */
 void KTimeLine::slotSliderMoved( int slider, int value )
 {
-	if ( slider == 0 ) {
+	/*if ( slider == 0 ) {
 		emit seekPositionChanged( GenTime( value, m_framesPerSecond ) );
+	}*/
+	switch(slider)
+	{
+		case 0:
+			emit seekPositionChanged( GenTime( value, m_framesPerSecond ) );
+			break;
+		case 1:
+			emit inpointPositionChanged( GenTime( value, m_framesPerSecond ) );
+			break;
+		case 2:
+			emit outpointPositionChanged( GenTime( value, m_framesPerSecond ) );
+			break;
+		default:
+			break;
 	}
 }
 

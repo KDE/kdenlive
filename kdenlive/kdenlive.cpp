@@ -391,9 +391,9 @@ void KdenliveApp::initView()
 	connect( m_projectList, SIGNAL( dragDropOccured( QDropEvent * ) ), this, SLOT( slot_insertClips( QDropEvent * ) ) );
 
 	connect( m_timeline, SIGNAL( seekPositionChanged( const GenTime & ) ), m_workspaceMonitor, SLOT( seek( const GenTime & ) ) );
-	//connect timeline sliders sliders with editpanel sliders
-	//connect( m_timeline, SIGNAL( inpointTimelineChanged( int ) ), m_workspaceMonitor, SLOT( setInpointTimeline( int ) ) );
-	//connect( m_timeline, SIGNAL( outpointTimelineChanged( int ) ), m_workspaceMonitor, SLOT( setOutpointTimeline( int ) ) );
+	//connect timeline sliders with editpanel sliders -reh
+	connect( m_timeline, SIGNAL( inpointPositionChanged( const GenTime & ) ), m_workspaceMonitor, SLOT( slotSetInpoint( const GenTime & ) ) );
+	connect( m_timeline, SIGNAL( outpointPositionChanged( const GenTime & ) ), m_workspaceMonitor, SLOT( slotSetOutpoint( const GenTime & ) ) );
 	
 	connect( m_timeline, SIGNAL( seekPositionChanged( const GenTime & ) ), this, SLOT( activateWorkspaceMonitor() ) );
 

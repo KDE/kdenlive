@@ -249,6 +249,10 @@ signals:   // Signals
 	void projectLengthChanged( int );
 	/** Emitted when the seek position on the timeline changes. */
 	void seekPositionChanged( const GenTime & );
+	//Emitted when the inpoint changes
+	void inpointPositionChanged( const GenTime & );
+	//Emitted when the outpoint changes
+	void outpointPositionChanged( const GenTime & );
 	/** Emitted when the right mouse button is pressed over the timeline. */
 	void rightButtonPressed();
 };

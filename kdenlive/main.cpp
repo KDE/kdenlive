@@ -72,6 +72,11 @@ int main( int argc, char *argv[] )
 	    I18N_NOOP( "Artist, Kdenlive logo, splashscreen and application icon" ),
 	    "dannya40uk@yahoo.co.uk",
 	    "" );
+	aboutData.addAuthor(
+	    "Rob Hare",
+	    I18N_NOOP( "Kdenlive programmer" ),
+	    "rob@nocturnalatl.com",
+	    "" );
 
 	KCmdLineArgs::init( argc, argv, &aboutData );
 	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
