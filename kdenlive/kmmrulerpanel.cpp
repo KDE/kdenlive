@@ -18,7 +18,8 @@
 #include "kmmrulerpanel.h"
 #include "kcombobox.h"
 #include "qslider.h"
- 
+#include <math.h>
+
 int KMMRulerPanel::comboScale[] = {1, 2, 5, 10, 25, 50, 125, 250, 500, 725, 1500, 3000, 6000, 12000};
 
 KMMRulerPanel::KMMRulerPanel(QWidget *parent, const char *name ) : KMMRulerPanel_UI(parent,name)
