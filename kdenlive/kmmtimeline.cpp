@@ -24,6 +24,7 @@
 
 #include <kdebug.h>
 
+#include "kdenlive.h"
 #include "kdenlivedoc.h"
 #include "kmmtimeline.h"
 #include "kmmtracksoundpanel.h"
@@ -35,11 +36,12 @@
 
 int KMMTimeLine::snapTolerance=20;
 
-KMMTimeLine::KMMTimeLine(QWidget *rulerToolWidget, QWidget *scrollToolWidget, KdenliveDoc *document, QWidget *parent, const char *name ) :
+KMMTimeLine::KMMTimeLine(KdenliveApp *app, QWidget *rulerToolWidget, QWidget *scrollToolWidget, KdenliveDoc *document, QWidget *parent, const char *name ) :
 				QVBox(parent, name),
 				m_document(document),
 				m_selection()
 {
+	m_app = app;
 	m_rulerBox = new QHBox(this, "ruler box");	
 	m_trackScroll = new QScrollView(this, "track view", WPaintClever);
 	m_scrollBox = new QHBox(this, "scroll box");
@@ -87,9 +89,6 @@ KMMTimeLine::KMMTimeLine(QWidget *rulerToolWidget, QWidget *scrollToolWidget, Kd
 	m_masterClip = 0;
 
 	m_gridSnapTracker = m_snapToGridList.end();
-
-	m_snapToFrame = true;
-	m_snapToClip = true;
 }
 
 KMMTimeLine::~KMMTimeLine()
@@ -222,7 +221,7 @@ void KMMTimeLine::dragMoveEvent ( QDragMoveEvent *event )
 	QPoint pos = m_trackViewArea->mapFrom(this, event->pos());
 	GenTime timeUnderMouse(mapLocalToValue(pos.x()), m_document->framesPerSecond());	
 
-	if((m_snapToClip) && (m_gridSnapTracker != m_snapToGridList.end())) {
+	if((m_app->snapToBorderEnabled()) && (m_gridSnapTracker != m_snapToGridList.end())) {
 		QValueListIterator<GenTime> itt = m_gridSnapTracker;
 		++itt;	
 		while(itt != m_snapToGridList.end()) {
@@ -244,7 +243,7 @@ void KMMTimeLine::dragMoveEvent ( QDragMoveEvent *event )
 		}
 	}
 
-	if(m_snapToFrame) {
+	if(m_app->snapToFrameEnabled()) {
 		timeUnderMouse = GenTime(floor((timeUnderMouse - m_clipOffset).frames(m_document->framesPerSecond()) + 0.5), m_document->framesPerSecond()) + m_clipOffset;
 	}
 	

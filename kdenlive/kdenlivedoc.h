@@ -32,6 +32,7 @@
 #include "avfilelist.h"
 #include "doctrackbaselist.h"
 #include "krender.h"
+#include "rangelist.h"
 
 // forward declaration of the Kdenlive classes
 class KdenliveView;
@@ -162,8 +163,13 @@ is not possible. */
 		/** List of all video and audio files within this project */
 	AVFileList m_fileList;  	
   /** This renderer is for multipurpose use, such as background rendering, and for
-getting the file properties of the various AVFiles. */
+	getting the file properties of the various AVFiles. */
   KRender * m_render;
+  /** The range of times in the timeline that are currently out of date in the scene list. This list is used
+	to re-sync the scene list. */
+  RangeList<GenTime> m_invalidSceneTimes;;
+  /** This is the scenelist that get's passed from the KdenliveDoc to the renderer. */
+  QDomDocument m_domSceneList;
 	private: // Private methods
   	/** Adds a track to the project */
   	void addTrack(DocTrackBase *track);

@@ -32,7 +32,7 @@ public:
 	DocClipBaseList();
 	~DocClipBaseList();
   /** Compares Clips based upon starting time. */
-	int DocClipBaseList::compareItems (QPtrCollection::Item i1, QPtrCollection::Item i2);
+	int compareItems (QPtrCollection::Item i1, QPtrCollection::Item i2);
   /** Returns an XML version of this DocClipBaseList. */
   QDomDocument toXML();	
   /** Sets the master clip to the one specified. If the clip is not in the clip list, then the 

@@ -69,6 +69,10 @@ class KdenliveApp : public KMainWindow
      * the View class to access the document object's methods
      */	
     KdenliveDoc *getDocument() const; 	
+  /** Returns true if snapToFrame is enabled, false otherwise */
+  bool snapToFrameEnabled();
+  /** Returns true if snapToBorder is checked, false otherwise */
+  bool snapToBorderEnabled();
 
   protected:
     /** save general Options like all bar positions and status as well as the geometry and the recent file list to the configuration
@@ -158,6 +162,10 @@ class KdenliveApp : public KMainWindow
     void slotStatusMsg(const QString &text);
   /** Alerts the App to when the document has been modified. */
   void documentModified(bool modified);
+  /** Called whenever snaptoframe action is toggled. */
+  void slotTimelineSnapToFrame();
+  /** Called whenever snapToBorder is toggled. */
+  void slotTimelineSnapToBorder();
 
   private:
     /** the configuration object of the application */
@@ -188,6 +196,14 @@ class KdenliveApp : public KMainWindow
     KAction* editPaste;
     KToggleAction* viewToolBar;
     KToggleAction* viewStatusBar;
+    
+    KRadioAction* timelineMoveTool;
+    KRadioAction* timelineRazorTool;
+    KRadioAction* timelineSpacerTool;
+    
+    KToggleAction* timelineSnapToFrame;
+		KToggleAction* timelineSnapToBorder;
+		
 		/** Holds the undo/redo command history */
 		KCommandHistory *m_commandHistory;
 };

@@ -1,6 +1,6 @@
 ####### kdevelop will overwrite this part!!! (begin)##########
 
-SUBDIRS = kdenlive po doc 
+SUBDIRS = kdenlive po doc icons
 
 EXTRA_DIST = kdenlive.kdevprj admin AUTHORS COPYING ChangeLog INSTALL README TODO kdenlive.lsm 
 

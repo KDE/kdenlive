@@ -10,15 +10,15 @@ kdenlive_LDADD   =  $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCK
 EXTRA_DIST = main.cpp kdenlive.cpp kdenlive.h kdenlivedoc.cpp kdenlivedoc.h kdenliveview.cpp kdenliveview.h kdenliveui.rc kdenlive.desktop lo32-app-kdenlive.png lo16-app-kdenlive.png avlistviewitem.cpp doctrackbase.cpp doctracksound.cpp doctrackvideo.cpp kmmmonitor.cpp kmmscreen.cpp kmmtimeline.cpp projectlist.cpp addtrackdialog_ui.ui avlistviewitem.h doctrackbase.h doctracksound.h doctrackvideo.h kmmmonitor.h kmmscreen.h kmmtimeline.h projectlist.h projectlist_ui.ui clipdrag.cpp clipdrag.h kmmtrackvideopanel.cpp kmmtrackvideopanel.h kmmtracksoundpanel.cpp kmmtracksoundpanel.h docclipavfile.cpp docclipavfile.h docclipbase.cpp docclipbase.h docclipproject.cpp docclipproject.h projectlistview.cpp projectlistview.h kruler.cpp kruler.h kfixedruler.cpp kfixedruler.h krulermodel.cpp krulermodel.h kscalableruler.cpp kscalableruler.h krulersliderbase.cpp krulersliderbase.h krulertimemodel.cpp krulertimemodel.h avfile.cpp avfile.h kmmtrackpanel.cpp kmmtrackpanel.h kmmtimelinetrackview.cpp kmmtimelinetrackview.h docclipbaselist.cpp docclipbaselist.h kmmeditpanel_ui.ui kmmeditpanel.cpp kmmeditpanel.h kmmrulerpanel.cpp kmmrulerpanel.h kmmrulerpanel_ui.ui gentime.cpp gentime.h avfilelist.cpp avfilelist.h doctrackbaselist.cpp doctrackbaselist.h krender.cpp krender.h doctrackclipiterator.cpp doctrackclipiterator.h kmmtrackkeyframepanel.cpp kmmtrackkeyframepanel.h rangelist.cpp rangelist.h 
 
 install-data-local:
-	$(mkinstalldirs) $(kde_appsdir)/Applications/
-	$(INSTALL_DATA) $(srcdir)/kdenlive.desktop $(kde_appsdir)/Applications/kdenlive.desktop
+	$(mkinstalldirs) $(kde_appsdir)/Multimedia/
+	$(INSTALL_DATA) $(srcdir)/kdenlive.desktop $(kde_appsdir)/Multimedia/kdenlive.desktop
 	$(mkinstalldirs) $(kde_icondir)/locolor/32x32/apps/
 	$(INSTALL_DATA) $(srcdir)/lo32-app-kdenlive.png $(kde_icondir)/locolor/32x32/apps/kdenlive.png
 	$(mkinstalldirs) $(kde_icondir)/locolor/16x16/apps/
 	$(INSTALL_DATA) $(srcdir)/lo16-app-kdenlive.png $(kde_icondir)/locolor/16x16/apps/kdenlive.png
 
 uninstall-local:
-	-rm -f $(kde_appsdir)/Applications/kdenlive.desktop
+	-rm -f $(kde_appsdir)/Multimedia/kdenlive.desktop
 	-rm -f $(kde_icondir)/locolor/32x32/apps/kdenlive.png
 	-rm -f $(kde_icondir)/locolor/16x16/apps/kdenlive.png
 

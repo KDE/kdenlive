@@ -62,6 +62,10 @@ KdenliveApp::KdenliveApp(QWidget* , const char* name):KMainWindow(0, name)
   editPaste->setEnabled(false);
 
   fileSaveAs->setEnabled(true);
+
+  timelineMoveTool->setChecked(true);
+  timelineSnapToBorder->setChecked(true);
+  timelineSnapToFrame->setChecked(true);
 }
 
 KdenliveApp::~KdenliveApp()
@@ -86,9 +90,15 @@ void KdenliveApp::initActions()
   viewToolBar = KStdAction::showToolbar(this, SLOT(slotViewToolBar()), actionCollection());
   viewStatusBar = KStdAction::showStatusbar(this, SLOT(slotViewStatusBar()), actionCollection());
 
-  KAction *sampleClip = new KAction(i18n("Sample Clip"), 0, 0, this,
-  										SLOT(slotFileNewWindow()), actionCollection(),"sample_clip_action");
-	sampleClip->setStatusText(i18n("Sample clip action"));
+  timelineMoveTool = new KRadioAction(i18n("Move/Resize Tool"), "moveresize.png", 0, this, SLOT(slotFileNewWindow()), actionCollection(),"timeline_move_tool");
+  timelineRazorTool = new KRadioAction(i18n("Razor Tool"), "razor.png", 0, this, SLOT(slotFileNewWindow()), actionCollection(),"timeline_razor_tool");
+  timelineSpacerTool = new KRadioAction(i18n("Spacing Tool"), "spacer.png", 0, this, SLOT(slotFileNewWindow()), actionCollection(),"timeline_spacer_tool");
+  timelineSnapToFrame = new KToggleAction(i18n("Snap To Frames"), "snaptoframe.png", 0, this, SLOT(slotTimelineSnapToFrame()), actionCollection(),"timeline_snap_frame");
+  timelineSnapToBorder = new KToggleAction(i18n("Snap To Border"), "snaptoborder.png", 0, this, SLOT(slotTimelineSnapToBorder()), actionCollection(),"timeline_snap_border");  
+
+  timelineMoveTool->setExclusiveGroup("timeline_tools");
+  timelineRazorTool->setExclusiveGroup("timeline_tools");
+  timelineSpacerTool->setExclusiveGroup("timeline_tools");  
       
   fileNewWindow->setStatusText(i18n("Opens a new application window"));
   fileNew->setStatusText(i18n("Creates a new document"));
@@ -104,6 +114,11 @@ void KdenliveApp::initActions()
   editPaste->setStatusText(i18n("Pastes the clipboard contents to actual position"));
   viewToolBar->setStatusText(i18n("Enables/disables the toolbar"));
   viewStatusBar->setStatusText(i18n("Enables/disables the statusbar"));
+  timelineMoveTool->setStatusText(i18n("Moves and resizes the document"));
+  timelineRazorTool->setStatusText(i18n("Chops clips into two pieces"));
+  timelineSpacerTool->setStatusText(i18n("Shifts all clips to the right of mouse"));
+  timelineSnapToFrame->setStatusText(i18n("Clips will align to the nearest frame"));
+  timelineSnapToBorder->setStatusText(i18n("Clips will align with the borders of other clips"));
 
   // use the absolute path to your kdenliveui.rc file for testing purpose in createGUI();
   createGUI();
@@ -467,4 +482,25 @@ void KdenliveApp::documentModified(bool modified)
 	} else {
 	  fileSave->setEnabled(false);
 	}
+}
+
+/** Called whenever snapToBorder is toggled. */
+void KdenliveApp::slotTimelineSnapToBorder()
+{
+}
+
+/** Called whenever snaptoframe action is toggled. */
+void KdenliveApp::slotTimelineSnapToFrame(){
+}
+
+/** Returns true if snapToFrame is enabled, false otherwise */
+bool KdenliveApp::snapToFrameEnabled()
+{
+	return timelineSnapToFrame->isChecked();	
+}
+
+/** Returns true if snapToBorder is checked, false otherwise */
+bool KdenliveApp::snapToBorderEnabled()
+{
+	return timelineSnapToBorder->isChecked();
 }

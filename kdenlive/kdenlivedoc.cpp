@@ -535,11 +535,11 @@ QDomDocument KdenliveDoc::generateSceneList()
 	static QString str_outpoint="outpoint";
 	static QString str_file="file";		
 	
-	int totalTracks = numTracks();	
-	
-	QDomDocument doc;
+	int totalTracks = numTracks();
 
-	QDomElement elem = doc.createElement(str_sceneList);
+	m_domSceneList.documentElement().clear();
+
+	QDomElement elem = m_domSceneList.createElement(str_sceneList);
 
 	// generate the header
 /*	QDomElement header = doc.createElement("header");
@@ -598,7 +598,7 @@ QDomDocument KdenliveDoc::generateSceneList()
 
     if(nextTime!=curTime) {
 	    // generate the next scene.
-	    QDomElement scene = doc.createElement("scene");
+	    QDomElement scene = m_domSceneList.createElement("scene");
 	    scene.setAttribute("duration", QString::number((nextTime-curTime).seconds()));
 
     	QDomElement sceneClip;
@@ -609,7 +609,7 @@ QDomDocument KdenliveDoc::generateSceneList()
         if(curClip->trackStart() >= nextTime) continue;
         if(curClip->trackEnd() <= curTime) continue;
 
-	     sceneClip = doc.createElement("input");
+	     sceneClip = m_domSceneList.createElement("input");
 	     	sceneClip.setAttribute(str_file, curClip->fileURL().path());
 	     	sceneClip.setAttribute(str_inpoint, QString::number((curTime - curClip->trackStart() + curClip->cropStartTime()).seconds()));
 	     	sceneClip.setAttribute(str_outpoint, QString::number((nextTime - curClip->trackStart() + curClip->cropStartTime()).seconds()));
@@ -623,7 +623,7 @@ QDomDocument KdenliveDoc::generateSceneList()
 	  } 
   } while(curTime != nextTime);	
 						
-	doc.appendChild(elem);
+	m_domSceneList.appendChild(elem);
 
-	return doc;
+	return m_domSceneList;
 }

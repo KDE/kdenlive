@@ -29,6 +29,7 @@ class QScrollView;
 class QScrollBar;
 class KMMTimeLineTrackView;
 class KScalableRuler;
+class KdenliveApp;
 
 /**This is the timeline. It gets populated by tracks, which in turn are populated
 by video and audio clips, or transitional clips, or any other clip imaginable.
@@ -38,7 +39,7 @@ by video and audio clips, or transitional clips, or any other clip imaginable.
 class KMMTimeLine : public QVBox  {
    Q_OBJECT
 public: 
-	KMMTimeLine(QWidget *rulerToolWidget, QWidget *scrollToolWidget, KdenliveDoc *document, QWidget *parent=0, const char *name=0);
+	KMMTimeLine(KdenliveApp *app, QWidget *rulerToolWidget, QWidget *scrollToolWidget, KdenliveDoc *document, QWidget *parent=0, const char *name=0);
 	~KMMTimeLine();
 private:
 	/** GUI elements */
@@ -51,6 +52,8 @@ private:
 	QScrollBar *m_scrollBar;		// this scroll bar's movement is measured in pixels, not frames.
 	/** track varables */
 	QPtrList<KMMTrackPanel> m_trackList;
+
+	KdenliveApp *m_app;
 		
   /** A pointer to the document (project) that this timeline is based upon */
   KdenliveDoc * m_document;
@@ -85,12 +88,7 @@ private:
   QValueListIterator<GenTime> m_gridSnapTracker;
   /** The snap tolerance specifies how many pixels away a selection is from a 
 snap point before the snap takes effect. */
-  static int snapTolerance;
-  /** If true, clips are snapped to frames, otherwise they are free to move wherever they wish. */
-  bool m_snapToFrame;
-  /** If true, the edges of clips will snap to each other. If false, this will not happen. */
-  bool m_snapToClip;
-  
+  static int snapTolerance;  
 public: // Public methods
   /** This method adds a new track to the trackGrid. */
   void appendTrack(KMMTrackPanel *track);

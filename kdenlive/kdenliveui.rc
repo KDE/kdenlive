@@ -2,7 +2,24 @@
 <kpartgui name="kdenlive" version="0.1">
 <MenuBar>
   <Menu name="file"><text>&amp;File</text>
-    <Action name="file_new_window"/>
+  	<Action name="file_new_window"/>
+  </Menu>
+  <Menu name="timeline"><text>&amp;Timeline</text>
+    <Action name="timeline_move_tool"/>
+    <Action name="timeline_razor_tool"/>
+    <Action name="timeline_spacer_tool"/>
+    <Separator/>
+    <Action name="timeline_snap_frame"/>
+    <Action name="timeline_snap_border"/>
   </Menu>
 </MenuBar>
+<ToolBar name="timeline toolbar" fullWidth="false" newline="false">
+	<text>Timeline Toolbar</text>
+	<Action name="timeline_move_tool"/>
+  <Action name="timeline_razor_tool"/>
+  <Action name="timeline_spacer_tool"/>
+  <Separator/>
+  <Action name="timeline_snap_frame"/>
+  <Action name="timeline_snap_border"/>
+</ToolBar>
 </kpartgui>
