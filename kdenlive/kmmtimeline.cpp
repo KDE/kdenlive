@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <math.h>
+
 #include <klocale.h>
 #include <qscrollbar.h>
 #include <qscrollview.h>
