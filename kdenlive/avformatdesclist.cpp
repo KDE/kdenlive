@@ -35,7 +35,7 @@ QWidget *AVFormatDescList::createWidget(QWidget *parent)
 /** Adds the specified string to the item list. */
 void AVFormatDescList::addItem(const QString &item)
 {
-  m_itemList.append(item);
+  m_itemList.push_back(item);
 }
 
 /** Returns the item list. */
