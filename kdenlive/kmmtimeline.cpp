@@ -219,6 +219,10 @@ void KMMTimeLine::dragMoveEvent ( QDragMoveEvent *event )
 
 void KMMTimeLine::dragLeaveEvent ( QDragLeaveEvent *event )
 {
+	// In a drag Leave Event, any clips in the selection are removed from the timeline.
+
+	m_selection.deleteAllClips();
+	drawTrackViewBackBuffer();
 }
 
 void KMMTimeLine::dropEvent ( QDropEvent *event )
@@ -259,7 +263,8 @@ QPtrList<KMMTrackPanel> &KMMTimeLine::trackList()
 	return m_trackList;
 }
 
-/** Moves all selected clips to a new position. The new start position is that for the master clip, all other clips are moved in relation to it. */
+/** Moves all selected clips to a new position. The new start position is that for the master clip,
+ all other clips are moved in relation to it. */
 void KMMTimeLine::moveSelectedClips(int track, int start)
 {
 	m_selection.moveTo(*m_document, track, start);
@@ -283,13 +288,13 @@ void KMMTimeLine::scrollViewRight()
 /** Toggle Selects the clip on the given track and at the given value. The clip will become selected if it wasn't already selected, and will be deselected if it is. */
 void KMMTimeLine::toggleSelectClipAt(DocTrackBase &track, int value)
 {
-	m_selection.toggleClip(track.getClipAt(value));
+	m_selection.toggleClip(track.getClipAt(value), &track);
 }
 
 /** Selects the clip on the given track at the given value. */
 void KMMTimeLine::selectClipAt(DocTrackBase &track, int value)
 {
-	m_selection.addClip(track.getClipAt(value));
+	m_selection.addClip(track.getClipAt(value), &track);
 }
 
 /** Returns true if the clip is selected, false otherwise. */

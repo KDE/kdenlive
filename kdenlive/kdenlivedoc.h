@@ -134,6 +134,8 @@ exist within the document, returns 0; */
   /** Returns the track with the given index, or returns NULL if it does
 not exist. */
   DocTrackBase * track(int track);
+  /** Returns the index value for this track, or -1 on failure.*/
+  int trackIndex(DocTrackBase *track);
 
   private:
     /** the modified flag of the current document */

@@ -106,7 +106,7 @@ ClipGroup ClipDrag::decode(KdenliveDoc &doc, const QMimeSource *e)
 				kdDebug() << "decoding element... " << element.tagName() << endl;
 				if(element.tagName() == "clip") {
 					DocClipBase *temp = DocClipBase::createClip(doc, element);
-					cliplist.addClip(temp);
+					cliplist.addClip(temp, 0);
 				}
 			}
    		node = node.nextSibling();
@@ -118,7 +118,7 @@ ClipGroup ClipDrag::decode(KdenliveDoc &doc, const QMimeSource *e)
 
 		for(it = list.begin(); it != list.end(); ++it) {
 			DocClipAVFile *file = new DocClipAVFile(doc, (*it).fileName(), *it);
-			cliplist.addClip(file);
+			cliplist.addClip(file, 0);
 		}
 	}
 

@@ -329,3 +329,9 @@ DocTrackBase * KdenliveDoc::track(int track)
 {
 	return m_tracks.at(track);
 }
+
+/** Returns the index value for this track, or -1 on failure.*/
+int KdenliveDoc::trackIndex(DocTrackBase *track)
+{
+	return m_tracks.find(track);
+}

@@ -18,9 +18,12 @@
 #ifndef CLIPGROUP_H
 #define CLIPGROUP_H
 
-#include "docclipbaselist.h"
+#include "qvaluelist.h"
+#include "qdom.h"
 
 class KdenliveDoc;
+class DocClipBase;
+class DocTrackBase;
 
 /**A clip group is a grouping of clips. It can be used as a simple way to apply transformations to multiple
   *clips at once, which may extend over multiple tracks. It handles any special cases, such as moving clips
@@ -32,21 +35,29 @@ class KdenliveDoc;
   *@author Jason Wood
   */
 
+/** This struct is internal to ClipGroup; It is not a public API.
+The struct holds a pointer to a clip, as well as some other details
+which are needed for efficient management of a clip group. */
+struct ClipGroupClip {
+	DocClipBase *clip;
+	DocTrackBase *track;
+};
+
 class ClipGroup {
 public: 
 	ClipGroup();
 	~ClipGroup();
   /** Adds a clip to the clip group. If the clip is already in the group, it will not be added a
-   second time. */
-  void addClip(DocClipBase *clip);
+   second time. The track is the track that the clip is on.*/
+  void addClip(DocClipBase *clip, DocTrackBase *track);
   /** Removes the selected clip from the clip group. If the clip passed is not in the clip group, nothing
    (other than a warning) will happen. */
   void removeClip(DocClipBase *clip);
   /** Returns true if the specified clip is in the group. */
   bool clipExists(DocClipBase *clip);
   /** Removes the clip if it is in the list, adds it if it isn't. Returns true if the clip is now part
-   of the list, false if it is not. */
-  bool toggleClip(DocClipBase *clip);
+   of the list, false if it is not. The track that the clip resides on should be passed to track.*/
+  bool toggleClip(DocClipBase *clip, DocTrackBase *track);
   /** Moves all clips by the offset specified. Returns true if successful, fasle on failure. */
   bool moveByOffset(int offset);
   /** Removes all clips from the clip group.
@@ -70,10 +81,22 @@ public:
   QDomDocument toXML();
   /** Returns a url list of all of the clips in this group.  */
   KURL::List createURLList();
+  /** Deletes all clips in the clip group. This removes the clips from any tracks they are on and physically deletes them. After this operation, the clipGroup will be empty. */
+  void deleteAllClips();
 private: // Private methods
-	DocClipBaseList m_clipList;
-  /** Pointer to the current master clip. */	
+	/** A list of clips within this clip group. There is more information in ClipGroupClip than
+	normally exists within a clip. See ClipGroupClip to see exactly what information is kept.*/
+	QValueList<ClipGroupClip> m_clipList;
+  /** Pointer to the current master clip. */
   DocClipBase * m_master;
+private: // Private methods
+  /** Find the selected clip from within ClipGroup and returns an iterator it. Otherwise, returns
+   an iterator to m_clipList.end() */
+  QValueListIterator<ClipGroupClip> findClip(DocClipBase *clip);
+  /** Removes a ClipGroupClip from the clipList. This is a private function, as
+itterators to the m_clipList should remain inaccessible from outside of the
+class. */
+  void removeClip(QValueListIterator<ClipGroupClip> &itt);
 };
 
 #endif

@@ -24,7 +24,6 @@
 
 ClipGroup::ClipGroup()
 {
-	m_clipList.setAutoDelete(false);
 	m_master = 0;
 }
 
@@ -33,53 +32,63 @@ ClipGroup::~ClipGroup()
 }
 
 /** Adds a clip to the clip group. If the clip is already in the group, it will not be added a second time. */
-void ClipGroup::addClip(DocClipBase *clip)
+void ClipGroup::addClip(DocClipBase *clip, DocTrackBase *track)
 {
+	ClipGroupClip newClip;
+
+	newClip.clip = clip;
+	newClip.track = track;
+	
 	if(!clipExists(clip)) {
-		m_clipList.append(clip);
+		m_clipList.append(newClip);
 		setMasterClip(clip);
 	}
 }
 
-/** Removes the selected clip from the clip group. If the clip passed is not in the clip group, nothing (other than a warning) will happen. */
+/** Removes the selected clip from the clip group. If the clip passed is not in the clip group,
+ nothing (other than a warning) will happen. */
 void ClipGroup::removeClip(DocClipBase *clip)
-{
-	if(clipExists(clip)) {
-		m_clipList.remove(clip);
-		if(m_master==clip) {
-			setMasterClip(0);
-		}
+{		
+	QValueListIterator<ClipGroupClip> itt;
+	
+	if((itt = findClip(clip)) != m_clipList.end()) {
+		removeClip(itt);
 	}
 }
 
 /** Returns true if the specified clip is in the group. */
 bool ClipGroup::clipExists(DocClipBase *clip)
 {
-	return (m_clipList.find(clip)!=-1);
+	return findClip(clip) != m_clipList.end();
 }
 
-/** Removes the clip if it is in the list, adds it if it isn't. Returns true if the clip is now part of the list, false if it is not. */
-bool ClipGroup::toggleClip(DocClipBase *clip)
+/** Removes the clip if it is in the list, adds it if it isn't. Returns true if the clip
+is now part of the list, false if it is not. */
+bool ClipGroup::toggleClip(DocClipBase *clip, DocTrackBase *track)
 {
-	if(clipExists(clip)) {
-		removeClip(clip);
+	QValueListIterator<ClipGroupClip> itt;
+
+	itt = findClip(clip);
+
+	if( itt != m_clipList.end()) {
+		removeClip(itt);
 		return false;
 	}
 
-	addClip(clip);
+	addClip(clip, track);	
 	return true;
 }
 
 /** Moves all clips by the offset specified. Returns true if successful, fasle on failure. */
 bool ClipGroup::moveByOffset(int offset)
 {
-	QPtrListIterator<DocClipBase> itt(m_clipList);
-
+	QValueListIterator<ClipGroupClip> itt;
 	DocClipBase *clip;
 	
-	while( (clip = itt.current())) {
+	itt = m_clipList.begin();	
+	while( (clip = (*itt).clip)) {
 		++itt;
-
+		
 		clip->setTrackStart(GenTime(clip->trackStart().frames(25) + offset, 25));	
 	}
 
@@ -107,7 +116,17 @@ bool ClipGroup::findClosestMatchingSpace(int value, int &newValue)
 /** Returns a clip list of all clips contained within the group. */
 QPtrList<DocClipBase> ClipGroup::clipList()
 {
-	return m_clipList;
+	QPtrList<DocClipBase> clipList;
+
+	clipList.setAutoDelete(false);
+
+	QValueListIterator<ClipGroupClip> itt;
+
+	for(itt = m_clipList.begin(); itt != m_clipList.end(); ++itt) {
+		clipList.append((*itt).clip);
+	}
+		
+	return clipList;		
 }
 
 /** returns true is this clipGroup is currently empty, false otherwise. */
@@ -122,7 +141,7 @@ void ClipGroup::setMasterClip(DocClipBase *master)
 		if(m_clipList.isEmpty()) {
 			m_master = 0;
 		} else {
-			m_master = m_clipList.first();
+			m_master = m_clipList.first().clip;
 		}
 	} else {
 		m_master = master;
@@ -135,39 +154,47 @@ Only the master clip necessarily needs to reside on the specified track. Clip pr
 change - Display order will be preserved.*/
 void ClipGroup::moveTo(KdenliveDoc &doc, int track, int value)
 {
-	QPtrListIterator<DocClipBase> itt(m_clipList);
-
 	DocTrackBase *curTrack, *reqTrack;
 
   if(!m_master) {
     return;
   }
-    
+
 	int offset = (int)(value - m_master->trackStart().frames(25));
-	
-	for(DocClipBase *clip; (clip = itt.current()); ++itt) {
-		curTrack = doc.findTrack(clip);
-		reqTrack = doc.track(track);
+	int trackOffset = doc.trackIndex(doc.findTrack(m_master));
+
+	// in case the master or the track is non-existant, we pretend that it is on the first track.
+	if(trackOffset==-1) trackOffset = 0;
+	trackOffset = track - trackOffset;
+
+	for(	QValueListIterator<ClipGroupClip> itt = m_clipList.begin(); itt != m_clipList.end(); ++itt) {
+		curTrack = (*itt).track;
+		if(curTrack) {
+			reqTrack = doc.track(doc.trackIndex(curTrack) + trackOffset);
+		} else {
+			reqTrack = doc.track(trackOffset);
+		}
 
 		if(reqTrack==0) {
 			kdError() << "Clip Group tried to move clip but couldn't; track to move to does not exist." << endl;
 			continue;
-		}		
-		
+		}
+
 		if(curTrack) {
-			
 			if(curTrack == reqTrack) {
-				clip->setTrackStart( GenTime(clip->trackStart().frames(25) + offset, 25));
+				(*itt).clip->setTrackStart( GenTime((*itt).clip->trackStart().frames(25) + offset, 25));
 			} else {
-				curTrack->removeClip(clip);
-				reqTrack->addClip(clip);
-				clip->setTrackStart( GenTime(clip->trackStart().frames(25) + offset, 25));
+				curTrack->removeClip((*itt).clip);
+				reqTrack->addClip((*itt).clip);
+				(*itt).track = reqTrack;   // We have moved the clip; update the track reference in the ClipGroupClip.
+
+				(*itt).clip->setTrackStart( GenTime((*itt).clip->trackStart().frames(25) + offset, 25));
 			}
-			
 		} else {
-			reqTrack->addClip(clip);
-			clip->setTrackStart( GenTime(clip->trackStart().frames(25) + offset, 25));
-		}	
+			reqTrack->addClip((*itt).clip);
+			(*itt).track = reqTrack;
+			(*itt).clip->setTrackStart( GenTime((*itt).clip->trackStart().frames(25) + offset, 25));
+		}
 	}
 }
 
@@ -176,12 +203,12 @@ QDomDocument ClipGroup::toXML()
 {
 	QDomDocument doc;
 
-	QPtrListIterator<DocClipBase> itt(m_clipList);		
+	QValueListIterator<ClipGroupClip> itt;
 
-	for(DocClipBase *clip; (clip=itt.current()); ++itt) {
-		QDomDocument clipDoc = clip->toXML();
+	for(itt = m_clipList.begin(); itt != m_clipList.end(); ++itt) {
+		QDomDocument clipDoc = (*itt).clip->toXML();
 
-		doc.appendChild(doc.importNode(clipDoc.documentElement(), true));		
+		doc.appendChild(doc.importNode(clipDoc.documentElement(), true));
 	}
 
 	return doc;
@@ -192,11 +219,55 @@ KURL::List ClipGroup::createURLList()
 {
 	KURL::List list;
 
-	QPtrListIterator<DocClipBase> itt(m_clipList);
+	QValueListIterator<ClipGroupClip> itt;
 
-	for(DocClipBase *clip; (clip = itt.current()); ++itt) {	
-	 	list.append(clip->fileURL());
+	for(itt = m_clipList.begin(); itt != m_clipList.end(); ++itt) {	
+	 	list.append((*itt).clip->fileURL());
 	}
 	
 	return list;
+}
+
+/** Find the selected clip from within ClipGroup and returns an iterator it.
+ Otherwise, returns an iterator to m_clipList.end(). */
+QValueListIterator<ClipGroupClip> ClipGroup::findClip(DocClipBase *clip)
+{
+	QValueListIterator<ClipGroupClip> itt;
+
+	for(itt = m_clipList.begin(); itt != m_clipList.end(); ++itt) {			
+		if((*itt).clip == clip) return itt;
+	}
+	
+	return itt;
+}
+
+/** Removes a ClipGroupClip from the clipList. This is a private function, as
+itterators to the m_clipList should remain inaccessible from outside of the
+class. */
+void ClipGroup::removeClip(QValueListIterator<ClipGroupClip> &itt)
+{
+		m_clipList.remove(itt);
+		
+		if(m_master == (*itt).clip) {
+			setMasterClip(0);
+		}		
+}
+
+/** Deletes all clips in the clip group. This removes the clips from any tracks they are on
+ and physically deletes them. After this operation, the clipGroup will be empty. */
+void ClipGroup::deleteAllClips()
+{
+	QValueListIterator<ClipGroupClip> itt;
+
+	while(!m_clipList.isEmpty()) {
+		itt = m_clipList.begin();
+			
+		if((*itt).track) {
+			(*itt).track->removeClip((*itt).clip);
+		}
+		if((*itt).clip) {
+			delete (*itt).clip;
+		}
+		m_clipList.remove(itt);
+	}
 }
