@@ -88,6 +88,12 @@ bool GenTime::operator==(GenTime op)
 	return m_time == op.seconds();
 }
 
+bool GenTime::operator!=(GenTime op)
+{
+	return m_time != op.seconds();
+}
+
+
 GenTime::~GenTime()
 {
 }

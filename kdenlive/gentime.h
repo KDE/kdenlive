@@ -61,7 +61,10 @@ public:
 	bool operator<=(GenTime op);
 
 	/* Implementation of == operator; Works identically as with basic types. */
-	bool operator==(GenTime op);	
+	bool operator==(GenTime op);
+
+	/* Implementation of != operator; Works identically as with basic types. */
+	bool operator!=(GenTime op);		
 			
 	~GenTime();
 private: // Private attributes
