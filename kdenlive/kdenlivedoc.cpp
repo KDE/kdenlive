@@ -707,3 +707,9 @@ bool KdenliveDoc::snapToFrame()
 {
   return m_app->snapToFrameEnabled();
 }
+
+/** Returns renderer associated with this document. */
+KRender * KdenliveDoc::renderer()
+{
+  return m_render;
+}

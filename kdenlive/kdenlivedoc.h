@@ -159,6 +159,8 @@ is not possible. */
   void renderDocument(const KURL &url);
   /** Returns true if we should snape values to frame. */
   bool snapToFrame();
+  /** Returns renderer associated with this document. */
+  KRender * renderer();
 
   private:
     /** the modified flag of the current document */

@@ -1,7 +1,7 @@
 /***************************************************************************
-                          aveffectparam.h  -  description
+                          avformatdesccontainer.cpp  -  description
                              -------------------
-    begin                : Wed Jan 8 2003
+    begin                : Fri Jan 24 2003
     copyright            : (C) 2003 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,19 +15,35 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef AVEFFECTPARAM_H
-#define AVEFFECTPARAM_H
+#include "avformatdesccontainer.h"
+#include "avformatwidgetcontainer.h"
 
+#include <kdebug.h>
 
-/**This class describes an effect parameter. It includes things such as name, type, minimum
-  and maximum values, etc.
-  *@author Jason Wood
-  */
+AVFormatDescContainer::AVFormatDescContainer(const QString &description, const QString &name) :
+                            AVFormatDescBase(description, name)
+{
+  m_descList.setAutoDelete(true);
+}
 
-class AVEffectParam {
-public: 
-	AVEffectParam();
-	~AVEffectParam();
-};
+AVFormatDescContainer::~AVFormatDescContainer()
+{
+}
 
-#endif
+/** Constructs a widget to display this container. Most likely, a qgroupbox. */
+QWidget * AVFormatDescContainer::createWidget(QWidget *parent)
+{
+  return new AVFormatWidgetContainer(this, parent, m_name);
+}
+
+/** Appends a new description element into this container. */
+void AVFormatDescContainer::append(AVFormatDescBase *elem)
+{
+  m_descList.append(elem);
+}
+
+/** Returns the format list. */
+QPtrList<AVFormatDescBase> &AVFormatDescContainer::list()
+{
+  return m_descList;
+}

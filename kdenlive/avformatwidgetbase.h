@@ -1,7 +1,7 @@
 /***************************************************************************
-                          aveffectparam.h  -  description
+                          avformatwidgetbase.h  -  description
                              -------------------
-    begin                : Wed Jan 8 2003
+    begin                : Thu Jan 23 2003
     copyright            : (C) 2003 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,19 +15,20 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef AVEFFECTPARAM_H
-#define AVEFFECTPARAM_H
+#ifndef AVFORMATWIDGETBASE_H
+#define AVFORMATWIDGETBASE_H
 
 
-/**This class describes an effect parameter. It includes things such as name, type, minimum
-  and maximum values, etc.
+/**A base class for all AVFormat related widgets.
+
+This class provides a standard set of functions for building and reading an AVFileFormat from them.
   *@author Jason Wood
   */
 
-class AVEffectParam {
+class AVFormatWidgetBase {
 public: 
-	AVEffectParam();
-	~AVEffectParam();
+	AVFormatWidgetBase();
+	virtual ~AVFormatWidgetBase();
 };
 
 #endif

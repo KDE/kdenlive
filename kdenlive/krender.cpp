@@ -18,10 +18,16 @@
 #include <kio/netaccess.h> 
 #include "krender.h"
 
+#include "avformatdescbool.h"
+#include "avformatdesclist.h"
+#include "avformatdesccontainer.h"
+
 KRender::KRender(const QString &rendererName, KURL appPath, unsigned int port, QObject *parent, const char *name ) :
 																				QObject(parent, name),
 																				QXmlDefaultHandler(),
                                         m_name(rendererName),
+                                        m_renderName("unknown"),                                        
+                                        m_renderVersion("unknown"),
                                         m_appPathInvalid(false)
 {
 	startTimer(1000);
@@ -31,9 +37,6 @@ KRender::KRender(const QString &rendererName, KURL appPath, unsigned int port, Q
 	m_setSceneListPending = false;
 
 	m_xmlReader.setContentHandler(this);
-
-	m_funcStartElement = &KRender::topLevelStartElement;
-	m_funcEndElement = &KRender::topLevelEndElement;
 
 	connect(&m_socket, SIGNAL(error(int)), this, SLOT(error(int)));
 	connect(&m_socket, SIGNAL(connected()), this, SLOT(slotConnected()));
@@ -46,6 +49,36 @@ KRender::KRender(const QString &rendererName, KURL appPath, unsigned int port, Q
 
 	m_portNum = port;
   m_appPath = appPath;
+
+  /*************************************************
+  * Temporary code to add a file format decription *
+  *************************************************/
+
+  AVFileFormatDesc *desc = new AVFileFormatDesc("Microsoft AVI file format", "AVI");
+  desc->append(new AVFormatDescBool("If checked, then video will be saved", "Video"));
+  desc->append(new AVFormatDescBool("If checked, then audio will be saved", "Audio"));  
+  AVFormatDescContainer *video = new AVFormatDescContainer("Video Codec specifivation", "Video");
+  AVFormatDescList *vidfmt = new AVFormatDescList("Choose the format to save to", "Format");
+  vidfmt->addItem("NTSC");
+  vidfmt->addItem("PAL");
+  vidfmt->addItem("SECAM");
+  video->append(vidfmt);
+  desc->append(video);    
+  AVFormatDescContainer *audio = new AVFormatDescContainer("Audio Codec specifivation", "Audio");
+  desc->append(audio);  
+  m_fileFormats.append(desc);
+  
+  desc = new AVFileFormatDesc("Quicktime Movie format", "Quicktime");
+  m_fileFormats.append(desc);
+  
+  desc = new AVFileFormatDesc("Raw DV format", "Raw DV");
+  m_fileFormats.append(desc);
+  
+  desc = new AVFileFormatDesc("Mpeg format", "Mpeg");
+  m_fileFormats.append(desc);
+  
+  desc = new AVFileFormatDesc("Save movie as sequence of pictures", "Picture Sequence");
+  m_fileFormats.append(desc);
 }
 
 KRender::~KRender()
@@ -114,10 +147,13 @@ void KRender::readData()
     QXmlInputSource source;
     source.setData(temp);
 
-    emit recievedInfo(m_name, "Parsing " + temp);
+    m_parseStack.clear();
+    StackValue value;
+    value.element="root";
+    value.funcStartElement = &KRender::topLevelStartElement;
+    value.funcEndElement = &KRender::topLevelEndElement;
+    m_parseStack.push(value);
     
-    m_funcStartElement = &KRender::topLevelStartElement;
-    m_funcEndElement = &KRender::topLevelEndElement;    
     if(!m_xmlReader.parse(&source, false)) {
       emit recievedInfo(m_name, "Parse Failed on " + temp);      
     } else {
@@ -161,9 +197,8 @@ void KRender::launchProcess()
 	m_process.clearArguments();
 	m_process.setExecutable("artsdsp");
   m_process << m_appPath.path();
-  m_process << "-d";  
+  m_process << "-d";
   m_process << "-p" << QString::number(m_portNum);
-  m_process << "-f" << "rgb";
 
   emit recievedInfo(m_name, "Launching Process " + m_appPath.path() + " as server on port " + QString::number(m_portNum));
 	if(m_process.start(KProcess::NotifyOnExit, KProcess::AllOutput)) {
@@ -189,6 +224,11 @@ void KRender::slotReadStderr(KProcess *proc, char *buffer, int buflen)
   emit recievedStderr(m_name, mess);
 }
 
+/** Returns a list of all available file formats in this renderer. */
+QPtrList<AVFileFormatDesc> &KRender::fileFormats()
+{
+  return m_fileFormats;
+}
 
 
 
@@ -203,6 +243,7 @@ void KRender::createVideoXWindow(bool show)
 	QDomDocument doc;
 	QDomElement elem = doc.createElement("createVideoXWindow");	
 	elem.setAttribute("show", show ? "true" : "false");
+	elem.setAttribute("format", "rgb");
 	doc.appendChild(elem);
 	
 	sendCommand(doc);
@@ -331,17 +372,28 @@ bool KRender::endDocument()
 bool KRender::startElement(const QString & namespaceURI, const QString & localName,
 																	const QString & qName, const QXmlAttributes & atts )
 {
-  emit recievedInfo(m_name, "Discovered opening tag " + localName);   
+  emit recievedInfo(m_name, "Discovered opening tag " + localName);
 
-	return (this->*m_funcStartElement)(namespaceURI, localName, qName, atts);
+  StackValue val = m_parseStack.top();
+  if(val.funcStartElement == NULL) {
+    StackValue newVal;
+    emit recievedInfo(m_name, "Ignoring tag");
+    newVal.element = "ignoring";
+    newVal.funcStartElement = 0;
+    newVal.funcEndElement = 0;
+    m_parseStack.push(newVal);
+    return true;
+  }
+  return (this->*val.funcStartElement)(namespaceURI, localName, qName, atts);
 }
 
 /** Called when the xml parser encounters a closing tag */
 bool KRender::endElement ( const QString & namespaceURI, const QString & localName, const QString & qName )
 {
-  emit recievedInfo(m_name, "Discovered closing tag " + localName);     
-
-	return (this->*m_funcEndElement)(namespaceURI, localName, qName);
+  emit recievedInfo(m_name, "Discovered closing tag " + localName);
+  StackValue val = m_parseStack.pop();
+  if(val.funcEndElement == NULL) return true;
+  return (this->*val.funcEndElement)(namespaceURI, localName, qName);
 }
 
 /** Called when the xml parser encounters an opening element and we are outside of a parsing loop. */
@@ -354,16 +406,11 @@ bool KRender::topLevelStartElement(const QString & namespaceURI, const QString &
       emit recievedInfo(m_name, "Reply recieved, no command specified");
 			return false;
 		} else if(command == "createVideoXWindow") {
-			QString winID = atts.value("WinID");
-			WId retID = 0;
-			if(winID.isNull()) {
-        emit recievedInfo(m_name, "Window ID not specified - emitting 0");        
-			} else {
-				retID = winID.toInt();
-			}
-			emit replyCreateVideoXWindow(retID);
-			m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
-			m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;
+      StackValue val;
+      val.element = "createVideoXWindow";
+      val.funcStartElement = &KRender::reply_createVideoXWindow_StartElement;
+      val.funcEndElement = 0;
+      m_parseStack.push(val);
 			return true;
 		} else if(command == "getFileProperties") {		
 			QMap<QString, QString> map;
@@ -373,16 +420,25 @@ bool KRender::topLevelStartElement(const QString & namespaceURI, const QString &
 
 			emit replyGetFileProperties(map);
 
-			m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
-			m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;
+      StackValue val;
+      val.element = "generic";
+      val.funcStartElement = 0;
+      val.funcEndElement = 0;
+      m_parseStack.push(val);      
 			return true;
 		} else if(command == "play") {
-			m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
-			m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;
-			return true;
+      StackValue val;
+      val.element = "generic";
+      val.funcStartElement = 0;
+      val.funcEndElement = 0;
+      m_parseStack.push(val);
+      return true;
     } else if(command == "seek") {
-			m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
-			m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;
+      StackValue val;
+      val.element = "generic";
+      val.funcStartElement = 0;
+      val.funcEndElement = 0;
+      m_parseStack.push(val);
       if(m_seekPending) {
         if(m_nextSeek < 0.0) {
           m_seekPending = false;
@@ -393,16 +449,18 @@ bool KRender::topLevelStartElement(const QString & namespaceURI, const QString &
       }
 			return true;
 		} else if(command == "render") {
-			m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
-			m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;
+      StackValue val;
+      val.element = "generic";
+      val.funcStartElement = 0;
+      val.funcEndElement = 0;
+      m_parseStack.push(val);                  
 			return true;
-		} else if(command == "getCapabilities") {
-			m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
-			m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;      
-      return true;
     } else if(command == "setSceneList") {
-			m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
-			m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;      
+      StackValue val;
+      val.element = "generic";
+      val.funcStartElement = 0;
+      val.funcEndElement = 0;
+      m_parseStack.push(val);                  
       return true;
     } else {      
     	emit recievedInfo(m_name, "Unknown reply '" + command + "'");      
@@ -410,21 +468,30 @@ bool KRender::topLevelStartElement(const QString & namespaceURI, const QString &
     }
 	} else if(localName == "pong") {
 		QString id = atts.value("id");
-  	emit recievedInfo(m_name, "pong recieved : " + id);          
-		m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
-  	m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;
+  	emit recievedInfo(m_name, "pong recieved : " + id);
+    StackValue val;
+    val.element = "generic";
+    val.funcStartElement = 0;
+    val.funcEndElement = 0;
+    m_parseStack.push(val);               
     return true;
 	} else if(localName == "playing") {
     QString tStr = atts.value("time");
     GenTime time(tStr.toDouble());
-		m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
-  	m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;
+    StackValue val;
+    val.element = "generic";
+    val.funcStartElement = 0;
+    val.funcEndElement = 0;
+    m_parseStack.push(val);                   
     emit positionChanged(time);
     return true;
   } else if(localName == "render") {
     QString tStr = atts.value("status");
-		m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
-  	m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;    
+    StackValue val;
+    val.element = "generic";
+    val.funcStartElement = 0;
+    val.funcEndElement = 0;
+    m_parseStack.push(val);                   
     if(tStr == "playing") {
       emit playing();
       return true;
@@ -434,6 +501,13 @@ bool KRender::topLevelStartElement(const QString & namespaceURI, const QString &
     }
     emit recievedInfo(m_name, "Render command returned unknown status : '" + tStr + "'");    
     return false;   
+  } else if(localName == "capabilities") {
+      StackValue val;
+      val.element = "capabilities";
+      val.funcStartElement = &KRender::reply_getCapabilities_StartElement;
+      val.funcEndElement = 0;
+      m_parseStack.push(val);
+      return true;
   }
 
 	emit recievedInfo(m_name, "Unknown tag '" + localName + "'");
@@ -450,18 +524,71 @@ bool KRender::topLevelEndElement(const QString & namespaceURI, const QString & l
 	return false;
 }
 
-bool KRender::reply_GenericEmpty_StartElement(const QString & namespaceURI, const QString & localName,
+bool KRender::reply_getCapabilities_StartElement(const QString & namespaceURI, const QString & localName,
 																		 const QString & qName, const QXmlAttributes & atts)
 {
-	emit recievedInfo(m_name, "Should not recieve reply_GenericEmpty_StartElement!");
-	return false;
+  if(localName == "renderer") {
+    StackValue val;    
+    val.element = "renderer";
+  	val.funcStartElement = 0;
+  	val.funcEndElement = 0;
+    m_parseStack.push(val);
+  }
+  if(localName == "general") {
+    StackValue val;
+    val.element = "general";
+  	val.funcStartElement = 0;
+  	val.funcEndElement = 0;
+    m_parseStack.push(val);   
+  }
+  if(localName == "effects") {
+    StackValue val;
+    val.element = "effects";    
+  	val.funcStartElement = 0;
+  	val.funcEndElement = 0;
+    m_parseStack.push(val);   
+  }
+  if(localName == "inputs") {
+    StackValue val;
+    val.element = "inputs";    
+  	val.funcStartElement = 0;
+  	val.funcEndElement = 0;
+    m_parseStack.push(val);   
+  }
+  if(localName == "outputs") {
+    StackValue val;
+    val.element = "outputs";    
+  	val.funcStartElement = 0;
+  	val.funcEndElement = 0;
+    m_parseStack.push(val);   
+  }
+  if(localName == "codecs") {
+    StackValue val;
+    val.element = "codecs";    
+  	val.funcStartElement = 0;
+  	val.funcEndElement = 0;
+    m_parseStack.push(val);   
+  }
+
+  return true;
 }
 
-bool KRender::reply_GenericEmpty_EndElement(const QString & namespaceURI, const QString & localName,
-																									const QString & qName)
+bool KRender::reply_createVideoXWindow_StartElement(const QString & namespaceURI, const QString & localName,
+																		 const QString & qName, const QXmlAttributes & atts)
 {
-	m_funcStartElement = &KRender::topLevelStartElement;
-	m_funcEndElement = &KRender::topLevelEndElement;
+  QString winID = atts.value("WinID");
+  WId retID = 0;
+  if(winID.isNull()) {
+    emit recievedInfo(m_name, "Window ID not specified - emitting 0");
+  } else {
+    retID = winID.toInt();
+  }
+	emit replyCreateVideoXWindow(retID);
 
-	return true;
+  StackValue val;
+  val.element = "generic";
+	val.funcStartElement = 0;
+	val.funcEndElement = 0;
+  m_parseStack.push(val);     
+  return true;
 }

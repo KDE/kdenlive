@@ -1,7 +1,7 @@
 /***************************************************************************
-                          aveffectparam.h  -  description
+                          avfileformatwidget.h  -  description
                              -------------------
-    begin                : Wed Jan 8 2003
+    begin                : Fri Jan 24 2003
     copyright            : (C) 2003 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,19 +15,31 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef AVEFFECTPARAM_H
-#define AVEFFECTPARAM_H
+#ifndef AVFILEFORMATWIDGET_H
+#define AVFILEFORMATWIDGET_H
 
+#include <qwidget.h>
+#include <qvbox.h>
 
-/**This class describes an effect parameter. It includes things such as name, type, minimum
-  and maximum values, etc.
+/**This widget contains an entire file format description.
   *@author Jason Wood
   */
 
-class AVEffectParam {
+class AVFileFormatDesc;
+class KURLRequester;
+class QHBox;
+class QLabel;
+
+class AVFileFormatWidget : public QVBox  {
+   Q_OBJECT
 public: 
-	AVEffectParam();
-	~AVEffectParam();
+	AVFileFormatWidget(AVFileFormatDesc *desc, QWidget *parent=0, const char *name=0);
+	~AVFileFormatWidget();
+private:
+  QHBox *m_fileHBox;
+  QLabel *m_fileLabel;
+  KURLRequester *m_filename;
+  AVFileFormatDesc *m_desc; 
 };
 
 #endif

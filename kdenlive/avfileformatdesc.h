@@ -1,7 +1,7 @@
 /***************************************************************************
-                          aveffectparam.h  -  description
+                          avfileformatdesc.h  -  description
                              -------------------
-    begin                : Wed Jan 8 2003
+    begin                : Tue Jan 21 2003
     copyright            : (C) 2003 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,19 +15,25 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef AVEFFECTPARAM_H
-#define AVEFFECTPARAM_H
+#ifndef AVFILEFORMATDESC_H
+#define AVFILEFORMATDESC_H
 
+#include <qstring.h>
+#include "avformatdesccontainer.h"
 
-/**This class describes an effect parameter. It includes things such as name, type, minimum
-  and maximum values, etc.
+/** Describes a file format. That is to say, it says what can and cannot exist within a
+    file format, what parameters exist and can be set, etc.
   *@author Jason Wood
   */
 
-class AVEffectParam {
+class QWidget;
+
+class AVFileFormatDesc : public AVFormatDescContainer {
 public: 
-	AVEffectParam();
-	~AVEffectParam();
+	AVFileFormatDesc(const QString &description, const QString &name);
+	~AVFileFormatDesc();
+  /** Create and return a widget that embodies this file format description. */
+  QWidget * createWidget(QWidget *parent);
 };
 
 #endif

@@ -1,7 +1,7 @@
 /***************************************************************************
-                          aveffectparam.h  -  description
+                          avformatwidgetbool.h  -  description
                              -------------------
-    begin                : Wed Jan 8 2003
+    begin                : Thu Jan 23 2003
     copyright            : (C) 2003 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,19 +15,25 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef AVEFFECTPARAM_H
-#define AVEFFECTPARAM_H
+#ifndef AVFORMATWIDGETBOOL_H
+#define AVFORMATWIDGETBOOL_H
 
+#include <qwidget.h>
+#include <qcheckbox.h>
 
-/**This class describes an effect parameter. It includes things such as name, type, minimum
-  and maximum values, etc.
+#include "avformatwidgetbase.h"
+
+class AVFormatDescBool;
+
+/**This widget displays a boolean value, in alignment with what the AVFormatDescBool class describes.
   *@author Jason Wood
   */
 
-class AVEffectParam {
+class AVFormatWidgetBool : public QCheckBox, public AVFormatWidgetBase  {
+   Q_OBJECT
 public: 
-	AVEffectParam();
-	~AVEffectParam();
+	AVFormatWidgetBool(AVFormatDescBool *desc, QWidget *parent=0, const char *name=0);
+	~AVFormatWidgetBool();
 };
 
 #endif

@@ -1,7 +1,7 @@
 /***************************************************************************
-                          aveffectparam.h  -  description
+                          avformatdescbase.cpp  -  description
                              -------------------
-    begin                : Wed Jan 8 2003
+    begin                : Thu Jan 23 2003
     copyright            : (C) 2003 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,19 +15,20 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef AVEFFECTPARAM_H
-#define AVEFFECTPARAM_H
+#include "avformatdescbase.h"
 
+AVFormatDescBase::AVFormatDescBase(const QString &description, const QString &name)
+{
+  m_description = description;
+  m_name = name;
+}
 
-/**This class describes an effect parameter. It includes things such as name, type, minimum
-  and maximum values, etc.
-  *@author Jason Wood
-  */
+AVFormatDescBase::~AVFormatDescBase()
+{
+}
 
-class AVEffectParam {
-public: 
-	AVEffectParam();
-	~AVEffectParam();
-};
-
-#endif
+/** Returns the name of this description element. */
+const QString & AVFormatDescBase::name()
+{
+  return m_name;
+}

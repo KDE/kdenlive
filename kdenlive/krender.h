@@ -24,11 +24,14 @@
 #include <qxml.h>
 #include <qstring.h>
 #include <qmap.h>
+#include <qptrlist.h>
+#include <qvaluestack.h>
 
 #include <kprocess.h>
 #include <kurl.h>
 
 #include "gentime.h"
+#include "avfileformatdesc.h"
 
 /**KRender encapsulates the client side of the interface to a renderer.
 From Kdenlive's point of view, you treat the KRender object as the
@@ -37,6 +40,18 @@ you send a call out, and then recieve the return value through the
 relevant signal that get's emitted once the call completes.
   *@author Jason Wood
   */
+
+class KRender;
+  
+struct StackValue {
+  QString element;
+  /** A function pointer to the relevant method that should parse tagOpen events */
+  bool (KRender::*funcStartElement)(const QString & namespaceURI, const QString & localName,
+                                  const QString & qName, const QXmlAttributes & atts );
+  /** A function pointer to the relevant method that should parse tagClose events */
+  bool (KRender::*funcEndElement)(const QString & namespaceURI, const QString & localName,
+				const QString & qName);  
+};
 
 class KRender : public QObject, public QXmlDefaultHandler  {
    Q_OBJECT
@@ -57,14 +72,12 @@ replyCreateVideoXWindow() once the renderer has replied. */
   /** Called when the xml parser encounters an opening element */
   bool startElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & atts );
   /** Called when we are parsing a close tag and are outside of any command. */
-  bool topLevelEndElement(const QString & namespaceURI, const QString & localName,                    const QString & qName);
+  bool topLevelEndElement(const QString & namespaceURI, const QString & localName, const QString & qName);
   /** Called when the xml parser encounters an opening element and we are outside of any command. */
   bool topLevelStartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & att);
 
-/** Called when we are parsing a close tag and are in a top level command of the document which has no inner tags */
-  bool reply_GenericEmpty_EndElement(const QString & namespaceURI, const QString & localName,                    const QString & qName);
-  /** Called when the xml parser encounters an opening element and we are in a top level command of the document which has no inner tags */
-  bool reply_GenericEmpty_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & att);  
+  bool reply_getCapabilities_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & att);
+  bool reply_createVideoXWindow_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & atts);
   
   /** Seeks the renderer clip to the given time. */
   void seek(GenTime time);
@@ -89,6 +102,8 @@ name specified. */
   void render(const KURL &url);
   /** Wraps the VEML command of the same name. Requests that the renderer should return it's capabilities. */
   void getCapabilities();
+  /** Returns a list of all available file formats in this renderer. */
+  QPtrList<AVFileFormatDesc> &fileFormats();
 protected: // Protected methods
   /** Recieves timer events */
   virtual void timerEvent(QTimerEvent *event);
@@ -115,20 +130,17 @@ private: // Private attributes
   QString m_buffer;
   /** The name of this renderer - useful to identify the renderes by what they do - e.g. background rendering, workspace monitor, etc... */
   QString m_name;
+  /** The name of the associated renderer - this is the application we are using.*/
+  QString m_renderName;
+  /** The version of the renderer */
+  QString m_renderVersion;
   /** Becomes true if it is known that the application path does not point to a valid file, false if
   this is unknown, or if a valid executable is known to exist */
   bool m_appPathInvalid;
-  
-  /** A function pointer to the relevant method that should parse tagOpen events */
-  bool (KRender::*m_funcStartElement)(const QString & namespaceURI, const QString & localName,
-                                  const QString & qName, const QXmlAttributes & atts ); 
-  /** A function pointer to the relevant method that should parse tagClose events */
-  bool (KRender::*m_funcEndElement)(const QString & namespaceURI, const QString & localName,
-				const QString & qName);
-  /** The actually seek command, private so people can't avoid the buffering of multiple seek commands. */
-  void sendSeekCommand(GenTime time);
-  /** The actually setScenelist command, private so people can't avoid the buffering of multiple setSceneList commands. */
-  void sendSetSceneListCommand(const QDomDocument &list);
+  /** Holds a description of all available file formats. */
+  QPtrList<AVFileFormatDesc> m_fileFormats;
+  /** The parse stack for start/end element events. */
+  QValueStack<StackValue> m_parseStack;
 private slots: // Private slots
   /** Catches errors from the socket. */
   void error(int error);
@@ -147,6 +159,10 @@ private: // Private methods
   void sendCommand(QDomDocument command);
   /** Launches a renderer process. */
   void launchProcess();
+  /** The actually seek command, private so people can't avoid the buffering of multiple seek commands. */
+  void sendSeekCommand(GenTime time);
+  /** The actually setScenelist command, private so people can't avoid the buffering of multiple setSceneList commands. */
+  void sendSetSceneListCommand(const QDomDocument &list);  
 signals: // Signals
   /** This signal is emitted once the renderer has initialised itself. */
   void initialised();

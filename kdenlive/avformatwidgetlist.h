@@ -1,7 +1,7 @@
 /***************************************************************************
-                          aveffectparam.h  -  description
+                          avformatwidgetlist.h  -  description
                              -------------------
-    begin                : Wed Jan 8 2003
+    begin                : Thu Jan 23 2003
     copyright            : (C) 2003 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,19 +15,30 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef AVEFFECTPARAM_H
-#define AVEFFECTPARAM_H
+#ifndef AVFORMATWIDGETLIST_H
+#define AVFORMATWIDGETLIST_H
 
+#include <qwidget.h>
+#include <qhbox.h>
 
-/**This class describes an effect parameter. It includes things such as name, type, minimum
-  and maximum values, etc.
+#include "avformatwidgetbase.h"
+
+class QLabel;
+class QComboBox;
+
+/**A widget which handles the selection of a list, provided by the relevant AVFileDescList object.
   *@author Jason Wood
   */
-
-class AVEffectParam {
+class AVFormatDescList;
+  
+class AVFormatWidgetList : public QHBox, public AVFormatWidgetBase {
+   Q_OBJECT
 public: 
-	AVEffectParam();
-	~AVEffectParam();
+	AVFormatWidgetList(AVFormatDescList *desc, QWidget *parent=0, const char *name=0);
+	~AVFormatWidgetList();
+private:
+  QLabel *m_label;
+  QComboBox *m_comboBox;
 };
 
 #endif

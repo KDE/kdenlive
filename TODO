@@ -1,7 +1,9 @@
-TODO list
+TODO List
 
-* Add support for transitions
-* Add support for handling various file formats
+* Support for file formats.
+* Export file dialog box
+* KDockWidget layouts need to be saved on exit/opened on loading.
+* Dragging a clip to the timeline with undefined length should become full-length once it's duration is known.
 
 
 This is not a comprehensive list :-) If you are interested in helping

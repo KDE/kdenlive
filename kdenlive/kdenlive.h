@@ -48,6 +48,7 @@ class KMMRulerPanel;
 class RenderDebugPanel;
 class AVFile;
 class DocClipBase;
+class ExportDialog;
 
 
 /**
@@ -276,6 +277,7 @@ class KdenliveApp : public KDockMainWindow
     KDockTabGroup *m_tabWidget;
   	ProjectList *m_projectList;
     RenderDebugPanel *m_renderDebugPanel;
+    ExportDialog *m_exportDialog;
     KRenderManager *m_renderManager;
   	KMMMonitor *m_workspaceMonitor;
   	KMMMonitor *m_clipMonitor;   

@@ -44,6 +44,7 @@
 #include "krulertimemodel.h"
 #include "krendermanager.h"
 #include "docclipbase.h"
+#include "exportdialog.h"
 
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
@@ -220,6 +221,12 @@ void KdenliveApp::initView()
   widget->setWidget(m_renderDebugPanel);
   widget->setDockSite(KDockWidget::DockFullSite);    
   m_tabWidget->addTab(widget, i18n("Debug"));
+
+  widget = createDockWidget(i18n("Export"), QPixmap(), 0, i18n("Export"));
+  m_exportDialog = new ExportDialog(getDocument()->renderer()->fileFormats(), widget, "export");
+  widget->setWidget(m_exportDialog);
+  widget->setDockSite(KDockWidget::DockFullSite);
+  m_tabWidget->addTab(widget, i18n("Export"));  
 
   KDockWidget *workspaceMonitor = createDockWidget(i18n("Workspace Monitor"), QPixmap(), 0, i18n("Workspace Monitor"));
 	m_workspaceMonitor = new KMMMonitor(this, getDocument(), workspaceMonitor, i18n("Workspace Monitor"));

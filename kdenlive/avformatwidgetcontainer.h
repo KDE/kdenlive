@@ -1,7 +1,7 @@
 /***************************************************************************
-                          aveffectparam.h  -  description
+                          avformatwidgetcontainer.h  -  description
                              -------------------
-    begin                : Wed Jan 8 2003
+    begin                : Fri Jan 24 2003
     copyright            : (C) 2003 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,19 +15,25 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef AVEFFECTPARAM_H
-#define AVEFFECTPARAM_H
+#ifndef AVFORMATWIDGETCONTAINER_H
+#define AVFORMATWIDGETCONTAINER_H
 
+#include <qwidget.h>
+#include <qgroupbox.h>
 
-/**This class describes an effect parameter. It includes things such as name, type, minimum
-  and maximum values, etc.
+#include "avformatwidgetbase.h"
+
+class AVFormatDescContainer;
+
+/**A widget that will contain and display the information required by an AVFormatDescContainer.
   *@author Jason Wood
   */
 
-class AVEffectParam {
+class AVFormatWidgetContainer : public QGroupBox, public AVFormatWidgetBase  {
+   Q_OBJECT
 public: 
-	AVEffectParam();
-	~AVEffectParam();
+	AVFormatWidgetContainer(AVFormatDescContainer *desc, QWidget *parent=0, const char *name=0);
+	~AVFormatWidgetContainer();
 };
 
 #endif

@@ -1,7 +1,7 @@
 /***************************************************************************
-                          aveffectparam.h  -  description
+                          avformatdesclist.cpp  -  description
                              -------------------
-    begin                : Wed Jan 8 2003
+    begin                : Thu Jan 23 2003
     copyright            : (C) 2003 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -14,20 +14,32 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+ 
+#include "avformatdesclist.h"
+#include "avformatwidgetlist.h"
 
-#ifndef AVEFFECTPARAM_H
-#define AVEFFECTPARAM_H
+AVFormatDescList::AVFormatDescList(const QString &description, const QString &name) :
+                                          AVFormatDescBase(description, name)
+{
+}
 
+AVFormatDescList::~AVFormatDescList()
+{
+}
 
-/**This class describes an effect parameter. It includes things such as name, type, minimum
-  and maximum values, etc.
-  *@author Jason Wood
-  */
+QWidget *AVFormatDescList::createWidget(QWidget *parent)
+{
+  return new AVFormatWidgetList(this, parent, m_name);  
+}
 
-class AVEffectParam {
-public: 
-	AVEffectParam();
-	~AVEffectParam();
-};
+/** Adds the specified string to the item list. */
+void AVFormatDescList::addItem(const QString &item)
+{
+  m_itemList.append(item);
+}
 
-#endif
+/** Returns the item list. */
+QValueVector<QString> AVFormatDescList::itemList()
+{
+  return m_itemList;
+}

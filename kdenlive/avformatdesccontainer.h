@@ -1,7 +1,7 @@
 /***************************************************************************
-                          aveffectparam.h  -  description
+                          avformatdesccontainer.h  -  description
                              -------------------
-    begin                : Wed Jan 8 2003
+    begin                : Fri Jan 24 2003
     copyright            : (C) 2003 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,19 +15,30 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef AVEFFECTPARAM_H
-#define AVEFFECTPARAM_H
+#ifndef AVFORMATDESCCONTAINER_H
+#define AVFORMATDESCCONTAINER_H
 
+#include "avformatdescbase.h"
 
-/**This class describes an effect parameter. It includes things such as name, type, minimum
-  and maximum values, etc.
+#include <qptrlist.h>
+
+/**A container description. A container groups and contains other descriptive elements.
   *@author Jason Wood
   */
 
-class AVEffectParam {
+class AVFormatDescContainer : public AVFormatDescBase {
 public: 
-	AVEffectParam();
-	~AVEffectParam();
+	AVFormatDescContainer(const QString &description, const QString &name);
+	~AVFormatDescContainer();
+  /** Constructs a widget to display this container. Most likely, a qgroupbox. */
+  virtual QWidget * createWidget(QWidget *parent);
+  /** Appends a new description element into this container. */
+  void append(AVFormatDescBase *elem);
+  /** Returns the format list. */
+  QPtrList<AVFormatDescBase> &list();
+protected:
+  /** A list of all dsecription elements contained within this description. */
+  QPtrList<AVFormatDescBase> m_descList;
 };
 
 #endif

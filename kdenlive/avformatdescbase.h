@@ -1,7 +1,7 @@
 /***************************************************************************
-                          aveffectparam.h  -  description
+                          avformatdescbase.h  -  description
                              -------------------
-    begin                : Wed Jan 8 2003
+    begin                : Thu Jan 23 2003
     copyright            : (C) 2003 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,19 +15,31 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef AVEFFECTPARAM_H
-#define AVEFFECTPARAM_H
+#ifndef AVFORMATDESCBASE_H
+#define AVFORMATDESCBASE_H
 
+#include <qstring.h>
 
-/**This class describes an effect parameter. It includes things such as name, type, minimum
-  and maximum values, etc.
+class QWidget;
+
+/**The base class for a file format parameter. A parameter specifies, amongst other things, what values the parameter can take, and how the widget that contains it should be created.
+
   *@author Jason Wood
   */
 
-class AVEffectParam {
+class AVFormatDescBase {
 public: 
-	AVEffectParam();
-	~AVEffectParam();
+	AVFormatDescBase(const QString &description, const QString &name);
+	virtual ~AVFormatDescBase();
+  /** Generates a widget that holds the specified value(s). */
+  virtual QWidget * createWidget(QWidget *parent) = 0;  
+  /** Returns the name of this description element. */
+  const QString & name();
+protected: // Protected attributes
+  /** The text description for the widget created - displayed in tooltips. */
+  QString m_description;
+  /** The name (text label) to be used by the widget created. */
+  QString m_name;
 };
 
 #endif
