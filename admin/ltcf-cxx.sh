@@ -164,7 +164,7 @@ case $host_os in
       if test "$host_cpu" = ia64; then
         shared_flag='${wl}-G'
       else
-        shared_flag='${wl}-bM:SRE'
+        shared_flag='-qmkshrobj'
       fi
     fi
 
@@ -302,7 +302,7 @@ case $host_os in
           if test "$with_gnu_ld" = no; then
             archive_cmds='$CC -D_LANGUAGE_C_CPLUS_PLUS -shared $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags ${wl}-soname ${wl}$soname `test -n "$verstring" && echo ${wl}-set_version ${wl}$verstring` ${wl}-update_registry ${wl}${objdir}/so_locations -o $lib'
           else
-            archive_cmds='$CC -shared $predep_objects $libobjs $deplibs $postdep_objects $linker_flags -soname $soname `test -n "$verstring" && echo -set_version $verstring` -o $lib'
+            archive_cmds='$CC -shared $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags -soname $soname `test -n "$verstring" && echo -set_version $verstring` -o $lib'
           fi
         fi
         ;;
@@ -319,8 +319,8 @@ case $host_os in
         # KCC will only create a shared library if the output file
         # ends with ".so" (or ".sl" for HP-UX), so rename the library
         # to its proper name (with version) after linking.
-        archive_cmds='templib=`echo $lib | sed -e "s/\.so\..*/\.so/"`; $CC $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags --soname $soname -o \$templib; mv \$templib $lib'
-        archive_expsym_cmds='templib=`echo $lib | sed -e "s/\.so\..*/\.so/"`; $CC $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags --soname $soname -o \$templib ${wl}-retain-symbols-file,$export_symbols; mv \$templib $lib'
+        archive_cmds='templib=`echo $lib | sed -e "s/\.so\..*/\.so/"`; $CC $libobjs $deplibs $compiler_flags --soname $soname -o \$templib; test \$templib = $lib || mv \$templib $lib'
+        archive_expsym_cmds='templib=`echo $lib | sed -e "s/\.so\..*/\.so/"`; $CC $libobjs $deplibs $compiler_flags --soname $soname -o \$templib ${wl}-retain-symbols-file,$export_symbols; test \$templib = $lib || mv \$templib $lib'
 
         # Commands to make compiler produce verbose output that lists
         # what "hidden" libraries, object files and flags are used when
@@ -330,14 +330,18 @@ case $host_os in
         # explicitly linking system object files so we need to strip them
         # from the output so that they don't get included in the library
         # dependencies.
-        output_verbose_link_cmds='templist=`$CC $CFLAGS -v conftest.$objext -o libconftest.so 2>&1 | egrep "ld"`; rm -f libconftest.so; list=""; for z in $templist; do case $z in conftest.$objext) list="$list $z";; *.$objext);; *) list="$list $z";;esac; done; echo $list'
+        output_verbose_link_cmds='echo "go to hell"'
+	skip_need_lc_check=yes
 
         hardcode_libdir_flag_spec='${wl}--rpath,$libdir'
         export_dynamic_flag_spec='${wl}--export-dynamic'
 
 	# Archives containing C++ object files must be created using
 	# "CC -Bstatic", where "CC" is the KAI C++ compiler.
-        old_archive_cmds='$CC -Bstatic -o $oldlib $oldobjs'
+	# We add also $compiler_flags, to evetually add any --thread_safe or
+	# --exceptions flags (which is also tested when building an .a
+	# archive.
+        old_archive_cmds='$CC -Bstatic $compiler_flags -o $oldlib $oldobjs'
         ;;
       cxx)
         # Compaq C++
@@ -622,9 +626,9 @@ case $host_os in
         # GNU C++ compiler with Solaris linker
         if test "$with_gcc" = yes && test "$with_gnu_ld" = no; then
           if $CC --version | egrep -v '^2\.7' > /dev/null; then
-            archive_cmds='$CC -shared -nostdlib $LDFLAGS $predep_objects $libobjs $deplibs $postdep_objects $linker_flags ${wl}-h $wl$soname -o $lib'
+            archive_cmds='$CC -shared -nostdlib $LDFLAGS $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags ${wl}-h $wl$soname -o $lib'
             archive_expsym_cmds='$echo "{ global:" > $lib.exp~cat $export_symbols | sed -e "s/\(.*\)/\1;/" >> $lib.exp~$echo "local: *; };" >> $lib.exp~
-		$CC -shared -nostdlib ${wl}-M $wl$lib.exp -o $lib $predep_objects $libobjs $deplibs $postdep_objects $linker_flags~$rm $lib.exp'
+		$CC -shared -nostdlib ${wl}-M $wl$lib.exp -o $lib $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags~$rm $lib.exp'
 
             # Commands to make compiler produce verbose output that lists
             # what "hidden" libraries, object files and flags are used when
@@ -633,9 +637,9 @@ case $host_os in
           else
             # g++ 2.7 appears to require `-G' NOT `-shared' on this
             # platform.
-            archive_cmds='$CC -G -nostdlib $LDFLAGS $predep_objects $libobjs $deplibs $postdep_objects $linker_flags ${wl}-h $wl$soname -o $lib'
+            archive_cmds='$CC -G -nostdlib $LDFLAGS $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags ${wl}-h $wl$soname -o $lib'
             archive_expsym_cmds='$echo "{ global:" > $lib.exp~cat $export_symbols | sed -e "s/\(.*\)/\1;/" >> $lib.exp~$echo "local: *; };" >> $lib.exp~
-		$CC -G -nostdlib ${wl}-M $wl$lib.exp -o $lib $predep_objects $libobjs $deplibs $postdep_objects $linker_flags~$rm $lib.exp'
+		$CC -G -nostdlib ${wl}-M $wl$lib.exp -o $lib $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags~$rm $lib.exp'
 
             # Commands to make compiler produce verbose output that lists
             # what "hidden" libraries, object files and flags are used when
@@ -804,6 +808,7 @@ else
           # KAI C++ Compiler
           ac_cv_prog_cc_wl='--backend -Wl,'
           ac_cv_prog_cc_pic='-fPIC'
+          ac_cv_prog_cc_static='-Bstatic'
           ;;
         cxx)
           # Compaq C++

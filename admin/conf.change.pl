@@ -6,11 +6,27 @@
 # autoconf function (which are GPL) into our LGPL acinclude.m4.in
 # written by Michael Matz <matz@kde.org>
 # adapted by Dirk Mueller <mueller@kde.org>
+#
+#   This file is free software; you can redistribute it and/or
+#   modify it under the terms of the GNU Library General Public
+#   License as published by the Free Software Foundation; either
+#   version 2 of the License, or (at your option) any later version.
+
+#   This library is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+#   Library General Public License for more details.
+
+#   You should have received a copy of the GNU Library General Public License
+#   along with this library; see the file COPYING.LIB.  If not, write to
+#   the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+#   Boston, MA 02111-1307, USA.
 
 # we have to change two places
 # 1. the splitting of the substitutions into chunks of 90 (or even 48 in
 #    later autoconf's
 # 2. the big main loop which patches all Makefile.in's
+
 use File::Basename;
 
 my $ac_aux_dir = dirname($0);

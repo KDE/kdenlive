@@ -333,14 +333,14 @@ else
       allow_undefined_flag=' ${wl}-berok'
       # The following three lines along with hardcode_into_libs=yes put the correct path into libraries.
       hardcode_libdir_flag_spec='${wl}-blibpath:$libdir${libdir:+:}/usr/lib:/lib'
-      archive_cmds='$CC '"$shared_flag"' $libobjs $deplibs $linker_flags ${wl}-G '"$hardcode_libdir_flag_spec"' -o $lib'
-      archive_expsym_cmds='$CC '"$shared_flag"' $libobjs $deplibs $linker_flags ${wl}-G '"$hardcode_libdir_flag_spec"' ${wl}'"$exp_sym_flag"':$export_symbols -o $lib'
+      archive_cmds='$CC '"$shared_flag"' $libobjs $deplibs $compiler_flags ${wl}-G '"$hardcode_libdir_flag_spec"' -o $lib'
+      archive_expsym_cmds='$CC '"$shared_flag"' $libobjs $deplibs $compiler_flags ${wl}-G '"$hardcode_libdir_flag_spec"' ${wl}'"$exp_sym_flag"':$export_symbols -o $lib'
     else
       if test "$host_cpu" = ia64; then
         hardcode_libdir_flag_spec='${wl}-R $libdir${libdir:+:}/usr/lib:/lib'
         allow_undefined_flag="-z nodefs"
-        archive_cmds='$CC '"$shared_flag"' $libobjs $deplibs $linker_flags '"$hardcode_libdir_flag_spec"' -o $lib'
-        archive_expsym_cmds='$CC '"$shared_flag"' $libobjs $deplibs $linker_flags '"$hardcode_libdir_flag_spec"' ${wl}'"$exp_sym_flag"':$export_symbols -o $lib'
+        archive_cmds='$CC '"$shared_flag"' $libobjs $deplibs $compiler_flags '"$hardcode_libdir_flag_spec"' -o $lib'
+        archive_expsym_cmds='$CC '"$shared_flag"' $libobjs $deplibs $compiler_flags '"$hardcode_libdir_flag_spec"' ${wl}'"$exp_sym_flag"':$export_symbols -o $lib'
       else
         allow_undefined_flag=' ${wl}-berok'
         # -bexpall does not export symbols beginning with underscore (_)
@@ -679,6 +679,25 @@ else
       # This hack is so that the source file can tell whether it is being
       # built for inclusion in a dll (and should export symbols for example).
       ac_cv_prog_cc_pic='-DDLL_EXPORT'
+      ;;
+
+    linux*)
+      case "$CC" in
+        ccc*)
+          # Compaq C
+          # It appears that all Alpha
+          # Linux and Compaq Tru64 Unix objects are PIC.
+          ac_cv_prog_cc_static='-non_shared'
+          ;;
+	KCC*)
+	  # KAI C++
+	  ac_cv_prog_cc_pic='-fPIC'
+	  ac_cv_prog_cc_wl='--backend -Wl,'
+	  ac_cv_prog_cc_static='-Bstatic'
+	  ;;
+        *)
+          ;;
+      esac
       ;;
 
     newsos6)

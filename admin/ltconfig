@@ -1155,6 +1155,7 @@ hpux9* | hpux10* | hpux11*)
   # link against other versions.
   dynamic_linker="$host_os dld.sl"
   version_type=sunos
+  hardcode_into_libs=all
   need_lib_prefix=no
   need_version=no
   shlibpath_var=SHLIB_PATH
@@ -1272,6 +1273,7 @@ osf3* | osf4* | osf5*)
   shlibpath_var=LD_LIBRARY_PATH
   sys_lib_search_path_spec="/usr/shlib /usr/ccs/lib /usr/lib/cmplrs/cc /usr/lib /usr/local/lib /var/shlib"
   sys_lib_dlsearch_path_spec="$sys_lib_search_path_spec"
+  hardcode_into_libs=yes
   ;;
 
 sco3.2v5*)

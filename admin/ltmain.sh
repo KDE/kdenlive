@@ -810,6 +810,7 @@ EOF
     old_convenience=
     deplibs=
     old_deplibs=
+    add_flags=
     compiler_flags=
     linker_flags=
     dllsearchpath=
@@ -1374,6 +1375,7 @@ EOF
 	  arg="\"$arg\""
 	  ;;
 	esac
+	add_flags="$add_flags $arg"
 	;;
 
       *.$objext)
@@ -1508,6 +1510,7 @@ EOF
 	  arg="\"$arg\""
 	  ;;
 	esac
+	add_flags="$add_flags $arg"
 	;;
       esac
 
@@ -3156,6 +3159,15 @@ EOF
 	  $run eval '(cd $output_objdir && $rm ${realname}U && $mv $realname ${realname}U)' || exit $?
 	fi
 
+	# Add all flags from the command line.  We here create a library,
+	# but those flags were only added to compile_command and
+	# finalize_command, which are only used when creating executables.
+	# So do it by hand here.
+	compiler_flags="$compiler_flags $add_flags"
+	# Only add it to commands which use CC, instead of LD, i.e.
+	# only to $compiler_flags
+	#linker_flags="$linker_flags $add_flags"
+
 	# Do each of the archive commands.
 	if test -n "$export_symbols" && test -n "$archive_expsym_cmds"; then
 	  eval cmds=\"$archive_expsym_cmds\"
@@ -4189,6 +4201,7 @@ fi\
 #	  fi
 #	done
 
+	compiler_flags="$compiler_flags $add_flags"
         eval cmds=\"$old_archive_cmds\"
 
         if len=`expr "X$cmds" : ".*"` &&
