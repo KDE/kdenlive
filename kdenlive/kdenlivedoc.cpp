@@ -299,7 +299,7 @@ void KdenliveDoc::addTrack(DocTrackBase *track){
 }
 
 /** Returns the number of tracks in this project */
-int KdenliveDoc::numTracks()
+uint KdenliveDoc::numTracks()
 {
 	return m_tracks.count();
 }

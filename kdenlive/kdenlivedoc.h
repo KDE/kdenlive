@@ -55,19 +55,23 @@ class KdenliveDoc : public QObject
 {
   Q_OBJECT
   public:
-    /** Constructor for the fileclass of the application */
-    KdenliveDoc(KdenliveApp *app, QWidget *parent, const char *name=0);
-    /** Destructor for the fileclass of the application */
-    ~KdenliveDoc();
-
-    /** adds a view to the document which represents the document contents. Usually this is your main view. */
-    void addView(KdenliveView *view);
-    /** removes a view from the list of currently connected views */
-    void removeView(KdenliveView *view);
-    /** returns if the document is modified or not. Use this to determine if your document needs saving by the
-     * user on closing. */
-    bool isModified(){ return m_modified; };
-    /** "save modified" - asks the user for saving if the document is modified */
+	/** Constructor for the fileclass of the application */
+	KdenliveDoc(KdenliveApp *app, QWidget *parent, const char *name=0);
+    
+	/** Destructor for the fileclass of the application */
+	~KdenliveDoc();
+    
+	/** adds a view to the document which represents the document contents. Usually this is your main view. */
+	void addView(KdenliveView *view);
+	
+	/** removes a view from the list of currently connected views */
+    	void removeView(KdenliveView *view);
+    
+	/** returns if the document is modified or not. Use this to determine if your document needs
+	 *  saving by the user on closing. */
+    
+	bool isModified(){ return m_modified; };
+    	/** "save modified" - asks the user for saving if the document is modified */
     bool saveModified();
     /** deletes the document's contents */
     void deleteContents();
@@ -81,37 +85,37 @@ class KdenliveDoc : public QObject
     bool saveDocument(const KURL& url, const char *format=0);
     /** returns the KURL of the document */
     const KURL& URL() const;
-    /** sets the URL of the document */
-	  void setURL(const KURL& url);
-		/** Returns the internal avFile list. */
-		const AVFileList &avFileList();
-		/** Insert an AVFile with the given url. If the file is already in the file list, return that instead. */
-		AVFile *insertAVFile(const KURL &file);
+	/** sets the URL of the document */
+	void setURL(const KURL& url);
+	/** Returns the internal avFile list. */
+	const AVFileList &avFileList();
+	/** Insert an AVFile with the given url. If the file is already in the file list, return that instead. */
+	AVFile *insertAVFile(const KURL &file);
   public slots:
     /** calls repaint() on all views connected to the document object and is called by the view by which the document has been changed.
      * As this view normally repaints itself, it is excluded from the paintEvent.
      */
     void slotUpdateAllViews(KdenliveView *sender);
-	  /** Inserts an Audio/visual file into the project */
-	  void slot_InsertAVFile(const KURL &file);
+	/** Inserts an Audio/visual file into the project */
+	void slot_InsertAVFile(const KURL &file);
   	/** Adds a sound track to the project */
   	void addSoundTrack();
   	/** Adds an empty video track to the project */
   	void addVideoTrack();
-  /** Inserts a list of clips into the document, updating the project accordingly. */
-  void slot_insertClips(QPtrList<DocClipBase> clips);
-  /** Given a drop event, inserts all contained clips into the project list, if they are not there already. */
-  void slot_insertClips(QDropEvent *event);
-  /** This slot occurs when the File properties for an AV File have been returned by the renderer.
+	/** Inserts a list of clips into the document, updating the project accordingly. */
+	void slot_insertClips(QPtrList<DocClipBase> clips);
+	/** Given a drop event, inserts all contained clips into the project list, if they are not there already. */
+	void slot_insertClips(QDropEvent *event);
+	/** This slot occurs when the File properties for an AV File have been returned by the renderer.
 
-The relevant AVFile can then be updated to the correct status. */
-  void AVFilePropertiesArrived(QMap<QString, QString> properties);
-  /** Called when an error occurs whilst retrieving a file's properties. */
-  void AVFilePropertiesError(const QString &path, const QString &errmsg);
+	The relevant AVFile can then be updated to the correct status. */
+	void AVFilePropertiesArrived(QMap<QString, QString> properties);
+	/** Called when an error occurs whilst retrieving a file's properties. */
+	void AVFilePropertiesError(const QString &path, const QString &errmsg);
 
-	 public:
- 		/** the list of the views currently connected to the document */
- 		static QPtrList<KdenliveView> *pViewList;
+public:
+	/** the list of the views currently connected to the document */
+	static QPtrList<KdenliveView> *pViewList;
   	/** The number of frames per second. */
   	int m_framesPerSecond;
   	/** Holds a list of all tracks in the project. */
@@ -129,7 +133,7 @@ as swiftly as possible... */
 			* may change. */
 	  DocTrackBase * firstTrack();
 	  /** Returns the number of tracks in this project */
-	  int numTracks();
+	  uint numTracks();
   /** Returns a reference to the AVFile matching the  url. If no AVFile matching the given url is found, then one will be created. Either way, the reference count for the AVFile will be incremented by one, and the file will be returned. */
   AVFile * getAVFileReference(KURL url);
   /** Find and return the AVFile with the url specified, or return null is no file matches. */
@@ -176,7 +180,7 @@ is not possible. */
   KRender * m_render;
   /** The range of times in the timeline that are currently out of date in the scene list. This list is used
 	to re-sync the scene list. */
-  RangeList<GenTime> m_invalidSceneTimes;;
+  RangeList<GenTime> m_invalidSceneTimes;
   /** This is the scenelist that get's passed from the KdenliveDoc to the renderer. */
   QDomDocument m_domSceneList;
   /** Application pointer. */
