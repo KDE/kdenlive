@@ -1,9 +1,9 @@
 TODO List
 
 Urgent
-* (Kdenlive, Piave) extensive support of ffmpeg libraries to allow more video format, both in input and output.
-* (Kdenlive, Piave) DV capture from video camera.
-* (Kdenlive, Piave) choose a common library of effects to avoid maintaining our own effect system.
+- effect detection / editing for kdenlive
+- other-than-DV support for piave (ffmpeg?)
+- DV capture dialog
 
 Less urgent
 * (Kdenlive) KDockWidget layouts need to be saved on exit/opened on loading.
