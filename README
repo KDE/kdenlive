@@ -1,4 +1,4 @@
-Kdenlive V 0.2.3 by Jason Wood <jasonwood@blueyonder.co.uk>
+Kdenlive V 0.2.4 by Jason Wood <jasonwood@blueyonder.co.uk>
 
 Kdenlive is a video editing application for KDE. It will eventually run on
 any machine that KDE can run on.
@@ -13,7 +13,7 @@ the following webpage :
 
 http://modesto.sourceforge.net/piave/
 
-This version of Kdenlive requires Piave version 0.2.3. It may work with different 
+This version of Kdenlive requires Piave version 0.2.4. It may work with different 
 versions, but this is not guaranteed, or (at this stage of development) likely.
 
 Then, go to the Settings->configure Kdenlive menu, and type in or browse to

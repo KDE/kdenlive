@@ -1302,7 +1302,7 @@ taken from that reference and shortened a bit for readability. -->
 	application work. -->
 
 	&reporting.bugs;
-	&updating.documentation;
+	<!--	&updating.documentation; -->
 
 	<qandaset id="faqlist">
 		<qandaentry>

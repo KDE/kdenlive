@@ -13,31 +13,42 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.0.1\n"
 
+#. Tag: title
 #: index.docbook:45
 #, no-c-format
 msgid "The &kdenlive; Handbook"
 msgstr "Le manuel de &kdenlive;"
 
+#. Tag: author
 #: index.docbook:48
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "<firstname>Jason</firstname> <othername>M.</othername> <surname>Wood</"
-"surname> <affiliation> <address><email>jasonwood@blueyonder.co.uk</email></"
-"address> </affiliation>"
+"surname>"
 msgstr ""
 "<firstname>Jason</firstname> <othername>M.</othername> <surname>Wood</"
 "surname> <affiliation> <address><email>jasonwood@blueyonder.co.uk</email></"
 "address> </affiliation>"
 
+#. Tag: email
+#: index.docbook:53
+#, no-c-format
+msgid "jasonwood@blueyonder.co.uk"
+msgstr ""
+
+#. Tag: author
 #: index.docbook:59
 #, no-c-format
-msgid ""
-"<firstname>Gilles</firstname> <surname>Caulier</surname> <affiliation> "
-"<address><email>caulier.gilles@free.fr</email></address> </affiliation>"
+msgid "<firstname>Gilles</firstname> <surname>Caulier</surname>"
 msgstr ""
-"<firstname>Gilles</firstname> <surname>Caulier</surname> <affiliation> "
-"<address><email>caulier.gilles@free.fr</email></address> </affiliation>"
 
+#. Tag: email
+#: index.docbook:63
+#, no-c-format
+msgid "caulier.gilles@free.fr"
+msgstr ""
+
+#. Tag: trans_comment
 #: index.docbook:68
 #, no-c-format
 msgid "ROLES_OF_TRANSLATORS"
@@ -47,16 +58,19 @@ msgstr ""
 "gilles@free.fr</email></address></affiliation> <contrib>Traductions "
 "Française </contrib></othercredit>"
 
+#. Tag: holder
 #: index.docbook:72
 #, no-c-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
+#. Tag: para
 #: index.docbook:92
 #, no-c-format
 msgid "&kdenlive; is a non-linear video editor for KDE."
 msgstr "&kdenlive; est une application de montage vidéo non linéaire pour KDE."
 
+#. Tag: para
 #: index.docbook:96
 #, no-c-format
 msgid ""
@@ -73,36 +87,43 @@ msgstr ""
 "avec l'auteur à l'adresse <email>jasonwood@blueyonder.co.uk</email> pour de "
 "plus amples informations."
 
+#. Tag: para
 #: index.docbook:104
 #, no-c-format
 msgid "Cheers,"
 msgstr "Bonne lecture"
 
+#. Tag: para
 #: index.docbook:107
 #, no-c-format
 msgid "Jason"
 msgstr "Jason"
 
+#. Tag: keyword
 #: index.docbook:118
 #, no-c-format
 msgid "<keyword>KDE</keyword>"
 msgstr "<keyword>KDE</keyword>"
 
+#. Tag: keyword
 #: index.docbook:119
 #, no-c-format
 msgid "video editor"
 msgstr "Montage vidéo"
 
+#. Tag: keyword
 #: index.docbook:120
 #, no-c-format
 msgid "kdenlive"
 msgstr "kdenlive"
 
+#. Tag: title
 #: index.docbook:137
 #, no-c-format
 msgid "Introduction"
 msgstr "Introduction"
 
+#. Tag: para
 #: index.docbook:144
 #, no-c-format
 msgid ""
@@ -113,11 +134,13 @@ msgstr ""
 "rapporter des bogues ou pour proposer de nouvelles fonctionnalités, Veulliez "
 "envoyer un courrier électronique à <email>jasonwood@blueyonder.co.uk</email>"
 
+#. Tag: title
 #: index.docbook:150
 #, no-c-format
 msgid "What is a video editor?"
 msgstr "Qu'est ce qu'un logiciel de montage vidéo ?"
 
+#. Tag: para
 #: index.docbook:152
 #, no-c-format
 msgid ""
@@ -128,11 +151,13 @@ msgstr ""
 "séquence vidéo à partir de plusieurs plans vidéo indépendants ou à partir "
 "d'autres séquences vidéo."
 
+#. Tag: title
 #: index.docbook:158
 #, no-c-format
 msgid "What is the difference between linear editing and non-linear editing?"
 msgstr "Différences entre le montage vidéo « linéaire » et « non linéaire »"
 
+#. Tag: para
 #: index.docbook:160
 #, no-c-format
 msgid ""
@@ -159,6 +184,7 @@ msgstr ""
 "nouveau plan vidéo à une séquence vidéo d'une durée globale de 10 minutes, "
 "après les cinq premières minutes de celle ci."
 
+#. Tag: para
 #: index.docbook:171
 #, no-c-format
 msgid ""
@@ -176,11 +202,13 @@ msgstr ""
 "pouvez aussi les réarranger dans un ordre complètement différent et avec un "
 "ordinateur suffisamment puissant, observer le résultat final."
 
+#. Tag: title
 #: index.docbook:182
 #, no-c-format
 msgid "Quick Start Guide"
 msgstr "Présentation rapide"
 
+#. Tag: para
 #: index.docbook:184
 #, no-c-format
 msgid ""
@@ -192,11 +220,13 @@ msgstr ""
 "montage vidéo numérique. Cette présentation rapide vous aidera à réaliser "
 "quelques opérations de base pour le montage de votre premier film."
 
+#. Tag: title
 #: index.docbook:191
 #, no-c-format
 msgid "The Main Window"
 msgstr "La fenêtre principale"
 
+#. Tag: para
 #: index.docbook:192
 #, no-c-format
 msgid ""
@@ -206,11 +236,13 @@ msgstr ""
 "Lorsque vous lancez &kdenlive; pour la première fois, vous devez obtenir une "
 "fenêtre similaire à celle ci :"
 
-#: index.docbook:196
+#. Tag: phrase
+#: index.docbook:202
 #, no-c-format
 msgid "The main window"
 msgstr "La fenêtre principale"
 
+#. Tag: para
 #: index.docbook:207
 #, no-c-format
 msgid ""
@@ -222,16 +254,19 @@ msgstr ""
 "importants. Les positions de tous ces panneaux peuvent être configurés "
 "individuellement en fonction de vos besoins."
 
+#. Tag: title
 #: index.docbook:214
 #, no-c-format
 msgid "The Project Panel"
 msgstr "Le panneau du projet"
 
-#: index.docbook:215
+#. Tag: phrase
+#: index.docbook:221
 #, no-c-format
 msgid "The project panel"
 msgstr "Le panneau du projet"
 
+#. Tag: para
 #: index.docbook:225
 #, no-c-format
 msgid ""
@@ -243,16 +278,19 @@ msgstr ""
 "projet. L'onglet le plus important est la liste du projet. Il affiche "
 "l'ensemble des plans vidéo qui sont inclus dans le projet."
 
+#. Tag: title
 #: index.docbook:233
 #, no-c-format
 msgid "The Monitor Panel"
 msgstr "Le panneau de prévisualisation"
 
-#: index.docbook:234
+#. Tag: phrase
+#: index.docbook:240
 #, no-c-format
 msgid "The monitor panel"
 msgstr "Le panneau de prévisualisation"
 
+#. Tag: para
 #: index.docbook:244
 #, no-c-format
 msgid ""
@@ -266,16 +304,19 @@ msgstr ""
 "vidéo » affiche une prévisualisation du plan vidéo courant, et permet de "
 "sélectionner une section d'un plan vidéo à ajouter à la table de montage."
 
+#. Tag: title
 #: index.docbook:253 index.docbook:532
 #, no-c-format
 msgid "The Timeline"
 msgstr "La table de montage vidéo"
 
-#: index.docbook:254 index.docbook:308
+#. Tag: phrase
+#: index.docbook:260 index.docbook:314
 #, no-c-format
 msgid "The timeline"
 msgstr "La table de montage vidéo"
 
+#. Tag: para
 #: index.docbook:264
 #, no-c-format
 msgid ""
@@ -293,11 +334,13 @@ msgstr ""
 "Les futures versions implanteront cette fonctionnalité et elle sera visible "
 "dans la table de montage."
 
+#. Tag: title
 #: index.docbook:275
 #, no-c-format
 msgid "Adding clips to your project"
 msgstr "Ajouter un plan vidéo à votre projet"
 
+#. Tag: para
 #: index.docbook:277
 #, no-c-format
 msgid ""
@@ -318,6 +361,7 @@ msgstr ""
 "téléchargé à l'adresse <ulink url=\"http://kino.schirmacher.de/\">http://"
 "kino.schirmacher.de/</ulink>."
 
+#. Tag: para
 #: index.docbook:287
 #, no-c-format
 msgid ""
@@ -335,7 +379,8 @@ msgstr ""
 "fichiers de &kde;. Rechercher vos plans vidéo, choisissez les, et validez "
 "votre sélection."
 
-#: index.docbook:294
+#. Tag: para
+#: index.docbook:295
 #, no-c-format
 msgid ""
 "Attempting to add some invalid file types to the project may cause the "
@@ -352,6 +397,7 @@ msgstr ""
 "la section <link linkend=\"known-issues\">Problèmes connus et solutions</"
 "link> pour plus de détails."
 
+#. Tag: para
 #: index.docbook:304
 #, no-c-format
 msgid ""
@@ -361,11 +407,13 @@ msgstr ""
 "Les plans vidéo que vous avez ajouter doivent apparaître dans la liste du "
 "projet, avec leurs durées ainsi que d'autres informations."
 
+#. Tag: title
 #: index.docbook:320
 #, no-c-format
 msgid "Dragging clips to the timeline"
 msgstr "Glisser / déposer des plans vidéo dans la table de montage"
 
+#. Tag: para
 #: index.docbook:322
 #, no-c-format
 msgid ""
@@ -377,6 +425,7 @@ msgstr ""
 "commencer les opérations correspondantes au montage vidéo. Il existe deux "
 "méthodes pour ajouter un plan vidéo à la table de montage."
 
+#. Tag: para
 #: index.docbook:327
 #, no-c-format
 msgid ""
@@ -393,6 +442,7 @@ msgstr ""
 "volonté. Cette méthode place la totalité du plan vidéo dans la table de "
 "montage."
 
+#. Tag: para
 #: index.docbook:334
 #, no-c-format
 msgid ""
@@ -418,11 +468,13 @@ msgstr ""
 "montage pour ajouter le plan vidéo. Celui ci apparaîtra découpé aux limites "
 "préalablement définies dans le panneau de prévisualisation."
 
+#. Tag: title
 #: index.docbook:347
 #, no-c-format
 msgid "Selecting Clips on the Timeline"
 msgstr "Sélection de plans vidéo dans la table de montage"
 
+#. Tag: para
 #: index.docbook:349
 #, no-c-format
 msgid ""
@@ -438,12 +490,14 @@ msgstr ""
 "ou désélectionner un plan vidéo d'une sélection en utilisant la touche "
 "« Ctrl » avec le bouton gauche de la souris."
 
+#. Tag: title
 #: index.docbook:358
 #, no-c-format
 msgid "Moving and Resizing Clips on the Timeline"
 msgstr ""
 "Déplacement et redimensionnement des plans vidéo dans la table de montage"
 
+#. Tag: para
 #: index.docbook:359
 #, no-c-format
 msgid ""
@@ -460,6 +514,7 @@ msgstr ""
 "en utilisant le le « glisser / déposer » avec le bouton gauche de la souris "
 "afin d'obtenir la bonne dimension."
 
+#. Tag: para
 #: index.docbook:366
 #, no-c-format
 msgid ""
@@ -472,7 +527,8 @@ msgstr ""
 "vidéo et que vous l'affichez dans la fenêtre de prévisualisation des plans "
 "vidéo, vous apercevrez alors leurs nouvelles positions."
 
-#: index.docbook:371
+#. Tag: para
+#: index.docbook:372
 #, no-c-format
 msgid ""
 "It is not possible to resize a clip past it's length - if a clip is 30 "
@@ -483,6 +539,7 @@ msgstr ""
 "d'origine. Par exemple, si un plan vidéo a une durée de 30 secondes, vous ne "
 "pourrez pas le redimensionner à une durée de 35 secondes."
 
+#. Tag: para
 #: index.docbook:378
 #, no-c-format
 msgid ""
@@ -498,11 +555,13 @@ msgstr ""
 "montage. Ceci peut être utile pour aligner rapidement l'un derrière l'autre "
 "les plans vidéo."
 
+#. Tag: title
 #: index.docbook:388
 #, no-c-format
 msgid "Removing clips from the timeline"
 msgstr "Suppression de plans vidéo dans la table de montage"
 
+#. Tag: para
 #: index.docbook:390
 #, no-c-format
 msgid ""
@@ -515,6 +574,7 @@ msgstr ""
 "d'appuyer sur la touche <keycombo action=\"simul\"><keycap>Suppr</keycap></"
 "keycombo>."
 
+#. Tag: para
 #: index.docbook:395
 #, no-c-format
 msgid ""
@@ -525,7 +585,8 @@ msgstr ""
 "La seconde méthode consiste à sélectionner les plans vidéo et de les "
 "« glisser / déposer » en dehors de la table de montage."
 
-#: index.docbook:400
+#. Tag: para
+#: index.docbook:401
 #, no-c-format
 msgid ""
 "It not yet decided if this behaviour is a good thing or a bad thing. It may "
@@ -535,16 +596,19 @@ msgstr ""
 "est correcte ou non. Elle pourrait être supprimé dans des versions futures "
 "de &kdenlive;"
 
+#. Tag: title
 #: index.docbook:410
 #, no-c-format
 msgid "Using &kdenlive;"
 msgstr "Utilisation de &kdenlive;"
 
+#. Tag: title
 #: index.docbook:417
 #, no-c-format
 msgid "The Project List"
 msgstr "La liste du projet"
 
+#. Tag: para
 #: index.docbook:419
 #, no-c-format
 msgid ""
@@ -553,6 +617,7 @@ msgstr ""
 "La liste du projet affiche tous les plans vidéo qui sont disponibles dans le "
 "projet."
 
+#. Tag: para
 #: index.docbook:422
 #, no-c-format
 msgid ""
@@ -565,11 +630,13 @@ msgstr ""
 "séquence vidéo. Ceci inclut tous les usages du plan vidéo, dont la "
 "prévisualisation de celui ci."
 
+#. Tag: title
 #: index.docbook:428
 #, no-c-format
 msgid "Adding Clips to the Project"
 msgstr "Ajouter un plan vidéo au projet"
 
+#. Tag: para
 #: index.docbook:429
 #, no-c-format
 msgid ""
@@ -582,6 +649,7 @@ msgstr ""
 "format « DV » à partir de Konqueror), alors celui ci sera automatiquement "
 "ajouté au projet."
 
+#. Tag: para
 #: index.docbook:434
 #, no-c-format
 msgid ""
@@ -598,11 +666,13 @@ msgstr ""
 "une boîte de dialogue de sélection de fichiers. Si les fichiers vidéo "
 "choisis sont valides, il apparaîtront dans la liste du projet."
 
+#. Tag: title
 #: index.docbook:443
 #, no-c-format
 msgid "Deleting clips via the Project List"
 msgstr "Suppression des plans vidéo via la liste du projet"
 
+#. Tag: para
 #: index.docbook:444
 #, no-c-format
 msgid ""
@@ -612,11 +682,13 @@ msgstr ""
 "La suppression de plans vidéo n'est pas encore opérationnelle. La seule "
 "manière de supprimer des plans vidéo est de purger le projet."
 
+#. Tag: title
 #: index.docbook:450
 #, no-c-format
 msgid "Examining Clip Properties"
 msgstr "Consultation des propriétés des plans vidéo"
 
+#. Tag: para
 #: index.docbook:451
 #, no-c-format
 msgid ""
@@ -627,11 +699,13 @@ msgstr ""
 "La seule solution existante pour avoir des informations sur un fichier vidéo "
 "est d'utiliser la fenêtre de débogage."
 
+#. Tag: title
 #: index.docbook:457
 #, no-c-format
 msgid "Clean Project - Removing unused Clips"
 msgstr "Purger le projet - Suppression des plans vidéo non utilisés"
 
+#. Tag: para
 #: index.docbook:458
 #, no-c-format
 msgid ""
@@ -648,11 +722,19 @@ msgstr ""
 "sont pas utilisés dans le montage vidéo seront supprimés de la liste du "
 "projet."
 
-#: index.docbook:469 index.docbook:470
-#, no-c-format
-msgid "The Debug Panel"
+#. Tag: title
+#: index.docbook:469
+#, fuzzy, no-c-format
+msgid "<title>The Debug Panel</title>"
 msgstr "Le panneau de débogage"
 
+#. Tag: phrase
+#: index.docbook:476
+#, fuzzy, no-c-format
+msgid "<phrase>The Debug Panel</phrase>"
+msgstr "Le panneau de débogage"
+
+#. Tag: para
 #: index.docbook:480
 #, no-c-format
 msgid ""
@@ -667,6 +749,7 @@ msgstr ""
 "vous aidera pas à comprendre les informations contenu dans le panneau de "
 "débogage, mais vous expliquera pourquoi il existe et comment il opère."
 
+#. Tag: para
 #: index.docbook:486
 #, no-c-format
 msgid ""
@@ -687,6 +770,7 @@ msgstr ""
 "tâches, tel que la détermination des durées des plans vidéo et l'exportation "
 "finale du montage vidéo."
 
+#. Tag: para
 #: index.docbook:494
 #, no-c-format
 msgid ""
@@ -704,7 +788,8 @@ msgstr ""
 "rapports de bogues. Cliquez sur le bouton « Enregistrer les messages » pour "
 "préciser le fichier cible de sauvegarde des messages."
 
-#: index.docbook:501
+#. Tag: para
+#: index.docbook:502
 #, no-c-format
 msgid ""
 "The Save Messages button will save output for all of the renderers. You do "
@@ -715,6 +800,7 @@ msgstr ""
 "nécessaire de sauvegarder individuellement les vues de tous les programmes "
 "de rendu vidéo."
 
+#. Tag: para
 #: index.docbook:507
 #, no-c-format
 msgid ""
@@ -730,11 +816,13 @@ msgstr ""
 "longue session de &kdenlive;. En effet, l'affichage des messages de débogage "
 "ralentissent le programme et consomment beaucoup de mémoire."
 
+#. Tag: title
 #: index.docbook:516
 #, no-c-format
 msgid "The Effect List"
 msgstr "La liste des effets"
 
+#. Tag: para
 #: index.docbook:518 index.docbook:526
 #, no-c-format
 msgid "This is non-functional in the current version of &kdenlive;."
@@ -742,26 +830,31 @@ msgstr ""
 "Cette fonctionnalité n'est pas encore implantée dans la version actuelle de "
 "&kdenlive;."
 
+#. Tag: title
 #: index.docbook:524
 #, no-c-format
 msgid "The Effect Setup Panel"
 msgstr "Le panneau de configuration des effets"
 
+#. Tag: para
 #: index.docbook:533 index.docbook:540
 #, no-c-format
 msgid "This is..."
 msgstr "À faire..."
 
+#. Tag: title
 #: index.docbook:539
 #, no-c-format
 msgid "The Clip Monitor"
 msgstr "La prévisualisation des plans vidéo"
 
+#. Tag: title
 #: index.docbook:546
 #, no-c-format
 msgid "The Workspace Monitor"
 msgstr "La prévisualisation du montage vidéo"
 
+#. Tag: para
 #: index.docbook:547
 #, no-c-format
 msgid ""
@@ -772,6 +865,7 @@ msgstr ""
 "de la table de montage. Son fonctionnement est similaire à la "
 "prévisualisation des plans vidéo."
 
+#. Tag: para
 #: index.docbook:551
 #, no-c-format
 msgid ""
@@ -792,11 +886,13 @@ msgstr ""
 "associer dans la table de montage et que vous voulez les manipuler comme un "
 "simple plan vidéo."
 
+#. Tag: title
 #: index.docbook:562
 #, no-c-format
 msgid "Rendering your project"
 msgstr "Le rendu vidéo du projet"
 
+#. Tag: para
 #: index.docbook:563
 #, no-c-format
 msgid ""
@@ -809,12 +905,14 @@ msgstr ""
 "affichera une boîte de dialogue qui vous permettra de choisir le format, les "
 "options, et le nom du fichier pour l'exportation de votre montage vidéo."
 
-#: index.docbook:568
+#. Tag: phrase
+#: index.docbook:574
 #, no-c-format
 msgid "The rendering project dialog box"
 msgstr "La boîte de dialogue pour le rendu vidéo du projet."
 
-#: index.docbook:578
+#. Tag: para
+#: index.docbook:579
 #, no-c-format
 msgid ""
 "The current version of &kdenlive;/&piave; only supports export to raw dv "
@@ -823,11 +921,13 @@ msgstr ""
 "Les versions actuelles des programmes &kdenlive; et &piave; ne gèrent "
 "uniquement l'exportation vidéo au format « DV » brut (RAW)."
 
+#. Tag: title
 #: index.docbook:586
 #, no-c-format
 msgid "Loading and Saving your project"
 msgstr "L'ouverture et l'enregistrement de votre projet"
 
+#. Tag: para
 #: index.docbook:587
 #, no-c-format
 msgid ""
@@ -837,11 +937,13 @@ msgstr ""
 "Charger votre projet avec le menu « Fichier / Ouvrir ». Enregistrer votre "
 "projet avec le menu « Fichier / Enregistrer sous »."
 
+#. Tag: title
 #: index.docbook:595
 #, no-c-format
 msgid "Setup the Renderer"
 msgstr "La configuration du programme de rendu vidéo"
 
+#. Tag: para
 #: index.docbook:596
 #, no-c-format
 msgid ""
@@ -851,32 +953,32 @@ msgstr ""
 "Avec cette boîte de dialogue, vous pouvez configurer tous les paramètres "
 "nécessaires au fonctionnement du programme effectuant le rendu vidéo."
 
-#: index.docbook:599
+#. Tag: phrase
+#: index.docbook:605
 #, no-c-format
 msgid "The setup renderer dialog box"
 msgstr "La boîte de dialogue de configuration du programme de rendu vidéo"
 
+#. Tag: title
 #: index.docbook:615
 #, no-c-format
 msgid "Command Reference"
 msgstr "Les commandes de référence"
 
+#. Tag: title
 #: index.docbook:624
 #, no-c-format
 msgid "The main &kdenlive; window"
 msgstr "La fenêtre principale de &kdenlive;"
 
-#: index.docbook:625
-#, no-c-format
-msgid "<para></para>"
-msgstr "<para></para>"
-
+#. Tag: title
 #: index.docbook:628
 #, no-c-format
 msgid "The File Menu"
 msgstr "Le menu « Fichier »"
 
-#: index.docbook:629
+#. Tag: menuchoice
+#: index.docbook:633
 #, no-c-format
 msgid ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>n</keycap></keycombo> </"
@@ -885,12 +987,14 @@ msgstr ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>n</keycap></keycombo> </"
 "shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Nouveau</guimenuitem>"
 
-#: index.docbook:629
+#. Tag: action
+#: index.docbook:640
 #, no-c-format
 msgid "Creates a new document."
 msgstr "Création d'un nouveau projet de montage vidéo."
 
-#: index.docbook:629
+#. Tag: menuchoice
+#: index.docbook:644
 #, no-c-format
 msgid ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>o</keycap></keycombo> </"
@@ -899,23 +1003,27 @@ msgstr ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>o</keycap></keycombo> </"
 "shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Ouvrir</guimenuitem>"
 
-#: index.docbook:629
+#. Tag: action
+#: index.docbook:651
 #, no-c-format
 msgid "Open a saved project."
 msgstr "Ouvrir un projet préalablement enregistré."
 
-#: index.docbook:629
+#. Tag: menuchoice
+#: index.docbook:655
 #, no-c-format
 msgid "<guimenu>File</guimenu> <guimenuitem>Open Recent</guimenuitem>"
 msgstr ""
 "<guimenu>Fichier</guimenu> <guimenuitem>Récemment ouvert(s)</guimenuitem>"
 
-#: index.docbook:629
+#. Tag: action
+#: index.docbook:659
 #, no-c-format
 msgid "Open a recently used project."
 msgstr "Ouvre un projet qui a été précédemment ouvert dans &kdenlive;."
 
-#: index.docbook:629
+#. Tag: menuchoice
+#: index.docbook:663
 #, no-c-format
 msgid ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>s</keycap></keycombo> </"
@@ -924,23 +1032,27 @@ msgstr ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>s</keycap></keycombo> </"
 "shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Enregistrer</guimenuitem>"
 
-#: index.docbook:629
+#. Tag: action
+#: index.docbook:670
 #, no-c-format
 msgid "Saves the project."
 msgstr "Enregistre le projet courant."
 
-#: index.docbook:629
+#. Tag: menuchoice
+#: index.docbook:674
 #, no-c-format
 msgid "<guimenu>File</guimenu> <guimenuitem>Save As...</guimenuitem>"
 msgstr ""
 "<guimenu>Fichier</guimenu> <guimenuitem>Enregistrer sous...</guimenuitem>"
 
-#: index.docbook:629
+#. Tag: action
+#: index.docbook:678
 #, no-c-format
 msgid "Saves the project under a different filename."
 msgstr "Enregistre le projet avec un nom différent."
 
-#: index.docbook:629
+#. Tag: menuchoice
+#: index.docbook:682
 #, no-c-format
 msgid ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>q</keycap></keycombo> </"
@@ -949,17 +1061,20 @@ msgstr ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>q</keycap></keycombo> </"
 "shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Quitter</guimenuitem>"
 
-#: index.docbook:629
+#. Tag: para
+#: index.docbook:689
 #, no-c-format
 msgid "<action>Quits</action> &kapp;"
 msgstr "<action>Quitte</action> &kapp;"
 
+#. Tag: title
 #: index.docbook:697
 #, no-c-format
 msgid "The Edit Menu"
 msgstr "Le menu « Édition »"
 
-#: index.docbook:698
+#. Tag: menuchoice
+#: index.docbook:702
 #, no-c-format
 msgid ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>z</keycap></keycombo> </"
@@ -968,12 +1083,14 @@ msgstr ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>z</keycap></keycombo> </"
 "shortcut> <guimenu>Édition</guimenu> <guimenuitem>Annuler</guimenuitem>"
 
-#: index.docbook:698
+#. Tag: action
+#: index.docbook:712
 #, no-c-format
 msgid "Undo the last edit to the timeline."
 msgstr "Annule la dernière opération faite dans la table de montage."
 
-#: index.docbook:698
+#. Tag: menuchoice
+#: index.docbook:718
 #, no-c-format
 msgid ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>z</"
@@ -984,12 +1101,14 @@ msgstr ""
 "keycap></keycombo> </shortcut> <guimenu>Édition</guimenu> "
 "<guimenuitem>Refaire</guimenuitem>"
 
-#: index.docbook:698
+#. Tag: action
+#: index.docbook:728
 #, no-c-format
 msgid "Redo a previously undone edit to the timeline."
 msgstr "Réitère la précédente opération faite dans la table de montage."
 
-#: index.docbook:698
+#. Tag: menuchoice
+#: index.docbook:734
 #, no-c-format
 msgid ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>x</keycap></keycombo> </"
@@ -998,12 +1117,14 @@ msgstr ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>x</keycap></keycombo> </"
 "shortcut> <guimenu>Édition</guimenu> <guimenuitem>Couper</guimenuitem>"
 
-#: index.docbook:698 index.docbook:787
+#. Tag: action
+#: index.docbook:744 index.docbook:776 index.docbook:838
 #, no-c-format
 msgid "Non-functional at present"
 msgstr "Cette fonction n'est pas encore opérationnelle"
 
-#: index.docbook:698
+#. Tag: menuchoice
+#: index.docbook:750
 #, no-c-format
 msgid ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>c</keycap></keycombo> </"
@@ -1012,12 +1133,14 @@ msgstr ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>c</keycap></keycombo> </"
 "shortcut> <guimenu>Édition</guimenu> <guimenuitem>Copier</guimenuitem>"
 
-#: index.docbook:698
+#. Tag: action
+#: index.docbook:760
 #, no-c-format
 msgid "Non-funtional at present."
 msgstr "Cette fonction n'est pas encore opérationnelle"
 
-#: index.docbook:698
+#. Tag: menuchoice
+#: index.docbook:766
 #, no-c-format
 msgid ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>v</keycap></keycombo> </"
@@ -1026,51 +1149,68 @@ msgstr ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>v</keycap></keycombo> </"
 "shortcut> <guimenu>Édition</guimenu> <guimenuitem>Coller</guimenuitem>"
 
+#. Tag: title
 #: index.docbook:786
 #, no-c-format
 msgid "The Project Menu"
 msgstr "Le menu « Projet »"
 
-#: index.docbook:787
+#. Tag: menuchoice
+#: index.docbook:791
 #, no-c-format
 msgid "<guimenu>Project</guimenu> <guimenuitem>Add Clips</guimenuitem>"
 msgstr ""
 "<guimenu>Projet</guimenu> <guimenuitem>Ajouter des plans vidéo</guimenuitem>"
 
-#: index.docbook:787
+#. Tag: action
+#: index.docbook:798
 #, no-c-format
 msgid "Add clips to the project list."
 msgstr "Ajoute des plans vidéo dans la liste du projet."
 
-#: index.docbook:787
+#. Tag: menuchoice
+#: index.docbook:804
 #, no-c-format
 msgid "<guimenu>Project</guimenu> <guimenuitem>Delete Clips</guimenuitem>"
 msgstr ""
 "<guimenu>Projet</guimenu> <guimenuitem>Supprimer des plans vidéo</"
 "guimenuitem>"
 
-#: index.docbook:787
+#. Tag: action
+#: index.docbook:811
+#, no-c-format
+msgid ""
+"Delete the selected clip from the project. This deletes all references to "
+"the clip, including those on the timeline, or those within composite clips."
+msgstr ""
+
+#. Tag: menuchoice
+#: index.docbook:818
 #, no-c-format
 msgid "<guimenu>Project</guimenu> <guimenuitem>Clean Project</guimenuitem>"
 msgstr "<guimenu>Projet</guimenu> <guimenuitem>Purger le projet</guimenuitem>"
 
-#: index.docbook:787
+#. Tag: action
+#: index.docbook:825
 #, no-c-format
 msgid "Remove unused clips from the project list."
 msgstr "Suppression de la liste des plans vidéo inutilisés dans le projet."
 
-#: index.docbook:787
+#. Tag: menuchoice
+#: index.docbook:831
 #, no-c-format
 msgid "<guimenu>Project</guimenu> <guimenuitem>Clip Properties</guimenuitem>"
 msgstr ""
 "<guimenu>Projet</guimenu> <guimenuitem>Propriétés du plan vidéo</guimenuitem>"
 
-#: index.docbook:847
+#. Tag: title
+#: index.docbook:848
 #, no-c-format
 msgid "The Timeline Menu"
 msgstr "Le menu « Montage vidéo »"
 
-#: index.docbook:848
+#. Tag: menuchoice
+#: index.docbook:853
 #, no-c-format
 msgid ""
 "<shortcut> <keycap>q</keycap> </shortcut> <guimenu>Timeline</guimenu> "
@@ -1079,7 +1219,8 @@ msgstr ""
 "<shortcut> <keycap>q</keycap> </shortcut> <guimenu>Montage vidéo</guimenu> "
 "<guimenuitem>Outil de déplacement / redimensionnement</guimenuitem>"
 
-#: index.docbook:848
+#. Tag: para
+#: index.docbook:862
 #, no-c-format
 msgid ""
 "<action>Select the move/resize tool to use on the timeline.</action> This "
@@ -1091,7 +1232,8 @@ msgstr ""
 "plans vidéo dans la table de montage. C'est l'outil qui est utilisé par "
 "défaut dans la table de montage."
 
-#: index.docbook:848
+#. Tag: menuchoice
+#: index.docbook:870
 #, no-c-format
 msgid ""
 "<shortcut> <keycap>w</keycap> </shortcut> <guimenu>Timeline</guimenu> "
@@ -1100,7 +1242,8 @@ msgstr ""
 "<shortcut> <keycap>w</keycap> </shortcut> <guimenu>Montage vidéo</guimenu> "
 "<guimenuitem>Outil de découpage</guimenuitem>"
 
-#: index.docbook:848
+#. Tag: para
+#: index.docbook:879
 #, no-c-format
 msgid ""
 "<action>Select the Razor tool to use on the timeline.</action> This tool "
@@ -1110,7 +1253,8 @@ msgstr ""
 "outil vous permet de découper en deux pièces les plans vidéo à l'emplacement "
 "du curseur dans la table de montage."
 
-#: index.docbook:848
+#. Tag: menuchoice
+#: index.docbook:887
 #, no-c-format
 msgid ""
 "<shortcut> <keycap>e</keycap> </shortcut> <guimenu>Timeline</guimenu> "
@@ -1119,7 +1263,8 @@ msgstr ""
 "<shortcut> <keycap>e</keycap> </shortcut> <guimenu>Montage vidéo</guimenu> "
 "<guimenuitem>Outil de séparation</guimenuitem>"
 
-#: index.docbook:848
+#. Tag: para
+#: index.docbook:896
 #, no-c-format
 msgid ""
 "<action>Select the Spacer tool to use on the timeline.</action> This tool "
@@ -1129,14 +1274,16 @@ msgstr ""
 "outil vous permet de sélectionner tous les plans vidéo situés à la droite du "
 "curseur dans la table de montage."
 
-#: index.docbook:848
+#. Tag: menuchoice
+#: index.docbook:904
 #, no-c-format
 msgid "<guimenu>Timeline</guimenu> <guimenuitem>Snap To Frames</guimenuitem>"
 msgstr ""
 "<guimenu>Montage vidéo</guimenu> <guimenuitem>Utiliser les trames</"
 "guimenuitem>"
 
-#: index.docbook:848
+#. Tag: action
+#: index.docbook:911
 #, no-c-format
 msgid "If checked, all operations will snap to the nearest frame."
 msgstr ""
@@ -1144,14 +1291,16 @@ msgstr ""
 "vidéo dans la table de montage utiliseront les trames vidéo comme éléments "
 "de travail."
 
-#: index.docbook:848
+#. Tag: menuchoice
+#: index.docbook:917
 #, no-c-format
 msgid "<guimenu>Timeline</guimenu> <guimenuitem>Snap To Border</guimenuitem>"
 msgstr ""
 "<guimenu>Montage vidéo</guimenu> <guimenuitem>Utiliser les bords</"
 "guimenuitem>"
 
-#: index.docbook:848
+#. Tag: action
+#: index.docbook:924
 #, no-c-format
 msgid ""
 "If checked, moving and resizing clips will snap to nearby clip borders and "
@@ -1161,31 +1310,36 @@ msgstr ""
 "plans vidéo seront réalisés en utilisant les bords et les marqueurs de la "
 "table de montage."
 
-#: index.docbook:933
+#. Tag: title
+#: index.docbook:934
 #, no-c-format
 msgid "The Render Menu"
 msgstr "Le menu « Rendu vidéo »"
 
-#: index.docbook:934
+#. Tag: menuchoice
+#: index.docbook:939
 #, no-c-format
 msgid "<guimenu>Render</guimenu> <guimenuitem>Export Timeline</guimenuitem>"
 msgstr ""
 "<guimenu>Rendu vidéo</guimenu> <guimenuitem>Exporter le montage vidéo</"
 "guimenuitem>"
 
-#: index.docbook:934
+#. Tag: action
+#: index.docbook:946
 #, no-c-format
 msgid "Export the timeline to a video clip. Also known as rendering down."
 msgstr ""
 "Exporte le contenu de la table de montage dans une séquence vidéo. Cette "
 "opération est aussi appelée le « rendu vidéo »."
 
-#: index.docbook:955
+#. Tag: title
+#: index.docbook:956
 #, no-c-format
 msgid "The Layout Menu"
 msgstr "Le menu « Fenêtre »"
 
-#: index.docbook:956
+#. Tag: menuchoice
+#: index.docbook:961
 #, no-c-format
 msgid ""
 "<shortcut> <keycap>F9</keycap> </shortcut> <guimenu>Layout Menu</guimenu> "
@@ -1194,14 +1348,16 @@ msgstr ""
 "<shortcut> <keycap>F9</keycap> </shortcut> <guimenu>Fenêtre</guimenu> "
 "<guimenuitem>Charger la fenêtre 1</guimenuitem>"
 
-#: index.docbook:956
+#. Tag: action
+#: index.docbook:971 index.docbook:987 index.docbook:1003 index.docbook:1019
 #, no-c-format
 msgid "Loads up a previously saved screen layout."
 msgstr ""
 "Charge la configuration de la fenêtre d'édition vidéo précédemment "
 "enregistré."
 
-#: index.docbook:956
+#. Tag: menuchoice
+#: index.docbook:977
 #, no-c-format
 msgid ""
 "<shortcut> <keycap>F10</keycap> </shortcut> <guimenu>Layout Menu</guimenu> "
@@ -1210,7 +1366,8 @@ msgstr ""
 "<shortcut> <keycap>F10</keycap> </shortcut> <guimenu>Fenêtre</guimenu> "
 "<guimenuitem>Charger la fenêtre 2</guimenuitem>"
 
-#: index.docbook:956
+#. Tag: menuchoice
+#: index.docbook:993
 #, no-c-format
 msgid ""
 "<shortcut> <keycap>F11</keycap> </shortcut> <guimenu>Layout Menu</guimenu> "
@@ -1219,7 +1376,8 @@ msgstr ""
 "<shortcut> <keycap>F11</keycap> </shortcut> <guimenu>Fenêtre</guimenu> "
 "<guimenuitem>Charger la fenêtre 3</guimenuitem>"
 
-#: index.docbook:956
+#. Tag: menuchoice
+#: index.docbook:1009
 #, no-c-format
 msgid ""
 "<shortcut> <keycap>F12</keycap> </shortcut> <guimenu>Layout Menu</guimenu> "
@@ -1228,7 +1386,8 @@ msgstr ""
 "<shortcut> <keycap>F12</keycap> </shortcut> <guimenu>Fenêtre</guimenu> "
 "<guimenuitem>Charger la fenêtre 4</guimenuitem>"
 
-#: index.docbook:956
+#. Tag: menuchoice
+#: index.docbook:1025
 #, no-c-format
 msgid ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F9</"
@@ -1239,12 +1398,14 @@ msgstr ""
 "keycap></keycombo> </shortcut> <guimenu>Fenêtre</guimenu> "
 "<guimenuitem>Enregistrer la fenêtre 1</guimenuitem>"
 
-#: index.docbook:956
+#. Tag: action
+#: index.docbook:1035
 #, no-c-format
 msgid "Saves the current screen layout to layout slot 1."
 msgstr "Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 1."
 
-#: index.docbook:956
+#. Tag: menuchoice
+#: index.docbook:1041
 #, no-c-format
 msgid ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F10</"
@@ -1255,12 +1416,14 @@ msgstr ""
 "keycap></keycombo> </shortcut> <guimenu>Fenêtre</guimenu> "
 "<guimenuitem>Enregistrer la fenêtre 2</guimenuitem>"
 
-#: index.docbook:956
+#. Tag: action
+#: index.docbook:1051
 #, no-c-format
 msgid "Saves the current screen layout to layout slot 2."
 msgstr "Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 2."
 
-#: index.docbook:956
+#. Tag: menuchoice
+#: index.docbook:1057
 #, no-c-format
 msgid ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F11</"
@@ -1271,12 +1434,14 @@ msgstr ""
 "keycap></keycombo> </shortcut> <guimenu>Fenêtre</guimenu> "
 "<guimenuitem>Enregistrer la fenêtre 3</guimenuitem>"
 
-#: index.docbook:956
+#. Tag: action
+#: index.docbook:1067
 #, no-c-format
 msgid "Saves the current screen layout in layout slot 3."
 msgstr "Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 3."
 
-#: index.docbook:956
+#. Tag: menuchoice
+#: index.docbook:1073
 #, no-c-format
 msgid ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F12</"
@@ -1287,41 +1452,48 @@ msgstr ""
 "keycap></keycombo> </shortcut> <guimenu>Fenêtre</guimenu> "
 "<guimenuitem>Enregistrer la fenêtre 4</guimenuitem>"
 
-#: index.docbook:956
+#. Tag: action
+#: index.docbook:1083
 #, no-c-format
 msgid "Saves the current screen layout in layout slot 4."
 msgstr "Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 4."
 
-#: index.docbook:1092
+#. Tag: title
+#: index.docbook:1093
 #, no-c-format
 msgid "The Settings Menu"
 msgstr "Le menu « Configuration »"
 
-#: index.docbook:1093
+#. Tag: menuchoice
+#: index.docbook:1098
 #, no-c-format
 msgid "<guimenu>Settings</guimenu> <guimenuitem>Show Toolbar</guimenuitem>"
 msgstr ""
 "<guimenu>Configuration</guimenu> <guimenuitem>Afficher la barre d'outils</"
 "guimenuitem>"
 
-#: index.docbook:1093
+#. Tag: action
+#: index.docbook:1105
 #, no-c-format
 msgid "Show/hide the toolbars."
 msgstr "Affiche ou cache la barre d'outils."
 
-#: index.docbook:1093
+#. Tag: menuchoice
+#: index.docbook:1111
 #, no-c-format
 msgid "<guimenu>Settings</guimenu> <guimenuitem>Show Statusbar</guimenuitem>"
 msgstr ""
 "<guimenu>Configuration</guimenu> <guimenuitem>Afficher la barre d'état</"
 "guimenuitem>"
 
-#: index.docbook:1093
+#. Tag: action
+#: index.docbook:1118
 #, no-c-format
 msgid "Show/Hide the status bar."
 msgstr "Affiche ou cache la barre d'état."
 
-#: index.docbook:1093
+#. Tag: menuchoice
+#: index.docbook:1124
 #, no-c-format
 msgid ""
 "<guimenu>Settings</guimenu> <guimenuitem>Configure Shortcuts...</guimenuitem>"
@@ -1329,12 +1501,14 @@ msgstr ""
 "<guimenu>Configuration</guimenu> <guimenuitem>Configurer les raccourcis "
 "clavier...</guimenuitem>"
 
-#: index.docbook:1093
+#. Tag: action
+#: index.docbook:1131
 #, no-c-format
 msgid "Configure &kdenlive; keyboard shortcuts."
 msgstr "Configure les raccourcis clavier de &kdenlive;."
 
-#: index.docbook:1093
+#. Tag: menuchoice
+#: index.docbook:1137
 #, no-c-format
 msgid ""
 "<guimenu>Settings</guimenu> <guimenuitem>Configure Toolbars...</guimenuitem>"
@@ -1342,12 +1516,14 @@ msgstr ""
 "<guimenu>Configuration</guimenu> <guimenuitem>Configurer les barres "
 "d'outils...</guimenuitem>"
 
-#: index.docbook:1093
+#. Tag: action
+#: index.docbook:1144
 #, no-c-format
 msgid "Configure the toolbars."
 msgstr "Configure les barres d'outils de &kdenlive;."
 
-#: index.docbook:1093
+#. Tag: menuchoice
+#: index.docbook:1150
 #, no-c-format
 msgid ""
 "<guimenu>Settings</guimenu> <guimenuitem>Configure &kdenlive;...</"
@@ -1356,28 +1532,33 @@ msgstr ""
 "<guimenu>Configuration</guimenu> <guimenuitem>Configurer &kdenlive;...</"
 "guimenuitem>"
 
-#: index.docbook:1093
+#. Tag: action
+#: index.docbook:1157
 #, no-c-format
 msgid "Configure &kdenlive;"
 msgstr "Configure &kdenlive;"
 
-#: index.docbook:1166
+#. Tag: title
+#: index.docbook:1167
 #, no-c-format
 msgid "The Help Menu"
 msgstr "Le menu « Aide »"
 
-#: index.docbook:1167
+#. Tag: menuchoice
+#: index.docbook:1172
 #, no-c-format
 msgid "<guimenu>Help</guimenu> <guimenuitem>&kdenlive; Handbook</guimenuitem>"
 msgstr ""
 "<guimenu>Aide</guimenu> <guimenuitem>Manuel de &kdenlive;</guimenuitem>"
 
-#: index.docbook:1167
+#. Tag: action
+#: index.docbook:1179
 #, no-c-format
 msgid "View the &kdenlive; handbook (this document)."
 msgstr "Affiche le manuel de &kdenlive; (ce document)."
 
-#: index.docbook:1167
+#. Tag: menuchoice
+#: index.docbook:1185
 #, no-c-format
 msgid ""
 "<shortcut> <keycombo><keycap>Shift</keycap><keycap>F1</keycap></keycombo> </"
@@ -1387,7 +1568,8 @@ msgstr ""
 "shortcut> <guimenu>Aide</guimenu> <guimenuitem>Qu'est ce que c'est ?</"
 "guimenuitem>"
 
-#: index.docbook:1167
+#. Tag: action
+#: index.docbook:1195
 #, no-c-format
 msgid ""
 "After selecting this, click on part of the gui to find out what it does."
@@ -1395,23 +1577,27 @@ msgstr ""
 "Après avoir sélectionner cette option, cliquez sur une partie de l'interface "
 "graphique pour obtenir de de plus amples informations la concernant."
 
-#: index.docbook:1167
+#. Tag: menuchoice
+#: index.docbook:1201
 #, no-c-format
 msgid "<guimenu>Help</guimenu> <guimenuitem>Report Bug...</guimenuitem>"
 msgstr "<guimenu>Aide</guimenu> <guimenuitem>Rapport de bogue...</guimenuitem>"
 
-#: index.docbook:1167
+#. Tag: action
+#: index.docbook:1208
 #, no-c-format
 msgid "Report a bug about &kdenlive;"
 msgstr "Rapporte un bogue à propos de &kdenlive;"
 
-#: index.docbook:1167
+#. Tag: menuchoice
+#: index.docbook:1214
 #, no-c-format
 msgid "<guimenu>Help</guimenu> <guimenuitem>About &kdenlive;</guimenuitem>"
 msgstr ""
 "<guimenu>Aide</guimenu> <guimenuitem>À propos de &kdenlive;</guimenuitem>"
 
-#: index.docbook:1167
+#. Tag: action
+#: index.docbook:1221
 #, no-c-format
 msgid ""
 "See information about &kdenlive;, including the license, authors and "
@@ -1420,32 +1606,38 @@ msgstr ""
 "Affiche les informations concernant &kdenlive;, dont la licence, les "
 "auteurs, et les contributeurs."
 
-#: index.docbook:1167
+#. Tag: menuchoice
+#: index.docbook:1227
 #, no-c-format
 msgid "<guimenu>Help</guimenu> <guimenuitem>About KDE</guimenuitem>"
 msgstr "<guimenu>Aide</guimenu> <guimenuitem>À propos de KDE</guimenuitem>"
 
-#: index.docbook:1167
+#. Tag: action
+#: index.docbook:1234
 #, no-c-format
 msgid "See information about the KDE project."
 msgstr "Affiche les informations concernant le projet KDE."
 
-#: index.docbook:1246
+#. Tag: title
+#: index.docbook:1247
 #, no-c-format
 msgid "Developer's Guide to &kdenlive;"
 msgstr "Le guide du développeur de &kdenlive;"
 
-#: index.docbook:1252
+#. Tag: para
+#: index.docbook:1253
 #, no-c-format
 msgid "To be written."
 msgstr "À faire..."
 
-#: index.docbook:1263
+#. Tag: title
+#: index.docbook:1264
 #, no-c-format
 msgid "Known Issues, Workarounds and Recovery Procedures"
 msgstr "Problèmes connus et solutions"
 
-#: index.docbook:1265
+#. Tag: para
+#: index.docbook:1266
 #, no-c-format
 msgid ""
 "If &kdenlive; or one of the &piave; renderers crashes, it is possible that "
@@ -1456,7 +1648,8 @@ msgstr ""
 "anormalement, il est possible que la session courante ou une nouvelle "
 "session de &kdenlive; ne puisse pas correctement s'exécuter."
 
-#: index.docbook:1270
+#. Tag: para
+#: index.docbook:1271
 #, no-c-format
 msgid ""
 "There are two reasons why this may happen. The first is if one of the "
@@ -1469,12 +1662,14 @@ msgstr ""
 "&kdenlive;. La solution la plus simple est d'arrêter &kdenlive; et de saisir "
 "la ligne de commande suivante :"
 
-#: index.docbook:1270
+#. Tag: screen
+#: index.docbook:1275
 #, no-c-format
 msgid "<prompt>%</prompt> <userinput>killall -9 piave</userinput>"
 msgstr "<prompt>%</prompt> <userinput>killall -9 piave</userinput>"
 
-#: index.docbook:1278
+#. Tag: para
+#: index.docbook:1277
 #, no-c-format
 msgid ""
 "This will kill any stray &piave; processes, and should allow you to run "
@@ -1483,7 +1678,8 @@ msgstr ""
 "Cette opération arrêtera toutes les instances du programme &piave;. De cette "
 "manière, &kdenlive; doit pouvoir s'exécuter correctement."
 
-#: index.docbook:1282
+#. Tag: para
+#: index.docbook:1281
 #, no-c-format
 msgid ""
 "If you try the above and it says <quote>piave:no process killed</quote> then "
@@ -1498,12 +1694,20 @@ msgstr ""
 "relancer une nouvelle session de &kdenlive; (les ports TCP devrai être "
 "normalement libérés après cette durée)."
 
-#: index.docbook:1291
+#. Tag: title
+#: index.docbook:1290
 #, no-c-format
 msgid "Questions and Answers"
 msgstr "Questions fréquemment posées (FAQ)"
 
-#: index.docbook:1309
+#. Tag: chapter
+#: index.docbook:1290
+#, no-c-format
+msgid "&reporting.bugs;"
+msgstr ""
+
+#. Tag: para
+#: index.docbook:1308
 #, no-c-format
 msgid ""
 "When I add clips to the project, the times show up as 'unknown'. I know "
@@ -1513,8 +1717,9 @@ msgstr ""
 "annotée « inconnue ». Ces fichiers sont pourtant des fichiers vidéo dont le "
 "format est connu. Que se passe t'il ?"
 
-#: index.docbook:1313
-#, no-c-format
+#. Tag: para
+#: index.docbook:1312
+#, fuzzy, no-c-format
 msgid ""
 "This is a sign that something has gone wrong with &piave;. Whilst &kapp; "
 "will do it's best to pull itself back into working order, this is still "
@@ -1522,8 +1727,10 @@ msgid ""
 "The best solution is to quit &kapp; (if you have done any work, then you are "
 "quite safe to save it), perform the following operation: <screen width=\"40"
 "\">\n"
-"\t\t\t\t\t\t<prompt>%</prompt> <userinput>killall -9 piave</userinput>.\n"
-"\t\t\t\t\t</screen> Wait a few seconds, and then restart kdenlive."
+"                                                <prompt>%</prompt> "
+"<userinput>killall -9 piave</userinput>.\n"
+"                                        </screen> Wait a few seconds, and "
+"then restart kdenlive."
 msgstr ""
 "Ce message est du à une non reconnaissance du format vidéo par le programme "
 "&piave;. Comme &kapp; est une application encore récente, certain "
@@ -1534,7 +1741,8 @@ msgstr ""
 "\t\t\t\t\t\t<prompt>%</prompt> <userinput>killall -9 piave</userinput>.\n"
 "\t\t\t\t\t</screen> Attendez quelques secondes et relancez Kdenlive."
 
-#: index.docbook:1329
+#. Tag: para
+#: index.docbook:1326
 #, no-c-format
 msgid ""
 "The &kdenlive; user interface is not keeping up when I play a video! What is "
@@ -1543,7 +1751,8 @@ msgstr ""
 "L'interface de &kdenlive; ne tient pas compte des opérations de "
 "l'utilisateur lorsqu'un plan vidéo est prévisualisé. Quel est le problème ?"
 
-#: index.docbook:1333
+#. Tag: para
+#: index.docbook:1330
 #, no-c-format
 msgid ""
 "Go to the debug panel and try checking the Ignore Incoming Messages button. "
@@ -1556,17 +1765,20 @@ msgstr ""
 "débogage qui peuvent ralentir considérablement l'interface graphique pendant "
 "la lecture de longs plans vidéo."
 
-#: index.docbook:1351
+#. Tag: title
+#: index.docbook:1348
 #, no-c-format
 msgid "Credits and License"
 msgstr "Remerciements et licences"
 
-#: index.docbook:1353
+#. Tag: para
+#: index.docbook:1350
 #, no-c-format
 msgid "&kapp;"
 msgstr "&kapp;"
 
-#: index.docbook:1356
+#. Tag: para
+#: index.docbook:1353
 #, no-c-format
 msgid ""
 "Program copyright 2002-2003 Jason Wood <email>jasonwood@blueyonder.co.uk</"
@@ -1574,12 +1786,14 @@ msgid ""
 msgstr ""
 "Copyright Jason Wood <email>jasonwood@blueyonder.co.uk</email>, 2002-2003"
 
-#: index.docbook:1359
+#. Tag: para
+#: index.docbook:1356
 #, no-c-format
 msgid "Contributors:"
 msgstr "Contributeurs :"
 
-#: index.docbook:1359
+#. Tag: para
+#: index.docbook:1360
 #, no-c-format
 msgid ""
 "Caulier Gilles <email>caulier.Gilles@free.fr</email> : &kdenlive; and "
@@ -1589,7 +1803,8 @@ msgstr ""
 "des programmes &kdenlive; et &piave;, traductions Françaises, logo de "
 "démarrage."
 
-#: index.docbook:1359
+#. Tag: para
+#: index.docbook:1365
 #, no-c-format
 msgid ""
 "Rolf Dubitzky <email>dubitzky@pktw06.phy.tu-dresden.de</email> : &piave; "
@@ -1598,7 +1813,8 @@ msgstr ""
 "Rolf Dubitzky <email>dubitzky@pktw06.phy.tu-dresden.de</email> : auteur et "
 "mainteneur du programme &piave;."
 
-#: index.docbook:1375
+#. Tag: para
+#: index.docbook:1372
 #, no-c-format
 msgid ""
 "Documentation copyright 2003 Jason Wood <email>jasonwood@blueyonder.co.uk</"
@@ -1607,24 +1823,34 @@ msgstr ""
 "Documentation de Kdenlive : copyright Jason Wood <email>jasonwood@blueyonder."
 "co.uk</email>, 2003 "
 
-#: index.docbook:1379
+#. Tag: trans_comment
+#: index.docbook:1376
 #, no-c-format
 msgid "CREDIT_FOR_TRANSLATORS"
 msgstr ""
 "<para>Traductions : Caulier Gilles <email>caulier.gilles@free.fr</email>.</"
 "para>"
 
-#: index.docbook:1395
+#. Tag: chapter
+#: index.docbook:1376
+#, no-c-format
+msgid "&underFDL; &underGPL;"
+msgstr ""
+
+#. Tag: title
+#: index.docbook:1392
 #, no-c-format
 msgid "Installation"
 msgstr "Installation"
 
-#: index.docbook:1398
+#. Tag: title
+#: index.docbook:1395
 #, no-c-format
 msgid "How to obtain &kdenlive;"
 msgstr "Comment obtenir &kdenlive;"
 
-#: index.docbook:1400
+#. Tag: para
+#: index.docbook:1397
 #, no-c-format
 msgid ""
 "The &kdenlive; WEB site is <ulink url=\"http://www.uchian.pwp.blueyonder.co."
@@ -1639,12 +1865,14 @@ msgstr ""
 "sourceforge.net/projects/kdenlive/\">http://sourceforge.net/projects/"
 "kdenlive/</ulink> du serveur SourceForge."
 
-#: index.docbook:1409
+#. Tag: title
+#: index.docbook:1406
 #, no-c-format
 msgid "Requirements"
 msgstr "Programmes requis"
 
-#: index.docbook:1422
+#. Tag: para
+#: index.docbook:1419
 #, no-c-format
 msgid ""
 "In order to successfully use &kdenlive;, you need KDE 3.0 or higher. "
@@ -1656,7 +1884,8 @@ msgstr ""
 "d'avoir le programme « piave » pour pouvoir faire des opérations sur les "
 "fichiers vidéo. Kdenlive est une interface graphique pour ce programme."
 
-#: index.docbook:1428
+#. Tag: para
+#: index.docbook:1425
 #, no-c-format
 msgid ""
 "All required libraries as well as &kdenlive; itself can be found on or via "
@@ -1667,7 +1896,8 @@ msgstr ""
 "sur <ulink url=\"http://pwp.blueyonder.co.uk/kdenlive.html\">la page WEB du "
 "projet</ulink>."
 
-#: index.docbook:1435
+#. Tag: para
+#: index.docbook:1432
 #, no-c-format
 msgid ""
 "You can find a list of changes at <ulink url=\"http://pwp.blueyonder.co.uk/"
@@ -1678,12 +1908,14 @@ msgstr ""
 "l'adresse <ulink url=\"http://pwp.blueyonder.co.uk/kdenlive.html\">http://"
 "pwp.blueyonder.co.uk/kdenlive.html</ulink>."
 
-#: index.docbook:1441
+#. Tag: title
+#: index.docbook:1438
 #, no-c-format
 msgid "Compilation and Installation"
 msgstr "Compilation et installation"
 
-#: index.docbook:1443
+#. Tag: para
+#: index.docbook:1440
 #, no-c-format
 msgid ""
 "In order to compile and install &kdenlive; on your system, type the "
@@ -1693,22 +1925,26 @@ msgstr ""
 "lignes de commande suivantes dans le dossier de base contenant les sources "
 "du programme :"
 
+#. Tag: screen
 #: index.docbook:1443
 #, no-c-format
 msgid "<prompt>%</prompt> <userinput>./configure</userinput>"
 msgstr "<prompt>%</prompt> <userinput>./configure</userinput>"
 
-#: index.docbook:1443
+#. Tag: screen
+#: index.docbook:1444
 #, no-c-format
 msgid "<prompt>%</prompt> <userinput>make</userinput>"
 msgstr "<prompt>%</prompt> <userinput>make</userinput>"
 
-#: index.docbook:1443
+#. Tag: screen
+#: index.docbook:1445
 #, no-c-format
 msgid "<prompt>%</prompt> <userinput>make install</userinput>"
 msgstr "<prompt>%</prompt> <userinput>make install</userinput>"
 
-#: index.docbook:1457
+#. Tag: para
+#: index.docbook:1448
 #, no-c-format
 msgid ""
 "Additional parameters for ./configure script may be required. Type the "
@@ -1718,12 +1954,14 @@ msgstr ""
 "configure ». Saisissez la ligne de commande suivante dans le dossier de base "
 "contenant les sources du programme :"
 
-#: index.docbook:1457
+#. Tag: screen
+#: index.docbook:1451
 #, no-c-format
 msgid "<prompt>%</prompt> <userinput>./configure --help</userinput>"
 msgstr "<prompt>%</prompt> <userinput>./configure --help</userinput>"
 
-#: index.docbook:1465
+#. Tag: para
+#: index.docbook:1454
 #, no-c-format
 msgid ""
 "Since &kdenlive; uses autoconf and automake you should have not trouble "
@@ -1734,6 +1972,16 @@ msgstr ""
 "vous ne devriez pas avoir de problèmes pour compiler celui ci. Si vous "
 "rencontrez des difficultés, veulliez contacter l'auteur à l'adresse "
 "<email>jasonwood@blueyonder.co.uk</email>."
+
+#~ msgid ""
+#~ "<firstname>Gilles</firstname> <surname>Caulier</surname> <affiliation> "
+#~ "<address><email>caulier.gilles@free.fr</email></address> </affiliation>"
+#~ msgstr ""
+#~ "<firstname>Gilles</firstname> <surname>Caulier</surname> <affiliation> "
+#~ "<address><email>caulier.gilles@free.fr</email></address> </affiliation>"
+
+#~ msgid "<para></para>"
+#~ msgstr "<para></para>"
 
 #, fuzzy
 #~ msgid ""

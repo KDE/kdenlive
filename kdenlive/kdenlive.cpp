@@ -253,14 +253,14 @@ void KdenliveApp::initView()
 	// connect the widget to your document to display document contents.
 
 	view = new QWidget( this );
-	KDockWidget *mainDock = createDockWidget( i18n( "Application" ), QPixmap(), this, i18n( "Application" ) );
+	KDockWidget *mainDock = createDockWidget( "Application", QPixmap(), this, i18n( "Application" ) );
 	mainDock->setWidget( view );
 	mainDock->setDockSite( KDockWidget::DockFullSite );
 	setCentralWidget( mainDock );
 	setMainDockWidget( mainDock );
 	setCaption( doc->URL().fileName(), false );
 
-	KDockWidget *widget = createDockWidget( i18n( "TimeLine" ), QPixmap(), 0, i18n( "TimeLine" ) );
+	KDockWidget *widget = createDockWidget( "TimeLine", QPixmap(), 0, i18n( "TimeLine" ) );
 	m_timeline = new KMMTimeLine( this, NULL, getDocument(), widget );
 	widget->setWidget( m_timeline );
 	widget->setDockSite( KDockWidget::DockFullSite );

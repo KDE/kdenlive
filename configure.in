@@ -36,7 +36,7 @@ dnl Perform program name transformation
 AC_ARG_PROGRAM
 
 dnl Automake doc recommends to do this only here. (Janos)
-AM_INIT_AUTOMAKE(kdenlive, 0.2.3) dnl searches for some needed programs
+AM_INIT_AUTOMAKE(kdenlive, 0.2.4) dnl searches for some needed programs
 
 KDE_SET_PREFIX
 
@@ -55,6 +55,17 @@ AM_KDE_WITH_NLS
 
 KDE_USE_QT(3)
 AC_PATH_KDE
+#MIN_CONFIG(3)
+
+dnl PACKAGE set before
+
+dnl CXXFLAGS="$NOOPT_CXXFLAGS" dnl __kdevelop[noopt]__
+dnl CFLAGS="$NOOPT_CFLAGS" dnl __kdevelop[noopt]__
+dnl CXXFLAGS="$CXXFLAGS $USE_EXCEPTIONS" dnl __kdevelop[exc]__
+
+dnl KDE_NEED_FLEX dnl __kdevelop__
+dnl AC_PROG_YACC dnl __kdevelop__
+
 #MIN_CONFIG(3)
 
 dnl PACKAGE set before
