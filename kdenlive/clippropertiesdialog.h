@@ -21,7 +21,7 @@
 #include <qwidget.h>
 #include <kdialog.h>
 
-class AVFile;
+class DocClipRef;
 
 /**Displays the properties of a sepcified clip.
   *@author Jason Wood
@@ -33,9 +33,9 @@ public:
 	ClipPropertiesDialog(QWidget *parent=0, const char *name=0);
 	~ClipPropertiesDialog();
 	/** Specifies the clip that we wish to display the properties of. */
-	void setClip(const AVFile *clip);
+	void setClip(DocClipRef *clip);
 private:
-  	const AVFile *m_clip;
+  	DocClipRef *m_clip;
 };
 
 #endif

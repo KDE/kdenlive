@@ -32,26 +32,27 @@
 #include "trackpanelspacerfunction.h"
 
 KMMTrackVideoPanel::KMMTrackVideoPanel(KMMTimeLine *timeline,
+					KdenliveDoc *doc, 
 					DocTrackVideo *docTrack,
 					QWidget *parent,
 				       	const char *name ) :
-		KMMTrackPanel(timeline, docTrack, parent,name),
+		KMMTrackPanel(timeline, doc, docTrack, parent,name),
 		m_trackLabel(i18n("Video Track"), this, "Video Track")
 {
 	setMinimumHeight(20);
 	setMaximumHeight(20);
 
-	TrackPanelClipResizeFunction *resize = new TrackPanelClipResizeFunction(timeline, docTrack);
+	TrackPanelClipResizeFunction *resize = new TrackPanelClipResizeFunction(timeline, doc, docTrack);
 	addFunctionDecorator(KdenliveApp::Move, resize);
-	addFunctionDecorator(KdenliveApp::Move, new TrackPanelClipMoveFunction(timeline, docTrack));
+	addFunctionDecorator(KdenliveApp::Move, new TrackPanelClipMoveFunction(timeline, doc, docTrack));
 
 	connect(resize, SIGNAL(signalClipCropStartChanged(const GenTime &)),
 					this, SIGNAL(signalClipCropStartChanged(const GenTime &)));
 	connect(resize, SIGNAL(signalClipCropEndChanged(const GenTime &)),
 					this, SIGNAL(signalClipCropEndChanged(const GenTime &)));
 
-	addFunctionDecorator(KdenliveApp::Razor, new TrackPanelRazorFunction(timeline, docTrack));
-	addFunctionDecorator(KdenliveApp::Spacer, new TrackPanelSpacerFunction(timeline, docTrack, docTrack->document()));
+	addFunctionDecorator(KdenliveApp::Razor, new TrackPanelRazorFunction(timeline, doc, docTrack));
+	addFunctionDecorator(KdenliveApp::Spacer, new TrackPanelSpacerFunction(timeline, docTrack, document()));
 
 	m_pixmap.load("test.png");
 }
@@ -61,10 +62,10 @@ KMMTrackVideoPanel::~KMMTrackVideoPanel()
 }
 
 /** Paint the specified clip on screen within the specified rectangle, using the specified painter. */
-void KMMTrackVideoPanel::paintClip(QPainter &painter, DocClipBase *clip, QRect &rect, bool selected)
+void KMMTrackVideoPanel::paintClip(QPainter &painter, DocClipRef *clip, QRect &rect, bool selected)
 {
-	int sx = (int)timeLine()->mapValueToLocal(clip->trackStart().frames(m_docTrack->document()->framesPerSecond()));
-	int ex = (int)timeLine()->mapValueToLocal(clip->trackEnd().frames(m_docTrack->document()->framesPerSecond()));
+	int sx = (int)timeLine()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
+	int ex = (int)timeLine()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
 	int clipWidth = ex-sx;
 	int tx = ex;
 
@@ -99,7 +100,7 @@ void KMMTrackVideoPanel::paintClip(QPainter &painter, DocClipBase *clip, QRect &
 	int textWidth = clipWidth / nameRepeat;
 
 	if(textWidth > 0) {
-		int start = (int)timeLine()->mapValueToLocal(clip->trackStart().frames(25));
+		int start = (int)timeLine()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
 
 		start = sx - ((sx - start) % textWidth);
 		int count = start;

@@ -20,7 +20,8 @@
 
 #include <klistview.h>
 
-class AVFile;
+class DocClipRef;
+class DocumentBaseNode;
 class KdenliveDoc;
 
 /**Allows clips to be displayed in a QListView
@@ -28,15 +29,20 @@ class KdenliveDoc;
   */
 
 class AVListViewItem : public KListViewItem  {
-private:
-	QListView *m_listView;
-	AVFile *m_clip;
 public: 
-	AVListViewItem(KdenliveDoc *doc, QListView *parent, AVFile *clip);
+	/** Create an AVListViewItem. Note that AVList takes ownership of the clip passed in. */
+	AVListViewItem(KdenliveDoc *doc, QListViewItem *parent, DocumentBaseNode *node);
+	AVListViewItem(KdenliveDoc *doc, QListView *parent, DocumentBaseNode *node);
 	~AVListViewItem();
-	QString text ( int column ) const;
-	AVFile *clip() const;
-  KdenliveDoc *m_doc;
+	virtual void setText( int column, const QString &text );
+	virtual QString text ( int column ) const;
+	DocClipRef *clip() const;
+private:
+	void doCommonCtor();
+
+	QListView *m_listView;
+	DocumentBaseNode *m_node;
+	KdenliveDoc *m_doc;
 };
 
 #endif

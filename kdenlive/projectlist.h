@@ -27,8 +27,7 @@
 
 #include <kurl.h>
 
-#include "avfile.h"
-
+class DocClipRef;
 class KdenliveDoc;
 class KdenliveApp;
 
@@ -43,7 +42,7 @@ public:
 	ProjectList(KdenliveApp *app, KdenliveDoc *document, QWidget *parent=0, const char *name=0);
 	~ProjectList();
 	/** Returns the currently selected clip in the project list. */
-	AVFile *currentSelection();
+	DocClipRef *currentSelection();
 private: // Private methods
 	/** Holds the document that this projectlist makes use of. */
 	KdenliveDoc * m_document;
@@ -56,13 +55,13 @@ public slots: // Public slots
 	void rightButtonPressed ( QListViewItem *listViewItem, const QPoint &pos, int column) ;
 	/** Get a fresh copy of files and clips from KdenliveDoc and display them. */
 	void slot_UpdateList();
-	/** The AVFile specified has changed - update the display. */
-	void slot_avFileChanged(AVFile *file);
+	/** The clip specified has changed - update the display. */
+	void slot_clipChanged(DocClipRef *clip);
 signals: // Signals
 	/** this signal is called when a number of clips have been dropped onto the project list view. */
 	void dragDropOccured(QDropEvent *drop);
 	/** This signal is emitted when an AVFile is selected in the project list. */
-	void AVFileSelected(AVFile *file);
+	void clipSelected(DocClipRef *file);
 private slots: // Private slots
 	/** Called when the project list changes. */
 	void projectListSelectionChanged(QListViewItem *item);

@@ -23,6 +23,7 @@
 #include "trackpanelfunction.h"
 
 class QMouseEvent;
+class KdenliveDoc;
 class KMMTimeLine;
 class DocTrackBase;
 
@@ -36,7 +37,7 @@ class TrackPanelClipMoveFunction : public TrackPanelFunction
 {
 	Q_OBJECT
 public:
-    TrackPanelClipMoveFunction(KMMTimeLine *timeline, DocTrackBase *docTrack);
+    TrackPanelClipMoveFunction(KMMTimeLine *timeline, KdenliveDoc *document, DocTrackBase *docTrack);
 
     virtual ~TrackPanelClipMoveFunction();
 
@@ -69,8 +70,9 @@ public:
 
 private:
 	KMMTimeLine *m_timeline;
+	KdenliveDoc *m_document;
 	DocTrackBase *m_docTrack;
-	DocClipBase * m_clipUnderMouse;
+	DocClipRef * m_clipUnderMouse;
 	bool m_dragging;
 };
 

@@ -17,14 +17,15 @@
 
 #include "projectlistview.h"
 
-#include <avlistviewitem.h>
-#include <clipdrag.h>
+#include "avlistviewitem.h"
+#include "docclipavfile.h"
+#include "clipdrag.h"
 
 #include <kdebug.h>
 #include <klocale.h>
 
 ProjectListView::ProjectListView(QWidget *parent, const char *name):
-								KListView(parent, name)
+					KListView(parent, name)
 {
 		m_doc = 0;
 
@@ -33,14 +34,19 @@ ProjectListView::ProjectListView(QWidget *parent, const char *name):
     addColumn( i18n( "Duration" ) );
     addColumn( i18n( "Usage Count" ) );
     addColumn( i18n( "Size" ) );
+    addColumn( i18n( "Description" ) );
 
     setDragEnabled(true);
     setAcceptDrops(true);
     setDropVisualizer(true);
     setFullWidth(true);
+    setDefaultRenameAction(Accept);
+    setAllColumnsShowFocus(true);
+	setRootIsDecorated(true);
 
     connect(this, SIGNAL(dropped(QDropEvent*, QListViewItem*, QListViewItem*)), this,
     						  SLOT(dragDropped(QDropEvent*, QListViewItem*, QListViewItem*)));
+
 }
 
 ProjectListView::~ProjectListView()
@@ -57,7 +63,7 @@ QDragObject *ProjectListView::dragObject()
 		kdError() << "m_doc undefined" << endl;
 		return 0;
 	}
-	return new ClipDrag(m_doc, item->clip(), parentWidget(), "drag object");
+	return new ClipDrag(item->clip(), parentWidget(), "drag object");
 }
 
 bool ProjectListView::acceptDrag (QDropEvent* event) const
@@ -80,3 +86,4 @@ void ProjectListView::setDocument(KdenliveDoc *doc)
 {
 	m_doc = doc;
 }
+

@@ -20,6 +20,7 @@
 #include "kdenlive.h"
 #include "trackpanelfunction.h"
 
+class KdenliveDoc;
 class KMMTimeLine;
 class DocTrackBase;
 
@@ -33,7 +34,9 @@ class TrackPanelRazorFunction : public TrackPanelFunction
 {
 	Q_OBJECT
 public:
-	TrackPanelRazorFunction(KMMTimeLine *timeline, DocTrackBase *docTrack);
+	TrackPanelRazorFunction(KMMTimeLine *timeline, 
+					KdenliveDoc *document,
+					DocTrackBase *docTrack);
 
 	virtual ~TrackPanelRazorFunction();
 
@@ -66,8 +69,9 @@ public:
 private:
 
 	KMMTimeLine *m_timeline;
+	KdenliveDoc *m_document;
 	DocTrackBase *m_docTrack;
-	DocClipBase * m_clipUnderMouse;
+	DocClipRef * m_clipUnderMouse;
 };
 
 #endif

@@ -39,6 +39,7 @@
 #include "kmoveclipscommand.h"
 #include "kselectclipcommand.h"
 #include "kaddclipcommand.h"
+#include "kaddrefclipcommand.h"
 #include "kresizecommand.h"
 #include "clipdrag.h"
 
@@ -141,8 +142,8 @@ void KMMTimeLine::insertTrack(int index, KMMTrackPanel *track)
 				this, SIGNAL(signalClipCropStartChanged(const GenTime &)));
 	connect(track, SIGNAL(signalClipCropEndChanged(const GenTime &)), 
 				this, SIGNAL(signalClipCropEndChanged(const GenTime &)));
-	connect(track, SIGNAL(lookingAtClip(DocClipBase *, const GenTime &)), 
-				this, SIGNAL(lookingAtClip(DocClipBase *, const GenTime &)));
+	connect(track, SIGNAL(lookingAtClip(DocClipRef *, const GenTime &)),
+				this, SIGNAL(lookingAtClip(DocClipRef *, const GenTime &)));
 
 	resizeTracks();
 }
@@ -193,14 +194,14 @@ void KMMTimeLine::syncWithDocument()
 	DocTrackBase *track = m_document->firstTrack();
 	while(track != 0) {
 		if(track->clipType() == "Video") {
-			insertTrack(index, new KMMTrackVideoPanel(this, ((DocTrackVideo *)track)));
+			insertTrack(index, new KMMTrackVideoPanel(this, m_document, ((DocTrackVideo *)track)));
 			++index;      
-			insertTrack(index, new KMMTrackKeyFramePanel(this, track));
+			insertTrack(index, new KMMTrackKeyFramePanel(this, m_document, track));
 			++index;
 		} else if(track->clipType() == "Sound") {		
-			insertTrack(index, new KMMTrackSoundPanel(this, ((DocTrackSound *)track)));
+			insertTrack(index, new KMMTrackSoundPanel(this, m_document, ((DocTrackSound *)track)));
 			++index;      
-			insertTrack(index, new KMMTrackKeyFramePanel(this, track));
+			insertTrack(index, new KMMTrackKeyFramePanel(this, m_document, track));
 			++index;
 		} else {
 			kdWarning() << "Sync failed" << endl;
@@ -226,7 +227,7 @@ void KMMTimeLine::dragEnterEvent ( QDragEnterEvent *event )
 		event->accept(true);
 	} else 	if(ClipDrag::canDecode(event)) {
 		m_document->activeSceneListGeneration(false);
-		m_selection = ClipDrag::decode(m_document, event);
+		m_selection = ClipDrag::decode(m_document->clipManager(), event);
 
 	    	if(m_selection.masterClip()==0) m_selection.setMasterClip(m_selection.first());
 
@@ -378,7 +379,7 @@ KCommand *KMMTimeLine::selectNone()
 	KMacroCommand *command = new KMacroCommand(i18n("Selection"));
 
 	while(itt.current()!=0) {
-		QPtrListIterator<DocClipBase> clipItt(itt.current()->docTrack()->firstClip(true));
+		QPtrListIterator<DocClipRef> clipItt(itt.current()->docTrack()->firstClip(true));
 		while(clipItt.current()!=0) {
 			Command::KSelectClipCommand *clipComm = new Command::KSelectClipCommand(m_document, clipItt.current(), false);
 			command->addCommand(clipComm);
@@ -440,7 +441,7 @@ void KMMTimeLine::scrollViewRight()
 /** Toggle Selects the clip on the given track and at the given value. The clip will become selected if it wasn't already selected, and will be deselected if it is. */
 void KMMTimeLine::toggleSelectClipAt(DocTrackBase &track, GenTime value)
 {
-	DocClipBase *clip = track.getClipAt(value);
+	DocClipRef *clip = track.getClipAt(value);
 	if(clip) {
 		Command::KSelectClipCommand *command = new Command::KSelectClipCommand(m_document, clip, !track.clipSelected(clip));
 		m_app->addCommand(command, true);
@@ -450,14 +451,14 @@ void KMMTimeLine::toggleSelectClipAt(DocTrackBase &track, GenTime value)
 /** Selects the clip on the given track at the given value. */
 void KMMTimeLine::selectClipAt(DocTrackBase &track, GenTime value)
 {
-	DocClipBase *clip = track.getClipAt(value);
+	DocClipRef *clip = track.getClipAt(value);
 	if(clip) {
 		Command::KSelectClipCommand *command = new Command::KSelectClipCommand(m_document, clip, true);
 		m_app->addCommand(command, true);
 	}
 }
 
-void KMMTimeLine::addClipsToTracks(DocClipBaseList &clips, int track, GenTime value, bool selected)
+void KMMTimeLine::addClipsToTracks(DocClipRefList &clips, int track, GenTime value, bool selected)
 {
 	if(clips.isEmpty()) return;
 
@@ -465,7 +466,7 @@ void KMMTimeLine::addClipsToTracks(DocClipBaseList &clips, int track, GenTime va
 		addCommand(selectNone(), true);
 	}
 
-	DocClipBase *masterClip = clips.masterClip();
+	DocClipRef *masterClip = clips.masterClip();
 	if(!masterClip) masterClip = clips.first();
 
 	GenTime startOffset = value - masterClip->trackStart();
@@ -474,7 +475,7 @@ void KMMTimeLine::addClipsToTracks(DocClipBaseList &clips, int track, GenTime va
 	if(trackOffset == -1) trackOffset = 0;
   trackOffset = track - trackOffset;
 
-	QPtrListIterator<DocClipBase> itt(clips);
+	QPtrListIterator<DocClipRef> itt(clips);
 	int moveToTrack;
 
 	while(itt.current() != 0) {
@@ -515,7 +516,7 @@ int KMMTimeLine::trackUnderPoint(const QPoint &pos)
 	return -1;
 }
 
-void KMMTimeLine::initiateDrag(DocClipBase *clipUnderMouse, GenTime mouseTime)
+void KMMTimeLine::initiateDrag(DocClipRef *clipUnderMouse, GenTime mouseTime)
 {
 	m_masterClip = clipUnderMouse;
 	m_clipOffset = mouseTime - clipUnderMouse->trackStart();
@@ -526,7 +527,7 @@ void KMMTimeLine::initiateDrag(DocClipBase *clipUnderMouse, GenTime mouseTime)
 	
 	m_startedClipMove = true;
 
-	DocClipBaseList selection = listSelected();
+	DocClipRefList selection = listSelected();
 
 	selection.setMasterClip(m_masterClip);
 	ClipDrag *clip = new ClipDrag(selection, this, "Timeline Drag");
@@ -552,7 +553,7 @@ void KMMTimeLine::setTimeScale(int scale)
 /** Returns true if the specified clip exists and is selected, false otherwise. If a track is
 specified, we look at that track first, but fall back to a full search of tracks if the clip is
  not there. */
-bool KMMTimeLine::clipSelected(DocClipBase *clip, DocTrackBase *track)
+bool KMMTimeLine::clipSelected(DocClipRef *clip, DocTrackBase *track)
 {
 	if(track) {
 		if(track->clipExists(clip)) {
@@ -572,9 +573,9 @@ bool KMMTimeLine::clipSelected(DocClipBase *clip, DocTrackBase *track)
 	return false;
 }
 
-bool KMMTimeLine::canAddClipsToTracks(DocClipBaseList &clips, int track, GenTime clipOffset)
+bool KMMTimeLine::canAddClipsToTracks(DocClipRefList &clips, int track, GenTime clipOffset)
 {
-	QPtrListIterator<DocClipBase> itt(clips);
+	QPtrListIterator<DocClipRef> itt(clips);
 	int numTracks = m_trackList.count();
 	int trackOffset;
 	GenTime startOffset;
@@ -621,21 +622,21 @@ bool KMMTimeLine::canAddClipsToTracks(DocClipBaseList &clips, int track, GenTime
 
 /** Constructs a list of all clips that are currently selected. It does nothing else i.e.
 it does not remove the clips from the timeline. */
-DocClipBaseList KMMTimeLine::listSelected()
+DocClipRefList KMMTimeLine::listSelected()
 {
-	DocClipBaseList list;
+	DocClipRefList list;
 
  	QPtrListIterator<KMMTrackPanel> itt(m_trackList);
 
-  while(itt.current()) {
-  	QPtrListIterator<DocClipBase> clipItt(itt.current()->docTrack()->firstClip(true));
+	while(itt.current()) {
+		QPtrListIterator<DocClipRef> clipItt(itt.current()->docTrack()->firstClip(true));
 
-   	while(clipItt.current()) {
+		while(clipItt.current()) {
 			list.inSort(clipItt.current());
 			++clipItt;
 		}
-  	++itt;
-  }
+		++itt;
+	}
 	
 	return list;
 }
@@ -666,10 +667,10 @@ KMacroCommand *KMMTimeLine::createAddClipsCommand(bool addingClips)
 	for(int count=0; count<m_document->numTracks(); count++) {
 		DocTrackBase *track = m_document->track(count);
 
-		QPtrListIterator<DocClipBase> itt = track->firstClip(true);
+		QPtrListIterator<DocClipRef> itt = track->firstClip(true);
 
 		while(itt.current()) {
-			Command::KAddClipCommand *command = new Command::KAddClipCommand(m_document, itt.current(), addingClips);
+			Command::KAddRefClipCommand *command = new Command::KAddRefClipCommand(m_document->clipManager(), &m_document->projectClip(), itt.current(), addingClips);
 			macroCommand->addCommand(command);
 			++itt;
 		}		
@@ -695,30 +696,36 @@ KCommand *KMMTimeLine::razorAllClipsAt(GenTime time)
 
 KCommand *KMMTimeLine::razorClipAt(DocTrackBase &track, GenTime &time)
 {
-	DocClipBase *clip = track.getClipAt(time);
-	if(!clip) return 0;
-
-	// disallow the creation of clips with 0 length.
-	if((clip->trackStart() == time) || (clip->trackEnd() == time)) return 0;	
+	KMacroCommand *command = 0;
 	
-	KMacroCommand *command = new KMacroCommand(i18n("Razor clip"));
-	
-	command->addCommand(selectNone());
+	DocClipRef *clip = track.getClipAt(time);
+	if(clip) {
+		// disallow the creation of clips with 0 length.
+		if((clip->trackStart() == time) || (clip->trackEnd() == time)) return 0;	
+		
+		command = new KMacroCommand(i18n("Razor clip"));
+		
+		command->addCommand(selectNone());
 
-	DocClipBase *clone = clip->clone();
-    
-	clone->setTrackStart(time);
-	clone->setCropStartTime(clip->cropStartTime() + (time - clip->trackStart()));
+		DocClipRef *clone = clip->clone(m_document->clipManager());
 
-	command->addCommand(resizeClip(clip, true, time));
-	command->addCommand(new Command::KAddClipCommand(m_document, clone, true));
+		if(clone) {
+			clone->setTrackStart(time);
+			clone->setCropStartTime(clip->cropStartTime() + (time - clip->trackStart()));
 
-	delete clone;
+			command->addCommand(resizeClip(*clip, true, time));
+			command->addCommand(new Command::KAddRefClipCommand(m_document->clipManager(), &m_document->projectClip(), clone, true));
+
+			delete clone;
+		} else {
+			kdError() << "razorClipAt - could not clone clip!!!" << endl;
+		}
+	}
 
 	return command;	
 }
 
-KCommand * KMMTimeLine::resizeClip(DocClipBase *clip, bool resizeEnd, GenTime &time)
+KCommand * KMMTimeLine::resizeClip(DocClipRef &clip, bool resizeEnd, GenTime &time)
 {
 	Command::KResizeCommand *command = new Command::KResizeCommand(m_document, clip);
 
@@ -809,7 +816,7 @@ QValueList<GenTime> KMMTimeLine::selectedClipTimes()
 	QValueList<GenTime> resultList;
 
 	for(uint count=0; count<m_document->numTracks(); ++count) {
-		QPtrListIterator<DocClipBase> clipItt(m_document->track(count)->firstClip(true));
+		QPtrListIterator<DocClipRef> clipItt(m_document->track(count)->firstClip(true));
 		while(clipItt.current()!=0) {
 			if(m_masterClip == clipItt.current()) {
 				resultList.prepend(clipItt.current()->trackEnd());

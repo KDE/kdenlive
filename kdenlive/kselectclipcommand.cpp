@@ -17,13 +17,13 @@
 
 #include "kselectclipcommand.h"
 #include "kdenlivedoc.h"
-#include "docclipbase.h"
+#include "docclipref.h"
 #include <klocale.h>
 #include <kdebug.h>
 
 namespace Command {
 
-KSelectClipCommand::KSelectClipCommand(KdenliveDoc *doc, DocClipBase *clip, bool select)
+KSelectClipCommand::KSelectClipCommand(KdenliveDoc *doc, DocClipRef *clip, bool select)
 {
 	m_doc = doc;
 	DocTrackBase *docTrack = doc->findTrack(clip);

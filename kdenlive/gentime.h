@@ -46,6 +46,11 @@ public:
 	/** Returns the time in frames, after being given the number of frames per second */
 	double frames(double framesPerSecond) const;
 
+	GenTime &operator+=(GenTime op) {
+		m_time += op.m_time;
+		return *this;
+	}
+
 	/** Adds two GenTimes */
 	GenTime operator+(GenTime op) const {
 		return GenTime(m_time + op.m_time);
@@ -91,11 +96,11 @@ public:
 		return fabs(m_time != op.m_time) >= s_delta;
 	}
 
-  /* Rounds the GenTIme's value to the nearest frame */
-  GenTime &roundNearestFrame(double framesPerSecond) {
-    m_time = floor((m_time * framesPerSecond) + 0.5) / framesPerSecond;
-    return *this;
-  }
+	/* Rounds the GenTIme's value to the nearest frame */
+	GenTime &roundNearestFrame(double framesPerSecond) {
+		m_time = floor((m_time * framesPerSecond) + 0.5) / framesPerSecond;
+		return *this;
+	}
 			
 	~GenTime();
 private: // Private attributes

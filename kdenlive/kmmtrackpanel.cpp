@@ -24,10 +24,12 @@
 #include <iostream>
 
 KMMTrackPanel::KMMTrackPanel(KMMTimeLine *timeline,
-       			DocTrackBase * docTrack,
+			KdenliveDoc *document,
+       			DocTrackBase *docTrack,
 		       	QWidget *parent,
 		       	const char *name) :
 					QHBox(parent,name),
+					m_document(document),
 					m_docTrack(docTrack),
 					m_timeline(timeline)
 {
@@ -59,24 +61,24 @@ DocTrackBase * KMMTrackPanel::docTrack()
 blitted straight to the screen for speedy drawing. */
 void KMMTrackPanel::drawToBackBuffer(QPainter &painter, QRect &rect)
 {
-	GenTime startValue = GenTime(timeLine()->mapLocalToValue(0.0), m_docTrack->document()->framesPerSecond());
-	GenTime endValue = GenTime(timeLine()->mapLocalToValue(rect.width()), m_docTrack->document()->framesPerSecond());
+	GenTime startValue = GenTime(timeLine()->mapLocalToValue(0.0), m_document->framesPerSecond());
+	GenTime endValue = GenTime(timeLine()->mapLocalToValue(rect.width()), m_document->framesPerSecond());
 	
-	QPtrListIterator<DocClipBase> clip = docTrack()->firstClip(startValue, endValue, false);
-	DocClipBase *endClip = docTrack()->endClip(startValue, endValue, false).current();		
-	for(DocClipBase *curClip; (curClip = clip.current())!=endClip; ++clip) {
+	QPtrListIterator<DocClipRef> clip = docTrack()->firstClip(startValue, endValue, false);
+	DocClipRef *endClip = docTrack()->endClip(startValue, endValue, false).current();
+	for(DocClipRef *curClip; (curClip = clip.current())!=endClip; ++clip) {
 		paintClip(painter, curClip, rect, false);
 	}
 
 	clip = docTrack()->firstClip(startValue, endValue, true);
 	endClip = docTrack()->endClip(startValue, endValue, true).current();
-	for(DocClipBase *curClip; (curClip = clip.current())!=endClip; ++clip) {
+	for(DocClipRef *curClip; (curClip = clip.current())!=endClip; ++clip) {
 		paintClip(painter, curClip, rect, true);
 	}
 
 	// draw the vertical time marker
 
-	int value = (int)timeLine()->mapValueToLocal(timeLine()->seekPosition().frames(m_docTrack->document()->framesPerSecond()));
+	int value = (int)timeLine()->mapValueToLocal(timeLine()->seekPosition().frames(m_document->framesPerSecond()));
 	if(value >= rect.x() && value <= rect.x()+rect.width()) {
 		painter.drawLine(value, rect.y(), value, rect.y() + rect.height());
 	}

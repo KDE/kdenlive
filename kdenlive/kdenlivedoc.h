@@ -29,15 +29,18 @@
 
 #include <kurl.h>
 
-#include "avfilelist.h"
 #include "doctrackbaselist.h"
+#include "docclipbaselist.h"
 #include "krender.h"
 #include "rangelist.h"
+#include "clipmanager.h"
 
 // forward declaration of the Kdenlive classes
 class KdenliveApp;
 class KdenliveView;
+class DocClipAVFile;
 class DocClipProject;
+class DocumentBaseNode;
 
 /**	KdenliveDoc provides a document object for a document-view model.
   *
@@ -58,14 +61,14 @@ class KdenliveDoc : public QObject
   public:
 	/** Constructor for the fileclass of the application */
 	KdenliveDoc(KdenliveApp *app, QWidget *parent, const char *name=0);
-    
+
 	/** Destructor for the fileclass of the application */
 	~KdenliveDoc();
-    
-	/** adds a view to the document which represents the document contents. Usually this 
+
+	/** adds a view to the document which represents the document contents. Usually this
 	 * is your main view. */
 	void addView(KdenliveView *view);
-	
+
 	/** removes a view from the list of currently connected views */
     	void removeView(KdenliveView *view);
     
@@ -87,8 +90,6 @@ class KdenliveDoc : public QObject
 	const KURL& URL() const;
 	/** sets the URL of the document */
 	void setURL(const KURL& url);
-	/** Returns the internal avFile list. */
-	const AVFileList &avFileList() const;
   	/** Itterates through the tracks in the project. This works in the same way
 	* as QPtrList::next(), although the underlying structures may be different. */
 	DocTrackBase * nextTrack();
@@ -97,58 +98,31 @@ class KdenliveDoc : public QObject
 	* may change. */
 	DocTrackBase * firstTrack();
 
-	/** Returns a list of all clips directly or indirectly accessed by the specified avfile. */
-	QPtrList<DocClipBase> referencedClips(AVFile *file);
-
 	/** Returns true if at least one clip in the project is selected. */
 	bool hasSelectedClips();
 
 	/** Returns a clip that is currently selected. Only one clip is returned! 
 	 * This function is intended for times when you need a "master" clip. but have no preferred
 	 * choice. */
-	DocClipBase *selectedClip();
-
+	DocClipRef *selectedClip();
+	
 	// HACK HACK - we need a way to prevent the document from spewing hundreds of scenelist
 	// generation requests - this is it.
 	void activeSceneListGeneration(bool active);
-public slots:
-	/** calls repaint() on all views connected to the document object and is called by the view 
-	 * by which the document has been changed. As this view normally repaints itself, it is 
-	 * excluded from the paintEvent.
-	 */
-	void slotUpdateAllViews(KdenliveView *sender);
-	/** Inserts an Audio/visual file into the project */
-	void slot_InsertAVFile(const KURL &file);
-  	/** Adds a sound track to the project */
-  	void addSoundTrack();
-  	/** Adds an empty video track to the project */
-  	void addVideoTrack();
-	/** This slot occurs when the File properties for an AV File have been returned by the renderer.
-	The relevant AVFile can then be updated to the correct status. */
-	void AVFilePropertiesArrived(QMap<QString, QString> properties);
-	/** Called when an error occurs whilst retrieving a file's properties. */
-	void AVFilePropertiesError(const QString &path, const QString &errmsg);
 
-protected slots:
-	/** Inserts a list of clips into the document, updating the project accordingly. */
-	void slot_insertClips(QPtrList<DocClipBase> clips);
-	/** Given a drop event, inserts all contained clips into the project list, if they are not 
-	 * there already. */
-	void slot_insertClips(QDropEvent *event);
+	ClipManager &clipManager() { return m_clipManager; }
+	
+	/** Returns all clips that reference the specified clip. */
+	DocClipRefList referencedClips(DocClipBase *clip);
 
-public:
+	DocClipProject &projectClip() { return *m_projectClip; }
+	
   	/** Returns the number of frames per second. */
-  	int framesPerSecond() const;
+ 	double framesPerSecond() const;
 	uint numTracks();
-	/** Returns a reference to the AVFile matching the  url. If no AVFile matching the given url is
-	found, then one will be created. This method is not in charge of incrementing the reference count
-	of the avfile - this must be done by the calling function. */
-	AVFile * getAVFileReference(KURL url);
-	/** Find and return the AVFile with the url specified, or return null is no file matches. */
-	AVFile * findAVFile(const KURL &file);
 	/** returns the Track which holds the given clip. If the clip does not
 	exist within the document, returns 0; */
-	DocTrackBase * findTrack(DocClipBase *clip);
+	DocTrackBase * findTrack(DocClipRef *clip);
 	/** Returns the track with the given index, or returns NULL if it does not exist. */
 	DocTrackBase * track(int track);
 	/** Returns the index value for this track, or -1 on failure.*/
@@ -161,17 +135,11 @@ public:
 	QDomDocument generateSceneList();
 	/** Renders the current document timeline to the specified url. */
 	void renderDocument(const KURL &url);
-	/** Returns true if we should snape values to frame. */
-	bool snapToFrame();
 	/** Returns renderer associated with this document. */
 	KRender * renderer();
 
 	/** returns the duration of the project. */
 	GenTime projectDuration() const;
-//  protected:
-	/** Insert an AVFile with the given url. If the file is already in the file list, return 
-	 * that instead. */
-	AVFile *insertAVFile(const KURL &file);
 	/** HACK - in some cases, we can modify the document without it knowing - we tell it here
 	 * for the moment, although really, this means we have access to things that either we should
 	 * only modify via an interface to the document, or that the things that we are modifying should
@@ -180,27 +148,37 @@ public:
 	/** Moves the currectly selected clips by the offsets specified, or returns false if this
 	is not possible. */
 	bool moveSelectedClips(GenTime startOffset, int trackOffset);
-	/** Finds and removes the specified avfile from the document. If there are any
-	clips on the timeline which use this clip, then they will be deleted as well.
-	Emits AVFileList changed if successful. */
-	void deleteAVFile(AVFile *file);
+
+	/** Return the document clip hierarch */
+	DocumentBaseNode *clipHierarch() { return m_clipHierarch; }
+
+	/** Return the document base node with the given name, or null if it does not exist. */
+	DocumentBaseNode *findClipNode(const QString &name);
+
+	/** Delete the named documentBaseNode */
+	void deleteClipNode(const QString &name);
+
+	/** Add the given base node to the named parent */
+	void addClipNode(const QString &parent, DocumentBaseNode *newNode);
+
+	/** Generates a command that will clean the project. The command is returned so that it can
+	 * be executed by the client. */
+	KMacroCommand *createCleanProjectCommand();
   private:
 	/** The base clip for this document. This must be a project clip, as it lists the tracks within
 	 * the project, etc. */
 	DocClipProject *m_projectClip;
-	
+
 	/** the list of the views currently connected to the document */
 	static QPtrList<KdenliveView> *pViewList;
  	/** the modified flag of the current document */
 	bool m_modified;
 	KURL m_doc_url;
 
-	/** List of all video and audio files within this project */
-	AVFileList m_fileList;
 	/** This renderer is for multipurpose use, such as background rendering, and for
 	getting the file properties of the various AVFiles. */
 	KRender * m_render;
-	/** The range of times in the timeline that are currently out of date in the scene list. 
+	/** The range of times in the timeline that are currently out of date in the scene list.
 	 * This list is used to re-sync the scene list. */
 	RangeList<GenTime> m_invalidSceneTimes;
 	/** Application pointer. */
@@ -209,31 +187,61 @@ public:
 	QDomDocument m_domSceneList;
 	/** HACK HACK - generate scenelist if true, don't if false) */
 	bool m_sceneListGeneration;
-  private: // Private methods
+
+
+	/** The clip hierarchy for this project. Clips can be put into groups. */
+	DocumentBaseNode *m_clipHierarch;	
+	/** Clip manager maintains the list of clips that exist in the document. */
+	ClipManager m_clipManager;
 	/** Parses the XML Dom Document elements to populate the KdenliveDoc. */
 	void loadFromXML(QDomDocument &doc);
 	/** Connects the various project clip signals/slots up to the document. This should be done whenever
 	a new document project clip is created.*/
 	void connectProjectClip();
+public slots:
+	/** calls repaint() on all views connected to the document object and is called by the view
+	 * by which the document has been changed. As this view normally repaints itself, it is
+	 * excluded from the paintEvent.
+	 */
+	void slotUpdateAllViews(KdenliveView *sender);
+	/** Inserts an Audio/visual file into the project */
+	void slot_InsertClip(const KURL &file);
+  	/** Adds a sound track to the project */
+  	void addSoundTrack();
+  	/** Adds an empty video track to the project */
+  	void addVideoTrack();
+	/** Called when an error occurs whilst retrieving a file's properties. */
+	void AVFilePropertiesError(const QString &path, const QString &errmsg);
+
+protected slots:
+	/** Inserts a list of clips into the document, updating the project accordingly. */
+	void slot_insertClips(DocClipRefList clips);
+	/** Given a drop event, inserts all contained clips into the project list, if they are not
+	 * there already. */
+	void slot_insertClips(QDropEvent *event);
+
 private slots: // Private slots
 	/** Called when the document is modifed in some way. */
 	void hasBeenModified();
+	/** Emitted when a particular clip has changed in someway. E.g, it has recieved it's duration. */
+	void clipChanged(DocClipBase *file);
+
 signals: // Signals
   	/** This signal is emitted whenever tracks are added to or removed from the project. */
   	void trackListChanged();
- 	/** This is signal is emitted whenever the avFileList changes, either through the addition 
+ 	/** This is signal is emitted whenever the avFileList changes, either through the addition
 	 * or removal of an AVFile, or when an AVFile changes. */
-  	void avFileListUpdated();
+  	void clipListUpdated();
 	/** Emitted when the modified state of the document changes. */
 	void modified(bool);
-	/** Emitted when a particular AVFile has changed in someway. E.g, it has recieved it's duration. */
-	void avFileChanged(AVFile *file);
+	/** Emitted when a particular clip has changed in someway. E.g, it has recieved it's duration. */
+	void clipChanged(DocClipRef *file);
 	/** emitted when the document has changed in some way. */
 	void documentChanged();
 	/** Also emitted when the document has changed in some way, fires off the project clip with it */
 	void documentChanged(DocClipBase *);
 	/** Emitted whenever a clip gets selected. */
-	void signalClipSelected(DocClipBase *);
+	void signalClipSelected(DocClipRef *);
 };
 
 #endif // KDENLIVEDOC_H

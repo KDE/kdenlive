@@ -18,30 +18,30 @@
 #ifndef AVFILELIST_H
 #define AVFILELIST_H
 
-#include <qptrlist.h>
-#include <qdom.h>
-
-#include "avfile.h"
-
-class KRender;
-
-/**Holds a list of AVFiles.
-
-Works like QPtrList<AVFile>, but
-contains some convenience functions, such as toXML()
-  *@author Jason Wood
-  */
-
-class AVFileList : public QPtrList<AVFile>  {
-public: 
-	AVFileList();	
-	~AVFileList();
-  /** Returns an XML representation of the list. */
-  QDomDocument toXML() const;
-  /** Generates the file list from the XML stored in elem. */
-  void generateFromXML(KRender *render, QDomElement elem);
-  /** Returns the AVFile representing the given url, or if it doesn't exist, returns 0. */
-  AVFile *find(const KURL &file);
-};
+//#include <qptrlist.h>
+//#include <qdom.h>
+//
+//#include "avfile.h"
+//
+//class KRender;
+//
+///**Holds a list of AVFiles.
+//
+//Works like QPtrList<AVFile>, but
+//contains some convenience functions, such as toXML()
+//  *@author Jason Wood
+//  */
+//
+//class AVFileList : public QPtrList<AVFile>  {
+//public: 
+//	AVFileList();	
+//	~AVFileList();
+//  /** Returns an XML representation of the list. */
+//  QDomDocument toXML() const;
+//  /** Generates the file list from the XML stored in elem. */
+//  void generateFromXML(KRender *render, QDomElement elem);
+//  /** Returns the AVFile representing the given url, or if it doesn't exist, returns 0. */
+//  AVFile *find(const KURL &file);
+//};
 
 #endif

@@ -24,10 +24,10 @@
 #include "kmmeditpanel.h"
 #include "gentime.h"
 
+class DocClipBase;
+class DocClipRef;
 class KdenliveApp;
 class KdenliveDoc;
-class DocClipBase;
-class AVFile;
 
 /**KMMMonitor provides a multimedia bar and the
 ability to play Arts PlayObjects. It is also capable
@@ -56,7 +56,7 @@ public:
 	/** See m_noSeek property for details. */
 	void setNoSeek(bool noSeek);
 
-	DocClipBase *clip();
+	DocClipRef *clip();
 	
 protected:
 	void mousePressEvent(QMouseEvent *e);
@@ -77,11 +77,14 @@ private:
 	 * will always seek to the inpoint position.*/
 	bool m_noSeek;
 	/** The clip being displayed by the monitor. */
-	DocClipBase *m_clip;
+	DocClipRef *m_clip;
 	/** Connects all signals/slots to the screen. */
 	void connectScreen();
 	/** Disconnects all signals/slots from the screen */
 	void disconnectScreen();
+
+	/** Commont functionality for the setClip slots. */
+	void doCommonSetClip();
 	
 public slots: // Public slots
 	/** Seek the monitor to the given time. */
@@ -100,7 +103,7 @@ public slots: // Public slots
 	/** Sets the displayed clip in the timeline. */
 	void slotSetClip(DocClipBase *clip);
 	/** Sets the displayed clip in the timeline. */
-	void slotSetClip(AVFile *file);
+	void slotSetClip(DocClipRef *clip);
 	/** Clears the displayed clip on the timeline */
 	void slotClearClip();
 	/** Sets the inpoint of this monitor to the current seek position. */

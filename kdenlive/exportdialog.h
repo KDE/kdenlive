@@ -31,23 +31,20 @@
   *@author Jason Wood
   */
 
+class ExportConfig;
+
 class ExportDialog : public KDialogBase  {
    Q_OBJECT
 public: 
 	ExportDialog(QPtrList<AVFileFormatDesc> &formatList, QWidget *parent=0, const char *name=0);
 	~ExportDialog();
-  /** Generate a layout for this dialog, based upon the values that have been passed to it. */
-  void generateLayout();  
-  /** Returns the url set inside of this export dialog. */
-  KURL url();
-private: // Private attributes
-  /** A list of all known file formats */
-  QPtrList<AVFileFormatDesc> m_formatList;
-  /** A list of all pages that have been created */
-  QPtrList<AVFormatWidgetBase> m_pageList;
+	/** Returns the url set inside of this export dialog. */
+	KURL url();
 public slots: // Public slots
   /** Specify a new file format list, and reconstruct the dialog box. */
   void setFormatList(const QPtrList<AVFileFormatDesc> &list);
+private: // Private attributes
+  ExportConfig *m_exportConfig;
 };
 
 #endif

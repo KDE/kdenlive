@@ -22,7 +22,7 @@
 #include <gentime.h>
 
 class KdenliveDoc;
-class DocClipBase;
+class DocClipRef;
 
 /**This command is responsible for the selection/deselection of clips on the timeline.
   *@author Jason Wood
@@ -32,7 +32,7 @@ namespace Command {
 
 class KSelectClipCommand : public KCommand  {
 public:
-	KSelectClipCommand(KdenliveDoc *doc, DocClipBase *clip, bool select);
+	KSelectClipCommand(KdenliveDoc *doc, DocClipRef *clip, bool select);
 	~KSelectClipCommand();
   /** Rerturns the (translated) name of this command */
   QString name() const;

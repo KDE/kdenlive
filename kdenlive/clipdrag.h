@@ -20,10 +20,11 @@
 
 #include <kurldrag.h>
 
-class KdenliveDoc;
 class DocClipBase;
 class DocClipBaseList;
-class AVFile;
+class DocClipRefList;
+class DocClipRef;
+class ClipManager;
 
 /**Allows the dragging of clips within and outside of the application.
   *@author Jason Wood
@@ -33,17 +34,15 @@ class ClipDrag : public KURLDrag
 {
 public: 
 	ClipDrag(DocClipBase *clip, QWidget *dragSource, const char *name);
-   ClipDrag(KdenliveDoc *doc, AVFile * clip, QWidget * dragSource, const char * name);
+	ClipDrag(DocClipRef *clip, QWidget *dragSource, const char *name);
 	~ClipDrag();
-	/** Set the clip which is contained within this ClipDrag object. */
-	void setClip(DocClipBase *clip);
 	/** Returns true if the mime type is decodable, false otherwise. */
 	static bool canDecode(const QMimeSource *mime);
 	/** Attempts to decode the mimetype e as a clip. Returns a clip, or returns null */
-	static DocClipBaseList decode(KdenliveDoc *doc, const QMimeSource *e);
-  /** Constructs a clipDrag object consisting of the clips within the
-DocCLipBaseList passed. */
-   ClipDrag(DocClipBaseList &clips, QWidget *dragSource, const char *name);
+	static DocClipRefList decode(ClipManager &clipManager, const QMimeSource *e);
+	/** Constructs a clipDrag object consisting of the clips within the
+	DocCLipBaseList passed. */
+	ClipDrag(DocClipRefList &clips, QWidget *dragSource, const char *name);
 protected:
 	/** Reimplemented for internal reasons; the API is not affected.  */
 	QByteArray encodedData(const char *mime) const;
@@ -55,9 +54,9 @@ private: // Private methods
 	 * This is necessary, because the KURLDrag class which ClipDrag inherits
 	 * requires a list of URL's rather than a single URL. 
 	 **/
-	static KURL::List createURLList(DocClipBaseList *clipList);
+	static KURL::List createURLList(DocClipRefList *clipList);
 	static KURL::List createURLList(DocClipBase *clip);
-	static KURL::List createURLList(AVFile *clip);
+	static KURL::List createURLList(DocClipRef *clip);
 
 	/** Holds the XML representation of the clips being dragged */
 	QString m_xml;

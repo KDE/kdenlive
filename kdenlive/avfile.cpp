@@ -15,8 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qfileinfo.h>
-
 #include <kdebug.h>
 
 #include "avfile.h"
@@ -24,7 +22,6 @@
 #include "docclipavfile.h"
 
 AVFile::AVFile(const QString &name, const KURL &url) :
-			m_duration(0.0),
 			m_framesPerSecond(0)
 {
 	if(name.isNull()) {
@@ -35,49 +32,11 @@ AVFile::AVFile(const QString &name, const KURL &url) :
 
 	m_referers.setAutoDelete(false);
 		
-	m_url = url;
-
-	m_durationKnown = false;
 	calculateFileProperties(QMap<QString, QString>());
 }
 
 AVFile::~AVFile()
 {
-}
-
-/** Calculates properties for this file that will be useful for the rest of the program. */
-void AVFile::calculateFileProperties(const QMap<QString, QString> &attributes)
-{
-	if(m_url.isLocalFile()) {
-		QFileInfo fileInfo(m_url.path());
-
-	 	/* Determines the size of the file */
-		m_filesize = fileInfo.size();
-
-		if(attributes.contains("duration")) {
-			m_duration = GenTime(attributes["duration"].toDouble());
-			m_durationKnown = true;      
-		} else {
-			// No duration known, use an arbitrary one until it is.
-	  		m_duration = GenTime(0.0);
-			m_durationKnown = false;
-		}
-
-		if(attributes.contains("fps"))
-		{
-			m_framesPerSecond = attributes["fps"].toInt();
-		} else {
-			// No frame rate known.
-			m_framesPerSecond = 0;
-		}
-
-	} else {
-		/** If the file is not local, then no file properties are currently returned */
-		m_duration = GenTime(0.0);
-		m_durationKnown = false;
-		m_framesPerSecond = 0;
-		m_filesize = -1;
-	}
 }
 
 /** Read property of QString m_name. */
@@ -95,45 +54,6 @@ void AVFile::setName( const QString& _newVal)
 QString AVFile::fileName() const
 {
 	return m_url.fileName();
-}
-
-const KURL &AVFile::fileURL() const
-{
-	return m_url;
-}
-
-/** returns the size of the file */
-const signed int AVFile::fileSize() {
-	return m_filesize;
-}
-
-GenTime AVFile::duration() const
-{
-	return m_duration;
-}
-
-int AVFile::addReference(DocClipAVFile *referer)
-{
-	m_referers.append(referer);
-	return numReferences();
-}
-/** Removes the reference of this clip from this avFile. If the reference did not exist, a warning will be issued to stderr. Returns the number of references to avFile. */
-int AVFile::removeReference(DocClipAVFile *referer)
-{
-	m_referers.remove(referer);
-	return numReferences();
-}
-
-/** Returns the number of clips which reference this avFile. */
-int AVFile::numReferences()
-{
-	return m_referers.count();
-}
-
-/** Returns true if this AVFile has a known duration, false if it is, as of yet, undetermined. */
-bool AVFile::durationKnown()
-{
-  return m_durationKnown;
 }
 
 QPtrList<DocClipAVFile> AVFile::references()

@@ -33,25 +33,25 @@ class KdenliveDoc;
 class ProjectListView : public KListView  {
    Q_OBJECT
 public:
-  ProjectListView(QWidget *parent=0, const char *name=0);
+	ProjectListView(QWidget *parent=0, const char *name=0);
 	~ProjectListView();
-  /** returns a drag object which is used for drag operations. */
-  QDragObject *dragObject();
-  /** returns true if the drop event is compatable with the project list */
+	/** returns a drag object which is used for drag operations. */
+	QDragObject *dragObject();
+	/** returns true if the drop event is compatable with the project list */
 	bool acceptDrag (QDropEvent* event) const;
-  /** Sets the document to the one specified */
-  void setDocument(KdenliveDoc *doc);
+	/** Sets the document to the one specified */
+	void setDocument(KdenliveDoc *doc);
 signals: // Signals
-  /** This signal is called whenever clips are drag'n'dropped onto the project list view. */
-  void dragDropOccured(QDropEvent *e);
-  /** This signal is called whenever a drag'n'drop is started */
-  void dragStarted(QListViewItem *i);
+	/** This signal is called whenever clips are drag'n'dropped onto the project list view. */
+	void dragDropOccured(QDropEvent *e);
+	/** This signal is called whenever a drag'n'drop is started */
+	void dragStarted(QListViewItem *i);
 private slots: // Private slots
-  /** This slot function should be called whenever a drag has been dropped onto the class. */
-  void dragDropped(QDropEvent* e, QListViewItem* parent, QListViewItem* after);
+	/** This slot function should be called whenever a drag has been dropped onto the class. */
+	void dragDropped(QDropEvent* e, QListViewItem* parent, QListViewItem* after);
 private: // Private attributes
-  /** The document that keeps this list up-to-date. */
-  KdenliveDoc * m_doc;
+	/** The document that keeps this list up-to-date. */
+	KdenliveDoc * m_doc;
 };
 
 #endif

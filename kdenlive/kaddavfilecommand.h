@@ -32,34 +32,34 @@ class AVFile;
 /**Adds a clip to the document
   *@author Jason Wood
   */
-
-namespace Command {
-
-class KAddAVFileCommand : public KCommand  {
-public:
-	/** Construct an AddClipCommand that will delete a clip */
-	KAddAVFileCommand(KdenliveDoc *doc, const KURL &url, bool create=true);
-	KAddAVFileCommand(KdenliveDoc *doc, AVFile *avfile, bool create=true);
-		
-	~KAddAVFileCommand();
-	/** Unexecute the command */
-	void unexecute();
-	/** Execute the command */
-	void execute();
-	/** Returns the name of this command */
-	QString name() const;
-private: // Private methods
-	void deleteAVFile();
-private: // Private attributes
-	/** The KdenliveDoc that this action works upon. */
-	KdenliveDoc * m_doc;
-	/** The url for the avfile being added. */
-	KURL m_url;
-	/** If true, then executing the command will create a clip, and
-	unexecuting the command will delete a clip. Otherwise, it will be the
-	other way around. */
-	bool m_create;
-};
-
-} // namespace command
+//
+//namespace Command {
+//
+//class KAddAVFileCommand : public KCommand  {
+//public:
+//	/** Construct an AddClipCommand that will delete a clip */
+//	KAddAVFileCommand(KdenliveDoc *doc, const KURL &url, bool create=true);
+//	KAddAVFileCommand(KdenliveDoc *doc, AVFile *avfile, bool create=true);
+//		
+//	~KAddAVFileCommand();
+//	/** Unexecute the command */
+//	void unexecute();
+//	/** Execute the command */
+//	void execute();
+//	/** Returns the name of this command */
+//	QString name() const;
+//private: // Private methods
+//	void deleteAVFile();
+//private: // Private attributes
+//	/** The KdenliveDoc that this action works upon. */
+//	KdenliveDoc * m_doc;
+//	/** The url for the avfile being added. */
+//	KURL m_url;
+//	/** If true, then executing the command will create a clip, and
+//	unexecuting the command will delete a clip. Otherwise, it will be the
+//	other way around. */
+//	bool m_create;
+//};
+//
+//} // namespace command
 #endif

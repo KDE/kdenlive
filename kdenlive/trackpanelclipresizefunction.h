@@ -26,6 +26,7 @@
 class QMouseEvent;
 
 class DocTrackBase;
+class KdenliveDoc;
 class KMMTimeLine;
 
 
@@ -43,7 +44,9 @@ class TrackPanelClipResizeFunction : public TrackPanelFunction
 {
 	Q_OBJECT
 public:
-	TrackPanelClipResizeFunction(KMMTimeLine *timeline, DocTrackBase *docTrack);
+	TrackPanelClipResizeFunction(KMMTimeLine *timeline, 
+					KdenliveDoc *document,
+					DocTrackBase *docTrack);
 
 	virtual ~TrackPanelClipResizeFunction();
 
@@ -87,8 +90,9 @@ private:
 	enum ResizeState {None, Start, End};
 	static const uint s_resizeTolerance;
 	KMMTimeLine *m_timeline;
+	KdenliveDoc *m_document;
 	DocTrackBase *m_docTrack;
-	DocClipBase * m_clipUnderMouse;
+	DocClipRef * m_clipUnderMouse;
 	ResizeState m_resizeState;
   	/** This command holds the resize information during a resize operation */
   	Command::KResizeCommand * m_resizeCommand;

@@ -21,15 +21,11 @@
 #include "docclipavfile.h"
 #include "docclipproject.h"
 #include "doctrackbase.h"
-#include "kdenlivedoc.h"
+#include "clipmanager.h"
 
-DocClipBase::DocClipBase(KdenliveDoc *doc) :
-	m_trackStart(0.0),
-	m_cropStart(0.0),
-	m_trackEnd(0.0),
-	m_parentTrack(0),
-	m_trackNum(-1),
-	m_document(doc)
+DocClipBase::DocClipBase() :
+	m_description(""),
+	m_refcount(0)
 {
 }
 
@@ -37,115 +33,73 @@ DocClipBase::~DocClipBase()
 {
 }
 
-const GenTime &DocClipBase::trackStart() const {
-  return m_trackStart;
-}
-
-void DocClipBase::setTrackStart(const GenTime time)
-{
-	m_trackStart = time;
-	if(m_document->snapToFrame()) {
-		m_trackStart.roundNearestFrame(m_document->framesPerSecond());
-	}  
-	
-	if(m_parentTrack) {
-		m_parentTrack->clipMoved(this);
-	}
-}
-
 void DocClipBase::setName(const QString name)
 {
 	m_name = name;
-	if(m_parentTrack) {
-		m_parentTrack->clipMoved(this);
-	}		
 }
 
-QString DocClipBase::name() 
+const QString &DocClipBase::name() const
 {
 	return m_name;
 }
 
-void DocClipBase::setCropStartTime(const GenTime &time)
-{	
-	m_cropStart = time;
-	if(m_parentTrack) {
-		m_parentTrack->clipMoved(this);
-	}	
-}
-
-const GenTime &DocClipBase::cropStartTime() const
+void DocClipBase::setDescription(const QString &description)
 {
-	return m_cropStart;	
+	m_description = description;
 }
 
-void DocClipBase::setTrackEnd(const GenTime &time)
+const QString &DocClipBase::description() const
 {
-	m_trackEnd = time;
-  
-	if(m_document->snapToFrame()) {
-		m_trackEnd.roundNearestFrame(m_document->framesPerSecond());
-	}
-  
-	if(m_parentTrack) {    
-		m_parentTrack->clipMoved(this);
-	}	
+	return m_description;
 }
 
-GenTime DocClipBase::cropDuration()
-{
-	return m_trackEnd - m_trackStart;
-}
-
+// virtual
 QDomDocument DocClipBase::toXML() {
 	QDomDocument doc;
 
 	QDomElement clip = doc.createElement("clip");
 	clip.setAttribute("name", name());
-		
-	QDomElement position = doc.createElement("position");
-	position.setAttribute("track", QString::number(trackNum()));
-	position.setAttribute("trackstart", QString::number(trackStart().seconds(), 'f', 10));
-	position.setAttribute("cropstart", QString::number(cropStartTime().seconds(), 'f', 10));
-	position.setAttribute("cropduration", QString::number(cropDuration().seconds(), 'f', 10));	
-	position.setAttribute("trackend", QString::number(trackEnd().seconds(), 'f', 10));
-	clip.appendChild(position);
 	
+	QDomText text = doc.createTextNode(description());
+	clip.appendChild(text);
+		
 	doc.appendChild(clip); 
 	
 	return doc;
 }
 
-DocClipBase *DocClipBase::createClip(KdenliveDoc *doc, const QDomElement element)
+DocClipBase *DocClipBase::createClip(ClipManager &clipManager, const QDomElement &element)
 {
 	DocClipBase *clip = 0;
-	GenTime trackStart;
-	GenTime cropStart;
-	GenTime cropDuration;
-	GenTime trackEnd;
+	QString description;
 	int trackNum = 0;
+
+	QDomNode node = element;
+	node.normalize();
 	
 	if(element.tagName() != "clip") {
 		kdWarning()	<< "DocClipBase::createClip() element has unknown tagName : " << element.tagName() << endl;
 		return 0;
-	}	
+	}
 
 	QDomNode n = element.firstChild();
 
 	while(!n.isNull()) {
 		QDomElement e = n.toElement();
 		if(!e.isNull()) {
+			QString tagName = e.tagName();
 			if(e.tagName() == "avfile") {
-				clip = DocClipAVFile::createClip(doc, e);
+				clip = DocClipAVFile::createClip(e);
 			} else if(e.tagName() == "project") {
-				clip = DocClipProject::createClip(doc, e);
+				clip = DocClipProject::createClip(clipManager, e);
 			} else if(e.tagName() == "position") {
 				trackNum = e.attribute("track", "-1").toInt();
-				trackStart = GenTime(e.attribute("trackstart", "0").toDouble());
-				cropStart = GenTime(e.attribute("cropstart", "0").toDouble());
-				cropDuration = GenTime(e.attribute("cropduration", "0").toDouble());
-				trackEnd = GenTime(e.attribute("trackend", "-1").toDouble());
 			}		
+		} else {
+			QDomText text = n.toText();
+			if(!text.isNull()) {
+				description = text.nodeValue();
+			}
 		}
 		
 		n = n.nextSibling();
@@ -155,58 +109,9 @@ DocClipBase *DocClipBase::createClip(KdenliveDoc *doc, const QDomElement element
 	  kdWarning()	<< "DocClipBase::createClip() unable to create clip" << endl;
 	} else {
 		// setup DocClipBase specifics of the clip.
-		clip->setTrackStart(trackStart);
-		clip->setCropStartTime(cropStart);
-		if(trackEnd.seconds() != -1) {
-			clip->setTrackEnd(trackEnd);		
-		} else {
-			clip->setTrackEnd(trackStart + cropDuration);		
-		}
-		clip->setParentTrack(0, trackNum);
+		clip->setDescription(description);
 	}
 
 	return clip;
 }
 
-/** Sets the parent track for this clip. */
-void DocClipBase::setParentTrack(DocTrackBase *track, const int trackNum)
-{
-	m_parentTrack = track;
-	m_trackNum = trackNum;
-}
-
-/** Returns the track number. This is a hint as to which track the clip is on, or should be placed on. */
-int DocClipBase::trackNum()
-{
-	return m_trackNum;
-}
-
-/** Returns the end of the clip on the track. A convenience function, equivalent
-to trackStart() + cropDuration() */
-GenTime DocClipBase::trackEnd() const
-{
-	return m_trackEnd;
-}
-
-/** Returns the parentTrack of this clip. */
-DocTrackBase * DocClipBase::parentTrack()
-{
-	return m_parentTrack;
-}
-
-/** Move the clips so that it's trackStart coincides with the time specified. */
-void DocClipBase::moveTrackStart(const GenTime &time)
-{	
-	m_trackEnd = m_trackEnd + time - m_trackStart;
-	m_trackStart = time;
-
-  if(m_document->snapToFrame()) {
-      m_trackEnd.roundNearestFrame(m_document->framesPerSecond());
-      m_trackStart.roundNearestFrame(m_document->framesPerSecond());
-  }
-}
-
-DocClipBase *DocClipBase::clone()
-{
-	return createClip(m_document, toXML().documentElement());
-}

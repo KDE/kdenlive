@@ -20,9 +20,13 @@
 #include "kmmtracksoundpanel.h"
 #include "kmmtimeline.h"
 
-KMMTrackSoundPanel::KMMTrackSoundPanel(KMMTimeLine *timeline, DocTrackSound *docTrack, QWidget *parent, const char *name ) :
-												KMMTrackPanel(timeline, docTrack, parent,name),
-												m_trackLabel(this, "Sound Track")
+KMMTrackSoundPanel::KMMTrackSoundPanel(KMMTimeLine *timeline, 
+					KdenliveDoc *document,
+					DocTrackSound *docTrack, 
+					QWidget *parent, 
+					const char *name ) :
+						KMMTrackPanel(timeline, document, docTrack, parent,name),
+						m_trackLabel(this, "Sound Track")
 {
 	setMinimumHeight(20);
 	setMaximumHeight(20);
@@ -34,7 +38,7 @@ KMMTrackSoundPanel::~KMMTrackSoundPanel()
 
 /** This function will paint a clip on screen, using the specified painter and the given coordinates as to
 	where the clip should be painted. */
-void KMMTrackSoundPanel::paintClip(QPainter & painter, DocClipBase * clip, QRect &rect, bool selected)
+void KMMTrackSoundPanel::paintClip(QPainter & painter, DocClipRef * clip, QRect &rect, bool selected)
 {
 	int sx = (int)timeLine()->mapValueToLocal(clip->trackStart().frames(25));
 	int ex = (int)timeLine()->mapValueToLocal(clip->trackStart().frames(25) + clip->cropDuration().frames(25));

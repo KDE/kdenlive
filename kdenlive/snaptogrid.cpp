@@ -209,7 +209,7 @@ GenTime SnapToGrid::getSnappedTime(const GenTime &time) const
 	}
 
 	if(m_snapToFrame) {
-		result = GenTime((int)floor(result.frames(m_document->framesPerSecond())+0.5), m_document->framesPerSecond());
+		result.roundNearestFrame(m_document->framesPerSecond());
 	}
 
 	return result;
@@ -275,7 +275,7 @@ QValueList<GenTime> SnapToGrid::snapToGridList() const
 
 	for(uint count=0; count<m_document->numTracks(); ++count)
 	{
-		QPtrListIterator<DocClipBase> clipItt = m_document->track(count)->firstClip(false);
+		QPtrListIterator<DocClipRef> clipItt = m_document->track(count)->firstClip(false);
 		while(clipItt.current()) {
 			if(m_snapToClipStart) list.append(clipItt.current()->trackStart());
 			if(m_snapToClipEnd) list.append(clipItt.current()->trackEnd());

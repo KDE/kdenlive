@@ -95,13 +95,13 @@ private:	// attributes
   	timeline, or are being dragged onto the timeline. It gives a home to clips that have not yet
   	been placed.
 	*/
-  	DocClipBaseList m_selection;
+  	DocClipRefList m_selection;
 
   	/**
 	This is the "master" Clip - the clip that is actively being dragged by the mouse.
 	All other clips move in relation to the master clip.
 	*/
-  	DocClipBase * m_masterClip;
+  	DocClipRef * m_masterClip;
   	/**
 	A moveClipCommand action, used to record clip movement for undo/redo functionality.
 	*/
@@ -179,15 +179,15 @@ public: // Public methods
 
   /** Initiates a drag operation on the selected clip, setting the master clip to clipUnderMouse,
   and specifying the time that the mouse is currently pointing at. */
-  void initiateDrag(DocClipBase *clipUnderMouse, GenTime mouseTime);
+  void initiateDrag(DocClipRef *clipUnderMouse, GenTime mouseTime);
 
   /** Returns true if the specified clip exists and is selected, false otherwise. If a track is
   specified, we look at that track first, but fall back to a full search of tracks if the clip is
   not there. */
-  bool clipSelected(DocClipBase *clip, DocTrackBase *track=0);
+  bool clipSelected(DocClipRef *clip, DocTrackBase *track=0);
   /** Returns true if the specified cliplist can be successfully merged with the track
 	views, false otherwise. */
-  bool canAddClipsToTracks(DocClipBaseList &clips, int track, GenTime clipOffset);
+  bool canAddClipsToTracks(DocClipRefList &clips, int track, GenTime clipOffset);
   /** Returns the seek position of the timeline - this is the currently playing frame, or
 the currently seeked frame. */
   GenTime seekPosition();
@@ -202,7 +202,7 @@ the currently seeked frame. */
   /** Resize a clip on the timeline. If resizeEnd is true, then the end of the
 clip is moved, otherwise the beginning of the clips is moved. The clip
 is resized so that whichever end is moved is set to time. */
-  KCommand * resizeClip(DocClipBase *clip, bool resizeEnd, GenTime &time);
+  KCommand * resizeClip(DocClipRef &clip, bool resizeEnd, GenTime &time);
   /** Selects all of the clips on the timeline which occur later than the
 specified time. If include is true, then clips which overlap the
 specified time will be selected, otherwise only those clips which
@@ -253,17 +253,17 @@ are later on the tiemline (i.e. trackStart() > time) will be selected. */
 private: // private methods
 	void resizeTracks();
 
-  /** Adds a Clipgroup to the tracks in the timeline. It there are some currently selected clips and
-  we add new clips with this method, the previously selected clips are dselected. */
-	void addClipsToTracks(DocClipBaseList &clips, int track, GenTime value, bool selected);
+	/** Adds a Clipgroup to the tracks in the timeline. It there are some currently selected clips and
+	we add new clips with this method, the previously selected clips are dselected. */
+	void addClipsToTracks(DocClipRefList &clips, int track, GenTime value, bool selected);
 
-  /** Returns the integer value of the track underneath the mouse cursor.
+	/** Returns the integer value of the track underneath the mouse cursor.
 	The track number is that in the track list of the document, which is
 	sorted incrementally from top to bottom. i.e. track 0 is topmost, track 1 is next down, etc. */
-  int trackUnderPoint(const QPoint &pos);
-  /** Constructs a list of all clips that are currently selected. It does nothing else i.e.
-it does not remove the clips from the timeline. */
-  DocClipBaseList listSelected();
+	int trackUnderPoint(const QPoint &pos);
+	/** Constructs a list of all clips that are currently selected. It does nothing else i.e.
+	it does not remove the clips from the timeline. */
+	DocClipRefList listSelected();
 
   	/**
 	Set up a snapToGrid list
@@ -306,7 +306,7 @@ signals: // Signals
 	/** Emitted when the clip crop end has changed for a clip. */
 	void signalClipCropEndChanged(const GenTime &);
 	/** emitted when something of interest is happening over a clip on the timeline. */
-	void lookingAtClip(DocClipBase *, const GenTime &);
+	void lookingAtClip(DocClipRef *, const GenTime &);
 };
 
 #endif

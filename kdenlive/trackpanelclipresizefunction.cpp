@@ -27,13 +27,16 @@
 // static
 const uint TrackPanelClipResizeFunction::s_resizeTolerance = 5;
 
-TrackPanelClipResizeFunction::TrackPanelClipResizeFunction(KMMTimeLine *timeline, DocTrackBase *docTrack) :
+TrackPanelClipResizeFunction::TrackPanelClipResizeFunction(KMMTimeLine *timeline, 
+								KdenliveDoc *document,
+								DocTrackBase *docTrack) :
 								m_timeline(timeline),
+								m_document(document),
 								m_docTrack(docTrack),
 								m_clipUnderMouse(0),
 								m_resizeState(None),
 								m_resizeCommand(0),
-								m_snapToGrid(docTrack->document())
+								m_snapToGrid(document)
 {
 }
 
@@ -46,13 +49,13 @@ bool TrackPanelClipResizeFunction::mouseApplies(QMouseEvent *event) const
 {
 	bool result = false;
 
-	GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_docTrack->document()->framesPerSecond());
-	DocClipBase *clip = m_docTrack->getClipAt(mouseTime);
+	GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_document->framesPerSecond());
+	DocClipRef *clip = m_docTrack->getClipAt(mouseTime);
 	if(clip) {
-		if( fabs(m_timeline->mapValueToLocal(clip->trackStart().frames(m_docTrack->document()->framesPerSecond())) - event->x()) < s_resizeTolerance) {
+		if( fabs(m_timeline->mapValueToLocal(clip->trackStart().frames(m_document->framesPerSecond())) - event->x()) < s_resizeTolerance) {
 			result = true;
 		}
-		if( fabs(m_timeline->mapValueToLocal((clip->trackEnd()).frames(m_docTrack->document()->framesPerSecond())) - event->x()) < s_resizeTolerance) {
+		if( fabs(m_timeline->mapValueToLocal((clip->trackEnd()).frames(m_document->framesPerSecond())) - event->x()) < s_resizeTolerance) {
 			result = true;
 		}
 	}
@@ -69,13 +72,13 @@ bool TrackPanelClipResizeFunction::mousePressed(QMouseEvent *event)
 {
 	bool result = false;
 	
-	GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_docTrack->document()->framesPerSecond());
+	GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_document->framesPerSecond());
 	m_clipUnderMouse = m_docTrack->getClipAt(mouseTime);
 	if(m_clipUnderMouse) {
-		if( fabs(m_timeline->mapValueToLocal(m_clipUnderMouse->trackStart().frames(m_docTrack->document()->framesPerSecond())) - event->x()) < s_resizeTolerance) {
+		if( fabs(m_timeline->mapValueToLocal(m_clipUnderMouse->trackStart().frames(m_document->framesPerSecond())) - event->x()) < s_resizeTolerance) {
 			m_resizeState = Start;
 		}
-		if( fabs(m_timeline->mapValueToLocal((m_clipUnderMouse->trackEnd()).frames(m_docTrack->document()->framesPerSecond())) - event->x()) < s_resizeTolerance) {
+		if( fabs(m_timeline->mapValueToLocal((m_clipUnderMouse->trackEnd()).frames(m_document->framesPerSecond())) - event->x()) < s_resizeTolerance) {
 			m_resizeState = End;
 		}
 
@@ -85,7 +88,7 @@ bool TrackPanelClipResizeFunction::mousePressed(QMouseEvent *event)
 		m_snapToGrid.setSnapToClipEnd(m_timeline->snapToBorders());
 		m_snapToGrid.setSnapToFrame(m_timeline->snapToFrame());
 		m_snapToGrid.setSnapToSeekTime(m_timeline->snapToSeekTime());
-		m_snapToGrid.setSnapTolerance(GenTime(m_timeline->mapLocalToValue(KMMTimeLine::snapTolerance) - m_timeline->mapLocalToValue(0), m_docTrack->document()->framesPerSecond()));
+		m_snapToGrid.setSnapTolerance(GenTime(m_timeline->mapLocalToValue(KMMTimeLine::snapTolerance) - m_timeline->mapLocalToValue(0), m_document->framesPerSecond()));
 		m_snapToGrid.setIncludeSelectedClips(false);
 		m_snapToGrid.clearSeekTimes();
 		m_snapToGrid.addSeekTime(m_timeline->seekPosition());
@@ -98,7 +101,7 @@ bool TrackPanelClipResizeFunction::mousePressed(QMouseEvent *event)
 			cursor.append(m_clipUnderMouse->trackEnd());
 	 	}
 		m_snapToGrid.setCursorTimes(cursor);
-		m_resizeCommand = new Command::KResizeCommand(m_docTrack->document(), m_clipUnderMouse);
+		m_resizeCommand = new Command::KResizeCommand(m_document, *m_clipUnderMouse);
 
 		result = true;
 	}
@@ -110,9 +113,9 @@ bool TrackPanelClipResizeFunction::mouseReleased(QMouseEvent *event)
 {
 	bool result = false;
 	
-	m_resizeCommand->setEndSize(m_clipUnderMouse);
+	m_resizeCommand->setEndSize(*m_clipUnderMouse);
 	m_timeline->addCommand(m_resizeCommand, false);
-	m_docTrack->document()->indirectlyModified();
+	m_document->indirectlyModified();
 	m_resizeCommand = 0;
 
 	result = true;

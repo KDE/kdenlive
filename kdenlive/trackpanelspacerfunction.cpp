@@ -50,7 +50,7 @@ QCursor TrackPanelSpacerFunction::getMouseCursor(QMouseEvent *event)
 
 bool TrackPanelSpacerFunction::mousePressed(QMouseEvent *event)
 {
-	GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_docTrack->document()->framesPerSecond());
+	GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_doc->framesPerSecond());
 	GenTime roundedMouseTime = m_timeline->timeUnderMouse(event->x());
 	m_clipUnderMouse = 0;
 	
@@ -69,7 +69,7 @@ bool TrackPanelSpacerFunction::mousePressed(QMouseEvent *event)
 		m_snapToGrid.setSnapToClipEnd(m_timeline->snapToBorders());
 		m_snapToGrid.setSnapToFrame(m_timeline->snapToFrame());
 		m_snapToGrid.setSnapToSeekTime(m_timeline->snapToSeekTime());
-		m_snapToGrid.setSnapTolerance(GenTime(m_timeline->mapLocalToValue(KMMTimeLine::snapTolerance) - m_timeline->mapLocalToValue(0), m_docTrack->document()->framesPerSecond()));
+		m_snapToGrid.setSnapTolerance(GenTime(m_timeline->mapLocalToValue(KMMTimeLine::snapTolerance) - m_timeline->mapLocalToValue(0), m_doc->framesPerSecond()));
 		m_snapToGrid.setIncludeSelectedClips(false);
 		m_snapToGrid.clearSeekTimes();
 		m_snapToGrid.addSeekTime(m_timeline->seekPosition());

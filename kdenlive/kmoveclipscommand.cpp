@@ -23,7 +23,7 @@
 
 namespace Command {
 
-KMoveClipsCommand::KMoveClipsCommand(KMMTimeLine *timeline, KdenliveDoc *doc, DocClipBase *master)
+KMoveClipsCommand::KMoveClipsCommand(KMMTimeLine *timeline, KdenliveDoc *doc, DocClipRef *master)
 													: KCommand()
 {
 	m_doc = doc;
@@ -50,7 +50,7 @@ QString KMoveClipsCommand::name() const
 }
 
 /** Specifies where the master clip should be moved to by this command. */
-void KMoveClipsCommand::setEndLocation(DocClipBase *master)
+void KMoveClipsCommand::setEndLocation(DocClipRef *master)
 {
 	m_endTrack = m_doc->trackIndex(m_doc->findTrack(master));
 	m_endTime = master->trackStart();

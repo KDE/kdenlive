@@ -27,17 +27,17 @@
   */
 
 class KdenliveDoc;
-class DocClipBase;
+class DocClipRef;
 
 namespace Command {
 
 class KResizeCommand : public KCommand  {
 public: 
-	KResizeCommand(KdenliveDoc *doc, DocClipBase *clip);
+	KResizeCommand(KdenliveDoc *doc, DocClipRef &clip);
 	~KResizeCommand();
 
 	/** Examines the clip, and picks out the relevant size info. */
-	void setEndSize(DocClipBase *clip);
+	void setEndSize(DocClipRef &clip);
 	
   /** Unexecutes this command */
   void unexecute();

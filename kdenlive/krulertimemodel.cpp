@@ -31,7 +31,7 @@ KRulerTimeModel::~KRulerTimeModel()
 {
 }
 
-QString KRulerTimeModel::mapValueToText(const int value, const int frames)
+QString KRulerTimeModel::mapValueToText(int value, double frames)
 {
 	QString text = "";
 	int frame;
@@ -44,7 +44,7 @@ QString KRulerTimeModel::mapValueToText(const int value, const int frames)
 	}
 
 	int second = frame / frames;
-	frame %= frames;
+	frame -= (second * frames);
 
 	int minute = second/60;
 	second %= 60;
@@ -114,7 +114,8 @@ int KRulerTimeModel::getTickDisplayInterval(const int tick) const
 	} else {
 		int count;
 		for(count=1; count<numFrames(); count++) {
-			if(numFrames() % count != 0) continue;
+		#warning - will not calculate correct intervals for none-integer frame rates.
+			if((int)numFrames() % count != 0) continue;
 			if(count >= seconds)	break;
 		}
 
@@ -125,12 +126,12 @@ int KRulerTimeModel::getTickDisplayInterval(const int tick) const
 }
 
 /** Sets the number of frames per second for this ruler model. */
-void KRulerTimeModel::setNumFrames(const int frames)
+void KRulerTimeModel::setNumFrames(double frames)
 {
 	m_numFrames = frames;
 }
 
-int KRulerTimeModel::numFrames() const
+double KRulerTimeModel::numFrames() const
 {
 	return m_numFrames;
 }

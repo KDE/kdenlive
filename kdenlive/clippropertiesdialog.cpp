@@ -27,7 +27,7 @@ ClipPropertiesDialog::~ClipPropertiesDialog()
 {
 }
 
-void ClipPropertiesDialog::setClip(const AVFile *clip)
+void ClipPropertiesDialog::setClip(DocClipRef *clip)
 {
 	m_clip = clip;
 }

@@ -19,6 +19,7 @@
 #include "avlistviewitem.h"
 #include "kdenlive.h"
 #include "kdenlivedoc.h"
+#include "docclipavfile.h"
 
 /* This define really should go in projectlist_ui, but qt just puts the classname there at the moment :-( */
 #include <qpushbutton.h>
@@ -37,8 +38,8 @@
 
 ProjectList::ProjectList(KdenliveApp *app, KdenliveDoc *document, QWidget *parent, const char *name) :
 						ProjectList_UI(parent,name),
-						m_app(app),
-						m_document(document)
+						m_document(document),
+						m_app(app)
 {
 	if(!document) {
 		kdError() << "ProjectList created with no document - expect a crash shortly" << endl;
@@ -60,7 +61,8 @@ ProjectList::~ProjectList()
 }
 
 /** No descriptions */
-void ProjectList::rightButtonPressed ( QListViewItem *listViewItem, const QPoint &pos, int column) {
+void ProjectList::rightButtonPressed ( QListViewItem *listViewItem, const QPoint &pos, int column) 
+{
 	QPopupMenu *menu = contextMenu();
 	if(menu) {
 		menu->popup(QCursor::pos());
@@ -68,23 +70,23 @@ void ProjectList::rightButtonPressed ( QListViewItem *listViewItem, const QPoint
 }
 
 /** Get a fresh copy of files from KdenliveDoc and display them. */
-void ProjectList::slot_UpdateList() {
+void ProjectList::slot_UpdateList() 
+{
 	m_listView->clear();
 
-	QPtrListIterator<AVFile> itt(m_document->avFileList());
+	DocumentBaseNode *node = m_document->clipHierarch();
 
-	AVFile *av;
-	
-	for(; (av = itt.current()); ++itt) {
-		new AVListViewItem(m_document, m_listView, av);
+	if(node) {
+		new AVListViewItem(m_document, m_listView, node);
 	}
 }
 
-/** The AVFile specified has changed - update the display.
+/** The clip specified has changed - update the display.
  */ 
-void ProjectList::slot_avFileChanged(AVFile *file)
+void ProjectList::slot_clipChanged(DocClipRef *clip)
 {
-  m_listView->triggerUpdate();
+	slot_UpdateList();
+	m_listView->triggerUpdate();
 }
 
 /** Called when the project list changes. */
@@ -92,16 +94,16 @@ void ProjectList::projectListSelectionChanged(QListViewItem *item)
 {
   const AVListViewItem *avitem = (AVListViewItem *)item;
 
-  emit AVFileSelected(avitem->clip());  
+  emit clipSelected(avitem->clip());  
 }
 
-AVFile *ProjectList::currentSelection()
+DocClipRef *ProjectList::currentSelection()
 {
-  const AVListViewItem *avitem = static_cast<AVListViewItem *>(m_listView->selectedItem());
-  if(avitem) {
-    return avitem->clip();
-  }
-  return 0;
+	const AVListViewItem *avitem = static_cast<AVListViewItem *>(m_listView->selectedItem());
+	if(avitem) {
+		return avitem->clip();
+	}
+	return 0;
 }
 
 QPopupMenu *ProjectList::contextMenu()

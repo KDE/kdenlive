@@ -24,7 +24,7 @@
 #include <gentime.h>
 
 class KdenliveDoc;
-class DocClipBase;
+class DocClipRef;
 class KMMTimeLine;
 
 namespace Command {
@@ -35,7 +35,7 @@ namespace Command {
 
 class KMoveClipsCommand : public KCommand  {
 public: 
-	KMoveClipsCommand(KMMTimeLine *timeline, KdenliveDoc *doc, DocClipBase *master);
+	KMoveClipsCommand(KMMTimeLine *timeline, KdenliveDoc *doc, DocClipRef *master);
 	~KMoveClipsCommand();
   /** Returns the (translated) name of this command */
   QString name() const;
@@ -44,7 +44,7 @@ public:
   /** Executes this command */
   void execute();
   /** Specifies where the master clip should be moved to by this command. */
-  void setEndLocation(DocClipBase *master);
+  void setEndLocation(DocClipRef *master);
 private:
 	KdenliveDoc *m_doc;
 	KMMTimeLine *m_timeline;

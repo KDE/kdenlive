@@ -27,54 +27,51 @@
 #include "trackpanelspacerfunction.h"
 
 KMMTrackKeyFramePanel::KMMTrackKeyFramePanel(KMMTimeLine *timeline,
-                                            DocTrackBase *doc,
-                                            QWidget *parent,
-                                            const char *name ) : 
-					KMMTrackPanel(timeline, doc, parent,name)
+						KdenliveDoc *doc,
+						DocTrackBase *docTrack,
+						QWidget *parent, 
+						const char *name) :
+					KMMTrackPanel(timeline, doc, docTrack, parent,name)
 {
 	setMinimumHeight(30);
 	setMaximumHeight(30);
 
-	TrackPanelClipResizeFunction *resize = new TrackPanelClipResizeFunction(timeline, doc);
+	TrackPanelClipResizeFunction *resize = new TrackPanelClipResizeFunction(timeline, doc, docTrack);
 	addFunctionDecorator(KdenliveApp::Move, resize);
-	addFunctionDecorator(KdenliveApp::Move, new TrackPanelClipMoveFunction(timeline, doc));
+	addFunctionDecorator(KdenliveApp::Move, new TrackPanelClipMoveFunction(timeline, doc, docTrack));
 
 	connect(resize, SIGNAL(signalClipCropStartChanged(const GenTime &)),
 					this, SIGNAL(signalClipCropStartChanged(const GenTime &)));
 	connect(resize, SIGNAL(signalClipCropEndChanged(const GenTime &)),
 					this, SIGNAL(signalClipCropEndChanged(const GenTime &)));
 
-	addFunctionDecorator(KdenliveApp::Razor, new TrackPanelRazorFunction(timeline, doc));
-	addFunctionDecorator(KdenliveApp::Spacer, new TrackPanelSpacerFunction(timeline, doc, doc->document()));
+	addFunctionDecorator(KdenliveApp::Razor, new TrackPanelRazorFunction(timeline, doc, docTrack));
+	addFunctionDecorator(KdenliveApp::Spacer, new TrackPanelSpacerFunction(timeline, docTrack, document()));
 }
 
 KMMTrackKeyFramePanel::~KMMTrackKeyFramePanel()
 {
 }
 
-void KMMTrackKeyFramePanel::paintClip(QPainter & painter, DocClipBase * clip, QRect & rect, bool selected)
+void KMMTrackKeyFramePanel::paintClip(QPainter & painter, DocClipRef * clip, QRect & rect, bool selected)
 {
-	int clipsx = (int)timeLine()->mapValueToLocal(clip->trackStart().frames(m_docTrack->document()->framesPerSecond()));
-	int clipex = (int)timeLine()->mapValueToLocal(clip->trackEnd().frames(m_docTrack->document()->framesPerSecond()));
+	int clipsx = (int)timeLine()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
+	int clipex = (int)timeLine()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
 	int clipWidth = clipex-clipsx;
 
-  int sx = clipsx;
-  int width = clipex;
+	int sx = clipsx;
+	int width = clipex;
 
-  if(sx < rect.x()) sx = rect.x();
-  if(width > rect.x() + rect.width()) width = rect.x() + rect.width();
-  width -= sx;
+	if(sx < rect.x()) sx = rect.x();
+	if(width > rect.x() + rect.width()) width = rect.x() + rect.width();
+	width -= sx;
 
 	painter.setClipping(true);
 	painter.setClipRect(sx, rect.y(), width, rect.height());
 
 	QColor col = selected ? QColor(128, 128, 128) : QColor(200, 200, 200);
 
-	painter.fillRect( clipsx, rect.y(),
-										clipWidth, rect.height(),
-										col);
-	painter.drawRect( clipsx, rect.y(),
-										clipWidth, rect.height());
-
-  painter.setClipping(false);    
+	painter.fillRect( clipsx, rect.y(), clipWidth, rect.height(), col);
+	painter.drawRect( clipsx, rect.y(), clipWidth, rect.height()); 
+	painter.setClipping(false);    
 }

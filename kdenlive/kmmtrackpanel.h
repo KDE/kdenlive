@@ -28,6 +28,7 @@
 
 #include "doctrackbase.h"
 
+class KdenliveDoc;
 class KMMTimeLine;
 class TrackPanelFunction;
 
@@ -40,7 +41,11 @@ class KMMTrackPanel : public QHBox  {
 public:
 	enum ResizeState {None, Start, End};
 
-	KMMTrackPanel(KMMTimeLine *timeline, DocTrackBase *docTrack, QWidget *parent, const char *name);
+	KMMTrackPanel(KMMTimeLine *timeline, 
+			KdenliveDoc *document,
+			DocTrackBase *docTrack, 
+			QWidget *parent, 
+			const char *name);
 	~KMMTrackPanel();
 	
   	/** Read property of KMMTimeLine * m_timeline. */
@@ -50,7 +55,7 @@ public:
   	DocTrackBase * docTrack();
 	
   	/** This function will paint a clip on screen. This funtion must be provided by a derived class. */
-	virtual void paintClip(QPainter &painter, DocClipBase *clip, QRect &rect, bool selected) = 0;
+	virtual void paintClip(QPainter &painter, DocClipRef *clip, QRect &rect, bool selected) = 0;
 	
 	/**
 	Paints the backbuffer into the relevant place using the painter supplied. The
@@ -87,6 +92,8 @@ protected: // Protected methods
 	class it's desired functionality.
 	*/
 	void addFunctionDecorator(KdenliveApp::TimelineEditMode mode, TrackPanelFunction *function);
+
+	KdenliveDoc *document() { return m_document; }
 	
 private:	// private methods
 	/**
@@ -103,6 +110,9 @@ protected: // Protected attributes
 	 *  The parent timeline is stored in this variable. */
 	KMMTimeLine *m_timeline;
  private:
+	/** A reference to the document this function applies to. */
+	KdenliveDoc *m_document;
+
 	/** A map of lists of track panel functions. */
 	QMap<KdenliveApp::TimelineEditMode , QPtrList<TrackPanelFunction> > m_trackPanelFunctions;
 
@@ -114,17 +124,17 @@ signals: // Signals
 	Emitted when an operation moves the clip crop start.
 	*/
 	void signalClipCropStartChanged(const GenTime &);
-	
+
 	/**
 	Emitted when an operation moves the clip crop end.
 	*/
 	void signalClipCropEndChanged(const GenTime &);
-	
+
 	/**
 	emitted when a tool is "looking" at a clip, it signifies to whatever is listening
 	that displaying this information in some way would be useful.
 	*/
-	void lookingAtClip(DocClipBase *, const GenTime &);
+	void lookingAtClip(DocClipRef *, const GenTime &);
 };
 
 #endif

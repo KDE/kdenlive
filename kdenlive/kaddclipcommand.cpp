@@ -20,17 +20,45 @@
 #include "kaddclipcommand.h"
 #include "kdenlivedoc.h"
 #include "docclipbase.h"
+#include "clipmanager.h"
+#include "docclipproject.h"
+#include "docclipavfile.h"
+#include "documentbasenode.h"
+#include "documentclipnode.h"
+#include "documentgroupnode.h"
 
 namespace Command {
 
 /** Construct an AddClipCommand that will add or delete a clip */
-KAddClipCommand::KAddClipCommand(KdenliveDoc *doc, DocClipBase *clip, bool create)
+KAddClipCommand::KAddClipCommand(KdenliveDoc &document,
+	       				const QString &name,
+					DocClipBase *clip,
+					DocumentBaseNode *parent,
+					bool create) :
+			m_document(document),
+			m_name(name),
+			m_parent(parent->name()),
+			m_create(create),
+			m_xmlClip(clip->toXML())
 {
-	m_doc = doc;
-	m_xmlClip = clip->toXML().documentElement();
-	m_track = clip->trackNum();
-	m_findTime = clip->trackStart() + (clip->cropDuration() / 2.0);
-	m_create = create;
+	if(!m_parent) {
+		kdWarning() << "Error - all clips create with kaddclipcommand should have a parent!" << endl;
+	}
+}
+
+KAddClipCommand::KAddClipCommand(KdenliveDoc &document, const KURL &url, bool create) :
+		m_document(document),
+		m_parent(document.clipHierarch()->name()),
+		m_create(create)
+{
+	if(!m_parent) {
+		kdWarning() << "Error - all clips create with kaddclipcommand should have a parent!" << endl;
+	}
+
+	DocClipBase *clip = document.clipManager().insertClip(url);
+
+	DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
+	m_xmlClip = clipNode->clipRef()->toXML();
 }
 
 KAddClipCommand::~KAddClipCommand()
@@ -70,18 +98,24 @@ void KAddClipCommand::unexecute()
 /** Adds the clip */
 void KAddClipCommand::addClip()
 {
-	DocClipBase *clip = DocClipBase::createClip(m_doc, m_xmlClip);
-	m_doc->track(clip->trackNum())->addClip(clip, true);
+	DocumentBaseNode *node = m_document.findClipNode(m_parent);
+
+	if(!node) {
+		kdWarning() << "Could not find parent in document, cannot add document base node" << endl;
+	} else {
+		DocClipBase *clip = m_document.clipManager().insertClip(m_xmlClip.documentElement());
+		if(!clip) {
+			m_document.addClipNode(m_parent, new DocumentGroupNode(node, m_name ));
+		} else {
+			m_document.addClipNode(m_parent, new DocumentClipNode(node, clip));
+		}
+	}
 }
 
 /** Deletes the clip */
 void KAddClipCommand::deleteClip()
 {
-	DocTrackBase *track = m_doc->track(m_track);
-	DocClipBase *clip = track->getClipAt(m_findTime);
-	track->removeClip(clip);
-	
-	delete clip;	
+	// TODO - write deleteClip method.
 }
 
 } // namespace command

@@ -16,115 +16,81 @@
  ***************************************************************************/
 
 #include "docclipavfile.h"
-#include "kdenlivedoc.h"
-
-#include "avfile.h"
 
 #include <iostream>
 #include <kdebug.h>
+#include "clipmanager.h"
+#include <qfileinfo.h>
 
-DocClipAVFile::DocClipAVFile(KdenliveDoc *doc, const QString &name, const KURL &url) :
-						DocClipBase(doc),
-						m_avfile(doc->getAVFileReference(url))
+
+DocClipAVFile::DocClipAVFile(const QString &name, const KURL &url) :
+						DocClipBase(),
+						m_duration(0.0),
+						m_url(url),
+						m_durationKnown(false),
+						m_framesPerSecond(0)
+			
 {
-	setTrackEnd(trackStart() + duration());
 	setName(name);
-	m_avfile->addReference(this);
 		
 	m_clipType = AV;
 }
 
-DocClipAVFile::DocClipAVFile(KdenliveDoc *doc, AVFile *avFile) :
-						DocClipBase(doc),
-						m_avfile(avFile)
+DocClipAVFile::DocClipAVFile(const KURL &url) :
+				DocClipBase(),
+				m_duration(0.0),
+				m_url(url),
+				m_durationKnown(false),
+				m_framesPerSecond(0)
 {
-	if(m_avfile)
-	{
-		m_avfile->addReference(this);
-	}
-	else
-	{
-		kdError() << "Error - creating DocClipAVFile passing avfile as NULL" << endl;
-	}
-
-	setTrackEnd(trackStart() + duration());
-	setName(m_avfile->name());
-
+	setName(url.fileName());
 	m_clipType = AV;
 }
 
 DocClipAVFile::~DocClipAVFile()
 {
-	if(m_avfile)
-	{
-		m_avfile->removeReference(this);
-		m_avfile = 0;
-	}
 }
 
 GenTime DocClipAVFile::duration() const
 {
-	return m_avfile->duration();
+	return m_duration;
 }
 
-/** Returns the type of this clip */
 DocClipAVFile::CLIPTYPE DocClipAVFile::clipType() {
   return m_clipType;
 }
 
-QDomDocument DocClipAVFile::toXML() {
-	QDomDocument doc = DocClipBase::toXML();
-	QDomNode node = doc.firstChild();
 
-	while( !node.isNull()) {
-		QDomElement element = node.toElement();
-		if(!element.isNull()) {
-			if(element.tagName() == "clip") {
-				QDomElement avfile = doc.createElement("avfile");
-				avfile.setAttribute("url", fileURL().url());
-				element.appendChild(avfile);
-				return doc;
-			}
-		}
-		node = node.nextSibling();
-	}
-
-	ASSERT(node.isNull());
-
-	/* This final return should never be reached, it is here to remove compiler warning. */
-	return doc;
+const KURL &DocClipAVFile::fileURL() const
+{
+	return m_url;
 }
 
-/** Returns the url of the AVFile this clip contains */
-KURL DocClipAVFile::fileURL()
+DocClipAVFile * DocClipAVFile::createClip(const QDomElement element)
 {
-	return m_avfile->fileURL();
-}
+	DocClipAVFile *file = 0;
 
-/** Creates a clip from the passed QDomElement. This only pertains to those details specific to DocClipAVFile.*/
-DocClipAVFile * DocClipAVFile::createClip(KdenliveDoc *doc, const QDomElement element)
-{
+	
 	if(element.tagName() == "avfile") {
 		KURL url(element.attribute("url"));
-		return new DocClipAVFile(doc, url.fileName(), url);
+		file = new DocClipAVFile(url.filename(), url);
+	} else {
+		kdWarning() << "DocClipAVFile::createClip failed to generate clip" << endl;
 	}
 	
-	kdWarning() << "DocClipAVFile::createClip failed to generate clip" << endl;
-	return 0;
+	return file;
 }
 
-/** Returns true if the clip duration is known, false otherwise. */
 bool DocClipAVFile::durationKnown()
 {
-  return m_avfile->durationKnown();
+	return m_durationKnown;
 }
 
 // virtual
-int DocClipAVFile::framesPerSecond() const
+double DocClipAVFile::framesPerSecond() const
 {
-	return m_avfile->framesPerSecond();
+	return m_framesPerSecond;
 }
-
 		
 // virtual 
 QDomDocument DocClipAVFile::generateSceneList()
@@ -161,21 +127,118 @@ QDomDocument DocClipAVFile::sceneToXML(const GenTime &startTime, const GenTime &
 	
 	QDomElement sceneClip = sceneList.createElement("input");
 	sceneClip.setAttribute(str_file, fileURL().path());
-	sceneClip.setAttribute(str_inpoint, QString::number((startTime - trackStart() + cropStartTime()).seconds()));
-	sceneClip.setAttribute(str_outpoint, QString::number((endTime - trackStart() + cropStartTime()).seconds()));
+	sceneClip.setAttribute(str_inpoint, QString::number(startTime.seconds()));
+	sceneClip.setAttribute(str_outpoint, QString::number(endTime.seconds()));
 
 	sceneList.appendChild(sceneClip);
+
 	return sceneList;
 }
 
 void DocClipAVFile::populateSceneTimes(QValueVector<GenTime> &toPopulate)
 {
-	toPopulate.append(trackStart());
-	toPopulate.append(trackEnd());
+	toPopulate.append(GenTime(0));
+	toPopulate.append(duration());
+}
+
+uint DocClipAVFile::fileSize() const
+{
+	return m_filesize;
+}
+
+uint DocClipAVFile::numReferences() const
+{
+#warning TODO - write this funtion.
+	return 0;
 }
 
 // virtual 
-bool DocClipAVFile::containsAVFile(AVFile *file)
+bool DocClipAVFile::referencesClip(DocClipBase *clip) const
 {
-	return (m_avfile == file);
+	return this == clip;
 }
+
+// virtual
+QDomDocument DocClipAVFile::toXML() {
+	QDomDocument doc = DocClipBase::toXML();
+	QDomNode node = doc.firstChild();
+
+	while( !node.isNull()) {
+		QDomElement element = node.toElement();
+		if(!element.isNull()) {
+			if(element.tagName() == "clip") {
+				QDomElement avfile = doc.createElement("avfile");
+				avfile.setAttribute("url", fileURL().url());
+				element.appendChild(avfile);
+				return doc;
+			}
+		}
+		node = node.nextSibling();
+	}
+
+	ASSERT(node.isNull());
+
+	/* This final return should never be reached, it is here to remove compiler warning. */
+	return doc;
+}
+
+// virtual
+bool DocClipAVFile::matchesXML(const QDomElement &element)
+{
+	bool result = false;
+	
+	if(element.tagName() == "clip")
+	{
+		QDomNodeList nodeList = element.elementsByTagName("avfile");
+
+		if(nodeList.length() > 0) {
+			if(nodeList.length() > 1) {
+				kdWarning() << "Clip contains multiple avclip definitions, only matching XML of the first one." << endl;
+			}
+			QDomElement avElement = nodeList.item(0).toElement();
+			if(!avElement.isNull()) {
+				if(avElement.attribute("url") == fileURL().url()) {
+					result = true;
+				}
+			}
+		}
+	}
+
+	return result;
+}
+
+/** Calculates properties for this file that will be useful for the rest of the program. */
+void DocClipAVFile::calculateFileProperties(const QMap<QString, QString> &attributes)
+{
+	if(m_url.isLocalFile()) {
+		QFileInfo fileInfo(m_url.path());
+
+	 	/* Determines the size of the file */
+		m_filesize = fileInfo.size();
+
+		if(attributes.contains("duration")) {
+			m_duration = GenTime(attributes["duration"].toDouble());
+			m_durationKnown = true;      
+		} else {
+			// No duration known, use an arbitrary one until it is.
+	  		m_duration = GenTime(0.0);
+			m_durationKnown = false;
+		}
+
+		if(attributes.contains("fps"))
+		{
+			m_framesPerSecond = attributes["fps"].toInt();
+		} else {
+			// No frame rate known.
+			m_framesPerSecond = 0;
+		}
+
+	} else {
+		/** If the file is not local, then no file properties are currently returned */
+		m_duration = GenTime(0.0);
+		m_durationKnown = false;
+		m_framesPerSecond = 0;
+		m_filesize = 0;
+	}
+}
+

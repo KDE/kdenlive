@@ -34,58 +34,28 @@
   *@author Jason Wood
   */  
 
-class DocClipAVFile;
-  
-class AVFile {
-public: 
-	AVFile(const QString &name, const KURL &url);
-	~AVFile();
-	/** Calculates properties for the file, including the size of the file, the duration of the file,
-	 * the file format, etc.
-	 **/
-	void calculateFileProperties(const QMap<QString, QString> &attributes);
-	/** Write property of QString m_name. */
-	void setName( const QString& _newVal);
-	/** Read property of QString m_name. */
-	const QString& name() const;
-	QString fileName() const;
-	const KURL &fileURL() const;
-	/** returns the size of the file */
-	const signed int fileSize();
-	int numReferences();
-	/** Removes the reference of this clip from this avFile. If the reference did not exist, a 
-	 * warning will be issued to stderr. Returns the number of references to avFile. */
-  	int removeReference(DocClipAVFile *referer);
-	/** Adds the given avFile to the list of references. If it was already
-	there, then nothing happens other than a warning to stderr.
-	Returns the number of references to this AVFile. */
-	int addReference(DocClipAVFile *referer);
-
-	/** Return a list of references to this avfile. */
-	QPtrList<DocClipAVFile> references();
-	
-	/** returns the duration of this file */
-	GenTime duration() const;
-	/** Returns true if this AVFile has a known duration, false if it is, as of yet, undetermined. */
-	bool durationKnown();
-
-	int framesPerSecond() const { return m_framesPerSecond; }
-private: // Private attributes
-	/** Holds the url for this AV file. */
-	KURL m_url;
-	/** The size in bytes of this AVFile */
-	signed int m_filesize;
-	/** The duration of this file. */
-	GenTime m_duration;	  
-	/** The name of this AVFile. */
-	QString m_name;
-	/** True if the duration of this AVFile is known, false otherwise. */
-	bool m_durationKnown;
-	/** A list of all DocClipAVFiles which make use of this AVFile. This is used so that we can
-	 *  clean up if we decide to delete an AVFile. */
-	QPtrList<DocClipAVFile> m_referers;
-	/** The number of frames per second that this AVFile runs at. */
-	int m_framesPerSecond;
-};
-
+//class DocClipAVFile;
+//  
+//class AVFile {
+//public: 
+//	~AVFile();
+//	/** Write property of QString m_name. */
+//	void setName( const QString& _newVal);
+//	/** Read property of QString m_name. */
+//	const QString& name() const;
+//	QString fileName() const;
+//	/** returns the size of the file */
+//	signed int fileSize() const;
+//
+//	/** Return a list of references to this avfile. */
+//	QPtrList<DocClipAVFile> references();
+//	
+//private: // Private attributes
+//	/** The name of this AVFile. */
+//	QString m_name;
+//	/** A list of all DocClipAVFiles which make use of this AVFile. This is used so that we can
+//	 *  clean up if we decide to delete an AVFile. */
+//	QPtrList<DocClipAVFile> m_referers;
+//};
+//*/
 #endif

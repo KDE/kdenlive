@@ -21,9 +21,10 @@
 #include "kdenlivedoc.h"
 #include "docclipbase.h"
 
+/**
+
 namespace Command {
 
-/** Construct an AddClipCommand that will add or delete a clip */
 KAddAVFileCommand::KAddAVFileCommand(KdenliveDoc *doc, const KURL &url, bool create) :
 		m_doc(doc),
 		m_url(url),
@@ -42,7 +43,6 @@ KAddAVFileCommand::~KAddAVFileCommand()
 {
 }
 
-/** Returns the name of this command */
 QString KAddAVFileCommand::name() const
 {
 	if(m_create) {
@@ -52,7 +52,6 @@ QString KAddAVFileCommand::name() const
 	}
 }
 
-/** Execute the command */
 void KAddAVFileCommand::execute()
 {
 	if(m_create) {
@@ -62,7 +61,6 @@ void KAddAVFileCommand::execute()
 	}
 }
 
-/** Unexecute the command */
 void KAddAVFileCommand::unexecute()
 {
 	if(m_create) {
@@ -82,3 +80,4 @@ void KAddAVFileCommand::deleteAVFile()
 
 } // namespace command
 
+*/

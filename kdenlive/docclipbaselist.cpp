@@ -17,6 +17,9 @@
 
 #include "docclipbaselist.h"
 
+#include "krender.h"
+#include "docclipavfile.h"
+
 #include <kdebug.h>
 
 DocClipBaseList::DocClipBaseList() :
@@ -42,24 +45,13 @@ DocClipBaseList::~DocClipBaseList()
 {
 }
 
-int DocClipBaseList::compareItems (QPtrCollection::Item i1, QPtrCollection::Item i2)
-{
-	DocClipBase *item1 = (DocClipBase *)i1;
-	DocClipBase *item2 = (DocClipBase *)i2;
-	
-	double diff = item1->trackStart().seconds() - item2->trackStart().seconds();
-	
-	if(diff==0) return 0;
-  return (diff > 0) ? 1 : -1;
-}
-
-QDomDocument DocClipBaseList::toXML()
+QDomDocument DocClipBaseList::toXML(const QString &element)
 {
 	QDomDocument doc;
 
 	QPtrListIterator<DocClipBase> itt(*this);
 
-	doc.appendChild(doc.createElement("cliplist"));
+	doc.appendChild(doc.createElement("element"));
 
 	while(itt.current() != 0) {
 		QDomDocument clipDoc = itt.current()->toXML();
@@ -86,3 +78,32 @@ void DocClipBaseList::setMasterClip(DocClipBase *clip)
 		m_masterClip = 0;
 	}
 }
+
+void DocClipBaseList::generateFromXML(ClipManager &clipManager, KRender *render, QDomElement elem)
+{
+	if(elem.tagName() != "ClipList") {
+		kdWarning() << "ClipList cannot be generated - wrong tag : " << elem.tagName() << endl;
+	} else {
+		QDomNode n = elem.firstChild();
+
+		while(!n.isNull()) {
+			QDomElement e = n.toElement();
+			if(!e.isNull()) {
+				if(e.tagName() == "clip") {
+					DocClipBase *clip = DocClipBase::createClip(clipManager, e);
+
+					if(clip) {
+						append(clip);
+						if(clip->isDocClipAVFile()) {
+							render->getFileProperties(clip->toDocClipAVFile()->fileURL());
+						}
+					}
+				} else {
+					kdWarning() << "Unknown tag " << e.tagName() << ", skipping..." << endl;
+				}
+			}
+			n = n.nextSibling();
+		}
+	}
+}
+

@@ -29,9 +29,9 @@
 
 #include "gentime.h"
 
-class KdenliveDoc;
 class DocTrackBase;
-class AVFile;
+class ClipManager;
+class DocClipAVFile;
 
 class DocClipBase : public QObject {
 	Q_OBJECT
@@ -42,68 +42,36 @@ public:
 	 *   and video. */	
 	enum CLIPTYPE { AUDIO = 1, VIDEO = 2, AV = 3};
 
-	DocClipBase(KdenliveDoc *doc);
+	DocClipBase();
 	virtual ~DocClipBase();
-
-	/** Returns where this clip starts */
-	const GenTime &trackStart() const;
-	/** Sets the position that this clip resides upon it's track. */
-	void setTrackStart(const GenTime time);
 
 	/** sets the name of this clip. */
 	void setName(const QString name);
 
 	/** returns the name of this clip. */
-	QString name();
+	const QString &name() const;
 
-	/** set the cropStart time for this clip.The "crop" timings are those which define which
-	part of a clip is wanted in the edit. For example, a clip may be 60 seconds long, but the first
-	10 is not needed. Setting the "crop start time" to 10 seconds means that the first 10 seconds isn't
-	used. The crop times are necessary, so that if at later time you decide you need an extra second
-	at the beginning of the clip, you can re-add it.*/
-	void setCropStartTime(const GenTime &);
-
-	/** returns the cropStart time for this clip */ 
-	const GenTime &cropStartTime() const;
-
-	/** set the trackEnd time for this clip. */	
-	void setTrackEnd(const GenTime &time);
-
-	/** returns the cropDuration time for this clip. */
-	GenTime cropDuration();
-  
-	/** returns a QString containing all of the XML data required to recreate this clip. */
-	virtual QDomDocument toXML();
+	/** Sets the description for this clip. */
+	void setDescription(const QString &descripton);
 	
+	/** Returns the description of this clip. */
+	const QString &description() const;
+
 	/** returns the duration of this clip */
 	virtual GenTime duration() const = 0;
+
 	/** Returns a url to a file describing this clip. Exactly what this url is,
 	whether it is temporary or not, and whether it provokes a render will
 	depend entirely on what the clip consists of. */
-	virtual KURL fileURL() = 0;
+	virtual const KURL &fileURL() const = 0;
 
-	/** Reads in the element structure and creates a clip out of it.*/
-	static DocClipBase *createClip(KdenliveDoc *doc, const QDomElement element);
-	/** Sets the parent track for this clip. */
-	void setParentTrack(DocTrackBase *track, const int trackNum);
-	/** Returns the track number. This is a hint as to which track the clip is on, or 
-	 * should be placed on. */
-	int trackNum();
-	/** Returns the end of the clip on the track. A convenience function, equivalent
-	to trackStart() + cropDuration() */
-	GenTime trackEnd() const;
-	/** Returns the parentTrack of this clip. */
-	DocTrackBase * parentTrack();
-	/** Move the clips so that it's trackStart coincides with the time specified. */
-	void moveTrackStart(const GenTime &time);
-	/** Returns an identical but seperate (i.e. "deep") copy of this clip. */
-	DocClipBase * clone();
 	/** Returns true if the clip duration is known, false otherwise. */
 	virtual bool durationKnown() = 0;
 	// Returns the number of frames per second that this clip should play at.
-	virtual int framesPerSecond() const = 0;
-	/** Returns a scene list generated from this clip. */
-	virtual QDomDocument generateSceneList() = 0;
+	virtual double framesPerSecond() const = 0;
+
+	virtual bool isDocClipAVFile() const { return false; }
+	virtual DocClipAVFile *toDocClipAVFile() { return 0; }
 	/** Returns true if this clip is a project clip, false otherwise. Overridden in DocClipProject,
 	 * where it returns true. */
 	virtual bool isProjectClip() { return false; }
@@ -111,34 +79,39 @@ public:
 	// Appends scene times for this clip to the passed vector.
 	virtual void populateSceneTimes(QValueVector<GenTime> &toPopulate) = 0;
 	
+	/** Reads in the element structure and creates a clip out of it.*/
 	// Returns an XML document that describes part of the current scene.
 	virtual QDomDocument sceneToXML(const GenTime &startTime, const GenTime &endTime) = 0;
+	/** returns a QString containing all of the XML data required to recreate this clip. */
+	virtual QDomDocument toXML();
+	/** Returns a scene list generated from this clip. */
+	virtual QDomDocument generateSceneList() = 0;
+	/** Returns true if the xml passed matches the values in this clip */
+	virtual bool matchesXML(const QDomElement &element) = 0;
 
-	/** Returns true if the clip in some way includes he specified AVFile. */
-	virtual bool containsAVFile(AVFile *file) = 0;
+	void addReference() { ++m_refcount; }
+	void removeReference() { --m_refcount; }
+	uint numReferences() const { return m_refcount; }
+
+	/** Returns true if this clip has a meaningful filesize. */
+	virtual bool hasFileSize() const = 0;
+
+	/** Returns the filesize, or 0 if there is no appropriate filesize. */
+	virtual uint fileSize() const = 0;
+
+	/** Returns true if this clip refers to the clip passed in. A clip refers to another clip if
+	 * it uses it as part of it's own composition. */
+	virtual bool referencesClip(DocClipBase *clip) const = 0;
+
+	static DocClipBase *createClip(ClipManager &clipManager, const QDomElement &element);
 private: // Private attributes
 	/** The name of this clip */
 	QString m_name;
-	/** Where this clip starts on the track that it resides on. */
-	GenTime m_trackStart;
-	/** The cropped start time for this clip - e.g. if the clip is 10 seconds long, this 
-	 * might say that the the bit we want starts 3 seconds in.
-	 **/
-	GenTime m_cropStart;
-	/** The end time of this clip on the track.
-	 **/
-	GenTime m_trackEnd;
-	/** The track to which this clip is parented. If NULL, the clip is not
-	parented to any track. */
-	DocTrackBase * m_parentTrack;
-	/** The number of this track. This is the number of the track the clip resides on.
-	It is possible for this to be set and the parent track to be 0, in this situation
-	m_trackNum is a hint as to where the clip should be place when it get's parented
-	to a track. */
-	int m_trackNum;
-protected: // Protected attributes
-	/** the document this clip belongs to */
-	KdenliveDoc * m_document;
+	/** A description of this clip */
+	QString m_description;
+	/** The number of times this clip is used in the project - the number of references to this clip
+	 * that exist. */
+	uint m_refcount;
 };
 
 #endif

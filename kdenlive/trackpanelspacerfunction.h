@@ -74,9 +74,9 @@ public:
 private:
 	KMMTimeLine *m_timeline;
 	DocTrackBase *m_docTrack;
-	DocClipBase * m_clipUnderMouse;
+	DocClipRef * m_clipUnderMouse;
 	KdenliveDoc *m_doc;
-	DocClipBase *m_masterClip;
+	DocClipRef *m_masterClip;
 	Command::KMoveClipsCommand *m_moveClipsCommand;
 	
   	/**

@@ -35,15 +35,15 @@ AVFileFormatWidget::AVFileFormatWidget(AVFileFormatDesc *desc, QWidget *parent, 
                                             m_filename(new KURLRequester(m_fileHBox, "browser")),
                                             m_desc(desc)
 {
-  QToolTip::add( m_fileHBox, i18n( "The name of ouput video file" ) );
-  
-  QPtrListIterator<AVFormatDescBase> itt(desc->list());
+	QToolTip::add( m_fileHBox, i18n( "The name of ouput video file" ) );
 
-  while(itt.current())
-    {
-    itt.current()->createWidget(this);
-    ++itt;
-    }
+	QPtrListIterator<AVFormatDescBase> itt(desc->list());
+
+	while(itt.current())
+	{
+		itt.current()->createWidget(this);
+		++itt;
+	}
 }
 
 AVFileFormatWidget::~AVFileFormatWidget()

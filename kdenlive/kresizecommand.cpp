@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "kresizecommand.h"
-#include "docclipbase.h"
+#include "docclipref.h"
 #include "kdenlivedoc.h"
 
 #include <klocale.h>
@@ -24,24 +24,24 @@
 
 namespace Command {
 
-KResizeCommand::KResizeCommand(KdenliveDoc *doc, DocClipBase *clip)
+KResizeCommand::KResizeCommand(KdenliveDoc *doc, DocClipRef &clip)
 {
 	m_doc = doc;
-	m_trackNum = clip->trackNum();
-	m_end_trackEnd = m_start_trackEnd = clip->trackEnd();
-	m_end_trackStart = m_start_trackStart = clip->trackStart();
-	m_end_cropStart = m_start_cropStart = clip->cropStartTime();
+	m_trackNum = clip.trackNum();
+	m_end_trackEnd = m_start_trackEnd = clip.trackEnd();
+	m_end_trackStart = m_start_trackStart = clip.trackStart();
+	m_end_cropStart = m_start_cropStart = clip.cropStartTime();
 }
 
 KResizeCommand::~KResizeCommand()
 {
 }
 
-void KResizeCommand::setEndSize(DocClipBase *clip)
+void KResizeCommand::setEndSize(DocClipRef &clip)
 {
-	m_end_trackEnd = clip->trackEnd();
-	m_end_trackStart = clip->trackStart();
-	m_end_cropStart = clip->cropStartTime();
+	m_end_trackEnd = clip.trackEnd();
+	m_end_trackStart = clip.trackStart();
+	m_end_cropStart = clip.cropStartTime();
 }
 
 /** Returns the name of this command */
@@ -53,7 +53,7 @@ QString KResizeCommand::name() const
 /** Executes this command */
 void KResizeCommand::execute()
 {
-	DocClipBase *clip = m_doc->track(m_trackNum)->getClipAt( (m_start_trackStart + m_start_trackEnd) / 2.0);
+	DocClipRef *clip = m_doc->track(m_trackNum)->getClipAt( (m_start_trackStart + m_start_trackEnd) / 2.0);
 	if(!clip) {
 		kdWarning() << "ResizeCommand execute failed - cannot find clip!!!" << endl;
 	} else {
@@ -67,7 +67,7 @@ void KResizeCommand::execute()
 /** Unexecutes this command */
 void KResizeCommand::unexecute()
 {
-	DocClipBase *clip = m_doc->track(m_trackNum)->getClipAt( m_end_trackStart + ((m_end_trackEnd - m_end_trackStart) / 2.0));
+	DocClipRef *clip = m_doc->track(m_trackNum)->getClipAt( m_end_trackStart + ((m_end_trackEnd - m_end_trackStart) / 2.0));
 	if(!clip) {
 		kdWarning() << "ResizeCommand unexecute failed - cannot find clip!!!" << endl;
 	} else {

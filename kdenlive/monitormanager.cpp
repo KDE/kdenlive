@@ -17,7 +17,7 @@
 #include "monitormanager.h"
 
 #include "avfile.h"
-#include "docclipbase.h"
+#include "docclipref.h"
 
 MonitorManager::MonitorManager(KdenliveApp *app) :
 		QObject(),
@@ -71,14 +71,14 @@ void MonitorManager::slotMonitorClicked(KMMMonitor *monitor)
 	activateMonitor(monitor);
 }
 
-void MonitorManager::clearClip(AVFile *file)
+void MonitorManager::clearClip(DocClipBase *clip)
 {
-	if(file != 0) {
+	if(clip) {
 		QPtrListIterator<KMMMonitor> itt(m_monitors);
 
 		while(itt.current()) {
 			if(itt.current()->clip()) {
-				if(itt.current()->clip()->containsAVFile(file)) {
+				if(itt.current()->clip()->referencesClip(clip)) {
 					itt.current()->slotClearClip();
 				}
 			}

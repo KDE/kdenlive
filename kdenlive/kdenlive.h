@@ -202,6 +202,8 @@ class KdenliveApp : public KDockMainWindow
   void slotTimelineMoveTool();
   /** Called when the user activates the "Export Timeline" action */
   void slotRenderExportTimeline();
+  /** Called when the user activates the "Configure Project" action */
+  void slotConfigureProject();
   /** Called when the user activates the "Preferences" action */
   void slotOptionsPreferences();  
   /** Updates the current time in the status bar. */
@@ -230,10 +232,8 @@ class KdenliveApp : public KDockMainWindow
   void slotSetOutpoint();
   /** Delete the selected clips */
   void slotDeleteSelected();
-  /** Set the source of the clip monitor to the spectified AVFile. */
-  void slotSetClipMonitorSource(AVFile *file);
   /** Sets the clip monitor source to be the given clip. */
-  void slotSetClipMonitorSource(DocClipBase *clip);
+  void slotSetClipMonitorSource(DocClipRef *clip);
   /** SLots to Save/Load the current dockwidget layout to/from the layout number specified. */
   void slotSetRenderProgress(const GenTime &);
   void slotSetRenderFinished();
@@ -252,7 +252,7 @@ class KdenliveApp : public KDockMainWindow
    have focus, and if enabled, that the clip monitor should have the xv view. */
   void activateWorkspaceMonitor();
   /** Selects a clip into the clip monitor and seeks to the given time. */
-  void slotLookAtClip(DocClipBase *clip, const GenTime &time);
+  void slotLookAtClip(DocClipRef *clip, const GenTime &time);
   /** Display an error message in a suitable way to the user. */
   void slotRenderError(const QString &name, const QString &message);
   
@@ -322,17 +322,18 @@ class KdenliveApp : public KDockMainWindow
     KRadioAction* timelineSpacerTool;
 
     KToggleAction* timelineSnapToFrame;
-		KToggleAction* timelineSnapToBorder;
+	KToggleAction* timelineSnapToBorder;
 
     KAction* renderExportTimeline;
+	KAction* configureProject;
 
-	  /** The progress widget on the status bar, used by various long-winded methods. */
-	  KProgress * m_statusBarProgress;
+	/** The progress widget on the status bar, used by various long-winded methods. */
+	KProgress * m_statusBarProgress;
 
-		/** Holds the undo/redo command history */
-		KCommandHistory *m_commandHistory;
+	/** Holds the undo/redo command history */
+	KCommandHistory *m_commandHistory;
 
-/** Application view setup */
+	/** Application view setup */
   	ProjectList *m_projectList;
 	RenderDebugPanel *m_renderDebugPanel;
 	EffectListDialog *m_effectListDialog;
@@ -340,10 +341,10 @@ class KdenliveApp : public KDockMainWindow
 	KRenderManager *m_renderManager;
   	KMMMonitor *m_workspaceMonitor;
   	KMMMonitor *m_clipMonitor;
-		KMMRulerPanel *m_rulerPanel;	// pointer, because it gets reparented to the timeline widget!
+	KMMRulerPanel *m_rulerPanel;	// pointer, because it gets reparented to the timeline widget!
     /** Stores a copy of the last file dialog path used by kdenlive. */
-    KURL m_fileDialogPath;
-		KMMTimeLine *m_timeline;
+	KURL m_fileDialogPath;
+	KMMTimeLine *m_timeline;
 
     // KDockWidgets for the docking interface to work correctly.
     KDockWidget *m_dockClipMonitor;

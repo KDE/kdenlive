@@ -6,12 +6,14 @@
   </Menu>
   <Menu name="edit"><text>&amp;Edit</text>
   	<Action name="delete_selected_clips"/>
-  </Menu>  
+  </Menu>
   <Menu name="project"><text>&amp;Project</text>
     <Action name="project_add_clip"/>
     <Action name="project_delete_clip"/>
     <Action name="project_clean"/>
-    <Action name="project_clip_properties"/>    
+    <Action name="project_clip_properties"/>
+	<Separator lineSeparator="true"/>
+	<Action name="configure_project"/>
   </Menu>
   <Menu name="timeline"><text>&amp;Timeline</text>
     <Action name="timeline_move_tool"/>

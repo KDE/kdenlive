@@ -46,7 +46,7 @@ public:
 	KMMMonitor *activeMonitor();
 
 	/** Searches through monitors and clears any that are using the specified avfile. */
-	void clearClip(AVFile *file);
+	void clearClip(DocClipBase *clip);
 private:
 	/** A list of all monitors */
 	QPtrList<KMMMonitor> m_monitors;

@@ -29,7 +29,6 @@
 
 #include <algorithm>
 
-
 KMMMonitor::KMMMonitor(KdenliveApp *app, KdenliveDoc *document, QWidget *parent, const char *name ) :
 						QVBox(parent,name),
 						m_document(document),
@@ -160,7 +159,7 @@ void KMMMonitor::slotSetInactive()
 
 void KMMMonitor::mousePressEvent(QMouseEvent *e)
 {
-	emit monitorClicked(this);	
+	emit monitorClicked(this);
 }
 
 void KMMMonitor::slotClickMonitor()
@@ -168,24 +167,7 @@ void KMMMonitor::slotClickMonitor()
 	emit monitorClicked(this);
 }
 
-void KMMMonitor::slotSetClip(AVFile *file)
-{
-	static QString str_inpoint="inpoint";
-	static QString str_outpoint="outpoint";
-	static QString str_file="file";
-
-	kdDebug() << "Setting clip monitor source" << endl;
-
-	if(!file->durationKnown()) {
-		kdWarning() << "Cannot create scenelist for clip monitor - clip duration unknown" << endl;
-		return;
-	}
-	DocClipBase *clip = new DocClipAVFile(m_document, file);
-	slotSetClip(clip);
-	delete clip;
-}
-
-void KMMMonitor::slotSetClip(DocClipBase *clip)
+void KMMMonitor::slotSetClip(DocClipRef *clip)
 {
 	if(!clip) {
 		kdError() << "Null clip passed, not setting monitor." << endl;
@@ -198,25 +180,53 @@ void KMMMonitor::slotSetClip(DocClipBase *clip)
 	}
 
 	// create a copy of the clip.
-	m_clip = DocClipBase::createClip(m_document, clip->toXML().documentElement());
+	m_clip = clip->clone(m_document->clipManager());
+
+	if(!m_clip) {
+		kdError() << "KMMMonitor : Could not copy clip - you won't be able to see it!!!" << endl;
+	} else {
+		doCommonSetClip();
+	}
+}
+
+void KMMMonitor::slotSetClip(DocClipBase *clip)
+{
+	kdWarning() << "Slot set clip!" << endl;
+	if(!clip) {
+		kdError() << "Null clip passed, not setting monitor." << endl;
+		return;
+	}
+
+	if(m_clip != 0) {
+		delete m_clip;
+		m_clip = 0;
+	}
+
+	// create a copy of the clip.
+	m_clip = new DocClipRef(clip);
 
 	if(!m_clip) {
 		kdError() << "KMMMonitor : Could not copy clip - drag 'n' drop will not work!" << endl;
 	}
 
-	QDomDocument scenelist = clip->generateSceneList();
-	setSceneList(scenelist);
-	m_screen->setClipLength(clip->duration().frames(m_document->framesPerSecond()));
-	m_editPanel->setClipLength(clip->duration().frames(m_document->framesPerSecond()));
+	doCommonSetClip();
+}
 
-	m_editPanel->setInpoint(clip->cropStartTime());
-	m_editPanel->setOutpoint(clip->cropStartTime() + clip->cropDuration());
+void KMMMonitor::doCommonSetClip()
+{
+	QDomDocument scenelist = m_clip->generateSceneList();
+	setSceneList(scenelist);
+	m_screen->setClipLength((int)m_clip->duration().frames(m_document->framesPerSecond()));
+	m_editPanel->setClipLength((int)m_clip->duration().frames(m_document->framesPerSecond()));
+
+	m_editPanel->setInpoint(m_clip->cropStartTime());
+	m_editPanel->setOutpoint(m_clip->cropStartTime() + m_clip->cropDuration());
 
 	if( (!m_noSeek) || 
-	    (seekPosition() < clip->cropStartTime()) || 
-	    (seekPosition() > clip->cropStartTime() + clip->cropDuration())) {
-		seek(clip->cropStartTime());
-		m_screen->seek(clip->cropStartTime());
+	    (seekPosition() < m_clip->cropStartTime()) || 
+	    (seekPosition() > m_clip->cropStartTime() + m_clip->cropDuration())) {
+		seek(m_clip->cropStartTime());
+		m_screen->seek(m_clip->cropStartTime());
 	}
 }
 
@@ -247,11 +257,6 @@ void KMMMonitor::slotStartDrag()
 	m_clip->setTrackStart(GenTime(0));
 	m_clip->setTrackEnd(m_editPanel->outpoint() - m_editPanel->inpoint());
 
-	kdWarning() << "Track Start is " << m_clip->trackStart().seconds() << endl;
-	kdWarning() << "Track End is " << m_clip->trackEnd().seconds() << endl;
-	kdWarning() << "Crop Start is " << m_clip->cropStartTime().seconds() << endl;
-	kdWarning() << "Crop duration is " << m_clip->cropDuration().seconds() << endl;
-
 	ClipDrag *drag = new ClipDrag(m_clip, this, "Clip from monitor");
 	drag->dragCopy();
 }
@@ -261,7 +266,7 @@ void KMMMonitor::setNoSeek(bool noSeek)
 	m_noSeek = noSeek;
 }
 
-DocClipBase *KMMMonitor::clip()
+DocClipRef *KMMMonitor::clip()
 {
 	return m_clip;
 }

@@ -18,8 +18,8 @@
  
 #include "clipdrag.h"
 #include "docclipavfile.h"
-#include "avfile.h"
-#include "kdenlivedoc.h"
+#include "docclipreflist.h"
+#include "clipmanager.h"
 
 #include <iostream>
 
@@ -27,29 +27,28 @@ ClipDrag::ClipDrag(DocClipBase *clip, QWidget *dragSource, const char *name) :
 			KURLDrag(ClipDrag::createURLList(clip), dragSource, name)
 {
 	m_xml = clip->toXML().toString();
+
+	kdWarning() << "XML is " << m_xml << endl;
 }
 
-ClipDrag::ClipDrag(KdenliveDoc *doc, AVFile * clip, QWidget * dragSource, const char * name) :
+ClipDrag::ClipDrag(DocClipRef *clip, QWidget *dragSource, const char *name) :
 			KURLDrag(ClipDrag::createURLList(clip), dragSource, name)
 {
-	DocClipAVFile av(doc, clip);
-
-	m_xml = av.toXML().toString();
+	m_xml = clip->toXML().toString();
+	kdWarning() << "XML is " << m_xml << endl;
 }
 
-/** Constructs a clipDrag object consisting of the clips within the
-clipGroup passed. */
-ClipDrag::ClipDrag(DocClipBaseList &clips, QWidget *dragSource, const char *name) :
+ClipDrag::ClipDrag(DocClipRefList &clips, QWidget *dragSource, const char *name) :
 			KURLDrag(ClipDrag::createURLList(&clips), dragSource, name)
 {
-	m_xml = clips.toXML().toString();
+	m_xml = clips.toXML("cliplist").toString();
+	kdWarning() << "XML is " << m_xml << endl;
 }
 
 ClipDrag::~ClipDrag()
 {
 }
 
-/** Reimplemented for internal reasons; the API is not affected.  */
 const char * ClipDrag::format(int i) const
 {
 	switch (i)
@@ -59,7 +58,6 @@ const char * ClipDrag::format(int i) const
 	}
 }
 
-/** Reimplemented for internal reasons; the API is not affected.  */
 QByteArray ClipDrag::encodedData(const char *mime) const
 {
 	QCString mimetype(mime);
@@ -74,12 +72,6 @@ QByteArray ClipDrag::encodedData(const char *mime) const
 	}	
 }
 
-/** Set the clip which is contained within this ClipDrag object. */
-void ClipDrag::setClip(DocClipBase *clip)
-{
-}
-
-/** Returns true if the mime type is decodable, false otherwise. */
 bool ClipDrag::canDecode(const QMimeSource *mime)
 {
   if(mime->provides("application/x-kdenlive-clip")) return true;
@@ -87,10 +79,9 @@ bool ClipDrag::canDecode(const QMimeSource *mime)
   return KURLDrag::canDecode(mime);
 }
 
-/** Attempts to decode the mimetype e as a clip. Returns a clip, or returns null */
-DocClipBaseList ClipDrag::decode(KdenliveDoc *doc, const QMimeSource *e)
+DocClipRefList ClipDrag::decode(ClipManager &clipManager, const QMimeSource *e)
 {	
-	DocClipBaseList cliplist;
+	DocClipRefList cliplist;
 
 	if(e->provides("application/x-kdenlive-clip")) {	
 		QByteArray data = e->encodedData("application/x-kdenlive-clip");
@@ -114,11 +105,12 @@ DocClipBaseList ClipDrag::decode(KdenliveDoc *doc, const QMimeSource *e)
 
 			if(!element.isNull()) {
 				if(element.tagName() == "clip") {
-					DocClipBase *temp = DocClipBase::createClip(doc, element);
-					cliplist.append(temp);
+					DocClipRef *ref = DocClipRef::createClip(clipManager, element);
+
+					cliplist.append(ref);
 
 					if(element.attribute("master", "false") == "true") {
-						cliplist.setMasterClip(temp);
+						cliplist.setMasterClip(ref);
 					}
 				}
 			}
@@ -130,22 +122,23 @@ DocClipBaseList ClipDrag::decode(KdenliveDoc *doc, const QMimeSource *e)
 		KURLDrag::decode(e, list);
 
 		for(it = list.begin(); it != list.end(); ++it) {
-			DocClipAVFile *file = new DocClipAVFile(doc, (*it).fileName(), *it);
-			cliplist.append(file);
+			DocClipBase *file = clipManager.findClip(*it);
+			if(!file) {
+				file = clipManager.addTemporaryClip(*it);
+			}
+			DocClipRef *refFile = new DocClipRef(file);
+			cliplist.append(refFile);
 		}
 	}
 
 	return cliplist;
 }
 
-/** Returns a QValueList containing the URLs of the cliplist.
-This is necessary, because the KURLDrag class which ClipDrag inherits
-requires a list of URL's rather than a single URL. */
-KURL::List ClipDrag::createURLList(DocClipBaseList *clipList)
+KURL::List ClipDrag::createURLList(DocClipRefList *clipList)
 {
 	KURL::List list;
 
-	QPtrListIterator<DocClipBase> itt(*clipList);
+	QPtrListIterator<DocClipRef> itt(*clipList);
 
 	while(itt.current() != 0) {		
 		list.append(itt.current()->fileURL());
@@ -155,10 +148,7 @@ KURL::List ClipDrag::createURLList(DocClipBaseList *clipList)
 	return list;
 }
 
-/** Returns a QValueList containing the URL of the clip.
-This is necessary, because the KURLDrag class which ClipDrag inherits
-requires a list of URL's rather than a single URL. */
-KURL::List ClipDrag::createURLList(DocClipBase *clip)
+KURL::List ClipDrag::createURLList(DocClipRef *clip)
 {
 	KURL::List list;
 	
@@ -166,14 +156,10 @@ KURL::List ClipDrag::createURLList(DocClipBase *clip)
 	return list;
 }
 
-/** Returns a QValueList containing the URL of the clip.
-
-This is necessary, because the KURLDrag class which ClipDrag inherits
-requires a list of URL's rather than a single URL. */
-KURL::List ClipDrag::createURLList(AVFile *clip)
+KURL::List ClipDrag::createURLList(DocClipBase *clip)
 {
 	KURL::List list;
-
+	
  	list.append(clip->fileURL());
 	return list;
 }

@@ -15,58 +15,35 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <klocale.h>
- 
 #include "exportdialog.h"
-#include "qlayout.h"
-#include "qobjectlist.h"
-#include "avformatwidgetbase.h"
+
+#include <qlayout.h>
+#include <qobjectlist.h>
+
+#include <klocale.h>
+
 #include "avfileformatwidget.h"
+#include "avformatwidgetbase.h"
+#include "exportconfig.h"
 
 ExportDialog::ExportDialog(QPtrList<AVFileFormatDesc> &formatList, QWidget *parent, const char *name ) :
-//                        KJanusWidget(parent,name, IconList),
-                        KDialogBase(TreeList, i18n("Render Dialog"), Ok | Default | Cancel, Ok, parent, name),
-                        m_formatList(formatList)
+                        KDialogBase(Plain, i18n("Render Dialog"), Ok | Default | Cancel, Ok, parent, name)
 {
-  m_pageList.setAutoDelete(true);
-  generateLayout();
-  resize( 500, 500 );   // For a correct showing of the dialog box widgets.
+	QHBoxLayout *topLayout = new QHBoxLayout( plainPage(), 0, 6 );
+	m_exportConfig = new ExportConfig(formatList, plainPage(), "export config2");
+	topLayout->addWidget(m_exportConfig);
 }
 
 ExportDialog::~ExportDialog()
 {
 }
 
-/** Generate a layout for this dialog, based upon the values that have been passed to it. */
-void ExportDialog::generateLayout()
-{
-  m_pageList.clear();
-  
-  QPtrListIterator<AVFileFormatDesc> itt(m_formatList);
-
-  while(itt.current()) {
-    QFrame *frame = addPage(itt.current()->name());
-    QHBoxLayout *layout = new QHBoxLayout( frame, 0, 6 );
-    AVFormatWidgetBase *page = itt.current()->createWidget(frame);
-    m_pageList.append(page);
-    layout->addWidget(page->widget());
-    ++itt;
-  }
-}
-
-/** Specify a new file format list, and reconstruct the dialog box. */
 void ExportDialog::setFormatList(const QPtrList<AVFileFormatDesc> &list)
 {
-  m_formatList = list;
-  generateLayout();
+	m_exportConfig->setFormatList(list);
 }
 
-/** Returns the url set inside of this export dialog. */
 KURL ExportDialog::url()
 {
-  AVFileFormatWidget *fileFormatWidget = m_pageList.at(activePageIndex())->fileFormatWidget();
-  if(fileFormatWidget) {
-    return fileFormatWidget->fileUrl();
-  }
-  return KURL();
+	return m_exportConfig->url();
 }

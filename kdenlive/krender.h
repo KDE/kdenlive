@@ -263,7 +263,7 @@ signals: // Signals
   /** This signal is emitted once a reply to createVideoXWidow() has been recieved. */
   void replyCreateVideoXWindow(WId);
   /** emitted when the renderer recieves a reply to a getFileProperties request. */
-  void replyGetFileProperties(QMap<QString, QString>);
+  void replyGetFileProperties(const QMap<QString, QString> &);
   /** emitted when the renderer recieves a failed reply to a getFileProperties request.
       First string is file url, second string is the error message. */
   void replyErrorGetFileProperties(const QString &, const QString &);

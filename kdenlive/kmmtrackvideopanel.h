@@ -31,21 +31,27 @@ which reside in the main video widget
   *@author Jason Wood
   */
 
+class KdenliveDoc;
+
 class KMMTrackVideoPanel : public KMMTrackPanel  {
    Q_OBJECT
 public:
-	KMMTrackVideoPanel(KMMTimeLine *timeline, DocTrackVideo *docTrack, QWidget *parent=0, const char *name=0);
+	KMMTrackVideoPanel(KMMTimeLine *timeline, 
+				KdenliveDoc *document, 
+				DocTrackVideo *docTrack, 
+				QWidget *parent=0,
+			       	const char *name=0);
 	~KMMTrackVideoPanel();
-  /** Paint the specified clip on screen within the specified rectangle, using the specified painter. */
-  void paintClip(QPainter &painter, DocClipBase *clip, QRect &rect, bool selected);
+	/** Paint the specified clip on screen within the specified rectangle, using the specified painter. */
+	void paintClip(QPainter &painter, DocClipRef *clip, QRect &rect, bool selected);
 private:
-  QHBox m_horzLayout;
+	QHBox m_horzLayout;
 	QLabel m_trackLabel;
-  /** True if we are inside a dragging operation, false otherwise. */
-  bool m_dragging;
+	/** True if we are inside a dragging operation, false otherwise. */
+	bool m_dragging;
 
-  /** Test image to display on track */
-  QPixmap m_pixmap;
+	/** Test image to display on track */
+	QPixmap m_pixmap;
 };
 
 #endif

@@ -19,14 +19,15 @@
 
 #include <qptrvector.h>
 #include <qvaluevector.h>
+#include <qptrlist.h>
 
 #include <kdebug.h>
 
 #include "doctrackbase.h"
 #include "doctrackclipiterator.h"
 
-DocClipProject::DocClipProject(KdenliveDoc *doc) :
-  			DocClipBase(doc)
+DocClipProject::DocClipProject() :
+  			DocClipBase()
 {
 	m_framesPerSecond = 25; // Standard PAL.
 	m_tracks.setAutoDelete(true);
@@ -38,6 +39,7 @@ DocClipProject::~DocClipProject()
 
 GenTime DocClipProject::duration() const
 {
+#warning - need to be more careful about returning duration - need to cache the result and return it.
 	GenTime length(0);
 
 	QPtrListIterator<DocTrackBase> itt(m_tracks);
@@ -53,36 +55,11 @@ GenTime DocClipProject::duration() const
 }
 
 /** No descriptions */
-KURL DocClipProject::fileURL()
+const KURL &DocClipProject::fileURL() const
 {
-	KURL temp;
+	static KURL emptyUrl;
 
-	return temp;
-}
-
-QDomDocument DocClipProject::toXML() 
-{
-	QDomDocument doc = DocClipBase::toXML();
-	QDomNode node = doc.firstChild();
-
-	while( !node.isNull()) {
-		QDomElement element = node.toElement();
-		if(!element.isNull()) {
-			if(element.tagName() == "clip") {
-				QDomElement project = doc.createElement("project");
-				project.setAttribute("fps", QString::number(m_framesPerSecond));
-				element.appendChild(project);
-				project.appendChild(doc.importNode(m_tracks.toXML().documentElement(), true));
-				
-				return doc;
-			}
-		}
-		node = node.nextSibling();
-	}
-
-	ASSERT(node.isNull());
-
-	return doc;
+	return emptyUrl;
 }
 
 /** Returns true if the clip duration is known, false otherwise. */
@@ -92,7 +69,7 @@ bool DocClipProject::durationKnown()
 }
 
 //virtual
-int DocClipProject::framesPerSecond() const
+double DocClipProject::framesPerSecond() const
 {
 	return m_framesPerSecond;
 }
@@ -114,9 +91,9 @@ int DocClipProject::trackIndex(DocTrackBase *track)
 void DocClipProject::connectTrack(DocTrackBase *track)
 {
 	connect(track, SIGNAL(clipLayoutChanged()), this, SIGNAL(clipLayoutChanged()));
-	connect(track, SIGNAL(signalClipSelected(DocClipBase *)), this, SIGNAL(signalClipSelected(DocClipBase *)));
+	connect(track, SIGNAL(signalClipSelected(DocClipRef *)), this, SIGNAL(signalClipSelected(DocClipRef *)));
 }
-	
+
 uint DocClipProject::numTracks() const
 {
 	return m_tracks.count();
@@ -133,7 +110,7 @@ DocTrackBase * DocClipProject::nextTrack()
 }
 
 
-DocTrackBase * DocClipProject::findTrack(DocClipBase *clip)
+DocTrackBase * DocClipProject::findTrack(DocClipRef *clip)
 {
 	DocTrackBase *returnTrack = 0;
 	
@@ -157,14 +134,13 @@ DocTrackBase * DocClipProject::track(int track)
 bool DocClipProject::moveSelectedClips(GenTime startOffset, int trackOffset)
 {
 	// For each track, check and make sure that the clips can be moved to their rightful place. If
-	// one cannot be moved to a particular location, then none of them can be moved.
-	// We check for the closest position the track could possibly be moved to, and move it there instead.
+	// one cannot be moved to a particular location, then none of them can be movRef	// We check for the closest position the track could possibly be moved to, and move it there instead.
   
 	int destTrackNum;
 	DocTrackBase *srcTrack, *destTrack;
 	GenTime clipStartTime;
 	GenTime clipEndTime;
-	DocClipBase *srcClip, *destClip;
+	DocClipRef *srcClip, *destClip;
 
 	blockTrackSignals(true);
 
@@ -178,8 +154,8 @@ bool DocClipProject::moveSelectedClips(GenTime startOffset, int trackOffset)
 
 		destTrack = m_tracks.at(destTrackNum);
 
-		QPtrListIterator<DocClipBase> srcClipItt = srcTrack->firstClip(true);
-		QPtrListIterator<DocClipBase> destClipItt = destTrack->firstClip(false);
+		QPtrListIterator<DocClipRef> srcClipItt = srcTrack->firstClip(true);
+		QPtrListIterator<DocClipRef> destClipItt = destTrack->firstClip(false);
 
 		destClip = destClipItt.current();
 
@@ -301,9 +277,9 @@ QDomDocument DocClipProject::generateSceneList()
 	return sceneList;
 }
 
-void DocClipProject::generateTracksFromXML(const QDomElement &e)
+void DocClipProject::generateTracksFromXML(ClipManager &clipManager, const QDomElement &e)
 {
-	m_tracks.generateFromXML(m_document, e);
+	m_tracks.generateFromXML(clipManager, this, e);
 
 	DocTrackBaseListIterator itt(m_tracks);
 	while(itt.current() != 0) {
@@ -313,13 +289,13 @@ void DocClipProject::generateTracksFromXML(const QDomElement &e)
 }
 
 //static 
-DocClipProject * DocClipProject::createClip(KdenliveDoc *doc, const QDomElement element)
+DocClipProject * DocClipProject::createClip(ClipManager &clipManager, const QDomElement element)
 {
 	DocClipProject *project = 0;
 	
 	if(element.tagName() == "project") {
 		KURL url(element.attribute("url"));
-		project = new DocClipProject(doc);
+		project = new DocClipProject();
 		project->m_framesPerSecond = element.attribute("fps", "25").toInt();
 		
 		QDomNode node = element.firstChild();
@@ -328,7 +304,7 @@ DocClipProject * DocClipProject::createClip(KdenliveDoc *doc, const QDomElement 
 			QDomElement e = node.toElement();
 			if(!e.isNull()) {
 				if(e.tagName() == "DocTrackBaseList") {
-					project->generateTracksFromXML(e);
+					project->generateTracksFromXML(clipManager, e);
 				}
 			}
 			node = node.nextSibling();
@@ -353,8 +329,8 @@ void DocClipProject::populateSceneTimes(QValueVector<GenTime> &toPopulate)
 			QValueVector<GenTime>::Iterator newItt = newTimes.begin();
 			
 			while(newItt != newTimes.end()) {
-				time = (*newItt) + trackStart() - cropStartTime();
-				if((time >= trackStart()) && (time <= trackEnd())) {
+				time = (*newItt);
+				if((time >= GenTime(0)) && (time <= duration())) {
 					toPopulate.append(time);
 				}
 				++newItt;
@@ -364,8 +340,8 @@ void DocClipProject::populateSceneTimes(QValueVector<GenTime> &toPopulate)
 		}
 	}
 	
-	toPopulate.append(trackStart());
-	toPopulate.append(trackEnd());
+	toPopulate.append(GenTime(0));
+	toPopulate.append(duration());
 }
 
 // Returns an XML document that describes part of the current scene.
@@ -374,18 +350,15 @@ QDomDocument DocClipProject::sceneToXML(const GenTime &startTime, const GenTime 
 {
 	QDomDocument doc;
 
-	GenTime newStart = startTime - trackStart() + cropStartTime();
-	GenTime newEnd = endTime - trackStart() + cropStartTime();
-
 	// For the moment, this only returns the most relevant clip on the top most track.
-	for(int count=numTracks()-1; count>=0; --count) {
+	for(int count=0; count<numTracks(); ++count) {
 		DocTrackClipIterator itt(*(m_tracks.at(count)));
 
 		while(itt.current()) {
-			DocClipBase *clip = itt.current();
+			DocClipRef *clip = itt.current();
 
-			if((clip->trackStart() <= newStart) && (clip->trackEnd() >= newEnd)) {
-				doc = clip->sceneToXML(newStart, newEnd);
+			if((clip->trackStart() <= startTime) && (clip->trackEnd() >= endTime)) {
+				doc = clip->sceneToXML(startTime, endTime);
 				break;
 			}
 			
@@ -394,45 +367,6 @@ QDomDocument DocClipProject::sceneToXML(const GenTime &startTime, const GenTime 
 	}
 
 	return doc;
-}
-
-// virtual 
-bool DocClipProject::containsAVFile(AVFile *file)
-{
-	bool result = false;
-	
-	for(uint count=0; (count < numTracks()) && (!result); ++count) {
-		DocTrackClipIterator itt(*(m_tracks.at(count)));
-
-		while(itt.current()) {
-			if(itt.current()->containsAVFile(file)) {
-				result = true;
-				break;
-			}
-			++itt;
-		}
-	}
-
-	return result;
-}
-
-QPtrList<DocClipBase> DocClipProject::referencedClips(AVFile *file)
-{
-	QPtrList<DocClipBase> list;
-	list.setAutoDelete(false);
-
-	for(uint count=0; count<numTracks(); ++count) {
-		DocTrackClipIterator itt(*(m_tracks.at(count)));
-
-		while(itt.current()) {
-			if(itt.current()->containsAVFile(file)) {
-				list.append(itt.current());
-			}
-			++itt;
-		}
-	}
-
-	return list;
 }
 
 bool DocClipProject::hasSelectedClips()
@@ -449,10 +383,10 @@ bool DocClipProject::hasSelectedClips()
 	return result;
 }
 
-DocClipBase *DocClipProject::selectedClip()
+DocClipRef *DocClipProject::selectedClip()
 {
-	DocClipBase *pResult;
-	DocTrackBase *srcTrack;
+	DocClipRef *pResult=0;
+	DocTrackBase *srcTrack=0;
 	
 	for(uint track=0; track<numTracks(); track++) {
 		srcTrack = m_tracks.at(track);
@@ -462,4 +396,103 @@ DocClipBase *DocClipProject::selectedClip()
 	}
 	
 	return pResult;
+}
+
+// virtual 
+bool DocClipProject::referencesClip(DocClipBase *clip) const
+{
+	bool result = false;
+	
+	DocTrackBase *srcTrack;
+	uint track = 0;
+	QPtrListIterator<DocTrackBase> itt(m_tracks);
+
+	while(itt.current()) {
+		srcTrack = itt.current();
+		
+		if(srcTrack->referencesClip(clip)) {
+			result = true;
+			break;
+		}
+		
+		++itt;
+		++track;
+	}
+
+	return result;
+}
+
+DocClipRefList DocClipProject::referencedClips(DocClipBase *clip)
+{
+	DocClipRefList list;
+
+	
+	DocTrackBase *srcTrack;
+	for(uint track=0; track<numTracks(); ++track) {
+		srcTrack = m_tracks.at(track);
+
+		list.appendList(srcTrack->referencedClips(clip));
+	}
+
+	return list;
+}
+
+// virtual
+QDomDocument DocClipProject::toXML()
+{
+	QDomDocument doc = DocClipBase::toXML();
+	QDomNode node = doc.firstChild();
+
+	while( !node.isNull()) {
+		QDomElement element = node.toElement();
+		if(!element.isNull()) {
+			if(element.tagName() == "clip") {
+				QDomElement project = doc.createElement("project");
+				project.setAttribute("fps", QString::number(m_framesPerSecond));
+				element.appendChild(project);
+				project.appendChild(doc.importNode(m_tracks.toXML().documentElement(), true));
+				
+				return doc;
+			}
+		}
+		node = node.nextSibling();
+	}
+
+	ASSERT(node.isNull());
+
+	return doc;
+}
+
+// virtual 
+bool DocClipProject::matchesXML(const QDomElement &element)
+{
+	bool result = false;
+	
+	if(element.tagName() == "clip") {
+		QDomNodeList nodeList = element.elementsByTagName("project");
+		if(nodeList.length() > 0) {
+			if(nodeList.length() > 1) {
+				kdWarning() << "More than one element named project in XML,only matching XML to first one!" << endl;
+			}
+
+			QDomElement clip = nodeList.item(0).toElement();
+			if(!clip.isNull()) {
+# warning "this line might be the cause of significant trouble"
+				if(element.attribute("fps").toDouble() == m_framesPerSecond) {
+					QDomNodeList trackNodeList = clip.elementsByTagName("DocTrackBaseList");
+					if(trackNodeList.length() > 0) {
+						if(trackNodeList.length() > 1) {
+							kdWarning() << "More than one element named 'DocTrackBaseList' in XML, matching only the first one!" << endl;
+						}
+						QDomElement trackElement = trackNodeList.item(0).toElement();
+						if(!trackElement.isNull()) {
+							result = m_tracks.matchesXML(trackElement);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return result;
 }

@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+/*
 #include "avfilelist.h"
 #include "krender.h"
 
@@ -23,7 +24,7 @@
 #include <qstring.h>
 
 AVFileList::AVFileList() :
-				QPtrList<AVFile> ()
+		QPtrList<AVFile> ()
 {
 	setAutoDelete(true);
 }
@@ -32,7 +33,6 @@ AVFileList::~AVFileList()
 {
 }
 
-/** Returns an XML representation of the list. */
 QDomDocument AVFileList::toXML() const
 {
 	QDomDocument doc;
@@ -54,7 +54,6 @@ QDomDocument AVFileList::toXML() const
 	return doc;
 }
 
-/** Generates the file list from the XML stored in elem. */
 void AVFileList::generateFromXML(KRender *render, QDomElement elem)
 {
 	if(elem.tagName() != "AVFileList") {
@@ -86,7 +85,6 @@ void AVFileList::generateFromXML(KRender *render, QDomElement elem)
 	}
 }
 
-/** Returns the AVFile representing the given url, or if it doesn't exist, returns 0. */
 AVFile *AVFileList::find(const KURL &file)
 {
 	QPtrListIterator<AVFile> itt(*this);
@@ -100,3 +98,4 @@ AVFile *AVFileList::find(const KURL &file)
 
 	return 0;
 }
+*/
