@@ -38,7 +38,7 @@ RenderDebugPanel::RenderDebugPanel(QWidget *parent, const char *name ) :
   m_widgetStack.setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));  
   connect(&m_rendererList, SIGNAL(highlighted(int)), &m_widgetStack, SLOT(raiseWidget(int)));
   connect(&m_saveMessages, SIGNAL(clicked()), this, SLOT(saveMessages()));
-  m_ignoreMessages.setDown(false);
+  m_ignoreMessages.setChecked(true);
 }
 
 RenderDebugPanel::~RenderDebugPanel()
