@@ -401,9 +401,7 @@ void KRuler::setValueScale(double size){
 	}
 
 	if(m_smallTickEvery == m_bigTickEvery) {
-		kdDebug() << "small = " << m_smallTickEvery << "  large = " << m_bigTickEvery << endl;
 		m_bigTickEvery = m_rulerModel->getTickDisplayInterval(m_smallTickEvery+1);
-		kdDebug() << "small = " << m_smallTickEvery << "  large = " << m_bigTickEvery << endl;		
 	}
 
 	drawToBackBuffer();
