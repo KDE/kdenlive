@@ -29,14 +29,18 @@
 
 ProjectList::ProjectList(QWidget *parent, const char *name ) :
 									QVBox(parent,name),
-									listView(this, name, 0),
+									m_listView(this, name, 0),
+									m_buttonBox(this, name),
+									m_addButton("Add Files", &m_buttonBox),
 									m_menu()
 {
-	listView.addColumn(i18n("Filename"), -1);
-	listView.addColumn(i18n("Type"), -1);
-	listView.addColumn(i18n("Duration"), -1);
-	listView.addColumn(i18n("Usage count"), -1);	
-	listView.addColumn(i18n("Size"), -1);	
+	connect (&m_addButton, SIGNAL(clicked()), this, SLOT(slot_AddFile()));
+
+	m_listView.addColumn(i18n("Filename"), -1);
+	m_listView.addColumn(i18n("Type"), -1);
+	m_listView.addColumn(i18n("Duration"), -1);
+	m_listView.addColumn(i18n("Usage count"), -1);	
+	m_listView.addColumn(i18n("Size"), -1);	
 		
 	init_menu();
 }
@@ -47,7 +51,7 @@ ProjectList::~ProjectList(){
 void ProjectList::init_menu(){
 	m_menu.insertItem(i18n("&Add File..."),	this, SLOT(slot_AddFile()), 0);
 	
-	connect(&listView, SIGNAL(rightButtonPressed ( QListViewItem *, const QPoint &, int )),
+	connect(&m_listView, SIGNAL(rightButtonPressed ( QListViewItem *, const QPoint &, int )),
 					this, SLOT(rightButtonPressed ( QListViewItem *, const QPoint &, int )));
 }
 
@@ -117,12 +121,12 @@ void ProjectList::rightButtonPressed ( QListViewItem *listViewItem, const QPoint
 
 /** Get a fresh copy of files from KdenliveDoc and display them. */
 void ProjectList::slot_UpdateList(QList<AVFile> list) {
-	listView.clear();
+	m_listView.clear();
 
 	QListIterator<AVFile> itt(list);
 	AVFile *av;
 	
 	for(; (av = itt.current()); ++itt) {
-		new AVListViewItem(&listView, av);
+		new AVListViewItem(&m_listView, av);
 	}
 }

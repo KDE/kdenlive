@@ -20,10 +20,12 @@
 
 #include <qwidget.h>
 #include <qvbox.h>
+#include <qhbox.h>
 #include <qlistview.h>
 #include <qlist.h>
 #include <qpopupmenu.h>
 #include <qevent.h>
+#include <qpushbutton.h>
 
 #include <kurl.h>
 
@@ -38,12 +40,17 @@ class ProjectList : public QVBox  {
 public: 
 	ProjectList(QWidget *parent=0, const char *name=0);
 	~ProjectList();
-private:
-	QListView	listView;
 private: // Private methods
   /** Initialise the popup menu */
   void init_menu();
-	QPopupMenu m_menu;
+  /** The list view, holding the file information */
+	QListView	m_listView;
+	/** A box to hold the buttons in */
+	QHBox	m_buttonBox;
+	/** This button allows you to add files to the project */
+	QPushButton m_addButton;	
+	/** The popup menu */	
+	QPopupMenu m_menu;	
 public slots: // Public slots
   /** User is requesting to open a file. Open file dialog and let the user pick. */
   void slot_AddFile();

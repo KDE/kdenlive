@@ -40,6 +40,10 @@ public:
   void calculateFileProperties();
   /** returns the size of the file */
   signed int fileSize();
+  /** Returns the seconds element of the duration of the file */
+  long durationSeconds();
+  /** Returns the milliseconds element of the duration of the file */
+  long durationMs();
 private:		
 	/** The displayed name of this file */
 	QString m_name;

@@ -32,6 +32,7 @@
 // include files for project
 #include <kmmtimeline.h>
 #include <kmmruler.h>
+#include <kmmmonitor.h>
 #include <projectlist.h>
 
 
@@ -65,8 +66,10 @@ class KdenliveView : public QSplitter
     void print(QPrinter *pPrinter);
 	
   private:
-  	ProjectList projectList;
-		KMMTimeLine timeline;
+  	QSplitter m_topSplitter;  	
+  	ProjectList m_projectList;
+  	KMMMonitor m_monitor;
+		KMMTimeLine m_timeline;
 };
 
 #endif // KDENLIVEVIEW_H

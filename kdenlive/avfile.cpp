@@ -85,3 +85,13 @@ void AVFile::calculateFileProperties()
 signed int AVFile::fileSize() {
 	return m_filesize;
 }
+
+/** Returns the seconds element of the duration of the file */
+long AVFile::durationSeconds() {
+	return m_time.seconds;
+}
+
+/** Returns the milliseconds element of the duration of the file */
+long AVFile::durationMs() {
+	return m_time.ms;
+}

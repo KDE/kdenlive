@@ -26,13 +26,15 @@
 
 KdenliveView::KdenliveView(QWidget *parent, const char *name) :
 				QSplitter(Vertical, parent, name),
-				projectList(this, name),
-				timeline(this, name)
+				m_topSplitter(Horizontal, this, name),
+				m_projectList(&m_topSplitter, name),
+				m_monitor(&m_topSplitter, name),
+				m_timeline(this, name)
 {
   setBackgroundMode(PaletteBase);
 
-  connect(&projectList, SIGNAL(signal_AddFile(const KURL &)), getDocument(), SLOT(slot_InsertAVFile(const KURL &)));
-  connect(getDocument(), SIGNAL(avFileListUpdated(QList<AVFile>)), &projectList, SLOT(slot_UpdateList(QList<AVFile>)));
+  connect(&m_projectList, SIGNAL(signal_AddFile(const KURL &)), getDocument(), SLOT(slot_InsertAVFile(const KURL &)));
+  connect(getDocument(), SIGNAL(avFileListUpdated(QList<AVFile>)), &m_projectList, SLOT(slot_UpdateList(QList<AVFile>)));
 }
 
 KdenliveView::~KdenliveView()

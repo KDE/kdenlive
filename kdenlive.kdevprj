@@ -108,7 +108,7 @@ install_location=
 type=DATA
 
 [kdenlive/Makefile.am]
-files=kdenlive/main.cpp,kdenlive/kdenlive.cpp,kdenlive/kdenlive.h,kdenlive/kdenlivedoc.cpp,kdenlive/kdenlivedoc.h,kdenlive/kdenliveview.cpp,kdenlive/kdenliveview.h,kdenlive/kdenliveui.rc,kdenlive/kdenlive.desktop,kdenlive/lo32-app-kdenlive.png,kdenlive/lo16-app-kdenlive.png,kdenlive/kmmruler.cpp,kdenlive/kmmruler.h,kdenlive/kmmtimeline.cpp,kdenlive/kmmtimeline.h,kdenlive/kmmtrackbase.cpp,kdenlive/kmmtrackbase.h,kdenlive/projectlist.cpp,kdenlive/projectlist.h,kdenlive/avfile.cpp,kdenlive/avfile.h,kdenlive/avlistviewitem.cpp,kdenlive/avlistviewitem.h
+files=kdenlive/main.cpp,kdenlive/kdenlive.cpp,kdenlive/kdenlive.h,kdenlive/kdenlivedoc.cpp,kdenlive/kdenlivedoc.h,kdenlive/kdenliveview.cpp,kdenlive/kdenliveview.h,kdenlive/kdenliveui.rc,kdenlive/kdenlive.desktop,kdenlive/lo32-app-kdenlive.png,kdenlive/lo16-app-kdenlive.png,kdenlive/kmmruler.cpp,kdenlive/kmmruler.h,kdenlive/kmmtimeline.cpp,kdenlive/kmmtimeline.h,kdenlive/kmmtrackbase.cpp,kdenlive/kmmtrackbase.h,kdenlive/projectlist.cpp,kdenlive/projectlist.h,kdenlive/avfile.cpp,kdenlive/avfile.h,kdenlive/avlistviewitem.cpp,kdenlive/avlistviewitem.h,kdenlive/kmmmonitor.cpp,kdenlive/kmmmonitor.h,kdenlive/kmmscreen.cpp,kdenlive/kmmscreen.h,kdenlive/kmmeditpanel.cpp,kdenlive/kmmeditpanel.h
 sub_dirs=
 type=prog_main
 
@@ -184,6 +184,30 @@ install=false
 install_location=
 type=HEADER
 
+[kdenlive/kmmeditpanel.cpp]
+dist=true
+install=false
+install_location=
+type=SOURCE
+
+[kdenlive/kmmeditpanel.h]
+dist=true
+install=false
+install_location=
+type=HEADER
+
+[kdenlive/kmmmonitor.cpp]
+dist=true
+install=false
+install_location=
+type=SOURCE
+
+[kdenlive/kmmmonitor.h]
+dist=true
+install=false
+install_location=
+type=HEADER
+
 [kdenlive/kmmruler.cpp]
 dist=true
 install=false
@@ -191,6 +215,18 @@ install_location=
 type=SOURCE
 
 [kdenlive/kmmruler.h]
+dist=true
+install=false
+install_location=
+type=HEADER
+
+[kdenlive/kmmscreen.cpp]
+dist=true
+install=false
+install_location=
+type=SOURCE
+
+[kdenlive/kmmscreen.h]
 dist=true
 install=false
 install_location=
