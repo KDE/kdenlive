@@ -218,6 +218,15 @@ class KdenliveApp : public KDockMainWindow
   void slotSetClipMonitorSource(AVFile *file);
   /** Sets the clip monitor source to be the given clip. */
   void slotSetClipMonitorSource(DocClipBase *clip);
+  /** SLots to Save/Load the current dockwidget layout to/from the layout number specified. */
+  void loadLayout1();
+  void loadLayout2();
+  void loadLayout3();
+  void loadLayout4();  
+  void saveLayout1();
+  void saveLayout2();
+  void saveLayout3();
+  void saveLayout4();  
 
   private:
     /** the configuration object of the application */
@@ -254,6 +263,15 @@ class KdenliveApp : public KDockMainWindow
     KAction* actionSeekBackwards;
     KAction* actionTogglePlay;
     KAction* actionDeleteSelected;
+
+    KAction* actionLoadLayout1;
+    KAction* actionLoadLayout2;
+    KAction* actionLoadLayout3;
+    KAction* actionLoadLayout4;
+    KAction* actionSaveLayout1;
+    KAction* actionSaveLayout2;
+    KAction* actionSaveLayout3;
+    KAction* actionSaveLayout4;
     
     KToggleAction* viewToolBar;
     KToggleAction* viewStatusBar;
@@ -274,7 +292,6 @@ class KdenliveApp : public KDockMainWindow
 		KCommandHistory *m_commandHistory;
 
 /** Application view setup */
-    KDockTabGroup *m_tabWidget;
   	ProjectList *m_projectList;
     RenderDebugPanel *m_renderDebugPanel;
     ExportDialog *m_exportDialog;

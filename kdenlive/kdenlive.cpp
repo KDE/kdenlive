@@ -121,6 +121,15 @@ void KdenliveApp::initActions()
   actionTogglePlay = new KAction(i18n("Start/Stop"), KShortcut(), this, SLOT(slotTogglePlay()), actionCollection(), "toggle_play");  
   actionDeleteSelected = new KAction(i18n("Delete Selected Clips"), KShortcut(Qt::Key_Delete), this, SLOT(slotDeleteSelected()), actionCollection(), "delete_selected_clips");
 
+  actionLoadLayout1 = new KAction(i18n("Load Layout &1"), KShortcut(), this, SLOT(loadLayout1()), actionCollection(), "load_layout_1");
+  actionLoadLayout2 = new KAction(i18n("Load Layout &2"), KShortcut(), this, SLOT(loadLayout2()), actionCollection(), "load_layout_2");
+  actionLoadLayout3 = new KAction(i18n("Load Layout &3"), KShortcut(), this, SLOT(loadLayout3()), actionCollection(), "load_layout_3");
+  actionLoadLayout4 = new KAction(i18n("Load Layout &4"), KShortcut(), this, SLOT(loadLayout4()), actionCollection(), "load_layout_4");
+  actionSaveLayout1 = new KAction(i18n("Save Layout &1"), KShortcut(), this, SLOT(saveLayout1()), actionCollection(), "save_layout_1");
+  actionSaveLayout2 = new KAction(i18n("Save Layout &2"), KShortcut(), this, SLOT(saveLayout2()), actionCollection(), "save_layout_2");
+  actionSaveLayout3 = new KAction(i18n("Save Layout &3"), KShortcut(), this, SLOT(saveLayout3()), actionCollection(), "save_layout_3");
+  actionSaveLayout4 = new KAction(i18n("Save Layout &4"), KShortcut(), this, SLOT(saveLayout4()), actionCollection(), "save_layout_4");
+
   timelineMoveTool->setExclusiveGroup("timeline_tools");
   timelineRazorTool->setExclusiveGroup("timeline_tools");
   timelineSpacerTool->setExclusiveGroup("timeline_tools");  
@@ -204,38 +213,33 @@ void KdenliveApp::initView()
   widget->setDockSite(KDockWidget::DockCorner);
   widget->manualDock(mainDock, KDockWidget::DockBottom);    
 
-  KDockWidget *tabGroupDock = createDockWidget(i18n("tab group"), QPixmap(), 0, i18n("tab group"));
-  m_tabWidget = new KDockTabGroup(tabGroupDock);
-  m_tabWidget->setTabPosition(QTabWidget::Bottom);  
-  tabGroupDock->setWidget(m_tabWidget);
-  tabGroupDock->setDockSite(KDockWidget::DockFullSite);    
-  tabGroupDock->manualDock(mainDock, KDockWidget::DockTop);  
+  KDockWidget *projectDock = createDockWidget("project list", QPixmap(), 0, i18n("project list"));
+	m_projectList = new ProjectList(this, getDocument(), projectDock);
+  projectDock->setWidget(m_projectList);
+  projectDock->setDockSite(KDockWidget::DockFullSite);
+  projectDock->manualDock(mainDock, KDockWidget::DockLeft);
 
-  widget = createDockWidget(i18n("project list"), QPixmap(), 0, i18n("project list"));
-	m_projectList = new ProjectList(this, getDocument(), widget);
-  widget->setWidget(m_projectList);
-  m_tabWidget->addTab(widget, i18n("Project List"));      
-
-  widget = createDockWidget(i18n("Debug"), QPixmap(), 0, i18n("Debug"));
+  widget = createDockWidget("Debug", QPixmap(), 0, i18n("Debug"));
   m_renderDebugPanel = new RenderDebugPanel(widget);
   widget->setWidget(m_renderDebugPanel);
   widget->setDockSite(KDockWidget::DockFullSite);    
-  m_tabWidget->addTab(widget, i18n("Debug"));
+  widget->manualDock(projectDock, KDockWidget::DockCenter);
+  
 
-  widget = createDockWidget(i18n("Export"), QPixmap(), 0, i18n("Export"));
+  widget = createDockWidget("Export", QPixmap(), 0, i18n("Export"));
   m_exportDialog = new ExportDialog(getDocument()->renderer()->fileFormats(), widget, "export");
   widget->setWidget(m_exportDialog);
   widget->setDockSite(KDockWidget::DockFullSite);
-  m_tabWidget->addTab(widget, i18n("Export"));  
+  widget->manualDock(projectDock, KDockWidget::DockCenter);
 
-  KDockWidget *workspaceMonitor = createDockWidget(i18n("Workspace Monitor"), QPixmap(), 0, i18n("Workspace Monitor"));
-	m_workspaceMonitor = new KMMMonitor(this, getDocument(), workspaceMonitor, i18n("Workspace Monitor"));
+  KDockWidget *workspaceMonitor = createDockWidget("Workspace Monitor", QPixmap(), 0, i18n("Workspace Monitor"));
+	m_workspaceMonitor = new KMMMonitor(this, getDocument(), workspaceMonitor, "Workspace Monitor");
   workspaceMonitor->setWidget(m_workspaceMonitor);
   workspaceMonitor->setDockSite(KDockWidget::DockFullSite);    
-  workspaceMonitor->manualDock(tabGroupDock, KDockWidget::DockRight);
+  workspaceMonitor->manualDock(mainDock, KDockWidget::DockRight);  
 
-  widget = createDockWidget(i18n("Clip Monitor"), QPixmap(), 0, i18n("Clip Monitor"));
-	m_clipMonitor = new KMMMonitor(this, getDocument(), widget, i18n("Clip Monitor"));
+  widget = createDockWidget("Clip Monitor", QPixmap(), 0, i18n("Clip Monitor"));
+	m_clipMonitor = new KMMMonitor(this, getDocument(), widget, "Clip Monitor");
   widget->setWidget(m_clipMonitor);
   widget->setDockSite(KDockWidget::DockFullSite);
   widget->manualDock(workspaceMonitor, KDockWidget::DockLeft);    
@@ -271,6 +275,8 @@ void KdenliveApp::initView()
 
   makeDockInvisible(mainDock);
 
+  readDockConfig(config, "Default Layout");
+
   m_timeline->calculateProjectSize();  
 }
 
@@ -301,6 +307,7 @@ void KdenliveApp::saveOptions()
   config->writeEntry("FileDialogPath", m_fileDialogPath.path());
 
   m_renderManager->saveConfig(config);
+  writeDockConfig(config, "Default Layout");
 }
 
 
@@ -853,4 +860,44 @@ void KdenliveApp::slotSetClipMonitorSource(DocClipBase *clip)
   m_clipMonitor->setSceneList(scenelist);
   m_clipMonitor->setClipLength(clip->duration().frames(getDocument()->framesPerSecond()));
   m_clipMonitor->seek(GenTime(0.0));  
+}
+
+void KdenliveApp::loadLayout1()
+{
+  readDockConfig(config, "Layout 1");
+}
+
+void KdenliveApp::loadLayout2()
+{
+  readDockConfig(config, "Layout 2");
+}
+
+void KdenliveApp::loadLayout3()
+{
+  readDockConfig(config, "Layout 3");
+}
+
+void KdenliveApp::loadLayout4()
+{
+  readDockConfig(config, "Layout 4");
+}
+
+void KdenliveApp::saveLayout1()
+{
+  writeDockConfig(config, "Layout 1");
+}
+
+void KdenliveApp::saveLayout2()
+{
+  writeDockConfig(config, "Layout 2");
+}
+
+void KdenliveApp::saveLayout3()
+{
+  writeDockConfig(config, "Layout 3");
+}
+
+void KdenliveApp::saveLayout4()
+{
+  writeDockConfig(config, "Layout 4");
 }
