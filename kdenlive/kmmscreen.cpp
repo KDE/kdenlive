@@ -55,3 +55,9 @@ void KMMScreen::seek(GenTime time)
 {
 	m_render->seek(time);
 }
+
+/** Set the play speed of the screen */
+void KMMScreen::play(double speed)
+{
+	m_render->play(speed);
+}
