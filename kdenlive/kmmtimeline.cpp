@@ -126,9 +126,12 @@ void KMMTimeLine::insertTrack(int index, KMMTrackPanel *track)
 	connect(track->docTrack(), SIGNAL(clipLayoutChanged()), this, SLOT(drawTrackViewBackBuffer()));
 	connect(track->docTrack(), SIGNAL(clipSelectionChanged()), this, SLOT(drawTrackViewBackBuffer()));  
 
-  connect(track, SIGNAL(signalClipCropStartChanged(const GenTime &)), this, SIGNAL(signalClipCropStartChanged(const GenTime &)));
-  connect(track, SIGNAL(signalClipCropEndChanged(const GenTime &)), this, SIGNAL(signalClipCropEndChanged(const GenTime &)));
-  connect(track, SIGNAL(lookingAtClip(DocClipBase *, const GenTime &)), this, SIGNAL(lookingAtClip(DocClipBase *, const GenTime &)));
+	connect(track, SIGNAL(signalClipCropStartChanged(const GenTime &)), 
+				this, SIGNAL(signalClipCropStartChanged(const GenTime &)));
+	connect(track, SIGNAL(signalClipCropEndChanged(const GenTime &)), 
+				this, SIGNAL(signalClipCropEndChanged(const GenTime &)));
+	connect(track, SIGNAL(lookingAtClip(DocClipBase *, const GenTime &)), 
+				this, SIGNAL(lookingAtClip(DocClipBase *, const GenTime &)));
 
 	resizeTracks();
 }
@@ -255,12 +258,20 @@ void KMMTimeLine::dragMoveEvent ( QDragMoveEvent *event )
 
 void KMMTimeLine::dragLeaveEvent ( QDragLeaveEvent *event )
 {
-	m_addingClips = false;
-
 	if(!m_selection.isEmpty()) {
 		m_selection.setAutoDelete(true);
 		m_selection.clear();
 		m_selection.setAutoDelete(false);
+	}
+	
+	if(m_addingClips) {
+		m_addingClips = false;
+		
+	  	QPtrListIterator<KMMTrackPanel> itt(m_trackList);
+		while(itt.current() != 0) {
+	  		itt.current()->docTrack()->deleteClips(true);
+	  		++itt;
+	  	}
 	}
   
 	if(m_moveClipsCommand) {
@@ -271,16 +282,16 @@ void KMMTimeLine::dragLeaveEvent ( QDragLeaveEvent *event )
 
 	if(m_deleteClipsCommand) {
 		m_app->addCommand(m_deleteClipsCommand, false);
-   	m_deleteClipsCommand = 0;
+	   	m_deleteClipsCommand = 0;
 
-  	QPtrListIterator<KMMTrackPanel> itt(m_trackList);
-  	while(itt.current() != 0) {
-  		itt.current()->docTrack()->deleteClips(true);
-  		++itt;
-  	}
-  }
+	  	QPtrListIterator<KMMTrackPanel> itt(m_trackList);
+		while(itt.current() != 0) {
+	  		itt.current()->docTrack()->deleteClips(true);
+	  		++itt;
+	  	}
+	}
 
-  calculateProjectSize();
+	calculateProjectSize();
 	drawTrackViewBackBuffer();
 }
 

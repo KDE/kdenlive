@@ -59,7 +59,7 @@ KMMMonitor::~KMMMonitor()
 
 void KMMMonitor::seek(const GenTime &time)
 {
-  m_editPanel->seek(time);
+	m_editPanel->seek(time);
 }
 
 void KMMMonitor::screenPositionChanged(const GenTime &time)
@@ -212,7 +212,8 @@ void KMMMonitor::slotSetClip(DocClipBase *clip)
 	if( (!m_noSeek) || 
 	    (seekPosition() < clip->cropStartTime()) || 
 	    (seekPosition() > clip->cropStartTime() + clip->cropDuration())) {
-		seek(GenTime(clip->cropStartTime()));
+		seek(clip->cropStartTime());
+		m_screen->seek(clip->cropStartTime());
 	}
 }
 

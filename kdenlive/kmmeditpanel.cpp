@@ -34,7 +34,7 @@ KMMEditPanel::KMMEditPanel(KdenliveDoc *document, QWidget* parent, const char* n
 	m_document = document;
 
 	m_ruler->setRulerModel(new KRulerTimeModel());
-	m_ruler->setRange(0, 1500);
+	m_ruler->setRange(0, 0);
 	m_ruler->setMargin(40);
   m_ruler->setAutoClickSlider(0);
 
@@ -127,7 +127,7 @@ void KMMEditPanel::stop()
 
 void KMMEditPanel::seek(const GenTime &time)
 {
-  m_ruler->setSliderValue(0, (int)(floor(time.frames(m_document->framesPerSecond()) + 0.5)));
+	m_ruler->setSliderValue(0, (int)(floor(time.frames(m_document->framesPerSecond()) + 0.5)));
 }
 
 void KMMEditPanel::rendererConnected()
