@@ -18,14 +18,11 @@
 #ifndef PROJECTLIST_H
 #define PROJECTLIST_H
 
-#include <qwidget.h>
-#include <qvbox.h>
-#include <qhbox.h>
-#include <qlistview.h>
+#include "projectlist_ui.h"
+
 #include <qlist.h>
 #include <qpopupmenu.h>
 #include <qevent.h>
-#include <qpushbutton.h>
 
 #include <kurl.h>
 
@@ -35,7 +32,7 @@
   *@author Jason Wood
   */
 
-class ProjectList : public QVBox  {
+class ProjectList : public ProjectList_UI  {
    Q_OBJECT
 public: 
 	ProjectList(QWidget *parent=0, const char *name=0);
@@ -43,12 +40,6 @@ public:
 private: // Private methods
   /** Initialise the popup menu */
   void init_menu();
-  /** The list view, holding the file information */
-	QListView	m_listView;
-	/** A box to hold the buttons in */
-	QHBox	m_buttonBox;
-	/** This button allows you to add files to the project */
-	QPushButton m_addButton;	
 	/** The popup menu */	
 	QPopupMenu m_menu;	
 public slots: // Public slots

@@ -15,8 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "iostream"
-
 #include "kmmtimeline.h"
 #include "kmmtracksoundpanel.h"
 #include "kmmtrackvideopanel.h"
@@ -87,17 +85,12 @@ void KMMTimeLine::resizeTracks()
 	while(panel != 0) {
 //		widgetHeight = (panel->height() > view->height()) ? panel->height() : view->height();
 	  widgetHeight = panel->height();
-	
-		cout << "height is " << height << endl;	
-		cout << "Widget height = " << widgetHeight << endl;
-		
+			
 		m_trackScroll.moveChild(panel, 0, height);
 		panel->resize(200, widgetHeight);
 		
-		cout << "panel is now " << panel->x() << "," << panel->y() << " : " << panel->width() << "," << panel->height() << endl;
 		m_trackScroll.moveChild(view, 200, height);
 		view->resize(m_trackScroll.visibleWidth() - 200, widgetHeight);
-		cout << "view is now " << view->x() << "," << view->y() << " : " << view->width() << "," << view->height() << endl;
 		height+=widgetHeight;
 		
 		panel = m_trackPanels.next();
