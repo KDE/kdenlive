@@ -24,6 +24,9 @@
 
 class GenTime {
 public:
+  /** Creates a time object, with a time of 0 seconds. */
+  GenTime();
+	
 	/** Creates a time object, with time given in seconds. */
 	GenTime(double seconds);
 	
@@ -37,7 +40,25 @@ public:
 	double ms();
 
 	/** Returns the time in frames, after being given the number of frames per second */
-	double frames(double framesPerSecond);	
+	double frames(double framesPerSecond);
+
+	/** Adds two GenTimes */
+	GenTime operator+(GenTime op);
+
+	/** Subtracts one genTime from another */		
+	GenTime operator-(GenTime op);
+
+	/* Implementation of < operator; Works identically as with basic types. */
+	bool operator<(GenTime op);
+
+	/* Implementation of > operator; Works identically as with basic types. */		
+	bool operator>(GenTime op);
+
+	/* Implementation of >= operator; Works identically as with basic types. */
+	bool operator>=(GenTime op);
+
+	/* Implementation of <= operator; Works identically as with basic types. */
+	bool operator<=(GenTime op);	
 			
 	~GenTime();
 private: // Private attributes

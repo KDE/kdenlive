@@ -33,7 +33,8 @@
 
 KMMTimeLine::KMMTimeLine(QWidget *rulerToolWidget, QWidget *scrollToolWidget, KdenliveDoc *document, QWidget *parent, const char *name ) :
 				QVBox(parent, name),
-				m_document(document)				
+				m_document(document),
+				m_selection()
 {
 	m_rulerBox = new QHBox(this, "ruler box");	
 	m_trackScroll = new QScrollView(this, "track view", WPaintClever);
@@ -72,7 +73,8 @@ KMMTimeLine::KMMTimeLine(QWidget *rulerToolWidget, QWidget *scrollToolWidget, Kd
 
 	syncWithDocument();
 
-	m_startedClipMove = false;	
+	m_startedClipMove = false;
+	m_masterClip = 0;
 }
 
 KMMTimeLine::~KMMTimeLine()
@@ -177,28 +179,22 @@ void KMMTimeLine::polish()
 
 void KMMTimeLine::dragEnterEvent ( QDragEnterEvent *event )
 {
-	QPoint mouse = m_trackViewArea->mapFrom(this, event->pos());
-
 	if(m_startedClipMove) {
 		event->accept(true);
 	} else 	if(ClipDrag::canDecode(event)) {
 		m_selection = ClipDrag::decode(*m_document, event);
+
+    if(m_selection.masterClip()==0) m_selection.setMasterClip(m_selection.first());
+    m_masterClip = m_selection.masterClip();
+
 		m_clipOffset = 0;
 
 		if(m_selection.isEmpty()) {
 			event->accept(false);
 		} else {
-			int mouseX = (int)mapLocalToValue(mouse.x());
-      int temp = 0;
-         			
-			if(m_selection.findClosestMatchingSpace(mouseX, temp)) {
-				addGroupToTracks(m_selection, trackUnderPoint(mouse), mouseX);
-				event->accept(true);
-			} else {
-				event->accept(false);
-			}
+      event->accept(true);
 		}
-	} else {
+	} else {	
 		event->accept(false);
 	}
 
@@ -208,20 +204,31 @@ void KMMTimeLine::dragEnterEvent ( QDragEnterEvent *event )
 void KMMTimeLine::dragMoveEvent ( QDragMoveEvent *event )
 {
 	QPoint pos = m_trackViewArea->mapFrom(this, event->pos());
-	moveSelectedClips(trackUnderPoint(pos), (int)(mapLocalToValue(pos.x()) - m_clipOffset));
+	GenTime timeUnderMouse(mapLocalToValue(pos.x()), 25);
 
-/*			if(event->x() < 0) {
-			m_timeLine.scrollViewLeft();
-		} else if(event->x() > width()) {
-			m_timeLine.scrollViewRight();
-		}*/
+	if(m_selection.isEmpty()) {		
+		moveSelectedClips(trackUnderPoint(pos), timeUnderMouse - m_clipOffset);
+	} else {
+		if(canAddClipsToTracks(m_selection, trackUnderPoint(pos), timeUnderMouse + m_clipOffset)) {
+			addClipsToTracks(m_selection, trackUnderPoint(pos), timeUnderMouse + m_clipOffset, true);
+			m_selection.clear();
+		}
+	}
 }
 
 void KMMTimeLine::dragLeaveEvent ( QDragLeaveEvent *event )
 {
 	// In a drag Leave Event, any clips in the selection are removed from the timeline.
 
-	m_selection.deleteAllClips();
+	m_selection.clear();
+
+	QPtrListIterator<KMMTrackPanel> itt(m_trackList);
+
+	while(itt.current() != 0) {
+		itt.current()->docTrack().deleteClips(true);
+		++itt;
+	}
+		
 	drawTrackViewBackBuffer();
 }
 
@@ -244,10 +251,14 @@ double KMMTimeLine::mapValueToLocal(const double value) const
 	return m_ruler->mapValueToLocal(value);
 }
 
-/** Deselects all clips on the timeline. */
 void KMMTimeLine::selectNone()
 {
-	m_selection.removeAllClips();
+	QPtrListIterator<KMMTrackPanel> itt(m_trackList);
+
+	while(itt.current()!=0) {
+		itt.current()->docTrack().selectNone();
+		++itt;
+	}
 }
 
 void KMMTimeLine::drawTrackViewBackBuffer()
@@ -263,13 +274,97 @@ QPtrList<KMMTrackPanel> &KMMTimeLine::trackList()
 	return m_trackList;
 }
 
-/** Moves all selected clips to a new position. The new start position is that for the master clip,
- all other clips are moved in relation to it. */
-void KMMTimeLine::moveSelectedClips(int track, int start)
+bool KMMTimeLine::moveSelectedClips(int newTrack, GenTime start)
 {
-	m_selection.moveTo(*m_document, track, start);
+	int trackOffset = m_document->trackIndex(m_document->findTrack(m_masterClip));
+	GenTime startOffset;
+
+	if( (!m_masterClip) || (trackOffset==-1)) {
+		kdError() << "Trying to move selected clips, master clip is not set." << endl;
+		return false;
+	} else {
+		startOffset = m_masterClip->trackStart();
+	}
+
+	trackOffset = newTrack - trackOffset;
+	startOffset = start - startOffset;
+
+	// For each track, check and make sure that the clips can be moved to their rightful place. If
+	// one cannot be moved, then none of them can be moved.
+	int destTrackNum;
+	DocTrackBase *srcTrack, *destTrack;
+	GenTime clipStartTime;
+	GenTime clipEndTime;
+	DocClipBase *srcClip, *destClip;
+	
+	for(int track=0; track<m_trackList.count(); track++) {
+		srcTrack = &m_trackList.at(track)->docTrack();
+		if(!srcTrack->hasSelectedClips()) continue;
+
+		destTrackNum = track + trackOffset;
+
+		if((destTrackNum < 0) || (destTrackNum >= m_trackList.count())) return false;	// This track will be moving it's clips out of the timeline, so fail automatically.
+
+		destTrack = &m_trackList.at(destTrackNum)->docTrack();
+
+		QPtrListIterator<DocClipBase> srcClipItt = srcTrack->firstClip(true);
+		QPtrListIterator<DocClipBase> destClipItt = destTrack->firstClip(false);
+
+		destClip = destClipItt.current();
+
+		while( (srcClip = srcClipItt.current()) != 0) {
+			clipStartTime = srcClipItt.current()->trackStart() + startOffset;
+			clipEndTime = clipStartTime + srcClipItt.current()->cropDuration();
+
+			while((destClip) && (destClip->trackStart() + destClip->cropDuration() <= clipStartTime)) {
+				++destClipItt;
+				destClip = destClipItt.current();
+			}
+			if(destClip==0) break;
+
+			if(destClip->trackStart() < clipEndTime) {
+				kdDebug() << "Clip " << destClip->trackStart().seconds() << " - " <<
+																(destClip->trackStart() + destClip->cropDuration()).seconds() <<
+											" conflicts with " << clipStartTime.seconds() << " - " << clipEndTime.seconds() << endl;
+				return false;
+			}
+
+			++srcClipItt;
+		}
+	}
+
+	// we can now move all clips where they need to be.
+
+	// If the offset is negative, handle tracks from forwards, else handle tracks backwards. We
+	// do this so that there are no collisions between selected clips, which would be caught by DocTrackBase
+	// itself.
+	
+	int startAtTrack, endAtTrack, direction;
+	
+	if(trackOffset < 0) {
+		startAtTrack = 0;
+		endAtTrack = m_trackList.count();
+		direction = 1;
+	} else {
+		startAtTrack = m_trackList.count() - 1;
+		endAtTrack = -1;
+		direction = -1;
+	}
+
+	for(int track=startAtTrack; track!=endAtTrack; track += direction) {
+		srcTrack = &m_trackList.at(track)->docTrack();
+		if(!srcTrack->hasSelectedClips()) continue;
+		srcTrack->moveClips(startOffset, true);		
+
+		if(trackOffset) {		
+			destTrackNum = track + trackOffset;
+			destTrack = &m_trackList.at(destTrackNum)->docTrack();			
+			destTrack->addClips(srcTrack->removeClips(true), true);
+		}
+	}
 	
 	drawTrackViewBackBuffer();
+	return true;
 }
 
 /** Scrolls the track view area left by whatever the step value of the relevant scroll bar is. */
@@ -288,25 +383,52 @@ void KMMTimeLine::scrollViewRight()
 /** Toggle Selects the clip on the given track and at the given value. The clip will become selected if it wasn't already selected, and will be deselected if it is. */
 void KMMTimeLine::toggleSelectClipAt(DocTrackBase &track, int value)
 {
-	m_selection.toggleClip(track.getClipAt(value), &track);
+	track.toggleSelectClip(track.getClipAt(value));
 }
 
 /** Selects the clip on the given track at the given value. */
 void KMMTimeLine::selectClipAt(DocTrackBase &track, int value)
 {
-	m_selection.addClip(track.getClipAt(value), &track);
+	track.selectClip(track.getClipAt(value));
 }
 
-/** Returns true if the clip is selected, false otherwise. */
-bool KMMTimeLine::clipSelected(DocClipBase *clip)
+void KMMTimeLine::addClipsToTracks(DocClipBaseList &clips, int track, GenTime value, bool selected)
 {
-	return m_selection.clipExists(clip);
-}
+	if(clips.isEmpty()) return;
 
-/** Adds a Clipgroup to the tracks in the timeline. */
-void KMMTimeLine::addGroupToTracks(ClipGroup &group, int track, int value)
-{
-	group.moveTo(*m_document, track, value);
+	if(selected) {
+		selectNone();
+	}
+
+	DocClipBase *masterClip = clips.masterClip();
+	if(!masterClip) masterClip = clips.first();
+
+	GenTime startOffset = value - masterClip->trackStart();
+	
+	int trackOffset = masterClip->trackNum();
+	if(trackOffset == -1) trackOffset = 0;
+  trackOffset = track - trackOffset;
+	
+	QPtrListIterator<DocClipBase> itt(clips);
+	int moveToTrack;
+
+	while(itt.current() != 0) {
+		moveToTrack = itt.current()->trackNum();
+
+		if(moveToTrack==-1) {
+			moveToTrack = track;
+		} else {
+			moveToTrack += trackOffset;
+		}
+
+		itt.current()->setTrackStart(itt.current()->trackStart() + startOffset);
+
+		if((moveToTrack >=0) && (moveToTrack < m_trackList.count())) {
+	    if(!m_trackList.at(moveToTrack)->docTrack().addClip(itt.current(), selected));
+	  }
+
+		++itt;
+	}
 }
 
 /** Returns the integer value of the track underneath the mouse cursor. 
@@ -335,13 +457,17 @@ int KMMTimeLine::trackUnderPoint(const QPoint &pos)
 
 /** Initiates a drag operation on the selected clip, setting the master clip to clipUnderMouse, and
  the x offset to clipOffset. */
-void KMMTimeLine::initiateDrag(DocClipBase *clipUnderMouse, double clipOffset)
+void KMMTimeLine::initiateDrag(DocClipBase *clipUnderMouse, GenTime clipOffset)
 {
-	m_selection.setMasterClip(clipUnderMouse);
+	m_masterClip = clipUnderMouse;
 	m_clipOffset = clipOffset;
 	m_startedClipMove = true;
 
-	ClipDrag *clip = new ClipDrag(m_selection, this, "Timeline Drag");
+	DocClipBaseList selection = listSelected();
+	
+	selection.setMasterClip(m_masterClip);	
+	ClipDrag *clip = new ClipDrag(selection, this, "Timeline Drag");
+	
 	clip->dragCopy();
 }
 
@@ -351,4 +477,85 @@ void KMMTimeLine::setTimeScale(int scale)
 {
 	m_ruler->setValueScale(100.0 / scale);	
 	drawTrackViewBackBuffer();
+}
+
+/** Returns true if the specified clip exists and is selected, false otherwise. If a track is
+specified, we look at that track first, but fall back to a full search of tracks if the clip is
+ not there. */
+bool KMMTimeLine::clipSelected(DocClipBase *clip, DocTrackBase *track)
+{
+	if(track) {
+		if(track->clipExists(clip)) {
+			return track->clipSelected(clip);
+		}
+	}
+
+	QPtrListIterator<KMMTrackPanel> itt(m_trackList);
+	while(itt.current()) {
+		if(m_trackList.current()->docTrack().clipExists(clip)) {
+			return m_trackList.current()->docTrack().clipSelected(clip);
+		}
+	
+		++itt;
+	}
+
+	return false;
+}
+
+bool KMMTimeLine::canAddClipsToTracks(DocClipBaseList &clips, int track, GenTime clipOffset)
+{
+	QPtrListIterator<DocClipBase> itt(clips);
+	int numTracks = m_trackList.count();
+	int trackOffset;
+	GenTime startOffset;
+
+	if(clips.masterClip()) {
+		trackOffset = clips.masterClip()->trackNum();
+		startOffset = clips.masterClip()->trackStart() - clipOffset;
+	} else {
+		trackOffset = clips.first()->trackNum();
+		startOffset = clips.first()->trackStart() - clipOffset;
+	}
+
+	if(trackOffset==-1) trackOffset = 0;
+	trackOffset = track - trackOffset;
+
+	while(itt.current()) {
+		int track = itt.current()->trackNum();
+		if(track==-1) track = 0;
+		track += trackOffset;
+
+		if((track < 0) || (track >= numTracks)) {
+			return false;
+		}
+
+		if(!m_trackList.at(track)->docTrack().canAddClip(itt.current())) {
+			return false;
+		}
+
+		++itt;
+	}
+
+	return true;
+}
+
+/** Constructs a list of all clips that are currently selected. It does nothing else i.e.
+it does not remove the clips from the timeline. */
+DocClipBaseList KMMTimeLine::listSelected()
+{
+	DocClipBaseList list;
+
+ 	QPtrListIterator<KMMTrackPanel> itt(m_trackList);
+
+  while(itt.current()) {
+  	QPtrListIterator<DocClipBase> clipItt(itt.current()->docTrack().firstClip(true));
+
+   	while(clipItt.current()) {
+			list.inSort(clipItt.current());
+			++clipItt;
+		}
+  	++itt;
+  }
+	
+	return list;	
 }

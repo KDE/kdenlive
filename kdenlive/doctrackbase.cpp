@@ -17,24 +17,28 @@
 
 #include "kdebug.h"
 #include "doctrackbase.h"
+#include "kdenlivedoc.h"
 
-DocTrackBase::DocTrackBase()
+DocTrackBase::DocTrackBase(KdenliveDoc *doc)
 {
+	m_sortingEnabled = 1;
+	m_collisionDetectionEnabled = 1;
+	m_doc = doc;
 }
 
 DocTrackBase::~DocTrackBase()
 {
 }
 
-/** Adds a clip to the track. Returns true if successful, false if it fails for some reason.
-
-This method calls canAddClip() to determine whether or not the clip can be added to this
-particular track. */
-bool DocTrackBase::addClip(DocClipBase *clip)
+bool DocTrackBase::addClip(DocClipBase *clip, bool selected)
 {
 	if(canAddClip(clip)) {
-		m_clips.inSort(clip);
-		clip->setParentTrack(this);
+		if(selected) {
+			m_selectedClipList.inSort(clip);		
+		} else {
+			m_unselectedClipList.inSort(clip);			
+		}
+		clip->setParentTrack(this, m_doc->trackIndex(this));
 		emit trackChanged();
 		return true;
 	} else {
@@ -42,24 +46,23 @@ bool DocTrackBase::addClip(DocClipBase *clip)
 	}
 }
 
-/** Returns an iterator to the first clip (chronologically) which overlaps the start/end value range specified. */
-QPtrListIterator<DocClipBase> DocTrackBase::firstClip(double startValue, double endValue)
-{
-	QPtrListIterator<DocClipBase> itt(m_clips);
+QPtrListIterator<DocClipBase> DocTrackBase::firstClip(GenTime startValue, GenTime endValue, bool selected)
+{	
+	QPtrListIterator<DocClipBase> itt( selected ? m_selectedClipList : m_unselectedClipList);
 
 	DocClipBase *clip;
 	
 	if(itt.isEmpty()) return itt;
 
 	while( (clip = itt.current())	!= 0) {
-		if(clip->trackStart().frames(25) > endValue) {
+		if(clip->trackStart() > endValue) {
 			// out of range, return iterator with a current() value of null.
 			itt.toLast();
 			++itt;
 			return itt;
 		}
-		if(clip->trackStart().frames(25) + clip->cropDuration().frames(25) >= startValue) {
-			if(clip->trackStart().frames(25) <= endValue) {			
+		if(clip->trackStart() + clip->cropDuration() >= startValue) {
+			if(clip->trackStart() <= endValue) {			
 				// this clip is at least partially on screen.
 				return itt;
 			} else {
@@ -76,20 +79,16 @@ QPtrListIterator<DocClipBase> DocTrackBase::firstClip(double startValue, double 
 	return itt;
 }
 
-/** Returns an iterator to the clip after the last clip(chronologically) which overlaps the start/end
- value range specified.
-
-This allows you to write standard iterator for loops over a specific range of the track. */
-QPtrListIterator<DocClipBase> DocTrackBase::endClip(double startValue, double endValue)
+QPtrListIterator<DocClipBase> DocTrackBase::endClip(GenTime startValue, GenTime endValue, bool selected)
 {
-	QPtrListIterator<DocClipBase> itt(firstClip(startValue, endValue));
+	QPtrListIterator<DocClipBase> itt(firstClip(startValue, endValue, selected));
 
 	DocClipBase *clip;
 
 	if(itt.isEmpty()) return itt;
 
 	while( (clip = itt.current())	!= 0) {
-		if(clip->trackStart().frames(25) > endValue) {
+		if(clip->trackStart() > endValue) {
 			return itt;			
 		}
 		++itt;
@@ -100,19 +99,27 @@ QPtrListIterator<DocClipBase> DocTrackBase::endClip(double startValue, double en
 
 DocClipBase *DocTrackBase::getClipAt(int value)
 {
-	QPtrListIterator<DocClipBase> itt(m_clips);
-
-	for(DocClipBase *file;	(file=itt.current()) != 0; ++itt) {
-		if(file->trackStart().frames(25) > value) return false;
+	QPtrListIterator<DocClipBase> u_itt(m_unselectedClipList);
+	DocClipBase *file;
+	
+	for(;	(file=u_itt.current()) != 0; ++u_itt) {
+		if(file->trackStart().frames(25) > value) break;
 		if(file->trackStart().frames(25) + file->cropDuration().frames(25) > value) {
 			return file;
 		}
 	}
-	
+
+	QPtrListIterator<DocClipBase> s_itt(m_selectedClipList);	
+	for(;	(file=s_itt.current()) != 0; ++s_itt) {
+		if(file->trackStart().frames(25) > value) break;
+		if(file->trackStart().frames(25) + file->cropDuration().frames(25) > value) {
+			return file;
+		}
+	}
+
 	return 0;
 }
 
-/** returns true if all of the clips within the cliplist can be added, returns false otherwise. */
 bool DocTrackBase::canAddClips(DocClipBaseList clipList)
 {
 	QPtrListIterator<DocClipBase> itt(clipList);
@@ -124,57 +131,144 @@ bool DocTrackBase::canAddClips(DocClipBaseList clipList)
 	return true;
 }
 
-/** Adds all of the clips in the pointerlist into this track. */
-void DocTrackBase::addClips(DocClipBaseList list)
+void DocTrackBase::addClips(DocClipBaseList list, bool selected)
 {
 	QPtrListIterator<DocClipBase> itt(list);
 
 	for(DocClipBase *clip; (clip = itt.current()) !=- 0; ++itt) {
-		addClip(clip);
+		addClip(clip, selected);
 	}
 }
 
-/** Returns true if the clip given exists in this track, otherwise returns
-false. */
 bool DocTrackBase::clipExists(DocClipBase *clip)
 {
-	return (m_clips.find(clip)!=-1);
+	return ((m_unselectedClipList.find(clip)!=-1) || (m_selectedClipList.find(clip)!=-1));
 }
 
-/** Removes the given clip from this track. If it doesn't exist, then
-a warning is issued vi kdWarning, but otherwise no bad things
-will happen. The clip is removed from the track, but NOT deleted. */
-void DocTrackBase::removeClip(DocClipBase *clip)
+bool DocTrackBase::removeClip(DocClipBase *clip)
 {
-	if(!m_clips.remove(clip)) {
+	if((!m_selectedClipList.remove(clip)) && (!m_unselectedClipList.remove(clip))) {		
 		kdError() << "Cannot remove clip from track - doesn't exist!" << endl;
+		return false;
 	} else {
-		clip->setParentTrack(0);
+		clip->setParentTrack(0, -1);
 	}
+	return true;
 }
 
-/** The clip specified has moved. This method makes sure that the clips
-are still in the correct order, rearranging them if they are not. */
 void DocTrackBase::clipMoved(DocClipBase *clip)
 {
+	if(m_sortingEnabled < 1) return;	// Don't sort if we aren't supposed to.yet.
+	
 	// sanity check
 	if(!clip) {
 		kdError() << "TrackBase has been alerted that a clip has moved... but no clip specified!" << endl;
 		return;
 	}
+
 	int pos;
-
-	if((pos = m_clips.find(clip))==-1) {
-		kdError() << "Track told that non-existant clip has moved (that's gotta be a bug!)" << endl;
-		return;
+	DocClipBaseList *list = &m_selectedClipList;
+	pos = list->find(clip);
+	if(pos==-1) {
+		list = &m_unselectedClipList;
+		pos = list->find(clip);
+		if(pos==-1) {
+			kdError() << "Track told that non-existant clip has moved (that's gotta be a bug!)" << endl;
+			return;
+		}
 	}
 
-	m_clips.take(pos);
-	m_clips.inSort(clip);
+	list->take(pos);
+	list->inSort(clip);
+}
 
-	DocClipBase *t = m_clips.first();
+void DocTrackBase::selectClip(DocClipBase *clip)
+{
+	removeClip(clip);
+	addClip(clip, true);
+}
 
-	while(t) {
-		t = m_clips.next();
+bool DocTrackBase::hasSelectedClips()
+{
+	return (!m_selectedClipList.isEmpty());
+}
+
+QPtrListIterator<DocClipBase> DocTrackBase::firstClip(bool selected)
+{
+	return QPtrListIterator<DocClipBase>(selected ? m_selectedClipList : m_unselectedClipList);
+}
+
+void DocTrackBase::moveClips(GenTime offset, bool selected)
+{
+	enableClipSorting(false);
+	enableCollisionDetection(false);
+
+	QPtrListIterator<DocClipBase> itt((selected) ? m_selectedClipList : m_unselectedClipList);
+
+	DocClipBase *clip;
+
+	while( (clip=itt.current()) != 0) {
+		++itt;
+
+		clip->setTrackStart(clip->trackStart() + offset);		
 	}
+	
+	enableCollisionDetection(true);
+	enableClipSorting(true);
+}
+
+void DocTrackBase::enableClipSorting(bool enabled)
+{
+	m_sortingEnabled += (enabled) ? 1 : -1;
+}
+
+void DocTrackBase::enableCollisionDetection(bool enable)
+{
+	m_collisionDetectionEnabled += (enable) ? 1 : -1;
+}
+
+DocClipBaseList DocTrackBase::removeClips(bool selected)
+{
+	DocClipBaseList &list = selected ? m_selectedClipList : m_unselectedClipList;
+  DocClipBaseList returnList;
+
+  while(!list.isEmpty()) {
+  	DocClipBase *clip = list.first();
+   	// When we are removing clips and placing them into a list, it is likely that we are removing clips from
+    // a number of tracks and putting them into a single list elsewhere. We must wipe the parent track pointer,
+    // but by keeping the track hint, we make it easier to relocate the clips on a different timeline or some
+    // other similar operation. So, the following line, wipes the clip's parent track but keeps the trackNum.
+   	clip->setParentTrack(0, clip->trackNum());
+   	list.removeFirst();    
+   	returnList.append(clip);
+  }
+
+  return returnList;
+}
+
+void DocTrackBase::deleteClips(bool selected)
+{
+	DocClipBaseList *list = &(selected ? m_selectedClipList : m_unselectedClipList);
+
+	list->setAutoDelete(true);
+	list->clear();
+	list->setAutoDelete(false);
+}
+
+void DocTrackBase::selectNone()
+{
+	// Neat and compact, but maybe confusing.
+	// This says "Remove all of the clips that are currently selected from the track and put them into a list.
+	// Then, add them to the track again as non-selected clips.
+	addClips(removeClips(true), false);	
+}
+
+void DocTrackBase::toggleSelectClip(DocClipBase *clip)
+{
+	#warning toggleSelectClip not yet written.
+}
+
+bool DocTrackBase::clipSelected(DocClipBase *clip)
+{
+	return (m_selectedClipList.find(clip) != -1);
 }

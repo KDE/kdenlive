@@ -20,6 +20,8 @@
 
 #include "doctrackbase.h"
 
+class KdenliveDoc;
+
 /**DocTrackSound holds all of the data for a sound track
 
   *@author Jason Wood
@@ -27,7 +29,7 @@
 
 class DocTrackSound : public DocTrackBase  {
 public: 
-	DocTrackSound();
+	DocTrackSound(KdenliveDoc *doc);
 	~DocTrackSound();
   /** Returns true if the specified clip can be added to this track, false otherwise.
 		*

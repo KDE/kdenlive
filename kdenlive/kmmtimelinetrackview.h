@@ -20,6 +20,7 @@
 
 #include <qwidget.h>
 #include <qpixmap.h>
+#include "gentime.h"
 
 class KMMTimeLine;
 class DocClipBase;
@@ -48,8 +49,8 @@ private: // Private attributes
 
   int m_trackBaseNum;
   DocClipBase *m_clipUnderMouse;  
-  /** The value offset between the mouse position and the start of the clip. */
-  double m_clipOffset;
+  /** The value offset between the mouse position and the start of the master clip. */
+  GenTime m_clipOffset;
   KMMTrackPanel * m_panelUnderMouse;
 };
 

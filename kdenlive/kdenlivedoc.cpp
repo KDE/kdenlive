@@ -223,12 +223,12 @@ int KdenliveDoc::framesPerSecond()
 /** Adds an empty video track to the project */
 void KdenliveDoc::addVideoTrack()
 {
-	addTrack(new DocTrackVideo());
+	addTrack(new DocTrackVideo(this));
 }
 
 /** Adds a sound track to the project */
 void KdenliveDoc::addSoundTrack(){
-	addTrack(new DocTrackSound());
+	addTrack(new DocTrackSound(this));
 }
 
 /** Adds a track to the project */
@@ -303,9 +303,9 @@ void KdenliveDoc::slot_insertClips(QDropEvent *event)
 	// sanity check.
 	if(!ClipDrag::canDecode(event)) return;
 
-	ClipGroup group = ClipDrag::decode(*this, event);
+	DocClipBaseList clips = ClipDrag::decode(*this, event);
 
-	slot_insertClips(group.clipList());	
+	slot_insertClips(clips);	
 }
 
 /** returns the Track which holds the given clip. If the clip does not

@@ -17,6 +17,12 @@
 
 #include "gentime.h"
 
+/** Creates a time object, with a time of 0 seconds. */
+GenTime::GenTime()
+{
+	m_time = 0.0;
+}
+
 /** Creates a time object, with time given in seconds. */
 GenTime::GenTime(double seconds)
 {
@@ -45,6 +51,36 @@ double GenTime::ms()
 double GenTime::frames(double framesPerSecond)
 {
 	return m_time * framesPerSecond;
+}
+
+GenTime GenTime::operator+(GenTime op)
+{
+	return GenTime(m_time + op.seconds());
+}
+
+GenTime GenTime::operator-(GenTime op)
+{
+	return GenTime(m_time - op.seconds());
+}
+
+bool GenTime::operator<(GenTime op)
+{
+	return m_time < op.seconds();
+}
+
+bool GenTime::operator>(GenTime op)
+{
+	return m_time > op.seconds();
+}
+
+bool GenTime::operator>=(GenTime op)
+{
+	return m_time >= op.seconds();
+}
+
+bool GenTime::operator<=(GenTime op)
+{
+	return m_time <= op.seconds();
 }
 
 GenTime::~GenTime()

@@ -22,7 +22,9 @@
 #include "docclipbase.h"
 
 /**An List for DocClipBase objects. Use this instead of QPtrList<DocClipBase> so as to sort lists correctly.
-  *@author Jason Wood
+	* Also contains the ability to set a "master clip", which can be used by a number of operations where
+	* the need for one clip to act as a reference for what happens to all clips is needed.
+  * @author Jason Wood
   */
 
 class DocClipBaseList : public QPtrList<DocClipBase>  {
@@ -31,6 +33,18 @@ public:
 	~DocClipBaseList();
   /** Compares Clips based upon starting time. */
 	int DocClipBaseList::compareItems (QPtrCollection::Item i1, QPtrCollection::Item i2);
+  /** Returns an XML version of this DocClipBaseList. */
+  QDomDocument toXML();	
+  /** Sets the master clip to the one specified. If the clip is not in the clip list, then the 
+	method does not do anything. */
+  void setMasterClip(DocClipBase *clip);
+  /** Returns the current master clip for this cliplist. */
+  DocClipBase * masterClip();
+private: // Private attributes
+  /** The "master clip" of this list. The master clip is special only in that it is mentioned
+  seperately to every other clip in the clip list; it also appears in the clip list. It is
+  singled out so that operations that require a master clip can	make use of it. */
+  DocClipBase * m_masterClip;;
 };
 
 #endif

@@ -22,13 +22,13 @@
 DocClipBaseList::DocClipBaseList() :
 							QPtrList<DocClipBase>()
 {
+	m_masterClip = 0;
 }
 
 DocClipBaseList::~DocClipBaseList()
 {
 }
 
-/** Compares Clips based upon starting time. */
 int DocClipBaseList::compareItems (QPtrCollection::Item i1, QPtrCollection::Item i2)
 {
 	DocClipBase *item1 = (DocClipBase *)i1;
@@ -38,4 +38,38 @@ int DocClipBaseList::compareItems (QPtrCollection::Item i1, QPtrCollection::Item
 
 	if(diff==0) return 0;
   return (diff > 0) ? 1 : -1;
+}
+
+QDomDocument DocClipBaseList::toXML()
+{
+	QDomDocument doc;
+
+	QPtrListIterator<DocClipBase> itt(*this);
+
+	doc.appendChild(doc.createElement("cliplist"));
+
+	while(itt.current() != 0) {
+		QDomDocument clipDoc = itt.current()->toXML();
+		if(m_masterClip == itt.current()) {
+			clipDoc.documentElement().setAttribute("master", "true");
+		}
+		doc.documentElement().appendChild(doc.importNode(clipDoc.documentElement(), true));
+		++itt;
+	}
+
+	return doc;
+}
+
+DocClipBase * DocClipBaseList::masterClip()
+{
+	return m_masterClip;
+}
+
+void DocClipBaseList::setMasterClip(DocClipBase *clip)
+{
+	if(find(clip) != -1) {
+		m_masterClip = clip;
+	} else {
+		m_masterClip = 0;
+	}
 }

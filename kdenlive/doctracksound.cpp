@@ -18,8 +18,8 @@
 #include "doctracksound.h"
 #include "docclipavfile.h"
 
-DocTrackSound::DocTrackSound() :
-					DocTrackBase()
+DocTrackSound::DocTrackSound(KdenliveDoc *doc) :
+					DocTrackBase(doc)
 {
 }
 
@@ -30,11 +30,25 @@ DocTrackSound::~DocTrackSound()
 /** Returns true if the specified clip can be added to this track, false otherwise. */
 bool DocTrackSound::canAddClip(DocClipBase * clip)
 {
-	QPtrListIterator<DocClipBase> itt(m_clips);
+	DocClipBase *search;
+	
+	QPtrListIterator<DocClipBase> u_itt(m_unselectedClipList);
 
-	for(DocClipBase *search; (search=itt.current()) != 0; ++itt) {
-		if(search->trackStart().seconds() + search->cropDuration().seconds() < clip->trackStart().seconds()) continue;
-		if(search->trackStart().seconds() < clip->trackStart().seconds() + clip->cropDuration().seconds()) return false;
+	for(; (search=u_itt.current()) != 0; ++u_itt) {
+		if(search->trackStart() + search->cropDuration() < clip->trackStart()) continue;
+		if(search->trackStart() < clip->trackStart() + clip->cropDuration()) {
+			return false;
+		}
+		// we can safely break here, as the clips are sorted in order - if search->trackStart is already past
+		// the clip that we was looking at, then we are ok.
+		break;
+	}
+
+	QPtrListIterator<DocClipBase> s_itt(m_unselectedClipList);
+
+	for(; (search=s_itt.current()) != 0; ++s_itt) {
+		if(search->trackStart() + search->cropDuration() < clip->trackStart()) continue;
+		if(search->trackStart() < clip->trackStart() + clip->cropDuration()) return false;
 		// we can safely break here, as the clips are sorted in order - if search->trackStart is already past
 		// the clip that we was looking at, then we are ok.
 		break;

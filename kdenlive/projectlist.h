@@ -28,7 +28,6 @@
 #include <kurl.h>
 
 #include "avfile.h"
-#include "clipgroup.h"
 
 /**
   * ProjectList is the dialog which contains the project list.

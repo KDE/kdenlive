@@ -82,7 +82,9 @@ public:
 	/** Reads in the element structure and creates a clip out of it. */
 	static DocClipBase *createClip(KdenliveDoc &doc, QDomElement element);
   /** Sets the parent track for this clip. */
-  void setParentTrack(DocTrackBase *track);
+  void setParentTrack(DocTrackBase *track, int trackNum);
+  /** Returns the track number. This is a hint as to which track the clip is on, or should be placed on. */
+  int trackNum();
 private: // Private attributes
 	/** The name of this clip */
 	QString m_name;
@@ -99,6 +101,11 @@ private: // Private attributes
   /** The track to which this clip is parented. If NULL, the clip is not
 parented to any track. */
   DocTrackBase * m_parentTrack;
+  /** The number of this track. This is the number of the track the clip resides on.
+It is possible for this to be set and the parent track to be 0, in this situation
+m_trackNum is a hint as to where the clip should be place when it get's parented
+to a track. */
+  int m_trackNum;;
 };
 
 #endif

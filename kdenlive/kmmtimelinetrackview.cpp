@@ -137,7 +137,7 @@ void KMMTimeLineTrackView::mouseMoveEvent(QMouseEvent *event)
 			}
 		}
 							
-		m_clipOffset = m_timeLine.mapLocalToValue(event->x()) - m_clipUnderMouse->trackStart().frames(25);
+		m_clipOffset = GenTime(m_timeLine.mapLocalToValue(event->x()), 25) - m_clipUnderMouse->trackStart();
 		m_timeLine.initiateDrag(m_clipUnderMouse, m_clipOffset);
 	} else {
 	}

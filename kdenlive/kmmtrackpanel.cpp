@@ -49,14 +49,18 @@ DocTrackBase & KMMTrackPanel::docTrack()
 blitted straight to the screen for speedy drawing. */
 void KMMTrackPanel::drawToBackBuffer(QPainter &painter, QRect &rect)
 {
-	double startValue = timeLine().mapLocalToValue(0.0);
-	double endValue = timeLine().mapLocalToValue(rect.width());
+	GenTime startValue = GenTime(timeLine().mapLocalToValue(0.0), 25);
+	GenTime endValue = GenTime(timeLine().mapLocalToValue(rect.width()), 25);
 
-	QPtrListIterator<DocClipBase> clip = docTrack().firstClip(startValue, endValue);
-
-	DocClipBase *endClip = docTrack().endClip(startValue, endValue).current();
-
+	QPtrListIterator<DocClipBase> clip = docTrack().firstClip(startValue, endValue, false);
+	DocClipBase *endClip = docTrack().endClip(startValue, endValue, false).current();		
 	for(DocClipBase *curClip; (curClip = clip.current())!=endClip; ++clip) {
-		paintClip(painter, curClip, rect, m_timeline.clipSelected(curClip));
+		paintClip(painter, curClip, rect, false);
+	}
+
+	clip = docTrack().firstClip(startValue, endValue, true);
+	endClip = docTrack().endClip(startValue, endValue, true).current();
+	for(DocClipBase *curClip; (curClip = clip.current())!=endClip; ++clip) {
+		paintClip(painter, curClip, rect, true);
 	}
 }

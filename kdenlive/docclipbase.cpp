@@ -28,6 +28,7 @@ DocClipBase::DocClipBase() :
 	m_cropDuration(0.0)
 {
 	m_parentTrack=0;
+	m_trackNum = -1;
 }
 
 DocClipBase::~DocClipBase()
@@ -83,6 +84,7 @@ QDomDocument DocClipBase::toXML() {
 	clip.setAttribute("name", name());
 		
 	QDomElement position = doc.createElement("position");
+	position.setAttribute("track", QString::number(trackNum()));
 	position.setAttribute("trackstart", QString::number(trackStart().seconds()));
 	position.setAttribute("cropstart", QString::number(cropStartTime().seconds()));
 	position.setAttribute("cropduration", QString::number(cropDuration().seconds()));
@@ -96,14 +98,15 @@ QDomDocument DocClipBase::toXML() {
 DocClipBase *DocClipBase::createClip(KdenliveDoc &doc, const QDomElement element)
 {
 	DocClipBase *clip = 0;
-	int trackStart=0;
-	int cropStart=0;
-	int cropDuration=0;
+	GenTime trackStart;
+	GenTime cropStart;
+	GenTime cropDuration;
+	int trackNum = 0;
 	
 	if(element.tagName() != "clip") {
 		kdWarning()	<< "DocClipBase::createClip() element has unknown tagName : " << element.tagName() << endl;
 		return 0;
-	}
+	}	
 
 	QDomNode n = element.firstChild();
 
@@ -113,9 +116,10 @@ DocClipBase *DocClipBase::createClip(KdenliveDoc &doc, const QDomElement element
 			if(e.tagName() == "avfile") {
 				clip = DocClipAVFile::createClip(doc, e);
 			} else if(e.tagName() == "position") {
-				trackStart = e.attribute("trackstart", 0).toInt();
-				cropStart = e.attribute("cropstart", 0).toInt();
-				cropDuration = e.attribute("cropduration", 0).toInt();			
+				trackNum = e.attribute("track", "-1").toInt();
+				trackStart = GenTime(e.attribute("trackstart", 0).toDouble());
+				cropStart = GenTime(e.attribute("cropstart", 0).toDouble());
+				cropDuration = GenTime(e.attribute("cropduration", 0).toDouble());
 			}		
 		}
 		
@@ -128,14 +132,22 @@ DocClipBase *DocClipBase::createClip(KdenliveDoc &doc, const QDomElement element
 		// setup DocClipBase specifics of the clip.
 		clip->setTrackStart(trackStart);
 		clip->setCropStartTime(cropStart);
-		clip->setCropDuration(cropDuration);	
+		clip->setCropDuration(cropDuration);
+		clip->setParentTrack(0, trackNum);
 	}
 
 	return clip;
 }
 
 /** Sets the parent track for this clip. */
-void DocClipBase::setParentTrack(DocTrackBase *track)
+void DocClipBase::setParentTrack(DocTrackBase *track, int trackNum)
 {
 	m_parentTrack = track;
+	m_trackNum = trackNum;
+}
+
+/** Returns the track number. This is a hint as to which track the clip is on, or should be placed on. */
+int DocClipBase::trackNum()
+{
+	return m_trackNum;
 }
