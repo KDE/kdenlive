@@ -1,8 +1,8 @@
 /***************************************************************************
-                          kmmtimeline  -  description
+                          effectstack  -  description
                              -------------------
-    begin                : Wed Dec 24 2003
-    copyright            : (C) 2003 by Jason Wood
+    begin                : Sat Jan 10 2004
+    copyright            : (C) 2004 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
 
@@ -14,21 +14,29 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include "kmmtimeline.h"
+#ifndef EFFECTSTACK_H
+#define EFFECTSTACK_H
 
-KMMTimeLine::KMMTimeLine( QWidget *scrollToolWidget, QWidget *parent , const char *name) :
- 					KTimeLine( scrollToolWidget, parent, name)
+#include <qptrlist.h>
+
+#include "effect.h"
+
+/**
+an Effect stack implements a list of events that should be applied one after the other. Although it is called a stack, you can insert/remove
+elements from any point on the stack. However, this will change the output of effects further up the stack.
+
+@author Jason Wood
+*/
+class EffectStack : public QPtrList<Effect>
 {
-}
+public:
+    EffectStack();
+    EffectStack(const EffectStack &rhs);
+    const EffectStack &operator=(const EffectStack&rhs);
 
+    ~EffectStack();
+};
 
-KMMTimeLine::~KMMTimeLine()
-{
-}
+typedef QPtrListIterator<Effect> EffectStackIterator;
 
-void KMMTimeLine::invalidateClipBuffer( DocClipRef *clip )
-{
-	#warning - unoptimised, should only update that part of the back buffer that needs to be updated. Current implementaion
-	#warning - wipes the entire buffer.
-	invalidateBackBuffer();
-}
+#endif

@@ -1,8 +1,8 @@
 /***************************************************************************
-                          kmmtimeline  -  description
+                          ktrackclippanel  -  description
                              -------------------
-    begin                : Wed Dec 24 2003
-    copyright            : (C) 2003 by Jason Wood
+    begin                : Thu Jan 8 2004
+    copyright            : (C) 2004 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
 
@@ -14,21 +14,22 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include "kmmtimeline.h"
+#include "ktrackclippanel.h"
 
-KMMTimeLine::KMMTimeLine( QWidget *scrollToolWidget, QWidget *parent , const char *name) :
- 					KTimeLine( scrollToolWidget, parent, name)
+KTrackClipPanel::KTrackClipPanel(KTimeLine *timeline, QWidget *parent, const char *name)
+ 					: KTrackPanel(timeline, parent, name)
 {
 }
 
 
-KMMTimeLine::~KMMTimeLine()
+KTrackClipPanel::~KTrackClipPanel()
 {
 }
 
-void KMMTimeLine::invalidateClipBuffer( DocClipRef *clip )
+// virtual
+void KTrackClipPanel::drawToBackBuffer( QPainter &painter, QRect &rect )
 {
-	#warning - unoptimised, should only update that part of the back buffer that needs to be updated. Current implementaion
-	#warning - wipes the entire buffer.
-	invalidateBackBuffer();
+	KTrackPanel::drawToBackBuffer(painter, rect);
 }
+
+#include "ktrackclippanel.moc"

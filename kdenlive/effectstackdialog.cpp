@@ -1,8 +1,8 @@
 /***************************************************************************
-                          kmmtimeline  -  description
+                          effectstackdialog  -  description
                              -------------------
-    begin                : Wed Dec 24 2003
-    copyright            : (C) 2003 by Jason Wood
+    begin                : Mon Jan 12 2004
+    copyright            : (C) 2004 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
 
@@ -14,21 +14,33 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include "kmmtimeline.h"
+#include "effectstackdialog.h"
 
-KMMTimeLine::KMMTimeLine( QWidget *scrollToolWidget, QWidget *parent , const char *name) :
- 					KTimeLine( scrollToolWidget, parent, name)
+#include <kdebug.h>
+#include <kiconloader.h>
+#include <kpushbutton.h>
+#include <effectstacklistview.h>
+
+#include "docclipref.h"
+#include "effect.h"
+
+EffectStackDialog::EffectStackDialog(QWidget *parent, const char *name )
+ : EffectStackDialog_UI(parent, name)
 {
+	KIconLoader loader;
+
+	m_upButton->setPixmap( loader.loadIcon( "1uparrow", KIcon::Toolbar ) );
+	m_downButton->setPixmap( loader.loadIcon( "1downarrow", KIcon::Toolbar ) );
+	m_deleteButton->setPixmap( loader.loadIcon( "edit_remove", KIcon::Toolbar ) );
 }
 
 
-KMMTimeLine::~KMMTimeLine()
+EffectStackDialog::~EffectStackDialog()
 {
 }
 
-void KMMTimeLine::invalidateClipBuffer( DocClipRef *clip )
+void EffectStackDialog::slotSetEffectStack(DocClipRef *clip)
 {
-	#warning - unoptimised, should only update that part of the back buffer that needs to be updated. Current implementaion
-	#warning - wipes the entire buffer.
-	invalidateBackBuffer();
+	m_effectList->setEffectStack(clip);
 }
+

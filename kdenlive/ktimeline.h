@@ -1,0 +1,237 @@
+/***************************************************************************
+                        kmmtimeline.h  -  description
+                           -------------------
+  begin                : Fri Feb 15 2002
+  copyright            : (C) 2002 by Jason Wood
+  email                : jasonwood@blueyonder.co.uk
+***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+#ifndef KTIMELINE_H
+#define KTIMELINE_H
+
+#include <qvaluelist.h>
+#include <qvbox.h>
+#include <qtimer.h>
+
+#include "gentime.h"
+
+#include "ktrackpanel.h"
+
+class QHBox;
+class QScrollView;
+class QScrollBar;
+class KMMRulerPanel;
+class KTrackView;
+class KScalableRuler;
+class KMacroCommand;
+class KCommand;
+
+namespace Command
+{
+class KMoveClipsCommand;
+}
+
+/** This is the timeline. It gets populated by tracks, which in turn are populated
+  * by video and audio clips, or transitional clips, or any other clip imaginable.
+  * @author Jason Wood
+  */
+
+class KTimeLine : public QVBox
+{
+	Q_OBJECT
+public:
+	KTimeLine( QWidget *scrollToolWidget, QWidget *parent = 0, const char *name = 0 );
+	~KTimeLine() = 0;
+	/**
+	The snap tolerance specifies how many pixels away a selection is from a
+	snap point before the snap takes effect.
+	*/
+	static uint snapTolerance;
+
+	/** Clear all tracks from the timeline. */
+	void clearTrackList();
+
+	void resizeTracks();
+
+	/** This method adds a new track to the trackGrid. */
+	void appendTrack( KTrackPanel *track );
+
+	void resizeEvent( QResizeEvent *event );
+
+	/** Inserts a track at the position specified by index */
+	void insertTrack( int index, KTrackPanel *track );
+
+	/** No descriptions */
+	void polish();
+
+	/** Returns m_trackList
+	Warning - this method is a bit of a hack, not good OOP practice, and should be removed at
+	some point. */
+	QPtrList<KTrackPanel> &trackList();
+
+	/** Scrolls the track view area right by whatever the step value in the
+	relevant scrollbar is. */
+	void scrollViewRight();
+
+	/** Scrolls the track view area left by whatever the step value of the relevant scroll bar is. */
+	void scrollViewLeft();
+
+	/** Returns the seek position of the timeline - this is the currently playing frame, or
+	the currently seeked frame. */
+	GenTime seekPosition() const;
+
+	/** Set the current edit mode of the timeline */
+	void setEditMode(const QString &editMode);
+
+	/** Returns the edit mode of the timeline. */
+	const QString &editMode() const;
+
+	/** Returns the correct "time under mouse", taking into account whether or not snap to frame is on or off, and other relevant effects. */
+	GenTime timeUnderMouse( double posX );
+
+	/**
+	Takes the value that we wish to find the coordinate for, and returns the x
+	coordinate. In cases where a single value covers multiple pixels, the left-most
+	pixel is returned.
+	*/
+	double mapValueToLocal( double value ) const;
+
+	/** This method maps a local coordinate value to the corresponding
+	value that should be represented at that position. By using this, there is no need to
+	calculate scale factors yourself. Takes the x coordinate, and returns the value associated
+	with it.
+	*/
+	double mapLocalToValue( double coordinate ) const;
+
+	/**
+	Returns true if we should snap to clip borders
+	*/
+	bool snapToBorders() const;
+	/**
+	Returns true if we snap to frames
+	*/
+	bool snapToFrame() const;
+	/**
+	Set whether or not we snap to frames.
+	*/
+	void setSnapToFrame(bool snapToFrame);
+
+	/**
+	Set whether or not we snap to borders.
+	*/
+	void setSnapToBorder(bool snapToBorder);
+
+	/**
+	Set whether or not we snap to markerss.
+	*/
+	void setSnapToMarker(bool snapToMarker);
+
+	/**
+	Returns true if we snap to seek times
+	*/
+	bool snapToSeekTime() const;
+	/**
+	Returns true if we snap to markers.
+	*/
+	bool snapToMarkers() const;
+
+	/** Return the current length of the project */
+	GenTime projectLength() const;
+
+	/** Resizes the timeline view so that the entire project is visible. */
+	void fitToWidth();
+
+	KTrackView *trackView() { return m_trackViewArea; }
+
+	/** Return the scroll threshold - the number of pixels at either side of the timeline that will start the display scrolling. */
+	uint scrollThreshold() const;
+
+	/** Return the timer delay - the number of milliseconds between "paging" increments. */
+	uint scrollTimerDelay() const;
+
+	/** If we are in the scrolling region, we start the scroll timer, else we stop it */
+	void checkScrolling(const QPoint &pos);
+
+	/** Stop the scroll timer */
+	void stopScrollTimer();
+private:
+	/** GUI elements */
+	QHBox *m_rulerBox;				 	// Horizontal box holding the ruler
+	QScrollView *m_trackScroll; 	// Scrollview holding the tracks
+	QHBox *m_scrollBox;			 	// Horizontal box holding the horizontal scrollbar.
+	KMMRulerPanel *m_rulerToolWidget;	// This widget is supplied by the constructor, and appears to the left of the ruler.
+	KScalableRuler *m_ruler;
+	QWidget *m_scrollToolWidget; // This widget is supplied by the constructor and appears to the left of the bottom scrollbar.
+	QScrollBar *m_scrollBar;		// this scroll bar's movement is measured in pixels, not frames.
+	/** track varables */
+	QPtrList<KTrackPanel> m_trackList;
+
+	/** The track view area is the area under the ruler where tracks are displayed. */
+	KTrackView *m_trackViewArea;
+
+	/** Timer for timeline scroll functionality */
+	QTimer m_scrollTimer;
+
+	/** Controls scroll direction. */
+	bool m_scrollingRight;
+
+	/** The frames-per-second that the timeline works at. */
+	double m_framesPerSecond;
+	// We snap to frame if this is true;
+	bool m_snapToFrame;
+	bool m_snapToBorder;
+	bool m_snapToMarker;
+
+	/** Current edit mode */
+	QString m_editMode;
+
+public slots:   // Public slots
+	/** Update the back buffer for the track views, and tell the trackViewArea widget to
+	repaint itself. */
+	void drawTrackViewBackBuffer();
+
+	/** Invalidates the entire back buffer. */
+	void invalidateBackBuffer();
+
+	/** Sets a new time scale for the timeline. This in turn calls the correct kruler funtion and
+	updates the display. */
+	void setTimeScale( double scale );
+	/** Set the size of the project */
+	void setProjectSize(const GenTime &size);
+	/** A ruler slider has moved - do something! */
+	void slotSliderMoved( int slider, int value );
+	/** Seek the timeline to the current position. */
+	void seek( const GenTime &time );
+
+	/** Scroll the timeline left */
+	void slotScrollLeft();
+	/** Scroll the timeline Right */
+	void slotScrollRight();
+
+	/** Set the number of frames per second */
+	void slotSetFramesPerSecond(double fps);
+
+	/** Re-syncs the scrollbar project size with the ruler project size. */
+	void resetProjectSize();
+private slots:   // Private slots
+	/** Scroll the timeline by a set amount. Should be connected to m_scrollTimer */
+	void slotTimerScroll();
+signals:   // Signals
+	/** emitted when the length of the project has changed. */
+	void projectLengthChanged( int );
+	/** Emitted when the seek position on the timeline changes. */
+	void seekPositionChanged( const GenTime & );
+	/** Emitted when the right mouse button is pressed over the timeline. */
+	void rightButtonPressed();
+};
+
+#endif

@@ -1,8 +1,8 @@
 /***************************************************************************
-                          kmmtimeline  -  description
+                          effectparamdoubledesc  -  description
                              -------------------
-    begin                : Wed Dec 24 2003
-    copyright            : (C) 2003 by Jason Wood
+    begin                : Fri Jan 2 2004
+    copyright            : (C) 2004 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
 
@@ -14,21 +14,37 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include "kmmtimeline.h"
+#ifndef EFFECTPARAMDOUBLEDESC_H
+#define EFFECTPARAMDOUBLEDESC_H
 
-KMMTimeLine::KMMTimeLine( QWidget *scrollToolWidget, QWidget *parent , const char *name) :
- 					KTimeLine( scrollToolWidget, parent, name)
+#include <effectparamdesc.h>
+
+class QXmlAttributes;
+
+/**
+An effect parameter that holds a double value.
+
+@author Jason Wood
+*/
+class EffectParamDoubleDesc : public EffectParamDesc
 {
-}
+public:
+    EffectParamDoubleDesc(const QXmlAttributes &attributes);
 
+    ~EffectParamDoubleDesc();
 
-KMMTimeLine::~KMMTimeLine()
-{
-}
+	/** Creates a parameter that conforms to this parameter Description */
+	virtual EffectKeyFrame *createKeyFrame();
+	virtual KMMTrackPanel *createTrackPanel(KdenliveApp *app,
+				KTimeLine *timeline,
+				KdenliveDoc *document,
+				DocTrackBase *docTrack,
+				QWidget *parent=0,
+				const char *name=0);
 
-void KMMTimeLine::invalidateClipBuffer( DocClipRef *clip )
-{
-	#warning - unoptimised, should only update that part of the back buffer that needs to be updated. Current implementaion
-	#warning - wipes the entire buffer.
-	invalidateBackBuffer();
-}
+private:
+	double m_min;
+	double m_max;
+};
+
+#endif

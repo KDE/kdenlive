@@ -1,8 +1,8 @@
 /***************************************************************************
-                          kmmtimeline  -  description
+                          effectparamdesc  -  description
                              -------------------
-    begin                : Wed Dec 24 2003
-    copyright            : (C) 2003 by Jason Wood
+    begin                : Fri Jan 2 2004
+    copyright            : (C) 2004 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
 
@@ -14,21 +14,26 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include "kmmtimeline.h"
+#include "effectparamdesc.h"
 
-KMMTimeLine::KMMTimeLine( QWidget *scrollToolWidget, QWidget *parent , const char *name) :
- 					KTimeLine( scrollToolWidget, parent, name)
+#include <qxml.h>
+
+EffectParamDesc::EffectParamDesc(const QXmlAttributes &attributes)
 {
+	m_name = attributes.value("name");
 }
 
 
-KMMTimeLine::~KMMTimeLine()
+EffectParamDesc::~EffectParamDesc()
 {
 }
 
-void KMMTimeLine::invalidateClipBuffer( DocClipRef *clip )
+void EffectParamDesc::setDescription(const QString &description)
 {
-	#warning - unoptimised, should only update that part of the back buffer that needs to be updated. Current implementaion
-	#warning - wipes the entire buffer.
-	invalidateBackBuffer();
+	m_description = description;
+}
+
+const QString &EffectParamDesc::description() const
+{
+	return m_description;
 }

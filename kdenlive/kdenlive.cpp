@@ -42,7 +42,6 @@
 #include <kstdaction.h>
 
 // application specific includes
-
 #include "clipdrag.h"
 #include "clippropertiesdialog.h"
 #include "configureprojectdialog.h"
@@ -52,6 +51,7 @@
 #include "documentbasenode.h"
 #include "effectlistdialog.h"
 #include "effectparamdialog.h"
+#include "effectstackdialog.h"
 #include "exportdialog.h"
 #include "kaddclipcommand.h"
 #include "kaddavfilecommand.h"
@@ -60,12 +60,25 @@
 #include "kdenlive.h"
 #include "kdenlivedoc.h"
 #include "kdenlivesetupdlg.h"
+#include "documentmacrocommands.h"
+#include "kmmtimeline.h"
+#include "ktrackview.h"
+#include "kmmtrackkeyframepanel.h"
+#include "kmmtracksoundpanel.h"
+#include "kmmtrackvideopanel.h"
+#include "kselectclipcommand.h"
 #include "kprogress.h"
 #include "krendermanager.h"
 #include "krulertimemodel.h"
-#include "kmmtimeline.h"
 #include "projectlist.h"
 #include "renderdebugpanel.h"
+
+#include "trackpanelclipmovefunction.h"
+#include "trackpanelrazorfunction.h"
+#include "trackpanelspacerfunction.h"
+#include "trackpanelclipresizefunction.h"
+#include "trackpanelmarkerfunction.h"
+#include "trackpanelselectnonefunction.h"
 
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
@@ -98,11 +111,6 @@ KdenliveApp::KdenliveApp( QWidget* , const char* name ) :
 	editPaste->setEnabled( false );
 
 	fileSaveAs->setEnabled( true );
-
-	timelineMoveTool->setChecked( true );
-	timelineSnapToBorder->setChecked( true );
-	timelineSnapToFrame->setChecked( true );
-	timelineSnapToMarker->setChecked( true );
 }
 
 KdenliveApp::~KdenliveApp()
@@ -172,6 +180,9 @@ void KdenliveApp::initActions()
 	actionSaveLayout3 = new KAction( i18n( "Save Layout &3" ), KShortcut( Qt::Key_F11 | Qt::CTRL | Qt::SHIFT ), this, SLOT( saveLayout3() ), actionCollection(), "save_layout_3" );
 	actionSaveLayout4 = new KAction( i18n( "Save Layout &4" ), KShortcut( Qt::Key_F12 | Qt::CTRL | Qt::SHIFT ), this, SLOT( saveLayout4() ), actionCollection(), "save_layout_4" );
 
+	timelineRazorAllClips  = new KAction( i18n( "Razor All Clips" ), KShortcut( Qt::Key_W | Qt::CTRL | Qt::SHIFT), this, SLOT( slotRazorAllClips() ), actionCollection(), "razor_all_clips" );
+	timelineRazorSelectedClips  = new KAction( i18n( "Razor Selected Clips" ), KShortcut( Qt::Key_W | Qt::SHIFT), this, SLOT( slotRazorSelectedClips() ), actionCollection(), "razor_selected_clips" );
+
 	timelineMoveTool->setExclusiveGroup( "timeline_tools" );
 	timelineRazorTool->setExclusiveGroup( "timeline_tools" );
 	timelineSpacerTool->setExclusiveGroup( "timeline_tools" );
@@ -218,8 +229,16 @@ void KdenliveApp::initActions()
 	renderExportTimeline->setStatusText( i18n( "Render the timeline to a file" ) );
 	configureProject->setStatusText( i18n( "Configure the format for this project" ) );
 
+	timelineRazorAllClips->setStatusText( i18n("Razor all clips on the timeline at the current seek position"));
+	timelineRazorSelectedClips->setStatusText( i18n("Razor all selected clips on the timeline at the current seek position"));
+
 	// use the absolute path to your kdenliveui.rc file for testing purpose in createGUI();
 	createGUI( "kdenliveui.rc" );
+
+	timelineMoveTool->setChecked( true );
+	timelineSnapToBorder->setChecked( true );
+	timelineSnapToFrame->setChecked( true );
+	timelineSnapToMarker->setChecked( true );
 }
 
 
@@ -260,8 +279,8 @@ void KdenliveApp::initView()
 	setMainDockWidget( mainDock );
 	setCaption( doc->URL().fileName(), false );
 
-	KDockWidget *widget = createDockWidget( "TimeLine", QPixmap(), 0, i18n( "TimeLine" ) );
-	m_timeline = new KMMTimeLine( this, NULL, getDocument(), widget );
+	KDockWidget *widget = createDockWidget( i18n( "TimeLine" ), QPixmap(), 0, i18n( "TimeLine" ) );
+	m_timeline = new KMMTimeLine( NULL, widget );
 	widget->setWidget( m_timeline );
 	widget->setDockSite( KDockWidget::DockFullSite );
 	widget->setDockSite( KDockWidget::DockCorner );
@@ -286,15 +305,22 @@ void KdenliveApp::initView()
 
 	widget = createDockWidget( "Effect List", QPixmap(), 0, i18n( "Effect List" ) );
 	m_effectListDialog = new EffectListDialog( getDocument() ->renderer() ->effectList(), widget, "effect list" );
-	QToolTip::add( widget, i18n( "This window show all effects usable with the renderer" ) );
+	QToolTip::add( widget, i18n( "This window shows all effects usable with the renderer" ) );
 	widget->setWidget( m_effectListDialog );
 	widget->setDockSite( KDockWidget::DockFullSite );
 	widget->manualDock( projectDock, KDockWidget::DockCenter );
 
 	widget = createDockWidget( "Effect Setup", QPixmap(), 0, i18n( "Effect Setup" ) );
-	m_effectParamDialog = new EffectParamDialog( widget, "effect setup" );
-	QToolTip::add( widget, i18n( "This window show the effects configurations usable with the renderer" ) );
+	m_effectParamDialog = new EffectParamDialog( this, getDocument(), widget, "effect setup" );
+	QToolTip::add( widget, i18n( "This window lets you edit the parameters of the currently selected effect." ) );
 	widget->setWidget( m_effectParamDialog );
+	widget->setDockSite( KDockWidget::DockFullSite );
+	widget->manualDock( projectDock, KDockWidget::DockCenter );
+
+	widget = createDockWidget( "Effect Stack", QPixmap(), 0, i18n( "Effect Stack" ) );
+	m_effectStackDialog = new EffectStackDialog( widget, "effect stack" );
+	QToolTip::add( widget, i18n( "This window shows all effects on the currently selected widget." ) );
+	widget->setWidget( m_effectStackDialog );
 	widget->setDockSite( KDockWidget::DockFullSite );
 	widget->manualDock( projectDock, KDockWidget::DockCenter );
 
@@ -316,7 +342,11 @@ void KdenliveApp::initView()
 	connect( m_workspaceMonitor, SIGNAL( seekPositionChanged( const GenTime & ) ), m_timeline, SLOT( seek( const GenTime & ) ) );
 	connect( m_workspaceMonitor, SIGNAL( seekPositionChanged( const GenTime & ) ), this, SLOT( slotUpdateCurrentTime( const GenTime & ) ) );
 
-	connect( getDocument(), SIGNAL( signalClipSelected( DocClipRef * ) ), this, SLOT( slotSetClipMonitorSource( DocClipRef * ) ) );
+	connect( getDocument(), SIGNAL( signalClipSelected( DocClipRef *) ), this, SLOT( slotSetClipMonitorSource( DocClipRef * ) ) );
+	connect( getDocument(), SIGNAL( signalClipSelected( DocClipRef *) ), m_effectStackDialog, SLOT( slotSetEffectStack( DocClipRef * ) ) );
+
+	connect(m_effectStackDialog, SIGNAL( effectSelected(DocClipRef *, Effect *) ), m_effectParamDialog, SLOT( slotSetEffect(DocClipRef *, Effect *)));
+
 	connect( getDocument(), SIGNAL( clipListUpdated() ), m_projectList, SLOT( slot_UpdateList() ) );
 	connect( getDocument(), SIGNAL( clipChanged( DocClipRef * ) ), m_projectList, SLOT( slot_clipChanged( DocClipRef * ) ) );
 	connect( getDocument(), SIGNAL( nodeDeleted( DocumentBaseNode * ) ), m_projectList, SLOT( slot_nodeDeleted( DocumentBaseNode * ) ) );
@@ -328,6 +358,10 @@ void KdenliveApp::initView()
 	connect( getDocument() ->renderer(), SIGNAL( rendering( const GenTime & ) ), this, SLOT( slotSetRenderProgress( const GenTime & ) ) );
 	connect( getDocument() ->renderer(), SIGNAL( renderFinished() ), this, SLOT( slotSetRenderFinished() ) );
 
+	connect(getDocument(), SIGNAL(trackListChanged()), this, SLOT(slotSyncTimeLineWithDocument()));
+	connect(getDocument(), SIGNAL(clipChanged(DocClipRef* )), m_timeline, SLOT(invalidateBackBuffer()));
+	connect(getDocument(), SIGNAL(documentLengthChanged(const GenTime& )), m_timeline, SLOT(setProjectSize(const GenTime& )));
+
 	connect( m_renderManager, SIGNAL( renderDebug( const QString &, const QString & ) ), m_renderDebugPanel, SLOT( slotPrintRenderDebug( const QString &, const QString & ) ) );
 	connect( m_renderManager, SIGNAL( renderWarning( const QString &, const QString & ) ), m_renderDebugPanel, SLOT( slotPrintRenderWarning( const QString &, const QString & ) ) );
 	connect( m_renderManager, SIGNAL( renderError( const QString &, const QString & ) ), m_renderDebugPanel, SLOT( slotPrintRenderError( const QString &, const QString & ) ) );
@@ -335,26 +369,52 @@ void KdenliveApp::initView()
 	connect( m_renderManager, SIGNAL( recievedStderr( const QString &, const QString & ) ), m_renderDebugPanel, SLOT( slotPrintError( const QString &, const QString & ) ) );
 	connect( m_renderManager, SIGNAL( error( const QString &, const QString & ) ), this, SLOT( slotRenderError( const QString &, const QString & ) ) );
 
+	connect( m_renderDebugPanel, SIGNAL(debugVemlSendRequest(const QString &, const QString &)),
+			m_renderManager, SLOT(sendDebugCommand(const QString &, const QString &)));
+
 	connect( m_projectList, SIGNAL( clipSelected( DocClipRef * ) ), this, SLOT( activateClipMonitor() ) );
 	connect( m_projectList, SIGNAL( clipSelected( DocClipRef * ) ), this, SLOT( slotSetClipMonitorSource( DocClipRef * ) ) );
 	connect( m_projectList, SIGNAL( dragDropOccured( QDropEvent * ) ), this, SLOT( slot_insertClips( QDropEvent * ) ) );
 
 	connect( m_timeline, SIGNAL( seekPositionChanged( const GenTime & ) ), m_workspaceMonitor, SLOT( seek( const GenTime & ) ) );
-	connect( m_timeline, SIGNAL( signalClipCropStartChanged( DocClipRef * ) ), m_clipMonitor, SLOT( slotClipCropStartChanged( DocClipRef * ) ) );
-	connect( m_timeline, SIGNAL( signalClipCropEndChanged( DocClipRef * ) ), m_clipMonitor, SLOT( slotClipCropEndChanged( DocClipRef * ) ) );
-	connect( m_timeline, SIGNAL( lookingAtClip( DocClipRef *, const GenTime & ) ), this, SLOT( slotLookAtClip( DocClipRef *, const GenTime & ) ) );
 
-
-	// connects for clip/workspace monitor activation (i.e. making sure they are visible when needed)
-	connect( m_timeline, SIGNAL( signalClipCropStartChanged( DocClipRef * ) ), this, SLOT( activateClipMonitor() ) );
-	connect( m_timeline, SIGNAL( signalClipCropEndChanged( DocClipRef * ) ), this, SLOT( activateClipMonitor() ) );
 	connect( m_timeline, SIGNAL( seekPositionChanged( const GenTime & ) ), this, SLOT( activateWorkspaceMonitor() ) );
+
+	connect( m_timeline, SIGNAL( rightButtonPressed() ), this, SLOT(slotDisplayTimeLineContextMenu()));
+
+	connect( m_effectListDialog, SIGNAL( effectSelected(const EffectDesc& )), m_effectParamDialog, SLOT(slotSetEffectDescription(const EffectDesc& )));
 
 	makeDockInvisible( mainDock );
 
 	readDockConfig( config, "Default Layout" );
 
-	m_timeline->calculateProjectSize();
+	slotSyncTimeLineWithDocument();
+
+
+	m_timeline->trackView()->registerFunction("move", new TrackPanelClipMoveFunction(this, m_timeline, getDocument()));
+
+	TrackPanelClipResizeFunction *resizeFunction = new TrackPanelClipResizeFunction(this, m_timeline, getDocument());
+	m_timeline->trackView()->registerFunction("resize", resizeFunction);
+	// connects for clip/workspace monitor activation (i.e. making sure they are visible when needed)
+	connect(resizeFunction, SIGNAL( signalClipCropStartChanged( DocClipRef * ) ), this, SLOT( activateClipMonitor() ) );
+	connect(resizeFunction, SIGNAL( signalClipCropEndChanged( DocClipRef * ) ), this, SLOT( activateClipMonitor() ) );
+	connect(resizeFunction, SIGNAL(signalClipCropStartChanged(DocClipRef* )), m_clipMonitor, SLOT(slotClipCropStartChanged( DocClipRef * )));
+	connect(resizeFunction, SIGNAL(signalClipCropEndChanged(DocClipRef* )), m_clipMonitor, SLOT(slotClipCropEndChanged( DocClipRef * )));
+
+	m_timeline->trackView()->registerFunction("marker", new TrackPanelMarkerFunction(this, m_timeline, getDocument()));
+	m_timeline->trackView()->registerFunction("spacer", new TrackPanelSpacerFunction(this, m_timeline, getDocument()));
+
+	TrackPanelRazorFunction *razorFunction = new TrackPanelRazorFunction(this, m_timeline, getDocument());
+	m_timeline->trackView()->registerFunction("razor", razorFunction);
+	connect( razorFunction, SIGNAL( lookingAtClip( DocClipRef *, const GenTime & ) ), this, SLOT( slotLookAtClip( DocClipRef *, const GenTime & ) ) );
+
+	m_timeline->trackView()->registerFunction("selectnone", new TrackPanelSelectNoneFunction(this, m_timeline, getDocument()));
+	m_timeline->trackView()->setDragFunction("move");
+
+	m_timeline->setSnapToFrame(snapToFrameEnabled());
+	m_timeline->setSnapToBorder(snapToBorderEnabled());
+	m_timeline->setSnapToMarker(snapToMarkersEnabled());
+	m_timeline->setEditMode("move");
 }
 
 void KdenliveApp::openDocumentFile( const KURL& url )
@@ -728,13 +788,19 @@ void KdenliveApp::documentModified( bool modified )
 }
 
 void KdenliveApp::slotTimelineSnapToBorder()
-{}
+{
+	m_timeline->setSnapToBorder(snapToBorderEnabled());
+}
 
 void KdenliveApp::slotTimelineSnapToFrame()
-{}
+{
+	m_timeline->setSnapToFrame(snapToFrameEnabled());
+}
 
 void KdenliveApp::slotTimelineSnapToMarker()
-{}
+{
+	m_timeline->setSnapToMarker(snapToMarkersEnabled());
+}
 
 bool KdenliveApp::snapToFrameEnabled() const
 {
@@ -761,24 +827,28 @@ void KdenliveApp::addCommand( KCommand *command, bool execute )
 void KdenliveApp::slotTimelineMoveTool()
 {
 	statusBar() ->changeItem( i18n( "Move/Resize tool" ), ID_EDITMODE_MSG );
+	m_timeline->setEditMode("move");
 }
 
 /** Called when the razor tool action is selected */
 void KdenliveApp::slotTimelineRazorTool()
 {
 	statusBar() ->changeItem( i18n( "Razor tool" ), ID_EDITMODE_MSG );
+	m_timeline->setEditMode("razor");
 }
 
 /** Called when the spacer tool action is selected */
 void KdenliveApp::slotTimelineSpacerTool()
 {
 	statusBar() ->changeItem( i18n( "Separate tool" ), ID_EDITMODE_MSG );
+	m_timeline->setEditMode("spacer");
 }
 
 /** Called when the spacer tool action is selected */
 void KdenliveApp::slotTimelineMarkerTool()
 {
 	statusBar() ->changeItem( i18n( "Marker tool" ), ID_EDITMODE_MSG );
+	m_timeline->setEditMode("marker");
 }
 
 /** Called when the user activates the "Export Timeline" action */
@@ -810,23 +880,11 @@ void KdenliveApp::slotOptionsPreferences()
 	slotStatusMsg( i18n( "Ready." ) );
 }
 
-/** Returns the editing mode that the timeline should operate with */
-KdenliveApp::TimelineEditMode KdenliveApp::timelineEditMode()
-{
-	if ( timelineMoveTool->isChecked() ) return Move;
-	if ( timelineRazorTool->isChecked() ) return Razor;
-	if ( timelineSpacerTool->isChecked() ) return Spacer;
-	if ( timelineMarkerTool->isChecked() ) return Marker;
-
-	// fallback in case something is wrong.
-	kdWarning() << "No timeline tool enabled, returning default" << endl;
-	return Move;
-}
-
 /** Updates the current time in the status bar. */
 void KdenliveApp::slotUpdateCurrentTime( const GenTime &time )
 {
-#warning The following line is broken - since frames per second is rounded to the nearest int, krulerTimeModel would never map the correct value to text if the frames per second is wrong.
+#warning The following line is broken - since frames per second is rounded to the nearest int, krulerTimeModel
+#warning would never map the correct value to text if the frames per second is wrong.
 	statusBar() ->changeItem( i18n( "Current Time : " ) + KRulerTimeModel::mapValueToText( ( int ) floor( time.frames( doc->framesPerSecond() ) + 0.5 ), doc->framesPerSecond() ), ID_EDITMODE_MSG );
 }
 
@@ -883,7 +941,7 @@ void KdenliveApp::slotProjectDeleteClips()
 			QPtrListIterator<DocClipRef> itt( list );
 
 			while ( itt.current() ) {
-				Command::KAddRefClipCommand * command = new Command::KAddRefClipCommand( doc->clipManager(), &( doc->projectClip() ), itt.current(), false );
+				Command::KAddRefClipCommand * command = new Command::KAddRefClipCommand( doc->effectDescriptions(), doc->clipManager(), &( doc->projectClip() ), itt.current(), false );
 				macroCommand->addCommand( command );
 				++itt;
 			}
@@ -912,9 +970,9 @@ void KdenliveApp::slotProjectClean()
 	        i18n( "Clean Project removes files from the project that are unused.\
 	              Are you sure you want to do this?" ) ) == KMessageBox::Continue ) {
 
-		KMacroCommand * macroCommand = doc->createCleanProjectCommand();
+		KCommand *command = Command::KAddClipCommand::clearProject(*doc);
 
-		addCommand( macroCommand, true );
+		addCommand( command, true );
 	}
 
 	slotStatusMsg( i18n( "Ready." ) );
@@ -1000,7 +1058,7 @@ void KdenliveApp::slotSetOutpoint()
 void KdenliveApp::slotDeleteSelected()
 {
 	slotStatusMsg( i18n( "Deleting Selected Clips" ) );
-	addCommand( m_timeline->createAddClipsCommand( false ), true );
+	addCommand( Command::KAddRefClipCommand::deleteSelectedClips(getDocument()), true );
 	//  m_workspaceMonitor->swapScreens(m_clipMonitor);
 	slotStatusMsg( i18n( "Ready." ) );
 }
@@ -1082,7 +1140,6 @@ void KdenliveApp::activateWorkspaceMonitor()
 /** Selects a clip into the clip monitor and seeks to the given time. */
 void KdenliveApp::slotLookAtClip( DocClipRef *clip, const GenTime &time )
 {
-	std::cerr << "Looking at clip " << clip << " with time " << time.seconds() << std::endl;
 	slotSetClipMonitorSource( clip );
 	m_clipMonitor->seek( time );
 }
@@ -1135,7 +1192,7 @@ void KdenliveApp::slot_insertClips( QDropEvent *event )
 	// sanity check.
 	if ( !ClipDrag::canDecode( event ) ) return ;
 
-	DocClipRefList clips = ClipDrag::decode( getDocument() ->clipManager(), event );
+	DocClipRefList clips = ClipDrag::decode( getDocument()->effectDescriptions(), getDocument() ->clipManager(), event );
 
 	clips.setAutoDelete( true );
 
@@ -1217,4 +1274,60 @@ void KdenliveApp::populateClearSnapMarkers(KMacroCommand *macroCommand, DocClipP
 			++itt;
 		}
 	}
+}
+
+void KdenliveApp::slotDisplayTimeLineContextMenu()
+{
+	QPopupMenu *menu = (QPopupMenu *)factory()->container("timeline_context", this);
+	if(menu) {
+		menu->popup(QCursor::pos());
+	}
+}
+
+
+/** At least one track within the project have been added or removed.
+*
+* The timeline needs to be updated to show these changes. */
+void KdenliveApp::slotSyncTimeLineWithDocument()
+{
+	unsigned int index = 0;
+
+	m_timeline->clearTrackList();
+
+	QPtrList<DocTrackBase>::iterator trackItt = getDocument()->trackList().begin();
+
+	while(trackItt != getDocument()->trackList().end()) {
+		disconnect( *trackItt, SIGNAL( clipLayoutChanged() ), m_timeline, SLOT( drawTrackViewBackBuffer() ) );
+		disconnect( *trackItt, SIGNAL( clipSelectionChanged() ), m_timeline, SLOT( drawTrackViewBackBuffer() ) );
+		connect( *trackItt, SIGNAL( clipLayoutChanged() ), m_timeline, SLOT( drawTrackViewBackBuffer() ) );
+		connect( *trackItt, SIGNAL( clipSelectionChanged() ), m_timeline, SLOT( drawTrackViewBackBuffer() ) );
+
+		if((*trackItt)->clipType() == "Video") {
+			m_timeline->insertTrack(index, new KMMTrackVideoPanel(this, m_timeline, getDocument(), (dynamic_cast<DocTrackVideo *>(*trackItt))));
+			++index;
+			m_timeline->insertTrack(index, new KMMTrackKeyFramePanel(this, m_timeline, getDocument(), (*trackItt), "alphablend", 0, "fade"));
+			++index;
+		} else if((*trackItt)->clipType() == "Sound") {
+			m_timeline->insertTrack(index, new KMMTrackSoundPanel(this, m_timeline, getDocument(), (dynamic_cast<DocTrackSound *>(*trackItt))));
+			++index;
+			m_timeline->insertTrack(index, new KMMTrackKeyFramePanel(this, m_timeline, getDocument(), (*trackItt), "alphablend", 0, "fade"));
+			++index;
+		} else {
+			kdWarning() << "Sync failed" << endl;
+		}
+
+		++trackItt;
+	}
+
+	m_timeline->resizeTracks();
+}
+
+void KdenliveApp::slotRazorAllClips()
+{
+	addCommand(Command::DocumentMacroCommands::razorAllClipsAt(getDocument(), m_timeline->seekPosition()), true);
+}
+
+void KdenliveApp::slotRazorSelectedClips()
+{
+	addCommand(Command::DocumentMacroCommands::razorSelectedClipsAt(getDocument(), m_timeline->seekPosition()), true);
 }

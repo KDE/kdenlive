@@ -1,0 +1,113 @@
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<class>EffectStackDialog_UI</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>EffectStackDialog_UI</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>474</width>
+            <height>361</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Form1</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>2</number>
+        </property>
+        <property name="spacing">
+            <number>1</number>
+        </property>
+        <widget class="EffectStackListView">
+            <property name="name">
+                <cstring>m_effectList</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>7</hsizetype>
+                    <vsizetype>7</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>layout1</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>2</number>
+                </property>
+                <property name="spacing">
+                    <number>1</number>
+                </property>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>m_upButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Up</string>
+                    </property>
+                </widget>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>m_downButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Down</string>
+                    </property>
+                </widget>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>m_deleteButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Delete</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+    </vbox>
+</widget>
+<customwidgets>
+    <customwidget>
+        <class>EffectStackListView</class>
+        <header location="local">effectstacklistview.h</header>
+        <sizehint>
+            <width>-1</width>
+            <height>-1</height>
+        </sizehint>
+        <container>0</container>
+        <sizepolicy>
+            <hordata>5</hordata>
+            <verdata>5</verdata>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
+        <pixmap>image0</pixmap>
+    </customwidget>
+</customwidgets>
+<images>
+    <image name="image0">
+        <data format="XPM.GZ" length="4830">789c9597c972e3480e40eff5158ec2ada203cd3549c6c41cbcc9b6bccabbddd1078014bdcb9b6449ee987f9f240072caac9e4357d6c1cf5812890490f4ef3f562e8ff6577efcfeed7d4ad3bb72a5bca5b7951fd5ece969f9c79ffffeebdbf7285a69fec7f14af4fdb76fdf47d39572e5e079326e00c10304f24ff8b9c7d463ee71d9e3aac7e31ed70d67dc2ce1cb9e7cd0e3c957863eaff778d4b3bfe8c97be781a71eaff5f8e82bf37ecfff4dc314364b58fdb966096ff6ecf77af6b70d1771b3841f1b8ef366099ff7ec17bdf8faf7970847cd12f9b2e344f8b563890f5e3a96fda0ea98c45fdc71299c765c354c67c249bb1fcd3a56ff271d8b3d9d1b271a0f1d742c725874acfe9d70eef3a9f65bc2e47fa3f16a7d55411d6a3e4e1b0e03bf349e8171144a7e49ceeb295239cb79c3384ccdff76c7b23f14c269e8ccdfa9716ef6b5b18f407857d88585e57bbf65b39f18971a0fc8fd7b6fc624f723e524f9e3d2b8d4f391d49ba74ae5bed585a3c8e49b1d6b7c929f701ca5e65feac10b9dd967c2519485a9dcaf33ce952110cea3caec23e53830f9863045b5ca79ae1c8741263cec58eb59ed390ecd3e378e8d651e44651c85527f20f51cd55eae5c1b27a1f823b9bf388c0b65b831a6b090fd24be384bc24098a6d65fb5ca29ed58fd5f35eccbaf34ff320f922819ab3e487e93d4b3d6eb9b711d4abda0f44352a685d5f39d709db2ca296c380dd2c238366ee5605c1acb3c96f2d3feff148ed25aeb0d1e955d60fd22f94a63178632df79d5d8fa95971d8b9cee5b8e647ec1d038567b40e1a4d567a9d73475b1f14ecb5a7f2cf94a9d4b343eba304e357e3814ce5c6afd22f33b2d5c6ee7295bb6fc4abda4e40af3f7d972a4f52df79bb223ebff79cb2a2736e650ce470fc2652b67b9cfb4726dff5d195776bead96adbf1e3bd67a9779928ebbfdc898357f34346ee7c3a0658d07359eba5922d7fbaebd3fdd6f6e3c567d96f9e4c22cb4780a63eb7f90f7c525596cf11c1a2791ce9bd8d869bd93e4dba55eaeefc781b1dd17ee1b9b3e4b3e9dcbfcc4107f9fc671a4ef9dcc139765763fa4f6943965947a7355b3c45eceebc65965fb851deb79655e662ecfcddf93716172999759966791f67f689ceb79e9a363951f1b9b3d1e76acf36fcf98544e529fdebc954b3f67d42ce1eb86f3465df3fb2e5c14a5d53b2b53a0f316773ad6f922f32c2fa9cd9fdc6f5e79d6f8768d13ebc79d96559fe47dcd6b8a63cdcfbb71126bfcd21f45e0f5f57dbb357691c63f342e2cbea063d597f7b808c9e6151e1993c573d1b2de0fc8fd1711151a1fdf187324f393671debfe92df22a134d67e93fb2a1cd93c05630ef4fe48f25d641c683de2b171a8f399ef3a56f989b1bd273c6dd9f697f7bcc85b7dca8da348be4f41fabf2838b1f7e9cc38d5f715e4fd2888439b9f53639ba72cf55a701b3f0c8cad3ff9de38b57c4bfd15a5678d6f646cfd87857166ef95f46b51f9fdf57c609cda7b756edcbee7ceb850a671c7faf7809e7fccb9d63b6c1b93d5f7ac63d5d7fcd41c245a8fabc685e68f1f8c49ef93e5bda4c0fbd7f9b16b4c5a9ff060ccf63e4b3d52c889c6433bc685da33195bbfc2bd31dbfc947aa5982bf37fddb1c623f39c7cbbda7c94f889cac4ea4df24f55c9367fe43da47159da3c907ea39ac74ebfdfe5fe39e0dac9f71f4abed87fb02993d42b475562effb5dcb36ff243fec3f3f327d4fd1384db5ffd68c9db1bc579cb6faf8619cdafe321f39f39f33721fb46bec4cfe699c19cf3bd6f3ad1ae7c6f2de71ce2549fe71a9dcc917c685324b7eb8aac6767ff27dc763cf92afd1b4590848c8586285e3deaafc6fd94b61346df5b1c61bbcc53bbcff9bf5808ff884136ff5acfadef70dbee02bbee13b4e71861f38c7052ef1d3af555cc375dcc04d1c6069fae47dbfe2166ee30e0e7117f7701f0ff0108f7084c77882a77886e7788197a6cf3e922baf7d8d018618618c895f293acc30c702478000403831fdd247f90e8c019450610c63a8e1066efd4f15dcc13d3cc0a3d77f8256bff2fa531cc233bcc02bbcc13b4c61061f3087052ce11356c5ff1aac9bfed8ebcf701736bc741306b005dbb00343d8853def611f0ee0d0eb1fc1e827fd0f38861338f5becfe01c2ee0d26b5ec13504de4708d12ffa7388bd2481141c64907bed020f0909604944fc8bfe924a4ca8a231d5e2fb956ee896eee8deeb3fd0e32ffa0b7ac29426f041fed4f442afdee28dde694a33faa0f9aff1d0829618d327add21aadd3066dfafd06b445dbb443c3be3eedd21eed7bfd033aa4231ad1319dd0299dd1395dd0255dfd8dff6b0a28c4042af27fcc907fafc879ed73ff199053f145bfc207463c666062e6d2dfd9d2db2db9a20b1e73cd377cfbe5be4a5fb1eb7cc7f7fcc08ffcc4137ee6177ee5377ee729cff883e7bcf8a91ed8d7f7069ef1923f7995d7789d37789307bc4557bccd3b3ce45ddefba9defc4fbebecfe1fffce305eff1fe4ff50c3ea2015e00f93dd7fcb9beae35ff5bf2da5dbf788b676f71891398c03a8c7a6b1d267effcbfff5e33fe8f7fffcebdb7f01520e2ea3</data>
+    </image>
+</images>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>effectstacklistview.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+</includehints>
+</UI>

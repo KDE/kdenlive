@@ -1,8 +1,8 @@
 /***************************************************************************
-                          kmmtimeline  -  description
+                          effectdescriptionlist  -  description
                              -------------------
-    begin                : Wed Dec 24 2003
-    copyright            : (C) 2003 by Jason Wood
+    begin                : Tue Feb 10 2004
+    copyright            : (C) 2004 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
 
@@ -14,21 +14,27 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include "kmmtimeline.h"
+#ifndef EFFECTDESCRIPTIONLIST_H
+#define EFFECTDESCRIPTIONLIST_H
 
-KMMTimeLine::KMMTimeLine( QWidget *scrollToolWidget, QWidget *parent , const char *name) :
- 					KTimeLine( scrollToolWidget, parent, name)
+#include <qptrlist.h>
+
+class EffectDesc;
+class QString;
+
+/**
+A list of effect descriptions.
+
+@author Jason Wood
+*/
+class EffectDescriptionList : public QPtrList<EffectDesc>
 {
-}
+public:
+    EffectDescriptionList();
 
+    ~EffectDescriptionList();
 
-KMMTimeLine::~KMMTimeLine()
-{
-}
+    EffectDesc *effectDescription(const QString &type) const;
+};
 
-void KMMTimeLine::invalidateClipBuffer( DocClipRef *clip )
-{
-	#warning - unoptimised, should only update that part of the back buffer that needs to be updated. Current implementaion
-	#warning - wipes the entire buffer.
-	invalidateBackBuffer();
-}
+#endif

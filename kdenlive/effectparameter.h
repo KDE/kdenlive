@@ -1,8 +1,8 @@
 /***************************************************************************
-                          kmmtimeline  -  description
+                          effectparameter  -  description
                              -------------------
-    begin                : Wed Dec 24 2003
-    copyright            : (C) 2003 by Jason Wood
+    begin                : Fri Jan 2 2004
+    copyright            : (C) 2004 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
 
@@ -14,21 +14,22 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include "kmmtimeline.h"
+#ifndef EFFECTPARAMETER_H
+#define EFFECTPARAMETER_H
 
-KMMTimeLine::KMMTimeLine( QWidget *scrollToolWidget, QWidget *parent , const char *name) :
- 					KTimeLine( scrollToolWidget, parent, name)
-{
-}
+#include <qstring.h>
+/**
+A parameter in an effect. Contains a list of keyframes that make up that parameter, and which conforms to the parameter description.
 
+@author Jason Wood
+*/
+class EffectParameter{
+public:
+    EffectParameter(const QString &name);
 
-KMMTimeLine::~KMMTimeLine()
-{
-}
+    ~EffectParameter();
+private:
+	QString m_name;
+};
 
-void KMMTimeLine::invalidateClipBuffer( DocClipRef *clip )
-{
-	#warning - unoptimised, should only update that part of the back buffer that needs to be updated. Current implementaion
-	#warning - wipes the entire buffer.
-	invalidateBackBuffer();
-}
+#endif
