@@ -73,16 +73,18 @@ void KMMTrackVideoPanel::paintClip(QPainter &painter, DocClipBase *clip, QRect &
 	if(nameRepeat < 1) nameRepeat = 1;
 	int textWidth = clipWidth / nameRepeat;
 
-	int start = (int)timeLine().mapValueToLocal(clip->trackStart().frames(25));
+	if(textWidth > 0) {
+		int start = (int)timeLine().mapValueToLocal(clip->trackStart().frames(25));
 
-	start = sx - ((sx - start) % textWidth);
-	int count = start;
+		start = sx - ((sx - start) % textWidth);
+		int count = start;
 
-	while(count < sx+ex) {
-		if(count+textWidth <= tx) {
-			painter.drawText( count, rect.y(), textWidth, rect.height(), AlignVCenter | AlignHCenter, clip->name());
+		while(count < sx+ex) {
+			if(count+textWidth <= tx) {
+				painter.drawText( count, rect.y(), textWidth, rect.height(), AlignVCenter | AlignHCenter, clip->name());
+			}
+			count += textWidth;		
 		}
-		count += textWidth;		
 	}
 
 	painter.setClipping(false);
