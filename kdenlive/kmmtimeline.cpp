@@ -324,7 +324,7 @@ QPtrList<KMMTrackPanel> &KMMTimeLine::trackList()
 }
 
 bool KMMTimeLine::moveSelectedClips(int newTrack, GenTime start)
-{
+{	
 	int trackOffset = m_document->trackIndex(m_document->findTrack(m_masterClip));
 	GenTime startOffset;
 
@@ -338,75 +338,7 @@ bool KMMTimeLine::moveSelectedClips(int newTrack, GenTime start)
 	trackOffset = newTrack - trackOffset;
 	startOffset = start - startOffset;
 
-
-	// For each track, check and make sure that the clips can be moved to their rightful place. If
-	// one cannot be moved, then none of them can be moved.
-	int destTrackNum;
-	DocTrackBase *srcTrack, *destTrack;
-	GenTime clipStartTime;
-	GenTime clipEndTime;
-	DocClipBase *srcClip, *destClip;
-	
-	for(int track=0; track<m_trackList.count(); track++) {
-		srcTrack = &m_trackList.at(track)->docTrack();
-		if(!srcTrack->hasSelectedClips()) continue;
-
-		destTrackNum = track + trackOffset;
-
-		if((destTrackNum < 0) || (destTrackNum >= m_trackList.count())) return false;	// This track will be moving it's clips out of the timeline, so fail automatically.
-
-		destTrack = &m_trackList.at(destTrackNum)->docTrack();
-
-		QPtrListIterator<DocClipBase> srcClipItt = srcTrack->firstClip(true);
-		QPtrListIterator<DocClipBase> destClipItt = destTrack->firstClip(false);
-
-		destClip = destClipItt.current();
-
-		while( (srcClip = srcClipItt.current()) != 0) {
-			clipStartTime = srcClipItt.current()->trackStart() + startOffset;
-			clipEndTime = clipStartTime + srcClipItt.current()->cropDuration();
-
-			while((destClip) && (destClip->trackStart() + destClip->cropDuration() <= clipStartTime)) {
-				++destClipItt;
-				destClip = destClipItt.current();
-			}
-			if(destClip==0) break;
-
-			if(destClip->trackStart() < clipEndTime) return false;
-
-			++srcClipItt;
-		}
-	}
-
-	// we can now move all clips where they need to be.
-
-	// If the offset is negative, handle tracks from forwards, else handle tracks backwards. We
-	// do this so that there are no collisions between selected clips, which would be caught by DocTrackBase
-	// itself.
-	
-	int startAtTrack, endAtTrack, direction;
-	
-	if(trackOffset < 0) {
-		startAtTrack = 0;
-		endAtTrack = m_trackList.count();
-		direction = 1;
-	} else {
-		startAtTrack = m_trackList.count() - 1;
-		endAtTrack = -1;
-		direction = -1;
-	}
-
-	for(int track=startAtTrack; track!=endAtTrack; track += direction) {
-		srcTrack = &m_trackList.at(track)->docTrack();
-		if(!srcTrack->hasSelectedClips()) continue;
-		srcTrack->moveClips(startOffset, true);
-
-		if(trackOffset) {
-			destTrackNum = track + trackOffset;
-			destTrack = &m_trackList.at(destTrackNum)->docTrack();
-			destTrack->addClips(srcTrack->removeClips(true), true);
-		}
-	}
+	m_document->moveSelectedClips(startOffset, trackOffset);	
 
 	drawTrackViewBackBuffer();
 	return true;

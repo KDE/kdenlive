@@ -148,6 +148,9 @@ not exist. */
 		clips on the timeline which use this clip, then they will be deleted as well.
 		Emits AVFileList changed if successful. */
   void deleteAVFile(AVFile *file);
+  /** Moves the currectly selected clips by the offsets specified, or returns false if this
+is not possible. */
+  bool moveSelectedClips(GenTime startOffset, int trackOffset);
 
   private:
     /** the modified flag of the current document */
