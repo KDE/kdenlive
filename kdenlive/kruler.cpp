@@ -720,3 +720,8 @@ void KRuler::setRulerModel(KRulerModel *model)
 	}
 	m_rulerModel = model;
 }
+
+double KRuler::valueScale()
+{
+	return m_xValueSize;
+}

@@ -357,3 +357,21 @@ void DocTrackBase::resizeClipCropDuration(DocClipBase *clip, GenTime newStart)
 
 	clip->setCropDuration(newStart);
 }
+
+/** Returns the total length of the track - in other words, it returns the end of the
+last clip on the track. */
+GenTime DocTrackBase::trackLength()
+{
+	GenTime slength;	
+	GenTime ulength;
+
+	if(!m_selectedClipList.isEmpty()) {
+		slength = m_selectedClipList.last()->trackStart() + m_selectedClipList.last()->cropDuration();		
+	}
+
+	if(!m_unselectedClipList.isEmpty()) {
+		ulength = m_unselectedClipList.last()->trackStart() + m_unselectedClipList.last()->cropDuration();	
+	}
+
+	return (slength > ulength) ? slength : ulength;
+}

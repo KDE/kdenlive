@@ -104,6 +104,9 @@ is not on the track, or if the clip is unselected. */
   /** Resizes this clip, using a new cropDuration time of newStart.
    If this is not possible, it fails gracefully. */  
   void resizeClipCropDuration(DocClipBase *clip, GenTime newStart);
+  /** Returns the total length of the track - in other words, it returns the end of the
+last clip on the track. */
+  GenTime trackLength();
 private: // Private methods
   /** Enables or disables clip sorting. This method is used internally to turn off the sorting of clips when it is known that they will be sorted elsewhere.
 

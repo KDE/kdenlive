@@ -84,6 +84,8 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
   int minValue() const;
   /** Changes the ruler model for this ruler. The old ruler model is deleted if it exists. If null is passed to this method, a default model is created. */
   void setRulerModel(KRulerModel *model);
+  /** Returns the valueScale of this ruler*/
+  double valueScale();
 public slots: // public slots
   /** Sets the slider with the given id to the given value. The display will be updated.  */
   void setSliderValue(const int id, const int value);

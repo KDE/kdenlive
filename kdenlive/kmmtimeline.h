@@ -170,6 +170,8 @@ public slots: // Public slots
   /** Sets a new time scale for the timeline. This in turn calls the correct kruler funtion and
   updates the display. */
   void setTimeScale(int scale);
+  /** Calculates the size of the project, and sets up the timeline to accomodate it. */
+  void calculateProjectSize(double rulerScale);
   
 public: // Public attributes
   /** When dragging a clip, this is the time offset that should be applied to where the mouse cursor

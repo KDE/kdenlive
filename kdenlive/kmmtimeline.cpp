@@ -63,11 +63,12 @@ KMMTimeLine::KMMTimeLine(QWidget *rulerToolWidget, QWidget *scrollToolWidget, Kd
 	m_scrollToolWidget->setMaximumWidth(200);
 		
 	m_ruler->setValueScale(1.0);
-	m_ruler->setRange(0, 3000);
+	calculateProjectSize(m_ruler->valueScale());
 		
 	connect(m_scrollBar, SIGNAL(valueChanged(int)), m_ruler, SLOT(setStartPixel(int)));
 	connect(m_scrollBar, SIGNAL(valueChanged(int)), m_ruler, SLOT(repaint()));	
-  connect(m_document, SIGNAL(trackListChanged()), this, SLOT(syncWithDocument()));	
+  connect(m_document, SIGNAL(trackListChanged()), this, SLOT(syncWithDocument()));
+  connect(m_ruler, SIGNAL(scaleChanged(double)), this, SLOT(calculateProjectSize(double)));
   	
   setAcceptDrops(true);
 
@@ -214,6 +215,7 @@ void KMMTimeLine::dragMoveEvent ( QDragMoveEvent *event )
 			m_selection.clear();
 		}
 	}
+	calculateProjectSize(m_ruler->valueScale());
 }
 
 void KMMTimeLine::dragLeaveEvent ( QDragLeaveEvent *event )
@@ -564,4 +566,21 @@ DocClipBaseList KMMTimeLine::listSelected()
   }
 	
 	return list;
+}
+
+/** Calculates the size of the project, and sets up the timeline to accomodate it. */
+void KMMTimeLine::calculateProjectSize(double rulerScale)
+{
+	GenTime length;
+
+	QPtrListIterator<KMMTrackPanel> itt(m_trackList);
+
+	while(itt.current()) {
+		GenTime test = itt.current()->docTrack().trackLength();
+		length = (test > length) ? test : length;
+		++itt;
+	}	
+	
+  m_scrollBar->setRange(0, (int)(length.frames(25) * rulerScale) + m_scrollBar->width());
+  m_ruler->setRange(0, (int)length.frames(25));  
 }
