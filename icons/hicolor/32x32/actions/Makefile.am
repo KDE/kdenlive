@@ -1,7 +1,7 @@
 ####### kdevelop will overwrite this part!!! (begin)##########
 
 
-EXTRA_DIST = moveresize.png razor.png snaptoborder.png snaptoframe.png spacer.png loadlayout1.png loadlayout2.png loadlayout3.png loadlayout4.png exportvideo.png 
+EXTRA_DIST = moveresize.png razor.png snaptoborder.png snaptoframe.png spacer.png loadlayout2.png loadlayout3.png loadlayout4.png exportvideo.png 
 
 install-data-local:
 	$(mkinstalldirs) $(kde_datadir)/kdenlive/icons/hicolor/32x32/actions/
@@ -14,8 +14,6 @@ install-data-local:
 	$(INSTALL_DATA) $(srcdir)/snaptoframe.png $(kde_datadir)/kdenlive/icons/hicolor/32x32/actions/snaptoframe.png
 	$(mkinstalldirs) $(kde_datadir)/kdenlive/icons/hicolor/32x32/actions/
 	$(INSTALL_DATA) $(srcdir)/spacer.png $(kde_datadir)/kdenlive/icons/hicolor/32x32/actions/spacer.png
-	$(mkinstalldirs) $(kde_datadir)/kdenlive/icons/hicolor/32x32/actions/
-	$(INSTALL_DATA) $(srcdir)/loadlayout1.png $(kde_datadir)/kdenlive/icons/hicolor/32x32/actions/loadlayout1.png
 	$(mkinstalldirs) $(kde_datadir)/kdenlive/icons/hicolor/32x32/actions/
 	$(INSTALL_DATA) $(srcdir)/loadlayout2.png $(kde_datadir)/kdenlive/icons/hicolor/32x32/actions/loadlayout2.png
 	$(mkinstalldirs) $(kde_datadir)/kdenlive/icons/hicolor/32x32/actions/
@@ -31,7 +29,6 @@ uninstall-local:
 	-rm -f $(kde_datadir)/kdenlive/icons/hicolor/32x32/actions/snaptoborder.png
 	-rm -f $(kde_datadir)/kdenlive/icons/hicolor/32x32/actions/snaptoframe.png
 	-rm -f $(kde_datadir)/kdenlive/icons/hicolor/32x32/actions/spacer.png
-	-rm -f $(kde_datadir)/kdenlive/icons/hicolor/32x32/actions/loadlayout1.png
 	-rm -f $(kde_datadir)/kdenlive/icons/hicolor/32x32/actions/loadlayout2.png
 	-rm -f $(kde_datadir)/kdenlive/icons/hicolor/32x32/actions/loadlayout3.png
 	-rm -f $(kde_datadir)/kdenlive/icons/hicolor/32x32/actions/loadlayout4.png
