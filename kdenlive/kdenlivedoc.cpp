@@ -273,9 +273,9 @@ AVFile *KdenliveDoc::insertAVFile(const KURL &file)
 	return av;
 }
 
-const AVFileList &KdenliveDoc::avFileList()
+const AVFileList &KdenliveDoc::avFileList() const
 {
-	return m_fileList;	
+	return m_fileList;
 }
 
 /** Returns the number of frames per second. */
@@ -318,17 +318,16 @@ void KdenliveDoc::slot_insertClips(QPtrList<DocClipBase> clips)
 		insertAVFile(clip->fileURL());
 	}
 
-  emit avFileListUpdated();
+	emit avFileListUpdated();
 	setModified(true);
 }
 
 /** Returns a reference to the AVFile matching the  url. If no AVFile matching the given url is
-found, then one will be created. Either way, the reference count for the AVFile will be incremented
- by one, and the file will be returned. */
+found, then one will be created. This method is not in charge of incrementing the reference count
+of the avfile - this must be done by the calling function. */
 AVFile * KdenliveDoc::getAVFileReference(KURL url)
 {
 	AVFile *av = insertAVFile(url);
-	av->addReference();
 	return av;
 }
 
@@ -383,20 +382,6 @@ void KdenliveDoc::setModified(bool state)
 	}
 }
 
-/** Removes entries from the AVFileList which are unreferenced by any clips. */
-void KdenliveDoc::cleanAVFileList()
-{
-	QPtrListIterator<AVFile> itt(m_fileList);
-
-	while(itt.current()) {
-		QPtrListIterator<AVFile> next = itt;
-		++itt;
-		if(next.current()->numReferences()==0) {
-			deleteAVFile(next.current());
-		}
-	}
-}
-
 /** Finds and removes the specified avfile from the document. If there are any
 clips on the timeline which use this clip, then they will be deleted as well.
 Emits AVFileList changed if successful. */
@@ -406,19 +391,18 @@ void KdenliveDoc::deleteAVFile(AVFile *file)
 
 	if(index!=-1) {
 		if(file->numReferences() > 0) {
-			#warning Deleting files with references not yet implemented
-			kdWarning() << "Cannot delete files with references at the moment " << endl;
-			return;
+			kdError() << "Cannot delete a clip that has references!" << endl;
+		} else {
+			/** If we delete the clip before removing the pointer to it in the relevant
+			 *  AVListViewItem, bad things happen... For some reason, the text method 
+			 *  gets called after the deletion, even though the very next thing we do 
+			 *  is to emit an update signal. which removes it.*/
+			m_fileList.setAutoDelete(false);
+			m_fileList.removeRef(file);
+			emit avFileListUpdated();
+			delete file;
+			m_fileList.setAutoDelete(true);
 		}
-
-		/** If we delete the clip before removing the pointer to it in the relevant AVListViewItem,
-		bad things happen... For some reason, the text method gets called after the deletion, even
-		though the very next thing we do is to emit an update signal. which removes it.*/
-		m_fileList.setAutoDelete(false);
-		m_fileList.removeRef(file);
-		emit avFileListUpdated();
-		delete file;
-		m_fileList.setAutoDelete(true);
 	} else {
 		kdError() << "Trying to delete AVFile that is not in document!" << endl;
 	}
@@ -618,4 +602,17 @@ GenTime KdenliveDoc::projectDuration() const
 void KdenliveDoc::indirectlyModified()
 {
 	hasBeenModified();
+}
+
+QPtrList<DocClipBase> KdenliveDoc::referencedClips(AVFile *file)
+{
+	QPtrList<DocClipBase> list;
+
+	if(m_projectClip) {
+		list = m_projectClip->referencedClips(file);
+	} else {
+		kdError() << "Cannot get referenced clips - m_projectClip is null!" << endl;
+	}
+
+	return list;
 }

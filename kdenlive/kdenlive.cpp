@@ -27,32 +27,34 @@
 #include <qwhatsthis.h>
 
 // include files for KDE
-#include <kiconloader.h>
-#include <kmessagebox.h>
-#include <kfiledialog.h>
-#include <kmenubar.h>
-#include <kstatusbar.h>
-#include <klocale.h>
 #include <kconfig.h>
-#include <kstdaction.h>
 #include <kcommand.h>
 #include <kdebug.h>
-#include <kkeydialog.h>
 #include <kedittoolbar.h>
+#include <kfiledialog.h>
+#include <kiconloader.h>
+#include <kkeydialog.h>
+#include <klocale.h>
+#include <kmenubar.h>
+#include <kmessagebox.h>
+#include <kstatusbar.h>
+#include <kstdaction.h>
 
 // application specific includes
-#include "kdenlive.h"
-#include "kdenliveview.h"
-#include "kdenlivedoc.h"
-#include "kdenlivesetupdlg.h"
-#include "kprogress.h"
-#include "krulertimemodel.h"
-#include "krendermanager.h"
+#include "clippropertiesdialog.h"
 #include "docclipbase.h"
-#include "exportdialog.h"
 #include "effectlistdialog.h"
 #include "effectparamdialog.h"
-#include "clippropertiesdialog.h"
+#include "exportdialog.h"
+#include "kaddclipcommand.h"
+#include "kaddavfilecommand.h"
+#include "kdenlive.h"
+#include "kdenlivedoc.h"
+#include "kdenlivesetupdlg.h"
+#include "kdenliveview.h"
+#include "kprogress.h"
+#include "krendermanager.h"
+#include "krulertimemodel.h"
 
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
@@ -775,38 +777,82 @@ void KdenliveApp::slotProjectAddClips()
 	KURL::List::Iterator it;
 	KURL url;
 
+	KMacroCommand *macroCommand = new KMacroCommand( i18n("Add Clips"));
 	for(it = urlList.begin(); it != urlList.end(); it++) {
 		url =  (*it);
 		if(!url.isEmpty()) {
-      doc->insertAVFile(url);
-      m_fileDialogPath = url;
+			Command::KAddAVFileCommand *command;
+			command = new Command::KAddAVFileCommand(doc, url, true);
+			macroCommand->addCommand(command);
+			m_fileDialogPath = url;
 		}
 	}
+	addCommand(macroCommand, true);
 
-  m_fileDialogPath.setFileName(QString::null);
+	m_fileDialogPath.setFileName(QString::null);
   
-  slotStatusMsg(i18n("Ready."));     
+	slotStatusMsg(i18n("Ready."));     
 }
 
 /** Remove clips from the project */
 void KdenliveApp::slotProjectDeleteClips()
 {
-  slotStatusMsg(i18n("Removing Clips"));
-  slotStatusMsg(i18n("Ready."));     
+	slotStatusMsg(i18n("Removing Clips"));
+
+	if(KMessageBox::warningContinueCancel(this,
+		i18n("This will remove all clips on the timeline that are currently using this clip. Are you sure you want to do this?")) == KMessageBox::Continue) {
+		
+		// Create a macro command that will delete all clips from the timeline involving this
+		// avfile. Then, delete it.
+		KMacroCommand *macroCommand = new KMacroCommand( i18n("Delete Project Clip") );
+
+		QPtrList<DocClipBase> list = doc->referencedClips(m_projectList->currentSelection());
+
+		QPtrListIterator<DocClipBase> itt(list);
+
+		while(itt.current())
+		{
+			Command::KAddClipCommand *command = new Command::KAddClipCommand(doc, itt.current(), false); 
+			macroCommand->addCommand(command);
+			++itt;
+		}
+
+		// NOTE - we clear the monitors of the clip here - this does _not_ go into the macro
+		// command.
+		m_monitorManager.clearClip(m_projectList->currentSelection());
+
+		macroCommand->addCommand(new Command::KAddAVFileCommand(doc, m_projectList->currentSelection(), false));
+
+		addCommand(macroCommand, true);
+	}
+
+	slotStatusMsg(i18n("Ready."));     
 }
 
 /** Cleans the project of unwanted clips */
 void KdenliveApp::slotProjectClean()
 {
-  slotStatusMsg(i18n("Cleaning Project"));
+	slotStatusMsg(i18n("Cleaning Project"));
 
-  if(KMessageBox::warningContinueCancel(this,
+	if(KMessageBox::warningContinueCancel(this,
 			 i18n("Clean Project removes files from the project that are unused.\
 			 Are you sure you want to do this?")) == KMessageBox::Continue) {
-		doc->cleanAVFileList();
+
+		KMacroCommand *macroCommand = new KMacroCommand( i18n("Clean Project") );
+		QPtrListIterator<AVFile> itt(doc->avFileList());
+
+		while(itt.current()) {
+			QPtrListIterator<AVFile> next = itt;
+			++itt;
+			if(next.current()->numReferences()==0) {
+				macroCommand->addCommand(new Command::KAddAVFileCommand(doc, next.current(), false));
+			}
+		}
+
+		addCommand(macroCommand, true);
 	}
   
-  slotStatusMsg(i18n("Ready."));
+	slotStatusMsg(i18n("Ready."));
 }
 
 void KdenliveApp::slotProjectClipProperties()

@@ -90,10 +90,7 @@ class KdenliveDoc : public QObject
 	/** sets the URL of the document */
 	void setURL(const KURL& url);
 	/** Returns the internal avFile list. */
-	const AVFileList &avFileList();
-	/** Insert an AVFile with the given url. If the file is already in the file list, return 
-	 * that instead. */
-	AVFile *insertAVFile(const KURL &file);
+	const AVFileList &avFileList() const;
   	/** Itterates through the tracks in the project. This works in the same way
 	* as QPtrList::next(), although the underlying structures may be different. */
 	DocTrackBase * nextTrack();
@@ -101,11 +98,9 @@ class KdenliveDoc : public QObject
 	*This effectively is the same as QPtrList::first(), but the underyling implementation
 	* may change. */
 	DocTrackBase * firstTrack();
-	/** HACK - in some cases, we can modify the document without it knowing - we tell it here
-	 * for the moment, although really, this means we have access to things that either we should
-	 * only modify via an interface to the document, or that the things that we are modifying should
-	 * automatically tell the document. */
-	void indirectlyModified();
+
+	/** Returns a list of all clips directly or indirectly accessed by the specified avfile. */
+	QPtrList<DocClipBase> referencedClips(AVFile *file);
 public slots:
 	/** calls repaint() on all views connected to the document object and is called by the view 
 	 * by which the document has been changed. As this view normally repaints itself, it is 
@@ -118,26 +113,26 @@ public slots:
   	void addSoundTrack();
   	/** Adds an empty video track to the project */
   	void addVideoTrack();
-	/** Inserts a list of clips into the document, updating the project accordingly. */
-	void slot_insertClips(QPtrList<DocClipBase> clips);
-	/** Given a drop event, inserts all contained clips into the project list, if they are not 
-	 * there already. 
-	 */
-	void slot_insertClips(QDropEvent *event);
 	/** This slot occurs when the File properties for an AV File have been returned by the renderer.
 	The relevant AVFile can then be updated to the correct status. */
 	void AVFilePropertiesArrived(QMap<QString, QString> properties);
 	/** Called when an error occurs whilst retrieving a file's properties. */
 	void AVFilePropertiesError(const QString &path, const QString &errmsg);
 
+protected slots:
+	/** Inserts a list of clips into the document, updating the project accordingly. */
+	void slot_insertClips(QPtrList<DocClipBase> clips);
+	/** Given a drop event, inserts all contained clips into the project list, if they are not 
+	 * there already. */
+	void slot_insertClips(QDropEvent *event);
+
 public:
   	/** Returns the number of frames per second. */
   	int framesPerSecond() const;
 	uint numTracks();
-	/** Returns a reference to the AVFile matching the  url. If no AVFile matching the given url
-	 *  is found, then one will be created. Either way, the reference count for the AVFile will
-	 *  be incremented by one, and the file will be returned.
-	 */
+	/** Returns a reference to the AVFile matching the  url. If no AVFile matching the given url is
+	found, then one will be created. This method is not in charge of incrementing the reference count
+	of the avfile - this must be done by the calling function. */
 	AVFile * getAVFileReference(KURL url);
 	/** Find and return the AVFile with the url specified, or return null is no file matches. */
 	AVFile * findAVFile(const KURL &file);
@@ -152,15 +147,6 @@ public:
 	QDomDocument toXML();
 	/** Sets the modified state of the document, if this has changed, emits modified(state) */
 	void setModified(bool state);
-	/** Removes entries from the AVFileList which are unreferenced by any clips. */
-	void cleanAVFileList();
-	/** Finds and removes the specified avfile from the document. If there are any
-	clips on the timeline which use this clip, then they will be deleted as well.
-	Emits AVFileList changed if successful. */
-	void deleteAVFile(AVFile *file);
-	/** Moves the currectly selected clips by the offsets specified, or returns false if this
-	is not possible. */
-	bool moveSelectedClips(GenTime startOffset, int trackOffset);
 	/** Returns a scene list generated from the current document. */
 	QDomDocument generateSceneList();
 	/** Renders the current document timeline to the specified url. */
@@ -172,7 +158,22 @@ public:
 
 	/** returns the duration of the project. */
 	GenTime projectDuration() const;
-
+//  protected:
+	/** Insert an AVFile with the given url. If the file is already in the file list, return 
+	 * that instead. */
+	AVFile *insertAVFile(const KURL &file);
+	/** HACK - in some cases, we can modify the document without it knowing - we tell it here
+	 * for the moment, although really, this means we have access to things that either we should
+	 * only modify via an interface to the document, or that the things that we are modifying should
+	 * automatically tell the document. */
+	void indirectlyModified();
+	/** Moves the currectly selected clips by the offsets specified, or returns false if this
+	is not possible. */
+	bool moveSelectedClips(GenTime startOffset, int trackOffset);
+	/** Finds and removes the specified avfile from the document. If there are any
+	clips on the timeline which use this clip, then they will be deleted as well.
+	Emits AVFileList changed if successful. */
+	void deleteAVFile(AVFile *file);
   private:
 	/** The base clip for this document. This must be a project clip, as it lists the tracks within
 	 * the project, etc. */
