@@ -293,7 +293,7 @@ void KdenliveApp::initView()
 	QToolTip::add( projectDock, i18n( "Video files usable in current project" ) );
 	QWhatsThis::add( projectDock, i18n( "Video files usable in your project. "
 		                                    "Add or remove files with the contextual menu. "
-		                                    "In order to add some sequences to the current video project, use the drag and drop." ) );
+		                                    "In order to add sequences to the current video project, use the drag and drop." ) );
 	projectDock->setWidget( m_projectList );
 	projectDock->setDockSite( KDockWidget::DockFullSite );
 	projectDock->manualDock( mainDock, KDockWidget::DockLeft );
