@@ -7,13 +7,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-04-07 13:10+0200\n"
-"PO-Revision-Date: 2004-04-07 13:15+0200\n"
+"PO-Revision-Date: 2004-10-14 12:41+0200\n"
 "Last-Translator: Gilles CAULIER <caulier.gilles@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
+"MIME-Version: (null)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0.2\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: kdenlivesetupdlg.cpp:29
 msgid "Kdenlive Setup"
@@ -84,7 +85,7 @@ msgstr "Gilles Caulier"
 msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
-msgstr "caulier.gilles@free.fr"
+msgstr "caulier.gilles@free.fr, jm@poure.com"
 
 #: effectlistdialog.cpp:31
 msgid "Effect"
@@ -461,12 +462,11 @@ msgstr "Configurer le format pour ce projet"
 
 #: kdenlive.cpp:232
 msgid "Razor all clips on the timeline at the current seek position"
-msgstr ""
+msgstr "Découper·tous·les·plans·video à·partir·de·la·position·du·curseur"
 
 #: kdenlive.cpp:233
-#, fuzzy
 msgid "Razor all selected clips on the timeline at the current seek position"
-msgstr "Spécifie la position actuelle comme un point d'entrée"
+msgstr "Découper tous les plans video sélectionnés à partir de la position du curseur"
 
 #: kdenlive.cpp:250 kdenlive.cpp:426 kdenlive.cpp:601 kdenlive.cpp:625
 #: kdenlive.cpp:640 kdenlive.cpp:649 kdenlive.cpp:672 kdenlive.cpp:681
@@ -540,12 +540,11 @@ msgstr "Configurer les effets"
 
 #: kdenlive.cpp:315
 msgid "This window lets you edit the parameters of the currently selected effect."
-msgstr ""
+msgstr "Cette fenêtre permet de configurer l'effet actuellement sélectionné."
 
 #: kdenlive.cpp:320 effectstacklistview.cpp:25
-#, fuzzy
 msgid "Effect Stack"
-msgstr "Configurer les effets"
+msgstr "Liste des effets"
 
 #: kdenlive.cpp:322
 msgid "This window shows all effects on the currently selected widget."
@@ -768,7 +767,7 @@ msgstr "Exporter par défaut"
 
 #: configureprojectdialog.cpp:57
 msgid "Configure the default export setting"
-msgstr "Configurer le paramètrage pour l'exportation par défaut"
+msgstr "Configurer les paramètres d'exportation par défaut"
 
 #: avlistviewitem.cpp:109
 msgid "unknown"
@@ -819,9 +818,8 @@ msgid "Tools"
 msgstr "Outils"
 
 #: rc.cpp:8
-#, fuzzy
 msgid "Snap To"
-msgstr "Utiliser les marques"
+msgstr ""
 
 #: rc.cpp:9
 msgid "Timeline Toolbar"
@@ -860,9 +858,8 @@ msgid "Aspect Ratio"
 msgstr "Aspect"
 
 #: rc.cpp:21
-#, fuzzy
 msgid "Timecode"
-msgstr "Montage vidéo"
+msgstr "Code horaire"
 
 #: rc.cpp:22
 msgid "HH:MM:SS:FF"
@@ -882,7 +879,7 @@ msgstr "Secondes"
 
 #: rc.cpp:26
 msgid "Use Drop Frame timecode"
-msgstr ""
+msgstr "Utiliser le code horaire des images supprimées"
 
 #: rc.cpp:28
 msgid ""
@@ -1290,4 +1287,3 @@ msgstr "Supprimer la marque"
 
 #~ msgid "B"
 #~ msgstr "Octets"
-
