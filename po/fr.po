@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2003-03-12 13:29+0100\n"
-"PO-Revision-Date: 2003-03-12 18:34GMT\n"
+"POT-Creation-Date: 2003-03-12 22:22+0100\n"
+"PO-Revision-Date: 2003-03-12 22:23GMT\n"
 "Last-Translator: CAULIER Gilles <caulier.gilles@free.fr>\n"
 "Language-Team: FRANCAIS <fr@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -80,7 +80,7 @@ msgstr "KRuler"
 msgid "Add Tracks..."
 msgstr "Ajouter des pistes..."
 
-#: addtrackdialog_ui.cpp:37 rc.cpp:10
+#: addtrackdialog_ui.cpp:37 rc.cpp:10 kmmtrackvideopanel.cpp:33
 msgid "Video Track"
 msgstr "Piste vidéo"
 
@@ -171,7 +171,7 @@ msgstr "KMMEditPanel"
 
 #: effectlistdialog.cpp:28
 msgid "Effect"
-msgstr "Effet"
+msgstr "Effets spéciaux"
 
 #: main.cpp:25 main.cpp:38
 msgid "Kdenlive"
@@ -446,11 +446,11 @@ msgstr "Effets"
 msgid "Effect Setup"
 msgstr "Configurer les effets"
 
-#: kdenlive.cpp:242
+#: kdenlive.cpp:242 kdenlive.cpp:243
 msgid "Workspace Monitor"
 msgstr "Espace de travail"
 
-#: kdenlive.cpp:248
+#: kdenlive.cpp:248 kdenlive.cpp:249
 msgid "Clip Monitor"
 msgstr "Prévisualisation des séquences"
 
@@ -529,7 +529,7 @@ msgid "Razor tool"
 msgstr "Outil de découpe"
 
 #: kdenlive.cpp:679
-msgid "Spacer tool"
+msgid "Separate tool"
 msgstr "Outil de séparation"
 
 #: kdenlive.cpp:685
@@ -746,7 +746,7 @@ msgstr "EffectParamDialog"
 
 #: renderdebugpanel.cpp:32
 msgid "Ignore Incoming Messages"
-msgstr "Ignorer les messages entrant"
+msgstr "Ignorer les messages entrant "
 
 #: renderdebugpanel.cpp:33
 msgid "Save Messages"

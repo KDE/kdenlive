@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-03-12 13:29+0100\n"
+"POT-Creation-Date: 2003-03-12 22:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -87,7 +87,7 @@ msgstr ""
 msgid "Add Tracks..."
 msgstr ""
 
-#: addtrackdialog_ui.cpp:37 rc.cpp:10
+#: addtrackdialog_ui.cpp:37 rc.cpp:10 kmmtrackvideopanel.cpp:33
 msgid "Video Track"
 msgstr ""
 
@@ -451,11 +451,11 @@ msgstr ""
 msgid "Effect Setup"
 msgstr ""
 
-#: kdenlive.cpp:242
+#: kdenlive.cpp:242 kdenlive.cpp:243
 msgid "Workspace Monitor"
 msgstr ""
 
-#: kdenlive.cpp:248
+#: kdenlive.cpp:248 kdenlive.cpp:249
 msgid "Clip Monitor"
 msgstr ""
 
@@ -531,7 +531,7 @@ msgid "Razor tool"
 msgstr ""
 
 #: kdenlive.cpp:679
-msgid "Spacer tool"
+msgid "Separate tool"
 msgstr ""
 
 #: kdenlive.cpp:685
