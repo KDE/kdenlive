@@ -41,10 +41,10 @@ ProjectList::ProjectList(KdenliveApp *app, KdenliveDoc *document, QWidget *paren
 	if(!document) {
 		kdError() << "ProjectList created with no document - expect a crash shortly" << endl;
 	}
-	
+
 	m_document = document;
 	m_listView->setDocument(document);
-	
+
  	connect (m_listView, SIGNAL(dragDropOccured(QDropEvent *)), this, SIGNAL(dragDropOccured(QDropEvent *)));
 
   m_menu = (QPopupMenu *)app->factory()->container("projectlist_context", app);
@@ -53,6 +53,7 @@ ProjectList::ProjectList(KdenliveApp *app, KdenliveDoc *document, QWidget *paren
 					this, SLOT(rightButtonPressed ( QListViewItem *, const QPoint &, int )));
 
   connect(m_listView, SIGNAL(executed(QListViewItem *)), this, SLOT(projectListSelectionChanged(QListViewItem *)));
+  connect(m_listView, SIGNAL(dragStarted(QListViewItem *)), this, SLOT(projectListSelectionChanged(QListViewItem *)));
 }
 
 ProjectList::~ProjectList()

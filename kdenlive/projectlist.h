@@ -21,7 +21,7 @@
 #include "projectlist_ui.h"
 
 #include <projectlistview.h>
-#include <qlist.h>
+#include <qvaluelist.h>
 #include <qpopupmenu.h>
 #include <qevent.h>
 
