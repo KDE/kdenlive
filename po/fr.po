@@ -1,7 +1,8 @@
 msgid ""
 msgstr ""
+"POT-Creation-Date: 2003-03-12 13:29+0100\n"
+"PO-Revision-Date: 2003-03-12 13:42+0100\n"
 "Last-Translator: \n"
-"PO-Revision-Date: 2003-03-12 13:20+0100\n"
 "Language-Team:  <fr@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -46,6 +47,14 @@ msgstr "AVFileFormatWidget"
 #: rendersetupdlg.moc.cpp:34 rendersetupdlg.moc.cpp:42
 msgid "RenderSetupDlg"
 msgstr "RenderSetupDlg"
+
+#: kmmtimeline.cpp:55
+msgid "Tracks"
+msgstr "Pistes"
+
+#: kmmtimeline.cpp:62
+msgid "Scroll"
+msgstr "Défilement"
 
 #: kmmtimeline.cpp:693 kdenlive.cpp:115
 msgid "Add Clips"
@@ -423,7 +432,7 @@ msgstr "TimeLine"
 
 #: kdenlive.cpp:218
 msgid "project list"
-msgstr "Liste du projet"
+msgstr "Projet"
 
 #: kdenlive.cpp:224
 msgid "Debug"
@@ -431,7 +440,7 @@ msgstr "Déboguer"
 
 #: kdenlive.cpp:230
 msgid "Effect List"
-msgstr "Liste des effets"
+msgstr "Effets"
 
 #: kdenlive.cpp:236
 msgid "Effect Setup"
@@ -548,8 +557,8 @@ msgid ""
 "Clean Project removes files from the project that are unused.\t\t\t Are you "
 "sure you want to do this?"
 msgstr ""
-"La purge du projet supprime les fichiers du projet qui ne sont pas utilisés.\t\t\t Voulez vous "
-"vraiment continuer ?"
+"La purge du projet supprime les fichiers du projet qui ne sont pas utilisés."
+"\t\t\t Voulez vous vraiment continuer ?"
 
 #: kdenlive.cpp:777
 msgid "Seeking Forwards one frame"
@@ -597,7 +606,9 @@ msgstr "KMMTimeLineTrackView"
 
 #: rendersetupdlg_ui.cpp:39 rc.cpp:38
 msgid "The port that the renderer will listen on for kdenlive to connect."
-msgstr "Le port de communication que le programme de rendu vidéo utilisera avec Kdenlive."
+msgstr ""
+"Le port de communication que le programme de rendu vidéo utilisera avec "
+"Kdenlive."
 
 #: rendersetupdlg_ui.cpp:40 rc.cpp:39
 msgid ""
@@ -606,8 +617,8 @@ msgid ""
 "default port."
 msgstr ""
 "Le port de communication spécifié sera utilisé par Kdenlive pour communiquer "
-"avec le programme de rendu vidéo. Modifiez cette valeur si un autre programme "
-"utilise déjà ce port de communication."
+"avec le programme de rendu vidéo. Modifiez cette valeur si un autre "
+"programme utilise déjà ce port de communication."
 
 #: rendersetupdlg_ui.cpp:45 rc.cpp:40
 msgid "Program Path"
@@ -624,9 +635,10 @@ msgid ""
 "to have a valid renderer specified if you want to do anything useful with "
 "kdenlive."
 msgstr ""
-"Spécifie l'emplacement du programme effectant le rendu vidéo. Ce programme réalise les "
-"opérations d'affichage et de manipulation du montage vidéo que vous allez creer. Ce "
-"programme est très important pour pouvoir utiliser pleinement Kdenlive."
+"Spécifie l'emplacement du programme effectant le rendu vidéo. Ce programme "
+"réalise les opérations d'affichage et de manipulation du montage vidéo que "
+"vous allez creer. Ce programme est très important pour pouvoir utiliser "
+"pleinement Kdenlive."
 
 #: rendersetupdlg_ui.cpp:57 rc.cpp:43
 msgid "Port"

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-03-10 14:46+0100\n"
+"POT-Creation-Date: 2003-03-12 13:29+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,6 +53,14 @@ msgstr ""
 
 #: rendersetupdlg.moc.cpp:34 rendersetupdlg.moc.cpp:42
 msgid "RenderSetupDlg"
+msgstr ""
+
+#: kmmtimeline.cpp:55
+msgid "Tracks"
+msgstr ""
+
+#: kmmtimeline.cpp:62
+msgid "Scroll"
 msgstr ""
 
 #: kmmtimeline.cpp:693 kdenlive.cpp:115
