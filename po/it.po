@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "POT-Creation-Date: 2003-12-25 23:11+0000\n"
-"PO-Revision-Date: 2004-01-13 00:03+0100\n"
+"PO-Revision-Date: 2004-01-13 23:59+0100\n"
 "Last-Translator: Daniele Medri <madrid@linuxmeeting.net>\n"
 "Language-Team: italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -21,11 +21,11 @@ msgstr "Impostazioni di Kdenlive"
 
 #: kdenlivesetupdlg.cpp:34
 msgid "Renderer"
-msgstr ""
+msgstr "Software di rendering"
 
 #: kdenlivesetupdlg.cpp:35
 msgid "Setup External Renderer Program"
-msgstr ""
+msgstr "Impostazioni del software esterno per il rendering"
 
 #: kselectclipcommand.cpp:57 kmmtimeline.cpp:383 kmmtimeline.cpp:744
 msgid "Selection"
@@ -33,11 +33,11 @@ msgstr "Selezione"
 
 #: kdenliveview.moc.cpp:34 kdenliveview.moc.cpp:42
 msgid "KdenliveView"
-msgstr ""
+msgstr "KdenliveView"
 
 #: kmoveclipscommand.cpp:49
 msgid "Move Clips"
-msgstr ""
+msgstr "Sposta le clip"
 
 #: kmmtimeline.cpp:73
 msgid "Scroll"
@@ -45,19 +45,19 @@ msgstr "Scorrimento"
 
 #: kmmtimeline.cpp:662 kdenlive.cpp:144 kdenlive.cpp:849 kdenlive.cpp:1144
 msgid "Add Clips"
-msgstr ""
+msgstr "Aggiungi clip"
 
 #: kmmtimeline.cpp:662 kdenlive.cpp:145
 msgid "Delete Clips"
-msgstr ""
+msgstr "Elimina clip"
 
 #: kmmtimeline.cpp:703
 msgid "Razor clip"
-msgstr ""
+msgstr "Taglia clip"
 
 #: krender.cpp:260
 msgid "The renderer is unavailable, the file properties cannot be determined."
-msgstr ""
+msgstr "Il software di rendering non è disponibile, il file delle proprietà non può essere determinato."
 
 #: projectlistview.cpp:32 avlistviewitem.cpp:87
 msgid "Filename"
@@ -73,7 +73,7 @@ msgstr "Durata"
 
 #: projectlistview.cpp:35 avlistviewitem.cpp:143
 msgid "Usage Count"
-msgstr ""
+msgstr "Indicatore d'uso"
 
 #: projectlistview.cpp:36 avlistviewitem.cpp:109
 msgid "Size"
@@ -109,6 +109,13 @@ msgid ""
 "You can download the Piave program on this url:\n"
 "http://modesto.sourceforge.net/piave"
 msgstr ""
+"Kdenlive\n"
+"\n"
+"Un editor non lineare per KDE.\n"
+"\n"
+"Kdenlive è un'interfaccia per il software di rendering\n"
+"video Piave. Puoi scaricare quest'ultimo dal seguente\n"
+"indirizzo: http://modesto.sourceforge.net/piave"
 
 #: main.cpp:34
 msgid "file to open"
@@ -116,39 +123,39 @@ msgstr "file da aprire"
 
 #: main.cpp:43
 msgid "Kdenlive"
-msgstr ""
+msgstr "Kdenlive"
 
 #: main.cpp:54
 msgid "Kdenlive author and Maintainer"
-msgstr ""
+msgstr "Autore di Kdenlive e responsabile"
 
 #: main.cpp:60
 msgid "Piave renderer author and maintainer"
-msgstr ""
+msgstr "Autore del software di rendering Piave e responsabile"
 
 #: main.cpp:66
 msgid "Piave and Kdenlive internationalization, French translations, splashscreen"
-msgstr ""
+msgstr "Internazionalizzazione di Piave e Kdenlive, traduzione in francese e splashscreen"
 
 #: kaddclipcommand.cpp:74 kaddrefclipcommand.cpp:50
 msgid "Add Clip"
-msgstr ""
+msgstr "Aggiungi clip"
 
 #: kaddclipcommand.cpp:76 kdenlive.cpp:879 kaddrefclipcommand.cpp:52
 msgid "Delete Clip"
-msgstr ""
+msgstr "Elimina clip"
 
 #: kresizecommand.cpp:50
 msgid "Resize clip"
-msgstr ""
+msgstr "Ridimensiona clip"
 
 #: avformatwidgetcodeclist.cpp:37
 msgid "Codec:"
-msgstr ""
+msgstr "Codec:"
 
 #: avformatwidgetcodeclist.cpp:41
 msgid "Select the codec for your output file"
-msgstr ""
+msgstr "Seleziona il codec per il tuo file finale"
 
 #: kdenlivedoc.cpp:54
 msgid "Document"
@@ -156,131 +163,131 @@ msgstr "Documento"
 
 #: kdenlivedoc.cpp:100 loadprojectnativefilter.cpp:101
 msgid "Clips"
-msgstr ""
+msgstr "Clip"
 
 #: kdenlivedoc.cpp:348 kdenlive.cpp:146
 msgid "Clean Project"
-msgstr ""
+msgstr "Pulisci il progetto"
 
 #: kdenlive.cpp:134
 msgid "Move/Resize Tool"
-msgstr ""
+msgstr "Strumento per spostare/ridimensionare"
 
 #: kdenlive.cpp:135
 msgid "Razor Tool"
-msgstr ""
+msgstr "Strumento di taglio"
 
 #: kdenlive.cpp:136
 msgid "Spacing Tool"
-msgstr ""
+msgstr "Strumento spaziatura"
 
 #: kdenlive.cpp:137
 msgid "Marker Tool"
-msgstr ""
+msgstr "Strumento marcatore"
 
 #: kdenlive.cpp:140
 msgid "Snap To Frames"
-msgstr ""
+msgstr "Allinea al frame"
 
 #: kdenlive.cpp:141
 msgid "Snap To Border"
-msgstr ""
+msgstr "Allinea al bordo"
 
 #: kdenlive.cpp:142
 msgid "Snap To Marker"
-msgstr ""
+msgstr "Allinea al marcatore"
 
 #: kdenlive.cpp:147
 msgid "Clip properties"
-msgstr ""
+msgstr "Proprietà della clip"
 
 #: kdenlive.cpp:149
 msgid "&Export Timeline"
-msgstr ""
+msgstr "&Esporta la Timeline"
 
 #: kdenlive.cpp:150
 msgid "&Configure Project"
-msgstr ""
+msgstr "&Configura il progetto"
 
 #: kdenlive.cpp:152
 msgid "Seek &Forwards"
-msgstr ""
+msgstr "Cerca &avanti"
 
 #: kdenlive.cpp:153
 msgid "Seek Backwards"
-msgstr ""
+msgstr "Cerca indietro"
 
 #: kdenlive.cpp:154
 msgid "Start/Stop"
-msgstr ""
+msgstr "Avvia/Ferma"
 
 #: kdenlive.cpp:155
 msgid "Play Selection"
-msgstr ""
+msgstr "Riproduci la selezione"
 
 #: kdenlive.cpp:156
 msgid "Forward one frame"
-msgstr ""
+msgstr "Avanti di un frame"
 
 #: kdenlive.cpp:157
 msgid "Back one frame"
-msgstr ""
+msgstr "Indietro di un frame"
 
 #: kdenlive.cpp:158
 msgid "Set inpoint"
-msgstr ""
+msgstr "Imposta l'entrata"
 
 #: kdenlive.cpp:159
 msgid "Set outpoint"
-msgstr ""
+msgstr "Imposta l'uscita"
 
 #: kdenlive.cpp:160
 msgid "Delete Selected Clips"
-msgstr ""
+msgstr "Elimina le clip selezionate"
 
 #: kdenlive.cpp:162
 msgid "Toggle Snap Marker"
-msgstr ""
+msgstr "Abilita i marcatori"
 
 #: kdenlive.cpp:163
 msgid "Clear All Snap Markers"
-msgstr ""
+msgstr "Pulisci tutti i marcatori"
 
 #: kdenlive.cpp:164
 msgid "Clear Snap Markers From Selected"
-msgstr ""
+msgstr "Pulisci i marcatori dalla selezione"
 
 #: kdenlive.cpp:166
 msgid "Load Layout &1"
-msgstr ""
+msgstr "Carica la visualizzazione &1"
 
 #: kdenlive.cpp:167
 msgid "Load Layout &2"
-msgstr ""
+msgstr "Carica la visualizzazione &2"
 
 #: kdenlive.cpp:168
 msgid "Load Layout &3"
-msgstr ""
+msgstr "Carica la visualizzazione &3"
 
 #: kdenlive.cpp:169
 msgid "Load Layout &4"
-msgstr ""
+msgstr "Carica la visualizzazione &4"
 
 #: kdenlive.cpp:170
 msgid "Save Layout &1"
-msgstr ""
+msgstr "Salva la visualizzazione &1"
 
 #: kdenlive.cpp:171
 msgid "Save Layout &2"
-msgstr ""
+msgstr "Salva la visualizzazione &2"
 
 #: kdenlive.cpp:172
 msgid "Save Layout &3"
-msgstr ""
+msgstr "Salva la visualizzazione &3"
 
 #: kdenlive.cpp:173
 msgid "Save Layout &4"
-msgstr ""
+msgstr "Salva la visualizzazione &4"
 
 #: kdenlive.cpp:180
 msgid "Creates a new document"
@@ -328,33 +335,35 @@ msgstr "Abilita/disabilita la barra di stato"
 
 #: kdenlive.cpp:193
 msgid "Moves and resizes the document"
-msgstr ""
+msgstr "Sposta e ridimensiona il documento"
 
 #: kdenlive.cpp:194
 msgid "Chops clips into two pieces"
-msgstr ""
+msgstr "Dividi le clip in due pezzi"
 
 #: kdenlive.cpp:195
 msgid "Shifts all clips to the right of mouse"
-msgstr ""
+msgstr "Sposta tutte le clip a destra del mouse"
 
 #: kdenlive.cpp:196
 msgid ""
 "Place snap marks on clips and the timeline to aid accurate positioning of "
 "clips"
 msgstr ""
+"Posiziona i marcatori sulle clip e la Timeline per procedere ad un'accurato posizionamento "
+"delle clip"
 
 #: kdenlive.cpp:197
 msgid "Clips will align to the nearest frame"
-msgstr ""
+msgstr "Le clip si allineeranno al frame più prossimo"
 
 #: kdenlive.cpp:198
 msgid "Clips will align with the borders of other clips"
-msgstr ""
+msgstr "Le clip si allineeranno ai bordi di altre clip"
 
 #: kdenlive.cpp:199
 msgid "Clips will align with user-defined snap markers"
-msgstr ""
+msgstr "Le clip si allineeranno ai marcatori definiti dall'utente"
 
 #: kdenlive.cpp:200
 msgid "Add clips to the project"
@@ -374,11 +383,11 @@ msgstr "Visualizza le proprietà della clip selezionata"
 
 #: kdenlive.cpp:204
 msgid "Seek forward one frame"
-msgstr ""
+msgstr "Cerca avanti di un frame"
 
 #: kdenlive.cpp:205
 msgid "Seek backwards one frame"
-msgstr ""
+msgstr "Cerca indietro di un frame"
 
 #: kdenlive.cpp:206
 msgid "Start or stop playback"
@@ -410,7 +419,7 @@ msgstr "Elimina le clip attualmente selezionate"
 
 #: kdenlive.cpp:214 kdenlive.cpp:215 kdenlive.cpp:216
 msgid "Toggle a snap marker at the current monitor position"
-msgstr ""
+msgstr "Abilita un marcatore nella posizione attuale del monitor"
 
 #: kdenlive.cpp:218
 msgid "Render the timeline to a file"
@@ -449,7 +458,7 @@ msgstr "Timeline"
 
 #: kdenlive.cpp:270
 msgid "project list"
-msgstr "lista progetto"
+msgstr "Lista progetto"
 
 #: kdenlive.cpp:272
 msgid "This window show your video files usable in your project"
@@ -461,6 +470,9 @@ msgid ""
 "remove some files with the contextual menu. For add some sequences on your "
 "video project, use the drag and drop."
 msgstr ""
+"Questa finestra ti mostra il video utilizzato nel tuo progetto. Puoi aggiungere o "
+"rimuovere alcuni file con il menu contestuale. Per aggiungere alcune sequenze "
+"al tuo progetto video, trascinale direttamente."
 
 #: kdenlive.cpp:280
 msgid "Debug"
@@ -564,7 +576,7 @@ msgstr "Strumento per spostare/ridimensionare"
 
 #: kdenlive.cpp:769
 msgid "Razor tool"
-msgstr ""
+msgstr "Strumento di taglio"
 
 #: kdenlive.cpp:775
 msgid "Separate tool"
@@ -580,7 +592,7 @@ msgstr "Esportazione della Timeline..."
 
 #: kdenlive.cpp:797
 msgid "The renderer is not available. Please check your settings."
-msgstr "Programma di rendering non disponibile. Per piacere, controlla le tue impostazioni."
+msgstr "Il programma di rendering non è disponibile. Per piacere, controlla le tue impostazioni."
 
 #: kdenlive.cpp:797
 msgid "Cannot Export Timeline"
@@ -615,6 +627,8 @@ msgid ""
 "Clean Project removes files from the project that are unused.\t              "
 "Are you sure you want to do this?"
 msgstr ""
+"Pulizia progetto rimuove i file dal progetto che non sono utilizzati.\t               "
+"Sei sicuro di volerlo fare?"
 
 #: kdenlive.cpp:925
 msgid "Viewing clip properties"
@@ -622,11 +636,11 @@ msgstr "Visualizzazione delle proprietà delle clip"
 
 #: kdenlive.cpp:936
 msgid "Seeking Forwards one frame"
-msgstr ""
+msgstr "Cerca avanti di un frame"
 
 #: kdenlive.cpp:942
 msgid "Seeking Backwards One Frame"
-msgstr ""
+msgstr "Cerca indietro di un frame"
 
 #: kdenlive.cpp:948
 msgid "Starting/stopping playback"
@@ -658,19 +672,19 @@ msgstr "Eliminazione delle clip selezionate"
 
 #: kdenlive.cpp:1163
 msgid "Toggling snap marker"
-msgstr ""
+msgstr "Abilita marcatori"
 
 #: kdenlive.cpp:1172 kdenlive.cpp:1188
 msgid "Clearing snap markers"
-msgstr ""
+msgstr "Pulizia dei marcatori"
 
 #: kdenlive.cpp:1174
 msgid "Clear all snap markers"
-msgstr ""
+msgstr "Pulizia di tutti i marcatori"
 
 #: kdenlive.cpp:1190
 msgid "Clear selected snap markers"
-msgstr ""
+msgstr "Pulizia dei marcatori selezionati"
 
 #: configureprojectdialog.cpp:35
 msgid "Configure Project"
@@ -678,11 +692,11 @@ msgstr "Configura progetto"
 
 #: configureprojectdialog.cpp:48
 msgid "Add Preset"
-msgstr ""
+msgstr "Aggiungi preimpostazione"
 
 #: configureprojectdialog.cpp:49
 msgid "Delete Preset"
-msgstr ""
+msgstr "Elimina preimpostazione"
 
 #: configureprojectdialog.cpp:53
 msgid "Project Configuration"
@@ -734,7 +748,7 @@ msgstr "&Progetto"
 
 #: rc.cpp:4
 msgid "&Timeline"
-msgstr ""
+msgstr "&Timeline"
 
 #: rc.cpp:5
 msgid "&Render"
@@ -746,11 +760,11 @@ msgstr "&Aspetto"
 
 #: rc.cpp:7
 msgid "Timeline Toolbar"
-msgstr ""
+msgstr "Barra degli strumenti della Timeline"
 
 #: rc.cpp:8
 msgid "Layout Toolbar"
-msgstr ""
+msgstr "Barra degli strumenti di visualizzazione"
 
 #: rc.cpp:9
 msgid "Add Tracks..."
@@ -894,6 +908,9 @@ msgid ""
 "renderer with. Change this value if something else is already using the "
 "default port."
 msgstr ""
+"Il valore della porta indica la porta attraverso la quale Kdenlive si collegherà "
+"con il software di rendering. Cambia questo valore se la porta predefinita è già "
+"utilizzata."
 
 #: rc.cpp:51
 msgid "Program Path"
@@ -910,6 +927,10 @@ msgid ""
 "to have a valid renderer specified if you want to do anything useful with "
 "kdenlive."
 msgstr ""
+"Specifica il percorso al software di rendering. Quest'ultimo gestisce la visualizzazione "
+"e la manipolazione dei dati gestiti sulla Timeline. E' assolutamente importante "
+"avere un valido software di rendering indicato se si vuole fare qualcosa di utile "
+"con kdenlive."
 
 #: rc.cpp:54
 msgid "Port"
@@ -945,11 +966,11 @@ msgstr "Gestione delle clip"
 
 #: kaddmarkercommand.cpp:51
 msgid "Add Snap Marker"
-msgstr ""
+msgstr "Aggiungi marcatore"
 
 #: kaddmarkercommand.cpp:53
 msgid "Delete Snap Marker"
-msgstr ""
+msgstr "Elimina marcatore"
 
 #: documentbasenode.cpp:94
 msgid "Clean project"
