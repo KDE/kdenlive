@@ -23,6 +23,7 @@
 #include "gentime.h"
 
 class KRender;
+class KdenliveApp;
 
 /**KMMScreen acts as a wrapper for the window provided by the cutter.
 	It requests a video window from the cutter, and embeds it within
@@ -33,10 +34,11 @@ class KRender;
 class KMMScreen : public QXEmbed  {
    Q_OBJECT
 public: 
-	KMMScreen(QWidget *parent=0, const char *name=0);
+	KMMScreen(KdenliveApp *app, QWidget *parent=0, const char *name=0);
 	~KMMScreen();  	
 private: // Private attributes
 	KRender *m_render;
+  KdenliveApp *m_app;
 private slots: // Private slots
   /** The renderer is ready, so we open
 a video window, etc. here. */

@@ -21,6 +21,9 @@
 #include <qwidget.h>
 #include <kdialogbase.h>
 
+class KdenliveApp;
+class RenderSetupDlg;
+
 /**This class handles the standard "Configure Kdenlive..." dialog box.
   *@author Jason Wood
   */
@@ -28,8 +31,19 @@
 class KdenliveSetupDlg : public KDialogBase  {
    Q_OBJECT
 public: 
-	KdenliveSetupDlg(QWidget *parent=0, const char *name=0);
+	KdenliveSetupDlg(KdenliveApp *app, QWidget *parent=0, const char *name=0);
 	~KdenliveSetupDlg();
+public slots: // Public slots
+  /** Occurs when the apply button is clicked. */
+  void slotApply();
+  /** Called when the "Default" button is pressed. */
+  void slotDefault();
+  /** Called when the cancel button is clicked. */
+  void slotCancel();
+  /** Called when the ok button is clicked. */
+  void slotOk();
+private:
+  RenderSetupDlg *m_renderDlg;
 };
 
 #endif

@@ -48,17 +48,21 @@ KdenliveApp::KdenliveApp(QWidget* , const char* name):KMainWindow(0, name)
 {
   config=kapp->config();
 
-  ///////////////////////////////////////////////////////////////////
+  // renderer options
+  config->setGroup("Renderer Options");
+  setRenderAppPath(config->readEntry("App Path", "/usr/local/bin/piave"));
+  setRenderAppPort(config->readUnsignedNumEntry("App Port", 6100));
+  m_renderer = new KRender(m_renderAppPath, m_renderAppPort);  
+
   // call inits to invoke all other construction parts
   initStatusBar();
   m_commandHistory = new KCommandHistory(actionCollection(), true);  
   initActions();
   initDocument();
   initView();
-	
+
   readOptions();
 
-  ///////////////////////////////////////////////////////////////////
   // disable actions at startup
   fileSave->setEnabled(false);
   filePrint->setEnabled(false);
@@ -75,7 +79,7 @@ KdenliveApp::KdenliveApp(QWidget* , const char* name):KMainWindow(0, name)
 
 KdenliveApp::~KdenliveApp()
 {
-
+  if(m_renderer) delete m_renderer;
 }
 
 void KdenliveApp::initActions()
@@ -159,7 +163,7 @@ void KdenliveApp::initStatusBar()
 
 void KdenliveApp::initDocument()
 {
-  doc = new KdenliveDoc(this);
+  doc = new KdenliveDoc(this, this);
   connect(doc, SIGNAL(modified(bool)), this, SLOT(documentModified(bool)));
   doc->newDocument();
 }
@@ -199,12 +203,15 @@ void KdenliveApp::saveOptions()
   config->writeEntry("Show Statusbar",viewStatusBar->isChecked());
   config->writeEntry("ToolBarPos", (int) toolBar("mainToolBar")->barPos());
   fileOpenRecent->saveEntries(config,"Recent Files");
+  config->setGroup("Renderer Options");
+  config->writeEntry("App Path" , renderAppPath().path());
+  config->writeEntry("App Port" , renderAppPort());    
 }
 
 
 void KdenliveApp::readOptions()
 {
-	
+
   config->setGroup("General Options");
 
   // bar status settings
@@ -229,7 +236,7 @@ void KdenliveApp::readOptions()
   if(!size.isEmpty())
   {
     resize(size);
-  }
+  } 
 }
 
 void KdenliveApp::saveProperties(KConfig *_cfg)
@@ -575,7 +582,7 @@ void KdenliveApp::slotOptionsPreferences()
 {
   slotStatusMsg(i18n("Editing Preferences"));
 
-  KdenliveSetupDlg dialog(this, "setupdlg");
+  KdenliveSetupDlg dialog(this, this, "setupdlg");
   dialog.exec();
   
   slotStatusMsg(i18n("Ready."));    
@@ -644,4 +651,29 @@ void KdenliveApp::slotProjectClean()
 	}
   
   slotStatusMsg(i18n("Ready."));
+}
+
+/** Read property of KURL m_renderAppPath. */
+const KURL& KdenliveApp::renderAppPath(){
+	return m_renderAppPath;
+}
+
+/** Write property of KURL m_renderAppPath. */
+void KdenliveApp::setRenderAppPath( const KURL& _newVal){
+	m_renderAppPath = _newVal;
+}
+
+/** Read property of unsigned int m_renderAppPort. */
+const unsigned int& KdenliveApp::renderAppPort(){
+	return m_renderAppPort;
+}
+/** Write property of unsigned int m_renderAppPort. */
+void KdenliveApp::setRenderAppPort( const unsigned int& _newVal){
+	m_renderAppPort = _newVal;
+}
+
+/** Returns the application-wide renderer */
+KRender * KdenliveApp::renderer()
+{
+  return m_renderer;
 }

@@ -19,13 +19,11 @@
 
 #include <kdebug.h>
 
-unsigned int KRender::NextPort = 6100;
-
-KRender::KRender(QObject *parent, const char *name ) :
+KRender::KRender(KURL appPath, unsigned int port, QObject *parent, const char *name ) :
 																				QObject(parent, name),
 																				QXmlDefaultHandler()
 {
-	startTimer(50);
+	startTimer(200);
 	m_xmlInputSource = 0;
 	m_parsing = false;
 
@@ -38,12 +36,11 @@ KRender::KRender(QObject *parent, const char *name ) :
 	connect(&m_socket, SIGNAL(connected()), this, SLOT(connected()));
 	connect(&m_socket, SIGNAL(readyRead()), this, SLOT(readData()));
 
-//	connect(&m_process, SIGNAL(processExited(KProcess *)), this, SLOT(processExited()));
+	connect(&m_process, SIGNAL(processExited(KProcess *)), this, SLOT(processExited()));
 
-	m_portNum = NextPort;
-	NextPort++;
-	m_socket.connectToHost("127.0.0.1", m_portNum);
-//	launchProcess();
+	m_portNum = port;
+  m_appPath = appPath;
+  launchProcess();
 }
 
 KRender::~KRender()
@@ -56,6 +53,13 @@ KRender::~KRender()
 /** Recieves timer events */
 void KRender::timerEvent(QTimerEvent *event)
 {
+  if(m_socket.state() == QSocket::Idle) {
+    if(!m_process.isRunning()) {
+    	launchProcess();
+    } else {
+     	m_socket.connectToHost("127.0.0.1", m_portNum);
+    }
+  }
 }
 
 /** Catches errors from the socket. */
@@ -133,20 +137,18 @@ void KRender::processExited()
 /** Launches a renderer process. */
 void KRender::launchProcess()
 {
-/*	m_portNum = NextPort;
-	NextPort++;
-
 	m_process.clearArguments();
-	m_process << "/home/uchian/piave/piave/piave" << "-s";
+	m_process.setExecutable(m_appPath.path());
+  m_process << "-p" << m_portNum;
 
-	kdDebug() << "Launching process as server on port " << m_portNum << endl;
+	kdDebug() << "Launching process " << m_appPath.path() << " as server on port " << m_portNum << endl;
 	if(m_process.start()) {
 		kdDebug() << "Process launching successfully" << endl;
 		kdDebug() << "Connecting to server on port " << m_portNum << endl;
-		m_socket.connectToHost("127.0.0.1", m_portNum);		
+		m_socket.connectToHost("127.0.0.1", m_portNum);
 	} else {
 		kdError() << "Could not start process" << endl;	
-	}*/
+	}
 }
 
 /** Wraps the VEML command of the same name; requests that the renderer

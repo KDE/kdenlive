@@ -40,10 +40,9 @@
 #include "clipdrag.h"
 
 QPtrList<KdenliveView> *KdenliveDoc::pViewList = 0L;
-KRender KdenliveDoc::temporaryRenderer;
 
-KdenliveDoc::KdenliveDoc(QWidget *parent, const char *name) : QObject(parent, name)
-{	
+KdenliveDoc::KdenliveDoc(KdenliveApp *app, QWidget *parent, const char *name) : QObject(parent, name)
+{
   if(!pViewList)
   {
     pViewList = new QPtrList<KdenliveView>();
@@ -56,8 +55,9 @@ KdenliveDoc::KdenliveDoc(QWidget *parent, const char *name) : QObject(parent, na
 	
   pViewList->setAutoDelete(true);
 
-//  m_render = new KRender();
-	m_render = &temporaryRenderer;
+  m_app = app;
+	m_render = m_app->renderer();
+  
   connect(m_render, SIGNAL(replyGetFileProperties(QMap<QString, QString>)),
   					 this, SLOT(AVFilePropertiesArrived(QMap<QString, QString>)));
 

@@ -41,7 +41,7 @@ relevant signal that get's emitted once the call completes.
 class KRender : public QObject, public QXmlDefaultHandler  {
    Q_OBJECT
 public: 
-	KRender(QObject *parent=0, const char *name=0);
+	KRender(KURL appPath, unsigned int port, QObject *parent=0, const char *name=0);
 	~KRender();
   /** Wraps the VEML command of the same name; requests that the renderer
 should create a video window. If show is true, then the window should be
@@ -94,15 +94,15 @@ private: // Private attributes
   /** The socket that will connect to the server */
   QSocket m_socket;
   /** If we have started our own renderer, this is it's process */
-//	KProcess m_process;
-  /** Contains the port number that should be used for the next renderer */  
-  static unsigned int NextPort;
+	KProcess m_process;
   /** The port number used to connect to the renderer */
   unsigned int m_portNum;
   /** The XML reader */
   QXmlSimpleReader m_xmlReader;
   /** The input source for the xml reader - set to be the incoming tcp socket */
   QXmlInputSource *m_xmlInputSource;
+  /** The path to the rendering application. */
+  KURL m_appPath;
 	/** A function pointer to the relevant method that should parse tagOpen events */
 	bool (KRender::*m_funcStartElement)(const QString & namespaceURI, const QString & localName,
 																	const QString & qName, const QXmlAttributes & atts );

@@ -24,6 +24,7 @@
 #include "kmmeditpanel.h"
 #include "gentime.h"
 
+class KdenliveApp;
 class KdenliveDoc;
 
 /**KMMMonitor provides a multimedia bar and the
@@ -37,7 +38,7 @@ external files.
 class KMMMonitor : public QVBox  {
    Q_OBJECT
 public: 
-	KMMMonitor(KdenliveDoc *document, QWidget *parent=0, const char *name=0);
+	KMMMonitor(KdenliveApp *app, KdenliveDoc *document, QWidget *parent=0, const char *name=0);
 	~KMMMonitor();
 private:
 	KMMScreen m_screen;

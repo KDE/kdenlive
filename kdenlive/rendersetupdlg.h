@@ -21,6 +21,8 @@
 #include <qwidget.h>
 #include <rendersetupdlg_ui.h>
 
+class KdenliveApp;
+
 /**Contains the Setup dialog for the renderer.
   *@author Jason Wood
   */
@@ -28,8 +30,14 @@
 class RenderSetupDlg : public RenderSetupDlg_UI  {
    Q_OBJECT
 public: 
-  RenderSetupDlg(QWidget *parent=0, const char *name=0);
+  RenderSetupDlg(KdenliveApp *app, QWidget *parent=0, const char *name=0);
   ~RenderSetupDlg();
+  /** Read the settings from the application */
+  void readSettings();
+  /** Write the current settings back to the application */
+  void writeSettings();
+private:
+  KdenliveApp *m_app;
 };
 
 #endif

@@ -796,5 +796,5 @@ void KMMTimeLine::slotSliderMoved(int slider, int value)
 /** Seek the timeline to the current position. */
 void KMMTimeLine::seek(GenTime time)
 {
-    m_ruler->setSliderValue(0, time.frames((int)round(m_document->framesPerSecond())));
+    m_ruler->setSliderValue(0, (int)time.frames(round(m_document->framesPerSecond())));
 }

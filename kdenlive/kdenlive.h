@@ -40,6 +40,7 @@ class KdenliveView;
 class KCommandHistory;
 class KCommand;
 class KProgress;
+class KRender;
 
 /**
   * The base class for Kdenlive application windows. It sets up the main
@@ -85,6 +86,16 @@ class KdenliveApp : public KMainWindow
 	    
   /** Returns the editing mode that the timeline should operate with */
   TimelineEditMode timelineEditMode();
+  /** Write property of KURL m_renderAppPath. */
+  void setRenderAppPath( const KURL& _newVal);
+  /** Read property of KURL m_renderAppPath. */
+  const KURL& renderAppPath();
+  /** Write property of unsigned int m_renderAppPort. */
+  void setRenderAppPort( const unsigned int& _newVal);
+  /** Read property of unsigned int m_renderAppPort. */
+  const unsigned int& renderAppPort();
+  /** Returns the application-wide renderer */
+  KRender * renderer();
 
   protected:
     /** save general Options like all bar positions and status as well as the geometry and the recent file list to the configuration
@@ -246,6 +257,12 @@ class KdenliveApp : public KMainWindow
 		
 		/** Holds the undo/redo command history */
 		KCommandHistory *m_commandHistory;
+  /**  */
+  KURL m_renderAppPath;
+  /** The port that the created render app will listen on. */
+  unsigned int m_renderAppPort;
+  /** Application-wide renderer. */
+  KRender *m_renderer;
 };
  
 #endif // KDENLIVE_H

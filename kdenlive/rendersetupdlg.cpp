@@ -16,8 +16,34 @@
  ***************************************************************************/
 
 #include "rendersetupdlg.h"
+#include "kdenlive.h"
+#include "kurlrequester.h"
+#include "knuminput.h"
 
-RenderSetupDlg::RenderSetupDlg(QWidget *parent, const char *name ) : RenderSetupDlg_UI(parent,name) {
+#include <kdebug.h>
+
+RenderSetupDlg::RenderSetupDlg(KdenliveApp *app, QWidget *parent, const char *name ) : RenderSetupDlg_UI(parent,name)
+{
+  m_app = app;
+
+  readSettings();
 }
-RenderSetupDlg::~RenderSetupDlg(){
+
+RenderSetupDlg::~RenderSetupDlg()
+{
+}
+
+/** Write the current settings back to the application */
+void RenderSetupDlg::writeSettings()
+{
+  kdDebug() << "Writing url " << m_appPathBrowser->url() << endl;
+  m_app->setRenderAppPath(KURL(m_appPathBrowser->url()));
+  m_app->setRenderAppPort(m_appPortNum->value());
+}
+
+/** Read the settings from the application */
+void RenderSetupDlg::readSettings()
+{
+  m_appPathBrowser->setURL(m_app->renderAppPath().path());
+  m_appPortNum->setValue(m_app->renderAppPort());      
 }

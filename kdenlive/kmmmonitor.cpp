@@ -17,9 +17,9 @@
 
 #include "kmmmonitor.h"
 
-KMMMonitor::KMMMonitor(KdenliveDoc *document, QWidget *parent, const char *name ) :
+KMMMonitor::KMMMonitor(KdenliveApp *app, KdenliveDoc *document, QWidget *parent, const char *name ) :
 										QVBox(parent,name),
-										m_screen(this, name),
+										m_screen(app, this, name),
 										m_editPanel(document, this, name)
 {
 	connect(&m_editPanel, SIGNAL(seekPositionChanged(GenTime)), &m_screen, SLOT(seek(GenTime)));

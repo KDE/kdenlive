@@ -35,6 +35,7 @@
 #include "rangelist.h"
 
 // forward declaration of the Kdenlive classes
+class KdenliveApp;
 class KdenliveView;
 
 /**	KdenliveDoc provides a document object for a document-view model.
@@ -55,7 +56,7 @@ class KdenliveDoc : public QObject
   Q_OBJECT
   public:
     /** Constructor for the fileclass of the application */
-    KdenliveDoc(QWidget *parent, const char *name=0);
+    KdenliveDoc(KdenliveApp *app, QWidget *parent, const char *name=0);
     /** Destructor for the fileclass of the application */
     ~KdenliveDoc();
 
@@ -172,6 +173,8 @@ is not possible. */
   RangeList<GenTime> m_invalidSceneTimes;;
   /** This is the scenelist that get's passed from the KdenliveDoc to the renderer. */
   QDomDocument m_domSceneList;
+  /** Application pointer. */
+  KdenliveApp * m_app;
 	private: // Private methods
   	/** Adds a track to the project */
   	void addTrack(DocTrackBase *track);
