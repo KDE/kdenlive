@@ -183,10 +183,10 @@ revision history. (see installation appendix comment) -->
 >Qu'elle est la différence entre une application de montage vidéo « linéaire » et une application de montage vidéo « non linéaire » ?</title>
 
 <para
->  </para>
+> Dans le passé, le montage vidéo sur l'ordinateur était possible à l'aide d'un éditeur vidéo dit « linéaire », en utilisant essentiellement deux magnétoscopes. Le premier contenait les séquences vidéo cibles, et le second était employé pour rechercher les plans vidéo à monter dans les séquences vidéo cibles. L'opération consistait à trouver un plan vidéo, à l'enregistrer dans la séquence vidéo cible, à trouver le plan vidéo suivant, à l'enregistrer dans une autre séquence vidéo cible, etc. Cette méthode s'appelle « l'édition vidéo linéaire » car l'utilisation de bande vidéo nécessitait une édition des séquences vidéo de manières séquentielles. Par exemple, il est très difficile de libérer de l'espace vide pour ajouter un nouveau plan vidéo à une séquence vidéo d'une durée globale de 10 minutes, après les cinq premières minutes de celle ci. </para>
 
 <para
->  </para>
+> Le montage vidéo « non linéaire » est un procédé plus flexible. Vous pouvez placer des nouveaux plans vidéo n'importe où dans votre séquence vidéo cible (dans Kdenlive, ceci est représenté par l'intermédiaire de la table de montage), et les déplacer n'importe où autant de fois que vous voulez. Vous pouvez aussi les réarranger dans un ordre complètement différent et avec un ordinateur suffisamment puissant, observer le résultat final. </para>
 </sect1>
 </chapter>
 
@@ -222,14 +222,14 @@ your application. -->
 <para
 > La liste du projet affiche tous les plans vidéo qui sont disponibles dans le projet. </para>
 <para
->  </para>
+> Vous pouvez voir le nombre de fois qu'un plan vidéo est utilisé dans une séquence vidéo. Ceci inclu tous les usages du plan vidéo, dont la prévisualisation de celui ci. </para>
 <sect2 id="kapp-projectlist-addingclips">
 <title
 >Ajouter un plan vidéo au projet</title>
 <para
 > Si vous utilisez le glisser / déposer sur la table de montage vidéo avec un plan vidéo qui n'est pas dans votre projet (par exemple en utilisant un fichier au format « DV » à partir de Konqueror), alors celui ci sera automatiquement ajouté au projet. </para>
 <para
->  </para>
+> Vous pouvez ajouter vous même un plan vidéo dans la liste du projet. On utilise pour cela le menu contextuel de la liste du projet avec le bouton droit de la souris, ou le menu « Projet » dans la barre de menu de l'application. Sélectionnez l'option « Ajouter des plans vidéo » pour ouvrir une boîte de dialogue de sélection de fichiers. Si les fichiers vidéo choisis sont valides, il apparaîtront dans la liste du projet. </para>
 </sect2>
 <sect2 id="kapp-projectlist-deletingclips">
 <title
@@ -247,7 +247,7 @@ your application. -->
 <title
 >Purger le projet - Suppression des plans vidéo non utilisés</title>
 <para
->  </para>
+> Utiliser l'option « Purger le projet » pour supprimer de la liste du projet tous les plans vidéo non utilisés. Cette option est intéressante lorsque la liste du projet contient un très grand nombre de plans vidéo. La purge du projet n'affecte pas le montage vidéo final. Seul les plans vidéo qui ne sont pas utilisés dans le montage vidéo seront supprimés de la liste du projet. </para>
 </sect2>
 </sect1>
 
@@ -454,7 +454,7 @@ application work. -->
 </question>
 <answer>
 <para
->  </para>
+> Ce message est du à une non reconnaissance du format vidéo par le programme « piave ». Comme &kapp; est une application encore récente, certain dysfonctionnements ne sont pas encore correctement gérés. La meilleure solution à ce problème et de quitter &kapp; (en enregistrant votre travail préalablement), et d'ouvrir une console en saisissant la ligne de commande suivante : « killall -9 piave ». Attendez quelques secondes, et relancez Kdenlive. </para>
 </answer>
 </qandaentry>
 </qandaset>
