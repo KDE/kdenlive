@@ -1395,7 +1395,9 @@ taken from that reference and shortened a bit for readability. -->
 <para
 > Cette opération arrêtera toutes les instances du programme &piave;. De cette manière, &kdenlive; doit pouvoir s'exécuter correctement. </para>
 <para
->  </para>
+> Si la ligne de commande précédente vous renvoie un message du genre <quote
+>piave : no process killed</quote
+>, il est fort probable que des ports de communication associés au programme &piave; n'ont pas été libéré lors d'une précédente instance du programme. Attendez une minute avant de relancer une nouvelle session de &kdenlive; (les ports TCP devrai être normalement libérés après cette durée). </para>
 </chapter>
 
 <chapter id="faq">
