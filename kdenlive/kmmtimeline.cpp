@@ -16,6 +16,9 @@
  ***************************************************************************/
 
 #include <klocale.h>
+#include <qscrollbar.h>
+#include <qscrollview.h>
+#include <qhbox.h>
 
 #include <kdebug.h>
 
@@ -23,48 +26,53 @@
 #include "kmmtimeline.h"
 #include "kmmtracksoundpanel.h"
 #include "kmmtrackvideopanel.h"
+#include "kmmtimelinetrackview.h"
 #include "krulertimemodel.h"
+#include "kscalableruler.h"
 #include "clipdrag.h"
 
-
-KMMTimeLine::KMMTimeLine(KdenliveDoc *document, QWidget *parent, const char *name ) : QVBox(parent, name),
-				m_rulerBox(this, "ruler box"),
-				m_trackScroll(this, "track view", WPaintClever),
-				m_scrollBox(this, "scroll box"),
-				m_trackLabel(i18n("tracks"), &m_rulerBox),
-				m_ruler(new KRulerTimeModel(), &m_rulerBox, name),
-				m_addTrackButton(i18n("Add Track"), &m_scrollBox),
-				m_deleteTrackButton(i18n("Delete Track"), &m_scrollBox),
-				m_scrollBar(-100, 5000, 50, 500, 0, QScrollBar::Horizontal, &m_scrollBox, "horizontal ScrollBar"),
-				m_document(document),
-				m_trackViewArea(*this, &m_trackScroll, "track view area")
+KMMTimeLine::KMMTimeLine(QWidget *rulerToolWidget, QWidget *scrollToolWidget, KdenliveDoc *document, QWidget *parent, const char *name ) :
+				QVBox(parent, name),
+				m_document(document)				
 {
-	m_trackScroll.enableClipper(TRUE);
-	m_trackScroll.setVScrollBarMode(QScrollView::AlwaysOn);
-	m_trackScroll.setHScrollBarMode(QScrollView::AlwaysOff);
+	m_rulerBox = new QHBox(this, "ruler box");	
+	m_trackScroll = new QScrollView(this, "track view", WPaintClever);
+	m_scrollBox = new QHBox(this, "scroll box");
 
-	m_trackLabel.setMinimumWidth(200);
-	m_trackLabel.setMaximumWidth(200);
-	m_trackLabel.setAlignment(AlignCenter);
-		
-	m_addTrackButton.setMinimumWidth(100);	
-	m_addTrackButton.setMaximumWidth(100);
+	m_rulerToolWidget = rulerToolWidget;
+	if(!m_rulerToolWidget) m_rulerToolWidget = new QLabel("Tracks", 0, "Tracks");	
+	m_rulerToolWidget->reparent(m_rulerBox, QPoint(0,0));
+	m_ruler = new KScalableRuler(new KRulerTimeModel(), m_rulerBox, name);
+
+	m_scrollToolWidget = scrollToolWidget;
+	if(!m_scrollToolWidget) m_scrollToolWidget = new QLabel("Scroll", 0, "Scroll");	
+	m_scrollToolWidget->reparent(m_scrollBox, QPoint(0,0));	
+	m_scrollBar = new QScrollBar(-100, 5000, 50, 500, 0, QScrollBar::Horizontal, m_scrollBox, "horizontal ScrollBar");
 	
-	m_deleteTrackButton.setMinimumWidth(100);
-	m_deleteTrackButton.setMaximumWidth(100);
+	m_trackViewArea = new KMMTimeLineTrackView(*this, m_trackScroll, "track view area");
+	
+	m_trackScroll->enableClipper(TRUE);
+	m_trackScroll->setVScrollBarMode(QScrollView::AlwaysOn);
+	m_trackScroll->setHScrollBarMode(QScrollView::AlwaysOff);
 
-	m_ruler.setValueScale(1.0);
-	m_ruler.setRange(0, 3000);
+	m_rulerToolWidget->setMinimumWidth(200);
+	m_rulerToolWidget->setMaximumWidth(200);
+
+	m_scrollToolWidget->setMinimumWidth(200);
+	m_scrollToolWidget->setMaximumWidth(200);
 		
-	connect(&m_scrollBar, SIGNAL(valueChanged(int)), &m_ruler, SLOT(setStartPixel(int)));
-	connect(&m_scrollBar, SIGNAL(valueChanged(int)), &m_ruler, SLOT(repaint()));	
+	m_ruler->setValueScale(1.0);
+	m_ruler->setRange(0, 3000);
+		
+	connect(m_scrollBar, SIGNAL(valueChanged(int)), m_ruler, SLOT(setStartPixel(int)));
+	connect(m_scrollBar, SIGNAL(valueChanged(int)), m_ruler, SLOT(repaint()));	
   connect(m_document, SIGNAL(trackListChanged()), this, SLOT(syncWithDocument()));	
   	
   setAcceptDrops(true);
 
 	syncWithDocument();
 
-		m_startedClipMove = false;	
+	m_startedClipMove = false;	
 }
 
 KMMTimeLine::~KMMTimeLine()
@@ -79,12 +87,12 @@ void KMMTimeLine::appendTrack(KMMTrackPanel *track)
 /** Inserts a track at the position specified by index */
 void KMMTimeLine::insertTrack(int index, KMMTrackPanel *track)
 {
-	track->reparent(m_trackScroll.viewport(), 0, QPoint(0, 0), TRUE);
-	m_trackScroll.addChild(track);
+	track->reparent(m_trackScroll->viewport(), 0, QPoint(0, 0), TRUE);
+	m_trackScroll->addChild(track);
 	
 	m_trackList.insert(index, track);
 
-	connect(&m_scrollBar, SIGNAL(valueChanged(int)), this, SLOT(drawTrackViewBackBuffer()));
+	connect(m_scrollBar, SIGNAL(valueChanged(int)), this, SLOT(drawTrackViewBackBuffer()));
 	connect(&track->docTrack(), SIGNAL(trackChanged()), this, SLOT(drawTrackViewBackBuffer()));
 		
 	resizeTracks();		
@@ -105,7 +113,7 @@ void KMMTimeLine::resizeTracks()
 	while(panel != 0) {
 	  widgetHeight = panel->height();
 			
-		m_trackScroll.moveChild(panel, 0, height);
+		m_trackScroll->moveChild(panel, 0, height);
 		panel->resize(200, widgetHeight);
 		
 		height+=widgetHeight;
@@ -113,15 +121,15 @@ void KMMTimeLine::resizeTracks()
 		panel = m_trackList.next();
 	}
 
-	m_trackScroll.moveChild(&m_trackViewArea, 200, 0);
-	m_trackViewArea.resize(m_trackScroll.visibleWidth()-200 , height);
+	m_trackScroll->moveChild(m_trackViewArea, 200, 0);
+	m_trackViewArea->resize(m_trackScroll->visibleWidth()-200 , height);
 
-  int viewWidth = m_trackScroll.visibleWidth()-200;
+  int viewWidth = m_trackScroll->visibleWidth()-200;
   if(viewWidth<1) viewWidth=1;
 	
 	QPixmap pixmap(viewWidth , height);
 	
-	m_trackScroll.resizeContents(m_trackScroll.visibleWidth(), height);	
+	m_trackScroll->resizeContents(m_trackScroll->visibleWidth(), height);	
 }
 
 /** At least one track within the project have been added or removed.
@@ -169,7 +177,7 @@ void KMMTimeLine::polish()
 
 void KMMTimeLine::dragEnterEvent ( QDragEnterEvent *event )
 {
-	QPoint mouse = m_trackViewArea.mapFrom(this, event->pos());
+	QPoint mouse = m_trackViewArea->mapFrom(this, event->pos());
 
 	if(m_startedClipMove) {
 		event->accept(true);
@@ -201,7 +209,7 @@ void KMMTimeLine::dragEnterEvent ( QDragEnterEvent *event )
 void KMMTimeLine::dragMoveEvent ( QDragMoveEvent *event )
 {
 	kdWarning() << "DragMoveEvent" << endl;
-	QPoint pos = m_trackViewArea.mapFrom(this, event->pos());
+	QPoint pos = m_trackViewArea->mapFrom(this, event->pos());
 	moveSelectedClips(trackUnderPoint(pos), (int)(mapLocalToValue(pos.x()) - m_clipOffset));
 
 /*			if(event->x() < 0) {
@@ -226,14 +234,14 @@ value that should be represented at that position. By using this, there is no ne
 coordinate, and returns the value associated with it. */
 double KMMTimeLine::mapLocalToValue(const double coordinate) const
 {
-	return m_ruler.mapLocalToValue(coordinate);
+	return m_ruler->mapLocalToValue(coordinate);
 }
 
 /** Takes the value that we wish to find the coordinate for, and returns the x coordinate. In cases where a single value covers multiple
 pixels, the left-most pixel is returned. */
 double KMMTimeLine::mapValueToLocal(const double value) const
 {
-	return m_ruler.mapValueToLocal(value);
+	return m_ruler->mapValueToLocal(value);
 }
 
 /** Deselects all clips on the timeline. */
@@ -244,7 +252,7 @@ void KMMTimeLine::selectNone()
 
 void KMMTimeLine::drawTrackViewBackBuffer()
 {
-	m_trackViewArea.drawBackBuffer();
+	m_trackViewArea->drawBackBuffer();
 }
 
 /** Returns m_trackList
@@ -266,14 +274,14 @@ void KMMTimeLine::moveSelectedClips(int track, int start)
 /** Scrolls the track view area left by whatever the step value of the relevant scroll bar is. */
 void KMMTimeLine::scrollViewLeft()
 {
-	m_scrollBar.subtractLine();
+	m_scrollBar->subtractLine();
 }
 
 /** Scrolls the track view area right by whatever the step value in the 
 relevant scrollbar is. */
 void KMMTimeLine::scrollViewRight()
 {
-	m_scrollBar.addLine();
+	m_scrollBar->addLine();
 }
 
 /** Toggle Selects the clip on the given track and at the given value. The clip will become selected if it wasn't already selected, and will be deselected if it is. */

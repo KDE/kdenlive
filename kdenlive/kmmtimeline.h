@@ -18,23 +18,18 @@
 #ifndef KMMTIMELINE_H
 #define KMMTIMELINE_H
 
-#include <qvbox.h>
-#include <qgrid.h>
-#include <qlabel.h>
-#include <qscrollbar.h>
-#include <qscrollview.h>
 #include <qlist.h>
-
-#include <qpushbutton.h>
-
-#include "kscalableruler.h"
+#include <qvbox.h>
 
 #include "kmmtrackpanel.h"
-#include "kmmtimelinetrackview.h"
 #include "clipgroup.h"
 
-class KMMTrackPanel;
+class QHBox;
 class KdenliveDoc;
+class QScrollView;
+class QScrollBar;
+class KMMTimeLineTrackView;
+class KScalableRuler;
 
 /**This is the timeline. It gets populated by tracks, which in turn are populated
 by video and audio clips, or transitional clips, or any other clip imaginable.
@@ -44,25 +39,24 @@ by video and audio clips, or transitional clips, or any other clip imaginable.
 class KMMTimeLine : public QVBox  {
    Q_OBJECT
 public: 
-	KMMTimeLine(KdenliveDoc *document, QWidget *parent=0, const char *name=0);
+	KMMTimeLine(QWidget *rulerToolWidget, QWidget *scrollToolWidget, KdenliveDoc *document, QWidget *parent=0, const char *name=0);
 	~KMMTimeLine();
 private:
 		/** GUI elements */
-		QHBox m_rulerBox;				 	// Horizontal box holding the ruler
-		QScrollView m_trackScroll; 	// Scrollview holding the tracks
-		QHBox m_scrollBox;			 	// Horizontal box holding the horizontal scrollbar.
-		QLabel m_trackLabel;
-		KScalableRuler m_ruler;
-		QPushButton m_addTrackButton;
-		QPushButton m_deleteTrackButton;
-		QScrollBar m_scrollBar;		// this scroll bar's movement is measured in pixels, not frames.
+		QHBox *m_rulerBox;				 	// Horizontal box holding the ruler
+		QScrollView *m_trackScroll; 	// Scrollview holding the tracks
+		QHBox *m_scrollBox;			 	// Horizontal box holding the horizontal scrollbar.
+		QWidget *m_rulerToolWidget;	// This widget is supplied by the constructor, and appears to the left of the ruler.
+		KScalableRuler *m_ruler;
+		QWidget *m_scrollToolWidget; // This widget is supplied by the constructor and appears to the left of the bottom scrollbar.
+		QScrollBar *m_scrollBar;		// this scroll bar's movement is measured in pixels, not frames.
 		/** track varables */
 		QPtrList<KMMTrackPanel> m_trackList;
 		
 	  /** A pointer to the document (project) that this timeline is based upon */
 	  KdenliveDoc * m_document;		
 	  /** The track view area is the area under the ruler where tracks are displayed. */
-	  KMMTimeLineTrackView m_trackViewArea;
+	  KMMTimeLineTrackView *m_trackViewArea;
 	  /** Holds a list of all selected clips, making it easier to perform manipulations on them. */
 	  ClipGroup m_selection;
   /** This variable should be set to true if we have initiated a drag which
