@@ -1,1 +1,5 @@
+echo "Bootstrap is now trying to create a ./configure script suitable for Kdenlive"
+echo "WARNING: running bootstrap is only usefull when checking out Kdenlive from CVS."
+echo ""
+
 make -f admin/Makefile.common
