@@ -47,6 +47,7 @@ TrackPanelClipRollFunction::TrackPanelClipRollFunction(KdenliveApp *app,
 								m_rollCommand(0),
 								m_snapToGrid()
 {
+	
 }
 
 TrackPanelClipRollFunction::~TrackPanelClipRollFunction()
@@ -56,7 +57,7 @@ TrackPanelClipRollFunction::~TrackPanelClipRollFunction()
 bool TrackPanelClipRollFunction::mouseApplies(KTrackPanel *panel, QMouseEvent *event) const
 {
 	bool result = false;
-	//get current timescale and set min crop time
+	//get current timescale and set minimum crop time
 	double minDrag = getMinimumDrag();
 
 	if(panel->hasDocumentTrackIndex()) {

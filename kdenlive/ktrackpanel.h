@@ -19,6 +19,9 @@
 
 #include <qhbox.h>
 
+
+
+
 class KPlacer;
 class KTimeLine;
 

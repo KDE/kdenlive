@@ -59,7 +59,7 @@ bool ProjectFormatManager::openDocument(const KURL& url, KdenliveDoc *document)
 	// if(url.filename().right(9) == ".kdenlive")
 	if(filter) {
 		QString tmpfile;
-		if(KIO::NetAccess::download( url, tmpfile )) {
+		if(KIO::NetAccess::download( url, tmpfile, 0)) {
 			QFile file(tmpfile);
 			if(file.open(IO_ReadOnly)) {
 				filter->load(file, document);
@@ -69,8 +69,8 @@ bool ProjectFormatManager::openDocument(const KURL& url, KdenliveDoc *document)
 			document->setModified(false);
 			return true;
 		}
-	} else {
-		document->clipManager().insertClip(url);
+//	} else {
+//		document->clipManager().insertClip(url);
 	}
 
 	return false;
@@ -89,7 +89,7 @@ bool ProjectFormatManager::saveDocument(const KURL& url, KdenliveDoc *document)
 
 		if( (filter->save(*file.file(), document))) {
 			file.close();
-			if(!KIO::NetAccess::upload(file.name(), url)) {
+			if(!KIO::NetAccess::upload(file.name(), url, 0)) {
 				kdError() << "Could not upload file to correct location" << endl;
 			}
 		} else {

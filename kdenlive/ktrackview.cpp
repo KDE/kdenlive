@@ -30,6 +30,7 @@
 #include "kselectclipcommand.h"
 #include "trackpanelfunction.h"
 
+
 KTrackView::KTrackView( KTimeLine &timeLine, QWidget *parent, const char *name ) :
 		QWidget( parent, name ),
 		m_timeline( timeLine ),
@@ -44,6 +45,8 @@ KTrackView::KTrackView( KTimeLine &timeLine, QWidget *parent, const char *name )
 	m_bufferInvalid = false;
 
 	setAcceptDrops( true );
+	
+	tiptst = new DynamicToolTip( this );
 }
 
 KTrackView::~KTrackView()

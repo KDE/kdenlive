@@ -645,7 +645,11 @@ void KdenliveApp::slotFileOpen()
 							this,
 							i18n( "Open File..." ));
 		if ( !url.isEmpty() ) {
-			m_projectFormatManager.openDocument( url, doc );
+			if (!m_projectFormatManager.openDocument( url, doc ))
+			{
+				 KMessageBox::sorry(this, i18n("Could not read project file: %1").arg(url.prettyURL()));
+				 return;
+			}
 
 			setCaption( url.fileName(), false );
 			fileOpenRecent->addURL( url );

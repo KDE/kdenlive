@@ -24,9 +24,12 @@
 
 #include "trackpanelfunctionfactory.h"
 
+#include "dynamicToolTip.h"
+
 class DocClipBase;
 class KTimeLine;
 class KTrackPanel;
+class KdenliveApp;
 
 /**Timeline track view area.
   *@author Jason Wood
@@ -79,6 +82,11 @@ private:  // Private methods
 	/** Factory containing the various decorating functions that can be applied to different tracks */
 	TrackPanelFunctionFactory m_factory;
 	GenTime currentSeekPos;
+	
+	KdenliveApp *m_app;
+	
+	DynamicToolTip *tiptst;
+	
 public slots: 	// Public slots
 	/** Invalidate the back buffer, alerting the trackview that it should redraw itself. */
 	void invalidateBackBuffer();

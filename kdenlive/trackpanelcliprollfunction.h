@@ -105,6 +105,8 @@ private:
 	/** Returns true if the x,y position is over a clip (and therefore, the roll function applies) */
 	//bool mouseApplies(const QPoint &pos) const;
 	
+	
+	
 };
 
 #endif
