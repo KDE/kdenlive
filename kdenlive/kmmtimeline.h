@@ -20,6 +20,7 @@
 
 #include <qvaluelist.h>
 #include <qvbox.h>
+#include <qtimer.h>
 
 #include "kmmtrackpanel.h"
 #include "kdenlive.h"
@@ -120,31 +121,37 @@ private:	// attributes
 	operations.
 	*/
 	SnapToGrid m_snapToGrid;
+
+	/** Timer for timeline scroll functionality */
+	QTimer m_scrollTimer;
+
+	/** Controls scroll direction. */
+	bool m_scrollingRight;
 public: // Public methods
-  /** This method adds a new track to the trackGrid. */
-  void appendTrack(KMMTrackPanel *track);
+	/** This method adds a new track to the trackGrid. */
+	void appendTrack(KMMTrackPanel *track);
 
-  void resizeEvent(QResizeEvent *event);
+	void resizeEvent(QResizeEvent *event);
 
-  /** Inserts a track at the position specified by index */
-  void insertTrack(int index, KMMTrackPanel *track);
+	/** Inserts a track at the position specified by index */
+	void insertTrack(int index, KMMTrackPanel *track);
 
-  /** No descriptions */
-  void polish();
+	/** No descriptions */
+	void polish();
 
 	void dragEnterEvent ( QDragEnterEvent * );
 	void dragMoveEvent ( QDragMoveEvent * );
 	void dragLeaveEvent ( QDragLeaveEvent * );
 	void dropEvent ( QDropEvent * );
 
-  /** Deselects all clips on the timeline. This does not affect any clips that are "in transition" onto the
-	timeline,i.e. in a drag process, clips that are in m_selection but have not been placed do not become
-	deselected */
-  KCommand *selectNone();
+	/** Deselects all clips on the timeline. This does not affect any clips that are "in transition" 
+	 * onto the timeline,i.e. in a drag process, clips that are in m_selection but have not been 
+	 * placed do not become deselected */
+	KCommand *selectNone();
 
-  /** Returns m_trackList
-
-	Warning - this method is a bit of a hack, not good OOP practice, and should be removed at some point. */
+	/** Returns m_trackList
+	Warning - this method is a bit of a hack, not good OOP practice, and should be removed at 
+	some point. */
   QPtrList<KMMTrackPanel> &trackList();
 
   /** Moves all selected clips to a new position. The new start position is that for the master clip,
@@ -263,35 +270,42 @@ it does not remove the clips from the timeline. */
 	*/
 	QValueList<GenTime> selectedClipTimes();
 public slots: // Public slots
-  /** Called when a track within the project has been added or removed.
-    *
-		* The timeline needs to be updated to show these changes. */
-  void syncWithDocument();
+	/** Called when a track within the project has been added or removed.
+	* The timeline needs to be updated to show these changes. */
+	void syncWithDocument();
 
-  /** Update the back buffer for the track views, and tell the trackViewArea widget to
-  repaint itself. */
-  void drawTrackViewBackBuffer();
+	/** Update the back buffer for the track views, and tell the trackViewArea widget to
+	repaint itself. */
+	void drawTrackViewBackBuffer();
 
-  /** Sets a new time scale for the timeline. This in turn calls the correct kruler funtion and
-  updates the display. */
-  void setTimeScale(int scale);
-  /** Calculates the size of the project, and sets up the timeline to accomodate it. */
-  void calculateProjectSize();
-  /** A ruler slider has moved - do something! */
-  void slotSliderMoved(int slider, int value);
-  /** Seek the timeline to the current position. */
-  void seek(const GenTime &time);
+	/** Sets a new time scale for the timeline. This in turn calls the correct kruler funtion and
+	updates the display. */
+	void setTimeScale(int scale);
+	/** Calculates the size of the project, and sets up the timeline to accomodate it. */
+	void calculateProjectSize();
+	/** A ruler slider has moved - do something! */
+	void slotSliderMoved(int slider, int value);
+	/** Seek the timeline to the current position. */
+	void seek(const GenTime &time);
+
+	/** Scroll the timeline left */
+	void slotScrollLeft();
+	/** Scroll the timeline Right */
+	void slotScrollRight();
+private slots: // Private slots
+	/** Scroll the timeline by a set amount. Should be connected to m_scrollTimer */
+	void slotTimerScroll();
 signals: // Signals
-  /** emitted when the length of the project has changed. */
-  void projectLengthChanged(int);
-  /** Emitted when the seek position on the timeline changes. */
-  void seekPositionChanged(const GenTime &);
-  /** Emitted when the clip crop start has changed for a clip. */
-  void signalClipCropStartChanged(const GenTime &);
-  /** Emitted when the clip crop end has changed for a clip. */
-  void signalClipCropEndChanged(const GenTime &);
-  /** emitted when something of interest is happening over a clip on the timeline. */
-  void lookingAtClip(DocClipBase *, const GenTime &);
+	/** emitted when the length of the project has changed. */
+	void projectLengthChanged(int);
+	/** Emitted when the seek position on the timeline changes. */
+	void seekPositionChanged(const GenTime &);
+	/** Emitted when the clip crop start has changed for a clip. */
+	void signalClipCropStartChanged(const GenTime &);
+	/** Emitted when the clip crop end has changed for a clip. */
+	void signalClipCropEndChanged(const GenTime &);
+	/** emitted when something of interest is happening over a clip on the timeline. */
+	void lookingAtClip(DocClipBase *, const GenTime &);
 };
 
 #endif

@@ -44,11 +44,18 @@
 
 uint KMMTimeLine::snapTolerance=10;
 
+namespace {
+	uint g_scrollTimerDelay = 50;
+	uint g_scrollThreshold = 50;
+}
+
 KMMTimeLine::KMMTimeLine(KdenliveApp *app, QWidget *rulerToolWidget, QWidget *scrollToolWidget, KdenliveDoc *document, QWidget *parent, const char *name ) :
 				QVBox(parent, name),
 				m_document(document),
 				m_selection(),
-				m_snapToGrid(document)
+				m_snapToGrid(document),
+				m_scrollTimer(this, "scroll timer"),
+				m_scrollingRight(true)
 {
 	m_app = app;
 	m_rulerBox = new QHBox(this, "ruler box");
@@ -91,6 +98,10 @@ KMMTimeLine::KMMTimeLine(KdenliveApp *app, QWidget *rulerToolWidget, QWidget *sc
 	connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), m_trackViewArea, SLOT(invalidateBackBuffer()));
 	connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), m_ruler, SLOT(repaint()));
 	connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), this, SLOT(slotSliderMoved(int, int)));
+
+	connect(m_ruler, SIGNAL(requestScrollLeft()), this, SLOT(slotScrollLeft()));
+	connect(m_ruler, SIGNAL(requestScrollRight()), this, SLOT(slotScrollRight()));
+	connect(&m_scrollTimer, SIGNAL(timeout()), this, SLOT(slotTimerScroll()));
 
 	setAcceptDrops(true);
 
@@ -254,6 +265,20 @@ void KMMTimeLine::dragMoveEvent ( QDragMoveEvent *event )
 	}
 	calculateProjectSize();
 	m_trackViewArea->repaint();
+
+	if(pos.x() < g_scrollThreshold) {
+		if(!m_scrollTimer.isActive()) {
+			m_scrollTimer.start(g_scrollTimerDelay, false);
+		}
+		m_scrollingRight = false;
+	} else if(m_trackViewArea->width() - pos.x() < g_scrollThreshold) {
+		if(!m_scrollTimer.isActive()) {
+			m_scrollTimer.start(g_scrollTimerDelay, false);
+		}
+		m_scrollingRight = true;
+	} else {
+		m_scrollTimer.stop();
+	}
 }
 
 void KMMTimeLine::dragLeaveEvent ( QDragLeaveEvent *event )
@@ -293,6 +318,8 @@ void KMMTimeLine::dragLeaveEvent ( QDragLeaveEvent *event )
 
 	calculateProjectSize();
 	drawTrackViewBackBuffer();
+
+	m_scrollTimer.stop();
 }
 
 void KMMTimeLine::dropEvent ( QDropEvent *event )
@@ -318,6 +345,8 @@ void KMMTimeLine::dropEvent ( QDropEvent *event )
 		m_app->addCommand(m_moveClipsCommand, false);
 		m_moveClipsCommand = 0;	// KdenliveApp is now managing this command, we do not need to delete it.
 	}
+
+	m_scrollTimer.stop();
 }
 
 /** This method maps a local coordinate value to the corresponding
@@ -808,4 +837,23 @@ bool KMMTimeLine::snapToSeekTime() const
 GenTime KMMTimeLine::projectLength() const
 {
 	return GenTime(m_ruler->maxValue(), m_document->framesPerSecond());
+}
+
+void KMMTimeLine::slotTimerScroll()
+{
+	if(m_scrollingRight) {
+		m_scrollBar->addLine();
+	} else {
+		m_scrollBar->subtractLine();
+	}
+}
+
+void KMMTimeLine::slotScrollLeft()
+{
+	m_scrollBar->subtractLine();
+}
+
+void KMMTimeLine::slotScrollRight()
+{
+	m_scrollBar->addLine();
 }
