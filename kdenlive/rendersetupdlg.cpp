@@ -1,7 +1,7 @@
 /***************************************************************************
-                          kmmtrackkeyframepanel.cpp  -  description
+                          rendersetupdlg.cpp  -  description
                              -------------------
-    begin                : Sun Dec 1 2002
+    begin                : Sat Dec 28 2002
     copyright            : (C) 2002 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,18 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "kmmtrackkeyframepanel.h"
+#include "rendersetupdlg.h"
 
-KMMTrackKeyFramePanel::KMMTrackKeyFramePanel(KMMTimeLine *timeline, DocTrackBase *doc,
-																													QWidget *parent, const char *name )
-																				: KMMTrackPanel(timeline, doc, parent,name)
-{
+RenderSetupDlg::RenderSetupDlg(QWidget *parent, const char *name ) : RenderSetupDlg_UI(parent,name) {
 }
-
-KMMTrackKeyFramePanel::~KMMTrackKeyFramePanel()
-{
-}
-
-void KMMTrackKeyFramePanel::paintClip(QPainter & painter, DocClipBase * clip, QRect & rect, bool selected)
-{
+RenderSetupDlg::~RenderSetupDlg(){
 }

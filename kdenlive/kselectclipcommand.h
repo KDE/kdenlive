@@ -47,6 +47,10 @@ private: // Private attributes
   int m_track;
   /** A time on the track which lies within the clip to be selected/deselected */
   GenTime m_findTime;
+  /** This is the selection state that the clip should be reverted to upon
+		deselection. This is not always the opposite state to the execute
+		state. */
+  bool m_unexecuteSelection;
 };
 
 #endif

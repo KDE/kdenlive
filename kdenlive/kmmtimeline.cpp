@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <math.h>
+#include <cmath>
 
 #include <klocale.h>
 #include <qscrollbar.h>
@@ -24,7 +24,7 @@
 
 #include <kdebug.h>
 
-#include "kdenlive.h"
+#include "doctrackclipiterator.h"
 #include "kdenlivedoc.h"
 #include "kmmtimeline.h"
 #include "kmmtracksoundpanel.h"
@@ -35,9 +35,10 @@
 #include "kmoveclipscommand.h"
 #include "kselectclipcommand.h"
 #include "kaddclipcommand.h"
+#include "kresizecommand.h"
 #include "clipdrag.h"
 
-int KMMTimeLine::snapTolerance=20;
+int KMMTimeLine::snapTolerance=10;
 
 KMMTimeLine::KMMTimeLine(KdenliveApp *app, QWidget *rulerToolWidget, QWidget *scrollToolWidget, KdenliveDoc *document, QWidget *parent, const char *name ) :
 				QVBox(parent, name),
@@ -75,14 +76,15 @@ KMMTimeLine::KMMTimeLine(KdenliveApp *app, QWidget *rulerToolWidget, QWidget *sc
 	m_scrollToolWidget->setMaximumWidth(200);
 		
 	m_ruler->setValueScale(1.0);
-	calculateProjectSize(m_ruler->valueScale());
+	calculateProjectSize();
 		
 	connect(m_scrollBar, SIGNAL(valueChanged(int)), m_ruler, SLOT(setStartPixel(int)));
 	connect(m_scrollBar, SIGNAL(valueChanged(int)), m_ruler, SLOT(repaint()));	
   connect(m_document, SIGNAL(trackListChanged()), this, SLOT(syncWithDocument()));
-  connect(m_ruler, SIGNAL(scaleChanged(double)), this, SLOT(calculateProjectSize(double)));
+  connect(m_ruler, SIGNAL(scaleChanged(double)), this, SLOT(calculateProjectSize()));  
   connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), m_trackViewArea, SLOT(invalidateBackBuffer()));
   connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), m_ruler, SLOT(repaint()));
+  connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), this, SLOT(slotSliderMoved(int, int)));
   	
   setAcceptDrops(true);
 
@@ -94,6 +96,7 @@ KMMTimeLine::KMMTimeLine(KdenliveApp *app, QWidget *rulerToolWidget, QWidget *sc
 	m_deleteClipsCommand = 0;
 	m_addingClips = false;
 
+	m_trackList.setAutoDelete(true);
 	m_gridSnapTracker = m_snapToGridList.end();
 }
 
@@ -115,7 +118,7 @@ void KMMTimeLine::insertTrack(int index, KMMTrackPanel *track)
 	m_trackList.insert(index, track);
 
 	connect(m_scrollBar, SIGNAL(valueChanged(int)), this, SLOT(drawTrackViewBackBuffer()));
-	connect(&track->docTrack(), SIGNAL(trackChanged()), this, SLOT(drawTrackViewBackBuffer()));
+	connect(track->docTrack(), SIGNAL(trackChanged()), this, SLOT(drawTrackViewBackBuffer()));
 		
 	resizeTracks();		
 }
@@ -129,7 +132,7 @@ void KMMTimeLine::resizeTracks()
 {
 	int height = 0;   
 	int widgetHeight;
-	
+
 	QWidget *panel = m_trackList.first();
 		
 	while(panel != 0) {
@@ -144,7 +147,7 @@ void KMMTimeLine::resizeTracks()
 	}
 
 	m_trackScroll->moveChild(m_trackViewArea, 200, 0);
-	m_trackViewArea->resize(m_trackScroll->visibleWidth()-200 , height);	
+	m_trackViewArea->resize(m_trackScroll->visibleWidth()-200 , height);
 
   int viewWidth = m_trackScroll->visibleWidth()-200;
   if(viewWidth<1) viewWidth=1;
@@ -160,35 +163,26 @@ void KMMTimeLine::resizeTracks()
 void KMMTimeLine::syncWithDocument()
 {
 	unsigned int index = 0;
-	unsigned int count;
-	
+
+	kdDebug() << "Syncing with document" << endl;
+	m_trackList.clear();
+
 	DocTrackBase *track = m_document->firstTrack();
-	
 	while(track != 0) {
-		for(count=index; count<m_trackList.count(); count++) {			
-			if(&(((KMMTrackPanel *)m_trackList.at(count))->docTrack()) == track) {
-				m_trackList.insert(index, m_trackList.take(count));
-				break;
-			}					
+		if(track->clipType() == "Video") {
+			insertTrack(index, new KMMTrackVideoPanel(this, ((DocTrackVideo *)track)));
+			++index;
+		} else if(track->clipType() == "Sound") {		
+			insertTrack(index, new KMMTrackSoundPanel(this, ((DocTrackSound *)track)));
+			++index;
+		} else {
+			kdWarning() << "Sync failed" << endl;
 		}
-		
-		if(count >= m_trackList.count()) {		
-			if(track->clipType() == "Video") {
-				insertTrack(index, new KMMTrackVideoPanel(*this, *((DocTrackVideo *)track)));
-			} else if(track->clipType() == "Sound") {
-				insertTrack(index, new KMMTrackSoundPanel(*this, *((DocTrackSound *)track)));
-			}
-		}
-					
-		track = m_document->nextTrack();
-		index++;		
+		track = m_document->nextTrack();		
 	}
-	
-	while(m_trackList.count() > index) {
-		m_trackList.remove(index);
-	}
-	
+
 	resizeTracks();
+	calculateProjectSize();	
 }
 
 /** No descriptions */
@@ -198,11 +192,11 @@ void KMMTimeLine::polish()
 }
 
 void KMMTimeLine::dragEnterEvent ( QDragEnterEvent *event )
-{
+{	
 	if(m_startedClipMove) {
 		event->accept(true);
 	} else 	if(ClipDrag::canDecode(event)) {
-		m_selection = ClipDrag::decode(*m_document, event);
+		m_selection = ClipDrag::decode(m_document, event);
 
     if(m_selection.masterClip()==0) m_selection.setMasterClip(m_selection.first());
     m_masterClip = m_selection.masterClip();
@@ -262,7 +256,7 @@ void KMMTimeLine::dragMoveEvent ( QDragMoveEvent *event )
 			m_selection.clear();			
 		}
 	}
-	calculateProjectSize(m_ruler->valueScale());
+	calculateProjectSize();
 	m_trackViewArea->repaint();
 }
 
@@ -285,7 +279,7 @@ void KMMTimeLine::dragLeaveEvent ( QDragLeaveEvent *event )
   }
   
 	while(itt.current() != 0) {
-		itt.current()->docTrack().deleteClips(true);
+		itt.current()->docTrack()->deleteClips(true);
 		++itt;
 	}
 		
@@ -332,14 +326,14 @@ double KMMTimeLine::mapValueToLocal(const double value) const
 	return m_ruler->mapValueToLocal(value);
 }
 
-void KMMTimeLine::selectNone()
+KCommand *KMMTimeLine::selectNone()
 {
 	QPtrListIterator<KMMTrackPanel> itt(m_trackList);
 
 	KMacroCommand *command = new KMacroCommand(i18n("Selection"));
 
 	while(itt.current()!=0) {
-		QPtrListIterator<DocClipBase> clipItt(itt.current()->docTrack().firstClip(true));
+		QPtrListIterator<DocClipBase> clipItt(itt.current()->docTrack()->firstClip(true));
 		while(clipItt.current()!=0) {
 			KSelectClipCommand *clipComm = new KSelectClipCommand(m_document, clipItt.current(), false);
 			command->addCommand(clipComm);
@@ -347,8 +341,8 @@ void KMMTimeLine::selectNone()
 		}
 		++itt;
 	}
-	
-	m_app->addCommand(command, true);
+
+	return command;
 }
 
 void KMMTimeLine::drawTrackViewBackBuffer()
@@ -423,7 +417,7 @@ void KMMTimeLine::addClipsToTracks(DocClipBaseList &clips, int track, GenTime va
 	if(clips.isEmpty()) return;
 
 	if(selected) {
-		selectNone();
+		addCommand(selectNone(), true);
 	}	
 
 	DocClipBase *masterClip = clips.masterClip();
@@ -447,10 +441,10 @@ void KMMTimeLine::addClipsToTracks(DocClipBaseList &clips, int track, GenTime va
 			moveToTrack += trackOffset;
 		}
 
-		itt.current()->setTrackStart(itt.current()->trackStart() + startOffset);
+		itt.current()->moveTrackStart(itt.current()->trackStart() + startOffset);
 
 		if((moveToTrack >=0) && (moveToTrack < m_trackList.count())) {		
-	    m_trackList.at(moveToTrack)->docTrack().addClip(itt.current(), selected);	    
+	    m_trackList.at(moveToTrack)->docTrack()->addClip(itt.current(), selected);	    
 	  }
 
 		++itt;
@@ -531,8 +525,8 @@ bool KMMTimeLine::clipSelected(DocClipBase *clip, DocTrackBase *track)
 
 	QPtrListIterator<KMMTrackPanel> itt(m_trackList);
 	while(itt.current()) {
-		if(itt.current()->docTrack().clipExists(clip)) {
-			return itt.current()->docTrack().clipSelected(clip);
+		if(itt.current()->docTrack()->clipExists(clip)) {
+			return itt.current()->docTrack()->clipSelected(clip);
 		}
 	
 		++itt;
@@ -560,7 +554,7 @@ bool KMMTimeLine::canAddClipsToTracks(DocClipBaseList &clips, int track, GenTime
 	trackOffset = track - trackOffset;
 
 	while(itt.current()) {
-		itt.current()->setTrackStart(itt.current()->trackStart() + startOffset);
+		itt.current()->moveTrackStart(itt.current()->trackStart() + startOffset);
 		++itt;
 	}
 	itt.toFirst();
@@ -574,7 +568,7 @@ bool KMMTimeLine::canAddClipsToTracks(DocClipBaseList &clips, int track, GenTime
 			return false;
 		}
 
-		if(!m_trackList.at(track)->docTrack().canAddClip(itt.current())) {
+		if(!m_trackList.at(track)->docTrack()->canAddClip(itt.current())) {
 			return false;
 		}
 
@@ -593,7 +587,7 @@ DocClipBaseList KMMTimeLine::listSelected()
  	QPtrListIterator<KMMTrackPanel> itt(m_trackList);
 
   while(itt.current()) {
-  	QPtrListIterator<DocClipBase> clipItt(itt.current()->docTrack().firstClip(true));
+  	QPtrListIterator<DocClipBase> clipItt(itt.current()->docTrack()->firstClip(true));
 
    	while(clipItt.current()) {
 			list.inSort(clipItt.current());
@@ -606,14 +600,15 @@ DocClipBaseList KMMTimeLine::listSelected()
 }
 
 /** Calculates the size of the project, and sets up the timeline to accomodate it. */
-void KMMTimeLine::calculateProjectSize(double rulerScale)
+void KMMTimeLine::calculateProjectSize()
 {
+	double rulerScale = m_ruler->valueScale();
 	GenTime length;
 
 	QPtrListIterator<KMMTrackPanel> itt(m_trackList);
 
 	while(itt.current()) {
-		GenTime test = itt.current()->docTrack().trackLength();
+		GenTime test = itt.current()->docTrack()->trackLength();
 		length = (test > length) ? test : length;
 		++itt;
 	}	
@@ -633,7 +628,7 @@ void KMMTimeLine::generateSnapToGridList()
 	QPtrListIterator<KMMTrackPanel> trackItt(m_trackList);
 
 	while(trackItt.current()) {
-		QPtrListIterator<DocClipBase> clipItt = trackItt.current()->docTrack().firstClip(false);
+		QPtrListIterator<DocClipBase> clipItt = trackItt.current()->docTrack()->firstClip(false);
 		while(clipItt.current()) {
 			list.append(clipItt.current()->trackStart());
 			list.append(clipItt.current()->trackEnd());
@@ -646,7 +641,7 @@ void KMMTimeLine::generateSnapToGridList()
 
 	trackItt.toFirst();		
 	while(trackItt.current()) {
-		QPtrListIterator<DocClipBase> clipItt = trackItt.current()->docTrack().firstClip(true);
+		QPtrListIterator<DocClipBase> clipItt = trackItt.current()->docTrack()->firstClip(true);
 		while(clipItt.current()) {
 			QValueListIterator<GenTime> timeItt = list.begin();
 
@@ -683,15 +678,11 @@ void KMMTimeLine::generateSnapToGridList()
   m_gridSnapTracker = m_snapToGridList.begin();
 }
 
-/** Returns the seek position of the timeline - this is the currently playing frame, or
-the currently seeked frame. */
 GenTime KMMTimeLine::seekPosition()
 {
 	return GenTime(m_ruler->getSliderValue(0), m_document->framesPerSecond());
 }
 
-/** Creates a "Add clips" command, containing all of the clips currently in the selection on the timeline.
- This command is then added to the command history. */
 KMacroCommand *KMMTimeLine::createAddClipsCommand(bool addingClips)
 {
 	KMacroCommand *macroCommand = new KMacroCommand( addingClips ? i18n("Add Clips") : i18n("Delete Clips") );
@@ -711,8 +702,99 @@ KMacroCommand *KMMTimeLine::createAddClipsCommand(bool addingClips)
 	return macroCommand;
 }
 
-/** Adds a command to the command history, if execute is set to true then the command will be executed. */
 void KMMTimeLine::addCommand(KCommand *command, bool execute)
 {
 	m_app->addCommand(command, execute);
+}
+
+KdenliveApp::TimelineEditMode KMMTimeLine::editMode()
+{
+	return m_app->timelineEditMode();
+}
+
+KCommand *KMMTimeLine::razorAllClipsAt(GenTime time)
+{
+	return 0;
+}
+
+KCommand *KMMTimeLine::razorClipAt(DocTrackBase &track, GenTime &time)
+{
+	DocClipBase *clip = track.getClipAt(time);
+	if(!clip) return 0;
+
+	if((clip->trackStart() == time) || (clip->trackEnd() == time)) return 0;	// disallow the creation of clips with 0 length.
+	
+	KMacroCommand *command = new KMacroCommand(i18n("Razor clip"));
+	
+	command->addCommand(selectNone());
+
+  DocClipBase *clone = clip->clone();
+    
+	clone->setTrackStart(time);
+  clone->setCropStartTime(clip->cropStartTime() + (time - clip->trackStart()));
+
+  command->addCommand(resizeClip(clip, true, time));
+  command->addCommand(new KAddClipCommand(m_document, clone, true));
+
+  delete clone;
+
+  return command;	
+}
+
+KCommand * KMMTimeLine::resizeClip(DocClipBase *clip, bool resizeEnd, GenTime &time)
+{
+	KResizeCommand *command = new KResizeCommand(m_document, clip);
+	
+	if(resizeEnd) {
+		command->setEndTrackEnd(time);
+	} else {
+		command->setEndTrackStart(time);
+	}
+
+	kdDebug() << "Command is " << command << endl;
+	return command;
+}
+
+/** Selects all of the clips on the timeline which occur later than the
+specified time. If include is true, then clips which overlap the
+specified time will be selected, otherwise only those clips which
+are later on the tiemline (i.e. trackStart() > time) will be selected. */
+KCommand * KMMTimeLine::selectLaterClips(GenTime time, bool include)
+{
+	KMacroCommand *command = new KMacroCommand(i18n("Selection"));
+
+	QPtrListIterator<KMMTrackPanel> itt(m_trackList);
+
+	bool select;
+	
+	while(itt.current()!=0) {
+		DocTrackClipIterator clipItt(*(itt.current()->docTrack()));
+		while(clipItt.current()!=0) {
+			if(include) {
+				select = clipItt.current()->trackEnd() > time;
+			} else {
+				select = clipItt.current()->trackStart() > time;
+			}
+			KSelectClipCommand *clipComm = new KSelectClipCommand(m_document, clipItt.current(), select);
+			command->addCommand(clipComm);
+			++clipItt;
+		}
+		++itt;
+	}
+
+	return command;
+}
+
+/** A ruler slider has moved - do something! */
+void KMMTimeLine::slotSliderMoved(int slider, int value)
+{
+  if(slider == 0) {
+    emit seekPositionChanged(GenTime(value, m_document->framesPerSecond()));
+  }
+}
+
+/** Seek the timeline to the current position. */
+void KMMTimeLine::seek(GenTime time)
+{
+    m_ruler->setSliderValue(0, time.frames((int)round(m_document->framesPerSecond())));
 }

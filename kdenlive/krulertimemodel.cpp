@@ -22,17 +22,17 @@ KRulerTimeModel::KRulerTimeModel() :
 						KRulerModel()
 {
 	setNumFrames(25);
-	setMinimumSmallTickSeperation(20);
-	setMinimumLargeTickSeperation(60);
-	setMinimumDisplayTickSeperation(100);	
+	setMinimumSmallTickSeperation(15);
+	setMinimumLargeTickSeperation(50);
+	setMinimumDisplayTickSeperation(100);
 }
 
 KRulerTimeModel::~KRulerTimeModel()
 {
 }
 
-QString KRulerTimeModel::mapValueToText(const int value) const
-{	
+QString KRulerTimeModel::mapValueToText(const int value, const int frames)
+{
 	QString text = "";
 	int frame;
 
@@ -41,10 +41,10 @@ QString KRulerTimeModel::mapValueToText(const int value) const
 	} else {
 		frame = -value;
 		text = "-";
-	}			
-  
-	int second = frame / numFrames();
-	frame %= numFrames();
+	}
+
+	int second = frame / frames;
+	frame %= frames;
 
 	int minute = second/60;
 	second %= 60;
@@ -57,10 +57,16 @@ QString KRulerTimeModel::mapValueToText(const int value) const
 	text.append(QString::number(minute).rightJustify(2, '0', FALSE));
 	text.append(":");
   text.append(QString::number(second).rightJustify(2, '0', FALSE));
-	text.append(":");  
+	text.append(".");
   text.append(QString::number(frame).rightJustify(2, '0', FALSE));
 
 	return text;
+}
+
+
+QString KRulerTimeModel::mapValueToText(const int value) const
+{
+  return KRulerTimeModel::mapValueToText(value, m_numFrames);
 }
 
 int KRulerTimeModel::getTickDisplayInterval(const int tick) const

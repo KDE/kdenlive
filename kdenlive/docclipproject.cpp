@@ -17,8 +17,8 @@
 
 #include "docclipproject.h"
 
-DocClipProject::DocClipProject() :
-  			DocClipBase()
+DocClipProject::DocClipProject(KdenliveDoc *doc) :
+  			DocClipBase(doc)
 {
 }
 

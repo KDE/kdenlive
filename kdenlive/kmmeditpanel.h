@@ -49,7 +49,6 @@ private: // Private attributes
 public slots: // Public slots
   /** Seeks to the end of the ruler */
   void seekEnd();
-public slots: // Public slots
   /** Seeks to the beginning of the ruler. */
   void seekBeginning();
   /** Steps slider value forwards one frame. */
@@ -60,6 +59,8 @@ public slots: // Public slots
   void stop();
   /** Called when the "play" button is pressed */
   void play();
+  /** Sets the current seek position to the one specified */
+  void seek(GenTime time);     
 };
 
 #endif

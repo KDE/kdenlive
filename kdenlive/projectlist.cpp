@@ -17,6 +17,7 @@
 
 #include "projectlist.h"
 #include "avlistviewitem.h"
+#include "kdenlive.h"
 #include "kdenlivedoc.h"
 
 /* This define really should go in projectlist_ui, but qt just puts the classname there at the moment :-( */
@@ -34,52 +35,34 @@
 #include <string>
 #include <map>
 
-ProjectList::ProjectList(KdenliveDoc *document, QWidget *parent, const char *name) :
-						ProjectList_UI(parent,name),
-						m_menu()
+ProjectList::ProjectList(KdenliveApp *app, KdenliveDoc *document, QWidget *parent, const char *name) :
+						ProjectList_UI(parent,name)
 {
+	if(!document) {
+		kdError() << "ProjectList created with no document - expect a crash shortly" << endl;
+	}
+	
 	m_document = document;
-	connect (m_addButton, SIGNAL(clicked()), this, SLOT(slot_AddFile()));
-	connect (m_cleanButton, SIGNAL(clicked()), this, SLOT(slot_cleanProject()));	
-
+	m_listView->setDocument(document);
+	
  	connect (m_listView, SIGNAL(dragDropOccured(QDropEvent *)), this, SIGNAL(dragDropOccured(QDropEvent *)));
-		
-	init_menu();
-}
 
-ProjectList::~ProjectList(){
-}
+  m_menu = (QPopupMenu *)app->factory()->container("projectlist_context", app);
 
-void ProjectList::init_menu(){
-	m_menu.insertItem(i18n("&Add File..."),	this, SLOT(slot_AddFile()), 0);
-	
 	connect(m_listView, SIGNAL(rightButtonPressed ( QListViewItem *, const QPoint &, int )),
-					this, SLOT(rightButtonPressed ( QListViewItem *, const QPoint &, int )));
+					this, SLOT(rightButtonPressed ( QListViewItem *, const QPoint &, int )));    	
 }
 
-void ProjectList::slot_AddFile() {
-	// determine file types supported by Arts
-	QString filter = "*";
-
-	KURL::List urlList=KFileDialog::getOpenURLs(	QString::null,
-							filter,
-							this,
-							i18n("Open File..."));
-		
-	KURL::List::Iterator it;
-	KURL url;
-	
-	for(it = urlList.begin(); it != urlList.end(); it++) {
-		url =  (*it);
-		if(!url.isEmpty()) {
-		  	emit signal_AddFile(url);
-		}
-	}	
+ProjectList::~ProjectList()
+{
+  delete m_menu;
 }
 
 /** No descriptions */
 void ProjectList::rightButtonPressed ( QListViewItem *listViewItem, const QPoint &pos, int column) {
-	m_menu.popup(QCursor::pos());		
+  if(m_menu) {
+  	m_menu->popup(QCursor::pos());
+  }
 }
 
 /** Get a fresh copy of files from KdenliveDoc and display them. */
@@ -92,15 +75,5 @@ void ProjectList::slot_UpdateList() {
 	
 	for(; (av = itt.current()); ++itt) {
 		new AVListViewItem(m_listView, av);
-	}
-}
-
-/** Removes any AVFiles from the project that have a usage count of 0. */
-void ProjectList::slot_cleanProject()
-{
-	if(KMessageBox::warningContinueCancel(this,
-			 i18n("Clean Project removes files from the project that are unused.\
-			 Are you sure you want to do this?")) == KMessageBox::Continue) {
-		m_document->cleanAVFileList();
 	}
 }

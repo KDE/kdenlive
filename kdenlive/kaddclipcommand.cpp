@@ -68,7 +68,7 @@ void KAddClipCommand::unexecute()
 /** Adds the clip */
 void KAddClipCommand::addClip()
 {
-	DocClipBase *clip = DocClipBase::createClip(*m_doc, m_xmlClip);
+	DocClipBase *clip = DocClipBase::createClip(m_doc, m_xmlClip);
 	m_doc->track(clip->trackNum())->addClip(clip, true);
 }
 

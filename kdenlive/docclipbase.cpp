@@ -22,11 +22,12 @@
 #include "docclipproject.h"
 #include "doctrackbase.h"
 
-DocClipBase::DocClipBase() :
+DocClipBase::DocClipBase(KdenliveDoc *doc) :
 	m_trackStart(0.0),
-	m_cropStart(0.0),	
-	m_cropDuration(0.0)
+	m_cropStart(0.0),
+	m_trackEnd(0.0)	
 {
+	m_doc = doc;
 	m_parentTrack=0;
 	m_trackNum = -1;
 }
@@ -42,6 +43,7 @@ const GenTime &DocClipBase::trackStart() const {
 void DocClipBase::setTrackStart(const GenTime time)
 {
 	m_trackStart = time;
+	
 	if(m_parentTrack) {
 		m_parentTrack->clipMoved(this);
 	}
@@ -73,9 +75,9 @@ const GenTime &DocClipBase::cropStartTime() const
 	return m_cropStart;	
 }
 
-void DocClipBase::setCropDuration(const GenTime &time)
+void DocClipBase::setTrackEnd(const GenTime &time)
 {
-	m_cropDuration = time;
+	m_trackEnd = time;		
 	if(m_parentTrack) {
 		m_parentTrack->clipMoved(this);
 	}	
@@ -83,7 +85,7 @@ void DocClipBase::setCropDuration(const GenTime &time)
 
 GenTime DocClipBase::cropDuration()
 {
-	return m_cropDuration;
+	return m_trackEnd - m_trackStart;
 }
 
 QDomDocument DocClipBase::toXML() {
@@ -96,7 +98,8 @@ QDomDocument DocClipBase::toXML() {
 	position.setAttribute("track", QString::number(trackNum()));
 	position.setAttribute("trackstart", QString::number(trackStart().seconds(), 'f', 10));
 	position.setAttribute("cropstart", QString::number(cropStartTime().seconds(), 'f', 10));
-	position.setAttribute("cropduration", QString::number(cropDuration().seconds(), 'f', 10));
+	position.setAttribute("cropduration", QString::number(cropDuration().seconds(), 'f', 10));	
+	position.setAttribute("trackend", QString::number(trackEnd().seconds(), 'f', 10));
 	clip.appendChild(position);
 	
 	doc.appendChild(clip); 
@@ -104,12 +107,13 @@ QDomDocument DocClipBase::toXML() {
 	return doc;
 }
 
-DocClipBase *DocClipBase::createClip(KdenliveDoc &doc, const QDomElement element)
+DocClipBase *DocClipBase::createClip(KdenliveDoc *doc, const QDomElement element)
 {
 	DocClipBase *clip = 0;
 	GenTime trackStart;
 	GenTime cropStart;
 	GenTime cropDuration;
+	GenTime trackEnd;
 	int trackNum = 0;
 	
 	if(element.tagName() != "clip") {
@@ -126,9 +130,10 @@ DocClipBase *DocClipBase::createClip(KdenliveDoc &doc, const QDomElement element
 				clip = DocClipAVFile::createClip(doc, e);
 			} else if(e.tagName() == "position") {
 				trackNum = e.attribute("track", "-1").toInt();
-				trackStart = GenTime(e.attribute("trackstart", 0).toDouble());
-				cropStart = GenTime(e.attribute("cropstart", 0).toDouble());
-				cropDuration = GenTime(e.attribute("cropduration", 0).toDouble());
+				trackStart = GenTime(e.attribute("trackstart", "0").toDouble());
+				cropStart = GenTime(e.attribute("cropstart", "0").toDouble());
+				cropDuration = GenTime(e.attribute("cropduration", "0").toDouble());
+				trackEnd = GenTime(e.attribute("trackend", "-1").toDouble());
 			}		
 		}
 		
@@ -141,7 +146,11 @@ DocClipBase *DocClipBase::createClip(KdenliveDoc &doc, const QDomElement element
 		// setup DocClipBase specifics of the clip.
 		clip->setTrackStart(trackStart);
 		clip->setCropStartTime(cropStart);
-		clip->setCropDuration(cropDuration);
+		if(trackEnd.seconds() != -1) {
+			clip->setTrackEnd(trackEnd);		
+		} else {
+			clip->setTrackEnd(trackStart + cropDuration);		
+		}
 		clip->setParentTrack(0, trackNum);
 	}
 
@@ -165,11 +174,23 @@ int DocClipBase::trackNum()
 to trackStart() + cropDuration() */
 GenTime DocClipBase::trackEnd()
 {
-	return trackStart() + cropDuration();
+	return m_trackEnd;
 }
 
 /** Returns the parentTrack of this clip. */
 DocTrackBase * DocClipBase::parentTrack()
 {
 	return m_parentTrack;
+}
+
+/** Move the clips so that it's trackStart coincides with the time specified. */
+void DocClipBase::moveTrackStart(const GenTime &time)
+{	
+	m_trackEnd = m_trackEnd + time - m_trackStart;
+	m_trackStart = time;	
+}
+
+DocClipBase *DocClipBase::clone()
+{
+	return createClip(m_doc, toXML().documentElement());
 }

@@ -33,14 +33,14 @@ class ClipDrag : public KURLDrag
 {
 public: 
 	ClipDrag(DocClipBase *clip, QWidget *dragSource, const char *name);
-   ClipDrag(AVFile * clip, QWidget * dragSource, const char * name);
+   ClipDrag(KdenliveDoc *doc, AVFile * clip, QWidget * dragSource, const char * name);
 	~ClipDrag();
 	/** Set the clip which is contained within this ClipDrag object. */
 	void setClip(DocClipBase *clip);
 	/** Returns true if the mime type is decodable, false otherwise. */
 	static bool canDecode(const QMimeSource *mime);
 	/** Attempts to decode the mimetype e as a clip. Returns a clip, or returns null */
-	static DocClipBaseList decode(KdenliveDoc &doc, const QMimeSource *e);
+	static DocClipBaseList decode(KdenliveDoc *doc, const QMimeSource *e);
   /** Constructs a clipDrag object consisting of the clips within the
 DocCLipBaseList passed. */
    ClipDrag(DocClipBaseList &clips, QWidget *dragSource, const char *name);

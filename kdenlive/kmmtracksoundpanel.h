@@ -33,7 +33,7 @@ the main sound widget in different ways.
 class KMMTrackSoundPanel : public KMMTrackPanel  {
    Q_OBJECT
 public:
-	KMMTrackSoundPanel(KMMTimeLine &timeline, DocTrackSound & docTrack, QWidget *parent=0, const char *name=0);
+	KMMTrackSoundPanel(KMMTimeLine *timeline, DocTrackSound *docTrack, QWidget *parent=0, const char *name=0);
 	~KMMTrackSoundPanel();
   /** This function will paint a clip on screen, using the specified painter and the given coordinates as to where the clip should be painted. */
   void paintClip(QPainter & painter, DocClipBase * clip, QRect &rect, bool selected);	

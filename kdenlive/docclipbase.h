@@ -36,10 +36,9 @@ public:
 	 * - e.g. if you can have audio and video seperately, it should be possible to combin the two, as is
 	 *   done here. If a new clip type is added then it should be possible to combine it with both audio
 	 *   and video. */	
-	enum CLIPTYPE { AUDIO = 1,
-			VIDEO = 2,
-        		AV = 3};
-	DocClipBase();
+	enum CLIPTYPE { AUDIO = 1, VIDEO = 2, AV = 3};
+
+	DocClipBase(KdenliveDoc *doc);
 	virtual ~DocClipBase();
 
 	/** Returns where this clip starts */
@@ -63,8 +62,8 @@ public:
 	/** returns the cropStart time for this clip */ 
 	const GenTime &cropStartTime() const;
 
-	/** set the cropDuration time for this clip. */	
-	void setCropDuration(const GenTime &time);
+	/** set the trackEnd time for this clip. */	
+	void setTrackEnd(const GenTime &time);
 
 	/** returns the cropDuration time for this clip. */
 	GenTime cropDuration();
@@ -79,8 +78,8 @@ public:
 	depend entirely on what the clip consists of. */
 	virtual KURL fileURL() = 0;
 
-	/** Reads in the element structure and creates a clip out of it. */
-	static DocClipBase *createClip(KdenliveDoc &doc, const QDomElement element);
+	/** Reads in the element structure and creates a clip out of it.*/
+	static DocClipBase *createClip(KdenliveDoc *doc, const QDomElement element);
   /** Sets the parent track for this clip. */
   void setParentTrack(DocTrackBase *track, const int trackNum);
   /** Returns the track number. This is a hint as to which track the clip is on, or should be placed on. */
@@ -90,6 +89,10 @@ to trackStart() + cropDuration() */
   GenTime trackEnd();
   /** Returns the parentTrack of this clip. */
   DocTrackBase * parentTrack();
+  /** Move the clips so that it's trackStart coincides with the time specified. */
+  void moveTrackStart(const GenTime &time);
+  /** Returns an identical but seperate (i.e. "deep") copy of this clip. */
+  DocClipBase * clone();
 private: // Private attributes
 	/** The name of this clip */
 	QString m_name;
@@ -99,10 +102,9 @@ private: // Private attributes
 	 * the bit we want starts 3 seconds in.
 	 **/
 	GenTime m_cropStart;
-	/** The cropped duration for this clip. Determines exactly how much of the clip from the m_cropStart
-	 * time that we actually want.
+	/** The end time of this clip on the track.
 	 **/
-	GenTime m_cropDuration;
+	GenTime m_trackEnd;
   /** The track to which this clip is parented. If NULL, the clip is not
 parented to any track. */
   DocTrackBase * m_parentTrack;
@@ -111,6 +113,9 @@ It is possible for this to be set and the parent track to be 0, in this situatio
 m_trackNum is a hint as to where the clip should be place when it get's parented
 to a track. */
   int m_trackNum;;
+protected: // Protected attributes
+  /** the document this clip belongs to */
+  KdenliveDoc * m_doc;
 };
 
 #endif

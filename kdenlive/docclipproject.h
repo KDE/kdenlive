@@ -21,13 +21,15 @@
 #include "docclipbase.h"
 #include "gentime.h"
 
+class KdenliveDoc;
+
 /**This "clip" consists of a number of tracks, clips, overlays, transitions and effects. It is basically
  capable of making multiple clips accessible as if they were a single clip. The "clipType()" of this clip
   depends entirely upon it's contents. */
 
 class DocClipProject : public DocClipBase  {
 public: 
-	DocClipProject();
+	DocClipProject(KdenliveDoc *doc);
 	~DocClipProject();
 
 	GenTime duration() const;

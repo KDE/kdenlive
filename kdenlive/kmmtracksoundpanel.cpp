@@ -20,7 +20,7 @@
 #include "kmmtracksoundpanel.h"
 #include "kmmtimeline.h"
 
-KMMTrackSoundPanel::KMMTrackSoundPanel(KMMTimeLine & timeline, DocTrackSound & docTrack, QWidget *parent, const char *name ) :
+KMMTrackSoundPanel::KMMTrackSoundPanel(KMMTimeLine *timeline, DocTrackSound *docTrack, QWidget *parent, const char *name ) :
 												KMMTrackPanel(timeline, docTrack, parent,name),
 												m_trackLabel(this, "Sound Track")
 {
@@ -40,8 +40,8 @@ KMMTrackSoundPanel::~KMMTrackSoundPanel()
 	where the clip should be painted. */
 void KMMTrackSoundPanel::paintClip(QPainter & painter, DocClipBase * clip, QRect &rect, bool selected)
 {
-	int sx = (int)timeLine().mapValueToLocal(clip->trackStart().frames(25));
-	int ex = (int)timeLine().mapValueToLocal(clip->trackStart().frames(25) + clip->cropDuration().frames(25));
+	int sx = (int)timeLine()->mapValueToLocal(clip->trackStart().frames(25));
+	int ex = (int)timeLine()->mapValueToLocal(clip->trackStart().frames(25) + clip->cropDuration().frames(25));
 
 	if(sx < rect.x()) {
 		sx = rect.x();
@@ -80,4 +80,5 @@ bool KMMTrackSoundPanel::mouseReleased(QMouseEvent *event)
 /** No descriptions */
 QCursor KMMTrackSoundPanel::getMouseCursor(QMouseEvent *event)
 {
+	return QCursor(Qt::ArrowCursor);
 }

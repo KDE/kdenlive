@@ -18,7 +18,9 @@
 #include "kmmtrackpanel.h"
 #include "kmmtimeline.h"
 
-KMMTrackPanel::KMMTrackPanel(KMMTimeLine &timeline, DocTrackBase & docTrack, QWidget *parent, const char *name) :
+#include <kdebug.h>
+
+KMMTrackPanel::KMMTrackPanel(KMMTimeLine *timeline, DocTrackBase * docTrack, QWidget *parent, const char *name) :
 					        			QFrame(parent,name),
 												m_docTrack(docTrack),
 												m_timeline(timeline)
@@ -34,13 +36,13 @@ KMMTrackPanel::~KMMTrackPanel()
 }
 
 /** Read property of KMMTimeLine * m_timeline. */
-KMMTimeLine & KMMTrackPanel::timeLine()
+KMMTimeLine * KMMTrackPanel::timeLine()
 {
 	return m_timeline;
 }
 
 /** returns the document track which is displayed by this track */
-DocTrackBase & KMMTrackPanel::docTrack()
+DocTrackBase * KMMTrackPanel::docTrack()
 {
 	return m_docTrack;
 }
@@ -49,25 +51,25 @@ DocTrackBase & KMMTrackPanel::docTrack()
 blitted straight to the screen for speedy drawing. */
 void KMMTrackPanel::drawToBackBuffer(QPainter &painter, QRect &rect)
 {
-	GenTime startValue = GenTime(timeLine().mapLocalToValue(0.0), 25);
-	GenTime endValue = GenTime(timeLine().mapLocalToValue(rect.width()), 25);
+	GenTime startValue = GenTime(timeLine()->mapLocalToValue(0.0), 25);
+	GenTime endValue = GenTime(timeLine()->mapLocalToValue(rect.width()), 25);
 	
-	QPtrListIterator<DocClipBase> clip = docTrack().firstClip(startValue, endValue, false);
-	DocClipBase *endClip = docTrack().endClip(startValue, endValue, false).current();		
+	QPtrListIterator<DocClipBase> clip = docTrack()->firstClip(startValue, endValue, false);
+	DocClipBase *endClip = docTrack()->endClip(startValue, endValue, false).current();		
 	for(DocClipBase *curClip; (curClip = clip.current())!=endClip; ++clip) {
 		paintClip(painter, curClip, rect, false);
 	}
 
-	clip = docTrack().firstClip(startValue, endValue, true);
-	endClip = docTrack().endClip(startValue, endValue, true).current();
+	clip = docTrack()->firstClip(startValue, endValue, true);
+	endClip = docTrack()->endClip(startValue, endValue, true).current();
 	for(DocClipBase *curClip; (curClip = clip.current())!=endClip; ++clip) {
 		paintClip(painter, curClip, rect, true);
 	}
 
 	// draw the vertical time marker
 
-	int value = (int)timeLine().mapValueToLocal(timeLine().seekPosition().frames(25));
+	int value = (int)timeLine()->mapValueToLocal(timeLine()->seekPosition().frames(25));
 	if(value >= rect.x() && value <= rect.x()+rect.width()) {
 		painter.drawLine(value, rect.y(), value, rect.y() + rect.height());
-	}                               
+	}
 }

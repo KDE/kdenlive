@@ -26,7 +26,7 @@
 
 int KMMTrackVideoPanel::resizeTolerance = 4;
 
-KMMTrackVideoPanel::KMMTrackVideoPanel(KMMTimeLine &timeline, DocTrackVideo &docTrack, QWidget *parent, const char *name ) :
+KMMTrackVideoPanel::KMMTrackVideoPanel(KMMTimeLine *timeline, DocTrackVideo *docTrack, QWidget *parent, const char *name ) :
 												KMMTrackPanel(timeline, docTrack, parent,name),
 												m_trackLabel("Video Track", this, "Video Track")
 {
@@ -50,8 +50,8 @@ KMMTrackVideoPanel::~KMMTrackVideoPanel()
 /** Paint the specified clip on screen within the specified rectangle, using the specified painter. */
 void KMMTrackVideoPanel::paintClip(QPainter &painter, DocClipBase *clip, QRect &rect, bool selected)
 {	
-	int sx = (int)timeLine().mapValueToLocal(clip->trackStart().frames(25));
-	int ex = (int)timeLine().mapValueToLocal(clip->trackEnd().frames(25));
+	int sx = (int)timeLine()->mapValueToLocal(clip->trackStart().frames(25));
+	int ex = (int)timeLine()->mapValueToLocal(clip->trackEnd().frames(25));
 	int clipWidth = ex-sx;
 	int tx = ex;
 	
@@ -83,7 +83,7 @@ void KMMTrackVideoPanel::paintClip(QPainter &painter, DocClipBase *clip, QRect &
 	int textWidth = clipWidth / nameRepeat;
 
 	if(textWidth > 0) {
-		int start = (int)timeLine().mapValueToLocal(clip->trackStart().frames(25));
+		int start = (int)timeLine()->mapValueToLocal(clip->trackStart().frames(25));
 
 		start = sx - ((sx - start) % textWidth);
 		int count = start;
@@ -102,49 +102,91 @@ void KMMTrackVideoPanel::paintClip(QPainter &painter, DocClipBase *clip, QRect &
 /** A mouse press event has occured. Perform relevant mouse operations. */
 bool KMMTrackVideoPanel::mousePressed(QMouseEvent *event)
 {
-	GenTime mouseTime(m_timeline.mapLocalToValue(event->x()), 25);
-	
-	m_clipUnderMouse = docTrack().getClipAt(mouseTime);
-	if(m_clipUnderMouse) {
-		if(m_resizeState != None) {
-			m_resizeCommand = new KResizeCommand(m_docTrack.document(), m_clipUnderMouse);
-		}
-		
-		if (event->state() & ControlButton) {
-		  m_timeline.toggleSelectClipAt(m_docTrack, mouseTime);
-		} else if(event->state() & ShiftButton) {
-		  m_timeline.selectClipAt(m_docTrack, mouseTime);
-		}
-	} else {
-		m_timeline.selectNone();
-	}	
+	GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), 25);
+	m_clipUnderMouse = 0;
 
-	return (m_clipUnderMouse != 0);
+	switch(m_timeline->editMode()) {
+		case KdenliveApp::Move :
+										m_clipUnderMouse = docTrack()->getClipAt(mouseTime);
+										if(m_clipUnderMouse) {
+											if(m_resizeState != None) {
+												m_resizeCommand = new KResizeCommand(m_docTrack->document(), m_clipUnderMouse);
+											}
+		
+											if (event->state() & ControlButton) {
+											  m_timeline->toggleSelectClipAt(*m_docTrack, mouseTime);
+											} else if(event->state() & ShiftButton) {
+											  m_timeline->selectClipAt(*m_docTrack, mouseTime);
+											}
+											return true;
+										} else {
+											m_timeline->addCommand(m_timeline->selectNone(), true);
+										}
+										break;
+
+										
+		case KdenliveApp::Razor :
+										m_clipUnderMouse = docTrack()->getClipAt(mouseTime);
+										if(m_clipUnderMouse) {										
+											if (event->state() & ShiftButton) {
+												m_timeline->razorAllClipsAt(mouseTime);
+											} else {
+												m_timeline->addCommand(m_timeline->razorClipAt(*m_docTrack, mouseTime), true);
+											}
+											return true;
+										}
+										
+										break;
+
+										
+		case KdenliveApp::Spacer :
+										if (event->state() & ShiftButton) {
+			                m_timeline->addCommand(m_timeline->selectLaterClips(mouseTime, true), true);
+			       				} else {
+			                m_timeline->addCommand(m_timeline->selectLaterClips(mouseTime, false), true);			                
+			           		}
+										return true;
+										break;
+		default :
+										kdWarning() << "Error, mouse pressed over clips, unknown mode" << endl;
+	} 
+
+	return false;
 }
 
 bool KMMTrackVideoPanel::mouseReleased(QMouseEvent *event)
 {
-	GenTime mouseTime(m_timeline.mapLocalToValue(event->x()), 25);
-	
-	if(m_resizeState != None) {
-		m_resizeCommand->setEndSize(m_clipUnderMouse);		
-		m_timeline.addCommand(m_resizeCommand, false);
-		m_resizeCommand = 0;
-	} else {
-		if(m_dragging) {
-			m_dragging = false;
-		} else {
-			if(m_clipUnderMouse) {
-				if (event->state() & ControlButton) {
-				} else if(event->state() & ShiftButton) {
-				} else {
-					m_timeline.selectNone();
-				  m_timeline.selectClipAt(m_docTrack, mouseTime);
-				}
-			} else {
-				m_timeline.selectNone();
-			}	
-		}
+	GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), 25);
+
+	switch(m_timeline->editMode()) {
+		case KdenliveApp::Move :
+										if(m_resizeState != None) {
+											m_resizeCommand->setEndSize(m_clipUnderMouse);		
+											m_timeline->addCommand(m_resizeCommand, false);
+											m_resizeCommand = 0;
+										} else {
+											if(m_dragging) {
+												m_dragging = false;
+											} else {
+												if(m_clipUnderMouse) {
+													if (event->state() & ControlButton) {
+													} else if(event->state() & ShiftButton) {
+													} else {
+														m_timeline->addCommand(m_timeline->selectNone(), true);
+													  m_timeline->selectClipAt(*m_docTrack, mouseTime);
+													}
+												} else {
+													m_timeline->addCommand(m_timeline->selectNone(), true);
+												}	
+											}
+										}
+										break;
+		case KdenliveApp::Razor :
+										break;
+		case KdenliveApp::Spacer :
+										break;
+		default :
+										kdWarning() << "Error, mouse released over clips, unknown mode" << endl;
 	}
 
 	m_clipUnderMouse = 0;	
@@ -154,50 +196,71 @@ bool KMMTrackVideoPanel::mouseReleased(QMouseEvent *event)
 /** Set the cursor to an appropriate shape, relative to the position on the track. */
 QCursor KMMTrackVideoPanel::getMouseCursor(QMouseEvent *event)
 {
-	GenTime mouseTime(m_timeline.mapLocalToValue(event->x()), 25);
-
-	DocClipBase *clip = docTrack().getClipAt(mouseTime);		
-	if(clip) {
-		if( fabs(m_timeline.mapValueToLocal(clip->trackStart().frames(25)) - event->x()) < resizeTolerance) {
-			m_resizeState = Start;
-			return QCursor(Qt::SizeHorCursor);
-		}
-		if( fabs(m_timeline.mapValueToLocal((clip->trackEnd()).frames(25)) - event->x()) < resizeTolerance) {
-			m_resizeState = End;
-			return QCursor(Qt::SizeHorCursor);
-		}
-	}
+	GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), 25);
+	DocClipBase *clip;
+	
 	m_resizeState = None;
-	return QCursor(Qt::ArrowCursor);
+	
+	switch(m_timeline->editMode()) {
+		case KdenliveApp::Move :
+								clip = docTrack()->getClipAt(mouseTime);
+								if(clip) {
+									if( fabs(m_timeline->mapValueToLocal(clip->trackStart().frames(25)) - event->x()) < resizeTolerance) {
+										m_resizeState = Start;
+										return QCursor(Qt::SizeHorCursor);
+									}
+									if( fabs(m_timeline->mapValueToLocal((clip->trackEnd()).frames(25)) - event->x()) < resizeTolerance) {
+										m_resizeState = End;
+										return QCursor(Qt::SizeHorCursor);
+									}			
+								}
+								return QCursor(Qt::ArrowCursor);
+		case KdenliveApp::Razor :
+								return QCursor(Qt::SplitVCursor);
+		case KdenliveApp::Spacer :
+								return QCursor(Qt::SizeHorCursor);
+		default:
+								return QCursor(Qt::ArrowCursor);
+	}
 }
 
 bool KMMTrackVideoPanel::mouseMoved(QMouseEvent *event)
 {
-	GenTime mouseTime(m_timeline.mapLocalToValue(event->x()), 25);	
+	GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), 25);	
 
-	if(m_clipUnderMouse) {
-		if(m_resizeState != None) {
-			if(m_resizeState == Start) {
-				m_docTrack.resizeClipTrackStart(m_clipUnderMouse, mouseTime);
-			} else if(m_resizeState == End) {
-				m_docTrack.resizeClipCropDuration(m_clipUnderMouse, mouseTime);
-			} else {
-				kdError() << "Unknown resize state reached in KMMTimeLineTrackView::mouseMoveEvent()" << endl;
-				kdError() << "(this message should never be seen!)" << endl;
-			}
-		} else {
-			if(!m_timeline.clipSelected(m_clipUnderMouse)) {
-				if ((event->state() & ControlButton) || (event->state() & ShiftButton)) {
-					m_timeline.selectClipAt(m_docTrack,mouseTime);
-				} else {
-					m_timeline.selectNone();
-					m_timeline.selectClipAt(m_docTrack,mouseTime);
-				}
-			}
-			m_dragging = true;
-			m_timeline.initiateDrag(m_clipUnderMouse, mouseTime - m_clipUnderMouse->trackStart());
-		}
+	switch(m_timeline->editMode()) {
+		case KdenliveApp::Move :	
+								if(m_clipUnderMouse) {
+									if(m_resizeState != None) {
+										if(m_resizeState == Start) {
+											m_docTrack->resizeClipTrackStart(m_clipUnderMouse, mouseTime);
+										} else if(m_resizeState == End) {
+											m_docTrack->resizeClipTrackEnd(m_clipUnderMouse, mouseTime);
+										} else {
+											kdError() << "Unknown resize state reached in KMMTimeLineTrackView::mouseMoveEvent()" << endl;
+											kdError() << "(this message should never be seen!)" << endl;
+										}
+									} else {
+										if(!m_timeline->clipSelected(m_clipUnderMouse)) {
+											if ((event->state() & ControlButton) || (event->state() & ShiftButton)) {
+												m_timeline->selectClipAt(*m_docTrack,mouseTime);
+											} else {
+												m_timeline->addCommand(m_timeline->selectNone(), true);
+												m_timeline->selectClipAt(*m_docTrack,mouseTime);
+											}
+										}
+										m_dragging = true;
+										m_timeline->initiateDrag(m_clipUnderMouse, mouseTime - m_clipUnderMouse->trackStart());
+									}
+								}
+								break;
+		case KdenliveApp::Razor :
+								break;
+		case KdenliveApp::Spacer :
+								break;
+		default:
+								kdWarning() << "Error, mouse moved over clips, unknown mode" << endl;
 	}
-
+		
 	return true;
 }

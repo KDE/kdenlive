@@ -45,7 +45,7 @@ AVFile::~AVFile()
 void AVFile::calculateFileProperties(QMap<QString, QString> attributes)
 {
 	if(m_url.isLocalFile()) {
-		QFileInfo fileInfo(m_url.directory(false, false) + m_url.filename());
+		QFileInfo fileInfo(m_url.path());
 
 	 	/* Determines the size of the file */
 		m_filesize = fileInfo.size();

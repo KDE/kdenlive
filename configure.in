@@ -67,25 +67,14 @@ dnl KDE_NEED_FLEX dnl __kdevelop__
 dnl AC_PROG_YACC dnl __kdevelop__
 
 KDE_CREATE_SUBDIRSLIST
-AC_CONFIG_FILES([ Makefile ])
-AC_CONFIG_FILES([ doc/Makefile ])
-AC_CONFIG_FILES([ doc/en/Makefile ])
-AC_CONFIG_FILES([ icons/Makefile ])
-AC_CONFIG_FILES([ icons/hicolor/Makefile ])
-AC_CONFIG_FILES([ icons/hicolor/32x32/Makefile ])
-AC_CONFIG_FILES([ icons/hicolor/32x32/actions/Makefile ])
-AC_CONFIG_FILES([ kdenlive/Makefile ])
-AC_CONFIG_FILES([ po/Makefile ])
-AC_OUTPUT
-if test "$all_tests" = "bad"; then
-  if test ! "$cache_file" = "/dev/null"; then
-    echo ""    
-    echo "Please remove the file $cache_file after changing your setup"
-    echo "so that configure will find the changes next time."
-    echo ""
-  fi
-else
-  echo ""
-  echo "Good - your configure finished. Start make now"
-  echo ""
-fi
+AC_OUTPUT( \
+./Makefile \
+doc/Makefile \
+doc/en/Makefile \
+icons/Makefile \
+icons/hicolor/Makefile \
+icons/hicolor/32x32/Makefile \
+icons/hicolor/32x32/actions/Makefile \
+kdenlive/Makefile \
+po/Makefile \
+)

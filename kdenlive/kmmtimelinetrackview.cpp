@@ -104,7 +104,7 @@ void KMMTimeLineTrackView::mouseReleaseEvent(QMouseEvent *event)
 			if(m_panelUnderMouse->mouseReleased(event)) m_panelUnderMouse = 0;
 		}
 	} else {
-			m_timeline.selectNone();
+			m_timeline.addCommand(m_timeline.selectNone(), true);
 	}
 }
 

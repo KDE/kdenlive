@@ -31,6 +31,7 @@ Works the same as QPtrList<DocTrackBase>, but contains a number of extra functio
 class DocTrackBaseList : public QPtrList<DocTrackBase>  {
 public: 
 	DocTrackBaseList();
+	DocTrackBaseList(const DocTrackBaseList &list);	
 	~DocTrackBaseList();
   /** Returns an XML representation of this DocTrackBase list. */
   QDomDocument toXML();

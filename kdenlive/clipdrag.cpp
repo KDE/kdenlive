@@ -29,10 +29,10 @@ ClipDrag::ClipDrag(DocClipBase *clip, QWidget *dragSource, const char *name) :
 	m_xml = clip->toXML().toString();
 }
 
-ClipDrag::ClipDrag(AVFile * clip, QWidget * dragSource, const char * name) :
+ClipDrag::ClipDrag(KdenliveDoc *doc, AVFile * clip, QWidget * dragSource, const char * name) :
 			KURLDrag(ClipDrag::createURLList(clip), dragSource, name)
 {
-	DocClipAVFile av(clip);
+	DocClipAVFile av(doc, clip);
 
 	m_xml = av.toXML().toString();
 }
@@ -88,7 +88,7 @@ bool ClipDrag::canDecode(const QMimeSource *mime)
 }
 
 /** Attempts to decode the mimetype e as a clip. Returns a clip, or returns null */
-DocClipBaseList ClipDrag::decode(KdenliveDoc &doc, const QMimeSource *e)
+DocClipBaseList ClipDrag::decode(KdenliveDoc *doc, const QMimeSource *e)
 {	
 	DocClipBaseList cliplist;
 

@@ -30,6 +30,8 @@
 class DocClipBaseList : public QPtrList<DocClipBase>  {
 public: 
 	DocClipBaseList();
+  DocClipBaseList(const DocClipBaseList &list);
+ 	DocClipBaseList &operator=(const DocClipBaseList &list);
 	~DocClipBaseList();
   /** Compares Clips based upon starting time. */
 	int compareItems (QPtrCollection::Item i1, QPtrCollection::Item i2);
@@ -39,7 +41,8 @@ public:
 	method does not do anything. */
   void setMasterClip(DocClipBase *clip);
   /** Returns the current master clip for this cliplist. */
-  DocClipBase * masterClip();
+  DocClipBase * masterClip() const;
+  /** No descriptions */
 private: // Private attributes
   /** The "master clip" of this list. The master clip is special only in that it is mentioned
   seperately to every other clip in the clip list; it also appears in the clip list. It is

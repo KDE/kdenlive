@@ -25,6 +25,7 @@
 AVFileList::AVFileList() :
 				QPtrList<AVFile> ()
 {
+	setAutoDelete(true);
 }
 
 AVFileList::~AVFileList()

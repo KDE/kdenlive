@@ -28,6 +28,7 @@ class KRulerTimeModel : public KRulerModel  {
 public: 
 	KRulerTimeModel();
 	~KRulerTimeModel();
+  static QString mapValueToText(const int value, const int frames)  ;
   /** Returns a string representation of the value passed in the format HH:MM:SS:FF
   and assumes that the value passed is in frames.*/
   virtual QString mapValueToText(const int value) const;

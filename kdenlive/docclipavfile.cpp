@@ -23,30 +23,30 @@
 #include <iostream>
 #include <kdebug.h>
 
-DocClipAVFile::DocClipAVFile(KdenliveDoc &doc, const QString name, const KURL url) :
-						DocClipBase(),
-						m_avFile(doc.getAVFileReference(url))
+DocClipAVFile::DocClipAVFile(KdenliveDoc *doc, const QString name, const KURL url) :
+						DocClipBase(doc),
+						m_avFile(doc->getAVFileReference(url))
 {
-	setCropDuration(duration());
+	setTrackEnd(trackStart() + duration());
 	setName(name);
 		
   m_clipType = AV;
 }
 
-DocClipAVFile::DocClipAVFile(AVFile *avFile) :
-						DocClipBase(),
+DocClipAVFile::DocClipAVFile(KdenliveDoc *doc, AVFile *avFile) :
+						DocClipBase(doc),
 						m_avFile(avFile)
 {
 	m_avFile->addReference();
-	
-	setCropDuration(duration());
+
+	setTrackEnd(trackStart() + duration());
 	setName(m_avFile->name());
 
   m_clipType = AV;
 }
 
-DocClipAVFile::~DocClipAVFile(){
-
+DocClipAVFile::~DocClipAVFile()
+{
 	m_avFile->removeReference();
 	m_avFile = 0;	
 }
@@ -91,7 +91,7 @@ KURL DocClipAVFile::fileURL()
 }
 
 /** Creates a clip from the passed QDomElement. This only pertains to those details specific to DocClipAVFile.*/
-DocClipAVFile * DocClipAVFile::createClip(KdenliveDoc &doc, const QDomElement element)
+DocClipAVFile * DocClipAVFile::createClip(KdenliveDoc *doc, const QDomElement element)
 {
 	if(element.tagName() == "avfile") {
 		KURL url(element.attribute("url"));

@@ -20,14 +20,15 @@
 #include "kdenlivedoc.h"
 
 #include <klocale.h>
+#include <kdebug.h>
 
 KResizeCommand::KResizeCommand(KdenliveDoc *doc, DocClipBase *clip)
 {
 	m_doc = doc;
 	m_trackNum = clip->trackNum();
-	m_start_cropDuration = clip->cropDuration();
-	m_start_trackStart = clip->trackStart();
-	m_start_cropStart = clip->cropStartTime();
+	m_end_trackEnd = m_start_trackEnd = clip->trackEnd();
+	m_end_trackStart = m_start_trackStart = clip->trackStart();
+	m_end_cropStart = m_start_cropStart = clip->cropStartTime();
 }
 
 KResizeCommand::~KResizeCommand()
@@ -36,7 +37,7 @@ KResizeCommand::~KResizeCommand()
 
 void KResizeCommand::setEndSize(DocClipBase *clip)
 {
-	m_end_cropDuration = clip->cropDuration();
+	m_end_trackEnd = clip->trackEnd();
 	m_end_trackStart = clip->trackStart();
 	m_end_cropStart = clip->cropStartTime();
 }
@@ -50,17 +51,36 @@ QString KResizeCommand::name() const
 /** Executes this command */
 void KResizeCommand::execute()
 {
-	DocClipBase *clip = m_doc->track(m_trackNum)->getClipAt( m_start_trackStart + (m_start_cropDuration / 2.0));
-	clip->setTrackStart(m_end_trackStart);
-	clip->setCropStartTime(m_end_cropStart);
-	clip->setCropDuration(m_end_cropDuration);	
+	DocClipBase *clip = m_doc->track(m_trackNum)->getClipAt( (m_start_trackStart + m_start_trackEnd) / 2.0);
+	if(!clip) {
+		kdWarning() << "ResizeCommand execute failed - cannot find clip!!!" << endl;
+	} else {
+		clip->setTrackStart(m_end_trackStart);
+		clip->setCropStartTime(m_end_cropStart);
+		clip->setTrackEnd(m_end_trackEnd);
+	}
 }
 
 /** Unexecutes this command */
 void KResizeCommand::unexecute()
 {
-	DocClipBase *clip = m_doc->track(m_trackNum)->getClipAt( m_end_trackStart + (m_end_cropDuration / 2.0));
-	clip->setTrackStart(m_start_trackStart);
-	clip->setCropStartTime(m_start_cropStart);
-	clip->setCropDuration(m_start_cropDuration);
+	DocClipBase *clip = m_doc->track(m_trackNum)->getClipAt( m_end_trackStart + ((m_end_trackEnd - m_end_trackStart) / 2.0));
+	if(!clip) {
+		kdWarning() << "ResizeCommand unexecute failed - cannot find clip!!!" << endl;
+	} else {
+		clip->setTrackStart(m_start_trackStart);
+		clip->setCropStartTime(m_start_cropStart);
+		clip->setTrackEnd(m_start_trackEnd);
+	}
+}
+
+/** Sets the trackEnd() for the end destination to the time specified. */
+void KResizeCommand::setEndTrackEnd(const GenTime &time)
+{
+	m_end_trackEnd = time;
+}
+
+void KResizeCommand::setEndTrackStart(const GenTime &time)
+{
+	m_end_trackStart = time;
 }

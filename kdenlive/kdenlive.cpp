@@ -36,9 +36,13 @@
 #include "kdenlive.h"
 #include "kdenliveview.h"
 #include "kdenlivedoc.h"
+#include "kdenlivesetupdlg.h"
 #include "kprogress.h"
+#include "krulertimemodel.h"
 
 #define ID_STATUS_MSG 1
+#define ID_EDITMODE_MSG 2
+#define ID_CURTIME_MSG 2
 
 KdenliveApp::KdenliveApp(QWidget* , const char* name):KMainWindow(0, name)
 {
@@ -90,12 +94,17 @@ void KdenliveApp::initActions()
   editPaste = KStdAction::paste(this, SLOT(slotEditPaste()), actionCollection());
   viewToolBar = KStdAction::showToolbar(this, SLOT(slotViewToolBar()), actionCollection());
   viewStatusBar = KStdAction::showStatusbar(this, SLOT(slotViewStatusBar()), actionCollection());
+  optionsPreferences = KStdAction::preferences(this, SLOT(slotOptionsPreferences()), actionCollection());
 
   timelineMoveTool = new KRadioAction(i18n("Move/Resize Tool"), "moveresize.png", 0, this, SLOT(slotTimelineMoveTool()), actionCollection(),"timeline_move_tool");
   timelineRazorTool = new KRadioAction(i18n("Razor Tool"), "razor.png", 0, this, SLOT(slotTimelineRazorTool()), actionCollection(),"timeline_razor_tool");
   timelineSpacerTool = new KRadioAction(i18n("Spacing Tool"), "spacer.png", 0, this, SLOT(slotTimelineSpacerTool()), actionCollection(),"timeline_spacer_tool");
   timelineSnapToFrame = new KToggleAction(i18n("Snap To Frames"), "snaptoframe.png", 0, this, SLOT(slotTimelineSnapToFrame()), actionCollection(),"timeline_snap_frame");
   timelineSnapToBorder = new KToggleAction(i18n("Snap To Border"), "snaptoborder.png", 0, this, SLOT(slotTimelineSnapToBorder()), actionCollection(),"timeline_snap_border");
+
+  projectAddClips = new KToggleAction(i18n("Add Clips"), "addclips.png", 0, this, SLOT(slotProjectAddClips()), actionCollection(), "project_add_clip");
+  projectDeleteClips = new KToggleAction(i18n("Delete Clips"), "deleteclips.png", 0, this, SLOT(slotProjectDeleteClips()), actionCollection(), "project_delete_clip");
+  projectClean = new KToggleAction(i18n("Clean Project"), "cleanproject.png", 0, this, SLOT(slotProjectClean()), actionCollection(), "project_clean");  
 
   renderExportTimeline = new KAction(i18n("&Export Timeline"), 0, 0, this, SLOT(slotRenderExportTimeline()), actionCollection(), "render_export_timeline");
 
@@ -122,6 +131,9 @@ void KdenliveApp::initActions()
   timelineSpacerTool->setStatusText(i18n("Shifts all clips to the right of mouse"));
   timelineSnapToFrame->setStatusText(i18n("Clips will align to the nearest frame"));
   timelineSnapToBorder->setStatusText(i18n("Clips will align with the borders of other clips"));
+  projectAddClips->setStatusText(i18n("Add clips to the project"));
+  projectDeleteClips->setStatusText(i18n("Remove clips from the project"));
+  projectClean->setStatusText(i18n("Remove unused clips from the project"));  
 
   // use the absolute path to your kdenliveui.rc file for testing purpose in createGUI();
   createGUI();
@@ -138,7 +150,11 @@ void KdenliveApp::initStatusBar()
 
   m_statusBarProgress = new KProgress(statusBar());
   m_statusBarProgress->setTextEnabled(false);
+  
   statusBar()->addWidget(m_statusBarProgress);
+
+  statusBar()->insertItem(i18n("Move/Resize mode"), ID_EDITMODE_MSG, 0, true);
+  statusBar()->insertItem(i18n("Current Time : ") + "00:00:00.00", ID_CURTIME_MSG, 0, true);  
 }
 
 void KdenliveApp::initDocument()
@@ -158,7 +174,6 @@ void KdenliveApp::initView()
   doc->addView(view);
   setCentralWidget(view);	
   setCaption(doc->URL().fileName(),false);
-
 }
 
 void KdenliveApp::openDocumentFile(const KURL& url)
@@ -321,7 +336,7 @@ void KdenliveApp::slotFileOpen()
   else
   {	
     KURL url=KFileDialog::getOpenURL(QString::null,
-        i18n("*.kdenlive|Kdenlive Project Files"), this, i18n("Open File..."));
+        i18n("*.kdenlive|Kdenlive Project Files (*.kdenlive)\n*.dv|Raw DV File (*.dv)\n*|All Files"), this, i18n("Open File..."));
     if(!url.isEmpty())
     {
       doc->openDocument(url);
@@ -342,7 +357,7 @@ void KdenliveApp::slotFileOpenRecent(const KURL& url)
   }
   else
   {
-  	kdDebug() << "Opening url " << url.fileName() << endl;
+  	kdDebug() << "Opening url " << url.path() << endl;
     doc->openDocument(url);
     setCaption(url.fileName(), false);
   }
@@ -364,13 +379,16 @@ void KdenliveApp::slotFileSaveAs()
   slotStatusMsg(i18n("Saving file with a new filename..."));
 
   KURL url=KFileDialog::getSaveURL(QDir::currentDirPath(),
-        i18n("*.kdenlive|Kdenlive Project Files"), this, i18n("Save as..."));
+        i18n("*.kdenlive|Kdenlive Project Files (*.kdenlive)"), this, i18n("Save as..."));
   if(!url.isEmpty())
   {
+    if(url.path().find(".") == -1) {
+      url.setFileName(url.filename() + ".kdenlive");
+    }
     doc->saveDocument(url);
     fileOpenRecent->addURL(url);
     setCaption(url.fileName(),doc->isModified());
-  }
+  }  
 
   slotStatusMsg(i18n("Ready."));
 }
@@ -522,16 +540,19 @@ void KdenliveApp::addCommand(KCommand *command, bool execute)
 /** Called when the move tool is selected */
 void KdenliveApp::slotTimelineMoveTool()
 {
+  statusBar()->changeItem(i18n("Move/Resize tool"), ID_EDITMODE_MSG);
 }
 
 /** Called when the razor tool action is selected */
 void KdenliveApp::slotTimelineRazorTool()
 {
+  statusBar()->changeItem(i18n("Razor tool"), ID_EDITMODE_MSG);
 }
 
 /** Called when the spacer tool action is selected */
 void KdenliveApp::slotTimelineSpacerTool()
 {
+  statusBar()->changeItem(i18n("Spacer tool"), ID_EDITMODE_MSG);
 }
 
 /** Called when the user activates the "Export Timeline" action */
@@ -548,4 +569,79 @@ void KdenliveApp::slotRenderExportTimeline()
   }        
 
   slotStatusMsg(i18n("Ready."));  
+}
+
+void KdenliveApp::slotOptionsPreferences()
+{
+  slotStatusMsg(i18n("Editing Preferences"));
+
+  KdenliveSetupDlg dialog(this, "setupdlg");
+  dialog.exec();
+  
+  slotStatusMsg(i18n("Ready."));    
+}
+
+/** Returns the editing mode that the timeline should operate with */
+KdenliveApp::TimelineEditMode KdenliveApp::timelineEditMode()
+{
+	if(timelineMoveTool->isChecked()) return Move;
+	if(timelineRazorTool->isChecked()) return Razor;
+	if(timelineSpacerTool->isChecked()) return Spacer;
+
+	// fallback in case something is wrong.
+	kdWarning() << "No timeline tool enabled, returning default" << endl;
+	return Move;	
+}
+
+/** Updates the current time in the status bar. */
+void KdenliveApp::slotUpdateCurrentTime(GenTime time)
+{
+  statusBar()->changeItem(i18n("Current Time : ") + KRulerTimeModel::mapValueToText((int)round(time.frames(doc->framesPerSecond())), doc->framesPerSecond()), ID_EDITMODE_MSG);  
+}
+
+/** Add clips to the project */
+void KdenliveApp::slotProjectAddClips()
+{
+  slotStatusMsg(i18n("Adding Clips"));
+
+	// determine file types supported by Arts
+	QString filter = "*";
+
+	KURL::List urlList=KFileDialog::getOpenURLs(	QString::null,
+							filter,
+							this,
+							i18n("Open File..."));
+
+	KURL::List::Iterator it;
+	KURL url;
+
+	for(it = urlList.begin(); it != urlList.end(); it++) {
+		url =  (*it);
+		if(!url.isEmpty()) {
+		  	doc->insertAVFile(url);
+		}
+	}
+    
+  slotStatusMsg(i18n("Ready."));     
+}
+
+/** Remove clips from the project */
+void KdenliveApp::slotProjectDeleteClips()
+{
+  slotStatusMsg(i18n("Removing Clips"));
+  slotStatusMsg(i18n("Ready."));     
+}
+
+/** Cleans the project of unwanted clips */
+void KdenliveApp::slotProjectClean()
+{
+  slotStatusMsg(i18n("Cleaning Project"));
+
+  if(KMessageBox::warningContinueCancel(this,
+			 i18n("Clean Project removes files from the project that are unused.\
+			 Are you sure you want to do this?")) == KMessageBox::Continue) {
+		doc->cleanAVFileList();
+	}
+  
+  slotStatusMsg(i18n("Ready."));
 }

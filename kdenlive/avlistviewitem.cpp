@@ -43,8 +43,7 @@ QString AVListViewItem::text ( int column ) const {
 	}
 	
 	if(m_listView->columnText(column) == i18n("Size")) {			
-		/*long fileSize = m_clip->fileSize();*/
-		long fileSize = 0;
+		long fileSize = m_clip->fileSize();
 		long tenth;
 		if(fileSize < 1024) {		
 			return QString::number(fileSize) + "B";

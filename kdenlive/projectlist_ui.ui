@@ -40,48 +40,6 @@
                 </size>
             </property>
         </widget>
-        <widget class="QLayoutWidget">
-            <property name="name">
-                <cstring>Layout1</cstring>
-            </property>
-            <property name="layoutSpacing" stdset="0">
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <property name="margin">
-                    <number>0</number>
-                </property>
-                <property name="spacing">
-                    <number>0</number>
-                </property>
-                <widget class="QPushButton">
-                    <property name="name">
-                        <cstring>m_addButton</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Add Files</string>
-                    </property>
-                </widget>
-                <widget class="QPushButton">
-                    <property name="name">
-                        <cstring>m_deleteButton</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Delete File</string>
-                    </property>
-                </widget>
-                <widget class="QPushButton">
-                    <property name="name">
-                        <cstring>m_cleanButton</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Clean Project</string>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
     </vbox>
 </widget>
 <customwidgets>

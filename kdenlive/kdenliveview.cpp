@@ -27,7 +27,7 @@
 KdenliveView::KdenliveView(QWidget *parent, const char *name) :
 				QSplitter(Vertical, parent, name),
 				m_topSplitter(Horizontal, this, name),
-				m_projectList(getDocument(), &m_topSplitter, name),
+				m_projectList((KdenliveApp *)parentWidget(), getDocument(), &m_topSplitter, name),
 				m_monitor(getDocument(), &m_topSplitter, name),				
 				m_rulerPanel(new KMMRulerPanel(NULL, "Ruler Panel")),
 				m_timeline((KdenliveApp *) parentWidget(), m_rulerPanel, NULL, getDocument(), this, name)
@@ -36,12 +36,18 @@ KdenliveView::KdenliveView(QWidget *parent, const char *name) :
 
   connect(m_rulerPanel, SIGNAL(timeScaleChanged(int)), &m_timeline, SLOT(setTimeScale(int)));
 
-  connect(&m_projectList, SIGNAL(signal_AddFile(const KURL &)), getDocument(), SLOT(slot_InsertAVFile(const KURL &)));
   connect(&m_projectList, SIGNAL(dragDropOccured(QDropEvent *)), getDocument(), SLOT(slot_insertClips(QDropEvent *)));
-
   connect(&m_timeline, SIGNAL(projectLengthChanged(int)), &m_monitor, SLOT(setClipLength(int)));
 
+  connect(&m_timeline, SIGNAL(seekPositionChanged(GenTime)), &m_monitor, SLOT(seek(GenTime)));
+  connect(&m_monitor, SIGNAL(seekPositionChanged(GenTime)), &m_timeline, SLOT(seek(GenTime)));  
+  
   connect(getDocument(), SIGNAL(avFileListUpdated()), &m_projectList, SLOT(slot_UpdateList()));
+
+  KdenliveApp *theApp=(KdenliveApp *)parentWidget();
+  connect(&m_monitor, SIGNAL(seekPositionChanged(GenTime)), theApp, SLOT(slotUpdateCurrentTime(GenTime)));
+  
+  m_timeline.calculateProjectSize();
 }
 
 KdenliveView::~KdenliveView()

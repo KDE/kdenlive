@@ -111,6 +111,7 @@ void KRender::readData()
 /** Sends an XML command to the renderer. */
 void KRender::sendCommand(QDomDocument command)
 {
+//	kdDebug() << "Sending Command " << command.toString() << endl;
 	QCString str = command.toCString();
 	m_socket.writeBlock(str, strlen(str));	
 }
@@ -155,8 +156,8 @@ replyCreateVideoXWindow() once the renderer has replied. */
 void KRender::createVideoXWindow(bool show)
 {
 	QDomDocument doc;
-	QDomElement elem = doc.createElement("createVideoXWindow");
-	elem.setAttribute("show", "true");
+	QDomElement elem = doc.createElement("createVideoXWindow");	
+	elem.setAttribute("show", show ? "true" : "false");
 	doc.appendChild(elem);
 	
 	sendCommand(doc);

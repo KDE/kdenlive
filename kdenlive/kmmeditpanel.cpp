@@ -14,6 +14,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
+#include <cmath>
  
 #include "kmmeditpanel.h"
 
@@ -101,4 +103,10 @@ void KMMEditPanel::play()
 void KMMEditPanel::stop()
 {
 	emit playSpeedChanged(0.0);
+}
+
+/** Sets the current seek position to the one specified */
+void KMMEditPanel::seek(GenTime time)
+{
+  m_ruler->setSliderValue(0, (int)round(time.frames(m_document->framesPerSecond())));
 }

@@ -22,6 +22,8 @@
 
 #include "docclipbase.h"
 
+class KdenliveDoc;
+
 /**
 	* ProjectListView contains a derived class from KListView which sets up the correct column headers
 	* for the view, etc.
@@ -37,12 +39,17 @@ public:
   QDragObject *dragObject();
   /** returns true if the drop event is compatable with the project list */
 	bool acceptDrag (QDropEvent* event) const;
+  /** Sets the document to the one specified */
+  void setDocument(KdenliveDoc *doc);
 signals: // Signals
   /** This signal is called whenever clips are drag'n'dropped onto the project list view. */
   void dragDropOccured(QDropEvent *e);
 private slots: // Private slots
   /** This slot function should be called whenever a drag has been dropped onto the class. */
   void dragDropped(QDropEvent* e, QListViewItem* parent, QListViewItem* after);
+private: // Private attributes
+  /** The document that keeps this list up-to-date. */
+  KdenliveDoc * m_doc;  
 };
 
 #endif

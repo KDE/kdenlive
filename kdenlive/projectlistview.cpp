@@ -20,11 +20,14 @@
 #include <avlistviewitem.h>
 #include <clipdrag.h>
 
+#include <kdebug.h>
 #include <klocale.h>
 
 ProjectListView::ProjectListView(QWidget *parent, const char *name):
 								KListView(parent, name)
 {
+		m_doc = 0;
+
     addColumn( i18n( "Filename" ) );
     addColumn( i18n( "Type" ) );
     addColumn( i18n( "Duration" ) );
@@ -49,7 +52,11 @@ QDragObject *ProjectListView::dragObject()
 {
 	AVListViewItem *item = (AVListViewItem *)selectedItem();
 
-	return new ClipDrag(item->clip(), parentWidget(), "drag object");
+	if(m_doc==0) {
+		kdError() << "m_doc undefined" << endl;
+		return 0;
+	}
+	return new ClipDrag(m_doc, item->clip(), parentWidget(), "drag object");
 }
 
 bool ProjectListView::acceptDrag (QDropEvent* event) const
@@ -65,4 +72,10 @@ bool ProjectListView::acceptDrag (QDropEvent* event) const
 void ProjectListView::dragDropped(QDropEvent* e, QListViewItem* parent, QListViewItem* after)
 {
 	emit dragDropOccured(e);
+}
+
+/** Sets the document to the one specified */
+void ProjectListView::setDocument(KdenliveDoc *doc)
+{
+	m_doc = doc;
 }

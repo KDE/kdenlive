@@ -27,10 +27,14 @@ DocTrackBase::DocTrackBase(KdenliveDoc *doc)
 	m_sortingEnabled = 1;
 	m_collisionDetectionEnabled = 1;
 	m_doc = doc;
+	m_selectedClipList.setAutoDelete(false);
+	m_unselectedClipList.setAutoDelete(false);	
 }
 
 DocTrackBase::~DocTrackBase()
 {
+	m_selectedClipList.setAutoDelete(true);
+	m_unselectedClipList.setAutoDelete(true);
 }
 
 bool DocTrackBase::addClip(DocClipBase *clip, bool selected)
@@ -104,20 +108,22 @@ DocClipBase *DocTrackBase::getClipAt(GenTime value)
 {
 	QPtrListIterator<DocClipBase> u_itt(m_unselectedClipList);
 	DocClipBase *file;
-	
-	for(;	(file=u_itt.current()) != 0; ++u_itt) {
+
+	while( (file = u_itt.current()) ) {
 		if(file->trackStart() > value) break;
-		if(file->trackStart() + file->cropDuration() > value) {
+		if(file->trackEnd() > value) {
 			return file;
 		}
+		++u_itt;
 	}
 
-	QPtrListIterator<DocClipBase> s_itt(m_selectedClipList);	
-	for(;	(file=s_itt.current()) != 0; ++s_itt) {
+	QPtrListIterator<DocClipBase> s_itt(m_selectedClipList);
+	while( (file = s_itt.current()) ) {
 		if(file->trackStart() > value) break;
-		if(file->trackStart() + file->cropDuration() > value) {
+		if(file->trackEnd() > value) {
 			return file;
 		}
+		++s_itt;
 	}
 
 	return 0;
@@ -217,7 +223,7 @@ void DocTrackBase::moveClips(GenTime offset, bool selected)
 	while( (clip=itt.current()) != 0) {
 		++itt;
 
-		clip->setTrackStart(clip->trackStart() + offset);
+		clip->moveTrackStart(clip->trackStart() + offset);
 	}
 	
 	enableCollisionDetection(true);
@@ -302,38 +308,38 @@ void DocTrackBase::resizeClipTrackStart(DocClipBase *clip, GenTime newStart)
 
 	clip->setTrackStart(clip->trackStart() + newStart);
 	clip->setCropStartTime(clip->cropStartTime() + newStart);
-	clip->setCropDuration(clip->cropDuration() - newStart);
 }
 
-void DocTrackBase::resizeClipCropDuration(DocClipBase *clip, GenTime newStart)
+void DocTrackBase::resizeClipTrackEnd(DocClipBase *clip, GenTime newEnd)
 {
 	if(!clipExists(clip)) {
 		kdError() << "Trying to resize non-existant clip! (resizeClipCropDuration)" << endl;
 		return;
 	}	
-	
-	newStart = newStart - clip->trackStart();	
 
-	if(newStart > clip->duration() - clip->cropStartTime()) {
-		newStart = clip->duration() - clip->cropStartTime();
+	GenTime cropDuration = newEnd - clip->trackStart();
+
+	if(cropDuration > clip->duration() - clip->cropStartTime()) {
+		newEnd = clip->duration() - clip->cropStartTime() + clip->trackStart();
+		cropDuration = newEnd - clip->trackStart();
 	}
 	
-	if(newStart < 0) {
+	if(newEnd < clip->trackStart()) {
 		kdWarning() << "Clip has been resized to zero length" << endl;
-		newStart = 0;
+		newEnd = clip->trackStart();
 	}
 
 	#warning - the following code does not work for large increments - small clips might be overlapped.
 	#warning - Replace with code that looks at the clip directly after the clip we are working with.
 	DocClipBase *test;
 
-	test = getClipAt(clip->trackStart() + newStart); 
+	test = getClipAt(newEnd); 
 
 	if((test) && (test != clip)) {
-		newStart = test->trackStart() - clip->trackStart();
+		newEnd = test->trackStart();
 	}
 
-	clip->setCropDuration(newStart);
+	clip->setTrackEnd(newEnd);
 }
 
 /** Returns the total length of the track - in other words, it returns the end of the
@@ -411,7 +417,7 @@ DocTrackBase * DocTrackBase::createTrack(KdenliveDoc *doc, QDomElement elem)
 		QDomElement e = n.toElement();
 		if(!e.isNull()) {
 			if(e.tagName() == "clip") {
-				DocClipBase *clip = DocClipBase::createClip(*doc, e);
+				DocClipBase *clip = DocClipBase::createClip(doc, e);
 				if(clip) {
 					track->addClip(clip, false);
 				} else {
@@ -426,4 +432,17 @@ DocTrackBase * DocTrackBase::createTrack(KdenliveDoc *doc, QDomElement elem)
 	}	
 
 	return track;
+}
+
+/** Alerts the track that it's trackIndex within the document has
+changed. The track should update the clips on it with the new
+index value. */
+void DocTrackBase::trackIndexChanged(int index)
+{
+  DocTrackClipIterator itt(*this);
+
+  while(itt.current()) {
+  	itt.current()->setParentTrack(this, index);
+  	++itt;
+  }
 }

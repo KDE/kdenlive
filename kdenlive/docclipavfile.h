@@ -35,8 +35,8 @@ class KdenliveDoc;
 
 class DocClipAVFile : public DocClipBase {
 public:
-	DocClipAVFile(KdenliveDoc &doc, const QString name, const KURL url);
-  DocClipAVFile(AVFile *avFile);
+	DocClipAVFile(KdenliveDoc *doc, const QString name, const KURL url);
+  DocClipAVFile(KdenliveDoc *doc, AVFile *avFile);
 	~DocClipAVFile();
 	QString fileName();
 	
@@ -49,7 +49,7 @@ public:
   /** Returns the url of the AVFile this clip contains */
   KURL fileURL();
   /** Creates a clip from the passed QDomElement. This only pertains to those details specific to DocClipAVFile.*/
-  static DocClipAVFile * createClip(KdenliveDoc &doc, const QDomElement element);
+  static DocClipAVFile * createClip(KdenliveDoc *doc, const QDomElement element);
 private:	
 	/** A play object factory, used for calculating information, and previewing files */
 	/** Determines whether this file contains audio, video or both. */

@@ -23,6 +23,7 @@ KMMMonitor::KMMMonitor(KdenliveDoc *document, QWidget *parent, const char *name 
 										m_editPanel(document, this, name)
 {
 	connect(&m_editPanel, SIGNAL(seekPositionChanged(GenTime)), &m_screen, SLOT(seek(GenTime)));
+	connect(&m_editPanel, SIGNAL(seekPositionChanged(GenTime)), this, SIGNAL(seekPositionChanged(GenTime)));  
 	connect(&m_editPanel, SIGNAL(playSpeedChanged(double)), &m_screen, SLOT(play(double)));
 }
 
@@ -35,4 +36,10 @@ temporary function, and will be changed in the future. */
 void KMMMonitor::setClipLength(int frames)
 {
 	m_editPanel.setClipLength(frames);
+}
+
+/** Seek the monitor to the given time. */
+void KMMMonitor::seek(GenTime time)
+{
+  m_editPanel.seek(time);
 }

@@ -24,9 +24,11 @@
 KSelectClipCommand::KSelectClipCommand(KdenliveDoc *doc, DocClipBase *clip, bool select)
 {
 	m_doc = doc;
-	m_track = doc->trackIndex(doc->findTrack(clip));
+	DocTrackBase *docTrack = doc->findTrack(clip);
+	m_track = doc->trackIndex(docTrack);
 	m_findTime = clip->trackStart() + (clip->cropDuration() / 2.0);
 	m_selectClip = select;
+	m_unexecuteSelection = docTrack->clipSelected(clip);
 }
 
 KSelectClipCommand::~KSelectClipCommand()
@@ -36,25 +38,15 @@ KSelectClipCommand::~KSelectClipCommand()
 /** Executes the command */
 void KSelectClipCommand::execute()
 {
-	DocTrackBase *track = m_doc->track(m_track);	
-	
-	if(m_selectClip) {
-		track->selectClip(track->getClipAt(m_findTime), true);
-	} else {
-		track->selectClip(track->getClipAt(m_findTime), false);	
-	}
+	DocTrackBase *track = m_doc->track(m_track);		
+	track->selectClip(track->getClipAt(m_findTime), m_selectClip);
 }
 
 /** Unexecutes the command */
 void KSelectClipCommand::unexecute()
 {
 	DocTrackBase *track = m_doc->track(m_track);
-
-	if(m_selectClip) {
-		track->selectClip(track->getClipAt(m_findTime), false);
-	} else {
-		track->selectClip(track->getClipAt(m_findTime), true);
-	}
+	track->selectClip(track->getClipAt(m_findTime), m_unexecuteSelection);
 }
 
 /** Rerturns the (translated) name of this command */

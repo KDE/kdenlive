@@ -22,6 +22,13 @@
 DocTrackBaseList::DocTrackBaseList() :
 									QPtrList<DocTrackBase> ()
 {
+	setAutoDelete(true);
+}
+
+DocTrackBaseList::DocTrackBaseList(const DocTrackBaseList &list) :
+									QPtrList<DocTrackBase> (list)
+{
+	setAutoDelete(true);
 }
 
 DocTrackBaseList::~DocTrackBaseList()
@@ -59,7 +66,13 @@ void DocTrackBaseList::generateFromXML(KdenliveDoc *doc, QDomElement elem)
 		QDomElement e = n.toElement();
 		if(!e.isNull()) {
 			if(e.tagName() == "track") {
-				append(DocTrackBase::createTrack(doc, e));
+				DocTrackBase *track = DocTrackBase::createTrack(doc, e);
+				if(track == 0) {
+					kdError() << "Track not created" << endl;
+				} else {
+					append(track);
+					track->trackIndexChanged(find(track));
+				}
 			} else {
 				kdWarning() << "Unknown tag " << e.tagName() << ", skipping..." << endl;
 			}

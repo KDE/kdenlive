@@ -25,6 +25,19 @@ DocClipBaseList::DocClipBaseList() :
 	m_masterClip = 0;
 }
 
+DocClipBaseList::DocClipBaseList(const DocClipBaseList &list) :
+							QPtrList<DocClipBase>(list)
+{
+	m_masterClip = list.masterClip();
+}
+
+DocClipBaseList &DocClipBaseList::operator=(const DocClipBaseList &list)
+{
+	QPtrList<DocClipBase>::operator=(list);	
+	m_masterClip = list.masterClip();
+	return *this;
+}
+
 DocClipBaseList::~DocClipBaseList()
 {
 }
@@ -60,7 +73,7 @@ QDomDocument DocClipBaseList::toXML()
 	return doc;
 }
 
-DocClipBase * DocClipBaseList::masterClip()
+DocClipBase * DocClipBaseList::masterClip() const
 {
 	return m_masterClip;
 }

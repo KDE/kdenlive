@@ -21,17 +21,17 @@ addcxxflags=
 bin_program=kdenlive
 cflags=
 cppflags=
-cxxflags=\s-O0 -pg -g1 -Wall
+cxxflags=\s-O0 -g3 -Wall
 ldadd=\s$(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT)
-ldflags=\s                           \s
+ldflags=\s                              \s
 
 [General]
 AMChanged=false
 author=Jason Wood
-configure_args=--prefix=/usr\s
+configure_args=--prefix=/usr --enable-debug\s
 email=jasonwood@blueyonder.co.uk
 kdevprj_version=1.3
-lfv_open_groups=Others,User Interface
+lfv_open_groups=
 make_options=\s-j1
 makefiles=Makefile.am,kdenlive/Makefile.am,doc/Makefile.am,doc/en/Makefile.am,po/Makefile.am,icons/Makefile.am,icons/hicolor/32x32/Makefile.am,icons/hicolor/Makefile.am,icons/hicolor/32x32/actions/Makefile.am
 modifyMakefiles=true
@@ -174,7 +174,7 @@ install_location=
 type=DATA
 
 [kdenlive/Makefile.am]
-files=kdenlive/main.cpp,kdenlive/kdenlive.cpp,kdenlive/kdenlive.h,kdenlive/kdenlivedoc.cpp,kdenlive/kdenlivedoc.h,kdenlive/kdenliveview.cpp,kdenlive/kdenliveview.h,kdenlive/kdenliveui.rc,kdenlive/kdenlive.desktop,kdenlive/lo32-app-kdenlive.png,kdenlive/lo16-app-kdenlive.png,kdenlive/avlistviewitem.cpp,kdenlive/doctrackbase.cpp,kdenlive/doctracksound.cpp,kdenlive/doctrackvideo.cpp,kdenlive/kmmmonitor.cpp,kdenlive/kmmscreen.cpp,kdenlive/kmmtimeline.cpp,kdenlive/projectlist.cpp,kdenlive/addtrackdialog_ui.ui,kdenlive/avlistviewitem.h,kdenlive/doctrackbase.h,kdenlive/doctracksound.h,kdenlive/doctrackvideo.h,kdenlive/kmmmonitor.h,kdenlive/kmmscreen.h,kdenlive/kmmtimeline.h,kdenlive/projectlist.h,kdenlive/projectlist_ui.ui,kdenlive/clipdrag.cpp,kdenlive/clipdrag.h,kdenlive/kmmtrackvideopanel.cpp,kdenlive/kmmtrackvideopanel.h,kdenlive/kmmtracksoundpanel.cpp,kdenlive/kmmtracksoundpanel.h,kdenlive/docclipavfile.cpp,kdenlive/docclipavfile.h,kdenlive/docclipbase.cpp,kdenlive/docclipbase.h,kdenlive/docclipproject.cpp,kdenlive/docclipproject.h,kdenlive/projectlistview.cpp,kdenlive/projectlistview.h,kdenlive/kruler.cpp,kdenlive/kruler.h,kdenlive/kfixedruler.cpp,kdenlive/kfixedruler.h,kdenlive/krulermodel.cpp,kdenlive/krulermodel.h,kdenlive/kscalableruler.cpp,kdenlive/kscalableruler.h,kdenlive/krulersliderbase.cpp,kdenlive/krulersliderbase.h,kdenlive/krulertimemodel.cpp,kdenlive/krulertimemodel.h,kdenlive/avfile.cpp,kdenlive/avfile.h,kdenlive/kmmtrackpanel.cpp,kdenlive/kmmtrackpanel.h,kdenlive/kmmtimelinetrackview.cpp,kdenlive/kmmtimelinetrackview.h,kdenlive/docclipbaselist.cpp,kdenlive/docclipbaselist.h,kdenlive/kmmeditpanel_ui.ui,kdenlive/kmmeditpanel.cpp,kdenlive/kmmeditpanel.h,kdenlive/kmmrulerpanel.cpp,kdenlive/kmmrulerpanel.h,kdenlive/kmmrulerpanel_ui.ui,kdenlive/gentime.cpp,kdenlive/gentime.h,kdenlive/avfilelist.cpp,kdenlive/avfilelist.h,kdenlive/doctrackbaselist.cpp,kdenlive/doctrackbaselist.h,kdenlive/krender.cpp,kdenlive/krender.h,kdenlive/doctrackclipiterator.cpp,kdenlive/doctrackclipiterator.h,kdenlive/kmmtrackkeyframepanel.cpp,kdenlive/kmmtrackkeyframepanel.h,kdenlive/rangelist.cpp,kdenlive/rangelist.h,kdenlive/kmoveclipscommand.cpp,kdenlive/kmoveclipscommand.h,kdenlive/kselectclipcommand.cpp,kdenlive/kselectclipcommand.h,kdenlive/kaddclipcommand.cpp,kdenlive/kaddclipcommand.h,kdenlive/kresizecommand.cpp,kdenlive/kresizecommand.h
+files=kdenlive/main.cpp,kdenlive/kdenlive.cpp,kdenlive/kdenlive.h,kdenlive/kdenlivedoc.cpp,kdenlive/kdenlivedoc.h,kdenlive/kdenliveview.cpp,kdenlive/kdenliveview.h,kdenlive/kdenliveui.rc,kdenlive/kdenlive.desktop,kdenlive/lo32-app-kdenlive.png,kdenlive/lo16-app-kdenlive.png,kdenlive/avlistviewitem.cpp,kdenlive/doctrackbase.cpp,kdenlive/doctracksound.cpp,kdenlive/doctrackvideo.cpp,kdenlive/kmmmonitor.cpp,kdenlive/kmmscreen.cpp,kdenlive/kmmtimeline.cpp,kdenlive/projectlist.cpp,kdenlive/addtrackdialog_ui.ui,kdenlive/avlistviewitem.h,kdenlive/doctrackbase.h,kdenlive/doctracksound.h,kdenlive/doctrackvideo.h,kdenlive/kmmmonitor.h,kdenlive/kmmscreen.h,kdenlive/kmmtimeline.h,kdenlive/projectlist.h,kdenlive/projectlist_ui.ui,kdenlive/clipdrag.cpp,kdenlive/clipdrag.h,kdenlive/kmmtrackvideopanel.cpp,kdenlive/kmmtrackvideopanel.h,kdenlive/kmmtracksoundpanel.cpp,kdenlive/kmmtracksoundpanel.h,kdenlive/docclipavfile.cpp,kdenlive/docclipavfile.h,kdenlive/docclipbase.cpp,kdenlive/docclipbase.h,kdenlive/docclipproject.cpp,kdenlive/docclipproject.h,kdenlive/projectlistview.cpp,kdenlive/projectlistview.h,kdenlive/kruler.cpp,kdenlive/kruler.h,kdenlive/kfixedruler.cpp,kdenlive/kfixedruler.h,kdenlive/krulermodel.cpp,kdenlive/krulermodel.h,kdenlive/kscalableruler.cpp,kdenlive/kscalableruler.h,kdenlive/krulersliderbase.cpp,kdenlive/krulersliderbase.h,kdenlive/krulertimemodel.cpp,kdenlive/krulertimemodel.h,kdenlive/avfile.cpp,kdenlive/avfile.h,kdenlive/kmmtrackpanel.cpp,kdenlive/kmmtrackpanel.h,kdenlive/kmmtimelinetrackview.cpp,kdenlive/kmmtimelinetrackview.h,kdenlive/docclipbaselist.cpp,kdenlive/docclipbaselist.h,kdenlive/kmmeditpanel_ui.ui,kdenlive/kmmeditpanel.cpp,kdenlive/kmmeditpanel.h,kdenlive/kmmrulerpanel.cpp,kdenlive/kmmrulerpanel.h,kdenlive/kmmrulerpanel_ui.ui,kdenlive/gentime.cpp,kdenlive/gentime.h,kdenlive/avfilelist.cpp,kdenlive/avfilelist.h,kdenlive/doctrackbaselist.cpp,kdenlive/doctrackbaselist.h,kdenlive/krender.cpp,kdenlive/krender.h,kdenlive/doctrackclipiterator.cpp,kdenlive/doctrackclipiterator.h,kdenlive/kmmtrackkeyframepanel.cpp,kdenlive/kmmtrackkeyframepanel.h,kdenlive/rangelist.cpp,kdenlive/rangelist.h,kdenlive/kmoveclipscommand.cpp,kdenlive/kmoveclipscommand.h,kdenlive/kselectclipcommand.cpp,kdenlive/kselectclipcommand.h,kdenlive/kaddclipcommand.cpp,kdenlive/kaddclipcommand.h,kdenlive/kresizecommand.cpp,kdenlive/kresizecommand.h,kdenlive/kdenlivesetupdlg.cpp,kdenlive/kdenlivesetupdlg.h,kdenlive/rendersetupdlg_ui.ui,kdenlive/rendersetupdlg.cpp,kdenlive/rendersetupdlg.h
 type=prog_main
 
 [kdenlive/addtrackdialog_ui.ui]
@@ -388,6 +388,18 @@ install_location=
 type=SOURCE
 
 [kdenlive/kdenlivedoc.h]
+dist=true
+install=false
+install_location=
+type=HEADER
+
+[kdenlive/kdenlivesetupdlg.cpp]
+dist=true
+install=false
+install_location=
+type=SOURCE
+
+[kdenlive/kdenlivesetupdlg.h]
 dist=true
 install=false
 install_location=
@@ -722,6 +734,24 @@ dist=true
 install=false
 install_location=
 type=HEADER
+
+[kdenlive/rendersetupdlg.cpp]
+dist=true
+install=false
+install_location=
+type=SOURCE
+
+[kdenlive/rendersetupdlg.h]
+dist=true
+install=false
+install_location=
+type=HEADER
+
+[kdenlive/rendersetupdlg_ui.ui]
+dist=true
+install=false
+install_location=
+type=SOURCE
 
 [po/Makefile.am]
 files=po/en_GB.po

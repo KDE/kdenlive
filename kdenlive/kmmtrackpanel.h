@@ -34,12 +34,12 @@ class KMMTimeLine;
 class KMMTrackPanel : public QFrame  {
 	Q_OBJECT
 public: 
-	KMMTrackPanel(KMMTimeLine &timeline, DocTrackBase & docTrack, QWidget *parent, const char *name);
+	KMMTrackPanel(KMMTimeLine *timeline, DocTrackBase *docTrack, QWidget *parent, const char *name);
 	~KMMTrackPanel();
   /** Read property of KMMTimeLine * m_timeline. */
-  KMMTimeLine & timeLine();
+  KMMTimeLine * timeLine();
   /** returns the document track which is displayed by this track */
-  DocTrackBase & docTrack();
+  DocTrackBase * docTrack();
   /** This function will paint a clip on screen. This funtion must be provided by a derived class. */
 	virtual void paintClip(QPainter &painter, DocClipBase *clip, QRect &rect, bool selected) = 0;
 	/** Paints the backbuffer into the relevant place using the painter supplied. The track should be drawn into
@@ -56,10 +56,10 @@ public:
   virtual QCursor getMouseCursor(QMouseEvent *event) = 0;
 protected: // Protected attributes
   /** The track document class that should be queried to build up this track view. */
-  DocTrackBase &m_docTrack;
+  DocTrackBase *m_docTrack;
   /** The KMMTrackPanel needs access to various methods from it's parents Timeline. The parent timeline
   	 is stored in this variable. */
-  KMMTimeLine & m_timeline;
+  KMMTimeLine *m_timeline;
 };
 
 #endif

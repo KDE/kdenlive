@@ -35,7 +35,7 @@ class KMMTrackVideoPanel : public KMMTrackPanel  {
    Q_OBJECT
 public:
 	enum ResizeState {None, Start, End};
-	KMMTrackVideoPanel(KMMTimeLine &timeline, DocTrackVideo & docTrack, QWidget *parent=0, const char *name=0);
+	KMMTrackVideoPanel(KMMTimeLine *timeline, DocTrackVideo *docTrack, QWidget *parent=0, const char *name=0);
 	~KMMTrackVideoPanel();
   /** Paint the specified clip on screen within the specified rectangle, using the specified painter. */
   void paintClip(QPainter &painter, DocClipBase *clip, QRect &rect, bool selected);

@@ -32,6 +32,8 @@
 #include <kaction.h>
 #include <kurl.h>
 
+#include "gentime.h"
+
 // forward declaration of the Kdenlive classes
 class KdenliveDoc;
 class KdenliveView;
@@ -77,6 +79,12 @@ class KdenliveApp : public KMainWindow
   bool snapToBorderEnabled();
   /** Adds a command to the command history, execute it if execute is true. */
   void addCommand(KCommand *command, bool execute=true);
+
+	/** The various editing modes that the timeline is capable of */
+	enum TimelineEditMode {Move, Razor, Spacer};
+	    
+  /** Returns the editing mode that the timeline should operate with */
+  TimelineEditMode timelineEditMode();
 
   protected:
     /** save general Options like all bar positions and status as well as the geometry and the recent file list to the configuration
@@ -178,6 +186,16 @@ class KdenliveApp : public KMainWindow
   void slotTimelineMoveTool();
   /** Called when the user activates the "Export Timeline" action */
   void slotRenderExportTimeline();
+  /** Called when the user activates the "Preferencfes" action */  
+  void slotOptionsPreferences();  
+  /** Updates the current time in the status bar. */
+  void slotUpdateCurrentTime(GenTime time);
+  /** Cleans the project of unwanted clips */
+  void slotProjectClean();
+  /** Remove clips from the project */
+  void slotProjectDeleteClips();
+  /** Add clips to the project */
+  void slotProjectAddClips();
 
   private:
     /** the configuration object of the application */
@@ -206,6 +224,11 @@ class KdenliveApp : public KMainWindow
     KAction* editCut;
     KAction* editCopy;
     KAction* editPaste;
+    KAction* optionsPreferences;
+    KAction* projectAddClips;
+    KAction* projectDeleteClips;
+    KAction* projectClean;
+    
     KToggleAction* viewToolBar;
     KToggleAction* viewStatusBar;
     

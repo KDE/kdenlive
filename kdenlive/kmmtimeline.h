@@ -22,6 +22,7 @@
 #include <qvbox.h>
 
 #include "kmmtrackpanel.h"
+#include "kdenlive.h"
 
 class QHBox;
 class KdenliveDoc;
@@ -29,7 +30,6 @@ class QScrollView;
 class QScrollBar;
 class KMMTimeLineTrackView;
 class KScalableRuler;
-class KdenliveApp;
 class KMoveClipsCommand;
 class KMacroCommand;
 class KCommand;
@@ -44,7 +44,7 @@ class KMMTimeLine : public QVBox  {
 public: 
 	KMMTimeLine(KdenliveApp *app, QWidget *rulerToolWidget, QWidget *scrollToolWidget, KdenliveDoc *document, QWidget *parent=0, const char *name=0);
 	~KMMTimeLine();
-private:
+private:	
 	/** GUI elements */
 	QHBox *m_rulerBox;				 	// Horizontal box holding the ruler
 	QScrollView *m_trackScroll; 	// Scrollview holding the tracks
@@ -99,6 +99,9 @@ snap point before the snap takes effect. */
   /** True if we are currently in the process of adding clips to the timeline.
 	False otherwise. */
   bool m_addingClips;
+  /** When dragging a clip, this is the time offset that should be applied to where the mouse cursor
+  to find the beginning of the master clip. */
+  GenTime m_clipOffset;  
 public: // Public methods
   /** This method adds a new track to the trackGrid. */
   void appendTrack(KMMTrackPanel *track);
@@ -129,7 +132,7 @@ public: // Public methods
   /** Deselects all clips on the timeline. This does not affect any clips that are "in transition" onto the
 	timeline,i.e. in a drag process, clips that are in m_selection but have not been placed do not become
 	deselected */
-  void selectNone();
+  KCommand *selectNone();
   
   /** Returns m_trackList
 
@@ -170,6 +173,21 @@ the currently seeked frame. */
   GenTime seekPosition();
   /** Adds a command to the command history, if execute is set to true then the command will be executed. */
   void addCommand(KCommand *command, bool execute=true);
+  /** Razors the clip that is on the specified track, at the specified time. */
+  KCommand *razorClipAt(DocTrackBase &track, GenTime &time);
+  /** Razor all clips which are at the time specified, irrespective of which track they are on. */
+  KCommand *razorAllClipsAt(GenTime time);
+  /** Returns the edit mode of the timeline. */
+  KdenliveApp::TimelineEditMode editMode();
+  /** Resize a clip on the timeline. If resizeEnd is true, then the end of the
+clip is moved, otherwise the beginning of the clips is moved. The clip
+is resized so that whichever end is moved is set to time. */
+  KCommand * resizeClip(DocClipBase *clip, bool resizeEnd, GenTime &time);
+  /** Selects all of the clips on the timeline which occur later than the
+specified time. If include is true, then clips which overlap the
+specified time will be selected, otherwise only those clips which
+are later on the tiemline (i.e. trackStart() > time) will be selected. */
+  KCommand * selectLaterClips(GenTime time, bool include);
 private: // private methods
 	void resizeTracks();
 	
@@ -184,7 +202,6 @@ private: // private methods
   /** Constructs a list of all clips that are currently selected. It does nothing else i.e.
 it does not remove the clips from the timeline. */
   DocClipBaseList listSelected();
-  /** Constructs the snap to grid list, in preperation for using it in a move operation. */
   void generateSnapToGridList();
   /** Creates a "Add clips" command, containing all of the clips currently in the selection on the timeline. This command is then added to the command history. */
   KMacroCommand *createAddClipsCommand(bool addingClips);
@@ -203,15 +220,16 @@ public slots: // Public slots
   updates the display. */
   void setTimeScale(int scale);
   /** Calculates the size of the project, and sets up the timeline to accomodate it. */
-  void calculateProjectSize(double rulerScale);
-  
-public: // Public attributes
-  /** When dragging a clip, this is the time offset that should be applied to where the mouse cursor
-  to find the beginning of the master clip. */
-  GenTime m_clipOffset;
+  void calculateProjectSize();
+  /** A ruler slider has moved - do something! */
+  void slotSliderMoved(int slider, int value);
+  /** Seek the timeline to the current position. */
+  void seek(GenTime time);
 signals: // Signals
   /** emitted when the length of the project has changed. */
   void projectLengthChanged(int numFrames);
+  /** Emitted when the seek position on the timeline changes. */
+  void seekPositionChanged(GenTime time);
 };
 
 #endif

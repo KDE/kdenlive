@@ -43,7 +43,7 @@ QPtrList<KdenliveView> *KdenliveDoc::pViewList = 0L;
 KRender KdenliveDoc::temporaryRenderer;
 
 KdenliveDoc::KdenliveDoc(QWidget *parent, const char *name) : QObject(parent, name)
-{
+{	
   if(!pViewList)
   {
     pViewList = new QPtrList<KdenliveView>();
@@ -52,6 +52,7 @@ KdenliveDoc::KdenliveDoc(QWidget *parent, const char *name) : QObject(parent, na
   m_framesPerSecond = 25; // Standard PAL.
 
   m_fileList.setAutoDelete(true);
+  m_tracks.setAutoDelete(true);
 	
   pViewList->setAutoDelete(true);
 
@@ -63,7 +64,10 @@ KdenliveDoc::KdenliveDoc(QWidget *parent, const char *name) : QObject(parent, na
   connect(this, SIGNAL(avFileListUpdated()), this, SLOT(hasBeenModified()));
   connect(this, SIGNAL(trackListChanged()), this, SLOT(hasBeenModified()));  
 
+	m_domSceneList.appendChild(m_domSceneList.createElement("scenelist"));
   m_render->setSceneList(generateSceneList());
+  
+  setModified(false);
 }
 
 KdenliveDoc::~KdenliveDoc()
@@ -106,6 +110,7 @@ void KdenliveDoc::slotUpdateAllViews(KdenliveView *sender)
 
 bool KdenliveDoc::saveModified()
 {
+	kdDebug() << "KdenliveDoc in saveModified()" << endl;
   bool completed=true;
 
   if(m_modified)
@@ -152,44 +157,50 @@ bool KdenliveDoc::saveModified()
 
 void KdenliveDoc::closeDocument()
 {
+	kdDebug() << "KdenliveDoc in closeDocument()" << endl;
   deleteContents();
 }
 
 bool KdenliveDoc::newDocument()
 {
-  /////////////////////////////////////////////////
-  // TODO: Add your document initialization code here
-  /////////////////////////////////////////////////
-
-  deleteContents();
-  m_fileList.setAutoDelete(true);
+	kdDebug() << "Creating new document" << endl;  
 
   addVideoTrack();
   addVideoTrack();
   addVideoTrack();
   addVideoTrack();  
 
-  setModified(false);
   m_doc_url.setFileName(i18n("Untitled"));
+
+  emit trackListChanged();
+  setModified(false);  
 
   return true;
 }
 
 bool KdenliveDoc::openDocument(const KURL& url, const char *format /*=0*/)
-{	
-  QString tmpfile;
-  if(KIO::NetAccess::download( url, tmpfile )) {
-	  QFile file(tmpfile);
-	 	if(file.open(IO_ReadOnly)) {  	
-	  	QDomDocument doc;
-	    doc.setContent(&file, false);
-	    loadFromXML(doc);
-	  }	  
-	  KIO::NetAccess::removeTempFile( tmpfile );
-	  setModified(false);
-	  return true;	  
-	}
-	
+{
+  if(url.isEmpty()) return false;
+
+  if(url.filename().right(9) == ".kdenlive") {
+    QString tmpfile;
+    if(KIO::NetAccess::download( url, tmpfile )) {
+  	  QFile file(tmpfile);
+  	 	if(file.open(IO_ReadOnly)) {  	
+  	  	QDomDocument doc;
+  	    doc.setContent(&file, false);
+  	    loadFromXML(doc);
+  	  }	  
+  	  KIO::NetAccess::removeTempFile( tmpfile );
+  	  setModified(false);
+  	  return true;	  
+  	}
+
+  	emit trackListChanged();
+  } else {
+    insertAVFile(url);
+  }
+  	
 	return false;
 }
 
@@ -223,12 +234,11 @@ bool KdenliveDoc::saveDocument(const KURL& url, const char *format /*=0*/)
 
 void KdenliveDoc::deleteContents()
 {
-  /////////////////////////////////////////////////
-  // TODO: Add implementation to delete the document contents
-  /////////////////////////////////////////////////
-
+	kdDebug() << "deleting contents..." << endl;
+	
+  m_tracks.clear();  
   m_fileList.clear();
-  m_tracks.clear();
+	emit trackListChanged();  
 }
 
 void KdenliveDoc::slot_InsertAVFile(const KURL &file)
@@ -276,6 +286,7 @@ void KdenliveDoc::addSoundTrack(){
 /** Adds a track to the project */
 void KdenliveDoc::addTrack(DocTrackBase *track){
 	m_tracks.append(track);
+	track->trackIndexChanged(trackIndex(track));
 	emit trackListChanged();
 }
 
@@ -303,6 +314,8 @@ DocTrackBase * KdenliveDoc::nextTrack()
 /** Inserts a list of clips into the document, updating the project accordingly. */
 void KdenliveDoc::slot_insertClips(QPtrList<DocClipBase> clips)
 {
+	if(clips.isEmpty()) return;
+	
 	clips.setAutoDelete(true);
 	
 	DocClipBase *clip;		
@@ -336,7 +349,7 @@ void KdenliveDoc::slot_insertClips(QDropEvent *event)
 	// sanity check.
 	if(!ClipDrag::canDecode(event)) return;
 
-	DocClipBaseList clips = ClipDrag::decode(*this, event);
+	DocClipBaseList clips = ClipDrag::decode(this, event);
 
 	slot_insertClips(clips);	
 }
@@ -516,35 +529,26 @@ bool KdenliveDoc::moveSelectedClips(GenTime startOffset, int trackOffset)
 /** Returns a scene list generated from the current document. */
 QDomDocument KdenliveDoc::generateSceneList()
 {
-	static QString str_sceneList="scenelist";
 	static QString str_inpoint="inpoint";
 	static QString str_outpoint="outpoint";
 	static QString str_file="file";		
 	
 	int totalTracks = numTracks();
 
-	m_domSceneList.documentElement().clear();
+	while(!m_domSceneList.documentElement().firstChild().isNull()) {
+		m_domSceneList.documentElement().removeChild(m_domSceneList.documentElement().firstChild()).clear();
+	}
 
-	QDomElement elem = m_domSceneList.createElement(str_sceneList);
-
-	// generate the header
-/*	QDomElement header = doc.createElement("header");
- 	QDomElement version = doc.createElement("version");
-  version.setAttribute("major", "0");
-  version.setAttribute("minor", "06");
-  header.appendChild(version);	
-	elem.appendChild(header);*/
-				
 	// Generate the scene list.
   GenTime curTime, nextTime, clipStart, clipEnd;
   GenTime invalidTime(-1.0);
-  DocClipBase *curClip;  
+  DocClipBase *curClip;
   int count;
 
   QPtrVector<DocTrackClipIterator> itt(totalTracks);
 
   QValueVector<GenTime> nextScene(totalTracks);
-  
+
   itt.setAutoDelete(true);
 
   for(count=0; count<totalTracks; count++) {
@@ -556,9 +560,8 @@ QDomDocument KdenliveDoc::generateSceneList()
     }
   }
 
-  
   do {
-    curTime = nextTime;	  
+    curTime = nextTime;
 
     for(count=0; count<totalTracks; count++) {
     	if(nextScene[count] == invalidTime) continue;
@@ -595,7 +598,7 @@ QDomDocument KdenliveDoc::generateSceneList()
         if(curClip->trackStart() >= nextTime) continue;
         if(curClip->trackEnd() <= curTime) continue;
 
-	     sceneClip = m_domSceneList.createElement("input");
+       sceneClip = m_domSceneList.createElement("input");
 	     	sceneClip.setAttribute(str_file, curClip->fileURL().path());
 	     	sceneClip.setAttribute(str_inpoint, QString::number((curTime - curClip->trackStart() + curClip->cropStartTime()).seconds()));
 	     	sceneClip.setAttribute(str_outpoint, QString::number((nextTime - curClip->trackStart() + curClip->cropStartTime()).seconds()));
@@ -604,12 +607,10 @@ QDomDocument KdenliveDoc::generateSceneList()
 	    if(!sceneClip.isNull()) {
 	    	scene.appendChild(sceneClip);
 	    }
-	    
-	    elem.appendChild(scene);
+
+	    m_domSceneList.documentElement().appendChild(scene);
 	  } 
   } while(curTime != nextTime);	
-						
-	m_domSceneList.appendChild(elem);
 
 	return m_domSceneList;
 }
@@ -635,7 +636,7 @@ void KdenliveDoc::loadFromXML(QDomDocument &doc)
 	bool trackListLoaded = false;
 
 	deleteContents();
-	
+
 	QDomElement elem = doc.documentElement();
 
 	if(elem.tagName() != "kdenlivedoc") {

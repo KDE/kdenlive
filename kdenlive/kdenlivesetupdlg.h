@@ -1,7 +1,7 @@
 /***************************************************************************
-                          kmmtrackkeyframepanel.cpp  -  description
+                          kdenlivesetupdlg.h  -  description
                              -------------------
-    begin                : Sun Dec 1 2002
+    begin                : Sat Dec 28 2002
     copyright            : (C) 2002 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,18 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "kmmtrackkeyframepanel.h"
+#ifndef KDENLIVESETUPDLG_H
+#define KDENLIVESETUPDLG_H
 
-KMMTrackKeyFramePanel::KMMTrackKeyFramePanel(KMMTimeLine *timeline, DocTrackBase *doc,
-																													QWidget *parent, const char *name )
-																				: KMMTrackPanel(timeline, doc, parent,name)
-{
-}
+#include <qwidget.h>
+#include <kdialogbase.h>
 
-KMMTrackKeyFramePanel::~KMMTrackKeyFramePanel()
-{
-}
+/**This class handles the standard "Configure Kdenlive..." dialog box.
+  *@author Jason Wood
+  */
 
-void KMMTrackKeyFramePanel::paintClip(QPainter & painter, DocClipBase * clip, QRect & rect, bool selected)
-{
-}
+class KdenliveSetupDlg : public KDialogBase  {
+   Q_OBJECT
+public: 
+	KdenliveSetupDlg(QWidget *parent=0, const char *name=0);
+	~KdenliveSetupDlg();
+};
+
+#endif
