@@ -94,7 +94,9 @@ void KdenliveApp::initActions()
   timelineRazorTool = new KRadioAction(i18n("Razor Tool"), "razor.png", 0, this, SLOT(slotTimelineRazorTool()), actionCollection(),"timeline_razor_tool");
   timelineSpacerTool = new KRadioAction(i18n("Spacing Tool"), "spacer.png", 0, this, SLOT(slotTimelineSpaceTool()), actionCollection(),"timeline_spacer_tool");
   timelineSnapToFrame = new KToggleAction(i18n("Snap To Frames"), "snaptoframe.png", 0, this, SLOT(slotTimelineSnapToFrame()), actionCollection(),"timeline_snap_frame");
-  timelineSnapToBorder = new KToggleAction(i18n("Snap To Border"), "snaptoborder.png", 0, this, SLOT(slotTimelineSnapToBorder()), actionCollection(),"timeline_snap_border");  
+  timelineSnapToBorder = new KToggleAction(i18n("Snap To Border"), "snaptoborder.png", 0, this, SLOT(slotTimelineSnapToBorder()), actionCollection(),"timeline_snap_border");
+
+  renderExportTimeline = new KAction(i18n("&Export Timeline"), 0, 0, this, SLOT(slotRenderExportTimeline()), actionCollection(), "render_export_timeline");
 
   timelineMoveTool->setExclusiveGroup("timeline_tools");
   timelineRazorTool->setExclusiveGroup("timeline_tools");
@@ -314,7 +316,7 @@ void KdenliveApp::slotFileOpen()
   else
   {	
     KURL url=KFileDialog::getOpenURL(QString::null,
-        i18n("*|All files"), this, i18n("Open File..."));
+        i18n("*.kdenlive|Kdenlive Project Files"), this, i18n("Open File..."));
     if(!url.isEmpty())
     {
       doc->openDocument(url);
@@ -357,7 +359,7 @@ void KdenliveApp::slotFileSaveAs()
   slotStatusMsg(i18n("Saving file with a new filename..."));
 
   KURL url=KFileDialog::getSaveURL(QDir::currentDirPath(),
-        i18n("*|All files"), this, i18n("Save as..."));
+        i18n("*.kdenlive|Kdenlive Project Files"), this, i18n("Save as..."));
   if(!url.isEmpty())
   {
     doc->saveDocument(url);
@@ -525,4 +527,20 @@ void KdenliveApp::slotTimelineRazorTool()
 /** Called when the spacer tool action is selected */
 void KdenliveApp::slotTimelineSpacerTool()
 {
+}
+
+/** Called when the user activates the "Export Timeline" action */
+void KdenliveApp::slotRenderExportTimeline()
+{
+  slotStatusMsg(i18n("Exporting Timeline..."));
+
+  KURL url=KFileDialog::getSaveURL(QDir::currentDirPath(),
+        i18n("*.dv|Raw DV Files"), this, i18n("Export Timeline To File..."));
+
+	if(!url.isEmpty())
+  {
+    doc->renderDocument(url);
+  }        
+
+  slotStatusMsg(i18n("Ready."));  
 }

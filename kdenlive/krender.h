@@ -83,6 +83,10 @@ play the current scene at the speed specified, relative to normal
 playback. e.g. 1.0 is normal speed, 0.0 is paused, -1.0 means play
 backwards. */
   void play(double speed);
+  /** Wraps the VEML command of the same name - render the currently
+specified sceneList - set with setSceneList() - to the document
+name specified. */
+  void render(const KURL &url);
 protected: // Protected methods
   /** Recieves timer events */
   virtual void timerEvent(QTimerEvent *event);

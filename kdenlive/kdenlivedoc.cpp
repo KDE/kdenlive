@@ -678,3 +678,9 @@ void KdenliveDoc::hadBeenModified()
 {
 	setModified(true);
 }
+
+/** Renders the current document timeline to the specified url. */
+void KdenliveDoc::renderDocument(const KURL &url)
+{
+	m_render->render(url);
+}

@@ -215,6 +215,15 @@ void KRender::play(double speed)
 	sendCommand(doc);	
 }
 
+void KRender::render(const KURL &url)
+{
+	QDomDocument doc;
+	QDomElement elem = doc.createElement("render");
+	elem.setAttribute("filename", url.path());
+	doc.appendChild(elem);
+	sendCommand(doc);
+}
+
 
 
 
@@ -292,6 +301,10 @@ bool KRender::topLevelStartElement(const QString & namespaceURI, const QString &
 			m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
 			m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;
 			return true;
+		} else if(command == "render") {
+			m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
+			m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;
+			return true;
 		}
 	} else if(localName == "pong") {
 		QString id = atts.value("id");
@@ -329,3 +342,4 @@ bool KRender::reply_GenericEmpty_EndElement(const QString & namespaceURI, const 
 	m_parsing = false;
 	return true;
 }
+

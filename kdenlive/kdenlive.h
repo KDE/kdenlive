@@ -175,6 +175,8 @@ class KdenliveApp : public KMainWindow
   void slotTimelineRazorTool();
   /** Called when the move tool is selected */
   void slotTimelineMoveTool();
+  /** Called when the user activates the "Export Timeline" action */
+  void slotRenderExportTimeline();
 
   private:
     /** the configuration object of the application */
@@ -212,6 +214,8 @@ class KdenliveApp : public KMainWindow
     
     KToggleAction* timelineSnapToFrame;
 		KToggleAction* timelineSnapToBorder;
+
+    KAction* renderExportTimeline;		
 		
 		/** Holds the undo/redo command history */
 		KCommandHistory *m_commandHistory;

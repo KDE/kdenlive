@@ -154,6 +154,8 @@ is not possible. */
   bool moveSelectedClips(GenTime startOffset, int trackOffset);
   /** Returns a scene list generated from the current document. */
   QDomDocument generateSceneList();
+  /** Renders the current document timeline to the specified url. */
+  void renderDocument(const KURL &url);
 
   private:
     /** the modified flag of the current document */
