@@ -17,19 +17,20 @@
 #include "trackpanelspacerfunction.h"
 
 #include "doctrackbase.h"
-#include "kmmtimeline.h"
+#include "ktimeline.h"
+#include "kdenlive.h"
 #include "kdenlivedoc.h"
 #include "kmoveclipscommand.h"
+#include "kselectclipcommand.h"
 
-TrackPanelSpacerFunction::TrackPanelSpacerFunction(KMMTimeLine *timeline,
-							DocTrackBase *docTrack,
+TrackPanelSpacerFunction::TrackPanelSpacerFunction(KdenliveApp *app,
+							KTimeLine *timeline,
 							KdenliveDoc *doc) :
+						m_app(app),
 						m_timeline(timeline),
-						m_docTrack(docTrack),
 						m_doc(doc),
 						m_masterClip(0),
-						m_moveClipsCommand(0),
-						m_snapToGrid(doc)
+						m_moveClipsCommand(0)
 {
 }
 
@@ -38,72 +39,76 @@ TrackPanelSpacerFunction::~TrackPanelSpacerFunction()
 {
 }
 
-bool TrackPanelSpacerFunction::mouseApplies(QMouseEvent *event) const
+bool TrackPanelSpacerFunction::mouseApplies(KTrackPanel *panel, QMouseEvent *event) const
 {
 	return true;
 }
 
-QCursor TrackPanelSpacerFunction::getMouseCursor(QMouseEvent *event)
+QCursor TrackPanelSpacerFunction::getMouseCursor(KTrackPanel *panel, QMouseEvent *event)
 {
 	return QCursor(Qt::SizeHorCursor);
 }
 
-bool TrackPanelSpacerFunction::mousePressed(QMouseEvent *event)
+bool TrackPanelSpacerFunction::mousePressed(KTrackPanel *panel, QMouseEvent *event)
 {
 	GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_doc->framesPerSecond());
 	GenTime roundedMouseTime = m_timeline->timeUnderMouse(event->x());
 	m_clipUnderMouse = 0;
-	
+
 	if (event->state() & ShiftButton) {
-		m_timeline->addCommand(m_timeline->selectLaterClips(mouseTime, false), true);
+		m_app->addCommand(Command::KSelectClipCommand::selectLaterClips(m_doc, mouseTime, false), true);
 	} else {
-		m_timeline->addCommand(m_timeline->selectLaterClips(mouseTime, true), true);
+		m_app->addCommand(Command::KSelectClipCommand::selectLaterClips(m_doc, mouseTime, true), true);
 	}
-	
+
 	if(m_doc->hasSelectedClips()) {
 		m_masterClip = m_doc->selectedClip();
-		m_moveClipsCommand = new Command::KMoveClipsCommand(m_timeline, m_doc, m_masterClip);
+		m_moveClipsCommand = new Command::KMoveClipsCommand(m_doc, m_masterClip);
 		m_clipOffset = mouseTime - m_masterClip->trackStart();
-		
-		m_snapToGrid.setSnapToClipStart(m_timeline->snapToBorders());
-		m_snapToGrid.setSnapToClipEnd(m_timeline->snapToBorders());
+
+		m_snapToGrid.clearSnapList();
 		m_snapToGrid.setSnapToFrame(m_timeline->snapToFrame());
-		m_snapToGrid.setSnapToSeekTime(m_timeline->snapToSeekTime());
-		m_snapToGrid.setSnapTolerance(GenTime(m_timeline->mapLocalToValue(KMMTimeLine::snapTolerance) - m_timeline->mapLocalToValue(0), m_doc->framesPerSecond()));
-		m_snapToGrid.setIncludeSelectedClips(false);
-		m_snapToGrid.clearSeekTimes();
-		m_snapToGrid.addSeekTime(m_timeline->seekPosition());
-		
-		QValueList<GenTime> cursor = m_timeline->selectedClipTimes();
+		if(m_timeline->snapToSeekTime()) m_snapToGrid.addToSnapList(m_timeline->seekPosition());
+		m_snapToGrid.setSnapTolerance(GenTime(m_timeline->mapLocalToValue(KTimeLine::snapTolerance) - m_timeline->mapLocalToValue(0), m_doc->framesPerSecond()));
+
+		m_snapToGrid.addToSnapList(m_doc->getSnapTimes(m_timeline->snapToBorders(),
+										m_timeline->snapToMarkers(),
+										true,
+										false));
+
+		QValueVector<GenTime> cursor = m_doc->getSnapTimes(m_timeline->snapToBorders(),
+													m_timeline->snapToMarkers(),
+													false,
+													true);
 		m_snapToGrid.setCursorTimes(cursor);
 	}
-	
+
 	return true;
 }
 
-bool TrackPanelSpacerFunction::mouseReleased(QMouseEvent *event)
+bool TrackPanelSpacerFunction::mouseReleased(KTrackPanel *panel, QMouseEvent *event)
 {
 	if(m_moveClipsCommand) {
 		m_moveClipsCommand->setEndLocation(m_masterClip);
-		m_timeline->addCommand(m_moveClipsCommand, false);
+		m_app->addCommand(m_moveClipsCommand, false);
 		m_moveClipsCommand = 0;
 	}
-		
+
 	return true;
 }
 
-bool TrackPanelSpacerFunction::mouseMoved(QMouseEvent *event)
+bool TrackPanelSpacerFunction::mouseMoved(KTrackPanel *panel, QMouseEvent *event)
 {
 	GenTime mouseTime = m_timeline->timeUnderMouse(event->x()) - m_clipOffset;
 	mouseTime = m_snapToGrid.getSnappedTime(mouseTime);
 	mouseTime = mouseTime + m_clipOffset;
-	
+
 	if(m_moveClipsCommand) {
 		GenTime startOffset = mouseTime - m_clipOffset - m_masterClip->trackStart();
 		m_doc->moveSelectedClips(startOffset, 0);
 		m_timeline->drawTrackViewBackBuffer();
 	}
-	
+
 	return true;
 }
 

@@ -39,15 +39,21 @@ namespace Command {
 
 class KAddClipCommand : public KCommand  {
 public:
+	/** Return a command that wil clean the DocumentBaseNode node of all of it's children. */
+	static KCommand *clearChildren(DocumentBaseNode &node, KdenliveDoc &document);
+
+	/** Returns a command that will clean document of all DocumentBaseNodes. */
+	static KCommand *clearProject(KdenliveDoc &document);
+
 	/** Construct an AddClipCommand that will delete a clip */
-	KAddClipCommand(KdenliveDoc &document, 
-				const QString &name, 
-				DocClipBase *clip, 
+	KAddClipCommand(KdenliveDoc &document,
+				const QString &name,
+				DocClipBase *clip,
 				DocumentBaseNode *parent,
 			       	bool create=true);
 
 	KAddClipCommand(KdenliveDoc &document, const KURL &url, bool create=true);
-		
+
 	~KAddClipCommand();
 	/** Unexecute the command */
 	void unexecute();

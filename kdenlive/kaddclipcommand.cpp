@@ -29,6 +29,47 @@
 
 namespace Command {
 
+
+KCommand *KAddClipCommand::clearProject(KdenliveDoc &document)
+{
+	KMacroCommand *macroCommand = new KMacroCommand( i18n("Clean Project") );
+
+	KCommand *command = clearChildren(*document.clipHierarch(), document);
+	macroCommand->addCommand(command);
+
+	return macroCommand;
+}
+
+KCommand *KAddClipCommand::clearChildren(DocumentBaseNode &node, KdenliveDoc &document)
+{
+	KMacroCommand *macroCommand = new KMacroCommand(i18n("Clean project") );
+
+	QPtrListIterator<DocumentBaseNode> itt(node.children());
+
+	while(itt.current()) {
+		DocumentBaseNode *node = itt.current();
+
+		if(node->hasChildren()) {
+			macroCommand->addCommand(clearChildren(*node, document));
+		} else {
+			DocumentClipNode *clipNode = node->asClipNode();
+
+			if(clipNode) {
+				DocClipBase *file = clipNode->clipRef()->referencedClip();
+				if(file->numReferences() == 0) {
+					macroCommand->addCommand(new KAddClipCommand(document, clipNode->name(), clipNode->clipRef()->referencedClip(), clipNode->parent(), false));
+				}
+			} else {
+				macroCommand->addCommand(new KAddClipCommand(document, node->name(), NULL, node->parent(), false));
+			}
+		}
+
+		++itt;
+	}
+
+	return macroCommand;
+}
+
 /** Construct an AddClipCommand that will add or delete a clip */
 KAddClipCommand::KAddClipCommand(KdenliveDoc &document,
 	       				const QString &name,

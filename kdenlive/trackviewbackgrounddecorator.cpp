@@ -21,14 +21,14 @@
 #include "docclipref.h"
 #include "gentime.h"
 #include "kdenlivedoc.h"
-#include "kmmtimeline.h"
+#include "ktimeline.h"
 
-TrackViewBackgroundDecorator::TrackViewBackgroundDecorator(KMMTimeLine* timeline,
-																KdenliveDoc* doc,
-																DocTrackBase* track,
-																const QColor &selected,
-																const QColor &unselected) :
-									TrackViewDecorator(timeline, doc, track),
+TrackViewBackgroundDecorator::TrackViewBackgroundDecorator(KTimeLine* timeline,
+												KdenliveDoc* doc,
+												DocTrackBase* track,
+												const QColor &selected,
+												const QColor &unselected) :
+									DocTrackDecorator(timeline, doc, track),
 									m_selected(selected),
 									m_unselected(unselected)
 {
@@ -44,8 +44,6 @@ void TrackViewBackgroundDecorator::paintClip(QPainter& painter, DocClipRef* clip
 {
 	int sx = (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
 	int ex = (int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
-	int clipWidth = ex-sx;
-	int tx = ex;
 
 	if(sx < rect.x()) {
 		sx = rect.x();

@@ -6,6 +6,8 @@
   </Menu>
   <Menu name="edit"><text>&amp;Edit</text>
   	<Action name="delete_selected_clips"/>
+	<Action name="razor_selected_clips"/>
+	<Action name="razor_all_clips"/>
 	<Separator lineSeperator="true"/>
 	<Action name="clear_all_snap_markers"/>
 	<Action name="clear_snap_markers_from_selected"/>
@@ -52,14 +54,20 @@
 </Menu>
 
 <Menu name="timeline_context">
-	<Action name="timeline_move_tool"/>
-	<Action name="timeline_razor_tool"/>
-	<Action name="timeline_spacer_tool"/>
-	<Action name="timeline_marker_tool"/>
+	<Menu name="tools"><text>Tools</text>
+		<Action name="timeline_move_tool"/>
+		<Action name="timeline_razor_tool"/>
+		<Action name="timeline_spacer_tool"/>
+		<Action name="timeline_marker_tool"/>
+	</Menu>
+	<Menu name="snap"><text>Snap To</text>
+		<Action name="timeline_snap_frame"/>
+		<Action name="timeline_snap_border"/>
+		<Action name="timeline_snap_marker"/>
+	</Menu>
 	<Separator lineSeparator="true"/>
-	<Action name="timeline_snap_frame"/>
-	<Action name="timeline_snap_border"/>
-	<Action name="timeline_snap_marker"/>
+	<Action name="razor_selected_clips"/>
+	<Action name="razor_all_clips"/>
 	<Separator lineSeparator="true"/>
 	<Action name="clear_all_snap_markers"/>
 	<Action name="clear_snap_markers_from_selected"/>

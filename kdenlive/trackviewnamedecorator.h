@@ -17,18 +17,20 @@
 #ifndef TRACKVIEWNAMEDECORATOR_H
 #define TRACKVIEWNAMEDECORATOR_H
 
-#include <trackviewdecorator.h>
+#include <doctrackdecorator.h>
+
+class KTimeLine;
 
 /**
 A decorator that adds the name of the clip to the clip itself.
 
 @author Jason Wood
 */
-class TrackViewNameDecorator : public TrackViewDecorator
+class TrackViewNameDecorator : public DocTrackDecorator
 {
 public:
-    TrackViewNameDecorator(KMMTimeLine* timeline, 
-    			KdenliveDoc* doc, 
+    TrackViewNameDecorator(KTimeLine* timeline,
+    			KdenliveDoc* doc,
     			DocTrackBase* track);
 
     virtual ~TrackViewNameDecorator();

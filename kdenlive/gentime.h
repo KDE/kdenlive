@@ -61,6 +61,12 @@ public:
 		return GenTime(m_time - op.m_time);
 	}
 
+
+	/** Multiplies one GenTime by a double value, returning a GenTime */
+	GenTime operator*(double op) const {
+		return GenTime(m_time * op);
+	}
+
 	/** Divides one GenTime by a double value, returning a GenTime */
 	GenTime operator/(double op) const {
 		return GenTime(m_time / op);

@@ -28,7 +28,7 @@
 
 class KScalableRuler : public KRuler  {
    Q_OBJECT
-public: 
+public:
 	KScalableRuler(KRulerModel *model, QWidget *parent=0, const char *name=0);
 	KScalableRuler(QWidget *parent=0, const char *name=0);
 	~KScalableRuler();

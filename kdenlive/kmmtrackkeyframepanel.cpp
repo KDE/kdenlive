@@ -17,7 +17,6 @@
 
 #include "kmmtrackkeyframepanel.h"
 #include "kdenlivedoc.h"
-#include "kmmtimeline.h"
 #include "kresizecommand.h"
 #include "kdebug.h"
 
@@ -26,30 +25,37 @@
 #include "trackpanelrazorfunction.h"
 #include "trackpanelspacerfunction.h"
 
-#include "trackviewbackgrounddecorator.h"
+#include "ktrackview.h"
+#include "trackpanelfunctionfactory.h"
 
-KMMTrackKeyFramePanel::KMMTrackKeyFramePanel(KMMTimeLine *timeline,
+#include "trackviewbackgrounddecorator.h"
+#include "trackviewdoublekeyframedecorator.h"
+
+KMMTrackKeyFramePanel::KMMTrackKeyFramePanel(KdenliveApp *app,
+						KTimeLine *timeline,
 						KdenliveDoc *doc,
 						DocTrackBase *docTrack,
-						QWidget *parent, 
+						const QString &effectName,
+						int effectIndex,
+						const QString &effectParam,
+						QWidget *parent,
 						const char *name) :
 					KMMTrackPanel(timeline, doc, docTrack, parent,name)
 {
 	setMinimumHeight(30);
 	setMaximumHeight(30);
 
-	TrackPanelClipResizeFunction *resize = new TrackPanelClipResizeFunction(timeline, doc, docTrack);
-	addFunctionDecorator(KdenliveApp::Move, resize);
-	addFunctionDecorator(KdenliveApp::Move, new TrackPanelClipMoveFunction(timeline, doc, docTrack));
-
-	connect(resize, SIGNAL(signalClipCropStartChanged(DocClipRef *)), this, SIGNAL(signalClipCropStartChanged(DocClipRef *)));
-	connect(resize, SIGNAL(signalClipCropEndChanged(DocClipRef *)), this, SIGNAL(signalClipCropEndChanged(DocClipRef *)));
-
-	addFunctionDecorator(KdenliveApp::Razor, new TrackPanelRazorFunction(timeline, doc, docTrack));
-	addFunctionDecorator(KdenliveApp::Spacer, new TrackPanelSpacerFunction(timeline, docTrack, document()));
+	addFunctionDecorator("move", "resize");
+	addFunctionDecorator("move", "move");
+	addFunctionDecorator("move", "selectnone");
+	addFunctionDecorator("razor", "razor");
+	addFunctionDecorator("spacer", "spacer");
+	addFunctionDecorator("marker", "marker");
 
 	addViewDecorator(new TrackViewBackgroundDecorator(timeline, doc, docTrack, QColor(128, 128, 128), QColor(200, 200, 200)));
+	addViewDecorator(new TrackViewDoubleKeyFrameDecorator(timeline, doc, docTrack, effectName, effectIndex, effectParam));
 }
+
 
 KMMTrackKeyFramePanel::~KMMTrackKeyFramePanel()
 {

@@ -36,7 +36,7 @@ DocClipBaseList::DocClipBaseList(const DocClipBaseList &list) :
 
 DocClipBaseList &DocClipBaseList::operator=(const DocClipBaseList &list)
 {
-	QPtrList<DocClipBase>::operator=(list);	
+	QPtrList<DocClipBase>::operator=(list);
 	m_masterClip = list.masterClip();
 	return *this;
 }
@@ -51,7 +51,7 @@ QDomDocument DocClipBaseList::toXML(const QString &element)
 
 	QPtrListIterator<DocClipBase> itt(*this);
 
-	doc.appendChild(doc.createElement("element"));
+	doc.appendChild(doc.createElement(element));
 
 	while(itt.current() != 0) {
 		QDomDocument clipDoc = itt.current()->toXML();
@@ -79,7 +79,7 @@ void DocClipBaseList::setMasterClip(DocClipBase *clip)
 	}
 }
 
-void DocClipBaseList::generateFromXML(ClipManager &clipManager, KRender *render, QDomElement elem)
+void DocClipBaseList::generateFromXML(const EffectDescriptionList &effectList, ClipManager &clipManager, KRender *render, QDomElement elem)
 {
 	if(elem.tagName() != "ClipList") {
 		kdWarning() << "ClipList cannot be generated - wrong tag : " << elem.tagName() << endl;
@@ -90,7 +90,7 @@ void DocClipBaseList::generateFromXML(ClipManager &clipManager, KRender *render,
 			QDomElement e = n.toElement();
 			if(!e.isNull()) {
 				if(e.tagName() == "clip") {
-					DocClipBase *clip = DocClipBase::createClip(clipManager, e);
+					DocClipBase *clip = DocClipBase::createClip(effectList, clipManager, e);
 
 					if(clip) {
 						append(clip);

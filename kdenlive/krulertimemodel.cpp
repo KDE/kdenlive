@@ -56,9 +56,9 @@ QString KRulerTimeModel::mapValueToText(int value, double frames)
 	text.append(":");
 	text.append(QString::number(minute).rightJustify(2, '0', FALSE));
 	text.append(":");
-  text.append(QString::number(second).rightJustify(2, '0', FALSE));
+  	text.append(QString::number(second).rightJustify(2, '0', FALSE));
 	text.append(".");
-  text.append(QString::number(frame).rightJustify(2, '0', FALSE));
+  	text.append(QString::number(frame).rightJustify(2, '0', FALSE));
 
 	return text;
 }
@@ -72,7 +72,7 @@ QString KRulerTimeModel::mapValueToText(const int value) const
 int KRulerTimeModel::getTickDisplayInterval(const int tick) const
 {
 	int seconds = tick;
-	
+
 	if(seconds > 3600*numFrames()) {
 		int hour = (tick / (3600*numFrames())) + 1;
 		seconds = hour * 3600 * numFrames();
@@ -84,8 +84,8 @@ int KRulerTimeModel::getTickDisplayInterval(const int tick) const
 			minute = 30;
 		} else if(minute > 15) {
 			minute = 20;
-		} else if(minute > 10) {			
-			minute = 15;		
+		} else if(minute > 10) {
+			minute = 15;
 		} else if(minute > 5) {
 			minute = 10;
 		} else if(minute > 1) {

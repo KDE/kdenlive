@@ -19,13 +19,14 @@
 
 #include "qcursor.h"
 
-#include "kdenlive.h"
 #include "trackpanelfunction.h"
 #include "snaptogrid.h"
 
 class QMouseEvent;
 class DocTrackBase;
+class KdenliveApp;
 class KdenliveDoc;
+class KTimeLine;
 
 namespace Command {
 	class KMoveClipsCommand;
@@ -41,7 +42,7 @@ class TrackPanelSpacerFunction : public TrackPanelFunction
 {
 	Q_OBJECT
 public:
-    TrackPanelSpacerFunction(KMMTimeLine *timeline, DocTrackBase *docTrack, KdenliveDoc *doc);
+    TrackPanelSpacerFunction(KdenliveApp *app, KTimeLine *timeline, KdenliveDoc *doc);
 
     virtual ~TrackPanelSpacerFunction();
 
@@ -49,36 +50,36 @@ public:
 	Returns true if the specified position should cause this function to activate,
 	otherwise returns false.
 	*/
-	virtual bool mouseApplies(QMouseEvent *event) const;
+	virtual bool mouseApplies(KTrackPanel *panel, QMouseEvent *event) const;
 
 	/**
 	Returns a relevant mouse cursor for the given mouse position
 	*/
-	virtual QCursor getMouseCursor(QMouseEvent *event);
+	virtual QCursor getMouseCursor(KTrackPanel *panel, QMouseEvent *event);
 
 	/**
 	A mouse button has been pressed. Returns true if we want to handle this event
 	*/
-	virtual bool mousePressed(QMouseEvent *event);
+	virtual bool mousePressed(KTrackPanel *panel, QMouseEvent *event);
 
 	/**
 	Mouse Release Events in the track view area. Returns true if we have finished
 	an operation now.
 	*/
-	virtual bool mouseReleased(QMouseEvent *event);
+	virtual bool mouseReleased(KTrackPanel *panel, QMouseEvent *event);
 
 	/**
 	Processes Mouse Move events in the track view area. Returns true if we are
 	continuing with the drag.*/
-	virtual bool mouseMoved(QMouseEvent *event);
+	virtual bool mouseMoved(KTrackPanel *panel, QMouseEvent *event);
 private:
-	KMMTimeLine *m_timeline;
-	DocTrackBase *m_docTrack;
+	KdenliveApp *m_app;
+	KTimeLine *m_timeline;
 	DocClipRef * m_clipUnderMouse;
 	KdenliveDoc *m_doc;
 	DocClipRef *m_masterClip;
 	Command::KMoveClipsCommand *m_moveClipsCommand;
-	
+
   	/**
 	When dragging a clip, this is the time offset that should be applied to where
 	the mouse cursor to find the beginning of the master clip.

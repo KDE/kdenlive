@@ -14,7 +14,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
 #include "doctracksound.h"
 #include "docclipavfile.h"
 
@@ -28,12 +28,12 @@ DocTrackSound::~DocTrackSound()
 }
 
 /** Returns true if the specified clip can be added to this track, false otherwise. */
-bool DocTrackSound::canAddClip(DocClipRef * clip)
+bool DocTrackSound::canAddClip(DocClipRef * clip) const
 {
 	DocClipRef *search;
 
 	if(!clip) return false;
-	
+
 	QPtrListIterator<DocClipRef> u_itt(m_unselectedClipList);
 
 	for(; (search=u_itt.current()) != 0; ++u_itt) {
@@ -55,7 +55,7 @@ bool DocTrackSound::canAddClip(DocClipRef * clip)
 		// the clip that we was looking at, then we are ok.
 		break;
 	}
-	
+
 	return true;
 }
 /** Returns the clip type as a string. This is a bit of a hack to give the

@@ -23,10 +23,11 @@
 
 #include "docclipreflist.h"
 
-class DocClipProject;
-class ClipProject;
 class QString;
+
+class DocClipProject;
 class ClipManager;
+class ClipProject;
 
 /**DocTrackBase is a base class for all real track entries into the database.
 It provides core functionality that all tracks must possess.
@@ -36,14 +37,14 @@ It provides core functionality that all tracks must possess.
 class DocTrackBase : public QObject
 {
 	Q_OBJECT
-public: 
+public:
 	DocTrackBase(DocClipProject *project);
 	virtual ~DocTrackBase();
 	/** Returns true if the specified clip can be added to this track, false otherwise.
 	*
 	* This method needs to be implemented by inheriting classes to define
 	* which types of clip they support. */
-	virtual bool canAddClip(DocClipRef *clip) = 0;
+	virtual bool canAddClip(DocClipRef *clip) const = 0;
 	/** Adds a clip to the track. Returns true if successful, false if it fails for some reason.
 	* This method calls canAddClip() to determine whether or not the clip can be added to this
 	* particular track. */
@@ -58,12 +59,12 @@ public:
 	This allows you to write standard iterator for loops over a specific range of the track.
 	You must choose which list of tracks you are interested in - the selected or unselected. */
 	QPtrListIterator<DocClipRef> endClip(GenTime startValue, GenTime endValue, bool selected);
-	/** Returns an iterator to the first clip (chronologically) which overlaps the start/end 
+	/** Returns an iterator to the first clip (chronologically) which overlaps the start/end
 	 * value range specified.
-	 * You must choose which list of tracks you are interested in - the selected or unselected. */  
+	 * You must choose which list of tracks you are interested in - the selected or unselected. */
 	QPtrListIterator<DocClipRef> firstClip(GenTime startValue, GenTime endValue, bool selected);
 	/** Returns the clip which resides at the current value, or 0 if non exists */
-	DocClipRef *getClipAt(GenTime value);
+	DocClipRef *getClipAt(const GenTime &value) const;
 	/** Adds all of the clips in the pointerlist into this track. */
 	void addClips(DocClipRefList list, bool selected);
 	/** returns true if all of the clips within the cliplist can be added, returns false otherwise. */
@@ -92,16 +93,16 @@ public:
 	void deleteClips(bool selected);
 	/** Returns true if the clip is in the track and is selected, false if the clip
 	is not on the track, or if the clip is unselected. */
-	bool clipSelected(DocClipRef *clip);
+	bool clipSelected(DocClipRef *clip) const;
 	/** Resizes this clip, using a new track start time of newStart.
 	If this is not possible, it fails gracefully. */
 	void resizeClipTrackStart(DocClipRef *clip, GenTime newStart);
 	/** Resizes this clip, using a new cropDuration time of newStart.
-	If this is not possible, it fails gracefully. */  
+	If this is not possible, it fails gracefully. */
 	void resizeClipTrackEnd(DocClipRef *clip, GenTime newStart);
 	/** Returns the total length of the track - in other words, it returns the end of the
 	last clip on the track. */
-	GenTime trackLength();
+	const GenTime &trackLength() const;
 	/** Returns the number of clips contained in this track. */
 	unsigned int numClips() const;
 	/** Returns an xml representation of this track. */
@@ -110,7 +111,7 @@ public:
 	bool matchesXML(const QDomElement &element) const;
 	/** Creates a track from the given xml document. Returns the track, or 0 if it
 	 * could not be created. */
-	static DocTrackBase * createTrack(ClipManager &clipManager, DocClipProject *project, QDomElement elem);
+	static DocTrackBase * createTrack(const EffectDescriptionList &descList, ClipManager &clipManager, DocClipProject *project, QDomElement elem);
 	/** Alerts the track that it's trackIndex within the document has
 	changed. The track should update the clips on it with the new
 	index value. */
@@ -130,6 +131,10 @@ public:
 
 	/** Called by the clip in question to alert doctrackbase that the clip has changed. */
 	void notifyClipChanged(DocClipRef *clip);
+
+	/** Checks to see if the track length has changed since it was last calculated, and if it has, emit a
+	"track length changed" signal. */
+	void checkTrackLength();
 private: // Private methods
 	/** Enables or disables clip sorting. This method is used internally to turn off the sorting of clips when it is known that they will be sorted elsewhere.
 
@@ -151,6 +156,8 @@ signals:
 	void signalClipSelected(DocClipRef *);
 	/** Emitted whenever a clip changes in some way, for example, gains or loses snapMarkers. */
 	void clipChanged(DocClipRef *);
+	/** Emitted if the length of the track changes. */
+	void trackLengthChanged(const GenTime &);
 protected: // Protected attributes
 	/** Contains a list of all of the unselected clips within this track. */
 	DocClipRefList m_unselectedClipList;
@@ -163,6 +170,8 @@ private: // Private attributes
 	int m_collisionDetectionEnabled;
 	/** Holds a pointer to the clip project which contains this track. */
 	DocClipProject *m_project;
+
+	GenTime m_trackLength;
 };
 
 #endif

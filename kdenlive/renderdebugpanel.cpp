@@ -26,18 +26,23 @@ RenderDebugPanel::RenderDebugPanel( QWidget *parent, const char *name ) :
 		QVBox( parent, name ),
 		m_mainLayout( this, "mainLayout" ),
 		m_rendererList( &m_mainLayout, "list" ),
-		m_widgetStack( &m_mainLayout, "stack" ),
+		m_textLayout( QSplitter::Vertical, &m_mainLayout, "textLayout" ),
+		m_widgetStack( &m_textLayout, "stack" ),
+		m_vemlEdit( &m_textLayout, "vemlEdit" ),
 		m_buttonLayout( this, "button layout" ),
 		m_spacer( &m_buttonLayout, "spacer" ),
 		m_ignoreMessages( i18n( "Ignore Incoming Messages " ), &m_buttonLayout, "ignore messages" ),
+		m_sendVemlButton( i18n( "Send Veml Command" ), &m_buttonLayout, "ignore messages" ),
 		m_saveMessages( i18n( "Save Messages" ), &m_buttonLayout, "save button" ),
 		m_nextId( 0 )
 {
 	m_spacer.setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Maximum ) );
 	m_rendererList.setSizePolicy( QSizePolicy( QSizePolicy::Maximum, QSizePolicy::Expanding ) );
 	m_widgetStack.setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding ) );
+	m_vemlEdit.setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding ) );
 	connect( &m_rendererList, SIGNAL( highlighted( int ) ), &m_widgetStack, SLOT( raiseWidget( int ) ) );
 	connect( &m_saveMessages, SIGNAL( clicked() ), this, SLOT( saveMessages() ) );
+	connect( &m_sendVemlButton, SIGNAL( clicked() ), this, SLOT( sendDebugVeml() ) );
 	m_ignoreMessages.setChecked( true );
 }
 
@@ -68,7 +73,7 @@ void RenderDebugPanel::slotPrintWarning( const QString &name, const QString &mes
 	QString newmess = message;
 
 	/*newmess.replace("<", "&lt;");
-	  newmess.replace(">", "&gt;");  
+	  newmess.replace(">", "&gt;");
 	  edit->append("<font color=red>" + newmess + "</font>");*/
 	if ( edit ) {
 		edit->setColor( QColor( 0, 0, 0 ) );
@@ -166,4 +171,9 @@ void RenderDebugPanel::setIgnoreMessages(bool ignore)
 bool RenderDebugPanel::ignoreMessages() const
 {
 	return m_ignoreMessages.isChecked();
+}
+
+void RenderDebugPanel::sendDebugVeml()
+{
+	emit debugVemlSendRequest(m_rendererList.currentText(), m_vemlEdit.text());
 }

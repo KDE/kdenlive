@@ -26,13 +26,16 @@
 #include <kurl.h>
 #include <qobject.h>
 #include <qvaluevector.h>
+#include <qptrvector.h>
 
 #include "gentime.h"
+#include "effectstack.h"
 
 class ClipManager;
 class DocClipBase;
 class DocTrackBase;
 class KdenliveDoc;
+class EffectDescriptionList;
 
 class DocClipRef : public QObject {
 	Q_OBJECT
@@ -83,14 +86,14 @@ public:
 	bool matchesXML(const QDomElement &element) const;
 
 	/** returns the duration of this clip */
-	GenTime duration() const;
+	const GenTime &duration() const;
 	/** Returns a url to a file describing this clip. Exactly what this url is,
 	whether it is temporary or not, and whether it provokes a render will
 	depend entirely on what the clip consists of. */
 	const KURL &fileURL() const;
 
 	/** Reads in the element structure and creates a clip out of it.*/
-	static DocClipRef *createClip(ClipManager &clipManager, const QDomElement &element);
+	static DocClipRef *createClip(const EffectDescriptionList &effectList, ClipManager &clipManager, const QDomElement &element);
 	/** Sets the parent track for this clip. */
 	void setParentTrack(DocTrackBase *track, const int trackNum);
 	/** Returns the track number. This is a hint as to which track the clip is on, or
@@ -104,7 +107,7 @@ public:
 	/** Move the clips so that it's trackStart coincides with the time specified. */
 	void moveTrackStart(const GenTime &time);
 	/** Returns an identical but seperate (i.e. "deep") copy of this clip. */
-	DocClipRef * clone(ClipManager &clipManager);
+	DocClipRef * clone(const EffectDescriptionList &effectList, ClipManager &clipManager);
 	/** Returns true if the clip duration is known, false otherwise. */
 	bool durationKnown() const;
 	// Returns the number of frames per second that this clip should play at.
@@ -156,6 +159,21 @@ public:
 	/** Finds and returns the time of the snap marker directly after time. If there isn't one, returns the duration of the clip. */
 	GenTime findNextSnapMarker(const GenTime &time);
 
+	/** Adds an effect to the effect stack at the specified marker position. */
+	void addEffect(uint index, Effect *effect);
+
+	/** Adds an effect to effect stack at the specified marker position. */
+	void deleteEffect(uint index);
+
+	/** Returns the effect stack */
+	const EffectStack &effectStack() const { return m_effectStack; }
+
+	/** Returns the effect with the given index. Return s0 and outputs error if index is out of range. */
+	Effect *effectAt(uint index) const;
+
+	int numEffects() const { return m_effectStack.count(); }
+
+	void setEffectStack(const EffectStack &effectStack);
 private: // Private attributes
 	void setSnapMarkers(QValueVector<GenTime> markers);
 
@@ -184,6 +202,9 @@ private: // Private attributes
 
 	/** A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
 	QValueVector<GenTime> m_snapMarkers;
+
+	/** A list of effects that operate on this and only this clip. */
+	EffectStack m_effectStack;
 };
 
 #endif

@@ -20,8 +20,9 @@
 #include <trackpanelfunction.h>
 
 class QMouseEvent;
+class KdenliveApp;
 class KdenliveDoc;
-class KMMTimeLine;
+class KTimeLine;
 class DocTrackBase;
 
 /**
@@ -31,19 +32,19 @@ class TrackPanelMarkerFunction : public TrackPanelFunction
 {
 Q_OBJECT
 public:
-    TrackPanelMarkerFunction(KMMTimeLine *timeline, DocTrackBase *docTrack, KdenliveDoc *document);
+    TrackPanelMarkerFunction(KdenliveApp *app, KTimeLine *timeline, KdenliveDoc *document);
 
     ~TrackPanelMarkerFunction();
 
-    virtual bool mouseApplies(QMouseEvent* event) const;
-    virtual bool mouseMoved(QMouseEvent* event);
-    virtual bool mousePressed(QMouseEvent* event);
-    virtual bool mouseReleased(QMouseEvent* event);
-    virtual QCursor getMouseCursor(QMouseEvent* event);
+    virtual bool mouseApplies(KTrackPanel *panel, QMouseEvent* event) const;
+    virtual bool mouseMoved(KTrackPanel *panel, QMouseEvent* event);
+    virtual bool mousePressed(KTrackPanel *panel, QMouseEvent* event);
+    virtual bool mouseReleased(KTrackPanel *panel, QMouseEvent* event);
+    virtual QCursor getMouseCursor(KTrackPanel *panel, QMouseEvent* event);
 private:
-	KMMTimeLine *m_timeline;
+	KdenliveApp *m_app;
+	KTimeLine *m_timeline;
 	KdenliveDoc *m_document;
-	DocTrackBase *m_docTrack;
 };
 
 #endif

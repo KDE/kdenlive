@@ -31,79 +31,83 @@ class ClipManager;
 
 class DocClipProject : public DocClipBase  {
 	Q_OBJECT
-public: 
-	DocClipProject();
+public:
+	DocClipProject(double framesPerSecond);
 	~DocClipProject();
 
-	GenTime duration() const;
-  
+	const GenTime &duration() const;
+
 	/** No descriptions */
 	const KURL &fileURL() const;
 
 	virtual QDomDocument toXML();
 	/** Returns true if the clip duration is known, false otherwise. */
-	virtual bool durationKnown();
+	virtual bool durationKnown() const;
 
 	/** Returns the frames per second this clip runs at. */
 	virtual double framesPerSecond() const;
-	
+
   	/** Adds a track to the project */
   	void addTrack(DocTrackBase *track);
 	int trackIndex(DocTrackBase *track);
 	uint numTracks() const;
-	DocTrackBase * findTrack(DocClipRef *clip);
+	DocTrackBase * findTrack(DocClipRef *clip) const;
 	DocTrackBase * track(int track);
 	bool moveSelectedClips(GenTime startOffset, int trackOffset);
 	/** Returns a scene list generated from this clip. */
-	virtual QDomDocument generateSceneList();
+	virtual QDomDocument generateSceneList() const;
+	const DocTrackBaseList &trackList() const;
 
 	/** Generates the tracklist for this clip from the xml fragment passed in.*/
-	void generateTracksFromXML(ClipManager &clipManager, const QDomElement &e);
+	void generateTracksFromXML(const EffectDescriptionList &effectList, ClipManager &clipManager, const QDomElement &e);
 
-  	/** Itterates through the tracks in the project. This works in the same way
-	* as QPtrList::next(), although the underlying structures may be different. */
-	DocTrackBase * nextTrack();
-  	/** Returns the first track in the project, and resets the itterator to the first track.
-	*This effectively is the same as QPtrList::first(), but the underyling implementation
-	* may change. */
-	DocTrackBase * firstTrack();
+	/** If this is a project clip, return true. Overidden, always true from here. */
+	virtual bool isProjectClip() const { return true; }
 
-	/** If this is a project clip, return true. Overidden, always true from here. */	
-	virtual bool isProjectClip() { return true; }
-	
 	/** Creates a clip from the passed QDomElement. This only pertains to those details
 	 *  specific to DocClipProject. This clip should only be created via the clip manager,
 	 *  or possibly KdenliveDoc when creating it's project clip..*/
-	static DocClipProject * createClip(ClipManager &clipManager, const QDomElement element);
+	static DocClipProject * createClip(const EffectDescriptionList &effectList, ClipManager &clipManager, const QDomElement element);
 	// Appends scene times for this clip to the passed vector.
-	virtual void populateSceneTimes(QValueVector<GenTime> &toPopulate);
+	virtual void populateSceneTimes(QValueVector<GenTime> &toPopulate) const;
 	// Returns an XML document that describes part of the current scene.
-	virtual QDomDocument sceneToXML(const GenTime &startTime, const GenTime &endTime);
-	
+	virtual QDomDocument sceneToXML(const GenTime &startTime, const GenTime &endTime) const;
+
 	/** Returns true if the xml passed matches the values in this clip */
-	virtual bool matchesXML(const QDomElement &element);
-	
+	virtual bool matchesXML(const QDomElement &element) const;
+
 	/** Returns true if at least one clip in the project clip is currently selected, false otherwise. */
 	bool hasSelectedClips();
 
-	/** Returns a clip that is currently selected. Only one clip is returned! 
+	/** Returns a clip that is currently selected. Only one clip is returned!
 	 * This function is intended for times when you need a "master" clip. but have no preferred
 	 * choice. */
 	DocClipRef *selectedClip();
-	
+
 	/** Returns true if this clip refers to the clip passed in. A clip refers to another clip if
 	 * it uses it as part of it's own composition. */
 	virtual bool referencesClip(DocClipBase *clip) const;
 
+	/** Returns true if the clip referenced is selected in this project clip. Returns false otherwise (including
+	it the clip is *not* in the project clip at all. */
+	bool clipSelected(DocClipRef *clip);
+
 	/** Returns a list of those refClips owned directly by the project clip that contain references
 	 * to the specified clip. */
 	DocClipRefList referencedClips(DocClipBase *clip);
-	
+
 	/** Returns true if this clip has a meaningful filesize. */
 	virtual bool hasFileSize() const { return false; }
 
 	/** Returns the filesize, or 0 if there is no appropriate filesize. */
 	virtual uint fileSize() const { return 0; }
+
+	/** Returns true if the specified cliplist can be successfully merged with the track
+	views, false otherwise. */
+	bool canAddClipsToTracks( DocClipRefList &clips, int track, const GenTime &clipOffset ) const;
+private slots:
+	/** Check that the project length is correct. */
+	void slotCheckProjectLength();
 signals:
   	/** This signal is emitted whenever tracks are added to or removed from the project. */
   	void trackListChanged();
@@ -113,6 +117,8 @@ signals:
 	void signalClipSelected(DocClipRef *);
 	/** Emitted when a clip has changed in some way. */
 	void clipChanged(DocClipRef *);
+	/** Emitted when the length of the project clip changes */
+	void projectLengthChanged(const GenTime &length);
 private:
 	/** Blocks all track signals if block==true, or unblocks them otherwise. Use when you want
 	 *  to temporarily ignore emits from tracks. */
@@ -123,6 +129,10 @@ private:
   	double m_framesPerSecond;
   	/** Holds a list of all tracks in the project. */
   	DocTrackBaseList m_tracks;
+
+	const DocTrackBase &track(int track) const;
+
+	GenTime m_projectLength;
 };
 
 #endif

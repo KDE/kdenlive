@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 #include <kdebug.h>
- 
+
 #include "clipdrag.h"
 #include "docclipavfile.h"
 #include "docclipreflist.h"
@@ -69,7 +69,7 @@ QByteArray ClipDrag::encodedData(const char *mime) const
 		return encoded;
 	} else {
 		return KURLDrag::encodedData(mime);
-	}	
+	}
 }
 
 bool ClipDrag::canDecode(const QMimeSource *mime)
@@ -79,11 +79,11 @@ bool ClipDrag::canDecode(const QMimeSource *mime)
   return KURLDrag::canDecode(mime);
 }
 
-DocClipRefList ClipDrag::decode(ClipManager &clipManager, const QMimeSource *e)
-{	
+DocClipRefList ClipDrag::decode(const EffectDescriptionList &effectList, ClipManager &clipManager, const QMimeSource *e)
+{
 	DocClipRefList cliplist;
 
-	if(e->provides("application/x-kdenlive-clip")) {	
+	if(e->provides("application/x-kdenlive-clip")) {
 		QByteArray data = e->encodedData("application/x-kdenlive-clip");
 		QString xml = data;
 		QDomDocument qdomdoc;
@@ -95,17 +95,17 @@ DocClipRefList ClipDrag::decode(ClipManager &clipManager, const QMimeSource *e)
 		// are we handling a single clip, or a clip list? Not sure if both cases will
 		// occur, but just in case, we check for it.
 		if(elem.tagName() == "cliplist") {
-			node = elem.firstChild();		
+			node = elem.firstChild();
 		} else {
-			node = elem;		
+			node = elem;
 		}
 
-		while(!node.isNull()) {	
+		while(!node.isNull()) {
 			QDomElement element = node.toElement();
 
 			if(!element.isNull()) {
 				if(element.tagName() == "clip") {
-					DocClipRef *ref = DocClipRef::createClip(clipManager, element);
+					DocClipRef *ref = DocClipRef::createClip(effectList, clipManager, element);
 
 					cliplist.append(ref);
 
@@ -140,7 +140,7 @@ KURL::List ClipDrag::createURLList(DocClipRefList *clipList)
 
 	QPtrListIterator<DocClipRef> itt(*clipList);
 
-	while(itt.current() != 0) {		
+	while(itt.current() != 0) {
 		list.append(itt.current()->fileURL());
 		++itt;
 	}
@@ -151,7 +151,7 @@ KURL::List ClipDrag::createURLList(DocClipRefList *clipList)
 KURL::List ClipDrag::createURLList(DocClipRef *clip)
 {
 	KURL::List list;
-	
+
  	list.append(clip->fileURL());
 	return list;
 }
@@ -159,7 +159,7 @@ KURL::List ClipDrag::createURLList(DocClipRef *clip)
 KURL::List ClipDrag::createURLList(DocClipBase *clip)
 {
 	KURL::List list;
-	
+
  	list.append(clip->fileURL());
 	return list;
 }

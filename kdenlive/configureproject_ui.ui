@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>ConfigureProjectPanel_UI</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>242</width>
-            <height>143</height>
+            <width>218</width>
+            <height>223</height>
         </rect>
     </property>
     <property name="caption">
@@ -81,10 +81,67 @@
                 </widget>
             </grid>
         </widget>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>groupBox2</cstring>
+            </property>
+            <property name="title">
+                <string>Timecode</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QComboBox">
+                    <item>
+                        <property name="text">
+                            <string>HH:MM:SS:FF</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>HH:MM:SS.hh</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>Frames</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>Seconds</string>
+                        </property>
+                    </item>
+                    <property name="name">
+                        <cstring>comboBox1</cstring>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>checkBox1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Use Drop Frame timecode</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string></string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Specifies that we should display timecodes using a drop frame timecode (specifically for NTSC). Drop frame timecode compensates for the fact that NTSC runs at 29.97 frames per second by "dropping" two frames a minute, except for every 10th minute. WIthout this, the timecode will slowly slip out of sync with the real world time.
+
+Drop frame timecode only affects the way that frames are numbered, no frames are dropped from the video edit.</string>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
     </vbox>
 </widget>
+<customwidgets>
+</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
+    <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>

@@ -17,16 +17,17 @@
 #include "trackviewnamedecorator.h"
 
 #include <qnamespace.h>
+#include  <qpainter.h>
 
 #include "docclipref.h"
 #include "gentime.h"
 #include "kdenlivedoc.h"
-#include "kmmtimeline.h"
+#include "ktimeline.h"
 
-TrackViewNameDecorator::TrackViewNameDecorator(KMMTimeLine* timeline, 
-						KdenliveDoc* doc, 
-						DocTrackBase* track) : 
-						TrackViewDecorator(timeline, doc, track)
+TrackViewNameDecorator::TrackViewNameDecorator(KTimeLine* timeline,
+						KdenliveDoc* doc,
+						DocTrackBase* track) :
+						DocTrackDecorator(timeline, doc, track)
 {
 }
 

@@ -25,12 +25,13 @@
 
 namespace Command {
 
-/** Construct an AddClipCommand that will add or delete a clip */
-KAddRefClipCommand::KAddRefClipCommand(ClipManager &clipManager,
-					DocClipProject *project, 
-					DocClipRef *clip, 
+KAddRefClipCommand::KAddRefClipCommand(const EffectDescriptionList &effectList,
+					ClipManager &clipManager,
+					DocClipProject *project,
+					DocClipRef *clip,
 					bool create) :
 			m_clipManager(clipManager),
+			m_effectList(effectList),
 			m_create(create),
 			m_xmlClip(clip->toXML().documentElement()),
 			m_findTime(clip->trackStart() + (clip->cropDuration() / 2.0)),
@@ -43,7 +44,6 @@ KAddRefClipCommand::~KAddRefClipCommand()
 {
 }
 
-/** Returns the name of this command */
 QString KAddRefClipCommand::name() const
 {
 	if(m_create) {
@@ -53,7 +53,6 @@ QString KAddRefClipCommand::name() const
 	}
 }
 
-/** Execute the command */
 void KAddRefClipCommand::execute()
 {
 	if(m_create) {
@@ -63,7 +62,6 @@ void KAddRefClipCommand::execute()
 	}
 }
 
-/** Unexecute the command */
 void KAddRefClipCommand::unexecute()
 {
 	if(m_create) {
@@ -73,21 +71,39 @@ void KAddRefClipCommand::unexecute()
 	}
 }
 
-/** Adds the clip */
 void KAddRefClipCommand::addClip()
 {
-	DocClipRef *clip = DocClipRef::createClip(m_clipManager, m_xmlClip);
+	DocClipRef *clip = DocClipRef::createClip(m_effectList, m_clipManager, m_xmlClip);
 	m_project->track(clip->trackNum())->addClip(clip, true);
 }
 
-/** Deletes the clip */
 void KAddRefClipCommand::deleteClip()
 {
 	DocTrackBase *track = m_project->track(m_track);
 	DocClipRef *clip = track->getClipAt(m_findTime);
 	track->removeClip(clip);
-	
-	delete clip;	
+
+	delete clip;
+}
+
+// static
+KMacroCommand *KAddRefClipCommand::deleteSelectedClips( KdenliveDoc *document)
+{
+	KMacroCommand * macroCommand = new KMacroCommand(i18n( "Delete Clips" ));
+
+	for ( int count = 0; count < document->numTracks(); ++count ) {
+		DocTrackBase *track = document->track( count );
+
+		QPtrListIterator<DocClipRef> itt = track->firstClip( true );
+
+		while ( itt.current() ) {
+			Command::KAddRefClipCommand * command = new Command::KAddRefClipCommand( document->effectDescriptions(), document->clipManager(), &document->projectClip(), itt.current(), false );
+			macroCommand->addCommand( command );
+			++itt;
+		}
+	}
+
+	return macroCommand;
 }
 
 } // namespace command

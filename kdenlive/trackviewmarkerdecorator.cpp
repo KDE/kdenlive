@@ -20,12 +20,12 @@
 
 #include "docclipref.h"
 #include "kdenlivedoc.h"
-#include "kmmtimeline.h"
+#include "ktimeline.h"
 
-TrackViewMarkerDecorator::TrackViewMarkerDecorator(KMMTimeLine* timeline, 
-						KdenliveDoc* doc, 
-						DocTrackBase* track) : 
-				TrackViewDecorator(timeline, doc, track)
+TrackViewMarkerDecorator::TrackViewMarkerDecorator(KTimeLine* timeline,
+						KdenliveDoc* doc,
+						DocTrackBase* track) :
+				DocTrackDecorator(timeline, doc, track)
 {
 }
 
@@ -39,8 +39,6 @@ void TrackViewMarkerDecorator::paintClip(QPainter& painter, DocClipRef* clip, QR
 {
 	int sx = (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
 	int ex = (int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
-	int clipWidth = ex-sx;
-	int tx = ex;
 
 	if(sx < rect.x()) {
 		sx = rect.x();

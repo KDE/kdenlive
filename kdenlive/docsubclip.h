@@ -37,9 +37,9 @@ public:
 	~DocSubClip();
 
 	QString fileName();
-	
+
 	/** Returns the duration of the file */
-	GenTime duration() const;
+	const GenTime &duration() const;
 
 	/** Returns the type of this clip */
 	DocClipBase::CLIPTYPE clipType();
@@ -63,7 +63,7 @@ public:
 	virtual bool hasFileSize() const { return false; }
 	virtual uint fileSize() const { return 0; }
 	virtual bool referencesClip(DocClipBase *clip) const;
-private:	
+private:
 	/** A play object factory, used for calculating information, and previewing files */
 	/** Determines whether this file contains audio, video or both. */
 	DocClipBase::CLIPTYPE m_clipType;

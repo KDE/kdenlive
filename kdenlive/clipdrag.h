@@ -20,11 +20,12 @@
 
 #include <kurldrag.h>
 
+class ClipManager;
 class DocClipBase;
 class DocClipBaseList;
 class DocClipRefList;
 class DocClipRef;
-class ClipManager;
+class EffectDescriptionList;
 
 /**Allows the dragging of clips within and outside of the application.
   *@author Jason Wood
@@ -32,17 +33,19 @@ class ClipManager;
 
 class ClipDrag : public KURLDrag
 {
-public: 
+public:
 	ClipDrag(DocClipBase *clip, QWidget *dragSource, const char *name);
 	ClipDrag(DocClipRef *clip, QWidget *dragSource, const char *name);
-	~ClipDrag();
-	/** Returns true if the mime type is decodable, false otherwise. */
-	static bool canDecode(const QMimeSource *mime);
-	/** Attempts to decode the mimetype e as a clip. Returns a clip, or returns null */
-	static DocClipRefList decode(ClipManager &clipManager, const QMimeSource *e);
 	/** Constructs a clipDrag object consisting of the clips within the
 	DocCLipBaseList passed. */
 	ClipDrag(DocClipRefList &clips, QWidget *dragSource, const char *name);
+
+	~ClipDrag();
+
+	/** Returns true if the mime type is decodable, false otherwise. */
+	static bool canDecode(const QMimeSource *mime);
+	/** Attempts to decode the mimetype e as a clip. Returns a clip, or returns null */
+	static DocClipRefList decode(const EffectDescriptionList &effectList, ClipManager &clipManager, const QMimeSource *e);
 protected:
 	/** Reimplemented for internal reasons; the API is not affected.  */
 	QByteArray encodedData(const char *mime) const;
@@ -52,7 +55,7 @@ private: // Private methods
  	/** Returns a QValueList containing the URL of the clip.
 	 *
 	 * This is necessary, because the KURLDrag class which ClipDrag inherits
-	 * requires a list of URL's rather than a single URL. 
+	 * requires a list of URL's rather than a single URL.
 	 **/
 	static KURL::List createURLList(DocClipRefList *clipList);
 	static KURL::List createURLList(DocClipBase *clip);

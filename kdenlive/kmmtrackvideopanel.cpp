@@ -23,7 +23,6 @@
 
 #include "kdenlivedoc.h"
 #include "kmmtrackvideopanel.h"
-#include "kmmtimeline.h"
 #include "kresizecommand.h"
 
 #include "trackpanelclipmovefunction.h"
@@ -36,7 +35,8 @@
 #include "trackviewnamedecorator.h"
 #include "trackviewmarkerdecorator.h"
 
-KMMTrackVideoPanel::KMMTrackVideoPanel(KMMTimeLine *timeline,
+KMMTrackVideoPanel::KMMTrackVideoPanel(KdenliveApp *app,
+					KTimeLine *timeline,
 					KdenliveDoc *doc,
 					DocTrackVideo *docTrack,
 					QWidget *parent,
@@ -47,16 +47,12 @@ KMMTrackVideoPanel::KMMTrackVideoPanel(KMMTimeLine *timeline,
 	setMinimumHeight(20);
 	setMaximumHeight(20);
 
-	TrackPanelClipResizeFunction *resize = new TrackPanelClipResizeFunction(timeline, doc, docTrack);
-	addFunctionDecorator(KdenliveApp::Move, resize);
-	addFunctionDecorator(KdenliveApp::Move, new TrackPanelClipMoveFunction(timeline, doc, docTrack));
-
-	connect(resize, SIGNAL(signalClipCropStartChanged(DocClipRef *)), this, SIGNAL(signalClipCropStartChanged(DocClipRef *)));
-	connect(resize, SIGNAL(signalClipCropEndChanged(DocClipRef *)), this, SIGNAL(signalClipCropEndChanged(DocClipRef *)));
-
-	addFunctionDecorator(KdenliveApp::Razor, new TrackPanelRazorFunction(timeline, doc, docTrack));
-	addFunctionDecorator(KdenliveApp::Spacer, new TrackPanelSpacerFunction(timeline, docTrack, document()));
-	addFunctionDecorator(KdenliveApp::Marker, new TrackPanelMarkerFunction(timeline, docTrack, document()));
+	addFunctionDecorator("move", "resize");
+	addFunctionDecorator("move", "move");
+	addFunctionDecorator("move", "selectnone");
+	addFunctionDecorator("razor", "razor");
+	addFunctionDecorator("spacer", "spacer");
+	addFunctionDecorator("marker", "marker");
 
 	addViewDecorator(new TrackViewBackgroundDecorator(timeline, doc, docTrack, QColor(128, 64, 64), QColor(255, 128, 128)));
 	addViewDecorator(new TrackViewNameDecorator(timeline, doc, docTrack));

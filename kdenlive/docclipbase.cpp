@@ -54,21 +54,21 @@ const QString &DocClipBase::description() const
 }
 
 // virtual
-QDomDocument DocClipBase::toXML() {
+QDomDocument DocClipBase::toXML() const {
 	QDomDocument doc;
 
 	QDomElement clip = doc.createElement("clip");
 	clip.setAttribute("name", name());
-	
+
 	QDomText text = doc.createTextNode(description());
 	clip.appendChild(text);
-		
-	doc.appendChild(clip); 
-	
+
+	doc.appendChild(clip);
+
 	return doc;
 }
 
-DocClipBase *DocClipBase::createClip(ClipManager &clipManager, const QDomElement &element)
+DocClipBase *DocClipBase::createClip(const EffectDescriptionList &effectList, ClipManager &clipManager, const QDomElement &element)
 {
 	DocClipBase *clip = 0;
 	QString description;
@@ -76,7 +76,7 @@ DocClipBase *DocClipBase::createClip(ClipManager &clipManager, const QDomElement
 
 	QDomNode node = element;
 	node.normalize();
-	
+
 	if(element.tagName() != "clip") {
 		kdWarning()	<< "DocClipBase::createClip() element has unknown tagName : " << element.tagName() << endl;
 		return 0;
@@ -91,17 +91,17 @@ DocClipBase *DocClipBase::createClip(ClipManager &clipManager, const QDomElement
 			if(e.tagName() == "avfile") {
 				clip = DocClipAVFile::createClip(e);
 			} else if(e.tagName() == "project") {
-				clip = DocClipProject::createClip(clipManager, e);
+				clip = DocClipProject::createClip(effectList, clipManager, e);
 			} else if(e.tagName() == "position") {
 				trackNum = e.attribute("track", "-1").toInt();
-			}		
+			}
 		} else {
 			QDomText text = n.toText();
 			if(!text.isNull()) {
 				description = text.nodeValue();
 			}
 		}
-		
+
 		n = n.nextSibling();
 	}
 

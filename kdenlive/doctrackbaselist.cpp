@@ -36,7 +36,7 @@ DocTrackBaseList::~DocTrackBaseList()
 }
 
 /** Generates the track list, based upon the XML list provided in elem. */
-void DocTrackBaseList::generateFromXML(ClipManager &clipManager, DocClipProject *project, const QDomElement &elem)
+void DocTrackBaseList::generateFromXML(const EffectDescriptionList &effectList, ClipManager &clipManager, DocClipProject *project, const QDomElement &elem)
 {
 	if(elem.tagName() != "DocTrackBaseList") {
 		kdWarning() << "DocTrackBaseList cannot be generated - wrong tag : " << elem.tagName() << endl;
@@ -49,7 +49,7 @@ void DocTrackBaseList::generateFromXML(ClipManager &clipManager, DocClipProject 
 		QDomElement e = n.toElement();
 		if(!e.isNull()) {
 			if(e.tagName() == "track") {
-				DocTrackBase *track = DocTrackBase::createTrack(clipManager, project, e);
+				DocTrackBase *track = DocTrackBase::createTrack(effectList, clipManager, project, e);
 				if(track == 0) {
 					kdError() << "Track not created" << endl;
 				} else {
@@ -85,7 +85,7 @@ QDomDocument DocTrackBaseList::toXML()
 bool DocTrackBaseList::matchesXML(const QDomElement &element) const
 {
 	bool result = false;
-	
+
 	if(element.tagName() == "DocTrackBaseList") {
 		QDomNodeList nodeList = element.elementsByTagName("track");
 
@@ -93,7 +93,7 @@ bool DocTrackBaseList::matchesXML(const QDomElement &element) const
 			result = true;
 			QPtrListIterator<DocTrackBase> itt(*this);
 			uint count=0;
-			
+
 			while(itt.current()) {
 				QDomElement trackElement = nodeList.item(count).toElement();
 				if(!trackElement.isNull()) {
@@ -111,6 +111,6 @@ bool DocTrackBaseList::matchesXML(const QDomElement &element) const
 			}
 		}
 	}
-	
+
 	return result;
 }

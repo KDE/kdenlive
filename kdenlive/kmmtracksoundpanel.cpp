@@ -18,15 +18,15 @@
 #include <qsizepolicy.h>
 
 #include "kmmtracksoundpanel.h"
-#include "kmmtimeline.h"
 
 #include "trackviewbackgrounddecorator.h"
 #include "trackviewnamedecorator.h"
 
-KMMTrackSoundPanel::KMMTrackSoundPanel(KMMTimeLine *timeline, 
+KMMTrackSoundPanel::KMMTrackSoundPanel(KdenliveApp *app,
+					KTimeLine *timeline,
 					KdenliveDoc *document,
-					DocTrackSound *docTrack, 
-					QWidget *parent, 
+					DocTrackSound *docTrack,
+					QWidget *parent,
 					const char *name ) :
 						KMMTrackPanel(timeline, document, docTrack, parent,name),
 						m_trackLabel(this, "Sound Track")

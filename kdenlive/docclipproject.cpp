@@ -26,10 +26,10 @@
 #include "doctrackbase.h"
 #include "doctrackclipiterator.h"
 
-DocClipProject::DocClipProject() :
-  			DocClipBase()
+DocClipProject::DocClipProject(double framesPerSecond) :
+  			DocClipBase(),
+			m_framesPerSecond(framesPerSecond)
 {
-	m_framesPerSecond = 25; // Standard PAL.
 	m_tracks.setAutoDelete(true);
 }
 
@@ -37,21 +37,9 @@ DocClipProject::~DocClipProject()
 {
 }
 
-GenTime DocClipProject::duration() const
+const GenTime &DocClipProject::duration() const
 {
-#warning - need to be more careful about returning duration - need to cache the result and return it.
-	GenTime length(0);
-
-	QPtrListIterator<DocTrackBase> itt(m_tracks);
-
-	while(itt.current()) {
-		GenTime test = itt.current()->trackLength();
-		length = (test > length) ? test : length;
-		++itt;
-	}
-
-
-	return length;
+	return m_projectLength;
 }
 
 /** No descriptions */
@@ -63,7 +51,7 @@ const KURL &DocClipProject::fileURL() const
 }
 
 /** Returns true if the clip duration is known, false otherwise. */
-bool DocClipProject::durationKnown()
+bool DocClipProject::durationKnown() const
 {
 	return true;
 }
@@ -93,6 +81,7 @@ void DocClipProject::connectTrack(DocTrackBase *track)
 	connect(track, SIGNAL(clipLayoutChanged()), this, SIGNAL(clipLayoutChanged()));
 	connect(track, SIGNAL(signalClipSelected(DocClipRef *)), this, SIGNAL(signalClipSelected(DocClipRef *)));
 	connect(track, SIGNAL(clipChanged(DocClipRef *)), this, SIGNAL(clipChanged(DocClipRef *)));
+	connect(track, SIGNAL(trackLengthChanged(const GenTime& )), this, SLOT(slotCheckProjectLength()));
 }
 
 uint DocClipProject::numTracks() const
@@ -100,18 +89,7 @@ uint DocClipProject::numTracks() const
 	return m_tracks.count();
 }
 
-DocTrackBase * DocClipProject::firstTrack()
-{
-	return m_tracks.first();
-}
-
-DocTrackBase * DocClipProject::nextTrack()
-{
-	return m_tracks.next();
-}
-
-
-DocTrackBase * DocClipProject::findTrack(DocClipRef *clip)
+DocTrackBase * DocClipProject::findTrack(DocClipRef *clip) const
 {
 	DocTrackBase *returnTrack = 0;
 
@@ -130,6 +108,16 @@ DocTrackBase * DocClipProject::findTrack(DocClipRef *clip)
 DocTrackBase * DocClipProject::track(int track)
 {
 	return m_tracks.at(track);
+}
+
+const DocTrackBase &DocClipProject::track(int track) const
+{
+	QPtrListIterator<DocTrackBase> itt(m_tracks);
+
+	if(track>=m_tracks.count()) track = m_tracks.count()-1;
+	itt+=track;
+
+	return *(itt.current());
 }
 
 bool DocClipProject::moveSelectedClips(GenTime startOffset, int trackOffset)
@@ -211,6 +199,8 @@ bool DocClipProject::moveSelectedClips(GenTime startOffset, int trackOffset)
 
 	blockTrackSignals(false);
 
+	slotCheckProjectLength();
+
 	return true;
 }
 
@@ -225,7 +215,7 @@ void DocClipProject::blockTrackSignals(bool block)
 	}
 }
 
-QDomDocument DocClipProject::generateSceneList()
+QDomDocument DocClipProject::generateSceneList() const
 {
 	static QString str_inpoint="inpoint";
 	static QString str_outpoint="outpoint";
@@ -255,15 +245,15 @@ QDomDocument DocClipProject::generateSceneList()
 	QValueVector<GenTime>::Iterator sceneItt = times.begin();
 
 	while( (sceneItt != times.end()) && (sceneItt+1 != times.end()) ) {
-		QDomElement scene = sceneList.createElement("scene");
-		scene.setAttribute("duration", QString::number((*(sceneItt+1) - *sceneItt).seconds(), 'f', 10));
+		QDomElement scene = sceneList.createElement("par");
 
 		QDomDocument clipDoc = sceneToXML(*sceneItt, *(sceneItt+1));
 		QDomElement sceneClip;
 
 		if(clipDoc.documentElement().isNull()) {
-			sceneClip = sceneList.createElement("stillcolor");
-			sceneClip.setAttribute("yuvcolor", "#000000");
+			sceneClip = sceneList.createElement("img");
+			sceneClip.setAttribute("rgbcolor", "#000000");
+			sceneClip.setAttribute("dur", QString::number((*(sceneItt+1) - *sceneItt).seconds(), 'f', 10));
 			scene.appendChild(sceneClip);
 		} else {
 			sceneClip = sceneList.importNode(clipDoc.documentElement(), true).toElement();
@@ -278,26 +268,28 @@ QDomDocument DocClipProject::generateSceneList()
 	return sceneList;
 }
 
-void DocClipProject::generateTracksFromXML(ClipManager &clipManager, const QDomElement &e)
+void DocClipProject::generateTracksFromXML(const EffectDescriptionList &effectList, ClipManager &clipManager, const QDomElement &e)
 {
-	m_tracks.generateFromXML(clipManager, this, e);
+	m_tracks.generateFromXML(effectList, clipManager, this, e);
 
 	DocTrackBaseListIterator itt(m_tracks);
 	while(itt.current() != 0) {
 		connectTrack(itt.current());
+		itt.current()->checkTrackLength();
 		++itt;
 	}
+	slotCheckProjectLength();
 }
 
 //static
-DocClipProject * DocClipProject::createClip(ClipManager &clipManager, const QDomElement element)
+DocClipProject * DocClipProject::createClip(const EffectDescriptionList &effectList, ClipManager &clipManager, const QDomElement element)
 {
 	DocClipProject *project = 0;
 
 	if(element.tagName() == "project") {
 		KURL url(element.attribute("url"));
-		project = new DocClipProject();
-		project->m_framesPerSecond = element.attribute("fps", "25").toInt();
+		double framesPerSecond = element.attribute("fps", "25").toDouble();
+		project = new DocClipProject(framesPerSecond);
 
 		QDomNode node = element.firstChild();
 
@@ -305,7 +297,7 @@ DocClipProject * DocClipProject::createClip(ClipManager &clipManager, const QDom
 			QDomElement e = node.toElement();
 			if(!e.isNull()) {
 				if(e.tagName() == "DocTrackBaseList") {
-					project->generateTracksFromXML(clipManager, e);
+					project->generateTracksFromXML(effectList, clipManager, e);
 				}
 			}
 			node = node.nextSibling();
@@ -317,12 +309,14 @@ DocClipProject * DocClipProject::createClip(ClipManager &clipManager, const QDom
 	return project;
 }
 
-void DocClipProject::populateSceneTimes(QValueVector<GenTime> &toPopulate)
+void DocClipProject::populateSceneTimes(QValueVector<GenTime> &toPopulate) const
 {
 	GenTime time;
 
-	for(uint count=0; count<numTracks(); count++) {
-		DocTrackClipIterator itt(*(m_tracks.at(count)));
+	QPtrList<DocTrackBase>::iterator trackItt = m_tracks.begin();
+
+	while(trackItt != m_tracks.end()) {
+		DocTrackClipIterator itt(*(*trackItt) );
 
 		while(itt.current()) {
 			QValueVector<GenTime> newTimes;
@@ -339,6 +333,8 @@ void DocClipProject::populateSceneTimes(QValueVector<GenTime> &toPopulate)
 			}
 			++itt;
 		}
+
+		++trackItt;
 	}
 
 	toPopulate.append(GenTime(0));
@@ -347,13 +343,15 @@ void DocClipProject::populateSceneTimes(QValueVector<GenTime> &toPopulate)
 
 // Returns an XML document that describes part of the current scene.
 //virtual
-QDomDocument DocClipProject::sceneToXML(const GenTime &startTime, const GenTime &endTime)
+QDomDocument DocClipProject::sceneToXML(const GenTime &startTime, const GenTime &endTime) const
 {
 	QDomDocument doc;
 
+	QPtrList<DocTrackBase>::iterator trackItt = m_tracks.begin();
+
 	// For the moment, this only returns the most relevant clip on the top most track.
-	for(int count=0; count<numTracks(); ++count) {
-		DocTrackClipIterator itt(*(m_tracks.at(count)));
+	while(trackItt != m_tracks.end()) {
+		DocTrackClipIterator itt(*(*trackItt) );
 
 		while(itt.current()) {
 			DocClipRef *clip = itt.current();
@@ -365,6 +363,7 @@ QDomDocument DocClipProject::sceneToXML(const GenTime &startTime, const GenTime 
 
 			++itt;
 		}
+		++ trackItt;
 	}
 
 	return doc;
@@ -449,7 +448,7 @@ QDomDocument DocClipProject::toXML()
 		if(!element.isNull()) {
 			if(element.tagName() == "clip") {
 				QDomElement project = doc.createElement("project");
-				project.setAttribute("fps", QString::number(m_framesPerSecond));
+				project.setAttribute("fps", QString::number(m_framesPerSecond, 'f', 10));
 				element.appendChild(project);
 				project.appendChild(doc.importNode(m_tracks.toXML().documentElement(), true));
 
@@ -465,7 +464,7 @@ QDomDocument DocClipProject::toXML()
 }
 
 // virtual
-bool DocClipProject::matchesXML(const QDomElement &element)
+bool DocClipProject::matchesXML(const QDomElement &element) const
 {
 	bool result = false;
 
@@ -496,4 +495,89 @@ bool DocClipProject::matchesXML(const QDomElement &element)
 	}
 
 	return result;
+}
+
+
+bool DocClipProject::canAddClipsToTracks( DocClipRefList &clips, int track, const GenTime &clipOffset ) const
+{
+	QPtrListIterator<DocClipRef> itt( clips );
+	int trackOffset;
+	GenTime startOffset;
+
+	if ( clips.masterClip() ) {
+		trackOffset = clips.masterClip() ->trackNum();
+		startOffset = clipOffset - clips.masterClip() ->trackStart();
+	} else {
+		trackOffset = clips.first() ->trackNum();
+		startOffset = clipOffset - clips.first() ->trackStart();
+	}
+
+	if ( trackOffset == -1 ) trackOffset = 0;
+	trackOffset = track - trackOffset;
+
+	while ( itt.current() ) {
+		itt.current() ->moveTrackStart( itt.current() ->trackStart() + startOffset );
+		++itt;
+	}
+	itt.toFirst();
+
+	while ( itt.current() ) {
+		if ( !itt.current() ->durationKnown() ) {
+			kdWarning() << "Clip Duration not known, cannot add clips" << endl;
+			return false;
+		}
+		int curTrack = itt.current() ->trackNum();
+		if ( curTrack == -1 ) curTrack = 0;
+		curTrack += trackOffset;
+
+		if ( ( curTrack < 0 ) || ( curTrack >= numTracks() ) ) {
+			return false;
+		}
+
+		if ( !DocClipProject::track( curTrack ).canAddClip( itt.current() ) ) {
+			return false;
+		}
+
+		++itt;
+	}
+
+	return true;
+}
+
+void DocClipProject::slotCheckProjectLength()
+{
+	GenTime length(0);
+
+	QPtrListIterator<DocTrackBase> itt(m_tracks);
+
+	while(itt.current()) {
+		GenTime test = itt.current()->trackLength();
+		length = (test > length) ? test : length;
+		++itt;
+	}
+
+	if(m_projectLength != length) {
+		m_projectLength = length;
+		emit projectLengthChanged(m_projectLength);
+	}
+}
+
+bool DocClipProject::clipSelected(DocClipRef *clip)
+{
+	bool result = false;
+
+	DocTrackBase *track = findTrack(clip);
+
+	if(track) {
+		result = track->clipSelected(clip);
+	}  else {
+		kdWarning() << "DocClipProject::clipSelected() - clip does not exist in project!" << endl;
+	}
+
+	return result;
+}
+
+const DocTrackBaseList &DocClipProject::trackList() const
+{
+	return m_tracks;
 }

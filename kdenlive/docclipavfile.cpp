@@ -29,10 +29,10 @@ DocClipAVFile::DocClipAVFile(const QString &name, const KURL &url) :
 						m_url(url),
 						m_durationKnown(false),
 						m_framesPerSecond(0)
-			
+
 {
 	setName(name);
-		
+
 	m_clipType = AV;
 }
 
@@ -51,7 +51,7 @@ DocClipAVFile::~DocClipAVFile()
 {
 }
 
-GenTime DocClipAVFile::duration() const
+const GenTime &DocClipAVFile::duration() const
 {
 	return m_duration;
 }
@@ -70,18 +70,18 @@ DocClipAVFile * DocClipAVFile::createClip(const QDomElement element)
 {
 	DocClipAVFile *file = 0;
 
-	
+
 	if(element.tagName() == "avfile") {
 		KURL url(element.attribute("url"));
 		file = new DocClipAVFile(url.filename(), url);
 	} else {
 		kdWarning() << "DocClipAVFile::createClip failed to generate clip" << endl;
 	}
-	
+
 	return file;
 }
 
-bool DocClipAVFile::durationKnown()
+bool DocClipAVFile::durationKnown() const
 {
 	return m_durationKnown;
 }
@@ -91,23 +91,22 @@ double DocClipAVFile::framesPerSecond() const
 {
 	return m_framesPerSecond;
 }
-		
-// virtual 
-QDomDocument DocClipAVFile::generateSceneList()
+
+// virtual
+QDomDocument DocClipAVFile::generateSceneList() const
 {
-	static QString str_inpoint="inpoint";
-	static QString str_outpoint="outpoint";
-	static QString str_file="file";
+	static QString str_inpoint="clipBegin";
+	static QString str_outpoint="clipEnd";
+	static QString str_file="src";
 
 	QDomDocument scenelist;
 	scenelist.appendChild(scenelist.createElement("scenelist"));
 
 	// generate the next scene.
-	QDomElement scene = scenelist.createElement("scene");
-	scene.setAttribute("duration", QString::number(duration().seconds()));
+	QDomElement scene = scenelist.createElement("seq");
 
 	QDomElement sceneClip;
-	sceneClip = scenelist.createElement("input");
+	sceneClip = scenelist.createElement("video");
 	sceneClip.setAttribute(str_file, fileURL().path());
 	sceneClip.setAttribute(str_inpoint, "0.0");
 	sceneClip.setAttribute(str_outpoint, QString::number(duration().seconds()));
@@ -117,15 +116,15 @@ QDomDocument DocClipAVFile::generateSceneList()
 	return scenelist;
 }
 
-// virtual 
-QDomDocument DocClipAVFile::sceneToXML(const GenTime &startTime, const GenTime &endTime)
-{	
-	static QString str_inpoint="inpoint";
-	static QString str_outpoint="outpoint";
-	static QString str_file="file";		
+// virtual
+QDomDocument DocClipAVFile::sceneToXML(const GenTime &startTime, const GenTime &endTime) const
+{
+	static QString str_inpoint="clipBegin";
+	static QString str_outpoint="clipEnd";
+	static QString str_file="src";
 	QDomDocument sceneList;
-	
-	QDomElement sceneClip = sceneList.createElement("input");
+
+	QDomElement sceneClip = sceneList.createElement("video");
 	sceneClip.setAttribute(str_file, fileURL().path());
 	sceneClip.setAttribute(str_inpoint, QString::number(startTime.seconds()));
 	sceneClip.setAttribute(str_outpoint, QString::number(endTime.seconds()));
@@ -135,7 +134,7 @@ QDomDocument DocClipAVFile::sceneToXML(const GenTime &startTime, const GenTime &
 	return sceneList;
 }
 
-void DocClipAVFile::populateSceneTimes(QValueVector<GenTime> &toPopulate)
+void DocClipAVFile::populateSceneTimes(QValueVector<GenTime> &toPopulate) const
 {
 	toPopulate.append(GenTime(0));
 	toPopulate.append(duration());
@@ -152,14 +151,14 @@ uint DocClipAVFile::numReferences() const
 	return 0;
 }
 
-// virtual 
+// virtual
 bool DocClipAVFile::referencesClip(DocClipBase *clip) const
 {
 	return this == clip;
 }
 
 // virtual
-QDomDocument DocClipAVFile::toXML() {
+QDomDocument DocClipAVFile::toXML() const {
 	QDomDocument doc = DocClipBase::toXML();
 	QDomNode node = doc.firstChild();
 
@@ -183,7 +182,7 @@ QDomDocument DocClipAVFile::toXML() {
 }
 
 // virtual
-bool DocClipAVFile::matchesXML(const QDomElement &element)
+bool DocClipAVFile::matchesXML(const QDomElement &element) const
 {
 	bool result = false;
 
@@ -226,7 +225,7 @@ void DocClipAVFile::calculateFileProperties(const QMap<QString, QString> &attrib
 
 		if(attributes.contains("duration")) {
 			m_duration = GenTime(attributes["duration"].toDouble());
-			m_durationKnown = true;      
+			m_durationKnown = true;
 		} else {
 			// No duration known, use an arbitrary one until it is.
 	  		m_duration = GenTime(0.0);

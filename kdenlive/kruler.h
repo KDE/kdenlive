@@ -33,7 +33,7 @@ class KRulerModel;
   */
 
 class KRulerPrivate;
-  
+
 class KRuler : public QWidget {
    Q_OBJECT
 public:
@@ -51,14 +51,14 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
 		EndMark
 	};
 	/** Creates a default ruler, with the given model. Sets min/max range and the scale factor.*/
-	KRuler(int min, int max, double scale=1.0, KRulerModel *model=0, QWidget *parent=0, const char *name=0);	 
+	KRuler(int min, int max, double scale=1.0, KRulerModel *model=0, QWidget *parent=0, const char *name=0);
 	KRuler(KRulerModel *model, QWidget *parent=0, const char *name=0);
 	KRuler(QWidget *parent=0, const char *name=0);
 
 	void doCommonCtor();
 
 	virtual ~KRuler();
-	
+
   void paintEvent(QPaintEvent *event);
   QSize sizeHint();
   /** Returns the value which is currently displayed at x in the ruler widget's local coordinate
@@ -104,14 +104,14 @@ signals: // Signals
   /** This signal is emitted when the ruler is resized. */
   void resized();
   /** This signal is emitted whenever a sliders value changes. */
-  void sliderValueChanged(int, int);    
+  void sliderValueChanged(int, int);
   /** Emitted when the scale of the ruler changes. */
   void scaleChanged(double);
   /** Emitted when the ruler would like to be scrolled to the right. */
   void requestScrollRight();
   /** Emitted when the ruler would like to be scrolled to the left. */
   void requestScrollLeft();
-  
+
 protected slots: // Protected slots
 	/** Sets the leftmost pixel which is displayed on the widget. To understand why this
 	is in pixels rather than setting the value directly, remember that the timeline is
@@ -134,7 +134,7 @@ private: // private variables
 	QSize m_sizeHint;
 	/** This is the back buffer image, to which the ruler is drawn before being displayed on
 	screen. This helps to optimise drawing, and reduces flicker. */
-	QPixmap m_backBuffer;	
+	QPixmap m_backBuffer;
 	/** how many value increments should be between each displayed value.*/
 	int m_textEvery;
 	/** how many value increments should be between each big tick.*/
@@ -155,14 +155,14 @@ private: // private variables
   int m_maxValue;
   /** This slider is automatically "clicked" if a mouse event occurs and no slider
 is under the mouse. */
-  int m_autoClickSlider;  
+  int m_autoClickSlider;
   /** Timer for edge-of-ruler dragging notifications. This timer will be started when we start
    * dragging at the edge of a ruler, and will stop when we stop dragging. */
   QTimer m_scrollTimer;
   /** True if the scroll timer events should emit requestScrollRight signals, false otherwise. */
   bool m_scrollRight;
 
-private: // private methods  
+private: // private methods
   /** Sets the slider under the specified coordinate to be active, and setting other sliders
   as inactive. This does not include disabled sliders. */
   void activateSliderUnderCoordinate(int x, int y);
@@ -182,9 +182,9 @@ protected: // Protected methods
   /** Called when the mouse has been released. */
   void mouseReleaseEvent(QMouseEvent *event);
   /** This method is called when the mouse is pressed */
-  void mousePressEvent(QMouseEvent *event);  
+  void mousePressEvent(QMouseEvent *event);
   /** Handles window resize events. */
-  void resizeEvent(QResizeEvent *event);  
+  void resizeEvent(QResizeEvent *event);
   /** Sets the minimum value allowed by the ruler. If a slider is below this value at any point, it will be incremented so that it is at this value. If the part of the ruler which displays values less than this value is visible, it will be displayed in a different color to show that it is out of range. */
   void setMinValue(int value);
   /** Sets the range of values used in the ruler. Sliders will always have a value between these two ranges, and any visible area of the ruler outside of this range will be shown in a different color to respect this. */

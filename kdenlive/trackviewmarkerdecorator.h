@@ -17,18 +17,20 @@
 #ifndef TRACKVIEWMARKERDECORATOR_H
 #define TRACKVIEWMARKERDECORATOR_H
 
-#include <trackviewdecorator.h>
+#include <doctrackdecorator.h>
+
+class KTimeLine;
 
 /**
 A TrackViewDecorator that displays snap markers on a clip.
 
 @author Jason Wood
 */
-class TrackViewMarkerDecorator : public TrackViewDecorator
+class TrackViewMarkerDecorator : public DocTrackDecorator
 {
 public:
-    TrackViewMarkerDecorator(KMMTimeLine* timeline, 
-    			KdenliveDoc* doc, 
+    TrackViewMarkerDecorator(KTimeLine* timeline,
+    			KdenliveDoc* doc,
     			DocTrackBase* track);
 
     virtual ~TrackViewMarkerDecorator();

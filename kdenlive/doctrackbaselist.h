@@ -32,18 +32,18 @@ Works the same as QPtrList<DocTrackBase>, but contains a number of extra functio
   */
 
 class DocTrackBaseList : public QPtrList<DocTrackBase>  {
-public: 
+public:
 	DocTrackBaseList();
-	DocTrackBaseList(const DocTrackBaseList &list);	
+	DocTrackBaseList(const DocTrackBaseList &list);
 	~DocTrackBaseList();
 	/** Returns an XML representation of this DocTrackBase list. */
 	QDomDocument toXML();
 
 	/** returns true if the contents of the xml element passed matches the contents of the track */
 	bool matchesXML(const QDomElement &element) const;
-	
+
 	/** Generates the track list, based upon the XML list provided in elem. */
-	void generateFromXML(ClipManager &clipManager, DocClipProject *project, const QDomElement &elem);
+	void generateFromXML(const EffectDescriptionList &effectList, ClipManager &clipManager, DocClipProject *project, const QDomElement &elem);
 };
 
 typedef QPtrListIterator<DocTrackBase> DocTrackBaseListIterator;

@@ -24,7 +24,9 @@
 #include "doctracksound.h"
 #include "kmmtrackpanel.h"
 
+class KdenliveApp;
 class KdenliveDoc;
+class KTimeLine;
 
 /**KMMTrackSoundPanel is the Track panel for sound files.
 It contains several functions that can be used to manipulate
@@ -35,10 +37,11 @@ the main sound widget in different ways.
 class KMMTrackSoundPanel : public KMMTrackPanel  {
    Q_OBJECT
 public:
-	KMMTrackSoundPanel(KMMTimeLine *timeline, 
+	KMMTrackSoundPanel(KdenliveApp *app,
+				KTimeLine *timeline,
 				KdenliveDoc *document,
-				DocTrackSound *docTrack, 
-				QWidget *parent=0, 
+				DocTrackSound *docTrack,
+				QWidget *parent=0,
 				const char *name=0);
 	~KMMTrackSoundPanel();
 

@@ -51,7 +51,7 @@ DocClipBase *ClipManager::insertClip(const KURL &file)
 		m_render->getFileProperties(file);
 		emit clipListUpdated();
 	}
-	
+
 	return clip;
 }
 
@@ -94,7 +94,7 @@ DocClipBase *ClipManager::insertClip(const QDomElement &clip)
 	DocClipBase *result = findClip(clip);
 
 	if(!result) {
-		result = DocClipBase::createClip(*this, clip);
+		result = DocClipBase::createClip(m_render->effectList(), *this, clip);
 		if(result) {
 			m_clipList.append(result);
 		} else {
@@ -110,7 +110,7 @@ void ClipManager::clear()
 #warning "This might blow up spectacularly - this implementation does not check"
 #warning "and clean up any references to said clips."
 	m_clipList.clear();
-	m_temporaryClipList.clear();	
+	m_temporaryClipList.clear();
 }
 
 DocClipAVFile *ClipManager::findAVFile(const KURL &url)
@@ -157,8 +157,8 @@ void ClipManager::AVFilePropertiesArrived(const QMap<QString, QString> &properti
 
 void ClipManager::generateFromXML(KRender *render, const QDomElement &e)
 {
-	m_clipList.generateFromXML(*this, render, e);
-}				
+	m_clipList.generateFromXML(render->effectList(), *this, render, e);
+}
 
 QDomDocument ClipManager::toXML(const QString &element)
 {

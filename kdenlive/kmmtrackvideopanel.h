@@ -24,7 +24,10 @@
 #include <qpixmap.h>
 
 #include "doctrackvideo.h"
+#include "kdenlive.h"
 #include "kmmtrackpanel.h"
+
+class KTimeLine;
 
 /**KMMTrackVideoPanel contains useful controls for manipulating the video tracks
 which reside in the main video widget
@@ -36,7 +39,8 @@ class KdenliveDoc;
 class KMMTrackVideoPanel : public KMMTrackPanel  {
    Q_OBJECT
 public:
-	KMMTrackVideoPanel(KMMTimeLine *timeline,
+	KMMTrackVideoPanel(KdenliveApp *app,
+				KTimeLine *timeline,
 				KdenliveDoc *document,
 				DocTrackVideo *docTrack,
 				QWidget *parent=0,

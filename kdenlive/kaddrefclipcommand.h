@@ -24,9 +24,11 @@
 
 #include "gentime.h"
 
+class ClipManager;
 class DocClipProject;
 class DocClipRef;
-class ClipManager;
+class EffectDescriptionList;
+class KdenliveDoc;
 
 /**Adds a clip to the document
   *@author Jason Wood
@@ -36,8 +38,14 @@ namespace Command {
 
 class KAddRefClipCommand : public KCommand  {
 public:
+	/**
+	Returns a command that will delete the currently selected clips on the timeline.
+	*/
+	static KMacroCommand *deleteSelectedClips( KdenliveDoc *document);
+
 	/** Construct an AddClipCommand that will delete a clip */
-	KAddRefClipCommand(ClipManager &clipManager,
+	KAddRefClipCommand(const EffectDescriptionList &effectList,
+					ClipManager &clipManager,
 					DocClipProject *project,
 					DocClipRef *clip,
 					bool create=true);
@@ -51,6 +59,7 @@ public:
 	QString name() const;
 private: // Private attributes
 	ClipManager &m_clipManager;
+	const EffectDescriptionList &m_effectList;
 	/** If true, then executing the command will create a clip, and
 		unexecuting the command will delete a clip. Otherwise, it will be the
 		other way around. */
@@ -63,10 +72,9 @@ private: // Private attributes
 	int m_track;
 	/** The project this command acts upon. */
 	DocClipProject *m_project;
-private: // Private methods
+
 	/** Deletes the clip */
 	void deleteClip();
-private: // Private methods
 	/** Adds the clip */
 	void addClip();
 };

@@ -52,6 +52,7 @@ class AVFile;
 class DocClipBase;
 class EffectListDialog;
 class EffectParamDialog;
+class EffectStackDialog;
 
 
 /**
@@ -73,9 +74,6 @@ class KdenliveApp : public KDockMainWindow
 		Q_OBJECT
 
 	public:
-		/** The various editing modes that the timeline is capable of */
-		enum TimelineEditMode {Move, Razor, Spacer, Marker};
-
 		/** construtor of KdenliveApp, calls all init functions to create the application.
 		  */
 		KdenliveApp( QWidget* parent = 0, const char* name = 0 );
@@ -96,15 +94,12 @@ class KdenliveApp : public KDockMainWindow
 		/** Adds a command to the command history, execute it if execute is true. */
 		void addCommand( KCommand *command, bool execute = true );
 
-		/** Returns the editing mode that the timeline should operate with */
-		TimelineEditMode timelineEditMode();
 		/** Returns the render manager. */
 		KRenderManager * renderManager();
 
 		/** If the document has been modified, asks the user if they want to save it. Returns true if we
 		 * can proceed. i.e., the document has been saved or discarded. */
 		bool saveModified();
-
 	protected:
 		/** save general Options like all bar positions and status as well as the geometry and the recent file list to the configuration
 		 * file
@@ -285,6 +280,18 @@ class KdenliveApp : public KDockMainWindow
 		/** Configure the toolbar */
 		void slotConfToolbars();
 
+		/** Displays the context menu for the timeline */
+		void slotDisplayTimeLineContextMenu();
+
+		/** Syncrhonise the display of the timeline with that of the document. */
+		void slotSyncTimeLineWithDocument();
+
+		/** Razor all clips at the current seek position. */
+		void slotRazorAllClips();
+
+		/** Razor selected clips at the specified location */
+		void slotRazorSelectedClips();
+
 	private:
 		/** the configuration object of the application */
 		KConfig *config;
@@ -350,6 +357,9 @@ class KdenliveApp : public KDockMainWindow
 		KToggleAction* timelineSnapToBorder;
 		KToggleAction* timelineSnapToMarker;
 
+		KAction *timelineRazorAllClips;
+		KAction *timelineRazorSelectedClips;
+
 		KAction* renderExportTimeline;
 		KAction* configureProject;
 
@@ -364,6 +374,7 @@ class KdenliveApp : public KDockMainWindow
 		RenderDebugPanel *m_renderDebugPanel;
 		EffectListDialog *m_effectListDialog;
 		EffectParamDialog *m_effectParamDialog;
+		EffectStackDialog *m_effectStackDialog;
 		KRenderManager *m_renderManager;
 		KMMMonitor *m_workspaceMonitor;
 		KMMMonitor *m_clipMonitor;

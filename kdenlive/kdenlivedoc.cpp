@@ -44,7 +44,7 @@
 
 KdenliveDoc::KdenliveDoc(KdenliveApp *app, QWidget *parent, const char *name) :
 				QObject(parent, name),
-				m_projectClip(new DocClipProject),
+				m_projectClip(new DocClipProject(25)),
 				m_modified(false),
 				m_sceneListGeneration(true),
 				m_clipHierarch(0),
@@ -53,8 +53,8 @@ KdenliveDoc::KdenliveDoc(KdenliveApp *app, QWidget *parent, const char *name) :
 	m_app = app;
 	m_render = m_app->renderManager()->createRenderer(i18n("Document"));
 
-	connect(m_render, SIGNAL(replyErrorGetFileProperties(const QString &, const QString &)),
-  					 this, SLOT(AVFilePropertiesError(const QString &, const QString &)));
+	/*connect(m_render, SIGNAL(replyErrorGetFileProperties(const QString &, const QString &)),
+  					 this, SLOT(AVFilePropertiesError(const QString &, const QString &)));*/
 
 	connect(this, SIGNAL(clipListUpdated()), this, SLOT(hasBeenModified()));
 	connect(this, SIGNAL(trackListChanged()), this, SLOT(hasBeenModified()));
@@ -117,7 +117,7 @@ void KdenliveDoc::deleteContents()
 	kdDebug() << "deleting contents..." << endl;
 
 	delete m_projectClip;
-	m_projectClip = new DocClipProject;
+	m_projectClip = new DocClipProject(25);
 	connectProjectClip();
 
 	if(m_clipHierarch) {
@@ -154,21 +154,21 @@ void KdenliveDoc::addSoundTrack(){
 }
 
 /** Returns the number of tracks in this project */
-uint KdenliveDoc::numTracks()
+uint KdenliveDoc::numTracks() const
 {
 	return m_projectClip->numTracks();
 }
 
 /** returns the Track which holds the given clip. If the clip does not
 exist within the document, returns 0; */
-DocTrackBase * KdenliveDoc::findTrack(DocClipRef *clip)
+DocTrackBase * KdenliveDoc::findTrack(DocClipRef *clip) const
 {
 	return m_projectClip->findTrack(clip);
 }
 
 /** Returns the track with the given index, or returns NULL if it does
 not exist. */
-DocTrackBase * KdenliveDoc::track(int track)
+DocTrackBase * KdenliveDoc::track(int track) const
 {
 	return m_projectClip->track(track);
 }
@@ -234,7 +234,7 @@ void KdenliveDoc::renderDocument(const KURL &url)
 }
 
 /** Returns renderer associated with this document. */
-KRender * KdenliveDoc::renderer()
+KRender * KdenliveDoc::renderer() const
 {
   return m_render;
 }
@@ -245,19 +245,10 @@ void KdenliveDoc::connectProjectClip()
 	connect(m_projectClip, SIGNAL(clipLayoutChanged()), this, SLOT(hasBeenModified()));
 	connect(m_projectClip, SIGNAL(signalClipSelected(DocClipRef *)), this, SIGNAL(signalClipSelected(DocClipRef *)));
 	connect(m_projectClip, SIGNAL(clipChanged(DocClipRef *)), this, SIGNAL(clipChanged(DocClipRef *)));
+	connect(m_projectClip, SIGNAL(projectLengthChanged(const GenTime& )), this, SIGNAL(documentLengthChanged(const GenTime& )));
 }
 
-DocTrackBase * KdenliveDoc::nextTrack()
-{
-	return m_projectClip->nextTrack();
-}
-
-DocTrackBase * KdenliveDoc::firstTrack()
-{
-	return m_projectClip->firstTrack();
-}
-
-GenTime KdenliveDoc::projectDuration() const
+const GenTime &KdenliveDoc::projectDuration() const
 {
 	return m_projectClip->duration();
 }
@@ -267,7 +258,7 @@ void KdenliveDoc::indirectlyModified()
 	hasBeenModified();
 }
 
-bool KdenliveDoc::hasSelectedClips()
+bool KdenliveDoc::hasSelectedClips() const
 {
 	bool result = false;
 
@@ -279,7 +270,7 @@ bool KdenliveDoc::hasSelectedClips()
 	return result;
 }
 
-DocClipRef *KdenliveDoc::selectedClip()
+DocClipRef *KdenliveDoc::selectedClip() const
 {
 	DocClipRef *pResult = 0;
 
@@ -292,7 +283,7 @@ DocClipRef *KdenliveDoc::selectedClip()
 	return pResult;
 };
 
-void KdenliveDoc::activeSceneListGeneration(bool active)
+void KdenliveDoc::activateSceneListGeneration(bool active)
 {
 	m_sceneListGeneration = active;
 	if(active)
@@ -301,7 +292,7 @@ void KdenliveDoc::activeSceneListGeneration(bool active)
 	}
 }
 
-DocClipRefList KdenliveDoc::referencedClips(DocClipBase *clip)
+DocClipRefList KdenliveDoc::referencedClips(DocClipBase *clip) const
 {
 	return m_projectClip->referencedClips(clip);
 }
@@ -328,7 +319,7 @@ void KdenliveDoc::deleteClipNode(const QString &name)
 	}
 }
 
-DocumentBaseNode *KdenliveDoc::findClipNode(const QString &name)
+DocumentBaseNode *KdenliveDoc::findClipNode(const QString &name) const
 {
 	return m_clipHierarch->findClipNode(name);
 }
@@ -341,16 +332,6 @@ void KdenliveDoc::AVFilePropertiesError(const QString &path, const QString &errm
 	KMessageBox::sorry(win, errmsg, path);
 
 	deleteClipNode(file->name());
-}
-
-KMacroCommand *KdenliveDoc::createCleanProjectCommand()
-{
-	KMacroCommand *macroCommand = new KMacroCommand( i18n("Clean Project") );
-
-	KCommand *command = m_clipHierarch->createCleanChildrenCommand(*this);
-	macroCommand->addCommand(command);
-
-	return macroCommand;
 }
 
 void KdenliveDoc::addClipNode(const QString &parent, DocumentBaseNode *newNode)
@@ -389,4 +370,109 @@ void KdenliveDoc::setProjectClip(DocClipProject *projectClip)
 	connectProjectClip();
 
 	emit trackListChanged();
+	emit documentLengthChanged(projectDuration());
+}
+
+QValueVector<GenTime> KdenliveDoc::getSnapTimes(bool includeClipEnds,
+										bool includeSnapMarkers,
+										bool includeUnselectedClips,
+										bool includeSelectedClips)
+{
+	QValueVector<GenTime> list;
+
+	for(uint count=0; count<numTracks(); ++count)
+	{
+		if(includeUnselectedClips) {
+			QPtrListIterator<DocClipRef> clipItt = track(count)->firstClip(false);
+			while(clipItt.current()) {
+				if(includeClipEnds) {
+					list.append(clipItt.current()->trackStart());
+					list.append(clipItt.current()->trackEnd());
+				}
+
+				if(includeSnapMarkers) {
+					QValueVector<GenTime> markers = clipItt.current()->snapMarkersOnTrack();
+					for(uint count=0; count<markers.count(); ++count) {
+						list.append(markers[count]);
+					}
+				}
+
+				++clipItt;
+			}
+		}
+
+		if(includeSelectedClips) {
+			QPtrListIterator<DocClipRef> clipItt = track(count)->firstClip(true);
+			while(clipItt.current()) {
+				if(includeClipEnds) {
+					list.append(clipItt.current()->trackStart());
+					list.append(clipItt.current()->trackEnd());
+				}
+
+				if(includeSnapMarkers) {
+					QValueVector<GenTime> markers = clipItt.current()->snapMarkersOnTrack();
+					for(uint count=0; count<markers.count(); ++count) {
+						list.append(markers[count]);
+					}
+				}
+
+				++clipItt;
+			}
+		}
+	}
+
+	return list;
+}
+
+DocClipRefList KdenliveDoc::listSelected() const
+{
+	DocClipRefList list;
+
+	QPtrList<DocTrackBase>::iterator trackItt = trackList().begin();
+
+	while ( trackItt != trackList().end() ) {
+		QPtrListIterator<DocClipRef> clipItt( (*trackItt)->firstClip( true ) );
+
+		while ( clipItt.current() ) {
+			list.inSort( clipItt.current() );
+			++clipItt;
+		}
+
+		++trackItt;
+	}
+
+	return list;
+}
+
+const EffectDescriptionList &KdenliveDoc::effectDescriptions() const
+{
+	return m_render->effectList();
+}
+
+Effect *KdenliveDoc::createEffect(const QDomElement &element) const
+{
+	Effect *effect=0;
+
+	if(element.tagName() != "effect") {
+		kdWarning() << "KdenliveDoc::createEffect() element is not an effect, trying to parse anyway..." << endl;
+	}
+
+	EffectDesc *desc = effectDescription(element.attribute("type"));
+	if(desc) {
+		effect = Effect::createEffect(*desc, element);
+	} else {
+		kdWarning() << "KdenliveDoc::createEffect() cannot find effect description " << element.attribute("effect") << endl;
+	}
+
+	return effect;
+}
+
+EffectDesc *KdenliveDoc::effectDescription(const QString &type) const
+{
+	return effectDescriptions().effectDescription(type);
+}
+
+const DocTrackBaseList &KdenliveDoc::trackList() const
+{
+	return m_projectClip->trackList();
 }

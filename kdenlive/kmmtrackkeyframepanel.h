@@ -23,7 +23,9 @@
 
 #include "doctrackbase.h"
 
+class KdenliveApp;
 class KdenliveDoc;
+class KTimeLine;
 
 /**This panel widget handles the manipulation of keyframes.
   *@author Jason Wood
@@ -37,10 +39,14 @@ class KMMTrackKeyFramePanel : public KMMTrackPanel  {
    Q_OBJECT
 public:
 	enum ResizeState {None, Start, End};
-	KMMTrackKeyFramePanel(KMMTimeLine *timeline, 
+	KMMTrackKeyFramePanel(KdenliveApp *app,
+				KTimeLine *timeline,
 				KdenliveDoc *document,
 				DocTrackBase *docTrack,
-				QWidget *parent=0, 
+				const QString &effectName,
+				int effectIndex,
+				const QString &effectParam,
+				QWidget *parent=0,
 				const char *name=0);
 	~KMMTrackKeyFramePanel();
 private:

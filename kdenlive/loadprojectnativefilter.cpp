@@ -43,19 +43,19 @@ bool LoadProjectNativeFilter::load(QFile &file, KdenliveDoc *document)
 {
 	bool avListLoaded = false;
 	bool trackListLoaded = false;
-	
+
 	QDomDocument doc;
 	doc.setContent(&file, false);
 
 	QDomElement documentElement = doc.documentElement();
 
 	if(documentElement.tagName() != "kdenlivedoc") {
-		kdWarning() << "KdenliveDoc::loadFromXML() document element has unknown tagName : " << 
+		kdWarning() << "KdenliveDoc::loadFromXML() document element has unknown tagName : " <<
 				documentElement.tagName() << endl;
 	}
-	
+
 	QDomNode n = documentElement.firstChild();
-	
+
 	while(!n.isNull()) {
 		QDomElement e = n.toElement();
 		if(!e.isNull()) {
@@ -68,7 +68,7 @@ bool LoadProjectNativeFilter::load(QFile &file, KdenliveDoc *document)
 				}
 			} else if(e.tagName() == "clip") {
 				if(!trackListLoaded) {
-					trackListLoaded = true;	
+					trackListLoaded = true;
 					loadTrackList(e, document);
 				} else {
 					kdWarning() << "Second timeline discovered, skipping..." << endl;
@@ -79,7 +79,7 @@ bool LoadProjectNativeFilter::load(QFile &file, KdenliveDoc *document)
 		}
 		n = n.nextSibling();
 	}
-	
+
 	return true;
 }
 
@@ -94,7 +94,7 @@ QStringList LoadProjectNativeFilter::handledFormats() const
 void LoadProjectNativeFilter::loadAVFileList(QDomElement &element, KdenliveDoc *document)
 {
 	QDomNode n = element.firstChild();
-	
+
 	while(!n.isNull()) {
 		QDomElement e = n.toElement();
 		if(!e.isNull()) {
@@ -106,7 +106,7 @@ void LoadProjectNativeFilter::loadAVFileList(QDomElement &element, KdenliveDoc *
 
 void LoadProjectNativeFilter::loadTrackList(QDomElement &element, KdenliveDoc *document)
 {
-	DocClipBase *clip = DocClipBase::createClip(document->clipManager(), element);
+	DocClipBase *clip = DocClipBase::createClip(document->effectDescriptions(), document->clipManager(), element);
 
 	if(clip) {
 		if(clip->isProjectClip()) {
@@ -134,14 +134,14 @@ void LoadProjectNativeFilter::addToDocument(const QString &parent, QDomElement &
 			QString desc;
 			// find description, if one exists.
 			QDomNode n = clip.firstChild();
-		
+
 			while(!n.isNull()) {
 				QDomText t = n.toText();
 
 				if(!t.isNull()) {
 					desc.append(t.nodeValue());
 				}
-				
+
 				n = n.nextSibling();
 			}
 
@@ -151,12 +151,12 @@ void LoadProjectNativeFilter::addToDocument(const QString &parent, QDomElement &
 	} else {
 		kdError() << "Could not find document base node " << parent << " in document" << endl;
 	}
-	
+
 	if(thisNode) {
 		document->addClipNode(parent, thisNode);
 
 		QDomNode n = clip.firstChild();
-		
+
 		while(!n.isNull()) {
 			QDomElement e = n.toElement();
 			if(!e.isNull()) {

@@ -38,6 +38,7 @@ class DocumentBaseNode
 public:
 	/** Constructor for the fileclass of the application */
 	DocumentBaseNode(DocumentBaseNode *parent);
+
 	/** Destructor for the fileclass of the application */
 	virtual ~DocumentBaseNode();
 
@@ -62,8 +63,6 @@ public:
 
 	virtual DocumentClipNode *asClipNode() { return 0; }
 	virtual DocumentGroupNode *asGroupNode() { return 0; }
-
-	KCommand *createCleanChildrenCommand(KdenliveDoc &document);
 private:
 	// pointer to the parent node.
 	DocumentBaseNode *m_parent;

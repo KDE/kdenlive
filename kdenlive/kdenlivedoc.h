@@ -20,7 +20,7 @@
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif 
+#endif
 
 #include <qobject.h>
 #include <qstring.h>
@@ -31,6 +31,7 @@
 
 #include "doctrackbaselist.h"
 #include "docclipbaselist.h"
+#include "effectdescriptionlist.h"
 #include "krender.h"
 #include "rangelist.h"
 #include "clipmanager.h"
@@ -71,7 +72,7 @@ class KdenliveDoc : public QObject
 	/** returns if the document is modified or not. Use this to determine if your document needs
 	 *  saving by the user on closing. */
 
-	bool isModified(){ return m_modified; };
+	bool isModified() const { return m_modified; };
 	/** deletes the document's contents */
 	void deleteContents();
 	/** initializes the document generally */
@@ -82,42 +83,36 @@ class KdenliveDoc : public QObject
 	const KURL& URL() const;
 	/** sets the URL of the document */
 	void setURL(const KURL& url);
-  	/** Itterates through the tracks in the project. This works in the same way
-	* as QPtrList::next(), although the underlying structures may be different. */
-	DocTrackBase * nextTrack();
-  	/** Returns the first track in the project, and resets the itterator to the first track.
-	*This effectively is the same as QPtrList::first(), but the underyling implementation
-	* may change. */
-	DocTrackBase * firstTrack();
 
 	/** Returns true if at least one clip in the project is selected. */
-	bool hasSelectedClips();
+	bool hasSelectedClips() const;
 
-	/** Returns a clip that is currently selected. Only one clip is returned! 
+	/** Returns a clip that is currently selected. Only one clip is returned!
 	 * This function is intended for times when you need a "master" clip. but have no preferred
 	 * choice. */
-	DocClipRef *selectedClip();
-	
+	DocClipRef *selectedClip() const;
+
 	// HACK HACK - we need a way to prevent the document from spewing hundreds of scenelist
 	// generation requests - this is it.
-	void activeSceneListGeneration(bool active);
+	void activateSceneListGeneration(bool active);
 
+	// HACK - this method should not exist.
 	ClipManager &clipManager() { return m_clipManager; }
-	
+
 	/** Returns all clips that reference the specified clip. */
-	DocClipRefList referencedClips(DocClipBase *clip);
+	DocClipRefList referencedClips(DocClipBase *clip) const;
 
 	void setProjectClip(DocClipProject *projectClip);
 	DocClipProject &projectClip() { return *m_projectClip; }
 
   	/** Returns the number of frames per second. */
  	double framesPerSecond() const;
-	uint numTracks();
+	uint numTracks() const;
 	/** returns the Track which holds the given clip. If the clip does not
 	exist within the document, returns 0; */
-	DocTrackBase * findTrack(DocClipRef *clip);
+	DocTrackBase * findTrack(DocClipRef *clip) const;
 	/** Returns the track with the given index, or returns NULL if it does not exist. */
-	DocTrackBase * track(int track);
+	DocTrackBase * track(int track) const;
 	/** Returns the index value for this track, or -1 on failure.*/
 	int trackIndex(DocTrackBase *track) const;
 	/** Sets the modified state of the document, if this has changed, emits modified(state) */
@@ -127,10 +122,10 @@ class KdenliveDoc : public QObject
 	/** Renders the current document timeline to the specified url. */
 	void renderDocument(const KURL &url);
 	/** Returns renderer associated with this document. */
-	KRender * renderer();
+	KRender * renderer() const;
 
 	/** returns the duration of the project. */
-	GenTime projectDuration() const;
+	const GenTime &projectDuration() const;
 	/** HACK - in some cases, we can modify the document without it knowing - we tell it here
 	 * for the moment, although really, this means we have access to things that either we should
 	 * only modify via an interface to the document, or that the things that we are modifying should
@@ -141,10 +136,10 @@ class KdenliveDoc : public QObject
 	bool moveSelectedClips(GenTime startOffset, int trackOffset);
 
 	/** Return the document clip hierarch */
-	DocumentBaseNode *clipHierarch() { return m_clipHierarch; }
+	DocumentBaseNode *clipHierarch() const { return m_clipHierarch; }
 
 	/** Return the document base node with the given name, or null if it does not exist. */
-	DocumentBaseNode *findClipNode(const QString &name);
+	DocumentBaseNode *findClipNode(const QString &name) const;
 
 	/** Delete the named documentBaseNode */
 	void deleteClipNode(const QString &name);
@@ -152,9 +147,25 @@ class KdenliveDoc : public QObject
 	/** Add the given base node to the named parent */
 	void addClipNode(const QString &parent, DocumentBaseNode *newNode);
 
-	/** Generates a command that will clean the project. The command is returned so that it can
-	 * be executed by the client. */
-	KMacroCommand *createCleanProjectCommand();
+	QValueVector<GenTime> getSnapTimes(bool includeClipEnds,
+									bool includeSnapMarkers,
+									bool includeUnSelectedClips,
+									bool includeSelectedClips);
+
+	/** Constructs a list of all clips that are currently selected. */
+	DocClipRefList listSelected() const;
+
+	/** Returns a list of all effect descriptions that are known to the document. */
+	const EffectDescriptionList &effectDescriptions() const;
+
+	/** Returns the effectDesc matching the type specified, or returns null if the description does not exist. */
+	EffectDesc *effectDescription(const QString &type) const;
+
+	/** Creates an effect from the given xml. */
+	Effect *createEffect(const QDomElement &element) const;
+
+	/** Return the list of tracks that make up this document. */
+	const DocTrackBaseList &trackList() const;
   private:
 	/** The base clip for this document. This must be a project clip, as it lists the tracks within
 	 * the project, etc. */
@@ -176,7 +187,6 @@ class KdenliveDoc : public QObject
 	QDomDocument m_domSceneList;
 	/** HACK HACK - generate scenelist if true, don't if false) */
 	bool m_sceneListGeneration;
-
 
 	/** The clip hierarchy for this project. Clips can be put into groups. */
 	DocumentBaseNode *m_clipHierarch;
@@ -215,6 +225,8 @@ signals: // Signals
 	void documentChanged(DocClipBase *);
 	/** Emitted whenever a clip gets selected. */
 	void signalClipSelected(DocClipRef *);
+	/** Emitted when the length of the document changes. */
+	void documentLengthChanged(const GenTime &);
 };
 
 #endif // KDENLIVEDOC_H

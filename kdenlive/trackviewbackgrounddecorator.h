@@ -17,19 +17,21 @@
 #ifndef TRACKVIEWBACKGROUNDDECORATOR_H
 #define TRACKVIEWBACKGROUNDDECORATOR_H
 
-#include <trackviewdecorator.h>
+#include <doctrackdecorator.h>
 
 #include <qcolor.h>
+
+#include <ktimeline.h>
 
 /**
 Draws the base image for a clip; draws a border around the clip, and fills it with a flat-shaded colour.
 
 @author Jason Wood
 */
-class TrackViewBackgroundDecorator : public TrackViewDecorator
+class TrackViewBackgroundDecorator : public DocTrackDecorator
 {
 public:
-    TrackViewBackgroundDecorator(KMMTimeLine* timeline,
+    TrackViewBackgroundDecorator(KTimeLine* timeline,
 									KdenliveDoc* doc,
 									DocTrackBase* track,
 									const QColor &selected,

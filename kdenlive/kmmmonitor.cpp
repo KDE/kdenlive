@@ -211,7 +211,7 @@ void KMMMonitor::slotSetClip(DocClipRef *clip)
 	}
 
 	// create a copy of the clip.
-	m_clip = clip->clone(m_document->clipManager());
+	m_clip = clip->clone(m_document->effectDescriptions(), m_document->clipManager());
 
 	if(!m_clip) {
 		kdError() << "KMMMonitor : Could not copy clip - you won't be able to see it!!!" << endl;

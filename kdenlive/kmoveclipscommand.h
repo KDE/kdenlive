@@ -1,10 +1,10 @@
 /***************************************************************************
-                          kmoveclipscommand.h  -  description
-                             -------------------
-    begin                : Thu Dec 12 2002
-    copyright            : (C) 2002 by Jason Wood
-    email                : jasonwood@blueyonder.co.uk
- ***************************************************************************/
+                         kmoveclipscommand.h  -  description
+                            -------------------
+   begin                : Thu Dec 12 2002
+   copyright            : (C) 2002 by Jason Wood
+   email                : jasonwood@blueyonder.co.uk
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -25,38 +25,38 @@
 
 class KdenliveDoc;
 class DocClipRef;
-class KMMTimeLine;
 
-namespace Command {
+namespace Command
+{
 
 /**This command handles the moving of clips, and the "unexecuting" of command, for undo/redo pruposes.
   *@author Jason Wood
   */
 
-class KMoveClipsCommand : public KCommand  {
-public: 
-	KMoveClipsCommand(KMMTimeLine *timeline, KdenliveDoc *doc, DocClipRef *master);
+class KMoveClipsCommand : public KCommand
+{
+public:
+	KMoveClipsCommand( KdenliveDoc *doc, DocClipRef *master );
 	~KMoveClipsCommand();
-  /** Returns the (translated) name of this command */
-  QString name() const;
-  /** Unexecute this command */
-  void unexecute();
-  /** Executes this command */
-  void execute();
-  /** Specifies where the master clip should be moved to by this command. */
-  void setEndLocation(DocClipRef *master);
+	/** Returns the (translated) name of this command */
+	virtual QString name() const;
+	/** Unexecute this command */
+	void unexecute();
+	/** Executes this command */
+	void execute();
+	/** Specifies where the master clip should be moved to by this command. */
+	void setEndLocation( DocClipRef *master );
 private:
 	KdenliveDoc *m_doc;
-	KMMTimeLine *m_timeline;
 
 	/** The track the master clip is on before execution */
 	int m_startTrack;
 	/** The start of the master clip before execution */
 	GenTime m_startTime;
 
-	/** The track the master clip is on after execution */	
+	/** The track the master clip is on after execution */
 	int m_endTrack;
-	/** The start of the master clip after execution */	
+	/** The start of the master clip after execution */
 	GenTime m_endTime;
 };
 

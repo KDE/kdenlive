@@ -17,17 +17,15 @@
 
 #include "kmoveclipscommand.h"
 #include "kdenlivedoc.h"
-#include "kmmtimeline.h"
 #include <klocale.h>
 #include <kdebug.h>
 
 namespace Command {
 
-KMoveClipsCommand::KMoveClipsCommand(KMMTimeLine *timeline, KdenliveDoc *doc, DocClipRef *master)
-													: KCommand()
+KMoveClipsCommand::KMoveClipsCommand(KdenliveDoc *doc, DocClipRef *master)
+													: KCommand(),
+													m_doc(doc)
 {
-	m_doc = doc;
-	m_timeline = timeline;
 	m_startTrack = doc->trackIndex(doc->findTrack(master));
 	if(m_startTrack == -1) {
 		kdError() << "KMoveClipCommand created, but master clip is not in document!" << endl;
@@ -43,7 +41,7 @@ KMoveClipsCommand::~KMoveClipsCommand()
 {
 }
 
-/** Returns the (translated) name of this command */
+// virtual
 QString KMoveClipsCommand::name() const
 {
 	return i18n("Move Clips");
@@ -60,14 +58,12 @@ void KMoveClipsCommand::setEndLocation(DocClipRef *master)
 void KMoveClipsCommand::execute()
 {
 	m_doc->moveSelectedClips(m_endTime - m_startTime, m_endTrack - m_startTrack);
-	m_timeline->drawTrackViewBackBuffer();
 }
 
 /** Unexecute this command */
 void KMoveClipsCommand::unexecute()
 {
 	m_doc->moveSelectedClips(m_startTime - m_endTime, m_startTrack - m_endTrack);
-	m_timeline->drawTrackViewBackBuffer();	
 }
 
 } // namespace Command

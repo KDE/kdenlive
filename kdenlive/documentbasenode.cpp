@@ -57,7 +57,7 @@ QDomDocument DocumentBaseNode::toXML() const
 	}
 
 	doc.appendChild(clip);
-		
+
 	return doc;
 }
 
@@ -87,34 +87,4 @@ void DocumentBaseNode::addChild( const DocumentBaseNode *node )
 void DocumentBaseNode::removeChild( const DocumentBaseNode *node )
 {
 	m_children.remove(node);
-}
-
-KCommand *DocumentBaseNode::createCleanChildrenCommand(KdenliveDoc &document)
-{
-	KMacroCommand *macroCommand = new KMacroCommand(i18n("Clean project") );
-
-	QPtrListIterator<DocumentBaseNode> itt(m_children);
-
-	while(itt.current()) {
-		DocumentBaseNode *node = itt.current();
-
-		if(node->hasChildren()) {
-			macroCommand->addCommand(node->createCleanChildrenCommand(document));
-		} else {
-			DocumentClipNode *clipNode = node->asClipNode();
-
-			if(clipNode) {
-				DocClipBase *file = clipNode->clipRef()->referencedClip();
-				if(file->numReferences() == 0) {
-					macroCommand->addCommand(new Command::KAddClipCommand(document, clipNode->name(), clipNode->clipRef()->referencedClip(), clipNode->parent(), false));
-				}
-			} else {
-				macroCommand->addCommand(new Command::KAddClipCommand(document, node->name(), NULL, node->parent(), false));
-			}
-		}
-
-		++itt;
-	}
-
-	return macroCommand;
 }

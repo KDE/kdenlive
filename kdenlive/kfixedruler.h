@@ -20,13 +20,15 @@
 
 #include <kruler.h>
 
-/**This class provides a simplified version of KRuler. Instead of the "start position and zoom" functionality, this class provides "start and end values", allowing you to set up a non-panning ruler. Examples of uses for this class could be a media player, where the position indicator ticks from the start to the end.
+/**This class provides a simplified version of KRuler. Instead of the "start position and zoom" functionality, this class provides "start and end values",
+	allowing you to set up a non-panning ruler. Examples of uses for this class could be a media player, where the position indicator ticks from the
+	start to the end.
   *@author Jason Wood
   */
 
 class KFixedRuler : public KRuler  {
    Q_OBJECT
-public: 
+public:
 	KFixedRuler(int startValue, int endValue, int margin=20, KRulerModel *model=0, QWidget *parent=0, const char *name=0);
 	KFixedRuler(KRulerModel *model, QWidget *parent=0, const char *name=0);
 	KFixedRuler(QWidget *parent=0, const char *name=0);
@@ -36,7 +38,7 @@ public:
   /** Sets the end value of the ruler - that is the last value which should be displayed on the ruler. */
   void setMaxValue(const int end);
   /** Sets the start value for the ruler - that is, the leftmost value that should be displayed. */
-  void setMinValue(const int start);  
+  void setMinValue(const int start);
   /** Returns the maximum value of this ruler. */
   int maxValue() const;
   /** Returns the minimum value of this ruler */
@@ -52,7 +54,7 @@ signals: // Signals
   /** endValueChanged(int) is emitted when the end value (the rightmost on the ruler) has been changed. The new end value is emitted. */
   void endValueChanged(int);
   /** startValueChanged(int) is emitted when the start value (the leftmost on the ruler) has changed. The new start value is emitted. */
-  void startValueChanged(int);  
+  void startValueChanged(int);
 private: // Private attributes
   /** How much margin exists on either side of the ruler, in pixels */
   int m_margin;

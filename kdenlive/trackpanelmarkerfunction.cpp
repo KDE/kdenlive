@@ -17,11 +17,13 @@
 #include "trackpanelmarkerfunction.h"
 
 #include "kaddmarkercommand.h"
-#include "kmmtimeline.h"
+#include "kdenlive.h"
+#include "kdenlivedoc.h"
+#include "ktimeline.h"
 
-TrackPanelMarkerFunction::TrackPanelMarkerFunction(KMMTimeLine *timeline, DocTrackBase *docTrack, KdenliveDoc *document) :
+TrackPanelMarkerFunction::TrackPanelMarkerFunction(KdenliveApp *app, KTimeLine *timeline, KdenliveDoc *document) :
+									m_app(app),
 									m_timeline(timeline),
-									m_docTrack(docTrack),
 									m_document(document)
 {
 }
@@ -32,40 +34,52 @@ TrackPanelMarkerFunction::~TrackPanelMarkerFunction()
 }
 
 
-bool TrackPanelMarkerFunction::mouseApplies(QMouseEvent* event) const
+bool TrackPanelMarkerFunction::mouseApplies(KTrackPanel *panel, QMouseEvent* event) const
 {
-	GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_document->framesPerSecond());
 	DocClipRef *clipUnderMouse = 0;
-	clipUnderMouse = m_docTrack->getClipAt(mouseTime);
+
+	if(panel->hasDocumentTrackIndex()) {
+		DocTrackBase *track = m_document->track(panel->documentTrackIndex());
+		if(track) {
+			GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_document->framesPerSecond());
+			clipUnderMouse = track->getClipAt(mouseTime);
+		}
+	}
 
 	return clipUnderMouse;
 }
 
-bool TrackPanelMarkerFunction::mouseMoved(QMouseEvent* event)
+bool TrackPanelMarkerFunction::mouseMoved(KTrackPanel *panel, QMouseEvent* event)
 {
 	return true;
 }
 
-bool TrackPanelMarkerFunction::mousePressed(QMouseEvent* event)
+bool TrackPanelMarkerFunction::mousePressed(KTrackPanel *panel, QMouseEvent* event)
 {
 	return true;
 }
 
-bool TrackPanelMarkerFunction::mouseReleased(QMouseEvent* event)
+bool TrackPanelMarkerFunction::mouseReleased(KTrackPanel *panel, QMouseEvent* event)
 {
-	GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_document->framesPerSecond());
 	DocClipRef *clipUnderMouse = 0;
-	clipUnderMouse = m_docTrack->getClipAt(mouseTime);
 
-	if(clipUnderMouse) {
-		Command::KAddMarkerCommand *command = new Command::KAddMarkerCommand(*m_document, clipUnderMouse, mouseTime - clipUnderMouse->trackStart() + clipUnderMouse->cropStartTime(), true);
-		m_timeline->addCommand(command);
+	if(panel->hasDocumentTrackIndex()) {
+		DocTrackBase *track = m_document->track(panel->documentTrackIndex());
+		if(track) {
+			GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_document->framesPerSecond());
+			clipUnderMouse = track->getClipAt(mouseTime);
+
+			if(clipUnderMouse) {
+				Command::KAddMarkerCommand *command = new Command::KAddMarkerCommand(*m_document, clipUnderMouse, mouseTime - clipUnderMouse->trackStart() + clipUnderMouse->cropStartTime(), true);
+				m_app->addCommand(command);
+			}
+		}
 	}
 
 	return true;
 }
 
-QCursor TrackPanelMarkerFunction::getMouseCursor(QMouseEvent* event)
+QCursor TrackPanelMarkerFunction::getMouseCursor(KTrackPanel *panel, QMouseEvent* event)
 {
 	return QCursor(Qt::PointingHandCursor);
 }

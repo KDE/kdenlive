@@ -19,15 +19,41 @@
 #define EFFECT_H
 
 #include <qstring.h>
+#include <qptrlist.h>
+#include <qdom.h>
+
+class EffectDesc;
+class EffectParameter;
 
 /**Describes an effect, with a name, parameters keyframes, etc.
   *@author Jason Wood
   */
 
 class Effect {
-public: 
-	Effect(const QString &name);
+public:
+	Effect(const EffectDesc &desc, const QString &name);
+
 	~Effect();
+
+	/** Returns an XML representation of this effect. */
+	QDomDocument toXML() const;
+
+	const QString &name() const { return m_name; }
+
+	void addParameter(const QString &name);
+
+	/** Produce a clone of this effect. */
+	Effect *clone() const;
+
+	/** Creates an effect from the specified xml */
+	static Effect *createEffect(const EffectDesc &desc, const QDomElement &effect);
+
+	const EffectDesc &effectDescription() const { return m_desc; }
+private:
+	const EffectDesc &m_desc;
+	QString m_name;
+
+	QPtrList<EffectParameter> m_paramList;
 };
 
 #endif

@@ -152,12 +152,22 @@ void KMMEditPanel::rendererDisconnected()
 
 void KMMEditPanel::setInpoint()
 {
-	m_ruler->setSliderValue( 1, m_ruler->getSliderValue( 0 ) );
+	int value = m_ruler->getSliderValue( 0 );
+	m_ruler->setSliderValue( 1, value);
+
+	if(value > m_ruler->getSliderValue( 2 )) {
+		m_ruler->setSliderValue( 2, value );
+	}
 }
 
 void KMMEditPanel::setOutpoint()
 {
-	m_ruler->setSliderValue( 2, m_ruler->getSliderValue( 0 ) );
+	int value = m_ruler->getSliderValue( 0 );
+	m_ruler->setSliderValue( 2, value );
+
+	if(m_ruler->getSliderValue( 1 ) > value) {
+		m_ruler->setSliderValue( 1, 0 );
+	}
 }
 
 void KMMEditPanel::setInpoint( const GenTime &inpoint )

@@ -31,10 +31,10 @@ DocSubClip::DocSubClip(KdenliveDoc *doc, DocClipBase *clip) :
 
 DocSubClip::~DocSubClip()
 {
-	m_clip = 0;	
+	m_clip = 0;
 }
 
-GenTime DocSubClip::duration() const
+const GenTime &DocSubClip::duration() const
 {
 	return m_clip->duration();
 }
@@ -92,8 +92,8 @@ double DocSubClip::framesPerSecond() const
 	return m_clip->framesPerSecond();
 }
 
-		
-// virtual 
+
+// virtual
 QDomDocument DocSubClip::generateSceneList()
 {
 	static QString str_inpoint="inpoint";
@@ -118,15 +118,15 @@ QDomDocument DocSubClip::generateSceneList()
 	return scenelist;
 }
 
-// virtual 
+// virtual
 QDomDocument DocSubClip::sceneToXML(const GenTime &startTime, const GenTime &endTime)
-{	
+{
 #warning - need to re-add in/out points correctly.
 	static QString str_inpoint="inpoint";
 	static QString str_outpoint="outpoint";
-	static QString str_file="file";		
+	static QString str_file="file";
 	QDomDocument sceneList;
-	
+
 	QDomElement sceneClip = sceneList.createElement("input");
 	sceneClip.setAttribute(str_file, fileURL().path());
 
@@ -138,14 +138,14 @@ void DocSubClip::populateSceneTimes(QValueVector<GenTime> &toPopulate)
 {
 }
 
-// virtual 
+// virtual
 bool DocSubClip::matchesXML(const QDomElement &element)
 {
 # warning - needs to be written
 	return false;
 }
 
-// virtual 
+// virtual
 bool DocSubClip::referencesClip(DocClipBase *clip) const
 {
 	return m_clip->referencesClip(clip);

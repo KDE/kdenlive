@@ -19,15 +19,10 @@
 #include "qptrlist.h"
 #include "qvaluelist.h"
 
-SnapToGrid::SnapToGrid(KdenliveDoc *doc) :
-		m_document(doc),
+SnapToGrid::SnapToGrid() :
 		m_snapToFrame(true),
-		m_snapToClipStart(true),
-		m_snapToClipEnd(true),
-		m_includeSelectedClips(true),
-		m_snapToSeekTime(true),
-		m_snapToMarkers(true),
-		m_isDirty(true)
+		m_isDirty(true),
+		m_framesPerSecond(25)
 {
 	m_internalSnapTracker = m_internalSnapList.end();
 }
@@ -35,86 +30,6 @@ SnapToGrid::SnapToGrid(KdenliveDoc *doc) :
 
 SnapToGrid::~SnapToGrid()
 {
-}
-
-/**
-Add and set seek times. A seek time is a time that we wish to snap to, but
-which is independant of the clip borders.
-*/
-uint SnapToGrid::addSeekTime(const GenTime &seekTime)
-{
-	m_seekTimes.append(seekTime);
-	if(snapToSeekTime()) setDirty(true);
-	return m_seekTimes.count()-1;
-}
-
-void SnapToGrid::setSeekTime(uint index, const GenTime &seekTime)
-{
-	if(index < m_seekTimes.count()) {
-		m_seekTimes[index] = seekTime;
-		if(snapToSeekTime()) setDirty(true);
-	}
-}
-
-/**
-get/set whether or not clip start times are snapped to
-*/
-void SnapToGrid::setSnapToClipStart(bool snapToClipStart)
-{
-	if(m_snapToClipStart != snapToClipStart) {
-		m_snapToClipStart = snapToClipStart;
-		setDirty(true);
-	}
-}
-
-bool SnapToGrid::snapToClipStart() const
-{
-	return m_snapToClipStart;
-}
-
-void SnapToGrid::setIncludeSelectedClips(bool includeSelectedClips)
-{
-	if(m_includeSelectedClips != includeSelectedClips) {
-		m_includeSelectedClips = includeSelectedClips;
-		setDirty(true);
-	}
-}
-
-bool SnapToGrid::includeSelectedClips() const
-{
-	return m_includeSelectedClips;
-}
-
-/**
-get/set whether or not clip end times are snapped to
-*/
-void SnapToGrid::setSnapToClipEnd(bool snapToClipEnd)
-{
-	if(m_snapToClipEnd != snapToClipEnd) {
-		m_snapToClipEnd = snapToClipEnd;
-		setDirty(true);
-	}
-}
-
-bool SnapToGrid::snapToClipEnd() const
-{
-	return m_snapToClipEnd;
-}
-
-/**
-get/set whether or not seek times are snapped to
-*/
-void SnapToGrid::setSnapToSeekTime(bool snapToSeekTime)
-{
-	if(m_snapToSeekTime != snapToSeekTime) {
-		m_snapToSeekTime = snapToSeekTime;
-		setDirty(true);
-	}
-}
-
-bool SnapToGrid::snapToSeekTime() const
-{
-	return m_snapToSeekTime;
 }
 
 /**
@@ -139,9 +54,10 @@ bool SnapToGrid::snapToFrame() const
 Sets the cursor times to the specified list. Each cursor time is individually
 'snapped' to the list of snap times when calculating the final snap.
 */
-void SnapToGrid::setCursorTimes(const QValueList<GenTime> & time)
+void SnapToGrid::setCursorTimes(const QValueVector<GenTime> & time)
 {
 	m_cursorTimes = time;
+	setDirty(true);
 }
 
 void SnapToGrid::setDirty(bool dirty)
@@ -210,7 +126,7 @@ GenTime SnapToGrid::getSnappedTime(const GenTime &time) const
 	}
 
 	if(m_snapToFrame) {
-		result.roundNearestFrame(m_document->framesPerSecond());
+		result.roundNearestFrame(m_framesPerSecond);
 	}
 
 	return result;
@@ -227,7 +143,7 @@ void SnapToGrid::createInternalSnapList() const
 	// For each cursor time, append a correct snap time to the list.
 	// This is calculated as follows : masterClipTime + required snap time - cursor time.
 
-	QValueListConstIterator<GenTime> cursorItt = m_cursorTimes.begin();
+	QValueVector<GenTime>::const_iterator cursorItt = m_cursorTimes.begin();
 	while(cursorItt != m_cursorTimes.end())
 	{
 		QValueListIterator<GenTime> timeItt = list.begin();
@@ -263,9 +179,31 @@ void SnapToGrid::createInternalSnapList() const
   m_internalSnapTracker = m_internalSnapList.begin();
 }
 
+void SnapToGrid::clearSnapList()
+{
+	m_snapToGridList.clear();
+}
+
+void SnapToGrid::addToSnapList(const GenTime &time)
+{
+	m_snapToGridList.append(time);
+	setDirty(true);
+}
+
+void SnapToGrid::addToSnapList(const QValueVector<GenTime> &times)
+{
+	for(QValueVector<GenTime>::const_iterator itt =times.begin(); itt!=times.end(); ++itt) {
+		m_snapToGridList.append(*itt);
+	}
+	setDirty(true);
+}
+
 QValueList<GenTime> SnapToGrid::snapToGridList() const
 {
-	QValueList<GenTime> list;
+	return m_snapToGridList;
+}
+
+	/**QValueList<GenTime> list;
 
 	// Add snap to seek positions.
 	if(m_snapToSeekTime) {
@@ -310,11 +248,11 @@ QValueList<GenTime> SnapToGrid::snapToGridList() const
 	}
 
 	return list;
-}
+}*/
 
 void SnapToGrid::prependCursor(const GenTime &cursor)
 {
-	m_cursorTimes.prepend(cursor);
+	m_cursorTimes.insert(0, cursor);
 	setDirty(true);
 }
 
@@ -322,23 +260,5 @@ void SnapToGrid::appendCursor(const GenTime &cursor)
 {
 	m_cursorTimes.append(cursor);
 	setDirty(true);
-}
-
-void SnapToGrid::clearSeekTimes()
-{
-	m_seekTimes.clear();
-	if(m_snapToSeekTime) {
-		setDirty(true);
-	}
-}
-
-void SnapToGrid::setSnapToMarkers(bool snapToMarkers)
-{
-	m_snapToMarkers = snapToMarkers;
-}
-
-bool SnapToGrid::snapToMarkers() const
-{
-	return m_snapToMarkers;
 }
 

@@ -14,7 +14,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
 #include "doctrackvideo.h"
 
 #include "kdebug.h"
@@ -32,7 +32,7 @@ DocTrackVideo::~DocTrackVideo()
 }
 
 /** Returns true if the specified clip can be added to this track, false otherwise.*/
-bool DocTrackVideo::canAddClip(DocClipRef * clip)
+bool DocTrackVideo::canAddClip(DocClipRef * clip) const
 {
 	DocClipRef *search;
 
@@ -50,20 +50,20 @@ bool DocTrackVideo::canAddClip(DocClipRef * clip)
 	}
 
 	// repeated for selected clips
-	QPtrListIterator<DocClipRef> s_itt(m_selectedClipList);	
+	QPtrListIterator<DocClipRef> s_itt(m_selectedClipList);
 	for(; (search=s_itt.current()) != 0; ++s_itt) {
 		if(search->trackEnd() <= clip->trackStart()) continue;
 		if(search->trackStart() < clip->trackEnd()) {
 			kdDebug() << "Cannot add clip at " << clip->trackStart().seconds() << " to " << clip->trackEnd().seconds() << endl;
-			kdDebug() << "Because of clip " << search->trackStart().seconds() << " to " << search->trackEnd().seconds() << endl;					
+			kdDebug() << "Because of clip " << search->trackStart().seconds() << " to " << search->trackEnd().seconds() << endl;
 			return false;
 		}
-		
+
 		// we can safely break here, as the clips are sorted in order - if search->trackStart is already past
 		// the clip that we was looking at, then we are ok.
 		break;
 	}
-	
+
 	return true;
 }
 

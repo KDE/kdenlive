@@ -43,42 +43,42 @@ public:
 	 * the file format, etc.
 	 **/
 	void calculateFileProperties(const QMap<QString, QString> &attributes);
-	
+
 	/** Returns the filesize of the underlying avfile. */
 	virtual uint fileSize() const;
 
 	/** Returns the number of references to the underlying avfile. */
 	uint numReferences() const;
-	
+
 	/** Returns the duration of the file */
-	GenTime duration() const;	
+	const GenTime &duration() const;
 	/** Returns the type of this clip */
 	DocClipBase::CLIPTYPE clipType();
 
-	QDomDocument toXML();
+	QDomDocument toXML() const;
 	/** Returns the url of the AVFile this clip contains */
 	const KURL &fileURL() const;
 	/** Creates a clip from the passed QDomElement. This only pertains to those details specific
 	 *  to DocClipAVFile. This action should only occur via the clipManager.*/
 	static DocClipAVFile * createClip(const QDomElement element);
 	/** Returns true if the clip duration is known, false otherwise. */
-	virtual bool durationKnown();
+	virtual bool durationKnown() const;
 	virtual double framesPerSecond() const;
 	/** Returns a scene list generated from this clip. */
-	virtual QDomDocument generateSceneList();
+	virtual QDomDocument generateSceneList() const;
 	// Appends scene times for this clip to the passed vector.
-	virtual void populateSceneTimes(QValueVector<GenTime> &toPopulate);
+	virtual void populateSceneTimes(QValueVector<GenTime> &toPopulate) const;
 	// Returns an XML document that describes part of the current scene.
-	virtual QDomDocument sceneToXML(const GenTime &startTime, const GenTime &endTime);
+	virtual QDomDocument sceneToXML(const GenTime &startTime, const GenTime &endTime) const;
 	/** Returns true if this clip refers to the clip passed in. For a DocClipAVFile, this
 	 * is true if this == clip */
 	virtual bool referencesClip(DocClipBase *clip) const;
-	
+
 	/** Returns true if this clip has a meaningful filesize. */
 	virtual bool hasFileSize() const { return true; }
 
 	/** returns true if the xml passed matches the values in the clip */
-	virtual bool matchesXML(const QDomElement &element);
+	virtual bool matchesXML(const QDomElement &element) const;
 
 	virtual bool isDocClipAVFile() const { return true; }
 	virtual DocClipAVFile *toDocClipAVFile() { return this; }

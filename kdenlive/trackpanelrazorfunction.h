@@ -20,8 +20,9 @@
 #include "kdenlive.h"
 #include "trackpanelfunction.h"
 
+class KdenliveApp;
 class KdenliveDoc;
-class KMMTimeLine;
+class KTimeLine;
 class DocTrackBase;
 
 /**
@@ -34,9 +35,9 @@ class TrackPanelRazorFunction : public TrackPanelFunction
 {
 	Q_OBJECT
 public:
-	TrackPanelRazorFunction(KMMTimeLine *timeline, 
-					KdenliveDoc *document,
-					DocTrackBase *docTrack);
+	TrackPanelRazorFunction(KdenliveApp *app,
+					KTimeLine *timeline,
+					KdenliveDoc *document);
 
 	virtual ~TrackPanelRazorFunction();
 
@@ -44,33 +45,39 @@ public:
 	Returns true if the specified position should cause this function to activate,
 	otherwise returns false.
 	*/
-	virtual bool mouseApplies(QMouseEvent *event) const;
+	virtual bool mouseApplies(KTrackPanel *panel, QMouseEvent *event) const;
 
 	/**
 	Returns a relevant mouse cursor for the given mouse position
 	*/
-	virtual QCursor getMouseCursor(QMouseEvent *event);
+	virtual QCursor getMouseCursor(KTrackPanel *panel, QMouseEvent *event);
 
 	/**
 	A mouse button has been pressed. Returns true if we want to handle this event
 	*/
-	virtual bool mousePressed(QMouseEvent *event);
+	virtual bool mousePressed(KTrackPanel *panel, QMouseEvent *event);
 
 	/**
 	Mouse Release Events in the track view area. Returns true if we have finished
 	an operation now.
 	*/
-	virtual bool mouseReleased(QMouseEvent *event);
+	virtual bool mouseReleased(KTrackPanel *panel, QMouseEvent *event);
 
 	/**
 	Processes Mouse Move events in the track view area. Returns true if we are
 	continuing with the drag.*/
-	virtual bool mouseMoved(QMouseEvent *event);
+	virtual bool mouseMoved(KTrackPanel *panel, QMouseEvent *event);
+signals: // Signals
+	/**
+	emitted when a tool is "looking" at a clip, it signifies to whatever is listening
+	that displaying this information in some way would be useful.
+	*/
+	void lookingAtClip(DocClipRef *, const GenTime &);
 private:
 
-	KMMTimeLine *m_timeline;
+	KdenliveApp *m_app;
+	KTimeLine *m_timeline;
 	KdenliveDoc *m_document;
-	DocTrackBase *m_docTrack;
 	DocClipRef * m_clipUnderMouse;
 };
 

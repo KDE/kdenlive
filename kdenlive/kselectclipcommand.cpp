@@ -18,14 +18,18 @@
 #include "kselectclipcommand.h"
 #include "kdenlivedoc.h"
 #include "docclipref.h"
+#include "doctrackbase.h"
+#include "doctrackclipiterator.h"
+
+#include <kcommand.h>
 #include <klocale.h>
 #include <kdebug.h>
 
 namespace Command {
 
-KSelectClipCommand::KSelectClipCommand(KdenliveDoc *doc, DocClipRef *clip, bool select)
+KSelectClipCommand::KSelectClipCommand(KdenliveDoc *doc, DocClipRef *clip, bool select) :
+						m_doc(doc)
 {
-	m_doc = doc;
 	DocTrackBase *docTrack = doc->findTrack(clip);
 	m_track = doc->trackIndex(docTrack);
 	m_findTime = clip->trackStart() + (clip->cropDuration() / 2.0);
@@ -40,7 +44,7 @@ KSelectClipCommand::~KSelectClipCommand()
 /** Executes the command */
 void KSelectClipCommand::execute()
 {
-	DocTrackBase *track = m_doc->track(m_track);		
+	DocTrackBase *track = m_doc->track(m_track);
 	track->selectClip(track->getClipAt(m_findTime), m_selectClip);
 }
 
@@ -56,5 +60,76 @@ QString KSelectClipCommand::name() const
 {
 	return i18n("Selection");
 }
+
+KCommand *KSelectClipCommand::selectNone(KdenliveDoc *document)
+{
+	KMacroCommand *command = new KMacroCommand(i18n("Selection"));
+
+	QPtrList<DocTrackBase>::iterator trackItt = document->trackList().begin();
+	while(trackItt != document->trackList().end()) {
+		QPtrListIterator<DocClipRef> clipItt((*trackItt)->firstClip(true));
+		while(clipItt.current()!=0) {
+			Command::KSelectClipCommand *clipComm = new Command::KSelectClipCommand(document, clipItt.current(), false);
+			command->addCommand(clipComm);
+			++clipItt;
+		}
+		++trackItt;
+	}
+
+	return command;
+}
+
+// static
+KCommand * KSelectClipCommand::selectLaterClips( KdenliveDoc *document, GenTime time, bool include )
+{
+	KMacroCommand * command = new KMacroCommand( i18n( "Selection" ) );
+
+	bool select;
+
+	QPtrList<DocTrackBase>::iterator trackItt = document->trackList().begin();
+	while(trackItt != document->trackList().end()) {
+
+		DocTrackClipIterator clipItt( *(*trackItt) );
+		while ( clipItt.current() != 0 ) {
+			if ( include ) {
+				select = clipItt.current() ->trackEnd() > time;
+			} else {
+				select = clipItt.current() ->trackStart() > time;
+			}
+			Command::KSelectClipCommand *clipComm = new Command::KSelectClipCommand( document, clipItt.current(), select );
+			command->addCommand( clipComm );
+			++clipItt;
+		}
+
+		++trackItt;
+	}
+
+	return command;
+}
+
+KCommand *KSelectClipCommand::selectClipAt( KdenliveDoc *document, const DocTrackBase &track, const GenTime &value )
+{
+	Command::KSelectClipCommand *command = 0;
+
+	DocClipRef * clip = track.getClipAt( value );
+	if ( clip ) {
+		command = new Command::KSelectClipCommand( document, clip, true );
+	}
+
+	return command;
+}
+
+// static
+KCommand *KSelectClipCommand::toggleSelectClipAt( KdenliveDoc *document, const DocTrackBase &track, const GenTime &value )
+{
+	KCommand *command = 0;
+	DocClipRef * clip = track.getClipAt( value );
+	if ( clip ) {
+		command = new Command::KSelectClipCommand( document, clip, !track.clipSelected( clip ) );
+	}
+
+	return command;
+}
+
 
 } // namespace Command

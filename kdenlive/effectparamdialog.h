@@ -19,17 +19,54 @@
 #define EFFECTPARAMDIALOG_H
 
 #include <qwidget.h>
-#include <qframe.h>
+#include <qhbox.h>
+#include <qvbox.h>
+
+#include "effectdesc.h"
+
+class QVBox;
+class QComboBox;
+class KPushButton;
+
+class DocClipRef;
+class KFixedRuler;
+class KTimeLine;
+class KdenliveDoc;
+class KdenliveApp;
 
 /**The effect param dialog displays the parameter settings for a particular effect. This may be in relation to a clip, or it may be in relation to the effect dialog.
   *@author Jason Wood
   */
 
-class EffectParamDialog : public QFrame  {
+class EffectParamDialog : public QVBox  {
    Q_OBJECT
-public: 
-	EffectParamDialog(QWidget *parent=0, const char *name=0);
+public:
+	EffectParamDialog(KdenliveApp *app, KdenliveDoc *document, QWidget *parent = 0, const char *name = 0);
 	~EffectParamDialog();
+public slots:
+	void slotSetEffectDescription(const EffectDesc &desc);
+	void slotSetEffect(DocClipRef *clip, Effect *effect);
+private:
+	/** Clears the effect that is seen in the parameter dialog. */
+	void clearEffect();
+
+	QHBox *m_presetLayout;
+	QComboBox *m_presets;
+	KPushButton *m_presetAdd;
+	KPushButton *m_presetDelete;
+
+	QVBox *m_editLayout;
+	KTimeLine *m_timeline;
+
+	EffectDesc m_desc;
+	Effect *m_effect;
+	DocClipRef *m_clip;
+
+	KdenliveApp *m_app;
+	KdenliveDoc *m_document;
+
+	/** Generate the layout for the current description and effect. */
+	void generateLayout();
 };
 
 #endif

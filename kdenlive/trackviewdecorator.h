@@ -23,7 +23,7 @@ class QRect;
 
 class DocClipRef;
 class DocTrackBase;
-class KMMTimeLine;
+class KTimeLine;
 class KdenliveDoc;
 
 /**
@@ -31,31 +31,23 @@ View decorators implement the functionality required to display clips on the tim
 
 @author Jason Wood
 */
-class TrackViewDecorator{
+class TrackViewDecorator {
 public:
-    TrackViewDecorator(KMMTimeLine *timeline, KdenliveDoc *doc, DocTrackBase *track);
+    	TrackViewDecorator(KTimeLine *timeline);
 
-    virtual ~TrackViewDecorator();
-
-
-  	/** This function will paint a clip on screen. This funtion must be provided by a derived class. */
-	virtual void paintClip(QPainter &painter, DocClipRef *clip, QRect &rect, bool selected) = 0;
+    	virtual ~TrackViewDecorator();
 
 	/**
 	Paints the backbuffer into the relevant place using the painter supplied. The
 	track should be drawn into the area provided in area
 	*/
-	void drawToBackBuffer(QPainter &painter, QRect &rect);
+	virtual void drawToBackBuffer(QPainter &painter, QRect &rect) = 0;
 
 protected:
-	KMMTimeLine *timeline() { return m_timeline; }
-	KdenliveDoc *document() { return m_document; }
-	DocTrackBase *docTrack() { return m_docTrack; }
+	KTimeLine *timeline() { return m_timeline; }
 
 private:
-	KMMTimeLine *m_timeline;
-	KdenliveDoc *m_document;
-	DocTrackBase *m_docTrack;
+	KTimeLine *m_timeline;
 };
 
 #endif

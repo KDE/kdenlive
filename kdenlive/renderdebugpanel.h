@@ -20,10 +20,12 @@
 
 #include <qhbox.h>
 #include <qvbox.h>
-#include <qlistbox.h>
-#include <qwidgetstack.h>
-#include <qpushbutton.h>
 #include <qcheckbox.h>
+#include <qlistbox.h>
+#include <qpushbutton.h>
+#include <qsplitter.h>
+#include <qtextedit.h>
+#include <qwidgetstack.h>
 
 /**The render debug panel captures output from a KRender object, and displays it. It can also be used to initiate commands to the server.
   *@author Jason Wood
@@ -44,10 +46,13 @@ class RenderDebugPanel : public QVBox
 	private:
 		QHBox m_mainLayout;
 		QListBox m_rendererList;
+		QSplitter m_textLayout;
 		QWidgetStack m_widgetStack;
+		QTextEdit m_vemlEdit;
 		QHBox m_buttonLayout;
 		QWidget m_spacer;
 		QCheckBox m_ignoreMessages;
+		QPushButton m_sendVemlButton;
 		QPushButton m_saveMessages;
 		QMap<QString, int> m_boxNames;
 		int m_nextId;
@@ -66,9 +71,15 @@ class RenderDebugPanel : public QVBox
 		void slotPrintWarning( const QString &name, const QString &message );
 		/** Requests a filename from the user and saves all messages into that file. */
 		void saveMessages();
+	private slots:
+		/** Get the contents of m_vemlEdit and send it to the currently selected renderer. This is
+		mostly of use for testing piave when the functionality to do so does not exist in kdenlive.*/
+		void sendDebugVeml();
 	private:  // Private methods
 		/** Returns the text edit widget with the given name, creating one if it doesn't exist. */
 		QTextEdit * getTextEdit( const QString &name );
+	signals:
+		void debugVemlSendRequest(const QString &rendererName, const QString &request);
 };
 
 #endif

@@ -17,14 +17,17 @@
 #include "trackpanelrazorfunction.h"
 
 #include "docclipbase.h"
-#include "kmmtimeline.h"
-	
-TrackPanelRazorFunction::TrackPanelRazorFunction(KMMTimeLine *timeline, 
-							KdenliveDoc *document,
-							DocTrackBase *docTrack) :
+#include "documentmacrocommands.h"
+#include "kdenlive.h"
+#include "kdenlivedoc.h"
+#include "ktimeline.h"
+
+TrackPanelRazorFunction::TrackPanelRazorFunction(KdenliveApp *app,
+							KTimeLine *timeline,
+							KdenliveDoc *document) :
+								m_app(app),
 								m_timeline(timeline),
 								m_document(document),
-								m_docTrack(docTrack),
 								m_clipUnderMouse(0)
 {
 }
@@ -34,48 +37,64 @@ TrackPanelRazorFunction::~TrackPanelRazorFunction()
 {
 }
 
-bool TrackPanelRazorFunction::mouseApplies(QMouseEvent *event) const
+bool TrackPanelRazorFunction::mouseApplies(KTrackPanel *panel, QMouseEvent *event) const
 {
-	GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_document->framesPerSecond());
-	DocClipRef *clip = m_docTrack->getClipAt(mouseTime);
+	DocClipRef *clip = 0;
+	if(panel->hasDocumentTrackIndex()) {
+		DocTrackBase *track = m_document->track(panel->documentTrackIndex());
+		if(track) {
+			GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_document->framesPerSecond());
+			clip = track->getClipAt(mouseTime);
+		}
+	}
 	return clip;
 }
 
-QCursor TrackPanelRazorFunction::getMouseCursor(QMouseEvent *event)
+QCursor TrackPanelRazorFunction::getMouseCursor(KTrackPanel *panel, QMouseEvent *event)
 {
-	GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_document->framesPerSecond());
-	DocClipRef *clip = m_docTrack->getClipAt(mouseTime);
-	if(clip) {
-		// emit lookingAtClip(clip, mouseTime - clip->trackStart() + clip->cropStartTime());
-	}	
+	if(panel->hasDocumentTrackIndex()) {
+		DocTrackBase *track = m_document->track(panel->documentTrackIndex());
+		if(track) {
+			GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_document->framesPerSecond());
+			DocClipRef *clip = track->getClipAt(mouseTime);
+			if(clip) {
+				emit lookingAtClip(clip, mouseTime - clip->trackStart() + clip->cropStartTime());
+			}
+		}
+	}
 	return QCursor(Qt::SplitVCursor);
 }
 
-bool TrackPanelRazorFunction::mousePressed(QMouseEvent *event)
+bool TrackPanelRazorFunction::mousePressed(KTrackPanel *panel, QMouseEvent *event)
 {
-	GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_document->framesPerSecond());
-	GenTime roundedMouseTime = m_timeline->timeUnderMouse(event->x());
+	if(panel->hasDocumentTrackIndex()) {
+		DocTrackBase *track = m_document->track(panel->documentTrackIndex());
+		if(track) {
+			GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_document->framesPerSecond());
+			GenTime roundedMouseTime = m_timeline->timeUnderMouse(event->x());
 
-	m_clipUnderMouse = m_docTrack->getClipAt(mouseTime);
-	if(m_clipUnderMouse) {
-		if (event->state() & ShiftButton) {
-			m_timeline->razorAllClipsAt(roundedMouseTime);
-		} else {
-			m_timeline->addCommand(m_timeline->razorClipAt(*m_docTrack, roundedMouseTime), true);
+			m_clipUnderMouse = track->getClipAt(mouseTime);
+			if(m_clipUnderMouse) {
+				if (event->state() & ShiftButton) {
+					m_app->addCommand(Command::DocumentMacroCommands::razorAllClipsAt(m_document, roundedMouseTime), true);
+				} else {
+					m_app->addCommand(Command::DocumentMacroCommands::razorClipAt(m_document, *track, roundedMouseTime), true);
+				}
+				return true;
+			}
 		}
-		return true;
 	}
 	return true;
 }
 
-bool TrackPanelRazorFunction::mouseReleased(QMouseEvent *event)
+bool TrackPanelRazorFunction::mouseReleased(KTrackPanel *panel, QMouseEvent *event)
 {
  	GenTime mouseTime = m_timeline->timeUnderMouse(event->x());
 	m_clipUnderMouse = 0;
 	return true;
 }
 
-bool TrackPanelRazorFunction::mouseMoved(QMouseEvent *event) 
+bool TrackPanelRazorFunction::mouseMoved(KTrackPanel *panel, QMouseEvent *event)
 {
 	return true;
 }

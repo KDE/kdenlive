@@ -17,7 +17,80 @@
 
 #include "effectparamdialog.h"
 
-EffectParamDialog::EffectParamDialog(QWidget *parent, const char *name ) : QFrame(parent,name) {
+
+#include <qhbox.h>
+#include <qvbox.h>
+#include <qcombobox.h>
+
+#include <kiconloader.h>
+#include <klocale.h>
+#include <kpushbutton.h>
+
+#include <kfixedruler.h>
+#include <kmmtimeline.h>
+#include <kmmtrackpanel.h>
+
+#include "effectparamdesc.h"
+
+#include "docclipref.h"
+#include "effect.h"
+
+EffectParamDialog::EffectParamDialog(KdenliveApp *app, KdenliveDoc *document, QWidget *parent, const char *name ) :
+									QVBox(parent,name),
+									m_desc(0),
+									m_app(app),
+									m_document(document)
+{
+	KIconLoader loader;
+
+	m_presetLayout = new QHBox(this);
+	m_presets = new QComboBox(m_presetLayout);
+	m_presets->insertItem(i18n("Custom"));
+
+	m_presetAdd = new KPushButton(i18n("add"), m_presetLayout, "preset_add");
+	m_presetDelete = new KPushButton(i18n("delete"), m_presetLayout, "preset_delete");
+
+	m_presetAdd->setPixmap( loader.loadIcon( "edit_add", KIcon::Toolbar ) );
+	m_presetDelete->setPixmap( loader.loadIcon( "edit_remove", KIcon::Toolbar ) );
+
+	m_editLayout = new QVBox(this);
+	m_timeline = new KMMTimeLine(0, m_editLayout, name);
 }
-EffectParamDialog::~EffectParamDialog(){
+
+EffectParamDialog::~EffectParamDialog()
+{
+}
+
+void EffectParamDialog::slotSetEffectDescription(const EffectDesc &desc)
+{
+	clearEffect();
+	m_desc = desc;
+	generateLayout();
+}
+
+void EffectParamDialog::generateLayout()
+{
+	m_timeline->clearTrackList();
+
+	for(uint count=0; count<m_desc.numParameters(); ++count) {
+		m_timeline->appendTrack(m_desc.parameter(count)->createTrackPanel(m_app, m_timeline, m_document, 0));
+	}
+}
+
+void EffectParamDialog::slotSetEffect(DocClipRef *clip, Effect *effect)
+{
+	clearEffect();
+
+	m_clip = clip;
+	m_effect = effect;
+	if(m_effect) {
+		m_desc = m_effect->effectDescription();
+	}
+	generateLayout();
+}
+
+void EffectParamDialog::clearEffect()
+{
+	m_effect = 0;
+	m_clip = 0;
 }

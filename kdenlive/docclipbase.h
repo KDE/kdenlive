@@ -29,9 +29,10 @@
 
 #include "gentime.h"
 
-class DocTrackBase;
 class ClipManager;
+class DocTrackBase;
 class DocClipAVFile;
+class EffectDescriptionList;
 
 class DocClipBase : public QObject {
 	Q_OBJECT
@@ -39,7 +40,7 @@ public:
 	/** this enum determines the types of "feed" available within this clip. types must be non-exclusive
 	 * - e.g. if you can have audio and video seperately, it should be possible to combin the two, as is
 	 *   done here. If a new clip type is added then it should be possible to combine it with both audio
-	 *   and video. */	
+	 *   and video. */
 	enum CLIPTYPE { AUDIO = 1, VIDEO = 2, AV = 3};
 
 	DocClipBase();
@@ -53,12 +54,12 @@ public:
 
 	/** Sets the description for this clip. */
 	void setDescription(const QString &descripton);
-	
+
 	/** Returns the description of this clip. */
 	const QString &description() const;
 
 	/** returns the duration of this clip */
-	virtual GenTime duration() const = 0;
+	virtual const GenTime &duration() const = 0;
 
 	/** Returns a url to a file describing this clip. Exactly what this url is,
 	whether it is temporary or not, and whether it provokes a render will
@@ -66,7 +67,7 @@ public:
 	virtual const KURL &fileURL() const = 0;
 
 	/** Returns true if the clip duration is known, false otherwise. */
-	virtual bool durationKnown() = 0;
+	virtual bool durationKnown() const = 0;
 	// Returns the number of frames per second that this clip should play at.
 	virtual double framesPerSecond() const = 0;
 
@@ -74,20 +75,20 @@ public:
 	virtual DocClipAVFile *toDocClipAVFile() { return 0; }
 	/** Returns true if this clip is a project clip, false otherwise. Overridden in DocClipProject,
 	 * where it returns true. */
-	virtual bool isProjectClip() { return false; }
-	
+	virtual bool isProjectClip() const { return false; }
+
 	// Appends scene times for this clip to the passed vector.
-	virtual void populateSceneTimes(QValueVector<GenTime> &toPopulate) = 0;
-	
+	virtual void populateSceneTimes(QValueVector<GenTime> &toPopulate) const = 0;
+
 	/** Reads in the element structure and creates a clip out of it.*/
 	// Returns an XML document that describes part of the current scene.
-	virtual QDomDocument sceneToXML(const GenTime &startTime, const GenTime &endTime) = 0;
+	virtual QDomDocument sceneToXML(const GenTime &startTime, const GenTime &endTime) const = 0;
 	/** returns a QString containing all of the XML data required to recreate this clip. */
-	virtual QDomDocument toXML();
+	virtual QDomDocument toXML() const;
 	/** Returns a scene list generated from this clip. */
-	virtual QDomDocument generateSceneList() = 0;
+	virtual QDomDocument generateSceneList() const = 0;
 	/** Returns true if the xml passed matches the values in this clip */
-	virtual bool matchesXML(const QDomElement &element) = 0;
+	virtual bool matchesXML(const QDomElement &element) const = 0;
 
 	void addReference() { ++m_refcount; }
 	void removeReference() { --m_refcount; }
@@ -103,7 +104,7 @@ public:
 	 * it uses it as part of it's own composition. */
 	virtual bool referencesClip(DocClipBase *clip) const = 0;
 
-	static DocClipBase *createClip(ClipManager &clipManager, const QDomElement &element);
+	static DocClipBase *createClip(const EffectDescriptionList &effectList, ClipManager &clipManager, const QDomElement &element);
 private: // Private attributes
 	/** The name of this clip */
 	QString m_name;
