@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: index_fr\n"
 "POT-Creation-Date: 2001-02-09 01:25+0100\n"
-"PO-Revision-Date: 2003-08-15 16:36GMT\n"
+"PO-Revision-Date: 2003-08-16 15:19GMT\n"
 "Last-Translator: CAULIER Gilles <caulier.gilles@free.fr>\n"
 "Language-Team: FRANCAIS <fr@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -360,7 +360,7 @@ msgid ""
 "add a clip to the timeline."
 msgstr ""
 "Maintenant que vous avez quelques plans vidéo dans votre projet, vous pouvez "
-"commencer les opérations correspondantes au montage vidéo. Il existe deux maniéres "
+"commencer les opérations correspondantes au montage vidéo. Il existe deux méthodes "
 "pour ajouter un plan vidéo à la table de montage."
 
 #: index.docbook:311
@@ -375,7 +375,7 @@ msgstr ""
 "Vous pouvez utiliser le « glisser / déposer » directement entre la liste du projet et la "
 "table de montage. Choisissez un plan vidéo dans la liste du projet et glisser le sur la "
 "table de montage à l'aide de la souris. La piste vidéo doit apparaître dans la table de "
-"montage et peut y être déplacer à volonté. Cette manière d'opérer place la totalité du "
+"montage et peut y être déplacer à volonté. Cette méthode place la totalité du "
 "plan vidéo dans la table de montage."
 
 #: index.docbook:318
@@ -391,6 +391,16 @@ msgid ""
 "clip that appears on the timeline will be that part of the clip between the "
 "in and out points on the monitor."
 msgstr ""
+"Lorque vous cliquez sur un plan vidéo dans la liste du projet, l'onglet « Plan vidéo » du "
+"panneau de prévisualisation affichera automatiquement la première trame du plan vidéo. "
+"Vous pouvez appuyer sur le bouton de lecture pour avoir une idée du contenu avant "
+"de le placer dans la table de montage. Déplacez le curseur de lecture à la position ou "
+"vous voulez commencer votre plan et appuyez sur le bouton « Point d'entrée ». De "
+"même, déplacez le curseur de lecture à la position ou vous voulez terminer votre plan et "
+"appuyez sur le bouton « Point de sortie ». Enfin faite un « glisser / déposer » entre la "
+"prévisualisation du plan vidéo et la table de montage pour ajouter le plan vidéo. Celui ci"
+"apparaîtra découpé aux limites préalablement définies dans le panneau de "
+"prévisualisation."
 
 #: index.docbook:331
 #, no-c-format
@@ -409,7 +419,7 @@ msgstr ""
 #: index.docbook:342
 #, no-c-format
 msgid "Moving and Resizing Clips on the Timeline"
-msgstr "Déplacer et redimensionner des plans vidéo dans la table de montage"
+msgstr "Déplacement et redimensionnement des plans vidéo dans la table de montage"
 
 #: index.docbook:343
 #, no-c-format
@@ -450,7 +460,7 @@ msgstr ""
 #: index.docbook:371
 #, no-c-format
 msgid "Removing clips from the timeline"
-msgstr "Déplacement de plans vidéo dans la table de montage"
+msgstr "Suppression de plans vidéo dans la table de montage"
 
 #: index.docbook:373
 #, no-c-format
@@ -459,6 +469,9 @@ msgid ""
 "way is to select the clip or clips that you want to delete, and to press "
 "<keycombo action=\"simul\"><keycap>delete</keycap></keycombo>."
 msgstr ""
+"Il existe deux méthodes pour supprimer un plan vidéo de la table de montage. La première "
+"est de sélectionner le plan ou les plans vidéo à supprimer et d'appuyer sur la touche "
+"<keycombo action=\"simul\"><keycap>Suppr</keycap></keycombo>."
 
 #: index.docbook:378
 #, no-c-format
@@ -467,6 +480,8 @@ msgid ""
 "them away from the timeline. As soon as the clips leave the timeline, they "
 "will disappear."
 msgstr ""
+"La seconde méthode consiste à sélectionner les plans vidéo et de les "
+"« glisser / déposer » en dehors de la table de montage."
 
 #: index.docbook:383
 #, no-c-format
@@ -474,6 +489,8 @@ msgid ""
 "It not yet decided if this behaviour is a good thing or a bad thing. It may "
 "be removed in later versions of &kdenlive;. You have been warned!"
 msgstr ""
+"L'équipe de développement n'a pas encore décidé si cette dernière méthode est "
+"correcte ou non. Elle pourrait être supprimé dans des versions futures de &kdenlive;"
 
 #: index.docbook:393
 #, no-c-format

@@ -293,11 +293,11 @@ revision history. (see installation appendix comment) -->
 >Glisser / déposer des plans vidéo dans la table de montage</title>
 
 <para
-> Maintenant que vous avez quelques plans vidéo dans votre projet, vous pouvez commencer les opérations correspondantes au montage vidéo. Il existe deux maniéres pour ajouter un plan vidéo à la table de montage. </para>
+> Maintenant que vous avez quelques plans vidéo dans votre projet, vous pouvez commencer les opérations correspondantes au montage vidéo. Il existe deux méthodes pour ajouter un plan vidéo à la table de montage. </para>
 <para
-> Vous pouvez utiliser le « glisser / déposer » directement entre la liste du projet et la table de montage. Choisissez un plan vidéo dans la liste du projet et glisser le sur la table de montage à l'aide de la souris. La piste vidéo doit apparaître dans la table de montage et peut y être déplacer à volonté. Cette manière d'opérer place la totalité du plan vidéo dans la table de montage. </para>
+> Vous pouvez utiliser le « glisser / déposer » directement entre la liste du projet et la table de montage. Choisissez un plan vidéo dans la liste du projet et glisser le sur la table de montage à l'aide de la souris. La piste vidéo doit apparaître dans la table de montage et peut y être déplacer à volonté. Cette méthode place la totalité du plan vidéo dans la table de montage. </para>
 <para
->  </para>
+> Lorque vous cliquez sur un plan vidéo dans la liste du projet, l'onglet « Plan vidéo » du panneau de prévisualisation affichera automatiquement la première trame du plan vidéo. Vous pouvez appuyer sur le bouton de lecture pour avoir une idée du contenu avant de le placer dans la table de montage. Déplacez le curseur de lecture à la position ou vous voulez commencer votre plan et appuyez sur le bouton « Point d'entrée ». De même, déplacez le curseur de lecture à la position ou vous voulez terminer votre plan et appuyez sur le bouton « Point de sortie ». Enfin faite un « glisser / déposer » entre la prévisualisation du plan vidéo et la table de montage pour ajouter le plan vidéo. Celui ciapparaîtra découpé aux limites préalablement définies dans le panneau de prévisualisation. </para>
 </sect1>
 
 <sect1 id="selecting-clips">
@@ -310,7 +310,7 @@ revision history. (see installation appendix comment) -->
 
 <sect1 id="manipulatings-clips-on-timeline">
 <title
->Déplacer et redimensionner des plans vidéo dans la table de montage</title>
+>Déplacement et redimensionnement des plans vidéo dans la table de montage</title>
 <para
 >  </para>
 <para
@@ -325,15 +325,19 @@ revision history. (see installation appendix comment) -->
 
 <sect1 id="removing-clips-from-timeline">
 <title
->Déplacement de plans vidéo dans la table de montage</title>
+>Suppression de plans vidéo dans la table de montage</title>
 
 <para
->  </para>
+> Il existe deux méthodes pour supprimer un plan vidéo de la table de montage. La première est de sélectionner le plan ou les plans vidéo à supprimer et d'appuyer sur la touche <keycombo action="simul"
+><keycap
+>Suppr</keycap
+></keycombo
+>. </para>
 <para
->  </para>
+> La seconde méthode consiste à sélectionner les plans vidéo et de les « glisser / déposer » en dehors de la table de montage. </para>
 <note
 > <para
->  </para
+> L'équipe de développement n'a pas encore décidé si cette dernière méthode est correcte ou non. Elle pourrait être supprimé dans des versions futures de &kdenlive; </para
 > </note>
 </sect1>
 </chapter>
