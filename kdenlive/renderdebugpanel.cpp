@@ -21,7 +21,8 @@ RenderDebugPanel::RenderDebugPanel(QWidget *parent, const char *name ) :
                                             QVBox(parent,name),
                                             m_textEdit(this, "edit")
 {
-  m_textEdit.setTextFormat(LogText);
+//  m_textEdit.setTextFormat(LogText);
+  m_textEdit.setReadOnly(true);
 }
 
 RenderDebugPanel::~RenderDebugPanel()
@@ -32,25 +33,31 @@ RenderDebugPanel::~RenderDebugPanel()
 void RenderDebugPanel::slotPrintWarning(const QString &message)
 {
   QString newmess = message;
-  newmess.replace("<", "&lt;");
+/*newmess.replace("<", "&lt;");
   newmess.replace(">", "&gt;");  
-  m_textEdit.append("<font color=red>" + newmess + "</font>");
+  m_textEdit.append("<font color=red>" + newmess + "</font>");*/
+  m_textEdit.setColor(QColor(255, 0, 0));
+  m_textEdit.append(newmess);
 }
 
 /** Prints an error message to the debug window. */
 void RenderDebugPanel::slotPrintError(const QString &message)
 {
   QString newmess = message;
-  newmess.replace("<", "&lt;");
+/*newmess.replace("<", "&lt;");
   newmess.replace(">", "&gt;");
-  m_textEdit.append("<font color=red>" + newmess + "</font>");  
+  m_textEdit.append("<font color=red>" + newmess + "</font>");*/
+  m_textEdit.setColor(QColor(255, 0, 0));  
+  m_textEdit.append(newmess);  
 }
 
 /** Prints a debug (informational) message to the debug */
 void RenderDebugPanel::slotPrintDebug(const QString &message)
 {
   QString newmess = message;
-  newmess.replace("<", "&lt;");
+/*newmess.replace("<", "&lt;");
   newmess.replace(">", "&gt;");
-  m_textEdit.append("<font color=black>" + newmess + "</font>");  
+  m_textEdit.append("<font color=black>" + newmess + "</font>");*/
+  m_textEdit.setColor(QColor(0, 0, 0));  
+  m_textEdit.append(newmess);  
 }
