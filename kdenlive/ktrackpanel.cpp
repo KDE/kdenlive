@@ -15,20 +15,27 @@
  *                                                                         *
  ***************************************************************************/
 #include "ktrackpanel.h"
+#include <assert.h>
 
+#include "kplacer.h"
 #include "trackviewdecorator.h"
 
 KTrackPanel::KTrackPanel(KTimeLine *timeline,
+					KPlacer *placer,
                               		QWidget *parent,
                               		const char *name) :
 			QHBox( parent, name ),
-			m_timeline( timeline )
+			m_timeline( timeline ),
+			m_placer(placer)
 {
+	assert(timeline);
+	assert(placer);
 }
 
 
 KTrackPanel::~KTrackPanel()
 {
+	if(m_placer) delete m_placer;
 }
 
 // virtual
@@ -37,9 +44,9 @@ void KTrackPanel::drawToBackBuffer( QPainter &painter, QRect &rect )
 	QPtrListIterator<TrackViewDecorator> itt( m_trackViewDecorators );
 
 	while ( itt.current() ) {
-		itt.current() ->drawToBackBuffer( painter, rect );
+		m_placer->drawToBackBuffer( painter, rect, itt.current() );
 		++itt;
-	}
+}
 }
 
 
@@ -59,4 +66,18 @@ void KTrackPanel::addViewDecorator( TrackViewDecorator *view )
 QStringList KTrackPanel::applicableFunctions( const QString &mode )
 {
 	return m_trackPanelFunctions[ mode ];
+}
+
+/** Returns true if this track panel has a document track index. */
+//virtual
+bool KTrackPanel::hasDocumentTrackIndex() const
+{
+	return m_placer->hasDocumentTrackIndex();
+}
+
+   /** Returns the track index into the underlying document model used by this track. Returns -1 if this is inapplicable. */
+// virtual
+int KTrackPanel::documentTrackIndex()  const
+{
+	return m_placer->documentTrackIndex();
 }

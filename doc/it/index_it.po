@@ -11,1104 +11,1667 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: application/x-xml2pot; charset=utf-8\n"
+"Content-Type: application/x-xml2pot; charset=UTF-8\n"
 "Content-Transfer-Encoding: ENCODING\n"
 
+#. Tag: title
 #: index.docbook:46
 #, no-c-format
 msgid "The &kdenlive; Handbook"
 msgstr ""
 
+#. Tag: author
 #: index.docbook:49
 #, no-c-format
-msgid "<firstname>Jason</firstname> <othername>M.</othername> <surname>Wood</surname> <affiliation> <address><email>jasonwood@blueyonder.co.uk</email></address> </affiliation>"
+msgid ""
+"<firstname>Jason</firstname> <othername>M.</othername> <surname>Wood</"
+"surname>"
 msgstr ""
 
+#. Tag: email
+#: index.docbook:54
+#, no-c-format
+msgid "jasonwood@blueyonder.co.uk"
+msgstr ""
+
+#. Tag: author
 #: index.docbook:60
 #, no-c-format
-msgid "<firstname>Gilles</firstname> <surname>Caulier</surname> <affiliation> <address><email>caulier.gilles@free.fr</email></address> </affiliation>"
+msgid "<firstname>Gilles</firstname> <surname>Caulier</surname>"
 msgstr ""
 
+#. Tag: email
+#: index.docbook:64
+#, no-c-format
+msgid "caulier.gilles@free.fr"
+msgstr ""
+
+#. Tag: trans_comment
 #: index.docbook:69
 #, no-c-format
 msgid "ROLES_OF_TRANSLATORS"
 msgstr ""
 
+#. Tag: holder
 #: index.docbook:73
 #, no-c-format
 msgid "Jason Wood"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:93
 #, no-c-format
 msgid "&kdenlive; is a non-linear video editor for KDE."
 msgstr ""
 
+#. Tag: para
 #: index.docbook:97
 #, no-c-format
-msgid "WARNING - this document has not yet been finished. In particular, information on contributors to &kapp;, requirements for &kapp;, installation instructions for &kapp; and the changelog info are all wrong at present. Also, please contact me at <email>jasonwood@blueyonder.co.uk</email> rather than bugging any of the kde mailing lists."
+msgid ""
+"WARNING - this document has not yet been finished. In particular, "
+"information on contributors to &kapp;, requirements for &kapp;, installation "
+"instructions for &kapp; and the changelog info are all wrong at present. "
+"Also, please contact me at <email>jasonwood@blueyonder.co.uk</email> rather "
+"than bugging any of the kde mailing lists."
 msgstr ""
 
+#. Tag: para
 #: index.docbook:105
 #, no-c-format
 msgid "Cheers,"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:108
 #, no-c-format
 msgid "Jason"
 msgstr ""
 
+#. Tag: keyword
 #: index.docbook:119
 #, no-c-format
 msgid "<keyword>KDE</keyword>"
 msgstr ""
 
+#. Tag: keyword
 #: index.docbook:120
 #, no-c-format
 msgid "video editor"
 msgstr ""
 
+#. Tag: keyword
 #: index.docbook:121
 #, no-c-format
 msgid "kdenlive"
 msgstr ""
 
+#. Tag: title
 #: index.docbook:138
 #, no-c-format
 msgid "Introduction"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:145
 #, no-c-format
-msgid "&kapp; is a non-linear video editor for KDE. Please report any problems or feature requests to <email>jasonwood@blueyonder.co.uk</email>"
+msgid ""
+"&kapp; is a non-linear video editor for KDE. Please report any problems or "
+"feature requests to <email>jasonwood@blueyonder.co.uk</email>"
 msgstr ""
 
+#. Tag: title
 #: index.docbook:151
 #, no-c-format
 msgid "What is a video editor?"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:153
 #, no-c-format
-msgid "A video editor is an application that allows you to create a new video out of various scenes from one or more other videos."
+msgid ""
+"A video editor is an application that allows you to create a new video out "
+"of various scenes from one or more other videos."
 msgstr ""
 
+#. Tag: title
 #: index.docbook:159
 #, no-c-format
 msgid "What is the difference between linear editing and non-linear editing?"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:161
 #, no-c-format
-msgid "Before editing video on computer was possible, most editing was done on linear editors - these work by having essentially, two video recorders. The first would hold the video that you are editing together, and the second would be used to find the next clip that you want to record. Find a clip, record it, find the next clip, record it. This is called linear editing because the medium of tape forced things to be edited sequentially. If you have edited 10 minutes worth of footage together, and decide that you made a mistake after five minutes, you can't just \"push\" the last five minutes around to add space for new clips."
+msgid ""
+"Before editing video on computer was possible, most editing was done on "
+"linear editors - these work by having essentially, two video recorders. The "
+"first would hold the video that you are editing together, and the second "
+"would be used to find the next clip that you want to record. Find a clip, "
+"record it, find the next clip, record it. This is called linear editing "
+"because the medium of tape forced things to be edited sequentially. If you "
+"have edited 10 minutes worth of footage together, and decide that you made a "
+"mistake after five minutes, you can't just \"push\" the last five minutes "
+"around to add space for new clips."
 msgstr ""
 
+#. Tag: para
 #: index.docbook:172
 #, no-c-format
-msgid "Non-linear editing is by far a more flexible way of editing. You can place clips anywhere within your final video (in &kdenlive;, this is represented via the timeline), and you can move them around as much as you want, rearrange them in a completely different order. Best of all, at any point during this you can press play and (with a sufficiently powerful computer) watch back what you have done there and then."
+msgid ""
+"Non-linear editing is by far a more flexible way of editing. You can place "
+"clips anywhere within your final video (in &kdenlive;, this is represented "
+"via the timeline), and you can move them around as much as you want, "
+"rearrange them in a completely different order. Best of all, at any point "
+"during this you can press play and (with a sufficiently powerful computer) "
+"watch back what you have done there and then."
 msgstr ""
 
+#. Tag: title
 #: index.docbook:183
 #, no-c-format
 msgid "Quick Start Guide"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:185
 #, no-c-format
-msgid "Ok, so you have started &kdenlive; for the first time and want to dive straight into creating your own video. This quick start guide will take you from start to finish of making your own video."
+msgid ""
+"Ok, so you have started &kdenlive; for the first time and want to dive "
+"straight into creating your own video. This quick start guide will take you "
+"from start to finish of making your own video."
 msgstr ""
 
+#. Tag: title
 #: index.docbook:192
 #, no-c-format
 msgid "The Main Window"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:193
 #, no-c-format
-msgid "When you first start &kdenlive;, you will have a window looking something like this :"
+msgid ""
+"When you first start &kdenlive;, you will have a window looking something "
+"like this :"
 msgstr ""
 
-#: index.docbook:197
+#. Tag: phrase
+#: index.docbook:203
 #, no-c-format
 msgid "The main window"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:208
 #, no-c-format
-msgid "In the default layout, there are three areas of the main window. Whilst all layouts int &kdenlive; are fully configurable, it is assumed for this tutorial that you are using the default layout."
+msgid ""
+"In the default layout, there are three areas of the main window. Whilst all "
+"layouts int &kdenlive; are fully configurable, it is assumed for this "
+"tutorial that you are using the default layout."
 msgstr ""
 
+#. Tag: title
 #: index.docbook:215
 #, no-c-format
 msgid "The Project Panel"
 msgstr ""
 
-#: index.docbook:216
+#. Tag: phrase
+#: index.docbook:222
 #, no-c-format
 msgid "The project panel"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:226
 #, no-c-format
-msgid "The panel to the top left holds various informational and editing panels about the current project. Of most interest to us for this tutorial is the Project List. This window shows which video clips are in the project."
+msgid ""
+"The panel to the top left holds various informational and editing panels "
+"about the current project. Of most interest to us for this tutorial is the "
+"Project List. This window shows which video clips are in the project."
 msgstr ""
 
+#. Tag: title
 #: index.docbook:234
 #, no-c-format
 msgid "The Monitor Panel"
 msgstr ""
 
-#: index.docbook:235
+#. Tag: phrase
+#: index.docbook:241
 #, no-c-format
 msgid "The monitor panel"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:245
 #, no-c-format
-msgid "The panel to the top right holds the various monitors that &kdenlive; uses. The workspace monitor displays the final video - what our final edit will look like. The clip monitor is used to preview clips, and to select a section of a clip to add to the timeline."
+msgid ""
+"The panel to the top right holds the various monitors that &kdenlive; uses. "
+"The workspace monitor displays the final video - what our final edit will "
+"look like. The clip monitor is used to preview clips, and to select a "
+"section of a clip to add to the timeline."
 msgstr ""
 
+#. Tag: title
 #: index.docbook:254 index.docbook:533
 #, no-c-format
 msgid "The Timeline"
 msgstr ""
 
-#: index.docbook:255 index.docbook:309
+#. Tag: phrase
+#: index.docbook:261 index.docbook:315
 #, no-c-format
 msgid "The timeline"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:265
 #, no-c-format
-msgid "The panel at the bottom of the window holds the timeline. The timeline gives you a visual representation of your project, and shows when clips start, when they end, and in the case of overlapping clips, which one will actually be used (whilst the architecture is mostly in place, &kdenlive;/&piave; do not as yet support effects. This will be added in &kdenlive;/&piave; 0.3.0"
+msgid ""
+"The panel at the bottom of the window holds the timeline. The timeline gives "
+"you a visual representation of your project, and shows when clips start, "
+"when they end, and in the case of overlapping clips, which one will actually "
+"be used (whilst the architecture is mostly in place, &kdenlive;/&piave; do "
+"not as yet support effects. This will be added in &kdenlive;/&piave; 0.3.0"
 msgstr ""
 
+#. Tag: title
 #: index.docbook:276
 #, no-c-format
 msgid "Adding clips to your project"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:278
 #, no-c-format
-msgid "Now that you have a little understanding about the layout of &kdenlive;, it is time to add some clips to the project. Now, it goes without saying that to get any further, you will need to have some clips on your computer that you can use. At this moment in time, &kdenlive; does not include capture capabilities, and so you must use another application to get the clips that you want. I recommend Kino, which you can download from <ulink url=\"http://kino.schirmacher.de/\">http://kino.schirmacher.de/</ulink>."
+msgid ""
+"Now that you have a little understanding about the layout of &kdenlive;, it "
+"is time to add some clips to the project. Now, it goes without saying that "
+"to get any further, you will need to have some clips on your computer that "
+"you can use. At this moment in time, &kdenlive; does not include capture "
+"capabilities, and so you must use another application to get the clips that "
+"you want. I recommend Kino, which you can download from <ulink url=\"http://"
+"kino.schirmacher.de/\">http://kino.schirmacher.de/</ulink>."
 msgstr ""
 
+#. Tag: para
 #: index.docbook:288
 #, no-c-format
-msgid "Now that you have some clips, you can add them to your project. Select the Project List tab on the project pane, and then right click on it to bring up the context menu. From here, select <guimenuitem>Add Clips</guimenuitem> to bring up a standard &kde; open dialog. Find your clips, select as many as you want to add, and they will be added!"
+msgid ""
+"Now that you have some clips, you can add them to your project. Select the "
+"Project List tab on the project pane, and then right click on it to bring up "
+"the context menu. From here, select <guimenuitem>Add Clips</guimenuitem> to "
+"bring up a standard &kde; open dialog. Find your clips, select as many as "
+"you want to add, and they will be added!"
 msgstr ""
 
-#: index.docbook:295
+#. Tag: para
+#: index.docbook:296
 #, no-c-format
-msgid "Attempting to add some invalid file types to the project may cause the underlying renderer to crash. This is a known bug, if it occurs, then simply save your project (it is safe to do so, although it is recommended that you save as a different filename), close &kdenlive; and restart. See the <link linkend=\"known-issues\">Known Issues</link> section for more details."
+msgid ""
+"Attempting to add some invalid file types to the project may cause the "
+"underlying renderer to crash. This is a known bug, if it occurs, then simply "
+"save your project (it is safe to do so, although it is recommended that you "
+"save as a different filename), close &kdenlive; and restart. See the <link "
+"linkend=\"known-issues\">Known Issues</link> section for more details."
 msgstr ""
 
+#. Tag: para
 #: index.docbook:305
 #, no-c-format
-msgid "Your added clips will now appear in the project list, along with their duration and a few other pieces of information about them."
+msgid ""
+"Your added clips will now appear in the project list, along with their "
+"duration and a few other pieces of information about them."
 msgstr ""
 
+#. Tag: title
 #: index.docbook:321
 #, no-c-format
 msgid "Dragging clips to the timeline"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:323
 #, no-c-format
-msgid "Now that you have some clips in your project, it is time to start editing them together into your dream video. There are a two basic ways in which to add a clip to the timeline."
+msgid ""
+"Now that you have some clips in your project, it is time to start editing "
+"them together into your dream video. There are a two basic ways in which to "
+"add a clip to the timeline."
 msgstr ""
 
+#. Tag: para
 #: index.docbook:328
 #, no-c-format
-msgid "You can drag a clip directly from the project list. Select one of the clips that you have added to the project list, and drag it to the timeline. As soon as the mouse reaches a track, the clip will appear on the track. With this kind of drag, the entire duration of the clip is placed on the timeline. You can then edit the clip from the timeline."
+msgid ""
+"You can drag a clip directly from the project list. Select one of the clips "
+"that you have added to the project list, and drag it to the timeline. As "
+"soon as the mouse reaches a track, the clip will appear on the track. With "
+"this kind of drag, the entire duration of the clip is placed on the "
+"timeline. You can then edit the clip from the timeline."
 msgstr ""
 
+#. Tag: para
 #: index.docbook:335
 #, no-c-format
-msgid "When you click on a clip in the project list, the clip monitor will automatically load the clip. You can then press play on clip monitor and get an idea as to which bits of the clip you actually want on the timeline. Then, position the seek marker to where you want your clip to start and click the \"inpoint\" button. Move to where you want the clip to end and click the \"outpoint\" button. Finally, you can drag this cut-down clip by clicking on the video on the clip monitor and dragging to the timeline. The clip that appears on the timeline will be that part of the clip between the in and out points on the monitor."
+msgid ""
+"When you click on a clip in the project list, the clip monitor will "
+"automatically load the clip. You can then press play on clip monitor and get "
+"an idea as to which bits of the clip you actually want on the timeline. "
+"Then, position the seek marker to where you want your clip to start and "
+"click the \"inpoint\" button. Move to where you want the clip to end and "
+"click the \"outpoint\" button. Finally, you can drag this cut-down clip by "
+"clicking on the video on the clip monitor and dragging to the timeline. The "
+"clip that appears on the timeline will be that part of the clip between the "
+"in and out points on the monitor."
 msgstr ""
 
+#. Tag: title
 #: index.docbook:348
 #, no-c-format
 msgid "Selecting Clips on the Timeline"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:350
 #, no-c-format
-msgid "You can select a clip from the timeline by clicking the left mouse bouton. If you want to add clips to the current selection, hold down Shift while clicking on the clips you want to add. Finally, you can toggle whether a clip is selected or not by holding down Ctrl whilst clicking on it."
+msgid ""
+"You can select a clip from the timeline by clicking the left mouse bouton. "
+"If you want to add clips to the current selection, hold down Shift while "
+"clicking on the clips you want to add. Finally, you can toggle whether a "
+"clip is selected or not by holding down Ctrl whilst clicking on it."
 msgstr ""
 
+#. Tag: title
 #: index.docbook:359
 #, no-c-format
 msgid "Moving and Resizing Clips on the Timeline"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:360
 #, no-c-format
-msgid "Moving the selected clips around on the timeline is as simple as clicking on them with the left mouse bouton and dragging them around. You can resize clips directly from the timeline. Simply move the mouse cursor to the the beginning or end of the clip you want to resize. Now, click and drag with the left mouse bouton to resize the clip."
+msgid ""
+"Moving the selected clips around on the timeline is as simple as clicking on "
+"them with the left mouse bouton and dragging them around. You can resize "
+"clips directly from the timeline. Simply move the mouse cursor to the the "
+"beginning or end of the clip you want to resize. Now, click and drag with "
+"the left mouse bouton to resize the clip."
 msgstr ""
 
+#. Tag: para
 #: index.docbook:367
 #, no-c-format
-msgid "Resizing a clip changes it's in and outpoints. If you reselect the clip and look in the clip monitor, you will see that the in and out points on the monitor show the new positions."
+msgid ""
+"Resizing a clip changes it's in and outpoints. If you reselect the clip and "
+"look in the clip monitor, you will see that the in and out points on the "
+"monitor show the new positions."
 msgstr ""
 
-#: index.docbook:372
+#. Tag: para
+#: index.docbook:373
 #, no-c-format
-msgid "It is not possible to resize a clip past it's length - if a clip is 30 seconds in length, then you will not be able to resize the clip so that it finishes playing 35 seconds into the clip!"
+msgid ""
+"It is not possible to resize a clip past it's length - if a clip is 30 "
+"seconds in length, then you will not be able to resize the clip so that it "
+"finishes playing 35 seconds into the clip!"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:379
 #, no-c-format
-msgid "When you are resizing and moving clips, there is a handy \"snap to\" feature, which will snap the edges of clips to other clips and the current seek position. This is useful for quickly lining clips up with each other, but in some cases may not be what you want. You can turn this behaviour on and off using the Timeline->Snap To Border menu item."
+msgid ""
+"When you are resizing and moving clips, there is a handy \"snap to\" "
+"feature, which will snap the edges of clips to other clips and the current "
+"seek position. This is useful for quickly lining clips up with each other, "
+"but in some cases may not be what you want. You can turn this behaviour on "
+"and off using the Timeline->Snap To Border menu item."
 msgstr ""
 
+#. Tag: title
 #: index.docbook:389
 #, no-c-format
 msgid "Removing clips from the timeline"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:391
 #, no-c-format
-msgid "There are currently two ways to remove a clip from the timeline. The first way is to select the clip or clips that you want to delete, and to press <keycombo action=\"simul\"><keycap>delete</keycap></keycombo>."
+msgid ""
+"There are currently two ways to remove a clip from the timeline. The first "
+"way is to select the clip or clips that you want to delete, and to press "
+"<keycombo action=\"simul\"><keycap>delete</keycap></keycombo>."
 msgstr ""
 
+#. Tag: para
 #: index.docbook:396
 #, no-c-format
-msgid "The second way is to select the clips that you want to delete, and to drag them away from the timeline. As soon as the clips leave the timeline, they will disappear."
+msgid ""
+"The second way is to select the clips that you want to delete, and to drag "
+"them away from the timeline. As soon as the clips leave the timeline, they "
+"will disappear."
 msgstr ""
 
-#: index.docbook:401
+#. Tag: para
+#: index.docbook:402
 #, no-c-format
-msgid "It not yet decided if this behaviour is a good thing or a bad thing. It may be removed in later versions of &kdenlive;. You have been warned!"
+msgid ""
+"It not yet decided if this behaviour is a good thing or a bad thing. It may "
+"be removed in later versions of &kdenlive;. You have been warned!"
 msgstr ""
 
+#. Tag: title
 #: index.docbook:411
 #, no-c-format
 msgid "Using &kdenlive;"
 msgstr ""
 
+#. Tag: title
 #: index.docbook:418
 #, no-c-format
 msgid "The Project List"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:420
 #, no-c-format
-msgid "The project list shows all of the clips that are available for this project."
+msgid ""
+"The project list shows all of the clips that are available for this project."
 msgstr ""
 
+#. Tag: para
 #: index.docbook:423
 #, no-c-format
-msgid "You can see the number of times that a particular clip is in use. This includes all usage of the clip - for instance, if a clip is being displayed in the clip monitor, then that counts as one usage for the clip. (FIXME - this behaviour is likely to change in the future)."
+msgid ""
+"You can see the number of times that a particular clip is in use. This "
+"includes all usage of the clip - for instance, if a clip is being displayed "
+"in the clip monitor, then that counts as one usage for the clip. (FIXME - "
+"this behaviour is likely to change in the future)."
 msgstr ""
 
+#. Tag: title
 #: index.docbook:429
 #, no-c-format
 msgid "Adding Clips to the Project"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:430
 #, no-c-format
-msgid "If you drag a clip onto the timeline that is not in the project (for instance, if you drag a dv straight from konqueror to &kdenlive;), then it will be automatically added to the project for you."
+msgid ""
+"If you drag a clip onto the timeline that is not in the project (for "
+"instance, if you drag a dv straight from konqueror to &kdenlive;), then it "
+"will be automatically added to the project for you."
 msgstr ""
 
+#. Tag: para
 #: index.docbook:435
 #, no-c-format
-msgid "You can add clips to the projectlist yourself. Either use the project list context menu (right click on the window), or the Project menu on the menu bar. Select 'Add Clips' to bring up a file dialog in which you can select the clip you wish to add to this project. As long as the clips are valid, they will appear in the project list."
+msgid ""
+"You can add clips to the projectlist yourself. Either use the project list "
+"context menu (right click on the window), or the Project menu on the menu "
+"bar. Select 'Add Clips' to bring up a file dialog in which you can select "
+"the clip you wish to add to this project. As long as the clips are valid, "
+"they will appear in the project list."
 msgstr ""
 
+#. Tag: title
 #: index.docbook:444
 #, no-c-format
 msgid "Deleting clips via the Project List"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:445
 #, no-c-format
-msgid "Delete clips is currently non-functional - the only way to delete clips is to use clean-project."
+msgid ""
+"Delete clips is currently non-functional - the only way to delete clips is "
+"to use clean-project."
 msgstr ""
 
+#. Tag: title
 #: index.docbook:451
 #, no-c-format
 msgid "Examining Clip Properties"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:452
 #, no-c-format
-msgid "Clip Properties is currently non-functional - there is no way to examine the format of a clip except by examining the debug output ;-)"
+msgid ""
+"Clip Properties is currently non-functional - there is no way to examine the "
+"format of a clip except by examining the debug output ;-)"
 msgstr ""
 
+#. Tag: title
 #: index.docbook:458
 #, no-c-format
 msgid "Clean Project - Removing unused Clips"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:459
 #, no-c-format
-msgid "Use clean project to remove any clips from your project that are currently unused. This is great if your project list has become cluttered and you want to get a concise view of which clips exist. Cleaning a project will not alter your final edit in anyway - the only clips that are removed are those that are no longer in use anywhere."
+msgid ""
+"Use clean project to remove any clips from your project that are currently "
+"unused. This is great if your project list has become cluttered and you want "
+"to get a concise view of which clips exist. Cleaning a project will not "
+"alter your final edit in anyway - the only clips that are removed are those "
+"that are no longer in use anywhere."
 msgstr ""
 
-#: index.docbook:470 index.docbook:471
+#. Tag: title
+#: index.docbook:470
 #, no-c-format
-msgid "The Debug Panel"
+msgid "<title>The Debug Panel</title>"
 msgstr ""
 
+#. Tag: phrase
+#: index.docbook:477
+#, no-c-format
+msgid "<phrase>The Debug Panel</phrase>"
+msgstr ""
+
+#. Tag: para
 #: index.docbook:481
 #, no-c-format
-msgid "The debug panel is of most use to developers of &kdenlive;. It gives a highly detailed account of what is going on behind the scenes of &kdenlive;. This section will not help you to understand the output of the debug panel, but will tell you why it looks like it is and how to operate it."
+msgid ""
+"The debug panel is of most use to developers of &kdenlive;. It gives a "
+"highly detailed account of what is going on behind the scenes of &kdenlive;. "
+"This section will not help you to understand the output of the debug panel, "
+"but will tell you why it looks like it is and how to operate it."
 msgstr ""
 
+#. Tag: para
 #: index.docbook:487
 #, no-c-format
-msgid "On the left, the debug panel shows a list of the renderers in use by &kdenlive;. Each renderer has a name that says which part of &kdenlive; it is used by. There are three such renderers in the current version of &kdenlive;. Clip monitor handles playback of video in the Clip Monitor. Workspace monitor handles playback in the Workspace Monitor. The Document renderer handles all other tasks, such as determining the lengths of video files, and exporting the final video footage."
+msgid ""
+"On the left, the debug panel shows a list of the renderers in use by "
+"&kdenlive;. Each renderer has a name that says which part of &kdenlive; it "
+"is used by. There are three such renderers in the current version of "
+"&kdenlive;. Clip monitor handles playback of video in the Clip Monitor. "
+"Workspace monitor handles playback in the Workspace Monitor. The Document "
+"renderer handles all other tasks, such as determining the lengths of video "
+"files, and exporting the final video footage."
 msgstr ""
 
+#. Tag: para
 #: index.docbook:495
 #, no-c-format
-msgid "If you select one of the renderers from the list, the text area will show all debug output from the renderer. For general usage of &kdenlive;, you do not need to understand this, but it is very important when filing bug reports to send a copy of these messages - doing so will better aid us in fixing your problems. Click the Save Messages button to bring up a standard save dialog in which you can save the output."
+msgid ""
+"If you select one of the renderers from the list, the text area will show "
+"all debug output from the renderer. For general usage of &kdenlive;, you do "
+"not need to understand this, but it is very important when filing bug "
+"reports to send a copy of these messages - doing so will better aid us in "
+"fixing your problems. Click the Save Messages button to bring up a standard "
+"save dialog in which you can save the output."
 msgstr ""
 
-#: index.docbook:502
+#. Tag: para
+#: index.docbook:503
 #, no-c-format
-msgid "The Save Messages button will save output for all of the renderers. You do not need to save each renderer's output individually."
+msgid ""
+"The Save Messages button will save output for all of the renderers. You do "
+"not need to save each renderer's output individually."
 msgstr ""
 
+#. Tag: para
 #: index.docbook:508
 #, no-c-format
-msgid "There is a checkbox on the debug panel that allows you to turn off the output of the debug messages. This may be necessary on slower machines or if you run &kdenlive; for a long time, as keeping track of the messages does slow &kdenlive; down, and will consume more and more memory the longer that &kdenlive; is running for."
+msgid ""
+"There is a checkbox on the debug panel that allows you to turn off the "
+"output of the debug messages. This may be necessary on slower machines or if "
+"you run &kdenlive; for a long time, as keeping track of the messages does "
+"slow &kdenlive; down, and will consume more and more memory the longer that "
+"&kdenlive; is running for."
 msgstr ""
 
+#. Tag: title
 #: index.docbook:517
 #, no-c-format
 msgid "The Effect List"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:519 index.docbook:527
 #, no-c-format
 msgid "This is non-functional in the current version of &kdenlive;."
 msgstr ""
 
+#. Tag: title
 #: index.docbook:525
 #, no-c-format
 msgid "The Effect Setup Panel"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:534 index.docbook:541
 #, no-c-format
 msgid "This is..."
 msgstr ""
 
+#. Tag: title
 #: index.docbook:540
 #, no-c-format
 msgid "The Clip Monitor"
 msgstr ""
 
+#. Tag: title
 #: index.docbook:547
 #, no-c-format
 msgid "The Workspace Monitor"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:548
 #, no-c-format
-msgid "The workspace monitor shows the video that is the result of the current timeline. It works in a similar way to the clip monitor."
+msgid ""
+"The workspace monitor shows the video that is the result of the current "
+"timeline. It works in a similar way to the clip monitor."
 msgstr ""
 
+#. Tag: para
 #: index.docbook:552
 #, no-c-format
-msgid "Inpoints and outpoints on the workspace monitor achieve the same purpose as they do on the clip monitor. You can choose a part of the current timeline, and drag a clip of it back to the timeline. You will get a \"project clip\", which is a clip that contains all of the clips on the timeline in the state when you made it. It is useful for grouping together a number of clips when you have finished editing them and want to be able to treat them as a single clip."
+msgid ""
+"Inpoints and outpoints on the workspace monitor achieve the same purpose as "
+"they do on the clip monitor. You can choose a part of the current timeline, "
+"and drag a clip of it back to the timeline. You will get a \"project clip\", "
+"which is a clip that contains all of the clips on the timeline in the state "
+"when you made it. It is useful for grouping together a number of clips when "
+"you have finished editing them and want to be able to treat them as a single "
+"clip."
 msgstr ""
 
+#. Tag: title
 #: index.docbook:563
 #, no-c-format
 msgid "Rendering your project"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:564
 #, no-c-format
-msgid "When you have finished editing, you can render your project via the Render->Export Timeline menu. This brings up a dialog, which allows you to choose your export format, export options, and filename to save as."
+msgid ""
+"When you have finished editing, you can render your project via the Render-"
+">Export Timeline menu. This brings up a dialog, which allows you to choose "
+"your export format, export options, and filename to save as."
 msgstr ""
 
-#: index.docbook:569
+#. Tag: phrase
+#: index.docbook:575
 #, no-c-format
 msgid "The rendering project dialog box"
 msgstr ""
 
-#: index.docbook:579
+#. Tag: para
+#: index.docbook:580
 #, no-c-format
-msgid "The current version of &kdenlive;/&piave; only supports export to raw dv format."
+msgid ""
+"The current version of &kdenlive;/&piave; only supports export to raw dv "
+"format."
 msgstr ""
 
+#. Tag: title
 #: index.docbook:587
 #, no-c-format
 msgid "Loading and Saving your project"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:588
 #, no-c-format
-msgid "Load your project via the File->open menu. Save your project via the File->save-as menu."
+msgid ""
+"Load your project via the File->open menu. Save your project via the File-"
+">save-as menu."
 msgstr ""
 
+#. Tag: title
 #: index.docbook:596
 #, no-c-format
 msgid "Setup the Renderer"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:597
 #, no-c-format
-msgid "With this dialogbox, you can configre all parameters for the renderer program."
+msgid ""
+"With this dialogbox, you can configre all parameters for the renderer "
+"program."
 msgstr ""
 
-#: index.docbook:600
+#. Tag: phrase
+#: index.docbook:606
 #, no-c-format
 msgid "The setup renderer dialog box"
 msgstr ""
 
+#. Tag: title
 #: index.docbook:616
 #, no-c-format
 msgid "Command Reference"
 msgstr ""
 
+#. Tag: title
 #: index.docbook:625
 #, no-c-format
 msgid "The main &kdenlive; window"
 msgstr ""
 
-#: index.docbook:626
-#, no-c-format
-msgid "<para></para>"
-msgstr ""
-
+#. Tag: title
 #: index.docbook:629
 #, no-c-format
 msgid "The File Menu"
 msgstr ""
 
-#: index.docbook:630
+#. Tag: menuchoice
+#: index.docbook:634
 #, no-c-format
-msgid "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>n</keycap></keycombo> </shortcut> <guimenu>File</guimenu> <guimenuitem>New</guimenuitem>"
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>n</keycap></keycombo> </"
+"shortcut> <guimenu>File</guimenu> <guimenuitem>New</guimenuitem>"
 msgstr ""
 
-#: index.docbook:630
+#. Tag: action
+#: index.docbook:641
 #, no-c-format
 msgid "Creates a new document."
 msgstr ""
 
-#: index.docbook:630
+#. Tag: menuchoice
+#: index.docbook:645
 #, no-c-format
-msgid "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>o</keycap></keycombo> </shortcut> <guimenu>File</guimenu> <guimenuitem>Open</guimenuitem>"
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>o</keycap></keycombo> </"
+"shortcut> <guimenu>File</guimenu> <guimenuitem>Open</guimenuitem>"
 msgstr ""
 
-#: index.docbook:630
+#. Tag: action
+#: index.docbook:652
 #, no-c-format
 msgid "Open a saved project."
 msgstr ""
 
-#: index.docbook:630
+#. Tag: menuchoice
+#: index.docbook:656
 #, no-c-format
 msgid "<guimenu>File</guimenu> <guimenuitem>Open Recent</guimenuitem>"
 msgstr ""
 
-#: index.docbook:630
+#. Tag: action
+#: index.docbook:660
 #, no-c-format
 msgid "Open a recently used project."
 msgstr ""
 
-#: index.docbook:630
+#. Tag: menuchoice
+#: index.docbook:664
 #, no-c-format
-msgid "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>s</keycap></keycombo> </shortcut> <guimenu>File</guimenu> <guimenuitem>Save</guimenuitem>"
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>s</keycap></keycombo> </"
+"shortcut> <guimenu>File</guimenu> <guimenuitem>Save</guimenuitem>"
 msgstr ""
 
-#: index.docbook:630
+#. Tag: action
+#: index.docbook:671
 #, no-c-format
 msgid "Saves the project."
 msgstr ""
 
-#: index.docbook:630
+#. Tag: menuchoice
+#: index.docbook:675
 #, no-c-format
 msgid "<guimenu>File</guimenu> <guimenuitem>Save As...</guimenuitem>"
 msgstr ""
 
-#: index.docbook:630
+#. Tag: action
+#: index.docbook:679
 #, no-c-format
 msgid "Saves the project under a different filename."
 msgstr ""
 
-#: index.docbook:630
+#. Tag: menuchoice
+#: index.docbook:683
 #, no-c-format
-msgid "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>q</keycap></keycombo> </shortcut> <guimenu>File</guimenu> <guimenuitem>Quit</guimenuitem>"
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>q</keycap></keycombo> </"
+"shortcut> <guimenu>File</guimenu> <guimenuitem>Quit</guimenuitem>"
 msgstr ""
 
-#: index.docbook:630
+#. Tag: para
+#: index.docbook:690
 #, no-c-format
 msgid "<action>Quits</action> &kapp;"
 msgstr ""
 
+#. Tag: title
 #: index.docbook:698
 #, no-c-format
 msgid "The Edit Menu"
 msgstr ""
 
-#: index.docbook:699
+#. Tag: menuchoice
+#: index.docbook:703
 #, no-c-format
-msgid "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>z</keycap></keycombo> </shortcut> <guimenu>Edit</guimenu> <guimenuitem>Undo</guimenuitem>"
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>z</keycap></keycombo> </"
+"shortcut> <guimenu>Edit</guimenu> <guimenuitem>Undo</guimenuitem>"
 msgstr ""
 
-#: index.docbook:699
+#. Tag: action
+#: index.docbook:713
 #, no-c-format
 msgid "Undo the last edit to the timeline."
 msgstr ""
 
-#: index.docbook:699
+#. Tag: menuchoice
+#: index.docbook:719
 #, no-c-format
-msgid "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>z</keycap></keycombo> </shortcut> <guimenu>Edit</guimenu> <guimenuitem>Redo</guimenuitem>"
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>z</"
+"keycap></keycombo> </shortcut> <guimenu>Edit</guimenu> <guimenuitem>Redo</"
+"guimenuitem>"
 msgstr ""
 
-#: index.docbook:699
+#. Tag: action
+#: index.docbook:729
 #, no-c-format
 msgid "Redo a previously undone edit to the timeline."
 msgstr ""
 
-#: index.docbook:699
+#. Tag: menuchoice
+#: index.docbook:735
 #, no-c-format
-msgid "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>x</keycap></keycombo> </shortcut> <guimenu>Edit</guimenu> <guimenuitem>Cut</guimenuitem>"
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>x</keycap></keycombo> </"
+"shortcut> <guimenu>Edit</guimenu> <guimenuitem>Cut</guimenuitem>"
 msgstr ""
 
-#: index.docbook:699 index.docbook:699 index.docbook:788
+#. Tag: action
+#: index.docbook:745 index.docbook:777 index.docbook:839
 #, no-c-format
 msgid "Non-functional at present"
 msgstr ""
 
-#: index.docbook:699
+#. Tag: menuchoice
+#: index.docbook:751
 #, no-c-format
-msgid "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>c</keycap></keycombo> </shortcut> <guimenu>Edit</guimenu> <guimenuitem>Copy</guimenuitem>"
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>c</keycap></keycombo> </"
+"shortcut> <guimenu>Edit</guimenu> <guimenuitem>Copy</guimenuitem>"
 msgstr ""
 
-#: index.docbook:699
+#. Tag: action
+#: index.docbook:761
 #, no-c-format
 msgid "Non-funtional at present."
 msgstr ""
 
-#: index.docbook:699
+#. Tag: menuchoice
+#: index.docbook:767
 #, no-c-format
-msgid "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>v</keycap></keycombo> </shortcut> <guimenu>Edit</guimenu> <guimenuitem>Paste</guimenuitem>"
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>v</keycap></keycombo> </"
+"shortcut> <guimenu>Edit</guimenu> <guimenuitem>Paste</guimenuitem>"
 msgstr ""
 
+#. Tag: title
 #: index.docbook:787
 #, no-c-format
 msgid "The Project Menu"
 msgstr ""
 
-#: index.docbook:788
+#. Tag: menuchoice
+#: index.docbook:792
 #, no-c-format
 msgid "<guimenu>Project</guimenu> <guimenuitem>Add Clips</guimenuitem>"
 msgstr ""
 
-#: index.docbook:788
+#. Tag: action
+#: index.docbook:799
 #, no-c-format
 msgid "Add clips to the project list."
 msgstr ""
 
-#: index.docbook:788
+#. Tag: menuchoice
+#: index.docbook:805
 #, no-c-format
 msgid "<guimenu>Project</guimenu> <guimenuitem>Delete Clips</guimenuitem>"
 msgstr ""
 
-#: index.docbook:788
+#. Tag: action
+#: index.docbook:812
 #, no-c-format
-msgid "Delete the selected clip from the project. This deletes all references to the clip, including those on the timeline, or those within composite clips."
+msgid ""
+"Delete the selected clip from the project. This deletes all references to "
+"the clip, including those on the timeline, or those within composite clips."
 msgstr ""
 
-#: index.docbook:788
+#. Tag: menuchoice
+#: index.docbook:819
 #, no-c-format
 msgid "<guimenu>Project</guimenu> <guimenuitem>Clean Project</guimenuitem>"
 msgstr ""
 
-#: index.docbook:788
+#. Tag: action
+#: index.docbook:826
 #, no-c-format
 msgid "Remove unused clips from the project list."
 msgstr ""
 
-#: index.docbook:788
+#. Tag: menuchoice
+#: index.docbook:832
 #, no-c-format
 msgid "<guimenu>Project</guimenu> <guimenuitem>Clip Properties</guimenuitem>"
 msgstr ""
 
+#. Tag: title
 #: index.docbook:849
 #, no-c-format
 msgid "The Timeline Menu"
 msgstr ""
 
-#: index.docbook:850
+#. Tag: menuchoice
+#: index.docbook:854
 #, no-c-format
-msgid "<shortcut> <keycap>q</keycap> </shortcut> <guimenu>Timeline</guimenu> <guimenuitem>Move/Resize Tool</guimenuitem>"
+msgid ""
+"<shortcut> <keycap>q</keycap> </shortcut> <guimenu>Timeline</guimenu> "
+"<guimenuitem>Move/Resize Tool</guimenuitem>"
 msgstr ""
 
-#: index.docbook:850
+#. Tag: para
+#: index.docbook:863
 #, no-c-format
-msgid "<action>Select the move/resize tool to use on the timeline.</action> This tool lets you move and resize clips on the timeline. It is the standard operating mode of the timeline."
+msgid ""
+"<action>Select the move/resize tool to use on the timeline.</action> This "
+"tool lets you move and resize clips on the timeline. It is the standard "
+"operating mode of the timeline."
 msgstr ""
 
-#: index.docbook:850
+#. Tag: menuchoice
+#: index.docbook:871
 #, no-c-format
-msgid "<shortcut> <keycap>w</keycap> </shortcut> <guimenu>Timeline</guimenu> <guimenuitem>Razor Tool</guimenuitem>"
+msgid ""
+"<shortcut> <keycap>w</keycap> </shortcut> <guimenu>Timeline</guimenu> "
+"<guimenuitem>Razor Tool</guimenuitem>"
 msgstr ""
 
-#: index.docbook:850
+#. Tag: para
+#: index.docbook:880
 #, no-c-format
-msgid "<action>Select the Razor tool to use on the timeline.</action> This tool will cut (razor) the clip into two pieces at the time selected."
+msgid ""
+"<action>Select the Razor tool to use on the timeline.</action> This tool "
+"will cut (razor) the clip into two pieces at the time selected."
 msgstr ""
 
-#: index.docbook:850
+#. Tag: menuchoice
+#: index.docbook:888
 #, no-c-format
-msgid "<shortcut> <keycap>e</keycap> </shortcut> <guimenu>Timeline</guimenu> <guimenuitem>Spacer Tool</guimenuitem>"
+msgid ""
+"<shortcut> <keycap>e</keycap> </shortcut> <guimenu>Timeline</guimenu> "
+"<guimenuitem>Spacer Tool</guimenuitem>"
 msgstr ""
 
-#: index.docbook:850
+#. Tag: para
+#: index.docbook:897
 #, no-c-format
-msgid "<action>Select the Spacer tool to use on the timeline.</action> This tool lets you select all clips to the right of where you click on the timeline."
+msgid ""
+"<action>Select the Spacer tool to use on the timeline.</action> This tool "
+"lets you select all clips to the right of where you click on the timeline."
 msgstr ""
 
-#: index.docbook:850
+#. Tag: menuchoice
+#: index.docbook:905
 #, no-c-format
 msgid "<guimenu>Timeline</guimenu> <guimenuitem>Snap To Frames</guimenuitem>"
 msgstr ""
 
-#: index.docbook:850
+#. Tag: action
+#: index.docbook:912
 #, no-c-format
 msgid "If checked, all operations will snap to the nearest frame."
 msgstr ""
 
-#: index.docbook:850
+#. Tag: menuchoice
+#: index.docbook:918
 #, no-c-format
 msgid "<guimenu>Timeline</guimenu> <guimenuitem>Snap To Border</guimenuitem>"
 msgstr ""
 
-#: index.docbook:850
+#. Tag: action
+#: index.docbook:925
 #, no-c-format
-msgid "If checked, moving and resizing clips will snap to nearby clip borders and the seek marker."
+msgid ""
+"If checked, moving and resizing clips will snap to nearby clip borders and "
+"the seek marker."
 msgstr ""
 
+#. Tag: title
 #: index.docbook:935
 #, no-c-format
 msgid "The Render Menu"
 msgstr ""
 
-#: index.docbook:936
+#. Tag: menuchoice
+#: index.docbook:940
 #, no-c-format
 msgid "<guimenu>Render</guimenu> <guimenuitem>Export Timeline</guimenuitem>"
 msgstr ""
 
-#: index.docbook:936
+#. Tag: action
+#: index.docbook:947
 #, no-c-format
 msgid "Export the timeline to a video clip. Also known as rendering down."
 msgstr ""
 
+#. Tag: title
 #: index.docbook:957
 #, no-c-format
 msgid "The Layout Menu"
 msgstr ""
 
-#: index.docbook:958
+#. Tag: menuchoice
+#: index.docbook:962
 #, no-c-format
-msgid "<shortcut> <keycap>F9</keycap> </shortcut> <guimenu>Layout Menu</guimenu> <guimenuitem>Load Layout 1</guimenuitem>"
+msgid ""
+"<shortcut> <keycap>F9</keycap> </shortcut> <guimenu>Layout Menu</guimenu> "
+"<guimenuitem>Load Layout 1</guimenuitem>"
 msgstr ""
 
-#: index.docbook:958 index.docbook:958 index.docbook:958 index.docbook:958
+#. Tag: action
+#: index.docbook:972 index.docbook:988 index.docbook:1004 index.docbook:1020
 #, no-c-format
 msgid "Loads up a previously saved screen layout."
 msgstr ""
 
-#: index.docbook:958
+#. Tag: menuchoice
+#: index.docbook:978
 #, no-c-format
-msgid "<shortcut> <keycap>F10</keycap> </shortcut> <guimenu>Layout Menu</guimenu> <guimenuitem>Load Layout 2</guimenuitem>"
+msgid ""
+"<shortcut> <keycap>F10</keycap> </shortcut> <guimenu>Layout Menu</guimenu> "
+"<guimenuitem>Load Layout 2</guimenuitem>"
 msgstr ""
 
-#: index.docbook:958
+#. Tag: menuchoice
+#: index.docbook:994
 #, no-c-format
-msgid "<shortcut> <keycap>F11</keycap> </shortcut> <guimenu>Layout Menu</guimenu> <guimenuitem>Load Layout 3</guimenuitem>"
+msgid ""
+"<shortcut> <keycap>F11</keycap> </shortcut> <guimenu>Layout Menu</guimenu> "
+"<guimenuitem>Load Layout 3</guimenuitem>"
 msgstr ""
 
-#: index.docbook:958
+#. Tag: menuchoice
+#: index.docbook:1010
 #, no-c-format
-msgid "<shortcut> <keycap>F12</keycap> </shortcut> <guimenu>Layout Menu</guimenu> <guimenuitem>Load Layout 4</guimenuitem>"
+msgid ""
+"<shortcut> <keycap>F12</keycap> </shortcut> <guimenu>Layout Menu</guimenu> "
+"<guimenuitem>Load Layout 4</guimenuitem>"
 msgstr ""
 
-#: index.docbook:958
+#. Tag: menuchoice
+#: index.docbook:1026
 #, no-c-format
-msgid "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F9</keycap></keycombo> </shortcut> <guimenu>Layout Menu</guimenu> <guimenuitem>Save Layout 1</guimenuitem>"
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F9</"
+"keycap></keycombo> </shortcut> <guimenu>Layout Menu</guimenu> "
+"<guimenuitem>Save Layout 1</guimenuitem>"
 msgstr ""
 
-#: index.docbook:958
+#. Tag: action
+#: index.docbook:1036
 #, no-c-format
 msgid "Saves the current screen layout to layout slot 1."
 msgstr ""
 
-#: index.docbook:958
+#. Tag: menuchoice
+#: index.docbook:1042
 #, no-c-format
-msgid "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F10</keycap></keycombo> </shortcut> <guimenu>Layout Menu</guimenu> <guimenuitem>Save Layout 2</guimenuitem>"
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F10</"
+"keycap></keycombo> </shortcut> <guimenu>Layout Menu</guimenu> "
+"<guimenuitem>Save Layout 2</guimenuitem>"
 msgstr ""
 
-#: index.docbook:958
+#. Tag: action
+#: index.docbook:1052
 #, no-c-format
 msgid "Saves the current screen layout to layout slot 2."
 msgstr ""
 
-#: index.docbook:958
+#. Tag: menuchoice
+#: index.docbook:1058
 #, no-c-format
-msgid "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F11</keycap></keycombo> </shortcut> <guimenu>Layout Menu</guimenu> <guimenuitem>Save Layout 3</guimenuitem>"
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F11</"
+"keycap></keycombo> </shortcut> <guimenu>Layout Menu</guimenu> "
+"<guimenuitem>Save Layout 3</guimenuitem>"
 msgstr ""
 
-#: index.docbook:958
+#. Tag: action
+#: index.docbook:1068
 #, no-c-format
 msgid "Saves the current screen layout in layout slot 3."
 msgstr ""
 
-#: index.docbook:958
+#. Tag: menuchoice
+#: index.docbook:1074
 #, no-c-format
-msgid "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F12</keycap></keycombo> </shortcut> <guimenu>Layout Menu</guimenu> <guimenuitem>Save Layout 4</guimenuitem>"
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F12</"
+"keycap></keycombo> </shortcut> <guimenu>Layout Menu</guimenu> "
+"<guimenuitem>Save Layout 4</guimenuitem>"
 msgstr ""
 
-#: index.docbook:958
+#. Tag: action
+#: index.docbook:1084
 #, no-c-format
 msgid "Saves the current screen layout in layout slot 4."
 msgstr ""
 
+#. Tag: title
 #: index.docbook:1094
 #, no-c-format
 msgid "The Settings Menu"
 msgstr ""
 
-#: index.docbook:1095
+#. Tag: menuchoice
+#: index.docbook:1099
 #, no-c-format
 msgid "<guimenu>Settings</guimenu> <guimenuitem>Show Toolbar</guimenuitem>"
 msgstr ""
 
-#: index.docbook:1095
+#. Tag: action
+#: index.docbook:1106
 #, no-c-format
 msgid "Show/hide the toolbars."
 msgstr ""
 
-#: index.docbook:1095
+#. Tag: menuchoice
+#: index.docbook:1112
 #, no-c-format
 msgid "<guimenu>Settings</guimenu> <guimenuitem>Show Statusbar</guimenuitem>"
 msgstr ""
 
-#: index.docbook:1095
+#. Tag: action
+#: index.docbook:1119
 #, no-c-format
 msgid "Show/Hide the status bar."
 msgstr ""
 
-#: index.docbook:1095
+#. Tag: menuchoice
+#: index.docbook:1125
 #, no-c-format
-msgid "<guimenu>Settings</guimenu> <guimenuitem>Configure Shortcuts...</guimenuitem>"
+msgid ""
+"<guimenu>Settings</guimenu> <guimenuitem>Configure Shortcuts...</guimenuitem>"
 msgstr ""
 
-#: index.docbook:1095
+#. Tag: action
+#: index.docbook:1132
 #, no-c-format
 msgid "Configure &kdenlive; keyboard shortcuts."
 msgstr ""
 
-#: index.docbook:1095
+#. Tag: menuchoice
+#: index.docbook:1138
 #, no-c-format
-msgid "<guimenu>Settings</guimenu> <guimenuitem>Configure Toolbars...</guimenuitem>"
+msgid ""
+"<guimenu>Settings</guimenu> <guimenuitem>Configure Toolbars...</guimenuitem>"
 msgstr ""
 
-#: index.docbook:1095
+#. Tag: action
+#: index.docbook:1145
 #, no-c-format
 msgid "Configure the toolbars."
 msgstr ""
 
-#: index.docbook:1095
+#. Tag: menuchoice
+#: index.docbook:1151
 #, no-c-format
-msgid "<guimenu>Settings</guimenu> <guimenuitem>Configure &kdenlive;...</guimenuitem>"
+msgid ""
+"<guimenu>Settings</guimenu> <guimenuitem>Configure &kdenlive;...</"
+"guimenuitem>"
 msgstr ""
 
-#: index.docbook:1095
+#. Tag: action
+#: index.docbook:1158
 #, no-c-format
 msgid "Configure &kdenlive;"
 msgstr ""
 
+#. Tag: title
 #: index.docbook:1168
 #, no-c-format
 msgid "The Help Menu"
 msgstr ""
 
-#: index.docbook:1169
+#. Tag: menuchoice
+#: index.docbook:1173
 #, no-c-format
 msgid "<guimenu>Help</guimenu> <guimenuitem>&kdenlive; Handbook</guimenuitem>"
 msgstr ""
 
-#: index.docbook:1169
+#. Tag: action
+#: index.docbook:1180
 #, no-c-format
 msgid "View the &kdenlive; handbook (this document)."
 msgstr ""
 
-#: index.docbook:1169
+#. Tag: menuchoice
+#: index.docbook:1186
 #, no-c-format
-msgid "<shortcut> <keycombo><keycap>Shift</keycap><keycap>F1</keycap></keycombo> </shortcut> <guimenu>Help</guimenu> <guimenuitem>What's This?</guimenuitem>"
+msgid ""
+"<shortcut> <keycombo><keycap>Shift</keycap><keycap>F1</keycap></keycombo> </"
+"shortcut> <guimenu>Help</guimenu> <guimenuitem>What's This?</guimenuitem>"
 msgstr ""
 
-#: index.docbook:1169
+#. Tag: action
+#: index.docbook:1196
 #, no-c-format
-msgid "After selecting this, click on part of the gui to find out what it does."
+msgid ""
+"After selecting this, click on part of the gui to find out what it does."
 msgstr ""
 
-#: index.docbook:1169
+#. Tag: menuchoice
+#: index.docbook:1202
 #, no-c-format
 msgid "<guimenu>Help</guimenu> <guimenuitem>Report Bug...</guimenuitem>"
 msgstr ""
 
-#: index.docbook:1169
+#. Tag: action
+#: index.docbook:1209
 #, no-c-format
 msgid "Report a bug about &kdenlive;"
 msgstr ""
 
-#: index.docbook:1169
+#. Tag: menuchoice
+#: index.docbook:1215
 #, no-c-format
 msgid "<guimenu>Help</guimenu> <guimenuitem>About &kdenlive;</guimenuitem>"
 msgstr ""
 
-#: index.docbook:1169
+#. Tag: action
+#: index.docbook:1222
 #, no-c-format
-msgid "See information about &kdenlive;, including the license, authors and contributers."
+msgid ""
+"See information about &kdenlive;, including the license, authors and "
+"contributers."
 msgstr ""
 
-#: index.docbook:1169
+#. Tag: menuchoice
+#: index.docbook:1228
 #, no-c-format
 msgid "<guimenu>Help</guimenu> <guimenuitem>About KDE</guimenuitem>"
 msgstr ""
 
-#: index.docbook:1169
+#. Tag: action
+#: index.docbook:1235
 #, no-c-format
 msgid "See information about the KDE project."
 msgstr ""
 
+#. Tag: title
 #: index.docbook:1248
 #, no-c-format
 msgid "Developer's Guide to &kdenlive;"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:1254
 #, no-c-format
 msgid "To be written."
 msgstr ""
 
+#. Tag: title
 #: index.docbook:1265
 #, no-c-format
 msgid "Known Issues, Workarounds and Recovery Procedures"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:1267
 #, no-c-format
-msgid "If &kdenlive; or one of the &piave; renderers crashes, it is possible that it will prevent the current or and new copies of &kdenlive; from running correctly."
+msgid ""
+"If &kdenlive; or one of the &piave; renderers crashes, it is possible that "
+"it will prevent the current or and new copies of &kdenlive; from running "
+"correctly."
 msgstr ""
 
+#. Tag: para
 #: index.docbook:1272
 #, no-c-format
-msgid "There are two reasons why this may happen. The first is if one of the &piave; processes did not shut down on the previous run of &kdenlive;. The simple solution to this is to close down &kdenlive; and type from the command line:"
+msgid ""
+"There are two reasons why this may happen. The first is if one of the "
+"&piave; processes did not shut down on the previous run of &kdenlive;. The "
+"simple solution to this is to close down &kdenlive; and type from the "
+"command line:"
 msgstr ""
 
-#: index.docbook:1272
+#. Tag: screen
+#: index.docbook:1276
 #, no-c-format
 msgid "<prompt>%</prompt> <userinput>killall -9 piave</userinput>"
 msgstr ""
 
-#: index.docbook:1280
+#. Tag: para
+#: index.docbook:1278
 #, no-c-format
-msgid "This will kill any stray &piave; processes, and should allow you to run &kdenlive; normally again."
+msgid ""
+"This will kill any stray &piave; processes, and should allow you to run "
+"&kdenlive; normally again."
 msgstr ""
 
-#: index.docbook:1284
+#. Tag: para
+#: index.docbook:1282
 #, no-c-format
-msgid "If you try the above and it says <quote>piave:no process killed</quote> then it may be that one of the ports that &piave; listens on has not yet been freed after the previous run. Wait for about one minute before starting &kdenlive; again - the TCP port will time out and become usable again."
+msgid ""
+"If you try the above and it says <quote>piave:no process killed</quote> then "
+"it may be that one of the ports that &piave; listens on has not yet been "
+"freed after the previous run. Wait for about one minute before starting "
+"&kdenlive; again - the TCP port will time out and become usable again."
 msgstr ""
 
-#: index.docbook:1293
+#. Tag: title
+#: index.docbook:1291
 #, no-c-format
 msgid "Questions and Answers"
 msgstr ""
 
-#: index.docbook:1311
+#. Tag: chapter
+#: index.docbook:1291
+#, no-c-format
+msgid "&reporting.bugs;"
+msgstr ""
+
+#. Tag: para
+#: index.docbook:1309
 #, no-c-format
 msgid "What file formats does &kapp; support?"
 msgstr ""
 
-#: index.docbook:1316
+#. Tag: para
+#: index.docbook:1314
 #, no-c-format
-msgid "Currently, &kapp; supports playback of AVI files that use the DV codec (other types of AVI file will fail) and Raw DV files. Both of these formats are exported by &kino;."
+msgid ""
+"Currently, &kapp; supports playback of AVI files that use the DV codec "
+"(other types of AVI file will fail) and Raw DV files. Both of these formats "
+"are exported by &kino;."
 msgstr ""
 
-#: index.docbook:1321
+#. Tag: para
+#: index.docbook:1320
 #, no-c-format
-msgid "On a technical note, &kapp; does not provide any video formats itself; all video formats are provided by the backend renderer, &piave;."
+msgid ""
+"On a technical note, &kapp; does not provide any video formats itself; all "
+"video formats are provided by the backend renderer, &piave;."
 msgstr ""
 
-#: index.docbook:1332
+#. Tag: para
+#: index.docbook:1330
 #, no-c-format
 msgid "When will &kapp; support divx/mpeg files?"
 msgstr ""
 
-#: index.docbook:1337
+#. Tag: para
+#: index.docbook:1335
 #, no-c-format
 msgid "Short answer : When somebody codes the relevant plugin for &piave;."
 msgstr ""
 
-#: index.docbook:1340
+#. Tag: para
+#: index.docbook:1338
 #, no-c-format
-msgid "The long answer : Supporting divx files in an editing application is difficult. divx and mpeg formats are not designed for video editing. Some frames contain only part of the information required to display that frame, which makes the random acces required by a video editing application difficult to achieve. There are also quality issues with decompressing and recompressing files that need to be taken into account. For these reasons, support for these formats in &kapp; itself are of low priority compared to the effect framework, the capture program and other such features."
+msgid ""
+"The long answer : Supporting divx files in an editing application is "
+"difficult. divx and mpeg formats are not designed for video editing. Some "
+"frames contain only part of the information required to display that frame, "
+"which makes the random acces required by a video editing application "
+"difficult to achieve. There are also quality issues with decompressing and "
+"recompressing files that need to be taken into account. For these reasons, "
+"support for these formats in &kapp; itself are of low priority compared to "
+"the effect framework, the capture program and other such features."
 msgstr ""
 
-#: index.docbook:1350
+#. Tag: para
+#: index.docbook:1348
 #, no-c-format
-msgid "If somebody is interested is adding divx/mpeg support to &kapp; (or to be technically correct, &piave;) then please contact me, and I will point you in the right direction. In the meantime, it is suggested that you capture video directly in Raw DV using &kino;, or convert your files to Raw DV format for use with &kapp;"
+msgid ""
+"If somebody is interested is adding divx/mpeg support to &kapp; (or to be "
+"technically correct, &piave;) then please contact me, and I will point you "
+"in the right direction. In the meantime, it is suggested that you capture "
+"video directly in Raw DV using &kino;, or convert your files to Raw DV "
+"format for use with &kapp;"
 msgstr ""
 
-#: index.docbook:1361
+#. Tag: para
+#: index.docbook:1359
 #, no-c-format
 msgid "When will &kapp; support mp3 files and other audio formats?"
 msgstr ""
 
-#: index.docbook:1366
-#, no-c-format
-msgid "Sometime in the future, perhaps version 0.4.0 or 0.5.0. The roadmap on the website gives a rough idea of the order in which features are being added to &kapp;. The next priority is the effect framework, which will be the made addition for the 0.3.0 release. Once &kapp; 0.3.0 is released, we will decide on the next most important feature. This may be separate audio tracks."
-msgstr ""
-
-#: index.docbook:1378
-#, no-c-format
-msgid "When I add clips to the project, the times show up as 'unknown'. I know these clips are valid, why does this happen?"
-msgstr ""
-
-#: index.docbook:1382
+#. Tag: para
+#: index.docbook:1364
 #, no-c-format
 msgid ""
-      "This is a sign that something has gone wrong with &piave;. Whilst &kapp; will do it's best to pull itself back into working order, this is still relatively new software and it doesn't manage it as often as one would hope! The best solution is to quit &kapp; (if you have done any work, then you are quite safe to save it), perform the following operation: <screen width=\"40\">\n"
-      "						<prompt>%</prompt> <userinput>killall -9 piave</userinput>.\n"
-      "					</screen> Wait a few seconds, and then restart kdenlive."
+"Sometime in the future, perhaps version 0.4.0 or 0.5.0. The roadmap on the "
+"website gives a rough idea of the order in which features are being added to "
+"&kapp;. The next priority is the effect framework, which will be the made "
+"addition for the 0.3.0 release. Once &kapp; 0.3.0 is released, we will "
+"decide on the next most important feature. This may be separate audio tracks."
 msgstr ""
 
+#. Tag: para
+#: index.docbook:1376
+#, no-c-format
+msgid ""
+"When I add clips to the project, the times show up as 'unknown'. I know "
+"these clips are valid, why does this happen?"
+msgstr ""
+
+#. Tag: para
+#: index.docbook:1380
+#, no-c-format
+msgid ""
+"This is a sign that something has gone wrong with &piave;. Whilst &kapp; "
+"will do it's best to pull itself back into working order, this is still "
+"relatively new software and it doesn't manage it as often as one would hope! "
+"The best solution is to quit &kapp; (if you have done any work, then you are "
+"quite safe to save it), perform the following operation: <screen width=\"40"
+"\">\n"
+"                                                <prompt>%</prompt> "
+"<userinput>killall -9 piave</userinput>.\n"
+"                                        </screen> Wait a few seconds, and "
+"then restart kdenlive."
+msgstr ""
+
+#. Tag: para
+#: index.docbook:1394
+#, no-c-format
+msgid ""
+"The &kdenlive; user interface is not keeping up when I play a video! What is "
+"wrong?"
+msgstr ""
+
+#. Tag: para
 #: index.docbook:1398
 #, no-c-format
-msgid "The &kdenlive; user interface is not keeping up when I play a video! What is wrong?"
+msgid ""
+"Go to the debug panel and try checking the Ignore Incoming Messages button. "
+"This will turn off output to the debug window, which can slow the interface "
+"down considerably whilst playing back videos, especially when they are long "
+"in length."
 msgstr ""
 
-#: index.docbook:1402
-#, no-c-format
-msgid "Go to the debug panel and try checking the Ignore Incoming Messages button. This will turn off output to the debug window, which can slow the interface down considerably whilst playing back videos, especially when they are long in length."
-msgstr ""
-
-#: index.docbook:1420
+#. Tag: title
+#: index.docbook:1416
 #, no-c-format
 msgid "Credits and License"
 msgstr ""
 
-#: index.docbook:1422
+#. Tag: para
+#: index.docbook:1418
 #, no-c-format
 msgid "&kapp;"
 msgstr ""
 
-#: index.docbook:1425
+#. Tag: para
+#: index.docbook:1421
 #, no-c-format
-msgid "Program copyright 2002-2003 Jason Wood <email>jasonwood@blueyonder.co.uk</email>"
+msgid ""
+"Program copyright 2002-2003 Jason Wood <email>jasonwood@blueyonder.co.uk</"
+"email>"
 msgstr ""
 
-#: index.docbook:1428
+#. Tag: para
+#: index.docbook:1424
 #, no-c-format
 msgid "Contributors:"
 msgstr ""
 
+#. Tag: para
 #: index.docbook:1428
 #, no-c-format
-msgid "Caulier Gilles <email>caulier.Gilles@free.fr</email> : &kdenlive; and &piave; i18n, French translations, splashscreen"
+msgid ""
+"Caulier Gilles <email>caulier.Gilles@free.fr</email> : &kdenlive; and "
+"&piave; i18n, French translations, splashscreen"
 msgstr ""
 
-#: index.docbook:1428
+#. Tag: para
+#: index.docbook:1433
 #, no-c-format
-msgid "Rolf Dubitzky <email>dubitzky@pktw06.phy.tu-dresden.de</email> : &piave; implementations"
+msgid ""
+"Rolf Dubitzky <email>dubitzky@pktw06.phy.tu-dresden.de</email> : &piave; "
+"implementations"
 msgstr ""
 
+#. Tag: para
+#: index.docbook:1440
+#, no-c-format
+msgid ""
+"Documentation copyright 2003 Jason Wood <email>jasonwood@blueyonder.co.uk</"
+"email>"
+msgstr ""
+
+#. Tag: trans_comment
 #: index.docbook:1444
-#, no-c-format
-msgid "Documentation copyright 2003 Jason Wood <email>jasonwood@blueyonder.co.uk</email>"
-msgstr ""
-
-#: index.docbook:1448
 #, no-c-format
 msgid "CREDIT_FOR_TRANSLATORS"
 msgstr ""
 
-#: index.docbook:1464
+#. Tag: chapter
+#: index.docbook:1444
+#, no-c-format
+msgid "&underFDL; &underGPL;"
+msgstr ""
+
+#. Tag: title
+#: index.docbook:1460
 #, no-c-format
 msgid "Installation"
 msgstr ""
 
-#: index.docbook:1467
+#. Tag: title
+#: index.docbook:1463
 #, no-c-format
 msgid "How to obtain &kdenlive;"
 msgstr ""
 
-#: index.docbook:1469
+#. Tag: para
+#: index.docbook:1465
 #, no-c-format
-msgid "The &kdenlive; WEB site is <ulink url=\"http://www.uchian.pwp.blueyonder.co.uk/kdenlive.html\">http://www.uchian.pwp.blueyonder.co.uk/kdenlive.html</ulink>. &kdenlive; can be found in the SourceForge project page on <ulink url=\"http://sourceforge.net/projects/kdenlive/\">http://sourceforge.net/projects/kdenlive/</ulink>"
+msgid ""
+"The &kdenlive; WEB site is <ulink url=\"http://www.uchian.pwp.blueyonder.co."
+"uk/kdenlive.html\">http://www.uchian.pwp.blueyonder.co.uk/kdenlive.html</"
+"ulink>. &kdenlive; can be found in the SourceForge project page on <ulink "
+"url=\"http://sourceforge.net/projects/kdenlive/\">http://sourceforge.net/"
+"projects/kdenlive/</ulink>"
 msgstr ""
 
-#: index.docbook:1478
+#. Tag: title
+#: index.docbook:1474
 #, no-c-format
 msgid "Requirements"
 msgstr ""
 
-#: index.docbook:1491
+#. Tag: para
+#: index.docbook:1487
 #, no-c-format
-msgid "In order to successfully use &kdenlive;, you need KDE 3.0 or higher. Additionally, you need piave in order to do anthing useful - kdenlive itself is after all, just an interface :-)"
+msgid ""
+"In order to successfully use &kdenlive;, you need KDE 3.0 or higher. "
+"Additionally, you need piave in order to do anthing useful - kdenlive itself "
+"is after all, just an interface :-)"
 msgstr ""
 
-#: index.docbook:1497
+#. Tag: para
+#: index.docbook:1493
 #, no-c-format
-msgid "All required libraries as well as &kdenlive; itself can be found on or via <ulink url=\"http://pwp.blueyonder.co.uk/kdenlive.html\">The &kdenlive; home page</ulink>."
+msgid ""
+"All required libraries as well as &kdenlive; itself can be found on or via "
+"<ulink url=\"http://pwp.blueyonder.co.uk/kdenlive.html\">The &kdenlive; home "
+"page</ulink>."
 msgstr ""
 
-#: index.docbook:1504
+#. Tag: para
+#: index.docbook:1500
 #, no-c-format
-msgid "You can find a list of changes at <ulink url=\"http://pwp.blueyonder.co.uk/kdenlive.html\">http://pwp.blueyonder.co.uk/kdenlive.html</ulink>. FIXME : this link does not actually point at a changelog."
+msgid ""
+"You can find a list of changes at <ulink url=\"http://pwp.blueyonder.co.uk/"
+"kdenlive.html\">http://pwp.blueyonder.co.uk/kdenlive.html</ulink>. FIXME : "
+"this link does not actually point at a changelog."
 msgstr ""
 
-#: index.docbook:1510
+#. Tag: title
+#: index.docbook:1506
 #, no-c-format
 msgid "Compilation and Installation"
 msgstr ""
 
-#: index.docbook:1512
+#. Tag: para
+#: index.docbook:1508
 #, no-c-format
-msgid "In order to compile and install &kdenlive; on your system, type the following in the base directory of the &kdenlive; distribution:"
+msgid ""
+"In order to compile and install &kdenlive; on your system, type the "
+"following in the base directory of the &kdenlive; distribution:"
 msgstr ""
 
-#: index.docbook:1512
+#. Tag: screen
+#: index.docbook:1511
 #, no-c-format
-msgid "<prompt>%</prompt> <userinput>./configure</userinput>"
+msgid ""
+"<prompt>%</prompt> <userinput>./configure --prefix=`kde-config --prefix`</"
+"userinput>"
 msgstr ""
 
+#. Tag: screen
 #: index.docbook:1512
 #, no-c-format
 msgid "<prompt>%</prompt> <userinput>make</userinput>"
 msgstr ""
 
-#: index.docbook:1512
+#. Tag: screen
+#: index.docbook:1513
 #, no-c-format
 msgid "<prompt>%</prompt> <userinput>make install</userinput>"
 msgstr ""
 
-#: index.docbook:1526
+#. Tag: para
+#: index.docbook:1516
 #, no-c-format
-msgid "Additional parameters for ./configure script may be required. Type the following in the base directory of the &kdenlive; distribution:"
+msgid ""
+"Additional parameters for ./configure script may be required. Type the "
+"following in the base directory of the &kdenlive; distribution:"
 msgstr ""
 
-#: index.docbook:1526
+#. Tag: screen
+#: index.docbook:1519
 #, no-c-format
 msgid "<prompt>%</prompt> <userinput>./configure --help</userinput>"
 msgstr ""
 
-#: index.docbook:1534
+#. Tag: para
+#: index.docbook:1522
 #, no-c-format
-msgid "Since &kdenlive; uses autoconf and automake you should have not trouble compiling it. Should you run into problems please report them to <email>jasonwood@blueyonder.co.uk</email>."
+msgid ""
+"Since &kdenlive; uses autoconf and automake you should have not trouble "
+"compiling it. Should you run into problems please report them to "
+"<email>jasonwood@blueyonder.co.uk</email>."
 msgstr ""
-

@@ -37,8 +37,6 @@ public:
 	~ProjectListView();
 	/** returns a drag object which is used for drag operations. */
 	QDragObject *dragObject();
-	/** returns true if the drop event is compatable with the project list */
-	bool acceptDrag (QDropEvent* event) const;
 	/** Sets the document to the one specified */
 	void setDocument(KdenliveDoc *doc);
 signals: // Signals
@@ -46,6 +44,9 @@ signals: // Signals
 	void dragDropOccured(QDropEvent *e);
 	/** This signal is called whenever a drag'n'drop is started */
 	void dragStarted(QListViewItem *i);
+protected:
+		/** returns true if the drop event is compatable with the project list */
+	bool acceptDrag (QDropEvent* event) const;
 private slots: // Private slots
 	/** This slot function should be called whenever a drag has been dropped onto the class. */
 	void dragDropped(QDropEvent* e, QListViewItem* parent, QListViewItem* after);

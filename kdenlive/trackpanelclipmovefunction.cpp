@@ -35,9 +35,9 @@ TrackPanelClipMoveFunction::TrackPanelClipMoveFunction( KdenliveApp *app, KTimeL
 		m_app( app ),
 		m_timeline( timeline ),
 		m_document( document ),
+		m_dragging(false),
 		m_startedClipMove( false ),
-		m_masterClip( 0 ),
-		m_dragging(false)
+		m_masterClip( 0 )
 {
 	m_moveClipsCommand = 0;
 	m_deleteClipsCommand = 0;
@@ -254,9 +254,9 @@ bool TrackPanelClipMoveFunction::dragLeft( KTrackPanel *panel, QDragLeaveEvent *
 	if ( m_addingClips ) {
 		m_addingClips = false;
 
-		QPtrList<DocTrackBase>::iterator trackItt = m_document->trackList().begin();
+		QPtrListIterator<DocTrackBase> trackItt(m_document->trackList());
 
-		while ( trackItt != m_document->trackList().end() ) {
+		while ( trackItt.current() ) {
 			(*trackItt)->deleteClips( true );
 			++trackItt;
 		}
@@ -275,10 +275,10 @@ bool TrackPanelClipMoveFunction::dragLeft( KTrackPanel *panel, QDragLeaveEvent *
 		m_app->addCommand( m_deleteClipsCommand, false );
 		m_deleteClipsCommand = 0;
 
-		QPtrList<DocTrackBase>::iterator trackItt = m_document->trackList().begin();
+		QPtrListIterator<DocTrackBase> trackItt(m_document->trackList());
 
-		while ( trackItt != m_document->trackList().end() ) {
-			(*trackItt)->deleteClips( true );
+		while ( trackItt.current() ) {
+			trackItt.current()->deleteClips( true );
 			++trackItt;
 		}
 	}

@@ -608,3 +608,25 @@ void DocTrackBase::checkTrackLength()
 	}
 
 }
+
+void DocTrackBase::addEffectToClip(const GenTime &position, int effectIndex, Effect *effect)
+{
+	DocClipRef *clip = getClipAt(position);
+	if(clip) {
+		clip->addEffect(effectIndex, effect);
+		emit effectStackChanged(clip);
+	} else {
+		kdError() << "DocTrackBase::addEffectToClip() - cannot find clip at position " << position.seconds() << endl;
+	}
+}
+
+void DocTrackBase::deleteEffectFromClip(const GenTime &position, int effectIndex)
+{
+	DocClipRef *clip = getClipAt(position);
+	if(clip) {
+		clip->deleteEffect(effectIndex);
+		emit effectStackChanged(clip);
+	} else {
+		kdError() << "DocTrackBase::deleteEffectFromClip() - cannot find clip at position " << position.seconds() << endl;
+	}
+}

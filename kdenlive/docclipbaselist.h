@@ -49,7 +49,7 @@ private: // Private attributes
 	/** The "master clip" of this list. The master clip is special only in that it is mentioned
 	seperately to every other clip in the clip list; it also appears in the clip list. It is
 	singled out so that operations that require a master clip can	make use of it. */
-	DocClipBase * m_masterClip;;
+	DocClipBase * m_masterClip;
 };
 
 #endif

@@ -190,7 +190,8 @@ void KRender::launchProcess()
 		                  "' does not exist! Please make sure that you have " +
 		                  " installed a renderer, and that the executable is selected " +
 		                  " on the settings page. If you do not have a renderer installed, " +
-		                  " then please install Piave" );
+		                  " then please install Piave. You can download piave at " +
+				  "http://www.sourceforge.net/projects/modesto" );
 		m_appPathInvalid = true;
 		return ;
 	}

@@ -19,6 +19,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <iostream>
+#include <assert.h>
 
 #include <klocale.h>
 #include <qscrollbar.h>
@@ -28,7 +29,6 @@
 
 #include <kdebug.h>
 
-#include "kmmrulerpanel.h"
 #include "krulertimemodel.h"
 #include "ktimeline.h"
 #include "ktrackview.h"
@@ -43,18 +43,22 @@ uint g_scrollTimerDelay = 50;
 uint g_scrollThreshold = 50;
 }
 
-KTimeLine::KTimeLine( QWidget *scrollToolWidget, QWidget *parent, const char *name ) :
+KTimeLine::KTimeLine( QWidget *rulerToolWidget, QWidget *scrollToolWidget, QWidget *parent, const char *name ) :
 		QVBox( parent, name ),
 		m_scrollTimer( this, "scroll timer" ),
 		m_scrollingRight( true ),
 		m_framesPerSecond(25),
-		m_editMode("undefined")
+		m_editMode("undefined"),
+		m_panelWidth(200)
 {
 	m_rulerBox = new QHBox( this, "ruler box" );
 	m_trackScroll = new QScrollView( this, "track view", WPaintClever );
 	m_scrollBox = new QHBox( this, "scroll box" );
 
-	m_rulerToolWidget = new KMMRulerPanel( m_rulerBox, "Ruler Panel" );
+	m_rulerToolWidget = rulerToolWidget;
+	if ( !m_rulerToolWidget ) m_rulerToolWidget = new QLabel( i18n( "Ruler" ), 0, "ruler" );
+	m_rulerToolWidget->reparent( m_rulerBox, QPoint( 0, 0 ) );
+
 	m_ruler = new KScalableRuler( new KRulerTimeModel(), m_rulerBox, name );
 	m_ruler->addSlider( KRuler::TopMark, 0 );
 	m_ruler->setAutoClickSlider( 0 );
@@ -71,16 +75,13 @@ KTimeLine::KTimeLine( QWidget *scrollToolWidget, QWidget *parent, const char *na
 	m_trackScroll->setHScrollBarMode( QScrollView::AlwaysOff );
 	m_trackScroll->setDragAutoScroll( true );
 
-	m_rulerToolWidget->setMinimumWidth( 200 );
-	m_rulerToolWidget->setMaximumWidth( 200 );
-
-	m_scrollToolWidget->setMinimumWidth( 200 );
-	m_scrollToolWidget->setMaximumWidth( 200 );
+	setPanelWidth(200);
 
 	m_ruler->setValueScale( 1.0 );
 
 	connect( m_scrollBar, SIGNAL( valueChanged( int ) ), m_ruler, SLOT( setStartPixel( int ) ) );
 	connect( m_scrollBar, SIGNAL( valueChanged( int ) ), m_ruler, SLOT( repaint() ) );
+	connect( m_scrollBar, SIGNAL( valueChanged( int ) ), this, SLOT( drawTrackViewBackBuffer() ) );
 
 	connect( m_ruler, SIGNAL( scaleChanged( double ) ), this, SLOT( resetProjectSize() ) );
 	connect( m_ruler, SIGNAL( sliderValueChanged( int, int ) ), m_trackViewArea, SLOT( invalidateBackBuffer() ) );
@@ -90,8 +91,6 @@ KTimeLine::KTimeLine( QWidget *scrollToolWidget, QWidget *parent, const char *na
 	connect( m_ruler, SIGNAL( requestScrollLeft() ), this, SLOT( slotScrollLeft() ) );
 	connect( m_ruler, SIGNAL( requestScrollRight() ), this, SLOT( slotScrollRight() ) );
 	connect( &m_scrollTimer, SIGNAL( timeout() ), this, SLOT( slotTimerScroll() ) );
-
-	connect( m_rulerToolWidget, SIGNAL( timeScaleChanged( double ) ), this, SLOT( setTimeScale( double ) ) );
 
 	connect( m_trackViewArea, SIGNAL( rightButtonPressed() ), this, SIGNAL( rightButtonPressed() ) );
 
@@ -105,18 +104,21 @@ KTimeLine::~KTimeLine()
 
 void KTimeLine::appendTrack( KTrackPanel *track )
 {
-	insertTrack( m_trackList.count(), track );
+	if(track) {
+		insertTrack( m_trackList.count(), track );
+	} else {
+		kdWarning() << "KTimeLine::appendTrack() : Trying to append a NULL track!" << endl;
+	}
 }
 
 /** Inserts a track at the position specified by index */
 void KTimeLine::insertTrack( int index, KTrackPanel *track )
 {
+	assert(track);
 	track->reparent( m_trackScroll->viewport(), 0, QPoint( 0, 0 ), TRUE );
 	m_trackScroll->addChild( track );
 
 	m_trackList.insert( index, track );
-
-	connect( m_scrollBar, SIGNAL( valueChanged( int ) ), this, SLOT( drawTrackViewBackBuffer() ) );
 
 	resizeTracks();
 }
@@ -137,17 +139,19 @@ void KTimeLine::resizeTracks()
 		widgetHeight = panel->height();
 
 		m_trackScroll->moveChild( panel, 0, height );
-		panel->resize( 200, widgetHeight );
+		panel->resize( m_panelWidth, widgetHeight );
 
 		height += widgetHeight;
 
 		panel = m_trackList.next();
 	}
 
-	m_trackScroll->moveChild( m_trackViewArea, 200, 0 );
-	m_trackViewArea->resize( m_trackScroll->visibleWidth() - 200 , height );
+	m_trackScroll->moveChild( m_trackViewArea, m_panelWidth, 0 );
+	int newWidth = m_trackScroll->visibleWidth() - m_panelWidth ;
+	if(newWidth < 0) newWidth = 0;
+	m_trackViewArea->resize( newWidth, height );
 
-	int viewWidth = m_trackScroll->visibleWidth() - 200;
+	int viewWidth = m_trackScroll->visibleWidth() - m_panelWidth;
 	if ( viewWidth < 1 ) viewWidth = 1;
 
 	QPixmap pixmap( viewWidth , height );
@@ -213,7 +217,7 @@ void KTimeLine::setTimeScale( double scale )
 }
 
 /** Calculates the size of the project, and sets up the timeline to accomodate it. */
-void KTimeLine::setProjectSize(const GenTime &size)
+void KTimeLine::slotSetProjectLength(const GenTime &size)
 {
 	int frames = size.frames( m_framesPerSecond );
 
@@ -313,21 +317,10 @@ void KTimeLine::slotScrollRight()
 	m_scrollBar->addLine();
 }
 
-void KTimeLine::fitToWidth()
-{
-	double duration = projectLength().frames( m_framesPerSecond );
-	if ( duration < 1.0 ) duration = 1.0;
-
-	double scale = ( double ) m_ruler->width() / duration;
-	m_ruler->setValueScale( scale );
-	m_rulerToolWidget->setScale( scale );
-
-	m_trackViewArea->invalidateBackBuffer();
-}
-
 void KTimeLine::clearTrackList()
 {
 	m_trackList.clear();
+	resizeTracks();
 }
 
 uint KTimeLine::scrollThreshold() const
@@ -385,4 +378,22 @@ void KTimeLine::setSnapToMarker(bool snapToMarker)
 void KTimeLine::invalidateBackBuffer()
 {
 	m_trackViewArea->invalidateBackBuffer();
+}
+
+int KTimeLine::viewWidth() const
+{
+	return m_trackViewArea->width();
+}
+
+void KTimeLine::setPanelWidth(int width)
+{
+	m_panelWidth = width;
+
+	m_rulerToolWidget->setMinimumWidth( m_panelWidth );
+	m_rulerToolWidget->setMaximumWidth( m_panelWidth );
+
+	m_scrollToolWidget->setMinimumWidth( m_panelWidth );
+	m_scrollToolWidget->setMaximumWidth( m_panelWidth );
+
+	resizeTracks();
 }

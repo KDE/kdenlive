@@ -64,6 +64,6 @@ private:
 	void deleteMarker();
 };
 
-};
+}
 
 #endif

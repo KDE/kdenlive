@@ -115,3 +115,55 @@ DocClipBase *DocClipBase::createClip(const EffectDescriptionList &effectList, Cl
 	return clip;
 }
 
+QDomDocument DocClipBase::generateSceneList() const
+{
+	static QString str_inpoint="inpoint";
+	static QString str_outpoint="outpoint";
+	static QString str_file="file";
+
+	QDomDocument sceneList;
+	sceneList.appendChild(sceneList.createElement("scenelist"));
+
+	QValueVector<GenTime> unsortedTimes;
+        populateSceneTimes(unsortedTimes);
+
+	// sort times and remove duplicates.
+	qHeapSort(unsortedTimes);
+	QValueVector<GenTime> times;
+
+	// Will reserve much more than we need, but should speed up the process somewhat...
+	times.reserve(unsortedTimes.size());
+
+	QValueVector<GenTime>::Iterator itt = unsortedTimes.begin();
+	while(itt != unsortedTimes.end()) {
+		if((times.isEmpty()) || ((*itt) != times.last())) {
+			times.append(*itt);
+		}
+		++itt;
+	}
+
+	QValueVector<GenTime>::Iterator sceneItt = times.begin();
+
+	while( (sceneItt != times.end()) && (sceneItt+1 != times.end()) ) {
+		QDomElement scene = sceneList.createElement("par");
+
+		QDomDocument clipDoc = sceneToXML(*sceneItt, *(sceneItt+1));
+		QDomElement sceneClip;
+
+		if(clipDoc.documentElement().isNull()) {
+			sceneClip = sceneList.createElement("img");
+			sceneClip.setAttribute("rgbcolor", "#000000");
+			sceneClip.setAttribute("dur", QString::number((*(sceneItt+1) - *sceneItt).seconds(), 'f', 10));
+			scene.appendChild(sceneClip);
+		} else {
+			sceneClip = sceneList.importNode(clipDoc.documentElement(), true).toElement();
+			scene.appendChild(sceneClip);
+		}
+
+		sceneList.documentElement().appendChild(scene);
+
+		++sceneItt;
+	}
+
+	return sceneList;
+}

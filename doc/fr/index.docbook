@@ -57,22 +57,24 @@ as Authors, publish date, the abstract, and Keywords -->
 
 <authorgroup>
 <author
-> <firstname
->Gilles</firstname
+><firstname
+>Jason</firstname
+> <othername
+>M.</othername
 > <surname
->Caulier</surname
+>Wood</surname
 > <affiliation
 > <address
 ><email
->caulier.gilles@free.fr</email
-></address
-> </affiliation
-> </author>
+>jasonwood@blueyonder.co.uk</email
+></address>
+</affiliation>
+</author>
 </authorgroup>
 
 <authorgroup>
 <author
-> <firstname
+><firstname
 >Gilles</firstname
 > <surname
 >Caulier</surname
@@ -80,9 +82,9 @@ as Authors, publish date, the abstract, and Keywords -->
 > <address
 ><email
 >caulier.gilles@free.fr</email
-></address
-> </affiliation
-> </author>
+></address>
+</affiliation>
+</author>
 </authorgroup>
 
 <othercredit role="translator"
@@ -98,7 +100,8 @@ as Authors, publish date, the abstract, and Keywords -->
 ></affiliation
 > <contrib
 >Traductions Française </contrib
-></othercredit>
+></othercredit
+> 
 
 <copyright>
 <year
@@ -128,17 +131,17 @@ Do NOT change these in the translation. -->
 
 <abstract>
 <para
-> &kdenlive; est une application de montage vidéo non linéaire pour KDE. </para>
+>&kdenlive; est une application de montage vidéo non linéaire pour KDE. </para>
 
 <para
-> ATTENTION !!! Ce document n'est pas encore complètement terminé. Les informations concernant les contributeurs de &kapp;, les programmes requis, les instructions d'installation, et les informations de changement de version ne sont pas à jour ou sont incomplètes. Veuillez prendre contact avec l'auteur à l'adresse <email
+>ATTENTION !!! Ce document n'est pas encore complètement terminé. Les informations concernant les contributeurs de &kapp;, les programmes requis, les instructions d'installation, et les informations de changement de version ne sont pas à jour ou sont incomplètes. Veuillez prendre contact avec l'auteur à l'adresse <email
 >jasonwood@blueyonder.co.uk</email
 > pour de plus amples informations. </para>
 
 <para
-> Bonne lecture </para>
+>Bonne lecture </para>
 <para
-> Jason </para>
+>Jason </para>
 
 </abstract>
 
@@ -178,7 +181,7 @@ problems. Basically a long version of the abstract.  Don't include a
 revision history. (see installation appendix comment) -->
 
 <para
-> &kapp; est une application de montage vidéo non linéaire pour KDE. Pour rapporter des bogues ou pour proposer de nouvelles fonctionnalités, Veulliez envoyer un courrier électronique à <email
+>&kapp; est une application de montage vidéo non linéaire pour KDE. Pour rapporter des bogues ou pour proposer de nouvelles fonctionnalités, Veulliez envoyer un courrier électronique à <email
 >jasonwood@blueyonder.co.uk</email
 > </para>
 <sect1 id="whatisavideoeditor">
@@ -186,17 +189,17 @@ revision history. (see installation appendix comment) -->
 >Qu'est ce qu'un logiciel de montage vidéo ?</title>
 
 <para
-> Un logiciel de montage vidéo est une application qui permet de créer une séquence vidéo à partir de plusieurs plans vidéo indépendants ou à partir d'autres séquences vidéo. </para>
+>Un logiciel de montage vidéo est une application qui permet de créer une séquence vidéo à partir de plusieurs plans vidéo indépendants ou à partir d'autres séquences vidéo. </para>
 </sect1>
 <sect1 id="linearvsnonlinear">
 <title
 >Différences entre le montage vidéo « linéaire » et « non linéaire »</title>
 
 <para
-> Dans le passé, le montage vidéo sur l'ordinateur était possible à l'aide d'un éditeur vidéo dit « linéaire », en utilisant essentiellement deux magnétoscopes. Le premier contenait les séquences vidéo cibles, et le second était employé pour rechercher les plans vidéo à monter dans les séquences vidéo cibles. L'opération consistait à trouver un plan vidéo, à l'enregistrer dans la séquence vidéo cible, à trouver le plan vidéo suivant, à l'enregistrer dans une autre séquence vidéo cible, etc. Cette méthode s'appelle « l'édition vidéo linéaire » car l'utilisation de bande vidéo nécessitait une édition des séquences vidéo de manières séquentielles. Par exemple, il est très difficile de libérer de l'espace vide pour ajouter un nouveau plan vidéo à une séquence vidéo d'une durée globale de 10 minutes, après les cinq premières minutes de celle ci. </para>
+>Dans le passé, le montage vidéo sur l'ordinateur était possible à l'aide d'un éditeur vidéo dit « linéaire », en utilisant essentiellement deux magnétoscopes. Le premier contenait les séquences vidéo cibles, et le second était employé pour rechercher les plans vidéo à monter dans les séquences vidéo cibles. L'opération consistait à trouver un plan vidéo, à l'enregistrer dans la séquence vidéo cible, à trouver le plan vidéo suivant, à l'enregistrer dans une autre séquence vidéo cible, etc. Cette méthode s'appelle « l'édition vidéo linéaire » car l'utilisation de bande vidéo nécessitait une édition des séquences vidéo de manières séquentielles. Par exemple, il est très difficile de libérer de l'espace vide pour ajouter un nouveau plan vidéo à une séquence vidéo d'une durée globale de 10 minutes, après les cinq premières minutes de celle ci. </para>
 
 <para
-> Le montage vidéo « non linéaire » est un procédé plus flexible. Vous pouvez placer des nouveaux plans vidéo n'importe où dans votre séquence vidéo cible (dans &kdenlive;, ceci est représenté par l'intermédiaire de la table de montage), et les déplacer n'importe où autant de fois que vous voulez. Vous pouvez aussi les réarranger dans un ordre complètement différent et avec un ordinateur suffisamment puissant, observer le résultat final. </para>
+>Le montage vidéo « non linéaire » est un procédé plus flexible. Vous pouvez placer des nouveaux plans vidéo n'importe où dans votre séquence vidéo cible (dans &kdenlive;, ceci est représenté par l'intermédiaire de la table de montage), et les déplacer n'importe où autant de fois que vous voulez. Vous pouvez aussi les réarranger dans un ordre complètement différent et avec un ordinateur suffisamment puissant, observer le résultat final. </para>
 </sect1>
 </chapter>
 
@@ -205,76 +208,80 @@ revision history. (see installation appendix comment) -->
 >Présentation rapide</title>
 
 <para
-> &kdenlive; est une application qui va vous faire plonger dans l'univers du montage vidéo numérique. Cette présentation rapide vous aidera à réaliser quelques opérations de base pour le montage de votre premier film. </para>
+>&kdenlive; est une application qui va vous faire plonger dans l'univers du montage vidéo numérique. Cette présentation rapide vous aidera à réaliser quelques opérations de base pour le montage de votre premier film. </para>
 
 <sect1>
 <title
 >La fenêtre principale</title>
 <para
-> Lorsque vous lancez &kdenlive; pour la première fois, vous devez obtenir une fenêtre similaire à celle ci : </para>
-<screenshot
-> <mediaobject
-> <imageobject
-> <imagedata fileref="mainwindow.png" format="PNG"/> </imageobject
-> <textobject
-> <phrase
->La fenêtre principale</phrase
-> </textobject
-> </mediaobject
-> </screenshot>
+>Lorsque vous lancez &kdenlive; pour la première fois, vous devez obtenir une fenêtre similaire à celle ci : </para>
+<screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="mainwindow.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>La fenêtre principale</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
 
 <para
-> Dans l'interface graphique par défaut de &kdenlive;, il y a trois panneaux importants. Les positions de tous ces panneaux peuvent être configurés individuellement en fonction de vos besoins. </para>
+>Dans l'interface graphique par défaut de &kdenlive;, il y a trois panneaux importants. Les positions de tous ces panneaux peuvent être configurés individuellement en fonction de vos besoins. </para>
 
 <sect2 id="project-panel">
 <title
 >Le panneau du projet</title>
-<screenshot
-> <mediaobject
-> <imageobject
-> <imagedata fileref="project_panel.png" format="PNG"/> </imageobject
-> <textobject
-> <phrase
->Le panneau du projet</phrase
-> </textobject
-> </mediaobject
-> </screenshot>
+<screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="project_panel.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Le panneau du projet</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
 <para
-> Ce panneau propose différents options nécessaires au montage vidéo du projet. L'onglet le plus important est la liste du projet. Il affiche l'ensemble des plans vidéo qui sont inclus dans le projet. </para>
+>Ce panneau propose différents options nécessaires au montage vidéo du projet. L'onglet le plus important est la liste du projet. Il affiche l'ensemble des plans vidéo qui sont inclus dans le projet. </para>
 </sect2>
 
 <sect2 id="monitor-panel">
 <title
 >Le panneau de prévisualisation</title>
-<screenshot
-> <mediaobject
-> <imageobject
-> <imagedata fileref="monitor_panel.png" format="PNG"/> </imageobject
-> <textobject
-> <phrase
->Le panneau de prévisualisation</phrase
-> </textobject
-> </mediaobject
-> </screenshot>
+<screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="monitor_panel.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Le panneau de prévisualisation</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
 <para
-> Ce panneau présente la liste des fenêtres de prévisualisation de &kdenlive;. L'onglet « Montage vidéo » affiche le montage vidéo final. L'onglet « Plan vidéo » affiche une prévisualisation du plan vidéo courant, et permet de sélectionner une section d'un plan vidéo à ajouter à la table de montage. </para>
+>Ce panneau présente la liste des fenêtres de prévisualisation de &kdenlive;. L'onglet « Montage vidéo » affiche le montage vidéo final. L'onglet « Plan vidéo » affiche une prévisualisation du plan vidéo courant, et permet de sélectionner une section d'un plan vidéo à ajouter à la table de montage. </para>
 </sect2>
 
 <sect2>
 <title
 >La table de montage vidéo</title>
-<screenshot
-> <mediaobject
-> <imageobject
-> <imagedata fileref="timeline_panel.png" format="PNG"/> </imageobject
-> <textobject
-> <phrase
->La table de montage vidéo</phrase
-> </textobject
-> </mediaobject
-> </screenshot>
+<screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="timeline_panel.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>La table de montage vidéo</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
 <para
-> Le panneau située en bas de la fenêtre principale est appelée la table de montage vidéo. Elle offre une représentation visuelle de votre projet. Elle affiche l'état de lecture et de non lecture des plans vidéo, le chevauchement de plans vidéo, et le plan vidéo courant. Les versions actuelles de &kdenlive; / &piave; ne gère pas encore les effets spéciaux. Les futures versions implanteront cette fonctionnalité et elle sera visible dans la table de montage. </para>
+>Le panneau située en bas de la fenêtre principale est appelée la table de montage vidéo. Elle offre une représentation visuelle de votre projet. Elle affiche l'état de lecture et de non lecture des plans vidéo, le chevauchement de plans vidéo, et le plan vidéo courant. Les versions actuelles de &kdenlive; / &piave; ne gère pas encore les effets spéciaux. Les futures versions implanteront cette fonctionnalité et elle sera visible dans la table de montage. </para>
 </sect2>
 </sect1>
 <sect1 id="addingclips">
@@ -282,43 +289,44 @@ revision history. (see installation appendix comment) -->
 >Ajouter un plan vidéo à votre projet</title>
 
 <para
-> Maintenant que vous avez une vue d'ensemble de &kdenlive;, il est temps d'ajouter quelques plans vidéo à votre projet. Vous devez disposer de quelques plans vidéo sur votre ordinateur pour réaliser cette opération. Actuellement, &kdenlive; ne dispose pas encore des fonctionnalités de capture vidéo, et vous devez utiliser une autre application pour réaliser cette opération. Nous recommandons le programme « kino » qui peut être téléchargé à l'adresse <ulink url="http://kino.schirmacher.de/"
+>Maintenant que vous avez une vue d'ensemble de &kdenlive;, il est temps d'ajouter quelques plans vidéo à votre projet. Vous devez disposer de quelques plans vidéo sur votre ordinateur pour réaliser cette opération. Actuellement, &kdenlive; ne dispose pas encore des fonctionnalités de capture vidéo, et vous devez utiliser une autre application pour réaliser cette opération. Nous recommandons le programme « kino » qui peut être téléchargé à l'adresse <ulink url="http://kino.schirmacher.de/"
 >http://kino.schirmacher.de/</ulink
 >. </para>
 
 <para
-> Après avoir récupérer quelques plans vidéo sur votre ordinateur, vous pourrez les ajouter à votre projet. Sélectionnez l'onglet « Projet » dans le panneau relatif au projet, et activez le menu contextuel avec le bouton droit de la souris. Sélectionnez l'option <guimenuitem
+>Après avoir récupérer quelques plans vidéo sur votre ordinateur, vous pourrez les ajouter à votre projet. Sélectionnez l'onglet « Projet » dans le panneau relatif au projet, et activez le menu contextuel avec le bouton droit de la souris. Sélectionnez l'option <guimenuitem
 >Ajouter des plans vidéo</guimenuitem
 > qui ouvrira la boîte de dialogue de sélection de fichiers de &kde;. Rechercher vos plans vidéo, choisissez les, et validez votre sélection. </para>
-<caution
-> <para
-> Si vous essayez d'ajouter des fichiers vidéo non valables dans la liste du projet, cela peut entraîner un arrêt anormal du programme de rendu vidéo (Piave). Ceci est un bogue connu. Lorsqu'il apparaît, enregistrer votre projet (si possible dans un nom diffèrent si c'est un projet déjà existant et en cours de modification), arrêter &kdenlive; et relancer le. Consulter la section <link linkend="known-issues"
->Problèmes connus et solutions</link
-> pour plus de détails. </para
-> </caution>
+<caution>
 <para
-> Les plans vidéo que vous avez ajouter doivent apparaître dans la liste du projet, avec leurs durées ainsi que d'autres informations. </para>
-<screenshot
-> <mediaobject
-> <imageobject
-> <imagedata fileref="project_with_clips.png" format="PNG"/> </imageobject
-> <textobject
-> <phrase
->La table de montage vidéo</phrase
-> </textobject
-> </mediaobject
-> </screenshot>
+>Si vous essayez d'ajouter des fichiers vidéo non valables dans la liste du projet, cela peut entraîner un arrêt anormal du programme de rendu vidéo (Piave). Ceci est un bogue connu. Lorsqu'il apparaît, enregistrer votre projet (si possible dans un nom diffèrent si c'est un projet déjà existant et en cours de modification), arrêter &kdenlive; et relancer le. Consulter la section <link linkend="known-issues"
+>Problèmes connus et solutions</link
+> pour plus de détails. </para>
+</caution>
+<para
+>Les plans vidéo que vous avez ajouter doivent apparaître dans la liste du projet, avec leurs durées ainsi que d'autres informations. </para>
+<screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="project_with_clips.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>La table de montage vidéo</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
 </sect1>
 <sect1 id="clips-to-timeline">
 <title
 >Glisser / déposer des plans vidéo dans la table de montage</title>
 
 <para
-> Maintenant que vous avez quelques plans vidéo dans votre projet, vous pouvez commencer les opérations correspondantes au montage vidéo. Il existe deux méthodes pour ajouter un plan vidéo à la table de montage. </para>
+>Maintenant que vous avez quelques plans vidéo dans votre projet, vous pouvez commencer les opérations correspondantes au montage vidéo. Il existe deux méthodes pour ajouter un plan vidéo à la table de montage. </para>
 <para
-> Vous pouvez utiliser le « glisser / déposer » directement entre la liste du projet et la table de montage. Choisissez un plan vidéo dans la liste du projet et glisser le sur la table de montage à l'aide de la souris. La piste vidéo doit apparaître dans la table de montage et peut y être déplacer à volonté. Cette méthode place la totalité du plan vidéo dans la table de montage. </para>
+>Vous pouvez utiliser le « glisser / déposer » directement entre la liste du projet et la table de montage. Choisissez un plan vidéo dans la liste du projet et glisser le sur la table de montage à l'aide de la souris. La piste vidéo doit apparaître dans la table de montage et peut y être déplacer à volonté. Cette méthode place la totalité du plan vidéo dans la table de montage. </para>
 <para
-> Lorsque vous cliquez sur un plan vidéo dans la liste du projet, l'onglet « Plan vidéo » du panneau de prévisualisation affichera automatiquement la première trame du plan vidéo. Vous pouvez appuyer sur le bouton de lecture pour avoir une idée du contenu avant de le placer dans la table de montage. Déplacez le curseur de lecture à la position ou vous voulez commencer votre plan et appuyez sur le bouton « Point d'entrée ». De même, déplacez le curseur de lecture à la position ou vous voulez terminer votre plan et appuyez sur le bouton « Point de sortie ». Enfin faite un « glisser / déposer » entre la prévisualisation du plan vidéo et la table de montage pour ajouter le plan vidéo. Celui ci apparaîtra découpé aux limites préalablement définies dans le panneau de prévisualisation. </para>
+>Lorsque vous cliquez sur un plan vidéo dans la liste du projet, l'onglet « Plan vidéo » du panneau de prévisualisation affichera automatiquement la première trame du plan vidéo. Vous pouvez appuyer sur le bouton de lecture pour avoir une idée du contenu avant de le placer dans la table de montage. Déplacez le curseur de lecture à la position ou vous voulez commencer votre plan et appuyez sur le bouton « Point d'entrée ». De même, déplacez le curseur de lecture à la position ou vous voulez terminer votre plan et appuyez sur le bouton « Point de sortie ». Enfin faite un « glisser / déposer » entre la prévisualisation du plan vidéo et la table de montage pour ajouter le plan vidéo. Celui ci apparaîtra découpé aux limites préalablement définies dans le panneau de prévisualisation. </para>
 </sect1>
 
 <sect1 id="selecting-clips">
@@ -326,22 +334,22 @@ revision history. (see installation appendix comment) -->
 >Sélection de plans vidéo dans la table de montage</title>
 
 <para
-> Vous pouvez sélectionner un plan vidéo dans la table de montage en clicquant dessus avec le bouton gauche de la souris. Si vous voulez ajouter des plans vidéo à la sélection courante, appuyez sur la touche « Maj » et sélectionnez de nouveaux plans vidéo dans la table de montage. Vous pouvez sélectionner ou désélectionner un plan vidéo d'une sélection en utilisant la touche « Ctrl » avec le bouton gauche de la souris. </para>
+>Vous pouvez sélectionner un plan vidéo dans la table de montage en clicquant dessus avec le bouton gauche de la souris. Si vous voulez ajouter des plans vidéo à la sélection courante, appuyez sur la touche « Maj » et sélectionnez de nouveaux plans vidéo dans la table de montage. Vous pouvez sélectionner ou désélectionner un plan vidéo d'une sélection en utilisant la touche « Ctrl » avec le bouton gauche de la souris. </para>
 </sect1>
 
 <sect1 id="manipulatings-clips-on-timeline">
 <title
 >Déplacement et redimensionnement des plans vidéo dans la table de montage</title>
 <para
-> Pour déplacer les plans vidéo dans la table de montage, utiliser le « glisser / déposer » avec le bouton gauche de la souris. Vous pouvez redimensionner un plan vidéo directement dans la table de montage en déplaçant le curseur de la souris sur le début ou la fin de celui ci, puis en utilisant le le « glisser / déposer » avec le bouton gauche de la souris afin d'obtenir la bonne dimension. </para>
+>Pour déplacer les plans vidéo dans la table de montage, utiliser le « glisser / déposer » avec le bouton gauche de la souris. Vous pouvez redimensionner un plan vidéo directement dans la table de montage en déplaçant le curseur de la souris sur le début ou la fin de celui ci, puis en utilisant le le « glisser / déposer » avec le bouton gauche de la souris afin d'obtenir la bonne dimension. </para>
 <para
-> Le redimensionnement d'un plan vidéo change automatiquement les points d'entrée et de sortie qui lui sont associés. Si vous resélectionnez le plan vidéo et que vous l'affichez dans la fenêtre de prévisualisation des plans vidéo, vous apercevrez alors leurs nouvelles positions. </para>
-<note
-> <para
-> Il n'est pas possible de redimensionner un plan vidéo au dessus de sa taille d'origine. Par exemple, si un plan vidéo a une durée de 30 secondes, vous ne pourrez pas le redimensionner à une durée de 35 secondes. </para
-> </note>
+>Le redimensionnement d'un plan vidéo change automatiquement les points d'entrée et de sortie qui lui sont associés. Si vous resélectionnez le plan vidéo et que vous l'affichez dans la fenêtre de prévisualisation des plans vidéo, vous apercevrez alors leurs nouvelles positions. </para>
+<note>
 <para
-> Quand vous redimensionnez et déplacez des plans vidéo, les options « Utiliser les trames » et « Utiliser les bords » du menu « Montage vidéo » vous permettent d'ajuster la position des plans vidéo dans la table de montage. Ceci peut être utile pour aligner rapidement l'un derrière l'autre les plans vidéo. </para>
+>Il n'est pas possible de redimensionner un plan vidéo au dessus de sa taille d'origine. Par exemple, si un plan vidéo a une durée de 30 secondes, vous ne pourrez pas le redimensionner à une durée de 35 secondes. </para>
+</note>
+<para
+>Quand vous redimensionnez et déplacez des plans vidéo, les options « Utiliser les trames » et « Utiliser les bords » du menu « Montage vidéo » vous permettent d'ajuster la position des plans vidéo dans la table de montage. Ceci peut être utile pour aligner rapidement l'un derrière l'autre les plans vidéo. </para>
 </sect1>
 
 <sect1 id="removing-clips-from-timeline">
@@ -349,17 +357,17 @@ revision history. (see installation appendix comment) -->
 >Suppression de plans vidéo dans la table de montage</title>
 
 <para
-> Il existe deux méthodes pour supprimer un plan vidéo de la table de montage. La première est de sélectionner le plan ou les plans vidéo à supprimer et d'appuyer sur la touche <keycombo action="simul"
+>Il existe deux méthodes pour supprimer un plan vidéo de la table de montage. La première est de sélectionner le plan ou les plans vidéo à supprimer et d'appuyer sur la touche <keycombo action="simul"
 ><keycap
 >Suppr</keycap
 ></keycombo
 >. </para>
 <para
-> La seconde méthode consiste à sélectionner les plans vidéo et de les « glisser / déposer » en dehors de la table de montage. </para>
-<note
-> <para
-> L'équipe de développement n'a pas encore décidé si cette dernière méthode est correcte ou non. Elle pourrait être supprimé dans des versions futures de &kdenlive; </para
-> </note>
+>La seconde méthode consiste à sélectionner les plans vidéo et de les « glisser / déposer » en dehors de la table de montage. </para>
+<note>
+<para
+>L'équipe de développement n'a pas encore décidé si cette dernière méthode est correcte ou non. Elle pourrait être supprimé dans des versions futures de &kdenlive; </para>
+</note>
 </sect1>
 </chapter>
 
@@ -376,62 +384,63 @@ your application. -->
 >La liste du projet</title>
 
 <para
-> La liste du projet affiche tous les plans vidéo qui sont disponibles dans le projet. </para>
+>La liste du projet affiche tous les plans vidéo qui sont disponibles dans le projet. </para>
 <para
-> Vous pouvez voir le nombre de fois qu'un plan vidéo est utilisé dans une séquence vidéo. Ceci inclut tous les usages du plan vidéo, dont la prévisualisation de celui ci. </para>
+>Vous pouvez voir le nombre de fois qu'un plan vidéo est utilisé dans une séquence vidéo. Ceci inclut tous les usages du plan vidéo, dont la prévisualisation de celui ci. </para>
 <sect2 id="kapp-projectlist-addingclips">
 <title
 >Ajouter un plan vidéo au projet</title>
 <para
-> Si vous utilisez le glisser / déposer sur la table de montage un plan vidéo qui n'est pas dans votre projet (par exemple en utilisant un fichier au format « DV » à partir de Konqueror), alors celui ci sera automatiquement ajouté au projet. </para>
+>Si vous utilisez le glisser / déposer sur la table de montage un plan vidéo qui n'est pas dans votre projet (par exemple en utilisant un fichier au format « DV » à partir de Konqueror), alors celui ci sera automatiquement ajouté au projet. </para>
 <para
-> Vous pouvez ajouter vous même un plan vidéo dans la liste du projet. On utilise pour cela le menu contextuel de la liste du projet avec le bouton droit de la souris, ou le menu « Projet » dans la barre de menu de l'application. Sélectionnez l'option « Ajouter des plans vidéo » pour ouvrir une boîte de dialogue de sélection de fichiers. Si les fichiers vidéo choisis sont valides, il apparaîtront dans la liste du projet. </para>
+>Vous pouvez ajouter vous même un plan vidéo dans la liste du projet. On utilise pour cela le menu contextuel de la liste du projet avec le bouton droit de la souris, ou le menu « Projet » dans la barre de menu de l'application. Sélectionnez l'option « Ajouter des plans vidéo » pour ouvrir une boîte de dialogue de sélection de fichiers. Si les fichiers vidéo choisis sont valides, il apparaîtront dans la liste du projet. </para>
 </sect2>
 <sect2 id="kapp-projectlist-deletingclips">
 <title
 >Suppression des plans vidéo via la liste du projet</title>
 <para
-> La suppression de plans vidéo n'est pas encore opérationnelle. La seule manière de supprimer des plans vidéo est de purger le projet. </para>
+>La suppression de plans vidéo n'est pas encore opérationnelle. La seule manière de supprimer des plans vidéo est de purger le projet. </para>
 </sect2>
 <sect2 id="kapp-projectlist-clipproperties">
 <title
 >Consultation des propriétés des plans vidéo</title>
 <para
-> L'affichage des propriétes d'un plan vidéo n'est pas encore opérationnelle. La seule solution existante pour avoir des informations sur un fichier vidéo est d'utiliser la fenêtre de débogage. </para>
+>L'affichage des propriétes d'un plan vidéo n'est pas encore opérationnelle. La seule solution existante pour avoir des informations sur un fichier vidéo est d'utiliser la fenêtre de débogage. </para>
 </sect2>
 <sect2 id="kapp-projectlist-cleanproject">
 <title
 >Purger le projet - Suppression des plans vidéo non utilisés</title>
 <para
-> Utiliser l'option « Purger le projet » pour supprimer de la liste du projet tous les plans vidéo non utilisés. Cette option est intéressante lorsque la liste du projet contient un très grand nombre de plans vidéo. La purge du projet n'affecte pas le montage vidéo final. Seul les plans vidéo qui ne sont pas utilisés dans le montage vidéo seront supprimés de la liste du projet. </para>
+>Utiliser l'option « Purger le projet » pour supprimer de la liste du projet tous les plans vidéo non utilisés. Cette option est intéressante lorsque la liste du projet contient un très grand nombre de plans vidéo. La purge du projet n'affecte pas le montage vidéo final. Seul les plans vidéo qui ne sont pas utilisés dans le montage vidéo seront supprimés de la liste du projet. </para>
 </sect2>
 </sect1>
 
 <sect1 id="kapp-debugwindow">
 <title
->Le panneau du projet</title>
-<screenshot
-> <mediaobject
-> <imageobject
-> <imagedata fileref="debug_tab.png" format="PNG"/> </imageobject
-> <textobject
-> <phrase
->Le panneau du projet</phrase
-> </textobject
-> </mediaobject
-> </screenshot>
+>The Debug Panel</title>
+<screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="debug_tab.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>The Debug Panel</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
 <para
-> Le panneau de débogage est très utilisé par l'équipe de développement de &kdenlive;. Il affiche de nombreuses informations concernant les processus de traitement des plans vidéo effectués par &kdenlive;. Cette section ne vous aidera pas à comprendre les informations contenu dans le panneau de débogage, mais vous expliquera pourquoi il existe et comment il opère. </para>
+>Le panneau de débogage est très utilisé par l'équipe de développement de &kdenlive;. Il affiche de nombreuses informations concernant les processus de traitement des plans vidéo effectués par &kdenlive;. Cette section ne vous aidera pas à comprendre les informations contenu dans le panneau de débogage, mais vous expliquera pourquoi il existe et comment il opère. </para>
 <para
-> À la gauche du panneau de débogage, on trouve la liste des processus nécessaires aux rendus vidéo de &kdenlive;. Chaque processus est nommé en fonction de son utilisation dans &kdenlive;. Il y a trois processus dans la version actuelle de &kdenlive;. Le processus « Plan vidéo » permet la prévisualisation des plans vidéo. Le processus « Montage vidéo » permet la prévisualisation du projet. Le processus « Projet » permet toutes les autres tâches, tel que la détermination des durées des plans vidéo et l'exportation finale du montage vidéo. </para>
+>À la gauche du panneau de débogage, on trouve la liste des processus nécessaires aux rendus vidéo de &kdenlive;. Chaque processus est nommé en fonction de son utilisation dans &kdenlive;. Il y a trois processus dans la version actuelle de &kdenlive;. Le processus « Plan vidéo » permet la prévisualisation des plans vidéo. Le processus « Montage vidéo » permet la prévisualisation du projet. Le processus « Projet » permet toutes les autres tâches, tel que la détermination des durées des plans vidéo et l'exportation finale du montage vidéo. </para>
 <para
-> Si vous choisissez un des processus de rendu vidéo dans la liste, la zone de texte affichera les messages de débogage correspondants. En général, il n'est pas nécessaire de connaître la signification des messages, mais dans certain cas il est important de pouvoir récupérer ces informations pour les rapports de bogues. Cliquez sur le bouton « Enregistrer les messages » pour préciser le fichier cible de sauvegarde des messages. </para>
-<note
-> <para
-> Le bouton « Enregistrer les messages » vous permet de sauvegarder une trace de tous les messages issus des programmes de rendu vidéo. Il n'est pas nécessaire de sauvegarder individuellement les vues de tous les programmes de rendu vidéo. </para
-> </note>
+>Si vous choisissez un des processus de rendu vidéo dans la liste, la zone de texte affichera les messages de débogage correspondants. En général, il n'est pas nécessaire de connaître la signification des messages, mais dans certain cas il est important de pouvoir récupérer ces informations pour les rapports de bogues. Cliquez sur le bouton « Enregistrer les messages » pour préciser le fichier cible de sauvegarde des messages. </para>
+<note>
 <para
-> Une option est disponible dans le panneau de débogage pour pouvoir activer ou désactiver l'affichage des messages de débogage. Cela peut être nécessaire sur les ordinateurs peu puissants, ou lorsque vous exécuter de longue session de &kdenlive;. En effet, l'affichage des messages de débogage ralentissent le programme et consomment beaucoup de mémoire. </para>
+>Le bouton « Enregistrer les messages » vous permet de sauvegarder une trace de tous les messages issus des programmes de rendu vidéo. Il n'est pas nécessaire de sauvegarder individuellement les vues de tous les programmes de rendu vidéo. </para>
+</note>
+<para
+>Une option est disponible dans le panneau de débogage pour pouvoir activer ou désactiver l'affichage des messages de débogage. Cela peut être nécessaire sur les ordinateurs peu puissants, ou lorsque vous exécuter de longue session de &kdenlive;. En effet, l'affichage des messages de débogage ralentissent le programme et consomment beaucoup de mémoire. </para>
 </sect1>
 
 <sect1 id="kapp-effectlist">
@@ -439,7 +448,7 @@ your application. -->
 >La liste des effets</title>
 
 <para
-> Cette fonctionnalité n'est pas encore implantée dans la version actuelle de &kdenlive;. </para>
+>Cette fonctionnalité n'est pas encore implantée dans la version actuelle de &kdenlive;. </para>
 </sect1>
 
 <sect1 id="kapp-effectsetup">
@@ -447,58 +456,59 @@ your application. -->
 >Le panneau de configuration des effets</title>
 
 <para
-> Cette fonctionnalité n'est pas encore implantée dans la version actuelle de &kdenlive;. </para>
+>Cette fonctionnalité n'est pas encore implantée dans la version actuelle de &kdenlive;. </para>
 </sect1>
 
 <sect1 id="kapp-timeline">
 <title
 >La table de montage vidéo</title>
 <para
-> À faire... </para>
+>À faire... </para>
 </sect1>
 
 <sect1 id="kapp-clipmonitor">
 <title
 >La prévisualisation des plans vidéo</title>
 <para
-> À faire... </para>
+>À faire... </para>
 </sect1>
 
 <sect1 id="kapp-workspacemonitor">
 <title
 >La prévisualisation du montage vidéo</title>
 <para
-> La prévisualisation du montage vidéo affiche la vidéo résultante du contenu de la table de montage. Son fonctionnement est similaire à la prévisualisation des plans vidéo. </para>
+>La prévisualisation du montage vidéo affiche la vidéo résultante du contenu de la table de montage. Son fonctionnement est similaire à la prévisualisation des plans vidéo. </para>
 <para
-> Les points d'entrée et de sortie de la fenêtre de prévisualisation du montage vidéo ont les mêmes fonctions que ceux présent dans la fenêtre de prévisualisation des plans vidéo. Vous pouvez obtenir ainsi un « plan vidéo du projet », qui sera une séquence vidéo contenant tous les plans vidéo présent dans la table de montage. Cette fonction est utile pour regrouper ensemble un certain nombre de plans vidéo quand vous avez fini de les associer dans la table de montage et que vous voulez les manipuler comme un simple plan vidéo. </para>
+>Les points d'entrée et de sortie de la fenêtre de prévisualisation du montage vidéo ont les mêmes fonctions que ceux présent dans la fenêtre de prévisualisation des plans vidéo. Vous pouvez obtenir ainsi un « plan vidéo du projet », qui sera une séquence vidéo contenant tous les plans vidéo présent dans la table de montage. Cette fonction est utile pour regrouper ensemble un certain nombre de plans vidéo quand vous avez fini de les associer dans la table de montage et que vous voulez les manipuler comme un simple plan vidéo. </para>
 </sect1>
 
 <sect1 id="kapp-rendering">
 <title
 >Le rendu vidéo du projet</title>
 <para
-> Quand vous avez terminé votre montage vidéo, vous pouvez l'exporter en utilisant le menu « Rendu vidéo / Exporter le montage vidéo ». Ce menu affichera une boîte de dialogue qui vous permettra de choisir le format, les options, et le nom du fichier pour l'exportation de votre montage vidéo. </para>
-<screenshot
-> <mediaobject
-> <imageobject
-> <imagedata fileref="rendering_project.png" format="PNG"/> </imageobject
-> <textobject
-> <phrase
->La boîte de dialogue pour le rendu vidéo du projet.</phrase
-> </textobject
-> </mediaobject
-> </screenshot>
-<note
-> <para
-> Les versions actuelles des programmes &kdenlive; et &piave; ne gèrent uniquement l'exportation vidéo au format « DV » brut (RAW). </para
-> </note>
+>Quand vous avez terminé votre montage vidéo, vous pouvez l'exporter en utilisant le menu « Rendu vidéo / Exporter le montage vidéo ». Ce menu affichera une boîte de dialogue qui vous permettra de choisir le format, les options, et le nom du fichier pour l'exportation de votre montage vidéo. </para>
+<screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="rendering_project.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>La boîte de dialogue pour le rendu vidéo du projet.</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+<note>
+<para
+>Les versions actuelles des programmes &kdenlive; et &piave; ne gèrent uniquement l'exportation vidéo au format « DV » brut (RAW). </para>
+</note>
 </sect1>
 
 <sect1 id="kapp-loadsave">
 <title
 >L'ouverture et l'enregistrement de votre projet</title>
 <para
-> Charger votre projet avec le menu « Fichier / Ouvrir ». Enregistrer votre projet avec le menu « Fichier / Enregistrer sous ». </para>
+>Charger votre projet avec le menu « Fichier / Ouvrir ». Enregistrer votre projet avec le menu « Fichier / Enregistrer sous ». </para>
 
 </sect1>
 
@@ -506,17 +516,18 @@ your application. -->
 <title
 >La configuration du programme de rendu vidéo</title>
 <para
-> Avec cette boîte de dialogue, vous pouvez configurer tous les paramètres nécessaires au fonctionnement du programme effectuant le rendu vidéo. </para>
-<screenshot
-> <mediaobject
-> <imageobject
-> <imagedata fileref="setup_renderer.png" format="PNG"/> </imageobject
-> <textobject
-> <phrase
->La boîte de dialogue de configuration du programme de rendu vidéo</phrase
-> </textobject
-> </mediaobject
-> </screenshot>
+>Avec cette boîte de dialogue, vous pouvez configurer tous les paramètres nécessaires au fonctionnement du programme effectuant le rendu vidéo. </para>
+<screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="setup_renderer.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>La boîte de dialogue de configuration du programme de rendu vidéo</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
 
 </sect1>
 
@@ -541,12 +552,13 @@ or menu bars. -->
 <sect2>
 <title
 >Le menu « Fichier »</title>
-<para
-> <variablelist
-> <varlistentry
-> <term
+<para>
+<variablelist>
+
+<varlistentry>
+<term
 ><menuchoice
-> <shortcut
+><shortcut
 > <keycombo
 ><keycap
 >Ctrl</keycap
@@ -559,18 +571,19 @@ or menu bars. -->
 > <guimenuitem
 >Nouveau</guimenuitem
 > </menuchoice
-></term
-> <listitem
+></term>
+<listitem
 ><para
 ><action
 >Création d'un nouveau projet de montage vidéo.</action
 ></para
-></listitem
-> </varlistentry
-> <varlistentry
-> <term
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <shortcut
+><shortcut
 > <keycombo
 ><keycap
 >Ctrl</keycap
@@ -583,34 +596,36 @@ or menu bars. -->
 > <guimenuitem
 >Ouvrir</guimenuitem
 > </menuchoice
-></term
-> <listitem
+></term>
+<listitem
 ><para
 ><action
 >Ouvrir un projet préalablement enregistré.</action
 ></para
-></listitem
-> </varlistentry
-> <varlistentry
-> <term
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <guimenu
+><guimenu
 >Fichier</guimenu
 > <guimenuitem
 >Récemment ouvert(s)</guimenuitem
 > </menuchoice
-></term
-> <listitem
+></term>
+<listitem
 ><para
 ><action
 >Ouvre un projet qui a été précédemment ouvert dans &kdenlive;.</action
 ></para
-></listitem
-> </varlistentry
-> <varlistentry
-> <term
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <shortcut
+><shortcut
 > <keycombo
 ><keycap
 >Ctrl</keycap
@@ -623,34 +638,36 @@ or menu bars. -->
 > <guimenuitem
 >Enregistrer</guimenuitem
 > </menuchoice
-></term
-> <listitem
+></term>
+<listitem
 ><para
 ><action
 >Enregistre le projet courant.</action
 ></para
-></listitem
-> </varlistentry
-> <varlistentry
-> <term
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <guimenu
+><guimenu
 >Fichier</guimenu
 > <guimenuitem
 >Enregistrer sous...</guimenuitem
 > </menuchoice
-></term
-> <listitem
+></term>
+<listitem
 ><para
 ><action
 >Enregistre le projet avec un nom différent.</action
 ></para
-></listitem
-> </varlistentry
-> <varlistentry
-> <term
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <shortcut
+><shortcut
 > <keycombo
 ><keycap
 >Ctrl</keycap
@@ -663,28 +680,29 @@ or menu bars. -->
 > <guimenuitem
 >Quitter</guimenuitem
 > </menuchoice
-></term
-> <listitem
+></term>
+<listitem
 ><para
 ><action
 >Quitte</action
 > &kapp;</para
-></listitem
-> </varlistentry
-> </variablelist
-> </para>
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
 
 </sect2>
 
 <sect2>
 <title
 >Le menu « Édition »</title>
-<para
-> <variablelist
-> <varlistentry
-> <term
+<para>
+<variablelist>
+
+<varlistentry>
+<term
 ><menuchoice
-> <shortcut
+><shortcut
 > <keycombo
 ><keycap
 >Ctrl</keycap
@@ -696,19 +714,20 @@ or menu bars. -->
 >Édition</guimenu
 > <guimenuitem
 >Annuler</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Annule la dernière opération faite dans la table de montage.</action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Annule la dernière opération faite dans la table de montage.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <shortcut
+><shortcut
 > <keycombo
 ><keycap
 >Ctrl</keycap
@@ -722,19 +741,20 @@ or menu bars. -->
 >Édition</guimenu
 > <guimenuitem
 >Refaire</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Réitère la précédente opération faite dans la table de montage.</action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Réitère la précédente opération faite dans la table de montage.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <shortcut
+><shortcut
 > <keycombo
 ><keycap
 >Ctrl</keycap
@@ -746,19 +766,20 @@ or menu bars. -->
 >Édition</guimenu
 > <guimenuitem
 >Couper</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Cette fonction n'est pas encore opérationnelle</action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Cette fonction n'est pas encore opérationnelle</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <shortcut
+><shortcut
 > <keycombo
 ><keycap
 >Ctrl</keycap
@@ -770,19 +791,20 @@ or menu bars. -->
 >Édition</guimenu
 > <guimenuitem
 >Copier</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Cette fonction n'est pas encore opérationnelle</action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Cette fonction n'est pas encore opérationnelle</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <shortcut
+><shortcut
 > <keycombo
 ><keycap
 >Ctrl</keycap
@@ -794,101 +816,108 @@ or menu bars. -->
 >Édition</guimenu
 > <guimenuitem
 >Coller</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Cette fonction n'est pas encore opérationnelle</action
-> </para
-> </listitem
-> </varlistentry
-> </variablelist
-> </para>
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Cette fonction n'est pas encore opérationnelle</action>
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</para>
 </sect2>
 
 <sect2>
 <title
 >Le menu « Projet »</title>
-<para
-> <variablelist
-> <varlistentry
-> <term
+<para>
+<variablelist>
+
+<varlistentry>
+<term
 ><menuchoice
-> <guimenu
+><guimenu
 >Projet</guimenu
 > <guimenuitem
 >Ajouter des plans vidéo</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Ajoute des plans vidéo dans la liste du projet.</action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Ajoute des plans vidéo dans la liste du projet.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <guimenu
+><guimenu
 >Projet</guimenu
 > <guimenuitem
 >Supprimer des plans vidéo</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Delete the selected clip from the project. This deletes all references to the clip, including those on the timeline, or those within composite clips.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <guimenu
+><guimenu
 >Projet</guimenu
 > <guimenuitem
 >Purger le projet</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Suppression de la liste des plans vidéo inutilisés dans le projet.</action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Suppression de la liste des plans vidéo inutilisés dans le projet.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <guimenu
+><guimenu
 >Projet</guimenu
 > <guimenuitem
 >Propriétés du plan vidéo</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Cette fonction n'est pas encore opérationnelle</action
-> </para
-> </listitem
-> </varlistentry
-> </variablelist
-> </para>
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Cette fonction n'est pas encore opérationnelle</action>
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</para>
 </sect2>
 
 <sect2>
 <title
 >Le menu « Montage vidéo »</title>
-<para
-> <variablelist
-> <varlistentry
-> <term
+<para>
+<variablelist>
+
+<varlistentry>
+<term
 ><menuchoice
-> <shortcut
+><shortcut
 > <keycap
 >q</keycap
 > </shortcut
@@ -896,19 +925,20 @@ or menu bars. -->
 >Montage vidéo</guimenu
 > <guimenuitem
 >Outil de déplacement / redimensionnement</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
+> </menuchoice>
+</term>
+<listitem>
+<para
+><action
 >Choisir l'outil de déplacement / redimensionnement de la table de montage.</action
-> Cet outil vous permet de déplacer et de redimensionner les plans vidéo dans la table de montage. C'est l'outil qui est utilisé par défaut dans la table de montage. </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+> Cet outil vous permet de déplacer et de redimensionner les plans vidéo dans la table de montage. C'est l'outil qui est utilisé par défaut dans la table de montage. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <shortcut
+><shortcut
 > <keycap
 >w</keycap
 > </shortcut
@@ -916,19 +946,20 @@ or menu bars. -->
 >Montage vidéo</guimenu
 > <guimenuitem
 >Outil de découpage</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
+> </menuchoice>
+</term>
+<listitem>
+<para
+><action
 >Choisir l'outil de découpage de la table de montage.</action
-> Cet outil vous permet de découper en deux pièces les plans vidéo à l'emplacement du curseur dans la table de montage. </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+> Cet outil vous permet de découper en deux pièces les plans vidéo à l'emplacement du curseur dans la table de montage. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <shortcut
+><shortcut
 > <keycap
 >e</keycap
 > </shortcut
@@ -936,85 +967,91 @@ or menu bars. -->
 >Montage vidéo</guimenu
 > <guimenuitem
 >Outil de séparation</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
+> </menuchoice>
+</term>
+<listitem>
+<para
+><action
 >Choisir l'outil de séparation de la table de montage.</action
-> Cette outil vous permet de sélectionner tous les plans vidéo situés à la droite du curseur dans la table de montage. </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+> Cette outil vous permet de sélectionner tous les plans vidéo situés à la droite du curseur dans la table de montage. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <guimenu
+><guimenu
 >Montage vidéo</guimenu
 > <guimenuitem
 >Utiliser les trames</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Si cette option est activée, toutes les opérations faites sur les plans vidéo dans la table de montage utiliseront les trames vidéo comme éléments de travail.</action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Si cette option est activée, toutes les opérations faites sur les plans vidéo dans la table de montage utiliseront les trames vidéo comme éléments de travail.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <guimenu
+><guimenu
 >Montage vidéo</guimenu
 > <guimenuitem
 >Utiliser les bords</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Si cette option est activée, le déplacement et le redimensionnement des plans vidéo seront réalisés en utilisant les bords et les marqueurs de la table de montage.</action
-> </para
-> </listitem
-> </varlistentry
-> </variablelist
-> </para>
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Si cette option est activée, le déplacement et le redimensionnement des plans vidéo seront réalisés en utilisant les bords et les marqueurs de la table de montage.</action>
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</para>
 </sect2>
 
 <sect2>
 <title
 >Le menu « Rendu vidéo »</title>
-<para
-> <variablelist
-> <varlistentry
-> <term
+<para>
+<variablelist>
+
+<varlistentry>
+<term
 ><menuchoice
-> <guimenu
+><guimenu
 >Rendu vidéo</guimenu
 > <guimenuitem
 >Exporter le montage vidéo</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Exporte le contenu de la table de montage dans une séquence vidéo. Cette opération est aussi appelée le « rendu vidéo ».</action
-> </para
-> </listitem
-> </varlistentry
-> </variablelist
-> </para>
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Exporte le contenu de la table de montage dans une séquence vidéo. Cette opération est aussi appelée le « rendu vidéo ».</action>
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</para>
 </sect2>
 
 <sect2>
 <title
 >Le menu « Fenêtre »</title>
-<para
-> <variablelist
-> <varlistentry
-> <term
+<para>
+<variablelist>
+
+<varlistentry>
+<term
 ><menuchoice
-> <shortcut
+><shortcut
 > <keycap
 >F9</keycap
 > </shortcut
@@ -1022,19 +1059,20 @@ or menu bars. -->
 >Fenêtre</guimenu
 > <guimenuitem
 >Charger la fenêtre 1</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Charge la configuration de la fenêtre d'édition vidéo précédemment enregistré.</action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Charge la configuration de la fenêtre d'édition vidéo précédemment enregistré.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <shortcut
+><shortcut
 > <keycap
 >F10</keycap
 > </shortcut
@@ -1042,19 +1080,20 @@ or menu bars. -->
 >Fenêtre</guimenu
 > <guimenuitem
 >Charger la fenêtre 2</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Charge la configuration de la fenêtre d'édition vidéo précédemment enregistré.</action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Charge la configuration de la fenêtre d'édition vidéo précédemment enregistré.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <shortcut
+><shortcut
 > <keycap
 >F11</keycap
 > </shortcut
@@ -1062,19 +1101,20 @@ or menu bars. -->
 >Fenêtre</guimenu
 > <guimenuitem
 >Charger la fenêtre 3</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Charge la configuration de la fenêtre d'édition vidéo précédemment enregistré.</action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Charge la configuration de la fenêtre d'édition vidéo précédemment enregistré.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <shortcut
+><shortcut
 > <keycap
 >F12</keycap
 > </shortcut
@@ -1082,19 +1122,20 @@ or menu bars. -->
 >Fenêtre</guimenu
 > <guimenuitem
 >Charger la fenêtre 4</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Charge la configuration de la fenêtre d'édition vidéo précédemment enregistré.</action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Charge la configuration de la fenêtre d'édition vidéo précédemment enregistré.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <shortcut
+><shortcut
 > <keycombo
 ><keycap
 >Ctrl</keycap
@@ -1108,19 +1149,20 @@ or menu bars. -->
 >Fenêtre</guimenu
 > <guimenuitem
 >Enregistrer la fenêtre 1</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 1.</action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 1.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <shortcut
+><shortcut
 > <keycombo
 ><keycap
 >Ctrl</keycap
@@ -1134,19 +1176,20 @@ or menu bars. -->
 >Fenêtre</guimenu
 > <guimenuitem
 >Enregistrer la fenêtre 2</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 2.</action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 2.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <shortcut
+><shortcut
 > <keycombo
 ><keycap
 >Ctrl</keycap
@@ -1160,19 +1203,20 @@ or menu bars. -->
 >Fenêtre</guimenu
 > <guimenuitem
 >Enregistrer la fenêtre 3</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 3.</action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 3.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <shortcut
+><shortcut
 > <keycombo
 ><keycap
 >Ctrl</keycap
@@ -1186,133 +1230,142 @@ or menu bars. -->
 >Fenêtre</guimenu
 > <guimenuitem
 >Enregistrer la fenêtre 4</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 4.</action
-> </para
-> </listitem
-> </varlistentry
-> </variablelist
-> </para>
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 4.</action>
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</para>
 </sect2>
 
 <sect2>
 <title
 >Le menu « Configuration »</title>
-<para
-> <variablelist
-> <varlistentry
-> <term
+<para>
+<variablelist>
+
+<varlistentry>
+<term
 ><menuchoice
-> <guimenu
+><guimenu
 >Configuration</guimenu
 > <guimenuitem
 >Afficher la barre d'outils</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Affiche ou cache la barre d'outils.</action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Affiche ou cache la barre d'outils.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <guimenu
+><guimenu
 >Configuration</guimenu
 > <guimenuitem
 >Afficher la barre d'état</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Affiche ou cache la barre d'état.</action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Affiche ou cache la barre d'état.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <guimenu
+><guimenu
 >Configuration</guimenu
 > <guimenuitem
 >Configurer les raccourcis clavier...</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Configure les raccourcis clavier de &kdenlive;.</action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Configure les raccourcis clavier de &kdenlive;.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <guimenu
+><guimenu
 >Configuration</guimenu
 > <guimenuitem
 >Configurer les barres d'outils...</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Configure les barres d'outils de &kdenlive;.</action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Configure les barres d'outils de &kdenlive;.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <guimenu
+><guimenu
 >Configuration</guimenu
 > <guimenuitem
 >Configurer &kdenlive;...</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Configure &kdenlive;</action
-> </para
-> </listitem
-> </varlistentry
-> </variablelist
-> </para>
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Configure &kdenlive;</action>
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</para>
 </sect2>
 
 <sect2>
 <title
 >Le menu « Aide »</title>
-<para
-> <variablelist
-> <varlistentry
-> <term
+<para>
+<variablelist>
+
+<varlistentry>
+<term
 ><menuchoice
-> <guimenu
+><guimenu
 >Aide</guimenu
 > <guimenuitem
 >Manuel de &kdenlive;</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Affiche le manuel de &kdenlive; (ce document).</action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Affiche le manuel de &kdenlive; (ce document).</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <shortcut
+><shortcut
 > <keycombo
 ><keycap
 >Shift</keycap
@@ -1324,65 +1377,69 @@ or menu bars. -->
 >Aide</guimenu
 > <guimenuitem
 >Qu'est ce que c'est ?</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Après avoir sélectionner cette option, cliquez sur une partie de l'interface graphique pour obtenir de de plus amples informations la concernant.</action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Après avoir sélectionner cette option, cliquez sur une partie de l'interface graphique pour obtenir de de plus amples informations la concernant.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <guimenu
+><guimenu
 >Aide</guimenu
 > <guimenuitem
 >Rapport de bogue...</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Rapporte un bogue à propos de &kdenlive;</action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Rapporte un bogue à propos de &kdenlive;</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <guimenu
+><guimenu
 >Aide</guimenu
 > <guimenuitem
 >À propos de &kdenlive;</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Affiche les informations concernant &kdenlive;, dont la licence, les auteurs, et les contributeurs.</action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Affiche les informations concernant &kdenlive;, dont la licence, les auteurs, et les contributeurs.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
-> <guimenu
+><guimenu
 >Aide</guimenu
 > <guimenuitem
 >À propos de KDE</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Affiche les informations concernant le projet KDE.</action
-> </para
-> </listitem
-> </varlistentry
-> </variablelist
-> </para>
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Affiche les informations concernant le projet KDE.</action>
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</para>
 </sect2>
 
 </sect1>
@@ -1397,7 +1454,7 @@ used for apps that use plugins or that provide their own scripting hooks
 and/or development libraries. -->
 
 <para
-> À faire... </para>
+>À faire... </para>
 
 <!-- Use refentries to describe APIs.  Refentries are fairly complicated and you
 should consult the docbook reference for further details. The example below was
@@ -1410,19 +1467,20 @@ taken from that reference and shortened a bit for readability. -->
 >Problèmes connus et solutions</title>
 
 <para
-> Si une session de &kdenlive; ou une des sessions de &piave; s'arrête anormalement, il est possible que la session courante ou une nouvelle session de &kdenlive; ne puisse pas correctement s'exécuter. </para>
+>Si une session de &kdenlive; ou une des sessions de &piave; s'arrête anormalement, il est possible que la session courante ou une nouvelle session de &kdenlive; ne puisse pas correctement s'exécuter. </para>
 <para
-> Il y a deux raisons à ce problème. La première est qu'une des sessions de &piave; ne s'arrête pas correctement lors d'une précédente session de &kdenlive;. La solution la plus simple est d'arrêter &kdenlive; et de saisir la ligne de commande suivante : <screen width="40">
-<prompt
+>Il y a deux raisons à ce problème. La première est qu'une des sessions de &piave; ne s'arrête pas correctement lors d'une précédente session de &kdenlive;. La solution la plus simple est d'arrêter &kdenlive; et de saisir la ligne de commande suivante : <screen width="40"
+><prompt
 >%</prompt
 > <userinput
->killall -9 piave</userinput>
-</screen
-> </para>
+>killall -9 piave</userinput
+>
+</screen>
+</para>
 <para
-> Cette opération arrêtera toutes les instances du programme &piave;. De cette manière, &kdenlive; doit pouvoir s'exécuter correctement. </para>
+>Cette opération arrêtera toutes les instances du programme &piave;. De cette manière, &kdenlive; doit pouvoir s'exécuter correctement. </para>
 <para
-> Si la ligne de commande précédente vous renvoie un message du genre <quote
+>Si la ligne de commande précédente vous renvoie un message du genre <quote
 >piave : no process killed</quote
 >, il est fort probable que des ports de communication associés au programme &piave; n'ont pas été libéré lors d'une précédente instance du programme. Attendez une minute avant de relancer une nouvelle session de &kdenlive; (les ports TCP devrai être normalement libérés après cette durée). </para>
 </chapter>
@@ -1430,57 +1488,43 @@ taken from that reference and shortened a bit for readability. -->
 <chapter id="faq">
 <title
 >Questions fréquemment posées (FAQ)</title>
-
-<!-- (OPTIONAL but recommended) This chapter should include all of the silly
-(and not-so-silly) newbie questions that fill up your mailbox. This chapter
-should be reserved for BRIEF questions and answers! If one question uses more
-than a page or so then it should probably be part of the
-"Using this Application" chapter instead. You should use links to
-cross-reference questions to the parts of your documentation that answer them.
-This is also a great place to provide pointers to other FAQ's if your users
-must do some complicated configuration on other programs in order for your
-application work. -->
-
-&reporting.bugs;
-<!--    &updating.documentation; -->
-
-<qandaset id="faqlist">
+&reporting.bugs; <qandaset id="faqlist">
 <qandaentry>
 <question>
 <para
->  </para>
+>What file formats does &kapp; support? </para>
 </question>
 <answer>
 <para
->  </para>
-<note
-> <para
->  </para
-> </note>
+>Currently, &kapp; supports playback of AVI files that use the DV codec (other types of AVI file will fail) and Raw DV files. Both of these formats are exported by &kino;. </para>
+<note>
+<para
+>On a technical note, &kapp; does not provide any video formats itself; all video formats are provided by the backend renderer, &piave;. </para>
+</note>
 </answer>
 </qandaentry>
 <qandaentry>
 <question>
 <para
->  </para>
+>When will &kapp; support divx/mpeg files? </para>
 </question>
 <answer>
 <para
->  </para>
+>Short answer : When somebody codes the relevant plugin for &piave;. </para>
 <para
->  </para>
+>The long answer : Supporting divx files in an editing application is difficult. divx and mpeg formats are not designed for video editing. Some frames contain only part of the information required to display that frame, which makes the random acces required by a video editing application difficult to achieve. There are also quality issues with decompressing and recompressing files that need to be taken into account. For these reasons, support for these formats in &kapp; itself are of low priority compared to the effect framework, the capture program and other such features. </para>
 <para
->  </para>
+>If somebody is interested is adding divx/mpeg support to &kapp; (or to be technically correct, &piave;) then please contact me, and I will point you in the right direction. In the meantime, it is suggested that you capture video directly in Raw DV using &kino;, or convert your files to Raw DV format for use with &kapp; </para>
 </answer>
 </qandaentry>
 <qandaentry>
 <question>
 <para
->  </para>
+>When will &kapp; support mp3 files and other audio formats? </para>
 </question>
 <answer>
 <para
->  </para>
+>Sometime in the future, perhaps version 0.4.0 or 0.5.0. The roadmap on the website gives a rough idea of the order in which features are being added to &kapp;. The next priority is the effect framework, which will be the made addition for the 0.3.0 release. Once &kapp; 0.3.0 is released, we will decide on the next most important feature. This may be separate audio tracks. </para>
 </answer>
 </qandaentry>
 <qandaentry>
@@ -1490,7 +1534,14 @@ application work. -->
 </question>
 <answer>
 <para
->  </para>
+>This is a sign that something has gone wrong with &piave;. Whilst &kapp; will do it's best to pull itself back into working order, this is still relatively new software and it doesn't manage it as often as one would hope! The best solution is to quit &kapp; (if you have done any work, then you are quite safe to save it), perform the following operation: <screen width="40">
+<prompt
+>%</prompt
+> <userinput
+>killall -9 piave</userinput
+>.
+</screen
+> Wait a few seconds, and then restart kdenlive. </para>
 </answer>
 </qandaentry>
 <qandaentry>
@@ -1500,7 +1551,7 @@ application work. -->
 </question>
 <answer>
 <para
-> Aller dans l'onglet « Déboguer » et essayer de valider l'option « Ignorer les messages entrants ». Cela désactivera l'affichage des messages de débogage qui peuvent ralentir considérablement l'interface graphique pendant la lecture de longs plans vidéo. </para>
+>Aller dans l'onglet « Déboguer » et essayer de valider l'option « Ignorer les messages entrants ». Cela désactivera l'affichage des messages de débogage qui peuvent ralentir considérablement l'interface graphique pendant la lecture de longs plans vidéo. </para>
 </answer>
 </qandaentry>
 </qandaset>
@@ -1517,50 +1568,39 @@ distribution. -->
 >Remerciements et licences</title>
 
 <para
-> &kapp; </para>
+>&kapp; </para>
 <para
-> Copyright Jason Wood <email
+>Copyright Jason Wood <email
 >jasonwood@blueyonder.co.uk</email
 >, 2002-2003 </para>
 <para
-> Contributeurs : <itemizedlist
-> <listitem
-> <para
-> Caulier Gilles <email
+>Contributeurs : <itemizedlist>
+<listitem>
+<para
+>Caulier Gilles <email
 >caulier.Gilles@free.fr</email
-> : internationalisation des programmes &kdenlive; et &piave;, traductions Françaises, logo de démarrage. </para
-> </listitem
-> <listitem
-> <para
-> Rolf Dubitzky <email
+> : internationalisation des programmes &kdenlive; et &piave;, traductions Françaises, logo de démarrage. </para>
+</listitem>
+<listitem>
+<para
+>Rolf Dubitzky <email
 >dubitzky@pktw06.phy.tu-dresden.de</email
-> : auteur et mainteneur du programme &piave;. </para
-> </listitem
-> </itemizedlist
-> </para>
+> : auteur et mainteneur du programme &piave;. </para>
+</listitem>
+</itemizedlist>
+</para>
 
 <para
-> Documentation de Kdenlive : copyright Jason Wood <email
+>Documentation de Kdenlive : copyright Jason Wood <email
 >jasonwood@blueyonder.co.uk</email
 >, 2003  </para>
 
 <para
 >Traductions : Caulier Gilles <email
 >caulier.gilles@free.fr</email
->.</para>
-
-&underFDL;               <!-- FDL: do not remove. Commercial development should -->
-<!-- replace this with their copyright and either remove it or re-set this.-->
-
-<!-- Determine which license your application is licensed under, 
-and delete all the remaining licenses below:
-
-(NOTE:  All documentation are licensed under the FDL, 
-regardless of what license the application uses) -->
-
-&underGPL;               <!-- GPL License -->
-
-</chapter>
+>.</para
+> 
+&underFDL; &underGPL; </chapter>
 
 <appendix id="installation">
 <title
@@ -1571,7 +1611,7 @@ regardless of what license the application uses) -->
 >Comment obtenir &kdenlive;</title>
 
 <para
-> La page WEB de &kdenlive; est <ulink url="http://www.uchian.pwp.blueyonder.co.uk/kdenlive.html"
+>La page WEB de &kdenlive; est <ulink url="http://www.uchian.pwp.blueyonder.co.uk/kdenlive.html"
 >http://www.uchian.pwp.blueyonder.co.uk/kdenlive.html</ulink
 >. &kdenlive; peut être trouvé à la page du projet <ulink url="http://sourceforge.net/projects/kdenlive/"
 >http://sourceforge.net/projects/kdenlive/</ulink
@@ -1594,17 +1634,17 @@ information here.
 -->
 
 <para
-> Pour pouvoir utiliser &kdenlive;, il est nécessaire d'avoir l'environnement de bureau KDE en version 3.0 ou supérieure. De plus, il est nécessaire d'avoir le programme « piave » pour pouvoir faire des opérations sur les fichiers vidéo. Kdenlive est une interface graphique pour ce programme. </para>
+>Pour pouvoir utiliser &kdenlive;, il est nécessaire d'avoir l'environnement de bureau KDE en version 3.0 ou supérieure. De plus, il est nécessaire d'avoir le programme « piave » pour pouvoir faire des opérations sur les fichiers vidéo. Kdenlive est une interface graphique pour ce programme. </para>
 
 <para
-> Toutes les bibliothèques ainsi le programme &kdenlive; peuvent être trouvés sur <ulink url="http://pwp.blueyonder.co.uk/kdenlive.html"
+>Toutes les bibliothèques ainsi le programme &kdenlive; peuvent être trouvés sur <ulink url="http://pwp.blueyonder.co.uk/kdenlive.html"
 >la page WEB du projet</ulink
 >. </para>
 
 <!-- For a list of updates, you may refer to the application web site
 or the ChangeLog file, or ... -->
 <para
-> Vous pouvez trouver la liste des dernières modifications de Kdenlive à l'adresse <ulink url="http://pwp.blueyonder.co.uk/kdenlive.html"
+>Vous pouvez trouver la liste des dernières modifications de Kdenlive à l'adresse <ulink url="http://pwp.blueyonder.co.uk/kdenlive.html"
 >http://pwp.blueyonder.co.uk/kdenlive.html</ulink
 >. </para>
 </sect1>
@@ -1614,37 +1654,37 @@ or the ChangeLog file, or ... -->
 >Compilation et installation</title>
 
 <para
-> Pour compiler et installer &kdenlive; sur votre système, saisissez les lignes de commande suivantes dans le dossier de base contenant les sources du programme : <screen width="40">
-<prompt
+>Pour compiler et installer &kdenlive; sur votre système, saisissez les lignes de commande suivantes dans le dossier de base contenant les sources du programme : <screen width="40"
+><prompt>%</prompt> <userinput>./configure --prefix=`kde-config --prefix`</userinput>
+</screen>
+<screen width="40"
+><prompt
 >%</prompt
 > <userinput
->./configure</userinput>
-</screen
-> <screen width="40">
-<prompt
+>make</userinput
+>
+</screen>
+<screen width="40"
+><prompt
 >%</prompt
 > <userinput
->make</userinput>
-</screen
-> <screen width="40">
-<prompt
->%</prompt
-> <userinput
->make install</userinput>
-</screen
-> </para>
+>make install</userinput
+>
+</screen>
+</para>
 
 <para
-> Des paramètres supplémentaires peuvent être nécessaires au script «./configure ». Saisissez la ligne de commande suivante dans le dossier de base contenant les sources du programme : <screen width="40">
-<prompt
+>Des paramètres supplémentaires peuvent être nécessaires au script «./configure ». Saisissez la ligne de commande suivante dans le dossier de base contenant les sources du programme : <screen width="40"
+><prompt
 >%</prompt
 > <userinput
->./configure --help</userinput>
-</screen
-> </para>
+>./configure --help</userinput
+>
+</screen>
+</para>
 
 <para
-> Depuis que &kdenlive; utilise les programmes « autoconf » et « automake », vous ne devriez pas avoir de problèmes pour compiler celui ci. Si vous rencontrez des difficultés, veulliez contacter l'auteur à l'adresse <email
+>Depuis que &kdenlive; utilise les programmes « autoconf » et « automake », vous ne devriez pas avoir de problèmes pour compiler celui ci. Si vous rencontrez des difficultés, veulliez contacter l'auteur à l'adresse <email
 >jasonwood@blueyonder.co.uk</email
 >. </para>
 

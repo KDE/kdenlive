@@ -21,31 +21,12 @@
 #include "kdenlivedoc.h"
 #include "ktimeline.h"
 
-DocTrackDecorator::DocTrackDecorator(KTimeLine *timeline, KdenliveDoc *doc, DocTrackBase *track) :
+DocTrackDecorator::DocTrackDecorator(KTimeLine *timeline, KdenliveDoc *doc) :
 							TrackViewDecorator(timeline),
-							m_document(doc),
-							m_docTrack(track)
+							m_document(doc)
 {
 }
 
 DocTrackDecorator::~DocTrackDecorator()
 {
-}
-
-void DocTrackDecorator::drawToBackBuffer(QPainter &painter, QRect &rect)
-{
-	GenTime startValue = GenTime(timeline()->mapLocalToValue(0.0), m_document->framesPerSecond());
-	GenTime endValue = GenTime(timeline()->mapLocalToValue(rect.width()), m_document->framesPerSecond());
-
-	QPtrListIterator<DocClipRef> clip = m_docTrack->firstClip(startValue, endValue, false);
-	DocClipRef *endClip = m_docTrack->endClip(startValue, endValue, false).current();
-	for(DocClipRef *curClip; (curClip = clip.current())!=endClip; ++clip) {
-		paintClip(painter, curClip, rect, false);
-	}
-
-	clip = m_docTrack->firstClip(startValue, endValue, true);
-	endClip = m_docTrack->endClip(startValue, endValue, true).current();
-	for(DocClipRef *curClip; (curClip = clip.current())!=endClip; ++clip) {
-		paintClip(painter, curClip, rect, true);
-	}
 }

@@ -58,4 +58,13 @@ EffectStack::~EffectStack()
 {
 }
 
-
+Effect *EffectStack::operator[](int ix) const
+{
+	EffectStackIterator itt(*this);
+	int count=0;
+	while(itt.current() && (count != ix)) {
+		++itt;
+		++count;
+	}
+	return itt.current();
+}

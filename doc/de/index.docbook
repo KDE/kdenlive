@@ -53,25 +53,47 @@ as Authors, publish date, the abstract, and Keywords -->
 
 <bookinfo>
 <title
-></title>
+>The &kdenlive; Handbook</title>
 
 <authorgroup>
 <author
->  </author>
+><firstname
+>Jason</firstname
+> <othername
+>M.</othername
+> <surname
+>Wood</surname
+> <affiliation
+> <address
+><email
+>jasonwood@blueyonder.co.uk</email
+></address>
+</affiliation>
+</author>
 </authorgroup>
 
 <authorgroup>
 <author
->  </author>
+><firstname
+>Gilles</firstname
+> <surname
+>Caulier</surname
+> <affiliation
+> <address
+><email
+>caulier.gilles@free.fr</email
+></address>
+</affiliation>
+</author>
 </authorgroup>
 
-<!-- TRANS:ROLES_OF_TRANSLATORS -->
+ROLES_OF_TRANSLATORS 
 
 <copyright>
 <year
 >2003</year>
 <holder
-></holder>
+>Jason Wood</holder>
 </copyright>
 <!-- Translators: put here the copyright notice of the translation -->
 <!-- Put here the FDL notice.  Read the explanation in fdl-notice.docbook 
@@ -95,15 +117,17 @@ Do NOT change these in the translation. -->
 
 <abstract>
 <para
->  </para>
+>&kdenlive; is a non-linear video editor for KDE. </para>
 
 <para
->  </para>
+>WARNING - this document has not yet been finished. In particular, information on contributors to &kapp;, requirements for &kapp;, installation instructions for &kapp; and the changelog info are all wrong at present. Also, please contact me at <email
+>jasonwood@blueyonder.co.uk</email
+> rather than bugging any of the kde mailing lists. </para>
 
 <para
->  </para>
+>Cheers, </para>
 <para
->  </para>
+>Jason </para>
 
 </abstract>
 
@@ -112,11 +136,12 @@ Please at least include KDE, the KDE package it is in, the name
 of your application, and a few relevant keywords. -->
 
 <keywordset>
-
 <keyword
-></keyword>
+>KDE</keyword>
 <keyword
-></keyword>
+>video editor</keyword>
+<keyword
+>kdenlive</keyword>
 </keywordset>
 
 </bookinfo>
@@ -134,7 +159,7 @@ consistent documentation style across all KDE apps. -->
 
 <chapter id="introduction">
 <title
-></title>
+>Introduction</title>
 
 <!-- The introduction chapter contains a brief introduction for the
 application that explains what it does and where to report
@@ -142,182 +167,199 @@ problems. Basically a long version of the abstract.  Don't include a
 revision history. (see installation appendix comment) -->
 
 <para
->  </para>
+>&kapp; is a non-linear video editor for KDE. Please report any problems or feature requests to <email
+>jasonwood@blueyonder.co.uk</email
+> </para>
 <sect1 id="whatisavideoeditor">
 <title
-></title>
+>What is a video editor?</title>
 
 <para
->  </para>
+>A video editor is an application that allows you to create a new video out of various scenes from one or more other videos. </para>
 </sect1>
 <sect1 id="linearvsnonlinear">
 <title
-></title>
+>What is the difference between linear editing and non-linear editing?</title>
 
 <para
->  </para>
+>Before editing video on computer was possible, most editing was done on linear editors - these work by having essentially, two video recorders. The first would hold the video that you are editing together, and the second would be used to find the next clip that you want to record. Find a clip, record it, find the next clip, record it. This is called linear editing because the medium of tape forced things to be edited sequentially. If you have edited 10 minutes worth of footage together, and decide that you made a mistake after five minutes, you can't just "push" the last five minutes around to add space for new clips. </para>
 
 <para
->  </para>
+>Non-linear editing is by far a more flexible way of editing. You can place clips anywhere within your final video (in &kdenlive;, this is represented via the timeline), and you can move them around as much as you want, rearrange them in a completely different order. Best of all, at any point during this you can press play and (with a sufficiently powerful computer) watch back what you have done there and then. </para>
 </sect1>
 </chapter>
 
 <chapter id="quick-start">
 <title
-></title>
+>Quick Start Guide</title>
 
 <para
->  </para>
+>Ok, so you have started &kdenlive; for the first time and want to dive straight into creating your own video. This quick start guide will take you from start to finish of making your own video. </para>
 
 <sect1>
 <title
-></title>
+>The Main Window</title>
 <para
->  </para>
-<screenshot
-> <mediaobject
-> <imageobject
-> <imagedata fileref="mainwindow.png" format="PNG"/> </imageobject
-> <textobject
-> <phrase
-></phrase
-> </textobject
-> </mediaobject
-> </screenshot>
+>When you first start &kdenlive;, you will have a window looking something like this : </para>
+<screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="mainwindow.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>The main window</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
 
 <para
->  </para>
+>In the default layout, there are three areas of the main window. Whilst all layouts int &kdenlive; are fully configurable, it is assumed for this tutorial that you are using the default layout. </para>
 
 <sect2 id="project-panel">
 <title
-></title>
-<screenshot
-> <mediaobject
-> <imageobject
-> <imagedata fileref="project_panel.png" format="PNG"/> </imageobject
-> <textobject
-> <phrase
-></phrase
-> </textobject
-> </mediaobject
-> </screenshot>
+>The Project Panel</title>
+<screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="project_panel.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>The project panel</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
 <para
->  </para>
+>The panel to the top left holds various informational and editing panels about the current project. Of most interest to us for this tutorial is the Project List. This window shows which video clips are in the project. </para>
 </sect2>
 
 <sect2 id="monitor-panel">
 <title
-></title>
-<screenshot
-> <mediaobject
-> <imageobject
-> <imagedata fileref="monitor_panel.png" format="PNG"/> </imageobject
-> <textobject
-> <phrase
-></phrase
-> </textobject
-> </mediaobject
-> </screenshot>
+>The Monitor Panel</title>
+<screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="monitor_panel.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>The monitor panel</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
 <para
->  </para>
+>The panel to the top right holds the various monitors that &kdenlive; uses. The workspace monitor displays the final video - what our final edit will look like. The clip monitor is used to preview clips, and to select a section of a clip to add to the timeline. </para>
 </sect2>
 
 <sect2>
 <title
-></title>
-<screenshot
-> <mediaobject
-> <imageobject
-> <imagedata fileref="timeline_panel.png" format="PNG"/> </imageobject
-> <textobject
-> <phrase
-></phrase
-> </textobject
-> </mediaobject
-> </screenshot>
+>The Timeline</title>
+<screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="timeline_panel.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>The timeline</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
 <para
->  </para>
+>The panel at the bottom of the window holds the timeline. The timeline gives you a visual representation of your project, and shows when clips start, when they end, and in the case of overlapping clips, which one will actually be used (whilst the architecture is mostly in place, &kdenlive;/&piave; do not as yet support effects. This will be added in &kdenlive;/&piave; 0.3.0 </para>
 </sect2>
 </sect1>
 <sect1 id="addingclips">
 <title
-></title>
+>Adding clips to your project</title>
 
 <para
->  </para>
+>Now that you have a little understanding about the layout of &kdenlive;, it is time to add some clips to the project. Now, it goes without saying that to get any further, you will need to have some clips on your computer that you can use. At this moment in time, &kdenlive; does not include capture capabilities, and so you must use another application to get the clips that you want. I recommend Kino, which you can download from <ulink url="http://kino.schirmacher.de/"
+>http://kino.schirmacher.de/</ulink
+>. </para>
 
 <para
->  </para>
-<caution
-> <para
->  </para
-> </caution>
+>Now that you have some clips, you can add them to your project. Select the Project List tab on the project pane, and then right click on it to bring up the context menu. From here, select <guimenuitem
+>Add Clips</guimenuitem
+> to bring up a standard &kde; open dialog. Find your clips, select as many as you want to add, and they will be added! </para>
+<caution>
 <para
->  </para>
-<screenshot
-> <mediaobject
-> <imageobject
-> <imagedata fileref="project_with_clips.png" format="PNG"/> </imageobject
-> <textobject
-> <phrase
-></phrase
-> </textobject
-> </mediaobject
-> </screenshot>
+>Attempting to add some invalid file types to the project may cause the underlying renderer to crash. This is a known bug, if it occurs, then simply save your project (it is safe to do so, although it is recommended that you save as a different filename), close &kdenlive; and restart. See the <link linkend="known-issues"
+>Known Issues</link
+> section for more details. </para>
+</caution>
+<para
+>Your added clips will now appear in the project list, along with their duration and a few other pieces of information about them. </para>
+<screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="project_with_clips.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>The timeline</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
 </sect1>
 <sect1 id="clips-to-timeline">
 <title
-></title>
+>Dragging clips to the timeline</title>
 
 <para
->  </para>
+>Now that you have some clips in your project, it is time to start editing them together into your dream video. There are a two basic ways in which to add a clip to the timeline. </para>
 <para
->  </para>
+>You can drag a clip directly from the project list. Select one of the clips that you have added to the project list, and drag it to the timeline. As soon as the mouse reaches a track, the clip will appear on the track. With this kind of drag, the entire duration of the clip is placed on the timeline. You can then edit the clip from the timeline. </para>
 <para
->  </para>
+>When you click on a clip in the project list, the clip monitor will automatically load the clip. You can then press play on clip monitor and get an idea as to which bits of the clip you actually want on the timeline. Then, position the seek marker to where you want your clip to start and click the "inpoint" button. Move to where you want the clip to end and click the "outpoint" button. Finally, you can drag this cut-down clip by clicking on the video on the clip monitor and dragging to the timeline. The clip that appears on the timeline will be that part of the clip between the in and out points on the monitor. </para>
 </sect1>
 
 <sect1 id="selecting-clips">
 <title
-></title>
+>Selecting Clips on the Timeline</title>
 
 <para
->  </para>
+>You can select a clip from the timeline by clicking the left mouse bouton. If you want to add clips to the current selection, hold down Shift while clicking on the clips you want to add. Finally, you can toggle whether a clip is selected or not by holding down Ctrl whilst clicking on it. </para>
 </sect1>
 
 <sect1 id="manipulatings-clips-on-timeline">
 <title
-></title>
+>Moving and Resizing Clips on the Timeline</title>
 <para
->  </para>
+>Moving the selected clips around on the timeline is as simple as clicking on them with the left mouse bouton and dragging them around. You can resize clips directly from the timeline. Simply move the mouse cursor to the the beginning or end of the clip you want to resize. Now, click and drag with the left mouse bouton to resize the clip. </para>
 <para
->  </para>
-<note
-> <para
->  </para
-> </note>
+>Resizing a clip changes it's in and outpoints. If you reselect the clip and look in the clip monitor, you will see that the in and out points on the monitor show the new positions. </para>
+<note>
 <para
->  </para>
+>It is not possible to resize a clip past it's length - if a clip is 30 seconds in length, then you will not be able to resize the clip so that it finishes playing 35 seconds into the clip! </para>
+</note>
+<para
+>When you are resizing and moving clips, there is a handy "snap to" feature, which will snap the edges of clips to other clips and the current seek position. This is useful for quickly lining clips up with each other, but in some cases may not be what you want. You can turn this behaviour on and off using the Timeline->Snap To Border menu item. </para>
 </sect1>
 
 <sect1 id="removing-clips-from-timeline">
 <title
-></title>
+>Removing clips from the timeline</title>
 
 <para
->  </para>
+>There are currently two ways to remove a clip from the timeline. The first way is to select the clip or clips that you want to delete, and to press <keycombo action="simul"
+><keycap
+>delete</keycap
+></keycombo
+>. </para>
 <para
->  </para>
-<note
-> <para
->  </para
-> </note>
+>The second way is to select the clips that you want to delete, and to drag them away from the timeline. As soon as the clips leave the timeline, they will disappear. </para>
+<note>
+<para
+>It not yet decided if this behaviour is a good thing or a bad thing. It may be removed in later versions of &kdenlive;. You have been warned! </para>
+</note>
 </sect1>
 </chapter>
 
 <chapter id="using-kdenlive">
 <title
-></title>
+>Using &kdenlive;</title>
 
 <!-- This chapter should tell the user how to use your app. You should use as
 many sections (Chapter, Sect1, Sect3, etc...) as is necessary to fully document
@@ -325,150 +367,153 @@ your application. -->
 
 <sect1 id="kapp-projectlist">
 <title
-></title>
+>The Project List</title>
 
 <para
->  </para>
+>The project list shows all of the clips that are available for this project. </para>
 <para
->  </para>
+>You can see the number of times that a particular clip is in use. This includes all usage of the clip - for instance, if a clip is being displayed in the clip monitor, then that counts as one usage for the clip. (FIXME - this behaviour is likely to change in the future). </para>
 <sect2 id="kapp-projectlist-addingclips">
 <title
-></title>
+>Adding Clips to the Project</title>
 <para
->  </para>
+>If you drag a clip onto the timeline that is not in the project (for instance, if you drag a dv straight from konqueror to &kdenlive;), then it will be automatically added to the project for you. </para>
 <para
->  </para>
+>You can add clips to the projectlist yourself. Either use the project list context menu (right click on the window), or the Project menu on the menu bar. Select 'Add Clips' to bring up a file dialog in which you can select the clip you wish to add to this project. As long as the clips are valid, they will appear in the project list. </para>
 </sect2>
 <sect2 id="kapp-projectlist-deletingclips">
 <title
-></title>
+>Deleting clips via the Project List</title>
 <para
->  </para>
+>Delete clips is currently non-functional - the only way to delete clips is to use clean-project. </para>
 </sect2>
 <sect2 id="kapp-projectlist-clipproperties">
 <title
-></title>
+>Examining Clip Properties</title>
 <para
->  </para>
+>Clip Properties is currently non-functional - there is no way to examine the format of a clip except by examining the debug output ;-) </para>
 </sect2>
 <sect2 id="kapp-projectlist-cleanproject">
 <title
-></title>
+>Clean Project - Removing unused Clips</title>
 <para
->  </para>
+>Use clean project to remove any clips from your project that are currently unused. This is great if your project list has become cluttered and you want to get a concise view of which clips exist. Cleaning a project will not alter your final edit in anyway - the only clips that are removed are those that are no longer in use anywhere. </para>
 </sect2>
 </sect1>
 
 <sect1 id="kapp-debugwindow">
 <title
-></title>
-<screenshot
-> <mediaobject
-> <imageobject
-> <imagedata fileref="debug_tab.png" format="PNG"/> </imageobject
-> <textobject
-> <phrase
-></phrase
-> </textobject
-> </mediaobject
-> </screenshot>
+>The Debug Panel</title>
+<screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="debug_tab.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>The Debug Panel</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
 <para
->  </para>
+>The debug panel is of most use to developers of &kdenlive;. It gives a highly detailed account of what is going on behind the scenes of &kdenlive;. This section will not help you to understand the output of the debug panel, but will tell you why it looks like it is and how to operate it. </para>
 <para
->  </para>
+>On the left, the debug panel shows a list of the renderers in use by &kdenlive;. Each renderer has a name that says which part of &kdenlive; it is used by. There are three such renderers in the current version of &kdenlive;. Clip monitor handles playback of video in the Clip Monitor. Workspace monitor handles playback in the Workspace Monitor. The Document renderer handles all other tasks, such as determining the lengths of video files, and exporting the final video footage. </para>
 <para
->  </para>
-<note
-> <para
->  </para
-> </note>
+>If you select one of the renderers from the list, the text area will show all debug output from the renderer. For general usage of &kdenlive;, you do not need to understand this, but it is very important when filing bug reports to send a copy of these messages - doing so will better aid us in fixing your problems. Click the Save Messages button to bring up a standard save dialog in which you can save the output. </para>
+<note>
 <para
->  </para>
+>The Save Messages button will save output for all of the renderers. You do not need to save each renderer's output individually. </para>
+</note>
+<para
+>There is a checkbox on the debug panel that allows you to turn off the output of the debug messages. This may be necessary on slower machines or if you run &kdenlive; for a long time, as keeping track of the messages does slow &kdenlive; down, and will consume more and more memory the longer that &kdenlive; is running for. </para>
 </sect1>
 
 <sect1 id="kapp-effectlist">
 <title
-></title>
+>The Effect List</title>
 
 <para
->  </para>
+>This is non-functional in the current version of &kdenlive;. </para>
 </sect1>
 
 <sect1 id="kapp-effectsetup">
 <title
-></title>
+>The Effect Setup Panel</title>
 
 <para
->  </para>
+>This is non-functional in the current version of &kdenlive;. </para>
 </sect1>
 
 <sect1 id="kapp-timeline">
 <title
-></title>
+>The Timeline</title>
 <para
->  </para>
+>This is... </para>
 </sect1>
 
 <sect1 id="kapp-clipmonitor">
 <title
-></title>
+>The Clip Monitor</title>
 <para
->  </para>
+>This is... </para>
 </sect1>
 
 <sect1 id="kapp-workspacemonitor">
 <title
-></title>
+>The Workspace Monitor</title>
 <para
->  </para>
+>The workspace monitor shows the video that is the result of the current timeline. It works in a similar way to the clip monitor. </para>
 <para
->  </para>
+>Inpoints and outpoints on the workspace monitor achieve the same purpose as they do on the clip monitor. You can choose a part of the current timeline, and drag a clip of it back to the timeline. You will get a "project clip", which is a clip that contains all of the clips on the timeline in the state when you made it. It is useful for grouping together a number of clips when you have finished editing them and want to be able to treat them as a single clip. </para>
 </sect1>
 
 <sect1 id="kapp-rendering">
 <title
-></title>
+>Rendering your project</title>
 <para
->  </para>
-<screenshot
-> <mediaobject
-> <imageobject
-> <imagedata fileref="rendering_project.png" format="PNG"/> </imageobject
-> <textobject
-> <phrase
-></phrase
-> </textobject
-> </mediaobject
-> </screenshot>
-<note
-> <para
->  </para
-> </note>
+>When you have finished editing, you can render your project via the Render->Export Timeline menu. This brings up a dialog, which allows you to choose your export format, export options, and filename to save as. </para>
+<screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="rendering_project.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>The rendering project dialog box</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+<note>
+<para
+>The current version of &kdenlive;/&piave; only supports export to raw dv format. </para>
+</note>
 </sect1>
 
 <sect1 id="kapp-loadsave">
 <title
-></title>
+>Loading and Saving your project</title>
 <para
->  </para>
+>Load your project via the File->open menu. Save your project via the File->save-as menu. </para>
 
 </sect1>
 
 <sect1 id="kapp-setuprenderer">
 <title
-></title>
+>Setup the Renderer</title>
 <para
->  </para>
-<screenshot
-> <mediaobject
-> <imageobject
-> <imagedata fileref="setup_renderer.png" format="PNG"/> </imageobject
-> <textobject
-> <phrase
-></phrase
-> </textobject
-> </mediaobject
-> </screenshot>
+>With this dialogbox, you can configre all parameters for the renderer program. </para>
+<screenshot>
+<mediaobject>
+<imageobject>
+<imagedata fileref="setup_renderer.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>The setup renderer dialog box</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
 
 </sect1>
 
@@ -476,7 +521,7 @@ your application. -->
 
 <chapter id="commands">
 <title
-></title>
+>Command Reference</title>
 
 <!-- (OPTIONAL, BUT RECOMMENDED) This chapter should list all of the
 application windows and their menubar and toolbar commands for easy reference.
@@ -486,540 +531,901 @@ or menu bars. -->
 
 <sect1 id="kapp-mainwindow">
 <title
-></title>
-
+>The main &kdenlive; window</title>
+<para
+></para>
 
 <sect2>
 <title
-></title>
-<para
-> <variablelist
-> <varlistentry
-> <term
+>The File Menu</title>
+<para>
+<variablelist>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-></term
-> <listitem
+><shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>n</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>File</guimenu
+> <guimenuitem
+>New</guimenuitem
+> </menuchoice
+></term>
+<listitem
 ><para
 ><action
-></action
+>Creates a new document.</action
 ></para
-></listitem
-> </varlistentry
-> <varlistentry
-> <term
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-></term
-> <listitem
+><shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>o</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>File</guimenu
+> <guimenuitem
+>Open</guimenuitem
+> </menuchoice
+></term>
+<listitem
 ><para
 ><action
-></action
+>Open a saved project.</action
 ></para
-></listitem
-> </varlistentry
-> <varlistentry
-> <term
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-></term
-> <listitem
+><guimenu
+>File</guimenu
+> <guimenuitem
+>Open Recent</guimenuitem
+> </menuchoice
+></term>
+<listitem
 ><para
 ><action
-></action
+>Open a recently used project.</action
 ></para
-></listitem
-> </varlistentry
-> <varlistentry
-> <term
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-></term
-> <listitem
+><shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>s</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>File</guimenu
+> <guimenuitem
+>Save</guimenuitem
+> </menuchoice
+></term>
+<listitem
 ><para
 ><action
-></action
+>Saves the project.</action
 ></para
-></listitem
-> </varlistentry
-> <varlistentry
-> <term
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-></term
-> <listitem
+><guimenu
+>File</guimenu
+> <guimenuitem
+>Save As...</guimenuitem
+> </menuchoice
+></term>
+<listitem
 ><para
 ><action
-></action
+>Saves the project under a different filename.</action
 ></para
-></listitem
-> </varlistentry
-> <varlistentry
-> <term
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-></term
-> <listitem
+><shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>q</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>File</guimenu
+> <guimenuitem
+>Quit</guimenuitem
+> </menuchoice
+></term>
+<listitem
 ><para
-></para
-></listitem
-> </varlistentry
-> </variablelist
-> </para>
+><action
+>Quits</action
+> &kapp;</para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
 
 </sect2>
 
 <sect2>
 <title
-></title>
-<para
-> <variablelist
-> <varlistentry
-> <term
+>The Edit Menu</title>
+<para>
+<variablelist>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+><shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>z</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Edit</guimenu
+> <guimenuitem
+>Undo</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Undo the last edit to the timeline.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+><shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>Shift</keycap
+><keycap
+>z</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Edit</guimenu
+> <guimenuitem
+>Redo</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Redo a previously undone edit to the timeline.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+><shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>x</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Edit</guimenu
+> <guimenuitem
+>Cut</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Non-functional at present</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+><shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>c</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Edit</guimenu
+> <guimenuitem
+>Copy</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Non-funtional at present.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> </variablelist
-> </para>
+><shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>v</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Edit</guimenu
+> <guimenuitem
+>Paste</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Non-functional at present</action>
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</para>
 </sect2>
 
 <sect2>
 <title
-></title>
-<para
-> <variablelist
-> <varlistentry
-> <term
+>The Project Menu</title>
+<para>
+<variablelist>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+><guimenu
+>Project</guimenu
+> <guimenuitem
+>Add Clips</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Add clips to the project list.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+><guimenu
+>Project</guimenu
+> <guimenuitem
+>Delete Clips</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Delete the selected clip from the project. This deletes all references to the clip, including those on the timeline, or those within composite clips.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+><guimenu
+>Project</guimenu
+> <guimenuitem
+>Clean Project</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Remove unused clips from the project list.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> </variablelist
-> </para>
+><guimenu
+>Project</guimenu
+> <guimenuitem
+>Clip Properties</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Non-functional at present</action>
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</para>
 </sect2>
 
 <sect2>
 <title
-></title>
+>The Timeline Menu</title>
+<para>
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>q</keycap
+> </shortcut
+> <guimenu
+>Timeline</guimenu
+> <guimenuitem
+>Move/Resize Tool</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
 <para
-> <variablelist
-> <varlistentry
-> <term
+><action
+>Select the move/resize tool to use on the timeline.</action
+> This tool lets you move and resize clips on the timeline. It is the standard operating mode of the timeline. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
->  </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+><shortcut
+> <keycap
+>w</keycap
+> </shortcut
+> <guimenu
+>Timeline</guimenu
+> <guimenuitem
+>Razor Tool</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para
+><action
+>Select the Razor tool to use on the timeline.</action
+> This tool will cut (razor) the clip into two pieces at the time selected. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
->  </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+><shortcut
+> <keycap
+>e</keycap
+> </shortcut
+> <guimenu
+>Timeline</guimenu
+> <guimenuitem
+>Spacer Tool</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para
+><action
+>Select the Spacer tool to use on the timeline.</action
+> This tool lets you select all clips to the right of where you click on the timeline. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
->  </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+><guimenu
+>Timeline</guimenu
+> <guimenuitem
+>Snap To Frames</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>If checked, all operations will snap to the nearest frame.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
-><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> </variablelist
-> </para>
+><guimenu
+>Timeline</guimenu
+> <guimenuitem
+>Snap To Border</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>If checked, moving and resizing clips will snap to nearby clip borders and the seek marker.</action>
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</para>
 </sect2>
 
 <sect2>
 <title
-></title>
-<para
-> <variablelist
-> <varlistentry
-> <term
+>The Render Menu</title>
+<para>
+<variablelist>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> </variablelist
-> </para>
+><guimenu
+>Render</guimenu
+> <guimenuitem
+>Export Timeline</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Export the timeline to a video clip. Also known as rendering down.</action>
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</para>
 </sect2>
 
 <sect2>
 <title
-></title>
-<para
-> <variablelist
-> <varlistentry
-> <term
+>The Layout Menu</title>
+<para>
+<variablelist>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+><shortcut
+> <keycap
+>F9</keycap
+> </shortcut
+> <guimenu
+>Layout Menu</guimenu
+> <guimenuitem
+>Load Layout 1</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Loads up a previously saved screen layout.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+><shortcut
+> <keycap
+>F10</keycap
+> </shortcut
+> <guimenu
+>Layout Menu</guimenu
+> <guimenuitem
+>Load Layout 2</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Loads up a previously saved screen layout.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+><shortcut
+> <keycap
+>F11</keycap
+> </shortcut
+> <guimenu
+>Layout Menu</guimenu
+> <guimenuitem
+>Load Layout 3</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Loads up a previously saved screen layout.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+><shortcut
+> <keycap
+>F12</keycap
+> </shortcut
+> <guimenu
+>Layout Menu</guimenu
+> <guimenuitem
+>Load Layout 4</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Loads up a previously saved screen layout.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+><shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>Shift</keycap
+><keycap
+>F9</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Layout Menu</guimenu
+> <guimenuitem
+>Save Layout 1</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Saves the current screen layout to layout slot 1.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+><shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>Shift</keycap
+><keycap
+>F10</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Layout Menu</guimenu
+> <guimenuitem
+>Save Layout 2</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Saves the current screen layout to layout slot 2.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+><shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>Shift</keycap
+><keycap
+>F11</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Layout Menu</guimenu
+> <guimenuitem
+>Save Layout 3</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Saves the current screen layout in layout slot 3.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> </variablelist
-> </para>
+><shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>Shift</keycap
+><keycap
+>F12</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Layout Menu</guimenu
+> <guimenuitem
+>Save Layout 4</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Saves the current screen layout in layout slot 4.</action>
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</para>
 </sect2>
 
 <sect2>
 <title
-></title>
-<para
-> <variablelist
-> <varlistentry
-> <term
+>The Settings Menu</title>
+<para>
+<variablelist>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+><guimenu
+>Settings</guimenu
+> <guimenuitem
+>Show Toolbar</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Show/hide the toolbars.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+><guimenu
+>Settings</guimenu
+> <guimenuitem
+>Show Statusbar</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Show/Hide the status bar.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+><guimenu
+>Settings</guimenu
+> <guimenuitem
+>Configure Shortcuts...</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Configure &kdenlive; keyboard shortcuts.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+><guimenu
+>Settings</guimenu
+> <guimenuitem
+>Configure Toolbars...</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Configure the toolbars.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> </variablelist
-> </para>
+><guimenu
+>Settings</guimenu
+> <guimenuitem
+>Configure &kdenlive;...</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Configure &kdenlive;</action>
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</para>
 </sect2>
 
 <sect2>
 <title
-></title>
-<para
-> <variablelist
-> <varlistentry
-> <term
+>The Help Menu</title>
+<para>
+<variablelist>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+><guimenu
+>Help</guimenu
+> <guimenuitem
+>&kdenlive; Handbook</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>View the &kdenlive; handbook (this document).</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+><shortcut
+> <keycombo
+><keycap
+>Shift</keycap
+><keycap
+>F1</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Help</guimenu
+> <guimenuitem
+>What's This?</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>After selecting this, click on part of the gui to find out what it does.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+><guimenu
+>Help</guimenu
+> <guimenuitem
+>Report Bug...</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>Report a bug about &kdenlive;</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
+><guimenu
+>Help</guimenu
+> <guimenuitem
+>About &kdenlive;</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>See information about &kdenlive;, including the license, authors and contributers.</action>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> </variablelist
-> </para>
+><guimenu
+>Help</guimenu
+> <guimenuitem
+>About KDE</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para>
+<action
+>See information about the KDE project.</action>
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</para>
 </sect2>
 
 </sect1>
@@ -1027,14 +1433,14 @@ or menu bars. -->
 
 <chapter id="developers">
 <title
-></title>
+>Developer's Guide to &kdenlive;</title>
 
 <!-- (OPTIONAL) A Programming/Scripting reference chapter should be
 used for apps that use plugins or that provide their own scripting hooks
 and/or development libraries. -->
 
 <para
->  </para>
+>To be written. </para>
 
 <!-- Use refentries to describe APIs.  Refentries are fairly complicated and you
 should consult the docbook reference for further details. The example below was
@@ -1044,95 +1450,90 @@ taken from that reference and shortened a bit for readability. -->
 
 <chapter id="known-issues">
 <title
-></title>
+>Known Issues, Workarounds and Recovery Procedures</title>
 
 <para
->  </para>
+>If &kdenlive; or one of the &piave; renderers crashes, it is possible that it will prevent the current or and new copies of &kdenlive; from running correctly. </para>
 <para
->  <screen width="40">
-
-</screen
-> </para>
+>There are two reasons why this may happen. The first is if one of the &piave; processes did not shut down on the previous run of &kdenlive;. The simple solution to this is to close down &kdenlive; and type from the command line: <screen width="40"
+><prompt>%</prompt> <userinput>killall -9 piave</userinput>
+</screen>
+</para>
 <para
->  </para>
+>This will kill any stray &piave; processes, and should allow you to run &kdenlive; normally again. </para>
 <para
->  </para>
+>If you try the above and it says <quote
+>piave:no process killed</quote
+> then it may be that one of the ports that &piave; listens on has not yet been freed after the previous run. Wait for about one minute before starting &kdenlive; again - the TCP port will time out and become usable again. </para>
 </chapter>
 
 <chapter id="faq">
 <title
-></title>
-
-<!-- (OPTIONAL but recommended) This chapter should include all of the silly
-(and not-so-silly) newbie questions that fill up your mailbox. This chapter
-should be reserved for BRIEF questions and answers! If one question uses more
-than a page or so then it should probably be part of the
-"Using this Application" chapter instead. You should use links to
-cross-reference questions to the parts of your documentation that answer them.
-This is also a great place to provide pointers to other FAQ's if your users
-must do some complicated configuration on other programs in order for your
-application work. -->
-
-&reporting.bugs;
-<!--    &updating.documentation; -->
-
-<qandaset id="faqlist">
+>Questions and Answers</title>
+&reporting.bugs; <qandaset id="faqlist">
 <qandaentry>
 <question>
 <para
->  </para>
+>What file formats does &kapp; support? </para>
 </question>
 <answer>
 <para
->  </para>
-<note
-> <para
->  </para
-> </note>
+>Currently, &kapp; supports playback of AVI files that use the DV codec (other types of AVI file will fail) and Raw DV files. Both of these formats are exported by &kino;. </para>
+<note>
+<para
+>On a technical note, &kapp; does not provide any video formats itself; all video formats are provided by the backend renderer, &piave;. </para>
+</note>
 </answer>
 </qandaentry>
 <qandaentry>
 <question>
 <para
->  </para>
+>When will &kapp; support divx/mpeg files? </para>
 </question>
 <answer>
 <para
->  </para>
+>Short answer : When somebody codes the relevant plugin for &piave;. </para>
 <para
->  </para>
+>The long answer : Supporting divx files in an editing application is difficult. divx and mpeg formats are not designed for video editing. Some frames contain only part of the information required to display that frame, which makes the random acces required by a video editing application difficult to achieve. There are also quality issues with decompressing and recompressing files that need to be taken into account. For these reasons, support for these formats in &kapp; itself are of low priority compared to the effect framework, the capture program and other such features. </para>
 <para
->  </para>
+>If somebody is interested is adding divx/mpeg support to &kapp; (or to be technically correct, &piave;) then please contact me, and I will point you in the right direction. In the meantime, it is suggested that you capture video directly in Raw DV using &kino;, or convert your files to Raw DV format for use with &kapp; </para>
 </answer>
 </qandaentry>
 <qandaentry>
 <question>
 <para
->  </para>
+>When will &kapp; support mp3 files and other audio formats? </para>
 </question>
 <answer>
 <para
->  </para>
+>Sometime in the future, perhaps version 0.4.0 or 0.5.0. The roadmap on the website gives a rough idea of the order in which features are being added to &kapp;. The next priority is the effect framework, which will be the made addition for the 0.3.0 release. Once &kapp; 0.3.0 is released, we will decide on the next most important feature. This may be separate audio tracks. </para>
 </answer>
 </qandaentry>
 <qandaentry>
 <question>
 <para
-></para>
+>When I add clips to the project, the times show up as 'unknown'. I know these clips are valid, why does this happen?</para>
 </question>
 <answer>
 <para
->  </para>
+>This is a sign that something has gone wrong with &piave;. Whilst &kapp; will do it's best to pull itself back into working order, this is still relatively new software and it doesn't manage it as often as one would hope! The best solution is to quit &kapp; (if you have done any work, then you are quite safe to save it), perform the following operation: <screen width="40">
+<prompt
+>%</prompt
+> <userinput
+>killall -9 piave</userinput
+>.
+</screen
+> Wait a few seconds, and then restart kdenlive. </para>
 </answer>
 </qandaentry>
 <qandaentry>
 <question>
 <para
-></para>
+>The &kdenlive; user interface is not keeping up when I play a video! What is wrong?</para>
 </question>
 <answer>
 <para
->  </para>
+>Go to the debug panel and try checking the Ignore Incoming Messages button. This will turn off output to the debug window, which can slow the interface down considerably whilst playing back videos, especially when they are long in length. </para>
 </answer>
 </qandaentry>
 </qandaset>
@@ -1146,58 +1547,58 @@ the credits with a reference to the appropriate license file included in the KDE
 distribution. -->
 
 <title
-></title>
+>Credits and License</title>
 
 <para
->  </para>
+>&kapp; </para>
 <para
->  </para>
+>Program copyright 2002-2003 Jason Wood <email
+>jasonwood@blueyonder.co.uk</email
+> </para>
 <para
->  <itemizedlist
-> <listitem
-> <para
->  </para
-> </listitem
-> <listitem
-> <para
->  </para
-> </listitem
-> </itemizedlist
+>Contributors: <itemizedlist>
+<listitem>
+<para
+>Caulier Gilles <email
+>caulier.Gilles@free.fr</email
+> : &kdenlive; and &piave; i18n, French translations, splashscreen </para>
+</listitem>
+<listitem>
+<para
+>Rolf Dubitzky <email
+>dubitzky@pktw06.phy.tu-dresden.de</email
+> : &piave; implementations </para>
+</listitem>
+</itemizedlist>
+</para>
+
+<para
+>Documentation copyright 2003 Jason Wood <email
+>jasonwood@blueyonder.co.uk</email
 > </para>
 
-<para
->  </para>
-
-<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
-
-&underFDL;               <!-- FDL: do not remove. Commercial development should -->
-<!-- replace this with their copyright and either remove it or re-set this.-->
-
-<!-- Determine which license your application is licensed under, 
-and delete all the remaining licenses below:
-
-(NOTE:  All documentation are licensed under the FDL, 
-regardless of what license the application uses) -->
-
-&underGPL;               <!-- GPL License -->
-
-</chapter>
+CREDIT_FOR_TRANSLATORS 
+&underFDL; &underGPL; </chapter>
 
 <appendix id="installation">
 <title
-></title>
+>Installation</title>
 
 <sect1 id="getting-kdenlive">
 <title
-></title>
+>How to obtain &kdenlive;</title>
 
 <para
->  </para>
+>The &kdenlive; WEB site is <ulink url="http://www.uchian.pwp.blueyonder.co.uk/kdenlive.html"
+>http://www.uchian.pwp.blueyonder.co.uk/kdenlive.html</ulink
+>. &kdenlive; can be found in the SourceForge project page on <ulink url="http://sourceforge.net/projects/kdenlive/"
+>http://sourceforge.net/projects/kdenlive/</ulink
+> </para>
 </sect1>
 
 <sect1 id="requirements">
 <title
-></title>
+>Requirements</title>
 
 <!--
 List any special requirements for your application here. This should include:
@@ -1211,41 +1612,51 @@ information here.
 -->
 
 <para
->  </para>
+>In order to successfully use &kdenlive;, you need KDE 3.0 or higher. Additionally, you need piave in order to do anthing useful - kdenlive itself is after all, just an interface :-) </para>
 
 <para
->  </para>
+>All required libraries as well as &kdenlive; itself can be found on or via <ulink url="http://pwp.blueyonder.co.uk/kdenlive.html"
+>The &kdenlive; home page</ulink
+>. </para>
 
 <!-- For a list of updates, you may refer to the application web site
 or the ChangeLog file, or ... -->
 <para
->  </para>
+>You can find a list of changes at <ulink url="http://pwp.blueyonder.co.uk/kdenlive.html"
+>http://pwp.blueyonder.co.uk/kdenlive.html</ulink
+>. FIXME : this link does not actually point at a changelog. </para>
 </sect1>
 
 <sect1 id="compilation">
 <title
-></title>
+>Compilation and Installation</title>
 
 <para
->  <screen width="40">
-
-</screen
-> <screen width="40">
-
-</screen
-> <screen width="40">
-
-</screen
-> </para>
-
-<para
->  <screen width="40">
-
-</screen
-> </para>
+>In order to compile and install &kdenlive; on your system, type the following in the base directory of the &kdenlive; distribution: <screen width="40"
+><prompt
+>%</prompt
+> <userinput
+>./configure --prefix=`kde-config --prefix`</userinput
+>
+</screen>
+<screen width="40"
+><prompt>%</prompt> <userinput>make</userinput>
+</screen>
+<screen width="40"
+><prompt>%</prompt> <userinput>make install</userinput>
+</screen>
+</para>
 
 <para
->  </para>
+>Additional parameters for ./configure script may be required. Type the following in the base directory of the &kdenlive; distribution: <screen width="40"
+><prompt>%</prompt> <userinput>./configure --help</userinput>
+</screen>
+</para>
+
+<para
+>Since &kdenlive; uses autoconf and automake you should have not trouble compiling it. Should you run into problems please report them to <email
+>jasonwood@blueyonder.co.uk</email
+>. </para>
 
 </sect1>
 

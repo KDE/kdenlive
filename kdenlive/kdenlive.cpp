@@ -42,6 +42,7 @@
 #include <kstdaction.h>
 
 // application specific includes
+// p.s., get the idea this class is kind, central to everything?
 #include "clipdrag.h"
 #include "clippropertiesdialog.h"
 #include "configureprojectdialog.h"
@@ -318,7 +319,7 @@ void KdenliveApp::initView()
 	widget->manualDock( projectDock, KDockWidget::DockCenter );
 
 	widget = createDockWidget( "Effect Stack", QPixmap(), 0, i18n( "Effect Stack" ) );
-	m_effectStackDialog = new EffectStackDialog( widget, "effect stack" );
+	m_effectStackDialog = new EffectStackDialog( this, getDocument(), widget, "effect stack" );
 	QToolTip::add( widget, i18n( "This window shows all effects on the currently selected widget." ) );
 	widget->setWidget( m_effectStackDialog );
 	widget->setDockSite( KDockWidget::DockFullSite );
@@ -344,6 +345,8 @@ void KdenliveApp::initView()
 
 	connect( getDocument(), SIGNAL( signalClipSelected( DocClipRef *) ), this, SLOT( slotSetClipMonitorSource( DocClipRef * ) ) );
 	connect( getDocument(), SIGNAL( signalClipSelected( DocClipRef *) ), m_effectStackDialog, SLOT( slotSetEffectStack( DocClipRef * ) ) );
+	connect( getDocument(), SIGNAL( effectStackChanged( DocClipRef *) ), m_effectStackDialog, SLOT( slotSetEffectStack( DocClipRef * ) ) );
+
 
 	connect(m_effectStackDialog, SIGNAL( effectSelected(DocClipRef *, Effect *) ), m_effectParamDialog, SLOT( slotSetEffect(DocClipRef *, Effect *)));
 
@@ -360,7 +363,7 @@ void KdenliveApp::initView()
 
 	connect(getDocument(), SIGNAL(trackListChanged()), this, SLOT(slotSyncTimeLineWithDocument()));
 	connect(getDocument(), SIGNAL(clipChanged(DocClipRef* )), m_timeline, SLOT(invalidateBackBuffer()));
-	connect(getDocument(), SIGNAL(documentLengthChanged(const GenTime& )), m_timeline, SLOT(setProjectSize(const GenTime& )));
+	connect(getDocument(), SIGNAL(documentLengthChanged(const GenTime& )), m_timeline, SLOT(slotSetProjectLength(const GenTime& )));
 
 	connect( m_renderManager, SIGNAL( renderDebug( const QString &, const QString & ) ), m_renderDebugPanel, SLOT( slotPrintRenderDebug( const QString &, const QString & ) ) );
 	connect( m_renderManager, SIGNAL( renderWarning( const QString &, const QString & ) ), m_renderDebugPanel, SLOT( slotPrintRenderWarning( const QString &, const QString & ) ) );
@@ -392,7 +395,6 @@ void KdenliveApp::initView()
 
 
 	m_timeline->trackView()->registerFunction("move", new TrackPanelClipMoveFunction(this, m_timeline, getDocument()));
-
 	TrackPanelClipResizeFunction *resizeFunction = new TrackPanelClipResizeFunction(this, m_timeline, getDocument());
 	m_timeline->trackView()->registerFunction("resize", resizeFunction);
 	// connects for clip/workspace monitor activation (i.e. making sure they are visible when needed)
@@ -1294,23 +1296,23 @@ void KdenliveApp::slotSyncTimeLineWithDocument()
 
 	m_timeline->clearTrackList();
 
-	QPtrList<DocTrackBase>::iterator trackItt = getDocument()->trackList().begin();
+	QPtrListIterator<DocTrackBase> trackItt(getDocument()->trackList());
 
-	while(trackItt != getDocument()->trackList().end()) {
-		disconnect( *trackItt, SIGNAL( clipLayoutChanged() ), m_timeline, SLOT( drawTrackViewBackBuffer() ) );
-		disconnect( *trackItt, SIGNAL( clipSelectionChanged() ), m_timeline, SLOT( drawTrackViewBackBuffer() ) );
-		connect( *trackItt, SIGNAL( clipLayoutChanged() ), m_timeline, SLOT( drawTrackViewBackBuffer() ) );
-		connect( *trackItt, SIGNAL( clipSelectionChanged() ), m_timeline, SLOT( drawTrackViewBackBuffer() ) );
+	while(trackItt.current()) {
+		disconnect( trackItt.current(), SIGNAL( clipLayoutChanged() ), m_timeline, SLOT( drawTrackViewBackBuffer() ) );
+		disconnect( trackItt.current(), SIGNAL( clipSelectionChanged() ), m_timeline, SLOT( drawTrackViewBackBuffer() ) );
+		connect( trackItt.current(), SIGNAL( clipLayoutChanged() ), m_timeline, SLOT( drawTrackViewBackBuffer() ) );
+		connect( trackItt.current(), SIGNAL( clipSelectionChanged() ), m_timeline, SLOT( drawTrackViewBackBuffer() ) );
 
-		if((*trackItt)->clipType() == "Video") {
-			m_timeline->insertTrack(index, new KMMTrackVideoPanel(this, m_timeline, getDocument(), (dynamic_cast<DocTrackVideo *>(*trackItt))));
+		if(trackItt.current()->clipType() == "Video") {
+			m_timeline->insertTrack(index, new KMMTrackVideoPanel(this, m_timeline, getDocument(), (dynamic_cast<DocTrackVideo *>(trackItt.current()))));
 			++index;
-			m_timeline->insertTrack(index, new KMMTrackKeyFramePanel(this, m_timeline, getDocument(), (*trackItt), "alphablend", 0, "fade"));
+			m_timeline->insertTrack(index, new KMMTrackKeyFramePanel(m_timeline, getDocument(), (*trackItt), "alphablend", 0, "fade"));
 			++index;
-		} else if((*trackItt)->clipType() == "Sound") {
-			m_timeline->insertTrack(index, new KMMTrackSoundPanel(this, m_timeline, getDocument(), (dynamic_cast<DocTrackSound *>(*trackItt))));
+		} else if(trackItt.current()->clipType() == "Sound") {
+			m_timeline->insertTrack(index, new KMMTrackSoundPanel(this, m_timeline, getDocument(), (dynamic_cast<DocTrackSound *>(trackItt.current()))));
 			++index;
-			m_timeline->insertTrack(index, new KMMTrackKeyFramePanel(this, m_timeline, getDocument(), (*trackItt), "alphablend", 0, "fade"));
+			m_timeline->insertTrack(index, new KMMTrackKeyFramePanel(m_timeline, getDocument(), trackItt.current(), "alphablend", 0, "fade"));
 			++index;
 		} else {
 			kdWarning() << "Sync failed" << endl;

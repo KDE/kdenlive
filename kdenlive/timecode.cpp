@@ -20,8 +20,8 @@
 
 Timecode::Timecode(Formats format, int framesPerSecond, bool dropFrame) :
 			m_format(format),
-			m_displayedFramesPerSecond(framesPerSecond),
-			m_dropFrame(dropFrame)
+			m_dropFrame(dropFrame),
+			m_displayedFramesPerSecond(framesPerSecond)
 {
 }
 

@@ -18,8 +18,11 @@
 
 #include <qxml.h>
 
+#include <kdebug.h>
+
 #include "effectdoublekeyframe.h"
 
+#include "kmmclipkeyframepanel.h"
 #include "kmmtrackkeyframepanel.h"
 
 EffectParamDoubleDesc::EffectParamDoubleDesc(const QXmlAttributes &attributes)
@@ -35,9 +38,9 @@ EffectParamDoubleDesc::~EffectParamDoubleDesc()
 }
 
 // virtual
-EffectKeyFrame *EffectParamDoubleDesc::createKeyFrame()
+EffectKeyFrame *EffectParamDoubleDesc::createKeyFrame(double time)
 {
-	return new EffectDoubleKeyFrame;
+	return new EffectDoubleKeyFrame(time, m_max);
 }
 
 // virtual
@@ -48,6 +51,20 @@ KMMTrackPanel *EffectParamDoubleDesc::createTrackPanel(KdenliveApp *app,
 				QWidget *parent,
 				const char *name)
 {
+	kdWarning() << "EffectParamDoubleDesc::createTrackPanel()" << endl;
 	#warning - need to pass in the effect name/index from somewhere.
-	return new KMMTrackKeyFramePanel(app, timeline, document, docTrack, "alphablend", 0,  name, parent, name);
+	return new KMMTrackKeyFramePanel( timeline, document, docTrack, "alphablend", 0,  name, parent, name);
+}
+
+// virtual
+KMMTrackPanel *EffectParamDoubleDesc::createClipPanel(KdenliveApp *app,
+				KTimeLine *timeline,
+				KdenliveDoc *document,
+				DocClipRef *clip,
+				QWidget *parent,
+				const char *name)
+{
+	kdWarning() << "EffectParamDoubleDesc::createTrackPanel()" << endl;
+	#warning - need to pass in the effect name/index from somewhere.
+	return new KMMClipKeyFramePanel( timeline, document, clip, EffectParamDesc::name(), 0,  name, parent, name);
 }

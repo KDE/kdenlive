@@ -39,8 +39,8 @@ public:
 	void addInput( const QString &name, bool video, bool audio );
 	/** Adds an new parameter to this description. Examples of parameters could be opacity level, text, colour, font, etc. */
 	void addParameter( EffectParamDesc *param );
-	int numParameters() const;
-	EffectParamDesc *parameter(int index);
+	uint numParameters() const;
+	EffectParamDesc *parameter(uint index);
 
 	/** Creates an effect with the correct number of parameters for this effect description. Use the given preset if one exists.*/
 	Effect *createEffect(const QString &preset = QString::null);

@@ -24,7 +24,7 @@
 #include "docclipref.h"
 #include "effect.h"
 
-EffectStackDialog::EffectStackDialog(QWidget *parent, const char *name )
+EffectStackDialog::EffectStackDialog(KdenliveApp *app, KdenliveDoc *doc, QWidget *parent, const char *name )
  : EffectStackDialog_UI(parent, name)
 {
 	KIconLoader loader;
@@ -32,6 +32,15 @@ EffectStackDialog::EffectStackDialog(QWidget *parent, const char *name )
 	m_upButton->setPixmap( loader.loadIcon( "1uparrow", KIcon::Toolbar ) );
 	m_downButton->setPixmap( loader.loadIcon( "1downarrow", KIcon::Toolbar ) );
 	m_deleteButton->setPixmap( loader.loadIcon( "edit_remove", KIcon::Toolbar ) );
+
+	// HACK - We are setting app and doc here because we cannot pass app and doc directly via the auto-generated UI file. This
+	// needs to be fixed...
+	m_effectList->setAppAndDoc(app, doc);
+
+	connect(m_upButton, SIGNAL(clicked()), m_effectList, SLOT(slotMoveEffectUp()));
+	connect(m_downButton, SIGNAL(clicked()), m_effectList, SLOT(slotMoveEffectDown()));
+	connect(m_deleteButton, SIGNAL(clicked()), m_effectList, SLOT(slotDeleteEffect()));
+	connect(m_effectList, SIGNAL(effectSelected(DocClipRef *, Effect *)), this, SIGNAL(effectSelected(DocClipRef *, Effect *)));
 }
 
 

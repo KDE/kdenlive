@@ -29,7 +29,6 @@
 class QHBox;
 class QScrollView;
 class QScrollBar;
-class KMMRulerPanel;
 class KTrackView;
 class KScalableRuler;
 class KMacroCommand;
@@ -49,11 +48,13 @@ class KTimeLine : public QVBox
 {
 	Q_OBJECT
 public:
-	KTimeLine( QWidget *scrollToolWidget, QWidget *parent = 0, const char *name = 0 );
-	~KTimeLine() = 0;
+	KTimeLine( QWidget *rulerToolWidget, QWidget *scrollToolWidget, QWidget *parent = 0, const char *name = 0 );
+	~KTimeLine();
 	/**
 	The snap tolerance specifies how many pixels away a selection is from a
 	snap point before the snap takes effect.
+
+	FIXME : this should not be *quite* as public as this :-/
 	*/
 	static uint snapTolerance;
 
@@ -147,9 +148,6 @@ public:
 	/** Return the current length of the project */
 	GenTime projectLength() const;
 
-	/** Resizes the timeline view so that the entire project is visible. */
-	void fitToWidth();
-
 	KTrackView *trackView() { return m_trackViewArea; }
 
 	/** Return the scroll threshold - the number of pixels at either side of the timeline that will start the display scrolling. */
@@ -163,12 +161,25 @@ public:
 
 	/** Stop the scroll timer */
 	void stopScrollTimer();
+
+	/** Set the width of the panels that accompany the timeline's tracks. This also affects the width
+	of the ruler widget and the scrollbar widget.*/
+	void setPanelWidth(int width);
+protected:
+	/** @returns the ruler tool widget. */
+	QWidget *rulerToolWidget() const { return m_rulerToolWidget; }
+	/** @returns the frames Per Second of this timeline. */
+	double framesPerSecond() const { return m_framesPerSecond; }
+	/** Returns the width of the view area. The view area is the area of the timeline where clips and tracks reside.
+	  * @returns the width of the view area. */
+	int viewWidth() const;
 private:
 	/** GUI elements */
 	QHBox *m_rulerBox;				 	// Horizontal box holding the ruler
 	QScrollView *m_trackScroll; 	// Scrollview holding the tracks
 	QHBox *m_scrollBox;			 	// Horizontal box holding the horizontal scrollbar.
-	KMMRulerPanel *m_rulerToolWidget;	// This widget is supplied by the constructor, and appears to the left of the ruler.
+	/** A custom widget that can appear to the side of the ruler. */
+	QWidget *m_rulerToolWidget;
 	KScalableRuler *m_ruler;
 	QWidget *m_scrollToolWidget; // This widget is supplied by the constructor and appears to the left of the bottom scrollbar.
 	QScrollBar *m_scrollBar;		// this scroll bar's movement is measured in pixels, not frames.
@@ -194,6 +205,9 @@ private:
 	/** Current edit mode */
 	QString m_editMode;
 
+	/** The width of the panels at the left hand side of the timeline. */
+	int m_panelWidth;
+
 public slots:   // Public slots
 	/** Update the back buffer for the track views, and tell the trackViewArea widget to
 	repaint itself. */
@@ -205,8 +219,8 @@ public slots:   // Public slots
 	/** Sets a new time scale for the timeline. This in turn calls the correct kruler funtion and
 	updates the display. */
 	void setTimeScale( double scale );
-	/** Set the size of the project */
-	void setProjectSize(const GenTime &size);
+	/** Set the length of the project */
+	void slotSetProjectLength(const GenTime &size);
 	/** A ruler slider has moved - do something! */
 	void slotSliderMoved( int slider, int value );
 	/** Seek the timeline to the current position. */

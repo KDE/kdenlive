@@ -35,6 +35,27 @@ KAddEffectCommand *KAddEffectCommand::appendEffect(KdenliveDoc *document, DocCli
 	return new KAddEffectCommand(document, clip, clip->numEffects(), effect);
 }
 
+// static
+KAddEffectCommand *KAddEffectCommand::insertEffect(KdenliveDoc *document, DocClipRef *clip, int effectIndex, Effect *effect)
+{
+	return new KAddEffectCommand(document, clip, effectIndex, effect);
+}
+
+// static
+KAddEffectCommand *KAddEffectCommand::removeEffect(KdenliveDoc *document, DocClipRef *clip, int effectIndex)
+{
+	return new KAddEffectCommand(document, clip, effectIndex);
+}
+
+// static
+KCommand *KAddEffectCommand::moveEffect(KdenliveDoc *document, DocClipRef *clip, int effectIndex, int newEffectIndex)
+{
+	KMacroCommand *command = new KMacroCommand(i18n("Move Effect"));
+	command->addCommand(removeEffect(document, clip, effectIndex));
+	command->addCommand(insertEffect(document, clip, newEffectIndex, clip->effectStack()[effectIndex]));
+	return command;
+}
+
 KAddEffectCommand::KAddEffectCommand( KdenliveDoc *document, DocClipRef *clip, int effectIndex, Effect *effect) :
 									KCommand(),
 									m_addEffect(true),
@@ -89,12 +110,7 @@ void KAddEffectCommand::addEffect()
 {
 	DocTrackBase *track = m_document->projectClip().track(m_trackIndex);
 	if(track) {
-		DocClipRef *clip = track->getClipAt(m_position);
-		if(clip) {
-			clip->addEffect(m_effectIndex, m_document->createEffect(m_effect.documentElement()));
-		} else {
-			kdError() << "KAddEffectCommand::addEffect() - cannot find clip at position " << m_position.seconds() << " on track " << m_trackIndex << endl;
-		}
+		track->addEffectToClip(m_position, m_effectIndex, m_document->createEffect(m_effect.documentElement()));
 	} else {
 		kdError() << "KAddEffectCommand::addEffect() - cannot find track index " << m_trackIndex << ", expect inconsistancies..." << endl;
 	}
@@ -104,15 +120,10 @@ void KAddEffectCommand::deleteEffect()
 {
 	DocTrackBase *track = m_document->projectClip().track(m_trackIndex);
 	if(track) {
-		DocClipRef *clip = track->getClipAt(m_position);
-		if(clip) {
-			clip->deleteEffect(m_effectIndex);
-		} else {
-			kdError() << "KAddEffectCommand::deleteEffect() - cannot find clip at position " << m_position.seconds() << " on track " << m_trackIndex << endl;
-		}
+		track->deleteEffectFromClip(m_position, m_effectIndex);
 	} else {
 		kdError() << "KAddEffectCommand::deleteEffect() - cannot find track index " << m_trackIndex << ", expect inconsistancies..." << endl;
 	}
 }
 
-};
+}

@@ -92,6 +92,7 @@ double DocClipAVFile::framesPerSecond() const
 	return m_framesPerSecond;
 }
 
+/*
 // virtual
 QDomDocument DocClipAVFile::generateSceneList() const
 {
@@ -115,6 +116,7 @@ QDomDocument DocClipAVFile::generateSceneList() const
 
 	return scenelist;
 }
+*/
 
 // virtual
 QDomDocument DocClipAVFile::sceneToXML(const GenTime &startTime, const GenTime &endTime) const

@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   id="svg1"
+   sodipodi:version="0.32"
+   inkscape:version="0.37"
+   width="210mm"
+   height="297mm"
+   sodipodi:docbase="/home/uchian/cvs/kdenlive/doc/devel"
+   sodipodi:docname="overall architecture.svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xml="http://www.w3.org/XML/1998/namespace"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs
+     id="defs3">
+    <linearGradient
+       id="linearGradient575">
+      <stop
+         style="stop-color:#000;stop-opacity:1;"
+         offset="0"
+         id="stop576" />
+      <stop
+         style="stop-color:#fff;stop-opacity:1;"
+         offset="1"
+         id="stop577" />
+    </linearGradient>
+    <linearGradient
+       xlink:href="#linearGradient575"
+       id="linearGradient578" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.23387297"
+     inkscape:cx="259.808927"
+     inkscape:cy="668.330755"
+     inkscape:window-width="1017"
+     inkscape:window-height="688"
+     inkscape:window-x="0"
+     inkscape:window-y="0" />
+  <g
+     id="g1219"
+     transform="matrix(1.930005,0.000000,0.000000,1.713175,150.4793,-58.40811)">
+    <rect
+       style="font-size:12;fill:#ffff6b;fill-opacity:0.75;fill-rule:evenodd;stroke-width:0.625;"
+       id="rect1082"
+       width="113.28893280"
+       height="196.31208801"
+       x="37.54014624"
+       y="34.02360348" />
+    <path
+       style="font-size:12;fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#ad5800;stroke-width:0.714365;"
+       d="M 150.74194 33.601445 L 150.74194 231.052 "
+       id="path1097" />
+    <path
+       style="font-size:12;fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#ad5800;stroke-width:0.714365;"
+       d="M 38.256559 33.601445 L 38.256559 231.052 "
+       id="path1101" />
+  </g>
+  <g
+     id="g789"
+     transform="translate(14.18298,7.091492)">
+    <rect
+       style="font-size:12;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.613809;stroke-dashoffset:0;fill:#00ff00;"
+       id="rect588"
+       width="254.58990479"
+       height="49.97110436"
+       x="458.55001831"
+       y="53.48257894" />
+    <text
+       xml:space="preserve"
+       style="font-size:12;font-weight:normal;stroke-width:1pt;font-family:Arial;"
+       x="195.695480"
+       y="37.3953281"
+       id="text589"
+       transform="scale(2.376363,2.376363)"
+       sodipodi:linespacing="100%"><tspan
+         x="195.695480"
+         y="37.3953285"
+         sodipodi:role="line"
+         id="tspan596">Piave</tspan></text>
+  </g>
+  <g
+     id="g794"
+     transform="translate(14.18298,60.34955)">
+    <rect
+       style="font-size:12;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.613809;stroke-dashoffset:0;fill:#00ff00;"
+       id="rect795"
+       width="254.58990479"
+       height="49.97110436"
+       x="458.55001831"
+       y="53.48257894" />
+    <text
+       xml:space="preserve"
+       style="font-size:12;font-weight:normal;stroke-width:1pt;font-family:Arial;"
+       x="195.695480"
+       y="37.3953281"
+       id="text796"
+       transform="scale(2.376363,2.376363)"
+       sodipodi:linespacing="100%"><tspan
+         x="195.695480"
+         y="37.3953285"
+         sodipodi:role="line"
+         id="tspan797">Piave</tspan></text>
+  </g>
+  <g
+     id="g799"
+     transform="translate(14.18298,113.6076)">
+    <rect
+       style="font-size:12;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.613809;stroke-dashoffset:0;fill:#00ff00;"
+       id="rect800"
+       width="254.58990479"
+       height="49.97110436"
+       x="458.55001831"
+       y="53.48257894" />
+    <text
+       xml:space="preserve"
+       style="font-size:12;font-weight:normal;stroke-width:1pt;font-family:Arial;"
+       x="195.695480"
+       y="37.3953281"
+       id="text801"
+       transform="scale(2.376363,2.376363)"
+       sodipodi:linespacing="100%"><tspan
+         x="195.695480"
+         y="37.3953285"
+         sodipodi:role="line"
+         id="tspan802">Piave</tspan></text>
+  </g>
+  <g
+     id="g804"
+     transform="translate(14.18298,204.2398)">
+    <rect
+       style="font-size:12;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.613809;stroke-dashoffset:0;fill:#00ff00;"
+       id="rect805"
+       width="254.58990479"
+       height="49.97110436"
+       x="458.55001831"
+       y="53.48257894" />
+    <text
+       xml:space="preserve"
+       style="font-size:12;font-weight:normal;stroke-width:1pt;font-family:Arial;"
+       x="195.695480"
+       y="37.3953281"
+       id="text806"
+       transform="scale(2.376363,2.376363)"
+       sodipodi:linespacing="100%"><tspan
+         x="195.695480"
+         y="37.3953285"
+         sodipodi:role="line"
+         id="tspan807">Piave</tspan></text>
+  </g>
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:black;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:0.75;"
+     d="M 245.81189 42.892454 C 245.81189 42.892454 245.81189 42.892454 245.81189 42.892454 "
+     id="path621" />
+  <text
+     xml:space="preserve"
+     style="fill:black;fill-opacity:1;stroke:none;font-family:Arial;font-style:normal;font-weight:normal;font-size:12;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;text-anchor:middle;writing-mode:lr;"
+     x="148.858163"
+     y="14.4918892"
+     id="text625"
+     transform="scale(2.287292,2.287292)"
+     sodipodi:linespacing="100%"><tspan
+       x="148.858170"
+       y="14.4918890"
+       sodipodi:role="line"
+       id="tspan698">VEML</tspan><tspan
+       x="148.858170"
+       y="26.4918890"
+       sodipodi:role="line"
+       id="tspan700">Communication</tspan></text>
+  <path
+     style="font-size:12;fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-linejoin:bevel;stroke-linecap:round;"
+     d="M 459.86886 189.572 L 211.33123 189.572 L 174.42434 176.49107 L 211.33123 283.94156 L 460.80322 283.94156 M 464.54063 86.793281 L 208.52817 86.793281 L 174.54242 176.66562 L 211.33123 138.18265 L 464.54062 138.18265 "
+     id="path639"
+     sodipodi:nodetypes="cccccccccc" />
+  <text
+     xml:space="preserve"
+     style="fill:black;fill-opacity:1;stroke:none;font-family:helvetica;font-style:normal;font-weight:normal;font-size:12px;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;"
+     x="262.720625"
+     y="100.808569"
+     id="text640"><tspan
+       id="tspan641">Clip Monitor Communication</tspan><tspan
+       sodipodi:role="line"
+       id="tspan643"
+       x="262.720612"
+       y="112.808571"></tspan></text>
+  <text
+     xml:space="preserve"
+     style="fill:black;fill-opacity:1;stroke:none;font-family:Arial;font-style:normal;font-weight:normal;font-size:12;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;text-anchor:start;writing-mode:lr;"
+     x="245.902281"
+     y="150.329222"
+     id="text645"
+     sodipodi:linespacing="100%"><tspan
+       x="245.902283"
+       y="150.329224"
+       sodipodi:role="line"
+       id="tspan650">Workspace Monitor Communication</tspan><tspan
+       x="245.902283"
+       y="162.329224"
+       sodipodi:role="line"
+       id="tspan652"></tspan></text>
+  <text
+     xml:space="preserve"
+     style="fill:black;fill-opacity:1;stroke:none;font-family:Arial;font-style:normal;font-weight:normal;font-size:12;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;text-anchor:middle;writing-mode:lr;"
+     x="334.665724"
+     y="210.127744"
+     id="text654"
+     sodipodi:linespacing="100%"><tspan
+       x="334.665710"
+       y="210.127747"
+       sodipodi:role="line"
+       id="tspan683">Document Communication</tspan><tspan
+       x="334.665710"
+       y="222.127747"
+       sodipodi:role="line"
+       id="tspan685">(rendering, video file properties,</tspan><tspan
+       x="334.665710"
+       y="234.127747"
+       sodipodi:role="line"
+       id="tspan687">renderer capabilities, etc.)</tspan><tspan
+       x="334.665710"
+       y="246.127747"
+       sodipodi:role="line"
+       id="tspan689"></tspan></text>
+  <text
+     xml:space="preserve"
+     style="fill:black;fill-opacity:1;stroke:none;font-family:Arial;font-style:normal;font-weight:normal;font-size:12;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;text-anchor:middle;writing-mode:lr;"
+     x="646.739240"
+     y="77.6438730"
+     id="text702"
+     sodipodi:linespacing="100%"><tspan
+       x="646.739258"
+       y="77.6438751"
+       sodipodi:role="line"
+       id="tspan715">Piave Instance that</tspan><tspan
+       x="646.739258"
+       y="89.6438751"
+       sodipodi:role="line"
+       id="tspan717">displays the clip</tspan><tspan
+       x="646.739258"
+       y="101.643875"
+       sodipodi:role="line"
+       id="tspan719">monitor video</tspan></text>
+  <text
+     xml:space="preserve"
+     style="fill:black;fill-opacity:1;stroke:none;font-family:Arial;font-style:normal;font-weight:normal;font-size:12;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;text-anchor:middle;writing-mode:lr;"
+     x="643.001875"
+     y="128.839132"
+     id="text721"
+     sodipodi:linespacing="100%"><tspan
+       x="643.001892"
+       y="128.839127"
+       sodipodi:role="line"
+       id="tspan752">Piave Instance that displays</tspan><tspan
+       x="643.001892"
+       y="140.839127"
+       sodipodi:role="line"
+       id="tspan754">the workspace monitor</tspan><tspan
+       x="643.001892"
+       y="152.839127"
+       sodipodi:role="line"
+       id="tspan756">video</tspan></text>
+  <text
+     xml:space="preserve"
+     style="fill:black;fill-opacity:1;stroke:none;font-family:Arial;font-style:normal;font-weight:normal;font-size:12;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;text-anchor:middle;writing-mode:lr;"
+     x="645.804914"
+     y="182.097196"
+     id="text758"
+     sodipodi:linespacing="100%"><tspan
+       x="645.804932"
+       y="182.097198"
+       sodipodi:role="line"
+       id="tspan765">Piave Instance that handles</tspan><tspan
+       x="645.804932"
+       y="194.097198"
+       sodipodi:role="line"
+       id="tspan767">video information requests</tspan><tspan
+       x="645.804932"
+       y="206.097198"
+       sodipodi:role="line"
+       id="tspan769">and renders the final video</tspan></text>
+  <text
+     xml:space="preserve"
+     style="fill:black;fill-opacity:1;stroke:none;font-family:Arial;font-style:normal;font-weight:normal;font-size:12;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;text-anchor:middle;writing-mode:lr;"
+     x="645.804853"
+     y="274.598036"
+     id="text771"
+     sodipodi:linespacing="100%"><tspan
+       x="645.804871"
+       y="274.598022"
+       sodipodi:role="line"
+       id="tspan778">Redundant piave instance</tspan><tspan
+       x="645.804871"
+       y="286.598022"
+       sodipodi:role="line"
+       id="tspan780">that Kdenlive runs that</tspan><tspan
+       x="645.804871"
+       y="298.598022"
+       sodipodi:role="line"
+       id="tspan782">needs to be removed.</tspan></text>
+  <g
+     id="g814"
+     transform="translate(-14.14098,4.541704)">
+    <rect
+       style="font-size:12;fill:#ff9000;fill-rule:evenodd;stroke:#000000;stroke-width:0.382318;stroke-dashoffset:0;"
+       id="rect574"
+       width="133.25221252"
+       height="37.03978421"
+       x="22.39913559"
+       y="151.08258057" />
+    <text
+       xml:space="preserve"
+       style="font-size:12;font-weight:normal;stroke-width:1pt;font-family:helvetica;fill:#000000;fill-opacity:1;stroke:none;stroke-opacity:0;"
+       x="24.0378813"
+       y="39.7498998"
+       id="text579"
+       transform="matrix(2.376363,0.000000,0.000000,2.376363,-21.41863,84.02695)"><tspan
+         id="tspan580"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-opacity:0;">Kdenlive</tspan></text>
+  </g>
+  <path
+     style="font-size:12;fill-rule:evenodd;stroke:#000000;stroke-width:0.45445pt;stroke-linejoin:bevel;"
+     d="M 455.19711 81.187157 L 455.19711 93.501026 L 466.87201 86.760518 L 455.19711 81.187157 z "
+     id="path820" />
+  <path
+     style="font-size:12;fill-rule:evenodd;stroke:#000000;stroke-width:0.45445pt;stroke-linejoin:bevel;"
+     d="M 456.13146 132.57651 L 456.13146 144.89038 L 467.80636 138.14987 L 456.13146 132.57651 z "
+     id="path821" />
+  <path
+     style="font-size:12;fill-rule:evenodd;stroke:#000000;stroke-width:0.45445pt;stroke-linejoin:bevel;"
+     d="M 455.19711 183.94312 L 455.19711 196.257 L 466.87201 189.51649 L 455.19711 183.94312 z "
+     id="path822" />
+  <path
+     style="font-size:12;fill-rule:evenodd;stroke:#000000;stroke-width:0.45445pt;stroke-linejoin:bevel;"
+     d="M 455.19711 279.61249 L 455.19711 291.92637 L 466.87201 285.18586 L 455.19711 279.61249 z "
+     id="path823" />
+  <path
+     style="font-size:12;fill-rule:evenodd;stroke:#000000;stroke-width:1.00617pt;stroke-linejoin:bevel;"
+     d="M 168.38729 162.35428 L 168.38729 189.61775 L 142.53856 174.69397 L 168.38729 162.35428 z "
+     id="path824" />
+  <path
+     style="font-size:12;fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#000000;stroke-width:0.499641pt;"
+     d="M 163.32336 176.74434 L 174.053 176.74434 "
+     id="path825" />
+  <path
+     sodipodi:type="arc"
+     style="font-size:12;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;"
+     id="path826"
+     sodipodi:cx="160.70854187"
+     sodipodi:cy="169.39958191"
+     sodipodi:rx="3.73740792"
+     sodipodi:ry="5.60611153"
+     d="M 164.445950 169.399582 A 3.737408 5.606112 0 1 0 156.971134,169.399582 A 3.73741 5.60611 0 1 0 164.446 169.4 L 160.708542 169.399582 z"
+     transform="matrix(0.525641,0.000000,0.000000,0.359413,89.90991,115.6521)" />
+</svg>

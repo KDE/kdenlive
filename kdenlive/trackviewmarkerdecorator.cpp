@@ -23,9 +23,8 @@
 #include "ktimeline.h"
 
 TrackViewMarkerDecorator::TrackViewMarkerDecorator(KTimeLine* timeline,
-						KdenliveDoc* doc,
-						DocTrackBase* track) :
-				DocTrackDecorator(timeline, doc, track)
+						KdenliveDoc* doc) :
+				DocTrackDecorator(timeline, doc)
 {
 }
 
@@ -35,10 +34,11 @@ TrackViewMarkerDecorator::~TrackViewMarkerDecorator()
 }
 
 
-void TrackViewMarkerDecorator::paintClip(QPainter& painter, DocClipRef* clip, QRect& rect, bool selected)
+// virtual
+void TrackViewMarkerDecorator::paintClip(double startX, double endX, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected)
 {
-	int sx = (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
-	int ex = (int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
+	int sx = startX;
+	int ex = endX;
 
 	if(sx < rect.x()) {
 		sx = rect.x();

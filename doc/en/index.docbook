@@ -1513,7 +1513,7 @@ or the ChangeLog file, or ... -->
 		In order to compile and install &kdenlive; on your system, type the following in the base
 		directory of the &kdenlive; distribution:
 		<screen width="40">
-                        <prompt>%</prompt> <userinput>./configure</userinput>
+                        <prompt>%</prompt> <userinput>./configure --prefix=`kde-config --prefix`</userinput>
 		</screen>
 		<screen width="40">
                         <prompt>%</prompt> <userinput>make</userinput>

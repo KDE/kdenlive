@@ -50,6 +50,9 @@ private:
 	/** Clears the effect that is seen in the parameter dialog. */
 	void clearEffect();
 
+	/** Generate the layout for the current description and effect. */
+	void generateLayout();
+
 	QHBox *m_presetLayout;
 	QComboBox *m_presets;
 	KPushButton *m_presetAdd;
@@ -64,9 +67,6 @@ private:
 
 	KdenliveApp *m_app;
 	KdenliveDoc *m_document;
-
-	/** Generate the layout for the current description and effect. */
-	void generateLayout();
 };
 
 #endif

@@ -99,6 +99,6 @@ void KMMRulerPanel::sliderScaleChange(int value)
 
 void KMMRulerPanel::setScale(double scale)
 {
-	int newScale = maxFrameSize / scale;
+	double newScale = maxFrameSize / scale;
 	m_scaleSlider->setValue((int)(log(newScale / expA) / expK));
 }

@@ -23,7 +23,6 @@
 
 #include "doctrackbase.h"
 
-class KdenliveApp;
 class KdenliveDoc;
 class KTimeLine;
 
@@ -31,16 +30,10 @@ class KTimeLine;
   *@author Jason Wood
   */
 
-namespace Command {
-	class KResizeCommand;
-}
-
 class KMMTrackKeyFramePanel : public KMMTrackPanel  {
    Q_OBJECT
 public:
-	enum ResizeState {None, Start, End};
-	KMMTrackKeyFramePanel(KdenliveApp *app,
-				KTimeLine *timeline,
+	KMMTrackKeyFramePanel(KTimeLine *timeline,
 				KdenliveDoc *document,
 				DocTrackBase *docTrack,
 				const QString &effectName,
@@ -48,16 +41,7 @@ public:
 				const QString &effectParam,
 				QWidget *parent=0,
 				const char *name=0);
-	~KMMTrackKeyFramePanel();
-private:
-	/** During a resize operation, holds the current resize state, as defined in the ResizeState enum. */
-	ResizeState m_resizeState;
-	/** The clip that is under the mouse at present */
-	DocClipBase * m_clipUnderMouse;
-	/** True if we are inside a dragging operation, false otherwise. */
-	bool m_dragging;
-	/** This command holds the resize information during a resize operation */
-	Command::KResizeCommand * m_resizeCommand;
+	virtual ~KMMTrackKeyFramePanel();
 };
 
 #endif

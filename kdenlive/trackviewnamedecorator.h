@@ -30,13 +30,11 @@ class TrackViewNameDecorator : public DocTrackDecorator
 {
 public:
     TrackViewNameDecorator(KTimeLine* timeline,
-    			KdenliveDoc* doc,
-    			DocTrackBase* track);
+    			KdenliveDoc* doc);
 
     virtual ~TrackViewNameDecorator();
 
-    virtual void paintClip(QPainter& painter, DocClipRef* clip, QRect& rect, bool selected);
-
+    virtual void paintClip(double startX, double endx, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected);
 };
 
 #endif

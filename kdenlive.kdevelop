@@ -14,8 +14,9 @@
     <absoluteprojectpath>false</absoluteprojectpath>
     <description/>
     <ignoreparts>
+      <part>KDevBookmarks</part>
       <part>KDevClearCase</part>
-      <part>KDevFileGroups</part>
+      <part>KDevCTags</part>
       <part>KDevPerforce</part>
     </ignoreparts>
     <secondaryLanguages/>
@@ -28,6 +29,7 @@
       <group pattern="*.po;*.ts" name="Translations" />
       <group pattern="*" name="Others" />
       <hidenonprojectfiles>true</hidenonprojectfiles>
+      <hidenonlocation>false</hidenonlocation>
     </groups>
     <tree>
       <hidepatterns>*.o,*.lo,CVS</hidepatterns>
@@ -56,8 +58,8 @@
       <toc>w3c-uaag10</toc>
     </ignoretocs>
     <projectdoc>
-      <userdocDir>html/</userdocDir>
-      <apidocDir>html/</apidocDir>
+      <userdocDir>doc/en/html/</userdocDir>
+      <apidocDir>doxygen/html/</apidocDir>
     </projectdoc>
     <ignoreqt_xml/>
     <ignoredoxygen/>

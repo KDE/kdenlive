@@ -17,14 +17,16 @@
 
 #include "effectparamdialog.h"
 
-
 #include <qhbox.h>
 #include <qvbox.h>
 #include <qcombobox.h>
 
+#include <kdebug.h>
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kpushbutton.h>
+
+#include <assert.h>
 
 #include <kfixedruler.h>
 #include <kmmtimeline.h>
@@ -54,7 +56,10 @@ EffectParamDialog::EffectParamDialog(KdenliveApp *app, KdenliveDoc *document, QW
 	m_presetDelete->setPixmap( loader.loadIcon( "edit_remove", KIcon::Toolbar ) );
 
 	m_editLayout = new QVBox(this);
-	m_timeline = new KMMTimeLine(0, m_editLayout, name);
+	m_timeline = new KTimeLine(0, 0, m_editLayout, name);
+	m_timeline->setPanelWidth(50);
+
+	m_presets->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
 }
 
 EffectParamDialog::~EffectParamDialog()
@@ -65,6 +70,8 @@ void EffectParamDialog::slotSetEffectDescription(const EffectDesc &desc)
 {
 	clearEffect();
 	m_desc = desc;
+	m_clip = NULL;
+	m_effect = NULL;
 	generateLayout();
 }
 
@@ -73,12 +80,21 @@ void EffectParamDialog::generateLayout()
 	m_timeline->clearTrackList();
 
 	for(uint count=0; count<m_desc.numParameters(); ++count) {
-		m_timeline->appendTrack(m_desc.parameter(count)->createTrackPanel(m_app, m_timeline, m_document, 0));
+		KTrackPanel *panel = m_desc.parameter(count)->createClipPanel(m_app, m_timeline, m_document, m_clip);
+		assert(panel);
+		m_timeline->appendTrack(panel);
+	}
+
+	if(m_clip) {
+		m_timeline->slotSetProjectLength(m_clip->cropDuration());
+	} else {
+		m_timeline->slotSetProjectLength(GenTime(100.0));
 	}
 }
 
 void EffectParamDialog::slotSetEffect(DocClipRef *clip, Effect *effect)
 {
+	kdWarning() << "EffectParamDialog::slotSetEffect" << endl;
 	clearEffect();
 
 	m_clip = clip;

@@ -21,6 +21,10 @@ EffectKeyFrame::EffectKeyFrame() :
 {
 }
 
+EffectKeyFrame::EffectKeyFrame(double time) :
+				m_time(time)
+{
+}
 
 EffectKeyFrame::~EffectKeyFrame()
 {

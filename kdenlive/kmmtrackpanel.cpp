@@ -25,15 +25,12 @@
 
 KMMTrackPanel::KMMTrackPanel( KTimeLine *timeline,
                               KdenliveDoc *document,
-                              DocTrackBase *docTrack,
+			      KPlacer *placer,
                               QWidget *parent,
                               const char *name ) :
-		KTrackClipPanel(timeline, parent, name),
-		m_docTrack( docTrack ),
+		KTrackPanel(timeline, placer, parent, name),
 		m_document( document )
 {
-	setMinimumWidth( 200 );
-	setMaximumWidth( 200 );
 	setSizePolicy( QSizePolicy( QSizePolicy::Maximum, QSizePolicy::Expanding ) );
 	setPalette( QPalette( QColor( 170, 170, 170 ) ) );
 
@@ -43,26 +40,14 @@ KMMTrackPanel::KMMTrackPanel( KTimeLine *timeline,
 KMMTrackPanel::~KMMTrackPanel()
 {}
 
-/** returns the document track which is displayed by this track */
-DocTrackBase * KMMTrackPanel::docTrack()
-{
-	return m_docTrack;
-}
-
 //virtual
 void KMMTrackPanel::drawToBackBuffer( QPainter &painter, QRect &rect )
 {
-	KTrackClipPanel::drawToBackBuffer(painter, rect);
+	KTrackPanel::drawToBackBuffer(painter, rect);
 
 	// draw the vertical time marker
 	int value = ( int ) timeline() ->mapValueToLocal( timeline() ->seekPosition().frames( m_document->framesPerSecond() ) );
 	if ( value >= rect.x() && value <= rect.x() + rect.width() ) {
 		painter.drawLine( value, rect.y(), value, rect.y() + rect.height() );
 	}
-}
-
-// virtual
-int KMMTrackPanel::documentTrackIndex()  const
-{
-	return m_document->trackIndex(m_docTrack);
 }

@@ -25,10 +25,9 @@
 
 TrackViewBackgroundDecorator::TrackViewBackgroundDecorator(KTimeLine* timeline,
 												KdenliveDoc* doc,
-												DocTrackBase* track,
 												const QColor &selected,
 												const QColor &unselected) :
-									DocTrackDecorator(timeline, doc, track),
+									DocTrackDecorator(timeline, doc),
 									m_selected(selected),
 									m_unselected(unselected)
 {
@@ -39,11 +38,11 @@ TrackViewBackgroundDecorator::~TrackViewBackgroundDecorator()
 {
 }
 
-
-void TrackViewBackgroundDecorator::paintClip(QPainter& painter, DocClipRef* clip, QRect& rect, bool selected)
+// virtual
+void TrackViewBackgroundDecorator::paintClip(double startX, double endX, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected)
 {
-	int sx = (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
-	int ex = (int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
+	int sx = startX; // (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
+	int ex = endX; //(int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
 
 	if(sx < rect.x()) {
 		sx = rect.x();

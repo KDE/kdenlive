@@ -1,4 +1,4 @@
-/***************************************************************************
+/*ce**************************************************************************
                           ktrackclippanel  -  description
                              -------------------
     begin                : Thu Jan 8 2004
@@ -14,6 +14,9 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#warning - this class needs to be removed from cvs.
+
+/*
 #include "ktrackclippanel.h"
 
 KTrackClipPanel::KTrackClipPanel(KTimeLine *timeline, QWidget *parent, const char *name)
@@ -33,3 +36,4 @@ void KTrackClipPanel::drawToBackBuffer( QPainter &painter, QRect &rect )
 }
 
 #include "ktrackclippanel.moc"
+*/

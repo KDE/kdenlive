@@ -24,6 +24,7 @@
 #include "kdenlivedoc.h"
 #include "kmmtrackvideopanel.h"
 #include "kresizecommand.h"
+#include "ktrackplacer.h"
 
 #include "trackpanelclipmovefunction.h"
 #include "trackpanelclipresizefunction.h"
@@ -41,7 +42,7 @@ KMMTrackVideoPanel::KMMTrackVideoPanel(KdenliveApp *app,
 					DocTrackVideo *docTrack,
 					QWidget *parent,
 				       	const char *name ) :
-		KMMTrackPanel(timeline, doc, docTrack, parent,name),
+		KMMTrackPanel(timeline, doc, new KTrackPlacer(doc, timeline, docTrack), parent,name),
 		m_trackLabel(i18n("Video Track"), this, "Video Track")
 {
 	setMinimumHeight(20);
@@ -54,9 +55,9 @@ KMMTrackVideoPanel::KMMTrackVideoPanel(KdenliveApp *app,
 	addFunctionDecorator("spacer", "spacer");
 	addFunctionDecorator("marker", "marker");
 
-	addViewDecorator(new TrackViewBackgroundDecorator(timeline, doc, docTrack, QColor(128, 64, 64), QColor(255, 128, 128)));
-	addViewDecorator(new TrackViewNameDecorator(timeline, doc, docTrack));
-	addViewDecorator(new TrackViewMarkerDecorator(timeline, doc, docTrack));
+	addViewDecorator(new TrackViewBackgroundDecorator(timeline, doc, QColor(128, 64, 64), QColor(255, 128, 128)));
+	addViewDecorator(new TrackViewNameDecorator(timeline, doc));
+	addViewDecorator(new TrackViewMarkerDecorator(timeline, doc));
 }
 
 KMMTrackVideoPanel::~KMMTrackVideoPanel()

@@ -37,14 +37,19 @@ public:
 
     	virtual ~TrackViewDecorator();
 
-	/**
-	Paints the backbuffer into the relevant place using the painter supplied. The
-	track should be drawn into the area provided in area
+  	/** This function will paint a clip on screen. This funtion must be provided by a derived class.
+		@param startX - The x coordinate of the start of the clip. This is not necessarily in the painting rectangle.
+		@param endX - The x coordinate of the end of the clip. This is not necessarily in the painting rectangle.
+		@param painter - The QPainter that should be used to draw.
+		@param clip - The clip that we should be drawing.
+		@param rect - The bounding rectangle of the draw area.
+		@param selected - True if the clip is selected, false otherwise.
 	*/
-	virtual void drawToBackBuffer(QPainter &painter, QRect &rect) = 0;
+	virtual void paintClip(double startX, double endX, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected) = 0;
 
 protected:
 	KTimeLine *timeline() { return m_timeline; }
+
 
 private:
 	KTimeLine *m_timeline;

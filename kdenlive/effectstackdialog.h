@@ -21,6 +21,8 @@
 
 class DocClipRef;
 class Effect;
+class KdenliveApp;
+class KdenliveDoc;
 
 /**
 Implementation of the EffectStackDialog
@@ -31,7 +33,7 @@ class EffectStackDialog : public EffectStackDialog_UI
 {
 	Q_OBJECT
 public:
-	EffectStackDialog( QWidget *parent = 0, const char *name = 0 );
+	EffectStackDialog( KdenliveApp *app, KdenliveDoc *doc, QWidget *parent = 0, const char *name = 0 );
 
 	virtual ~EffectStackDialog();
 signals:

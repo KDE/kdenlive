@@ -18,6 +18,7 @@
 #include <qsizepolicy.h>
 
 #include "kmmtracksoundpanel.h"
+#include "ktrackplacer.h"
 
 #include "trackviewbackgrounddecorator.h"
 #include "trackviewnamedecorator.h"
@@ -28,14 +29,14 @@ KMMTrackSoundPanel::KMMTrackSoundPanel(KdenliveApp *app,
 					DocTrackSound *docTrack,
 					QWidget *parent,
 					const char *name ) :
-						KMMTrackPanel(timeline, document, docTrack, parent,name),
+						KMMTrackPanel(timeline, document, new KTrackPlacer(document, timeline, docTrack), parent,name),
 						m_trackLabel(this, "Sound Track")
 {
 	setMinimumHeight(20);
 	setMaximumHeight(20);
 
-	addViewDecorator(new TrackViewBackgroundDecorator(timeline, document, docTrack, QColor(64, 128, 64), QColor(128, 255, 128)));
-	addViewDecorator(new TrackViewNameDecorator(timeline, document, docTrack));
+	addViewDecorator(new TrackViewBackgroundDecorator(timeline, document, QColor(64, 128, 64), QColor(128, 255, 128)));
+	addViewDecorator(new TrackViewNameDecorator(timeline, document));
 }
 
 KMMTrackSoundPanel::~KMMTrackSoundPanel()

@@ -227,6 +227,8 @@ signals: // Signals
 	void signalClipSelected(DocClipRef *);
 	/** Emitted when the length of the document changes. */
 	void documentLengthChanged(const GenTime &);
+	/** Emitted when the effect stack of a clip changes. */
+	void effectStackChanged(DocClipRef *);
 };
 
 #endif // KDENLIVEDOC_H

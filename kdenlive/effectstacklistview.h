@@ -21,6 +21,9 @@
 
 #include "docclipref.h"
 
+class KdenliveApp;
+class KdenliveDoc;
+
 /**
 A list view that displays an effect stack, and allows the relevant drag/drop operations for an effect stack.
 
@@ -38,15 +41,39 @@ public:
 	/** Setup the effect stack dialog to display the given clip */
 	void setEffectStack(DocClipRef *clip);
 
+	/** HACK - this method should be removed and app and doc should be set via the constructor. */
+	void setAppAndDoc(KdenliveApp *app, KdenliveDoc *document);
+public slots:
+	/** Moves the currently selected effect one place up the effect stack. If no effect is selected, or if the selected effect is already first in the
+	 * list, then nothing will happen. */
+	void slotMoveEffectUp();
+	/** Moves the currently selected effect one place down the effect stack. If no effect is selected, or if the selected effect is already last in the
+	 * stack, then nothing will happen. */
+	void slotMoveEffectDown();
+	/** Delete the currently selected effect. If no effect is selected nothing will happen. */
+	void slotDeleteEffect();
 signals:
 	/** Emitted when a new effect has been selected in the effect stack. */
 	void effectSelected(DocClipRef *, Effect *);
+protected:
+	/** Returns true if we can accept the drag. An effectstacklistview can accept EffectDrag events. When an event is
+	dropped onto the effectstack it should issue a command to insert the effect at the correct point in the list. */
+	bool acceptDrag (QDropEvent* event) const;
+
 
 private slots:
 	void selectedEffect(QListViewItem *item);
 
+	/** Called when a drag operation has dropped onto the effect stack list. */
+	void dragDropped(QDropEvent* e, QListViewItem* parent, QListViewItem* after);
+
+
 private:
+	/** @returns the index of the currently selected effect, or -1 if no effect is currently selected. */
+	int selectedEffectIndex() const;
 	DocClipRef *m_clip;
+	KdenliveApp *m_app;
+	KdenliveDoc *m_document;
 };
 
 #endif

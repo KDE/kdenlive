@@ -17,13 +17,9 @@
 #ifndef KTRACKCLIPPANEL_H
 #define KTRACKCLIPPANEL_H
 
-#include <ktrackpanel.h>
+#warning - this class needs to be removed from cvs.
 
-/**
-A track panel that understands the concept of "clips" on a track.
-
-@author Jason Wood
-*/
+/*
 class KTrackClipPanel : public KTrackPanel
 {
 	Q_OBJECT
@@ -32,8 +28,10 @@ public:
 
 	virtual ~KTrackClipPanel();
 
-	/** Draw the area rect, using the provided painter. */
+
 	virtual void drawToBackBuffer( QPainter &painter, QRect &rect );
 };
+
+*/
 
 #endif

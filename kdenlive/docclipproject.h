@@ -52,10 +52,8 @@ public:
 	int trackIndex(DocTrackBase *track);
 	uint numTracks() const;
 	DocTrackBase * findTrack(DocClipRef *clip) const;
-	DocTrackBase * track(int track);
+	DocTrackBase * track(uint track);
 	bool moveSelectedClips(GenTime startOffset, int trackOffset);
-	/** Returns a scene list generated from this clip. */
-	virtual QDomDocument generateSceneList() const;
 	const DocTrackBaseList &trackList() const;
 
 	/** Generates the tracklist for this clip from the xml fragment passed in.*/
@@ -117,6 +115,8 @@ signals:
 	void signalClipSelected(DocClipRef *);
 	/** Emitted when a clip has changed in some way. */
 	void clipChanged(DocClipRef *);
+	/** Emitted when the effect stack of a clip changes */
+	void effectStackChanged(DocClipRef *);
 	/** Emitted when the length of the project clip changes */
 	void projectLengthChanged(const GenTime &length);
 private:
@@ -130,7 +130,7 @@ private:
   	/** Holds a list of all tracks in the project. */
   	DocTrackBaseList m_tracks;
 
-	const DocTrackBase &track(int track) const;
+	const DocTrackBase &track(uint track) const;
 
 	GenTime m_projectLength;
 };

@@ -242,10 +242,13 @@ KRender * KdenliveDoc::renderer() const
 void KdenliveDoc::connectProjectClip()
 {
 	connect(m_projectClip, SIGNAL(trackListChanged()), this, SIGNAL(trackListChanged()));
-	connect(m_projectClip, SIGNAL(clipLayoutChanged()), this, SLOT(hasBeenModified()));
 	connect(m_projectClip, SIGNAL(signalClipSelected(DocClipRef *)), this, SIGNAL(signalClipSelected(DocClipRef *)));
 	connect(m_projectClip, SIGNAL(clipChanged(DocClipRef *)), this, SIGNAL(clipChanged(DocClipRef *)));
+	connect(m_projectClip, SIGNAL(effectStackChanged(DocClipRef *)), this, SIGNAL(effectStackChanged(DocClipRef *)));
 	connect(m_projectClip, SIGNAL(projectLengthChanged(const GenTime& )), this, SIGNAL(documentLengthChanged(const GenTime& )));
+
+	connect(m_projectClip, SIGNAL(clipLayoutChanged()), this, SLOT(hasBeenModified()));
+	connect(m_projectClip, SIGNAL(effectStackChanged(DocClipRef *)), this, SLOT(hasBeenModified()));
 }
 
 const GenTime &KdenliveDoc::projectDuration() const
@@ -281,7 +284,7 @@ DocClipRef *KdenliveDoc::selectedClip() const
 	}
 
 	return pResult;
-};
+}
 
 void KdenliveDoc::activateSceneListGeneration(bool active)
 {
@@ -428,10 +431,10 @@ DocClipRefList KdenliveDoc::listSelected() const
 {
 	DocClipRefList list;
 
-	QPtrList<DocTrackBase>::iterator trackItt = trackList().begin();
+	QPtrListIterator<DocTrackBase> trackItt(trackList());
 
-	while ( trackItt != trackList().end() ) {
-		QPtrListIterator<DocClipRef> clipItt( (*trackItt)->firstClip( true ) );
+	while ( trackItt.current()) {
+		QPtrListIterator<DocClipRef> clipItt( trackItt.current()->firstClip( true ) );
 
 		while ( clipItt.current() ) {
 			list.inSort( clipItt.current() );

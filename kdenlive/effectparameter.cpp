@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 #include "effectparameter.h"
+#include "effectkeyframe.h"
 
 EffectParameter::EffectParameter(const QString &name) :
 				m_name(name)
@@ -26,3 +27,46 @@ EffectParameter::~EffectParameter()
 {
 }
 
+int EffectParameter::numKeyFrames() const
+{
+	return m_keyFrames.count();
+}
+
+EffectKeyFrame *EffectParameter::keyframe(int ix) const
+{
+	KeyFrameListIterator itt(m_keyFrames);
+
+	for(int count=0; itt.current() && count != ix; ++count) {
+		++itt;
+	}
+
+	return itt.current();
+}
+
+EffectKeyFrame *EffectParameter::interpolateKeyFrame(double time) const
+{
+	EffectKeyFrame *keyFrame = NULL;
+
+	EffectKeyFrame *nextKeyFrame = NULL;
+	EffectKeyFrame *prevKeyFrame = NULL;
+
+	KeyFrameListIterator itt(m_keyFrames);
+	while(itt.current()) {
+		if(itt.current()->time() >= time) {
+			nextKeyFrame = itt.current();
+			--itt;
+			prevKeyFrame = itt.current();
+		}
+		++itt;
+	}
+
+	if(nextKeyFrame && prevKeyFrame) {
+		keyFrame = prevKeyFrame->interpolateKeyFrame(nextKeyFrame, time);
+	} else if (nextKeyFrame) {
+		keyFrame = nextKeyFrame->clone();
+	} else if(prevKeyFrame) {
+		keyFrame = prevKeyFrame->clone();
+	}
+
+	return keyFrame;
+}

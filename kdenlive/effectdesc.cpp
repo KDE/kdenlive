@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <assert.h>
+#include "kdebug.h"
+
 #include "effectdesc.h"
 
 #include "effect.h"
@@ -45,13 +48,14 @@ void EffectDesc::addParameter( EffectParamDesc *param )
 	m_params.append(param);
 }
 
-int EffectDesc::numParameters() const
+uint EffectDesc::numParameters() const
 {
 	return m_params.count();
 }
 
-EffectParamDesc *EffectDesc::parameter(int index)
+EffectParamDesc *EffectDesc::parameter(uint index)
 {
+	assert(index < numParameters());
 	return m_params.at(index);
 }
 

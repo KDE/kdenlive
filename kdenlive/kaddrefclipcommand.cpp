@@ -33,7 +33,7 @@ KAddRefClipCommand::KAddRefClipCommand(const EffectDescriptionList &effectList,
 			m_clipManager(clipManager),
 			m_effectList(effectList),
 			m_create(create),
-			m_xmlClip(clip->toXML().documentElement()),
+			m_xmlClip(clip->toXML()),
 			m_findTime(clip->trackStart() + (clip->cropDuration() / 2.0)),
 			m_track(clip->trackNum()),
 			m_project(project)
@@ -73,7 +73,7 @@ void KAddRefClipCommand::unexecute()
 
 void KAddRefClipCommand::addClip()
 {
-	DocClipRef *clip = DocClipRef::createClip(m_effectList, m_clipManager, m_xmlClip);
+	DocClipRef *clip = DocClipRef::createClip(m_effectList, m_clipManager, m_xmlClip.documentElement());
 	m_project->track(clip->trackNum())->addClip(clip, true);
 }
 
@@ -91,7 +91,7 @@ KMacroCommand *KAddRefClipCommand::deleteSelectedClips( KdenliveDoc *document)
 {
 	KMacroCommand * macroCommand = new KMacroCommand(i18n( "Delete Clips" ));
 
-	for ( int count = 0; count < document->numTracks(); ++count ) {
+	for ( uint count = 0; count < document->numTracks(); ++count ) {
 		DocTrackBase *track = document->track( count );
 
 		QPtrListIterator<DocClipRef> itt = track->firstClip( true );

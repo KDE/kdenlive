@@ -82,6 +82,7 @@ void DocClipProject::connectTrack(DocTrackBase *track)
 	connect(track, SIGNAL(signalClipSelected(DocClipRef *)), this, SIGNAL(signalClipSelected(DocClipRef *)));
 	connect(track, SIGNAL(clipChanged(DocClipRef *)), this, SIGNAL(clipChanged(DocClipRef *)));
 	connect(track, SIGNAL(trackLengthChanged(const GenTime& )), this, SLOT(slotCheckProjectLength()));
+	connect(track, SIGNAL(effectStackChanged(DocClipRef *)), this, SIGNAL(effectStackChanged(DocClipRef *)));
 }
 
 uint DocClipProject::numTracks() const
@@ -105,12 +106,12 @@ DocTrackBase * DocClipProject::findTrack(DocClipRef *clip) const
 	return returnTrack;
 }
 
-DocTrackBase * DocClipProject::track(int track)
+DocTrackBase * DocClipProject::track(uint track)
 {
 	return m_tracks.at(track);
 }
 
-const DocTrackBase &DocClipProject::track(int track) const
+const DocTrackBase &DocClipProject::track(uint track) const
 {
 	QPtrListIterator<DocTrackBase> itt(m_tracks);
 
@@ -215,7 +216,7 @@ void DocClipProject::blockTrackSignals(bool block)
 	}
 }
 
-QDomDocument DocClipProject::generateSceneList() const
+/*QDomDocument DocClipProject::generateSceneList() const
 {
 	static QString str_inpoint="inpoint";
 	static QString str_outpoint="outpoint";
@@ -266,7 +267,7 @@ QDomDocument DocClipProject::generateSceneList() const
 	}
 
 	return sceneList;
-}
+}*/
 
 void DocClipProject::generateTracksFromXML(const EffectDescriptionList &effectList, ClipManager &clipManager, const QDomElement &e)
 {
@@ -313,10 +314,10 @@ void DocClipProject::populateSceneTimes(QValueVector<GenTime> &toPopulate) const
 {
 	GenTime time;
 
-	QPtrList<DocTrackBase>::iterator trackItt = m_tracks.begin();
+	QPtrListIterator<DocTrackBase>trackItt(m_tracks);
 
-	while(trackItt != m_tracks.end()) {
-		DocTrackClipIterator itt(*(*trackItt) );
+	while(trackItt.current()) {
+		DocTrackClipIterator itt(*(trackItt.current()) );
 
 		while(itt.current()) {
 			QValueVector<GenTime> newTimes;
@@ -347,11 +348,11 @@ QDomDocument DocClipProject::sceneToXML(const GenTime &startTime, const GenTime 
 {
 	QDomDocument doc;
 
-	QPtrList<DocTrackBase>::iterator trackItt = m_tracks.begin();
+	QPtrListIterator<DocTrackBase> trackItt(m_tracks);
 
 	// For the moment, this only returns the most relevant clip on the top most track.
-	while(trackItt != m_tracks.end()) {
-		DocTrackClipIterator itt(*(*trackItt) );
+	while(trackItt.current()) {
+		DocTrackClipIterator itt(*(trackItt.current()) );
 
 		while(itt.current()) {
 			DocClipRef *clip = itt.current();

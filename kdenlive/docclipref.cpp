@@ -109,6 +109,9 @@ DocClipRef *DocClipRef::createClip(const EffectDescriptionList &effectList, Clip
 	QValueVector<GenTime> markers;
 	EffectStack effectStack;
 
+	kdWarning() << "================================" << endl;
+	kdWarning() << "Creating Clip : " << element.ownerDocument().toString() << endl;
+
 	int trackNum = 0;
 
 	QDomNode node = element;
@@ -130,20 +133,18 @@ DocClipRef *DocClipRef::createClip(const EffectDescriptionList &effectList, Clip
 	while(!n.isNull()) {
 		QDomElement e = n.toElement();
 		if(!e.isNull()) {
-			/**if(e.tagName() == "avfile") {
-				clip = DocClipAVFile::createClip(e);
+			kdWarning() << "DocClipRef::createClip() tag = " << e.tagName() << endl;
+			if(e.tagName() == "avfile") {
+				// Do nothing, this is handled via the clipmanage insertClip method above.
 			} else if(e.tagName() == "project") {
-				clip = DocClipProject::createClip(e);
-			} else */
-			if(e.tagName() == "position") {
+				// Do nothing, this is handled via the clipmanage insertClip method above.
+			} else if(e.tagName() == "position") {
 				trackNum = e.attribute("track", "-1").toInt();
 				trackStart = GenTime(e.attribute("trackstart", "0").toDouble());
 				cropStart = GenTime(e.attribute("cropstart", "0").toDouble());
 				cropDuration = GenTime(e.attribute("cropduration", "0").toDouble());
 				trackEnd = GenTime(e.attribute("trackend", "-1").toDouble());
-			}
-
-			if(e.tagName() == "markers") {
+			} else  if(e.tagName() == "markers") {
 				QDomNode markerNode = e.firstChild();
 				while(!markerNode.isNull()) {
 					QDomElement markerElement = markerNode.toElement();
@@ -156,13 +157,14 @@ DocClipRef *DocClipRef::createClip(const EffectDescriptionList &effectList, Clip
 					}
 					markerNode = markerNode.nextSibling();
 				}
-			}
-
-			if(e.tagName() == "effects") {
+			} else  if(e.tagName() == "effects") {
+				kdWarning() << "Found effects tag" << endl;
 				QDomNode effectNode = e.firstChild();
 				while(!effectNode.isNull()) {
 					QDomElement effectElement = effectNode.toElement();
+					kdWarning() << "Effect node..." << endl;
 					if(!effectElement.isNull()) {
+						kdWarning() << "has tag name "<< effectElement.tagName() << endl;
 						if(effectElement.tagName() == "effect") {
 							EffectDesc *desc = effectList.effectDescription(effectElement.attribute("type", QString::null));
 							if(desc) {
@@ -177,6 +179,8 @@ DocClipRef *DocClipRef::createClip(const EffectDescriptionList &effectList, Clip
 					}
 					effectNode = effectNode.nextSibling();
 				}
+			} else {
+//				kdWarning() << "DocClipRef::createClip() unknown tag : " << e.tagName() << endl;
 			}
 		}
 
@@ -283,7 +287,7 @@ QDomDocument DocClipRef::toXML() const
 
 		EffectStack::iterator itt = m_effectStack.begin();
 		while(itt != m_effectStack.end()) {
-			effects.appendChild( (*itt)->toXML());
+			effects.appendChild(doc.importNode((*itt)->toXML().documentElement(), true));
 			++itt;
 		}
 
@@ -384,10 +388,9 @@ QDomDocument DocClipRef::sceneToXML(const GenTime &startTime, const GenTime &end
 	if(m_effectStack.isEmpty()) {
 		sceneDoc = m_clip->sceneToXML(startTime - trackStart() + cropStartTime(), endTime - trackStart() + cropStartTime());
 	} else {
-		// We traverse the effect stack backwards; this let's us add the video clip at the top of the effect stack.
+		// We traverse the effect stack forwards; this let's us add the video clip at the top of the effect stack.
 		QDomNode constructedNode = sceneDoc.importNode(m_clip->sceneToXML(startTime - trackStart() + cropStartTime(), endTime - trackStart() + cropStartTime()).documentElement(), true);
 		EffectStackIterator itt(m_effectStack);
-		itt.toLast();
 
 		while(itt.current()) {
 			QDomElement parElement = sceneDoc.createElement("par");
@@ -395,12 +398,12 @@ QDomDocument DocClipRef::sceneToXML(const GenTime &startTime, const GenTime &end
 
 			QDomElement effectElement = sceneDoc.createElement("videoeffect");
 			effectElement.setAttribute("name", (*itt)->effectDescription().name());
-			effectElement.setAttribute("begin", QString::number(startTime.seconds(), 'f', 10));
+			effectElement.setAttribute("begin", QString::number(0, 'f', 10));
 			effectElement.setAttribute("dur", QString::number((endTime - startTime).seconds(), 'f', 10));
 			parElement.appendChild(effectElement);
 
 			constructedNode = parElement;
-			--itt;
+			++itt;
 		}
 		sceneDoc.appendChild(constructedNode);
 	}

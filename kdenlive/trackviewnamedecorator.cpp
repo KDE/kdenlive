@@ -25,9 +25,8 @@
 #include "ktimeline.h"
 
 TrackViewNameDecorator::TrackViewNameDecorator(KTimeLine* timeline,
-						KdenliveDoc* doc,
-						DocTrackBase* track) :
-						DocTrackDecorator(timeline, doc, track)
+						KdenliveDoc* doc) :
+						DocTrackDecorator(timeline, doc)
 {
 }
 
@@ -36,7 +35,8 @@ TrackViewNameDecorator::~TrackViewNameDecorator()
 {
 }
 
-void TrackViewNameDecorator::paintClip(QPainter &painter, DocClipRef *clip, QRect &rect, bool selected)
+// virtual
+void TrackViewNameDecorator::paintClip(double startX, double endx, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected)
 {
 	int sx = (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
 	int ex = (int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));

@@ -19,6 +19,7 @@
 
 #include <qhbox.h>
 
+class KPlacer;
 class KTimeLine;
 
 class TrackPanelFunction;
@@ -33,16 +34,17 @@ class KTrackPanel : public QHBox {
 	Q_OBJECT
 public:
     KTrackPanel(KTimeLine *timeline,
+					KPlacer *placer,
                               		QWidget *parent,
                               		const char *name);
 
     virtual ~KTrackPanel();
 
     /** Returns true if this track panel has a document track index. */
-    virtual bool hasDocumentTrackIndex() const = 0;
+    virtual bool hasDocumentTrackIndex() const;
 
     /** Returns the track index into the underlying document model used by this track. Returns -1 if this is inapplicable. */
-    virtual int documentTrackIndex()  const = 0;
+    virtual int documentTrackIndex()  const;
 
     virtual void drawToBackBuffer( QPainter &painter, QRect &rect );
 
@@ -78,6 +80,9 @@ private:
 	/** The currently applied function. This lasts from mousePressed
 		until mouseRelease. */
 	TrackPanelFunction *m_function;
+
+	/** A placer defines the physical layout of a track, what clips are on it and how functions should know what is on it and where. */
+	KPlacer *m_placer;
 };
 
 #endif

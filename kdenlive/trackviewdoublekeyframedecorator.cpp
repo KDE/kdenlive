@@ -16,8 +16,8 @@
  ***************************************************************************/
 #include "trackviewdoublekeyframedecorator.h"
 
-TrackViewDoubleKeyFrameDecorator::TrackViewDoubleKeyFrameDecorator(KTimeLine *timeline, KdenliveDoc *doc, DocTrackBase *track, const QString &effectName, int effectIndex, const QString &paramName)
- 							: DocTrackDecorator(timeline, doc, track),
+TrackViewDoubleKeyFrameDecorator::TrackViewDoubleKeyFrameDecorator(KTimeLine *timeline, KdenliveDoc *doc, const QString &effectName, int effectIndex, const QString &paramName)
+ 							: DocTrackDecorator(timeline, doc),
 							m_effectName(effectName),
 							m_effectIndex(effectIndex),
 							m_paramName(paramName)
@@ -29,6 +29,7 @@ TrackViewDoubleKeyFrameDecorator::~TrackViewDoubleKeyFrameDecorator()
 {
 }
 
-void TrackViewDoubleKeyFrameDecorator::paintClip(QPainter& painter, DocClipRef* clip, QRect& rect, bool selected)
+// virtual
+void TrackViewDoubleKeyFrameDecorator::paintClip(double startX, double endx, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected)
 {
 }

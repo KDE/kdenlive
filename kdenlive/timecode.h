@@ -44,7 +44,7 @@ public:
 private:
 	Formats m_format;
 	bool m_dropFrame;
-	int m_displayedFramesPerSecond;;
+	int m_displayedFramesPerSecond;
 
 	QString getTimecodeHH_MM_SS_FF(const GenTime &time, double fps) const;
 	QString getTimecodeHH_MM_SS_HH(const GenTime &time) const;

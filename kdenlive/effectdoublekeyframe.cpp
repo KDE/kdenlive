@@ -15,9 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 #include "effectdoublekeyframe.h"
+#include "assert.h"
 
 EffectDoubleKeyFrame::EffectDoubleKeyFrame()
  : EffectKeyFrame()
+{
+}
+
+EffectDoubleKeyFrame::EffectDoubleKeyFrame(double time, double value)  :
+			EffectKeyFrame(time),
+			m_value(value)
 {
 }
 
@@ -26,4 +33,35 @@ EffectDoubleKeyFrame::~EffectDoubleKeyFrame()
 {
 }
 
+double EffectDoubleKeyFrame::value() const
+{
+	return m_value;
+}
 
+EffectKeyFrame *EffectDoubleKeyFrame::interpolateKeyFrame(EffectKeyFrame *keyframe, double time) const
+{
+	EffectKeyFrame *result = 0;
+
+	double startTime = this->time();
+	double endTime = keyframe->time();
+	double startValue = this->value();
+
+	assert(keyframe);
+	assert(keyframe->toDoubleKeyFrame());
+	assert(time >= startTime);
+	assert(time <= endTime);
+
+	EffectDoubleKeyFrame *doubleKeyFrame = keyframe->toDoubleKeyFrame();
+	if(doubleKeyFrame) {
+		double endValue = doubleKeyFrame->value();
+		double value = startValue + ((endValue-startValue) * (time - startTime))/(endTime - startTime);
+		result = new EffectDoubleKeyFrame(time, value);
+	}
+
+	return result;
+}
+
+EffectKeyFrame *EffectDoubleKeyFrame::clone() const
+{
+	return new EffectDoubleKeyFrame(time(), value());
+}

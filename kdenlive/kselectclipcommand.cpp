@@ -65,9 +65,9 @@ KCommand *KSelectClipCommand::selectNone(KdenliveDoc *document)
 {
 	KMacroCommand *command = new KMacroCommand(i18n("Selection"));
 
-	QPtrList<DocTrackBase>::iterator trackItt = document->trackList().begin();
-	while(trackItt != document->trackList().end()) {
-		QPtrListIterator<DocClipRef> clipItt((*trackItt)->firstClip(true));
+	QPtrListIterator<DocTrackBase> trackItt(document->trackList());
+	while(trackItt.current()) {
+		QPtrListIterator<DocClipRef> clipItt(trackItt.current()->firstClip(true));
 		while(clipItt.current()!=0) {
 			Command::KSelectClipCommand *clipComm = new Command::KSelectClipCommand(document, clipItt.current(), false);
 			command->addCommand(clipComm);
@@ -86,10 +86,9 @@ KCommand * KSelectClipCommand::selectLaterClips( KdenliveDoc *document, GenTime 
 
 	bool select;
 
-	QPtrList<DocTrackBase>::iterator trackItt = document->trackList().begin();
-	while(trackItt != document->trackList().end()) {
-
-		DocTrackClipIterator clipItt( *(*trackItt) );
+	QPtrListIterator<DocTrackBase> trackItt(document->trackList());
+	while(trackItt.current()) {
+		DocTrackClipIterator clipItt( *(trackItt.current()) );
 		while ( clipItt.current() != 0 ) {
 			if ( include ) {
 				select = clipItt.current() ->trackEnd() > time;

@@ -1,0 +1,702 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1.2-Based Variant V1.0//EN" "dtd/kdex.dtd" [
+  <!ENTITY kdenlive '<application>Kdenlive</application>'>
+  <!ENTITY piave '<application>Piave</application>'>
+  <!ENTITY kino '<application>Kino</application>'>
+  <!ENTITY kapp "&kdenlive;"><!-- replace kdenlive here -->
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % English "INCLUDE"><!-- change language only here -->
+  
+  
+  <!-- Do not define any other entities; instead, use the entities
+       from kde-genent.entities and $LANG/user.entities. -->
+]>
+<!-- kdoctemplate v0.8 October 1 1999 
+     Minor update to "Credits and Licenses" section on August 24, 2000
+     Removed "Revision history" section on 22 January 2001   -->
+
+<!--
+This template was designed by: David Rugge davidrugge@mindspring.com
+with lots of help from: Eric Bischoff ebisch@cybercable.tm.fr
+and Frederik Fouvry fouvry@sfs.nphil.uni-tuebingen.de
+of the KDE DocBook team.
+
+You may freely use this template for writing any sort of KDE documentation.
+If you have any changes or improvements, please let us know.
+
+In the future, we may want to change from SGML-based DocBook to XML-based
+DocBook. To make this change easier, please be careful :
+- in XML, the case of the <tags> and attributes is relevant ;
+- also, quote all attributes.
+
+Please don't forget to remove all these comments in your final documentation,
+thanks ;-).
+-->
+
+<!-- ................................................................ -->
+
+<!-- The language must NOT be changed here. -->
+
+<book lang="&language;">
+
+<!-- This header contains all of the meta-information for the document such
+as Authors, publish date, the abstract, and Keywords -->
+
+<bookinfo>
+<title>The &kdenlive; Developers Handbook</title>
+
+<authorgroup>
+<author>
+<firstname>Jason</firstname>
+<othername>M.</othername>
+<surname>Wood</surname>
+<affiliation>
+<address><email>jasonwood@blueyonder.co.uk</email></address>
+</affiliation>
+</author>
+</authorgroup>
+
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+
+<copyright>
+<year>2004</year>
+<holder>Jason Wood</holder>
+</copyright>
+<!-- Translators: put here the copyright notice of the translation -->
+<!-- Put here the FDL notice.  Read the explanation in fdl-notice.docbook 
+     and in the FDL itself on how to use it. -->
+<legalnotice>&FDLNotice;</legalnotice>
+
+<!-- Date and version information of the documentation
+Don't forget to include this last date and this last revision number, we
+need them for translation coordination !
+Please respect the format of the date (DD/MM/YYYY) and of the version
+(V.MM.LL), it could be used by automation scripts.
+Do NOT change these in the translation. -->
+
+<date>17/04/2004</date>
+<releaseinfo>0.3.0</releaseinfo>
+
+<!-- Abstract about this handbook -->
+
+<abstract>
+<para>
+	&kdenlive; is a non-linear video editor for KDE. This handbook provides information to aid developers to
+	start work on the project. It provides both overviews and indepth reviews of the architecture of &kdenlive;
+	as well as insight into why that &kdenlive; is designed like it is.
+</para>
+
+<para>
+	Please contact me at <email>jasonwood@blueyonder.co.uk</email> if you have any questions.
+</para>
+
+<para>
+	Cheers,
+</para>
+<para>
+	Jason
+</para>
+
+</abstract>
+
+<!-- This is a set of Keywords for indexing by search engines.
+Please at least include KDE, the KDE package it is in, the name
+ of your application, and a few relevant keywords. -->
+
+<keywordset>
+<keyword>KDE</keyword>
+<keyword>video editor</keyword>
+<keyword>kdenlive</keyword>
+<keyword>development</keyword>
+</keywordset>
+
+</bookinfo>
+
+
+
+<!-- The contents of the documentation begin here.  Label
+each chapter so with the id attribute. This is necessary for two reasons: it
+allows you to easily reference the chapter from other chapters of your
+document, and if there is no ID, the name of the generated HTML files will vary
+from time to time making it hard to manage for maintainers and for the CVS
+system. Any chapter labelled (OPTIONAL) may be left out at the author's
+discretion. Other chapters should not be left out in order to maintain a
+consistent documentation style across all KDE apps. -->
+
+<chapter id="introduction">
+	<title>What is &kapp;?</title>
+
+<!-- The introduction chapter contains a brief introduction for the
+application that explains what it does and where to report
+problems. Basically a long version of the abstract.  Don't include a
+revision history. (see installation appendix comment) -->
+
+<para>
+	&kapp; is a non-linear video editor for KDE. To be more accurate, &kapp; is a non-linear video editing
+	frontend that uses a backend renderer (&piave;) to perform all necessary video operations, including 
+	the playback and display of all video.
+</para>
+<para>	
+	If you have any questions, please direct them to me at <email>jasonwood@blueyonder.co.uk</email>
+</para>
+</chapter>
+
+<chapter id="architecture-introduction">
+	<title>Architecture Introduction</title>
+
+	<sect1 id="client-server-model">
+		<title>The Client-Server Model</title>
+		<para>
+			&kdenlive; uses a client/server model approach to connect to the back end renderer. There are
+			a number of advantages to this. It enforces the connection between the user interface and
+			the rendering to be asynchronous. This leaves us with a smooth user experience even when
+			complex rendering tasks are happening in the background. Conversely, it also ensures that
+			the user interface will never get in the way of video operations, such as capture.
+		</para>
+		<para>
+			The client server approach also increases robustness of the application - video playback
+			and recording is a complex process that requires low level programming and is more prone
+			to stability issues than the user interface because of this. With the user interface in
+			a separate application, we can guarantee that unless the renderer takes the computer down
+			when it crashes, the user can still save there work. Indeed, in most cases, &kdenlive; will
+			be able to restart the offending process with little inconvenience to the user.
+		</para>
+		<note>
+			<para>
+				Not much work has been put into &kdenlive; yet to provide this convenience to the user,
+				it is planned to happen before version 1.0 but it would be a good task for somebody
+				new to &kdenlive; programming to take on and clean up.
+			</para>
+		</note>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="overall architecture.png" format="PNG"/>
+				</imageobject>
+		      		<textobject>
+					<phrase>The current client/server model</phrase>
+				</textobject>
+			</mediaobject>
+		</screenshot>
+		<para>
+			There are three parts to the client-server model, as seen in the above picture. &kdenlive; acts
+			as the client, and provides the user experience to the user. &piave; is the video renderer. It
+			performs all video operations and video rendering, including the display of the video monitor 
+			on-screen. &kdenlive; and &piave; communicate to each other over TCP sockets using VEML, an XML 
+			based communication protocol.
+		</para>
+		<note>
+			<para>
+				When we say all video operations are performed in &piave; we mean it. &kdenlive; cannot
+				load AVI files, DV files, mp3 files, etc. It has no idea what these formats are, and it
+				does not care. When we import a clip into &kdenlive; the first thing it does is query
+				&piave; to find out what the clip is. This is an intentional design decision and should
+				under no circumstances be circumvented.
+			</para>
+		</note>
+		<sect2 id="scheduler-introduction">
+			<title>Background Rendering and the Scheduler</title>
+			<note>
+				<para>
+					The scheduler has not yet been started, it is currently slated for version 0.7/
+					0.8. What is described here is the current plan on how to implement it.
+				</para>
+			</note>
+			<para>There is another advantage to the client-server model - it makes it very straight forward
+				to provide support for background rendering, and batch farm rendering. The scheduler
+				will act as a proxy for communications from &kdenlive; and will manage multiple instances
+			 	of &piave;. When a new scene file needs to be handled, the scheduler will intercept and
+				examine it. Any parts that have previously been renderered will be inserted into the file,
+				and any parts that needs to be renderered will be fired off to various piave instances to
+				render. When newly renderered parts of the scenelist return, they will be inserted into
+				the scenelist until it has been simplified to something that can be played in 
+				realtime.
+			</para>
+			<para>
+				Since the scheduler is a proxy, neither &kdenlive; or &piave; need to know that they are
+				using it. The scheduler acts completely transparently. However, &kdenlive; will have
+				a dialog for controlling the scheduler if one is used.
+			</para>
+			<screenshot>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="scheduler architecture.png" format="PNG"/>
+					</imageobject>
+			      		<textobject>
+						<phrase>How the architecture will look when the scheduler proxy
+							appears</phrase>
+					</textobject>
+				</mediaobject>
+			</screenshot>
+		</sect2>
+	</sect1>
+
+	<sect1 id="architecture-summary">
+		<title>&kdenlive; Architecture</title>
+		<para>
+			&kdenlive; follows the Model-View-Controller model of class design. However, it did not start
+			out purely like this; it has evolved as the design of the application started to take place.
+			So expect the odd inconsistancy. However inconsistancys should be considered to be architectural
+			bugs and should be fixed when they are found.
+		</para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="model view controller.png" format="PNG"/>
+				</imageobject>
+		      		<textobject>
+					<phrase>The model/view/controller architecture of &kdenlive;</phrase>
+				</textobject>
+			</mediaobject>
+		</screenshot>
+		<para>
+			The view consists of all of those classes that display something on the screen. All qt widgets
+			fall under this category, as well as the various dialogs, and the numerous classes that make
+			up the timeline widget. These widgets may be capable of creating commands that alter the document,
+			but they should not alter the document model directly themselves.
+		</para>
+		<para>
+			The Model contains everything that makes up the project itself. KdenliveDoc is the base class for
+			the document model, with DocClipBase, DocClipRef, DocTrackBase, the Effect classes and other 
+			such classes making up the model.
+		</para>
+		<para>
+			The controller consists of a command stack (provided by the KDE class KCommandStack) and a list
+			of commands that can be used to manipulate the document model. A command must be reversible - you
+			will notice that every command has an "unexecute" method, which must be filled in for the undo/redo
+			framework to work consistently. If you are trying to write a command and cannot write an
+			unexecute method for it, your command was not the correct choice to make.
+		</para>
+		<para>
+			From the diagram, we see that all control flows in a circle - the view displays the document,
+			and issues commands when manipulations of the view are attempted by the user. (Commands make
+			up the "controller") Commands modify the document model. When the document model changes, it
+			updates the view classes.
+		</para>
+
+		<para>
+			The document does not "know" about the viewer - we use the QT signal and slots mechanisms
+			to hook the two together. For the moment this is the preferred method, although an alternative
+			would be the Observer (also known as the Listener) Pattern.
+		</para>
+		<para>
+			The Viewer should never directly manipulate the document model. It should always create and
+			execute a command that manipulates the document model. This is to ensure that we remain inside
+			of the undo/redo architecture. See the chapter on <link linkend="commands">Commands</link> for
+			more details.
+		</para>
+	</sect1>
+	
+	<sect1 id="veml-summary">
+		<title>VEML</title>
+		<para>There needs to be a communication layer between &kdenlive; and &piave;. This is provided by
+			VEML - the Video Editing Markup Language. VEML provides the general communication
+			between &kdenlive; and &piave; such as starting videos playing, and requesting the properties 
+			of a video. More importantly, VEML also defines the scenelist definition that determines
+			what does and does not get rendered on the screen. For more information see the
+			<link linkend="veml">chapter on VEML</link></para>
+	</sect1>
+
+	<sect1 id="embedding-piave">
+		<title>Embedding &piave; into &kdenlive;</title>
+		<para>Although &kdenlive; and &piave; are separate applications, we do not want this to be exposed
+			to the user unless the user wants it to be exposed. It is vitally important that &piave;
+			integrates into the user interface. This works as follows.
+		</para>
+		<para>When &kdenlive; starts an instance of &piave; that is destined to be a video monitor, is
+			sends a VEML request asking &piave; to create a video window. When &piave; succeeds,
+			it sends a VEML reply back to &kdenlive; reporting it's success and providing a X11
+			window Id.
+		</para>
+		<para>&kdenlive; then uses this Id to embed &piave; into the relevant monitor window.</para>
+		<para>It is important to realise that &piave; is still in charge of the video window, and it
+			is equally important to note that &kdenlive; is in charge of all of the user interface
+			buttons that surround the window - &kdenlive; sends VEML commands to &piave; when a
+			button is pressed, and &piave; sends VEML reply's to &kdenlive; when the state of the
+			video window changes and needs to be updated in &kdenlive;
+		</para>
+	</sect1>
+</chapter>
+
+<chapter id="coding-conventions">
+	<title>Coding Conventions</title>
+	<para>
+		Never hack features in, unless there is no obvious way to avoid it. Whenever a more generic
+		solution presents itself to you and seems appropriate, use it. A good example of this is the
+		timeline. Initially, the timeline was heavily dependent on KdenliveDoc and DocTrackBase. Each
+		track type (video, sound, keyframe) knew how to draw the clips on that specific track, and knew
+		how to manipulate the clips on that track. Also, the timeline class laid itself out with certain
+	       	widgets that were specific to it's use as the main document timeline.
+	</para>
+	<para>
+		This was fine as far as it went, but had problems. Firstly, there was a certain amount of code
+		duplication in drawing clips on different tracks - fundamentally, all clips need to draw their
+		background in some color. There was also duplication of functionality - all clips on any track
+		can be moved and resized in similar ways.
+	</para>
+	<para>
+		However, this biggest problem that caused a redesign was in the design of the effect keyframe
+		dialog. Fundamentally, it required a timeline class that was almost identical to the main
+		document timeline but with certain differences - it would be displaying a single clip instead
+		of a track, and it would not need the same track panel options as the main timeline.
+	</para>
+	<para>
+		I had two options - I could write a new timeline widget (which would probably have been quicker),
+		or I could refactor the current one so that it was capable of the functionality I desired. In the
+		refactor, functionality, design and finally, the placement of clips were completely separated from
+		each other.
+	</para>
+	<note>
+		<para>
+			Take caution here - Only generalise when you need to, or it may be wasted effort. For instance,
+			don't add member functions to a class that you will never use. The one exception to this is :
+			even if you do not need them right away, always add cleanup code to the classes, and never
+			design a class that is static unless you are absolutely sure you will never need to dynamically
+			modify it.
+		</para>
+	</note>
+	<para>
+		&kdenlive; is a KDE application, and makes as much use of the KDE framework as it can. This goes
+		right down to coding styles. See the KDE coding guidelines for an in-depth description of how to
+		lay out your code in &kdenlive;. However, here is a quick run-down of the most important points.
+	</para>
+	<para>
+		All class member variables should begin with m_. For example, m_duration, m_time, m_lastPosition.
+		Parameters of methods and local variables have no prefix. For example, int count, GenTime temporary.
+		Static members should start with the prefix s_, for example s_maximumClients. As you notice, the
+		first word in a variable name should start with a lower case letter, all following words should
+		start with a capital letter. So, m_someVariable is correct, while m_SomeVariable and m_somevariable
+		are wrong.
+	</para>
+	<para>
+		Something that I have been trying to become consistant on is the use of design patterns in the
+		names of relevant classes. Design Patterns are patterns of class design, and naming common ones
+		serves the same purpose as naming common algorithms, and naming common data structures. For example,
+		a Decorator is an example of Design Pattern, A Linked List is an example of a data structure, and
+		a Quick Sort is an example of an algorithm. By using a standard jargon of names for patterns,
+		it makes it easier for developers to understand what is going on in the code.
+		Note that not all class names recognize which pattern they are a part of - this is because my
+		use of pattern names is a relatively new thing, and a lot of code was written before-hand.
+	</para>
+</chapter>
+
+<chapter id="document">
+	<title>The Document Classes</title>
+	<para>
+		The document classes are the core of &kdenlive;. They hold the data that makes up the user's
+		project.
+	</para>
+	<para>
+		KdenliveDoc was originally (and still kind-of is) the main document class. It acts as a wrapper 
+		around the other classes, and provides the overall document interface to the outside world. 
+		However, I will admit that with the changes in architecture, it is starting to look redundant. 
+		Most of the methods in KdenliveDoc are pass-through methods to DocClipProject.
+	</para>
+
+	<para>
+		DocClipProject is the base class for the document tree. A DocClipProject holds a list of tracks.
+		There are several types of track (At present only video is used, but there is a stub audio track
+		class), and they all inherit DocTrackBase. A track is a container that holds clips references
+		(DocClipRef).
+	</para>
+	<para>
+		Clip references exist to prevent &kdenlive; from making unnecessary requests of &piave; for clip
+		information, and to ensure that if the information contained in a clip changed all references get
+		updated instantly. Finally, by using references, we do not unnecessarily copy information around,
+		and save memory.
+	</para>
+	<para>
+		A DocClipRef holds a reference to a DocClipBase clip, which contains information about the clip
+		that we are using. Each reference stores information that is unique to each clip on the timeline.
+		Where on the parent track this clip starts (m_trackStart), where in the clip we should start 
+		playing from (m_cropStart), and how long the clip is on the timeline (m_cropDuration).
+	</para>
+	<note>
+		<para>
+			Do not confuse cropDuration() with duration(). cropDuration() will provide you with the
+			length of the clip on the timeline, while duration() will provide you with the total
+			duration of the DocClipBase clip that we are references. In video editing terms,
+			cropStart() will provide you the inpoint of the clip, and cropDuration() is the
+			duration between the inpoint and the outpoint of the clip.
+		</para>
+	</note>
+
+	<para>
+		There are a number of classes that inherit from DocClipBase - the two most important at the moment
+		are DocClipAVFile, and DocClipProject. DocClipAVFile is a representation of a video or audio (or both)
+		clip.
+	</para>
+	<para>
+		DocClipProject is also a DocClipBase. This means that you can reference entire projects and treat them
+		as a single clip. This behaviour is recursive, so you can have a DocClipProject with clips inside
+		referencing other DocClipProjects, which can have clips inside referencing other DocClipProjects,
+		with clips inside referencing DocClipPr...
+	</para>
+	<para>
+		Detail the document classes KdenliveDoc, DocClipBase, ClipManager, etc. Give an overview of how
+		it all fits together and why it is done the way it is. Provide some insight into the outstanding
+		issues.
+	</para>
+</chapter>
+
+<chapter id="timeline">
+	<title>The Timeline Classes</title>
+	<para>
+		The graphical interface that depicts the timeline, and the logic that goes behind the manipulations
+		of the timeline are implemented using quite a complex set of classes, which I will do my best to
+		detail here. The complexity comes from trying to make the timeline into a reusable widget,
+		and it is capable of quite a lot. The timeline is capable of :
+		<itemizedlist>
+			<listitem><para>Unlimited, scrolling tracks</para></listitem>
+			<listitem><para>Various time scales</para></listitem>
+			<listitem><para>Tracks can contain potentially any kind of information (video clips,
+			audio clips, subtitles, keyframe information, color gradients, etc.)</para></listitem>
+			<listitem><para>Common display code and tool functionality can be shared amongst tracks 	
+			that hold different information</para></listitem>
+			<listitem><para>Multiple tools can be defined, and common functionality can be shared 
+			across tools.</para></listitem>
+		</itemizedlist>
+	</para>
+	<para>
+		The base timeline class is KTimeline.
+		
+		Detail the timeline classes, including an overview of the decorator pattern and what we are
+		trying to achieve with it. Express that the timeline should do no direct manipulation of the
+		document model, and any manipulations that are done are a throwback to earlier code and need
+		to be reationalised.
+	</para>
+</chapter>
+
+<chapter id="commands">
+	<title>The Command (controller) Classes</title>
+	<para>
+		In &kdenlive; the controller is made up of a number of commands. Commands are the only way in
+		which you should manipulate the document model.
+	</para>
+	<note>
+		<para>
+			In some places in code at the moment, this is not strictyly true. Sometimes commands
+			are created for manipulations that have already occured, for instance, when moving
+			and resizing clips, and when we load/save the project, we do not do it via the
+			command interface. However, these should be considered exceptions to the rule.
+		</para>
+	</note>
+	<para>
+		A command knows all of the details necessary to make a particular change to the document,
+		and more importantly, it contains all of the details to reverse that change again. Every
+		command has two methods, an "execute" method which performs the desired change, and an
+		"unexecute" method that performs the opposite of the change.
+	</para>
+	<para>
+		For example - The KMoveClips command has all of the information required to move the currently
+		selected clips to a new location. It also has the necessary information to move them back to
+		where they started. The KAddClips command can add a clip, and stores the necessary information
+		to be able to delete that same clip afterwards.
+	</para>
+	<para>
+		When a command is created, it is added to the command stack (the KDE class KCommandStack implements
+		this). The command stack allows us to traverse forwards and backwards through the commands in the
+		stack, and this ability gives us complete undo/redo support.
+	</para>
+	<note>
+		<para>
+			It is essential that a command's unexecure method returns the document to the exact same
+			state it was in before the command's execute method was called.
+		</para>
+	</note>
+	<para>
+		Be careful when implementing commands to only use data that will not change during the lifetime
+		of the command. Do not use pointers to clips, tracks, etc. since these will change if a later
+		command deletes those pointers (when unexecuted, the document will be in a correct state, but
+		the pointers will have different values). 
+	</para>
+
+	<para>
+		In the future, &kdenlive; will become scriptable. It is envisaged that the command classes will
+		become the "basic primitive" methods that will be available via this scripting language. Try
+		to keep this in mind when you put together your classes.
+	</para>
+</chapter>
+
+<chapter id="communication">
+	<title>Communication with the Renderer</title>
+	<para>
+		This chapter provides details on how &kdenlive; talks to the renderer, and how it should and
+		should not go about this. For details on the communication protocol, see the 
+		<link linkend="veml">veml</link> chapter.
+	</para>
+</chapter>
+
+<chapter id="veml">
+	<title>VEML - Video Editing Markup Language</title>
+	<para>
+		VEML serves two purposes between &kdenlive; and &piave;. The first purpose is to serve as the
+		communication protocol between the two applications to tell each other what to do. For instance,
+		&kdenlive; will send a VEML command to &piave; to start a video playing or request the length of
+		a video. &piave; will send a VEML command in reply to these commands, and will also send VEML
+		commands to &kdenlive; to report changes in it's state - for instance, when rendering, &piave;
+		sends a VEML command to &kdenlive; to alert it to it's progress.
+	</para>
+	<para>The other purpose of VEML is to define a scenelist definition. The scenelist defines exactly what
+		the video output of the renderer should be. The scenelist serves a similar purpose to SMIL, and
+		for that reason the format of VEML is converging with that of SMIL, apart from in some places where
+		SMIL is deficient for our purposes. </para>
+	<para>VEML is an XML protocol.</para>
+	
+</chapter>
+
+<chapter id="credits">
+
+<!-- Include credits for the programmers, documentation writers, and
+contributors here. The license for your software should then be included below
+the credits with a reference to the appropriate license file included in the KDE
+distribution. -->
+
+<title>Credits and License</title>
+
+<para>
+&kapp;
+</para>
+<para>
+	Program copyright 2002-2004 Jason Wood <email>jasonwood@blueyonder.co.uk</email>
+</para>
+<para>
+	Contributors:
+	<itemizedlist>
+		<listitem>
+			<para>
+				Caulier Gilles <email>caulier.Gilles@free.fr</email> : &kdenlive; and &piave; i18n, French translations, splashscreen
+			</para>
+		</listitem>
+		<listitem>
+			<para>
+				Rolf Dubitzky <email>dubitzky@pktw06.phy.tu-dresden.de</email> : &piave; implementations
+			</para>
+		</listitem>
+	</itemizedlist>
+</para>
+
+<para>
+	Documentation copyright 2004 Jason Wood <email>jasonwood@blueyonder.co.uk</email>
+</para>
+
+<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
+
+&underFDL;               <!-- FDL: do not remove. Commercial development should -->
+<!-- replace this with their copyright and either remove it or re-set this.-->
+
+<!-- Determine which license your application is licensed under, 
+     and delete all the remaining licenses below:
+
+     (NOTE:  All documentation are licensed under the FDL, 
+     regardless of what license the application uses) -->
+
+&underGPL;        	 <!-- GPL License -->
+
+</chapter>
+
+<appendix id="installation">
+<title>Installation</title>
+
+<sect1 id="getting-kdenlive">
+<title>How to obtain &kdenlive;</title>
+
+<para>
+	The &kdenlive; WEB site is 
+	<ulink url="http://www.uchian.pwp.blueyonder.co.uk/kdenlive.html">http://www.uchian.pwp.blueyonder.co.uk/kdenlive.html</ulink>.
+	&kdenlive; can be found in the SourceForge project page on
+	<ulink url="http://sourceforge.net/projects/kdenlive/">http://sourceforge.net/projects/kdenlive/</ulink>
+</para>
+</sect1>
+
+<sect1 id="requirements">
+<title>Requirements</title>
+
+<!--
+List any special requirements for your application here. This should include:
+.Libraries or other software that is not included in kdesupport,
+kdelibs, or kdebase.
+.Hardware requirements like amount of RAM, disk space, graphics card
+capabilities, screen resolution, special expansion cards, etc.
+.Operating systems the app will run on. If your app is designed only for a
+specific OS, (you wrote a graphical LILO configurator for example) put this
+information here.
+-->
+
+<para>
+	In order to successfully use &kdenlive;, you need KDE 3.0 or higher. Additionally,
+	you need piave in order to do anthing useful - kdenlive itself is after all, just
+       	an interface :-)
+</para>
+
+<para>
+	All required libraries as well as &kdenlive; itself can be found on or via 
+	<ulink url="http://pwp.blueyonder.co.uk/kdenlive.html">The &kdenlive; home page</ulink>.
+</para>
+
+<!-- For a list of updates, you may refer to the application web site
+or the ChangeLog file, or ... -->
+<para>
+	You can find a list of changes at <ulink url="http://pwp.blueyonder.co.uk/kdenlive.html">http://pwp.blueyonder.co.uk/kdenlive.html</ulink>. FIXME : this link does not actually point at a changelog.
+</para>
+</sect1>
+
+<sect1 id="compilation">
+	<title>Compilation and Installation</title>
+
+	<para>
+		In order to compile and install &kdenlive; on your system, type the following in the base
+		directory of the &kdenlive; distribution:
+		<screen width="40">
+                        <prompt>%</prompt> <userinput>./configure</userinput>
+		</screen>
+		<screen width="40">
+                        <prompt>%</prompt> <userinput>make</userinput>
+		</screen>
+		<screen width="40">
+                        <prompt>%</prompt> <userinput>make install</userinput>
+		</screen>
+	</para>
+
+	<para>
+		Additional parameters for ./configure script may be required. Type the following in the base
+		directory of the &kdenlive; distribution:
+		<screen width="40">
+			<prompt>%</prompt> <userinput>./configure --help</userinput>
+		</screen>
+	</para>
+
+	<para>
+		Since &kdenlive; uses autoconf and automake you should have not trouble compiling it.
+		Should you run into problems please report them to 
+		<email>jasonwood@blueyonder.co.uk</email>.
+	</para>
+
+</sect1>
+
+</appendix>
+
+&documentation.index;
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -108,4 +108,4 @@ void KAddMarkerCommand::deleteMarker()
 	}
 }
 
-};
+}

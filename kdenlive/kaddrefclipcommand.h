@@ -1,5 +1,5 @@
 /***************************************************************************
-                          kaddclipcommand.h  -  description
+0                          kaddclipcommand.h  -  description
                              -------------------
     begin                : Fri Dec 13 2002
     copyright            : (C) 2002 by Jason Wood
@@ -65,7 +65,7 @@ private: // Private attributes
 		other way around. */
 	bool m_create;
 	/** An xml representation of the clip */
-	QDomElement m_xmlClip;
+	QDomDocument m_xmlClip;
 	/** A time within the clip so that we can find it when we want to delete it. */
 	GenTime m_findTime;
 	/** The track that the clip to be deleted is on. */

@@ -14,7 +14,7 @@ where x.x.x is the version number.
 Once extracted, you can enter the directory and configure and build kdenlive.
 
 cd kdenlive
-./configure
+./configure --prefix=`kde-config --prefix`
 make
 
 To install, become root.

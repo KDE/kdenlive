@@ -123,7 +123,7 @@ public:
 	void setSceneList( QDomDocument list );
 	/** Wraps the VEML command of the same name - sends a <ping> command to the server, which
 	should reply with a <pong> - let's us determine the round-trip latency of the connection. */
-	void ping( QString &ID );;
+	void ping( QString &ID );
 	/** Wraps the VEML command of the same name. Tells the renderer to
 	play the current scene at the speed specified, relative to normal
 	playback. e.g. 1.0 is normal speed, 0.0 is paused, -1.0 means play

@@ -68,7 +68,7 @@ public:
 	/** Adds all of the clips in the pointerlist into this track. */
 	void addClips(DocClipRefList list, bool selected);
 	/** returns true if all of the clips within the cliplist can be added, returns false otherwise. */
-	bool canAddClips(DocClipRefList clipList);;
+	bool canAddClips(DocClipRefList clipList);
 	/** Returns true if the clip given exists in this track, otherwise returns
 	false. */
 	bool clipExists(DocClipRef *clip);
@@ -135,6 +135,12 @@ public:
 	/** Checks to see if the track length has changed since it was last calculated, and if it has, emit a
 	"track length changed" signal. */
 	void checkTrackLength();
+
+	/** Add a new effect to a clip on the track, and emit a signal. */
+	void addEffectToClip(const GenTime &position, int effectIndex, Effect *effect);
+
+	/** Delete an effect from a clip on the track and emit a signal. */
+	void deleteEffectFromClip(const GenTime &position, int effectIndex);
 private: // Private methods
 	/** Enables or disables clip sorting. This method is used internally to turn off the sorting of clips when it is known that they will be sorted elsewhere.
 
@@ -158,6 +164,8 @@ signals:
 	void clipChanged(DocClipRef *);
 	/** Emitted if the length of the track changes. */
 	void trackLengthChanged(const GenTime &);
+	/** Emitted when the specified clips effectStack changes. */
+	void effectStackChanged(DocClipRef *);
 protected: // Protected attributes
 	/** Contains a list of all of the unselected clips within this track. */
 	DocClipRefList m_unselectedClipList;

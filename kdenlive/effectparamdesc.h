@@ -19,6 +19,7 @@
 
 #include <qstring.h>
 
+class DocClipRef;
 class DocTrackBase;
 class EffectKeyFrame;
 class KdenliveApp;
@@ -41,13 +42,21 @@ public:
 	virtual ~EffectParamDesc();
 
 	/** Creates a parameter that conforms to this parameter Description */
-	virtual EffectKeyFrame *createKeyFrame() = 0;
+	virtual EffectKeyFrame *createKeyFrame(double time) = 0;
 
 	/** Creates a track panel that can edit this parameter type. */
 	virtual KMMTrackPanel *createTrackPanel(KdenliveApp *app,
 									KTimeLine *timeline,
 									KdenliveDoc *document,
 									DocTrackBase *docTrack,
+									QWidget *parent=0,
+									const char *name=0) = 0;
+
+	/** Creates a track panel that can edit this parameter type. */
+	virtual KMMTrackPanel *createClipPanel(KdenliveApp *app,
+									KTimeLine *timeline,
+									KdenliveDoc *document,
+									DocClipRef *clip,
 									QWidget *parent=0,
 									const char *name=0) = 0;
 

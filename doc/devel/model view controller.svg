@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   id="svg1"
+   sodipodi:version="0.32"
+   inkscape:version="0.37"
+   width="210mm"
+   height="297mm"
+   sodipodi:docbase="/home/uchian/cvs/kdenlive/doc/devel"
+   sodipodi:docname="model view controller.svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xml="http://www.w3.org/XML/1998/namespace"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.20386146"
+     inkscape:cx="300.357984"
+     inkscape:cy="638.447767"
+     inkscape:window-width="1017"
+     inkscape:window-height="688"
+     inkscape:window-x="0"
+     inkscape:window-y="0" />
+  <g
+     id="g911"
+     transform="matrix(1.706637,0.000000,0.000000,1.706637,-37.02610,-16.81949)">
+    <g
+       id="g737"
+       transform="matrix(0.507957,0.000000,0.000000,0.515633,0.465472,-21.13016)"
+       style="font-size:12;">
+      <rect
+         style="font-size:12;fill:#ffc58f;fill-rule:evenodd;stroke:#000000;stroke-width:1.08063;"
+         id="rect639"
+         width="290.80676270"
+         height="112.48296337"
+         x="427.75222778"
+         y="286.32366856" />
+      <text
+         xml:space="preserve"
+         style="font-size:12;font-weight:normal;stroke-width:1pt;font-family:Arial;"
+         x="99.0830062"
+         y="74.0831070"
+         id="text640"
+         sodipodi:linespacing="100%"
+         transform="scale(4.567937,4.567937)"><tspan
+           x="99.0830078"
+           y="74.0831070"
+           sodipodi:role="line"
+           id="tspan641">Controller</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:12;font-weight:normal;stroke-width:1pt;font-family:Arial;text-anchor:middle;"
+         x="176.515335"
+         y="181.653570"
+         id="text643"
+         sodipodi:linespacing="100%"
+         transform="translate(396.6403,178.5920)"><tspan
+           x="176.515335"
+           y="181.653564"
+           sodipodi:role="line"
+           id="tspan644">KAddClipCommand, KMoveClipCommand,</tspan><tspan
+           sodipodi:role="line"
+           id="tspan708"
+           x="176.515335"
+           y="193.653564">KAddEffect, and all other commands</tspan><tspan
+           sodipodi:role="line"
+           id="tspan714"
+           x="176.515335"
+           y="205.653564">in the Command namespace.</tspan></text>
+    </g>
+    <g
+       id="g780"
+       transform="matrix(0.507957,0.000000,0.000000,0.515633,37.91266,-21.66555)"
+       style="font-size:12;">
+      <rect
+         style="font-size:12;fill:#ffc58f;fill-rule:evenodd;stroke:#000000;stroke-width:1.01449;"
+         id="rect574"
+         width="209.81738281"
+         height="137.40277564"
+         x="88.21985626"
+         y="88.17840032" />
+      <text
+         xml:space="preserve"
+         style="font-size:12;font-weight:normal;stroke-width:1pt;font-family:Arial;"
+         x="25.6578684"
+         y="34.9862480"
+         id="text577"
+         sodipodi:linespacing="100%"
+         transform="matrix(4.567937,0.000000,0.000000,4.567937,16.61321,-13.49823)"><tspan
+           x="25.6578693"
+           y="34.9862480"
+           sodipodi:role="line"
+           id="tspan582">View</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:12;font-weight:normal;stroke-width:1pt;font-family:Arial;text-anchor:middle;"
+         x="176.515335"
+         y="181.653570"
+         id="text584"
+         sodipodi:linespacing="100%"
+         transform="translate(16.61321,-13.49823)"><tspan
+           x="176.515335"
+           y="181.653564"
+           sodipodi:role="line"
+           id="tspan591">Timeline, Effect Dialogs, Clip</tspan><tspan
+           x="176.515335"
+           y="193.653564"
+           sodipodi:role="line"
+           id="tspan593">Monitor Windows, debug window,</tspan><tspan
+           x="176.515335"
+           y="205.653564"
+           sodipodi:role="line"
+           id="tspan595">project view window, all other</tspan><tspan
+           x="176.515335"
+           y="217.653564"
+           sodipodi:role="line"
+           id="tspan597">dialogs.</tspan></text>
+    </g>
+    <path
+       style="font-size:12;fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#000000;stroke-width:0.659691pt;"
+       d="M 369.10594 130.19813 C 479.56273 130.19813 499.70894 224.07689 499.70894 224.07689 "
+       id="path800"
+       transform="matrix(0.747100,0.000000,0.000000,0.747100,-77.50943,-49.05748)" />
+    <path
+       style="font-size:12;fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#000000;stroke-width:0.70306pt;"
+       d="M 501.23755 316.2306 C 474.08208 427.69069 374.63697 406.35484 374.63697 406.35484 "
+       id="path801"
+       sodipodi:nodetypes="cc"
+       transform="matrix(0.747100,0.000000,0.000000,0.747100,-77.50943,-49.05748)" />
+    <path
+       style="font-size:12;fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#000000;stroke-width:0.728714pt;"
+       d="M 252.12018 350.20409 C 214.57262 300.03986 236.94138 232.67648 262.50566 196.12826 "
+       id="path802"
+       sodipodi:nodetypes="cc"
+       transform="matrix(0.747100,0.000000,0.000000,0.747100,-77.50943,-49.05748)" />
+    <path
+       style="font-size:12;fill-rule:evenodd;stroke:#000000;stroke-width:0.488182pt;"
+       d="M 369.43271 405.35317 L 383.66335 418.30817 L 385.61524 396.25197 L 369.43271 405.35317 z "
+       id="path804"
+       sodipodi:nodetypes="cccc"
+       transform="matrix(0.747100,0.000000,0.000000,0.747100,-77.50943,-49.05748)" />
+    <path
+       style="font-size:12;fill-rule:evenodd;stroke:#000000;stroke-width:0.488182pt;"
+       d="M 262.21641 193.86116 L 247.1467 205.79842 L 268.19073 211.63479 L 262.21641 193.86116 z "
+       id="path805"
+       sodipodi:nodetypes="cccc"
+       transform="matrix(0.747100,0.000000,0.000000,0.747100,-77.50943,-49.05748)" />
+    <path
+       style="font-size:12;fill-rule:evenodd;stroke:#000000;stroke-width:0.488182pt;"
+       d="M 496.47573 232.46499 L 508.77716 217.61316 L 486.99813 216.33674 L 496.47573 232.46499 z "
+       id="path806"
+       sodipodi:nodetypes="cccc"
+       transform="matrix(0.747100,0.000000,0.000000,0.747100,-77.50943,-49.05748)" />
+    <g
+       id="g901">
+      <rect
+         style="font-size:12;fill:#ffc58f;fill-rule:evenodd;stroke:#000000;stroke-width:1.03064;"
+         id="rect653"
+         width="285.61514282"
+         height="104.17636684"
+         x="48.24429321"
+         y="475.47375284"
+         transform="matrix(0.507957,0.000000,0.000000,0.515633,27.89159,-29.69650)" />
+      <text
+         xml:space="preserve"
+         style="font-size:12;font-weight:normal;stroke-width:1pt;font-family:Arial;"
+         x="37.4798994"
+         y="103.460038"
+         id="text654"
+         sodipodi:linespacing="100%"
+         transform="scale(2.320316,2.355379)"><tspan
+           x="37.4799004"
+           y="103.460037"
+           sodipodi:role="line"
+           id="tspan655">Model</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:12;font-weight:normal;stroke-width:1pt;font-family:Arial;text-anchor:middle;"
+         x="176.515335"
+         y="181.653570"
+         id="text657"
+         sodipodi:linespacing="100%"
+         transform="matrix(0.507957,0.000000,0.000000,0.515633,35.27553,161.2817)"><tspan
+           x="176.515335"
+           y="181.653564"
+           sodipodi:role="line"
+           id="tspan658">KdenliveDoc, DocClipBase, DocClipRef, Effect</tspan><tspan
+           sodipodi:role="line"
+           id="tspan749"
+           x="176.515335"
+           y="193.653564">and all other document related classes.</tspan></text>
+    </g>
+  </g>
+  <text
+     xml:space="preserve"
+     style="fill:black;fill-opacity:1;stroke:none;font-family:helvetica;font-style:normal;font-weight:normal;font-size:12px;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;"
+     x="336.764463"
+     y="72.8582446"
+     id="text860"
+     transform="scale(1.248556,1.248556)"><tspan
+       id="tspan861">Creates Commands and adds </tspan><tspan
+       sodipodi:role="line"
+       id="tspan863"
+       x="336.764465"
+       y="84.8582458">them to the command stack.</tspan></text>
+  <text
+     xml:space="preserve"
+     style="fill:black;fill-opacity:1;stroke:none;font-family:helvetica;font-style:normal;font-weight:normal;font-size:12px;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;"
+     x="339.607141"
+     y="311.367143"
+     id="text865"
+     transform="scale(1.268463,1.268463)"><tspan
+       id="tspan866">Executes commands in the </tspan><tspan
+       sodipodi:role="line"
+       id="tspan868"
+       x="339.607147"
+       y="323.367157">command stack.</tspan></text>
+  <text
+     xml:space="preserve"
+     style="fill:black;fill-opacity:1;stroke:none;font-family:helvetica;font-style:normal;font-weight:normal;font-size:12px;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;"
+     x="111.323106"
+     y="191.250604"
+     id="text870"
+     transform="scale(1.230418,1.230418)"><tspan
+       id="tspan871">Updates via signals and</tspan><tspan
+       sodipodi:role="line"
+       id="tspan873"
+       x="111.323105"
+       y="203.250610">slots when the model</tspan><tspan
+       sodipodi:role="line"
+       id="tspan875"
+       x="111.323105"
+       y="215.250610">changes.</tspan></text>
+</svg>

@@ -66,6 +66,12 @@ int main( int argc, char *argv[] )
 	    I18N_NOOP( "Piave and Kdenlive internationalization, French translations, splashscreen" ),
 	    "caulier.gilles@free.fr",
 	    "http://caulier.gilles.free.fr" );
+	
+	aboutData.addAuthor(
+	    "Danny Allen",
+	    I18N_NOOP( "Artist, Kdenlive logo, splashscreen and application icon" ),
+	    "dannya40uk@yahoo.co.uk",
+	    "" );
 
 	KCmdLineArgs::init( argc, argv, &aboutData );
 	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.

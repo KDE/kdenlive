@@ -18,18 +18,45 @@
 #define EFFECTPARAMETER_H
 
 #include <qstring.h>
+#include <qptrlist.h>
+
+#include "gentime.h"
+
+class EffectKeyFrame;
+
 /**
 A parameter in an effect. Contains a list of keyframes that make up that parameter, and which conforms to the parameter description.
 
 @author Jason Wood
 */
+
+typedef QPtrList<EffectKeyFrame> KeyFrameList;
+typedef QPtrListIterator<EffectKeyFrame>KeyFrameListIterator;
+
 class EffectParameter{
 public:
     EffectParameter(const QString &name);
 
     ~EffectParameter();
+
+    /** @returns the number of keyframes in this effect parameter. */
+    int numKeyFrames() const;
+
+    /** @returns the keyframe in the list. */
+    EffectKeyFrame *keyframe(int ix) const;
+
+    /* @returns a keyframe at the given time. If the keyframe already exists,
+     * it is returned. If it does not exist, a keyframe is created via interpolation.
+     * This returned keyframe will not alter the shape of the keyframe graph - so
+     * special care is (will be) taken in the implementation for bezier keyframes
+     * and other spline-based keyframes.
+     * @note that the returned keyframe must be deleted by the caller to avoid memory
+     * leaks.
+     */
+    EffectKeyFrame *interpolateKeyFrame(double time) const;
 private:
 	QString m_name;
+	KeyFrameList m_keyFrames;
 };
 
 #endif

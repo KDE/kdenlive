@@ -19,6 +19,7 @@
 #include "kdenlivedoc.h"
 #include "kresizecommand.h"
 #include "kdebug.h"
+#include "ktrackplacer.h"
 
 #include "trackpanelclipresizefunction.h"
 #include "trackpanelclipmovefunction.h"
@@ -31,8 +32,7 @@
 #include "trackviewbackgrounddecorator.h"
 #include "trackviewdoublekeyframedecorator.h"
 
-KMMTrackKeyFramePanel::KMMTrackKeyFramePanel(KdenliveApp *app,
-						KTimeLine *timeline,
+KMMTrackKeyFramePanel::KMMTrackKeyFramePanel(KTimeLine *timeline,
 						KdenliveDoc *doc,
 						DocTrackBase *docTrack,
 						const QString &effectName,
@@ -40,7 +40,7 @@ KMMTrackKeyFramePanel::KMMTrackKeyFramePanel(KdenliveApp *app,
 						const QString &effectParam,
 						QWidget *parent,
 						const char *name) :
-					KMMTrackPanel(timeline, doc, docTrack, parent,name)
+					KMMTrackPanel(timeline, doc, new KTrackPlacer(doc, timeline, docTrack), parent,name)
 {
 	setMinimumHeight(30);
 	setMaximumHeight(30);
@@ -52,8 +52,8 @@ KMMTrackKeyFramePanel::KMMTrackKeyFramePanel(KdenliveApp *app,
 	addFunctionDecorator("spacer", "spacer");
 	addFunctionDecorator("marker", "marker");
 
-	addViewDecorator(new TrackViewBackgroundDecorator(timeline, doc, docTrack, QColor(128, 128, 128), QColor(200, 200, 200)));
-	addViewDecorator(new TrackViewDoubleKeyFrameDecorator(timeline, doc, docTrack, effectName, effectIndex, effectParam));
+	addViewDecorator(new TrackViewBackgroundDecorator(timeline, doc, QColor(128, 128, 128), QColor(200, 200, 200)));
+	addViewDecorator(new TrackViewDoubleKeyFrameDecorator(timeline, doc, effectName, effectIndex, effectParam));
 }
 
 

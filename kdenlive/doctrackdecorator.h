@@ -27,26 +27,13 @@ An abstract class for all decorators that implement a view based on a DocTrack.
 class DocTrackDecorator : public TrackViewDecorator
 {
 public:
-	DocTrackDecorator(KTimeLine *timeline, KdenliveDoc *doc, DocTrackBase *track);
+	DocTrackDecorator(KTimeLine *timeline, KdenliveDoc *doc);
 
     	~DocTrackDecorator();
-
-  	/** This function will paint a clip on screen. This funtion must be provided by a derived class. */
-	virtual void paintClip(QPainter &painter, DocClipRef *clip, QRect &rect, bool selected) = 0;
-
-
-	/**
-	Paints the backbuffer into the relevant place using the painter supplied. The
-	track should be drawn into the area provided in area
-	*/
-	void drawToBackBuffer(QPainter &painter, QRect &rect);
-
 protected:
 	KdenliveDoc *document() { return m_document; }
-	DocTrackBase *docTrack() { return m_docTrack; }
 private:
 	KdenliveDoc *m_document;
-	DocTrackBase *m_docTrack;
 };
 
 #endif

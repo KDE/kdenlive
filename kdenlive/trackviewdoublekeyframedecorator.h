@@ -26,11 +26,11 @@
 class TrackViewDoubleKeyFrameDecorator : public DocTrackDecorator
 {
 public:
-    TrackViewDoubleKeyFrameDecorator(KTimeLine *timeline, KdenliveDoc *doc, DocTrackBase *track, const QString &effectName, int effectIndex, const QString &paramName);
+    TrackViewDoubleKeyFrameDecorator(KTimeLine *timeline, KdenliveDoc *doc, const QString &effectName, int effectIndex, const QString &paramName);
 
     ~TrackViewDoubleKeyFrameDecorator();
 
-    void paintClip(QPainter& painter, DocClipRef* clip, QRect& rect, bool selected);
+    virtual void paintClip(double startX, double endx, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected);
 private:
 	QString m_effectName;
 	int m_effectIndex;

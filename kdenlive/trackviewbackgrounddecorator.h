@@ -33,13 +33,12 @@ class TrackViewBackgroundDecorator : public DocTrackDecorator
 public:
     TrackViewBackgroundDecorator(KTimeLine* timeline,
 									KdenliveDoc* doc,
-									DocTrackBase* track,
 									const QColor &selected,
 									const QColor &unselected);
 
     virtual ~TrackViewBackgroundDecorator();
 
-    virtual void paintClip(QPainter& painter, DocClipRef* clip, QRect& rect, bool selected);
+    virtual void paintClip(double startX, double endx, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected) ;
 private:
 	QColor m_selected;
 	QColor m_unselected;

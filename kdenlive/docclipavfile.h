@@ -64,8 +64,6 @@ public:
 	/** Returns true if the clip duration is known, false otherwise. */
 	virtual bool durationKnown() const;
 	virtual double framesPerSecond() const;
-	/** Returns a scene list generated from this clip. */
-	virtual QDomDocument generateSceneList() const;
 	// Appends scene times for this clip to the passed vector.
 	virtual void populateSceneTimes(QValueVector<GenTime> &toPopulate) const;
 	// Returns an XML document that describes part of the current scene.

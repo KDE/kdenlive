@@ -291,7 +291,6 @@ class KdenliveApp : public KDockMainWindow
 
 		/** Razor selected clips at the specified location */
 		void slotRazorSelectedClips();
-
 	private:
 		/** the configuration object of the application */
 		KConfig *config;
