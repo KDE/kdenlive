@@ -36,36 +36,35 @@
 #include <map>
 
 ProjectList::ProjectList(KdenliveApp *app, KdenliveDoc *document, QWidget *parent, const char *name) :
-						ProjectList_UI(parent,name)
+						ProjectList_UI(parent,name),
+						m_app(app),
+						m_document(document)
 {
 	if(!document) {
 		kdError() << "ProjectList created with no document - expect a crash shortly" << endl;
 	}
 
-	m_document = document;
 	m_listView->setDocument(document);
 
  	connect (m_listView, SIGNAL(dragDropOccured(QDropEvent *)), this, SIGNAL(dragDropOccured(QDropEvent *)));
 
-  m_menu = (QPopupMenu *)app->factory()->container("projectlist_context", app);
-
 	connect(m_listView, SIGNAL(rightButtonPressed ( QListViewItem *, const QPoint &, int )),
-					this, SLOT(rightButtonPressed ( QListViewItem *, const QPoint &, int )));
+				this, SLOT(rightButtonPressed ( QListViewItem *, const QPoint &, int )));
 
-  connect(m_listView, SIGNAL(executed(QListViewItem *)), this, SLOT(projectListSelectionChanged(QListViewItem *)));
-  connect(m_listView, SIGNAL(dragStarted(QListViewItem *)), this, SLOT(projectListSelectionChanged(QListViewItem *)));
+	connect(m_listView, SIGNAL(executed(QListViewItem *)), this, SLOT(projectListSelectionChanged(QListViewItem *)));
+	connect(m_listView, SIGNAL(dragStarted(QListViewItem *)), this, SLOT(projectListSelectionChanged(QListViewItem *)));
 }
 
 ProjectList::~ProjectList()
 {
-  delete m_menu;
 }
 
 /** No descriptions */
 void ProjectList::rightButtonPressed ( QListViewItem *listViewItem, const QPoint &pos, int column) {
-  if(m_menu) {
-  	m_menu->popup(QCursor::pos());
-  }
+	QPopupMenu *menu = contextMenu();
+	if(menu) {
+		menu->popup(QCursor::pos());
+	}
 }
 
 /** Get a fresh copy of files from KdenliveDoc and display them. */
@@ -105,3 +104,9 @@ const AVFile *ProjectList::currentSelection() const
   return 0;
 }
 
+QPopupMenu *ProjectList::contextMenu()
+{
+	QPopupMenu *menu = (QPopupMenu *)m_app->factory()->container("projectlist_context", m_app);
+
+	return menu;
+}

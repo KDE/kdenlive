@@ -42,29 +42,30 @@ class ProjectList : public ProjectList_UI  {
 public: 
 	ProjectList(KdenliveApp *app, KdenliveDoc *document, QWidget *parent=0, const char *name=0);
 	~ProjectList();
-  /** Returns the currently selected clip in the project list. */
-  const AVFile *currentSelection() const;
+	/** Returns the currently selected clip in the project list. */
+	const AVFile *currentSelection() const;
 private: // Private methods
-  /** Holds the document that this projectlist makes use of. */
-  KdenliveDoc * m_document;
-	/** The popup menu */	
-	QPopupMenu *m_menu;	
+	/** Holds the document that this projectlist makes use of. */
+	KdenliveDoc * m_document;
+	/** Holds a pointer to the application. FIXME: Is this necessary? */
+	KdenliveApp *m_app;
+	/** return a popup menu. Must be deleted by owner.*/
+	QPopupMenu *contextMenu();
 public slots: // Public slots
-  /** No descriptions */
-  void rightButtonPressed ( QListViewItem *listViewItem, const QPoint &pos, int column) ;
-  /** Get a fresh copy of files and clips from KdenliveDoc and display them. */
-  void slot_UpdateList();
-  /** The AVFile specified has changed - update the display.
- */
-  void slot_avFileChanged(AVFile *file);
+	/** No descriptions */
+	void rightButtonPressed ( QListViewItem *listViewItem, const QPoint &pos, int column) ;
+	/** Get a fresh copy of files and clips from KdenliveDoc and display them. */
+	void slot_UpdateList();
+	/** The AVFile specified has changed - update the display. */
+	void slot_avFileChanged(AVFile *file);
 signals: // Signals
-  /** this signal is called when a number of clips have been dropped onto the project list view. */
-  void dragDropOccured(QDropEvent *drop);
-  /** This signal is emitted when an AVFile is selected in the project list. */
-  void AVFileSelected(AVFile *file);
+	/** this signal is called when a number of clips have been dropped onto the project list view. */
+	void dragDropOccured(QDropEvent *drop);
+	/** This signal is emitted when an AVFile is selected in the project list. */
+	void AVFileSelected(AVFile *file);
 private slots: // Private slots
-  /** Called when the project list changes. */
-  void projectListSelectionChanged(QListViewItem *item);
+	/** Called when the project list changes. */
+	void projectListSelectionChanged(QListViewItem *item);
 };
 
 #endif
