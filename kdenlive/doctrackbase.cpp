@@ -142,7 +142,7 @@ void DocTrackBase::addClips(DocClipBaseList list, bool selected)
 
 bool DocTrackBase::clipExists(DocClipBase *clip)
 {
-	return ((m_unselectedClipList.find(clip)!=-1) || (m_selectedClipList.find(clip)!=-1));
+	return ((m_unselectedClipList.findRef(clip)!=-1) || (m_selectedClipList.findRef(clip)!=-1));
 }
 
 bool DocTrackBase::removeClip(DocClipBase *clip)
@@ -374,4 +374,10 @@ GenTime DocTrackBase::trackLength()
 	}
 
 	return (slength > ulength) ? slength : ulength;
+}
+
+/** Returns the number of clips contained in this track. */
+unsigned int DocTrackBase::numClips()
+{
+	return m_selectedClipList.count() + m_unselectedClipList.count();
 }

@@ -164,3 +164,9 @@ GenTime DocClipBase::trackEnd()
 {
 	return trackStart() + cropDuration();
 }
+
+/** Returns the parentTrack of this clip. */
+DocTrackBase * DocClipBase::parentTrack()
+{
+	return m_parentTrack;
+}

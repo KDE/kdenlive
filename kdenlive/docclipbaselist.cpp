@@ -35,7 +35,7 @@ int DocClipBaseList::compareItems (QPtrCollection::Item i1, QPtrCollection::Item
 	DocClipBase *item2 = (DocClipBase *)i2;
 	
 	double diff = item1->trackStart().seconds() - item2->trackStart().seconds();
-
+	
 	if(diff==0) return 0;
   return (diff > 0) ? 1 : -1;
 }

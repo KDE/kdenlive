@@ -88,6 +88,8 @@ public:
   /** Returns the end of the clip on the track. A convenience function, equivalent
 to trackStart() + cropDuration() */
   GenTime trackEnd();
+  /** Returns the parentTrack of this clip. */
+  DocTrackBase * parentTrack();
 private: // Private attributes
 	/** The name of this clip */
 	QString m_name;

@@ -107,6 +107,8 @@ is not on the track, or if the clip is unselected. */
   /** Returns the total length of the track - in other words, it returns the end of the
 last clip on the track. */
   GenTime trackLength();
+  /** Returns the number of clips contained in this track. */
+  unsigned int numClips();
 private: // Private methods
   /** Enables or disables clip sorting. This method is used internally to turn off the sorting of clips when it is known that they will be sorted elsewhere.
 

@@ -24,6 +24,7 @@
 #include <kmessagebox.h>
 #include <kio/job.h>
 #include <kio/netaccess.h>
+#include <kdebug.h>
 
 // application specific includes
 #include "kdenlivedoc.h"
@@ -150,6 +151,7 @@ bool KdenliveDoc::newDocument()
   addVideoTrack();
   addVideoTrack();
   addVideoTrack();
+  addVideoTrack();  
 
   modified=false;
   doc_url.setFileName(i18n("Untitled"));

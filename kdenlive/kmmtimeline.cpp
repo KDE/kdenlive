@@ -326,6 +326,7 @@ bool KMMTimeLine::moveSelectedClips(int newTrack, GenTime start)
 	trackOffset = newTrack - trackOffset;
 	startOffset = start - startOffset;
 
+
 	// For each track, check and make sure that the clips can be moved to their rightful place. If
 	// one cannot be moved, then none of them can be moved.
 	int destTrackNum;
@@ -386,11 +387,11 @@ bool KMMTimeLine::moveSelectedClips(int newTrack, GenTime start)
 	for(int track=startAtTrack; track!=endAtTrack; track += direction) {
 		srcTrack = &m_trackList.at(track)->docTrack();
 		if(!srcTrack->hasSelectedClips()) continue;
-		srcTrack->moveClips(startOffset, true);		
+		srcTrack->moveClips(startOffset, true);
 
-		if(trackOffset) {		
+		if(trackOffset) {
 			destTrackNum = track + trackOffset;
-			destTrack = &m_trackList.at(destTrackNum)->docTrack();			
+			destTrack = &m_trackList.at(destTrackNum)->docTrack();
 			destTrack->addClips(srcTrack->removeClips(true), true);
 		}
 	}
@@ -493,7 +494,7 @@ void KMMTimeLine::initiateDrag(DocClipBase *clipUnderMouse, GenTime clipOffset)
 {
 	m_masterClip = clipUnderMouse;
 	m_clipOffset = clipOffset;
-	generateSnapToGridList();
+	generateSnapToGridList();	
 	
 	m_startedClipMove = true;
 
