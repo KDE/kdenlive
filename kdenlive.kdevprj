@@ -21,14 +21,14 @@ addcxxflags=
 bin_program=kdenlive
 cflags=
 cppflags=
-cxxflags=\s-O0 -g3 -Wall
+cxxflags=\s-O0 -Wall
 ldadd=-lartskde -lmcop $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT)
-ldflags=\s            \s
+ldflags=\s              \s
 
 [General]
-AMChanged=false
+AMChanged=true
 author=Jason Wood
-configure_args=\s--build=i386-linux --host=i386-linux --target=i386-linux --with-qt-dir=/usr/lib/qt3/\s
+configure_args=\s--build=i386-linux --host=i386-linux --target=i386-linux\s
 email=jasonwood@blueyonder.co.uk
 kdevprj_version=1.3
 lfv_open_groups=
@@ -110,7 +110,7 @@ install_location=
 type=DATA
 
 [kdenlive/Makefile.am]
-files=kdenlive/main.cpp,kdenlive/kdenlive.cpp,kdenlive/kdenlive.h,kdenlive/kdenlivedoc.cpp,kdenlive/kdenlivedoc.h,kdenlive/kdenliveview.cpp,kdenlive/kdenliveview.h,kdenlive/kdenliveui.rc,kdenlive/kdenlive.desktop,kdenlive/lo32-app-kdenlive.png,kdenlive/lo16-app-kdenlive.png,kdenlive/avfile.cpp,kdenlive/avlistviewitem.cpp,kdenlive/docclipbase.cpp,kdenlive/docclipsound.cpp,kdenlive/docclipvideo.cpp,kdenlive/doctrackbase.cpp,kdenlive/doctracksound.cpp,kdenlive/doctrackvideo.cpp,kdenlive/kmmmonitor.cpp,kdenlive/kmmruler.cpp,kdenlive/kmmscreen.cpp,kdenlive/kmmtimeline.cpp,kdenlive/kmmtrackbase.cpp,kdenlive/kmmtracksound.cpp,kdenlive/kmmtrackvideo.cpp,kdenlive/projectlist.cpp,kdenlive/addtrackdialog_ui.ui,kdenlive/avfile.h,kdenlive/avlistviewitem.h,kdenlive/docclipbase.h,kdenlive/docclipsound.h,kdenlive/docclipvideo.h,kdenlive/doctrackbase.h,kdenlive/doctracksound.h,kdenlive/doctrackvideo.h,kdenlive/kmmeditpanel.ui,kdenlive/kmmmonitor.h,kdenlive/kmmruler.h,kdenlive/kmmscreen.h,kdenlive/kmmtimeline.h,kdenlive/kmmtrackbase.h,kdenlive/kmmtracksound.h,kdenlive/kmmtracksoundpanel_ui.ui,kdenlive/kmmtrackvideo.h,kdenlive/kmmtrackvideopanel_ui.ui,kdenlive/projectlist.h,kdenlive/projectlist_ui.ui,kdenlive/clipdrag.cpp,kdenlive/clipdrag.h,kdenlive/kmmtrackvideopanel.cpp,kdenlive/kmmtrackvideopanel.h,kdenlive/kmmtracksoundpanel.cpp,kdenlive/kmmtracksoundpanel.h,kdenlive/kmmeditpanelimplementation.cpp,kdenlive/kmmeditpanelimplementation.h
+files=kdenlive/main.cpp,kdenlive/kdenlive.cpp,kdenlive/kdenlive.h,kdenlive/kdenlivedoc.cpp,kdenlive/kdenlivedoc.h,kdenlive/kdenliveview.cpp,kdenlive/kdenliveview.h,kdenlive/kdenliveui.rc,kdenlive/kdenlive.desktop,kdenlive/lo32-app-kdenlive.png,kdenlive/lo16-app-kdenlive.png,kdenlive/avlistviewitem.cpp,kdenlive/doctrackbase.cpp,kdenlive/doctracksound.cpp,kdenlive/doctrackvideo.cpp,kdenlive/kmmmonitor.cpp,kdenlive/kmmruler.cpp,kdenlive/kmmscreen.cpp,kdenlive/kmmtimeline.cpp,kdenlive/kmmtrackbase.cpp,kdenlive/kmmtracksound.cpp,kdenlive/kmmtrackvideo.cpp,kdenlive/projectlist.cpp,kdenlive/addtrackdialog_ui.ui,kdenlive/avlistviewitem.h,kdenlive/doctrackbase.h,kdenlive/doctracksound.h,kdenlive/doctrackvideo.h,kdenlive/kmmeditpanel.ui,kdenlive/kmmmonitor.h,kdenlive/kmmruler.h,kdenlive/kmmscreen.h,kdenlive/kmmtimeline.h,kdenlive/kmmtrackbase.h,kdenlive/kmmtracksound.h,kdenlive/kmmtracksoundpanel_ui.ui,kdenlive/kmmtrackvideo.h,kdenlive/kmmtrackvideopanel_ui.ui,kdenlive/projectlist.h,kdenlive/projectlist_ui.ui,kdenlive/clipdrag.cpp,kdenlive/clipdrag.h,kdenlive/kmmtrackvideopanel.cpp,kdenlive/kmmtrackvideopanel.h,kdenlive/kmmtracksoundpanel.cpp,kdenlive/kmmtracksoundpanel.h,kdenlive/kmmeditpanelimplementation.cpp,kdenlive/kmmeditpanelimplementation.h,kdenlive/docclipavfile.cpp,kdenlive/docclipavfile.h,kdenlive/docclipbase.cpp,kdenlive/docclipbase.h,kdenlive/docclipproject.cpp,kdenlive/docclipproject.h
 sub_dirs=
 type=prog_main
 
@@ -119,18 +119,6 @@ dist=true
 install=false
 install_location=
 type=SOURCE
-
-[kdenlive/avfile.cpp]
-dist=true
-install=false
-install_location=
-type=SOURCE
-
-[kdenlive/avfile.h]
-dist=true
-install=false
-install_location=
-type=HEADER
 
 [kdenlive/avlistviewitem.cpp]
 dist=true
@@ -156,6 +144,18 @@ install=false
 install_location=
 type=HEADER
 
+[kdenlive/docclipavfile.cpp]
+dist=true
+install=false
+install_location=
+type=SOURCE
+
+[kdenlive/docclipavfile.h]
+dist=true
+install=false
+install_location=
+type=HEADER
+
 [kdenlive/docclipbase.cpp]
 dist=true
 install=false
@@ -168,25 +168,13 @@ install=false
 install_location=
 type=HEADER
 
-[kdenlive/docclipsound.cpp]
+[kdenlive/docclipproject.cpp]
 dist=true
 install=false
 install_location=
 type=SOURCE
 
-[kdenlive/docclipsound.h]
-dist=true
-install=false
-install_location=
-type=HEADER
-
-[kdenlive/docclipvideo.cpp]
-dist=true
-install=false
-install_location=
-type=SOURCE
-
-[kdenlive/docclipvideo.h]
+[kdenlive/docclipproject.h]
 dist=true
 install=false
 install_location=
