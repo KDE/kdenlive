@@ -420,7 +420,7 @@ bool KRender::topLevelStartElement(const QString & namespaceURI, const QString &
     if(tStr == "playing") {
       emit playing();
       return true;
-    } else if(tStr == "rendering") {
+    } else if(tStr == "stopped") {
       emit stopped();
       return true;
     }
