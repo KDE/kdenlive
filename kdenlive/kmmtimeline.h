@@ -18,11 +18,12 @@
 #ifndef KMMTIMELINE_H
 #define KMMTIMELINE_H
 
-#include <qlist.h>
+#include <qvaluelist.h>
 #include <qvbox.h>
 
 #include "kmmtrackpanel.h"
 #include "kdenlive.h"
+#include "snaptogrid.h"
 
 class QHBox;
 class KdenliveDoc;
@@ -37,9 +38,9 @@ namespace Command {
 	class KMoveClipsCommand;
 }
 
-/**This is the timeline. It gets populated by tracks, which in turn are populated
-by video and audio clips, or transitional clips, or any other clip imaginable.
-  *@author Jason Wood
+/** This is the timeline. It gets populated by tracks, which in turn are populated
+  * by video and audio clips, or transitional clips, or any other clip imaginable.
+  * @author Jason Wood
   */
 
 class KMMTimeLine : public QVBox  {
@@ -47,7 +48,12 @@ class KMMTimeLine : public QVBox  {
 public:
 	KMMTimeLine(KdenliveApp *app, QWidget *rulerToolWidget, QWidget *scrollToolWidget, KdenliveDoc *document, QWidget *parent=0, const char *name=0);
 	~KMMTimeLine();
-private:
+  	/**
+	The snap tolerance specifies how many pixels away a selection is from a
+	snap point before the snap takes effect.
+	*/
+  	static uint snapTolerance;	
+private:	// attributes
 	/** GUI elements */
 	QHBox *m_rulerBox;				 	// Horizontal box holding the ruler
 	QScrollView *m_trackScroll; 	// Scrollview holding the tracks
@@ -61,50 +67,59 @@ private:
 
 	KdenliveApp *m_app;
 
-  /** A pointer to the document (project) that this timeline is based upon */
-  KdenliveDoc * m_document;
+  	/** A pointer to the document (project) that this timeline is based upon */
+  	KdenliveDoc * m_document;
 
-  /** The track view area is the area under the ruler where tracks are displayed. */
-  KMMTimeLineTrackView *m_trackViewArea;
+  	/** The track view area is the area under the ruler where tracks are displayed. */
+  	KMMTimeLineTrackView *m_trackViewArea;
 
- 	/** This variable should be set to true if we have initiated a drag which
+ 	/**
+	This variable should be set to true if we have initiated a drag which
 	is going to be moving, rather than adding, clips.
 
 	set to false otherwise. The purpose of this variable is to prevent the
 	selection group from being re-created on drag entry if we are only
-	moving it - this prevents a copy of the clips from being created. */
-  bool m_startedClipMove;
+	moving it - this prevents a copy of the clips from being created.
+	*/
+  	bool m_startedClipMove;
 
 
-  /** This list is used to group clips together when they are being dragged away from the
-  timeline, or are being dragged onto the timeline. It gives a home to clips that have not yet
-  been placed. */
-  DocClipBaseList m_selection;
+  	/**
+	This list is used to group clips together when they are being dragged away from the
+  	timeline, or are being dragged onto the timeline. It gives a home to clips that have not yet
+  	been placed.
+	*/
+  	DocClipBaseList m_selection;
 
-  /** This is the "master" Clip - the clip that is actively being dragged by the mouse.
-	All other clips move in relation to the master clip. */
-  DocClipBase * m_masterClip;
-  /** A list of all times that are "snapToGrid" times. Generated specifically for a
-	particular mouse/offset and relative to the selected clips, this list of times is the
-	only thing we need to consult when moving back and forth with the mouse to
-	determine when we need to snap to a particular location based upon another
-	clip. */
-  QValueList<GenTime> m_snapToGridList;
-  /** Keeps track of whichever list item is closest to the mouse cursor. */
-  QValueListIterator<GenTime> m_gridSnapTracker;
-  /** The snap tolerance specifies how many pixels away a selection is from a
-snap point before the snap takes effect. */
-  static int snapTolerance;
-  /** A moveClipCommand action, used to record clip movement for undo/redo functionality. */
-  Command::KMoveClipsCommand * m_moveClipsCommand;
-  /** This command is used to record clip deletion for undo/redo functionality. */
-  KMacroCommand * m_deleteClipsCommand;
-  /** True if we are currently in the process of adding clips to the timeline.
-	False otherwise. */
-  bool m_addingClips;
-  /** When dragging a clip, this is the time offset that should be applied to where the mouse cursor
-  to find the beginning of the master clip. */
-  GenTime m_clipOffset;
+  	/**
+	This is the "master" Clip - the clip that is actively being dragged by the mouse.
+	All other clips move in relation to the master clip.
+	*/
+  	DocClipBase * m_masterClip;
+  	/**
+	A moveClipCommand action, used to record clip movement for undo/redo functionality.
+	*/
+  	Command::KMoveClipsCommand * m_moveClipsCommand;
+  	/**
+	This command is used to record clip deletion for undo/redo functionality.
+	*/
+  	KMacroCommand * m_deleteClipsCommand;
+  	/**
+	True if we are currently in the process of adding clips to the timeline.
+	False otherwise.
+	*/
+  	bool m_addingClips;
+  	/**
+	When dragging a clip, this is the time offset that should be applied to where
+	the mouse cursor to find the beginning of the master clip.
+	*/
+  	GenTime m_clipOffset;
+
+	/**
+	Snap to Grid object used for snap-to-grid funtionality on the various timeline
+	operations.
+	*/
+	SnapToGrid m_snapToGrid;
 public: // Public methods
   /** This method adds a new track to the trackGrid. */
   void appendTrack(KMMTrackPanel *track);
@@ -151,8 +166,8 @@ public: // Public methods
   void toggleSelectClipAt(DocTrackBase &track, GenTime value);
 
   /** Initiates a drag operation on the selected clip, setting the master clip to clipUnderMouse,
-  and the x offset to clipOffset. */
-  void initiateDrag(DocClipBase *clipUnderMouse, GenTime clipOffset);
+  and specifying the time that the mouse is currently pointing at. */
+  void initiateDrag(DocClipBase *clipUnderMouse, GenTime mouseTime);
 
   /** Returns true if the specified clip exists and is selected, false otherwise. If a track is
   specified, we look at that track first, but fall back to a full search of tracks if the clip is
@@ -184,17 +199,45 @@ are later on the tiemline (i.e. trackStart() > time) will be selected. */
   /** Returns the correct "time under mouse", taking into account whether or not snap to frame is on or off, and other relevant effects. */
   GenTime timeUnderMouse(double posX);
 
-  /** Takes the value that we wish to find the coordinate for, and returns the x coordinate. In cases where a single value covers multiple
-	pixels, the left-most pixel is returned. */
-  double mapValueToLocal(double value) const;
+  	/**
+	Takes the value that we wish to find the coordinate for, and returns the x
+	coordinate. In cases where a single value covers multiple pixels, the left-most
+	pixel is returned.
+	*/
+  	double mapValueToLocal(double value) const;
 
-  /** This method maps a local coordinate value to the corresponding
+  	/** This method maps a local coordinate value to the corresponding
 	value that should be represented at that position. By using this, there is no need to
 	calculate scale factors yourself. Takes the x coordinate, and returns the value associated
-	with it. */
-  double mapLocalToValue(double coordinate) const;
-  /** Creates a "Add clips" command, containing all of the clips currently in the selection on the timeline. This command is then added to the command history. */
-  KMacroCommand *createAddClipsCommand(bool addingClips);
+	with it.
+	*/
+	double mapLocalToValue(double coordinate) const;
+	/**
+	Creates a "Add clips" command, containing all of the clips currently in the
+	selection on the timeline. This command is then added to the command history.
+	*/
+	KMacroCommand *createAddClipsCommand(bool addingClips);
+
+  	/**
+	Returns the snapToGrid object held by this timeline
+	*/
+	const SnapToGrid &snapToGrid() const;
+
+	/**
+	Returns true if we should snap to clip borders
+	*/
+	bool snapToBorders() const;
+	/**
+	Returns true if we snap to frames
+	*/
+	bool snapToFrame() const;
+	/**
+	Returns true if we snap to seek times
+	*/
+	bool snapToSeekTime() const;
+
+	/** Return the current length of the project */
+	GenTime projectLength() const;
 private: // private methods
 	void resizeTracks();
 
@@ -209,7 +252,16 @@ private: // private methods
   /** Constructs a list of all clips that are currently selected. It does nothing else i.e.
 it does not remove the clips from the timeline. */
   DocClipBaseList listSelected();
-  void generateSnapToGridList();
+
+  	/**
+	Set up a snapToGrid list
+	*/
+	void setupSnapToGrid();
+
+	/**
+	Returns a list of times of selected clips, including both start and end times.
+	*/
+	QValueList<GenTime> selectedClipTimes();
 public slots: // Public slots
   /** Called when a track within the project has been added or removed.
     *
