@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Last-Translator: \n"
-"PO-Revision-Date: 2003-03-10 16:42+0100\n"
+"PO-Revision-Date: 2003-03-11 15:55+0100\n"
 "Language-Team:  <fr@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,7 +13,7 @@ msgstr "Configurer Kdenlive"
 
 #: kdenlivesetupdlg.cpp:33
 msgid "Renderer"
-msgstr "Calculer le rendu"
+msgstr "Calculer le rendu vidéo"
 
 #: avformatwidgetcodeclist.moc.cpp:34 avformatwidgetcodeclist.moc.cpp:42
 msgid "AVFormatWidgetCodecList"
@@ -250,11 +250,11 @@ msgstr ""
 
 #: kdenlive.cpp:121
 msgid "Seek &Forwards"
-msgstr ""
+msgstr "Avance ra&pide"
 
 #: kdenlive.cpp:122
 msgid "Seek Backwards"
-msgstr ""
+msgstr "Retour rapide"
 
 #: kdenlive.cpp:123
 msgid "Start/Stop"
@@ -366,7 +366,7 @@ msgstr ""
 
 #: kdenlive.cpp:156
 msgid "Clips will align with the borders of other clips"
-msgstr ""
+msgstr "Les séquences seront alignées avec le bords des autres séquences"
 
 #: kdenlive.cpp:157
 msgid "Add clips to the project"
@@ -485,7 +485,7 @@ msgstr "Fermeture du fichier..."
 
 #: kdenlive.cpp:525
 msgid "Printing..."
-msgstr ""
+msgstr "Impression en cours..."
 
 #: kdenlive.cpp:544
 msgid "Exiting..."
@@ -493,27 +493,27 @@ msgstr "Quitter..."
 
 #: kdenlive.cpp:565
 msgid "Cutting selection..."
-msgstr ""
+msgstr "Couper la sélection..."
 
 #: kdenlive.cpp:572
 msgid "Copying selection to clipboard..."
-msgstr ""
+msgstr "Copier la sélection dans le presse-papier..."
 
 #: kdenlive.cpp:579
 msgid "Inserting clipboard contents..."
-msgstr ""
+msgstr "Insérer le contenu du presse-papier..."
 
 #: kdenlive.cpp:586
 msgid "Toggling toolbar..."
-msgstr ""
+msgstr "Basculer la barre d'outils..."
 
 #: kdenlive.cpp:603
 msgid "Toggle the statusbar..."
-msgstr ""
+msgstr "Basculer la barre d'état..."
 
 #: kdenlive.cpp:667
 msgid "Move/Resize tool"
-msgstr ""
+msgstr "Outils de déplacement / redimensionnement"
 
 #: kdenlive.cpp:673
 msgid "Razor tool"
@@ -529,73 +529,75 @@ msgstr ""
 
 #: kdenlive.cpp:699
 msgid "Editing Preferences"
-msgstr ""
+msgstr "Modifier les préférences"
 
 #: kdenlive.cpp:728
 msgid "Adding Clips"
-msgstr ""
+msgstr "Ajouter des séquences"
 
 #: kdenlive.cpp:757
 msgid "Removing Clips"
-msgstr ""
+msgstr "Supprimer des séquences"
 
 #: kdenlive.cpp:764
 msgid "Cleaning Project"
-msgstr ""
+msgstr "Purger le projet"
 
 #: kdenlive.cpp:767
 msgid ""
 "Clean Project removes files from the project that are unused.\t\t\t Are you "
 "sure you want to do this?"
 msgstr ""
+"La purge du projet supprime les fichiers du projet qui ne sont pas utilisés.\t\t\t Voulez vous "
+"vraiment continuer ?"
 
 #: kdenlive.cpp:777
 msgid "Seeking Forwards one frame"
-msgstr ""
+msgstr "Avancer d'une trame en avant"
 
 #: kdenlive.cpp:783
 msgid "Seeking Backwards One Frame"
-msgstr ""
+msgstr "Avancer d'une trame en arriére"
 
 #: kdenlive.cpp:789
 msgid "Starting/stopping playback"
-msgstr ""
+msgstr "Démarrer / Arrêter la lecture"
 
 #: kdenlive.cpp:795
 msgid "Deleting Selected Clips"
-msgstr ""
+msgstr "Suppression des séquences sélectionnées"
 
 #: avformatwidgetbool.moc.cpp:34 avformatwidgetbool.moc.cpp:42
 msgid "AVFormatWidgetBool"
-msgstr ""
+msgstr "AVFormatWidgetBool"
 
 #: kdenlive.moc.cpp:34 kdenlive.moc.cpp:42
 msgid "KdenliveApp"
-msgstr ""
+msgstr "KdenliveApp"
 
 #: projectlist.moc.cpp:34 projectlist.moc.cpp:42
 msgid "ProjectList"
-msgstr ""
+msgstr "ProjectList"
 
 #: krender.moc.cpp:34 krender.moc.cpp:42
 msgid "KRender"
-msgstr ""
+msgstr "KRender"
 
 #: projectlistview.moc.cpp:34 projectlistview.moc.cpp:42
 msgid "ProjectListView"
-msgstr ""
+msgstr "ProjectListView"
 
 #: exportdialog.moc.cpp:34 exportdialog.moc.cpp:42
 msgid "ExportDialog"
-msgstr ""
+msgstr "ExportDialog"
 
 #: kmmtimelinetrackview.moc.cpp:34 kmmtimelinetrackview.moc.cpp:42
 msgid "KMMTimeLineTrackView"
-msgstr ""
+msgstr "KMMTimeLineTrackView"
 
 #: rendersetupdlg_ui.cpp:39 rc.cpp:38
 msgid "The port that the renderer will listen on for kdenlive to connect."
-msgstr ""
+msgstr "Le port de communication que le programme de rendu vidéo utilisera avec Kdenlive."
 
 #: rendersetupdlg_ui.cpp:40 rc.cpp:39
 msgid ""
@@ -606,11 +608,11 @@ msgstr ""
 
 #: rendersetupdlg_ui.cpp:45 rc.cpp:40
 msgid "Program Path"
-msgstr ""
+msgstr "Chemin du programme"
 
 #: rendersetupdlg_ui.cpp:51 rc.cpp:41
 msgid "Specifies the path to the renderer application"
-msgstr ""
+msgstr "Spécifie le chemin vers l'application effectuant le rendu vidéo"
 
 #: rendersetupdlg_ui.cpp:52 rc.cpp:42
 msgid ""
@@ -622,15 +624,15 @@ msgstr ""
 
 #: rendersetupdlg_ui.cpp:57 rc.cpp:43
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #: kmmtimeline.moc.cpp:34 kmmtimeline.moc.cpp:42
 msgid "KMMTimeLine"
-msgstr ""
+msgstr "KMMTimeLine"
 
 #: rc.cpp:3
 msgid "&Project"
-msgstr ""
+msgstr "&Projet"
 
 #: rc.cpp:4
 msgid "&Timeline"
@@ -638,7 +640,7 @@ msgstr ""
 
 #: rc.cpp:5
 msgid "&Render"
-msgstr ""
+msgstr "&Rendu vidéo"
 
 #: rc.cpp:6
 msgid "&Layout"
@@ -654,109 +656,109 @@ msgstr ""
 
 #: rc.cpp:22 kmmrulerpanel_ui.cpp:33
 msgid "1 Frame"
-msgstr ""
+msgstr "1 trame"
 
 #: rc.cpp:23 kmmrulerpanel_ui.cpp:34
 msgid "2 Frames"
-msgstr ""
+msgstr "2 trames"
 
 #: rc.cpp:24 kmmrulerpanel_ui.cpp:35
 msgid "5 Frames"
-msgstr ""
+msgstr "5 trames"
 
 #: rc.cpp:25 kmmrulerpanel_ui.cpp:36
 msgid "10 Frames"
-msgstr ""
+msgstr "10 trames"
 
 #: rc.cpp:26 kmmrulerpanel_ui.cpp:37
 msgid "1 Second"
-msgstr ""
+msgstr "1 seconde"
 
 #: rc.cpp:27 kmmrulerpanel_ui.cpp:38
 msgid "2 Seconds"
-msgstr ""
+msgstr "2 secondes"
 
 #: rc.cpp:28 kmmrulerpanel_ui.cpp:39
 msgid "5 seconds"
-msgstr ""
+msgstr "5 secondes"
 
 #: rc.cpp:29 kmmrulerpanel_ui.cpp:40
 msgid "10 seconds"
-msgstr ""
+msgstr "10 secondes"
 
 #: rc.cpp:30 kmmrulerpanel_ui.cpp:41
 msgid "20 seconds"
-msgstr ""
+msgstr "20 secondes"
 
 #: rc.cpp:31 kmmrulerpanel_ui.cpp:42
 msgid "30 seconds"
-msgstr ""
+msgstr "30 secondes"
 
 #: rc.cpp:32 kmmrulerpanel_ui.cpp:43
 msgid "1 minute"
-msgstr ""
+msgstr "1 minute"
 
 #: rc.cpp:33 kmmrulerpanel_ui.cpp:44
 msgid "2 minutes"
-msgstr ""
+msgstr "2 minutes"
 
 #: rc.cpp:34 kmmrulerpanel_ui.cpp:45
 msgid "4 minutes"
-msgstr ""
+msgstr "4 minutes"
 
 #: rc.cpp:35 kmmrulerpanel_ui.cpp:46
 msgid "8 minutes"
-msgstr ""
+msgstr "8 minutes"
 
 #: kscalableruler.moc.cpp:34 kscalableruler.moc.cpp:42
 msgid "KScalableRuler"
-msgstr ""
+msgstr "KScalableRuler"
 
 #: exportdialog.cpp:28
 msgid "Render Dialog"
-msgstr ""
+msgstr "Boîte de dialogue du rendu vidéo"
 
 #: avformatwidgetcontainer.moc.cpp:34 avformatwidgetcontainer.moc.cpp:42
 msgid "AVFormatWidgetContainer"
-msgstr ""
+msgstr "AVFormatWidgetContainer"
 
 #: effectparamdialog.moc.cpp:34 effectparamdialog.moc.cpp:42
 msgid "EffectParamDialog"
-msgstr ""
+msgstr "EffectParamDialog"
 
 #: renderdebugpanel.cpp:32
 msgid "Ignore Incoming Messages"
-msgstr ""
+msgstr "Ignorer les messages entrant"
 
 #: renderdebugpanel.cpp:33
 msgid "Save Messages"
-msgstr ""
+msgstr "Enregistrer les messages"
 
 #: renderdebugpanel.cpp:128
 msgid "Save Debug Messages..."
-msgstr ""
+msgstr "Enregistrer les messages de déboguage..."
 
 #: kmmscreen.moc.cpp:34 kmmscreen.moc.cpp:42
 msgid "KMMScreen"
-msgstr ""
+msgstr "KMMScreen"
 
 #: krendermanager.moc.cpp:34 krendermanager.moc.cpp:42
 msgid "KRenderManager"
-msgstr ""
+msgstr "KRenderManager"
 
 #: kdenlivedoc.moc.cpp:34 kdenlivedoc.moc.cpp:42
 msgid "KdenliveDoc"
-msgstr ""
+msgstr "KdenliveDoc"
 
 #: kmmrulerpanel.moc.cpp:34 kmmrulerpanel.moc.cpp:42
 msgid "KMMRulerPanel"
-msgstr ""
+msgstr "KMMRulerPanel"
 
 #: avformatwidgetlist.moc.cpp:34 avformatwidgetlist.moc.cpp:42
 msgid "AVFormatWidgetList"
-msgstr ""
+msgstr "AVFormatWidgetList"
 
 #: kdenlivesetupdlg.moc.cpp:34 kdenlivesetupdlg.moc.cpp:42
 msgid "KdenliveSetupDlg"
-msgstr ""
+msgstr "KdenliveSetupDlg"
 
