@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <cmath>
+#include <stdlib.h>
 
 #include <klocale.h>
 #include <qscrollbar.h>
