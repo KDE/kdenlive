@@ -56,8 +56,8 @@ public:
 	virtual int framesPerSecond() const;
 	/** Returns a scene list generated from this clip. */
 	virtual QDomDocument generateSceneList();
-	// Returns a list of times that this clip must break upon.
-	virtual QValueVector<GenTime> sceneTimes();
+	// Appends scene times for this clip to the passed vector.
+	virtual void populateSceneTimes(QValueVector<GenTime> &toPopulate);
 	// Returns an XML document that describes part of the current scene.
 	virtual QDomDocument sceneToXML(const GenTime &startTime, const GenTime &endTime);
 

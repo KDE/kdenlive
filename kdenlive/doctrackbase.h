@@ -37,27 +37,28 @@ class DocTrackBase : public QObject
 public: 
 	DocTrackBase(KdenliveDoc *doc);
 	virtual ~DocTrackBase();
-  /** Returns true if the specified clip can be added to this track, false otherwise.
-		*
-		* This method needs to be implemented by inheriting classes to define
-		* which types of clip they support. */
-  virtual bool canAddClip(DocClipBase *clip) = 0;
-  /** Adds a clip to the track. Returns true if successful, false if it fails for some reason.
-		* This method calls canAddClip() to determine whether or not the clip can be added to this
-		* particular track. */
-  bool addClip(DocClipBase *clip, bool selected);
-  /** Returns the clip type as a string. This is a bit of a hack to give the
-		* KMMTimeLine a way to determine which class it should associate
-		*	with each type of clip. */
-  virtual const QString &clipType() = 0;
-  /** Returns an iterator to the clip after the last clip(chronologically) which overlaps the
-  start/end value range specified.
+	/** Returns true if the specified clip can be added to this track, false otherwise.
+	*
+	* This method needs to be implemented by inheriting classes to define
+	* which types of clip they support. */
+	virtual bool canAddClip(DocClipBase *clip) = 0;
+	/** Adds a clip to the track. Returns true if successful, false if it fails for some reason.
+	* This method calls canAddClip() to determine whether or not the clip can be added to this
+	* particular track. */
+	bool addClip(DocClipBase *clip, bool selected);
+	/** Returns the clip type as a string. This is a bit of a hack to give the
+	* KMMTimeLine a way to determine which class it should associate
+	*	with each type of clip. */
+	virtual const QString &clipType() = 0;
+	/** Returns an iterator to the clip after the last clip(chronologically) which overlaps the
+	start/end value range specified.
 
-This allows you to write standard iterator for loops over a specific range of the track.
-You must choose which list of tracks you are interested in - the selected or unselected. */
-  QPtrListIterator<DocClipBase> endClip(GenTime startValue, GenTime endValue, bool selected);
-  /** Returns an iterator to the first clip (chronologically) which overlaps the start/end value range specified.
-		You must choose which list of tracks you are interested in - the selected or unselected. */  
+	This allows you to write standard iterator for loops over a specific range of the track.
+	You must choose which list of tracks you are interested in - the selected or unselected. */
+	QPtrListIterator<DocClipBase> endClip(GenTime startValue, GenTime endValue, bool selected);
+	/** Returns an iterator to the first clip (chronologically) which overlaps the start/end 
+	 * value range specified.
+	 * You must choose which list of tracks you are interested in - the selected or unselected. */  
   QPtrListIterator<DocClipBase> firstClip(GenTime startValue, GenTime endValue, bool selected);
   /** Returns the clip which resides at the current value, or 0 if non exists */
   DocClipBase *getClipAt(GenTime value);

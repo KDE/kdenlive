@@ -257,11 +257,15 @@ QDomDocument DocClipProject::generateSceneList()
 	QDomDocument sceneList;
 	sceneList.appendChild(sceneList.createElement("scenelist"));
 
-	QValueVector<GenTime> unsortedTimes = sceneTimes();
+	QValueVector<GenTime> unsortedTimes;
+        populateSceneTimes(unsortedTimes);
 
 	// sort times and remove duplicates.
 	qHeapSort(unsortedTimes);
 	QValueVector<GenTime> times;
+
+	// Will reserve much more than we need, but should speed up the process somewhat...
+	times.reserve(unsortedTimes.size());
 	
 	QValueVector<GenTime>::Iterator itt = unsortedTimes.begin();
 	while(itt != unsortedTimes.end()) {
@@ -336,22 +340,22 @@ DocClipProject * DocClipProject::createClip(KdenliveDoc *doc, const QDomElement 
 	return project;
 }
 
-QValueVector<GenTime> DocClipProject::sceneTimes()
+void DocClipProject::populateSceneTimes(QValueVector<GenTime> &toPopulate)
 {
-	QValueVector<GenTime> list;
 	GenTime time;
 
 	for(uint count=0; count<numTracks(); count++) {
 		DocTrackClipIterator itt(*(m_tracks.at(count)));
 
 		while(itt.current()) {
-			QValueVector<GenTime> newTimes = itt.current()->sceneTimes();
+			QValueVector<GenTime> newTimes;
+		        itt.current()->populateSceneTimes(newTimes);
 			QValueVector<GenTime>::Iterator newItt = newTimes.begin();
 			
 			while(newItt != newTimes.end()) {
 				time = (*newItt) + trackStart() - cropStartTime();
 				if((time >= trackStart()) && (time <= trackEnd())) {
-					list.append(time);
+					toPopulate.append(time);
 				}
 				++newItt;
 				
@@ -360,10 +364,8 @@ QValueVector<GenTime> DocClipProject::sceneTimes()
 		}
 	}
 	
-	list.append(trackStart());
-	list.append(trackEnd());
-	
-	return list;
+	toPopulate.append(trackStart());
+	toPopulate.append(trackEnd());
 }
 
 // Returns an XML document that describes part of the current scene.
@@ -431,4 +433,33 @@ QPtrList<DocClipBase> DocClipProject::referencedClips(AVFile *file)
 	}
 
 	return list;
+}
+
+bool DocClipProject::hasSelectedClips()
+{
+	bool result = false;
+
+	for(uint count=0; count<numTracks(); ++count) {
+		if(m_tracks.at(count)->hasSelectedClips()) {
+			result = true;
+			break;
+		}
+	}
+
+	return result;
+}
+
+DocClipBase *DocClipProject::selectedClip()
+{
+	DocClipBase *pResult;
+	DocTrackBase *srcTrack;
+	
+	for(uint track=0; track<numTracks(); track++) {
+		srcTrack = m_tracks.at(track);
+		if(srcTrack->hasSelectedClips()) {
+			pResult = srcTrack->firstClip(true).current();
+		}
+	}
+	
+	return pResult;
 }

@@ -158,12 +158,10 @@ QDomDocument DocClipAVFile::sceneToXML(const GenTime &startTime, const GenTime &
 	return sceneList;
 }
 
-QValueVector<GenTime> DocClipAVFile::sceneTimes()
+void DocClipAVFile::populateSceneTimes(QValueVector<GenTime> &toPopulate)
 {
-	QValueVector<GenTime> list;
-	list.append(trackStart());
-	list.append(trackEnd());
-	return list;
+	toPopulate.append(trackStart());
+	toPopulate.append(trackEnd());
 }
 
 // virtual 

@@ -291,14 +291,21 @@ void DocTrackBase::resizeClipTrackStart(DocClipBase *clip, GenTime newStart)
 		kdWarning() << "Clip cannot be resized to length < 1 frame, fixing..." << endl;
 		newStart = clip->cropDuration() - GenTime(1, m_doc->framesPerSecond());
 	}
+	
 
-	#warning - the following code does not work for large increments - small clips might be overlapped.
-	#warning - Replace with code that looks at the clip directly before the clip we are working with.
-	DocClipBase *test;
-	test = getClipAt(clip->trackStart() + newStart);
+	// Check that we are not trying to overlap the previous clip.
+	DocTrackClipIterator itt(*this);
+	DocClipBase *previousClip = 0;
 
-	if((test) && (test != clip)) {
-		newStart = test->trackStart() + test->cropDuration() - clip->trackStart();
+	while(itt.current() && (itt.current()!=clip)) {
+		previousClip = itt.current();
+		++itt;
+	}
+
+	if(previousClip && (itt.current() == clip)) {
+		if(previousClip->trackEnd() > newStart + clip->trackStart()) {
+			newStart = previousClip->trackEnd() - clip->trackStart();
+		}
 	}
 
 	clip->setTrackStart(clip->trackStart() + newStart);
@@ -324,14 +331,25 @@ void DocTrackBase::resizeClipTrackEnd(DocClipBase *clip, GenTime newEnd)
 		newEnd = clip->trackStart() + GenTime(1, m_doc->framesPerSecond());
 	}
 
-	#warning - the following code does not work for large increments - small clips might be overlapped.
-	#warning - Replace with code that looks at the clip directly after the clip we are working with.
-	DocClipBase *test;
+	// Check that we are not overlapping the next clip on the track.
+	DocTrackClipIterator itt(*this);
+	DocClipBase *nextClip=0;
 
-	test = getClipAt(newEnd); 
+	while(itt.current() && (itt.current() != clip)) {
+		++itt;
+	}
 
-	if((test) && (test != clip)) {
-		newEnd = test->trackStart();
+	if(itt.current()) {
+		++itt;
+		nextClip = itt.current();
+	} else {
+		kdError() << "Trying to resize clip that does not exist on specified track!!!" << endl;
+	}
+
+	if(nextClip && (nextClip != clip)) {
+		if(nextClip->trackStart() < newEnd) {
+			newEnd = nextClip->trackStart();
+		}
 	}
 
 	clip->setTrackEnd(newEnd);

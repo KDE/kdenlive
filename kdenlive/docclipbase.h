@@ -108,8 +108,8 @@ public:
 	 * where it returns true. */
 	virtual bool isProjectClip() { return false; }
 	
-	// Returns a list of times that this clip must break upon.
-	virtual QValueVector<GenTime> sceneTimes() = 0;
+	// Appends scene times for this clip to the passed vector.
+	virtual void populateSceneTimes(QValueVector<GenTime> &toPopulate) = 0;
 	
 	// Returns an XML document that describes part of the current scene.
 	virtual QDomDocument sceneToXML(const GenTime &startTime, const GenTime &endTime) = 0;

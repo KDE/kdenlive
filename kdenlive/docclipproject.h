@@ -73,14 +73,22 @@ public:
 	/** Creates a clip from the passed QDomElement. This only pertains to those details
 	 *  specific to DocClipProject.*/
 	static DocClipProject * createClip(KdenliveDoc *doc, const QDomElement element);
-	// Returns a list of times that this clip must break upon.
-	virtual QValueVector<GenTime> sceneTimes();
+	// Appends scene times for this clip to the passed vector.
+	virtual void populateSceneTimes(QValueVector<GenTime> &toPopulate);
 	// Returns an XML document that describes part of the current scene.
 	virtual QDomDocument sceneToXML(const GenTime &startTime, const GenTime &endTime);
 	
 	/** Returns true if the clip in some way includes he specified AVFile. */
 	virtual bool containsAVFile(AVFile *file);
 	QPtrList<DocClipBase> referencedClips(AVFile *file);
+
+	/** Returns true if at least one clip in the project clip is currently selected, false otherwise. */
+	bool hasSelectedClips();
+
+	/** Returns a clip that is currently selected. Only one clip is returned! 
+	 * This function is intended for times when you need a "master" clip. but have no preferred
+	 * choice. */
+	DocClipBase *selectedClip();
 signals:
   	/** This signal is emitted whenever tracks are added to or removed from the project. */
   	void trackListChanged();
