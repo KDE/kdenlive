@@ -17,7 +17,9 @@
 
 #define _ISOC99_SOURCE
 #include <cmath>
- 
+
+#include <kled.h>
+
 #include "kmmeditpanel.h"
 
 #include "kiconloader.h"
@@ -37,7 +39,11 @@ KMMEditPanel::KMMEditPanel(KdenliveDoc *document, QWidget* parent, const char* n
 	m_ruler->setRange(0, 1500);
 	m_ruler->setMargin(40);
 
-	KIconLoader loader;
+  renderStatus->off();
+  renderStatus->setColor(QColor(0, 200, 0));
+  renderStatus->setFixedSize(20, 20);
+  
+	KIconLoader loader;  
 
 	startButton->setPixmap(loader.loadIcon("player_start", KIcon::Toolbar));
 	rewindButton->setPixmap(loader.loadIcon("player_rew", KIcon::Toolbar));
@@ -110,4 +116,16 @@ void KMMEditPanel::stop()
 void KMMEditPanel::seek(GenTime time)
 {
   m_ruler->setSliderValue(0, (int)round(time.frames(m_document->framesPerSecond())));
+}
+
+/** Alerts the edit panel that the renderer has connected. */
+void KMMEditPanel::rendererConnected()
+{
+  renderStatus->on();
+}
+
+/** Alerts the edit panel that the renderer has disconnected. */
+void KMMEditPanel::rendererDisconnected()
+{
+  renderStatus->off();  
 }

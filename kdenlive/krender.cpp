@@ -35,7 +35,8 @@ KRender::KRender(KURL appPath, unsigned int port, QObject *parent, const char *n
 	m_funcEndElement = &KRender::topLevelEndElement;
 
 	connect(&m_socket, SIGNAL(error(int)), this, SLOT(error(int)));
-	connect(&m_socket, SIGNAL(connected()), this, SLOT(connected()));
+	connect(&m_socket, SIGNAL(connected()), this, SLOT(slotConnected()));
+	connect(&m_socket, SIGNAL(connectionClosed()), this, SLOT(slotDisconnected()));  
 	connect(&m_socket, SIGNAL(readyRead()), this, SLOT(readData()));
 
 	connect(&m_process, SIGNAL(processExited(KProcess *)), this, SLOT(processExited()));
@@ -81,13 +82,22 @@ void KRender::error(int error)
 }
 
 /** Called when we have connected to the renderer. */
-void KRender::connected()
+void KRender::slotConnected()
 {
 	kdDebug() << "Connected" << endl;
 
   getCapabilities();
   
 	emit initialised();
+  emit connected();
+}
+
+/** Called when we have disconnected from the renderer. */
+void KRender::slotDisconnected()
+{
+	kdDebug() << "Disconnected" << endl;
+
+  emit disconnected();
 }
 
 /** Called when some data has been recieved by the socket, reads the data and processes it. */

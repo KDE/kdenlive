@@ -50,6 +50,11 @@ public slots: // Public slots
   void seek(GenTime time);
   /** Set the play speed of the screen */
   void play(double speed);
+signals: // Signals
+  /** Emitted when a renderer connects. */
+  void rendererConnected();
+  /** Emitted when a renderer disconnects. */
+  void rendererDisconnected();  
 };
 
 #endif

@@ -30,6 +30,8 @@ KMMScreen::KMMScreen(KdenliveApp *app, QWidget *parent, const char *name ) : QXE
 	
 	connect(m_render, SIGNAL(initialised()), this, SLOT(rendererReady()));
 	connect(m_render, SIGNAL(replyCreateVideoXWindow(WId)), this, SLOT(embedWindow(WId)));
+  connect(m_render, SIGNAL(connected()), this, SIGNAL(rendererConnected()));
+  connect(m_render, SIGNAL(disconnected()), this, SIGNAL(rendererDisconnected()));  
 }
 
 KMMScreen::~KMMScreen()

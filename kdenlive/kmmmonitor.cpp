@@ -25,6 +25,8 @@ KMMMonitor::KMMMonitor(KdenliveApp *app, KdenliveDoc *document, QWidget *parent,
 	connect(&m_editPanel, SIGNAL(seekPositionChanged(GenTime)), &m_screen, SLOT(seek(GenTime)));
 	connect(&m_editPanel, SIGNAL(seekPositionChanged(GenTime)), this, SIGNAL(seekPositionChanged(GenTime)));  
 	connect(&m_editPanel, SIGNAL(playSpeedChanged(double)), &m_screen, SLOT(play(double)));
+  connect(&m_screen, SIGNAL(rendererConnected()), &m_editPanel, SLOT(rendererConnected()));
+  connect(&m_screen, SIGNAL(rendererDisconnected()), &m_editPanel, SLOT(rendererDisconnected()));  
 }
 
 KMMMonitor::~KMMMonitor(){

@@ -61,6 +61,10 @@ public slots: // Public slots
   void play();
   /** Sets the current seek position to the one specified */
   void seek(GenTime time);     
+  /** Alerts the edit panel that the renderer has disconnected. */
+  void rendererConnected();
+  /** Alerts the edit panel that the renderer has disconnected. */
+  void rendererDisconnected();  
 };
 
 #endif

@@ -116,6 +116,11 @@
                         <string>End</string>
                     </property>
                 </widget>
+                <widget class="KLed">
+                  <property name="name">
+                        <cstring>renderStatus</cstring>
+                  </property>
+                </widget>
             </hbox>
         </widget>
     </vbox>

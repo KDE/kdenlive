@@ -130,7 +130,9 @@ private slots: // Private slots
   /** Called when some data has been recieved by the socket, reads the data and processes it. */
   void readData();
   /** Called when we have connected to the renderer. */
-  void connected();
+  void slotConnected();
+  /** Called when we have disconnected to the renderer. */
+  void slotDisconnected();  
   /** Called if the rendering process has exited. */
   void processExited();
 private: // Private methods
@@ -143,14 +145,17 @@ private: // Private methods
 signals: // Signals
   /** This signal is emitted once the renderer has initialised itself. */
   void initialised();
+  /** This signal is emitted upon connection */
+  void connected();
+  /** This signal is emitted upon disconnection */
+  void disconnected();  
   /** This signal is emitted once a reply to createVideoXWidow() has been recieved. */
   void replyCreateVideoXWindow(WId);
+  /** emitted when the renderer recieves a reply to a getFileProperties request. */
+  void replyGetFileProperties(QMap<QString, QString>);  
 public: // Public attributes
   /** If true, we are currently parsing some data. Otherwise, we are not. */
   bool m_parsing;
-signals: // Signals
-  /** emitted when the renderer recieves a reply to a getFileProperties request. */
-  void replyGetFileProperties(QMap<QString, QString>);
 };
 
 #endif
