@@ -114,7 +114,7 @@ DocTrackBase * DocClipProject::nextTrack()
 DocTrackBase * DocClipProject::findTrack(DocClipRef *clip)
 {
 	DocTrackBase *returnTrack = 0;
-	
+
 	QPtrListIterator<DocTrackBase> itt(m_tracks);
 
 	for(DocTrackBase *track;(track = itt.current()); ++itt) {
@@ -123,7 +123,7 @@ DocTrackBase * DocClipProject::findTrack(DocClipRef *clip)
 			break;
 		}
 	}
-	
+
 	return returnTrack;
 }
 
@@ -136,7 +136,7 @@ bool DocClipProject::moveSelectedClips(GenTime startOffset, int trackOffset)
 {
 	// For each track, check and make sure that the clips can be moved to their rightful place. If
 	// one cannot be moved to a particular location, then none of them can be movRef	// We check for the closest position the track could possibly be moved to, and move it there instead.
-  
+
 	int destTrackNum;
 	DocTrackBase *srcTrack, *destTrack;
 	GenTime clipStartTime;
@@ -178,7 +178,7 @@ bool DocClipProject::moveSelectedClips(GenTime startOffset, int trackOffset)
 			++srcClipItt;
 		}
 	}
-  
+
 	// we can now move all clips where they need to be.
 
 	// If the offset is negative, handle tracks from forwards, else handle tracks backwards. We
@@ -229,7 +229,7 @@ QDomDocument DocClipProject::generateSceneList()
 {
 	static QString str_inpoint="inpoint";
 	static QString str_outpoint="outpoint";
-	static QString str_file="file";		
+	static QString str_file="file";
 
 	QDomDocument sceneList;
 	sceneList.appendChild(sceneList.createElement("scenelist"));
@@ -243,15 +243,15 @@ QDomDocument DocClipProject::generateSceneList()
 
 	// Will reserve much more than we need, but should speed up the process somewhat...
 	times.reserve(unsortedTimes.size());
-	
+
 	QValueVector<GenTime>::Iterator itt = unsortedTimes.begin();
 	while(itt != unsortedTimes.end()) {
 		if((times.isEmpty()) || ((*itt) != times.last())) {
 			times.append(*itt);
 		}
 		++itt;
-	}	
-	
+	}
+
 	QValueVector<GenTime>::Iterator sceneItt = times.begin();
 
 	while( (sceneItt != times.end()) && (sceneItt+1 != times.end()) ) {
@@ -260,7 +260,7 @@ QDomDocument DocClipProject::generateSceneList()
 
 		QDomDocument clipDoc = sceneToXML(*sceneItt, *(sceneItt+1));
 		QDomElement sceneClip;
-		
+
 		if(clipDoc.documentElement().isNull()) {
 			sceneClip = sceneList.createElement("stillcolor");
 			sceneClip.setAttribute("yuvcolor", "#000000");
@@ -269,9 +269,9 @@ QDomDocument DocClipProject::generateSceneList()
 			sceneClip = sceneList.importNode(clipDoc.documentElement(), true).toElement();
 			scene.appendChild(sceneClip);
 		}
-		
+
 		sceneList.documentElement().appendChild(scene);
-		
+
 		++sceneItt;
 	}
 
@@ -289,16 +289,16 @@ void DocClipProject::generateTracksFromXML(ClipManager &clipManager, const QDomE
 	}
 }
 
-//static 
+//static
 DocClipProject * DocClipProject::createClip(ClipManager &clipManager, const QDomElement element)
 {
 	DocClipProject *project = 0;
-	
+
 	if(element.tagName() == "project") {
 		KURL url(element.attribute("url"));
 		project = new DocClipProject();
 		project->m_framesPerSecond = element.attribute("fps", "25").toInt();
-		
+
 		QDomNode node = element.firstChild();
 
 		while( !node.isNull()) {
@@ -313,7 +313,7 @@ DocClipProject * DocClipProject::createClip(ClipManager &clipManager, const QDom
 	} else {
 		kdWarning() << "DocClipProject::createClip failed to generate clip" << endl;
 	}
-	
+
 	return project;
 }
 
@@ -328,25 +328,25 @@ void DocClipProject::populateSceneTimes(QValueVector<GenTime> &toPopulate)
 			QValueVector<GenTime> newTimes;
 		        itt.current()->populateSceneTimes(newTimes);
 			QValueVector<GenTime>::Iterator newItt = newTimes.begin();
-			
+
 			while(newItt != newTimes.end()) {
 				time = (*newItt);
 				if((time >= GenTime(0)) && (time <= duration())) {
 					toPopulate.append(time);
 				}
 				++newItt;
-				
+
 			}
 			++itt;
 		}
 	}
-	
+
 	toPopulate.append(GenTime(0));
 	toPopulate.append(duration());
 }
 
 // Returns an XML document that describes part of the current scene.
-//virtual 
+//virtual
 QDomDocument DocClipProject::sceneToXML(const GenTime &startTime, const GenTime &endTime)
 {
 	QDomDocument doc;
@@ -362,7 +362,7 @@ QDomDocument DocClipProject::sceneToXML(const GenTime &startTime, const GenTime 
 				doc = clip->sceneToXML(startTime, endTime);
 				break;
 			}
-			
+
 			++itt;
 		}
 	}
@@ -388,34 +388,34 @@ DocClipRef *DocClipProject::selectedClip()
 {
 	DocClipRef *pResult=0;
 	DocTrackBase *srcTrack=0;
-	
+
 	for(uint track=0; track<numTracks(); track++) {
 		srcTrack = m_tracks.at(track);
 		if(srcTrack->hasSelectedClips()) {
 			pResult = srcTrack->firstClip(true).current();
 		}
 	}
-	
+
 	return pResult;
 }
 
-// virtual 
+// virtual
 bool DocClipProject::referencesClip(DocClipBase *clip) const
 {
 	bool result = false;
-	
+
 	DocTrackBase *srcTrack;
 	uint track = 0;
 	QPtrListIterator<DocTrackBase> itt(m_tracks);
 
 	while(itt.current()) {
 		srcTrack = itt.current();
-		
+
 		if(srcTrack->referencesClip(clip)) {
 			result = true;
 			break;
 		}
-		
+
 		++itt;
 		++track;
 	}
@@ -427,7 +427,7 @@ DocClipRefList DocClipProject::referencedClips(DocClipBase *clip)
 {
 	DocClipRefList list;
 
-	
+
 	DocTrackBase *srcTrack;
 	for(uint track=0; track<numTracks(); ++track) {
 		srcTrack = m_tracks.at(track);
@@ -452,7 +452,7 @@ QDomDocument DocClipProject::toXML()
 				project.setAttribute("fps", QString::number(m_framesPerSecond));
 				element.appendChild(project);
 				project.appendChild(doc.importNode(m_tracks.toXML().documentElement(), true));
-				
+
 				return doc;
 			}
 		}
@@ -464,11 +464,11 @@ QDomDocument DocClipProject::toXML()
 	return doc;
 }
 
-// virtual 
+// virtual
 bool DocClipProject::matchesXML(const QDomElement &element)
 {
 	bool result = false;
-	
+
 	if(element.tagName() == "clip") {
 		QDomNodeList nodeList = element.elementsByTagName("project");
 		if(nodeList.length() > 0) {

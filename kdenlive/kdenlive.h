@@ -314,6 +314,9 @@ class KdenliveApp : public KDockMainWindow
 		KAction* actionSetInpoint;
 		KAction* actionSetOutpoint;
 		KAction* actionDeleteSelected;
+		KAction* actionToggleSnapMarker;
+		KAction *actionClearAllSnapMarkers;
+		KAction *actionClearSnapMarkersFromSelected;
 
 		KAction* actionLoadLayout1;
 		KAction* actionLoadLayout2;

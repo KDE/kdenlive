@@ -27,6 +27,7 @@
 
 #include "kdenlivedoc.h"
 
+#include "loadprojectkinofilter.h"
 #include "loadprojectnativefilter.h"
 #include "saveprojectnativefilter.h"
 
@@ -36,6 +37,8 @@ ProjectFormatManager::ProjectFormatManager()
 	m_loadFilters.setAutoDelete(true);
 
 	registerLoadFilter(new LoadProjectNativeFilter());
+	registerLoadFilter(new LoadProjectKinoFilter());
+
 	registerSaveFilter(new SaveProjectNativeFilter());
 }
 
@@ -155,7 +158,7 @@ QString ProjectFormatManager::loadMimeTypes()
 
 	return list.join(" ");
 }
-	
+
 /** Returns the mime types that can be saved out */
 QString ProjectFormatManager::saveMimeTypes()
 {

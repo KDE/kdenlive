@@ -157,6 +157,10 @@ void KdenliveApp::initActions()
 	actionSetOutpoint = new KAction( i18n( "Set outpoint" ), KShortcut( Qt::Key_O ), this, SLOT( slotSetOutpoint() ), actionCollection(), "set_outpoint" );
 	actionDeleteSelected = new KAction( i18n( "Delete Selected Clips" ), KShortcut( Qt::Key_Delete ), this, SLOT( slotDeleteSelected() ), actionCollection(), "delete_selected_clips" );
 
+	actionToggleSnapMarker  = new KAction( i18n( "Toggle Snap Marker" ), KShortcut( Qt::Key_Period ), this, SLOT( slotNextFrame() ), actionCollection(), "toggle_snap_marker" );
+	actionClearAllSnapMarkers = new KAction( i18n( "Clear All Snap Markers" ), KShortcut(), this, SLOT( slotNextFrame() ), actionCollection(), "clear_all_snap_markers" );
+	actionClearSnapMarkersFromSelected = new KAction( i18n( "Clear Snap Markers From Selected" ), KShortcut(), this, SLOT( slotNextFrame() ), actionCollection(), "clear_snap_markers_from_selected" );
+
 	actionLoadLayout1 = new KAction( i18n( "Load Layout &1" ), "loadlayout1.png", KShortcut( Qt::Key_F9 ), this, SLOT( loadLayout1() ), actionCollection(), "load_layout_1" );
 	actionLoadLayout2 = new KAction( i18n( "Load Layout &2" ), "loadlayout2.png", KShortcut( Qt::Key_F10 ), this, SLOT( loadLayout2() ), actionCollection(), "load_layout_2" );
 	actionLoadLayout3 = new KAction( i18n( "Load Layout &3" ), "loadlayout3.png", KShortcut( Qt::Key_F11 ), this, SLOT( loadLayout3() ), actionCollection(), "load_layout_3" );
@@ -204,6 +208,10 @@ void KdenliveApp::initActions()
 	actionSetInpoint->setStatusText( i18n( "Set the inpoint to the current position" ) );
 	actionSetOutpoint->setStatusText( i18n( "Set the outpoint to the current position" ) );
 	actionDeleteSelected->setStatusText( i18n( "Delete currently selected clips" ) );
+
+	actionToggleSnapMarker->setStatusText( i18n("Toggle a snap marker at the current monitor position"));
+	actionClearAllSnapMarkers ->setStatusText( i18n("Toggle a snap marker at the current monitor position"));
+	actionClearSnapMarkersFromSelected->setStatusText( i18n("Toggle a snap marker at the current monitor position"));
 
 	renderExportTimeline->setStatusText( i18n( "Render the timeline to a file" ) );
 	configureProject->setStatusText( i18n( "Configure the format for this project" ) );

@@ -6,23 +6,26 @@
   </Menu>
   <Menu name="edit"><text>&amp;Edit</text>
   	<Action name="delete_selected_clips"/>
+	<Separator lineSeperator="true"/>
+	<Action name="clear_all_snap_markers"/>
+	<Action name="clear_snap_markers_from_selected"/>
   </Menu>
   <Menu name="project"><text>&amp;Project</text>
-    <Action name="project_add_clip"/>
-    <Action name="project_delete_clip"/>
-    <Action name="project_clean"/>
-    <Action name="project_clip_properties"/>
+	<Action name="project_add_clip"/>
+	<Action name="project_delete_clip"/>
+	<Action name="project_clean"/>
+	<Action name="project_clip_properties"/>
 	<Separator lineSeparator="true"/>
 	<Action name="configure_project"/>
   </Menu>
   <Menu name="timeline"><text>&amp;Timeline</text>
-    <Action name="timeline_move_tool"/>
-    <Action name="timeline_razor_tool"/>
-    <Action name="timeline_spacer_tool"/>
+	<Action name="timeline_move_tool"/>
+	<Action name="timeline_razor_tool"/>
+	<Action name="timeline_spacer_tool"/>
 	<Action name="timeline_marker_tool"/>
-    <Separator lineSeperator="true"/>
-    <Action name="timeline_snap_frame"/>
-    <Action name="timeline_snap_border"/>
+	<Separator lineSeperator="true"/>
+	<Action name="timeline_snap_frame"/>
+	<Action name="timeline_snap_border"/>
 	<Action name="timeline_snap_marker"/>
   </Menu>
   <Menu name="Render"><text>&amp;Render</text>
@@ -33,7 +36,7 @@
   	<Action name="load_layout_2"/>
   	<Action name="load_layout_3"/>
   	<Action name="load_layout_4"/>
-    <Separator lineSeperator="true"/>
+	<Separator lineSeperator="true"/>
   	<Action name="save_layout_1"/>
   	<Action name="save_layout_2"/>
   	<Action name="save_layout_3"/>
@@ -42,41 +45,45 @@
 </MenuBar>
 
 <Menu name="projectlist_context">
-  <Action name="project_add_clip"/>
-  <Action name="project_delete_clip"/>
-  <Action name="project_clean"/>
-  <Action name="project_clip_properties"/>
+	<Action name="project_add_clip"/>
+	<Action name="project_delete_clip"/>
+	<Action name="project_clean"/>
+	<Action name="project_clip_properties"/>
 </Menu>
 
 <Menu name="timeline_context">
 	<Action name="timeline_move_tool"/>
-    <Action name="timeline_razor_tool"/>
-    <Action name="timeline_spacer_tool"/>
+	<Action name="timeline_razor_tool"/>
+	<Action name="timeline_spacer_tool"/>
 	<Action name="timeline_marker_tool"/>
-    <Separator lineSeparator="true"/>
-    <Action name="timeline_snap_frame"/>
-    <Action name="timeline_snap_border"/>
+	<Separator lineSeparator="true"/>
+	<Action name="timeline_snap_frame"/>
+	<Action name="timeline_snap_border"/>
 	<Action name="timeline_snap_marker"/>
+	<Separator lineSeparator="true"/>
+	<Action name="clear_all_snap_markers"/>
+	<Action name="clear_snap_markers_from_selected"/>
 	<Separator lineSeparator="true"/>
 	<Action name="delete_selected_clips"/>
 </Menu>
 
 <Menu name="monitor_context">
 	<Action name="project_add_clip"/>
+	<Action name="toggle_snap_marker"/>
 </Menu>
 
 <ToolBar name="timeline toolbar" fullWidth="false" newline="false">
 	<text>Timeline Toolbar</text>
 	<Action name="timeline_move_tool"/>
-  <Action name="timeline_razor_tool"/>
-  <Action name="timeline_spacer_tool"/>
-  <Action name="timeline_marker_tool"/>
-  <Separator lineSeperator="true"/>
-  <Action name="timeline_snap_frame"/>
-  <Action name="timeline_snap_border"/>
-  <Action name="timeline_snap_marker"/>
-  <Seperator lineSeperator="true"/>
-  <Action name="render_export_timeline"/>
+	<Action name="timeline_razor_tool"/>
+	<Action name="timeline_spacer_tool"/>
+	<Action name="timeline_marker_tool"/>
+	<Separator lineSeperator="true"/>
+	<Action name="timeline_snap_frame"/>
+	<Action name="timeline_snap_border"/>
+	<Action name="timeline_snap_marker"/>
+	<Seperator lineSeperator="true"/>
+	<Action name="render_export_timeline"/>
 </ToolBar>
 
 <ToolBar name="layout toolbar" fullWidth="false" newline="false">

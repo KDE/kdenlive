@@ -124,7 +124,7 @@ void KdenliveDoc::deleteContents()
 		delete m_clipHierarch;
 		m_clipHierarch = 0;
 	}
-		
+
 	emit trackListChanged();
 
 	m_clipManager.clear();
@@ -271,7 +271,7 @@ void KdenliveDoc::indirectlyModified()
 bool KdenliveDoc::hasSelectedClips()
 {
 	bool result = false;
-	
+
 	if(m_projectClip) {
 		result = m_projectClip->hasSelectedClips();
 	} else {
@@ -289,7 +289,7 @@ DocClipRef *KdenliveDoc::selectedClip()
 	} else {
 		kdError() << "No selection in the project because m_projectClip is null!!!" << endl;
 	}
-	
+
 	return pResult;
 };
 
@@ -386,6 +386,8 @@ void KdenliveDoc::setProjectClip(DocClipProject *projectClip)
 		delete m_projectClip;
 	}
 	m_projectClip = projectClip;
+
+	connectProjectClip();
 
 	emit trackListChanged();
 }
