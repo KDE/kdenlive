@@ -36,10 +36,10 @@ QString AVListViewItem::text ( int column ) const {
 	}
 	
 	if(m_listView->columnText(column) == i18n("Duration")) {
-		return QString::number(m_clip->durationSeconds()/3600).rightJustify(2, '0', FALSE) + ":" +
-			QString::number((m_clip->durationSeconds()/60) % 60).rightJustify(2, '0', FALSE) + ":" +
-			QString::number(m_clip->durationSeconds()%60).rightJustify(2, '0', FALSE) + "." +
-			QString::number(m_clip->durationMs()).leftJustify(2, '0', TRUE);
+		return QString::number(((int)m_clip->duration().seconds())/3600).rightJustify(2, '0', FALSE) + ":" +
+			QString::number((((int)m_clip->duration().seconds())/60) % 60).rightJustify(2, '0', FALSE) + ":" +
+			QString::number(((int)m_clip->duration().seconds())%60).rightJustify(2, '0', FALSE) + "." +
+			QString::number(((int)m_clip->duration().ms())%1000 ).leftJustify(2, '0', TRUE);
 	}
 	
 	if(m_listView->columnText(column) == i18n("Size")) {			

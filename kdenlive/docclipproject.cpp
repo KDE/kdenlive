@@ -26,8 +26,8 @@ DocClipProject::~DocClipProject()
 {
 }
 
-long DocClipProject::duration() {
-	return 0;
+GenTime DocClipProject::duration() {
+	return GenTime(0.0);
 }
 
 /** No descriptions */

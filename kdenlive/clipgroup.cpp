@@ -82,7 +82,7 @@ bool ClipGroup::moveByOffset(int offset)
 	while( (clip = itt.current())) {
 		++itt;
 
-		clip->setTrackStart(clip->trackStart()+offset);	
+		clip->setTrackStart(GenTime(clip->trackStart().frames(25) + offset, 25));	
 	}
 
 	return true;
@@ -145,7 +145,7 @@ void ClipGroup::moveTo(KdenliveDoc &doc, int track, int value)
     return;
   }
     
-	int offset = value - m_master->trackStart();
+	int offset = (int)(value - m_master->trackStart().frames(25));
 	
 	for(DocClipBase *clip; (clip = itt.current()); ++itt) {
 		curTrack = doc.findTrack(clip);
@@ -159,16 +159,16 @@ void ClipGroup::moveTo(KdenliveDoc &doc, int track, int value)
 		if(curTrack) {
 			
 			if(curTrack == reqTrack) {
-				clip->setTrackStart(clip->trackStart() + offset);
+				clip->setTrackStart( GenTime(clip->trackStart().frames(25) + offset, 25));
 			} else {
 				curTrack->removeClip(clip);
 				reqTrack->addClip(clip);
-				clip->setTrackStart(clip->trackStart() + offset);
+				clip->setTrackStart( GenTime(clip->trackStart().frames(25) + offset, 25));
 			}
 			
 		} else {
 			reqTrack->addClip(clip);
-			clip->setTrackStart(clip->trackStart() + offset);			
+			clip->setTrackStart( GenTime(clip->trackStart().frames(25) + offset, 25));
 		}	
 	}
 }

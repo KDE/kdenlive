@@ -25,7 +25,8 @@ KArtsDispatcher dispatcher;
 KArtsServer server;
 
 AVFile::AVFile(const QString name, const KURL url) :
-						m_player(0)
+						m_player(0),
+						m_duration(0.0)
 {
 	if(name.isNull()) {
    	setName(url.filename());
@@ -69,8 +70,8 @@ void AVFile::calculateFileProperties()
 			m_player->play();
 			bool flag = false;
 			while(m_player->state() != Arts::posIdle) {
-				m_duration= m_player->overallTime();
-				if((m_duration.seconds > 0) || (m_duration.ms > 0)) {
+				m_duration = GenTime(m_player->overallTime());
+				if(m_duration.seconds() > 0) {
     			flag=true;
         	break;
 				}
@@ -78,8 +79,7 @@ void AVFile::calculateFileProperties()
 			}
 
    		if(!flag) {
-       	m_duration.seconds = 0;
-        m_duration.ms = 0;
+	     	m_duration = GenTime(0.0);
         m_filesize = -1;
       }
 
@@ -92,8 +92,7 @@ void AVFile::calculateFileProperties()
 		m_player = 0;
 	} else {
 		/** If the file is not local, then no file properties are currently returned */
-		m_duration.seconds = 0;
-		m_duration.ms = 0;
+		m_duration = GenTime(0.0);
 		m_filesize = -1;
 	}
 }
@@ -124,20 +123,9 @@ const signed int AVFile::fileSize() {
 	return m_filesize;
 }
 
-/** returns the seconds part of the duration of this file. Use in combination with durationMs() to determine the total duration of the file. */
-unsigned int AVFile::durationSeconds() const
+GenTime AVFile::duration() const
 {
-	return m_duration.seconds;
-}
-
-unsigned int AVFile::durationMs() const
-{
-	return m_duration.ms;
-}
-
-unsigned int AVFile::duration() const
-{
-	return (m_duration.seconds * 1000) + m_duration.ms;
+	return m_duration;
 }
 
 int AVFile::addReference()

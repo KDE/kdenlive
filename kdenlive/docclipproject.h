@@ -19,6 +19,7 @@
 #define DOCCLIPPROJECT_H
 
 #include "docclipbase.h"
+#include "gentime.h"
 
 /**This "clip" consists of a number of tracks, clips, overlays, transitions and effects. It is basically
  capable of making multiple clips accessible as if they were a single clip. The "clipType()" of this clip
@@ -29,7 +30,7 @@ public:
 	DocClipProject();
 	~DocClipProject();
 
-	long duration();
+	GenTime duration();
   
 	/** No descriptions */
 	KURL fileURL();

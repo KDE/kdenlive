@@ -20,6 +20,7 @@
 
 #include <qstring.h>
 
+#include "gentime.h"
 #include "docclipbase.h"
 
 class AVFile;
@@ -39,12 +40,8 @@ public:
 	~DocClipAVFile();
 	QString fileName();
 	
-	/** Returns the duration of the file in milliseconds */
-	long duration();
-	/** Returns the seconds element of the duration of the file */
-	long durationSeconds();
-	/** Returns the milliseconds element of the duration of the file */
-	long durationMs();
+	/** Returns the duration of the file */
+	GenTime duration();	
 	/** Returns the type of this clip */
 	DocClipBase::CLIPTYPE clipType();
 

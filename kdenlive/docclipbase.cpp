@@ -21,40 +21,24 @@
 #include "docclipavfile.h"
 #include "docclipproject.h"
 
-DocClipBase::DocClipBase()
+DocClipBase::DocClipBase() :
+	m_trackStart(0.0),
+	m_cropStart(0.0),	
+	m_cropDuration(0.0)
 {
-	setTrackStart(0);
-	setCropStartTime(0);
-	setCropDuration(0);
 }
 
 DocClipBase::~DocClipBase()
 {
 }
 
-/** Returns where the start of this clip is on the track it resides on. */
-long DocClipBase::trackStartSeconds(){
-	return m_trackStart.seconds;
+GenTime DocClipBase::trackStart() {
+  return m_trackStart;
 }
 
-long DocClipBase::trackStartMs() {
-  return m_trackStart.ms;
-}
-
-long DocClipBase::trackStart() {
-  return (m_trackStart.seconds * 1000) + m_trackStart.ms;
-}
-
-void DocClipBase::setTrackStart(long seconds, long ms)
+void DocClipBase::setTrackStart(GenTime time)
 {
-	m_trackStart.seconds = seconds;
-	m_trackStart.ms = ms;
-}
-
-void DocClipBase::setTrackStart(long ms)
-{
-	m_trackStart.seconds = ms/1000;
-	m_trackStart.ms = ms%1000;
+	m_trackStart = time;
 }
 
 void DocClipBase::setName(QString name)
@@ -67,35 +51,24 @@ QString DocClipBase::name()
 	return m_name;
 }
 
-void DocClipBase::setCropStartTime(long ms)
+void DocClipBase::setCropStartTime(const GenTime &time)
+{	
+	m_cropStart = time;
+}
+
+GenTime DocClipBase::cropStartTime()
 {
-	m_cropStart.seconds = ms/1000;
-	m_cropStart.ms = ms%1000;
+	return m_cropStart;
 }
 
-long DocClipBase::cropStartTime()
+void DocClipBase::setCropDuration(const GenTime &time)
 {
-	return (m_cropStart.seconds*1000) + m_cropStart.ms;
+	m_cropDuration = time;
 }
 
-void DocClipBase::setCropDuration(long ms)
+GenTime DocClipBase::cropDuration()
 {
-	m_cropDuration.seconds = ms/1000;
-	m_cropDuration.ms = ms%1000;
-}
-
-long DocClipBase::cropDuration()
-{
-	return (m_cropDuration.seconds*1000) + m_cropDuration.ms;
-}
-
-
-long DocClipBase::durationSeconds() {
-	return duration() / 1000;
-}
-
-long DocClipBase::durationMs() {
-	return duration() % 1000;
+	return m_cropDuration;
 }
 
 QDomDocument DocClipBase::toXML() {
@@ -105,9 +78,9 @@ QDomDocument DocClipBase::toXML() {
 	clip.setAttribute("name", name());
 		
 	QDomElement position = doc.createElement("position");
-	position.setAttribute("trackstart", QString::number(trackStart()));
-	position.setAttribute("cropstart", QString::number(cropStartTime()));
-	position.setAttribute("cropduration", QString::number(cropDuration()));
+	position.setAttribute("trackstart", QString::number(trackStart().seconds()));
+	position.setAttribute("cropstart", QString::number(cropStartTime().seconds()));
+	position.setAttribute("cropduration", QString::number(cropDuration().seconds()));
 	clip.appendChild(position);
 	
 	doc.appendChild(clip); 

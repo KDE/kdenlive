@@ -26,6 +26,8 @@
 #include <arts/kartsserver.h>
 #include <arts/kplayobjectfactory.h>
 
+#include "gentime.h"
+
 /**Holds the details of an AV file, including size, duration, length, etc. This differs from a
  DocClipAVFile so as to be able to save on memory and speed - multiple clips of the same file will
   reference the same data. Reference counting is used so that an AVFile can delete itself when it
@@ -51,13 +53,6 @@ public:
 	const KURL fileURL();
 	/** returns the size of the file */
 	const signed int fileSize();
-  /** returns the seconds part of the duration of this file. Use in combination with durationMs()
-  to determine the total duration of the file. */
-  unsigned int durationSeconds() const;
-  /** returns the ms part of the duration of this file. Use in combination with durationSeconds()
-  to determine the total duration of the file. */
-  unsigned int durationMs() const;
-  /** Returns the number of clips which reference this avFile. */
   int numReferences();
   /** Removes the reference of this clip from this avFile. If the reference did not exist, a warning will be issued to stderr. Returns the number of references to avFile. */
   int removeReference();
@@ -66,8 +61,8 @@ there, then nothing happens other than a warning to stderr.
 
 Returns the number of references to this AVFile. */
   int addReference();
-	/** returns the duration of this file in milliseconds */
-  unsigned int duration() const;
+	/** returns the duration of this file */
+  GenTime duration() const;
 private: // Private attributes
   /** Holds the url for this AV file. */
   KURL m_url;;
@@ -76,7 +71,7 @@ private: // Private attributes
   /** KPlayObject used for calculating file duration, etc. */
  	KPlayObject *m_player;
 	/** The duration of this file. */
-	Arts::poTime m_duration;	  
+	GenTime m_duration;	  
   /** The name of this AVFile. */
   QString m_name;
   /** A list of all DocClipAVFiles which make use of this AVFile. This is used so that we can clean up if we decide to delete an AVFile. */

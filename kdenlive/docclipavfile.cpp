@@ -51,20 +51,7 @@ DocClipAVFile::~DocClipAVFile(){
 	m_avFile = 0;	
 }
 
-
-
-
-/** Returns the seconds element of the duration of the file */
-long DocClipAVFile::durationSeconds() {
-	return m_avFile->durationSeconds();
-}
-
-/** Returns the milliseconds element of the duration of the file */
-long DocClipAVFile::durationMs() {
-	return m_avFile->durationMs();
-}
-
-long DocClipAVFile::duration() {
+GenTime DocClipAVFile::duration() {
 	return m_avFile->duration();
 }
 

@@ -40,8 +40,8 @@ KMMTrackSoundPanel::~KMMTrackSoundPanel()
 	where the clip should be painted. */
 void KMMTrackSoundPanel::paintClip(QPainter & painter, DocClipBase * clip, QRect &rect, bool selected)
 {
-	int sx = (int)timeLine().mapValueToLocal(clip->trackStart()*25/1000);
-	int ex = (int)timeLine().mapValueToLocal(clip->trackStart() + clip->cropDuration()*25/1000);
+	int sx = (int)timeLine().mapValueToLocal(clip->trackStart().frames(25));
+	int ex = (int)timeLine().mapValueToLocal(clip->trackStart().frames(25) + clip->cropDuration().frames(25));
 
 	if(sx < rect.x()) {
 		sx = rect.x();

@@ -36,7 +36,7 @@ bool DocTrackBase::addClip(DocClipBase *clip)
 		int index = 0;
 		DocClipBase *testclip = m_clips.first();
 		while(testclip!=0) {
-			if(testclip->trackStart() < clip->trackStart()) break;
+			if(testclip->trackStart().seconds() < clip->trackStart().seconds()) break;
 			
 			testclip = m_clips.next();
 			index++;
@@ -61,14 +61,14 @@ QPtrListIterator<DocClipBase> DocTrackBase::firstClip(double startValue, double 
 	if(itt.isEmpty()) return itt;
 
 	while( (clip = itt.current())	!= 0) {
-		if(clip->trackStart() > endValue) {
+		if(clip->trackStart().frames(25) > endValue) {
 			// out of range, return iterator with a current() value of null.
 			itt.toLast();
 			++itt;
 			return itt;
 		}
-		if(clip->trackStart() + clip->cropDuration() >= startValue) {
-			if(clip->trackStart() <= endValue) {			
+		if(clip->trackStart().frames(25) + clip->cropDuration().frames(25) >= startValue) {
+			if(clip->trackStart().frames(25) <= endValue) {			
 				// this clip is at least partially on screen.
 				return itt;
 			} else {
@@ -98,7 +98,7 @@ QPtrListIterator<DocClipBase> DocTrackBase::endClip(double startValue, double en
 	if(itt.isEmpty()) return itt;
 
 	while( (clip = itt.current())	!= 0) {
-		if(clip->trackStart() > endValue) {
+		if(clip->trackStart().frames(25) > endValue) {
 			return itt;			
 		}
 		++itt;
@@ -112,8 +112,8 @@ DocClipBase *DocTrackBase::getClipAt(int value)
 	QPtrListIterator<DocClipBase> itt(m_clips);
 
 	for(DocClipBase *file;	(file=itt.current()) != 0; ++itt) {
-		if(file->trackStart() > value) return false;
-		if(file->trackStart() + file->cropDuration() > value) {
+		if(file->trackStart().frames(25) > value) return false;
+		if(file->trackStart().frames(25) + file->cropDuration().frames(25) > value) {
 			return file;
 		}
 	}
