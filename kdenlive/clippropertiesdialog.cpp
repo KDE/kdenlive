@@ -18,7 +18,8 @@
 #include "clippropertiesdialog.h"
 
 ClipPropertiesDialog::ClipPropertiesDialog(QWidget *parent, const char *name ):
-                          KDialog(parent,name)
+                          KDialog(parent,name),
+			  m_clip(0)
 {
 }
 
@@ -28,4 +29,5 @@ ClipPropertiesDialog::~ClipPropertiesDialog()
 
 void ClipPropertiesDialog::setClip(const AVFile *clip)
 {
+	m_clip = clip;
 }

@@ -34,6 +34,8 @@ public:
 	~ClipPropertiesDialog();
   /** Specifies the clip that we wish to display the properties of. */
   void setClip(const AVFile *clip);
+private:
+  	AVFile *m_clip;
 };
 
 #endif
