@@ -35,7 +35,7 @@ KMMScreen::KMMScreen(KdenliveApp *app, QWidget *parent, const char *name ) :
 				    m_clipLength(0)
 {
 	m_embed->setBackgroundMode(Qt::PaletteDark);
-  
+
 	connect(m_render, SIGNAL(initialised()), this, SLOT(rendererReady()));
 	connect(m_render, SIGNAL(replyCreateVideoXWindow(WId)), this, SLOT(embedWindow(WId)));
 	connect(m_render, SIGNAL(connected()), this, SIGNAL(rendererConnected()));
@@ -63,12 +63,12 @@ void KMMScreen::embedWindow(WId wid)
 {
 	if(wid != 0) {
 		m_embed->embed(wid);
-	} 
+	}
 }
 
 /** Seeks to the specified time */
 void KMMScreen::seek(const GenTime &time)
-{ 
+{
 	m_render->seek(time);
 }
 
@@ -76,6 +76,11 @@ void KMMScreen::seek(const GenTime &time)
 void KMMScreen::play(double speed)
 {
 	m_render->play(speed);
+}
+
+void KMMScreen::play(double speed, const GenTime &startTime, const GenTime &endTime)
+{
+	m_render->play(speed, startTime, endTime);
 }
 
 /** Set the displayed scenelist to the one specified. */

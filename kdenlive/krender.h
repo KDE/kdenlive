@@ -121,8 +121,13 @@ should reply with a <pong> - let's us determine the round-trip latency of the co
   /** Wraps the VEML command of the same name. Tells the renderer to
 play the current scene at the speed specified, relative to normal
 playback. e.g. 1.0 is normal speed, 0.0 is paused, -1.0 means play
-backwards. */
+backwards. Does not specify start/stop times for playback.*/
   void play(double speed);
+  /** Wraps the VEML command of the same name. Tells the renderer to
+	play the current scene at the speed specified, relative to normal
+	playback. e.g. 1.0 is normal speed, 0.0 is paused, -1.0 means play
+	backwards. Specifes the start/stop times for playback.*/
+  void play(double speed, const GenTime &startTime, const GenTime &stopTime);
   /** Wraps the VEML command of the same name - render the currently
 specified sceneList - set with setSceneList() - to the document
 name specified. */

@@ -29,7 +29,9 @@
 #include "kdenlivedoc.h"
 
 KMMEditPanel::KMMEditPanel( KdenliveDoc *document, QWidget* parent, const char* name, WFlags fl ) :
-		KMMEditPanel_UI( parent, name, fl )
+		KMMEditPanel_UI( parent, name, fl ),
+		m_playSpeed(0.0),
+		m_playSelected(false)
 {
 	m_document = document;
 
@@ -62,13 +64,19 @@ KMMEditPanel::KMMEditPanel( KdenliveDoc *document, QWidget* parent, const char* 
 	connect( startButton, SIGNAL( pressed() ), this, SLOT( seekBeginning() ) );
 	connect( endButton, SIGNAL( pressed() ), this, SLOT( seekEnd() ) );
 
-	connect( playButton, SIGNAL( pressed() ), this, SLOT( play() ) );
 	connect( rewindButton, SIGNAL( pressed() ), this, SLOT( stepBack() ) );
-	connect( stopButton, SIGNAL( pressed() ), this, SLOT( stop() ) );
 	connect( forwardButton, SIGNAL( pressed() ), this, SLOT( stepForwards() ) );
 	connect( inpointButton, SIGNAL( pressed() ), this, SLOT( setInpoint() ) );
 	connect( outpointButton, SIGNAL( pressed() ), this, SLOT( setOutpoint() ) );
+
+	connect( playButton, SIGNAL( pressed()), this, SLOT( play() ) );
+	connect( playSectionButton, SIGNAL( pressed() ), this, SLOT( playSelected() ) );
 	connect( setMarkerButton, SIGNAL( toggled(bool) ), this, SLOT( toggleMarker() ) );
+	connect( playButton, SIGNAL( released()), this, SLOT( updateButtons() ));
+	connect( playSectionButton, SIGNAL( released()), this, SLOT( updateButtons() ));
+
+	connect( stopButton, SIGNAL( pressed() ), this, SLOT( stop() ) );
+	connect( stopButton, SIGNAL( pressed() ), this, SLOT( updateButtons() ) );
 }
 
 KMMEditPanel::~KMMEditPanel()
@@ -118,22 +126,6 @@ void KMMEditPanel::stepForwards()
 	m_ruler->setSliderValue( 0, m_ruler->getSliderValue( 0 ) + 1 );
 }
 
-void KMMEditPanel::play()
-{
-	// play is called *before* the button actuall changes state - therefore we must see if the button
-	// if Off here instead of On. (If it is off, it will be on once play finishes)
-	if(!playButton->isOn()) {
-		setPlaying(true, true);
-	} else {
-		setPlaying(false, true);
-	}
-}
-
-void KMMEditPanel::stop()
-{
-	setPlaying(false);
-}
-
 void KMMEditPanel::seek( const GenTime &time )
 {
 	m_ruler->setSliderValue( 0, ( int ) ( floor( time.frames( m_document->framesPerSecond() ) + 0.5 ) ) );
@@ -181,29 +173,24 @@ GenTime KMMEditPanel::outpoint() const
 
 void KMMEditPanel::togglePlay()
 {
-	if(playButton->isOn()) {
+	m_playSelected = false;
+	if(isPlaying()) {
 		setPlaying(false);
 	} else {
 		setPlaying(true);
 	}
+	updateButtons();
 }
 
-void KMMEditPanel::setPlaying(bool play, bool reverseToggle)
+void KMMEditPanel::togglePlaySelected()
 {
-	KIconLoader loader;
-	if(play) {
-		emit playSpeedChanged( 1.0 );
-		if(!playButton->isOn() && !reverseToggle) {
-			playButton->toggle();
-		}
-		playButton->setPixmap( loader.loadIcon( "player_pause", KIcon::Toolbar ) );
+	m_playSelected = true;
+	if(isPlaying()) {
+		setPlaying(false);
 	} else {
-		emit playSpeedChanged( 0.0 );
-		if(playButton->isOn() && !reverseToggle) {
-			playButton->toggle();
-		}
-		playButton->setPixmap( loader.loadIcon( "player_play", KIcon::Toolbar ) );
+		setPlaying(true);
 	}
+	updateButtons();
 }
 
 void KMMEditPanel::toggleMarker()
@@ -212,11 +199,79 @@ void KMMEditPanel::toggleMarker()
 
 void KMMEditPanel::screenPlaySpeedChanged(double speed)
 {
-	if(speed == 0.0) {
-		if(playButton->isOn()) {
-			KIconLoader loader;
+	updateButtons();
+}
+
+void KMMEditPanel::playSelected()
+{
+	m_playSelected = true;
+
+	if(isPlaying()) {
+		setPlaying(false);
+	} else {
+		setPlaying(true);
+	}
+}
+
+void KMMEditPanel::play()
+{
+	m_playSelected = false;
+
+	if(isPlaying()) {
+		setPlaying(false);
+	} else {
+		setPlaying(true);
+	}
+}
+
+void KMMEditPanel::stop()
+{
+	m_playSelected = true;
+	setPlaying(false);
+}
+
+void KMMEditPanel::setPlaying(bool play)
+{
+	if(play) {
+		m_playSpeed = 1.0;
+	} else {
+		m_playSpeed = 0.0;
+	}
+
+	if(m_playSelected) {
+		emit playSpeedChanged( m_playSpeed, inpoint(), outpoint() );
+	} else {
+		emit playSpeedChanged( m_playSpeed );
+	}
+}
+
+void KMMEditPanel::updateButtons()
+{
+	KIconLoader loader;
+	if(isPlaying()) {
+		if(!playButton->isOn()) {
 			playButton->toggle();
-			playButton->setPixmap( loader.loadIcon( "player_play", KIcon::Toolbar ) );
+			if(m_playSelected) {
+				if(!playSectionButton->isOn()) {
+					playSectionButton->toggle();
+				}
+			} else {
+				if(playSectionButton->isOn()) {
+					playSectionButton->toggle();
+				}
+			}
 		}
+
+		playButton->setPixmap( loader.loadIcon( "player_pause", KIcon::Toolbar ) );
+
+	} else {
+		if(playButton->isOn()) {
+			playButton->toggle();
+		}
+		if(playSectionButton->isOn()) {
+			playSectionButton->toggle();
+		}
+
+		playButton->setPixmap( loader.loadIcon( "player_play", KIcon::Toolbar ) );
 	}
 }

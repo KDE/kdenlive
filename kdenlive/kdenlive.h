@@ -225,6 +225,8 @@ class KdenliveApp : public KDockMainWindow
 		void slotSeekBackwards();
 		/** Toggle between play/stop in the active monitor */
 		void slotTogglePlay();
+		/** Toggle between play/stop in the active monitor */
+		void slotTogglePlaySelected();
 		/** Move the active monitor forward one frame */
 		void slotNextFrame();
 		/** Move the active monitor backwards one frame */
@@ -306,6 +308,7 @@ class KdenliveApp : public KDockMainWindow
 		KAction* actionSeekForwards;
 		KAction* actionSeekBackwards;
 		KAction* actionTogglePlay;
+		KAction* actionTogglePlaySelected;
 		KAction* actionNextFrame;
 		KAction* actionLastFrame;
 		KAction* actionSetInpoint;

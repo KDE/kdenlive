@@ -73,11 +73,11 @@ void KMMMonitor::seek(const GenTime &time)
 
 void KMMMonitor::screenPositionChanged(const GenTime &time)
 {
-	disconnect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)), 
-					m_screen, SLOT(seek(const GenTime &)));    
+	disconnect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)),
+					m_screen, SLOT(seek(const GenTime &)));
 	m_editPanel->seek(time);
-	connect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)), 
-					m_screen, SLOT(seek(const GenTime &)));  
+	connect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)),
+					m_screen, SLOT(seek(const GenTime &)));
 }
 
 void KMMMonitor::swapScreens(KMMMonitor *monitor)
@@ -97,6 +97,8 @@ void KMMMonitor::disconnectScreen()
 {
 	disconnect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)), m_screen, SLOT(seek(const GenTime &)));
 	disconnect(m_editPanel, SIGNAL(playSpeedChanged(double)), m_screen, SLOT(play(double)));
+	disconnect(m_editPanel, SIGNAL(playSpeedChanged(double, const GenTime &, const GenTime &)), m_screen, SLOT(play(double, const GenTime &, const GenTime &)));
+
 	disconnect(m_screen, SIGNAL(rendererConnected()), m_editPanel, SLOT(rendererConnected()));
 	disconnect(m_screen, SIGNAL(rendererDisconnected()), m_editPanel, SLOT(rendererDisconnected()));
 	disconnect(m_screen, SIGNAL(seekPositionChanged(const GenTime &)), this, SLOT(screenPositionChanged(const GenTime &)));
@@ -110,6 +112,8 @@ void KMMMonitor::connectScreen()
 {
 	connect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)), m_screen, SLOT(seek(const GenTime &)));
 	connect(m_editPanel, SIGNAL(playSpeedChanged(double)), m_screen, SLOT(play(double)));
+	connect(m_editPanel, SIGNAL(playSpeedChanged(double, const GenTime &, const GenTime &)), m_screen, SLOT(play(double, const GenTime &, const GenTime &)));
+
 	connect(m_screen, SIGNAL(rendererConnected()), m_editPanel, SLOT(rendererConnected()));
 	connect(m_screen, SIGNAL(rendererDisconnected()), m_editPanel, SLOT(rendererDisconnected()));
 	connect(m_screen, SIGNAL(seekPositionChanged(const GenTime &)), this, SLOT(screenPositionChanged(const GenTime &)));
@@ -127,6 +131,11 @@ void KMMMonitor::setSceneList(const QDomDocument &scenelist)
 void KMMMonitor::togglePlay()
 {
 	m_editPanel->togglePlay();
+}
+
+void KMMMonitor::togglePlaySelected()
+{
+	m_editPanel->togglePlaySelected();
 }
 
 const GenTime &KMMMonitor::seekPosition() const
@@ -232,8 +241,8 @@ void KMMMonitor::doCommonSetClip()
 	m_editPanel->setInpoint(m_clip->cropStartTime());
 	m_editPanel->setOutpoint(m_clip->cropStartTime() + m_clip->cropDuration());
 
-	if( (!m_noSeek) || 
-	    (seekPosition() < m_clip->cropStartTime()) || 
+	if( (!m_noSeek) ||
+	    (seekPosition() < m_clip->cropStartTime()) ||
 	    (seekPosition() > m_clip->cropStartTime() + m_clip->cropDuration())) {
 		seek(m_clip->cropStartTime());
 		m_screen->seek(m_clip->cropStartTime());

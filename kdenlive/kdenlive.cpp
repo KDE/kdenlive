@@ -150,6 +150,7 @@ void KdenliveApp::initActions()
 	actionSeekForwards = new KAction( i18n( "Seek &Forwards" ), KShortcut(), this, SLOT( slotSeekForwards() ), actionCollection(), "seek_forwards" );
 	actionSeekBackwards = new KAction( i18n( "Seek Backwards" ), KShortcut(), this, SLOT( slotSeekBackwards() ), actionCollection(), "seek_backwards" );
 	actionTogglePlay = new KAction( i18n( "Start/Stop" ), KShortcut( Qt::Key_Space ), this, SLOT( slotTogglePlay() ), actionCollection(), "toggle_play" );
+	actionTogglePlaySelected = new KAction( i18n( "Play Selection" ), KShortcut( Qt::Key_Space | Qt::CTRL), this, SLOT( slotTogglePlaySelected() ), actionCollection(), "toggle_play_selection" );
 	actionNextFrame = new KAction( i18n( "Forward one frame" ), KShortcut( Qt::Key_Right ), this, SLOT( slotNextFrame() ), actionCollection(), "forward_frame" );
 	actionLastFrame = new KAction( i18n( "Back one frame" ), KShortcut( Qt::Key_Left ), this, SLOT( slotLastFrame() ), actionCollection(), "backward_frame" );
 	actionSetInpoint = new KAction( i18n( "Set inpoint" ), KShortcut( Qt::Key_I ), this, SLOT( slotSetInpoint() ), actionCollection(), "set_inpoint" );
@@ -197,6 +198,7 @@ void KdenliveApp::initActions()
 	actionSeekForwards->setStatusText( i18n( "Seek forward one frame" ) );
 	actionSeekBackwards->setStatusText( i18n( "Seek backwards one frame" ) );
 	actionTogglePlay->setStatusText( i18n( "Start or stop playback" ) );
+	actionTogglePlay->setStatusText( i18n( "Start or stop playback of inpoint/outpoint selection" ) );
 	actionNextFrame->setStatusText( i18n( "Move the current position forwards by one frame" ) );
 	actionLastFrame->setStatusText( i18n( "Move the current position backwards by one frame" ) );
 	actionSetInpoint->setStatusText( i18n( "Set the inpoint to the current position" ) );
@@ -933,6 +935,15 @@ void KdenliveApp::slotTogglePlay()
 	slotStatusMsg( i18n( "Starting/stopping playback" ) );
 	if ( m_monitorManager.hasActiveMonitor() ) {
 		m_monitorManager.activeMonitor() ->togglePlay();
+	}
+	slotStatusMsg( i18n( "Ready." ) );
+}
+
+void KdenliveApp::slotTogglePlaySelected()
+{
+	slotStatusMsg( i18n( "Starting/stopping playback of inpoint/outpoint section" ) );
+	if ( m_monitorManager.hasActiveMonitor() ) {
+		m_monitorManager.activeMonitor() ->togglePlaySelected();
 	}
 	slotStatusMsg( i18n( "Ready." ) );
 }

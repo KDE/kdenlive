@@ -42,7 +42,7 @@ class KMMMonitor : public QVBox  {
 public:
 	KMMMonitor(KdenliveApp *app, KdenliveDoc *document, QWidget *parent=0, const char *name=0);
 	virtual ~KMMMonitor();
-	
+
 	/** ***Nasty Hack***
 	Swaps the screens of two monitors, reparenting and reconnecting all
 	relevant signals/slots. This is required so that if a render instance
@@ -100,6 +100,8 @@ public slots: // Public slots
 	/** If the monitor is currently playing, stops it. If it is stopped, start it at
 	normal speed (1.0) */
 	void togglePlay();
+	/** If the monitor is currently playing, stops it. If it is stopped, start it at normal speed, playing the section between the in/outpoints. */
+	void togglePlaySelected();
 	/** Sets this monitor to be the active monitor. It's colour changes to show it is active. */
 	void slotSetActive();
 	/** Sets this monitor to be an inactive monitor. It's colour changes to show it is inactive. */
@@ -132,7 +134,7 @@ public slots: // Public slots
 
 	/** Called when a clip's crop start has changed. */
 	void slotClipCropStartChanged(DocClipRef *clip);
-	
+
 	/** Called when a clip's crop end has changed. */
 	void slotClipCropEndChanged(DocClipRef *clip);
 signals: // Signals

@@ -41,10 +41,12 @@ public:
 	GenTime outpoint() const;
 private:
 	// Set or stop playback.
-	void setPlaying(bool play, bool reverseToggle = false);
+	void setPlaying(bool play);
 private slots: // Private slots
   /** A slider on the ruler has changed value */
   void rulerValueChanged(int ID, int value);
+  /** Make sure that the edit buttons are in the correct state;have the correct image displayed */
+  void updateButtons();
 signals: // Signals
   /** Emitted when the seek position has changed */
   void seekPositionChanged(const GenTime &);
@@ -54,9 +56,19 @@ signals: // Signals
   void inpointPositionChanged(const GenTime &);
   /** Emitted by the EditPanel when the playSpeed should change. */
   void playSpeedChanged(double);
+  /** Emitted by the EditPanel when the playSpeed should change. */
+  void playSpeedChanged(double, const GenTime &, const GenTime &);
 private: // Private attributes
   /** The document associated with this edit panel */
   KdenliveDoc * m_document;
+
+  double m_playSpeed;
+
+  // True if we are playing, false otherwise.
+  bool isPlaying() const { return m_playSpeed != 0.0; };
+
+  // True if we are only playing the section of the file between inpoint and outpoint.
+  bool m_playSelected ;
 public slots: // Public slots
   /** Seeks to the end of the ruler */
   void seekEnd();
@@ -70,12 +82,14 @@ public slots: // Public slots
   void stop();
   /** Called when the "play" button is pressed */
   void play();
+  /** Called when the "play selected" button is pressed */
+  void playSelected();
   /** Sets the current seek position to the one specified */
   void seek(const GenTime &time);
   /** Alerts the edit panel that the renderer has disconnected. */
   void rendererConnected();
   /** Alerts the edit panel that the renderer has disconnected. */
-  void rendererDisconnected();  
+  void rendererDisconnected();
   /** Sets the outpoint position to the current seek position */
   void setOutpoint();
   /** Sets the inpoint position to the current seek position */
@@ -86,6 +100,8 @@ public slots: // Public slots
   void setInpoint(const GenTime &inpoint);
   /** Toggles whether or not we are currently "playing" */
   void togglePlay();
+  /** Toggles whether or not we are currently "playing" the inpoint/outpoint selection*/
+  void togglePlaySelected();
   /** Toggles whether there is a marker on this clip at the specified seek position */
   void toggleMarker();
   /** called when the screen has changed it's play speed - e.g., the renderer has

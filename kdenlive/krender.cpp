@@ -101,7 +101,7 @@ void KRender::slotConnected()
 {
 	getCapabilities();
 
-	emit renderDebug(m_name, "Connected on port " + QString::number(m_socket.port()) + 
+	emit renderDebug(m_name, "Connected on port " + QString::number(m_socket.port()) +
 		  		" to host on port " + QString::number(m_socket.peerPort()));
 	emit initialised();
 	emit connected();
@@ -156,7 +156,7 @@ void KRender::sendCommand(QDomDocument command)
 	  	QCString str = command.toCString() + "\n\n";
 	  	m_socket.writeBlock(str, strlen(str));
 	} else {
-		emit renderWarning(m_name, "Socket not connected, not sending Command " + 
+		emit renderWarning(m_name, "Socket not connected, not sending Command " +
 									command.toString());
 	}
 }
@@ -181,7 +181,7 @@ void KRender::launchProcess()
 	if(m_appPathInvalid) return;
 
 	if(!KIO::NetAccess::exists(m_appPath)) {
-		emit renderError(m_name, "The rendering application '" + m_appPath.path() + 
+		emit renderError(m_name, "The rendering application '" + m_appPath.path() +
 					"' does not exist! Please make sure that you have " +
 				       " installed a renderer, and that the executable is selected " +
 				       " on the settings page. If you do not have a renderer installed, " +
@@ -195,12 +195,12 @@ void KRender::launchProcess()
 	m_process << "-d";
 	m_process << "-p" << QString::number(m_portNum);
 
-	emit renderWarning(m_name, "Launching Process " + m_appPath.path() + 
+	emit renderWarning(m_name, "Launching Process " + m_appPath.path() +
 					" as server on port " + QString::number(m_portNum));
 	if(m_process.start(KProcess::NotifyOnExit, KProcess::AllOutput)) {
-		emit renderWarning(m_name, "Process launching successfully, pid = " + 
+		emit renderWarning(m_name, "Process launching successfully, pid = " +
 								QString::number(m_process.pid()));
-		emit renderDebug(m_name, "Connecting to server on port " + 
+		emit renderDebug(m_name, "Connecting to server on port " +
 								QString::number(m_portNum));
 		m_socket.connectToHost("127.0.0.1", m_portNum);
 	} else {
@@ -297,6 +297,22 @@ void KRender::play(double speed)
 	QDomDocument doc;
 	QDomElement elem = doc.createElement("play");
 	elem.setAttribute("speed", speed);
+	doc.appendChild(elem);
+	sendCommand(doc);
+}
+
+void KRender::play(double speed, const GenTime &startTime, const GenTime &stopTime)
+{
+	m_playSpeed = speed;
+
+	if(m_setSceneListPending) {
+		sendSetSceneListCommand(m_sceneList);
+	}
+	QDomDocument doc;
+	QDomElement elem = doc.createElement("play");
+	elem.setAttribute("speed", speed);
+	elem.setAttribute("start", startTime.seconds());
+	elem.setAttribute("stop", stopTime.seconds());
 	doc.appendChild(elem);
 	sendCommand(doc);
 }
@@ -496,7 +512,7 @@ bool KRender::topLevelStartElement(const QString & localName, const QString & qN
 							&KRender::replyError_GetFileProperties_EndElement);
 				}
 			}
-		
+
 			m_filePropertyMap.clear();
 			m_filePropertyMap["filename"] = atts.value("filename");
 			m_filePropertyMap["duration"] = atts.value("duration");
@@ -778,7 +794,7 @@ bool KRender::reply_capabilities_codecs_StartElement(const QString & localName, 
     QString name = atts.value("name");
     m_codec = new AVFormatDescCodec("No description", name);
     emit renderWarning(m_name, "Creating codec with name " + name);
-    
+
     StackValue val;
     val.element = "encoder";
   	val.funcStartElement = &KRender::reply_capabilities_codecs_encoder_StartElement;
@@ -813,7 +829,7 @@ bool KRender::reply_capabilities_codecs_encoder_EndElement(const QString & local
   } else {
     m_codeclist.append(m_codec);
     m_codec = 0;
-    emit signalFileFormatsUpdated(m_fileFormats);    
+    emit signalFileFormatsUpdated(m_fileFormats);
   }
   return true;
 }
@@ -836,8 +852,8 @@ bool KRender::reply_capabilities_effects_StartElement(const QString & localName,
     if(m_effect != 0) {
       emit renderWarning(m_name, "Error - creating m_effect but pointer is non-null - expect memory leak");
     }
-    m_effect = new EffectDesc(name);    
-    
+    m_effect = new EffectDesc(name);
+
     StackValue val;
     val.element = "effect";
   	val.funcStartElement = &KRender::reply_capabilities_effects_effect_StartElement;
@@ -871,11 +887,11 @@ bool KRender::reply_capabilities_effects_effect_StartElement(const QString & loc
   }
 
   if(localName == "preset") {
-    
+
     pushIgnore();
     return true;
   }
-  
+
   pushIgnore();
   return true;
 }
@@ -955,10 +971,10 @@ bool KRender::reply_getFileProperties_StartElement(const QString & localName, co
 {
 	if(localName == "stream")
 	{
-		pushStack("reply_getFileProperties_stream", 
+		pushStack("reply_getFileProperties_stream",
 				&KRender::reply_getFileProperties_stream_StartElement,
 				0);
-		
+
 		return true;
 	}
 
@@ -971,18 +987,18 @@ bool KRender::reply_getFileProperties_stream_StartElement(const QString & localN
 {
 	if(localName == "container")
 	{
-		pushStack("reply_getFileProperties_stream_container", 
+		pushStack("reply_getFileProperties_stream_container",
 				&KRender::reply_getFileProperties_stream_container_StartElement,
 				0);
-		
+
 		return true;
 	}
-	
+
 	pushIgnore();
 	return true;
 }
 
-bool KRender::reply_getFileProperties_stream_container_StartElement(const QString & localName, 
+bool KRender::reply_getFileProperties_stream_container_StartElement(const QString & localName,
 					const QString &qName, const QXmlAttributes & atts)
 {
 	if(localName == "codec")
@@ -992,7 +1008,7 @@ bool KRender::reply_getFileProperties_stream_container_StartElement(const QStrin
 			m_filePropertyMap["fps"] = atts.value("fps");
 		}
 	}
-	
+
 	pushIgnore();
 	return true;
 }
