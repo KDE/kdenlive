@@ -133,6 +133,7 @@ public:
 	play the current scene at the speed specified, relative to normal
 	playback. e.g. 1.0 is normal speed, 0.0 is paused, -1.0 means play
 	backwards. Specifes the start/stop times for playback.*/
+	void play(double speed, const GenTime &startTime);
 	void play( double speed, const GenTime &startTime, const GenTime &stopTime );
 	/** Wraps the VEML command of the same name - render the currently
 	specified sceneList - set with setSceneList() - to the document

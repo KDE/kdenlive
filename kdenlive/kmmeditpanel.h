@@ -35,6 +35,8 @@ public:
 	~KMMEditPanel();
 	/** Sets the length of the clip that we are viewing. */
 	void setClipLength(int frames);
+	/** Returns the point time of the current clip. */
+	GenTime point() const;
 	/** Returns the inpoint time for the current clip. */
 	GenTime inpoint() const;
 	/** Returns the outpoint time for the current clip. */
@@ -54,6 +56,8 @@ signals: // Signals
   void outpointPositionChanged(const GenTime &);
   /** Emitted when the inpoint position has changed */
   void inpointPositionChanged(const GenTime &);
+  /** Emitted by the EditPanel when the playSpeed should change. */
+  void playSpeedChanged(double, const GenTime &);
   /** Emitted by the EditPanel when the playSpeed should change. */
   void playSpeedChanged(double);
   /** Emitted by the EditPanel when the playSpeed should change. */
@@ -77,6 +81,8 @@ private: // Private attributes
 
   // True if we are only playing the section of the file between inpoint and outpoint.
   bool m_playSelected ;
+
+  bool m_pauseMode;
 public slots: // Public slots
   /** Seeks to the end of the ruler */
   void seekEnd();

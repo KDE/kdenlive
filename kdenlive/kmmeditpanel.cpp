@@ -180,6 +180,12 @@ void KMMEditPanel::setOutpoint( const GenTime &outpoint )
 	m_ruler->setSliderValue( 2, ( int ) outpoint.frames( m_document->framesPerSecond() ) );
 }
 
+// point of the slider
+GenTime KMMEditPanel::point() const
+{
+	return GenTime( m_ruler->getSliderValue( 0 ), m_document->framesPerSecond() );
+}
+
 GenTime KMMEditPanel::inpoint() const
 {
 	return GenTime( m_ruler->getSliderValue( 1 ), m_document->framesPerSecond() );
@@ -235,14 +241,17 @@ void KMMEditPanel::play()
 
 	if(isPlaying()) {
 		setPlaying(false);
+		m_pauseMode = true;
 	} else {
 		setPlaying(true);
+		m_pauseMode = false;
 	}
 }
 
 void KMMEditPanel::stop()
 {
 	m_playSelected = true;
+	m_pauseMode = false;
 	setPlaying(false);
 }
 
@@ -257,8 +266,13 @@ void KMMEditPanel::setPlaying(bool play)
 	if(m_playSelected) {
 		emit playSpeedChanged( m_playSpeed, inpoint(), outpoint() );
 	} else {
-		emit playSpeedChanged( m_playSpeed );
+		if ( m_pauseMode == true ) {
+			emit playSpeedChanged( m_playSpeed, point());
+		}
+		else
+			emit playSpeedChanged( m_playSpeed );
 	}
+
 }
 
 void KMMEditPanel::updateButtons()

@@ -110,6 +110,7 @@ void KMMMonitor::disconnectScreen()
 {
 	disconnect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)), m_screen, SLOT(seek(const GenTime &)));
 	disconnect(m_editPanel, SIGNAL(playSpeedChanged(double)), m_screen, SLOT(play(double)));
+	disconnect(m_editPanel, SIGNAL(playSpeedChanged(double, const GenTime &)), m_screen, SLOT(play(double, const GenTime &)));
 	disconnect(m_editPanel, SIGNAL(playSpeedChanged(double, const GenTime &, const GenTime &)), m_screen, SLOT(play(double, const GenTime &, const GenTime &)));
 
 	disconnect(m_screen, SIGNAL(rendererConnected()), m_editPanel, SLOT(rendererConnected()));
@@ -125,6 +126,7 @@ void KMMMonitor::connectScreen()
 {
 	connect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)), m_screen, SLOT(seek(const GenTime &)));
 	connect(m_editPanel, SIGNAL(playSpeedChanged(double)), m_screen, SLOT(play(double)));
+	connect(m_editPanel, SIGNAL(playSpeedChanged(double, const GenTime &)), m_screen, SLOT(play(double, const GenTime &)));
 	connect(m_editPanel, SIGNAL(playSpeedChanged(double, const GenTime &, const GenTime &)), m_screen, SLOT(play(double, const GenTime &, const GenTime &)));
 
 	connect(m_screen, SIGNAL(rendererConnected()), m_editPanel, SLOT(rendererConnected()));

@@ -78,6 +78,11 @@ void KMMScreen::play(double speed)
 	m_render->play(speed);
 }
 
+void KMMScreen::play(double speed, const GenTime &startTime)
+{
+	m_render->play(speed, startTime);
+}
+
 void KMMScreen::play(double speed, const GenTime &startTime, const GenTime &endTime)
 {
 	m_render->play(speed, startTime, endTime);

@@ -307,6 +307,20 @@ void KRender::play( double speed )
 	sendCommand( doc );
 }
 
+void KRender::play(double speed, const GenTime &startTime)
+{
+	m_playSpeed = speed;
+	if(m_setSceneListPending) {
+		sendSetSceneListCommand(m_sceneList);
+	}
+	QDomDocument doc;
+	QDomElement elem = doc.createElement("play");
+	elem.setAttribute("speed", speed);
+	elem.setAttribute("start", startTime.seconds());
+	doc.appendChild(elem);
+	sendCommand(doc);
+}
+
 void KRender::play( double speed, const GenTime &startTime, const GenTime &stopTime )
 {
 	m_playSpeed = speed;
