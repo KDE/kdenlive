@@ -471,7 +471,7 @@ your application. -->
 <title
 >L'ouverture et l'enregistrement de votre projet</title>
 <para
->  </para>
+> Charger votre projet avec le menu « Fichier / Ouvrir ». Enregistrer votre projet avec le menu « Fichier / Enregistrer sous ». </para>
 
 </sect1>
 
@@ -1229,7 +1229,7 @@ or menu bars. -->
 > <listitem
 > <para
 > <action
-></action
+>Configure &kdenlive;</action
 > </para
 > </listitem
 > </varlistentry
@@ -1239,18 +1239,22 @@ or menu bars. -->
 
 <sect2>
 <title
->Le menu « Fichier »</title>
+>Le menu « Aide »</title>
 <para
 > <variablelist
 > <varlistentry
 > <term
 ><menuchoice
->  </menuchoice
+> <guimenu
+>Aide</guimenu
+> <guimenuitem
+>Manuel de Kdenlive</guimenuitem
+> </menuchoice
 > </term
 > <listitem
 > <para
 > <action
-></action
+>Affiche le manuel de &kdenlive; (ce document).</action
 > </para
 > </listitem
 > </varlistentry
@@ -1260,57 +1264,69 @@ or menu bars. -->
 > <shortcut
 > <keycombo
 ><keycap
->Ctrl</keycap
+>Shift</keycap
 ><keycap
->s</keycap
+>F1</keycap
 ></keycombo
 > </shortcut
 > <guimenu
->Fichier</guimenu
+>Aide</guimenu
 > <guimenuitem
->Enregistrer</guimenuitem
+>Qu'est ce que c'est ?</guimenuitem
 > </menuchoice
 > </term
 > <listitem
 > <para
 > <action
-></action
+>Aprés avoir sélectionner cette option, cliquez sur une partie de l'interface graphique pour obtenir de de plus amples informations la concernant.</action
 > </para
 > </listitem
 > </varlistentry
 > <varlistentry
 > <term
 ><menuchoice
->  </menuchoice
+> <guimenu
+>Aide</guimenu
+> <guimenuitem
+>Rapport de bogue...</guimenuitem
+> </menuchoice
 > </term
 > <listitem
 > <para
 > <action
-></action
+>Rapporte un bogue à propos de &kdenlive;</action
 > </para
 > </listitem
 > </varlistentry
 > <varlistentry
 > <term
 ><menuchoice
->  </menuchoice
+> <guimenu
+>Aide</guimenu
+> <guimenuitem
+>À propos de Kdenlive</guimenuitem
+> </menuchoice
 > </term
 > <listitem
 > <para
 > <action
-></action
+>Affiche les informations concernant &kdenlive;, dont la licence, les auteurs, et les contributeurs.</action
 > </para
 > </listitem
 > </varlistentry
 > <varlistentry
 > <term
 ><menuchoice
->  </menuchoice
+> <guimenu
+>Aide</guimenu
+> <guimenuitem
+>À propos de KDE</guimenuitem
+> </menuchoice
 > </term
 > <listitem
 > <para
 > <action
-></action
+>Affiche les informations concernant le projet KDE.</action
 > </para
 > </listitem
 > </varlistentry
@@ -1323,14 +1339,14 @@ or menu bars. -->
 
 <chapter id="developers">
 <title
->Le guide du développeur de &kapp;</title>
+>Le guide du développeur de &kdenlive;</title>
 
 <!-- (OPTIONAL) A Programming/Scripting reference chapter should be
 used for apps that use plugins or that provide their own scripting hooks
 and/or development libraries. -->
 
 <para
->  </para>
+> A faire... </para>
 
 <!-- Use refentries to describe APIs.  Refentries are fairly complicated and you
 should consult the docbook reference for further details. The example below was
@@ -1340,13 +1356,16 @@ taken from that reference and shortened a bit for readability. -->
 
 <chapter id="known-issues">
 <title
-></title>
+>Problèmes connus et solutions</title>
 
 <para
 >  </para>
 <para
 >  <screen width="40">
-
+<prompt
+>%</prompt
+> <userinput
+>killall -9 piave</userinput>
 </screen
 > </para>
 <para
@@ -1418,13 +1437,13 @@ distribution. -->
 > <para
 > Caulier Gilles <email
 >caulier.Gilles@free.fr</email
-> : internationalisation de Kdenlive et de Piave, traductions Françaises, logo de démarrage. </para
+> : internationalisation des programmes &kdenlive; et &piave;, traductions Françaises, logo de démarrage. </para
 > </listitem
 > <listitem
 > <para
 > Rolf Dubitzky <email
 >dubitzky@pktw06.phy.tu-dresden.de</email
-> : auteur et mainteneur du programme « piave ». </para
+> : auteur et mainteneur du programme &piave;. </para
 > </listitem
 > </itemizedlist
 > </para>
@@ -1462,7 +1481,7 @@ regardless of what license the application uses) -->
 
 <sect1 id="getting-kdenlive">
 <title
->Comment obtenir Kdenlive</title>
+>Comment obtenir &kdenlive;</title>
 
 <para
 > La page WEB de &kdenlive; est <ulink url="http://www.uchian.pwp.blueyonder.co.uk/kdenlive.html"
@@ -1511,7 +1530,9 @@ or the ChangeLog file, or ... -->
 >  </para>
 
 <para
-> Depuis que Kdenlive utilise les programmes « autoconf » et « automake », vous ne devriez pas avoir de problèmes pour compiler celui ci. Si vous rencontrez des difficultés, veulliez contacter la liste de diffusion du projet KDE. </para>
+> Depuis que Kdenlive utilise les programmes « autoconf » et « automake », vous ne devriez pas avoir de problèmes pour compiler celui ci. Si vous rencontrez des difficultés, veulliez contacter l'auteur à l'adresse <email
+>jasonwood@blueyonder.co.uk</email
+>. </para>
 
 </sect1>
 

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: index_fr\n"
 "POT-Creation-Date: 2001-02-09 01:25+0100\n"
-"PO-Revision-Date: 2003-08-14 12:04GMT\n"
+"PO-Revision-Date: 2003-08-14 23:20GMT\n"
 "Last-Translator: CAULIER Gilles <caulier.gilles@free.fr>\n"
 "Language-Team: FRANCAIS <fr@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -253,7 +253,7 @@ msgid "The Timeline"
 msgstr "La table de montage vidéo"
 
 #: index.docbook:238 index.docbook:292
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "The timeline"
 msgstr "La table de montage vidéo"
 
@@ -472,13 +472,13 @@ msgid ""
 "instance, if you drag a dv straight from konqueror to &kdenlive;), then it "
 "will be automatically added to the project for you."
 msgstr ""
-"Si vous utilisez le glisser / déposer sur la table de montage un plan "
-"vidéo qui n'est pas dans votre projet (par exemple en utilisant un "
-"fichier au format « DV » à partir de Konqueror), alors celui ci sera "
-"automatiquement ajouté au projet."
+"Si vous utilisez le glisser / déposer sur la table de montage un plan vidéo "
+"qui n'est pas dans votre projet (par exemple en utilisant un fichier au "
+"format « DV » à partir de Konqueror), alors celui ci sera automatiquement "
+"ajouté au projet."
 
 #: index.docbook:417
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "You can add clips to the projectlist yourself. Either use the project list "
 "context menu (right click on the window), or the Project menu on the menu "
@@ -605,7 +605,9 @@ msgstr "La liste des effets"
 #: index.docbook:501 index.docbook:509
 #, no-c-format
 msgid "This is non-functional in the current version of &kdenlive;."
-msgstr "Cette fonctionnalité n'est pas encore implantée dans la version actuelle de &kdenlive;."
+msgstr ""
+"Cette fonctionnalité n'est pas encore implantée dans la version actuelle de "
+"&kdenlive;."
 
 #: index.docbook:507
 #, no-c-format
@@ -665,8 +667,8 @@ msgid ""
 "The current version of &kdenlive;/&piave; only supports export to raw dv "
 "format."
 msgstr ""
-"Les versions actuelles des programmes &kdenlive; et &piave; ne gerent uniquement "
-"l'exportation vidéo au format « DV » brut (RAW)."
+"Les versions actuelles des programmes &kdenlive; et &piave; ne gerent "
+"uniquement l'exportation vidéo au format « DV » brut (RAW)."
 
 #: index.docbook:559
 #, no-c-format
@@ -679,6 +681,8 @@ msgid ""
 "Load your project via the File->open menu. Save your project via the File-"
 ">save-as menu."
 msgstr ""
+"Charger votre projet avec le menu « Fichier / Ouvrir ». Enregistrer votre projet avec le "
+"menu « Fichier / Enregistrer sous »."
 
 #: index.docbook:570
 #, no-c-format
@@ -803,8 +807,8 @@ msgid ""
 "guimenuitem>"
 msgstr ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>z</"
-"keycap></keycombo> </shortcut> <guimenu>Édition</guimenu> <guimenuitem>Refaire</"
-"guimenuitem>"
+"keycap></keycombo> </shortcut> <guimenu>Édition</guimenu> "
+"<guimenuitem>Refaire</guimenuitem>"
 
 #: index.docbook:653
 #, no-c-format
@@ -866,7 +870,9 @@ msgstr "Ajoute des plans vidéo dans la liste du projet"
 #: index.docbook:742
 #, no-c-format
 msgid "<guimenu>Project</guimenu> <guimenuitem>Delete Clips</guimenuitem>"
-msgstr "<guimenu>Projet</guimenu> <guimenuitem>Supprimer des plans vidéo</guimenuitem>"
+msgstr ""
+"<guimenu>Projet</guimenu> <guimenuitem>Supprimer des plans vidéo</"
+"guimenuitem>"
 
 #: index.docbook:742
 #, no-c-format
@@ -940,7 +946,9 @@ msgstr ""
 #: index.docbook:803
 #, no-c-format
 msgid "<guimenu>Timeline</guimenu> <guimenuitem>Snap To Frames</guimenuitem>"
-msgstr "<guimenu>Montage vidéo</guimenu> <guimenuitem>Utiliser les trames</guimenuitem>"
+msgstr ""
+"<guimenu>Montage vidéo</guimenu> <guimenuitem>Utiliser les trames</"
+"guimenuitem>"
 
 #: index.docbook:803
 #, no-c-format
@@ -950,7 +958,9 @@ msgstr ""
 #: index.docbook:803
 #, no-c-format
 msgid "<guimenu>Timeline</guimenu> <guimenuitem>Snap To Border</guimenuitem>"
-msgstr "<guimenu>Montage vidéo</guimenu> <guimenuitem>Utiliser les bords</guimenuitem>"
+msgstr ""
+"<guimenu>Montage vidéo</guimenu> <guimenuitem>Utiliser les bords</"
+"guimenuitem>"
 
 #: index.docbook:803
 #, no-c-format
@@ -967,7 +977,9 @@ msgstr "Le menu « Rendu vidéo »"
 #: index.docbook:889
 #, no-c-format
 msgid "<guimenu>Render</guimenu> <guimenuitem>Export Timeline</guimenuitem>"
-msgstr "<guimenu>Rendu vidéo</guimenu> <guimenuitem>Exporter le montage vidéo</guimenuitem>"
+msgstr ""
+"<guimenu>Rendu vidéo</guimenu> <guimenuitem>Exporter le montage vidéo</"
+"guimenuitem>"
 
 #: index.docbook:889
 #, no-c-format
@@ -1057,7 +1069,7 @@ msgstr "Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 2
 msgid ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F11</"
 "keycap></keycombo> </shortcut> <guimenu>Layout Menu</guimenu> "
-"<guimenuitem>SaveLayout 3</guimenuitem>"
+"<guimenuitem>Save Layout 3</guimenuitem>"
 msgstr ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F11</"
 "keycap></keycombo> </shortcut> <guimenu>Fenêtre</guimenu> "
@@ -1092,7 +1104,9 @@ msgstr "Le menu « Configuration »"
 #: index.docbook:1048
 #, no-c-format
 msgid "<guimenu>Settings</guimenu> <guimenuitem>Show Toolbar</guimenuitem>"
-msgstr "<guimenu>Configuration</guimenu> <guimenuitem>Afficher la barre d'outils</guimenuitem>"
+msgstr ""
+"<guimenu>Configuration</guimenu> <guimenuitem>Afficher la barre d'outils</"
+"guimenuitem>"
 
 #: index.docbook:1048
 #, no-c-format
@@ -1102,7 +1116,9 @@ msgstr "Affiche ou cache la barre d'outils."
 #: index.docbook:1048
 #, no-c-format
 msgid "<guimenu>Settings</guimenu> <guimenuitem>Show Statusbar</guimenuitem>"
-msgstr "<guimenu>Configuration</guimenu> <guimenuitem>Afficher la barre d'état</guimenuitem>"
+msgstr ""
+"<guimenu>Configuration</guimenu> <guimenuitem>Afficher la barre d'état</"
+"guimenuitem>"
 
 #: index.docbook:1048
 #, no-c-format
@@ -1112,7 +1128,9 @@ msgstr "Affiche ou cache la barre d'état."
 #: index.docbook:1048
 #, no-c-format
 msgid "<guimenu>Settings</guimenu> <guimenuitem>Configure Shortcuts...</guimenuitem>"
-msgstr "<guimenu>Configuration</guimenu> <guimenuitem>Configurer les raccourcis clavier...</guimenuitem>"
+msgstr ""
+"<guimenu>Configuration</guimenu> <guimenuitem>Configurer les raccourcis "
+"clavier...</guimenuitem>"
 
 #: index.docbook:1048
 #, no-c-format
@@ -1122,7 +1140,9 @@ msgstr "Configure les raccourcis clavier de &kdenlive;."
 #: index.docbook:1048
 #, no-c-format
 msgid "<guimenu>Settings</guimenu> <guimenuitem>Configure Toolbars...</guimenuitem>"
-msgstr "<guimenu>Configuration</guimenu> <guimenuitem>Configurer les barres d'outils...</guimenuitem>"
+msgstr ""
+"<guimenu>Configuration</guimenu> <guimenuitem>Configurer les barres "
+"d'outils...</guimenuitem>"
 
 #: index.docbook:1048
 #, no-c-format
@@ -1132,56 +1152,60 @@ msgstr "Configure les barres d'outils de &kdenlive;."
 #: index.docbook:1048
 #, no-c-format
 msgid "<guimenu>Settings</guimenu> <guimenuitem>Configure Kdenlive...</guimenuitem>"
-msgstr "<guimenu>Configuration</guimenu> <guimenuitem>Configurer Kdenlive...</guimenuitem>"
+msgstr ""
+"<guimenu>Configuration</guimenu> <guimenuitem>Configurer Kdenlive...</"
+"guimenuitem>"
 
 #: index.docbook:1048
 #, no-c-format
 msgid "Configure &kdenlive;"
-msgstr ""
+msgstr "Configure &kdenlive;"
 
 #: index.docbook:1121
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "The Help Menu"
-msgstr "Le menu « Fichier »"
+msgstr "Le menu « Aide »"
 
 #: index.docbook:1122
 #, no-c-format
 msgid "<guimenu>Help</guimenu> <guimenuitem>Kdenlive Handbook</guimenuitem>"
-msgstr ""
+msgstr "<guimenu>Aide</guimenu> <guimenuitem>Manuel de Kdenlive</guimenuitem>"
 
 #: index.docbook:1122
 #, no-c-format
 msgid "View the &kdenlive; handbook (this document)"
-msgstr ""
+msgstr "Affiche le manuel de &kdenlive; (ce document)."
 
 #: index.docbook:1122
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "<shortcut> <keycombo><keycap>Shift</keycap><keycap>F1</keycap></keycombo> </"
 "shortcut> <guimenu>Help</guimenu> <guimenuitem>What's This?</guimenuitem>"
 msgstr ""
-"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>s</keycap></keycombo> </"
-"shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Enregistrer</guimenuitem>"
+"<shortcut> <keycombo><keycap>Shift</keycap><keycap>F1</keycap></keycombo> </"
+"shortcut> <guimenu>Aide</guimenu> <guimenuitem>Qu'est ce que c'est ?</guimenuitem>"
 
 #: index.docbook:1122
 #, no-c-format
 msgid "After selecting this, click on part of the gui to find out what it does."
 msgstr ""
+"Aprés avoir sélectionner cette option, cliquez sur une partie de l'interface graphique "
+"pour obtenir de de plus amples informations la concernant."
 
 #: index.docbook:1122
 #, no-c-format
 msgid "<guimenu>Help</guimenu> <guimenuitem>Report Bug...</guimenuitem>"
-msgstr ""
+msgstr "<guimenu>Aide</guimenu> <guimenuitem>Rapport de bogue...</guimenuitem>"
 
 #: index.docbook:1122
 #, no-c-format
 msgid "Report a bug about &kdenlive;"
-msgstr ""
+msgstr "Rapporte un bogue à propos de &kdenlive;"
 
 #: index.docbook:1122
 #, no-c-format
 msgid "<guimenu>Help</guimenu> <guimenuitem>About Kdenlive</guimenuitem>"
-msgstr ""
+msgstr "<guimenu>Aide</guimenu> <guimenuitem>À propos de Kdenlive</guimenuitem>"
 
 #: index.docbook:1122
 #, no-c-format
@@ -1189,31 +1213,33 @@ msgid ""
 "See information about &kdenlive;, including the license, authors and "
 "contributers."
 msgstr ""
+"Affiche les informations concernant &kdenlive;, dont la licence, les auteurs, "
+"et les contributeurs."
 
 #: index.docbook:1122
 #, no-c-format
 msgid "<guimenu>Help</guimenu> <guimenuitem>About KDE</guimenuitem>"
-msgstr ""
+msgstr "<guimenu>Aide</guimenu> <guimenuitem>À propos de KDE</guimenuitem>"
 
 #: index.docbook:1122
 #, no-c-format
 msgid "See information about the KDE project."
-msgstr ""
+msgstr "Affiche les informations concernant le projet KDE."
 
 #: index.docbook:1201
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Developer's Guide to &kdenlive;"
-msgstr "Le guide du développeur de &kapp;"
+msgstr "Le guide du développeur de &kdenlive;"
 
 #: index.docbook:1207
 #, no-c-format
 msgid "To be written."
-msgstr ""
+msgstr "A faire..."
 
 #: index.docbook:1218
 #, no-c-format
 msgid "Known Issues, Workarounds and Recovery Procedures"
-msgstr ""
+msgstr "Problèmes connus et solutions"
 
 #: index.docbook:1220
 #, no-c-format
@@ -1235,7 +1261,7 @@ msgstr ""
 #: index.docbook:1225
 #, no-c-format
 msgid "<prompt>%</prompt> <userinput>killall -9 piave</userinput>"
-msgstr ""
+msgstr "<prompt>%</prompt> <userinput>killall -9 piave</userinput>"
 
 #: index.docbook:1233
 #, no-c-format
@@ -1269,7 +1295,7 @@ msgstr ""
 "format est connu. Que se passe t'il ?"
 
 #: index.docbook:1268
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "This is a sign that something has gone wrong with &piave;. Whilst &kapp; "
 "will do it's best to pull itself back into working order, this is still "
@@ -1281,12 +1307,14 @@ msgid ""
 "\t\t\t\t\t</screen> Wait a few seconds, and then restart kdenlive."
 msgstr ""
 "Ce message est du à une non reconnaissance du format vidéo par le programme "
-"« piave ». Comme &kapp; est une application encore récente, certain "
+"&piave;. Comme &kapp; est une application encore récente, certain "
 "dysfonctionnements ne sont pas encore correctement gérés. La meilleure "
 "solution à ce problème et de quitter &kapp; (en enregistrant votre travail "
-"préalablement), et d'ouvrir une console en saisissant la ligne de commande "
-"suivante : « killall -9 piave ». Attendez quelques secondes, et relancez "
-"Kdenlive."
+"préalablement), et d'ouvrir une console en saisissant les lignes de commande "
+"suivantes : "
+"<screen width=\"40\">\n"
+"\t\t\t\t\t\t<prompt>%</prompt> <userinput>killall -9 piave</userinput>.\n"
+"\t\t\t\t\t</screen> Attendez quelques secondes et relancez Kdenlive."
 
 #: index.docbook:1284
 #, no-c-format
@@ -1327,22 +1355,23 @@ msgid "Contributors:"
 msgstr "Contributeurs :"
 
 #: index.docbook:1314
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Caulier Gilles <email>caulier.Gilles@free.fr</email> : &kdenlive; and "
 "&piave; i18n, French translations, splashscreen"
 msgstr ""
 "Caulier Gilles <email>caulier.Gilles@free.fr</email> : internationalisation "
-"de Kdenlive et de Piave, traductions Françaises, logo de démarrage."
+"des programmes &kdenlive; et &piave;, traductions Françaises, logo de "
+"démarrage."
 
 #: index.docbook:1314
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Rolf Dubitzky <email>dubitzky@pktw06.phy.tu-dresden.de</email> : &piave; "
 "implementations"
 msgstr ""
 "Rolf Dubitzky <email>dubitzky@pktw06.phy.tu-dresden.de</email> : auteur et "
-"mainteneur du programme « piave »."
+"mainteneur du programme &piave;."
 
 #: index.docbook:1330
 #, no-c-format
@@ -1367,9 +1396,9 @@ msgid "Installation"
 msgstr "Installation"
 
 #: index.docbook:1353
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "How to obtain &kdenlive;"
-msgstr "Comment obtenir Kdenlive"
+msgstr "Comment obtenir &kdenlive;"
 
 #: index.docbook:1355
 #, no-c-format
@@ -1415,7 +1444,7 @@ msgstr ""
 "projet</ulink>."
 
 #: index.docbook:1390
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "You can find a list of changes at <ulink url=\"http://pwp.blueyonder.co.uk/"
 "kdenlive.html\">http://pwp.blueyonder.co.uk/kdenlive.html</ulink>. FIXME : "
@@ -1445,7 +1474,7 @@ msgid ""
 msgstr ""
 
 #: index.docbook:1413
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Since &kdenlive; uses autoconf and automake you should have not trouble "
 "compiling it. Should you run into problems please report them to "
@@ -1453,8 +1482,8 @@ msgid ""
 msgstr ""
 "Depuis que Kdenlive utilise les programmes « autoconf » et « automake », "
 "vous ne devriez pas avoir de problèmes pour compiler celui ci. Si vous "
-"rencontrez des difficultés, veulliez contacter la liste de diffusion du "
-"projet KDE."
+"rencontrez des difficultés, veulliez contacter l'auteur à l'adresse "
+"<email>jasonwood@blueyonder.co.uk</email>."
 
 #: index.docbook:1422
 #, no-c-format
