@@ -58,7 +58,6 @@
 #include "kdenlivedoc.h"
 #include "kdenlivesetupdlg.h"
 #include "kprogress.h"
-#include "kmmrulerpanel.h"
 #include "krendermanager.h"
 #include "krulertimemodel.h"
 #include "kmmtimeline.h"
@@ -127,6 +126,7 @@ void KdenliveApp::initActions()
 	optionsPreferences = KStdAction::preferences(this, SLOT(slotOptionsPreferences()), actionCollection());
 	keyBindings = KStdAction::keyBindings(this, SLOT(slotConfKeys()), actionCollection());
 	configureToolbars = KStdAction::configureToolbars(this, SLOT(slotConfToolbars()), actionCollection());
+	fitToWidth = KStdAction::fitToWidth(this, SLOT(slotFitToWidth()), actionCollection());
 
 	timelineMoveTool = new KRadioAction(i18n("Move/Resize Tool"), "moveresize.png", KShortcut(Qt::Key_Q), this, SLOT(slotTimelineMoveTool()), actionCollection(),"timeline_move_tool");
 	timelineRazorTool = new KRadioAction(i18n("Razor Tool"), "razor.png", KShortcut(Qt::Key_W), this, SLOT(slotTimelineRazorTool()), actionCollection(),"timeline_razor_tool");
@@ -247,10 +247,8 @@ void KdenliveApp::initView()
 	setMainDockWidget(mainDock);
 	setCaption(doc->URL().fileName(),false);
 
-	m_rulerPanel = new KMMRulerPanel(NULL, "Ruler Panel");
-
 	KDockWidget *widget = createDockWidget(i18n("TimeLine"), QPixmap(), 0, i18n("TimeLine"));
-	m_timeline = new KMMTimeLine(this, m_rulerPanel, NULL, getDocument(), widget);
+	m_timeline = new KMMTimeLine(this, NULL, getDocument(), widget);
 	widget->setWidget(m_timeline);
 	widget->setDockSite(KDockWidget::DockFullSite);
 	widget->setDockSite(KDockWidget::DockCorner);
@@ -301,8 +299,6 @@ void KdenliveApp::initView()
 	m_dockClipMonitor->manualDock(m_dockWorkspaceMonitor, KDockWidget::DockCenter);
 
 	setBackgroundMode(PaletteBase);
-
-	connect(m_rulerPanel, SIGNAL(timeScaleChanged(int)), m_timeline, SLOT(setTimeScale(int)));
 
 	connect(m_workspaceMonitor, SIGNAL(seekPositionChanged(const GenTime &)), m_timeline, SLOT(seek(const GenTime &)));
 	connect(m_workspaceMonitor, SIGNAL(seekPositionChanged(const GenTime &)), this, SLOT(slotUpdateCurrentTime(const GenTime &)));
@@ -1160,4 +1156,9 @@ void KdenliveApp::slot_insertClips(QDropEvent *event)
 	}
 
 	addCommand(macroCommand, true);
+}
+
+void KdenliveApp::slotFitToWidth()
+{
+	m_timeline->fitToWidth();
 }

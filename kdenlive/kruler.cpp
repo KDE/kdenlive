@@ -465,18 +465,22 @@ void KRuler::setValueScale(double size){
 	m_xValueSize = size;
 	int tick;
 
+	if(m_xValueSize == 0) {
+		kdError() << "KRuler::setValueScale : m_xValueSize is 0, cannot set ticks!!!" << endl;
+	}
+
 	for(tick=1; tick*m_xValueSize < m_rulerModel->minimumTextSeparation(); tick *=2);
 	m_textEvery = m_rulerModel->getTickDisplayInterval(tick);
 
-	for(tick=1; tick*m_xValueSize < m_rulerModel->minimumLargeTickSeparation(); tick *=2);	
+	for(tick=1; tick*m_xValueSize < m_rulerModel->minimumLargeTickSeparation(); tick *=2);
 	m_bigTickEvery = m_rulerModel->getTickDisplayInterval(tick);
 
 	for(tick=1; tick*m_xValueSize < m_rulerModel->minimumSmallTickSeparation(); tick *=2);
-		
+
 	m_smallTickEvery = m_rulerModel->getTickDisplayInterval(tick);
 
 	while(m_textEvery	% m_bigTickEvery != 0) {
-		m_textEvery = m_rulerModel->getTickDisplayInterval(m_textEvery+1);		
+		m_textEvery = m_rulerModel->getTickDisplayInterval(m_textEvery+1);
 	}
 
 	while(m_bigTickEvery % m_smallTickEvery != 0) {

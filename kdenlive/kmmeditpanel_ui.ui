@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>589</width>
-            <height>51</height>
+            <width>525</width>
+            <height>85</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -43,7 +43,7 @@
             </property>
             <property name="sizePolicy">
                 <sizepolicy>
-                    <hsizetype>5</hsizetype>
+                    <hsizetype>1</hsizetype>
                     <vsizetype>4</vsizetype>
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
@@ -51,14 +51,14 @@
             </property>
             <property name="minimumSize">
                 <size>
-                    <width>0</width>
+                    <width>16</width>
                     <height>16</height>
                 </size>
             </property>
         </widget>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>layout8</cstring>
+                <cstring>layout5</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -169,6 +169,22 @@
                         <string>End</string>
                     </property>
                 </widget>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>layout6</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>2</number>
+                </property>
+                <property name="spacing">
+                    <number>1</number>
+                </property>
                 <widget class="QToolButton">
                     <property name="name">
                         <cstring>inpointButton</cstring>
@@ -203,11 +219,30 @@
                 </widget>
                 <widget class="QToolButton">
                     <property name="name">
+                        <cstring>playSectionButton</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>4</hsizetype>
+                            <vsizetype>4</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="text">
+                        <string>Play Section</string>
+                    </property>
+                    <property name="toggleButton">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QToolButton">
+                    <property name="name">
                         <cstring>setMarkerButton</cstring>
                     </property>
                     <property name="sizePolicy">
                         <sizepolicy>
-                            <hsizetype>1</hsizetype>
+                            <hsizetype>4</hsizetype>
                             <vsizetype>4</vsizetype>
                             <horstretch>0</horstretch>
                             <verstretch>0</verstretch>

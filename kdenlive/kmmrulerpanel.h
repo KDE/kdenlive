@@ -28,18 +28,26 @@
 
 class KMMRulerPanel : public KMMRulerPanel_UI  {
    Q_OBJECT
-public: 
+public:
 	KMMRulerPanel(QWidget *parent=0, const char *name=0);
 	~KMMRulerPanel();
+
+	/** Set the overall scale to that specified. The scale value is in terms of ruler scale - i.e. how many pixels each ruler "unit"
+	  * takes up
+	  */
+	void setScale(double scale);
 signals: // Signals
   /** emits the newly requested time scale. */
-  void timeScaleChanged(int);
-public slots: // Public slots
+  void timeScaleChanged(double);
+private slots: // Public slots
   /** takes index and figures out the correct scale value from it, which then get's emitted. */
   void comboScaleChange(int index);
   /** Occurs when the slider changes value, emits a corrected value to provide a non-linear (and better) value scaling. */
   void sliderScaleChange(int value);
 public: // Public attributes
+  static const double maxFrameSize;
+  static const double expA;
+  static const double expK;
   /** This scale is used to convert the combo box entries to scale values. */
   static const int comboListLength;
   static const int comboScale[];

@@ -30,6 +30,7 @@ class QHBox;
 class KdenliveDoc;
 class QScrollView;
 class QScrollBar;
+class KMMRulerPanel;
 class KMMTimeLineTrackView;
 class KScalableRuler;
 class KMacroCommand;
@@ -47,13 +48,13 @@ namespace Command {
 class KMMTimeLine : public QVBox  {
    Q_OBJECT
 public:
-	KMMTimeLine(KdenliveApp *app, QWidget *rulerToolWidget, QWidget *scrollToolWidget, KdenliveDoc *document, QWidget *parent=0, const char *name=0);
+	KMMTimeLine(KdenliveApp *app, QWidget *scrollToolWidget, KdenliveDoc *document, QWidget *parent=0, const char *name=0);
 	~KMMTimeLine();
   	/**
 	The snap tolerance specifies how many pixels away a selection is from a
 	snap point before the snap takes effect.
 	*/
-  	static uint snapTolerance;	
+  	static uint snapTolerance;
 
 	/**
 	Returns a list of times of selected clips, including both start and end times.
@@ -64,7 +65,7 @@ private:	// attributes
 	QHBox *m_rulerBox;				 	// Horizontal box holding the ruler
 	QScrollView *m_trackScroll; 	// Scrollview holding the tracks
 	QHBox *m_scrollBox;			 	// Horizontal box holding the horizontal scrollbar.
-	QWidget *m_rulerToolWidget;	// This widget is supplied by the constructor, and appears to the left of the ruler.
+	KMMRulerPanel *m_rulerToolWidget;	// This widget is supplied by the constructor, and appears to the left of the ruler.
 	KScalableRuler *m_ruler;
 	QWidget *m_scrollToolWidget; // This widget is supplied by the constructor and appears to the left of the bottom scrollbar.
 	QScrollBar *m_scrollBar;		// this scroll bar's movement is measured in pixels, not frames.
@@ -254,6 +255,9 @@ are later on the tiemline (i.e. trackStart() > time) will be selected. */
 
 	/** Return the current length of the project */
 	GenTime projectLength() const;
+
+	/** Resizes the timeline view so that the entire project is visible. */
+	void fitToWidth();
 private: // private methods
 	void resizeTracks();
 
@@ -288,7 +292,7 @@ public slots: // Public slots
 
 	/** Sets a new time scale for the timeline. This in turn calls the correct kruler funtion and
 	updates the display. */
-	void setTimeScale(int scale);
+	void setTimeScale(double scale);
 	/** Calculates the size of the project, and sets up the timeline to accomodate it. */
 	void calculateProjectSize();
 	/** A ruler slider has moved - do something! */

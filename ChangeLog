@@ -1,6 +1,7 @@
 2003-12-01  Jason Wood  <jasonwood@blueyonder.co.uk>
 	* Play button now "sticks down" and changes into a pause button when playing.
 	* Added context menu to monitors.
+	* Added "Fit to width" command for timeline.
 
 2003-11-30  Jason Wood  <jasonwood@blueyonder.co.uk>
 	* Made The "Ignore Messages" option on the debug window persist.

@@ -29,6 +29,7 @@
 
 #include "doctrackclipiterator.h"
 #include "kdenlivedoc.h"
+#include "kmmrulerpanel.h"
 #include "kmmtimeline.h"
 #include "kmmtracksoundpanel.h"
 #include "kmmtrackvideopanel.h"
@@ -50,7 +51,7 @@ namespace {
 	uint g_scrollThreshold = 50;
 }
 
-KMMTimeLine::KMMTimeLine(KdenliveApp *app, QWidget *rulerToolWidget, QWidget *scrollToolWidget, KdenliveDoc *document, QWidget *parent, const char *name ) :
+KMMTimeLine::KMMTimeLine(KdenliveApp *app, QWidget *scrollToolWidget, KdenliveDoc *document, QWidget *parent, const char *name ) :
 				QVBox(parent, name),
 				m_document(document),
 				m_selection(),
@@ -62,19 +63,17 @@ KMMTimeLine::KMMTimeLine(KdenliveApp *app, QWidget *rulerToolWidget, QWidget *sc
 	m_rulerBox = new QHBox(this, "ruler box");
 	m_trackScroll = new QScrollView(this, "track view", WPaintClever);
 	m_scrollBox = new QHBox(this, "scroll box");
-		
-	m_rulerToolWidget = rulerToolWidget;
-	if(!m_rulerToolWidget) m_rulerToolWidget = new QLabel(i18n("Tracks"), 0, "Tracks");	
-	m_rulerToolWidget->reparent(m_rulerBox, QPoint(0,0));
+
+	m_rulerToolWidget = new KMMRulerPanel(m_rulerBox, "Ruler Panel");
 	m_ruler = new KScalableRuler(new KRulerTimeModel(), m_rulerBox, name);
 	m_ruler->addSlider(KRuler::TopMark, 0);
 	m_ruler->setAutoClickSlider(0);
 
 	m_scrollToolWidget = scrollToolWidget;
-	if(!m_scrollToolWidget) m_scrollToolWidget = new QLabel(i18n("Scroll"), 0, "Scroll");	
-	m_scrollToolWidget->reparent(m_scrollBox, QPoint(0,0));	
+	if(!m_scrollToolWidget) m_scrollToolWidget = new QLabel(i18n("Scroll"), 0, "Scroll");
+	m_scrollToolWidget->reparent(m_scrollBox, QPoint(0,0));
 	m_scrollBar = new QScrollBar(-100, 5000, 50, 500, 0, QScrollBar::Horizontal, m_scrollBox, "horizontal ScrollBar");
-	
+
 	m_trackViewArea = new KMMTimeLineTrackView(*this, m_app, m_trackScroll, "track view area");
 
 	m_trackScroll->enableClipper(TRUE);
@@ -104,6 +103,8 @@ KMMTimeLine::KMMTimeLine(KdenliveApp *app, QWidget *rulerToolWidget, QWidget *sc
 	connect(m_ruler, SIGNAL(requestScrollLeft()), this, SLOT(slotScrollLeft()));
 	connect(m_ruler, SIGNAL(requestScrollRight()), this, SLOT(slotScrollRight()));
 	connect(&m_scrollTimer, SIGNAL(timeout()), this, SLOT(slotTimerScroll()));
+
+	connect(m_rulerToolWidget, SIGNAL(timeScaleChanged(double)), this, SLOT(setTimeScale(double)));
 
 	setAcceptDrops(true);
 
@@ -189,7 +190,7 @@ void KMMTimeLine::syncWithDocument()
 	unsigned int index = 0;
 
 	m_trackList.clear();
-    
+
 	DocTrackBase *track = m_document->firstTrack();
 	while(track != 0) {
 		if(track->clipType() == "Video") {
@@ -534,16 +535,14 @@ void KMMTimeLine::initiateDrag(DocClipRef *clipUnderMouse, GenTime mouseTime)
 }
 
 /** Sets a new time scale for the timeline. This in turn calls the correct kruler funtion and updates
-the display. The scale is how many frames should fit into the space considered normal for 1 frame*/
-void KMMTimeLine::setTimeScale(int scale)
+the display. The scale is the size of one frame.*/
+void KMMTimeLine::setTimeScale(double scale)
 {
-	int localValue = (int)mapValueToLocal(m_ruler->getSliderValue(0));	
+	int localValue = (int)mapValueToLocal(m_ruler->getSliderValue(0));
 
-  double frameScale = 100.0 / scale;
-	
-	m_ruler->setValueScale(frameScale);
+	m_ruler->setValueScale(scale);
 
-	m_scrollBar->setValue((int)(frameScale*m_ruler->getSliderValue(0)) - localValue);
+	m_scrollBar->setValue((int)(scale*m_ruler->getSliderValue(0)) - localValue);
 
 	drawTrackViewBackBuffer();
 }
@@ -887,5 +886,17 @@ void KMMTimeLine::invalidateClipBuffer(DocClipRef *clip)
 {
 	#warning - unoptimised, should only update that part of the back buffer that needs to be updated. Current implementaion
 	#warning - wipes the entire buffer.
+	m_trackViewArea->invalidateBackBuffer();
+}
+
+void KMMTimeLine::fitToWidth()
+{
+	double duration = projectLength().frames(m_document->framesPerSecond());
+	if(duration < 1.0) duration = 1.0;
+
+	double scale = (double)m_ruler->width() / duration;
+	m_ruler->setValueScale(scale);
+	m_rulerToolWidget->setScale(scale);
+
 	m_trackViewArea->invalidateBackBuffer();
 }

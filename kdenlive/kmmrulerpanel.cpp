@@ -22,6 +22,9 @@
 #include <stdlib.h>
 #include <math.h>
 
+const double KMMRulerPanel::maxFrameSize = 100.0;
+const double KMMRulerPanel::expA = 0.9094862739;
+const double KMMRulerPanel::expK = 0.09487537302;
 const int KMMRulerPanel::comboListLength = 14;
 const int KMMRulerPanel::comboScale[] = {1, 2, 5, 10, 25, 50, 125, 250, 500, 725, 1500, 3000, 6000, 12000};
 
@@ -46,10 +49,10 @@ void KMMRulerPanel::comboScaleChange(int index)
 		m_sync = false;
 		return;
 	}
-	
-	emit timeScaleChanged(comboScale[index]);
+
+	emit timeScaleChanged(maxFrameSize / comboScale[index]);
 	m_sync = true;
-	m_scaleSlider->setValue((int)(log(comboScale[index] / 0.9094862739) / 0.09487537302));
+	m_scaleSlider->setValue((int)(log(comboScale[index] / expA) / expK));
 	m_sync = false;
 }
 
@@ -69,17 +72,17 @@ void KMMRulerPanel::sliderScaleChange(int value)
 	//
 	// where the values n=1, c=1 and n=100, c=12000 are passed.
 	// This is to give us a nice exponential curve for the slider.
-	int newValue = (int)(0.9094862739 * exp(0.09487537302 * value));
+	int newValue = (int)(expA * exp(expK * value));
 
-	if(newValue==0) newValue = 1;	
-	emit timeScaleChanged(newValue);
+	if(newValue==0) newValue = 1;
+	emit timeScaleChanged(maxFrameSize / newValue);
 
 	m_sync = true;
 
 	int bestValue = -1;
 	int bestPos = -1;
 	int curValue;
-	
+
 	for(int count=0; count<comboListLength; count++) {
 		curValue = abs(comboScale[count] - newValue);
 		if((curValue < bestValue) || (bestPos==-1)) {
@@ -92,4 +95,10 @@ void KMMRulerPanel::sliderScaleChange(int value)
 		m_scaleCombo->setCurrentItem(bestPos);
 	}
 	m_sync = false;
+}
+
+void KMMRulerPanel::setScale(double scale)
+{
+	int newScale = maxFrameSize / scale;
+	m_scaleSlider->setValue((int)(log(newScale / expA) / expK));
 }

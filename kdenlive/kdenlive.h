@@ -44,7 +44,6 @@ class KRenderManager;
 class KMMTimeLine;
 class KMMMonitor;
 class ProjectList;
-class KMMRulerPanel;
 class RenderDebugPanel;
 class AVFile;
 class DocClipBase;
@@ -241,6 +240,9 @@ class KdenliveApp : public KDockMainWindow
 		void slotSetRenderProgress( const GenTime & );
 		void slotSetRenderFinished();
 
+		/** Called when fitToWidth is actioned */
+		void slotFitToWidth();
+
 		/** Given a drop event, inserts all contained clips into the project list, if they are not
 		 * there already. */
 		void slot_insertClips( QDropEvent *event );
@@ -298,6 +300,7 @@ class KdenliveApp : public KDockMainWindow
 		KAction* projectClipProperties;
 		KAction* keyBindings;
 		KAction* configureToolbars;
+		KAction* fitToWidth;
 
 		KAction* actionSeekForwards;
 		KAction* actionSeekBackwards;
@@ -346,7 +349,6 @@ class KdenliveApp : public KDockMainWindow
 		KRenderManager *m_renderManager;
 		KMMMonitor *m_workspaceMonitor;
 		KMMMonitor *m_clipMonitor;
-		KMMRulerPanel *m_rulerPanel;	// pointer, because it gets reparented to the timeline widget!
 		/** Stores a copy of the last file dialog path used by kdenlive. */
 		KURL m_fileDialogPath;
 		KMMTimeLine *m_timeline;
