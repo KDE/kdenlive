@@ -52,14 +52,14 @@ KMMTimeLine::KMMTimeLine(KdenliveApp *app, QWidget *rulerToolWidget, QWidget *sc
 	m_scrollBox = new QHBox(this, "scroll box");
 		
 	m_rulerToolWidget = rulerToolWidget;
-	if(!m_rulerToolWidget) m_rulerToolWidget = new QLabel("Tracks", 0, "Tracks");	
+	if(!m_rulerToolWidget) m_rulerToolWidget = new QLabel(i18n("Tracks"), 0, "Tracks");	
 	m_rulerToolWidget->reparent(m_rulerBox, QPoint(0,0));
 	m_ruler = new KScalableRuler(new KRulerTimeModel(), m_rulerBox, name);
 	m_ruler->addSlider(KRuler::Diamond, 0);
 	m_ruler->setAutoClickSlider(0);
 
 	m_scrollToolWidget = scrollToolWidget;
-	if(!m_scrollToolWidget) m_scrollToolWidget = new QLabel("Scroll", 0, "Scroll");	
+	if(!m_scrollToolWidget) m_scrollToolWidget = new QLabel(i18n("Scroll"), 0, "Scroll");	
 	m_scrollToolWidget->reparent(m_scrollBox, QPoint(0,0));	
 	m_scrollBar = new QScrollBar(-100, 5000, 50, 500, 0, QScrollBar::Horizontal, m_scrollBox, "horizontal ScrollBar");
 	

@@ -17,6 +17,7 @@
 
 #include <qcursor.h>
 #include <kdebug.h>
+#include <klocale.h>
 
 #include <cmath>
 
@@ -29,7 +30,7 @@ int KMMTrackVideoPanel::resizeTolerance = 4;
 
 KMMTrackVideoPanel::KMMTrackVideoPanel(KMMTimeLine *timeline, DocTrackVideo *docTrack, QWidget *parent, const char *name ) :
 												KMMTrackPanel(timeline, docTrack, parent,name),
-												m_trackLabel("Video Track", this, "Video Track")
+												m_trackLabel(i18n("Video Track"), this, "Video Track")
 {
 	setMinimumWidth(200);
 	setMaximumWidth(200);
