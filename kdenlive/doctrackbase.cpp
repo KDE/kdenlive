@@ -293,8 +293,8 @@ void DocTrackBase::resizeClipTrackStart(DocClipBase *clip, GenTime newStart)
 	}
 
 	if(clip->cropDuration() - newStart < 0) {
-		newStart = clip->cropDuration();
-		kdWarning() << "Clip resized to zero length!" << endl;
+		kdWarning() << "Clip cannot be resized to length < 1 frame, fixing..." << endl;
+		newStart = clip->cropDuration() - GenTime(1, m_doc->framesPerSecond());
 	}
 
 	#warning - the following code does not work for large increments - small clips might be overlapped.
@@ -325,8 +325,8 @@ void DocTrackBase::resizeClipTrackEnd(DocClipBase *clip, GenTime newEnd)
 	}
 	
 	if(newEnd < clip->trackStart()) {
-		kdWarning() << "Clip has been resized to zero length" << endl;
-		newEnd = clip->trackStart();
+		kdWarning() << "Clip cannot be resized to < 1 frame in size, fixing..." << endl;
+		newEnd = clip->trackStart() + GenTime(1, m_doc->framesPerSecond());
 	}
 
 	#warning - the following code does not work for large increments - small clips might be overlapped.
