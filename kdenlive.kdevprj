@@ -31,7 +31,7 @@ author=Jason Wood
 configure_args=\s--build=i386-linux --host=i386-linux --target=i386-linux --prefix=/usr --enable-debug\s
 email=jasonwood@blueyonder.co.uk
 kdevprj_version=1.3
-lfv_open_groups=User Interface
+lfv_open_groups=Sources
 make_options=\s-j1
 makefiles=Makefile.am,kdenlive/Makefile.am,doc/Makefile.am,doc/en/Makefile.am,po/Makefile.am,icons/Makefile.am,icons/hicolor/32x32/Makefile.am,icons/hicolor/Makefile.am,icons/hicolor/32x32/actions/Makefile.am,graphics/Makefile.am
 modifyMakefiles=true
@@ -128,9 +128,39 @@ sub_dirs=actions
 type=normal
 
 [icons/hicolor/32x32/actions/Makefile.am]
-files=icons/hicolor/32x32/actions/moveresize.png,icons/hicolor/32x32/actions/razor.png,icons/hicolor/32x32/actions/snaptoborder.png,icons/hicolor/32x32/actions/snaptoframe.png,icons/hicolor/32x32/actions/spacer.png
+files=icons/hicolor/32x32/actions/moveresize.png,icons/hicolor/32x32/actions/razor.png,icons/hicolor/32x32/actions/snaptoborder.png,icons/hicolor/32x32/actions/snaptoframe.png,icons/hicolor/32x32/actions/spacer.png,icons/hicolor/32x32/actions/loadlayout1.png,icons/hicolor/32x32/actions/loadlayout2.png,icons/hicolor/32x32/actions/loadlayout3.png,icons/hicolor/32x32/actions/loadlayout4.png,icons/hicolor/32x32/actions/exportvideo.png
 sub_dirs=
 type=normal
+
+[icons/hicolor/32x32/actions/exportvideo.png]
+dist=true
+install=true
+install_location=$$(kde_datadir)/kdenlive/icons/hicolor/32x32/actions/exportvideo.png
+type=DATA
+
+[icons/hicolor/32x32/actions/loadlayout1.png]
+dist=true
+install=true
+install_location=$$(kde_datadir)/kdenlive/icons/hicolor/32x32/actions/loadlayout1.png
+type=DATA
+
+[icons/hicolor/32x32/actions/loadlayout2.png]
+dist=true
+install=true
+install_location=$$(kde_datadir)/kdenlive/icons/hicolor/32x32/actions/loadlayout2.png
+type=DATA
+
+[icons/hicolor/32x32/actions/loadlayout3.png]
+dist=true
+install=true
+install_location=$$(kde_datadir)/kdenlive/icons/hicolor/32x32/actions/loadlayout3.png
+type=DATA
+
+[icons/hicolor/32x32/actions/loadlayout4.png]
+dist=true
+install=true
+install_location=$$(kde_datadir)/kdenlive/icons/hicolor/32x32/actions/loadlayout4.png
+type=DATA
 
 [icons/hicolor/32x32/actions/moveresize.png]
 dist=true

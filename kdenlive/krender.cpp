@@ -134,8 +134,10 @@ void KRender::readData()
     value.funcEndElement = 0;
     m_parseStack.push(value);
 
+    emit recievedInfo(m_name, "Recieved command");
+    emit recievedInfo(m_name, temp);    
     if(!m_xmlReader.parse(&source, false)) {
-      emit recievedInfo(m_name, "Parse Failed on " + temp);
+      emit recievedInfo(m_name, "Parse Failed");
     } else {
       emit recievedInfo(m_name, "Parse successfull");
     }
@@ -145,8 +147,8 @@ void KRender::readData()
 /** Sends an XML command to the renderer. */
 void KRender::sendCommand(QDomDocument command)
 {
-//	kdDebug() << "Sending Command " << command.toString() << endl;
-	QCString str = command.toCString() + "\n";
+	emit recievedInfo(m_name, "Sending Command " + command.toString());
+	QCString str = command.toCString() + "\n\n";
 	m_socket.writeBlock(str, strlen(str));
 }
 
@@ -223,7 +225,7 @@ void KRender::createVideoXWindow(bool show)
 	QDomDocument doc;
 	QDomElement elem = doc.createElement("createVideoXWindow");
 	elem.setAttribute("show", show ? "true" : "false");
-	elem.setAttribute("format", "rgb");
+	elem.setAttribute("format", "xv");
 	doc.appendChild(elem);
 
 	sendCommand(doc);
@@ -349,9 +351,35 @@ AVFormatDescCodec * KRender::findCodec(const QString &name)
   return 0;
 }
 
+/** Returns the effect list. */
+const QPtrList<EffectDesc> KRender::effectList()
+{
+  return m_effectList;
+}
 
+/** Sets the renderer version for this renderer. */
+void KRender::setVersion(QString version)
+{
+  m_version = version;
+}
 
+/** Returns the renderer version. */
+QString KRender::version()
+{
+  return m_version;
+}
 
+/** Sets the description of this renderer to desc. */
+void KRender::setDescription(const QString &description)
+{
+  m_description = description;
+}
+
+/** Returns the description of this renderer */
+QString KRender::description()
+{
+  return m_description;
+}
 
 
 
@@ -372,7 +400,7 @@ bool KRender::endDocument()
 }
 
 /** Called when the xml parser encounters an opening element */
-bool KRender::startElement(const QString & namespaceURI, const QString & localName,
+bool KRender::startElement(const QString &nameSpace, const QString & localName,
 																	const QString & qName, const QXmlAttributes & atts )
 {
   StackValue val = m_parseStack.top();
@@ -381,15 +409,15 @@ bool KRender::startElement(const QString & namespaceURI, const QString & localNa
     pushIgnore();
     return true;
   }
-  return (this->*val.funcStartElement)(namespaceURI, localName, qName, atts);
+  return (this->*val.funcStartElement)(localName, qName, atts);
 }
 
 /** Called when the xml parser encounters a closing tag */
-bool KRender::endElement ( const QString & namespaceURI, const QString & localName, const QString & qName )
+bool KRender::endElement (const QString &nameSpace, const QString & localName, const QString & qName )
 {
   StackValue val = m_parseStack.pop();
   if(val.funcEndElement == NULL) return true;
-  return (this->*val.funcEndElement)(namespaceURI, localName, qName);
+  return (this->*val.funcEndElement)(localName, qName);
 }
 
 bool KRender::characters( const QString &ch )
@@ -399,7 +427,7 @@ bool KRender::characters( const QString &ch )
 
 
 /** Called when the xml parser encounters an opening element and we are outside of a parsing loop. */
-bool KRender::topLevelStartElement(const QString & namespaceURI, const QString & localName,
+bool KRender::topLevelStartElement(const QString & localName,
 																		 const QString & qName, const QXmlAttributes & atts)
 {
 	if(localName == "reply") {
@@ -489,13 +517,16 @@ bool KRender::topLevelStartElement(const QString & namespaceURI, const QString &
 	return false;
 }
 
-bool KRender::reply_getCapabilities_StartElement(const QString & namespaceURI, const QString & localName,
+bool KRender::reply_getCapabilities_StartElement(const QString & localName,
 																		 const QString & qName, const QXmlAttributes & atts)
 {
   if(localName == "renderer") {
+    setName(atts.value("name"));
+    setVersion(atts.value("version"));
+    
     StackValue val;
     val.element = "renderer";
-  	val.funcStartElement = 0;
+  	val.funcStartElement = &KRender::reply_capabilities_renderer_StartElement;
   	val.funcEndElement = 0;
     m_parseStack.push(val);
     return true;
@@ -537,7 +568,7 @@ bool KRender::reply_getCapabilities_StartElement(const QString & namespaceURI, c
   return true;
 }
 
-bool KRender::reply_createVideoXWindow_StartElement(const QString & namespaceURI, const QString & localName,
+bool KRender::reply_createVideoXWindow_StartElement(const QString & localName,
 																		 const QString & qName, const QXmlAttributes & atts)
 {
   QString winID = atts.value("WinID");
@@ -545,6 +576,7 @@ bool KRender::reply_createVideoXWindow_StartElement(const QString & namespaceURI
   if(winID.isNull()) {
     emit recievedInfo(m_name, "Window ID not specified - emitting 0");
   } else {
+    emit recievedInfo(m_name, "Window ID is " + winID);
     retID = winID.toInt();
   }
 	emit replyCreateVideoXWindow(retID);
@@ -553,7 +585,7 @@ bool KRender::reply_createVideoXWindow_StartElement(const QString & namespaceURI
   return true;
 }
 
-bool KRender::reply_capabilities_iostreams_StartElement(const QString & namespaceURI, const QString & localName,
+bool KRender::reply_capabilities_iostreams_StartElement(const QString & localName,
 																		 const QString & qName, const QXmlAttributes & atts)
 {
   if(localName == "outstream") {
@@ -569,8 +601,7 @@ bool KRender::reply_capabilities_iostreams_StartElement(const QString & namespac
   return true;
 }
 
-bool KRender::reply_capabilities_iostreams_outstream_StartElement(const QString & namespaceURI,
-                                      const QString & localName, const QString & qName,
+bool KRender::reply_capabilities_iostreams_outstream_StartElement(const QString & localName, const QString & qName,
                                       const QXmlAttributes & atts)
 {
   if(localName == "file") {
@@ -590,8 +621,7 @@ bool KRender::reply_capabilities_iostreams_outstream_StartElement(const QString 
   return true;
 }
 
-bool KRender::reply_capabilities_iostreams_outstream_file_StartElement(const QString & namespaceURI,
-                                      const QString & localName, const QString & qName,
+bool KRender::reply_capabilities_iostreams_outstream_file_StartElement(const QString & localName, const QString & qName,
                                       const QXmlAttributes & atts)
 {
   if(localName == "container") {
@@ -616,7 +646,7 @@ bool KRender::reply_capabilities_iostreams_outstream_file_StartElement(const QSt
   return true;
 }
 
-bool KRender::reply_capabilities_iostreams_outstream_file_EndElement(const QString & namespaceURI, const QString & localName, const QString & qName)
+bool KRender::reply_capabilities_iostreams_outstream_file_EndElement(const QString & localName, const QString & qName)
 {
   if(m_fileFormat == 0) {
     emit recievedInfo(m_name, "Error - At end of a file definition, m_fileFormat pointer is null!");
@@ -628,8 +658,7 @@ bool KRender::reply_capabilities_iostreams_outstream_file_EndElement(const QStri
   return true;
 }
 
-bool KRender::reply_capabilities_iostreams_outstream_container_StartElement(const QString & namespaceURI,
-                                      const QString & localName, const QString & qName,
+bool KRender::reply_capabilities_iostreams_outstream_container_StartElement(const QString & localName, const QString & qName,
                                       const QXmlAttributes & atts)
 {
   if(localName == "codec") {
@@ -655,8 +684,7 @@ bool KRender::reply_capabilities_iostreams_outstream_container_StartElement(cons
   return true;
 }
 
-bool KRender::reply_capabilities_iostreams_outstream_codec_StartElement(const QString & namespaceURI,
-                                      const QString & localName, const QString & qName,
+bool KRender::reply_capabilities_iostreams_outstream_codec_StartElement(const QString & localName, const QString & qName,
                                       const QXmlAttributes & atts)
 {
   if(m_desccodeclist == 0) {
@@ -669,7 +697,7 @@ bool KRender::reply_capabilities_iostreams_outstream_codec_StartElement(const QS
   return true;
 }
 
-bool KRender::reply_capabilities_iostreams_outstream_codec_EndElement(const QString & namespaceURI, const QString & localName, const QString & qName)
+bool KRender::reply_capabilities_iostreams_outstream_codec_EndElement(const QString & localName, const QString & qName)
 {
   if(m_fileFormat == 0) {
     emit recievedInfo(m_name, "Error - At end of a file definition, m_fileFormat pointer is null!");
@@ -683,8 +711,7 @@ bool KRender::reply_capabilities_iostreams_outstream_codec_EndElement(const QStr
   return true;
 }
 
-bool KRender::reply_capabilities_codecs_StartElement(const QString & namespaceURI,
-                                      const QString & localName, const QString & qName,
+bool KRender::reply_capabilities_codecs_StartElement(const QString & localName, const QString & qName,
                                       const QXmlAttributes & atts)
 {
   if (localName == "encoder") {
@@ -706,8 +733,7 @@ bool KRender::reply_capabilities_codecs_StartElement(const QString & namespaceUR
   return true;
 }
 
-bool KRender::reply_capabilities_codecs_encoder_StartElement(const QString & namespaceURI,
-                                      const QString & localName, const QString & qName,
+bool KRender::reply_capabilities_codecs_encoder_StartElement(const QString & localName, const QString & qName,
                                       const QXmlAttributes & atts)
 {
   if(localName == "about") {
@@ -723,8 +749,7 @@ bool KRender::reply_capabilities_codecs_encoder_StartElement(const QString & nam
   return true;
 }
 
-bool KRender::reply_capabilities_codecs_encoder_EndElement(const QString & namespaceURI,
-                                      const QString & localName, const QString & qName)
+bool KRender::reply_capabilities_codecs_encoder_EndElement(const QString & localName, const QString & qName)
 {
   if(m_codec == 0) {
     emit recievedInfo(m_name, "Error - at end of encoder tag, m_codec pointer is null!");
@@ -736,8 +761,7 @@ bool KRender::reply_capabilities_codecs_encoder_EndElement(const QString & names
   return true;
 }
 
-bool KRender::reply_capabilities_codecs_encoder_about_EndElement(const QString & namespaceURI,
-                                      const QString & localName, const QString & qName)
+bool KRender::reply_capabilities_codecs_encoder_about_EndElement(const QString & localName, const QString & qName)
 {
   if(m_codec == 0) {
     emit recievedInfo(m_name, "Error - at end of about tag, m_codec pointer is null!");
@@ -747,8 +771,7 @@ bool KRender::reply_capabilities_codecs_encoder_about_EndElement(const QString &
   return true;
 }
 
-bool KRender::reply_capabilities_effects_StartElement(const QString & namespaceURI,
-                                      const QString & localName, const QString & qName,
+bool KRender::reply_capabilities_effects_StartElement(const QString & localName, const QString & qName,
                                       const QXmlAttributes & atts)
 {
   if(localName == "effect") {
@@ -769,8 +792,7 @@ bool KRender::reply_capabilities_effects_StartElement(const QString & namespaceU
   return true;
 }
 
-bool KRender::reply_capabilities_effects_effect_StartElement(const QString & namespaceURI,
-                                      const QString & localName, const QString & qName,
+bool KRender::reply_capabilities_effects_effect_StartElement(const QString & localName, const QString & qName,
                                       const QXmlAttributes & atts)
 {
   if(localName == "input") {
@@ -800,8 +822,7 @@ bool KRender::reply_capabilities_effects_effect_StartElement(const QString & nam
   return true;
 }
 
-bool KRender::reply_capabilities_effects_effect_EndElement(const QString & namespaceURI,
-                                      const QString & localName, const QString & qName)
+bool KRender::reply_capabilities_effects_effect_EndElement(const QString & localName, const QString & qName)
 {
   if(m_effect == 0) {
     emit recievedInfo(m_name, "Error - discovered closing effect tag but m_effect is Null!!!");
@@ -813,8 +834,31 @@ bool KRender::reply_capabilities_effects_effect_EndElement(const QString & names
   return true;
 }
 
-/** Returns the effect list. */
-const QPtrList<EffectDesc> KRender::effectList()
+
+bool KRender::reply_capabilities_renderer_StartElement(const QString & localName, const QString & qName,
+                                      const QXmlAttributes & atts)
 {
-  return m_effectList;
+  if(localName == "author") {
+    m_authors[atts.value("name")] = atts.value("email");
+    pushIgnore();
+    return true;
+  } else if(localName == "about") {
+    m_characterBuffer = "";
+    StackValue val;
+    val.element = "renderer_about";
+  	val.funcStartElement = 0;
+  	val.funcEndElement = &KRender::reply_capabilities_renderer_about_EndElement;
+    m_parseStack.push(val);
+    return true;
+  }
+  
+  pushIgnore();
+  return true;
 }
+
+bool KRender::reply_capabilities_renderer_about_EndElement(const QString & localName, const QString & qName)
+{
+  setDescription(m_characterBuffer.simplifyWhiteSpace());
+  return true;
+}
+

@@ -49,11 +49,9 @@ class AVFormatDescCodecList;
 struct StackValue {
   QString element;
   /** A function pointer to the relevant method that should parse tagOpen events */
-  bool (KRender::*funcStartElement)(const QString & namespaceURI, const QString & localName,
-                                  const QString & qName, const QXmlAttributes & atts );
+  bool (KRender::*funcStartElement)(const QString & localName, const QString & qName, const QXmlAttributes & atts );
   /** A function pointer to the relevant method that should parse tagClose events */
-  bool (KRender::*funcEndElement)(const QString & namespaceURI, const QString & localName,
-				const QString & qName);  
+  bool (KRender::*funcEndElement)(const QString & localName, const QString & qName);  
 };
 
 class KRender : public QObject, public QXmlDefaultHandler  {
@@ -71,29 +69,31 @@ replyCreateVideoXWindow() once the renderer has replied. */
   /** Occurs upon starting to parse an XML document */
   bool startDocument();
   /** Called when the xml parser encounters a closing tag */
-  bool endElement ( const QString & namespaceURI, const QString & localName, const QString & qName );
+  bool endElement (const QString &nameSpace, const QString & localName, const QString & qName );
   /** Called when the xml parser encounters an opening element */
-  bool startElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & atts );
+  bool startElement(const QString &nameSpace, const QString & localName, const QString & qName, const QXmlAttributes & atts );
   /** Called when the xml parser encounters characters */  
   bool characters( const QString &ch );
   /** Called when the xml parser encounters an opening element and we are outside of any command. */
-  bool topLevelStartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & att);
-  bool reply_getCapabilities_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & att);
-  bool reply_createVideoXWindow_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & atts);
-  bool reply_capabilities_iostreams_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & att);  
-  bool reply_capabilities_iostreams_outstream_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & att);
-  bool reply_capabilities_iostreams_outstream_file_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & att);
-  bool reply_capabilities_iostreams_outstream_file_EndElement(const QString & namespaceURI, const QString & localName, const QString & qName);  
-  bool reply_capabilities_iostreams_outstream_container_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & att);
-  bool reply_capabilities_iostreams_outstream_codec_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & att);
-  bool reply_capabilities_iostreams_outstream_codec_EndElement(const QString & namespaceURI, const QString & localName, const QString & qName);
-  bool reply_capabilities_codecs_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & atts);
-  bool reply_capabilities_codecs_encoder_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & atts);
-  bool reply_capabilities_codecs_encoder_EndElement(const QString & namespaceURI, const QString & localName, const QString & qName);
-  bool reply_capabilities_codecs_encoder_about_EndElement(const QString & namespaceURI, const QString & localName, const QString & qName);
-  bool reply_capabilities_effects_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & atts);
-  bool reply_capabilities_effects_effect_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & atts);    
-  bool reply_capabilities_effects_effect_EndElement(const QString & namespaceURI, const QString & localName, const QString & qName);    
+  bool topLevelStartElement(const QString & localName, const QString & qName, const QXmlAttributes & att);
+  bool reply_getCapabilities_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & att);
+  bool reply_createVideoXWindow_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & atts);
+  bool reply_capabilities_iostreams_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & att);  
+  bool reply_capabilities_iostreams_outstream_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & att);
+  bool reply_capabilities_iostreams_outstream_file_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & att);
+  bool reply_capabilities_iostreams_outstream_file_EndElement(const QString & localName, const QString & qName);  
+  bool reply_capabilities_iostreams_outstream_container_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & att);
+  bool reply_capabilities_iostreams_outstream_codec_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & att);
+  bool reply_capabilities_iostreams_outstream_codec_EndElement(const QString & localName, const QString & qName);
+  bool reply_capabilities_codecs_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & atts);
+  bool reply_capabilities_codecs_encoder_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & atts);
+  bool reply_capabilities_codecs_encoder_EndElement(const QString & localName, const QString & qName);
+  bool reply_capabilities_codecs_encoder_about_EndElement(const QString & localName, const QString & qName);
+  bool reply_capabilities_effects_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & atts);
+  bool reply_capabilities_effects_effect_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & atts);    
+  bool reply_capabilities_effects_effect_EndElement(const QString & localName, const QString & qName);
+  bool reply_capabilities_renderer_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & atts);
+  bool reply_capabilities_renderer_about_EndElement(const QString & localName, const QString & qName);
   
   /** Seeks the renderer clip to the given time. */
   void seek(GenTime time);
@@ -124,6 +124,10 @@ name specified. */
   AVFormatDescCodec * findCodec(const QString &name);
   /** Returns the effect list. */
   const QPtrList<EffectDesc> effectList();
+  /** Returns the renderer version. */
+  QString version();
+  /** Returns the description of this renderer */
+  QString description();
 protected: // Protected methods
   /** Recieves timer events */
   virtual void timerEvent(QTimerEvent *event);
@@ -178,6 +182,12 @@ private: // Private attributes
   QPtrList<AVFormatDescCodec> m_codeclist;
   /** Holds a list of all available effects. */
   QPtrList<EffectDesc> m_effectList;  
+  /** The renderer version number. */
+  QString m_version;
+  /** Holds the authors of this renderer. */
+  QMap<QString, QString> m_authors;
+  /** A human-readable description of this renderer. */
+  QString m_description;
 private slots: // Private slots
   /** Catches errors from the socket. */
   void error(int error);
@@ -204,6 +214,10 @@ private: // Private methods
 following tags in the current hierarch to be ignored until the end tag is
 reached. */
   void pushIgnore();
+  /** Sets the renderer version for this renderer. */
+  void setVersion(QString version);
+  /** Sets the description of this renderer to desc. */
+  void setDescription(const QString &description);
 signals: // Signals
   /** This signal is emitted once the renderer has initialised itself. */
   void initialised();

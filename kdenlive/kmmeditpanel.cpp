@@ -37,6 +37,7 @@ KMMEditPanel::KMMEditPanel(KdenliveDoc *document, QWidget* parent, const char* n
 	m_ruler->setRulerModel(new KRulerTimeModel());
 	m_ruler->setRange(0, 1500);
 	m_ruler->setMargin(40);
+  m_ruler->setAutoClickSlider(0);
 
   renderStatus->off();
   renderStatus->setColor(QColor(0, 200, 0));

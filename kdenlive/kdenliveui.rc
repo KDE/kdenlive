@@ -53,4 +53,12 @@
   <Seperator lineSeperator="true"/>
   <Action name="render_export_timeline"/>
 </ToolBar>
+
+<ToolBar name="layout toolbar" fullWidth="false" newline="false">
+	<text>Layout Toolbar</text>
+	<Action name="load_layout_1"/>
+	<Action name="load_layout_2"/>
+	<Action name="load_layout_3"/>
+	<Action name="load_layout_4"/>
+</ToolBar>
 </kpartgui>

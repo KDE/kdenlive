@@ -116,17 +116,17 @@ void KdenliveApp::initActions()
   projectDeleteClips = new KToggleAction(i18n("Delete Clips"), "deleteclips.png", 0, this, SLOT(slotProjectDeleteClips()), actionCollection(), "project_delete_clip");
   projectClean = new KToggleAction(i18n("Clean Project"), "cleanproject.png", 0, this, SLOT(slotProjectClean()), actionCollection(), "project_clean");
 
-  renderExportTimeline = new KAction(i18n("&Export Timeline"), 0, 0, this, SLOT(slotRenderExportTimeline()), actionCollection(), "render_export_timeline");
+  renderExportTimeline = new KAction(i18n("&Export Timeline"), "exportvideo.png", 0, this, SLOT(slotRenderExportTimeline()), actionCollection(), "render_export_timeline");
 
   actionSeekForwards = new KAction(i18n("Seek &Forwards"), KShortcut(), this, SLOT(slotSeekForwards()), actionCollection(), "seek_forwards");
   actionSeekBackwards = new KAction(i18n("Seek Backwards"), KShortcut(), this, SLOT(slotSeekBackwards()), actionCollection(), "seek_backwards");  
   actionTogglePlay = new KAction(i18n("Start/Stop"), KShortcut(), this, SLOT(slotTogglePlay()), actionCollection(), "toggle_play");  
   actionDeleteSelected = new KAction(i18n("Delete Selected Clips"), KShortcut(Qt::Key_Delete), this, SLOT(slotDeleteSelected()), actionCollection(), "delete_selected_clips");
 
-  actionLoadLayout1 = new KAction(i18n("Load Layout &1"), KShortcut(Qt::Key_F9), this, SLOT(loadLayout1()), actionCollection(), "load_layout_1");
-  actionLoadLayout2 = new KAction(i18n("Load Layout &2"), KShortcut(Qt::Key_F10), this, SLOT(loadLayout2()), actionCollection(), "load_layout_2");
-  actionLoadLayout3 = new KAction(i18n("Load Layout &3"), KShortcut(Qt::Key_F11), this, SLOT(loadLayout3()), actionCollection(), "load_layout_3");
-  actionLoadLayout4 = new KAction(i18n("Load Layout &4"), KShortcut(Qt::Key_F12), this, SLOT(loadLayout4()), actionCollection(), "load_layout_4");
+  actionLoadLayout1 = new KAction(i18n("Load Layout &1"), "loadlayout1.png", KShortcut(Qt::Key_F9), this, SLOT(loadLayout1()), actionCollection(), "load_layout_1");
+  actionLoadLayout2 = new KAction(i18n("Load Layout &2"), "loadlayout2.png", KShortcut(Qt::Key_F10), this, SLOT(loadLayout2()), actionCollection(), "load_layout_2");
+  actionLoadLayout3 = new KAction(i18n("Load Layout &3"), "loadlayout3.png", KShortcut(Qt::Key_F11), this, SLOT(loadLayout3()), actionCollection(), "load_layout_3");
+  actionLoadLayout4 = new KAction(i18n("Load Layout &4"), "loadlayout4.png", KShortcut(Qt::Key_F12), this, SLOT(loadLayout4()), actionCollection(), "load_layout_4");
   actionSaveLayout1 = new KAction(i18n("Save Layout &1"), KShortcut(Qt::Key_F9 | Qt::CTRL), this, SLOT(saveLayout1()), actionCollection(), "save_layout_1");
   actionSaveLayout2 = new KAction(i18n("Save Layout &2"), KShortcut(Qt::Key_F10 | Qt::CTRL), this, SLOT(saveLayout2()), actionCollection(), "save_layout_2");
   actionSaveLayout3 = new KAction(i18n("Save Layout &3"), KShortcut(Qt::Key_F11 | Qt::CTRL), this, SLOT(saveLayout3()), actionCollection(), "save_layout_3");
