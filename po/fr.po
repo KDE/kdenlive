@@ -1,12 +1,14 @@
+# translation of fr.po to FRANCAIS
 # translation of fr.po to Française
 # Gilles CAULIER <caulier.gilles@free.fr>, 2003
+# CAULIER Gilles <caulier.gilles@free.fr>, 2003
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "POT-Creation-Date: 2003-04-28 08:46+0200\n"
-"PO-Revision-Date: 2003-04-28 08:52+0200\n"
-"Last-Translator: Gilles CAULIER <caulier.gilles@free.fr>\n"
-"Language-Team: Française <fr@li.org>\n"
+"PO-Revision-Date: 2003-06-09 07:54GMT\n"
+"Last-Translator: CAULIER Gilles <caulier.gilles@free.fr>\n"
+"Language-Team: FRANCAIS <fr@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.0.1\n"
@@ -252,7 +254,7 @@ msgstr "Code non implanté"
 
 #: kdenlive.cpp:113
 msgid "Move/Resize Tool"
-msgstr "Outil de déplacement / redimensionnement"
+msgstr "Outil de déplacement / redimensionnement"
 
 #: kdenlive.cpp:114
 msgid "Razor Tool"
@@ -292,7 +294,7 @@ msgstr "Retour rapide"
 
 #: kdenlive.cpp:128
 msgid "Start/Stop"
-msgstr "Démarrer / Arrêter"
+msgstr "Démarrer / Arrêter"
 
 #: kdenlive.cpp:129
 msgid "Forward one frame"
@@ -392,11 +394,11 @@ msgstr "Coller le contenu du presse-papiers à la position courante"
 
 #: kdenlive.cpp:159
 msgid "Enables/disables the toolbar"
-msgstr "Activer / Désactiver la barre d'outils"
+msgstr "Activer / Désactiver la barre d'outils"
 
 #: kdenlive.cpp:160
 msgid "Enables/disables the statusbar"
-msgstr "Activer / Désactiver la barre d'état"
+msgstr "Activer / Désactiver la barre d'état"
 
 #: kdenlive.cpp:161
 msgid "Moves and resizes the document"
@@ -478,7 +480,7 @@ msgstr "Prêt."
 
 #: kdenlive.cpp:196
 msgid "Move/Resize mode"
-msgstr "Mode déplacement / redimensionnement"
+msgstr "Mode déplacement / redimensionnement"
 
 #: kdenlive.cpp:197 kdenlive.cpp:739
 msgid "Current Time : "
@@ -588,7 +590,7 @@ msgstr "Basculer la barre d'état..."
 
 #: kdenlive.cpp:680
 msgid "Move/Resize tool"
-msgstr "Outils de déplacement / redimensionnement"
+msgstr "Outils de déplacement / redimensionnement"
 
 #: kdenlive.cpp:686
 msgid "Razor tool"
@@ -650,7 +652,7 @@ msgstr "Avancer d'une trame en arriére"
 
 #: kdenlive.cpp:817
 msgid "Starting/stopping playback"
-msgstr "Démarrer / Arrêter la lecture"
+msgstr "Démarrer / Arrêter la lecture"
 
 #: kdenlive.cpp:826
 msgid "Moving forward one frame"
