@@ -760,8 +760,8 @@ void KdenliveApp::slotTogglePlay()
 void KdenliveApp::slotDeleteSelected()
 {
   slotStatusMsg(i18n("Deleting Selected Clips"));
-//  addCommand(m_timeline->createAddClipsCommand(false), true);
-  m_workspaceMonitor->swapScreens(m_clipMonitor);
+  addCommand(m_timeline->createAddClipsCommand(false), true);
+//  m_workspaceMonitor->swapScreens(m_clipMonitor);
   slotStatusMsg(i18n("Ready."));
 }
 
