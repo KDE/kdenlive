@@ -542,7 +542,7 @@ or menu bars. -->
 > <listitem
 ><para
 ><action
->Création d'un nouveau projet de montage vidéo</action
+>Création d'un nouveau projet de montage vidéo.</action
 ></para
 ></listitem
 > </varlistentry
@@ -566,7 +566,7 @@ or menu bars. -->
 > <listitem
 ><para
 ><action
->Ouvrir un projet préalablement enregistré</action
+>Ouvrir un projet préalablement enregistré.</action
 ></para
 ></listitem
 > </varlistentry
@@ -582,7 +582,7 @@ or menu bars. -->
 > <listitem
 ><para
 ><action
->Ouvre un projet qui a été précédemment ouvert dans &kdenlive;</action
+>Ouvre un projet qui a été précédemment ouvert dans &kdenlive;.</action
 ></para
 ></listitem
 > </varlistentry
@@ -606,7 +606,7 @@ or menu bars. -->
 > <listitem
 ><para
 ><action
->Enregistre le projet courant</action
+>Enregistre le projet courant.</action
 ></para
 ></listitem
 > </varlistentry
@@ -622,7 +622,7 @@ or menu bars. -->
 > <listitem
 ><para
 ><action
->Enregistre le projet avec un nom différent</action
+>Enregistre le projet avec un nom différent.</action
 ></para
 ></listitem
 > </varlistentry
@@ -803,7 +803,7 @@ or menu bars. -->
 > <listitem
 > <para
 > <action
->Ajoute des plans vidéo dans la liste du projet</action
+>Ajoute des plans vidéo dans la liste du projet.</action
 > </para
 > </listitem
 > </varlistentry
@@ -835,7 +835,7 @@ or menu bars. -->
 > <listitem
 > <para
 > <action
->Suppression de la liste des plans vidéo inutilisés dans le projet</action
+>Suppression de la liste des plans vidéo inutilisés dans le projet.</action
 > </para
 > </listitem
 > </varlistentry
@@ -971,7 +971,7 @@ or menu bars. -->
 > <listitem
 > <para
 > <action
-></action
+>Exporte le contenu de la table de montage dans une séquence vidéo. Cette opération est auusi appelée le « rendu vidéo ».</action
 > </para
 > </listitem
 > </varlistentry
@@ -1086,7 +1086,7 @@ or menu bars. -->
 > <listitem
 > <para
 > <action
->Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 1</action
+>Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 1.</action
 > </para
 > </listitem
 > </varlistentry
@@ -1112,7 +1112,7 @@ or menu bars. -->
 > <listitem
 > <para
 > <action
->Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 2</action
+>Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 2.</action
 > </para
 > </listitem
 > </varlistentry
@@ -1138,7 +1138,7 @@ or menu bars. -->
 > <listitem
 > <para
 > <action
->Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 3</action
+>Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 3.</action
 > </para
 > </listitem
 > </varlistentry
@@ -1164,7 +1164,7 @@ or menu bars. -->
 > <listitem
 > <para
 > <action
->Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 4</action
+>Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 4.</action
 > </para
 > </listitem
 > </varlistentry
@@ -1393,7 +1393,7 @@ taken from that reference and shortened a bit for readability. -->
 </screen
 > </para>
 <para
->  </para>
+> Cette opération arrêtera toutes les instances du programme &piave;. De cette manière, &kdenlive; doit pouvoir s'exécuter correctement. </para>
 <para
 >  </para>
 </chapter>
@@ -1429,11 +1429,11 @@ application work. -->
 <qandaentry>
 <question>
 <para
-></para>
+>L'interface de &kdenlive; ne tient pas compte des opérations de l'utilisateur lorsqu'un plan vidéo est prévisualisé. Quel est le problème ?</para>
 </question>
 <answer>
 <para
->  </para>
+> Aller dans l'onglet « Déboguer » et essayer de valider l'option « Ignorer les messages entrants ». Cela désactivera l'affichage des messages de déboguage qui peuvent ralentir considérablement l'interface graphique pendant la lecture de longs plans vidéo. </para>
 </answer>
 </qandaentry>
 </qandaset>
@@ -1547,10 +1547,37 @@ or the ChangeLog file, or ... -->
 >Compilation et installation</title>
 
 <para
->  </para>
+> Pour compiler et installer &kdenlive; sur votre système, saisissez les lignes de commande suivantes dans le dossier de base contenant les sources du programme : <screen width="40">
+<prompt
+>%</prompt
+> <userinput
+>./configure</userinput>
+</screen
+> <screen width="40">
+<prompt
+>%</prompt
+> <userinput
+>make</userinput>
+</screen
+> <screen width="40">
+<prompt
+>%</prompt
+> <userinput
+>make install</userinput>
+</screen
+> </para>
 
 <para
-> Depuis que Kdenlive utilise les programmes « autoconf » et « automake », vous ne devriez pas avoir de problèmes pour compiler celui ci. Si vous rencontrez des difficultés, veulliez contacter l'auteur à l'adresse <email
+> Des paramètres supplèmentaires peuvent être nécessaires au script «./configure ». Saisissez la ligne de commande suivante dans le dossier de base contenant les sources du programme : <screen width="40">
+<prompt
+>%</prompt
+> <userinput
+>./configure --help</userinput>
+</screen
+> </para>
+
+<para
+> Depuis que &kdenlive; utilise les programmes « autoconf » et « automake », vous ne devriez pas avoir de problèmes pour compiler celui ci. Si vous rencontrez des difficultés, veulliez contacter l'auteur à l'adresse <email
 >jasonwood@blueyonder.co.uk</email
 >. </para>
 

@@ -621,7 +621,7 @@ or menu bars. -->
 <guimenu>File</guimenu>
 <guimenuitem>New</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Creates a new document</action></para></listitem>
+<listitem><para><action>Creates a new document.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -632,7 +632,7 @@ or menu bars. -->
 <guimenu>File</guimenu>
 <guimenuitem>Open</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Open a saved project</action></para></listitem>
+<listitem><para><action>Open a saved project.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -640,7 +640,7 @@ or menu bars. -->
 <guimenu>File</guimenu>
 <guimenuitem>Open Recent</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Open a recently used project</action></para></listitem>
+<listitem><para><action>Open a recently used project.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -651,7 +651,7 @@ or menu bars. -->
 <guimenu>File</guimenu>
 <guimenuitem>Save</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Saves the project</action></para></listitem>
+<listitem><para><action>Saves the project.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -659,7 +659,7 @@ or menu bars. -->
 <guimenu>File</guimenu>
 <guimenuitem>Save As...</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Saves the project under a different filename</action></para></listitem>
+<listitem><para><action>Saves the project under a different filename.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -779,7 +779,7 @@ or menu bars. -->
 </term>
 <listitem>
 <para>
-<action>Add clips to the project list</action>
+<action>Add clips to the project list.</action>
 </para>
 </listitem>
 </varlistentry>
@@ -805,7 +805,7 @@ or menu bars. -->
 </term>
 <listitem>
 <para>
-<action>Remove unused clips from the project list</action>
+<action>Remove unused clips from the project list.</action>
 </para>
 </listitem>
 </varlistentry>
@@ -843,7 +843,7 @@ or menu bars. -->
 </term>
 <listitem>
 <para>
-<action>Select the move/resize tool to use on the timeline</action>
+<action>Select the move/resize tool to use on the timeline.</action>
 This tool lets you move and resize clips on the timeline. It is the standard operating mode of the timeline.
 </para>
 </listitem>
@@ -860,7 +860,7 @@ This tool lets you move and resize clips on the timeline. It is the standard ope
 </term>
 <listitem>
 <para>
-<action>Select the Razor tool to use on the timeline</action>
+<action>Select the Razor tool to use on the timeline.</action>
 This tool will cut (razor) the clip into two pieces at the time selected.	
 </para>
 </listitem>
@@ -877,7 +877,7 @@ This tool will cut (razor) the clip into two pieces at the time selected.
 </term>
 <listitem>
 <para>
-<action>Select the Spacer tool to use on the timeline</action>
+<action>Select the Spacer tool to use on the timeline.</action>
 This tool lets you select all clips to the right of where you click on the timeline.
 </para>
 </listitem>
@@ -926,7 +926,7 @@ This tool lets you select all clips to the right of where you click on the timel
 </term>
 <listitem>
 <para>
-<action>Export the timeline to a video clip. Also known as rendering down</action>
+<action>Export the timeline to a video clip. Also known as rendering down.</action>
 </para>
 </listitem>
 </varlistentry>
@@ -951,7 +951,7 @@ This tool lets you select all clips to the right of where you click on the timel
 </term>
 <listitem>
 <para>
-<action>Loads up a previously saved screen layout</action>
+<action>Loads up a previously saved screen layout.</action>
 </para>
 </listitem>
 </varlistentry>
@@ -967,7 +967,7 @@ This tool lets you select all clips to the right of where you click on the timel
 </term>
 <listitem>
 <para>
-<action>Loads up a previously saved screen layout</action>
+<action>Loads up a previously saved screen layout.</action>
 </para>
 </listitem>
 </varlistentry>
@@ -983,7 +983,7 @@ This tool lets you select all clips to the right of where you click on the timel
 </term>
 <listitem>
 <para>
-<action>Loads up a previously saved screen layout</action>
+<action>Loads up a previously saved screen layout.</action>
 </para>
 </listitem>
 </varlistentry>
@@ -999,7 +999,7 @@ This tool lets you select all clips to the right of where you click on the timel
 </term>
 <listitem>
 <para>
-<action>Loads up a previously saved screen layout</action>
+<action>Loads up a previously saved screen layout.</action>
 </para>
 </listitem>
 </varlistentry>
@@ -1015,7 +1015,7 @@ This tool lets you select all clips to the right of where you click on the timel
 </term>
 <listitem>
 <para>
-<action>Saves the current screen layout to layout slot 1</action>
+<action>Saves the current screen layout to layout slot 1.</action>
 </para>
 </listitem>
 </varlistentry>
@@ -1031,7 +1031,7 @@ This tool lets you select all clips to the right of where you click on the timel
 </term>
 <listitem>
 <para>
-<action>Saves the current screen layout to layout slot 2</action>
+<action>Saves the current screen layout to layout slot 2.</action>
 </para>
 </listitem>
 </varlistentry>
@@ -1047,7 +1047,7 @@ This tool lets you select all clips to the right of where you click on the timel
 </term>
 <listitem>
 <para>
-<action>Saves the current screen layout in layout slot 3</action>
+<action>Saves the current screen layout in layout slot 3.</action>
 </para>
 </listitem>
 </varlistentry>
@@ -1063,7 +1063,7 @@ This tool lets you select all clips to the right of where you click on the timel
 </term>
 <listitem>
 <para>
-<action>Saves the current screen layout in layout slot 4</action>
+<action>Saves the current screen layout in layout slot 4.</action>
 </para>
 </listitem>
 </varlistentry>
@@ -1124,7 +1124,7 @@ This tool lets you select all clips to the right of where you click on the timel
 </term>
 <listitem>
 <para>
-<action>Configure the toolbars</action>
+<action>Configure the toolbars.</action>
 </para>
 </listitem>
 </varlistentry>
@@ -1159,7 +1159,7 @@ This tool lets you select all clips to the right of where you click on the timel
 </term>
 <listitem>
 <para>
-<action>View the &kdenlive; handbook (this document)</action>
+<action>View the &kdenlive; handbook (this document).</action>
 </para>
 </listitem>
 </varlistentry>
@@ -1425,18 +1425,25 @@ or the ChangeLog file, or ... -->
 	<title>Compilation and Installation</title>
 
 	<para>
-		In order to compile and install &kapp; on your system, type the following in the base
+		In order to compile and install &kdenlive; on your system, type the following in the base
 		directory of the &kdenlive; distribution:
 		<screen width="40">
-			<prompt>%</prompt> <userinput>./configure</userinput>
-			<prompt>%</prompt> <userinput>make</userinput>
-			<prompt>%</prompt> <userinput>make install</userinput>
+                        <prompt>%</prompt> <userinput>./configure</userinput>
 		</screen>
-		Additional parameters for ./configure script may be required - type:
+		<screen width="40">
+                        <prompt>%</prompt> <userinput>make</userinput>
+		</screen>
+		<screen width="40">
+                        <prompt>%</prompt> <userinput>make install</userinput>
+		</screen>
+	</para>
+
+	<para>
+		Additional parameters for ./configure script may be required. Type the following in the base
+		directory of the &kdenlive; distribution:
 		<screen width="40">
 			<prompt>%</prompt> <userinput>./configure --help</userinput>
 		</screen>
-		to see the available options.
 	</para>
 
 	<para>

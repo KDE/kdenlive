@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: index_fr\n"
 "POT-Creation-Date: 2001-02-09 01:25+0100\n"
-"PO-Revision-Date: 2003-08-18 10:50GMT\n"
+"PO-Revision-Date: 2003-08-19 00:16GMT\n"
 "Last-Translator: CAULIER Gilles <caulier.gilles@free.fr>\n"
 "Language-Team: FRANCAIS <fr@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -769,8 +769,8 @@ msgid ""
 "With this dialogbox, you can configre all parameters for the renderer "
 "program."
 msgstr ""
-"Avec cette boîte de dialogue, vous pouvez configurer tous les paramètres nécessaires "
-"au fonctionnement du programme effectuant le rendu vidéo."
+"Avec cette boîte de dialogue, vous pouvez configurer tous les paramètres "
+"nécessaires au fonctionnement du programme effectuant le rendu vidéo."
 
 #: index.docbook:583
 #, no-c-format
@@ -808,8 +808,8 @@ msgstr ""
 
 #: index.docbook:613
 #, no-c-format
-msgid "Creates a new document"
-msgstr "Création d'un nouveau projet de montage vidéo"
+msgid "Creates a new document."
+msgstr "Création d'un nouveau projet de montage vidéo."
 
 #: index.docbook:613
 #, no-c-format
@@ -822,8 +822,8 @@ msgstr ""
 
 #: index.docbook:613
 #, no-c-format
-msgid "Open a saved project"
-msgstr "Ouvrir un projet préalablement enregistré"
+msgid "Open a saved project."
+msgstr "Ouvrir un projet préalablement enregistré."
 
 #: index.docbook:613
 #, no-c-format
@@ -832,8 +832,8 @@ msgstr "<guimenu>Fichier</guimenu> <guimenuitem>Récemment ouvert(s)</guimenuite
 
 #: index.docbook:613
 #, no-c-format
-msgid "Open a recently used project"
-msgstr "Ouvre un projet qui a été précédemment ouvert dans &kdenlive;"
+msgid "Open a recently used project."
+msgstr "Ouvre un projet qui a été précédemment ouvert dans &kdenlive;."
 
 #: index.docbook:613
 #, no-c-format
@@ -846,8 +846,8 @@ msgstr ""
 
 #: index.docbook:613
 #, no-c-format
-msgid "Saves the project"
-msgstr "Enregistre le projet courant"
+msgid "Saves the project."
+msgstr "Enregistre le projet courant."
 
 #: index.docbook:613
 #, no-c-format
@@ -856,8 +856,8 @@ msgstr "<guimenu>Fichier</guimenu> <guimenuitem>Enregistrer sous...</guimenuitem
 
 #: index.docbook:613
 #, no-c-format
-msgid "Saves the project under a different filename"
-msgstr "Enregistre le projet avec un nom différent"
+msgid "Saves the project under a different filename."
+msgstr "Enregistre le projet avec un nom différent."
 
 #: index.docbook:613
 #, no-c-format
@@ -957,8 +957,8 @@ msgstr "<guimenu>Projet</guimenu> <guimenuitem>Ajouter des plans vidéo</guimenu
 
 #: index.docbook:771
 #, no-c-format
-msgid "Add clips to the project list"
-msgstr "Ajoute des plans vidéo dans la liste du projet"
+msgid "Add clips to the project list."
+msgstr "Ajoute des plans vidéo dans la liste du projet."
 
 #: index.docbook:771
 #, no-c-format
@@ -974,8 +974,8 @@ msgstr "<guimenu>Projet</guimenu> <guimenuitem>Purger le projet</guimenuitem>"
 
 #: index.docbook:771
 #, no-c-format
-msgid "Remove unused clips from the project list"
-msgstr "Suppression de la liste des plans vidéo inutilisés dans le projet"
+msgid "Remove unused clips from the project list."
+msgstr "Suppression de la liste des plans vidéo inutilisés dans le projet."
 
 #: index.docbook:771
 #, no-c-format
@@ -999,7 +999,7 @@ msgstr ""
 #: index.docbook:832
 #, no-c-format
 msgid ""
-"<action>Select the move/resize tool to use on the timeline</action> This "
+"<action>Select the move/resize tool to use on the timeline.</action> This "
 "tool lets you move and resize clips on the timeline. It is the standard "
 "operating mode of the timeline."
 msgstr ""
@@ -1016,8 +1016,8 @@ msgstr ""
 #: index.docbook:832
 #, no-c-format
 msgid ""
-"<action>Select the Razor tool to use on the timeline</action> This tool will "
-"cut (razor) the clip into two pieces at the time selected."
+"<action>Select the Razor tool to use on the timeline.</action> This tool "
+"will cut (razor) the clip into two pieces at the time selected."
 msgstr ""
 
 #: index.docbook:832
@@ -1032,7 +1032,7 @@ msgstr ""
 #: index.docbook:832
 #, no-c-format
 msgid ""
-"<action>Select the Spacer tool to use on the timeline</action> This tool "
+"<action>Select the Spacer tool to use on the timeline.</action> This tool "
 "lets you select all clips to the right of where you click on the timeline."
 msgstr ""
 
@@ -1076,8 +1076,10 @@ msgstr ""
 
 #: index.docbook:918
 #, no-c-format
-msgid "Export the timeline to a video clip. Also known as rendering down"
+msgid "Export the timeline to a video clip. Also known as rendering down."
 msgstr ""
+"Exporte le contenu de la table de montage dans une séquence vidéo. Cette "
+"opération est auusi appelée le « rendu vidéo »."
 
 #: index.docbook:939
 #, no-c-format
@@ -1095,7 +1097,7 @@ msgstr ""
 
 #: index.docbook:940
 #, no-c-format
-msgid "Loads up a previously saved screen layout"
+msgid "Loads up a previously saved screen layout."
 msgstr ""
 
 #: index.docbook:940
@@ -1138,8 +1140,8 @@ msgstr ""
 
 #: index.docbook:940
 #, no-c-format
-msgid "Saves the current screen layout to layout slot 1"
-msgstr "Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 1"
+msgid "Saves the current screen layout to layout slot 1."
+msgstr "Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 1."
 
 #: index.docbook:940
 #, no-c-format
@@ -1154,8 +1156,8 @@ msgstr ""
 
 #: index.docbook:940
 #, no-c-format
-msgid "Saves the current screen layout to layout slot 2"
-msgstr "Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 2"
+msgid "Saves the current screen layout to layout slot 2."
+msgstr "Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 2."
 
 #: index.docbook:940
 #, no-c-format
@@ -1170,8 +1172,8 @@ msgstr ""
 
 #: index.docbook:940
 #, no-c-format
-msgid "Saves the current screen layout in layout slot 3"
-msgstr "Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 3"
+msgid "Saves the current screen layout in layout slot 3."
+msgstr "Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 3."
 
 #: index.docbook:940
 #, no-c-format
@@ -1186,8 +1188,8 @@ msgstr ""
 
 #: index.docbook:940
 #, no-c-format
-msgid "Saves the current screen layout in layout slot 4"
-msgstr "Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 4"
+msgid "Saves the current screen layout in layout slot 4."
+msgstr "Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 4."
 
 #: index.docbook:1076
 #, no-c-format
@@ -1239,7 +1241,7 @@ msgstr ""
 
 #: index.docbook:1077
 #, no-c-format
-msgid "Configure the toolbars"
+msgid "Configure the toolbars."
 msgstr "Configure les barres d'outils de &kdenlive;."
 
 #: index.docbook:1077
@@ -1266,7 +1268,7 @@ msgstr "<guimenu>Aide</guimenu> <guimenuitem>Manuel de Kdenlive</guimenuitem>"
 
 #: index.docbook:1151
 #, no-c-format
-msgid "View the &kdenlive; handbook (this document)"
+msgid "View the &kdenlive; handbook (this document)."
 msgstr "Affiche le manuel de &kdenlive; (ce document)."
 
 #: index.docbook:1151
@@ -1363,6 +1365,8 @@ msgid ""
 "This will kill any stray &piave; processes, and should allow you to run "
 "&kdenlive; normally again."
 msgstr ""
+"Cette opération arrêtera toutes les instances du programme &piave;. De cette "
+"manière, &kdenlive; doit pouvoir s'exécuter correctement."
 
 #: index.docbook:1266
 #, no-c-format
@@ -1415,6 +1419,8 @@ msgid ""
 "The &kdenlive; user interface is not keeping up when I play a video! What is "
 "wrong?"
 msgstr ""
+"L'interface de &kdenlive; ne tient pas compte des opérations de "
+"l'utilisateur lorsqu'un plan vidéo est prévisualisé. Quel est le problème ?"
 
 #: index.docbook:1317
 #, no-c-format
@@ -1424,6 +1430,10 @@ msgid ""
 "down considerably whilst playing back videos, especially when they are long "
 "in length."
 msgstr ""
+"Aller dans l'onglet « Déboguer » et essayer de valider l'option « Ignorer "
+"les messages entrants ». Cela désactivera l'affichage des messages de "
+"déboguage qui peuvent ralentir considérablement l'interface graphique "
+"pendant la lecture de longs plans vidéo."
 
 #: index.docbook:1335
 #, no-c-format
@@ -1554,43 +1564,63 @@ msgstr "Compilation et installation"
 #: index.docbook:1427
 #, no-c-format
 msgid ""
-"In order to compile and install &kapp; on your system, type the following in "
-"the base directory of the &kdenlive; distribution: <screen width=\"40\">\n"
-"\t\t\t<prompt>%</prompt> <userinput>./configure</userinput>\n"
-"\t\t\t<prompt>%</prompt> <userinput>make</userinput>\n"
-"\t\t\t<prompt>%</prompt> <userinput>make install</userinput>\n"
-"\t\t</screen> Additional parameters for ./configure script may be required - "
-"type: <screen width=\"40\">\n"
-"\t\t\t<prompt>%</prompt> <userinput>./configure --help</userinput>\n"
-"\t\t</screen> to see the available options."
+"In order to compile and install &kdenlive; on your system, type the "
+"following in the base directory of the &kdenlive; distribution:"
 msgstr ""
-"Pour pouvoir compiler et installer &kdenlive; sur votre système, saisissez "
-"les lignes de commande suivante dans le dossier de base contenant les "
-"sources du programme : <screen width=\"40\">\n"
-"\t\t\t<prompt>%</prompt> <userinput>./configure</userinput>\n"
-"\t\t\t<prompt>%</prompt> <userinput>make</userinput>\n"
-"\t\t\t<prompt>%</prompt> <userinput>make install</userinput>\n"
-"\t\t</screen> Des paramètres supplèmentaires peuvent être nécessaires pour "
-"le script « ./configure ». Saisissez la ligne de commande suivante pour plus "
-"d'informations : <screen width=\"40\">\n"
-"\t\t\t<prompt>%</prompt> <userinput>./configure --help</userinput>\n"
-"\t\t</screen>"
+"Pour compiler et installer &kdenlive; sur votre système, saisissez les "
+"lignes de commande suivantes dans le dossier de base contenant les sources "
+"du programme :"
 
-#: index.docbook:1442
+#: index.docbook:1427
+#, no-c-format
+msgid "<prompt>%</prompt> <userinput>./configure</userinput>"
+msgstr "<prompt>%</prompt> <userinput>./configure</userinput>"
+
+#: index.docbook:1427
+#, no-c-format
+msgid "<prompt>%</prompt> <userinput>make</userinput>"
+msgstr "<prompt>%</prompt> <userinput>make</userinput>"
+
+#: index.docbook:1427
+#, no-c-format
+msgid "<prompt>%</prompt> <userinput>make install</userinput>"
+msgstr "<prompt>%</prompt> <userinput>make install</userinput>"
+
+#: index.docbook:1441
+#, no-c-format
+msgid ""
+"Additional parameters for ./configure script may be required. Type the "
+"following in the base directory of the &kdenlive; distribution:"
+msgstr ""
+"Des paramètres supplèmentaires peuvent être nécessaires au script «./"
+"configure ». Saisissez la ligne de commande suivante dans le dossier de base "
+"contenant les sources du programme :"
+
+#: index.docbook:1441
+#, no-c-format
+msgid "<prompt>%</prompt> <userinput>./configure --help</userinput>"
+msgstr "<prompt>%</prompt> <userinput>./configure --help</userinput>"
+
+#: index.docbook:1449
 #, no-c-format
 msgid ""
 "Since &kdenlive; uses autoconf and automake you should have not trouble "
 "compiling it. Should you run into problems please report them to "
 "<email>jasonwood@blueyonder.co.uk</email>."
 msgstr ""
-"Depuis que Kdenlive utilise les programmes « autoconf » et « automake », "
+"Depuis que &kdenlive; utilise les programmes « autoconf » et « automake », "
 "vous ne devriez pas avoir de problèmes pour compiler celui ci. Si vous "
 "rencontrez des difficultés, veulliez contacter l'auteur à l'adresse "
 "<email>jasonwood@blueyonder.co.uk</email>."
 
-#~ msgid "Configuration"
-#~ msgstr "Configuration"
-
-#~ msgid "<para> </para>"
-#~ msgstr "<para> </para>"
+#, fuzzy
+#~ msgid ""
+#~ "<prompt>%</prompt> <userinput>./configure</userinput>\n"
+#~ "                        <prompt>%</prompt> <userinput>make</userinput>\n"
+#~ "                        <prompt>%</prompt> <userinput>make install</"
+#~ "userinput>"
+#~ msgstr ""
+#~ "<prompt>%</prompt> <userinput>./configure</userinput>\n"
+#~ "\t\t\t<prompt>%</prompt> <userinput>make</userinput>\n"
+#~ "\t\t\t<prompt>%</prompt> <userinput>make install</userinput>"
 
