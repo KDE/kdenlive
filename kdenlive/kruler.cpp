@@ -338,11 +338,11 @@ KRuler::KRuler(int min, int max, double scale, KRulerModel *model, QWidget *pare
 						QWidget(parent, name),
 						m_sizeHint(500, 32),
 						m_backBuffer(500, 32),
+						m_leftMostPixel(0),
+						m_rulerModel(0),
+						d(new KRulerPrivate()),
 						m_minValue(min),
 						m_maxValue(max),
-						d(new KRulerPrivate()),
-						m_rulerModel(0),
-						m_leftMostPixel(0),
 						m_scrollTimer(this, "scroll timer")
 {
 	setRulerModel(model);
@@ -370,11 +370,11 @@ KRuler::KRuler(KRulerModel *model, QWidget *parent, const char *name ) :
 						QWidget(parent,name),
 						m_sizeHint(500, 32),
 						m_backBuffer(500, 32),
+						m_leftMostPixel(0),
+						m_rulerModel(0),
+						d(new KRulerPrivate()),
 						m_minValue(0),
 						m_maxValue(100),
-						d(new KRulerPrivate()),
-						m_rulerModel(0),
-						m_leftMostPixel(0),
 						m_scrollTimer(this, "scroll timer")
 {
 	setRulerModel(model);
@@ -402,11 +402,11 @@ KRuler::KRuler(QWidget *parent, const char *name ) :
 						QWidget(parent,name),
 						m_sizeHint(500, 32),
 						m_backBuffer(500, 32),
+						m_leftMostPixel(0),
+						m_rulerModel(0),
+						d(new KRulerPrivate()),
 						m_minValue(0),
 						m_maxValue(0),
-						d(new KRulerPrivate()),
-						m_rulerModel(0),
-						m_leftMostPixel(0),
 						m_scrollTimer(this, "scroll timer")
 {	
 	setRulerModel(0);
