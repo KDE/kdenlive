@@ -35,7 +35,7 @@ DocClipBase::~DocClipBase()
 {
 }
 
-GenTime DocClipBase::trackStart() {
+const GenTime &DocClipBase::trackStart() const {
   return m_trackStart;
 }
 
@@ -65,7 +65,7 @@ void DocClipBase::setCropStartTime(const GenTime &time)
 	}	
 }
 
-GenTime DocClipBase::cropStartTime()
+const GenTime &DocClipBase::cropStartTime() const
 {
 	return m_cropStart;	
 }

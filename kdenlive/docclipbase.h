@@ -43,7 +43,7 @@ public:
 	virtual ~DocClipBase();
 
 	/** Returns where this clip starts */
-	GenTime trackStart();
+	const GenTime &trackStart() const;
 	/** Sets the position that this clip resides upon it's track. */
 	void setTrackStart(GenTime time);
 
@@ -61,7 +61,7 @@ public:
 	void setCropStartTime(const GenTime &);
 
 	/** returns the cropStart time for this clip */ 
-	GenTime cropStartTime();
+	const GenTime &cropStartTime() const;
 
 	/** set the cropDuration time for this clip. */	
 	void setCropDuration(const GenTime &time);
