@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "projectlist.h"
+#include "avlistviewitem.h"
 
 #include <klocale.h>
 #include <kiconloader.h>
@@ -31,11 +32,11 @@ ProjectList::ProjectList(QWidget *parent, const char *name ) :
 									listView(this, name, 0),
 									m_menu()
 {
-	listView.addColumn("Filename", -1);
-	listView.addColumn("Type", -1);
-	listView.addColumn("Duration", -1);
-	listView.addColumn("Usage count", -1);	
-	listView.addColumn("Size", -1);	
+	listView.addColumn(i18n("Filename"), -1);
+	listView.addColumn(i18n("Type"), -1);
+	listView.addColumn(i18n("Duration"), -1);
+	listView.addColumn(i18n("Usage count"), -1);	
+	listView.addColumn(i18n("Size"), -1);	
 		
 	init_menu();
 }
@@ -56,10 +57,10 @@ void ProjectList::slot_AddFile() {
 	
 	std::map<std::string, bool> done;	
 		
-	Arts::TraderQuery query;
+//	Arts::TraderQuery query;
 	
-  query.supports("Interface", "Arts::PlayObject");
-	std::vector<Arts::TraderOffer> *results = query.query();	
+//  query.supports("Interface", "Arts::PlayObject");
+/*	std::vector<Arts::TraderOffer> *results = query.query();	
 
 	for(std::vector<Arts::TraderOffer>::iterator i = results->begin(); i != results->end(); i++)
 	{			
@@ -88,6 +89,8 @@ void ProjectList::slot_AddFile() {
 	
 	delete results;	
 	
+	*/
+	
 	cout << filter << endl;		
 		
 	KURL::List urlList=KFileDialog::getOpenURLs(
@@ -113,6 +116,13 @@ void ProjectList::rightButtonPressed ( QListViewItem *listViewItem, const QPoint
 }
 
 /** Get a fresh copy of files from KdenliveDoc and display them. */
-void ProjectList::slot_UpdateList(){
-			
+void ProjectList::slot_UpdateList(QList<AVFile> list) {
+	listView.clear();
+
+	QListIterator<AVFile> itt(list);
+	AVFile *av;
+	
+	for(; (av = itt.current()); ++itt) {
+		new AVListViewItem(&listView, av);
+	}
 }

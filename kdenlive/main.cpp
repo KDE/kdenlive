@@ -20,12 +20,8 @@
 #include <klocale.h>
 
 #include "kdenlive.h"
-
-//
-// arts headers
-//
-#include "arts/qiomanager.h"
-#include "arts/dispatcher.h"
+#include <arts/kartsdispatcher.h>
+/*#include <arts/kartsserver.h>*/
 
 static const char *description =
 	I18N_NOOP("Kdenlive");
@@ -51,8 +47,8 @@ int main(int argc, char *argv[])
 
   KApplication app;
 
-  Arts::QIOManager manager;
-	Arts::Dispatcher dispatcher(&manager);	
+	KArtsDispatcher dispatcher();	
+//	KArtsServer server();
  
   if (app.isRestored())
   {

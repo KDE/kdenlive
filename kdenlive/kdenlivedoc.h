@@ -91,6 +91,13 @@ class KdenliveDoc : public QObject
   public:	
     /** the list of the views currently connected to the document */
     static QList<KdenliveView> *pViewList;	
+  /** The number of frames per second. */
+  int m_framesPerSecond;
+  /** Returns the internal avFile list. */
+  QList<AVFile> avFileList();
+  /** Returns the number of frames per second. */
+  int framesPerSecond();
+
 
   private:
     /** the modified flag of the current document */
@@ -98,7 +105,10 @@ class KdenliveDoc : public QObject
     KURL doc_url;
 
 		/** List of all video and audio clips within this project */
-		QList<AVFile> avFileList;		
+		QList<AVFile> m_avFileList;		
+signals: // Signals
+  /** This is signal is emitted whenever the avFileList changes, either through the addition or removal of an AVFile, or when an AVFile changes. */
+  void avFileListUpdated(QList<AVFile>);
 };
 
 #endif // KDENLIVEDOC_H

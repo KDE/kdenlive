@@ -21,10 +21,13 @@
 #include <qwidget.h>
 #include <qvbox.h>
 #include <qlistview.h>
+#include <qlist.h>
 #include <qpopupmenu.h>
 #include <qevent.h>
 
 #include <kurl.h>
+
+#include <avfile.h>
 
 /**
   *@author Jason Wood
@@ -47,7 +50,7 @@ public slots: // Public slots
   /** No descriptions */
   void rightButtonPressed ( QListViewItem *listViewItem, const QPoint &pos, int column) ;
   /** Get a fresh copy of files from KdenliveDoc and display them. */
-  void slot_UpdateList();
+  void slot_UpdateList(QList<AVFile> list);
 signals: // Signals
   /** emitted whenever a file is added to the project list */
   void signal_AddFile(const KURL &url);

@@ -39,6 +39,8 @@ KdenliveDoc::KdenliveDoc(QWidget *parent, const char *name) : QObject(parent, na
     pViewList = new QList<KdenliveView>();
   }
 
+	m_framesPerSecond = 25;	// Standard PAL.
+	
   pViewList->setAutoDelete(true);
 }
 
@@ -135,7 +137,7 @@ bool KdenliveDoc::newDocument()
   // TODO: Add your document initialization code here
   /////////////////////////////////////////////////
 
-  avFileList.setAutoDelete( TRUE );
+  m_avFileList.setAutoDelete( TRUE );
 
   modified=false;
   doc_url.setFileName(i18n("Untitled"));
@@ -173,10 +175,21 @@ void KdenliveDoc::deleteContents()
   // TODO: Add implementation to delete the document contents
   /////////////////////////////////////////////////
 
-  avFileList.clear();
+  m_avFileList.clear();
 }
 
 void KdenliveDoc::slot_InsertAVFile(const KURL &file) {
-	avFileList.append(new AVFile(file.fileName(), file));
+	m_avFileList.append(new AVFile(file.fileName(), file));
+	emit avFileListUpdated(m_avFileList);
   setModified(true);	
+}
+
+QList<AVFile> KdenliveDoc::avFileList()
+{
+	return m_avFileList;	
+}
+
+/** Returns the number of frames per second. */
+int KdenliveDoc::framesPerSecond() {
+	return m_framesPerSecond;
 }

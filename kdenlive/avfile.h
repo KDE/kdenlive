@@ -19,6 +19,7 @@
 #define AVFILE_H
 
 #include <qstring.h>
+#include <arts/kmedia2.h>
 
 #include <kurl.h>
 
@@ -35,9 +36,24 @@ public:
 	QString fileName();
 	void setName(QString name);
 	KURL fileUrl();	
+  /** Calculates properties for the file, including the size of the file, the duration of the file,  the file format, etc. */
+  void calculateFileProperties();
+  /** returns the size of the file */
+  signed int fileSize();
 private:		
+	/** The displayed name of this file */
 	QString m_name;
+	/** The url of the file */
 	KURL m_url;		
+	/** The size of this file, in bytes. A negative value indicates that this is unknown */
+	signed int m_filesize;
+	
+	/** The duration of this file. */
+	Arts::poTime m_time;	
+	
+	/** A play object factory, used for calculating information, and previewing files */
+	// Arts::PlayObjectFactory factory;
 };
 
 #endif
+

@@ -17,9 +17,18 @@
 
 #include "avfile.h"
 
-AVFile::AVFile(QString name, KURL url) {
+#include <qfileinfo.h>
+#include <iostream>
+
+//Arts::PlayObject player;
+
+AVFile::AVFile(QString name, KURL url) /*:
+						 factory(Arts::Reference("global:Arts_PlayObjectFactory"))*/
+{
 	setName(name);
 	m_url = url;
+
+	calculateFileProperties();
 }
 
 AVFile::~AVFile(){
@@ -35,4 +44,44 @@ void AVFile::setName(QString name) {
 
 KURL AVFile::fileUrl() {
 	return m_url;
+}
+
+
+/** Calculates properties for this file that will be useful for the rest of the program. */
+void AVFile::calculateFileProperties()
+{	
+	if(m_url.isLocalFile()) {
+		QFileInfo fileInfo(m_url.directory(false, false) + m_url.filename());		
+				
+		cout << "File is " << (std::string)fileInfo.filePath() << endl;
+		
+/*		player = factory.createPlayObject((std::string)fileInfo.filePath());*/
+					
+		/** Determines the size of the file */		
+		m_filesize = fileInfo.size();		
+		
+		/** Determines the format of the file e.g. wav, ogg, mpeg, mov */		
+/*	  m_time= player.overallTime();*/
+		m_time.seconds = 100;
+		m_time.ms = 0;
+					
+		cout << "Time for file is " << m_time.seconds << "." << m_time.ms << " and custom name " << m_time.customUnit << " is " << m_time.custom << endl;
+				
+//		m_durarion = player
+		
+		
+		/** Determines the duration (length) of the file, measured in frames */
+//		m_duration = object.
+				
+	} else {
+		/** If the file is not local, then no file properties are currently returned */
+		m_time.seconds = 0;
+		m_time.ms = 0;		
+		m_filesize = -1;	
+	}
+}
+
+/** returns the size of the file */
+signed int AVFile::fileSize() {
+	return m_filesize;
 }
