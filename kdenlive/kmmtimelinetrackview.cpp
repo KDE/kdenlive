@@ -45,7 +45,7 @@ KMMTimeLineTrackView::~KMMTimeLineTrackView()
 
 void KMMTimeLineTrackView::resizeEvent(QResizeEvent *event)
 {
-	m_backBuffer.resize(width(), height());
+	m_backBuffer.resize(event->size().width(), event->size().height());
 	drawBackBuffer();
 }
 
