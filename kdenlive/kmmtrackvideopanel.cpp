@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include <kdebug.h>
+
+#include <cmath>
  
 #include "kmmtrackvideopanel.h"
 #include "kmmtimeline.h"
@@ -40,7 +42,8 @@ KMMTrackVideoPanel::~KMMTrackVideoPanel()
 void KMMTrackVideoPanel::paintClip(QPainter &painter, DocClipBase *clip, QRect &rect, bool selected)
 {	
 	int sx = (int)timeLine().mapValueToLocal(clip->trackStart().frames(25));
-	int ex = (int)timeLine().mapValueToLocal((clip->trackStart() + clip->cropDuration()).frames(25));
+	int ex = (int)timeLine().mapValueToLocal(clip->trackEnd().frames(25));
+	int clipWidth = ex-sx;
 	int tx = ex;
 	
 	if(sx < rect.x()) {
@@ -59,20 +62,28 @@ void KMMTrackVideoPanel::paintClip(QPainter &painter, DocClipBase *clip, QRect &
 	painter.drawRect( sx, rect.y(),
 										ex, rect.height());
 
-	QRect textBound = painter.boundingRect(0, 0, ex, rect.height(), AlignLeft, clip->name());
 
-	int textWidth = textBound.width() + 100;
+	painter.setClipping(true);
+	painter.setClipRect(sx, rect.y(), ex, rect.height());
+	// draw video name text										
+	QRect textBound = painter.boundingRect(0, 0, ex, rect.height(), AlignLeft, clip->name());	
+
+	double border = 50.0;
+	int nameRepeat = (int)std::floor((double)clipWidth / ((double)textBound.width() + border));
+	if(nameRepeat < 1) nameRepeat = 1;
+	int textWidth = clipWidth / nameRepeat;
 
 	int start = (int)timeLine().mapValueToLocal(clip->trackStart().frames(25));
-	start += 25;
 
 	start = sx - ((sx - start) % textWidth);
 	int count = start;
 
-	while(count < ex) {
-		if(count+textWidth < tx) {
-			painter.drawText( count, rect.y(), ex, rect.height(), AlignVCenter | AlignLeft, clip->name());
+	while(count < sx+ex) {
+		if(count+textWidth <= tx) {
+			painter.drawText( count, rect.y(), textWidth, rect.height(), AlignVCenter | AlignHCenter, clip->name());
 		}
 		count += textWidth;		
 	}
+
+	painter.setClipping(false);
 }
