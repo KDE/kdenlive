@@ -94,12 +94,12 @@ void KdenliveDoc::removeView(KdenliveView *view)
 
 void KdenliveDoc::setURL(const KURL &url)
 {
-  m_doc_url=url;
+	m_doc_url=url;
 }
 
 const KURL& KdenliveDoc::URL() const
 {
-  return m_doc_url;
+	return m_doc_url;
 }
 
 void KdenliveDoc::slotUpdateAllViews(KdenliveView *sender)
@@ -172,6 +172,8 @@ bool KdenliveDoc::newDocument()
 {
 	kdDebug() << "Creating new document" << endl;
 
+	m_sceneListGeneration = true;
+
 	deleteContents();
 
 	addVideoTrack();
@@ -192,18 +194,19 @@ bool KdenliveDoc::openDocument(const KURL& url, const char *format)
   if(url.isEmpty()) return false;
 
   if(url.filename().right(9) == ".kdenlive") {
-    QString tmpfile;
-    if(KIO::NetAccess::download( url, tmpfile )) {
-  	  QFile file(tmpfile);
-  	 	if(file.open(IO_ReadOnly)) {
-  	  	QDomDocument doc;
-  	    doc.setContent(&file, false);
-		loadFromXML(doc);
-  	  }
-  	  KIO::NetAccess::removeTempFile( tmpfile );
-  	  setModified(false);
-  	  return true;	  
-  	}
+	QString tmpfile;
+	if(KIO::NetAccess::download( url, tmpfile )) {
+		QFile file(tmpfile);
+		if(file.open(IO_ReadOnly)) {
+			QDomDocument doc;
+			doc.setContent(&file, false);
+			loadFromXML(doc);
+    			setURL(url);
+		}
+		KIO::NetAccess::removeTempFile( tmpfile );
+		setModified(false);
+		return true;	  
+	}
 
   	emit trackListChanged();
   } else {
@@ -378,7 +381,7 @@ int KdenliveDoc::trackIndex(DocTrackBase *track) const
 void KdenliveDoc::setModified(bool state)
 {
 	if(m_modified != state) {
-		m_modified = state;		
+		m_modified = state;
 		emit modified(state);
 	}
 }
