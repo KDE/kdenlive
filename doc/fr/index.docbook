@@ -222,7 +222,7 @@ your application. -->
 <para
 > La liste du projet affiche tous les plans vidéo qui sont disponibles dans le projet. </para>
 <para
-> Vous pouvez voir le nombre de fois qu'un plan vidéo est utilisé dans une séquence vidéo. Ceci inclu tous les usages du plan vidéo, dont la prévisualisation de celui ci. </para>
+> Vous pouvez voir le nombre de fois qu'un plan vidéo est utilisé dans une séquence vidéo. Ceci inclut tous les usages du plan vidéo, dont la prévisualisation de celui ci. </para>
 <sect2 id="kapp-projectlist-addingclips">
 <title
 >Ajouter un plan vidéo au projet</title>
@@ -283,7 +283,7 @@ your application. -->
 
 <sect1 id="kapp-clipmonitor">
 <title
->La prévisualition des plans vidéo</title>
+>La prévisualisation des plans vidéo</title>
 <para
 >A faire...</para>
 </sect1>

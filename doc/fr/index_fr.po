@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: index_fr\n"
 "POT-Creation-Date: 2001-02-09 01:25+0100\n"
-"PO-Revision-Date: 2003-07-30 18:11+0200\n"
+"PO-Revision-Date: 2003-07-30 18:16+0200\n"
 "Last-Translator: Gilles CAULIER <caulier.gilles@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -206,7 +206,7 @@ msgid ""
 "this behaviour is likely to change in the future)."
 msgstr ""
 "Vous pouvez voir le nombre de fois qu'un plan vidéo est utilisé dans une "
-"séquence vidéo. Ceci inclu tous les usages du plan vidéo, dont la "
+"séquence vidéo. Ceci inclut tous les usages du plan vidéo, dont la "
 "prévisualisation de celui ci."
 
 #: index.docbook:204
@@ -328,7 +328,7 @@ msgstr "La table de montage vidéo"
 #: index.docbook:271
 #, no-c-format
 msgid "The Clip Monitor"
-msgstr "La prévisualition des plans vidéo"
+msgstr "La prévisualisation des plans vidéo"
 
 #: index.docbook:276
 #, no-c-format
