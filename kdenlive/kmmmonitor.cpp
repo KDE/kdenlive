@@ -19,8 +19,11 @@
 
 #include <kdebug.h>
 
-#include "qcolor.h"
+#include <qcolor.h>
+#include <qcursor.h>
+#include <qpopupmenu.h>
 
+#include "kdenlive.h"
 #include "kdenlivedoc.h"
 #include "docclipbase.h"
 #include "docclipavfile.h"
@@ -31,6 +34,7 @@
 
 KMMMonitor::KMMMonitor(KdenliveApp *app, KdenliveDoc *document, QWidget *parent, const char *name ) :
 						QVBox(parent,name),
+						m_app(app),
 						m_document(document),
 						m_screenHolder(new QVBox(this, name)),
 						m_screen(new KMMScreen(app, m_screenHolder, name)),
@@ -39,9 +43,9 @@ KMMMonitor::KMMMonitor(KdenliveApp *app, KdenliveDoc *document, QWidget *parent,
 						m_clip(0),
 						m_referredClip(0)
 {
-	connect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)), 
+	connect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)),
 					this, SIGNAL(seekPositionChanged(const GenTime &)));
-	connect(m_editPanel, SIGNAL(inpointPositionChanged(const GenTime &)), 
+	connect(m_editPanel, SIGNAL(inpointPositionChanged(const GenTime &)),
 					this, SIGNAL(inpointPositionChanged(const GenTime &)));
 	connect(m_editPanel, SIGNAL(outpointPositionChanged(const GenTime &)),
 					this, SIGNAL(outpointPositionChanged(const GenTime &)));
@@ -95,8 +99,10 @@ void KMMMonitor::disconnectScreen()
 	disconnect(m_editPanel, SIGNAL(playSpeedChanged(double)), m_screen, SLOT(play(double)));
 	disconnect(m_screen, SIGNAL(rendererConnected()), m_editPanel, SLOT(rendererConnected()));
 	disconnect(m_screen, SIGNAL(rendererDisconnected()), m_editPanel, SLOT(rendererDisconnected()));
-	disconnect(m_screen, SIGNAL(seekPositionChanged(const GenTime &)), this, SLOT(screenPositionChanged(const GenTime &)));  
+	disconnect(m_screen, SIGNAL(seekPositionChanged(const GenTime &)), this, SLOT(screenPositionChanged(const GenTime &)));
+	disconnect(m_screen, SIGNAL(playSpeedChanged(double)), m_editPanel, SLOT(screenPlaySpeedChanged(double)));
 	disconnect(m_screen, SIGNAL(mouseClicked()), this, SLOT(slotClickMonitor()));
+	disconnect(m_screen, SIGNAL(mouseRightClicked()), this, SLOT(slotRightClickMonitor()));
 	disconnect(m_screen, SIGNAL(mouseDragged()), this, SLOT(slotStartDrag()));
 }
 
@@ -106,8 +112,10 @@ void KMMMonitor::connectScreen()
 	connect(m_editPanel, SIGNAL(playSpeedChanged(double)), m_screen, SLOT(play(double)));
 	connect(m_screen, SIGNAL(rendererConnected()), m_editPanel, SLOT(rendererConnected()));
 	connect(m_screen, SIGNAL(rendererDisconnected()), m_editPanel, SLOT(rendererDisconnected()));
-	connect(m_screen, SIGNAL(seekPositionChanged(const GenTime &)), this, SLOT(screenPositionChanged(const GenTime &)));  
+	connect(m_screen, SIGNAL(seekPositionChanged(const GenTime &)), this, SLOT(screenPositionChanged(const GenTime &)));
+	connect(m_screen, SIGNAL(playSpeedChanged(double)), m_editPanel, SLOT(screenPlaySpeedChanged(double)));
 	connect(m_screen, SIGNAL(mouseClicked()), this, SLOT(slotClickMonitor()));
+	connect(m_screen, SIGNAL(mouseRightClicked()), this, SLOT(slotRightClickMonitor()));
 	connect(m_screen, SIGNAL(mouseDragged()), this, SLOT(slotStartDrag()));
 }
 
@@ -118,11 +126,7 @@ void KMMMonitor::setSceneList(const QDomDocument &scenelist)
 
 void KMMMonitor::togglePlay()
 {
-	if(m_screen->playSpeed() == 0.0) {
-		m_screen->play(1.0);
-	} else {
-		m_screen->play(0.0);
-	}
+	m_editPanel->togglePlay();
 }
 
 const GenTime &KMMMonitor::seekPosition() const
@@ -163,6 +167,7 @@ void KMMMonitor::slotSetInactive()
 void KMMMonitor::mousePressEvent(QMouseEvent *e)
 {
 	emit monitorClicked(this);
+	if(e->button() == RightButton) popupContextMenu();
 }
 
 void KMMMonitor::slotClickMonitor()
@@ -303,4 +308,17 @@ void KMMMonitor::slotClipCropEndChanged(DocClipRef *clip)
 		slotUpdateClip(clip);
 		seek(clip->cropStartTime() + clip->cropDuration());
 	}
+}
+
+void KMMMonitor::popupContextMenu()
+{
+	QPopupMenu *menu = (QPopupMenu *)m_app->factory()->container("monitor_context", m_app);
+	if(menu) {
+		menu->popup(QCursor::pos());
+	}
+}
+
+void KMMMonitor::slotRightClickMonitor()
+{
+	popupContextMenu();
 }

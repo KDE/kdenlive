@@ -79,6 +79,8 @@ signals: // Signals
 	void playSpeedChanged(double);
 	/** Emitted when the mouse is clicked over the screen. */
 	void mouseClicked();
+	/** Emitted when the mouse is clicked over the screen. */
+	void mouseRightClicked();
 	/** Emitted when a drag has started to occur over the screen. */
 	void mouseDragged();
 };

@@ -59,6 +59,7 @@ KAddClipCommand::KAddClipCommand(KdenliveDoc &document, const KURL &url, bool cr
 
 	DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
 	m_xmlClip = clipNode->clipRef()->toXML();
+	delete clipNode;
 }
 
 KAddClipCommand::~KAddClipCommand()

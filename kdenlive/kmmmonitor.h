@@ -63,6 +63,9 @@ protected:
 	/** Set the monitors scenelist to the one specified. */
 	void setSceneList(const QDomDocument &scenelist);
 private:
+	/** Bring up the monitor context menu, if one exist */
+	void popupContextMenu();
+	KdenliveApp *m_app;
 	KdenliveDoc *m_document;
 	/** a widget that acts as a holding place in the monitor layout - so that we can
 	reparent the screen out of the monitor, reparent another screen in, and it ends
@@ -103,6 +106,8 @@ public slots: // Public slots
 	void slotSetInactive();
 	/** Causes the monitor to act as if a mouse click has happened on it. */
 	void slotClickMonitor();
+	/** Causes the monitor to act as if a right mouse click has happened on it. */
+	void slotRightClickMonitor();
 	/** Sets the displayed clip in the timeline. */
 	void slotSetClip(DocClipBase *clip);
 	/** Sets the displayed clip in the timeline. */

@@ -30,7 +30,7 @@ class KdenliveDoc;
 
 class KMMEditPanel : public KMMEditPanel_UI  {
 	Q_OBJECT
-public: 
+public:
 	KMMEditPanel(KdenliveDoc *document, QWidget* parent = 0, const char* name = 0, WFlags fl = 0);
 	~KMMEditPanel();
 	/** Sets the length of the clip that we are viewing. */
@@ -39,6 +39,9 @@ public:
 	GenTime inpoint() const;
 	/** Returns the outpoint time for the current clip. */
 	GenTime outpoint() const;
+private:
+	// Set or stop playback.
+	void setPlaying(bool play, bool reverseToggle = false);
 private slots: // Private slots
   /** A slider on the ruler has changed value */
   void rulerValueChanged(int ID, int value);
@@ -81,6 +84,13 @@ public slots: // Public slots
   void setOutpoint(const GenTime &outpoint);
   /** Sets the inpoint position to the current seek position */
   void setInpoint(const GenTime &inpoint);
+  /** Toggles whether or not we are currently "playing" */
+  void togglePlay();
+  /** Toggles whether there is a marker on this clip at the specified seek position */
+  void toggleMarker();
+  /** called when the screen has changed it's play speed - e.g., the renderer has
+  reached the end of the file. */
+  void screenPlaySpeedChanged(double speed);
 };
 
 #endif

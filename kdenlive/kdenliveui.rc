@@ -61,6 +61,10 @@
 	<Action name="delete_selected_clips"/>
 </Menu>
 
+<Menu name="monitor_context">
+	<Action name="project_add_clip"/>
+</Menu>
+
 <ToolBar name="timeline toolbar" fullWidth="false" newline="false">
 	<text>Timeline Toolbar</text>
 	<Action name="timeline_move_tool"/>

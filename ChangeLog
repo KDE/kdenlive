@@ -1,17 +1,20 @@
-2003-11-30  Jason Wood  <jasonwood@blueyonder.co.uk>
+2003-12-01  Jason Wood  <jasonwood@blueyonder.co.uk>
+	* Play button now "sticks down" and changes into a pause button when playing.
+	* Added context menu to monitors.
 
+2003-11-30  Jason Wood  <jasonwood@blueyonder.co.uk>
+	* Made The "Ignore Messages" option on the debug window persist.
+	* The clip monitor now updates inpoints/outpoints as clips on timeline are resized.
+
+2003-11-30  Jason Wood  <jasonwood@blueyonder.co.uk>
 	* Added preliminary support for snap markers
 
 2003-11-26  Jason Wood  <jasonwood@blueyonder.co.uk>
-
 	* Bug fixes allow you to drag clips onto the project list again, including dragging project clips.
 
 2003-11-24  Jason Wood  <jasonwood@blueyonder.co.uk>
-
 	* Some bug fixes
 
-
 2003-11-16  Jason Wood  <jasonwood@blueyonder.co.uk>
-
 	* Refactored clip framework to allow sub clips and to allow updating via commands (so is undoable).
 	* Added preliminary project configuration dialog

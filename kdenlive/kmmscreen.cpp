@@ -103,6 +103,9 @@ const GenTime &KMMScreen::seekPosition() const
 void KMMScreen::mousePressEvent(QMouseEvent *e)
 {
 	emit mouseClicked();
+	if(e->button() == RightButton) {
+		emit mouseRightClicked();
+	}
 }
 
 void KMMScreen::mouseMoveEvent ( QMouseEvent * e )
