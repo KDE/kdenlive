@@ -60,7 +60,13 @@ int main(int argc, char *argv[])
 			     I18N_NOOP("Piave renderer author and maintainer"),
 			     "dubitzky@pktw06.phy.tu-dresden.de",
            "http://modesto.sourceforge.net/piave");
-                      
+
+  aboutData.addAuthor(
+           "Gilles Caulier",
+			     I18N_NOOP("Piave and Kdenlive internationalization, French translations, splashscreen"),
+			     "caulier.gilles@free.fr",
+           "http://caulier.gilles.free.fr");
+                                 
 	KCmdLineArgs::init( argc, argv, &aboutData );
 	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-06-23 14:14+0200\n"
+"POT-Creation-Date: 2003-06-27 22:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -107,36 +107,60 @@ msgstr ""
 msgid "&Add"
 msgstr ""
 
-#: kmmeditpanel_ui.cpp:317 projectlist_ui.cpp:283 rendersetupdlg_ui.cpp:71
-#: rc.cpp:14 rc.cpp:23 rc.cpp:38 rc.cpp:39 kmmrulerpanel_ui.cpp:62
+#: kmmeditpanel_ui.cpp:319 projectlist_ui.cpp:283 rendersetupdlg_ui.cpp:71
+#: rc.cpp:14 rc.cpp:23 rc.cpp:38 rc.cpp:39 kmmrulerpanel_ui.cpp:64
 msgid "Form1"
 msgstr ""
 
-#: kmmeditpanel_ui.cpp:318 rc.cpp:15
+#: kmmeditpanel_ui.cpp:320 rc.cpp:15
 msgid "Start"
 msgstr ""
 
-#: kmmeditpanel_ui.cpp:319 rc.cpp:16
+#: kmmeditpanel_ui.cpp:321
+msgid "Start of movie"
+msgstr ""
+
+#: kmmeditpanel_ui.cpp:323 rc.cpp:16
 msgid "Rewind"
 msgstr ""
 
-#: kmmeditpanel_ui.cpp:321 rc.cpp:18
+#: kmmeditpanel_ui.cpp:324
+msgid "Rewind the movie"
+msgstr ""
+
+#: kmmeditpanel_ui.cpp:327
+msgid "Stop the movie"
+msgstr ""
+
+#: kmmeditpanel_ui.cpp:329 rc.cpp:18
 msgid "Play"
 msgstr ""
 
-#: kmmeditpanel_ui.cpp:322 rc.cpp:19
+#: kmmeditpanel_ui.cpp:330
+msgid "Play the movie"
+msgstr ""
+
+#: kmmeditpanel_ui.cpp:332 rc.cpp:19
 msgid "Fast Forward"
 msgstr ""
 
-#: kmmeditpanel_ui.cpp:323 rc.cpp:20
+#: kmmeditpanel_ui.cpp:333
+msgid "Forward the movie"
+msgstr ""
+
+#: kmmeditpanel_ui.cpp:335 rc.cpp:20
 msgid "End"
 msgstr ""
 
-#: kmmeditpanel_ui.cpp:324 rc.cpp:21
+#: kmmeditpanel_ui.cpp:336
+msgid "End of movie"
+msgstr ""
+
+#: kmmeditpanel_ui.cpp:338 rc.cpp:21
 msgid "Inpoint"
 msgstr ""
 
-#: kmmeditpanel_ui.cpp:325 rc.cpp:22
+#: kmmeditpanel_ui.cpp:339 rc.cpp:22
 msgid "Outpoint"
 msgstr ""
 
@@ -225,6 +249,11 @@ msgstr ""
 
 #: main.cpp:60
 msgid "Piave renderer author and maintainer"
+msgstr ""
+
+#: main.cpp:66
+msgid ""
+"Piave and Kdenlive internationalization, French translations, splashscreen"
 msgstr ""
 
 #: kaddclipcommand.cpp:44
@@ -826,59 +855,59 @@ msgstr ""
 msgid "Layout Toolbar"
 msgstr ""
 
-#: rc.cpp:24 kmmrulerpanel_ui.cpp:64
+#: rc.cpp:24 kmmrulerpanel_ui.cpp:66
 msgid "1 Frame"
 msgstr ""
 
-#: rc.cpp:25 kmmrulerpanel_ui.cpp:65
+#: rc.cpp:25 kmmrulerpanel_ui.cpp:67
 msgid "2 Frames"
 msgstr ""
 
-#: rc.cpp:26 kmmrulerpanel_ui.cpp:66
+#: rc.cpp:26 kmmrulerpanel_ui.cpp:68
 msgid "5 Frames"
 msgstr ""
 
-#: rc.cpp:27 kmmrulerpanel_ui.cpp:67
+#: rc.cpp:27 kmmrulerpanel_ui.cpp:69
 msgid "10 Frames"
 msgstr ""
 
-#: rc.cpp:28 kmmrulerpanel_ui.cpp:68
+#: rc.cpp:28 kmmrulerpanel_ui.cpp:70
 msgid "1 Second"
 msgstr ""
 
-#: rc.cpp:29 kmmrulerpanel_ui.cpp:69
+#: rc.cpp:29 kmmrulerpanel_ui.cpp:71
 msgid "2 Seconds"
 msgstr ""
 
-#: rc.cpp:30 kmmrulerpanel_ui.cpp:70
+#: rc.cpp:30 kmmrulerpanel_ui.cpp:72
 msgid "5 seconds"
 msgstr ""
 
-#: rc.cpp:31 kmmrulerpanel_ui.cpp:71
+#: rc.cpp:31 kmmrulerpanel_ui.cpp:73
 msgid "10 seconds"
 msgstr ""
 
-#: rc.cpp:32 kmmrulerpanel_ui.cpp:72
+#: rc.cpp:32 kmmrulerpanel_ui.cpp:74
 msgid "20 seconds"
 msgstr ""
 
-#: rc.cpp:33 kmmrulerpanel_ui.cpp:73
+#: rc.cpp:33 kmmrulerpanel_ui.cpp:75
 msgid "30 seconds"
 msgstr ""
 
-#: rc.cpp:34 kmmrulerpanel_ui.cpp:74
+#: rc.cpp:34 kmmrulerpanel_ui.cpp:76
 msgid "1 minute"
 msgstr ""
 
-#: rc.cpp:35 kmmrulerpanel_ui.cpp:75
+#: rc.cpp:35 kmmrulerpanel_ui.cpp:77
 msgid "2 minutes"
 msgstr ""
 
-#: rc.cpp:36 kmmrulerpanel_ui.cpp:76
+#: rc.cpp:36 kmmrulerpanel_ui.cpp:78
 msgid "4 minutes"
 msgstr ""
 
-#: rc.cpp:37 kmmrulerpanel_ui.cpp:77
+#: rc.cpp:37 kmmrulerpanel_ui.cpp:79
 msgid "8 minutes"
 msgstr ""
 
@@ -924,6 +953,14 @@ msgstr ""
 
 #: krendermanager.moc.cpp:34 krendermanager.moc.cpp:42
 msgid "KRenderManager"
+msgstr ""
+
+#: kmmrulerpanel_ui.cpp:47
+msgid "Time scale slider selection"
+msgstr ""
+
+#: kmmrulerpanel_ui.cpp:80
+msgid "Select the time scale value"
 msgstr ""
 
 #: kdenlivedoc.moc.cpp:34 kdenlivedoc.moc.cpp:42
