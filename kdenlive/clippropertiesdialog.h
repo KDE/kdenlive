@@ -32,10 +32,10 @@ class ClipPropertiesDialog : public KDialog  {
 public: 
 	ClipPropertiesDialog(QWidget *parent=0, const char *name=0);
 	~ClipPropertiesDialog();
-  /** Specifies the clip that we wish to display the properties of. */
-  void setClip(const AVFile *clip);
+	/** Specifies the clip that we wish to display the properties of. */
+	void setClip(const AVFile *clip);
 private:
-  	AVFile *m_clip;
+  	const AVFile *m_clip;
 };
 
 #endif
