@@ -47,7 +47,9 @@ KMMScreen::KMMScreen(KdenliveApp *app, QWidget *parent, const char *name ) :
 
 KMMScreen::~KMMScreen()
 {
-	if(m_render) delete m_render;
+	// TODO - the renderer needs to be unregistered from the render manager. We
+	// should not delete it ourselves here.
+	// if(m_render) delete m_render;
 }
 
 /** The renderer is ready, so we open a video window, etc. here. */
