@@ -56,6 +56,7 @@ public:
 	/** See m_noSeek property for details. */
 	void setNoSeek(bool noSeek);
 
+	DocClipBase *clip();
 	
 protected:
 	void mousePressEvent(QMouseEvent *e);
@@ -100,6 +101,8 @@ public slots: // Public slots
 	void slotSetClip(DocClipBase *clip);
 	/** Sets the displayed clip in the timeline. */
 	void slotSetClip(AVFile *file);
+	/** Clears the displayed clip on the timeline */
+	void slotClearClip();
 	/** Sets the inpoint of this monitor to the current seek position. */
 	void slotSetInpoint();
 	/** Sets the outpoint of this monitor to the current seek position. */

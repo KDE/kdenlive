@@ -34,8 +34,8 @@ KMMMonitor::KMMMonitor(KdenliveApp *app, KdenliveDoc *document, QWidget *parent,
 						m_screenHolder(new QVBox(this, name)),
 						m_screen(new KMMScreen(app, m_screenHolder, name)),
 						m_editPanel(new KMMEditPanel(document, this, name)),
-						m_clip(0),
-						m_noSeek(false)
+						m_noSeek(false),
+						m_clip(0)
 {
 	connect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)), 
 					this, SIGNAL(seekPositionChanged(const GenTime &)));
@@ -217,6 +217,21 @@ void KMMMonitor::slotSetClip(DocClipBase *clip)
 	}
 }
 
+void KMMMonitor::slotClearClip()
+{
+	if(m_clip != 0) {
+		delete m_clip;
+		m_clip = 0;
+	}
+	m_screen->setClipLength(0);
+	m_editPanel->setClipLength(0);
+	m_editPanel->setInpoint(GenTime(0));
+	m_editPanel->setOutpoint(GenTime(0));
+
+	seek(GenTime(0));
+	m_screen->seek(GenTime(0));
+}
+
 void KMMMonitor::slotStartDrag()
 {
 	if(!m_clip)
@@ -241,4 +256,9 @@ void KMMMonitor::slotStartDrag()
 void KMMMonitor::setNoSeek(bool noSeek)
 {
 	m_noSeek = noSeek;
+}
+
+DocClipBase *KMMMonitor::clip()
+{
+	return m_clip;
 }
