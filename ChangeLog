@@ -1,3 +1,8 @@
+2004_10-13 Jean-Michel Pouré
+        * Docking windows fix (provided by Jason)
+	* Single bootstrap code (in admin/ directory). To create a ./configure
+	script, run "bootstrap".
+
 2004-07-04 Gilles Caulier <caulier dot gilles at free.fr>
 	* German GUI translation.
 	* German and Italian handbooks.        
