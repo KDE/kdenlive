@@ -136,13 +136,14 @@ void KRender::readData()
     value.funcEndElement = 0;
     m_parseStack.push(value);
 
-    emit renderDebug(m_name, "Recieved command");
+ //   emit renderDebug(m_name, "Recieved command");
     if(!m_xmlReader.parse(&source, false)) {
 		emit renderWarning(m_name, "Parsing Failed on :");
 		emit renderWarning(m_name, temp);
     } else {
-		emit renderDebug(m_name, "Parse successfull for");
-    		emit renderDebug(m_name, temp);
+		emit renderDebug(m_name, "Parse successfull");
+//		emit renderDebug(m_name, "Parse successfull for");
+//    		emit renderDebug(m_name, temp);
     }
   }
 }
@@ -420,14 +421,14 @@ QString KRender::description()
 /** Occurs upon starting to parse an XML document */
 bool KRender::startDocument()
 {
-  emit renderDebug(m_name, "Starting to parse document");
+//  emit renderDebug(m_name, "Starting to parse document");
 	return true;
 }
 
 /** Occurs upon finishing reading an XML document */
 bool KRender::endDocument()
 {
-  emit renderDebug(m_name, "Finishing parsing document");
+//  emit renderDebug(m_name, "Finishing parsing document");
 	return true;
 }
 
