@@ -61,7 +61,7 @@ private:
 	QVBox *m_editLayout;
 	KTimeLine *m_timeline;
 
-	EffectDesc m_desc;
+	const EffectDesc *m_desc;
 	Effect *m_effect;
 	DocClipRef *m_clip;
 

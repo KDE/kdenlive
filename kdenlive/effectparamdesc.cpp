@@ -23,7 +23,6 @@ EffectParamDesc::EffectParamDesc(const QXmlAttributes &attributes)
 	m_name = attributes.value("name");
 }
 
-
 EffectParamDesc::~EffectParamDesc()
 {
 }

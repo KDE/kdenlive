@@ -32,7 +32,6 @@ EffectParamDoubleDesc::EffectParamDoubleDesc(const QXmlAttributes &attributes)
 	m_max = attributes.value("max").toDouble();
 }
 
-
 EffectParamDoubleDesc::~EffectParamDoubleDesc()
 {
 }

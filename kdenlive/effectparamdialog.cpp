@@ -69,7 +69,7 @@ EffectParamDialog::~EffectParamDialog()
 void EffectParamDialog::slotSetEffectDescription(const EffectDesc &desc)
 {
 	clearEffect();
-	m_desc = desc;
+	m_desc = &desc;
 	m_clip = NULL;
 	m_effect = NULL;
 	generateLayout();
@@ -79,8 +79,12 @@ void EffectParamDialog::generateLayout()
 {
 	m_timeline->clearTrackList();
 
-	for(uint count=0; count<m_desc.numParameters(); ++count) {
-		KTrackPanel *panel = m_desc.parameter(count)->createClipPanel(m_app, m_timeline, m_document, m_clip);
+	assert(m_desc);
+
+	for(uint count=0; count<m_desc->numParameters(); ++count) {
+		EffectParamDesc *paramDesc = m_desc->parameter(count);
+		assert(paramDesc);
+		KTrackPanel *panel = paramDesc->createClipPanel(m_app, m_timeline, m_document, m_clip);
 		assert(panel);
 		m_timeline->appendTrack(panel);
 	}
@@ -95,12 +99,15 @@ void EffectParamDialog::generateLayout()
 void EffectParamDialog::slotSetEffect(DocClipRef *clip, Effect *effect)
 {
 	kdWarning() << "EffectParamDialog::slotSetEffect" << endl;
+	assert(effect);
 	clearEffect();
 
 	m_clip = clip;
 	m_effect = effect;
 	if(m_effect) {
-		m_desc = m_effect->effectDescription();
+		m_desc = &m_effect->effectDescription();
+	} else {
+		m_desc = 0;
 	}
 	generateLayout();
 }
@@ -109,4 +116,5 @@ void EffectParamDialog::clearEffect()
 {
 	m_effect = 0;
 	m_clip = 0;
+	m_desc = 0;
 }

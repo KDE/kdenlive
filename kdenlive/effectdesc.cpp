@@ -27,6 +27,8 @@ EffectDesc::EffectDesc( const QString &name ) :
 		m_name( name )
 {
 	m_params.setAutoDelete(true);
+
+	// TODO - what happens with the m_effect list? Does it get populated and then never deleted?
 }
 
 EffectDesc::~EffectDesc()
@@ -45,7 +47,8 @@ void EffectDesc::addInput( const QString &name, bool video, bool audio )
 
 void EffectDesc::addParameter( EffectParamDesc *param )
 {
-	m_params.append(param);
+	m_params.resize(m_params.size() + 1);
+	m_params.insert(m_params.size()-1, param);
 }
 
 uint EffectDesc::numParameters() const
@@ -53,7 +56,7 @@ uint EffectDesc::numParameters() const
 	return m_params.count();
 }
 
-EffectParamDesc *EffectDesc::parameter(uint index)
+EffectParamDesc *EffectDesc::parameter(uint index) const
 {
 	assert(index < numParameters());
 	return m_params.at(index);
