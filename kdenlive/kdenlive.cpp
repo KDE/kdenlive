@@ -262,7 +262,10 @@ void KdenliveApp::saveOptions()
   config->writeEntry("Show Toolbar", viewToolBar->isChecked());
   config->writeEntry("Show Statusbar",viewStatusBar->isChecked());
   config->writeEntry("ToolBarPos", (int) toolBar("mainToolBar")->barPos());
+
   fileOpenRecent->saveEntries(config,"Recent Files");
+  config->writeEntry("FileDialogPath", m_fileDialogPath.path());
+  
   config->setGroup("Renderer Options");
   config->writeEntry("App Path" , renderAppPath().path());
   config->writeEntry("App Port" , renderAppPort());    
@@ -271,7 +274,6 @@ void KdenliveApp::saveOptions()
 
 void KdenliveApp::readOptions()
 {
-
   config->setGroup("General Options");
 
   // bar status settings
@@ -291,6 +293,8 @@ void KdenliveApp::readOptions()
 	
   // initialize the recent file list
   fileOpenRecent->loadEntries(config,"Recent Files");
+  // file dialog path
+  m_fileDialogPath = KURL(config->readEntry("FileDialogPath", ""));  
 
   QSize size=config->readSizeEntry("Geometry");
   if(!size.isEmpty())
@@ -402,13 +406,15 @@ void KdenliveApp::slotFileOpen()
   }
   else
   {	
-    KURL url=KFileDialog::getOpenURL(QString::null,
+    KURL url=KFileDialog::getOpenURL(m_fileDialogPath.path(),
         i18n("*.kdenlive|Kdenlive Project Files (*.kdenlive)\n*.dv|Raw DV File (*.dv)\n*|All Files"), this, i18n("Open File..."));
     if(!url.isEmpty())
     {
       doc->openDocument(url);
       setCaption(url.fileName(), false);
       fileOpenRecent->addURL( url );
+      m_fileDialogPath = url;
+      m_fileDialogPath.setFileName(QString::null);
     }
   }
   slotStatusMsg(i18n("Ready."));
@@ -445,7 +451,7 @@ void KdenliveApp::slotFileSaveAs()
 {
   slotStatusMsg(i18n("Saving file with a new filename..."));
 
-  KURL url=KFileDialog::getSaveURL(QDir::currentDirPath(),
+  KURL url=KFileDialog::getSaveURL(m_fileDialogPath.path(),
         i18n("*.kdenlive|Kdenlive Project Files (*.kdenlive)"), this, i18n("Save as..."));
   if(!url.isEmpty())
   {
@@ -455,6 +461,8 @@ void KdenliveApp::slotFileSaveAs()
     doc->saveDocument(url);
     fileOpenRecent->addURL(url);
     setCaption(url.fileName(),doc->isModified());
+    m_fileDialogPath = url;
+    m_fileDialogPath.setFileName(QString::null);
   }  
 
   slotStatusMsg(i18n("Ready."));
@@ -680,7 +688,7 @@ void KdenliveApp::slotProjectAddClips()
 	// determine file types supported by Arts
 	QString filter = "*";
 
-	KURL::List urlList=KFileDialog::getOpenURLs(	QString::null,
+	KURL::List urlList=KFileDialog::getOpenURLs(	m_fileDialogPath.path(),
 							filter,
 							this,
 							i18n("Open File..."));
@@ -691,10 +699,13 @@ void KdenliveApp::slotProjectAddClips()
 	for(it = urlList.begin(); it != urlList.end(); it++) {
 		url =  (*it);
 		if(!url.isEmpty()) {
-		  	doc->insertAVFile(url);
+      doc->insertAVFile(url);
+      m_fileDialogPath = url;
 		}
 	}
-    
+
+  m_fileDialogPath.setFileName(QString::null);
+  
   slotStatusMsg(i18n("Ready."));     
 }
 

@@ -275,6 +275,8 @@ class KdenliveApp : public KDockMainWindow
     RenderDebugPanel *m_renderDebugPanel;
   	KMMMonitor *m_monitor;
 		KMMRulerPanel *m_rulerPanel;	// pointer, because it gets reparented to the timeline widget!
+    /** Stores a copy of the last file dialog path used by kdenlive. */
+    KURL m_fileDialogPath;
 		KMMTimeLine *m_timeline; 
 };
  
