@@ -51,6 +51,7 @@ ProjectListView::~ProjectListView()
 QDragObject *ProjectListView::dragObject()
 {
 	AVListViewItem *item = (AVListViewItem *)selectedItem();
+	emit dragStarted(item);
 
 	if(m_doc==0) {
 		kdError() << "m_doc undefined" << endl;

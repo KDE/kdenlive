@@ -44,12 +44,14 @@ public:
 signals: // Signals
   /** This signal is called whenever clips are drag'n'dropped onto the project list view. */
   void dragDropOccured(QDropEvent *e);
+  /** This signal is called whenever a drag'n'drop is started */
+  void dragStarted(QListViewItem *i);
 private slots: // Private slots
   /** This slot function should be called whenever a drag has been dropped onto the class. */
   void dragDropped(QDropEvent* e, QListViewItem* parent, QListViewItem* after);
 private: // Private attributes
   /** The document that keeps this list up-to-date. */
-  KdenliveDoc * m_doc;  
+  KdenliveDoc * m_doc;
 };
 
 #endif
