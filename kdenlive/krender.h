@@ -33,6 +33,7 @@
 #include "gentime.h"
 #include "avfileformatdesc.h"
 #include "avformatdesccodec.h"
+#include "effectdesc.h"
 
 /**KRender encapsulates the client side of the interface to a renderer.
 From Kdenlive's point of view, you treat the KRender object as the
@@ -89,7 +90,10 @@ replyCreateVideoXWindow() once the renderer has replied. */
   bool reply_capabilities_codecs_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & atts);
   bool reply_capabilities_codecs_encoder_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & atts);
   bool reply_capabilities_codecs_encoder_EndElement(const QString & namespaceURI, const QString & localName, const QString & qName);
-  bool reply_capabilities_codecs_encoder_about_EndElement(const QString & namespaceURI, const QString & localName, const QString & qName);  
+  bool reply_capabilities_codecs_encoder_about_EndElement(const QString & namespaceURI, const QString & localName, const QString & qName);
+  bool reply_capabilities_effects_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & atts);
+  bool reply_capabilities_effects_effect_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & atts);    
+  bool reply_capabilities_effects_effect_EndElement(const QString & namespaceURI, const QString & localName, const QString & qName);    
   
   /** Seeks the renderer clip to the given time. */
   void seek(GenTime time);
@@ -164,10 +168,14 @@ private: // Private attributes
   and null pointer exceptions. */
   AVFormatDescCodecList *m_desccodeclist;
   /** Holds a codec description during constructuion. Keep an eye out for potential memory leaks
-  and null pointer exceptions. */
+  and null pointer exceptions. */  
   AVFormatDescCodec *m_codec;
+  /** Holds an effect description during construction. Keep an eye out for potential memory leaks. */
+  EffectDesc *m_effect;  
   /** Holds a list of all available codecs. */
   QPtrList<AVFormatDescCodec> m_codeclist;
+  /** Holds a list of all available effects. */
+  QPtrList<EffectDesc> m_effectList;  
 private slots: // Private slots
   /** Catches errors from the socket. */
   void error(int error);

@@ -1,7 +1,7 @@
 /***************************************************************************
-                          avformatwidgetcodec.cpp  -  description
+                          effectlistdialog.h  -  description
                              -------------------
-    begin                : Tue Feb 4 2003
+    begin                : Sun Feb 9 2003
     copyright            : (C) 2003 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,20 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qtextedit.h>
- 
-#include "avformatwidgetcodec.h"
-#include "avformatdesccodec.h"
+#ifndef EFFECTLISTDIALOG_H
+#define EFFECTLISTDIALOG_H
 
-AVFormatWidgetCodec::AVFormatWidgetCodec(AVFormatDescCodec *desc, QWidget *parent, const char *name ) :
-                                              QVBox(parent,name),
-                                              AVFormatWidgetBase()
-{
-    QTextEdit *edit = new QTextEdit(desc->description(), QString::null, this, "label");
-    edit->setReadOnly(true);
-            
-}
+#include <qwidget.h>
+#include <klistview.h>
 
-AVFormatWidgetCodec::~AVFormatWidgetCodec()
-{
-}
+/**The effectList dialog displays a list of effects and transitions known by the renderer. Effects in this dialog can be dragged to a clip, or in the case of transitions, dragged to two or more clips (how is yet to be determined)
+  *@author Jason Wood
+  */
+
+class EffectListDialog : public KListView  {
+   Q_OBJECT
+public: 
+	EffectListDialog(QWidget *parent=0, const char *name=0);
+	~EffectListDialog();
+};
+
+#endif

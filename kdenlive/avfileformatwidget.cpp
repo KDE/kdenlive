@@ -39,8 +39,6 @@ AVFileFormatWidget::AVFileFormatWidget(AVFileFormatDesc *desc, QWidget *parent, 
     itt.current()->createWidget(this);
     ++itt;
   }
-
-  setMinimumSize(sizeHint());
 }
 
 AVFileFormatWidget::~AVFileFormatWidget()

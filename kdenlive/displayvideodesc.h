@@ -1,7 +1,7 @@
 /***************************************************************************
-                          avformatwidgetcodec.cpp  -  description
+                          displayvideodesc.h  -  description
                              -------------------
-    begin                : Tue Feb 4 2003
+    begin                : Sun Feb 9 2003
     copyright            : (C) 2003 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,20 +15,18 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qtextedit.h>
- 
-#include "avformatwidgetcodec.h"
-#include "avformatdesccodec.h"
+#ifndef DISPLAYVIDEODESC_H
+#define DISPLAYVIDEODESC_H
 
-AVFormatWidgetCodec::AVFormatWidgetCodec(AVFormatDescCodec *desc, QWidget *parent, const char *name ) :
-                                              QVBox(parent,name),
-                                              AVFormatWidgetBase()
-{
-    QTextEdit *edit = new QTextEdit(desc->description(), QString::null, this, "label");
-    edit->setReadOnly(true);
-            
-}
 
-AVFormatWidgetCodec::~AVFormatWidgetCodec()
-{
-}
+/**This class holds the description of a video format that the renderer can use to display images on the screen. Common examples are xv, rgb, and fb.
+  *@author Jason Wood
+  */
+
+class DisplayVideoDesc {
+public: 
+	DisplayVideoDesc();
+	~DisplayVideoDesc();
+};
+
+#endif

@@ -15,13 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <klocale.h>
+ 
 #include "exportdialog.h"
 #include "qlayout.h"
 #include "qobjectlist.h"
 
 ExportDialog::ExportDialog(QPtrList<AVFileFormatDesc> &formatList, QWidget *parent, const char *name ) :
 //                        KJanusWidget(parent,name, IconList),
-                        KJanusWidget(parent,name, TreeList),
+                        KDialogBase(TreeList, i18n("Render Dialog"), Ok | Default | Cancel, Ok, parent, name),
                         m_formatList(formatList)
 {
   m_pageList.setAutoDelete(true);
@@ -42,8 +44,9 @@ void ExportDialog::generateLayout()
   while(itt.current()) {
     QFrame *frame = addPage(itt.current()->name());
     m_pageList.append(frame);    
-    new QHBoxLayout( frame, 0, 6 );
-    itt.current()->createWidget(frame);
+    QHBoxLayout *layout = new QHBoxLayout( frame, 0, 6 );
+    QWidget *widget = itt.current()->createWidget(frame);
+    layout->addWidget(widget);
     ++itt;
   }
 }
@@ -53,4 +56,10 @@ void ExportDialog::setFormatList(const QPtrList<AVFileFormatDesc> &list)
 {
   m_formatList = list;
   generateLayout();
+}
+
+/** Returns the url set inside of this export dialog. */
+KURL ExportDialog::url()
+{
+  return KURL("/tmp/test.dv");
 }

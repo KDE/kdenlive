@@ -1,7 +1,7 @@
 /***************************************************************************
-                          avformatwidgetcodec.cpp  -  description
+                          effectparamdialog.h  -  description
                              -------------------
-    begin                : Tue Feb 4 2003
+    begin                : Sun Feb 9 2003
     copyright            : (C) 2003 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,20 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qtextedit.h>
- 
-#include "avformatwidgetcodec.h"
-#include "avformatdesccodec.h"
+#ifndef EFFECTPARAMDIALOG_H
+#define EFFECTPARAMDIALOG_H
 
-AVFormatWidgetCodec::AVFormatWidgetCodec(AVFormatDescCodec *desc, QWidget *parent, const char *name ) :
-                                              QVBox(parent,name),
-                                              AVFormatWidgetBase()
-{
-    QTextEdit *edit = new QTextEdit(desc->description(), QString::null, this, "label");
-    edit->setReadOnly(true);
-            
-}
+#include <qwidget.h>
+#include <qframe.h>
 
-AVFormatWidgetCodec::~AVFormatWidgetCodec()
-{
-}
+/**The effect param dialog displays the parameter settings for a particular effect. This may be in relation to a clip, or it may be in relation to the effect dialog.
+  *@author Jason Wood
+  */
+
+class EffectParamDialog : public QFrame  {
+   Q_OBJECT
+public: 
+	EffectParamDialog(QWidget *parent=0, const char *name=0);
+	~EffectParamDialog();
+};
+
+#endif

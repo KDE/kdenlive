@@ -45,6 +45,8 @@
 #include "krendermanager.h"
 #include "docclipbase.h"
 #include "exportdialog.h"
+#include "effectlistdialog.h"
+#include "effectparamdialog.h"
 
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
@@ -121,14 +123,14 @@ void KdenliveApp::initActions()
   actionTogglePlay = new KAction(i18n("Start/Stop"), KShortcut(), this, SLOT(slotTogglePlay()), actionCollection(), "toggle_play");  
   actionDeleteSelected = new KAction(i18n("Delete Selected Clips"), KShortcut(Qt::Key_Delete), this, SLOT(slotDeleteSelected()), actionCollection(), "delete_selected_clips");
 
-  actionLoadLayout1 = new KAction(i18n("Load Layout &1"), KShortcut(), this, SLOT(loadLayout1()), actionCollection(), "load_layout_1");
-  actionLoadLayout2 = new KAction(i18n("Load Layout &2"), KShortcut(), this, SLOT(loadLayout2()), actionCollection(), "load_layout_2");
-  actionLoadLayout3 = new KAction(i18n("Load Layout &3"), KShortcut(), this, SLOT(loadLayout3()), actionCollection(), "load_layout_3");
-  actionLoadLayout4 = new KAction(i18n("Load Layout &4"), KShortcut(), this, SLOT(loadLayout4()), actionCollection(), "load_layout_4");
-  actionSaveLayout1 = new KAction(i18n("Save Layout &1"), KShortcut(), this, SLOT(saveLayout1()), actionCollection(), "save_layout_1");
-  actionSaveLayout2 = new KAction(i18n("Save Layout &2"), KShortcut(), this, SLOT(saveLayout2()), actionCollection(), "save_layout_2");
-  actionSaveLayout3 = new KAction(i18n("Save Layout &3"), KShortcut(), this, SLOT(saveLayout3()), actionCollection(), "save_layout_3");
-  actionSaveLayout4 = new KAction(i18n("Save Layout &4"), KShortcut(), this, SLOT(saveLayout4()), actionCollection(), "save_layout_4");
+  actionLoadLayout1 = new KAction(i18n("Load Layout &1"), KShortcut(Qt::Key_F9), this, SLOT(loadLayout1()), actionCollection(), "load_layout_1");
+  actionLoadLayout2 = new KAction(i18n("Load Layout &2"), KShortcut(Qt::Key_F10), this, SLOT(loadLayout2()), actionCollection(), "load_layout_2");
+  actionLoadLayout3 = new KAction(i18n("Load Layout &3"), KShortcut(Qt::Key_F11), this, SLOT(loadLayout3()), actionCollection(), "load_layout_3");
+  actionLoadLayout4 = new KAction(i18n("Load Layout &4"), KShortcut(Qt::Key_F12), this, SLOT(loadLayout4()), actionCollection(), "load_layout_4");
+  actionSaveLayout1 = new KAction(i18n("Save Layout &1"), KShortcut(Qt::Key_F9 | Qt::CTRL), this, SLOT(saveLayout1()), actionCollection(), "save_layout_1");
+  actionSaveLayout2 = new KAction(i18n("Save Layout &2"), KShortcut(Qt::Key_F10 | Qt::CTRL), this, SLOT(saveLayout2()), actionCollection(), "save_layout_2");
+  actionSaveLayout3 = new KAction(i18n("Save Layout &3"), KShortcut(Qt::Key_F11 | Qt::CTRL), this, SLOT(saveLayout3()), actionCollection(), "save_layout_3");
+  actionSaveLayout4 = new KAction(i18n("Save Layout &4"), KShortcut(Qt::Key_F12 | Qt::CTRL), this, SLOT(saveLayout4()), actionCollection(), "save_layout_4");
 
   timelineMoveTool->setExclusiveGroup("timeline_tools");
   timelineRazorTool->setExclusiveGroup("timeline_tools");
@@ -225,12 +227,17 @@ void KdenliveApp::initView()
   widget->setDockSite(KDockWidget::DockFullSite);    
   widget->manualDock(projectDock, KDockWidget::DockCenter);
   
-
-  widget = createDockWidget("Export", QPixmap(), 0, i18n("Export"));
-  m_exportDialog = new ExportDialog(getDocument()->renderer()->fileFormats(), widget, "export");
-  widget->setWidget(m_exportDialog);
+  widget = createDockWidget("Effect List", QPixmap(), 0, i18n("Effect List"));
+  m_effectListDialog = new EffectListDialog(widget, "effect list");
+  widget->setWidget(m_effectListDialog);
   widget->setDockSite(KDockWidget::DockFullSite);
   widget->manualDock(projectDock, KDockWidget::DockCenter);
+
+  widget = createDockWidget("Effect Setup", QPixmap(), 0, i18n("Effect Setup"));
+  m_effectParamDialog = new EffectParamDialog(widget, "effect setup");
+  widget->setWidget(m_effectParamDialog);
+  widget->setDockSite(KDockWidget::DockFullSite);
+  widget->manualDock(projectDock, KDockWidget::DockCenter);    
 
   KDockWidget *workspaceMonitor = createDockWidget("Workspace Monitor", QPixmap(), 0, i18n("Workspace Monitor"));
 	m_workspaceMonitor = new KMMMonitor(this, getDocument(), workspaceMonitor, "Workspace Monitor");
@@ -270,8 +277,8 @@ void KdenliveApp::initView()
   connect(m_timeline, SIGNAL(signalClipCropStartChanged(const GenTime &)), m_clipMonitor, SLOT(seek(const GenTime &)));
   connect(m_timeline, SIGNAL(signalClipCropEndChanged(const GenTime &)), m_clipMonitor, SLOT(seek(const GenTime &)));
 
-  connect(getDocument()->renderer(), SIGNAL(signalFileFormatsUpdated(const QPtrList<AVFileFormatDesc> &)),
-                m_exportDialog, SLOT(setFormatList(const QPtrList<AVFileFormatDesc> &)));
+/*  connect(getDocument()->renderer(), SIGNAL(signalFileFormatsUpdated(const QPtrList<AVFileFormatDesc> &)),
+                m_exportDialog, SLOT(setFormatList(const QPtrList<AVFileFormatDesc> &)));*/
 
   makeDockInvisible(mainDock);
 
@@ -669,16 +676,12 @@ void KdenliveApp::slotRenderExportTimeline()
 {
   slotStatusMsg(i18n("Exporting Timeline..."));
 
-  KURL url=KFileDialog::getSaveURL(QDir::currentDirPath(),
-        i18n("*.dv|Raw DV Files"), this, i18n("Export Timeline To File..."));
+  ExportDialog exportDialog(getDocument()->renderer()->fileFormats(), this, "export dialog");
+  exportDialog.exec();
 
-	if(!url.isEmpty())
-  {
-    if(url.path().find(".") == -1) {
-      url.setFileName(url.filename() + ".dv");
-    }    
-    doc->renderDocument(url);
-  }        
+  if(!exportDialog.url().isEmpty()) {
+    doc->renderDocument(exportDialog.url());    
+  }
 
   slotStatusMsg(i18n("Ready."));  
 }
@@ -864,22 +867,30 @@ void KdenliveApp::slotSetClipMonitorSource(DocClipBase *clip)
 
 void KdenliveApp::loadLayout1()
 {
+  setUpdatesEnabled(FALSE);
   readDockConfig(config, "Layout 1");
+  setUpdatesEnabled(TRUE);  
 }
 
 void KdenliveApp::loadLayout2()
 {
+  setUpdatesEnabled(FALSE);
   readDockConfig(config, "Layout 2");
+  setUpdatesEnabled(TRUE);  
 }
 
 void KdenliveApp::loadLayout3()
 {
+  setUpdatesEnabled(FALSE);
   readDockConfig(config, "Layout 3");
+  setUpdatesEnabled(TRUE);  
 }
 
 void KdenliveApp::loadLayout4()
 {
+  setUpdatesEnabled(FALSE);
   readDockConfig(config, "Layout 4");
+  setUpdatesEnabled(TRUE);  
 }
 
 void KdenliveApp::saveLayout1()

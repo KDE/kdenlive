@@ -1,7 +1,7 @@
 /***************************************************************************
-                          avformatwidgetcodec.cpp  -  description
+                          effectdesc.h  -  description
                              -------------------
-    begin                : Tue Feb 4 2003
+    begin                : Sun Feb 9 2003
     copyright            : (C) 2003 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,20 +15,22 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qtextedit.h>
- 
-#include "avformatwidgetcodec.h"
-#include "avformatdesccodec.h"
+#ifndef EFFECTDESC_H
+#define EFFECTDESC_H
 
-AVFormatWidgetCodec::AVFormatWidgetCodec(AVFormatDescCodec *desc, QWidget *parent, const char *name ) :
-                                              QVBox(parent,name),
-                                              AVFormatWidgetBase()
-{
-    QTextEdit *edit = new QTextEdit(desc->description(), QString::null, this, "label");
-    edit->setReadOnly(true);
-            
-}
+#include <qstring.h>
 
-AVFormatWidgetCodec::~AVFormatWidgetCodec()
-{
-}
+/**A description of an effect. Specifies it's name, the parameters that it takes, the number and type of inputs, etc.
+  *@author Jason Wood
+  */
+
+class EffectDesc {
+public: 
+	EffectDesc(const QString &name);
+	~EffectDesc();
+public: // Public attributes
+  /** The name of this effect. */
+  QString m_name;
+};
+
+#endif

@@ -33,13 +33,17 @@ KRender::KRender(const QString &rendererName, KURL appPath, unsigned int port, Q
                                         m_appPathInvalid(false),
                                         m_fileFormat(0),
                                         m_desccodeclist(0),
-                                        m_codec(0)
+                                        m_codec(0),
+                                        m_effect(0)
 {
 	startTimer(1000);
 	m_parsing = false;
 	m_seekPending = false;
 	m_nextSeek = -1.0;
 	m_setSceneListPending = false;
+
+  m_codeclist.setAutoDelete(true);
+  m_effectList.setAutoDelete(true);  
 
 	m_xmlReader.setContentHandler(this);
 
@@ -331,6 +335,19 @@ void KRender::pushIgnore()
   m_parseStack.push(val);
 }
 
+/** Returns the codec with the given name */
+AVFormatDescCodec * KRender::findCodec(const QString &name)
+{
+  QPtrListIterator<AVFormatDescCodec> itt(m_codeclist);
+
+  while(itt.current()) {
+    emit recievedInfo(m_name, "Comparing " + name + " with " + itt.current()->name());
+    if(name == itt.current()->name()) return itt.current();
+    ++itt;
+  }
+  return 0;
+}
+
 
 
 
@@ -490,7 +507,7 @@ bool KRender::reply_getCapabilities_StartElement(const QString & namespaceURI, c
   if(localName == "effects") {
     StackValue val;
     val.element = "effects";
-  	val.funcStartElement = 0;
+  	val.funcStartElement = &KRender::reply_capabilities_effects_StartElement;
   	val.funcEndElement = 0;
     m_parseStack.push(val);
     return true;
@@ -726,15 +743,44 @@ bool KRender::reply_capabilities_codecs_encoder_about_EndElement(const QString &
   return true;
 }
 
-/** Returns the codec with the given name */
-AVFormatDescCodec * KRender::findCodec(const QString &name)
+bool KRender::reply_capabilities_effects_StartElement(const QString & namespaceURI,
+                                      const QString & localName, const QString & qName,
+                                      const QXmlAttributes & atts)
 {
-  QPtrListIterator<AVFormatDescCodec> itt(m_codeclist);
-
-  while(itt.current()) {
-    emit recievedInfo(m_name, "Comparing " + name + " with " + itt.current()->name());
-    if(name == itt.current()->name()) return itt.current();
-    ++itt;
+  if(localName == "effect") {
+    QString name = atts.value("name");
+    if(m_effect != 0) {
+      emit recievedInfo(m_name, "Error - creating m_effect but pointer is non-null - expect memory leak");
+    }
+    m_effect = new EffectDesc(name);    
+    
+    StackValue val;
+    val.element = "effect";
+  	val.funcStartElement = &KRender::reply_capabilities_effects_effect_StartElement;
+  	val.funcEndElement = &KRender::reply_capabilities_effects_effect_EndElement;
+    m_parseStack.push(val);
+    return true;
   }
-  return 0;
+  pushIgnore();
+  return true;
+}
+
+bool KRender::reply_capabilities_effects_effect_StartElement(const QString & namespaceURI,
+                                      const QString & localName, const QString & qName,
+                                      const QXmlAttributes & atts)
+{
+  pushIgnore();
+  return true;
+}
+
+bool KRender::reply_capabilities_effects_effect_EndElement(const QString & namespaceURI,
+                                      const QString & localName, const QString & qName)
+{
+  if(m_effect == 0) {
+    emit recievedInfo(m_name, "Error - discovered closing effect tag but m_effect is Null!!!");
+  } else {
+    m_effectList.append(m_effect);
+    m_effect = 0;
+  }
+  return true;
 }

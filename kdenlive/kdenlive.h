@@ -48,7 +48,8 @@ class KMMRulerPanel;
 class RenderDebugPanel;
 class AVFile;
 class DocClipBase;
-class ExportDialog;
+class EffectListDialog;
+class EffectParamDialog;
 
 
 /**
@@ -294,7 +295,8 @@ class KdenliveApp : public KDockMainWindow
 /** Application view setup */
   	ProjectList *m_projectList;
     RenderDebugPanel *m_renderDebugPanel;
-    ExportDialog *m_exportDialog;
+    EffectListDialog *m_effectListDialog;
+    EffectParamDialog *m_effectParamDialog;
     KRenderManager *m_renderManager;
   	KMMMonitor *m_workspaceMonitor;
   	KMMMonitor *m_clipMonitor;   
