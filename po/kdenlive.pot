@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-04-28 08:46+0200\n"
+"POT-Creation-Date: 2003-06-10 22:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,12 +15,16 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: kdenlivesetupdlg.cpp:28
+#: kdenlivesetupdlg.cpp:29
 msgid "Kdenlive Setup"
 msgstr ""
 
-#: kdenlivesetupdlg.cpp:33
+#: kdenlivesetupdlg.cpp:34
 msgid "Renderer"
+msgstr ""
+
+#: kdenlivesetupdlg.cpp:35
+msgid "Setup External Renderer Program"
 msgstr ""
 
 #: avformatwidgetcodeclist.moc.cpp:34 avformatwidgetcodeclist.moc.cpp:42
