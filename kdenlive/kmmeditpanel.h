@@ -18,16 +18,16 @@
 #ifndef KMMEDITPANELIMPLEMENTATION_H
 #define KMMEDITPANELIMPLEMENTATION_H
 
-#include "kmmeditpanel.h"
+#include "kmmeditpanel_ui.h"
 
 /**Implementation for the edit panel
   *@author Jason Wood
   */
 
-class KMMEditPanelImplementation : public KMMEditPanel  {
+class KMMEditPanel : public KMMEditPanel_UI  {
 public: 
-	KMMEditPanelImplementation(QWidget* parent = 0, const char* name = 0, WFlags fl = 0);
-	~KMMEditPanelImplementation();
+	KMMEditPanel(QWidget* parent = 0, const char* name = 0, WFlags fl = 0);
+	~KMMEditPanel();
 };
 
 #endif

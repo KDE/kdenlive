@@ -15,13 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "kmmeditpanelimplementation.h"
+#include "kmmeditpanel.h"
 
 #include "kfixedruler.h"
 #include "krulertimemodel.h"
 
-KMMEditPanelImplementation::KMMEditPanelImplementation(QWidget* parent, const char* name, WFlags fl) :
-																 KMMEditPanel(parent, name, fl)
+KMMEditPanel::KMMEditPanel(QWidget* parent, const char* name, WFlags fl) :
+																 KMMEditPanel_UI(parent, name, fl)
 {
 	m_ruler->addSlider(KRuler::Diamond, 0);
 	m_ruler->setRulerModel(new KRulerTimeModel());
@@ -29,6 +29,6 @@ KMMEditPanelImplementation::KMMEditPanelImplementation(QWidget* parent, const ch
 	m_ruler->setMargin(40);
 }
 
-KMMEditPanelImplementation::~KMMEditPanelImplementation()
+KMMEditPanel::~KMMEditPanel()
 {
 }
