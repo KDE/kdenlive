@@ -253,15 +253,17 @@ void KMMMonitor::doCommonSetClip()
 	m_screen->setClipLength((int)m_clip->duration().frames(m_document->framesPerSecond()));
 	m_editPanel->setClipLength((int)m_clip->duration().frames(m_document->framesPerSecond()));
 
-	m_editPanel->setInpoint(m_clip->cropStartTime());
-	m_editPanel->setOutpoint(m_clip->cropStartTime() + m_clip->cropDuration());
+	//COMMENTED BY ROBERT 08-13-2004 --WAS RESETTING SEEK AND INPOINT/OUTPOINT MARKERS WHEN MOVING A CLIP
+	//m_editPanel->setInpoint(m_clip->cropStartTime());
+	//m_editPanel->setOutpoint(m_clip->cropStartTime() + m_clip->cropDuration());
 
-	if( (!m_noSeek) ||
+	/*if( (!m_noSeek) ||
 	    (seekPosition() < m_clip->cropStartTime()) ||
 	    (seekPosition() > m_clip->cropStartTime() + m_clip->cropDuration())) {
 		seek(m_clip->cropStartTime());
 		m_screen->seek(m_clip->cropStartTime());
-	}
+		
+	}*/
 }
 
 void KMMMonitor::slotClearClip()

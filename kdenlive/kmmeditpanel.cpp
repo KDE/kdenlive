@@ -84,7 +84,7 @@ KMMEditPanel::KMMEditPanel( KdenliveDoc *document, QWidget* parent, const char* 
 	connect( previousMarkerButton, SIGNAL( clicked() ), this, SIGNAL( previousSnapMarkerClicked() ) );
 
 	void nextMarkerClicked();
-  void previousMarkerClicked();
+ 	void previousMarkerClicked();
 
 	connect( stopButton, SIGNAL( pressed() ), this, SLOT( stop() ) );
 	connect( stopButton, SIGNAL( pressed() ), this, SLOT( updateButtons() ) );
@@ -159,9 +159,9 @@ void KMMEditPanel::setInpoint()
 	int value = m_ruler->getSliderValue( 0 );
 	m_ruler->setSliderValue( 1, value);
 	
-	if(value > m_ruler->getSliderValue( 2 )) {
-		m_ruler->setSliderValue( 2, value );
-	}
+	//if(value >= m_ruler->getSliderValue( 2 )) {
+	//	m_ruler->setSliderValue( 2, value + 8 );
+	//}
 }
 
 void KMMEditPanel::setOutpoint()
@@ -169,9 +169,9 @@ void KMMEditPanel::setOutpoint()
 	int value = m_ruler->getSliderValue( 0 );
 	m_ruler->setSliderValue( 2, value );
 
-	if(m_ruler->getSliderValue( 1 ) > value) {
-		m_ruler->setSliderValue( 1, 0 );
-	}
+	//if(m_ruler->getSliderValue( 1 ) >= value) {
+	//	m_ruler->setSliderValue( 1, value - 8 );
+	//}
 }
 
 void KMMEditPanel::setInpoint( const GenTime &inpoint )

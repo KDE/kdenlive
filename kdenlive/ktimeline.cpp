@@ -27,6 +27,9 @@
 #include <qhbox.h>
 #include <qlabel.h>
 
+#include <qrect.h>
+#include <qpainter.h>
+
 #include <kdebug.h>
 
 #include "krulertimemodel.h"
@@ -65,6 +68,7 @@ KTimeLine::KTimeLine( QWidget *rulerToolWidget, QWidget *scrollToolWidget, QWidg
 	//added inpoint/outpoint markers -reh
 	m_ruler->addSlider( KRuler::StartMark, 0 );
 	m_ruler->addSlider( KRuler::EndMark, m_ruler->maxValue() );
+	m_ruler->addSlider( KRuler::HorizontalMark, m_ruler->maxValue()/2 );
 	m_ruler->setAutoClickSlider( 0 );
 
 	m_scrollToolWidget = scrollToolWidget;
@@ -73,7 +77,7 @@ KTimeLine::KTimeLine( QWidget *rulerToolWidget, QWidget *scrollToolWidget, QWidg
 	m_scrollBar = new QScrollBar( -100, 5000, 50, 500, 0, QScrollBar::Horizontal, m_scrollBox, "horizontal ScrollBar" );
 
 	m_trackViewArea = new KTrackView( *this, m_trackScroll, "track view area" );
-
+	
 	m_trackScroll->enableClipper( TRUE );
 	m_trackScroll->setVScrollBarMode( QScrollView::AlwaysOn );
 	m_trackScroll->setHScrollBarMode( QScrollView::AlwaysOff );
@@ -220,13 +224,6 @@ void KTimeLine::setTimeScale( double scale )
 	drawTrackViewBackBuffer();
 }
 
-//retrieve timeline timescale slider value -reh
-/*int KTimeLine::getTimeScaleSliderValue() const
-{
-	int localValue = ( int ) mapValueToLocal( m_ruler->getSliderValue( 0 ) );
-	return localValue;
-}*/
-
 /** Calculates the size of the project, and sets up the timeline to accomodate it. */
 void KTimeLine::slotSetProjectLength(const GenTime &size)
 {
@@ -246,6 +243,34 @@ void KTimeLine::resetProjectSize()
 GenTime KTimeLine::seekPosition() const
 {
 	return GenTime( m_ruler->getSliderValue( 0 ), m_framesPerSecond );
+}
+//returns inpoint/outpoint timeline positions -reh
+GenTime KTimeLine::inpointPosition() const
+{
+	return GenTime( m_ruler->getSliderValue( 1 ), m_framesPerSecond );
+}
+
+GenTime KTimeLine::outpointPosition() const
+{
+	return GenTime( m_ruler->getSliderValue( 2 ), m_framesPerSecond );
+}
+
+GenTime KTimeLine::midpointPosition() const
+{
+	return GenTime( m_ruler->getSliderValue( 3 ), m_framesPerSecond );
+}
+
+void KTimeLine::setMidValueDiff()
+{
+	if( m_ruler->activeSliderID() != 3 ) {
+		if( m_ruler->activeSliderID() == 1 ) {
+			m_midPoint = midpointPosition() - inpointPosition();
+		}else if ( m_ruler->activeSliderID() == 2 ) {
+			m_midPoint = outpointPosition() - midpointPosition();
+		}else{
+			m_midPoint = outpointPosition() - midpointPosition();
+		}
+	}
 }
 
 void KTimeLine::setEditMode(const QString &editMode)
@@ -268,9 +293,31 @@ void KTimeLine::slotSliderMoved( int slider, int value )
 			break;
 		case 1:
 			emit inpointPositionChanged( GenTime( value, m_framesPerSecond ) );
+			if( m_ruler->activeSliderID() != 3 ){
+				horizontalSlider( inpointPosition(), outpointPosition() );
+			}
+			setMidValueDiff();
+			if(value >= m_ruler->getSliderValue( 2 )) {
+				m_ruler->setSliderValue( 2, value + 8 );
+			}
 			break;
 		case 2:
 			emit outpointPositionChanged( GenTime( value, m_framesPerSecond ) );
+			if( m_ruler->activeSliderID() != 3){
+				horizontalSlider( inpointPosition(), outpointPosition() );
+			}
+			setMidValueDiff();
+			if(m_ruler->getSliderValue( 1 ) >= value) {
+				m_ruler->setSliderValue( 1, value - 8 );
+			}
+			break;
+		case 3:
+			if( m_ruler->activeSliderID() != 1 && m_ruler->activeSliderID() != 2 ){
+				if( m_ruler->activeSliderID() == 3 ){
+					m_ruler->setSliderValue( 1, ( int ) floor((midpointPosition() - m_midPoint).frames( m_framesPerSecond ) + 0.5) );
+					m_ruler->setSliderValue( 2, ( int ) floor((midpointPosition() + m_midPoint).frames( m_framesPerSecond ) + 0.5) );
+				}
+			}
 			break;
 		default:
 			break;
@@ -281,6 +328,13 @@ void KTimeLine::slotSliderMoved( int slider, int value )
 void KTimeLine::seek( const GenTime &time )
 {
 	m_ruler->setSliderValue( 0, ( int ) floor( time.frames( m_framesPerSecond ) + 0.5 ) );
+}
+
+void KTimeLine::horizontalSlider( const GenTime &inpoint, const GenTime &outpoint )
+{
+	int midValue = ( int ) floor( outpoint.frames( m_framesPerSecond ) + 0.5) - ( int ) floor( inpoint.frames( m_framesPerSecond ) + 0.5);
+	midValue = midValue/2 + ( int ) floor( inpoint.frames( m_framesPerSecond ) + 0.5);
+	m_ruler->setSliderValue( 3, midValue );
 }
 
 /** Returns the correct "time under mouse", taking into account whether or not snap to frame is on or off, and other relevant effects. */

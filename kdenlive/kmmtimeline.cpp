@@ -38,7 +38,7 @@ KMMTimeLine::~KMMTimeLine()
 
 void KMMTimeLine::invalidateClipBuffer( DocClipRef *clip )
 {
-#warning - unoptimised, should only update that part of the back buffer that needs to be updated. Current implementaion
+	#warning - unoptimised, should only update that part of the back buffer that needs to be updated. Current implementaion
 	#warning - wipes the entire buffer.
 	invalidateBackBuffer();
 }

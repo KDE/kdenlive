@@ -185,20 +185,56 @@ public:
 		painter.drawPolygon(points);
 	}
 
-  bool underMouse(int x, int y, int midx, int height) const {
+  	bool underMouse(int x, int y, int midx, int height) const {
 		if(x < midx - (height/4) - 1) return false;
 		if(x > midx) return false;
-    if(y < height/2) return false;
+    		if(y < height/2) return false;
 		return true;
 	}
 
 	int leftBound(int x, int height) {
-  	return x - (height/4) - 1;
-  }
+  		return x - (height/4) - 1;
+	}
 
-  int rightBound(int x, int height) {
-  	return x;
-  }
+	int rightBound(int x, int height) {
+  		return x;
+	}
+};
+
+class KRulerPrivateSliderHorizontalMark : public KRulerSliderBase {
+public:
+	KRulerPrivateSliderHorizontalMark(){
+	}
+	
+	~KRulerPrivateSliderHorizontalMark(){
+	}
+	
+	void drawHorizontalSlider(QPainter &painter, int x, int height) {
+		QPointArray points(4);
+
+		points.setPoint(0, x-4, height-3);
+		points.setPoint(1, x-4, (height/2) +3);
+		points.setPoint(2, x+4, (height/2) +3);
+		points.setPoint(3, x+4, height -3);
+		painter.drawPolygon(points);
+		painter.drawLine( QPoint( x, height-3 ), QPoint( x, (height/2)+6 ) );
+	}
+	
+	bool underMouse(int x, int y, int midx, int height) const {
+		if(x < midx - 4) return false;
+		if(x > midx + 4) return false;
+    		if(y > height - 3) return false;
+		if(y < (height/2) + 3) return false;
+		return true;
+	}
+	
+	int leftBound(int x, int height) {
+  		return x-4;
+	}
+
+	int rightBound(int x, int height) {
+  		return x+4;
+	}
 };
 
 class KRulerPrivateSlider {
@@ -246,10 +282,11 @@ public:
 		switch (type) {
 			case KRuler::Diamond 		: setType(new KRulerPrivateSliderDiamond()); break;
 			case KRuler::TopMark 		: setType(new KRulerPrivateSliderTopMark()); break;
-			case KRuler::BottomMark : setType(new KRulerPrivateSliderBottomMark()); break;
-			case KRuler::StartMark 	: setType(new KRulerPrivateSliderStartMark()); break;
+			case KRuler::BottomMark 	: setType(new KRulerPrivateSliderBottomMark()); break;
+			case KRuler::StartMark 		: setType(new KRulerPrivateSliderStartMark()); break;
 			case KRuler::EndMark 		: setType(new KRulerPrivateSliderEndMark()); break;
-			default									: setType(new KRulerPrivateSliderDiamond()); break;
+			case KRuler::HorizontalMark 	: setType(new KRulerPrivateSliderHorizontalMark()); break;
+			default				: setType(new KRulerPrivateSliderDiamond()); break;
 		}
 	}
   /** Returns the left-most pixel that will be drawn by a horizontal slider. */

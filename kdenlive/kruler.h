@@ -41,14 +41,15 @@ public:
 For other types to be used, a custom slider class can be created. The names given are there to indicate
 what kind of shape to expect the slider to be. A diamond should produce a roughly diamond like shape which
 covers the timeline from top to bottom. The Top Mark and Bottom Marks should point from the top of the ruler
-down, adn from the bottom up respectively. The start and end marks should point towards opposite ends of the
+down, and from the bottom up respectively. The start and end marks should point towards opposite ends of the
 ruler, and could be used to indicate the start and end of a repeated section, for instance.*/
 	enum KRulerSliderType {
 		Diamond,
 		TopMark,
 		BottomMark,
 		StartMark,
-		EndMark
+		EndMark,
+		HorizontalMark
 	};
 	/** Creates a default ruler, with the given model. Sets min/max range and the scale factor.*/
 	KRuler(int min, int max, double scale=1.0, KRulerModel *model=0, QWidget *parent=0, const char *name=0);
@@ -97,20 +98,19 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
   /** Specifies that part of the back buffer needs to be redrawn.  */
   void invalidateBackBuffer(int start, int end);
 public slots: // public slots
-  /** Sets the slider with the given id to the given value. The display will be updated.  */
-  void setSliderValue(int id, int value);
-
+	/** Sets the slider with the given id to the given value. The display will be updated.  */
+	void setSliderValue(int id, int value);
 signals: // Signals
-  /** This signal is emitted when the ruler is resized. */
-  void resized();
-  /** This signal is emitted whenever a sliders value changes. */
-  void sliderValueChanged(int, int);
-  /** Emitted when the scale of the ruler changes. */
-  void scaleChanged(double);
-  /** Emitted when the ruler would like to be scrolled to the right. */
-  void requestScrollRight();
-  /** Emitted when the ruler would like to be scrolled to the left. */
-  void requestScrollLeft();
+	/** This signal is emitted when the ruler is resized. */
+	void resized();
+	/** This signal is emitted whenever a sliders value changes. */
+	void sliderValueChanged(int, int);
+	/** Emitted when the scale of the ruler changes. */
+	void scaleChanged(double);
+	/** Emitted when the ruler would like to be scrolled to the right. */
+	void requestScrollRight();
+	/** Emitted when the ruler would like to be scrolled to the left. */
+	void requestScrollLeft();
 
 protected slots: // Protected slots
 	/** Sets the leftmost pixel which is displayed on the widget. To understand why this

@@ -41,9 +41,9 @@ class TrackPanelClipMoveFunction : public TrackPanelFunction
 {
 	Q_OBJECT
 public:
-    TrackPanelClipMoveFunction(KdenliveApp *app, KTimeLine *timeline, KdenliveDoc *document);
+	TrackPanelClipMoveFunction(KdenliveApp *app, KTimeLine *timeline, KdenliveDoc *document);
 
-    virtual ~TrackPanelClipMoveFunction();
+	virtual ~TrackPanelClipMoveFunction();
 
 	/**
 	Returns true if the specified position should cause this function to activate,

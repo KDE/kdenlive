@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>KMMEditPanel_UI</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,7 +8,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>459</width>
+            <width>551</width>
             <height>76</height>
         </rect>
     </property>
@@ -85,6 +85,9 @@
                     <property name="text">
                         <string>Start</string>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Move to start of clip</string>
+                    </property>
                 </widget>
                 <widget class="QToolButton">
                     <property name="name">
@@ -101,6 +104,9 @@
                     <property name="text">
                         <string>Rewind</string>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Rewind clip</string>
+                    </property>
                 </widget>
                 <widget class="QToolButton">
                     <property name="name">
@@ -116,6 +122,9 @@
                     </property>
                     <property name="text">
                         <string>Stop</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Stop clip</string>
                     </property>
                 </widget>
                 <widget class="QToolButton">
@@ -136,6 +145,9 @@
                     <property name="toggleButton">
                         <bool>true</bool>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Play clip</string>
+                    </property>
                 </widget>
                 <widget class="QToolButton">
                     <property name="name">
@@ -152,6 +164,9 @@
                     <property name="text">
                         <string>Fast Forward</string>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Forward clip</string>
+                    </property>
                 </widget>
                 <widget class="QToolButton">
                     <property name="name">
@@ -167,6 +182,9 @@
                     </property>
                     <property name="text">
                         <string>End</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Move to end of clip</string>
                     </property>
                 </widget>
                 <widget class="KLed">
@@ -213,6 +231,9 @@
                     <property name="text">
                         <string>Inpoint</string>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Set Inpoint</string>
+                    </property>
                 </widget>
                 <widget class="QToolButton">
                     <property name="name">
@@ -228,6 +249,9 @@
                     </property>
                     <property name="text">
                         <string>Outpoint</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Set Outpoint</string>
                     </property>
                 </widget>
                 <widget class="QToolButton">
@@ -248,6 +272,9 @@
                     <property name="toggleButton">
                         <bool>true</bool>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Play Section between inpoint and outpoint</string>
+                    </property>
                 </widget>
                 <widget class="QToolButton">
                     <property name="name">
@@ -255,6 +282,9 @@
                     </property>
                     <property name="text">
                         <string>Previous Marker</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Move to previous marker</string>
                     </property>
                 </widget>
                 <widget class="QToolButton">
@@ -278,6 +308,9 @@
                     <property name="on">
                         <bool>false</bool>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Set marker on timeline</string>
+                    </property>
                 </widget>
                 <widget class="QToolButton">
                     <property name="name">
@@ -285,6 +318,9 @@
                     </property>
                     <property name="text">
                         <string>Next Marker</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Move to next marker</string>
                     </property>
                 </widget>
             </hbox>
@@ -311,7 +347,7 @@
 </customwidgets>
 <images>
     <image name="image0">
-        <data format="XPM.GZ" length="4350">789c6dd7594f23471007f0f7fd14d6d6db2aaaf58c3db647511eb831b7317794879ac30760cc61c010e5bba7dcf5af5688167664fdb66bbaababbb67cccf1f8dab93c3c68f9fdf5e16b298968d7222cf8d1fd5eb6cf6f1e75f7ffcfded7b9a3656ff9aad46fafdb76fdf078b46d9389a3fd42bf04841699e964933b830b79a7019dd0b96955b895b5a703bcd572e08eea576ff6570ae0eedd477b792103f854b8b2fc6d1163f77237e646e37113f89b6f8307e3bf1785a8b0eedbc696eb7ad9db7e01ee6476ee4ffe0c6fd158c7c69182cde4eec6e87fea50dfbf8176e6ba7d07f96669999cfa325ccaf862bcc97a36dbccf60f178cee11cde706761f16917ae30fe6b7488a7851bf14d7327417f676eb4f756eea41e2f57e6d83e83919f6cba117f04235fd9765b3b0fa36dfc398cf973edc67a6fb951ffe768ab6765ee26b8dff213ef5f4630e2b9e7463ea7ee8ee5ff60ee2618af8eb6fe3238437eb91bf1299cdbfacad3cadd5617f5a11738c7fe4adcb8ffd68d7aeec15e8fc3683b9f62ee2518ef33dafa3f75e3bc957086f86eb4d56f3db8e8e6dd56f01a5cc1bbe65e629673d8ebd18d0efdc9058cf9f2c08df9e630ce037db8719ec37c7a9a7fb708f10267b65e7cef46fb3e9ca3fd23dad6ef0cf67abe99f304f95ec3a8871cbb71be52d8d777e8b6fee412f6f958be3adf5ea817b561afe7d86ded7c67ce13c46fc37ede2766c17a17059cd9f38e466e8c3f8eb6fd700f0b9ef7095c37cd3d37de178f2be76dcf876fa343bd790267f012f67a77cc319f69b4ed872e2ca8e732daeabfe3c6fa9cc235f21f9b8bd4f2a5cd687bfedbfd659ee7ede017b842becf6eb44fa3cbd0df8559b0ffe808ceb0ff37e01afba3652e52cc87a26dbe276ecca7097790ff73b4cdef0616ac4fdf6df1c2d1d67ee8c6f80318eb4bd1180ff529513f0ecf7b694b62f5a002ceccb2662e523c2fb7605f9f0fd8fbbf75e3bc2dcd3e9ebcb9f17ce8c05e8f83685bcf701e44eb2db65e4fd1b65eebe62245be53b8c6f3ffdd8dfd3933fbf884761f5f0edcd88f951bf118bf44bde926dae24fe01ae7af76e3f9169e2f45bb143c0f5fdcf6fea23b18f773eac6f3e63ddac6db75e37df5e8c6fbae65aebcde6d37beaf84f528aa52f03c9dc3359ea79939c627d136deab1befaf75b883ef23e76e3ccfaea36d7dc2f795322b05ebfb0ad738af7db7ad371f99fd7e59b8b13f276e9cdf1318f5e54337e6d78cb67cf761ec170efba1acaa1afd9db92d3f3a36d729ea77efc6f33cbccf2beddfe6478fe6d85e45dbfd851bf1577007f5d877e3bc86f5a9ea3a2d6cffdfc1debe116df5db73a39e37b0e777191dda257c7fa83b6e8a2eaae00eeceb13d6b7d69f325b79b058fd32b170c1a55ebffaac2ccae2b9e6118f79c253bd6ef9ee3fd7587fef79c60f7acf3cc617fcc84ffcac6d8ffcc20b7ee5377ee7257ff027aff1bac66ff0269716cf5b1ab7cd3bbcabb17ddee37d3ee0433ee2633ee1019ff290cff89c2ff89229c48b66f1ac3d5df135df7093134eb9c56dcef4b3c35dee71ce393111dbfa8c784a4205955451cd1d1ad1982634a55bbad3f80eddd38c1ef882e66cf52ab5ff2b8d7ea4277aa6175ad06bb866f446efb4d4df0ffad4fed762ffb7b44e1b9cd2266dd142c75e5ddb3cd0bb3e347a477bd9d5f83ee245e3f7689f0ee830f67d44c77412ee186946033aa5e197fecfe85c7bf7be2fe892aee89a6ea84989f6bfa434f4eff9df52c509b5d0779b32ea684d13ea528f728d1e882ebfce37f6cf077422b4ea5b440ad14af1a15452ab473aee52c65ff39789b64fe955f44eb9937b5d858c5b32d377c0c32a7fee7ecd5fe61aff284ff22c2fb290577993775db1443fb53ef2219f5ff2bf93356d5b970dd9d41eb77820dbb223bbab155ed55ffab2f725ffb1eccb81aed6931cca116ab490633909d10339fd5ffdef795d869ae7923bc27226e772415d5986b51d683663b9d4fcfbb1ff190fe54aaec35aeaa577ee20f24673e94b531249a585fc2b69ebfe3ed7dae91f75ba964b5c03e9d344ba1add93bce0826c3f87f3b2a9fb6f18aeba10ba2f563f25eb1b563771a5d17531e2513c5fba538b3111cd690dd73c7ef6a95f4c8aa99de12fe77da4951de9ffffea730be7fd9fdfbffd0b690edc6c</data>
+        <data format="PNG" length="1110">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b0000041d49444154789c8d95c18b1c4514c67fbb29e5b54ea05b26da1d36b08d09a6c508138cb8c13d647141163de49043bca9f1628eb9294810f24f88c15b728b07617358888785d980427290b4a8d00b19a8821da8228cf42316ac87eed9247ac95c9aeaeef9eaabdffb5ebf85f178ccfcf7f5b79fec07a7280a08a008f25ceb7c29e5da573716e65a0be3f198ef6f5ededff9b9e1b34faf90882092a1ea21428b9220ffbf46054055b19386ba6970ae6665b5e0d2c5eb0b066067bbe1f21757c88f5504eff0c192189081303a5582b16854fccce2fe041f00cdd0a8103b874556405476b62d972ec2c2b90ff3fd8df5cb946549d80b34aea15ccaa94625450e2d0e558b460b7371a734b5e027251a155545678ab62d7eea90b4c504078908c107acb354cb251b1f8f08b1c18631aabbb4d18211404804f22545863561d2f060fb34aa8a18d0086204e72c46a32292e1a796f278c1da7a859d8da9a737506db04d0a24103d8949480b214d3bbee952a05c1d536f9d2684160c744f048311543d459eb1b65ee1754cedae13a64abd5d6127053c9d0281f22d4f75c6a2118a5c09272d7ab740638bf4ef2dd2174032d0d8d04c6fe19c32bedd8bc65e342aa3f785e2784bfd6bc1bd9db24b05505616a4edd67d5a8c1801a03a9962754c504bf34b8986acfb9be91cac7d54315a15541b36b134f74bd2dc53940115a5381e087bc25c6f71be831a8baa234cc1ee3eeb74ed83116beb2b8849d108a3730e8ce27e2bfb82419a7b407ac7c222fd0e6280a8078ce64e47ef54ac9d5be9aaae0162e0de568a44a18d3df90845d919c4f01463406340a44f40efb43a99b371618488e2670d1a2d7ee6f1d3be39342104e937ed85fb86599c33e9ee0be9a004946259d8b858909880d59aa00daa0d3280b5f39e34074c4b3a5434029a76a9e9f5cc0163b5c80024158a1cfc4cb1d3061d5834066cb0a403c008599a70f6bc27b8d03106ea3ae91987278c5b143b015547224ab5e24185cd9b81665273e7b6e7cecd82ddbf8098002de94049737bc09828cf3036f31c3735c8b0e98eb704672f348c7f7c93cd1fb2ae905119ff54e0dff3542b0e9dd983dcea2cc5eea6cf303e74ec687af5c41b6fa38f5e203c7ec8e1238ef85831a214afef21060ea781ec68247b65c6916353cc8b73d1ae79354606af2a930709aa118da1636c274dd7e3774b884a79aa6b5711a538d33cf9c01c1c9b83bc6a1f55c91ccb23b05b1deb43a7decdaffefd2862f61366aa8449c69e33642f012f2bb208fa98eeda1f3346f076c8eeef19475e9be115423364f78f84105a8643d34d90cfbfdcd8cf872589a45dc7f54cf3134a36f4e495c23f9da8db15bccb708d4014f2ca512cb5d4f7c13e84300d5cff6eb39b202bab053bdb9674f0648609427d0f8402ddeac30f4fcd3ced3efc3b422d406c09b340bedc1571e1bfc3d44dc281634c5fe5e758e7395cfbe6d6c130fd17d92372d2cb00c6470000000049454e44ae426082</data>
     </image>
 </images>
 <layoutdefaults spacing="6" margin="11"/>

@@ -33,8 +33,8 @@ public:
 	virtual ~KRulerSliderBase();
   /** Draws a horizontal version of the slider, using the painter provided. The "x" coordinate is the pixel which coresponds to the slider value. The height of the widget is passed so that the marker can rescale itself to an appropriate size. */
   virtual void drawHorizontalSlider(QPainter &painter, const int x, const int height) = 0;
-  /** Returns true if the currrent slider is under the mouse position passed, otherwise returns false.
-
+  
+/** Returns true if the currrent slider is under the mouse position passed, otherwise returns false.
 midx is the coordinate corresponding to the value of the slider. height is that of the widget, as is passed so that the slider can determine it's scale. The x,y pair is the point that we are testing. */
   virtual bool underMouse(const int x, const int y, const int midx, const int height) const = 0;
   /** Returns a new object of the same class as this one. */

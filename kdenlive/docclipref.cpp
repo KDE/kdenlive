@@ -203,7 +203,7 @@ DocClipRef *DocClipRef::createClip(const EffectDescriptionList &effectList, Clip
 		//clip->setDescription(description);
 		clip->setEffectStack(effectStack);
 	}
-
+	
 	return clip;
 }
 
@@ -368,15 +368,6 @@ const GenTime &DocClipRef::duration() const
 {
 	return m_clip->duration();
 }
-/*int DocClipRef::clipWidth() const
-{
-	return m_clip->clipWidth();
-}
-
-int DocClipRef::clipHeight() const
-{
-	return m_clip->clipHeight();
-}*/
 
 bool DocClipRef::durationKnown() const
 {

@@ -116,10 +116,6 @@ void KTrackView::registerFunction(const QString &name, TrackPanelFunction *funct
 	m_factory.registerFunction(name, function);
 }
 
-
-
-
-
 /** This event occurs when a mouse button is pressed. */
 void KTrackView::mousePressEvent( QMouseEvent *event )
 {
@@ -130,7 +126,6 @@ void KTrackView::mousePressEvent( QMouseEvent *event )
 		if ( m_panelUnderMouse != 0 ) {
 			kdWarning() << "Error - mouse Press Event with panel already under mouse" << endl;
 		}
-
 		if ( panel ) {
 			if ( event->button() == LeftButton ) {
 				bool result = false;

@@ -119,7 +119,7 @@ bool TrackPanelClipMoveFunction::mouseReleased( KTrackPanel *panel, QMouseEvent 
 			}
 		}
 	}
-
+	
 	return result;
 }
 
@@ -226,7 +226,7 @@ bool TrackPanelClipMoveFunction::dragMoved ( KTrackPanel *panel, QDragMoveEvent 
 	}
 
 	m_timeline->checkScrolling( pos );
-
+	
 	return true;
 }
 
@@ -340,7 +340,6 @@ bool TrackPanelClipMoveFunction::dragDropped ( KTrackPanel *panel, QDropEvent *e
 			delete effect;
 		}
 	}
-
 	return true;
 }
 

@@ -89,6 +89,13 @@ public:
 	/** Returns the seek position of the timeline - this is the currently playing frame, or
 	the currently seeked frame. */
 	GenTime seekPosition() const;
+	
+	//Returns the inpoint/outpoing position of the timeline
+	GenTime inpointPosition() const;
+	GenTime outpointPosition() const;
+	GenTime midpointPosition() const;
+	//set difference between mid point slider and inpoint/outpoint
+	void setMidValueDiff( const GenTime &time );
 
 	/** Set the current edit mode of the timeline */
 	void setEditMode(const QString &editMode);
@@ -165,6 +172,7 @@ public:
 	/** Set the width of the panels that accompany the timeline's tracks. This also affects the width
 	of the ruler widget and the scrollbar widget.*/
 	void setPanelWidth(int width);
+	
 protected:
 	/** @returns the ruler tool widget. */
 	QWidget *rulerToolWidget() const { return m_rulerToolWidget; }
@@ -207,6 +215,9 @@ private:
 
 	/** The width of the panels at the left hand side of the timeline. */
 	int m_panelWidth;
+	
+	//difference between midpoint and inpoint/outpoint when inpoint or outpoint moved
+	GenTime m_midPoint;
 
 public slots:   // Public slots
 	/** Update the back buffer for the track views, and tell the trackViewArea widget to
@@ -225,6 +236,8 @@ public slots:   // Public slots
 	void slotSliderMoved( int slider, int value );
 	/** Seek the timeline to the current position. */
 	void seek( const GenTime &time );
+	//move horizontal slider to the current position based on inpoint/outpoint -reh
+	void horizontalSlider ( const GenTime &inpoint, const GenTime &outpoint );
 
 	/** Scroll the timeline left */
 	void slotScrollLeft();
@@ -240,6 +253,8 @@ public slots:   // Public slots
 	//set inpoint/outpoint -reh
 	void setInpointTimeline( const GenTime &inpoint );
 	void setOutpointTimeline( const GenTime &outpoint );
+	//get difference between inpoint or outpoint and midpoint when inpoint/outpoint slider moved
+	void setMidValueDiff();
 	
 private slots:   // Private slots
 	/** Scroll the timeline by a set amount. Should be connected to m_scrollTimer */
