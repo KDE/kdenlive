@@ -44,6 +44,9 @@ public:
   void mouseReleaseEvent(QMouseEvent *event);
   /** This event occurs when a mouse button is pressed. */
   void mousePressEvent(QMouseEvent *event);
+  /** Returns the track panel that lies at the specified y coordinate on the
+TimelineTrackView. */
+  KMMTrackPanel *panelAt(int y);
 private: // Private attributes
   QPixmap m_backBuffer;
   KMMTimeLine & m_timeLine;
@@ -55,6 +58,10 @@ private: // Private attributes
   /** During a resize operation, holds the current resize state, as defined in the ResizeState enum. */
   ResizeState m_resizeState;
   KMMTrackPanel * m_panelUnderMouse;
+public: // Public attributes
+  /** This value specifies the resizeTolerance of the KMMTimeLine - that is, how many
+pixels at the start and end of a clip are considered as a resize operation. */
+  static int resizeTolerance;
 };
 
 #endif

@@ -16,12 +16,15 @@
  ***************************************************************************/
 
 #include <qpainter.h>
+#include <qcursor.h>
 
 #include <kdebug.h>
 
 #include "kmmtimelinetrackview.h"
 #include "kmmtimeline.h"
 #include "kmmtrackpanel.h"
+
+int KMMTimeLineTrackView::resizeTolerance = 4;
 
 KMMTimeLineTrackView::KMMTimeLineTrackView(KMMTimeLine &timeLine, QWidget *parent, const char *name) :
 						QWidget(parent, name),
@@ -82,20 +85,10 @@ void KMMTimeLineTrackView::drawBackBuffer()
 /** This event occurs when a mouse button is pressed. */
 void KMMTimeLineTrackView::mousePressEvent(QMouseEvent *event)
 {
-	int totalHeight = 0;
-	int widgetHeight;
 	GenTime mouseTime(m_timeLine.mapLocalToValue(event->x()), 25);	
 
-	KMMTrackPanel *panel = m_timeLine.trackList().first();	
-	
-	while(panel != 0) {
-	  widgetHeight = panel->height();
 
-	  if((totalHeight < event->y()) && (totalHeight + widgetHeight > event->y())) break;
-
-		totalHeight+=widgetHeight;
-		panel = m_timeLine.trackList().next();
-	}	
+	KMMTrackPanel *panel = panelAt(event->y());
 
 	if(panel) {		
 		if(event->button() == LeftButton) {
@@ -111,23 +104,26 @@ void KMMTimeLineTrackView::mouseReleaseEvent(QMouseEvent *event)
 	GenTime mouseTime(m_timeLine.mapLocalToValue(event->x()), 25);
 	
 	if(event->button() == LeftButton) {
-		if(m_clipUnderMouse) {			
-			if (event->state() & ControlButton) {
-			  m_timeLine.toggleSelectClipAt(m_panelUnderMouse->docTrack(),mouseTime);
-			} else if(event->state() & ShiftButton) {
-			  m_timeLine.selectClipAt(m_panelUnderMouse->docTrack(),mouseTime);
+		if(m_resizeState != None) {
+		} else {
+			if(m_clipUnderMouse) {			
+				if (event->state() & ControlButton) {
+				  m_timeLine.toggleSelectClipAt(m_panelUnderMouse->docTrack(),mouseTime);
+				} else if(event->state() & ShiftButton) {
+				  m_timeLine.selectClipAt(m_panelUnderMouse->docTrack(),mouseTime);
+				} else {
+					m_timeLine.selectNone();
+				  m_timeLine.selectClipAt(m_panelUnderMouse->docTrack(),mouseTime);
+				}
 			} else {
 				m_timeLine.selectNone();
-			  m_timeLine.selectClipAt(m_panelUnderMouse->docTrack(),mouseTime);
 			}
-		} else {
-			m_timeLine.selectNone();
+			drawBackBuffer();
 		}
-		drawBackBuffer();
-	}
 
-	m_clipUnderMouse = 0;
-	m_panelUnderMouse = 0;
+		m_clipUnderMouse = 0;
+		m_panelUnderMouse = 0;
+	}
 }
 
 /** This event occurs when the mouse has been moved. */
@@ -136,21 +132,72 @@ void KMMTimeLineTrackView::mouseMoveEvent(QMouseEvent *event)
 	GenTime mouseTime(m_timeLine.mapLocalToValue(event->x()), 25);
 
 	if((event->state() & LeftButton) != LeftButton) {
-/*		1. get panel that mouse is on.
-		2. check for clip under mouse
-		3. see if we are in a resize zone.
-		4. If we are, change mouse to resize cursor, else revert to normal cursor.*/	
-	} else if(m_clipUnderMouse) {
-		if(m_resizeState != None) {
-		} else if(!m_timeLine.clipSelected(m_clipUnderMouse)) {
-			if ((event->state() & ControlButton) || (event->state() & ShiftButton)) {
-				m_timeLine.selectClipAt(m_panelUnderMouse->docTrack(),mouseTime);
-			} else {
-				m_timeLine.selectNone();
-				m_timeLine.selectClipAt(m_panelUnderMouse->docTrack(),mouseTime);	
+		KMMTrackPanel *panel = panelAt(event->y());
+
+		if(panel) {
+			DocClipBase *clip = panel->docTrack().getClipAt(mouseTime);
+			if(clip) {
+				if( fabs(m_timeLine.mapValueToLocal(clip->trackStart().frames(25)) - event->x()) < resizeTolerance) {
+					kdDebug() << "resize state is start" << endl;
+					m_resizeState = Start;
+					setCursor(QCursor(Qt::SizeHorCursor));
+					return;					
+				}
+				if( fabs(m_timeLine.mapValueToLocal((clip->trackStart()+clip->cropDuration()).frames(25)) - event->x()) < resizeTolerance) {
+					kdDebug() << "resize state is end" << endl;				
+					m_resizeState = End;					
+					setCursor(QCursor(Qt::SizeHorCursor));
+					return;					
+				}
 			}
-		}								
-		m_clipOffset = mouseTime - m_clipUnderMouse->trackStart();
-		m_timeLine.initiateDrag(m_clipUnderMouse, m_clipOffset);
+		}
+				
+		setCursor(QCursor(Qt::ArrowCursor));
+		m_resizeState = None;
+		return;
 	}
+
+	if(m_clipUnderMouse) {
+		if(m_resizeState != None) {
+			if(m_resizeState == Start) {
+				m_panelUnderMouse->docTrack().resizeClipTrackStart(m_clipUnderMouse, mouseTime);
+				drawBackBuffer();
+			} else if(m_resizeState == End) {
+				m_panelUnderMouse->docTrack().resizeClipCropDuration(m_clipUnderMouse, mouseTime);
+				drawBackBuffer();
+			} else {
+				kdError() << "Unknown resize state reached in KMMTimeLineTrackView::mouseMoveEvent()" << endl;
+				kdError() << "(this message should never be seen!)" << endl;
+			}
+		} else {
+			if(!m_timeLine.clipSelected(m_clipUnderMouse)) {
+				if ((event->state() & ControlButton) || (event->state() & ShiftButton)) {
+					m_timeLine.selectClipAt(m_panelUnderMouse->docTrack(),mouseTime);
+				} else {
+					m_timeLine.selectNone();
+					m_timeLine.selectClipAt(m_panelUnderMouse->docTrack(),mouseTime);	
+				}
+			}								
+			m_clipOffset = mouseTime - m_clipUnderMouse->trackStart();
+			m_timeLine.initiateDrag(m_clipUnderMouse, m_clipOffset);
+		}
+	}
+}
+
+KMMTrackPanel *KMMTimeLineTrackView::panelAt(int y)
+{
+	int totalHeight = 0;
+	int widgetHeight;
+	KMMTrackPanel *panel = m_timeLine.trackList().first();
+
+	while(panel != 0) {
+	  widgetHeight = panel->height();
+
+	  if((totalHeight < y) && (totalHeight + widgetHeight > y)) break;
+
+		totalHeight+=widgetHeight;
+		panel = m_timeLine.trackList().next();
+	}
+
+	return panel;
 }

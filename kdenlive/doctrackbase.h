@@ -98,6 +98,12 @@ selected. */
   /** Returns true if the clip is in the track and is selected, false if the clip
 is not on the track, or if the clip is unselected. */
   bool clipSelected(DocClipBase *clip);
+  /** Resizes this clip, using a new track start time of newStart.
+   If this is not possible, it fails gracefully. */
+  void resizeClipTrackStart(DocClipBase *clip, GenTime newStart);
+  /** Resizes this clip, using a new cropDuration time of newStart.
+   If this is not possible, it fails gracefully. */  
+  void resizeClipCropDuration(DocClipBase *clip, GenTime newStart);
 private: // Private methods
   /** Enables or disables clip sorting. This method is used internally to turn off the sorting of clips when it is known that they will be sorted elsewhere.
 

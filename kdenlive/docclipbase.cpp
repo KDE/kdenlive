@@ -60,16 +60,22 @@ QString DocClipBase::name()
 void DocClipBase::setCropStartTime(const GenTime &time)
 {	
 	m_cropStart = time;
+	if(m_parentTrack) {
+		m_parentTrack->clipMoved(this);
+	}	
 }
 
 GenTime DocClipBase::cropStartTime()
 {
-	return m_cropStart;
+	return m_cropStart;	
 }
 
 void DocClipBase::setCropDuration(const GenTime &time)
 {
 	m_cropDuration = time;
+	if(m_parentTrack) {
+		m_parentTrack->clipMoved(this);
+	}	
 }
 
 GenTime DocClipBase::cropDuration()

@@ -290,3 +290,70 @@ bool DocTrackBase::clipSelected(DocClipBase *clip)
 {
 	return (m_selectedClipList.find(clip) != -1);
 }
+
+void DocTrackBase::resizeClipTrackStart(DocClipBase *clip, GenTime newStart)
+{
+	if(!clipExists(clip)) {
+		kdError() << "Trying to resize non-existant clip! (resizeClipTrackStart)" << endl;
+		return;		
+	}
+
+	newStart = newStart - clip->trackStart();
+
+	if(clip->cropStartTime() + newStart < 0) {
+		newStart = GenTime() - clip->cropStartTime();
+	}
+
+	if(clip->cropDuration() - newStart > clip->duration()) {
+		newStart = clip->duration() + clip->cropDuration();
+	}
+
+	if(clip->cropDuration() - newStart < 0) {
+		newStart = clip->cropDuration();
+		kdWarning() << "Clip resized to zero length!" << endl;
+	}
+
+	#warning - the following code does not work for large increments - small clips might be overlapped.
+	#warning - Replace with code that looks at the clip directly before the clip we are working with.
+	DocClipBase *test;
+	test = getClipAt(clip->trackStart() + newStart);
+
+	if((test) && (test != clip)) {
+		newStart = test->trackStart() + test->cropDuration() - clip->trackStart();
+	}
+
+	clip->setTrackStart(clip->trackStart() + newStart);
+	clip->setCropStartTime(clip->cropStartTime() + newStart);
+	clip->setCropDuration(clip->cropDuration() - newStart);
+}
+
+void DocTrackBase::resizeClipCropDuration(DocClipBase *clip, GenTime newStart)
+{
+	if(!clipExists(clip)) {
+		kdError() << "Trying to resize non-existant clip! (resizeClipCropDuration)" << endl;
+		return;
+	}	
+	
+	newStart = newStart - clip->trackStart();
+
+	if(newStart > clip->duration() - clip->cropStartTime()) {
+		newStart = clip->duration() - clip->cropStartTime();
+	}
+	
+	if(newStart < clip->cropStartTime()) {
+		kdWarning() << "Clip has been resized to zero length" << endl;
+		newStart = clip->cropStartTime();
+	}
+
+	#warning - the following code does not work for large increments - small clips might be overlapped.
+	#warning - Replace with code that looks at the clip directly after the clip we are working with.
+	DocClipBase *test;
+
+	test = getClipAt(clip->trackStart() + newStart); 
+
+	if((test) && (test != clip)) {
+		newStart = test->trackStart() - clip->trackStart();
+	}
+
+	clip->setCropDuration(newStart);
+}
