@@ -67,6 +67,8 @@ QCursor TrackPanelClipResizeFunction::getMouseCursor(QMouseEvent *event)
 
 bool TrackPanelClipResizeFunction::mousePressed(QMouseEvent *event)
 {
+	bool result = false;
+	
 	GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_docTrack->document()->framesPerSecond());
 	m_clipUnderMouse = m_docTrack->getClipAt(mouseTime);
 	if(m_clipUnderMouse) {
@@ -97,14 +99,24 @@ bool TrackPanelClipResizeFunction::mousePressed(QMouseEvent *event)
 	 	}
 		m_snapToGrid.setCursorTimes(cursor);
 		m_resizeCommand = new Command::KResizeCommand(m_docTrack->document(), m_clipUnderMouse);
+
+		result = true;
 	}
+
+	return result;
 }
 
 bool TrackPanelClipResizeFunction::mouseReleased(QMouseEvent *event)
 {
+	bool result = false;
+	
 	m_resizeCommand->setEndSize(m_clipUnderMouse);
 	m_timeline->addCommand(m_resizeCommand, false);
+	m_docTrack->document()->indirectlyModified();
 	m_resizeCommand = 0;
+
+	result = true;
+	return result;
 }
 
 bool TrackPanelClipResizeFunction::mouseMoved(QMouseEvent *event)
