@@ -52,6 +52,8 @@ void ProjectList::init_menu(){
 
 void ProjectList::slot_AddFile() {
 	// determine file types supported by Arts
+	QString filter = "";
+	
 	std::map<std::string, bool> done;	
 		
 	Arts::TraderQuery query;
@@ -60,30 +62,57 @@ void ProjectList::slot_AddFile() {
 	std::vector<Arts::TraderOffer> *results = query.query();	
 
 	for(std::vector<Arts::TraderOffer>::iterator i = results->begin(); i != results->end(); i++)
-	{
+	{			
+		std::vector<string> *mime = (*i).getProperty("MimeType");
 		std::vector<string> *ext = (*i).getProperty("Extension");
-				
-		for(std::vector<string>::iterator it = ext->begin(); it != ext->end(); it++) {
-			if(!(*it).length() || done[*it]) continue;
 
-  		done[*it] = true;
-			cout << *it << endl;
+		std::vector<string>::iterator extIt = ext->begin();					
+		std::vector<string>::iterator mimeIt = mime->begin();				
+		
+		while((extIt != ext->end()) && (mimeIt != mime->end())) {			
+			if( ((*extIt).length()) && (!done[*extIt]) ) {
+				if((*mimeIt).find("audio/", 0) == 0) {
+		  		done[*extIt] = true;
+//		  		filter += (std::string("\n*.").append(*extIt).append("|").append(*mimeIt)).c_str();
+					filter += (*mimeIt).c_str();
+					filter += " ";
+				}
+			}			
+					
+			extIt++;
+			mimeIt++;
 		}
 		
 		delete ext;		
-	}
+	}		
 	
 	delete results;	
+	
+	cout << filter << endl;		
 		
-	KURL url=KFileDialog::getOpenURL(QString::null,
-        i18n("*|All files"), this, i18n("Open File..."));
-	if(!url.isEmpty())
-	{
-  	emit signal_AddFile(url);
-	}
+	KURL::List urlList=KFileDialog::getOpenURLs(
+															QString::null,
+											        filter,
+											        this,
+											        i18n("Open File..."));
+		
+	KURL::List::Iterator it;
+	KURL url;
+	
+	for(it = urlList.begin(); it != urlList.end(); it++) {
+		url =  (*it);
+		if(!url.isEmpty()) {
+		  	emit signal_AddFile(url);
+		}
+	}	
 }
 
 /** No descriptions */
 void ProjectList::rightButtonPressed ( QListViewItem *listViewItem, const QPoint &pos, int column) {
 	m_menu.popup(QCursor::pos());		
+}
+
+/** Get a fresh copy of files from KdenliveDoc and display them. */
+void ProjectList::slot_UpdateList(){
+			
 }

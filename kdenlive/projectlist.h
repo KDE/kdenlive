@@ -46,6 +46,8 @@ public slots: // Public slots
   void slot_AddFile();
   /** No descriptions */
   void rightButtonPressed ( QListViewItem *listViewItem, const QPoint &pos, int column) ;
+  /** Get a fresh copy of files from KdenliveDoc and display them. */
+  void slot_UpdateList();
 signals: // Signals
   /** emitted whenever a file is added to the project list */
   void signal_AddFile(const KURL &url);

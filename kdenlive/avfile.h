@@ -36,8 +36,8 @@ public:
 	void setName(QString name);
 	KURL fileUrl();	
 private:		
-	QString _name;
-	KURL _url;		
+	QString m_name;
+	KURL m_url;		
 };
 
 #endif

@@ -19,20 +19,20 @@
 
 AVFile::AVFile(QString name, KURL url) {
 	setName(name);
-	_url = url;
+	m_url = url;
 }
 
 AVFile::~AVFile(){
 }
 
 QString AVFile::fileName() {
-	return _name;
+	return m_name;
 }
 
 void AVFile::setName(QString name) {
-	_name = name;
+	m_name = name;
 }
 
 KURL AVFile::fileUrl() {
-	return _url;
+	return m_url;
 }

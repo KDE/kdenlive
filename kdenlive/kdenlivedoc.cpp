@@ -76,7 +76,6 @@ void KdenliveDoc::slotUpdateAllViews(KdenliveView *sender)
         w->repaint();
     }
   }
-
 }
 
 bool KdenliveDoc::saveModified()
@@ -179,4 +178,5 @@ void KdenliveDoc::deleteContents()
 
 void KdenliveDoc::slot_InsertAVFile(const KURL &file) {
 	avFileList.append(new AVFile(file.fileName(), file));
+  setModified(true);	
 }
