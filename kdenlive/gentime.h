@@ -18,10 +18,6 @@
 #ifndef GENTIME_H
 #define GENTIME_H
 
-#ifndef _ISOC99_SOURCE
-#define _ISOC99_SOURCE
-#endif
-
 #include <cmath>
 
 /**Encapsulates a time, which can be set in various forms and outputted in various forms. 
@@ -97,7 +93,7 @@ public:
 
   /* Rounds the GenTIme's value to the nearest frame */
   GenTime &roundNearestFrame(double framesPerSecond) {
-    m_time = round(m_time * framesPerSecond) / framesPerSecond;
+    m_time = floor((m_time * framesPerSecond) + 0.5) / framesPerSecond;
     return *this;
   }
 			

@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#define _ISOC99_SOURCE
 #include <cmath>
 
 #include <klocale.h>
@@ -792,7 +791,7 @@ void KMMTimeLine::slotSliderMoved(int slider, int value)
 /** Seek the timeline to the current position. */
 void KMMTimeLine::seek(GenTime time)
 {
-    m_ruler->setSliderValue(0, (int)round(time.frames(m_document->framesPerSecond())));
+    m_ruler->setSliderValue(0, (int)floor(time.frames(m_document->framesPerSecond()) + 0.5));
 }
 
 /** Returns the correct "time under mouse", taking into account whether or not snap to frame is on or off, and other relevant effects. */
@@ -800,7 +799,7 @@ GenTime KMMTimeLine::timeUnderMouse(double posX)
 {
   GenTime value(m_ruler->mapLocalToValue(posX), m_document->framesPerSecond());
 
-  if(m_app->snapToFrameEnabled()) value = GenTime(round(value.frames(m_document->framesPerSecond())), m_document->framesPerSecond());
+  if(m_app->snapToFrameEnabled()) value = GenTime(floor(value.frames(m_document->framesPerSecond()) + 0.5), m_document->framesPerSecond());
 
   return value;
 }

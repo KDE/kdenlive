@@ -677,7 +677,7 @@ KdenliveApp::TimelineEditMode KdenliveApp::timelineEditMode()
 /** Updates the current time in the status bar. */
 void KdenliveApp::slotUpdateCurrentTime(GenTime time)
 {
-  statusBar()->changeItem(i18n("Current Time : ") + KRulerTimeModel::mapValueToText((int)round(time.frames(doc->framesPerSecond())), doc->framesPerSecond()), ID_EDITMODE_MSG);  
+  statusBar()->changeItem(i18n("Current Time : ") + KRulerTimeModel::mapValueToText((int)floor(time.frames(doc->framesPerSecond()) + 0.5), doc->framesPerSecond()), ID_EDITMODE_MSG);  
 }
 
 /** Add clips to the project */

@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#define _ISOC99_SOURCE
 #include <cmath>
 
 #include <kled.h>
@@ -115,7 +114,7 @@ void KMMEditPanel::stop()
 /** Sets the current seek position to the one specified */
 void KMMEditPanel::seek(GenTime time)
 {
-  m_ruler->setSliderValue(0, (int)round(time.frames(m_document->framesPerSecond())));
+  m_ruler->setSliderValue(0, (int)(floor(time.frames(m_document->framesPerSecond())) + 0.5));
 }
 
 /** Alerts the edit panel that the renderer has connected. */
