@@ -1,18 +1,23 @@
 TODO List
 
-* Support for file formats.
-* Export file dialog box
-* KDockWidget layouts need to be saved on exit/opened on loading.
-* Dragging a clip to the timeline with undefined length should become full-length once it's duration is known.
+Urgent
+* (Kdenlive, Piave) extensive support of ffmpeg libraries to allow more video format, both in input and output.
+* (Kdenlive, Piave) DV capture from video camera.
+* (Kdenlive, Piave) choose a common library of effects to avoid maintaining our own effect system.
 
+Less urgent
+* (Kdenlive) KDockWidget layouts need to be saved on exit/opened on loading.
+* (Kdenlive) Dragging a clip to the timeline with undefined length should become full-length once it's duration is known.
 
 This is not a comprehensive list :-) If you are interested in helping
 with the development of Kdenlive, then please join the development
-mailing list, or contact me directly at uchian@blueyonder.co.uk
+mailing list, or contact us directly on Kdenlive mailing list.
 
 Homepage:
-http://www.uchian.pwp.blueyonder.co.uk/kdenlive.html
-
+http://kdenlive.sourceforge.net
 
 Development Mailing List:
 https://lists.sourceforge.net/lists/listinfo/kdenlive-devel
+
+Developer IRC channel:
+irc.freenode.net#kdenlive 
