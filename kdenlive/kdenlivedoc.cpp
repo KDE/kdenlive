@@ -521,7 +521,7 @@ bool KdenliveDoc::moveSelectedClips(GenTime startOffset, int trackOffset)
 		}
 	}
 
-	generateSceneList();
+	m_render->setSceneList(generateSceneList());
 
 	return true;
 }
