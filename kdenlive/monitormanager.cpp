@@ -16,6 +16,9 @@
  ***************************************************************************/
 #include "monitormanager.h"
 
+#include "avfile.h"
+#include "docclipbase.h"
+
 MonitorManager::MonitorManager(KdenliveApp *app) :
 		QObject(),
 		m_app(app),
@@ -66,4 +69,20 @@ bool MonitorManager::hasActiveMonitor()
 void MonitorManager::slotMonitorClicked(KMMMonitor *monitor)
 {
 	activateMonitor(monitor);
+}
+
+void MonitorManager::clearClip(AVFile *file)
+{
+	if(file != 0) {
+		QPtrListIterator<KMMMonitor> itt(m_monitors);
+
+		while(itt.current()) {
+			if(itt.current()->clip()) {
+				if(itt.current()->clip()->containsAVFile(file)) {
+					itt.current()->slotClearClip();
+				}
+			}
+			++itt;
+		}
+	}
 }
