@@ -31,7 +31,7 @@ author=Jason Wood
 configure_args=
 email=jasonwood@blueyonder.co.uk
 kdevprj_version=1.3
-lfv_open_groups=Translations
+lfv_open_groups=
 make_options=\s-j1
 makefiles=Makefile.am,kdenlive/Makefile.am,doc/Makefile.am,doc/en/Makefile.am,po/Makefile.am,icons/Makefile.am,icons/hicolor/32x32/Makefile.am,icons/hicolor/Makefile.am,icons/hicolor/32x32/actions/Makefile.am,graphics/Makefile.am
 modifyMakefiles=true
@@ -62,11 +62,12 @@ kpp_version=0.1
 [LFV Groups]
 GNU=AUTHORS,COPYING,ChangeLog,INSTALL,README,TODO,NEWS
 Headers=*.h,*.hh,*.hxx,*.hpp,*.H
+Images=*.png,*.xcf
 Others=*
 Sources=*.cpp,*.c,*.cc,*.C,*.cxx,*.ec,*.ecpp,*.lxx,*.l++,*.ll,*.l
 Translations=*.po
 User Interface=*.kdevdlg,*.ui,*.rc,*.dlg
-groups=Headers,Sources,User Interface,Translations,GNU,Others
+groups=Images,Headers,Sources,User Interface,Translations,GNU,Others
 
 [Makefile.am]
 files=kdenlive.kdevprj,admin,AUTHORS,COPYING,ChangeLog,INSTALL,README,TODO,kdenlive.lsm,kdenlive.spec
