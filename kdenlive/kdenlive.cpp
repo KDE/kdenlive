@@ -240,13 +240,13 @@ void KdenliveApp::initView()
   widget->manualDock(projectDock, KDockWidget::DockCenter);    
 
   m_dockWorkspaceMonitor = createDockWidget("Workspace Monitor", QPixmap(), 0, i18n("Workspace Monitor"));
-	m_workspaceMonitor = new KMMMonitor(this, getDocument(), m_dockWorkspaceMonitor, "Workspace Monitor");
+	m_workspaceMonitor = new KMMMonitor(this, getDocument(), m_dockWorkspaceMonitor, i18n("Workspace Monitor"));
   m_dockWorkspaceMonitor->setWidget(m_workspaceMonitor);
   m_dockWorkspaceMonitor->setDockSite(KDockWidget::DockFullSite);    
   m_dockWorkspaceMonitor->manualDock(mainDock, KDockWidget::DockRight);  
 
   m_dockClipMonitor = createDockWidget("Clip Monitor", QPixmap(), 0, i18n("Clip Monitor"));
-	m_clipMonitor = new KMMMonitor(this, getDocument(), m_dockClipMonitor, "Clip Monitor");
+	m_clipMonitor = new KMMMonitor(this, getDocument(), m_dockClipMonitor, i18n("Clip Monitor"));
   m_dockClipMonitor->setWidget(m_clipMonitor);
   m_dockClipMonitor->setDockSite(KDockWidget::DockFullSite);
   m_dockClipMonitor->manualDock(m_dockWorkspaceMonitor, KDockWidget::DockLeft);    
