@@ -26,7 +26,7 @@ ldadd=\s$(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT)
 ldflags=\s                                  \s
 
 [General]
-AMChanged=true
+AMChanged=false
 author=Jason Wood
 configure_args=
 email=jasonwood@blueyonder.co.uk

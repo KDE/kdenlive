@@ -32,7 +32,7 @@ AVFormatWidgetCodecList::AVFormatWidgetCodecList(AVFormatDescCodecList *desc, QW
                                     QGroupBox(1, Horizontal, desc->name(), parent, name),
                                     AVFormatWidgetBase(),
                                     m_codecLayout(new QHBox(this, "codec_layout")),
-                                    m_codecLabel(new QLabel(i18n("Codec"), m_codecLayout, "codec_label")),
+                                    m_codecLabel(new QLabel(i18n("Codec:"), m_codecLayout, "codec_label")),
                                     m_codecSelect(new QComboBox(m_codecLayout, "codec_select")),
                                     m_widgetStack(new QWidgetStack(this, "widget_stack"))
 {

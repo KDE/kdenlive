@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-06-10 22:26+0200\n"
+"POT-Creation-Date: 2003-06-11 18:56+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,6 +45,10 @@ msgstr ""
 
 #: doctrackbase.moc.cpp:34 doctrackbase.moc.cpp:42
 msgid "DocTrackBase"
+msgstr ""
+
+#: kdenlivesplash.moc.cpp:34 kdenlivesplash.moc.cpp:42
+msgid "KdenliveSplash"
 msgstr ""
 
 #: kmoveclipscommand.cpp:49
@@ -156,7 +160,7 @@ msgstr ""
 msgid "KFixedRuler"
 msgstr ""
 
-#: projectlistview.cpp:31 avlistviewitem.cpp:36 avfileformatwidget.cpp:32
+#: projectlistview.cpp:31 avlistviewitem.cpp:36
 msgid "Filename"
 msgstr ""
 
@@ -196,21 +200,21 @@ msgstr ""
 msgid "Effect"
 msgstr ""
 
-#: main.cpp:25
+#: main.cpp:26
 msgid ""
 "Kdenlive\n"
 "A non-linear video editor for KDE"
 msgstr ""
 
-#: main.cpp:30
+#: main.cpp:31
 msgid "file to open"
 msgstr ""
 
-#: main.cpp:38
+#: main.cpp:40
 msgid "Kdenlive"
 msgstr ""
 
-#: main.cpp:48
+#: main.cpp:51
 msgid "Author and Maintainer"
 msgstr ""
 
@@ -227,7 +231,7 @@ msgid "Resize clip"
 msgstr ""
 
 #: avformatwidgetcodeclist.cpp:35
-msgid "Codec"
+msgid "Codec:"
 msgstr ""
 
 #: kmmtracksoundpanel.moc.cpp:34 kmmtracksoundpanel.moc.cpp:42
@@ -691,6 +695,22 @@ msgstr ""
 msgid "ProjectList"
 msgstr ""
 
+#: avlistviewitem.cpp:55
+msgid " Bytes"
+msgstr ""
+
+#: avlistviewitem.cpp:61
+msgid " Kb"
+msgstr ""
+
+#: avlistviewitem.cpp:69
+msgid " Mb"
+msgstr ""
+
+#: avlistviewitem.cpp:79
+msgid "n/a"
+msgstr ""
+
 #: krender.moc.cpp:34 krender.moc.cpp:42
 msgid "KRender"
 msgstr ""
@@ -822,6 +842,10 @@ msgstr ""
 msgid "8 minutes"
 msgstr ""
 
+#: avfileformatwidget.cpp:32
+msgid "Filename:"
+msgstr ""
+
 #: kscalableruler.moc.cpp:34 kscalableruler.moc.cpp:42
 msgid "KScalableRuler"
 msgstr ""
@@ -839,14 +863,14 @@ msgid "EffectParamDialog"
 msgstr ""
 
 #: renderdebugpanel.cpp:32
-msgid "Ignore Incoming Messages"
+msgid "Ignore Incoming Messages "
 msgstr ""
 
 #: renderdebugpanel.cpp:33
 msgid "Save Messages"
 msgstr ""
 
-#: renderdebugpanel.cpp:128
+#: renderdebugpanel.cpp:127
 msgid "Save Debug Messages..."
 msgstr ""
 

@@ -29,7 +29,7 @@
 AVFileFormatWidget::AVFileFormatWidget(AVFileFormatDesc *desc, QWidget *parent, const char *name ) :
                                             QVBox(parent,name),
                                             m_fileHBox(new QHBox(this, "file_hbox")),
-                                            m_fileLabel(new QLabel(i18n("Filename"), m_fileHBox, "file_label")),
+                                            m_fileLabel(new QLabel(i18n("Filename:"), m_fileHBox, "file_label")),
                                             m_filename(new KURLRequester(m_fileHBox, "browser")),
                                             m_desc(desc)
 {

@@ -52,13 +52,13 @@ QString AVListViewItem::text ( int column ) const {
 		long fileSize = m_clip->fileSize();
 		long tenth;
 		if(fileSize < 1024) {		
-			return QString::number(fileSize) + "B";
+			return QString::number(fileSize) + i18n(" Bytes");
 		}
 		
 		fileSize = (int)floor((fileSize / 1024.0)+0.5);
 		
 		if(fileSize < 1024) {
-			return QString::number(fileSize) + "Kb";
+			return QString::number(fileSize) + i18n(" Kb");
 		}
 		
 		fileSize = (int)floor((fileSize / 102.4) + 0.5);
@@ -66,7 +66,7 @@ QString AVListViewItem::text ( int column ) const {
 		tenth = fileSize % 10;
 		fileSize /= 10;
 		
-		return QString::number(fileSize) + "." + QString::number(tenth) + "M";			
+		return QString::number(fileSize) + "." + QString::number(tenth) + i18n(" Mb");			
 	}
 	
 	if(m_listView->columnText(column) == i18n("Type")) {
@@ -76,7 +76,7 @@ QString AVListViewItem::text ( int column ) const {
 		return QString::number(m_clip->numReferences());
 	}	
 	
-	return "n/a";	
+	return i18n("n/a");	
 }
 
 AVFile *AVListViewItem::clip() const

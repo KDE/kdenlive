@@ -29,7 +29,7 @@ RenderDebugPanel::RenderDebugPanel(QWidget *parent, const char *name ) :
                                             m_widgetStack(&m_mainLayout, "stack"),                                            
                                             m_buttonLayout(this, "button layout"),
                                             m_spacer(&m_buttonLayout, "spacer"),
-                                            m_ignoreMessages(i18n("Ignore Incoming Messages"), &m_buttonLayout, "ignore messages"),
+                                            m_ignoreMessages(i18n("Ignore Incoming Messages "), &m_buttonLayout, "ignore messages"),
                                             m_saveMessages(i18n("Save Messages"), &m_buttonLayout, "save button"),
                                             m_nextId(0)                                            
 {
@@ -39,7 +39,6 @@ RenderDebugPanel::RenderDebugPanel(QWidget *parent, const char *name ) :
   connect(&m_rendererList, SIGNAL(highlighted(int)), &m_widgetStack, SLOT(raiseWidget(int)));
   connect(&m_saveMessages, SIGNAL(clicked()), this, SLOT(saveMessages()));
   m_ignoreMessages.setDown(false);
-  
 }
 
 RenderDebugPanel::~RenderDebugPanel()
