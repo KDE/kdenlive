@@ -77,8 +77,9 @@ false. */
 are still in the correct order, rearranging them if they are not. */
   void clipMoved(DocClipBase *clip);
   /** Makes the specified clip selected. If the clip is already selected, or if the clip
-   does not exist in this track, then a warning will be issued but no other effects occur. */
-  void selectClip(DocClipBase *clip);;
+   does not exist in this track, then a warning will be issued but no other effects occur.
+   If select is true, then the clip becomes selected, otherwise the clip becomes deselected.*/
+  void selectClip(DocClipBase *clip, bool select=true);
   /** Returns true if at least one clip in the track is selected, false otherwise. */
   bool hasSelectedClips();
   /** Returns an iterator to the first clip on the track.
@@ -90,11 +91,6 @@ You must choose which list of tracks you are interested in - the selected or uns
   DocClipBaseList removeClips(bool selected);
   /** Deletes the clips in this trackbase. if selected is true, then all selected clips are deleted, otherwise all unselected clips are deleted. */
   void deleteClips(bool selected);
-  /** Deselects any currently selected clips in the track. */
-  void selectNone();
-  /** If the specified clip is currently selected, it is deselected, otherwise it becomes
-selected. */
-  void toggleSelectClip(DocClipBase *clip);
   /** Returns true if the clip is in the track and is selected, false if the clip
 is not on the track, or if the clip is unselected. */
   bool clipSelected(DocClipBase *clip);
@@ -111,6 +107,8 @@ last clip on the track. */
   unsigned int numClips();
   /** Returns an xml representation of this track. */
   QDomDocument toXML();
+  /** Returns the parent document of this track. */
+  KdenliveDoc * document();
 private: // Private methods
   /** Enables or disables clip sorting. This method is used internally to turn off the sorting of clips when it is known that they will be sorted elsewhere.
 

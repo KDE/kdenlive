@@ -33,7 +33,6 @@ class KMMTrackPanel;
 class KMMTimeLineTrackView : public QWidget  {
    Q_OBJECT
 public:
-	enum ResizeState {None, Start, End};
 	KMMTimeLineTrackView(KMMTimeLine &timeLine, QWidget *parent=0, const char *name=0);
 	~KMMTimeLineTrackView();
 	void resizeEvent(QResizeEvent *event);
@@ -49,19 +48,10 @@ TimelineTrackView. */
   KMMTrackPanel *panelAt(int y);
 private: // Private attributes
   QPixmap m_backBuffer;
-  KMMTimeLine & m_timeLine;
+  KMMTimeLine & m_timeline;
 
   int m_trackBaseNum;
-  DocClipBase *m_clipUnderMouse;  
-  /** The value offset between the mouse position and the start of the master clip. */
-  GenTime m_clipOffset;
-  /** During a resize operation, holds the current resize state, as defined in the ResizeState enum. */
-  ResizeState m_resizeState;
   KMMTrackPanel * m_panelUnderMouse;  
-public: // Public attributes
-  /** This value specifies the resizeTolerance of the KMMTimeLine - that is, how many
-pixels at the start and end of a clip are considered as a resize operation. */
-  static int resizeTolerance;
 public slots:	// Public slots
 	void drawBackBuffer();  
 };

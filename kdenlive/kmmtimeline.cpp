@@ -33,6 +33,8 @@
 #include "krulertimemodel.h"
 #include "kscalableruler.h"
 #include "kmoveclipscommand.h"
+#include "kselectclipcommand.h"
+#include "kaddclipcommand.h"
 #include "clipdrag.h"
 
 int KMMTimeLine::snapTolerance=20;
@@ -80,7 +82,7 @@ KMMTimeLine::KMMTimeLine(KdenliveApp *app, QWidget *rulerToolWidget, QWidget *sc
   connect(m_document, SIGNAL(trackListChanged()), this, SLOT(syncWithDocument()));
   connect(m_ruler, SIGNAL(scaleChanged(double)), this, SLOT(calculateProjectSize(double)));
   connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), m_trackViewArea, SLOT(drawBackBuffer()));
-  connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), m_ruler, SLOT(repaint()));  
+  connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), m_ruler, SLOT(repaint()));
   	
   setAcceptDrops(true);
 
@@ -89,6 +91,8 @@ KMMTimeLine::KMMTimeLine(KdenliveApp *app, QWidget *rulerToolWidget, QWidget *sc
 	m_startedClipMove = false;
 	m_masterClip = 0;
 	m_moveClipsCommand = 0;
+	m_deleteClipsCommand = 0;
+	m_addingClips = false;
 
 	m_gridSnapTracker = m_snapToGridList.end();
 }
@@ -263,17 +267,22 @@ void KMMTimeLine::dragMoveEvent ( QDragMoveEvent *event )
 
 void KMMTimeLine::dragLeaveEvent ( QDragLeaveEvent *event )
 {
-	// In a drag Leave Event, any clips in the selection are removed from the timeline.
-
-	m_selection.clear();
+	m_addingClips = false;
+	// In a drag Leave Event, any clips in the selection are removed from the timeline.			
 	if(m_moveClipsCommand) {
-		#warning need to create a "delete selection" action here.
-  	delete m_moveClipsCommand;
+  	delete m_moveClipsCommand;    
 		m_moveClipsCommand = 0;
 	}
+
+	m_selection.clear();	
 	
 	QPtrListIterator<KMMTrackPanel> itt(m_trackList);
 
+	if(m_deleteClipsCommand) {
+		m_app->addCommand(m_deleteClipsCommand, false);
+   	m_deleteClipsCommand = 0;
+  }
+  
 	while(itt.current() != 0) {
 		itt.current()->docTrack().deleteClips(true);
 		++itt;
@@ -288,6 +297,16 @@ void KMMTimeLine::dropEvent ( QDropEvent *event )
 		m_selection.setAutoDelete(true);
 		m_selection.clear();
 		m_selection.setAutoDelete(false);
+	}
+
+	if(m_addingClips) {
+		m_app->addCommand(createAddClipsCommand(true), false);
+		m_addingClips = false;
+	}
+
+	if(m_deleteClipsCommand) {
+		delete m_deleteClipsCommand;
+		m_deleteClipsCommand = 0;
 	}
 
 	if(m_moveClipsCommand) {
@@ -316,10 +335,19 @@ void KMMTimeLine::selectNone()
 {
 	QPtrListIterator<KMMTrackPanel> itt(m_trackList);
 
+	KMacroCommand *command = new KMacroCommand(i18n("Selection"));
+
 	while(itt.current()!=0) {
-		itt.current()->docTrack().selectNone();
+		QPtrListIterator<DocClipBase> clipItt(itt.current()->docTrack().firstClip(true));
+		while(clipItt.current()!=0) {
+			KSelectClipCommand *clipComm = new KSelectClipCommand(m_document, clipItt.current(), false);
+			command->addCommand(clipComm);
+			++clipItt;
+		}
 		++itt;
 	}
+	
+	m_app->addCommand(command, true);
 }
 
 void KMMTimeLine::drawTrackViewBackBuffer()
@@ -372,13 +400,21 @@ void KMMTimeLine::scrollViewRight()
 /** Toggle Selects the clip on the given track and at the given value. The clip will become selected if it wasn't already selected, and will be deselected if it is. */
 void KMMTimeLine::toggleSelectClipAt(DocTrackBase &track, GenTime value)
 {
-	track.toggleSelectClip(track.getClipAt(value));
+	DocClipBase *clip = track.getClipAt(value);
+	if(clip) {
+		KSelectClipCommand *command = new KSelectClipCommand(m_document, clip, !track.clipSelected(clip));
+		m_app->addCommand(command, true);
+	}
 }
 
 /** Selects the clip on the given track at the given value. */
 void KMMTimeLine::selectClipAt(DocTrackBase &track, GenTime value)
 {
-	track.selectClip(track.getClipAt(value));
+	DocClipBase *clip = track.getClipAt(value);
+	if(clip) {
+		KSelectClipCommand *command = new KSelectClipCommand(m_document, clip, true);
+		m_app->addCommand(command, true);
+	}
 }
 
 void KMMTimeLine::addClipsToTracks(DocClipBaseList &clips, int track, GenTime value, bool selected)
@@ -387,7 +423,7 @@ void KMMTimeLine::addClipsToTracks(DocClipBaseList &clips, int track, GenTime va
 
 	if(selected) {
 		selectNone();
-	}
+	}	
 
 	DocClipBase *masterClip = clips.masterClip();
 	if(!masterClip) masterClip = clips.first();
@@ -412,12 +448,14 @@ void KMMTimeLine::addClipsToTracks(DocClipBaseList &clips, int track, GenTime va
 
 		itt.current()->setTrackStart(itt.current()->trackStart() + startOffset);
 
-		if((moveToTrack >=0) && (moveToTrack < m_trackList.count())) {
-	    if(!m_trackList.at(moveToTrack)->docTrack().addClip(itt.current(), selected));
+		if((moveToTrack >=0) && (moveToTrack < m_trackList.count())) {		
+	    m_trackList.at(moveToTrack)->docTrack().addClip(itt.current(), selected);	    
 	  }
 
 		++itt;
 	}
+
+	m_addingClips = true;
 }
 
 /** Returns the integer value of the track underneath the mouse cursor. 
@@ -451,6 +489,7 @@ void KMMTimeLine::initiateDrag(DocClipBase *clipUnderMouse, GenTime clipOffset)
 	m_masterClip = clipUnderMouse;
 	m_clipOffset = clipOffset;
 	m_moveClipsCommand = new KMoveClipsCommand(this, m_document, m_masterClip);
+	m_deleteClipsCommand = createAddClipsCommand(false);
 	generateSnapToGridList();	
 	
 	m_startedClipMove = true;
@@ -648,4 +687,31 @@ the currently seeked frame. */
 GenTime KMMTimeLine::seekPosition()
 {
 	return GenTime(m_ruler->getSliderValue(0), m_document->framesPerSecond());
+}
+
+/** Creates a "Add clips" command, containing all of the clips currently in the selection on the timeline.
+ This command is then added to the command history. */
+KMacroCommand *KMMTimeLine::createAddClipsCommand(bool addingClips)
+{
+	KMacroCommand *macroCommand = new KMacroCommand( addingClips ? i18n("Add Clips") : i18n("Delete Clips") );
+
+	for(int count=0; count<m_document->numTracks(); count++) {
+		DocTrackBase *track = m_document->track(count);
+
+		QPtrListIterator<DocClipBase> itt = track->firstClip(true);
+
+		while(itt.current()) {
+			KAddClipCommand *command = new KAddClipCommand(m_document, itt.current(), addingClips);
+			macroCommand->addCommand(command);
+			++itt;
+		}		
+	}
+	
+	return macroCommand;
+}
+
+/** Adds a command to the command history, if execute is set to true then the command will be executed. */
+void KMMTimeLine::addCommand(KCommand *command, bool execute=true)
+{
+	m_app->addCommand(command, execute);
 }

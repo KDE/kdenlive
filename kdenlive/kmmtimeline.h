@@ -31,6 +31,8 @@ class KMMTimeLineTrackView;
 class KScalableRuler;
 class KdenliveApp;
 class KMoveClipsCommand;
+class KMacroCommand;
+class KCommand;
 
 /**This is the timeline. It gets populated by tracks, which in turn are populated
 by video and audio clips, or transitional clips, or any other clip imaginable.
@@ -92,6 +94,11 @@ snap point before the snap takes effect. */
   static int snapTolerance;  
   /** A moveClipCommand action, used to record clip movement for undo/redo functionality. */
   KMoveClipsCommand * m_moveClipsCommand;
+  /** This command is used to record clip deletion for undo/redo functionality. */
+  KMacroCommand * m_deleteClipsCommand;
+  /** True if we are currently in the process of adding clips to the timeline.
+	False otherwise. */
+  bool m_addingClips;
 public: // Public methods
   /** This method adds a new track to the trackGrid. */
   void appendTrack(KMMTrackPanel *track);
@@ -161,6 +168,8 @@ public: // Public methods
   /** Returns the seek position of the timeline - this is the currently playing frame, or
 the currently seeked frame. */
   GenTime seekPosition();
+  /** Adds a command to the command history, if execute is set to true then the command will be executed. */
+  void addCommand(KCommand *command, bool execute=true);
 private: // private methods
 	void resizeTracks();
 	
@@ -177,6 +186,8 @@ it does not remove the clips from the timeline. */
   DocClipBaseList listSelected();
   /** Constructs the snap to grid list, in preperation for using it in a move operation. */
   void generateSnapToGridList();
+  /** Creates a "Add clips" command, containing all of the clips currently in the selection on the timeline. This command is then added to the command history. */
+  KMacroCommand *createAddClipsCommand(bool addingClips);
   
 public slots: // Public slots
   /** Called when a track within the project has been added or removed.

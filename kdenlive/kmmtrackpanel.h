@@ -21,6 +21,7 @@
 #include <qpixmap.h>
 #include <qpainter.h>
 #include <qframe.h>
+#include <qcursor.h>
 
 #include "doctrackbase.h"
 
@@ -31,6 +32,7 @@ class KMMTimeLine;
   */
 
 class KMMTrackPanel : public QFrame  {
+	Q_OBJECT
 public: 
 	KMMTrackPanel(KMMTimeLine &timeline, DocTrackBase & docTrack, QWidget *parent, const char *name);
 	~KMMTrackPanel();
@@ -43,12 +45,18 @@ public:
 	/** Paints the backbuffer into the relevant place using the painter supplied. The track should be drawn into
 	the area provided in area */
 	void drawToBackBuffer(QPainter &painter, QRect &rect);	
-public slots:
-	void resize(QRect size);
+  /** A mouse button has been pressed. Returns true if we want to handle this event */
+  virtual bool mousePressed(QMouseEvent *event) = 0;
+  /** Mouse Release Events in the track view area. Returns true if we have finished an operation now.*/
+  virtual bool mouseReleased(QMouseEvent *event) = 0;
+  /** Processes Mouse Move events in the track view area. Returns true if we are continuing with the drag.*/
+  virtual bool mouseMoved(QMouseEvent *event) = 0;
+  /** Set the mouse cursor to a relevant shape, depending on it's location within the track view area.
+  	 The location is obtained from event. */
+  virtual QCursor getMouseCursor(QMouseEvent *event) = 0;
 protected: // Protected attributes
   /** The track document class that should be queried to build up this track view. */
   DocTrackBase &m_docTrack;
-private:
   /** The KMMTrackPanel needs access to various methods from it's parents Timeline. The parent timeline
   	 is stored in this variable. */
   KMMTimeLine & m_timeline;

@@ -59,3 +59,25 @@ void KMMTrackSoundPanel::paintClip(QPainter & painter, DocClipBase * clip, QRect
 	painter.drawRect( sx, rect.y(),
 										ex, rect.height());
 }
+/** No descriptions */
+bool KMMTrackSoundPanel::mouseMoved(QMouseEvent *event)
+{
+	return true;
+}
+
+/** No descriptions */
+bool KMMTrackSoundPanel::mousePressed(QMouseEvent *event)
+{
+	return true;
+}
+
+/** No descriptions */
+bool KMMTrackSoundPanel::mouseReleased(QMouseEvent *event)
+{
+	return true;
+}
+
+/** No descriptions */
+QCursor KMMTrackSoundPanel::getMouseCursor(QMouseEvent *event)
+{
+}

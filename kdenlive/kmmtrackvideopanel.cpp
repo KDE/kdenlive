@@ -15,12 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qcursor.h>
 #include <kdebug.h>
 
 #include <cmath>
  
 #include "kmmtrackvideopanel.h"
 #include "kmmtimeline.h"
+#include "kresizecommand.h"
+
+int KMMTrackVideoPanel::resizeTolerance = 4;
 
 KMMTrackVideoPanel::KMMTrackVideoPanel(KMMTimeLine &timeline, DocTrackVideo &docTrack, QWidget *parent, const char *name ) :
 												KMMTrackPanel(timeline, docTrack, parent,name),
@@ -30,8 +34,13 @@ KMMTrackVideoPanel::KMMTrackVideoPanel(KMMTimeLine &timeline, DocTrackVideo &doc
 	setMaximumWidth(200);
 
 	setMinimumHeight(50);
-	setMaximumHeight(50);		
+	setMaximumHeight(50);	
 	setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding));
+
+	m_resizeState = None;	
+	m_clipUnderMouse = 0;
+	m_resizeCommand = 0;
+	m_dragging = false;
 }
 
 KMMTrackVideoPanel::~KMMTrackVideoPanel()
@@ -88,4 +97,107 @@ void KMMTrackVideoPanel::paintClip(QPainter &painter, DocClipBase *clip, QRect &
 	}
 
 	painter.setClipping(false);
+}
+
+/** A mouse press event has occured. Perform relevant mouse operations. */
+bool KMMTrackVideoPanel::mousePressed(QMouseEvent *event)
+{
+	GenTime mouseTime(m_timeline.mapLocalToValue(event->x()), 25);
+	
+	m_clipUnderMouse = docTrack().getClipAt(mouseTime);
+	if(m_clipUnderMouse) {
+		if(m_resizeState != None) {
+			m_resizeCommand = new KResizeCommand(m_docTrack.document(), m_clipUnderMouse);
+		}
+		
+		if (event->state() & ControlButton) {
+		  m_timeline.toggleSelectClipAt(m_docTrack, mouseTime);
+		} else if(event->state() & ShiftButton) {
+		  m_timeline.selectClipAt(m_docTrack, mouseTime);
+		}
+	} else {
+		m_timeline.selectNone();
+	}	
+
+	return (m_clipUnderMouse != 0);
+}
+
+bool KMMTrackVideoPanel::mouseReleased(QMouseEvent *event)
+{
+	GenTime mouseTime(m_timeline.mapLocalToValue(event->x()), 25);
+	
+	if(m_resizeState != None) {
+		m_resizeCommand->setEndSize(m_clipUnderMouse);		
+		m_timeline.addCommand(m_resizeCommand, false);
+		m_resizeCommand = 0;
+	} else {
+		if(m_dragging) {
+			m_dragging = false;
+		} else {
+			if(m_clipUnderMouse) {
+				if (event->state() & ControlButton) {
+				} else if(event->state() & ShiftButton) {
+				} else {
+					m_timeline.selectNone();
+				  m_timeline.selectClipAt(m_docTrack, mouseTime);
+				}
+			} else {
+				m_timeline.selectNone();
+			}	
+		}
+	}
+
+	m_clipUnderMouse = 0;	
+	return true;
+}
+
+/** Set the cursor to an appropriate shape, relative to the position on the track. */
+QCursor KMMTrackVideoPanel::getMouseCursor(QMouseEvent *event)
+{
+	GenTime mouseTime(m_timeline.mapLocalToValue(event->x()), 25);
+
+	DocClipBase *clip = docTrack().getClipAt(mouseTime);		
+	if(clip) {
+		if( fabs(m_timeline.mapValueToLocal(clip->trackStart().frames(25)) - event->x()) < resizeTolerance) {
+			m_resizeState = Start;
+			return QCursor(Qt::SizeHorCursor);
+		}
+		if( fabs(m_timeline.mapValueToLocal((clip->trackEnd()).frames(25)) - event->x()) < resizeTolerance) {
+			m_resizeState = End;
+			return QCursor(Qt::SizeHorCursor);
+		}
+	}
+	m_resizeState = None;
+	return QCursor(Qt::ArrowCursor);
+}
+
+bool KMMTrackVideoPanel::mouseMoved(QMouseEvent *event)
+{
+	GenTime mouseTime(m_timeline.mapLocalToValue(event->x()), 25);	
+
+	if(m_clipUnderMouse) {
+		if(m_resizeState != None) {
+			if(m_resizeState == Start) {
+				m_docTrack.resizeClipTrackStart(m_clipUnderMouse, mouseTime);
+			} else if(m_resizeState == End) {
+				m_docTrack.resizeClipCropDuration(m_clipUnderMouse, mouseTime);
+			} else {
+				kdError() << "Unknown resize state reached in KMMTimeLineTrackView::mouseMoveEvent()" << endl;
+				kdError() << "(this message should never be seen!)" << endl;
+			}
+		} else {
+			if(!m_timeline.clipSelected(m_clipUnderMouse)) {
+				if ((event->state() & ControlButton) || (event->state() & ShiftButton)) {
+					m_timeline.selectClipAt(m_docTrack,mouseTime);
+				} else {
+					m_timeline.selectNone();
+					m_timeline.selectClipAt(m_docTrack,mouseTime);
+				}
+			}
+			m_dragging = true;
+			m_timeline.initiateDrag(m_clipUnderMouse, mouseTime - m_clipUnderMouse->trackStart());
+		}
+	}
+
+	return true;
 }

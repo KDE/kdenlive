@@ -51,7 +51,7 @@ void KMMTrackPanel::drawToBackBuffer(QPainter &painter, QRect &rect)
 {
 	GenTime startValue = GenTime(timeLine().mapLocalToValue(0.0), 25);
 	GenTime endValue = GenTime(timeLine().mapLocalToValue(rect.width()), 25);
-
+	
 	QPtrListIterator<DocClipBase> clip = docTrack().firstClip(startValue, endValue, false);
 	DocClipBase *endClip = docTrack().endClip(startValue, endValue, false).current();		
 	for(DocClipBase *curClip; (curClip = clip.current())!=endClip; ++clip) {
@@ -71,4 +71,3 @@ void KMMTrackPanel::drawToBackBuffer(QPainter &painter, QRect &rect)
 		painter.drawLine(value, rect.y(), value, rect.y() + rect.height());
 	}                               
 }
-

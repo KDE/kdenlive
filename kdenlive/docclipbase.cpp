@@ -50,6 +50,9 @@ void DocClipBase::setTrackStart(GenTime time)
 void DocClipBase::setName(QString name)
 {
 	m_name = name;
+	if(m_parentTrack) {
+		m_parentTrack->clipMoved(this);
+	}		
 }
 
 QString DocClipBase::name() 

@@ -2,7 +2,7 @@
 
 SUBDIRS = kdenlive po doc icons 
 
-EXTRA_DIST = kdenlive.kdevprj admin AUTHORS COPYING ChangeLog INSTALL README TODO kdenlive.lsm 
+EXTRA_DIST = kdenlive.kdevprj admin AUTHORS COPYING ChangeLog INSTALL README TODO kdenlive.lsm kdenlive.spec 
 
 ####### kdevelop will overwrite this part!!! (end)############
 # not a GNU package. You can remove this line, if 

@@ -155,6 +155,7 @@ bool DocTrackBase::removeClip(DocClipBase *clip)
 	} else {
 		clip->setParentTrack(0, -1);
 	}
+	emit trackChanged();	
 	return true;
 }
 
@@ -182,12 +183,13 @@ void DocTrackBase::clipMoved(DocClipBase *clip)
 
 	list->take(pos);
 	list->inSort(clip);
+	emit trackChanged();
 }
 
-void DocTrackBase::selectClip(DocClipBase *clip)
+void DocTrackBase::selectClip(DocClipBase *clip, bool select)
 {
 	removeClip(clip);
-	addClip(clip, true);
+	addClip(clip, select);
 }
 
 bool DocTrackBase::hasSelectedClips()
@@ -212,7 +214,7 @@ void DocTrackBase::moveClips(GenTime offset, bool selected)
 	while( (clip=itt.current()) != 0) {
 		++itt;
 
-		clip->setTrackStart(clip->trackStart() + offset);		
+		clip->setTrackStart(clip->trackStart() + offset);
 	}
 	
 	enableCollisionDetection(true);
@@ -245,6 +247,7 @@ DocClipBaseList DocTrackBase::removeClips(bool selected)
    	returnList.append(clip);
   }
 
+	emit trackChanged();
   return returnList;
 }
 
@@ -255,35 +258,7 @@ void DocTrackBase::deleteClips(bool selected)
 	list->setAutoDelete(true);
 	list->clear();
 	list->setAutoDelete(false);
-}
-
-void DocTrackBase::selectNone()
-{
-	// Neat and compact, but maybe confusing.
-	// This says "Remove all of the clips that are currently selected from the track and put them into a list.
-	// Then, add them to the track again as non-selected clips.
-	addClips(removeClips(true), false);	
-}
-
-void DocTrackBase::toggleSelectClip(DocClipBase *clip)
-{
-	if(!clip) {
-		kdError() << "Trying to toggleSelect null clip!" << endl;
-		return;
-	}
-	int num = m_selectedClipList.find(clip);
-	if(num!=-1) {
-		m_selectedClipList.take(num);
-		m_unselectedClipList.inSort(clip);
-	} else {
-		num = m_unselectedClipList.find(clip);
-		if(num!=-1) {
-			m_unselectedClipList.take(num);
-			m_selectedClipList.inSort(clip);
-		} else {
-			kdWarning() << "Cannot toggleSelectClip() - clip not on track!" << endl;
-		}
-	}
+	emit trackChanged();    	
 }
 
 bool DocTrackBase::clipSelected(DocClipBase *clip)
@@ -412,4 +387,10 @@ QDomDocument DocTrackBase::toXML()
 	}
 
 	return doc;
+}
+
+/** Returns the parent document of this track. */
+KdenliveDoc * DocTrackBase::document()
+{
+	return m_doc;
 }

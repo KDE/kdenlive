@@ -37,6 +37,14 @@ public:
 	~KMMTrackSoundPanel();
   /** This function will paint a clip on screen, using the specified painter and the given coordinates as to where the clip should be painted. */
   void paintClip(QPainter & painter, DocClipBase * clip, QRect &rect, bool selected);	
+  /** No descriptions */
+  QCursor getMouseCursor(QMouseEvent *event);
+  /** No descriptions */
+  bool mouseReleased(QMouseEvent *event);
+  /** No descriptions */
+  bool mousePressed(QMouseEvent *event);
+  /** No descriptions */
+  bool mouseMoved(QMouseEvent *event);
 private: // Public attributes
   /**  */
   QLabel m_trackLabel;
