@@ -17,12 +17,14 @@
 
 #include "exportdialog.h"
 #include "qlayout.h"
+#include "qobjectlist.h"
 
 ExportDialog::ExportDialog(QPtrList<AVFileFormatDesc> &formatList, QWidget *parent, const char *name ) :
 //                        KJanusWidget(parent,name, IconList),
                         KJanusWidget(parent,name, TreeList),
                         m_formatList(formatList)
 {
+  m_pageList.setAutoDelete(true);
   generateLayout();
 }
 
@@ -33,12 +35,22 @@ ExportDialog::~ExportDialog()
 /** Generate a layout for this dialog, based upon the values that have been passed to it. */
 void ExportDialog::generateLayout()
 {
+  m_pageList.clear();
+  
   QPtrListIterator<AVFileFormatDesc> itt(m_formatList);
 
   while(itt.current()) {
     QFrame *frame = addPage(itt.current()->name());
-    QHBoxLayout *topLayout = new QHBoxLayout( frame, 0, 6 );
+    m_pageList.append(frame);    
+    new QHBoxLayout( frame, 0, 6 );
     itt.current()->createWidget(frame);
     ++itt;
   }
+}
+
+/** Specify a new file format list, and reconstruct the dialog box. */
+void ExportDialog::setFormatList(const QPtrList<AVFileFormatDesc> &list)
+{
+  m_formatList = list;
+  generateLayout();
 }

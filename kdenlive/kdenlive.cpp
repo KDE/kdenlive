@@ -264,7 +264,10 @@ void KdenliveApp::initView()
   connect(getDocument(), SIGNAL(signalClipSelected(DocClipBase *)), this, SLOT(slotSetClipMonitorSource(DocClipBase *)));
 
   connect(m_timeline, SIGNAL(signalClipCropStartChanged(const GenTime &)), m_clipMonitor, SLOT(seek(const GenTime &)));
-  connect(m_timeline, SIGNAL(signalClipCropEndChanged(const GenTime &)), m_clipMonitor, SLOT(seek(const GenTime &)));  
+  connect(m_timeline, SIGNAL(signalClipCropEndChanged(const GenTime &)), m_clipMonitor, SLOT(seek(const GenTime &)));
+
+  connect(getDocument()->renderer(), SIGNAL(signalFileFormatsUpdated(const QPtrList<AVFileFormatDesc> &)),
+                m_exportDialog, SLOT(setFormatList(const QPtrList<AVFileFormatDesc> &)));
 
   makeDockInvisible(mainDock);
 

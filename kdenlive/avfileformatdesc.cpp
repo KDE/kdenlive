@@ -21,7 +21,8 @@
 #include "avfileformatwidget.h"
 
 AVFileFormatDesc::AVFileFormatDesc(const QString &description, const QString &name) :
-                            AVFormatDescContainer(description, name)
+                            AVFormatDescContainer(description, name),
+                            m_fileExtension(QString::null)
 {
 }
 
@@ -34,4 +35,16 @@ QWidget * AVFileFormatDesc::createWidget(QWidget *parent)
 {
   AVFileFormatWidget *widget = new AVFileFormatWidget(this, parent, m_name);
   return widget;  
+}
+
+/** Sets the file extenstion for this description. */
+void AVFileFormatDesc::setFileExtension(QString extension)
+{
+  m_fileExtension = extension;
+}
+
+/** Returns the file extension for this file format. */
+const QString &AVFileFormatDesc::fileExtension()
+{
+  return m_fileExtension;
 }

@@ -1,7 +1,7 @@
 /***************************************************************************
-                          avformatdescbase.cpp  -  description
+                          avformatwidgetcodec.cpp  -  description
                              -------------------
-    begin                : Thu Jan 23 2003
+    begin                : Tue Feb 4 2003
     copyright            : (C) 2003 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,38 +15,18 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "avformatdescbase.h"
+#include <qlabel.h>
+ 
+#include "avformatwidgetcodec.h"
+#include "avformatdesccodec.h"
 
-AVFormatDescBase::AVFormatDescBase(const QString &description, const QString &name)
+AVFormatWidgetCodec::AVFormatWidgetCodec(AVFormatDescCodec *desc, QWidget *parent, const char *name ) :
+                                              QVBox(parent,name),
+                                              AVFormatWidgetBase()
 {
-  m_description = description;
-  m_name = name;
+    new QLabel(desc->description(), this, "label");
 }
 
-AVFormatDescBase::~AVFormatDescBase()
+AVFormatWidgetCodec::~AVFormatWidgetCodec()
 {
-}
-
-/** Returns the name of this description element. */
-const QString & AVFormatDescBase::name()
-{
-  return m_name;
-}
-
-/** Sets the name of this Desc element to the one specified */
-void AVFormatDescBase::setName(const QString &name)
-{
-  m_name = name;
-}
-
-/** Sets the description of this desc element. */
-void AVFormatDescBase::setDescription(const QString &description)
-{
-  m_description = description;
-}
-
-/** Returns the description of this desc element. */
-const QString & AVFormatDescBase::description()
-{
-  return m_description;
 }

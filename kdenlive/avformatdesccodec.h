@@ -1,7 +1,7 @@
 /***************************************************************************
-                          avfileformatdesc.h  -  description
+                          avformatdesccodec.h  -  description
                              -------------------
-    begin                : Tue Jan 21 2003
+    begin                : Tue Feb 4 2003
     copyright            : (C) 2003 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,32 +15,23 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef AVFILEFORMATDESC_H
-#define AVFILEFORMATDESC_H
+#ifndef AVFORMATDESCCODEC_H
+#define AVFORMATDESCCODEC_H
 
 #include <qstring.h>
-#include "avformatdesccontainer.h"
 
-/** Describes a file format. That is to say, it says what can and cannot exist within a
-    file format, what parameters exist and can be set, etc.
+#include <avformatdescbase.h>
+
+/**Holds the description of a particular file codec, including parameters for that codec.
   *@author Jason Wood
   */
 
-class QWidget;
-
-class AVFileFormatDesc : public AVFormatDescContainer {
+class AVFormatDescCodec : public AVFormatDescBase  {
 public: 
-	AVFileFormatDesc(const QString &description, const QString &name);
-	~AVFileFormatDesc();
-  /** Create and return a widget that embodies this file format description. */
-  QWidget * createWidget(QWidget *parent);
-  /** Sets the file extenstion for this description. */
-  void setFileExtension(QString extension);
-  /** Returns the file extension for this file format. */
-  const QString &fileExtension();
-private: // Private attributes
-  /** Specifies the file extension used by this file format. */
-  QString m_fileExtension;
+	AVFormatDescCodec(const QString &description, const QString &name);
+	~AVFormatDescCodec();
+  /** Generates a widget that holds the specified value(s). */
+  QWidget * createWidget(QWidget * parent);
 };
 
 #endif

@@ -32,6 +32,7 @@
 
 #include "gentime.h"
 #include "avfileformatdesc.h"
+#include "avformatdesccodec.h"
 
 /**KRender encapsulates the client side of the interface to a renderer.
 From Kdenlive's point of view, you treat the KRender object as the
@@ -42,6 +43,7 @@ relevant signal that get's emitted once the call completes.
   */
 
 class KRender;
+class AVFormatDescCodecList;
   
 struct StackValue {
   QString element;
@@ -71,13 +73,23 @@ replyCreateVideoXWindow() once the renderer has replied. */
   bool endElement ( const QString & namespaceURI, const QString & localName, const QString & qName );
   /** Called when the xml parser encounters an opening element */
   bool startElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & atts );
-  /** Called when we are parsing a close tag and are outside of any command. */
-  bool topLevelEndElement(const QString & namespaceURI, const QString & localName, const QString & qName);
+  /** Called when the xml parser encounters characters */  
+  bool characters( const QString &ch );
   /** Called when the xml parser encounters an opening element and we are outside of any command. */
   bool topLevelStartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & att);
-
   bool reply_getCapabilities_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & att);
   bool reply_createVideoXWindow_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & atts);
+  bool reply_capabilities_iostreams_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & att);  
+  bool reply_capabilities_iostreams_outstream_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & att);
+  bool reply_capabilities_iostreams_outstream_file_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & att);
+  bool reply_capabilities_iostreams_outstream_file_EndElement(const QString & namespaceURI, const QString & localName, const QString & qName);  
+  bool reply_capabilities_iostreams_outstream_container_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & att);
+  bool reply_capabilities_iostreams_outstream_codec_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & att);
+  bool reply_capabilities_iostreams_outstream_codec_EndElement(const QString & namespaceURI, const QString & localName, const QString & qName);
+  bool reply_capabilities_codecs_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & atts);
+  bool reply_capabilities_codecs_encoder_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & atts);
+  bool reply_capabilities_codecs_encoder_EndElement(const QString & namespaceURI, const QString & localName, const QString & qName);
+  bool reply_capabilities_codecs_encoder_about_EndElement(const QString & namespaceURI, const QString & localName, const QString & qName);  
   
   /** Seeks the renderer clip to the given time. */
   void seek(GenTime time);
@@ -104,6 +116,8 @@ name specified. */
   void getCapabilities();
   /** Returns a list of all available file formats in this renderer. */
   QPtrList<AVFileFormatDesc> &fileFormats();
+  /** Returns the codec with the given name */
+  AVFormatDescCodec * findCodec(const QString &name);
 protected: // Protected methods
   /** Recieves timer events */
   virtual void timerEvent(QTimerEvent *event);
@@ -141,6 +155,19 @@ private: // Private attributes
   QPtrList<AVFileFormatDesc> m_fileFormats;
   /** The parse stack for start/end element events. */
   QValueStack<StackValue> m_parseStack;
+  /** Holds a buffer of characters, as returned by the parser */
+  QString m_characterBuffer;
+  /** Holds the file format during construction. Keep an eye out for potential memory leaks and
+   null pointer exceptions. */
+  AVFileFormatDesc *m_fileFormat;
+  /** Holds a codec list description during constructuion. Keep an eye out for potential memory leaks
+  and null pointer exceptions. */
+  AVFormatDescCodecList *m_desccodeclist;
+  /** Holds a codec description during constructuion. Keep an eye out for potential memory leaks
+  and null pointer exceptions. */
+  AVFormatDescCodec *m_codec;
+  /** Holds a list of all available codecs. */
+  QPtrList<AVFormatDescCodec> m_codeclist;
 private slots: // Private slots
   /** Catches errors from the socket. */
   void error(int error);
@@ -163,6 +190,10 @@ private: // Private methods
   void sendSeekCommand(GenTime time);
   /** The actually setScenelist command, private so people can't avoid the buffering of multiple setSceneList commands. */
   void sendSetSceneListCommand(const QDomDocument &list);  
+  /** Pushes a stack parse with no definition, this effectively causes all
+following tags in the current hierarch to be ignored until the end tag is
+reached. */
+  void pushIgnore();
 signals: // Signals
   /** This signal is emitted once the renderer has initialised itself. */
   void initialised();
@@ -185,7 +216,9 @@ signals: // Signals
   /** Emitted when the renderer starts playing. */
   void playing();
   /** Emitted when the current seek position has been changed by the renderer. */
-  void positionChanged(const GenTime &);  
+  void positionChanged(const GenTime &);
+  /** Emitted when file formats are updated. */
+  void signalFileFormatsUpdated(const QPtrList<AVFileFormatDesc> &);  
 public: // Public attributes
   /** If true, we are currently parsing some data. Otherwise, we are not. */
   bool m_parsing;

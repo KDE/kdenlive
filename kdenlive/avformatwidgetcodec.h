@@ -1,7 +1,7 @@
 /***************************************************************************
-                          exportdialog.h  -  description
+                          avformatwidgetcodec.h  -  description
                              -------------------
-    begin                : Tue Jan 21 2003
+    begin                : Tue Feb 4 2003
     copyright            : (C) 2003 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,35 +15,25 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef EXPORTDIALOG_H
-#define EXPORTDIALOG_H
+#ifndef AVFORMATWIDGETCODEC_H
+#define AVFORMATWIDGETCODEC_H
 
 #include <qwidget.h>
-#include <qptrlist.h>
+#include <qvbox.h>
 
-#include <kjanuswidget.h>
+#include <avformatwidgetbase.h>
 
-#include "avfileformatdesc.h"
+class AVFormatDescCodec;
 
-/**The export dialog alllows the user to choose a file format and the relevant parameters with which they want to save their project.
+/**A widget that encapsulates the information in an avformatdesccodec object.
   *@author Jason Wood
   */
 
-class ExportDialog : public KJanusWidget  {
+class AVFormatWidgetCodec : public QVBox, public AVFormatWidgetBase {
    Q_OBJECT
 public: 
-	ExportDialog(QPtrList<AVFileFormatDesc> &formatList, QWidget *parent=0, const char *name=0);
-	~ExportDialog();
-  /** Generate a layout for this dialog, based upon the values that have been passed to it. */
-  void generateLayout();  
-private: // Private attributes
-  /** A list of all known file formats */
-  QPtrList<AVFileFormatDesc> m_formatList;
-  /** A list of all pages that have been created */
-  QPtrList<QWidget> m_pageList;  
-public slots: // Public slots
-  /** Specify a new file format list, and reconstruct the dialog box. */
-  void setFormatList(const QPtrList<AVFileFormatDesc> &list);
+	AVFormatWidgetCodec(AVFormatDescCodec *desc, QWidget *parent=0, const char *name=0);
+	~AVFormatWidgetCodec();
 };
 
 #endif

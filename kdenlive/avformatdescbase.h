@@ -35,6 +35,12 @@ public:
   virtual QWidget * createWidget(QWidget *parent) = 0;  
   /** Returns the name of this description element. */
   const QString & name();
+  /** Sets the name of this Desc element to the one specified */
+  void setName(const QString &name);
+  /** Sets the description of this desc element. */
+  void setDescription(const QString &description);
+  /** Returns the description of this desc element. */
+  const QString & description();
 protected: // Protected attributes
   /** The text description for the widget created - displayed in tooltips. */
   QString m_description;
