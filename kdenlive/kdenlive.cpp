@@ -957,7 +957,7 @@ void KdenliveApp::slotLookAtClip(DocClipBase *clip, const GenTime &time)
   slotSetClipMonitorSource(clip);
   m_clipMonitor->seek(time);
 }
-}
+
 
 void KdenliveApp::slotRenderError(const QString &name, const QString &message)
 {

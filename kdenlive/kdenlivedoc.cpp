@@ -735,3 +735,13 @@ KRender * KdenliveDoc::renderer()
   return m_render;
 }
 
+void KdenliveDoc::blockTrackSignals(bool block)
+{
+  QPtrListIterator<DocTrackBase> itt(m_tracks);
+
+  while(itt.current() != 0)
+  {
+    itt.current()->blockSignals(block);
+    ++itt;
+  }
+}
