@@ -19,17 +19,19 @@ type=DATA
 [Config for BinMakefileAm]
 addcxxflags=
 bin_program=kdenlive
+cflags=
+cppflags=
 cxxflags=\s-O0 -g3 -Wall
-ldadd=-lmcop -lartskde $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT)
-ldflags=
+ldadd=-lartskde -lmcop $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT)
+ldflags=\s            \s
 
 [General]
-AMChanged=true
+AMChanged=false
 author=Jason Wood
-configure_args=
+configure_args=\s--build=i386-linux --host=i386-linux --target=i386-linux --with-qt-dir=/usr/lib/qt3/\s
 email=jasonwood@blueyonder.co.uk
 kdevprj_version=1.3
-lfv_open_groups=User Interface
+lfv_open_groups=
 make_options=\s-j1
 makefiles=Makefile.am,kdenlive/Makefile.am,doc/Makefile.am,doc/en/Makefile.am,po/Makefile.am
 modifyMakefiles=true
@@ -39,7 +41,7 @@ sgml_file=/home/uchian/kdenlive/doc/en/index.docbook
 short_info=
 sub_dir=kdenlive/
 version=0.1
-version_control=CVS
+version_control=None
 workspace=1
 
 [INSTALL]
@@ -54,7 +56,7 @@ Headers=*.h,*.hh,*.hxx,*.hpp,*.H
 Others=*
 Sources=*.cpp,*.c,*.cc,*.C,*.cxx,*.ec,*.ecpp,*.lxx,*.l++,*.ll,*.l
 Translations=*.po
-User Interface=*.kdevdlg,*.ui,*.rc
+User Interface=*.kdevdlg,*.ui,*.rc,*.dlg
 groups=Headers,Sources,User Interface,Translations,GNU,Others
 
 [Makefile.am]
@@ -108,7 +110,7 @@ install_location=
 type=DATA
 
 [kdenlive/Makefile.am]
-files=kdenlive/main.cpp,kdenlive/kdenlive.cpp,kdenlive/kdenlive.h,kdenlive/kdenlivedoc.cpp,kdenlive/kdenlivedoc.h,kdenlive/kdenliveview.cpp,kdenlive/kdenliveview.h,kdenlive/kdenliveui.rc,kdenlive/kdenlive.desktop,kdenlive/lo32-app-kdenlive.png,kdenlive/lo16-app-kdenlive.png,kdenlive/kmmruler.cpp,kdenlive/kmmruler.h,kdenlive/kmmtimeline.cpp,kdenlive/kmmtimeline.h,kdenlive/kmmtrackbase.cpp,kdenlive/kmmtrackbase.h,kdenlive/projectlist.cpp,kdenlive/projectlist.h,kdenlive/avfile.cpp,kdenlive/avfile.h,kdenlive/avlistviewitem.cpp,kdenlive/avlistviewitem.h,kdenlive/kmmmonitor.cpp,kdenlive/kmmmonitor.h,kdenlive/kmmscreen.cpp,kdenlive/kmmscreen.h,kdenlive/kmmeditpanel.ui,kdenlive/kmmeditpanelimplementation.cpp,kdenlive/kmmeditpanelimplementation.h,kdenlive/kmmtracksoundpanel_ui.ui,kdenlive/kmmtracksoundpanel.cpp,kdenlive/kmmtracksoundpanel.h,kdenlive/kmmtrackvideopanel_ui.ui,kdenlive/kmmtrackvideopanel.cpp,kdenlive/kmmtrackvideopanel.h,kdenlive/doctrackbase.cpp,kdenlive/doctrackbase.h,kdenlive/doctracksound.cpp,kdenlive/doctracksound.h,kdenlive/doctrackvideo.cpp,kdenlive/doctrackvideo.h,kdenlive/docclipbase.cpp,kdenlive/docclipbase.h,kdenlive/docclipsound.cpp,kdenlive/docclipsound.h,kdenlive/docclipvideo.cpp,kdenlive/docclipvideo.h,kdenlive/kmmtracksound.cpp,kdenlive/kmmtracksound.h,kdenlive/kmmtrackvideo.cpp,kdenlive/kmmtrackvideo.h,kdenlive/projectlist_ui.ui,kdenlive/addtrackdialog_ui.ui
+files=kdenlive/main.cpp,kdenlive/kdenlive.cpp,kdenlive/kdenlive.h,kdenlive/kdenlivedoc.cpp,kdenlive/kdenlivedoc.h,kdenlive/kdenliveview.cpp,kdenlive/kdenliveview.h,kdenlive/kdenliveui.rc,kdenlive/kdenlive.desktop,kdenlive/lo32-app-kdenlive.png,kdenlive/lo16-app-kdenlive.png,kdenlive/avfile.cpp,kdenlive/avlistviewitem.cpp,kdenlive/docclipbase.cpp,kdenlive/docclipsound.cpp,kdenlive/docclipvideo.cpp,kdenlive/doctrackbase.cpp,kdenlive/doctracksound.cpp,kdenlive/doctrackvideo.cpp,kdenlive/kmmmonitor.cpp,kdenlive/kmmruler.cpp,kdenlive/kmmscreen.cpp,kdenlive/kmmtimeline.cpp,kdenlive/kmmtrackbase.cpp,kdenlive/kmmtracksound.cpp,kdenlive/kmmtrackvideo.cpp,kdenlive/projectlist.cpp,kdenlive/addtrackdialog_ui.ui,kdenlive/avfile.h,kdenlive/avlistviewitem.h,kdenlive/docclipbase.h,kdenlive/docclipsound.h,kdenlive/docclipvideo.h,kdenlive/doctrackbase.h,kdenlive/doctracksound.h,kdenlive/doctrackvideo.h,kdenlive/kmmeditpanel.ui,kdenlive/kmmmonitor.h,kdenlive/kmmruler.h,kdenlive/kmmscreen.h,kdenlive/kmmtimeline.h,kdenlive/kmmtrackbase.h,kdenlive/kmmtracksound.h,kdenlive/kmmtracksoundpanel_ui.ui,kdenlive/kmmtrackvideo.h,kdenlive/kmmtrackvideopanel_ui.ui,kdenlive/projectlist.h,kdenlive/projectlist_ui.ui,kdenlive/clipdrag.cpp,kdenlive/clipdrag.h,kdenlive/kmmtrackvideopanel.cpp,kdenlive/kmmtrackvideopanel.h,kdenlive/kmmtracksoundpanel.cpp,kdenlive/kmmtracksoundpanel.h,kdenlive/kmmeditpanelimplementation.cpp,kdenlive/kmmeditpanelimplementation.h
 sub_dirs=
 type=prog_main
 
@@ -137,6 +139,18 @@ install_location=
 type=SOURCE
 
 [kdenlive/avlistviewitem.h]
+dist=true
+install=false
+install_location=
+type=HEADER
+
+[kdenlive/clipdrag.cpp]
+dist=true
+install=false
+install_location=
+type=SOURCE
+
+[kdenlive/clipdrag.h]
 dist=true
 install=false
 install_location=
