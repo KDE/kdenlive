@@ -676,7 +676,7 @@ void KdenliveApp::slotTimelineRazorTool()
 /** Called when the spacer tool action is selected */
 void KdenliveApp::slotTimelineSpacerTool()
 {
-  statusBar()->changeItem(i18n("Spacer tool"), ID_EDITMODE_MSG);
+  statusBar()->changeItem(i18n("Separate tool"), ID_EDITMODE_MSG);
 }
 
 /** Called when the user activates the "Export Timeline" action */
