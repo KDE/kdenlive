@@ -195,16 +195,16 @@ revision history. (see installation appendix comment) -->
 
 <chapter id="quick-start">
 <title
->Guide d'utilisation simplifié</title>
+>Présentation rapide</title>
 
 <para
->  </para>
+> &kdenlive; est une application qui va vous faire plonger dans l'univers du montage vidéo numérique. Cette présentation rapide vous aidera à réaliser quelques opérations de bases pour le montage de votre premier film. </para>
 
 <sect1>
 <title
 >La fenêtre principale</title>
 <para
->  </para>
+> Lorsque vous lancez &kdenlive; pour la première fois, vous devez obtenir une fenêtre similaire à celle ci : </para>
 <screenshot
 > <mediaobject
 > <imageobject
@@ -217,7 +217,7 @@ revision history. (see installation appendix comment) -->
 > </screenshot>
 
 <para
->  </para>
+> Dans l'interface graphique par défaut de &kdenlive;, il y a trois fenêtres importantes. Les positions de toutes ces fenêtres sont configurables en fonction de vos besoins. </para>
 
 <sect2 id="project-panel">
 <title
@@ -233,19 +233,19 @@ revision history. (see installation appendix comment) -->
 > </mediaobject
 > </screenshot>
 <para
->  </para>
+> Cette fenêtre propose différents panneaux nécessaire au montage vidéo du projet. Le plus important est la liste du projet. Elle affiche l'ensemble des plans vidéo qui sont inclus dans le projet. </para>
 </sect2>
 
 <sect2 id="monitor-panel">
 <title
->La prévisualisation des plans vidéo</title>
+>Le panneau de prévisualisation</title>
 <screenshot
 > <mediaobject
 > <imageobject
 > <imagedata fileref="monitor_panel.png" format="PNG"/> </imageobject
 > <textobject
 > <phrase
->La prévisualisation des plans vidéo</phrase
+>Le panneau de prévisualisation</phrase
 > </textobject
 > </mediaobject
 > </screenshot>

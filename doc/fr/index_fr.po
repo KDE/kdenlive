@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: index_fr\n"
 "POT-Creation-Date: 2001-02-09 01:25+0100\n"
-"PO-Revision-Date: 2003-08-14 15:30GMT\n"
+"PO-Revision-Date: 2003-08-14 18:26GMT\n"
 "Last-Translator: CAULIER Gilles <caulier.gilles@free.fr>\n"
 "Language-Team: FRANCAIS <fr@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -175,7 +175,7 @@ msgstr ""
 #: index.docbook:166
 #, no-c-format
 msgid "Quick Start Guide"
-msgstr "Présentation"
+msgstr "Présentation rapide"
 
 #: index.docbook:168
 #, no-c-format
@@ -185,8 +185,8 @@ msgid ""
 "from start to finish of making your own video."
 msgstr ""
 "&kdenlive; est une application qui va vous faire plonger dans l'univers du "
-"montage vidéo numérique. Cette présentation vous aidera à réaliser quelques "
-"opérations de bases pour le montage de votre premier film."
+"montage vidéo numérique. Cette présentation rapide vous aidera à réaliser "
+"quelques opérations de bases pour le montage de votre premier film."
 
 #: index.docbook:175
 #, no-c-format
@@ -214,6 +214,9 @@ msgid ""
 "layouts int &kdenlive; are fully configurable, it is assumed for this "
 "tutorial that you are using the default layout."
 msgstr ""
+"Dans l'interface graphique par défaut de &kdenlive;, il y a trois fenêtres "
+"importantes. Les positions de toutes ces fenêtres sont configurables en "
+"fonction de vos besoins."
 
 #: index.docbook:198
 #, no-c-format
@@ -232,16 +235,19 @@ msgid ""
 "about the current project. Of most interest to us for this tutorial is the "
 "Project List. This window shows which video clips are in the project."
 msgstr ""
+"Cette fenêtre propose différents panneaux nécessaire au montage vidéo du "
+"projet. Le plus important est la liste du projet. Elle affiche l'ensemble "
+"des plans vidéo qui sont inclus dans le projet."
 
 #: index.docbook:217
 #, no-c-format
 msgid "The Monitor Panel"
-msgstr "La prévisualisation des plans vidéo"
+msgstr "Le panneau de prévisualisation"
 
 #: index.docbook:218
 #, no-c-format
 msgid "The monitor panel"
-msgstr "La prévisualisation des plans vidéo"
+msgstr "Le panneau de prévisualisation"
 
 #: index.docbook:228
 #, no-c-format
