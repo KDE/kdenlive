@@ -808,7 +808,8 @@ or menu bars. -->
 </term>
 <listitem>
 <para>
-<action>Non-functional at present</action>
+<action>Delete the selected clip from the project. This deletes all references to the clip,
+including those on the timeline, or those within composite clips.</action>
 </para>
 </listitem>
 </varlistentry>
