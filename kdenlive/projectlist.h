@@ -55,10 +55,12 @@ public slots: // Public slots
   /** No descriptions */
   void rightButtonPressed ( QListViewItem *listViewItem, const QPoint &pos, int column) ;
   /** Get a fresh copy of files and clips from KdenliveDoc and display them. */
-  void slot_UpdateList(QList<DocClipBase> list);
+  void slot_UpdateList(QPtrList<DocClipBase> list);
 signals: // Signals
   /** emitted whenever a file is added to the project list */
   void signal_AddFile(const KURL &url);
+  /** this signal is called when a number of clips have been dropped onto the project list view. */
+  void clipListDropped(QPtrList<DocClipBase>);
 };
 
 #endif

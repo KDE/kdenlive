@@ -25,7 +25,7 @@
 // include files for QT
 #include <qobject.h>
 #include <qstring.h>
-#include <qlist.h>
+#include <qptrlist.h>
 
 // include files for KDE
 #include <kurl.h>
@@ -85,7 +85,7 @@ class KdenliveDoc : public QObject
     /** sets the URL of the document */
 	  void setURL(const KURL& url);
 		/** Returns the internal avFile list. */
-		QList<DocClipBase> avFileList();	
+		QPtrList<DocClipBase> avFileList();	
 	
   public slots:
     /** calls repaint() on all views connected to the document object and is called by the view by which the document has been changed.
@@ -98,21 +98,23 @@ class KdenliveDoc : public QObject
   	void addSoundTrack();
   	/** Adds an empty video track to the project */
   	void addVideoTrack();
+  /** Inserts a list of clips into the document, updating the project accordingly. */
+  void slot_insertClips(QPtrList<DocClipBase> clips);
  	
 	 public:	
  		/** the list of the views currently connected to the document */
- 		static QList<KdenliveView> *pViewList;	
+ 		static QPtrList<KdenliveView> *pViewList;	
   	/** The number of frames per second. */
   	int m_framesPerSecond;
   	/** Holds a list of all tracks in the project. */
-  	QList<DocTrackBase> m_tracks;
+  	QPtrList<DocTrackBase> m_tracks;
   	/** Returns the number of frames per second. */
   	int framesPerSecond();
   	/** Itterates through the tracks in the project. This works in the same way
-			* as QList::next(), although the underlying structures may be different. */
+			* as QPtrList::next(), although the underlying structures may be different. */
 	  DocTrackBase * nextTrack();
   	/** Returns the first track in the project, and resets the itterator to the first track.
-			*This effectively is the same as QList::first(), but the underyling implementation
+			*This effectively is the same as QPtrList::first(), but the underyling implementation
 			* may change. */
 	  DocTrackBase * firstTrack();
 	  /** Returns the number of tracks in this project */
@@ -124,10 +126,10 @@ class KdenliveDoc : public QObject
     KURL doc_url;
 
 	/** List of all video and audio clips within this project */
-	QList<DocClipBase> m_clipList;		
+	QPtrList<DocClipBase> m_clipList;		
 	signals: // Signals
   	/** This is signal is emitted whenever the avFileList changes, either through the addition or removal of an AVFile, or when an AVFile changes. */
-  	void avFileListUpdated(QList<DocClipBase>);
+  	void avFileListUpdated(QPtrList<DocClipBase>);
 	private: // Private methods
   	/** Adds a track to the project */
   	void addTrack(DocTrackBase *track);

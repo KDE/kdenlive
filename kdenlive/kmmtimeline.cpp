@@ -52,6 +52,8 @@ KMMTimeLine::KMMTimeLine(KdenliveDoc *document, QWidget *parent, const char *nam
 	connect(&m_scrollBar, SIGNAL(valueChanged(int)), &m_ruler, SLOT(setValue(int)));
   connect(m_document, SIGNAL(trackListChanged()), this, SLOT(syncWithDocument()));	
   	
+  setAcceptDrops(true);
+
 	syncWithDocument();
 }
 
@@ -152,4 +154,21 @@ void KMMTimeLine::syncWithDocument()
 void KMMTimeLine::polish()
 {
 	resizeTracks();
+}
+
+void KMMTimeLine::dragEnterEvent ( QDragEnterEvent *event )
+{
+
+}
+
+void KMMTimeLine::dragMoveEvent ( QDragMoveEvent *event )
+{
+}
+
+void KMMTimeLine::dragLeaveEvent ( QDragLeaveEvent *event )
+{
+}
+
+void KMMTimeLine::dropEvent ( QDropEvent *event )
+{
 }

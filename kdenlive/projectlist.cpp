@@ -38,6 +38,8 @@ ProjectList::ProjectList(QWidget *parent, const char *name ) :
 						m_menu()
 {
 	connect (m_addButton, SIGNAL(clicked()), this, SLOT(slot_AddFile()));
+
+ 	connect (m_listView, SIGNAL(clipListDropped(QPtrList<DocClipBase>)), this, SIGNAL(clipListDropped(QPtrList<DocClipBase>)));
 		
 	init_menu();
 }
@@ -111,7 +113,7 @@ void ProjectList::rightButtonPressed ( QListViewItem *listViewItem, const QPoint
 }
 
 /** Get a fresh copy of files from KdenliveDoc and display them. */
-void ProjectList::slot_UpdateList(QList<DocClipBase> list) {
+void ProjectList::slot_UpdateList(QPtrList<DocClipBase> list) {
 	m_listView->clear();
 
 	QListIterator<DocClipBase> itt(list);

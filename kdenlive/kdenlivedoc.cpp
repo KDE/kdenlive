@@ -34,16 +34,17 @@
 #include <doctrackvideo.h>
 #include <doctracksound.h>
 
-QList<KdenliveView> *KdenliveDoc::pViewList = 0L;
+QPtrList<KdenliveView> *KdenliveDoc::pViewList = 0L;
 
 KdenliveDoc::KdenliveDoc(QWidget *parent, const char *name) : QObject(parent, name)
 {
   if(!pViewList)
   {
-    pViewList = new QList<KdenliveView>();
+    pViewList = new QPtrList<KdenliveView>();
   }
 
   m_framesPerSecond = 25; // Standard PAL.
+  m_clipList.setAutoDelete(true);
 	
   pViewList->setAutoDelete(true);
 }
@@ -196,7 +197,7 @@ void KdenliveDoc::slot_InsertAVFile(const KURL &file) {
 	setModified(true);	
 }
 
-QList<DocClipBase> KdenliveDoc::avFileList()
+QPtrList<DocClipBase> KdenliveDoc::avFileList()
 {
 	return m_clipList;	
 }
@@ -231,7 +232,7 @@ int KdenliveDoc::numTracks()
 }
 
 /** Returns the first track in the project, and resets the itterator to the first track.
-	* This effectively is the same as QList::first(), but the underyling implementation
+	* This effectively is the same as QPtrList::first(), but the underyling implementation
 	* may change. */
 DocTrackBase * KdenliveDoc::firstTrack()
 {
@@ -239,8 +240,22 @@ DocTrackBase * KdenliveDoc::firstTrack()
 }
 
 /** Itterates through the tracks in the project. This works in the same way
-	* as QList::next(), although the underlying structures may be different. */
+	* as QPtrList::next(), although the underlying structures may be different. */
 DocTrackBase * KdenliveDoc::nextTrack()
 {
 	return m_tracks.next();
+}
+
+/** Inserts a list of clips into the document, updating the project accordingly. */
+void KdenliveDoc::slot_insertClips(QPtrList<DocClipBase> clips)
+{
+	clips.setAutoDelete(false);
+
+	DocClipBase *clip;
+	for(clip = clips.first(); clip; clip=clips.next()) {
+  	m_clipList.append(clip);
+	}
+
+  emit avFileListUpdated(m_clipList);
+	setModified(true);	
 }

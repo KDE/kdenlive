@@ -18,10 +18,9 @@
 #ifndef CLIPDRAG_H
 #define CLIPDRAG_H
 
-#include <vector>
 #include <kurldrag.h>
+#include <docclipbase.h>
 
-#include <docclip.h>
 
 /**Allows the dragging of clips within and outside of the application.
   *@author Jason Wood
@@ -37,7 +36,7 @@ public:
 	/** Returns true if the mime type is decodable, false otherwise. */
 	static bool canDecode(const QMimeSource *mime);
 	/** Attempts to decode the mimetype e as a clip. Returns a clip, or returns null */
-	static std::vector<DocClip> decode(const QMimeSource *e);
+	static QPtrList<DocClipBase> decode(const QMimeSource *e);
 protected:
 	/** Reimplemented for internal reasons; the API is not affected.  */
 	QByteArray encodedData(const char *mime) const;
@@ -51,7 +50,7 @@ private: // Private methods
 	 **/
 	KURL::List createURLList(DocClipBase *clip);
 
-	/** Holds the XMNL representation of the clips being dragged */
+	/** Holds the XML representation of the clips being dragged */
 	QString m_xml;
 };
 

@@ -66,6 +66,12 @@ public: // Public methods
   void insertTrack(int index, QWidget *trackPanel, KMMTrackBase *trackView);
   /** No descriptions */
   void polish();
+
+	void dragEnterEvent ( QDragEnterEvent * );
+	void dragMoveEvent ( QDragMoveEvent * );
+	void dragLeaveEvent ( QDragLeaveEvent * );
+	void dropEvent ( QDropEvent * );
+
 private: // private methods
 	void resizeTracks();
 public slots: // Public slots
@@ -73,6 +79,8 @@ public slots: // Public slots
     *
 		* The timeline needs to be updated to show these changes. */
   void syncWithDocument();
+
+
 };
 
 #endif

@@ -32,6 +32,11 @@ ProjectListView::ProjectListView(QWidget *parent, const char *name):
     addColumn( i18n( "Size" ) );
 
     setDragEnabled(true);
+    setAcceptDrops(true);
+    setDropVisualizer(true);
+
+    connect(this, SIGNAL(dropped(QDropEvent*, QListViewItem*, QListViewItem*)), this,
+    						  SLOT(dragDropped(QDropEvent*, QListViewItem*, QListViewItem*)));
 }
 
 ProjectListView::~ProjectListView()
@@ -44,4 +49,22 @@ QDragObject *ProjectListView::dragObject()
 	AVListViewItem *item = (AVListViewItem *)selectedItem();
 
 	return new ClipDrag(item->clip(), parentWidget(), "drag object");
+}
+
+bool ProjectListView::acceptDrag (QDropEvent* event) const
+{
+	return ClipDrag::canDecode(event);
+}
+
+/** This slot function should be called whenever a drag has been dropped
+	onto the class. The cliplist produced will delete the clips within it
+ 	unless the signal is caught and told otherwise. Note that problems
+  	will arise is multiple documents attempt to catch this signal and have
+	different ideas about what to do with the clip list.*/
+void ProjectListView::dragDropped(QDropEvent* e, QListViewItem* parent, QListViewItem* after)
+{
+	QPtrList<DocClipBase> cliplist = ClipDrag::decode(e);
+ 	cliplist.setAutoDelete(false);
+
+	emit clipListDropped(cliplist);
 }

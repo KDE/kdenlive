@@ -19,6 +19,7 @@
 #define PROJECTLISTVIEW_H
 
 #include <klistview.h>
+#include <docclipbase.h>
 
 /**
   *@author Jason Wood
@@ -31,6 +32,14 @@ public:
 	~ProjectListView();
   /** returns a drag object which is used for drag operations. */
   QDragObject *dragObject();
+  /** returns true if the drop event is compatable with the project list */
+	bool acceptDrag (QDropEvent* event) const;
+signals: // Signals
+  /** This signal is called whenever clips are drag'n'dropped onto the project list view. */
+  void clipListDropped(QPtrList<DocClipBase>);
+private slots: // Private slots
+  /** This slot function should be called whenever a drag has been dropped onto the class. */
+  void dragDropped(QDropEvent* e, QListViewItem* parent, QListViewItem* after);
 };
 
 #endif

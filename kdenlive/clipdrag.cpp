@@ -18,6 +18,8 @@
 #include "clipdrag.h"
 #include "docclipavfile.h"
 
+#include <iostream>
+
 ClipDrag::ClipDrag(DocClipBase *clip, QWidget *dragSource, const char *name) :
 			KURLDrag(createURLList(clip), dragSource, name)
 {
@@ -67,9 +69,10 @@ bool ClipDrag::canDecode(const QMimeSource *mime)
 }
 
 /** Attempts to decode the mimetype e as a clip. Returns a clip, or returns null */
-std::vector<DocClip> ClipDrag::decode(const QMimeSource *e)
+QPtrList<DocClipBase> ClipDrag::decode(const QMimeSource *e)
 {
-	std::vector<DocClip> cliplist;
+	QPtrList<DocClipBase> cliplist;
+ 	cliplist.setAutoDelete(false);
 	
 	if(e->provides("application/x-kdenlive-clip")) {
 		QByteArray data = e->encodedData("application/x-kdenlive-clip");
@@ -85,23 +88,22 @@ std::vector<DocClip> ClipDrag::decode(const QMimeSource *e)
 			if(!element.isNull()) {
 				if(element.tagName() == "clip") {
 					DocClipBase *temp = DocClipBase::createClip(element);
-					cliplist.push_back(DocClip(temp));
-					delete temp;
+					cliplist.append(temp);
 				}
 			}
+   		node = node.nextSibling();
 		}
 	} else {
-	  	KURL::List list;
-		KURL::List::Iterator it;		
+   	KURL::List list;
+		KURL::List::Iterator it;
 		KURLDrag::decode(e, list);
 
 		for(it = list.begin(); it != list.end(); ++it) {
 			DocClipAVFile *file = new DocClipAVFile((*it).fileName(), *it);
-			cliplist.push_back(DocClip(file));
-			delete file;
+			cliplist.append(file);
 		}
 	}
-	
+
 	return cliplist;
 }
 
