@@ -152,7 +152,8 @@ void KRender::processExited()
 void KRender::launchProcess()
 {
 	m_process.clearArguments();
-	m_process.setExecutable(m_appPath.path());
+	m_process.setExecutable("artsdsp");
+  m_process << m_appPath.path();
   m_process << "-d";  
   m_process << "-p " << m_portNum;
 
