@@ -47,7 +47,7 @@ msgstr "Jason Wood"
 #: index.docbook:81
 #, no-c-format
 msgid "&kdenlive; is a non-linear video editor for KDE."
-msgstr "&kdenlive; est une application de montage vidéo pour KDE."
+msgstr "&kdenlive; est une application de montage vidéo non linéaire pour KDE."
 
 #: index.docbook:84
 #, no-c-format

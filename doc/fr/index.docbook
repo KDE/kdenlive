@@ -123,7 +123,7 @@ Do NOT change these in the translation. -->
 
 <abstract>
 <para
-> &kdenlive; est une application de montage vidéo pour KDE. </para>
+> &kdenlive; est une application de montage vidéo non linéaire pour KDE. </para>
 <para
 > ATTENTION ! Ce document n'est pas encore complètement terminé. Les informations concernant les contributeurs de &kapp;, les programmes requis, les instructions d'installation, et les informations de changement de version ne sont pas à jour ou sont incomplètes. Veuillez prendre contact avec l'auteur à l'adresse <email
 >jasonwood@blueyonder.co.uk</email
