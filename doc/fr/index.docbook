@@ -3,6 +3,9 @@
 <!ENTITY kdenlive '<application
 >Kdenlive</application
 >'>
+<!ENTITY piave '<application
+>Piave</application
+>'>
 <!ENTITY kapp "&kdenlive;"
 ><!-- replace kdenlive here -->
 <!ENTITY % addindex "IGNORE">
@@ -115,9 +118,9 @@ Please respect the format of the date (DD/MM/YYYY) and of the version
 Do NOT change these in the translation. -->
 
 <date
->28/07/2003</date>
+>10/08/2003</date>
 <releaseinfo
->1.01.00</releaseinfo>
+>1.01.01</releaseinfo>
 
 <!-- Abstract about this handbook -->
 
@@ -190,30 +193,166 @@ revision history. (see installation appendix comment) -->
 </sect1>
 </chapter>
 
-<chapter id="using-kapp">
+<chapter id="quick-start">
+<title
+></title>
+
+<para
+>  </para>
+
+<sect1>
+<title
+>La fenêtre principale de Kdenlive</title>
+<para
+>  </para>
+<screenshot
+> <mediaobject
+> <imageobject
+> <imagedata fileref="mainwindow.png" format="PNG"/> </imageobject
+> <textobject
+> <phrase
+>La fenêtre principale de Kdenlive</phrase
+> </textobject
+> </mediaobject
+> </screenshot>
+
+<para
+>  </para>
+
+<sect2 id="project-panel">
+<title
+>La liste du projet</title>
+<screenshot
+> <mediaobject
+> <imageobject
+> <imagedata fileref="project_panel.png" format="PNG"/> </imageobject
+> <textobject
+> <phrase
+>Le panneau de configuration des effets</phrase
+> </textobject
+> </mediaobject
+> </screenshot>
+<para
+>  </para>
+</sect2>
+
+<sect2 id="monitor-panel">
+<title
+>La prévisualisation des plans vidéo</title>
+<screenshot
+> <mediaobject
+> <imageobject
+> <imagedata fileref="monitor_panel.png" format="PNG"/> </imageobject
+> <textobject
+> <phrase
+>La prévisualisation des plans vidéo</phrase
+> </textobject
+> </mediaobject
+> </screenshot>
+<para
+>  </para>
+</sect2>
+
+<sect2>
+<title
+>La table de montage vidéo</title>
+<screenshot
+> <mediaobject
+> <imageobject
+> <imagedata fileref="timeline_panel.png" format="PNG"/> </imageobject
+> <textobject
+> <phrase
+>La table de montage vidéo</phrase
+> </textobject
+> </mediaobject
+> </screenshot>
+<para
+>  </para>
+</sect2>
+</sect1>
+<sect1 id="addingclips">
+<title
+>Ajouter un plan vidéo au projet</title>
+
+<para
+>  </para>
+
+<para
+>  </para>
+<caution
+> <para
+>  </para
+> </caution>
+<para
+>  </para>
+<screenshot
+> <mediaobject
+> <imageobject
+> <imagedata fileref="project_with_clips.png" format="PNG"/> </imageobject
+> <textobject
+> <phrase
+>La table de montage vidéo</phrase
+> </textobject
+> </mediaobject
+> </screenshot>
+</sect1>
+<sect1 id="clips-to-timeline">
+<title
+></title>
+
+<para
+>  </para>
+<para
+>  </para>
+<para
+>  </para>
+</sect1>
+
+<sect1 id="selecting-clips">
+<title
+>Suppression des plans vidéo via la liste du projet</title>
+
+<para
+>  </para>
+</sect1>
+
+<sect1 id="manipulatings-clips-on-timeline">
+<title
+></title>
+<para
+>  </para>
+<para
+>  </para>
+<note
+> <para
+>  </para
+> </note>
+<para
+>  </para>
+</sect1>
+
+<sect1 id="removing-clips-from-timeline">
+<title
+></title>
+
+<para
+>  </para>
+<para
+>  </para>
+<note
+> <para
+>  </para
+> </note>
+</sect1>
+</chapter>
+
+<chapter id="using-kdenlive">
 <title
 >Utilisation de Kdenlive</title>
 
 <!-- This chapter should tell the user how to use your app. You should use as
 many sections (Chapter, Sect1, Sect3, etc...) as is necessary to fully document
 your application. -->
-
-<para
-> <screenshot
-> <screeninfo
->Voici une copie d'écran de &kapp;</screeninfo
-> <mediaobject
-> <imageobject
-> <imagedata fileref="screenshot.png" format="PNG"/> </imageobject
-> <imageobject
-> <imagedata fileref="screenshot.eps" format="EPS"/> </imageobject
-> <textobject
-> <phrase
->Capture d'écran</phrase
-> </textobject
-> </mediaobject
-> </screenshot
-> </para>
 
 <sect1 id="kapp-projectlist">
 <title
@@ -254,8 +393,28 @@ your application. -->
 <sect1 id="kapp-debugwindow">
 <title
 >Le panneau de débogage</title>
+<screenshot
+> <mediaobject
+> <imageobject
+> <imagedata fileref="debug_tab.png" format="PNG"/> </imageobject
+> <textobject
+> <phrase
+>Le panneau de débogage</phrase
+> </textobject
+> </mediaobject
+> </screenshot>
 <para
->A faire...</para>
+>  </para>
+<para
+>  </para>
+<para
+>  </para>
+<note
+> <para
+>  </para
+> </note>
+<para
+>  </para>
 </sect1>
 
 <sect1 id="kapp-effectlist">
@@ -278,35 +437,42 @@ your application. -->
 <title
 >La table de montage vidéo</title>
 <para
->A faire...</para>
+> A faire... </para>
 </sect1>
 
 <sect1 id="kapp-clipmonitor">
 <title
 >La prévisualisation des plans vidéo</title>
 <para
->A faire...</para>
+> A faire... </para>
 </sect1>
 
 <sect1 id="kapp-workspacemonitor">
 <title
 >La prévisualisation du montage vidéo</title>
 <para
->A faire...</para>
+>  </para>
+<para
+>  </para>
 </sect1>
 
 <sect1 id="kapp-rendering">
 <title
 >Le rendu vidéo du projet</title>
 <para
->A faire...</para>
+>  </para>
+<note
+> <para
+>  </para
+> </note>
 </sect1>
 
 <sect1 id="kapp-loadsave">
 <title
 >L'ouverture et l'enregistrement de votre projet</title>
 <para
->A faire...</para>
+>  </para>
+
 </sect1>
 
 </chapter>
@@ -364,6 +530,42 @@ or menu bars. -->
 ><keycap
 >Ctrl</keycap
 ><keycap
+>n</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Nouveau</guimenuitem
+> </menuchoice
+></term
+> <listitem
+><para
+><action
+></action
+></para
+></listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+>  </menuchoice
+></term
+> <listitem
+><para
+><action
+></action
+></para
+></listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+> <shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
 >s</keycap
 ></keycombo
 > </shortcut
@@ -377,6 +579,18 @@ or menu bars. -->
 ><para
 ><action
 >Enregistre le projet correspondant au montage vidéo</action
+></para
+></listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+>  </menuchoice
+></term
+> <listitem
+><para
+><action
+></action
 ></para
 ></listitem
 > </varlistentry
@@ -409,6 +623,663 @@ or menu bars. -->
 
 </sect2>
 
+<sect2>
+<title
+>Le menu « Fichier »</title>
+<para
+> <variablelist
+> <varlistentry
+> <term
+><menuchoice
+> <shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>n</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Nouveau</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+> <shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>n</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Nouveau</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+> <shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>q</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Quitter</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+> <shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>n</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Nouveau</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+> <shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>s</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Enregistrer</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> </variablelist
+> </para>
+</sect2>
+
+<sect2>
+<title
+>La liste du projet</title>
+<para
+> <variablelist
+> <varlistentry
+> <term
+><menuchoice
+>  </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+>Ajouter un plan vidéo au projet</action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+>  </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+>  </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+>Suppression des plans vidéo via la liste du projet</action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+>  </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> </variablelist
+> </para>
+</sect2>
+
+<sect2>
+<title
+>La table de montage vidéo</title>
+<para
+> <variablelist
+> <varlistentry
+> <term
+><menuchoice
+> <shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>s</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Enregistrer</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+>  </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+> <shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>s</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Enregistrer</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+>  </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+> <shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>s</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Enregistrer</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+>  </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+>  </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+>  </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> </variablelist
+> </para>
+</sect2>
+
+<sect2>
+<title
+>Le menu « Fichier »</title>
+<para
+> <variablelist
+> <varlistentry
+> <term
+><menuchoice
+>  </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> </variablelist
+> </para>
+</sect2>
+
+<sect2>
+<title
+>Le menu « Fichier »</title>
+<para
+> <variablelist
+> <varlistentry
+> <term
+><menuchoice
+> <shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>q</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Quitter</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+> <shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>q</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Quitter</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+> <shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>q</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Quitter</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+> <shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>q</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Quitter</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+> <shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>s</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Enregistrer</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+> <shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>s</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Enregistrer</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+> <shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>s</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Enregistrer</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+> <shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>s</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Enregistrer</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> </variablelist
+> </para>
+</sect2>
+
+<sect2>
+<title
+>Le menu « Fichier »</title>
+<para
+> <variablelist
+> <varlistentry
+> <term
+><menuchoice
+>  </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+>  </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+>  </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+>  </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+>  </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> </variablelist
+> </para>
+</sect2>
+
+<sect2>
+<title
+>Le menu « Fichier »</title>
+<para
+> <variablelist
+> <varlistentry
+> <term
+><menuchoice
+>  </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+> <shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>s</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Enregistrer</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+>  </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+>  </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+>  </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> </variablelist
+> </para>
+</sect2>
+
 </sect1>
 </chapter>
 
@@ -421,12 +1292,29 @@ used for apps that use plugins or that provide their own scripting hooks
 and/or development libraries. -->
 
 <para
-> La programmation de modules externes pour &kdenlive; est très attractive. Cependant, elle nécessite l'écriture de plus de 66 pages sur les API du programme. </para>
+>  </para>
 
 <!-- Use refentries to describe APIs.  Refentries are fairly complicated and you
 should consult the docbook reference for further details. The example below was
 taken from that reference and shortened a bit for readability. -->
 
+</chapter>
+
+<chapter id="known-issues">
+<title
+></title>
+
+<para
+>  </para>
+<para
+>  <screen width="40">
+
+</screen
+> </para>
+<para
+>  </para>
+<para
+>  </para>
 </chapter>
 
 <chapter id="faq">
@@ -454,7 +1342,17 @@ application work. -->
 </question>
 <answer>
 <para
-> Ce message est du à une non reconnaissance du format vidéo par le programme « piave ». Comme &kapp; est une application encore récente, certain dysfonctionnements ne sont pas encore correctement gérés. La meilleure solution à ce problème et de quitter &kapp; (en enregistrant votre travail préalablement), et d'ouvrir une console en saisissant la ligne de commande suivante : « killall -9 piave ». Attendez quelques secondes, et relancez Kdenlive. </para>
+>  </para>
+</answer>
+</qandaentry>
+<qandaentry>
+<question>
+<para
+></para>
+</question>
+<answer>
+<para
+>  </para>
 </answer>
 </qandaentry>
 </qandaset>
@@ -572,10 +1470,7 @@ or the ChangeLog file, or ... -->
 >Compilation et installation</title>
 
 <para
-> Pour pouvoir compiler et installer &kapp; sur votre système, saisissez les lignes de commande suivantes : <screen width="40">
-
-</screen
-> </para>
+>  </para>
 
 <para
 > Depuis que Kdenlive utilise les programmes « autoconf » et « automake », vous ne devriez pas avoir de problèmes pour compiler celui ci. Si vous rencontrez des difficultés, veulliez contacter la liste de diffusion du projet KDE. </para>
