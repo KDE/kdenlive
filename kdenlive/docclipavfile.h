@@ -39,7 +39,6 @@ public:
 	DocClipAVFile(QString name, KURL url);
 	~DocClipAVFile();
 	QString fileName();
-	void setName(QString name);
 	KURL fileURL();	
 	/** Calculates properties for the file, including the size of the file, the duration of the file,
 	 * the file format, etc. 
@@ -57,9 +56,7 @@ public:
 	DocClipBase::CLIPTYPE clipType();
 
 	QDomDocument toXML();
-private:		
-	/** The displayed name of this file */
-	QString m_name;
+private:
 	/** The url of the file */
 	KURL m_url;
 	/** The size of this file, in bytes. A negative value indicates that this is unknown */
@@ -72,7 +69,6 @@ private:
 	/** Determines whether this file contains audio, video or both. */
 	DocClipBase::CLIPTYPE m_clipType;
 	KPlayObject *m_player;
-	KPlayObjectFactory m_factory;	
 };
 
 #endif

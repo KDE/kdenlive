@@ -24,7 +24,6 @@
 DocClipBase::DocClipBase()
 {
 	setTrackStart(0);
-	setName("unnamed");
 	setCropStartTime(0);
 	setCropDuration(0);
 }
@@ -126,5 +125,5 @@ DocClipBase *DocClipBase::createClip(QDomElement element)
 
 	std::cout << "TODO - DocClipBase::createClip(QDomElement element" << std::endl;
 	
-	return new DocClipAVFile("name", url);
+	return new DocClipAVFile(url.fileName(), url);
 }

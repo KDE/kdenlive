@@ -25,13 +25,15 @@ KArtsServer server;
 
 DocClipAVFile::DocClipAVFile(QString name, KURL url) :
 						DocClipBase(),
-            m_player(0),
-            m_factory(server.server())
+            m_player(0)
 {
-	setName(name);
-	m_url = url;
+	if(name.isNull()) {
+   	setName(url.filename());
+	} else {
+		setName(name);
+ 	}
 
-  m_factory.setAllowStreaming(false);
+	m_url = url;
 
 	calculateFileProperties();
   m_clipType = AV;
@@ -41,11 +43,7 @@ DocClipAVFile::~DocClipAVFile(){
 }
 
 QString DocClipAVFile::fileName() {
-	return m_name;
-}
-
-void DocClipAVFile::setName(QString name) {
-	m_name = name;
+	return m_url.fileName();
 }
 
 KURL DocClipAVFile::fileURL() {
@@ -55,40 +53,50 @@ KURL DocClipAVFile::fileURL() {
 
 /** Calculates properties for this file that will be useful for the rest of the program. */
 void DocClipAVFile::calculateFileProperties()
-{
+{	
 	if(m_url.isLocalFile()) {
 		QFileInfo fileInfo(m_url.directory(false, false) + m_url.filename());
 
 	 	/** Determines the size of the file */		
 		m_filesize = fileInfo.size();						
 		
-		m_player = m_factory.createPlayObject(m_url, true);
-	
-		std::cout << m_player->mediaName();
-						
-		if(!m_player->isNull()) {
-  		
+  	KPlayObjectFactory factory(server.server());
+    factory.setAllowStreaming(false);
+
+    int test = 3;
+    do {
+			m_player = factory.createPlayObject(m_url, true);
+   		if(m_player) break;
+     	sleep(1);
+      test--;
+  	} while(test);
+								
+		if(m_player && (!m_player->object().isNull()) ) {  		
 			/** Determines the format of the file e.g. wav, ogg, mpeg, mov */		
 			m_player->play();
-			int test = 0;
-			while(m_player->state() != EOF) {
+			bool flag = false;
+			while(m_player->state() != Arts::posIdle) {
 				m_time= m_player->overallTime();
-				if((m_time.seconds > 0) || (m_time.ms > 0)) break;
+				if((m_time.seconds > 0) || (m_time.ms > 0)) {
+    			flag=true;
+        	break;
+				}
 				sleep(1);
-				std::cout << test++ << std::endl;
 			}
 
+   		if(!flag) {
+       	m_time.seconds = 0;
+        m_time.ms = 0;
+        m_filesize = -1;
+      }
+
 			m_player->halt();
-	  					
-			std::cout << "Time for file is " << m_time.seconds << "." << m_time.ms <<
-				     " and custom name " << m_time.customUnit << " is " << m_time.custom << std::endl;
 		}
 			
 		if(m_player != 0) {
 			delete m_player;
 		}
 		m_player = 0;
-		sleep(2);
 	} else {
 		/** If the file is not local, then no file properties are currently returned */
 		m_time.seconds = 0;
@@ -139,4 +147,8 @@ QDomDocument DocClipAVFile::toXML() {
 	}
 
 	ASSERT(node.isNull());
+
+  /* This final return should never be reached, it is here to remove compiler warning. */
+	return doc;
 }
+

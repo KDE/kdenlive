@@ -17,8 +17,11 @@
 
 #include "kmmscreen.h"
 
-KMMScreen::KMMScreen(QWidget *parent, const char *name ) : QWidget(parent,name) {
+KMMScreen::KMMScreen(QWidget *parent, const char *name ) : QWidget(parent,name)
+{
+	setBackgroundMode(Qt::PaletteDark);
 }
 
-KMMScreen::~KMMScreen(){
+KMMScreen::~KMMScreen()
+{
 }

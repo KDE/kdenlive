@@ -37,6 +37,7 @@ KMMRuler::KMMRuler(QWidget *parent, const char *name ) :
 	setMaximumHeight(32);
 	
 	setSizePolicy(QSizePolicy (QSizePolicy::Expanding, QSizePolicy::Fixed, FALSE));
+  setBackgroundMode(Qt::NoBackground);
 }
 
 KMMRuler::~KMMRuler(){
