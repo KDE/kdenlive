@@ -87,7 +87,6 @@ KdenliveApp::~KdenliveApp()
 
 void KdenliveApp::initActions()
 {
-  fileNewWindow = new KAction(i18n("New &Window"), 0, 0, this, SLOT(slotFileNewWindow()), actionCollection(),"file_new_window");
   fileNew = KStdAction::openNew(this, SLOT(slotFileNew()), actionCollection());
   fileOpen = KStdAction::open(this, SLOT(slotFileOpen()), actionCollection());
   fileOpenRecent = KStdAction::openRecent(this, SLOT(slotFileOpenRecent(const KURL&)), actionCollection());
@@ -119,7 +118,6 @@ void KdenliveApp::initActions()
   timelineRazorTool->setExclusiveGroup("timeline_tools");
   timelineSpacerTool->setExclusiveGroup("timeline_tools");  
       
-  fileNewWindow->setStatusText(i18n("Opens a new application window"));
   fileNew->setStatusText(i18n("Creates a new document"));
   fileOpen->setStatusText(i18n("Opens an existing document"));
   fileOpenRecent->setStatusText(i18n("Opens a recently used file"));
@@ -366,16 +364,6 @@ bool KdenliveApp::queryExit()
 /////////////////////////////////////////////////////////////////////
 // SLOT IMPLEMENTATION
 /////////////////////////////////////////////////////////////////////
-
-void KdenliveApp::slotFileNewWindow()
-{
-  slotStatusMsg(i18n("Opening a new application window..."));
-	
-  KdenliveApp *new_window= new KdenliveApp();
-  new_window->show();
-
-  slotStatusMsg(i18n("Ready."));
-}
 
 void KdenliveApp::slotFileNew()
 {
