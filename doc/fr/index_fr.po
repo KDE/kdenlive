@@ -425,7 +425,8 @@ msgstr ""
 #: index.docbook:342
 #, no-c-format
 msgid "Moving and Resizing Clips on the Timeline"
-msgstr "Déplacement et redimensionnement des plans vidéo dans la table de montage"
+msgstr ""
+"Déplacement et redimensionnement des plans vidéo dans la table de montage"
 
 #: index.docbook:343
 #, no-c-format
@@ -512,7 +513,8 @@ msgstr "La liste du projet"
 
 #: index.docbook:403
 #, no-c-format
-msgid "The project list shows all of the clips that are available for this project."
+msgid ""
+"The project list shows all of the clips that are available for this project."
 msgstr ""
 "La liste du projet affiche tous les plans vidéo qui sont disponibles dans le "
 "projet."
@@ -828,7 +830,8 @@ msgstr "Ouvrir un projet préalablement enregistré."
 #: index.docbook:613
 #, no-c-format
 msgid "<guimenu>File</guimenu> <guimenuitem>Open Recent</guimenuitem>"
-msgstr "<guimenu>Fichier</guimenu> <guimenuitem>Récemment ouvert(s)</guimenuitem>"
+msgstr ""
+"<guimenu>Fichier</guimenu> <guimenuitem>Récemment ouvert(s)</guimenuitem>"
 
 #: index.docbook:613
 #, no-c-format
@@ -852,7 +855,8 @@ msgstr "Enregistre le projet courant."
 #: index.docbook:613
 #, no-c-format
 msgid "<guimenu>File</guimenu> <guimenuitem>Save As...</guimenuitem>"
-msgstr "<guimenu>Fichier</guimenu> <guimenuitem>Enregistrer sous...</guimenuitem>"
+msgstr ""
+"<guimenu>Fichier</guimenu> <guimenuitem>Enregistrer sous...</guimenuitem>"
 
 #: index.docbook:613
 #, no-c-format
@@ -953,7 +957,8 @@ msgstr "Le menu « Projet »"
 #: index.docbook:771
 #, no-c-format
 msgid "<guimenu>Project</guimenu> <guimenuitem>Add Clips</guimenuitem>"
-msgstr "<guimenu>Projet</guimenu> <guimenuitem>Ajouter des plans vidéo</guimenuitem>"
+msgstr ""
+"<guimenu>Projet</guimenu> <guimenuitem>Ajouter des plans vidéo</guimenuitem>"
 
 #: index.docbook:771
 #, no-c-format
@@ -980,7 +985,8 @@ msgstr "Suppression de la liste des plans vidéo inutilisés dans le projet."
 #: index.docbook:771
 #, no-c-format
 msgid "<guimenu>Project</guimenu> <guimenuitem>Clip Properties</guimenuitem>"
-msgstr "<guimenu>Projet</guimenu> <guimenuitem>Propriétés du plan vidéo</guimenuitem>"
+msgstr ""
+"<guimenu>Projet</guimenu> <guimenuitem>Propriétés du plan vidéo</guimenuitem>"
 
 #: index.docbook:831
 #, no-c-format
@@ -1222,7 +1228,8 @@ msgstr "Affiche ou cache la barre d'état."
 
 #: index.docbook:1077
 #, no-c-format
-msgid "<guimenu>Settings</guimenu> <guimenuitem>Configure Shortcuts...</guimenuitem>"
+msgid ""
+"<guimenu>Settings</guimenu> <guimenuitem>Configure Shortcuts...</guimenuitem>"
 msgstr ""
 "<guimenu>Configuration</guimenu> <guimenuitem>Configurer les raccourcis "
 "clavier...</guimenuitem>"
@@ -1234,7 +1241,8 @@ msgstr "Configure les raccourcis clavier de &kdenlive;."
 
 #: index.docbook:1077
 #, no-c-format
-msgid "<guimenu>Settings</guimenu> <guimenuitem>Configure Toolbars...</guimenuitem>"
+msgid ""
+"<guimenu>Settings</guimenu> <guimenuitem>Configure Toolbars...</guimenuitem>"
 msgstr ""
 "<guimenu>Configuration</guimenu> <guimenuitem>Configurer les barres "
 "d'outils...</guimenuitem>"
@@ -1246,7 +1254,8 @@ msgstr "Configure les barres d'outils de &kdenlive;."
 
 #: index.docbook:1077
 #, no-c-format
-msgid "<guimenu>Settings</guimenu> <guimenuitem>Configure Kdenlive...</guimenuitem>"
+msgid ""
+"<guimenu>Settings</guimenu> <guimenuitem>Configure Kdenlive...</guimenuitem>"
 msgstr ""
 "<guimenu>Configuration</guimenu> <guimenuitem>Configurer Kdenlive...</"
 "guimenuitem>"
@@ -1283,7 +1292,8 @@ msgstr ""
 
 #: index.docbook:1151
 #, no-c-format
-msgid "After selecting this, click on part of the gui to find out what it does."
+msgid ""
+"After selecting this, click on part of the gui to find out what it does."
 msgstr ""
 "Aprés avoir sélectionner cette option, cliquez sur une partie de l'interface "
 "graphique pour obtenir de de plus amples informations la concernant."
@@ -1301,7 +1311,8 @@ msgstr "Rapporte un bogue à propos de &kdenlive;"
 #: index.docbook:1151
 #, no-c-format
 msgid "<guimenu>Help</guimenu> <guimenuitem>About Kdenlive</guimenuitem>"
-msgstr "<guimenu>Aide</guimenu> <guimenuitem>À propos de Kdenlive</guimenuitem>"
+msgstr ""
+"<guimenu>Aide</guimenu> <guimenuitem>À propos de Kdenlive</guimenuitem>"
 
 #: index.docbook:1151
 #, no-c-format
@@ -1377,11 +1388,11 @@ msgid ""
 "&kdenlive; again - the TCP port will time out and become usable again."
 msgstr ""
 "Si la ligne de commande précédente vous renvoie un message du genre "
-"<quote>piave : no process killed</quote>, il est fort probable que des ports de "
-"communication associés au programme &piave; n'ont pas été libéré lors d'une "
-"précédente instance du programme. Attendez une minute avant de relancer une "
-"nouvelle session de &kdenlive; (les ports TCP devrai être normalement libérés après "
-"cette durée)."
+"<quote>piave : no process killed</quote>, il est fort probable que des ports "
+"de communication associés au programme &piave; n'ont pas été libéré lors "
+"d'une précédente instance du programme. Attendez une minute avant de "
+"relancer une nouvelle session de &kdenlive; (les ports TCP devrai être "
+"normalement libérés après cette durée)."
 
 #: index.docbook:1275
 #, no-c-format
@@ -1456,7 +1467,8 @@ msgstr "&kapp;"
 msgid ""
 "Program copyright 2002-2003 Jason Wood <email>jasonwood@blueyonder.co.uk</"
 "email>"
-msgstr "Copyright Jason Wood <email>jasonwood@blueyonder.co.uk</email>, 2002-2003"
+msgstr ""
+"Copyright Jason Wood <email>jasonwood@blueyonder.co.uk</email>, 2002-2003"
 
 #: index.docbook:1343
 #, no-c-format
@@ -1629,4 +1641,3 @@ msgstr ""
 #~ "<prompt>%</prompt> <userinput>./configure</userinput>\n"
 #~ "\t\t\t<prompt>%</prompt> <userinput>make</userinput>\n"
 #~ "\t\t\t<prompt>%</prompt> <userinput>make install</userinput>"
-
