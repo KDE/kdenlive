@@ -17,7 +17,11 @@
 
 #include "kmmtracksound.h"
 
-KMMTrackSound::KMMTrackSound(QWidget *parent, const char *name ) : KMMTrackBase(parent,name) {
+KMMTrackSound::KMMTrackSound(DocTrackSound *docTrack, QWidget *parent, const char *name ) :
+											KMMTrackBase(docTrack, parent,name)
+{
 }
-KMMTrackSound::~KMMTrackSound(){
+
+KMMTrackSound::~KMMTrackSound()
+{
 }

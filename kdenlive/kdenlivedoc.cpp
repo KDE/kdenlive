@@ -26,9 +26,12 @@
 #include <kio/netaccess.h>
 
 // application specific includes
-#include "kdenlivedoc.h"
-#include "kdenlive.h"
-#include "kdenliveview.h"
+#include <kdenlivedoc.h>
+#include <kdenlive.h>
+#include <kdenliveview.h>
+
+#include <doctrackvideo.h>
+#include <doctracksound.h>
 
 QList<KdenliveView> *KdenliveDoc::pViewList = 0L;
 
@@ -57,6 +60,7 @@ void KdenliveDoc::removeView(KdenliveView *view)
 {
   pViewList->remove(view);
 }
+
 void KdenliveDoc::setURL(const KURL &url)
 {
   doc_url=url;
@@ -139,6 +143,13 @@ bool KdenliveDoc::newDocument()
 
   m_avFileList.setAutoDelete( TRUE );
 
+  addVideoTrack();
+  addVideoTrack();
+  addVideoTrack();
+  addSoundTrack();
+  addSoundTrack();
+  addSoundTrack();
+
   modified=false;
   doc_url.setFileName(i18n("Untitled"));
 
@@ -190,6 +201,45 @@ QList<AVFile> KdenliveDoc::avFileList()
 }
 
 /** Returns the number of frames per second. */
-int KdenliveDoc::framesPerSecond() {
+int KdenliveDoc::framesPerSecond()
+{
 	return m_framesPerSecond;
+}
+
+/** Adds an empty video track to the project */
+void KdenliveDoc::addVideoTrack()
+{
+	addTrack(new DocTrackVideo());
+}
+
+/** Adds a sound track to the project */
+void KdenliveDoc::addSoundTrack(){
+	addTrack(new DocTrackSound());
+}
+
+/** Adds a track to the project */
+void KdenliveDoc::addTrack(DocTrackBase *track){
+	m_tracks.append(track);
+	emit trackListChanged();
+}
+
+/** Returns the number of tracks in this project */
+int KdenliveDoc::numTracks()
+{
+	return m_tracks.count();
+}
+
+/** Returns the first track in the project, and resets the itterator to the first track.
+	* This effectively is the same as QList::first(), but the underyling implementation
+	* may change. */
+DocTrackBase * KdenliveDoc::firstTrack()
+{
+	return m_tracks.first();
+}
+
+/** Itterates through the tracks in the project. This works in the same way
+	* as QList::next(), although the underlying structures may be different. */
+DocTrackBase * KdenliveDoc::nextTrack()
+{
+	return m_tracks.next();
 }

@@ -29,3 +29,4 @@ DocClipBase::~DocClipBase()
 long DocClipBase::trackStart(){
 	return m_trackStart;
 }
+

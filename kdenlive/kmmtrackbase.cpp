@@ -19,8 +19,11 @@
 #include <qpainter.h>
 #include <qsizepolicy.h>
 
-KMMTrackBase::KMMTrackBase(QWidget *parent, const char *name ) : QFrame(parent,name)
+KMMTrackBase::KMMTrackBase(DocTrackBase *docTrack, QWidget *parent, const char *name ) :
+												QFrame(parent,name)
 {	
+	m_docTrack = docTrack;
+
 	setMinimumWidth(30);
 	setMinimumHeight(30);	
 	
@@ -31,4 +34,10 @@ KMMTrackBase::KMMTrackBase(QWidget *parent, const char *name ) : QFrame(parent,n
 }
 
 KMMTrackBase::~KMMTrackBase() {
+}
+
+/** returns the document track which is displayed by this track */
+DocTrackBase * KMMTrackBase::docTrack()
+{
+	return m_docTrack;
 }

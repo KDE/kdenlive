@@ -30,3 +30,10 @@ bool DocTrackVideo::canAddClip(DocClipBase * clip)
 {
 	return false;
 }
+/** Returns the clip type as a string. This is a bit of a hack to give the
+		* KMMTimeLine a way to determine which class it should associate
+		*	with each type of clip. */
+QString DocTrackVideo::clipType()
+{
+	return "Video";
+}

@@ -11,8 +11,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>424</width>
-            <height>404</height>
+            <width>776</width>
+            <height>634</height>
         </rect>
     </property>
     <property stdset="1">
@@ -32,10 +32,10 @@
         </property>
         <property stdset="1">
             <name>spacing</name>
-            <number>2</number>
+            <number>1</number>
         </property>
         <widget>
-            <class>QListView</class>
+            <class>KListView</class>
             <column>
                 <property>
                     <name>text</name>

@@ -32,6 +32,7 @@
 
 // include files for Kdenlive
 #include <avfile.h>
+#include <doctrackbase.h>
 
 // forward declaration of the Kdenlive classes
 class KdenliveView;
@@ -79,6 +80,8 @@ class KdenliveDoc : public QObject
     const KURL& URL() const;
     /** sets the URL of the document */
 	  void setURL(const KURL& url);
+		/** Returns the internal avFile list. */
+		QList<AVFile> avFileList();	
 	
   public slots:
     /** calls repaint() on all views connected to the document object and is called by the view by which the document has been changed.
@@ -87,17 +90,29 @@ class KdenliveDoc : public QObject
     void slotUpdateAllViews(KdenliveView *sender);
 	  /** Inserts an Audio/visual file into the project */
 	  void slot_InsertAVFile(const KURL &file);
+  	/** Adds a sound track to the project */
+  	void addSoundTrack();
+  	/** Adds an empty video track to the project */
+  	void addVideoTrack();
  	
-  public:	
-    /** the list of the views currently connected to the document */
-    static QList<KdenliveView> *pViewList;	
-  /** The number of frames per second. */
-  int m_framesPerSecond;
-  /** Returns the internal avFile list. */
-  QList<AVFile> avFileList();
-  /** Returns the number of frames per second. */
-  int framesPerSecond();
-
+	 public:	
+ 		/** the list of the views currently connected to the document */
+ 		static QList<KdenliveView> *pViewList;	
+  	/** The number of frames per second. */
+  	int m_framesPerSecond;
+  	/** Holds a list of all tracks in the project. */
+  	QList<DocTrackBase> m_tracks;
+  	/** Returns the number of frames per second. */
+  	int framesPerSecond();
+  	/** Itterates through the tracks in the project. This works in the same way
+			* as QList::next(), although the underlying structures may be different. */
+	  DocTrackBase * nextTrack();
+  	/** Returns the first track in the project, and resets the itterator to the first track.
+			*This effectively is the same as QList::first(), but the underyling implementation
+			* may change. */
+	  DocTrackBase * firstTrack();
+	  /** Returns the number of tracks in this project */
+	  int numTracks();
 
   private:
     /** the modified flag of the current document */
@@ -106,9 +121,15 @@ class KdenliveDoc : public QObject
 
 		/** List of all video and audio clips within this project */
 		QList<AVFile> m_avFileList;		
-signals: // Signals
-  /** This is signal is emitted whenever the avFileList changes, either through the addition or removal of an AVFile, or when an AVFile changes. */
-  void avFileListUpdated(QList<AVFile>);
+	signals: // Signals
+  	/** This is signal is emitted whenever the avFileList changes, either through the addition or removal of an AVFile, or when an AVFile changes. */
+  	void avFileListUpdated(QList<AVFile>);
+	private: // Private methods
+  	/** Adds a track to the project */
+  	void addTrack(DocTrackBase *track);
+	signals: // Signals
+  	/** This signal is emitted whenever tracks are added to or removed from the project. */
+  	void trackListChanged();
 };
 
 #endif // KDENLIVEDOC_H

@@ -17,7 +17,10 @@
 
 #include "kmmtrackvideo.h"
 
-KMMTrackVideo::KMMTrackVideo(QWidget *parent, const char *name ) : KMMTrackBase(parent,name) {
+KMMTrackVideo::KMMTrackVideo(DocTrackVideo *docTrack, QWidget *parent, const char *name ) :
+												KMMTrackBase(docTrack, parent,name)
+{
 }
+
 KMMTrackVideo::~KMMTrackVideo(){
 }

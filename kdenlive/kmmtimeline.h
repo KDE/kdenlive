@@ -29,6 +29,8 @@
 #include <qpushbutton.h>
 
 #include <kmmruler.h>
+#include <kdenlivedoc.h>
+#include <kmmtrackbase.h>
 
 /**This is the timeline. It gets populated by tracks, which in turn are populated
 by video and audio clips, or transitional clips, or any other clip imaginable.
@@ -38,7 +40,7 @@ by video and audio clips, or transitional clips, or any other clip imaginable.
 class KMMTimeLine : public QVBox  {
    Q_OBJECT
 public: 
-	KMMTimeLine(QWidget *parent=0, const char *name=0);
+	KMMTimeLine(KdenliveDoc *document, QWidget *parent=0, const char *name=0);
 	~KMMTimeLine();
 private:
 		/** GUI elements */
@@ -47,17 +49,30 @@ private:
 		QHBox m_scrollBox;			 	// Horizontal box holding the horizontal scrollbar.
 		QLabel m_trackLabel;
 		KMMRuler m_ruler;
-		QLabel m_scrollLabel;			// appears to the left of the bottom scroll bar.
+		QPushButton m_addTrackButton;
+		QPushButton m_deleteTrackButton;
 		QScrollBar m_scrollBar;		// this scroll bar's movement is measured in pixels, not frames.
 		/** track varables */
 		QList<QWidget> m_trackPanels;
 		QList<QWidget> m_trackViews;
+		
+	  /** A pointer to the document (project) that this timeline is based upon */
+	  KdenliveDoc * m_document;		
 public: // Public methods
   /** This method adds a new track to the trackGrid. */
-  void appendTrack(QWidget *trackPanel, QWidget *trackView);
+  void appendTrack(QWidget *trackPanel, KMMTrackBase *trackView);
   void resizeEvent(QResizeEvent *event);
+  /** Inserts a track at the position specified by index */
+  void insertTrack(int index, QWidget *trackPanel, KMMTrackBase *trackView);
+  /** No descriptions */
+  void polish();
 private: // private methods
 	void resizeTracks();
+public slots: // Public slots
+  /** Called when a track within the project has been added or removed.
+    *
+		* The timeline needs to be updated to show these changes. */
+  void syncWithDocument();
 };
 
 #endif

@@ -19,6 +19,8 @@
 #define KMMTRACKVIDEO_H
 
 #include <qwidget.h>
+
+#include <doctrackvideo.h>
 #include <kmmtrackbase.h>
 
 /**KMMTrackVideo provides the timeline view for video clips
@@ -28,7 +30,7 @@
 class KMMTrackVideo : public KMMTrackBase  {
    Q_OBJECT
 public: 
-	KMMTrackVideo(QWidget *parent=0, const char *name=0);
+	KMMTrackVideo(DocTrackVideo *docTrack, QWidget *parent=0, const char *name=0);
 	~KMMTrackVideo();
 };
 

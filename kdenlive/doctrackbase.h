@@ -19,6 +19,7 @@
 #define DOCTRACKBASE_H
 
 #include <qlist.h>
+#include <qstring.h>
 #include "docclipbase.h"
 
 /**DocTrackBase is a base class for all real track entries into the database.
@@ -36,10 +37,13 @@ public:
 		* which types of clip they support. */
   virtual bool canAddClip(DocClipBase *clip) = 0;
   /** Adds a clip to the track. Returns true if successful, false if it fails for some reason.
-		*
 		* This method calls canAddClip() to determine whether or not the clip can be added to this
 		* particular track. */
   bool addClip(DocClipBase *clip);
+  /** Returns the clip type as a string. This is a bit of a hack to give the
+		* KMMTimeLine a way to determine which class it should associate
+		*	with each type of clip. */
+  virtual QString clipType() = 0;
 private: // Private attributes
   /** Contains a list of all of the clips within this track. */
   QList<DocClipBase> m_clips;

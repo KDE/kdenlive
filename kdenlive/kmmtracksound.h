@@ -19,6 +19,8 @@
 #define KMMTRACKSOUND_H
 
 #include <qwidget.h>
+
+#include <doctracksound.h>
 #include <kmmtrackbase.h>
 
 /**KMMTrackSound provides the timeline view which contains sound clips.
@@ -28,7 +30,7 @@
 class KMMTrackSound : public KMMTrackBase  {
    Q_OBJECT
 public: 
-	KMMTrackSound(QWidget *parent=0, const char *name=0);
+	KMMTrackSound(DocTrackSound *docTrack, QWidget *parent=0, const char *name=0);
 	~KMMTrackSound();
 };
 

@@ -30,6 +30,10 @@ public:
 	~DocTrackVideo();
   /** Returns true if the specified clip can be added to this track, false otherwise. */
   bool canAddClip(DocClipBase * clip);
+  /** Returns the clip type as a string. This is a bit of a hack to give the
+		* KMMTimeLine a way to determine which class it should associate
+		*	with each type of clip. */
+  QString clipType();
 };
 
 #endif

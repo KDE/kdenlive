@@ -29,7 +29,7 @@ KdenliveView::KdenliveView(QWidget *parent, const char *name) :
 				m_topSplitter(Horizontal, this, name),
 				m_projectList(&m_topSplitter, name),
 				m_monitor(&m_topSplitter, name),
-				m_timeline(this, name)
+				m_timeline(getDocument(), this, name)
 {
   setBackgroundMode(PaletteBase);
 
