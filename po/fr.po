@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Last-Translator: \n"
-"PO-Revision-Date: 2003-03-10 15:12+0100\n"
+"PO-Revision-Date: 2003-03-10 16:42+0100\n"
 "Language-Team:  <fr@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -258,11 +258,11 @@ msgstr ""
 
 #: kdenlive.cpp:123
 msgid "Start/Stop"
-msgstr ""
+msgstr "Démarrer / Arrêter"
 
 #: kdenlive.cpp:124
 msgid "Delete Selected Clips"
-msgstr ""
+msgstr "Supprimer les séquences sélectionnées"
 
 #: kdenlive.cpp:126
 msgid "Load Layout &1"
@@ -298,59 +298,59 @@ msgstr ""
 
 #: kdenlive.cpp:139
 msgid "Creates a new document"
-msgstr ""
+msgstr "Créer un nouveau document"
 
 #: kdenlive.cpp:140
 msgid "Opens an existing document"
-msgstr ""
+msgstr "Ouvrir un document existant"
 
 #: kdenlive.cpp:141
 msgid "Opens a recently used file"
-msgstr ""
+msgstr "Ouvrir un fichier récemment utilisé"
 
 #: kdenlive.cpp:142
 msgid "Saves the actual document"
-msgstr ""
+msgstr "Enregistrer le document courant"
 
 #: kdenlive.cpp:143
 msgid "Saves the actual document as..."
-msgstr ""
+msgstr "Enregistrer le document courant sous..."
 
 #: kdenlive.cpp:144
 msgid "Closes the actual document"
-msgstr ""
+msgstr "Fermer le document courant"
 
 #: kdenlive.cpp:145
 msgid "Prints out the actual document"
-msgstr ""
+msgstr "Imprimer le document courant"
 
 #: kdenlive.cpp:146
 msgid "Quits the application"
-msgstr ""
+msgstr "Quitter l'application"
 
 #: kdenlive.cpp:147
 msgid "Cuts the selected section and puts it to the clipboard"
-msgstr ""
+msgstr "Couper la section selectionnée et la mettre dans le presse-papiers"
 
 #: kdenlive.cpp:148
 msgid "Copies the selected section to the clipboard"
-msgstr ""
+msgstr "Copier la section selectionnée et la mettre dans le presse-papiers"
 
 #: kdenlive.cpp:149
 msgid "Pastes the clipboard contents to actual position"
-msgstr ""
+msgstr "Coller le contenu du presse-papiers à la position courante"
 
 #: kdenlive.cpp:150
 msgid "Enables/disables the toolbar"
-msgstr ""
+msgstr "Activer / Désactiver la barre d'outils"
 
 #: kdenlive.cpp:151
 msgid "Enables/disables the statusbar"
-msgstr ""
+msgstr "Activer / Désactiver la barre d'état"
 
 #: kdenlive.cpp:152
 msgid "Moves and resizes the document"
-msgstr ""
+msgstr "Déplacer et redimensionner le document"
 
 #: kdenlive.cpp:153
 msgid "Chops clips into two pieces"
@@ -370,31 +370,31 @@ msgstr ""
 
 #: kdenlive.cpp:157
 msgid "Add clips to the project"
-msgstr ""
+msgstr "Ajouter des séquences au projet"
 
 #: kdenlive.cpp:158
 msgid "Remove clips from the project"
-msgstr ""
+msgstr "Supprimer des séquences du projet"
 
 #: kdenlive.cpp:159
 msgid "Remove unused clips from the project"
-msgstr ""
+msgstr "Supprimer les séquences inutilisées du projet"
 
 #: kdenlive.cpp:160
 msgid "Seek forward one frame"
-msgstr ""
+msgstr "Reculer d'une trame"
 
 #: kdenlive.cpp:161
 msgid "Seek backwards one frame"
-msgstr ""
+msgstr "Avancer d'une trame"
 
 #: kdenlive.cpp:162
 msgid "Start or stop playback"
-msgstr ""
+msgstr "Démarrer ou arrêter la lecture"
 
 #: kdenlive.cpp:163
 msgid "Delete currently selected clips"
-msgstr ""
+msgstr "Supprimer la séquence sélectionnée"
 
 #: kdenlive.cpp:175 kdenlive.cpp:304 kdenlive.cpp:438 kdenlive.cpp:463
 #: kdenlive.cpp:481 kdenlive.cpp:490 kdenlive.cpp:511 kdenlive.cpp:520
@@ -403,55 +403,55 @@ msgstr ""
 #: kdenlive.cpp:751 kdenlive.cpp:758 kdenlive.cpp:772 kdenlive.cpp:778
 #: kdenlive.cpp:784 kdenlive.cpp:790 kdenlive.cpp:798
 msgid "Ready."
-msgstr ""
+msgstr "Prêt."
 
 #: kdenlive.cpp:182
 msgid "Move/Resize mode"
-msgstr ""
+msgstr "Mode Déplacement / Redimensionnement"
 
 #: kdenlive.cpp:183 kdenlive.cpp:722
 msgid "Current Time : "
-msgstr ""
+msgstr "Position courante :"
 
 #: kdenlive.cpp:201
 msgid "Application"
-msgstr ""
+msgstr "Application"
 
 #: kdenlive.cpp:211
 msgid "TimeLine"
-msgstr ""
+msgstr "TimeLine"
 
 #: kdenlive.cpp:218
 msgid "project list"
-msgstr ""
+msgstr "Liste du projet"
 
 #: kdenlive.cpp:224
 msgid "Debug"
-msgstr ""
+msgstr "Déboguer"
 
 #: kdenlive.cpp:230
 msgid "Effect List"
-msgstr ""
+msgstr "Liste des effets"
 
 #: kdenlive.cpp:236
 msgid "Effect Setup"
-msgstr ""
+msgstr "Configurer les effets"
 
 #: kdenlive.cpp:242
 msgid "Workspace Monitor"
-msgstr ""
+msgstr "Espace de travail"
 
 #: kdenlive.cpp:248
 msgid "Clip Monitor"
-msgstr ""
+msgstr "Prévisualisation des séquences"
 
 #: kdenlive.cpp:300 kdenlive.cpp:443 kdenlive.cpp:468
 msgid "Opening file..."
-msgstr ""
+msgstr "Ouverture du fichier..."
 
 #: kdenlive.cpp:425
 msgid "Creating new document..."
-msgstr ""
+msgstr "Créer un nouveau document..."
 
 #: kdenlive.cpp:453
 msgid ""
@@ -459,26 +459,29 @@ msgid ""
 "*.dv|Raw DV File (*.dv)\n"
 "*|All Files"
 msgstr ""
+"*.kdenlive|Fichiers projet Kdenlive (*.kdenlive)\n"
+"*.dv|Fichiers DV bruts (*.dv)\n"
+"*|Tous les fichiers"
 
 #: kdenlive.cpp:453 kdenlive.cpp:736
 msgid "Open File..."
-msgstr ""
+msgstr "Ouvrir un fichier..."
 
 #: kdenlive.cpp:486
 msgid "Saving file..."
-msgstr ""
+msgstr "Enregistrer le fichier..."
 
 #: kdenlive.cpp:495
 msgid "Saving file with a new filename..."
-msgstr ""
+msgstr "Enregistrer le fichier sous un nouveau nom..."
 
 #: kdenlive.cpp:498
 msgid "*.kdenlive|Kdenlive Project Files (*.kdenlive)"
-msgstr ""
+msgstr "*.kdenlive|Fichiers projet Kdenlive (*.kdenlive)"
 
 #: kdenlive.cpp:516
 msgid "Closing file..."
-msgstr ""
+msgstr "Fermeture du fichier..."
 
 #: kdenlive.cpp:525
 msgid "Printing..."
@@ -486,7 +489,7 @@ msgstr ""
 
 #: kdenlive.cpp:544
 msgid "Exiting..."
-msgstr ""
+msgstr "Quitter..."
 
 #: kdenlive.cpp:565
 msgid "Cutting selection..."
