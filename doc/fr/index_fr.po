@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: index_fr\n"
 "POT-Creation-Date: 2001-02-09 01:25+0100\n"
-"PO-Revision-Date: 2003-07-29 12:32+0200\n"
+"PO-Revision-Date: 2003-07-29 16:00+0200\n"
 "Last-Translator: Gilles CAULIER <caulier.gilles@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -58,10 +58,10 @@ msgid ""
 "Also, please contact me at <email>jasonwood@blueyonder.co.uk</email> rather "
 "than bugging any of the kde mailing lists."
 msgstr ""
-"ATTENTION ! Ce document n'est pas encore complétement terminé. Les "
+"ATTENTION ! Ce document n'est pas encore complètement terminé. Les "
 "informations concernant les contributeurs de &kapp;, les programmes requis, "
 "les instructions d'installation, et les informations de changement de "
-"version ne sont pas à jour ou sont incomplétes. Veuillez prendre contact "
+"version ne sont pas à jour ou sont incomplètes. Veuillez prendre contact "
 "avec l'auteur à l'adresse <email>jasonwood@blueyonder.co.uk</email> pour de "
 "plus amples informations."
 
@@ -200,6 +200,9 @@ msgid ""
 "instance, if you drag a dv straight from konqueror to &kapp;), then it will "
 "be automatically added to the project for you."
 msgstr ""
+"Si vous utilisez le glisser / déposer sur la table de montage vidéo avec un plan vidéo qui n'est "
+"pas dans votre projet (par exemple en utilisant un fichier au format « DV » à partir de Konqueror), "
+"alors celui ci sera automatiquement ajouté au projet."
 
 #: index.docbook:210
 #, no-c-format
@@ -222,6 +225,8 @@ msgid ""
 "Delete clips is currently non-functional - the only way to delete clips is "
 "to use clean-project."
 msgstr ""
+"La suppression de plans vidéo n'est pas encore opérationnelle. La seule manière de supprimer des "
+"plans vidéo est de purger le projet."
 
 #: index.docbook:226
 #, no-c-format
@@ -234,6 +239,8 @@ msgid ""
 "Clip Properties is currently non-functional - there is no way to examine the "
 "format of a clip except by examining the debug output ;-)"
 msgstr ""
+"L'affichage des propriétes d'un plan vidéo n'est pas encore opérationnelle. La seule solution "
+"existante pour avoir des informations sur un fichier vidéo est d'utiliser la fenêtre de débogage."
 
 #: index.docbook:233
 #, no-c-format
@@ -376,6 +383,8 @@ msgid ""
 "Programming &kdenlive; plugins is a joy to behold. Just read through the "
 "next 66 pages of API's to learn how!"
 msgstr ""
+"La programmation de modules externes pour &kdenlive; est très attractive. Cependant, elle "
+"nécessite l'écriture de plus de 66 pages sur les API du programme."
 
 #: index.docbook:366
 #, no-c-format
@@ -388,6 +397,8 @@ msgid ""
 "When I add clips to the project, the times show up as 'unknown'. I know "
 "these clips are valid, why does this happen?"
 msgstr ""
+"Quand j'ajoute des plans vidéo au projet, la durée des fichiers vidéo est annotée « inconnue ». "
+"Ces fichiers sont pourtant des fichiers vidéo dont le format est connu. Que se passe t'il ?"
 
 #: index.docbook:388
 #, no-c-format
@@ -438,7 +449,7 @@ msgid ""
 "implementations"
 msgstr ""
 "Rolf Dubitzky <email>dubitzky@pktw06.phy.tu-dresden.de</email> : auteur et mainteneur du "
-"programme Piave."
+"programme « piave »."
 
 #: index.docbook:433
 #, no-c-format
@@ -488,6 +499,9 @@ msgid ""
 "Additionally, you need piave in order to do anthing useful - kdenlive itself "
 "is after all, just an interface :-)"
 msgstr ""
+"Pour pouvoir utiliser &Kdenlive;, il est nécessaire d'avoir l'environnement de bureau KDE en version "
+"3.0 ou supérieure. De plus, il est nécessaire d'avoir le programme « piave » pour pouvoir faire des "
+"opérations sur les fichiers vidéo. Kdenlive est une interface graphique pour ce programme."
 
 #: index.docbook:486
 #, no-c-format
@@ -496,6 +510,8 @@ msgid ""
 "<ulink url=\"http://pwp.blueyonder.co.uk/kdenlive.html\">The &kdenlive; home "
 "page</ulink>."
 msgstr ""
+"Toutes les bibliothèques ainsi le programme &kdenlive; peuvent être trouvés sur "
+"<ulink url=\"http://pwp.blueyonder.co.uk/kdenlive.html\">la page WEB du projet</ulink>."
 
 #: index.docbook:493
 #, no-c-format
@@ -504,6 +520,9 @@ msgid ""
 "kdenlive.html\">http://pwp.blueyonder.co.uk/kdenlive.html</ulink>. FIXME : "
 "this link is actually fibbing at the moment."
 msgstr ""
+"Vous pouvez trouver la liste des dernières modifications de Kdenlive à l'adresse "
+"<ulink url=\"http://pwp.blueyonder.co.uk/kdenlive.html\">"
+"http://pwp.blueyonder.co.uk/kdenlive.html</ulink>."
 
 #: index.docbook:499
 #, no-c-format
@@ -516,6 +535,8 @@ msgid ""
 "In order to compile and install &kapp; on your system, type the following in "
 "the base directory of the Icon Editor distribution:"
 msgstr ""
+"Pour pouvoir compiler et installer &kapp; sur votre système, saisissez les lignes de commande "
+"suivantes :"
 
 #: index.docbook:501
 #, no-c-format
@@ -534,6 +555,9 @@ msgid ""
 "Since KApp uses autoconf and automake you should have not trouble compiling "
 "it. Should you run into problems please report them to the KDE mailing lists."
 msgstr ""
+"Depuis que Kdenlive utilise les programmes « autoconf » et « automake », vous ne devriez pas "
+"avoir de problèmes pour compiler celui ci. Si vous rencontrez des difficultés, veulliez contacter la "
+"liste de diffusion du projet KDE."
 
 #: index.docbook:519
 #, no-c-format
