@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 ""
 "Last-Translator: Gilles CAULIER <caulier.gilles@free.fr>\n"
-"PO-Revision-Date: 2003-07-29 10:09+0200\n"
+"PO-Revision-Date: 2003-07-29 10:26+0200\n"
 "Project-Id-Version: index_fr\n"
 "Language-Team: Française <fr@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -104,7 +104,7 @@ msgstr ""
 #: index.docbook:133
 #, no-c-format
 msgid "What is a video editor?"
-msgstr ""
+msgstr "Qu'est ce qu'un logiciel de montage vidéo ?"
 
 #: index.docbook:135
 #, no-c-format
@@ -112,11 +112,15 @@ msgid ""
 "A video editor is an application that allows you to create a new video out "
 "of various scenes from one or more other videos."
 msgstr ""
+"Un logiciel de montage vidéo est une application qui permet de créer une séquence vidéo à partir "
+"de plusieurs plans vidéo indépendants ou à partir d'autres séquences vidéo."
 
 #: index.docbook:141
 #, no-c-format
 msgid "What is the difference between linear editing and non-linear editing?"
 msgstr ""
+"Qu'elle est la différence entre une application de montage vidéo « linéaire » et une application de "
+"montage vidéo « non linéaire » ?"
 
 #: index.docbook:143
 #, no-c-format
@@ -146,12 +150,12 @@ msgstr ""
 #: index.docbook:165
 #, no-c-format
 msgid "Using Kdenlive"
-msgstr ""
+msgstr "Utilisation de Kdenlive"
 
 #: index.docbook:171
 #, no-c-format
 msgid "Here's a screenshot of &kapp;"
-msgstr ""
+msgstr "Voici une copie d'écran de &kapp;"
 
 #: index.docbook:171
 #, no-c-format
@@ -161,12 +165,12 @@ msgstr "Capture d'écran"
 #: index.docbook:193
 #, no-c-format
 msgid "The Project List"
-msgstr ""
+msgstr "La liste du projet"
 
 #: index.docbook:195
 #, no-c-format
 msgid "The project list shows all of the clips that are available for this project."
-msgstr ""
+msgstr "La liste du projet affiche tous les plans vidéo qui sont disponibles dans le projet."
 
 #: index.docbook:198
 #, no-c-format
@@ -180,7 +184,7 @@ msgstr ""
 #: index.docbook:204
 #, no-c-format
 msgid "Adding Clips to the Project"
-msgstr ""
+msgstr "Ajouter un plan vidéo au projet"
 
 #: index.docbook:205
 #, no-c-format
@@ -203,7 +207,7 @@ msgstr ""
 #: index.docbook:219
 #, no-c-format
 msgid "Deleting clips via the Project List"
-msgstr ""
+msgstr "Suppression des plans vidéo via la liste du projet"
 
 #: index.docbook:220
 #, no-c-format
@@ -215,7 +219,7 @@ msgstr ""
 #: index.docbook:226
 #, no-c-format
 msgid "Examining Clip Properties"
-msgstr ""
+msgstr "Consultation des propriétés des plans vidéo"
 
 #: index.docbook:227
 #, no-c-format
@@ -227,7 +231,7 @@ msgstr ""
 #: index.docbook:233
 #, no-c-format
 msgid "Clean Project - Removing unused Clips"
-msgstr ""
+msgstr "Purger le projet - Suppression des plans vidéo non utilisés"
 
 #: index.docbook:234
 #, no-c-format
@@ -242,63 +246,63 @@ msgstr ""
 #: index.docbook:245
 #, no-c-format
 msgid "The Debug Panel"
-msgstr ""
+msgstr "Le panneau de débogage"
 
 #: index.docbook:246 index.docbook:267 index.docbook:272 index.docbook:277
 #: index.docbook:282 index.docbook:287
 #, no-c-format
 msgid "This is..."
-msgstr ""
+msgstr "A faire..."
 
 #: index.docbook:250
 #, no-c-format
 msgid "The Effect List"
-msgstr ""
+msgstr "La liste des effets"
 
 #: index.docbook:252 index.docbook:260
 #, no-c-format
 msgid "This is non-functional in the current version of &kapp;."
-msgstr ""
+msgstr "Cette fonctionnalité n'est pas encore implantée dans la version actuelle de &kapp;."
 
 #: index.docbook:258
 #, no-c-format
 msgid "The Effect Setup Panel"
-msgstr ""
+msgstr "Le panneau de configuration des effets"
 
 #: index.docbook:266
 #, no-c-format
 msgid "The Timeline"
-msgstr ""
+msgstr "La table de montage vidéo"
 
 #: index.docbook:271
 #, no-c-format
 msgid "The Clip Monitor"
-msgstr ""
+msgstr "La prévisualition des plans vidéo"
 
 #: index.docbook:276
 #, no-c-format
 msgid "The Workspace Monitor"
-msgstr ""
+msgstr "La prévisualisation du montage vidéo"
 
 #: index.docbook:281
 #, no-c-format
 msgid "Rendering your project"
-msgstr ""
+msgstr "Le rendu vidéo du projet"
 
 #: index.docbook:286
 #, no-c-format
 msgid "Loading and Saving your project"
-msgstr ""
+msgstr "L'ouverture et l'enregistrement de votre projet"
 
 #: index.docbook:293
 #, no-c-format
 msgid "Command Reference"
-msgstr ""
+msgstr "Les commandes de référence"
 
 #: index.docbook:302
 #, no-c-format
 msgid "The main Kdenlive window"
-msgstr ""
+msgstr "La fenêtre principale de Kdenlive"
 
 #: index.docbook:303
 #, no-c-format
@@ -308,7 +312,7 @@ msgstr "<para></para>"
 #: index.docbook:306
 #, no-c-format
 msgid "The File Menu"
-msgstr ""
+msgstr "Le menu « Fichier »"
 
 #: index.docbook:307
 #, no-c-format

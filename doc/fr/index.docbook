@@ -171,14 +171,14 @@ revision history. (see installation appendix comment) -->
 >  </para>
 <sect1 id="whatisavideoeditor">
 <title
-></title>
+>Qu'est ce qu'un logiciel de montage vidéo ?</title>
 
 <para
->  </para>
+> Un logiciel de montage vidéo est une application qui permet de créer une séquence vidéo à partir de plusieurs plans vidéo indépendants ou à partir d'autres séquences vidéo. </para>
 </sect1>
 <sect1 id="linearvsnonlinear">
 <title
-></title>
+>Qu'elle est la différence entre une application de montage vidéo « linéaire » et une application de montage vidéo « non linéaire » ?</title>
 
 <para
 >  </para>
@@ -190,7 +190,7 @@ revision history. (see installation appendix comment) -->
 
 <chapter id="using-kapp">
 <title
-></title>
+>Utilisation de Kdenlive</title>
 
 <!-- This chapter should tell the user how to use your app. You should use as
 many sections (Chapter, Sect1, Sect3, etc...) as is necessary to fully document
@@ -199,7 +199,7 @@ your application. -->
 <para
 > <screenshot
 > <screeninfo
-></screeninfo
+>Voici une copie d'écran de &kapp;</screeninfo
 > <mediaobject
 > <imageobject
 > <imagedata fileref="screenshot.png" format="PNG"/> </imageobject
@@ -215,15 +215,15 @@ your application. -->
 
 <sect1 id="kapp-projectlist">
 <title
-></title>
+>La liste du projet</title>
 
 <para
->  </para>
+> La liste du projet affiche tous les plans vidéo qui sont disponibles dans le projet. </para>
 <para
 >  </para>
 <sect2 id="kapp-projectlist-addingclips">
 <title
-></title>
+>Ajouter un plan vidéo au projet</title>
 <para
 >  </para>
 <para
@@ -231,19 +231,19 @@ your application. -->
 </sect2>
 <sect2 id="kapp-projectlist-deletingclips">
 <title
-></title>
+>Suppression des plans vidéo via la liste du projet</title>
 <para
 >  </para>
 </sect2>
 <sect2 id="kapp-projectlist-clipproperties">
 <title
-></title>
+>Consultation des propriétés des plans vidéo</title>
 <para
 >  </para>
 </sect2>
 <sect2 id="kapp-projectlist-cleanproject">
 <title
-></title>
+>Purger le projet - Suppression des plans vidéo non utilisés</title>
 <para
 >  </para>
 </sect2>
@@ -251,67 +251,67 @@ your application. -->
 
 <sect1 id="kapp-debugwindow">
 <title
-></title>
+>Le panneau de débogage</title>
 <para
-></para>
+>A faire...</para>
 </sect1>
 
 <sect1 id="kapp-effectlist">
 <title
-></title>
+>La liste des effets</title>
 
 <para
->  </para>
+> Cette fonctionnalité n'est pas encore implantée dans la version actuelle de &kapp;. </para>
 </sect1>
 
 <sect1 id="kapp-effectsetup">
 <title
-></title>
+>Le panneau de configuration des effets</title>
 
 <para
->  </para>
+> Cette fonctionnalité n'est pas encore implantée dans la version actuelle de &kapp;. </para>
 </sect1>
 
 <sect1 id="kapp-timeline">
 <title
-></title>
+>La table de montage vidéo</title>
 <para
-></para>
+>A faire...</para>
 </sect1>
 
 <sect1 id="kapp-clipmonitor">
 <title
-></title>
+>La prévisualition des plans vidéo</title>
 <para
-></para>
+>A faire...</para>
 </sect1>
 
 <sect1 id="kapp-workspacemonitor">
 <title
-></title>
+>La prévisualisation du montage vidéo</title>
 <para
-></para>
+>A faire...</para>
 </sect1>
 
 <sect1 id="kapp-rendering">
 <title
-></title>
+>Le rendu vidéo du projet</title>
 <para
-></para>
+>A faire...</para>
 </sect1>
 
 <sect1 id="kapp-loadsave">
 <title
-></title>
+>L'ouverture et l'enregistrement de votre projet</title>
 <para
-></para>
+>A faire...</para>
 </sect1>
 
 </chapter>
 
 <chapter id="commands">
 <title
-></title>
+>Les commandes de référence</title>
 
 <!-- (OPTIONAL, BUT RECOMMENDED) This chapter should list all of the
 application windows and their menubar and toolbar commands for easy reference.
@@ -321,13 +321,13 @@ or menu bars. -->
 
 <sect1 id="kapp-mainwindow">
 <title
-></title>
+>La fenêtre principale de Kdenlive</title>
 <para
 ></para>
 
 <sect2>
 <title
-></title>
+>Le menu « Fichier »</title>
 <para
 > <variablelist
 > <varlistentry
