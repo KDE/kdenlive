@@ -712,7 +712,7 @@ KMacroCommand *KMMTimeLine::createAddClipsCommand(bool addingClips)
 }
 
 /** Adds a command to the command history, if execute is set to true then the command will be executed. */
-void KMMTimeLine::addCommand(KCommand *command, bool execute=true)
+void KMMTimeLine::addCommand(KCommand *command, bool execute)
 {
 	m_app->addCommand(command, execute);
 }

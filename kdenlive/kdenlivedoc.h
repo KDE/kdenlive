@@ -117,7 +117,7 @@ The relevant AVFile can then be updated to the correct status. */
 as swiftly as possible... */
   static KRender temporaryRenderer;
   	/** Returns the number of frames per second. */
-  	int framesPerSecond();
+  	int framesPerSecond() const;
   	/** Itterates through the tracks in the project. This works in the same way
 			* as QPtrList::next(), although the underlying structures may be different. */
 	  DocTrackBase * nextTrack();

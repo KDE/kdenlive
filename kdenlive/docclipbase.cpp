@@ -1,4 +1,4 @@
-/***************************************************************************
+/**************************1*************************************************
                           DocClipBase.cpp  -  description
                              -------------------
     begin                : Fri Apr 12 2002
@@ -39,7 +39,7 @@ const GenTime &DocClipBase::trackStart() const {
   return m_trackStart;
 }
 
-void DocClipBase::setTrackStart(GenTime time)
+void DocClipBase::setTrackStart(const GenTime time)
 {
 	m_trackStart = time;
 	if(m_parentTrack) {
@@ -47,7 +47,7 @@ void DocClipBase::setTrackStart(GenTime time)
 	}
 }
 
-void DocClipBase::setName(QString name)
+void DocClipBase::setName(const QString name)
 {
 	m_name = name;
 	if(m_parentTrack) {
@@ -149,7 +149,7 @@ DocClipBase *DocClipBase::createClip(KdenliveDoc &doc, const QDomElement element
 }
 
 /** Sets the parent track for this clip. */
-void DocClipBase::setParentTrack(DocTrackBase *track, int trackNum)
+void DocClipBase::setParentTrack(DocTrackBase *track, const int trackNum)
 {
 	m_parentTrack = track;
 	m_trackNum = trackNum;

@@ -26,7 +26,8 @@ DocClipProject::~DocClipProject()
 {
 }
 
-GenTime DocClipProject::duration() {
+GenTime DocClipProject::duration() const
+{
 	return GenTime(0.0);
 }
 

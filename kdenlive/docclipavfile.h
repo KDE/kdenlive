@@ -41,7 +41,7 @@ public:
 	QString fileName();
 	
 	/** Returns the duration of the file */
-	GenTime duration();	
+	GenTime duration() const;	
 	/** Returns the type of this clip */
 	DocClipBase::CLIPTYPE clipType();
 
@@ -49,7 +49,7 @@ public:
   /** Returns the url of the AVFile this clip contains */
   KURL fileURL();
   /** Creates a clip from the passed QDomElement. This only pertains to those details specific to DocClipAVFile.*/
-  static DocClipAVFile * createClip(KdenliveDoc &doc, QDomElement element);
+  static DocClipAVFile * createClip(KdenliveDoc &doc, const QDomElement element);
 private:	
 	/** A play object factory, used for calculating information, and previewing files */
 	/** Determines whether this file contains audio, video or both. */

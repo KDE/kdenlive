@@ -51,7 +51,8 @@ DocClipAVFile::~DocClipAVFile(){
 	m_avFile = 0;	
 }
 
-GenTime DocClipAVFile::duration() {
+GenTime DocClipAVFile::duration() const
+{
 	return m_avFile->duration();
 }
 
@@ -90,7 +91,7 @@ KURL DocClipAVFile::fileURL()
 }
 
 /** Creates a clip from the passed QDomElement. This only pertains to those details specific to DocClipAVFile.*/
-DocClipAVFile * DocClipAVFile::createClip(KdenliveDoc &doc, QDomElement element)
+DocClipAVFile * DocClipAVFile::createClip(KdenliveDoc &doc, const QDomElement element)
 {
 	if(element.tagName() == "avfile") {
 		KURL url(element.attribute("url"));

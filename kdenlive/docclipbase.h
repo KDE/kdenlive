@@ -45,10 +45,10 @@ public:
 	/** Returns where this clip starts */
 	const GenTime &trackStart() const;
 	/** Sets the position that this clip resides upon it's track. */
-	void setTrackStart(GenTime time);
+	void setTrackStart(const GenTime time);
 
 	/** sets the name of this clip. */
-	void setName(QString name);
+	void setName(const QString name);
 
 	/** returns the name of this clip. */
 	QString name();
@@ -73,16 +73,16 @@ public:
 	virtual QDomDocument toXML();
 	
 	/** returns the duration of this clip */
-	virtual GenTime duration() = 0;
+	virtual GenTime duration() const = 0;
 	/** Returns a url to a file describing this clip. Exactly what this url is,
 	whether it is temporary or not, and whether it provokes a render will
 	depend entirely on what the clip consists of. */
 	virtual KURL fileURL() = 0;
 
 	/** Reads in the element structure and creates a clip out of it. */
-	static DocClipBase *createClip(KdenliveDoc &doc, QDomElement element);
+	static DocClipBase *createClip(KdenliveDoc &doc, const QDomElement element);
   /** Sets the parent track for this clip. */
-  void setParentTrack(DocTrackBase *track, int trackNum);
+  void setParentTrack(DocTrackBase *track, const int trackNum);
   /** Returns the track number. This is a hint as to which track the clip is on, or should be placed on. */
   int trackNum();
   /** Returns the end of the clip on the track. A convenience function, equivalent

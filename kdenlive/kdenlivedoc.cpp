@@ -257,7 +257,7 @@ const AVFileList &KdenliveDoc::avFileList()
 }
 
 /** Returns the number of frames per second. */
-int KdenliveDoc::framesPerSecond()
+int KdenliveDoc::framesPerSecond() const
 {
 	return m_framesPerSecond;
 }

@@ -30,7 +30,7 @@ public:
 	DocClipProject();
 	~DocClipProject();
 
-	GenTime duration();
+	GenTime duration() const;
   
 	/** No descriptions */
 	KURL fileURL();
