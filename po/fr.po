@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "POT-Creation-Date: 2003-06-23 14:14+0200\n"
-"PO-Revision-Date: 2003-06-23 14:15+0200\n"
+"PO-Revision-Date: 2003-06-23 14:58+0200\n"
 "Last-Translator: Gilles CAULIER <caulier.gilles@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -665,7 +665,7 @@ msgstr "Outils de déplacement / redimensionnement"
 
 #: kdenlive.cpp:695
 msgid "Razor tool"
-msgstr "Outil de découpe"
+msgstr "Outil de découpage"
 
 #: kdenlive.cpp:701
 msgid "Separate tool"
