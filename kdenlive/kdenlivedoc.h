@@ -199,6 +199,9 @@ signals: // Signals
   void documentChanged();
   /** Emitted when a new scenelist has been generated */
   void sceneListChanged(const QDomDocument &);
+signals: // Signals
+  /** Emitted whenever a clip gets selected. */
+  void signalClipSelected(DocClipBase *);
 };
 
 #endif // KDENLIVEDOC_H

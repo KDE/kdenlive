@@ -749,7 +749,6 @@ KCommand * KMMTimeLine::resizeClip(DocClipBase *clip, bool resizeEnd, GenTime &t
 		command->setEndTrackStart(time);
 	}
 
-	kdDebug() << "Command is " << command << endl;
 	return command;
 }
 

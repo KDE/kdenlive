@@ -135,6 +135,8 @@ public: // Public attributes
 signals:
 	/** Emitted whenever the track changes.*/
 	void trackChanged();
+  /** Emitted whenever a clip becomes selected. */
+  void signalClipSelected(DocClipBase *);
 private: // Private attributes
   /** This variable is >= 1 if sorting is enabled, and < 1 otherwise. */
   int m_sortingEnabled;

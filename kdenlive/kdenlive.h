@@ -47,6 +47,8 @@ class ProjectList;
 class KMMRulerPanel;
 class RenderDebugPanel;
 class AVFile;
+class DocClipBase;
+
 
 /**
   * The base class for Kdenlive application windows. It sets up the main
@@ -213,6 +215,8 @@ class KdenliveApp : public KDockMainWindow
   void slotDeleteSelected();  
   /** Set the source of the clip monitor to the spectified AVFile. */
   void slotSetClipMonitorSource(AVFile *file);
+  /** Sets the clip monitor source to be the given clip. */
+  void slotSetClipMonitorSource(DocClipBase *clip);
 
   private:
     /** the configuration object of the application */

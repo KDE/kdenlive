@@ -41,7 +41,8 @@ bool DocTrackBase::addClip(DocClipBase *clip, bool selected)
 {
 	if(canAddClip(clip)) {
 		if(selected) {
-			m_selectedClipList.inSort(clip);		
+			m_selectedClipList.inSort(clip);
+      emit signalClipSelected(clip);
 		} else {
 			m_unselectedClipList.inSort(clip);			
 		}

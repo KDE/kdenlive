@@ -43,6 +43,7 @@
 #include "kprogress.h"
 #include "krulertimemodel.h"
 #include "krendermanager.h"
+#include "docclipbase.h"
 
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
@@ -253,6 +254,7 @@ void KdenliveApp::initView()
   connect(m_renderManager, SIGNAL(recievedStderr(const QString &, const QString &)), m_renderDebugPanel, SLOT(slotPrintError(const QString &, const QString &)));
 
   connect(m_projectList, SIGNAL(AVFileSelected(AVFile *)), this, SLOT(slotSetClipMonitorSource(AVFile *)));
+ connect(getDocument(), SIGNAL(signalClipSelected(DocClipBase *)), this, SLOT(slotSetClipMonitorSource(DocClipBase *)));
 
   makeDockInvisible(mainDock);
 
@@ -783,6 +785,7 @@ void KdenliveApp::slotSetClipMonitorSource(AVFile *file)
   
   if(!file->durationKnown()) {
     kdWarning() << "Cannot create scenelist for clip monitor - clip duration unknown" << endl;
+    return;
   }
   
   QDomDocument scenelist;
@@ -803,4 +806,38 @@ void KdenliveApp::slotSetClipMonitorSource(AVFile *file)
   m_clipMonitor->setSceneList(scenelist);
   m_clipMonitor->setClipLength(file->duration().frames(getDocument()->framesPerSecond()));
   m_clipMonitor->seek(GenTime(0.0));
+}
+
+/** Sets the clip monitor source to be the given clip. */
+void KdenliveApp::slotSetClipMonitorSource(DocClipBase *clip)
+{
+	static QString str_inpoint="inpoint";
+	static QString str_outpoint="outpoint";
+	static QString str_file="file";
+
+  kdDebug() << "Setting clip monitor source (from DocClipBase *)" << endl;
+
+  if(!clip) {  
+    kdError() << "Null clip passed, not setting monitor." << endl;
+    return;
+  }
+
+  QDomDocument scenelist;
+  scenelist.appendChild(scenelist.createElement("scenelist"));
+
+  // generate the next scene.
+  QDomElement scene = scenelist.createElement("scene");
+  scene.setAttribute("duration", QString::number(clip->duration().seconds()));
+
+  QDomElement sceneClip;
+  sceneClip = scenelist.createElement("input");  
+  sceneClip.setAttribute(str_file, clip->fileURL().path());
+  sceneClip.setAttribute(str_inpoint, "0.0");
+  sceneClip.setAttribute(str_outpoint, QString::number(clip->duration().seconds()));
+  scene.appendChild(sceneClip);
+  scenelist.documentElement().appendChild(scene);
+
+  m_clipMonitor->setSceneList(scenelist);
+  m_clipMonitor->setClipLength(clip->duration().frames(getDocument()->framesPerSecond()));
+  m_clipMonitor->seek(GenTime(0.0));  
 }

@@ -291,6 +291,7 @@ void KdenliveDoc::addTrack(DocTrackBase *track){
 	m_tracks.append(track);
 	track->trackIndexChanged(trackIndex(track));
   connect(track, SIGNAL(trackChanged()), this, SLOT(hasBeenModified()));
+  connect(track, SIGNAL(signalClipSelected(DocClipBase *)), this, SIGNAL(signalClipSelected(DocClipBase *)));
 	emit trackListChanged();
 }
 
@@ -606,17 +607,17 @@ QDomDocument KdenliveDoc::generateSceneList()
         if(curClip->trackEnd() <= curTime) continue;
 
         sceneClip = m_domSceneList.createElement("input");
-     	sceneClip.setAttribute(str_file, curClip->fileURL().path());
-     	sceneClip.setAttribute(str_inpoint, QString::number((curTime - curClip->trackStart() + curClip->cropStartTime()).seconds()));
-     	sceneClip.setAttribute(str_outpoint, QString::number((nextTime - curClip->trackStart() + curClip->cropStartTime()).seconds()));
+        sceneClip.setAttribute(str_file, curClip->fileURL().path());
+        sceneClip.setAttribute(str_inpoint, QString::number((curTime - curClip->trackStart() + curClip->cropStartTime()).seconds()));
+        sceneClip.setAttribute(str_outpoint, QString::number((nextTime - curClip->trackStart() + curClip->cropStartTime()).seconds()));
       }
 
       if(!sceneClip.isNull()) {
      	scene.appendChild(sceneClip);
       } else {
- 	sceneClip = m_domSceneList.createElement("stillcolor");
-	sceneClip.setAttribute("yuvcolor", "#000000");
-	scene.appendChild(sceneClip);
+       	sceneClip = m_domSceneList.createElement("stillcolor");
+        sceneClip.setAttribute("yuvcolor", "#000000");
+      	scene.appendChild(sceneClip);
       }
 
       m_domSceneList.documentElement().appendChild(scene);
