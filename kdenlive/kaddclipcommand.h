@@ -30,6 +30,7 @@ class DocClipRef;
 class DocClipBase;
 class KdenliveDoc;
 class DocumentBaseNode;
+class ProjectList;
 
 /**Adds a clip to the document
   *@author Jason Wood
@@ -73,6 +74,7 @@ private: // Private attributes
 	bool m_create;
 	/** An xml representation of the clip */
 	QDomDocument m_xmlClip;
+	ProjectList *m_projectList;
 private: // Private methods
 	/** Deletes the clip */
 	void deleteClip();

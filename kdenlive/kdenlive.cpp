@@ -79,6 +79,7 @@
 #include "trackpanelrazorfunction.h"
 #include "trackpanelspacerfunction.h"
 #include "trackpanelclipresizefunction.h"
+#include "trackpanelcliprollfunction.h"
 #include "trackpanelmarkerfunction.h"
 #include "trackpanelselectnonefunction.h"
 
@@ -144,8 +145,8 @@ void KdenliveApp::initActions()
 	timelineMoveTool = new KRadioAction( i18n( "Move/Resize Tool" ), "moveresize.png", KShortcut( Qt::Key_Q ), this, SLOT( slotTimelineMoveTool() ), actionCollection(), "timeline_move_tool" );
 	timelineRazorTool = new KRadioAction( i18n( "Razor Tool" ), "razor.png", KShortcut( Qt::Key_W ), this, SLOT( slotTimelineRazorTool() ), actionCollection(), "timeline_razor_tool" );
 	timelineSpacerTool = new KRadioAction( i18n( "Spacing Tool" ), "spacer.png", KShortcut( Qt::Key_E ), this, SLOT( slotTimelineSpacerTool() ), actionCollection(), "timeline_spacer_tool" );
-	timelineMarkerTool = new KRadioAction( i18n( "Marker Tool" ), "marker.png", KShortcut( Qt::Key_R ), this, SLOT( slotTimelineMarkerTool() ), actionCollection(), "timeline_marker_tool" );
-
+	timelineMarkerTool = new KRadioAction( i18n( "Marker Tool" ), "marker.png", KShortcut( Qt::Key_M ), this, SLOT( slotTimelineMarkerTool() ), actionCollection(), "timeline_marker_tool" );
+	timelineRollTool = new KRadioAction( i18n( "Roll Tool" ), "roll.png", KShortcut( Qt::Key_R ), this, SLOT( slotTimelineRollTool() ), actionCollection(), "timeline_roll_tool" );
 
 	timelineSnapToFrame = new KToggleAction( i18n( "Snap To Frames" ), "snaptoframe.png", 0, this, SLOT( slotTimelineSnapToFrame() ), actionCollection(), "timeline_snap_frame" );
 	timelineSnapToBorder = new KToggleAction( i18n( "Snap To Border" ), "snaptoborder.png", 0, this, SLOT( slotTimelineSnapToBorder() ), actionCollection(), "timeline_snap_border" );
@@ -189,6 +190,7 @@ void KdenliveApp::initActions()
 	timelineRazorTool->setExclusiveGroup( "timeline_tools" );
 	timelineSpacerTool->setExclusiveGroup( "timeline_tools" );
 	timelineMarkerTool->setExclusiveGroup( "timeline_tools" );
+	timelineRollTool->setExclusiveGroup( "timeline_tools" );
 
 	fileNew->setStatusText( i18n( "Creates a new document" ) );
 	fileOpen->setStatusText( i18n( "Opens an existing document" ) );
@@ -207,6 +209,7 @@ void KdenliveApp::initActions()
 	timelineRazorTool->setStatusText( i18n( "Chops clips into two pieces" ) );
 	timelineSpacerTool->setStatusText( i18n( "Shifts all clips to the right of mouse" ) );
 	timelineMarkerTool->setStatusText( i18n( "Place snap marks on clips and the timeline to aid accurate positioning of clips" ) );
+	timelineRollTool->setStatusText( i18n( "Move edit point between two selected clips" ) );
 	timelineSnapToFrame->setStatusText( i18n( "Clips will align to the nearest frame" ) );
 	timelineSnapToBorder->setStatusText( i18n( "Clips will align with the borders of other clips" ) );
 	timelineSnapToMarker->setStatusText( i18n( "Clips will align with user-defined snap markers" ) );
@@ -281,7 +284,7 @@ void KdenliveApp::initView()
 	setMainDockWidget( mainDock );
 	setCaption( doc->URL().fileName(), false );
 
-	KDockWidget *widget = createDockWidget( "TimeLine", QPixmap(), 0, i18n( "TimeLine" ) );
+	KDockWidget *widget = createDockWidget( i18n( "TimeLine" ), QPixmap(), 0, i18n( "TimeLine" ) );
 	m_timeline = new KMMTimeLine( NULL, widget );
 	widget->setWidget( m_timeline );
 	widget->setDockSite( KDockWidget::DockFullSite );
@@ -365,8 +368,8 @@ void KdenliveApp::initView()
 	connect( getDocument(), SIGNAL( clipChanged( DocClipRef * ) ), m_projectList, SLOT( slot_clipChanged( DocClipRef * ) ) );
 	connect( getDocument(), SIGNAL( nodeDeleted( DocumentBaseNode * ) ), m_projectList, SLOT( slot_nodeDeleted( DocumentBaseNode * ) ) );
 
-	connect( getDocument(), SIGNAL( documentChanged( DocClipBase * ) ), m_workspaceMonitor, SLOT( slotSetClip( DocClipBase * ) ) );
-
+	//connect( getDocument(), SIGNAL( documentChanged( DocClipBase * ) ), m_workspaceMonitor, SLOT( slotSetClip( DocClipBase * ) ) );
+	
 	connect( getDocument() ->renderer(), SIGNAL( effectListChanged( const QPtrList<EffectDesc> & ) ), m_effectListDialog, SLOT( setEffectList( const QPtrList<EffectDesc> & ) ) );
 
 	connect( getDocument() ->renderer(), SIGNAL( rendering( const GenTime & ) ), this, SLOT( slotSetRenderProgress( const GenTime & ) ) );
@@ -388,6 +391,7 @@ void KdenliveApp::initView()
 
 	connect( m_projectList, SIGNAL( clipSelected( DocClipRef * ) ), this, SLOT( activateClipMonitor() ) );
 	connect( m_projectList, SIGNAL( clipSelected( DocClipRef * ) ), this, SLOT( slotSetClipMonitorSource( DocClipRef * ) ) );
+	connect( m_projectList, SIGNAL( clipSelected( DocClipRef *) ), this, SLOT( slotProjectClipProperties( DocClipRef * ) ) );
 	connect( m_projectList, SIGNAL( dragDropOccured( QDropEvent * ) ), this, SLOT( slot_insertClips( QDropEvent * ) ) );
 
 	connect( m_timeline, SIGNAL( seekPositionChanged( const GenTime & ) ), m_workspaceMonitor, SLOT( seek( const GenTime & ) ) );
@@ -423,6 +427,8 @@ void KdenliveApp::initView()
 	TrackPanelRazorFunction *razorFunction = new TrackPanelRazorFunction(this, m_timeline, getDocument());
 	m_timeline->trackView()->registerFunction("razor", razorFunction);
 	connect( razorFunction, SIGNAL( lookingAtClip( DocClipRef *, const GenTime & ) ), this, SLOT( slotLookAtClip( DocClipRef *, const GenTime & ) ) );
+	//register roll function -reh
+	m_timeline->trackView()->registerFunction("roll", new TrackPanelClipRollFunction(this, m_timeline, getDocument()));
 
 	m_timeline->trackView()->registerFunction("selectnone", new TrackPanelSelectNoneFunction(this, m_timeline, getDocument()));
 	m_timeline->trackView()->setDragFunction("move");
@@ -872,6 +878,13 @@ void KdenliveApp::slotTimelineMarkerTool()
 	m_timeline->setEditMode("marker");
 }
 
+/** Called when the roll tool action is selected */
+void KdenliveApp::slotTimelineRollTool()
+{
+	statusBar() ->changeItem( i18n( "Roll tool" ), ID_EDITMODE_MSG );
+	m_timeline->setEditMode("roll");
+}
+
 /** Called when the user activates the "Export Timeline" action */
 void KdenliveApp::slotRenderExportTimeline()
 {
@@ -936,7 +949,10 @@ void KdenliveApp::slotProjectAddClips()
 		}
 	}
 	addCommand( macroCommand, true );
-
+//	DocClipRef *refClip = m_projectList->currentSelection();
+//	if(!refClip)
+//		m_projectList->m_listView->setSelected( m_projectList->m_listView->firstChild()->firstChild(), TRUE );
+	
 	m_fileDialogPath.setFileName( QString::null );
 
 	slotStatusMsg( i18n( "Ready." ) );
@@ -1004,6 +1020,13 @@ void KdenliveApp::slotProjectClipProperties()
 	slotStatusMsg( i18n( "Viewing clip properties" ) );
 	m_clipPropertyDialog->setClip( m_projectList->currentSelection() );
 	makeDockVisible( clipWidget );
+	slotStatusMsg( i18n( "Ready." ) );
+}
+
+void KdenliveApp::slotProjectClipProperties( DocClipRef *clip )
+{
+	slotStatusMsg( i18n( "Viewing clip properties" ) );
+	m_clipPropertyDialog->setClip( m_projectList->currentSelection() );
 	slotStatusMsg( i18n( "Ready." ) );
 }
 
@@ -1092,6 +1115,7 @@ void KdenliveApp::slotSetClipMonitorSource( DocClipRef *clip )
 {
 	m_clipMonitor->slotSetClip( clip );
 	activateClipMonitor();
+	m_workspaceMonitor->slotSetClip( clip );
 }
 
 void KdenliveApp::loadLayout1()

@@ -201,6 +201,8 @@ class KdenliveApp : public KDockMainWindow
 		void slotTimelineMoveTool();
 		/** Called when the marker tool is selected */
 		void slotTimelineMarkerTool();
+		/** Called when the marker tool is selected  -reh */
+		void slotTimelineRollTool();
 		/** Called when the user activates the "Export Timeline" action */
 		void slotRenderExportTimeline();
 		/** Called when the user activates the "Configure Project" action */
@@ -217,6 +219,8 @@ class KdenliveApp : public KDockMainWindow
 		void slotProjectAddClips();
 		/** Opens a clip properties dialog */
 		void slotProjectClipProperties();
+		//sets properties for selected clip without showing dialog
+		void slotProjectClipProperties( DocClipRef *clip );
 		/** Seek forwards one frame in the active monitor */
 		void slotSeekForwards();
 		/** Seek backwards one frame in the active monitor */
@@ -352,6 +356,7 @@ class KdenliveApp : public KDockMainWindow
 		KRadioAction* timelineRazorTool;
 		KRadioAction* timelineSpacerTool;
 		KRadioAction* timelineMarkerTool;
+		KRadioAction* timelineRollTool;
 
 		KToggleAction* timelineSnapToFrame;
 		KToggleAction* timelineSnapToBorder;

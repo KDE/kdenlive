@@ -189,7 +189,7 @@ bool TrackPanelClipSlipFunction::dragEntered ( KTrackPanel *panel, QDragEnterEve
 	}
 
 	m_startedClipMove = false;
-
+	
 	return true;
 }
 

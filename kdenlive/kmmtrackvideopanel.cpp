@@ -28,6 +28,7 @@
 
 #include "trackpanelclipmovefunction.h"
 #include "trackpanelclipresizefunction.h"
+#include "trackpanelcliprollfunction.h"
 #include "trackpanelrazorfunction.h"
 #include "trackpanelspacerfunction.h"
 #include "trackpanelmarkerfunction.h"
@@ -54,6 +55,7 @@ KMMTrackVideoPanel::KMMTrackVideoPanel(KdenliveApp *app,
 	addFunctionDecorator("razor", "razor");
 	addFunctionDecorator("spacer", "spacer");
 	addFunctionDecorator("marker", "marker");
+	addFunctionDecorator("roll", "roll");
 
 	addViewDecorator(new TrackViewBackgroundDecorator(timeline, doc, QColor(128, 64, 64), QColor(255, 128, 128)));
 	addViewDecorator(new TrackViewNameDecorator(timeline, doc));

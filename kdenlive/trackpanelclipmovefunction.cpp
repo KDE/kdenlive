@@ -74,7 +74,7 @@ bool TrackPanelClipMoveFunction::mouseApplies( const QPoint &pos) const
 
 QCursor TrackPanelClipMoveFunction::getMouseCursor( KTrackPanel *panel, QMouseEvent *event )
 {
-	return QCursor( Qt::ArrowCursor );
+	return QCursor( Qt::SizeAllCursor );
 }
 
 bool TrackPanelClipMoveFunction::mousePressed( KTrackPanel *panel, QMouseEvent *event )
@@ -166,13 +166,10 @@ bool TrackPanelClipMoveFunction::dragEntered ( KTrackPanel *panel, QDragEnterEve
 	} else if ( ClipDrag::canDecode( event ) ) {
 		m_document->activateSceneListGeneration( false );
 		m_selection = ClipDrag::decode( m_document->effectDescriptions(), m_document->clipManager(), event );
-
 		if ( !m_selection.isEmpty() ) {
 			if ( m_selection.masterClip() == 0 ) m_selection.setMasterClip( m_selection.first() );
-
 			m_masterClip = m_selection.masterClip();
 			m_clipOffset = GenTime();
-
 			if ( m_selection.isEmpty() ) {
 				event->accept( false );
 			} else {

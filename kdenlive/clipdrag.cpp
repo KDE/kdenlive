@@ -99,7 +99,6 @@ DocClipRefList ClipDrag::decode(const EffectDescriptionList &effectList, ClipMan
 		} else {
 			node = elem;
 		}
-
 		while(!node.isNull()) {
 			QDomElement element = node.toElement();
 
@@ -130,7 +129,7 @@ DocClipRefList ClipDrag::decode(const EffectDescriptionList &effectList, ClipMan
 			cliplist.append(refFile);
 		}
 	}
-
+	
 	return cliplist;
 }
 

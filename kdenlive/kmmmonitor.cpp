@@ -241,9 +241,9 @@ void KMMMonitor::slotSetClip(DocClipBase *clip)
 
 	if(!m_clip) {
 		kdError() << "KMMMonitor : Could not copy clip - drag 'n' drop will not work!" << endl;
+	}else{
+		doCommonSetClip();
 	}
-
-	doCommonSetClip();
 }
 
 void KMMMonitor::doCommonSetClip()
@@ -254,10 +254,10 @@ void KMMMonitor::doCommonSetClip()
 	m_editPanel->setClipLength((int)m_clip->duration().frames(m_document->framesPerSecond()));
 
 	//COMMENTED BY ROBERT 08-13-2004 --WAS RESETTING SEEK AND INPOINT/OUTPOINT MARKERS WHEN MOVING A CLIP
-	//m_editPanel->setInpoint(m_clip->cropStartTime());
-	//m_editPanel->setOutpoint(m_clip->cropStartTime() + m_clip->cropDuration());
+	/*m_editPanel->setInpoint(m_clip->cropStartTime());
+	m_editPanel->setOutpoint(m_clip->cropStartTime() + m_clip->cropDuration());
 
-	/*if( (!m_noSeek) ||
+	if( (!m_noSeek) ||
 	    (seekPosition() < m_clip->cropStartTime()) ||
 	    (seekPosition() > m_clip->cropStartTime() + m_clip->cropDuration())) {
 		seek(m_clip->cropStartTime());
@@ -292,9 +292,13 @@ void KMMMonitor::slotStartDrag()
 
 	m_clip->setCropStartTime(GenTime(m_editPanel->inpoint()));
 	m_clip->setTrackStart(GenTime(0));
-	m_clip->setTrackEnd(m_editPanel->outpoint() - m_editPanel->inpoint());
+	if(m_editPanel->inpoint() >= m_editPanel->outpoint())
+		m_clip->setTrackEnd(GenTime(10.0) - m_editPanel->inpoint());
+	else
+		m_clip->setTrackEnd(m_editPanel->outpoint() - m_editPanel->inpoint());
 
 	ClipDrag *drag = new ClipDrag(m_clip, this, "Clip from monitor");
+	kdWarning() << "KMMMonitor made it here!" << endl;
 	drag->dragCopy();
 }
 

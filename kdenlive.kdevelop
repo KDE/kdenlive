@@ -114,6 +114,7 @@
     <general>
       <useconfiguration>default</useconfiguration>
       <activetarget>kdenlive/kdenlive</activetarget>
+      <useactivetarget>true</useactivetarget>
     </general>
     <configurations>
       <default>

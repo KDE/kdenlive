@@ -26,6 +26,7 @@
 #include "documentbasenode.h"
 #include "documentclipnode.h"
 #include "documentgroupnode.h"
+#include "projectlist.h"
 
 namespace Command {
 
@@ -151,6 +152,12 @@ void KAddClipCommand::addClip()
 			m_document.addClipNode(m_parent, new DocumentGroupNode(node, m_name ));
 		} else {
 			m_document.addClipNode(m_parent, new DocumentClipNode(node, clip));
+/*			DocClipRef *refClip = m_projectList->currentSelection();
+			if(!refClip)
+			{
+				//DocClipRef *ref = new DocClipRef(clip);
+				m_projectList->m_listView->setSelected( m_projectList->m_listView->firstChild(), TRUE );
+			}*/
 		}
 	}
 }

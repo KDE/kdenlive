@@ -307,7 +307,7 @@ void DocTrackBase::resizeClipTrackStart( DocClipRef *clip, GenTime newStart )
 		kdWarning() << "clip new crop start less than 0, trimming..." << endl;
 		newStart = GenTime() - clip->cropStartTime();
 	}
-
+	
 	if ( clip->cropDuration() - newStart > clip->duration() ) {
 		kdWarning() << "clip new crop duration will be more than clip duration, trimming..." << endl;
 		newStart = clip->cropDuration() - clip->duration();
@@ -352,6 +352,7 @@ void DocTrackBase::resizeClipTrackEnd( DocClipRef *clip, GenTime newEnd )
 	GenTime cropDuration = newEnd - clip->trackStart();
 
 	if ( cropDuration > clip->duration() - clip->cropStartTime() ) {
+		kdWarning() << "clip new crop end greater than duration, trimming..." << endl;
 		newEnd = clip->duration() - clip->cropStartTime() + clip->trackStart();
 		cropDuration = newEnd - clip->trackStart();
 	}
