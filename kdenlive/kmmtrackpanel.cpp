@@ -63,4 +63,12 @@ void KMMTrackPanel::drawToBackBuffer(QPainter &painter, QRect &rect)
 	for(DocClipBase *curClip; (curClip = clip.current())!=endClip; ++clip) {
 		paintClip(painter, curClip, rect, true);
 	}
+
+	// draw the vertical time marker
+
+	int value = (int)timeLine().mapValueToLocal(timeLine().seekPosition().frames(25));
+	if(value >= rect.x() && value <= rect.x()+rect.width()) {
+		painter.drawLine(value, rect.y(), value, rect.y() + rect.height());
+	}                               
 }
+

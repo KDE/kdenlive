@@ -157,6 +157,9 @@ public: // Public methods
   /** Returns true if the specified cliplist can be successfully merged with the track
 	views, false otherwise. */
   bool canAddClipsToTracks(DocClipBaseList &clips, int track, GenTime clipOffset);
+  /** Returns the seek position of the timeline - this is the currently playing frame, or
+the currently seeked frame. */
+  GenTime seekPosition();
 private: // private methods
 	void resizeTracks();
 	

@@ -48,6 +48,7 @@ KMMTimeLine::KMMTimeLine(QWidget *rulerToolWidget, QWidget *scrollToolWidget, Kd
 	if(!m_rulerToolWidget) m_rulerToolWidget = new QLabel("Tracks", 0, "Tracks");	
 	m_rulerToolWidget->reparent(m_rulerBox, QPoint(0,0));
 	m_ruler = new KScalableRuler(new KRulerTimeModel(), m_rulerBox, name);
+	m_ruler->addSlider(KRuler::Diamond, 0);
 
 	m_scrollToolWidget = scrollToolWidget;
 	if(!m_scrollToolWidget) m_scrollToolWidget = new QLabel("Scroll", 0, "Scroll");	
@@ -74,6 +75,8 @@ KMMTimeLine::KMMTimeLine(QWidget *rulerToolWidget, QWidget *scrollToolWidget, Kd
 	connect(m_scrollBar, SIGNAL(valueChanged(int)), m_ruler, SLOT(repaint()));	
   connect(m_document, SIGNAL(trackListChanged()), this, SLOT(syncWithDocument()));
   connect(m_ruler, SIGNAL(scaleChanged(double)), this, SLOT(calculateProjectSize(double)));
+  connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), m_trackViewArea, SLOT(drawBackBuffer()));
+  connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), m_ruler, SLOT(repaint()));  
   	
   setAcceptDrops(true);
 
@@ -518,7 +521,14 @@ void KMMTimeLine::initiateDrag(DocClipBase *clipUnderMouse, GenTime clipOffset)
 the display. The scale is how many frames should fit into the space considered normal for 1 frame*/
 void KMMTimeLine::setTimeScale(int scale)
 {
-	m_ruler->setValueScale(100.0 / scale);	
+	int localValue = mapValueToLocal(m_ruler->getSliderValue(0));	
+
+  double frameScale = 100.0 / scale;
+	
+	m_ruler->setValueScale(frameScale);
+
+	m_scrollBar->setValue(frameScale*m_ruler->getSliderValue(0) - localValue);	
+	
 	drawTrackViewBackBuffer();
 }
 
@@ -683,4 +693,11 @@ void KMMTimeLine::generateSnapToGridList()
 	}
 
   m_gridSnapTracker = m_snapToGridList.begin();
+}
+
+/** Returns the seek position of the timeline - this is the currently playing frame, or
+the currently seeked frame. */
+GenTime KMMTimeLine::seekPosition()
+{
+	return GenTime(m_ruler->getSliderValue(0), 25);
 }

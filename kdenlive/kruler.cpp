@@ -661,6 +661,7 @@ void KRuler::setRange(const int min, const int max)
 {
 	setMinValue(min);
 	setMaxValue(max);
+	drawToBackBuffer();
 }
 
 /** Returns the minimum value that a slider can be set to on this ruler. */
@@ -705,7 +706,7 @@ void KRuler::mouseMoveEvent(QMouseEvent *event)
 {
 	if(event->state() & (QMouseEvent::LeftButton | QMouseEvent::RightButton | QMouseEvent::MidButton)) {
 		if(d->m_oldValue != -1) {
-			setSliderValue(activeSliderID(), (int)mapLocalToValue((int)event->x()));
+			setSliderValue(activeSliderID(), (int)floor(mapLocalToValue((int)event->x())+0.5));
 			drawToBackBuffer();
 		}
 	}

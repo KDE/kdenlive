@@ -31,11 +31,11 @@ class KMMTrackPanel;
   */
 
 class KMMTimeLineTrackView : public QWidget  {
+   Q_OBJECT
 public:
 	enum ResizeState {None, Start, End};
 	KMMTimeLineTrackView(KMMTimeLine &timeLine, QWidget *parent=0, const char *name=0);
 	~KMMTimeLineTrackView();
-	void drawBackBuffer();
 	void resizeEvent(QResizeEvent *event);
 	void paintEvent(QPaintEvent *event);
 	/** This event occurs when the mouse has been moved. */
@@ -57,11 +57,13 @@ private: // Private attributes
   GenTime m_clipOffset;
   /** During a resize operation, holds the current resize state, as defined in the ResizeState enum. */
   ResizeState m_resizeState;
-  KMMTrackPanel * m_panelUnderMouse;
+  KMMTrackPanel * m_panelUnderMouse;  
 public: // Public attributes
   /** This value specifies the resizeTolerance of the KMMTimeLine - that is, how many
 pixels at the start and end of a clip are considered as a resize operation. */
   static int resizeTolerance;
+public slots:	// Public slots
+	void drawBackBuffer();  
 };
 
 #endif

@@ -31,7 +31,7 @@ author=Jason Wood
 configure_args=\s--build=i386-linux --host=i386-linux --target=i386-linux\s
 email=jasonwood@blueyonder.co.uk
 kdevprj_version=1.3
-lfv_open_groups=
+lfv_open_groups=User Interface
 make_options=\s-j1
 makefiles=Makefile.am,kdenlive/Makefile.am,doc/Makefile.am,doc/en/Makefile.am,po/Makefile.am
 modifyMakefiles=true
