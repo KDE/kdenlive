@@ -348,9 +348,9 @@ msgstr ""
 "projet, cela peut entraîner un arrêt anormal du programme de rendu vidéo "
 "(Piave). Ceci est un bogue connu. Lorsqu'il apparaît, enregistrer votre "
 "projet (si possible dans un nom diffèrent si c'est un projet déjà existant "
-"et en cours de modification), arrêter &kdenlive; et relancer le. Consulter la "
-"section <link linkend=\"known-issues\">Problèmes connus et solutions</link> "
-"pour plus de détails."
+"et en cours de modification), arrêter &kdenlive; et relancer le. Consulter "
+"la section <link linkend=\"known-issues\">Problèmes connus et solutions</"
+"link> pour plus de détails."
 
 #: index.docbook:304
 #, no-c-format
@@ -441,7 +441,8 @@ msgstr ""
 #: index.docbook:358
 #, no-c-format
 msgid "Moving and Resizing Clips on the Timeline"
-msgstr "Déplacement et redimensionnement des plans vidéo dans la table de montage"
+msgstr ""
+"Déplacement et redimensionnement des plans vidéo dans la table de montage"
 
 #: index.docbook:359
 #, no-c-format
@@ -478,9 +479,9 @@ msgid ""
 "seconds in length, then you will not be able to resize the clip so that it "
 "finishes playing 35 seconds into the clip!"
 msgstr ""
-"Il n'est pas possible de redimensionner un plan vidéo au dessus de sa "
-"taille d'origine. Par exemple, si un plan vidéo a une durée de 30 secondes, "
-"vous ne pourrez pas le redimensionner à une durée de 35 secondes."
+"Il n'est pas possible de redimensionner un plan vidéo au dessus de sa taille "
+"d'origine. Par exemple, si un plan vidéo a une durée de 30 secondes, vous ne "
+"pourrez pas le redimensionner à une durée de 35 secondes."
 
 #: index.docbook:378
 #, no-c-format
@@ -546,7 +547,8 @@ msgstr "La liste du projet"
 
 #: index.docbook:419
 #, no-c-format
-msgid "The project list shows all of the clips that are available for this project."
+msgid ""
+"The project list shows all of the clips that are available for this project."
 msgstr ""
 "La liste du projet affiche tous les plans vidéo qui sont disponibles dans le "
 "projet."
@@ -781,12 +783,14 @@ msgid ""
 "you have finished editing them and want to be able to treat them as a single "
 "clip."
 msgstr ""
-"Les points d'entrée et de sortie de la fenêtre de prévisualisation du montage vidéo ont les mêmes "
-"fonctions que ceux présent dans la fenêtre de prévisualisation des plans vidéo. Vous pouvez "
-"obtenir ainsi un « plan vidéo du projet », qui sera une séquence vidéo contenant tous les plans "
-"vidéo présent dans la table de montage. Cette fonction est utile pour regrouper ensemble un "
-"certain nombre de plans vidéo quand vous avez fini de les associer dans la table de montage et "
-"que vous voulez les manipuler comme un simple plan vidéo."
+"Les points d'entrée et de sortie de la fenêtre de prévisualisation du "
+"montage vidéo ont les mêmes fonctions que ceux présent dans la fenêtre de "
+"prévisualisation des plans vidéo. Vous pouvez obtenir ainsi un « plan vidéo "
+"du projet », qui sera une séquence vidéo contenant tous les plans vidéo "
+"présent dans la table de montage. Cette fonction est utile pour regrouper "
+"ensemble un certain nombre de plans vidéo quand vous avez fini de les "
+"associer dans la table de montage et que vous voulez les manipuler comme un "
+"simple plan vidéo."
 
 #: index.docbook:562
 #, no-c-format
@@ -903,7 +907,8 @@ msgstr "Ouvrir un projet préalablement enregistré."
 #: index.docbook:629
 #, no-c-format
 msgid "<guimenu>File</guimenu> <guimenuitem>Open Recent</guimenuitem>"
-msgstr "<guimenu>Fichier</guimenu> <guimenuitem>Récemment ouvert(s)</guimenuitem>"
+msgstr ""
+"<guimenu>Fichier</guimenu> <guimenuitem>Récemment ouvert(s)</guimenuitem>"
 
 #: index.docbook:629
 #, no-c-format
@@ -927,7 +932,8 @@ msgstr "Enregistre le projet courant."
 #: index.docbook:629
 #, no-c-format
 msgid "<guimenu>File</guimenu> <guimenuitem>Save As...</guimenuitem>"
-msgstr "<guimenu>Fichier</guimenu> <guimenuitem>Enregistrer sous...</guimenuitem>"
+msgstr ""
+"<guimenu>Fichier</guimenu> <guimenuitem>Enregistrer sous...</guimenuitem>"
 
 #: index.docbook:629
 #, no-c-format
@@ -1028,7 +1034,8 @@ msgstr "Le menu « Projet »"
 #: index.docbook:787
 #, no-c-format
 msgid "<guimenu>Project</guimenu> <guimenuitem>Add Clips</guimenuitem>"
-msgstr "<guimenu>Projet</guimenu> <guimenuitem>Ajouter des plans vidéo</guimenuitem>"
+msgstr ""
+"<guimenu>Projet</guimenu> <guimenuitem>Ajouter des plans vidéo</guimenuitem>"
 
 #: index.docbook:787
 #, no-c-format
@@ -1055,7 +1062,8 @@ msgstr "Suppression de la liste des plans vidéo inutilisés dans le projet."
 #: index.docbook:787
 #, no-c-format
 msgid "<guimenu>Project</guimenu> <guimenuitem>Clip Properties</guimenuitem>"
-msgstr "<guimenu>Projet</guimenu> <guimenuitem>Propriétés du plan vidéo</guimenuitem>"
+msgstr ""
+"<guimenu>Projet</guimenu> <guimenuitem>Propriétés du plan vidéo</guimenuitem>"
 
 #: index.docbook:847
 #, no-c-format
@@ -1315,7 +1323,8 @@ msgstr "Affiche ou cache la barre d'état."
 
 #: index.docbook:1093
 #, no-c-format
-msgid "<guimenu>Settings</guimenu> <guimenuitem>Configure Shortcuts...</guimenuitem>"
+msgid ""
+"<guimenu>Settings</guimenu> <guimenuitem>Configure Shortcuts...</guimenuitem>"
 msgstr ""
 "<guimenu>Configuration</guimenu> <guimenuitem>Configurer les raccourcis "
 "clavier...</guimenuitem>"
@@ -1327,7 +1336,8 @@ msgstr "Configure les raccourcis clavier de &kdenlive;."
 
 #: index.docbook:1093
 #, no-c-format
-msgid "<guimenu>Settings</guimenu> <guimenuitem>Configure Toolbars...</guimenuitem>"
+msgid ""
+"<guimenu>Settings</guimenu> <guimenuitem>Configure Toolbars...</guimenuitem>"
 msgstr ""
 "<guimenu>Configuration</guimenu> <guimenuitem>Configurer les barres "
 "d'outils...</guimenuitem>"
@@ -1359,7 +1369,8 @@ msgstr "Le menu « Aide »"
 #: index.docbook:1167
 #, no-c-format
 msgid "<guimenu>Help</guimenu> <guimenuitem>&kdenlive; Handbook</guimenuitem>"
-msgstr "<guimenu>Aide</guimenu> <guimenuitem>Manuel de &kdenlive;</guimenuitem>"
+msgstr ""
+"<guimenu>Aide</guimenu> <guimenuitem>Manuel de &kdenlive;</guimenuitem>"
 
 #: index.docbook:1167
 #, no-c-format
@@ -1378,7 +1389,8 @@ msgstr ""
 
 #: index.docbook:1167
 #, no-c-format
-msgid "After selecting this, click on part of the gui to find out what it does."
+msgid ""
+"After selecting this, click on part of the gui to find out what it does."
 msgstr ""
 "Après avoir sélectionner cette option, cliquez sur une partie de l'interface "
 "graphique pour obtenir de de plus amples informations la concernant."
@@ -1396,7 +1408,8 @@ msgstr "Rapporte un bogue à propos de &kdenlive;"
 #: index.docbook:1167
 #, no-c-format
 msgid "<guimenu>Help</guimenu> <guimenuitem>About &kdenlive;</guimenuitem>"
-msgstr "<guimenu>Aide</guimenu> <guimenuitem>À propos de &kdenlive;</guimenuitem>"
+msgstr ""
+"<guimenu>Aide</guimenu> <guimenuitem>À propos de &kdenlive;</guimenuitem>"
 
 #: index.docbook:1167
 #, no-c-format
@@ -1540,8 +1553,8 @@ msgid ""
 msgstr ""
 "Aller dans l'onglet « Déboguer » et essayer de valider l'option « Ignorer "
 "les messages entrants ». Cela désactivera l'affichage des messages de "
-"débogage qui peuvent ralentir considérablement l'interface graphique "
-"pendant la lecture de longs plans vidéo."
+"débogage qui peuvent ralentir considérablement l'interface graphique pendant "
+"la lecture de longs plans vidéo."
 
 #: index.docbook:1351
 #, no-c-format
@@ -1558,7 +1571,8 @@ msgstr "&kapp;"
 msgid ""
 "Program copyright 2002-2003 Jason Wood <email>jasonwood@blueyonder.co.uk</"
 "email>"
-msgstr "Copyright Jason Wood <email>jasonwood@blueyonder.co.uk</email>, 2002-2003"
+msgstr ""
+"Copyright Jason Wood <email>jasonwood@blueyonder.co.uk</email>, 2002-2003"
 
 #: index.docbook:1359
 #, no-c-format
@@ -1731,4 +1745,3 @@ msgstr ""
 #~ "<prompt>%</prompt> <userinput>./configure</userinput>\n"
 #~ "\t\t\t<prompt>%</prompt> <userinput>make</userinput>\n"
 #~ "\t\t\t<prompt>%</prompt> <userinput>make install</userinput>"
-
