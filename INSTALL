@@ -2,6 +2,40 @@ Kdenlive Installation instrucions
 =================================
 
 
+Installing from tarball :
+
+Download the tarball into a directory, and unpack it :
+
+tar -xzf kdenlive-x.x.x-src.tar.gz
+
+where x.x.x is the version number.
+(your reading this so you've already done this, right?)
+
+Once extracted, you can enter the directory and configure and build kdenlive.
+
+cd kdenlive
+./configure
+make
+
+To install, become root.
+
+su
+(enter root password at prompt)
+make install
+
+./configure takes a number of options, type ./configure --help to
+discover what these are. The most important one is --prefix, which
+specifies where your KDE installation is when installing. For Mandrake,
+use :
+
+./configure --prefix=/usr
+
+Once installed, you can start Kdenlive by typing "kdenlive".
+
+Note that you should also install Piave to do anything useful with Kdenlive. See
+the README file for details.
+
+Have Fun!
 
 
 Installing from CVS
@@ -43,10 +77,7 @@ use :
 
 ./configure --prefix=/usr
 
-
 Once installed, you can start Kdenlive by typing "kdenlive".
-
-
 
 Note that you should also install Piave to do anything useful with Kdenlive. See
 the README file for details.

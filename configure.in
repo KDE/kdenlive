@@ -36,7 +36,7 @@ dnl Perform program name transformation
 AC_ARG_PROGRAM
 
 dnl Automake doc recommends to do this only here. (Janos)
-AM_INIT_AUTOMAKE(kdenlive, 0.1.1) dnl searches for some needed programs
+AM_INIT_AUTOMAKE(kdenlive, 0.2.0) dnl searches for some needed programs
 
 KDE_SET_PREFIX
 
