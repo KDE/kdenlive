@@ -47,7 +47,7 @@ void ClipGroup::removeClip(DocClipBase *clip)
 	if(clipExists(clip)) {
 		m_clipList.remove(clip);
 		if(m_master==clip) {
-			setMasterClip(NULL);
+			setMasterClip(0);
 		}
 	}
 }
@@ -97,7 +97,7 @@ void ClipGroup::removeAllClips()
 /** Find space on the timeline where the clips in the clipGroup will fit. Returns true if successful, initialising newValue to the given offset. If no place can be found, returns false. */
 bool ClipGroup::findClosestMatchingSpace(int value, int &newValue)
 {
-	if(m_master==NULL) return false;
+	if(m_master==0) return false;
 
 	newValue = value;
 	
@@ -118,9 +118,9 @@ bool ClipGroup::isEmpty()
 
 void ClipGroup::setMasterClip(DocClipBase *master)
 {
-	if((master==NULL) || (!clipExists(master))) {
+	if((master==0) || (!clipExists(master))) {
 		if(m_clipList.isEmpty()) {
-			m_master = NULL;
+			m_master = 0;
 		} else {
 			m_master = m_clipList.first();
 		}

@@ -70,7 +70,7 @@ class KdenliveView : public QSplitter
   	QSplitter m_topSplitter;  	
   	ProjectList m_projectList;
   	KMMMonitor m_monitor;
-		KMMRulerPanel m_rulerPanel;		
+		KMMRulerPanel *m_rulerPanel;	// pointer, because it gets reparented to the timeline widget!
 		KMMTimeLine m_timeline;
 };
 

@@ -38,7 +38,7 @@ KMMTimeLine::KMMTimeLine(QWidget *rulerToolWidget, QWidget *scrollToolWidget, Kd
 	m_rulerBox = new QHBox(this, "ruler box");	
 	m_trackScroll = new QScrollView(this, "track view", WPaintClever);
 	m_scrollBox = new QHBox(this, "scroll box");
-
+	
 	m_rulerToolWidget = rulerToolWidget;
 	if(!m_rulerToolWidget) m_rulerToolWidget = new QLabel("Tracks", 0, "Tracks");	
 	m_rulerToolWidget->reparent(m_rulerBox, QPoint(0,0));

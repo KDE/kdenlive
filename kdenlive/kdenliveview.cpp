@@ -23,19 +23,18 @@
 #include "kdenliveview.h"
 #include "kdenlivedoc.h"
 #include "kdenlive.h"
-#include "kmmrulerpanel.h"
 
 KdenliveView::KdenliveView(QWidget *parent, const char *name) :
 				QSplitter(Vertical, parent, name),
 				m_topSplitter(Horizontal, this, name),
 				m_projectList(&m_topSplitter, name),
 				m_monitor(&m_topSplitter, name),
-				m_rulerPanel(NULL, "Ruler Panel"),
-				m_timeline(&m_rulerPanel, NULL, getDocument(), this, name)
+				m_rulerPanel(new KMMRulerPanel(NULL, "Ruler Panel")),
+				m_timeline(m_rulerPanel, NULL, getDocument(), this, name)
 {
   setBackgroundMode(PaletteBase);
 
-  connect(&m_rulerPanel, SIGNAL(timeScaleChanged(int)), &m_timeline, SLOT(setTimeScale(int)));
+  connect(m_rulerPanel, SIGNAL(timeScaleChanged(int)), &m_timeline, SLOT(setTimeScale(int)));
 
   connect(&m_projectList, SIGNAL(signal_AddFile(const KURL &)), getDocument(), SLOT(slot_InsertAVFile(const KURL &)));
   connect(&m_projectList, SIGNAL(dragDropOccured(QDropEvent *)), getDocument(), SLOT(slot_insertClips(QDropEvent *)));
