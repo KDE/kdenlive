@@ -1,0 +1,486 @@
+#: index.docbook:44
+#, no-c-format
+msgid "The Kdenlive Handbook"
+msgstr ""
+
+#: index.docbook:47
+#, no-c-format
+msgid ""
+"<firstname>Jason</firstname> <othername>M.</othername> <surname>Wood</"
+"surname> <affiliation> <address><email>jasonwood@blueyonder.co.uk</email></"
+"address> </affiliation>"
+msgstr ""
+
+#: index.docbook:57
+#, no-c-format
+msgid "ROLES_OF_TRANSLATORS"
+msgstr ""
+
+#: index.docbook:61
+#, no-c-format
+msgid "Jason Wood"
+msgstr ""
+
+#: index.docbook:81
+#, no-c-format
+msgid "&kdenlive; is a non-linear video editor for KDE."
+msgstr ""
+
+#: index.docbook:84
+#, no-c-format
+msgid ""
+"WARNING - this document has not yet been finished. In particular, "
+"information on contributors to &kapp;, requirements for &kapp;, installation "
+"instructions for &kapp; and the changelog info are all wrong at present. "
+"Also, please contact me at <email>jasonwood@blueyonder.co.uk</email> rather "
+"than bugging any of the kde mailing lists."
+msgstr ""
+
+#: index.docbook:90
+#, no-c-format
+msgid "Cheers,"
+msgstr ""
+
+#: index.docbook:93
+#, no-c-format
+msgid "Jason"
+msgstr ""
+
+#: index.docbook:103
+#, no-c-format
+msgid "<keyword>KDE</keyword>"
+msgstr ""
+
+#: index.docbook:104
+#, no-c-format
+msgid "video editor"
+msgstr ""
+
+#: index.docbook:105
+#, no-c-format
+msgid "kdenlive"
+msgstr ""
+
+#: index.docbook:120
+#, no-c-format
+msgid "Introduction"
+msgstr ""
+
+#: index.docbook:127
+#, no-c-format
+msgid ""
+"&kapp; is a non-linear video editor for KDE. Please report any problems or "
+"feature requests to jasonwood@blueyonder.co.uk"
+msgstr ""
+
+#: index.docbook:133
+#, no-c-format
+msgid "What is a video editor?"
+msgstr ""
+
+#: index.docbook:135
+#, no-c-format
+msgid ""
+"A video editor is an application that allows you to create a new video out "
+"of various scenes from one or more other videos."
+msgstr ""
+
+#: index.docbook:141
+#, no-c-format
+msgid "What is the difference between linear editing and non-linear editing?"
+msgstr ""
+
+#: index.docbook:143
+#, no-c-format
+msgid ""
+"Before editing video on computer was possible, most editing was done on "
+"linear editors - these work by having essentially, two video recorders. The "
+"first would hold the video that you are editing together, and the second "
+"would be used to find the next clip that you want to record. Find a clip, "
+"record it, find the next clip, record it. This is called linear editing "
+"because the medium of tape forced things to be edited sequentially. If you "
+"have edited 10 minutes worth of footage together, and decide that you made a "
+"mistake after five minutes, you can't just \"push\" the last five minutes "
+"around to add space for new clips."
+msgstr ""
+
+#: index.docbook:154
+#, no-c-format
+msgid ""
+"Non-linear editing is by far a more flexible way of editing. You can place "
+"clips anywhere within your final video (in Kdenlive, this is represented via "
+"the timeline), and you can move them around as much as you want, rearrange "
+"them in a completely different order. Best of all, at any point during this "
+"you can press play and (with a sufficiently powerful computer) watch back "
+"what you have done there and then."
+msgstr ""
+
+#: index.docbook:165
+#, no-c-format
+msgid "Using Kdenlive"
+msgstr ""
+
+#: index.docbook:171
+#, no-c-format
+msgid "Here's a screenshot of &kapp;"
+msgstr ""
+
+#: index.docbook:171
+#, no-c-format
+msgid "Screenshot"
+msgstr ""
+
+#: index.docbook:193
+#, no-c-format
+msgid "The Project List"
+msgstr ""
+
+#: index.docbook:195
+#, no-c-format
+msgid ""
+"The project list shows all of the clips that are available for this project."
+msgstr ""
+
+#: index.docbook:198
+#, no-c-format
+msgid ""
+"You can see the number of times that a particular clip is in use. This "
+"includes all usage of the clip - for instance, if a clip is being displayed "
+"in the clip monitor, then that counts as one usage for the clip. (FIXME - "
+"this behaviour is likely to change in the future)."
+msgstr ""
+
+#: index.docbook:204
+#, no-c-format
+msgid "Adding Clips to the Project"
+msgstr ""
+
+#: index.docbook:205
+#, no-c-format
+msgid ""
+"If you drag a clip onto the timeline that is not in the project (for "
+"instance, if you drag a dv straight from konqueror to &kapp;), then it will "
+"be automatically added to the project for you."
+msgstr ""
+
+#: index.docbook:210
+#, no-c-format
+msgid ""
+"You can add clips to the projectlist yourself. To do this, either use the "
+"project list context menu (right click on the window), or the Project menu "
+"on the menu bar. Select 'Add Clips' to bring up a file dialog in which you "
+"can select the clip you wish to add to this project. As long as the clips "
+"are valid, they will appear in the project list."
+msgstr ""
+
+#: index.docbook:219
+#, no-c-format
+msgid "Deleting clips via the Project List"
+msgstr ""
+
+#: index.docbook:220
+#, no-c-format
+msgid ""
+"Delete clips is currently non-functional - the only way to delete clips is "
+"to use clean-project."
+msgstr ""
+
+#: index.docbook:226
+#, no-c-format
+msgid "Examining Clip Properties"
+msgstr ""
+
+#: index.docbook:227
+#, no-c-format
+msgid ""
+"Clip Properties is currently non-functional - there is no way to examine the "
+"format of a clip except by examining the debug output ;-)"
+msgstr ""
+
+#: index.docbook:233
+#, no-c-format
+msgid "Clean Project - Removing unused Clips"
+msgstr ""
+
+#: index.docbook:234
+#, no-c-format
+msgid ""
+"Use clean project to remove any clips from your project that are currently "
+"unused. This is great if your project list has become cluttered and you want "
+"to get a concise view of which clips exist. Cleaning a project will not "
+"alter your final edit in anyway - the only clips that are removed are those "
+"that are no longer in use anywhere."
+msgstr ""
+
+#: index.docbook:245
+#, no-c-format
+msgid "The Debug Panel"
+msgstr ""
+
+#: index.docbook:246 index.docbook:267 index.docbook:272 index.docbook:277
+#: index.docbook:282 index.docbook:287
+#, no-c-format
+msgid "This is..."
+msgstr ""
+
+#: index.docbook:250
+#, no-c-format
+msgid "The Effect List"
+msgstr ""
+
+#: index.docbook:252 index.docbook:260
+#, no-c-format
+msgid "This is non-functional in the current version of &kapp;."
+msgstr ""
+
+#: index.docbook:258
+#, no-c-format
+msgid "The Effect Setup Panel"
+msgstr ""
+
+#: index.docbook:266
+#, no-c-format
+msgid "The Timeline"
+msgstr ""
+
+#: index.docbook:271
+#, no-c-format
+msgid "The Clip Monitor"
+msgstr ""
+
+#: index.docbook:276
+#, no-c-format
+msgid "The Workspace Monitor"
+msgstr ""
+
+#: index.docbook:281
+#, no-c-format
+msgid "Rendering your project"
+msgstr ""
+
+#: index.docbook:286
+#, no-c-format
+msgid "Loading and Saving your project"
+msgstr ""
+
+#: index.docbook:293
+#, no-c-format
+msgid "Command Reference"
+msgstr ""
+
+#: index.docbook:302
+#, no-c-format
+msgid "The main Kdenlive window"
+msgstr ""
+
+#: index.docbook:303
+#, no-c-format
+msgid "<para></para>"
+msgstr ""
+
+#: index.docbook:306
+#, no-c-format
+msgid "The File Menu"
+msgstr ""
+
+#: index.docbook:307
+#, no-c-format
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>n</keycap></keycombo> </"
+"shortcut> <guimenu>File</guimenu> <guimenuitem>New</guimenuitem>"
+msgstr ""
+
+#: index.docbook:307
+#, no-c-format
+msgid "Creates a new document"
+msgstr ""
+
+#: index.docbook:307
+#, no-c-format
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>s</keycap></keycombo> </"
+"shortcut> <guimenu>File</guimenu> <guimenuitem>Save</guimenuitem>"
+msgstr ""
+
+#: index.docbook:307
+#, no-c-format
+msgid "Saves the document"
+msgstr ""
+
+#: index.docbook:307
+#, no-c-format
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>q</keycap></keycombo> </"
+"shortcut> <guimenu>File</guimenu> <guimenuitem>Quit</guimenuitem>"
+msgstr ""
+
+#: index.docbook:307
+#, no-c-format
+msgid "<action>Quits</action> &kapp;"
+msgstr ""
+
+#: index.docbook:348
+#, no-c-format
+msgid "Developer's Guide to Kdenlive"
+msgstr ""
+
+#: index.docbook:354
+#, no-c-format
+msgid ""
+"Programming &kdenlive; plugins is a joy to behold. Just read through the "
+"next 66 pages of API's to learn how!"
+msgstr ""
+
+#: index.docbook:366
+#, no-c-format
+msgid "Questions and Answers"
+msgstr ""
+
+#: index.docbook:384
+#, no-c-format
+msgid ""
+"When I add clips to the project, the times show up as 'unknown'. I know "
+"these clips are valid, why does this happen?"
+msgstr ""
+
+#: index.docbook:388
+#, no-c-format
+msgid ""
+"This is a sign that something has gone wrong with Piave. Whilst &kapp; will "
+"do it's best to pull itself back into working order, this is still "
+"relatively new software and it doesn't manage it as often as one would hope! "
+"The best solution is to quit &kapp; (if you have done any work, then you are "
+"quite safe to save it), perform the following operation : killall -9 piave. "
+"Wait a few seconds, and then restart kdenlive."
+msgstr ""
+
+#: index.docbook:409
+#, no-c-format
+msgid "Credits and License"
+msgstr ""
+
+#: index.docbook:411
+#, no-c-format
+msgid "&kapp;"
+msgstr ""
+
+#: index.docbook:414
+#, no-c-format
+msgid ""
+"Program copyright 2002-2003 Jason Wood <email>jasonwood@blueyonder.co.uk</"
+"email>"
+msgstr ""
+
+#: index.docbook:417
+#, no-c-format
+msgid "Contributors:"
+msgstr ""
+
+#: index.docbook:417
+#, no-c-format
+msgid "Konqui the KDE Dragon <email>konqui@kde.org</email>"
+msgstr ""
+
+#: index.docbook:417
+#, no-c-format
+msgid "Tux the Linux Penguin <email>tux@linux.org</email>"
+msgstr ""
+
+#: index.docbook:433
+#, no-c-format
+msgid ""
+"Documentation copyright 2003 Jason Wood <email>jasonwood@blueyonder.co.uk</"
+"email>"
+msgstr ""
+
+#: index.docbook:437
+#, no-c-format
+msgid "CREDIT_FOR_TRANSLATORS"
+msgstr ""
+
+#: index.docbook:453
+#, no-c-format
+msgid "Installation"
+msgstr ""
+
+#: index.docbook:456
+#, no-c-format
+msgid "How to obtain Kdenlive"
+msgstr ""
+
+#: index.docbook:458
+#, no-c-format
+msgid ""
+"&kdenlive; is part of the KDE project <ulink url=\"http://www.kde.org"
+"\">http://www.kde.org</ulink>. &kdenlive; can be found in the kdeutils "
+"package on <ulink url=\"ftp://ftp.kde.org/pub/kde/\">ftp://ftp.kde.org/pub/"
+"kde/</ulink>, the main ftp site of the KDE project."
+msgstr ""
+
+#: index.docbook:467
+#, no-c-format
+msgid "Requirements"
+msgstr ""
+
+#: index.docbook:480
+#, no-c-format
+msgid ""
+"In order to successfully use &kdenlive;, you need KDE 3.0 or higher. "
+"Additionally, you need piave in order to do anthing useful - kdenlive itself "
+"is after all, just an interface :-)"
+msgstr ""
+
+#: index.docbook:486
+#, no-c-format
+msgid ""
+"All required libraries as well as &kdenlive; itself can be found on or via "
+"<ulink url=\"http://pwp.blueyonder.co.uk/kdenlive.html\">The &kdenlive; home "
+"page</ulink>."
+msgstr ""
+
+#: index.docbook:493
+#, no-c-format
+msgid ""
+"You can find a list of changes at <ulink url=\"http://pwp.blueyonder.co.uk/"
+"kdenlive.html\">http://pwp.blueyonder.co.uk/kdenlive.html</ulink>. FIXME : "
+"this link is actually fibbing at the moment."
+msgstr ""
+
+#: index.docbook:499
+#, no-c-format
+msgid "Compilation and Installation"
+msgstr ""
+
+#: index.docbook:501
+#, no-c-format
+msgid ""
+"In order to compile and install &kapp; on your system, type the following in "
+"the base directory of the Icon Editor distribution:"
+msgstr ""
+
+#: index.docbook:501
+#, no-c-format
+msgid ""
+"<prompt>%</prompt> <userinput>./configure</userinput>\n"
+"\t\t\t<prompt>%</prompt> <userinput>make</userinput>\n"
+"\t\t\t<prompt>%</prompt> <userinput>make install</userinput>"
+msgstr ""
+
+#: index.docbook:511
+#, no-c-format
+msgid ""
+"Since KApp uses autoconf and automake you should have not trouble compiling "
+"it. Should you run into problems please report them to the KDE mailing lists."
+msgstr ""
+
+#: index.docbook:519
+#, no-c-format
+msgid "Configuration"
+msgstr ""
+
+#: index.docbook:521
+#, no-c-format
+msgid ""
+"Don't forget to tell your system to start the <filename>dtd</filename> dicer-"
+"toaster daemon first, or KApp won't work !"
+msgstr ""

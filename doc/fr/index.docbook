@@ -1,0 +1,512 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1.2-Based Variant V1.0//EN" "dtd/kdex.dtd" [
+<!ENTITY kdenlive '<application
+>Kdenlive</application
+>'>
+<!ENTITY kapp "&kdenlive;"
+><!-- replace kdenlive here -->
+<!ENTITY % addindex "IGNORE">
+<!ENTITY % French "INCLUDE"
+><!-- change language only here -->
+
+
+<!-- Do not define any other entities; instead, use the entities
+from kde-genent.entities and $LANG/user.entities. -->
+]>
+<!-- kdoctemplate v0.8 October 1 1999 
+Minor update to "Credits and Licenses" section on August 24, 2000
+Removed "Revision history" section on 22 January 2001   -->
+
+<!--
+This template was designed by: David Rugge davidrugge@mindspring.com
+with lots of help from: Eric Bischoff ebisch@cybercable.tm.fr
+and Frederik Fouvry fouvry@sfs.nphil.uni-tuebingen.de
+of the KDE DocBook team.
+
+You may freely use this template for writing any sort of KDE documentation.
+If you have any changes or improvements, please let us know.
+
+In the future, we may want to change from SGML-based DocBook to XML-based
+DocBook. To make this change easier, please be careful :
+- in XML, the case of the <tags
+> and attributes is relevant ;
+- also, quote all attributes.
+
+Please don't forget to remove all these comments in your final documentation,
+thanks ;-).
+-->
+
+<!-- ................................................................ -->
+
+<!-- The language must NOT be changed here. -->
+
+<book lang="&language;">
+
+<!-- This header contains all of the meta-information for the document such
+as Authors, publish date, the abstract, and Keywords -->
+
+<bookinfo>
+<title
+></title>
+
+<authorgroup>
+<author
+>  </author>
+</authorgroup>
+
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+
+<copyright>
+<year
+>2003</year>
+<holder
+></holder>
+</copyright>
+<!-- Translators: put here the copyright notice of the translation -->
+<!-- Put here the FDL notice.  Read the explanation in fdl-notice.docbook 
+and in the FDL itself on how to use it. -->
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<!-- Date and version information of the documentation
+Don't forget to include this last date and this last revision number, we
+need them for translation coordination !
+Please respect the format of the date (DD/MM/YYYY) and of the version
+(V.MM.LL), it could be used by automation scripts.
+Do NOT change these in the translation. -->
+
+<date
+>28/07/2003</date>
+<releaseinfo
+>1.01.00</releaseinfo>
+
+<!-- Abstract about this handbook -->
+
+<abstract>
+<para
+>  </para>
+<para
+>  </para>
+<para
+>  </para>
+<para
+>  </para>
+</abstract>
+
+<!-- This is a set of Keywords for indexing by search engines.
+Please at least include KDE, the KDE package it is in, the name
+of your application, and a few relevant keywords. -->
+
+<keywordset>
+
+<keyword
+></keyword>
+<keyword
+></keyword>
+</keywordset>
+
+</bookinfo>
+
+<!-- The contents of the documentation begin here.  Label
+each chapter so with the id attribute. This is necessary for two reasons: it
+allows you to easily reference the chapter from other chapters of your
+document, and if there is no ID, the name of the generated HTML files will vary
+from time to time making it hard to manage for maintainers and for the CVS
+system. Any chapter labelled (OPTIONAL) may be left out at the author's
+discretion. Other chapters should not be left out in order to maintain a
+consistent documentation style across all KDE apps. -->
+
+<chapter id="introduction">
+<title
+></title>
+
+<!-- The introduction chapter contains a brief introduction for the
+application that explains what it does and where to report
+problems. Basically a long version of the abstract.  Don't include a
+revision history. (see installation appendix comment) -->
+
+<para
+>  </para>
+<sect1 id="whatisavideoeditor">
+<title
+></title>
+
+<para
+>  </para>
+</sect1>
+<sect1 id="linearvsnonlinear">
+<title
+></title>
+
+<para
+>  </para>
+
+<para
+>  </para>
+</sect1>
+</chapter>
+
+<chapter id="using-kapp">
+<title
+></title>
+
+<!-- This chapter should tell the user how to use your app. You should use as
+many sections (Chapter, Sect1, Sect3, etc...) as is necessary to fully document
+your application. -->
+
+<para
+> <screenshot
+> <screeninfo
+></screeninfo
+> <mediaobject
+> <imageobject
+> <imagedata fileref="screenshot.png" format="PNG"/> </imageobject
+> <imageobject
+> <imagedata fileref="screenshot.eps" format="EPS"/> </imageobject
+> <textobject
+> <phrase
+></phrase
+> </textobject
+> </mediaobject
+> </screenshot
+> </para>
+
+<sect1 id="kapp-projectlist">
+<title
+></title>
+
+<para
+>  </para>
+<para
+>  </para>
+<sect2 id="kapp-projectlist-addingclips">
+<title
+></title>
+<para
+>  </para>
+<para
+>  </para>
+</sect2>
+<sect2 id="kapp-projectlist-deletingclips">
+<title
+></title>
+<para
+>  </para>
+</sect2>
+<sect2 id="kapp-projectlist-clipproperties">
+<title
+></title>
+<para
+>  </para>
+</sect2>
+<sect2 id="kapp-projectlist-cleanproject">
+<title
+></title>
+<para
+>  </para>
+</sect2>
+</sect1>
+
+<sect1 id="kapp-debugwindow">
+<title
+></title>
+<para
+></para>
+</sect1>
+
+<sect1 id="kapp-effectlist">
+<title
+></title>
+
+<para
+>  </para>
+</sect1>
+
+<sect1 id="kapp-effectsetup">
+<title
+></title>
+
+<para
+>  </para>
+</sect1>
+
+<sect1 id="kapp-timeline">
+<title
+></title>
+<para
+></para>
+</sect1>
+
+<sect1 id="kapp-clipmonitor">
+<title
+></title>
+<para
+></para>
+</sect1>
+
+<sect1 id="kapp-workspacemonitor">
+<title
+></title>
+<para
+></para>
+</sect1>
+
+<sect1 id="kapp-rendering">
+<title
+></title>
+<para
+></para>
+</sect1>
+
+<sect1 id="kapp-loadsave">
+<title
+></title>
+<para
+></para>
+</sect1>
+
+</chapter>
+
+<chapter id="commands">
+<title
+></title>
+
+<!-- (OPTIONAL, BUT RECOMMENDED) This chapter should list all of the
+application windows and their menubar and toolbar commands for easy reference.
+Also include any keys that have a special function but have no equivalent in the
+menus or toolbars. This may not be necessary for small apps or apps with no tool
+or menu bars. -->
+
+<sect1 id="kapp-mainwindow">
+<title
+></title>
+
+
+<sect2>
+<title
+></title>
+<para
+> <variablelist
+> <varlistentry
+> <term
+><menuchoice
+>  </menuchoice
+></term
+> <listitem
+><para
+><action
+></action
+></para
+></listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+>  </menuchoice
+></term
+> <listitem
+><para
+><action
+></action
+></para
+></listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+>  </menuchoice
+></term
+> <listitem
+><para
+></para
+></listitem
+> </varlistentry
+> </variablelist
+> </para>
+
+</sect2>
+
+</sect1>
+</chapter>
+
+<chapter id="developers">
+<title
+></title>
+
+<!-- (OPTIONAL) A Programming/Scripting reference chapter should be
+used for apps that use plugins or that provide their own scripting hooks
+and/or development libraries. -->
+
+<para
+>  </para>
+
+<!-- Use refentries to describe APIs.  Refentries are fairly complicated and you
+should consult the docbook reference for further details. The example below was
+taken from that reference and shortened a bit for readability. -->
+
+</chapter>
+
+<chapter id="faq">
+<title
+></title>
+
+<!-- (OPTIONAL but recommended) This chapter should include all of the silly
+(and not-so-silly) newbie questions that fill up your mailbox. This chapter
+should be reserved for BRIEF questions and answers! If one question uses more
+than a page or so then it should probably be part of the
+"Using this Application" chapter instead. You should use links to
+cross-reference questions to the parts of your documentation that answer them.
+This is also a great place to provide pointers to other FAQ's if your users
+must do some complicated configuration on other programs in order for your
+application work. -->
+
+&reporting.bugs;
+&updating.documentation;
+
+<qandaset id="faqlist">
+<qandaentry>
+<question>
+<para
+></para>
+</question>
+<answer>
+<para
+>  </para>
+</answer>
+</qandaentry>
+</qandaset>
+</chapter>
+
+<chapter id="credits">
+
+<!-- Include credits for the programmers, documentation writers, and
+contributors here. The license for your software should then be included below
+the credits with a reference to the appropriate license file included in the KDE
+distribution. -->
+
+<title
+></title>
+
+<para
+>  </para>
+<para
+>  </para>
+<para
+>  <itemizedlist
+> <listitem
+> <para
+>  </para
+> </listitem
+> <listitem
+> <para
+>  </para
+> </listitem
+> </itemizedlist
+> </para>
+
+<para
+>  </para>
+
+<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
+
+&underFDL;               <!-- FDL: do not remove. Commercial development should -->
+<!-- replace this with their copyright and either remove it or re-set this.-->
+
+<!-- Determine which license your application is licensed under, 
+and delete all the remaining licenses below:
+
+(NOTE:  All documentation are licensed under the FDL, 
+regardless of what license the application uses) -->
+
+&underGPL;               <!-- GPL License -->
+
+</chapter>
+
+<appendix id="installation">
+<title
+></title>
+
+<sect1 id="getting-kdenlive">
+<title
+></title>
+
+<para
+>  </para>
+</sect1>
+
+<sect1 id="requirements">
+<title
+></title>
+
+<!--
+List any special requirements for your application here. This should include:
+.Libraries or other software that is not included in kdesupport,
+kdelibs, or kdebase.
+.Hardware requirements like amount of RAM, disk space, graphics card
+capabilities, screen resolution, special expansion cards, etc.
+.Operating systems the app will run on. If your app is designed only for a
+specific OS, (you wrote a graphical LILO configurator for example) put this
+information here.
+-->
+
+<para
+>  </para>
+
+<para
+>  </para>
+
+<!-- For a list of updates, you may refer to the application web site
+or the ChangeLog file, or ... -->
+<para
+>  </para>
+</sect1>
+
+<sect1 id="compilation">
+<title
+></title>
+
+<para
+>  <screen width="40">
+
+</screen
+> </para>
+
+<para
+>  </para>
+
+</sect1>
+
+<sect1 id="configuration">
+<title
+></title>
+
+<para
+>  </para>
+</sect1>
+
+</appendix>
+
+&documentation.index;
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
