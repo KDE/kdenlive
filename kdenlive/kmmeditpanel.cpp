@@ -48,10 +48,10 @@ KMMEditPanel::KMMEditPanel(KdenliveDoc *document, QWidget* parent, const char* n
 	connect(startButton, SIGNAL(pressed()), this, SLOT(seekBeginning()));
 	connect(endButton, SIGNAL(pressed()), this, SLOT(seekEnd()));	
 	
-	connect(playButton, SIGNAL(pressed()), this, SIGNAL(playSpeedChanged(1.0)));
-	connect(rewindButton, SIGNAL(pressed()), this, SIGNAL(playSpeedChanged(-1.0)));
-	connect(stopButton, SIGNAL(pressed()), this, SIGNAL(playSpeedChanged(1.0)));
-	connect(forwardButton, SIGNAL(pressed()), this, SIGNAL(playSpeedChanged(1.0)));	
+	connect(playButton, SIGNAL(pressed()), this, SLOT(play()));
+	connect(rewindButton, SIGNAL(pressed()), this, SLOT(stepBack()));
+	connect(stopButton, SIGNAL(pressed()), this, SLOT(stop()));
+	connect(forwardButton, SIGNAL(pressed()), this, SLOT(stepForwards()));	
 }
 
 KMMEditPanel::~KMMEditPanel()
@@ -82,4 +82,23 @@ void KMMEditPanel::seekBeginning()
 void KMMEditPanel::seekEnd()
 {
 	m_ruler->setSliderValue(0, m_ruler->maxValue());
+}
+
+void KMMEditPanel::stepBack(){
+	m_ruler->setSliderValue(0, m_ruler->getSliderValue(0)-1);
+}
+
+void KMMEditPanel::stepForwards()
+{
+	m_ruler->setSliderValue(0, m_ruler->getSliderValue(0)+1);
+}
+
+void KMMEditPanel::play()
+{
+	emit playSpeedChanged(1.0);
+}
+
+void KMMEditPanel::stop()
+{
+	emit playSpeedChanged(0.0);
 }

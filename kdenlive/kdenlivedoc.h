@@ -186,7 +186,7 @@ is not possible. */
 	  void modified(bool);
 private slots: // Private slots
   /** Called when the document is modifed in some way. */
-  void hadBeenModified();
+  void hasBeenModified();
 };
 
 #endif // KDENLIVEDOC_H

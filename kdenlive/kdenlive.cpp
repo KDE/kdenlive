@@ -36,6 +36,7 @@
 #include "kdenlive.h"
 #include "kdenliveview.h"
 #include "kdenlivedoc.h"
+#include "kprogress.h"
 
 #define ID_STATUS_MSG 1
 
@@ -92,7 +93,7 @@ void KdenliveApp::initActions()
 
   timelineMoveTool = new KRadioAction(i18n("Move/Resize Tool"), "moveresize.png", 0, this, SLOT(slotTimelineMoveTool()), actionCollection(),"timeline_move_tool");
   timelineRazorTool = new KRadioAction(i18n("Razor Tool"), "razor.png", 0, this, SLOT(slotTimelineRazorTool()), actionCollection(),"timeline_razor_tool");
-  timelineSpacerTool = new KRadioAction(i18n("Spacing Tool"), "spacer.png", 0, this, SLOT(slotTimelineSpaceTool()), actionCollection(),"timeline_spacer_tool");
+  timelineSpacerTool = new KRadioAction(i18n("Spacing Tool"), "spacer.png", 0, this, SLOT(slotTimelineSpacerTool()), actionCollection(),"timeline_spacer_tool");
   timelineSnapToFrame = new KToggleAction(i18n("Snap To Frames"), "snaptoframe.png", 0, this, SLOT(slotTimelineSnapToFrame()), actionCollection(),"timeline_snap_frame");
   timelineSnapToBorder = new KToggleAction(i18n("Snap To Border"), "snaptoborder.png", 0, this, SLOT(slotTimelineSnapToBorder()), actionCollection(),"timeline_snap_border");
 
@@ -134,6 +135,10 @@ void KdenliveApp::initStatusBar()
   // STATUSBAR
   // TODO: add your own items you need for displaying current application status.
   statusBar()->insertItem(i18n("Ready."), ID_STATUS_MSG);
+
+  m_statusBarProgress = new KProgress(statusBar());
+  m_statusBarProgress->setTextEnabled(false);
+  statusBar()->addWidget(m_statusBarProgress);
 }
 
 void KdenliveApp::initDocument()

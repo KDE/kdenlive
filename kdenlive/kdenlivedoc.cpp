@@ -674,7 +674,7 @@ void KdenliveDoc::loadFromXML(QDomDocument &doc)
 }
 
 /** Called when the document is modifed in some way. */
-void KdenliveDoc::hadBeenModified()
+void KdenliveDoc::hasBeenModified()
 {
 	setModified(true);
 }

@@ -37,6 +37,7 @@ class KdenliveDoc;
 class KdenliveView;
 class KCommandHistory;
 class KCommand;
+class KProgress;
 
 /**
   * The base class for Kdenlive application windows. It sets up the main
@@ -215,7 +216,10 @@ class KdenliveApp : public KMainWindow
     KToggleAction* timelineSnapToFrame;
 		KToggleAction* timelineSnapToBorder;
 
-    KAction* renderExportTimeline;		
+    KAction* renderExportTimeline;
+
+	  /** The progress widget on the status bar, used by various long-winded methods. */
+	  KProgress * m_statusBarProgress;    
 		
 		/** Holds the undo/redo command history */
 		KCommandHistory *m_commandHistory;

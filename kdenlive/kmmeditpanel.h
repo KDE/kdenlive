@@ -42,7 +42,7 @@ signals: // Signals
   /** Emitted when the seek position has changed */
   void seekPositionChanged(GenTime time);
   /** Emitted by the EditPanel when the playSpeed should change. */
-  void playSpeedChanged(double);  
+  void playSpeedChanged(double);
 private: // Private attributes
   /** The document associated with this edit panel */
   KdenliveDoc * m_document;
@@ -52,6 +52,14 @@ public slots: // Public slots
 public slots: // Public slots
   /** Seeks to the beginning of the ruler. */
   void seekBeginning();
+  /** Steps slider value forwards one frame. */
+  void stepForwards();
+  /** Steps slider value one step backwards. */
+  void stepBack();
+  /** Called when the "stop" button has been pressed. */
+  void stop();
+  /** Called when the "play" button is pressed */
+  void play();
 };
 
 #endif
