@@ -47,7 +47,8 @@ QPtrList<KdenliveView> *KdenliveDoc::pViewList = 0L;
 KdenliveDoc::KdenliveDoc(KdenliveApp *app, QWidget *parent, const char *name) : 
 				QObject(parent, name),
 				m_projectClip(new DocClipProject(this)),
-				m_modified(false)
+				m_modified(false),
+				m_sceneListGeneration(true)
 {
 	if(!pViewList)
 	{
@@ -544,15 +545,17 @@ void KdenliveDoc::loadFromXML(QDomDocument &doc)
 /** Called when the document is modifed in some way. */
 void KdenliveDoc::hasBeenModified()
 {
-	kdDebug() << "Document has changed" << endl;
-	if(m_projectClip) {
-		m_projectClip->setTrackEnd(m_projectClip->duration());
-	} else {
-		kdWarning() << "m_projectClip is Null!" << endl;
+	if(m_sceneListGeneration) {
+		kdDebug() << "Document has changed" << endl;
+		if(m_projectClip) {
+			m_projectClip->setTrackEnd(m_projectClip->duration());
+		} else {
+			kdWarning() << "m_projectClip is Null!" << endl;
+		}
+		generateSceneList();
+		emit documentChanged();
+		emit documentChanged(m_projectClip);
 	}
-	generateSceneList();
-	emit documentChanged();
-	emit documentChanged(m_projectClip);
 	setModified(true);
 }
 
@@ -640,4 +643,13 @@ DocClipBase *KdenliveDoc::selectedClip()
 	}
 	
 	return pResult;
+};
+
+void KdenliveDoc::activeSceneListGeneration(bool active)
+{
+	m_sceneListGeneration = active;
+	if(active)
+	{
+		hasBeenModified();
+	}
 }

@@ -110,6 +110,7 @@ KMMTimeLine::KMMTimeLine(KdenliveApp *app, QWidget *rulerToolWidget, QWidget *sc
 	m_startedClipMove = false;
 	m_masterClip = 0;
 	m_moveClipsCommand = 0;
+	m_document->activeSceneListGeneration(true);
 	m_deleteClipsCommand = 0;
 	m_addingClips = false;
 
@@ -303,6 +304,7 @@ void KMMTimeLine::dragLeaveEvent ( QDragLeaveEvent *event )
 		// In a drag Leave Event, any clips in the selection are removed from the timeline.			     
 		delete m_moveClipsCommand;
 		m_moveClipsCommand = 0;
+		m_document->activeSceneListGeneration(true);
 	}
 
 	if(m_deleteClipsCommand) {
@@ -344,6 +346,7 @@ void KMMTimeLine::dropEvent ( QDropEvent *event )
 		m_moveClipsCommand->setEndLocation(m_masterClip);
 		m_app->addCommand(m_moveClipsCommand, false);
 		m_moveClipsCommand = 0;	// KdenliveApp is now managing this command, we do not need to delete it.
+		m_document->activeSceneListGeneration(true);
 	}
 
 	m_scrollTimer.stop();
@@ -514,6 +517,7 @@ void KMMTimeLine::initiateDrag(DocClipBase *clipUnderMouse, GenTime mouseTime)
 	m_clipOffset = mouseTime - clipUnderMouse->trackStart();
 
 	m_moveClipsCommand = new Command::KMoveClipsCommand(this, m_document, m_masterClip);
+	m_document->activeSceneListGeneration(false);
 	m_deleteClipsCommand = createAddClipsCommand(false);
 	setupSnapToGrid();
 

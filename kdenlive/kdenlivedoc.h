@@ -109,6 +109,10 @@ class KdenliveDoc : public QObject
 	 * This function is intended for times when you need a "master" clip. but have no preferred
 	 * choice. */
 	DocClipBase *selectedClip();
+
+	// HACK HACK - we need a way to prevent the document from spewing hundreds of scenelist
+	// generation requests - this is it.
+	void activeSceneListGeneration(bool active);
 public slots:
 	/** calls repaint() on all views connected to the document object and is called by the view 
 	 * by which the document has been changed. As this view normally repaints itself, it is 
@@ -205,6 +209,8 @@ public:
 	KdenliveApp * m_app;
 	/** This is the scenelist that get's passed from the clip to a renderer. */
 	QDomDocument m_domSceneList;
+	/** HACK HACK - generate scenelist if true, don't if false) */
+	bool m_sceneListGeneration;
   private: // Private methods
 	/** Parses the XML Dom Document elements to populate the KdenliveDoc. */
 	void loadFromXML(QDomDocument &doc);
