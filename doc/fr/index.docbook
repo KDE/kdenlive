@@ -548,7 +548,7 @@ information here.
 -->
 
 <para
-> Pour pouvoir utiliser &Kdenlive;, il est nécessaire d'avoir l'environnement de bureau KDE en version 3.0 ou supérieure. De plus, il est nécessaire d'avoir le programme « piave » pour pouvoir faire des opérations sur les fichiers vidéo. Kdenlive est une interface graphique pour ce programme. </para>
+> Pour pouvoir utiliser &kdenlive;, il est nécessaire d'avoir l'environnement de bureau KDE en version 3.0 ou supérieure. De plus, il est nécessaire d'avoir le programme « piave » pour pouvoir faire des opérations sur les fichiers vidéo. Kdenlive est une interface graphique pour ce programme. </para>
 
 <para
 > Toutes les bibliothèques ainsi le programme &kdenlive; peuvent être trouvés sur <ulink url="http://pwp.blueyonder.co.uk/kdenlive.html"
