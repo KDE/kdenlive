@@ -55,16 +55,16 @@ int main(int argc, char *argv[])
 	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 
   KApplication app;
-    
+
+  KdenliveSplash *splash = new KdenliveSplash("kdenlive-splash.png");
+  splash->show();
+        
   if (app.isRestored())
     {
     RESTORE(KdenliveApp);
     }
   else 
     {
-    KdenliveSplash *splash = new KdenliveSplash("kdenlive-splash.png");
-    splash->show();
-
     KdenliveApp *kdenlive = new KdenliveApp();
     kdenlive->show();
 
