@@ -15,9 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "doctracksound.h"
+#include <doctracksound.h>
+#include <docclipavfile.h>
 
-DocTrackSound::DocTrackSound()
+DocTrackSound::DocTrackSound() :
+					DocTrackBase()
 {
 }
 
@@ -28,7 +30,7 @@ DocTrackSound::~DocTrackSound()
 /** Returns true if the specified clip can be added to this track, false otherwise. */
 bool DocTrackSound::canAddClip(DocClipBase * clip)
 {
-	return false;
+	return true;
 }
 /** Returns the clip type as a string. This is a bit of a hack to give the
 		* KMMTimeLine a way to determine which class it should associate

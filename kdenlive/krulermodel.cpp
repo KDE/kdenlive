@@ -17,13 +17,19 @@
 
 #include "krulermodel.h"
 
-KRulerModel::KRulerModel(){
+KRulerModel::KRulerModel()
+{
+	setMinimumSmallTickSeperation(6);
+	setMinimumLargeTickSeperation(30);
+	setMinimumDisplayTickSeperation(100);	
 }
-KRulerModel::~KRulerModel(){
+
+KRulerModel::~KRulerModel()
+{
 }
 
 /** Returns a string representation of the value passed. The default model returns HH:MM:SS and assumes that the value passed is in seconds. Extend this class to provide a different representation. */
-QString KRulerModel::mapValueToText(const int value)
+QString KRulerModel::mapValueToText(const int value) const
 {
 	QString text="";
 	int hour, minute, second;
@@ -50,19 +56,19 @@ QString KRulerModel::mapValueToText(const int value)
  */
 int KRulerModel::minimumSmallTickSeparation() const
 {
-	return 6;
+	return m_minimumSmallTickSeperation;
 }
 
 /** Returns the minimum number of pixels that must exist between two large ticks. */
 int KRulerModel::minimumLargeTickSeparation()  const
 {
-	return 30;
+	return m_minimumLargeTickSeperation;
 }
 
 /** returns the minimum number of pixels which must exist between any two pieces of displayed text. */
 int KRulerModel::minimumTextSeparation() const
 {
-	return 100;
+	return m_minimumDisplayTickSeperation;
 }
 
 int KRulerModel::getTickDisplayInterval(const int tick) const
@@ -98,9 +104,26 @@ int KRulerModel::getTickDisplayInterval(const int tick) const
 		seconds = 10;
 	} else if(seconds > 2) {
 		seconds = 5;
+	} else if(seconds > 1) {
+		seconds = 2;
 	} else {
 		seconds = 1;
 	}	
 
 	return seconds;
+}
+
+void KRulerModel::setMinimumLargeTickSeperation(const int pixels)
+{
+	m_minimumLargeTickSeperation = pixels;
+}
+
+void KRulerModel::setMinimumSmallTickSeperation(const int pixels)
+{
+	m_minimumSmallTickSeperation = pixels;
+}
+
+void KRulerModel::setMinimumDisplayTickSeperation(const int pixels)
+{
+	m_minimumDisplayTickSeperation = pixels;
 }

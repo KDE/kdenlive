@@ -23,8 +23,10 @@
   */
 
 #include <qdom.h>
-#include "kurl.h"
-#include "arts/kmedia2.h"
+#include <kurl.h>
+#include <arts/kmedia2.h>
+
+class KdenliveDoc;
 
 class DocClipBase {
 public:
@@ -54,7 +56,11 @@ public:
 	/** returns the name of this clip. */
 	QString name();
 
-	/** set the cropStart time for this clip.*/
+	/** set the cropStart time for this clip.The "crop" timings are those which define which
+	part of a clip is wanted in the edit. For example, a clip may be 60 seconds long, but the first
+	10 is not needed. Setting the "crop start time" to 10 seconds means that the first 10 seconds isn't
+	used. The crop times are necessary, so that if at later time you decide you need an extra second
+	at the beginning of the clip, you can re-add it.*/
 	void setCropStartTime(long ms);
 
 	/** returns the cropStart time for this clip */ 
@@ -81,7 +87,11 @@ public:
 	virtual KURL fileURL() = 0;
 
 	/** Reads in the element structure and creates a clip out of it. */
-	static DocClipBase *createClip(QDomElement element);
+	static DocClipBase *createClip(KdenliveDoc &doc, QDomElement element);
+  /** returns whether or not this clip is selected. */
+  bool isSelected();
+  /** Sets whether this clip is selected or not */
+  void setSelected(bool state=true);
 private: // Private attributes
 	/** The name of this clip */
 	QString m_name;
@@ -95,6 +105,8 @@ private: // Private attributes
 	 * time that we actually want.
 	 **/
 	Arts::poTime m_cropDuration;
+  /** This variable becomes true when a clip has become selected. */
+  bool m_selected;
 };
 
 #endif

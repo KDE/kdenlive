@@ -41,3 +41,9 @@ void KScalableRuler::setStartPixel(int pixel)
 void KScalableRuler::setValueScale(double scale){
 	KRuler::setValueScale(scale);
 }
+
+/** Sets the range of the active part of the ruler. */
+void KScalableRuler::setRange(const int start, const int end)
+{
+	KRuler::setRange(start, end);
+}

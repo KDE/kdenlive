@@ -63,8 +63,5 @@ bool ProjectListView::acceptDrag (QDropEvent* event) const
 	different ideas about what to do with the clip list.*/
 void ProjectListView::dragDropped(QDropEvent* e, QListViewItem* parent, QListViewItem* after)
 {
-	QPtrList<DocClipBase> cliplist = ClipDrag::decode(e);
- 	cliplist.setAutoDelete(false);
-
-	emit clipListDropped(cliplist);
+	emit dragDropOccured(e);
 }

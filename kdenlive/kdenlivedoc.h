@@ -25,14 +25,16 @@
 // include files for QT
 #include <qobject.h>
 #include <qstring.h>
-#include <qptrlist.h>
+#include <qvaluelist.h>
+
+class AVFile;
+#include "avfile.h"
 
 // include files for KDE
 #include <kurl.h>
 
 // include files for Kdenlive
-#include <docclipbase.h>
-#include <doctrackbase.h>
+#include "doctrackbase.h"
 
 // forward declaration of the Kdenlive classes
 class KdenliveView;
@@ -85,8 +87,9 @@ class KdenliveDoc : public QObject
     /** sets the URL of the document */
 	  void setURL(const KURL& url);
 		/** Returns the internal avFile list. */
-		QPtrList<DocClipBase> avFileList();	
-	
+		QPtrList<AVFile> avFileList();
+		/** Insert an AVFile with the given url. If the file is already in the file list, return that instead. */
+		AVFile *insertAVFile(const KURL &file);
   public slots:
     /** calls repaint() on all views connected to the document object and is called by the view by which the document has been changed.
      * As this view normally repaints itself, it is excluded from the paintEvent.
@@ -119,17 +122,21 @@ class KdenliveDoc : public QObject
 	  DocTrackBase * firstTrack();
 	  /** Returns the number of tracks in this project */
 	  int numTracks();
+  /** Returns a reference to the AVFile matching the  url. If no AVFile matching the given url is found, then one will be created. Either way, the reference count for the AVFile will be incremented by one, and the file will be returned. */
+  AVFile * getAVFileReference(KURL url);
+  /** Find and return the AVFile with the url specified, or return null is no file matches. */
+  AVFile * findAVFile(const KURL &file);
 
   private:
     /** the modified flag of the current document */
     bool modified;
     KURL doc_url;
 
-	/** List of all video and audio clips within this project */
-	QPtrList<DocClipBase> m_clipList;		
+	/** List of all video and audio files within this project */
+	QPtrList<AVFile> m_fileList;
 	signals: // Signals
   	/** This is signal is emitted whenever the avFileList changes, either through the addition or removal of an AVFile, or when an AVFile changes. */
-  	void avFileListUpdated(QPtrList<DocClipBase>);
+  	void avFileListUpdated(QPtrList<AVFile>);
 	private: // Private methods
   	/** Adds a track to the project */
   	void addTrack(DocTrackBase *track);

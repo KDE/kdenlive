@@ -26,6 +26,14 @@ ClipDrag::ClipDrag(DocClipBase *clip, QWidget *dragSource, const char *name) :
 	m_xml = clip->toXML().toString();
 }
 
+ClipDrag::ClipDrag(AVFile * clip, QWidget * dragSource, const char * name) :
+			KURLDrag(createURLList(clip), dragSource, name)
+{
+	DocClipAVFile av(clip);
+
+	m_xml = av.toXML().toString();
+}
+
 ClipDrag::~ClipDrag()
 {
 }
@@ -69,7 +77,7 @@ bool ClipDrag::canDecode(const QMimeSource *mime)
 }
 
 /** Attempts to decode the mimetype e as a clip. Returns a clip, or returns null */
-QPtrList<DocClipBase> ClipDrag::decode(const QMimeSource *e)
+QPtrList<DocClipBase> ClipDrag::decode(KdenliveDoc &doc, const QMimeSource *e)
 {
 	QPtrList<DocClipBase> cliplist;
  	cliplist.setAutoDelete(false);
@@ -77,17 +85,17 @@ QPtrList<DocClipBase> ClipDrag::decode(const QMimeSource *e)
 	if(e->provides("application/x-kdenlive-clip")) {
 		QByteArray data = e->encodedData("application/x-kdenlive-clip");
 		QString xml = data;
-		QDomDocument doc;
-		doc.setContent(data);
+		QDomDocument qdomdoc;
+		qdomdoc.setContent(data);
 
-		QDomNode node = doc.firstChild();
+		QDomNode node = qdomdoc.firstChild();
 
 		while(!node.isNull()) {
 			QDomElement element = node.toElement();
 
 			if(!element.isNull()) {
 				if(element.tagName() == "clip") {
-					DocClipBase *temp = DocClipBase::createClip(element);
+					DocClipBase *temp = DocClipBase::createClip(doc, element);
 					cliplist.append(temp);
 				}
 			}
@@ -99,7 +107,7 @@ QPtrList<DocClipBase> ClipDrag::decode(const QMimeSource *e)
 		KURLDrag::decode(e, list);
 
 		for(it = list.begin(); it != list.end(); ++it) {
-			DocClipAVFile *file = new DocClipAVFile((*it).fileName(), *it);
+			DocClipAVFile *file = new DocClipAVFile(doc, (*it).fileName(), *it);
 			cliplist.append(file);
 		}
 	}
@@ -115,6 +123,19 @@ KURL::List ClipDrag::createURLList(DocClipBase *clip)
 {
 	KURL::List list;
 	
+ 	list.append(clip->fileURL());
+	return list;
+}
+
+
+/** Returns a QValueList containing the URL of the clip.
+
+This is necessary, because the KURLDrag class which ClipDrag inherits
+requires a list of URL's rather than a single URL. */
+KURL::List ClipDrag::createURLList(AVFile *clip)
+{
+	KURL::List list;
+
  	list.append(clip->fileURL());
 	return list;
 }

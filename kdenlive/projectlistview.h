@@ -19,9 +19,12 @@
 #define PROJECTLISTVIEW_H
 
 #include <klistview.h>
-#include <docclipbase.h>
+
+#include "docclipbase.h"
 
 /**
+	* ProjectListView contains a derived class from KListView which sets up the correct column headers
+	* for the view, etc.
   *@author Jason Wood
   */
 
@@ -36,7 +39,7 @@ public:
 	bool acceptDrag (QDropEvent* event) const;
 signals: // Signals
   /** This signal is called whenever clips are drag'n'dropped onto the project list view. */
-  void clipListDropped(QPtrList<DocClipBase>);
+  void dragDropOccured(QDropEvent *e);
 private slots: // Private slots
   /** This slot function should be called whenever a drag has been dropped onto the class. */
   void dragDropped(QDropEvent* e, QListViewItem* parent, QListViewItem* after);

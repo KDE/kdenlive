@@ -36,7 +36,7 @@ KdenliveView::KdenliveView(QWidget *parent, const char *name) :
   connect(&m_projectList, SIGNAL(signal_AddFile(const KURL &)), getDocument(), SLOT(slot_InsertAVFile(const KURL &)));
   connect(&m_projectList, SIGNAL(clipListDropped(QPtrList<DocClipBase>)), getDocument(), SLOT(slot_insertClips(QPtrList<DocClipBase>)));
 
-  connect(getDocument(), SIGNAL(avFileListUpdated(QPtrList<DocClipBase>)), &m_projectList, SLOT(slot_UpdateList(QPtrList<DocClipBase>)));
+  connect(getDocument(), SIGNAL(avFileListUpdated(QPtrList<AVFile>)), &m_projectList, SLOT(slot_UpdateList(QPtrList<AVFile>)));
 }
 
 KdenliveView::~KdenliveView()

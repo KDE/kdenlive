@@ -28,9 +28,12 @@
 
 #include <qpushbutton.h>
 
-#include <kscalableruler.h>
-#include <kdenlivedoc.h>
-#include <kmmtrackbase.h>
+#include "kscalableruler.h"
+#include "kdenlivedoc.h"
+
+#include "kmmtrackpanel.h"
+
+class KMMTrackPanel;
 
 /**This is the timeline. It gets populated by tracks, which in turn are populated
 by video and audio clips, or transitional clips, or any other clip imaginable.
@@ -53,17 +56,16 @@ private:
 		QPushButton m_deleteTrackButton;
 		QScrollBar m_scrollBar;		// this scroll bar's movement is measured in pixels, not frames.
 		/** track varables */
-		QList<QWidget> m_trackPanels;
-		QList<QWidget> m_trackViews;
+		QPtrList<KMMTrackPanel> m_trackList;
 		
 	  /** A pointer to the document (project) that this timeline is based upon */
 	  KdenliveDoc * m_document;		
 public: // Public methods
   /** This method adds a new track to the trackGrid. */
-  void appendTrack(QWidget *trackPanel, KMMTrackBase *trackView);
+  void appendTrack(KMMTrackPanel *track);
   void resizeEvent(QResizeEvent *event);
   /** Inserts a track at the position specified by index */
-  void insertTrack(int index, QWidget *trackPanel, KMMTrackBase *trackView);
+  void insertTrack(int index, KMMTrackPanel *track);
   /** No descriptions */
   void polish();
 
@@ -71,6 +73,23 @@ public: // Public methods
 	void dragMoveEvent ( QDragMoveEvent * );
 	void dragLeaveEvent ( QDragLeaveEvent * );
 	void dropEvent ( QDropEvent * );
+  /** This event occurs when the mouse has been moved. */
+  void mouseMoveEvent(QMouseEvent *event);
+  /** This event occurs when a mouse button is released. */
+  void mouseReleaseEvent(QMouseEvent *event);
+  /** This event occurs when a mouse button is pressed. */
+  void mousePressEvent(QMouseEvent *event);
+
+	
+  /** Takes the value that we wish to find the coordinate for, and returns the x coordinate. In cases where a single value covers multiple
+pixels, the left-most pixel is returned. */
+  double mapValueToLocal(double value) const;
+  /** This method maps a local coordinate value to the corresponding
+value that should be represented at that position. By using this, there is no need to calculate scale factors yourself. Takes the x
+coordinate, and returns the value associated with it. */
+  double mapLocalToValue(double coordinate) const;
+  /** Deselects all clips on the timeline. */
+  void selectNone();
 
 private: // private methods
 	void resizeTracks();

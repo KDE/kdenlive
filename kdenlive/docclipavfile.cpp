@@ -16,112 +16,53 @@
  ***************************************************************************/
 
 #include "docclipavfile.h"
+#include "kdenlivedoc.h"
 
-#include <qfileinfo.h>
+#include "avfile.h"
+
 #include <iostream>
 
-KArtsDispatcher dispatcher;	
-KArtsServer server;
-
-DocClipAVFile::DocClipAVFile(QString name, KURL url) :
+DocClipAVFile::DocClipAVFile(KdenliveDoc &doc, const QString name, const KURL url) :
 						DocClipBase(),
-            m_player(0)
+						m_avFile(doc.getAVFileReference(url))
 {
-	if(name.isNull()) {
-   	setName(url.filename());
-	} else {
-		setName(name);
- 	}
+	setCropDuration(duration());
+	
+  m_clipType = AV;
+}
 
-	m_url = url;
+DocClipAVFile::DocClipAVFile(AVFile *avFile) :
+						DocClipBase(),
+						m_avFile(avFile)
+{
+	m_avFile->addReference();
+	
+	setCropDuration(duration());
 
-	calculateFileProperties();
   m_clipType = AV;
 }
 
 DocClipAVFile::~DocClipAVFile(){
-}
 
-QString DocClipAVFile::fileName() {
-	return m_url.fileName();
-}
-
-KURL DocClipAVFile::fileURL() {
-	return m_url;
+	m_avFile->removeReference();
+	m_avFile = 0;	
 }
 
 
-/** Calculates properties for this file that will be useful for the rest of the program. */
-void DocClipAVFile::calculateFileProperties()
-{	
-	if(m_url.isLocalFile()) {
-		QFileInfo fileInfo(m_url.directory(false, false) + m_url.filename());
 
-	 	/** Determines the size of the file */		
-		m_filesize = fileInfo.size();						
-		
-  	KPlayObjectFactory factory(server.server());
-    factory.setAllowStreaming(false);
-
-    int test = 3;
-    do {
-			m_player = factory.createPlayObject(m_url, true);
-   		if(m_player) break;
-     	sleep(1);
-      test--;
-  	} while(test);
-								
-		if(m_player && (!m_player->object().isNull()) ) {  		
-			/** Determines the format of the file e.g. wav, ogg, mpeg, mov */		
-			m_player->play();
-			bool flag = false;
-			while(m_player->state() != Arts::posIdle) {
-				m_time= m_player->overallTime();
-				if((m_time.seconds > 0) || (m_time.ms > 0)) {
-    			flag=true;
-        	break;
-				}
-				sleep(1);
-			}
-
-   		if(!flag) {
-       	m_time.seconds = 0;
-        m_time.ms = 0;
-        m_filesize = -1;
-      }
-
-			m_player->halt();
-		}
-			
-		if(m_player != 0) {
-			delete m_player;
-		}
-		m_player = 0;
-	} else {
-		/** If the file is not local, then no file properties are currently returned */
-		m_time.seconds = 0;
-		m_time.ms = 0;		
-		m_filesize = -1;	
-	}
-}
-
-/** returns the size of the file */
-signed int DocClipAVFile::fileSize() {
-	return m_filesize;
-}
 
 /** Returns the seconds element of the duration of the file */
 long DocClipAVFile::durationSeconds() {
-	return m_time.seconds;
+	return m_avFile->durationSeconds();
 }
 
 /** Returns the milliseconds element of the duration of the file */
 long DocClipAVFile::durationMs() {
-	return m_time.ms;
+	return m_avFile->durationMs();
 }
 
 long DocClipAVFile::duration() {
-	return (m_time.seconds * 1000) + m_time.ms;
+	return m_avFile->duration();
 }
 
 /** Returns the type of this clip */
@@ -152,3 +93,8 @@ QDomDocument DocClipAVFile::toXML() {
 	return doc;
 }
 
+/** Returns the url of the AVFile this clip contains */
+KURL DocClipAVFile::fileURL()
+{
+	return m_avFile->fileURL();
+}

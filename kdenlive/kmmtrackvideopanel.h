@@ -19,20 +19,25 @@
 #define KMMTRACKVIDEOPANEL_H
 
 #include <qwidget.h>
+#include <qlabel.h>
 
-#include <doctrackvideo.h>
-#include <kmmtrackvideopanel_ui.h>
+#include "doctrackvideo.h"
+#include "kmmtrackpanel.h"
 
 /**KMMTrackVideoPanel contains useful controls for manipulating the video tracks
 which reside in the main video widget
   *@author Jason Wood
   */
 
-class KMMTrackVideoPanel : public KMMTrackVideoPanel_UI  {
+class KMMTrackVideoPanel : public KMMTrackPanel  {
    Q_OBJECT
 public: 
-	KMMTrackVideoPanel(DocTrackVideo *docTrack, QWidget *parent=0, const char *name=0);
+	KMMTrackVideoPanel(KMMTimeLine &timeline, DocTrackVideo & docTrack, QWidget *parent=0, const char *name=0);
 	~KMMTrackVideoPanel();
+  /** Paint the specified clip on screen within the specified rectangle, using the specified painter. */
+  void paintClip(QPainter &painter, DocClipBase *clip);
+private:
+	QLabel m_trackLabel;
 };
 
 #endif

@@ -18,7 +18,7 @@
 #ifndef DOCTRACKVIDEO_H
 #define DOCTRACKVIDEO_H
 
-#include <doctrackbase.h>
+#include "doctrackbase.h"
 
 /**DocTrackVideo holds all data about a video track
   *@author Jason Wood

@@ -7,15 +7,23 @@
     <property name="geometry">
         <rect>
             <x>0</x>
-            <y>103</y>
-            <width>650</width>
-            <height>60</height>
+            <y>0</y>
+            <width>376</width>
+            <height>143</height>
         </rect>
+    </property>
+    <property name="sizePolicy">
+        <sizepolicy>
+            <hsizetype>5</hsizetype>
+            <vsizetype>4</vsizetype>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
     </property>
     <property name="maximumSize">
         <size>
             <width>32767</width>
-            <height>60</height>
+            <height>32767</height>
         </size>
     </property>
     <property name="caption">
@@ -33,7 +41,7 @@
             <number>2</number>
         </property>
         <property name="spacing">
-            <number>2</number>
+            <number>1</number>
         </property>
         <widget class="KFixedRuler">
             <property name="name">
@@ -48,7 +56,7 @@
         </widget>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>Layout1</cstring>
+                <cstring>Layout16</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -59,6 +67,220 @@
                 </property>
                 <property name="spacing">
                     <number>6</number>
+                </property>
+                <widget class="QGroupBox">
+                    <property name="name">
+                        <cstring>GroupBox1</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Selection</string>
+                    </property>
+                    <grid>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>6</number>
+                        </property>
+                        <property name="spacing">
+                            <number>2</number>
+                        </property>
+                        <widget class="QLayoutWidget" row="0" column="0">
+                            <property name="name">
+                                <cstring>Layout7</cstring>
+                            </property>
+                            <vbox>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <property name="margin">
+                                    <number>0</number>
+                                </property>
+                                <property name="spacing">
+                                    <number>2</number>
+                                </property>
+                                <widget class="QLabel">
+                                    <property name="name">
+                                        <cstring>TextLabel2_3</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>From:</string>
+                                    </property>
+                                </widget>
+                                <widget class="QLabel">
+                                    <property name="name">
+                                        <cstring>TextLabel2_3_2</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>To:</string>
+                                    </property>
+                                </widget>
+                            </vbox>
+                        </widget>
+                        <widget class="QLayoutWidget" row="0" column="1">
+                            <property name="name">
+                                <cstring>Layout12</cstring>
+                            </property>
+                            <grid>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <property name="margin">
+                                    <number>0</number>
+                                </property>
+                                <property name="spacing">
+                                    <number>3</number>
+                                </property>
+                                <widget class="QToolButton" row="0" column="1">
+                                    <property name="name">
+                                        <cstring>m_setFromButton</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Set</string>
+                                    </property>
+                                </widget>
+                                <widget class="QLineEdit" row="0" column="0">
+                                    <property name="name">
+                                        <cstring>m_fromTime</cstring>
+                                    </property>
+                                    <property name="sizePolicy">
+                                        <sizepolicy>
+                                            <hsizetype>7</hsizetype>
+                                            <vsizetype>0</vsizetype>
+                                            <horstretch>0</horstretch>
+                                            <verstretch>0</verstretch>
+                                        </sizepolicy>
+                                    </property>
+                                    <property name="text">
+                                        <string>00:00:00.00</string>
+                                    </property>
+                                </widget>
+                                <widget class="QLineEdit" row="1" column="0">
+                                    <property name="name">
+                                        <cstring>m_toTime</cstring>
+                                    </property>
+                                    <property name="sizePolicy">
+                                        <sizepolicy>
+                                            <hsizetype>7</hsizetype>
+                                            <vsizetype>0</vsizetype>
+                                            <horstretch>0</horstretch>
+                                            <verstretch>0</verstretch>
+                                        </sizepolicy>
+                                    </property>
+                                    <property name="text">
+                                        <string>00:00:00.00</string>
+                                    </property>
+                                </widget>
+                                <widget class="QToolButton" row="1" column="1">
+                                    <property name="name">
+                                        <cstring>m_setToButton</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Set</string>
+                                    </property>
+                                </widget>
+                            </grid>
+                        </widget>
+                    </grid>
+                </widget>
+                <widget class="QGroupBox">
+                    <property name="name">
+                        <cstring>GroupBox2</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Clip</string>
+                    </property>
+                    <grid>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>6</number>
+                        </property>
+                        <property name="spacing">
+                            <number>2</number>
+                        </property>
+                        <widget class="QLayoutWidget" row="0" column="1">
+                            <property name="name">
+                                <cstring>Layout15</cstring>
+                            </property>
+                            <vbox>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <property name="margin">
+                                    <number>0</number>
+                                </property>
+                                <property name="spacing">
+                                    <number>6</number>
+                                </property>
+                                <widget class="QLineEdit">
+                                    <property name="name">
+                                        <cstring>m_currentTime</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>00:00:00.00</string>
+                                    </property>
+                                </widget>
+                                <widget class="QLineEdit">
+                                    <property name="name">
+                                        <cstring>m_lengthTime</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>00:00:00.00</string>
+                                    </property>
+                                </widget>
+                            </vbox>
+                        </widget>
+                        <widget class="QLayoutWidget" row="0" column="0">
+                            <property name="name">
+                                <cstring>Layout14</cstring>
+                            </property>
+                            <vbox>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <property name="margin">
+                                    <number>0</number>
+                                </property>
+                                <property name="spacing">
+                                    <number>3</number>
+                                </property>
+                                <widget class="QLabel">
+                                    <property name="name">
+                                        <cstring>TextLabel2</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Current:</string>
+                                    </property>
+                                </widget>
+                                <widget class="QLabel">
+                                    <property name="name">
+                                        <cstring>TextLabel2_2</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Length:</string>
+                                    </property>
+                                </widget>
+                            </vbox>
+                        </widget>
+                    </grid>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>Layout1</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>2</number>
                 </property>
                 <widget class="QToolButton">
                     <property name="name">
@@ -115,7 +337,7 @@
 <customwidgets>
     <customwidget>
         <class>KFixedRuler</class>
-        <header location="global">/home/uchian/kdenlive/kdenlive/kfixedruler.h</header>
+        <header location="global">kfixedruler.h</header>
         <sizehint>
             <width>-1</width>
             <height>-1</height>

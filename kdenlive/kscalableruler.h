@@ -19,6 +19,7 @@
 #define KSCALABLERULER_H
 
 #include <qwidget.h>
+
 #include <kruler.h>
 
 /**This ruler provides access to a ruler which can be scaled. Access is based upon
@@ -33,6 +34,8 @@ public:
 	KScalableRuler(KRulerModel *model, QWidget *parent=0, const char *name=0);
 	KScalableRuler(QWidget *parent=0, const char *name=0);
 	~KScalableRuler();
+  /** Sets the range of the active part of the ruler. */
+  void setRange(const int start, const int end);
 public slots: // Public slots
   /** Sets the pixel which will be displayed leftmost or uppermost on the ruler. 0 pixels is equivalent to the value 0, other pixel amounts can be determined by multiplying by the scale factor. */
   void setStartPixel(int pixel);

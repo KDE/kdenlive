@@ -29,11 +29,12 @@
 //include files for KDE
 #include <qlabel.h>
 
-// include files for project
-#include <kmmtimeline.h>
 #include <kruler.h>
-#include <kmmmonitor.h>
-#include <projectlist.h>
+
+// include files for project
+#include "kmmtimeline.h"
+#include "kmmmonitor.h"
+#include "projectlist.h"
 
 
 class KdenliveDoc;

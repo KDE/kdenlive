@@ -19,7 +19,9 @@
 #define CLIPDRAG_H
 
 #include <kurldrag.h>
-#include <docclipbase.h>
+
+#include "kdenlivedoc.h"
+#include "docclipbase.h"
 
 
 /**Allows the dragging of clips within and outside of the application.
@@ -30,13 +32,14 @@ class ClipDrag : public KURLDrag
 {
 public: 
 	ClipDrag(DocClipBase *clip, QWidget *dragSource, const char *name);
+   ClipDrag(AVFile * clip, QWidget * dragSource, const char * name);
 	~ClipDrag();
 	/** Set the clip which is contained within this ClipDrag object. */
 	void setClip(DocClipBase *clip);
 	/** Returns true if the mime type is decodable, false otherwise. */
 	static bool canDecode(const QMimeSource *mime);
 	/** Attempts to decode the mimetype e as a clip. Returns a clip, or returns null */
-	static QPtrList<DocClipBase> decode(const QMimeSource *e);
+	static QPtrList<DocClipBase> decode(KdenliveDoc &doc, const QMimeSource *e);
 protected:
 	/** Reimplemented for internal reasons; the API is not affected.  */
 	QByteArray encodedData(const char *mime) const;
@@ -49,6 +52,7 @@ private: // Private methods
 	 * requires a list of URL's rather than a single URL. 
 	 **/
 	KURL::List createURLList(DocClipBase *clip);
+	KURL::List createURLList(AVFile *clip);		
 
 	/** Holds the XML representation of the clips being dragged */
 	QString m_xml;

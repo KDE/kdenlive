@@ -21,7 +21,7 @@
 
 #include <math.h>
 
-AVListViewItem::AVListViewItem(QListView *parent, DocClipBase *clip) : QListViewItem(parent) {
+AVListViewItem::AVListViewItem(QListView *parent, AVFile *clip) : QListViewItem(parent) {
 	m_listView = parent;
 	m_clip = clip;
 }
@@ -67,12 +67,13 @@ QString AVListViewItem::text ( int column ) const {
 	}
 	
 	if(m_listView->columnText(column) == i18n("Usage Count")) {
+		return QString::number(m_clip->numReferences());
 	}	
 	
 	return "n/a";	
 }
 
-DocClipBase *AVListViewItem::clip() const
+AVFile *AVListViewItem::clip() const
 {
 	return m_clip;
 }

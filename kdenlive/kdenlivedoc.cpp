@@ -44,7 +44,8 @@ KdenliveDoc::KdenliveDoc(QWidget *parent, const char *name) : QObject(parent, na
   }
 
   m_framesPerSecond = 25; // Standard PAL.
-  m_clipList.setAutoDelete(true);
+
+  m_fileList.setAutoDelete(true);
 	
   pViewList->setAutoDelete(true);
 }
@@ -143,7 +144,7 @@ bool KdenliveDoc::newDocument()
   // TODO: Add your document initialization code here
   /////////////////////////////////////////////////
 
-  m_clipList.setAutoDelete( TRUE );
+  m_fileList.setAutoDelete(true);
 
   addVideoTrack();
   addVideoTrack();
@@ -188,18 +189,31 @@ void KdenliveDoc::deleteContents()
   // TODO: Add implementation to delete the document contents
   /////////////////////////////////////////////////
 
-  m_clipList.clear();
+  m_fileList.clear();
 }
 
-void KdenliveDoc::slot_InsertAVFile(const KURL &file) {
-	m_clipList.append(new DocClipAVFile(file.fileName(), file));
-	emit avFileListUpdated(m_clipList);
-	setModified(true);	
-}
-
-QPtrList<DocClipBase> KdenliveDoc::avFileList()
+void KdenliveDoc::slot_InsertAVFile(const KURL &file)
 {
-	return m_clipList;	
+	insertAVFile(file);
+}
+
+AVFile *KdenliveDoc::insertAVFile(const KURL &file)
+{
+	AVFile *av = findAVFile(file);
+
+	if(!av) {	
+		av = new AVFile(file.fileName(), file);
+		m_fileList.append(av);
+		emit avFileListUpdated(m_fileList);
+		setModified(true);
+	}
+	
+	return av;
+}
+
+QPtrList<AVFile> KdenliveDoc::avFileList()
+{
+	return m_fileList;	
 }
 
 /** Returns the number of frames per second. */
@@ -249,13 +263,38 @@ DocTrackBase * KdenliveDoc::nextTrack()
 /** Inserts a list of clips into the document, updating the project accordingly. */
 void KdenliveDoc::slot_insertClips(QPtrList<DocClipBase> clips)
 {
-	clips.setAutoDelete(false);
-
-	DocClipBase *clip;
+	clips.setAutoDelete(true);
+	
+	DocClipBase *clip;		
 	for(clip = clips.first(); clip; clip=clips.next()) {
-  	m_clipList.append(clip);
+		insertAVFile(clip->fileURL());
 	}
 
-  emit avFileListUpdated(m_clipList);
+  emit avFileListUpdated(m_fileList);
 	setModified(true);	
+}
+
+/** Returns a reference to the AVFile matching the  url. If no AVFile matching the given url is
+found, then one will be created. Either way, the reference count for the AVFile will be incremented
+ by one, and the file will be returned. */
+AVFile * KdenliveDoc::getAVFileReference(KURL url)
+{
+	AVFile *av = insertAVFile(url);
+	av->addReference();
+	return av;
+}
+
+/** Find and return the AVFile with the url specified, or return null is no file matches. */
+AVFile * KdenliveDoc::findAVFile(const KURL &file)
+{
+	QPtrListIterator<AVFile> itt(m_fileList);
+
+	AVFile *av;
+
+	while( (av = itt.current()) != 0) {
+		if(av->fileURL().path() == file.path()) return av;
+		++itt;
+	}
+
+	return 0;
 }

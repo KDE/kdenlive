@@ -18,7 +18,7 @@
 #ifndef KMMEDITPANELIMPLEMENTATION_H
 #define KMMEDITPANELIMPLEMENTATION_H
 
-#include <kmmeditpanel.h>
+#include "kmmeditpanel.h"
 
 /**Implementation for the edit panel
   *@author Jason Wood

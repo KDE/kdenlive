@@ -17,8 +17,18 @@
 
 #include "doctrackvideo.h"
 
-DocTrackVideo::DocTrackVideo()
+#include "avfile.h"
+#include "docclipavfile.h"
+
+DocTrackVideo::DocTrackVideo() :
+						DocTrackBase()
 {
+	static int count=0;
+	DocClipAVFile *file = new DocClipAVFile(new AVFile("Test", "file:/mnt/windows/My Documents/Music/Elton John/[Elton John] your song.mp3"));
+	file->setTrackStart(count);
+	file->setCropDuration(400-count);	
+	addClip(file);
+	count+=30;
 }
 
 DocTrackVideo::~DocTrackVideo()
@@ -28,7 +38,7 @@ DocTrackVideo::~DocTrackVideo()
 /** Returns true if the specified clip can be added to this track, false otherwise. */
 bool DocTrackVideo::canAddClip(DocClipBase * clip)
 {
-	return false;
+	return true;
 }
 /** Returns the clip type as a string. This is a bit of a hack to give the
 		* KMMTimeLine a way to determine which class it should associate

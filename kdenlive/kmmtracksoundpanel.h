@@ -19,9 +19,10 @@
 #define KMMTRACKSOUNDPANEL_H
 
 #include <qwidget.h>
+#include <qlabel.h>
 
-#include <doctracksound.h>
-#include <kmmtracksoundpanel_ui.h>
+#include "doctracksound.h"
+#include "kmmtrackpanel.h"
 
 /**KMMTrackSoundPanel is the Track panel for sound files.
 It contains several functions that can be used to manipulate
@@ -29,11 +30,16 @@ the main sound widget in different ways.
   *@author Jason Wood
   */
 
-class KMMTrackSoundPanel : public KMMTrackSoundPanel_UI  {
+class KMMTrackSoundPanel : public KMMTrackPanel  {
    Q_OBJECT
-public: 
-	KMMTrackSoundPanel(DocTrackSound *docTrack, QWidget *parent=0, const char *name=0);
+public:
+	KMMTrackSoundPanel(KMMTimeLine &timeline, DocTrackSound & docTrack, QWidget *parent=0, const char *name=0);
 	~KMMTrackSoundPanel();
+  /** This function will paint a clip on screen, using the specified painter and the given coordinates as to where the clip should be painted. */
+  void paintClip(QPainter & painter, DocClipBase * clip);	
+private: // Public attributes
+  /**  */
+  QLabel m_trackLabel;;
 };
 
 #endif

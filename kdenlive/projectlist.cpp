@@ -113,11 +113,11 @@ void ProjectList::rightButtonPressed ( QListViewItem *listViewItem, const QPoint
 }
 
 /** Get a fresh copy of files from KdenliveDoc and display them. */
-void ProjectList::slot_UpdateList(QPtrList<DocClipBase> list) {
+void ProjectList::slot_UpdateList(QPtrList<AVFile> list) {
 	m_listView->clear();
 
-	QListIterator<DocClipBase> itt(list);
-	DocClipBase *av;
+	QListIterator<AVFile> itt(list);
+	AVFile *av;
 	
 	for(; (av = itt.current()); ++itt) {
 		new AVListViewItem(m_listView, av);

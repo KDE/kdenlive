@@ -18,7 +18,7 @@
 #ifndef DOCTRACKSOUND_H
 #define DOCTRACKSOUND_H
 
-#include <doctrackbase.h>
+#include "doctrackbase.h"
 
 /**DocTrackSound holds all of the data for a sound track
 

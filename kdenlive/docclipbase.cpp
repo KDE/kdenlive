@@ -26,6 +26,7 @@ DocClipBase::DocClipBase()
 	setTrackStart(0);
 	setCropStartTime(0);
 	setCropDuration(0);
+	setSelected(false);
 }
 
 DocClipBase::~DocClipBase()
@@ -119,11 +120,23 @@ QDomDocument DocClipBase::toXML() {
 	return doc;
 }
 
-DocClipBase *DocClipBase::createClip(QDomElement element)
+DocClipBase *DocClipBase::createClip(KdenliveDoc &doc, const QDomElement element)
 {
 	KURL url;
 
 	std::cout << "TODO - DocClipBase::createClip(QDomElement element" << std::endl;
 	
-	return new DocClipAVFile(url.fileName(), url);
+	return new DocClipAVFile(doc, url.fileName(), url);
+}
+
+/** Sets whether this clip is selected or not */
+void DocClipBase::setSelected(bool state)
+{
+	m_selected = state;
+}
+
+/** returns whether or not this clip is selected. */
+bool DocClipBase::isSelected()
+{
+	return m_selected;
 }
