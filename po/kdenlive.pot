@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-06-10 22:02+0200\n"
+"POT-Creation-Date: 2003-06-10 22:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -196,12 +196,22 @@ msgstr ""
 msgid "Effect"
 msgstr ""
 
-#: main.cpp:25 main.cpp:38
+#: main.cpp:25
+msgid ""
+"Kdenlive\n"
+"A non-linear video editor for KDE"
+msgstr ""
+
+#: main.cpp:30
+msgid "file to open"
+msgstr ""
+
+#: main.cpp:38
 msgid "Kdenlive"
 msgstr ""
 
-#: main.cpp:31
-msgid "file to open"
+#: main.cpp:48
+msgid "Author and Maintainer"
 msgstr ""
 
 #: kaddclipcommand.cpp:44
