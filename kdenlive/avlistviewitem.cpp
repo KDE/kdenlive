@@ -44,7 +44,7 @@ QString AVListViewItem::text ( int column ) const {
   			QString::number(((int)m_clip->duration().seconds())%60).rightJustify(2, '0', FALSE) + "." +        
   			QString::number((int)(((int)(m_clip->duration().ms())%1000) * (m_doc->framesPerSecond() / 1000.0))).leftJustify(2, '0', TRUE);
     } else {
-      return "unknown";
+      return i18n("unknown");
     }
 	}
 	
@@ -52,7 +52,7 @@ QString AVListViewItem::text ( int column ) const {
 		long fileSize = m_clip->fileSize();
 		long tenth;
 		if(fileSize < 1024) {		
-			return QString::number(fileSize) + i18n(" Bytes");
+			return QString::number(fileSize) + i18n(" byte(s)");
 		}
 		
 		fileSize = (int)floor((fileSize / 1024.0)+0.5);
