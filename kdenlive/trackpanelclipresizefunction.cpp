@@ -19,24 +19,26 @@
 #include "kdebug.h"
 
 #include "doctrackbase.h"
-#include "kmmtimeline.h"
+#include "kdenlive.h"
+#include "ktimeline.h"
 #include "kresizecommand.h"
+#include "kselectclipcommand.h"
 
 #include <cmath>
 
 // static
 const uint TrackPanelClipResizeFunction::s_resizeTolerance = 5;
 
-TrackPanelClipResizeFunction::TrackPanelClipResizeFunction(KMMTimeLine *timeline,
-								KdenliveDoc *document,
-								DocTrackBase *docTrack) :
+TrackPanelClipResizeFunction::TrackPanelClipResizeFunction(KdenliveApp *app,
+								KTimeLine *timeline,
+								KdenliveDoc *document) :
+								m_app(app),
 								m_timeline(timeline),
 								m_document(document),
-								m_docTrack(docTrack),
 								m_clipUnderMouse(0),
 								m_resizeState(None),
 								m_resizeCommand(0),
-								m_snapToGrid(document)
+								m_snapToGrid()
 {
 }
 
@@ -45,76 +47,95 @@ TrackPanelClipResizeFunction::~TrackPanelClipResizeFunction()
 }
 
 
-bool TrackPanelClipResizeFunction::mouseApplies(QMouseEvent *event) const
+bool TrackPanelClipResizeFunction::mouseApplies(KTrackPanel *panel, QMouseEvent *event) const
 {
 	bool result = false;
 
-	GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_document->framesPerSecond());
-	DocClipRef *clip = m_docTrack->getClipAt(mouseTime);
-	if(clip) {
-		if( fabs(m_timeline->mapValueToLocal(clip->trackStart().frames(m_document->framesPerSecond())) - event->x()) < s_resizeTolerance) {
-			result = true;
-		}
-		if( fabs(m_timeline->mapValueToLocal((clip->trackEnd()).frames(m_document->framesPerSecond())) - event->x()) < s_resizeTolerance) {
-			result = true;
+	if(panel->hasDocumentTrackIndex()) {
+		DocTrackBase *track = m_document->track(panel->documentTrackIndex());
+		if(track) {
+			GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_document->framesPerSecond());
+			DocClipRef *clip = track->getClipAt(mouseTime);
+			if(clip) {
+				if( fabs(m_timeline->mapValueToLocal(clip->trackStart().frames(m_document->framesPerSecond())) - event->x()) < s_resizeTolerance) {
+					result = true;
+				}
+				if( fabs(m_timeline->mapValueToLocal((clip->trackEnd()).frames(m_document->framesPerSecond())) - event->x()) < s_resizeTolerance) {
+					result = true;
+				}
+			}
 		}
 	}
 
 	return result;
 }
 
-QCursor TrackPanelClipResizeFunction::getMouseCursor(QMouseEvent *event)
+QCursor TrackPanelClipResizeFunction::getMouseCursor(KTrackPanel *panel, QMouseEvent *event)
 {
 	return QCursor(Qt::SizeHorCursor);
 }
 
-bool TrackPanelClipResizeFunction::mousePressed(QMouseEvent *event)
+bool TrackPanelClipResizeFunction::mousePressed(KTrackPanel *panel, QMouseEvent *event)
 {
 	bool result = false;
 
-	GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_document->framesPerSecond());
-	m_clipUnderMouse = m_docTrack->getClipAt(mouseTime);
-	if(m_clipUnderMouse) {
-		if( fabs(m_timeline->mapValueToLocal(m_clipUnderMouse->trackStart().frames(m_document->framesPerSecond())) - event->x()) < s_resizeTolerance) {
-			m_resizeState = Start;
-		}
-		if( fabs(m_timeline->mapValueToLocal((m_clipUnderMouse->trackEnd()).frames(m_document->framesPerSecond())) - event->x()) < s_resizeTolerance) {
-			m_resizeState = End;
-		}
+	if(panel->hasDocumentTrackIndex()) {
+		DocTrackBase *track = m_document->track(panel->documentTrackIndex());
+		if(track) {
+			GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_document->framesPerSecond());
+			m_clipUnderMouse = track->getClipAt(mouseTime);
+			if(m_clipUnderMouse) {
+				if( fabs(m_timeline->mapValueToLocal(m_clipUnderMouse->trackStart().frames(m_document->framesPerSecond())) - event->x()) < s_resizeTolerance) {
+					m_resizeState = Start;
+				}
+				if( fabs(m_timeline->mapValueToLocal((m_clipUnderMouse->trackEnd()).frames(m_document->framesPerSecond())) - event->x()) < s_resizeTolerance) {
+					m_resizeState = End;
+				}
 
-	  	m_timeline->addCommand(m_timeline->selectNone(), true);
-		m_timeline->selectClipAt(*m_docTrack, (m_clipUnderMouse->trackStart() + m_clipUnderMouse->trackEnd())/2.0);
-		m_snapToGrid.setSnapToClipStart(m_timeline->snapToBorders());
-		m_snapToGrid.setSnapToClipEnd(m_timeline->snapToBorders());
-		m_snapToGrid.setSnapToFrame(m_timeline->snapToFrame());
-		m_snapToGrid.setSnapToSeekTime(m_timeline->snapToSeekTime());
-		m_snapToGrid.setSnapTolerance(GenTime(m_timeline->mapLocalToValue(KMMTimeLine::snapTolerance) - m_timeline->mapLocalToValue(0), m_document->framesPerSecond()));
-		m_snapToGrid.setIncludeSelectedClips(false);
-		m_snapToGrid.clearSeekTimes();
-		m_snapToGrid.addSeekTime(m_timeline->seekPosition());
-		QValueList<GenTime> cursor;
+				m_app->addCommand(Command::KSelectClipCommand::selectNone(m_document), true);
 
-		if(m_resizeState == Start) {
-			cursor.append(m_clipUnderMouse->trackStart());
+				m_app->addCommand(
+							Command::KSelectClipCommand::selectClipAt(
+										m_document,
+										*track,
+										(m_clipUnderMouse->trackStart() + m_clipUnderMouse->trackEnd())/2.0));
+
+				m_snapToGrid.clearSnapList();
+				if(m_timeline->snapToSeekTime()) m_snapToGrid.addToSnapList(m_timeline->seekPosition());
+				m_snapToGrid.setSnapToFrame(m_timeline->snapToFrame());
+
+				m_snapToGrid.addToSnapList(m_document->getSnapTimes(m_timeline->snapToBorders(),
+															m_timeline->snapToMarkers(),
+															true,
+															false));
+
+				m_snapToGrid.setSnapTolerance(GenTime(m_timeline->mapLocalToValue(KTimeLine::snapTolerance) - m_timeline->mapLocalToValue(0), m_document->framesPerSecond()));
+
+				QValueVector<GenTime> cursor;
+
+				if(m_resizeState == Start) {
+					cursor.append(m_clipUnderMouse->trackStart());
+				}
+				else if (m_resizeState == End) {
+					cursor.append(m_clipUnderMouse->trackEnd());
+				}
+				m_snapToGrid.setCursorTimes(cursor);
+				m_resizeCommand = new Command::KResizeCommand(m_document, *m_clipUnderMouse);
+
+				result = true;
+			}
 		}
-		else if (m_resizeState == End) {
-			cursor.append(m_clipUnderMouse->trackEnd());
-	 	}
-		m_snapToGrid.setCursorTimes(cursor);
-		m_resizeCommand = new Command::KResizeCommand(m_document, *m_clipUnderMouse);
-
-		result = true;
 	}
 
 	return result;
 }
 
-bool TrackPanelClipResizeFunction::mouseReleased(QMouseEvent *event)
+bool TrackPanelClipResizeFunction::mouseReleased(KTrackPanel *panel, QMouseEvent *event)
 {
 	bool result = false;
 
 	m_resizeCommand->setEndSize(*m_clipUnderMouse);
-	m_timeline->addCommand(m_resizeCommand, false);
+	m_app->addCommand(m_resizeCommand, false);
 	m_document->indirectlyModified();
 	m_resizeCommand = 0;
 
@@ -122,22 +143,28 @@ bool TrackPanelClipResizeFunction::mouseReleased(QMouseEvent *event)
 	return result;
 }
 
-bool TrackPanelClipResizeFunction::mouseMoved(QMouseEvent *event)
+bool TrackPanelClipResizeFunction::mouseMoved(KTrackPanel *panel, QMouseEvent *event)
 {
 	bool result = false;
-	GenTime mouseTime = m_snapToGrid.getSnappedTime(m_timeline->timeUnderMouse(event->x()));
 
-	if(m_clipUnderMouse) {
-		result = true;
-		if(m_resizeState == Start) {
-			m_docTrack->resizeClipTrackStart(m_clipUnderMouse, mouseTime);
-			emit signalClipCropStartChanged(m_clipUnderMouse);
-		} else if(m_resizeState == End) {
-			m_docTrack->resizeClipTrackEnd(m_clipUnderMouse, mouseTime);
-			emit signalClipCropEndChanged(m_clipUnderMouse);
-		} else {
-			kdError() << "Unknown resize state reached in KMMTimeLineTrackView::mouseMoveEvent()" << endl;
-			kdError() << "(this message should never be seen!)" << endl;
+	if(panel->hasDocumentTrackIndex()) {
+		DocTrackBase *track = m_document->track(panel->documentTrackIndex());
+		if(track) {
+			GenTime mouseTime = m_snapToGrid.getSnappedTime(m_timeline->timeUnderMouse(event->x()));
+
+			if(m_clipUnderMouse) {
+				result = true;
+				if(m_resizeState == Start) {
+					track->resizeClipTrackStart(m_clipUnderMouse, mouseTime);
+					emit signalClipCropStartChanged(m_clipUnderMouse);
+				} else if(m_resizeState == End) {
+					track->resizeClipTrackEnd(m_clipUnderMouse, mouseTime);
+					emit signalClipCropEndChanged(m_clipUnderMouse);
+				} else {
+					kdError() << "Unknown resize state reached in KMMTimeLineTrackView::mouseMoveEvent()" << endl;
+					kdError() << "(this message should never be seen!)" << endl;
+				}
+			}
 		}
 	}
 
