@@ -71,10 +71,10 @@ class KdenliveDoc : public QObject
 
 	/** removes a view from the list of currently connected views */
     	void removeView(KdenliveView *view);
-    
+
 	/** returns if the document is modified or not. Use this to determine if your document needs
 	 *  saving by the user on closing. */
-    
+
 	bool isModified(){ return m_modified; };
 	/** deletes the document's contents */
 	void deleteContents();
@@ -116,7 +116,7 @@ class KdenliveDoc : public QObject
 	DocClipRefList referencedClips(DocClipBase *clip);
 
 	DocClipProject &projectClip() { return *m_projectClip; }
-	
+
   	/** Returns the number of frames per second. */
  	double framesPerSecond() const;
 	uint numTracks();
@@ -190,7 +190,7 @@ class KdenliveDoc : public QObject
 
 
 	/** The clip hierarchy for this project. Clips can be put into groups. */
-	DocumentBaseNode *m_clipHierarch;	
+	DocumentBaseNode *m_clipHierarch;
 	/** Clip manager maintains the list of clips that exist in the document. */
 	ClipManager m_clipManager;
 	/** Parses the XML Dom Document elements to populate the KdenliveDoc. */
@@ -204,22 +204,12 @@ public slots:
 	 * excluded from the paintEvent.
 	 */
 	void slotUpdateAllViews(KdenliveView *sender);
-	/** Inserts an Audio/visual file into the project */
-	void slot_InsertClip(const KURL &file);
   	/** Adds a sound track to the project */
   	void addSoundTrack();
   	/** Adds an empty video track to the project */
   	void addVideoTrack();
 	/** Called when an error occurs whilst retrieving a file's properties. */
 	void AVFilePropertiesError(const QString &path, const QString &errmsg);
-
-protected slots:
-	/** Inserts a list of clips into the document, updating the project accordingly. */
-	void slot_insertClips(DocClipRefList clips);
-	/** Given a drop event, inserts all contained clips into the project list, if they are not
-	 * there already. */
-	void slot_insertClips(QDropEvent *event);
-
 private slots: // Private slots
 	/** Called when the document is modifed in some way. */
 	void hasBeenModified();

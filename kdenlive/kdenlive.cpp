@@ -41,10 +41,13 @@
 #include <kstdaction.h>
 
 // application specific includes
+
+#include "clipdrag.h"
 #include "clippropertiesdialog.h"
 #include "configureprojectdialog.h"
 #include "docclipbase.h"
 #include "docclipavfile.h"
+#include "documentbasenode.h"
 #include "effectlistdialog.h"
 #include "effectparamdialog.h"
 #include "exportdialog.h"
@@ -58,7 +61,6 @@
 #include "kprogress.h"
 #include "krendermanager.h"
 #include "krulertimemodel.h"
-#include "documentbasenode.h"
 
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
@@ -316,7 +318,7 @@ void KdenliveApp::initView()
 
 	connect(m_projectList, SIGNAL(clipSelected(DocClipRef *)), this, SLOT(activateClipMonitor()));
 	connect(m_projectList, SIGNAL(clipSelected(DocClipRef *)), this, SLOT(slotSetClipMonitorSource(DocClipRef *)));
-	connect(m_projectList, SIGNAL(dragDropOccured(QDropEvent *)), getDocument(), SLOT(slot_insertClips(QDropEvent *)));
+	connect(m_projectList, SIGNAL(dragDropOccured(QDropEvent *)), this, SLOT(slot_insertClips(QDropEvent *)));
 
 	connect(m_timeline, SIGNAL(seekPositionChanged(const GenTime &)), m_workspaceMonitor, SLOT(seek(const GenTime &)));
 	connect(m_timeline, SIGNAL(signalClipCropStartChanged(const GenTime &)), m_clipMonitor, SLOT(seek(const GenTime &)));
@@ -1105,4 +1107,28 @@ void KdenliveApp::slotConfigureProject()
 	ConfigureProjectDialog configDialog(getDocument()->renderer()->fileFormats(), this, "configure project dialog");
     if(QDialog::Accepted == configDialog.exec()) {
 	}
+}
+
+
+void KdenliveApp::slot_insertClips(QDropEvent *event)
+{
+	// sanity check.
+	if(!ClipDrag::canDecode(event)) return;
+
+	DocClipRefList clips = ClipDrag::decode(getDocument()->clipManager(), event);
+
+	clips.setAutoDelete(true);
+
+	QPtrListIterator<DocClipRef> itt(clips);
+
+	KMacroCommand *macroCommand = new KMacroCommand( i18n("Add Clips") );
+
+	while(itt.current())
+	{
+		Command::KAddClipCommand *command = new Command::KAddClipCommand( *getDocument(), "TBD - give proper name", itt.current()->referencedClip(), getDocument()->clipHierarch(), true);
+		macroCommand->addCommand(command);
+		++itt;
+	}
+
+	addCommand(macroCommand, true);
 }

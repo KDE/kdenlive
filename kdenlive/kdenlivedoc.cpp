@@ -40,7 +40,6 @@
 #include "doctrackvideo.h"
 #include "doctracksound.h"
 #include "doctrackclipiterator.h"
-#include "clipdrag.h"
 
 #include "documentclipnode.h"
 #include "documentgroupnode.h"
@@ -217,11 +216,6 @@ void KdenliveDoc::deleteContents()
 	emit clipListUpdated();
 }
 
-void KdenliveDoc::slot_InsertClip(const KURL &file)
-{
-	m_clipManager.insertClip(file);
-}
-
 /** Returns the number of frames per second. */
 double KdenliveDoc::framesPerSecond() const
 {
@@ -248,33 +242,6 @@ void KdenliveDoc::addSoundTrack(){
 uint KdenliveDoc::numTracks()
 {
 	return m_projectClip->numTracks();
-}
-
-/** Inserts a list of clips into the document, updating the project accordingly. */
-void KdenliveDoc::slot_insertClips(DocClipRefList clips)
-{
-	if(clips.isEmpty()) return;
-
-	clips.setAutoDelete(true);
-
-	DocClipRef *clip;
-	for(clip = clips.first(); clip; clip=clips.next()) {
-		m_clipManager.insertClip(clip->fileURL());
-	}
-
-	emit clipListUpdated();
-	setModified(true);
-}
-
-/** Given a drop event, inserts all contained clips into the project list, if they are not there already. */
-void KdenliveDoc::slot_insertClips(QDropEvent *event)
-{
-	// sanity check.
-	if(!ClipDrag::canDecode(event)) return;
-
-	DocClipRefList clips = ClipDrag::decode(m_clipManager, event);
-
-	slot_insertClips(clips);	
 }
 
 /** returns the Track which holds the given clip. If the clip does not

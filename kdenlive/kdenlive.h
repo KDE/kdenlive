@@ -1,10 +1,10 @@
 /***************************************************************************
-                          kdenlive.h  -  description
-                             -------------------
-    begin                : Fri Feb 15 01:46:16 GMT 2002
-    copyright            : (C) 2002 by Jason Wood
-    email                : jasonwood@blueyonder.co.uk
- ***************************************************************************/
+                         kdenlive.h  -  description
+                            -------------------
+   begin                : Fri Feb 15 01:46:16 GMT 2002
+   copyright            : (C) 2002 by Jason Wood
+   email                : jasonwood@blueyonder.co.uk
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -69,289 +69,293 @@ class EffectParamDialog;
   */
 class KdenliveApp : public KDockMainWindow
 {
-  Q_OBJECT
+		Q_OBJECT
 
-  friend class KdenliveView;
+		friend class KdenliveView;
 
-  public:
-	/** The various editing modes that the timeline is capable of */
-	enum TimelineEditMode {Move, Razor, Spacer};
+	public:
+		/** The various editing modes that the timeline is capable of */
+		enum TimelineEditMode {Move, Razor, Spacer};
 
-  /** construtor of KdenliveApp, calls all init functions to create the application.
-    */
-    KdenliveApp(QWidget* parent=0, const char* name=0);
-    ~KdenliveApp();
-    /** opens a file specified by commandline option
-     */
-    void openDocumentFile(const KURL& url=0);
-    /** returns a pointer to the current document connected to the KTMainWindow instance and is used by
-     * the View class to access the document object's methods
-     */
-    KdenliveDoc *getDocument() const;
-  /** Returns true if snapToFrame is enabled, false otherwise */
-  bool snapToFrameEnabled();
-  /** Returns true if snapToBorder is checked, false otherwise */
-  bool snapToBorderEnabled();
-  /** Adds a command to the command history, execute it if execute is true. */
-  void addCommand(KCommand *command, bool execute=true);
+		/** construtor of KdenliveApp, calls all init functions to create the application.
+		  */
+		KdenliveApp( QWidget* parent = 0, const char* name = 0 );
+		~KdenliveApp();
+		/** opens a file specified by commandline option
+		 */
+		void openDocumentFile( const KURL& url = 0 );
+		/** returns a pointer to the current document connected to the KTMainWindow instance and is used by
+		 * the View class to access the document object's methods
+		 */
+		KdenliveDoc *getDocument() const;
+		/** Returns true if snapToFrame is enabled, false otherwise */
+		bool snapToFrameEnabled();
+		/** Returns true if snapToBorder is checked, false otherwise */
+		bool snapToBorderEnabled();
+		/** Adds a command to the command history, execute it if execute is true. */
+		void addCommand( KCommand *command, bool execute = true );
 
-  /** Returns the editing mode that the timeline should operate with */
-  TimelineEditMode timelineEditMode();
-  /** Returns the render manager. */
-  KRenderManager * renderManager();
+		/** Returns the editing mode that the timeline should operate with */
+		TimelineEditMode timelineEditMode();
+		/** Returns the render manager. */
+		KRenderManager * renderManager();
 
-  /** If the document has been modified, asks the user if they want to save it. Returns true if we
-   * can proceed. i.e., the document has been saved or discarded. */
-  bool saveModified();
+		/** If the document has been modified, asks the user if they want to save it. Returns true if we
+		 * can proceed. i.e., the document has been saved or discarded. */
+		bool saveModified();
 
-  protected:
-    /** save general Options like all bar positions and status as well as the geometry and the recent file list to the configuration
-     * file
-     */
-    void saveOptions();
-    /** read general Options again and initialize all variables like the recent file list
-     */
-    void readOptions();
-    /** initializes the KActions of the application */
-    void initActions();
-    /** sets up the statusbar for the main window by initialzing a statuslabel.
-     */
-    void initStatusBar();
-    /** initializes the document object of the main window that is connected to the view in initView().
-     * @see initView();
-     */
-    void initDocument();
-    /** creates the centerwidget of the KTMainWindow instance and sets it as the view
-     */
-    void initView();
-    /** queryClose is called by KTMainWindow on each closeEvent of a window. Against the
-     * default implementation (only returns true), this calles saveModified() on the document object to ask if the document shall
-     * be saved if Modified; on cancel the closeEvent is rejected.
-     * @see KTMainWindow#queryClose
-     * @see KTMainWindow#closeEvent
-     */
-    virtual bool queryClose();
-    /** queryExit is called by KTMainWindow when the last window of the application is going to be closed during the closeEvent().
-     * Against the default implementation that just returns true, this calls saveOptions() to save the settings of the last window's
-     * properties.
-     * @see KTMainWindow#queryExit
-     * @see KTMainWindow#closeEvent
-     */
-    virtual bool queryExit();
-    /** saves the window properties for each open window during session end to the session config file, including saving the currently
-     * opened file by a temporary filename provided by KApplication.
-     * @see KTMainWindow#saveProperties
-     */
-    virtual void saveProperties(KConfig *_cfg);
-    /** reads the session config file and restores the application's state including the last opened files and documents by reading the
-     * temporary files saved by saveProperties()
-     * @see KTMainWindow#readProperties
-     */
-    virtual void readProperties(KConfig *_cfg);
+	protected:
+		/** save general Options like all bar positions and status as well as the geometry and the recent file list to the configuration
+		 * file
+		 */
+		void saveOptions();
+		/** read general Options again and initialize all variables like the recent file list
+		 */
+		void readOptions();
+		/** initializes the KActions of the application */
+		void initActions();
+		/** sets up the statusbar for the main window by initialzing a statuslabel.
+		 */
+		void initStatusBar();
+		/** initializes the document object of the main window that is connected to the view in initView().
+		 * @see initView();
+		 */
+		void initDocument();
+		/** creates the centerwidget of the KTMainWindow instance and sets it as the view
+		 */
+		void initView();
+		/** queryClose is called by KTMainWindow on each closeEvent of a window. Against the
+		 * default implementation (only returns true), this calles saveModified() on the document object to ask if the document shall
+		 * be saved if Modified; on cancel the closeEvent is rejected.
+		 * @see KTMainWindow#queryClose
+		 * @see KTMainWindow#closeEvent
+		 */
+		virtual bool queryClose();
+		/** queryExit is called by KTMainWindow when the last window of the application is going to be closed during the closeEvent().
+		 * Against the default implementation that just returns true, this calls saveOptions() to save the settings of the last window's
+		 * properties.
+		 * @see KTMainWindow#queryExit
+		 * @see KTMainWindow#closeEvent
+		 */
+		virtual bool queryExit();
+		/** saves the window properties for each open window during session end to the session config file, including saving the currently
+		 * opened file by a temporary filename provided by KApplication.
+		 * @see KTMainWindow#saveProperties
+		 */
+		virtual void saveProperties( KConfig *_cfg );
+		/** reads the session config file and restores the application's state including the last opened files and documents by reading the
+		 * temporary files saved by saveProperties()
+		 * @see KTMainWindow#readProperties
+		 */
+		virtual void readProperties( KConfig *_cfg );
 
-  public slots:
-    /** clears the document in the actual view to reuse it as the new document */
-    void slotFileNew();
-    /** open a file and load it into the document*/
-    void slotFileOpen();
-    /** opens a file from the recent files menu */
-    void slotFileOpenRecent(const KURL& url);
-    /** save a document */
-    void slotFileSave();
-    /** save a document by a new filename*/
-    void slotFileSaveAs();
-    /** asks for saving if the file is modified, then closes the actual file and window*/
-    void slotFileClose();
-    /** print the actual file */
-    void slotFilePrint();
-    /** closes all open windows by calling close() on each memberList item until the list is empty, then quits the application.
-     * If queryClose() returns false because the user canceled the saveModified() dialog, the closing breaks.
-     */
-    void slotFileQuit();
-    /** put the marked text/object into the clipboard and remove
-     *	it from the document
-     */
-    void slotEditCut();
-    /** put the marked text/object into the clipboard
-     */
-    void slotEditCopy();
-    /** paste the clipboard into the document
-     */
-    void slotEditPaste();
-    /** toggles the toolbar
-     */
-    void slotViewToolBar();
-    /** toggles the statusbar
-     */
-    void slotViewStatusBar();
-    /** changes the statusbar contents for the standard label permanently, used to indicate current actions.
-     * @param text the text that is displayed in the statusbar
-     */
-    void slotStatusMsg(const QString &text);
-  /** Alerts the App to when the document has been modified. */
-  void documentModified(bool modified);
-  /** Called whenever snaptoframe action is toggled. */
-  void slotTimelineSnapToFrame();
-  /** Called whenever snapToBorder is toggled. */
-  void slotTimelineSnapToBorder();
-  /** Called when the spacer tool action is selected */
-  void slotTimelineSpacerTool();
-  /** Called when the razor tool action is selected */
-  void slotTimelineRazorTool();
-  /** Called when the move tool is selected */
-  void slotTimelineMoveTool();
-  /** Called when the user activates the "Export Timeline" action */
-  void slotRenderExportTimeline();
-  /** Called when the user activates the "Configure Project" action */
-  void slotConfigureProject();
-  /** Called when the user activates the "Preferences" action */
-  void slotOptionsPreferences();  
-  /** Updates the current time in the status bar. */
-  void slotUpdateCurrentTime(const GenTime &time);
-  /** Cleans the project of unwanted clips */
-  void slotProjectClean();
-  /** Remove clips from the project */
-  void slotProjectDeleteClips();
-  /** Add clips to the project */
-  void slotProjectAddClips();
-  /** Opens a clip properties dialog */
-  void slotProjectClipProperties();
-  /** Seek forwards one frame in the active monitor */
-  void slotSeekForwards();
-  /** Seek backwards one frame in the active monitor */
-  void slotSeekBackwards();  
-  /** Toggle between play/stop in the active monitor */
-  void slotTogglePlay();
-  /** Move the active monitor forward one frame */
-  void slotNextFrame();
-  /** Move the active monitor backwards one frame */
-  void slotLastFrame();
-  /** Set the inpoint of the active monitor to the current seek position */
-  void slotSetInpoint();
-  /** Set the outpoint of the active monitor to the current seek position */
-  void slotSetOutpoint();
-  /** Delete the selected clips */
-  void slotDeleteSelected();
-  /** Sets the clip monitor source to be the given clip. */
-  void slotSetClipMonitorSource(DocClipRef *clip);
-  /** SLots to Save/Load the current dockwidget layout to/from the layout number specified. */
-  void slotSetRenderProgress(const GenTime &);
-  void slotSetRenderFinished();
-  void loadLayout1();
-  void loadLayout2();
-  void loadLayout3();
-  void loadLayout4();
-  void saveLayout1();
-  void saveLayout2();
-  void saveLayout3();
-  void saveLayout4();
-  /** Makes sure that the clip monitor is activated. This means that the clip monitor should
-   have focus, and if enabled, that the clip monitor should have the xv view. */
-  void activateClipMonitor();
-  /** Makes sure that the workspace monitor is activated. This means that the clip monitor should
-   have focus, and if enabled, that the clip monitor should have the xv view. */
-  void activateWorkspaceMonitor();
-  /** Selects a clip into the clip monitor and seeks to the given time. */
-  void slotLookAtClip(DocClipRef *clip, const GenTime &time);
-  /** Display an error message in a suitable way to the user. */
-  void slotRenderError(const QString &name, const QString &message);
-  
-  	/** Configure keys */
-	void slotConfKeys();
-	/** Configure the toolbar */
-	void slotConfToolbars();
-	
+	public slots:
+		/** clears the document in the actual view to reuse it as the new document */
+		void slotFileNew();
+		/** open a file and load it into the document*/
+		void slotFileOpen();
+		/** opens a file from the recent files menu */
+		void slotFileOpenRecent( const KURL& url );
+		/** save a document */
+		void slotFileSave();
+		/** save a document by a new filename*/
+		void slotFileSaveAs();
+		/** asks for saving if the file is modified, then closes the actual file and window*/
+		void slotFileClose();
+		/** print the actual file */
+		void slotFilePrint();
+		/** closes all open windows by calling close() on each memberList item until the list is empty, then quits the application.
+		 * If queryClose() returns false because the user canceled the saveModified() dialog, the closing breaks.
+		 */
+		void slotFileQuit();
+		/** put the marked text/object into the clipboard and remove
+		 *	it from the document
+		 */
+		void slotEditCut();
+		/** put the marked text/object into the clipboard
+		 */
+		void slotEditCopy();
+		/** paste the clipboard into the document
+		 */
+		void slotEditPaste();
+		/** toggles the toolbar
+		 */
+		void slotViewToolBar();
+		/** toggles the statusbar
+		 */
+		void slotViewStatusBar();
+		/** changes the statusbar contents for the standard label permanently, used to indicate current actions.
+		 * @param text the text that is displayed in the statusbar
+		 */
+		void slotStatusMsg( const QString &text );
+		/** Alerts the App to when the document has been modified. */
+		void documentModified( bool modified );
+		/** Called whenever snaptoframe action is toggled. */
+		void slotTimelineSnapToFrame();
+		/** Called whenever snapToBorder is toggled. */
+		void slotTimelineSnapToBorder();
+		/** Called when the spacer tool action is selected */
+		void slotTimelineSpacerTool();
+		/** Called when the razor tool action is selected */
+		void slotTimelineRazorTool();
+		/** Called when the move tool is selected */
+		void slotTimelineMoveTool();
+		/** Called when the user activates the "Export Timeline" action */
+		void slotRenderExportTimeline();
+		/** Called when the user activates the "Configure Project" action */
+		void slotConfigureProject();
+		/** Called when the user activates the "Preferences" action */
+		void slotOptionsPreferences();
+		/** Updates the current time in the status bar. */
+		void slotUpdateCurrentTime( const GenTime &time );
+		/** Cleans the project of unwanted clips */
+		void slotProjectClean();
+		/** Remove clips from the project */
+		void slotProjectDeleteClips();
+		/** Add clips to the project */
+		void slotProjectAddClips();
+		/** Opens a clip properties dialog */
+		void slotProjectClipProperties();
+		/** Seek forwards one frame in the active monitor */
+		void slotSeekForwards();
+		/** Seek backwards one frame in the active monitor */
+		void slotSeekBackwards();
+		/** Toggle between play/stop in the active monitor */
+		void slotTogglePlay();
+		/** Move the active monitor forward one frame */
+		void slotNextFrame();
+		/** Move the active monitor backwards one frame */
+		void slotLastFrame();
+		/** Set the inpoint of the active monitor to the current seek position */
+		void slotSetInpoint();
+		/** Set the outpoint of the active monitor to the current seek position */
+		void slotSetOutpoint();
+		/** Delete the selected clips */
+		void slotDeleteSelected();
+		/** Sets the clip monitor source to be the given clip. */
+		void slotSetClipMonitorSource( DocClipRef *clip );
+		/** SLots to Save/Load the current dockwidget layout to/from the layout number specified. */
+		void slotSetRenderProgress( const GenTime & );
+		void slotSetRenderFinished();
 
-  private:
-    /** the configuration object of the application */
-    KConfig *config;
-    /** view is the main widget which represents your working area. The View
-     * class should handle all events of the view widget.  It is kept empty so
-     * you can create your view according to your application's needs by
-     * changing the view class.
-     */
-    KdenliveView *view;
-    /** doc represents your actual document and is created only once. It keeps
-     * information such as filename and does the serialization of your files.
-     */
-    KdenliveDoc *doc;
+		/** Given a drop event, inserts all contained clips into the project list, if they are not
+		 * there already. */
+		void slot_insertClips( QDropEvent *event );
 
-    // KAction pointers to enable/disable actions
-    KAction* fileNew;
-    KAction* fileOpen;
-    KRecentFilesAction* fileOpenRecent;
-    KAction* fileSave;
-    KAction* fileSaveAs;
-//    KAction* fileClose;
-//    KAction* filePrint;
-    KAction* fileQuit;
-    KAction* editCut;
-    	KAction* editCopy;
-	KAction* editPaste;
-	KAction* optionsPreferences;
-	KAction* projectAddClips;
-	KAction* projectDeleteClips;
-	KAction* projectClean;
-	KAction* projectClipProperties;
-	KAction* keyBindings;
-	KAction* configureToolbars;
+		void loadLayout1();
+		void loadLayout2();
+		void loadLayout3();
+		void loadLayout4();
+		void saveLayout1();
+		void saveLayout2();
+		void saveLayout3();
+		void saveLayout4();
+		/** Makes sure that the clip monitor is activated. This means that the clip monitor should
+		 have focus, and if enabled, that the clip monitor should have the xv view. */
+		void activateClipMonitor();
+		/** Makes sure that the workspace monitor is activated. This means that the clip monitor should
+		 have focus, and if enabled, that the clip monitor should have the xv view. */
+		void activateWorkspaceMonitor();
+		/** Selects a clip into the clip monitor and seeks to the given time. */
+		void slotLookAtClip( DocClipRef *clip, const GenTime &time );
+		/** Display an error message in a suitable way to the user. */
+		void slotRenderError( const QString &name, const QString &message );
 
-	KAction* actionSeekForwards;
-	KAction* actionSeekBackwards;
-	KAction* actionTogglePlay;
-	KAction* actionNextFrame;
-	KAction* actionLastFrame;
-	KAction* actionSetInpoint;
-	KAction* actionSetOutpoint;
-	KAction* actionDeleteSelected;
+		/** Configure keys */
+		void slotConfKeys();
+		/** Configure the toolbar */
+		void slotConfToolbars();
 
-    KAction* actionLoadLayout1;
-    KAction* actionLoadLayout2;
-    KAction* actionLoadLayout3;
-    KAction* actionLoadLayout4;
-    KAction* actionSaveLayout1;
-    KAction* actionSaveLayout2;
-    KAction* actionSaveLayout3;
-    KAction* actionSaveLayout4;
+	private:
+		/** the configuration object of the application */
+		KConfig *config;
+		/** view is the main widget which represents your working area. The View
+		 * class should handle all events of the view widget.  It is kept empty so
+		 * you can create your view according to your application's needs by
+		 * changing the view class.
+		 */
+		KdenliveView *view;
+		/** doc represents your actual document and is created only once. It keeps
+		 * information such as filename and does the serialization of your files.
+		 */
+		KdenliveDoc *doc;
 
-    KToggleAction* viewToolBar;
-    KToggleAction* viewStatusBar;
+		// KAction pointers to enable/disable actions
+		KAction* fileNew;
+		KAction* fileOpen;
+		KRecentFilesAction* fileOpenRecent;
+		KAction* fileSave;
+		KAction* fileSaveAs;
+		//    KAction* fileClose;
+		//    KAction* filePrint;
+		KAction* fileQuit;
+		KAction* editCut;
+		KAction* editCopy;
+		KAction* editPaste;
+		KAction* optionsPreferences;
+		KAction* projectAddClips;
+		KAction* projectDeleteClips;
+		KAction* projectClean;
+		KAction* projectClipProperties;
+		KAction* keyBindings;
+		KAction* configureToolbars;
 
-    KRadioAction* timelineMoveTool;
-    KRadioAction* timelineRazorTool;
-    KRadioAction* timelineSpacerTool;
+		KAction* actionSeekForwards;
+		KAction* actionSeekBackwards;
+		KAction* actionTogglePlay;
+		KAction* actionNextFrame;
+		KAction* actionLastFrame;
+		KAction* actionSetInpoint;
+		KAction* actionSetOutpoint;
+		KAction* actionDeleteSelected;
 
-    KToggleAction* timelineSnapToFrame;
-	KToggleAction* timelineSnapToBorder;
+		KAction* actionLoadLayout1;
+		KAction* actionLoadLayout2;
+		KAction* actionLoadLayout3;
+		KAction* actionLoadLayout4;
+		KAction* actionSaveLayout1;
+		KAction* actionSaveLayout2;
+		KAction* actionSaveLayout3;
+		KAction* actionSaveLayout4;
 
-    KAction* renderExportTimeline;
-	KAction* configureProject;
+		KToggleAction* viewToolBar;
+		KToggleAction* viewStatusBar;
 
-	/** The progress widget on the status bar, used by various long-winded methods. */
-	KProgress * m_statusBarProgress;
+		KRadioAction* timelineMoveTool;
+		KRadioAction* timelineRazorTool;
+		KRadioAction* timelineSpacerTool;
 
-	/** Holds the undo/redo command history */
-	KCommandHistory *m_commandHistory;
+		KToggleAction* timelineSnapToFrame;
+		KToggleAction* timelineSnapToBorder;
 
-	/** Application view setup */
-  	ProjectList *m_projectList;
-	RenderDebugPanel *m_renderDebugPanel;
-	EffectListDialog *m_effectListDialog;
-	EffectParamDialog *m_effectParamDialog;
-	KRenderManager *m_renderManager;
-  	KMMMonitor *m_workspaceMonitor;
-  	KMMMonitor *m_clipMonitor;
-	KMMRulerPanel *m_rulerPanel;	// pointer, because it gets reparented to the timeline widget!
-    /** Stores a copy of the last file dialog path used by kdenlive. */
-	KURL m_fileDialogPath;
-	KMMTimeLine *m_timeline;
+		KAction* renderExportTimeline;
+		KAction* configureProject;
 
-    // KDockWidgets for the docking interface to work correctly.
-    KDockWidget *m_dockClipMonitor;
-    KDockWidget *m_dockWorkspaceMonitor;
+		/** The progress widget on the status bar, used by various long-winded methods. */
+		KProgress * m_statusBarProgress;
 
-	/** The monitor manager that manages the life of the various monitors.*/
-	MonitorManager m_monitorManager;
+		/** Holds the undo/redo command history */
+		KCommandHistory *m_commandHistory;
+
+		/** Application view setup */
+		ProjectList *m_projectList;
+		RenderDebugPanel *m_renderDebugPanel;
+		EffectListDialog *m_effectListDialog;
+		EffectParamDialog *m_effectParamDialog;
+		KRenderManager *m_renderManager;
+		KMMMonitor *m_workspaceMonitor;
+		KMMMonitor *m_clipMonitor;
+		KMMRulerPanel *m_rulerPanel;	// pointer, because it gets reparented to the timeline widget!
+		/** Stores a copy of the last file dialog path used by kdenlive. */
+		KURL m_fileDialogPath;
+		KMMTimeLine *m_timeline;
+
+		// KDockWidgets for the docking interface to work correctly.
+		KDockWidget *m_dockClipMonitor;
+		KDockWidget *m_dockWorkspaceMonitor;
+
+		/** The monitor manager that manages the life of the various monitors.*/
+		MonitorManager m_monitorManager;
 };
 
 #endif // KDENLIVE_H
