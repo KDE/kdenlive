@@ -195,7 +195,7 @@ bool DocTrackBase::hasSelectedClips()
 	return (!m_selectedClipList.isEmpty());
 }
 
-QPtrListIterator<DocClipBase> DocTrackBase::firstClip(bool selected)
+QPtrListIterator<DocClipBase> DocTrackBase::firstClip(bool selected) const
 {
 	return QPtrListIterator<DocClipBase>(selected ? m_selectedClipList : m_unselectedClipList);
 }

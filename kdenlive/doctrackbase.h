@@ -83,7 +83,7 @@ are still in the correct order, rearranging them if they are not. */
   bool hasSelectedClips();
   /** Returns an iterator to the first clip on the track.
 You must choose which list of tracks you are interested in - the selected or unselected. */
-  QPtrListIterator<DocClipBase> firstClip(bool selected);
+  QPtrListIterator<DocClipBase> firstClip(bool selected) const;
   /** Moves either the selected or non selected clips by the specified time offset. */
   void moveClips(GenTime offset, bool selected);
   /** Removes either all selected clips, or all unselected clips and places them into a list. This list is then returned. */
