@@ -14,8 +14,11 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
+ 
 #include "kmmeditpanel.h"
+
+#include "kiconloader.h"
+#include "qtoolbutton.h"
 
 #include "kfixedruler.h"
 #include "krulertimemodel.h"
@@ -27,6 +30,15 @@ KMMEditPanel::KMMEditPanel(QWidget* parent, const char* name, WFlags fl) :
 	m_ruler->setRulerModel(new KRulerTimeModel());
 	m_ruler->setRange(0, 1500);
 	m_ruler->setMargin(40);
+
+	KIconLoader loader;
+
+	startButton->setPixmap(loader.loadIcon("player_start", KIcon::Toolbar));
+	rewindButton->setPixmap(loader.loadIcon("player_rew", KIcon::Toolbar));
+	stopButton->setPixmap(loader.loadIcon("player_stop", KIcon::Toolbar));
+	playButton->setPixmap(loader.loadIcon("player_play", KIcon::Toolbar));
+	forwardButton->setPixmap(loader.loadIcon("player_fwd", KIcon::Toolbar));
+	endButton->setPixmap(loader.loadIcon("player_end", KIcon::Toolbar)); 
 }
 
 KMMEditPanel::~KMMEditPanel()
