@@ -207,6 +207,8 @@ class KdenliveApp : public KDockMainWindow
   void slotProjectDeleteClips();
   /** Add clips to the project */
   void slotProjectAddClips();
+  /** Opens a clip properties dialog */
+  void slotProjectClipProperties();
   /** Seek forwards one frame in the active monitor */
   void slotSeekForwards();
   /** Seek backwards one frame in the active monitor */
@@ -265,6 +267,7 @@ class KdenliveApp : public KDockMainWindow
     KAction* projectAddClips;
     KAction* projectDeleteClips;
     KAction* projectClean;
+    KAction* projectClipProperties;
 
     KAction* actionSeekForwards;
     KAction* actionSeekBackwards;

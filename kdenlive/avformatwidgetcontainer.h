@@ -18,7 +18,6 @@
 #ifndef AVFORMATWIDGETCONTAINER_H
 #define AVFORMATWIDGETCONTAINER_H
 
-#include <qwidget.h>
 #include <qgroupbox.h>
 
 #include "avformatwidgetbase.h"

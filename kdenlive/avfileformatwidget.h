@@ -18,10 +18,8 @@
 #ifndef AVFILEFORMATWIDGET_H
 #define AVFILEFORMATWIDGET_H
 
-#include <qwidget.h>
 #include <qvbox.h>
 #include <kurl.h>
-
 
 #include "avformatwidgetbase.h"
 /**This widget contains an entire file format description.

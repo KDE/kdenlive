@@ -11,6 +11,7 @@
     <Action name="project_add_clip"/>
     <Action name="project_delete_clip"/>
     <Action name="project_clean"/>
+    <Action name="project_clip_properties"/>    
   </Menu>
   <Menu name="timeline"><text>&amp;Timeline</text>
     <Action name="timeline_move_tool"/>
@@ -40,6 +41,7 @@
   <Action name="project_add_clip"/>
   <Action name="project_delete_clip"/>
   <Action name="project_clean"/>
+  <Action name="project_clip_properties"/>
 </Menu>
 
 <ToolBar name="timeline toolbar" fullWidth="false" newline="false">

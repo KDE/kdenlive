@@ -18,7 +18,6 @@
 #ifndef AVFormatWidgetCodecList_H
 #define AVFormatWidgetCodecList_H
 
-#include <qwidget.h>
 #include <qgroupbox.h>
 
 #include "avformatwidgetbase.h"

@@ -47,6 +47,7 @@
 #include "exportdialog.h"
 #include "effectlistdialog.h"
 #include "effectparamdialog.h"
+#include "clippropertiesdialog.h"
 
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
@@ -115,6 +116,7 @@ void KdenliveApp::initActions()
   projectAddClips = new KToggleAction(i18n("Add Clips"), "addclips.png", 0, this, SLOT(slotProjectAddClips()), actionCollection(), "project_add_clip");
   projectDeleteClips = new KToggleAction(i18n("Delete Clips"), "deleteclips.png", 0, this, SLOT(slotProjectDeleteClips()), actionCollection(), "project_delete_clip");
   projectClean = new KToggleAction(i18n("Clean Project"), "cleanproject.png", 0, this, SLOT(slotProjectClean()), actionCollection(), "project_clean");
+  projectClipProperties = new KAction(i18n("Clip properties"), "clipproperties.png", 0, this, SLOT(slotProjectClipProperties()), actionCollection(), "project_clip_properties");
 
   renderExportTimeline = new KAction(i18n("&Export Timeline"), "exportvideo.png", 0, this, SLOT(slotRenderExportTimeline()), actionCollection(), "render_export_timeline");
 
@@ -157,6 +159,7 @@ void KdenliveApp::initActions()
   projectAddClips->setStatusText(i18n("Add clips to the project"));
   projectDeleteClips->setStatusText(i18n("Remove clips from the project"));
   projectClean->setStatusText(i18n("Remove unused clips from the project"));
+  projectClipProperties->setStatusText(i18n("View the properties of the selected clip"));
   actionSeekForwards->setStatusText(i18n("Seek forward one frame"));
   actionSeekBackwards->setStatusText(i18n("Seek backwards one frame"));
   actionTogglePlay->setStatusText(i18n("Start or stop playback"));
@@ -270,7 +273,7 @@ void KdenliveApp::initView()
   connect(m_renderManager, SIGNAL(recievedInfo(const QString &, const QString &)), m_renderDebugPanel, SLOT(slotPrintDebug(const QString &, const QString &)));    
   connect(m_renderManager, SIGNAL(recievedStdout(const QString &, const QString &)), m_renderDebugPanel, SLOT(slotPrintWarning(const QString &, const QString &)));
   connect(m_renderManager, SIGNAL(recievedStderr(const QString &, const QString &)), m_renderDebugPanel, SLOT(slotPrintError(const QString &, const QString &)));
-
+  
   connect(m_projectList, SIGNAL(AVFileSelected(AVFile *)), this, SLOT(slotSetClipMonitorSource(AVFile *)));
   
   connect(getDocument(), SIGNAL(signalClipSelected(DocClipBase *)), this, SLOT(slotSetClipMonitorSource(DocClipBase *)));
@@ -684,11 +687,15 @@ void KdenliveApp::slotRenderExportTimeline()
 {
   slotStatusMsg(i18n("Exporting Timeline..."));
 
-  ExportDialog exportDialog(getDocument()->renderer()->fileFormats(), this, "export dialog");
-  if(QDialog::Accepted == exportDialog.exec()) {
-    if(!exportDialog.url().isEmpty()) {
-      doc->renderDocument(exportDialog.url());    
+  if(getDocument()->renderer()->rendererOk()) {
+    ExportDialog exportDialog(getDocument()->renderer()->fileFormats(), this, "export dialog");
+    if(QDialog::Accepted == exportDialog.exec()) {
+      if(!exportDialog.url().isEmpty()) {
+        doc->renderDocument(exportDialog.url());    
+      }
     }
+  } else {
+    KMessageBox::sorry(this, i18n("The renderer is not available. Please check your settings."), i18n("Cannot Export Timeline"));
   }
 
   slotStatusMsg(i18n("Ready."));  
@@ -772,7 +779,18 @@ void KdenliveApp::slotProjectClean()
   slotStatusMsg(i18n("Ready."));
 }
 
-void KdenliveApp::slotSeekForwards()
+void KdenliveApp::slotProjectClipProperties()
+{
+  slotStatusMsg(i18n("Viewing clip properties"));
+
+  ClipPropertiesDialog dialog;
+  dialog.setClip(m_projectList->currentSelection());
+  dialog.exec();
+  
+  slotStatusMsg(i18n("Ready."));  
+}
+
+void KdenliveApp::slotSeekForwards()            
 {
   slotStatusMsg(i18n("Seeking Forwards one frame"));
   slotStatusMsg(i18n("Ready."));  
@@ -931,3 +949,4 @@ void KdenliveApp::activateWorkspaceMonitor()
 {
   m_dockWorkspaceMonitor->makeDockVisible();
 }
+

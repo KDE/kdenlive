@@ -18,7 +18,6 @@
 #ifndef AVFORMATWIDGETBOOL_H
 #define AVFORMATWIDGETBOOL_H
 
-#include <qwidget.h>
 #include <qcheckbox.h>
 
 #include "avformatwidgetbase.h"

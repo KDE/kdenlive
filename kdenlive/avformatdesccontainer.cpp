@@ -43,7 +43,7 @@ void AVFormatDescContainer::append(AVFormatDescBase *elem)
 }
 
 /** Returns the format list. */
-QPtrList<AVFormatDescBase> &AVFormatDescContainer::list()
+const QPtrList<AVFormatDescBase> &AVFormatDescContainer::list()
 {
   return m_descList;
 }

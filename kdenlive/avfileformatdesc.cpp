@@ -38,7 +38,7 @@ AVFormatWidgetBase * AVFileFormatDesc::createWidget(QWidget *parent)
 }
 
 /** Sets the file extenstion for this description. */
-void AVFileFormatDesc::setFileExtension(QString extension)
+void AVFileFormatDesc::setFileExtension(const QString &extension)
 {
   m_fileExtension = extension;
 }

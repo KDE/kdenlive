@@ -15,7 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kio/netaccess.h> 
+#include <kio/netaccess.h>
+#include <klocale.h>
+
 #include "krender.h"
 
 #include "avformatdescbool.h"
@@ -148,9 +150,13 @@ void KRender::readData()
 /** Sends an XML command to the renderer. */
 void KRender::sendCommand(QDomDocument command)
 {
-	emit recievedInfo(m_name, "Sending Command " + command.toString());
-	QCString str = command.toCString() + "\n\n";
-	m_socket.writeBlock(str, strlen(str));
+  if(m_socket.state() == QSocket::Connected) {
+  	emit recievedInfo(m_name, "Sending Command " + command.toString());
+  	QCString str = command.toCString() + "\n\n";
+  	m_socket.writeBlock(str, strlen(str));
+  } else {
+    emit recievedInfo(m_name, "Socket not connected, not sending Command " + command.toString());
+  }
 }
 
 /** Generates the quit command */
@@ -246,13 +252,17 @@ void KRender::seek(GenTime time)
 
 void KRender::getFileProperties(KURL url)
 {
-	QDomDocument doc;
-	QDomElement elem = doc.createElement("getFileProperties");
+  if(!rendererOk()) {
+    emit replyErrorGetFileProperties(url.path(), i18n("The renderer is unavailable, the file properties cannot be determined."));
+  } else {
+  	QDomDocument doc;
+  	QDomElement elem = doc.createElement("getFileProperties");
 
-	elem.setAttribute("filename", url.path());
-	doc.appendChild(elem);
+  	elem.setAttribute("filename", url.path());
+  	doc.appendChild(elem);
 
-	sendCommand(doc);
+  	sendCommand(doc);
+  }
 }
 
 /** Wraps the VEML command of the same name. Sets the current scene list to
@@ -339,6 +349,18 @@ void KRender::pushIgnore()
   m_parseStack.push(val);
 }
 
+  // Pushes a value onto the stack.
+void KRender::pushStack(QString element,
+          bool (KRender::*funcStartElement)(const QString & localName, const QString & qName, const QXmlAttributes & atts ),
+          bool (KRender::*funcEndElement)(const QString & localName, const QString & qName))
+{
+  StackValue val;
+  val.element = element;
+	val.funcStartElement = funcStartElement;
+	val.funcEndElement = funcEndElement;
+  m_parseStack.push(val);
+}
+
 /** Returns the codec with the given name */
 AVFormatDescCodec * KRender::findCodec(const QString &name)
 {
@@ -381,6 +403,14 @@ QString KRender::description()
 {
   return m_description;
 }
+
+const GenTime & KRender::lastSeekPosition()
+{
+  return m_lastSeek;
+}
+
+
+
 
 
 
@@ -444,6 +474,14 @@ bool KRender::topLevelStartElement(const QString & localName,
       m_parseStack.push(val);
 			return true;
 		} else if(command == "getFileProperties") {
+      QString status = atts.value("status");
+      if(!status.isEmpty()) {
+        if(status.lower() == "error") {
+          pushStack("reply_error_getFileProperties",
+                        &KRender::replyError_StartElement,
+                        &KRender::replyError_GetFileProperties_EndElement);                        
+        }
+      }
 			QMap<QString, QString> map;
 
 			map["filename"] = atts.value("filename");
@@ -865,10 +903,39 @@ bool KRender::reply_capabilities_renderer_about_EndElement(const QString & local
   return true;
 }
 
-
-/** Returns the last known seek position for this renderer. This may have been
- set by the user, or returned by the renderer. */
-const GenTime & KRender::lastSeekPosition()
+bool KRender::replyError_StartElement(const QString & localName, const QString & qName,
+                                      const QXmlAttributes & atts)
 {
-  return m_lastSeek;
+  if(localName == "errmsg") {
+    m_characterBuffer = "";
+    StackValue val;
+    val.element = "errmsg";
+  	val.funcStartElement = 0;
+  	val.funcEndElement = &KRender::reply_errmsg_EndElement;
+    m_parseStack.push(val);    
+    return true;
+  }
+
+  pushIgnore();
+  return true;
+}
+
+bool KRender::reply_errmsg_EndElement(const QString & localName, const QString & qName)
+{
+  m_errorMessage = m_characterBuffer.simplifyWhiteSpace();
+  return true;
+}
+
+bool KRender::replyError_GetFileProperties_EndElement(const QString & localName, const QString & qName)
+{                                              
+  emit replyErrorGetFileProperties(m_filePropertiesFileName, m_errorMessage);
+  return true;
+}
+
+/** Returns true if the renderer is capable, or is believed to be capable of running and processing commands. It does not necessarily mean that the renderer is currently running, only that KRender has not given up trying to connect to/launch the renderer. Returns false if the renderer cannot be started. */
+bool KRender::rendererOk()
+{
+  if(m_appPathInvalid) return false;
+
+  return true;
 }

@@ -20,11 +20,11 @@
 
 #include <qobject.h>
 #include <qlist.h>
-#include <qstring.h>
 
 #include "docclipbaselist.h"
 
 class KdenliveDoc;
+class QString;
 
 /**DocTrackBase is a base class for all real track entries into the database.
 It provides core functionality that all tracks must possess.
@@ -49,7 +49,7 @@ public:
   /** Returns the clip type as a string. This is a bit of a hack to give the
 		* KMMTimeLine a way to determine which class it should associate
 		*	with each type of clip. */
-  virtual QString clipType() = 0;
+  virtual const QString &clipType() = 0;
   /** Returns an iterator to the clip after the last clip(chronologically) which overlaps the
   start/end value range specified.
 

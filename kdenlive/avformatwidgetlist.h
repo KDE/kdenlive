@@ -18,7 +18,6 @@
 #ifndef AVFORMATWIDGETLIST_H
 #define AVFORMATWIDGETLIST_H
 
-#include <qwidget.h>
 #include <qhbox.h>
 
 #include "avformatwidgetbase.h"

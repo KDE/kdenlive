@@ -61,7 +61,8 @@ bool DocTrackSound::canAddClip(DocClipBase * clip)
 /** Returns the clip type as a string. This is a bit of a hack to give the
 		* KMMTimeLine a way to determine which class it should associate
 		*	with each type of clip. */
-QString DocTrackSound::clipType()
+const QString &DocTrackSound::clipType()
 {
-	return "Sound";
+  static QString clipType = "sound";
+	return clipType;
 }

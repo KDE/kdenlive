@@ -269,7 +269,9 @@ void KMMTimeLine::dragLeaveEvent ( QDragLeaveEvent *event )
 		m_moveClipsCommand = 0;
 	}
 
-	m_selection.clear();	
+  m_selection.setAutoDelete(true);
+	m_selection.clear();
+  m_selection.setAutoDelete(false);
 	
 	QPtrListIterator<KMMTrackPanel> itt(m_trackList);
 

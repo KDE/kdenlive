@@ -21,7 +21,7 @@
 
 #include "avfile.h"
 
-AVFile::AVFile(const QString name, const KURL url) :
+AVFile::AVFile(const QString &name, const KURL &url) :
 						m_duration(0.0)
 {
 	if(name.isNull()) {
@@ -43,7 +43,7 @@ AVFile::~AVFile()
 }
 
 /** Calculates properties for this file that will be useful for the rest of the program. */
-void AVFile::calculateFileProperties(QMap<QString, QString> attributes)
+void AVFile::calculateFileProperties(const QMap<QString, QString> &attributes)
 {
 	if(m_url.isLocalFile()) {
 		QFileInfo fileInfo(m_url.path());
@@ -69,22 +69,23 @@ void AVFile::calculateFileProperties(QMap<QString, QString> attributes)
 }
 
 /** Read property of QString m_name. */
-const QString& AVFile::name()
+const QString& AVFile::name() const
 {
 	return m_name;
 }
 
 /** Write property of QString m_name. */
-void AVFile::setName( const QString& _newVal){
+void AVFile::setName( const QString& _newVal)
+{
 	m_name = _newVal;
 }
 
-const QString AVFile::fileName() 
+QString AVFile::fileName() const
 {
 	return m_url.fileName();
 }
 
-const KURL AVFile::fileURL()
+const KURL &AVFile::fileURL() const
 {
 	return m_url;
 }

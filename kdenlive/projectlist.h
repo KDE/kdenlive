@@ -42,6 +42,8 @@ class ProjectList : public ProjectList_UI  {
 public: 
 	ProjectList(KdenliveApp *app, KdenliveDoc *document, QWidget *parent=0, const char *name=0);
 	~ProjectList();
+  /** Returns the currently selected clip in the project list. */
+  const AVFile *currentSelection() const;
 private: // Private methods
   /** Holds the document that this projectlist makes use of. */
   KdenliveDoc * m_document;
@@ -62,7 +64,7 @@ signals: // Signals
   void AVFileSelected(AVFile *file);
 private slots: // Private slots
   /** Called when the project list changes. */
-  void projectListSelectionChanged(QListViewItem *item);;
+  void projectListSelectionChanged(QListViewItem *item);
 };
 
 #endif

@@ -7,9 +7,9 @@
     <property name="geometry">
         <rect>
             <x>0</x>
-            <y>0</y>
-            <width>376</width>
-            <height>143</height>
+            <y>41</y>
+            <width>427</width>
+            <height>60</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -53,7 +53,7 @@
                     <height>32</height>
                 </size>
             </property>
-        </widget>        
+        </widget>
         <widget class="QLayoutWidget">
             <property name="name">
                 <cstring>Layout1</cstring>
@@ -116,10 +116,26 @@
                         <string>End</string>
                     </property>
                 </widget>
+                <widget class="QToolButton">
+                    <property name="name">
+                        <cstring>inpointButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Inpoint</string>
+                    </property>
+                </widget>
+                <widget class="QToolButton">
+                    <property name="name">
+                        <cstring>outpointButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Outpoint</string>
+                    </property>
+                </widget>
                 <widget class="KLed">
-                  <property name="name">
+                    <property name="name">
                         <cstring>renderStatus</cstring>
-                  </property>
+                    </property>
                 </widget>
             </hbox>
         </widget>

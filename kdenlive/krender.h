@@ -94,6 +94,9 @@ replyCreateVideoXWindow() once the renderer has replied. */
   bool reply_capabilities_effects_effect_EndElement(const QString & localName, const QString & qName);
   bool reply_capabilities_renderer_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & atts);
   bool reply_capabilities_renderer_about_EndElement(const QString & localName, const QString & qName);
+  bool replyError_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & atts);
+  bool reply_errmsg_EndElement(const QString & localName, const QString & qName);
+  bool replyError_GetFileProperties_EndElement(const QString & localName, const QString & qName);
   
   /** Seeks the renderer clip to the given time. */
   void seek(GenTime time);
@@ -130,6 +133,8 @@ name specified. */
   QString description();
   /** Returns the last known seek position for this renderer. This may have been set by the user, or returned by the renderer. */
   const GenTime & lastSeekPosition();
+  /** Returns true if the renderer is capable, or is believed to be capable of running and processing commands. It does not necessarily mean that the renderer is currently running, only that KRender has not given up trying to connect to/launch the renderer. Returns false if the renderer cannot be started. */
+  bool rendererOk();
 protected: // Protected methods
   /** Recieves timer events */
   virtual void timerEvent(QTimerEvent *event);
@@ -192,6 +197,10 @@ private: // Private attributes
   GenTime m_lastSeek;
   /** A human-readable description of this renderer. */
   QString m_description;
+  /** Holds the filename of the current getFileProperties message when processing an error */
+  QString m_filePropertiesFileName;
+  /** Holds the last error message discovered */
+  QString m_errorMessage;
 private slots: // Private slots
   /** Catches errors from the socket. */
   void error(int error);
@@ -218,6 +227,12 @@ private: // Private methods
 following tags in the current hierarch to be ignored until the end tag is
 reached. */
   void pushIgnore();
+
+  // Pushes a value onto the stack.
+  void pushStack(QString element,
+          bool (KRender::*funcStartElement)(const QString & localName, const QString & qName, const QXmlAttributes & atts ),
+          bool (KRender::*funcEndElement)(const QString & localName, const QString & qName));                 
+  
   /** Sets the renderer version for this renderer. */
   void setVersion(QString version);
   /** Sets the description of this renderer to desc. */
@@ -233,6 +248,9 @@ signals: // Signals
   void replyCreateVideoXWindow(WId);
   /** emitted when the renderer recieves a reply to a getFileProperties request. */
   void replyGetFileProperties(QMap<QString, QString>);
+  /** emitted when the renderer recieves a failed reply to a getFileProperties request.
+      First string is file url, second string is the error message. */
+  void replyErrorGetFileProperties(const QString &, const QString &);
   /** Emitted when the renderer has recieved text from stdout */
   void recievedStdout(const QString &, const QString &);
   /** Emitted when the renderer has recieved text from stderr */
@@ -248,7 +266,7 @@ signals: // Signals
   /** Emitted when file formats are updated. */
   void signalFileFormatsUpdated(const QPtrList<AVFileFormatDesc> &);
   /** No descriptions */
-  void effectListChanged(const QPtrList<EffectDesc> &);  
+  void effectListChanged(const QPtrList<EffectDesc> &);
 public: // Public attributes
   /** If true, we are currently parsing some data. Otherwise, we are not. */
   bool m_parsing;

@@ -35,7 +35,7 @@ public:
   /** Appends a new description element into this container. */
   void append(AVFormatDescBase *elem);
   /** Returns the format list. */
-  QPtrList<AVFormatDescBase> &list();
+  const QPtrList<AVFormatDescBase> &list();
 protected:
   /** A list of all dsecription elements contained within this description. */
   QPtrList<AVFormatDescBase> m_descList;

@@ -18,9 +18,9 @@
 #ifndef AVFORMATDESCCODEC_H
 #define AVFORMATDESCCODEC_H
 
-#include <qstring.h>
-
 #include <avformatdescbase.h>
+
+class QString;
 
 /**Holds the description of a particular file codec, including parameters for that codec.
   *@author Jason Wood

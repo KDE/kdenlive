@@ -155,6 +155,8 @@ private: // private methods
 
 	inline void drawSmallTick(QPainter &painter, const int pixel);
 	inline void drawBigTick(QPainter &painter, const int pixel);
+  /** Checks that all sliders are within the ruler's current range, and if not moves them to the beginning or end of the range as appropriate. */
+  void setSlidersToRange();
 protected: // Protected methods
   /** Handles mouse movement. This includes tracking which slider currently has focus, but not dragging
 		of sliders around. */

@@ -33,12 +33,15 @@ KMMEditPanel::KMMEditPanel(KdenliveDoc *document, QWidget* parent, const char* n
 {
 	m_document = document;
 
-	m_ruler->addSlider(KRuler::Diamond, 0);
 	m_ruler->setRulerModel(new KRulerTimeModel());
 	m_ruler->setRange(0, 1500);
 	m_ruler->setMargin(40);
   m_ruler->setAutoClickSlider(0);
 
+	m_ruler->addSlider(KRuler::Diamond, 0);
+	m_ruler->addSlider(KRuler::StartMark, 0);
+	m_ruler->addSlider(KRuler::EndMark, m_ruler->maxValue());
+  
   renderStatus->off();
   renderStatus->setColor(QColor(0, 200, 0));
   renderStatus->setFixedSize(20, 20);
@@ -60,7 +63,9 @@ KMMEditPanel::KMMEditPanel(KdenliveDoc *document, QWidget* parent, const char* n
 	connect(playButton, SIGNAL(pressed()), this, SLOT(play()));
 	connect(rewindButton, SIGNAL(pressed()), this, SLOT(stepBack()));
 	connect(stopButton, SIGNAL(pressed()), this, SLOT(stop()));
-	connect(forwardButton, SIGNAL(pressed()), this, SLOT(stepForwards()));	
+	connect(forwardButton, SIGNAL(pressed()), this, SLOT(stepForwards()));
+  connect(inpointButton, SIGNAL(pressed()), this, SLOT(setInpoint()));
+  connect(outpointButton, SIGNAL(pressed()), this, SLOT(setOutpoint()));
 }
 
 KMMEditPanel::~KMMEditPanel()
@@ -76,9 +81,17 @@ void KMMEditPanel::setClipLength(int frames)
 /** A slider on the ruler has changed value */
 void KMMEditPanel::rulerValueChanged(int ID, int value)
 {
-	if(ID == 0) {
-		emit seekPositionChanged(GenTime(value, m_document->framesPerSecond()));
-	}
+  switch(ID) {
+    case 0 :
+  		emit seekPositionChanged(GenTime(value, m_document->framesPerSecond()));
+      break;
+    case 1 :
+      emit inpointChanged(GenTime(value, m_document->framesPerSecond()));
+      break;
+    case 2 :
+      emit outpointChanged(GenTime(value, m_document->framesPerSecond()));
+      break;
+  }
 }
 
 /** Seeks to the beginning of the ruler. */
@@ -112,20 +125,27 @@ void KMMEditPanel::stop()
 	emit playSpeedChanged(0.0);
 }
 
-/** Sets the current seek position to the one specified */
 void KMMEditPanel::seek(const GenTime &time)
 {
   m_ruler->setSliderValue(0, (int)(floor(time.frames(m_document->framesPerSecond()) + 0.5)));
 }
 
-/** Alerts the edit panel that the renderer has connected. */
 void KMMEditPanel::rendererConnected()
 {
   renderStatus->on();
 }
 
-/** Alerts the edit panel that the renderer has disconnected. */
 void KMMEditPanel::rendererDisconnected()
 {
   renderStatus->off();  
+}
+
+void KMMEditPanel::setInpoint()
+{
+  m_ruler->setSliderValue(1, m_ruler->getSliderValue(0));
+}
+
+void KMMEditPanel::setOutpoint()
+{
+  m_ruler->setSliderValue(2, m_ruler->getSliderValue(0));  
 }

@@ -90,7 +90,16 @@ void ProjectList::slot_avFileChanged(AVFile *file)
 /** Called when the project list changes. */
 void ProjectList::projectListSelectionChanged(QListViewItem *item)
 {
-  AVListViewItem *avitem = (AVListViewItem *)item;
+  const AVListViewItem *avitem = (AVListViewItem *)item;
 
   emit AVFileSelected(avitem->clip());  
+}
+
+const AVFile *ProjectList::currentSelection() const
+{
+  const AVListViewItem *avitem = static_cast<AVListViewItem *>(m_listView->selectedItem());
+  if(avitem) {
+    return avitem->clip();
+  }
+  return 0;
 }

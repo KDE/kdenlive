@@ -106,6 +106,8 @@ class KdenliveDoc : public QObject
 
 The relevant AVFile can then be updated to the correct status. */
   void AVFilePropertiesArrived(QMap<QString, QString> properties);
+  /** Called when an error occurs whilst retrieving a file's properties. */
+  void AVFilePropertiesError(const QString &path, const QString &errmsg);
  	
 	 public:	
  		/** the list of the views currently connected to the document */

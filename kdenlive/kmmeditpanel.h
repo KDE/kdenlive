@@ -41,6 +41,10 @@ private slots: // Private slots
 signals: // Signals
   /** Emitted when the seek position has changed */
   void seekPositionChanged(const GenTime &);
+  /** Emitted when the outpoint position has changed */
+  void outpointChanged(const GenTime &);
+  /** Emitted when the inpoint position has changed */
+  void inpointChanged(const GenTime &);
   /** Emitted by the EditPanel when the playSpeed should change. */
   void playSpeedChanged(double);
 private: // Private attributes
@@ -65,6 +69,10 @@ public slots: // Public slots
   void rendererConnected();
   /** Alerts the edit panel that the renderer has disconnected. */
   void rendererDisconnected();  
+  /** Sets the outpoint position to the current seek position */
+  void setOutpoint();
+  /** Sets the inpoint position to the current seek position */
+  void setInpoint();
 };
 
 #endif

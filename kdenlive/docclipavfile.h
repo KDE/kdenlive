@@ -35,7 +35,7 @@ class KdenliveDoc;
 
 class DocClipAVFile : public DocClipBase {
 public:
-	DocClipAVFile(KdenliveDoc *doc, const QString name, const KURL url);
+	DocClipAVFile(KdenliveDoc *doc, const QString &name, const KURL &url);
   DocClipAVFile(KdenliveDoc *doc, AVFile *avFile);
 	~DocClipAVFile();
 	QString fileName();

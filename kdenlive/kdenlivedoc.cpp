@@ -62,6 +62,8 @@ KdenliveDoc::KdenliveDoc(KdenliveApp *app, QWidget *parent, const char *name) : 
   
   connect(m_render, SIGNAL(replyGetFileProperties(QMap<QString, QString>)),
   					 this, SLOT(AVFilePropertiesArrived(QMap<QString, QString>)));
+  connect(m_render, SIGNAL(replyErrorGetFileProperties(const QString &, const QString &)),
+  					 this, SLOT(AVFilePropertiesError(const QString &, const QString &)));        
 
   connect(this, SIGNAL(avFileListUpdated()), this, SLOT(hasBeenModified()));
   connect(this, SIGNAL(trackListChanged()), this, SLOT(hasBeenModified()));
@@ -454,6 +456,17 @@ void KdenliveDoc::AVFilePropertiesArrived(QMap<QString, QString> properties)
   emit avFileChanged(file);  
 }
 
+
+void KdenliveDoc::AVFilePropertiesError(const QString &path, const QString &errmsg)
+{
+  AVFile *file = findAVFile(KURL(path));
+
+  KdenliveApp *win=(KdenliveApp *) parent();
+  KMessageBox::sorry(win, errmsg, path);
+  
+  deleteAVFile(file);
+}
+
 /** Moves the currectly selected clips by the offsets specified, or returns false if this
 is not possible. */
 bool KdenliveDoc::moveSelectedClips(GenTime startOffset, int trackOffset)
@@ -714,3 +727,4 @@ KRender * KdenliveDoc::renderer()
 {
   return m_render;
 }
+

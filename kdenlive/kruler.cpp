@@ -128,38 +128,6 @@ public:
   }  
 };
 
-class KRulerPrivateSliderStartMark : public KRulerSliderBase {
-public:
-	KRulerPrivateSliderStartMark() {
-	}
-
-	~KRulerPrivateSliderStartMark() {
-	}
-
-  void drawHorizontalSlider(QPainter &painter, const int x, const int height) {
-		QPointArray points(3);
-
-		points.setPoint(0, x - (height/4) - 1, height);
-		points.setPoint(1, x - (height/4) - 1, 0);
-		points.setPoint(2, x, height/2);
-		painter.drawPolygon(points);			
-  }
-
-  bool underMouse(const int x, const int y, const int midx, const int height) const {
-		if(x < midx - (height/4)-1) return false;
-		if(x > midx) return false;
-		return true;  
-  }
-
-  int leftBound(int x, int height) {
-  	return x -(height/4) - 1;
-  }
-
-  int rightBound(int x, int height) {
-  	return x;
-  }  
-};
-
 class KRulerPrivateSliderEndMark : public KRulerSliderBase {
 public:
 	KRulerPrivateSliderEndMark() {
@@ -168,27 +136,59 @@ public:
 	~KRulerPrivateSliderEndMark() {
 	}
 
-	void drawHorizontalSlider(QPainter &painter, const int x, const int height) {
+  void drawHorizontalSlider(QPainter &painter, const int x, const int height) {
 		QPointArray points(3);
 
-		points.setPoint(0, x, height/2);
-		points.setPoint(1, x + (height/4) + 1, 0);
-		points.setPoint(2, x + (height/4) + 1, height);
-		painter.drawPolygon(points);		
-	}
+		points.setPoint(0, x, height);
+		points.setPoint(1, x, 0);
+		points.setPoint(2, x + (height/4) + 1, height/2);
+		painter.drawPolygon(points);			
+  }
 
   bool underMouse(const int x, const int y, const int midx, const int height) const {
 		if(x < midx) return false;
-		if(x > midx + (height/4)+1) return false;
-		return true;
-	}
+		if(x > midx + (height/4) + 1) return false;
+		return true;  
+  }
 
-	int leftBound(int x, int height) {
+  int leftBound(int x, int height) {
   	return x;
   }
 
   int rightBound(int x, int height) {
   	return x + (height/4) + 1;
+  }  
+};
+
+class KRulerPrivateSliderStartMark : public KRulerSliderBase {
+public:
+	KRulerPrivateSliderStartMark() {
+	}
+
+	~KRulerPrivateSliderStartMark() {
+	}
+
+	void drawHorizontalSlider(QPainter &painter, const int x, const int height) {
+		QPointArray points(3);
+
+		points.setPoint(0, x - (height/4) - 1, height/2);
+		points.setPoint(1, x, 0);
+		points.setPoint(2, x, height);
+		painter.drawPolygon(points);		
+	}
+
+  bool underMouse(const int x, const int y, const int midx, const int height) const {
+		if(x < midx - (height/4) - 1) return false;
+		if(x > midx) return false;
+		return true;
+	}
+
+	int leftBound(int x, int height) {
+  	return x - (height/4) - 1;
+  }
+
+  int rightBound(int x, int height) {
+  	return x;
   }
 };
 
@@ -589,11 +589,13 @@ int KRuler::activeSliderID()
 void KRuler::setMinValue(const int value)
 {
 	m_minValue = value;
+  setSlidersToRange();
 }
 
 void KRuler::setMaxValue(const int value)
 {
 	m_maxValue = (value > m_minValue) ? value : m_minValue + 1;
+  setSlidersToRange();  
 }
 
 void KRuler::setRange(const int min, const int max)
@@ -610,6 +612,7 @@ void KRuler::setRange(const int min, const int max)
 		setMaxValue(max);
 		invalidateBackBuffer((int)mapValueToLocal(oldvalue), (int)mapValueToLocal(max));		
 	}
+  setSlidersToRange();  
 }
 
 int KRuler::minValue() const
@@ -642,6 +645,7 @@ void KRuler::mouseReleaseEvent(QMouseEvent *event)
 	if(event->button() == QMouseEvent::LeftButton) {
 		if(d->m_oldValue!=-1) {
 			d->m_oldValue=-1;
+			setSliderValue(activeSliderID(), (int)floor(mapLocalToValue((int)event->x())+0.5));      
 		}
 	}
 }
@@ -786,7 +790,7 @@ void KRuler::drawToBackBuffer(int start, int end)
 	for(it = d->m_sliders.begin(); it != d->m_sliders.end(); it++) {
 		value = (int)mapValueToLocal((*it).getValue());
 
-		if((value >= sx) && (value<=ex)) {
+		if((value >= (*it).leftBound(sx, height())) && (value<= (*it).rightBound(ex, height()))) {
 			(*it).drawSlider(this, painter, value, height());
 		}
 	}
@@ -798,4 +802,13 @@ void KRuler::invalidateBackBuffer(int start, int end)
 {
 	d->m_bufferDrawList.addRange(start, end);
 	update();
+}
+
+void KRuler::setSlidersToRange()
+{
+  for(uint count=0; count<d->m_sliders.size(); ++count)
+  {
+    if(getSliderValue(count) < minValue()) setSliderValue(count, minValue());
+    if(getSliderValue(count) > maxValue()) setSliderValue(count, maxValue());
+  }
 }

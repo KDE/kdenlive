@@ -23,7 +23,7 @@
 #include <iostream>
 #include <kdebug.h>
 
-DocClipAVFile::DocClipAVFile(KdenliveDoc *doc, const QString name, const KURL url) :
+DocClipAVFile::DocClipAVFile(KdenliveDoc *doc, const QString &name, const KURL &url) :
 						DocClipBase(doc),
 						m_avFile(doc->getAVFileReference(url))
 {

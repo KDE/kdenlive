@@ -35,7 +35,7 @@ public:
   /** Create and return a widget that embodies this file format description. */
   AVFormatWidgetBase * createWidget(QWidget *parent);
   /** Sets the file extenstion for this description. */
-  void setFileExtension(QString extension);
+  void setFileExtension(const QString &extension);
   /** Returns the file extension for this file format. */
   const QString &fileExtension();
 private: // Private attributes

@@ -18,7 +18,6 @@
 #ifndef AVFILE_H
 #define AVFILE_H
 
-#include <qptrlist.h>
 #include <qmap.h>
 #include <qstring.h>
 
@@ -37,18 +36,18 @@
   
 class AVFile {
 public: 
-	AVFile(const QString name, const KURL url);
+	AVFile(const QString &name, const KURL &url);
 	~AVFile();
 	/** Calculates properties for the file, including the size of the file, the duration of the file,
 	 * the file format, etc.
 	 **/
-	void calculateFileProperties(QMap<QString, QString> attributes);
+	void calculateFileProperties(const QMap<QString, QString> &attributes);
   /** Write property of QString m_name. */
   void setName( const QString& _newVal);
   /** Read property of QString m_name. */
-  const QString& name();
-  const QString fileName();
-	const KURL fileURL();
+  const QString& name() const;
+  QString fileName() const;
+	const KURL &fileURL() const;
 	/** returns the size of the file */
 	const signed int fileSize();
   int numReferences();
