@@ -23,12 +23,12 @@ cflags=
 cppflags=
 cxxflags=\s-O0 -g3 -Wall
 ldadd=\s$(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT)
-ldflags=\s                                \s
+ldflags=\s                                 \s
 
 [General]
-AMChanged=false
+AMChanged=true
 author=Jason Wood
-configure_args=--prefix=/usr --enable-debug\s
+configure_args=\s--build=i386-linux --host=i386-linux --target=i386-linux --prefix=/usr --enable-debug\s
 email=jasonwood@blueyonder.co.uk
 kdevprj_version=1.3
 lfv_open_groups=
@@ -41,7 +41,7 @@ sgml_file=/home/uchian/kdenlive/doc/en/index.docbook
 short_info=
 sub_dir=kdenlive/
 version=0.2.0
-version_control=None
+version_control=CVS
 workspace=1
 
 [INSTALL]
@@ -813,11 +813,11 @@ install_location=
 type=SOURCE
 
 [po/Makefile.am]
-files=po/en_GB.po
+files=po/fr.po
 sub_dirs=
 type=po
 
-[po/en_GB.po]
+[po/fr.po]
 dist=false
 install=false
 install_location=
