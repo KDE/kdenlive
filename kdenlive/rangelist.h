@@ -41,6 +41,7 @@ public:
 	RangeListIterator<T> &operator++() {
 		++m_itt;
 		++m_itt;
+		return *this;
 	}
 
 	/** Returns true if we are at the end of the range list */
@@ -95,7 +96,28 @@ public:
 	void setFullRange(T min, T max) {
 		m_min = min;
 		m_max = max;
-#warning RangeList::setFullRange does not check that internal range conforms with new boundaries yet.
+
+		if(m_range.isEmpty()) return;
+
+		while((!m_range.isEmpty()) && (m_range[0] < min)) {
+			if(m_range[1] < min) {
+				m_range.pop_front();
+				m_range.pop_front();
+			} else {
+				m_range[0] = min;
+			}
+		}
+
+		if(m_range.isEmpty()) return;
+		
+		while((!m_range.isEmpty()) && (m_range[m_range.count()-1] > max)) {
+			if(m_range[m_range.count()-2] > max) {
+				m_range.pop_back();
+				m_range.pop_back();				
+			} else {
+				m_range[m_range.count()-1] = max;
+			}
+		}
 	}
 
 	/** Adds a range of values to the list. This range will be merged with any range of values that
@@ -117,7 +139,7 @@ public:
 
 		T cs, ce;		
 		T ns, ne;
-		int count;
+		unsigned int count;
 
 		if(m_range.isEmpty()) {
 			m_range.push_back(start);
