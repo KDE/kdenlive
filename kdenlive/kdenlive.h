@@ -210,6 +210,14 @@ class KdenliveApp : public KDockMainWindow
   void slotProjectDeleteClips();
   /** Add clips to the project */
   void slotProjectAddClips();
+  /** Seek forwards one frame in the active monitor */
+  void slotSeekForwards();
+  /** Seek backwards one frame in the active monitor */
+  void slotSeekBackwards();  
+  /** Toggle between play/stop in the active monitor */
+  void slotTogglePlay();    
+  /** Delete the selected clips */
+  void slotDeleteSelected();  
 
   private:
     /** the configuration object of the application */
@@ -241,6 +249,11 @@ class KdenliveApp : public KDockMainWindow
     KAction* projectAddClips;
     KAction* projectDeleteClips;
     KAction* projectClean;
+
+    KAction* actionSeekForwards;
+    KAction* actionSeekBackwards;
+    KAction* actionTogglePlay;
+    KAction* actionDeleteSelected;
     
     KToggleAction* viewToolBar;
     KToggleAction* viewStatusBar;

@@ -114,6 +114,11 @@ void KdenliveApp::initActions()
 
   renderExportTimeline = new KAction(i18n("&Export Timeline"), 0, 0, this, SLOT(slotRenderExportTimeline()), actionCollection(), "render_export_timeline");
 
+  actionSeekForwards = new KAction(i18n("Seek &Forwards"), KShortcut(), this, SLOT(slotSeekForwards()), actionCollection(), "seek_forwards");
+  actionSeekBackwards = new KAction(i18n("Seek Backwards"), KShortcut(), this, SLOT(slotSeekBackwards()), actionCollection(), "seek_backwards");  
+  actionTogglePlay = new KAction(i18n("Start/Stop"), KShortcut(), this, SLOT(slotTogglePlay()), actionCollection(), "toggle_play");  
+  actionDeleteSelected = new KAction(i18n("Delete Selected Clips"), KShortcut(Qt::Key_Delete), this, SLOT(slotDeleteSelected()), actionCollection(), "delete_selected_clips");
+
   timelineMoveTool->setExclusiveGroup("timeline_tools");
   timelineRazorTool->setExclusiveGroup("timeline_tools");
   timelineSpacerTool->setExclusiveGroup("timeline_tools");  
@@ -138,8 +143,11 @@ void KdenliveApp::initActions()
   timelineSnapToBorder->setStatusText(i18n("Clips will align with the borders of other clips"));
   projectAddClips->setStatusText(i18n("Add clips to the project"));
   projectDeleteClips->setStatusText(i18n("Remove clips from the project"));
-  projectClean->setStatusText(i18n("Remove unused clips from the project"));  
-
+  projectClean->setStatusText(i18n("Remove unused clips from the project"));
+  actionSeekForwards->setStatusText(i18n("Seek forward one frame"));
+  actionSeekBackwards->setStatusText(i18n("Seek backwards one frame"));
+  actionTogglePlay->setStatusText(i18n("Start or stop playback"));
+  actionDeleteSelected->setStatusText(i18n("Delete currently selected clips"));  
   // use the absolute path to your kdenliveui.rc file for testing purpose in createGUI();
   createGUI();
 
@@ -721,6 +729,31 @@ void KdenliveApp::slotProjectClean()
 		doc->cleanAVFileList();
 	}
   
+  slotStatusMsg(i18n("Ready."));
+}
+
+void KdenliveApp::slotSeekForwards()
+{
+  slotStatusMsg(i18n("Seeking Forwards one frame"));
+  slotStatusMsg(i18n("Ready."));  
+}
+
+void KdenliveApp::slotSeekBackwards()
+{
+  slotStatusMsg(i18n("Seeking Backwards One Frame"));
+  slotStatusMsg(i18n("Ready."));  
+}
+
+void KdenliveApp::slotTogglePlay()
+{
+  slotStatusMsg(i18n("Starting/stopping playback"));
+  slotStatusMsg(i18n("Ready."));
+}
+
+void KdenliveApp::slotDeleteSelected()
+{
+  slotStatusMsg(i18n("Deleting Selected Clips"));
+  addCommand(m_timeline->createAddClipsCommand(false), true);  
   slotStatusMsg(i18n("Ready."));
 }
 

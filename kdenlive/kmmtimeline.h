@@ -190,7 +190,8 @@ are later on the tiemline (i.e. trackStart() > time) will be selected. */
 	calculate scale factors yourself. Takes the x coordinate, and returns the value associated
 	with it. */
   double mapLocalToValue(double coordinate) const;
-  
+  /** Creates a "Add clips" command, containing all of the clips currently in the selection on the timeline. This command is then added to the command history. */
+  KMacroCommand *createAddClipsCommand(bool addingClips);      
 private: // private methods
 	void resizeTracks();
 	
@@ -206,8 +207,6 @@ private: // private methods
 it does not remove the clips from the timeline. */
   DocClipBaseList listSelected();
   void generateSnapToGridList();
-  /** Creates a "Add clips" command, containing all of the clips currently in the selection on the timeline. This command is then added to the command history. */
-  KMacroCommand *createAddClipsCommand(bool addingClips);  
 public slots: // Public slots
   /** Called when a track within the project has been added or removed.
     *
