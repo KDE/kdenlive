@@ -457,6 +457,16 @@ your application. -->
 >Le rendu vidéo du projet</title>
 <para
 >  </para>
+<screenshot
+> <mediaobject
+> <imageobject
+> <imagedata fileref="rendering_project.png" format="PNG"/> </imageobject
+> <textobject
+> <phrase
+></phrase
+> </textobject
+> </mediaobject
+> </screenshot>
 <note
 > <para
 > Les versions actuelles des programmes &kdenlive; et &piave; ne gerent uniquement l'exportation vidéo au format « DV » brut (RAW). </para
@@ -468,6 +478,24 @@ your application. -->
 >L'ouverture et l'enregistrement de votre projet</title>
 <para
 > Charger votre projet avec le menu « Fichier / Ouvrir ». Enregistrer votre projet avec le menu « Fichier / Enregistrer sous ». </para>
+
+</sect1>
+
+<sect1 id="kapp-setuprenderer">
+<title
+>La configuration du programme de rendu vidéo</title>
+<para
+> Avec cette boîte de dialogue, vous pouvez configurer tous les paramètres nécessaires au fonctionnement du programme effectuant le rendu vidéo. </para>
+<screenshot
+> <mediaobject
+> <imageobject
+> <imagedata fileref="setup_renderer.png" format="PNG"/> </imageobject
+> <textobject
+> <phrase
+>La boîte de dilaogue de configuration du programme de rendu vidéo</phrase
+> </textobject
+> </mediaobject
+> </screenshot>
 
 </sect1>
 
@@ -1526,14 +1554,6 @@ or the ChangeLog file, or ... -->
 >jasonwood@blueyonder.co.uk</email
 >. </para>
 
-</sect1>
-
-<sect1 id="configuration">
-<title
->Configuration</title>
-
-<para
-> </para>
 </sect1>
 
 </appendix>

@@ -549,6 +549,16 @@ your application. -->
 		menu. This brings up a dialog, which allows you to choose your export format, export
 		options, and filename to save as.
 	</para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="rendering_project.png" format="PNG"/>
+				</imageobject>
+		      		<textobject>
+					<phrase>The rendering project dialog box</phrase>
+				</textobject>
+			</mediaobject>
+		</screenshot>
 	<note>
 		<para>
 			The current version of &kdenlive;/&piave; only supports export to raw dv format.
@@ -562,6 +572,24 @@ your application. -->
 		Load your project via the File->open menu.
 		Save your project via the File->save-as menu.
 	</para>
+	
+</sect1>
+
+<sect1 id="kapp-setuprenderer">
+	<title>Setup the Renderer</title>
+	<para>
+		With this dialogbox, you can configre all parameters for the renderer program.
+	</para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="setup_renderer.png" format="PNG"/>
+				</imageobject>
+		      		<textobject>
+					<phrase>The setup renderer dialog box</phrase>
+				</textobject>
+			</mediaobject>
+		</screenshot>
 	
 </sect1>
 
@@ -1404,7 +1432,7 @@ or the ChangeLog file, or ... -->
 			<prompt>%</prompt> <userinput>make</userinput>
 			<prompt>%</prompt> <userinput>make install</userinput>
 		</screen>
-		Additional parameters for ./configure may be required - type:
+		Additional parameters for ./configure script may be required - type:
 		<screen width="40">
 			<prompt>%</prompt> <userinput>./configure --help</userinput>
 		</screen>
@@ -1417,13 +1445,6 @@ or the ChangeLog file, or ... -->
 		<email>jasonwood@blueyonder.co.uk</email>.
 	</para>
 
-</sect1>
-
-<sect1 id="configuration">
-	<title>Configuration</title>
-
-	<para>
-	</para>
 </sect1>
 
 </appendix>

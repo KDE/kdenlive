@@ -1,5 +1,5 @@
 
-EXTRA_DIST = index.docbook mainwindow.png monitor_panel.png project_panel.png timeline_panel.png project_with_clips.png debug_tab.png
+EXTRA_DIST = index.docbook mainwindow.png monitor_panel.png project_panel.png timeline_panel.png project_with_clips.png debug_tab.png setup_renderer.png rendering_project.png
 
 KDE_LANG = fr
 
