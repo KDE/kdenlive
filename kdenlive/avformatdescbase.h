@@ -20,6 +20,7 @@
 
 #include <qstring.h>
 
+class AVFormatWidgetBase;
 class QWidget;
 
 /**The base class for a file format parameter. A parameter specifies, amongst other things, what values the parameter can take, and how the widget that contains it should be created.
@@ -32,7 +33,7 @@ public:
 	AVFormatDescBase(const QString &description, const QString &name);
 	virtual ~AVFormatDescBase();
   /** Generates a widget that holds the specified value(s). */
-  virtual QWidget * createWidget(QWidget *parent) = 0;  
+  virtual AVFormatWidgetBase * createWidget(QWidget *parent) = 0;  
   /** Returns the name of this description element. */
   const QString & name();
   /** Sets the name of this Desc element to the one specified */

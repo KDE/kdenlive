@@ -43,7 +43,7 @@ AVFormatWidgetCodecList::AVFormatWidgetCodecList(AVFormatDescCodecList *desc, QW
     AVFormatDescCodec *codecDesc = desc->renderer()->findCodec(*itt);
     if(codecDesc != 0) {
       m_codecSelect->insertItem(codecDesc->name(), count);
-      m_widgetStack->addWidget(codecDesc->createWidget(m_widgetStack), count);
+      m_widgetStack->addWidget(codecDesc->createWidget(m_widgetStack)->widget(), count);
       ++count;
     }
     ++itt;
@@ -52,4 +52,9 @@ AVFormatWidgetCodecList::AVFormatWidgetCodecList(AVFormatDescCodecList *desc, QW
 
 AVFormatWidgetCodecList::~AVFormatWidgetCodecList()
 {
+}
+
+QWidget *AVFormatWidgetCodecList::widget()
+{
+  return this;
 }

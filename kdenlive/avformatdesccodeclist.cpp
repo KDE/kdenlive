@@ -30,7 +30,7 @@ AVFormatDescCodecList::~AVFormatDescCodecList()
 }
 
 /** Constructs a widget to display this container. Most likely, a qgroupbox with a combo list box + widget stack. */
-QWidget * AVFormatDescCodecList::createWidget(QWidget * parent)
+AVFormatWidgetBase * AVFormatDescCodecList::createWidget(QWidget * parent)
 {
   return new AVFormatWidgetCodecList(this, parent, m_name);
 }

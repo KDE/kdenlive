@@ -44,3 +44,18 @@ AVFileFormatWidget::AVFileFormatWidget(AVFileFormatDesc *desc, QWidget *parent, 
 AVFileFormatWidget::~AVFileFormatWidget()
 {
 }
+
+QWidget *AVFileFormatWidget::widget()
+{
+  return this;
+}
+
+KURL AVFileFormatWidget::fileUrl() const
+{
+  return m_filename->url();
+}
+
+AVFileFormatWidget * AVFileFormatWidget::fileFormatWidget()
+{
+  return this;
+}

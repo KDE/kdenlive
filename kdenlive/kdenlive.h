@@ -228,6 +228,12 @@ class KdenliveApp : public KDockMainWindow
   void saveLayout2();
   void saveLayout3();
   void saveLayout4();  
+  /** Makes sure that the clip monitor is activated. This means that the clip monitor should
+   have focus, and if enabled, that the clip monitor should have the xv view. */
+  void activateClipMonitor();
+  /** Makes sure that the workspace monitor is activated. This means that the clip monitor should
+   have focus, and if enabled, that the clip monitor should have the xv view. */
+  void activateWorkspaceMonitor();  
 
   private:
     /** the configuration object of the application */
@@ -303,7 +309,11 @@ class KdenliveApp : public KDockMainWindow
 		KMMRulerPanel *m_rulerPanel;	// pointer, because it gets reparented to the timeline widget!
     /** Stores a copy of the last file dialog path used by kdenlive. */
     KURL m_fileDialogPath;
-		KMMTimeLine *m_timeline; 
+		KMMTimeLine *m_timeline;
+
+    // KDockWidgets for the docking interface to work correctly.
+    KDockWidget *m_dockClipMonitor;
+    KDockWidget *m_dockWorkspaceMonitor;    
 };
  
 #endif // KDENLIVE_H

@@ -27,3 +27,8 @@ AVFormatWidgetBool::AVFormatWidgetBool(AVFormatDescBool *desc, QWidget *parent, 
 AVFormatWidgetBool::~AVFormatWidgetBool()
 {
 }
+
+QWidget *AVFormatWidgetBool::widget()
+{
+  return this;
+}

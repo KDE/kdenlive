@@ -34,7 +34,8 @@ KRender::KRender(const QString &rendererName, KURL appPath, unsigned int port, Q
                                         m_fileFormat(0),
                                         m_desccodeclist(0),
                                         m_codec(0),
-                                        m_effect(0)
+                                        m_effect(0),
+                                        m_lastSeek(0)
 {
 	startTimer(1000);
 	m_parsing = false;
@@ -485,6 +486,7 @@ bool KRender::topLevelStartElement(const QString & localName,
     QString tStr = atts.value("time");
     GenTime time(tStr.toDouble());
     pushIgnore();
+    m_lastSeek = time;
     emit positionChanged(time);
     return true;
   } else if(localName == "render") {
@@ -814,6 +816,7 @@ bool KRender::reply_capabilities_effects_effect_StartElement(const QString & loc
   }
 
   if(localName == "preset") {
+    
     pushIgnore();
     return true;
   }
@@ -862,3 +865,10 @@ bool KRender::reply_capabilities_renderer_about_EndElement(const QString & local
   return true;
 }
 
+
+/** Returns the last known seek position for this renderer. This may have been
+ set by the user, or returned by the renderer. */
+const GenTime & KRender::lastSeekPosition()
+{
+  return m_lastSeek;
+}

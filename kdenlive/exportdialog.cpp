@@ -20,6 +20,8 @@
 #include "exportdialog.h"
 #include "qlayout.h"
 #include "qobjectlist.h"
+#include "avformatwidgetbase.h"
+#include "avfileformatwidget.h"
 
 ExportDialog::ExportDialog(QPtrList<AVFileFormatDesc> &formatList, QWidget *parent, const char *name ) :
 //                        KJanusWidget(parent,name, IconList),
@@ -43,10 +45,10 @@ void ExportDialog::generateLayout()
 
   while(itt.current()) {
     QFrame *frame = addPage(itt.current()->name());
-    m_pageList.append(frame);    
     QHBoxLayout *layout = new QHBoxLayout( frame, 0, 6 );
-    QWidget *widget = itt.current()->createWidget(frame);
-    layout->addWidget(widget);
+    AVFormatWidgetBase *page = itt.current()->createWidget(frame);
+    m_pageList.append(page);
+    layout->addWidget(page->widget());
     ++itt;
   }
 }
@@ -61,5 +63,9 @@ void ExportDialog::setFormatList(const QPtrList<AVFileFormatDesc> &list)
 /** Returns the url set inside of this export dialog. */
 KURL ExportDialog::url()
 {
-  return KURL("/tmp/test.dv");
+  AVFileFormatWidget *fileFormatWidget = m_pageList.at(activePageIndex())->fileFormatWidget();
+  if(fileFormatWidget) {
+    return fileFormatWidget->fileUrl();
+  }
+  return KURL();
 }

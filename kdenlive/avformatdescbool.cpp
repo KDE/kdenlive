@@ -28,7 +28,7 @@ AVFormatDescBool::~AVFormatDescBool()
 }
 
 /** Create a widget to handle a boolean value. Most likely, this will be a check box. */
-QWidget * AVFormatDescBool::createWidget(QWidget *parent)
+AVFormatWidgetBase * AVFormatDescBool::createWidget(QWidget *parent)
 {
   return new AVFormatWidgetBool(this, parent, m_name);
 }

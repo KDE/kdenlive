@@ -31,7 +31,7 @@ public:
 	AVFormatDescCodec(const QString &description, const QString &name);
 	~AVFormatDescCodec();
   /** Generates a widget that holds the specified value(s). */
-  QWidget * createWidget(QWidget * parent);
+  AVFormatWidgetBase * createWidget(QWidget * parent);
 };
 
 #endif

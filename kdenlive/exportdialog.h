@@ -25,6 +25,7 @@
 #include <kurl.h>
 
 #include "avfileformatdesc.h"
+#include "avformatwidgetbase.h"
 
 /**The export dialog alllows the user to choose a file format and the relevant parameters with which they want to save their project.
   *@author Jason Wood
@@ -43,7 +44,7 @@ private: // Private attributes
   /** A list of all known file formats */
   QPtrList<AVFileFormatDesc> m_formatList;
   /** A list of all pages that have been created */
-  QPtrList<QWidget> m_pageList;  
+  QPtrList<AVFormatWidgetBase> m_pageList;
 public slots: // Public slots
   /** Specify a new file format list, and reconstruct the dialog box. */
   void setFormatList(const QPtrList<AVFileFormatDesc> &list);

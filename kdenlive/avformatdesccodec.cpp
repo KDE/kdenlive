@@ -27,7 +27,7 @@ AVFormatDescCodec::~AVFormatDescCodec()
 {
 }
 
-QWidget * AVFormatDescCodec::createWidget(QWidget * parent)
+AVFormatWidgetBase * AVFormatDescCodec::createWidget(QWidget * parent)
 {
   return new AVFormatWidgetCodec(this, parent, m_name);
 }

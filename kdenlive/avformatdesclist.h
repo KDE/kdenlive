@@ -32,7 +32,7 @@ public:
   AVFormatDescList(const QString &description, const QString &name);
 	~AVFormatDescList();
   /** Create a widget to handle a list value. Most likely, this will be a listbox. */
-  QWidget * createWidget(QWidget *parent);  
+  AVFormatWidgetBase * createWidget(QWidget *parent);  
   /** Adds the specified string to the item list. */
   void addItem(const QString &item);
   /** Returns the item list. */

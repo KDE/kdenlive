@@ -24,3 +24,9 @@ AVFormatWidgetBase::AVFormatWidgetBase()
 AVFormatWidgetBase::~AVFormatWidgetBase()
 {
 }
+
+/** Returns a pointer to this widget cast as an AVFileFormatWidget if that is what this widget it, otherwise it returns 0. */
+AVFileFormatWidget * AVFormatWidgetBase::fileFormatWidget()
+{
+  return 0;
+}

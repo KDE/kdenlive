@@ -33,7 +33,7 @@ public:
 	AVFormatDescCodecList(KRender *renderer, const QString &description, const QString &name);
 	~AVFormatDescCodecList();
   /** Constructs a widget to display this container. Most likely, a qgroupbox with a combo list box + widget stack. */
-  QWidget * createWidget(QWidget * parent);
+  AVFormatWidgetBase * createWidget(QWidget * parent);
   /** Returns the codec name list */
   const QStringList & codecList();
   /** Returns the renderer that generated this desc codec list */

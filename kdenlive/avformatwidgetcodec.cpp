@@ -32,3 +32,8 @@ AVFormatWidgetCodec::AVFormatWidgetCodec(AVFormatDescCodec *desc, QWidget *paren
 AVFormatWidgetCodec::~AVFormatWidgetCodec()
 {
 }
+
+QWidget *AVFormatWidgetCodec::widget()
+{
+  return this;
+}

@@ -27,7 +27,7 @@ AVFormatDescList::~AVFormatDescList()
 {
 }
 
-QWidget *AVFormatDescList::createWidget(QWidget *parent)
+AVFormatWidgetBase *AVFormatDescList::createWidget(QWidget *parent)
 {
   return new AVFormatWidgetList(this, parent, m_name);  
 }

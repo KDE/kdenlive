@@ -128,6 +128,8 @@ name specified. */
   QString version();
   /** Returns the description of this renderer */
   QString description();
+  /** Returns the last known seek position for this renderer. This may have been set by the user, or returned by the renderer. */
+  const GenTime & lastSeekPosition();
 protected: // Protected methods
   /** Recieves timer events */
   virtual void timerEvent(QTimerEvent *event);
@@ -186,6 +188,8 @@ private: // Private attributes
   QString m_version;
   /** Holds the authors of this renderer. */
   QMap<QString, QString> m_authors;
+  /** The last known seek position for this renderer. */
+  GenTime m_lastSeek;
   /** A human-readable description of this renderer. */
   QString m_description;
 private slots: // Private slots

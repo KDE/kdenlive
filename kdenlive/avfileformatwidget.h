@@ -20,7 +20,10 @@
 
 #include <qwidget.h>
 #include <qvbox.h>
+#include <kurl.h>
 
+
+#include "avformatwidgetbase.h"
 /**This widget contains an entire file format description.
   *@author Jason Wood
   */
@@ -30,11 +33,15 @@ class KURLRequester;
 class QHBox;
 class QLabel;
 
-class AVFileFormatWidget : public QVBox  {
+class AVFileFormatWidget : public QVBox, public AVFormatWidgetBase  {
    Q_OBJECT
 public: 
 	AVFileFormatWidget(AVFileFormatDesc *desc, QWidget *parent=0, const char *name=0);
 	~AVFileFormatWidget();
+  QWidget *widget();
+   /** Returns the url of this file widget. */
+  KURL fileUrl() const;
+  AVFileFormatWidget * fileFormatWidget();
 private:
   QHBox *m_fileHBox;
   QLabel *m_fileLabel;

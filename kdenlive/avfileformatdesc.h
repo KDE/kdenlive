@@ -33,7 +33,7 @@ public:
 	AVFileFormatDesc(const QString &description, const QString &name);
 	~AVFileFormatDesc();
   /** Create and return a widget that embodies this file format description. */
-  QWidget * createWidget(QWidget *parent);
+  AVFormatWidgetBase * createWidget(QWidget *parent);
   /** Sets the file extenstion for this description. */
   void setFileExtension(QString extension);
   /** Returns the file extension for this file format. */

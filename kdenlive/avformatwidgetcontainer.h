@@ -34,6 +34,7 @@ class AVFormatWidgetContainer : public QGroupBox, public AVFormatWidgetBase  {
 public: 
 	AVFormatWidgetContainer(AVFormatDescContainer *desc, QWidget *parent=0, const char *name=0);
 	~AVFormatWidgetContainer();
+  virtual QWidget *widget();
 };
 
 #endif

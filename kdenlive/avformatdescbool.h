@@ -29,7 +29,7 @@ public:
 	AVFormatDescBool(const QString &description, const QString &name);
 	~AVFormatDescBool();
   /** Create a widget to handle a boolean value. Most likely, this will be a check box. */
-  QWidget * createWidget(QWidget *parent);
+  AVFormatWidgetBase * createWidget(QWidget *parent);
 };
 
 #endif

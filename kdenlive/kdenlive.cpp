@@ -239,17 +239,17 @@ void KdenliveApp::initView()
   widget->setDockSite(KDockWidget::DockFullSite);
   widget->manualDock(projectDock, KDockWidget::DockCenter);    
 
-  KDockWidget *workspaceMonitor = createDockWidget("Workspace Monitor", QPixmap(), 0, i18n("Workspace Monitor"));
-	m_workspaceMonitor = new KMMMonitor(this, getDocument(), workspaceMonitor, "Workspace Monitor");
-  workspaceMonitor->setWidget(m_workspaceMonitor);
-  workspaceMonitor->setDockSite(KDockWidget::DockFullSite);    
-  workspaceMonitor->manualDock(mainDock, KDockWidget::DockRight);  
+  m_dockWorkspaceMonitor = createDockWidget("Workspace Monitor", QPixmap(), 0, i18n("Workspace Monitor"));
+	m_workspaceMonitor = new KMMMonitor(this, getDocument(), m_dockWorkspaceMonitor, "Workspace Monitor");
+  m_dockWorkspaceMonitor->setWidget(m_workspaceMonitor);
+  m_dockWorkspaceMonitor->setDockSite(KDockWidget::DockFullSite);    
+  m_dockWorkspaceMonitor->manualDock(mainDock, KDockWidget::DockRight);  
 
-  widget = createDockWidget("Clip Monitor", QPixmap(), 0, i18n("Clip Monitor"));
-	m_clipMonitor = new KMMMonitor(this, getDocument(), widget, "Clip Monitor");
-  widget->setWidget(m_clipMonitor);
-  widget->setDockSite(KDockWidget::DockFullSite);
-  widget->manualDock(workspaceMonitor, KDockWidget::DockLeft);    
+  m_dockClipMonitor = createDockWidget("Clip Monitor", QPixmap(), 0, i18n("Clip Monitor"));
+	m_clipMonitor = new KMMMonitor(this, getDocument(), m_dockClipMonitor, "Clip Monitor");
+  m_dockClipMonitor->setWidget(m_clipMonitor);
+  m_dockClipMonitor->setDockSite(KDockWidget::DockFullSite);
+  m_dockClipMonitor->manualDock(m_dockWorkspaceMonitor, KDockWidget::DockLeft);    
 
   setBackgroundMode(PaletteBase);
 
@@ -272,10 +272,18 @@ void KdenliveApp::initView()
   connect(m_renderManager, SIGNAL(recievedStderr(const QString &, const QString &)), m_renderDebugPanel, SLOT(slotPrintError(const QString &, const QString &)));
 
   connect(m_projectList, SIGNAL(AVFileSelected(AVFile *)), this, SLOT(slotSetClipMonitorSource(AVFile *)));
+  
   connect(getDocument(), SIGNAL(signalClipSelected(DocClipBase *)), this, SLOT(slotSetClipMonitorSource(DocClipBase *)));
 
   connect(m_timeline, SIGNAL(signalClipCropStartChanged(const GenTime &)), m_clipMonitor, SLOT(seek(const GenTime &)));
   connect(m_timeline, SIGNAL(signalClipCropEndChanged(const GenTime &)), m_clipMonitor, SLOT(seek(const GenTime &)));
+
+
+  // connects for clip/workspace monitor activation (i.e. making sure they are visible when needed)  
+  connect(m_projectList, SIGNAL(AVFileSelected(AVFile *)), this, SLOT(activateClipMonitor()));  
+  connect(m_timeline, SIGNAL(signalClipCropStartChanged(const GenTime &)), this, SLOT(activateClipMonitor()));
+  connect(m_timeline, SIGNAL(signalClipCropEndChanged(const GenTime &)), this, SLOT(activateClipMonitor()));
+  connect(m_timeline, SIGNAL(seekPositionChanged(const GenTime &)), this, SLOT(activateWorkspaceMonitor()));
 
   connect(getDocument()->renderer(), SIGNAL(effectListChanged(const QPtrList<EffectDesc> &)),
                 m_effectListDialog, SLOT(setEffectList(const QPtrList<EffectDesc> &)));
@@ -677,10 +685,10 @@ void KdenliveApp::slotRenderExportTimeline()
   slotStatusMsg(i18n("Exporting Timeline..."));
 
   ExportDialog exportDialog(getDocument()->renderer()->fileFormats(), this, "export dialog");
-  exportDialog.exec();
-
-  if(!exportDialog.url().isEmpty()) {
-    doc->renderDocument(exportDialog.url());    
+  if(QDialog::Accepted == exportDialog.exec()) {
+    if(!exportDialog.url().isEmpty()) {
+      doc->renderDocument(exportDialog.url());    
+    }
   }
 
   slotStatusMsg(i18n("Ready."));  
@@ -862,7 +870,7 @@ void KdenliveApp::slotSetClipMonitorSource(DocClipBase *clip)
 
   m_clipMonitor->setSceneList(scenelist);
   m_clipMonitor->setClipLength(clip->duration().frames(getDocument()->framesPerSecond()));
-  m_clipMonitor->seek(GenTime(0.0));  
+  m_clipMonitor->seek(GenTime(0.0));
 }
 
 void KdenliveApp::loadLayout1()
@@ -911,4 +919,15 @@ void KdenliveApp::saveLayout3()
 void KdenliveApp::saveLayout4()
 {
   writeDockConfig(config, "Layout 4");
+}
+
+
+void KdenliveApp::activateClipMonitor()
+{
+  m_dockClipMonitor->makeDockVisible();
+}
+
+void KdenliveApp::activateWorkspaceMonitor()
+{
+  m_dockWorkspaceMonitor->makeDockVisible();
 }

@@ -31,7 +31,7 @@ public:
 	AVFormatDescContainer(const QString &description, const QString &name);
 	~AVFormatDescContainer();
   /** Constructs a widget to display this container. Most likely, a qgroupbox. */
-  virtual QWidget * createWidget(QWidget *parent);
+  virtual AVFormatWidgetBase * createWidget(QWidget *parent);
   /** Appends a new description element into this container. */
   void append(AVFormatDescBase *elem);
   /** Returns the format list. */

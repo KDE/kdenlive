@@ -39,6 +39,7 @@ class AVFormatWidgetCodecList : public QGroupBox, public AVFormatWidgetBase  {
 public:
 	AVFormatWidgetCodecList(AVFormatDescCodecList *desc, QWidget *parent=0, const char *name=0);
 	~AVFormatWidgetCodecList();
+   virtual QWidget *widget();
 private: // Private attributes
   /** This bnox lays out the codec and label side by side */
   QHBox *m_codecLayout;

@@ -35,3 +35,8 @@ AVFormatWidgetContainer::AVFormatWidgetContainer(AVFormatDescContainer *desc, QW
 AVFormatWidgetContainer::~AVFormatWidgetContainer()
 {
 }
+
+QWidget *AVFormatWidgetContainer::widget()
+{
+  return this;
+}

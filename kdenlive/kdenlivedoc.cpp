@@ -64,7 +64,7 @@ KdenliveDoc::KdenliveDoc(KdenliveApp *app, QWidget *parent, const char *name) : 
   					 this, SLOT(AVFilePropertiesArrived(QMap<QString, QString>)));
 
   connect(this, SIGNAL(avFileListUpdated()), this, SLOT(hasBeenModified()));
-  connect(this, SIGNAL(trackListChanged()), this, SLOT(hasBeenModified()));  
+  connect(this, SIGNAL(trackListChanged()), this, SLOT(hasBeenModified()));
 
   m_domSceneList.appendChild(m_domSceneList.createElement("scenelist"));
   generateSceneList();
@@ -699,6 +699,7 @@ void KdenliveDoc::hasBeenModified()
 /** Renders the current document timeline to the specified url. */
 void KdenliveDoc::renderDocument(const KURL &url)
 {
+  m_render->setSceneList(m_domSceneList);
 	m_render->render(url);
 }
 

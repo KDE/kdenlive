@@ -38,3 +38,8 @@ AVFormatWidgetList::AVFormatWidgetList(AVFormatDescList *desc, QWidget *parent, 
 AVFormatWidgetList::~AVFormatWidgetList()
 {
 }
+
+QWidget *AVFormatWidgetList::widget()
+{
+  return this;
+}

@@ -36,6 +36,7 @@ class AVFormatWidgetList : public QHBox, public AVFormatWidgetBase {
 public: 
 	AVFormatWidgetList(AVFormatDescList *desc, QWidget *parent=0, const char *name=0);
 	~AVFormatWidgetList();
+  virtual QWidget *widget();
 private:
   QLabel *m_label;
   QComboBox *m_comboBox;

@@ -31,7 +31,7 @@ AVFormatDescContainer::~AVFormatDescContainer()
 }
 
 /** Constructs a widget to display this container. Most likely, a qgroupbox. */
-QWidget * AVFormatDescContainer::createWidget(QWidget *parent)
+AVFormatWidgetBase * AVFormatDescContainer::createWidget(QWidget *parent)
 {
   return new AVFormatWidgetContainer(this, parent, m_name);
 }

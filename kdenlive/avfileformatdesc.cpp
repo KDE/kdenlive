@@ -31,7 +31,7 @@ AVFileFormatDesc::~AVFileFormatDesc()
 }
 
 /** Create and return a widget that embodies this file format description. */
-QWidget * AVFileFormatDesc::createWidget(QWidget *parent)
+AVFormatWidgetBase * AVFileFormatDesc::createWidget(QWidget *parent)
 {
   AVFileFormatWidget *widget = new AVFileFormatWidget(this, parent, m_name);
   return widget;  
