@@ -164,7 +164,7 @@ bool KdenliveDoc::saveModified()
 void KdenliveDoc::closeDocument()
 {
 	kdDebug() << "KdenliveDoc in closeDocument()" << endl;
-  deleteContents();
+	deleteContents();
 }
 
 bool KdenliveDoc::newDocument()
