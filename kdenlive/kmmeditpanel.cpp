@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#define _ISOC99_SOURCE
 #include <cmath>
  
 #include "kmmeditpanel.h"

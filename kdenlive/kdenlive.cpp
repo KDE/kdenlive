@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#define _ISOC99_SOURCE
+#include <cmath>
+
 // include files for QT
 #include <qdir.h>
 #include <qprinter.h>
