@@ -287,6 +287,9 @@ void KdenliveApp::initView()
   connect(getDocument(), SIGNAL(sceneListChanged(const QDomDocument &)), m_workspaceMonitor, SLOT(setSceneList(const QDomDocument &)));
 
   connect(getDocument()->renderer(), SIGNAL(effectListChanged(const QPtrList<EffectDesc> &)), m_effectListDialog, SLOT(setEffectList(const QPtrList<EffectDesc> &)));
+  
+  connect(getDocument()->renderer(), SIGNAL(rendering(const GenTime &)), this, SLOT(slotSetRenderProgress(const GenTime &)));
+  connect(getDocument()->renderer(), SIGNAL(renderFinished()), this, SLOT(slotSetRenderFinished()));
 
   connect(m_renderManager, SIGNAL(recievedInfo(const QString &, const QString &)), m_renderDebugPanel, SLOT(slotPrintDebug(const QString &, const QString &)));
   connect(m_renderManager, SIGNAL(recievedStdout(const QString &, const QString &)), m_renderDebugPanel, SLOT(slotPrintWarning(const QString &, const QString &)));
@@ -1024,4 +1027,18 @@ void KdenliveApp::slotLookAtClip(DocClipBase *clip, const GenTime &time)
 void KdenliveApp::slotRenderError(const QString &name, const QString &message)
 {
   KMessageBox::sorry(this, message, name);
+}
+
+void KdenliveApp::slotSetRenderProgress(const GenTime &time)
+{
+	m_statusBarProgress->setPercentageVisible(true);
+	m_statusBarProgress->setTotalSteps(m_timeline->projectLength().frames(getDocument()->framesPerSecond()));
+	m_statusBarProgress->setProgress(time.frames(getDocument()->framesPerSecond()));
+}
+
+void KdenliveApp::slotSetRenderFinished()
+{
+	std::cerr << "FINISHED RENDERING!" << std::endl;
+	m_statusBarProgress->setPercentageVisible(false);
+	m_statusBarProgress->setProgress(m_statusBarProgress->totalSteps());
 }

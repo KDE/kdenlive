@@ -74,6 +74,9 @@ class KdenliveApp : public KDockMainWindow
   friend class KdenliveView;
 
   public:
+	/** The various editing modes that the timeline is capable of */
+	enum TimelineEditMode {Move, Razor, Spacer};
+
   /** construtor of KdenliveApp, calls all init functions to create the application.
     */
     KdenliveApp(QWidget* parent=0, const char* name=0);
@@ -83,8 +86,8 @@ class KdenliveApp : public KDockMainWindow
     void openDocumentFile(const KURL& url=0);
     /** returns a pointer to the current document connected to the KTMainWindow instance and is used by
      * the View class to access the document object's methods
-     */	
-    KdenliveDoc *getDocument() const; 	
+     */
+    KdenliveDoc *getDocument() const;
   /** Returns true if snapToFrame is enabled, false otherwise */
   bool snapToFrameEnabled();
   /** Returns true if snapToBorder is checked, false otherwise */
@@ -92,9 +95,6 @@ class KdenliveApp : public KDockMainWindow
   /** Adds a command to the command history, execute it if execute is true. */
   void addCommand(KCommand *command, bool execute=true);
 
-	/** The various editing modes that the timeline is capable of */
-	enum TimelineEditMode {Move, Razor, Spacer};
-	    
   /** Returns the editing mode that the timeline should operate with */
   TimelineEditMode timelineEditMode();
   /** Returns the render manager. */
@@ -103,7 +103,7 @@ class KdenliveApp : public KDockMainWindow
   protected:
     /** save general Options like all bar positions and status as well as the geometry and the recent file list to the configuration
      * file
-     */ 	
+     */
     void saveOptions();
     /** read general Options again and initialize all variables like the recent file list
      */
@@ -198,7 +198,7 @@ class KdenliveApp : public KDockMainWindow
   void slotTimelineMoveTool();
   /** Called when the user activates the "Export Timeline" action */
   void slotRenderExportTimeline();
-  /** Called when the user activates the "Preferencfes" action */
+  /** Called when the user activates the "Preferences" action */
   void slotOptionsPreferences();  
   /** Updates the current time in the status bar. */
   void slotUpdateCurrentTime(const GenTime &time);
@@ -231,6 +231,8 @@ class KdenliveApp : public KDockMainWindow
   /** Sets the clip monitor source to be the given clip. */
   void slotSetClipMonitorSource(DocClipBase *clip);
   /** SLots to Save/Load the current dockwidget layout to/from the layout number specified. */
+  void slotSetRenderProgress(const GenTime &);
+  void slotSetRenderFinished();
   void loadLayout1();
   void loadLayout2();
   void loadLayout3();
