@@ -1,7 +1,7 @@
 /***************************************************************************
-                          docclipvideo.cpp  -  description
+                          docclipproject.h  -  description
                              -------------------
-    begin                : Fri Apr 12 2002
+    begin                : Thu Jun 20 2002
     copyright            : (C) 2002 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,12 +15,24 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "docclipvideo.h"
+#ifndef DOCCLIPPROJECT_H
+#define DOCCLIPPROJECT_H
 
-DocClipVideo::DocClipVideo(AVFile * avFile) : DocClipBase(avFile)
-{
-}
+#include <docclipbase.h>
 
-DocClipVideo::~DocClipVideo()
-{
-}
+/**This "clip" consists of a number of tracks, clips, overlays, transitions and effects. It is basically capable of making multiple clips accessible as if they were a single clip. The "clipType()" of this clip depends entirely upon it's contents.
+  *@author Jason Wood
+  */
+
+class DocClipProject : public DocClipBase  {
+public: 
+	DocClipProject();
+	~DocClipProject();
+
+	long duration();
+  
+	/** No descriptions */
+	KURL fileURL();
+};
+
+#endif

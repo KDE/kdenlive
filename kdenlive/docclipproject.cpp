@@ -1,7 +1,7 @@
 /***************************************************************************
-                          docclipvideo.h  -  description
+                          docclipproject.cpp  -  description
                              -------------------
-    begin                : Fri Apr 12 2002
+    begin                : Thu Jun 20 2002
     copyright            : (C) 2002 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,19 +15,26 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef DOCCLIPVIDEO_H
-#define DOCCLIPVIDEO_H
+#include "docclipproject.h"
 
-#include <docclipbase.h>
+DocClipProject::DocClipProject() :
+  			DocClipBase()
+{
+}
 
-/**DocClipVideo contains all the relevant information about a video clip.
-  *@author Jason Wood
-  */
+DocClipProject::~DocClipProject()
+{
+}
 
-class DocClipVideo : public DocClipBase  {
-public: 
-	DocClipVideo(AVFile * avFile);
-	~DocClipVideo();
-};
+long DocClipProject::duration() {
+	return 0;
+}
 
-#endif
+/** No descriptions */
+KURL DocClipProject::fileURL()
+{
+	KURL temp;
+
+	return temp;
+}
+

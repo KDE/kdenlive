@@ -27,7 +27,10 @@
 
 #include <kurl.h>
 
-#include <avfile.h>
+#include <docclipbase.h>
+
+#include <arts/kartsserver.h>
+#include <arts/kartsdispatcher.h>
 
 /**
   *@author Jason Wood
@@ -43,13 +46,16 @@ private: // Private methods
   void init_menu();
 	/** The popup menu */	
 	QPopupMenu m_menu;	
+
+  KArtsDispatcher m_dispatcher;
+  KArtsServer m_server;
 public slots: // Public slots
   /** User is requesting to open a file. Open file dialog and let the user pick. */
   void slot_AddFile();
   /** No descriptions */
   void rightButtonPressed ( QListViewItem *listViewItem, const QPoint &pos, int column) ;
-  /** Get a fresh copy of files from KdenliveDoc and display them. */
-  void slot_UpdateList(QList<AVFile> list);
+  /** Get a fresh copy of files and clips from KdenliveDoc and display them. */
+  void slot_UpdateList(QList<DocClipBase> list);
 signals: // Signals
   /** emitted whenever a file is added to the project list */
   void signal_AddFile(const KURL &url);

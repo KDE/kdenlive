@@ -30,6 +30,7 @@
 #include <kdenlive.h>
 #include <kdenliveview.h>
 
+#include <docclipavfile.h>
 #include <doctrackvideo.h>
 #include <doctracksound.h>
 
@@ -42,7 +43,7 @@ KdenliveDoc::KdenliveDoc(QWidget *parent, const char *name) : QObject(parent, na
     pViewList = new QList<KdenliveView>();
   }
 
-	m_framesPerSecond = 25;	// Standard PAL.
+  m_framesPerSecond = 25; // Standard PAL.
 	
   pViewList->setAutoDelete(true);
 }
@@ -141,7 +142,7 @@ bool KdenliveDoc::newDocument()
   // TODO: Add your document initialization code here
   /////////////////////////////////////////////////
 
-  m_avFileList.setAutoDelete( TRUE );
+  m_clipList.setAutoDelete( TRUE );
 
   addVideoTrack();
   addVideoTrack();
@@ -186,18 +187,18 @@ void KdenliveDoc::deleteContents()
   // TODO: Add implementation to delete the document contents
   /////////////////////////////////////////////////
 
-  m_avFileList.clear();
+  m_clipList.clear();
 }
 
 void KdenliveDoc::slot_InsertAVFile(const KURL &file) {
-	m_avFileList.append(new AVFile(file.fileName(), file));
-	emit avFileListUpdated(m_avFileList);
+	m_clipList.append(new DocClipAVFile(file.fileName(), file));
+	emit avFileListUpdated(m_clipList);
   setModified(true);	
 }
 
-QList<AVFile> KdenliveDoc::avFileList()
+QList<DocClipBase> KdenliveDoc::avFileList()
 {
-	return m_avFileList;	
+	return m_clipList;	
 }
 
 /** Returns the number of frames per second. */

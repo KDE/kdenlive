@@ -21,18 +21,18 @@
 #include <qwidget.h>
 #include <qlistview.h>
 
-#include <avfile.h>
+#include <docclipavfile.h>
 
-/**Allows AVFiles to be displayed in a QListView
+/**Allows clips to be displayed in a QListView
   *@author Jason Wood
   */
 
 class AVListViewItem : public QListViewItem  {
 private:
 	QListView *m_listView;
-	AVFile *m_avFile;
+	DocClipBase *m_clip;
 public: 
-	AVListViewItem(QListView *parent, AVFile *file);
+	AVListViewItem(QListView *parent, DocClipBase *clip);
 	~AVListViewItem();
 	QString text ( int column ) const;
 };

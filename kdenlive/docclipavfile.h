@@ -15,13 +15,18 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef AVFILE_H
-#define AVFILE_H
+#ifndef DOCCLIPAVFILE_H
+#define DOCCLIPAVFILE_H
 
 #include <qstring.h>
 
 #include <kurl.h>
 #include <arts/kmedia2.h>
+#include <arts/kartsdispatcher.h>
+#include <arts/kartsserver.h>
+#include <arts/kplayobjectfactory.h>
+
+#include <docclipbase.h>
 
 /**
 	* Encapsulates a video, audio, picture, title, or any other kind of file that Kdenlive can support.
@@ -29,21 +34,25 @@
   *@author Jason Wood
   */
 
-class AVFile {
-public: 
-	AVFile(QString name, KURL url);
-	~AVFile();
+class DocClipAVFile : public DocClipBase {
+public:
+	DocClipAVFile(QString name, KURL url);
+	~DocClipAVFile();
 	QString fileName();
 	void setName(QString name);
-	KURL fileUrl();	
+	KURL fileURL();	
   /** Calculates properties for the file, including the size of the file, the duration of the file,  the file format, etc. */
   void calculateFileProperties();
   /** returns the size of the file */
   signed int fileSize();
+  /** Returns the duration of the file in milliseconds */
+  long duration();
   /** Returns the seconds element of the duration of the file */
   long durationSeconds();
   /** Returns the milliseconds element of the duration of the file */
   long durationMs();
+  /** Returns the type of this clip */
+  DocClipBase::CLIPTYPE clipType();
 private:		
 	/** The displayed name of this file */
 	QString m_name;
@@ -56,7 +65,10 @@ private:
 	Arts::poTime m_time;	
 	
 	/** A play object factory, used for calculating information, and previewing files */
-	// Arts::PlayObjectFactory factory;
+  /** Determines whether this file contains audio, video or both. */
+  DocClipBase::CLIPTYPE m_clipType;
+  KPlayObject *m_player;
+  KPlayObjectFactory m_factory;
 };
 
 #endif

@@ -21,9 +21,9 @@
 
 #include <math.h>
 
-AVListViewItem::AVListViewItem(QListView *parent, AVFile *file) : QListViewItem(parent) {
+AVListViewItem::AVListViewItem(QListView *parent, DocClipBase *clip) : QListViewItem(parent) {
 	m_listView = parent;	
-	m_avFile = file;
+	m_clip = clip;
 }
 
 AVListViewItem::~AVListViewItem() {
@@ -31,15 +31,19 @@ AVListViewItem::~AVListViewItem() {
 
 QString AVListViewItem::text ( int column ) const {		
  	if(m_listView->columnText(column) == i18n("Filename")) {
- 		return m_avFile->fileName();
+ 		return m_clip->name();
 	}
 	
 	if(m_listView->columnText(column) == i18n("Duration")) {
-		return QString::number(m_avFile->durationSeconds()/60)+":"+QString::number(m_avFile->durationSeconds()%60)+"."+QString::number(m_avFile->durationMs());
+		return QString::number(m_clip->durationSeconds()/3600).rightJustify(2, '0', FALSE) + ":" +
+           QString::number((m_clip->durationSeconds()/60) % 60).rightJustify(2, '0', FALSE) + ":" +
+           QString::number(m_clip->durationSeconds()%60).rightJustify(2, '0', FALSE) + "." +
+           QString::number(m_clip->durationMs()).leftJustify(2, '0', TRUE);
 	}
 	
 	if(m_listView->columnText(column) == i18n("Size")) {			
-		long fileSize = m_avFile->fileSize();
+		/*long fileSize = m_clip->fileSize();*/
+		long fileSize = 0;
 		long tenth;
 		if(fileSize < 1024) {		
 			return QString::number(fileSize) + "B";

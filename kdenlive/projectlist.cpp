@@ -30,6 +30,7 @@
 #include "arts/core.h"
 
 #include <iostream>
+#include <string>
 #include <map>
 
 ProjectList::ProjectList(QWidget *parent, const char *name ) :
@@ -57,18 +58,18 @@ void ProjectList::slot_AddFile() {
 	
 	std::map<std::string, bool> done;	
 		
-//	Arts::TraderQuery query;
-	
-//  query.supports("Interface", "Arts::PlayObject");
-/*	std::vector<Arts::TraderOffer> *results = query.query();	
+	Arts::TraderQuery query;
+
+  query.supports("Interface", "Arts::PlayObject");
+	std::vector<Arts::TraderOffer> *results = query.query();	
 
 	for(std::vector<Arts::TraderOffer>::iterator i = results->begin(); i != results->end(); i++)
 	{			
-		std::vector<string> *mime = (*i).getProperty("MimeType");
-		std::vector<string> *ext = (*i).getProperty("Extension");
+		std::vector<std::string> *mime = (*i).getProperty("MimeType");
+		std::vector<std::string> *ext = (*i).getProperty("Extension");
 
-		std::vector<string>::iterator extIt = ext->begin();					
-		std::vector<string>::iterator mimeIt = mime->begin();				
+		std::vector<std::string>::iterator extIt = ext->begin();					
+		std::vector<std::string>::iterator mimeIt = mime->begin();				
 		
 		while((extIt != ext->end()) && (mimeIt != mime->end())) {			
 			if( ((*extIt).length()) && (!done[*extIt]) ) {
@@ -88,11 +89,7 @@ void ProjectList::slot_AddFile() {
 	}		
 	
 	delete results;	
-	
-	*/
-	
-	cout << filter << endl;		
-		
+				
 	KURL::List urlList=KFileDialog::getOpenURLs(
 															QString::null,
 											        filter,
@@ -116,11 +113,11 @@ void ProjectList::rightButtonPressed ( QListViewItem *listViewItem, const QPoint
 }
 
 /** Get a fresh copy of files from KdenliveDoc and display them. */
-void ProjectList::slot_UpdateList(QList<AVFile> list) {
+void ProjectList::slot_UpdateList(QList<DocClipBase> list) {
 	m_listView->clear();
 
-	QListIterator<AVFile> itt(list);
-	AVFile *av;
+	QListIterator<DocClipBase> itt(list);
+	DocClipBase *av;
 	
 	for(; (av = itt.current()); ++itt) {
 		new AVListViewItem(m_listView, av);

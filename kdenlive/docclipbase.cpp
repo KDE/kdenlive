@@ -1,5 +1,5 @@
 /***************************************************************************
-                          docclipbase.cpp  -  description
+                          DocClipBase.cpp  -  description
                              -------------------
     begin                : Fri Apr 12 2002
     copyright            : (C) 2002 by Jason Wood
@@ -17,22 +17,40 @@
 
 #include "docclipbase.h"
 
-DocClipBase::DocClipBase(AVFile *avFile)
+DocClipBase::DocClipBase()
 {
-	m_avFile = avFile;
 }
 
 DocClipBase::~DocClipBase()
 {
 }
 
-/** Returns where the start of this clip is on the track is resides on. */
-long DocClipBase::trackStart(){
-	return m_trackStart;
+/** Returns where the start of this clip is on the track it resides on. */
+long DocClipBase::trackStartSeconds(){
+	return m_trackStart.seconds;
 }
 
-/** Returns the AVFile object which defines the object which is used by this clip. */
-AVFile * DocClipBase::avFile()
-{
-	return m_avFile;
+long DocClipBase::trackStartMs() {
+  return m_trackStart.ms;
 }
+
+long DocClipBase::trackStart() {
+  return (m_trackStart.seconds * 1000) + m_trackStart.ms;
+}
+
+void DocClipBase::setTrackStart(long seconds, long ms)
+{
+}
+
+QString DocClipBase::name() {
+	return m_name;
+}
+
+long DocClipBase::durationSeconds() {
+	return duration() / 1000;
+}
+
+long DocClipBase::durationMs() {
+	return duration() % 1000;
+}
+

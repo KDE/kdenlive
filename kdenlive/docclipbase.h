@@ -18,25 +18,52 @@
 #ifndef DOCCLIPBASE_H
 #define DOCCLIPBASE_H
 
-#include <avfile.h>
-
-/**DocClipBase is a base class for the various types of clip
+/**DocClip is a class for the various types of clip
   *@author Jason Wood
   */
 
+#include "kurl.h"
+#include "arts/kmedia2.h"
+
 class DocClipBase {
-public: 
-	DocClipBase(AVFile * avFile);
-	virtual ~DocClipBase() = 0;
-  /** Returns where this clip starts on the track */
+public:
+	/** this enum determines the types of "feed" available within this clip. types must be non-exlcusive
+	 * - e.g. if you can have audio and video seperately, it should be possible to combin the two, as is
+	 *   done here. If a new clip type is added then it should be possible to combine it with both audio
+	 *   and video. */	
+	enum CLIPTYPE { AUDIO = 1,
+			VIDEO = 2,
+        		AV = 3};
+	DocClipBase();
+	virtual ~DocClipBase();
+
+  /** Returns where this clip starts on the track (seconds element)*/
+  long trackStartSeconds();
+  /** Returns where this clip starts on the track (ms element)*/
+  long trackStartMs();
+  /** Returns where this clip starts in ms (seconds * 1000) + ms */
   long trackStart();
-  /** Returns the AVFile object which defines the object which is used by this clip. */
-  AVFile * avFile();
+  /** Sets the position that this clip resides upon it's track. */
+  void setTrackStart(long seconds, long ms);
+  /** returns the name of this clip. */
+  QString name();
+  
+  /** returns the seconds element of the duration of this clip */
+  long durationSeconds();
+  /** returns the Milliseconds element of the duration of this clip */
+  long durationMs();
+  /** returns the duration of this clip in milliseconds */
+  virtual long duration() = 0;
+
+  /** Returns a url to a file describing this clip. Exactly what this url is,
+whether it is temporary or not, and whether it provokes a render will
+depend entirely on what the clip consists of. */
+  virtual KURL fileURL() = 0;
 private: // Private attributes
+  /** The name of this clip */
+  QString m_name;
   /** Where this clip starts on the track that it resides on. */
-  long m_trackStart;
-  /** The avFile that this clip is based upon.  */
-  AVFile * m_avFile;
+  Arts::poTime m_trackStart;
 };
 
 #endif

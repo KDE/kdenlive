@@ -20,8 +20,6 @@
 #include <klocale.h>
 
 #include "kdenlive.h"
-#include <arts/kartsdispatcher.h>
-/*#include <arts/kartsserver.h>*/
 
 static const char *description =
 	I18N_NOOP("Kdenlive");
@@ -47,9 +45,6 @@ int main(int argc, char *argv[])
 
   KApplication app;
 
-	KArtsDispatcher dispatcher();	
-//	KArtsServer server();
- 
   if (app.isRestored())
   {
     RESTORE(KdenliveApp);

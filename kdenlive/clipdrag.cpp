@@ -39,6 +39,8 @@ const char * ClipDrag::format(int i) const
 /** Reimplemented for internal reasons; the API is not affected.  */
 QByteArray ClipDrag::encodedData(const char *mime) const
 {
+		QByteArray temp;
+		return temp;
 }
 
 /** Set the clip which is contained within this ClipDrag object. */
@@ -49,12 +51,26 @@ void ClipDrag::setClip(DocClipBase *clip)
 /** Returns true if the mime type is decodable, false otherwise. */
 bool ClipDrag::canDecode(const QMimeSource *mime)
 {
+  if(mime->provides("application/x-kdenlive-clip")) return true;
+
+  return KURLDrag::canDecode(mime);
 }
 
 /** Attempts to decode the mimetype e as a clip. Returns true, or false. */
 bool ClipDrag::decode(const QMimeSource *e, DocClipBase &clip)
 {
+  KURL::List list;
+
+  if(e->provides("application/x-kdenlive-clip")) {
+  } else {
+         KURLDrag::decode(e, list);
+
+  }
+
+
+  return false;
 }
+
 /** Returns a QValueList containing the URL of the clip.
 
 This is necessary, because the KURLDrag class which ClipDrag inherits
@@ -63,6 +79,6 @@ KURL::List ClipDrag::createURLList(DocClipBase *clip)
 {
 	KURL::List list;
 	
- 	list.append(clip->avFile()->fileUrl());
+ 	list.append(clip->fileURL());
 	return list;
 }
