@@ -18,6 +18,12 @@
 #ifndef GENTIME_H
 #define GENTIME_H
 
+#ifndef _ISOC99_SOURCE
+#define _ISOC99_SOURCE
+#endif
+
+#include <cmath>
+
 /**Encapsulates a time, which can be set in various forms and outputted in various forms. 
   *@author Jason Wood
   */
@@ -88,6 +94,12 @@ public:
 	bool operator!=(GenTime op) const {
 		return m_time != op.seconds();
 	}
+
+  /* Rounds the GenTIme's value to the nearest frame */
+  GenTime &roundNearestFrame(double framesPerSecond) {
+    m_time = round(m_time * framesPerSecond) / framesPerSecond;
+    return *this;
+  }
 			
 	~GenTime();
 private: // Private attributes

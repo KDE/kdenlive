@@ -157,6 +157,8 @@ is not possible. */
   QDomDocument generateSceneList();
   /** Renders the current document timeline to the specified url. */
   void renderDocument(const KURL &url);
+  /** Returns true if we should snape values to frame. */
+  bool snapToFrame();
 
   private:
     /** the modified flag of the current document */

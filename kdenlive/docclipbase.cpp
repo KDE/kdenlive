@@ -21,6 +21,7 @@
 #include "docclipavfile.h"
 #include "docclipproject.h"
 #include "doctrackbase.h"
+#include "kdenlivedoc.h"
 
 DocClipBase::DocClipBase(KdenliveDoc *doc) :
 	m_trackStart(0.0),
@@ -43,6 +44,9 @@ const GenTime &DocClipBase::trackStart() const {
 void DocClipBase::setTrackStart(const GenTime time)
 {
 	m_trackStart = time;
+  if(m_doc->snapToFrame()) {
+    m_trackStart.roundNearestFrame(m_doc->framesPerSecond());
+  }  
 	
 	if(m_parentTrack) {
 		m_parentTrack->clipMoved(this);
@@ -77,8 +81,13 @@ const GenTime &DocClipBase::cropStartTime() const
 
 void DocClipBase::setTrackEnd(const GenTime &time)
 {
-	m_trackEnd = time;		
-	if(m_parentTrack) {
+	m_trackEnd = time;
+  
+  if(m_doc->snapToFrame()) {
+    m_trackEnd.roundNearestFrame(m_doc->framesPerSecond());
+  }
+  
+	if(m_parentTrack) {    
 		m_parentTrack->clipMoved(this);
 	}	
 }
@@ -187,7 +196,12 @@ DocTrackBase * DocClipBase::parentTrack()
 void DocClipBase::moveTrackStart(const GenTime &time)
 {	
 	m_trackEnd = m_trackEnd + time - m_trackStart;
-	m_trackStart = time;	
+	m_trackStart = time;
+
+  if(m_doc->snapToFrame()) {
+      m_trackEnd.roundNearestFrame(m_doc->framesPerSecond());
+      m_trackStart.roundNearestFrame(m_doc->framesPerSecond());
+  }
 }
 
 DocClipBase *DocClipBase::clone()

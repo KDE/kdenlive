@@ -103,8 +103,11 @@ void KRender::readData()
     
     QXmlInputSource source;
     source.setData(temp);
+    kdDebug() << "Parsing " << temp << endl;
     if(!m_xmlReader.parse(&source, false)) {
       kdWarning() << "Parse Failed on " << temp << endl;
+    } else {
+      kdDebug() << "Parse successfull" << endl;
     }
   }  
 }
@@ -340,7 +343,9 @@ bool KRender::topLevelStartElement(const QString & namespaceURI, const QString &
 			m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
 			m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;
 			return true;
-		}
+		} else if(command == "getCapabilities") {
+      return true;
+    }
 	} else if(localName == "pong") {
 		QString id = atts.value("id");
 		kdDebug() << "pong recieved : " << id << endl;

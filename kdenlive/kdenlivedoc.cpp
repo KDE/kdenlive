@@ -454,7 +454,9 @@ is not possible. */
 bool KdenliveDoc::moveSelectedClips(GenTime startOffset, int trackOffset)
 {
 	// For each track, check and make sure that the clips can be moved to their rightful place. If
-	// one cannot be moved, then none of them can be moved.
+	// one cannot be moved to a particular location, then none of them can be moved.
+  // We check for the closest position the track could possibly be moved to, and move it there instead.
+  
 	int destTrackNum;
 	DocTrackBase *srcTrack, *destTrack;
 	GenTime clipStartTime;
@@ -690,4 +692,10 @@ void KdenliveDoc::hasBeenModified()
 void KdenliveDoc::renderDocument(const KURL &url)
 {
 	m_render->render(url);
+}
+
+/** Returns true if we should snape values to frame. */
+bool KdenliveDoc::snapToFrame()
+{
+  return m_app->snapToFrameEnabled();
 }
