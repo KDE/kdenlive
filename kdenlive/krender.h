@@ -265,6 +265,10 @@ signals: // Signals
   void stopped();
   /** Emitted when the renderer starts playing. */
   void playing(double);
+  /** Emitted when the renderer is rendering. */
+  void rendering(const GenTime &);
+  /** Emitted when rendering has finished */
+  void renderFinished();
   /** Emitted when the current seek position has been changed by the renderer. */
   void positionChanged(const GenTime &);
   /** Emitted when file formats are updated. */

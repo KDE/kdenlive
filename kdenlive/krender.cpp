@@ -55,11 +55,11 @@ KRender::KRender(const QString &rendererName, KURL appPath, unsigned int port, Q
 	connect(&m_socket, SIGNAL(readyRead()), this, SLOT(readData()));
 
 	connect(&m_process, SIGNAL(processExited(KProcess *)), this, SLOT(processExited()));
-  connect(&m_process, SIGNAL(receivedStdout(KProcess *, char *, int)), this, SLOT(slotReadStdout(KProcess *, char *, int)));
-  connect(&m_process, SIGNAL(receivedStderr(KProcess *, char *, int)), this, SLOT(slotReadStderr(KProcess *, char *, int)));
+	connect(&m_process, SIGNAL(receivedStdout(KProcess *, char *, int)), this, SLOT(slotReadStdout(KProcess *, char *, int)));
+	connect(&m_process, SIGNAL(receivedStderr(KProcess *, char *, int)), this, SLOT(slotReadStderr(KProcess *, char *, int)));
 
 	m_portNum = port;
-  m_appPath = appPath;
+	m_appPath = appPath;
 }
 
 KRender::~KRender()
@@ -448,68 +448,70 @@ bool KRender::characters( const QString &ch )
 
 
 /** Called when the xml parser encounters an opening element and we are outside of a parsing loop. */
-bool KRender::topLevelStartElement(const QString & localName,
-									const QString & qName,
+bool KRender::topLevelStartElement(const QString & localName, const QString & qName,
 									const QXmlAttributes & atts)
 {
 	if(localName == "reply") {
-    QString status = atts.value("status");
-    if(!status.isNull()) {
-      if(status.lower() == "error") {
-        emit recievedInfo(m_name, "Reply recieved, status=\"error\"");
-        StackValue val;
-        val.element = "reply_error";
-        val.funcStartElement = &KRender::replyError_StartElement;
-        val.funcEndElement = 0;
-        m_parseStack.push(val);
-        return true;
-      }
-    }
+		QString status = atts.value("status");
+		if(!status.isNull()) {
+	 		if(status.lower() == "error") {
+				emit recievedInfo(m_name, "Reply recieved, status=\"error\"");
+				StackValue val;
+				val.element = "reply_error";
+				val.funcStartElement = &KRender::replyError_StartElement;
+				val.funcEndElement = 0;
+				m_parseStack.push(val);
+				return true;
+			}
+		}
 		QString command = atts.value("command");
 		if(command.isNull()) {
-      emit recievedInfo(m_name, "Reply recieved, no command specified");
+			emit recievedInfo(m_name, "Reply recieved, no command specified");
 			return false;
 		} else if(command == "createVideoXWindow") {
-      StackValue val;
-      val.element = "createVideoXWindow";
-      val.funcStartElement = &KRender::reply_createVideoXWindow_StartElement;
-      val.funcEndElement = 0;
-      m_parseStack.push(val);
+			StackValue val;
+			val.element = "createVideoXWindow";
+			val.funcStartElement = &KRender::reply_createVideoXWindow_StartElement;
+			val.funcEndElement = 0;
+			m_parseStack.push(val);
 			return true;
 		} else if(command == "getFileProperties") {
-      QString status = atts.value("status");
-      if(!status.isEmpty()) {
-        if(status.lower() == "error") {
-          pushStack("reply_error_getFileProperties",
-                        &KRender::replyError_StartElement,
-                        &KRender::replyError_GetFileProperties_EndElement);
-        }
-      }
+			QString status = atts.value("status");
+			if(!status.isEmpty()) {
+				if(status.lower() == "error") {
+					pushStack("reply_error_getFileProperties",
+							&KRender::replyError_StartElement,
+							&KRender::replyError_GetFileProperties_EndElement);
+				}
+			}
+		
 			QMap<QString, QString> map;
-
 			map["filename"] = atts.value("filename");
 			map["duration"] = atts.value("duration");
-
 			emit replyGetFileProperties(map);
-
-      pushIgnore();
+			pushIgnore();
 			return true;
 		} else if(command == "play") {
-      pushIgnore();
-      return true;
-    } else if(command == "seek") {
-      pushIgnore();
+			pushIgnore();
+			return true;
+		} else if(command == "seek") {
+			pushIgnore();
 			return true;
 		} else if(command == "render") {
-      pushIgnore();
+		       	if(status.lower() == "ok") {
+				emit renderFinished();
+				pushIgnore();
+				return true;
+			}
+			pushIgnore();
 			return true;
-    } else if(command == "setSceneList") {
-      pushIgnore();
-      return true;
-    } else {
-    	emit recievedInfo(m_name, "Unknown reply '" + command + "'");
-      return false;
-    }
+		} else if(command == "setSceneList") {
+			pushIgnore();
+			return true;
+		} else {
+			emit recievedInfo(m_name, "Unknown reply '" + command + "'");
+			return false;
+		}
 	} else if(localName == "pong") {
 		QString id = atts.value("id");
   	emit recievedInfo(m_name, "pong recieved : " + id);
@@ -522,33 +524,38 @@ bool KRender::topLevelStartElement(const QString & localName,
     m_seekPosition = time;
     emit positionChanged(time);
     return true;
-  } else if(localName == "render") {
-    QString tStr = atts.value("status");
-    pushIgnore();
-    if(tStr == "playing") {
-      emit playing(m_playSpeed);
-      return true;
-    } else if(tStr == "stopped") {
-		m_playSpeed = 0.0;
-      emit stopped();
-      return true;
-    }
-    emit recievedInfo(m_name, "Render command returned unknown status : '" + tStr + "'");
-    return false;
-  } else if(localName == "capabilities") {
-      m_effectList.clear();
-      m_fileFormats.clear();
-      m_codeclist.clear();
-      StackValue val;
-      val.element = "capabilities";
-      val.funcStartElement = &KRender::reply_getCapabilities_StartElement;
-      val.funcEndElement = 0;
-      m_parseStack.push(val);
-      return true;
-  }
+	} else if(localName == "render") {
+		QString tStr = atts.value("status");
+		pushIgnore();
+		if(tStr == "playing") {
+			emit playing(m_playSpeed);
+			return true;
+		} else if(tStr == "stopped") {
+			m_playSpeed = 0.0;
+			emit stopped();
+			return true;
+		}
+		emit recievedInfo(m_name, "Render command returned unknown status : '" + tStr + "'");
+		return false;
+	} else if(localName == "rendering") {
+		QString tStr = atts.value("time");
+		GenTime time(tStr.toDouble());
+		emit rendering(time);
+      		pushIgnore();
+		return true;
+	} else if(localName == "capabilities") {
+		m_effectList.clear();
+		m_fileFormats.clear();
+		m_codeclist.clear();
+		StackValue val;
+		val.element = "capabilities";
+		val.funcStartElement = &KRender::reply_getCapabilities_StartElement;
+		val.funcEndElement = 0;
+		m_parseStack.push(val);
+		return true;
+	}
 
 	emit recievedInfo(m_name, "Unknown tag '" + localName + "'");
-
 
 	return false;
 }
@@ -559,7 +566,7 @@ bool KRender::reply_getCapabilities_StartElement(const QString & localName,
   if(localName == "renderer") {
     setName(atts.value("name"));
     setVersion(atts.value("version"));
-    
+
     StackValue val;
     val.element = "renderer";
   	val.funcStartElement = &KRender::reply_capabilities_renderer_StartElement;
