@@ -55,7 +55,7 @@ void ProjectList::init_menu(){
 
 void ProjectList::slot_AddFile() {
 	// determine file types supported by Arts
-	QString filter = "*.avi";
+	QString filter = "*";
 
 	KURL::List urlList=KFileDialog::getOpenURLs(	QString::null,
 							filter,
