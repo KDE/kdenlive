@@ -26,6 +26,7 @@
 #include <kdebug.h>
 #include <kstyle.h>
 
+#include "rangelist.h"
 #include "kruler.h"
 #include "krulersliderbase.h"
 #include "krulermodel.h"
@@ -320,7 +321,7 @@ public:
 	int m_oldValue;
 	/** The draw list of invalidated rectangles; let's us know which bits of the back buffer need to be
 	redrawn */
-	QValueList<int> m_bufferDrawList;	
+	RangeList<int> m_bufferDrawList;
 };
 
  
@@ -407,11 +408,14 @@ KRuler::~KRuler()
 }
 
 void KRuler::paintEvent(QPaintEvent *event) {
-	while(!d->m_bufferDrawList.isEmpty()) {
-		drawToBackBuffer(d->m_bufferDrawList[0], d->m_bufferDrawList[1]);
-		d->m_bufferDrawList.pop_front();
-		d->m_bufferDrawList.pop_front();		
+	RangeListIterator<int> itt(d->m_bufferDrawList);
+	
+	while(!itt.finished()) {
+		drawToBackBuffer(itt.start(), itt.end());
+		++itt;
 	}
+	d->m_bufferDrawList.clear();
+	
 	QPainter painter(this);	
       	
 	painter.drawPixmap(event->rect().x(), event->rect().y(),
@@ -477,6 +481,8 @@ void KRuler::setValueScale(double size){
 void KRuler::resizeEvent(QResizeEvent *event)
 {
 	m_backBuffer.resize(width(), height());
+	d->m_bufferDrawList.setFullRange(0, width());
+
 	invalidateBackBuffer(0, width());
 		
 	emit resized();
@@ -790,68 +796,6 @@ void KRuler::drawToBackBuffer(int start, int end)
 
 void KRuler::invalidateBackBuffer(int start, int end)
 {
-	if(start == end) return;
-	if(start > end) {
-		int temp = start;
-		start = end;
-		end = temp;		
-	}
-
-	if(start >= width()) return;
-	if(end <= 0) return;
-		
-	if(start < 0) start = 0;
-	if(end > width()) end = width();
-
-	int cs, ce, count;
-	int ns, ne;
-
-	if(d->m_bufferDrawList.isEmpty()) {
-		d->m_bufferDrawList.push_back(start);
-		d->m_bufferDrawList.push_back(end);
-		update();
-		return;
-	}
-	
-	// search for the correct place in the list, or a pair that overlaps.	
-	for(count=0; count<d->m_bufferDrawList.count(); count+=2) {
-		cs = d->m_bufferDrawList[count];
-		ce = d->m_bufferDrawList[count+1];
-
-		if(end <= cs) {
-			d->m_bufferDrawList.insert(d->m_bufferDrawList.at(count), end);
-			d->m_bufferDrawList.insert(d->m_bufferDrawList.at(count), start);
-			break;
-		}
-		if((start <= ce) && (end >= cs)) {
-			d->m_bufferDrawList[count] = (start < cs) ? start : cs;
-			d->m_bufferDrawList[count+1] = (end > ce) ? end : ce;
-			break;
-		}
-	}
-
-	if(count == d->m_bufferDrawList.count()) {
-		d->m_bufferDrawList.push_back(start);
-		d->m_bufferDrawList.push_back(end);
-	} else {
-		// Check the remaining paris don't overlap.
-
-		while(count+2 < d->m_bufferDrawList.count()) {
-			cs = d->m_bufferDrawList[count];
-			ce = d->m_bufferDrawList[count+1];		
-			ns = d->m_bufferDrawList[count+2];
-			ne = d->m_bufferDrawList[count+3];			
-
-			if((cs <=ne ) && (ns <= ce)) {
-				d->m_bufferDrawList[count] = (cs < ns) ? cs : ns;
-				d->m_bufferDrawList[count+1] = (ce > ne) ? ce : ne;
-				d->m_bufferDrawList.remove(d->m_bufferDrawList.at(count+3));
-				d->m_bufferDrawList.remove(d->m_bufferDrawList.at(count+2));
-			} else {
-				break;
-			}
-		}	
-	}
-	
+	d->m_bufferDrawList.addRange(start, end);
 	update();
 }
