@@ -151,6 +151,8 @@ not exist. */
   /** Moves the currectly selected clips by the offsets specified, or returns false if this
 is not possible. */
   bool moveSelectedClips(GenTime startOffset, int trackOffset);
+  /** Returns a scene list generated from the current document. */
+  QDomDocument generateSceneList();
 
   private:
     /** the modified flag of the current document */
