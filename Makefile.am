@@ -8,6 +8,7 @@ EXTRA_DIST = kdenlive.kdevprj admin AUTHORS COPYING ChangeLog INSTALL README TOD
 # not a GNU package. You can remove this line, if 
 # have all needed files, that a GNU package needs
 AUTOMAKE_OPTIONS = foreign 
+POFILES=AUTO
 
 $(top_srcdir)/configure.in: configure.in.in $(top_srcdir)/subdirs
 	cd $(top_srcdir) && $(MAKE) -f admin/Makefile.common configure.in ;
@@ -20,10 +21,16 @@ $(top_srcdir)/acinclude.m4: $(top_srcdir)/admin/acinclude.m4.in $(top_srcdir)/ad
 
 MAINTAINERCLEANFILES = subdirs configure.in acinclude.m4 configure.files 
 
-package-messages:
-	$(MAKE) -f admin/Makefile.common package-messages
-	$(MAKE) -C po merge
+# Create kdenlive.pot file
+# messages: 
+#	$(XGETTEXT) kdenlive/*.cpp -L C++    -o po/kdenlive.pot
+#	$(XGETTEXT) kdenlive/*.ui  -L C++ -j -o po/kdenlive.pot
 
+# Update .po language files
+package-messages:
+	$(MAKE) -C po merge
+	
 dist-hook:
 	cd $(top_distdir) && perl admin/am_edit -padmin
 	cd $(top_distdir) && $(MAKE) -f admin/Makefile.common subdirs
+
