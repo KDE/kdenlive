@@ -25,10 +25,6 @@
 #include "doctrackvideo.h"
 #include "kmmtrackpanel.h"
 
-namespace Command {
-	class KResizeCommand;
-}
-
 /**KMMTrackVideoPanel contains useful controls for manipulating the video tracks
 which reside in the main video widget
   *@author Jason Wood
@@ -41,28 +37,11 @@ public:
 	~KMMTrackVideoPanel();
   /** Paint the specified clip on screen within the specified rectangle, using the specified painter. */
   void paintClip(QPainter &painter, DocClipBase *clip, QRect &rect, bool selected);
-  /** A mouse press event has occured. Perform relevant mouse operations. Return true if we are going to be watching
-			for other mouse press events */
-  bool mousePressed(QMouseEvent *event);
-  /** A mouse button has been released. Returns true if we have finished whatever
-  		operation we were performing, false otherwise. */
-	bool mouseReleased(QMouseEvent *event);
-  /** Set the cursor to an appropriate shape, relative to the position on the track. */
-  QCursor getMouseCursor(QMouseEvent *event);
-  /** The mouse has been moved (whilst we are "dragging") on this track. Performs any
-  operations that should be performed. */
-  bool mouseMoved(QMouseEvent *event);
 private:
   QHBox m_horzLayout;
 	QLabel m_trackLabel;
-  /** During a resize operation, holds the current resize state, as defined in the ResizeState enum. */
-  ResizeState m_resizeState;	
-  /** The clip that is under the mouse at present */
-  DocClipBase * m_clipUnderMouse;  
   /** True if we are inside a dragging operation, false otherwise. */
-  bool m_dragging;;  
-  /** This command holds the resize information during a resize operation */
-  Command::KResizeCommand * m_resizeCommand;
+  bool m_dragging;
 };
 
 #endif

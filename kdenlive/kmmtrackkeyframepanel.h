@@ -39,14 +39,6 @@ public:
 	~KMMTrackKeyFramePanel();
   /** This function will paint a clip on screen, using the specified painter and the given coordinates as to where the clip should be painted. */
   void paintClip(QPainter & painter, DocClipBase * clip, QRect & rect, bool selected);
-  /** No descriptions */
-  QCursor getMouseCursor(QMouseEvent *event);
-  /** No descriptions */
-  bool mouseReleased(QMouseEvent *event);
-  /** No descriptions */
-  bool mousePressed(QMouseEvent *event);
-  /** No descriptions */
-  bool mouseMoved(QMouseEvent *event);
 private:
   /** During a resize operation, holds the current resize state, as defined in the ResizeState enum. */
   ResizeState m_resizeState;

@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include <qsizepolicy.h>
- 
+
 #include "kmmtracksoundpanel.h"
 #include "kmmtimeline.h"
 
@@ -25,7 +25,7 @@ KMMTrackSoundPanel::KMMTrackSoundPanel(KMMTimeLine *timeline, DocTrackSound *doc
 												m_trackLabel(this, "Sound Track")
 {
 	setMinimumHeight(20);
-	setMaximumHeight(20);	
+	setMaximumHeight(20);
 }
 
 KMMTrackSoundPanel::~KMMTrackSoundPanel()
@@ -54,28 +54,4 @@ void KMMTrackSoundPanel::paintClip(QPainter & painter, DocClipBase * clip, QRect
 										col);
 	painter.drawRect( sx, rect.y(),
 										ex, rect.height());
-}
-
-/** No descriptions */
-bool KMMTrackSoundPanel::mouseMoved(QMouseEvent *event)
-{
-	return true;
-}
-
-/** No descriptions */
-bool KMMTrackSoundPanel::mousePressed(QMouseEvent *event)
-{
-	return true;
-}
-
-/** No descriptions */
-bool KMMTrackSoundPanel::mouseReleased(QMouseEvent *event)
-{
-	return true;
-}
-
-/** No descriptions */
-QCursor KMMTrackSoundPanel::getMouseCursor(QMouseEvent *event)
-{
-	return QCursor(Qt::ArrowCursor);
 }

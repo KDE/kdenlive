@@ -18,16 +18,18 @@
 #include "kmmtrackpanel.h"
 #include "kmmtimeline.h"
 #include "kdenlivedoc.h"
+#include "trackpanelfunction.h"
 
 #include <kdebug.h>
 #include <iostream>
 
-int KMMTrackPanel::resizeTolerance = 4;
-
-KMMTrackPanel::KMMTrackPanel(KMMTimeLine *timeline, DocTrackBase * docTrack, QWidget *parent, const char *name) :
-					        			QHBox(parent,name),
-												m_docTrack(docTrack),
-												m_timeline(timeline)
+KMMTrackPanel::KMMTrackPanel(KMMTimeLine *timeline,
+       			DocTrackBase * docTrack,
+		       	QWidget *parent,
+		       	const char *name) :
+					QHBox(parent,name),
+					m_docTrack(docTrack),
+					m_timeline(timeline)
 {
   setMinimumWidth(200);
   setMaximumWidth(200);
@@ -78,4 +80,77 @@ void KMMTrackPanel::drawToBackBuffer(QPainter &painter, QRect &rect)
 	if(value >= rect.x() && value <= rect.x()+rect.width()) {
 		painter.drawLine(value, rect.y(), value, rect.y() + rect.height());
 	}
+}
+
+bool KMMTrackPanel::mousePressed(QMouseEvent *event)
+{
+	bool result = false;
+
+	m_function = getApplicableFunction(m_timeline->editMode(), event);
+	if(m_function) result = m_function->mousePressed(event);
+
+	if(!result) m_function = 0;
+
+	return result;
+}
+
+bool KMMTrackPanel::mouseReleased(QMouseEvent *event)
+{
+	bool result = false;
+
+	if(m_function)
+	{
+		result = m_function->mouseReleased(event);
+		m_function = 0;
+	}
+
+	return result;
+}
+
+bool KMMTrackPanel::mouseMoved(QMouseEvent *event)
+{
+	bool result = false;
+
+	if(m_function) result = m_function->mouseMoved(event);
+
+	if(!result) m_function = 0;
+
+	return result;
+}
+
+QCursor KMMTrackPanel::getMouseCursor(QMouseEvent *event)
+{
+	QCursor result(Qt::ArrowCursor);
+
+	TrackPanelFunction *function = getApplicableFunction(m_timeline->editMode(), event);
+	if(function) result = function->getMouseCursor(event);
+
+	return result;
+}
+
+TrackPanelFunction *KMMTrackPanel::getApplicableFunction(KdenliveApp::TimelineEditMode mode, 
+								QMouseEvent *event)
+{
+	TrackPanelFunction *result = 0;
+
+	QPtrListIterator<TrackPanelFunction> itt(m_trackPanelFunctions[mode]);
+
+	while(itt.current() != 0) {
+		if(itt.current()->mouseApplies(event)) {
+			result = itt.current();
+			break;
+		}
+		++itt;
+	}
+
+	return result;
+}
+
+void KMMTrackPanel::addFunctionDecorator(KdenliveApp::TimelineEditMode mode, TrackPanelFunction *function)
+{
+	// Make sure that every mode added to the map is set to Auto Delete - setting multiple times
+	// will not cause an issue, but failing to set it will cause memory leaks.
+  	m_trackPanelFunctions[mode].setAutoDelete(true);
+
+	m_trackPanelFunctions[mode].append(function);
 }
