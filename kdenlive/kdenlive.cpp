@@ -57,10 +57,13 @@
 #include "kdenlive.h"
 #include "kdenlivedoc.h"
 #include "kdenlivesetupdlg.h"
-#include "kdenliveview.h"
 #include "kprogress.h"
+#include "kmmrulerpanel.h"
 #include "krendermanager.h"
 #include "krulertimemodel.h"
+#include "kmmtimeline.h"
+#include "projectlist.h"
+#include "renderdebugpanel.h"
 
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
@@ -97,6 +100,7 @@ KdenliveApp::KdenliveApp(QWidget* , const char* name):
   timelineMoveTool->setChecked(true);
   timelineSnapToBorder->setChecked(true);
   timelineSnapToFrame->setChecked(true);
+  timelineSnapToMarker->setChecked(true);
 }
 
 KdenliveApp::~KdenliveApp()
@@ -127,8 +131,12 @@ void KdenliveApp::initActions()
 	timelineMoveTool = new KRadioAction(i18n("Move/Resize Tool"), "moveresize.png", KShortcut(Qt::Key_Q), this, SLOT(slotTimelineMoveTool()), actionCollection(),"timeline_move_tool");
 	timelineRazorTool = new KRadioAction(i18n("Razor Tool"), "razor.png", KShortcut(Qt::Key_W), this, SLOT(slotTimelineRazorTool()), actionCollection(),"timeline_razor_tool");
 	timelineSpacerTool = new KRadioAction(i18n("Spacing Tool"), "spacer.png", KShortcut(Qt::Key_E), this, SLOT(slotTimelineSpacerTool()), actionCollection(),"timeline_spacer_tool");
+	timelineMarkerTool = new KRadioAction(i18n("Marker Tool"), "marker.png", KShortcut(Qt::Key_R), this, SLOT(slotTimelineMarkerTool()), actionCollection(),"timeline_marker_tool");
+
+
 	timelineSnapToFrame = new KToggleAction(i18n("Snap To Frames"), "snaptoframe.png", 0, this, SLOT(slotTimelineSnapToFrame()), actionCollection(),"timeline_snap_frame");
 	timelineSnapToBorder = new KToggleAction(i18n("Snap To Border"), "snaptoborder.png", 0, this, SLOT(slotTimelineSnapToBorder()), actionCollection(),"timeline_snap_border");
+	timelineSnapToMarker = new KToggleAction(i18n("Snap To Marker"), "snaptomarker.png", 0, this, SLOT(slotTimelineSnapToMarker()), actionCollection(),"timeline_snap_marker");
 
 	projectAddClips = new KToggleAction(i18n("Add Clips"), "addclips.png", 0, this, SLOT(slotProjectAddClips()), actionCollection(), "project_add_clip");
 	projectDeleteClips = new KToggleAction(i18n("Delete Clips"), "deleteclips.png", 0, this, SLOT(slotProjectDeleteClips()), actionCollection(), "project_delete_clip");
@@ -159,6 +167,7 @@ void KdenliveApp::initActions()
 	timelineMoveTool->setExclusiveGroup("timeline_tools");
 	timelineRazorTool->setExclusiveGroup("timeline_tools");
 	timelineSpacerTool->setExclusiveGroup("timeline_tools");
+	timelineMarkerTool->setExclusiveGroup("timeline_tools");
 
 	fileNew->setStatusText(i18n("Creates a new document"));
 	fileOpen->setStatusText(i18n("Opens an existing document"));
@@ -176,8 +185,10 @@ void KdenliveApp::initActions()
 	timelineMoveTool->setStatusText(i18n("Moves and resizes the document"));
 	timelineRazorTool->setStatusText(i18n("Chops clips into two pieces"));
 	timelineSpacerTool->setStatusText(i18n("Shifts all clips to the right of mouse"));
+	timelineMarkerTool->setStatusText(i18n("Place snap marks on clips and the timeline to aid accurate positioning of clips"));
 	timelineSnapToFrame->setStatusText(i18n("Clips will align to the nearest frame"));
 	timelineSnapToBorder->setStatusText(i18n("Clips will align with the borders of other clips"));
+	timelineSnapToMarker->setStatusText(i18n("Clips will align with user-defined snap markers"));
 	projectAddClips->setStatusText(i18n("Add clips to the project"));
 	projectDeleteClips->setStatusText(i18n("Remove clips from the project"));
 	projectClean->setStatusText(i18n("Remove unused clips from the project"));
@@ -228,8 +239,7 @@ void KdenliveApp::initView()
 	// create the main widget here that is managed by KTMainWindow's view-region and
 	// connect the widget to your document to display document contents.
 
-	view = new KdenliveView(this);
-	doc->addView(view);
+	view = new QWidget(this);
 	KDockWidget *mainDock = createDockWidget(i18n("Application"), QPixmap(), this, i18n("Application"));
 	mainDock->setWidget(view);
 	mainDock->setDockSite(KDockWidget::DockFullSite);
@@ -242,9 +252,9 @@ void KdenliveApp::initView()
 	KDockWidget *widget = createDockWidget(i18n("TimeLine"), QPixmap(), 0, i18n("TimeLine"));
 	m_timeline = new KMMTimeLine(this, m_rulerPanel, NULL, getDocument(), widget);
 	widget->setWidget(m_timeline);
-	widget->setDockSite(KDockWidget::DockFullSite);  
+	widget->setDockSite(KDockWidget::DockFullSite);
 	widget->setDockSite(KDockWidget::DockCorner);
-	widget->manualDock(mainDock, KDockWidget::DockBottom);    
+	widget->manualDock(mainDock, KDockWidget::DockBottom);
 
 	KDockWidget *projectDock = createDockWidget("project list", QPixmap(), 0, i18n("project list"));
 	m_projectList = new ProjectList(this, getDocument(), projectDock);
@@ -724,25 +734,31 @@ void KdenliveApp::documentModified(bool modified)
   	setCaption(doc->URL().fileName(),modified);
 }
 
-/** Called whenever snapToBorder is toggled. */
 void KdenliveApp::slotTimelineSnapToBorder()
 {
 }
 
-/** Called whenever snaptoframe action is toggled. */
-void KdenliveApp::slotTimelineSnapToFrame(){
-}
-
-/** Returns true if snapToFrame is enabled, false otherwise */
-bool KdenliveApp::snapToFrameEnabled()
+void KdenliveApp::slotTimelineSnapToFrame()
 {
-	return timelineSnapToFrame->isChecked();	
 }
 
-/** Returns true if snapToBorder is checked, false otherwise */
-bool KdenliveApp::snapToBorderEnabled()
+void KdenliveApp::slotTimelineSnapToMarker()
+{
+}
+
+bool KdenliveApp::snapToFrameEnabled() const
+{
+	return timelineSnapToFrame->isChecked();
+}
+
+bool KdenliveApp::snapToBorderEnabled() const
 {
 	return timelineSnapToBorder->isChecked();
+}
+
+bool KdenliveApp::snapToMarkersEnabled() const
+{
+	return timelineSnapToMarker->isChecked();
 }
 
 /** Adds a command to the command history, execute it if execute is true. */
@@ -767,6 +783,12 @@ void KdenliveApp::slotTimelineRazorTool()
 void KdenliveApp::slotTimelineSpacerTool()
 {
   statusBar()->changeItem(i18n("Separate tool"), ID_EDITMODE_MSG);
+}
+
+/** Called when the spacer tool action is selected */
+void KdenliveApp::slotTimelineMarkerTool()
+{
+  statusBar()->changeItem(i18n("Marker tool"), ID_EDITMODE_MSG);
 }
 
 /** Called when the user activates the "Export Timeline" action */
@@ -804,6 +826,7 @@ KdenliveApp::TimelineEditMode KdenliveApp::timelineEditMode()
 	if(timelineMoveTool->isChecked()) return Move;
 	if(timelineRazorTool->isChecked()) return Razor;
 	if(timelineSpacerTool->isChecked()) return Spacer;
+	if(timelineMarkerTool->isChecked()) return Marker;
 
 	// fallback in case something is wrong.
 	kdWarning() << "No timeline tool enabled, returning default" << endl;

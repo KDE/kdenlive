@@ -37,7 +37,6 @@
 
 // forward declaration of the Kdenlive classes
 class KdenliveDoc;
-class KdenliveView;
 class KCommandHistory;
 class KCommand;
 class KProgress;
@@ -71,11 +70,9 @@ class KdenliveApp : public KDockMainWindow
 {
 		Q_OBJECT
 
-		friend class KdenliveView;
-
 	public:
 		/** The various editing modes that the timeline is capable of */
-		enum TimelineEditMode {Move, Razor, Spacer};
+		enum TimelineEditMode {Move, Razor, Spacer, Marker};
 
 		/** construtor of KdenliveApp, calls all init functions to create the application.
 		  */
@@ -89,9 +86,11 @@ class KdenliveApp : public KDockMainWindow
 		 */
 		KdenliveDoc *getDocument() const;
 		/** Returns true if snapToFrame is enabled, false otherwise */
-		bool snapToFrameEnabled();
+		bool snapToFrameEnabled() const;
 		/** Returns true if snapToBorder is checked, false otherwise */
-		bool snapToBorderEnabled();
+		bool snapToBorderEnabled() const;
+		/** Returns true if snapToMarker is enabled, false otherwise */
+		bool snapToMarkersEnabled() const;
 		/** Adds a command to the command history, execute it if execute is true. */
 		void addCommand( KCommand *command, bool execute = true );
 
@@ -194,12 +193,16 @@ class KdenliveApp : public KDockMainWindow
 		void slotTimelineSnapToFrame();
 		/** Called whenever snapToBorder is toggled. */
 		void slotTimelineSnapToBorder();
+		/** Called whenever snapToMarker is toggled. */
+		void slotTimelineSnapToMarker();
 		/** Called when the spacer tool action is selected */
 		void slotTimelineSpacerTool();
 		/** Called when the razor tool action is selected */
 		void slotTimelineRazorTool();
 		/** Called when the move tool is selected */
 		void slotTimelineMoveTool();
+		/** Called when the marker tool is selected */
+		void slotTimelineMarkerTool();
 		/** Called when the user activates the "Export Timeline" action */
 		void slotRenderExportTimeline();
 		/** Called when the user activates the "Configure Project" action */
@@ -269,12 +272,8 @@ class KdenliveApp : public KDockMainWindow
 	private:
 		/** the configuration object of the application */
 		KConfig *config;
-		/** view is the main widget which represents your working area. The View
-		 * class should handle all events of the view widget.  It is kept empty so
-		 * you can create your view according to your application's needs by
-		 * changing the view class.
-		 */
-		KdenliveView *view;
+		/** The "view" is the base widget for the entire application. */
+		QWidget *view;
 		/** doc represents your actual document and is created only once. It keeps
 		 * information such as filename and does the serialization of your files.
 		 */
@@ -324,9 +323,11 @@ class KdenliveApp : public KDockMainWindow
 		KRadioAction* timelineMoveTool;
 		KRadioAction* timelineRazorTool;
 		KRadioAction* timelineSpacerTool;
+		KRadioAction* timelineMarkerTool;
 
 		KToggleAction* timelineSnapToFrame;
 		KToggleAction* timelineSnapToBorder;
+		KToggleAction* timelineSnapToMarker;
 
 		KAction* renderExportTimeline;
 		KAction* configureProject;

@@ -1,8 +1,8 @@
 /***************************************************************************
-                          kmmtracksoundpanel.h  -  description
+                          trackviewnamedecorator  -  description
                              -------------------
-    begin                : Tue Apr 9 2002
-    copyright            : (C) 2002 by Jason Wood
+    begin                : Fri Nov 28 2003
+    copyright            : (C) 2003 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
 
@@ -14,37 +14,27 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#ifndef TRACKVIEWNAMEDECORATOR_H
+#define TRACKVIEWNAMEDECORATOR_H
 
-#ifndef KMMTRACKSOUNDPANEL_H
-#define KMMTRACKSOUNDPANEL_H
+#include <trackviewdecorator.h>
 
-#include <qwidget.h>
-#include <qlabel.h>
+/**
+A decorator that adds the name of the clip to the clip itself.
 
-#include "doctracksound.h"
-#include "kmmtrackpanel.h"
-
-class KdenliveDoc;
-
-/**KMMTrackSoundPanel is the Track panel for sound files.
-It contains several functions that can be used to manipulate
-the main sound widget in different ways.
-  *@author Jason Wood
-  */
-
-class KMMTrackSoundPanel : public KMMTrackPanel  {
-   Q_OBJECT
+@author Jason Wood
+*/
+class TrackViewNameDecorator : public TrackViewDecorator
+{
 public:
-	KMMTrackSoundPanel(KMMTimeLine *timeline, 
-				KdenliveDoc *document,
-				DocTrackSound *docTrack, 
-				QWidget *parent=0, 
-				const char *name=0);
-	~KMMTrackSoundPanel();
+    TrackViewNameDecorator(KMMTimeLine* timeline, 
+    			KdenliveDoc* doc, 
+    			DocTrackBase* track);
 
-private: // Public attributes
-  /**  */
-  QLabel m_trackLabel;
+    virtual ~TrackViewNameDecorator();
+
+    virtual void paintClip(QPainter& painter, DocClipRef* clip, QRect& rect, bool selected);
+
 };
 
 #endif

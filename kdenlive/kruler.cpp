@@ -333,7 +333,7 @@ public:
 	RangeList<int> m_bufferDrawList;
 };
 
- 
+
 KRuler::KRuler(int min, int max, double scale, KRulerModel *model, QWidget *parent, const char *name) :
 						QWidget(parent, name),
 						m_sizeHint(500, 32),
@@ -346,24 +346,11 @@ KRuler::KRuler(int min, int max, double scale, KRulerModel *model, QWidget *pare
 						m_scrollTimer(this, "scroll timer")
 {
 	setRulerModel(model);
-	
+
 	setValueScale(scale);
-	setStartPixel(0);
 	setRange(min, max);
 
-	setMinimumHeight(32);
-	setMinimumWidth(32);
-	setMaximumHeight(32);
-	setMouseTracking(true);
-
-	setSizePolicy(QSizePolicy (QSizePolicy::Expanding, QSizePolicy::Fixed, FALSE));
-
-	invalidateBackBuffer();
-
- // we draw everything ourselves, no need to draw background.
-	setBackgroundMode(Qt::NoBackground);
-
-	connect(&m_scrollTimer, SIGNAL(timeout()), this, SLOT(slotTimerScrollEvent()));
+	doCommonCtor();
 }
 
 KRuler::KRuler(KRulerModel *model, QWidget *parent, const char *name ) :
@@ -378,24 +365,11 @@ KRuler::KRuler(KRulerModel *model, QWidget *parent, const char *name ) :
 						m_scrollTimer(this, "scroll timer")
 {
 	setRulerModel(model);
-	
+
 	setValueScale(1);
-	setStartPixel(0);
 	setRange(0, 100);
 
-	setMinimumHeight(32);
-	setMinimumWidth(32);
-	setMaximumHeight(32);
-	setMouseTracking(true);
-
-
-	setSizePolicy(QSizePolicy (QSizePolicy::Expanding, QSizePolicy::Fixed, FALSE));
-
- // we draw everything ourselves, no need to draw background.
-	setBackgroundMode(Qt::NoBackground);
-
-	invalidateBackBuffer();
-	connect(&m_scrollTimer, SIGNAL(timeout()), this, SLOT(slotTimerScrollEvent()));
+	doCommonCtor();
 }
 
 KRuler::KRuler(QWidget *parent, const char *name ) :
@@ -408,24 +382,31 @@ KRuler::KRuler(QWidget *parent, const char *name ) :
 						m_minValue(0),
 						m_maxValue(0),
 						m_scrollTimer(this, "scroll timer")
-{	
+{
 	setRulerModel(0);
 
 	setValueScale(1);
-	setStartPixel(0);
 	setRange(0, 100);
 
-	setMinimumHeight(32);
+	doCommonCtor();
+}
+
+void KRuler::doCommonCtor()
+{
+	setStartPixel(0);
+
+	setMinimumHeight(16);
 	setMinimumWidth(32);
 	setMaximumHeight(32);
 	setMouseTracking(true);
 
-	setSizePolicy(QSizePolicy (QSizePolicy::Expanding, QSizePolicy::Fixed, FALSE));
-	
-	// we draw everything ourselves, no need to draw background. 
+	setSizePolicy(QSizePolicy (QSizePolicy::Expanding, QSizePolicy::Expanding, FALSE));
+
+	invalidateBackBuffer();
+
+ // we draw everything ourselves, no need to draw background.
 	setBackgroundMode(Qt::NoBackground);
 
-	m_autoClickSlider = -1;
 	connect(&m_scrollTimer, SIGNAL(timeout()), this, SLOT(slotTimerScrollEvent()));
 }
 
@@ -437,7 +418,7 @@ KRuler::~KRuler()
 
 void KRuler::paintEvent(QPaintEvent *event) {
 	RangeListIterator<int> itt(d->m_bufferDrawList);
-	
+
 	while(!itt.finished()) {
 		drawToBackBuffer(itt.start(), itt.end());
 		++itt;
@@ -454,14 +435,19 @@ void KRuler::paintEvent(QPaintEvent *event) {
 
 inline void KRuler::drawSmallTick(QPainter &painter, int pixel)
 {
-	painter.drawLine(pixel, 0, pixel, 4);
-	painter.drawLine(pixel, 28, pixel, 32);
+	int lineHeight = height()/8;
+	if(lineHeight==0) lineHeight = 1;
+	painter.drawLine(pixel, 0, pixel, lineHeight);
+	painter.drawLine(pixel, height()-lineHeight, pixel, height());
 }
 
 inline void KRuler::drawBigTick(QPainter &painter, int pixel)
 {
-	painter.drawLine(pixel, 0, pixel, 8);
-	painter.drawLine(pixel, 24, pixel, 32);
+	int lineHeight = height()/4;
+	if(lineHeight < 2) lineHeight = 2;
+
+	painter.drawLine(pixel, 0, pixel, lineHeight);
+	painter.drawLine(pixel, height()-lineHeight, pixel,height());
 }
 
 QSize KRuler::sizeHint() {
@@ -821,7 +807,7 @@ void KRuler::drawToBackBuffer(int start, int end)
 	pixelIncrement = m_xValueSize * m_textEvery;
 
 	while(value <= ((m_leftMostPixel + ex) / m_xValueSize) + m_textEvery) {
-		painter.drawText((int)pixel-50, 0, 100, 32, AlignCenter, m_rulerModel->mapValueToText(value));
+		painter.drawText((int)pixel-50, 0, 100, height(), AlignCenter, m_rulerModel->mapValueToText(value));
 		value += m_textEvery;
 		pixel += pixelIncrement;
 	}

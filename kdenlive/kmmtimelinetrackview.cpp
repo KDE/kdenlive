@@ -20,18 +20,21 @@
 
 #include <qpainter.h>
 #include <qcursor.h>
+#include <qpopupmenu.h>
 
 #include <kdebug.h>
 
+#include "kdenlive.h"
 #include "kmmtimelinetrackview.h"
 #include "kmmtimeline.h"
 #include "kmmtrackpanel.h"
 
-KMMTimeLineTrackView::KMMTimeLineTrackView(KMMTimeLine &timeLine, QWidget *parent, const char *name) :
+KMMTimeLineTrackView::KMMTimeLineTrackView(KMMTimeLine &timeLine, KdenliveApp *app, QWidget *parent, const char *name) :
 						QWidget(parent, name),
 						m_timeline(timeLine),
 						m_trackBaseNum(-1),
-						m_panelUnderMouse(0)
+						m_panelUnderMouse(0),
+						m_app(app)
 {
 	// we draw everything ourselves, no need to draw background.
 	setBackgroundMode(Qt::NoBackground);
@@ -55,7 +58,7 @@ void KMMTimeLineTrackView::paintEvent(QPaintEvent *event)
 		drawBackBuffer();
 		m_bufferInvalid = false;
 	}
-	
+
 	QPainter painter(this);
 
 	painter.drawPixmap(event->rect().x(), event->rect().y(),
@@ -84,15 +87,22 @@ void KMMTimeLineTrackView::drawBackBuffer()
 /** This event occurs when a mouse button is pressed. */
 void KMMTimeLineTrackView::mousePressEvent(QMouseEvent *event)
 {
-	KMMTrackPanel *panel = panelAt(event->y());
-	if(m_panelUnderMouse != 0)
-	{
-		kdWarning() << "Error - mouse Press Event with panel already under mouse" << endl;
-	}
+	if(event->button() == RightButton) {
+		QPopupMenu *menu = (QPopupMenu *)m_app->factory()->container("timeline_context", m_app);
+		if(menu) {
+			menu->popup(QCursor::pos());
+		}
+	} else {
+		KMMTrackPanel *panel = panelAt(event->y());
+		if(m_panelUnderMouse != 0)
+		{
+			kdWarning() << "Error - mouse Press Event with panel already under mouse" << endl;
+		}
 
-	if(panel) {
-	 	if(event->button() == LeftButton) {
-			if(panel->mousePressed(event)) m_panelUnderMouse = panel;
+		if(panel) {
+	 		if(event->button() == LeftButton) {
+				if(panel->mousePressed(event)) m_panelUnderMouse = panel;
+			}
 		}
 	}
 }

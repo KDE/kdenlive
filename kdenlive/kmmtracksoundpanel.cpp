@@ -20,6 +20,9 @@
 #include "kmmtracksoundpanel.h"
 #include "kmmtimeline.h"
 
+#include "trackviewbackgrounddecorator.h"
+#include "trackviewnamedecorator.h"
+
 KMMTrackSoundPanel::KMMTrackSoundPanel(KMMTimeLine *timeline, 
 					KdenliveDoc *document,
 					DocTrackSound *docTrack, 
@@ -30,14 +33,16 @@ KMMTrackSoundPanel::KMMTrackSoundPanel(KMMTimeLine *timeline,
 {
 	setMinimumHeight(20);
 	setMaximumHeight(20);
+
+	addViewDecorator(new TrackViewBackgroundDecorator(timeline, document, docTrack, QColor(64, 128, 64), QColor(128, 255, 128)));
+	addViewDecorator(new TrackViewNameDecorator(timeline, document, docTrack));
 }
 
 KMMTrackSoundPanel::~KMMTrackSoundPanel()
 {
 }
 
-/** This function will paint a clip on screen, using the specified painter and the given coordinates as to
-	where the clip should be painted. */
+/*
 void KMMTrackSoundPanel::paintClip(QPainter & painter, DocClipRef * clip, QRect &rect, bool selected)
 {
 	int sx = (int)timeLine()->mapValueToLocal(clip->trackStart().frames(25));
@@ -59,3 +64,4 @@ void KMMTrackSoundPanel::paintClip(QPainter & painter, DocClipRef * clip, QRect 
 	painter.drawRect( sx, rect.y(),
 										ex, rect.height());
 }
+*/

@@ -22,8 +22,9 @@
 #include <qpixmap.h>
 #include "gentime.h"
 
-class KMMTimeLine;
 class DocClipBase;
+class KdenliveApp;
+class KMMTimeLine;
 class KMMTrackPanel;
 
 /**Timeline track view area.
@@ -33,7 +34,7 @@ class KMMTrackPanel;
 class KMMTimeLineTrackView : public QWidget  {
    Q_OBJECT
 public:
-	KMMTimeLineTrackView(KMMTimeLine &timeLine, QWidget *parent=0, const char *name=0);
+	KMMTimeLineTrackView(KMMTimeLine &timeLine, KdenliveApp *app, QWidget *parent=0, const char *name=0);
 	~KMMTimeLineTrackView();
 	void resizeEvent(QResizeEvent *event);
 	void paintEvent(QPaintEvent *event);
@@ -54,7 +55,9 @@ private: // Private attributes
   /** True if the back buffer needs to be redrawn. */
   bool m_bufferInvalid;
   int m_trackBaseNum;
-  KMMTrackPanel * m_panelUnderMouse;  
+  KMMTrackPanel * m_panelUnderMouse;
+
+  KdenliveApp *m_app;
 public slots:	// Public slots
   /** Invalidate the back buffer, alerting the trackview that it should redraw itself. */
   void invalidateBackBuffer();

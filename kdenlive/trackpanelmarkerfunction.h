@@ -1,8 +1,8 @@
 /***************************************************************************
-                          kmmtracksoundpanel.h  -  description
+                          trackpanelmarkerfunction  -  description
                              -------------------
-    begin                : Tue Apr 9 2002
-    copyright            : (C) 2002 by Jason Wood
+    begin                : Thu Nov 27 2003
+    copyright            : (C) 2003 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
 
@@ -14,37 +14,36 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#ifndef TRACKPANELMARKERFUNCTION_H
+#define TRACKPANELMARKERFUNCTION_H
 
-#ifndef KMMTRACKSOUNDPANEL_H
-#define KMMTRACKSOUNDPANEL_H
+#include <trackpanelfunction.h>
 
-#include <qwidget.h>
-#include <qlabel.h>
-
-#include "doctracksound.h"
-#include "kmmtrackpanel.h"
-
+class QMouseEvent;
 class KdenliveDoc;
+class KMMTimeLine;
+class DocTrackBase;
 
-/**KMMTrackSoundPanel is the Track panel for sound files.
-It contains several functions that can be used to manipulate
-the main sound widget in different ways.
-  *@author Jason Wood
-  */
-
-class KMMTrackSoundPanel : public KMMTrackPanel  {
-   Q_OBJECT
+/**
+@author Jason Wood
+*/
+class TrackPanelMarkerFunction : public TrackPanelFunction
+{
+Q_OBJECT
 public:
-	KMMTrackSoundPanel(KMMTimeLine *timeline, 
-				KdenliveDoc *document,
-				DocTrackSound *docTrack, 
-				QWidget *parent=0, 
-				const char *name=0);
-	~KMMTrackSoundPanel();
+    TrackPanelMarkerFunction(KMMTimeLine *timeline, DocTrackBase *docTrack, KdenliveDoc *document);
 
-private: // Public attributes
-  /**  */
-  QLabel m_trackLabel;
+    ~TrackPanelMarkerFunction();
+
+    virtual bool mouseApplies(QMouseEvent* event) const;
+    virtual bool mouseMoved(QMouseEvent* event);
+    virtual bool mousePressed(QMouseEvent* event);
+    virtual bool mouseReleased(QMouseEvent* event);
+    virtual QCursor getMouseCursor(QMouseEvent* event);
+private:
+	KMMTimeLine *m_timeline;
+	KdenliveDoc *m_document;
+	DocTrackBase *m_docTrack;
 };
 
 #endif

@@ -518,7 +518,7 @@ QDomDocument DocTrackBase::toXML()
 	DocTrackClipIterator itt(*this);
 
 	while(itt.current()) {
-		doc.documentElement().appendChild(doc.importNode(itt.current()->toXML().documentElement(), true));  
+		doc.documentElement().appendChild(doc.importNode(itt.current()->toXML().documentElement(), true));
 		++itt;
 	}
 
@@ -559,4 +559,9 @@ bool DocTrackBase::matchesXML(const QDomElement &element) const
 	}
 	
 	return result;
+}
+
+void DocTrackBase::notifyClipChanged(DocClipRef *clip)
+{
+	emit clipChanged(clip);
 }

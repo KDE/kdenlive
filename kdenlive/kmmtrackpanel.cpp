@@ -61,23 +61,14 @@ DocTrackBase * KMMTrackPanel::docTrack()
 blitted straight to the screen for speedy drawing. */
 void KMMTrackPanel::drawToBackBuffer(QPainter &painter, QRect &rect)
 {
-	GenTime startValue = GenTime(timeLine()->mapLocalToValue(0.0), m_document->framesPerSecond());
-	GenTime endValue = GenTime(timeLine()->mapLocalToValue(rect.width()), m_document->framesPerSecond());
-	
-	QPtrListIterator<DocClipRef> clip = docTrack()->firstClip(startValue, endValue, false);
-	DocClipRef *endClip = docTrack()->endClip(startValue, endValue, false).current();
-	for(DocClipRef *curClip; (curClip = clip.current())!=endClip; ++clip) {
-		paintClip(painter, curClip, rect, false);
-	}
+	QPtrListIterator<TrackViewDecorator> itt(m_trackViewDecorators);
 
-	clip = docTrack()->firstClip(startValue, endValue, true);
-	endClip = docTrack()->endClip(startValue, endValue, true).current();
-	for(DocClipRef *curClip; (curClip = clip.current())!=endClip; ++clip) {
-		paintClip(painter, curClip, rect, true);
+	while(itt.current()) {
+		itt.current()->drawToBackBuffer(painter, rect);
+		++itt;
 	}
 
 	// draw the vertical time marker
-
 	int value = (int)timeLine()->mapValueToLocal(timeLine()->seekPosition().frames(m_document->framesPerSecond()));
 	if(value >= rect.x() && value <= rect.x()+rect.width()) {
 		painter.drawLine(value, rect.y(), value, rect.y() + rect.height());
@@ -155,4 +146,12 @@ void KMMTrackPanel::addFunctionDecorator(KdenliveApp::TimelineEditMode mode, Tra
   	m_trackPanelFunctions[mode].setAutoDelete(true);
 
 	m_trackPanelFunctions[mode].append(function);
+}
+
+void KMMTrackPanel::addViewDecorator(TrackViewDecorator *view)
+{
+	// It is anticipated that we will add extra "modes" at some point. I have put the autodelete line here in the meantime
+	// to remind me that each mode needs to be set to autodelete.
+	m_trackViewDecorators.setAutoDelete(true);
+	m_trackViewDecorators.append(view);
 }

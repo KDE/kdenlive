@@ -33,7 +33,6 @@
 #include "krendermanager.h"
 #include "kdenlivedoc.h"
 #include "kdenlive.h"
-#include "kdenliveview.h"
 
 #include "docclipavfile.h"
 #include "docclipproject.h"
@@ -45,9 +44,7 @@
 #include "documentgroupnode.h"
 #include "documentbasenode.h"
 
-QPtrList<KdenliveView> *KdenliveDoc::pViewList = 0L;
-
-KdenliveDoc::KdenliveDoc(KdenliveApp *app, QWidget *parent, const char *name) : 
+KdenliveDoc::KdenliveDoc(KdenliveApp *app, QWidget *parent, const char *name) :
 				QObject(parent, name),
 				m_projectClip(new DocClipProject),
 				m_modified(false),
@@ -55,13 +52,6 @@ KdenliveDoc::KdenliveDoc(KdenliveApp *app, QWidget *parent, const char *name) :
 				m_clipHierarch(0),
 				m_clipManager(*app->renderManager())
 {
-	if(!pViewList)
-	{
-		pViewList = new QPtrList<KdenliveView>();
-	}
-
-	pViewList->setAutoDelete(true);
-
 	m_app = app;
 	m_render = m_app->renderManager()->createRenderer(i18n("Document"));
 
@@ -85,16 +75,6 @@ KdenliveDoc::~KdenliveDoc()
 	if(m_projectClip) delete m_projectClip;
 }
 
-void KdenliveDoc::addView(KdenliveView *view)
-{
-	pViewList->append(view);
-}
-
-void KdenliveDoc::removeView(KdenliveView *view)
-{
-  pViewList->remove(view);
-}
-
 void KdenliveDoc::setURL(const KURL &url)
 {
 	m_doc_url=url;
@@ -103,19 +83,6 @@ void KdenliveDoc::setURL(const KURL &url)
 const KURL& KdenliveDoc::URL() const
 {
 	return m_doc_url;
-}
-
-void KdenliveDoc::slotUpdateAllViews(KdenliveView *sender)
-{
-  KdenliveView *w;
-  if(pViewList)
-  {
-    for(w=pViewList->first(); w!=0; w=pViewList->next())
-    {
-      if(w!=sender)
-        w->repaint();
-    }
-  }
 }
 
 void KdenliveDoc::closeDocument()
@@ -413,6 +380,7 @@ void KdenliveDoc::connectProjectClip()
 	connect(m_projectClip, SIGNAL(trackListChanged()), this, SIGNAL(trackListChanged()));
 	connect(m_projectClip, SIGNAL(clipLayoutChanged()), this, SLOT(hasBeenModified()));
 	connect(m_projectClip, SIGNAL(signalClipSelected(DocClipRef *)), this, SIGNAL(signalClipSelected(DocClipRef *)));
+	connect(m_projectClip, SIGNAL(clipChanged(DocClipRef *)), this, SIGNAL(clipChanged(DocClipRef *)));
 }
 
 DocTrackBase * KdenliveDoc::nextTrack()

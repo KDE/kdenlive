@@ -73,6 +73,11 @@ public:
 	void setSnapToFrame(bool snapToFrame);
 	bool snapToFrame() const;
 
+	/* Get/set the snapToMarkers value. If true, any returned time will snap to
+	the snapMarkers associated with clips.*/
+	void setSnapToMarkers(bool snapToMarkers);
+	bool snapToMarkers() const;
+
 	/**
 	Sets the cursor times to the specified list. Each cursor time is individually
 	'snapped' to the list of snap times when calculating the final snap.
@@ -114,6 +119,7 @@ private:
 	bool m_snapToClipEnd;
 	bool m_includeSelectedClips;
 	bool m_snapToSeekTime;
+	bool m_snapToMarkers;
 
 	GenTime m_snapTolerance;
 

@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
 <class>KMMEditPanel_UI</class>
 <widget class="QWidget">
     <property name="name">
@@ -7,9 +7,9 @@
     <property name="geometry">
         <rect>
             <x>0</x>
-            <y>41</y>
-            <width>427</width>
-            <height>60</height>
+            <y>0</y>
+            <width>471</width>
+            <height>50</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -19,12 +19,6 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
         </sizepolicy>
-    </property>
-    <property name="maximumSize">
-        <size>
-            <width>32767</width>
-            <height>32767</height>
-        </size>
     </property>
     <property name="caption">
         <string>Form1</string>
@@ -47,10 +41,18 @@
             <property name="name">
                 <cstring>m_ruler</cstring>
             </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>5</hsizetype>
+                    <vsizetype>4</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
             <property name="minimumSize">
                 <size>
-                    <width>32</width>
-                    <height>32</height>
+                    <width>0</width>
+                    <height>16</height>
                 </size>
             </property>
         </widget>
@@ -165,4 +167,8 @@
     </image>
 </images>
 <layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>kfixedruler.h</includehint>
+    <includehint>kled.h</includehint>
+</includehints>
 </UI>

@@ -30,9 +30,14 @@
 #include "trackpanelclipresizefunction.h"
 #include "trackpanelrazorfunction.h"
 #include "trackpanelspacerfunction.h"
+#include "trackpanelmarkerfunction.h"
+
+#include "trackviewbackgrounddecorator.h"
+#include "trackviewnamedecorator.h"
+#include "trackviewmarkerdecorator.h"
 
 KMMTrackVideoPanel::KMMTrackVideoPanel(KMMTimeLine *timeline,
-					KdenliveDoc *doc, 
+					KdenliveDoc *doc,
 					DocTrackVideo *docTrack,
 					QWidget *parent,
 				       	const char *name ) :
@@ -53,67 +58,13 @@ KMMTrackVideoPanel::KMMTrackVideoPanel(KMMTimeLine *timeline,
 
 	addFunctionDecorator(KdenliveApp::Razor, new TrackPanelRazorFunction(timeline, doc, docTrack));
 	addFunctionDecorator(KdenliveApp::Spacer, new TrackPanelSpacerFunction(timeline, docTrack, document()));
+	addFunctionDecorator(KdenliveApp::Marker, new TrackPanelMarkerFunction(timeline, docTrack, document()));
 
-	m_pixmap.load("test.png");
+	addViewDecorator(new TrackViewBackgroundDecorator(timeline, doc, docTrack, QColor(128, 64, 64), QColor(255, 128, 128)));
+	addViewDecorator(new TrackViewNameDecorator(timeline, doc, docTrack));
+	addViewDecorator(new TrackViewMarkerDecorator(timeline, doc, docTrack));
 }
 
 KMMTrackVideoPanel::~KMMTrackVideoPanel()
 {
-}
-
-/** Paint the specified clip on screen within the specified rectangle, using the specified painter. */
-void KMMTrackVideoPanel::paintClip(QPainter &painter, DocClipRef *clip, QRect &rect, bool selected)
-{
-	int sx = (int)timeLine()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
-	int ex = (int)timeLine()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
-	int clipWidth = ex-sx;
-	int tx = ex;
-
-	if(sx < rect.x()) {
-		sx = rect.x();
-	}
-	if(ex > rect.x() + rect.width()) {
-		ex = rect.x() + rect.width();
-	}
-	ex -= sx;
-
-	QColor col = selected ? QColor(128, 64, 64) : QColor(255, 128, 128);
-
-	// draw outline box
-	painter.fillRect( sx, rect.y(), ex, rect.height(), col);
-
-//	for(uint mycount = sx; mycount < sx+ex; mycount += m_pixmap.width())
-//	{
-//		painter.drawPixmap(mycount, rect.y(), m_pixmap, 0, 0, -1, rect.height());
-//	}
-	
-	painter.drawRect( sx, rect.y(), ex, rect.height());
-
-	painter.setClipping(true);
-	painter.setClipRect(sx, rect.y(), ex, rect.height());
-	// draw video name text
-	QRect textBound = painter.boundingRect(0, 0, ex, rect.height(), AlignLeft, clip->name());
-
-	double border = 50.0;
-	int nameRepeat = (int)std::floor((double)clipWidth / ((double)textBound.width() + border));
-	if(nameRepeat < 1) nameRepeat = 1;
-	int textWidth = clipWidth / nameRepeat;
-
-	if(textWidth > 0) {
-		int start = (int)timeLine()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
-
-		start = sx - ((sx - start) % textWidth);
-		int count = start;
-
-		while(count < sx+ex) {
-			if(count+textWidth <= tx) {
-        		painter.setPen( selected ? Qt::white : Qt::black );
-				painter.drawText( count, rect.y(), textWidth, rect.height(), AlignVCenter | AlignHCenter, clip->name());
-        		painter.setPen(Qt::black);
-			}
-			count += textWidth;
-		}
-	}
-
-	painter.setClipping(false);
 }

@@ -65,10 +65,6 @@ class KdenliveDoc : public QObject
 	/** Destructor for the fileclass of the application */
 	~KdenliveDoc();
 
-	/** adds a view to the document which represents the document contents. Usually this
-	 * is your main view. */
-	void addView(KdenliveView *view);
-
 	/** removes a view from the list of currently connected views */
     	void removeView(KdenliveView *view);
 
@@ -169,8 +165,6 @@ class KdenliveDoc : public QObject
 	 * the project, etc. */
 	DocClipProject *m_projectClip;
 
-	/** the list of the views currently connected to the document */
-	static QPtrList<KdenliveView> *pViewList;
  	/** the modified flag of the current document */
 	bool m_modified;
 	KURL m_doc_url;
@@ -199,11 +193,6 @@ class KdenliveDoc : public QObject
 	a new document project clip is created.*/
 	void connectProjectClip();
 public slots:
-	/** calls repaint() on all views connected to the document object and is called by the view
-	 * by which the document has been changed. As this view normally repaints itself, it is
-	 * excluded from the paintEvent.
-	 */
-	void slotUpdateAllViews(KdenliveView *sender);
   	/** Adds a sound track to the project */
   	void addSoundTrack();
   	/** Adds an empty video track to the project */

@@ -61,18 +61,18 @@ public:
 	/** returns the cropStart time for this clip */ 
 	const GenTime &cropStartTime() const;
 
-	/** set the trackEnd time for this clip. */	
+	/** set the trackEnd time for this clip. */
 	void setTrackEnd(const GenTime &time);
 
 	/** returns the cropDuration time for this clip. */
 	GenTime cropDuration() const;
-  
+
 	/** returns a QString containing all of the XML data required to recreate this clip. */
 	QDomDocument toXML() const;
 
 	/** Returns true if the XML data matches the contexts of the clipref. */
 	bool matchesXML(const QDomElement &element) const;
-	
+
 	/** returns the duration of this clip */
 	GenTime duration() const;
 	/** Returns a url to a file describing this clip. Exactly what this url is,
@@ -84,7 +84,7 @@ public:
 	static DocClipRef *createClip(ClipManager &clipManager, const QDomElement &element);
 	/** Sets the parent track for this clip. */
 	void setParentTrack(DocTrackBase *track, const int trackNum);
-	/** Returns the track number. This is a hint as to which track the clip is on, or 
+	/** Returns the track number. This is a hint as to which track the clip is on, or
 	 * should be placed on. */
 	int trackNum() const;
 	/** Returns the end of the clip on the track. A convenience function, equivalent
@@ -105,10 +105,10 @@ public:
 	/** Returns true if this clip is a project clip, false otherwise. Overridden in DocClipProject,
 	 * where it returns true. */
 	bool isProjectClip() { return false; }
-	
+
 	// Appends scene times for this clip to the passed vector.
 	void populateSceneTimes(QValueVector<GenTime> &toPopulate);
-	
+
 	// Returns an XML document that describes part of the current scene.
 	QDomDocument sceneToXML(const GenTime &startTime, const GenTime &endTime);
 
@@ -126,10 +126,18 @@ public:
 	/** TBD - figure out a way to make this unnecessary. */
 	DocClipBase *referencedClip() { return m_clip; }
 
+	/** Returns a vector containing the snap marker, in track time rather than clip time. */
+	QValueVector<GenTime> snapMarkersOnTrack() const;
+
+	void addSnapMarker(const GenTime &time);
+	void deleteSnapMarker(const GenTime &time);
+
 private: // Private attributes
+	void setSnapMarkers(QValueVector<GenTime> markers);
+
 	/** Where this clip starts on the track that it resides on. */
 	GenTime m_trackStart;
-	/** The cropped start time for this clip - e.g. if the clip is 10 seconds long, this 
+	/** The cropped start time for this clip - e.g. if the clip is 10 seconds long, this
 	 * might say that the the bit we want starts 3 seconds in.
 	 **/
 	GenTime m_cropStart;
@@ -149,6 +157,9 @@ private: // Private attributes
 	DocClipBase *m_clip;
 
 	KdenliveDoc *m_document;
+
+	/** A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
+	QValueVector<GenTime> m_snapMarkers;
 };
 
 #endif

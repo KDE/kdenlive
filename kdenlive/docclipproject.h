@@ -111,6 +111,8 @@ signals:
 	void clipLayoutChanged();
 	/** Emitted whenever a clip gets selected. */
 	void signalClipSelected(DocClipRef *);
+	/** Emitted when a clip has changed in some way. */
+	void clipChanged(DocClipRef *);
 private:
 	/** Blocks all track signals if block==true, or unblocks them otherwise. Use when you want
 	 *  to temporarily ignore emits from tracks. */

@@ -43,9 +43,6 @@ public:
 				QWidget *parent=0, 
 				const char *name=0);
 	~KMMTrackKeyFramePanel();
-	/** This function will paint a clip on screen, using the specified painter and the given 
-	 * coordinates as to where the clip should be painted. */
-	void paintClip(QPainter & painter, DocClipRef * clip, QRect & rect, bool selected);
 private:
 	/** During a resize operation, holds the current resize state, as defined in the ResizeState enum. */
 	ResizeState m_resizeState;

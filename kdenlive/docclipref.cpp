@@ -99,6 +99,7 @@ DocClipRef *DocClipRef::createClip(ClipManager &clipManager, const QDomElement &
 	GenTime cropDuration;
 	GenTime trackEnd;
 	QString description;
+	QValueVector<GenTime> markers;
 	int trackNum = 0;
 
 	QDomNode node = element;
@@ -131,14 +132,22 @@ DocClipRef *DocClipRef::createClip(ClipManager &clipManager, const QDomElement &
 				cropStart = GenTime(e.attribute("cropstart", "0").toDouble());
 				cropDuration = GenTime(e.attribute("cropduration", "0").toDouble());
 				trackEnd = GenTime(e.attribute("trackend", "-1").toDouble());
-			}		
-		}/* else {
-			QDomText text = n.toText();
-			if(!text.isNull()) {
-				description = text.nodeValue();
 			}
-		}*/
-		
+
+			if(e.tagName() == "markers") {
+				QDomNode markerNode = e.firstChild();
+				while(!markerNode.isNull()) {
+					QDomElement markerElement = markerNode.toElement();
+					if(!markerElement.isNull()) {
+						if(e.tagName() == "marker") {
+							markers.append(GenTime(markerElement.attribute("time", "0").toDouble()));
+						}
+					}
+					markerNode = markerNode.nextSibling();
+				}
+			}
+		}
+
 		n = n.nextSibling();
 	}
 
@@ -154,6 +163,7 @@ DocClipRef *DocClipRef::createClip(ClipManager &clipManager, const QDomElement &
 			clip->setTrackEnd(trackStart + cropDuration);
 		}
 		clip->setParentTrack(0, trackNum);
+		clip->setSnapMarkers(markers);
 		//clip->setDescription(description);
 	}
 
@@ -198,69 +208,6 @@ DocClipRef *DocClipRef::clone(ClipManager &clipManager)
 	return createClip(clipManager, toXML().documentElement());
 }
 
-
-/*DocClipBase *DocClipRef::createClip(const QDomElement element)
-{
-	DocClipBase *clip = 0;
-	GenTime trackStart;
-	GenTime cropStart;
-	GenTime cropDuration;
-	GenTime trackEnd;
-	QString description;
-	int trackNum = 0;
-
-	QDomNode node = element;
-	node.normalize();
-	
-	if(element.tagName() != "clip") {
-		kdWarning()	<< "DocClipBase::createClip() element has unknown tagName : " << element.tagName() << endl;
-		return 0;
-	}	
-
-	QDomNode n = element.firstChild();
-
-	while(!n.isNull()) {
-		QDomElement e = n.toElement();
-		if(!e.isNull()) {
-			if(e.tagName() == "avfile") {
-				clip = DocClipAVFile::createClip(doc, e);
-			} else if(e.tagName() == "project") {
-				clip = DocClipProject::createClip(doc, e);
-			} else if(e.tagName() == "position") {
-				trackNum = e.attribute("track", "-1").toInt();
-				trackStart = GenTime(e.attribute("trackstart", "0").toDouble());
-				cropStart = GenTime(e.attribute("cropstart", "0").toDouble());
-				cropDuration = GenTime(e.attribute("cropduration", "0").toDouble());
-				trackEnd = GenTime(e.attribute("trackend", "-1").toDouble());
-			}		
-		} else {
-			QDomText text = n.toText();
-			if(!text.isNull()) {
-				description = text.nodeValue();
-			}
-		}
-		
-		n = n.nextSibling();
-	}
-
-	if(clip==0) {
-		kdWarning() << "DocClipBase::createClip() unable to create clip" << endl;
-	} else {
-		// setup DocClipBase specifics of the clip.
-		clip->setTrackStart(trackStart);
-		clip->setCropStartTime(cropStart);
-		if(trackEnd.seconds() != -1) {
-			clip->setTrackEnd(trackEnd);
-		} else {
-			clip->setTrackEnd(trackStart + cropDuration);
-		}
-		clip->setParentTrack(0, trackNum);
-		clip->setDescription(description);
-	}
-
-	return clip;
-}*/
-
 bool DocClipRef::referencesClip(DocClipBase *clip) const
 {
 	return m_clip->referencesClip(clip);
@@ -298,8 +245,16 @@ QDomDocument DocClipRef::toXML() const
 
 	clip.appendChild(position);
 
+	QDomElement markers = doc.createElement("markers");
+	for(uint count=0; count<m_snapMarkers.count(); ++count) {
+		QDomElement marker = doc.createElement("marker");
+		marker.setAttribute("time", QString::number(m_snapMarkers[count].seconds(), 'f', 10));
+		markers.appendChild(marker);
+	}
+	clip.appendChild(markers);
+
 	doc.appendChild(clip);
-	
+
 	return doc;
 }
 
@@ -358,7 +313,7 @@ uint DocClipRef::fileSize() const
 void DocClipRef::populateSceneTimes(QValueVector<GenTime> &toPopulate)
 {
 	QValueVector<GenTime> sceneTimes;
-	
+
 	m_clip->populateSceneTimes(sceneTimes);
 
 	QValueVector<GenTime>::iterator itt = sceneTimes.begin();
@@ -381,4 +336,64 @@ QDomDocument DocClipRef::sceneToXML(const GenTime &startTime, const GenTime &end
 {
 	return m_clip->sceneToXML(startTime - trackStart() + cropStartTime(),
 				  endTime - trackStart() + cropStartTime());
+}
+
+void DocClipRef::setSnapMarkers(QValueVector<GenTime> markers)
+{
+	m_snapMarkers = markers;
+	qHeapSort(m_snapMarkers);
+
+	/*QValueVectorIterator<GenTime> itt = markers.begin();
+
+	while(itt != markers.end()) {
+		addSnapMarker(*itt);
+		++itt;
+	}*/
+}
+
+QValueVector<GenTime> DocClipRef::snapMarkersOnTrack() const
+{
+	QValueVector<GenTime> markers;
+	markers.reserve(m_snapMarkers.count());
+
+	for(uint count=0; count<m_snapMarkers.count(); ++count) {
+		markers.append( m_snapMarkers[count] + trackStart() - cropStartTime() );
+	}
+
+	return markers;
+}
+
+void DocClipRef::addSnapMarker(const GenTime &time)
+{
+	QValueVector<GenTime>::Iterator itt = m_snapMarkers.begin();
+
+	while(itt != m_snapMarkers.end()) {
+		if(*itt >= time) break;
+		++itt;
+	}
+
+	if((itt != m_snapMarkers.end()) && (*itt == time)) {
+		kdError() << "trying to add Snap Marker that already exists, this will cause inconsistancies with undo/redo" << endl;
+	} else {
+		m_snapMarkers.insert(itt, time);
+
+		m_parentTrack->notifyClipChanged(this);
+	}
+}
+
+void DocClipRef::deleteSnapMarker(const GenTime &time)
+{
+	QValueVector<GenTime>::Iterator itt = m_snapMarkers.begin();
+
+	while(itt != m_snapMarkers.end()) {
+		if(*itt == time) break;
+		++itt;
+	}
+
+	if((itt != m_snapMarkers.end()) && (*itt == time)) {
+		m_snapMarkers.erase(itt);
+		m_parentTrack->notifyClipChanged(this);
+	} else {
+		kdError() << "Could not delete marker at time " << time.seconds() << " - it doesn't exist!" << endl;
+	}
 }

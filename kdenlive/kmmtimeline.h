@@ -150,7 +150,7 @@ public: // Public methods
 	void dropEvent ( QDropEvent * );
 
 	/** Deselects all clips on the timeline. This does not affect any clips that are "in transition" 
-	 * onto the timeline,i.e. in a drag process, clips that are in m_selection but have not been 
+	 * onto the timeline,i.e. in a drag process, clips that are in m_selection but have not been
 	 * placed do not become deselected */
 	KCommand *selectNone();
 
@@ -247,6 +247,10 @@ are later on the tiemline (i.e. trackStart() > time) will be selected. */
 	Returns true if we snap to seek times
 	*/
 	bool snapToSeekTime() const;
+	/**
+	Returns true if we snap to markers.
+	*/
+	bool snapToMarkers() const;
 
 	/** Return the current length of the project */
 	GenTime projectLength() const;
@@ -278,6 +282,9 @@ public slots: // Public slots
 	/** Update the back buffer for the track views, and tell the trackViewArea widget to
 	repaint itself. */
 	void drawTrackViewBackBuffer();
+
+	/** Invalidates the area of the back buffer used by this clip. */
+	void invalidateClipBuffer(DocClipRef *clip);
 
 	/** Sets a new time scale for the timeline. This in turn calls the correct kruler funtion and
 	updates the display. */

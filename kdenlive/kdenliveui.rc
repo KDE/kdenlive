@@ -19,9 +19,11 @@
     <Action name="timeline_move_tool"/>
     <Action name="timeline_razor_tool"/>
     <Action name="timeline_spacer_tool"/>
+	<Action name="timeline_marker_tool"/>
     <Separator lineSeperator="true"/>
     <Action name="timeline_snap_frame"/>
     <Action name="timeline_snap_border"/>
+	<Action name="timeline_snap_marker"/>
   </Menu>
   <Menu name="Render"><text>&amp;Render</text>
   	<Action name="render_export_timeline"/>
@@ -46,14 +48,29 @@
   <Action name="project_clip_properties"/>
 </Menu>
 
+<Menu name="timeline_context">
+	<Action name="timeline_move_tool"/>
+    <Action name="timeline_razor_tool"/>
+    <Action name="timeline_spacer_tool"/>
+	<Action name="timeline_marker_tool"/>
+    <Separator lineSeparator="true"/>
+    <Action name="timeline_snap_frame"/>
+    <Action name="timeline_snap_border"/>
+	<Action name="timeline_snap_marker"/>
+	<Separator lineSeparator="true"/>
+	<Action name="delete_selected_clips"/>
+</Menu>
+
 <ToolBar name="timeline toolbar" fullWidth="false" newline="false">
 	<text>Timeline Toolbar</text>
 	<Action name="timeline_move_tool"/>
   <Action name="timeline_razor_tool"/>
   <Action name="timeline_spacer_tool"/>
+  <Action name="timeline_marker_tool"/>
   <Separator lineSeperator="true"/>
   <Action name="timeline_snap_frame"/>
   <Action name="timeline_snap_border"/>
+  <Action name="timeline_snap_marker"/>
   <Seperator lineSeperator="true"/>
   <Action name="render_export_timeline"/>
 </ToolBar>

@@ -92,6 +92,7 @@ void DocClipProject::connectTrack(DocTrackBase *track)
 {
 	connect(track, SIGNAL(clipLayoutChanged()), this, SIGNAL(clipLayoutChanged()));
 	connect(track, SIGNAL(signalClipSelected(DocClipRef *)), this, SIGNAL(signalClipSelected(DocClipRef *)));
+	connect(track, SIGNAL(clipChanged(DocClipRef *)), this, SIGNAL(clipChanged(DocClipRef *)));
 }
 
 uint DocClipProject::numTracks() const

@@ -108,7 +108,7 @@ public:
 	QDomDocument toXML();
 	/** Returns true if the QDomElement passed matches the contents of this track */
 	bool matchesXML(const QDomElement &element) const;
-	/** Creates a track from the given xml document. Returns the track, or 0 if it 
+	/** Creates a track from the given xml document. Returns the track, or 0 if it
 	 * could not be created. */
 	static DocTrackBase * createTrack(ClipManager &clipManager, DocClipProject *project, QDomElement elem);
 	/** Alerts the track that it's trackIndex within the document has
@@ -127,25 +127,30 @@ public:
 
 	/** Returns the number of frames per second this track should play at. */
 	double framesPerSecond() const;
+
+	/** Called by the clip in question to alert doctrackbase that the clip has changed. */
+	void notifyClipChanged(DocClipRef *clip);
 private: // Private methods
 	/** Enables or disables clip sorting. This method is used internally to turn off the sorting of clips when it is known that they will be sorted elsewhere.
 
 	If two disables are called, then two enables will be required to re-enable sorting.
 
 	This method is dangerous, as it will mess up the data structure if sorting is disabled and never re-enabled. This method should never become a public API. */
-	
+
 	void enableClipSorting(bool enabled);
 	/** If true, then upon adding or moving a clip, the track will ensure the clip is allowed to perform the move, and fail otherwise. If false, then this does not occur.
 
 For internal use only, when the class Knows Better (TM) */
-	void enableCollisionDetection(bool enable);  
+	void enableCollisionDetection(bool enable);
 signals:
 	/** Emitted whenever the clip layout changes.*/
 	void clipLayoutChanged();
 	/** Emitted whenever the clip selection.*/
-	void clipSelectionChanged();  
+	void clipSelectionChanged();
 	/** Emitted whenever a clip becomes selected. */
 	void signalClipSelected(DocClipRef *);
+	/** Emitted whenever a clip changes in some way, for example, gains or loses snapMarkers. */
+	void clipChanged(DocClipRef *);
 protected: // Protected attributes
 	/** Contains a list of all of the unselected clips within this track. */
 	DocClipRefList m_unselectedClipList;

@@ -53,7 +53,9 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
 	/** Creates a default ruler, with the given model. Sets min/max range and the scale factor.*/
 	KRuler(int min, int max, double scale=1.0, KRulerModel *model=0, QWidget *parent=0, const char *name=0);	 
 	KRuler(KRulerModel *model, QWidget *parent=0, const char *name=0);
-	KRuler(QWidget *parent=0, const char *name=0);	
+	KRuler(QWidget *parent=0, const char *name=0);
+
+	void doCommonCtor();
 
 	virtual ~KRuler();
 	

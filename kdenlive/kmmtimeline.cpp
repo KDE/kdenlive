@@ -75,7 +75,7 @@ KMMTimeLine::KMMTimeLine(KdenliveApp *app, QWidget *rulerToolWidget, QWidget *sc
 	m_scrollToolWidget->reparent(m_scrollBox, QPoint(0,0));	
 	m_scrollBar = new QScrollBar(-100, 5000, 50, 500, 0, QScrollBar::Horizontal, m_scrollBox, "horizontal ScrollBar");
 	
-	m_trackViewArea = new KMMTimeLineTrackView(*this, m_trackScroll, "track view area");
+	m_trackViewArea = new KMMTimeLineTrackView(*this, m_app, m_trackScroll, "track view area");
 
 	m_trackScroll->enableClipper(TRUE);
 	m_trackScroll->setVScrollBarMode(QScrollView::AlwaysOn);
@@ -87,18 +87,19 @@ KMMTimeLine::KMMTimeLine(KdenliveApp *app, QWidget *rulerToolWidget, QWidget *sc
 
 	m_scrollToolWidget->setMinimumWidth(200);
 	m_scrollToolWidget->setMaximumWidth(200);
-		
+
 	m_ruler->setValueScale(1.0);
 	calculateProjectSize();
-		
+
 	connect(m_scrollBar, SIGNAL(valueChanged(int)), m_ruler, SLOT(setStartPixel(int)));
-	connect(m_scrollBar, SIGNAL(valueChanged(int)), m_ruler, SLOT(repaint()));	
+	connect(m_scrollBar, SIGNAL(valueChanged(int)), m_ruler, SLOT(repaint()));
 	connect(m_document, SIGNAL(trackListChanged()), this, SLOT(syncWithDocument()));
 	connect(m_document, SIGNAL(documentChanged()), this, SLOT(calculateProjectSize()));
-	connect(m_ruler, SIGNAL(scaleChanged(double)), this, SLOT(calculateProjectSize()));  
+	connect(m_ruler, SIGNAL(scaleChanged(double)), this, SLOT(calculateProjectSize()));
 	connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), m_trackViewArea, SLOT(invalidateBackBuffer()));
 	connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), m_ruler, SLOT(repaint()));
 	connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), this, SLOT(slotSliderMoved(int, int)));
+	connect(m_document, SIGNAL(clipChanged(DocClipRef* )), this, SLOT(invalidateClipBuffer(DocClipRef *)));
 
 	connect(m_ruler, SIGNAL(requestScrollLeft()), this, SLOT(slotScrollLeft()));
 	connect(m_ruler, SIGNAL(requestScrollRight()), this, SLOT(slotScrollRight()));
@@ -131,12 +132,12 @@ void KMMTimeLine::insertTrack(int index, KMMTrackPanel *track)
 {
 	track->reparent(m_trackScroll->viewport(), 0, QPoint(0, 0), TRUE);
 	m_trackScroll->addChild(track);
-	
+
 	m_trackList.insert(index, track);
 
 	connect(m_scrollBar, SIGNAL(valueChanged(int)), this, SLOT(drawTrackViewBackBuffer()));
 	connect(track->docTrack(), SIGNAL(clipLayoutChanged()), this, SLOT(drawTrackViewBackBuffer()));
-	connect(track->docTrack(), SIGNAL(clipSelectionChanged()), this, SLOT(drawTrackViewBackBuffer()));  
+	connect(track->docTrack(), SIGNAL(clipSelectionChanged()), this, SLOT(drawTrackViewBackBuffer()));
 
 	connect(track, SIGNAL(signalClipCropStartChanged(const GenTime &)), 
 				this, SIGNAL(signalClipCropStartChanged(const GenTime &)));
@@ -429,20 +430,16 @@ bool KMMTimeLine::moveSelectedClips(int newTrack, GenTime start)
 	return true;
 }
 
-/** Scrolls the track view area left by whatever the step value of the relevant scroll bar is. */
 void KMMTimeLine::scrollViewLeft()
 {
 	m_scrollBar->subtractLine();
 }
 
-/** Scrolls the track view area right by whatever the step value in the 
-relevant scrollbar is. */
 void KMMTimeLine::scrollViewRight()
 {
 	m_scrollBar->addLine();
 }
 
-/** Toggle Selects the clip on the given track and at the given value. The clip will become selected if it wasn't already selected, and will be deselected if it is. */
 void KMMTimeLine::toggleSelectClipAt(DocTrackBase &track, GenTime value)
 {
 	DocClipRef *clip = track.getClipAt(value);
@@ -452,7 +449,6 @@ void KMMTimeLine::toggleSelectClipAt(DocTrackBase &track, GenTime value)
 	}
 }
 
-/** Selects the clip on the given track at the given value. */
 void KMMTimeLine::selectClipAt(DocTrackBase &track, GenTime value)
 {
 	DocClipRef *clip = track.getClipAt(value);
@@ -528,7 +524,7 @@ void KMMTimeLine::initiateDrag(DocClipRef *clipUnderMouse, GenTime mouseTime)
 	m_moveClipsCommand = new Command::KMoveClipsCommand(this, m_document, m_masterClip);
 	m_deleteClipsCommand = createAddClipsCommand(false);
 	setupSnapToGrid();
-	
+
 	m_startedClipMove = true;
 
 	DocClipRefList selection = listSelected();
@@ -807,6 +803,7 @@ void KMMTimeLine::setupSnapToGrid()
 	m_snapToGrid.setSnapToClipStart(snapToBorders());
 	m_snapToGrid.setSnapToFrame(snapToFrame());
 	m_snapToGrid.setSnapToSeekTime(snapToSeekTime());
+	m_snapToGrid.setSnapToMarkers(snapToMarkers());
 	m_snapToGrid.setIncludeSelectedClips(false);
 	m_snapToGrid.clearSeekTimes();
 	m_snapToGrid.addSeekTime(GenTime(0.0));
@@ -829,6 +826,12 @@ QValueList<GenTime> KMMTimeLine::selectedClipTimes()
 				resultList.append(clipItt.current()->trackStart());
 				resultList.append(clipItt.current()->trackEnd());
 			}
+			if(snapToMarkers()) {
+				QValueVector<GenTime> markers = clipItt.current()->snapMarkersOnTrack();
+				for(QValueVector<GenTime>::iterator itt=markers.begin(); itt != markers.end(); ++itt) {
+					resultList.append(*itt);
+				}
+			}
 			++clipItt;
 		}
 	}
@@ -844,6 +847,11 @@ bool KMMTimeLine::snapToBorders() const
 bool KMMTimeLine::snapToFrame() const
 {
 	return m_app->snapToFrameEnabled();
+}
+
+bool KMMTimeLine::snapToMarkers() const
+{
+	return m_app->snapToMarkersEnabled();
 }
 
 bool KMMTimeLine::snapToSeekTime() const
@@ -875,4 +883,11 @@ void KMMTimeLine::slotScrollLeft()
 void KMMTimeLine::slotScrollRight()
 {
 	m_scrollBar->addLine();
+}
+
+void KMMTimeLine::invalidateClipBuffer(DocClipRef *clip)
+{
+	#warning - unoptimised, should only update that part of the back buffer that needs to be updated. Current implementaion
+	#warning - wipes the entire buffer.
+	m_trackViewArea->invalidateBackBuffer();
 }

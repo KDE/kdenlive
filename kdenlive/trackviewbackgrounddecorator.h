@@ -1,8 +1,8 @@
 /***************************************************************************
-                          kdenliveview.cpp  -  description
+                          trackviewbackgrounddecorator  -  description
                              -------------------
-    begin                : Fri Feb 15 01:46:16 GMT 2002
-    copyright            : (C) 2002 by Jason Wood
+    begin                : Fri Nov 28 2003
+    copyright            : (C) 2003 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
 
@@ -14,28 +14,33 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#ifndef TRACKVIEWBACKGROUNDDECORATOR_H
+#define TRACKVIEWBACKGROUNDDECORATOR_H
 
-// include files for Qt
-#include <qprinter.h>
-#include <qpainter.h>
-#include <qpixmap.h>
+#include <trackviewdecorator.h>
 
-#include <klocale.h>
+#include <qcolor.h>
 
-#include <kdockwidget.h>
+/**
+Draws the base image for a clip; draws a border around the clip, and fills it with a flat-shaded colour.
 
-// application specific includes
-#include "kdenliveview.h"
-#include "kdenlivedoc.h"
-#include "kdenlive.h"
-
-KdenliveView::KdenliveView(QWidget *parent, const char *name) :
-                      QWidget(parent, name)
+@author Jason Wood
+*/
+class TrackViewBackgroundDecorator : public TrackViewDecorator
 {
+public:
+    TrackViewBackgroundDecorator(KMMTimeLine* timeline,
+									KdenliveDoc* doc,
+									DocTrackBase* track,
+									const QColor &selected,
+									const QColor &unselected);
 
-}
+    virtual ~TrackViewBackgroundDecorator();
 
-KdenliveView::~KdenliveView()
-{
-}
+    virtual void paintClip(QPainter& painter, DocClipRef* clip, QRect& rect, bool selected);
+private:
+	QColor m_selected;
+	QColor m_unselected;
+};
 
+#endif

@@ -42,12 +42,14 @@ KMMMonitor::KMMMonitor(KdenliveApp *app, KdenliveDoc *document, QWidget *parent,
 					this, SIGNAL(seekPositionChanged(const GenTime &)));
 	connect(m_editPanel, SIGNAL(inpointPositionChanged(const GenTime &)), 
 					this, SIGNAL(inpointPositionChanged(const GenTime &)));
-	connect(m_editPanel, SIGNAL(outpointPositionChanged(const GenTime &)), 
+	connect(m_editPanel, SIGNAL(outpointPositionChanged(const GenTime &)),
 					this, SIGNAL(outpointPositionChanged(const GenTime &)));
 
 	m_screenHolder->setMargin(3);
 	m_screenHolder->setPaletteBackgroundColor(QColor(0, 0, 0));
-	
+	m_screenHolder->setSizePolicy(QSizePolicy (QSizePolicy::Expanding, QSizePolicy::Expanding, FALSE));
+	//m_editPanel->setSizePolicy(QSizePolicy (QSizePolicy::Expanding, QSizePolicy::Maximum, FALSE));
+
 	connectScreen();
 }
 

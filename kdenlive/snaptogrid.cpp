@@ -26,6 +26,7 @@ SnapToGrid::SnapToGrid(KdenliveDoc *doc) :
 		m_snapToClipEnd(true),
 		m_includeSelectedClips(true),
 		m_snapToSeekTime(true),
+		m_snapToMarkers(true),
 		m_isDirty(true)
 {
 	m_internalSnapTracker = m_internalSnapList.end();
@@ -279,6 +280,14 @@ QValueList<GenTime> SnapToGrid::snapToGridList() const
 		while(clipItt.current()) {
 			if(m_snapToClipStart) list.append(clipItt.current()->trackStart());
 			if(m_snapToClipEnd) list.append(clipItt.current()->trackEnd());
+
+			if(m_snapToMarkers) {
+				QValueVector<GenTime> markers = clipItt.current()->snapMarkersOnTrack();
+				for(uint count=0; count<markers.count(); ++count) {
+					list.append(markers[count]);
+				}
+			}
+
 			++clipItt;
 		}
 
@@ -287,6 +296,14 @@ QValueList<GenTime> SnapToGrid::snapToGridList() const
 			while(clipItt.current()) {
 				if(m_snapToClipStart) list.append(clipItt.current()->trackStart());
 				if(m_snapToClipEnd) list.append(clipItt.current()->trackEnd());
+
+				if(m_snapToMarkers) {
+					QValueVector<GenTime> markers = clipItt.current()->snapMarkersOnTrack();
+					for(uint count=0; count<markers.count(); ++count) {
+						list.append(markers[count]);
+					}
+				}
+
 				++clipItt;
 			}
 		}
@@ -313,4 +330,14 @@ void SnapToGrid::clearSeekTimes()
 	if(m_snapToSeekTime) {
 		setDirty(true);
 	}
+}
+
+void SnapToGrid::setSnapToMarkers(bool snapToMarkers)
+{
+	m_snapToMarkers = snapToMarkers;
+}
+
+bool SnapToGrid::snapToMarkers() const
+{
+	return m_snapToMarkers;
 }
