@@ -82,20 +82,6 @@ as Authors, publish date, the abstract, and Keywords -->
 ></affiliation
 > <contrib
 >Traductions Française </contrib
-></othercredit
-><othercredit role="translator"
-><firstname
->CAULIER</firstname
-><surname
->Danielle</surname
-><affiliation
-><address
-><email
->caulier.danielle@free.fr</email
-></address
-> </affiliation
-><contrib
->Relecture </contrib
 ></othercredit>
 
 <copyright>
@@ -183,7 +169,7 @@ revision history. (see installation appendix comment) -->
 </sect1>
 <sect1 id="linearvsnonlinear">
 <title
->Qu'elle est la différence entre une application de montage vidéo « linéaire » et une application de montage vidéo « non linéaire » ?</title>
+>Différences entre le montage vidéo « linéaire » et « non linéaire »</title>
 
 <para
 > Dans le passé, le montage vidéo sur l'ordinateur était possible à l'aide d'un éditeur vidéo dit « linéaire », en utilisant essentiellement deux magnétoscopes. Le premier contenait les séquences vidéo cibles, et le second était employé pour rechercher les plans vidéo à monter dans les séquences vidéo cibles. L'opération consistait à trouver un plan vidéo, à l'enregistrer dans la séquence vidéo cible, à trouver le plan vidéo suivant, à l'enregistrer dans une autre séquence vidéo cible, etc. Cette méthode s'appelle « l'édition vidéo linéaire » car l'utilisation de bande vidéo nécessitait une édition des séquences vidéo de manières séquentielles. Par exemple, il est très difficile de libérer de l'espace vide pour ajouter un nouveau plan vidéo à une séquence vidéo d'une durée globale de 10 minutes, après les cinq premières minutes de celle ci. </para>
@@ -221,19 +207,19 @@ revision history. (see installation appendix comment) -->
 
 <sect2 id="project-panel">
 <title
->La liste du projet</title>
+>Le panneau du projet</title>
 <screenshot
 > <mediaobject
 > <imageobject
 > <imagedata fileref="project_panel.png" format="PNG"/> </imageobject
 > <textobject
 > <phrase
->Le liste du projet</phrase
+>Le panneau du projet</phrase
 > </textobject
 > </mediaobject
 > </screenshot>
 <para
-> Cette fenêtre propose différents panneaux nécessaire au montage vidéo du projet. Le plus important est la liste du projet. Elle affiche l'ensemble des plans vidéo qui sont inclus dans le projet. </para>
+> Cette fenêtre propose différents panneaux nécessaires au montage vidéo du projet. Le plus important est la liste du projet. Elle affiche l'ensemble des plans vidéo qui sont inclus dans le projet. </para>
 </sect2>
 
 <sect2 id="monitor-panel">
@@ -250,7 +236,7 @@ revision history. (see installation appendix comment) -->
 > </mediaobject
 > </screenshot>
 <para
->  </para>
+> Cette fenêtre présente la liste des panneaux de prévisualisation de &kdenlive;. Le panneau « Montage vidéo » affiche le montage vidéo final. Le panneau « Plan vidéo » affiche une prévisualisation du plan vidéo courant, et permet de sélectionner une section d'un plan vidéo à ajouter à la table de montage. </para>
 </sect2>
 
 <sect2>
@@ -267,7 +253,7 @@ revision history. (see installation appendix comment) -->
 > </mediaobject
 > </screenshot>
 <para
->  </para>
+> La fenêtre située en bas de la fenêtre principale est appelée la table de montage vidéo. Elle offre une représentation visuelle de votre projet. Elle affiche l'état de lecture et de non lecture des plans vidéo, le chevauchement de plans vidéo, et le plan vidéo courant. Les versions actuelles de &kdenlive; / &piave; ne gére pas encore les effets spéciaux. Les futures versions implanteront cette fonctionnalité qui sera visible dans la table de montage. </para>
 </sect2>
 </sect1>
 <sect1 id="addingclips">
@@ -275,10 +261,14 @@ revision history. (see installation appendix comment) -->
 >Ajouter un plan vidéo à votre projet</title>
 
 <para
->  </para>
+> Maintenant que vous avez une vue d'ensmble de &kdenlive;, il est temps d'ajouter quelques plans vidéo à votre projet. Vous devez disposer de quelques plans vidéo sur votre ordinateur pour réaliser cette opération. Actuellement, &kdenlive; ne dispose pas encore des fonctionnalités de capture vidéo, et vous devez utiliser une autre application pour réaliser cette opération. Nous recommendons le programme « kino » qui peut être télechargé à l'adresse <ulink url="http://kino.schirmacher.de/"
+>http://kino.schirmacher.de/</ulink
+>. </para>
 
 <para
->  </para>
+> Aprés avoir récupérer quelques plans vidéo sur votre ordinateur, vous pourez les ajouter à votre projet. Sélectionnez l'onglet « Projet » dans le panneau relatif au projet, et activez le menu contextuel avec le bouton droit de la souris. Sélectionnez l'option <guimenuitem
+>Ajouter des plans vidéo</guimenuitem
+> qui ouvrira la boîte de dialogue de sélection de fichiers de &kde;. Rechercher vos plans vidéo, choisissez les, et validez votre sélection. </para>
 <caution
 > <para
 >  </para
@@ -1456,10 +1446,6 @@ distribution. -->
 <para
 >Traductions : Caulier Gilles <email
 >caulier.gilles@free.fr</email
->.</para
-><para
->Relecture des traductions : Danielle Caulier <email
->caulier.danielle@free.fr</email
 >.</para>
 
 &underFDL;               <!-- FDL: do not remove. Commercial development should -->
