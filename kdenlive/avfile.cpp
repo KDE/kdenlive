@@ -21,6 +21,8 @@
 
 #include "avfile.h"
 
+#include "docclipavfile.h"
+
 AVFile::AVFile(const QString &name, const KURL &url) :
 			m_duration(0.0),
 			m_framesPerSecond(0)
@@ -31,11 +33,11 @@ AVFile::AVFile(const QString &name, const KURL &url) :
 		setName(name);
  	}
 
-  m_refCount = 0;
-  
+	m_referers.setAutoDelete(false);
+		
 	m_url = url;
 
-  m_durationKnown = false;
+	m_durationKnown = false;
 	calculateFileProperties(QMap<QString, QString>());
 }
 
@@ -110,26 +112,31 @@ GenTime AVFile::duration() const
 	return m_duration;
 }
 
-int AVFile::addReference()
+int AVFile::addReference(DocClipAVFile *referer)
 {
-	m_refCount++;
+	m_referers.append(referer);
 	return numReferences();
 }
 /** Removes the reference of this clip from this avFile. If the reference did not exist, a warning will be issued to stderr. Returns the number of references to avFile. */
-int AVFile::removeReference()
+int AVFile::removeReference(DocClipAVFile *referer)
 {
-	m_refCount--;
+	m_referers.remove(referer);
 	return numReferences();
 }
 
 /** Returns the number of clips which reference this avFile. */
 int AVFile::numReferences()
 {
-	return m_refCount;
+	return m_referers.count();
 }
 
 /** Returns true if this AVFile has a known duration, false if it is, as of yet, undetermined. */
 bool AVFile::durationKnown()
 {
   return m_durationKnown;
+}
+
+QPtrList<DocClipAVFile> AVFile::references()
+{
+	return m_referers;
 }
