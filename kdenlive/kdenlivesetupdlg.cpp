@@ -18,6 +18,7 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <klocale.h>
+#include <kiconloader.h>
 
 #include "kdenlivesetupdlg.h"
 #include "rendersetupdlg.h"
@@ -30,7 +31,10 @@ KdenliveSetupDlg::KdenliveSetupDlg(KdenliveApp *app, QWidget *parent, const char
                                           Ok,
                                           parent, name)
 {
-  QFrame *page = addPage( i18n("Renderer") );
+  QFrame *page = addPage( i18n("Renderer"),
+		          i18n("Setup External Renderer Program"),
+			  KGlobal::instance()->iconLoader()->loadIcon( "exec", KIcon::NoGroup, KIcon::SizeMedium ) );
+			  
   QVBoxLayout *topLayout = new QVBoxLayout( page, 0, 6 );
   m_renderDlg = new RenderSetupDlg(app->renderManager(), page, "renderdlg" );
   topLayout->addWidget( m_renderDlg );
