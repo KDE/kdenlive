@@ -15,13 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kio/netaccess.h> 
 #include "krender.h"
 
 #include <kdebug.h>
 
 KRender::KRender(KURL appPath, unsigned int port, QObject *parent, const char *name ) :
-																				QObject(parent, name),
-																				QXmlDefaultHandler()
+			QObject(parent, name),
+			QXmlDefaultHandler(),
+			m_appPathInvalid(false)
 {
 	startTimer(200);
 	m_parsing = false;
@@ -150,12 +152,19 @@ void KRender::processExited()
 /** Launches a renderer process. */
 void KRender::launchProcess()
 {
+	if(m_appPathInvalid) return;
+	  
+	if(!KIO::NetAccess::exists(m_appPath)) {
+		kdError() << "Application '" << m_appPath.path() << "' does not exist" << endl;
+		m_appPathInvalid = true;
+		return;
+	}
+	
 	m_process.clearArguments();
 	m_process.setExecutable("artsdsp");
-  m_process << m_appPath.path();
-  m_process << "-d";  
-  m_process << "-p " + QString::number(m_portNum);
-
+	m_process << m_appPath.path();
+	m_process << "-d";  
+	m_process << "-p" << QString::number(m_portNum);
 
 	kdDebug() << "Launching process " << m_appPath.path() << " as server on port " << m_portNum << endl;
 	if(m_process.start(KProcess::NotifyOnExit, KProcess::AllOutput)) {

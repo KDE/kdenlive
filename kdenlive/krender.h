@@ -96,7 +96,7 @@ private: // Private attributes
   /** The socket that will connect to the server */
   QSocket m_socket;
   /** If we have started our own renderer, this is it's process */
-	KProcess m_process;
+  KProcess m_process;
   /** The port number used to connect to the renderer */
   unsigned int m_portNum;
   /** The XML reader */
@@ -113,6 +113,9 @@ private: // Private attributes
   QDomDocument m_sceneList;
   /** Holds the buffered communication from the socket, ready for processing. */
   QString m_buffer;
+  /** Becomes true if it is known that the application path does not point to a valid file, false if
+      this is unknown, or if a valid executable is known to exist */
+  bool m_appPathInvalid;
   
   /** A function pointer to the relevant method that should parse tagOpen events */
   bool (KRender::*m_funcStartElement)(const QString & namespaceURI, const QString & localName,
