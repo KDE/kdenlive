@@ -23,6 +23,7 @@ KMMMonitor::KMMMonitor(KdenliveDoc *document, QWidget *parent, const char *name 
 										m_editPanel(document, this, name)
 {
 	connect(&m_editPanel, SIGNAL(seekPositionChanged(GenTime)), &m_screen, SLOT(seek(GenTime)));
+	connect(&m_editPanel, SIGNAL(playSpeedChanged(double)), &m_screen, SLOT(play(double)));
 }
 
 KMMMonitor::~KMMMonitor(){
