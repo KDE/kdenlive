@@ -22,7 +22,7 @@
 
 KRenderManager::KRenderManager() :
                         QObject(),
-                        m_renderAppPath(KURL("/usr/local/bin/piave")),
+                        m_renderAppPath(KURL("/usr/bin/piave")),
                         m_firstPort(6100),
                         m_currentPort(6100)
 {
@@ -61,7 +61,7 @@ KRender * KRenderManager::createRenderer(const QString &name)
 void KRenderManager::readConfig(KConfig *config)
 {
   config->setGroup("Renderer Options");
-  setRenderAppPath(config->readEntry("App Path", "/usr/local/bin/piave"));
+  setRenderAppPath(config->readEntry("App Path", "/usr/bin/piave"));
   setRenderAppPort(config->readUnsignedNumEntry("App Port", 6100));
 }
 

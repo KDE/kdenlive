@@ -1,7 +1,7 @@
-2004_10-13 Jean-Michel Pouré
+2004-10-13 Jean-Michel Pouré
         * Docking windows fix (provided by Jason)
-	* Single bootstrap code (in admin/ directory). To create a ./configure
-	script, run "bootstrap".
+	* Single bootstrap code (in admin/ directory).
+        * Set default PIAVE path to /usr/bin/piave
 
 2004-07-04 Gilles Caulier <caulier dot gilles at free.fr>
 	* German GUI translation.
