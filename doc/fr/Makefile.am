@@ -6,7 +6,7 @@ KDE_LANG = fr
 KDE_DOCS = kdenlive
 
 docbook_DATA = index.docbook
-docbookdir = $(kde_htmldir)/fr/kdenkive
+docbookdir = $(kde_htmldir)/fr/kdenlive
 
 
 
