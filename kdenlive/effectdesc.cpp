@@ -25,3 +25,9 @@ EffectDesc::EffectDesc(const QString &name) :
 EffectDesc::~EffectDesc()
 {
 }
+
+/** Returns the name of this effect. */
+QString EffectDesc::name()
+{
+  return m_name;
+}

@@ -26,7 +26,7 @@ ldadd=\s$(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT)
 ldflags=\s                                 \s
 
 [General]
-AMChanged=true
+AMChanged=false
 author=Jason Wood
 configure_args=\s--build=i386-linux --host=i386-linux --target=i386-linux --prefix=/usr --enable-debug\s
 email=jasonwood@blueyonder.co.uk

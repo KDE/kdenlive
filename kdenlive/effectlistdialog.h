@@ -20,6 +20,9 @@
 
 #include <qwidget.h>
 #include <klistview.h>
+#include <qptrlist.h>
+
+#include "effectdesc.h"
 
 /**The effectList dialog displays a list of effects and transitions known by the renderer. Effects in this dialog can be dragged to a clip, or in the case of transitions, dragged to two or more clips (how is yet to be determined)
   *@author Jason Wood
@@ -28,8 +31,14 @@
 class EffectListDialog : public KListView  {
    Q_OBJECT
 public: 
-	EffectListDialog(QWidget *parent=0, const char *name=0);
+	EffectListDialog(const QPtrList<EffectDesc> &effectList, QWidget *parent=0, const char *name=0);
 	~EffectListDialog();
+private:  
+  /** Generates the layout for this widget. */
+  void generateLayout(const QPtrList<EffectDesc> &effectList);  
+public slots:
+  /** Set the effect list displayed by this dialog. */
+  void setEffectList(const QPtrList<EffectDesc> &effectList);
 };
 
 #endif

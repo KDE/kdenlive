@@ -28,6 +28,8 @@ class EffectDesc {
 public: 
 	EffectDesc(const QString &name);
 	~EffectDesc();
+  /** Returns the name of this effect. */
+  QString name();
 public: // Public attributes
   /** The name of this effect. */
   QString m_name;

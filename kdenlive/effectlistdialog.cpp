@@ -15,9 +15,41 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kdebug.h>
+#include <klocale.h>
+
 #include "effectlistdialog.h"
 
-EffectListDialog::EffectListDialog(QWidget *parent, const char *name ) : KListView(parent,name) {
+#include "krender.h"
+
+EffectListDialog::EffectListDialog(const QPtrList<EffectDesc> &effectList, QWidget *parent, const char *name ) :
+                                          KListView(parent,name)
+{
+  addColumn(i18n("Effect"));
+  generateLayout(effectList);
+
+  setDragEnabled(true);
+  setFullWidth(true);  
 }
-EffectListDialog::~EffectListDialog(){
+
+EffectListDialog::~EffectListDialog()
+{
+}
+
+/** Generates the layout for this widget. */
+void EffectListDialog::generateLayout(const QPtrList<EffectDesc> &effectList)
+{
+  clear();
+  
+  QPtrListIterator<EffectDesc> itt(effectList);
+  while(itt.current()) {
+    new KListViewItem(this, itt.current()->name());
+    ++itt;
+  }
+}
+
+/** Set the effect list displayed by this dialog. */
+void EffectListDialog::setEffectList(const QPtrList<EffectDesc> &effectList)
+{
+  generateLayout(effectList);
 }

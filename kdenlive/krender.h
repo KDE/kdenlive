@@ -122,6 +122,8 @@ name specified. */
   QPtrList<AVFileFormatDesc> &fileFormats();
   /** Returns the codec with the given name */
   AVFormatDescCodec * findCodec(const QString &name);
+  /** Returns the effect list. */
+  const QPtrList<EffectDesc> effectList();
 protected: // Protected methods
   /** Recieves timer events */
   virtual void timerEvent(QTimerEvent *event);
@@ -226,7 +228,9 @@ signals: // Signals
   /** Emitted when the current seek position has been changed by the renderer. */
   void positionChanged(const GenTime &);
   /** Emitted when file formats are updated. */
-  void signalFileFormatsUpdated(const QPtrList<AVFileFormatDesc> &);  
+  void signalFileFormatsUpdated(const QPtrList<AVFileFormatDesc> &);
+  /** No descriptions */
+  void effectListChanged(const QPtrList<EffectDesc> &);  
 public: // Public attributes
   /** If true, we are currently parsing some data. Otherwise, we are not. */
   bool m_parsing;

@@ -228,7 +228,7 @@ void KdenliveApp::initView()
   widget->manualDock(projectDock, KDockWidget::DockCenter);
   
   widget = createDockWidget("Effect List", QPixmap(), 0, i18n("Effect List"));
-  m_effectListDialog = new EffectListDialog(widget, "effect list");
+  m_effectListDialog = new EffectListDialog(getDocument()->renderer()->effectList(), widget, "effect list");
   widget->setWidget(m_effectListDialog);
   widget->setDockSite(KDockWidget::DockFullSite);
   widget->manualDock(projectDock, KDockWidget::DockCenter);
@@ -277,8 +277,8 @@ void KdenliveApp::initView()
   connect(m_timeline, SIGNAL(signalClipCropStartChanged(const GenTime &)), m_clipMonitor, SLOT(seek(const GenTime &)));
   connect(m_timeline, SIGNAL(signalClipCropEndChanged(const GenTime &)), m_clipMonitor, SLOT(seek(const GenTime &)));
 
-/*  connect(getDocument()->renderer(), SIGNAL(signalFileFormatsUpdated(const QPtrList<AVFileFormatDesc> &)),
-                m_exportDialog, SLOT(setFormatList(const QPtrList<AVFileFormatDesc> &)));*/
+  connect(getDocument()->renderer(), SIGNAL(effectListChanged(const QPtrList<EffectDesc> &)),
+                m_effectListDialog, SLOT(setEffectList(const QPtrList<EffectDesc> &)));
 
   makeDockInvisible(mainDock);
 

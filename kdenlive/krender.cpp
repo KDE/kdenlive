@@ -781,6 +781,13 @@ bool KRender::reply_capabilities_effects_effect_EndElement(const QString & names
   } else {
     m_effectList.append(m_effect);
     m_effect = 0;
+    emit effectListChanged(m_effectList);
   }
   return true;
+}
+
+/** Returns the effect list. */
+const QPtrList<EffectDesc> KRender::effectList()
+{
+  return m_effectList;
 }
