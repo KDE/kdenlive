@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Last-Translator: \n"
-"PO-Revision-Date: 2003-03-11 15:55+0100\n"
+"PO-Revision-Date: 2003-03-12 08:49+0100\n"
 "Language-Team:  <fr@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -411,7 +411,7 @@ msgstr "Mode Déplacement / Redimensionnement"
 
 #: kdenlive.cpp:183 kdenlive.cpp:722
 msgid "Current Time : "
-msgstr "Position courante :"
+msgstr "Position courante : "
 
 #: kdenlive.cpp:201
 msgid "Application"
