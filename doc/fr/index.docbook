@@ -6,6 +6,9 @@
 <!ENTITY piave '<application
 >Piave</application
 >'>
+<!ENTITY kino '<application
+>Kino</application
+>'>
 <!ENTITY kapp "&kdenlive;"
 ><!-- replace kdenlive here -->
 <!ENTITY % addindex "IGNORE">
@@ -1486,6 +1489,44 @@ taken from that reference and shortened a bit for readability. -->
 <title
 >Questions fréquemment posées (FAQ)</title>
 &reporting.bugs; <qandaset id="faqlist">
+<qandaentry>
+<question>
+<para
+>What file formats does &kapp; support? </para>
+</question>
+<answer>
+<para
+>Currently, &kapp; supports playback of AVI files that use the DV codec (other types of AVI file will fail) and Raw DV files. Both of these formats are exported by &kino;. </para>
+<note>
+<para
+>On a technical note, &kapp; does not provide any video formats itself; all video formats are provided by the backend renderer, &piave;. </para>
+</note>
+</answer>
+</qandaentry>
+<qandaentry>
+<question>
+<para
+>When will &kapp; support divx/mpeg files? </para>
+</question>
+<answer>
+<para
+>Short answer : When somebody codes the relevant plugin for &piave;. </para>
+<para
+>The long answer : Supporting divx files in an editing application is difficult. divx and mpeg formats are not designed for video editing. Some frames contain only part of the information required to display that frame, which makes the random acces required by a video editing application difficult to achieve. There are also quality issues with decompressing and recompressing files that need to be taken into account. For these reasons, support for these formats in &kapp; itself are of low priority compared to the effect framework, the capture program and other such features. </para>
+<para
+>If somebody is interested is adding divx/mpeg support to &kapp; (or to be technically correct, &piave;) then please contact me, and I will point you in the right direction. In the meantime, it is suggested that you capture video directly in Raw DV using &kino;, or convert your files to Raw DV format for use with &kapp; </para>
+</answer>
+</qandaentry>
+<qandaentry>
+<question>
+<para
+>When will &kapp; support mp3 files and other audio formats? </para>
+</question>
+<answer>
+<para
+>Sometime in the future, perhaps version 0.4.0 or 0.5.0. The roadmap on the website gives a rough idea of the order in which features are being added to &kapp;. The next priority is the effect framework, which will be the made addition for the 0.3.0 release. Once &kapp; 0.3.0 is released, we will decide on the next most important feature. This may be separate audio tracks. </para>
+</answer>
+</qandaentry>
 <qandaentry>
 <question>
 <para
