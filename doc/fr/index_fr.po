@@ -1,7 +1,20 @@
+# translation of index_fr.po to Française
+# Gilles CAULIER <caulier.gilles@free.fr>, 2003
+msgid ""
+msgstr ""
+""
+"Last-Translator: Gilles CAULIER <caulier.gilles@free.fr>\n"
+"PO-Revision-Date: 2003-07-29 10:09+0200\n"
+"Project-Id-Version: index_fr\n"
+"Language-Team: Française <fr@li.org>\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.0.1\n"
+
 #: index.docbook:44
 #, no-c-format
 msgid "The Kdenlive Handbook"
-msgstr ""
+msgstr "Le manuel de Kdenlive"
 
 #: index.docbook:47
 #, no-c-format
@@ -10,21 +23,31 @@ msgid ""
 "surname> <affiliation> <address><email>jasonwood@blueyonder.co.uk</email></"
 "address> </affiliation>"
 msgstr ""
+"<firstname>Jason</firstname> <othername>M.</othername> <surname>Wood</"
+"surname> <affiliation> <address><email>jasonwood@blueyonder.co.uk</email></"
+"address> </affiliation>"
 
 #: index.docbook:57
 #, no-c-format
 msgid "ROLES_OF_TRANSLATORS"
 msgstr ""
+"<othercredit role=\"translator\"> <firstname>CAULIER</"
+"firstname><surname>Gilles</surname> <affiliation><address><email>caulier."
+"gilles@free.fr</email></address></affiliation> <contrib>Traductions "
+"Française </contrib></othercredit><othercredit role=\"translator"
+"\"><firstname>CAULIER</firstname><surname>Danielle</"
+"surname><affiliation><address><email>caulier.danielle@free.fr</email></"
+"address> </affiliation><contrib>Relecture </contrib></othercredit>"
 
 #: index.docbook:61
 #, no-c-format
 msgid "Jason Wood"
-msgstr ""
+msgstr "Jason Wood"
 
 #: index.docbook:81
 #, no-c-format
 msgid "&kdenlive; is a non-linear video editor for KDE."
-msgstr ""
+msgstr "&kdenlive; est une application de montage vidéo pour KDE."
 
 #: index.docbook:84
 #, no-c-format
@@ -35,36 +58,41 @@ msgid ""
 "Also, please contact me at <email>jasonwood@blueyonder.co.uk</email> rather "
 "than bugging any of the kde mailing lists."
 msgstr ""
+"ATTENTION ! Ce document n'est pas encore complétement terminé. Les informations concernant "
+"les contributeurs de &kapp;, les programmes requis, les instructions d'installation, et les "
+"informations de changement de version ne sont pas à jour ou sont incomplétes. "
+"Veuillez prendre contact avec l'auteur à l'adresse <email>jasonwood@blueyonder.co.uk</email> "
+"pour de plus amples informations."
 
 #: index.docbook:90
 #, no-c-format
 msgid "Cheers,"
-msgstr ""
+msgstr "Salutations"
 
 #: index.docbook:93
 #, no-c-format
 msgid "Jason"
-msgstr ""
+msgstr "Jason"
 
 #: index.docbook:103
 #, no-c-format
 msgid "<keyword>KDE</keyword>"
-msgstr ""
+msgstr "<keyword>KDE</keyword>"
 
 #: index.docbook:104
 #, no-c-format
 msgid "video editor"
-msgstr ""
+msgstr "Montage vidéo"
 
 #: index.docbook:105
 #, no-c-format
 msgid "kdenlive"
-msgstr ""
+msgstr "kdenlive"
 
 #: index.docbook:120
 #, no-c-format
 msgid "Introduction"
-msgstr ""
+msgstr "Introduction"
 
 #: index.docbook:127
 #, no-c-format
@@ -128,7 +156,7 @@ msgstr ""
 #: index.docbook:171
 #, no-c-format
 msgid "Screenshot"
-msgstr ""
+msgstr "Capture d'écran"
 
 #: index.docbook:193
 #, no-c-format
@@ -137,8 +165,7 @@ msgstr ""
 
 #: index.docbook:195
 #, no-c-format
-msgid ""
-"The project list shows all of the clips that are available for this project."
+msgid "The project list shows all of the clips that are available for this project."
 msgstr ""
 
 #: index.docbook:198
@@ -276,7 +303,7 @@ msgstr ""
 #: index.docbook:303
 #, no-c-format
 msgid "<para></para>"
-msgstr ""
+msgstr "<para></para>"
 
 #: index.docbook:306
 #, no-c-format
@@ -289,11 +316,13 @@ msgid ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>n</keycap></keycombo> </"
 "shortcut> <guimenu>File</guimenu> <guimenuitem>New</guimenuitem>"
 msgstr ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>n</keycap></keycombo> </"
+"shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Nouveau</guimenuitem>"
 
 #: index.docbook:307
 #, no-c-format
 msgid "Creates a new document"
-msgstr ""
+msgstr "Création d'un nouveau projet de montage vidéo"
 
 #: index.docbook:307
 #, no-c-format
@@ -301,11 +330,13 @@ msgid ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>s</keycap></keycombo> </"
 "shortcut> <guimenu>File</guimenu> <guimenuitem>Save</guimenuitem>"
 msgstr ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>s</keycap></keycombo> </"
+"shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Enregistrer</guimenuitem>"
 
 #: index.docbook:307
 #, no-c-format
 msgid "Saves the document"
-msgstr ""
+msgstr "Enregistre le projet correspondant au montage vidéo"
 
 #: index.docbook:307
 #, no-c-format
@@ -313,16 +344,18 @@ msgid ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>q</keycap></keycombo> </"
 "shortcut> <guimenu>File</guimenu> <guimenuitem>Quit</guimenuitem>"
 msgstr ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>q</keycap></keycombo> </"
+"shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Quitter</guimenuitem>"
 
 #: index.docbook:307
 #, no-c-format
 msgid "<action>Quits</action> &kapp;"
-msgstr ""
+msgstr "<action>Quitte</action> &kapp;"
 
 #: index.docbook:348
 #, no-c-format
 msgid "Developer's Guide to Kdenlive"
-msgstr ""
+msgstr "Le guide du développeur de &kapp;"
 
 #: index.docbook:354
 #, no-c-format
@@ -334,7 +367,7 @@ msgstr ""
 #: index.docbook:366
 #, no-c-format
 msgid "Questions and Answers"
-msgstr ""
+msgstr "Questions fréquemment posées (FAQ)"
 
 #: index.docbook:384
 #, no-c-format
@@ -357,24 +390,24 @@ msgstr ""
 #: index.docbook:409
 #, no-c-format
 msgid "Credits and License"
-msgstr ""
+msgstr "Remerciements et licences"
 
 #: index.docbook:411
 #, no-c-format
 msgid "&kapp;"
-msgstr ""
+msgstr "&kapp;"
 
 #: index.docbook:414
 #, no-c-format
 msgid ""
 "Program copyright 2002-2003 Jason Wood <email>jasonwood@blueyonder.co.uk</"
 "email>"
-msgstr ""
+msgstr "Kdenlive : copyright Jason Wood <email>jasonwood@blueyonder.co.uk</email>, 2002-2003"
 
 #: index.docbook:417
 #, no-c-format
 msgid "Contributors:"
-msgstr ""
+msgstr "Contributeurs :"
 
 #: index.docbook:417
 #, no-c-format
@@ -391,22 +424,24 @@ msgstr ""
 msgid ""
 "Documentation copyright 2003 Jason Wood <email>jasonwood@blueyonder.co.uk</"
 "email>"
-msgstr ""
+msgstr "Documentation de Kdenlive : copyright Jason Wood <email>jasonwood@blueyonder.co.uk</email>, 2003 "
 
 #: index.docbook:437
 #, no-c-format
 msgid "CREDIT_FOR_TRANSLATORS"
 msgstr ""
+"<para>Traductions : Caulier Gilles <email>caulier.gilles@free.fr</email>.</para>"
+"<para>Relecture des traductions : Danielle Caulier <email>caulier.danielle@free.fr</email>.</para>"
 
 #: index.docbook:453
 #, no-c-format
 msgid "Installation"
-msgstr ""
+msgstr "Installation"
 
 #: index.docbook:456
 #, no-c-format
 msgid "How to obtain Kdenlive"
-msgstr ""
+msgstr "Comment obtenir Kdenlive"
 
 #: index.docbook:458
 #, no-c-format
@@ -420,7 +455,7 @@ msgstr ""
 #: index.docbook:467
 #, no-c-format
 msgid "Requirements"
-msgstr ""
+msgstr "Programmes requis"
 
 #: index.docbook:480
 #, no-c-format
@@ -449,7 +484,7 @@ msgstr ""
 #: index.docbook:499
 #, no-c-format
 msgid "Compilation and Installation"
-msgstr ""
+msgstr "Compilation et installation"
 
 #: index.docbook:501
 #, no-c-format
@@ -465,6 +500,9 @@ msgid ""
 "\t\t\t<prompt>%</prompt> <userinput>make</userinput>\n"
 "\t\t\t<prompt>%</prompt> <userinput>make install</userinput>"
 msgstr ""
+"<prompt>%</prompt> <userinput>./configure</userinput>\n"
+"\t\t\t<prompt>%</prompt> <userinput>make</userinput>\n"
+"\t\t\t<prompt>%</prompt> <userinput>make install</userinput>"
 
 #: index.docbook:511
 #, no-c-format
@@ -476,7 +514,7 @@ msgstr ""
 #: index.docbook:519
 #, no-c-format
 msgid "Configuration"
-msgstr ""
+msgstr "Configuration"
 
 #: index.docbook:521
 #, no-c-format
@@ -484,3 +522,4 @@ msgid ""
 "Don't forget to tell your system to start the <filename>dtd</filename> dicer-"
 "toaster daemon first, or KApp won't work !"
 msgstr ""
+

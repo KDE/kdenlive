@@ -47,20 +47,59 @@ as Authors, publish date, the abstract, and Keywords -->
 
 <bookinfo>
 <title
-></title>
+>Le manuel de Kdenlive</title>
 
 <authorgroup>
 <author
->  </author>
+> <firstname
+>Jason</firstname
+> <othername
+>M.</othername
+> <surname
+>Wood</surname
+> <affiliation
+> <address
+><email
+>jasonwood@blueyonder.co.uk</email
+></address
+> </affiliation
+> </author>
 </authorgroup>
 
-<!-- TRANS:ROLES_OF_TRANSLATORS -->
+<othercredit role="translator"
+> <firstname
+>CAULIER</firstname
+><surname
+>Gilles</surname
+> <affiliation
+><address
+><email
+>caulier.gilles@free.fr</email
+></address
+></affiliation
+> <contrib
+>Traductions Française </contrib
+></othercredit
+><othercredit role="translator"
+><firstname
+>CAULIER</firstname
+><surname
+>Danielle</surname
+><affiliation
+><address
+><email
+>caulier.danielle@free.fr</email
+></address
+> </affiliation
+><contrib
+>Relecture </contrib
+></othercredit>
 
 <copyright>
 <year
 >2003</year>
 <holder
-></holder>
+>Jason Wood</holder>
 </copyright>
 <!-- Translators: put here the copyright notice of the translation -->
 <!-- Put here the FDL notice.  Read the explanation in fdl-notice.docbook 
@@ -84,13 +123,15 @@ Do NOT change these in the translation. -->
 
 <abstract>
 <para
->  </para>
+> &kdenlive; est une application de montage vidéo pour KDE. </para>
 <para
->  </para>
+> ATTENTION ! Ce document n'est pas encore complétement terminé. Les informations concernant les contributeurs de &kapp;, les programmes requis, les instructions d'installation, et les informations de changement de version ne sont pas à jour ou sont incomplétes. Veuillez prendre contact avec l'auteur à l'adresse <email
+>jasonwood@blueyonder.co.uk</email
+> pour de plus amples informations. </para>
 <para
->  </para>
+> Salutations </para>
 <para
->  </para>
+> Jason </para>
 </abstract>
 
 <!-- This is a set of Keywords for indexing by search engines.
@@ -98,11 +139,12 @@ Please at least include KDE, the KDE package it is in, the name
 of your application, and a few relevant keywords. -->
 
 <keywordset>
-
 <keyword
-></keyword>
+>KDE</keyword>
 <keyword
-></keyword>
+>Montage vidéo</keyword>
+<keyword
+>kdenlive</keyword>
 </keywordset>
 
 </bookinfo>
@@ -118,7 +160,7 @@ consistent documentation style across all KDE apps. -->
 
 <chapter id="introduction">
 <title
-></title>
+>Introduction</title>
 
 <!-- The introduction chapter contains a brief introduction for the
 application that explains what it does and where to report
@@ -165,7 +207,7 @@ your application. -->
 > <imagedata fileref="screenshot.eps" format="EPS"/> </imageobject
 > <textobject
 > <phrase
-></phrase
+>Capture d'écran</phrase
 > </textobject
 > </mediaobject
 > </screenshot
@@ -280,7 +322,8 @@ or menu bars. -->
 <sect1 id="kapp-mainwindow">
 <title
 ></title>
-
+<para
+></para>
 
 <sect2>
 <title
@@ -290,35 +333,73 @@ or menu bars. -->
 > <varlistentry
 > <term
 ><menuchoice
->  </menuchoice
+> <shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>n</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Nouveau</guimenuitem
+> </menuchoice
 ></term
 > <listitem
 ><para
 ><action
-></action
+>Création d'un nouveau projet de montage vidéo</action
 ></para
 ></listitem
 > </varlistentry
 > <varlistentry
 > <term
 ><menuchoice
->  </menuchoice
+> <shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>s</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Enregistrer</guimenuitem
+> </menuchoice
 ></term
 > <listitem
 ><para
 ><action
-></action
+>Enregistre le projet correspondant au montage vidéo</action
 ></para
 ></listitem
 > </varlistentry
 > <varlistentry
 > <term
 ><menuchoice
->  </menuchoice
+> <shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>q</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Quitter</guimenuitem
+> </menuchoice
 ></term
 > <listitem
 ><para
-></para
+><action
+>Quitte</action
+> &kapp;</para
 ></listitem
 > </varlistentry
 > </variablelist
@@ -331,7 +412,7 @@ or menu bars. -->
 
 <chapter id="developers">
 <title
-></title>
+>Le guide du développeur de &kapp;</title>
 
 <!-- (OPTIONAL) A Programming/Scripting reference chapter should be
 used for apps that use plugins or that provide their own scripting hooks
@@ -348,7 +429,7 @@ taken from that reference and shortened a bit for readability. -->
 
 <chapter id="faq">
 <title
-></title>
+>Questions fréquemment posées (FAQ)</title>
 
 <!-- (OPTIONAL but recommended) This chapter should include all of the silly
 (and not-so-silly) newbie questions that fill up your mailbox. This chapter
@@ -385,14 +466,16 @@ the credits with a reference to the appropriate license file included in the KDE
 distribution. -->
 
 <title
-></title>
+>Remerciements et licences</title>
 
 <para
->  </para>
+> &kapp; </para>
 <para
->  </para>
+> Kdenlive : copyright Jason Wood <email
+>jasonwood@blueyonder.co.uk</email
+>, 2002-2003 </para>
 <para
->  <itemizedlist
+> Contributeurs : <itemizedlist
 > <listitem
 > <para
 >  </para
@@ -405,9 +488,18 @@ distribution. -->
 > </para>
 
 <para
->  </para>
+> Documentation de Kdenlive : copyright Jason Wood <email
+>jasonwood@blueyonder.co.uk</email
+>, 2003  </para>
 
-<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
+<para
+>Traductions : Caulier Gilles <email
+>caulier.gilles@free.fr</email
+>.</para
+><para
+>Relecture des traductions : Danielle Caulier <email
+>caulier.danielle@free.fr</email
+>.</para>
 
 &underFDL;               <!-- FDL: do not remove. Commercial development should -->
 <!-- replace this with their copyright and either remove it or re-set this.-->
@@ -424,11 +516,11 @@ regardless of what license the application uses) -->
 
 <appendix id="installation">
 <title
-></title>
+>Installation</title>
 
 <sect1 id="getting-kdenlive">
 <title
-></title>
+>Comment obtenir Kdenlive</title>
 
 <para
 >  </para>
@@ -436,7 +528,7 @@ regardless of what license the application uses) -->
 
 <sect1 id="requirements">
 <title
-></title>
+>Programmes requis</title>
 
 <!--
 List any special requirements for your application here. This should include:
@@ -463,7 +555,7 @@ or the ChangeLog file, or ... -->
 
 <sect1 id="compilation">
 <title
-></title>
+>Compilation et installation</title>
 
 <para
 >  <screen width="40">
@@ -478,7 +570,7 @@ or the ChangeLog file, or ... -->
 
 <sect1 id="configuration">
 <title
-></title>
+>Configuration</title>
 
 <para
 >  </para>
