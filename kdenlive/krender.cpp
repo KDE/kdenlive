@@ -154,7 +154,7 @@ void KRender::launchProcess()
 	m_process.setExecutable("artsdsp");
   m_process << m_appPath.path();
   m_process << "-d";  
-  m_process << "-p " << m_portNum;
+  m_process << "-p " + QString::number(m_portNum);
 
 
 	kdDebug() << "Launching process " << m_appPath.path() << " as server on port " << m_portNum << endl;
