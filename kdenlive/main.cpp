@@ -19,6 +19,7 @@
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <klocale.h>
+#include <kstandarddirs.h>
 
 #include "kdenlive.h"
 #include "kdenlivesplash.h"
@@ -86,12 +87,18 @@ int main( int argc, char *argv[] )
 	if ( app.isRestored() ) {
 		RESTORE( KdenliveApp );
 	} else {
-		KdenliveSplash *splash = new KdenliveSplash( "kdenlive-splash.png" );
+				
+ 		QPixmap pixmap(locate( "appdata", "kdenlive-splash.png" ) );
+		
+		KdenliveSplash *splash = new KdenliveSplash( pixmap );
 		splash->show();
-
+		
 		KdenliveApp *kdenlive = new KdenliveApp();
 		kdenlive->show();
-
+		
+		splash->finish( kdenlive );
+		delete splash;
+		
 		KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
 		if ( args->count() ) {
