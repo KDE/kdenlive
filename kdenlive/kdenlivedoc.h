@@ -186,6 +186,8 @@ is not possible. */
   	void addTrack(DocTrackBase *track);
   /** Parses the XML Dom Document elements to populate the KdenliveDoc. */
   void loadFromXML(QDomDocument &doc);
+  /** Blocks all track signals if block==true, or unblocks them otherwise. Use when you want to temporarily ignore emits from tracks. */
+  void blockTrackSignals(bool block);
 	signals: // Signals
   	/** This signal is emitted whenever tracks are added to or removed from the project. */
   	void trackListChanged();

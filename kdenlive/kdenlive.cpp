@@ -257,39 +257,33 @@ void KdenliveApp::initView()
   setBackgroundMode(PaletteBase);
 
   connect(m_rulerPanel, SIGNAL(timeScaleChanged(int)), m_timeline, SLOT(setTimeScale(int)));
-
-  connect(m_projectList, SIGNAL(dragDropOccured(QDropEvent *)), getDocument(), SLOT(slot_insertClips(QDropEvent *)));
-  connect(m_timeline, SIGNAL(projectLengthChanged(int)), m_workspaceMonitor, SLOT(setClipLength(int)));
-
-  connect(m_timeline, SIGNAL(seekPositionChanged(const GenTime &)), m_workspaceMonitor, SLOT(seek(const GenTime &)));
+    
   connect(m_workspaceMonitor, SIGNAL(seekPositionChanged(const GenTime &)), m_timeline, SLOT(seek(const GenTime &)));
-  connect(getDocument(), SIGNAL(sceneListChanged(const QDomDocument &)), m_workspaceMonitor, SLOT(setSceneList(const QDomDocument &)));
+  connect(m_workspaceMonitor, SIGNAL(seekPositionChanged(const GenTime &)), this, SLOT(slotUpdateCurrentTime(const GenTime &)));
 
+  connect(getDocument(), SIGNAL(signalClipSelected(DocClipBase *)), this, SLOT(slotSetClipMonitorSource(DocClipBase *)));
   connect(getDocument(), SIGNAL(avFileListUpdated()), m_projectList, SLOT(slot_UpdateList()));
   connect(getDocument(), SIGNAL(avFileChanged(AVFile *)), m_projectList, SLOT(slot_avFileChanged(AVFile *)));
+  connect(getDocument(), SIGNAL(sceneListChanged(const QDomDocument &)), m_workspaceMonitor, SLOT(setSceneList(const QDomDocument &)));
 
-  connect(m_workspaceMonitor, SIGNAL(seekPositionChanged(const GenTime &)), this, SLOT(slotUpdateCurrentTime(const GenTime &)));
+  connect(getDocument()->renderer(), SIGNAL(effectListChanged(const QPtrList<EffectDesc> &)), m_effectListDialog, SLOT(setEffectList(const QPtrList<EffectDesc> &)));
 
   connect(m_renderManager, SIGNAL(recievedInfo(const QString &, const QString &)), m_renderDebugPanel, SLOT(slotPrintDebug(const QString &, const QString &)));    
   connect(m_renderManager, SIGNAL(recievedStdout(const QString &, const QString &)), m_renderDebugPanel, SLOT(slotPrintWarning(const QString &, const QString &)));
   connect(m_renderManager, SIGNAL(recievedStderr(const QString &, const QString &)), m_renderDebugPanel, SLOT(slotPrintError(const QString &, const QString &)));
-  
+  connect(m_renderManager, SIGNAL(error(const QString &, const QString &)), this, SLOT(slotRenderError(const QString &, const QString &)));
+   
+  connect(m_projectList, SIGNAL(AVFileSelected(AVFile *)), this, SLOT(activateClipMonitor()));
   connect(m_projectList, SIGNAL(AVFileSelected(AVFile *)), this, SLOT(slotSetClipMonitorSource(AVFile *)));
+  connect(m_projectList, SIGNAL(dragDropOccured(QDropEvent *)), getDocument(), SLOT(slot_insertClips(QDropEvent *)));
   
-  connect(getDocument(), SIGNAL(signalClipSelected(DocClipBase *)), this, SLOT(slotSetClipMonitorSource(DocClipBase *)));
-
+  connect(m_timeline, SIGNAL(projectLengthChanged(int)), m_workspaceMonitor, SLOT(setClipLength(int)));
+  connect(m_timeline, SIGNAL(seekPositionChanged(const GenTime &)), m_workspaceMonitor, SLOT(seek(const GenTime &)));  
   connect(m_timeline, SIGNAL(signalClipCropStartChanged(const GenTime &)), m_clipMonitor, SLOT(seek(const GenTime &)));
   connect(m_timeline, SIGNAL(signalClipCropEndChanged(const GenTime &)), m_clipMonitor, SLOT(seek(const GenTime &)));
-
-
-  // connects for clip/workspace monitor activation (i.e. making sure they are visible when needed)  
-  connect(m_projectList, SIGNAL(AVFileSelected(AVFile *)), this, SLOT(activateClipMonitor()));  
   connect(m_timeline, SIGNAL(signalClipCropStartChanged(const GenTime &)), this, SLOT(activateClipMonitor()));
   connect(m_timeline, SIGNAL(signalClipCropEndChanged(const GenTime &)), this, SLOT(activateClipMonitor()));
   connect(m_timeline, SIGNAL(seekPositionChanged(const GenTime &)), this, SLOT(activateWorkspaceMonitor()));
-
-  connect(getDocument()->renderer(), SIGNAL(effectListChanged(const QPtrList<EffectDesc> &)),
-                m_effectListDialog, SLOT(setEffectList(const QPtrList<EffectDesc> &)));
 
   makeDockInvisible(mainDock);
 
@@ -950,3 +944,7 @@ void KdenliveApp::activateWorkspaceMonitor()
   m_dockWorkspaceMonitor->makeDockVisible();
 }
 
+void KdenliveApp::slotRenderError(const QString &name, const QString &message)
+{
+  KMessageBox::sorry(this, message, name);
+}

@@ -40,6 +40,7 @@ KRender * KRenderManager::createRenderer(const QString &name)
   connect(render, SIGNAL(recievedStderr(const QString &, const QString &)), this, SIGNAL(recievedStderr(const QString &, const QString &)));
   connect(render, SIGNAL(recievedStdout(const QString &, const QString &)), this, SIGNAL(recievedStdout(const QString &, const QString &)));
   connect(render, SIGNAL(recievedInfo(const QString &, const QString &)), this, SIGNAL(recievedInfo(const QString &, const QString &)));
+  connect(render, SIGNAL(error(const QString &, const QString &)), this, SIGNAL(error(const QString &, const QString &)));
 
   ++m_currentPort;
   

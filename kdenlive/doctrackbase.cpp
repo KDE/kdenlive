@@ -44,10 +44,10 @@ bool DocTrackBase::addClip(DocClipBase *clip, bool selected)
 			m_selectedClipList.inSort(clip);
       emit signalClipSelected(clip);
 		} else {
-			m_unselectedClipList.inSort(clip);			
+			m_unselectedClipList.inSort(clip);
 		}
 		clip->setParentTrack(this, m_doc->trackIndex(this));
-		emit trackChanged();
+		emit clipLayoutChanged();
 		return true;
 	} else {
 		return false;
@@ -165,7 +165,7 @@ bool DocTrackBase::removeClip(DocClipBase *clip)
 	} else {
 		clip->setParentTrack(0, -1);
 	}
-	emit trackChanged();	
+	emit clipLayoutChanged();	
 	return true;
 }
 
@@ -193,13 +193,7 @@ void DocTrackBase::clipMoved(DocClipBase *clip)
 
 	list->take(pos);
 	list->inSort(clip);
-	emit trackChanged();
-}
-
-void DocTrackBase::selectClip(DocClipBase *clip, bool select)
-{
-	removeClip(clip);
-	addClip(clip, select);
+	emit clipLayoutChanged();
 }
 
 bool DocTrackBase::hasSelectedClips()
@@ -257,7 +251,7 @@ DocClipBaseList DocTrackBase::removeClips(bool selected)
    	returnList.append(clip);
   }
 
-	emit trackChanged();
+	emit clipLayoutChanged();
   return returnList;
 }
 
@@ -268,7 +262,7 @@ void DocTrackBase::deleteClips(bool selected)
 	list->setAutoDelete(true);
 	list->clear();
 	list->setAutoDelete(false);
-	emit trackChanged();    	
+	emit clipLayoutChanged();    	
 }
 
 bool DocTrackBase::clipSelected(DocClipBase *clip)
@@ -446,4 +440,25 @@ void DocTrackBase::trackIndexChanged(int index)
   	itt.current()->setParentTrack(this, index);
   	++itt;
   }
+}
+
+/** Sets the specified clip to be in the specified selection state. Does nothing if the clip is not on the track. */
+bool DocTrackBase::selectClip(DocClipBase *clip, bool selected)
+{
+	if(!clip) return false;
+
+  if ((!m_selectedClipList.take(m_selectedClipList.find(clip))) &&
+        (!m_unselectedClipList.take(m_unselectedClipList.find(clip)))) {
+		kdError() << "Cannot select clip on track - doesn't exist!" << endl;
+		return false;    
+  } else {
+    if(selected) {
+      m_selectedClipList.inSort(clip);
+    } else {
+      m_unselectedClipList.inSort(clip);      
+    }
+    emit clipSelectionChanged();
+  }
+  
+	return true;  
 }

@@ -76,10 +76,6 @@ false. */
   /** The clip specified has moved. This method makes sure that the clips
 are still in the correct order, rearranging them if they are not. */
   void clipMoved(DocClipBase *clip);
-  /** Makes the specified clip selected. If the clip is already selected, or if the clip
-   does not exist in this track, then a warning will be issued but no other effects occur.
-   If select is true, then the clip becomes selected, otherwise the clip becomes deselected.*/
-  void selectClip(DocClipBase *clip, bool select=true);
   /** Returns true if at least one clip in the track is selected, false otherwise. */
   bool hasSelectedClips();
   /** Returns an iterator to the first clip on the track.
@@ -115,6 +111,9 @@ last clip on the track. */
 changed. The track should update the clips on it with the new
 index value. */
   void trackIndexChanged(int index);
+  /** Sets the specified clip to be in the specified selection state. returns false if the clip
+  is not on the track. */
+  bool selectClip(DocClipBase *clip, bool selected);
 private: // Private methods
   /** Enables or disables clip sorting. This method is used internally to turn off the sorting of clips when it is known that they will be sorted elsewhere.
 
@@ -133,8 +132,10 @@ public: // Public attributes
   /** Contains a list of all of the selected clips within this track. */
   DocClipBaseList m_selectedClipList;
 signals:
-	/** Emitted whenever the track changes.*/
-	void trackChanged();
+	/** Emitted whenever the clip layout changes.*/
+	void clipLayoutChanged();
+	/** Emitted whenever the clip selection.*/
+	void clipSelectionChanged();  
   /** Emitted whenever a clip becomes selected. */
   void signalClipSelected(DocClipBase *);
 private: // Private attributes

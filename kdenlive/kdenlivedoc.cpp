@@ -292,7 +292,7 @@ void KdenliveDoc::addSoundTrack(){
 void KdenliveDoc::addTrack(DocTrackBase *track){
 	m_tracks.append(track);
 	track->trackIndexChanged(trackIndex(track));
-  connect(track, SIGNAL(trackChanged()), this, SLOT(hasBeenModified()));
+  connect(track, SIGNAL(clipLayoutChanged()), this, SLOT(hasBeenModified()));
   connect(track, SIGNAL(signalClipSelected(DocClipBase *)), this, SIGNAL(signalClipSelected(DocClipBase *)));
 	emit trackListChanged();
 }
@@ -481,6 +481,8 @@ bool KdenliveDoc::moveSelectedClips(GenTime startOffset, int trackOffset)
 	GenTime clipEndTime;
 	DocClipBase *srcClip, *destClip;
 
+  blockTrackSignals(true);
+
 	for(int track=0; track<numTracks(); track++) {
 		srcTrack = m_tracks.at(track);
 		if(!srcTrack->hasSelectedClips()) continue;
@@ -506,12 +508,15 @@ bool KdenliveDoc::moveSelectedClips(GenTime startOffset, int trackOffset)
 			}
 			if(destClip==0) break;
 
-			if(destClip->trackStart() < clipEndTime) return false;
+			if(destClip->trackStart() < clipEndTime) {
+        blockTrackSignals(false);
+        return false;
+      }
 
 			++srcClipItt;
 		}
 	}
-
+  
 	// we can now move all clips where they need to be.
 
 	// If the offset is negative, handle tracks from forwards, else handle tracks backwards. We
@@ -542,7 +547,9 @@ bool KdenliveDoc::moveSelectedClips(GenTime startOffset, int trackOffset)
 		}
 	}
 
-	generateSceneList();
+  blockTrackSignals(false);
+
+  hasBeenModified();
 
 	return true;
 }
@@ -728,3 +735,10 @@ KRender * KdenliveDoc::renderer()
   return m_render;
 }
 
+/** Blocks all track signals if block==true, or unblocks them otherwise. Use when you want to temporarily ignore emits from tracks. */
+void KdenliveDoc::blockTrackSignals(bool block)
+{
+  for(uint track=0; track<m_tracks.count(); ++track) {
+    m_tracks.at(track)->blockSignals(block);
+  }
+}

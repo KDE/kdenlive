@@ -267,6 +267,8 @@ signals: // Signals
   void signalFileFormatsUpdated(const QPtrList<AVFileFormatDesc> &);
   /** No descriptions */
   void effectListChanged(const QPtrList<EffectDesc> &);
+  /** Emitted when an error occurs within this renderer. */
+  void error(const QString &, const QString &);  
 public: // Public attributes
   /** If true, we are currently parsing some data. Otherwise, we are not. */
   bool m_parsing;

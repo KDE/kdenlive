@@ -462,6 +462,18 @@ bool KRender::topLevelStartElement(const QString & localName,
 																		 const QString & qName, const QXmlAttributes & atts)
 {
 	if(localName == "reply") {
+    QString status = atts.value("status");
+    if(!status.isNull()) {
+      if(status.lower() == "error") {
+        emit recievedInfo(m_name, "Reply recieved, status=\"error\"");
+        StackValue val;
+        val.element = "reply_error";
+        val.funcStartElement = &KRender::replyError_StartElement;
+        val.funcEndElement = 0;
+        m_parseStack.push(val);
+        return true;
+      }
+    }
 		QString command = atts.value("command");
 		if(command.isNull()) {
       emit recievedInfo(m_name, "Reply recieved, no command specified");
@@ -922,17 +934,20 @@ bool KRender::replyError_StartElement(const QString & localName, const QString &
 
 bool KRender::reply_errmsg_EndElement(const QString & localName, const QString & qName)
 {
-  m_errorMessage = m_characterBuffer.simplifyWhiteSpace();
+  emit error(m_name, m_characterBuffer.simplifyWhiteSpace());
   return true;
 }
 
+
 bool KRender::replyError_GetFileProperties_EndElement(const QString & localName, const QString & qName)
-{                                              
+{
   emit replyErrorGetFileProperties(m_filePropertiesFileName, m_errorMessage);
   return true;
 }
 
-/** Returns true if the renderer is capable, or is believed to be capable of running and processing commands. It does not necessarily mean that the renderer is currently running, only that KRender has not given up trying to connect to/launch the renderer. Returns false if the renderer cannot be started. */
+/** Returns true if the renderer is capable, or is believed to be capable of running and processing commands. It does not necessarily mean
+that the renderer is currently running, only that KRender has not given up trying to connect to/launch the renderer. Returns false if the r
+enderer cannot be started. */
 bool KRender::rendererOk()
 {
   if(m_appPathInvalid) return false;

@@ -17,6 +17,7 @@
 
 #include <cmath>
 #include <stdlib.h>
+#include <iostream>
 
 #include <klocale.h>
 #include <qscrollbar.h>
@@ -120,7 +121,8 @@ void KMMTimeLine::insertTrack(int index, KMMTrackPanel *track)
 	m_trackList.insert(index, track);
 
 	connect(m_scrollBar, SIGNAL(valueChanged(int)), this, SLOT(drawTrackViewBackBuffer()));
-	connect(track->docTrack(), SIGNAL(trackChanged()), this, SLOT(drawTrackViewBackBuffer()));
+	connect(track->docTrack(), SIGNAL(clipLayoutChanged()), this, SLOT(drawTrackViewBackBuffer()));
+	connect(track->docTrack(), SIGNAL(clipSelectionChanged()), this, SLOT(drawTrackViewBackBuffer()));  
 
   connect(track, SIGNAL(signalClipCropStartChanged(const GenTime &)), this, SIGNAL(signalClipCropStartChanged(const GenTime &)));
   connect(track, SIGNAL(signalClipCropEndChanged(const GenTime &)), this, SIGNAL(signalClipCropEndChanged(const GenTime &)));  

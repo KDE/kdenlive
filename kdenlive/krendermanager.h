@@ -65,6 +65,8 @@ signals:
   void recievedStderr(const QString &, const QString &);
   /** Emitted when the renderer has recieved some info */
   void recievedInfo(const QString &, const QString &);
+  /** emitted when an error occurs within one of the managed renderers. */
+  void error(const QString &, const QString &);
 };
 
 #endif
