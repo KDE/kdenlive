@@ -116,9 +116,9 @@ void KdenliveApp::initActions()
   keyBindings = KStdAction::keyBindings(this, SLOT(slotConfKeys()), actionCollection());
   configureToolbars = KStdAction::configureToolbars(this, SLOT(slotConfToolbars()), actionCollection());
 
-  timelineMoveTool = new KRadioAction(i18n("Move/Resize Tool"), "moveresize.png", 0, this, SLOT(slotTimelineMoveTool()), actionCollection(),"timeline_move_tool");
-  timelineRazorTool = new KRadioAction(i18n("Razor Tool"), "razor.png", 0, this, SLOT(slotTimelineRazorTool()), actionCollection(),"timeline_razor_tool");
-  timelineSpacerTool = new KRadioAction(i18n("Spacing Tool"), "spacer.png", 0, this, SLOT(slotTimelineSpacerTool()), actionCollection(),"timeline_spacer_tool");
+  timelineMoveTool = new KRadioAction(i18n("Move/Resize Tool"), "moveresize.png", KShortcut(Qt::Key_Q), this, SLOT(slotTimelineMoveTool()), actionCollection(),"timeline_move_tool");
+  timelineRazorTool = new KRadioAction(i18n("Razor Tool"), "razor.png", KShortcut(Qt::Key_W), this, SLOT(slotTimelineRazorTool()), actionCollection(),"timeline_razor_tool");
+  timelineSpacerTool = new KRadioAction(i18n("Spacing Tool"), "spacer.png", KShortcut(Qt::Key_E), this, SLOT(slotTimelineSpacerTool()), actionCollection(),"timeline_spacer_tool");
   timelineSnapToFrame = new KToggleAction(i18n("Snap To Frames"), "snaptoframe.png", 0, this, SLOT(slotTimelineSnapToFrame()), actionCollection(),"timeline_snap_frame");
   timelineSnapToBorder = new KToggleAction(i18n("Snap To Border"), "snaptoborder.png", 0, this, SLOT(slotTimelineSnapToBorder()), actionCollection(),"timeline_snap_border");
 
@@ -182,7 +182,7 @@ void KdenliveApp::initActions()
   actionSetOutpoint->setStatusText(i18n("Set the outpoint to the current position"));
   actionDeleteSelected->setStatusText(i18n("Delete currently selected clips"));
   // use the absolute path to your kdenliveui.rc file for testing purpose in createGUI();
-  createGUI();
+  createGUI("kdenliveui.rc");
 
 }
 
@@ -277,7 +277,7 @@ void KdenliveApp::initView()
   m_clipMonitor = m_monitorManager.createMonitor(getDocument(), m_dockClipMonitor, i18n("Clip Monitor"));
   m_dockClipMonitor->setWidget(m_clipMonitor);
   m_dockClipMonitor->setDockSite(KDockWidget::DockFullSite);
-  m_dockClipMonitor->manualDock(m_dockWorkspaceMonitor, KDockWidget::DockLeft);
+  m_dockClipMonitor->manualDock(m_dockWorkspaceMonitor, KDockWidget::DockCenter);
 
   setBackgroundMode(PaletteBase);
 
