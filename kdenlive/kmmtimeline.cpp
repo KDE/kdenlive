@@ -32,6 +32,7 @@
 #include "kmmtimelinetrackview.h"
 #include "krulertimemodel.h"
 #include "kscalableruler.h"
+#include "kmoveclipscommand.h"
 #include "clipdrag.h"
 
 int KMMTimeLine::snapTolerance=20;
@@ -87,6 +88,7 @@ KMMTimeLine::KMMTimeLine(KdenliveApp *app, QWidget *rulerToolWidget, QWidget *sc
 
 	m_startedClipMove = false;
 	m_masterClip = 0;
+	m_moveClipsCommand = 0;
 
 	m_gridSnapTracker = m_snapToGridList.end();
 }
@@ -264,7 +266,12 @@ void KMMTimeLine::dragLeaveEvent ( QDragLeaveEvent *event )
 	// In a drag Leave Event, any clips in the selection are removed from the timeline.
 
 	m_selection.clear();
-
+	if(m_moveClipsCommand) {
+		#warning need to create a "delete selection" action here.
+  	delete m_moveClipsCommand;
+		m_moveClipsCommand = 0;
+	}
+	
 	QPtrListIterator<KMMTrackPanel> itt(m_trackList);
 
 	while(itt.current() != 0) {
@@ -281,6 +288,12 @@ void KMMTimeLine::dropEvent ( QDropEvent *event )
 		m_selection.setAutoDelete(true);
 		m_selection.clear();
 		m_selection.setAutoDelete(false);
+	}
+
+	if(m_moveClipsCommand) {
+		m_moveClipsCommand->setEndLocation(m_masterClip);
+		m_app->addCommand(m_moveClipsCommand, false);
+		m_moveClipsCommand = 0;	// KdenliveApp is now managing this command, we do not need to delete it.
 	}
 }
 
@@ -437,6 +450,7 @@ void KMMTimeLine::initiateDrag(DocClipBase *clipUnderMouse, GenTime clipOffset)
 {
 	m_masterClip = clipUnderMouse;
 	m_clipOffset = clipOffset;
+	m_moveClipsCommand = new KMoveClipsCommand(this, m_document, m_masterClip);
 	generateSnapToGridList();	
 	
 	m_startedClipMove = true;

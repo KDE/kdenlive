@@ -36,6 +36,7 @@
 class KdenliveDoc;
 class KdenliveView;
 class KCommandHistory;
+class KCommand;
 
 /**
   * The base class for Kdenlive application windows. It sets up the main
@@ -73,6 +74,8 @@ class KdenliveApp : public KMainWindow
   bool snapToFrameEnabled();
   /** Returns true if snapToBorder is checked, false otherwise */
   bool snapToBorderEnabled();
+  /** Adds a command to the command history, execute it if execute is true. */
+  void addCommand(KCommand *command, bool execute=true);
 
   protected:
     /** save general Options like all bar positions and status as well as the geometry and the recent file list to the configuration

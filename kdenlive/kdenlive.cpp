@@ -504,3 +504,9 @@ bool KdenliveApp::snapToBorderEnabled()
 {
 	return timelineSnapToBorder->isChecked();
 }
+
+/** Adds a command to the command history, execute it if execute is true. */
+void KdenliveApp::addCommand(KCommand *command, bool execute)
+{
+	m_commandHistory->addCommand(command, execute);
+}

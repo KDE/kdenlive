@@ -30,6 +30,7 @@ class QScrollBar;
 class KMMTimeLineTrackView;
 class KScalableRuler;
 class KdenliveApp;
+class KMoveClipsCommand;
 
 /**This is the timeline. It gets populated by tracks, which in turn are populated
 by video and audio clips, or transitional clips, or any other clip imaginable.
@@ -89,6 +90,8 @@ private:
   /** The snap tolerance specifies how many pixels away a selection is from a 
 snap point before the snap takes effect. */
   static int snapTolerance;  
+  /** A moveClipCommand action, used to record clip movement for undo/redo functionality. */
+  KMoveClipsCommand * m_moveClipsCommand;
 public: // Public methods
   /** This method adds a new track to the trackGrid. */
   void appendTrack(KMMTrackPanel *track);

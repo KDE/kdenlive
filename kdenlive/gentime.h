@@ -54,6 +54,11 @@ public:
 		return GenTime(m_time - op.seconds());	
 	}
 
+	/** Divides one GenTime by a double value, returning a GenTime */
+	GenTime operator/(double op) const {
+		return GenTime(m_time / op);
+	}
+
 	/* Implementation of < operator; Works identically as with basic types. */
 	bool operator<(GenTime op) const {
 		return m_time < op.seconds();
