@@ -99,8 +99,6 @@ private: // Private attributes
   unsigned int m_portNum;
   /** The XML reader */
   QXmlSimpleReader m_xmlReader;
-  /** The input source for the xml reader - set to be the incoming tcp socket */
-  QXmlInputSource *m_xmlInputSource;
   /** The path to the rendering application. */
   KURL m_appPath;
   /** True if we have sent a seek command but have not yet recieved a reply. */
@@ -111,8 +109,8 @@ private: // Private attributes
   bool m_setSceneListPending;
   /** Holds the scenelist to be sent, if pending. */
   QDomDocument m_sceneList;
-  /** If true, then we just "failed" to xml parse, when in actual fact it finished successfully. If false, then it really did fail. */
-  bool i_was_only_kidding_the_xml_parse_was_successful_really;
+  /** Holds the buffered communication from the socket, ready for processing. */
+  QString m_buffer;
   
   /** A function pointer to the relevant method that should parse tagOpen events */
   bool (KRender::*m_funcStartElement)(const QString & namespaceURI, const QString & localName,

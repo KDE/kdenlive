@@ -24,12 +24,10 @@ KRender::KRender(KURL appPath, unsigned int port, QObject *parent, const char *n
 																				QXmlDefaultHandler()
 {
 	startTimer(200);
-	m_xmlInputSource = 0;
 	m_parsing = false;
 	m_seekPending = false;
 	m_nextSeek = -1.0;
 	m_setSceneListPending = false;
-  i_was_only_kidding_the_xml_parse_was_successful_really = false;
 
 	m_xmlReader.setContentHandler(this);
 
@@ -49,7 +47,6 @@ KRender::KRender(KURL appPath, unsigned int port, QObject *parent, const char *n
 
 KRender::~KRender()
 {
-	if(m_xmlInputSource != 0) delete m_xmlInputSource;
 	killTimers();
 	quit();
 }
@@ -87,8 +84,6 @@ void KRender::error(int error)
 void KRender::connected()
 {
 	kdDebug() << "Connected" << endl;
-	if(m_xmlInputSource != 0) delete m_xmlInputSource;
-	m_xmlInputSource = new QXmlInputSource((QIODevice *)&m_socket);
 
 	emit initialised();
 }
@@ -96,47 +91,27 @@ void KRender::connected()
 /** Called when some data has been recieved by the socket, reads the data and processes it. */
 void KRender::readData()
 {
-  m_xmlInputSource->fetchData();
-  
-  do {
-    if(m_parsing==false) {
-      kdDebug() << "parsing data" << endl;
-      m_parsing = true;
-  		if(!m_xmlReader.parse(m_xmlInputSource, true)) {
-        if(i_was_only_kidding_the_xml_parse_was_successful_really) {
-          kdDebug() << "Parse successful" << endl;
-          i_was_only_kidding_the_xml_parse_was_successful_really = false;          
-        } else {
-    			kdError() << "Parse failed" << endl;
-        }
-   			m_parsing = false;        
-  		} else {
-        kdDebug() << "Parse successful, didn't use hack (continuing in another TCP packet?)" << endl;
-        return;        
-      }
-    } else {
-  		kdDebug() << "continuing parse" << endl;		
-  		if(!m_xmlReader.parseContinue()) {
-        if(i_was_only_kidding_the_xml_parse_was_successful_really) {
-          kdDebug() << "Parse successful" << endl;
-          i_was_only_kidding_the_xml_parse_was_successful_really = false;
-        } else {
-    			kdError() << "Parse failed" << endl;
-        }
-        m_parsing = false;        
-  		} else {
-        kdDebug() << "Parse successful, didn't use hack (continuing in another TCP packet?)" << endl;
-        return;
-      }
-  	}
-  } while(true);
+  m_buffer += QString(m_socket.readAll());
+  int pos;
+
+  while((pos = m_buffer.find("\n\n")) != -1) {    
+    QString temp = m_buffer.left(pos+1);    
+    m_buffer = m_buffer.right(m_buffer.length() - pos);
+    while(m_buffer.left(1) == "\n") m_buffer = m_buffer.right(m_buffer.length() -1);
+    
+    QXmlInputSource source;
+    source.setData(temp);
+    if(!m_xmlReader.parse(&source, false)) {
+      kdWarning() << "Parse Failed on " << temp << endl;
+    }
+  }  
 }
 
 /** Sends an XML command to the renderer. */
 void KRender::sendCommand(QDomDocument command)
 {
 //	kdDebug() << "Sending Command " << command.toString() << endl;
-	QCString str = command.toCString();
+	QCString str = command.toCString() + "\n";
 	m_socket.writeBlock(str, strlen(str));	
 }
 
@@ -390,6 +365,5 @@ bool KRender::reply_GenericEmpty_EndElement(const QString & namespaceURI, const 
 	m_funcStartElement = &KRender::topLevelStartElement;
 	m_funcEndElement = &KRender::topLevelEndElement;
 
-  i_was_only_kidding_the_xml_parse_was_successful_really = true;  
-	return false;
+	return true;
 }
