@@ -352,6 +352,8 @@ KRuler::KRuler(int min, int max, double scale, KRulerModel *model, QWidget *pare
 
 	setSizePolicy(QSizePolicy (QSizePolicy::Expanding, QSizePolicy::Fixed, FALSE));
 
+	invalidateBackBuffer();
+
 
  // we draw everything ourselves, no need to draw background.
 	setBackgroundMode(Qt::NoBackground);
@@ -383,6 +385,8 @@ KRuler::KRuler(KRulerModel *model, QWidget *parent, const char *name ) :
 
  // we draw everything ourselves, no need to draw background.
 	setBackgroundMode(Qt::NoBackground);
+
+	invalidateBackBuffer();
 }
 
 KRuler::KRuler(QWidget *parent, const char *name ) :
@@ -541,12 +545,14 @@ void KRuler::setSliderValue(int id, int value)
 
 	for(it = d->m_sliders.begin(); it != d->m_sliders.end(); it++) {
 		if((*it).getID() == id) {
-			invalidateBackBuffer((*it).leftBound((int)mapValueToLocal((*it).getValue()), height()),
-														 (*it).rightBound((int)mapValueToLocal((*it).getValue()), height()) + 1);
+			invalidateBackBuffer(
+				(*it).leftBound((int)mapValueToLocal((*it).getValue()), height()),
+				(*it).rightBound((int)mapValueToLocal((*it).getValue()), height()) + 1);
 			
 			if((*it).setValue(actValue)) {		
-				invalidateBackBuffer((*it).leftBound((int)mapValueToLocal((*it).getValue()), height()),
-															 (*it).rightBound((int)mapValueToLocal((*it).getValue()), height()) + 1);				
+				invalidateBackBuffer(
+				   (*it).leftBound((int)mapValueToLocal((*it).getValue()), height()),
+				   (*it).rightBound((int)mapValueToLocal((*it).getValue()), height()) + 1); 
 				
 				emit sliderValueChanged(id, actValue);				
 				break;
@@ -607,7 +613,7 @@ void KRuler::setMinValue(int value)
 
 void KRuler::setMaxValue(int value)
 {
-	m_maxValue = (value > m_minValue) ? value : m_minValue + 1;
+	m_maxValue = (value > m_minValue) ? value : m_minValue;
 	setSlidersToRange();  
 }
 
@@ -710,7 +716,7 @@ void KRuler::drawToBackBuffer(int start, int end)
 	// draw background, adding different colors before the start, and after the end values.
 
 	int startRuler = (int)mapValueToLocal(minValue());
-	int endRuler = (int)mapValueToLocal(maxValue());
+	int endRuler = (int)mapValueToLocal((maxValue() > minValue()) ? maxValue() : maxValue()+1);
 
 	if(startRuler > sx) {
 		painter.fillRect(sx, 0, startRuler-sx, height(), palette().active().background());
@@ -728,10 +734,10 @@ void KRuler::drawToBackBuffer(int start, int end)
 	painter.setPen(palette().active().foreground());
 	painter.setBrush(palette().active().background());
 
-  //
-  // Special case draw for when the big ticks are always coincidental with small ticks.
-  // Nicely stops rounding errors from creeping in, and should be slightly faster.
-  //
+	//
+	// Special case draw for when the big ticks are always coincidental with small ticks.
+	// Nicely stops rounding errors from creeping in, and should be slightly faster.
+	//
   if(!(m_bigTickEvery % m_smallTickEvery)) {
   	value = (int)((m_leftMostPixel+sx)/m_xValueSize);
    	value -= value % m_smallTickEvery;
@@ -809,6 +815,11 @@ void KRuler::drawToBackBuffer(int start, int end)
 	}
 
 	update();
+}
+
+void KRuler::invalidateBackBuffer()
+{
+	invalidateBackBuffer(0, width());
 }
 
 void KRuler::invalidateBackBuffer(int start, int end)

@@ -52,6 +52,7 @@ KFixedRuler::~KFixedRuler()
 void KFixedRuler::calculateViewport()
 {
 	int numValues = maxValue() - minValue();
+	if(numValues==0) numValues = 1;
 	double scale = (((double)width()-(2*margin())) / (double)numValues);
 	int firstPixel = (int)(minValue()*scale) - margin();
 
@@ -78,7 +79,7 @@ void KFixedRuler::setRange(const int min, const int max)
 	
 	if(minValue()!=min) {
 		hasChanged = true;
-		emit startValueChanged(min);		
+		emit startValueChanged(min);
 	}
 	
 	if(maxValue() != max) {
@@ -90,7 +91,7 @@ void KFixedRuler::setRange(const int min, const int max)
 	
 	if(hasChanged) {
 		calculateViewport();
-	}	
+	}
 }
 
 /** Returns the minimum value of this ruler */

@@ -89,6 +89,8 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
   /** Draws the ruler to a back buffered QImage, but does not display it. This image can then be
    blitted straight to the screen for speedy drawing. */
   void drawToBackBuffer(int start, int end);
+  /** Specifies that the entire back buffer needs to be redrawn.  */
+  void invalidateBackBuffer();
   /** Specifies that part of the back buffer needs to be redrawn.  */
   void invalidateBackBuffer(int start, int end);
 public slots: // public slots
