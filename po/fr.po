@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "POT-Creation-Date: 2003-03-12 22:22+0100\n"
-"PO-Revision-Date: 2003-03-13 14:47+0100\n"
+"PO-Revision-Date: 2003-03-14 08:35+0100\n"
 "Last-Translator: Gilles CAULIER <caulier.gilles@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -734,7 +734,7 @@ msgstr "KScalableRuler"
 
 #: exportdialog.cpp:28
 msgid "Render Dialog"
-msgstr "Boîte de dialogue du rendu vidéo"
+msgstr "Exporter le montage vidéo"
 
 #: avformatwidgetcontainer.moc.cpp:34 avformatwidgetcontainer.moc.cpp:42
 msgid "AVFormatWidgetContainer"
