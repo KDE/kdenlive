@@ -206,7 +206,14 @@ void KRender::ping(QString &ID)
 	sendCommand(doc);
 }
 
-
+void KRender::play(double speed)
+{
+	QDomDocument doc;
+	QDomElement elem = doc.createElement("play");
+	elem.setAttribute("speed", speed);
+	doc.appendChild(elem);
+	sendCommand(doc);	
+}
 
 
 
@@ -258,8 +265,7 @@ bool KRender::topLevelStartElement(const QString & namespaceURI, const QString &
 		if(command.isNull()) {
 			kdError() << "Reply recieved, no command specified" << endl;
 			return false;
-		}
-		if(command == "createVideoXWindow") {
+		} else if(command == "createVideoXWindow") {
 			QString winID = atts.value("WinID");
 			WId retID = 0;
 			if(winID.isNull()) {
@@ -271,8 +277,7 @@ bool KRender::topLevelStartElement(const QString & namespaceURI, const QString &
 			m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
 			m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;
 			return true;
-		}
-		if(command == "getFileProperties") {		
+		} else if(command == "getFileProperties") {		
 			QMap<QString, QString> map;
 
 			map["filename"] = atts.value("filename");
@@ -280,6 +285,10 @@ bool KRender::topLevelStartElement(const QString & namespaceURI, const QString &
 
 			emit replyGetFileProperties(map);
 
+			m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
+			m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;
+			return true;
+		} else if(command == "play") {
 			m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
 			m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;
 			return true;
