@@ -16,6 +16,7 @@
  ***************************************************************************/
 #include "kmmtimeline.h"
 #include "kmmrulerpanel.h"
+#include "kcombobox.h"
 
 KMMTimeLine::KMMTimeLine( QWidget *scrollToolWidget, QWidget *parent , const char *name ) :
 		KTimeLine( new KMMRulerPanel( NULL, "Ruler Panel" ), scrollToolWidget, parent, name )
@@ -32,7 +33,6 @@ KMMTimeLine::KMMTimeLine( QWidget *scrollToolWidget, QWidget *parent , const cha
 	connect( m_rulerToolWidget, SIGNAL( timeScaleChanged( double ) ), this, SLOT( setTimeScale( double ) ) );
 }
 
-
 KMMTimeLine::~KMMTimeLine()
 {}
 
@@ -43,7 +43,6 @@ void KMMTimeLine::invalidateClipBuffer( DocClipRef *clip )
 	invalidateBackBuffer();
 }
 
-
 void KMMTimeLine::fitToWidth()
 {
 	double duration = projectLength().frames( framesPerSecond() );
@@ -53,4 +52,15 @@ void KMMTimeLine::fitToWidth()
 	m_rulerToolWidget->setScale( scale );
 
 	setTimeScale(scale);
+}
+
+void KMMTimeLine::setSliderIndex( int index )
+{
+	m_rulerToolWidget->comboScaleChange( index );
+}
+
+int KMMTimeLine::getTimeScaleSliderValue() const
+{
+	int value = m_rulerToolWidget->m_scaleCombo->currentItem();
+	return value;
 }

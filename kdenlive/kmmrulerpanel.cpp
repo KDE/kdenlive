@@ -14,10 +14,11 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
+#include <klocale.h>
 #include "kmmrulerpanel.h"
 #include "kcombobox.h"
 #include "qslider.h"
+#include <qtooltip.h>
 
 #include <stdlib.h>
 #include <math.h>
@@ -34,8 +35,6 @@ KMMRulerPanel::KMMRulerPanel(QWidget *parent, const char *name ) : KMMRulerPanel
 	connect(m_scaleSlider, SIGNAL(valueChanged(int)), this, SLOT(sliderScaleChange(int)));
 
 	m_sync = false;
-	m_scaleCombo->setCurrentItem(6);
-	comboScaleChange(6);
 }
 
 KMMRulerPanel::~KMMRulerPanel()
@@ -45,6 +44,7 @@ KMMRulerPanel::~KMMRulerPanel()
 /** takes index and figures out the correct scale value from it, which then get's emitted. */
 void KMMRulerPanel::comboScaleChange(int index)
 {
+	m_scaleCombo->setCurrentItem( index );
 	if(m_sync) {
 		m_sync = false;
 		return;

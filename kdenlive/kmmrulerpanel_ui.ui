@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>KMMRulerPanel_UI</class>
 <widget class="QWidget">
     <property name="name">
@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>291</width>
-            <height>27</height>
+            <height>34</height>
         </rect>
     </property>
     <property name="caption">
@@ -102,6 +102,9 @@
             <property name="editable">
                 <bool>false</bool>
             </property>
+            <property name="toolTip" stdset="0">
+                <string>Change the timeline view</string>
+            </property>
         </widget>
         <widget class="QSlider">
             <property name="name">
@@ -123,16 +126,24 @@
                 <enum>Horizontal</enum>
             </property>
             <property name="tickmarks">
-                <enum>Left</enum>
+                <enum>Above</enum>
             </property>
             <property name="tickInterval">
                 <number>10</number>
             </property>
+            <property name="toolTip" stdset="0">
+                <string>Change the timeline view</string>
+            </property>
         </widget>
     </hbox>
 </widget>
-<layoutdefaults spacing="6" margin="11"/>
+<customwidgets>
+</customwidgets>
 <includes>
-	<include location="global" impldecl="in implementation">kcombobox.h</include>
+    <include location="global" impldecl="in implementation">kcombobox.h</include>
 </includes>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>kcombobox.h</includehint>
+</includehints>
 </UI>

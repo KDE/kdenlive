@@ -220,6 +220,13 @@ void KTimeLine::setTimeScale( double scale )
 	drawTrackViewBackBuffer();
 }
 
+//retrieve timeline timescale slider value -reh
+/*int KTimeLine::getTimeScaleSliderValue() const
+{
+	int localValue = ( int ) mapValueToLocal( m_ruler->getSliderValue( 0 ) );
+	return localValue;
+}*/
+
 /** Calculates the size of the project, and sets up the timeline to accomodate it. */
 void KTimeLine::slotSetProjectLength(const GenTime &size)
 {
@@ -254,9 +261,6 @@ const QString &KTimeLine::editMode() const
 /** A ruler slider has moved - do something! */
 void KTimeLine::slotSliderMoved( int slider, int value )
 {
-	/*if ( slider == 0 ) {
-		emit seekPositionChanged( GenTime( value, m_framesPerSecond ) );
-	}*/
 	switch(slider)
 	{
 		case 0:
@@ -425,3 +429,5 @@ void KTimeLine::setOutpointTimeline( const GenTime &outpoint )
 {
 	m_ruler->setSliderValue( 2, ( int ) floor( outpoint.frames( m_framesPerSecond ) ) );
 }
+
+

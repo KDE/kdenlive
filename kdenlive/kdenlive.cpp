@@ -455,6 +455,7 @@ void KdenliveApp::saveOptions()
 	config->writeEntry( "Show Toolbar", viewToolBar->isChecked() );
 	config->writeEntry( "Show Statusbar", viewStatusBar->isChecked() );
 	config->writeEntry( "ToolBarPos", ( int ) toolBar( "mainToolBar" ) ->barPos() );
+	config->writeEntry( "TimeScaleSlider", m_timeline->getTimeScaleSliderValue() );
 
 	fileOpenRecent->saveEntries( config, "Recent Files" );
 	config->writeEntry( "FileDialogPath", m_fileDialogPath.path() );
@@ -484,6 +485,10 @@ void KdenliveApp::readOptions()
 	KToolBar::BarPosition toolBarPos;
 	toolBarPos = ( KToolBar::BarPosition ) config->readNumEntry( "ToolBarPos", KToolBar::Top );
 	toolBar( "mainToolBar" ) ->setBarPos( toolBarPos );
+	
+	//timeline slider timescale setting
+	int iTimeScaleSlider = (int) config->readNumEntry( "TimeScaleSlider", 6 );
+	m_timeline->setSliderIndex( iTimeScaleSlider );
 
 	// initialize the recent file list
 	fileOpenRecent->loadEntries( config, "Recent Files" );
