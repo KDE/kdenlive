@@ -27,6 +27,8 @@
 #include "avfile.h"
 #include "clipdrag.h"
 
+#include <algorithm>
+
 
 KMMMonitor::KMMMonitor(KdenliveApp *app, KdenliveDoc *document, QWidget *parent, const char *name ) :
 						QVBox(parent,name),
@@ -55,6 +57,7 @@ KMMMonitor::~KMMMonitor()
   if(m_editPanel) delete m_editPanel;
   if(m_screen) delete m_screen;
   if(m_screenHolder) delete m_screenHolder;
+  if(m_clip) delete m_clip;
 }
 
 void KMMMonitor::seek(const GenTime &time)
