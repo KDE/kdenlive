@@ -1,6 +1,4 @@
-####### kdevelop will overwrite this part!!! (begin)##########
 
-SUBDIRS = en fr
+SUBDIRS = en fr de it
 
-####### kdevelop will overwrite this part!!! (end)############
 
