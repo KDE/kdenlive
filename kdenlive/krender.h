@@ -111,6 +111,8 @@ private: // Private attributes
   bool m_setSceneListPending;
   /** Holds the scenelist to be sent, if pending. */
   QDomDocument m_sceneList;
+  /** If true, then we just "failed" to xml parse, when in actual fact it finished successfully. If false, then it really did fail. */
+  bool i_was_only_kidding_the_xml_parse_was_successful_really;
   
   /** A function pointer to the relevant method that should parse tagOpen events */
   bool (KRender::*m_funcStartElement)(const QString & namespaceURI, const QString & localName,

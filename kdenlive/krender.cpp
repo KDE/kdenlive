@@ -29,6 +29,7 @@ KRender::KRender(KURL appPath, unsigned int port, QObject *parent, const char *n
 	m_seekPending = false;
 	m_nextSeek = -1.0;
 	m_setSceneListPending = false;
+  i_was_only_kidding_the_xml_parse_was_successful_really = false;
 
 	m_xmlReader.setContentHandler(this);
 
@@ -95,27 +96,40 @@ void KRender::connected()
 /** Called when some data has been recieved by the socket, reads the data and processes it. */
 void KRender::readData()
 {
-	kdDebug() << "Reading data" << endl;
-	m_xmlInputSource->fetchData();
-
-  while(m_xmlInputSource->data() != QString::null) {
-    kdDebug() << "Parsing " << m_xmlInputSource->data() << endl;
-  	if(m_parsing == false) {
-  		kdDebug() << "parsing data" << endl;
-  		m_parsing = true;
-  		
+  m_xmlInputSource->fetchData();
+  
+  do {
+    if(m_parsing==false) {
+      kdDebug() << "parsing data" << endl;
+      m_parsing = true;
   		if(!m_xmlReader.parse(m_xmlInputSource, true)) {
-  			kdError() << "XML Parsing failed" << endl;
-  			m_parsing = false;
-  		}
-  	} else {
+        if(i_was_only_kidding_the_xml_parse_was_successful_really) {
+          kdDebug() << "Parse successful" << endl;
+          i_was_only_kidding_the_xml_parse_was_successful_really = false;          
+        } else {
+    			kdError() << "Parse failed" << endl;
+        }
+   			m_parsing = false;        
+  		} else {
+        kdDebug() << "Parse successful, didn't use hack (continuing in another TCP packet?)" << endl;
+        return;        
+      }
+    } else {
   		kdDebug() << "continuing parse" << endl;		
   		if(!m_xmlReader.parseContinue()) {
-  			kdError() << "Error parsing XML from server" << endl;
-  			m_parsing = false;
-  		}
+        if(i_was_only_kidding_the_xml_parse_was_successful_really) {
+          kdDebug() << "Parse successful" << endl;
+          i_was_only_kidding_the_xml_parse_was_successful_really = false;
+        } else {
+    			kdError() << "Parse failed" << endl;
+        }
+        m_parsing = false;        
+  		} else {
+        kdDebug() << "Parse successful, didn't use hack (continuing in another TCP packet?)" << endl;
+        return;
+      }
   	}
-  }
+  } while(true);
 }
 
 /** Sends an XML command to the renderer. */
@@ -233,7 +247,6 @@ void KRender::render(const KURL &url)
 
 void KRender::sendSeekCommand(GenTime time)
 {
-	kdDebug() << "Seeking..." << endl;
 	if(m_setSceneListPending) {
 		sendSetSceneListCommand(m_sceneList);
 	}
@@ -280,9 +293,7 @@ bool KRender::startElement(const QString & namespaceURI, const QString & localNa
 {
 	kdDebug() << "Discovered opening tag " << localName << endl;
 
-	(this->*m_funcStartElement)(namespaceURI, localName, qName, atts);
-	
-	return true;
+	return (this->*m_funcStartElement)(namespaceURI, localName, qName, atts);
 }
 
 /** Called when the xml parser encounters a closing tag */
@@ -290,17 +301,13 @@ bool KRender::endElement ( const QString & namespaceURI, const QString & localNa
 {
 	kdDebug() << "Discovered closing tag " << localName << endl;
 
-	(this->*m_funcEndElement)(namespaceURI, localName, qName);
-
-	return true;
+	return (this->*m_funcEndElement)(namespaceURI, localName, qName);
 }
 
 /** Called when the xml parser encounters an opening element and we are outside of a parsing loop. */
 bool KRender::topLevelStartElement(const QString & namespaceURI, const QString & localName,
 																		 const QString & qName, const QXmlAttributes & atts)
 {
-	kdDebug() << "Parsing topLevel startElement()" << endl;
-
 	if(localName == "reply") {
 		QString command = atts.value("command");
 		if(command.isNull()) {
@@ -353,8 +360,9 @@ bool KRender::topLevelStartElement(const QString & namespaceURI, const QString &
 	} else if(localName == "pong") {
 		QString id = atts.value("id");
 		kdDebug() << "pong recieved : " << id << endl;
-			m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
-			m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;
+		m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
+  	m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;
+    return true;
 	}
 
 	kdWarning() << "Unknown tag" << endl;
@@ -366,7 +374,6 @@ bool KRender::topLevelEndElement(const QString & namespaceURI, const QString & l
 																									const QString & qName)
 {
 	kdWarning() << "Parsing topLevel End Element - this should not happen, ever!" << endl;
-	m_parsing = false;		
 	return false;
 }
 
@@ -383,6 +390,6 @@ bool KRender::reply_GenericEmpty_EndElement(const QString & namespaceURI, const 
 	m_funcStartElement = &KRender::topLevelStartElement;
 	m_funcEndElement = &KRender::topLevelEndElement;
 
-	m_parsing = false;
-	return true;
+  i_was_only_kidding_the_xml_parse_was_successful_really = true;  
+	return false;
 }
