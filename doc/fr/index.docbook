@@ -529,7 +529,11 @@ regardless of what license the application uses) -->
 >Comment obtenir Kdenlive</title>
 
 <para
->  </para>
+> La page WEB de &kdenlive; est <ulink url="http://www.uchian.pwp.blueyonder.co.uk/kdenlive.html"
+>http://www.uchian.pwp.blueyonder.co.uk/kdenlive.html</ulink
+>. &kdenlive; peut être trouvé à la page du projet <ulink url="http://sourceforge.net/projects/kdenlive/"
+>http://sourceforge.net/projects/kdenlive/</ulink
+> du serveur SourceForge. </para>
 </sect1>
 
 <sect1 id="requirements">

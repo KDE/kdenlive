@@ -456,11 +456,11 @@ distribution. -->
 <title>How to obtain Kdenlive</title>
 
 <para>
-	&kdenlive; is part of the KDE project
-	<ulink url="http://www.kde.org">http://www.kde.org</ulink>.
-	&kdenlive; can be found in the kdeutils package on
-	<ulink url="ftp://ftp.kde.org/pub/kde/">ftp://ftp.kde.org/pub/kde/</ulink>, the
-	main ftp site of the KDE project. </para>
+	The &kdenlive; WEB site is 
+	<ulink url="http://www.uchian.pwp.blueyonder.co.uk/kdenlive.html">http://www.uchian.pwp.blueyonder.co.uk/kdenlive.html</ulink>.
+	&kdenlive; can be found in the SourceForge project page on
+	<ulink url="http://sourceforge.net/projects/kdenlive/">http://sourceforge.net/projects/kdenlive/</ulink>
+</para>
 </sect1>
 
 <sect1 id="requirements">

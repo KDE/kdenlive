@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: index_fr\n"
 "POT-Creation-Date: 2001-02-09 01:25+0100\n"
-"PO-Revision-Date: 2003-07-30 17:42+0200\n"
+"PO-Revision-Date: 2003-07-30 18:11+0200\n"
 "Last-Translator: Gilles CAULIER <caulier.gilles@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -140,14 +140,18 @@ msgid ""
 "mistake after five minutes, you can't just \"push\" the last five minutes "
 "around to add space for new clips."
 msgstr ""
-"Dans le passé, le montage vidéo sur l'ordinateur était possible à l'aide d'un éditeur vidéo dit « linéaire », en "
-"utilisant essentiellement deux magnétoscopes. Le premier contenait les séquences vidéo cibles, et le second "
-"était employé pour rechercher les plans vidéo à monter dans les séquences vidéo cibles. L'opération consistait "
-"à trouver un plan vidéo, à l'enregistrer dans la séquence vidéo cible, à trouver le plan vidéo suivant, à l'enregistrer "
-"dans une autre séquence vidéo cible, etc. Cette méthode s'appelle « l'édition vidéo linéaire » car l'utilisation de "
-"bande vidéo nécessitait une édition des séquences vidéo de manières séquentielles. Par exemple, il est très "
-"difficile de libérer de l'espace vide pour ajouter un nouveau plan vidéo à une séquence vidéo d'une durée "
-"globale de 10 minutes, après les cinq premières minutes de celle ci."
+"Dans le passé, le montage vidéo sur l'ordinateur était possible à l'aide "
+"d'un éditeur vidéo dit « linéaire », en utilisant essentiellement deux "
+"magnétoscopes. Le premier contenait les séquences vidéo cibles, et le second "
+"était employé pour rechercher les plans vidéo à monter dans les séquences "
+"vidéo cibles. L'opération consistait à trouver un plan vidéo, à "
+"l'enregistrer dans la séquence vidéo cible, à trouver le plan vidéo suivant, "
+"à l'enregistrer dans une autre séquence vidéo cible, etc. Cette méthode "
+"s'appelle « l'édition vidéo linéaire » car l'utilisation de bande vidéo "
+"nécessitait une édition des séquences vidéo de manières séquentielles. Par "
+"exemple, il est très difficile de libérer de l'espace vide pour ajouter un "
+"nouveau plan vidéo à une séquence vidéo d'une durée globale de 10 minutes, "
+"après les cinq premières minutes de celle ci."
 
 #: index.docbook:154
 #, no-c-format
@@ -159,11 +163,12 @@ msgid ""
 "you can press play and (with a sufficiently powerful computer) watch back "
 "what you have done there and then."
 msgstr ""
-"Le montage vidéo « non linéaire » est un procédé plus flexible. Vous pouvez placer des nouveaux plans vidéo "
-"n'importe où dans votre séquence vidéo cible (dans Kdenlive, ceci est représenté par l'intermédiaire de la "
-"table de montage), et les déplacer n'importe où autant de fois que vous voulez. Vous pouvez aussi les "
-"réarranger dans un ordre complètement différent et avec un ordinateur suffisamment puissant, observer le "
-"résultat final."
+"Le montage vidéo « non linéaire » est un procédé plus flexible. Vous pouvez "
+"placer des nouveaux plans vidéo n'importe où dans votre séquence vidéo cible "
+"(dans Kdenlive, ceci est représenté par l'intermédiaire de la table de "
+"montage), et les déplacer n'importe où autant de fois que vous voulez. Vous "
+"pouvez aussi les réarranger dans un ordre complètement différent et avec un "
+"ordinateur suffisamment puissant, observer le résultat final."
 
 #: index.docbook:165
 #, no-c-format
@@ -200,8 +205,9 @@ msgid ""
 "in the clip monitor, then that counts as one usage for the clip. (FIXME - "
 "this behaviour is likely to change in the future)."
 msgstr ""
-"Vous pouvez voir le nombre de fois qu'un plan vidéo est utilisé dans une séquence vidéo. Ceci inclu tous les "
-"usages du plan vidéo, dont la prévisualisation de celui ci."
+"Vous pouvez voir le nombre de fois qu'un plan vidéo est utilisé dans une "
+"séquence vidéo. Ceci inclu tous les usages du plan vidéo, dont la "
+"prévisualisation de celui ci."
 
 #: index.docbook:204
 #, no-c-format
@@ -215,9 +221,10 @@ msgid ""
 "instance, if you drag a dv straight from konqueror to &kapp;), then it will "
 "be automatically added to the project for you."
 msgstr ""
-"Si vous utilisez le glisser / déposer sur la table de montage vidéo avec un plan vidéo qui n'est "
-"pas dans votre projet (par exemple en utilisant un fichier au format « DV » à partir de Konqueror), "
-"alors celui ci sera automatiquement ajouté au projet."
+"Si vous utilisez le glisser / déposer sur la table de montage vidéo avec un "
+"plan vidéo qui n'est pas dans votre projet (par exemple en utilisant un "
+"fichier au format « DV » à partir de Konqueror), alors celui ci sera "
+"automatiquement ajouté au projet."
 
 #: index.docbook:210
 #, no-c-format
@@ -228,10 +235,12 @@ msgid ""
 "can select the clip you wish to add to this project. As long as the clips "
 "are valid, they will appear in the project list."
 msgstr ""
-"Vous pouvez ajouter vous même un plan vidéo dans la liste du projet. On utilise pour cela le menu contextuel "
-"de la liste du projet avec le bouton droit de la souris, ou le menu « Projet » dans la barre de menu de "
-"l'application. Sélectionnez l'option « Ajouter des plans vidéo » pour ouvrir une boîte de dialogue de sélection de "
-"fichiers. Si les fichiers vidéo choisis sont valides, il apparaîtront dans la liste du projet."
+"Vous pouvez ajouter vous même un plan vidéo dans la liste du projet. On "
+"utilise pour cela le menu contextuel de la liste du projet avec le bouton "
+"droit de la souris, ou le menu « Projet » dans la barre de menu de "
+"l'application. Sélectionnez l'option « Ajouter des plans vidéo » pour ouvrir "
+"une boîte de dialogue de sélection de fichiers. Si les fichiers vidéo "
+"choisis sont valides, il apparaîtront dans la liste du projet."
 
 #: index.docbook:219
 #, no-c-format
@@ -244,8 +253,8 @@ msgid ""
 "Delete clips is currently non-functional - the only way to delete clips is "
 "to use clean-project."
 msgstr ""
-"La suppression de plans vidéo n'est pas encore opérationnelle. La seule manière de supprimer des "
-"plans vidéo est de purger le projet."
+"La suppression de plans vidéo n'est pas encore opérationnelle. La seule "
+"manière de supprimer des plans vidéo est de purger le projet."
 
 #: index.docbook:226
 #, no-c-format
@@ -258,8 +267,9 @@ msgid ""
 "Clip Properties is currently non-functional - there is no way to examine the "
 "format of a clip except by examining the debug output ;-)"
 msgstr ""
-"L'affichage des propriétes d'un plan vidéo n'est pas encore opérationnelle. La seule solution "
-"existante pour avoir des informations sur un fichier vidéo est d'utiliser la fenêtre de débogage."
+"L'affichage des propriétes d'un plan vidéo n'est pas encore opérationnelle. "
+"La seule solution existante pour avoir des informations sur un fichier vidéo "
+"est d'utiliser la fenêtre de débogage."
 
 #: index.docbook:233
 #, no-c-format
@@ -275,10 +285,12 @@ msgid ""
 "alter your final edit in anyway - the only clips that are removed are those "
 "that are no longer in use anywhere."
 msgstr ""
-"Utiliser l'option « Purger le projet » pour supprimer de la liste du projet tous les plans vidéo non utilisés. Cette "
-"option est intéressante lorsque la liste du projet contient un très grand nombre de plans vidéo. La purge du "
-"projet n'affecte pas le montage vidéo final. Seul les plans vidéo qui ne sont pas utilisés dans le montage vidéo "
-"seront supprimés de la liste du projet."
+"Utiliser l'option « Purger le projet » pour supprimer de la liste du projet "
+"tous les plans vidéo non utilisés. Cette option est intéressante lorsque la "
+"liste du projet contient un très grand nombre de plans vidéo. La purge du "
+"projet n'affecte pas le montage vidéo final. Seul les plans vidéo qui ne "
+"sont pas utilisés dans le montage vidéo seront supprimés de la liste du "
+"projet."
 
 #: index.docbook:245
 #, no-c-format
@@ -406,8 +418,9 @@ msgid ""
 "Programming &kdenlive; plugins is a joy to behold. Just read through the "
 "next 66 pages of API's to learn how!"
 msgstr ""
-"La programmation de modules externes pour &kdenlive; est très attractive. Cependant, elle "
-"nécessite l'écriture de plus de 66 pages sur les API du programme."
+"La programmation de modules externes pour &kdenlive; est très attractive. "
+"Cependant, elle nécessite l'écriture de plus de 66 pages sur les API du "
+"programme."
 
 #: index.docbook:366
 #, no-c-format
@@ -420,8 +433,9 @@ msgid ""
 "When I add clips to the project, the times show up as 'unknown'. I know "
 "these clips are valid, why does this happen?"
 msgstr ""
-"Quand j'ajoute des plans vidéo au projet, la durée des fichiers vidéo est annotée « inconnue ». "
-"Ces fichiers sont pourtant des fichiers vidéo dont le format est connu. Que se passe t'il ?"
+"Quand j'ajoute des plans vidéo au projet, la durée des fichiers vidéo est "
+"annotée « inconnue ». Ces fichiers sont pourtant des fichiers vidéo dont le "
+"format est connu. Que se passe t'il ?"
 
 #: index.docbook:388
 #, no-c-format
@@ -433,11 +447,13 @@ msgid ""
 "quite safe to save it), perform the following operation : killall -9 piave. "
 "Wait a few seconds, and then restart kdenlive."
 msgstr ""
-"Ce message est du à une non reconnaissance du format vidéo par le programme « piave ». Comme &kapp; "
-"est une application encore récente, certain dysfonctionnements ne sont pas encore correctement gérés. La "
-"meilleure solution à ce problème et de quitter &kapp; (en enregistrant votre travail préalablement), et d'ouvrir "
-"une console en saisissant la ligne de commande suivante : « killall -9 piave ». Attendez quelques secondes, et "
-"relancez Kdenlive."
+"Ce message est du à une non reconnaissance du format vidéo par le programme "
+"« piave ». Comme &kapp; est une application encore récente, certain "
+"dysfonctionnements ne sont pas encore correctement gérés. La meilleure "
+"solution à ce problème et de quitter &kapp; (en enregistrant votre travail "
+"préalablement), et d'ouvrir une console en saisissant la ligne de commande "
+"suivante : « killall -9 piave ». Attendez quelques secondes, et relancez "
+"Kdenlive."
 
 #: index.docbook:409
 #, no-c-format
@@ -467,8 +483,8 @@ msgid ""
 "Caulier Gilles <email>caulier.Gilles@free.fr</email> : Kdenlive and Piave "
 "i18n, French translations, splashscreen"
 msgstr ""
-"Caulier Gilles <email>caulier.Gilles@free.fr</email> : internationalisation de Kdenlive et de Piave, "
-"traductions Françaises, logo de démarrage."
+"Caulier Gilles <email>caulier.Gilles@free.fr</email> : internationalisation "
+"de Kdenlive et de Piave, traductions Françaises, logo de démarrage."
 
 #: index.docbook:417
 #, no-c-format
@@ -476,8 +492,8 @@ msgid ""
 "Rolf Dubitzky <email>dubitzky@pktw06.phy.tu-dresden.de</email> : Piave "
 "implementations"
 msgstr ""
-"Rolf Dubitzky <email>dubitzky@pktw06.phy.tu-dresden.de</email> : auteur et mainteneur du "
-"programme « piave »."
+"Rolf Dubitzky <email>dubitzky@pktw06.phy.tu-dresden.de</email> : auteur et "
+"mainteneur du programme « piave »."
 
 #: index.docbook:433
 #, no-c-format
@@ -509,11 +525,17 @@ msgstr "Comment obtenir Kdenlive"
 #: index.docbook:458
 #, no-c-format
 msgid ""
-"&kdenlive; is part of the KDE project <ulink url=\"http://www.kde.org"
-"\">http://www.kde.org</ulink>. &kdenlive; can be found in the kdeutils "
-"package on <ulink url=\"ftp://ftp.kde.org/pub/kde/\">ftp://ftp.kde.org/pub/"
-"kde/</ulink>, the main ftp site of the KDE project."
+"The &kdenlive; WEB site is <ulink url=\"http://www.uchian.pwp.blueyonder.co."
+"uk/kdenlive.html\">http://www.uchian.pwp.blueyonder.co.uk/kdenlive.html</"
+"ulink>. &kdenlive; can be found in the SourceForge project page on <ulink "
+"url=\"http://sourceforge.net/projects/kdenlive/\">http://sourceforge.net/"
+"projects/kdenlive/</ulink>"
 msgstr ""
+"La page WEB de &kdenlive; est <ulink url=\"http://www.uchian.pwp.blueyonder.co."
+"uk/kdenlive.html\">http://www.uchian.pwp.blueyonder.co.uk/kdenlive.html</"
+"ulink>. &kdenlive; peut être trouvé à la page du projet <ulink "
+"url=\"http://sourceforge.net/projects/kdenlive/\">http://sourceforge.net/"
+"projects/kdenlive/</ulink> du serveur SourceForge."
 
 #: index.docbook:467
 #, no-c-format
@@ -527,9 +549,10 @@ msgid ""
 "Additionally, you need piave in order to do anthing useful - kdenlive itself "
 "is after all, just an interface :-)"
 msgstr ""
-"Pour pouvoir utiliser &kdenlive;, il est nécessaire d'avoir l'environnement de bureau KDE en version "
-"3.0 ou supérieure. De plus, il est nécessaire d'avoir le programme « piave » pour pouvoir faire des "
-"opérations sur les fichiers vidéo. Kdenlive est une interface graphique pour ce programme."
+"Pour pouvoir utiliser &kdenlive;, il est nécessaire d'avoir l'environnement "
+"de bureau KDE en version 3.0 ou supérieure. De plus, il est nécessaire "
+"d'avoir le programme « piave » pour pouvoir faire des opérations sur les "
+"fichiers vidéo. Kdenlive est une interface graphique pour ce programme."
 
 #: index.docbook:486
 #, no-c-format
@@ -538,8 +561,9 @@ msgid ""
 "<ulink url=\"http://pwp.blueyonder.co.uk/kdenlive.html\">The &kdenlive; home "
 "page</ulink>."
 msgstr ""
-"Toutes les bibliothèques ainsi le programme &kdenlive; peuvent être trouvés sur "
-"<ulink url=\"http://pwp.blueyonder.co.uk/kdenlive.html\">la page WEB du projet</ulink>."
+"Toutes les bibliothèques ainsi le programme &kdenlive; peuvent être trouvés "
+"sur <ulink url=\"http://pwp.blueyonder.co.uk/kdenlive.html\">la page WEB du "
+"projet</ulink>."
 
 #: index.docbook:493
 #, no-c-format
@@ -548,9 +572,9 @@ msgid ""
 "kdenlive.html\">http://pwp.blueyonder.co.uk/kdenlive.html</ulink>. FIXME : "
 "this link is actually fibbing at the moment."
 msgstr ""
-"Vous pouvez trouver la liste des dernières modifications de Kdenlive à l'adresse "
-"<ulink url=\"http://pwp.blueyonder.co.uk/kdenlive.html\">"
-"http://pwp.blueyonder.co.uk/kdenlive.html</ulink>."
+"Vous pouvez trouver la liste des dernières modifications de Kdenlive à "
+"l'adresse <ulink url=\"http://pwp.blueyonder.co.uk/kdenlive.html\">http://"
+"pwp.blueyonder.co.uk/kdenlive.html</ulink>."
 
 #: index.docbook:499
 #, no-c-format
@@ -563,8 +587,8 @@ msgid ""
 "In order to compile and install &kapp; on your system, type the following in "
 "the base directory of the Icon Editor distribution:"
 msgstr ""
-"Pour pouvoir compiler et installer &kapp; sur votre système, saisissez les lignes de commande "
-"suivantes :"
+"Pour pouvoir compiler et installer &kapp; sur votre système, saisissez les "
+"lignes de commande suivantes :"
 
 #: index.docbook:501
 #, no-c-format
@@ -583,9 +607,10 @@ msgid ""
 "Since KApp uses autoconf and automake you should have not trouble compiling "
 "it. Should you run into problems please report them to the KDE mailing lists."
 msgstr ""
-"Depuis que Kdenlive utilise les programmes « autoconf » et « automake », vous ne devriez pas "
-"avoir de problèmes pour compiler celui ci. Si vous rencontrez des difficultés, veulliez contacter la "
-"liste de diffusion du projet KDE."
+"Depuis que Kdenlive utilise les programmes « autoconf » et « automake », "
+"vous ne devriez pas avoir de problèmes pour compiler celui ci. Si vous "
+"rencontrez des difficultés, veulliez contacter la liste de diffusion du "
+"projet KDE."
 
 #: index.docbook:519
 #, no-c-format
