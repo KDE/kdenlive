@@ -125,11 +125,11 @@ public: // Public methods
   void scrollViewLeft();
   
   /** Selects the clip on the given track at the given value. */
-  void selectClipAt(DocTrackBase &track, int value);
+  void selectClipAt(DocTrackBase &track, GenTime value);
   
   /** Toggle Selects the clip on the given track and at the given value. The clip will become
   selected if it wasn't already selected, and will be deselected if it is. */
-  void toggleSelectClipAt(DocTrackBase &track, int value);
+  void toggleSelectClipAt(DocTrackBase &track, GenTime value);
   
   /** Initiates a drag operation on the selected clip, setting the master clip to clipUnderMouse,
   and the x offset to clipOffset. */
@@ -142,7 +142,6 @@ public: // Public methods
   /** Returns true if the specified cliplist can be successfully merged with the track
 	views, false otherwise. */
   bool canAddClipsToTracks(DocClipBaseList &clips, int track, GenTime clipOffset);
-  
 private: // private methods
 	void resizeTracks();
 	

@@ -31,6 +31,8 @@ DocTrackSound::~DocTrackSound()
 bool DocTrackSound::canAddClip(DocClipBase * clip)
 {
 	DocClipBase *search;
+
+	if(!clip) return false;
 	
 	QPtrListIterator<DocClipBase> u_itt(m_unselectedClipList);
 

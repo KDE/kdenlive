@@ -97,22 +97,22 @@ QPtrListIterator<DocClipBase> DocTrackBase::endClip(GenTime startValue, GenTime 
 	return itt;
 }
 
-DocClipBase *DocTrackBase::getClipAt(int value)
+DocClipBase *DocTrackBase::getClipAt(GenTime value)
 {
 	QPtrListIterator<DocClipBase> u_itt(m_unselectedClipList);
 	DocClipBase *file;
 	
 	for(;	(file=u_itt.current()) != 0; ++u_itt) {
-		if(file->trackStart().frames(25) > value) break;
-		if(file->trackStart().frames(25) + file->cropDuration().frames(25) > value) {
+		if(file->trackStart() > value) break;
+		if(file->trackStart() + file->cropDuration() > value) {
 			return file;
 		}
 	}
 
 	QPtrListIterator<DocClipBase> s_itt(m_selectedClipList);	
 	for(;	(file=s_itt.current()) != 0; ++s_itt) {
-		if(file->trackStart().frames(25) > value) break;
-		if(file->trackStart().frames(25) + file->cropDuration().frames(25) > value) {
+		if(file->trackStart() > value) break;
+		if(file->trackStart() + file->cropDuration() > value) {
 			return file;
 		}
 	}
@@ -147,6 +147,8 @@ bool DocTrackBase::clipExists(DocClipBase *clip)
 
 bool DocTrackBase::removeClip(DocClipBase *clip)
 {
+	if(!clip) return false;
+		
 	if((!m_selectedClipList.remove(clip)) && (!m_unselectedClipList.remove(clip))) {		
 		kdError() << "Cannot remove clip from track - doesn't exist!" << endl;
 		return false;
@@ -265,7 +267,23 @@ void DocTrackBase::selectNone()
 
 void DocTrackBase::toggleSelectClip(DocClipBase *clip)
 {
-	#warning toggleSelectClip not yet written.
+	if(!clip) {
+		kdError() << "Trying to toggleSelect null clip!" << endl;
+		return;
+	}
+	int num = m_selectedClipList.find(clip);
+	if(num!=-1) {
+		m_selectedClipList.take(num);
+		m_unselectedClipList.inSort(clip);
+	} else {
+		num = m_unselectedClipList.find(clip);
+		if(num!=-1) {
+			m_unselectedClipList.take(num);
+			m_selectedClipList.inSort(clip);
+		} else {
+			kdWarning() << "Cannot toggleSelectClip() - clip not on track!" << endl;
+		}
+	}
 }
 
 bool DocTrackBase::clipSelected(DocClipBase *clip)

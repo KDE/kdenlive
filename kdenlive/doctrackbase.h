@@ -60,7 +60,7 @@ You must choose which list of tracks you are interested in - the selected or uns
 		You must choose which list of tracks you are interested in - the selected or unselected. */  
   QPtrListIterator<DocClipBase> firstClip(GenTime startValue, GenTime endValue, bool selected);
   /** Returns the clip which resides at the current value, or 0 if non exists */
-  DocClipBase *getClipAt(int value);
+  DocClipBase *getClipAt(GenTime value);
   /** Adds all of the clips in the pointerlist into this track. */
   void addClips(DocClipBaseList list, bool selected);
   /** returns true if all of the clips within the cliplist can be added, returns false otherwise. */

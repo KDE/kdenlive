@@ -32,6 +32,7 @@ class KMMTrackPanel;
 
 class KMMTimeLineTrackView : public QWidget  {
 public:
+	enum ResizeState {None, Start, End};
 	KMMTimeLineTrackView(KMMTimeLine &timeLine, QWidget *parent=0, const char *name=0);
 	~KMMTimeLineTrackView();
 	void drawBackBuffer();
@@ -51,6 +52,8 @@ private: // Private attributes
   DocClipBase *m_clipUnderMouse;  
   /** The value offset between the mouse position and the start of the master clip. */
   GenTime m_clipOffset;
+  /** During a resize operation, holds the current resize state, as defined in the ResizeState enum. */
+  ResizeState m_resizeState;
   KMMTrackPanel * m_panelUnderMouse;
 };
 

@@ -34,6 +34,8 @@ bool DocTrackVideo::canAddClip(DocClipBase * clip)
 {
 	DocClipBase *search;
 
+	if(!clip) return false;
+
 	QPtrListIterator<DocClipBase> u_itt(m_unselectedClipList);
 	for(; (search=u_itt.current()) != 0; ++u_itt) {
 		if(search->trackStart() + search->cropDuration() < clip->trackStart()) continue;

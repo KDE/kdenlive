@@ -234,6 +234,11 @@ void KMMTimeLine::dragLeaveEvent ( QDragLeaveEvent *event )
 
 void KMMTimeLine::dropEvent ( QDropEvent *event )
 {
+	if(!m_selection.isEmpty()) {
+		m_selection.setAutoDelete(true);
+		m_selection.clear();
+		m_selection.setAutoDelete(false);
+	}
 }
 
 /** This method maps a local coordinate value to the corresponding
@@ -381,13 +386,13 @@ void KMMTimeLine::scrollViewRight()
 }
 
 /** Toggle Selects the clip on the given track and at the given value. The clip will become selected if it wasn't already selected, and will be deselected if it is. */
-void KMMTimeLine::toggleSelectClipAt(DocTrackBase &track, int value)
+void KMMTimeLine::toggleSelectClipAt(DocTrackBase &track, GenTime value)
 {
 	track.toggleSelectClip(track.getClipAt(value));
 }
 
 /** Selects the clip on the given track at the given value. */
-void KMMTimeLine::selectClipAt(DocTrackBase &track, int value)
+void KMMTimeLine::selectClipAt(DocTrackBase &track, GenTime value)
 {
 	track.selectClip(track.getClipAt(value));
 }
@@ -492,8 +497,8 @@ bool KMMTimeLine::clipSelected(DocClipBase *clip, DocTrackBase *track)
 
 	QPtrListIterator<KMMTrackPanel> itt(m_trackList);
 	while(itt.current()) {
-		if(m_trackList.current()->docTrack().clipExists(clip)) {
-			return m_trackList.current()->docTrack().clipSelected(clip);
+		if(itt.current()->docTrack().clipExists(clip)) {
+			return itt.current()->docTrack().clipSelected(clip);
 		}
 	
 		++itt;
@@ -557,5 +562,5 @@ DocClipBaseList KMMTimeLine::listSelected()
   	++itt;
   }
 	
-	return list;	
+	return list;
 }
