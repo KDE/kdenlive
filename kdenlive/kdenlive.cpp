@@ -281,7 +281,7 @@ void KdenliveApp::initView()
 	setMainDockWidget( mainDock );
 	setCaption( doc->URL().fileName(), false );
 
-	KDockWidget *widget = createDockWidget( i18n( "TimeLine" ), QPixmap(), 0, i18n( "TimeLine" ) );
+	KDockWidget *widget = createDockWidget( "TimeLine", QPixmap(), 0, i18n( "TimeLine" ) );
 	m_timeline = new KMMTimeLine( NULL, widget );
 	widget->setWidget( m_timeline );
 	widget->setDockSite( KDockWidget::DockFullSite );
