@@ -35,9 +35,14 @@ class QXEmbed;
 
 class KMMScreen : public QVBox  {
    Q_OBJECT
-public: 
+public:
 	KMMScreen(KdenliveApp *app, QWidget *parent=0, const char *name=0);
-	~KMMScreen();  	
+	~KMMScreen();
+	/** Returns the current play speed */
+	double playSpeed();
+
+	/** Returns the current seek position */
+	const GenTime &seekPosition() const;
 private: // Private attributes
 	KRender *m_render;
   KdenliveApp *m_app;
@@ -47,21 +52,25 @@ private slots: // Private slots
 a video window, etc. here. */
   void rendererReady();
 public slots: // Public slots
-  /** Embeds the specified window. */
-  void embedWindow(WId wid);
-  /** Seeks to the specified time */
-  void seek(const GenTime &time);
-  /** Set the play speed of the screen */
-  void play(double speed);
-  /** Set the displayed scenelist to the one specified. */
-  void setSceneList(const QDomDocument &scenelist);
+	/** Embeds the specified window. */
+	void embedWindow(WId wid);
+	/** Seeks to the specified time */
+	void seek(const GenTime &time);
+	/** Set the play speed of the screen */
+	void play(double speed);
+	/** Set the displayed scenelist to the one specified. */
+ 	void setSceneList(const QDomDocument &scenelist);
+	/** Called when the renderer stops playing */
+	void slotRendererStopped();
 signals: // Signals
-  /** Emitted when a renderer connects. */
-  void rendererConnected();
-  /** Emitted when a renderer disconnects. */
-  void rendererDisconnected();  
-  /** Emitted when the screen has seeked to a new position, e.g. when the renderer is playing. */
-  void seekPositionChanged(const GenTime &);
+	/** Emitted when a renderer connects. */
+	void rendererConnected();
+	/** Emitted when a renderer disconnects. */
+	void rendererDisconnected();
+	/** Emitted when the screen has seeked to a new position, e.g. when the renderer is playing. */
+	void seekPositionChanged(const GenTime &);
+	/** Emitted when the play speed changes */
+	void playSpeedChanged(double);
 };
 
 #endif

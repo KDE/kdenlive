@@ -110,9 +110,9 @@ bool KMMTrackVideoPanel::mousePressed(QMouseEvent *event)
 										if(m_clipUnderMouse) {
 											if(m_resizeState != None) {
                         m_timeline->selectClipAt(*m_docTrack, (m_clipUnderMouse->trackStart() + m_clipUnderMouse->trackEnd())/2.0);
-												m_resizeCommand = new KResizeCommand(m_docTrack->document(), m_clipUnderMouse);
+												m_resizeCommand = new Command::KResizeCommand(m_docTrack->document(), m_clipUnderMouse);
 											}
-		
+
 											if (event->state() & ControlButton) {
 											  m_timeline->toggleSelectClipAt(*m_docTrack, mouseTime);
 											} else if(event->state() & ShiftButton) {
@@ -124,10 +124,10 @@ bool KMMTrackVideoPanel::mousePressed(QMouseEvent *event)
 										}
 										break;
 
-										
+
 		case KdenliveApp::Razor :
 										m_clipUnderMouse = docTrack()->getClipAt(mouseTime);
-										if(m_clipUnderMouse) {										
+										if(m_clipUnderMouse) {
 											if (event->state() & ShiftButton) {
 												m_timeline->razorAllClipsAt(roundedMouseTime);
 											} else {
@@ -135,15 +135,15 @@ bool KMMTrackVideoPanel::mousePressed(QMouseEvent *event)
 											}
 											return true;
 										}
-										
+
 										break;
 
-										
+
 		case KdenliveApp::Spacer :
 										if (event->state() & ShiftButton) {
 			                m_timeline->addCommand(m_timeline->selectLaterClips(mouseTime, true), true);
 			       				} else {
-			                m_timeline->addCommand(m_timeline->selectLaterClips(mouseTime, false), true);			                
+			                m_timeline->addCommand(m_timeline->selectLaterClips(mouseTime, false), true);
 			           		}
 										return true;
 										break;

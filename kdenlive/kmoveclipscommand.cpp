@@ -21,6 +21,8 @@
 #include <klocale.h>
 #include <kdebug.h>
 
+namespace Command {
+
 KMoveClipsCommand::KMoveClipsCommand(KMMTimeLine *timeline, KdenliveDoc *doc, DocClipBase *master)
 													: KCommand()
 {
@@ -67,3 +69,5 @@ void KMoveClipsCommand::unexecute()
 	m_doc->moveSelectedClips(m_startTime - m_endTime, m_startTrack - m_endTrack);
 	m_timeline->drawTrackViewBackBuffer();	
 }
+
+} // namespace Command

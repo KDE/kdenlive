@@ -22,6 +22,8 @@
 #include <klocale.h>
 #include <kdebug.h>
 
+namespace Command {
+
 KResizeCommand::KResizeCommand(KdenliveDoc *doc, DocClipBase *clip)
 {
 	m_doc = doc;
@@ -84,3 +86,5 @@ void KResizeCommand::setEndTrackStart(const GenTime &time)
 {
 	m_end_trackStart = time;
 }
+
+} // namespace Command

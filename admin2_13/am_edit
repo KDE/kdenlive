@@ -1512,7 +1512,8 @@ sub tag_DIST () {
         }
     }
     my @files = ("Makefile", "config.cache", "config.log", "stamp-h",
-                 "stamp-h1", "stamp-h1", "config.h", "Makefile", "config.status", "config.h", "libtool");
+                 "stamp-h1", "stamp-h1", "config.h", "Makefile", 
+                 "config.status", "config.h", "libtool", "core" );
     foreach $file (@files) {
         $foundfiles{$file} = 0 if (defined $foundfiles{$file});
     }

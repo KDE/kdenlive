@@ -54,7 +54,9 @@
 #define ID_EDITMODE_MSG 2
 #define ID_CURTIME_MSG 2
 
-KdenliveApp::KdenliveApp(QWidget* , const char* name):KDockMainWindow(0, name)
+KdenliveApp::KdenliveApp(QWidget* , const char* name):
+				KDockMainWindow(0, name),
+				m_monitorManager(this)
 {
   config=kapp->config();
 
@@ -122,8 +124,12 @@ void KdenliveApp::initActions()
   renderExportTimeline = new KAction(i18n("&Export Timeline"), "exportvideo.png", 0, this, SLOT(slotRenderExportTimeline()), actionCollection(), "render_export_timeline");
 
   actionSeekForwards = new KAction(i18n("Seek &Forwards"), KShortcut(), this, SLOT(slotSeekForwards()), actionCollection(), "seek_forwards");
-  actionSeekBackwards = new KAction(i18n("Seek Backwards"), KShortcut(), this, SLOT(slotSeekBackwards()), actionCollection(), "seek_backwards");  
-  actionTogglePlay = new KAction(i18n("Start/Stop"), KShortcut(), this, SLOT(slotTogglePlay()), actionCollection(), "toggle_play");  
+  actionSeekBackwards = new KAction(i18n("Seek Backwards"), KShortcut(), this, SLOT(slotSeekBackwards()), actionCollection(), "seek_backwards");
+  actionTogglePlay = new KAction(i18n("Start/Stop"), KShortcut(Qt::Key_Space), this, SLOT(slotTogglePlay()), actionCollection(), "toggle_play");
+  actionNextFrame = new KAction(i18n("Forward one frame"), KShortcut(Qt::Key_Right), this, SLOT(slotNextFrame()), actionCollection(), "forward_frame");
+  actionLastFrame = new KAction(i18n("Back one frame"), KShortcut(Qt::Key_Left), this, SLOT(slotLastFrame()), actionCollection(), "backward_frame");
+  actionSetInpoint = new KAction(i18n("Set inpoint"), KShortcut(Qt::Key_BracketLeft), this, SLOT(slotSetInpoint()), actionCollection(), "set_inpoint");
+  actionSetOutpoint = new KAction(i18n("Set outpoint"), KShortcut(Qt::Key_BracketRight), this, SLOT(slotSetOutpoint()), actionCollection(), "set_outpoint");
   actionDeleteSelected = new KAction(i18n("Delete Selected Clips"), KShortcut(Qt::Key_Delete), this, SLOT(slotDeleteSelected()), actionCollection(), "delete_selected_clips");
 
   actionLoadLayout1 = new KAction(i18n("Load Layout &1"), "loadlayout1.png", KShortcut(Qt::Key_F9), this, SLOT(loadLayout1()), actionCollection(), "load_layout_1");
@@ -137,8 +143,8 @@ void KdenliveApp::initActions()
 
   timelineMoveTool->setExclusiveGroup("timeline_tools");
   timelineRazorTool->setExclusiveGroup("timeline_tools");
-  timelineSpacerTool->setExclusiveGroup("timeline_tools");  
-      
+  timelineSpacerTool->setExclusiveGroup("timeline_tools");
+
   fileNew->setStatusText(i18n("Creates a new document"));
   fileOpen->setStatusText(i18n("Opens an existing document"));
   fileOpenRecent->setStatusText(i18n("Opens a recently used file"));
@@ -164,7 +170,11 @@ void KdenliveApp::initActions()
   actionSeekForwards->setStatusText(i18n("Seek forward one frame"));
   actionSeekBackwards->setStatusText(i18n("Seek backwards one frame"));
   actionTogglePlay->setStatusText(i18n("Start or stop playback"));
-  actionDeleteSelected->setStatusText(i18n("Delete currently selected clips"));  
+  actionNextFrame->setStatusText(i18n("Move the current position forwards by one frame"));
+  actionLastFrame->setStatusText(i18n("Move the current position backwards by one frame"));
+  actionSetInpoint->setStatusText(i18n("Set the inpoint to the current position"));
+  actionSetOutpoint->setStatusText(i18n("Set the outpoint to the current position"));
+  actionDeleteSelected->setStatusText(i18n("Delete currently selected clips"));
   // use the absolute path to your kdenliveui.rc file for testing purpose in createGUI();
   createGUI();
 
@@ -195,14 +205,14 @@ void KdenliveApp::initDocument()
 }
 
 void KdenliveApp::initView()
-{ 
+{
   ////////////////////////////////////////////////////////////////////
   // create the main widget here that is managed by KTMainWindow's view-region and
   // connect the widget to your document to display document contents.
 
   view = new KdenliveView(this);
   doc->addView(view);
-  KDockWidget *mainDock = createDockWidget(i18n("Application"), QPixmap(), this, i18n("Application"));  
+  KDockWidget *mainDock = createDockWidget(i18n("Application"), QPixmap(), this, i18n("Application"));
   mainDock->setWidget(view);
   mainDock->setDockSite(KDockWidget::DockFullSite);
   setCentralWidget(mainDock);
@@ -244,21 +254,21 @@ void KdenliveApp::initView()
   widget->manualDock(projectDock, KDockWidget::DockCenter);    
 
   m_dockWorkspaceMonitor = createDockWidget("Workspace Monitor", QPixmap(), 0, i18n("Workspace Monitor"));
-	m_workspaceMonitor = new KMMMonitor(this, getDocument(), m_dockWorkspaceMonitor, i18n("Workspace Monitor"));
+	m_workspaceMonitor = m_monitorManager.createMonitor(getDocument(), m_dockWorkspaceMonitor, i18n("Workspace Monitor"));
   m_dockWorkspaceMonitor->setWidget(m_workspaceMonitor);
-  m_dockWorkspaceMonitor->setDockSite(KDockWidget::DockFullSite);    
-  m_dockWorkspaceMonitor->manualDock(mainDock, KDockWidget::DockRight);  
+  m_dockWorkspaceMonitor->setDockSite(KDockWidget::DockFullSite);
+  m_dockWorkspaceMonitor->manualDock(mainDock, KDockWidget::DockRight);
 
   m_dockClipMonitor = createDockWidget("Clip Monitor", QPixmap(), 0, i18n("Clip Monitor"));
-	m_clipMonitor = new KMMMonitor(this, getDocument(), m_dockClipMonitor, i18n("Clip Monitor"));
+	m_clipMonitor = m_monitorManager.createMonitor(getDocument(), m_dockClipMonitor, i18n("Clip Monitor"));
   m_dockClipMonitor->setWidget(m_clipMonitor);
   m_dockClipMonitor->setDockSite(KDockWidget::DockFullSite);
-  m_dockClipMonitor->manualDock(m_dockWorkspaceMonitor, KDockWidget::DockLeft);    
+  m_dockClipMonitor->manualDock(m_dockWorkspaceMonitor, KDockWidget::DockLeft);
 
   setBackgroundMode(PaletteBase);
 
   connect(m_rulerPanel, SIGNAL(timeScaleChanged(int)), m_timeline, SLOT(setTimeScale(int)));
-    
+
   connect(m_workspaceMonitor, SIGNAL(seekPositionChanged(const GenTime &)), m_timeline, SLOT(seek(const GenTime &)));
   connect(m_workspaceMonitor, SIGNAL(seekPositionChanged(const GenTime &)), this, SLOT(slotUpdateCurrentTime(const GenTime &)));
 
@@ -269,24 +279,24 @@ void KdenliveApp::initView()
 
   connect(getDocument()->renderer(), SIGNAL(effectListChanged(const QPtrList<EffectDesc> &)), m_effectListDialog, SLOT(setEffectList(const QPtrList<EffectDesc> &)));
 
-  connect(m_renderManager, SIGNAL(recievedInfo(const QString &, const QString &)), m_renderDebugPanel, SLOT(slotPrintDebug(const QString &, const QString &)));    
+  connect(m_renderManager, SIGNAL(recievedInfo(const QString &, const QString &)), m_renderDebugPanel, SLOT(slotPrintDebug(const QString &, const QString &)));
   connect(m_renderManager, SIGNAL(recievedStdout(const QString &, const QString &)), m_renderDebugPanel, SLOT(slotPrintWarning(const QString &, const QString &)));
   connect(m_renderManager, SIGNAL(recievedStderr(const QString &, const QString &)), m_renderDebugPanel, SLOT(slotPrintError(const QString &, const QString &)));
   connect(m_renderManager, SIGNAL(error(const QString &, const QString &)), this, SLOT(slotRenderError(const QString &, const QString &)));
-   
+
   connect(m_projectList, SIGNAL(AVFileSelected(AVFile *)), this, SLOT(activateClipMonitor()));
   connect(m_projectList, SIGNAL(AVFileSelected(AVFile *)), this, SLOT(slotSetClipMonitorSource(AVFile *)));
   connect(m_projectList, SIGNAL(dragDropOccured(QDropEvent *)), getDocument(), SLOT(slot_insertClips(QDropEvent *)));
-  
+
   connect(m_timeline, SIGNAL(projectLengthChanged(int)), m_workspaceMonitor, SLOT(setClipLength(int)));
-  connect(m_timeline, SIGNAL(seekPositionChanged(const GenTime &)), m_workspaceMonitor, SLOT(seek(const GenTime &)));  
+  connect(m_timeline, SIGNAL(seekPositionChanged(const GenTime &)), m_workspaceMonitor, SLOT(seek(const GenTime &)));
   connect(m_timeline, SIGNAL(signalClipCropStartChanged(const GenTime &)), m_clipMonitor, SLOT(seek(const GenTime &)));
   connect(m_timeline, SIGNAL(signalClipCropEndChanged(const GenTime &)), m_clipMonitor, SLOT(seek(const GenTime &)));
   connect(m_timeline, SIGNAL(lookingAtClip(DocClipBase *, const GenTime &)), this, SLOT(slotLookAtClip(DocClipBase *, const GenTime &)));
 
 
   // connects for clip/workspace monitor activation (i.e. making sure they are visible when needed)  
-  connect(m_projectList, SIGNAL(AVFileSelected(AVFile *)), this, SLOT(activateClipMonitor()));  
+  connect(m_projectList, SIGNAL(AVFileSelected(AVFile *)), this, SLOT(activateClipMonitor()));
   connect(m_timeline, SIGNAL(signalClipCropStartChanged(const GenTime &)), this, SLOT(activateClipMonitor()));
   connect(m_timeline, SIGNAL(signalClipCropEndChanged(const GenTime &)), this, SLOT(activateClipMonitor()));
   connect(m_timeline, SIGNAL(seekPositionChanged(const GenTime &)), this, SLOT(activateWorkspaceMonitor()));
@@ -314,7 +324,7 @@ KdenliveDoc *KdenliveApp::getDocument() const
 }
 
 void KdenliveApp::saveOptions()
-{	
+{
   config->setGroup("General Options");
   config->writeEntry("Geometry", size());
   config->writeEntry("Show Toolbar", viewToolBar->isChecked());
@@ -346,7 +356,7 @@ void KdenliveApp::readOptions()
   KToolBar::BarPosition toolBarPos;
   toolBarPos=(KToolBar::BarPosition) config->readNumEntry("ToolBarPos", KToolBar::Top);
   toolBar("mainToolBar")->setBarPos(toolBarPos);
-	
+
   // initialize the recent file list
   fileOpenRecent->loadEntries(config,"Recent Files");
   // file dialog path
@@ -433,8 +443,8 @@ void KdenliveApp::slotFileNew()
 
   }
   else
-  {	
-    doc->newDocument();		
+  {
+    doc->newDocument();
     setCaption(doc->URL().fileName(), false);
   }
 
@@ -487,7 +497,7 @@ void KdenliveApp::slotFileOpenRecent(const KURL& url)
 void KdenliveApp::slotFileSave()
 {
   slotStatusMsg(i18n("Saving file..."));
-	
+
   doc->saveDocument(doc->URL());
 
   slotStatusMsg(i18n("Ready."));
@@ -698,7 +708,7 @@ void KdenliveApp::slotRenderExportTimeline()
     KMessageBox::sorry(this, i18n("The renderer is not available. Please check your settings."), i18n("Cannot Export Timeline"));
   }
 
-  slotStatusMsg(i18n("Ready."));  
+  slotStatusMsg(i18n("Ready."));
 }
 
 void KdenliveApp::slotOptionsPreferences()
@@ -707,7 +717,7 @@ void KdenliveApp::slotOptionsPreferences()
 
   KdenliveSetupDlg dialog(this, this, "setupdlg");
   dialog.exec();
-  
+
   slotStatusMsg(i18n("Ready."));    
 }
 
@@ -720,7 +730,7 @@ KdenliveApp::TimelineEditMode KdenliveApp::timelineEditMode()
 
 	// fallback in case something is wrong.
 	kdWarning() << "No timeline tool enabled, returning default" << endl;
-	return Move;	
+	return Move;
 }
 
 /** Updates the current time in the status bar. */
@@ -799,13 +809,52 @@ void KdenliveApp::slotSeekForwards()
 void KdenliveApp::slotSeekBackwards()
 {
   slotStatusMsg(i18n("Seeking Backwards One Frame"));
-  slotStatusMsg(i18n("Ready."));  
+  slotStatusMsg(i18n("Ready."));
 }
 
 void KdenliveApp::slotTogglePlay()
 {
-  slotStatusMsg(i18n("Starting/stopping playback"));
-  slotStatusMsg(i18n("Ready."));
+	slotStatusMsg(i18n("Starting/stopping playback"));
+	if(m_monitorManager.hasActiveMonitor()) {
+ 		m_monitorManager.activeMonitor()->togglePlay();
+	}
+	slotStatusMsg(i18n("Ready."));
+}
+
+void KdenliveApp::slotNextFrame()
+{
+	slotStatusMsg(i18n("Moving forward one frame"));
+	if(m_monitorManager.hasActiveMonitor()) {
+		m_monitorManager.activeMonitor()->seek(m_monitorManager.activeMonitor()->seekPosition() + GenTime(1, getDocument()->framesPerSecond()));
+	}
+	slotStatusMsg(i18n("Ready."));
+}
+
+void KdenliveApp::slotLastFrame()
+{
+	slotStatusMsg(i18n("Moving backwards one frame"));
+	if(m_monitorManager.hasActiveMonitor()) {
+		m_monitorManager.activeMonitor()->seek(m_monitorManager.activeMonitor()->seekPosition() - GenTime(1, getDocument()->framesPerSecond()));
+	}
+	slotStatusMsg(i18n("Ready."));
+}
+
+void KdenliveApp::slotSetInpoint()
+{
+	slotStatusMsg(i18n("Setting Inpoint"));
+	if(m_monitorManager.hasActiveMonitor()) {
+		m_monitorManager.activeMonitor()->setInpoint();
+	}
+	slotStatusMsg(i18n("Ready."));
+}
+
+void KdenliveApp::slotSetOutpoint()
+{
+	slotStatusMsg(i18n("Setting outpoint"));
+	if(m_monitorManager.hasActiveMonitor()) {
+		m_monitorManager.activeMonitor()->setOutpoint();
+	}
+	slotStatusMsg(i18n("Ready."));
 }
 
 void KdenliveApp::slotDeleteSelected()
@@ -831,15 +880,15 @@ void KdenliveApp::slotSetClipMonitorSource(AVFile *file)
 
 
   kdDebug() << "Setting clip monitor source" << endl;
-  
+
   if(!file->durationKnown()) {
     kdWarning() << "Cannot create scenelist for clip monitor - clip duration unknown" << endl;
     return;
   }
-  
+
   QDomDocument scenelist;
   scenelist.appendChild(scenelist.createElement("scenelist"));
-  
+
   // generate the next scene.
   QDomElement scene = scenelist.createElement("scene");
   scene.setAttribute("duration", QString::number(file->duration().seconds()));
@@ -855,6 +904,7 @@ void KdenliveApp::slotSetClipMonitorSource(AVFile *file)
   m_clipMonitor->setSceneList(scenelist);
   m_clipMonitor->setClipLength(file->duration().frames(getDocument()->framesPerSecond()));
   m_clipMonitor->seek(GenTime(0.0));
+  activateClipMonitor();
 }
 
 /** Sets the clip monitor source to be the given clip. */
@@ -866,7 +916,7 @@ void KdenliveApp::slotSetClipMonitorSource(DocClipBase *clip)
 
   kdDebug() << "Setting clip monitor source (from DocClipBase *)" << endl;
 
-  if(!clip) {  
+  if(!clip) {
     kdError() << "Null clip passed, not setting monitor." << endl;
     return;
   }
@@ -879,7 +929,7 @@ void KdenliveApp::slotSetClipMonitorSource(DocClipBase *clip)
   scene.setAttribute("duration", QString::number(clip->duration().seconds()));
 
   QDomElement sceneClip;
-  sceneClip = scenelist.createElement("input");  
+  sceneClip = scenelist.createElement("input");
   sceneClip.setAttribute(str_file, clip->fileURL().path());
   sceneClip.setAttribute(str_inpoint, "0.0");
   sceneClip.setAttribute(str_outpoint, QString::number(clip->duration().seconds()));
@@ -889,6 +939,7 @@ void KdenliveApp::slotSetClipMonitorSource(DocClipBase *clip)
   m_clipMonitor->setSceneList(scenelist);
   m_clipMonitor->setClipLength(clip->duration().frames(getDocument()->framesPerSecond()));
   m_clipMonitor->seek(GenTime(0.0));
+  activateClipMonitor();
 }
 
 void KdenliveApp::loadLayout1()
@@ -902,21 +953,21 @@ void KdenliveApp::loadLayout2()
 {
   setUpdatesEnabled(FALSE);
   readDockConfig(config, "Layout 2");
-  setUpdatesEnabled(TRUE);  
+  setUpdatesEnabled(TRUE);
 }
 
 void KdenliveApp::loadLayout3()
 {
   setUpdatesEnabled(FALSE);
   readDockConfig(config, "Layout 3");
-  setUpdatesEnabled(TRUE);  
+  setUpdatesEnabled(TRUE);
 }
 
 void KdenliveApp::loadLayout4()
 {
   setUpdatesEnabled(FALSE);
   readDockConfig(config, "Layout 4");
-  setUpdatesEnabled(TRUE);  
+  setUpdatesEnabled(TRUE);
 }
 
 void KdenliveApp::saveLayout1()
@@ -943,11 +994,13 @@ void KdenliveApp::saveLayout4()
 void KdenliveApp::activateClipMonitor()
 {
   m_dockClipMonitor->makeDockVisible();
+  m_monitorManager.activateMonitor(m_clipMonitor);
 }
 
 void KdenliveApp::activateWorkspaceMonitor()
 {
   m_dockWorkspaceMonitor->makeDockVisible();
+  m_monitorManager.activateMonitor(m_workspaceMonitor);
 }
 
 /** Selects a clip into the clip monitor and seeks to the given time. */

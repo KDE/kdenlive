@@ -25,11 +25,13 @@
 #include "doctrackvideo.h"
 #include "kmmtrackpanel.h"
 
-class KResizeCommand;
+namespace Command {
+	class KResizeCommand;
+}
 
 /**KMMTrackVideoPanel contains useful controls for manipulating the video tracks
 which reside in the main video widget
-  *@author Jason Wood  
+  *@author Jason Wood
   */
 
 class KMMTrackVideoPanel : public KMMTrackPanel  {
@@ -60,7 +62,7 @@ private:
   /** True if we are inside a dragging operation, false otherwise. */
   bool m_dragging;;  
   /** This command holds the resize information during a resize operation */
-  KResizeCommand * m_resizeCommand;
+  Command::KResizeCommand * m_resizeCommand;
 };
 
 #endif

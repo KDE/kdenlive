@@ -103,3 +103,4 @@ const AVFile *ProjectList::currentSelection() const
   }
   return 0;
 }
+

@@ -75,7 +75,7 @@ bool KMMTrackKeyFramePanel::mousePressed(QMouseEvent *event)
 										if(m_clipUnderMouse) {
 											if(m_resizeState != None) {
                         m_timeline->selectClipAt(*m_docTrack, (m_clipUnderMouse->trackStart() + m_clipUnderMouse->trackEnd())/2.0);
-												m_resizeCommand = new KResizeCommand(m_docTrack->document(), m_clipUnderMouse);
+												m_resizeCommand = new Command::KResizeCommand(m_docTrack->document(), m_clipUnderMouse);
 											}
 
 											if (event->state() & ControlButton) {

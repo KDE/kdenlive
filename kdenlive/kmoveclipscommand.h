@@ -27,6 +27,8 @@ class KdenliveDoc;
 class DocClipBase;
 class KMMTimeLine;
 
+namespace Command {
+
 /**This command handles the moving of clips, and the "unexecuting" of command, for undo/redo pruposes.
   *@author Jason Wood
   */
@@ -57,5 +59,7 @@ private:
 	/** The start of the master clip after execution */	
 	GenTime m_endTime;
 };
+
+} // namespace Command
 
 #endif

@@ -27,7 +27,9 @@
   *@author Jason Wood
   */
 
-class KResizeCommand;  
+namespace Command {
+	class KResizeCommand;
+}
 
 class KMMTrackKeyFramePanel : public KMMTrackPanel  {
    Q_OBJECT
@@ -53,7 +55,7 @@ private:
   /** True if we are inside a dragging operation, false otherwise. */
   bool m_dragging;;
   /** This command holds the resize information during a resize operation */
-  KResizeCommand * m_resizeCommand;  
+  Command::KResizeCommand * m_resizeCommand;
 };
 
 #endif

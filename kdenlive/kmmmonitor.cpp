@@ -104,3 +104,27 @@ void KMMMonitor::setSceneList(const QDomDocument &scenelist)
 {
   m_screen->setSceneList(scenelist);
 }
+
+void KMMMonitor::togglePlay()
+{
+	if(m_screen->playSpeed() == 0.0) {
+		m_screen->play(1.0);
+	} else {
+		m_screen->play(0.0);
+	}
+}
+
+const GenTime &KMMMonitor::seekPosition() const
+{
+	return m_screen->seekPosition();
+}
+
+void KMMMonitor::setInpoint()
+{
+	m_editPanel->setInpoint();
+}
+
+void KMMMonitor::setOutpoint()
+{
+	m_editPanel->setOutpoint();
+}

@@ -282,7 +282,7 @@ void KMMTimeLine::dragLeaveEvent ( QDragLeaveEvent *event )
   
   if(m_moveClipsCommand) {
   	// In a drag Leave Event, any clips in the selection are removed from the timeline.			     
-  	delete m_moveClipsCommand;    
+  	delete m_moveClipsCommand;
     m_moveClipsCommand = 0;
   }
 
@@ -350,7 +350,7 @@ KCommand *KMMTimeLine::selectNone()
 	while(itt.current()!=0) {
 		QPtrListIterator<DocClipBase> clipItt(itt.current()->docTrack()->firstClip(true));
 		while(clipItt.current()!=0) {
-			KSelectClipCommand *clipComm = new KSelectClipCommand(m_document, clipItt.current(), false);
+			Command::KSelectClipCommand *clipComm = new Command::KSelectClipCommand(m_document, clipItt.current(), false);
 			command->addCommand(clipComm);
 			++clipItt;
 		}
@@ -412,7 +412,7 @@ void KMMTimeLine::toggleSelectClipAt(DocTrackBase &track, GenTime value)
 {
 	DocClipBase *clip = track.getClipAt(value);
 	if(clip) {
-		KSelectClipCommand *command = new KSelectClipCommand(m_document, clip, !track.clipSelected(clip));
+		Command::KSelectClipCommand *command = new Command::KSelectClipCommand(m_document, clip, !track.clipSelected(clip));
 		m_app->addCommand(command, true);
 	}
 }
@@ -422,7 +422,7 @@ void KMMTimeLine::selectClipAt(DocTrackBase &track, GenTime value)
 {
 	DocClipBase *clip = track.getClipAt(value);
 	if(clip) {
-		KSelectClipCommand *command = new KSelectClipCommand(m_document, clip, true);
+		Command::KSelectClipCommand *command = new Command::KSelectClipCommand(m_document, clip, true);
 		m_app->addCommand(command, true);
 	}
 }
@@ -491,7 +491,7 @@ void KMMTimeLine::initiateDrag(DocClipBase *clipUnderMouse, GenTime clipOffset)
 {
 	m_masterClip = clipUnderMouse;
 	m_clipOffset = clipOffset;
-	m_moveClipsCommand = new KMoveClipsCommand(this, m_document, m_masterClip);
+	m_moveClipsCommand = new Command::KMoveClipsCommand(this, m_document, m_masterClip);
 	m_deleteClipsCommand = createAddClipsCommand(false);
 	generateSnapToGridList();	
 	
@@ -711,7 +711,7 @@ KMacroCommand *KMMTimeLine::createAddClipsCommand(bool addingClips)
 		QPtrListIterator<DocClipBase> itt = track->firstClip(true);
 
 		while(itt.current()) {
-			KAddClipCommand *command = new KAddClipCommand(m_document, itt.current(), addingClips);
+			Command::KAddClipCommand *command = new Command::KAddClipCommand(m_document, itt.current(), addingClips);
 			macroCommand->addCommand(command);
 			++itt;
 		}		
@@ -752,7 +752,7 @@ KCommand *KMMTimeLine::razorClipAt(DocTrackBase &track, GenTime &time)
   clone->setCropStartTime(clip->cropStartTime() + (time - clip->trackStart()));
 
   command->addCommand(resizeClip(clip, true, time));
-  command->addCommand(new KAddClipCommand(m_document, clone, true));
+  command->addCommand(new Command::KAddClipCommand(m_document, clone, true));
 
   delete clone;
 
@@ -761,7 +761,7 @@ KCommand *KMMTimeLine::razorClipAt(DocTrackBase &track, GenTime &time)
 
 KCommand * KMMTimeLine::resizeClip(DocClipBase *clip, bool resizeEnd, GenTime &time)
 {
-	KResizeCommand *command = new KResizeCommand(m_document, clip);
+	Command::KResizeCommand *command = new Command::KResizeCommand(m_document, clip);
 	
 	if(resizeEnd) {
 		command->setEndTrackEnd(time);
@@ -792,7 +792,7 @@ KCommand * KMMTimeLine::selectLaterClips(GenTime time, bool include)
 			} else {
 				select = clipItt.current()->trackStart() > time;
 			}
-			KSelectClipCommand *clipComm = new KSelectClipCommand(m_document, clipItt.current(), select);
+			Command::KSelectClipCommand *clipComm = new Command::KSelectClipCommand(m_document, clipItt.current(), select);
 			command->addCommand(clipComm);
 			++clipItt;
 		}

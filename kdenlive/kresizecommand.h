@@ -29,6 +29,8 @@
 class KdenliveDoc;
 class DocClipBase;
 
+namespace Command {
+
 class KResizeCommand : public KCommand  {
 public: 
 	KResizeCommand(KdenliveDoc *doc, DocClipBase *clip);
@@ -46,7 +48,7 @@ public:
   /** Sets the clip trackEnd for the end destination to the time specified. */
   void setEndTrackEnd(const GenTime &time);
   /** Sets the clip trackStart for the end destination to the time specified. */  
-	void setEndTrackStart(const GenTime &time);  
+	void setEndTrackStart(const GenTime &time);
 private: // Private attributes
   /** The track number that the clip is on. */
   int m_trackNum;
@@ -60,5 +62,7 @@ private: // Private attributes
   /** Pointer to the document */
   KdenliveDoc * m_doc;
 };
+
+} // namespace Command
 
 #endif

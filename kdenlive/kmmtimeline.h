@@ -30,9 +30,12 @@ class QScrollView;
 class QScrollBar;
 class KMMTimeLineTrackView;
 class KScalableRuler;
-class KMoveClipsCommand;
 class KMacroCommand;
 class KCommand;
+
+namespace Command {
+	class KMoveClipsCommand;
+}
 
 /**This is the timeline. It gets populated by tracks, which in turn are populated
 by video and audio clips, or transitional clips, or any other clip imaginable.
@@ -41,10 +44,10 @@ by video and audio clips, or transitional clips, or any other clip imaginable.
 
 class KMMTimeLine : public QVBox  {
    Q_OBJECT
-public: 
+public:
 	KMMTimeLine(KdenliveApp *app, QWidget *rulerToolWidget, QWidget *scrollToolWidget, KdenliveDoc *document, QWidget *parent=0, const char *name=0);
 	~KMMTimeLine();
-private:	
+private:
 	/** GUI elements */
 	QHBox *m_rulerBox;				 	// Horizontal box holding the ruler
 	QScrollView *m_trackScroll; 	// Scrollview holding the tracks
@@ -57,13 +60,13 @@ private:
 	QPtrList<KMMTrackPanel> m_trackList;
 
 	KdenliveApp *m_app;
-		
+
   /** A pointer to the document (project) that this timeline is based upon */
   KdenliveDoc * m_document;
-	  
+
   /** The track view area is the area under the ruler where tracks are displayed. */
   KMMTimeLineTrackView *m_trackViewArea;
-	  
+
  	/** This variable should be set to true if we have initiated a drag which
 	is going to be moving, rather than adding, clips.
 
@@ -72,12 +75,12 @@ private:
 	moving it - this prevents a copy of the clips from being created. */
   bool m_startedClipMove;
 
-	  
+
   /** This list is used to group clips together when they are being dragged away from the
   timeline, or are being dragged onto the timeline. It gives a home to clips that have not yet
   been placed. */
   DocClipBaseList m_selection;
-  
+
   /** This is the "master" Clip - the clip that is actively being dragged by the mouse.
 	All other clips move in relation to the master clip. */
   DocClipBase * m_masterClip;
@@ -89,11 +92,11 @@ private:
   QValueList<GenTime> m_snapToGridList;
   /** Keeps track of whichever list item is closest to the mouse cursor. */
   QValueListIterator<GenTime> m_gridSnapTracker;
-  /** The snap tolerance specifies how many pixels away a selection is from a 
+  /** The snap tolerance specifies how many pixels away a selection is from a
 snap point before the snap takes effect. */
-  static int snapTolerance;  
+  static int snapTolerance;
   /** A moveClipCommand action, used to record clip movement for undo/redo functionality. */
-  KMoveClipsCommand * m_moveClipsCommand;
+  Command::KMoveClipsCommand * m_moveClipsCommand;
   /** This command is used to record clip deletion for undo/redo functionality. */
   KMacroCommand * m_deleteClipsCommand;
   /** True if we are currently in the process of adding clips to the timeline.
@@ -101,16 +104,16 @@ snap point before the snap takes effect. */
   bool m_addingClips;
   /** When dragging a clip, this is the time offset that should be applied to where the mouse cursor
   to find the beginning of the master clip. */
-  GenTime m_clipOffset;  
+  GenTime m_clipOffset;
 public: // Public methods
   /** This method adds a new track to the trackGrid. */
   void appendTrack(KMMTrackPanel *track);
-  
+
   void resizeEvent(QResizeEvent *event);
-  
+
   /** Inserts a track at the position specified by index */
   void insertTrack(int index, KMMTrackPanel *track);
-  
+
   /** No descriptions */
   void polish();
 
@@ -118,39 +121,39 @@ public: // Public methods
 	void dragMoveEvent ( QDragMoveEvent * );
 	void dragLeaveEvent ( QDragLeaveEvent * );
 	void dropEvent ( QDropEvent * );
-  
+
   /** Deselects all clips on the timeline. This does not affect any clips that are "in transition" onto the
 	timeline,i.e. in a drag process, clips that are in m_selection but have not been placed do not become
 	deselected */
   KCommand *selectNone();
-  
+
   /** Returns m_trackList
 
 	Warning - this method is a bit of a hack, not good OOP practice, and should be removed at some point. */
   QPtrList<KMMTrackPanel> &trackList();
-  
+
   /** Moves all selected clips to a new position. The new start position is that for the master clip,
    all other clips are moved in relation to it. Returns true on success, false on failure.*/
   bool moveSelectedClips(int newTrack, GenTime start);
-  
-  /** Scrolls the track view area right by whatever the step value in the 
+
+  /** Scrolls the track view area right by whatever the step value in the
 	relevant scrollbar is. */
   void scrollViewRight();
-  
+
   /** Scrolls the track view area left by whatever the step value of the relevant scroll bar is. */
   void scrollViewLeft();
-  
+
   /** Selects the clip on the given track at the given value. */
   void selectClipAt(DocTrackBase &track, GenTime value);
-  
+
   /** Toggle Selects the clip on the given track and at the given value. The clip will become
   selected if it wasn't already selected, and will be deselected if it is. */
   void toggleSelectClipAt(DocTrackBase &track, GenTime value);
-  
+
   /** Initiates a drag operation on the selected clip, setting the master clip to clipUnderMouse,
   and the x offset to clipOffset. */
   void initiateDrag(DocClipBase *clipUnderMouse, GenTime clipOffset);
-  
+
   /** Returns true if the specified clip exists and is selected, false otherwise. If a track is
   specified, we look at that track first, but fall back to a full search of tracks if the clip is
   not there. */
@@ -191,15 +194,15 @@ are later on the tiemline (i.e. trackStart() > time) will be selected. */
 	with it. */
   double mapLocalToValue(double coordinate) const;
   /** Creates a "Add clips" command, containing all of the clips currently in the selection on the timeline. This command is then added to the command history. */
-  KMacroCommand *createAddClipsCommand(bool addingClips);      
+  KMacroCommand *createAddClipsCommand(bool addingClips);
 private: // private methods
 	void resizeTracks();
-	
+
   /** Adds a Clipgroup to the tracks in the timeline. It there are some currently selected clips and
   we add new clips with this method, the previously selected clips are dselected. */
 	void addClipsToTracks(DocClipBaseList &clips, int track, GenTime value, bool selected);
-	
-  /** Returns the integer value of the track underneath the mouse cursor. 
+
+  /** Returns the integer value of the track underneath the mouse cursor.
 	The track number is that in the track list of the document, which is
 	sorted incrementally from top to bottom. i.e. track 0 is topmost, track 1 is next down, etc. */
   int trackUnderPoint(const QPoint &pos);
@@ -212,11 +215,11 @@ public slots: // Public slots
     *
 		* The timeline needs to be updated to show these changes. */
   void syncWithDocument();
-  
+
   /** Update the back buffer for the track views, and tell the trackViewArea widget to
   repaint itself. */
   void drawTrackViewBackBuffer();
-  
+
   /** Sets a new time scale for the timeline. This in turn calls the correct kruler funtion and
   updates the display. */
   void setTimeScale(int scale);
@@ -234,7 +237,7 @@ signals: // Signals
   /** Emitted when the clip crop start has changed for a clip. */
   void signalClipCropStartChanged(const GenTime &);
   /** Emitted when the clip crop end has changed for a clip. */
-  void signalClipCropEndChanged(const GenTime &);  
+  void signalClipCropEndChanged(const GenTime &);
   /** emitted when something of interest is happening over a clip on the timeline. */
   void lookingAtClip(DocClipBase *, const GenTime &);
 };

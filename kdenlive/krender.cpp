@@ -37,17 +37,15 @@ KRender::KRender(const QString &rendererName, KURL appPath, unsigned int port, Q
                                         m_desccodeclist(0),
                                         m_codec(0),
                                         m_effect(0),
-                                        m_lastSeek(0)
+										m_playSpeed(0.0)
 {
 	startTimer(1000);
 	m_parsing = false;
-	m_seekPending = false;
-	m_nextSeek = -1.0;
 	m_setSceneListPending = false;
 
   m_fileFormats.setAutoDelete(true);
   m_codeclist.setAutoDelete(true);
-  m_effectList.setAutoDelete(true);  
+  m_effectList.setAutoDelete(true);
 
 	m_xmlReader.setContentHandler(this);
 
@@ -138,7 +136,7 @@ void KRender::readData()
     m_parseStack.push(value);
 
     emit recievedInfo(m_name, "Recieved command");
-    emit recievedInfo(m_name, temp);    
+    emit recievedInfo(m_name, temp);
     if(!m_xmlReader.parse(&source, false)) {
       emit recievedInfo(m_name, "Parse Failed");
     } else {
@@ -241,13 +239,7 @@ void KRender::createVideoXWindow(bool show)
 /** Wraps the VEML command of the same name; Seeks the renderer clip to the given time. */
 void KRender::seek(GenTime time)
 {
-    sendSeekCommand(time);
-/*  if(m_seekPending) {
-    m_nextSeek = time;
-  } else {
-    sendSeekCommand(time);
-    m_seekPending = true;
-  }*/
+	sendSeekCommand(time);
 }
 
 void KRender::getFileProperties(KURL url)
@@ -286,6 +278,7 @@ void KRender::ping(QString &ID)
 
 void KRender::play(double speed)
 {
+	m_playSpeed = speed;
 	if(m_setSceneListPending) {
 		sendSetSceneListCommand(m_sceneList);
 	}
@@ -319,6 +312,8 @@ void KRender::sendSeekCommand(GenTime time)
  	elem.setAttribute("time", QString::number(time.seconds()));
  	doc.appendChild(elem);
 	sendCommand(doc);
+
+	m_seekPosition = time;
 }
 
 void KRender::sendSetSceneListCommand(const QDomDocument &list)
@@ -404,11 +399,6 @@ QString KRender::description()
   return m_description;
 }
 
-const GenTime & KRender::lastSeekPosition()
-{
-  return m_lastSeek;
-}
-
 
 
 
@@ -459,7 +449,8 @@ bool KRender::characters( const QString &ch )
 
 /** Called when the xml parser encounters an opening element and we are outside of a parsing loop. */
 bool KRender::topLevelStartElement(const QString & localName,
-																		 const QString & qName, const QXmlAttributes & atts)
+									const QString & qName,
+									const QXmlAttributes & atts)
 {
 	if(localName == "reply") {
     QString status = atts.value("status");
@@ -491,7 +482,7 @@ bool KRender::topLevelStartElement(const QString & localName,
         if(status.lower() == "error") {
           pushStack("reply_error_getFileProperties",
                         &KRender::replyError_StartElement,
-                        &KRender::replyError_GetFileProperties_EndElement);                        
+                        &KRender::replyError_GetFileProperties_EndElement);
         }
       }
 			QMap<QString, QString> map;
@@ -508,14 +499,6 @@ bool KRender::topLevelStartElement(const QString & localName,
       return true;
     } else if(command == "seek") {
       pushIgnore();
-      if(m_seekPending) {
-        if(m_nextSeek < 0.0) {
-          m_seekPending = false;
-        } else {
-          sendSeekCommand(m_nextSeek);
-          m_nextSeek = -1.0;
-        }
-      }
 			return true;
 		} else if(command == "render") {
       pushIgnore();
@@ -536,16 +519,17 @@ bool KRender::topLevelStartElement(const QString & localName,
     QString tStr = atts.value("time");
     GenTime time(tStr.toDouble());
     pushIgnore();
-    m_lastSeek = time;
+    m_seekPosition = time;
     emit positionChanged(time);
     return true;
   } else if(localName == "render") {
     QString tStr = atts.value("status");
     pushIgnore();
     if(tStr == "playing") {
-      emit playing();
+      emit playing(m_playSpeed);
       return true;
     } else if(tStr == "stopped") {
+		m_playSpeed = 0.0;
       emit stopped();
       return true;
     }
@@ -904,7 +888,7 @@ bool KRender::reply_capabilities_renderer_StartElement(const QString & localName
     m_parseStack.push(val);
     return true;
   }
-  
+
   pushIgnore();
   return true;
 }
@@ -924,7 +908,7 @@ bool KRender::replyError_StartElement(const QString & localName, const QString &
     val.element = "errmsg";
   	val.funcStartElement = 0;
   	val.funcEndElement = &KRender::reply_errmsg_EndElement;
-    m_parseStack.push(val);    
+    m_parseStack.push(val);
     return true;
   }
 
@@ -953,4 +937,14 @@ bool KRender::rendererOk()
   if(m_appPathInvalid) return false;
 
   return true;
+}
+
+double KRender::playSpeed()
+{
+	return m_playSpeed;
+}
+
+const GenTime &KRender::seekPosition() const
+{
+	return m_seekPosition;
 }

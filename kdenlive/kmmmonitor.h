@@ -37,7 +37,7 @@ external files.
 
 class KMMMonitor : public QVBox  {
    Q_OBJECT
-public: 
+public:
 	KMMMonitor(KdenliveApp *app, KdenliveDoc *document, QWidget *parent=0, const char *name=0);
 	~KMMMonitor();
   /** ***Nasty Hack***
@@ -46,6 +46,15 @@ public:
   uses xv (of which there is only one port), we can use it in multiple
   monitors. */
   void swapScreens(KMMMonitor *monitor);
+
+  /** Returns the current seek position */
+  const GenTime &seekPosition() const;
+
+  /** Sets the inpoint of this monitor */
+  void setInpoint();
+
+  /** Sets the outpoint of this monitor. */
+  void setOutpoint();
 private:
   /** a widget that acts as a holding place in the monitor layout - so that we can
   reparent the screen out of the monitor, reparent another screen in, and it ends
@@ -58,7 +67,7 @@ private:
   /** Connects all signals/slots to the screen. */
   void connectScreen();
   /** Disconnects all signals/slots from the screen */
-  void disconnectScreen();  
+  void disconnectScreen();
 public slots: // Public slots
   /** Sets the length of the clip held by
 this montor. FIXME - this is a
@@ -70,6 +79,9 @@ temporary function, and will be changed in the future. */
   void screenPositionChanged(const GenTime &time);
   /** Set the monitors scenelist to the one specified. */
   void setSceneList(const QDomDocument &scenelist);
+  /** If the monitor is currently playing, stops it. If it is stopped, start it at
+  normal speed (1.0) */
+  void togglePlay();
 signals: // Signals
   /** Emitted when the monitor's current position has changed. */
   void seekPositionChanged(const GenTime &);

@@ -17,7 +17,7 @@
 
 #ifndef KDENLIVE_H
 #define KDENLIVE_H
- 
+
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -25,7 +25,7 @@
 
 // include files for Qt
 
-// include files for KDE 
+// include files for KDE
 #include <kapp.h>
 #include <kdockwidget.h>
 #include <kaccel.h>
@@ -33,6 +33,7 @@
 #include <kurl.h>
 
 #include "gentime.h"
+#include "monitormanager.h"
 
 // forward declaration of the Kdenlive classes
 class KdenliveDoc;
@@ -127,7 +128,7 @@ class KdenliveApp : public KDockMainWindow
      */
     virtual bool queryClose();
     /** queryExit is called by KTMainWindow when the last window of the application is going to be closed during the closeEvent().
-     * Against the default implementation that just returns true, this calls saveOptions() to save the settings of the last window's	
+     * Against the default implementation that just returns true, this calls saveOptions() to save the settings of the last window's
      * properties.
      * @see KTMainWindow#queryExit
      * @see KTMainWindow#closeEvent
@@ -197,7 +198,7 @@ class KdenliveApp : public KDockMainWindow
   void slotTimelineMoveTool();
   /** Called when the user activates the "Export Timeline" action */
   void slotRenderExportTimeline();
-  /** Called when the user activates the "Preferencfes" action */  
+  /** Called when the user activates the "Preferencfes" action */
   void slotOptionsPreferences();  
   /** Updates the current time in the status bar. */
   void slotUpdateCurrentTime(const GenTime &time);
@@ -214,9 +215,17 @@ class KdenliveApp : public KDockMainWindow
   /** Seek backwards one frame in the active monitor */
   void slotSeekBackwards();  
   /** Toggle between play/stop in the active monitor */
-  void slotTogglePlay();    
+  void slotTogglePlay();
+  /** Move the active monitor forward one frame */
+  void slotNextFrame();
+  /** Move the active monitor backwards one frame */
+  void slotLastFrame();
+  /** Set the inpoint of the active monitor to the current seek position */
+  void slotSetInpoint();
+  /** Set the outpoint of the active monitor to the current seek position */
+  void slotSetOutpoint();
   /** Delete the selected clips */
-  void slotDeleteSelected();  
+  void slotDeleteSelected();
   /** Set the source of the clip monitor to the spectified AVFile. */
   void slotSetClipMonitorSource(AVFile *file);
   /** Sets the clip monitor source to be the given clip. */
@@ -225,17 +234,17 @@ class KdenliveApp : public KDockMainWindow
   void loadLayout1();
   void loadLayout2();
   void loadLayout3();
-  void loadLayout4();  
+  void loadLayout4();
   void saveLayout1();
   void saveLayout2();
   void saveLayout3();
-  void saveLayout4();  
+  void saveLayout4();
   /** Makes sure that the clip monitor is activated. This means that the clip monitor should
    have focus, and if enabled, that the clip monitor should have the xv view. */
   void activateClipMonitor();
   /** Makes sure that the workspace monitor is activated. This means that the clip monitor should
    have focus, and if enabled, that the clip monitor should have the xv view. */
-  void activateWorkspaceMonitor();  
+  void activateWorkspaceMonitor();
   /** Selects a clip into the clip monitor and seeks to the given time. */
   void slotLookAtClip(DocClipBase *clip, const GenTime &time);
   /** Display an error message in a suitable way to the user. */
@@ -276,6 +285,10 @@ class KdenliveApp : public KDockMainWindow
     KAction* actionSeekForwards;
     KAction* actionSeekBackwards;
     KAction* actionTogglePlay;
+	KAction* actionNextFrame;
+	KAction* actionLastFrame;
+	KAction* actionSetInpoint;
+	KAction* actionSetOutpoint;
     KAction* actionDeleteSelected;
 
     KAction* actionLoadLayout1;
@@ -286,22 +299,22 @@ class KdenliveApp : public KDockMainWindow
     KAction* actionSaveLayout2;
     KAction* actionSaveLayout3;
     KAction* actionSaveLayout4;
-    
+
     KToggleAction* viewToolBar;
     KToggleAction* viewStatusBar;
-    
+
     KRadioAction* timelineMoveTool;
     KRadioAction* timelineRazorTool;
     KRadioAction* timelineSpacerTool;
-    
+
     KToggleAction* timelineSnapToFrame;
 		KToggleAction* timelineSnapToBorder;
 
     KAction* renderExportTimeline;
 
 	  /** The progress widget on the status bar, used by various long-winded methods. */
-	  KProgress * m_statusBarProgress;    
-		
+	  KProgress * m_statusBarProgress;
+
 		/** Holds the undo/redo command history */
 		KCommandHistory *m_commandHistory;
 
@@ -312,7 +325,7 @@ class KdenliveApp : public KDockMainWindow
     EffectParamDialog *m_effectParamDialog;
     KRenderManager *m_renderManager;
   	KMMMonitor *m_workspaceMonitor;
-  	KMMMonitor *m_clipMonitor;   
+  	KMMMonitor *m_clipMonitor;
 		KMMRulerPanel *m_rulerPanel;	// pointer, because it gets reparented to the timeline widget!
     /** Stores a copy of the last file dialog path used by kdenlive. */
     KURL m_fileDialogPath;
@@ -320,7 +333,10 @@ class KdenliveApp : public KDockMainWindow
 
     // KDockWidgets for the docking interface to work correctly.
     KDockWidget *m_dockClipMonitor;
-    KDockWidget *m_dockWorkspaceMonitor;    
+    KDockWidget *m_dockWorkspaceMonitor;
+
+	/** The monitor manager that manages the life of the various monitors.*/
+	MonitorManager m_monitorManager;
 };
- 
+
 #endif // KDENLIVE_H

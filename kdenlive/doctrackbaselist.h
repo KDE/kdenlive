@@ -39,4 +39,6 @@ public:
   void generateFromXML(KdenliveDoc *doc, QDomElement elem);
 };
 
+typedef QPtrListIterator<DocTrackBase> DocTrackBaseListIterator;
+
 #endif

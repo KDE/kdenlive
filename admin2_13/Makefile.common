@@ -230,7 +230,7 @@ configure.in: configure.files $(shell test -f configure.files && cat configure.f
 	   modulename=`pwd`; modulename=`basename $$modulename`; \
 	fi ;\
 	if test -z "$$VERSION" || test "$$VERSION" = "@VERSION@"; then \
-	     VERSION="\"3.0\"";  \
+	     VERSION="\"3.0.3\"";  \
 	fi ;\
 	if test -n "$$kde_use_qt_param"; then \
 	      sed -e "s#^dnl KDE_USE_QT#KDE_USE_QT($$kde_use_qt_param)#" configure.in.new > configure.in \

@@ -54,23 +54,23 @@ KdenliveDoc::KdenliveDoc(KdenliveApp *app, QWidget *parent, const char *name) : 
 
   m_fileList.setAutoDelete(true);
   m_tracks.setAutoDelete(true);
-	
+
   pViewList->setAutoDelete(true);
 
   m_app = app;
 	m_render = m_app->renderManager()->createRenderer(i18n("Document"));
-  
+
   connect(m_render, SIGNAL(replyGetFileProperties(QMap<QString, QString>)),
   					 this, SLOT(AVFilePropertiesArrived(QMap<QString, QString>)));
   connect(m_render, SIGNAL(replyErrorGetFileProperties(const QString &, const QString &)),
-  					 this, SLOT(AVFilePropertiesError(const QString &, const QString &)));        
+  					 this, SLOT(AVFilePropertiesError(const QString &, const QString &)));
 
   connect(this, SIGNAL(avFileListUpdated()), this, SLOT(hasBeenModified()));
   connect(this, SIGNAL(trackListChanged()), this, SLOT(hasBeenModified()));
 
   m_domSceneList.appendChild(m_domSceneList.createElement("scenelist"));
   generateSceneList();
-  
+
   setModified(false);
 }
 
@@ -167,19 +167,21 @@ void KdenliveDoc::closeDocument()
 
 bool KdenliveDoc::newDocument()
 {
-	kdDebug() << "Creating new document" << endl;  
+	kdDebug() << "Creating new document" << endl;
 
-  addVideoTrack();
-  addVideoTrack();
-  addVideoTrack();
-  addVideoTrack();  
+	deleteContents();
 
-  m_doc_url.setFileName(i18n("Untitled"));
+	addVideoTrack();
+	addVideoTrack();
+	addVideoTrack();
+	addVideoTrack();
 
-  emit trackListChanged();
-  setModified(false);  
+	m_doc_url.setFileName(i18n("Untitled"));
 
-  return true;
+	emit trackListChanged();
+	setModified(false);
+
+	return true;
 }
 
 bool KdenliveDoc::openDocument(const KURL& url, const char *format /*=0*/)
@@ -190,11 +192,11 @@ bool KdenliveDoc::openDocument(const KURL& url, const char *format /*=0*/)
     QString tmpfile;
     if(KIO::NetAccess::download( url, tmpfile )) {
   	  QFile file(tmpfile);
-  	 	if(file.open(IO_ReadOnly)) {  	
+  	 	if(file.open(IO_ReadOnly)) {
   	  	QDomDocument doc;
   	    doc.setContent(&file, false);
-  	    loadFromXML(doc);
-  	  }	  
+		loadFromXML(doc);
+  	  }
   	  KIO::NetAccess::removeTempFile( tmpfile );
   	  setModified(false);
   	  return true;	  
@@ -204,7 +206,7 @@ bool KdenliveDoc::openDocument(const KURL& url, const char *format /*=0*/)
   } else {
     insertAVFile(url);
   }
-  	
+
   return false;
 }
 
@@ -222,7 +224,7 @@ bool KdenliveDoc::saveDocument(const KURL& url, const char *format /*=0*/)
   	#warning network transparency still to be written.
     KMessageBox::sorry((KdenliveApp *) parent(), i18n("The current file has been modified.\n"),
      i18n("unfinished code"));
-    
+
    	return false;
   } else {
   	QFile file(url.path());
@@ -230,18 +232,18 @@ bool KdenliveDoc::saveDocument(const KURL& url, const char *format /*=0*/)
 			file.writeBlock(save, save.length());
 			file.close();
     }
-  }  
+  }
 
-  setModified(false);  
+  setModified(false);
   return true;
 }
 
 void KdenliveDoc::deleteContents()
 {
 	kdDebug() << "deleting contents..." << endl;
-	
+
   m_tracks.clear();
-	emit trackListChanged();    
+	emit trackListChanged();
   m_fileList.clear();
   emit avFileListUpdated();
 }
@@ -292,8 +294,7 @@ void KdenliveDoc::addSoundTrack(){
 void KdenliveDoc::addTrack(DocTrackBase *track){
 	m_tracks.append(track);
 	track->trackIndexChanged(trackIndex(track));
-  connect(track, SIGNAL(clipLayoutChanged()), this, SLOT(hasBeenModified()));
-  connect(track, SIGNAL(signalClipSelected(DocClipBase *)), this, SIGNAL(signalClipSelected(DocClipBase *)));
+	connectTrack(track);
 	emit trackListChanged();
 }
 
@@ -322,16 +323,16 @@ DocTrackBase * KdenliveDoc::nextTrack()
 void KdenliveDoc::slot_insertClips(QPtrList<DocClipBase> clips)
 {
 	if(clips.isEmpty()) return;
-	
+
 	clips.setAutoDelete(true);
-	
-	DocClipBase *clip;		
+
+	DocClipBase *clip;
 	for(clip = clips.first(); clip; clip=clips.next()) {
 		insertAVFile(clip->fileURL());
 	}
 
   emit avFileListUpdated();
-	setModified(true);	
+	setModified(true);
 }
 
 /** Returns a reference to the AVFile matching the  url. If no AVFile matching the given url is
@@ -692,6 +693,12 @@ void KdenliveDoc::loadFromXML(QDomDocument &doc)
 			} else if(e.tagName() == "DocTrackBaseList") {
 				if(!trackListLoaded) {
 					m_tracks.generateFromXML(this, e);
+					DocTrackBaseListIterator itt(m_tracks);
+					while(itt.current() != 0) {
+						connectTrack(itt.current());
+						++itt;
+					}
+
 					trackListLoaded = true;
 				} else {
 					kdWarning() << "Second DocTrackBaseList discovered, skipping... " << endl;
@@ -704,7 +711,7 @@ void KdenliveDoc::loadFromXML(QDomDocument &doc)
 		n = n.nextSibling();
 	}
 
-	emit avFileListUpdated();	
+	emit avFileListUpdated();
 	emit trackListChanged();
 }
 
@@ -745,3 +752,10 @@ void KdenliveDoc::blockTrackSignals(bool block)
     ++itt;
   }
 }
+
+void KdenliveDoc::connectTrack(DocTrackBase *track)
+{
+	connect(track, SIGNAL(clipLayoutChanged()), this, SLOT(hasBeenModified()));
+	connect(track, SIGNAL(signalClipSelected(DocClipBase *)), this, SIGNAL(signalClipSelected(DocClipBase *)));
+}
+

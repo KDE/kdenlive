@@ -28,6 +28,8 @@ class DocClipBase;
   *@author Jason Wood
   */
 
+namespace Command {
+
 class KSelectClipCommand : public KCommand  {
 public:
 	KSelectClipCommand(KdenliveDoc *doc, DocClipBase *clip, bool select);
@@ -53,4 +55,5 @@ private: // Private attributes
   bool m_unexecuteSelection;
 };
 
+} // namespace Command
 #endif

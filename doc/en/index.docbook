@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1-Based Variant V1.0//EN" "dtd/kdex.dtd" [
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1.2-Based Variant V1.0//EN" "dtd/kdex.dtd" [
   <!ENTITY kdenlive '<application>Kdenlive</application>'>
   <!ENTITY kapp "&kdenlive;"><!-- replace kdenlive here -->
   <!ENTITY % addindex "IGNORE">

@@ -21,6 +21,8 @@
 #include "kdenlivedoc.h"
 #include "docclipbase.h"
 
+namespace Command {
+
 /** Construct an AddClipCommand that will add or delete a clip */
 KAddClipCommand::KAddClipCommand(KdenliveDoc *doc, DocClipBase *clip, bool create)
 {
@@ -32,7 +34,7 @@ KAddClipCommand::KAddClipCommand(KdenliveDoc *doc, DocClipBase *clip, bool creat
 }
 
 KAddClipCommand::~KAddClipCommand()
-{	
+{
 }
 
 /** Returns the name of this command */
@@ -81,3 +83,6 @@ void KAddClipCommand::deleteClip()
 	
 	delete clip;	
 }
+
+} // namespace command
+

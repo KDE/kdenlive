@@ -31,6 +31,8 @@ class DocClipBase;
   *@author Jason Wood
   */
 
+namespace Command {
+
 class KAddClipCommand : public KCommand  {
 public:
 	/** Construct an AddClipCommand that will delete a clip */
@@ -64,4 +66,5 @@ private: // Private methods
   void addClip();
 };
 
+} // namespace command
 #endif

@@ -21,6 +21,8 @@
 #include <klocale.h>
 #include <kdebug.h>
 
+namespace Command {
+
 KSelectClipCommand::KSelectClipCommand(KdenliveDoc *doc, DocClipBase *clip, bool select)
 {
 	m_doc = doc;
@@ -54,3 +56,5 @@ QString KSelectClipCommand::name() const
 {
 	return i18n("Selection");
 }
+
+} // namespace Command

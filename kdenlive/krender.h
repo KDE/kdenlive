@@ -51,12 +51,12 @@ struct StackValue {
   /** A function pointer to the relevant method that should parse tagOpen events */
   bool (KRender::*funcStartElement)(const QString & localName, const QString & qName, const QXmlAttributes & atts );
   /** A function pointer to the relevant method that should parse tagClose events */
-  bool (KRender::*funcEndElement)(const QString & localName, const QString & qName);  
+  bool (KRender::*funcEndElement)(const QString & localName, const QString & qName);
 };
 
 class KRender : public QObject, public QXmlDefaultHandler  {
    Q_OBJECT
-public: 
+public:
 	KRender(const QString &rendererName, KURL appPath, unsigned int port, QObject *parent=0, const char *name=0);
 	~KRender();
   /** Wraps the VEML command of the same name; requests that the renderer
@@ -72,16 +72,16 @@ replyCreateVideoXWindow() once the renderer has replied. */
   bool endElement (const QString &nameSpace, const QString & localName, const QString & qName );
   /** Called when the xml parser encounters an opening element */
   bool startElement(const QString &nameSpace, const QString & localName, const QString & qName, const QXmlAttributes & atts );
-  /** Called when the xml parser encounters characters */  
+  /** Called when the xml parser encounters characters */
   bool characters( const QString &ch );
   /** Called when the xml parser encounters an opening element and we are outside of any command. */
   bool topLevelStartElement(const QString & localName, const QString & qName, const QXmlAttributes & att);
   bool reply_getCapabilities_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & att);
   bool reply_createVideoXWindow_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & atts);
-  bool reply_capabilities_iostreams_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & att);  
+  bool reply_capabilities_iostreams_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & att);
   bool reply_capabilities_iostreams_outstream_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & att);
   bool reply_capabilities_iostreams_outstream_file_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & att);
-  bool reply_capabilities_iostreams_outstream_file_EndElement(const QString & localName, const QString & qName);  
+  bool reply_capabilities_iostreams_outstream_file_EndElement(const QString & localName, const QString & qName);
   bool reply_capabilities_iostreams_outstream_container_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & att);
   bool reply_capabilities_iostreams_outstream_codec_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & att);
   bool reply_capabilities_iostreams_outstream_codec_EndElement(const QString & localName, const QString & qName);
@@ -90,14 +90,14 @@ replyCreateVideoXWindow() once the renderer has replied. */
   bool reply_capabilities_codecs_encoder_EndElement(const QString & localName, const QString & qName);
   bool reply_capabilities_codecs_encoder_about_EndElement(const QString & localName, const QString & qName);
   bool reply_capabilities_effects_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & atts);
-  bool reply_capabilities_effects_effect_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & atts);    
+  bool reply_capabilities_effects_effect_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & atts);
   bool reply_capabilities_effects_effect_EndElement(const QString & localName, const QString & qName);
   bool reply_capabilities_renderer_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & atts);
   bool reply_capabilities_renderer_about_EndElement(const QString & localName, const QString & qName);
   bool replyError_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & atts);
   bool reply_errmsg_EndElement(const QString & localName, const QString & qName);
   bool replyError_GetFileProperties_EndElement(const QString & localName, const QString & qName);
-  
+
   /** Seeks the renderer clip to the given time. */
   void seek(GenTime time);
   /** Wraps the VEML command of the same name. Requests the file properties
@@ -130,11 +130,15 @@ name specified. */
   /** Returns the renderer version. */
   QString version();
   /** Returns the description of this renderer */
-  QString description();
-  /** Returns the last known seek position for this renderer. This may have been set by the user, or returned by the renderer. */
-  const GenTime & lastSeekPosition();
-  /** Returns true if the renderer is capable, or is believed to be capable of running and processing commands. It does not necessarily mean that the renderer is currently running, only that KRender has not given up trying to connect to/launch the renderer. Returns false if the renderer cannot be started. */
+  QString description();  /** Returns true if the renderer is capable, or is believed to be capable of running and processing commands. It does not necessarily mean that the renderer is currently running, only that KRender has not given up trying to connect to/launch the renderer. Returns false if the renderer cannot be started. */
   bool rendererOk();
+
+  /** Returns the speed at which the renderer is currently playing, 0.0 if the renderer is
+  not playing anything. */
+  double playSpeed();
+
+  /** Returns the current seek position of the renderer. */
+  const GenTime &seekPosition() const;
 protected: // Protected methods
   /** Recieves timer events */
   virtual void timerEvent(QTimerEvent *event);
@@ -149,10 +153,6 @@ private: // Private attributes
   QXmlSimpleReader m_xmlReader;
   /** The path to the rendering application. */
   KURL m_appPath;
-  /** True if we have sent a seek command but have not yet recieved a reply. */
-  bool m_seekPending;;
-  /** Holds the next seek value to send to the renderer. If negative, we do not send a value. */
-  GenTime m_nextSeek;
   /** true if we have a setSceneList command pending to be sent */
   bool m_setSceneListPending;
   /** Holds the scenelist to be sent, if pending. */
@@ -181,26 +181,30 @@ private: // Private attributes
   and null pointer exceptions. */
   AVFormatDescCodecList *m_desccodeclist;
   /** Holds a codec description during constructuion. Keep an eye out for potential memory leaks
-  and null pointer exceptions. */  
+  and null pointer exceptions. */
   AVFormatDescCodec *m_codec;
   /** Holds an effect description during construction. Keep an eye out for potential memory leaks. */
-  EffectDesc *m_effect;  
+  EffectDesc *m_effect;
   /** Holds a list of all available codecs. */
   QPtrList<AVFormatDescCodec> m_codeclist;
   /** Holds a list of all available effects. */
-  QPtrList<EffectDesc> m_effectList;  
+  QPtrList<EffectDesc> m_effectList;
   /** The renderer version number. */
   QString m_version;
   /** Holds the authors of this renderer. */
   QMap<QString, QString> m_authors;
-  /** The last known seek position for this renderer. */
-  GenTime m_lastSeek;
   /** A human-readable description of this renderer. */
   QString m_description;
   /** Holds the filename of the current getFileProperties message when processing an error */
   QString m_filePropertiesFileName;
   /** Holds the last error message discovered */
   QString m_errorMessage;
+
+  /** The current speed of playback */
+  double m_playSpeed;
+
+  /**The current seek position */
+  GenTime m_seekPosition;
 private slots: // Private slots
   /** Catches errors from the socket. */
   void error(int error);
@@ -209,7 +213,7 @@ private slots: // Private slots
   /** Called when we have connected to the renderer. */
   void slotConnected();
   /** Called when we have disconnected to the renderer. */
-  void slotDisconnected();  
+  void slotDisconnected();
   /** Called if the rendering process has exited. */
   void processExited();
 private: // Private methods
@@ -222,7 +226,7 @@ private: // Private methods
   /** The actually seek command, private so people can't avoid the buffering of multiple seek commands. */
   void sendSeekCommand(GenTime time);
   /** The actually setScenelist command, private so people can't avoid the buffering of multiple setSceneList commands. */
-  void sendSetSceneListCommand(const QDomDocument &list);  
+  void sendSetSceneListCommand(const QDomDocument &list);
   /** Pushes a stack parse with no definition, this effectively causes all
 following tags in the current hierarch to be ignored until the end tag is
 reached. */
@@ -231,8 +235,8 @@ reached. */
   // Pushes a value onto the stack.
   void pushStack(QString element,
           bool (KRender::*funcStartElement)(const QString & localName, const QString & qName, const QXmlAttributes & atts ),
-          bool (KRender::*funcEndElement)(const QString & localName, const QString & qName));                 
-  
+          bool (KRender::*funcEndElement)(const QString & localName, const QString & qName));
+
   /** Sets the renderer version for this renderer. */
   void setVersion(QString version);
   /** Sets the description of this renderer to desc. */
@@ -243,7 +247,7 @@ signals: // Signals
   /** This signal is emitted upon connection */
   void connected();
   /** This signal is emitted upon disconnection */
-  void disconnected();  
+  void disconnected();
   /** This signal is emitted once a reply to createVideoXWidow() has been recieved. */
   void replyCreateVideoXWindow(WId);
   /** emitted when the renderer recieves a reply to a getFileProperties request. */
@@ -260,7 +264,7 @@ signals: // Signals
   /** Emitted when the renderer stops, either playing or rendering. */
   void stopped();
   /** Emitted when the renderer starts playing. */
-  void playing();
+  void playing(double);
   /** Emitted when the current seek position has been changed by the renderer. */
   void positionChanged(const GenTime &);
   /** Emitted when file formats are updated. */
@@ -268,14 +272,14 @@ signals: // Signals
   /** No descriptions */
   void effectListChanged(const QPtrList<EffectDesc> &);
   /** Emitted when an error occurs within this renderer. */
-  void error(const QString &, const QString &);  
+  void error(const QString &, const QString &);
 public: // Public attributes
   /** If true, we are currently parsing some data. Otherwise, we are not. */
   bool m_parsing;
 public slots: // Public slots
   /** This slot reads stdIn and processes it. */
   void slotReadStdout(KProcess *proc, char *buffer, int buflen);
-  void slotReadStderr(KProcess *proc, char *buffer, int buflen);  
+  void slotReadStderr(KProcess *proc, char *buffer, int buflen);
 };
 
 #endif

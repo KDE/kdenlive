@@ -463,16 +463,16 @@ if test "$1" = "default"; then
   fi
   if test -z "$kde_moduledir"; then
     if test "$kde_qtver" = "2"; then
-      kde_moduledir='\${exec_prefix}/lib/kde2'
+      kde_moduledir='\${libdir}/kde2'
     else
-      kde_moduledir='\${exec_prefix}/lib/kde3'
+      kde_moduledir='\${libdir}/kde3'
     fi
   fi
   if test -z "$kde_styledir"; then
-    kde_styledir='\${exec_prefix}/lib/kde3/plugins/styles'
+    kde_styledir='\${libdir}/kde3/plugins/styles'
   fi
   if test -z "$kde_widgetdir"; then
-    kde_widgetdir='\${exec_prefix}/lib/kde3/plugins/designer'
+    kde_widgetdir='\${libdir}/kde3/plugins/designer'
   fi
 
   KDE_SET_PATHS(defaults)
@@ -1079,7 +1079,7 @@ if test -z "$2"; then
     fi
   fi
   if test "$kde_qtver" = "3"; then
-    kde_qt_minversion=">= Qt 3.0.2"
+    kde_qt_minversion=">= Qt 3.0.3"
   fi
   if test "$kde_qtver" = "1"; then
     kde_qt_minversion=">= 1.42 and < 2.0"
@@ -1090,7 +1090,7 @@ fi
 
 if test -z "$3"; then
    if test $kde_qtver = 3; then
-     kde_qt_verstring="QT_VERSION >= 302"
+     kde_qt_verstring="QT_VERSION >= 303"
    fi
    if test $kde_qtver = 2; then
      if test $kde_qtsubver -gt 0; then
@@ -1527,11 +1527,11 @@ if test "${prefix}" != NONE; then
   ac_kde_includes=$prefix/include
 
   if test "${exec_prefix}" != NONE; then
-    kde_libraries=${exec_prefix}/lib
-    ac_kde_libraries=$exec_prefix/lib
+     kde_libraries=${libdir}
+     ac_kde_libraries=$libdir
   else
-    kde_libraries=${prefix}/lib
-    ac_kde_libraries=$prefix/lib
+     kde_libraries=${prefix}/lib
+     ac_kde_libraries=$prefix/lib
   fi
 else
   ac_kde_includes=
@@ -1553,7 +1553,7 @@ fi
 
 if test -z "$1"; then
 
-kde_incdirs="/usr/lib/kde/include /usr/local/kde/include /usr/local/include /usr/kde/include /usr/include/kde /usr/include /opt/kde3/include /opt/kde/include $x_includes $qt_includes"
+kde_incdirs="/usr/lib/kde/include /usr/local/kde/include /usr/local/include /usr/kde/include /usr/include/kde /usr/include /opt/kde3/include /opt/kde/include $x_includes $qt_includes $includedir"
 test -n "$KDEDIR" && kde_incdirs="$KDEDIR/include $KDEDIR/include/kde $KDEDIR $kde_incdirs"
 kde_incdirs="$ac_kde_includes $kde_incdirs"
 AC_FIND_FILE($kde_check_header, $kde_incdirs, kde_incdir)
@@ -1567,7 +1567,7 @@ fi
 
 kde_libdirs="/usr/lib/kde/lib /usr/local/kde/lib /usr/kde/lib /usr/lib/kde /usr/lib/kde3 /usr/lib /usr/X11R6/lib /usr/local/lib /opt/kde3/lib /opt/kde/lib /usr/X11R6/kde/lib"
 test -n "$KDEDIR" && kde_libdirs="$KDEDIR/lib $KDEDIR $kde_libdirs"
-kde_libdirs="$ac_kde_libraries $kde_libdirs"
+kde_libdirs="$ac_kde_libraries $libdir $kde_libdirs"
 AC_FIND_FILE($kde_check_lib, $kde_libdirs, kde_libdir)
 ac_kde_libraries="$kde_libdir"
 
@@ -1608,7 +1608,7 @@ if test "$have_kde" != "yes"; then
   AC_MSG_RESULT([will be installed in $ac_kde_prefix and $ac_kde_exec_prefix])
  fi
 
- kde_libraries="${ac_kde_exec_prefix}/lib"
+ kde_libraries="${libdir}"
  kde_includes=${ac_kde_prefix}/include
 
 else

@@ -23,7 +23,7 @@ PROJECT_NAME           =
 # This could be handy for archiving the generated documentation or 
 # if some version control system is used.
 
-PROJECT_NUMBER         = "Version 3.0"
+PROJECT_NUMBER         = 
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) 
 # base path where the generated documentation will be put. 
@@ -228,11 +228,15 @@ GENERATE_BUGLIST       = YES
 # will result in a user defined paragraph with heading "Side Effects:". 
 # You can put \n's in the value part of an alias to insert newlines.
 
+# @ref in KDE docu are for kdoc, doxygen doesn't need them, so we alias them
+# to nothing here
+
 ALIASES                = libdoc=@mainpage \
                          sect=<p><b> \
                          reimplemented= \
                          "deprecated=<b>This class or method is obsolete, it is provided for compatibility only.</b>" \
-                         obsolete=@deprecated
+                         obsolete=@deprecated \
+			 ref=
 
 # The ENABLED_SECTIONS tag can be used to enable conditional 
 # documentation sections, marked by \if sectionname ... \endif.

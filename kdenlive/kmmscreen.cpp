@@ -36,9 +36,11 @@ KMMScreen::KMMScreen(KdenliveApp *app, QWidget *parent, const char *name ) :
   
 	connect(m_render, SIGNAL(initialised()), this, SLOT(rendererReady()));
 	connect(m_render, SIGNAL(replyCreateVideoXWindow(WId)), this, SLOT(embedWindow(WId)));
-  connect(m_render, SIGNAL(connected()), this, SIGNAL(rendererConnected()));
-  connect(m_render, SIGNAL(disconnected()), this, SIGNAL(rendererDisconnected()));
-  connect(m_render, SIGNAL(positionChanged(const GenTime &)), this, SIGNAL(seekPositionChanged(const GenTime &)));
+	connect(m_render, SIGNAL(connected()), this, SIGNAL(rendererConnected()));
+	connect(m_render, SIGNAL(disconnected()), this, SIGNAL(rendererDisconnected()));
+	connect(m_render, SIGNAL(positionChanged(const GenTime &)), this, SIGNAL(seekPositionChanged(const GenTime &)));
+	connect(m_render, SIGNAL(playing(double)), this, SIGNAL(playSpeedChanged(double)));
+	connect(m_render, SIGNAL(stopped()), this, SLOT(slotRendererStopped()));
 }
 
 KMMScreen::~KMMScreen()
@@ -76,4 +78,19 @@ void KMMScreen::play(double speed)
 void KMMScreen::setSceneList(const QDomDocument &scenelist)
 {
   m_render->setSceneList(scenelist);
+}
+
+void KMMScreen::slotRendererStopped()
+{
+	emit playSpeedChanged(0.0);
+}
+
+double KMMScreen::playSpeed()
+{
+	return m_render->playSpeed();
+}
+
+const GenTime &KMMScreen::seekPosition() const
+{
+	return m_render->seekPosition();
 }

@@ -42,7 +42,7 @@ bool DocTrackBase::addClip(DocClipBase *clip, bool selected)
 	if(canAddClip(clip)) {
 		if(selected) {
 			m_selectedClipList.inSort(clip);
-      emit signalClipSelected(clip);
+      		emit signalClipSelected(clip);
 		} else {
 			m_unselectedClipList.inSort(clip);
 		}
@@ -55,11 +55,11 @@ bool DocTrackBase::addClip(DocClipBase *clip, bool selected)
 }
 
 QPtrListIterator<DocClipBase> DocTrackBase::firstClip(GenTime startValue, GenTime endValue, bool selected)
-{	
+{
 	QPtrListIterator<DocClipBase> itt( selected ? m_selectedClipList : m_unselectedClipList);
 
 	DocClipBase *clip;
-	
+
 	if(itt.isEmpty()) return itt;
 
 	while( (clip = itt.current())	!= 0) {
@@ -262,7 +262,7 @@ void DocTrackBase::deleteClips(bool selected)
 	list->setAutoDelete(true);
 	list->clear();
 	list->setAutoDelete(false);
-	emit clipLayoutChanged();    	
+	emit clipLayoutChanged();
 }
 
 bool DocTrackBase::clipSelected(DocClipBase *clip)
@@ -445,20 +445,24 @@ void DocTrackBase::trackIndexChanged(int index)
 /** Sets the specified clip to be in the specified selection state. Does nothing if the clip is not on the track. */
 bool DocTrackBase::selectClip(DocClipBase *clip, bool selected)
 {
-	if(!clip) return false;
+	bool result = false;
 
-  if ((!m_selectedClipList.take(m_selectedClipList.find(clip))) &&
-        (!m_unselectedClipList.take(m_unselectedClipList.find(clip)))) {
-		kdError() << "Cannot select clip on track - doesn't exist!" << endl;
-		return false;    
-  } else {
-    if(selected) {
-      m_selectedClipList.inSort(clip);
-    } else {
-      m_unselectedClipList.inSort(clip);      
-    }
-    emit clipSelectionChanged();
-  }
-  
-	return true;  
+	if(clip) {
+		if ((!m_selectedClipList.take(m_selectedClipList.find(clip))) &&
+        	(!m_unselectedClipList.take(m_unselectedClipList.find(clip)))) {
+			kdError() << "Cannot select clip on track - doesn't exist!" << endl;
+			result = false;
+		} else {
+    		if(selected) {
+      			m_selectedClipList.inSort(clip);
+				emit signalClipSelected(clip);
+			} else {
+				m_unselectedClipList.inSort(clip);
+    		}
+			result = true;
+    		emit clipSelectionChanged();
+		}
+	}
+
+	return result;
 }
