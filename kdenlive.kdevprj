@@ -31,7 +31,7 @@ author=Jason Wood
 configure_args=
 email=jasonwood@blueyonder.co.uk
 kdevprj_version=1.3
-lfv_open_groups=Others
+lfv_open_groups=Sources
 make_options=\s-j1
 makefiles=Makefile.am,kdenlive/Makefile.am,doc/Makefile.am,doc/en/Makefile.am,po/Makefile.am,icons/Makefile.am,icons/hicolor/32x32/Makefile.am,icons/hicolor/Makefile.am,icons/hicolor/32x32/actions/Makefile.am,graphics/Makefile.am
 modifyMakefiles=true
@@ -199,7 +199,7 @@ install_location=$$(kde_datadir)/kdenlive/icons/hicolor/32x32/actions/spacer.png
 type=DATA
 
 [icons/hicolor/Makefile.am]
-files=icons/hicolor/hi16-app-kdenlive.png,icons/hicolor/hi32-app-kdenlive.png,icons/hicolor/hi48-app-kdenlive.png,icons/hicolor/hi64-app-kdenlive.png
+files=icons/hicolor/hi16-app-kdenlive.png,icons/hicolor/hi32-app-kdenlive.png,icons/hicolor/hi48-app-kdenlive.png,icons/hicolor/hi64-app-kdenlive.png,icons/hicolor/hi48-app-piave.png
 sub_dirs=32x32
 type=normal
 
@@ -219,6 +219,12 @@ type=DATA
 dist=true
 install=true
 install_location=$$(kde_icondir)/hicolor/48x48/apps/kdenlive.png
+type=DATA
+
+[icons/hicolor/hi48-app-piave.png]
+dist=true
+install=true
+install_location=$$(kde_icondir)/piave.png
 type=DATA
 
 [icons/hicolor/hi64-app-kdenlive.png]

@@ -24,7 +24,10 @@
 #include "kdenlivesplash.h"
 
 static const char *description = I18N_NOOP("Kdenlive"
-                    "\nA non-linear video editor for KDE");
+                    "\n\nA non-linear video editor for KDE."
+                    "\n\nKdenlive is a frontend for Piave video renderer."
+                    "\nYou can download the Piave program on this url:"
+                    "\nhttp://modesto.sourceforge.net/piave");
 
 static KCmdLineOptions options[] =
 {
@@ -48,9 +51,16 @@ int main(int argc, char *argv[])
 
 	aboutData.addAuthor(
            "Jason Wood",
-			     I18N_NOOP("Author and Maintainer"),
-			     "jasonwood@blueyonder.co.uk");
+			     I18N_NOOP("Kdenlive author and Maintainer"),
+			     "jasonwood@blueyonder.co.uk",
+           "http://www.uchian.pwp.blueyonder.co.uk/kdenlive.html");
 
+	aboutData.addAuthor(
+           "Rolf Dubitzky",
+			     I18N_NOOP("Piave renderer author and maintainer"),
+			     "dubitzky@pktw06.phy.tu-dresden.de",
+           "http://modesto.sourceforge.net/piave");
+                      
 	KCmdLineArgs::init( argc, argv, &aboutData );
 	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 

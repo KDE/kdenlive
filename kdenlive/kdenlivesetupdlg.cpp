@@ -33,7 +33,7 @@ KdenliveSetupDlg::KdenliveSetupDlg(KdenliveApp *app, QWidget *parent, const char
 {
   QFrame *page = addPage( i18n("Renderer"),
 		          i18n("Setup External Renderer Program"),
-			  KGlobal::instance()->iconLoader()->loadIcon( "exec", KIcon::NoGroup, KIcon::SizeMedium ) );
+			  KGlobal::instance()->iconLoader()->loadIcon( "piave", KIcon::NoGroup, KIcon::SizeMedium ) );
 			  
   QVBoxLayout *topLayout = new QVBoxLayout( page, 0, 6 );
   m_renderDlg = new RenderSetupDlg(app->renderManager(), page, "renderdlg" );

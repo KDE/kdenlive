@@ -23,6 +23,8 @@
 #include <qdir.h>
 #include <qprinter.h>
 #include <qpainter.h>
+#include <qtooltip.h>
+#include <qwhatsthis.h>
 
 // include files for KDE
 #include <kiconloader.h>
@@ -230,37 +232,43 @@ void KdenliveApp::initView()
   widget->manualDock(mainDock, KDockWidget::DockBottom);    
 
   KDockWidget *projectDock = createDockWidget("project list", QPixmap(), 0, i18n("project list"));
-	m_projectList = new ProjectList(this, getDocument(), projectDock);
+  m_projectList = new ProjectList(this, getDocument(), projectDock);
+  QToolTip::add( projectDock, i18n( "This window show your video files usable in your project" ) );
+  QWhatsThis::add( projectDock, i18n( "This window show your video files usable in your project. "
+                                 "You can add or remove some files with the contextual menu. "
+                                 "For add some sequences on your video project, use the drag and drop." ) );
   projectDock->setWidget(m_projectList);
   projectDock->setDockSite(KDockWidget::DockFullSite);
   projectDock->manualDock(mainDock, KDockWidget::DockLeft);
 
   widget = createDockWidget("Debug", QPixmap(), 0, i18n("Debug"));
   m_renderDebugPanel = new RenderDebugPanel(widget);
+  QToolTip::add( widget, i18n( "This window show all debug messages between renderer and Kdenlive" ) );
   widget->setWidget(m_renderDebugPanel);
   widget->setDockSite(KDockWidget::DockFullSite);    
   widget->manualDock(projectDock, KDockWidget::DockCenter);
   
   widget = createDockWidget("Effect List", QPixmap(), 0, i18n("Effect List"));
   m_effectListDialog = new EffectListDialog(getDocument()->renderer()->effectList(), widget, "effect list");
+  QToolTip::add( widget, i18n( "This window show all effects usable with the renderer" ) );
   widget->setWidget(m_effectListDialog);
   widget->setDockSite(KDockWidget::DockFullSite);
   widget->manualDock(projectDock, KDockWidget::DockCenter);
 
   widget = createDockWidget("Effect Setup", QPixmap(), 0, i18n("Effect Setup"));
   m_effectParamDialog = new EffectParamDialog(widget, "effect setup");
+  QToolTip::add( widget, i18n( "This window show the effects configurations usable with the renderer" ) );
   widget->setWidget(m_effectParamDialog);
   widget->setDockSite(KDockWidget::DockFullSite);
   widget->manualDock(projectDock, KDockWidget::DockCenter);    
 
   m_dockWorkspaceMonitor = createDockWidget("Workspace Monitor", QPixmap(), 0, i18n("Workspace Monitor"));
-	m_workspaceMonitor = m_monitorManager.createMonitor(getDocument(), m_dockWorkspaceMonitor, i18n("Workspace Monitor"));
-  m_dockWorkspaceMonitor->setWidget(m_workspaceMonitor);
+  m_workspaceMonitor = m_monitorManager.createMonitor(getDocument(), m_dockWorkspaceMonitor, i18n("Workspace Monitor"));
   m_dockWorkspaceMonitor->setDockSite(KDockWidget::DockFullSite);
   m_dockWorkspaceMonitor->manualDock(mainDock, KDockWidget::DockRight);
 
   m_dockClipMonitor = createDockWidget("Clip Monitor", QPixmap(), 0, i18n("Clip Monitor"));
-	m_clipMonitor = m_monitorManager.createMonitor(getDocument(), m_dockClipMonitor, i18n("Clip Monitor"));
+  m_clipMonitor = m_monitorManager.createMonitor(getDocument(), m_dockClipMonitor, i18n("Clip Monitor"));
   m_dockClipMonitor->setWidget(m_clipMonitor);
   m_dockClipMonitor->setDockSite(KDockWidget::DockFullSite);
   m_dockClipMonitor->manualDock(m_dockWorkspaceMonitor, KDockWidget::DockLeft);
