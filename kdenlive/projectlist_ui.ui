@@ -33,6 +33,12 @@
             <property name="name">
                 <cstring>m_listView</cstring>
             </property>
+            <property name="minimumSize">
+                <size>
+                    <width>0</width>
+                    <height>0</height>
+                </size>
+            </property>
         </widget>
         <widget class="QLayoutWidget">
             <property name="name">
@@ -81,7 +87,7 @@
 <customwidgets>
     <customwidget>
         <class>ProjectListView</class>
-        <header location="global">/home/uchian/kdenlive/kdenlive/projectlistview.h</header>
+        <header location="global">projectlistview.h</header>
         <sizehint>
             <width>-1</width>
             <height>-1</height>

@@ -28,7 +28,7 @@
 
 #include <qpushbutton.h>
 
-#include <kmmruler.h>
+#include <kscalableruler.h>
 #include <kdenlivedoc.h>
 #include <kmmtrackbase.h>
 
@@ -48,7 +48,7 @@ private:
 		QScrollView m_trackScroll; 	// Scrollview holding the tracks
 		QHBox m_scrollBox;			 	// Horizontal box holding the horizontal scrollbar.
 		QLabel m_trackLabel;
-		KMMRuler m_ruler;
+		KScalableRuler m_ruler;
 		QPushButton m_addTrackButton;
 		QPushButton m_deleteTrackButton;
 		QScrollBar m_scrollBar;		// this scroll bar's movement is measured in pixels, not frames.

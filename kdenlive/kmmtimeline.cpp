@@ -28,10 +28,10 @@ KMMTimeLine::KMMTimeLine(KdenliveDoc *document, QWidget *parent, const char *nam
 				m_trackScroll(this, "track view", WPaintClever),
 				m_scrollBox(this, "scroll box"),
 				m_trackLabel(i18n("tracks"), &m_rulerBox),
-				m_ruler(&m_rulerBox, name),
+				m_ruler(0, &m_rulerBox, name),
 				m_addTrackButton(i18n("Add Track"), &m_scrollBox),
 				m_deleteTrackButton(i18n("Delete Track"), &m_scrollBox),
-				m_scrollBar(0, 5000, 50, 500, 0, QScrollBar::Horizontal, &m_scrollBox, "horizontal ScrollBar")
+				m_scrollBar(0, 600, 50, 500, 0, QScrollBar::Horizontal, &m_scrollBox, "horizontal ScrollBar")
 {	
 	m_document = document;
 	
@@ -48,8 +48,10 @@ KMMTimeLine::KMMTimeLine(KdenliveDoc *document, QWidget *parent, const char *nam
 	
 	m_deleteTrackButton.setMinimumWidth(100);
 	m_deleteTrackButton.setMaximumWidth(100);
+
+	m_ruler.setValueScale(5.0);
 		
-	connect(&m_scrollBar, SIGNAL(valueChanged(int)), &m_ruler, SLOT(setValue(int)));
+	connect(&m_scrollBar, SIGNAL(valueChanged(int)), &m_ruler, SLOT(setStartPixel(int)));
   connect(m_document, SIGNAL(trackListChanged()), this, SLOT(syncWithDocument()));	
   	
   setAcceptDrops(true);

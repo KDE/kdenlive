@@ -31,7 +31,7 @@
 
 // include files for project
 #include <kmmtimeline.h>
-#include <kmmruler.h>
+#include <kruler.h>
 #include <kmmmonitor.h>
 #include <projectlist.h>
 
