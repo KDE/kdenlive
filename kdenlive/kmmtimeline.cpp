@@ -110,7 +110,6 @@ KMMTimeLine::KMMTimeLine(KdenliveApp *app, QWidget *rulerToolWidget, QWidget *sc
 	m_startedClipMove = false;
 	m_masterClip = 0;
 	m_moveClipsCommand = 0;
-	m_document->activeSceneListGeneration(true);
 	m_deleteClipsCommand = 0;
 	m_addingClips = false;
 
@@ -223,8 +222,10 @@ void KMMTimeLine::polish()
 void KMMTimeLine::dragEnterEvent ( QDragEnterEvent *event )
 {
 	if(m_startedClipMove) {
+		m_document->activeSceneListGeneration(false);
 		event->accept(true);
 	} else 	if(ClipDrag::canDecode(event)) {
+		m_document->activeSceneListGeneration(false);
 		m_selection = ClipDrag::decode(m_document, event);
 
 	    	if(m_selection.masterClip()==0) m_selection.setMasterClip(m_selection.first());
@@ -298,6 +299,8 @@ void KMMTimeLine::dragLeaveEvent ( QDragLeaveEvent *event )
 	  		itt.current()->docTrack()->deleteClips(true);
 	  		++itt;
 	  	}
+		
+		m_document->activeSceneListGeneration(true);
 	}
   
 	if(m_moveClipsCommand) {
@@ -335,6 +338,7 @@ void KMMTimeLine::dropEvent ( QDropEvent *event )
 	if(m_addingClips) {
 		m_app->addCommand(createAddClipsCommand(true), false);
 		m_addingClips = false;
+		m_document->activeSceneListGeneration(true);
 	}
 
 	if(m_deleteClipsCommand) {
@@ -517,10 +521,9 @@ void KMMTimeLine::initiateDrag(DocClipBase *clipUnderMouse, GenTime mouseTime)
 	m_clipOffset = mouseTime - clipUnderMouse->trackStart();
 
 	m_moveClipsCommand = new Command::KMoveClipsCommand(this, m_document, m_masterClip);
-	m_document->activeSceneListGeneration(false);
 	m_deleteClipsCommand = createAddClipsCommand(false);
 	setupSnapToGrid();
-
+	
 	m_startedClipMove = true;
 
 	DocClipBaseList selection = listSelected();
@@ -695,23 +698,24 @@ KCommand *KMMTimeLine::razorClipAt(DocTrackBase &track, GenTime &time)
 	DocClipBase *clip = track.getClipAt(time);
 	if(!clip) return 0;
 
-	if((clip->trackStart() == time) || (clip->trackEnd() == time)) return 0;	// disallow the creation of clips with 0 length.
+	// disallow the creation of clips with 0 length.
+	if((clip->trackStart() == time) || (clip->trackEnd() == time)) return 0;	
 	
 	KMacroCommand *command = new KMacroCommand(i18n("Razor clip"));
 	
 	command->addCommand(selectNone());
 
-  DocClipBase *clone = clip->clone();
+	DocClipBase *clone = clip->clone();
     
 	clone->setTrackStart(time);
-  clone->setCropStartTime(clip->cropStartTime() + (time - clip->trackStart()));
+	clone->setCropStartTime(clip->cropStartTime() + (time - clip->trackStart()));
 
-  command->addCommand(resizeClip(clip, true, time));
-  command->addCommand(new Command::KAddClipCommand(m_document, clone, true));
+	command->addCommand(resizeClip(clip, true, time));
+	command->addCommand(new Command::KAddClipCommand(m_document, clone, true));
 
-  delete clone;
+	delete clone;
 
-  return command;	
+	return command;	
 }
 
 KCommand * KMMTimeLine::resizeClip(DocClipBase *clip, bool resizeEnd, GenTime &time)
