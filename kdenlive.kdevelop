@@ -1,0 +1,159 @@
+<!DOCTYPE kdevelop>
+<kdevelop>
+  <general>
+    <author>Jason Wood</author>
+    <email>jasonwood@blueyonder.co.uk</email>
+    <version>$VERSION$</version>
+    <projectmanagement>KDevKDEAutoProject</projectmanagement>
+    <primarylanguage>C++</primarylanguage>
+    <keywords>
+      <keyword>Qt</keyword>
+      <keyword>KDE</keyword>
+    </keywords>
+    <projectdirectory>.</projectdirectory>
+    <absoluteprojectpath>false</absoluteprojectpath>
+    <description/>
+    <ignoreparts>
+      <part>KDevClearCase</part>
+      <part>KDevFileGroups</part>
+      <part>KDevPerforce</part>
+    </ignoreparts>
+    <secondaryLanguages/>
+  </general>
+  <kdevfileview>
+    <groups>
+      <group pattern="*.cpp; *.cxx; *.h" name="Sources" />
+      <group pattern="*.ui" name="User Interface" />
+      <group pattern="*.png" name="Icons" />
+      <group pattern="*.po;*.ts" name="Translations" />
+      <group pattern="*" name="Others" />
+      <hidenonprojectfiles>true</hidenonprojectfiles>
+    </groups>
+    <tree>
+      <hidepatterns>*.o,*.lo,CVS</hidepatterns>
+      <hidenonprojectfiles>true</hidenonprojectfiles>
+    </tree>
+  </kdevfileview>
+  <kdevdoctreeview>
+    <ignoretocs>
+      <toc>gtk</toc>
+      <toc>gnustep</toc>
+      <toc>python</toc>
+      <toc>php</toc>
+      <toc>perl</toc>
+      <toc>ada</toc>
+      <toc>bash</toc>
+      <toc>clanlib</toc>
+      <toc>w3c-dom-level2-html</toc>
+      <toc>gnome1</toc>
+      <toc>haskell</toc>
+      <toc>opengl</toc>
+      <toc>ruby</toc>
+      <toc>w3c-svg</toc>
+      <toc>sdl</toc>
+      <toc>sw</toc>
+      <toc>w3c-uaag10</toc>
+    </ignoretocs>
+    <projectdoc>
+      <userdocDir>html/</userdocDir>
+      <apidocDir>html/</apidocDir>
+    </projectdoc>
+    <ignoreqt_xml/>
+    <ignoredoxygen/>
+    <ignorekdocs/>
+    <ignoredevhelp/>
+  </kdevdoctreeview>
+  <kdevdebugger>
+    <general>
+      <dbgshell>libtool</dbgshell>
+      <programargs/>
+      <gdbpath/>
+      <configGdbScript/>
+      <runShellScript/>
+      <runGdbScript/>
+      <breakonloadinglibs>true</breakonloadinglibs>
+      <separatetty>false</separatetty>
+      <floatingtoolbar>false</floatingtoolbar>
+    </general>
+    <display>
+      <staticmembers>false</staticmembers>
+      <demanglenames>true</demanglenames>
+    </display>
+  </kdevdebugger>
+  <kdevfilecreate>
+    <filetypes/>
+    <useglobaltypes>
+      <type ext="ui" />
+      <type ext="cpp" />
+      <type ext="h" />
+    </useglobaltypes>
+  </kdevfilecreate>
+  <kdevautoproject>
+    <make>
+      <envvars>
+        <envvar value="1" name="WANT_AUTOCONF_2_5" />
+        <envvar value="1" name="WANT_AUTOMAKE_1_6" />
+      </envvars>
+      <abortonerror>false</abortonerror>
+      <numberofjobs>1</numberofjobs>
+      <dontact>false</dontact>
+      <makebin/>
+    </make>
+    <run>
+      <directoryradio>executable</directoryradio>
+      <customdirectory>/</customdirectory>
+      <mainprogram/>
+      <programargs/>
+      <terminal>false</terminal>
+      <autocompile>true</autocompile>
+      <envvars/>
+    </run>
+    <general>
+      <useconfiguration>default</useconfiguration>
+      <activetarget>kdenlive/kdenlive</activetarget>
+    </general>
+    <configurations>
+      <default>
+        <configargs>--prefix=/usr --enable-debug=full</configargs>
+        <builddir/>
+        <topsourcedir/>
+        <cppflags/>
+        <ldflags/>
+        <ccompiler>kdevgccoptions</ccompiler>
+        <cxxcompiler>kdevgppoptions</cxxcompiler>
+        <f77compiler>kdevpgf77options</f77compiler>
+        <ccompilerbinary/>
+        <cxxcompilerbinary/>
+        <f77compilerbinary/>
+        <cflags/>
+        <cxxflags/>
+        <f77flags/>
+      </default>
+    </configurations>
+    <subclassing>
+      <subclass uifile="/kdenlive/configureproject_ui.ui" sourcefile="/kdenlive/configureproject.cpp" />
+      <subclass uifile="/kdenlive/configureproject_ui.ui" sourcefile="/kdenlive/configureproject.h" />
+    </subclassing>
+  </kdevautoproject>
+  <cppsupportpart>
+    <filetemplates>
+      <interfacesuffix>.h</interfacesuffix>
+      <implementationsuffix>.cpp</implementationsuffix>
+    </filetemplates>
+  </cppsupportpart>
+  <kdevcppsupport>
+    <codecompletion>
+      <includeGlobalFunctions>true</includeGlobalFunctions>
+      <includeTypes>true</includeTypes>
+      <includeEnums>true</includeEnums>
+      <includeTypedefs>true</includeTypedefs>
+      <automaticCodeCompletion>true</automaticCodeCompletion>
+      <automaticArgumentsHint>true</automaticArgumentsHint>
+      <automaticHeaderCompletion>true</automaticHeaderCompletion>
+      <codeCompletionDelay>250</codeCompletionDelay>
+      <argumentsHintDelay>400</argumentsHintDelay>
+      <headerCompletionDelay>250</headerCompletionDelay>
+    </codecompletion>
+    <references/>
+  </kdevcppsupport>
+</kdevelop>
