@@ -36,7 +36,6 @@ su
 make install
 
 
-
 ./configure takes a number of options, type ./configure --help to
 discover what these are. The most important one is --prefix, which
 specifies where your KDE installation is when installing. For Mandrake,
@@ -44,6 +43,15 @@ use :
 
 ./configure --prefix=/usr
 
+
+Once installed, you can start Kdenlive by typing "kdenlive".
+
+
+
+Note that you should also install Piave to do anything useful with Kdenlive. See
+the README file for details.
+
+Have Fun!
 
 
 

@@ -1,9 +1,22 @@
-Kdenlive by JasonWood <jasonwood@blueyonder.co.uk>
+Kdenlive by Jason Wood <jasonwood@blueyonder.co.uk>
 
-Kdenlive is a video editing suite for KDE and arts. It will eventually run on any machine
-that KDE can run on.
+Kdenlive is a video editing application for KDE. It will eventually run on
+any machine that KDE can run on.
 
-This software is PRE-ALPHA - don't run it and expect anything to work whatsoever. It's not finished,
-it will disappoint you.
+To use Kdenlive, you will need to download and install Piave, available from
+the following webpage :
+
+http://modesto.sourceforge.net/piave/
+
+Then, go to the Settings->configure Kdenlive menu, and type in or browse to
+the location where PIave is installed. Restart Kdenlive for the changes to take 
+effect.
+
+Kdenlive is ALPHA quality software at present. Expect bugs, don't try and use
+it to edit any mission critical projects, and keep it away from any important
+files unless you've backed them up first.
 
 Feel free to contact me if you are interested in helping out.
+
+Cheers,
+Jason
