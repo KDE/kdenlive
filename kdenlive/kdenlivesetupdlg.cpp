@@ -21,6 +21,7 @@
 
 #include "kdenlivesetupdlg.h"
 #include "rendersetupdlg.h"
+#include "kdenlive.h"
 
 KdenliveSetupDlg::KdenliveSetupDlg(KdenliveApp *app, QWidget *parent, const char *name ) :
                               KDialogBase(IconList,
@@ -31,7 +32,7 @@ KdenliveSetupDlg::KdenliveSetupDlg(KdenliveApp *app, QWidget *parent, const char
 {
   QFrame *page = addPage( i18n("Renderer") );
   QVBoxLayout *topLayout = new QVBoxLayout( page, 0, 6 );
-  m_renderDlg = new RenderSetupDlg(app, page, "renderdlg" );
+  m_renderDlg = new RenderSetupDlg(app->renderManager(), page, "renderdlg" );
   topLayout->addWidget( m_renderDlg );
 }
 

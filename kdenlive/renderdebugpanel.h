@@ -18,28 +18,37 @@
 #ifndef RENDERDEBUGPANEL_H
 #define RENDERDEBUGPANEL_H
 
-#include <qvbox.h>
-#include <qtextedit.h>
+#include <qhbox.h>
+#include <qlistbox.h>
+#include <qwidgetstack.h>
 
 /**The render debug panel captures output from a KRender object, and displays it. It can also be used to initiate commands to the server.
   *@author Jason Wood
   */
 
-class RenderDebugPanel : public QVBox  {
+class QTextEdit;
+
+class RenderDebugPanel : public QHBox  {
    Q_OBJECT
 public: 
 	RenderDebugPanel(QWidget *parent=0, const char *name=0);
 	~RenderDebugPanel();
 private:
-  QTextEdit m_textEdit;
+  QListBox m_rendererList;
+  QWidgetStack m_widgetStack;
+  QMap<QString, int> m_boxNames;
+  int m_nextId;
 public slots: // Public slots
   /** Prints a debug (informational) message to the debug */
-  void slotPrintDebug(const QString &message);
+  void slotPrintDebug(const QString &name, const QString &message);
 public slots: // Public slots
   /** Prints an error message to the debug window. */
-  void slotPrintError(const QString &message);
+  void slotPrintError(const QString &name, const QString &message);
   /** Prints a warning message to the debug area. */
-  void slotPrintWarning(const QString &message);
+  void slotPrintWarning(const QString &name, const QString &message);
+private: // Private methods
+  /** Returns the text edit widget with the given name, creating one if it doesn't exist. */
+  QTextEdit * getTextEdit(const QString &name);
 };
 
 #endif

@@ -29,6 +29,7 @@
 #include <kdebug.h>
 
 // application specific includes
+#include "krendermanager.h"
 #include "kdenlivedoc.h"
 #include "kdenlive.h"
 #include "kdenliveview.h"
@@ -38,6 +39,7 @@
 #include "doctracksound.h"
 #include "doctrackclipiterator.h"
 #include "clipdrag.h"
+#include "avfile.h"
 
 QPtrList<KdenliveView> *KdenliveDoc::pViewList = 0L;
 
@@ -56,7 +58,7 @@ KdenliveDoc::KdenliveDoc(KdenliveApp *app, QWidget *parent, const char *name) : 
   pViewList->setAutoDelete(true);
 
   m_app = app;
-	m_render = m_app->renderer();
+	m_render = m_app->renderManager()->createRenderer(i18n("Document"));
   
   connect(m_render, SIGNAL(replyGetFileProperties(QMap<QString, QString>)),
   					 this, SLOT(AVFilePropertiesArrived(QMap<QString, QString>)));
@@ -65,7 +67,7 @@ KdenliveDoc::KdenliveDoc(KdenliveApp *app, QWidget *parent, const char *name) : 
   connect(this, SIGNAL(trackListChanged()), this, SLOT(hasBeenModified()));  
 
   m_domSceneList.appendChild(m_domSceneList.createElement("scenelist"));
-  m_render->setSceneList(generateSceneList());
+  generateSceneList();
   
   setModified(false);
 }
@@ -526,7 +528,7 @@ bool KdenliveDoc::moveSelectedClips(GenTime startOffset, int trackOffset)
 		}
 	}
 
-	m_render->setSceneList(generateSceneList());
+	generateSceneList();
 
 	return true;
 }
@@ -621,6 +623,8 @@ QDomDocument KdenliveDoc::generateSceneList()
     } 
   } while(curTime != nextTime);	
 
+  emit sceneListChanged(m_domSceneList);
+  
   return m_domSceneList;
 }
 
@@ -686,7 +690,7 @@ void KdenliveDoc::loadFromXML(QDomDocument &doc)
 /** Called when the document is modifed in some way. */
 void KdenliveDoc::hasBeenModified()
 {
-	m_render->setSceneList(generateSceneList());
+  generateSceneList();
   emit documentChanged();
 	setModified(true);
 }

@@ -197,6 +197,8 @@ signals: // Signals
   void avFileChanged(AVFile *file);
   /** emitted when the document has changed in some way. */
   void documentChanged();
+  /** Emitted when a new scenelist has been generated */
+  void sceneListChanged(const QDomDocument &);
 };
 
 #endif // KDENLIVEDOC_H

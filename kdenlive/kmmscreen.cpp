@@ -17,17 +17,23 @@
 
 #include "kmmscreen.h"
 #include <string.h>
+#include <kdebug.h>
+#include <klocale.h>
+#include <qxembed.h>
+
 #include "krender.h"
+#include "krendermanager.h"
 #include "kdenlive.h"
 #include "kdenlivedoc.h"
 
-KMMScreen::KMMScreen(KdenliveApp *app, QWidget *parent, const char *name ) : QXEmbed(parent,name)
+KMMScreen::KMMScreen(KdenliveApp *app, QWidget *parent, const char *name ) :
+                                    QVBox(parent,name),
+                                    m_render(app->renderManager()->createRenderer(name)),
+                                    m_app(app),
+                                    m_embed(new QXEmbed(this, name))
 {
-	setBackgroundMode(Qt::PaletteDark);
-
-  m_app = app;
-	m_render = m_app->renderer();
-	
+	m_embed->setBackgroundMode(Qt::PaletteDark);
+  
 	connect(m_render, SIGNAL(initialised()), this, SLOT(rendererReady()));
 	connect(m_render, SIGNAL(replyCreateVideoXWindow(WId)), this, SLOT(embedWindow(WId)));
   connect(m_render, SIGNAL(connected()), this, SIGNAL(rendererConnected()));
@@ -37,7 +43,7 @@ KMMScreen::KMMScreen(KdenliveApp *app, QWidget *parent, const char *name ) : QXE
 
 KMMScreen::~KMMScreen()
 {
-//	if(m_render) delete m_render;
+	if(m_render) delete m_render;
 }
 
 /** The renderer is ready, so we open a video window, etc. here. */
@@ -50,13 +56,13 @@ void KMMScreen::rendererReady()
 void KMMScreen::embedWindow(WId wid)
 {
 	if(wid != 0) {
-		embed(wid);
+		m_embed->embed(wid);
 	}
 }
 
 /** Seeks to the specified time */
 void KMMScreen::seek(GenTime time)
-{
+{ 
 	m_render->seek(time);
 }
 
@@ -64,4 +70,10 @@ void KMMScreen::seek(GenTime time)
 void KMMScreen::play(double speed)
 {
 	m_render->play(speed);
+}
+
+/** Set the displayed scenelist to the one specified. */
+void KMMScreen::setSceneList(const QDomDocument &scenelist)
+{
+  m_render->setSceneList(scenelist);
 }

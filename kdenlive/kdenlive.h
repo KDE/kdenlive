@@ -40,12 +40,13 @@ class KdenliveView;
 class KCommandHistory;
 class KCommand;
 class KProgress;
-class KRender;
+class KRenderManager;
 class KMMTimeLine;
 class KMMMonitor;
 class ProjectList;
 class KMMRulerPanel;
 class RenderDebugPanel;
+class AVFile;
 
 /**
   * The base class for Kdenlive application windows. It sets up the main
@@ -91,16 +92,8 @@ class KdenliveApp : public KDockMainWindow
 	    
   /** Returns the editing mode that the timeline should operate with */
   TimelineEditMode timelineEditMode();
-  /** Write property of KURL m_renderAppPath. */
-  void setRenderAppPath( const KURL& _newVal);
-  /** Read property of KURL m_renderAppPath. */
-  const KURL& renderAppPath();
-  /** Write property of unsigned int m_renderAppPort. */
-  void setRenderAppPort( const unsigned int& _newVal);
-  /** Read property of unsigned int m_renderAppPort. */
-  const unsigned int& renderAppPort();
-  /** Returns the application-wide renderer */
-  KRender * renderer();
+  /** Returns the render manager. */
+  KRenderManager * renderManager();
 
   protected:
     /** save general Options like all bar positions and status as well as the geometry and the recent file list to the configuration
@@ -218,6 +211,8 @@ class KdenliveApp : public KDockMainWindow
   void slotTogglePlay();    
   /** Delete the selected clips */
   void slotDeleteSelected();  
+  /** Set the source of the clip monitor to the spectified AVFile. */
+  void slotSetClipMonitorSource(AVFile *file);
 
   private:
     /** the configuration object of the application */
@@ -272,18 +267,14 @@ class KdenliveApp : public KDockMainWindow
 		
 		/** Holds the undo/redo command history */
 		KCommandHistory *m_commandHistory;
-    /**  */
-    KURL m_renderAppPath;
-    /** The port that the created render app will listen on. */
-    unsigned int m_renderAppPort;
-    /** Application-wide renderer. */
-    KRender *m_renderer;
 
 /** Application view setup */
     KDockTabGroup *m_tabWidget;
   	ProjectList *m_projectList;
     RenderDebugPanel *m_renderDebugPanel;
-  	KMMMonitor *m_monitor;
+    KRenderManager *m_renderManager;
+  	KMMMonitor *m_workspaceMonitor;
+  	KMMMonitor *m_clipMonitor;   
 		KMMRulerPanel *m_rulerPanel;	// pointer, because it gets reparented to the timeline widget!
     /** Stores a copy of the last file dialog path used by kdenlive. */
     KURL m_fileDialogPath;

@@ -58,6 +58,11 @@ public slots: // Public slots
 signals: // Signals
   /** this signal is called when a number of clips have been dropped onto the project list view. */
   void dragDropOccured(QDropEvent *drop);
+  /** This signal is emitted when an AVFile is selected in the project list. */
+  void AVFileSelected(AVFile *file);
+private slots: // Private slots
+  /** Called when the project list changes. */
+  void projectListSelectionChanged(QListViewItem *item);;
 };
 
 #endif

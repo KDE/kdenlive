@@ -18,12 +18,14 @@
 #ifndef KMMSCREEN_H
 #define KMMSCREEN_H
 
-#include <qxembed.h>
+#include <qdom.h>
+#include <qvbox.h>
 
 #include "gentime.h"
 
 class KRender;
 class KdenliveApp;
+class QXEmbed;
 
 /**KMMScreen acts as a wrapper for the window provided by the cutter.
 	It requests a video window from the cutter, and embeds it within
@@ -31,7 +33,7 @@ class KdenliveApp;
   *@author Jason Wood
   */
 
-class KMMScreen : public QXEmbed  {
+class KMMScreen : public QVBox  {
    Q_OBJECT
 public: 
 	KMMScreen(KdenliveApp *app, QWidget *parent=0, const char *name=0);
@@ -39,6 +41,7 @@ public:
 private: // Private attributes
 	KRender *m_render;
   KdenliveApp *m_app;
+  QXEmbed *m_embed;
 private slots: // Private slots
   /** The renderer is ready, so we open
 a video window, etc. here. */
@@ -50,6 +53,8 @@ public slots: // Public slots
   void seek(GenTime time);
   /** Set the play speed of the screen */
   void play(double speed);
+  /** Set the displayed scenelist to the one specified. */
+  void setSceneList(const QDomDocument &scenelist);
 signals: // Signals
   /** Emitted when a renderer connects. */
   void rendererConnected();

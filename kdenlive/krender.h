@@ -41,7 +41,7 @@ relevant signal that get's emitted once the call completes.
 class KRender : public QObject, public QXmlDefaultHandler  {
    Q_OBJECT
 public: 
-	KRender(KURL appPath, unsigned int port, QObject *parent=0, const char *name=0);
+	KRender(const QString &rendererName, KURL appPath, unsigned int port, QObject *parent=0, const char *name=0);
 	~KRender();
   /** Wraps the VEML command of the same name; requests that the renderer
 should create a video window. If show is true, then the window should be
@@ -113,6 +113,8 @@ private: // Private attributes
   QDomDocument m_sceneList;
   /** Holds the buffered communication from the socket, ready for processing. */
   QString m_buffer;
+  /** The name of this renderer - useful to identify the renderes by what they do - e.g. background rendering, workspace monitor, etc... */
+  QString m_name;
   
   /** A function pointer to the relevant method that should parse tagOpen events */
   bool (KRender::*m_funcStartElement)(const QString & namespaceURI, const QString & localName,
@@ -154,10 +156,11 @@ signals: // Signals
   /** emitted when the renderer recieves a reply to a getFileProperties request. */
   void replyGetFileProperties(QMap<QString, QString>);
   /** Emitted when the renderer has recieved text from stdout */
-  void recievedStdout(const QString &);
+  void recievedStdout(const QString &, const QString &);
   /** Emitted when the renderer has recieved text from stderr */
-  void recievedStderr(const QString &);
-signals: // Signals
+  void recievedStderr(const QString &, const QString &);
+  /** Emitted when the renderer has some information to pass on */
+  void recievedInfo(const QString &, const QString &);
   /** Emitted when the renderer stops, either playing or rendering. */
   void stopped();
   /** Emitted when the renderer starts playing. */

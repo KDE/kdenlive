@@ -42,6 +42,7 @@
 #include "kdenlivesetupdlg.h"
 #include "kprogress.h"
 #include "krulertimemodel.h"
+#include "krendermanager.h"
 
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
@@ -52,10 +53,8 @@ KdenliveApp::KdenliveApp(QWidget* , const char* name):KDockMainWindow(0, name)
   config=kapp->config();
 
   // renderer options
-  config->setGroup("Renderer Options");
-  setRenderAppPath(config->readEntry("App Path", "/usr/local/bin/piave"));
-  setRenderAppPort(config->readUnsignedNumEntry("App Port", 6100));
-  m_renderer = new KRender(m_renderAppPath, m_renderAppPort);  
+  m_renderManager = new KRenderManager();
+  m_renderManager->readConfig(config);  
 
   // call inits to invoke all other construction parts
   initStatusBar();
@@ -82,7 +81,8 @@ KdenliveApp::KdenliveApp(QWidget* , const char* name):KDockMainWindow(0, name)
 
 KdenliveApp::~KdenliveApp()
 {
-  if(m_renderer) delete m_renderer;
+  if(m_renderManager) delete m_renderManager;
+  if(m_commandHistory) delete m_commandHistory;
 }
 
 void KdenliveApp::initActions()
@@ -220,29 +220,39 @@ void KdenliveApp::initView()
   widget->setDockSite(KDockWidget::DockFullSite);    
   m_tabWidget->addTab(widget, i18n("Debug"));
 
-  widget = createDockWidget(i18n("Monitor"), QPixmap(), 0, i18n("Monitor"));
-	m_monitor = new KMMMonitor(this, getDocument(), widget);
-  widget->setWidget(m_monitor);
-  widget->setDockSite(KDockWidget::DockFullSite);    
-  widget->manualDock(tabGroupDock, KDockWidget::DockRight);  
+  KDockWidget *workspaceMonitor = createDockWidget(i18n("Workspace Monitor"), QPixmap(), 0, i18n("Workspace Monitor"));
+	m_workspaceMonitor = new KMMMonitor(this, getDocument(), workspaceMonitor, i18n("Workspace Monitor"));
+  workspaceMonitor->setWidget(m_workspaceMonitor);
+  workspaceMonitor->setDockSite(KDockWidget::DockFullSite);    
+  workspaceMonitor->manualDock(tabGroupDock, KDockWidget::DockRight);
+
+  widget = createDockWidget(i18n("Clip Monitor"), QPixmap(), 0, i18n("Clip Monitor"));
+	m_clipMonitor = new KMMMonitor(this, getDocument(), widget, i18n("Clip Monitor"));
+  widget->setWidget(m_clipMonitor);
+  widget->setDockSite(KDockWidget::DockFullSite);
+  widget->manualDock(workspaceMonitor, KDockWidget::DockLeft);    
 
   setBackgroundMode(PaletteBase);
 
   connect(m_rulerPanel, SIGNAL(timeScaleChanged(int)), m_timeline, SLOT(setTimeScale(int)));
 
   connect(m_projectList, SIGNAL(dragDropOccured(QDropEvent *)), getDocument(), SLOT(slot_insertClips(QDropEvent *)));
-  connect(m_timeline, SIGNAL(projectLengthChanged(int)), m_monitor, SLOT(setClipLength(int)));
+  connect(m_timeline, SIGNAL(projectLengthChanged(int)), m_workspaceMonitor, SLOT(setClipLength(int)));
 
-  connect(m_timeline, SIGNAL(seekPositionChanged(GenTime)), m_monitor, SLOT(seek(GenTime)));
-  connect(m_monitor, SIGNAL(seekPositionChanged(GenTime)), m_timeline, SLOT(seek(GenTime)));
+  connect(m_timeline, SIGNAL(seekPositionChanged(GenTime)), m_workspaceMonitor, SLOT(seek(GenTime)));
+  connect(m_workspaceMonitor, SIGNAL(seekPositionChanged(GenTime)), m_timeline, SLOT(seek(GenTime)));
+  connect(getDocument(), SIGNAL(sceneListChanged(const QDomDocument &)), m_workspaceMonitor, SLOT(setSceneList(const QDomDocument &)));
 
   connect(getDocument(), SIGNAL(avFileListUpdated()), m_projectList, SLOT(slot_UpdateList()));
   connect(getDocument(), SIGNAL(avFileChanged(AVFile *)), m_projectList, SLOT(slot_avFileChanged(AVFile *)));
 
-  connect(m_monitor, SIGNAL(seekPositionChanged(GenTime)), this, SLOT(slotUpdateCurrentTime(GenTime)));
+  connect(m_workspaceMonitor, SIGNAL(seekPositionChanged(GenTime)), this, SLOT(slotUpdateCurrentTime(GenTime)));
 
-  connect(m_renderer, SIGNAL(recievedStdout(const QString &)), m_renderDebugPanel, SLOT(slotPrintDebug(const QString &)));
-  connect(m_renderer, SIGNAL(recievedStderr(const QString &)), m_renderDebugPanel, SLOT(slotPrintWarning(const QString &)));  
+  connect(m_renderManager, SIGNAL(recievedInfo(const QString &, const QString &)), m_renderDebugPanel, SLOT(slotPrintDebug(const QString &, const QString &)));    
+  connect(m_renderManager, SIGNAL(recievedStdout(const QString &, const QString &)), m_renderDebugPanel, SLOT(slotPrintWarning(const QString &, const QString &)));
+  connect(m_renderManager, SIGNAL(recievedStderr(const QString &, const QString &)), m_renderDebugPanel, SLOT(slotPrintError(const QString &, const QString &)));
+
+  connect(m_projectList, SIGNAL(AVFileSelected(AVFile *)), this, SLOT(slotSetClipMonitorSource(AVFile *)));
 
   makeDockInvisible(mainDock);
 
@@ -274,10 +284,8 @@ void KdenliveApp::saveOptions()
 
   fileOpenRecent->saveEntries(config,"Recent Files");
   config->writeEntry("FileDialogPath", m_fileDialogPath.path());
-  
-  config->setGroup("Renderer Options");
-  config->writeEntry("App Path" , renderAppPath().path());
-  config->writeEntry("App Port" , renderAppPort());    
+
+  m_renderManager->saveConfig(config);
 }
 
 
@@ -293,8 +301,7 @@ void KdenliveApp::readOptions()
   bool bViewStatusbar = config->readBoolEntry("Show Statusbar", true);
   viewStatusBar->setChecked(bViewStatusbar);
   slotViewStatusBar();
-
-
+ 
   // bar position settings
   KToolBar::BarPosition toolBarPos;
   toolBarPos=(KToolBar::BarPosition) config->readNumEntry("ToolBarPos", KToolBar::Top);
@@ -309,7 +316,7 @@ void KdenliveApp::readOptions()
   if(!size.isEmpty())
   {
     resize(size);
-  } 
+  }
 }
 
 void KdenliveApp::saveProperties(KConfig *_cfg)
@@ -753,31 +760,47 @@ void KdenliveApp::slotTogglePlay()
 void KdenliveApp::slotDeleteSelected()
 {
   slotStatusMsg(i18n("Deleting Selected Clips"));
-  addCommand(m_timeline->createAddClipsCommand(false), true);  
+//  addCommand(m_timeline->createAddClipsCommand(false), true);
+  m_workspaceMonitor->swapScreens(m_clipMonitor);
   slotStatusMsg(i18n("Ready."));
 }
 
-/** Read property of KURL m_renderAppPath. */
-const KURL& KdenliveApp::renderAppPath(){
-	return m_renderAppPath;
-}
-
-/** Write property of KURL m_renderAppPath. */
-void KdenliveApp::setRenderAppPath( const KURL& _newVal){
-	m_renderAppPath = _newVal;
-}
-
-/** Read property of unsigned int m_renderAppPort. */
-const unsigned int& KdenliveApp::renderAppPort(){
-	return m_renderAppPort;
-}
-/** Write property of unsigned int m_renderAppPort. */
-void KdenliveApp::setRenderAppPort( const unsigned int& _newVal){
-	m_renderAppPort = _newVal;
-}
-
-/** Returns the application-wide renderer */
-KRender * KdenliveApp::renderer()
+/** Returns the render manager. */
+KRenderManager * KdenliveApp::renderManager()
 {
-  return m_renderer;
+  return m_renderManager;
+}
+
+/** Set the source of the clip monitor to the spectified AVFile. */
+void KdenliveApp::slotSetClipMonitorSource(AVFile *file)
+{
+	static QString str_inpoint="inpoint";
+	static QString str_outpoint="outpoint";
+	static QString str_file="file";
+
+
+  kdDebug() << "Setting clip monitor source" << endl;
+  
+  if(!file->durationKnown()) {
+    kdWarning() << "Cannot create scenelist for clip monitor - clip duration unknown" << endl;
+  }
+  
+  QDomDocument scenelist;
+  scenelist.appendChild(scenelist.createElement("scenelist"));
+  
+  // generate the next scene.
+  QDomElement scene = scenelist.createElement("scene");
+  scene.setAttribute("duration", QString::number(file->duration().seconds()));
+
+  QDomElement sceneClip;
+  sceneClip = scenelist.createElement("input");
+  sceneClip.setAttribute(str_file, file->fileURL().path());
+  sceneClip.setAttribute(str_inpoint, "0.0");
+  sceneClip.setAttribute(str_outpoint, QString::number(file->duration().seconds()));
+  scene.appendChild(sceneClip);
+  scenelist.documentElement().appendChild(scene);
+
+  m_clipMonitor->setSceneList(scenelist);
+  m_clipMonitor->setClipLength(file->duration().frames(getDocument()->framesPerSecond()));
+  m_clipMonitor->seek(GenTime(0.0));
 }

@@ -51,6 +51,8 @@ ProjectList::ProjectList(KdenliveApp *app, KdenliveDoc *document, QWidget *paren
 
 	connect(m_listView, SIGNAL(rightButtonPressed ( QListViewItem *, const QPoint &, int )),
 					this, SLOT(rightButtonPressed ( QListViewItem *, const QPoint &, int )));
+
+  connect(m_listView, SIGNAL(executed(QListViewItem *)), this, SLOT(projectListSelectionChanged(QListViewItem *)));
 }
 
 ProjectList::~ProjectList()
@@ -83,4 +85,12 @@ void ProjectList::slot_UpdateList() {
 void ProjectList::slot_avFileChanged(AVFile *file)
 {
   m_listView->triggerUpdate();
+}
+
+/** Called when the project list changes. */
+void ProjectList::projectListSelectionChanged(QListViewItem *item)
+{
+  AVListViewItem *avitem = (AVListViewItem *)item;
+
+  emit AVFileSelected(avitem->clip());  
 }

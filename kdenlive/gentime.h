@@ -48,12 +48,12 @@ public:
 
 	/** Adds two GenTimes */
 	GenTime operator+(GenTime op) const {
-		return GenTime(m_time + op.seconds());
+		return GenTime(m_time + op.m_time);
 	}
 
 	/** Subtracts one genTime from another */		
 	GenTime operator-(GenTime op) const {
-		return GenTime(m_time - op.seconds());	
+		return GenTime(m_time - op.m_time);	
 	}
 
 	/** Divides one GenTime by a double value, returning a GenTime */
@@ -63,32 +63,32 @@ public:
 
 	/* Implementation of < operator; Works identically as with basic types. */
 	bool operator<(GenTime op) const {
-		return m_time < op.seconds();
+		return m_time < op.m_time;
 	}
 
 	/* Implementation of > operator; Works identically as with basic types. */		
 	bool operator>(GenTime op) const {
-		return m_time > op.seconds();
+		return m_time > op.m_time;
 	}
 
 	/* Implementation of >= operator; Works identically as with basic types. */
 	bool operator>=(GenTime op) const {
-		return m_time >= op.seconds();
+		return m_time >= op.m_time;
 	}
 
 	/* Implementation of <= operator; Works identically as with basic types. */
 	bool operator<=(GenTime op) const {
-		return m_time <= op.seconds();
+		return m_time <= op.m_time;
 	}
 
 	/* Implementation of == operator; Works identically as with basic types. */
 	bool operator==(GenTime op) const {
-		return m_time == op.seconds();
+		return m_time == op.m_time;
 	}
 
 	/* Implementation of != operator; Works identically as with basic types. */
 	bool operator!=(GenTime op) const {
-		return m_time != op.seconds();
+		return m_time != op.m_time;
 	}
 
   /* Rounds the GenTIme's value to the nearest frame */

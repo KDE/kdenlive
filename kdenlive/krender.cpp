@@ -17,13 +17,12 @@
 
 #include "krender.h"
 
-#include <kdebug.h>
-
-KRender::KRender(KURL appPath, unsigned int port, QObject *parent, const char *name ) :
+KRender::KRender(const QString &rendererName, KURL appPath, unsigned int port, QObject *parent, const char *name ) :
 																				QObject(parent, name),
-																				QXmlDefaultHandler()
+																				QXmlDefaultHandler(),
+                                        m_name(rendererName)
 {
-	startTimer(200);
+	startTimer(1000);
 	m_parsing = false;
 	m_seekPending = false;
 	m_nextSeek = -1.0;
@@ -70,14 +69,13 @@ void KRender::error(int error)
 {	
 	switch(error) {
 		case QSocket::ErrConnectionRefused :
-							//kdDebug() << "Connection Refused" << endl;
-							m_socket.connectToHost("127.0.0.1", m_portNum);
+              emit recievedInfo(m_name, "Connection Refused");
 							break;
 		case QSocket::ErrHostNotFound :
-							kdDebug() << "Host Not Found" << endl;		
+              emit recievedInfo(m_name, "Host Not Found");
 							break;
 		case QSocket::ErrSocketRead :
-							kdDebug() << "Error reading Socket" << endl;		
+              emit recievedInfo(m_name, "Error Reading Socket");              
 							break;
 	}
 }
@@ -85,10 +83,9 @@ void KRender::error(int error)
 /** Called when we have connected to the renderer. */
 void KRender::slotConnected()
 {
-	kdDebug() << "Connected" << endl;
-
   getCapabilities();
-  
+
+  emit recievedInfo(m_name, "Connected on port " + QString::number(m_socket.port()) + " to host on port " + QString::number(m_socket.peerPort()));  
 	emit initialised();
   emit connected();
 }
@@ -96,7 +93,7 @@ void KRender::slotConnected()
 /** Called when we have disconnected from the renderer. */
 void KRender::slotDisconnected()
 {
-	kdDebug() << "Disconnected" << endl;
+  emit recievedInfo(m_name, "Disconnected");  
 
   emit disconnected();
 }
@@ -114,13 +111,15 @@ void KRender::readData()
     
     QXmlInputSource source;
     source.setData(temp);
-    kdDebug() << "Parsing " << temp << endl;
+
+    emit recievedInfo(m_name, "Parsing " + temp);
+    
     m_funcStartElement = &KRender::topLevelStartElement;
     m_funcEndElement = &KRender::topLevelEndElement;    
     if(!m_xmlReader.parse(&source, false)) {
-      kdWarning() << "Parse Failed on " << temp << endl;
+      emit recievedInfo(m_name, "Parse Failed on " + temp);      
     } else {
-      kdDebug() << "Parse successfull" << endl;
+      emit recievedInfo(m_name, "Parse successfull");
     }
   }  
 }
@@ -144,7 +143,7 @@ void KRender::quit()
 /** Called if the rendering process has exited. */
 void KRender::processExited()
 {
-	kdDebug() << "Renderer process exited" << endl;
+  emit recievedInfo(m_name, "Render Process Exited");    
 }
 
 /** Launches a renderer process. */
@@ -154,16 +153,16 @@ void KRender::launchProcess()
 	m_process.setExecutable("artsdsp");
   m_process << m_appPath.path();
   m_process << "-d";  
-  m_process << "-p " << m_portNum;
+  m_process << "-p " + QString::number(m_portNum);
+  m_process << "-frgb";
 
-
-	kdDebug() << "Launching process " << m_appPath.path() << " as server on port " << m_portNum << endl;
+  emit recievedInfo(m_name, "Launching Process " + m_appPath.path() + " as server on port " + QString::number(m_portNum));
 	if(m_process.start(KProcess::NotifyOnExit, KProcess::AllOutput)) {
-		kdDebug() << "Process launching successfully" << endl;
-		kdDebug() << "Connecting to server on port " << m_portNum << endl;
+    emit recievedInfo(m_name, "Process launching successfully, pid = " + QString::number(m_process.pid()));
+    emit recievedInfo(m_name, "Connecting to server on port " + QString::number(m_portNum));
 		m_socket.connectToHost("127.0.0.1", m_portNum);
 	} else {
-		kdError() << "Could not start process" << endl;
+    emit recievedInfo(m_name, "Could not start process");    
 	}
 }
 
@@ -171,14 +170,14 @@ void KRender::slotReadStdout(KProcess *proc, char *buffer, int buflen)
 {  
   QString mess;
   mess.setLatin1(buffer, buflen);
-  emit recievedStdout(mess);
+  emit recievedStdout(m_name, mess);
 }
 
 void KRender::slotReadStderr(KProcess *proc, char *buffer, int buflen)
 {
   QString mess;
-  mess.setLatin1(buffer, buflen);  
-  emit recievedStderr(mess);
+  mess.setLatin1(buffer, buflen);
+  emit recievedStderr(m_name, mess);
 }
 
 
@@ -308,14 +307,14 @@ void KRender::getCapabilities()
 /** Occurs upon starting to parse an XML document */
 bool KRender::startDocument()
 {
-	kdDebug() << "Starting to parse document" << endl;
+  emit recievedInfo(m_name, "Starting to parse document");  
 	return true;
 }
 
 /** Occurs upon finishing reading an XML document */
 bool KRender::endDocument()
 {
-	kdDebug() << "finishing parsing document" << endl;  
+  emit recievedInfo(m_name, "Finishing parsing document");    
 	return true;
 }
 
@@ -323,7 +322,7 @@ bool KRender::endDocument()
 bool KRender::startElement(const QString & namespaceURI, const QString & localName,
 																	const QString & qName, const QXmlAttributes & atts )
 {
-	kdDebug() << "Discovered opening tag " << localName << endl;
+  emit recievedInfo(m_name, "Discovered opening tag " + localName);   
 
 	return (this->*m_funcStartElement)(namespaceURI, localName, qName, atts);
 }
@@ -331,7 +330,7 @@ bool KRender::startElement(const QString & namespaceURI, const QString & localNa
 /** Called when the xml parser encounters a closing tag */
 bool KRender::endElement ( const QString & namespaceURI, const QString & localName, const QString & qName )
 {
-	kdDebug() << "Discovered closing tag " << localName << endl;
+  emit recievedInfo(m_name, "Discovered closing tag " + localName);     
 
 	return (this->*m_funcEndElement)(namespaceURI, localName, qName);
 }
@@ -343,13 +342,13 @@ bool KRender::topLevelStartElement(const QString & namespaceURI, const QString &
 	if(localName == "reply") {
 		QString command = atts.value("command");
 		if(command.isNull()) {
-			kdError() << "Reply recieved, no command specified" << endl;
+      emit recievedInfo(m_name, "Reply recieved, no command specified");
 			return false;
 		} else if(command == "createVideoXWindow") {
 			QString winID = atts.value("WinID");
 			WId retID = 0;
 			if(winID.isNull()) {
-				kdWarning() << "Window ID not specified - emitting 0" << endl;
+        emit recievedInfo(m_name, "Window ID not specified - emitting 0");        
 			} else {
 				retID = winID.toInt();
 			}
@@ -397,12 +396,12 @@ bool KRender::topLevelStartElement(const QString & namespaceURI, const QString &
 			m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;      
       return true;
     } else {      
-      kdWarning() << "Unknown reply '" << command << "'" << endl;
+    	emit recievedInfo(m_name, "Unknown reply '" + command + "'");      
       return false;
     }
 	} else if(localName == "pong") {
 		QString id = atts.value("id");
-		kdDebug() << "pong recieved : " << id << endl;
+  	emit recievedInfo(m_name, "pong recieved : " + id);          
 		m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
   	m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;
     return true;
@@ -424,11 +423,13 @@ bool KRender::topLevelStartElement(const QString & namespaceURI, const QString &
       emit stopped();
       return true;
     }
-    kdWarning() << "Render command returned unknown status : '" << tStr << "'" << endl;
+    emit recievedInfo(m_name, "Render command returned unknown status : '" + tStr + "'");    
     return false;   
   }
 
-	kdWarning() << "Unknown tag '" << localName << "'" << endl;
+	emit recievedInfo(m_name, "Unknown tag '" + localName + "'");
+  
+
 	return false;
 }
 
@@ -436,14 +437,14 @@ bool KRender::topLevelStartElement(const QString & namespaceURI, const QString &
 bool KRender::topLevelEndElement(const QString & namespaceURI, const QString & localName,
 																									const QString & qName)
 {
-	kdWarning() << "Parsing topLevel End Element - this should not happen, ever!" << endl;
+	emit recievedInfo(m_name, "Parsing topLevel End Element - this should not happen, ever!");
 	return false;
 }
 
 bool KRender::reply_GenericEmpty_StartElement(const QString & namespaceURI, const QString & localName,
 																		 const QString & qName, const QXmlAttributes & atts)
 {
-	kdWarning() << "Should not recieve reply_GenericEmpty_StartElement!" << endl;
+	emit recievedInfo(m_name, "Should not recieve reply_GenericEmpty_StartElement!");
 	return false;
 }
 
