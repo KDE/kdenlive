@@ -392,11 +392,8 @@ void KRuler::setValueScale(double size){
 	m_bigTickEvery = m_rulerModel->getTickDisplayInterval(tick);
 
 	for(tick=1; tick*m_xValueSize < m_rulerModel->minimumSmallTickSeparation(); tick *=2);
-	kdDebug() << "tick = " << tick << endl;
 		
 	m_smallTickEvery = m_rulerModel->getTickDisplayInterval(tick);
-
-	kdDebug() << "Small tick = " << m_smallTickEvery << endl;
 
 	while(m_textEvery	% m_bigTickEvery != 0) {
 		m_textEvery = m_rulerModel->getTickDisplayInterval(m_textEvery+1);		
