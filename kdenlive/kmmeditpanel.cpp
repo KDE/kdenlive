@@ -44,6 +44,14 @@ KMMEditPanel::KMMEditPanel(KdenliveDoc *document, QWidget* parent, const char* n
 	endButton->setPixmap(loader.loadIcon("player_end", KIcon::Toolbar));
 
 	connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), this, SLOT(rulerValueChanged(int, int)));
+
+	connect(startButton, SIGNAL(pressed()), this, SLOT(seekBeginning()));
+	connect(endButton, SIGNAL(pressed()), this, SLOT(seekEnd()));	
+	
+	connect(playButton, SIGNAL(pressed()), this, SIGNAL(playSpeedChanged(1.0)));
+	connect(rewindButton, SIGNAL(pressed()), this, SIGNAL(playSpeedChanged(-1.0)));
+	connect(stopButton, SIGNAL(pressed()), this, SIGNAL(playSpeedChanged(1.0)));
+	connect(forwardButton, SIGNAL(pressed()), this, SIGNAL(playSpeedChanged(1.0)));	
 }
 
 KMMEditPanel::~KMMEditPanel()
@@ -62,4 +70,16 @@ void KMMEditPanel::rulerValueChanged(int ID, int value)
 	if(ID == 0) {
 		emit seekPositionChanged(GenTime(value, m_document->framesPerSecond()));
 	}
+}
+
+/** Seeks to the beginning of the ruler. */
+void KMMEditPanel::seekBeginning()
+{
+	m_ruler->setSliderValue(0, m_ruler->minValue());
+}
+
+/** Seeks to the end of the ruler */
+void KMMEditPanel::seekEnd()
+{
+	m_ruler->setSliderValue(0, m_ruler->maxValue());
 }

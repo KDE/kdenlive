@@ -41,9 +41,17 @@ private slots: // Private slots
 signals: // Signals
   /** Emitted when the seek position has changed */
   void seekPositionChanged(GenTime time);
+  /** Emitted by the EditPanel when the playSpeed should change. */
+  void playSpeedChanged(double);  
 private: // Private attributes
   /** The document associated with this edit panel */
   KdenliveDoc * m_document;
+public slots: // Public slots
+  /** Seeks to the end of the ruler */
+  void seekEnd();
+public slots: // Public slots
+  /** Seeks to the beginning of the ruler. */
+  void seekBeginning();
 };
 
 #endif
