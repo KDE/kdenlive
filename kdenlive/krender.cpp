@@ -195,7 +195,16 @@ void KRender::setSceneList(QDomDocument list)
 	sendCommand(doc);
 }
 
-
+/** Wraps the VEML command of the same name - sends a <ping> command to the server, which
+should reply with a <pong> - let's us determine the round-trip latency of the connection. */
+void KRender::ping(QString &ID)
+{
+	QDomDocument doc;
+	QDomElement elem = doc.createElement("ping");
+	elem.setAttribute("id", ID);
+	doc.appendChild(elem);
+	sendCommand(doc);
+}
 
 
 
@@ -259,8 +268,8 @@ bool KRender::topLevelStartElement(const QString & namespaceURI, const QString &
 				retID = winID.toInt();
 			}
 			emit replyCreateVideoXWindow(retID);
-			m_funcStartElement = &KRender::replyCreateVideoXWindowStartElement;
-			m_funcEndElement = &KRender::replyCreateVideoXWindowEndElement;
+			m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
+			m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;
 			return true;
 		}
 		if(command == "getFileProperties") {		
@@ -271,10 +280,15 @@ bool KRender::topLevelStartElement(const QString & namespaceURI, const QString &
 
 			emit replyGetFileProperties(map);
 
-			m_funcStartElement = &KRender::replyGetFilePropertiesStartElement;
-			m_funcEndElement = &KRender::replyGetFilePropertiesEndElement;
+			m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
+			m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;
 			return true;
 		}
+	} else if(localName == "pong") {
+		QString id = atts.value("id");
+		kdDebug() << "pong recieved : " << id << endl;
+			m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
+			m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;
 	}
 
 	kdWarning() << "Unknown tag" << endl;
@@ -286,40 +300,20 @@ bool KRender::topLevelEndElement(const QString & namespaceURI, const QString & l
 																									const QString & qName)
 {
 	kdWarning() << "Parsing topLevel End Element - this should not happen, ever!" << endl;
+	m_parsing = false;		
 	return false;
 }
 
-bool KRender::replyCreateVideoXWindowStartElement(const QString & namespaceURI, const QString & localName,
+bool KRender::reply_GenericEmpty_StartElement(const QString & namespaceURI, const QString & localName,
 																		 const QString & qName, const QXmlAttributes & atts)
 {
-	kdWarning() << "Should not recieve replyCreateVideoxWindowStartElement!" << endl;
+	kdWarning() << "Should not recieve reply_GenericEmpty_StartElement!" << endl;
 	return false;
 }
 
-bool KRender::replyCreateVideoXWindowEndElement(const QString & namespaceURI, const QString & localName,
+bool KRender::reply_GenericEmpty_EndElement(const QString & namespaceURI, const QString & localName,
 																									const QString & qName)
 {
-	kdDebug() << "Inside replyCreateVideoXWindowEndElement" << endl;
-
-	m_funcStartElement = &KRender::topLevelStartElement;
-	m_funcEndElement = &KRender::topLevelEndElement;
-
-	m_parsing = false;	
-	return true;
-}
-
-bool KRender::replyGetFilePropertiesStartElement(const QString & namespaceURI, const QString & localName,
-																		 const QString & qName, const QXmlAttributes & atts)
-{
-	kdWarning() << "Should not recieve replyGetFilePropertiesStartElement!" << endl;
-	return false;
-}
-
-bool KRender::replyGetFilePropertiesEndElement(const QString & namespaceURI, const QString & localName,
-																									const QString & qName)
-{
-	kdDebug() << "Inside replyGetFilePropertiesEndElement" << endl;
-
 	m_funcStartElement = &KRender::topLevelStartElement;
 	m_funcEndElement = &KRender::topLevelEndElement;
 

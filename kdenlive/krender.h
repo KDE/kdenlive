@@ -60,14 +60,12 @@ replyCreateVideoXWindow() once the renderer has replied. */
   bool topLevelEndElement(const QString & namespaceURI, const QString & localName,                    const QString & qName);
   /** Called when the xml parser encounters an opening element and we are outside of any command. */
   bool topLevelStartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & att);
-/** Called when we are parsing a close tag and are in a replyCreateVideoXWindow of the document. */
-  bool replyCreateVideoXWindowEndElement(const QString & namespaceURI, const QString & localName,                    const QString & qName);
-  /** Called when the xml parser encounters an opening element and we are replyCreateVideoXWindow of the document. */
-  bool replyCreateVideoXWindowStartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & att);
-/** Called when we are parsing a close tag and are in a replyGetFileProperties of the document. */
-  bool replyGetFilePropertiesEndElement(const QString & namespaceURI, const QString & localName,                    const QString & qName);
-  /** Called when the xml parser encounters an opening element and we are replyGetFileProperties of the document. */
-  bool replyGetFilePropertiesStartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & att);  
+
+/** Called when we are parsing a close tag and are in a top level command of the document which has no inner tags */
+  bool reply_GenericEmpty_EndElement(const QString & namespaceURI, const QString & localName,                    const QString & qName);
+  /** Called when the xml parser encounters an opening element and we are in a top level command of the document which has no inner tags */
+  bool reply_GenericEmpty_StartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & att);  
+  
   /** Seeks the renderer clip to the given time. */
   void seek(GenTime time);
   /** Wraps the VEML command of the same name. Requests the file properties
@@ -77,6 +75,9 @@ via replyGetFileProperties(). */
   /** Wraps the VEML command of the same name. Sets the current scene list to
 be list. */
   void setSceneList(QDomDocument list);
+  /** Wraps the VEML command of the same name - sends a <ping> command to the server, which
+should reply with a <pong> - let's us determine the round-trip latency of the connection. */
+  void ping(QString &ID);;
 protected: // Protected methods
   /** Recieves timer events */
   virtual void timerEvent(QTimerEvent *event);
