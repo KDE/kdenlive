@@ -195,6 +195,8 @@ private slots: // Private slots
 signals: // Signals
   /** Emitted when a particular AVFile has changed in someway. E.g, it has recieved it's duration. */
   void avFileChanged(AVFile *file);
+  /** emitted when the document has changed in some way. */
+  void documentChanged();
 };
 
 #endif // KDENLIVEDOC_H

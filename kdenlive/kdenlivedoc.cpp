@@ -288,6 +288,7 @@ void KdenliveDoc::addSoundTrack(){
 void KdenliveDoc::addTrack(DocTrackBase *track){
 	m_tracks.append(track);
 	track->trackIndexChanged(trackIndex(track));
+  connect(track, SIGNAL(trackChanged()), this, SLOT(hasBeenModified()));
 	emit trackListChanged();
 }
 
@@ -686,6 +687,7 @@ void KdenliveDoc::loadFromXML(QDomDocument &doc)
 void KdenliveDoc::hasBeenModified()
 {
 	m_render->setSceneList(generateSceneList());
+  emit documentChanged();
 	setModified(true);
 }
 

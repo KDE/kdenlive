@@ -81,6 +81,7 @@ KMMTimeLine::KMMTimeLine(KdenliveApp *app, QWidget *rulerToolWidget, QWidget *sc
 	connect(m_scrollBar, SIGNAL(valueChanged(int)), m_ruler, SLOT(setStartPixel(int)));
 	connect(m_scrollBar, SIGNAL(valueChanged(int)), m_ruler, SLOT(repaint()));	
   connect(m_document, SIGNAL(trackListChanged()), this, SLOT(syncWithDocument()));
+  connect(m_document, SIGNAL(documentChanged()), this, SLOT(calculateProjectSize()));
   connect(m_ruler, SIGNAL(scaleChanged(double)), this, SLOT(calculateProjectSize()));  
   connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), m_trackViewArea, SLOT(invalidateBackBuffer()));
   connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), m_ruler, SLOT(repaint()));
