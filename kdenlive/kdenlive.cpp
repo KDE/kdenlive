@@ -77,7 +77,7 @@ KdenliveApp::KdenliveApp(QWidget* , const char* name):
 
   // disable actions at startup
   fileSave->setEnabled(false);
-  filePrint->setEnabled(false);
+//  filePrint->setEnabled(false);
   editCut->setEnabled(false);
   editCopy->setEnabled(false);
   editPaste->setEnabled(false);
@@ -102,8 +102,8 @@ void KdenliveApp::initActions()
   fileOpenRecent = KStdAction::openRecent(this, SLOT(slotFileOpenRecent(const KURL&)), actionCollection());
   fileSave = KStdAction::save(this, SLOT(slotFileSave()), actionCollection());
   fileSaveAs = KStdAction::saveAs(this, SLOT(slotFileSaveAs()), actionCollection());
-  fileClose = KStdAction::close(this, SLOT(slotFileClose()), actionCollection());
-  filePrint = KStdAction::print(this, SLOT(slotFilePrint()), actionCollection());
+  //fileClose = KStdAction::close(this, SLOT(slotFileClose()), actionCollection());
+//  filePrint = KStdAction::print(this, SLOT(slotFilePrint()), actionCollection());
   fileQuit = KStdAction::quit(this, SLOT(slotFileQuit()), actionCollection());
   editCut = KStdAction::cut(this, SLOT(slotEditCut()), actionCollection());
   editCopy = KStdAction::copy(this, SLOT(slotEditCopy()), actionCollection());
@@ -138,10 +138,10 @@ void KdenliveApp::initActions()
   actionLoadLayout2 = new KAction(i18n("Load Layout &2"), "loadlayout2.png", KShortcut(Qt::Key_F10), this, SLOT(loadLayout2()), actionCollection(), "load_layout_2");
   actionLoadLayout3 = new KAction(i18n("Load Layout &3"), "loadlayout3.png", KShortcut(Qt::Key_F11), this, SLOT(loadLayout3()), actionCollection(), "load_layout_3");
   actionLoadLayout4 = new KAction(i18n("Load Layout &4"), "loadlayout4.png", KShortcut(Qt::Key_F12), this, SLOT(loadLayout4()), actionCollection(), "load_layout_4");
-  actionSaveLayout1 = new KAction(i18n("Save Layout &1"), KShortcut(Qt::Key_F9 | Qt::CTRL), this, SLOT(saveLayout1()), actionCollection(), "save_layout_1");
-  actionSaveLayout2 = new KAction(i18n("Save Layout &2"), KShortcut(Qt::Key_F10 | Qt::CTRL), this, SLOT(saveLayout2()), actionCollection(), "save_layout_2");
-  actionSaveLayout3 = new KAction(i18n("Save Layout &3"), KShortcut(Qt::Key_F11 | Qt::CTRL), this, SLOT(saveLayout3()), actionCollection(), "save_layout_3");
-  actionSaveLayout4 = new KAction(i18n("Save Layout &4"), KShortcut(Qt::Key_F12 | Qt::CTRL), this, SLOT(saveLayout4()), actionCollection(), "save_layout_4");
+  actionSaveLayout1 = new KAction(i18n("Save Layout &1"), KShortcut(Qt::Key_F9 | Qt::CTRL | Qt::SHIFT), this, SLOT(saveLayout1()), actionCollection(), "save_layout_1");
+  actionSaveLayout2 = new KAction(i18n("Save Layout &2"), KShortcut(Qt::Key_F10 | Qt::CTRL | Qt::SHIFT), this, SLOT(saveLayout2()), actionCollection(), "save_layout_2");
+  actionSaveLayout3 = new KAction(i18n("Save Layout &3"), KShortcut(Qt::Key_F11 | Qt::CTRL | Qt::SHIFT), this, SLOT(saveLayout3()), actionCollection(), "save_layout_3");
+  actionSaveLayout4 = new KAction(i18n("Save Layout &4"), KShortcut(Qt::Key_F12 | Qt::CTRL | Qt::SHIFT), this, SLOT(saveLayout4()), actionCollection(), "save_layout_4");
 
   timelineMoveTool->setExclusiveGroup("timeline_tools");
   timelineRazorTool->setExclusiveGroup("timeline_tools");
@@ -152,8 +152,8 @@ void KdenliveApp::initActions()
   fileOpenRecent->setStatusText(i18n("Opens a recently used file"));
   fileSave->setStatusText(i18n("Saves the actual document"));
   fileSaveAs->setStatusText(i18n("Saves the actual document as..."));
-  fileClose->setStatusText(i18n("Closes the actual document"));
-  filePrint ->setStatusText(i18n("Prints out the actual document"));
+//  fileClose->setStatusText(i18n("Closes the actual document"));
+//  filePrint ->setStatusText(i18n("Prints out the actual document"));
   fileQuit->setStatusText(i18n("Quits the application"));
   editCut->setStatusText(i18n("Cuts the selected section and puts it to the clipboard"));
   editCopy->setStatusText(i18n("Copies the selected section to the clipboard"));
@@ -294,7 +294,9 @@ void KdenliveApp::initView()
   connect(getDocument()->renderer(), SIGNAL(rendering(const GenTime &)), this, SLOT(slotSetRenderProgress(const GenTime &)));
   connect(getDocument()->renderer(), SIGNAL(renderFinished()), this, SLOT(slotSetRenderFinished()));
 
-  connect(m_renderManager, SIGNAL(recievedInfo(const QString &, const QString &)), m_renderDebugPanel, SLOT(slotPrintDebug(const QString &, const QString &)));
+  connect(m_renderManager, SIGNAL(renderDebug(const QString &, const QString &)), m_renderDebugPanel, SLOT(slotPrintRenderDebug(const QString &, const QString &)));
+  connect(m_renderManager, SIGNAL(renderWarning(const QString &, const QString &)), m_renderDebugPanel, SLOT(slotPrintRenderWarning(const QString &, const QString &)));
+  connect(m_renderManager, SIGNAL(renderError(const QString &, const QString &)), m_renderDebugPanel, SLOT(slotPrintRenderError(const QString &, const QString &)));
   connect(m_renderManager, SIGNAL(recievedStdout(const QString &, const QString &)), m_renderDebugPanel, SLOT(slotPrintWarning(const QString &, const QString &)));
   connect(m_renderManager, SIGNAL(recievedStderr(const QString &, const QString &)), m_renderDebugPanel, SLOT(slotPrintError(const QString &, const QString &)));
   connect(m_renderManager, SIGNAL(error(const QString &, const QString &)), this, SLOT(slotRenderError(const QString &, const QString &)));
@@ -500,9 +502,9 @@ void KdenliveApp::slotFileOpenRecent(const KURL& url)
   }
   else
   {
-  	kdDebug() << "Opening url " << url.path() << endl;
-    doc->openDocument(url);
-    setCaption(url.fileName(), false);
+	kdWarning() << "Opening url " << url.path() << endl;
+	doc->openDocument(url);
+	setCaption(url.fileName(), false);
   }
 
   slotStatusMsg(i18n("Ready."));

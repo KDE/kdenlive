@@ -272,8 +272,8 @@ class KdenliveApp : public KDockMainWindow
     KRecentFilesAction* fileOpenRecent;
     KAction* fileSave;
     KAction* fileSaveAs;
-    KAction* fileClose;
-    KAction* filePrint;
+//    KAction* fileClose;
+//    KAction* filePrint;
     KAction* fileQuit;
     KAction* editCut;
     KAction* editCopy;
