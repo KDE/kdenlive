@@ -57,7 +57,7 @@ bool SaveProjectNativeFilter::save(QFile &file, KdenliveDoc *document)
 
 			QDomText description = doc.createTextNode(clipNode->clipRef()->description());
 			avfile.appendChild(description);
-			
+
 			avfilelist.appendChild(avfile);
 		} else {
 			kdError() << "no support for saving group nodes yet!" << endl;
@@ -73,12 +73,10 @@ bool SaveProjectNativeFilter::save(QFile &file, KdenliveDoc *document)
 	QString save = doc.toString();
 	file.writeBlock(save, save.length());
 
-	file.writeBlock("That's all folks", 16);
-
 	return true;
 }
 
-// virtual 
+// virtual
 QStringList SaveProjectNativeFilter::handledFormats() const
 {
 	QStringList list;
