@@ -86,6 +86,10 @@ private:
   /** The snap tolerance specifies how many pixels away a selection is from a 
 snap point before the snap takes effect. */
   static int snapTolerance;
+  /** If true, clips are snapped to frames, otherwise they are free to move wherever they wish. */
+  bool m_snapToFrame;
+  /** If true, the edges of clips will snap to each other. If false, this will not happen. */
+  bool m_snapToClip;
   
 public: // Public methods
   /** This method adds a new track to the trackGrid. */

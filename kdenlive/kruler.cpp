@@ -389,8 +389,12 @@ void KRuler::setValueScale(double size){
 	for(tick=1; tick*m_xValueSize < m_rulerModel->minimumLargeTickSeparation(); tick *=2);	
 	m_bigTickEvery = m_rulerModel->getTickDisplayInterval(tick);
 
-	for(tick=1; tick*m_xValueSize < m_rulerModel->minimumSmallTickSeparation(); tick *=2);		
+	for(tick=1; tick*m_xValueSize < m_rulerModel->minimumSmallTickSeparation(); tick *=2);
+	kdDebug() << "tick = " << tick << endl;
+		
 	m_smallTickEvery = m_rulerModel->getTickDisplayInterval(tick);
+
+	kdDebug() << "Small tick = " << m_smallTickEvery << endl;
 
 	while(m_textEvery	% m_bigTickEvery != 0) {
 		m_textEvery = m_rulerModel->getTickDisplayInterval(m_textEvery+1);		
@@ -424,7 +428,7 @@ double KRuler::mapValueToLocal(double value) const
 /** Returns the value which is currently displayed at x in the ruler widget's local coordinate system. Takes and returns a double for accuracy. */
 double KRuler::mapLocalToValue(double x) const
 {
-	return floor(((x + m_leftMostPixel) / m_xValueSize)+0.5);
+	return (x + m_leftMostPixel) / m_xValueSize;
 }
 
 /** Adds a new slider to the ruler. The style in which the slider is drawn is determined by type, and the slider is initially set to value. The value returned is the id that should be used to move this slider. */

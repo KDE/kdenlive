@@ -20,8 +20,8 @@
 KRulerTimeModel::KRulerTimeModel()
 {
 	setNumFrames(25);
-	setMinimumSmallTickSeperation(10);
-	setMinimumLargeTickSeperation(40);
+	setMinimumSmallTickSeperation(20);
+	setMinimumLargeTickSeperation(60);
 	setMinimumDisplayTickSeperation(100);	
 }
 
@@ -81,7 +81,7 @@ int KRulerTimeModel::getTickDisplayInterval(const int tick) const
 			minute = 5;
 		}
 		seconds = minute * 60 * numFrames();
-	} else {
+	} else if(seconds >= numFrames()) {
 		seconds /= numFrames();
 		seconds++;
 
@@ -100,6 +100,14 @@ int KRulerTimeModel::getTickDisplayInterval(const int tick) const
 		}
 
 		seconds *= numFrames();
+	} else {
+		int count;
+		for(count=1; count<numFrames(); count++) {
+			if(numFrames() % count != 0) continue;
+			if(count >= seconds)	break;
+		}
+
+		seconds = count;
 	}
 
 	return seconds;

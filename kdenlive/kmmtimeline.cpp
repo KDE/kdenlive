@@ -43,7 +43,7 @@ KMMTimeLine::KMMTimeLine(QWidget *rulerToolWidget, QWidget *scrollToolWidget, Kd
 	m_rulerBox = new QHBox(this, "ruler box");	
 	m_trackScroll = new QScrollView(this, "track view", WPaintClever);
 	m_scrollBox = new QHBox(this, "scroll box");
-	
+		
 	m_rulerToolWidget = rulerToolWidget;
 	if(!m_rulerToolWidget) m_rulerToolWidget = new QLabel("Tracks", 0, "Tracks");	
 	m_rulerToolWidget->reparent(m_rulerBox, QPoint(0,0));
@@ -59,6 +59,7 @@ KMMTimeLine::KMMTimeLine(QWidget *rulerToolWidget, QWidget *scrollToolWidget, Kd
 	m_trackScroll->enableClipper(TRUE);
 	m_trackScroll->setVScrollBarMode(QScrollView::AlwaysOn);
 	m_trackScroll->setHScrollBarMode(QScrollView::AlwaysOff);
+	m_trackScroll->setDragAutoScroll(true);
 
 	m_rulerToolWidget->setMinimumWidth(200);
 	m_rulerToolWidget->setMaximumWidth(200);
@@ -82,6 +83,9 @@ KMMTimeLine::KMMTimeLine(QWidget *rulerToolWidget, QWidget *scrollToolWidget, Kd
 	m_masterClip = 0;
 
 	m_gridSnapTracker = m_snapToGridList.end();
+
+	m_snapToFrame = true;
+	m_snapToClip = true;
 }
 
 KMMTimeLine::~KMMTimeLine()
@@ -131,14 +135,14 @@ void KMMTimeLine::resizeTracks()
 	}
 
 	m_trackScroll->moveChild(m_trackViewArea, 200, 0);
-	m_trackViewArea->resize(m_trackScroll->visibleWidth()-200 , height);
+	m_trackViewArea->resize(m_trackScroll->visibleWidth()-200 , height);	
 
   int viewWidth = m_trackScroll->visibleWidth()-200;
   if(viewWidth<1) viewWidth=1;
 	
 	QPixmap pixmap(viewWidth , height);
 	
-	m_trackScroll->resizeContents(m_trackScroll->visibleWidth(), height);	
+	m_trackScroll->resizeContents(m_trackScroll->visibleWidth(), height);
 }
 
 /** At least one track within the project have been added or removed.
@@ -214,7 +218,7 @@ void KMMTimeLine::dragMoveEvent ( QDragMoveEvent *event )
 	QPoint pos = m_trackViewArea->mapFrom(this, event->pos());
 	GenTime timeUnderMouse(mapLocalToValue(pos.x()), 25);	
 
-	if(m_gridSnapTracker != m_snapToGridList.end()) {
+	if((m_snapToClip) && (m_gridSnapTracker != m_snapToGridList.end())) {
 		QValueListIterator<GenTime> itt = m_gridSnapTracker;
 		++itt;	
 		while(itt != m_snapToGridList.end()) {
@@ -234,7 +238,11 @@ void KMMTimeLine::dragMoveEvent ( QDragMoveEvent *event )
 		if( abs((int)mapValueToLocal((*m_gridSnapTracker).frames(25)) - pos.x()) < snapTolerance) {
 			timeUnderMouse = *m_gridSnapTracker;
 		}
-	}	
+	}
+
+	if(m_snapToFrame) {
+		timeUnderMouse = GenTime(floor((timeUnderMouse - m_clipOffset).frames(25) + 0.5), 25) + m_clipOffset;
+	}
 	
 	if(m_selection.isEmpty()) {  	     	  
 		moveSelectedClips(trackUnderPoint(pos), timeUnderMouse - m_clipOffset);

@@ -30,6 +30,7 @@
 #include <kconfig.h>
 #include <kstdaction.h>
 #include <kcommand.h>
+#include <kdebug.h>
 
 // application specific includes
 #include "kdenlive.h"
@@ -380,10 +381,12 @@ void KdenliveApp::slotFileQuit()
     {
       // only close the window if the closeEvent is accepted. If the user presses Cancel on the saveModified() dialog,
       // the window and the application stay open.
+      kdDebug() << "Closing" << w << endl;
       if(!w->close())
 	break;
     }
-  }	
+    kdDebug() << "Done" << endl;
+  }
 }
 
 void KdenliveApp::slotEditCut()
