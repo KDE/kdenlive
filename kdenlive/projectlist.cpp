@@ -95,7 +95,7 @@ void ProjectList::projectListSelectionChanged(QListViewItem *item)
   emit AVFileSelected(avitem->clip());  
 }
 
-const AVFile *ProjectList::currentSelection() const
+AVFile *ProjectList::currentSelection()
 {
   const AVListViewItem *avitem = static_cast<AVListViewItem *>(m_listView->selectedItem());
   if(avitem) {
