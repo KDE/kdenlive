@@ -42,6 +42,7 @@ KRender::KRender(const QString &rendererName, KURL appPath, unsigned int port, Q
 	m_nextSeek = -1.0;
 	m_setSceneListPending = false;
 
+  m_fileFormats.setAutoDelete(true);
   m_codeclist.setAutoDelete(true);
   m_effectList.setAutoDelete(true);  
 
@@ -471,6 +472,9 @@ bool KRender::topLevelStartElement(const QString & namespaceURI, const QString &
     emit recievedInfo(m_name, "Render command returned unknown status : '" + tStr + "'");
     return false;
   } else if(localName == "capabilities") {
+      m_effectList.clear();
+      m_fileFormats.clear();
+      m_codeclist.clear();
       StackValue val;
       val.element = "capabilities";
       val.funcStartElement = &KRender::reply_getCapabilities_StartElement;
@@ -738,7 +742,7 @@ bool KRender::reply_capabilities_codecs_encoder_about_EndElement(const QString &
   if(m_codec == 0) {
     emit recievedInfo(m_name, "Error - at end of about tag, m_codec pointer is null!");
   } else {
-    m_codec->setDescription(m_characterBuffer);
+    m_codec->setDescription(m_characterBuffer.simplifyWhiteSpace());
   }
   return true;
 }
@@ -769,6 +773,29 @@ bool KRender::reply_capabilities_effects_effect_StartElement(const QString & nam
                                       const QString & localName, const QString & qName,
                                       const QXmlAttributes & atts)
 {
+  if(localName == "input") {
+    if(m_effect == 0) {
+      emit recievedInfo(m_name, "Error - inside effect tag but m_effect is Null!!!");
+    } else {
+      bool audio = atts.value("audio").contains("yes", false);
+      bool video = atts.value("video");
+      QString name = atts.value("name");
+      m_effect->addInput(name, video, audio);
+    }
+    pushIgnore();
+    return true;
+  }
+
+  if(localName == "parameter") {
+    pushIgnore();
+    return true;
+  }
+
+  if(localName == "preset") {
+    pushIgnore();
+    return true;
+  }
+  
   pushIgnore();
   return true;
 }

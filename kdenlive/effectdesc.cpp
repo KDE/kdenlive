@@ -31,3 +31,8 @@ QString EffectDesc::name()
 {
   return m_name;
 }
+
+/** Adds an input to this description. An input might be a video stream, and audio stream, or it may require both. */
+void EffectDesc::addInput(const QString &name, bool video, bool audio)
+{
+}

@@ -30,6 +30,8 @@ public:
 	~EffectDesc();
   /** Returns the name of this effect. */
   QString name();
+  /** Adds an input to this description. An input might be a video stream, and audio stream, or it may require both. */
+  void addInput(const QString &name, bool video, bool audio);
 public: // Public attributes
   /** The name of this effect. */
   QString m_name;
