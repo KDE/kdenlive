@@ -1,0 +1,8 @@
+<!DOCTYPE kpartgui>
+<kpartgui name="kdenlive" version="0.1">
+<MenuBar>
+  <Menu name="file"><text>&amp;File</text>
+    <Action name="file_new_window"/>
+  </Menu>
+</MenuBar>
+</kpartgui>

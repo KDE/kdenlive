@@ -1,0 +1,4 @@
+#MIN_CONFIG
+
+AM_INIT_AUTOMAKE(kdenlive,0.1)
+

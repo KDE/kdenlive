@@ -1,0 +1,433 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1-Based Variant V1.0//EN" "dtd/kdex.dtd" [
+  <!ENTITY kdenlive '<application>Kdenlive</application>'>
+  <!ENTITY kapp "&kdenlive;"><!-- replace kdenlive here -->
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % English "INCLUDE"><!-- change language only here -->
+  
+  
+  <!-- Do not define any other entities; instead, use the entities
+       from kde-genent.entities and $LANG/user.entities. -->
+]>
+<!-- kdoctemplate v0.8 October 1 1999 
+     Minor update to "Credits and Licenses" section on August 24, 2000
+     Removed "Revision history" section on 22 January 2001   -->
+
+<!--
+This template was designed by: David Rugge davidrugge@mindspring.com
+with lots of help from: Eric Bischoff ebisch@cybercable.tm.fr
+and Frederik Fouvry fouvry@sfs.nphil.uni-tuebingen.de
+of the KDE DocBook team.
+
+You may freely use this template for writing any sort of KDE documentation.
+If you have any changes or improvements, please let us know.
+
+In the future, we may want to change from SGML-based DocBook to XML-based
+DocBook. To make this change easier, please be careful :
+- in XML, the case of the <tags> and attributes is relevant ;
+- also, quote all attributes.
+
+Please don't forget to remove all these comments in your final documentation,
+thanks ;-).
+-->
+
+<!-- ................................................................ -->
+
+<!-- The language must NOT be changed here. -->
+
+<book lang="&language;">
+
+<!-- This header contains all of the meta-information for the document such
+as Authors, publish date, the abstract, and Keywords -->
+
+<bookinfo>
+<title>The Kdenlive Handbook</title>
+
+<authorgroup>
+<author>
+<firstname>George</firstname>
+<othername>N.</othername>
+<surname>Ugnacious</surname>
+<affiliation>
+<address><email>gnu@kde.org</email></address>
+</affiliation>
+</author>
+</authorgroup>
+
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+
+<copyright>
+<year>1999</year>
+<year>2000</year>
+<holder>George N. Ugnacious</holder>
+</copyright>
+<!-- Translators: put here the copyright notice of the translation -->
+<!-- Put here the FDL notice.  Read the explanation in fdl-notice.docbook 
+     and in the FDL itself on how to use it. -->
+<legalnotice>&FDLNotice;</legalnotice>
+
+<!-- Date and version information of the documentation
+Don't forget to include this last date and this last revision number, we
+need them for translation coordination !
+Please respect the format of the date (DD/MM/YYYY) and of the version
+(V.MM.LL), it could be used by automation scripts.
+Do NOT change these in the translation. -->
+
+<date>03/04/1999</date>
+<releaseinfo>1.01.00</releaseinfo>
+
+<!-- Abstract about this handbook -->
+
+<abstract>
+<para>
+&kdenlive; is an application specially designed to do nothing you would
+ever want.
+</para>
+</abstract>
+
+<!-- This is a set of Keywords for indexing by search engines.
+Please at least include KDE, the KDE package it is in, the name
+ of your application, and a few relevant keywords. -->
+
+<keywordset>
+<keyword>KDE</keyword>
+<keyword>kdeutils</keyword>
+<keyword>Kapp</keyword>
+<keyword>nothing</keyword>
+<keyword>nothing else</keyword>
+</keywordset>
+
+</bookinfo>
+
+<!-- The contents of the documentation begin here.  Label
+each chapter so with the id attribute. This is necessary for two reasons: it
+allows you to easily reference the chapter from other chapters of your
+document, and if there is no ID, the name of the generated HTML files will vary
+from time to time making it hard to manage for maintainers and for the CVS
+system. Any chapter labelled (OPTIONAL) may be left out at the author's
+discretion. Other chapters should not be left out in order to maintain a
+consistent documentation style across all KDE apps. -->
+
+<chapter id="introduction">
+<title>Introduction</title>
+
+<!-- The introduction chapter contains a brief introduction for the
+application that explains what it does and where to report
+problems. Basically a long version of the abstract.  Don't include a
+revision history. (see installation appendix comment) -->
+
+<para>
+&kapp; is a program that lets you do absolutely nothing. Please report
+any problems or feature requests to the KDE mailing lists.
+</para>
+</chapter>
+
+<chapter id="using-kapp">
+<title>Using Kdenlive</title>
+
+<!-- This chapter should tell the user how to use your app. You should use as
+many sections (Chapter, Sect1, Sect3, etc...) as is necessary to fully document
+your application. -->
+
+<para>
+
+<!-- Note that all graphics should be in .png format. Use no gifs because of
+patent issues. -->
+
+<screenshot>
+<screeninfo>Here's a screenshot of &kapp;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="screenshot.png" format="PNG"/>
+	  </imageobject>
+	  <imageobject>
+	    <imagedata fileref="screenshot.eps" format="EPS"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase>Screenshot</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+
+<sect1 id="kapp-features">
+<title>More Kapp features</title>
+
+<para>It slices! It dices! and it comes with a free toaster!</para>
+<para>
+The Squiggle Tool <guiicon><inlinemediaobject>
+	  <imageobject>
+	    <imagedata fileref="squiggle.png" format="PNG"/>
+	  </imageobject>
+	  <imageobject>
+	    <imagedata fileref="squiggle.eps" format="EPS"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase>Squiggle</phrase>
+	  </textobject>
+</inlinemediaobject></guiicon> is used to draw squiggly lines all over
+the &kdenlive; main window. It's not a bug, it's a feature!
+</para>
+
+</sect1>
+</chapter>
+
+<chapter id="commands">
+<title>Command Reference</title>
+
+<!-- (OPTIONAL, BUT RECOMMENDED) This chapter should list all of the
+application windows and their menubar and toolbar commands for easy reference.
+Also include any keys that have a special function but have no equivalent in the
+menus or toolbars. This may not be necessary for small apps or apps with no tool
+or menu bars. -->
+
+<sect1 id="kapp-mainwindow">
+<title>The main Kdenlive window</title>
+<para></para>
+
+<sect2>
+<title>The File Menu</title>
+<para>
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>n</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>New</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Creates a new document</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>s</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>Save</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Saves the document</action></para></listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>q</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>Quit</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Quits</action> &kapp;</para></listitem>
+</varlistentry>
+</variablelist>
+</para>
+
+</sect2>
+
+</sect1>
+</chapter>
+
+<chapter id="developers">
+<title>Developer's Guide to Kdenlive</title>
+
+<!-- (OPTIONAL) A Programming/Scripting reference chapter should be
+used for apps that use plugins or that provide their own scripting hooks
+and/or development libraries. -->
+
+<para>
+Programming &kdenlive; plugins is a joy to behold. Just read through the next
+66 pages of API's to learn how!
+</para>
+
+<!-- Use refentries to describe APIs.  Refentries are fairly complicated and you
+should consult the docbook reference for further details. The example below was
+taken from that reference and shortened a bit for readability. -->
+
+</chapter>
+
+<chapter id="faq">
+<title>Questions and Answers</title>
+
+<!-- (OPTIONAL but recommended) This chapter should include all of the silly
+(and not-so-silly) newbie questions that fill up your mailbox. This chapter
+should be reserved for BRIEF questions and answers! If one question uses more
+than a page or so then it should probably be part of the
+"Using this Application" chapter instead. You should use links to
+cross-reference questions to the parts of your documentation that answer them.
+This is also a great place to provide pointers to other FAQ's if your users
+must do some complicated configuration on other programs in order for your
+application work. -->
+
+&reporting.bugs;
+&updating.documentation;
+
+<qandaset id="faqlist">
+<qandaentry>
+<question>
+<para>My Mouse doesn't work. How do I quit &kapp;?</para>
+</question>
+<answer>
+<para>You silly goose! Check out the <link linkend="commands">Commands
+Section</link> for the answer.</para>
+</answer>
+</qandaentry>
+<qandaentry>
+<question>
+<para>Why can't I twiddle my documents?</para>
+</question>
+<answer>
+<para>You can only twiddle your documents if you have the foobar.lib
+installed.</para>
+</answer>
+</qandaentry>
+</qandaset>
+</chapter>
+
+<chapter id="credits">
+
+<!-- Include credits for the programmers, documentation writers, and
+contributors here. The license for your software should then be included below
+the credits with a reference to the appropriate license file included in the KDE
+distribution. -->
+
+<title>Credits and License</title>
+
+<para>
+&kapp;
+</para>
+<para>
+Program copyright 1997 John Q. Hacker <email>jqh@kde.org</email>
+</para>
+<para>
+Contributors:
+<itemizedlist>
+<listitem><para>Konqui the KDE Dragon <email>konqui@kde.org</email></para>
+</listitem>
+<listitem><para>Tux the Linux Penguin <email>tux@linux.org</email></para>
+</listitem>
+</itemizedlist>
+</para>
+
+<para>
+Documentation copyright 1999 George N. Ugnacious <email>gnu@kde.org</email>
+</para>
+
+<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
+
+&underFDL;               <!-- FDL: do not remove. Commercial development should -->
+<!-- replace this with their copyright and either remove it or re-set this.-->
+
+<!-- Determine which license your application is licensed under, 
+     and delete all the remaining licenses below:
+
+     (NOTE:  All documentation are licensed under the FDL, 
+     regardless of what license the application uses) -->
+
+&underGPL;        	 <!-- GPL License -->
+&underBSDLicense;        <!-- BSD License -->
+&underArtisticLicense;   <!-- BSD Artistic License -->
+&underX11License;        <!-- X11 License  -->
+
+</chapter>
+
+<appendix id="installation">
+<title>Installation</title>
+
+<sect1 id="getting-kdenlive">
+<title>How to obtain Kdenlive</title>
+
+<para>
+&kdenlive; is part of the KDE project
+<ulink url="http://www.kde.org">http://www.kde.org</ulink>.
+&kdenlive; can be found in the kdeutils package on
+<ulink url="ftp://ftp.kde.org/pub/kde/">ftp://ftp.kde.org/pub/kde/</ulink>, the
+main ftp site of the KDE project. </para>
+</sect1>
+
+<sect1 id="requirements">
+<title>Requirements</title>
+
+<!--
+List any special requirements for your application here. This should include:
+.Libraries or other software that is not included in kdesupport,
+kdelibs, or kdebase.
+.Hardware requirements like amount of RAM, disk space, graphics card
+capabilities, screen resolution, special expansion cards, etc.
+.Operating systems the app will run on. If your app is designed only for a
+specific OS, (you wrote a graphical LILO configurator for example) put this
+information here.
+-->
+
+<para>
+In order to successfully use &kdenlive;, you need KDE 1.1. Foobar.lib is required
+in order to support the advanced &kdenlive; features. &kdenlive; uses about 5 megs of
+memory to run, but this may vary depending on your platform and
+configuration.
+</para>
+
+<para>
+All required libraries as well as &kdenlive; itself can be found
+on <ulink url="ftp://ftp.kapp.org">The &kdenlive; home page</ulink>.
+</para>
+
+<!-- For a list of updates, you may refer to the application web site
+or the ChangeLog file, or ... -->
+<para>
+You can find a list of changes at <ulink
+url="http://apps.kde.org/kapp">http://apps.kde.org/kapp</ulink>.
+</para>
+</sect1>
+
+<sect1 id="compilation">
+<title>Compilation and Installation</title>
+
+<para>
+In order to compile and install KApp on your system, type the following in the base
+directory of the Icon Editor distribution:
+<screen width="40">
+<prompt>%</prompt> <userinput>./configure</userinput>
+<prompt>%</prompt> <userinput>make</userinput>
+<prompt>%</prompt> <userinput>make install</userinput>
+</screen>
+</para>
+
+<para>Since KApp uses autoconf and automake you should have not trouble compiling it.
+Should you run into problems please report them to the KDE mailing lists.</para>
+
+</sect1>
+
+<sect1 id="configuration">
+<title>Configuration</title>
+
+<para>Don't forget to tell your system to start the <filename>dtd</filename>
+dicer-toaster daemon first, or KApp won't work !</para>
+
+</sect1>
+
+</appendix>
+
+&documentation.index;
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
