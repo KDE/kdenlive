@@ -49,6 +49,7 @@ KMMTimeLine::KMMTimeLine(QWidget *rulerToolWidget, QWidget *scrollToolWidget, Kd
 	m_rulerToolWidget->reparent(m_rulerBox, QPoint(0,0));
 	m_ruler = new KScalableRuler(new KRulerTimeModel(), m_rulerBox, name);
 	m_ruler->addSlider(KRuler::Diamond, 0);
+	m_ruler->setAutoClickSlider(0);
 
 	m_scrollToolWidget = scrollToolWidget;
 	if(!m_scrollToolWidget) m_scrollToolWidget = new QLabel("Scroll", 0, "Scroll");	
@@ -521,13 +522,13 @@ void KMMTimeLine::initiateDrag(DocClipBase *clipUnderMouse, GenTime clipOffset)
 the display. The scale is how many frames should fit into the space considered normal for 1 frame*/
 void KMMTimeLine::setTimeScale(int scale)
 {
-	int localValue = mapValueToLocal(m_ruler->getSliderValue(0));	
+	int localValue = (int)mapValueToLocal(m_ruler->getSliderValue(0));	
 
   double frameScale = 100.0 / scale;
 	
 	m_ruler->setValueScale(frameScale);
 
-	m_scrollBar->setValue(frameScale*m_ruler->getSliderValue(0) - localValue);	
+	m_scrollBar->setValue((int)(frameScale*m_ruler->getSliderValue(0)) - localValue);	
 	
 	drawTrackViewBackBuffer();
 }
