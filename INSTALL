@@ -1,3 +1,54 @@
+Kdenlive Installation instrucions
+=================================
+
+
+
+
+Installing from CVS
+===================
+if you are checking out CVS :
+
+Type:
+
+cvs -d:pserver:anonymous@cvs.kdenlive.sourceforge.net:/cvsroot/kdenlive login
+
+
+When asked for a password, press return (there is no password).
+Then type:
+
+cvs -z3 -d:pserver:anonymous@cvs.kdenlive.sourceforge.net:/cvsroot/kdenlive co kdenlive
+
+
+Once the sourcecode has been downloaded, type the following commands to compile
+and install kdenlive.
+
+cd kdenlive
+make -f admin/Makefile.common
+./configure
+make
+
+
+To install, become root
+
+su
+(enter root password at prompt)
+
+make install
+
+
+
+./configure takes a number of options, type ./configure --help to
+discover what these are. The most important one is --prefix, which
+specifies where your KDE installation is when installing. For Mandrake,
+use :
+
+./configure --prefix=/usr
+
+
+
+
+
+
 Basic Installation
 ==================
 
