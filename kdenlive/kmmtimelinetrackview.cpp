@@ -85,6 +85,10 @@ void KMMTimeLineTrackView::drawBackBuffer()
 void KMMTimeLineTrackView::mousePressEvent(QMouseEvent *event)
 {
 	KMMTrackPanel *panel = panelAt(event->y());
+	if(m_panelUnderMouse != 0)
+	{
+		kdWarning() << "Error - mouse Press Event with panel already under mouse" << endl;
+	}
 
 	if(panel) {
 	 	if(event->button() == LeftButton) {
