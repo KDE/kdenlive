@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=MimeType
+MimeType=application/vnd.kde.kdenlive.scenelist
+Icon=kdenlive
+Patterns=*.veml;
+DefaultApp=kdenlive
+Comment=Kdenlive VEML Scenelist File
+
