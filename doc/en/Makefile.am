@@ -1,7 +1,7 @@
 ####### kdevelop will overwrite this part!!! (begin)##########
 
 
-EXTRA_DIST = index.docbook 
+EXTRA_DIST = index.docbook mainwindow.png monitor_panel.png project_panel.png timeline_panel.png project_with_clips.png debug_tab.png
 
 ####### kdevelop will overwrite this part!!! (end)############
 
