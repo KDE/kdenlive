@@ -59,32 +59,36 @@ void DocClipAVFile::calculateFileProperties()
 	if(m_url.isLocalFile()) {
 		QFileInfo fileInfo(m_url.directory(false, false) + m_url.filename());
 
- 		/** Determines the size of the file */		
+	 	/** Determines the size of the file */		
 		m_filesize = fileInfo.size();						
 		
 		m_player = m_factory.createPlayObject(m_url, true);
-
-    std::cout << m_player->mediaName();
-					
-    if(!m_player->isNull()) {
+	
+		std::cout << m_player->mediaName();
+						
+		if(!m_player->isNull()) {
   		
-  		/** Determines the format of the file e.g. wav, ogg, mpeg, mov */		
-      m_player->play();
-      while(m_player->state() != EOF) {
-        	 m_time= m_player->overallTime();
-           if((m_time.seconds > 0) || (m_time.ms > 0)) break;
-           sleep(1);
-      }
-      m_player->halt();
-  					
-  		std::cout << "Time for file is " << m_time.seconds << "." << m_time.ms << " and custom name " << m_time.customUnit << " is " << m_time.custom << std::endl;
-    }
-		
-    if(m_player != 0) {
-      delete m_player;
-    }
-    m_player = 0;
-    sleep(2);
+			/** Determines the format of the file e.g. wav, ogg, mpeg, mov */		
+			m_player->play();
+			int test = 0;
+			while(m_player->state() != EOF) {
+				m_time= m_player->overallTime();
+				if((m_time.seconds > 0) || (m_time.ms > 0)) break;
+				sleep(1);
+				std::cout << test++ << std::endl;
+			}
+
+			m_player->halt();
+	  					
+			std::cout << "Time for file is " << m_time.seconds << "." << m_time.ms <<
+				     " and custom name " << m_time.customUnit << " is " << m_time.custom << std::endl;
+		}
+			
+		if(m_player != 0) {
+			delete m_player;
+		}
+		m_player = 0;
+		sleep(2);
 	} else {
 		/** If the file is not local, then no file properties are currently returned */
 		m_time.seconds = 0;
@@ -115,4 +119,24 @@ long DocClipAVFile::duration() {
 /** Returns the type of this clip */
 DocClipAVFile::CLIPTYPE DocClipAVFile::clipType() {
   return m_clipType;
+}
+
+QDomDocument DocClipAVFile::toXML() {
+	QDomDocument doc = DocClipBase::toXML();
+	QDomNode node = doc.firstChild();
+
+	while( !node.isNull()) {
+		QDomElement element = node.toElement();
+		if(!element.isNull()) {
+			if(element.tagName() == "clip") {
+				QDomElement avfile = doc.createElement("avfile");
+				avfile.setAttribute("url", fileURL().url());
+				element.appendChild(avfile);
+				return doc;
+			}
+		}
+		node = node.nextSibling();
+	}
+
+	ASSERT(node.isNull());
 }

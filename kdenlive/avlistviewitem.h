@@ -35,6 +35,7 @@ public:
 	AVListViewItem(QListView *parent, DocClipBase *clip);
 	~AVListViewItem();
 	QString text ( int column ) const;
+	DocClipBase *clip() const;
 };
 
 #endif

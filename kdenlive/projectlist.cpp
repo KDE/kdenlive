@@ -34,8 +34,8 @@
 #include <map>
 
 ProjectList::ProjectList(QWidget *parent, const char *name ) :
-									ProjectList_UI(parent,name),
-									m_menu()
+						ProjectList_UI(parent,name),
+						m_menu()
 {
 	connect (m_addButton, SIGNAL(clicked()), this, SLOT(slot_AddFile()));
 		
@@ -49,7 +49,7 @@ void ProjectList::init_menu(){
 	m_menu.insertItem(i18n("&Add File..."),	this, SLOT(slot_AddFile()), 0);
 	
 	connect(m_listView, SIGNAL(rightButtonPressed ( QListViewItem *, const QPoint &, int )),
-					this, SLOT(rightButtonPressed ( QListViewItem *, const QPoint &, int )));					
+					this, SLOT(rightButtonPressed ( QListViewItem *, const QPoint &, int )));
 }
 
 void ProjectList::slot_AddFile() {
@@ -60,7 +60,7 @@ void ProjectList::slot_AddFile() {
 		
 	Arts::TraderQuery query;
 
-  query.supports("Interface", "Arts::PlayObject");
+	query.supports("Interface", "Arts::PlayObject");
 	std::vector<Arts::TraderOffer> *results = query.query();	
 
 	for(std::vector<Arts::TraderOffer>::iterator i = results->begin(); i != results->end(); i++)
@@ -74,8 +74,7 @@ void ProjectList::slot_AddFile() {
 		while((extIt != ext->end()) && (mimeIt != mime->end())) {			
 			if( ((*extIt).length()) && (!done[*extIt]) ) {
 				if((*mimeIt).find("audio/", 0) == 0) {
-		  		done[*extIt] = true;
-//		  		filter += (std::string("\n*.").append(*extIt).append("|").append(*mimeIt)).c_str();
+			  		done[*extIt] = true;
 					filter += (*mimeIt).c_str();
 					filter += " ";
 				}
@@ -86,15 +85,14 @@ void ProjectList::slot_AddFile() {
 		}
 		
 		delete ext;		
-	}		
+	}	
 	
 	delete results;	
 				
-	KURL::List urlList=KFileDialog::getOpenURLs(
-															QString::null,
-											        filter,
-											        this,
-											        i18n("Open File..."));
+	KURL::List urlList=KFileDialog::getOpenURLs(	QString::null,
+							filter,
+							this,
+							i18n("Open File..."));
 		
 	KURL::List::Iterator it;
 	KURL url;

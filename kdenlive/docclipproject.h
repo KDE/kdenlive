@@ -33,6 +33,8 @@ public:
   
 	/** No descriptions */
 	KURL fileURL();
+
+	QDomDocument toXML();
 };
 
 #endif

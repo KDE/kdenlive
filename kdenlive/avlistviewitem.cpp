@@ -22,7 +22,7 @@
 #include <math.h>
 
 AVListViewItem::AVListViewItem(QListView *parent, DocClipBase *clip) : QListViewItem(parent) {
-	m_listView = parent;	
+	m_listView = parent;
 	m_clip = clip;
 }
 
@@ -36,9 +36,9 @@ QString AVListViewItem::text ( int column ) const {
 	
 	if(m_listView->columnText(column) == i18n("Duration")) {
 		return QString::number(m_clip->durationSeconds()/3600).rightJustify(2, '0', FALSE) + ":" +
-           QString::number((m_clip->durationSeconds()/60) % 60).rightJustify(2, '0', FALSE) + ":" +
-           QString::number(m_clip->durationSeconds()%60).rightJustify(2, '0', FALSE) + "." +
-           QString::number(m_clip->durationMs()).leftJustify(2, '0', TRUE);
+			QString::number((m_clip->durationSeconds()/60) % 60).rightJustify(2, '0', FALSE) + ":" +
+			QString::number(m_clip->durationSeconds()%60).rightJustify(2, '0', FALSE) + "." +
+			QString::number(m_clip->durationMs()).leftJustify(2, '0', TRUE);
 	}
 	
 	if(m_listView->columnText(column) == i18n("Size")) {			
@@ -70,4 +70,9 @@ QString AVListViewItem::text ( int column ) const {
 	}	
 	
 	return "n/a";	
+}
+
+DocClipBase *AVListViewItem::clip() const
+{
+	return m_clip;
 }

@@ -41,34 +41,38 @@ public:
 	QString fileName();
 	void setName(QString name);
 	KURL fileURL();	
-  /** Calculates properties for the file, including the size of the file, the duration of the file,  the file format, etc. */
-  void calculateFileProperties();
-  /** returns the size of the file */
-  signed int fileSize();
-  /** Returns the duration of the file in milliseconds */
-  long duration();
-  /** Returns the seconds element of the duration of the file */
-  long durationSeconds();
-  /** Returns the milliseconds element of the duration of the file */
-  long durationMs();
-  /** Returns the type of this clip */
-  DocClipBase::CLIPTYPE clipType();
+	/** Calculates properties for the file, including the size of the file, the duration of the file,
+	 * the file format, etc. 
+	 **/
+	void calculateFileProperties();
+	/** returns the size of the file */
+	signed int fileSize();
+	/** Returns the duration of the file in milliseconds */
+	long duration();
+	/** Returns the seconds element of the duration of the file */
+	long durationSeconds();
+	/** Returns the milliseconds element of the duration of the file */
+	long durationMs();
+	/** Returns the type of this clip */
+	DocClipBase::CLIPTYPE clipType();
+
+	QDomDocument toXML();
 private:		
 	/** The displayed name of this file */
 	QString m_name;
 	/** The url of the file */
-	KURL m_url;		
+	KURL m_url;
 	/** The size of this file, in bytes. A negative value indicates that this is unknown */
 	signed int m_filesize;
 	
 	/** The duration of this file. */
-	Arts::poTime m_time;	
+	Arts::poTime m_time;
 	
 	/** A play object factory, used for calculating information, and previewing files */
-  /** Determines whether this file contains audio, video or both. */
-  DocClipBase::CLIPTYPE m_clipType;
-  KPlayObject *m_player;
-  KPlayObjectFactory m_factory;
+	/** Determines whether this file contains audio, video or both. */
+	DocClipBase::CLIPTYPE m_clipType;
+	KPlayObject *m_player;
+	KPlayObjectFactory m_factory;	
 };
 
 #endif

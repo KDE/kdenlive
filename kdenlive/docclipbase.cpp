@@ -15,10 +15,18 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <iostream>
+
 #include "docclipbase.h"
+#include "docclipavfile.h"
+#include "docclipproject.h"
 
 DocClipBase::DocClipBase()
 {
+	setTrackStart(0);
+	setName("unnamed");
+	setCropStartTime(0);
+	setCropDuration(0);
 }
 
 DocClipBase::~DocClipBase()
@@ -40,11 +48,48 @@ long DocClipBase::trackStart() {
 
 void DocClipBase::setTrackStart(long seconds, long ms)
 {
+	m_trackStart.seconds = seconds;
+	m_trackStart.ms = ms;
 }
 
-QString DocClipBase::name() {
+void DocClipBase::setTrackStart(long ms)
+{
+	m_trackStart.seconds = ms/1000;
+	m_trackStart.ms = ms%1000;
+}
+
+void DocClipBase::setName(QString name)
+{
+	m_name = name;
+}
+
+QString DocClipBase::name() 
+{
 	return m_name;
 }
+
+void DocClipBase::setCropStartTime(long ms)
+{
+	m_cropStart.seconds = ms/1000;
+	m_cropStart.ms = ms%1000;
+}
+
+long DocClipBase::cropStartTime()
+{
+	return (m_cropStart.seconds*1000) + m_cropStart.ms;
+}
+
+void DocClipBase::setCropDuration(long ms)
+{
+	m_cropDuration.seconds = ms/1000;
+	m_cropDuration.ms = ms%1000;
+}
+
+long DocClipBase::cropDuration()
+{
+	return (m_cropDuration.seconds*1000) + m_cropDuration.ms;
+}
+
 
 long DocClipBase::durationSeconds() {
 	return duration() / 1000;
@@ -54,3 +99,32 @@ long DocClipBase::durationMs() {
 	return duration() % 1000;
 }
 
+QDomDocument DocClipBase::toXML() {
+	QDomDocument doc;
+
+	QDomElement clip = doc.createElement("clip");	
+	clip.setAttribute("name", name());
+	
+	QDomElement properties = doc.createElement("properties");
+	properties.setAttribute("duration", QString(duration()));
+	clip.appendChild(properties);
+	
+	QDomElement position = doc.createElement("position");
+	position.setAttribute("trackstart", QString::number(trackStart()));
+	position.setAttribute("cropstart", QString::number(cropStartTime()));
+	position.setAttribute("cropduration", QString::number(cropDuration()));
+	clip.appendChild(position);
+	
+	doc.appendChild(clip); 
+	
+	return doc;
+}
+
+DocClipBase *DocClipBase::createClip(QDomElement element)
+{
+	KURL url;
+
+	std::cout << "TODO - DocClipBase::createClip(QDomElement element" << std::endl;
+	
+	return new DocClipAVFile("name", url);
+}

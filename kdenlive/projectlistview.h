@@ -1,7 +1,7 @@
 /***************************************************************************
-                          docclipproject.cpp  -  description
+                          projectlistview.h  -  description
                              -------------------
-    begin                : Thu Jun 20 2002
+    begin                : Sun Jun 30 2002
     copyright            : (C) 2002 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,32 +15,22 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "docclipproject.h"
+#ifndef PROJECTLISTVIEW_H
+#define PROJECTLISTVIEW_H
 
-DocClipProject::DocClipProject() :
-  			DocClipBase()
-{
-}
+#include <klistview.h>
 
-DocClipProject::~DocClipProject()
-{
-}
+/**
+  *@author Jason Wood
+  */
 
-long DocClipProject::duration() {
-	return 0;
-}
+class ProjectListView : public KListView  {
+   Q_OBJECT
+public:
+  ProjectListView(QWidget *parent=0, const char *name=0);
+	~ProjectListView();
+  /** returns a drag object which is used for drag operations. */
+  QDragObject *dragObject();
+};
 
-/** No descriptions */
-KURL DocClipProject::fileURL()
-{
-	KURL temp;
-
-	return temp;
-}
-
-QDomDocument DocClipProject::toXML() 
-{
-	QDomDocument doc = DocClipBase::toXML();
-	return doc;
-}
-
+#endif

@@ -18,9 +18,10 @@
 #ifndef CLIPDRAG_H
 #define CLIPDRAG_H
 
+#include <vector>
 #include <kurldrag.h>
 
-#include <docclipbase.h>
+#include <docclip.h>
 
 /**Allows the dragging of clips within and outside of the application.
   *@author Jason Wood
@@ -31,23 +32,27 @@ class ClipDrag : public KURLDrag
 public: 
 	ClipDrag(DocClipBase *clip, QWidget *dragSource, const char *name);
 	~ClipDrag();
-  /** Set the clip which is contained within this ClipDrag object. */
-  void setClip(DocClipBase *clip);
-  /** Returns true if the mime type is decodable, false otherwise. */
-  static bool canDecode(const QMimeSource *mime);
-  /** Attempts to decode the mimetype e as a clip. Returns true, or false. */
-  static bool decode(const QMimeSource *e, DocClipBase &clip);
+	/** Set the clip which is contained within this ClipDrag object. */
+	void setClip(DocClipBase *clip);
+	/** Returns true if the mime type is decodable, false otherwise. */
+	static bool canDecode(const QMimeSource *mime);
+	/** Attempts to decode the mimetype e as a clip. Returns a clip, or returns null */
+	static std::vector<DocClip> decode(const QMimeSource *e);
 protected:
-  /** Reimplemented for internal reasons; the API is not affected.  */
-  QByteArray encodedData(const char *mime) const;
-  /** Reimplemented for internal reasons; the API is not affected.  */
-  virtual const char * format(int i) const;
+	/** Reimplemented for internal reasons; the API is not affected.  */
+	QByteArray encodedData(const char *mime) const;
+	/** Reimplemented for internal reasons; the API is not affected.  */
+	virtual const char * format(int i) const;
 private: // Private methods
-  /** Returns a QValueList containing the URL of the clip.
-    *
-		* This is necessary, because the KURLDrag class which ClipDrag inherits
-		* requires a list of URL's rather than a single URL. */
+ 	/** Returns a QValueList containing the URL of the clip.
+	 *
+	 * This is necessary, because the KURLDrag class which ClipDrag inherits
+	 * requires a list of URL's rather than a single URL. 
+	 **/
 	KURL::List createURLList(DocClipBase *clip);
+
+	/** Holds the XMNL representation of the clips being dragged */
+	QString m_xml;
 };
 
 #endif

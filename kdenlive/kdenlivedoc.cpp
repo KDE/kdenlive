@@ -193,7 +193,7 @@ void KdenliveDoc::deleteContents()
 void KdenliveDoc::slot_InsertAVFile(const KURL &file) {
 	m_clipList.append(new DocClipAVFile(file.fileName(), file));
 	emit avFileListUpdated(m_clipList);
-  setModified(true);	
+	setModified(true);	
 }
 
 QList<DocClipBase> KdenliveDoc::avFileList()

@@ -20,7 +20,7 @@
 
 #include "projectlist_ui.h"
 
-#include <klistview.h>
+#include <projectlistview.h>
 #include <qlist.h>
 #include <qpopupmenu.h>
 #include <qevent.h>

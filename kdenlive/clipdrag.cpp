@@ -16,10 +16,12 @@
  ***************************************************************************/
 
 #include "clipdrag.h"
+#include "docclipavfile.h"
 
 ClipDrag::ClipDrag(DocClipBase *clip, QWidget *dragSource, const char *name) :
-											KURLDrag(createURLList(clip), dragSource, name)
+			KURLDrag(createURLList(clip), dragSource, name)
 {
+	m_xml = clip->toXML().toString();
 }
 
 ClipDrag::~ClipDrag()
@@ -30,8 +32,8 @@ ClipDrag::~ClipDrag()
 const char * ClipDrag::format(int i) const
 {
 	switch (i)
-  {
-		case 0 		: return "application/x-kdenlive-clip";
+	{
+		case 0		:	return "application/x-kdenlive-clip";
 		default 	:	return KURLDrag::format(i-1);
 	}
 }
@@ -39,8 +41,16 @@ const char * ClipDrag::format(int i) const
 /** Reimplemented for internal reasons; the API is not affected.  */
 QByteArray ClipDrag::encodedData(const char *mime) const
 {
-		QByteArray temp;
-		return temp;
+	QCString mimetype(mime);
+
+	if(mimetype == "application/x-kdenlive-clip") {
+		QByteArray encoded;
+		encoded.resize(m_xml.length()+1);
+		memcpy(encoded.data(), m_xml.utf8().data(), m_xml.length()+1);
+		return encoded;
+	} else {
+		return KURLDrag::encodedData(mime);
+	}
 }
 
 /** Set the clip which is contained within this ClipDrag object. */
@@ -56,19 +66,43 @@ bool ClipDrag::canDecode(const QMimeSource *mime)
   return KURLDrag::canDecode(mime);
 }
 
-/** Attempts to decode the mimetype e as a clip. Returns true, or false. */
-bool ClipDrag::decode(const QMimeSource *e, DocClipBase &clip)
+/** Attempts to decode the mimetype e as a clip. Returns a clip, or returns null */
+std::vector<DocClip> ClipDrag::decode(const QMimeSource *e)
 {
-  KURL::List list;
+	std::vector<DocClip> cliplist;
+	
+	if(e->provides("application/x-kdenlive-clip")) {
+		QByteArray data = e->encodedData("application/x-kdenlive-clip");
+		QString xml = data;
+		QDomDocument doc;
+		doc.setContent(data);
 
-  if(e->provides("application/x-kdenlive-clip")) {
-  } else {
-         KURLDrag::decode(e, list);
+		QDomNode node = doc.firstChild();
 
-  }
+		while(!node.isNull()) {
+			QDomElement element = node.toElement();
 
+			if(!element.isNull()) {
+				if(element.tagName() == "clip") {
+					DocClipBase *temp = DocClipBase::createClip(element);
+					cliplist.push_back(DocClip(temp));
+					delete temp;
+				}
+			}
+		}
+	} else {
+	  	KURL::List list;
+		KURL::List::Iterator it;		
+		KURLDrag::decode(e, list);
 
-  return false;
+		for(it = list.begin(); it != list.end(); ++it) {
+			DocClipAVFile *file = new DocClipAVFile((*it).fileName(), *it);
+			cliplist.push_back(DocClip(file));
+			delete file;
+		}
+	}
+	
+	return cliplist;
 }
 
 /** Returns a QValueList containing the URL of the clip.

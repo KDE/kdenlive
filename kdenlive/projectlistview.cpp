@@ -1,7 +1,7 @@
 /***************************************************************************
-                          docclipproject.cpp  -  description
+                          projectlistview.cpp  -  description
                              -------------------
-    begin                : Thu Jun 20 2002
+    begin                : Sun Jun 30 2002
     copyright            : (C) 2002 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,32 +15,33 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "docclipproject.h"
+#include "projectlistview.h"
 
-DocClipProject::DocClipProject() :
-  			DocClipBase()
+#include <avlistviewitem.h>
+#include <clipdrag.h>
+
+#include <klocale.h>
+
+ProjectListView::ProjectListView(QWidget *parent, const char *name):
+								KListView(parent, name)
+{
+    addColumn( i18n( "Filename" ) );
+    addColumn( i18n( "Type" ) );
+    addColumn( i18n( "Duration" ) );
+    addColumn( i18n( "Usage Count" ) );
+    addColumn( i18n( "Size" ) );
+
+    setDragEnabled(true);
+}
+
+ProjectListView::~ProjectListView()
 {
 }
 
-DocClipProject::~DocClipProject()
+/** returns a drag object which is used for drag operations. */
+QDragObject *ProjectListView::dragObject()
 {
+	AVListViewItem *item = (AVListViewItem *)selectedItem();
+
+	return new ClipDrag(item->clip(), parentWidget(), "drag object");
 }
-
-long DocClipProject::duration() {
-	return 0;
-}
-
-/** No descriptions */
-KURL DocClipProject::fileURL()
-{
-	KURL temp;
-
-	return temp;
-}
-
-QDomDocument DocClipProject::toXML() 
-{
-	QDomDocument doc = DocClipBase::toXML();
-	return doc;
-}
-
