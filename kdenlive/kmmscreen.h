@@ -19,7 +19,10 @@
 #define KMMSCREEN_H
 
 #include <qxembed.h>
-#include <qsocket.h>
+
+#include "gentime.h"
+
+class KRender;
 
 /**KMMScreen acts as a wrapper for the window provided by the cutter.
 	It requests a video window from the cutter, and embeds it within
@@ -33,13 +36,16 @@ public:
 	KMMScreen(QWidget *parent=0, const char *name=0);
 	~KMMScreen();  	
 private: // Private attributes
-  /** A socket to the cutter which provides this screen with it's view. */
-  QSocket m_socket;
+	KRender *m_render;
+private slots: // Private slots
+  /** The renderer is ready, so we open
+a video window, etc. here. */
+  void rendererReady();
 public slots: // Public slots
-  /** This slot is called when a connection has been established to the cutter via m_socket. */
-  void cutterConnected();
-  /** Data is ready to be read from the socket - read it and act upon it. */
-  void readData();
+  /** Embeds the specified window. */
+  void embedWindow(WId wid);
+  /** Seeks to the specified time */
+  void seek(GenTime time);
 };
 
 #endif

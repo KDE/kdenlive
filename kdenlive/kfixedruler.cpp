@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "kfixedruler.h"
+#include <kdebug.h>
 
 KFixedRuler::KFixedRuler(int startValue, int endValue, int margin, KRulerModel *model, QWidget *parent, const char *name ) :
 												KRuler(model, parent, name)
@@ -52,6 +53,7 @@ void KFixedRuler::calculateViewport()
 	int numValues = maxValue() - minValue();
 	double scale = (((double)width()-(2*margin())) / (double)numValues);
 	int firstPixel = (int)(minValue()*scale) - margin();
+
 	setStartPixel(firstPixel);
 	setValueScale(scale);
 }

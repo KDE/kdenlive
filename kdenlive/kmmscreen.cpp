@@ -17,45 +17,39 @@
 
 #include "kmmscreen.h"
 #include <string.h>
+#include "krender.h"
 
 KMMScreen::KMMScreen(QWidget *parent, const char *name ) : QXEmbed(parent,name)
 {
 	setBackgroundMode(Qt::PaletteDark);
 
-	connect(&m_socket, SIGNAL(connected()), this, SLOT(cutterConnected()));
-	connect(&m_socket, SIGNAL(readyRead()), this, SLOT(readData()));
-	m_socket.connectToHost("127.0.0.1", 6100);
+	m_render = new KRender();
+	
+	connect(m_render, SIGNAL(initialised()), this, SLOT(rendererReady()));
+	connect(m_render, SIGNAL(replyCreateVideoXWindow(WId)), this, SLOT(embedWindow(WId)));
 }
 
 KMMScreen::~KMMScreen()
 {
-	QString str = "quit\n";
-	m_socket.writeBlock(str.latin1(), strlen(str.latin1()));
+	if(m_render) delete m_render;
 }
 
-/** This slot is called when a connection has been established to the cutter via m_socket. */
-void KMMScreen::cutterConnected()
+/** The renderer is ready, so we open a video window, etc. here. */
+void KMMScreen::rendererReady()
 {
-	QString str = "createVideoWindow false\n";	
-	m_socket.writeBlock(str.latin1(), strlen(str.latin1()));
+	m_render->createVideoXWindow(false);
 }
 
-/** Data is ready to be read from the socket - read it and act upon it. */
-void KMMScreen::readData()
+/** Embeds the specified window. */
+void KMMScreen::embedWindow(WId wid)
 {
-	QString recv;
-	int result;
-	
-	while(m_socket.canReadLine()) {
-		recv = m_socket.readLine();
-
-		if((result = recv.find("WinID = ", 0, FALSE)) != -1) {
-			result += 8;
-			recv = recv.mid(result);
-			unsigned long winId = recv.toULong();
-			if(winId!=0) {
-				embed(winId);
-			}
-		}
+	if(wid != 0) {
+		embed(wid);
 	}
+}
+
+/** Seeks to the specified time */
+void KMMScreen::seek(GenTime time)
+{
+	m_render->seek(time);
 }

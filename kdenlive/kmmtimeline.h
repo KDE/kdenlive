@@ -197,6 +197,9 @@ public: // Public attributes
   /** When dragging a clip, this is the time offset that should be applied to where the mouse cursor
   to find the beginning of the master clip. */
   GenTime m_clipOffset;
+signals: // Signals
+  /** emitted when the length of the project has changed. */
+  void projectLengthChanged(int numFrames);
 };
 
 #endif

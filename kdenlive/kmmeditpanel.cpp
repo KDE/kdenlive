@@ -38,9 +38,25 @@ KMMEditPanel::KMMEditPanel(QWidget* parent, const char* name, WFlags fl) :
 	stopButton->setPixmap(loader.loadIcon("player_stop", KIcon::Toolbar));
 	playButton->setPixmap(loader.loadIcon("player_play", KIcon::Toolbar));
 	forwardButton->setPixmap(loader.loadIcon("player_fwd", KIcon::Toolbar));
-	endButton->setPixmap(loader.loadIcon("player_end", KIcon::Toolbar)); 
+	endButton->setPixmap(loader.loadIcon("player_end", KIcon::Toolbar));
+
+	connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), this, SLOT(rulerValueChanged(int, int)));
 }
 
 KMMEditPanel::~KMMEditPanel()
 {
+}
+
+/** Sets the length of the clip that we are viewing. */
+void KMMEditPanel::setClipLength(int frames)
+{
+	m_ruler->setMaxValue(frames);
+}
+
+/** A slider on the ruler has changed value */
+void KMMEditPanel::rulerValueChanged(int ID, int value)
+{
+	if(ID == 0) {
+		emit seekPositionChanged(GenTime(value, 25));
+	}
 }

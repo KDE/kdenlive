@@ -634,7 +634,9 @@ void KMMTimeLine::calculateProjectSize(double rulerScale)
 	}	
 	
   m_scrollBar->setRange(0, (int)(length.frames(25) * rulerScale) + m_scrollBar->width());
-  m_ruler->setRange(0, (int)length.frames(25));  
+  m_ruler->setRange(0, (int)length.frames(25));
+
+  emit projectLengthChanged((int)length.frames(25));
 }
 
 void KMMTimeLine::generateSnapToGridList()

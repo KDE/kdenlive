@@ -39,6 +39,11 @@ public:
 private:
 	KMMScreen m_screen;
 	KMMEditPanel m_editPanel;	
+public slots: // Public slots
+  /** Sets the length of the clip held by
+this montor. FIXME - this is a
+temporary function, and will be changed in the future. */
+  void setClipLength(int frames);
 };
 
 #endif

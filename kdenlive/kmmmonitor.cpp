@@ -22,7 +22,16 @@ KMMMonitor::KMMMonitor(QWidget *parent, const char *name ) :
 										m_screen(this, name),
 										m_editPanel(this, name)
 {
+	connect(&m_editPanel, SIGNAL(seekPositionChanged(GenTime)), &m_screen, SLOT(seek(GenTime)));
 }
 
 KMMMonitor::~KMMMonitor(){
+}
+
+/** Sets the length of the clip held by
+this montor. FIXME - this is a
+temporary function, and will be changed in the future. */
+void KMMMonitor::setClipLength(int frames)
+{
+	m_editPanel.setClipLength(frames);
 }

@@ -468,7 +468,7 @@ void KRuler::drawToBackBuffer()
 	// draw background, adding different colors before the start, and after the end values.
 
 	int startRuler = (int)mapValueToLocal(minValue());
-	int endRuler = (int)mapValueToLocal(maxValue());
+	int endRuler = (int)mapValueToLocal(maxValue());	
 		
 	if(startRuler > sx) {
 		painter.fillRect(sx, 0, startRuler-sx, height(), palette().active().background());
@@ -482,11 +482,9 @@ void KRuler::drawToBackBuffer()
 	if(endRuler < ex) {
 		painter.fillRect(endRuler, 0, ex-endRuler, height(), palette().active().background());
 	}
-
 	
 	painter.setPen(palette().active().foreground());
 	painter.setBrush(palette().active().background());
-	
 
   //
   // Special case draw for when the big ticks are always coincidental with small ticks.
@@ -496,7 +494,7 @@ void KRuler::drawToBackBuffer()
   	value = (int)((m_leftMostPixel+sx)/m_xValueSize);
    	value -= value % m_smallTickEvery;
     pixel = (value * m_xValueSize) - m_leftMostPixel;
-    pixelIncrement = m_xValueSize * m_smallTickEvery;
+    pixelIncrement = m_xValueSize * m_smallTickEvery;    
     // big tick every so many small ticks.
     int bigTick2SmallTick = m_bigTickEvery / m_smallTickEvery;
     value = (value % m_bigTickEvery) / m_smallTickEvery;
@@ -650,7 +648,7 @@ to this value. If part of the ruler is visible which extends beyond this value, 
  different colour to show that it is outside of the valid range of values. */
 void KRuler::setMaxValue(const int value)
 {
-	m_maxValue = value;
+	m_maxValue = (value > m_minValue) ? value : m_minValue + 1;
 }
 
 
@@ -672,7 +670,7 @@ int KRuler::minValue() const
 /** Retursn the maximum value a slider can be set to on this ruler. */
 int KRuler::maxValue() const
 {
-	return m_maxValue;
+	return m_maxValue;	
 }
 
 void KRuler::mousePressEvent(QMouseEvent *event)
