@@ -16,8 +16,18 @@
  ***************************************************************************/
 
 #include "kmmtrackbase.h"
+#include <qpainter.h>
+#include <qsizepolicy.h>
 
-KMMTrackBase::KMMTrackBase(QWidget *parent, const char *name ) : QHBox(parent,name) {
+KMMTrackBase::KMMTrackBase(QWidget *parent, const char *name ) : QFrame(parent,name)
+{	
+	setMinimumWidth(100);
+	setMinimumHeight(60);	
+	
+	setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum));	
+	setPalette( QPalette( QColor(80, 255, 80) ) );
+	
+	setFrameStyle(QFrame::Panel | QFrame::Sunken);
 }
 
 KMMTrackBase::~KMMTrackBase() {

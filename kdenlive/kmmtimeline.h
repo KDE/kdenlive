@@ -24,6 +24,7 @@
 #include <qlabel.h>
 #include <qscrollbar.h>
 #include <qscrollview.h>
+#include <qlist.h>
 
 #include <qpushbutton.h>
 
@@ -41,14 +42,22 @@ public:
 	~KMMTimeLine();
 private:
 		/** GUI elements */
-		QHBox rulerBox;				 	// Horizontal box holding the ruler
-		QScrollView trackView; 	// Scrollview holding the trackBox
-		QGrid trackGrid;			 	// trackBox holding the tracks
-		QHBox scrollBox;			 	// Horizontal box holding the horizontal scrollbar.
-		QLabel trackLabel;
-		KMMRuler ruler;
-		QLabel scrollLabel;			// appears to the left of the bottom scroll bar.
-		QScrollBar scrollBar;		// this scroll bar's movement is measured in pixels, not frames.
+		QHBox m_rulerBox;				 	// Horizontal box holding the ruler
+		QScrollView m_trackScroll; 	// Scrollview holding the tracks
+		QHBox m_scrollBox;			 	// Horizontal box holding the horizontal scrollbar.
+		QLabel m_trackLabel;
+		KMMRuler m_ruler;
+		QLabel m_scrollLabel;			// appears to the left of the bottom scroll bar.
+		QScrollBar m_scrollBar;		// this scroll bar's movement is measured in pixels, not frames.
+		/** track varables */
+		QList<QWidget> m_trackPanels;
+		QList<QWidget> m_trackViews;
+public: // Public methods
+  /** This method adds a new track to the trackGrid. */
+  void appendTrack(QWidget *trackPanel, QWidget *trackView);
+  void resizeEvent(QResizeEvent *event);
+private: // private methods
+	void resizeTracks();
 };
 
 #endif

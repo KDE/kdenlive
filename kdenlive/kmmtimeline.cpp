@@ -15,30 +15,94 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "iostream"
+
 #include "kmmtimeline.h"
+#include "kmmtracksoundpanel.h"
+#include "kmmtrackvideopanel.h"
+#include "kmmtrackbase.h"
 
 KMMTimeLine::KMMTimeLine(QWidget *parent, const char *name ) : QVBox(parent, name),
-				rulerBox(this, "ruler box"),
-				trackView(this, "track view", 0),
-				trackGrid(2, &trackView, "track box"),
-				scrollBox(this, "scroll box"),
-				trackLabel("tracks", &rulerBox),
-				ruler(&rulerBox, name),
-				scrollLabel("tracks", &scrollBox),
-				scrollBar(0, 5000, 50, 500, 0, QScrollBar::Horizontal, &scrollBox, "horizontal ScrollBar")
-{
-	trackLabel.setMinimumWidth(200);
-	trackLabel.setMaximumWidth(200);
-	trackLabel.setAlignment(AlignCenter);
+				m_rulerBox(this, "ruler box"),
+				m_trackScroll(this, "track view", WPaintClever),
+				m_scrollBox(this, "scroll box"),
+				m_trackLabel("tracks", &m_rulerBox),
+				m_ruler(&m_rulerBox, name),
+				m_scrollLabel("tracks", &m_scrollBox),
+				m_scrollBar(0, 5000, 50, 500, 0, QScrollBar::Horizontal, &m_scrollBox, "horizontal ScrollBar")
+{	
+	m_trackScroll.enableClipper(TRUE);
+	m_trackScroll.setVScrollBarMode(QScrollView::AlwaysOn);
+	m_trackScroll.setHScrollBarMode(QScrollView::AlwaysOff);
+
+	m_trackLabel.setMinimumWidth(200);
+	m_trackLabel.setMaximumWidth(200);
+	m_trackLabel.setAlignment(AlignCenter);
 	
-	scrollLabel.setMinimumWidth(200);
-	scrollLabel.setMaximumWidth(200);
-	scrollLabel.setAlignment(AlignCenter);	
+	m_scrollLabel.setMinimumWidth(200);
+	m_scrollLabel.setMaximumWidth(200);
+	m_scrollLabel.setAlignment(AlignCenter);
 	
-	connect(&scrollBar, SIGNAL(valueChanged(int)), &ruler, SLOT(setValue(int)));
+	appendTrack(new KMMTrackVideoPanel(), new KMMTrackBase());
+	appendTrack(new KMMTrackVideoPanel(), new KMMTrackBase());
+	appendTrack(new KMMTrackVideoPanel(), new KMMTrackBase());		
+	appendTrack(new KMMTrackSoundPanel(), new KMMTrackBase());
+	appendTrack(new KMMTrackSoundPanel(), new KMMTrackBase());	
+	appendTrack(new KMMTrackSoundPanel(), new KMMTrackBase());		
+	
+	connect(&m_scrollBar, SIGNAL(valueChanged(int)), &m_ruler, SLOT(setValue(int)));
 }
 
 KMMTimeLine::~KMMTimeLine()
 {
+}
+
+void KMMTimeLine::appendTrack(QWidget *trackPanel, QWidget *trackView)
+{	
+	trackPanel->reparent(m_trackScroll.viewport(), 0, QPoint(0, 0), TRUE);
+	m_trackScroll.addChild(trackPanel);
+	trackView->reparent(m_trackScroll.viewport(), 0, QPoint(0, 0), TRUE);
+	m_trackScroll.addChild(trackView);
+	
+	m_trackPanels.append(trackPanel);
+	m_trackViews.append(trackView);
+		
+	resizeTracks();	
+}
+
+void KMMTimeLine::resizeEvent(QResizeEvent *event)
+{
+	resizeTracks();
+}
+
+void KMMTimeLine::resizeTracks()
+{
+	int height = 0;
+	int widgetHeight;
+	
+	QWidget *panel = m_trackPanels.first();
+	QWidget *view = m_trackViews.first();
+		
+	while(panel != 0) {
+//		widgetHeight = (panel->height() > view->height()) ? panel->height() : view->height();
+	  widgetHeight = panel->height();
+	
+		cout << "height is " << height << endl;	
+		cout << "Widget height = " << widgetHeight << endl;
+		
+		m_trackScroll.moveChild(panel, 0, height);
+		panel->resize(200, widgetHeight);
+		
+		cout << "panel is now " << panel->x() << "," << panel->y() << " : " << panel->width() << "," << panel->height() << endl;
+		m_trackScroll.moveChild(view, 200, height);
+		view->resize(m_trackScroll.visibleWidth() - 200, widgetHeight);
+		cout << "view is now " << view->x() << "," << view->y() << " : " << view->width() << "," << view->height() << endl;
+		height+=widgetHeight;
+		
+		panel = m_trackPanels.next();
+		view = m_trackViews.next();
+	}
+	
+	m_trackScroll.resizeContents(m_trackScroll.visibleWidth(), height);	
 }
 

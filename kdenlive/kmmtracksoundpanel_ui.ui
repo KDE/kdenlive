@@ -11,119 +11,111 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>200</width>
-            <height>123</height>
+            <width>653</width>
+            <height>70</height>
         </rect>
+    </property>
+    <property stdset="1">
+        <name>minimumSize</name>
+        <size>
+            <width>0</width>
+            <height>70</height>
+        </size>
+    </property>
+    <property stdset="1">
+        <name>maximumSize</name>
+        <size>
+            <width>32767</width>
+            <height>70</height>
+        </size>
     </property>
     <property stdset="1">
         <name>caption</name>
         <string>Form1</string>
     </property>
-    <hbox>
+    <property>
+        <name>layoutMargin</name>
+    </property>
+    <property>
+        <name>layoutSpacing</name>
+    </property>
+    <grid>
         <property stdset="1">
             <name>margin</name>
-            <number>11</number>
+            <number>1</number>
         </property>
         <property stdset="1">
             <name>spacing</name>
             <number>6</number>
         </property>
-        <widget>
-            <class>QLayoutWidget</class>
+        <widget row="0"  column="0" >
+            <class>QFrame</class>
             <property stdset="1">
                 <name>name</name>
-                <cstring>Layout10</cstring>
+                <cstring>Frame3</cstring>
+            </property>
+            <property stdset="1">
+                <name>frameShape</name>
+                <enum>StyledPanel</enum>
+            </property>
+            <property stdset="1">
+                <name>frameShadow</name>
+                <enum>Raised</enum>
+            </property>
+            <property>
+                <name>layoutMargin</name>
             </property>
             <property>
                 <name>layoutSpacing</name>
             </property>
-            <vbox>
+            <hbox>
                 <property stdset="1">
                     <name>margin</name>
-                    <number>0</number>
+                    <number>2</number>
                 </property>
                 <property stdset="1">
                     <name>spacing</name>
-                    <number>3</number>
+                    <number>2</number>
                 </property>
-                <widget>
-                    <class>QLabel</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>m_trackName</cstring>
-                    </property>
-                    <property stdset="1">
-                        <name>text</name>
-                        <string>TrackName</string>
-                    </property>
-                </widget>
                 <widget>
                     <class>QLayoutWidget</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>Layout9</cstring>
+                        <cstring>Layout6</cstring>
                     </property>
-                    <hbox>
+                    <property>
+                        <name>layoutSpacing</name>
+                    </property>
+                    <vbox>
                         <property stdset="1">
                             <name>margin</name>
                             <number>0</number>
                         </property>
                         <property stdset="1">
                             <name>spacing</name>
-                            <number>6</number>
+                            <number>0</number>
                         </property>
                         <widget>
-                            <class>QLayoutWidget</class>
+                            <class>QLabel</class>
                             <property stdset="1">
                                 <name>name</name>
-                                <cstring>Layout6</cstring>
+                                <cstring>m_trackName</cstring>
                             </property>
-                            <property>
-                                <name>layoutSpacing</name>
+                            <property stdset="1">
+                                <name>text</name>
+                                <string>Sound Track View</string>
                             </property>
-                            <vbox>
-                                <property stdset="1">
-                                    <name>margin</name>
-                                    <number>0</number>
-                                </property>
-                                <property stdset="1">
-                                    <name>spacing</name>
-                                    <number>0</number>
-                                </property>
-                                <widget>
-                                    <class>QLabel</class>
-                                    <property stdset="1">
-                                        <name>name</name>
-                                        <cstring>m_gainLabel</cstring>
-                                    </property>
-                                    <property stdset="1">
-                                        <name>text</name>
-                                        <string>Gain</string>
-                                    </property>
-                                </widget>
-                                <widget>
-                                    <class>QDial</class>
-                                    <property stdset="1">
-                                        <name>name</name>
-                                        <cstring>m_gainDial</cstring>
-                                    </property>
-                                    <property stdset="1">
-                                        <name>notchesVisible</name>
-                                        <bool>true</bool>
-                                    </property>
-                                </widget>
-                            </vbox>
                         </widget>
                         <widget>
                             <class>QLayoutWidget</class>
                             <property stdset="1">
                                 <name>name</name>
-                                <cstring>Layout7</cstring>
+                                <cstring>Layout5</cstring>
                             </property>
                             <property>
                                 <name>layoutSpacing</name>
                             </property>
-                            <vbox>
+                            <grid>
                                 <property stdset="1">
                                     <name>margin</name>
                                     <number>0</number>
@@ -132,118 +124,56 @@
                                     <name>spacing</name>
                                     <number>0</number>
                                 </property>
-                                <widget>
-                                    <class>QLabel</class>
+                                <widget row="0"  column="0" >
+                                    <class>QCheckBox</class>
                                     <property stdset="1">
                                         <name>name</name>
-                                        <cstring>m_panLabel</cstring>
+                                        <cstring>m_soloButton</cstring>
                                     </property>
                                     <property stdset="1">
                                         <name>text</name>
-                                        <string>Pan</string>
+                                        <string>Solo</string>
                                     </property>
                                 </widget>
-                                <widget>
-                                    <class>QDial</class>
+                                <widget row="0"  column="1" >
+                                    <class>QCheckBox</class>
                                     <property stdset="1">
                                         <name>name</name>
-                                        <cstring>m_panDial</cstring>
+                                        <cstring>m_lockButton</cstring>
                                     </property>
                                     <property stdset="1">
-                                        <name>notchesVisible</name>
-                                        <bool>true</bool>
-                                    </property>
-                                    <property stdset="1">
-                                        <name>minValue</name>
-                                        <number>-100</number>
-                                    </property>
-                                    <property stdset="1">
-                                        <name>maxValue</name>
-                                        <number>100</number>
-                                    </property>
-                                    <property stdset="1">
-                                        <name>lineStep</name>
-                                        <number>2</number>
-                                    </property>
-                                    <property stdset="1">
-                                        <name>pageStep</name>
-                                        <number>20</number>
-                                    </property>
-                                    <property stdset="1">
-                                        <name>value</name>
-                                        <number>0</number>
+                                        <name>text</name>
+                                        <string>Lock</string>
                                     </property>
                                 </widget>
-                            </vbox>
+                                <widget row="1"  column="1" >
+                                    <class>QToolButton</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>m_expandButton</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>text</name>
+                                        <string>Expand</string>
+                                    </property>
+                                </widget>
+                                <widget row="1"  column="0" >
+                                    <class>QCheckBox</class>
+                                    <property stdset="1">
+                                        <name>name</name>
+                                        <cstring>m_muteButton</cstring>
+                                    </property>
+                                    <property stdset="1">
+                                        <name>text</name>
+                                        <string>Mute</string>
+                                    </property>
+                                </widget>
+                            </grid>
                         </widget>
-                    </hbox>
+                    </vbox>
                 </widget>
-            </vbox>
+            </hbox>
         </widget>
-        <widget>
-            <class>QLayoutWidget</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>Layout4</cstring>
-            </property>
-            <property>
-                <name>layoutSpacing</name>
-            </property>
-            <vbox>
-                <property stdset="1">
-                    <name>margin</name>
-                    <number>0</number>
-                </property>
-                <property stdset="1">
-                    <name>spacing</name>
-                    <number>4</number>
-                </property>
-                <widget>
-                    <class>QCheckBox</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>m_lockButton</cstring>
-                    </property>
-                    <property stdset="1">
-                        <name>text</name>
-                        <string>Lock</string>
-                    </property>
-                </widget>
-                <widget>
-                    <class>QCheckBox</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>m_soloButton</cstring>
-                    </property>
-                    <property stdset="1">
-                        <name>text</name>
-                        <string>Solo</string>
-                    </property>
-                </widget>
-                <widget>
-                    <class>QCheckBox</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>m_muteButton</cstring>
-                    </property>
-                    <property stdset="1">
-                        <name>text</name>
-                        <string>Mute</string>
-                    </property>
-                </widget>
-                <widget>
-                    <class>QToolButton</class>
-                    <property stdset="1">
-                        <name>name</name>
-                        <cstring>m_expandButton</cstring>
-                    </property>
-                    <property stdset="1">
-                        <name>text</name>
-                        <string>Expand</string>
-                    </property>
-                </widget>
-            </vbox>
-        </widget>
-    </hbox>
+    </grid>
 </widget>
 </UI>

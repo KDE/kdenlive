@@ -4,7 +4,7 @@ kdenlive_SOURCES = kmmtrackvideopanel.cpp kmmtrackvideopanel_ui.ui kmmtracksound
 kdenlive_LDADD   = -lmcop -lartskde $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET)
 
 
-EXTRA_DIST = main.cpp kdenlive.cpp kdenlive.h kdenlivedoc.cpp kdenlivedoc.h kdenliveview.cpp kdenliveview.h kdenliveui.rc kdenlive.desktop lo32-app-kdenlive.png lo16-app-kdenlive.png kmmruler.cpp kmmruler.h kmmtimeline.cpp kmmtimeline.h kmmtrackbase.cpp kmmtrackbase.h projectlist.cpp projectlist.h avfile.cpp avfile.h avlistviewitem.cpp avlistviewitem.h kmmmonitor.cpp kmmmonitor.h kmmscreen.cpp kmmscreen.h kmmeditpanel.h kmmeditpanel.ui kmmeditpanelimplementation.cpp kmmeditpanelimplementation.h kmmtracksoundpanel_ui.ui kmmtracksoundpanel.cpp kmmtracksoundpanel.h kmmtrackvideopanel_ui.ui kmmtrackvideopanel.cpp kmmtrackvideopanel.h 
+EXTRA_DIST = main.cpp kdenlive.cpp kdenlive.h kdenlivedoc.cpp kdenlivedoc.h kdenliveview.cpp kdenliveview.h kdenliveui.rc kdenlive.desktop lo32-app-kdenlive.png lo16-app-kdenlive.png kmmruler.cpp kmmruler.h kmmtimeline.cpp kmmtimeline.h kmmtrackbase.cpp kmmtrackbase.h projectlist.cpp projectlist.h avfile.cpp avfile.h avlistviewitem.cpp avlistviewitem.h kmmmonitor.cpp kmmmonitor.h kmmscreen.cpp kmmscreen.h kmmeditpanel.ui kmmeditpanelimplementation.cpp kmmeditpanelimplementation.h kmmtracksoundpanel_ui.ui kmmtracksoundpanel.cpp kmmtracksoundpanel.h kmmtrackvideopanel_ui.ui kmmtrackvideopanel.cpp kmmtrackvideopanel.h 
 
 install-data-local:
 	$(mkinstalldirs) $(kde_appsdir)/Applications/

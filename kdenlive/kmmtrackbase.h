@@ -18,17 +18,21 @@
 #ifndef KMMTRACKBASE_H
 #define KMMTRACKBASE_H
 
-#include <qhbox.h>
+#include <qframe.h>
+#include <qevent.h>
 
 /**Base class for all track types.
   *@author Jason Wood
   */
 
-class KMMTrackBase : public QHBox  {
+class KMMTrackBase : public QFrame  {
    Q_OBJECT
 public: 
 	KMMTrackBase(QWidget *parent=0, const char *name=0);
 	~KMMTrackBase();
+	/** When a paintEvent is recieved, the necessary part of the window should be redrawn.
+	*/
+//	void paintEvent ( QPaintEvent *event );
 };
 
 #endif
