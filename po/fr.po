@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
 "POT-Creation-Date: 2003-03-12 22:22+0100\n"
-"PO-Revision-Date: 2003-03-12 22:23GMT\n"
-"Last-Translator: CAULIER Gilles <caulier.gilles@free.fr>\n"
-"Language-Team: FRANCAIS <fr@li.org>\n"
+"PO-Revision-Date: 2003-03-13 14:47+0100\n"
+"Last-Translator: Gilles CAULIER <caulier.gilles@free.fr>\n"
+"Language-Team: Française <fr@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 0.9.6\n"
@@ -14,7 +14,7 @@ msgstr "Configurer Kdenlive"
 
 #: kdenlivesetupdlg.cpp:33
 msgid "Renderer"
-msgstr "Calculer le rendu vidéo"
+msgstr "Calcul du rendu vidéo"
 
 #: avformatwidgetcodeclist.moc.cpp:34 avformatwidgetcodeclist.moc.cpp:42
 msgid "AVFormatWidgetCodecList"
@@ -135,7 +135,7 @@ msgstr "KFixedRuler"
 
 #: projectlistview.cpp:31 avlistviewitem.cpp:36 avfileformatwidget.cpp:32
 msgid "Filename"
-msgstr "Nom de fichier"
+msgstr "Nom du fichier"
 
 #: projectlistview.cpp:32 avlistviewitem.cpp:72
 msgid "Type"
@@ -416,7 +416,7 @@ msgstr "Prêt."
 
 #: kdenlive.cpp:182
 msgid "Move/Resize mode"
-msgstr "Mode Déplacement / Redimensionnement"
+msgstr "Mode déplacement / redimensionnement"
 
 #: kdenlive.cpp:183 kdenlive.cpp:722
 msgid "Current Time : "
@@ -448,7 +448,7 @@ msgstr "Configurer les effets"
 
 #: kdenlive.cpp:242 kdenlive.cpp:243
 msgid "Workspace Monitor"
-msgstr "Espace de travail"
+msgstr "Montage vidéo"
 
 #: kdenlive.cpp:248 kdenlive.cpp:249
 msgid "Clip Monitor"
@@ -557,8 +557,8 @@ msgid ""
 "Clean Project removes files from the project that are unused.\t\t\t Are you "
 "sure you want to do this?"
 msgstr ""
-"La purge du projet supprime les fichiers du projet qui ne sont pas utilisés."
-"\t\t\t Voulez vous vraiment continuer ?"
+"Cette action supprime les fichiers du projet qui ne sont pas utilisés.\n"
+"Voulez vous vraiment continuer ?"
 
 #: kdenlive.cpp:777
 msgid "Seeking Forwards one frame"
@@ -622,7 +622,7 @@ msgstr ""
 
 #: rendersetupdlg_ui.cpp:45 rc.cpp:40
 msgid "Program Path"
-msgstr "Chemin du programme"
+msgstr "Chemin du programme :"
 
 #: rendersetupdlg_ui.cpp:51 rc.cpp:41
 msgid "Specifies the path to the renderer application"
@@ -642,7 +642,7 @@ msgstr ""
 
 #: rendersetupdlg_ui.cpp:57 rc.cpp:43
 msgid "Port"
-msgstr "Port"
+msgstr "Port de communication :"
 
 #: kmmtimeline.moc.cpp:34 kmmtimeline.moc.cpp:42
 msgid "KMMTimeLine"
