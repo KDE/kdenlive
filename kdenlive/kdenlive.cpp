@@ -264,6 +264,7 @@ void KdenliveApp::initView()
 
   m_dockWorkspaceMonitor = createDockWidget("Workspace Monitor", QPixmap(), 0, i18n("Workspace Monitor"));
   m_workspaceMonitor = m_monitorManager.createMonitor(getDocument(), m_dockWorkspaceMonitor, i18n("Workspace Monitor"));
+  m_dockWorkspaceMonitor->setWidget(m_workspaceMonitor);
   m_dockWorkspaceMonitor->setDockSite(KDockWidget::DockFullSite);
   m_dockWorkspaceMonitor->manualDock(mainDock, KDockWidget::DockRight);
 

@@ -30,6 +30,7 @@ ExportDialog::ExportDialog(QPtrList<AVFileFormatDesc> &formatList, QWidget *pare
 {
   m_pageList.setAutoDelete(true);
   generateLayout();
+  resize( 500, 500 );   // For a correct showing of the dialog box widgets.
 }
 
 ExportDialog::~ExportDialog()
