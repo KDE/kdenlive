@@ -182,7 +182,6 @@ void KMMTimeLine::dragEnterEvent ( QDragEnterEvent *event )
 	if(m_startedClipMove) {
 		event->accept(true);
 	} else 	if(ClipDrag::canDecode(event)) {
-		kdWarning() << "Decoding..." << endl;
 		m_selection = ClipDrag::decode(*m_document, event);
 		m_clipOffset = 0;
 
@@ -208,7 +207,6 @@ void KMMTimeLine::dragEnterEvent ( QDragEnterEvent *event )
 
 void KMMTimeLine::dragMoveEvent ( QDragMoveEvent *event )
 {
-	kdWarning() << "DragMoveEvent" << endl;
 	QPoint pos = m_trackViewArea->mapFrom(this, event->pos());
 	moveSelectedClips(trackUnderPoint(pos), (int)(mapLocalToValue(pos.x()) - m_clipOffset));
 
@@ -221,12 +219,10 @@ void KMMTimeLine::dragMoveEvent ( QDragMoveEvent *event )
 
 void KMMTimeLine::dragLeaveEvent ( QDragLeaveEvent *event )
 {
-	kdWarning() << "DragLeaveEvent" << endl;
 }
 
 void KMMTimeLine::dropEvent ( QDropEvent *event )
 {
-	kdWarning() << "DragDropEvent" << endl;
 }
 
 /** This method maps a local coordinate value to the corresponding
@@ -343,4 +339,12 @@ void KMMTimeLine::initiateDrag(DocClipBase *clipUnderMouse, double clipOffset)
 
 	ClipDrag *clip = new ClipDrag(m_selection, this, "Timeline Drag");
 	clip->dragCopy();
+}
+
+/** Sets a new time scale for the timeline. This in turn calls the correct kruler funtion and updates
+the display. The scale is how many frames should fit into the space considered normal for 1 frame*/
+void KMMTimeLine::setTimeScale(int scale)
+{
+	m_ruler->setValueScale(100.0 / scale);	
+	drawTrackViewBackBuffer();
 }

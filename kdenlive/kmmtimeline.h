@@ -124,6 +124,8 @@ public slots: // Public slots
   
   /** Update the back buffer for the track views, and tell the trackViewArea widget to repaint itself. */
   void drawTrackViewBackBuffer();
+  /** Sets a new time scale for the timeline. This in turn calls the correct kruler funtion and updates the display. */
+  void setTimeScale(int scale);
 public: // Public attributes
   /** When dragging a clip, this is the x offset that should be applied to the mouse cursor to find the beginning of the master clip. */
   double m_clipOffset;

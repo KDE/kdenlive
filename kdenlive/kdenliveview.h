@@ -35,7 +35,7 @@
 #include "kmmtimeline.h"
 #include "kmmmonitor.h"
 #include "projectlist.h"
-
+#include "kmmrulerpanel.h"
 
 class KdenliveDoc;
 
@@ -70,6 +70,7 @@ class KdenliveView : public QSplitter
   	QSplitter m_topSplitter;  	
   	ProjectList m_projectList;
   	KMMMonitor m_monitor;
+		KMMRulerPanel m_rulerPanel;		
 		KMMTimeLine m_timeline;
 };
 

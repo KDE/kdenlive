@@ -1,0 +1,126 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>KMMRulerPanel_UI</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>KMMRulerPanel_UI</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>291</width>
+            <height>27</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Form1</string>
+    </property>
+    <hbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>2</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="KComboBox">
+            <item>
+                <property name="text">
+                    <string>1 Frame</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>2 Frames</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>5 Frames</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>10 Frames</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>1 Second</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>2 Seconds</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>5 seconds</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>10 seconds</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>20 seconds</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>30 seconds</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>1 minute</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>2 minutes</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>4 minutes</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>8 minutes</string>
+                </property>
+            </item>
+            <property name="name">
+                <cstring>m_scaleCombo</cstring>
+            </property>
+            <property name="editable">
+                <bool>false</bool>
+            </property>
+        </widget>
+        <widget class="QSlider">
+            <property name="name">
+                <cstring>m_scaleSlider</cstring>
+            </property>
+            <property name="maxValue">
+                <number>12000</number>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="tickmarks">
+                <enum>Left</enum>
+            </property>
+            <property name="tickInterval">
+                <number>2000</number>
+            </property>
+        </widget>
+    </hbox>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>
