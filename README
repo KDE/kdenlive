@@ -20,7 +20,7 @@ Then, go to the Settings->configure Kdenlive menu, and type in or browse to
 the location where PIave is installed. Restart Kdenlive for the changes to take 
 effect.
 
-This is a BETA release of Kdenlive. All known major bugs have been removed, but
+This is a stable release of Kdenlive. All known major bugs have been removed, but
 that doesn't mean that there aren't any. In particular, it is advised that you use
 something more feature-complete if you have a tight deadline to reach ;-)
 
