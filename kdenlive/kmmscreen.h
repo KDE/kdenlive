@@ -55,6 +55,8 @@ signals: // Signals
   void rendererConnected();
   /** Emitted when a renderer disconnects. */
   void rendererDisconnected();  
+  /** Emitted when the screen has seeked to a new position, e.g. when the renderer is playing. */
+  void seekPositionChanged(const GenTime &);
 };
 
 #endif

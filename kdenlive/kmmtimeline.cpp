@@ -277,7 +277,8 @@ void KMMTimeLine::dragLeaveEvent ( QDragLeaveEvent *event )
 		itt.current()->docTrack()->deleteClips(true);
 		++itt;
 	}
-		
+
+  calculateProjectSize();
 	drawTrackViewBackBuffer();
 }
 

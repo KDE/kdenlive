@@ -637,6 +637,9 @@ void KdenliveApp::slotRenderExportTimeline()
 
 	if(!url.isEmpty())
   {
+    if(url.path().find(".") == -1) {
+      url.setFileName(url.filename() + ".dv");
+    }    
     doc->renderDocument(url);
   }        
 

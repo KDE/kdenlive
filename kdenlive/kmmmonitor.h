@@ -50,6 +50,8 @@ temporary function, and will be changed in the future. */
   void setClipLength(int frames);
   /** Seek the monitor to the given time. */
   void seek(GenTime time);
+  /** This slot is called when the screen changes position. */
+  void screenPositionChanged(const GenTime &time);
 signals: // Signals
   /** Emitted when the monitor's current position has changed. */
   void seekPositionChanged(GenTime frame);

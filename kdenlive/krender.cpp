@@ -116,6 +116,8 @@ void KRender::readData()
     QXmlInputSource source;
     source.setData(temp);
     kdDebug() << "Parsing " << temp << endl;
+    m_funcStartElement = &KRender::topLevelStartElement;
+    m_funcEndElement = &KRender::topLevelEndElement;    
     if(!m_xmlReader.parse(&source, false)) {
       kdWarning() << "Parse Failed on " << temp << endl;
     } else {
@@ -254,6 +256,9 @@ void KRender::play(double speed)
 
 void KRender::render(const KURL &url)
 {
+	if(m_setSceneListPending) {
+		sendSetSceneListCommand(m_sceneList);
+	}  
 	QDomDocument doc;
 	QDomElement elem = doc.createElement("render");
 	elem.setAttribute("filename", url.path());
@@ -401,7 +406,27 @@ bool KRender::topLevelStartElement(const QString & namespaceURI, const QString &
 		m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
   	m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;
     return true;
-	}
+	} else if(localName == "playing") {
+    QString tStr = atts.value("time");
+    GenTime time(tStr.toDouble());
+		m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
+  	m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;
+    emit positionChanged(time);
+    return true;
+  } else if(localName == "render") {
+    QString tStr = atts.value("status");
+		m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
+  	m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;    
+    if(tStr == "playing") {
+      emit playing();
+      return true;
+    } else if(tStr == "rendering") {
+      emit stopped();
+      return true;
+    }
+    kdWarning() << "Render command returned unknown status : '" << tStr << "'" << endl;
+    return false;   
+  }
 
 	kdWarning() << "Unknown tag '" << localName << "'" << endl;
 	return false;

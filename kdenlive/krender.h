@@ -156,7 +156,14 @@ signals: // Signals
   /** Emitted when the renderer has recieved text from stdout */
   void recievedStdout(const QString &);
   /** Emitted when the renderer has recieved text from stderr */
-  void recievedStderr(const QString &);  
+  void recievedStderr(const QString &);
+signals: // Signals
+  /** Emitted when the renderer stops, either playing or rendering. */
+  void stopped();
+  /** Emitted when the renderer starts playing. */
+  void playing();
+  /** Emitted when the current seek position has been changed by the renderer. */
+  void positionChanged(const GenTime &);  
 public: // Public attributes
   /** If true, we are currently parsing some data. Otherwise, we are not. */
   bool m_parsing;
