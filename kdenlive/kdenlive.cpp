@@ -47,7 +47,7 @@
 #define ID_EDITMODE_MSG 2
 #define ID_CURTIME_MSG 2
 
-KdenliveApp::KdenliveApp(QWidget* , const char* name):KMainWindow(0, name)
+KdenliveApp::KdenliveApp(QWidget* , const char* name):KDockMainWindow(0, name)
 {
   config=kapp->config();
 
@@ -111,7 +111,7 @@ void KdenliveApp::initActions()
 
   projectAddClips = new KToggleAction(i18n("Add Clips"), "addclips.png", 0, this, SLOT(slotProjectAddClips()), actionCollection(), "project_add_clip");
   projectDeleteClips = new KToggleAction(i18n("Delete Clips"), "deleteclips.png", 0, this, SLOT(slotProjectDeleteClips()), actionCollection(), "project_delete_clip");
-  projectClean = new KToggleAction(i18n("Clean Project"), "cleanproject.png", 0, this, SLOT(slotProjectClean()), actionCollection(), "project_clean");  
+  projectClean = new KToggleAction(i18n("Clean Project"), "cleanproject.png", 0, this, SLOT(slotProjectClean()), actionCollection(), "project_clean");
 
   renderExportTimeline = new KAction(i18n("&Export Timeline"), 0, 0, this, SLOT(slotRenderExportTimeline()), actionCollection(), "render_export_timeline");
 
@@ -179,8 +179,65 @@ void KdenliveApp::initView()
 
   view = new KdenliveView(this);
   doc->addView(view);
-  setCentralWidget(view);	
+  KDockWidget *mainDock = createDockWidget(i18n("Application"), QPixmap(), this, i18n("Application"));  
+  mainDock->setWidget(view);
+  mainDock->setDockSite(KDockWidget::DockFullSite);
+  setCentralWidget(mainDock);
+  setMainDockWidget(mainDock);
   setCaption(doc->URL().fileName(),false);
+
+
+  m_rulerPanel = new KMMRulerPanel(NULL, "Ruler Panel");
+
+  KDockWidget *widget = createDockWidget(i18n("TimeLine"), QPixmap(), 0, i18n("TimeLine"));
+  m_timeline = new KMMTimeLine(this, m_rulerPanel, NULL, getDocument(), widget);
+  widget->setWidget(m_timeline);
+  widget->setDockSite(KDockWidget::DockFullSite);  
+  widget->setDockSite(KDockWidget::DockCorner);
+  widget->manualDock(mainDock, KDockWidget::DockBottom);    
+
+  KDockWidget *tabGroupDock = createDockWidget(i18n("tab group"), QPixmap(), 0, i18n("tab group"));
+  m_tabWidget = new KDockTabGroup(tabGroupDock);
+  m_tabWidget->setTabPosition(QTabWidget::Bottom);  
+  tabGroupDock->setWidget(m_tabWidget);
+  tabGroupDock->setDockSite(KDockWidget::DockFullSite);    
+  tabGroupDock->manualDock(mainDock, KDockWidget::DockTop);  
+
+  widget = createDockWidget(i18n("project list"), QPixmap(), 0, i18n("project list"));
+	m_projectList = new ProjectList(this, getDocument(), widget);
+  widget->setWidget(m_projectList);
+  m_tabWidget->addTab(widget, i18n("Project List"));      
+
+  widget = createDockWidget(i18n("Debug"), QPixmap(), 0, i18n("Debug"));
+  m_renderDebugPanel = new RenderDebugPanel(widget);
+  widget->setWidget(m_renderDebugPanel);
+  widget->setDockSite(KDockWidget::DockFullSite);    
+  m_tabWidget->addTab(widget, i18n("Debug"));
+
+  widget = createDockWidget(i18n("Monitor"), QPixmap(), 0, i18n("Monitor"));
+	m_monitor = new KMMMonitor(this, getDocument(), widget);
+  widget->setWidget(m_monitor);
+  widget->setDockSite(KDockWidget::DockFullSite);    
+  widget->manualDock(tabGroupDock, KDockWidget::DockRight);  
+
+  setBackgroundMode(PaletteBase);
+
+  connect(m_rulerPanel, SIGNAL(timeScaleChanged(int)), m_timeline, SLOT(setTimeScale(int)));
+
+  connect(m_projectList, SIGNAL(dragDropOccured(QDropEvent *)), getDocument(), SLOT(slot_insertClips(QDropEvent *)));
+  connect(m_timeline, SIGNAL(projectLengthChanged(int)), m_monitor, SLOT(setClipLength(int)));
+
+  connect(m_timeline, SIGNAL(seekPositionChanged(GenTime)), m_monitor, SLOT(seek(GenTime)));
+  connect(m_monitor, SIGNAL(seekPositionChanged(GenTime)), m_timeline, SLOT(seek(GenTime)));
+
+  connect(getDocument(), SIGNAL(avFileListUpdated()), m_projectList, SLOT(slot_UpdateList()));
+  connect(getDocument(), SIGNAL(avFileChanged(AVFile *)), m_projectList, SLOT(slot_avFileChanged(AVFile *)));
+
+  connect(m_monitor, SIGNAL(seekPositionChanged(GenTime)), this, SLOT(slotUpdateCurrentTime(GenTime)));
+
+  makeDockInvisible(mainDock);
+
+  m_timeline->calculateProjectSize();  
 }
 
 void KdenliveApp::openDocumentFile(const KURL& url)
@@ -419,7 +476,13 @@ void KdenliveApp::slotFilePrint()
   QPrinter printer;
   if (printer.setup(this))
   {
-    view->print(&printer);
+    QPainter painter;
+
+    painter.begin(&printer);
+
+    // TODO - add Print code here.
+
+    painter.end();
   }
 
   slotStatusMsg(i18n("Ready."));
