@@ -39,8 +39,8 @@ KMMTrackVideoPanel::~KMMTrackVideoPanel()
 /** Paint the specified clip on screen within the specified rectangle, using the specified painter. */
 void KMMTrackVideoPanel::paintClip(QPainter &painter, DocClipBase *clip, QRect &rect, bool selected)
 {	
-	int sx = (int)timeLine().mapValueToLocal(clip->trackStart());
-	int ex = (int)timeLine().mapValueToLocal(clip->trackStart() + clip->cropDuration());
+	int sx = (int)timeLine().mapValueToLocal(clip->trackStart()*25/1000);
+	int ex = (int)timeLine().mapValueToLocal(clip->trackStart() + clip->cropDuration()*25/1000);
 	
 	if(sx < rect.x()) {
 		sx = rect.x();

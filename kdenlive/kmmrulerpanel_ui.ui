@@ -107,8 +107,11 @@
             <property name="name">
                 <cstring>m_scaleSlider</cstring>
             </property>
+            <property name="minValue">
+                <number>1</number>
+            </property>
             <property name="maxValue">
-                <number>12000</number>
+                <number>100</number>
             </property>
             <property name="orientation">
                 <enum>Horizontal</enum>
@@ -117,7 +120,7 @@
                 <enum>Left</enum>
             </property>
             <property name="tickInterval">
-                <number>2000</number>
+                <number>10</number>
             </property>
         </widget>
     </hbox>

@@ -29,6 +29,7 @@
 #include <klocale.h>
 #include <kconfig.h>
 #include <kstdaction.h>
+#include <kcommand.h>
 
 // application specific includes
 #include "kdenlive.h"
@@ -44,6 +45,7 @@ KdenliveApp::KdenliveApp(QWidget* , const char* name):KMainWindow(0, name)
   ///////////////////////////////////////////////////////////////////
   // call inits to invoke all other construction parts
   initStatusBar();
+  m_commandHistory = new KCommandHistory(actionCollection(), true);  
   initActions();
   initDocument();
   initView();

@@ -35,6 +35,7 @@
 // forward declaration of the Kdenlive classes
 class KdenliveDoc;
 class KdenliveView;
+class KCommandHistory;
 
 /**
   * The base class for Kdenlive application windows. It sets up the main
@@ -185,6 +186,8 @@ class KdenliveApp : public KMainWindow
     KAction* editPaste;
     KToggleAction* viewToolBar;
     KToggleAction* viewStatusBar;
+		/** Holds the undo/redo command history */
+		KCommandHistory *m_commandHistory;
 };
  
 #endif // KDENLIVE_H

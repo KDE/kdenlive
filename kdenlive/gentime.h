@@ -1,5 +1,5 @@
 /***************************************************************************
-                          kmmrulerpanel.h  -  description
+                          time.h  -  description
                              -------------------
     begin                : Sat Sep 14 2002
     copyright            : (C) 2002 by Jason Wood
@@ -15,33 +15,40 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KMMRULERPANEL_H
-#define KMMRULERPANEL_H
+#ifndef GENTIME_H
+#define GENTIME_H
 
-#include <qwidget.h>
+#include <arts/kmedia2.h>
 
-#include "kmmrulerpanel_ui.h"
-
-/**The zoom panel contains various options to zoom the Timeline ruler to various scales
+/**Encapsulates a time, which can be set in various forms and outputted in various forms. 
   *@author Jason Wood
   */
 
-class KMMRulerPanel : public KMMRulerPanel_UI  {
-   Q_OBJECT
-public: 
-	KMMRulerPanel(QWidget *parent=0, const char *name=0);
-	~KMMRulerPanel();
-signals: // Signals
-  /** emits the newly requested time scale. */
-  void timeScaleChanged(int);
-public slots: // Public slots
-  /** takes index and figures out the correct scale value from it, which then get's emitted. */
-  void comboScaleChange(int index);
-  /** Occurs when the slider changes value, emits a corrected value to provide a non-linear (and better) value scaling. */
-  void sliderScaleChange(int value);
-public: // Public attributes
-  /** This scale is used to convert the combo box entries to scale values. */
-  static int comboScale[];
+class GenTime {
+public:
+	/** Creates a time object, with time given in seconds. */
+	GenTime(double seconds);
+	/** Creates a time object, with the time given by an Arts::poTime structure */
+	GenTime(const Arts::poTime &time);
+	/** Creates a time object, by passing number of frames and how many frames per second */
+	GenTime(double frames, double framesPerSecond);
+
+	/** returns the time, in seconds */
+	double seconds();
+
+	/** Returns the time, in milliseconds */
+	double ms();
+
+	/** Returns the time in frames, after being given the number of frames per second */
+	double frames(double framesPerSecond);
+	
+	/** Returns the time as an Arts::poTime structure */
+	Arts::poTime artsTime();
+			
+	~GenTime();
+private: // Private attributes
+  /** Holds the time for this object. */
+  double m_time;
 };
 
 #endif
