@@ -110,7 +110,7 @@ install_location=
 type=DATA
 
 [kdenlive/Makefile.am]
-files=kdenlive/main.cpp,kdenlive/kdenlive.cpp,kdenlive/kdenlive.h,kdenlive/kdenlivedoc.cpp,kdenlive/kdenlivedoc.h,kdenlive/kdenliveview.cpp,kdenlive/kdenliveview.h,kdenlive/kdenliveui.rc,kdenlive/kdenlive.desktop,kdenlive/lo32-app-kdenlive.png,kdenlive/lo16-app-kdenlive.png,kdenlive/avlistviewitem.cpp,kdenlive/doctrackbase.cpp,kdenlive/doctracksound.cpp,kdenlive/doctrackvideo.cpp,kdenlive/kmmmonitor.cpp,kdenlive/kmmruler.cpp,kdenlive/kmmscreen.cpp,kdenlive/kmmtimeline.cpp,kdenlive/kmmtrackbase.cpp,kdenlive/kmmtracksound.cpp,kdenlive/kmmtrackvideo.cpp,kdenlive/projectlist.cpp,kdenlive/addtrackdialog_ui.ui,kdenlive/avlistviewitem.h,kdenlive/doctrackbase.h,kdenlive/doctracksound.h,kdenlive/doctrackvideo.h,kdenlive/kmmeditpanel.ui,kdenlive/kmmmonitor.h,kdenlive/kmmruler.h,kdenlive/kmmscreen.h,kdenlive/kmmtimeline.h,kdenlive/kmmtrackbase.h,kdenlive/kmmtracksound.h,kdenlive/kmmtracksoundpanel_ui.ui,kdenlive/kmmtrackvideo.h,kdenlive/kmmtrackvideopanel_ui.ui,kdenlive/projectlist.h,kdenlive/projectlist_ui.ui,kdenlive/clipdrag.cpp,kdenlive/clipdrag.h,kdenlive/kmmtrackvideopanel.cpp,kdenlive/kmmtrackvideopanel.h,kdenlive/kmmtracksoundpanel.cpp,kdenlive/kmmtracksoundpanel.h,kdenlive/kmmeditpanelimplementation.cpp,kdenlive/kmmeditpanelimplementation.h,kdenlive/docclipavfile.cpp,kdenlive/docclipavfile.h,kdenlive/docclipbase.cpp,kdenlive/docclipbase.h,kdenlive/docclipproject.cpp,kdenlive/docclipproject.h,kdenlive/docclip.cpp,kdenlive/docclip.h,kdenlive/projectlistview.cpp,kdenlive/projectlistview.h
+files=kdenlive/main.cpp,kdenlive/kdenlive.cpp,kdenlive/kdenlive.h,kdenlive/kdenlivedoc.cpp,kdenlive/kdenlivedoc.h,kdenlive/kdenliveview.cpp,kdenlive/kdenliveview.h,kdenlive/kdenliveui.rc,kdenlive/kdenlive.desktop,kdenlive/lo32-app-kdenlive.png,kdenlive/lo16-app-kdenlive.png,kdenlive/avlistviewitem.cpp,kdenlive/doctrackbase.cpp,kdenlive/doctracksound.cpp,kdenlive/doctrackvideo.cpp,kdenlive/kmmmonitor.cpp,kdenlive/kmmruler.cpp,kdenlive/kmmscreen.cpp,kdenlive/kmmtimeline.cpp,kdenlive/kmmtrackbase.cpp,kdenlive/kmmtracksound.cpp,kdenlive/kmmtrackvideo.cpp,kdenlive/projectlist.cpp,kdenlive/addtrackdialog_ui.ui,kdenlive/avlistviewitem.h,kdenlive/doctrackbase.h,kdenlive/doctracksound.h,kdenlive/doctrackvideo.h,kdenlive/kmmeditpanel.ui,kdenlive/kmmmonitor.h,kdenlive/kmmruler.h,kdenlive/kmmscreen.h,kdenlive/kmmtimeline.h,kdenlive/kmmtrackbase.h,kdenlive/kmmtracksound.h,kdenlive/kmmtracksoundpanel_ui.ui,kdenlive/kmmtrackvideo.h,kdenlive/kmmtrackvideopanel_ui.ui,kdenlive/projectlist.h,kdenlive/projectlist_ui.ui,kdenlive/clipdrag.cpp,kdenlive/clipdrag.h,kdenlive/kmmtrackvideopanel.cpp,kdenlive/kmmtrackvideopanel.h,kdenlive/kmmtracksoundpanel.cpp,kdenlive/kmmtracksoundpanel.h,kdenlive/kmmeditpanelimplementation.cpp,kdenlive/kmmeditpanelimplementation.h,kdenlive/docclipavfile.cpp,kdenlive/docclipavfile.h,kdenlive/docclipbase.cpp,kdenlive/docclipbase.h,kdenlive/docclipproject.cpp,kdenlive/docclipproject.h,kdenlive/projectlistview.cpp,kdenlive/projectlistview.h
 sub_dirs=
 type=prog_main
 
@@ -139,18 +139,6 @@ install_location=
 type=SOURCE
 
 [kdenlive/clipdrag.h]
-dist=true
-install=false
-install_location=
-type=HEADER
-
-[kdenlive/docclip.cpp]
-dist=true
-install=false
-install_location=
-type=SOURCE
-
-[kdenlive/docclip.h]
 dist=true
 install=false
 install_location=
