@@ -77,4 +77,4 @@ const QString &DocTrackVideo::clipType()
   static const QString clipType = "Video";
 	return clipType;
 }
-                                           
+

@@ -61,6 +61,7 @@ void KResizeCommand::execute()
 		clip->setCropStartTime(m_end_cropStart);
 		clip->setTrackEnd(m_end_trackEnd);
 	}
+	m_doc->indirectlyModified();
 }
 
 /** Unexecutes this command */
@@ -74,6 +75,7 @@ void KResizeCommand::unexecute()
 		clip->setCropStartTime(m_start_cropStart);
 		clip->setTrackEnd(m_start_trackEnd);
 	}
+	m_doc->indirectlyModified();
 }
 
 /** Sets the trackEnd() for the end destination to the time specified. */

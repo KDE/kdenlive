@@ -24,13 +24,16 @@
 
 #include <qdom.h>
 #include <kurl.h>
+#include <qobject.h>
+#include <qvaluevector.h>
 
 #include "gentime.h"
 
 class KdenliveDoc;
 class DocTrackBase;
 
-class DocClipBase {
+class DocClipBase : public QObject {
+	Q_OBJECT
 public:
 	/** this enum determines the types of "feed" available within this clip. types must be non-exlcusive
 	 * - e.g. if you can have audio and video seperately, it should be possible to combin the two, as is
@@ -80,21 +83,34 @@ public:
 
 	/** Reads in the element structure and creates a clip out of it.*/
 	static DocClipBase *createClip(KdenliveDoc *doc, const QDomElement element);
-  /** Sets the parent track for this clip. */
-  void setParentTrack(DocTrackBase *track, const int trackNum);
-  /** Returns the track number. This is a hint as to which track the clip is on, or should be placed on. */
-  int trackNum();
-  /** Returns the end of the clip on the track. A convenience function, equivalent
-to trackStart() + cropDuration() */
-  GenTime trackEnd();
-  /** Returns the parentTrack of this clip. */
-  DocTrackBase * parentTrack();
-  /** Move the clips so that it's trackStart coincides with the time specified. */
-  void moveTrackStart(const GenTime &time);
-  /** Returns an identical but seperate (i.e. "deep") copy of this clip. */
-  DocClipBase * clone();
-  /** Returns true if the clip duration is known, false otherwise. */
-  virtual bool durationKnown() = 0;
+	/** Sets the parent track for this clip. */
+	void setParentTrack(DocTrackBase *track, const int trackNum);
+	/** Returns the track number. This is a hint as to which track the clip is on, or 
+	 * should be placed on. */
+	int trackNum();
+	/** Returns the end of the clip on the track. A convenience function, equivalent
+	to trackStart() + cropDuration() */
+	GenTime trackEnd() const;
+	/** Returns the parentTrack of this clip. */
+	DocTrackBase * parentTrack();
+	/** Move the clips so that it's trackStart coincides with the time specified. */
+	void moveTrackStart(const GenTime &time);
+	/** Returns an identical but seperate (i.e. "deep") copy of this clip. */
+	DocClipBase * clone();
+	/** Returns true if the clip duration is known, false otherwise. */
+	virtual bool durationKnown() = 0;
+	// Returns the number of frames per second that this clip should play at.
+	virtual int framesPerSecond() const = 0;
+	/** Returns a scene list generated from this clip. */
+	virtual QDomDocument generateSceneList() = 0;
+	/** Returns true if this clip is a project clip, false otherwise. Overridden in DocClipProject,
+	 * where it returns true. */
+	virtual bool isProjectClip() { return false; }
+	
+	// Returns a list of times that this clip must break upon.
+	virtual QValueVector<GenTime> sceneTimes() = 0;
+	// Returns an XML document that describes part of the current scene.
+	virtual QDomDocument sceneToXML(const GenTime &startTime, const GenTime &endTime) = 0;
 private: // Private attributes
 	/** The name of this clip */
 	QString m_name;
@@ -114,10 +130,10 @@ parented to any track. */
 It is possible for this to be set and the parent track to be 0, in this situation
 m_trackNum is a hint as to where the clip should be place when it get's parented
 to a track. */
-  int m_trackNum;;
+  int m_trackNum;
 protected: // Protected attributes
   /** the document this clip belongs to */
-  KdenliveDoc * m_doc;
+  KdenliveDoc * m_document;
 };
 
 #endif

@@ -130,8 +130,8 @@ void KdenliveApp::initActions()
   actionTogglePlay = new KAction(i18n("Start/Stop"), KShortcut(Qt::Key_Space), this, SLOT(slotTogglePlay()), actionCollection(), "toggle_play");
   actionNextFrame = new KAction(i18n("Forward one frame"), KShortcut(Qt::Key_Right), this, SLOT(slotNextFrame()), actionCollection(), "forward_frame");
   actionLastFrame = new KAction(i18n("Back one frame"), KShortcut(Qt::Key_Left), this, SLOT(slotLastFrame()), actionCollection(), "backward_frame");
-  actionSetInpoint = new KAction(i18n("Set inpoint"), KShortcut(Qt::Key_BracketLeft), this, SLOT(slotSetInpoint()), actionCollection(), "set_inpoint");
-  actionSetOutpoint = new KAction(i18n("Set outpoint"), KShortcut(Qt::Key_BracketRight), this, SLOT(slotSetOutpoint()), actionCollection(), "set_outpoint");
+  actionSetInpoint = new KAction(i18n("Set inpoint"), KShortcut(Qt::Key_I), this, SLOT(slotSetInpoint()), actionCollection(), "set_inpoint");
+  actionSetOutpoint = new KAction(i18n("Set outpoint"), KShortcut(Qt::Key_O), this, SLOT(slotSetOutpoint()), actionCollection(), "set_outpoint");
   actionDeleteSelected = new KAction(i18n("Delete Selected Clips"), KShortcut(Qt::Key_Delete), this, SLOT(slotDeleteSelected()), actionCollection(), "delete_selected_clips");
 
   actionLoadLayout1 = new KAction(i18n("Load Layout &1"), "loadlayout1.png", KShortcut(Qt::Key_F9), this, SLOT(loadLayout1()), actionCollection(), "load_layout_1");
@@ -264,6 +264,7 @@ void KdenliveApp::initView()
 
   m_dockWorkspaceMonitor = createDockWidget("Workspace Monitor", QPixmap(), 0, i18n("Workspace Monitor"));
   m_workspaceMonitor = m_monitorManager.createMonitor(getDocument(), m_dockWorkspaceMonitor, i18n("Workspace Monitor"));
+  m_workspaceMonitor->setNoSeek(true);
   m_dockWorkspaceMonitor->setWidget(m_workspaceMonitor);
   m_dockWorkspaceMonitor->setDockSite(KDockWidget::DockFullSite);
   m_dockWorkspaceMonitor->manualDock(mainDock, KDockWidget::DockRight);
@@ -284,7 +285,9 @@ void KdenliveApp::initView()
   connect(getDocument(), SIGNAL(signalClipSelected(DocClipBase *)), this, SLOT(slotSetClipMonitorSource(DocClipBase *)));
   connect(getDocument(), SIGNAL(avFileListUpdated()), m_projectList, SLOT(slot_UpdateList()));
   connect(getDocument(), SIGNAL(avFileChanged(AVFile *)), m_projectList, SLOT(slot_avFileChanged(AVFile *)));
-  connect(getDocument(), SIGNAL(sceneListChanged(const QDomDocument &)), m_workspaceMonitor, SLOT(setSceneList(const QDomDocument &)));
+
+  connect(getDocument(), SIGNAL(documentChanged(DocClipBase *)), 
+		  m_workspaceMonitor, SLOT(slotSetClip(DocClipBase *)));
 
   connect(getDocument()->renderer(), SIGNAL(effectListChanged(const QPtrList<EffectDesc> &)), m_effectListDialog, SLOT(setEffectList(const QPtrList<EffectDesc> &)));
   
@@ -300,7 +303,6 @@ void KdenliveApp::initView()
   connect(m_projectList, SIGNAL(AVFileSelected(AVFile *)), this, SLOT(slotSetClipMonitorSource(AVFile *)));
   connect(m_projectList, SIGNAL(dragDropOccured(QDropEvent *)), getDocument(), SLOT(slot_insertClips(QDropEvent *)));
 
-  connect(m_timeline, SIGNAL(projectLengthChanged(int)), m_workspaceMonitor, SLOT(setClipLength(int)));
   connect(m_timeline, SIGNAL(seekPositionChanged(const GenTime &)), m_workspaceMonitor, SLOT(seek(const GenTime &)));
   connect(m_timeline, SIGNAL(signalClipCropStartChanged(const GenTime &)), m_clipMonitor, SLOT(seek(const GenTime &)));
   connect(m_timeline, SIGNAL(signalClipCropEndChanged(const GenTime &)), m_clipMonitor, SLOT(seek(const GenTime &)));
@@ -855,7 +857,7 @@ void KdenliveApp::slotSetInpoint()
 {
 	slotStatusMsg(i18n("Setting Inpoint"));
 	if(m_monitorManager.hasActiveMonitor()) {
-		m_monitorManager.activeMonitor()->setInpoint();
+		m_monitorManager.activeMonitor()->slotSetInpoint();
 	}
 	slotStatusMsg(i18n("Ready."));
 }
@@ -864,7 +866,7 @@ void KdenliveApp::slotSetOutpoint()
 {
 	slotStatusMsg(i18n("Setting outpoint"));
 	if(m_monitorManager.hasActiveMonitor()) {
-		m_monitorManager.activeMonitor()->setOutpoint();
+		m_monitorManager.activeMonitor()->slotSetOutpoint();
 	}
 	slotStatusMsg(i18n("Ready."));
 }
@@ -886,72 +888,15 @@ KRenderManager * KdenliveApp::renderManager()
 /** Set the source of the clip monitor to the spectified AVFile. */
 void KdenliveApp::slotSetClipMonitorSource(AVFile *file)
 {
-	static QString str_inpoint="inpoint";
-	static QString str_outpoint="outpoint";
-	static QString str_file="file";
-
-
-  kdDebug() << "Setting clip monitor source" << endl;
-
-  if(!file->durationKnown()) {
-    kdWarning() << "Cannot create scenelist for clip monitor - clip duration unknown" << endl;
-    return;
-  }
-
-  QDomDocument scenelist;
-  scenelist.appendChild(scenelist.createElement("scenelist"));
-
-  // generate the next scene.
-  QDomElement scene = scenelist.createElement("scene");
-  scene.setAttribute("duration", QString::number(file->duration().seconds()));
-
-  QDomElement sceneClip;
-  sceneClip = scenelist.createElement("input");
-  sceneClip.setAttribute(str_file, file->fileURL().path());
-  sceneClip.setAttribute(str_inpoint, "0.0");
-  sceneClip.setAttribute(str_outpoint, QString::number(file->duration().seconds()));
-  scene.appendChild(sceneClip);
-  scenelist.documentElement().appendChild(scene);
-
-  m_clipMonitor->setSceneList(scenelist);
-  m_clipMonitor->setClipLength(file->duration().frames(getDocument()->framesPerSecond()));
-  m_clipMonitor->seek(GenTime(0.0));
-  activateClipMonitor();
+	m_clipMonitor->slotSetClip(file);
+	activateClipMonitor();
 }
 
 /** Sets the clip monitor source to be the given clip. */
 void KdenliveApp::slotSetClipMonitorSource(DocClipBase *clip)
 {
-	static QString str_inpoint="inpoint";
-	static QString str_outpoint="outpoint";
-	static QString str_file="file";
-
-  kdDebug() << "Setting clip monitor source (from DocClipBase *)" << endl;
-
-  if(!clip) {
-    kdError() << "Null clip passed, not setting monitor." << endl;
-    return;
-  }
-
-  QDomDocument scenelist;
-  scenelist.appendChild(scenelist.createElement("scenelist"));
-
-  // generate the next scene.
-  QDomElement scene = scenelist.createElement("scene");
-  scene.setAttribute("duration", QString::number(clip->duration().seconds()));
-
-  QDomElement sceneClip;
-  sceneClip = scenelist.createElement("input");
-  sceneClip.setAttribute(str_file, clip->fileURL().path());
-  sceneClip.setAttribute(str_inpoint, "0.0");
-  sceneClip.setAttribute(str_outpoint, QString::number(clip->duration().seconds()));
-  scene.appendChild(sceneClip);
-  scenelist.documentElement().appendChild(scene);
-
-  m_clipMonitor->setSceneList(scenelist);
-  m_clipMonitor->setClipLength(clip->duration().frames(getDocument()->framesPerSecond()));
-  m_clipMonitor->seek(GenTime(0.0));
-  activateClipMonitor();
+	m_clipMonitor->slotSetClip(clip);
+	activateClipMonitor();
 }
 
 void KdenliveApp::loadLayout1()

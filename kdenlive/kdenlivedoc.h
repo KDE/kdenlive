@@ -37,6 +37,7 @@
 // forward declaration of the Kdenlive classes
 class KdenliveApp;
 class KdenliveView;
+class DocClipProject;
 
 /**	KdenliveDoc provides a document object for a document-view model.
   *
@@ -61,7 +62,8 @@ class KdenliveDoc : public QObject
 	/** Destructor for the fileclass of the application */
 	~KdenliveDoc();
     
-	/** adds a view to the document which represents the document contents. Usually this is your main view. */
+	/** adds a view to the document which represents the document contents. Usually this 
+	 * is your main view. */
 	void addView(KdenliveView *view);
 	
 	/** removes a view from the list of currently connected views */
@@ -72,30 +74,44 @@ class KdenliveDoc : public QObject
     
 	bool isModified(){ return m_modified; };
     	/** "save modified" - asks the user for saving if the document is modified */
-    bool saveModified();
-    /** deletes the document's contents */
-    void deleteContents();
-    /** initializes the document generally */
-    bool newDocument();
-    /** closes the acutal document */
-    void closeDocument();
-    /** loads the document by filename and format and emits the updateViews() signal */
-    bool openDocument(const KURL& url, const char *format=0);
-    /** saves the document under filename and format.*/
-    bool saveDocument(const KURL& url, const char *format=0);
-    /** returns the KURL of the document */
-    const KURL& URL() const;
+	bool saveModified();
+	/** deletes the document's contents */
+	void deleteContents();
+	/** initializes the document generally */
+	bool newDocument();
+	/** closes the acutal document */
+	void closeDocument();
+	/** loads the document by filename and format and emits the updateViews() signal */
+	bool openDocument(const KURL& url, const char *format=0);
+	/** saves the document under filename and format.*/
+	bool saveDocument(const KURL& url, const char *format=0);
+	/** returns the KURL of the document */
+	const KURL& URL() const;
 	/** sets the URL of the document */
 	void setURL(const KURL& url);
 	/** Returns the internal avFile list. */
 	const AVFileList &avFileList();
-	/** Insert an AVFile with the given url. If the file is already in the file list, return that instead. */
+	/** Insert an AVFile with the given url. If the file is already in the file list, return 
+	 * that instead. */
 	AVFile *insertAVFile(const KURL &file);
-  public slots:
-    /** calls repaint() on all views connected to the document object and is called by the view by which the document has been changed.
-     * As this view normally repaints itself, it is excluded from the paintEvent.
-     */
-    void slotUpdateAllViews(KdenliveView *sender);
+  	/** Itterates through the tracks in the project. This works in the same way
+	* as QPtrList::next(), although the underlying structures may be different. */
+	DocTrackBase * nextTrack();
+  	/** Returns the first track in the project, and resets the itterator to the first track.
+	*This effectively is the same as QPtrList::first(), but the underyling implementation
+	* may change. */
+	DocTrackBase * firstTrack();
+	/** HACK - in some cases, we can modify the document without it knowing - we tell it here
+	 * for the moment, although really, this means we have access to things that either we should
+	 * only modify via an interface to the document, or that the things that we are modifying should
+	 * automatically tell the document. */
+	void indirectlyModified();
+public slots:
+	/** calls repaint() on all views connected to the document object and is called by the view 
+	 * by which the document has been changed. As this view normally repaints itself, it is 
+	 * excluded from the paintEvent.
+	 */
+	void slotUpdateAllViews(KdenliveView *sender);
 	/** Inserts an Audio/visual file into the project */
 	void slot_InsertAVFile(const KURL &file);
   	/** Adds a sound track to the project */
@@ -104,117 +120,107 @@ class KdenliveDoc : public QObject
   	void addVideoTrack();
 	/** Inserts a list of clips into the document, updating the project accordingly. */
 	void slot_insertClips(QPtrList<DocClipBase> clips);
-	/** Given a drop event, inserts all contained clips into the project list, if they are not there already. */
+	/** Given a drop event, inserts all contained clips into the project list, if they are not 
+	 * there already. 
+	 */
 	void slot_insertClips(QDropEvent *event);
 	/** This slot occurs when the File properties for an AV File have been returned by the renderer.
-
 	The relevant AVFile can then be updated to the correct status. */
 	void AVFilePropertiesArrived(QMap<QString, QString> properties);
 	/** Called when an error occurs whilst retrieving a file's properties. */
 	void AVFilePropertiesError(const QString &path, const QString &errmsg);
 
 public:
-	/** the list of the views currently connected to the document */
-	static QPtrList<KdenliveView> *pViewList;
-  	/** The number of frames per second. */
-  	int m_framesPerSecond;
-  	/** Holds a list of all tracks in the project. */
-  	DocTrackBaseList m_tracks;
-  /** A temporary, static renderer. This variable should be removed from the source
-as swiftly as possible... */
-  static KRender temporaryRenderer;
   	/** Returns the number of frames per second. */
   	int framesPerSecond() const;
-  	/** Itterates through the tracks in the project. This works in the same way
-			* as QPtrList::next(), although the underlying structures may be different. */
-	  DocTrackBase * nextTrack();
-  	/** Returns the first track in the project, and resets the itterator to the first track.
-			*This effectively is the same as QPtrList::first(), but the underyling implementation
-			* may change. */
-	  DocTrackBase * firstTrack();
-	  /** Returns the number of tracks in this project */
-	  uint numTracks();
-  /** Returns a reference to the AVFile matching the  url. If no AVFile matching the given url is found, then one will be created. Either way, the reference count for the AVFile will be incremented by one, and the file will be returned. */
-  AVFile * getAVFileReference(KURL url);
-  /** Find and return the AVFile with the url specified, or return null is no file matches. */
-  AVFile * findAVFile(const KURL &file);
-  /** returns the Track which holds the given clip. If the clip does not
-exist within the document, returns 0; */
-  DocTrackBase * findTrack(DocClipBase *clip);
-  /** Returns the track with the given index, or returns NULL if it does
-not exist. */
-  DocTrackBase * track(int track);
-  /** Returns the index value for this track, or -1 on failure.*/
-  int trackIndex(DocTrackBase *track);
-  /** Creates an xml document that describes this kdenliveDoc. */
-  QDomDocument toXML();
-  /** Sets the modified state of the document, if this has changed, emits modified(state) */
-  void setModified(bool state);
-  /** Removes entries from the AVFileList which are unreferenced by any clips. */
-  void cleanAVFileList();
-  /** Finds and removes the specified avfile from the document. If there are any
-		clips on the timeline which use this clip, then they will be deleted as well.
-		Emits AVFileList changed if successful. */
-  void deleteAVFile(AVFile *file);
-  /** Moves the currectly selected clips by the offsets specified, or returns false if this
-is not possible. */
-  bool moveSelectedClips(GenTime startOffset, int trackOffset);
-  /** Returns a scene list generated from the current document. */
-  QDomDocument generateSceneList();
-  /** Renders the current document timeline to the specified url. */
-  void renderDocument(const KURL &url);
-  /** Returns true if we should snape values to frame. */
-  bool snapToFrame();
-  /** Returns renderer associated with this document. */
-  KRender * renderer();
+	uint numTracks();
+	/** Returns a reference to the AVFile matching the  url. If no AVFile matching the given url
+	 *  is found, then one will be created. Either way, the reference count for the AVFile will
+	 *  be incremented by one, and the file will be returned.
+	 */
+	AVFile * getAVFileReference(KURL url);
+	/** Find and return the AVFile with the url specified, or return null is no file matches. */
+	AVFile * findAVFile(const KURL &file);
+	/** returns the Track which holds the given clip. If the clip does not
+	exist within the document, returns 0; */
+	DocTrackBase * findTrack(DocClipBase *clip);
+	/** Returns the track with the given index, or returns NULL if it does not exist. */
+	DocTrackBase * track(int track);
+	/** Returns the index value for this track, or -1 on failure.*/
+	int trackIndex(DocTrackBase *track) const;
+	/** Creates an xml document that describes this kdenliveDoc. */
+	QDomDocument toXML();
+	/** Sets the modified state of the document, if this has changed, emits modified(state) */
+	void setModified(bool state);
+	/** Removes entries from the AVFileList which are unreferenced by any clips. */
+	void cleanAVFileList();
+	/** Finds and removes the specified avfile from the document. If there are any
+	clips on the timeline which use this clip, then they will be deleted as well.
+	Emits AVFileList changed if successful. */
+	void deleteAVFile(AVFile *file);
+	/** Moves the currectly selected clips by the offsets specified, or returns false if this
+	is not possible. */
+	bool moveSelectedClips(GenTime startOffset, int trackOffset);
+	/** Returns a scene list generated from the current document. */
+	QDomDocument generateSceneList();
+	/** Renders the current document timeline to the specified url. */
+	void renderDocument(const KURL &url);
+	/** Returns true if we should snape values to frame. */
+	bool snapToFrame();
+	/** Returns renderer associated with this document. */
+	KRender * renderer();
+
+	/** returns the duration of the project. */
+	GenTime projectDuration() const;
 
   private:
-    /** the modified flag of the current document */
-    bool m_modified;
-    KURL m_doc_url;
+	/** The base clip for this document. This must be a project clip, as it lists the tracks within
+	 * the project, etc. */
+	DocClipProject *m_projectClip;
+	
+	/** the list of the views currently connected to the document */
+	static QPtrList<KdenliveView> *pViewList;
+ 	/** the modified flag of the current document */
+	bool m_modified;
+	KURL m_doc_url;
 
-		/** List of all video and audio files within this project */
+	/** List of all video and audio files within this project */
 	AVFileList m_fileList;
-  /** This renderer is for multipurpose use, such as background rendering, and for
+	/** This renderer is for multipurpose use, such as background rendering, and for
 	getting the file properties of the various AVFiles. */
-  KRender * m_render;
-  /** The range of times in the timeline that are currently out of date in the scene list. This list is used
-	to re-sync the scene list. */
-  RangeList<GenTime> m_invalidSceneTimes;
-  /** This is the scenelist that get's passed from the KdenliveDoc to the renderer. */
-  QDomDocument m_domSceneList;
-  /** Application pointer. */
-  KdenliveApp * m_app;
-	private: // Private methods
-  	/** Adds a track to the project */
-  	void addTrack(DocTrackBase *track);
-  /** Parses the XML Dom Document elements to populate the KdenliveDoc. */
-  void loadFromXML(QDomDocument &doc);
-  /** Blocks all track signals if block==true, or unblocks them otherwise. Use when you want to temporarily ignore emits from tracks. */
-  void blockTrackSignals(bool block);
-	/** Connects the various track signals/slots up to the document. This should be done whenever
-	a track is added to the document. */
-	void connectTrack(DocTrackBase *track);
-	signals: // Signals
-  	/** This signal is emitted whenever tracks are added to or removed from the project. */
-  	void trackListChanged();
- 	  /** This is signal is emitted whenever the avFileList changes, either through the addition or removal of an AVFile, or when an AVFile changes. */
-  	void avFileListUpdated();
-	  /** Emitted when the modified state of the document changes. */
-	  void modified(bool);
+	KRender * m_render;
+	/** The range of times in the timeline that are currently out of date in the scene list. 
+	 * This list is used to re-sync the scene list. */
+	RangeList<GenTime> m_invalidSceneTimes;
+	/** Application pointer. */
+	KdenliveApp * m_app;
+	/** This is the scenelist that get's passed from the clip to a renderer. */
+	QDomDocument m_domSceneList;
+  private: // Private methods
+	/** Parses the XML Dom Document elements to populate the KdenliveDoc. */
+	void loadFromXML(QDomDocument &doc);
+	/** Connects the various project clip signals/slots up to the document. This should be done whenever
+	a new document project clip is created.*/
+	void connectProjectClip();
 private slots: // Private slots
 	/** Called when the document is modifed in some way. */
 	void hasBeenModified();
 signals: // Signals
-  /** Emitted when a particular AVFile has changed in someway. E.g, it has recieved it's duration. */
-  void avFileChanged(AVFile *file);
-  /** emitted when the document has changed in some way. */
-  void documentChanged();
-  /** Emitted when a new scenelist has been generated */
-  void sceneListChanged(const QDomDocument &);
-signals: // Signals
-  /** Emitted whenever a clip gets selected. */
-  void signalClipSelected(DocClipBase *);
+  	/** This signal is emitted whenever tracks are added to or removed from the project. */
+  	void trackListChanged();
+ 	/** This is signal is emitted whenever the avFileList changes, either through the addition 
+	 * or removal of an AVFile, or when an AVFile changes. */
+  	void avFileListUpdated();
+	/** Emitted when the modified state of the document changes. */
+	void modified(bool);
+	/** Emitted when a particular AVFile has changed in someway. E.g, it has recieved it's duration. */
+	void avFileChanged(AVFile *file);
+	/** emitted when the document has changed in some way. */
+	void documentChanged();
+	/** Also emitted when the document has changed in some way, fires off the project clip with it */
+	void documentChanged(DocClipBase *);
+	/** Emitted whenever a clip gets selected. */
+	void signalClipSelected(DocClipBase *);
 };
 
 #endif // KDENLIVEDOC_H

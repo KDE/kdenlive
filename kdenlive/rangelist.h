@@ -80,7 +80,10 @@ axis.
 
 template<class T> class RangeList {
 public:	
-	RangeList() {
+	RangeList() : 
+		m_min(0),
+		m_max(0)
+	{
 	}
 	
 	~RangeList() {

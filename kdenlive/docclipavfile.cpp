@@ -80,7 +80,7 @@ QDomDocument DocClipAVFile::toXML() {
 
 	ASSERT(node.isNull());
 
-  /* This final return should never be reached, it is here to remove compiler warning. */
+	/* This final return should never be reached, it is here to remove compiler warning. */
 	return doc;
 }
 
@@ -106,4 +106,61 @@ DocClipAVFile * DocClipAVFile::createClip(KdenliveDoc *doc, const QDomElement el
 bool DocClipAVFile::durationKnown()
 {
   return m_avFile->durationKnown();
+}
+
+// virtual
+int DocClipAVFile::framesPerSecond() const
+{
+	return m_avFile->framesPerSecond();
+}
+
+		
+// virtual 
+QDomDocument DocClipAVFile::generateSceneList()
+{
+	static QString str_inpoint="inpoint";
+	static QString str_outpoint="outpoint";
+	static QString str_file="file";
+
+	QDomDocument scenelist;
+	scenelist.appendChild(scenelist.createElement("scenelist"));
+
+	// generate the next scene.
+	QDomElement scene = scenelist.createElement("scene");
+	scene.setAttribute("duration", QString::number(duration().seconds()));
+
+	QDomElement sceneClip;
+	sceneClip = scenelist.createElement("input");
+	sceneClip.setAttribute(str_file, fileURL().path());
+	sceneClip.setAttribute(str_inpoint, "0.0");
+	sceneClip.setAttribute(str_outpoint, QString::number(duration().seconds()));
+	scene.appendChild(sceneClip);
+	scenelist.documentElement().appendChild(scene);
+
+	return scenelist;
+}
+
+// virtual 
+QDomDocument DocClipAVFile::sceneToXML(const GenTime &startTime, const GenTime &endTime)
+{	
+	static QString str_inpoint="inpoint";
+	static QString str_outpoint="outpoint";
+	static QString str_file="file";		
+	QDomDocument sceneList;
+	
+	QDomElement sceneClip = sceneList.createElement("input");
+	sceneClip.setAttribute(str_file, fileURL().path());
+	sceneClip.setAttribute(str_inpoint, QString::number((startTime - trackStart() + cropStartTime()).seconds()));
+	sceneClip.setAttribute(str_outpoint, QString::number((endTime - trackStart() + cropStartTime()).seconds()));
+
+	sceneList.appendChild(sceneClip);
+	return sceneList;
+}
+
+QValueVector<GenTime> DocClipAVFile::sceneTimes()
+{
+	QValueVector<GenTime> list;
+	list.append(trackStart());
+	list.append(trackEnd());
+	return list;
 }

@@ -26,11 +26,11 @@
 
 class GenTime {
 public:
-  /** Creates a time object, with a time of 0 seconds. */
-  GenTime();
+	/** Creates a time object, with a time of 0 seconds. */
+	GenTime();
 	
 	/** Creates a time object, with time given in seconds. */
-	GenTime(double seconds);
+	explicit GenTime(double seconds);
 	
 	/** Creates a time object, by passing number of frames and how many frames per second */
 	GenTime(double frames, double framesPerSecond);
@@ -63,32 +63,32 @@ public:
 
 	/* Implementation of < operator; Works identically as with basic types. */
 	bool operator<(GenTime op) const {
-		return m_time < op.m_time;
+		return m_time < op.m_time+s_delta;
 	}
 
 	/* Implementation of > operator; Works identically as with basic types. */		
 	bool operator>(GenTime op) const {
-		return m_time > op.m_time;
+		return m_time+s_delta > op.m_time;
 	}
 
 	/* Implementation of >= operator; Works identically as with basic types. */
 	bool operator>=(GenTime op) const {
-		return m_time >= op.m_time;
+		return m_time+s_delta >= op.m_time;
 	}
 
 	/* Implementation of <= operator; Works identically as with basic types. */
 	bool operator<=(GenTime op) const {
-		return m_time <= op.m_time;
+		return m_time <= op.m_time+s_delta;
 	}
 
 	/* Implementation of == operator; Works identically as with basic types. */
 	bool operator==(GenTime op) const {
-		return m_time == op.m_time;
+		return fabs(m_time - op.m_time) < s_delta;
 	}
 
 	/* Implementation of != operator; Works identically as with basic types. */
 	bool operator!=(GenTime op) const {
-		return m_time != op.m_time;
+		return fabs(m_time != op.m_time) >= s_delta;
 	}
 
   /* Rounds the GenTIme's value to the nearest frame */
@@ -101,6 +101,9 @@ public:
 private: // Private attributes
   /** Holds the time for this object. */
   double m_time;
+  
+  /** A delta value that is used to get around floating point rounding issues. */
+  static double s_delta;
 };
 
 #endif

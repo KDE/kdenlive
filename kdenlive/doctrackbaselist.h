@@ -36,7 +36,7 @@ public:
   /** Returns an XML representation of this DocTrackBase list. */
   QDomDocument toXML();
   /** Generates the track list, based upon the XML list provided in elem. */
-  void generateFromXML(KdenliveDoc *doc, QDomElement elem);
+  void generateFromXML(KdenliveDoc *doc, const QDomElement &elem);
 };
 
 typedef QPtrListIterator<DocTrackBase> DocTrackBaseListIterator;

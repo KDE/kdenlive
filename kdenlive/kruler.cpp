@@ -39,7 +39,7 @@ public:
 	~KRulerPrivateSliderDiamond() {
 	}
 
-  void drawHorizontalSlider(QPainter &painter, const int x, const int height) {
+  void drawHorizontalSlider(QPainter &painter, int x, int height) {
 		QPointArray points(4);
 
 		points.setPoint(0, x - (height/8) - 1, height/2);
@@ -49,7 +49,7 @@ public:
 		painter.drawPolygon(points);  	
   }
     
-  bool underMouse(const int x, const int y, const int midx, const int height) const {
+  bool underMouse(int x, int y, int midx, int height) const {
 		if(x < midx - (height/8)-1) return false;
 		if(x > midx + (height/8)+1) return false;
 		return true;  
@@ -72,7 +72,7 @@ public:
 	~KRulerPrivateSliderTopMark() {
 	}
 
-  void drawHorizontalSlider(QPainter &painter, const int x, const int height) {
+  void drawHorizontalSlider(QPainter &painter, int x, int height) {
 		QPointArray points(3);
 
 		points.setPoint(0, x - (height/4) - 1, 0);
@@ -81,7 +81,7 @@ public:
 		painter.drawPolygon(points);		
   }
 
-  bool underMouse(const int x, const int y, const int midx, const int height) const { 
+  bool underMouse(int x, int y, int midx, int height) const { 
 		if(x < midx - (height/4)-1) return false;
 		if(x > midx + (height/4)+1) return false;
     if(y > height/2) return false;
@@ -105,7 +105,7 @@ public:
 	~KRulerPrivateSliderBottomMark() {
 	}
 
-  void drawHorizontalSlider(QPainter &painter, const int x, const int height) {
+  void drawHorizontalSlider(QPainter &painter, int x, int height) {
 		QPointArray points(3);
 
 		points.setPoint(0, x, height/2);
@@ -114,7 +114,7 @@ public:
 		painter.drawPolygon(points);			
   }
 
-  bool underMouse(const int x, const int y, const int midx, const int height) const {
+  bool underMouse(int x, int y, int midx, int height) const {
 		if(x < midx - (height/4)-1) return false;
 		if(x > midx + (height/4)+1) return false;
     if(y < height / 2) return false;
@@ -138,7 +138,7 @@ public:
 	~KRulerPrivateSliderEndMark() {
 	}
 
-  void drawHorizontalSlider(QPainter &painter, const int x, const int height) {
+  void drawHorizontalSlider(QPainter &painter, int x, int height) {
 		QPointArray points(3);
 
 		points.setPoint(0, x, height);
@@ -147,7 +147,7 @@ public:
 		painter.drawPolygon(points);			
   }
 
-  bool underMouse(const int x, const int y, const int midx, const int height) const {
+  bool underMouse(int x, int y, int midx, int height) const {
 		if(x < midx) return false;
 		if(x > midx + (height/4) + 1) return false;
     if(y < height/2) return false;
@@ -171,7 +171,7 @@ public:
 	~KRulerPrivateSliderStartMark() {
 	}
 
-	void drawHorizontalSlider(QPainter &painter, const int x, const int height) {
+	void drawHorizontalSlider(QPainter &painter, int x, int height) {
 		QPointArray points(3);
 
 		points.setPoint(0, x - (height/4) - 1, (height*3)/4);
@@ -180,7 +180,7 @@ public:
 		painter.drawPolygon(points);		
 	}
 
-  bool underMouse(const int x, const int y, const int midx, const int height) const {
+  bool underMouse(int x, int y, int midx, int height) const {
 		if(x < midx - (height/4) - 1) return false;
 		if(x > midx) return false;
     if(y < height/2) return false;
@@ -206,7 +206,7 @@ public:
 		m_status = QPalette::Inactive;
 	}
 	
-	KRulerPrivateSlider(int id, const KRuler::KRulerSliderType type, const int value, const QPalette::ColorGroup status) {
+	KRulerPrivateSlider(int id, const KRuler::KRulerSliderType type, int value, const QPalette::ColorGroup status) {
 		m_id = id;
 		m_sliderType = 0;		
 		setType(type);
@@ -259,7 +259,7 @@ public:
 		m_sliderType = type;
 	}
 
-	bool setValue(const int value) {
+	bool setValue(int value) {
 		if(m_value != value) {
 			m_value = value;
 			return true;
@@ -275,11 +275,11 @@ public:
 		return m_status;
 	}
 
-	bool underMouse(const int x, const int y, const int midx, const int height) const {
+	bool underMouse(int x, int y, int midx, int height) const {
 		return m_sliderType->underMouse(x, y, midx, height);
 	}
 
-	void drawSlider(KRuler *ruler, QPainter &painter, const int x, const int height) {
+	void drawSlider(KRuler *ruler, QPainter &painter, int x, int height) {
 		painter.setPen(ruler->palette().color(status(), QColorGroup::Foreground));
 		painter.setBrush(ruler->palette().color(status(), QColorGroup::Button));
 
@@ -333,9 +333,12 @@ KRuler::KRuler(int min, int max, double scale, KRulerModel *model, QWidget *pare
 						QWidget(parent, name),
 						m_sizeHint(500, 32),
 						m_backBuffer(500, 32),
-						d(new KRulerPrivate())
+						m_minValue(min),
+						m_maxValue(max),
+						d(new KRulerPrivate()),
+						m_rulerModel(0),
+						m_leftMostPixel(0)
 {
-	m_rulerModel = 0;
 	setRulerModel(model);
 	
 	setValueScale(scale);
@@ -358,9 +361,12 @@ KRuler::KRuler(KRulerModel *model, QWidget *parent, const char *name ) :
 						QWidget(parent,name),
 						m_sizeHint(500, 32),
 						m_backBuffer(500, 32),
-						d(new KRulerPrivate())
+						m_minValue(0),
+						m_maxValue(100),
+						d(new KRulerPrivate()),
+						m_rulerModel(0),
+						m_leftMostPixel(0)
 {
-	m_rulerModel=0;
 	setRulerModel(model);
 	
 	setValueScale(1);
@@ -383,9 +389,12 @@ KRuler::KRuler(QWidget *parent, const char *name ) :
 						QWidget(parent,name),
 						m_sizeHint(500, 32),
 						m_backBuffer(500, 32),
-						d(new KRulerPrivate())
+						m_minValue(0),
+						m_maxValue(0),
+						d(new KRulerPrivate()),
+						m_rulerModel(0),
+						m_leftMostPixel(0)
 {	
-	m_rulerModel = 0;
 	setRulerModel(0);
 
 	setValueScale(1);
@@ -428,13 +437,13 @@ void KRuler::paintEvent(QPaintEvent *event) {
 										event->rect().width(), event->rect().height());
 }
 
-inline void KRuler::drawSmallTick(QPainter &painter, const int pixel)
+inline void KRuler::drawSmallTick(QPainter &painter, int pixel)
 {
 	painter.drawLine(pixel, 0, pixel, 4);
 	painter.drawLine(pixel, 28, pixel, 32);
 }
 
-inline void KRuler::drawBigTick(QPainter &painter, const int pixel)
+inline void KRuler::drawBigTick(QPainter &painter, int pixel)
 {
 	painter.drawLine(pixel, 0, pixel, 8);
 	painter.drawLine(pixel, 24, pixel, 32);
@@ -502,7 +511,7 @@ double KRuler::mapLocalToValue(double x) const
 	return (x + m_leftMostPixel) / m_xValueSize;
 }
 
-int KRuler::addSlider(const KRulerSliderType type, const int value)
+int KRuler::addSlider(KRulerSliderType type, int value)
 {
   KRulerPrivateSlider s(d->m_id, type, value, QPalette::Inactive);
   d->m_sliders.append(s);
@@ -510,7 +519,7 @@ int KRuler::addSlider(const KRulerSliderType type, const int value)
   return d->m_id++;	
 }
 
-void KRuler::deleteSlider(const int id) {
+void KRuler::deleteSlider(int id) {
 	QValueList<KRulerPrivateSlider>::Iterator it;
 	
 	for(it = d->m_sliders.begin(); it != d->m_sliders.end(); it++) {
@@ -523,7 +532,7 @@ void KRuler::deleteSlider(const int id) {
 	kdWarning() << "KRuler::deleteSlider(id) : id " << id << " does not exist, no deletion occured!" << endl;
 }
 
-void KRuler::setSliderValue(const int id, const int value)
+void KRuler::setSliderValue(int id, int value)
 {
 	int actValue = (value <minValue()) ? minValue() : value;
 	actValue = (actValue > maxValue()) ? maxValue() : actValue;
@@ -590,21 +599,21 @@ int KRuler::activeSliderID()
 	return d->m_activeID;
 }
 
-void KRuler::setMinValue(const int value)
+void KRuler::setMinValue(int value)
 {
 	m_minValue = value;
-  setSlidersToRange();
+	setSlidersToRange();
 }
 
-void KRuler::setMaxValue(const int value)
+void KRuler::setMaxValue(int value)
 {
 	m_maxValue = (value > m_minValue) ? value : m_minValue + 1;
-  setSlidersToRange();  
+	setSlidersToRange();  
 }
 
-void KRuler::setRange(const int min, const int max)
+void KRuler::setRange(int min, int max)
 {
-	int oldvalue;
+	int oldvalue = 0;
 	
 	if(min != minValue()) {
 		oldvalue = minValue();
@@ -616,7 +625,7 @@ void KRuler::setRange(const int min, const int max)
 		setMaxValue(max);
 		invalidateBackBuffer((int)mapValueToLocal(oldvalue), (int)mapValueToLocal(max));		
 	}
-  setSlidersToRange();  
+	setSlidersToRange();  
 }
 
 int KRuler::minValue() const

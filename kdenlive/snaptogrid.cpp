@@ -21,6 +21,11 @@
 
 SnapToGrid::SnapToGrid(KdenliveDoc *doc) :
 		m_document(doc),
+		m_snapToFrame(true),
+		m_snapToClipStart(true),
+		m_snapToClipEnd(true),
+		m_includeSelectedClips(true),
+		m_snapToSeekTime(true),
 		m_isDirty(true)
 {
 	m_internalSnapTracker = m_internalSnapList.end();

@@ -81,17 +81,17 @@ void KMMEditPanel::setClipLength(int frames)
 /** A slider on the ruler has changed value */
 void KMMEditPanel::rulerValueChanged(int ID, int value)
 {
-  switch(ID) {
-    case 0 :
-  		emit seekPositionChanged(GenTime(value, m_document->framesPerSecond()));
-      break;
-    case 1 :
-      emit inpointPositionChanged(GenTime(value, m_document->framesPerSecond()));
-      break;
-    case 2 :
-      emit outpointPositionChanged(GenTime(value, m_document->framesPerSecond()));
-      break;
-  }
+	switch(ID) {
+	case 0 :
+		emit seekPositionChanged(GenTime(value, m_document->framesPerSecond()));
+		break;
+	case 1 :
+		emit inpointPositionChanged(GenTime(value, m_document->framesPerSecond()));
+		break;
+	case 2 :
+		emit outpointPositionChanged(GenTime(value, m_document->framesPerSecond()));
+		break;
+	}
 }
 
 /** Seeks to the beginning of the ruler. */
@@ -148,4 +148,24 @@ void KMMEditPanel::setInpoint()
 void KMMEditPanel::setOutpoint()
 {
   m_ruler->setSliderValue(2, m_ruler->getSliderValue(0));  
+}
+
+void KMMEditPanel::setInpoint(const GenTime &inpoint)
+{
+  m_ruler->setSliderValue(1, (int)inpoint.frames(m_document->framesPerSecond()));
+}
+
+void KMMEditPanel::setOutpoint(const GenTime &outpoint)
+{
+  m_ruler->setSliderValue(2, (int)outpoint.frames(m_document->framesPerSecond()));
+}
+
+GenTime KMMEditPanel::inpoint() const
+{
+	return GenTime(m_ruler->getSliderValue(1), m_document->framesPerSecond());
+}
+
+GenTime KMMEditPanel::outpoint() const
+{
+	return GenTime(m_ruler->getSliderValue(2), m_document->framesPerSecond());
 }

@@ -33,8 +33,12 @@ class KMMEditPanel : public KMMEditPanel_UI  {
 public: 
 	KMMEditPanel(KdenliveDoc *document, QWidget* parent = 0, const char* name = 0, WFlags fl = 0);
 	~KMMEditPanel();
-  /** Sets the length of the clip that we are viewing. */
-  void setClipLength(int frames);
+	/** Sets the length of the clip that we are viewing. */
+	void setClipLength(int frames);
+	/** Returns the inpoint time for the current clip. */
+	GenTime inpoint() const;
+	/** Returns the outpoint time for the current clip. */
+	GenTime outpoint() const;
 private slots: // Private slots
   /** A slider on the ruler has changed value */
   void rulerValueChanged(int ID, int value);
@@ -73,6 +77,10 @@ public slots: // Public slots
   void setOutpoint();
   /** Sets the inpoint position to the current seek position */
   void setInpoint();
+  /** Sets the outpoint position to the current seek position */
+  void setOutpoint(const GenTime &outpoint);
+  /** Sets the inpoint position to the current seek position */
+  void setInpoint(const GenTime &inpoint);
 };
 
 #endif

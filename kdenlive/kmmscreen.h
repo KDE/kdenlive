@@ -43,10 +43,16 @@ public:
 
 	/** Returns the current seek position */
 	const GenTime &seekPosition() const;
+	void setClipLength(int frames);
+protected:
+	void mousePressEvent(QMouseEvent *e);
+	void wheelEvent(QWheelEvent *e);
+	void mouseMoveEvent ( QMouseEvent * e );
 private: // Private attributes
 	KRender *m_render;
-  KdenliveApp *m_app;
-  QXEmbed *m_embed;
+	KdenliveApp *m_app;
+	QXEmbed *m_embed;
+	GenTime m_clipLength;
 private slots: // Private slots
   /** The renderer is ready, so we open
 a video window, etc. here. */
@@ -71,6 +77,10 @@ signals: // Signals
 	void seekPositionChanged(const GenTime &);
 	/** Emitted when the play speed changes */
 	void playSpeedChanged(double);
+	/** Emitted when the mouse is clicked over the screen. */
+	void mouseClicked();
+	/** Emitted when a drag has started to occur over the screen. */
+	void mouseDragged();
 };
 
 #endif

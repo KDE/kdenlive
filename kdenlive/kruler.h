@@ -67,10 +67,10 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
   /** Adds a new slider to the ruler. The style in which the slider is drawn is determined by type,
    and the slider is initially set to value. The value returned is the id that should be used to move
    this slider. */
-  int addSlider(const KRulerSliderType type, const int value);
+  int addSlider(const KRulerSliderType type, int value);
   /** Deletes the slider with the given id. If no such slider exists, a warning will be issued for
    debugging purposes. */
-  void deleteSlider(const int id);
+  void deleteSlider(int id);
   /** Get the value of the slider with the given id. */
   int getSliderValue(int id);
   /** Returns the id of the currently activated slider, or -1 if there isn't one. */
@@ -93,7 +93,7 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
   void invalidateBackBuffer(int start, int end);
 public slots: // public slots
   /** Sets the slider with the given id to the given value. The display will be updated.  */
-  void setSliderValue(const int id, const int value);
+  void setSliderValue(int id, int value);
 
 signals: // Signals
   /** This signal is emitted when the ruler is resized. */
@@ -119,21 +119,21 @@ protected slots: // Protected slots
 
 private: // private variables
 	QSize m_sizeHint;
-  /** This is the back buffer image, to which the ruler is drawn before being displayed on
-   screen. This helps to optimise drawing, and reduces flicker. */
-  QPixmap m_backBuffer;	
-  /** how many value increments should be between each displayed value.*/
+	/** This is the back buffer image, to which the ruler is drawn before being displayed on
+	screen. This helps to optimise drawing, and reduces flicker. */
+	QPixmap m_backBuffer;	
+	/** how many value increments should be between each displayed value.*/
 	int m_textEvery;
-  /** how many value increments should be between each big tick.*/
+	/** how many value increments should be between each big tick.*/
 	int m_smallTickEvery;
-  /** how many value increments should be between each small tick.*/
+	/** how many value increments should be between each small tick.*/
 	int m_bigTickEvery;
-  /** Size of each value on the screen. Measured in pixels.*/
+	/** Size of each value on the screen. Measured in pixels.*/
 	double m_xValueSize;
-  /** the leftmost value that the timeline should draw.*/
+	/** the leftmost value that the timeline should draw.*/
 	int m_leftMostPixel;
-  /** The model used by this ruler. */
-  KRulerModel *m_rulerModel;
+	/** The model used by this ruler. */
+	KRulerModel *m_rulerModel;
 	/** D pointer for private variables */
 	KRulerPrivate *d;
   /** The minimum value range for this ruler */
@@ -153,8 +153,8 @@ private: // private methods
   does not include disabled sliders*/
   void activateSlider(int id);
 
-	inline void drawSmallTick(QPainter &painter, const int pixel);
-	inline void drawBigTick(QPainter &painter, const int pixel);
+	inline void drawSmallTick(QPainter &painter, int pixel);
+	inline void drawBigTick(QPainter &painter, int pixel);
   /** Checks that all sliders are within the ruler's current range, and if not moves them to the beginning or end of the range as appropriate. */
   void setSlidersToRange();
 protected: // Protected methods
@@ -168,11 +168,11 @@ protected: // Protected methods
   /** Handles window resize events. */
   void resizeEvent(QResizeEvent *event);  
   /** Sets the minimum value allowed by the ruler. If a slider is below this value at any point, it will be incremented so that it is at this value. If the part of the ruler which displays values less than this value is visible, it will be displayed in a different color to show that it is out of range. */
-  void setMinValue(const int value);
+  void setMinValue(int value);
   /** Sets the range of values used in the ruler. Sliders will always have a value between these two ranges, and any visible area of the ruler outside of this range will be shown in a different color to respect this. */
-  void setRange(const int min, const int max);
+  void setRange(int min, int max);
   /** Sets the maximum value for this ruler. If a slider is ever set beyond this value, it will be reset to this value. If part of the ruler is visible which extends beyond this value, it will be drawn if a different colour to show that it is outside of the valid range of values. */
-  void setMaxValue(const int value);
+  void setMaxValue(int value);
 };
 
 #endif

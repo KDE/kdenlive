@@ -34,6 +34,7 @@ class KdenliveDoc;
   */
 
 class DocClipAVFile : public DocClipBase {
+	Q_OBJECT
 public:
 	DocClipAVFile(KdenliveDoc *doc, const QString &name, const KURL &url);
   DocClipAVFile(KdenliveDoc *doc, AVFile *avFile);
@@ -46,12 +47,19 @@ public:
 	DocClipBase::CLIPTYPE clipType();
 
 	QDomDocument toXML();
-  /** Returns the url of the AVFile this clip contains */
-  KURL fileURL();
-  /** Creates a clip from the passed QDomElement. This only pertains to those details specific to DocClipAVFile.*/
-  static DocClipAVFile * createClip(KdenliveDoc *doc, const QDomElement element);
-  /** Returns true if the clip duration is known, false otherwise. */
-  bool durationKnown();
+	/** Returns the url of the AVFile this clip contains */
+	KURL fileURL();
+	/** Creates a clip from the passed QDomElement. This only pertains to those details specific to DocClipAVFile.*/
+	static DocClipAVFile * createClip(KdenliveDoc *doc, const QDomElement element);
+	/** Returns true if the clip duration is known, false otherwise. */
+	virtual bool durationKnown();
+	virtual int framesPerSecond() const;
+	/** Returns a scene list generated from this clip. */
+	virtual QDomDocument generateSceneList();
+	// Returns a list of times that this clip must break upon.
+	virtual QValueVector<GenTime> sceneTimes();
+	// Returns an XML document that describes part of the current scene.
+	virtual QDomDocument sceneToXML(const GenTime &startTime, const GenTime &endTime);
 private:	
 	/** A play object factory, used for calculating information, and previewing files */
 	/** Determines whether this file contains audio, video or both. */

@@ -17,6 +17,8 @@
 
 #include "gentime.h"
 
+double GenTime::s_delta = 0.00001;
+
 /** Creates a time object, with a time of 0 seconds. */
 GenTime::GenTime()
 {

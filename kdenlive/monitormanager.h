@@ -19,15 +19,19 @@
 
 #include "kmmmonitor.h"
 
+#include "qobject.h"
+
 /**
 Manages the creation and life of a GUI monitor. Importantly, it makes sure that only one monitor is active at once, and keeps track of which monitor this is.
 
 @author Jason Wood
 */
-class MonitorManager{
+class MonitorManager : public QObject
+{
+   Q_OBJECT
 public:
 	MonitorManager(KdenliveApp *app);
-	~MonitorManager();
+	virtual ~MonitorManager();
 
 	/** Creates a new monitor and returns it. */
 	KMMMonitor *createMonitor(KdenliveDoc *document, QWidget *parent, const char *name);
@@ -50,6 +54,8 @@ private:
 
 	/** The currently active monitor */
 	KMMMonitor *m_active;
+public slots:
+	void slotMonitorClicked(KMMMonitor *monitor);
 };
 
 #endif

@@ -279,7 +279,7 @@ void DocTrackBase::resizeClipTrackStart(DocClipBase *clip, GenTime newStart)
 
 	newStart = newStart - clip->trackStart();
 
-	if(clip->cropStartTime() + newStart < 0) {
+	if(clip->cropStartTime() + newStart < GenTime()) {
 		newStart = GenTime() - clip->cropStartTime();
 	}
 
@@ -287,7 +287,7 @@ void DocTrackBase::resizeClipTrackStart(DocClipBase *clip, GenTime newStart)
 		newStart = clip->cropDuration() - clip->duration();
 	}
 
-	if(clip->cropDuration() - newStart < 0) {
+	if(clip->cropDuration() - newStart < GenTime()) {
 		kdWarning() << "Clip cannot be resized to length < 1 frame, fixing..." << endl;
 		newStart = clip->cropDuration() - GenTime(1, m_doc->framesPerSecond());
 	}

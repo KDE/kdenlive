@@ -35,6 +35,7 @@
 #include "kdenliveview.h"
 
 #include "docclipavfile.h"
+#include "docclipproject.h"
 #include "doctrackvideo.h"
 #include "doctracksound.h"
 #include "doctrackclipiterator.h"
@@ -43,45 +44,46 @@
 
 QPtrList<KdenliveView> *KdenliveDoc::pViewList = 0L;
 
-KdenliveDoc::KdenliveDoc(KdenliveApp *app, QWidget *parent, const char *name) : QObject(parent, name)
+KdenliveDoc::KdenliveDoc(KdenliveApp *app, QWidget *parent, const char *name) : 
+				QObject(parent, name),
+				m_projectClip(new DocClipProject(this)),
+				m_modified(false)
 {
-  if(!pViewList)
-  {
-    pViewList = new QPtrList<KdenliveView>();
-  }
+	if(!pViewList)
+	{
+		pViewList = new QPtrList<KdenliveView>();
+	}
 
-  m_framesPerSecond = 25; // Standard PAL.
+	m_fileList.setAutoDelete(true);
 
-  m_fileList.setAutoDelete(true);
-  m_tracks.setAutoDelete(true);
+	pViewList->setAutoDelete(true);
 
-  pViewList->setAutoDelete(true);
-
-  m_app = app;
+	m_app = app;
 	m_render = m_app->renderManager()->createRenderer(i18n("Document"));
 
-  connect(m_render, SIGNAL(replyGetFileProperties(QMap<QString, QString>)),
+	connect(m_render, SIGNAL(replyGetFileProperties(QMap<QString, QString>)),
   					 this, SLOT(AVFilePropertiesArrived(QMap<QString, QString>)));
-  connect(m_render, SIGNAL(replyErrorGetFileProperties(const QString &, const QString &)),
+	connect(m_render, SIGNAL(replyErrorGetFileProperties(const QString &, const QString &)),
   					 this, SLOT(AVFilePropertiesError(const QString &, const QString &)));
 
-  connect(this, SIGNAL(avFileListUpdated()), this, SLOT(hasBeenModified()));
-  connect(this, SIGNAL(trackListChanged()), this, SLOT(hasBeenModified()));
+	connect(this, SIGNAL(avFileListUpdated()), this, SLOT(hasBeenModified()));
+	connect(this, SIGNAL(trackListChanged()), this, SLOT(hasBeenModified()));
 
-  m_domSceneList.appendChild(m_domSceneList.createElement("scenelist"));
-  generateSceneList();
+	m_domSceneList.appendChild(m_domSceneList.createElement("scenelist"));
+	generateSceneList();
+	connectProjectClip();
 
-  setModified(false);
+	setModified(false);
 }
 
 KdenliveDoc::~KdenliveDoc()
 {
-//	if(m_render) delete m_render;
+	if(m_projectClip) delete m_projectClip;
 }
 
 void KdenliveDoc::addView(KdenliveView *view)
 {
-  pViewList->append(view);
+	pViewList->append(view);
 }
 
 void KdenliveDoc::removeView(KdenliveView *view)
@@ -184,7 +186,7 @@ bool KdenliveDoc::newDocument()
 	return true;
 }
 
-bool KdenliveDoc::openDocument(const KURL& url, const char *format /*=0*/)
+bool KdenliveDoc::openDocument(const KURL& url, const char *format)
 {
   if(url.isEmpty()) return false;
 
@@ -242,10 +244,13 @@ void KdenliveDoc::deleteContents()
 {
 	kdDebug() << "deleting contents..." << endl;
 
-  m_tracks.clear();
+	delete m_projectClip;
+	m_projectClip = new DocClipProject(this);
+	connectProjectClip();
+
+	m_fileList.clear();
 	emit trackListChanged();
-  m_fileList.clear();
-  emit avFileListUpdated();
+	emit avFileListUpdated();
 }
 
 void KdenliveDoc::slot_InsertAVFile(const KURL &file)
@@ -276,47 +281,29 @@ const AVFileList &KdenliveDoc::avFileList()
 /** Returns the number of frames per second. */
 int KdenliveDoc::framesPerSecond() const
 {
-	return m_framesPerSecond;
+	if(m_projectClip) {
+		return m_projectClip->framesPerSecond();
+	} else {
+		kdWarning() << "KdenliveDoc cannot calculate frames per second - m_projectClip is null!!! Perhaps m_projectClip is in the process of being created? Temporarily returning 25 as a placeholder - needs fixing." << endl;
+		return 25;
+	}
 }
 
 /** Adds an empty video track to the project */
 void KdenliveDoc::addVideoTrack()
 {
-	addTrack(new DocTrackVideo(this));
+	m_projectClip->addTrack(new DocTrackVideo(this));
 }
 
 /** Adds a sound track to the project */
 void KdenliveDoc::addSoundTrack(){
-	addTrack(new DocTrackSound(this));
-}
-
-/** Adds a track to the project */
-void KdenliveDoc::addTrack(DocTrackBase *track){
-	m_tracks.append(track);
-	track->trackIndexChanged(trackIndex(track));
-	connectTrack(track);
-	emit trackListChanged();
+	m_projectClip->addTrack(new DocTrackSound(this));
 }
 
 /** Returns the number of tracks in this project */
 uint KdenliveDoc::numTracks()
 {
-	return m_tracks.count();
-}
-
-/** Returns the first track in the project, and resets the itterator to the first track.
-	* This effectively is the same as QPtrList::first(), but the underyling implementation
-	* may change. */
-DocTrackBase * KdenliveDoc::firstTrack()
-{
-	return m_tracks.first();
-}
-
-/** Itterates through the tracks in the project. This works in the same way
-	* as QPtrList::next(), although the underlying structures may be different. */
-DocTrackBase * KdenliveDoc::nextTrack()
-{
-	return m_tracks.next();
+	return m_projectClip->numTracks();
 }
 
 /** Inserts a list of clips into the document, updating the project accordingly. */
@@ -366,28 +353,25 @@ void KdenliveDoc::slot_insertClips(QDropEvent *event)
 exist within the document, returns 0; */
 DocTrackBase * KdenliveDoc::findTrack(DocClipBase *clip)
 {
-	QPtrListIterator<DocTrackBase> itt(m_tracks);
-
-	for(DocTrackBase *track;(track = itt.current()); ++itt) {
-		if(track->clipExists(clip)) {
-			return track;
-		}
-	}
-	
-	return 0;
+	return m_projectClip->findTrack(clip);
 }
 
 /** Returns the track with the given index, or returns NULL if it does
 not exist. */
 DocTrackBase * KdenliveDoc::track(int track)
 {
-	return m_tracks.at(track);
+	return m_projectClip->track(track);
 }
 
 /** Returns the index value for this track, or -1 on failure.*/
-int KdenliveDoc::trackIndex(DocTrackBase *track)
+int KdenliveDoc::trackIndex(DocTrackBase *track) const
 {
-	return m_tracks.find(track);
+	if(m_projectClip) {
+		return m_projectClip->trackIndex(track);
+	} else {
+		kdError() << "Cannot return track index - m_projectClip is Null!" << endl;
+	}
+	return -1;
 }
 
 /** Sets the modified state of the document, if this has changed, emits modified(state) */
@@ -472,182 +456,22 @@ void KdenliveDoc::AVFilePropertiesError(const QString &path, const QString &errm
 is not possible. */
 bool KdenliveDoc::moveSelectedClips(GenTime startOffset, int trackOffset)
 {
-	// For each track, check and make sure that the clips can be moved to their rightful place. If
-	// one cannot be moved to a particular location, then none of them can be moved.
-  // We check for the closest position the track could possibly be moved to, and move it there instead.
-  
-	int destTrackNum;
-	DocTrackBase *srcTrack, *destTrack;
-	GenTime clipStartTime;
-	GenTime clipEndTime;
-	DocClipBase *srcClip, *destClip;
+	bool result = m_projectClip->moveSelectedClips(startOffset, trackOffset);
 
-  blockTrackSignals(true);
-
-	for(int track=0; track<numTracks(); track++) {
-		srcTrack = m_tracks.at(track);
-		if(!srcTrack->hasSelectedClips()) continue;
-
-		destTrackNum = track + trackOffset;
-
-		if((destTrackNum < 0) || (destTrackNum >= numTracks())) return false;	// This track will be moving it's clips out of the timeline, so fail automatically.
-
-		destTrack = m_tracks.at(destTrackNum);
-
-		QPtrListIterator<DocClipBase> srcClipItt = srcTrack->firstClip(true);
-		QPtrListIterator<DocClipBase> destClipItt = destTrack->firstClip(false);
-
-		destClip = destClipItt.current();
-
-		while( (srcClip = srcClipItt.current()) != 0) {
-			clipStartTime = srcClipItt.current()->trackStart() + startOffset;
-			clipEndTime = clipStartTime + srcClipItt.current()->cropDuration();
-
-			while((destClip) && (destClip->trackStart() + destClip->cropDuration() <= clipStartTime)) {
-				++destClipItt;
-				destClip = destClipItt.current();
-			}
-			if(destClip==0) break;
-
-			if(destClip->trackStart() < clipEndTime) {
-        blockTrackSignals(false);
-        return false;
-      }
-
-			++srcClipItt;
-		}
-	}
-  
-	// we can now move all clips where they need to be.
-
-	// If the offset is negative, handle tracks from forwards, else handle tracks backwards. We
-	// do this so that there are no collisions between selected clips, which would be caught by DocTrackBase
-	// itself.
-
-	int startAtTrack, endAtTrack, direction;
-
-	if(trackOffset < 0) {
-		startAtTrack = 0;
-		endAtTrack = numTracks();
-		direction = 1;
-	} else {
-		startAtTrack = numTracks() - 1;
-		endAtTrack = -1;
-		direction = -1;
-	}
-
-	for(int track=startAtTrack; track!=endAtTrack; track += direction) {
-		srcTrack = m_tracks.at(track);
-		if(!srcTrack->hasSelectedClips()) continue;
-		srcTrack->moveClips(startOffset, true);
-
-		if(trackOffset) {
-			destTrackNum = track + trackOffset;
-			destTrack = m_tracks.at(destTrackNum);
-			destTrack->addClips(srcTrack->removeClips(true), true);
-		}
-	}
-
-  blockTrackSignals(false);
-
-  hasBeenModified();
-
-	return true;
+	if(result) hasBeenModified();
+	return result;
 }
 
 /** Returns a scene list generated from the current document. */
 QDomDocument KdenliveDoc::generateSceneList()
 {
-	static QString str_inpoint="inpoint";
-	static QString str_outpoint="outpoint";
-	static QString str_file="file";		
-	
-	int totalTracks = numTracks();
-
-	while(!m_domSceneList.documentElement().firstChild().isNull()) {
-		m_domSceneList.documentElement().removeChild(m_domSceneList.documentElement().firstChild()).clear();
+	if(m_projectClip) {
+		m_domSceneList = m_projectClip->generateSceneList();
+	} else {
+		kdWarning() << "Cannot generate scene list - m_projectClip is null!" << endl;
 	}
-
-	// Generate the scene list.
-  GenTime curTime, nextTime, clipStart, clipEnd;
-  GenTime invalidTime(-1.0);
-  DocClipBase *curClip;
-  int count;
-
-  QPtrVector<DocTrackClipIterator> itt(totalTracks);
-
-  QValueVector<GenTime> nextScene(totalTracks);
-
-  itt.setAutoDelete(true);
-
-  for(count=0; count<totalTracks; count++) {
-  	itt.insert(count, new DocTrackClipIterator(*(m_tracks.at(count))));
-   	if(itt[count]->current()) {
-	   	nextScene[count] = itt[count]->current()->trackStart();
-    } else {
-	   	nextScene[count] = invalidTime;
-    }
-  }
-
-  do {
-    curTime = nextTime;
-
-    for(count=0; count<totalTracks; count++) {
-    	if(nextScene[count] == invalidTime) continue;
-     	if(nextScene[count] <= curTime) {
-	   		curClip = itt[count]->current();          
-				if(curClip->trackEnd() <= curTime) {
-					++(*itt[count]);
-		   		curClip = itt[count]->current();
-				}
-				if(!curClip) {
-					nextScene[count] = invalidTime;
-					continue;
-				} else {
-					nextScene[count] = curClip->trackStart();
-					if(nextScene[count] <= curTime) nextScene[count] = curClip->trackEnd();
-				}
-			}	
-
-			if((nextTime == curTime) || (nextTime > nextScene[count])) {
-				nextTime = nextScene[count];
-			}
-    }
-
-    if(nextTime!=curTime) {
-	    // generate the next scene.
-	    QDomElement scene = m_domSceneList.createElement("scene");
-	    scene.setAttribute("duration", QString::number((nextTime-curTime).seconds()));
-
-    	QDomElement sceneClip;
-
-      for(count = totalTracks-1; count>=0; count--) {
-      	curClip = itt[count]->current();
-       	if(!curClip) continue;
-        if(curClip->trackStart() >= nextTime) continue;
-        if(curClip->trackEnd() <= curTime) continue;
-
-        sceneClip = m_domSceneList.createElement("input");
-        sceneClip.setAttribute(str_file, curClip->fileURL().path());
-        sceneClip.setAttribute(str_inpoint, QString::number((curTime - curClip->trackStart() + curClip->cropStartTime()).seconds()));
-        sceneClip.setAttribute(str_outpoint, QString::number((nextTime - curClip->trackStart() + curClip->cropStartTime()).seconds()));
-      }
-
-      if(!sceneClip.isNull()) {
-     	scene.appendChild(sceneClip);
-      } else {
-       	sceneClip = m_domSceneList.createElement("stillcolor");
-        sceneClip.setAttribute("yuvcolor", "#000000");
-      	scene.appendChild(sceneClip);
-      }
-
-      m_domSceneList.documentElement().appendChild(scene);
-    } 
-  } while(curTime != nextTime);	
-
-  emit sceneListChanged(m_domSceneList);
+	return m_domSceneList;
   
-  return m_domSceneList;
 }
 
 /** Creates an xml document that describes this kdenliveDoc. */
@@ -659,7 +483,7 @@ QDomDocument KdenliveDoc::toXML()
 	document.appendChild(elem);
 
 	elem.appendChild(document.importNode(m_fileList.toXML().documentElement(), true));
-	elem.appendChild(document.importNode(m_tracks.toXML().documentElement(), true));
+	elem.appendChild(document.importNode(m_projectClip->toXML().documentElement(), true));
 
 	return document;
 }
@@ -691,17 +515,35 @@ void KdenliveDoc::loadFromXML(QDomDocument &doc)
 					kdWarning() << "Second AVFileList discovered, skipping..." << endl;
 				}
 			} else if(e.tagName() == "DocTrackBaseList") {
-				if(!trackListLoaded) {
-					m_tracks.generateFromXML(this, e);
-					DocTrackBaseListIterator itt(m_tracks);
-					while(itt.current() != 0) {
-						connectTrack(itt.current());
-						++itt;
-					}
+				kdWarning() << "Loading old project, when this is saved it will no " <<
+				       		"longer be readable by older versions of the " <<
+						"software." << endl;
 
+				if(m_projectClip) {
+					delete m_projectClip;
+					m_projectClip = 0;
+				}
+				
+				if(!trackListLoaded) {
+					m_projectClip = new DocClipProject(this);
+					connectProjectClip();
+					m_projectClip->generateTracksFromXML(e);
 					trackListLoaded = true;
 				} else {
 					kdWarning() << "Second DocTrackBaseList discovered, skipping... " << endl;
+				}
+			} else if(e.tagName() == "clip") {
+				if(m_projectClip) {
+					delete m_projectClip;
+					m_projectClip = 0;
+				}
+				DocClipBase *clip = DocClipBase::createClip(this, e);
+
+				if(clip->isProjectClip()) {
+					m_projectClip = dynamic_cast<DocClipProject *>(clip);
+				} else {
+					delete clip;
+					kdError() << "Base clip detected, not a project clip. Ignoring..." << endl;
 				}
 			} else {
 				kdWarning() << "Unknown tag " << e.tagName() << ", skipping..." << endl;
@@ -718,15 +560,22 @@ void KdenliveDoc::loadFromXML(QDomDocument &doc)
 /** Called when the document is modifed in some way. */
 void KdenliveDoc::hasBeenModified()
 {
-  generateSceneList();
-  emit documentChanged();
+	kdDebug() << "Document has changed" << endl;
+	if(m_projectClip) {
+		m_projectClip->setTrackEnd(m_projectClip->duration());
+	} else {
+		kdWarning() << "m_projectClip is Null!" << endl;
+	}
+	generateSceneList();
+	emit documentChanged();
+	emit documentChanged(m_projectClip);
 	setModified(true);
 }
 
 /** Renders the current document timeline to the specified url. */
 void KdenliveDoc::renderDocument(const KURL &url)
 {
-  m_render->setSceneList(m_domSceneList);
+	m_render->setSceneList(m_domSceneList);
 	m_render->render(url);
 }
 
@@ -742,20 +591,31 @@ KRender * KdenliveDoc::renderer()
   return m_render;
 }
 
-void KdenliveDoc::blockTrackSignals(bool block)
+void KdenliveDoc::connectProjectClip()
 {
-  QPtrListIterator<DocTrackBase> itt(m_tracks);
-
-  while(itt.current() != 0)
-  {
-    itt.current()->blockSignals(block);
-    ++itt;
-  }
+	connect(m_projectClip, SIGNAL(trackListChanged()), this, SIGNAL(trackListChanged()));
+	connect(m_projectClip, SIGNAL(clipLayoutChanged()), this, SLOT(hasBeenModified()));
+	connect(m_projectClip, SIGNAL(signalClipSelected(DocClipBase *)), this, SIGNAL(signalClipSelected(DocClipBase *)));
 }
 
-void KdenliveDoc::connectTrack(DocTrackBase *track)
+DocTrackBase * KdenliveDoc::nextTrack()
 {
-	connect(track, SIGNAL(clipLayoutChanged()), this, SLOT(hasBeenModified()));
-	connect(track, SIGNAL(signalClipSelected(DocClipBase *)), this, SIGNAL(signalClipSelected(DocClipBase *)));
+	return m_projectClip->nextTrack();
 }
 
+DocTrackBase * KdenliveDoc::firstTrack()
+{
+	return m_projectClip->firstTrack();
+}
+
+GenTime KdenliveDoc::projectDuration() const
+{
+	// for m_projectClip, trackEnd should always be the same as duration. However, 
+	// trackEnd is cached, whilst duration is not...
+	return m_projectClip->trackEnd();
+}
+
+void KdenliveDoc::indirectlyModified()
+{
+	hasBeenModified();
+}

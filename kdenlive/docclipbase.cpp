@@ -26,11 +26,11 @@
 DocClipBase::DocClipBase(KdenliveDoc *doc) :
 	m_trackStart(0.0),
 	m_cropStart(0.0),
-	m_trackEnd(0.0)	
+	m_trackEnd(0.0),
+	m_parentTrack(0),
+	m_trackNum(-1),
+	m_document(doc)
 {
-	m_doc = doc;
-	m_parentTrack=0;
-	m_trackNum = -1;
 }
 
 DocClipBase::~DocClipBase()
@@ -44,9 +44,9 @@ const GenTime &DocClipBase::trackStart() const {
 void DocClipBase::setTrackStart(const GenTime time)
 {
 	m_trackStart = time;
-  if(m_doc->snapToFrame()) {
-    m_trackStart.roundNearestFrame(m_doc->framesPerSecond());
-  }  
+	if(m_document->snapToFrame()) {
+		m_trackStart.roundNearestFrame(m_document->framesPerSecond());
+	}  
 	
 	if(m_parentTrack) {
 		m_parentTrack->clipMoved(this);
@@ -83,9 +83,9 @@ void DocClipBase::setTrackEnd(const GenTime &time)
 {
 	m_trackEnd = time;
   
-  if(m_doc->snapToFrame()) {
-    m_trackEnd.roundNearestFrame(m_doc->framesPerSecond());
-  }
+	if(m_document->snapToFrame()) {
+		m_trackEnd.roundNearestFrame(m_document->framesPerSecond());
+	}
   
 	if(m_parentTrack) {    
 		m_parentTrack->clipMoved(this);
@@ -100,7 +100,7 @@ GenTime DocClipBase::cropDuration()
 QDomDocument DocClipBase::toXML() {
 	QDomDocument doc;
 
-	QDomElement clip = doc.createElement("clip");	
+	QDomElement clip = doc.createElement("clip");
 	clip.setAttribute("name", name());
 		
 	QDomElement position = doc.createElement("position");
@@ -137,6 +137,8 @@ DocClipBase *DocClipBase::createClip(KdenliveDoc *doc, const QDomElement element
 		if(!e.isNull()) {
 			if(e.tagName() == "avfile") {
 				clip = DocClipAVFile::createClip(doc, e);
+			} else if(e.tagName() == "project") {
+				clip = DocClipProject::createClip(doc, e);
 			} else if(e.tagName() == "position") {
 				trackNum = e.attribute("track", "-1").toInt();
 				trackStart = GenTime(e.attribute("trackstart", "0").toDouble());
@@ -181,7 +183,7 @@ int DocClipBase::trackNum()
 
 /** Returns the end of the clip on the track. A convenience function, equivalent
 to trackStart() + cropDuration() */
-GenTime DocClipBase::trackEnd()
+GenTime DocClipBase::trackEnd() const
 {
 	return m_trackEnd;
 }
@@ -198,13 +200,13 @@ void DocClipBase::moveTrackStart(const GenTime &time)
 	m_trackEnd = m_trackEnd + time - m_trackStart;
 	m_trackStart = time;
 
-  if(m_doc->snapToFrame()) {
-      m_trackEnd.roundNearestFrame(m_doc->framesPerSecond());
-      m_trackStart.roundNearestFrame(m_doc->framesPerSecond());
+  if(m_document->snapToFrame()) {
+      m_trackEnd.roundNearestFrame(m_document->framesPerSecond());
+      m_trackStart.roundNearestFrame(m_document->framesPerSecond());
   }
 }
 
 DocClipBase *DocClipBase::clone()
 {
-	return createClip(m_doc, toXML().documentElement());
+	return createClip(m_document, toXML().documentElement());
 }

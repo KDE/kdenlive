@@ -20,13 +20,13 @@
 #include "kdebug.h"
 
 DocTrackBaseList::DocTrackBaseList() :
-									QPtrList<DocTrackBase> ()
+			QPtrList<DocTrackBase> ()
 {
 	setAutoDelete(true);
 }
 
 DocTrackBaseList::DocTrackBaseList(const DocTrackBaseList &list) :
-									QPtrList<DocTrackBase> (list)
+			QPtrList<DocTrackBase> (list)
 {
 	setAutoDelete(true);
 }
@@ -53,7 +53,7 @@ QDomDocument DocTrackBaseList::toXML()
 }
 
 /** Generates the track list, based upon the XML list provided in elem. */
-void DocTrackBaseList::generateFromXML(KdenliveDoc *doc, QDomElement elem)
+void DocTrackBaseList::generateFromXML(KdenliveDoc *doc, const QDomElement &elem)
 {
 	if(elem.tagName() != "DocTrackBaseList") {
 		kdWarning() << "DocTrackBaseList cannot be generated - wrong tag : " << elem.tagName() << endl;

@@ -240,6 +240,7 @@ void KRender::createVideoXWindow(bool show)
 void KRender::seek(GenTime time)
 {
 	sendSeekCommand(time);
+	emit positionChanged(time);
 }
 
 void KRender::getFileProperties(KURL url)
@@ -485,11 +486,13 @@ bool KRender::topLevelStartElement(const QString & localName, const QString & qN
 				}
 			}
 		
-			QMap<QString, QString> map;
-			map["filename"] = atts.value("filename");
-			map["duration"] = atts.value("duration");
-			emit replyGetFileProperties(map);
-			pushIgnore();
+			m_filePropertyMap.clear();
+			m_filePropertyMap["filename"] = atts.value("filename");
+			m_filePropertyMap["duration"] = atts.value("duration");
+			pushStack("reply_getFileProperties",
+						&KRender::reply_getFileProperties_StartElement,
+						&KRender::reply_getFileProperties_EndElement);
+			emit replyGetFileProperties(m_filePropertyMap);
 			return true;
 		} else if(command == "play") {
 			pushIgnore();
@@ -925,15 +928,68 @@ bool KRender::replyError_StartElement(const QString & localName, const QString &
 
 bool KRender::reply_errmsg_EndElement(const QString & localName, const QString & qName)
 {
-  emit error(m_name, m_characterBuffer.simplifyWhiteSpace());
-  return true;
+	emit error(m_name, m_characterBuffer.simplifyWhiteSpace());
+	return true;
 }
 
 
 bool KRender::replyError_GetFileProperties_EndElement(const QString & localName, const QString & qName)
 {
-  emit replyErrorGetFileProperties(m_filePropertiesFileName, m_errorMessage);
-  return true;
+	emit replyErrorGetFileProperties(m_filePropertiesFileName, m_errorMessage);
+	return true;
+}
+
+bool KRender::reply_getFileProperties_StartElement(const QString & localName, const QString &qName,
+					const QXmlAttributes & atts)
+{
+	if(localName == "stream")
+	{
+		pushStack("reply_getFileProperties_stream", 
+				&KRender::reply_getFileProperties_stream_StartElement,
+				0);
+		
+		return true;
+	}
+
+	pushIgnore();
+	return true;
+}
+
+bool KRender::reply_getFileProperties_stream_StartElement(const QString & localName, const QString &qName,
+					const QXmlAttributes & atts)
+{
+	if(localName == "container")
+	{
+		pushStack("reply_getFileProperties_stream_container", 
+				&KRender::reply_getFileProperties_stream_container_StartElement,
+				0);
+		
+		return true;
+	}
+	
+	pushIgnore();
+	return true;
+}
+
+bool KRender::reply_getFileProperties_stream_container_StartElement(const QString & localName, 
+					const QString &qName, const QXmlAttributes & atts)
+{
+	if(localName == "codec")
+	{
+		if(atts.value("type") == "video")
+		{
+			m_filePropertyMap["fps"] = atts.value("fps");
+		}
+	}
+	
+	pushIgnore();
+	return true;
+}
+
+bool KRender::reply_getFileProperties_EndElement(const QString & localName, const QString & qName)
+{
+	emit replyGetFileProperties(m_filePropertyMap);
+	return true;
 }
 
 /** Returns true if the renderer is capable, or is believed to be capable of running and processing commands. It does not necessarily mean

@@ -17,6 +17,7 @@
 
 #include "kmmscreen.h"
 #include <string.h>
+#include <iostream>
 #include <kdebug.h>
 #include <klocale.h>
 #include <qxembed.h>
@@ -30,7 +31,8 @@ KMMScreen::KMMScreen(KdenliveApp *app, QWidget *parent, const char *name ) :
                                     QVBox(parent,name),
                                     m_render(app->renderManager()->createRenderer(name)),
                                     m_app(app),
-                                    m_embed(new QXEmbed(this, name))
+                                    m_embed(new QXEmbed(this, name)),
+				    m_clipLength(0)
 {
 	m_embed->setBackgroundMode(Qt::PaletteDark);
   
@@ -59,7 +61,7 @@ void KMMScreen::embedWindow(WId wid)
 {
 	if(wid != 0) {
 		m_embed->embed(wid);
-	}
+	} 
 }
 
 /** Seeks to the specified time */
@@ -93,4 +95,32 @@ double KMMScreen::playSpeed()
 const GenTime &KMMScreen::seekPosition() const
 {
 	return m_render->seekPosition();
+}
+
+// virtual
+void KMMScreen::mousePressEvent(QMouseEvent *e)
+{
+	emit mouseClicked();
+}
+
+void KMMScreen::mouseMoveEvent ( QMouseEvent * e )
+{
+	if((e->state() & LeftButton) || (e->state() & RightButton) || (e->state() & MidButton))
+	{
+		emit mouseDragged();
+	}
+}
+
+//virtual
+void KMMScreen::wheelEvent(QWheelEvent *e)
+{
+	GenTime newSeek = seekPosition() - GenTime(e->delta()/120, m_app->getDocument()->framesPerSecond());
+	if(newSeek < GenTime()) newSeek = GenTime(0);
+	if(newSeek > m_clipLength) newSeek = m_clipLength;
+	seek(newSeek);
+}
+
+void KMMScreen::setClipLength(int frames)
+{
+	m_clipLength = GenTime(frames, m_app->getDocument()->framesPerSecond());
 }

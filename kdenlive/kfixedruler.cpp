@@ -18,8 +18,9 @@
 #include "kfixedruler.h"
 #include <kdebug.h>
 
-KFixedRuler::KFixedRuler(int startValue, int endValue, int margin, KRulerModel *model, QWidget *parent, const char *name ) :
-												KRuler(model, parent, name)
+KFixedRuler::KFixedRuler(int startValue, int endValue, int margin, 
+			KRulerModel *model, QWidget *parent, const char *name ) :
+								KRuler(model, parent, name)
 {
 	m_margin = margin;
 	setRange(startValue, endValue);
@@ -28,7 +29,7 @@ KFixedRuler::KFixedRuler(int startValue, int endValue, int margin, KRulerModel *
 }
 
 KFixedRuler::KFixedRuler(KRulerModel *model, QWidget *parent, const char *name) :
-												KRuler(model, parent, name)
+								KRuler(model, parent, name)
 {
 	m_margin = 20;
 	setRange(0, 60);
@@ -36,7 +37,7 @@ KFixedRuler::KFixedRuler(KRulerModel *model, QWidget *parent, const char *name) 
 }
 
 KFixedRuler::KFixedRuler(QWidget *parent, const char *name) :
-												KRuler(parent, name)
+								KRuler(parent, name)
 {
 	m_margin = 20;
 	setRange(0, 60);

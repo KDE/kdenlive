@@ -44,9 +44,9 @@ QDomDocument AVFileList::toXML() const
 	while(itt.current()) {
 		QDomElement elem = doc.createElement("AVFile");
 		elem.setAttribute("url", itt.current()->fileURL().path());
-    if(itt.current()->durationKnown()) {
-      elem.setAttribute("duration", QString(current()->duration().seconds()));
-    }      
+		if(itt.current()->durationKnown()) {
+			elem.setAttribute("duration", QString::number(itt.current()->duration().seconds()));
+		}      
 		doc.documentElement().appendChild(elem);
 		++itt;
 	}

@@ -85,14 +85,14 @@ KMMTimeLine::KMMTimeLine(KdenliveApp *app, QWidget *rulerToolWidget, QWidget *sc
 		
 	connect(m_scrollBar, SIGNAL(valueChanged(int)), m_ruler, SLOT(setStartPixel(int)));
 	connect(m_scrollBar, SIGNAL(valueChanged(int)), m_ruler, SLOT(repaint()));	
-  connect(m_document, SIGNAL(trackListChanged()), this, SLOT(syncWithDocument()));
-  connect(m_document, SIGNAL(documentChanged()), this, SLOT(calculateProjectSize()));
-  connect(m_ruler, SIGNAL(scaleChanged(double)), this, SLOT(calculateProjectSize()));  
-  connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), m_trackViewArea, SLOT(invalidateBackBuffer()));
-  connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), m_ruler, SLOT(repaint()));
-  connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), this, SLOT(slotSliderMoved(int, int)));
+	connect(m_document, SIGNAL(trackListChanged()), this, SLOT(syncWithDocument()));
+	connect(m_document, SIGNAL(documentChanged()), this, SLOT(calculateProjectSize()));
+	connect(m_ruler, SIGNAL(scaleChanged(double)), this, SLOT(calculateProjectSize()));  
+	connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), m_trackViewArea, SLOT(invalidateBackBuffer()));
+	connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), m_ruler, SLOT(repaint()));
+	connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), this, SLOT(slotSliderMoved(int, int)));
 
-  setAcceptDrops(true);
+	setAcceptDrops(true);
 
 	syncWithDocument();
 
@@ -204,6 +204,7 @@ void KMMTimeLine::polish()
 	resizeTracks();
 }
 
+
 void KMMTimeLine::dragEnterEvent ( QDragEnterEvent *event )
 {
 	if(m_startedClipMove) {
@@ -211,15 +212,15 @@ void KMMTimeLine::dragEnterEvent ( QDragEnterEvent *event )
 	} else 	if(ClipDrag::canDecode(event)) {
 		m_selection = ClipDrag::decode(m_document, event);
 
-    	if(m_selection.masterClip()==0) m_selection.setMasterClip(m_selection.first());
-    	m_masterClip = m_selection.masterClip();
-		m_clipOffset = 0;
+	    	if(m_selection.masterClip()==0) m_selection.setMasterClip(m_selection.first());
+
+		m_masterClip = m_selection.masterClip();
+		m_clipOffset = GenTime();
 
 		if(m_selection.isEmpty()) {
 			event->accept(false);
 		} else {
 			setupSnapToGrid();
-
 			event->accept(true);
 		}
 	} else {
@@ -256,17 +257,17 @@ void KMMTimeLine::dragLeaveEvent ( QDragLeaveEvent *event )
 {
 	m_addingClips = false;
 
-  if(m_selection.isEmpty()) {
-    m_selection.setAutoDelete(true);
-  	m_selection.clear();
-    m_selection.setAutoDelete(false);
-  }
+	if(!m_selection.isEmpty()) {
+		m_selection.setAutoDelete(true);
+		m_selection.clear();
+		m_selection.setAutoDelete(false);
+	}
   
-  if(m_moveClipsCommand) {
-  	// In a drag Leave Event, any clips in the selection are removed from the timeline.			     
-  	delete m_moveClipsCommand;
-    m_moveClipsCommand = 0;
-  }
+	if(m_moveClipsCommand) {
+		// In a drag Leave Event, any clips in the selection are removed from the timeline.			     
+		delete m_moveClipsCommand;
+		m_moveClipsCommand = 0;
+	}
 
 	if(m_deleteClipsCommand) {
 		m_app->addCommand(m_deleteClipsCommand, false);
@@ -596,20 +597,14 @@ DocClipBaseList KMMTimeLine::listSelected()
 void KMMTimeLine::calculateProjectSize()
 {
 	double rulerScale = m_ruler->valueScale();
-	GenTime length;
+	GenTime length = m_document->projectDuration();
 
-	QPtrListIterator<KMMTrackPanel> itt(m_trackList);
+	int frames = length.frames(m_document->framesPerSecond());
 
-	while(itt.current()) {
-		GenTime test = itt.current()->docTrack()->trackLength();
-		length = (test > length) ? test : length;
-		++itt;
-	}
+	m_scrollBar->setRange(0, (frames * rulerScale) + m_scrollBar->width());
+	m_ruler->setRange(0, frames);
 
-	m_scrollBar->setRange(0, (int)(length.frames(m_document->framesPerSecond()) * rulerScale) + m_scrollBar->width());
-	m_ruler->setRange(0, (int)length.frames(m_document->framesPerSecond()));
-
-	emit projectLengthChanged((int)length.frames(m_document->framesPerSecond()));
+	emit projectLengthChanged(frames);
 }
 
 GenTime KMMTimeLine::seekPosition()

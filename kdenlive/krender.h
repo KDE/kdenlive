@@ -97,6 +97,10 @@ replyCreateVideoXWindow() once the renderer has replied. */
   bool replyError_StartElement(const QString & localName, const QString & qName, const QXmlAttributes & atts);
   bool reply_errmsg_EndElement(const QString & localName, const QString & qName);
   bool replyError_GetFileProperties_EndElement(const QString & localName, const QString & qName);
+  bool reply_getFileProperties_StartElement(const QString & localName, const QString &qName, const QXmlAttributes & atts);
+bool reply_getFileProperties_stream_StartElement(const QString & localName, const QString &qName, const QXmlAttributes & atts);
+bool reply_getFileProperties_stream_container_StartElement(const QString & localName, const QString &qName, const QXmlAttributes & atts);
+  bool reply_getFileProperties_EndElement(const QString & localName, const QString & qName);
 
   /** Seeks the renderer clip to the given time. */
   void seek(GenTime time);
@@ -205,6 +209,10 @@ private: // Private attributes
 
   /**The current seek position */
   GenTime m_seekPosition;
+
+  /** A bit hackish, well, a lot haackish really. File properties exist across a number of xml tags,
+   * so we have to collect them together before emmitting them. We do that with this value here. */
+  QMap<QString, QString> m_filePropertyMap;
 private slots: // Private slots
   /** Catches errors from the socket. */
   void error(int error);

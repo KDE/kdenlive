@@ -62,6 +62,8 @@ Returns the number of references to this AVFile. */
   GenTime duration() const;
   /** Returns true if this AVFile has a known duration, false if it is, as of yet, undetermined. */
   bool durationKnown();
+
+  int framesPerSecond() const { return m_framesPerSecond; }
 private: // Private attributes
   /** Holds the url for this AV file. */
   KURL m_url;;
@@ -75,6 +77,8 @@ private: // Private attributes
   bool m_durationKnown;
   /** A list of all DocClipAVFiles which make use of this AVFile. This is used so that we can clean up if we decide to delete an AVFile. */
   int m_refCount;
+  /** The number of frames per second that this AVFile runs at. */
+  int m_framesPerSecond;
 };
 
 #endif

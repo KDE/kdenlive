@@ -125,7 +125,7 @@ DocClipBaseList ClipDrag::decode(KdenliveDoc *doc, const QMimeSource *e)
    		node = node.nextSibling();
 		}
 	} else {
-   	KURL::List list;
+	   	KURL::List list;
 		KURL::List::Iterator it;
 		KURLDrag::decode(e, list);
 

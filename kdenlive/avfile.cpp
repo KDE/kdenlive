@@ -22,7 +22,8 @@
 #include "avfile.h"
 
 AVFile::AVFile(const QString &name, const KURL &url) :
-						m_duration(0.0)
+			m_duration(0.0),
+			m_framesPerSecond(0)
 {
 	if(name.isNull()) {
    	setName(url.filename());
@@ -53,17 +54,26 @@ void AVFile::calculateFileProperties(const QMap<QString, QString> &attributes)
 
 		if(attributes.contains("duration")) {
 			m_duration = GenTime(attributes["duration"].toDouble());
-      m_durationKnown = true;      
+			m_durationKnown = true;      
 		} else {
 			// No duration known, use an arbitrary one until it is.
-  		m_duration = GenTime(0.0);
-      m_durationKnown = false;
+	  		m_duration = GenTime(0.0);
+			m_durationKnown = false;
+		}
+
+		if(attributes.contains("fps"))
+		{
+			m_framesPerSecond = attributes["fps"].toInt();
+		} else {
+			// No frame rate known.
+			m_framesPerSecond = 0;
 		}
 
 	} else {
 		/** If the file is not local, then no file properties are currently returned */
 		m_duration = GenTime(0.0);
-    m_durationKnown = false;
+		m_durationKnown = false;
+		m_framesPerSecond = 0;
 		m_filesize = -1;
 	}
 }
