@@ -31,11 +31,19 @@ This method calls canAddClip() to determine whether or not the clip can be added
 particular track. */
 bool DocTrackBase::addClip(DocClipBase *clip)
 {
-}
-
-/** Returns true if the specified clip can be added to this track, false otherwise.
-
-This method needs to be implemented by inheriting classes to define
-which types of clip they support. */
-bool DocTrackBase::canAddClip(DocClipBase *clip){
+	if(canAddClip(clip)) {		
+		int index = 0;
+		DocClipBase *testclip = m_clips.first();
+		while(testclip!=0) {
+			if(testclip->trackStart() < clip->trackStart()) break;
+			
+			testclip = m_clips.next();
+			index++;
+		}
+		
+		m_clips.insert(index, clip);		
+		return true;
+	} else {
+		return false;
+	}
 }

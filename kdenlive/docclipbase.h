@@ -26,7 +26,12 @@
 class DocClipBase {
 public: 
 	DocClipBase();
-	~DocClipBase();
+	virtual ~DocClipBase() = 0;
+  /** Returns where the start of this clip is on the track is resides on. */
+  long trackStart();
+private: // Private attributes
+  /** Where this clip starts on the track that it resides on. */
+  long m_trackStart;
 };
 
 #endif

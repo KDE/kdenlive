@@ -17,7 +17,10 @@
 
 #include "docclipvideo.h"
 
-DocClipVideo::DocClipVideo(){
+DocClipVideo::DocClipVideo()
+{
 }
-DocClipVideo::~DocClipVideo(){
+
+DocClipVideo::~DocClipVideo()
+{
 }

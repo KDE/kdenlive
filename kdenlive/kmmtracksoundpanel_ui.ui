@@ -10,8 +10,8 @@
         <name>geometry</name>
         <rect>
             <x>0</x>
-            <y>186</y>
-            <width>433</width>
+            <y>0</y>
+            <width>429</width>
             <height>50</height>
         </rect>
     </property>
@@ -141,6 +141,13 @@
                             <property stdset="1">
                                 <name>name</name>
                                 <cstring>m_expandButton</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>sizePolicy</name>
+                                <sizepolicy>
+                                    <hsizetype>4</hsizetype>
+                                    <vsizetype>1</vsizetype>
+                                </sizepolicy>
                             </property>
                             <property stdset="1">
                                 <name>text</name>

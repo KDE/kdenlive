@@ -1,5 +1,5 @@
 /***************************************************************************
-                          doctrackvideo.cpp  -  description
+                          kmmtracksound.h  -  description
                              -------------------
     begin                : Fri Apr 12 2002
     copyright            : (C) 2002 by Jason Wood
@@ -15,18 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "doctrackvideo.h"
+#ifndef KMMTRACKSOUND_H
+#define KMMTRACKSOUND_H
 
-DocTrackVideo::DocTrackVideo()
-{
-}
+#include <qwidget.h>
+#include <kmmtrackbase.h>
 
-DocTrackVideo::~DocTrackVideo()
-{
-}
+/**KMMTrackSound provides the timeline view which contains sound clips.
+  *@author Jason Wood
+  */
 
-/** Returns true if the specified clip can be added to this track, false otherwise. */
-bool DocTrackVideo::canAddClip(DocClipBase * clip)
-{
-	return false;
-}
+class KMMTrackSound : public KMMTrackBase  {
+   Q_OBJECT
+public: 
+	KMMTrackSound(QWidget *parent=0, const char *name=0);
+	~KMMTrackSound();
+};
+
+#endif

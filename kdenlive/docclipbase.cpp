@@ -17,7 +17,15 @@
 
 #include "docclipbase.h"
 
-DocClipBase::DocClipBase(){
+DocClipBase::DocClipBase()
+{
 }
-DocClipBase::~DocClipBase(){
+
+DocClipBase::~DocClipBase()
+{
+}
+
+/** Returns where the start of this clip is on the track is resides on. */
+long DocClipBase::trackStart(){
+	return m_trackStart;
 }

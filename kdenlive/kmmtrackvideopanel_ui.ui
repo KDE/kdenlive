@@ -11,22 +11,22 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>845</width>
-            <height>50</height>
+            <width>166</width>
+            <height>60</height>
         </rect>
     </property>
     <property stdset="1">
         <name>minimumSize</name>
         <size>
             <width>0</width>
-            <height>50</height>
+            <height>60</height>
         </size>
     </property>
     <property stdset="1">
         <name>maximumSize</name>
         <size>
             <width>32767</width>
-            <height>50</height>
+            <height>60</height>
         </size>
     </property>
     <property stdset="1">
@@ -133,6 +133,13 @@
                             <property stdset="1">
                                 <name>name</name>
                                 <cstring>m_expandButton</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>sizePolicy</name>
+                                <sizepolicy>
+                                    <hsizetype>4</hsizetype>
+                                    <vsizetype>1</vsizetype>
+                                </sizepolicy>
                             </property>
                             <property stdset="1">
                                 <name>text</name>

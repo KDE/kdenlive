@@ -1,5 +1,5 @@
 /***************************************************************************
-                          doctrackvideo.cpp  -  description
+                          kmmtrackvideo.h  -  description
                              -------------------
     begin                : Fri Apr 12 2002
     copyright            : (C) 2002 by Jason Wood
@@ -15,18 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "doctrackvideo.h"
+#ifndef KMMTRACKVIDEO_H
+#define KMMTRACKVIDEO_H
 
-DocTrackVideo::DocTrackVideo()
-{
-}
+#include <qwidget.h>
+#include <kmmtrackbase.h>
 
-DocTrackVideo::~DocTrackVideo()
-{
-}
+/**KMMTrackVideo provides the timeline view for video clips
+  *@author Jason Wood
+  */
 
-/** Returns true if the specified clip can be added to this track, false otherwise. */
-bool DocTrackVideo::canAddClip(DocClipBase * clip)
-{
-	return false;
-}
+class KMMTrackVideo : public KMMTrackBase  {
+   Q_OBJECT
+public: 
+	KMMTrackVideo(QWidget *parent=0, const char *name=0);
+	~KMMTrackVideo();
+};
+
+#endif

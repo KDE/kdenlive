@@ -29,12 +29,12 @@ It provides core functionality that all tracks must posess.
 class DocTrackBase {
 public: 
 	DocTrackBase();
-	~DocTrackBase();
+	virtual ~DocTrackBase();
   /** Returns true if the specified clip can be added to this track, false otherwise.
 		*
 		* This method needs to be implemented by inheriting classes to define
 		* which types of clip they support. */
-  virtual bool canAddClip(DocClipBase *clip);
+  virtual bool canAddClip(DocClipBase *clip) = 0;
   /** Adds a clip to the track. Returns true if successful, false if it fails for some reason.
 		*
 		* This method calls canAddClip() to determine whether or not the clip can be added to this

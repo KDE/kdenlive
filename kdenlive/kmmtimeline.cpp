@@ -20,7 +20,8 @@
 #include "kmmtimeline.h"
 #include "kmmtracksoundpanel.h"
 #include "kmmtrackvideopanel.h"
-#include "kmmtrackbase.h"
+#include "kmmtrackvideo.h"
+#include "kmmtracksound.h"
 
 KMMTimeLine::KMMTimeLine(QWidget *parent, const char *name ) : QVBox(parent, name),
 				m_rulerBox(this, "ruler box"),
@@ -43,12 +44,12 @@ KMMTimeLine::KMMTimeLine(QWidget *parent, const char *name ) : QVBox(parent, nam
 	m_scrollLabel.setMaximumWidth(200);
 	m_scrollLabel.setAlignment(AlignCenter);
 	
-	appendTrack(new KMMTrackVideoPanel(), new KMMTrackBase());
-	appendTrack(new KMMTrackVideoPanel(), new KMMTrackBase());
-	appendTrack(new KMMTrackVideoPanel(), new KMMTrackBase());		
-	appendTrack(new KMMTrackSoundPanel(), new KMMTrackBase());
-	appendTrack(new KMMTrackSoundPanel(), new KMMTrackBase());	
-	appendTrack(new KMMTrackSoundPanel(), new KMMTrackBase());		
+	appendTrack(new KMMTrackVideoPanel(), new KMMTrackVideo());
+	appendTrack(new KMMTrackVideoPanel(), new KMMTrackVideo());
+	appendTrack(new KMMTrackVideoPanel(), new KMMTrackVideo());		
+	appendTrack(new KMMTrackSoundPanel(), new KMMTrackSound());
+	appendTrack(new KMMTrackSoundPanel(), new KMMTrackSound());	
+	appendTrack(new KMMTrackSoundPanel(), new KMMTrackSound());		
 	
 	connect(&m_scrollBar, SIGNAL(valueChanged(int)), &m_ruler, SLOT(setValue(int)));
 }

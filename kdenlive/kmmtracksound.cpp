@@ -1,5 +1,5 @@
 /***************************************************************************
-                          doctrackvideo.cpp  -  description
+                          kmmtracksound.cpp  -  description
                              -------------------
     begin                : Fri Apr 12 2002
     copyright            : (C) 2002 by Jason Wood
@@ -15,18 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "doctrackvideo.h"
+#include "kmmtracksound.h"
 
-DocTrackVideo::DocTrackVideo()
-{
+KMMTrackSound::KMMTrackSound(QWidget *parent, const char *name ) : KMMTrackBase(parent,name) {
 }
-
-DocTrackVideo::~DocTrackVideo()
-{
-}
-
-/** Returns true if the specified clip can be added to this track, false otherwise. */
-bool DocTrackVideo::canAddClip(DocClipBase * clip)
-{
-	return false;
+KMMTrackSound::~KMMTrackSound(){
 }

@@ -21,11 +21,11 @@
 
 KMMTrackBase::KMMTrackBase(QWidget *parent, const char *name ) : QFrame(parent,name)
 {	
-	setMinimumWidth(100);
-	setMinimumHeight(60);	
+	setMinimumWidth(30);
+	setMinimumHeight(30);	
 	
 	setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum));	
-	setPalette( QPalette( QColor(80, 255, 80) ) );
+	setPalette( QPalette( QColor(170, 170, 170) ) );
 	
 	setFrameStyle(QFrame::Panel | QFrame::Sunken);
 }
