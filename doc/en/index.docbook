@@ -127,7 +127,7 @@ revision history. (see installation appendix comment) -->
 <para>
 	&kapp; is a non-linear video editor for KDE.
 	
-	Please report any problems or feature requests to jasonwood@blueyonder.co.uk
+	Please report any problems or feature requests to <email>jasonwood@blueyonder.co.uk</email>
 </para>
 <sect1 id="whatisavideoeditor">
 	<title>What is a video editor?</title>
@@ -419,12 +419,12 @@ distribution. -->
 	<itemizedlist>
 		<listitem>
 			<para>
-				Konqui the KDE Dragon <email>konqui@kde.org</email>
+				Caulier Gilles <email>caulier.Gilles@free.fr</email> : Kdenlive and Piave i18n, French translations, splashscreen
 			</para>
 		</listitem>
 		<listitem>
 			<para>
-				Tux the Linux Penguin <email>tux@linux.org</email>
+				Rolf Dubitzky <email>dubitzky@pktw06.phy.tu-dresden.de</email> : Piave implementations
 			</para>
 		</listitem>
 	</itemizedlist>

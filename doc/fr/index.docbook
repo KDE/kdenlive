@@ -129,7 +129,7 @@ Do NOT change these in the translation. -->
 >jasonwood@blueyonder.co.uk</email
 > pour de plus amples informations. </para>
 <para
-> Salutations </para>
+> Salutations, </para>
 <para
 > Jason </para>
 </abstract>
@@ -168,7 +168,9 @@ problems. Basically a long version of the abstract.  Don't include a
 revision history. (see installation appendix comment) -->
 
 <para
->  </para>
+> &kapp; est une application de montage vidéo non linéaire pour KDE. Pour rapporter des bogues ou pour proposer de nouvelles fonctionnalités, veulliez envoyer un courrier électronique à <email
+>jasonwood@blueyonder.co.uk</email
+> </para>
 <sect1 id="whatisavideoeditor">
 <title
 >Qu'est ce qu'un logiciel de montage vidéo ?</title>

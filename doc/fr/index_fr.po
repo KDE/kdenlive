@@ -2,10 +2,10 @@
 # Gilles CAULIER <caulier.gilles@free.fr>, 2003
 msgid ""
 msgstr ""
-""
-"Last-Translator: Gilles CAULIER <caulier.gilles@free.fr>\n"
-"PO-Revision-Date: 2003-07-29 10:26+0200\n"
 "Project-Id-Version: index_fr\n"
+"POT-Creation-Date: 2001-02-09 01:25+0100\n"
+"PO-Revision-Date: 2003-07-29 12:28+0200\n"
+"Last-Translator: Gilles CAULIER <caulier.gilles@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -58,16 +58,17 @@ msgid ""
 "Also, please contact me at <email>jasonwood@blueyonder.co.uk</email> rather "
 "than bugging any of the kde mailing lists."
 msgstr ""
-"ATTENTION ! Ce document n'est pas encore complétement terminé. Les informations concernant "
-"les contributeurs de &kapp;, les programmes requis, les instructions d'installation, et les "
-"informations de changement de version ne sont pas à jour ou sont incomplétes. "
-"Veuillez prendre contact avec l'auteur à l'adresse <email>jasonwood@blueyonder.co.uk</email> "
-"pour de plus amples informations."
+"ATTENTION ! Ce document n'est pas encore complétement terminé. Les "
+"informations concernant les contributeurs de &kapp;, les programmes requis, "
+"les instructions d'installation, et les informations de changement de "
+"version ne sont pas à jour ou sont incomplétes. Veuillez prendre contact "
+"avec l'auteur à l'adresse <email>jasonwood@blueyonder.co.uk</email> pour de "
+"plus amples informations."
 
 #: index.docbook:90
 #, no-c-format
 msgid "Cheers,"
-msgstr "Salutations"
+msgstr "Salutations,"
 
 #: index.docbook:93
 #, no-c-format
@@ -98,8 +99,11 @@ msgstr "Introduction"
 #, no-c-format
 msgid ""
 "&kapp; is a non-linear video editor for KDE. Please report any problems or "
-"feature requests to jasonwood@blueyonder.co.uk"
+"feature requests to <email>jasonwood@blueyonder.co.uk</email>"
 msgstr ""
+"&kapp; est une application de montage vidéo non linéaire pour KDE. Pour "
+"rapporter des bogues ou pour proposer de nouvelles fonctionnalités, veulliez "
+"envoyer un courrier électronique à <email>jasonwood@blueyonder.co.uk</email>"
 
 #: index.docbook:133
 #, no-c-format
@@ -112,15 +116,16 @@ msgid ""
 "A video editor is an application that allows you to create a new video out "
 "of various scenes from one or more other videos."
 msgstr ""
-"Un logiciel de montage vidéo est une application qui permet de créer une séquence vidéo à partir "
-"de plusieurs plans vidéo indépendants ou à partir d'autres séquences vidéo."
+"Un logiciel de montage vidéo est une application qui permet de créer une "
+"séquence vidéo à partir de plusieurs plans vidéo indépendants ou à partir "
+"d'autres séquences vidéo."
 
 #: index.docbook:141
 #, no-c-format
 msgid "What is the difference between linear editing and non-linear editing?"
 msgstr ""
-"Qu'elle est la différence entre une application de montage vidéo « linéaire » et une application de "
-"montage vidéo « non linéaire » ?"
+"Qu'elle est la différence entre une application de montage vidéo "
+"« linéaire » et une application de montage vidéo « non linéaire » ?"
 
 #: index.docbook:143
 #, no-c-format
@@ -170,7 +175,9 @@ msgstr "La liste du projet"
 #: index.docbook:195
 #, no-c-format
 msgid "The project list shows all of the clips that are available for this project."
-msgstr "La liste du projet affiche tous les plans vidéo qui sont disponibles dans le projet."
+msgstr ""
+"La liste du projet affiche tous les plans vidéo qui sont disponibles dans le "
+"projet."
 
 #: index.docbook:198
 #, no-c-format
@@ -262,7 +269,9 @@ msgstr "La liste des effets"
 #: index.docbook:252 index.docbook:260
 #, no-c-format
 msgid "This is non-functional in the current version of &kapp;."
-msgstr "Cette fonctionnalité n'est pas encore implantée dans la version actuelle de &kapp;."
+msgstr ""
+"Cette fonctionnalité n'est pas encore implantée dans la version actuelle de "
+"&kapp;."
 
 #: index.docbook:258
 #, no-c-format
@@ -406,7 +415,9 @@ msgstr "&kapp;"
 msgid ""
 "Program copyright 2002-2003 Jason Wood <email>jasonwood@blueyonder.co.uk</"
 "email>"
-msgstr "Kdenlive : copyright Jason Wood <email>jasonwood@blueyonder.co.uk</email>, 2002-2003"
+msgstr ""
+"Kdenlive : copyright Jason Wood <email>jasonwood@blueyonder.co.uk</email>, "
+"2002-2003"
 
 #: index.docbook:417
 #, no-c-format
@@ -415,27 +426,38 @@ msgstr "Contributeurs :"
 
 #: index.docbook:417
 #, no-c-format
-msgid "Konqui the KDE Dragon <email>konqui@kde.org</email>"
+msgid ""
+"Caulier Gilles <email>caulier.Gilles@free.fr</email> : Kdenlive and Piave "
+"i18n, French translations, splashscreen"
 msgstr ""
+"Caulier Gilles <email>caulier.Gilles@free.fr</email> : internationalisation de Kdenlive et de Piave, "
+"traductions Françaises, logo de démarrage."
 
 #: index.docbook:417
 #, no-c-format
-msgid "Tux the Linux Penguin <email>tux@linux.org</email>"
+msgid ""
+"Rolf Dubitzky <email>dubitzky@pktw06.phy.tu-dresden.de</email> : Piave "
+"implementations"
 msgstr ""
+"Rolf Dubitzky <email>dubitzky@pktw06.phy.tu-dresden.de</email> : auteur et mainteneur du "
+"programme Piave."
 
 #: index.docbook:433
 #, no-c-format
 msgid ""
 "Documentation copyright 2003 Jason Wood <email>jasonwood@blueyonder.co.uk</"
 "email>"
-msgstr "Documentation de Kdenlive : copyright Jason Wood <email>jasonwood@blueyonder.co.uk</email>, 2003 "
+msgstr ""
+"Documentation de Kdenlive : copyright Jason Wood <email>jasonwood@blueyonder."
+"co.uk</email>, 2003 "
 
 #: index.docbook:437
 #, no-c-format
 msgid "CREDIT_FOR_TRANSLATORS"
 msgstr ""
-"<para>Traductions : Caulier Gilles <email>caulier.gilles@free.fr</email>.</para>"
-"<para>Relecture des traductions : Danielle Caulier <email>caulier.danielle@free.fr</email>.</para>"
+"<para>Traductions : Caulier Gilles <email>caulier.gilles@free.fr</email>.</"
+"para><para>Relecture des traductions : Danielle Caulier <email>caulier."
+"danielle@free.fr</email>.</para>"
 
 #: index.docbook:453
 #, no-c-format
