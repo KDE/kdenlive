@@ -67,4 +67,4 @@ void KdenliveSplash::slot_close()
 {
   close();
 }
-  
+
