@@ -197,6 +197,36 @@ aix)
   rm -f "$tmpdepfile"
   ;;
 
+icc)
+  # Must come before tru64.
+
+  # Intel's C compiler understands `-MD -MF file'.  However
+  #    icc -MD -MF foo.d -c -o sub/foo.o sub/foo.c
+  # will fill foo.d with something like
+  #    foo.o: sub/foo.c
+  #    foo.o: sub/foo.h
+  # which is wrong.  We want:
+  #    sub/foo.o: sub/foo.c
+  #    sub/foo.o: sub/foo.h
+  #    sub/foo.c:
+  #    sub/foo.h:
+
+  "$@" -MD -MF "$tmpdepfile"
+  stat=$?
+  if test $stat -eq 0; then :
+  else
+    rm -f "$tmpdepfile"
+    exit $stat
+  fi
+  rm -f "$depfile"
+  # Each line is of the form `foo.o: dependent.h'.
+  # Do two passes, one to just change these to
+  # `$object: dependent.h' and one to simply `dependent.h:'.
+  sed -e "s,^[^:]*:,$object :," < "$tmpdepfile" > "$depfile"
+  sed -e "s,^[^:]*: \(.*\)$,\1:," < "$tmpdepfile" >> "$depfile"
+  rm -f "$tmpdepfile"
+  ;;
+
 tru64)
    # The Tru64 AIX compiler uses -MD to generate dependencies as a side
    # effect.  `cc -MD -o foo.o ...' puts the dependencies into `foo.o.d'.
