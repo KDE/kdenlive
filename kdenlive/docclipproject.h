@@ -77,6 +77,10 @@ public:
 	virtual QValueVector<GenTime> sceneTimes();
 	// Returns an XML document that describes part of the current scene.
 	virtual QDomDocument sceneToXML(const GenTime &startTime, const GenTime &endTime);
+	
+	/** Returns true if the clip in some way includes he specified AVFile. */
+	virtual bool containsAVFile(AVFile *file);
+	QPtrList<DocClipBase> referencedClips(AVFile *file);
 signals:
   	/** This signal is emitted whenever tracks are added to or removed from the project. */
   	void trackListChanged();

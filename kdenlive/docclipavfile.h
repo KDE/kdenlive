@@ -37,7 +37,7 @@ class DocClipAVFile : public DocClipBase {
 	Q_OBJECT
 public:
 	DocClipAVFile(KdenliveDoc *doc, const QString &name, const KURL &url);
-  DocClipAVFile(KdenliveDoc *doc, AVFile *avFile);
+	DocClipAVFile(KdenliveDoc *doc, AVFile *avFile);
 	~DocClipAVFile();
 	QString fileName();
 	
@@ -60,12 +60,14 @@ public:
 	virtual QValueVector<GenTime> sceneTimes();
 	// Returns an XML document that describes part of the current scene.
 	virtual QDomDocument sceneToXML(const GenTime &startTime, const GenTime &endTime);
+
+	virtual bool containsAVFile(AVFile *file);
 private:	
 	/** A play object factory, used for calculating information, and previewing files */
 	/** Determines whether this file contains audio, video or both. */
 	DocClipBase::CLIPTYPE m_clipType;
-  /** Holds a pointer to an AVFile which contains details of the file this clip portrays. */
-  AVFile * m_avFile;
+	/** Holds a pointer to an AVFile which contains details of the file this clip portrays. */
+	AVFile * m_avfile;
 };
 
 #endif

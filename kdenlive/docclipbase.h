@@ -31,11 +31,12 @@
 
 class KdenliveDoc;
 class DocTrackBase;
+class AVFile;
 
 class DocClipBase : public QObject {
 	Q_OBJECT
 public:
-	/** this enum determines the types of "feed" available within this clip. types must be non-exlcusive
+	/** this enum determines the types of "feed" available within this clip. types must be non-exclusive
 	 * - e.g. if you can have audio and video seperately, it should be possible to combin the two, as is
 	 *   done here. If a new clip type is added then it should be possible to combine it with both audio
 	 *   and video. */	
@@ -109,31 +110,35 @@ public:
 	
 	// Returns a list of times that this clip must break upon.
 	virtual QValueVector<GenTime> sceneTimes() = 0;
+	
 	// Returns an XML document that describes part of the current scene.
 	virtual QDomDocument sceneToXML(const GenTime &startTime, const GenTime &endTime) = 0;
+
+	/** Returns true if the clip in some way includes he specified AVFile. */
+	virtual bool containsAVFile(AVFile *file) = 0;
 private: // Private attributes
 	/** The name of this clip */
 	QString m_name;
 	/** Where this clip starts on the track that it resides on. */
 	GenTime m_trackStart;
-	/** The cropped start time for this clip - e.g. if the clip is 10 seconds long, this might say that the
-	 * the bit we want starts 3 seconds in.
+	/** The cropped start time for this clip - e.g. if the clip is 10 seconds long, this 
+	 * might say that the the bit we want starts 3 seconds in.
 	 **/
 	GenTime m_cropStart;
 	/** The end time of this clip on the track.
 	 **/
 	GenTime m_trackEnd;
-  /** The track to which this clip is parented. If NULL, the clip is not
-parented to any track. */
-  DocTrackBase * m_parentTrack;
-  /** The number of this track. This is the number of the track the clip resides on.
-It is possible for this to be set and the parent track to be 0, in this situation
-m_trackNum is a hint as to where the clip should be place when it get's parented
-to a track. */
-  int m_trackNum;
+	/** The track to which this clip is parented. If NULL, the clip is not
+	parented to any track. */
+	DocTrackBase * m_parentTrack;
+	/** The number of this track. This is the number of the track the clip resides on.
+	It is possible for this to be set and the parent track to be 0, in this situation
+	m_trackNum is a hint as to where the clip should be place when it get's parented
+	to a track. */
+	int m_trackNum;
 protected: // Protected attributes
-  /** the document this clip belongs to */
-  KdenliveDoc * m_document;
+	/** the document this clip belongs to */
+	KdenliveDoc * m_document;
 };
 
 #endif

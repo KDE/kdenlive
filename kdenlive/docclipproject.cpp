@@ -393,3 +393,42 @@ QDomDocument DocClipProject::sceneToXML(const GenTime &startTime, const GenTime 
 
 	return doc;
 }
+
+// virtual 
+bool DocClipProject::containsAVFile(AVFile *file)
+{
+	bool result = false;
+	
+	for(uint count=0; (count < numTracks()) && (!result); ++count) {
+		DocTrackClipIterator itt(*(m_tracks.at(count)));
+
+		while(itt.current()) {
+			if(itt.current()->containsAVFile(file)) {
+				result = true;
+				break;
+			}
+			++itt;
+		}
+	}
+
+	return result;
+}
+
+QPtrList<DocClipBase> DocClipProject::referencedClips(AVFile *file)
+{
+	QPtrList<DocClipBase> list;
+	list.setAutoDelete(false);
+
+	for(uint count=0; count<numTracks(); ++count) {
+		DocTrackClipIterator itt(*(m_tracks.at(count)));
+
+		while(itt.current()) {
+			if(itt.current()->containsAVFile(file)) {
+				list.append(itt.current());
+			}
+			++itt;
+		}
+	}
+
+	return list;
+}

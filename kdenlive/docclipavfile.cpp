@@ -25,35 +25,36 @@
 
 DocClipAVFile::DocClipAVFile(KdenliveDoc *doc, const QString &name, const KURL &url) :
 						DocClipBase(doc),
-						m_avFile(doc->getAVFileReference(url))
+						m_avfile(doc->getAVFileReference(url))
 {
 	setTrackEnd(trackStart() + duration());
 	setName(name);
+	m_avfile->addReference(this);
 		
-  m_clipType = AV;
+	m_clipType = AV;
 }
 
 DocClipAVFile::DocClipAVFile(KdenliveDoc *doc, AVFile *avFile) :
 						DocClipBase(doc),
-						m_avFile(avFile)
+						m_avfile(avFile)
 {
-	m_avFile->addReference();
+	m_avfile->addReference(this);
 
 	setTrackEnd(trackStart() + duration());
-	setName(m_avFile->name());
+	setName(m_avfile->name());
 
   m_clipType = AV;
 }
 
 DocClipAVFile::~DocClipAVFile()
 {
-	m_avFile->removeReference();
-	m_avFile = 0;	
+	m_avfile->removeReference(this);
+	m_avfile = 0;	
 }
 
 GenTime DocClipAVFile::duration() const
 {
-	return m_avFile->duration();
+	return m_avfile->duration();
 }
 
 /** Returns the type of this clip */
@@ -87,7 +88,7 @@ QDomDocument DocClipAVFile::toXML() {
 /** Returns the url of the AVFile this clip contains */
 KURL DocClipAVFile::fileURL()
 {
-	return m_avFile->fileURL();
+	return m_avfile->fileURL();
 }
 
 /** Creates a clip from the passed QDomElement. This only pertains to those details specific to DocClipAVFile.*/
@@ -105,13 +106,13 @@ DocClipAVFile * DocClipAVFile::createClip(KdenliveDoc *doc, const QDomElement el
 /** Returns true if the clip duration is known, false otherwise. */
 bool DocClipAVFile::durationKnown()
 {
-  return m_avFile->durationKnown();
+  return m_avfile->durationKnown();
 }
 
 // virtual
 int DocClipAVFile::framesPerSecond() const
 {
-	return m_avFile->framesPerSecond();
+	return m_avfile->framesPerSecond();
 }
 
 		
@@ -163,4 +164,10 @@ QValueVector<GenTime> DocClipAVFile::sceneTimes()
 	list.append(trackStart());
 	list.append(trackEnd());
 	return list;
+}
+
+// virtual 
+bool DocClipAVFile::containsAVFile(AVFile *file)
+{
+	return (m_avfile == file);
 }
