@@ -57,6 +57,9 @@ ProjectListView::~ProjectListView()
 QDragObject *ProjectListView::dragObject()
 {
 	AVListViewItem *item = (AVListViewItem *)selectedItem();
+
+	if (!item->clip()) return false;
+
 	emit dragStarted(item);
 
 	if(m_doc==0) {
