@@ -26,8 +26,8 @@ RenderDebugPanel::RenderDebugPanel(QWidget *parent, const char *name ) :
                                             m_widgetStack(this, "stack"),
                                             m_nextId(0)                                            
 {
-  m_rendererList.setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding);
-  m_widgetStack.setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);  
+  m_rendererList.setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding));
+  m_widgetStack.setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));  
   connect(&m_rendererList, SIGNAL(highlighted(int)), &m_widgetStack, SLOT(raiseWidget(int)));
 }
 

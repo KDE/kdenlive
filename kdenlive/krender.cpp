@@ -292,7 +292,7 @@ void KRender::sendSetSceneListCommand(const QDomDocument &list)
 void KRender::getCapabilities()
 {
   QDomDocument doc;
-  QDomElement elem = doc.createElement("getCapabilites");
+  QDomElement elem = doc.createElement("getCapabilities");
   doc.appendChild(elem);
   sendCommand(doc);
 }
