@@ -404,6 +404,7 @@ void KRuler::setValueScale(double size){
 		m_bigTickEvery = m_rulerModel->getTickDisplayInterval(m_smallTickEvery+1);
 	}
 
+	emit scaleChanged(size);
 	drawToBackBuffer();
 }
 

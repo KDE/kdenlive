@@ -93,6 +93,8 @@ signals: // Signals
   void resized();
   /** This signal is emitted whenever a sliders value changes. */
   void sliderValueChanged(int, int);    
+  /** Emitted when the scale of the ruler changes. */
+  void scaleChanged(double);
   
 protected slots: // Protected slots
 	/** Sets the leftmost pixel which is displayed on the widget. To understand why this

@@ -327,12 +327,7 @@ bool KMMTimeLine::moveSelectedClips(int newTrack, GenTime start)
 			}
 			if(destClip==0) break;
 
-			if(destClip->trackStart() < clipEndTime) {
-				kdDebug() << "Clip " << destClip->trackStart().seconds() << " - " <<
-																(destClip->trackStart() + destClip->cropDuration()).seconds() <<
-											" conflicts with " << clipStartTime.seconds() << " - " << clipEndTime.seconds() << endl;
-				return false;
-			}
+			if(destClip->trackStart() < clipEndTime) return false;
 
 			++srcClipItt;
 		}
@@ -516,15 +511,21 @@ bool KMMTimeLine::canAddClipsToTracks(DocClipBaseList &clips, int track, GenTime
 
 	if(clips.masterClip()) {
 		trackOffset = clips.masterClip()->trackNum();
-		startOffset = clips.masterClip()->trackStart() - clipOffset;
+		startOffset = clipOffset - clips.masterClip()->trackStart();
 	} else {
 		trackOffset = clips.first()->trackNum();
-		startOffset = clips.first()->trackStart() - clipOffset;
+		startOffset = clipOffset - clips.first()->trackStart();
 	}
 
 	if(trackOffset==-1) trackOffset = 0;
 	trackOffset = track - trackOffset;
 
+	while(itt.current()) {
+		itt.current()->setTrackStart(itt.current()->trackStart() + startOffset);
+		++itt;
+	}
+	itt.toFirst();
+	
 	while(itt.current()) {
 		int track = itt.current()->trackNum();
 		if(track==-1) track = 0;

@@ -138,13 +138,11 @@ void KMMTimeLineTrackView::mouseMoveEvent(QMouseEvent *event)
 			DocClipBase *clip = panel->docTrack().getClipAt(mouseTime);
 			if(clip) {
 				if( fabs(m_timeLine.mapValueToLocal(clip->trackStart().frames(25)) - event->x()) < resizeTolerance) {
-					kdDebug() << "resize state is start" << endl;
 					m_resizeState = Start;
 					setCursor(QCursor(Qt::SizeHorCursor));
 					return;					
 				}
 				if( fabs(m_timeLine.mapValueToLocal((clip->trackStart()+clip->cropDuration()).frames(25)) - event->x()) < resizeTolerance) {
-					kdDebug() << "resize state is end" << endl;				
 					m_resizeState = End;					
 					setCursor(QCursor(Qt::SizeHorCursor));
 					return;					

@@ -17,6 +17,8 @@
  
 #include "doctrackvideo.h"
 
+#include "kdebug.h"
+
 #include "avfile.h"
 #include "docclipavfile.h"
 
