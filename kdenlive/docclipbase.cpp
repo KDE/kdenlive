@@ -91,9 +91,9 @@ QDomDocument DocClipBase::toXML() {
 		
 	QDomElement position = doc.createElement("position");
 	position.setAttribute("track", QString::number(trackNum()));
-	position.setAttribute("trackstart", QString::number(trackStart().seconds()));
-	position.setAttribute("cropstart", QString::number(cropStartTime().seconds()));
-	position.setAttribute("cropduration", QString::number(cropDuration().seconds()));
+	position.setAttribute("trackstart", QString::number(trackStart().seconds(), 'f', 10));
+	position.setAttribute("cropstart", QString::number(cropStartTime().seconds(), 'f', 10));
+	position.setAttribute("cropduration", QString::number(cropDuration().seconds(), 'f', 10));
 	clip.appendChild(position);
 	
 	doc.appendChild(clip); 

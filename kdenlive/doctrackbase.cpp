@@ -381,3 +381,35 @@ unsigned int DocTrackBase::numClips()
 {
 	return m_selectedClipList.count() + m_unselectedClipList.count();
 }
+
+/** Returns an xml representation of this track. */
+QDomDocument DocTrackBase::toXML()
+{
+	QDomDocument doc;
+
+	doc.appendChild(doc.createElement("track"));
+	doc.documentElement().setAttribute("cliptype", clipType());
+
+	QPtrListIterator<DocClipBase> unsItt=firstClip(false);
+	QPtrListIterator<DocClipBase> selItt=firstClip(true);
+
+	while(unsItt.current() || selItt.current()) {
+		if(unsItt.current() && selItt.current()) {
+			if(unsItt.current()->trackStart() < selItt.current()->trackStart()) {
+				doc.documentElement().appendChild(doc.importNode(unsItt.current()->toXML().documentElement(), true));
+				++unsItt;
+			} else {
+				doc.documentElement().appendChild(doc.importNode(selItt.current()->toXML().documentElement(), true));
+				++selItt;			
+			}
+		} else if(unsItt.current()){
+			doc.documentElement().appendChild(doc.importNode(unsItt.current()->toXML().documentElement(), true));		
+			++unsItt;
+		}	else {
+			doc.documentElement().appendChild(doc.importNode(selItt.current()->toXML().documentElement(), true));
+			++selItt;
+		}
+	}
+
+	return doc;
+}

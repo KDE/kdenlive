@@ -22,19 +22,14 @@
 #include <config.h>
 #endif 
 
-// include files for QT
 #include <qobject.h>
 #include <qstring.h>
 #include <qvaluelist.h>
 
-class AVFile;
-#include "avfile.h"
-
-// include files for KDE
 #include <kurl.h>
 
-// include files for Kdenlive
-#include "doctrackbase.h"
+#include "avfilelist.h"
+#include "doctrackbaselist.h"
 
 // forward declaration of the Kdenlive classes
 class KdenliveView;
@@ -65,11 +60,9 @@ class KdenliveDoc : public QObject
     void addView(KdenliveView *view);
     /** removes a view from the list of currently connected views */
     void removeView(KdenliveView *view);
-    /** sets the modified flag for the document after a modifying action on the view connected to the document.*/
-    void setModified(bool _m=true){ modified=_m; };    
     /** returns if the document is modified or not. Use this to determine if your document needs saving by the
      * user on closing. */
-    bool isModified(){ return modified; };
+    bool isModified(){ return m_modified; };
     /** "save modified" - asks the user for saving if the document is modified */
     bool saveModified();	
     /** deletes the document's contents */
@@ -112,7 +105,7 @@ class KdenliveDoc : public QObject
   	/** The number of frames per second. */
   	int m_framesPerSecond;
   	/** Holds a list of all tracks in the project. */
-  	QPtrList<DocTrackBase> m_tracks;
+  	DocTrackBaseList m_tracks;
   	/** Returns the number of frames per second. */
   	int framesPerSecond();
   	/** Itterates through the tracks in the project. This works in the same way
@@ -136,14 +129,18 @@ not exist. */
   DocTrackBase * track(int track);
   /** Returns the index value for this track, or -1 on failure.*/
   int trackIndex(DocTrackBase *track);
+  /** Creates an xml document that describes this kdenliveDoc. */
+  QDomDocument toXML();
+  /** Sets the modified state of the document, if this has changed, emits modified(state) */
+  void setModified(bool state);
 
   private:
     /** the modified flag of the current document */
-    bool modified;
-    KURL doc_url;
+    bool m_modified;
+    KURL m_doc_url;
 
 	/** List of all video and audio files within this project */
-	QPtrList<AVFile> m_fileList;
+	AVFileList m_fileList;
 	signals: // Signals
   	/** This is signal is emitted whenever the avFileList changes, either through the addition or removal of an AVFile, or when an AVFile changes. */
   	void avFileListUpdated(QPtrList<AVFile>);
@@ -153,6 +150,9 @@ not exist. */
 	signals: // Signals
   	/** This signal is emitted whenever tracks are added to or removed from the project. */
   	void trackListChanged();
+signals: // Signals
+  /** Emitted when the modified state of the document changes. */
+  void modified(bool);
 };
 
 #endif // KDENLIVEDOC_H

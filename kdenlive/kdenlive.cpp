@@ -56,11 +56,12 @@ KdenliveApp::KdenliveApp(QWidget* , const char* name):KMainWindow(0, name)
   ///////////////////////////////////////////////////////////////////
   // disable actions at startup
   fileSave->setEnabled(false);
-  fileSaveAs->setEnabled(false);
   filePrint->setEnabled(false);
   editCut->setEnabled(false);
   editCopy->setEnabled(false);
   editPaste->setEnabled(false);
+
+  fileSaveAs->setEnabled(true);
 }
 
 KdenliveApp::~KdenliveApp()
@@ -117,6 +118,7 @@ void KdenliveApp::initStatusBar()
 void KdenliveApp::initDocument()
 {
   doc = new KdenliveDoc(this);
+  connect(doc, SIGNAL(modified(bool)), this, SLOT(documentModified(bool)));
   doc->newDocument();
 }
 
@@ -223,7 +225,7 @@ void KdenliveApp::readProperties(KConfig* _cfg)
     if(canRecover)
     {
       doc->openDocument(_url);
-      doc->setModified();
+      doc->setModified(true);
       setCaption(_url.fileName(),true);
       QFile::remove(tempname);
     }
@@ -453,3 +455,12 @@ void KdenliveApp::slotStatusMsg(const QString &text)
   statusBar()->changeItem(text, ID_STATUS_MSG);
 }
 
+/** Alerts the App to when the document has been modified. */
+void KdenliveApp::documentModified(bool modified)
+{
+	if(modified) {
+	  fileSave->setEnabled(true);
+	} else {
+	  fileSave->setEnabled(false);
+	}
+}

@@ -68,12 +68,12 @@ void KdenliveDoc::removeView(KdenliveView *view)
 
 void KdenliveDoc::setURL(const KURL &url)
 {
-  doc_url=url;
+  m_doc_url=url;
 }
 
 const KURL& KdenliveDoc::URL() const
 {
-  return doc_url;
+  return m_doc_url;
 }
 
 void KdenliveDoc::slotUpdateAllViews(KdenliveView *sender)
@@ -93,7 +93,7 @@ bool KdenliveDoc::saveModified()
 {
   bool completed=true;
 
-  if(modified)
+  if(m_modified)
   {
     KdenliveApp *win=(KdenliveApp *) parent();
     int want_save = KMessageBox::warningYesNoCancel(win,
@@ -103,7 +103,7 @@ bool KdenliveDoc::saveModified()
     switch(want_save)
     {
       case KMessageBox::Yes:
-           if (doc_url.fileName() == i18n("Untitled"))
+           if (m_doc_url.fileName() == i18n("Untitled"))
            {
              win->slotFileSaveAs();
            }
@@ -153,8 +153,8 @@ bool KdenliveDoc::newDocument()
   addVideoTrack();
   addVideoTrack();  
 
-  modified=false;
-  doc_url.setFileName(i18n("Untitled"));
+  setModified(false);
+  m_doc_url.setFileName(i18n("Untitled"));
 
   return true;
 }
@@ -169,7 +169,7 @@ bool KdenliveDoc::openDocument(const KURL& url, const char *format /*=0*/)
 
   KIO::NetAccess::removeTempFile( tmpfile );
 
-  modified=false;
+  setModified(false);  
   return true;
 }
 
@@ -179,7 +179,25 @@ bool KdenliveDoc::saveDocument(const KURL& url, const char *format /*=0*/)
   // TODO: Add your document saving code here
   /////////////////////////////////////////////////
 
-  modified=false;
+  QString save = toXML().toString();
+
+  kdDebug() << save << endl;
+
+  if(!url.isLocalFile()) {
+  	#warning network transparency still to be written.
+    KMessageBox::sorry((KdenliveApp *) parent(), i18n("The current file has been modified.\n"),
+     i18n("unfinished code"));
+    
+   	return false;
+  } else {
+  	QFile file(url.path());
+   	if(file.open(IO_WriteOnly)) {
+			file.writeBlock(save, save.length());
+			file.close();
+    }
+  }  
+
+  setModified(false);  
   return true;
 }
 
@@ -336,4 +354,27 @@ DocTrackBase * KdenliveDoc::track(int track)
 int KdenliveDoc::trackIndex(DocTrackBase *track)
 {
 	return m_tracks.find(track);
+}
+
+/** Creates an xml document that describes this kdenliveDoc. */
+QDomDocument KdenliveDoc::toXML()
+{
+	QDomDocument document;
+
+	QDomElement elem = document.createElement("kdenlivedoc");
+	document.appendChild(elem);
+
+	elem.appendChild(document.importNode(m_fileList.toXML().documentElement(), true));
+	elem.appendChild(document.importNode(m_tracks.toXML().documentElement(), true));
+	
+	return document;
+}
+
+/** Sets the modified state of the document, if this has changed, emits modified(state) */
+void KdenliveDoc::setModified(bool state)
+{
+	if(m_modified != state) {
+		m_modified = state;		
+		emit modified(state);
+	}
 }

@@ -156,6 +156,8 @@ class KdenliveApp : public KMainWindow
      * @param text the text that is displayed in the statusbar
      */
     void slotStatusMsg(const QString &text);
+  /** Alerts the App to when the document has been modified. */
+  void documentModified(bool modified);
 
   private:
     /** the configuration object of the application */

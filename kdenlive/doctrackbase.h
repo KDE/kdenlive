@@ -109,6 +109,8 @@ last clip on the track. */
   GenTime trackLength();
   /** Returns the number of clips contained in this track. */
   unsigned int numClips();
+  /** Returns an xml representation of this track. */
+  QDomDocument toXML();
 private: // Private methods
   /** Enables or disables clip sorting. This method is used internally to turn off the sorting of clips when it is known that they will be sorted elsewhere.
 
