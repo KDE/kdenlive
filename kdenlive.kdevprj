@@ -29,7 +29,7 @@ author=Jason Wood
 configure_args=
 email=jasonwood@blueyonder.co.uk
 kdevprj_version=1.3
-lfv_open_groups=
+lfv_open_groups=User Interface
 make_options=\s-j1
 makefiles=Makefile.am,kdenlive/Makefile.am,doc/Makefile.am,doc/en/Makefile.am,po/Makefile.am
 modifyMakefiles=true
@@ -108,7 +108,7 @@ install_location=
 type=DATA
 
 [kdenlive/Makefile.am]
-files=kdenlive/main.cpp,kdenlive/kdenlive.cpp,kdenlive/kdenlive.h,kdenlive/kdenlivedoc.cpp,kdenlive/kdenlivedoc.h,kdenlive/kdenliveview.cpp,kdenlive/kdenliveview.h,kdenlive/kdenliveui.rc,kdenlive/kdenlive.desktop,kdenlive/lo32-app-kdenlive.png,kdenlive/lo16-app-kdenlive.png,kdenlive/kmmruler.cpp,kdenlive/kmmruler.h,kdenlive/kmmtimeline.cpp,kdenlive/kmmtimeline.h,kdenlive/kmmtrackbase.cpp,kdenlive/kmmtrackbase.h,kdenlive/projectlist.cpp,kdenlive/projectlist.h,kdenlive/avfile.cpp,kdenlive/avfile.h,kdenlive/avlistviewitem.cpp,kdenlive/avlistviewitem.h,kdenlive/kmmmonitor.cpp,kdenlive/kmmmonitor.h,kdenlive/kmmscreen.cpp,kdenlive/kmmscreen.h,kdenlive/kmmeditpanel.ui,kdenlive/kmmeditpanelimplementation.cpp,kdenlive/kmmeditpanelimplementation.h,kdenlive/kmmtracksoundpanel_ui.ui,kdenlive/kmmtracksoundpanel.cpp,kdenlive/kmmtracksoundpanel.h,kdenlive/kmmtrackvideopanel_ui.ui,kdenlive/kmmtrackvideopanel.cpp,kdenlive/kmmtrackvideopanel.h
+files=kdenlive/main.cpp,kdenlive/kdenlive.cpp,kdenlive/kdenlive.h,kdenlive/kdenlivedoc.cpp,kdenlive/kdenlivedoc.h,kdenlive/kdenliveview.cpp,kdenlive/kdenliveview.h,kdenlive/kdenliveui.rc,kdenlive/kdenlive.desktop,kdenlive/lo32-app-kdenlive.png,kdenlive/lo16-app-kdenlive.png,kdenlive/kmmruler.cpp,kdenlive/kmmruler.h,kdenlive/kmmtimeline.cpp,kdenlive/kmmtimeline.h,kdenlive/kmmtrackbase.cpp,kdenlive/kmmtrackbase.h,kdenlive/projectlist.cpp,kdenlive/projectlist.h,kdenlive/avfile.cpp,kdenlive/avfile.h,kdenlive/avlistviewitem.cpp,kdenlive/avlistviewitem.h,kdenlive/kmmmonitor.cpp,kdenlive/kmmmonitor.h,kdenlive/kmmscreen.cpp,kdenlive/kmmscreen.h,kdenlive/kmmeditpanel.ui,kdenlive/kmmeditpanelimplementation.cpp,kdenlive/kmmeditpanelimplementation.h,kdenlive/kmmtracksoundpanel_ui.ui,kdenlive/kmmtracksoundpanel.cpp,kdenlive/kmmtracksoundpanel.h,kdenlive/kmmtrackvideopanel_ui.ui,kdenlive/kmmtrackvideopanel.cpp,kdenlive/kmmtrackvideopanel.h,kdenlive/doctrackbase.cpp,kdenlive/doctrackbase.h,kdenlive/doctracksound.cpp,kdenlive/doctracksound.h,kdenlive/doctrackvideo.cpp,kdenlive/doctrackvideo.h
 sub_dirs=
 type=prog_main
 
@@ -131,6 +131,42 @@ install_location=
 type=SOURCE
 
 [kdenlive/avlistviewitem.h]
+dist=true
+install=false
+install_location=
+type=HEADER
+
+[kdenlive/doctrackbase.cpp]
+dist=true
+install=false
+install_location=
+type=SOURCE
+
+[kdenlive/doctrackbase.h]
+dist=true
+install=false
+install_location=
+type=HEADER
+
+[kdenlive/doctracksound.cpp]
+dist=true
+install=false
+install_location=
+type=SOURCE
+
+[kdenlive/doctracksound.h]
+dist=true
+install=false
+install_location=
+type=HEADER
+
+[kdenlive/doctrackvideo.cpp]
+dist=true
+install=false
+install_location=
+type=SOURCE
+
+[kdenlive/doctrackvideo.h]
 dist=true
 install=false
 install_location=

@@ -10,23 +10,23 @@
         <name>geometry</name>
         <rect>
             <x>0</x>
-            <y>0</y>
-            <width>653</width>
-            <height>70</height>
+            <y>186</y>
+            <width>433</width>
+            <height>50</height>
         </rect>
     </property>
     <property stdset="1">
         <name>minimumSize</name>
         <size>
             <width>0</width>
-            <height>70</height>
+            <height>50</height>
         </size>
     </property>
     <property stdset="1">
         <name>maximumSize</name>
         <size>
             <width>32767</width>
-            <height>70</height>
+            <height>50</height>
         </size>
     </property>
     <property stdset="1">
@@ -42,11 +42,11 @@
     <grid>
         <property stdset="1">
             <name>margin</name>
-            <number>1</number>
+            <number>0</number>
         </property>
         <property stdset="1">
             <name>spacing</name>
-            <number>6</number>
+            <number>3</number>
         </property>
         <widget row="0"  column="0" >
             <class>QFrame</class>
@@ -68,111 +68,88 @@
             <property>
                 <name>layoutSpacing</name>
             </property>
-            <hbox>
+            <vbox>
                 <property stdset="1">
                     <name>margin</name>
                     <number>2</number>
                 </property>
                 <property stdset="1">
                     <name>spacing</name>
-                    <number>2</number>
+                    <number>3</number>
                 </property>
+                <widget>
+                    <class>QLabel</class>
+                    <property stdset="1">
+                        <name>name</name>
+                        <cstring>m_trackName</cstring>
+                    </property>
+                    <property stdset="1">
+                        <name>text</name>
+                        <string>Sound Track View</string>
+                    </property>
+                </widget>
                 <widget>
                     <class>QLayoutWidget</class>
                     <property stdset="1">
                         <name>name</name>
-                        <cstring>Layout6</cstring>
+                        <cstring>Layout3</cstring>
                     </property>
-                    <property>
-                        <name>layoutSpacing</name>
-                    </property>
-                    <vbox>
+                    <hbox>
                         <property stdset="1">
                             <name>margin</name>
                             <number>0</number>
                         </property>
                         <property stdset="1">
                             <name>spacing</name>
-                            <number>0</number>
+                            <number>6</number>
                         </property>
                         <widget>
-                            <class>QLabel</class>
+                            <class>QCheckBox</class>
                             <property stdset="1">
                                 <name>name</name>
-                                <cstring>m_trackName</cstring>
+                                <cstring>m_soloButton</cstring>
                             </property>
                             <property stdset="1">
                                 <name>text</name>
-                                <string>Sound Track View</string>
+                                <string>Solo</string>
                             </property>
                         </widget>
                         <widget>
-                            <class>QLayoutWidget</class>
+                            <class>QCheckBox</class>
                             <property stdset="1">
                                 <name>name</name>
-                                <cstring>Layout5</cstring>
+                                <cstring>m_muteButton</cstring>
                             </property>
-                            <property>
-                                <name>layoutSpacing</name>
+                            <property stdset="1">
+                                <name>text</name>
+                                <string>Mute</string>
                             </property>
-                            <grid>
-                                <property stdset="1">
-                                    <name>margin</name>
-                                    <number>0</number>
-                                </property>
-                                <property stdset="1">
-                                    <name>spacing</name>
-                                    <number>0</number>
-                                </property>
-                                <widget row="0"  column="0" >
-                                    <class>QCheckBox</class>
-                                    <property stdset="1">
-                                        <name>name</name>
-                                        <cstring>m_soloButton</cstring>
-                                    </property>
-                                    <property stdset="1">
-                                        <name>text</name>
-                                        <string>Solo</string>
-                                    </property>
-                                </widget>
-                                <widget row="0"  column="1" >
-                                    <class>QCheckBox</class>
-                                    <property stdset="1">
-                                        <name>name</name>
-                                        <cstring>m_lockButton</cstring>
-                                    </property>
-                                    <property stdset="1">
-                                        <name>text</name>
-                                        <string>Lock</string>
-                                    </property>
-                                </widget>
-                                <widget row="1"  column="1" >
-                                    <class>QToolButton</class>
-                                    <property stdset="1">
-                                        <name>name</name>
-                                        <cstring>m_expandButton</cstring>
-                                    </property>
-                                    <property stdset="1">
-                                        <name>text</name>
-                                        <string>Expand</string>
-                                    </property>
-                                </widget>
-                                <widget row="1"  column="0" >
-                                    <class>QCheckBox</class>
-                                    <property stdset="1">
-                                        <name>name</name>
-                                        <cstring>m_muteButton</cstring>
-                                    </property>
-                                    <property stdset="1">
-                                        <name>text</name>
-                                        <string>Mute</string>
-                                    </property>
-                                </widget>
-                            </grid>
                         </widget>
-                    </vbox>
+                        <widget>
+                            <class>QCheckBox</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>m_lockButton</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>text</name>
+                                <string>Lock</string>
+                            </property>
+                        </widget>
+                        <widget>
+                            <class>QToolButton</class>
+                            <property stdset="1">
+                                <name>name</name>
+                                <cstring>m_expandButton</cstring>
+                            </property>
+                            <property stdset="1">
+                                <name>text</name>
+                                <string>+</string>
+                            </property>
+                        </widget>
+                    </hbox>
                 </widget>
-            </hbox>
+            </vbox>
         </widget>
     </grid>
 </widget>
