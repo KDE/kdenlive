@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: index_fr\n"
 "POT-Creation-Date: 2001-02-09 01:25+0100\n"
-"PO-Revision-Date: 2003-08-19 22:12GMT\n"
+"PO-Revision-Date: 2003-08-25 23:55GMT\n"
 "Last-Translator: CAULIER Gilles <caulier.gilles@free.fr>\n"
 "Language-Team: FRANCAIS <fr@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -425,8 +425,7 @@ msgstr ""
 #: index.docbook:342
 #, no-c-format
 msgid "Moving and Resizing Clips on the Timeline"
-msgstr ""
-"Déplacement et redimensionnement des plans vidéo dans la table de montage"
+msgstr "Déplacement et redimensionnement des plans vidéo dans la table de montage"
 
 #: index.docbook:343
 #, no-c-format
@@ -513,8 +512,7 @@ msgstr "La liste du projet"
 
 #: index.docbook:403
 #, no-c-format
-msgid ""
-"The project list shows all of the clips that are available for this project."
+msgid "The project list shows all of the clips that are available for this project."
 msgstr ""
 "La liste du projet affiche tous les plans vidéo qui sont disponibles dans le "
 "projet."
@@ -706,6 +704,8 @@ msgid ""
 "The workspace monitor shows the video that is the result of the current "
 "timeline. It works in a similar way to the clip monitor."
 msgstr ""
+"La prévisualisation du montage vidéo affiche la vidéo résultante du contenu de la table "
+"de montage. Son fonctionnement est similaire à la prévisualisation des plans vidéo."
 
 #: index.docbook:535
 #, no-c-format
@@ -731,11 +731,15 @@ msgid ""
 ">Export Timeline menu. This brings up a dialog, which allows you to choose "
 "your export format, export options, and filename to save as."
 msgstr ""
+"Quand vous avez terminé votre monatge vidéo, vous pouvez l'exporter en utilisant le "
+"menu « Rendu vidéo / Exporter le montage vidéo ». Ce menu affichera une boîte de "
+"dialogue qui vous permettra de choisir le format, les options, et le nom du fichier pour "
+"l'exportation de votre montage vidéo."
 
 #: index.docbook:552
 #, no-c-format
 msgid "The rendering project dialog box"
-msgstr ""
+msgstr "La boîte de dialogue pour le rendu vidéo du projet."
 
 #: index.docbook:562
 #, no-c-format
@@ -830,8 +834,7 @@ msgstr "Ouvrir un projet préalablement enregistré."
 #: index.docbook:613
 #, no-c-format
 msgid "<guimenu>File</guimenu> <guimenuitem>Open Recent</guimenuitem>"
-msgstr ""
-"<guimenu>Fichier</guimenu> <guimenuitem>Récemment ouvert(s)</guimenuitem>"
+msgstr "<guimenu>Fichier</guimenu> <guimenuitem>Récemment ouvert(s)</guimenuitem>"
 
 #: index.docbook:613
 #, no-c-format
@@ -855,8 +858,7 @@ msgstr "Enregistre le projet courant."
 #: index.docbook:613
 #, no-c-format
 msgid "<guimenu>File</guimenu> <guimenuitem>Save As...</guimenuitem>"
-msgstr ""
-"<guimenu>Fichier</guimenu> <guimenuitem>Enregistrer sous...</guimenuitem>"
+msgstr "<guimenu>Fichier</guimenu> <guimenuitem>Enregistrer sous...</guimenuitem>"
 
 #: index.docbook:613
 #, no-c-format
@@ -957,8 +959,7 @@ msgstr "Le menu « Projet »"
 #: index.docbook:771
 #, no-c-format
 msgid "<guimenu>Project</guimenu> <guimenuitem>Add Clips</guimenuitem>"
-msgstr ""
-"<guimenu>Projet</guimenu> <guimenuitem>Ajouter des plans vidéo</guimenuitem>"
+msgstr "<guimenu>Projet</guimenu> <guimenuitem>Ajouter des plans vidéo</guimenuitem>"
 
 #: index.docbook:771
 #, no-c-format
@@ -985,8 +986,7 @@ msgstr "Suppression de la liste des plans vidéo inutilisés dans le projet."
 #: index.docbook:771
 #, no-c-format
 msgid "<guimenu>Project</guimenu> <guimenuitem>Clip Properties</guimenuitem>"
-msgstr ""
-"<guimenu>Projet</guimenu> <guimenuitem>Propriétés du plan vidéo</guimenuitem>"
+msgstr "<guimenu>Projet</guimenu> <guimenuitem>Propriétés du plan vidéo</guimenuitem>"
 
 #: index.docbook:831
 #, no-c-format
@@ -1000,7 +1000,7 @@ msgid ""
 "<guimenuitem>Move/Resize Tool</guimenuitem>"
 msgstr ""
 "<shortcut> <keycap>q</keycap> </shortcut> <guimenu>Montage vidéo</guimenu> "
-"<guimenuitem>Outils de déplacement / redimensionnement</guimenuitem>"
+"<guimenuitem>Outil de déplacement / redimensionnement</guimenuitem>"
 
 #: index.docbook:832
 #, no-c-format
@@ -1009,6 +1009,9 @@ msgid ""
 "tool lets you move and resize clips on the timeline. It is the standard "
 "operating mode of the timeline."
 msgstr ""
+"<action>Choisir l'outil de déplacement / redimenssionnement de la table de montage."
+"</action> Cet outil vous permet de déplacer et de redimentionner les plans vidéo dans "
+"la table de montage. C'est l'outil qui est utilisé par défaut dans la table de montage."
 
 #: index.docbook:832
 #, no-c-format
@@ -1017,7 +1020,7 @@ msgid ""
 "<guimenuitem>Razor Tool</guimenuitem>"
 msgstr ""
 "<shortcut> <keycap>w</keycap> </shortcut> <guimenu>Montage vidéo</guimenu> "
-"<guimenuitem>Outils de découpage</guimenuitem>"
+"<guimenuitem>Outil de découpage</guimenuitem>"
 
 #: index.docbook:832
 #, no-c-format
@@ -1025,6 +1028,9 @@ msgid ""
 "<action>Select the Razor tool to use on the timeline.</action> This tool "
 "will cut (razor) the clip into two pieces at the time selected."
 msgstr ""
+"<action>Choisir l'outil de découpage de la table de montage.</action> Cet outil "
+"vous permet de découper en deux piéces les plans vidéo à l'emplacement du curseur "
+"dans la table de montage."
 
 #: index.docbook:832
 #, no-c-format
@@ -1033,7 +1039,7 @@ msgid ""
 "<guimenuitem>Spacer Tool</guimenuitem>"
 msgstr ""
 "<shortcut> <keycap>e</keycap> </shortcut> <guimenu>Montage vidéo</guimenu> "
-"<guimenuitem>Outils de séparation</guimenuitem>"
+"<guimenuitem>Outil de séparation</guimenuitem>"
 
 #: index.docbook:832
 #, no-c-format
@@ -1041,6 +1047,9 @@ msgid ""
 "<action>Select the Spacer tool to use on the timeline.</action> This tool "
 "lets you select all clips to the right of where you click on the timeline."
 msgstr ""
+"<action>Choisir l'outil de séparation de la table de montage.</action> Cette outil "
+"vous permet de sélectionner tous les plans vidéo situés à la droite du curseur dans la "
+"table de montage."
 
 #: index.docbook:832
 #, no-c-format
@@ -1053,6 +1062,8 @@ msgstr ""
 #, no-c-format
 msgid "If checked, all operations will snap to the nearest frame."
 msgstr ""
+"Si cette option est activée, toutes les opérations faites sur les plans vidéo dans la table "
+"de montage utiliseront les trames vidéo comme éléments de travail."
 
 #: index.docbook:832
 #, no-c-format
@@ -1067,6 +1078,8 @@ msgid ""
 "If checked, moving and resizing clips will snap to nearby clip borders and "
 "the seek marker."
 msgstr ""
+"Si cette option est activée, le déplacement et le redimensionnement des plans vidéo "
+"seront réalisés en utilisant les bords et les marqueurs de la table de montage."
 
 #: index.docbook:917
 #, no-c-format
@@ -1104,7 +1117,7 @@ msgstr ""
 #: index.docbook:940
 #, no-c-format
 msgid "Loads up a previously saved screen layout."
-msgstr ""
+msgstr "Charge la configuration de la fenêtre d'édition vidéo précédemment enregistré."
 
 #: index.docbook:940
 #, no-c-format
@@ -1228,8 +1241,7 @@ msgstr "Affiche ou cache la barre d'état."
 
 #: index.docbook:1077
 #, no-c-format
-msgid ""
-"<guimenu>Settings</guimenu> <guimenuitem>Configure Shortcuts...</guimenuitem>"
+msgid "<guimenu>Settings</guimenu> <guimenuitem>Configure Shortcuts...</guimenuitem>"
 msgstr ""
 "<guimenu>Configuration</guimenu> <guimenuitem>Configurer les raccourcis "
 "clavier...</guimenuitem>"
@@ -1241,8 +1253,7 @@ msgstr "Configure les raccourcis clavier de &kdenlive;."
 
 #: index.docbook:1077
 #, no-c-format
-msgid ""
-"<guimenu>Settings</guimenu> <guimenuitem>Configure Toolbars...</guimenuitem>"
+msgid "<guimenu>Settings</guimenu> <guimenuitem>Configure Toolbars...</guimenuitem>"
 msgstr ""
 "<guimenu>Configuration</guimenu> <guimenuitem>Configurer les barres "
 "d'outils...</guimenuitem>"
@@ -1254,8 +1265,7 @@ msgstr "Configure les barres d'outils de &kdenlive;."
 
 #: index.docbook:1077
 #, no-c-format
-msgid ""
-"<guimenu>Settings</guimenu> <guimenuitem>Configure Kdenlive...</guimenuitem>"
+msgid "<guimenu>Settings</guimenu> <guimenuitem>Configure Kdenlive...</guimenuitem>"
 msgstr ""
 "<guimenu>Configuration</guimenu> <guimenuitem>Configurer Kdenlive...</"
 "guimenuitem>"
@@ -1292,8 +1302,7 @@ msgstr ""
 
 #: index.docbook:1151
 #, no-c-format
-msgid ""
-"After selecting this, click on part of the gui to find out what it does."
+msgid "After selecting this, click on part of the gui to find out what it does."
 msgstr ""
 "Aprés avoir sélectionner cette option, cliquez sur une partie de l'interface "
 "graphique pour obtenir de de plus amples informations la concernant."
@@ -1311,8 +1320,7 @@ msgstr "Rapporte un bogue à propos de &kdenlive;"
 #: index.docbook:1151
 #, no-c-format
 msgid "<guimenu>Help</guimenu> <guimenuitem>About Kdenlive</guimenuitem>"
-msgstr ""
-"<guimenu>Aide</guimenu> <guimenuitem>À propos de Kdenlive</guimenuitem>"
+msgstr "<guimenu>Aide</guimenu> <guimenuitem>À propos de Kdenlive</guimenuitem>"
 
 #: index.docbook:1151
 #, no-c-format
@@ -1467,8 +1475,7 @@ msgstr "&kapp;"
 msgid ""
 "Program copyright 2002-2003 Jason Wood <email>jasonwood@blueyonder.co.uk</"
 "email>"
-msgstr ""
-"Copyright Jason Wood <email>jasonwood@blueyonder.co.uk</email>, 2002-2003"
+msgstr "Copyright Jason Wood <email>jasonwood@blueyonder.co.uk</email>, 2002-2003"
 
 #: index.docbook:1343
 #, no-c-format
@@ -1641,3 +1648,4 @@ msgstr ""
 #~ "<prompt>%</prompt> <userinput>./configure</userinput>\n"
 #~ "\t\t\t<prompt>%</prompt> <userinput>make</userinput>\n"
 #~ "\t\t\t<prompt>%</prompt> <userinput>make install</userinput>"
+

@@ -447,7 +447,7 @@ your application. -->
 <title
 >La prévisualisation du montage vidéo</title>
 <para
->  </para>
+> La prévisualisation du montage vidéo affiche la vidéo résultante du contenu de la table de montage. Son fonctionnement est similaire à la prévisualisation des plans vidéo. </para>
 <para
 >  </para>
 </sect1>
@@ -456,14 +456,14 @@ your application. -->
 <title
 >Le rendu vidéo du projet</title>
 <para
->  </para>
+> Quand vous avez terminé votre monatge vidéo, vous pouvez l'exporter en utilisant le menu « Rendu vidéo / Exporter le montage vidéo ». Ce menu affichera une boîte de dialogue qui vous permettra de choisir le format, les options, et le nom du fichier pour l'exportation de votre montage vidéo. </para>
 <screenshot
 > <mediaobject
 > <imageobject
 > <imagedata fileref="rendering_project.png" format="PNG"/> </imageobject
 > <textobject
 > <phrase
-></phrase
+>La boîte de dialogue pour le rendu vidéo du projet.</phrase
 > </textobject
 > </mediaobject
 > </screenshot>
@@ -874,12 +874,14 @@ or menu bars. -->
 > <guimenu
 >Montage vidéo</guimenu
 > <guimenuitem
->Outils de déplacement / redimensionnement</guimenuitem
+>Outil de déplacement / redimensionnement</guimenuitem
 > </menuchoice
 > </term
 > <listitem
 > <para
->  </para
+> <action
+>Choisir l'outil de déplacement / redimenssionnement de la table de montage.</action
+> Cet outil vous permet de déplacer et de redimentionner les plans vidéo dans la table de montage. C'est l'outil qui est utilisé par défaut dans la table de montage. </para
 > </listitem
 > </varlistentry
 > <varlistentry
@@ -892,12 +894,14 @@ or menu bars. -->
 > <guimenu
 >Montage vidéo</guimenu
 > <guimenuitem
->Outils de découpage</guimenuitem
+>Outil de découpage</guimenuitem
 > </menuchoice
 > </term
 > <listitem
 > <para
->  </para
+> <action
+>Choisir l'outil de découpage de la table de montage.</action
+> Cet outil vous permet de découper en deux piéces les plans vidéo à l'emplacement du curseur dans la table de montage. </para
 > </listitem
 > </varlistentry
 > <varlistentry
@@ -910,12 +914,14 @@ or menu bars. -->
 > <guimenu
 >Montage vidéo</guimenu
 > <guimenuitem
->Outils de séparation</guimenuitem
+>Outil de séparation</guimenuitem
 > </menuchoice
 > </term
 > <listitem
 > <para
->  </para
+> <action
+>Choisir l'outil de séparation de la table de montage.</action
+> Cette outil vous permet de sélectionner tous les plans vidéo situés à la droite du curseur dans la table de montage. </para
 > </listitem
 > </varlistentry
 > <varlistentry
@@ -930,7 +936,7 @@ or menu bars. -->
 > <listitem
 > <para
 > <action
-></action
+>Si cette option est activée, toutes les opérations faites sur les plans vidéo dans la table de montage utiliseront les trames vidéo comme éléments de travail.</action
 > </para
 > </listitem
 > </varlistentry
@@ -946,7 +952,7 @@ or menu bars. -->
 > <listitem
 > <para
 > <action
-></action
+>Si cette option est activée, le déplacement et le redimensionnement des plans vidéo seront réalisés en utilisant les bords et les marqueurs de la table de montage.</action
 > </para
 > </listitem
 > </varlistentry
@@ -1000,7 +1006,7 @@ or menu bars. -->
 > <listitem
 > <para
 > <action
-></action
+>Charge la configuration de la fenêtre d'édition vidéo précédemment enregistré.</action
 > </para
 > </listitem
 > </varlistentry
@@ -1020,7 +1026,7 @@ or menu bars. -->
 > <listitem
 > <para
 > <action
-></action
+>Charge la configuration de la fenêtre d'édition vidéo précédemment enregistré.</action
 > </para
 > </listitem
 > </varlistentry
@@ -1040,7 +1046,7 @@ or menu bars. -->
 > <listitem
 > <para
 > <action
-></action
+>Charge la configuration de la fenêtre d'édition vidéo précédemment enregistré.</action
 > </para
 > </listitem
 > </varlistentry
@@ -1060,7 +1066,7 @@ or menu bars. -->
 > <listitem
 > <para
 > <action
-></action
+>Charge la configuration de la fenêtre d'édition vidéo précédemment enregistré.</action
 > </para
 > </listitem
 > </varlistentry
