@@ -42,7 +42,7 @@ thanks ;-).
 as Authors, publish date, the abstract, and Keywords -->
 
 <bookinfo>
-<title>The Kdenlive Handbook</title>
+<title>The &kdenlive; Handbook</title>
 
 <authorgroup>
 <author>
@@ -51,6 +51,16 @@ as Authors, publish date, the abstract, and Keywords -->
 <surname>Wood</surname>
 <affiliation>
 <address><email>jasonwood@blueyonder.co.uk</email></address>
+</affiliation>
+</author>
+</authorgroup>
+
+<authorgroup>
+<author>
+<firstname>Gilles</firstname>
+<surname>Caulier</surname>
+<affiliation>
+<address><email>caulier.gilles@free.fr</email></address>
 </affiliation>
 </author>
 </authorgroup>
@@ -73,8 +83,8 @@ Please respect the format of the date (DD/MM/YYYY) and of the version
 (V.MM.LL), it could be used by automation scripts.
 Do NOT change these in the translation. -->
 
-<date>10/08/2003</date>
-<releaseinfo>1.01.01</releaseinfo>
+<date>28/08/2003</date>
+<releaseinfo>0.2.3</releaseinfo>
 
 <!-- Abstract about this handbook -->
 
@@ -82,18 +92,22 @@ Do NOT change these in the translation. -->
 <para>
 	&kdenlive; is a non-linear video editor for KDE.
 </para>
+
 <para>
 	WARNING - this document has not yet been finished. In particular, information on contributors
 	to &kapp;, requirements for &kapp;, installation instructions for &kapp; and the changelog
-	info are all wrong at present. Also, please contact me at 
-	<email>jasonwood@blueyonder.co.uk</email> rather than bugging any of the kde mailing lists.
+	info are all wrong at present. 
+	Also, please contact me at <email>jasonwood@blueyonder.co.uk</email> rather than bugging any 
+	of the kde mailing lists.
 </para>
+
 <para>
 	Cheers,
 </para>
 <para>
 	Jason
 </para>
+
 </abstract>
 
 <!-- This is a set of Keywords for indexing by search engines.
@@ -107,6 +121,8 @@ Please at least include KDE, the KDE package it is in, the name
 </keywordset>
 
 </bookinfo>
+
+
 
 <!-- The contents of the documentation begin here.  Label
 each chapter so with the id attribute. This is necessary for two reasons: it
@@ -280,7 +296,7 @@ revision history. (see installation appendix comment) -->
 				Attempting to add some invalid file types to the project may cause the
 				underlying renderer to crash. This is a known bug, if it occurs, then
 				simply save your project (it is safe to do so, although it is recommended
-				that you save as a different filename), close Kdenlive and restart. See 
+				that you save as a different filename), close &kdenlive; and restart. See 
 				the  <link linkend="known-issues">Known Issues</link> section for more 
 				details.
 			</para>
@@ -471,13 +487,13 @@ your application. -->
 		On the left, the debug panel shows a list of the renderers in use by &kdenlive;. Each
 		renderer has a name that says which part of &kdenlive; it is used by. There are three
 		such renderers in the current version of &kdenlive;. Clip monitor handles playback of
-	       	video in the Clip Monitor.. Workspace monitor handles playback in the Workspace Monitor
+	       	video in the Clip Monitor. Workspace monitor handles playback in the Workspace Monitor. 
 		The Document renderer handles all other tasks, such as determining the lengths of
 		video files, and exporting the final video footage.
 	</para>
 	<para>
 		If you select one of the renderers from the list, the text area will show all debug output
-		from the renderer. For general usage of Kdenlive, you do not need to understand this, but
+		from the renderer. For general usage of &kdenlive;, you do not need to understand this, but
 		it is very important when filing bug reports to send a copy of these messages - doing so
 		will better aid us in fixing your problems. Click the Save Messages button to bring up
 		a standard save dialog in which you can save the output.
@@ -1132,7 +1148,7 @@ This tool lets you select all clips to the right of where you click on the timel
 <varlistentry>
 <term><menuchoice>
 <guimenu>Settings</guimenu>
-<guimenuitem>Configure Kdenlive...</guimenuitem>
+<guimenuitem>Configure &kdenlive;...</guimenuitem>
 </menuchoice>
 </term>
 <listitem>
@@ -1154,7 +1170,7 @@ This tool lets you select all clips to the right of where you click on the timel
 <varlistentry>
 <term><menuchoice>
 <guimenu>Help</guimenu>
-<guimenuitem>Kdenlive Handbook</guimenuitem>
+<guimenuitem>&kdenlive; Handbook</guimenuitem>
 </menuchoice>
 </term>
 <listitem>
@@ -1196,7 +1212,7 @@ This tool lets you select all clips to the right of where you click on the timel
 <varlistentry>
 <term><menuchoice>
 <guimenu>Help</guimenu>
-<guimenuitem>About Kdenlive</guimenuitem>
+<guimenuitem>About &kdenlive;</guimenuitem>
 </menuchoice>
 </term>
 <listitem>

@@ -50,7 +50,7 @@ as Authors, publish date, the abstract, and Keywords -->
 
 <bookinfo>
 <title
->Le manuel de Kdenlive</title>
+>Le manuel de &kdenlive;</title>
 
 <authorgroup>
 <author
@@ -64,6 +64,21 @@ as Authors, publish date, the abstract, and Keywords -->
 > <address
 ><email
 >jasonwood@blueyonder.co.uk</email
+></address
+> </affiliation
+> </author>
+</authorgroup>
+
+<authorgroup>
+<author
+> <firstname
+>Gilles</firstname
+> <surname
+>Caulier</surname
+> <affiliation
+> <address
+><email
+>caulier.gilles@free.fr</email
 ></address
 > </affiliation
 > </author>
@@ -104,23 +119,26 @@ Please respect the format of the date (DD/MM/YYYY) and of the version
 Do NOT change these in the translation. -->
 
 <date
->10/08/2003</date>
+>28/08/2003</date>
 <releaseinfo
->1.01.01</releaseinfo>
+>0.2.3</releaseinfo>
 
 <!-- Abstract about this handbook -->
 
 <abstract>
 <para
 > &kdenlive; est une application de montage vidéo non linéaire pour KDE. </para>
+
 <para
-> ATTENTION ! Ce document n'est pas encore complètement terminé. Les informations concernant les contributeurs de &kapp;, les programmes requis, les instructions d'installation, et les informations de changement de version ne sont pas à jour ou sont incomplètes. Veuillez prendre contact avec l'auteur à l'adresse <email
+> ATTENTION !!! Ce document n'est pas encore complètement terminé. Les informations concernant les contributeurs de &kapp;, les programmes requis, les instructions d'installation, et les informations de changement de version ne sont pas à jour ou sont incomplètes. Veuillez prendre contact avec l'auteur à l'adresse <email
 >jasonwood@blueyonder.co.uk</email
 > pour de plus amples informations. </para>
+
 <para
-> Salutations, </para>
+> Bonne lecture </para>
 <para
 > Jason </para>
+
 </abstract>
 
 <!-- This is a set of Keywords for indexing by search engines.
@@ -137,6 +155,8 @@ of your application, and a few relevant keywords. -->
 </keywordset>
 
 </bookinfo>
+
+
 
 <!-- The contents of the documentation begin here.  Label
 each chapter so with the id attribute. This is necessary for two reasons: it
@@ -157,7 +177,7 @@ problems. Basically a long version of the abstract.  Don't include a
 revision history. (see installation appendix comment) -->
 
 <para
-> &kapp; est une application de montage vidéo non linéaire pour KDE. Pour rapporter des bogues ou pour proposer de nouvelles fonctionnalités, veulliez envoyer un courrier électronique à <email
+> &kapp; est une application de montage vidéo non linéaire pour KDE. Pour rapporter des bogues ou pour proposer de nouvelles fonctionnalités, Veulliez envoyer un courrier électronique à <email
 >jasonwood@blueyonder.co.uk</email
 > </para>
 <sect1 id="whatisavideoeditor">
@@ -203,7 +223,7 @@ revision history. (see installation appendix comment) -->
 > </screenshot>
 
 <para
-> Dans l'interface graphique par défaut de &kdenlive;, il y a trois panneaux importants. Les positions de tous ces panneaux sont configurables individuellement en fonction de vos besoins. </para>
+> Dans l'interface graphique par défaut de &kdenlive;, il y a trois panneaux importants. Les positions de tous ces panneaux peuvent être configurés individuellement en fonction de vos besoins. </para>
 
 <sect2 id="project-panel">
 <title
@@ -253,7 +273,7 @@ revision history. (see installation appendix comment) -->
 > </mediaobject
 > </screenshot>
 <para
-> Le panneau située en bas de la fenêtre principale est appelée la table de montage vidéo. Elle offre une représentation visuelle de votre projet. Elle affiche l'état de lecture et de non lecture des plans vidéo, le chevauchement de plans vidéo, et le plan vidéo courant. Les versions actuelles de &kdenlive; / &piave; ne gére pas encore les effets spéciaux. Les futures versions implanteront cette fonctionnalité et elle sera visible dans la table de montage. </para>
+> Le panneau située en bas de la fenêtre principale est appelée la table de montage vidéo. Elle offre une représentation visuelle de votre projet. Elle affiche l'état de lecture et de non lecture des plans vidéo, le chevauchement de plans vidéo, et le plan vidéo courant. Les versions actuelles de &kdenlive; / &piave; ne gère pas encore les effets spéciaux. Les futures versions implanteront cette fonctionnalité et elle sera visible dans la table de montage. </para>
 </sect2>
 </sect1>
 <sect1 id="addingclips">
@@ -261,22 +281,22 @@ revision history. (see installation appendix comment) -->
 >Ajouter un plan vidéo à votre projet</title>
 
 <para
-> Maintenant que vous avez une vue d'ensemble de &kdenlive;, il est temps d'ajouter quelques plans vidéo à votre projet. Vous devez disposer de quelques plans vidéo sur votre ordinateur pour réaliser cette opération. Actuellement, &kdenlive; ne dispose pas encore des fonctionnalités de capture vidéo, et vous devez utiliser une autre application pour réaliser cette opération. Nous recommendons le programme « kino » qui peut être télechargé à l'adresse <ulink url="http://kino.schirmacher.de/"
+> Maintenant que vous avez une vue d'ensemble de &kdenlive;, il est temps d'ajouter quelques plans vidéo à votre projet. Vous devez disposer de quelques plans vidéo sur votre ordinateur pour réaliser cette opération. Actuellement, &kdenlive; ne dispose pas encore des fonctionnalités de capture vidéo, et vous devez utiliser une autre application pour réaliser cette opération. Nous recommandons le programme « kino » qui peut être téléchargé à l'adresse <ulink url="http://kino.schirmacher.de/"
 >http://kino.schirmacher.de/</ulink
 >. </para>
 
 <para
-> Aprés avoir récupérer quelques plans vidéo sur votre ordinateur, vous pourrez les ajouter à votre projet. Sélectionnez l'onglet « Projet » dans le panneau relatif au projet, et activez le menu contextuel avec le bouton droit de la souris. Sélectionnez l'option <guimenuitem
+> Après avoir récupérer quelques plans vidéo sur votre ordinateur, vous pourrez les ajouter à votre projet. Sélectionnez l'onglet « Projet » dans le panneau relatif au projet, et activez le menu contextuel avec le bouton droit de la souris. Sélectionnez l'option <guimenuitem
 >Ajouter des plans vidéo</guimenuitem
 > qui ouvrira la boîte de dialogue de sélection de fichiers de &kde;. Rechercher vos plans vidéo, choisissez les, et validez votre sélection. </para>
 <caution
 > <para
-> Si vous essayez d'ajouter des fichiers vidéo non valables dans la liste du projet, cela peut entrainer un arrêt anormal du programme de rendu vidéo (Piave). Ceci est un bogue connu. Lorsqu'il apparaît, enregistrer votre projet (si possible dans un nom diffèrent si c'est un projet déjà existant et en cours de modification), arrêter Kdenlive, et relancer le. Consulter la section <link linkend="known-issues"
+> Si vous essayez d'ajouter des fichiers vidéo non valables dans la liste du projet, cela peut entraîner un arrêt anormal du programme de rendu vidéo (Piave). Ceci est un bogue connu. Lorsqu'il apparaît, enregistrer votre projet (si possible dans un nom diffèrent si c'est un projet déjà existant et en cours de modification), arrêter &kdenlive; et relancer le. Consulter la section <link linkend="known-issues"
 >Problèmes connus et solutions</link
 > pour plus de détails. </para
 > </caution>
 <para
-> Les plans vidéo que vous avez ajouter doivent apparaître dans la liste du projet, avec leurs durées ansi que d'autres informations. </para>
+> Les plans vidéo que vous avez ajouter doivent apparaître dans la liste du projet, avec leurs durées ainsi que d'autres informations. </para>
 <screenshot
 > <mediaobject
 > <imageobject
@@ -297,7 +317,7 @@ revision history. (see installation appendix comment) -->
 <para
 > Vous pouvez utiliser le « glisser / déposer » directement entre la liste du projet et la table de montage. Choisissez un plan vidéo dans la liste du projet et glisser le sur la table de montage à l'aide de la souris. La piste vidéo doit apparaître dans la table de montage et peut y être déplacer à volonté. Cette méthode place la totalité du plan vidéo dans la table de montage. </para>
 <para
-> Lorque vous cliquez sur un plan vidéo dans la liste du projet, l'onglet « Plan vidéo » du panneau de prévisualisation affichera automatiquement la première trame du plan vidéo. Vous pouvez appuyer sur le bouton de lecture pour avoir une idée du contenu avant de le placer dans la table de montage. Déplacez le curseur de lecture à la position ou vous voulez commencer votre plan et appuyez sur le bouton « Point d'entrée ». De même, déplacez le curseur de lecture à la position ou vous voulez terminer votre plan et appuyez sur le bouton « Point de sortie ». Enfin faite un « glisser / déposer » entre la prévisualisation du plan vidéo et la table de montage pour ajouter le plan vidéo. Celui ciapparaîtra découpé aux limites préalablement définies dans le panneau de prévisualisation. </para>
+> Lorsque vous cliquez sur un plan vidéo dans la liste du projet, l'onglet « Plan vidéo » du panneau de prévisualisation affichera automatiquement la première trame du plan vidéo. Vous pouvez appuyer sur le bouton de lecture pour avoir une idée du contenu avant de le placer dans la table de montage. Déplacez le curseur de lecture à la position ou vous voulez commencer votre plan et appuyez sur le bouton « Point d'entrée ». De même, déplacez le curseur de lecture à la position ou vous voulez terminer votre plan et appuyez sur le bouton « Point de sortie ». Enfin faite un « glisser / déposer » entre la prévisualisation du plan vidéo et la table de montage pour ajouter le plan vidéo. Celui ci apparaîtra découpé aux limites préalablement définies dans le panneau de prévisualisation. </para>
 </sect1>
 
 <sect1 id="selecting-clips">
@@ -305,22 +325,22 @@ revision history. (see installation appendix comment) -->
 >Sélection de plans vidéo dans la table de montage</title>
 
 <para
->  </para>
+> Vous pouvez sélectionner un plan vidéo dans la table de montage en clicquant dessus avec le bouton gauche de la souris. Si vous voulez ajouter des plans vidéo à la sélection courante, appuyez sur la touche « Maj » et sélectionnez de nouveaux plans vidéo dans la table de montage. Vous pouvez sélectionner ou désélectionner un plan vidéo d'une sélection en utilisant la touche « Ctrl » avec le bouton gauche de la souris. </para>
 </sect1>
 
 <sect1 id="manipulatings-clips-on-timeline">
 <title
 >Déplacement et redimensionnement des plans vidéo dans la table de montage</title>
 <para
->  </para>
+> Pour déplacer les plans vidéo dans la table de montage, utiliser le « glisser / déposer » avec le bouton gauche de la souris. Vous pouvez redimensionner un plan vidéo directement dans la table de montage en déplaçant le curseur de la souris sur le début ou la fin de celui ci, puis en utilisant le le « glisser / déposer » avec le bouton gauche de la souris afin d'obtenir la bonne dimension. </para>
 <para
->  </para>
+> Le redimensionnement d'un plan vidéo change automatiquement les points d'entrée et de sortie qui lui sont associés. Si vous resélectionnez le plan vidéo et que vous l'affichez dans la fenêtre de prévisualisation des plans vidéo, vous apercevrez alors leurs nouvelles positions. </para>
 <note
 > <para
->  </para
+> Il n'est pas possible de redimensionner un plan vidéo au dessus de sa taille d'origine. Par exemple, si un plan vidéo a une durée de 30 secondes, vous ne pourrez pas le redimensionner à une durée de 35 secondes. </para
 > </note>
 <para
->  </para>
+> Quand vous redimensionnez et déplacez des plans vidéo, les options « Utiliser les trames » et « Utiliser les bords » du menu « Montage vidéo » vous permettent d'ajuster la position des plans vidéo dans la table de montage. Ceci peut être utile pour aligner rapidement l'un derrière l'autre les plans vidéo. </para>
 </sect1>
 
 <sect1 id="removing-clips-from-timeline">
@@ -400,17 +420,17 @@ your application. -->
 > </mediaobject
 > </screenshot>
 <para
->  </para>
+> Le panneau de débogage est très utilisé par l'équipe de développement de &kdenlive;. Il affiche de nombreuses informations concernant les processus de traitement des plans vidéo effectués par &kdenlive;. Cette section ne vous aidera pas à comprendre les informations contenu dans le panneau de débogage, mais vous expliquera pourquoi il existe et comment il opère. </para>
 <para
->  </para>
+> À la gauche du panneau de débogage, on trouve la liste des processus nécessaires aux rendus vidéo de &kdenlive;. Chaque processus est nommé en fonction de son utilisation dans &kdenlive;. Il y a trois processus dans la version actuelle de &kdenlive;. Le processus « Plan vidéo » permet la prévisualisation des plans vidéo. Le processus « Montage vidéo » permet la prévisualisation du projet. Le processus « Projet » permet toutes les autres tâches, tel que la détermination des durées des plans vidéo et l'exportation finale du montage vidéo. </para>
 <para
->  </para>
+> Si vous choisissez un des processus de rendu vidéo dans la liste, la zone de texte affichera les messages de débogage correspondants. En général, il n'est pas nécessaire de connaître la signification des messages, mais dans certain cas il est important de pouvoir récupérer ces informations pour les rapports de bogues. Cliquez sur le bouton « Enregistrer les messages » pour préciser le fichier cible de sauvegarde des messages. </para>
 <note
 > <para
->  </para
+> Le bouton « Enregistrer les messages » vous permet de sauvegarder une trace de tous les messages issus des programmes de rendu vidéo. Il n'est pas nécessaire de sauvegarder individuellement les vues de tous les programmes de rendu vidéo. </para
 > </note>
 <para
->  </para>
+> Une option est disponible dans le panneau de débogage pour pouvoir activer ou désactiver l'affichage des messages de débogage. Cela peut être nécessaire sur les ordinateurs peu puissants, ou lorsque vous exécuter de longue session de &kdenlive;. En effet, l'affichage des messages de débogage ralentissent le programme et consomment beaucoup de mémoire. </para>
 </sect1>
 
 <sect1 id="kapp-effectlist">
@@ -433,14 +453,14 @@ your application. -->
 <title
 >La table de montage vidéo</title>
 <para
-> A faire... </para>
+> À faire... </para>
 </sect1>
 
 <sect1 id="kapp-clipmonitor">
 <title
 >La prévisualisation des plans vidéo</title>
 <para
-> A faire... </para>
+> À faire... </para>
 </sect1>
 
 <sect1 id="kapp-workspacemonitor">
@@ -449,14 +469,14 @@ your application. -->
 <para
 > La prévisualisation du montage vidéo affiche la vidéo résultante du contenu de la table de montage. Son fonctionnement est similaire à la prévisualisation des plans vidéo. </para>
 <para
->  </para>
+> Les points d'entrée et de sortie de la fenêtre de prévisualisation du montage vidéo ont les mêmes fonctions que ceux présent dans la fenêtre de prévisualisation des plans vidéo. Vous pouvez obtenir ainsi un « plan vidéo du projet », qui sera une séquence vidéo contenant tous les plans vidéo présent dans la table de montage. Cette fonction est utile pour regrouper ensemble un certain nombre de plans vidéo quand vous avez fini de les associer dans la table de montage et que vous voulez les manipuler comme un simple plan vidéo. </para>
 </sect1>
 
 <sect1 id="kapp-rendering">
 <title
 >Le rendu vidéo du projet</title>
 <para
-> Quand vous avez terminé votre monatge vidéo, vous pouvez l'exporter en utilisant le menu « Rendu vidéo / Exporter le montage vidéo ». Ce menu affichera une boîte de dialogue qui vous permettra de choisir le format, les options, et le nom du fichier pour l'exportation de votre montage vidéo. </para>
+> Quand vous avez terminé votre montage vidéo, vous pouvez l'exporter en utilisant le menu « Rendu vidéo / Exporter le montage vidéo ». Ce menu affichera une boîte de dialogue qui vous permettra de choisir le format, les options, et le nom du fichier pour l'exportation de votre montage vidéo. </para>
 <screenshot
 > <mediaobject
 > <imageobject
@@ -469,7 +489,7 @@ your application. -->
 > </screenshot>
 <note
 > <para
-> Les versions actuelles des programmes &kdenlive; et &piave; ne gerent uniquement l'exportation vidéo au format « DV » brut (RAW). </para
+> Les versions actuelles des programmes &kdenlive; et &piave; ne gèrent uniquement l'exportation vidéo au format « DV » brut (RAW). </para
 > </note>
 </sect1>
 
@@ -492,7 +512,7 @@ your application. -->
 > <imagedata fileref="setup_renderer.png" format="PNG"/> </imageobject
 > <textobject
 > <phrase
->La boîte de dilaogue de configuration du programme de rendu vidéo</phrase
+>La boîte de dialogue de configuration du programme de rendu vidéo</phrase
 > </textobject
 > </mediaobject
 > </screenshot>
@@ -680,7 +700,7 @@ or menu bars. -->
 > <listitem
 > <para
 > <action
->Annule la derniére opération faite dans la table de montage.</action
+>Annule la dernière opération faite dans la table de montage.</action
 > </para
 > </listitem
 > </varlistentry
@@ -880,8 +900,8 @@ or menu bars. -->
 > <listitem
 > <para
 > <action
->Choisir l'outil de déplacement / redimenssionnement de la table de montage.</action
-> Cet outil vous permet de déplacer et de redimentionner les plans vidéo dans la table de montage. C'est l'outil qui est utilisé par défaut dans la table de montage. </para
+>Choisir l'outil de déplacement / redimensionnement de la table de montage.</action
+> Cet outil vous permet de déplacer et de redimensionner les plans vidéo dans la table de montage. C'est l'outil qui est utilisé par défaut dans la table de montage. </para
 > </listitem
 > </varlistentry
 > <varlistentry
@@ -901,7 +921,7 @@ or menu bars. -->
 > <para
 > <action
 >Choisir l'outil de découpage de la table de montage.</action
-> Cet outil vous permet de découper en deux piéces les plans vidéo à l'emplacement du curseur dans la table de montage. </para
+> Cet outil vous permet de découper en deux pièces les plans vidéo à l'emplacement du curseur dans la table de montage. </para
 > </listitem
 > </varlistentry
 > <varlistentry
@@ -977,7 +997,7 @@ or menu bars. -->
 > <listitem
 > <para
 > <action
->Exporte le contenu de la table de montage dans une séquence vidéo. Cette opération est auusi appelée le « rendu vidéo ».</action
+>Exporte le contenu de la table de montage dans une séquence vidéo. Cette opération est aussi appelée le « rendu vidéo ».</action
 > </para
 > </listitem
 > </varlistentry
@@ -1253,7 +1273,7 @@ or menu bars. -->
 > <guimenu
 >Configuration</guimenu
 > <guimenuitem
->Configurer Kdenlive...</guimenuitem
+>Configurer &kdenlive;...</guimenuitem
 > </menuchoice
 > </term
 > <listitem
@@ -1278,7 +1298,7 @@ or menu bars. -->
 > <guimenu
 >Aide</guimenu
 > <guimenuitem
->Manuel de Kdenlive</guimenuitem
+>Manuel de &kdenlive;</guimenuitem
 > </menuchoice
 > </term
 > <listitem
@@ -1308,7 +1328,7 @@ or menu bars. -->
 > <listitem
 > <para
 > <action
->Aprés avoir sélectionner cette option, cliquez sur une partie de l'interface graphique pour obtenir de de plus amples informations la concernant.</action
+>Après avoir sélectionner cette option, cliquez sur une partie de l'interface graphique pour obtenir de de plus amples informations la concernant.</action
 > </para
 > </listitem
 > </varlistentry
@@ -1334,7 +1354,7 @@ or menu bars. -->
 > <guimenu
 >Aide</guimenu
 > <guimenuitem
->À propos de Kdenlive</guimenuitem
+>À propos de &kdenlive;</guimenuitem
 > </menuchoice
 > </term
 > <listitem
@@ -1376,7 +1396,7 @@ used for apps that use plugins or that provide their own scripting hooks
 and/or development libraries. -->
 
 <para
-> A faire... </para>
+> À faire... </para>
 
 <!-- Use refentries to describe APIs.  Refentries are fairly complicated and you
 should consult the docbook reference for further details. The example below was
@@ -1389,9 +1409,9 @@ taken from that reference and shortened a bit for readability. -->
 >Problèmes connus et solutions</title>
 
 <para
->  </para>
+> Si une session de &kdenlive; ou une des sessions de &piave; s'arrête anormalement, il est possible que la session courante ou une nouvelle session de &kdenlive; ne puisse pas correctement s'exécuter. </para>
 <para
->  <screen width="40">
+> Il y a deux raisons à ce problème. La première est qu'une des sessions de &piave; ne s'arrête pas correctement lors d'une précédente session de &kdenlive;. La solution la plus simple est d'arrêter &kdenlive; et de saisir la ligne de commande suivante : <screen width="40">
 <prompt
 >%</prompt
 > <userinput
@@ -1441,7 +1461,7 @@ application work. -->
 </question>
 <answer>
 <para
-> Aller dans l'onglet « Déboguer » et essayer de valider l'option « Ignorer les messages entrants ». Cela désactivera l'affichage des messages de déboguage qui peuvent ralentir considérablement l'interface graphique pendant la lecture de longs plans vidéo. </para>
+> Aller dans l'onglet « Déboguer » et essayer de valider l'option « Ignorer les messages entrants ». Cela désactivera l'affichage des messages de débogage qui peuvent ralentir considérablement l'interface graphique pendant la lecture de longs plans vidéo. </para>
 </answer>
 </qandaentry>
 </qandaset>
@@ -1576,7 +1596,7 @@ or the ChangeLog file, or ... -->
 > </para>
 
 <para
-> Des paramètres supplèmentaires peuvent être nécessaires au script «./configure ». Saisissez la ligne de commande suivante dans le dossier de base contenant les sources du programme : <screen width="40">
+> Des paramètres supplémentaires peuvent être nécessaires au script «./configure ». Saisissez la ligne de commande suivante dans le dossier de base contenant les sources du programme : <screen width="40">
 <prompt
 >%</prompt
 > <userinput
