@@ -21,6 +21,12 @@
 
 #include "kdenlive.h"
 
+//
+// arts headers
+//
+#include "arts/qiomanager.h"
+#include "arts/dispatcher.h"
+
 static const char *description =
 	I18N_NOOP("Kdenlive");
 // INSERT A DESCRIPTION FOR YOUR APPLICATION HERE
@@ -44,6 +50,9 @@ int main(int argc, char *argv[])
 	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 
   KApplication app;
+
+  Arts::QIOManager manager;
+	Arts::Dispatcher dispatcher(&manager);	
  
   if (app.isRestored())
   {

@@ -20,7 +20,7 @@ type=DATA
 addcxxflags=
 bin_program=kdenlive
 cxxflags=\s-O0 -g3 -Wall
-ldadd=\s$(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT)
+ldadd=-lqtmcop $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT)
 ldflags=
 
 [General]

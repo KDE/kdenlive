@@ -21,6 +21,11 @@
 #include <kiconloader.h>
 #include <kfiledialog.h>
 
+#include "arts/core.h"
+
+#include <iostream>
+#include <map>
+
 ProjectList::ProjectList(QWidget *parent, const char *name ) :
 									QVBox(parent,name),
 									listView(this, name, 0),
@@ -46,12 +51,36 @@ void ProjectList::init_menu(){
 }
 
 void ProjectList::slot_AddFile() {
-	 KURL url=KFileDialog::getOpenURL(QString::null,
+	// determine file types supported by Arts
+	std::map<std::string, bool> done;	
+		
+	Arts::TraderQuery query;
+	
+  query.supports("Interface", "Arts::PlayObject");
+	std::vector<Arts::TraderOffer> *results = query.query();	
+
+	for(std::vector<Arts::TraderOffer>::iterator i = results->begin(); i != results->end(); i++)
+	{
+		std::vector<string> *ext = (*i).getProperty("Extension");
+				
+		for(std::vector<string>::iterator it = ext->begin(); it != ext->end(); it++) {
+			if(!(*it).length() || done[*it]) continue;
+
+  		done[*it] = true;
+			cout << *it << endl;
+		}
+		
+		delete ext;		
+	}
+	
+	delete results;	
+		
+	KURL url=KFileDialog::getOpenURL(QString::null,
         i18n("*|All files"), this, i18n("Open File..."));
-    if(!url.isEmpty())
-    {
-    	emit signal_AddFile(url);
-    }
+	if(!url.isEmpty())
+	{
+  	emit signal_AddFile(url);
+	}
 }
 
 /** No descriptions */
