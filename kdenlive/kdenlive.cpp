@@ -86,6 +86,10 @@ void KdenliveApp::initActions()
   viewToolBar = KStdAction::showToolbar(this, SLOT(slotViewToolBar()), actionCollection());
   viewStatusBar = KStdAction::showStatusbar(this, SLOT(slotViewStatusBar()), actionCollection());
 
+  KAction *sampleClip = new KAction(i18n("Sample Clip"), 0, 0, this,
+  										SLOT(slotFileNewWindow()), actionCollection(),"sample_clip_action");
+	sampleClip->setStatusText(i18n("Sample clip action"));
+      
   fileNewWindow->setStatusText(i18n("Opens a new application window"));
   fileNew->setStatusText(i18n("Creates a new document"));
   fileOpen->setStatusText(i18n("Opens an existing document"));
@@ -379,7 +383,7 @@ void KdenliveApp::slotFileQuit()
   KMainWindow* w;
   if(memberList)
   {
-    for(w=memberList->first(); w!=0; w=memberList->first())
+    for(w=memberList->first(); w; w = memberList->next())
     {
       // only close the window if the closeEvent is accepted. If the user presses Cancel on the saveModified() dialog,
       // the window and the application stay open.
