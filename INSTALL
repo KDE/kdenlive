@@ -52,9 +52,18 @@ Then type:
 
 cvs -z3 -d:pserver:anonymous@cvs.kdenlive.sourceforge.net:/cvsroot/kdenlive co kdenlive
 
+Once the sourcecode has been downloaded, create a link called admin to the directory
+that matches the version of automake you are using.
 
-Once the sourcecode has been downloaded, type the following commands to compile
-and install kdenlive.
+For 2.13 or similar :
+
+ln -s admin2_13 admin
+
+For 2.5x :
+
+ln -s admin2_5 admin
+
+Then, type the following commands to compile and install kdenlive.
 
 cd kdenlive
 make -f admin/Makefile.common
