@@ -219,6 +219,9 @@ void KRender::ping(QString &ID)
 
 void KRender::play(double speed)
 {
+	if(m_setSceneListPending) {
+		sendSetSceneListCommand(m_sceneList);
+	}  
 	QDomDocument doc;
 	QDomElement elem = doc.createElement("play");
 	elem.setAttribute("speed", speed);
