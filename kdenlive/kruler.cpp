@@ -142,14 +142,15 @@ public:
 		QPointArray points(3);
 
 		points.setPoint(0, x, height);
-		points.setPoint(1, x, 0);
-		points.setPoint(2, x + (height/4) + 1, height/2);
+		points.setPoint(1, x, height/2);
+		points.setPoint(2, x + (height/4) + 1, (height*3)/4);
 		painter.drawPolygon(points);			
   }
 
   bool underMouse(const int x, const int y, const int midx, const int height) const {
 		if(x < midx) return false;
 		if(x > midx + (height/4) + 1) return false;
+    if(y < height/2) return false;
 		return true;  
   }
 
@@ -173,8 +174,8 @@ public:
 	void drawHorizontalSlider(QPainter &painter, const int x, const int height) {
 		QPointArray points(3);
 
-		points.setPoint(0, x - (height/4) - 1, height/2);
-		points.setPoint(1, x, 0);
+		points.setPoint(0, x - (height/4) - 1, (height*3)/4);
+		points.setPoint(1, x, height/2);
 		points.setPoint(2, x, height);
 		painter.drawPolygon(points);		
 	}
@@ -182,6 +183,7 @@ public:
   bool underMouse(const int x, const int y, const int midx, const int height) const {
 		if(x < midx - (height/4) - 1) return false;
 		if(x > midx) return false;
+    if(y < height/2) return false;
 		return true;
 	}
 
@@ -792,7 +794,7 @@ void KRuler::drawToBackBuffer(int start, int end)
 	for(it = d->m_sliders.begin(); it != d->m_sliders.end(); it++) {
 		value = (int)mapValueToLocal((*it).getValue());
 
-		if((value >= (*it).leftBound(sx, height())) && (value<= (*it).rightBound(ex, height()))) {
+		if((ex >= (*it).leftBound(value, height())) && (sx <= (*it).rightBound(value, height()))) {
 			(*it).drawSlider(this, painter, value, height());
 		}
 	}

@@ -34,11 +34,12 @@ public:
 	~RangeListIterator() {
 	}
 
-	RangeListIterator<T> &operator=(const RangeListIterator<T> itt) {
+	const RangeListIterator<T> &operator=(const RangeListIterator<T> itt) {
 		m_itt = itt.curItt();
+    return *this;
 	}
 
-	RangeListIterator<T> &operator++() {
+  const RangeListIterator<T> &operator++() {
 		++m_itt;
 		++m_itt;
 		return *this;
