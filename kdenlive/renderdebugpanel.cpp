@@ -21,6 +21,7 @@
 #include <klocale.h>
 #include <kdebug.h>
 #include <kfiledialog.h>
+#include <qtooltip.h>
 
 RenderDebugPanel::RenderDebugPanel( QWidget *parent, const char *name ) :
 		QVBox( parent, name ),
@@ -44,6 +45,15 @@ RenderDebugPanel::RenderDebugPanel( QWidget *parent, const char *name ) :
 	connect( &m_saveMessages, SIGNAL( clicked() ), this, SLOT( saveMessages() ) );
 	connect( &m_sendVemlButton, SIGNAL( clicked() ), this, SLOT( sendDebugVeml() ) );
 	m_ignoreMessages.setChecked( true );
+	
+	//Debug Panel Tooltips
+	QToolTip::add( &m_saveMessages, i18n( "Save debug messages from renderer and Kdenlive" ) );
+	QToolTip::add( &m_sendVemlButton, i18n( "Send VEML messages to the renderer" ) );
+	if( m_ignoreMessages.isChecked() ){
+		QToolTip::add( &m_ignoreMessages, i18n( "Unselect to ignore debug messages" ) );
+	}else{
+		QToolTip::add( &m_ignoreMessages, i18n( "Select to ignore debug messages" ) );
+	}
 }
 
 RenderDebugPanel::~RenderDebugPanel()

@@ -55,4 +55,6 @@ private: // Private attributes
 	KdenliveDoc * m_doc;
 };
 
+
+
 #endif

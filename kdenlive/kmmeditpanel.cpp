@@ -1,3 +1,4 @@
+#include <klocale.h>
 /***************************************************************************
                          kmmeditpanelimplementation.cpp  -  description
                             -------------------
@@ -23,6 +24,7 @@
 
 #include "kiconloader.h"
 #include "qtoolbutton.h"
+#include "qtooltip.h"
 
 #include "kfixedruler.h"
 #include "krulertimemodel.h"
@@ -143,11 +145,13 @@ void KMMEditPanel::seek( const GenTime &time )
 void KMMEditPanel::rendererConnected()
 {
 	renderStatus->on();
+	QToolTip::add( renderStatus, i18n( "Renderer connected" ) );
 }
 
 void KMMEditPanel::rendererDisconnected()
 {
 	renderStatus->off();
+	QToolTip::add( renderStatus, i18n( "Renderer not connected" ) );
 }
 
 void KMMEditPanel::setInpoint()

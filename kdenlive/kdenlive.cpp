@@ -289,38 +289,38 @@ void KdenliveApp::initView()
 
 	KDockWidget *projectDock = createDockWidget( "project list", QPixmap(), 0, i18n( "project list" ) );
 	m_projectList = new ProjectList( this, getDocument(), projectDock );
-	QToolTip::add( projectDock, i18n( "This window show your video files usable in your project" ) );
-	QWhatsThis::add( projectDock, i18n( "This window show your video files usable in your project. "
-		                                    "You can add or remove some files with the contextual menu. "
-		                                    "For add some sequences on your video project, use the drag and drop." ) );
+	QToolTip::add( projectDock, i18n( "Video files usable in current project" ) );
+	QWhatsThis::add( projectDock, i18n( "Video files usable in your project. "
+		                                    "Add or remove files with the contextual menu. "
+		                                    "In order to add some sequences to the current video project, use the drag and drop." ) );
 	projectDock->setWidget( m_projectList );
 	projectDock->setDockSite( KDockWidget::DockFullSite );
 	projectDock->manualDock( mainDock, KDockWidget::DockLeft );
 
 	widget = createDockWidget( "Debug", QPixmap(), 0, i18n( "Debug" ) );
 	m_renderDebugPanel = new RenderDebugPanel( widget );
-	QToolTip::add( widget, i18n( "This window show all debug messages between renderer and Kdenlive" ) );
+	QToolTip::add( widget, i18n( "Current debug messages between renderer and Kdenlive" ) );
 	widget->setWidget( m_renderDebugPanel );
 	widget->setDockSite( KDockWidget::DockFullSite );
 	widget->manualDock( projectDock, KDockWidget::DockCenter );
 
 	widget = createDockWidget( "Effect List", QPixmap(), 0, i18n( "Effect List" ) );
 	m_effectListDialog = new EffectListDialog( getDocument() ->renderer() ->effectList(), widget, "effect list" );
-	QToolTip::add( widget, i18n( "This window shows all effects usable with the renderer" ) );
+	QToolTip::add( widget, i18n( "Current effects usable with the renderer" ) );
 	widget->setWidget( m_effectListDialog );
 	widget->setDockSite( KDockWidget::DockFullSite );
 	widget->manualDock( projectDock, KDockWidget::DockCenter );
 
 	widget = createDockWidget( "Effect Setup", QPixmap(), 0, i18n( "Effect Setup" ) );
 	m_effectParamDialog = new EffectParamDialog( this, getDocument(), widget, "effect setup" );
-	QToolTip::add( widget, i18n( "This window lets you edit the parameters of the currently selected effect." ) );
+	QToolTip::add( widget, i18n( "Edit the parameters of the currently selected effect." ) );
 	widget->setWidget( m_effectParamDialog );
 	widget->setDockSite( KDockWidget::DockFullSite );
 	widget->manualDock( projectDock, KDockWidget::DockCenter );
 
 	widget = createDockWidget( "Effect Stack", QPixmap(), 0, i18n( "Effect Stack" ) );
 	m_effectStackDialog = new EffectStackDialog( this, getDocument(), widget, "effect stack" );
-	QToolTip::add( widget, i18n( "This window shows all effects on the currently selected widget." ) );
+	QToolTip::add( widget, i18n( "All effects on the currently selected widget." ) );
 	widget->setWidget( m_effectStackDialog );
 	widget->setDockSite( KDockWidget::DockFullSite );
 	widget->manualDock( projectDock, KDockWidget::DockCenter );

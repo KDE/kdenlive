@@ -77,7 +77,8 @@ void ProjectList::slot_UpdateList()
 	DocumentBaseNode *node = m_document->clipHierarch();
 
 	if(node) {
-		new AVListViewItem(m_document, m_listView, node);
+		AVListViewItem *item = new AVListViewItem(m_document, m_listView, node);
+		item->setOpen(true);
 	}
 }
 
