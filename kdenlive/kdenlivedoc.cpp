@@ -115,53 +115,6 @@ void KdenliveDoc::slotUpdateAllViews(KdenliveView *sender)
   }
 }
 
-bool KdenliveDoc::saveModified()
-{
-	kdDebug() << "KdenliveDoc in saveModified()" << endl;
-  bool completed=true;
-
-  if(m_modified)
-  {
-    KdenliveApp *win=(KdenliveApp *) parent();
-    int want_save = KMessageBox::warningYesNoCancel(win,
-                                         i18n("The current file has been modified.\n"
-                                              "Do you want to save it?"),
-                                         i18n("Warning"));
-    switch(want_save)
-    {
-      case KMessageBox::Yes:
-           if (m_doc_url.fileName() == i18n("Untitled"))
-           {
-             win->slotFileSaveAs();
-           }
-           else
-           {
-             saveDocument(URL());
-       	   };
-
-       	   deleteContents();
-           completed=true;
-           break;
-
-      case KMessageBox::No:
-           setModified(false);
-           deleteContents();
-           completed=true;
-           break;
-
-      case KMessageBox::Cancel:
-           completed=false;
-           break;
-
-      default:
-           completed=false;
-           break;
-    }
-  }
-
-  return completed;
-}
-
 void KdenliveDoc::closeDocument()
 {
 	kdDebug() << "KdenliveDoc in closeDocument()" << endl;
@@ -252,8 +205,9 @@ void KdenliveDoc::deleteContents()
 	m_projectClip = new DocClipProject(this);
 	connectProjectClip();
 
-	m_fileList.clear();
 	emit trackListChanged();
+
+	m_fileList.clear();
 	emit avFileListUpdated();
 }
 

@@ -73,8 +73,6 @@ class KdenliveDoc : public QObject
 	 *  saving by the user on closing. */
     
 	bool isModified(){ return m_modified; };
-    	/** "save modified" - asks the user for saving if the document is modified */
-	bool saveModified();
 	/** deletes the document's contents */
 	void deleteContents();
 	/** initializes the document generally */

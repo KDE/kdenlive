@@ -442,7 +442,53 @@ void KdenliveApp::readProperties(KConfig* _cfg)
 
 bool KdenliveApp::queryClose()
 {
-  return doc->saveModified();
+	return saveModified();
+}
+
+bool KdenliveApp::saveModified()
+{
+	bool completed = true;
+
+	if(doc->isModified()) {
+    		int want_save = KMessageBox::warningYesNoCancel(this,
+                                         i18n("The current file has been modified.\n"
+                                              "Do you want to save it?"),
+                                         i18n("Warning"));
+
+    		switch(want_save) {
+		case KMessageBox::Yes:
+			if (doc->URL().fileName() == i18n("Untitled")) {
+				slotFileSaveAs();
+			} else {
+				doc->saveDocument(doc->URL());
+			};
+			
+			m_clipMonitor->slotClearClip();
+			m_workspaceMonitor->slotClearClip();
+			doc->deleteContents();
+
+			completed=true;
+			break;
+
+		case KMessageBox::No:
+			m_clipMonitor->slotClearClip();
+			m_workspaceMonitor->slotClearClip();
+			doc->newDocument();
+			completed=true;
+			break;
+
+		case KMessageBox::Cancel:
+			completed=false;
+			break;
+
+		default:
+			completed=false;
+			break;
+		}
+		
+	}
+
+	return completed;
 }
 
 bool KdenliveApp::queryExit()
@@ -459,7 +505,7 @@ void KdenliveApp::slotFileNew()
 {
   slotStatusMsg(i18n("Creating new document..."));
 
-  if(!doc->saveModified())
+  if(!saveModified())
   {
      // here saving wasn't successful
 
@@ -477,7 +523,7 @@ void KdenliveApp::slotFileOpen()
 {
   slotStatusMsg(i18n("Opening file..."));
 	
-  if(!doc->saveModified())
+  if(!saveModified())
   {
      // here saving wasn't successful
 
@@ -502,7 +548,7 @@ void KdenliveApp::slotFileOpenRecent(const KURL& url)
 {
   slotStatusMsg(i18n("Opening file..."));
 	
-  if(!doc->saveModified())
+  if(!saveModified())
   {
      // here saving wasn't successful
   }
