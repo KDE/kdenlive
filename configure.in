@@ -71,6 +71,7 @@ AC_OUTPUT( \
 ./Makefile \
 doc/Makefile \
 doc/en/Makefile \
+graphics/Makefile \
 icons/Makefile \
 icons/hicolor/Makefile \
 icons/hicolor/32x32/Makefile \
