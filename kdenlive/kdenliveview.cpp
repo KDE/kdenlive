@@ -19,6 +19,8 @@
 #include <qprinter.h>
 #include <qpainter.h>
 
+#include <klocale.h>
+
 // application specific includes
 #include "kdenliveview.h"
 #include "kdenlivedoc.h"
@@ -27,11 +29,15 @@
 KdenliveView::KdenliveView(QWidget *parent, const char *name) :
 				QSplitter(Vertical, parent, name),
 				m_topSplitter(Horizontal, this, name),
-				m_projectList((KdenliveApp *)parentWidget(), getDocument(), &m_topSplitter, name),
+        m_tabWidget(&m_topSplitter, name),
+				m_projectList((KdenliveApp *)parentWidget(), getDocument(), &m_tabWidget, name),
 				m_monitor((KdenliveApp *) parentWidget(), getDocument(), &m_topSplitter, name),
 				m_rulerPanel(new KMMRulerPanel(NULL, "Ruler Panel")),
 				m_timeline((KdenliveApp *) parentWidget(), m_rulerPanel, NULL, getDocument(), this, name)
 {
+  m_tabWidget.setTabPosition(QTabWidget::Bottom);
+  m_tabWidget.addTab(&m_projectList, i18n("Project List"));
+
   setBackgroundMode(PaletteBase);
 
   connect(m_rulerPanel, SIGNAL(timeScaleChanged(int)), &m_timeline, SLOT(setTimeScale(int)));
@@ -43,6 +49,7 @@ KdenliveView::KdenliveView(QWidget *parent, const char *name) :
   connect(&m_monitor, SIGNAL(seekPositionChanged(GenTime)), &m_timeline, SLOT(seek(GenTime)));  
   
   connect(getDocument(), SIGNAL(avFileListUpdated()), &m_projectList, SLOT(slot_UpdateList()));
+  connect(getDocument(), SIGNAL(avFileChanged(AVFile *)), &m_projectList, SLOT(slot_avFileChanged(AVFile *)));  
 
   KdenliveApp *theApp=(KdenliveApp *)parentWidget();
   connect(&m_monitor, SIGNAL(seekPositionChanged(GenTime)), theApp, SLOT(slotUpdateCurrentTime(GenTime)));

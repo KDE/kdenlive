@@ -25,6 +25,7 @@
 // include files for Qt
 #include <qsplitter.h>
 #include <qgrid.h>
+#include <qtabwidget.h>
 
 //include files for KDE
 #include <qlabel.h>
@@ -67,7 +68,8 @@ class KdenliveView : public QSplitter
     void print(QPrinter *pPrinter);
 	
   private:
-  	QSplitter m_topSplitter;  	
+  	QSplitter m_topSplitter;
+    QTabWidget m_tabWidget; 	
   	ProjectList m_projectList;
   	KMMMonitor m_monitor;
 		KMMRulerPanel *m_rulerPanel;	// pointer, because it gets reparented to the timeline widget!

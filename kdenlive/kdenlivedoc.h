@@ -190,6 +190,9 @@ is not possible. */
 private slots: // Private slots
   /** Called when the document is modifed in some way. */
   void hasBeenModified();
+signals: // Signals
+  /** Emitted when a particular AVFile has changed in someway. E.g, it has recieved it's duration. */
+  void avFileChanged(AVFile *file);
 };
 
 #endif // KDENLIVEDOC_H

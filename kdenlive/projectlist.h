@@ -52,6 +52,9 @@ public slots: // Public slots
   void rightButtonPressed ( QListViewItem *listViewItem, const QPoint &pos, int column) ;
   /** Get a fresh copy of files and clips from KdenliveDoc and display them. */
   void slot_UpdateList();
+  /** The AVFile specified has changed - update the display.
+ */
+  void slot_avFileChanged(AVFile *file);
 signals: // Signals
   /** this signal is called when a number of clips have been dropped onto the project list view. */
   void dragDropOccured(QDropEvent *drop);

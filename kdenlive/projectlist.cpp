@@ -50,7 +50,7 @@ ProjectList::ProjectList(KdenliveApp *app, KdenliveDoc *document, QWidget *paren
   m_menu = (QPopupMenu *)app->factory()->container("projectlist_context", app);
 
 	connect(m_listView, SIGNAL(rightButtonPressed ( QListViewItem *, const QPoint &, int )),
-					this, SLOT(rightButtonPressed ( QListViewItem *, const QPoint &, int )));    	
+					this, SLOT(rightButtonPressed ( QListViewItem *, const QPoint &, int )));
 }
 
 ProjectList::~ProjectList()
@@ -76,4 +76,11 @@ void ProjectList::slot_UpdateList() {
 	for(; (av = itt.current()); ++itt) {
 		new AVListViewItem(m_listView, av);
 	}
+}
+
+/** The AVFile specified has changed - update the display.
+ */ 
+void ProjectList::slot_avFileChanged(AVFile *file)
+{
+  m_listView->triggerUpdate();
 }

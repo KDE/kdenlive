@@ -446,6 +446,7 @@ void KdenliveDoc::AVFilePropertiesArrived(QMap<QString, QString> properties)
 	}
 
 	file->calculateFileProperties(properties);
+  emit avFileChanged(file);  
 }
 
 /** Moves the currectly selected clips by the offsets specified, or returns false if this
