@@ -17,6 +17,7 @@
 
 #include "projectlist.h"
 #include "avlistviewitem.h"
+#include "kdenlivedoc.h"
 
 /* This define really should go in projectlist_ui, but qt just puts the classname there at the moment :-( */
 #include <qpushbutton.h>
@@ -27,16 +28,19 @@
 #include <klocale.h>
 #include <kiconloader.h>
 #include <kfiledialog.h>
+#include <kmessagebox.h>
 
 #include <iostream>
 #include <string>
 #include <map>
 
-ProjectList::ProjectList(QWidget *parent, const char *name ) :
+ProjectList::ProjectList(KdenliveDoc *document, QWidget *parent, const char *name) :
 						ProjectList_UI(parent,name),
 						m_menu()
 {
+	m_document = document;
 	connect (m_addButton, SIGNAL(clicked()), this, SLOT(slot_AddFile()));
+	connect (m_cleanButton, SIGNAL(clicked()), this, SLOT(slot_cleanProject()));	
 
  	connect (m_listView, SIGNAL(dragDropOccured(QDropEvent *)), this, SIGNAL(dragDropOccured(QDropEvent *)));
 		
@@ -79,13 +83,24 @@ void ProjectList::rightButtonPressed ( QListViewItem *listViewItem, const QPoint
 }
 
 /** Get a fresh copy of files from KdenliveDoc and display them. */
-void ProjectList::slot_UpdateList(QPtrList<AVFile> list) {
+void ProjectList::slot_UpdateList() {
 	m_listView->clear();
 
-	QListIterator<AVFile> itt(list);
+	QPtrListIterator<AVFile> itt(m_document->avFileList());
+
 	AVFile *av;
 	
 	for(; (av = itt.current()); ++itt) {
 		new AVListViewItem(m_listView, av);
+	}
+}
+
+/** Removes any AVFiles from the project that have a usage count of 0. */
+void ProjectList::slot_cleanProject()
+{
+	if(KMessageBox::warningContinueCancel(this,
+			 i18n("Clean Project removes files from the project that are unused.\
+			 Are you sure you want to do this?")) == KMessageBox::Continue) {
+		m_document->cleanAVFileList();
 	}
 }

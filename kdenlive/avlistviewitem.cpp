@@ -22,7 +22,7 @@
 
 #include <math.h>
 
-AVListViewItem::AVListViewItem(QListView *parent, AVFile *clip) : QListViewItem(parent) {
+AVListViewItem::AVListViewItem(QListView *parent, AVFile *clip) : KListViewItem(parent) {
 	m_listView = parent;
 	m_clip = clip;
 }
@@ -30,7 +30,7 @@ AVListViewItem::AVListViewItem(QListView *parent, AVFile *clip) : QListViewItem(
 AVListViewItem::~AVListViewItem() {
 }
 
-QString AVListViewItem::text ( int column ) const {		
+QString AVListViewItem::text ( int column ) const {
  	if(m_listView->columnText(column) == i18n("Filename")) {
  		return m_clip->name();
 	}

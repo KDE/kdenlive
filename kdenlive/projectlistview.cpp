@@ -34,6 +34,7 @@ ProjectListView::ProjectListView(QWidget *parent, const char *name):
     setDragEnabled(true);
     setAcceptDrops(true);
     setDropVisualizer(true);
+    setFullWidth(true);
 
     connect(this, SIGNAL(dropped(QDropEvent*, QListViewItem*, QListViewItem*)), this,
     						  SLOT(dragDropped(QDropEvent*, QListViewItem*, QListViewItem*)));

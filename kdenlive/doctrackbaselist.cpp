@@ -17,9 +17,13 @@
 
 #include "doctrackbaselist.h"
 
-DocTrackBaseList::DocTrackBaseList(){
+DocTrackBaseList::DocTrackBaseList() :
+									QPtrList<DocTrackBase> ()
+{
 }
-DocTrackBaseList::~DocTrackBaseList(){
+
+DocTrackBaseList::~DocTrackBaseList()
+{
 }
 
 /** Returns an XML representation of this DocTrackBase list. */

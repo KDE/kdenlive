@@ -18,7 +18,7 @@
 #ifndef AVLISTVIEWITEM_H
 #define AVLISTVIEWITEM_H
 
-#include <qlistview.h>
+#include <klistview.h>
 
 class AVFile;
 
@@ -26,7 +26,7 @@ class AVFile;
   *@author Jason Wood
   */
 
-class AVListViewItem : public QListViewItem  {
+class AVListViewItem : public KListViewItem  {
 private:
 	QListView *m_listView;
 	AVFile *m_clip;

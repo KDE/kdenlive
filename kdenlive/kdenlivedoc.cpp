@@ -222,14 +222,14 @@ AVFile *KdenliveDoc::insertAVFile(const KURL &file)
 	if(!av) {	
 		av = new AVFile(file.fileName(), file);
 		m_fileList.append(av);
-		emit avFileListUpdated(m_fileList);
+		emit avFileListUpdated();
 		setModified(true);
 	}
 	
 	return av;
 }
 
-QPtrList<AVFile> KdenliveDoc::avFileList()
+const AVFileList &KdenliveDoc::avFileList()
 {
 	return m_fileList;	
 }
@@ -288,7 +288,7 @@ void KdenliveDoc::slot_insertClips(QPtrList<DocClipBase> clips)
 		insertAVFile(clip->fileURL());
 	}
 
-  emit avFileListUpdated(m_fileList);
+  emit avFileListUpdated();
 	setModified(true);	
 }
 
@@ -376,5 +376,46 @@ void KdenliveDoc::setModified(bool state)
 	if(m_modified != state) {
 		m_modified = state;		
 		emit modified(state);
+	}
+}
+
+/** Removes entries from the AVFileList which are unreferenced by any clips. */
+void KdenliveDoc::cleanAVFileList()
+{
+	QPtrListIterator<AVFile> itt(m_fileList);
+
+	while(itt.current()) {
+		QPtrListIterator<AVFile> next = itt;
+		++itt;
+		if(next.current()->numReferences()==0) {
+			deleteAVFile(next.current());
+		}
+	}
+}
+
+/** Finds and removes the specified avfile from the document. If there are any
+clips on the timeline which use this clip, then they will be deleted as well.
+Emits AVFileList changed if successful. */
+void KdenliveDoc::deleteAVFile(AVFile *file)
+{
+	int index = m_fileList.findRef(file);
+
+	if(index!=-1) {
+		if(file->numReferences() > 0) {
+			#warning Deleting files with references not yet implemented
+			kdWarning() << "Cannot delete files with references at the moment " << endl;
+			return;
+		}
+
+		/** If we delete the clip before removing the pointer to it in the relevant AVListViewItem,
+		bad things happen... For some reason, the text method gets called after the deletion, even
+		though the very next thing we do is to emit an update signal. which removes it.*/
+		m_fileList.setAutoDelete(false);
+		m_fileList.removeRef(file);
+		emit avFileListUpdated();
+		delete file;
+		m_fileList.setAutoDelete(true);
+	} else {
+		kdError() << "Trying to delete AVFile that is not in document!" << endl;
 	}
 }

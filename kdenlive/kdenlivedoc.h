@@ -80,7 +80,7 @@ class KdenliveDoc : public QObject
     /** sets the URL of the document */
 	  void setURL(const KURL& url);
 		/** Returns the internal avFile list. */
-		QPtrList<AVFile> avFileList();
+		const AVFileList &avFileList();
 		/** Insert an AVFile with the given url. If the file is already in the file list, return that instead. */
 		AVFile *insertAVFile(const KURL &file);
   public slots:
@@ -133,26 +133,30 @@ not exist. */
   QDomDocument toXML();
   /** Sets the modified state of the document, if this has changed, emits modified(state) */
   void setModified(bool state);
+  /** Removes entries from the AVFileList which are unreferenced by any clips. */
+  void cleanAVFileList();
+  /** Finds and removes the specified avfile from the document. If there are any
+		clips on the timeline which use this clip, then they will be deleted as well.
+		Emits AVFileList changed if successful. */
+  void deleteAVFile(AVFile *file);
 
   private:
     /** the modified flag of the current document */
     bool m_modified;
     KURL m_doc_url;
 
-	/** List of all video and audio files within this project */
-	AVFileList m_fileList;
-	signals: // Signals
-  	/** This is signal is emitted whenever the avFileList changes, either through the addition or removal of an AVFile, or when an AVFile changes. */
-  	void avFileListUpdated(QPtrList<AVFile>);
+		/** List of all video and audio files within this project */
+	AVFileList m_fileList;  	
 	private: // Private methods
   	/** Adds a track to the project */
   	void addTrack(DocTrackBase *track);
 	signals: // Signals
   	/** This signal is emitted whenever tracks are added to or removed from the project. */
   	void trackListChanged();
-signals: // Signals
-  /** Emitted when the modified state of the document changes. */
-  void modified(bool);
+ 	  /** This is signal is emitted whenever the avFileList changes, either through the addition or removal of an AVFile, or when an AVFile changes. */
+  	void avFileListUpdated();
+	  /** Emitted when the modified state of the document changes. */
+	  void modified(bool);
 };
 
 #endif // KDENLIVEDOC_H

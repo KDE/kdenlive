@@ -17,11 +17,17 @@
 
 #include "avfilelist.h"
 
+#include <kdebug.h>
+
 #include <qstring.h>
 
-AVFileList::AVFileList(){
+AVFileList::AVFileList() :
+				QPtrList<AVFile> ()
+{
 }
-AVFileList::~AVFileList(){
+
+AVFileList::~AVFileList()
+{
 }
 
 /** Returns an XML representation of the list. */
