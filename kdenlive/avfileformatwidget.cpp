@@ -22,6 +22,8 @@
 #include <kurlrequester.h>
 #include <qlabel.h>
 #include <qhbox.h>
+#include <qtooltip.h>
+#include <qwhatsthis.h>
 
 #include "avfileformatdesc.h"
 #include "avfileformatwidget.h"
@@ -33,12 +35,15 @@ AVFileFormatWidget::AVFileFormatWidget(AVFileFormatDesc *desc, QWidget *parent, 
                                             m_filename(new KURLRequester(m_fileHBox, "browser")),
                                             m_desc(desc)
 {
+  QToolTip::add( m_fileHBox, i18n( "The name of ouput video file" ) );
+  
   QPtrListIterator<AVFormatDescBase> itt(desc->list());
 
-  while(itt.current()) {
+  while(itt.current())
+    {
     itt.current()->createWidget(this);
     ++itt;
-  }
+    }
 }
 
 AVFileFormatWidget::~AVFileFormatWidget()

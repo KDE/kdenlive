@@ -19,6 +19,8 @@
 #include "qlabel.h"
 #include "qcombobox.h"
 #include "qwidgetstack.h"
+#include <qtooltip.h>
+#include <qwhatsthis.h>
 
 #include <klocale.h>
 #include <kdebug.h>
@@ -36,6 +38,8 @@ AVFormatWidgetCodecList::AVFormatWidgetCodecList(AVFormatDescCodecList *desc, QW
                                     m_codecSelect(new QComboBox(m_codecLayout, "codec_select")),
                                     m_widgetStack(new QWidgetStack(this, "widget_stack"))
 {
+  QToolTip::add( m_codecSelect, i18n( "Select the codec for your output file" ) );
+
   QValueListConstIterator<QString> itt = desc->codecList().begin();
   int count = 0;
 
