@@ -186,21 +186,29 @@ QDomDocument DocClipAVFile::toXML() {
 bool DocClipAVFile::matchesXML(const QDomElement &element)
 {
 	bool result = false;
-	
+
 	if(element.tagName() == "clip")
 	{
-		QDomNodeList nodeList = element.elementsByTagName("avfile");
+		bool found = false;
+		QDomNode n = element.firstChild();
+		while( !n.isNull() ) {
+        	QDomElement avElement = n.toElement(); // try to convert the node to an element.
 
-		if(nodeList.length() > 0) {
-			if(nodeList.length() > 1) {
-				kdWarning() << "Clip contains multiple avclip definitions, only matching XML of the first one." << endl;
-			}
-			QDomElement avElement = nodeList.item(0).toElement();
 			if(!avElement.isNull()) {
-				if(avElement.attribute("url") == fileURL().url()) {
-					result = true;
+				if(avElement.tagName() == "avfile") {
+					if(found) {
+						kdWarning() << "Clip contains multiple avclip definitions, only matching XML of the first one," << endl;
+						break;
+					} else {
+						found = true;
+						if(avElement.attribute("url") == fileURL().url()) {
+							result = true;
+						}
+					}
 				}
 			}
+
+			n = n.nextSibling();
 		}
 	}
 

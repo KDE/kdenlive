@@ -46,9 +46,9 @@ int DocClipRefList::compareItems (QPtrCollection::Item i1, QPtrCollection::Item 
 	DocClipRef *item2 = (DocClipRef *)i2;
 	
 	double diff = item1->trackStart().seconds() - item2->trackStart().seconds();
-	
+
 	if(diff==0) return 0;
-  return (diff > 0) ? 1 : -1;
+	return (diff > 0) ? 1 : -1;
 }
 
 QDomDocument DocClipRefList::toXML(const QString &element)

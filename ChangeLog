@@ -1,0 +1,9 @@
+2003-11-24  Jason Wood  <jasonwood@blueyonder.co.uk>
+
+	* Some bug fixes
+
+
+2003-11-16  Jason Wood  <jasonwood@blueyonder.co.uk>
+
+	* Refactored clip framework to allow sub clips and to allow updating via commands (so is undoable).
+	* Added preliminary project configuration dialog

@@ -109,7 +109,7 @@ DocClipRef *DocClipRef::createClip(ClipManager &clipManager, const QDomElement &
 		return 0;
 	}
 
-	DocClipBase *baseClip = clipManager.findClip(element);
+	DocClipBase *baseClip = clipManager.insertClip(element);
 
 	if(baseClip) {
 		clip = new DocClipRef(baseClip);
@@ -372,6 +372,9 @@ void DocClipRef::populateSceneTimes(QValueVector<GenTime> &toPopulate)
 
 		++itt;
 	}
+
+	toPopulate.append(trackStart());
+	toPopulate.append(trackEnd());
 }
 
 QDomDocument DocClipRef::sceneToXML(const GenTime &startTime, const GenTime &endTime)

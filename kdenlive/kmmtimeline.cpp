@@ -229,16 +229,20 @@ void KMMTimeLine::dragEnterEvent ( QDragEnterEvent *event )
 		m_document->activeSceneListGeneration(false);
 		m_selection = ClipDrag::decode(m_document->clipManager(), event);
 
-	    	if(m_selection.masterClip()==0) m_selection.setMasterClip(m_selection.first());
+		if(!m_selection.isEmpty()) {
+    		if(m_selection.masterClip()==0) m_selection.setMasterClip(m_selection.first());
 
-		m_masterClip = m_selection.masterClip();
-		m_clipOffset = GenTime();
+			m_masterClip = m_selection.masterClip();
+			m_clipOffset = GenTime();
 
-		if(m_selection.isEmpty()) {
-			event->accept(false);
+			if(m_selection.isEmpty()) {
+				event->accept(false);
+			} else {
+				setupSnapToGrid();
+				event->accept(true);
+			}
 		} else {
-			setupSnapToGrid();
-			event->accept(true);
+			kdError() << "ERROR! ERROR! ERROR! ClipDrag:decode decoded a null clip!!!" << endl;
 		}
 	} else {
 		event->accept(false);
