@@ -31,6 +31,11 @@
 #include "krulersliderbase.h"
 #include "krulermodel.h"
 
+namespace {
+	uint g_scrollTimerDelay = 50;
+	uint g_scrollThreshold = 50;
+}
+
 class KRulerPrivateSliderDiamond : public KRulerSliderBase {
 public:
 	KRulerPrivateSliderDiamond() {
@@ -337,7 +342,8 @@ KRuler::KRuler(int min, int max, double scale, KRulerModel *model, QWidget *pare
 						m_maxValue(max),
 						d(new KRulerPrivate()),
 						m_rulerModel(0),
-						m_leftMostPixel(0)
+						m_leftMostPixel(0),
+						m_scrollTimer(this, "scroll timer")
 {
 	setRulerModel(model);
 	
@@ -354,9 +360,10 @@ KRuler::KRuler(int min, int max, double scale, KRulerModel *model, QWidget *pare
 
 	invalidateBackBuffer();
 
-
  // we draw everything ourselves, no need to draw background.
 	setBackgroundMode(Qt::NoBackground);
+
+	connect(&m_scrollTimer, SIGNAL(timeout()), this, SLOT(slotTimerScrollEvent()));
 }
 
 KRuler::KRuler(KRulerModel *model, QWidget *parent, const char *name ) :
@@ -367,7 +374,8 @@ KRuler::KRuler(KRulerModel *model, QWidget *parent, const char *name ) :
 						m_maxValue(100),
 						d(new KRulerPrivate()),
 						m_rulerModel(0),
-						m_leftMostPixel(0)
+						m_leftMostPixel(0),
+						m_scrollTimer(this, "scroll timer")
 {
 	setRulerModel(model);
 	
@@ -387,6 +395,7 @@ KRuler::KRuler(KRulerModel *model, QWidget *parent, const char *name ) :
 	setBackgroundMode(Qt::NoBackground);
 
 	invalidateBackBuffer();
+	connect(&m_scrollTimer, SIGNAL(timeout()), this, SLOT(slotTimerScrollEvent()));
 }
 
 KRuler::KRuler(QWidget *parent, const char *name ) :
@@ -397,7 +406,8 @@ KRuler::KRuler(QWidget *parent, const char *name ) :
 						m_maxValue(0),
 						d(new KRulerPrivate()),
 						m_rulerModel(0),
-						m_leftMostPixel(0)
+						m_leftMostPixel(0),
+						m_scrollTimer(this, "scroll timer")
 {	
 	setRulerModel(0);
 
@@ -412,10 +422,11 @@ KRuler::KRuler(QWidget *parent, const char *name ) :
 
 	setSizePolicy(QSizePolicy (QSizePolicy::Expanding, QSizePolicy::Fixed, FALSE));
 	
- // we draw everything ourselves, no need to draw background. 
+	// we draw everything ourselves, no need to draw background. 
 	setBackgroundMode(Qt::NoBackground);
 
 	m_autoClickSlider = -1;
+	connect(&m_scrollTimer, SIGNAL(timeout()), this, SLOT(slotTimerScrollEvent()));
 }
 
 KRuler::~KRuler()
@@ -666,6 +677,7 @@ void KRuler::mouseReleaseEvent(QMouseEvent *event)
 			d->m_oldValue=-1;
 			setSliderValue(activeSliderID(), (int)floor(mapLocalToValue((int)event->x())+0.5));      
 		}
+		m_scrollTimer.stop();
 	}
 }
 
@@ -674,6 +686,20 @@ void KRuler::mouseMoveEvent(QMouseEvent *event)
 	if(event->state() & (QMouseEvent::LeftButton | QMouseEvent::RightButton | QMouseEvent::MidButton)) {
 		if(d->m_oldValue != -1) {
 			setSliderValue(activeSliderID(), (int)floor(mapLocalToValue((int)event->x())+0.5));
+
+			if(event->x() < g_scrollThreshold) {
+				m_scrollRight = false;
+				if(!m_scrollTimer.isActive()) {
+					m_scrollTimer.start(g_scrollTimerDelay, false);
+				}
+			} else if(width() - event->x() < g_scrollThreshold) {
+				m_scrollRight = true;
+				if(!m_scrollTimer.isActive()) {
+					m_scrollTimer.start(g_scrollTimerDelay, false);
+				}
+			} else {
+				m_scrollTimer.stop();
+			}
 		}
 	}
 }
@@ -835,4 +861,13 @@ void KRuler::setSlidersToRange()
     if(getSliderValue(count) < minValue()) setSliderValue(count, minValue());
     if(getSliderValue(count) > maxValue()) setSliderValue(count, maxValue());
   }
+}
+
+void KRuler::slotTimerScrollEvent()
+{
+	if(m_scrollRight) {
+		emit requestScrollRight();
+	} else {
+		emit requestScrollLeft();
+	}
 }

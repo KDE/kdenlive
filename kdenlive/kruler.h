@@ -20,6 +20,7 @@
 
 #include <qwidget.h>
 #include <qpixmap.h>
+#include <qtimer.h>
 
 class KRulerModel;
 
@@ -104,6 +105,10 @@ signals: // Signals
   void sliderValueChanged(int, int);    
   /** Emitted when the scale of the ruler changes. */
   void scaleChanged(double);
+  /** Emitted when the ruler would like to be scrolled to the right. */
+  void requestScrollRight();
+  /** Emitted when the ruler would like to be scrolled to the left. */
+  void requestScrollLeft();
   
 protected slots: // Protected slots
 	/** Sets the leftmost pixel which is displayed on the widget. To understand why this
@@ -118,6 +123,10 @@ protected slots: // Protected slots
   tick values are multiples of each other. This may cause unexpected results, but I haven't
   tested it enough yet to understand the implications.*/
   void setValueScale(double size);
+
+  /** called when the scroll timer is active and times out. We should emit a relevant signal
+   * to say that we would like our position updated. */
+  void slotTimerScrollEvent();
 
 private: // private variables
 	QSize m_sizeHint;
@@ -145,6 +154,11 @@ private: // private variables
   /** This slider is automatically "clicked" if a mouse event occurs and no slider
 is under the mouse. */
   int m_autoClickSlider;  
+  /** Timer for edge-of-ruler dragging notifications. This timer will be started when we start
+   * dragging at the edge of a ruler, and will stop when we stop dragging. */
+  QTimer m_scrollTimer;
+  /** True if the scroll timer events should emit requestScrollRight signals, false otherwise. */
+  bool m_scrollRight;
 
 private: // private methods  
   /** Sets the slider under the specified coordinate to be active, and setting other sliders
