@@ -45,6 +45,10 @@ public:
 	/** Sets the position that this clip resides upon it's track. */
 	void setTrackStart(const GenTime time);
 
+	/** Returns the time where this clip is central on the track (i.e. trackStart + trackEnd / 2) Useful for grabbing a track time value
+	that is definitely on the clip. */
+	GenTime trackMiddleTime() const;
+
 	/** returns the name of this clip. */
 	const QString &name() const;
 
@@ -131,11 +135,26 @@ public:
 	/** TBD - figure out a way to make this unnecessary. */
 	DocClipBase *referencedClip() { return m_clip; }
 
+	/** Returns a vector containing the snap marker in clip time */
+	QValueVector<GenTime> snapMarkers() const;
+
 	/** Returns a vector containing the snap marker, in track time rather than clip time. */
 	QValueVector<GenTime> snapMarkersOnTrack() const;
 
+	/** Adds a snap marker at the given clip time (as opposed to track time) */
 	void addSnapMarker(const GenTime &time);
+
+	/** Deletes a snap marker at the given clip time (as opposed to track time) */
 	void deleteSnapMarker(const GenTime &time);
+
+	/** Returns true if this clip has a snap marker at the specified clip time */
+	bool hasSnapMarker(const GenTime &time);
+
+	/** Finds and returns the time of the snap marker directly before time. If there isn't one, returns 0. */
+	GenTime findPreviousSnapMarker(const GenTime &time);
+
+	/** Finds and returns the time of the snap marker directly after time. If there isn't one, returns the duration of the clip. */
+	GenTime findNextSnapMarker(const GenTime &time);
 
 private: // Private attributes
 	void setSnapMarkers(QValueVector<GenTime> markers);

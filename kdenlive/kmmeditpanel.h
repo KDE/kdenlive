@@ -58,6 +58,14 @@ signals: // Signals
   void playSpeedChanged(double);
   /** Emitted by the EditPanel when the playSpeed should change. */
   void playSpeedChanged(double, const GenTime &, const GenTime &);
+  /** Emitted when the toggle snapMarker button has been clicked */
+  void toggleSnapMarker();
+
+  /** Emitted when the nextSnapMarker button has been clicked */
+  void nextSnapMarkerClicked();
+
+  /** Emitted when the previousSnapMarker button has been clicked */
+  void previousSnapMarkerClicked();
 private: // Private attributes
   /** The document associated with this edit panel */
   KdenliveDoc * m_document;
@@ -102,11 +110,11 @@ public slots: // Public slots
   void togglePlay();
   /** Toggles whether or not we are currently "playing" the inpoint/outpoint selection*/
   void togglePlaySelected();
-  /** Toggles whether there is a marker on this clip at the specified seek position */
-  void toggleMarker();
   /** called when the screen has changed it's play speed - e.g., the renderer has
   reached the end of the file. */
   void screenPlaySpeedChanged(double speed);
+  /**  set whether the edit panel displays that there is a snap marker at the current seek time or not */
+  void setSnapMarker(bool markerHere);
 };
 
 #endif

@@ -37,11 +37,13 @@
 #include "projectformatmanager.h"
 
 // forward declaration of the Kdenlive classes
+class DocClipProject;
 class KdenliveDoc;
 class KCommandHistory;
 class KCommand;
 class KProgress;
 class KRenderManager;
+class KMacroCommand;
 class KMMTimeLine;
 class KMMMonitor;
 class ProjectList;
@@ -250,6 +252,15 @@ class KdenliveApp : public KDockMainWindow
 		 * there already. */
 		void slot_insertClips( QDropEvent *event );
 
+		/** Toggles a snap marker on/off in the currently active monitor */
+		void slotToggleSnapMarker();
+
+		/** Clear all snap markers from all clips */
+		void slotClearAllSnapMarkers();
+
+		/** Clear all snap markers from those clips currently selected on the timeline */
+		void slotClearSnapMarkersFromSelected();
+
 		void loadLayout1();
 		void loadLayout2();
 		void loadLayout3();
@@ -367,6 +378,10 @@ class KdenliveApp : public KDockMainWindow
 		/** The monitor manager that manages the life of the various monitors.*/
 		MonitorManager m_monitorManager;
 		ProjectFormatManager m_projectFormatManager;
+
+		/** Generates commands to clears all snap markers in clips directly referenced in the project clip. The commands are added to
+		// the macroCommand. selectedClips determines whether this uses selectedClips or unselectedClips */
+		void populateClearSnapMarkers(KMacroCommand *macroCommand, DocClipProject &clip, bool selectedClips);
 };
 
 #endif // KDENLIVE_H

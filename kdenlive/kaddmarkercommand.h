@@ -33,7 +33,7 @@ namespace Command {
 class KAddMarkerCommand : public KCommand
 {
 public:
-    KAddMarkerCommand(KdenliveDoc &document, DocClipRef *clip, const GenTime &trackTime, bool create=true);
+    KAddMarkerCommand(KdenliveDoc &document, DocClipRef *clip, const GenTime &clipTime, bool create=true);
 
     ~KAddMarkerCommand();
 
@@ -48,8 +48,12 @@ private:
 	/** True if this command creates a marker when executed, false otherwise. */
 	bool m_create;
 
-	/** The time (in track time) that the marker should be placed at. */
+	/** The time (in clip time) that the marker should be placed at. */
+	GenTime m_clipTime;
+
+	/** A time on the track where the clip in question exists. */
 	GenTime m_trackTime;
+
 	/** The track on which the marker is to be placed. */
 	int m_track;
 

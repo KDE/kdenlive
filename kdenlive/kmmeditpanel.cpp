@@ -59,6 +59,9 @@ KMMEditPanel::KMMEditPanel( KdenliveDoc *document, QWidget* parent, const char* 
 	inpointButton->setPixmap( loader.loadIcon( "start", KIcon::Toolbar ) );
 	outpointButton->setPixmap( loader.loadIcon( "finish", KIcon::Toolbar ) );
 
+	previousMarkerButton->setPixmap( loader. loadIcon("1leftarrow", KIcon::Toolbar ) );
+	nextMarkerButton->setPixmap( loader.loadIcon("1rightarrow", KIcon::Toolbar ) );
+
 	connect( m_ruler, SIGNAL( sliderValueChanged( int, int ) ), this, SLOT( rulerValueChanged( int, int ) ) );
 
 	connect( startButton, SIGNAL( pressed() ), this, SLOT( seekBeginning() ) );
@@ -71,9 +74,15 @@ KMMEditPanel::KMMEditPanel( KdenliveDoc *document, QWidget* parent, const char* 
 
 	connect( playButton, SIGNAL( pressed()), this, SLOT( play() ) );
 	connect( playSectionButton, SIGNAL( pressed() ), this, SLOT( playSelected() ) );
-	connect( setMarkerButton, SIGNAL( toggled(bool) ), this, SLOT( toggleMarker() ) );
 	connect( playButton, SIGNAL( released()), this, SLOT( updateButtons() ));
 	connect( playSectionButton, SIGNAL( released()), this, SLOT( updateButtons() ));
+
+	connect( setMarkerButton, SIGNAL( clicked() ), this, SIGNAL( toggleSnapMarker() ) );
+	connect( nextMarkerButton, SIGNAL( clicked() ), this, SIGNAL( nextSnapMarkerClicked() ) );
+	connect( previousMarkerButton, SIGNAL( clicked() ), this, SIGNAL( previousSnapMarkerClicked() ) );
+
+	void nextMarkerClicked();
+  void previousMarkerClicked();
 
 	connect( stopButton, SIGNAL( pressed() ), this, SLOT( stop() ) );
 	connect( stopButton, SIGNAL( pressed() ), this, SLOT( updateButtons() ) );
@@ -193,10 +202,6 @@ void KMMEditPanel::togglePlaySelected()
 	updateButtons();
 }
 
-void KMMEditPanel::toggleMarker()
-{
-}
-
 void KMMEditPanel::screenPlaySpeedChanged(double speed)
 {
 	m_playSpeed = speed;
@@ -275,4 +280,9 @@ void KMMEditPanel::updateButtons()
 
 		playButton->setPixmap( loader.loadIcon( "player_play", KIcon::Toolbar ) );
 	}
+}
+
+void KMMEditPanel::setSnapMarker(bool markerHere)
+{
+	setMarkerButton->setDown(markerHere);
 }

@@ -30,6 +30,8 @@
 #include "avfile.h"
 #include "clipdrag.h"
 
+#include "kaddmarkercommand.h"
+
 #include <algorithm>
 
 KMMMonitor::KMMMonitor(KdenliveApp *app, KdenliveDoc *document, QWidget *parent, const char *name ) :
@@ -45,10 +47,19 @@ KMMMonitor::KMMMonitor(KdenliveApp *app, KdenliveDoc *document, QWidget *parent,
 {
 	connect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)),
 					this, SIGNAL(seekPositionChanged(const GenTime &)));
+	connect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)),
+					this, SLOT(updateEditPanel(const GenTime &)));
 	connect(m_editPanel, SIGNAL(inpointPositionChanged(const GenTime &)),
 					this, SIGNAL(inpointPositionChanged(const GenTime &)));
 	connect(m_editPanel, SIGNAL(outpointPositionChanged(const GenTime &)),
 					this, SIGNAL(outpointPositionChanged(const GenTime &)));
+
+	connect(m_editPanel, SIGNAL(toggleSnapMarker()),
+					this, SLOT(slotToggleSnapMarker()));
+	connect(m_editPanel, SIGNAL(nextSnapMarkerClicked()),
+					this, SLOT(slotNextSnapMarker()));
+	connect(m_editPanel, SIGNAL(previousSnapMarkerClicked()),
+					this, SLOT(slotPreviousSnapMarker()));
 
 	m_screenHolder->setMargin(3);
 	m_screenHolder->setPaletteBackgroundColor(QColor(0, 0, 0));
@@ -78,6 +89,8 @@ void KMMMonitor::screenPositionChanged(const GenTime &time)
 	m_editPanel->seek(time);
 	connect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)),
 					m_screen, SLOT(seek(const GenTime &)));
+
+	updateEditPanel(time);
 }
 
 void KMMMonitor::swapScreens(KMMMonitor *monitor)
@@ -329,4 +342,42 @@ void KMMMonitor::popupContextMenu()
 void KMMMonitor::slotRightClickMonitor()
 {
 	popupContextMenu();
+}
+
+void KMMMonitor::slotToggleSnapMarker()
+{
+	if(m_referredClip) {
+		Command::KAddMarkerCommand *command;
+
+		if(m_referredClip->hasSnapMarker(seekPosition())) {
+			command = new Command::KAddMarkerCommand(*m_document, m_referredClip, seekPosition(), false);
+		} else {
+			command = new Command::KAddMarkerCommand(*m_document, m_referredClip, seekPosition(), true);
+		}
+
+		m_app->addCommand(command, true);
+	}
+
+	updateEditPanel(seekPosition());
+}
+
+void KMMMonitor::slotPreviousSnapMarker()
+{
+	if(m_referredClip) {
+		seek(m_referredClip->findPreviousSnapMarker(seekPosition()));
+	}
+}
+
+void KMMMonitor::slotNextSnapMarker()
+{
+	if(m_referredClip) {
+		seek(m_referredClip->findNextSnapMarker(seekPosition()));
+	}
+}
+
+void KMMMonitor::updateEditPanel(const GenTime &time)
+{
+	if(m_referredClip) {
+		m_editPanel->setSnapMarker(m_referredClip->hasSnapMarker(time));
+	}
 }

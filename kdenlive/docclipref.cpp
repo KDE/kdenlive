@@ -70,11 +70,11 @@ void DocClipRef::setDescription(const QString &description)
 }
 
 void DocClipRef::setCropStartTime(const GenTime &time)
-{	
+{
 	m_cropStart = time;
 	if(m_parentTrack) {
 		m_parentTrack->clipMoved(this);
-	}	
+	}
 }
 
 const GenTime &DocClipRef::cropStartTime() const
@@ -85,10 +85,10 @@ const GenTime &DocClipRef::cropStartTime() const
 void DocClipRef::setTrackEnd(const GenTime &time)
 {
 	m_trackEnd = time;
-  
-	if(m_parentTrack) {    
+
+	if(m_parentTrack) {
 		m_parentTrack->clipMoved(this);
-	}	
+	}
 }
 
 GenTime DocClipRef::cropDuration() const
@@ -203,7 +203,7 @@ DocTrackBase * DocClipRef::parentTrack()
 
 /** Move the clips so that it's trackStart coincides with the time specified. */
 void DocClipRef::moveTrackStart(const GenTime &time)
-{	
+{
 	m_trackEnd = m_trackEnd + time - m_trackStart;
 	m_trackStart = time;
 }
@@ -314,7 +314,7 @@ uint DocClipRef::fileSize() const
 {
 	return m_clip->fileSize();
 }
-	
+
 void DocClipRef::populateSceneTimes(QValueVector<GenTime> &toPopulate)
 {
 	QValueVector<GenTime> sceneTimes;
@@ -403,7 +403,70 @@ void DocClipRef::deleteSnapMarker(const GenTime &time)
 	}
 }
 
+bool DocClipRef::hasSnapMarker(const GenTime &time)
+{
+	QValueVector<GenTime>::Iterator itt = m_snapMarkers.begin();
+
+	while(itt != m_snapMarkers.end()) {
+		if(*itt == time) return true;
+		++itt;
+	}
+
+	return false;
+}
+
 void DocClipRef::setCropDuration(const GenTime &time)
 {
 	setTrackEnd( trackStart() + time );
+}
+
+GenTime DocClipRef::findPreviousSnapMarker(const GenTime &time)
+{
+	QValueVector<GenTime>::Iterator itt = m_snapMarkers.begin();
+
+	while(itt != m_snapMarkers.end()) {
+		if(*itt >= time) break;
+		++itt;
+	}
+
+	if(itt != m_snapMarkers.begin()) {
+		--itt;
+		return *itt;
+	} else {
+		return GenTime(0);
+	}
+}
+
+GenTime DocClipRef::findNextSnapMarker(const GenTime &time)
+{
+	QValueVector<GenTime>::Iterator itt = m_snapMarkers.begin();
+
+	while(itt != m_snapMarkers.end()) {
+		if(time <= *itt) break;
+		++itt;
+	}
+
+	if( itt != m_snapMarkers.end())
+	{
+		if(*itt == time) {
+			++itt;
+		}
+		if( itt != m_snapMarkers.end()) {
+			return *itt;
+		} else {
+			return GenTime(duration());
+		}
+	} else {
+		return GenTime(duration());
+	}
+}
+
+GenTime DocClipRef::trackMiddleTime() const
+{
+	return (m_trackStart + m_trackEnd)/2;
+}
+
+QValueVector<GenTime> DocClipRef::snapMarkers() const
+{
+	return m_snapMarkers;
 }

@@ -48,12 +48,14 @@
 #include "configureprojectdialog.h"
 #include "docclipbase.h"
 #include "docclipavfile.h"
+#include "docclipproject.h"
 #include "documentbasenode.h"
 #include "effectlistdialog.h"
 #include "effectparamdialog.h"
 #include "exportdialog.h"
 #include "kaddclipcommand.h"
 #include "kaddavfilecommand.h"
+#include "kaddmarkercommand.h"
 #include "kaddrefclipcommand.h"
 #include "kdenlive.h"
 #include "kdenlivedoc.h"
@@ -157,9 +159,9 @@ void KdenliveApp::initActions()
 	actionSetOutpoint = new KAction( i18n( "Set outpoint" ), KShortcut( Qt::Key_O ), this, SLOT( slotSetOutpoint() ), actionCollection(), "set_outpoint" );
 	actionDeleteSelected = new KAction( i18n( "Delete Selected Clips" ), KShortcut( Qt::Key_Delete ), this, SLOT( slotDeleteSelected() ), actionCollection(), "delete_selected_clips" );
 
-	actionToggleSnapMarker  = new KAction( i18n( "Toggle Snap Marker" ), KShortcut( Qt::Key_Period ), this, SLOT( slotNextFrame() ), actionCollection(), "toggle_snap_marker" );
-	actionClearAllSnapMarkers = new KAction( i18n( "Clear All Snap Markers" ), KShortcut(), this, SLOT( slotNextFrame() ), actionCollection(), "clear_all_snap_markers" );
-	actionClearSnapMarkersFromSelected = new KAction( i18n( "Clear Snap Markers From Selected" ), KShortcut(), this, SLOT( slotNextFrame() ), actionCollection(), "clear_snap_markers_from_selected" );
+	actionToggleSnapMarker  = new KAction( i18n( "Toggle Snap Marker" ), KShortcut( Qt::Key_Period ), this, SLOT( slotToggleSnapMarker() ), actionCollection(), "toggle_snap_marker" );
+	actionClearAllSnapMarkers = new KAction( i18n( "Clear All Snap Markers" ), KShortcut(), this, SLOT( slotClearAllSnapMarkers()), actionCollection(), "clear_all_snap_markers" );
+	actionClearSnapMarkersFromSelected = new KAction( i18n( "Clear Snap Markers From Selected" ), KShortcut(), this, SLOT( slotClearSnapMarkersFromSelected() ), actionCollection(), "clear_snap_markers_from_selected" );
 
 	actionLoadLayout1 = new KAction( i18n( "Load Layout &1" ), "loadlayout1.png", KShortcut( Qt::Key_F9 ), this, SLOT( loadLayout1() ), actionCollection(), "load_layout_1" );
 	actionLoadLayout2 = new KAction( i18n( "Load Layout &2" ), "loadlayout2.png", KShortcut( Qt::Key_F10 ), this, SLOT( loadLayout2() ), actionCollection(), "load_layout_2" );
@@ -1150,4 +1152,66 @@ void KdenliveApp::slot_insertClips( QDropEvent *event )
 void KdenliveApp::slotFitToWidth()
 {
 	m_timeline->fitToWidth();
+}
+
+
+void KdenliveApp::slotToggleSnapMarker()
+{
+	slotStatusMsg( i18n( "Toggling snap marker" ) );
+	if ( m_monitorManager.hasActiveMonitor() ) {
+		m_monitorManager.activeMonitor() ->slotToggleSnapMarker();
+	}
+	slotStatusMsg( i18n( "Ready." ) );
+}
+
+void KdenliveApp::slotClearAllSnapMarkers()
+{
+	slotStatusMsg( i18n( "Clearing snap markers" ) );
+
+	KMacroCommand *macroCommand = new KMacroCommand( i18n( "Clear all snap markers" ) );
+
+	DocClipProject &clip = getDocument()->projectClip();
+
+	populateClearSnapMarkers(macroCommand, clip, false);
+	populateClearSnapMarkers(macroCommand, clip, true);
+
+	addCommand(macroCommand, true);
+
+	slotStatusMsg( i18n( "Ready." ) );
+}
+
+void KdenliveApp::slotClearSnapMarkersFromSelected()
+{
+	slotStatusMsg( i18n( "Clearing snap markers" ) );
+
+	KMacroCommand *macroCommand = new KMacroCommand( i18n( "Clear selected snap markers" ) );
+
+	DocClipProject &clip = getDocument()->projectClip();
+	populateClearSnapMarkers(macroCommand, clip, true);
+
+	addCommand(macroCommand, true);
+
+	slotStatusMsg( i18n( "Ready." ) );
+}
+
+void KdenliveApp::populateClearSnapMarkers(KMacroCommand *macroCommand, DocClipProject &clip, bool selectedClips)
+{
+	// Hmmm, I wonder if this should scan *into* project clips?For the moment I will leave it as scanning only those cliprefs in the outermost
+	// proejct clip - jmw, 16/12/2003
+
+	for(uint track = 0; track<clip.numTracks(); ++track)
+	{
+		QPtrListIterator<DocClipRef> itt(clip.track(track)->firstClip(selectedClips));
+
+		while(itt.current()) {
+			QValueVector<GenTime> times = itt.current()->snapMarkers();
+
+			for(QValueVector<GenTime>::iterator timeItt = times.begin(); timeItt != times.end(); ++timeItt) {
+				Command::KAddMarkerCommand *command = new Command::KAddMarkerCommand(*getDocument(), itt.current(), *timeItt, false);
+				macroCommand->addCommand(command);
+			}
+
+			++itt;
+		}
+	}
 }
