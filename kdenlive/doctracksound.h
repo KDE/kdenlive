@@ -29,6 +29,11 @@ class DocTrackSound : public DocTrackBase  {
 public: 
 	DocTrackSound();
 	~DocTrackSound();
+  /** Returns true if the specified clip can be added to this track, false otherwise.
+		*
+		* This method needs to be implemented by inheriting classes to define
+		* which types of clip they support. */
+  bool canAddClip(DocClipBase * clip);
 };
 
 #endif

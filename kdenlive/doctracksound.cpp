@@ -17,7 +17,16 @@
 
 #include "doctracksound.h"
 
-DocTrackSound::DocTrackSound(){
+DocTrackSound::DocTrackSound()
+{
 }
-DocTrackSound::~DocTrackSound(){
+
+DocTrackSound::~DocTrackSound()
+{
+}
+
+/** Returns true if the specified clip can be added to this track, false otherwise. */
+bool DocTrackSound::canAddClip(DocClipBase * clip)
+{
+	return false;
 }

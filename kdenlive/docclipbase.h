@@ -1,5 +1,5 @@
 /***************************************************************************
-                          doctrackbase.cpp  -  description
+                          docclipbase.h  -  description
                              -------------------
     begin                : Fri Apr 12 2002
     copyright            : (C) 2002 by Jason Wood
@@ -15,27 +15,18 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "doctrackbase.h"
+#ifndef DOCCLIPBASE_H
+#define DOCCLIPBASE_H
 
-DocTrackBase::DocTrackBase()
-{
-}
 
-DocTrackBase::~DocTrackBase()
-{
-}
+/**DocClipBase is a base class for the various types of clip
+  *@author Jason Wood
+  */
 
-/** Adds a clip to the track. Returns true if successful, false if it fails for some reason.
+class DocClipBase {
+public: 
+	DocClipBase();
+	~DocClipBase();
+};
 
-This method calls canAddClip() to determine whether or not the clip can be added to this
-particular track. */
-bool DocTrackBase::addClip(DocClipBase *clip)
-{
-}
-
-/** Returns true if the specified clip can be added to this track, false otherwise.
-
-This method needs to be implemented by inheriting classes to define
-which types of clip they support. */
-bool DocTrackBase::canAddClip(DocClipBase *clip){
-}
+#endif

@@ -28,6 +28,8 @@ class DocTrackVideo : public DocTrackBase  {
 public: 
 	DocTrackVideo();
 	~DocTrackVideo();
+  /** Returns true if the specified clip can be added to this track, false otherwise. */
+  bool canAddClip(DocClipBase * clip);
 };
 
 #endif
