@@ -71,9 +71,6 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
   /** Deletes the slider with the given id. If no such slider exists, a warning will be issued for
    debugging purposes. */
   void deleteSlider(const int id);
-  /** Draws the ruler to a back buffered QImage, but does not display it. This image can then be
-   blitted straight to the screen for speedy drawing. */
-  void drawToBackBuffer();
   /** Get the value of the slider with the given id. */
   int getSliderValue(int id);
   /** Returns the id of the currently activated slider, or -1 if there isn't one. */
@@ -88,6 +85,12 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
   double valueScale();
   /** Sets the slider which will be "selected" if no other slider is under the mouse. Select -1 for no slider. */
   void setAutoClickSlider(int ID);
+
+  /** Draws the ruler to a back buffered QImage, but does not display it. This image can then be
+   blitted straight to the screen for speedy drawing. */
+  void drawToBackBuffer(int start, int end);
+  /** Specifies that part of the back buffer needs to be redrawn.  */
+  void invalidateBackBuffer(int start, int end);
 public slots: // public slots
   /** Sets the slider with the given id to the given value. The display will be updated.  */
   void setSliderValue(const int id, const int value);

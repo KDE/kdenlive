@@ -16,8 +16,10 @@
  ***************************************************************************/
 
 #include "krulertimemodel.h"
+#include <kdebug.h>
 
-KRulerTimeModel::KRulerTimeModel()
+KRulerTimeModel::KRulerTimeModel() :
+						KRulerModel()
 {
 	setNumFrames(25);
 	setMinimumSmallTickSeperation(20);
@@ -30,7 +32,7 @@ KRulerTimeModel::~KRulerTimeModel()
 }
 
 QString KRulerTimeModel::mapValueToText(const int value) const
-{
+{	
 	QString text = "";
 	int frame;
 
@@ -50,11 +52,14 @@ QString KRulerTimeModel::mapValueToText(const int value) const
 	int hour = minute/60;
 	minute %= 60;
 
-	text += QString::number(hour).rightJustify(1, '0', FALSE) + ":" +
-          QString::number(minute).rightJustify(2, '0', FALSE) + ":" +
-          QString::number(second).rightJustify(2, '0', FALSE) + ":" +
-          QString::number(frame).rightJustify(2, '0', FALSE);
-	
+	text.append(QString::number(hour).rightJustify(1, '0', FALSE));
+	text.append(":");
+	text.append(QString::number(minute).rightJustify(2, '0', FALSE));
+	text.append(":");
+  text.append(QString::number(second).rightJustify(2, '0', FALSE));
+	text.append(":");  
+  text.append(QString::number(frame).rightJustify(2, '0', FALSE));
+
 	return text;
 }
 

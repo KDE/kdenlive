@@ -63,7 +63,7 @@ void KRender::error(int error)
 {	
 	switch(error) {
 		case QSocket::ErrConnectionRefused :
-							kdDebug() << "Connection Refused" << endl;
+							//kdDebug() << "Connection Refused" << endl;
 							m_socket.connectToHost("127.0.0.1", m_portNum);
 							break;
 		case QSocket::ErrHostNotFound :

@@ -46,6 +46,11 @@ public: // Public attributes
   void decrementRef();
   /** Add one to the reference count. If this count reaches zero, the KRulerSliderBase is destroyed. */
   void incrementRef(); 
+  /** Returns the right-most pixel that will be drawn by this slider in it's current position on the timeline. */
+  virtual int rightBound(int x, int height) = 0;
+  /** Returns the left-most pixel on the timeline that will be drawn by this slider in
+	it's current position. */
+  virtual int leftBound(int x, int height) = 0;
 };
 
 #endif

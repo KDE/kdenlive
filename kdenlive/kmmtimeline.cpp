@@ -407,7 +407,7 @@ bool KMMTimeLine::moveSelectedClips(int newTrack, GenTime start)
 			destTrack->addClips(srcTrack->removeClips(true), true);
 		}
 	}
-	
+
 	drawTrackViewBackBuffer();
 	return true;
 }

@@ -53,6 +53,14 @@ public:
 		if(x > midx + (height/8)+1) return false;
 		return true;  
   }
+
+  int leftBound(int x, int height) {
+  	return x -(height/8) - 1;   
+  }
+
+  int rightBound(int x, int height) {
+  	return x + (height/8) + 1;  
+  }
 };
 
 class KRulerPrivateSliderTopMark : public KRulerSliderBase {
@@ -77,6 +85,14 @@ public:
 		if(x > midx + (height/4)+1) return false;
 		return true;
   }
+
+  int leftBound(int x, int height) {
+  	return x -(height/4) - 1;
+  }
+
+  int rightBound(int x, int height) {
+  	return x + (height/4) + 1;
+  }  
 };
 
 class KRulerPrivateSliderBottomMark : public KRulerSliderBase {
@@ -101,6 +117,14 @@ public:
 		if(x > midx + (height/4)+1) return false;
 		return true;
   }
+
+  int leftBound(int x, int height) {
+  	return x -(height/4) - 1;
+  }
+
+  int rightBound(int x, int height) {
+  	return x + (height/4) + 1;
+  }  
 };
 
 class KRulerPrivateSliderStartMark : public KRulerSliderBase {
@@ -125,6 +149,14 @@ public:
 		if(x > midx) return false;
 		return true;  
   }
+
+  int leftBound(int x, int height) {
+  	return x -(height/4) - 1;
+  }
+
+  int rightBound(int x, int height) {
+  	return x;
+  }  
 };
 
 class KRulerPrivateSliderEndMark : public KRulerSliderBase {
@@ -149,6 +181,14 @@ public:
 		if(x > midx + (height/4)+1) return false;
 		return true;
 	}
+
+	int leftBound(int x, int height) {
+  	return x;
+  }
+
+  int rightBound(int x, int height) {
+  	return x + (height/4) + 1;
+  }
 };
 
 class KRulerPrivateSlider {
@@ -202,6 +242,8 @@ public:
 			default									: setType(new KRulerPrivateSliderDiamond()); break;
 		}		
 	}
+  /** Returns the left-most pixel that will be drawn by a horizontal slider. */
+  int leftBound();
 
 	void setType(KRulerSliderBase *type) {
 		if(m_sliderType!=0) {
@@ -212,7 +254,6 @@ public:
 		m_sliderType = type;
 	}
 
-	/** Sets the value of this slider to value. Returns true if the value has actually changed. */
 	bool setValue(const int value) {
 		if(m_value != value) {
 			m_value = value;
@@ -233,7 +274,6 @@ public:
 		return m_sliderType->underMouse(x, y, midx, height);
 	}
 
-	/** draws the Slider, using current mode & type */
 	void drawSlider(KRuler *ruler, QPainter &painter, const int x, const int height) {
 		painter.setPen(ruler->palette().color(status(), QColorGroup::Foreground));
 		painter.setBrush(ruler->palette().color(status(), QColorGroup::Button));
@@ -244,6 +284,17 @@ public:
 	KRulerSliderBase *newTypeInstance() const {
 		return m_sliderType->newInstance();
 	}
+
+	/** Returns the left-most pixel that will be drawn by a horizontal slider. */
+	int leftBound(int midx, int height)
+	{
+		return m_sliderType->leftBound(midx, height);
+	}
+
+	int rightBound(int midx, int height) {
+		return m_sliderType->rightBound(midx, height);
+	}
+	
 private:
 	int m_id;
 	KRulerSliderBase *m_sliderType;
@@ -267,6 +318,9 @@ public:
 	int m_activeID;
 	/** The previous value of the slider */
 	int m_oldValue;
+	/** The draw list of invalidated rectangles; let's us know which bits of the back buffer need to be
+	redrawn */
+	QValueList<int> m_bufferDrawList;	
 };
 
  
@@ -349,10 +403,14 @@ KRuler::~KRuler()
 	delete d;
 	delete m_rulerModel;
 }
-/** No descriptions */
 
 void KRuler::paintEvent(QPaintEvent *event) {
-	QPainter painter(this);
+	while(!d->m_bufferDrawList.isEmpty()) {
+		drawToBackBuffer(d->m_bufferDrawList[0], d->m_bufferDrawList[1]);
+		d->m_bufferDrawList.pop_front();
+		d->m_bufferDrawList.pop_front();		
+	}
+	QPainter painter(this);	
       	
 	painter.drawPixmap(event->rect().x(), event->rect().y(),
 										m_backBuffer,
@@ -377,8 +435,10 @@ QSize KRuler::sizeHint() {
 }
 
 void KRuler::setStartPixel(int value) {
-	m_leftMostPixel = value;
-	drawToBackBuffer();
+	if(m_leftMostPixel != value) {
+		m_leftMostPixel = value;
+		invalidateBackBuffer(0, width());
+	}
 }
 
 void KRuler::setValueScale(double size){
@@ -408,29 +468,30 @@ void KRuler::setValueScale(double size){
 	}
 
 	emit scaleChanged(size);
-	drawToBackBuffer();
+
+	invalidateBackBuffer(0, width());
 }
 
-/** No descriptions */
 void KRuler::resizeEvent(QResizeEvent *event)
 {
+	int oldwidth = m_backBuffer.width();
+
 	m_backBuffer.resize(width(), height());
-	drawToBackBuffer();
+	invalidateBackBuffer(oldwidth, width());
+		
 	emit resized();
 }
 
-/** returns the x-value coordinate in the rulers widget's local coordinate space which maps to the value requested. This funtion takes and returns doubles, as does it's counterpart - mapLocalToValue() */
 double KRuler::mapValueToLocal(double value) const
 {
 	return ((value * m_xValueSize) - m_leftMostPixel);
 }
-/** Returns the value which is currently displayed at x in the ruler widget's local coordinate system. Takes and returns a double for accuracy. */
+
 double KRuler::mapLocalToValue(double x) const
 {
 	return (x + m_leftMostPixel) / m_xValueSize;
 }
 
-/** Adds a new slider to the ruler. The style in which the slider is drawn is determined by type, and the slider is initially set to value. The value returned is the id that should be used to move this slider. */
 int KRuler::addSlider(const KRulerSliderType type, const int value)
 {
   KRulerPrivateSlider s(d->m_id, type, value, QPalette::Inactive);
@@ -452,37 +513,194 @@ void KRuler::deleteSlider(const int id) {
 	kdWarning() << "KRuler::deleteSlider(id) : id " << id << " does not exist, no deletion occured!" << endl;
 }
 
-/** Draws the ruler to a back buffered QImage, but does not display it. This image can then be blitted straight to the screen for speedy drawing. */
-void KRuler::drawToBackBuffer()
+void KRuler::setSliderValue(const int id, const int value)
+{
+	int actValue = (value <minValue()) ? minValue() : value;
+	actValue = (actValue > maxValue()) ? maxValue() : actValue;
+	
+	QValueList<KRulerPrivateSlider>::Iterator it;
+
+	for(it = d->m_sliders.begin(); it != d->m_sliders.end(); it++) {
+		if((*it).getID() == id) {
+			invalidateBackBuffer((*it).leftBound((int)mapValueToLocal((*it).getValue()), height()),
+														 (*it).rightBound((int)mapValueToLocal((*it).getValue()), height()) + 1);
+			
+			if((*it).setValue(actValue)) {		
+				invalidateBackBuffer((*it).leftBound((int)mapValueToLocal((*it).getValue()), height()),
+															 (*it).rightBound((int)mapValueToLocal((*it).getValue()), height()) + 1);				
+				
+				emit sliderValueChanged(id, actValue);				
+				break;
+			}
+		}
+	}
+}                     
+
+void KRuler::activateSliderUnderCoordinate(int x, int y) {
+	QValueList<KRulerPrivateSlider>::Iterator it;
+	for(it = d->m_sliders.begin(); it != d->m_sliders.end(); it++) {
+		if((*it).underMouse(x, y, (int)mapValueToLocal((*it).getValue()), height())) {
+			if((*it).status() != QPalette::Disabled)
+			activateSlider((*it).getID());
+			return;
+		}
+	}
+	activateSlider(m_autoClickSlider);
+}
+
+void KRuler::activateSlider(int id) {
+	QValueList<KRulerPrivateSlider>::Iterator it;
+	
+	for(it = d->m_sliders.begin(); it != d->m_sliders.end(); it++) {
+		if((*it).status() != QPalette::Disabled) {
+			(*it).setStatus(QPalette::Inactive);
+			if((*it).getID() == id) {
+				(*it).setStatus(QPalette::Active);
+			}
+		}
+	}
+	d->m_activeID = id;
+}
+
+int KRuler::getSliderValue(int id) {
+	QValueList<KRulerPrivateSlider>::Iterator it;
+	
+	for(it = d->m_sliders.begin(); it != d->m_sliders.end(); it++) {
+		if((*it).getID() == id) {
+			return (*it).getValue();
+		}
+	}
+	
+	kdWarning() << "KRuler : getSliderValue(id) attempt has been made to get the value of non-existant slider "<<id<<endl;
+	return 0;
+}
+
+int KRuler::activeSliderID()
+{
+	return d->m_activeID;
+}
+
+void KRuler::setMinValue(const int value)
+{
+	m_minValue = value;
+}
+
+void KRuler::setMaxValue(const int value)
+{
+	m_maxValue = (value > m_minValue) ? value : m_minValue + 1;
+}
+
+void KRuler::setRange(const int min, const int max)
+{
+	int oldvalue;
+	
+	if(min != minValue()) {
+		oldvalue = minValue();
+		setMinValue(min);
+		invalidateBackBuffer((int)mapValueToLocal(min), (int)mapValueToLocal(oldvalue));
+	}
+	if(max != maxValue()) {
+		oldvalue = maxValue();
+		setMaxValue(max);
+		invalidateBackBuffer((int)mapValueToLocal(oldvalue), (int)mapValueToLocal(max));		
+	}
+}
+
+int KRuler::minValue() const
+{
+	return m_minValue;
+}
+
+int KRuler::maxValue() const
+{
+	return m_maxValue;	
+}
+
+void KRuler::mousePressEvent(QMouseEvent *event)
+{
+	if(event->button() == QMouseEvent::RightButton) {
+		if(d->m_oldValue!=-1) {
+			setSliderValue(activeSliderID(), d->m_oldValue);
+			d->m_oldValue=-1;
+		}
+	} else if(event->button() == QMouseEvent::LeftButton) {
+		if(d->m_oldValue==-1) {
+			activateSliderUnderCoordinate(event->x(), event->y());
+			d->m_oldValue = getSliderValue(activeSliderID());
+		}
+	}
+}
+
+void KRuler::mouseReleaseEvent(QMouseEvent *event)
+{
+	if(event->button() == QMouseEvent::LeftButton) {
+		if(d->m_oldValue!=-1) {
+			d->m_oldValue=-1;
+		}
+	}
+}
+
+void KRuler::mouseMoveEvent(QMouseEvent *event)
+{
+	if(event->state() & (QMouseEvent::LeftButton | QMouseEvent::RightButton | QMouseEvent::MidButton)) {
+		if(d->m_oldValue != -1) {
+			setSliderValue(activeSliderID(), (int)floor(mapLocalToValue((int)event->x())+0.5));
+		}
+	}
+}
+
+void KRuler::setRulerModel(KRulerModel *model)
+{
+	if(m_rulerModel != 0) {
+		delete m_rulerModel;
+		m_rulerModel = 0;
+	}
+	
+	if(model==0) {
+		model = new KRulerModel();
+	}
+	m_rulerModel = model;
+}
+
+double KRuler::valueScale()
+{
+	return m_xValueSize;
+}
+
+void KRuler::setAutoClickSlider(int ID)
+{
+	m_autoClickSlider = ID;
+}
+
+void KRuler::drawToBackBuffer(int start, int end)
 {
 	QPainter painter(&m_backBuffer);
 	int value;
 	double pixel;
 	double pixelIncrement;
-	int sx; // = event->rect().x();
-	int ex; // = sx + event->rect().width();
+	int sx, ex;
 
-	sx = 0;
-	ex = width();
+	sx = start;
+	ex = end;
 
 	// draw background, adding different colors before the start, and after the end values.
 
 	int startRuler = (int)mapValueToLocal(minValue());
-	int endRuler = (int)mapValueToLocal(maxValue());	
-		
+	int endRuler = (int)mapValueToLocal(maxValue());
+
 	if(startRuler > sx) {
 		painter.fillRect(sx, 0, startRuler-sx, height(), palette().active().background());
 	} else {
-		startRuler = sx;		
+		startRuler = sx;
 	}
 	if(endRuler > ex) {
 		endRuler = ex;
-	}		
+	}
 	painter.fillRect(startRuler, 0, endRuler-startRuler, height(), palette().active().base());
 	if(endRuler < ex) {
 		painter.fillRect(endRuler, 0, ex-endRuler, height(), palette().active().background());
 	}
-	
+
 	painter.setPen(palette().active().foreground());
 	painter.setBrush(palette().active().background());
 
@@ -494,7 +712,7 @@ void KRuler::drawToBackBuffer()
   	value = (int)((m_leftMostPixel+sx)/m_xValueSize);
    	value -= value % m_smallTickEvery;
     pixel = (value * m_xValueSize) - m_leftMostPixel;
-    pixelIncrement = m_xValueSize * m_smallTickEvery;    
+    pixelIncrement = m_xValueSize * m_smallTickEvery;
     // big tick every so many small ticks.
     int bigTick2SmallTick = m_bigTickEvery / m_smallTickEvery;
     value = (value % m_bigTickEvery) / m_smallTickEvery;
@@ -545,9 +763,8 @@ void KRuler::drawToBackBuffer()
 	value -= value % m_textEvery;
 	pixel = (value * m_xValueSize) - m_leftMostPixel;
 	pixelIncrement = m_xValueSize * m_textEvery;
-  ex += m_textEvery - (ex % m_textEvery);
 
-	while(pixel < ex+m_textEvery) {
+	while(value <= ((m_leftMostPixel + ex) / m_xValueSize) + m_textEvery) {
 		painter.drawText((int)pixel-50, 0, 100, 32, AlignCenter, m_rulerModel->mapValueToText(value));
 		value += m_textEvery;
 		pixel += pixelIncrement;
@@ -558,179 +775,82 @@ void KRuler::drawToBackBuffer()
 	//
 
 	QValueList<KRulerPrivateSlider>::Iterator it;
-	
+
 	for(it = d->m_sliders.begin(); it != d->m_sliders.end(); it++) {
-		value = (int)mapValueToLocal((*it).getValue());		
+		value = (int)mapValueToLocal((*it).getValue());
 
 		if((value >= sx) && (value<=ex)) {
 			(*it).drawSlider(this, painter, value, height());
-		}		
+		}
 	}
 
 	update();
 }
 
-/** Sets the slider with the given id to the given value. The display will be updated.  */
-void KRuler::setSliderValue(const int id, const int value)
+void KRuler::invalidateBackBuffer(int start, int end)
 {
-	int actValue = (value <minValue()) ? minValue() : value;
-	actValue = (actValue > maxValue()) ? maxValue() : actValue;
-	
-	QValueList<KRulerPrivateSlider>::Iterator it;
+	if(start == end) return;
+	if(start > end) {
+		int temp = start;
+		start = end;
+		end = temp;		
+	}
 
-	for(it = d->m_sliders.begin(); it != d->m_sliders.end(); it++) {
-		if((*it).getID() == id) {
-			if((*it).setValue(actValue)) {
-				emit sliderValueChanged(id, actValue);
+	if(start >= width()) return;
+	if(end <= 0) return;
+		
+	if(start < 0) start = 0;
+	if(end > width()) end = width();
+
+	int cs, ce, count;
+	int ns, ne;
+
+	if(d->m_bufferDrawList.isEmpty()) {
+		d->m_bufferDrawList.push_back(start);
+		d->m_bufferDrawList.push_back(end);
+		update();
+		return;
+	}
+	
+	// search for the correct place in the list, or a pair that overlaps.	
+	for(count=0; count<d->m_bufferDrawList.count(); count+=2) {
+		cs = d->m_bufferDrawList[count];
+		ce = d->m_bufferDrawList[count+1];
+
+		if(end <= cs) {
+			d->m_bufferDrawList.insert(d->m_bufferDrawList.at(count), end);
+			d->m_bufferDrawList.insert(d->m_bufferDrawList.at(count), start);
+			break;
+		}
+		if((start <= ce) && (end >= cs)) {
+			d->m_bufferDrawList[count] = (start < cs) ? start : cs;
+			d->m_bufferDrawList[count+1] = (end > ce) ? end : ce;
+			break;
+		}
+	}
+
+	if(count == d->m_bufferDrawList.count()) {
+		d->m_bufferDrawList.push_back(start);
+		d->m_bufferDrawList.push_back(end);
+	} else {
+		// Check the remaining paris don't overlap.
+
+		while(count+2 < d->m_bufferDrawList.count()) {
+			cs = d->m_bufferDrawList[count];
+			ce = d->m_bufferDrawList[count+1];		
+			ns = d->m_bufferDrawList[count+2];
+			ne = d->m_bufferDrawList[count+3];			
+
+			if((cs <=ne ) && (ns <= ce)) {
+				d->m_bufferDrawList[count] = (cs < ns) ? cs : ns;
+				d->m_bufferDrawList[count+1] = (ce > ne) ? ce : ne;
+				d->m_bufferDrawList.remove(d->m_bufferDrawList.at(count+3));
+				d->m_bufferDrawList.remove(d->m_bufferDrawList.at(count+2));
+			} else {
 				break;
 			}
-		}
-	}
-
-	drawToBackBuffer();
-}                     
-
-void KRuler::activateSliderUnderCoordinate(int x, int y) {
-	QValueList<KRulerPrivateSlider>::Iterator it;
-	for(it = d->m_sliders.begin(); it != d->m_sliders.end(); it++) {
-		if((*it).underMouse(x, y, (int)mapValueToLocal((*it).getValue()), height())) {
-			if((*it).status() != QPalette::Disabled)
-			activateSlider((*it).getID());
-			return;
-		}
-	}
-	activateSlider(m_autoClickSlider);
-}
-
-void KRuler::activateSlider(int id) {
-	QValueList<KRulerPrivateSlider>::Iterator it;
-	
-	for(it = d->m_sliders.begin(); it != d->m_sliders.end(); it++) {
-		if((*it).status() != QPalette::Disabled) {
-			(*it).setStatus(QPalette::Inactive);
-			if((*it).getID() == id) {
-				(*it).setStatus(QPalette::Active);
-			}
-		}
-	}
-	d->m_activeID = id;
-}
-
-int KRuler::getSliderValue(int id) {
-	QValueList<KRulerPrivateSlider>::Iterator it;
-	
-	for(it = d->m_sliders.begin(); it != d->m_sliders.end(); it++) {
-		if((*it).getID() == id) {
-			return (*it).getValue();
-		}
+		}	
 	}
 	
-	kdWarning() << "KRuler : getSliderValue(id) attempt has been made to get the value of non-existant slider "<<id<<endl;
-	return 0;
+	update();
 }
-
-/** Returns the id of the currently activated slider, or -1 if there isn't one. */
-int KRuler::activeSliderID()
-{
-	return d->m_activeID;
-}
-
-/** Sets the minimum value allowed by the ruler. If a slider is below this value at any point, it will
- be incremented so that it is at this value. If the part of the ruler which displays values less than
- this value is visible, it will be displayed in a different color to show that it is out of range. */
-void KRuler::setMinValue(const int value)
-{
-	m_minValue = value;
-}
-
-/** Sets the maximum value for this ruler. If a slider is ever set beyond this value, it will be reset
-to this value. If part of the ruler is visible which extends beyond this value, it will be drawn if a
- different colour to show that it is outside of the valid range of values. */
-void KRuler::setMaxValue(const int value)
-{
-	m_maxValue = (value > m_minValue) ? value : m_minValue + 1;
-}
-
-
-/** Sets the range of values used in the ruler. Sliders will always have a value between these two ranges,
- and any visible area of the ruler outside of this range will be shown in a different color to respect this.*/
-void KRuler::setRange(const int min, const int max)
-{
-	setMinValue(min);
-	setMaxValue(max);
-	drawToBackBuffer();
-}
-
-/** Returns the minimum value that a slider can be set to on this ruler. */
-int KRuler::minValue() const
-{
-	return m_minValue;
-}
-
-/** Retursn the maximum value a slider can be set to on this ruler. */
-int KRuler::maxValue() const
-{
-	return m_maxValue;	
-}
-
-void KRuler::mousePressEvent(QMouseEvent *event)
-{
-	if(event->button() == QMouseEvent::RightButton) {
-		if(d->m_oldValue!=-1) {
-			setSliderValue(activeSliderID(), d->m_oldValue);
-			d->m_oldValue=-1;
-			drawToBackBuffer();
-		}
-	} else if(event->button() == QMouseEvent::LeftButton) {
-		if(d->m_oldValue==-1) {
-			activateSliderUnderCoordinate(event->x(), event->y());
-			d->m_oldValue = getSliderValue(activeSliderID());
-			drawToBackBuffer();
-		}
-	}
-}
-
-void KRuler::mouseReleaseEvent(QMouseEvent *event)
-{
-	if(event->button() == QMouseEvent::LeftButton) {
-		if(d->m_oldValue!=-1) {
-			d->m_oldValue=-1;
-		}
-	}
-}
-
-void KRuler::mouseMoveEvent(QMouseEvent *event)
-{
-	if(event->state() & (QMouseEvent::LeftButton | QMouseEvent::RightButton | QMouseEvent::MidButton)) {
-		if(d->m_oldValue != -1) {
-			setSliderValue(activeSliderID(), (int)floor(mapLocalToValue((int)event->x())+0.5));
-			drawToBackBuffer();
-		}
-	}
-}
-
-/** Changes the ruler model for this ruler. The old ruler model is deleted if it exists. If null is passed to this method, a default model is created. */
-void KRuler::setRulerModel(KRulerModel *model)
-{
-	if(m_rulerModel != 0) {
-		delete m_rulerModel;
-		m_rulerModel = 0;
-	}
-	
-	if(model==0) {
-		model = new KRulerModel();
-	}
-	m_rulerModel = model;
-}
-
-double KRuler::valueScale()
-{
-	return m_xValueSize;
-}
-
-/** Sets the slider which will be "selected" if no other slider is under the mouse. Select -1 for no slider. */
-void KRuler::setAutoClickSlider(int ID)
-{
-	m_autoClickSlider = ID;
-}
-
