@@ -1,7 +1,7 @@
 /***************************************************************************
-                          docclipvideo.cpp  -  description
+                          kmmtracksoundpanel.h  -  description
                              -------------------
-    begin                : Fri Apr 12 2002
+    begin                : Tue Apr 9 2002
     copyright            : (C) 2002 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,12 +15,25 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "docclipvideo.h"
+#ifndef KMMTRACKSOUNDPANEL_H
+#define KMMTRACKSOUNDPANEL_H
 
-DocClipVideo::DocClipVideo(AVFile * avFile) : DocClipBase(avFile)
-{
-}
+#include <qwidget.h>
 
-DocClipVideo::~DocClipVideo()
-{
-}
+#include <doctracksound.h>
+#include <kmmtracksoundpanel_ui.h>
+
+/**KMMTrackSoundPanel is the Track panel for sound files.
+It contains several functions that can be used to manipulate
+the main sound widget in different ways.
+  *@author Jason Wood
+  */
+
+class KMMTrackSoundPanel : public KMMTrackSoundPanel_UI  {
+   Q_OBJECT
+public: 
+	KMMTrackSoundPanel(DocTrackSound *docTrack, QWidget *parent=0, const char *name=0);
+	~KMMTrackSoundPanel();
+};
+
+#endif

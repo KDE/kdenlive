@@ -37,7 +37,7 @@ public:
   void paintEvent(QPaintEvent *event);
   QSize sizeHint();
   QString getTimeScaleText(int frame);
-	int getTickCount(int size);						// calculates the step between ticks to make sure they are at least size pixels apart.
+	int getTickCount(double size);						// calculates the step between ticks to make sure they are at least size pixels apart.
 private:	
 	KMMTimeScale timeScale;
 	QSize _sizehint;	

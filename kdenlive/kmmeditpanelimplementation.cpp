@@ -1,7 +1,7 @@
 /***************************************************************************
-                          docclipvideo.cpp  -  description
+                          kmmeditpanelimplementation.cpp  -  description
                              -------------------
-    begin                : Fri Apr 12 2002
+    begin                : Mon Apr 8 2002
     copyright            : (C) 2002 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,12 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "docclipvideo.h"
+#include "kmmeditpanelimplementation.h"
 
-DocClipVideo::DocClipVideo(AVFile * avFile) : DocClipBase(avFile)
+KMMEditPanelImplementation::KMMEditPanelImplementation(QWidget* parent, const char* name, WFlags fl) :
+																 KMMEditPanel(parent, name, fl)
 {
 }
 
-DocClipVideo::~DocClipVideo()
+KMMEditPanelImplementation::~KMMEditPanelImplementation()
 {
 }

@@ -26,7 +26,7 @@
 
 class DocClipSound : public DocClipBase  {
 public: 
-	DocClipSound();
+	DocClipSound(AVFile * avFile);
 	~DocClipSound();
 };
 

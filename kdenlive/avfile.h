@@ -19,9 +19,9 @@
 #define AVFILE_H
 
 #include <qstring.h>
-#include <arts/kmedia2.h>
 
 #include <kurl.h>
+#include <arts/kmedia2.h>
 
 /**
 	* Encapsulates a video, audio, picture, title, or any other kind of file that Kdenlive can support.

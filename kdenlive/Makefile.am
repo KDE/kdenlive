@@ -3,11 +3,11 @@ bin_PROGRAMS = kdenlive
 
 ## INCLUDES were found outside kdevelop specific part
 
-kdenlive_SOURCES = addtrackdialog_ui.ui projectlist_ui.ui kmmtrackvideo.cpp kmmtracksound.cpp docclipvideo.cpp docclipsound.cpp docclipbase.cpp doctrackvideo.cpp doctracksound.cpp doctrackbase.cpp kmmtrackvideopanel.cpp kmmtrackvideopanel_ui.ui kmmtracksoundpanel.cpp kmmtracksoundpanel_ui.ui kmmeditpanelimplementation.cpp kmmeditpanel.ui kmmscreen.cpp kmmmonitor.cpp avlistviewitem.cpp avfile.cpp projectlist.cpp kmmtrackbase.cpp kmmtimeline.cpp kmmruler.cpp kdenliveview.cpp kdenlivedoc.cpp kdenlive.cpp main.cpp 
-kdenlive_LDADD   = -lmcop -lartskde $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET)
+kdenlive_SOURCES = kmmeditpanelimplementation.cpp kmmtracksoundpanel.cpp kmmtrackvideopanel.cpp clipdrag.cpp projectlist_ui.ui kmmtrackvideopanel_ui.ui kmmtracksoundpanel_ui.ui kmmeditpanel.ui addtrackdialog_ui.ui projectlist.cpp kmmtrackvideo.cpp kmmtracksound.cpp kmmtrackbase.cpp kmmtimeline.cpp kmmscreen.cpp kmmruler.cpp kmmmonitor.cpp doctrackvideo.cpp doctracksound.cpp doctrackbase.cpp docclipvideo.cpp docclipsound.cpp docclipbase.cpp avlistviewitem.cpp avfile.cpp kdenliveview.cpp kdenlivedoc.cpp kdenlive.cpp main.cpp 
+kdenlive_LDADD   = -lartskde -lmcop $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET)
 
 
-EXTRA_DIST = main.cpp kdenlive.cpp kdenlive.h kdenlivedoc.cpp kdenlivedoc.h kdenliveview.cpp kdenliveview.h kdenliveui.rc kdenlive.desktop lo32-app-kdenlive.png lo16-app-kdenlive.png kmmruler.cpp kmmruler.h kmmtimeline.cpp kmmtimeline.h kmmtrackbase.cpp kmmtrackbase.h projectlist.cpp projectlist.h avfile.cpp avfile.h avlistviewitem.cpp avlistviewitem.h kmmmonitor.cpp kmmmonitor.h kmmscreen.cpp kmmscreen.h kmmeditpanel.ui kmmeditpanelimplementation.cpp kmmeditpanelimplementation.h kmmtracksoundpanel_ui.ui kmmtracksoundpanel.cpp kmmtracksoundpanel.h kmmtrackvideopanel_ui.ui kmmtrackvideopanel.cpp kmmtrackvideopanel.h doctrackbase.cpp doctrackbase.h doctracksound.cpp doctracksound.h doctrackvideo.cpp doctrackvideo.h docclipbase.cpp docclipbase.h docclipsound.cpp docclipsound.h docclipvideo.cpp docclipvideo.h kmmtracksound.cpp kmmtracksound.h kmmtrackvideo.cpp kmmtrackvideo.h projectlist_ui.ui addtrackdialog_ui.ui 
+EXTRA_DIST = main.cpp kdenlive.cpp kdenlive.h kdenlivedoc.cpp kdenlivedoc.h kdenliveview.cpp kdenliveview.h kdenliveui.rc kdenlive.desktop lo32-app-kdenlive.png lo16-app-kdenlive.png avfile.cpp avlistviewitem.cpp docclipbase.cpp docclipsound.cpp docclipvideo.cpp doctrackbase.cpp doctracksound.cpp doctrackvideo.cpp kmmmonitor.cpp kmmruler.cpp kmmscreen.cpp kmmtimeline.cpp kmmtrackbase.cpp kmmtracksound.cpp kmmtrackvideo.cpp projectlist.cpp addtrackdialog_ui.ui avfile.h avlistviewitem.h docclipbase.h docclipsound.h docclipvideo.h doctrackbase.h doctracksound.h doctrackvideo.h kmmeditpanel.ui kmmmonitor.h kmmruler.h kmmscreen.h kmmtimeline.h kmmtrackbase.h kmmtracksound.h kmmtracksoundpanel_ui.ui kmmtrackvideo.h kmmtrackvideopanel_ui.ui projectlist.h projectlist_ui.ui clipdrag.cpp clipdrag.h kmmtrackvideopanel.cpp kmmtrackvideopanel.h kmmtracksoundpanel.cpp kmmtracksoundpanel.h kmmeditpanelimplementation.cpp kmmeditpanelimplementation.h 
 
 install-data-local:
 	$(mkinstalldirs) $(kde_appsdir)/Applications/
@@ -23,18 +23,26 @@ uninstall-local:
 	-rm -f $(kde_icondir)/locolor/16x16/apps/kdenlive.png
 
 ####### kdevelop will overwrite this part!!! (end)############
-# this 10 paths are KDE specific. Use them:
-# kde_htmldir       Where your docs should go to. (contains lang subdirs)
-# kde_appsdir       Where your application file (.kdelnk) should go to. 
-# kde_icondir       Where your icon should go to.
-# kde_minidir       Where your mini icon should go to.
-# kde_datadir       Where you install application data. (Use a subdir)
-# kde_locale        Where translation files should go to.(contains lang subdirs)
-# kde_cgidir        Where cgi-bin executables should go to.
-# kde_confdir       Where config files should go to.
-# kde_mimedir       Where mimetypes should go to.
-# kde_toolbardir    Where general toolbar icons should go to.
-# kde_wallpaperdir  Where general wallpapers should go to.
+# These paths are KDE specific. Use them:
+# kde_appsdir         Where your application's menu entry (.desktop) should go to.
+# kde_icondir         Where your icon should go to - better use KDE_ICON.
+# kde_sounddir        Where your sounds should go to.
+# kde_htmldir         Where your docs should go to. (contains lang subdirs)
+# kde_datadir         Where you install application data. (Use a subdir)
+# kde_locale          Where translation files should go to. (contains lang subdirs)
+# kde_cgidir          Where cgi-bin executables should go to.
+# kde_confdir         Where config files should go to (system-wide ones with default values).
+# kde_mimedir         Where mimetypes .desktop files should go to.
+# kde_servicesdir     Where services .desktop files should go to.
+# kde_servicetypesdir Where servicetypes .desktop files should go to.
+# kde_toolbardir      Where general toolbar icons should go to (deprecated, use KDE_ICON).
+# kde_wallpaperdir    Where general wallpapers should go to.
+# kde_templatesdir    Where templates for the "New" menu (Konqueror/KDesktop) should go to.
+# kde_bindir          Where executables should go to. Use bin_PROGRAMS or bin_SCRIPTS.
+# kde_libdir          Where shared libraries should go to. Use lib_LTLIBRARIES.
+# kde_moduledir       Where modules (e.g. parts) should go to. Use kde_module_LTLIBRARIES.
+# kde_styledir        Where Qt/KDE widget styles should go to (new in KDE 3).
+# kde_designerdir     Where Qt Designer plugins should go to (new in KDE 3).
 
 # set the include path for X, qt and KDE
 INCLUDES= $(all_includes)

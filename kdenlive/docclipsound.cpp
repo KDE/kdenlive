@@ -17,7 +17,10 @@
 
 #include "docclipsound.h"
 
-DocClipSound::DocClipSound(){
+DocClipSound::DocClipSound(AVFile * avFile) : DocClipBase(avFile)
+{
 }
-DocClipSound::~DocClipSound(){
+
+DocClipSound::~DocClipSound()
+{
 }

@@ -18,6 +18,7 @@
 #ifndef DOCCLIPBASE_H
 #define DOCCLIPBASE_H
 
+#include <avfile.h>
 
 /**DocClipBase is a base class for the various types of clip
   *@author Jason Wood
@@ -25,13 +26,17 @@
 
 class DocClipBase {
 public: 
-	DocClipBase();
+	DocClipBase(AVFile * avFile);
 	virtual ~DocClipBase() = 0;
-  /** Returns where the start of this clip is on the track is resides on. */
+  /** Returns where this clip starts on the track */
   long trackStart();
+  /** Returns the AVFile object which defines the object which is used by this clip. */
+  AVFile * avFile();
 private: // Private attributes
   /** Where this clip starts on the track that it resides on. */
   long m_trackStart;
+  /** The avFile that this clip is based upon.  */
+  AVFile * m_avFile;
 };
 
 #endif

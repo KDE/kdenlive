@@ -1,7 +1,7 @@
 /***************************************************************************
-                          docclipvideo.cpp  -  description
+                          kmmtrackvideopanel.cpp  -  description
                              -------------------
-    begin                : Fri Apr 12 2002
+    begin                : Tue Apr 9 2002
     copyright            : (C) 2002 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,12 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "docclipvideo.h"
+#include "kmmtrackvideopanel.h"
 
-DocClipVideo::DocClipVideo(AVFile * avFile) : DocClipBase(avFile)
+KMMTrackVideoPanel::KMMTrackVideoPanel(DocTrackVideo *docTrack, QWidget *parent, const char *name ) :
+												KMMTrackVideoPanel_UI(parent,name)
 {
+	setMinimumWidth(200);
+	setMaximumWidth(200);
+	setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding));
 }
 
-DocClipVideo::~DocClipVideo()
+KMMTrackVideoPanel::~KMMTrackVideoPanel()
 {
 }

@@ -17,8 +17,9 @@
 
 #include "docclipbase.h"
 
-DocClipBase::DocClipBase()
+DocClipBase::DocClipBase(AVFile *avFile)
 {
+	m_avFile = avFile;
 }
 
 DocClipBase::~DocClipBase()
@@ -30,3 +31,8 @@ long DocClipBase::trackStart(){
 	return m_trackStart;
 }
 
+/** Returns the AVFile object which defines the object which is used by this clip. */
+AVFile * DocClipBase::avFile()
+{
+	return m_avFile;
+}

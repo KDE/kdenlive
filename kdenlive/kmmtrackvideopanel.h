@@ -1,7 +1,7 @@
 /***************************************************************************
-                          docclipvideo.cpp  -  description
+                          kmmtrackvideopanel.h  -  description
                              -------------------
-    begin                : Fri Apr 12 2002
+    begin                : Tue Apr 9 2002
     copyright            : (C) 2002 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,12 +15,24 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "docclipvideo.h"
+#ifndef KMMTRACKVIDEOPANEL_H
+#define KMMTRACKVIDEOPANEL_H
 
-DocClipVideo::DocClipVideo(AVFile * avFile) : DocClipBase(avFile)
-{
-}
+#include <qwidget.h>
 
-DocClipVideo::~DocClipVideo()
-{
-}
+#include <doctrackvideo.h>
+#include <kmmtrackvideopanel_ui.h>
+
+/**KMMTrackVideoPanel contains useful controls for manipulating the video tracks
+which reside in the main video widget
+  *@author Jason Wood
+  */
+
+class KMMTrackVideoPanel : public KMMTrackVideoPanel_UI  {
+   Q_OBJECT
+public: 
+	KMMTrackVideoPanel(DocTrackVideo *docTrack, QWidget *parent=0, const char *name=0);
+	~KMMTrackVideoPanel();
+};
+
+#endif

@@ -28,7 +28,6 @@
   */
 
 class AVListViewItem : public QListViewItem  {
-//   Q_OBJECT
 private:
 	QListView *m_listView;
 	AVFile *m_avFile;

@@ -1,9 +1,9 @@
 # KDE Config File  
 [Desktop Entry]
+Encoding=UTF-8
 Type=Application
 Exec=kdenlive -caption "%c" %i %m  
 Icon=kdenlive.png
-MiniIcon=kdenlive.png
 DocPath=kdenlive/index.html
 Comment=
 Comment[de]=

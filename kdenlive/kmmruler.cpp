@@ -122,7 +122,7 @@ void KMMRuler::setFrameSize(double size){
 	
 }
 
-int KMMRuler::getTickCount(int size)
+int KMMRuler::getTickCount(double size)
 {
 	int tick=1;	
 	

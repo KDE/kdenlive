@@ -26,7 +26,7 @@
 
 class DocClipVideo : public DocClipBase  {
 public: 
-	DocClipVideo();
+	DocClipVideo(AVFile * avFile);
 	~DocClipVideo();
 };
 

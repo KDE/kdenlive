@@ -18,6 +18,11 @@
 #include "projectlist.h"
 #include "avlistviewitem.h"
 
+/* This define really should go in projectlist_ui, but qt just puts the classname there at the moment :-( */
+#include <qpushbutton.h>
+
+#include <qcursor.h>
+
 #include <klocale.h>
 #include <kiconloader.h>
 #include <kfiledialog.h>
