@@ -121,6 +121,9 @@ void KMMTimeLine::insertTrack(int index, KMMTrackPanel *track)
 
 	connect(m_scrollBar, SIGNAL(valueChanged(int)), this, SLOT(drawTrackViewBackBuffer()));
 	connect(track->docTrack(), SIGNAL(trackChanged()), this, SLOT(drawTrackViewBackBuffer()));
+
+  connect(track, SIGNAL(signalClipCropStartChanged(const GenTime &)), this, SIGNAL(signalClipCropStartChanged(const GenTime &)));
+  connect(track, SIGNAL(signalClipCropEndChanged(const GenTime &)), this, SIGNAL(signalClipCropEndChanged(const GenTime &)));  
 		
 	resizeTracks();		
 }
@@ -791,7 +794,7 @@ void KMMTimeLine::slotSliderMoved(int slider, int value)
 }
 
 /** Seek the timeline to the current position. */
-void KMMTimeLine::seek(GenTime time)
+void KMMTimeLine::seek(const GenTime &time)
 {
     m_ruler->setSliderValue(0, (int)floor(time.frames(m_document->framesPerSecond()) + 0.5));
 }

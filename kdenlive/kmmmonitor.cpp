@@ -23,7 +23,7 @@ KMMMonitor::KMMMonitor(KdenliveApp *app, KdenliveDoc *document, QWidget *parent,
 										m_screen(new KMMScreen(app, m_screenHolder, name)),
 										m_editPanel(new KMMEditPanel(document, this, name))
 {
-	connect(m_editPanel, SIGNAL(seekPositionChanged(GenTime)), this, SIGNAL(seekPositionChanged(GenTime)));    
+	connect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)), this, SIGNAL(seekPositionChanged(const GenTime &)));
 
   connectScreen();
 }
@@ -44,7 +44,7 @@ void KMMMonitor::setClipLength(int frames)
 }
 
 /** Seek the monitor to the given time. */
-void KMMMonitor::seek(GenTime time)
+void KMMMonitor::seek(const GenTime &time)
 {
   m_editPanel->seek(time);
 }
@@ -80,7 +80,7 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 /** Disconnects all signals/slots from the screen */
 void KMMMonitor::disconnectScreen()
 {
-  disconnect(m_editPanel, SIGNAL(seekPositionChanged(GenTime)), m_screen, SLOT(seek(GenTime)));
+  disconnect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)), m_screen, SLOT(seek(const GenTime &)));
 	disconnect(m_editPanel, SIGNAL(playSpeedChanged(double)), m_screen, SLOT(play(double)));
   disconnect(m_screen, SIGNAL(rendererConnected()), m_editPanel, SLOT(rendererConnected()));
   disconnect(m_screen, SIGNAL(rendererDisconnected()), m_editPanel, SLOT(rendererDisconnected()));
@@ -90,7 +90,7 @@ void KMMMonitor::disconnectScreen()
 /** Connects all signals/slots to the screen. */
 void KMMMonitor::connectScreen()
 {
-  connect(m_editPanel, SIGNAL(seekPositionChanged(GenTime)), m_screen, SLOT(seek(GenTime)));
+  connect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)), m_screen, SLOT(seek(const GenTime &)));
 	connect(m_editPanel, SIGNAL(playSpeedChanged(double)), m_screen, SLOT(play(double)));
   connect(m_screen, SIGNAL(rendererConnected()), m_editPanel, SLOT(rendererConnected()));
   connect(m_screen, SIGNAL(rendererDisconnected()), m_editPanel, SLOT(rendererDisconnected()));

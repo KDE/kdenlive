@@ -60,6 +60,11 @@ protected: // Protected attributes
   /** The KMMTrackPanel needs access to various methods from it's parents Timeline. The parent timeline
   	 is stored in this variable. */
   KMMTimeLine *m_timeline;
+signals: // Signals
+  /** Emitted when an operation moves the clip crop start. */
+  void signalClipCropStartChanged(const GenTime &);
+  /** Emitted when an operation moves the clip crop end. */
+  void signalClipCropEndChanged(const GenTime &);  
 };
 
 #endif

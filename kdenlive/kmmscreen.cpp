@@ -61,7 +61,7 @@ void KMMScreen::embedWindow(WId wid)
 }
 
 /** Seeks to the specified time */
-void KMMScreen::seek(GenTime time)
+void KMMScreen::seek(const GenTime &time)
 { 
 	m_render->seek(time);
 }

@@ -112,7 +112,7 @@ void KMMEditPanel::stop()
 }
 
 /** Sets the current seek position to the one specified */
-void KMMEditPanel::seek(GenTime time)
+void KMMEditPanel::seek(const GenTime &time)
 {
   m_ruler->setSliderValue(0, (int)(floor(time.frames(m_document->framesPerSecond()) + 0.5)));
 }

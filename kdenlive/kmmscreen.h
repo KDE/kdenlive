@@ -50,7 +50,7 @@ public slots: // Public slots
   /** Embeds the specified window. */
   void embedWindow(WId wid);
   /** Seeks to the specified time */
-  void seek(GenTime time);
+  void seek(const GenTime &time);
   /** Set the play speed of the screen */
   void play(double speed);
   /** Set the displayed scenelist to the one specified. */

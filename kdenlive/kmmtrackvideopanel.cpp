@@ -112,6 +112,7 @@ bool KMMTrackVideoPanel::mousePressed(QMouseEvent *event)
 										m_clipUnderMouse = docTrack()->getClipAt(mouseTime);
 										if(m_clipUnderMouse) {
 											if(m_resizeState != None) {
+                        m_timeline->selectClipAt(*m_docTrack, (m_clipUnderMouse->trackStart() + m_clipUnderMouse->trackEnd())/2.0);
 												m_resizeCommand = new KResizeCommand(m_docTrack->document(), m_clipUnderMouse);
 											}
 		
@@ -236,8 +237,10 @@ bool KMMTrackVideoPanel::mouseMoved(QMouseEvent *event)
 									if(m_resizeState != None) {
 										if(m_resizeState == Start) {
 											m_docTrack->resizeClipTrackStart(m_clipUnderMouse, mouseTime);
+                      emit signalClipCropStartChanged(m_clipUnderMouse->cropStartTime());
 										} else if(m_resizeState == End) {
 											m_docTrack->resizeClipTrackEnd(m_clipUnderMouse, mouseTime);
+                      emit signalClipCropEndChanged(m_clipUnderMouse->cropStartTime() + m_clipUnderMouse->cropDuration());
 										} else {
 											kdError() << "Unknown resize state reached in KMMTimeLineTrackView::mouseMoveEvent()" << endl;
 											kdError() << "(this message should never be seen!)" << endl;

@@ -225,12 +225,16 @@ public slots: // Public slots
   /** A ruler slider has moved - do something! */
   void slotSliderMoved(int slider, int value);
   /** Seek the timeline to the current position. */
-  void seek(GenTime time);
+  void seek(const GenTime &time);
 signals: // Signals
   /** emitted when the length of the project has changed. */
-  void projectLengthChanged(int numFrames);
+  void projectLengthChanged(int);
   /** Emitted when the seek position on the timeline changes. */
-  void seekPositionChanged(GenTime time);
+  void seekPositionChanged(const GenTime &);
+  /** Emitted when the clip crop start has changed for a clip. */
+  void signalClipCropStartChanged(const GenTime &);
+  /** Emitted when the clip crop end has changed for a clip. */
+  void signalClipCropEndChanged(const GenTime &);  
 };
 
 #endif

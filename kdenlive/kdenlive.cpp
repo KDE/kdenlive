@@ -240,21 +240,24 @@ void KdenliveApp::initView()
   connect(m_projectList, SIGNAL(dragDropOccured(QDropEvent *)), getDocument(), SLOT(slot_insertClips(QDropEvent *)));
   connect(m_timeline, SIGNAL(projectLengthChanged(int)), m_workspaceMonitor, SLOT(setClipLength(int)));
 
-  connect(m_timeline, SIGNAL(seekPositionChanged(GenTime)), m_workspaceMonitor, SLOT(seek(GenTime)));
-  connect(m_workspaceMonitor, SIGNAL(seekPositionChanged(GenTime)), m_timeline, SLOT(seek(GenTime)));
+  connect(m_timeline, SIGNAL(seekPositionChanged(const GenTime &)), m_workspaceMonitor, SLOT(seek(const GenTime &)));
+  connect(m_workspaceMonitor, SIGNAL(seekPositionChanged(const GenTime &)), m_timeline, SLOT(seek(const GenTime &)));
   connect(getDocument(), SIGNAL(sceneListChanged(const QDomDocument &)), m_workspaceMonitor, SLOT(setSceneList(const QDomDocument &)));
 
   connect(getDocument(), SIGNAL(avFileListUpdated()), m_projectList, SLOT(slot_UpdateList()));
   connect(getDocument(), SIGNAL(avFileChanged(AVFile *)), m_projectList, SLOT(slot_avFileChanged(AVFile *)));
 
-  connect(m_workspaceMonitor, SIGNAL(seekPositionChanged(GenTime)), this, SLOT(slotUpdateCurrentTime(GenTime)));
+  connect(m_workspaceMonitor, SIGNAL(seekPositionChanged(const GenTime &)), this, SLOT(slotUpdateCurrentTime(const GenTime &)));
 
   connect(m_renderManager, SIGNAL(recievedInfo(const QString &, const QString &)), m_renderDebugPanel, SLOT(slotPrintDebug(const QString &, const QString &)));    
   connect(m_renderManager, SIGNAL(recievedStdout(const QString &, const QString &)), m_renderDebugPanel, SLOT(slotPrintWarning(const QString &, const QString &)));
   connect(m_renderManager, SIGNAL(recievedStderr(const QString &, const QString &)), m_renderDebugPanel, SLOT(slotPrintError(const QString &, const QString &)));
 
   connect(m_projectList, SIGNAL(AVFileSelected(AVFile *)), this, SLOT(slotSetClipMonitorSource(AVFile *)));
- connect(getDocument(), SIGNAL(signalClipSelected(DocClipBase *)), this, SLOT(slotSetClipMonitorSource(DocClipBase *)));
+  connect(getDocument(), SIGNAL(signalClipSelected(DocClipBase *)), this, SLOT(slotSetClipMonitorSource(DocClipBase *)));
+
+  connect(m_timeline, SIGNAL(signalClipCropStartChanged(const GenTime &)), m_clipMonitor, SLOT(seek(const GenTime &)));
+  connect(m_timeline, SIGNAL(signalClipCropEndChanged(const GenTime &)), m_clipMonitor, SLOT(seek(const GenTime &)));  
 
   makeDockInvisible(mainDock);
 
@@ -686,7 +689,7 @@ KdenliveApp::TimelineEditMode KdenliveApp::timelineEditMode()
 }
 
 /** Updates the current time in the status bar. */
-void KdenliveApp::slotUpdateCurrentTime(GenTime time)
+void KdenliveApp::slotUpdateCurrentTime(const GenTime &time)
 {
   statusBar()->changeItem(i18n("Current Time : ") + KRulerTimeModel::mapValueToText((int)floor(time.frames(doc->framesPerSecond()) + 0.5), doc->framesPerSecond()), ID_EDITMODE_MSG);  
 }

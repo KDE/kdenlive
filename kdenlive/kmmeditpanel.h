@@ -40,7 +40,7 @@ private slots: // Private slots
   void rulerValueChanged(int ID, int value);
 signals: // Signals
   /** Emitted when the seek position has changed */
-  void seekPositionChanged(GenTime time);
+  void seekPositionChanged(const GenTime &);
   /** Emitted by the EditPanel when the playSpeed should change. */
   void playSpeedChanged(double);
 private: // Private attributes
@@ -60,7 +60,7 @@ public slots: // Public slots
   /** Called when the "play" button is pressed */
   void play();
   /** Sets the current seek position to the one specified */
-  void seek(GenTime time);     
+  void seek(const GenTime &time);
   /** Alerts the edit panel that the renderer has disconnected. */
   void rendererConnected();
   /** Alerts the edit panel that the renderer has disconnected. */
