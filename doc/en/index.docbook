@@ -1013,7 +1013,7 @@ This tool lets you select all clips to the right of where you click on the timel
 	<keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F11</keycap></keycombo>
 </shortcut>
 <guimenu>Layout Menu</guimenu>
-<guimenuitem>SaveLayout 3</guimenuitem>
+<guimenuitem>Save Layout 3</guimenuitem>
 </menuchoice>
 </term>
 <listitem>
