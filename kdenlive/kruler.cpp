@@ -344,6 +344,7 @@ KRuler::KRuler(int min, int max, double scale, KRulerModel *model, QWidget *pare
 
 	setSizePolicy(QSizePolicy (QSizePolicy::Expanding, QSizePolicy::Fixed, FALSE));
 
+
  // we draw everything ourselves, no need to draw background.
 	setBackgroundMode(Qt::NoBackground);
 }
@@ -365,6 +366,7 @@ KRuler::KRuler(KRulerModel *model, QWidget *parent, const char *name ) :
 	setMinimumWidth(32);
 	setMaximumHeight(32);
 	setMouseTracking(true);
+
 
 	setSizePolicy(QSizePolicy (QSizePolicy::Expanding, QSizePolicy::Fixed, FALSE));
 
@@ -391,8 +393,8 @@ KRuler::KRuler(QWidget *parent, const char *name ) :
 	setMouseTracking(true);
 
 	setSizePolicy(QSizePolicy (QSizePolicy::Expanding, QSizePolicy::Fixed, FALSE));
-
- // we draw everything ourselves, no need to draw background.
+	
+ // we draw everything ourselves, no need to draw background. 
 	setBackgroundMode(Qt::NoBackground);
 
 	m_autoClickSlider = -1;
@@ -474,10 +476,8 @@ void KRuler::setValueScale(double size){
 
 void KRuler::resizeEvent(QResizeEvent *event)
 {
-	int oldwidth = m_backBuffer.width();
-
 	m_backBuffer.resize(width(), height());
-	invalidateBackBuffer(oldwidth, width());
+	invalidateBackBuffer(0, width());
 		
 	emit resized();
 }
