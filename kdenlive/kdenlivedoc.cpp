@@ -219,7 +219,6 @@ QDomDocument KdenliveDoc::generateSceneList()
 void KdenliveDoc::hasBeenModified()
 {
 	if(m_sceneListGeneration) {
-		kdDebug() << "Document has changed" << endl;
 		generateSceneList();
 		emit documentChanged();
 		emit documentChanged(m_projectClip);

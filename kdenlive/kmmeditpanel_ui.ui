@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>461</width>
-            <height>84</height>
+            <width>459</width>
+            <height>76</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -32,10 +32,10 @@
             <cstring>unnamed</cstring>
         </property>
         <property name="margin">
-            <number>2</number>
+            <number>0</number>
         </property>
         <property name="spacing">
-            <number>1</number>
+            <number>0</number>
         </property>
         <widget class="KFixedRuler" row="0" column="0">
             <property name="name">
@@ -65,10 +65,10 @@
                     <cstring>unnamed</cstring>
                 </property>
                 <property name="margin">
-                    <number>2</number>
+                    <number>0</number>
                 </property>
                 <property name="spacing">
-                    <number>1</number>
+                    <number>0</number>
                 </property>
                 <widget class="QToolButton">
                     <property name="name">
@@ -193,10 +193,10 @@
                     <cstring>unnamed</cstring>
                 </property>
                 <property name="margin">
-                    <number>2</number>
+                    <number>0</number>
                 </property>
                 <property name="spacing">
-                    <number>1</number>
+                    <number>0</number>
                 </property>
                 <widget class="QToolButton">
                     <property name="name">

@@ -144,8 +144,10 @@ DocClipRef *DocClipRef::createClip(ClipManager &clipManager, const QDomElement &
 				while(!markerNode.isNull()) {
 					QDomElement markerElement = markerNode.toElement();
 					if(!markerElement.isNull()) {
-						if(e.tagName() == "marker") {
+						if(markerElement.tagName() == "marker") {
 							markers.append(GenTime(markerElement.attribute("time", "0").toDouble()));
+						} else {
+							kdWarning() << "Unknown tag " << markerElement.tagName() << endl;	
 						}
 					}
 					markerNode = markerNode.nextSibling();
@@ -249,7 +251,7 @@ QDomDocument DocClipRef::toXML() const
 	position.setAttribute("trackend", QString::number(trackEnd().seconds(), 'f', 10));
 
 	clip.appendChild(position);
-
+	
 	QDomElement markers = doc.createElement("markers");
 	for(uint count=0; count<m_snapMarkers.count(); ++count) {
 		QDomElement marker = doc.createElement("marker");

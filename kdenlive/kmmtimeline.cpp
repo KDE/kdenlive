@@ -195,18 +195,18 @@ void KMMTimeLine::syncWithDocument()
 	while(track != 0) {
 		if(track->clipType() == "Video") {
 			insertTrack(index, new KMMTrackVideoPanel(this, m_document, ((DocTrackVideo *)track)));
-			++index;      
+			++index;
 			insertTrack(index, new KMMTrackKeyFramePanel(this, m_document, track));
 			++index;
-		} else if(track->clipType() == "Sound") {		
+		} else if(track->clipType() == "Sound") {
 			insertTrack(index, new KMMTrackSoundPanel(this, m_document, ((DocTrackSound *)track)));
-			++index;      
+			++index;
 			insertTrack(index, new KMMTrackKeyFramePanel(this, m_document, track));
 			++index;
 		} else {
 			kdWarning() << "Sync failed" << endl;
 		}
-		track = m_document->nextTrack();		
+		track = m_document->nextTrack();
 	}
 
 	resizeTracks();
@@ -295,21 +295,21 @@ void KMMTimeLine::dragLeaveEvent ( QDragLeaveEvent *event )
 		m_selection.clear();
 		m_selection.setAutoDelete(false);
 	}
-	
+
 	if(m_addingClips) {
 		m_addingClips = false;
-		
+
 	  	QPtrListIterator<KMMTrackPanel> itt(m_trackList);
 		while(itt.current() != 0) {
 	  		itt.current()->docTrack()->deleteClips(true);
 	  		++itt;
 	  	}
-		
+
 		m_document->activeSceneListGeneration(true);
 	}
-  
+
 	if(m_moveClipsCommand) {
-		// In a drag Leave Event, any clips in the selection are removed from the timeline.			     
+		// In a drag Leave Event, any clips in the selection are removed from the timeline.
 		delete m_moveClipsCommand;
 		m_moveClipsCommand = 0;
 		m_document->activeSceneListGeneration(true);
@@ -593,12 +593,12 @@ bool KMMTimeLine::canAddClipsToTracks(DocClipRefList &clips, int track, GenTime 
 		++itt;
 	}
 	itt.toFirst();
-	
+
 	while(itt.current()) {
     if(!itt.current()->durationKnown()) {
         kdWarning() << "Clip Duration not known, cannot add clips" << endl;
         return false;
-    }    
+    }
 		int curTrack = itt.current()->trackNum();
 		if(curTrack==-1) curTrack = 0;
 		curTrack += trackOffset;
@@ -634,7 +634,7 @@ DocClipRefList KMMTimeLine::listSelected()
 		}
 		++itt;
 	}
-	
+
 	return list;
 }
 
@@ -670,9 +670,9 @@ KMacroCommand *KMMTimeLine::createAddClipsCommand(bool addingClips)
 			Command::KAddRefClipCommand *command = new Command::KAddRefClipCommand(m_document->clipManager(), &m_document->projectClip(), itt.current(), addingClips);
 			macroCommand->addCommand(command);
 			++itt;
-		}		
+		}
 	}
-	
+
 	return macroCommand;
 }
 
@@ -694,14 +694,14 @@ KCommand *KMMTimeLine::razorAllClipsAt(GenTime time)
 KCommand *KMMTimeLine::razorClipAt(DocTrackBase &track, GenTime &time)
 {
 	KMacroCommand *command = 0;
-	
+
 	DocClipRef *clip = track.getClipAt(time);
 	if(clip) {
 		// disallow the creation of clips with 0 length.
-		if((clip->trackStart() == time) || (clip->trackEnd() == time)) return 0;	
-		
+		if((clip->trackStart() == time) || (clip->trackEnd() == time)) return 0;
+
 		command = new KMacroCommand(i18n("Razor clip"));
-		
+
 		command->addCommand(selectNone());
 
 		DocClipRef *clone = clip->clone(m_document->clipManager());
@@ -719,7 +719,7 @@ KCommand *KMMTimeLine::razorClipAt(DocTrackBase &track, GenTime &time)
 		}
 	}
 
-	return command;	
+	return command;
 }
 
 KCommand * KMMTimeLine::resizeClip(DocClipRef &clip, bool resizeEnd, GenTime &time)

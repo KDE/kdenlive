@@ -40,7 +40,7 @@ class KRulerPrivateSliderDiamond : public KRulerSliderBase {
 public:
 	KRulerPrivateSliderDiamond() {
 	}
-	
+
 	~KRulerPrivateSliderDiamond() {
 	}
 
@@ -51,21 +51,21 @@ public:
 		points.setPoint(1, x, 0);
 		points.setPoint(2, x + (height/8) + 1, height/2);
 		points.setPoint(3, x, height);
-		painter.drawPolygon(points);  	
+		painter.drawPolygon(points);
   }
-    
+
   bool underMouse(int x, int y, int midx, int height) const {
 		if(x < midx - (height/8)-1) return false;
 		if(x > midx + (height/8)+1) return false;
-		return true;  
+		return true;
   }
 
   int leftBound(int x, int height) {
-  	return x -(height/8) - 1;   
+  	return x -(height/8) - 1;
   }
 
   int rightBound(int x, int height) {
-  	return x + (height/8) + 1;  
+  	return x + (height/8) + 1;
   }
 };
 
@@ -83,10 +83,10 @@ public:
 		points.setPoint(0, x - (height/4) - 1, 0);
 		points.setPoint(1, x + (height/4) + 1, 0);
 		points.setPoint(2, x, height/2);
-		painter.drawPolygon(points);		
+		painter.drawPolygon(points);
   }
 
-  bool underMouse(int x, int y, int midx, int height) const { 
+  bool underMouse(int x, int y, int midx, int height) const {
 		if(x < midx - (height/4)-1) return false;
 		if(x > midx + (height/4)+1) return false;
     if(y > height/2) return false;
@@ -99,7 +99,7 @@ public:
 
   int rightBound(int x, int height) {
   	return x + (height/4) + 1;
-  }  
+  }
 };
 
 class KRulerPrivateSliderBottomMark : public KRulerSliderBase {
@@ -116,7 +116,7 @@ public:
 		points.setPoint(0, x, height/2);
 		points.setPoint(1, x + (height/4) + 1, height);
 		points.setPoint(2, x - (height/4) - 1, height);
-		painter.drawPolygon(points);			
+		painter.drawPolygon(points);
   }
 
   bool underMouse(int x, int y, int midx, int height) const {
@@ -132,7 +132,7 @@ public:
 
   int rightBound(int x, int height) {
   	return x + (height/4) + 1;
-  }  
+  }
 };
 
 class KRulerPrivateSliderEndMark : public KRulerSliderBase {
@@ -149,14 +149,14 @@ public:
 		points.setPoint(0, x, height);
 		points.setPoint(1, x, height/2);
 		points.setPoint(2, x + (height/4) + 1, (height*3)/4);
-		painter.drawPolygon(points);			
+		painter.drawPolygon(points);
   }
 
   bool underMouse(int x, int y, int midx, int height) const {
 		if(x < midx) return false;
 		if(x > midx + (height/4) + 1) return false;
     if(y < height/2) return false;
-		return true;  
+		return true;
   }
 
   int leftBound(int x, int height) {
@@ -165,7 +165,7 @@ public:
 
   int rightBound(int x, int height) {
   	return x + (height/4) + 1;
-  }  
+  }
 };
 
 class KRulerPrivateSliderStartMark : public KRulerSliderBase {
@@ -182,7 +182,7 @@ public:
 		points.setPoint(0, x - (height/4) - 1, (height*3)/4);
 		points.setPoint(1, x, height/2);
 		points.setPoint(2, x, height);
-		painter.drawPolygon(points);		
+		painter.drawPolygon(points);
 	}
 
   bool underMouse(int x, int y, int midx, int height) const {
@@ -210,21 +210,21 @@ public:
 		m_value = 0;
 		m_status = QPalette::Inactive;
 	}
-	
+
 	KRulerPrivateSlider(int id, const KRuler::KRulerSliderType type, int value, const QPalette::ColorGroup status) {
 		m_id = id;
-		m_sliderType = 0;		
+		m_sliderType = 0;
 		setType(type);
 		m_value = value;
 		m_status = status;
 	}
 
-	KRulerPrivateSlider(const KRulerPrivateSlider &slider) {		
+	KRulerPrivateSlider(const KRulerPrivateSlider &slider) {
 		m_id = slider.getID();
 		m_sliderType=0;
 		setType(slider.newTypeInstance());
 		m_value = slider.getValue();
-		m_status = slider.status();		
+		m_status = slider.status();
 	}
 
 	~KRulerPrivateSlider() {
@@ -250,7 +250,7 @@ public:
 			case KRuler::StartMark 	: setType(new KRulerPrivateSliderStartMark()); break;
 			case KRuler::EndMark 		: setType(new KRulerPrivateSliderEndMark()); break;
 			default									: setType(new KRulerPrivateSliderDiamond()); break;
-		}		
+		}
 	}
   /** Returns the left-most pixel that will be drawn by a horizontal slider. */
   int leftBound();
@@ -304,7 +304,7 @@ public:
 	int rightBound(int midx, int height) {
 		return m_sliderType->rightBound(midx, height);
 	}
-	
+
 private:
 	int m_id;
 	KRulerSliderBase *m_sliderType;
@@ -319,12 +319,12 @@ public:
 		m_activeID = -1;
 		m_oldValue = -1;
 	}
-	
+
 	/** Holds a list of all sliders associated with this ruler */
 	QValueList<KRulerPrivateSlider> m_sliders;
 	/** An id counter which is used to keep count of what ID number the next created slider should get. */
 	int m_id;
-	/** The id of the currently activated slider */		
+	/** The id of the currently activated slider */
 	int m_activeID;
 	/** The previous value of the slider */
 	int m_oldValue;
@@ -400,7 +400,7 @@ void KRuler::doCommonCtor()
 	setMaximumHeight(32);
 	setMouseTracking(true);
 
-	setSizePolicy(QSizePolicy (QSizePolicy::Expanding, QSizePolicy::Expanding, FALSE));
+	setSizePolicy(QSizePolicy (QSizePolicy::Expanding, QSizePolicy::Preferred, FALSE));
 
 	invalidateBackBuffer();
 
@@ -424,9 +424,9 @@ void KRuler::paintEvent(QPaintEvent *event) {
 		++itt;
 	}
 	d->m_bufferDrawList.clear();
-	
-	QPainter painter(this);	
-      	
+
+	QPainter painter(this);
+
 	painter.drawPixmap(event->rect().x(), event->rect().y(),
 										m_backBuffer,
 										event->rect().x(), event->rect().y(),
@@ -502,7 +502,7 @@ void KRuler::resizeEvent(QResizeEvent *event)
 	d->m_bufferDrawList.setFullRange(0, width());
 
 	invalidateBackBuffer(0, width());
-		
+
 	emit resized();
 }
 
@@ -521,19 +521,19 @@ int KRuler::addSlider(KRulerSliderType type, int value)
   KRulerPrivateSlider s(d->m_id, type, value, QPalette::Inactive);
   d->m_sliders.append(s);
 	emit sliderValueChanged(d->m_id, value);
-  return d->m_id++;	
+  return d->m_id++;
 }
 
 void KRuler::deleteSlider(int id) {
 	QValueList<KRulerPrivateSlider>::Iterator it;
-	
+
 	for(it = d->m_sliders.begin(); it != d->m_sliders.end(); it++) {
 		if((*it).getID() == id) {
 			d->m_sliders.remove(it);
 			return;
 		}
 	}
-	
+
 	kdWarning() << "KRuler::deleteSlider(id) : id " << id << " does not exist, no deletion occured!" << endl;
 }
 
@@ -541,7 +541,7 @@ void KRuler::setSliderValue(int id, int value)
 {
 	int actValue = (value <minValue()) ? minValue() : value;
 	actValue = (actValue > maxValue()) ? maxValue() : actValue;
-	
+
 	QValueList<KRulerPrivateSlider>::Iterator it;
 
 	for(it = d->m_sliders.begin(); it != d->m_sliders.end(); it++) {
@@ -549,18 +549,18 @@ void KRuler::setSliderValue(int id, int value)
 			invalidateBackBuffer(
 				(*it).leftBound((int)mapValueToLocal((*it).getValue()), height()),
 				(*it).rightBound((int)mapValueToLocal((*it).getValue()), height()) + 1);
-			
-			if((*it).setValue(actValue)) {		
+
+			if((*it).setValue(actValue)) {
 				invalidateBackBuffer(
 				   (*it).leftBound((int)mapValueToLocal((*it).getValue()), height()),
-				   (*it).rightBound((int)mapValueToLocal((*it).getValue()), height()) + 1); 
-				
-				emit sliderValueChanged(id, actValue);				
+				   (*it).rightBound((int)mapValueToLocal((*it).getValue()), height()) + 1);
+
+				emit sliderValueChanged(id, actValue);
 				break;
 			}
 		}
 	}
-}                     
+}
 
 void KRuler::activateSliderUnderCoordinate(int x, int y) {
 	QValueList<KRulerPrivateSlider>::Iterator it;
@@ -576,7 +576,7 @@ void KRuler::activateSliderUnderCoordinate(int x, int y) {
 
 void KRuler::activateSlider(int id) {
 	QValueList<KRulerPrivateSlider>::Iterator it;
-	
+
 	for(it = d->m_sliders.begin(); it != d->m_sliders.end(); it++) {
 		if((*it).status() != QPalette::Disabled) {
 			(*it).setStatus(QPalette::Inactive);
@@ -590,13 +590,13 @@ void KRuler::activateSlider(int id) {
 
 int KRuler::getSliderValue(int id) {
 	QValueList<KRulerPrivateSlider>::Iterator it;
-	
+
 	for(it = d->m_sliders.begin(); it != d->m_sliders.end(); it++) {
 		if((*it).getID() == id) {
 			return (*it).getValue();
 		}
 	}
-	
+
 	kdWarning() << "KRuler : getSliderValue(id) attempt has been made to get the value of non-existant slider "<<id<<endl;
 	return 0;
 }
@@ -615,13 +615,13 @@ void KRuler::setMinValue(int value)
 void KRuler::setMaxValue(int value)
 {
 	m_maxValue = (value > m_minValue) ? value : m_minValue;
-	setSlidersToRange();  
+	setSlidersToRange();
 }
 
 void KRuler::setRange(int min, int max)
 {
 	int oldvalue = 0;
-	
+
 	if(min != minValue()) {
 		oldvalue = minValue();
 		setMinValue(min);
@@ -630,9 +630,9 @@ void KRuler::setRange(int min, int max)
 	if(max != maxValue()) {
 		oldvalue = maxValue();
 		setMaxValue(max);
-		invalidateBackBuffer((int)mapValueToLocal(oldvalue), (int)mapValueToLocal(max));		
+		invalidateBackBuffer((int)mapValueToLocal(oldvalue), (int)mapValueToLocal(max));
 	}
-	setSlidersToRange();  
+	setSlidersToRange();
 }
 
 int KRuler::minValue() const
@@ -642,7 +642,7 @@ int KRuler::minValue() const
 
 int KRuler::maxValue() const
 {
-	return m_maxValue;	
+	return m_maxValue;
 }
 
 void KRuler::mousePressEvent(QMouseEvent *event)
@@ -665,7 +665,7 @@ void KRuler::mouseReleaseEvent(QMouseEvent *event)
 	if(event->button() == QMouseEvent::LeftButton) {
 		if(d->m_oldValue!=-1) {
 			d->m_oldValue=-1;
-			setSliderValue(activeSliderID(), (int)floor(mapLocalToValue((int)event->x())+0.5));      
+			setSliderValue(activeSliderID(), (int)floor(mapLocalToValue((int)event->x())+0.5));
 		}
 		m_scrollTimer.stop();
 	}
@@ -700,7 +700,7 @@ void KRuler::setRulerModel(KRulerModel *model)
 		delete m_rulerModel;
 		m_rulerModel = 0;
 	}
-	
+
 	if(model==0) {
 		model = new KRulerModel();
 	}

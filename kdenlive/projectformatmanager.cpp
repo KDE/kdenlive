@@ -30,6 +30,7 @@
 #include "loadprojectkinofilter.h"
 #include "loadprojectnativefilter.h"
 #include "saveprojectnativefilter.h"
+#include "saveprojectscenelistfilter.h"
 
 ProjectFormatManager::ProjectFormatManager()
 {
@@ -40,6 +41,7 @@ ProjectFormatManager::ProjectFormatManager()
 	registerLoadFilter(new LoadProjectKinoFilter());
 
 	registerSaveFilter(new SaveProjectNativeFilter());
+	registerSaveFilter(new SaveProjectScenelistFilter());
 }
 
 

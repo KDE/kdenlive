@@ -58,7 +58,7 @@ bool TrackPanelMarkerFunction::mouseReleased(QMouseEvent* event)
 	clipUnderMouse = m_docTrack->getClipAt(mouseTime);
 
 	if(clipUnderMouse) {
-		Command::KAddMarkerCommand *command = new Command::KAddMarkerCommand(*m_document, clipUnderMouse, mouseTime, true);
+		Command::KAddMarkerCommand *command = new Command::KAddMarkerCommand(*m_document, clipUnderMouse, mouseTime - clipUnderMouse->trackStart() + clipUnderMouse->cropStartTime(), true);
 		m_timeline->addCommand(command);
 	}
 

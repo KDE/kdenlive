@@ -256,7 +256,7 @@ QDomDocument DocClipProject::generateSceneList()
 
 	while( (sceneItt != times.end()) && (sceneItt+1 != times.end()) ) {
 		QDomElement scene = sceneList.createElement("scene");
-		scene.setAttribute("duration", QString::number((*(sceneItt+1) - *sceneItt).seconds()));
+		scene.setAttribute("duration", QString::number((*(sceneItt+1) - *sceneItt).seconds(), 'f', 10));
 
 		QDomDocument clipDoc = sceneToXML(*sceneItt, *(sceneItt+1));
 		QDomElement sceneClip;

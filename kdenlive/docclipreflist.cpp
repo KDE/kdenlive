@@ -31,7 +31,7 @@ DocClipRefList::DocClipRefList(const DocClipRefList &list) : QPtrList<DocClipRef
 
 DocClipRefList &DocClipRefList::operator=(const DocClipRefList &list)
 {
-	QPtrList<DocClipRef>::operator=(list);	
+	QPtrList<DocClipRef>::operator=(list);
 	m_masterClip = list.masterClip();
 	return *this;
 }
@@ -44,11 +44,12 @@ int DocClipRefList::compareItems (QPtrCollection::Item i1, QPtrCollection::Item 
 {
 	DocClipRef *item1 = (DocClipRef *)i1;
 	DocClipRef *item2 = (DocClipRef *)i2;
-	
-	double diff = item1->trackStart().seconds() - item2->trackStart().seconds();
 
-	if(diff==0) return 0;
-	return (diff > 0) ? 1 : -1;
+	const GenTime &trackStart1 = item1->trackStart();
+	const GenTime &trackStart2 = item2->trackStart();
+
+	if(trackStart1 == trackStart2) return 0;
+	return (trackStart1 > trackStart2) ? 1 : -1;
 }
 
 QDomDocument DocClipRefList::toXML(const QString &element)

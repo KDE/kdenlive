@@ -593,8 +593,11 @@ void KdenliveApp::slotFileSaveAs()
 {
 	slotStatusMsg( i18n( "Saving file with a new filename..." ) );
 
-	KURL url = KFileDialog::getSaveURL( m_fileDialogPath.path(),
-	                                    i18n( "*.kdenlive|Kdenlive Project Files (*.kdenlive)" ), this, i18n( "Save as..." ) );
+	KURL url = KFileDialog::getSaveURL(	m_fileDialogPath.path(),
+								m_projectFormatManager.saveMimeTypes(),
+	                                    			/* i18n( "*.kdenlive|Kdenlive Project Files (*.kdenlive)" ),*/
+					    			this,
+					     			i18n( "Save as..." ) );
 	if ( !url.isEmpty() ) {
 		if ( url.path().find( "." ) == -1 ) {
 			url.setFileName( url.filename() + ".kdenlive" );

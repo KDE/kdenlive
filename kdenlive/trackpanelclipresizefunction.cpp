@@ -27,7 +27,7 @@
 // static
 const uint TrackPanelClipResizeFunction::s_resizeTolerance = 5;
 
-TrackPanelClipResizeFunction::TrackPanelClipResizeFunction(KMMTimeLine *timeline, 
+TrackPanelClipResizeFunction::TrackPanelClipResizeFunction(KMMTimeLine *timeline,
 								KdenliveDoc *document,
 								DocTrackBase *docTrack) :
 								m_timeline(timeline),
@@ -71,7 +71,7 @@ QCursor TrackPanelClipResizeFunction::getMouseCursor(QMouseEvent *event)
 bool TrackPanelClipResizeFunction::mousePressed(QMouseEvent *event)
 {
 	bool result = false;
-	
+
 	GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_document->framesPerSecond());
 	m_clipUnderMouse = m_docTrack->getClipAt(mouseTime);
 	if(m_clipUnderMouse) {
@@ -112,7 +112,7 @@ bool TrackPanelClipResizeFunction::mousePressed(QMouseEvent *event)
 bool TrackPanelClipResizeFunction::mouseReleased(QMouseEvent *event)
 {
 	bool result = false;
-	
+
 	m_resizeCommand->setEndSize(*m_clipUnderMouse);
 	m_timeline->addCommand(m_resizeCommand, false);
 	m_document->indirectlyModified();
@@ -124,9 +124,11 @@ bool TrackPanelClipResizeFunction::mouseReleased(QMouseEvent *event)
 
 bool TrackPanelClipResizeFunction::mouseMoved(QMouseEvent *event)
 {
+	bool result = false;
 	GenTime mouseTime = m_snapToGrid.getSnappedTime(m_timeline->timeUnderMouse(event->x()));
-	
+
 	if(m_clipUnderMouse) {
+		result = true;
 		if(m_resizeState == Start) {
 			m_docTrack->resizeClipTrackStart(m_clipUnderMouse, mouseTime);
 			emit signalClipCropStartChanged(m_clipUnderMouse);
@@ -138,4 +140,6 @@ bool TrackPanelClipResizeFunction::mouseMoved(QMouseEvent *event)
 			kdError() << "(this message should never be seen!)" << endl;
 		}
 	}
+
+	return result;
 }
