@@ -45,11 +45,11 @@ as Authors, publish date, the abstract, and Keywords -->
 
 <authorgroup>
 <author>
-<firstname>George</firstname>
-<othername>N.</othername>
-<surname>Ugnacious</surname>
+<firstname>Jason</firstname>
+<othername>M.</othername>
+<surname>Wood</surname>
 <affiliation>
-<address><email>gnu@kde.org</email></address>
+<address><email>jasonwood@blueyonder.co.uk</email></address>
 </affiliation>
 </author>
 </authorgroup>
@@ -57,9 +57,8 @@ as Authors, publish date, the abstract, and Keywords -->
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
 
 <copyright>
-<year>1999</year>
-<year>2000</year>
-<holder>George N. Ugnacious</holder>
+<year>2003</year>
+<holder>Jason Wood</holder>
 </copyright>
 <!-- Translators: put here the copyright notice of the translation -->
 <!-- Put here the FDL notice.  Read the explanation in fdl-notice.docbook 
@@ -73,15 +72,26 @@ Please respect the format of the date (DD/MM/YYYY) and of the version
 (V.MM.LL), it could be used by automation scripts.
 Do NOT change these in the translation. -->
 
-<date>03/04/1999</date>
+<date>28/07/2003</date>
 <releaseinfo>1.01.00</releaseinfo>
 
 <!-- Abstract about this handbook -->
 
 <abstract>
 <para>
-&kdenlive; is an application specially designed to do nothing you would
-ever want.
+	&kdenlive; is a non-linear video editor for KDE.
+</para>
+<para>
+	WARNING - this document has not yet been finished. In particular, information on contributors
+	to &kapp;, requirements for &kapp;, installation instructions for &kapp; and the changelog
+	info are all wrong at present. Also, please contact me at 
+	<email>jasonwood@blueyonder.co.uk</email> rather than bugging any of the kde mailing lists.
+</para>
+<para>
+	Cheers,
+</para>
+<para>
+	Jason
 </para>
 </abstract>
 
@@ -91,10 +101,8 @@ Please at least include KDE, the KDE package it is in, the name
 
 <keywordset>
 <keyword>KDE</keyword>
-<keyword>kdeutils</keyword>
-<keyword>Kapp</keyword>
-<keyword>nothing</keyword>
-<keyword>nothing else</keyword>
+<keyword>video editor</keyword>
+<keyword>kdenlive</keyword>
 </keywordset>
 
 </bookinfo>
@@ -117,9 +125,40 @@ problems. Basically a long version of the abstract.  Don't include a
 revision history. (see installation appendix comment) -->
 
 <para>
-&kapp; is a program that lets you do absolutely nothing. Please report
-any problems or feature requests to the KDE mailing lists.
+	&kapp; is a non-linear video editor for KDE.
+	
+	Please report any problems or feature requests to jasonwood@blueyonder.co.uk
 </para>
+<sect1 id="whatisavideoeditor">
+	<title>What is a video editor?</title>
+
+	<para>
+		A video editor is an application that allows you to create a new video
+		out of various scenes from one or more other videos.
+	</para>
+</sect1>
+<sect1 id="linearvsnonlinear">
+	<title>What is the difference between linear editing and non-linear editing?</title>
+
+	<para>
+		Before editing video on computer was possible, most editing was done on linear
+		editors - these work by having essentially, two video recorders. The first would
+		hold the video that you are editing together, and the second would be used to find the
+		next clip that you want to record. Find a clip, record it, find the next clip, record it.
+		This is called linear editing because the medium of tape forced things to be edited
+		sequentially. If you have edited 10 minutes worth of footage together, and decide that
+		you made a mistake after five minutes, you can't just "push" the last five minutes around
+		to add space for new clips.
+	</para>
+
+	<para>
+		Non-linear editing is by far a more flexible way of editing. You can place clips anywhere
+		within your final video (in Kdenlive, this is represented via the timeline), and you can
+		move them around as much as you want, rearrange them in a completely different order. Best
+		of all, at any point during this you can press play and (with a sufficiently powerful
+		computer) watch back what you have done there and then.
+	</para>
+</sect1>
 </chapter>
 
 <chapter id="using-kapp">
@@ -150,27 +189,104 @@ patent issues. -->
 </screenshot>
 </para>
 
+<sect1 id="kapp-projectlist">
+	<title>The Project List</title>
 
-<sect1 id="kapp-features">
-<title>More Kapp features</title>
-
-<para>It slices! It dices! and it comes with a free toaster!</para>
-<para>
-The Squiggle Tool <guiicon><inlinemediaobject>
-	  <imageobject>
-	    <imagedata fileref="squiggle.png" format="PNG"/>
-	  </imageobject>
-	  <imageobject>
-	    <imagedata fileref="squiggle.eps" format="EPS"/>
-	  </imageobject>
-	  <textobject>
-	    <phrase>Squiggle</phrase>
-	  </textobject>
-</inlinemediaobject></guiicon> is used to draw squiggly lines all over
-the &kdenlive; main window. It's not a bug, it's a feature!
-</para>
-
+	<para>
+		The project list shows all of the clips that are available for this project.
+	</para>
+	<para>
+		You can see the number of times that a particular clip is in use. This includes all usage
+		of the clip - for instance, if a clip is being displayed in the clip monitor, then that
+		counts as one usage for the clip. (FIXME - this behaviour is likely to change in the future).
+	</para>
+	<sect2 id="kapp-projectlist-addingclips">
+		<title>Adding Clips to the Project</title>
+		<para>
+			If you drag a clip onto the timeline that is not in the project (for instance,
+			if you drag a dv straight from konqueror to &kapp;), then it will be automatically
+		       	added to the project for you.
+		</para>
+		<para>
+			You can add clips to the projectlist yourself. To do this, either use the project
+			list context menu (right click on the window), or the Project menu on the menu bar.
+			Select 'Add Clips' to bring up a file dialog in which you can select the clip you 
+			wish to add to this project. As long as the clips are valid, they will appear in 
+			the project list.
+		</para>
+	</sect2>
+	<sect2 id="kapp-projectlist-deletingclips">
+		<title>Deleting clips via the Project List</title>
+		<para>
+			Delete clips is currently non-functional - the only way to delete clips is to use
+			clean-project.
+		</para>
+	</sect2>
+	<sect2 id="kapp-projectlist-clipproperties">
+		<title>Examining Clip Properties</title>
+		<para>
+			Clip Properties is currently non-functional - there is no way to examine the
+		       	format of a clip except by examining the debug output ;-)
+		</para>
+	</sect2>
+	<sect2 id="kapp-projectlist-cleanproject">
+		<title>Clean Project - Removing unused Clips</title>
+		<para>
+			Use clean project to remove any clips from your project that are currently
+			unused. This is great if your project list has become cluttered and you want
+			to get a concise view of which clips exist. Cleaning a project will not alter 
+			your final edit in anyway - the only clips that are removed are those that are
+		       	no longer in use anywhere.
+		</para>
+	</sect2>
 </sect1>
+
+<sect1 id="kapp-debugwindow">
+	<title>The Debug Panel</title>
+	<para>This is...</para>
+</sect1>
+
+<sect1 id="kapp-effectlist">
+	<title>The Effect List</title>
+
+	<para>
+		This is non-functional in the current version of &kapp;.
+	</para>
+</sect1>
+
+<sect1 id="kapp-effectsetup">
+	<title>The Effect Setup Panel</title>
+
+	<para>
+		This is non-functional in the current version of &kapp;.
+	</para>
+</sect1>
+
+<sect1 id="kapp-timeline">
+	<title>The Timeline</title>
+	<para>This is...</para>
+</sect1>
+	
+<sect1 id="kapp-clipmonitor">
+	<title>The Clip Monitor</title>
+	<para>This is...</para>
+</sect1>
+
+<sect1 id="kapp-workspacemonitor">
+	<title>The Workspace Monitor</title>
+	<para>This is...</para>
+</sect1>
+
+<sect1 id="kapp-rendering">
+	<title>Rendering your project</title>
+	<para>This is...</para>
+</sect1>
+
+<sect1 id="kapp-loadsave">
+	<title>Loading and Saving your project</title>
+	<para>This is...</para>
+</sect1>
+
 </chapter>
 
 <chapter id="commands">
@@ -247,41 +363,40 @@ taken from that reference and shortened a bit for readability. -->
 </chapter>
 
 <chapter id="faq">
-<title>Questions and Answers</title>
+	<title>Questions and Answers</title>
 
-<!-- (OPTIONAL but recommended) This chapter should include all of the silly
-(and not-so-silly) newbie questions that fill up your mailbox. This chapter
-should be reserved for BRIEF questions and answers! If one question uses more
-than a page or so then it should probably be part of the
-"Using this Application" chapter instead. You should use links to
-cross-reference questions to the parts of your documentation that answer them.
-This is also a great place to provide pointers to other FAQ's if your users
-must do some complicated configuration on other programs in order for your
-application work. -->
+	<!-- (OPTIONAL but recommended) This chapter should include all of the silly
+	(and not-so-silly) newbie questions that fill up your mailbox. This chapter
+	should be reserved for BRIEF questions and answers! If one question uses more
+	than a page or so then it should probably be part of the
+	"Using this Application" chapter instead. You should use links to
+	cross-reference questions to the parts of your documentation that answer them.
+	This is also a great place to provide pointers to other FAQ's if your users
+	must do some complicated configuration on other programs in order for your
+	application work. -->
 
-&reporting.bugs;
-&updating.documentation;
+	&reporting.bugs;
+	&updating.documentation;
 
-<qandaset id="faqlist">
-<qandaentry>
-<question>
-<para>My Mouse doesn't work. How do I quit &kapp;?</para>
-</question>
-<answer>
-<para>You silly goose! Check out the <link linkend="commands">Commands
-Section</link> for the answer.</para>
-</answer>
-</qandaentry>
-<qandaentry>
-<question>
-<para>Why can't I twiddle my documents?</para>
-</question>
-<answer>
-<para>You can only twiddle your documents if you have the foobar.lib
-installed.</para>
-</answer>
-</qandaentry>
-</qandaset>
+	<qandaset id="faqlist">
+		<qandaentry>
+			<question>
+				<para>When I add clips to the project, the times show up as 'unknown'. I
+					know these clips are valid, why does this happen?</para>
+			</question>
+			<answer>
+				<para>
+					This is a sign that something has gone wrong with Piave.
+					Whilst &kapp; will do it's best to pull itself back into working
+					order, this is still relatively new software and it doesn't manage
+					it as often as one would hope! The best solution is to quit &kapp;
+					(if you have done any work, then you are quite safe to save it),
+					perform the following operation : killall -9 piave. Wait a few
+					seconds, and then restart kdenlive.
+				</para>
+			</answer>
+		</qandaentry>
+	</qandaset>
 </chapter>
 
 <chapter id="credits">
@@ -297,20 +412,26 @@ distribution. -->
 &kapp;
 </para>
 <para>
-Program copyright 1997 John Q. Hacker <email>jqh@kde.org</email>
+	Program copyright 2002-2003 Jason Wood <email>jasonwood@blueyonder.co.uk</email>
 </para>
 <para>
-Contributors:
-<itemizedlist>
-<listitem><para>Konqui the KDE Dragon <email>konqui@kde.org</email></para>
-</listitem>
-<listitem><para>Tux the Linux Penguin <email>tux@linux.org</email></para>
-</listitem>
-</itemizedlist>
+	Contributors:
+	<itemizedlist>
+		<listitem>
+			<para>
+				Konqui the KDE Dragon <email>konqui@kde.org</email>
+			</para>
+		</listitem>
+		<listitem>
+			<para>
+				Tux the Linux Penguin <email>tux@linux.org</email>
+			</para>
+		</listitem>
+	</itemizedlist>
 </para>
 
 <para>
-Documentation copyright 1999 George N. Ugnacious <email>gnu@kde.org</email>
+	Documentation copyright 2003 Jason Wood <email>jasonwood@blueyonder.co.uk</email>
 </para>
 
 <!-- TRANS:CREDIT_FOR_TRANSLATORS -->
@@ -325,9 +446,6 @@ Documentation copyright 1999 George N. Ugnacious <email>gnu@kde.org</email>
      regardless of what license the application uses) -->
 
 &underGPL;        	 <!-- GPL License -->
-&underBSDLicense;        <!-- BSD License -->
-&underArtisticLicense;   <!-- BSD Artistic License -->
-&underX11License;        <!-- X11 License  -->
 
 </chapter>
 
@@ -338,11 +456,11 @@ Documentation copyright 1999 George N. Ugnacious <email>gnu@kde.org</email>
 <title>How to obtain Kdenlive</title>
 
 <para>
-&kdenlive; is part of the KDE project
-<ulink url="http://www.kde.org">http://www.kde.org</ulink>.
-&kdenlive; can be found in the kdeutils package on
-<ulink url="ftp://ftp.kde.org/pub/kde/">ftp://ftp.kde.org/pub/kde/</ulink>, the
-main ftp site of the KDE project. </para>
+	&kdenlive; is part of the KDE project
+	<ulink url="http://www.kde.org">http://www.kde.org</ulink>.
+	&kdenlive; can be found in the kdeutils package on
+	<ulink url="ftp://ftp.kde.org/pub/kde/">ftp://ftp.kde.org/pub/kde/</ulink>, the
+	main ftp site of the KDE project. </para>
 </sect1>
 
 <sect1 id="requirements">
@@ -360,49 +478,50 @@ information here.
 -->
 
 <para>
-In order to successfully use &kdenlive;, you need KDE 1.1. Foobar.lib is required
-in order to support the advanced &kdenlive; features. &kdenlive; uses about 5 megs of
-memory to run, but this may vary depending on your platform and
-configuration.
+	In order to successfully use &kdenlive;, you need KDE 3.0 or higher. Additionally,
+	you need piave in order to do anthing useful - kdenlive itself is after all, just
+       	an interface :-)
 </para>
 
 <para>
-All required libraries as well as &kdenlive; itself can be found
-on <ulink url="ftp://ftp.kapp.org">The &kdenlive; home page</ulink>.
+	All required libraries as well as &kdenlive; itself can be found on or via 
+	<ulink url="http://pwp.blueyonder.co.uk/kdenlive.html">The &kdenlive; home page</ulink>.
 </para>
 
 <!-- For a list of updates, you may refer to the application web site
 or the ChangeLog file, or ... -->
 <para>
-You can find a list of changes at <ulink
-url="http://apps.kde.org/kapp">http://apps.kde.org/kapp</ulink>.
+	You can find a list of changes at <ulink url="http://pwp.blueyonder.co.uk/kdenlive.html">http://pwp.blueyonder.co.uk/kdenlive.html</ulink>. FIXME : this link is actually fibbing at the moment.
 </para>
 </sect1>
 
 <sect1 id="compilation">
-<title>Compilation and Installation</title>
+	<title>Compilation and Installation</title>
 
-<para>
-In order to compile and install KApp on your system, type the following in the base
-directory of the Icon Editor distribution:
-<screen width="40">
-<prompt>%</prompt> <userinput>./configure</userinput>
-<prompt>%</prompt> <userinput>make</userinput>
-<prompt>%</prompt> <userinput>make install</userinput>
-</screen>
-</para>
+	<para>
+		In order to compile and install &kapp; on your system, type the following in the base
+		directory of the Icon Editor distribution:
+		<screen width="40">
+			<prompt>%</prompt> <userinput>./configure</userinput>
+			<prompt>%</prompt> <userinput>make</userinput>
+			<prompt>%</prompt> <userinput>make install</userinput>
+		</screen>
+	</para>
 
-<para>Since KApp uses autoconf and automake you should have not trouble compiling it.
-Should you run into problems please report them to the KDE mailing lists.</para>
+	<para>
+		Since KApp uses autoconf and automake you should have not trouble compiling it.
+		Should you run into problems please report them to the KDE mailing lists.
+	</para>
 
 </sect1>
 
 <sect1 id="configuration">
-<title>Configuration</title>
+	<title>Configuration</title>
 
-<para>Don't forget to tell your system to start the <filename>dtd</filename>
-dicer-toaster daemon first, or KApp won't work !</para>
-
+	<para>
+		Don't forget to tell your system to start the <filename>dtd</filename>
+		dicer-toaster daemon first, or KApp won't work !
+	</para>
 </sect1>
 
 </appendix>
