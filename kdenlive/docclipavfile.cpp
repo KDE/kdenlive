@@ -38,18 +38,28 @@ DocClipAVFile::DocClipAVFile(KdenliveDoc *doc, AVFile *avFile) :
 						DocClipBase(doc),
 						m_avfile(avFile)
 {
-	m_avfile->addReference(this);
+	if(m_avfile)
+	{
+		m_avfile->addReference(this);
+	}
+	else
+	{
+		kdError() << "Error - creating DocClipAVFile passing avfile as NULL" << endl;
+	}
 
 	setTrackEnd(trackStart() + duration());
 	setName(m_avfile->name());
 
-  m_clipType = AV;
+	m_clipType = AV;
 }
 
 DocClipAVFile::~DocClipAVFile()
 {
-	m_avfile->removeReference(this);
-	m_avfile = 0;	
+	if(m_avfile)
+	{
+		m_avfile->removeReference(this);
+		m_avfile = 0;
+	}
 }
 
 GenTime DocClipAVFile::duration() const
