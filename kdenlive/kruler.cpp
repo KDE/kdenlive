@@ -675,6 +675,7 @@ void KRuler::setAutoClickSlider(int ID)
 void KRuler::drawToBackBuffer(int start, int end)
 {
 	QPainter painter(&m_backBuffer);
+	painter.setClipRect(start, 0, end-start, height());
 	int value;
 	double pixel;
 	double pixelIncrement;
