@@ -36,7 +36,8 @@ KMMMonitor::KMMMonitor(KdenliveApp *app, KdenliveDoc *document, QWidget *parent,
 						m_screen(new KMMScreen(app, m_screenHolder, name)),
 						m_editPanel(new KMMEditPanel(document, this, name)),
 						m_noSeek(false),
-						m_clip(0)
+						m_clip(0),
+						m_referredClip(0)
 {
 	connect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)), 
 					this, SIGNAL(seekPositionChanged(const GenTime &)));
@@ -176,6 +177,7 @@ void KMMMonitor::slotSetClip(DocClipRef *clip)
 		return;
 	}
 
+	m_referredClip = 0;
 	if(m_clip != 0) {
 		delete m_clip;
 		m_clip = 0;
@@ -187,6 +189,7 @@ void KMMMonitor::slotSetClip(DocClipRef *clip)
 	if(!m_clip) {
 		kdError() << "KMMMonitor : Could not copy clip - you won't be able to see it!!!" << endl;
 	} else {
+		m_referredClip = clip;
 		doCommonSetClip();
 	}
 }
@@ -199,6 +202,7 @@ void KMMMonitor::slotSetClip(DocClipBase *clip)
 		return;
 	}
 
+	m_referredClip = 0;
 	if(m_clip != 0) {
 		delete m_clip;
 		m_clip = 0;
@@ -234,6 +238,7 @@ void KMMMonitor::doCommonSetClip()
 
 void KMMMonitor::slotClearClip()
 {
+	m_referredClip = 0;
 	if(m_clip != 0) {
 		delete m_clip;
 		m_clip = 0;
@@ -254,7 +259,7 @@ void KMMMonitor::slotStartDrag()
 		kdWarning() << "KMMMonitor cannot start drag - m_clip is null!" << endl;
 		return;
 	}
-	
+
 	m_clip->setCropStartTime(GenTime(m_editPanel->inpoint()));
 	m_clip->setTrackStart(GenTime(0));
 	m_clip->setTrackEnd(m_editPanel->outpoint() - m_editPanel->inpoint());
@@ -271,4 +276,31 @@ void KMMMonitor::setNoSeek(bool noSeek)
 DocClipRef *KMMMonitor::clip()
 {
 	return m_clip;
+}
+
+void KMMMonitor::slotUpdateClip(DocClipRef *clip)
+{
+	if(m_referredClip == clip) {
+		m_clip->setCropStartTime(clip->cropStartTime());
+		m_clip->setCropDuration(clip->cropDuration());
+
+		m_editPanel->setInpoint(m_clip->cropStartTime());
+		m_editPanel->setOutpoint(m_clip->cropStartTime() + m_clip->cropDuration());
+	}
+}
+
+void KMMMonitor::slotClipCropStartChanged(DocClipRef *clip)
+{
+	if(m_referredClip == clip) {
+		slotUpdateClip(clip);
+		seek(clip->cropStartTime());
+	}
+}
+
+void KMMMonitor::slotClipCropEndChanged(DocClipRef *clip)
+{
+	if(m_referredClip == clip) {
+		slotUpdateClip(clip);
+		seek(clip->cropStartTime() + clip->cropDuration());
+	}
 }

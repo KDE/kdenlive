@@ -129,10 +129,10 @@ bool TrackPanelClipResizeFunction::mouseMoved(QMouseEvent *event)
 	if(m_clipUnderMouse) {
 		if(m_resizeState == Start) {
 			m_docTrack->resizeClipTrackStart(m_clipUnderMouse, mouseTime);
-			emit signalClipCropStartChanged(m_clipUnderMouse->cropStartTime());
+			emit signalClipCropStartChanged(m_clipUnderMouse);
 		} else if(m_resizeState == End) {
 			m_docTrack->resizeClipTrackEnd(m_clipUnderMouse, mouseTime);
-			emit signalClipCropEndChanged(m_clipUnderMouse->cropStartTime() + m_clipUnderMouse->cropDuration());
+			emit signalClipCropEndChanged(m_clipUnderMouse);
 		} else {
 			kdError() << "Unknown resize state reached in KMMTimeLineTrackView::mouseMoveEvent()" << endl;
 			kdError() << "(this message should never be seen!)" << endl;

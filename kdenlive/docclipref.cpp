@@ -74,7 +74,7 @@ void DocClipRef::setCropStartTime(const GenTime &time)
 
 const GenTime &DocClipRef::cropStartTime() const
 {
-	return m_cropStart;	
+	return m_cropStart;
 }
 
 void DocClipRef::setTrackEnd(const GenTime &time)
@@ -396,4 +396,9 @@ void DocClipRef::deleteSnapMarker(const GenTime &time)
 	} else {
 		kdError() << "Could not delete marker at time " << time.seconds() << " - it doesn't exist!" << endl;
 	}
+}
+
+void DocClipRef::setCropDuration(const GenTime &time)
+{
+	setTrackEnd( trackStart() + time );
 }

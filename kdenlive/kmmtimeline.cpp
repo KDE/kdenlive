@@ -139,12 +139,10 @@ void KMMTimeLine::insertTrack(int index, KMMTrackPanel *track)
 	connect(track->docTrack(), SIGNAL(clipLayoutChanged()), this, SLOT(drawTrackViewBackBuffer()));
 	connect(track->docTrack(), SIGNAL(clipSelectionChanged()), this, SLOT(drawTrackViewBackBuffer()));
 
-	connect(track, SIGNAL(signalClipCropStartChanged(const GenTime &)), 
-				this, SIGNAL(signalClipCropStartChanged(const GenTime &)));
-	connect(track, SIGNAL(signalClipCropEndChanged(const GenTime &)), 
-				this, SIGNAL(signalClipCropEndChanged(const GenTime &)));
-	connect(track, SIGNAL(lookingAtClip(DocClipRef *, const GenTime &)),
-				this, SIGNAL(lookingAtClip(DocClipRef *, const GenTime &)));
+	connect(track, SIGNAL(signalClipCropStartChanged(DocClipRef *)), this, SIGNAL(signalClipCropStartChanged(DocClipRef *)));
+	connect(track, SIGNAL(signalClipCropEndChanged(DocClipRef *)), this, SIGNAL(signalClipCropEndChanged(DocClipRef *)));
+
+	connect(track, SIGNAL(lookingAtClip(DocClipRef *, const GenTime &)), this, SIGNAL(lookingAtClip(DocClipRef *, const GenTime &)));
 
 	resizeTracks();
 }

@@ -57,7 +57,7 @@ public:
 	void setNoSeek(bool noSeek);
 
 	DocClipRef *clip();
-	
+
 protected:
 	void mousePressEvent(QMouseEvent *e);
 	/** Set the monitors scenelist to the one specified. */
@@ -78,6 +78,9 @@ private:
 	bool m_noSeek;
 	/** The clip being displayed by the monitor. */
 	DocClipRef *m_clip;
+	/** A reference to the clip being displayed in the monitor. This is useful if we want to update the monitor
+	when this particular clip changes on the timeline. Note - we do not own this clip, it should not be deleted.*/
+	DocClipRef *m_referredClip;
 	/** Connects all signals/slots to the screen. */
 	void connectScreen();
 	/** Disconnects all signals/slots from the screen */
@@ -85,7 +88,7 @@ private:
 
 	/** Commont functionality for the setClip slots. */
 	void doCommonSetClip();
-	
+
 public slots: // Public slots
 	/** Seek the monitor to the given time. */
 	void seek(const GenTime &time);
@@ -117,7 +120,16 @@ public slots: // Public slots
 	/** Starts a drag operation, using the currently selected clip and the specified in
 	 *  and out points for it. */
 	void slotStartDrag();
+
+	/** The specified clip has changed, if the monitor uses this clip it will update it's
+	representation, otherwise it will ignore the method. */
+	void slotUpdateClip(DocClipRef *clip);
+
+	/** Called when a clip's crop start has changed. */
+	void slotClipCropStartChanged(DocClipRef *clip);
 	
+	/** Called when a clip's crop end has changed. */
+	void slotClipCropEndChanged(DocClipRef *clip);
 signals: // Signals
 	/** Emitted when the monitor's current position has changed. */
 	void seekPositionChanged(const GenTime &);

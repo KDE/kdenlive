@@ -309,9 +309,9 @@ signals: // Signals
 	/** Emitted when the seek position on the timeline changes. */
 	void seekPositionChanged(const GenTime &);
 	/** Emitted when the clip crop start has changed for a clip. */
-	void signalClipCropStartChanged(const GenTime &);
+	void signalClipCropStartChanged(DocClipRef *);
 	/** Emitted when the clip crop end has changed for a clip. */
-	void signalClipCropEndChanged(const GenTime &);
+	void signalClipCropEndChanged(DocClipRef *);
 	/** emitted when something of interest is happening over a clip on the timeline. */
 	void lookingAtClip(DocClipRef *, const GenTime &);
 };

@@ -81,11 +81,11 @@ signals: // Signals
   /**
   Emitted when an operation moves the clip crop start.
   */
-  void signalClipCropStartChanged(const GenTime &);
+  void signalClipCropStartChanged(DocClipRef *);
   /**
   Emitted when an operation moves the clip crop end.
   */
-  void signalClipCropEndChanged(const GenTime &);
+  void signalClipCropEndChanged(DocClipRef *);
 private:
 	enum ResizeState {None, Start, End};
 	static const uint s_resizeTolerance;

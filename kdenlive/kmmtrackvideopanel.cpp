@@ -51,10 +51,8 @@ KMMTrackVideoPanel::KMMTrackVideoPanel(KMMTimeLine *timeline,
 	addFunctionDecorator(KdenliveApp::Move, resize);
 	addFunctionDecorator(KdenliveApp::Move, new TrackPanelClipMoveFunction(timeline, doc, docTrack));
 
-	connect(resize, SIGNAL(signalClipCropStartChanged(const GenTime &)),
-					this, SIGNAL(signalClipCropStartChanged(const GenTime &)));
-	connect(resize, SIGNAL(signalClipCropEndChanged(const GenTime &)),
-					this, SIGNAL(signalClipCropEndChanged(const GenTime &)));
+	connect(resize, SIGNAL(signalClipCropStartChanged(DocClipRef *)), this, SIGNAL(signalClipCropStartChanged(DocClipRef *)));
+	connect(resize, SIGNAL(signalClipCropEndChanged(DocClipRef *)), this, SIGNAL(signalClipCropEndChanged(DocClipRef *)));
 
 	addFunctionDecorator(KdenliveApp::Razor, new TrackPanelRazorFunction(timeline, doc, docTrack));
 	addFunctionDecorator(KdenliveApp::Spacer, new TrackPanelSpacerFunction(timeline, docTrack, document()));

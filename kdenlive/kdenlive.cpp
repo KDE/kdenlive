@@ -311,8 +311,7 @@ void KdenliveApp::initView()
 	connect(getDocument(), SIGNAL(clipListUpdated()), m_projectList, SLOT(slot_UpdateList()));
 	connect(getDocument(), SIGNAL(clipChanged(DocClipRef *)), m_projectList, SLOT(slot_clipChanged(DocClipRef *)));
 
-	connect(getDocument(), SIGNAL(documentChanged(DocClipBase *)),
-		  m_workspaceMonitor, SLOT(slotSetClip(DocClipBase *)));
+	connect(getDocument(), SIGNAL(documentChanged(DocClipBase *)), m_workspaceMonitor, SLOT(slotSetClip(DocClipBase *)));
 
 	connect(getDocument()->renderer(), SIGNAL(effectListChanged(const QPtrList<EffectDesc> &)), m_effectListDialog, SLOT(setEffectList(const QPtrList<EffectDesc> &)));
 
@@ -331,14 +330,14 @@ void KdenliveApp::initView()
 	connect(m_projectList, SIGNAL(dragDropOccured(QDropEvent *)), this, SLOT(slot_insertClips(QDropEvent *)));
 
 	connect(m_timeline, SIGNAL(seekPositionChanged(const GenTime &)), m_workspaceMonitor, SLOT(seek(const GenTime &)));
-	connect(m_timeline, SIGNAL(signalClipCropStartChanged(const GenTime &)), m_clipMonitor, SLOT(seek(const GenTime &)));
-	connect(m_timeline, SIGNAL(signalClipCropEndChanged(const GenTime &)), m_clipMonitor, SLOT(seek(const GenTime &)));
+	connect(m_timeline, SIGNAL(signalClipCropStartChanged(DocClipRef *)), m_clipMonitor, SLOT(slotClipCropStartChanged(DocClipRef *)));
+	connect(m_timeline, SIGNAL(signalClipCropEndChanged(DocClipRef *)), m_clipMonitor, SLOT(slotClipCropEndChanged(DocClipRef *)));
 	connect(m_timeline, SIGNAL(lookingAtClip(DocClipRef *, const GenTime &)), this, SLOT(slotLookAtClip(DocClipRef *, const GenTime &)));
 
 
 	// connects for clip/workspace monitor activation (i.e. making sure they are visible when needed)
-	connect(m_timeline, SIGNAL(signalClipCropStartChanged(const GenTime &)), this, SLOT(activateClipMonitor()));
-	connect(m_timeline, SIGNAL(signalClipCropEndChanged(const GenTime &)), this, SLOT(activateClipMonitor()));
+	connect(m_timeline, SIGNAL(signalClipCropStartChanged(DocClipRef *)), this, SLOT(activateClipMonitor()));
+	connect(m_timeline, SIGNAL(signalClipCropEndChanged(DocClipRef *)), this, SLOT(activateClipMonitor()));
 	connect(m_timeline, SIGNAL(seekPositionChanged(const GenTime &)), this, SLOT(activateWorkspaceMonitor()));
 
 	makeDockInvisible(mainDock);
@@ -376,6 +375,9 @@ void KdenliveApp::saveOptions()
 
   m_renderManager->saveConfig(config);
   writeDockConfig(config, "Default Layout");
+
+  config->setGroup("Debug Options");
+  config->writeEntry("Ignore Rendering Messages", m_renderDebugPanel->ignoreMessages());
 }
 
 
@@ -407,6 +409,10 @@ void KdenliveApp::readOptions()
   {
     resize(size);
   }
+
+  config->setGroup("Debug Options");
+  bool ignoreMessages = config->readBoolEntry("Ignore Rendering Messages", true);
+  m_renderDebugPanel->setIgnoreMessages(ignoreMessages);
 }
 
 void KdenliveApp::saveProperties(KConfig *_cfg)

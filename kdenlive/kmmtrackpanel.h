@@ -128,12 +128,12 @@ signals: // Signals
 	/**
 	Emitted when an operation moves the clip crop start.
 	*/
-	void signalClipCropStartChanged(const GenTime &);
+	void signalClipCropStartChanged(DocClipRef *);
 
 	/**
 	Emitted when an operation moves the clip crop end.
 	*/
-	void signalClipCropEndChanged(const GenTime &);
+	void signalClipCropEndChanged(DocClipRef *);
 
 	/**
 	emitted when a tool is "looking" at a clip, it signifies to whatever is listening

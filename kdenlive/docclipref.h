@@ -58,7 +58,7 @@ public:
 	at the beginning of the clip, you can re-add it.*/
 	void setCropStartTime(const GenTime &);
 
-	/** returns the cropStart time for this clip */ 
+	/** returns the cropStart time for this clip */
 	const GenTime &cropStartTime() const;
 
 	/** set the trackEnd time for this clip. */
@@ -66,6 +66,8 @@ public:
 
 	/** returns the cropDuration time for this clip. */
 	GenTime cropDuration() const;
+	/** Sets the cropDuration time for this clip - note, this will change the track end time as well. */
+	void setCropDuration(const GenTime &time);
 
 	/** returns a QString containing all of the XML data required to recreate this clip. */
 	QDomDocument toXML() const;
