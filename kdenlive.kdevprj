@@ -21,9 +21,9 @@ addcxxflags=
 bin_program=kdenlive
 cflags=
 cppflags=
-cxxflags=\s-O0 -g3 -Wall
+cxxflags=\s-O0 -pg -g1 -Wall
 ldadd=\s$(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT)
-ldflags=\s                         \s
+ldflags=\s                           \s
 
 [General]
 AMChanged=false
