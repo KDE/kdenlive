@@ -17,6 +17,7 @@
 #include "kmmtimeline.h"
 #include "kmmrulerpanel.h"
 #include "kcombobox.h"
+#include "qstring.h"
 
 KMMTimeLine::KMMTimeLine( QWidget *scrollToolWidget, QWidget *parent , const char *name ) :
 		KTimeLine( new KMMRulerPanel( NULL, "Ruler Panel" ), scrollToolWidget, parent, name )
@@ -62,5 +63,10 @@ void KMMTimeLine::setSliderIndex( int index )
 int KMMTimeLine::getTimeScaleSliderValue() const
 {
 	int value = m_rulerToolWidget->m_scaleCombo->currentItem();
+	return value;
+}
+QString KMMTimeLine::getTimeScaleSliderText() const
+{
+	QString value = m_rulerToolWidget->m_scaleCombo->currentText();
 	return value;
 }

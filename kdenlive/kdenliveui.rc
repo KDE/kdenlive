@@ -25,6 +25,7 @@
 	<Action name="timeline_razor_tool"/>
 	<Action name="timeline_spacer_tool"/>
 	<Action name="timeline_marker_tool"/>
+	<Action name="timeline_roll_tool"/>
 	<Separator lineSeperator="true"/>
 	<Action name="timeline_snap_frame"/>
 	<Action name="timeline_snap_border"/>
@@ -59,6 +60,7 @@
 		<Action name="timeline_razor_tool"/>
 		<Action name="timeline_spacer_tool"/>
 		<Action name="timeline_marker_tool"/>
+		<Action name="timeline_roll_tool"/>
 	</Menu>
 	<Menu name="snap"><text>Snap To</text>
 		<Action name="timeline_snap_frame"/>
@@ -86,6 +88,7 @@
 	<Action name="timeline_razor_tool"/>
 	<Action name="timeline_spacer_tool"/>
 	<Action name="timeline_marker_tool"/>
+	<Action name="timeline_roll_tool"/>
 	<Separator lineSeperator="true"/>
 	<Action name="timeline_snap_frame"/>
 	<Action name="timeline_snap_border"/>

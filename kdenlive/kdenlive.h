@@ -101,6 +101,7 @@ class KdenliveApp : public KDockMainWindow
 		/** If the document has been modified, asks the user if they want to save it. Returns true if we
 		 * can proceed. i.e., the document has been saved or discarded. */
 		bool saveModified();
+		QString getTimeScaleSliderText() const;
 	protected:
 		/** save general Options like all bar positions and status as well as the geometry and the recent file list to the configuration
 		 * file
@@ -201,7 +202,7 @@ class KdenliveApp : public KDockMainWindow
 		void slotTimelineMoveTool();
 		/** Called when the marker tool is selected */
 		void slotTimelineMarkerTool();
-		/** Called when the marker tool is selected  -reh */
+		/** Called when the roll tool is selected  -reh */
 		void slotTimelineRollTool();
 		/** Called when the user activates the "Export Timeline" action */
 		void slotRenderExportTimeline();

@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>291</width>
-            <height>34</height>
+            <height>35</height>
         </rect>
     </property>
     <property name="caption">
@@ -58,42 +58,42 @@
             </item>
             <item>
                 <property name="text">
-                    <string>5 seconds</string>
+                    <string>5 Seconds</string>
                 </property>
             </item>
             <item>
                 <property name="text">
-                    <string>10 seconds</string>
+                    <string>10 Seconds</string>
                 </property>
             </item>
             <item>
                 <property name="text">
-                    <string>20 seconds</string>
+                    <string>20 Seconds</string>
                 </property>
             </item>
             <item>
                 <property name="text">
-                    <string>30 seconds</string>
+                    <string>30 Seconds</string>
                 </property>
             </item>
             <item>
                 <property name="text">
-                    <string>1 minute</string>
+                    <string>1 Minute</string>
                 </property>
             </item>
             <item>
                 <property name="text">
-                    <string>2 minutes</string>
+                    <string>2 Minutes</string>
                 </property>
             </item>
             <item>
                 <property name="text">
-                    <string>4 minutes</string>
+                    <string>4 Minutes</string>
                 </property>
             </item>
             <item>
                 <property name="text">
-                    <string>8 minutes</string>
+                    <string>8 Minutes</string>
                 </property>
             </item>
             <property name="name">

@@ -19,6 +19,7 @@
 #include "kdebug.h"
 
 #include <qnamespace.h>
+#include <qstring.h>
 
 #include "clipdrag.h"
 #include "doctrackbase.h"
@@ -27,6 +28,8 @@
 #include "krollcommand.h"
 #include "kselectclipcommand.h"
 #include "ktrackview.h"
+
+#include "kmmtimeline.h"
 
 #include <cmath>
 
@@ -53,6 +56,8 @@ TrackPanelClipRollFunction::~TrackPanelClipRollFunction()
 bool TrackPanelClipRollFunction::mouseApplies(KTrackPanel *panel, QMouseEvent *event) const
 {
 	bool result = false;
+	//get current timescale and set min crop time
+	double minDrag = getMinimumDrag();
 
 	if(panel->hasDocumentTrackIndex()) {
 		DocTrackBase *track = m_document->track(panel->documentTrackIndex());
@@ -61,7 +66,7 @@ bool TrackPanelClipRollFunction::mouseApplies(KTrackPanel *panel, QMouseEvent *e
 			DocClipRef *clip = track->getClipAt(mouseTime);
 			if(clip) {
 				if( fabs(m_timeline->mapValueToLocal(clip->trackStart().frames(m_document->framesPerSecond())) - event->x()) < s_resizeTolerance) {
-					GenTime beforeTime(5.0, m_document->framesPerSecond());
+					GenTime beforeTime(minDrag, m_document->framesPerSecond());
 					beforeTime = clip->trackStart() - beforeTime;
 					DocClipRef *clipBefore = track->getClipAt(beforeTime);
 					if(clipBefore){
@@ -69,7 +74,7 @@ bool TrackPanelClipRollFunction::mouseApplies(KTrackPanel *panel, QMouseEvent *e
 					}
 				}
 				if( fabs(m_timeline->mapValueToLocal((clip->trackEnd()).frames(m_document->framesPerSecond())) - event->x()) < s_resizeTolerance) {
-					GenTime afterTime(5.0, m_document->framesPerSecond());
+					GenTime afterTime(minDrag, m_document->framesPerSecond());
 					afterTime = clip->trackEnd() + afterTime;
 					DocClipRef *clipAfter = track->getClipAt(afterTime);
 					if(clipAfter){
@@ -91,9 +96,10 @@ QCursor TrackPanelClipRollFunction::getMouseCursor(KTrackPanel *panel, QMouseEve
 bool TrackPanelClipRollFunction::mousePressed(KTrackPanel *panel, QMouseEvent *event)
 {
 	bool result = false;
-
+	
 	if(panel->hasDocumentTrackIndex()) {
 		DocTrackBase *track = m_document->track(panel->documentTrackIndex());
+		
 		if(track) {
 			GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_document->framesPerSecond());
 			m_clipUnderMouse = track->getClipAt(mouseTime);
@@ -120,7 +126,7 @@ bool TrackPanelClipRollFunction::mousePressed(KTrackPanel *panel, QMouseEvent *e
 							Command::KSelectClipCommand::selectClipAt(
 										m_document,
 										*track,
-										(m_clipUnderMouse->trackStart() - beforeTime )));
+										(m_clipUnderMouse->trackStart() - beforeTime)));
 					m_clipBeforeMouse = track->getClipAt( GenTime( m_clipUnderMouse->trackStart() - beforeTime ) );
 				}
 				if(m_resizeState == End){
@@ -157,7 +163,11 @@ bool TrackPanelClipRollFunction::mousePressed(KTrackPanel *panel, QMouseEvent *e
 					cursor.append(m_clipUnderMouse->trackEnd());
 				}
 				m_snapToGrid.setCursorTimes(cursor);
-				m_rollCommand = new Command::KRollCommand(m_document, *m_clipUnderMouse);
+				if(m_resizeState == Start) {
+					m_rollCommand = new Command::KRollCommand(m_document, *m_clipUnderMouse, *m_clipBeforeMouse);
+				}else if (m_resizeState == End) {
+					m_rollCommand = new Command::KRollCommand(m_document, *m_clipUnderMouse, *m_clipAfterMouse);
+				}
 
 				result = true;
 			}
@@ -171,14 +181,11 @@ bool TrackPanelClipRollFunction::mouseReleased(KTrackPanel *panel, QMouseEvent *
 {
 	bool result = false;
 
-	m_rollCommand->setEndSize(*m_clipUnderMouse);
 	if(m_clipBeforeMouse) {
-		m_rollCommand->setEndSize(*m_clipBeforeMouse);
-		//m_clipBeforeMouse->setTrackEnd( m_clipUnderMouse->trackStart() );
+		m_rollCommand->setEndSize(*m_clipUnderMouse, *m_clipBeforeMouse);
 	}
 	if(m_clipAfterMouse){
-		m_rollCommand->setEndSize(*m_clipAfterMouse);
-		//m_clipAfterMouse->setTrackStart( m_clipUnderMouse->trackEnd() );
+		m_rollCommand->setEndSize(*m_clipUnderMouse, *m_clipAfterMouse);
 	}
 	m_app->addCommand(m_rollCommand, false);
 	m_document->indirectlyModified();
@@ -191,33 +198,61 @@ bool TrackPanelClipRollFunction::mouseReleased(KTrackPanel *panel, QMouseEvent *
 bool TrackPanelClipRollFunction::mouseMoved(KTrackPanel *panel, QMouseEvent *event)
 {
 	bool result = false;
-
+			
 	if(panel->hasDocumentTrackIndex()) {
 		DocTrackBase *track = m_document->track(panel->documentTrackIndex());
 		if(track) {
 			GenTime mouseTime = m_snapToGrid.getSnappedTime(m_timeline->timeUnderMouse(event->x()));
-			
+
 			if(m_clipUnderMouse) {
 				result = true;
 				
 				if(m_resizeState == Start) {
-					if(m_clipUnderMouse->trackEnd() - mouseTime < m_clipUnderMouse->duration() && mouseTime - m_clipBeforeMouse->cropStartTime() < m_clipBeforeMouse->duration()){						track->resizeClipTrackStart(m_clipUnderMouse, mouseTime);
-						emit signalClipCropStartChanged(m_clipUnderMouse);
+					if(mouseTime < m_clipUnderMouse->trackStart()){
+						//dragging left, mouse on beginning of second track
+						if(m_clipBeforeMouse->cropDuration() > GenTime(getMinimumDrag()) && m_clipUnderMouse->cropStartTime() > GenTime(getMinimumDrag()))
+						{
+							track->resizeClipTrackEnd(m_clipBeforeMouse, mouseTime);
+							emit signalClipCropEndChanged(m_clipBeforeMouse);
+						
+							track->resizeClipTrackStart(m_clipUnderMouse, m_clipBeforeMouse->trackEnd());
+							emit signalClipCropStartChanged(m_clipUnderMouse);
+						}
+					}else{
+						//dragging right, mouse on beginning of second track
+						if(m_clipBeforeMouse->trackEnd() - m_clipBeforeMouse->cropStartTime() <= m_clipBeforeMouse->duration() - GenTime(getMinimumDrag()) && m_clipUnderMouse->cropDuration() > GenTime(getMinimumDrag()))
+						{
+							track->resizeClipTrackStart(m_clipUnderMouse, mouseTime);
+							emit signalClipCropStartChanged(m_clipUnderMouse);
 							
-						track->resizeClipTrackEnd(m_clipBeforeMouse, mouseTime);
-						emit signalClipCropEndChanged(m_clipBeforeMouse);
+							track->resizeClipTrackEnd(m_clipBeforeMouse, m_clipUnderMouse->trackStart());
+							emit signalClipCropEndChanged(m_clipBeforeMouse);
+						}
 					}
 				} else if(m_resizeState == End) {
 					GenTime cropDuration = mouseTime - m_clipUnderMouse->trackStart();
-					if( cropDuration < m_clipUnderMouse->duration() - m_clipUnderMouse->cropStartTime() && m_clipAfterMouse->trackEnd() - mouseTime < m_clipAfterMouse->duration()) {
-						track->resizeClipTrackEnd(m_clipUnderMouse, mouseTime);
-						emit signalClipCropEndChanged(m_clipUnderMouse);
-					
-						track->resizeClipTrackStart(m_clipAfterMouse, mouseTime);
-						emit signalClipCropStartChanged(m_clipAfterMouse);
+					if(mouseTime > m_clipUnderMouse->trackEnd()){
+						//dragging right, mouse on end of first track
+						if(m_clipAfterMouse->cropDuration() > GenTime(getMinimumDrag()) && m_clipUnderMouse->trackEnd() - m_clipUnderMouse->cropStartTime() <= m_clipUnderMouse->duration() - GenTime(getMinimumDrag()))
+						{
+							track->resizeClipTrackStart(m_clipAfterMouse, mouseTime);
+							emit signalClipCropStartChanged(m_clipAfterMouse);
+						
+							track->resizeClipTrackEnd(m_clipUnderMouse, m_clipAfterMouse->trackStart());
+							emit signalClipCropEndChanged(m_clipUnderMouse);
+						}
+					}else{
+						//dragging left, mouse on end of first track
+						if(m_clipAfterMouse->cropStartTime() > GenTime(getMinimumDrag()) && m_clipUnderMouse->cropDuration() > GenTime(getMinimumDrag())){
+							track->resizeClipTrackEnd(m_clipUnderMouse, mouseTime);
+							emit signalClipCropEndChanged(m_clipUnderMouse);
+						
+							track->resizeClipTrackStart(m_clipAfterMouse, m_clipUnderMouse->trackEnd());
+							emit signalClipCropStartChanged(m_clipAfterMouse);
+						}
 					}
 				} else {
-					kdError() << "Unknown resize state reached in KMMTimeLineTrackView::mouseMoveEvent()" << endl;
+					kdError() << "Unknown resize state reached in trackpanelrollfunction::mouseMoved()" << endl;
 					kdError() << "(this message should never be seen!)" << endl;
 				}
 			}
@@ -225,4 +260,41 @@ bool TrackPanelClipRollFunction::mouseMoved(KTrackPanel *panel, QMouseEvent *eve
 	}
 
 	return result;
+}
+double TrackPanelClipRollFunction::getMinimumDrag() const
+{
+	QString currentScale( m_app->getTimeScaleSliderText() );
+	double minimumDrag = 1.0;
+	if(currentScale == "1 Frame"){
+		minimumDrag = 0.05;
+	}else if(currentScale =="2 Frames"){
+		minimumDrag = 0.05;
+	}else if(currentScale =="5 Frames"){
+		minimumDrag = 0.05;
+	}else if(currentScale =="10 Frames"){
+		minimumDrag = 0.1;
+	}else if(currentScale =="1 Second"){
+		minimumDrag = 0.5;
+	}else if(currentScale =="2 Seconds"){
+		minimumDrag = 0.5;
+	}else if(currentScale =="5 Seconds"){
+		minimumDrag = 1.0;
+	}else if(currentScale =="10 Seconds"){
+		minimumDrag = 2.0;
+	}else if(currentScale =="20 Seconds"){
+		minimumDrag = 5.0;
+	}else if(currentScale =="30 Seconds"){
+		minimumDrag = 5.0;
+	}else if(currentScale =="1 Minute"){
+		minimumDrag = 10.0;
+	}else if(currentScale =="2 Minutes"){
+		minimumDrag = 10.0;
+	}else if(currentScale =="4 Minutes"){
+		minimumDrag = 20.0;
+	}else if(currentScale =="8 Minutes"){
+		minimumDrag = 40.0;
+	}else{
+		minimumDrag = 1.0;
+	}
+	return minimumDrag;
 }

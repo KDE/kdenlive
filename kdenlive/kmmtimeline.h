@@ -18,6 +18,7 @@
 #define KMMTIMELINE_H
 
 #include <ktimeline.h>
+#include "qstring.h"
 
 class DocClipRef;
 class KMMRulerPanel;
@@ -38,7 +39,9 @@ public:
 	//set the timescale combobox to last saved value -reh
 	void setSliderIndex( int index );
 	//Return the current timescale slider value
-	int getTimeScaleSliderValue() const; 
+	int getTimeScaleSliderValue() const;
+	QString getTimeScaleSliderText() const;
+	
 public slots:
 	/** Invalidates the area of the back buffer used by this clip. */
 	void invalidateClipBuffer( DocClipRef *clip );

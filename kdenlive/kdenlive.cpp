@@ -146,7 +146,7 @@ void KdenliveApp::initActions()
 	timelineRazorTool = new KRadioAction( i18n( "Razor Tool" ), "razor.png", KShortcut( Qt::Key_W ), this, SLOT( slotTimelineRazorTool() ), actionCollection(), "timeline_razor_tool" );
 	timelineSpacerTool = new KRadioAction( i18n( "Spacing Tool" ), "spacer.png", KShortcut( Qt::Key_E ), this, SLOT( slotTimelineSpacerTool() ), actionCollection(), "timeline_spacer_tool" );
 	timelineMarkerTool = new KRadioAction( i18n( "Marker Tool" ), "marker.png", KShortcut( Qt::Key_M ), this, SLOT( slotTimelineMarkerTool() ), actionCollection(), "timeline_marker_tool" );
-	timelineRollTool = new KRadioAction( i18n( "Roll Tool" ), "roll.png", KShortcut( Qt::Key_R ), this, SLOT( slotTimelineRollTool() ), actionCollection(), "timeline_roll_tool" );
+	timelineRollTool = new KRadioAction( i18n( "Roll Tool" ), "rolltool.png", KShortcut( Qt::Key_R ), this, SLOT( slotTimelineRollTool() ), actionCollection(), "timeline_roll_tool" );
 
 	timelineSnapToFrame = new KToggleAction( i18n( "Snap To Frames" ), "snaptoframe.png", 0, this, SLOT( slotTimelineSnapToFrame() ), actionCollection(), "timeline_snap_frame" );
 	timelineSnapToBorder = new KToggleAction( i18n( "Snap To Border" ), "snaptoborder.png", 0, this, SLOT( slotTimelineSnapToBorder() ), actionCollection(), "timeline_snap_border" );
@@ -472,7 +472,11 @@ void KdenliveApp::saveOptions()
 	config->setGroup( "Debug Options" );
 	config->writeEntry( "Ignore Rendering Messages", m_renderDebugPanel->ignoreMessages() );
 }
-
+QString KdenliveApp::getTimeScaleSliderText() const
+{
+	QString value = m_timeline->getTimeScaleSliderText();
+	return value;
+}
 
 void KdenliveApp::readOptions()
 {

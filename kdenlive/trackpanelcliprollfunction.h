@@ -29,8 +29,7 @@ class DocTrackBase;
 class KdenliveApp;
 class KdenliveDoc;
 class KTimeLine;
-
-
+class KMMTimeLine;
 //namespace Command {
 //	class KRollCommand;
 //}
@@ -78,15 +77,16 @@ public:
 	Processes Mouse Move events in the track view area. Returns true if we are
 	continuing with the drag.*/
 	virtual bool mouseMoved(KTrackPanel *panel, QMouseEvent *event);
+	double getMinimumDrag() const;
 signals: // Signals
-  /**
-  Emitted when an operation moves the clip crop start.
-  */
-  void signalClipCropStartChanged(DocClipRef *);
-  /**
-  Emitted when an operation moves the clip crop end.
-  */
-  void signalClipCropEndChanged(DocClipRef *);
+	/**
+	Emitted when an operation moves the clip crop start.
+	*/
+	void signalClipCropStartChanged(DocClipRef *);
+	/**
+	Emitted when an operation moves the clip crop end.
+	*/
+	void signalClipCropEndChanged(DocClipRef *);
 private:
 	enum ResizeState {None, Start, End};
 	static const uint s_resizeTolerance;
@@ -101,8 +101,10 @@ private:
   	Command::KRollCommand * m_rollCommand;
 	SnapToGrid m_snapToGrid;
 	
+	//const double minimumDrag;
 	/** Returns true if the x,y position is over a clip (and therefore, the roll function applies) */
 	//bool mouseApplies(const QPoint &pos) const;
+	
 };
 
 #endif
