@@ -17,6 +17,7 @@
 
 #include "kmmtrackpanel.h"
 #include "kmmtimeline.h"
+#include "kdenlivedoc.h"
 
 #include <kdebug.h>
 
@@ -51,8 +52,8 @@ DocTrackBase * KMMTrackPanel::docTrack()
 blitted straight to the screen for speedy drawing. */
 void KMMTrackPanel::drawToBackBuffer(QPainter &painter, QRect &rect)
 {
-	GenTime startValue = GenTime(timeLine()->mapLocalToValue(0.0), 25);
-	GenTime endValue = GenTime(timeLine()->mapLocalToValue(rect.width()), 25);
+	GenTime startValue = GenTime(timeLine()->mapLocalToValue(0.0), m_docTrack->document()->framesPerSecond());
+	GenTime endValue = GenTime(timeLine()->mapLocalToValue(rect.width()), m_docTrack->document()->framesPerSecond());
 	
 	QPtrListIterator<DocClipBase> clip = docTrack()->firstClip(startValue, endValue, false);
 	DocClipBase *endClip = docTrack()->endClip(startValue, endValue, false).current();		
@@ -68,7 +69,7 @@ void KMMTrackPanel::drawToBackBuffer(QPainter &painter, QRect &rect)
 
 	// draw the vertical time marker
 
-	int value = (int)timeLine()->mapValueToLocal(timeLine()->seekPosition().frames(25));
+	int value = (int)timeLine()->mapValueToLocal(timeLine()->seekPosition().frames(m_docTrack->document()->framesPerSecond()));
 	if(value >= rect.x() && value <= rect.x()+rect.width()) {
 		painter.drawLine(value, rect.y(), value, rect.y() + rect.height());
 	}

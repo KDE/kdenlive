@@ -219,13 +219,13 @@ void KMMTimeLine::dragEnterEvent ( QDragEnterEvent *event )
 void KMMTimeLine::dragMoveEvent ( QDragMoveEvent *event )
 {
 	QPoint pos = m_trackViewArea->mapFrom(this, event->pos());
-	GenTime timeUnderMouse(mapLocalToValue(pos.x()), m_document->framesPerSecond());	
+	GenTime mouseTime = timeUnderMouse((double)pos.x());
 
 	if((m_app->snapToBorderEnabled()) && (m_gridSnapTracker != m_snapToGridList.end())) {
 		QValueListIterator<GenTime> itt = m_gridSnapTracker;
 		++itt;	
 		while(itt != m_snapToGridList.end()) {
-			if (fabs(((*itt) - timeUnderMouse).seconds()) > fabs(((*m_gridSnapTracker) - timeUnderMouse).seconds())) break;
+			if (fabs(((*itt) - mouseTime).seconds()) > fabs(((*m_gridSnapTracker) - mouseTime).seconds())) break;
 			++m_gridSnapTracker;
 			++itt;
 		}
@@ -233,25 +233,21 @@ void KMMTimeLine::dragMoveEvent ( QDragMoveEvent *event )
 		itt = m_gridSnapTracker;
 		--itt;
 		while(m_gridSnapTracker != m_snapToGridList.begin()) {
-			if (fabs(((*itt) - timeUnderMouse).seconds()) > fabs(((*m_gridSnapTracker) - timeUnderMouse).seconds())) break;	
+			if (fabs(((*itt) - mouseTime).seconds()) > fabs(((*m_gridSnapTracker) - mouseTime).seconds())) break;
 			--m_gridSnapTracker;
 			--itt;
 		}
 
 		if( abs((int)mapValueToLocal((*m_gridSnapTracker).frames(m_document->framesPerSecond())) - pos.x()) < snapTolerance) {
-			timeUnderMouse = *m_gridSnapTracker;
+			mouseTime = *m_gridSnapTracker;
 		}
 	}
 
-	if(m_app->snapToFrameEnabled()) {
-		timeUnderMouse = GenTime(floor((timeUnderMouse - m_clipOffset).frames(m_document->framesPerSecond()) + 0.5), m_document->framesPerSecond()) + m_clipOffset;
-	}
-	
-	if(m_selection.isEmpty()) {  	     	  
-		moveSelectedClips(trackUnderPoint(pos), timeUnderMouse - m_clipOffset);
+	if(m_selection.isEmpty()) {
+		moveSelectedClips(trackUnderPoint(pos), mouseTime - m_clipOffset);
 	} else {
-		if(canAddClipsToTracks(m_selection, trackUnderPoint(pos), timeUnderMouse + m_clipOffset)) {
-			addClipsToTracks(m_selection, trackUnderPoint(pos), timeUnderMouse + m_clipOffset, true);
+		if(canAddClipsToTracks(m_selection, trackUnderPoint(pos), mouseTime + m_clipOffset)) {
+			addClipsToTracks(m_selection, trackUnderPoint(pos), mouseTime + m_clipOffset, true);
 			generateSnapToGridList();
 			m_selection.clear();			
 		}
@@ -797,4 +793,14 @@ void KMMTimeLine::slotSliderMoved(int slider, int value)
 void KMMTimeLine::seek(GenTime time)
 {
     m_ruler->setSliderValue(0, (int)round(time.frames(m_document->framesPerSecond())));
+}
+
+/** Returns the correct "time under mouse", taking into account whether or not snap to frame is on or off, and other relevant effects. */
+GenTime KMMTimeLine::timeUnderMouse(double posX)
+{
+  GenTime value(m_ruler->mapLocalToValue(posX), m_document->framesPerSecond());
+
+  if(m_app->snapToFrameEnabled()) value = GenTime(round(value.frames(m_document->framesPerSecond())), m_document->framesPerSecond());
+
+  return value;
 }

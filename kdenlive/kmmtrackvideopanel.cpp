@@ -19,7 +19,8 @@
 #include <kdebug.h>
 
 #include <cmath>
- 
+
+#include "kdenlivedoc.h"
 #include "kmmtrackvideopanel.h"
 #include "kmmtimeline.h"
 #include "kresizecommand.h"
@@ -50,8 +51,8 @@ KMMTrackVideoPanel::~KMMTrackVideoPanel()
 /** Paint the specified clip on screen within the specified rectangle, using the specified painter. */
 void KMMTrackVideoPanel::paintClip(QPainter &painter, DocClipBase *clip, QRect &rect, bool selected)
 {	
-	int sx = (int)timeLine()->mapValueToLocal(clip->trackStart().frames(25));
-	int ex = (int)timeLine()->mapValueToLocal(clip->trackEnd().frames(25));
+	int sx = (int)timeLine()->mapValueToLocal(clip->trackStart().frames(m_docTrack->document()->framesPerSecond()));
+	int ex = (int)timeLine()->mapValueToLocal(clip->trackEnd().frames(m_docTrack->document()->framesPerSecond()));
 	int clipWidth = ex-sx;
 	int tx = ex;
 	
@@ -102,7 +103,8 @@ void KMMTrackVideoPanel::paintClip(QPainter &painter, DocClipBase *clip, QRect &
 /** A mouse press event has occured. Perform relevant mouse operations. */
 bool KMMTrackVideoPanel::mousePressed(QMouseEvent *event)
 {
-	GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), 25);
+	GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_docTrack->document()->framesPerSecond());
+  GenTime roundedMouseTime = m_timeline->timeUnderMouse(event->x());
 	m_clipUnderMouse = 0;
 
 	switch(m_timeline->editMode()) {
@@ -129,9 +131,9 @@ bool KMMTrackVideoPanel::mousePressed(QMouseEvent *event)
 										m_clipUnderMouse = docTrack()->getClipAt(mouseTime);
 										if(m_clipUnderMouse) {										
 											if (event->state() & ShiftButton) {
-												m_timeline->razorAllClipsAt(mouseTime);
+												m_timeline->razorAllClipsAt(roundedMouseTime);
 											} else {
-												m_timeline->addCommand(m_timeline->razorClipAt(*m_docTrack, mouseTime), true);
+												m_timeline->addCommand(m_timeline->razorClipAt(*m_docTrack, roundedMouseTime), true);
 											}
 											return true;
 										}
@@ -156,7 +158,7 @@ bool KMMTrackVideoPanel::mousePressed(QMouseEvent *event)
 
 bool KMMTrackVideoPanel::mouseReleased(QMouseEvent *event)
 {
-	GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), 25);
+ 	GenTime mouseTime = m_timeline->timeUnderMouse(event->x());
 
 	switch(m_timeline->editMode()) {
 		case KdenliveApp::Move :
@@ -196,7 +198,7 @@ bool KMMTrackVideoPanel::mouseReleased(QMouseEvent *event)
 /** Set the cursor to an appropriate shape, relative to the position on the track. */
 QCursor KMMTrackVideoPanel::getMouseCursor(QMouseEvent *event)
 {
-	GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), 25);
+	GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_docTrack->document()->framesPerSecond());
 	DocClipBase *clip;
 	
 	m_resizeState = None;
@@ -205,11 +207,11 @@ QCursor KMMTrackVideoPanel::getMouseCursor(QMouseEvent *event)
 		case KdenliveApp::Move :
 								clip = docTrack()->getClipAt(mouseTime);
 								if(clip) {
-									if( fabs(m_timeline->mapValueToLocal(clip->trackStart().frames(25)) - event->x()) < resizeTolerance) {
+									if( fabs(m_timeline->mapValueToLocal(clip->trackStart().frames(m_docTrack->document()->framesPerSecond())) - event->x()) < resizeTolerance) {
 										m_resizeState = Start;
 										return QCursor(Qt::SizeHorCursor);
 									}
-									if( fabs(m_timeline->mapValueToLocal((clip->trackEnd()).frames(25)) - event->x()) < resizeTolerance) {
+									if( fabs(m_timeline->mapValueToLocal((clip->trackEnd()).frames(m_docTrack->document()->framesPerSecond())) - event->x()) < resizeTolerance) {
 										m_resizeState = End;
 										return QCursor(Qt::SizeHorCursor);
 									}			
@@ -226,7 +228,7 @@ QCursor KMMTrackVideoPanel::getMouseCursor(QMouseEvent *event)
 
 bool KMMTrackVideoPanel::mouseMoved(QMouseEvent *event)
 {
-	GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), 25);	
+	GenTime mouseTime = m_timeline->timeUnderMouse(event->x());
 
 	switch(m_timeline->editMode()) {
 		case KdenliveApp::Move :	

@@ -111,7 +111,7 @@ DocClipBase *DocTrackBase::getClipAt(GenTime value)
 
 	while( (file = u_itt.current()) ) {
 		if(file->trackStart() > value) break;
-		if(file->trackEnd() > value) {
+		if(file->trackEnd() >= value) {
 			return file;
 		}
 		++u_itt;
@@ -120,7 +120,7 @@ DocClipBase *DocTrackBase::getClipAt(GenTime value)
 	QPtrListIterator<DocClipBase> s_itt(m_selectedClipList);
 	while( (file = s_itt.current()) ) {
 		if(file->trackStart() > value) break;
-		if(file->trackEnd() > value) {
+		if(file->trackEnd() >= value) {
 			return file;
 		}
 		++s_itt;
@@ -289,7 +289,7 @@ void DocTrackBase::resizeClipTrackStart(DocClipBase *clip, GenTime newStart)
 	}
 
 	if(clip->cropDuration() - newStart > clip->duration()) {
-		newStart = clip->duration() + clip->cropDuration();
+		newStart = clip->cropDuration() - clip->duration();
 	}
 
 	if(clip->cropDuration() - newStart < 0) {

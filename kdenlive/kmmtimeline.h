@@ -118,16 +118,6 @@ public: // Public methods
 	void dragMoveEvent ( QDragMoveEvent * );
 	void dragLeaveEvent ( QDragLeaveEvent * );
 	void dropEvent ( QDropEvent * );
-
-  /** Takes the value that we wish to find the coordinate for, and returns the x coordinate. In cases where a single value covers multiple
-	pixels, the left-most pixel is returned. */	
-  double mapValueToLocal(double value) const;
-  
-  /** This method maps a local coordinate value to the corresponding
-	value that should be represented at that position. By using this, there is no need to
-	calculate scale factors yourself. Takes the x coordinate, and returns the value associated
-	with it. */
-  double mapLocalToValue(double coordinate) const;
   
   /** Deselects all clips on the timeline. This does not affect any clips that are "in transition" onto the
 	timeline,i.e. in a drag process, clips that are in m_selection but have not been placed do not become
@@ -188,6 +178,19 @@ specified time. If include is true, then clips which overlap the
 specified time will be selected, otherwise only those clips which
 are later on the tiemline (i.e. trackStart() > time) will be selected. */
   KCommand * selectLaterClips(GenTime time, bool include);
+  /** Returns the correct "time under mouse", taking into account whether or not snap to frame is on or off, and other relevant effects. */
+  GenTime timeUnderMouse(double posX);
+
+  /** Takes the value that we wish to find the coordinate for, and returns the x coordinate. In cases where a single value covers multiple
+	pixels, the left-most pixel is returned. */
+  double mapValueToLocal(double value) const;
+
+  /** This method maps a local coordinate value to the corresponding
+	value that should be represented at that position. By using this, there is no need to
+	calculate scale factors yourself. Takes the x coordinate, and returns the value associated
+	with it. */
+  double mapLocalToValue(double coordinate) const;
+  
 private: // private methods
 	void resizeTracks();
 	
@@ -204,8 +207,7 @@ it does not remove the clips from the timeline. */
   DocClipBaseList listSelected();
   void generateSnapToGridList();
   /** Creates a "Add clips" command, containing all of the clips currently in the selection on the timeline. This command is then added to the command history. */
-  KMacroCommand *createAddClipsCommand(bool addingClips);
-  
+  KMacroCommand *createAddClipsCommand(bool addingClips);  
 public slots: // Public slots
   /** Called when a track within the project has been added or removed.
     *
