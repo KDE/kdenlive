@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "POT-Creation-Date: 2003-07-28 09:08+0200\n"
-"PO-Revision-Date: 2003-07-28 09:09+0200\n"
+"PO-Revision-Date: 2003-07-29 11:05+0200\n"
 "Last-Translator: Gilles CAULIER <caulier.gilles@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,7 +55,7 @@ msgstr "KdenliveSplash"
 
 #: kmoveclipscommand.cpp:49
 msgid "Move Clips"
-msgstr "Déplacer les séquences"
+msgstr "Déplacer les plans vidéo"
 
 #: avfileformatwidget.moc.cpp:34 avfileformatwidget.moc.cpp:42
 msgid "AVFileFormatWidget"
@@ -79,15 +79,15 @@ msgstr "Défilement"
 
 #: kmmtimeline.cpp:617 kdenlive.cpp:121
 msgid "Add Clips"
-msgstr "Ajouter des séquences"
+msgstr "Ajouter des plans vidéo"
 
 #: kmmtimeline.cpp:617 kdenlive.cpp:122
 msgid "Delete Clips"
-msgstr "Supprimer des séquences"
+msgstr "Supprimer des plans vidéo"
 
 #: kmmtimeline.cpp:656
 msgid "Razor clip"
-msgstr "Découper la séquence"
+msgstr "Découper le plan vidéo"
 
 #: kmmtrackpanel.moc.cpp:34 kmmtrackpanel.moc.cpp:42
 msgid "KMMTrackPanel"
@@ -259,15 +259,15 @@ msgstr ""
 
 #: kaddclipcommand.cpp:44
 msgid "Add Clip"
-msgstr "Ajouter une séquence"
+msgstr "Ajouter un plan vidéo"
 
 #: kaddclipcommand.cpp:46
 msgid "Delete Clip"
-msgstr "Supprimer la séquence"
+msgstr "Supprimer le plan vidéo"
 
 #: kresizecommand.cpp:50
 msgid "Resize clip"
-msgstr "Redimensionner la séquence"
+msgstr "Redimensionner le plan vidéo"
 
 #: avformatwidgetcodeclist.cpp:37
 msgid "Codec:"
@@ -343,7 +343,7 @@ msgstr "Purger le projet"
 
 #: kdenlive.cpp:124
 msgid "Clip properties"
-msgstr "Propriétés de la séquence"
+msgstr "Propriétés du plan vidéo"
 
 #: kdenlive.cpp:126
 msgid "&Export Timeline"
@@ -379,7 +379,7 @@ msgstr "Ajouter un point de sortie"
 
 #: kdenlive.cpp:135
 msgid "Delete Selected Clips"
-msgstr "Supprimer les séquences sélectionnées"
+msgstr "Supprimer les plans vidéo sélectionnés"
 
 #: kdenlive.cpp:137
 msgid "Load Layout &1"
@@ -471,35 +471,35 @@ msgstr "Déplacer et redimensionner les séquences"
 
 #: kdenlive.cpp:164
 msgid "Chops clips into two pieces"
-msgstr "Découper les séquences en deux morceaux"
+msgstr "Découper les plans vidéo en deux morceaux"
 
 #: kdenlive.cpp:165
 msgid "Shifts all clips to the right of mouse"
-msgstr "Déplacer les séquences à droite de la souris"
+msgstr "Déplacer les plans vidéo à droite de la souris"
 
 #: kdenlive.cpp:166
 msgid "Clips will align to the nearest frame"
-msgstr "Aligner les séquences sur la trame la plus proche"
+msgstr "Aligner les plans vidéo sur la trame la plus proche"
 
 #: kdenlive.cpp:167
 msgid "Clips will align with the borders of other clips"
-msgstr "Aligner les séquences avec le bords des autres séquences"
+msgstr "Aligner les plans vidéo avec le bords des autres plans vidéo"
 
 #: kdenlive.cpp:168
 msgid "Add clips to the project"
-msgstr "Ajouter des séquences au projet"
+msgstr "Ajouter des plans vidéo au projet"
 
 #: kdenlive.cpp:169
 msgid "Remove clips from the project"
-msgstr "Supprimer des séquences du projet"
+msgstr "Supprimer des plans vidéo du projet"
 
 #: kdenlive.cpp:170
 msgid "Remove unused clips from the project"
-msgstr "Supprimer les séquences inutilisées du projet"
+msgstr "Supprimer les plans vidéo inutilisés du projet"
 
 #: kdenlive.cpp:171
 msgid "View the properties of the selected clip"
-msgstr "Afficher les propriétés de la séquence sélectionnée"
+msgstr "Afficher les propriétés du plan vidéo sélectionné"
 
 #: kdenlive.cpp:172
 msgid "Seek forward one frame"
@@ -531,7 +531,7 @@ msgstr "Spécifie la position actuelle comme un point de sortie"
 
 #: kdenlive.cpp:179
 msgid "Delete currently selected clips"
-msgstr "Supprimer la séquence sélectionnée"
+msgstr "Supprimer le plan vidéo sélectionné"
 
 #: kdenlive.cpp:191 kdenlive.cpp:331 kdenlive.cpp:465 kdenlive.cpp:490
 #: kdenlive.cpp:508 kdenlive.cpp:517 kdenlive.cpp:538 kdenlive.cpp:547
@@ -614,7 +614,7 @@ msgstr "Montage vidéo"
 
 #: kdenlive.cpp:272 kdenlive.cpp:273
 msgid "Clip Monitor"
-msgstr "Prévisualisation des séquences"
+msgstr "Prévisualisation des plans vidéo"
 
 #: kdenlive.cpp:327 kdenlive.cpp:470 kdenlive.cpp:495
 msgid "Opening file..."
@@ -718,11 +718,11 @@ msgstr "Modifier les préférences"
 
 #: kdenlive.cpp:759
 msgid "Adding Clips"
-msgstr "Ajouter des séquences"
+msgstr "Ajouter des plans vidéo"
 
 #: kdenlive.cpp:788
 msgid "Removing Clips"
-msgstr "Supprimer des séquences"
+msgstr "Supprimer des plans vidéo"
 
 #: kdenlive.cpp:795
 msgid "Cleaning Project"
@@ -738,7 +738,7 @@ msgstr ""
 
 #: kdenlive.cpp:808
 msgid "Viewing clip properties"
-msgstr "Affichage des propriétés de la séquence"
+msgstr "Affichage des propriétés du plan vidéo"
 
 #: kdenlive.cpp:819
 msgid "Seeking Forwards one frame"
@@ -770,7 +770,7 @@ msgstr "Paramétrage du point de sortie"
 
 #: kdenlive.cpp:876
 msgid "Deleting Selected Clips"
-msgstr "Suppression des séquences sélectionnées"
+msgstr "Suppression des plans vidéo sélectionnés"
 
 #: avformatwidgetbool.moc.cpp:34 avformatwidgetbool.moc.cpp:42
 msgid "AVFormatWidgetBool"

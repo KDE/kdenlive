@@ -70,6 +70,7 @@ KDE_CREATE_SUBDIRSLIST
 AC_CONFIG_FILES([ Makefile ])
 AC_CONFIG_FILES([ doc/Makefile ])
 AC_CONFIG_FILES([ doc/en/Makefile ])
+AC_CONFIG_FILES([ doc/fr/Makefile ])
 AC_CONFIG_FILES([ graphics/Makefile ])
 AC_CONFIG_FILES([ icons/Makefile ])
 AC_CONFIG_FILES([ icons/hicolor/Makefile ])
