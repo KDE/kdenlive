@@ -18,12 +18,14 @@
 #include "kmmscreen.h"
 #include <string.h>
 #include "krender.h"
+#include "kdenlivedoc.h"
 
 KMMScreen::KMMScreen(QWidget *parent, const char *name ) : QXEmbed(parent,name)
 {
 	setBackgroundMode(Qt::PaletteDark);
 
-	m_render = new KRender();
+//	m_render = new KRender();
+	m_render = &KdenliveDoc::temporaryRenderer;
 	
 	connect(m_render, SIGNAL(initialised()), this, SLOT(rendererReady()));
 	connect(m_render, SIGNAL(replyCreateVideoXWindow(WId)), this, SLOT(embedWindow(WId)));
@@ -31,7 +33,7 @@ KMMScreen::KMMScreen(QWidget *parent, const char *name ) : QXEmbed(parent,name)
 
 KMMScreen::~KMMScreen()
 {
-	if(m_render) delete m_render;
+//	if(m_render) delete m_render;
 }
 
 /** The renderer is ready, so we open a video window, etc. here. */

@@ -22,7 +22,11 @@
 #include <qsocket.h>
 #include <qdom.h>
 #include <qxml.h>
+#include <qstring.h>
+#include <qmap.h>
+
 #include <kprocess.h>
+#include <kurl.h>
 
 #include "gentime.h"
 
@@ -59,9 +63,17 @@ replyCreateVideoXWindow() once the renderer has replied. */
 /** Called when we are parsing a close tag and are in a replyCreateVideoXWindow of the document. */
   bool replyCreateVideoXWindowEndElement(const QString & namespaceURI, const QString & localName,                    const QString & qName);
   /** Called when the xml parser encounters an opening element and we are replyCreateVideoXWindow of the document. */
-  bool replyCreateVideoXWindowStartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & att); 
+  bool replyCreateVideoXWindowStartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & att);
+/** Called when we are parsing a close tag and are in a replyGetFileProperties of the document. */
+  bool replyGetFilePropertiesEndElement(const QString & namespaceURI, const QString & localName,                    const QString & qName);
+  /** Called when the xml parser encounters an opening element and we are replyGetFileProperties of the document. */
+  bool replyGetFilePropertiesStartElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & att);  
   /** Seeks the renderer clip to the given time. */
   void seek(GenTime time);
+  /** Wraps the VEML command of the same name. Requests the file properties
+for the specified url from the renderer. Upon return, the result will be emitted
+via replyGetFileProperties(). */
+  void getFileProperties(KURL url);
 protected: // Protected methods
   /** Recieves timer events */
   virtual void timerEvent(QTimerEvent *event);
@@ -69,7 +81,7 @@ private: // Private attributes
   /** The socket that will connect to the server */
   QSocket m_socket;
   /** If we have started our own renderer, this is it's process */
-	KProcess m_process;
+//	KProcess m_process;
   /** Contains the port number that should be used for the next renderer */  
   static unsigned int NextPort;
   /** The port number used to connect to the renderer */
@@ -108,6 +120,9 @@ signals: // Signals
 public: // Public attributes
   /** If true, we are currently parsing some data. Otherwise, we are not. */
   bool m_parsing;
+signals: // Signals
+  /** emitted when the renderer recieves a reply to a getFileProperties request. */
+  void replyGetFileProperties(QMap<QString, QString>);
 };
 
 #endif

@@ -37,6 +37,7 @@
 #include "clipdrag.h"
 
 QPtrList<KdenliveView> *KdenliveDoc::pViewList = 0L;
+KRender KdenliveDoc::temporaryRenderer;
 
 KdenliveDoc::KdenliveDoc(QWidget *parent, const char *name) : QObject(parent, name)
 {
@@ -50,10 +51,16 @@ KdenliveDoc::KdenliveDoc(QWidget *parent, const char *name) : QObject(parent, na
   m_fileList.setAutoDelete(true);
 	
   pViewList->setAutoDelete(true);
+
+//  m_render = new KRender();
+	m_render = &temporaryRenderer;
+  connect(m_render, SIGNAL(replyGetFileProperties(QMap<QString, QString>)),
+  					 this, SLOT(AVFilePropertiesArrived(QMap<QString, QString>)));
 }
 
 KdenliveDoc::~KdenliveDoc()
 {
+//	if(m_render) delete m_render;
 }
 
 void KdenliveDoc::addView(KdenliveView *view)
@@ -222,6 +229,7 @@ AVFile *KdenliveDoc::insertAVFile(const KURL &file)
 	if(!av) {	
 		av = new AVFile(file.fileName(), file);
 		m_fileList.append(av);
+		m_render->getFileProperties(file);
 		emit avFileListUpdated();
 		setModified(true);
 	}
@@ -418,4 +426,20 @@ void KdenliveDoc::deleteAVFile(AVFile *file)
 	} else {
 		kdError() << "Trying to delete AVFile that is not in document!" << endl;
 	}
+}
+
+void KdenliveDoc::AVFilePropertiesArrived(QMap<QString, QString> properties)
+{
+	if(!properties.contains("filename")) {
+		kdError() << "File properties returned with no file name attached" << endl;
+		return;
+	}
+	
+	AVFile *file = findAVFile(KURL(properties["filename"]));
+	if(!file) {
+		kdWarning() << "File properties returned for a non-existant AVFile" << endl;
+		return;
+	}
+
+	file->calculateFileProperties(properties);
 }

@@ -19,6 +19,8 @@
 #define AVFILE_H
 
 #include <qptrlist.h>
+#include <qmap.h>
+#include <qstring.h>
 
 #include <kurl.h>
 
@@ -40,7 +42,7 @@ public:
 	/** Calculates properties for the file, including the size of the file, the duration of the file,
 	 * the file format, etc.
 	 **/
-	void calculateFileProperties();
+	void calculateFileProperties(QMap<QString, QString> attributes);
   /** Write property of QString m_name. */
   void setName( const QString& _newVal);
   /** Read property of QString m_name. */

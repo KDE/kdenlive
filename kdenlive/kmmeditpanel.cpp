@@ -22,10 +22,13 @@
 
 #include "kfixedruler.h"
 #include "krulertimemodel.h"
+#include "kdenlivedoc.h"
 
-KMMEditPanel::KMMEditPanel(QWidget* parent, const char* name, WFlags fl) :
+KMMEditPanel::KMMEditPanel(KdenliveDoc *document, QWidget* parent, const char* name, WFlags fl) :
 																 KMMEditPanel_UI(parent, name, fl)
 {
+	m_document = document;
+
 	m_ruler->addSlider(KRuler::Diamond, 0);
 	m_ruler->setRulerModel(new KRulerTimeModel());
 	m_ruler->setRange(0, 1500);
@@ -57,6 +60,6 @@ void KMMEditPanel::setClipLength(int frames)
 void KMMEditPanel::rulerValueChanged(int ID, int value)
 {
 	if(ID == 0) {
-		emit seekPositionChanged(GenTime(value, 25));
+		emit seekPositionChanged(GenTime(value, m_document->framesPerSecond()));
 	}
 }

@@ -220,7 +220,7 @@ void KMMTimeLine::dragEnterEvent ( QDragEnterEvent *event )
 void KMMTimeLine::dragMoveEvent ( QDragMoveEvent *event )
 {
 	QPoint pos = m_trackViewArea->mapFrom(this, event->pos());
-	GenTime timeUnderMouse(mapLocalToValue(pos.x()), 25);	
+	GenTime timeUnderMouse(mapLocalToValue(pos.x()), m_document->framesPerSecond());	
 
 	if((m_snapToClip) && (m_gridSnapTracker != m_snapToGridList.end())) {
 		QValueListIterator<GenTime> itt = m_gridSnapTracker;
@@ -239,13 +239,13 @@ void KMMTimeLine::dragMoveEvent ( QDragMoveEvent *event )
 			--itt;
 		}
 
-		if( abs((int)mapValueToLocal((*m_gridSnapTracker).frames(25)) - pos.x()) < snapTolerance) {
+		if( abs((int)mapValueToLocal((*m_gridSnapTracker).frames(m_document->framesPerSecond())) - pos.x()) < snapTolerance) {
 			timeUnderMouse = *m_gridSnapTracker;
 		}
 	}
 
 	if(m_snapToFrame) {
-		timeUnderMouse = GenTime(floor((timeUnderMouse - m_clipOffset).frames(25) + 0.5), 25) + m_clipOffset;
+		timeUnderMouse = GenTime(floor((timeUnderMouse - m_clipOffset).frames(m_document->framesPerSecond()) + 0.5), m_document->framesPerSecond()) + m_clipOffset;
 	}
 	
 	if(m_selection.isEmpty()) {  	     	  
@@ -633,10 +633,10 @@ void KMMTimeLine::calculateProjectSize(double rulerScale)
 		++itt;
 	}	
 	
-  m_scrollBar->setRange(0, (int)(length.frames(25) * rulerScale) + m_scrollBar->width());
-  m_ruler->setRange(0, (int)length.frames(25));
+  m_scrollBar->setRange(0, (int)(length.frames(m_document->framesPerSecond()) * rulerScale) + m_scrollBar->width());
+  m_ruler->setRange(0, (int)length.frames(m_document->framesPerSecond()));
 
-  emit projectLengthChanged((int)length.frames(25));
+  emit projectLengthChanged((int)length.frames(m_document->framesPerSecond()));
 }
 
 void KMMTimeLine::generateSnapToGridList()
@@ -702,5 +702,5 @@ void KMMTimeLine::generateSnapToGridList()
 the currently seeked frame. */
 GenTime KMMTimeLine::seekPosition()
 {
-	return GenTime(m_ruler->getSliderValue(0), 25);
+	return GenTime(m_ruler->getSliderValue(0), m_document->framesPerSecond());
 }

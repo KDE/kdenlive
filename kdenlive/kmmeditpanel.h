@@ -22,6 +22,8 @@
 
 #include "gentime.h"
 
+class KdenliveDoc;
+
 /**Implementation for the edit panel
   *@author Jason Wood
   */
@@ -29,7 +31,7 @@
 class KMMEditPanel : public KMMEditPanel_UI  {
 	Q_OBJECT
 public: 
-	KMMEditPanel(QWidget* parent = 0, const char* name = 0, WFlags fl = 0);
+	KMMEditPanel(KdenliveDoc *document, QWidget* parent = 0, const char* name = 0, WFlags fl = 0);
 	~KMMEditPanel();
   /** Sets the length of the clip that we are viewing. */
   void setClipLength(int frames);
@@ -39,6 +41,9 @@ private slots: // Private slots
 signals: // Signals
   /** Emitted when the seek position has changed */
   void seekPositionChanged(GenTime time);
+private: // Private attributes
+  /** The document associated with this edit panel */
+  KdenliveDoc * m_document;
 };
 
 #endif

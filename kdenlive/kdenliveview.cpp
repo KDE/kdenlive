@@ -28,7 +28,7 @@ KdenliveView::KdenliveView(QWidget *parent, const char *name) :
 				QSplitter(Vertical, parent, name),
 				m_topSplitter(Horizontal, this, name),
 				m_projectList(getDocument(), &m_topSplitter, name),
-				m_monitor(&m_topSplitter, name),				
+				m_monitor(getDocument(), &m_topSplitter, name),				
 				m_rulerPanel(new KMMRulerPanel(NULL, "Ruler Panel")),
 				m_timeline(m_rulerPanel, NULL, getDocument(), this, name)
 {

@@ -38,7 +38,7 @@ KRender::KRender(QObject *parent, const char *name ) :
 	connect(&m_socket, SIGNAL(connected()), this, SLOT(connected()));
 	connect(&m_socket, SIGNAL(readyRead()), this, SLOT(readData()));
 
-	connect(&m_process, SIGNAL(processExited(KProcess *)), this, SLOT(processExited()));
+//	connect(&m_process, SIGNAL(processExited(KProcess *)), this, SLOT(processExited()));
 
 	m_portNum = NextPort;
 	NextPort++;
@@ -92,11 +92,12 @@ void KRender::readData()
 	m_xmlInputSource->fetchData();
 	
 	if(m_parsing == false) {
-		kdDebug() << "parsing data" << endl;	
+		kdDebug() << "parsing data" << endl;
+		m_parsing = true;
+		
 		if(!m_xmlReader.parse(m_xmlInputSource, true)) {
 			kdError() << "XML Parsing failed" << endl;
-		} else {
-			m_parsing = true;
+			m_parsing = false;			
 		}
 	} else {
 		kdDebug() << "continuing parse" << endl;		
@@ -131,7 +132,7 @@ void KRender::processExited()
 /** Launches a renderer process. */
 void KRender::launchProcess()
 {
-	m_portNum = NextPort;
+/*	m_portNum = NextPort;
 	NextPort++;
 
 	m_process.clearArguments();
@@ -144,7 +145,7 @@ void KRender::launchProcess()
 		m_socket.connectToHost("127.0.0.1", m_portNum);		
 	} else {
 		kdError() << "Could not start process" << endl;	
-	}
+	}*/
 }
 
 /** Wraps the VEML command of the same name; requests that the renderer
@@ -172,6 +173,16 @@ void KRender::seek(GenTime time)
 	sendCommand(doc);
 }
 
+void KRender::getFileProperties(KURL url)
+{
+	QDomDocument doc;
+	QDomElement elem = doc.createElement("getFileProperties");
+
+	elem.setAttribute("filename", url.path());
+	doc.appendChild(elem);
+
+	sendCommand(doc);
+}
 
 
 
@@ -241,6 +252,18 @@ bool KRender::topLevelStartElement(const QString & namespaceURI, const QString &
 			m_funcEndElement = &KRender::replyCreateVideoXWindowEndElement;
 			return true;
 		}
+		if(command == "getFileProperties") {		
+			QMap<QString, QString> map;
+
+			map["filename"] = atts.value("filename");
+			map["duration"] = atts.value("duration");
+
+			emit replyGetFileProperties(map);
+
+			m_funcStartElement = &KRender::replyGetFilePropertiesStartElement;
+			m_funcEndElement = &KRender::replyGetFilePropertiesEndElement;
+			return true;
+		}
 	}
 
 	kdWarning() << "Unknown tag" << endl;
@@ -269,5 +292,26 @@ bool KRender::replyCreateVideoXWindowEndElement(const QString & namespaceURI, co
 
 	m_funcStartElement = &KRender::topLevelStartElement;
 	m_funcEndElement = &KRender::topLevelEndElement;
+
+	m_parsing = false;	
+	return true;
+}
+
+bool KRender::replyGetFilePropertiesStartElement(const QString & namespaceURI, const QString & localName,
+																		 const QString & qName, const QXmlAttributes & atts)
+{
+	kdWarning() << "Should not recieve replyGetFilePropertiesStartElement!" << endl;
+	return false;
+}
+
+bool KRender::replyGetFilePropertiesEndElement(const QString & namespaceURI, const QString & localName,
+																									const QString & qName)
+{
+	kdDebug() << "Inside replyGetFilePropertiesEndElement" << endl;
+
+	m_funcStartElement = &KRender::topLevelStartElement;
+	m_funcEndElement = &KRender::topLevelEndElement;
+
+	m_parsing = false;
 	return true;
 }

@@ -25,11 +25,13 @@
 #include <qobject.h>
 #include <qstring.h>
 #include <qvaluelist.h>
+#include <qmap.h>
 
 #include <kurl.h>
 
 #include "avfilelist.h"
 #include "doctrackbaselist.h"
+#include "krender.h"
 
 // forward declaration of the Kdenlive classes
 class KdenliveView;
@@ -98,6 +100,10 @@ class KdenliveDoc : public QObject
   void slot_insertClips(QPtrList<DocClipBase> clips);
   /** Given a drop event, inserts all contained clips into the project list, if they are not there already. */
   void slot_insertClips(QDropEvent *event);
+  /** This slot occurs when the File properties for an AV File have been returned by the renderer.
+
+The relevant AVFile can then be updated to the correct status. */
+  void AVFilePropertiesArrived(QMap<QString, QString> properties);
  	
 	 public:	
  		/** the list of the views currently connected to the document */
@@ -106,6 +112,9 @@ class KdenliveDoc : public QObject
   	int m_framesPerSecond;
   	/** Holds a list of all tracks in the project. */
   	DocTrackBaseList m_tracks;
+  /** A temporary, static renderer. This variable should be removed from the source
+as swiftly as possible... */
+  static KRender temporaryRenderer;
   	/** Returns the number of frames per second. */
   	int framesPerSecond();
   	/** Itterates through the tracks in the project. This works in the same way
@@ -147,6 +156,9 @@ not exist. */
 
 		/** List of all video and audio files within this project */
 	AVFileList m_fileList;  	
+  /** This renderer is for multipurpose use, such as background rendering, and for
+getting the file properties of the various AVFiles. */
+  KRender * m_render;
 	private: // Private methods
   	/** Adds a track to the project */
   	void addTrack(DocTrackBase *track);

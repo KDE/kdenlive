@@ -23,6 +23,8 @@
 #include "kmmscreen.h"
 #include "kmmeditpanel.h"
 
+class KdenliveDoc;
+
 /**KMMMonitor provides a multimedia bar and the
 ability to play Arts PlayObjects. It is also capable
 of editing the object down, and is Drag 'n drop
@@ -34,7 +36,7 @@ external files.
 class KMMMonitor : public QVBox  {
    Q_OBJECT
 public: 
-	KMMMonitor(QWidget *parent=0, const char *name=0);
+	KMMMonitor(KdenliveDoc *document, QWidget *parent=0, const char *name=0);
 	~KMMMonitor();
 private:
 	KMMScreen m_screen;

@@ -34,7 +34,7 @@ AVFile::AVFile(const QString name, const KURL url) :
   
 	m_url = url;
 
-	calculateFileProperties();
+	calculateFileProperties(QMap<QString, QString>());
 }
 
 AVFile::~AVFile()
@@ -42,16 +42,21 @@ AVFile::~AVFile()
 }
 
 /** Calculates properties for this file that will be useful for the rest of the program. */
-void AVFile::calculateFileProperties()
+void AVFile::calculateFileProperties(QMap<QString, QString> attributes)
 {
 	if(m_url.isLocalFile()) {
+		kdDebug() << "caluclating file properties..." << endl;
 		QFileInfo fileInfo(m_url.directory(false, false) + m_url.filename());
 
 	 	/* Determines the size of the file */
 		m_filesize = fileInfo.size();
 
-		/* This is a hack since no engine yet exists */
-		m_duration = GenTime(60.0);
+		if(attributes.contains("duration")) {
+			m_duration = GenTime(attributes["duration"].toDouble());
+		} else {
+			// No duration known, use an arbitrary one until it is.
+			m_duration = GenTime(60.0);		
+		}
 
 	} else {
 		/** If the file is not local, then no file properties are currently returned */
