@@ -1,12 +1,14 @@
+# translation of index_fr.po to FRANCAIS
 # translation of index_fr.po to Française
 # Gilles CAULIER <caulier.gilles@free.fr>, 2003
+# CAULIER Gilles <caulier.gilles@free.fr>, 2003
 msgid ""
 msgstr ""
 "Project-Id-Version: index_fr\n"
 "POT-Creation-Date: 2001-02-09 01:25+0100\n"
-"PO-Revision-Date: 2003-07-30 18:16+0200\n"
-"Last-Translator: Gilles CAULIER <caulier.gilles@free.fr>\n"
-"Language-Team: Française <fr@li.org>\n"
+"PO-Revision-Date: 2003-08-14 12:04GMT\n"
+"Last-Translator: CAULIER Gilles <caulier.gilles@free.fr>\n"
+"Language-Team: FRANCAIS <fr@li.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.0.1\n"
@@ -154,7 +156,7 @@ msgstr ""
 "après les cinq premières minutes de celle ci."
 
 #: index.docbook:155
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Non-linear editing is by far a more flexible way of editing. You can place "
 "clips anywhere within your final video (in &kdenlive;, this is represented "
@@ -165,7 +167,7 @@ msgid ""
 msgstr ""
 "Le montage vidéo « non linéaire » est un procédé plus flexible. Vous pouvez "
 "placer des nouveaux plans vidéo n'importe où dans votre séquence vidéo cible "
-"(dans Kdenlive, ceci est représenté par l'intermédiaire de la table de "
+"(dans &kdenlive;, ceci est représenté par l'intermédiaire de la table de "
 "montage), et les déplacer n'importe où autant de fois que vous voulez. Vous "
 "pouvez aussi les réarranger dans un ordre complètement différent et avec un "
 "ordinateur suffisamment puissant, observer le résultat final."
@@ -173,7 +175,7 @@ msgstr ""
 #: index.docbook:166
 #, no-c-format
 msgid "Quick Start Guide"
-msgstr ""
+msgstr "Guide d'utilisation simplifié"
 
 #: index.docbook:168
 #, no-c-format
@@ -184,9 +186,9 @@ msgid ""
 msgstr ""
 
 #: index.docbook:175
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "The Main Window"
-msgstr "La fenêtre principale de Kdenlive"
+msgstr "La fenêtre principale"
 
 #: index.docbook:176
 #, no-c-format
@@ -196,9 +198,9 @@ msgid ""
 msgstr ""
 
 #: index.docbook:180
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "The main window"
-msgstr "La fenêtre principale de Kdenlive"
+msgstr "La fenêtre principale"
 
 #: index.docbook:191
 #, no-c-format
@@ -209,14 +211,14 @@ msgid ""
 msgstr ""
 
 #: index.docbook:198
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "The Project Panel"
 msgstr "La liste du projet"
 
 #: index.docbook:199
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "The project panel"
-msgstr "Le panneau de configuration des effets"
+msgstr "Le liste du projet"
 
 #: index.docbook:209
 #, no-c-format
@@ -227,12 +229,12 @@ msgid ""
 msgstr ""
 
 #: index.docbook:217
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "The Monitor Panel"
 msgstr "La prévisualisation des plans vidéo"
 
 #: index.docbook:218
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "The monitor panel"
 msgstr "La prévisualisation des plans vidéo"
 
@@ -266,9 +268,9 @@ msgid ""
 msgstr ""
 
 #: index.docbook:259
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Adding clips to your project"
-msgstr "Ajouter un plan vidéo au projet"
+msgstr "Ajouter un plan vidéo à votre projet"
 
 #: index.docbook:261
 #, no-c-format
@@ -312,7 +314,7 @@ msgstr ""
 #: index.docbook:304
 #, no-c-format
 msgid "Dragging clips to the timeline"
-msgstr ""
+msgstr "Glisser / déposer des plans vidéo dans la table de montage"
 
 #: index.docbook:306
 #, no-c-format
@@ -347,9 +349,9 @@ msgid ""
 msgstr ""
 
 #: index.docbook:331
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Selecting Clips on the Timeline"
-msgstr "Suppression des plans vidéo via la liste du projet"
+msgstr "Sélection de plans vidéo dans la table de montage"
 
 #: index.docbook:333
 #, no-c-format
@@ -363,7 +365,7 @@ msgstr ""
 #: index.docbook:342
 #, no-c-format
 msgid "Moving and Resizing Clips on the Timeline"
-msgstr ""
+msgstr "Déplacer et redimensionner des plans vidéo dans la table de montage"
 
 #: index.docbook:343
 #, no-c-format
@@ -404,7 +406,7 @@ msgstr ""
 #: index.docbook:371
 #, no-c-format
 msgid "Removing clips from the timeline"
-msgstr ""
+msgstr "Déplacement de plans vidéo dans la table de montage"
 
 #: index.docbook:373
 #, no-c-format
@@ -430,9 +432,9 @@ msgid ""
 msgstr ""
 
 #: index.docbook:393
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Using &kdenlive;"
-msgstr "Utilisation de Kdenlive"
+msgstr "Utilisation de &kdenlive;"
 
 #: index.docbook:400
 #, no-c-format
@@ -441,8 +443,7 @@ msgstr "La liste du projet"
 
 #: index.docbook:402
 #, no-c-format
-msgid ""
-"The project list shows all of the clips that are available for this project."
+msgid "The project list shows all of the clips that are available for this project."
 msgstr ""
 "La liste du projet affiche tous les plans vidéo qui sont disponibles dans le "
 "projet."
@@ -465,14 +466,14 @@ msgid "Adding Clips to the Project"
 msgstr "Ajouter un plan vidéo au projet"
 
 #: index.docbook:412
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "If you drag a clip onto the timeline that is not in the project (for "
 "instance, if you drag a dv straight from konqueror to &kdenlive;), then it "
 "will be automatically added to the project for you."
 msgstr ""
-"Si vous utilisez le glisser / déposer sur la table de montage vidéo avec un "
-"plan vidéo qui n'est pas dans votre projet (par exemple en utilisant un "
+"Si vous utilisez le glisser / déposer sur la table de montage un plan "
+"vidéo qui n'est pas dans votre projet (par exemple en utilisant un "
 "fichier au format « DV » à partir de Konqueror), alors celui ci sera "
 "automatiquement ajouté au projet."
 
@@ -602,11 +603,9 @@ msgid "The Effect List"
 msgstr "La liste des effets"
 
 #: index.docbook:501 index.docbook:509
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "This is non-functional in the current version of &kdenlive;."
-msgstr ""
-"Cette fonctionnalité n'est pas encore implantée dans la version actuelle de "
-"&kapp;."
+msgstr "Cette fonctionnalité n'est pas encore implantée dans la version actuelle de &kdenlive;."
 
 #: index.docbook:507
 #, no-c-format
@@ -666,6 +665,8 @@ msgid ""
 "The current version of &kdenlive;/&piave; only supports export to raw dv "
 "format."
 msgstr ""
+"Les versions actuelles des programmes &kdenlive; et &piave; ne gerent uniquement "
+"l'exportation vidéo au format « DV » brut (RAW)."
 
 #: index.docbook:559
 #, no-c-format
@@ -685,9 +686,9 @@ msgid "Command Reference"
 msgstr "Les commandes de référence"
 
 #: index.docbook:579
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "The main &kdenlive; window"
-msgstr "La fenêtre principale de Kdenlive"
+msgstr "La fenêtre principale de &kdenlive;"
 
 #: index.docbook:580
 #, no-c-format
@@ -714,28 +715,28 @@ msgid "Creates a new document"
 msgstr "Création d'un nouveau projet de montage vidéo"
 
 #: index.docbook:584
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>o</keycap></keycombo> </"
 "shortcut> <guimenu>File</guimenu> <guimenuitem>Open</guimenuitem>"
 msgstr ""
-"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>n</keycap></keycombo> </"
-"shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Nouveau</guimenuitem>"
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>o</keycap></keycombo> </"
+"shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Ouvrir</guimenuitem>"
 
 #: index.docbook:584
 #, no-c-format
 msgid "Open a saved project"
-msgstr ""
+msgstr "Ouvrir un projet préalablement enregistré"
 
 #: index.docbook:584
 #, no-c-format
 msgid "<guimenu>File</guimenu> <guimenuitem>Open Recent</guimenuitem>"
-msgstr ""
+msgstr "<guimenu>Fichier</guimenu> <guimenuitem>Récemment ouvert(s)</guimenuitem>"
 
 #: index.docbook:584
 #, no-c-format
 msgid "Open a recently used project"
-msgstr ""
+msgstr "Ouvre un projet qui a été précédemment ouvert dans &kdenlive;"
 
 #: index.docbook:584
 #, no-c-format
@@ -747,19 +748,19 @@ msgstr ""
 "shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Enregistrer</guimenuitem>"
 
 #: index.docbook:584
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Saves the project"
-msgstr "Enregistre le projet correspondant au montage vidéo"
+msgstr "Enregistre le projet courant"
 
 #: index.docbook:584
 #, no-c-format
 msgid "<guimenu>File</guimenu> <guimenuitem>Save As...</guimenuitem>"
-msgstr ""
+msgstr "<guimenu>Fichier</guimenu> <guimenuitem>Enregistrer sous...</guimenuitem>"
 
 #: index.docbook:584
 #, no-c-format
 msgid "Saves the project under a different filename"
-msgstr ""
+msgstr "Enregistre le projet avec un nom différent"
 
 #: index.docbook:584
 #, no-c-format
@@ -776,124 +777,125 @@ msgid "<action>Quits</action> &kapp;"
 msgstr "<action>Quitte</action> &kapp;"
 
 #: index.docbook:652
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "The Edit Menu"
-msgstr "Le menu « Fichier »"
+msgstr "Le menu « Édition »"
 
 #: index.docbook:653
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>z</keycap></keycombo> </"
 "shortcut> <guimenu>Edit</guimenu> <guimenuitem>Undo</guimenuitem>"
 msgstr ""
-"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>n</keycap></keycombo> </"
-"shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Nouveau</guimenuitem>"
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>z</keycap></keycombo> </"
+"shortcut> <guimenu>Édition</guimenu> <guimenuitem>Annuler</guimenuitem>"
 
 #: index.docbook:653
 #, no-c-format
 msgid "Undo the last edit to the timeline."
-msgstr ""
+msgstr "Annule la derniére opération faite dans la table de montage."
 
 #: index.docbook:653
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>z</"
 "keycap></keycombo> </shortcut> <guimenu>Edit</guimenu> <guimenuitem>Redo</"
 "guimenuitem>"
 msgstr ""
-"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>n</keycap></keycombo> </"
-"shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Nouveau</guimenuitem>"
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>z</"
+"keycap></keycombo> </shortcut> <guimenu>Édition</guimenu> <guimenuitem>Refaire</"
+"guimenuitem>"
 
 #: index.docbook:653
 #, no-c-format
 msgid "Redo a previously undone edit to the timeline."
-msgstr ""
+msgstr "Réitère la précédente opération faite dans la table de montage."
 
 #: index.docbook:653
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>x</keycap></keycombo> </"
 "shortcut> <guimenu>Edit</guimenu> <guimenuitem>Cut</guimenuitem>"
 msgstr ""
-"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>q</keycap></keycombo> </"
-"shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Quitter</guimenuitem>"
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>x</keycap></keycombo> </"
+"shortcut> <guimenu>Édition</guimenu> <guimenuitem>Couper</guimenuitem>"
 
 #: index.docbook:653 index.docbook:742
 #, no-c-format
 msgid "Non-functional at present"
-msgstr ""
+msgstr "Cette fonction n'est pas encore opérationnelle"
 
 #: index.docbook:653
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>c</keycap></keycombo> </"
 "shortcut> <guimenu>Edit</guimenu> <guimenuitem>Copy</guimenuitem>"
 msgstr ""
-"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>n</keycap></keycombo> </"
-"shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Nouveau</guimenuitem>"
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>c</keycap></keycombo> </"
+"shortcut> <guimenu>Édition</guimenu> <guimenuitem>Copier</guimenuitem>"
 
 #: index.docbook:653
 #, no-c-format
 msgid "Non-funtional at present."
-msgstr ""
+msgstr "Cette fonction n'est pas encore opérationnelle"
 
 #: index.docbook:653
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>v</keycap></keycombo> </"
 "shortcut> <guimenu>Edit</guimenu> <guimenuitem>Paste</guimenuitem>"
 msgstr ""
-"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>s</keycap></keycombo> </"
-"shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Enregistrer</guimenuitem>"
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>v</keycap></keycombo> </"
+"shortcut> <guimenu>Édition</guimenu> <guimenuitem>Coller</guimenuitem>"
 
 #: index.docbook:741
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "The Project Menu"
-msgstr "La liste du projet"
+msgstr "Le menu « Projet »"
 
 #: index.docbook:742
 #, no-c-format
 msgid "<guimenu>Project</guimenu> <guimenuitem>Add Clips</guimenuitem>"
-msgstr ""
+msgstr "<guimenu>Projet</guimenu> <guimenuitem>Ajouter des plans vidéo</guimenuitem>"
 
 #: index.docbook:742
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Add clips to the project list"
-msgstr "Ajouter un plan vidéo au projet"
+msgstr "Ajoute des plans vidéo dans la liste du projet"
 
 #: index.docbook:742
 #, no-c-format
 msgid "<guimenu>Project</guimenu> <guimenuitem>Delete Clips</guimenuitem>"
-msgstr ""
+msgstr "<guimenu>Projet</guimenu> <guimenuitem>Supprimer des plans vidéo</guimenuitem>"
 
 #: index.docbook:742
 #, no-c-format
 msgid "<guimenu>Project</guimenu> <guimenuitem>Clean Project</guimenuitem>"
-msgstr ""
+msgstr "<guimenu>Projet</guimenu> <guimenuitem>Purger le projet</guimenuitem>"
 
 #: index.docbook:742
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Remove unused clips from the project list"
-msgstr "Suppression des plans vidéo via la liste du projet"
+msgstr "Suppression de la liste des plans vidéo inutilisés dans le projet"
 
 #: index.docbook:742
 #, no-c-format
 msgid "<guimenu>Project</guimenu> <guimenuitem>Clip Properties</guimenuitem>"
-msgstr ""
+msgstr "<guimenu>Projet</guimenu> <guimenuitem>Propriétés du plan vidéo</guimenuitem>"
 
 #: index.docbook:802
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "The Timeline Menu"
-msgstr "La table de montage vidéo"
+msgstr "Le menu « Montage vidéo »"
 
 #: index.docbook:803
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "<shortcut> <keycap>q</keycap> </shortcut> <guimenu>Timeline</guimenu> "
 "<guimenuitem>Move/Resize Tool</guimenuitem>"
 msgstr ""
-"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>s</keycap></keycombo> </"
-"shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Enregistrer</guimenuitem>"
+"<shortcut> <keycap>q</keycap> </shortcut> <guimenu>Montage vidéo</guimenu> "
+"<guimenuitem>Outils de déplacement / redimensionnement</guimenuitem>"
 
 #: index.docbook:803
 #, no-c-format
@@ -904,13 +906,13 @@ msgid ""
 msgstr ""
 
 #: index.docbook:803
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "<shortcut> <keycap>w</keycap> </shortcut> <guimenu>Timeline</guimenu> "
 "<guimenuitem>Razor Tool</guimenuitem>"
 msgstr ""
-"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>s</keycap></keycombo> </"
-"shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Enregistrer</guimenuitem>"
+"<shortcut> <keycap>w</keycap> </shortcut> <guimenu>Montage vidéo</guimenu> "
+"<guimenuitem>Outils de découpage</guimenuitem>"
 
 #: index.docbook:803
 #, no-c-format
@@ -920,13 +922,13 @@ msgid ""
 msgstr ""
 
 #: index.docbook:803
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "<shortcut> <keycap>e</keycap> </shortcut> <guimenu>Timeline</guimenu> "
 "<guimenuitem>Spacer Tool</guimenuitem>"
 msgstr ""
-"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>s</keycap></keycombo> </"
-"shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Enregistrer</guimenuitem>"
+"<shortcut> <keycap>e</keycap> </shortcut> <guimenu>Montage vidéo</guimenu> "
+"<guimenuitem>Outils de séparation</guimenuitem>"
 
 #: index.docbook:803
 #, no-c-format
@@ -938,7 +940,7 @@ msgstr ""
 #: index.docbook:803
 #, no-c-format
 msgid "<guimenu>Timeline</guimenu> <guimenuitem>Snap To Frames</guimenuitem>"
-msgstr ""
+msgstr "<guimenu>Montage vidéo</guimenu> <guimenuitem>Utiliser les trames</guimenuitem>"
 
 #: index.docbook:803
 #, no-c-format
@@ -948,7 +950,7 @@ msgstr ""
 #: index.docbook:803
 #, no-c-format
 msgid "<guimenu>Timeline</guimenu> <guimenuitem>Snap To Border</guimenuitem>"
-msgstr ""
+msgstr "<guimenu>Montage vidéo</guimenu> <guimenuitem>Utiliser les bords</guimenuitem>"
 
 #: index.docbook:803
 #, no-c-format
@@ -958,14 +960,14 @@ msgid ""
 msgstr ""
 
 #: index.docbook:888
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "The Render Menu"
-msgstr "Le menu « Fichier »"
+msgstr "Le menu « Rendu vidéo »"
 
 #: index.docbook:889
 #, no-c-format
 msgid "<guimenu>Render</guimenu> <guimenuitem>Export Timeline</guimenuitem>"
-msgstr ""
+msgstr "<guimenu>Rendu vidéo</guimenu> <guimenuitem>Exporter le montage vidéo</guimenuitem>"
 
 #: index.docbook:889
 #, no-c-format
@@ -973,18 +975,18 @@ msgid "Export the timeline to a video clip. Also known as rendering down"
 msgstr ""
 
 #: index.docbook:910
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "The Layout Menu"
-msgstr "Le menu « Fichier »"
+msgstr "Le menu « Fenêtre »"
 
 #: index.docbook:911
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "<shortcut> <keycap>F9</keycap> </shortcut> <guimenu>Layout Menu</guimenu> "
 "<guimenuitem>Load Layout 1</guimenuitem>"
 msgstr ""
-"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>q</keycap></keycombo> </"
-"shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Quitter</guimenuitem>"
+"<shortcut> <keycap>F9</keycap> </shortcut> <guimenu>Fenêtre</guimenu> "
+"<guimenuitem>Charger la fenêtre 1</guimenuitem>"
 
 #: index.docbook:911
 #, no-c-format
@@ -992,144 +994,145 @@ msgid "Loads up a previously saved screen layout"
 msgstr ""
 
 #: index.docbook:911
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "<shortcut> <keycap>F10</keycap> </shortcut> <guimenu>Layout Menu</guimenu> "
 "<guimenuitem>Load Layout 2</guimenuitem>"
 msgstr ""
-"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>q</keycap></keycombo> </"
-"shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Quitter</guimenuitem>"
+"<shortcut> <keycap>F10</keycap> </shortcut> <guimenu>Fenêtre</guimenu> "
+"<guimenuitem>Charger la fenêtre 2</guimenuitem>"
 
 #: index.docbook:911
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "<shortcut> <keycap>F11</keycap> </shortcut> <guimenu>Layout Menu</guimenu> "
 "<guimenuitem>Load Layout 3</guimenuitem>"
 msgstr ""
-"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>q</keycap></keycombo> </"
-"shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Quitter</guimenuitem>"
+"<shortcut> <keycap>F11</keycap> </shortcut> <guimenu>Fenêtre</guimenu> "
+"<guimenuitem>Charger la fenêtre 3</guimenuitem>"
 
 #: index.docbook:911
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "<shortcut> <keycap>F12</keycap> </shortcut> <guimenu>Layout Menu</guimenu> "
 "<guimenuitem>Load Layout 4</guimenuitem>"
 msgstr ""
-"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>q</keycap></keycombo> </"
-"shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Quitter</guimenuitem>"
+"<shortcut> <keycap>F12</keycap> </shortcut> <guimenu>Fenêtre</guimenu> "
+"<guimenuitem>Charger la fenêtre 4</guimenuitem>"
 
 #: index.docbook:911
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F9</"
 "keycap></keycombo> </shortcut> <guimenu>Layout Menu</guimenu> "
 "<guimenuitem>Save Layout 1</guimenuitem>"
 msgstr ""
-"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>s</keycap></keycombo> </"
-"shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Enregistrer</guimenuitem>"
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F9</"
+"keycap></keycombo> </shortcut> <guimenu>Fenêtre</guimenu> "
+"<guimenuitem>Enregistrer la fenêtre 1</guimenuitem>"
 
 #: index.docbook:911
 #, no-c-format
 msgid "Saves the current screen layout to layout slot 1"
-msgstr ""
+msgstr "Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 1"
 
 #: index.docbook:911
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F10</"
 "keycap></keycombo> </shortcut> <guimenu>Layout Menu</guimenu> "
 "<guimenuitem>Save Layout 2</guimenuitem>"
 msgstr ""
-"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>s</keycap></keycombo> </"
-"shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Enregistrer</guimenuitem>"
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F10</"
+"keycap></keycombo> </shortcut> <guimenu>Fenêtre</guimenu> "
+"<guimenuitem>Enregistrer la fenêtre 2</guimenuitem>"
 
 #: index.docbook:911
 #, no-c-format
 msgid "Saves the current screen layout to layout slot 2"
-msgstr ""
+msgstr "Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 2"
 
 #: index.docbook:911
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F11</"
 "keycap></keycombo> </shortcut> <guimenu>Layout Menu</guimenu> "
 "<guimenuitem>SaveLayout 3</guimenuitem>"
 msgstr ""
-"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>s</keycap></keycombo> </"
-"shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Enregistrer</guimenuitem>"
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F11</"
+"keycap></keycombo> </shortcut> <guimenu>Fenêtre</guimenu> "
+"<guimenuitem>Enregistrer la fenêtre 3</guimenuitem>"
 
 #: index.docbook:911
 #, no-c-format
 msgid "Saves the current screen layout in layout slot 3"
-msgstr ""
+msgstr "Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 3"
 
 #: index.docbook:911
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F12</"
 "keycap></keycombo> </shortcut> <guimenu>Layout Menu</guimenu> "
 "<guimenuitem>Save Layout 4</guimenuitem>"
 msgstr ""
-"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>s</keycap></keycombo> </"
-"shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Enregistrer</guimenuitem>"
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F12</"
+"keycap></keycombo> </shortcut> <guimenu>Fenêtre</guimenu> "
+"<guimenuitem>Enregistrer la fenêtre 4</guimenuitem>"
 
 #: index.docbook:911
 #, no-c-format
 msgid "Saves the current screen layout in layout slot 4"
-msgstr ""
+msgstr "Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 4"
 
 #: index.docbook:1047
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "The Settings Menu"
-msgstr "Le menu « Fichier »"
+msgstr "Le menu « Configuration »"
 
 #: index.docbook:1048
 #, no-c-format
 msgid "<guimenu>Settings</guimenu> <guimenuitem>Show Toolbar</guimenuitem>"
-msgstr ""
+msgstr "<guimenu>Configuration</guimenu> <guimenuitem>Afficher la barre d'outils</guimenuitem>"
 
 #: index.docbook:1048
 #, no-c-format
 msgid "Show/hide the toolbars."
-msgstr ""
+msgstr "Affiche ou cache la barre d'outils."
 
 #: index.docbook:1048
 #, no-c-format
 msgid "<guimenu>Settings</guimenu> <guimenuitem>Show Statusbar</guimenuitem>"
-msgstr ""
+msgstr "<guimenu>Configuration</guimenu> <guimenuitem>Afficher la barre d'état</guimenuitem>"
 
 #: index.docbook:1048
 #, no-c-format
 msgid "Show/Hide the status bar."
-msgstr ""
+msgstr "Affiche ou cache la barre d'état."
 
 #: index.docbook:1048
 #, no-c-format
-msgid ""
-"<guimenu>Settings</guimenu> <guimenuitem>Configure Shortcuts...</guimenuitem>"
-msgstr ""
+msgid "<guimenu>Settings</guimenu> <guimenuitem>Configure Shortcuts...</guimenuitem>"
+msgstr "<guimenu>Configuration</guimenu> <guimenuitem>Configurer les raccourcis clavier...</guimenuitem>"
 
 #: index.docbook:1048
 #, no-c-format
 msgid "Configure &kdenlive; keyboard shortcuts."
-msgstr ""
+msgstr "Configure les raccourcis clavier de &kdenlive;."
 
 #: index.docbook:1048
 #, no-c-format
-msgid ""
-"<guimenu>Settings</guimenu> <guimenuitem>Configure Toolbars...</guimenuitem>"
-msgstr ""
+msgid "<guimenu>Settings</guimenu> <guimenuitem>Configure Toolbars...</guimenuitem>"
+msgstr "<guimenu>Configuration</guimenu> <guimenuitem>Configurer les barres d'outils...</guimenuitem>"
 
 #: index.docbook:1048
 #, no-c-format
 msgid "Configure the toolbars"
-msgstr ""
+msgstr "Configure les barres d'outils de &kdenlive;."
 
 #: index.docbook:1048
 #, no-c-format
-msgid ""
-"<guimenu>Settings</guimenu> <guimenuitem>Configure Kdenlive...</guimenuitem>"
-msgstr ""
+msgid "<guimenu>Settings</guimenu> <guimenuitem>Configure Kdenlive...</guimenuitem>"
+msgstr "<guimenu>Configuration</guimenu> <guimenuitem>Configurer Kdenlive...</guimenuitem>"
 
 #: index.docbook:1048
 #, no-c-format
@@ -1162,8 +1165,7 @@ msgstr ""
 
 #: index.docbook:1122
 #, no-c-format
-msgid ""
-"After selecting this, click on part of the gui to find out what it does."
+msgid "After selecting this, click on part of the gui to find out what it does."
 msgstr ""
 
 #: index.docbook:1122
@@ -1317,8 +1319,7 @@ msgstr "&kapp;"
 msgid ""
 "Program copyright 2002-2003 Jason Wood <email>jasonwood@blueyonder.co.uk</"
 "email>"
-msgstr ""
-"Copyright Jason Wood <email>jasonwood@blueyonder.co.uk</email>, 2002-2003"
+msgstr "Copyright Jason Wood <email>jasonwood@blueyonder.co.uk</email>, 2002-2003"
 
 #: index.docbook:1314
 #, no-c-format
@@ -1496,3 +1497,4 @@ msgstr ""
 #~ "<prompt>%</prompt> <userinput>./configure</userinput>\n"
 #~ "\t\t\t<prompt>%</prompt> <userinput>make</userinput>\n"
 #~ "\t\t\t<prompt>%</prompt> <userinput>make install</userinput>"
+

@@ -189,20 +189,20 @@ revision history. (see installation appendix comment) -->
 > Dans le passé, le montage vidéo sur l'ordinateur était possible à l'aide d'un éditeur vidéo dit « linéaire », en utilisant essentiellement deux magnétoscopes. Le premier contenait les séquences vidéo cibles, et le second était employé pour rechercher les plans vidéo à monter dans les séquences vidéo cibles. L'opération consistait à trouver un plan vidéo, à l'enregistrer dans la séquence vidéo cible, à trouver le plan vidéo suivant, à l'enregistrer dans une autre séquence vidéo cible, etc. Cette méthode s'appelle « l'édition vidéo linéaire » car l'utilisation de bande vidéo nécessitait une édition des séquences vidéo de manières séquentielles. Par exemple, il est très difficile de libérer de l'espace vide pour ajouter un nouveau plan vidéo à une séquence vidéo d'une durée globale de 10 minutes, après les cinq premières minutes de celle ci. </para>
 
 <para
-> Le montage vidéo « non linéaire » est un procédé plus flexible. Vous pouvez placer des nouveaux plans vidéo n'importe où dans votre séquence vidéo cible (dans Kdenlive, ceci est représenté par l'intermédiaire de la table de montage), et les déplacer n'importe où autant de fois que vous voulez. Vous pouvez aussi les réarranger dans un ordre complètement différent et avec un ordinateur suffisamment puissant, observer le résultat final. </para>
+> Le montage vidéo « non linéaire » est un procédé plus flexible. Vous pouvez placer des nouveaux plans vidéo n'importe où dans votre séquence vidéo cible (dans &kdenlive;, ceci est représenté par l'intermédiaire de la table de montage), et les déplacer n'importe où autant de fois que vous voulez. Vous pouvez aussi les réarranger dans un ordre complètement différent et avec un ordinateur suffisamment puissant, observer le résultat final. </para>
 </sect1>
 </chapter>
 
 <chapter id="quick-start">
 <title
-></title>
+>Guide d'utilisation simplifié</title>
 
 <para
 >  </para>
 
 <sect1>
 <title
->La fenêtre principale de Kdenlive</title>
+>La fenêtre principale</title>
 <para
 >  </para>
 <screenshot
@@ -211,7 +211,7 @@ revision history. (see installation appendix comment) -->
 > <imagedata fileref="mainwindow.png" format="PNG"/> </imageobject
 > <textobject
 > <phrase
->La fenêtre principale de Kdenlive</phrase
+>La fenêtre principale</phrase
 > </textobject
 > </mediaobject
 > </screenshot>
@@ -228,7 +228,7 @@ revision history. (see installation appendix comment) -->
 > <imagedata fileref="project_panel.png" format="PNG"/> </imageobject
 > <textobject
 > <phrase
->Le panneau de configuration des effets</phrase
+>Le liste du projet</phrase
 > </textobject
 > </mediaobject
 > </screenshot>
@@ -272,7 +272,7 @@ revision history. (see installation appendix comment) -->
 </sect1>
 <sect1 id="addingclips">
 <title
->Ajouter un plan vidéo au projet</title>
+>Ajouter un plan vidéo à votre projet</title>
 
 <para
 >  </para>
@@ -298,7 +298,7 @@ revision history. (see installation appendix comment) -->
 </sect1>
 <sect1 id="clips-to-timeline">
 <title
-></title>
+>Glisser / déposer des plans vidéo dans la table de montage</title>
 
 <para
 >  </para>
@@ -310,7 +310,7 @@ revision history. (see installation appendix comment) -->
 
 <sect1 id="selecting-clips">
 <title
->Suppression des plans vidéo via la liste du projet</title>
+>Sélection de plans vidéo dans la table de montage</title>
 
 <para
 >  </para>
@@ -318,7 +318,7 @@ revision history. (see installation appendix comment) -->
 
 <sect1 id="manipulatings-clips-on-timeline">
 <title
-></title>
+>Déplacer et redimensionner des plans vidéo dans la table de montage</title>
 <para
 >  </para>
 <para
@@ -333,7 +333,7 @@ revision history. (see installation appendix comment) -->
 
 <sect1 id="removing-clips-from-timeline">
 <title
-></title>
+>Déplacement de plans vidéo dans la table de montage</title>
 
 <para
 >  </para>
@@ -348,7 +348,7 @@ revision history. (see installation appendix comment) -->
 
 <chapter id="using-kdenlive">
 <title
->Utilisation de Kdenlive</title>
+>Utilisation de &kdenlive;</title>
 
 <!-- This chapter should tell the user how to use your app. You should use as
 many sections (Chapter, Sect1, Sect3, etc...) as is necessary to fully document
@@ -366,7 +366,7 @@ your application. -->
 <title
 >Ajouter un plan vidéo au projet</title>
 <para
-> Si vous utilisez le glisser / déposer sur la table de montage vidéo avec un plan vidéo qui n'est pas dans votre projet (par exemple en utilisant un fichier au format « DV » à partir de Konqueror), alors celui ci sera automatiquement ajouté au projet. </para>
+> Si vous utilisez le glisser / déposer sur la table de montage un plan vidéo qui n'est pas dans votre projet (par exemple en utilisant un fichier au format « DV » à partir de Konqueror), alors celui ci sera automatiquement ajouté au projet. </para>
 <para
 > Vous pouvez ajouter vous même un plan vidéo dans la liste du projet. On utilise pour cela le menu contextuel de la liste du projet avec le bouton droit de la souris, ou le menu « Projet » dans la barre de menu de l'application. Sélectionnez l'option « Ajouter des plans vidéo » pour ouvrir une boîte de dialogue de sélection de fichiers. Si les fichiers vidéo choisis sont valides, il apparaîtront dans la liste du projet. </para>
 </sect2>
@@ -422,7 +422,7 @@ your application. -->
 >La liste des effets</title>
 
 <para
-> Cette fonctionnalité n'est pas encore implantée dans la version actuelle de &kapp;. </para>
+> Cette fonctionnalité n'est pas encore implantée dans la version actuelle de &kdenlive;. </para>
 </sect1>
 
 <sect1 id="kapp-effectsetup">
@@ -430,7 +430,7 @@ your application. -->
 >Le panneau de configuration des effets</title>
 
 <para
-> Cette fonctionnalité n'est pas encore implantée dans la version actuelle de &kapp;. </para>
+> Cette fonctionnalité n'est pas encore implantée dans la version actuelle de &kdenlive;. </para>
 </sect1>
 
 <sect1 id="kapp-timeline">
@@ -463,7 +463,7 @@ your application. -->
 >  </para>
 <note
 > <para
->  </para
+> Les versions actuelles des programmes &kdenlive; et &piave; ne gerent uniquement l'exportation vidéo au format « DV » brut (RAW). </para
 > </note>
 </sect1>
 
@@ -489,7 +489,7 @@ or menu bars. -->
 
 <sect1 id="kapp-mainwindow">
 <title
->La fenêtre principale de Kdenlive</title>
+>La fenêtre principale de &kdenlive;</title>
 <para
 ></para>
 
@@ -530,31 +530,35 @@ or menu bars. -->
 ><keycap
 >Ctrl</keycap
 ><keycap
->n</keycap
+>o</keycap
 ></keycombo
 > </shortcut
 > <guimenu
 >Fichier</guimenu
 > <guimenuitem
->Nouveau</guimenuitem
+>Ouvrir</guimenuitem
 > </menuchoice
 ></term
 > <listitem
 ><para
 ><action
-></action
+>Ouvrir un projet préalablement enregistré</action
 ></para
 ></listitem
 > </varlistentry
 > <varlistentry
 > <term
 ><menuchoice
->  </menuchoice
+> <guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Récemment ouvert(s)</guimenuitem
+> </menuchoice
 ></term
 > <listitem
 ><para
 ><action
-></action
+>Ouvre un projet qui a été précédemment ouvert dans &kdenlive;</action
 ></para
 ></listitem
 > </varlistentry
@@ -578,19 +582,23 @@ or menu bars. -->
 > <listitem
 ><para
 ><action
->Enregistre le projet correspondant au montage vidéo</action
+>Enregistre le projet courant</action
 ></para
 ></listitem
 > </varlistentry
 > <varlistentry
 > <term
 ><menuchoice
->  </menuchoice
+> <guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Enregistrer sous...</guimenuitem
+> </menuchoice
 ></term
 > <listitem
 ><para
 ><action
-></action
+>Enregistre le projet avec un nom différent</action
 ></para
 ></listitem
 > </varlistentry
@@ -625,7 +633,7 @@ or menu bars. -->
 
 <sect2>
 <title
->Le menu « Fichier »</title>
+>Le menu « Édition »</title>
 <para
 > <variablelist
 > <varlistentry
@@ -636,19 +644,19 @@ or menu bars. -->
 ><keycap
 >Ctrl</keycap
 ><keycap
->n</keycap
+>z</keycap
 ></keycombo
 > </shortcut
 > <guimenu
->Fichier</guimenu
+>Édition</guimenu
 > <guimenuitem
->Nouveau</guimenuitem
+>Annuler</guimenuitem
 > </menuchoice
 > </term
 > <listitem
 > <para
 > <action
-></action
+>Annule la derniére opération faite dans la table de montage.</action
 > </para
 > </listitem
 > </varlistentry
@@ -660,19 +668,21 @@ or menu bars. -->
 ><keycap
 >Ctrl</keycap
 ><keycap
->n</keycap
+>Shift</keycap
+><keycap
+>z</keycap
 ></keycombo
 > </shortcut
 > <guimenu
->Fichier</guimenu
+>Édition</guimenu
 > <guimenuitem
->Nouveau</guimenuitem
+>Refaire</guimenuitem
 > </menuchoice
 > </term
 > <listitem
 > <para
 > <action
-></action
+>Réitère la précédente opération faite dans la table de montage.</action
 > </para
 > </listitem
 > </varlistentry
@@ -684,151 +694,163 @@ or menu bars. -->
 ><keycap
 >Ctrl</keycap
 ><keycap
+>x</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Édition</guimenu
+> <guimenuitem
+>Couper</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+>Cette fonction n'est pas encore opérationnelle</action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+> <shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>c</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Édition</guimenu
+> <guimenuitem
+>Copier</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+>Cette fonction n'est pas encore opérationnelle</action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+> <shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>v</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Édition</guimenu
+> <guimenuitem
+>Coller</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+>Cette fonction n'est pas encore opérationnelle</action
+> </para
+> </listitem
+> </varlistentry
+> </variablelist
+> </para>
+</sect2>
+
+<sect2>
+<title
+>Le menu « Projet »</title>
+<para
+> <variablelist
+> <varlistentry
+> <term
+><menuchoice
+> <guimenu
+>Projet</guimenu
+> <guimenuitem
+>Ajouter des plans vidéo</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+>Ajoute des plans vidéo dans la liste du projet</action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+> <guimenu
+>Projet</guimenu
+> <guimenuitem
+>Supprimer des plans vidéo</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+>Cette fonction n'est pas encore opérationnelle</action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+> <guimenu
+>Projet</guimenu
+> <guimenuitem
+>Purger le projet</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+>Suppression de la liste des plans vidéo inutilisés dans le projet</action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+> <guimenu
+>Projet</guimenu
+> <guimenuitem
+>Propriétés du plan vidéo</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+>Cette fonction n'est pas encore opérationnelle</action
+> </para
+> </listitem
+> </varlistentry
+> </variablelist
+> </para>
+</sect2>
+
+<sect2>
+<title
+>Le menu « Montage vidéo »</title>
+<para
+> <variablelist
+> <varlistentry
+> <term
+><menuchoice
+> <shortcut
+> <keycap
 >q</keycap
-></keycombo
 > </shortcut
 > <guimenu
->Fichier</guimenu
+>Montage vidéo</guimenu
 > <guimenuitem
->Quitter</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
-><menuchoice
-> <shortcut
-> <keycombo
-><keycap
->Ctrl</keycap
-><keycap
->n</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Fichier</guimenu
-> <guimenuitem
->Nouveau</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
-><menuchoice
-> <shortcut
-> <keycombo
-><keycap
->Ctrl</keycap
-><keycap
->s</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Fichier</guimenu
-> <guimenuitem
->Enregistrer</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> </variablelist
-> </para>
-</sect2>
-
-<sect2>
-<title
->La liste du projet</title>
-<para
-> <variablelist
-> <varlistentry
-> <term
-><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Ajouter un plan vidéo au projet</action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
-><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
-><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
->Suppression des plans vidéo via la liste du projet</action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
-><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> </variablelist
-> </para>
-</sect2>
-
-<sect2>
-<title
->La table de montage vidéo</title>
-<para
-> <variablelist
-> <varlistentry
-> <term
-><menuchoice
-> <shortcut
-> <keycombo
-><keycap
->Ctrl</keycap
-><keycap
->s</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Fichier</guimenu
-> <guimenuitem
->Enregistrer</guimenuitem
+>Outils de déplacement / redimensionnement</guimenuitem
 > </menuchoice
 > </term
 > <listitem
@@ -840,17 +862,13 @@ or menu bars. -->
 > <term
 ><menuchoice
 > <shortcut
-> <keycombo
-><keycap
->Ctrl</keycap
-><keycap
->s</keycap
-></keycombo
+> <keycap
+>w</keycap
 > </shortcut
 > <guimenu
->Fichier</guimenu
+>Montage vidéo</guimenu
 > <guimenuitem
->Enregistrer</guimenuitem
+>Outils de découpage</guimenuitem
 > </menuchoice
 > </term
 > <listitem
@@ -862,17 +880,13 @@ or menu bars. -->
 > <term
 ><menuchoice
 > <shortcut
-> <keycombo
-><keycap
->Ctrl</keycap
-><keycap
->s</keycap
-></keycombo
+> <keycap
+>e</keycap
 > </shortcut
 > <guimenu
->Fichier</guimenu
+>Montage vidéo</guimenu
 > <guimenuitem
->Enregistrer</guimenuitem
+>Outils de séparation</guimenuitem
 > </menuchoice
 > </term
 > <listitem
@@ -883,72 +897,10 @@ or menu bars. -->
 > <varlistentry
 > <term
 ><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
-><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> </variablelist
-> </para>
-</sect2>
-
-<sect2>
-<title
->Le menu « Fichier »</title>
-<para
-> <variablelist
-> <varlistentry
-> <term
-><menuchoice
->  </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> </variablelist
-> </para>
-</sect2>
-
-<sect2>
-<title
->Le menu « Fichier »</title>
-<para
-> <variablelist
-> <varlistentry
-> <term
-><menuchoice
-> <shortcut
-> <keycombo
-><keycap
->Ctrl</keycap
-><keycap
->q</keycap
-></keycombo
-> </shortcut
 > <guimenu
->Fichier</guimenu
+>Montage vidéo</guimenu
 > <guimenuitem
->Quitter</guimenuitem
+>Utiliser les trames</guimenuitem
 > </menuchoice
 > </term
 > <listitem
@@ -961,162 +913,10 @@ or menu bars. -->
 > <varlistentry
 > <term
 ><menuchoice
-> <shortcut
-> <keycombo
-><keycap
->Ctrl</keycap
-><keycap
->q</keycap
-></keycombo
-> </shortcut
 > <guimenu
->Fichier</guimenu
+>Montage vidéo</guimenu
 > <guimenuitem
->Quitter</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
-><menuchoice
-> <shortcut
-> <keycombo
-><keycap
->Ctrl</keycap
-><keycap
->q</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Fichier</guimenu
-> <guimenuitem
->Quitter</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
-><menuchoice
-> <shortcut
-> <keycombo
-><keycap
->Ctrl</keycap
-><keycap
->q</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Fichier</guimenu
-> <guimenuitem
->Quitter</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
-><menuchoice
-> <shortcut
-> <keycombo
-><keycap
->Ctrl</keycap
-><keycap
->s</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Fichier</guimenu
-> <guimenuitem
->Enregistrer</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
-><menuchoice
-> <shortcut
-> <keycombo
-><keycap
->Ctrl</keycap
-><keycap
->s</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Fichier</guimenu
-> <guimenuitem
->Enregistrer</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
-><menuchoice
-> <shortcut
-> <keycombo
-><keycap
->Ctrl</keycap
-><keycap
->s</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Fichier</guimenu
-> <guimenuitem
->Enregistrer</guimenuitem
-> </menuchoice
-> </term
-> <listitem
-> <para
-> <action
-></action
-> </para
-> </listitem
-> </varlistentry
-> <varlistentry
-> <term
-><menuchoice
-> <shortcut
-> <keycombo
-><keycap
->Ctrl</keycap
-><keycap
->s</keycap
-></keycombo
-> </shortcut
-> <guimenu
->Fichier</guimenu
-> <guimenuitem
->Enregistrer</guimenuitem
+>Utiliser les bords</guimenuitem
 > </menuchoice
 > </term
 > <listitem
@@ -1132,13 +932,46 @@ or menu bars. -->
 
 <sect2>
 <title
->Le menu « Fichier »</title>
+>Le menu « Rendu vidéo »</title>
 <para
 > <variablelist
 > <varlistentry
 > <term
 ><menuchoice
->  </menuchoice
+> <guimenu
+>Rendu vidéo</guimenu
+> <guimenuitem
+>Exporter le montage vidéo</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+></action
+> </para
+> </listitem
+> </varlistentry
+> </variablelist
+> </para>
+</sect2>
+
+<sect2>
+<title
+>Le menu « Fenêtre »</title>
+<para
+> <variablelist
+> <varlistentry
+> <term
+><menuchoice
+> <shortcut
+> <keycap
+>F9</keycap
+> </shortcut
+> <guimenu
+>Fenêtre</guimenu
+> <guimenuitem
+>Charger la fenêtre 1</guimenuitem
+> </menuchoice
 > </term
 > <listitem
 > <para
@@ -1150,7 +983,15 @@ or menu bars. -->
 > <varlistentry
 > <term
 ><menuchoice
->  </menuchoice
+> <shortcut
+> <keycap
+>F10</keycap
+> </shortcut
+> <guimenu
+>Fenêtre</guimenu
+> <guimenuitem
+>Charger la fenêtre 2</guimenuitem
+> </menuchoice
 > </term
 > <listitem
 > <para
@@ -1162,7 +1003,15 @@ or menu bars. -->
 > <varlistentry
 > <term
 ><menuchoice
->  </menuchoice
+> <shortcut
+> <keycap
+>F11</keycap
+> </shortcut
+> <guimenu
+>Fenêtre</guimenu
+> <guimenuitem
+>Charger la fenêtre 3</guimenuitem
+> </menuchoice
 > </term
 > <listitem
 > <para
@@ -1174,7 +1023,15 @@ or menu bars. -->
 > <varlistentry
 > <term
 ><menuchoice
->  </menuchoice
+> <shortcut
+> <keycap
+>F12</keycap
+> </shortcut
+> <guimenu
+>Fenêtre</guimenu
+> <guimenuitem
+>Charger la fenêtre 4</guimenuitem
+> </menuchoice
 > </term
 > <listitem
 > <para
@@ -1186,7 +1043,188 @@ or menu bars. -->
 > <varlistentry
 > <term
 ><menuchoice
->  </menuchoice
+> <shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>Shift</keycap
+><keycap
+>F9</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fenêtre</guimenu
+> <guimenuitem
+>Enregistrer la fenêtre 1</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+>Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 1</action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+> <shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>Shift</keycap
+><keycap
+>F10</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fenêtre</guimenu
+> <guimenuitem
+>Enregistrer la fenêtre 2</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+>Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 2</action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+> <shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>Shift</keycap
+><keycap
+>F11</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fenêtre</guimenu
+> <guimenuitem
+>Enregistrer la fenêtre 3</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+>Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 3</action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+> <shortcut
+> <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>Shift</keycap
+><keycap
+>F12</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fenêtre</guimenu
+> <guimenuitem
+>Enregistrer la fenêtre 4</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+>Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 4</action
+> </para
+> </listitem
+> </varlistentry
+> </variablelist
+> </para>
+</sect2>
+
+<sect2>
+<title
+>Le menu « Configuration »</title>
+<para
+> <variablelist
+> <varlistentry
+> <term
+><menuchoice
+> <guimenu
+>Configuration</guimenu
+> <guimenuitem
+>Afficher la barre d'outils</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+>Affiche ou cache la barre d'outils.</action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+> <guimenu
+>Configuration</guimenu
+> <guimenuitem
+>Afficher la barre d'état</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+>Affiche ou cache la barre d'état.</action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+> <guimenu
+>Configuration</guimenu
+> <guimenuitem
+>Configurer les raccourcis clavier...</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+>Configure les raccourcis clavier de &kdenlive;.</action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+> <guimenu
+>Configuration</guimenu
+> <guimenuitem
+>Configurer les barres d'outils...</guimenuitem
+> </menuchoice
+> </term
+> <listitem
+> <para
+> <action
+>Configure les barres d'outils de &kdenlive;.</action
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><menuchoice
+> <guimenu
+>Configuration</guimenu
+> <guimenuitem
+>Configurer Kdenlive...</guimenuitem
+> </menuchoice
 > </term
 > <listitem
 > <para
