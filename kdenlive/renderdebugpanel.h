@@ -48,8 +48,13 @@ private:
   int m_nextId;
 public slots: // Public slots
   /** Prints a debug (informational) message to the debug */
+  void slotPrintRenderDebug(const QString &name, const QString &message);
+  /** Prints a warning (oh oh....) message to the debug */
+  void slotPrintRenderWarning(const QString &name, const QString &message);
+  /** Prints an error (ARRGHH!) message to the debug window */
+  void slotPrintRenderError(const QString &name, const QString &message);
+  /** Prints a debug (informational) message to the debug */
   void slotPrintDebug(const QString &name, const QString &message);
-public slots: // Public slots
   /** Prints an error message to the debug window. */
   void slotPrintError(const QString &name, const QString &message);
   /** Prints a warning message to the debug area. */

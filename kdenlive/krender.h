@@ -57,6 +57,10 @@ struct StackValue {
 class KRender : public QObject, public QXmlDefaultHandler  {
    Q_OBJECT
 public:
+	enum FailStates { 	OK = 0,
+				APP_NOEXIST
+			};
+				
 	KRender(const QString &rendererName, KURL appPath, unsigned int port, QObject *parent=0, const char *name=0);
 	~KRender();
   /** Wraps the VEML command of the same name; requests that the renderer
@@ -267,8 +271,12 @@ signals: // Signals
   void recievedStdout(const QString &, const QString &);
   /** Emitted when the renderer has recieved text from stderr */
   void recievedStderr(const QString &, const QString &);
-  /** Emitted when the renderer has some information to pass on */
-  void recievedInfo(const QString &, const QString &);
+  /** Emits useful rendering debug info. */
+  void renderDebug(const QString &, const QString &);
+  /** Emits renderer warnings info. */
+  void renderWarning(const QString &, const QString &);
+  /** Emits renderer errors. */
+  void renderError(const QString &, const QString &);
   /** Emitted when the renderer stops, either playing or rendering. */
   void stopped();
   /** Emitted when the renderer starts playing. */

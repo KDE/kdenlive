@@ -35,17 +35,25 @@ KRenderManager::~KRenderManager()
 /** Creates a new renderer, guaranteeing it it's own port number, etc. */
 KRender * KRenderManager::createRenderer(const QString &name)
 {
-  KRender *render = new KRender(name, m_renderAppPath, m_currentPort);
+	KRender *render = new KRender(name, m_renderAppPath, m_currentPort);
 
-  connect(render, SIGNAL(recievedStderr(const QString &, const QString &)), this, SIGNAL(recievedStderr(const QString &, const QString &)));
-  connect(render, SIGNAL(recievedStdout(const QString &, const QString &)), this, SIGNAL(recievedStdout(const QString &, const QString &)));
-  connect(render, SIGNAL(recievedInfo(const QString &, const QString &)), this, SIGNAL(recievedInfo(const QString &, const QString &)));
-  connect(render, SIGNAL(error(const QString &, const QString &)), this, SIGNAL(error(const QString &, const QString &)));
+	connect(render, SIGNAL(recievedStderr(const QString &, const QString &)), 
+			this, SIGNAL(recievedStderr(const QString &, const QString &)));
+	connect(render, SIGNAL(recievedStdout(const QString &, const QString &)), 
+			this, SIGNAL(recievedStdout(const QString &, const QString &)));
+	connect(render, SIGNAL(error(const QString &, const QString &)), 
+			this, SIGNAL(error(const QString &, const QString &)));
+	connect(render, SIGNAL(renderDebug(const QString &, const QString &)), 
+			this, SIGNAL(renderDebug(const QString &, const QString &)));
+	connect(render, SIGNAL(renderWarning(const QString &, const QString &)), 
+			this, SIGNAL(renderWarning(const QString &, const QString &)));
+	connect(render, SIGNAL(renderError(const QString &, const QString &)), 
+			this, SIGNAL(renderError(const QString &, const QString &)));
 
-  ++m_currentPort;
+	++m_currentPort;
   
-  m_renderList.append(render);
-  return render;
+	m_renderList.append(render);
+	return render;
 }
 
 /** Reads the configuration details for the renderer manager */

@@ -45,6 +45,21 @@ RenderDebugPanel::~RenderDebugPanel()
 {
 }
 
+void RenderDebugPanel::slotPrintRenderDebug(const QString &name, const QString &message)
+{
+	slotPrintDebug(name, message);
+}
+
+void RenderDebugPanel::slotPrintRenderWarning(const QString &name, const QString &message)
+{
+	slotPrintWarning(name, message);
+}
+
+void RenderDebugPanel::slotPrintRenderError(const QString &name, const QString &message)
+{
+	slotPrintError(name, message);
+}
+
 /** Prints a warning message to the debug area. */
 void RenderDebugPanel::slotPrintWarning(const QString &name, const QString &message)
 {

@@ -63,8 +63,12 @@ signals:
   void recievedStdout(const QString &, const QString &);
   /** Emitted when the renderer has recieved text from stderr */
   void recievedStderr(const QString &, const QString &);
-  /** Emitted when the renderer has recieved some info */
-  void recievedInfo(const QString &, const QString &);
+  /** Emits useful rendering debug info. */
+  void renderDebug(const QString &, const QString &);
+  /** Emits renderer warnings info. */
+  void renderWarning(const QString &, const QString &);
+  /** Emits renderer errors. */
+  void renderError(const QString &, const QString &);
   /** emitted when an error occurs within one of the managed renderers. */
   void error(const QString &, const QString &);
 };

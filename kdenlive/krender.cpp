@@ -85,13 +85,13 @@ void KRender::error(int error)
 {
 	switch(error) {
 		case QSocket::ErrConnectionRefused :
-              emit recievedInfo(m_name, "Connection Refused");
+              emit renderWarning(m_name, "Connection Refused");
 							break;
 		case QSocket::ErrHostNotFound :
-              emit recievedInfo(m_name, "Host Not Found");
+              emit renderWarning(m_name, "Host Not Found");
 							break;
 		case QSocket::ErrSocketRead :
-              emit recievedInfo(m_name, "Error Reading Socket");
+              emit renderWarning(m_name, "Error Reading Socket");
 							break;
 	}
 }
@@ -99,19 +99,20 @@ void KRender::error(int error)
 /** Called when we have connected to the renderer. */
 void KRender::slotConnected()
 {
-  getCapabilities();
+	getCapabilities();
 
-  emit recievedInfo(m_name, "Connected on port " + QString::number(m_socket.port()) + " to host on port " + QString::number(m_socket.peerPort()));
+	emit renderDebug(m_name, "Connected on port " + QString::number(m_socket.port()) + 
+		  		" to host on port " + QString::number(m_socket.peerPort()));
 	emit initialised();
-  emit connected();
+	emit connected();
 }
 
 /** Called when we have disconnected from the renderer. */
 void KRender::slotDisconnected()
 {
-  emit recievedInfo(m_name, "Disconnected");
+	emit renderWarning(m_name, "Disconnected");
 
-  emit disconnected();
+	emit disconnected();
 }
 
 /** Called when some data has been recieved by the socket, reads the data and processes it. */
@@ -135,12 +136,13 @@ void KRender::readData()
     value.funcEndElement = 0;
     m_parseStack.push(value);
 
-    emit recievedInfo(m_name, "Recieved command");
-    emit recievedInfo(m_name, temp);
+    emit renderDebug(m_name, "Recieved command");
     if(!m_xmlReader.parse(&source, false)) {
-      emit recievedInfo(m_name, "Parse Failed");
+		emit renderWarning(m_name, "Parsing Failed on :");
+		emit renderWarning(m_name, temp);
     } else {
-      emit recievedInfo(m_name, "Parse successfull");
+		emit renderDebug(m_name, "Parse successfull for");
+    		emit renderDebug(m_name, temp);
     }
   }
 }
@@ -148,13 +150,14 @@ void KRender::readData()
 /** Sends an XML command to the renderer. */
 void KRender::sendCommand(QDomDocument command)
 {
-  if(m_socket.state() == QSocket::Connected) {
-  	emit recievedInfo(m_name, "Sending Command " + command.toString());
-  	QCString str = command.toCString() + "\n\n";
-  	m_socket.writeBlock(str, strlen(str));
-  } else {
-    emit recievedInfo(m_name, "Socket not connected, not sending Command " + command.toString());
-  }
+	if(m_socket.state() == QSocket::Connected) {
+	  	emit renderDebug(m_name, "Sending Command " + command.toString());
+	  	QCString str = command.toCString() + "\n\n";
+	  	m_socket.writeBlock(str, strlen(str));
+	} else {
+		emit renderWarning(m_name, "Socket not connected, not sending Command " + 
+									command.toString());
+	}
 }
 
 /** Generates the quit command */
@@ -168,32 +171,39 @@ void KRender::quit()
 /** Called if the rendering process has exited. */
 void KRender::processExited()
 {
-  emit recievedInfo(m_name, "Render Process Exited");
+	emit renderWarning(m_name, "Render Process Exited");
 }
 
 /** Launches a renderer process. */
 void KRender::launchProcess()
 {
-  if(m_appPathInvalid) return;
+	if(m_appPathInvalid) return;
 
-  if(!KIO::NetAccess::exists(m_appPath)) {
-    emit recievedInfo(m_name, "application '" + m_appPath.path() + "' does not exist");
-    m_appPathInvalid = true;
-    return;
-  }
+	if(!KIO::NetAccess::exists(m_appPath)) {
+		emit renderError(m_name, "The rendering application '" + m_appPath.path() + 
+					"' does not exist! Please make sure that you have " +
+				       " installed a renderer, and that the executable is selected " +
+				       " on the settings page. If you do not have a renderer installed, " +
+				       " then please install Piave");
+		m_appPathInvalid = true;
+		return;
+	}
 	m_process.clearArguments();
 	m_process.setExecutable("artsdsp");
-  m_process << m_appPath.path();
-  m_process << "-d";
-  m_process << "-p" << QString::number(m_portNum);
+	m_process << m_appPath.path();
+	m_process << "-d";
+	m_process << "-p" << QString::number(m_portNum);
 
-  emit recievedInfo(m_name, "Launching Process " + m_appPath.path() + " as server on port " + QString::number(m_portNum));
+	emit renderWarning(m_name, "Launching Process " + m_appPath.path() + 
+					" as server on port " + QString::number(m_portNum));
 	if(m_process.start(KProcess::NotifyOnExit, KProcess::AllOutput)) {
-    emit recievedInfo(m_name, "Process launching successfully, pid = " + QString::number(m_process.pid()));
-    emit recievedInfo(m_name, "Connecting to server on port " + QString::number(m_portNum));
+		emit renderWarning(m_name, "Process launching successfully, pid = " + 
+								QString::number(m_process.pid()));
+		emit renderDebug(m_name, "Connecting to server on port " + 
+								QString::number(m_portNum));
 		m_socket.connectToHost("127.0.0.1", m_portNum);
 	} else {
-    emit recievedInfo(m_name, "Could not start process");
+		emit renderWarning(m_name, "Could not start process");
 	}
 }
 
@@ -363,7 +373,7 @@ AVFormatDescCodec * KRender::findCodec(const QString &name)
   QPtrListIterator<AVFormatDescCodec> itt(m_codeclist);
 
   while(itt.current()) {
-    emit recievedInfo(m_name, "Comparing " + name + " with " + itt.current()->name());
+    emit renderWarning(m_name, "Comparing " + name + " with " + itt.current()->name());
     if(name == itt.current()->name()) return itt.current();
     ++itt;
   }
@@ -410,14 +420,14 @@ QString KRender::description()
 /** Occurs upon starting to parse an XML document */
 bool KRender::startDocument()
 {
-  emit recievedInfo(m_name, "Starting to parse document");
+  emit renderDebug(m_name, "Starting to parse document");
 	return true;
 }
 
 /** Occurs upon finishing reading an XML document */
 bool KRender::endDocument()
 {
-  emit recievedInfo(m_name, "Finishing parsing document");
+  emit renderDebug(m_name, "Finishing parsing document");
 	return true;
 }
 
@@ -427,7 +437,7 @@ bool KRender::startElement(const QString &nameSpace, const QString & localName,
 {
   StackValue val = m_parseStack.top();
   if(val.funcStartElement == NULL) {
-    emit recievedInfo(m_name, "Ignoring tag " + localName);
+    emit renderDebug(m_name, "Ignoring tag " + localName);
     pushIgnore();
     return true;
   }
@@ -456,7 +466,7 @@ bool KRender::topLevelStartElement(const QString & localName, const QString & qN
 		QString status = atts.value("status");
 		if(!status.isNull()) {
 	 		if(status.lower() == "error") {
-				emit recievedInfo(m_name, "Reply recieved, status=\"error\"");
+				emit renderDebug(m_name, "Reply recieved, status=\"error\"");
 				StackValue val;
 				val.element = "reply_error";
 				val.funcStartElement = &KRender::replyError_StartElement;
@@ -467,7 +477,7 @@ bool KRender::topLevelStartElement(const QString & localName, const QString & qN
 		}
 		QString command = atts.value("command");
 		if(command.isNull()) {
-			emit recievedInfo(m_name, "Reply recieved, no command specified");
+			emit renderWarning(m_name, "Reply recieved, no command specified");
 			return false;
 		} else if(command == "createVideoXWindow") {
 			StackValue val;
@@ -512,12 +522,12 @@ bool KRender::topLevelStartElement(const QString & localName, const QString & qN
 			pushIgnore();
 			return true;
 		} else {
-			emit recievedInfo(m_name, "Unknown reply '" + command + "'");
+			emit renderWarning(m_name, "Unknown reply '" + command + "'");
 			return false;
 		}
 	} else if(localName == "pong") {
 		QString id = atts.value("id");
-  	emit recievedInfo(m_name, "pong recieved : " + id);
+  	emit renderDebug(m_name, "pong recieved : " + id);
     pushIgnore();
     return true;
 	} else if(localName == "playing") {
@@ -538,7 +548,7 @@ bool KRender::topLevelStartElement(const QString & localName, const QString & qN
 			emit stopped();
 			return true;
 		}
-		emit recievedInfo(m_name, "Render command returned unknown status : '" + tStr + "'");
+		emit renderWarning(m_name, "Render command returned unknown status : '" + tStr + "'");
 		return false;
 	} else if(localName == "rendering") {
 		QString tStr = atts.value("time");
@@ -558,7 +568,7 @@ bool KRender::topLevelStartElement(const QString & localName, const QString & qN
 		return true;
 	}
 
-	emit recievedInfo(m_name, "Unknown tag '" + localName + "'");
+	emit renderWarning(m_name, "Unknown tag '" + localName + "'");
 
 	return false;
 }
@@ -620,9 +630,9 @@ bool KRender::reply_createVideoXWindow_StartElement(const QString & localName,
   QString winID = atts.value("WinID");
   WId retID = 0;
   if(winID.isNull()) {
-    emit recievedInfo(m_name, "Window ID not specified - emitting 0");
+    emit renderWarning(m_name, "Window ID not specified - emitting 0");
   } else {
-    emit recievedInfo(m_name, "Window ID is " + winID);
+    emit renderDebug(m_name, "Window ID is " + winID);
     retID = winID.toInt();
   }
 	emit replyCreateVideoXWindow(retID);
@@ -652,7 +662,7 @@ bool KRender::reply_capabilities_iostreams_outstream_StartElement(const QString 
 {
   if(localName == "file") {
     if(m_fileFormat != 0) {
-      emit recievedInfo(m_name, "Error - creating new file format, construct pointer is non-null, expect memory leak");
+      emit renderWarning(m_name, "Error - creating new file format, construct pointer is non-null, expect memory leak");
     }
     m_fileFormat = new AVFileFormatDesc("FIXME", "unnamed");
     StackValue val;
@@ -672,7 +682,7 @@ bool KRender::reply_capabilities_iostreams_outstream_file_StartElement(const QSt
 {
   if(localName == "container") {
     if(m_fileFormat == 0) {
-      emit recievedInfo(m_name, "Error - inside container, m_fileFormat pointer is null!");
+      emit (m_name, "Error - inside container, m_fileFormat pointer is null!");
     } else {
       m_fileFormat->setFileExtension(atts.value("extension"));
       QString name = atts.value("format");
@@ -695,7 +705,7 @@ bool KRender::reply_capabilities_iostreams_outstream_file_StartElement(const QSt
 bool KRender::reply_capabilities_iostreams_outstream_file_EndElement(const QString & localName, const QString & qName)
 {
   if(m_fileFormat == 0) {
-    emit recievedInfo(m_name, "Error - At end of a file definition, m_fileFormat pointer is null!");
+    emit renderWarning(m_name, "Error - At end of a file definition, m_fileFormat pointer is null!");
   } else {
     m_fileFormats.append(m_fileFormat);
     emit signalFileFormatsUpdated(m_fileFormats);
@@ -709,10 +719,10 @@ bool KRender::reply_capabilities_iostreams_outstream_container_StartElement(cons
 {
   if(localName == "codec") {
     if(m_fileFormat == 0) {
-      emit recievedInfo(m_name, "Error - inside codec, m_fileFormat pointer is null!");
+      emit renderWarning(m_name, "Error - inside codec, m_fileFormat pointer is null!");
     } else {
       if(m_desccodeclist != 0) {
-        emit recievedInfo(m_name, "Error - creating codec but m_desccodeclist != 0, expect memory leak");
+        emit renderWarning(m_name, "Error - creating codec but m_desccodeclist != 0, expect memory leak");
       }
       QString type = atts.value("type");
       m_desccodeclist = new AVFormatDescCodecList(this, "No description", type);
@@ -734,7 +744,7 @@ bool KRender::reply_capabilities_iostreams_outstream_codec_StartElement(const QS
                                       const QXmlAttributes & atts)
 {
   if(m_desccodeclist == 0) {
-    emit recievedInfo(m_name, "Error - adding codec name, m_desccodeclist pointer is null!");
+    emit renderWarning(m_name, "Error - adding codec name, m_desccodeclist pointer is null!");
   } else {
     m_desccodeclist->addCodec(localName);
   }
@@ -746,9 +756,9 @@ bool KRender::reply_capabilities_iostreams_outstream_codec_StartElement(const QS
 bool KRender::reply_capabilities_iostreams_outstream_codec_EndElement(const QString & localName, const QString & qName)
 {
   if(m_fileFormat == 0) {
-    emit recievedInfo(m_name, "Error - At end of a file definition, m_fileFormat pointer is null!");
+    emit renderWarning(m_name, "Error - At end of a file definition, m_fileFormat pointer is null!");
   } else if(m_desccodeclist == 0) {
-    emit recievedInfo(m_name, "Error - At end of a file definition, m_desccodeclist pointer is null!");
+    emit renderWarning(m_name, "Error - At end of a file definition, m_desccodeclist pointer is null!");
   } else {
     m_fileFormat->append(m_desccodeclist);
     m_desccodeclist = 0;
@@ -762,11 +772,11 @@ bool KRender::reply_capabilities_codecs_StartElement(const QString & localName, 
 {
   if (localName == "encoder") {
     if(m_codec != 0) {
-      emit recievedInfo(m_name, "Error - creating codec but one already exists, expect memory leak");
+      emit renderWarning(m_name, "Error - creating codec but one already exists, expect memory leak");
     }
     QString name = atts.value("name");
     m_codec = new AVFormatDescCodec("No description", name);
-    emit recievedInfo(m_name, "Creating codec with name " + name);
+    emit renderWarning(m_name, "Creating codec with name " + name);
     
     StackValue val;
     val.element = "encoder";
@@ -798,7 +808,7 @@ bool KRender::reply_capabilities_codecs_encoder_StartElement(const QString & loc
 bool KRender::reply_capabilities_codecs_encoder_EndElement(const QString & localName, const QString & qName)
 {
   if(m_codec == 0) {
-    emit recievedInfo(m_name, "Error - at end of encoder tag, m_codec pointer is null!");
+    emit renderWarning(m_name, "Error - at end of encoder tag, m_codec pointer is null!");
   } else {
     m_codeclist.append(m_codec);
     m_codec = 0;
@@ -810,7 +820,7 @@ bool KRender::reply_capabilities_codecs_encoder_EndElement(const QString & local
 bool KRender::reply_capabilities_codecs_encoder_about_EndElement(const QString & localName, const QString & qName)
 {
   if(m_codec == 0) {
-    emit recievedInfo(m_name, "Error - at end of about tag, m_codec pointer is null!");
+    emit renderWarning(m_name, "Error - at end of about tag, m_codec pointer is null!");
   } else {
     m_codec->setDescription(m_characterBuffer.simplifyWhiteSpace());
   }
@@ -823,7 +833,7 @@ bool KRender::reply_capabilities_effects_StartElement(const QString & localName,
   if(localName == "effect") {
     QString name = atts.value("name");
     if(m_effect != 0) {
-      emit recievedInfo(m_name, "Error - creating m_effect but pointer is non-null - expect memory leak");
+      emit renderWarning(m_name, "Error - creating m_effect but pointer is non-null - expect memory leak");
     }
     m_effect = new EffectDesc(name);    
     
@@ -843,7 +853,7 @@ bool KRender::reply_capabilities_effects_effect_StartElement(const QString & loc
 {
   if(localName == "input") {
     if(m_effect == 0) {
-      emit recievedInfo(m_name, "Error - inside effect tag but m_effect is Null!!!");
+      emit renderWarning(m_name, "Error - inside effect tag but m_effect is Null!!!");
     } else {
       bool audio = atts.value("audio").contains("yes", false);
       bool video = atts.value("video");
@@ -872,7 +882,7 @@ bool KRender::reply_capabilities_effects_effect_StartElement(const QString & loc
 bool KRender::reply_capabilities_effects_effect_EndElement(const QString & localName, const QString & qName)
 {
   if(m_effect == 0) {
-    emit recievedInfo(m_name, "Error - discovered closing effect tag but m_effect is Null!!!");
+    emit renderWarning(m_name, "Error - discovered closing effect tag but m_effect is Null!!!");
   } else {
     m_effectList.append(m_effect);
     m_effect = 0;
