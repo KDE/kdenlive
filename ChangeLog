@@ -1,3 +1,6 @@
+2003-12-13  Jason Wood  <jasonwood@blueyonder.co.uk>
+	* Implemented "play selected" button in kdenlive.
+
 2003-12-11  Jason Wood  <jasonwood@blueyonder.co.uk>
 	* Implemented new load/save framework to allow multiple project formats
 	* Added mimetype for kdenlive projects.

@@ -199,6 +199,7 @@ void KMMEditPanel::toggleMarker()
 
 void KMMEditPanel::screenPlaySpeedChanged(double speed)
 {
+	m_playSpeed = speed;
 	updateButtons();
 }
 
