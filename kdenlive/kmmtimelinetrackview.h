@@ -46,14 +46,18 @@ public:
   /** Returns the track panel that lies at the specified y coordinate on the
 TimelineTrackView. */
   KMMTrackPanel *panelAt(int y);
+private: // Private methods
+	void drawBackBuffer();    
 private: // Private attributes
   QPixmap m_backBuffer;
   KMMTimeLine & m_timeline;
-
+  /** True if the back buffer needs to be redrawn. */
+  bool m_bufferInvalid;
   int m_trackBaseNum;
   KMMTrackPanel * m_panelUnderMouse;  
 public slots:	// Public slots
-	void drawBackBuffer();  
+  /** Invalidate the back buffer, alerting the trackview that it should redraw itself. */
+  void invalidateBackBuffer();
 };
 
 #endif

@@ -169,6 +169,12 @@ class KdenliveApp : public KMainWindow
   void slotTimelineSnapToFrame();
   /** Called whenever snapToBorder is toggled. */
   void slotTimelineSnapToBorder();
+  /** Called when the spacer tool action is selected */
+  void slotTimelineSpacerTool();
+  /** Called when the razor tool action is selected */
+  void slotTimelineRazorTool();
+  /** Called when the move tool is selected */
+  void slotTimelineMoveTool();
 
   private:
     /** the configuration object of the application */

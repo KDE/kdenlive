@@ -173,6 +173,8 @@ is not possible. */
 	private: // Private methods
   	/** Adds a track to the project */
   	void addTrack(DocTrackBase *track);
+  /** Parses the XML Dom Document elements to populate the KdenliveDoc. */
+  void loadFromXML(QDomDocument &doc);
 	signals: // Signals
   	/** This signal is emitted whenever tracks are added to or removed from the project. */
   	void trackListChanged();
@@ -180,6 +182,9 @@ is not possible. */
   	void avFileListUpdated();
 	  /** Emitted when the modified state of the document changes. */
 	  void modified(bool);
+private slots: // Private slots
+  /** Called when the document is modifed in some way. */
+  void hadBeenModified();
 };
 
 #endif // KDENLIVEDOC_H

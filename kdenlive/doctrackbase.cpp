@@ -17,6 +17,9 @@
 
 #include "kdebug.h"
 #include "doctrackbase.h"
+#include "doctrackvideo.h"
+#include "doctracksound.h"
+#include "doctrackclipiterator.h"
 #include "kdenlivedoc.h"
 
 DocTrackBase::DocTrackBase(KdenliveDoc *doc)
@@ -357,6 +360,12 @@ unsigned int DocTrackBase::numClips()
 	return m_selectedClipList.count() + m_unselectedClipList.count();
 }
 
+/** Returns the parent document of this track. */
+KdenliveDoc * DocTrackBase::document()
+{
+	return m_doc;
+}
+
 /** Returns an xml representation of this track. */
 QDomDocument DocTrackBase::toXML()
 {
@@ -365,32 +374,56 @@ QDomDocument DocTrackBase::toXML()
 	doc.appendChild(doc.createElement("track"));
 	doc.documentElement().setAttribute("cliptype", clipType());
 
-	QPtrListIterator<DocClipBase> unsItt=firstClip(false);
-	QPtrListIterator<DocClipBase> selItt=firstClip(true);
+  DocTrackClipIterator itt(*this);
 
-	while(unsItt.current() || selItt.current()) {
-		if(unsItt.current() && selItt.current()) {
-			if(unsItt.current()->trackStart() < selItt.current()->trackStart()) {
-				doc.documentElement().appendChild(doc.importNode(unsItt.current()->toXML().documentElement(), true));
-				++unsItt;
-			} else {
-				doc.documentElement().appendChild(doc.importNode(selItt.current()->toXML().documentElement(), true));
-				++selItt;			
-			}
-		} else if(unsItt.current()){
-			doc.documentElement().appendChild(doc.importNode(unsItt.current()->toXML().documentElement(), true));		
-			++unsItt;
-		}	else {
-			doc.documentElement().appendChild(doc.importNode(selItt.current()->toXML().documentElement(), true));
-			++selItt;
-		}
-	}
+  while(itt.current()) {
+		doc.documentElement().appendChild(doc.importNode(itt.current()->toXML().documentElement(), true));  
+  	++itt;
+  }
 
 	return doc;
 }
 
-/** Returns the parent document of this track. */
-KdenliveDoc * DocTrackBase::document()
+/** Creates a track from the given xml document. Returns the track, or 0 if it could not be created. */
+DocTrackBase * DocTrackBase::createTrack(KdenliveDoc *doc, QDomElement elem)
 {
-	return m_doc;
+	if(elem.tagName() != "track") {
+		kdError() << "Cannot create track from QDomElement - has wrong tag name : " << elem.tagName() << endl;
+		return 0;
+	}
+
+	QString clipType = elem.attribute("cliptype", "unknown");
+
+	DocTrackBase *track;
+
+	if(clipType == "Video") {
+		track = new DocTrackVideo(doc);
+	} else if(clipType == "Sound") {
+		track = new DocTrackSound(doc);
+	} else {
+		kdError() << "Unknown track clip type '" << clipType << "' - cannot create track" << endl;
+		return 0;
+	}
+
+	QDomNode n = elem.firstChild();
+
+	while(!n.isNull()) {
+		QDomElement e = n.toElement();
+		if(!e.isNull()) {
+			if(e.tagName() == "clip") {
+				DocClipBase *clip = DocClipBase::createClip(*doc, e);
+				if(clip) {
+					track->addClip(clip, false);
+				} else {
+					kdWarning() << "Clip generation failed, skipping clip..." << endl;
+				}
+			} else {
+				kdWarning() << "Unknown tag " << e.tagName() << ", skipping..." << endl;
+			}
+		}
+
+		n = n.nextSibling();
+	}	
+
+	return track;
 }

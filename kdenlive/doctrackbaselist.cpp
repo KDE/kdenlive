@@ -17,6 +17,8 @@
 
 #include "doctrackbaselist.h"
 
+#include "kdebug.h"
+
 DocTrackBaseList::DocTrackBaseList() :
 									QPtrList<DocTrackBase> ()
 {
@@ -41,4 +43,28 @@ QDomDocument DocTrackBaseList::toXML()
 	}
 
 	return doc;
+}
+
+/** Generates the track list, based upon the XML list provided in elem. */
+void DocTrackBaseList::generateFromXML(KdenliveDoc *doc, QDomElement elem)
+{
+	if(elem.tagName() != "DocTrackBaseList") {
+		kdWarning() << "DocTrackBaseList cannot be generated - wrong tag : " << elem.tagName() << endl;
+		return;
+	}
+
+	QDomNode n = elem.firstChild();
+
+	while(!n.isNull()) {
+		QDomElement e = n.toElement();
+		if(!e.isNull()) {
+			if(e.tagName() == "track") {
+				append(DocTrackBase::createTrack(doc, e));
+			} else {
+				kdWarning() << "Unknown tag " << e.tagName() << ", skipping..." << endl;
+			}
+		}
+
+		n = n.nextSibling();
+	}
 }

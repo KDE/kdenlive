@@ -35,6 +35,7 @@ KMMTimeLineTrackView::KMMTimeLineTrackView(KMMTimeLine &timeLine, QWidget *paren
 	// we draw everything ourselves, no need to draw background.
 	setBackgroundMode(Qt::NoBackground);
 	setMouseTracking(true);
+	m_bufferInvalid = false;
 }
 
 KMMTimeLineTrackView::~KMMTimeLineTrackView()
@@ -49,6 +50,11 @@ void KMMTimeLineTrackView::resizeEvent(QResizeEvent *event)
 
 void KMMTimeLineTrackView::paintEvent(QPaintEvent *event)
 {
+	if(m_bufferInvalid) {
+		drawBackBuffer();
+		m_bufferInvalid = false;
+	}
+	
 	QPainter painter(this);
 
 	painter.drawPixmap(event->rect().x(), event->rect().y(),
@@ -76,8 +82,6 @@ void KMMTimeLineTrackView::drawBackBuffer()
 		totalHeight+=widgetHeight;
 		panel = m_timeline.trackList().next();
 	}
-
-	repaint();
 }
 
 /** This event occurs when a mouse button is pressed. */
@@ -142,4 +146,11 @@ KMMTrackPanel *KMMTimeLineTrackView::panelAt(int y)
 	}
 
 	return panel;
+}
+
+/** Invalidate the back buffer, alerting the trackview that it should redraw itself. */
+void KMMTimeLineTrackView::invalidateBackBuffer()
+{
+	m_bufferInvalid = true;
+	update();
 }

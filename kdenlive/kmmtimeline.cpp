@@ -81,7 +81,7 @@ KMMTimeLine::KMMTimeLine(KdenliveApp *app, QWidget *rulerToolWidget, QWidget *sc
 	connect(m_scrollBar, SIGNAL(valueChanged(int)), m_ruler, SLOT(repaint()));	
   connect(m_document, SIGNAL(trackListChanged()), this, SLOT(syncWithDocument()));
   connect(m_ruler, SIGNAL(scaleChanged(double)), this, SLOT(calculateProjectSize(double)));
-  connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), m_trackViewArea, SLOT(drawBackBuffer()));
+  connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), m_trackViewArea, SLOT(invalidateBackBuffer()));
   connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), m_ruler, SLOT(repaint()));
   	
   setAcceptDrops(true);
@@ -259,10 +259,11 @@ void KMMTimeLine::dragMoveEvent ( QDragMoveEvent *event )
 		if(canAddClipsToTracks(m_selection, trackUnderPoint(pos), timeUnderMouse + m_clipOffset)) {
 			addClipsToTracks(m_selection, trackUnderPoint(pos), timeUnderMouse + m_clipOffset, true);
 			generateSnapToGridList();
-			m_selection.clear();
+			m_selection.clear();			
 		}
 	}
 	calculateProjectSize(m_ruler->valueScale());
+	m_trackViewArea->repaint();
 }
 
 void KMMTimeLine::dragLeaveEvent ( QDragLeaveEvent *event )
@@ -352,7 +353,7 @@ void KMMTimeLine::selectNone()
 
 void KMMTimeLine::drawTrackViewBackBuffer()
 {
-	m_trackViewArea->drawBackBuffer();
+	m_trackViewArea->invalidateBackBuffer();
 }
 
 /** Returns m_trackList

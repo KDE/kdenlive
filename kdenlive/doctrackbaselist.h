@@ -34,6 +34,8 @@ public:
 	~DocTrackBaseList();
   /** Returns an XML representation of this DocTrackBase list. */
   QDomDocument toXML();
+  /** Generates the track list, based upon the XML list provided in elem. */
+  void generateFromXML(KdenliveDoc *doc, QDomElement elem);
 };
 
 #endif

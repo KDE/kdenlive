@@ -109,6 +109,8 @@ last clip on the track. */
   QDomDocument toXML();
   /** Returns the parent document of this track. */
   KdenliveDoc * document();
+  /** Creates a track from the given xml document. Returns the track, or 0 if it could not be created. */
+  static DocTrackBase * createTrack(KdenliveDoc *doc, QDomElement elem);
 private: // Private methods
   /** Enables or disables clip sorting. This method is used internally to turn off the sorting of clips when it is known that they will be sorted elsewhere.
 

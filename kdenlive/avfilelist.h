@@ -23,6 +23,8 @@
 
 #include "avfile.h"
 
+class KRender;
+
 /**Holds a list of AVFiles.
 
 Works like QPtrList<AVFile>, but
@@ -35,7 +37,11 @@ public:
 	AVFileList();	
 	~AVFileList();
   /** Returns an XML representation of the list. */
-  QDomDocument toXML();
+  QDomDocument toXML() const;
+  /** Generates the file list from the XML stored in elem. */
+  void generateFromXML(KRender *render, QDomElement elem);
+  /** Returns the AVFile representing the given url, or if it doesn't exist, returns 0. */
+  AVFile *find(const KURL &file);
 };
 
 #endif

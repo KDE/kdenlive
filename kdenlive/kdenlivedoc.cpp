@@ -60,7 +60,10 @@ KdenliveDoc::KdenliveDoc(QWidget *parent, const char *name) : QObject(parent, na
   connect(m_render, SIGNAL(replyGetFileProperties(QMap<QString, QString>)),
   					 this, SLOT(AVFilePropertiesArrived(QMap<QString, QString>)));
 
- m_render->setSceneList(generateSceneList());
+  connect(this, SIGNAL(avFileListUpdated()), this, SLOT(hasBeenModified()));
+  connect(this, SIGNAL(trackListChanged()), this, SLOT(hasBeenModified()));  
+
+  m_render->setSceneList(generateSceneList());
 }
 
 KdenliveDoc::~KdenliveDoc()
@@ -158,6 +161,7 @@ bool KdenliveDoc::newDocument()
   // TODO: Add your document initialization code here
   /////////////////////////////////////////////////
 
+  deleteContents();
   m_fileList.setAutoDelete(true);
 
   addVideoTrack();
@@ -172,17 +176,21 @@ bool KdenliveDoc::newDocument()
 }
 
 bool KdenliveDoc::openDocument(const KURL& url, const char *format /*=0*/)
-{
+{	
   QString tmpfile;
-  KIO::NetAccess::download( url, tmpfile );
-  /////////////////////////////////////////////////
-  // TODO: Add your document opening code here
-  /////////////////////////////////////////////////
-
-  KIO::NetAccess::removeTempFile( tmpfile );
-
-  setModified(false);  
-  return true;
+  if(KIO::NetAccess::download( url, tmpfile )) {
+	  QFile file(tmpfile);
+	 	if(file.open(IO_ReadOnly)) {  	
+	  	QDomDocument doc;
+	    doc.setContent(&file, false);
+	    loadFromXML(doc);
+	  }	  
+	  KIO::NetAccess::removeTempFile( tmpfile );
+	  setModified(false);
+	  return true;	  
+	}
+	
+	return false;
 }
 
 bool KdenliveDoc::saveDocument(const KURL& url, const char *format /*=0*/)
@@ -220,6 +228,7 @@ void KdenliveDoc::deleteContents()
   /////////////////////////////////////////////////
 
   m_fileList.clear();
+  m_tracks.clear();
 }
 
 void KdenliveDoc::slot_InsertAVFile(const KURL &file)
@@ -318,16 +327,7 @@ AVFile * KdenliveDoc::getAVFileReference(KURL url)
 /** Find and return the AVFile with the url specified, or return null is no file matches. */
 AVFile * KdenliveDoc::findAVFile(const KURL &file)
 {
-	QPtrListIterator<AVFile> itt(m_fileList);
-
-	AVFile *av;
-
-	while( (av = itt.current()) != 0) {
-		if(av->fileURL().path() == file.path()) return av;
-		++itt;
-	}
-
-	return 0;
+	return m_fileList.find(file);
 }
 
 /** Given a drop event, inserts all contained clips into the project list, if they are not there already. */
@@ -367,20 +367,6 @@ DocTrackBase * KdenliveDoc::track(int track)
 int KdenliveDoc::trackIndex(DocTrackBase *track)
 {
 	return m_tracks.find(track);
-}
-
-/** Creates an xml document that describes this kdenliveDoc. */
-QDomDocument KdenliveDoc::toXML()
-{
-	QDomDocument document;
-
-	QDomElement elem = document.createElement("kdenlivedoc");
-	document.appendChild(elem);
-
-	elem.appendChild(document.importNode(m_fileList.toXML().documentElement(), true));
-	elem.appendChild(document.importNode(m_tracks.toXML().documentElement(), true));
-	
-	return document;
 }
 
 /** Sets the modified state of the document, if this has changed, emits modified(state) */
@@ -626,4 +612,69 @@ QDomDocument KdenliveDoc::generateSceneList()
 	m_domSceneList.appendChild(elem);
 
 	return m_domSceneList;
+}
+
+/** Creates an xml document that describes this kdenliveDoc. */
+QDomDocument KdenliveDoc::toXML()
+{
+	QDomDocument document;
+
+	QDomElement elem = document.createElement("kdenlivedoc");
+	document.appendChild(elem);
+
+	elem.appendChild(document.importNode(m_fileList.toXML().documentElement(), true));
+	elem.appendChild(document.importNode(m_tracks.toXML().documentElement(), true));
+
+	return document;
+}
+
+/** Parses the XML Dom Document elements to populate the KdenliveDoc. */
+void KdenliveDoc::loadFromXML(QDomDocument &doc)
+{
+	bool avListLoaded = false;
+	bool trackListLoaded = false;
+
+	deleteContents();
+	
+	QDomElement elem = doc.documentElement();
+
+	if(elem.tagName() != "kdenlivedoc") {
+		kdWarning()	<< "KdenliveDoc::loadFromXML() document element has unknown tagName : " << elem.tagName() << endl;
+	}
+
+	QDomNode n = elem.firstChild();
+
+	while(!n.isNull()) {
+		QDomElement e = n.toElement();
+		if(!e.isNull()) {
+			if(e.tagName() == "AVFileList") {
+				if(!avListLoaded) {
+					m_fileList.generateFromXML(m_render, e);
+					avListLoaded = true;
+				} else {
+					kdWarning() << "Second AVFileList discovered, skipping..." << endl;
+				}
+			} else if(e.tagName() == "DocTrackBaseList") {
+				if(!trackListLoaded) {
+					m_tracks.generateFromXML(this, e);
+					trackListLoaded = true;
+				} else {
+					kdWarning() << "Second DocTrackBaseList discovered, skipping... " << endl;
+				}
+			} else {
+				kdWarning() << "Unknown tag " << e.tagName() << ", skipping..." << endl;
+			}
+		}
+
+		n = n.nextSibling();
+	}
+
+	emit avFileListUpdated();	
+	emit trackListChanged();
+}
+
+/** Called when the document is modifed in some way. */
+void KdenliveDoc::hadBeenModified()
+{
+	setModified(true);
 }

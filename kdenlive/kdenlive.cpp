@@ -90,9 +90,9 @@ void KdenliveApp::initActions()
   viewToolBar = KStdAction::showToolbar(this, SLOT(slotViewToolBar()), actionCollection());
   viewStatusBar = KStdAction::showStatusbar(this, SLOT(slotViewStatusBar()), actionCollection());
 
-  timelineMoveTool = new KRadioAction(i18n("Move/Resize Tool"), "moveresize.png", 0, this, SLOT(slotFileNewWindow()), actionCollection(),"timeline_move_tool");
-  timelineRazorTool = new KRadioAction(i18n("Razor Tool"), "razor.png", 0, this, SLOT(slotFileNewWindow()), actionCollection(),"timeline_razor_tool");
-  timelineSpacerTool = new KRadioAction(i18n("Spacing Tool"), "spacer.png", 0, this, SLOT(slotFileNewWindow()), actionCollection(),"timeline_spacer_tool");
+  timelineMoveTool = new KRadioAction(i18n("Move/Resize Tool"), "moveresize.png", 0, this, SLOT(slotTimelineMoveTool()), actionCollection(),"timeline_move_tool");
+  timelineRazorTool = new KRadioAction(i18n("Razor Tool"), "razor.png", 0, this, SLOT(slotTimelineRazorTool()), actionCollection(),"timeline_razor_tool");
+  timelineSpacerTool = new KRadioAction(i18n("Spacing Tool"), "spacer.png", 0, this, SLOT(slotTimelineSpaceTool()), actionCollection(),"timeline_spacer_tool");
   timelineSnapToFrame = new KToggleAction(i18n("Snap To Frames"), "snaptoframe.png", 0, this, SLOT(slotTimelineSnapToFrame()), actionCollection(),"timeline_snap_frame");
   timelineSnapToBorder = new KToggleAction(i18n("Snap To Border"), "snaptoborder.png", 0, this, SLOT(slotTimelineSnapToBorder()), actionCollection(),"timeline_snap_border");  
 
@@ -335,6 +335,7 @@ void KdenliveApp::slotFileOpenRecent(const KURL& url)
   }
   else
   {
+  	kdDebug() << "Opening url " << url.fileName() << endl;
     doc->openDocument(url);
     setCaption(url.fileName(), false);
   }
@@ -509,4 +510,19 @@ bool KdenliveApp::snapToBorderEnabled()
 void KdenliveApp::addCommand(KCommand *command, bool execute)
 {
 	m_commandHistory->addCommand(command, execute);
+}
+
+/** Called when the move tool is selected */
+void KdenliveApp::slotTimelineMoveTool()
+{
+}
+
+/** Called when the razor tool action is selected */
+void KdenliveApp::slotTimelineRazorTool()
+{
+}
+
+/** Called when the spacer tool action is selected */
+void KdenliveApp::slotTimelineSpacerTool()
+{
 }

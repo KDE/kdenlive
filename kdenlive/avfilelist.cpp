@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "avfilelist.h"
+#include "krender.h"
 
 #include <kdebug.h>
 
@@ -31,7 +32,7 @@ AVFileList::~AVFileList()
 }
 
 /** Returns an XML representation of the list. */
-QDomDocument AVFileList::toXML()
+QDomDocument AVFileList::toXML() const
 {
 	QDomDocument doc;
 
@@ -47,4 +48,51 @@ QDomDocument AVFileList::toXML()
 	}
 	
 	return doc;
+}
+
+/** Generates the file list from the XML stored in elem. */
+void AVFileList::generateFromXML(KRender *render, QDomElement elem)
+{
+	if(elem.tagName() != "AVFileList") {
+		kdWarning() << "AVFileList cannot be generated - wrong tag : " << elem.tagName() << endl;
+		return;
+	}
+
+	QDomNode n = elem.firstChild();
+
+	while(!n.isNull()) {
+		QDomElement e = n.toElement();
+		if(!e.isNull()) {
+			if(e.tagName() == "AVFile") {
+					KURL file(e.attribute("url", ""));
+					
+					AVFile *av = find(file);
+
+					if(!av) {
+						av = new AVFile(file.fileName(), file);
+						append(av);
+						render->getFileProperties(file);
+					}
+			} else {
+				kdWarning() << "Unknown tag " << e.tagName() << ", skipping..." << endl;
+			}
+		}
+
+		n = n.nextSibling();
+	}
+}
+
+/** Returns the AVFile representing the given url, or if it doesn't exist, returns 0. */
+AVFile *AVFileList::find(const KURL &file)
+{
+	QPtrListIterator<AVFile> itt(*this);
+
+	AVFile *av;
+
+	while( (av = itt.current()) != 0) {
+		if(av->fileURL().path() == file.path()) return av;
+		++itt;
+	}
+
+	return 0;
 }
