@@ -21,6 +21,7 @@
 #include <qwidget.h>
 #include <qlabel.h>
 #include <qhbox.h>
+#include <qpixmap.h>
 
 #include "doctrackvideo.h"
 #include "kmmtrackpanel.h"
@@ -42,6 +43,9 @@ private:
 	QLabel m_trackLabel;
   /** True if we are inside a dragging operation, false otherwise. */
   bool m_dragging;
+
+  /** Test image to display on track */
+  QPixmap m_pixmap;
 };
 
 #endif

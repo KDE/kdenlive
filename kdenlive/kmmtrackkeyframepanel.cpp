@@ -45,7 +45,7 @@ KMMTrackKeyFramePanel::KMMTrackKeyFramePanel(KMMTimeLine *timeline,
 					this, SIGNAL(signalClipCropEndChanged(const GenTime &)));
 
 	addFunctionDecorator(KdenliveApp::Razor, new TrackPanelRazorFunction(timeline, doc));
-	addFunctionDecorator(KdenliveApp::Spacer, new TrackPanelSpacerFunction(timeline, doc));
+	addFunctionDecorator(KdenliveApp::Spacer, new TrackPanelSpacerFunction(timeline, doc, doc->document()));
 }
 
 KMMTrackKeyFramePanel::~KMMTrackKeyFramePanel()

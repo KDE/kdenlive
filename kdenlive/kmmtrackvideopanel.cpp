@@ -51,7 +51,9 @@ KMMTrackVideoPanel::KMMTrackVideoPanel(KMMTimeLine *timeline,
 					this, SIGNAL(signalClipCropEndChanged(const GenTime &)));
 
 	addFunctionDecorator(KdenliveApp::Razor, new TrackPanelRazorFunction(timeline, docTrack));
-	addFunctionDecorator(KdenliveApp::Spacer, new TrackPanelSpacerFunction(timeline, docTrack));
+	addFunctionDecorator(KdenliveApp::Spacer, new TrackPanelSpacerFunction(timeline, docTrack, docTrack->document()));
+
+	m_pixmap.load("test.png");
 }
 
 KMMTrackVideoPanel::~KMMTrackVideoPanel()
@@ -76,7 +78,14 @@ void KMMTrackVideoPanel::paintClip(QPainter &painter, DocClipBase *clip, QRect &
 
 	QColor col = selected ? QColor(128, 64, 64) : QColor(255, 128, 128);
 
+	// draw outline box
 	painter.fillRect( sx, rect.y(), ex, rect.height(), col);
+
+//	for(uint mycount = sx; mycount < sx+ex; mycount += m_pixmap.width())
+//	{
+//		painter.drawPixmap(mycount, rect.y(), m_pixmap, 0, 0, -1, rect.height());
+//	}
+	
 	painter.drawRect( sx, rect.y(), ex, rect.height());
 
 	painter.setClipping(true);

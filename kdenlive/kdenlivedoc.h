@@ -101,6 +101,14 @@ class KdenliveDoc : public QObject
 
 	/** Returns a list of all clips directly or indirectly accessed by the specified avfile. */
 	QPtrList<DocClipBase> referencedClips(AVFile *file);
+
+	/** Returns true if at least one clip in the project is selected. */
+	bool hasSelectedClips();
+
+	/** Returns a clip that is currently selected. Only one clip is returned! 
+	 * This function is intended for times when you need a "master" clip. but have no preferred
+	 * choice. */
+	DocClipBase *selectedClip();
 public slots:
 	/** calls repaint() on all views connected to the document object and is called by the view 
 	 * by which the document has been changed. As this view normally repaints itself, it is 

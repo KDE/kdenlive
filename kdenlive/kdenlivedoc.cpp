@@ -616,3 +616,28 @@ QPtrList<DocClipBase> KdenliveDoc::referencedClips(AVFile *file)
 
 	return list;
 }
+
+bool KdenliveDoc::hasSelectedClips()
+{
+	bool result = false;
+	
+	if(m_projectClip) {
+		result = m_projectClip->hasSelectedClips();
+	} else {
+		kdError() << "No selection in the project because m_projectClip is null!!" << endl;
+	}
+	return result;
+}
+
+DocClipBase *KdenliveDoc::selectedClip()
+{
+	DocClipBase *pResult = 0;
+
+	if(m_projectClip) {
+		pResult = m_projectClip->selectedClip();
+	} else {
+		kdError() << "No selection in the project because m_projectClip is null!!!" << endl;
+	}
+	
+	return pResult;
+}

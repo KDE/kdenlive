@@ -29,12 +29,12 @@
   	<Action name="load_layout_2"/>
   	<Action name="load_layout_3"/>
   	<Action name="load_layout_4"/>
-    <Separator lineSeperator="true"/>   
+    <Separator lineSeperator="true"/>
   	<Action name="save_layout_1"/>
   	<Action name="save_layout_2"/>
   	<Action name="save_layout_3"/>
   	<Action name="save_layout_4"/>
-  </Menu>  
+  </Menu>
 </MenuBar>
 
 <Menu name="projectlist_context">

@@ -54,6 +54,11 @@ public:
 	snap point before the snap takes effect.
 	*/
   	static uint snapTolerance;	
+
+	/**
+	Returns a list of times of selected clips, including both start and end times.
+	*/
+	QValueList<GenTime> selectedClipTimes();
 private:	// attributes
 	/** GUI elements */
 	QHBox *m_rulerBox;				 	// Horizontal box holding the ruler
@@ -265,10 +270,6 @@ it does not remove the clips from the timeline. */
 	*/
 	void setupSnapToGrid();
 
-	/**
-	Returns a list of times of selected clips, including both start and end times.
-	*/
-	QValueList<GenTime> selectedClipTimes();
 public slots: // Public slots
 	/** Called when a track within the project has been added or removed.
 	* The timeline needs to be updated to show these changes. */

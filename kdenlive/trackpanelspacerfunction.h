@@ -21,9 +21,15 @@
 
 #include "kdenlive.h"
 #include "trackpanelfunction.h"
+#include "snaptogrid.h"
 
 class QMouseEvent;
 class DocTrackBase;
+class KdenliveDoc;
+
+namespace Command {
+	class KMoveClipsCommand;
+}
 
 /**
 Abstract Base Class for track panel functionality decorators. This and it's
@@ -35,7 +41,7 @@ class TrackPanelSpacerFunction : public TrackPanelFunction
 {
 	Q_OBJECT
 public:
-    TrackPanelSpacerFunction(KMMTimeLine *timeline, DocTrackBase *docTrack);
+    TrackPanelSpacerFunction(KMMTimeLine *timeline, DocTrackBase *docTrack, KdenliveDoc *doc);
 
     virtual ~TrackPanelSpacerFunction();
 
@@ -69,6 +75,16 @@ private:
 	KMMTimeLine *m_timeline;
 	DocTrackBase *m_docTrack;
 	DocClipBase * m_clipUnderMouse;
+	KdenliveDoc *m_doc;
+	DocClipBase *m_masterClip;
+	Command::KMoveClipsCommand *m_moveClipsCommand;
+	
+  	/**
+	When dragging a clip, this is the time offset that should be applied to where
+	the mouse cursor to find the beginning of the master clip.
+	*/
+  	GenTime m_clipOffset;
+	SnapToGrid m_snapToGrid;
 };
 
 #endif
