@@ -20,7 +20,7 @@
 
 #include "doctrackbase.h"
 
-class KdenliveDoc;
+class DocClipProject;
 
 /**DocTrackSound holds all of the data for a sound track
 
@@ -29,17 +29,17 @@ class KdenliveDoc;
 
 class DocTrackSound : public DocTrackBase  {
 public: 
-	DocTrackSound(KdenliveDoc *doc);
+	DocTrackSound(DocClipProject *project);
 	~DocTrackSound();
   /** Returns true if the specified clip can be added to this track, false otherwise.
 		*
 		* This method needs to be implemented by inheriting classes to define
 		* which types of clip they support. */
-  bool canAddClip(DocClipBase * clip);
+  bool canAddClip(DocClipRef * clip);
   /** Returns the clip type as a string. This is a bit of a hack to give the
 		* KMMTimeLine a way to determine which class it should associate
 		*	with each type of clip. */
-  const QString &clipType();
+  const QString &clipType() const;
 };
 
 #endif

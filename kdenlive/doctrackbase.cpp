@@ -20,13 +20,14 @@
 #include "doctrackvideo.h"
 #include "doctracksound.h"
 #include "doctrackclipiterator.h"
-#include "kdenlivedoc.h"
+#include "docclipproject.h"
+#include "clipmanager.h"
 
-DocTrackBase::DocTrackBase(KdenliveDoc *doc)
+DocTrackBase::DocTrackBase(DocClipProject *project)
 {
 	m_sortingEnabled = 1;
 	m_collisionDetectionEnabled = 1;
-	m_doc = doc;
+	m_project = project;
 	m_selectedClipList.setAutoDelete(false);
 	m_unselectedClipList.setAutoDelete(false);	
 }
@@ -37,16 +38,16 @@ DocTrackBase::~DocTrackBase()
 	m_unselectedClipList.setAutoDelete(true);
 }
 
-bool DocTrackBase::addClip(DocClipBase *clip, bool selected)
+bool DocTrackBase::addClip(DocClipRef *clip, bool selected)
 {
 	if(canAddClip(clip)) {
 		if(selected) {
 			m_selectedClipList.inSort(clip);
-      		emit signalClipSelected(clip);
+	      		emit signalClipSelected(clip);
 		} else {
 			m_unselectedClipList.inSort(clip);
 		}
-		clip->setParentTrack(this, m_doc->trackIndex(this));
+		clip->setParentTrack(this, m_project->trackIndex(this));
 		emit clipLayoutChanged();
 		return true;
 	} else {
@@ -54,11 +55,11 @@ bool DocTrackBase::addClip(DocClipBase *clip, bool selected)
 	}
 }
 
-QPtrListIterator<DocClipBase> DocTrackBase::firstClip(GenTime startValue, GenTime endValue, bool selected)
+QPtrListIterator<DocClipRef> DocTrackBase::firstClip(GenTime startValue, GenTime endValue, bool selected)
 {
-	QPtrListIterator<DocClipBase> itt( selected ? m_selectedClipList : m_unselectedClipList);
+	QPtrListIterator<DocClipRef> itt( selected ? m_selectedClipList : m_unselectedClipList);
 
-	DocClipBase *clip;
+	DocClipRef *clip;
 
 	if(itt.isEmpty()) return itt;
 
@@ -87,11 +88,11 @@ QPtrListIterator<DocClipBase> DocTrackBase::firstClip(GenTime startValue, GenTim
 	return itt;
 }
 
-QPtrListIterator<DocClipBase> DocTrackBase::endClip(GenTime startValue, GenTime endValue, bool selected)
+QPtrListIterator<DocClipRef> DocTrackBase::endClip(GenTime startValue, GenTime endValue, bool selected)
 {
-	QPtrListIterator<DocClipBase> itt(firstClip(startValue, endValue, selected));
+	QPtrListIterator<DocClipRef> itt(firstClip(startValue, endValue, selected));
 
-	DocClipBase *clip;
+	DocClipRef *clip;
 
 	if(itt.isEmpty()) return itt;
 
@@ -105,10 +106,10 @@ QPtrListIterator<DocClipBase> DocTrackBase::endClip(GenTime startValue, GenTime 
 	return itt;
 }
 
-DocClipBase *DocTrackBase::getClipAt(GenTime value)
+DocClipRef *DocTrackBase::getClipAt(GenTime value)
 {
-	QPtrListIterator<DocClipBase> u_itt(m_unselectedClipList);
-	DocClipBase *file;
+	QPtrListIterator<DocClipRef> u_itt(m_unselectedClipList);
+	DocClipRef *file;
 
 	while( (file = u_itt.current()) ) {
 		if(file->trackStart() > value) break;
@@ -118,7 +119,7 @@ DocClipBase *DocTrackBase::getClipAt(GenTime value)
 		++u_itt;
 	}
 
-	QPtrListIterator<DocClipBase> s_itt(m_selectedClipList);
+	QPtrListIterator<DocClipRef> s_itt(m_selectedClipList);
 	while( (file = s_itt.current()) ) {
 		if(file->trackStart() > value) break;
 		if(file->trackEnd() >= value) {
@@ -130,32 +131,32 @@ DocClipBase *DocTrackBase::getClipAt(GenTime value)
 	return 0;
 }
 
-bool DocTrackBase::canAddClips(DocClipBaseList clipList)
+bool DocTrackBase::canAddClips(DocClipRefList clipList)
 {
-	QPtrListIterator<DocClipBase> itt(clipList);
+	QPtrListIterator<DocClipRef> itt(clipList);
 
-	for(DocClipBase *clip; (clip = itt.current())!=0; ++itt) {
+	for(DocClipRef *clip; (clip = itt.current())!=0; ++itt) {
 		if(!canAddClip(clip)) return false;
 	}
 
 	return true;
 }
 
-void DocTrackBase::addClips(DocClipBaseList list, bool selected)
+void DocTrackBase::addClips(DocClipRefList list, bool selected)
 {
-	QPtrListIterator<DocClipBase> itt(list);
+	QPtrListIterator<DocClipRef> itt(list);
 
-	for(DocClipBase *clip; (clip = itt.current()) !=- 0; ++itt) {
+	for(DocClipRef *clip; (clip = itt.current()) !=- 0; ++itt) {
 		addClip(clip, selected);
 	}
 }
 
-bool DocTrackBase::clipExists(DocClipBase *clip)
+bool DocTrackBase::clipExists(DocClipRef *clip)
 {
 	return ((m_unselectedClipList.findRef(clip)!=-1) || (m_selectedClipList.findRef(clip)!=-1));
 }
 
-bool DocTrackBase::removeClip(DocClipBase *clip)
+bool DocTrackBase::removeClip(DocClipRef *clip)
 {
 	if(!clip) return false;
 		
@@ -169,7 +170,7 @@ bool DocTrackBase::removeClip(DocClipBase *clip)
 	return true;
 }
 
-void DocTrackBase::clipMoved(DocClipBase *clip)
+void DocTrackBase::clipMoved(DocClipRef *clip)
 {
 	if(m_sortingEnabled < 1) return;	// Don't sort if we aren't supposed to.yet.
 	
@@ -180,7 +181,7 @@ void DocTrackBase::clipMoved(DocClipBase *clip)
 	}
 
 	int pos;
-	DocClipBaseList *list = &m_selectedClipList;
+	DocClipRefList *list = &m_selectedClipList;
 	pos = list->find(clip);
 	if(pos==-1) {
 		list = &m_unselectedClipList;
@@ -201,9 +202,9 @@ bool DocTrackBase::hasSelectedClips()
 	return (!m_selectedClipList.isEmpty());
 }
 
-QPtrListIterator<DocClipBase> DocTrackBase::firstClip(bool selected) const
+QPtrListIterator<DocClipRef> DocTrackBase::firstClip(bool selected) const
 {
-	return QPtrListIterator<DocClipBase>(selected ? m_selectedClipList : m_unselectedClipList);
+	return QPtrListIterator<DocClipRef>(selected ? m_selectedClipList : m_unselectedClipList);
 }
 
 void DocTrackBase::moveClips(GenTime offset, bool selected)
@@ -211,9 +212,9 @@ void DocTrackBase::moveClips(GenTime offset, bool selected)
 	enableClipSorting(false);
 	enableCollisionDetection(false);
 
-	QPtrListIterator<DocClipBase> itt((selected) ? m_selectedClipList : m_unselectedClipList);
+	QPtrListIterator<DocClipRef> itt((selected) ? m_selectedClipList : m_unselectedClipList);
 
-	DocClipBase *clip;
+	DocClipRef *clip;
 
 	while( (clip=itt.current()) != 0) {
 		++itt;
@@ -235,13 +236,13 @@ void DocTrackBase::enableCollisionDetection(bool enable)
 	m_collisionDetectionEnabled += (enable) ? 1 : -1;
 }
 
-DocClipBaseList DocTrackBase::removeClips(bool selected)
+DocClipRefList DocTrackBase::removeClips(bool selected)
 {
-	DocClipBaseList &list = selected ? m_selectedClipList : m_unselectedClipList;
-  DocClipBaseList returnList;
+	DocClipRefList &list = selected ? m_selectedClipList : m_unselectedClipList;
+  DocClipRefList returnList;
 
   while(!list.isEmpty()) {
-  	DocClipBase *clip = list.first();
+  	DocClipRef *clip = list.first();
    	// When we are removing clips and placing them into a list, it is likely that we are removing clips from
     // a number of tracks and putting them into a single list elsewhere. We must wipe the parent track pointer,
     // but by keeping the track hint, we make it easier to relocate the clips on a different timeline or some
@@ -257,7 +258,7 @@ DocClipBaseList DocTrackBase::removeClips(bool selected)
 
 void DocTrackBase::deleteClips(bool selected)
 {
-	DocClipBaseList *list = &(selected ? m_selectedClipList : m_unselectedClipList);
+	DocClipRefList *list = &(selected ? m_selectedClipList : m_unselectedClipList);
 
 	list->setAutoDelete(true);
 	list->clear();
@@ -265,12 +266,12 @@ void DocTrackBase::deleteClips(bool selected)
 	emit clipLayoutChanged();
 }
 
-bool DocTrackBase::clipSelected(DocClipBase *clip)
+bool DocTrackBase::clipSelected(DocClipRef *clip)
 {
 	return (m_selectedClipList.find(clip) != -1);
 }
 
-void DocTrackBase::resizeClipTrackStart(DocClipBase *clip, GenTime newStart)
+void DocTrackBase::resizeClipTrackStart(DocClipRef *clip, GenTime newStart)
 {
 	if(!clipExists(clip)) {
 		kdError() << "Trying to resize non-existant clip! (resizeClipTrackStart)" << endl;
@@ -289,13 +290,13 @@ void DocTrackBase::resizeClipTrackStart(DocClipBase *clip, GenTime newStart)
 
 	if(clip->cropDuration() - newStart < GenTime()) {
 		kdWarning() << "Clip cannot be resized to length < 1 frame, fixing..." << endl;
-		newStart = clip->cropDuration() - GenTime(1, m_doc->framesPerSecond());
+		newStart = clip->cropDuration() - GenTime(1, m_project->framesPerSecond());
 	}
 	
 
 	// Check that we are not trying to overlap the previous clip.
 	DocTrackClipIterator itt(*this);
-	DocClipBase *previousClip = 0;
+	DocClipRef *previousClip = 0;
 
 	while(itt.current() && (itt.current()!=clip)) {
 		previousClip = itt.current();
@@ -312,7 +313,7 @@ void DocTrackBase::resizeClipTrackStart(DocClipBase *clip, GenTime newStart)
 	clip->setCropStartTime(clip->cropStartTime() + newStart);
 }
 
-void DocTrackBase::resizeClipTrackEnd(DocClipBase *clip, GenTime newEnd)
+void DocTrackBase::resizeClipTrackEnd(DocClipRef *clip, GenTime newEnd)
 {
 	if(!clipExists(clip)) {
 		kdError() << "Trying to resize non-existant clip! (resizeClipCropDuration)" << endl;
@@ -328,12 +329,12 @@ void DocTrackBase::resizeClipTrackEnd(DocClipBase *clip, GenTime newEnd)
 	
 	if(newEnd < clip->trackStart()) {
 		kdWarning() << "Clip cannot be resized to < 1 frame in size, fixing..." << endl;
-		newEnd = clip->trackStart() + GenTime(1, m_doc->framesPerSecond());
+		newEnd = clip->trackStart() + GenTime(1, m_project->framesPerSecond());
 	}
 
 	// Check that we are not overlapping the next clip on the track.
 	DocTrackClipIterator itt(*this);
-	DocClipBase *nextClip=0;
+	DocClipRef *nextClip=0;
 
 	while(itt.current() && (itt.current() != clip)) {
 		++itt;
@@ -374,37 +375,13 @@ GenTime DocTrackBase::trackLength()
 }
 
 /** Returns the number of clips contained in this track. */
-unsigned int DocTrackBase::numClips()
+unsigned int DocTrackBase::numClips() const
 {
 	return m_selectedClipList.count() + m_unselectedClipList.count();
 }
 
-/** Returns the parent document of this track. */
-KdenliveDoc * DocTrackBase::document()
-{
-	return m_doc;
-}
-
-/** Returns an xml representation of this track. */
-QDomDocument DocTrackBase::toXML()
-{
-	QDomDocument doc;
-
-	doc.appendChild(doc.createElement("track"));
-	doc.documentElement().setAttribute("cliptype", clipType());
-
-  DocTrackClipIterator itt(*this);
-
-  while(itt.current()) {
-		doc.documentElement().appendChild(doc.importNode(itt.current()->toXML().documentElement(), true));  
-  	++itt;
-  }
-
-	return doc;
-}
-
 /** Creates a track from the given xml document. Returns the track, or 0 if it could not be created. */
-DocTrackBase * DocTrackBase::createTrack(KdenliveDoc *doc, QDomElement elem)
+DocTrackBase * DocTrackBase::createTrack(ClipManager &clipManager, DocClipProject *project, QDomElement elem)
 {
 	if(elem.tagName() != "track") {
 		kdError() << "Cannot create track from QDomElement - has wrong tag name : " << elem.tagName() << endl;
@@ -416,9 +393,9 @@ DocTrackBase * DocTrackBase::createTrack(KdenliveDoc *doc, QDomElement elem)
 	DocTrackBase *track;
 
 	if(clipType == "Video") {
-		track = new DocTrackVideo(doc);
+		track = new DocTrackVideo(project);
 	} else if(clipType == "Sound") {
-		track = new DocTrackSound(doc);
+		track = new DocTrackSound(project);
 	} else {
 		kdError() << "Unknown track clip type '" << clipType << "' - cannot create track" << endl;
 		return 0;
@@ -430,7 +407,7 @@ DocTrackBase * DocTrackBase::createTrack(KdenliveDoc *doc, QDomElement elem)
 		QDomElement e = n.toElement();
 		if(!e.isNull()) {
 			if(e.tagName() == "clip") {
-				DocClipBase *clip = DocClipBase::createClip(doc, e);
+				DocClipRef *clip = DocClipRef::createClip(clipManager, e);
 				if(clip) {
 					track->addClip(clip, false);
 				} else {
@@ -461,7 +438,7 @@ void DocTrackBase::trackIndexChanged(int index)
 }
 
 /** Sets the specified clip to be in the specified selection state. Does nothing if the clip is not on the track. */
-bool DocTrackBase::selectClip(DocClipBase *clip, bool selected)
+bool DocTrackBase::selectClip(DocClipRef *clip, bool selected)
 {
 	bool result = false;
 
@@ -482,5 +459,104 @@ bool DocTrackBase::selectClip(DocClipBase *clip, bool selected)
 		}
 	}
 
+	return result;
+}
+
+bool DocTrackBase::referencesClip(DocClipBase *clip) const
+{
+	bool result = false;
+	DocTrackClipIterator itt(*this);
+
+	while(itt.current()) {
+		if(itt.current()->referencesClip(clip)) {
+			result = true;
+			break;
+		}
+		++itt;
+	}
+
+	return result;
+}
+
+DocClipRefList DocTrackBase::referencedClips(DocClipBase *clip) const
+{
+	DocClipRefList list;
+
+	DocTrackClipIterator itt(*this);
+	
+	while(itt.current()) {
+		if(itt.current()->referencesClip(clip)) {
+			list.append(itt.current());
+			break;
+		}
+	}
+
+	return list;
+}
+
+double DocTrackBase::framesPerSecond() const
+{
+	double result = 1;
+
+	if(m_project) {
+		result = m_project->framesPerSecond();
+	} else {
+		kdError() << "DocTrackBase is not in a project clip - cannot determine frames per second." << endl;
+	}
+	
+	return result;
+}
+
+/** Returns an xml representation of this track. */
+QDomDocument DocTrackBase::toXML()
+{
+	QDomDocument doc;
+
+	doc.appendChild(doc.createElement("track"));
+	doc.documentElement().setAttribute("cliptype", clipType());
+
+	DocTrackClipIterator itt(*this);
+
+	while(itt.current()) {
+		doc.documentElement().appendChild(doc.importNode(itt.current()->toXML().documentElement(), true));  
+		++itt;
+	}
+
+	return doc;
+}
+
+bool DocTrackBase::matchesXML(const QDomElement &element) const
+{
+	bool result = false;
+
+	if(element.tagName() == "track") {
+		if(element.attribute("cliptype") == clipType()) {
+			QDomNodeList nodeList = element.elementsByTagName("clip");
+
+			if(nodeList.length() == numClips()) {
+				result = true;
+				
+				DocTrackClipIterator itt(*this);
+				uint count = 0;
+
+				while(itt.current()) {
+					QDomElement clipElement = nodeList.item(count).toElement();
+
+					if(!clipElement.isNull()) {
+						if(!itt.current()->matchesXML(clipElement)) {
+							result = false;
+							break;
+						}
+					} else {
+						result = false;
+						break;
+					}
+					++count;
+					++itt;
+				}
+			}
+		}
+	}
+	
 	return result;
 }

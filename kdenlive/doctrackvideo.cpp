@@ -22,8 +22,8 @@
 #include "avfile.h"
 #include "docclipavfile.h"
 
-DocTrackVideo::DocTrackVideo(KdenliveDoc *doc) :
-						DocTrackBase(doc)
+DocTrackVideo::DocTrackVideo(DocClipProject *project) :
+						DocTrackBase(project)
 {
 }
 
@@ -32,13 +32,13 @@ DocTrackVideo::~DocTrackVideo()
 }
 
 /** Returns true if the specified clip can be added to this track, false otherwise.*/
-bool DocTrackVideo::canAddClip(DocClipBase * clip)
+bool DocTrackVideo::canAddClip(DocClipRef * clip)
 {
-	DocClipBase *search;
+	DocClipRef *search;
 
 	if(!clip) return false;
 
-	QPtrListIterator<DocClipBase> u_itt(m_unselectedClipList);
+	QPtrListIterator<DocClipRef> u_itt(m_unselectedClipList);
 	for(; (search=u_itt.current()) != 0; ++u_itt) {
 		if(search->trackEnd() <= clip->trackStart()) continue;
 		if(search->trackStart() < clip->trackEnd()) {
@@ -50,7 +50,7 @@ bool DocTrackVideo::canAddClip(DocClipBase * clip)
 	}
 
 	// repeated for selected clips
-	QPtrListIterator<DocClipBase> s_itt(m_selectedClipList);	
+	QPtrListIterator<DocClipRef> s_itt(m_selectedClipList);	
 	for(; (search=s_itt.current()) != 0; ++s_itt) {
 		if(search->trackEnd() <= clip->trackStart()) continue;
 		if(search->trackStart() < clip->trackEnd()) {
@@ -72,9 +72,9 @@ bool DocTrackVideo::canAddClip(DocClipBase * clip)
 /** Returns the clip type as a string. This is a bit of a hack to give the
 		* KMMTimeLine a way to determine which class it should associate
 		*	with each type of clip. */
-const QString &DocTrackVideo::clipType()
+const QString &DocTrackVideo::clipType() const
 {
-  static const QString clipType = "Video";
+	static const QString clipType = "Video";
 	return clipType;
 }
 

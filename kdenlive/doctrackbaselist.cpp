@@ -35,6 +35,36 @@ DocTrackBaseList::~DocTrackBaseList()
 {
 }
 
+/** Generates the track list, based upon the XML list provided in elem. */
+void DocTrackBaseList::generateFromXML(ClipManager &clipManager, DocClipProject *project, const QDomElement &elem)
+{
+	if(elem.tagName() != "DocTrackBaseList") {
+		kdWarning() << "DocTrackBaseList cannot be generated - wrong tag : " << elem.tagName() << endl;
+		return;
+	}
+
+	QDomNode n = elem.firstChild();
+
+	while(!n.isNull()) {
+		QDomElement e = n.toElement();
+		if(!e.isNull()) {
+			if(e.tagName() == "track") {
+				DocTrackBase *track = DocTrackBase::createTrack(clipManager, project, e);
+				if(track == 0) {
+					kdError() << "Track not created" << endl;
+				} else {
+					append(track);
+					track->trackIndexChanged(find(track));
+				}
+			} else {
+				kdWarning() << "Unknown tag " << e.tagName() << ", skipping..." << endl;
+			}
+		}
+
+		n = n.nextSibling();
+	}
+}
+
 /** Returns an XML representation of this DocTrackBase list. */
 QDomDocument DocTrackBaseList::toXML()
 {
@@ -52,32 +82,35 @@ QDomDocument DocTrackBaseList::toXML()
 	return doc;
 }
 
-/** Generates the track list, based upon the XML list provided in elem. */
-void DocTrackBaseList::generateFromXML(KdenliveDoc *doc, const QDomElement &elem)
+bool DocTrackBaseList::matchesXML(const QDomElement &element) const
 {
-	if(elem.tagName() != "DocTrackBaseList") {
-		kdWarning() << "DocTrackBaseList cannot be generated - wrong tag : " << elem.tagName() << endl;
-		return;
-	}
+	bool result = false;
+	
+	if(element.tagName() == "DocTrackBaseList") {
+		QDomNodeList nodeList = element.elementsByTagName("track");
 
-	QDomNode n = elem.firstChild();
-
-	while(!n.isNull()) {
-		QDomElement e = n.toElement();
-		if(!e.isNull()) {
-			if(e.tagName() == "track") {
-				DocTrackBase *track = DocTrackBase::createTrack(doc, e);
-				if(track == 0) {
-					kdError() << "Track not created" << endl;
+		if(nodeList.length() == count()) {
+			result = true;
+			QPtrListIterator<DocTrackBase> itt(*this);
+			uint count=0;
+			
+			while(itt.current()) {
+				QDomElement trackElement = nodeList.item(count).toElement();
+				if(!trackElement.isNull()) {
+					if(!itt.current()->matchesXML(trackElement)) {
+						result = false;
+						break;
+					}
 				} else {
-					append(track);
-					track->trackIndexChanged(find(track));
+					result = false;
+					break;
 				}
-			} else {
-				kdWarning() << "Unknown tag " << e.tagName() << ", skipping..." << endl;
+
+				++count;
+				++itt;
 			}
 		}
-
-		n = n.nextSibling();
 	}
+	
+	return result;
 }

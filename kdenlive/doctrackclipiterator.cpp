@@ -19,8 +19,8 @@
 
 DocTrackClipIterator::DocTrackClipIterator(const DocTrackBase &track)
 {
-	m_selectedItt = new QPtrListIterator<DocClipBase>(track.firstClip(true));
-	m_unselectedItt = new QPtrListIterator<DocClipBase>(track.firstClip(false));
+	m_selectedItt = new QPtrListIterator<DocClipRef>(track.firstClip(true));
+	m_unselectedItt = new QPtrListIterator<DocClipRef>(track.firstClip(false));
 
 	if(m_selectedItt->current()) {
 		if(m_unselectedItt->current()) {
@@ -40,13 +40,13 @@ DocTrackClipIterator::~DocTrackClipIterator()
 }
 
 /** Returns the current clip in the list, or returns 0 otherwise. */
-DocClipBase * DocTrackClipIterator::current()
+DocClipRef * DocTrackClipIterator::current()
 {
 	return m_curSelected ? m_selectedItt->current() : m_unselectedItt->current();
 }
 
 /** Increments the iterator. Works identically to all other iterators. */
-DocClipBase * DocTrackClipIterator::operator++()
+DocClipRef * DocTrackClipIterator::operator++()
 {
 	if(current() == 0) return 0;
 

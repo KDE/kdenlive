@@ -22,6 +22,9 @@
 
 #include "doctrackbase.h"
 
+class ClipManager;
+class DocClipProject;
+
 /**Contains a list of DocTrackBase objects.
 
 Works the same as QPtrList<DocTrackBase>, but contains a number of extra functions such as toXML().
@@ -33,10 +36,14 @@ public:
 	DocTrackBaseList();
 	DocTrackBaseList(const DocTrackBaseList &list);	
 	~DocTrackBaseList();
-  /** Returns an XML representation of this DocTrackBase list. */
-  QDomDocument toXML();
-  /** Generates the track list, based upon the XML list provided in elem. */
-  void generateFromXML(KdenliveDoc *doc, const QDomElement &elem);
+	/** Returns an XML representation of this DocTrackBase list. */
+	QDomDocument toXML();
+
+	/** returns true if the contents of the xml element passed matches the contents of the track */
+	bool matchesXML(const QDomElement &element) const;
+	
+	/** Generates the track list, based upon the XML list provided in elem. */
+	void generateFromXML(ClipManager &clipManager, DocClipProject *project, const QDomElement &elem);
 };
 
 typedef QPtrListIterator<DocTrackBase> DocTrackBaseListIterator;

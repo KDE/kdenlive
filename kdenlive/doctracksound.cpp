@@ -18,8 +18,8 @@
 #include "doctracksound.h"
 #include "docclipavfile.h"
 
-DocTrackSound::DocTrackSound(KdenliveDoc *doc) :
-					DocTrackBase(doc)
+DocTrackSound::DocTrackSound(DocClipProject *project) :
+					DocTrackBase(project)
 {
 }
 
@@ -28,13 +28,13 @@ DocTrackSound::~DocTrackSound()
 }
 
 /** Returns true if the specified clip can be added to this track, false otherwise. */
-bool DocTrackSound::canAddClip(DocClipBase * clip)
+bool DocTrackSound::canAddClip(DocClipRef * clip)
 {
-	DocClipBase *search;
+	DocClipRef *search;
 
 	if(!clip) return false;
 	
-	QPtrListIterator<DocClipBase> u_itt(m_unselectedClipList);
+	QPtrListIterator<DocClipRef> u_itt(m_unselectedClipList);
 
 	for(; (search=u_itt.current()) != 0; ++u_itt) {
 		if(search->trackStart() + search->cropDuration() <= clip->trackStart()) continue;
@@ -46,7 +46,7 @@ bool DocTrackSound::canAddClip(DocClipBase * clip)
 		break;
 	}
 
-	QPtrListIterator<DocClipBase> s_itt(m_unselectedClipList);
+	QPtrListIterator<DocClipRef> s_itt(m_unselectedClipList);
 
 	for(; (search=s_itt.current()) != 0; ++s_itt) {
 		if(search->trackStart() + search->cropDuration() <= clip->trackStart()) continue;
@@ -61,7 +61,7 @@ bool DocTrackSound::canAddClip(DocClipBase * clip)
 /** Returns the clip type as a string. This is a bit of a hack to give the
 		* KMMTimeLine a way to determine which class it should associate
 		*	with each type of clip. */
-const QString &DocTrackSound::clipType()
+const QString &DocTrackSound::clipType() const
 {
   static QString clipType = "sound";
 	return clipType;

@@ -28,14 +28,14 @@ class KdenliveDoc;
 
 class DocTrackVideo : public DocTrackBase  {
 public: 
-	DocTrackVideo(KdenliveDoc *doc);
+	DocTrackVideo(DocClipProject *project);
 	~DocTrackVideo();
   /** Returns true if the specified clip can be added to this track, false otherwise. */
-  bool canAddClip(DocClipBase * clip);
+  bool canAddClip(DocClipRef * clip);
   /** Returns the clip type as a string. This is a bit of a hack to give the
 		* KMMTimeLine a way to determine which class it should associate
 		*	with each type of clip. */
-  const QString &clipType();
+  const QString &clipType() const;
 };
 
 #endif
