@@ -18,6 +18,8 @@
 #include "kmmrulerpanel.h"
 #include "kcombobox.h"
 #include "qslider.h"
+
+#include <stdlib.h>
 #include <math.h>
 
 const int KMMRulerPanel::comboListLength = 14;
