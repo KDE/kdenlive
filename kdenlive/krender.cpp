@@ -184,6 +184,17 @@ void KRender::getFileProperties(KURL url)
 	sendCommand(doc);
 }
 
+/** Wraps the VEML command of the same name. Sets the current scene list to
+be list. */
+void KRender::setSceneList(QDomDocument list)
+{
+	QDomDocument doc;
+	QDomElement elem = doc.createElement("setSceneList");
+	elem.appendChild(doc.importNode(list.documentElement(), true));	
+	doc.appendChild(elem);
+	sendCommand(doc);
+}
+
 
 
 

@@ -74,6 +74,9 @@ replyCreateVideoXWindow() once the renderer has replied. */
 for the specified url from the renderer. Upon return, the result will be emitted
 via replyGetFileProperties(). */
   void getFileProperties(KURL url);
+  /** Wraps the VEML command of the same name. Sets the current scene list to
+be list. */
+  void setSceneList(QDomDocument list);
 protected: // Protected methods
   /** Recieves timer events */
   virtual void timerEvent(QTimerEvent *event);
