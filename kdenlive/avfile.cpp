@@ -34,6 +34,7 @@ AVFile::AVFile(const QString name, const KURL url) :
   
 	m_url = url;
 
+  m_durationKnown = false;
 	calculateFileProperties(QMap<QString, QString>());
 }
 
@@ -52,14 +53,17 @@ void AVFile::calculateFileProperties(QMap<QString, QString> attributes)
 
 		if(attributes.contains("duration")) {
 			m_duration = GenTime(attributes["duration"].toDouble());
+      m_durationKnown = true;      
 		} else {
 			// No duration known, use an arbitrary one until it is.
-			m_duration = GenTime(60.0);		
+  		m_duration = GenTime(0.0);
+      m_durationKnown = false;
 		}
 
 	} else {
 		/** If the file is not local, then no file properties are currently returned */
 		m_duration = GenTime(0.0);
+    m_durationKnown = false;
 		m_filesize = -1;
 	}
 }
@@ -111,4 +115,10 @@ int AVFile::removeReference()
 int AVFile::numReferences()
 {
 	return m_refCount;
+}
+
+/** Returns true if this AVFile has a known duration, false if it is, as of yet, undetermined. */
+bool AVFile::durationKnown()
+{
+  return m_durationKnown;
 }

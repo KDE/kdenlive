@@ -36,10 +36,14 @@ QString AVListViewItem::text ( int column ) const {
 	}
 	
 	if(m_listView->columnText(column) == i18n("Duration")) {
-		return QString::number(((int)m_clip->duration().seconds())/3600).rightJustify(2, '0', FALSE) + ":" +
-			QString::number((((int)m_clip->duration().seconds())/60) % 60).rightJustify(2, '0', FALSE) + ":" +
-			QString::number(((int)m_clip->duration().seconds())%60).rightJustify(2, '0', FALSE) + "." +
-			QString::number(((int)m_clip->duration().ms())%1000 ).leftJustify(2, '0', TRUE);
+    if(m_clip->durationKnown()) {
+  		return QString::number(((int)m_clip->duration().seconds())/3600).rightJustify(2, '0', FALSE) + ":" +
+  			QString::number((((int)m_clip->duration().seconds())/60) % 60).rightJustify(2, '0', FALSE) + ":" +
+  			QString::number(((int)m_clip->duration().seconds())%60).rightJustify(2, '0', FALSE) + "." +
+  			QString::number(((int)m_clip->duration().ms())%1000 ).leftJustify(2, '0', TRUE);
+    } else {
+      return "unknown";
+    }
 	}
 	
 	if(m_listView->columnText(column) == i18n("Size")) {			

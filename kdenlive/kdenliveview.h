@@ -36,6 +36,7 @@
 #include "kmmtimeline.h"
 #include "kmmmonitor.h"
 #include "projectlist.h"
+#include "renderdebugpanel.h"
 #include "kmmrulerpanel.h"
 
 class KdenliveDoc;
@@ -71,6 +72,7 @@ class KdenliveView : public QSplitter
   	QSplitter m_topSplitter;
     QTabWidget m_tabWidget; 	
   	ProjectList m_projectList;
+    RenderDebugPanel m_renderDebugPanel;
   	KMMMonitor m_monitor;
 		KMMRulerPanel *m_rulerPanel;	// pointer, because it gets reparented to the timeline widget!
 		KMMTimeLine m_timeline;

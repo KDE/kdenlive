@@ -97,22 +97,25 @@ void KRender::readData()
 {
 	kdDebug() << "Reading data" << endl;
 	m_xmlInputSource->fetchData();
-	
-	if(m_parsing == false) {
-		kdDebug() << "parsing data" << endl;
-		m_parsing = true;
-		
-		if(!m_xmlReader.parse(m_xmlInputSource, true)) {
-			kdError() << "XML Parsing failed" << endl;
-			m_parsing = false;			
-		}
-	} else {
-		kdDebug() << "continuing parse" << endl;		
-		if(!m_xmlReader.parseContinue()) {
-			kdError() << "Error parsing XML from server" << endl;
-			m_parsing = false;
-		}
-	}
+
+  while(m_xmlInputSource->data() != QString::null) {
+    kdDebug() << "Parsing " << m_xmlInputSource->data() << endl;
+  	if(m_parsing == false) {
+  		kdDebug() << "parsing data" << endl;
+  		m_parsing = true;
+  		
+  		if(!m_xmlReader.parse(m_xmlInputSource, true)) {
+  			kdError() << "XML Parsing failed" << endl;
+  			m_parsing = false;
+  		}
+  	} else {
+  		kdDebug() << "continuing parse" << endl;		
+  		if(!m_xmlReader.parseContinue()) {
+  			kdError() << "Error parsing XML from server" << endl;
+  			m_parsing = false;
+  		}
+  	}
+  }
 }
 
 /** Sends an XML command to the renderer. */
@@ -142,7 +145,7 @@ void KRender::launchProcess()
 {
 	m_process.clearArguments();
 	m_process.setExecutable(m_appPath.path());
-  m_process << "-p" << m_portNum;
+  m_process << "-p " << m_portNum;
 
 	kdDebug() << "Launching process " << m_appPath.path() << " as server on port " << m_portNum << endl;
 	if(m_process.start()) {
@@ -267,7 +270,7 @@ bool KRender::startDocument()
 /** Occurs upon finishing reading an XML document */
 bool KRender::endDocument()
 {
-	kdDebug() << "finishing parsing document" << endl;
+	kdDebug() << "finishing parsing document" << endl;  
 	return true;
 }
 
@@ -287,7 +290,8 @@ bool KRender::endElement ( const QString & namespaceURI, const QString & localNa
 {
 	kdDebug() << "Discovered closing tag " << localName << endl;
 
-	(this->*m_funcEndElement)(namespaceURI, localName, qName);	
+	(this->*m_funcEndElement)(namespaceURI, localName, qName);
+
 	return true;
 }
 

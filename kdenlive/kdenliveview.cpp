@@ -31,12 +31,14 @@ KdenliveView::KdenliveView(QWidget *parent, const char *name) :
 				m_topSplitter(Horizontal, this, name),
         m_tabWidget(&m_topSplitter, name),
 				m_projectList((KdenliveApp *)parentWidget(), getDocument(), &m_tabWidget, name),
+				m_renderDebugPanel(&m_tabWidget, name),
 				m_monitor((KdenliveApp *) parentWidget(), getDocument(), &m_topSplitter, name),
 				m_rulerPanel(new KMMRulerPanel(NULL, "Ruler Panel")),
 				m_timeline((KdenliveApp *) parentWidget(), m_rulerPanel, NULL, getDocument(), this, name)
 {
   m_tabWidget.setTabPosition(QTabWidget::Bottom);
   m_tabWidget.addTab(&m_projectList, i18n("Project List"));
+  m_tabWidget.addTab(&m_renderDebugPanel, i18n("Debug"));  
 
   setBackgroundMode(PaletteBase);
 
