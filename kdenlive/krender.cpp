@@ -45,7 +45,6 @@ KRender::KRender(KURL appPath, unsigned int port, QObject *parent, const char *n
 
 	m_portNum = port;
   m_appPath = appPath;
-  launchProcess();
 }
 
 KRender::~KRender()
