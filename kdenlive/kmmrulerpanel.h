@@ -41,7 +41,15 @@ public slots: // Public slots
   void sliderScaleChange(int value);
 public: // Public attributes
   /** This scale is used to convert the combo box entries to scale values. */
-  static int comboScale[];
+  static const int comboListLength;
+  static const int comboScale[];
+private: // Private attributes
+  /** This variable is used when we are "syncing" the various widgets in the ruler
+panel. Since it is unlikely that the various representations can be made exactly
+equal, we instead make them as equal as possible. The m_sync variable
+prevents infinte loops from occuring as the multiple widgets keep rearranging
+each other's values. */
+  bool m_sync;
 };
 
 #endif
