@@ -4,29 +4,27 @@
 
 Name: kdenlive
 Version: 0.2.2
-Release: 26/4/2003
-Vendor: 
+Release: 1jmw
 Copyright: GPL
-Summary: A non-linear video editor
-Group: 
+Summary: A non-linear video editing application for KDE
 Packager: Jason Wood <jasonwood@blueyonder.co.uk>
+Group: Applications/Multimedia
 BuildRoot: %{_tmppath}/%{name}-root
 Source: kdenlive-0.2.2.tar.gz
+Requires: piave >= 0.2.2, libqt3 >= 3.0.0, kdebase >= 3.0.0
 
 %description
 Kdenlive is a non-linear vdeo editor for KDE. It relies on a seperate renderer, piave, to handle it's rendering. Kdenlive supports multitrack editing.
 
 %prep
+rm -rf $RPM_BUILD_ROOT
 %setup
-CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" ./configure \
---target=i386
 
 %build
-%configure
-make
+./configure --prefix=%_prefix
+%make
 
 %install
-rm -rf %{buildroot}
 %makeinstall
 
 %clean
@@ -36,10 +34,18 @@ rm -rf %{buildroot}
 %postun -p /sbin/ldconfig
 %files
 %defattr(-, root, root)
-%doc AUTHORS COPYING ChangeLog NEWS README TODO
+%doc AUTHORS COPYING ChangeLog README TODO INSTALL
 %{_bindir}/*
-%{_libdir}/*.so.*
-%{_datadir}/%{name}
-%{_mandir}/man8/*
+%{_datadir}/apps/%{name}
+%{_datadir}/applnk/Multimedia/%{name}.desktop
+%{_datadir}/doc/HTML/en/%{name}/index.cache.bz2
+%{_datadir}/doc/HTML/en/%{name}/index.docbook
+%{_datadir}/icons/locolor/16x16/apps/%{name}.png
+%{_datadir}/icons/locolor/32x32/apps/%{name}.png
+%{_datadir}/locale/fr/LC_MESSAGES/%{name}.mo
+
 %changelog
 
+* Sun Apr 27 2003 Jason Wood <jasonwood@blueyonder.co.uk> 0.2.2-1mdk
+- First stab at an RPM package.
+- This is taken from kdenlive-0.2.2 source package.

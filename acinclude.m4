@@ -2606,7 +2606,7 @@ AC_DEFUN(AC_FIND_JASPER,
 [
 AC_REQUIRE([KDE_CHECK_EXTRA_LIBS])
 AC_REQUIRE([AC_FIND_JPEG])
-AC_MSG_CHECKING([for jasper 1.600])
+AC_MSG_CHECKING([for jasper])
 AC_CACHE_VAL(ac_cv_jasper,
 [
 kde_save_LIBS="$LIBS"
@@ -2619,7 +2619,7 @@ AC_TRY_LINK(dnl
     #include<jasper/jasper.h>
     ],
     [
-    return( jas_init() && JAS_IMAGE_CS_RGB );
+    return( jas_init() );
     ],
     eval "ac_cv_jasper='-ljasper $LIBJPEG -lm'",
     eval "ac_cv_jasper=no"
@@ -4218,10 +4218,14 @@ fi
 
 AC_DEFUN(KDE_CHECK_PYTHON,
 [
-  KDE_CHECK_PYTHON_INTERN("2.2", 
-    [KDE_CHECK_PYTHON_INTERN("2.1", 
-      [KDE_CHECK_PYTHON_INTERN("2.0", [ KDE_CHECK_PYTHON_INTERN($1, $2) ])
-  ])])
+  KDE_CHECK_PYTHON_INTERN("2.3", 
+   [KDE_CHECK_PYTHON_INTERN("2.2", 
+     [KDE_CHECK_PYTHON_INTERN("2.1", 
+       [KDE_CHECK_PYTHON_INTERN("2.0", 
+         [KDE_CHECK_PYTHON_INTERN($1, $2) ])
+       ])
+     ])
+   ])
 ])
 
 AC_DEFUN(KDE_CHECK_STL_SGI,
@@ -4942,9 +4946,9 @@ m4_define([mm_car], [[$1]])
 m4_define([mm_car2], [[$@]])
 m4_define([_mm_foreach],
 [m4_if(m4_quote($2), [], [],
-       [m4_define([$1], [mm_car($2)])$3[]_mm_foreach([$1],
-                                                     mm_car2(m4_shift($2)),
-                                                     [$3])])])
+       [m4_define([$1], mm_car($2))$3[]_mm_foreach([$1],
+                                                   mm_car2(m4_shift($2)),
+                                                   [$3])])])
 m4_define([AC_FOREACH],
 [mm_foreach([$1], m4_split(m4_normalize([$2])), [$3])])
 
@@ -5401,6 +5405,12 @@ AC_DEFUN(KDE_CHECK_BINUTILS,
   echo "{ local: extern \"C++\" { foo }; };" > conftest.map
   AC_TRY_LINK([int foo;],
 [
+#ifdef __INTEL_COMPILER
+icc apparently does not support libtools version-info and version-script
+at the same time. Dunno where the bug is, but until somebody figured out,
+better disable the optional version scripts.
+#endif
+
   foo = 42;
 ], kde_supports_versionmaps=yes, kde_supports_versionmaps=no)
   LDFLAGS="$kde_save_LDFLAGS"
@@ -5633,7 +5643,6 @@ test -z "$pic_mode" && pic_mode=default
 # Use C for the default configuration in the libtool script
 tagname=
 AC_LIBTOOL_LANG_C_CONFIG
-_LT_AC_TAGCONFIG
 ])# AC_LIBTOOL_SETUP
 
 
@@ -8139,6 +8148,16 @@ case $host_os in
 	# "CC -Bstatic", where "CC" is the KAI C++ compiler.
 	_LT_AC_TAGVAR(old_archive_cmds, $1)='$CC -Bstatic -o $oldlib $oldobjs'
 	;;
+      icpc)
+	# Intel C++
+	with_gnu_ld=yes
+	_LT_AC_TAGVAR(archive_cmds_need_lc, $1)=no
+	_LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags ${wl}-soname $wl$soname -o $lib'
+	_LT_AC_TAGVAR(archive_expsym_cmds, $1)='$CC -shared $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags ${wl}-soname $wl$soname ${wl}-retain-symbols-file $wl$export_symbols -o $lib'
+	_LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)='${wl}-rpath,$libdir'
+	_LT_AC_TAGVAR(export_dynamic_flag_spec, $1)='${wl}--export-dynamic'
+	_LT_AC_TAGVAR(whole_archive_flag_spec, $1)='${wl}--whole-archive$convenience ${wl}--no-whole-archive'
+	;;
       cxx)
 	# Compaq C++
 	_LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags ${wl}-soname $wl$soname -o $lib'
@@ -9462,6 +9481,12 @@ AC_MSG_CHECKING([for $compiler option to produce PIC])
 	    _LT_AC_TAGVAR(lt_prog_compiler_wl, $1)='--backend -Wl,'
 	    _LT_AC_TAGVAR(lt_prog_compiler_pic, $1)='-fPIC'
 	    ;;
+	  icpc)
+	    # Intel C++
+	    _LT_AC_TAGVAR(lt_prog_compiler_wl, $1)='-Wl,'
+	    _LT_AC_TAGVAR(lt_prog_compiler_pic, $1)='-KPIC'
+	    _LT_AC_TAGVAR(lt_prog_compiler_static, $1)='-static'
+	    ;;
 	  cxx)
 	    # Compaq C++
 	    # Make sure the PIC flag is empty.  It appears that all Alpha
@@ -9669,6 +9694,14 @@ AC_MSG_CHECKING([for $compiler option to produce PIC])
     newsos6)
       _LT_AC_TAGVAR(lt_prog_compiler_pic, $1)='-KPIC'
       _LT_AC_TAGVAR(lt_prog_compiler_static, $1)='-Bstatic'
+      ;;
+
+    linux*)
+      if test "$CC" = "icc"; then
+	_LT_AC_TAGVAR(lt_prog_compiler_wl, $1)='-Wl,'
+	_LT_AC_TAGVAR(lt_prog_compiler_pic, $1)='-KPIC'
+	_LT_AC_TAGVAR(lt_prog_compiler_static, $1)='-static'
+      fi
       ;;
 
     osf3* | osf4* | osf5*)
