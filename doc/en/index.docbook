@@ -331,8 +331,8 @@ revision history. (see installation appendix comment) -->
 		<title>Selecting Clips on the Timeline</title>
 
 		<para>
-			You can select a clip from the timeline by clicking the &LMB;. If you want to
-			add clips to the current selection, hold down Shift while clicking on the clips
+			You can select a clip from the timeline by clicking the left mouse bouton. If you want
+			to add clips to the current selection, hold down Shift while clicking on the clips
 			you want to add. Finally, you can toggle whether a clip is selected or not by
 		       	holding down Ctrl whilst clicking on it. 
 		</para>
@@ -342,9 +342,10 @@ revision history. (see installation appendix comment) -->
 		<title>Moving and Resizing Clips on the Timeline</title>
 		<para>
 			Moving the selected clips around on the timeline is as simple as clicking on them
-			with the &LMB; and dragging them around. You can resize clips directly from the
-			timeline. Simply move the mouse cursor to the the beginning or end of the clip
-			you want to resize. Now, click and drag with the &LMB; to resize the clip.
+			with the left mouse bouton and dragging them around. You can resize clips directly
+			from the timeline. Simply move the mouse cursor to the the beginning or end of the
+			clip you want to resize. Now, click and drag with the left mouse bouton to resize
+			the clip.
 		</para>
 		<para>
 			Resizing a clip changes it's in and outpoints. If you reselect the clip and look
@@ -1422,8 +1423,6 @@ or the ChangeLog file, or ... -->
 	<title>Configuration</title>
 
 	<para>
-		Don't forget to tell your system to start the <filename>dtd</filename>
-		dicer-toaster daemon first, or KApp won't work !
 	</para>
 </sect1>
 
