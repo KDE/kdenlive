@@ -52,9 +52,9 @@ void KMMMonitor::seek(const GenTime &time)
 /** This slot is called when the screen changes position. */
 void KMMMonitor::screenPositionChanged(const GenTime &time)
 {
-	disconnect(m_editPanel, SIGNAL(seekPositionChanged(GenTime)), m_screen, SLOT(seek(GenTime)));    
+	disconnect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)), m_screen, SLOT(seek(const GenTime &)));    
   m_editPanel->seek(time);
-	connect(m_editPanel, SIGNAL(seekPositionChanged(GenTime)), m_screen, SLOT(seek(GenTime)));  
+	connect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)), m_screen, SLOT(seek(const GenTime &)));  
 }
 
 /** ***Nasty Hack***
