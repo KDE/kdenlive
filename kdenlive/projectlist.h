@@ -24,6 +24,8 @@
 #include <qvaluelist.h>
 #include <qpopupmenu.h>
 #include <qevent.h>
+#include <qheader.h>
+#include <qtooltip.h>
 
 #include <kurl.h>
 
@@ -36,6 +38,15 @@ class DocumentBaseNode;
   * ProjectList is the dialog which contains the project list.
   *@author Jason Wood
   */
+//adds tooltips to project list column headers
+class columnToolTip : public QToolTip
+{
+    public: 
+    	columnToolTip( QHeader *header, QToolTipGroup *group = 0 );
+        virtual ~columnToolTip();
+    private:
+        void maybeTip ( const QPoint &p );
+};
 
 class ProjectList : public ProjectList_UI  {
    Q_OBJECT
@@ -68,6 +79,7 @@ signals: // Signals
 private slots: // Private slots
 	/** Called when the project list changes. */
 	void projectListSelectionChanged(QListViewItem *item);
+	columnToolTip* colToolTip;
 };
 
 #endif

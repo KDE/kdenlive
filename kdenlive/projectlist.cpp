@@ -46,7 +46,9 @@ ProjectList::ProjectList(KdenliveApp *app, KdenliveDoc *document, QWidget *paren
 	}
 
 	m_listView->setDocument(document);
-
+	//add header tooltips -reh
+	colToolTip = new columnToolTip( m_listView->header() );
+	
  	connect (m_listView, SIGNAL(dragDropOccured(QDropEvent *)), this, SIGNAL(dragDropOccured(QDropEvent *)));
 
 	connect(m_listView, SIGNAL(rightButtonPressed ( QListViewItem *, const QPoint &, int )),
@@ -118,4 +120,24 @@ QPopupMenu *ProjectList::contextMenu()
 	QPopupMenu *menu = (QPopupMenu *)m_app->factory()->container("projectlist_context", m_app);
 
 	return menu;
+}
+
+columnToolTip::columnToolTip( QHeader *header, QToolTipGroup *group )
+                : QToolTip( header, group)
+{ }
+
+columnToolTip::~columnToolTip()
+{ }
+
+void columnToolTip::maybeTip ( const QPoint &p )
+{
+    QHeader *header = (QHeader*)parentWidget();
+    int section = 0;
+    if( header->orientation() == Horizontal )
+    	section = header->sectionAt( p.x() );
+    else
+    	section = header->sectionAt( p.y() );
+	
+    QString tipString = header->label( section );
+    tip( header->sectionRect( section ), tipString, "" );
 }
