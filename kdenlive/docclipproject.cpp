@@ -45,3 +45,8 @@ QDomDocument DocClipProject::toXML()
 	return doc;
 }
 
+/** Returns true if the clip duration is known, false otherwise. */
+bool DocClipProject::durationKnown()
+{
+  return false;
+}

@@ -38,6 +38,8 @@ public:
 	KURL fileURL();
 
 	QDomDocument toXML();		
+  /** Returns true if the clip duration is known, false otherwise. */
+  bool durationKnown();
 };
 
 #endif

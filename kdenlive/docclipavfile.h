@@ -50,6 +50,8 @@ public:
   KURL fileURL();
   /** Creates a clip from the passed QDomElement. This only pertains to those details specific to DocClipAVFile.*/
   static DocClipAVFile * createClip(KdenliveDoc *doc, const QDomElement element);
+  /** Returns true if the clip duration is known, false otherwise. */
+  bool durationKnown();
 private:	
 	/** A play object factory, used for calculating information, and previewing files */
 	/** Determines whether this file contains audio, video or both. */

@@ -101,3 +101,9 @@ DocClipAVFile * DocClipAVFile::createClip(KdenliveDoc *doc, const QDomElement el
 	kdWarning() << "DocClipAVFile::createClip failed to generate clip" << endl;
 	return 0;
 }
+
+/** Returns true if the clip duration is known, false otherwise. */
+bool DocClipAVFile::durationKnown()
+{
+  return m_avFile->durationKnown();
+}

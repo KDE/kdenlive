@@ -93,6 +93,8 @@ to trackStart() + cropDuration() */
   void moveTrackStart(const GenTime &time);
   /** Returns an identical but seperate (i.e. "deep") copy of this clip. */
   DocClipBase * clone();
+  /** Returns true if the clip duration is known, false otherwise. */
+  virtual bool durationKnown() = 0;
 private: // Private attributes
 	/** The name of this clip */
 	QString m_name;

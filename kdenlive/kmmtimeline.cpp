@@ -561,6 +561,10 @@ bool KMMTimeLine::canAddClipsToTracks(DocClipBaseList &clips, int track, GenTime
 	itt.toFirst();
 	
 	while(itt.current()) {
+    if(!itt.current()->durationKnown()) {
+        kdWarning() << "Clip Duration not known, cannot add clips" << endl;
+        return false;
+    }    
 		int track = itt.current()->trackNum();
 		if(track==-1) track = 0;
 		track += trackOffset;

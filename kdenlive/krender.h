@@ -115,6 +115,9 @@ private: // Private attributes
   QString m_buffer;
   /** The name of this renderer - useful to identify the renderes by what they do - e.g. background rendering, workspace monitor, etc... */
   QString m_name;
+  /** Becomes true if it is known that the application path does not point to a valid file, false if
+  this is unknown, or if a valid executable is known to exist */
+  bool m_appPathInvalid;
   
   /** A function pointer to the relevant method that should parse tagOpen events */
   bool (KRender::*m_funcStartElement)(const QString & namespaceURI, const QString & localName,

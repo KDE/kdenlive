@@ -15,12 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kio/netaccess.h> 
 #include "krender.h"
 
 KRender::KRender(const QString &rendererName, KURL appPath, unsigned int port, QObject *parent, const char *name ) :
 																				QObject(parent, name),
 																				QXmlDefaultHandler(),
-                                        m_name(rendererName)
+                                        m_name(rendererName),
+                                        m_appPathInvalid(false)
 {
 	startTimer(1000);
 	m_parsing = false;
@@ -57,7 +59,7 @@ void KRender::timerEvent(QTimerEvent *event)
 {
   if(m_socket.state() == QSocket::Idle) {
     if(!m_process.isRunning()) {
-    	launchProcess();
+     	launchProcess();
     } else {
      	m_socket.connectToHost("127.0.0.1", m_portNum);
     }
@@ -149,12 +151,19 @@ void KRender::processExited()
 /** Launches a renderer process. */
 void KRender::launchProcess()
 {
+  if(m_appPathInvalid) return;
+  
+  if(!KIO::NetAccess::exists(m_appPath)) {
+    emit recievedInfo(m_name, "application '" + m_appPath.path() + "' does not exist");
+    m_appPathInvalid = true;
+    return;
+  }
 	m_process.clearArguments();
 	m_process.setExecutable("artsdsp");
   m_process << m_appPath.path();
   m_process << "-d";  
-  m_process << "-p " + QString::number(m_portNum);
-  m_process << "-frgb";
+  m_process << "-p" << QString::number(m_portNum);
+  m_process << "-f" << "rgb";
 
   emit recievedInfo(m_name, "Launching Process " + m_appPath.path() + " as server on port " + QString::number(m_portNum));
 	if(m_process.start(KProcess::NotifyOnExit, KProcess::AllOutput)) {
