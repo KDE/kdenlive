@@ -152,10 +152,18 @@ signals: // Signals
   /** This signal is emitted once a reply to createVideoXWidow() has been recieved. */
   void replyCreateVideoXWindow(WId);
   /** emitted when the renderer recieves a reply to a getFileProperties request. */
-  void replyGetFileProperties(QMap<QString, QString>);  
+  void replyGetFileProperties(QMap<QString, QString>);
+  /** Emitted when the renderer has recieved text from stdout */
+  void recievedStdout(const QString &);
+  /** Emitted when the renderer has recieved text from stderr */
+  void recievedStderr(const QString &);  
 public: // Public attributes
   /** If true, we are currently parsing some data. Otherwise, we are not. */
   bool m_parsing;
+public slots: // Public slots
+  /** This slot reads stdIn and processes it. */
+  void slotReadStdout(KProcess *proc, char *buffer, int buflen);
+  void slotReadStderr(KProcess *proc, char *buffer, int buflen);  
 };
 
 #endif

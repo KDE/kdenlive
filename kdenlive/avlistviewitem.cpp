@@ -19,12 +19,14 @@
 #include "avfile.h"
 
 #include <klocale.h>
+#include <kdenlivedoc.h>
 
 #include <math.h>
 
-AVListViewItem::AVListViewItem(QListView *parent, AVFile *clip) : KListViewItem(parent) {
+AVListViewItem::AVListViewItem(KdenliveDoc *doc, QListView *parent, AVFile *clip) : KListViewItem(parent) {
 	m_listView = parent;
 	m_clip = clip;
+  m_doc = doc;
 }
 
 AVListViewItem::~AVListViewItem() {
@@ -39,8 +41,8 @@ QString AVListViewItem::text ( int column ) const {
     if(m_clip->durationKnown()) {
   		return QString::number(((int)m_clip->duration().seconds())/3600).rightJustify(2, '0', FALSE) + ":" +
   			QString::number((((int)m_clip->duration().seconds())/60) % 60).rightJustify(2, '0', FALSE) + ":" +
-  			QString::number(((int)m_clip->duration().seconds())%60).rightJustify(2, '0', FALSE) + "." +
-  			QString::number(((int)m_clip->duration().ms())%1000 ).leftJustify(2, '0', TRUE);
+  			QString::number(((int)m_clip->duration().seconds())%60).rightJustify(2, '0', FALSE) + "." +        
+  			QString::number((int)(((int)(m_clip->duration().ms())%1000) * (m_doc->framesPerSecond() / 1000.0))).leftJustify(2, '0', TRUE);
     } else {
       return "unknown";
     }

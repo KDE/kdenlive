@@ -18,10 +18,39 @@
 #include "renderdebugpanel.h"
 
 RenderDebugPanel::RenderDebugPanel(QWidget *parent, const char *name ) :
-                                            QWidget(parent,name)
+                                            QVBox(parent,name),
+                                            m_textEdit(this, "edit")
 {
+  m_textEdit.setTextFormat(LogText);
 }
 
 RenderDebugPanel::~RenderDebugPanel()
 {
+}
+
+/** Prints a warning message to the debug area. */
+void RenderDebugPanel::slotPrintWarning(const QString &message)
+{
+  QString newmess = message;
+  newmess.replace("<", "&lt;");
+  newmess.replace(">", "&gt;");  
+  m_textEdit.append("<font color=red>" + newmess + "</font>");
+}
+
+/** Prints an error message to the debug window. */
+void RenderDebugPanel::slotPrintError(const QString &message)
+{
+  QString newmess = message;
+  newmess.replace("<", "&lt;");
+  newmess.replace(">", "&gt;");
+  m_textEdit.append("<font color=red>" + newmess + "</font>");  
+}
+
+/** Prints a debug (informational) message to the debug */
+void RenderDebugPanel::slotPrintDebug(const QString &message)
+{
+  QString newmess = message;
+  newmess.replace("<", "&lt;");
+  newmess.replace(">", "&gt;");
+  m_textEdit.append("<font color=black>" + newmess + "</font>");  
 }

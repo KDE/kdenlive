@@ -40,6 +40,8 @@ KRender::KRender(KURL appPath, unsigned int port, QObject *parent, const char *n
 	connect(&m_socket, SIGNAL(readyRead()), this, SLOT(readData()));
 
 	connect(&m_process, SIGNAL(processExited(KProcess *)), this, SLOT(processExited()));
+  connect(&m_process, SIGNAL(receivedStdout(KProcess *, char *, int)), this, SLOT(slotReadStdout(KProcess *, char *, int)));
+  connect(&m_process, SIGNAL(receivedStderr(KProcess *, char *, int)), this, SLOT(slotReadStderr(KProcess *, char *, int)));  
 
 	m_portNum = port;
   m_appPath = appPath;
@@ -149,17 +151,38 @@ void KRender::launchProcess()
 {
 	m_process.clearArguments();
 	m_process.setExecutable(m_appPath.path());
+  m_process << "-d";  
   m_process << "-p " << m_portNum;
 
+
 	kdDebug() << "Launching process " << m_appPath.path() << " as server on port " << m_portNum << endl;
-	if(m_process.start()) {
+	if(m_process.start(KProcess::NotifyOnExit, KProcess::AllOutput)) {
 		kdDebug() << "Process launching successfully" << endl;
 		kdDebug() << "Connecting to server on port " << m_portNum << endl;
 		m_socket.connectToHost("127.0.0.1", m_portNum);
 	} else {
-		kdError() << "Could not start process" << endl;	
+		kdError() << "Could not start process" << endl;
 	}
 }
+
+void KRender::slotReadStdout(KProcess *proc, char *buffer, int buflen)
+{  
+  QString mess;
+  mess.setLatin1(buffer, buflen);
+  emit recievedStdout(mess);
+}
+
+void KRender::slotReadStderr(KProcess *proc, char *buffer, int buflen)
+{
+  QString mess;
+  mess.setLatin1(buffer, buflen);  
+  emit recievedStderr(mess);
+}
+
+
+
+
+
 
 /** Wraps the VEML command of the same name; requests that the renderer
 should create a video window. If show is true, then the window should be
@@ -273,6 +296,10 @@ void KRender::getCapabilities()
 
 
 
+
+
+
+
 /** Occurs upon starting to parse an XML document */
 bool KRender::startDocument()
 {
@@ -357,7 +384,16 @@ bool KRender::topLevelStartElement(const QString & namespaceURI, const QString &
 			m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;
 			return true;
 		} else if(command == "getCapabilities") {
+			m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
+			m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;      
       return true;
+    } else if(command == "setSceneList") {
+			m_funcStartElement = &KRender::reply_GenericEmpty_StartElement;
+			m_funcEndElement = &KRender::reply_GenericEmpty_EndElement;      
+      return true;
+    } else {      
+      kdWarning() << "Unknown reply '" << command << "'" << endl;
+      return false;
     }
 	} else if(localName == "pong") {
 		QString id = atts.value("id");
@@ -367,7 +403,7 @@ bool KRender::topLevelStartElement(const QString & namespaceURI, const QString &
     return true;
 	}
 
-	kdWarning() << "Unknown tag" << endl;
+	kdWarning() << "Unknown tag '" << localName << "'" << endl;
 	return false;
 }
 
@@ -394,4 +430,3 @@ bool KRender::reply_GenericEmpty_EndElement(const QString & namespaceURI, const 
 
 	return true;
 }
-

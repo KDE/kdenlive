@@ -233,6 +233,9 @@ void KdenliveApp::initView()
 
   connect(m_monitor, SIGNAL(seekPositionChanged(GenTime)), this, SLOT(slotUpdateCurrentTime(GenTime)));
 
+  connect(m_renderer, SIGNAL(recievedStdout(const QString &)), m_renderDebugPanel, SLOT(slotPrintDebug(const QString &)));
+  connect(m_renderer, SIGNAL(recievedStderr(const QString &)), m_renderDebugPanel, SLOT(slotPrintWarning(const QString &)));  
+
   makeDockInvisible(mainDock);
 
   m_timeline->calculateProjectSize();  

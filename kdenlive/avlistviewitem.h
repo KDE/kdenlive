@@ -21,6 +21,7 @@
 #include <klistview.h>
 
 class AVFile;
+class KdenliveDoc;
 
 /**Allows clips to be displayed in a QListView
   *@author Jason Wood
@@ -31,10 +32,11 @@ private:
 	QListView *m_listView;
 	AVFile *m_clip;
 public: 
-	AVListViewItem(QListView *parent, AVFile *clip);
+	AVListViewItem(KdenliveDoc *doc, QListView *parent, AVFile *clip);
 	~AVListViewItem();
 	QString text ( int column ) const;
 	AVFile *clip() const;
+  KdenliveDoc *m_doc;
 };
 
 #endif

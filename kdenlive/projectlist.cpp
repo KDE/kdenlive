@@ -74,7 +74,7 @@ void ProjectList::slot_UpdateList() {
 	AVFile *av;
 	
 	for(; (av = itt.current()); ++itt) {
-		new AVListViewItem(m_listView, av);
+		new AVListViewItem(m_document, m_listView, av);
 	}
 }
 
