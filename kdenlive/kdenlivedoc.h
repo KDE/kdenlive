@@ -103,6 +103,8 @@ class KdenliveDoc : public QObject
   	void addVideoTrack();
   /** Inserts a list of clips into the document, updating the project accordingly. */
   void slot_insertClips(QPtrList<DocClipBase> clips);
+  /** Given a drop event, inserts all contained clips into the project list, if they are not there already. */
+  void slot_insertClips(QDropEvent *event);
  	
 	 public:	
  		/** the list of the views currently connected to the document */
@@ -126,6 +128,12 @@ class KdenliveDoc : public QObject
   AVFile * getAVFileReference(KURL url);
   /** Find and return the AVFile with the url specified, or return null is no file matches. */
   AVFile * findAVFile(const KURL &file);
+  /** returns the Track which holds the given clip. If the clip does not
+exist within the document, returns 0; */
+  DocTrackBase * findTrack(DocClipBase *clip);
+  /** Returns the track with the given index, or returns NULL if it does
+not exist. */
+  DocTrackBase * track(int track);
 
   private:
     /** the modified flag of the current document */

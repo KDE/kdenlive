@@ -88,10 +88,6 @@ public:
 
 	/** Reads in the element structure and creates a clip out of it. */
 	static DocClipBase *createClip(KdenliveDoc &doc, QDomElement element);
-  /** returns whether or not this clip is selected. */
-  bool isSelected();
-  /** Sets whether this clip is selected or not */
-  void setSelected(bool state=true);
 private: // Private attributes
 	/** The name of this clip */
 	QString m_name;
@@ -105,8 +101,6 @@ private: // Private attributes
 	 * time that we actually want.
 	 **/
 	Arts::poTime m_cropDuration;
-  /** This variable becomes true when a clip has become selected. */
-  bool m_selected;
 };
 
 #endif

@@ -14,9 +14,11 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
+#include <kdebug.h>
+ 
 #include "clipdrag.h"
 #include "docclipavfile.h"
+#include "avfile.h"
 
 #include <iostream>
 
@@ -31,7 +33,16 @@ ClipDrag::ClipDrag(AVFile * clip, QWidget * dragSource, const char * name) :
 {
 	DocClipAVFile av(clip);
 
-	m_xml = av.toXML().toString();
+	m_xml = av.toXML().toString();	
+}
+
+/** Constructs a clipDrag object consisting of the clips within the
+clipGroup passed. */
+ClipDrag::ClipDrag(ClipGroup &group, QWidget *dragSource, const char *name) :
+			KURLDrag(group.createURLList(), dragSource, name)
+{
+	m_xml = group.toXML().toString();
+	kdWarning() << m_xml << endl;
 }
 
 ClipDrag::~ClipDrag()
@@ -77,26 +88,26 @@ bool ClipDrag::canDecode(const QMimeSource *mime)
 }
 
 /** Attempts to decode the mimetype e as a clip. Returns a clip, or returns null */
-QPtrList<DocClipBase> ClipDrag::decode(KdenliveDoc &doc, const QMimeSource *e)
+ClipGroup ClipDrag::decode(KdenliveDoc &doc, const QMimeSource *e)
 {
-	QPtrList<DocClipBase> cliplist;
- 	cliplist.setAutoDelete(false);
+	ClipGroup cliplist;
 	
-	if(e->provides("application/x-kdenlive-clip")) {
+	if(e->provides("application/x-kdenlive-clip")) {	
 		QByteArray data = e->encodedData("application/x-kdenlive-clip");
 		QString xml = data;
 		QDomDocument qdomdoc;
 		qdomdoc.setContent(data);
 
-		QDomNode node = qdomdoc.firstChild();
+		QDomNode node = qdomdoc.firstChild();		
 
 		while(!node.isNull()) {
-			QDomElement element = node.toElement();
+			QDomElement element = node.toElement();			
 
 			if(!element.isNull()) {
+				kdDebug() << "decoding element... " << element.tagName() << endl;
 				if(element.tagName() == "clip") {
 					DocClipBase *temp = DocClipBase::createClip(doc, element);
-					cliplist.append(temp);
+					cliplist.addClip(temp);
 				}
 			}
    		node = node.nextSibling();
@@ -108,7 +119,7 @@ QPtrList<DocClipBase> ClipDrag::decode(KdenliveDoc &doc, const QMimeSource *e)
 
 		for(it = list.begin(); it != list.end(); ++it) {
 			DocClipAVFile *file = new DocClipAVFile(doc, (*it).fileName(), *it);
-			cliplist.append(file);
+			cliplist.addClip(file);
 		}
 	}
 

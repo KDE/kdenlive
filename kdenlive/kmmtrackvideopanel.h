@@ -35,7 +35,7 @@ public:
 	KMMTrackVideoPanel(KMMTimeLine &timeline, DocTrackVideo & docTrack, QWidget *parent=0, const char *name=0);
 	~KMMTrackVideoPanel();
   /** Paint the specified clip on screen within the specified rectangle, using the specified painter. */
-  void paintClip(QPainter &painter, DocClipBase *clip);
+  void paintClip(QPainter &painter, DocClipBase *clip, QRect &rect, bool selected);
 private:
 	QLabel m_trackLabel;
 };

@@ -39,7 +39,7 @@ ProjectList::ProjectList(QWidget *parent, const char *name ) :
 {
 	connect (m_addButton, SIGNAL(clicked()), this, SLOT(slot_AddFile()));
 
- 	connect (m_listView, SIGNAL(clipListDropped(QPtrList<DocClipBase>)), this, SIGNAL(clipListDropped(QPtrList<DocClipBase>)));
+ 	connect (m_listView, SIGNAL(dragDropOccured(QDropEvent *)), this, SIGNAL(dragDropOccured(QDropEvent *)));
 		
 	init_menu();
 }

@@ -1,7 +1,7 @@
 /***************************************************************************
-                          docclipproject.h  -  description
+                          docclipbaseiterator.cpp  -  description
                              -------------------
-    begin                : Thu Jun 20 2002
+    begin                : Sat Aug 10 2002
     copyright            : (C) 2002 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
@@ -15,26 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef DOCCLIPPROJECT_H
-#define DOCCLIPPROJECT_H
+#include "docclipbaselist.h"
 
-#include "docclipbase.h"
+DocClipBaseList::DocClipBaseList() :
+							QPtrList<DocClipBase>()
+{
+}
 
-/**This "clip" consists of a number of tracks, clips, overlays, transitions and effects. It is basically
- capable of making multiple clips accessible as if they were a single clip. The "clipType()" of this clip
-  depends entirely upon it's contents. */
-
-class DocClipProject : public DocClipBase  {
-public: 
-	DocClipProject();
-	~DocClipProject();
-
-	long duration();
-  
-	/** No descriptions */
-	KURL fileURL();
-
-	QDomDocument toXML();		
-};
-
-#endif
+DocClipBaseList::~DocClipBaseList()
+{
+}

@@ -18,8 +18,7 @@
 #ifndef KRULERSLIDERBASE_H
 #define KRULERSLIDERBASE_H
 
-#include <qpainter.h>
-
+class QPainter;
 
 /**This is the base class for all kruler sliders. A "slider" is any marker which appears on the kruler. Each slider has a number of properties, including value and current state.
 

@@ -21,7 +21,7 @@
 #include <qwidget.h>
 #include <qpixmap.h>
 
-#include "krulermodel.h"
+class KRulerModel;
 
 /** The multimedia ruler used in the timeline. The ruler handles time in seconds,
   * and displays it in Hours:Minutes:Seconds, but this behaviour can be changed by
@@ -47,7 +47,7 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
 		TopMark,
 		BottomMark,
 		StartMark,
-		EndMark,
+		EndMark
 	};
 	/** Creates a default ruler, with the given model. Sets min/max range and the scale factor.*/
 	KRuler(int min, int max, double scale=1.0, KRulerModel *model=0, QWidget *parent=0, const char *name=0);	 

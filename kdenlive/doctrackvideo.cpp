@@ -14,7 +14,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
+ 
 #include "doctrackvideo.h"
 
 #include "avfile.h"
@@ -23,12 +23,6 @@
 DocTrackVideo::DocTrackVideo() :
 						DocTrackBase()
 {
-	static int count=0;
-	DocClipAVFile *file = new DocClipAVFile(new AVFile("Test", "file:/mnt/windows/My Documents/Music/Elton John/[Elton John] your song.mp3"));
-	file->setTrackStart(count);
-	file->setCropDuration(400-count);	
-	addClip(file);
-	count+=30;
 }
 
 DocTrackVideo::~DocTrackVideo()
@@ -38,8 +32,20 @@ DocTrackVideo::~DocTrackVideo()
 /** Returns true if the specified clip can be added to this track, false otherwise. */
 bool DocTrackVideo::canAddClip(DocClipBase * clip)
 {
+	QPtrListIterator<DocClipBase> itt(m_clips);
+
+	for(DocClipBase *search; (search=itt.current()) != 0; ++itt) {
+		if(search->trackStart() + search->cropDuration() < clip->trackStart()) continue;
+		if(search->trackStart() < clip->trackStart() + clip->cropDuration()) return false;
+		// we can safely break here, as the clips are sorted in order - if search->trackStart is already past
+		// the clip that we was looking at, then we are ok.
+		break;
+	}
 	return true;
 }
+
+
+
 /** Returns the clip type as a string. This is a bit of a hack to give the
 		* KMMTimeLine a way to determine which class it should associate
 		*	with each type of clip. */

@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "avlistviewitem.h"
+#include "avfile.h"
 
 #include <klocale.h>
 

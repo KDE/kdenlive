@@ -18,17 +18,20 @@
 #ifndef DOCTRACKBASE_H
 #define DOCTRACKBASE_H
 
+#include <qobject.h>
 #include <qlist.h>
 #include <qstring.h>
 
-#include "docclipbase.h"
+#include "docclipbaselist.h"
 
 /**DocTrackBase is a base class for all real track entries into the database.
 It provides core functionality that all tracks must possess.
   *@author Jason Wood
   */
 
-class DocTrackBase {
+class DocTrackBase : public QObject
+{
+	Q_OBJECT
 public: 
 	DocTrackBase();
 	virtual ~DocTrackBase();
@@ -51,18 +54,25 @@ This allows you to write standard iterator for loops over a specific range of th
   QPtrListIterator<DocClipBase> endClip(double startValue, double endValue);
   /** Returns an iterator to the first clip (chronologically) which overlaps the start/end value range specified. */
   QPtrListIterator<DocClipBase> firstClip(double startValue, double endValue);
-  /** selects all clips in this track. */
-  void selectAll();
-  /** Clears the selection of all clips in this track. */
-  void selectNone();  
-  /** Toggles the selected state of the clip at the given value. If it was true, it becomes false, if it was false, it becomes true. */
-  bool toggleSelectClipAt(int value);
-  /** Make the clip which exists at the given value selected. */
-  bool selectClipAt(int value);
-private: // Private attributes
+  /** Returns the clip which resides at the current value, or 0 if non exists */
+  DocClipBase *getClipAt(int value);
+  /** Adds all of the clips in the pointerlist into this track. */
+  void addClips(DocClipBaseList list);
+  /** returns true if all of the clips within the cliplist can be added, returns false otherwise. */
+  bool canAddClips(DocClipBaseList clipList);;
+  /** Returns true if the clip given exists in this track, otherwise returns
+false. */
+  bool clipExists(DocClipBase *clip);
+  /** Removes the given clip from this track. If it doesn't exist, then
+			a warning is issued vi kdWarning, but otherwise no bad things
+			will happen. The clip is removed from the track but NOT deleted.*/
+  void removeClip(DocClipBase *clip);
 public: // Public attributes
   /** Contains a list of all of the clips within this track. */
-  QPtrList<DocClipBase> m_clips;
+  DocClipBaseList m_clips;
+signals:
+	/** Emitted whenever the track changes.*/
+	void trackChanged();
 };
 
 #endif

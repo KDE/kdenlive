@@ -18,10 +18,9 @@
 #ifndef AVLISTVIEWITEM_H
 #define AVLISTVIEWITEM_H
 
-#include <qwidget.h>
 #include <qlistview.h>
 
-#include "avfile.h"
+class AVFile;
 
 /**Allows clips to be displayed in a QListView
   *@author Jason Wood

@@ -26,13 +26,14 @@
 #include <kio/netaccess.h>
 
 // application specific includes
-#include <kdenlivedoc.h>
-#include <kdenlive.h>
-#include <kdenliveview.h>
+#include "kdenlivedoc.h"
+#include "kdenlive.h"
+#include "kdenliveview.h"
 
-#include <docclipavfile.h>
-#include <doctrackvideo.h>
-#include <doctracksound.h>
+#include "docclipavfile.h"
+#include "doctrackvideo.h"
+#include "doctracksound.h"
+#include "clipdrag.h"
 
 QPtrList<KdenliveView> *KdenliveDoc::pViewList = 0L;
 
@@ -149,9 +150,6 @@ bool KdenliveDoc::newDocument()
   addVideoTrack();
   addVideoTrack();
   addVideoTrack();
-  addSoundTrack();
-  addSoundTrack();
-  addSoundTrack();
 
   modified=false;
   doc_url.setFileName(i18n("Untitled"));
@@ -297,4 +295,37 @@ AVFile * KdenliveDoc::findAVFile(const KURL &file)
 	}
 
 	return 0;
+}
+
+/** Given a drop event, inserts all contained clips into the project list, if they are not there already. */
+void KdenliveDoc::slot_insertClips(QDropEvent *event)
+{
+	// sanity check.
+	if(!ClipDrag::canDecode(event)) return;
+
+	ClipGroup group = ClipDrag::decode(*this, event);
+
+	slot_insertClips(group.clipList());	
+}
+
+/** returns the Track which holds the given clip. If the clip does not
+exist within the document, returns 0; */
+DocTrackBase * KdenliveDoc::findTrack(DocClipBase *clip)
+{
+	QPtrListIterator<DocTrackBase> itt(m_tracks);
+
+	for(DocTrackBase *track;(track = itt.current()); ++itt) {
+		if(track->clipExists(clip)) {
+			return track;
+		}
+	}
+	
+	return 0;
+}
+
+/** Returns the track with the given index, or returns NULL if it does
+not exist. */
+DocTrackBase * KdenliveDoc::track(int track)
+{
+	return m_tracks.at(track);
 }

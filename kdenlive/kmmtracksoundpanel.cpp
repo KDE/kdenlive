@@ -15,8 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "kmmtracksoundpanel.h"
 #include <qsizepolicy.h>
+ 
+#include "kmmtracksoundpanel.h"
+#include "kmmtimeline.h"
 
 KMMTrackSoundPanel::KMMTrackSoundPanel(KMMTimeLine & timeline, DocTrackSound & docTrack, QWidget *parent, const char *name ) :
 												KMMTrackPanel(timeline, docTrack, parent,name),
@@ -24,6 +26,9 @@ KMMTrackSoundPanel::KMMTrackSoundPanel(KMMTimeLine & timeline, DocTrackSound & d
 {
 	setMinimumWidth(200);
 	setMaximumWidth(200);
+
+	setMinimumHeight(30);
+	setMaximumHeight(30);	
 	setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding));
 }
 
@@ -33,27 +38,24 @@ KMMTrackSoundPanel::~KMMTrackSoundPanel()
 
 /** This function will paint a clip on screen, using the specified painter and the given coordinates as to
 	where the clip should be painted. */
-void KMMTrackSoundPanel::paintClip(QPainter & painter, DocClipBase * clip)
+void KMMTrackSoundPanel::paintClip(QPainter & painter, DocClipBase * clip, QRect &rect, bool selected)
 {
 	int sx = (int)timeLine().mapValueToLocal(clip->trackStart());
-	int ex = (int)timeLine().mapValueToLocal(clip->cropDuration());
-	if(sx < 0) {
-		ex += sx;
-		sx = 0;
-	}
-	if(sx + ex > width()) {
-		ex = width() - sx;
-	}
+	int ex = (int)timeLine().mapValueToLocal(clip->trackStart() + clip->cropDuration());
 
-	QColor col = QColor(128, 255, 128);
-
-	if(clip->isSelected()) {
-		col = QColor(64, 128, 64);
+	if(sx < rect.x()) {
+		sx = rect.x();
 	}
+	if(ex > rect.x() + rect.width()) {
+		ex = rect.x() + rect.width();
+	}
+	ex -= sx;
 
-	painter.fillRect( sx, 0,
-										ex, height(),
+	QColor col = selected ? QColor(64, 128, 64) : QColor(128, 255, 128);
+
+	painter.fillRect( sx, rect.y(),
+										ex, rect.height(),
 										col);
-	painter.drawRect( sx, 0,
-										ex, height());
+	painter.drawRect( sx, rect.y(),
+										ex, rect.height());
 }

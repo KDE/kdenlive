@@ -28,6 +28,7 @@
 
 #include "kruler.h"
 #include "krulersliderbase.h"
+#include "krulermodel.h"
 
 class KRulerPrivateSliderDiamond : public KRulerSliderBase {
 public:

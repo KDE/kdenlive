@@ -18,7 +18,6 @@
 #ifndef KMMTIMELINE_H
 #define KMMTIMELINE_H
 
-#include <qwidget.h>
 #include <qvbox.h>
 #include <qgrid.h>
 #include <qlabel.h>
@@ -29,11 +28,13 @@
 #include <qpushbutton.h>
 
 #include "kscalableruler.h"
-#include "kdenlivedoc.h"
 
 #include "kmmtrackpanel.h"
+#include "kmmtimelinetrackview.h"
+#include "clipgroup.h"
 
 class KMMTrackPanel;
+class KdenliveDoc;
 
 /**This is the timeline. It gets populated by tracks, which in turn are populated
 by video and audio clips, or transitional clips, or any other clip imaginable.
@@ -60,6 +61,17 @@ private:
 		
 	  /** A pointer to the document (project) that this timeline is based upon */
 	  KdenliveDoc * m_document;		
+	  /** The track view area is the area under the ruler where tracks are displayed. */
+	  KMMTimeLineTrackView m_trackViewArea;
+	  /** Holds a list of all selected clips, making it easier to perform manipulations on them. */
+	  ClipGroup m_selection;
+  /** This variable should be set to true if we have initiated a drag which
+is going to be moving, rather than adding, clips.
+
+set to false otherwise. The purpose of this variable is to prevent the
+selection group from being re-created on drag entry if we are only
+moving it - this prevents a copy of the clips from being created. */
+  bool m_startedClipMove;
 public: // Public methods
   /** This method adds a new track to the trackGrid. */
   void appendTrack(KMMTrackPanel *track);
@@ -73,14 +85,7 @@ public: // Public methods
 	void dragMoveEvent ( QDragMoveEvent * );
 	void dragLeaveEvent ( QDragLeaveEvent * );
 	void dropEvent ( QDropEvent * );
-  /** This event occurs when the mouse has been moved. */
-  void mouseMoveEvent(QMouseEvent *event);
-  /** This event occurs when a mouse button is released. */
-  void mouseReleaseEvent(QMouseEvent *event);
-  /** This event occurs when a mouse button is pressed. */
-  void mousePressEvent(QMouseEvent *event);
 
-	
   /** Takes the value that we wish to find the coordinate for, and returns the x coordinate. In cases where a single value covers multiple
 pixels, the left-most pixel is returned. */
   double mapValueToLocal(double value) const;
@@ -90,16 +95,44 @@ coordinate, and returns the value associated with it. */
   double mapLocalToValue(double coordinate) const;
   /** Deselects all clips on the timeline. */
   void selectNone();
+  /** Returns m_trackList
 
+Warning - this method is a bit of a hack, not good OO practice, and should be removed at some point. */
+  QPtrList<KMMTrackPanel> &trackList();
+  /** Moves all selected clips to a new position. The new start position is that for the master clip, all other clips are moved in relation to it. */
+  void moveSelectedClips(int track, int start);
+  /** Scrolls the track view area right by whatever the step value in the 
+relevant scrollbar is. */
+  void scrollViewRight();
+  /** Scrolls the track view area left by whatever the step value of the relevant scroll bar is. */
+  void scrollViewLeft();
+  /** Selects the clip on the given track at the given value. */
+  void selectClipAt(DocTrackBase &track, int value);
+  /** Toggle Selects the clip on the given track and at the given value. The clip will become selected if it wasn't already selected, and will be deselected if it is. */
+  void toggleSelectClipAt(DocTrackBase &track, int value);
+  /** Returns true if the clip is selected, false otherwise. */
+  bool clipSelected(DocClipBase *clip);
+  /** Initiates a drag operation on the selected clip, setting the master clip to clipUnderMouse, and the x offset to clipOffset. */
+  void initiateDrag(DocClipBase *clipUnderMouse, double clipOffset);
 private: // private methods
 	void resizeTracks();
+  /** Adds a Clipgroup to the tracks in the timeline. */
+	void addGroupToTracks(ClipGroup &group, int track, int value);
+  /** Returns the integer value of the track underneath the mouse cursor. 
+The track number is that in the track list of the document, which is
+sorted incrementally from top to bottom. i.e. track 0 is topmost, track 1 is next down, etc. */
+  int trackUnderPoint(const QPoint &pos);
 public slots: // Public slots
   /** Called when a track within the project has been added or removed.
     *
 		* The timeline needs to be updated to show these changes. */
   void syncWithDocument();
-
-
+  
+  /** Update the back buffer for the track views, and tell the trackViewArea widget to repaint itself. */
+  void drawTrackViewBackBuffer();
+public: // Public attributes
+  /** When dragging a clip, this is the x offset that should be applied to the mouse cursor to find the beginning of the master clip. */
+  double m_clipOffset;
 };
 
 #endif

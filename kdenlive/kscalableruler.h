@@ -18,8 +18,6 @@
 #ifndef KSCALABLERULER_H
 #define KSCALABLERULER_H
 
-#include <qwidget.h>
-
 #include <kruler.h>
 
 /**This ruler provides access to a ruler which can be scaled. Access is based upon

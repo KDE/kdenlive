@@ -32,7 +32,7 @@ This method calls canAddClip() to determine whether or not the clip can be added
 particular track. */
 bool DocTrackBase::addClip(DocClipBase *clip)
 {
-	if(canAddClip(clip)) {		
+	if(canAddClip(clip)) {
 		int index = 0;
 		DocClipBase *testclip = m_clips.first();
 		while(testclip!=0) {
@@ -42,7 +42,9 @@ bool DocTrackBase::addClip(DocClipBase *clip)
 			index++;
 		}
 		
-		m_clips.insert(index, clip);		
+		m_clips.insert(index, clip);
+		
+		emit trackChanged();
 		return true;
 	} else {
 		return false;
@@ -105,52 +107,55 @@ QPtrListIterator<DocClipBase> DocTrackBase::endClip(double startValue, double en
 	return itt;
 }
 
-void DocTrackBase::selectAll()
-{
-	QPtrListIterator<DocClipBase> itt(m_clips);
-
-	for(DocClipBase *file;	(file=itt.current()) != 0; ++itt) {
-		file->setSelected(true);
-	}	
-}
-
-void DocTrackBase::selectNone()
-{
-	QPtrListIterator<DocClipBase> itt(m_clips);
-
-	for(DocClipBase *file;	(file=itt.current()) != 0; ++itt) {
-		file->setSelected(false);
-	}
-}
-
-/** Make the clip which exists at the given value selected. Returns true if successful,
-    false if no clip exists. */
-bool DocTrackBase::selectClipAt(int value)
+DocClipBase *DocTrackBase::getClipAt(int value)
 {
 	QPtrListIterator<DocClipBase> itt(m_clips);
 
 	for(DocClipBase *file;	(file=itt.current()) != 0; ++itt) {
 		if(file->trackStart() > value) return false;
 		if(file->trackStart() + file->cropDuration() > value) {
-			file->setSelected(true);
-			return true;
+			return file;
 		}
 	}
-	return false;
+	
+	return 0;
 }
 
-/** Toggles the selected state of the clip at the given value. If it was true, it becomes false,
-if it was false, it becomes true. */
-bool DocTrackBase::toggleSelectClipAt(int value)
+/** returns true if all of the clips within the cliplist can be added, returns false otherwise. */
+bool DocTrackBase::canAddClips(DocClipBaseList clipList)
 {
-	QPtrListIterator<DocClipBase> itt(m_clips);
+	QPtrListIterator<DocClipBase> itt(clipList);
 
-	for(DocClipBase *file;	(file=itt.current()) != 0; ++itt) {
-		if(file->trackStart() > value) return false;
-		if(file->trackStart() + file->cropDuration() > value) {
-			file->setSelected(!file->isSelected());
-			return true;
-		}
+	for(DocClipBase *clip; (clip = itt.current())!=0; ++itt) {
+		if(!canAddClip(clip)) return false;
 	}
-	return false;
+
+	return true;
+}
+
+/** Adds all of the clips in the pointerlist into this track. */
+void DocTrackBase::addClips(DocClipBaseList list)
+{
+	QPtrListIterator<DocClipBase> itt(list);
+
+	for(DocClipBase *clip; (clip = itt.current()) !=- 0; ++itt) {
+		addClip(clip);
+	}
+}
+
+/** Returns true if the clip given exists in this track, otherwise returns
+false. */
+bool DocTrackBase::clipExists(DocClipBase *clip)
+{
+	return (m_clips.find(clip)!=-1);
+}
+
+/** Removes the given clip from this track. If it doesn't exist, then
+a warning is issued vi kdWarning, but otherwise no bad things
+will happen. The clip is removed from the track, but NOT deleted. */
+void DocTrackBase::removeClip(DocClipBase *clip)
+{
+	if(!m_clips.remove(clip)) {
+		kdError() << "Cannot remove clip from track - doesn't exist!" << endl;
+	}
 }

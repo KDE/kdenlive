@@ -34,7 +34,7 @@ KdenliveView::KdenliveView(QWidget *parent, const char *name) :
   setBackgroundMode(PaletteBase);
 
   connect(&m_projectList, SIGNAL(signal_AddFile(const KURL &)), getDocument(), SLOT(slot_InsertAVFile(const KURL &)));
-  connect(&m_projectList, SIGNAL(clipListDropped(QPtrList<DocClipBase>)), getDocument(), SLOT(slot_insertClips(QPtrList<DocClipBase>)));
+  connect(&m_projectList, SIGNAL(dragDropOccured(QDropEvent *)), getDocument(), SLOT(slot_insertClips(QDropEvent *)));
 
   connect(getDocument(), SIGNAL(avFileListUpdated(QPtrList<AVFile>)), &m_projectList, SLOT(slot_UpdateList(QPtrList<AVFile>)));
 }

@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <iostream>
+#include <kdebug.h>
 
 #include "docclipbase.h"
 #include "docclipavfile.h"
@@ -26,7 +26,6 @@ DocClipBase::DocClipBase()
 	setTrackStart(0);
 	setCropStartTime(0);
 	setCropDuration(0);
-	setSelected(false);
 }
 
 DocClipBase::~DocClipBase()
@@ -104,11 +103,7 @@ QDomDocument DocClipBase::toXML() {
 
 	QDomElement clip = doc.createElement("clip");	
 	clip.setAttribute("name", name());
-	
-	QDomElement properties = doc.createElement("properties");
-	properties.setAttribute("duration", QString(duration()));
-	clip.appendChild(properties);
-	
+		
 	QDomElement position = doc.createElement("position");
 	position.setAttribute("trackstart", QString::number(trackStart()));
 	position.setAttribute("cropstart", QString::number(cropStartTime()));
@@ -122,21 +117,42 @@ QDomDocument DocClipBase::toXML() {
 
 DocClipBase *DocClipBase::createClip(KdenliveDoc &doc, const QDomElement element)
 {
-	KURL url;
-
-	std::cout << "TODO - DocClipBase::createClip(QDomElement element" << std::endl;
+	DocClipBase *clip = 0;
+	int trackStart=0;
+	int cropStart=0;
+	int cropDuration=0;
 	
-	return new DocClipAVFile(doc, url.fileName(), url);
+	if(element.tagName() != "clip") {
+		kdWarning()	<< "DocClipBase::createClip() element has unknown tagName : " << element.tagName() << endl;
+		return 0;
+	}
+
+	QDomNode n = element.firstChild();
+
+	while(!n.isNull()) {
+		QDomElement e = n.toElement();
+		if(!e.isNull()) {
+			if(e.tagName() == "avfile") {
+				clip = DocClipAVFile::createClip(doc, e);
+			} else if(e.tagName() == "position") {
+				trackStart = e.attribute("trackstart", 0).toInt();
+				cropStart = e.attribute("cropstart", 0).toInt();
+				cropDuration = e.attribute("cropduration", 0).toInt();			
+			}		
+		}
+		
+		n = n.nextSibling();
+	}
+
+	if(clip==0) {
+	  kdWarning()	<< "DocClipBase::createClip() unable to create clip" << endl;
+	} else {
+		// setup DocClipBase specifics of the clip.
+		clip->setTrackStart(trackStart);
+		clip->setCropStartTime(cropStart);
+		clip->setCropDuration(cropDuration);	
+	}
+
+	return clip;
 }
 
-/** Sets whether this clip is selected or not */
-void DocClipBase::setSelected(bool state)
-{
-	m_selected = state;
-}
-
-/** returns whether or not this clip is selected. */
-bool DocClipBase::isSelected()
-{
-	return m_selected;
-}

@@ -31,6 +31,7 @@
 #include <arts/kartsdispatcher.h>
 
 #include "avfile.h"
+#include "clipgroup.h"
 
 /**
   * ProjectList is the dialog which contains the project list.
@@ -61,7 +62,7 @@ signals: // Signals
   /** emitted whenever a file is added to the project list */
   void signal_AddFile(const KURL &url);
   /** this signal is called when a number of clips have been dropped onto the project list view. */
-  void clipListDropped(QPtrList<AVFile>);
+  void dragDropOccured(QDropEvent *drop);
 };
 
 #endif

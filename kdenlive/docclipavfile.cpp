@@ -21,13 +21,15 @@
 #include "avfile.h"
 
 #include <iostream>
+#include <kdebug.h>
 
 DocClipAVFile::DocClipAVFile(KdenliveDoc &doc, const QString name, const KURL url) :
 						DocClipBase(),
 						m_avFile(doc.getAVFileReference(url))
 {
 	setCropDuration(duration());
-	
+	setName(name);
+		
   m_clipType = AV;
 }
 
@@ -38,6 +40,7 @@ DocClipAVFile::DocClipAVFile(AVFile *avFile) :
 	m_avFile->addReference();
 	
 	setCropDuration(duration());
+	setName(m_avFile->name());
 
   m_clipType = AV;
 }
@@ -97,4 +100,16 @@ QDomDocument DocClipAVFile::toXML() {
 KURL DocClipAVFile::fileURL()
 {
 	return m_avFile->fileURL();
+}
+
+/** Creates a clip from the passed QDomElement. This only pertains to those details specific to DocClipAVFile.*/
+DocClipAVFile * DocClipAVFile::createClip(KdenliveDoc &doc, QDomElement element)
+{
+	if(element.tagName() == "avfile") {
+		KURL url(element.attribute("url"));
+		return new DocClipAVFile(doc, url.fileName(), url);
+	}
+	
+	kdWarning() << "DocClipAVFile::createClip failed to generate clip" << endl;
+	return 0;
 }
