@@ -41,6 +41,7 @@ void KMMTrackVideoPanel::paintClip(QPainter &painter, DocClipBase *clip, QRect &
 {	
 	int sx = (int)timeLine().mapValueToLocal(clip->trackStart().frames(25));
 	int ex = (int)timeLine().mapValueToLocal(clip->trackStart().frames(25) + clip->cropDuration().frames(25));
+	int tx = ex;
 	
 	if(sx < rect.x()) {
 		sx = rect.x();
@@ -68,8 +69,10 @@ void KMMTrackVideoPanel::paintClip(QPainter &painter, DocClipBase *clip, QRect &
 	start = sx - ((sx - start) % textWidth);
 	int count = start;	
 
-	while(count < ex+start) {
-		painter.drawText( count, rect.y(), ex, rect.height(), AlignVCenter | AlignLeft, clip->name());
-		count += textWidth;
+	while(count < ex) {
+		if(count+textWidth < tx) {
+			painter.drawText( count, rect.y(), ex, rect.height(), AlignVCenter | AlignLeft, clip->name());
+		}
+		count += textWidth;		
 	}
 }
