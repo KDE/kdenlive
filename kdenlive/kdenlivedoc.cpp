@@ -236,9 +236,10 @@ void KdenliveDoc::deleteContents()
 {
 	kdDebug() << "deleting contents..." << endl;
 	
-  m_tracks.clear();  
+  m_tracks.clear();
+	emit trackListChanged();    
   m_fileList.clear();
-	emit trackListChanged();  
+  emit avFileListUpdated();
 }
 
 void KdenliveDoc::slot_InsertAVFile(const KURL &file)

@@ -165,9 +165,8 @@ void KMMTimeLine::syncWithDocument()
 {
 	unsigned int index = 0;
 
-	kdDebug() << "Syncing with document" << endl;
 	m_trackList.clear();
-
+    
 	DocTrackBase *track = m_document->firstTrack();
 	while(track != 0) {
 		if(track->clipType() == "Video") {
@@ -183,7 +182,7 @@ void KMMTimeLine::syncWithDocument()
 	}
 
 	resizeTracks();
-	calculateProjectSize();	
+	calculateProjectSize();
 }
 
 /** No descriptions */
