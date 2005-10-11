@@ -20,6 +20,9 @@
 #include "ktimeline.h"
 #include "trackviewdecorator.h"
 
+namespace Gui
+{
+
 KClipPlacer::KClipPlacer(KTimeLine *timeline, DocClipRef *clip) :
 					KPlacer(),
 					m_clip(clip),
@@ -46,3 +49,5 @@ int KClipPlacer::documentTrackIndex()  const
 {
 	return -1;
 }
+
+} // namespace Gui

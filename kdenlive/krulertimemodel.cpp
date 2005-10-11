@@ -18,6 +18,9 @@
 #include "krulertimemodel.h"
 #include <kdebug.h>
 
+namespace Gui
+{
+
 KRulerTimeModel::KRulerTimeModel() :
 						KRulerModel()
 {
@@ -135,3 +138,6 @@ double KRulerTimeModel::numFrames() const
 {
 	return m_numFrames;
 }
+
+} // namespace Gui
+

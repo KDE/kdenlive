@@ -20,6 +20,9 @@
 
 #include "ktimeline.h"
 
+namespace Gui
+{
+
 TrackViewDecorator::TrackViewDecorator(KTimeLine *timeline) :
 							m_timeline(timeline)
 {
@@ -29,3 +32,5 @@ TrackViewDecorator::TrackViewDecorator(KTimeLine *timeline) :
 TrackViewDecorator::~TrackViewDecorator()
 {
 }
+
+} // namespace Gui

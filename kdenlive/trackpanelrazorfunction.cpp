@@ -22,8 +22,8 @@
 #include "kdenlivedoc.h"
 #include "ktimeline.h"
 
-TrackPanelRazorFunction::TrackPanelRazorFunction(KdenliveApp *app,
-							KTimeLine *timeline,
+TrackPanelRazorFunction::TrackPanelRazorFunction(Gui::KdenliveApp *app,
+							Gui::KTimeLine *timeline,
 							KdenliveDoc *document) :
 								m_app(app),
 								m_timeline(timeline),
@@ -37,7 +37,7 @@ TrackPanelRazorFunction::~TrackPanelRazorFunction()
 {
 }
 
-bool TrackPanelRazorFunction::mouseApplies(KTrackPanel *panel, QMouseEvent *event) const
+bool TrackPanelRazorFunction::mouseApplies(Gui::KTrackPanel *panel, QMouseEvent *event) const
 {
 	DocClipRef *clip = 0;
 	if(panel->hasDocumentTrackIndex()) {
@@ -50,7 +50,7 @@ bool TrackPanelRazorFunction::mouseApplies(KTrackPanel *panel, QMouseEvent *even
 	return clip;
 }
 
-QCursor TrackPanelRazorFunction::getMouseCursor(KTrackPanel *panel, QMouseEvent *event)
+QCursor TrackPanelRazorFunction::getMouseCursor(Gui::KTrackPanel *panel, QMouseEvent *event)
 {
 	if(panel->hasDocumentTrackIndex()) {
 		DocTrackBase *track = m_document->track(panel->documentTrackIndex());
@@ -65,7 +65,7 @@ QCursor TrackPanelRazorFunction::getMouseCursor(KTrackPanel *panel, QMouseEvent 
 	return QCursor(Qt::SplitVCursor);
 }
 
-bool TrackPanelRazorFunction::mousePressed(KTrackPanel *panel, QMouseEvent *event)
+bool TrackPanelRazorFunction::mousePressed(Gui::KTrackPanel *panel, QMouseEvent *event)
 {
 	if(panel->hasDocumentTrackIndex()) {
 		DocTrackBase *track = m_document->track(panel->documentTrackIndex());
@@ -87,14 +87,14 @@ bool TrackPanelRazorFunction::mousePressed(KTrackPanel *panel, QMouseEvent *even
 	return true;
 }
 
-bool TrackPanelRazorFunction::mouseReleased(KTrackPanel *panel, QMouseEvent *event)
+bool TrackPanelRazorFunction::mouseReleased(Gui::KTrackPanel *panel, QMouseEvent *event)
 {
  	GenTime mouseTime = m_timeline->timeUnderMouse(event->x());
 	m_clipUnderMouse = 0;
 	return true;
 }
 
-bool TrackPanelRazorFunction::mouseMoved(KTrackPanel *panel, QMouseEvent *event)
+bool TrackPanelRazorFunction::mouseMoved(Gui::KTrackPanel *panel, QMouseEvent *event)
 {
 	return true;
 }

@@ -21,8 +21,11 @@
 
 #include "docclipref.h"
 
-class KdenliveApp;
 class KdenliveDoc;
+
+namespace Gui
+{
+	class KdenliveApp;
 
 /**
 A list view that displays an effect stack, and allows the relevant drag/drop operations for an effect stack.
@@ -75,5 +78,7 @@ private:
 	KdenliveApp *m_app;
 	KdenliveDoc *m_document;
 };
+
+} // namespace Gui
 
 #endif

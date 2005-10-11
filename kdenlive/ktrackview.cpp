@@ -30,6 +30,8 @@
 #include "kselectclipcommand.h"
 #include "trackpanelfunction.h"
 
+namespace Gui
+{
 
 KTrackView::KTrackView( KTimeLine &timeLine, QWidget *parent, const char *name ) :
 		QWidget( parent, name ),
@@ -45,7 +47,7 @@ KTrackView::KTrackView( KTimeLine &timeLine, QWidget *parent, const char *name )
 	m_bufferInvalid = false;
 
 	setAcceptDrops( true );
-	
+
 	tiptst = new DynamicToolTip( this );
 }
 
@@ -310,3 +312,5 @@ bool KTrackPanel::dragDropped ( QDropEvent *event )
 	return result;
 }
 */
+
+} // namespace Gui

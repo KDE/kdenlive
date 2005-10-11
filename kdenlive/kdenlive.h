@@ -44,17 +44,22 @@ class KCommand;
 class KProgress;
 class KRenderManager;
 class KMacroCommand;
-class KMMTimeLine;
-class KMMMonitor;
-class ProjectList;
 class RenderDebugPanel;
 class AVFile;
 class DocClipBase;
+class DocClipRef;
+
+namespace Gui
+{
+
+class CaptureMonitor;
+class ClipPropertiesDialog;
 class EffectListDialog;
 class EffectParamDialog;
 class EffectStackDialog;
-class ClipPropertiesDialog;
-
+class KMMMonitor;
+class KMMTimeLine;
+class ProjectList;
 
 /**
   * The base class for Kdenlive application windows. It sets up the main
@@ -386,6 +391,7 @@ class KdenliveApp : public KDockMainWindow
 		KRenderManager *m_renderManager;
 		KMMMonitor *m_workspaceMonitor;
 		KMMMonitor *m_clipMonitor;
+		CaptureMonitor *m_captureMonitor;
 		/** Stores a copy of the last file dialog path used by kdenlive. */
 		KURL m_fileDialogPath;
 		KMMTimeLine *m_timeline;
@@ -393,6 +399,7 @@ class KdenliveApp : public KDockMainWindow
 		// KDockWidgets for the docking interface to work correctly.
 		KDockWidget *m_dockClipMonitor;
 		KDockWidget *m_dockWorkspaceMonitor;
+		KDockWidget *m_dockCaptureMonitor;
 
 		/** The monitor manager that manages the life of the various monitors.*/
 		MonitorManager m_monitorManager;
@@ -402,5 +409,7 @@ class KdenliveApp : public KDockMainWindow
 		// the macroCommand. selectedClips determines whether this uses selectedClips or unselectedClips */
 		void populateClearSnapMarkers(KMacroCommand *macroCommand, DocClipProject &clip, bool selectedClips);
 };
+
+}	// namespace Gui
 
 #endif // KDENLIVE_H

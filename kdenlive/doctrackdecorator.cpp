@@ -21,6 +21,9 @@
 #include "kdenlivedoc.h"
 #include "ktimeline.h"
 
+namespace Gui
+{
+
 DocTrackDecorator::DocTrackDecorator(KTimeLine *timeline, KdenliveDoc *doc) :
 							TrackViewDecorator(timeline),
 							m_document(doc)
@@ -30,3 +33,5 @@ DocTrackDecorator::DocTrackDecorator(KTimeLine *timeline, KdenliveDoc *doc) :
 DocTrackDecorator::~DocTrackDecorator()
 {
 }
+
+} // namespace Gui

@@ -67,7 +67,7 @@ int main( int argc, char *argv[] )
 	    I18N_NOOP( "Piave and Kdenlive internationalization, French translations, splashscreen" ),
 	    "caulier.gilles@free.fr",
 	    "http://caulier.gilles.free.fr" );
-	
+
 	aboutData.addAuthor(
 	    "Danny Allen",
 	    I18N_NOOP( "Artist, Kdenlive logo, splashscreen and application icon" ),
@@ -85,20 +85,20 @@ int main( int argc, char *argv[] )
 	KApplication app;
 
 	if ( app.isRestored() ) {
-		RESTORE( KdenliveApp );
+		RESTORE( Gui::KdenliveApp );
 	} else {
-				
+
  		QPixmap pixmap(locate( "appdata", "kdenlive-splash.png" ) );
-		
+
 		KdenliveSplash *splash = new KdenliveSplash( pixmap );
 		splash->show();
-		
-		KdenliveApp *kdenlive = new KdenliveApp();
+
+		Gui::KdenliveApp *kdenlive = new Gui::KdenliveApp();
 		kdenlive->show();
-		
+
 		splash->finish( kdenlive );
 		delete splash;
-		
+
 		KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
 		if ( args->count() ) {

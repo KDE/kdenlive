@@ -27,6 +27,9 @@
 #include "kdenlive.h"
 #include "kdenlivedoc.h"
 
+namespace Gui
+{
+
 KMMScreen::KMMScreen(KdenliveApp *app, QWidget *parent, const char *name ) :
                                     QVBox(parent,name),
                                     m_render(app->renderManager()->createRenderer(name)),
@@ -94,6 +97,11 @@ void KMMScreen::setSceneList(const QDomDocument &scenelist)
   m_render->setSceneList(scenelist);
 }
 
+void KMMScreen::setCapture()
+{
+	m_render->setCapture();
+}
+
 void KMMScreen::slotRendererStopped()
 {
 	emit playSpeedChanged(0.0);
@@ -139,3 +147,5 @@ void KMMScreen::setClipLength(int frames)
 {
 	m_clipLength = GenTime(frames, m_app->getDocument()->framesPerSecond());
 }
+
+}	// namespace Gui

@@ -17,9 +17,19 @@
 #ifndef MONITORMANAGER_H
 #define MONITORMANAGER_H
 
-#include "kmmmonitor.h"
+#include "kmonitor.h"
 
 #include "qobject.h"
+
+class KdenliveDoc;
+class DocClipBase;
+
+namespace Gui
+{
+
+class CaptureMonitor;
+class KdenliveApp;
+class KMMMonitor;
 
 /**
 Manages the creation and life of a GUI monitor. Importantly, it makes sure that only one monitor is active at once, and keeps track of which monitor this is.
@@ -36,29 +46,32 @@ public:
 	/** Creates a new monitor and returns it. */
 	KMMMonitor *createMonitor(KdenliveDoc *document, QWidget *parent, const char *name);
 
+	CaptureMonitor *createCaptureMonitor(KdenliveDoc *document, QWidget *parent, const char *name);
+
 	/** Returns true if Monitor Manager has a currently active monitor. */
 	bool hasActiveMonitor();
 
 	/** Cause the specified monitor to become active. */
-	void activateMonitor(KMMMonitor *monitor);
+	void activateMonitor(KMonitor *monitor);
 
 	/** Returns the active monitor, or 0 if there isn't one.*/
-	KMMMonitor *activeMonitor();
+	KMonitor *activeMonitor();
 
 	/** Searches through monitors and clears any that are using the specified avfile. */
 	void clearClip(DocClipBase *clip);
 private:
 	/** A list of all monitors */
-	QPtrList<KMMMonitor> m_monitors;
+	QPtrList<KMonitor> m_monitors;
 
 	/** The application that owns this monitor manager, and to which all monitors will
 	become associated. */
 	KdenliveApp *m_app;
 
 	/** The currently active monitor */
-	KMMMonitor *m_active;
+	KMonitor *m_active;
 public slots:
-	void slotMonitorClicked(KMMMonitor *monitor);
+	void slotMonitorClicked(KMonitor *monitor);
 };
 
+} // namespace Gui
 #endif

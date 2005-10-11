@@ -35,14 +35,14 @@ public:
 
 	/** Creates a parameter that conforms to this parameter Description */
 	virtual EffectKeyFrame *createKeyFrame(double time);
-	virtual KMMTrackPanel *createTrackPanel(KdenliveApp *app,
-				KTimeLine *timeline,
+	virtual Gui::KMMTrackPanel *createTrackPanel(Gui::KdenliveApp *app,
+				Gui::KTimeLine *timeline,
 				KdenliveDoc *document,
 				DocTrackBase *docTrack,
 				QWidget *parent=0,
 				const char *name=0);
-	virtual KMMTrackPanel *createClipPanel(KdenliveApp *app,
-				KTimeLine *timeline,
+	virtual Gui::KMMTrackPanel *createClipPanel(Gui::KdenliveApp *app,
+				Gui::KTimeLine *timeline,
 				KdenliveDoc *document,
 				DocClipRef *clip,
 				QWidget *parent=0,

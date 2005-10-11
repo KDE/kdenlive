@@ -22,12 +22,17 @@
 class DocClipRef;
 class DocTrackBase;
 class EffectKeyFrame;
-class KdenliveApp;
-class KTimeLine;
+
 class KdenliveDoc;
-class KMMTrackPanel;
 class QWidget;
 class QXmlAttributes;
+
+namespace Gui
+{
+	class KdenliveApp;
+	class KTimeLine;
+	class KMMTrackPanel;
+}
 
 /**
 A description of an effect parameter
@@ -45,16 +50,16 @@ public:
 	virtual EffectKeyFrame *createKeyFrame(double time) = 0;
 
 	/** Creates a track panel that can edit this parameter type. */
-	virtual KMMTrackPanel *createTrackPanel(KdenliveApp *app,
-									KTimeLine *timeline,
+	virtual Gui::KMMTrackPanel *createTrackPanel(Gui::KdenliveApp *app,
+									Gui::KTimeLine *timeline,
 									KdenliveDoc *document,
 									DocTrackBase *docTrack,
 									QWidget *parent=0,
 									const char *name=0) = 0;
 
 	/** Creates a track panel that can edit this parameter type. */
-	virtual KMMTrackPanel *createClipPanel(KdenliveApp *app,
-									KTimeLine *timeline,
+	virtual Gui::KMMTrackPanel *createClipPanel(Gui::KdenliveApp *app,
+									Gui::KTimeLine *timeline,
 									KdenliveDoc *document,
 									DocClipRef *clip,
 									QWidget *parent=0,

@@ -535,7 +535,7 @@ bool KRender::topLevelStartElement( const QString & localName, const QString & q
 			m_filePropertyMap.clear();
 			m_filePropertyMap[ "filename" ] = atts.value( "filename" );
 			m_filePropertyMap[ "duration" ] = atts.value( "duration" );
-			
+
 			pushStack( "reply_getFileProperties",
 			           &KRender::reply_getFileProperties_StartElement,
 			           &KRender::reply_getFileProperties_EndElement );
@@ -556,6 +556,9 @@ bool KRender::topLevelStartElement( const QString & localName, const QString & q
 			pushIgnore();
 			return true;
 		} else if ( command == "setSceneList" ) {
+			pushIgnore();
+			return true;
+		} else if( command == "setCapture") {
 			pushIgnore();
 			return true;
 		} else {
@@ -1107,4 +1110,13 @@ void KRender::sendDebugVemlCommand(const QString &name)
 const QString &KRender::rendererName() const
 {
 	return m_name;
+}
+
+void KRender::setCapture()
+{
+	QDomDocument doc;
+	QDomElement elem = doc.createElement( "setCapture" );
+	doc.appendChild( elem );
+
+	sendCommand( doc );
 }

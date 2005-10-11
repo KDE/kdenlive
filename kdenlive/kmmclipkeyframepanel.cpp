@@ -21,6 +21,9 @@
 #include "trackviewbackgrounddecorator.h"
 #include "trackviewdoublekeyframedecorator.h"
 
+namespace Gui
+{
+
 KMMClipKeyFramePanel::KMMClipKeyFramePanel(KTimeLine *timeline,
 								KdenliveDoc *document,
 								DocClipRef *clip,
@@ -46,4 +49,5 @@ KMMClipKeyFramePanel::KMMClipKeyFramePanel(KTimeLine *timeline,
 KMMClipKeyFramePanel::~KMMClipKeyFramePanel()
 {}
 
+} // namespace Gui
 

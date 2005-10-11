@@ -32,6 +32,9 @@
 #include "trackviewbackgrounddecorator.h"
 #include "trackviewdoublekeyframedecorator.h"
 
+namespace Gui
+{
+
 KMMTrackKeyFramePanel::KMMTrackKeyFramePanel(KTimeLine *timeline,
 						KdenliveDoc *doc,
 						DocTrackBase *docTrack,
@@ -60,3 +63,5 @@ KMMTrackKeyFramePanel::KMMTrackKeyFramePanel(KTimeLine *timeline,
 KMMTrackKeyFramePanel::~KMMTrackKeyFramePanel()
 {
 }
+
+} // namespace Gui

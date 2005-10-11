@@ -20,6 +20,10 @@
 #include <qstring.h>
 
 #include <doctrackdecorator.h>
+
+namespace Gui
+{
+
 /**
 @author Jason Wood
 */
@@ -36,5 +40,7 @@ private:
 	int m_effectIndex;
 	QString m_paramName;
 };
+
+} // namespace Gui
 
 #endif

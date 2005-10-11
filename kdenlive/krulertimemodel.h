@@ -20,6 +20,9 @@
 
 #include <krulermodel.h>
 
+namespace Gui
+{
+
 /**Implements a ruler which has HH:MM:SS:FF format
   *@author Jason Wood
   */
@@ -49,5 +52,7 @@ private: // Private attributes
   /** holds the number of frames per second. Whilst we say frames, this could just as easily be milliseconds. */
   double m_numFrames;
 };
+
+} // namespace Gui
 
 #endif

@@ -22,6 +22,9 @@
 
 #include "kmmrulerpanel_ui.h"
 
+namespace Gui
+{
+
 /**The zoom panel contains various options to zoom the Timeline ruler to various scales
   *@author Jason Wood
   */
@@ -60,5 +63,7 @@ prevents infinte loops from occuring as the multiple widgets keep rearranging
 each other's values. */
   bool m_sync;
 };
+
+} // namespace Gui
 
 #endif

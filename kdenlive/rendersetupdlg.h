@@ -21,8 +21,11 @@
 #include <qwidget.h>
 #include <rendersetupdlg_ui.h>
 
-class KdenliveApp;
 class KRenderManager;
+
+namespace Gui
+{
+	class KdenliveApp;
 
 /**Contains the Setup dialog for the renderer.
   *@author Jason Wood
@@ -30,7 +33,7 @@ class KRenderManager;
 
 class RenderSetupDlg : public RenderSetupDlg_UI  {
    Q_OBJECT
-public: 
+public:
   RenderSetupDlg(KRenderManager *renderManager, QWidget *parent=0, const char *name=0);
   ~RenderSetupDlg();
   /** Read the settings from the application */
@@ -40,5 +43,7 @@ public:
 private:
   KRenderManager *m_renderManager;
 };
+
+} // namespace Gui
 
 #endif

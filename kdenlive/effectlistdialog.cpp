@@ -23,6 +23,9 @@
 
 #include "krender.h"
 
+namespace Gui
+{
+
 EffectListDialog::EffectListDialog( const QPtrList<EffectDesc> &effectList, QWidget *parent, const char *name ) :
 		KListView( parent, name )
 {
@@ -104,3 +107,5 @@ EffectDesc *EffectListDialog::findDescription(const QString &name)
 
 	return desc;
 }
+
+} // namespace Gui

@@ -17,6 +17,9 @@
 
 #include "kscalableruler.h"
 
+namespace Gui
+{
+
 KScalableRuler::KScalableRuler(KRulerModel *model, QWidget *parent, const char *name ) :
 					 KRuler(model, parent, name)
 {
@@ -47,3 +50,5 @@ void KScalableRuler::setRange(const int start, const int end)
 {
 	KRuler::setRange(start, end);
 }
+
+} // namespace Gui

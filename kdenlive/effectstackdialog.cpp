@@ -24,6 +24,9 @@
 #include "docclipref.h"
 #include "effect.h"
 
+namespace Gui
+{
+
 EffectStackDialog::EffectStackDialog(KdenliveApp *app, KdenliveDoc *doc, QWidget *parent, const char *name )
  : EffectStackDialog_UI(parent, name)
 {
@@ -53,3 +56,4 @@ void EffectStackDialog::slotSetEffectStack(DocClipRef *clip)
 	m_effectList->setEffectStack(clip);
 }
 
+} // namespace Gui

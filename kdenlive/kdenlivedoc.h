@@ -37,8 +37,12 @@
 #include "clipmanager.h"
 
 // forward declaration of the Kdenlive classes
-class KdenliveApp;
-class KdenliveView;
+namespace Gui
+{
+	class KdenliveApp;
+	class KdenliveView;
+}
+
 class DocClipAVFile;
 class DocClipProject;
 class DocumentBaseNode;
@@ -61,13 +65,13 @@ class KdenliveDoc : public QObject
   Q_OBJECT
   public:
 	/** Constructor for the fileclass of the application */
-	KdenliveDoc(KdenliveApp *app, QWidget *parent, const char *name=0);
+	KdenliveDoc(Gui::KdenliveApp *app, QWidget *parent, const char *name=0);
 
 	/** Destructor for the fileclass of the application */
 	~KdenliveDoc();
 
 	/** removes a view from the list of currently connected views */
-    	void removeView(KdenliveView *view);
+    	void removeView(Gui::KdenliveView *view);
 
 	/** returns if the document is modified or not. Use this to determine if your document needs
 	 *  saving by the user on closing. */
@@ -182,7 +186,7 @@ class KdenliveDoc : public QObject
 	 * This list is used to re-sync the scene list. */
 	RangeList<GenTime> m_invalidSceneTimes;
 	/** Application pointer. */
-	KdenliveApp * m_app;
+	Gui::KdenliveApp * m_app;
 	/** This is the scenelist that get's passed from the clip to a renderer. */
 	QDomDocument m_domSceneList;
 	/** HACK HACK - generate scenelist if true, don't if false) */

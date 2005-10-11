@@ -24,6 +24,9 @@
 #include "kdenlivedoc.h"
 #include "ktimeline.h"
 
+namespace Gui
+{
+
 TrackViewNameDecorator::TrackViewNameDecorator(KTimeLine* timeline,
 						KdenliveDoc* doc) :
 						DocTrackDecorator(timeline, doc)
@@ -80,4 +83,6 @@ void TrackViewNameDecorator::paintClip(double startX, double endx, QPainter &pai
 
 	painter.setClipping(false);
 }
+
+} // namespace Gui
 

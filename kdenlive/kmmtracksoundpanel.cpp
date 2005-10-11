@@ -23,6 +23,9 @@
 #include "trackviewbackgrounddecorator.h"
 #include "trackviewnamedecorator.h"
 
+namespace Gui
+{
+
 KMMTrackSoundPanel::KMMTrackSoundPanel(KdenliveApp *app,
 					KTimeLine *timeline,
 					KdenliveDoc *document,
@@ -66,3 +69,5 @@ void KMMTrackSoundPanel::paintClip(QPainter & painter, DocClipRef * clip, QRect 
 										ex, rect.height());
 }
 */
+
+} // namespace Gui

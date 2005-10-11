@@ -23,6 +23,9 @@
 #include <stdlib.h>
 #include <math.h>
 
+namespace Gui
+{
+
 const double KMMRulerPanel::maxFrameSize = 100.0;
 const double KMMRulerPanel::expA = 0.9094862739;
 const double KMMRulerPanel::expK = 0.09487537302;
@@ -102,3 +105,5 @@ void KMMRulerPanel::setScale(double scale)
 	double newScale = maxFrameSize / scale;
 	m_scaleSlider->setValue((int)(log(newScale / expA) / expK));
 }
+
+} // namespace Gui

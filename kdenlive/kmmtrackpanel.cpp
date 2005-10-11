@@ -23,6 +23,9 @@
 #include <kdebug.h>
 #include <iostream>
 
+namespace Gui
+{
+
 KMMTrackPanel::KMMTrackPanel( KTimeLine *timeline,
                               KdenliveDoc *document,
 			      KPlacer *placer,
@@ -51,3 +54,5 @@ void KMMTrackPanel::drawToBackBuffer( QPainter &painter, QRect &rect )
 		painter.drawLine( value, rect.y(), value, rect.y() + rect.height() );
 	}
 }
+
+} // namespace Gui

@@ -18,15 +18,13 @@
 #ifndef KMMMONITOR_H
 #define KMMMONITOR_H
 
-#include <qvbox.h>
-
+#include "kmonitor.h"
 #include "kmmscreen.h"
 #include "kmmeditpanel.h"
 #include "gentime.h"
 
 class DocClipBase;
 class DocClipRef;
-class KdenliveApp;
 class KdenliveDoc;
 
 /**KMMMonitor provides a multimedia bar and the
@@ -37,7 +35,12 @@ external files.
   *@author Jason Wood
   */
 
-class KMMMonitor : public QVBox  {
+namespace Gui
+{
+
+class KdenliveApp;
+
+class KMMMonitor : public KMonitor  {
    Q_OBJECT
 public:
 	KMMMonitor(KdenliveApp *app, KdenliveDoc *document, QWidget *parent=0, const char *name=0);
@@ -48,7 +51,7 @@ public:
 	relevant signals/slots. This is required so that if a render instance
 	uses xv (of which there is only one port), we can use it in multiple
 	monitors. */
-	void swapScreens(KMMMonitor *monitor);
+/*	void swapScreens(KMMMonitor *monitor); */
 
 	/** Returns the current seek position */
 	const GenTime &seekPosition() const;
@@ -56,7 +59,10 @@ public:
 	/** See m_noSeek property for details. */
 	void setNoSeek(bool noSeek);
 
-	DocClipRef *clip();
+	DocClipRef *clip() const;
+
+	virtual KMMEditPanel *editPanel() const;
+	virtual KMMScreen *screen() const;
 
 protected:
 	void mousePressEvent(QMouseEvent *e);
@@ -93,15 +99,8 @@ private:
 	void doCommonSetClip();
 
 public slots: // Public slots
-	/** Seek the monitor to the given time. */
-	void seek(const GenTime &time);
 	/** This slot is called when the screen changes position. */
 	void screenPositionChanged(const GenTime &time);
-	/** If the monitor is currently playing, stops it. If it is stopped, start it at
-	normal speed (1.0) */
-	void togglePlay();
-	/** If the monitor is currently playing, stops it. If it is stopped, start it at normal speed, playing the section between the in/outpoints. */
-	void togglePlaySelected();
 	/** Sets this monitor to be the active monitor. It's colour changes to show it is active. */
 	void slotSetActive();
 	/** Sets this monitor to be an inactive monitor. It's colour changes to show it is inactive. */
@@ -116,14 +115,6 @@ public slots: // Public slots
 	void slotSetClip(DocClipRef *clip);
 	/** Clears the displayed clip on the timeline */
 	void slotClearClip();
-	/** Sets the inpoint of this monitor to the current seek position. */
-	void slotSetInpoint();
-	/** Sets the outpoint of this monitor to the current seek position. */
-	void slotSetOutpoint();
-	/** Sets the inpoint of this monitor to the specified seek position. */
-	void slotSetInpoint(const GenTime &time);
-	/** Sets the outpoint of this monitor to the specified seek position. */
-	void slotSetOutpoint(const GenTime &time);
 	/** Starts a drag operation, using the currently selected clip and the specified in
 	 *  and out points for it. */
 	void slotStartDrag();
@@ -146,7 +137,7 @@ public slots: // Public slots
 
 	/** go to the next snap marker from the current seek position */
 	void slotNextSnapMarker();
-	
+
 signals: // Signals
 	/** Emitted when the monitor's current position has changed. */
 	void seekPositionChanged(const GenTime &);
@@ -154,12 +145,12 @@ signals: // Signals
 	void inpointPositionChanged(const GenTime &);
 	/** Emitted when the monitor's current outpoint has changed. */
 	void outpointPositionChanged(const GenTime &);
-	/** Emitted when the mouse is clicked over the window. */
-	void monitorClicked(KMMMonitor *);
-	
+
 private slots:
 	// Update the edit panel, make sure that it's buttons are in sync.
 	void updateEditPanel(const GenTime &time);
 };
+
+} // namespace Gui
 
 #endif

@@ -29,15 +29,19 @@
 class QHBox;
 class QScrollView;
 class QScrollBar;
-class KTrackView;
-class KScalableRuler;
 class KMacroCommand;
 class KCommand;
 
 namespace Command
 {
-class KMoveClipsCommand;
+	class KMoveClipsCommand;
 }
+
+namespace Gui
+{
+
+	class KTrackView;
+	class KScalableRuler;
 
 /** This is the timeline. It gets populated by tracks, which in turn are populated
   * by video and audio clips, or transitional clips, or any other clip imaginable.
@@ -89,7 +93,7 @@ public:
 	/** Returns the seek position of the timeline - this is the currently playing frame, or
 	the currently seeked frame. */
 	GenTime seekPosition() const;
-	
+
 	//Returns the inpoint/outpoing position of the timeline
 	GenTime inpointPosition() const;
 	GenTime outpointPosition() const;
@@ -172,7 +176,7 @@ public:
 	/** Set the width of the panels that accompany the timeline's tracks. This also affects the width
 	of the ruler widget and the scrollbar widget.*/
 	void setPanelWidth(int width);
-	
+
 protected:
 	/** @returns the ruler tool widget. */
 	QWidget *rulerToolWidget() const { return m_rulerToolWidget; }
@@ -215,7 +219,7 @@ private:
 
 	/** The width of the panels at the left hand side of the timeline. */
 	int m_panelWidth;
-	
+
 	//difference between midpoint and inpoint/outpoint when inpoint or outpoint moved
 	GenTime m_midPoint;
 
@@ -249,13 +253,13 @@ public slots:   // Public slots
 
 	/** Re-syncs the scrollbar project size with the ruler project size. */
 	void resetProjectSize();
-	
+
 	//set inpoint/outpoint -reh
 	void setInpointTimeline( const GenTime &inpoint );
 	void setOutpointTimeline( const GenTime &outpoint );
 	//get difference between inpoint or outpoint and midpoint when inpoint/outpoint slider moved
 	void setMidValueDiff();
-	
+
 private slots:   // Private slots
 	/** Scroll the timeline by a set amount. Should be connected to m_scrollTimer */
 	void slotTimerScroll();
@@ -271,5 +275,7 @@ signals:   // Signals
 	/** Emitted when the right mouse button is pressed over the timeline. */
 	void rightButtonPressed();
 };
+
+} // namespace Gui
 
 #endif

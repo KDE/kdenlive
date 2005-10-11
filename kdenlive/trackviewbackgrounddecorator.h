@@ -23,6 +23,10 @@
 
 #include <ktimeline.h>
 
+
+namespace Gui
+{
+
 /**
 Draws the base image for a clip; draws a border around the clip, and fills it with a flat-shaded colour.
 
@@ -43,5 +47,7 @@ private:
 	QColor m_selected;
 	QColor m_unselected;
 };
+
+} // namespace Gui
 
 #endif

@@ -36,6 +36,9 @@ namespace {
 	uint g_scrollThreshold = 50;
 }
 
+namespace Gui
+{
+
 class KRulerPrivateSliderDiamond : public KRulerSliderBase {
 public:
 	KRulerPrivateSliderDiamond() {
@@ -205,10 +208,10 @@ class KRulerPrivateSliderHorizontalMark : public KRulerSliderBase {
 public:
 	KRulerPrivateSliderHorizontalMark(){
 	}
-	
+
 	~KRulerPrivateSliderHorizontalMark(){
 	}
-	
+
 	void drawHorizontalSlider(QPainter &painter, int x, int height) {
 		QPointArray points(4);
 
@@ -219,7 +222,7 @@ public:
 		painter.drawPolygon(points);
 		painter.drawLine( QPoint( x, height-3 ), QPoint( x, (height/2)+6 ) );
 	}
-	
+
 	bool underMouse(int x, int y, int midx, int height) const {
 		if(x < midx - 4) return false;
 		if(x > midx + 4) return false;
@@ -227,7 +230,7 @@ public:
 		if(y < (height/2) + 3) return false;
 		return true;
 	}
-	
+
 	int leftBound(int x, int height) {
   		return x-4;
 	}
@@ -898,3 +901,6 @@ void KRuler::slotTimerScrollEvent()
 		emit requestScrollLeft();
 	}
 }
+
+} // namespace Gui
+

@@ -20,6 +20,9 @@
 #include "kplacer.h"
 #include "trackviewdecorator.h"
 
+namespace Gui
+{
+
 KTrackPanel::KTrackPanel(KTimeLine *timeline,
 					KPlacer *placer,
                               		QWidget *parent,
@@ -81,3 +84,5 @@ int KTrackPanel::documentTrackIndex()  const
 {
 	return m_placer->documentTrackIndex();
 }
+
+} // namespace Gui

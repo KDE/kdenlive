@@ -21,8 +21,11 @@
 
 class DocClipRef;
 class Effect;
-class KdenliveApp;
 class KdenliveDoc;
+
+namespace Gui
+{
+	class KdenliveApp;
 
 /**
 Implementation of the EffectStackDialog
@@ -45,5 +48,7 @@ public slots:
 private:
 	void updateEffectStack();
 };
+
+} // namespace Gui
 
 #endif

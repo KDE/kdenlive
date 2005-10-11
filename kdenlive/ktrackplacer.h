@@ -21,6 +21,10 @@
 
 class KdenliveDoc;
 class DocTrackBase;
+
+namespace Gui
+{
+
 class KTimeLine;
 
 /**
@@ -47,5 +51,7 @@ private:
 	DocTrackBase *m_docTrack;
 	KTimeLine *m_timeline;
 };
+
+} // namespace Gui
 
 #endif

@@ -24,6 +24,10 @@
 #include "doctrackbase.h"
 
 class KdenliveDoc;
+
+namespace Gui
+{
+
 class KTimeLine;
 
 /**This panel widget handles the manipulation of keyframes.
@@ -44,4 +48,5 @@ public:
 	virtual ~KMMTrackKeyFramePanel();
 };
 
+} // namespace Gui
 #endif

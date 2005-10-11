@@ -31,7 +31,7 @@
 #include "kselectclipcommand.h"
 #include "kaddeffectcommand.h"
 
-TrackPanelClipMoveFunction::TrackPanelClipMoveFunction( KdenliveApp *app, KTimeLine *timeline, KdenliveDoc *document) :
+TrackPanelClipMoveFunction::TrackPanelClipMoveFunction( Gui::KdenliveApp *app, Gui::KTimeLine *timeline, KdenliveDoc *document) :
 		m_app( app ),
 		m_timeline( timeline ),
 		m_document( document ),
@@ -48,7 +48,7 @@ TrackPanelClipMoveFunction::TrackPanelClipMoveFunction( KdenliveApp *app, KTimeL
 TrackPanelClipMoveFunction::~TrackPanelClipMoveFunction()
 {}
 
-bool TrackPanelClipMoveFunction::mouseApplies( KTrackPanel *panel, QMouseEvent *event ) const
+bool TrackPanelClipMoveFunction::mouseApplies( Gui::KTrackPanel *panel, QMouseEvent *event ) const
 {
 	return mouseApplies(event->pos());
 }
@@ -57,7 +57,7 @@ bool TrackPanelClipMoveFunction::mouseApplies( const QPoint &pos) const
 {
 	DocClipRef *clipUnderMouse = 0;
 
-	KTrackPanel *panel = m_timeline->trackView()->panelAt(pos.y());
+	Gui::KTrackPanel *panel = m_timeline->trackView()->panelAt(pos.y());
 
 	if(panel) {
 		if(panel->hasDocumentTrackIndex()) {
@@ -72,12 +72,12 @@ bool TrackPanelClipMoveFunction::mouseApplies( const QPoint &pos) const
 	return clipUnderMouse;
 }
 
-QCursor TrackPanelClipMoveFunction::getMouseCursor( KTrackPanel *panel, QMouseEvent *event )
+QCursor TrackPanelClipMoveFunction::getMouseCursor( Gui::KTrackPanel *panel, QMouseEvent *event )
 {
 	return QCursor( Qt::SizeAllCursor );
 }
 
-bool TrackPanelClipMoveFunction::mousePressed( KTrackPanel *panel, QMouseEvent *event )
+bool TrackPanelClipMoveFunction::mousePressed( Gui::KTrackPanel *panel, QMouseEvent *event )
 {
 	bool result = false;
 
@@ -102,7 +102,7 @@ bool TrackPanelClipMoveFunction::mousePressed( KTrackPanel *panel, QMouseEvent *
 	return result;
 }
 
-bool TrackPanelClipMoveFunction::mouseReleased( KTrackPanel *panel, QMouseEvent *event )
+bool TrackPanelClipMoveFunction::mouseReleased( Gui::KTrackPanel *panel, QMouseEvent *event )
 {
 	bool result = false;
 
@@ -119,11 +119,11 @@ bool TrackPanelClipMoveFunction::mouseReleased( KTrackPanel *panel, QMouseEvent 
 			}
 		}
 	}
-	
+
 	return result;
 }
 
-bool TrackPanelClipMoveFunction::mouseMoved( KTrackPanel *panel, QMouseEvent *event )
+bool TrackPanelClipMoveFunction::mouseMoved( Gui::KTrackPanel *panel, QMouseEvent *event )
 {
 	bool result = false;
 
@@ -158,7 +158,7 @@ bool TrackPanelClipMoveFunction::mouseMoved( KTrackPanel *panel, QMouseEvent *ev
 }
 
 // virtual
-bool TrackPanelClipMoveFunction::dragEntered ( KTrackPanel *panel, QDragEnterEvent *event )
+bool TrackPanelClipMoveFunction::dragEntered ( Gui::KTrackPanel *panel, QDragEnterEvent *event )
 {
 	if ( m_startedClipMove ) {
 		m_document->activateSceneListGeneration( false );
@@ -191,7 +191,7 @@ bool TrackPanelClipMoveFunction::dragEntered ( KTrackPanel *panel, QDragEnterEve
 }
 
 // virtual
-bool TrackPanelClipMoveFunction::dragMoved ( KTrackPanel *panel, QDragMoveEvent *event )
+bool TrackPanelClipMoveFunction::dragMoved ( Gui::KTrackPanel *panel, QDragMoveEvent *event )
 {
 	QPoint pos = event->pos();
 	if(ClipDrag::canDecode( event )) {
@@ -223,14 +223,14 @@ bool TrackPanelClipMoveFunction::dragMoved ( KTrackPanel *panel, QDragMoveEvent 
 	}
 
 	m_timeline->checkScrolling( pos );
-	
+
 	return true;
 }
 
 int TrackPanelClipMoveFunction::trackUnderPoint( const QPoint &pos )
 {
 	uint y = pos.y();
-	KTrackPanel *panel = m_timeline->trackView() ->panelAt( y );
+	Gui::KTrackPanel *panel = m_timeline->trackView() ->panelAt( y );
 
 	if ( panel ) {
 		return panel->documentTrackIndex();
@@ -240,7 +240,7 @@ int TrackPanelClipMoveFunction::trackUnderPoint( const QPoint &pos )
 }
 
 // virtual
-bool TrackPanelClipMoveFunction::dragLeft( KTrackPanel *panel, QDragLeaveEvent *event )
+bool TrackPanelClipMoveFunction::dragLeft( Gui::KTrackPanel *panel, QDragLeaveEvent *event )
 {
 	if ( !m_selection.isEmpty() ) {
 		m_selection.setAutoDelete( true );
@@ -288,7 +288,7 @@ bool TrackPanelClipMoveFunction::dragLeft( KTrackPanel *panel, QDragLeaveEvent *
 }
 
 // virtual
-bool TrackPanelClipMoveFunction::dragDropped ( KTrackPanel *panel, QDropEvent *event )
+bool TrackPanelClipMoveFunction::dragDropped ( Gui::KTrackPanel *panel, QDropEvent *event )
 {
 	if(ClipDrag::canDecode(event)) {
 		if ( !m_selection.isEmpty() ) {
@@ -318,7 +318,7 @@ bool TrackPanelClipMoveFunction::dragDropped ( KTrackPanel *panel, QDropEvent *e
 		m_timeline->stopScrollTimer();
 	} else if (EffectDrag::canDecode(event)) {
 		DocClipRef *clipUnderMouse = 0;
-		KTrackPanel *panel = m_timeline->trackView() ->panelAt( event->pos().y() );
+		Gui::KTrackPanel *panel = m_timeline->trackView() ->panelAt( event->pos().y() );
 		if(panel) {
 			DocTrackBase *track = m_document->track(panel->documentTrackIndex());
 			if(track) {
@@ -420,7 +420,7 @@ void TrackPanelClipMoveFunction::setupSnapToGrid()
 				    								true);
 	m_snapToGrid.setCursorTimes(cursor);
 
-	m_snapToGrid.setSnapTolerance( GenTime( m_timeline->mapLocalToValue( KTimeLine::snapTolerance ) - m_timeline->mapLocalToValue( 0 ), m_document->framesPerSecond() ) );
+	m_snapToGrid.setSnapTolerance( GenTime( m_timeline->mapLocalToValue( Gui::KTimeLine::snapTolerance ) - m_timeline->mapLocalToValue( 0 ), m_document->framesPerSecond() ) );
 }
 
 void TrackPanelClipMoveFunction::initiateDrag( DocClipRef *clipUnderMouse, GenTime mouseTime )

@@ -31,8 +31,12 @@
 
 class DocClipRef;
 class KdenliveDoc;
-class KdenliveApp;
 class DocumentBaseNode;
+
+namespace Gui
+{
+
+class KdenliveApp;
 
 /**
   * ProjectList is the dialog which contains the project list.
@@ -41,7 +45,7 @@ class DocumentBaseNode;
 //adds tooltips to project list column headers
 class columnToolTip : public QToolTip
 {
-    public: 
+    public:
     	columnToolTip( QHeader *header, QToolTipGroup *group = 0 );
         virtual ~columnToolTip();
     private:
@@ -50,7 +54,7 @@ class columnToolTip : public QToolTip
 
 class ProjectList : public ProjectList_UI  {
    Q_OBJECT
-public: 
+public:
 	ProjectList(KdenliveApp *app, KdenliveDoc *document, QWidget *parent=0, const char *name=0);
 	~ProjectList();
 	/** Returns the currently selected clip in the project list. */
@@ -82,4 +86,5 @@ private slots: // Private slots
 	columnToolTip* colToolTip;
 };
 
+} // namespace Gui
 #endif

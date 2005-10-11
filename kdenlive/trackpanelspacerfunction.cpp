@@ -23,8 +23,8 @@
 #include "kmoveclipscommand.h"
 #include "kselectclipcommand.h"
 
-TrackPanelSpacerFunction::TrackPanelSpacerFunction(KdenliveApp *app,
-							KTimeLine *timeline,
+TrackPanelSpacerFunction::TrackPanelSpacerFunction(Gui::KdenliveApp *app,
+							Gui::KTimeLine *timeline,
 							KdenliveDoc *doc) :
 						m_app(app),
 						m_timeline(timeline),
@@ -39,17 +39,17 @@ TrackPanelSpacerFunction::~TrackPanelSpacerFunction()
 {
 }
 
-bool TrackPanelSpacerFunction::mouseApplies(KTrackPanel *panel, QMouseEvent *event) const
+bool TrackPanelSpacerFunction::mouseApplies(Gui::KTrackPanel *panel, QMouseEvent *event) const
 {
 	return true;
 }
 
-QCursor TrackPanelSpacerFunction::getMouseCursor(KTrackPanel *panel, QMouseEvent *event)
+QCursor TrackPanelSpacerFunction::getMouseCursor(Gui::KTrackPanel *panel, QMouseEvent *event)
 {
 	return QCursor(Qt::SizeHorCursor);
 }
 
-bool TrackPanelSpacerFunction::mousePressed(KTrackPanel *panel, QMouseEvent *event)
+bool TrackPanelSpacerFunction::mousePressed(Gui::KTrackPanel *panel, QMouseEvent *event)
 {
 	GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_doc->framesPerSecond());
 	GenTime roundedMouseTime = m_timeline->timeUnderMouse(event->x());
@@ -69,7 +69,7 @@ bool TrackPanelSpacerFunction::mousePressed(KTrackPanel *panel, QMouseEvent *eve
 		m_snapToGrid.clearSnapList();
 		m_snapToGrid.setSnapToFrame(m_timeline->snapToFrame());
 		if(m_timeline->snapToSeekTime()) m_snapToGrid.addToSnapList(m_timeline->seekPosition());
-		m_snapToGrid.setSnapTolerance(GenTime(m_timeline->mapLocalToValue(KTimeLine::snapTolerance) - m_timeline->mapLocalToValue(0), m_doc->framesPerSecond()));
+		m_snapToGrid.setSnapTolerance(GenTime(m_timeline->mapLocalToValue(Gui::KTimeLine::snapTolerance) - m_timeline->mapLocalToValue(0), m_doc->framesPerSecond()));
 
 		m_snapToGrid.addToSnapList(m_doc->getSnapTimes(m_timeline->snapToBorders(),
 										m_timeline->snapToMarkers(),
@@ -86,7 +86,7 @@ bool TrackPanelSpacerFunction::mousePressed(KTrackPanel *panel, QMouseEvent *eve
 	return true;
 }
 
-bool TrackPanelSpacerFunction::mouseReleased(KTrackPanel *panel, QMouseEvent *event)
+bool TrackPanelSpacerFunction::mouseReleased(Gui::KTrackPanel *panel, QMouseEvent *event)
 {
 	if(m_moveClipsCommand) {
 		m_moveClipsCommand->setEndLocation(m_masterClip);
@@ -97,7 +97,7 @@ bool TrackPanelSpacerFunction::mouseReleased(KTrackPanel *panel, QMouseEvent *ev
 	return true;
 }
 
-bool TrackPanelSpacerFunction::mouseMoved(KTrackPanel *panel, QMouseEvent *event)
+bool TrackPanelSpacerFunction::mouseMoved(Gui::KTrackPanel *panel, QMouseEvent *event)
 {
 	GenTime mouseTime = m_timeline->timeUnderMouse(event->x()) - m_clipOffset;
 	mouseTime = m_snapToGrid.getSnappedTime(mouseTime);

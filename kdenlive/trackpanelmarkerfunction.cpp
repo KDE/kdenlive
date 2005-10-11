@@ -21,7 +21,7 @@
 #include "kdenlivedoc.h"
 #include "ktimeline.h"
 
-TrackPanelMarkerFunction::TrackPanelMarkerFunction(KdenliveApp *app, KTimeLine *timeline, KdenliveDoc *document) :
+TrackPanelMarkerFunction::TrackPanelMarkerFunction(Gui::KdenliveApp *app, Gui::KTimeLine *timeline, KdenliveDoc *document) :
 									m_app(app),
 									m_timeline(timeline),
 									m_document(document)
@@ -34,7 +34,7 @@ TrackPanelMarkerFunction::~TrackPanelMarkerFunction()
 }
 
 
-bool TrackPanelMarkerFunction::mouseApplies(KTrackPanel *panel, QMouseEvent* event) const
+bool TrackPanelMarkerFunction::mouseApplies(Gui::KTrackPanel *panel, QMouseEvent* event) const
 {
 	DocClipRef *clipUnderMouse = 0;
 
@@ -49,17 +49,17 @@ bool TrackPanelMarkerFunction::mouseApplies(KTrackPanel *panel, QMouseEvent* eve
 	return clipUnderMouse;
 }
 
-bool TrackPanelMarkerFunction::mouseMoved(KTrackPanel *panel, QMouseEvent* event)
+bool TrackPanelMarkerFunction::mouseMoved(Gui::KTrackPanel *panel, QMouseEvent* event)
 {
 	return true;
 }
 
-bool TrackPanelMarkerFunction::mousePressed(KTrackPanel *panel, QMouseEvent* event)
+bool TrackPanelMarkerFunction::mousePressed(Gui::KTrackPanel *panel, QMouseEvent* event)
 {
 	return true;
 }
 
-bool TrackPanelMarkerFunction::mouseReleased(KTrackPanel *panel, QMouseEvent* event)
+bool TrackPanelMarkerFunction::mouseReleased(Gui::KTrackPanel *panel, QMouseEvent* event)
 {
 	DocClipRef *clipUnderMouse = 0;
 
@@ -79,7 +79,7 @@ bool TrackPanelMarkerFunction::mouseReleased(KTrackPanel *panel, QMouseEvent* ev
 	return true;
 }
 
-QCursor TrackPanelMarkerFunction::getMouseCursor(KTrackPanel *panel, QMouseEvent* event)
+QCursor TrackPanelMarkerFunction::getMouseCursor(Gui::KTrackPanel *panel, QMouseEvent* event)
 {
 	return QCursor(Qt::PointingHandCursor);
 }

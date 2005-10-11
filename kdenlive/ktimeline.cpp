@@ -39,13 +39,16 @@
 #include "kscalableruler.h"
 #include "kdenlive.h"
 
-uint KTimeLine::snapTolerance = 10;
-
 namespace
 {
 uint g_scrollTimerDelay = 50;
 uint g_scrollThreshold = 50;
 }
+
+namespace Gui
+{
+
+uint KTimeLine::snapTolerance = 10;
 
 KTimeLine::KTimeLine( QWidget *rulerToolWidget, QWidget *scrollToolWidget, QWidget *parent, const char *name ) :
 		QVBox( parent, name ),
@@ -77,7 +80,7 @@ KTimeLine::KTimeLine( QWidget *rulerToolWidget, QWidget *scrollToolWidget, QWidg
 	m_scrollBar = new QScrollBar( -100, 5000, 50, 500, 0, QScrollBar::Horizontal, m_scrollBox, "horizontal ScrollBar" );
 
 	m_trackViewArea = new KTrackView( *this, m_trackScroll, "track view area" );
-	
+
 	m_trackScroll->enableClipper( TRUE );
 	m_trackScroll->setVScrollBarMode( QScrollView::AlwaysOn );
 	m_trackScroll->setHScrollBarMode( QScrollView::AlwaysOff );
@@ -101,7 +104,7 @@ KTimeLine::KTimeLine( QWidget *rulerToolWidget, QWidget *scrollToolWidget, QWidg
 	connect( &m_scrollTimer, SIGNAL( timeout() ), this, SLOT( slotTimerScroll() ) );
 
 	connect( m_trackViewArea, SIGNAL( rightButtonPressed() ), this, SIGNAL( rightButtonPressed() ) );
-	
+
 	setAcceptDrops( true );
 
 	m_trackList.setAutoDelete( true );
@@ -484,4 +487,4 @@ void KTimeLine::setOutpointTimeline( const GenTime &outpoint )
 	m_ruler->setSliderValue( 2, ( int ) floor( outpoint.frames( m_framesPerSecond ) ) );
 }
 
-
+}	// namespace Gui

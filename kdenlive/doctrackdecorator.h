@@ -19,6 +19,9 @@
 
 #include <trackviewdecorator.h>
 
+ namespace Gui
+{
+
 /**
 An abstract class for all decorators that implement a view based on a DocTrack.
 
@@ -35,5 +38,7 @@ protected:
 private:
 	KdenliveDoc *m_document;
 };
+
+} // namespace Gui
 
 #endif

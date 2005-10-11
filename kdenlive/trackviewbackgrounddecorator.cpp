@@ -23,6 +23,9 @@
 #include "kdenlivedoc.h"
 #include "ktimeline.h"
 
+namespace Gui
+{
+
 TrackViewBackgroundDecorator::TrackViewBackgroundDecorator(KTimeLine* timeline,
 												KdenliveDoc* doc,
 												const QColor &selected,
@@ -60,3 +63,4 @@ void TrackViewBackgroundDecorator::paintClip(double startX, double endX, QPainte
 	painter.drawRect( sx, rect.y(), ex, rect.height());
 }
 
+} // namespace Gui

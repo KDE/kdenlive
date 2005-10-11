@@ -29,9 +29,13 @@ class QComboBox;
 class KPushButton;
 
 class DocClipRef;
+class KdenliveDoc;
+
+namespace Gui
+{
+
 class KFixedRuler;
 class KTimeLine;
-class KdenliveDoc;
 class KdenliveApp;
 
 /**The effect param dialog displays the parameter settings for a particular effect. This may be in relation to a clip, or it may be in relation to the effect dialog.
@@ -68,5 +72,7 @@ private:
 	KdenliveApp *m_app;
 	KdenliveDoc *m_document;
 };
+
+} // namespace Gui
 
 #endif

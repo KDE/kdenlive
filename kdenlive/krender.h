@@ -121,6 +121,10 @@ public:
 	/** Wraps the VEML command of the same name. Sets the current scene list to
 	be list. */
 	void setSceneList( QDomDocument list );
+	/** Wraps the VEML command of the same name - sends a <setCapture> command to the server,
+	which should reply with a <reply command="setCapture"> */
+	void setCapture();
+
 	/** Wraps the VEML command of the same name - sends a <ping> command to the server, which
 	should reply with a <pong> - let's us determine the round-trip latency of the connection. */
 	void ping( QString &ID );

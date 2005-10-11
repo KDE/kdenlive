@@ -24,6 +24,9 @@
 
 #include "effectdesc.h"
 
+namespace Gui
+{
+
 /**The effectList dialog displays a list of effects and transitions known by the renderer. Effects in this dialog can be dragged to a clip, or in the case of transitions, dragged to two or more clips (how is yet to be determined)
   *@author Jason Wood
   */
@@ -61,5 +64,7 @@ private slots:
 signals:
 	void effectSelected(const EffectDesc&);
 };
+
+} // namespace Gui
 
 #endif

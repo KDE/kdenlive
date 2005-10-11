@@ -20,6 +20,9 @@
 
 #include <kruler.h>
 
+namespace Gui
+{
+
 /**This ruler provides access to a ruler which can be scaled. Access is based upon
  the leftmost pixel currently displayed by the ruler. In essence, this class allows
   public access to a number of the proteced members of the KRuler class.
@@ -40,5 +43,7 @@ public slots: // Public slots
   /** Sets the scale used to display values. The parameter specifies how many pixels should be used per value. */
   void setValueScale(double scale);
 };
+
+} // namespace Gui
 
 #endif

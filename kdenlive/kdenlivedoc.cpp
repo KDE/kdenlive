@@ -42,7 +42,7 @@
 #include "documentgroupnode.h"
 #include "documentbasenode.h"
 
-KdenliveDoc::KdenliveDoc(KdenliveApp *app, QWidget *parent, const char *name) :
+KdenliveDoc::KdenliveDoc(Gui::KdenliveApp *app, QWidget *parent, const char *name) :
 				QObject(parent, name),
 				m_projectClip(new DocClipProject(25)),
 				m_modified(false),
@@ -331,7 +331,7 @@ void KdenliveDoc::AVFilePropertiesError(const QString &path, const QString &errm
 {
 	DocClipBase *file = m_clipManager.findClip(KURL(path));
 
-	KdenliveApp *win=(KdenliveApp *) parent();
+	Gui::KdenliveApp *win=(Gui::KdenliveApp *) parent();
 	KMessageBox::sorry(win, errmsg, path);
 
 	deleteClipNode(file->name());

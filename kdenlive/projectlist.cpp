@@ -36,6 +36,9 @@
 #include <string>
 #include <map>
 
+namespace Gui
+{
+
 ProjectList::ProjectList(KdenliveApp *app, KdenliveDoc *document, QWidget *parent, const char *name) :
 						ProjectList_UI(parent,name),
 						m_document(document),
@@ -48,7 +51,7 @@ ProjectList::ProjectList(KdenliveApp *app, KdenliveDoc *document, QWidget *paren
 	m_listView->setDocument(document);
 	//add header tooltips -reh
 	colToolTip = new columnToolTip( m_listView->header() );
-	
+
  	connect (m_listView, SIGNAL(dragDropOccured(QDropEvent *)), this, SIGNAL(dragDropOccured(QDropEvent *)));
 
 	connect(m_listView, SIGNAL(rightButtonPressed ( QListViewItem *, const QPoint &, int )),
@@ -63,7 +66,7 @@ ProjectList::~ProjectList()
 }
 
 /** No descriptions */
-void ProjectList::rightButtonPressed ( QListViewItem *listViewItem, const QPoint &pos, int column) 
+void ProjectList::rightButtonPressed ( QListViewItem *listViewItem, const QPoint &pos, int column)
 {
 	QPopupMenu *menu = contextMenu();
 	if(menu) {
@@ -103,7 +106,7 @@ void ProjectList::projectListSelectionChanged(QListViewItem *item)
 {
   const AVListViewItem *avitem = (AVListViewItem *)item;
 
-  emit clipSelected(avitem->clip());  
+  emit clipSelected(avitem->clip());
 }
 
 DocClipRef *ProjectList::currentSelection()
@@ -137,7 +140,10 @@ void columnToolTip::maybeTip ( const QPoint &p )
     	section = header->sectionAt( p.x() );
     else
     	section = header->sectionAt( p.y() );
-	
+
     QString tipString = header->label( section );
     tip( header->sectionRect( section ), tipString, "" );
 }
+
+}	// namespace Gui
+

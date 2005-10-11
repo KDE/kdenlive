@@ -30,6 +30,9 @@
 #include "krulertimemodel.h"
 #include "kdenlivedoc.h"
 
+namespace Gui
+{
+
 KMMEditPanel::KMMEditPanel( KdenliveDoc *document, QWidget* parent, const char* name, WFlags fl ) :
 		KMMEditPanel_UI( parent, name, fl ),
 		m_playSpeed(0.0),
@@ -158,7 +161,7 @@ void KMMEditPanel::setInpoint()
 {
 	int value = m_ruler->getSliderValue( 0 );
 	m_ruler->setSliderValue( 1, value);
-	
+
 	//if(value >= m_ruler->getSliderValue( 2 )) {
 	//	m_ruler->setSliderValue( 2, value + 8 );
 	//}
@@ -314,3 +317,5 @@ void KMMEditPanel::setSnapMarker(bool markerHere)
 {
 	setMarkerButton->setDown(markerHere);
 }
+
+} // namespace Gui

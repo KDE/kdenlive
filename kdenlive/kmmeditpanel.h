@@ -24,6 +24,9 @@
 
 class KdenliveDoc;
 
+namespace Gui
+{
+
 /**Implementation for the edit panel
   *@author Jason Wood
   */
@@ -62,15 +65,16 @@ signals: // Signals
   void playSpeedChanged(double);
   /** Emitted by the EditPanel when the playSpeed should change. */
   void playSpeedChanged(double, const GenTime &, const GenTime &);
-  /** Emitted when the toggle snapMarker button has been clicked */
-  void toggleSnapMarker();
 
   /** Emitted when the nextSnapMarker button has been clicked */
   void nextSnapMarkerClicked();
 
   /** Emitted when the previousSnapMarker button has been clicked */
   void previousSnapMarkerClicked();
-  
+
+/** Creates or destroys a snap marker at the current time. */
+  void toggleSnapMarker();
+
 private: // Private attributes
   /** The document associated with this edit panel */
   KdenliveDoc * m_document;
@@ -123,5 +127,7 @@ public slots: // Public slots
   /**  set whether the edit panel displays that there is a snap marker at the current seek time or not */
   void setSnapMarker(bool markerHere);
 };
+
+} // namespace Gui
 
 #endif

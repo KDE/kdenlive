@@ -20,10 +20,15 @@
 #include <trackpanelfunction.h>
 
 class QMouseEvent;
-class KdenliveApp;
+
 class KdenliveDoc;
-class KTimeLine;
 class DocTrackBase;
+
+namespace Gui
+{
+	class KdenliveApp;
+	class KTimeLine;
+}
 
 /**
 @author Jason Wood
@@ -32,18 +37,18 @@ class TrackPanelMarkerFunction : public TrackPanelFunction
 {
 Q_OBJECT
 public:
-    TrackPanelMarkerFunction(KdenliveApp *app, KTimeLine *timeline, KdenliveDoc *document);
+    TrackPanelMarkerFunction(Gui::KdenliveApp *app, Gui::KTimeLine *timeline, KdenliveDoc *document);
 
     ~TrackPanelMarkerFunction();
 
-    virtual bool mouseApplies(KTrackPanel *panel, QMouseEvent* event) const;
-    virtual bool mouseMoved(KTrackPanel *panel, QMouseEvent* event);
-    virtual bool mousePressed(KTrackPanel *panel, QMouseEvent* event);
-    virtual bool mouseReleased(KTrackPanel *panel, QMouseEvent* event);
-    virtual QCursor getMouseCursor(KTrackPanel *panel, QMouseEvent* event);
+    virtual bool mouseApplies(Gui::KTrackPanel *panel, QMouseEvent* event) const;
+    virtual bool mouseMoved(Gui::KTrackPanel *panel, QMouseEvent* event);
+    virtual bool mousePressed(Gui::KTrackPanel *panel, QMouseEvent* event);
+    virtual bool mouseReleased(Gui::KTrackPanel *panel, QMouseEvent* event);
+    virtual QCursor getMouseCursor(Gui::KTrackPanel *panel, QMouseEvent* event);
 private:
-	KdenliveApp *m_app;
-	KTimeLine *m_timeline;
+	Gui::KdenliveApp *m_app;
+	Gui::KTimeLine *m_timeline;
 	KdenliveDoc *m_document;
 };
 

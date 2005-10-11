@@ -19,6 +19,8 @@
 
 #include <doctrackdecorator.h>
 
+namespace Gui
+{
 class KTimeLine;
 
 /**
@@ -36,5 +38,7 @@ public:
 
     virtual void paintClip(double startX, double endx, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected);
 };
+
+} // namespace Gui
 
 #endif

@@ -43,11 +43,13 @@
 
 // application specific includes
 // p.s., get the idea this class is kind, central to everything?
+#include "capturemonitor.h"
 #include "clipdrag.h"
 #include "clippropertiesdialog.h"
 #include "configureprojectdialog.h"
 #include "docclipbase.h"
 #include "docclipavfile.h"
+#include "docclipref.h"
 #include "docclipproject.h"
 #include "documentbasenode.h"
 #include "effectlistdialog.h"
@@ -63,8 +65,10 @@
 #include "kdenlivedoc.h"
 #include "kdenlivesetupdlg.h"
 #include "documentmacrocommands.h"
+#include "kmmmonitor.h"
 #include "kmmtimeline.h"
 #include "ktrackview.h"
+#include "kmmeditpanel.h"
 #include "kmmtrackkeyframepanel.h"
 #include "kmmtracksoundpanel.h"
 #include "kmmtrackvideopanel.h"
@@ -86,6 +90,9 @@
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
 #define ID_CURTIME_MSG 2
+
+namespace Gui
+{
 
 KdenliveApp::KdenliveApp( QWidget* , const char* name ) :
 		KDockMainWindow( 0, name ),
@@ -328,7 +335,7 @@ void KdenliveApp::initView()
 	clipWidget->setWidget( m_clipPropertyDialog );
 	clipWidget->setDockSite( KDockWidget::DockFullSite );
 	clipWidget->manualDock( projectDock, KDockWidget::DockCenter );
-	
+
 	widget = createDockWidget( "Effect Stack", QPixmap(), 0, i18n( "Effect Stack" ) );
 	m_effectStackDialog = new EffectStackDialog( this, getDocument(), widget, "effect stack" );
 	QToolTip::add( widget, i18n( "All effects on the currently selected widget." ) );
@@ -348,6 +355,12 @@ void KdenliveApp::initView()
 	m_dockClipMonitor->setWidget( m_clipMonitor );
 	m_dockClipMonitor->setDockSite( KDockWidget::DockFullSite );
 	m_dockClipMonitor->manualDock( m_dockWorkspaceMonitor, KDockWidget::DockCenter );
+
+	m_dockCaptureMonitor = createDockWidget( "Capture Monitor", QPixmap(), 0, i18n( "Capture Monitor" ) );
+	m_captureMonitor = m_monitorManager.createCaptureMonitor( getDocument(), m_dockCaptureMonitor, i18n( "Capture Monitor" ) );
+	m_dockCaptureMonitor->setWidget( m_captureMonitor );
+	m_dockCaptureMonitor->setDockSite( KDockWidget::DockFullSite );
+	m_dockCaptureMonitor->manualDock( m_dockWorkspaceMonitor, KDockWidget::DockCenter );
 
 	setBackgroundMode( PaletteBase );
 
@@ -369,7 +382,7 @@ void KdenliveApp::initView()
 	connect( getDocument(), SIGNAL( nodeDeleted( DocumentBaseNode * ) ), m_projectList, SLOT( slot_nodeDeleted( DocumentBaseNode * ) ) );
 
 	//connect( getDocument(), SIGNAL( documentChanged( DocClipBase * ) ), m_workspaceMonitor, SLOT( slotSetClip( DocClipBase * ) ) );
-	
+
 	connect( getDocument() ->renderer(), SIGNAL( effectListChanged( const QPtrList<EffectDesc> & ) ), m_effectListDialog, SLOT( setEffectList( const QPtrList<EffectDesc> & ) ) );
 
 	connect( getDocument() ->renderer(), SIGNAL( rendering( const GenTime & ) ), this, SLOT( slotSetRenderProgress( const GenTime & ) ) );
@@ -398,7 +411,7 @@ void KdenliveApp::initView()
 	//connect timeline sliders with editpanel sliders -reh
 	connect( m_timeline, SIGNAL( inpointPositionChanged( const GenTime & ) ), m_workspaceMonitor, SLOT( slotSetInpoint( const GenTime & ) ) );
 	connect( m_timeline, SIGNAL( outpointPositionChanged( const GenTime & ) ), m_workspaceMonitor, SLOT( slotSetOutpoint( const GenTime & ) ) );
-	
+
 	connect( m_timeline, SIGNAL( seekPositionChanged( const GenTime & ) ), this, SLOT( activateWorkspaceMonitor() ) );
 
 	connect( m_timeline, SIGNAL( rightButtonPressed() ), this, SLOT(slotDisplayTimeLineContextMenu()));
@@ -410,7 +423,6 @@ void KdenliveApp::initView()
 	readDockConfig( config, "Default Layout" );
 
 	slotSyncTimeLineWithDocument();
-
 
 	m_timeline->trackView()->registerFunction("move", new TrackPanelClipMoveFunction(this, m_timeline, getDocument()));
 	TrackPanelClipResizeFunction *resizeFunction = new TrackPanelClipResizeFunction(this, m_timeline, getDocument());
@@ -495,7 +507,7 @@ void KdenliveApp::readOptions()
 	KToolBar::BarPosition toolBarPos;
 	toolBarPos = ( KToolBar::BarPosition ) config->readNumEntry( "ToolBarPos", KToolBar::Top );
 	toolBar( "mainToolBar" ) ->setBarPos( toolBarPos );
-	
+
 	//timeline slider timescale setting
 	int iTimeScaleSlider = (int) config->readNumEntry( "TimeScaleSlider", 6 );
 	m_timeline->setSliderIndex( iTimeScaleSlider );
@@ -957,7 +969,7 @@ void KdenliveApp::slotProjectAddClips()
 		}
 	}
 	addCommand( macroCommand, true );
-	
+
 	m_fileDialogPath.setFileName( QString::null );
 
 	slotStatusMsg( i18n( "Ready." ) );
@@ -1051,7 +1063,7 @@ void KdenliveApp::slotTogglePlay()
 {
 	slotStatusMsg( i18n( "Starting/stopping playback" ) );
 	if ( m_monitorManager.hasActiveMonitor() ) {
-		m_monitorManager.activeMonitor() ->togglePlay();
+		m_monitorManager.activeMonitor() ->editPanel()->togglePlay();
 	}
 	slotStatusMsg( i18n( "Ready." ) );
 }
@@ -1060,7 +1072,7 @@ void KdenliveApp::slotTogglePlaySelected()
 {
 	slotStatusMsg( i18n( "Starting/stopping playback of inpoint/outpoint section" ) );
 	if ( m_monitorManager.hasActiveMonitor() ) {
-		m_monitorManager.activeMonitor() ->togglePlaySelected();
+		m_monitorManager.activeMonitor() ->editPanel()->togglePlaySelected();
 	}
 	slotStatusMsg( i18n( "Ready." ) );
 }
@@ -1069,7 +1081,7 @@ void KdenliveApp::slotNextFrame()
 {
 	slotStatusMsg( i18n( "Moving forward one frame" ) );
 	if ( m_monitorManager.hasActiveMonitor() ) {
-		m_monitorManager.activeMonitor() ->seek( m_monitorManager.activeMonitor() ->seekPosition() + GenTime( 1, getDocument() ->framesPerSecond() ) );
+		m_monitorManager.activeMonitor() ->editPanel()->seek( m_monitorManager.activeMonitor() ->screen()->seekPosition() + GenTime( 1, getDocument() ->framesPerSecond() ) );
 	}
 	slotStatusMsg( i18n( "Ready." ) );
 }
@@ -1078,7 +1090,7 @@ void KdenliveApp::slotLastFrame()
 {
 	slotStatusMsg( i18n( "Moving backwards one frame" ) );
 	if ( m_monitorManager.hasActiveMonitor() ) {
-		m_monitorManager.activeMonitor() ->seek( m_monitorManager.activeMonitor() ->seekPosition() - GenTime( 1, getDocument() ->framesPerSecond() ) );
+		m_monitorManager.activeMonitor() ->editPanel()->seek( m_monitorManager.activeMonitor() ->screen()->seekPosition() - GenTime( 1, getDocument() ->framesPerSecond() ) );
 	}
 	slotStatusMsg( i18n( "Ready." ) );
 }
@@ -1087,7 +1099,7 @@ void KdenliveApp::slotSetInpoint()
 {
 	slotStatusMsg( i18n( "Setting Inpoint" ) );
 	if ( m_monitorManager.hasActiveMonitor() ) {
-		m_monitorManager.activeMonitor() ->slotSetInpoint();
+		m_monitorManager.activeMonitor() ->editPanel()->setInpoint();
 	}
 	slotStatusMsg( i18n( "Ready." ) );
 }
@@ -1096,7 +1108,7 @@ void KdenliveApp::slotSetOutpoint()
 {
 	slotStatusMsg( i18n( "Setting outpoint" ) );
 	if ( m_monitorManager.hasActiveMonitor() ) {
-		m_monitorManager.activeMonitor() ->slotSetOutpoint();
+		m_monitorManager.activeMonitor() ->editPanel()->setOutpoint();
 	}
 	slotStatusMsg( i18n( "Ready." ) );
 }
@@ -1105,7 +1117,6 @@ void KdenliveApp::slotDeleteSelected()
 {
 	slotStatusMsg( i18n( "Deleting Selected Clips" ) );
 	addCommand( Command::KAddRefClipCommand::deleteSelectedClips(getDocument()), true );
-	//  m_workspaceMonitor->swapScreens(m_clipMonitor);
 	slotStatusMsg( i18n( "Ready." ) );
 }
 
@@ -1188,7 +1199,7 @@ void KdenliveApp::activateWorkspaceMonitor()
 void KdenliveApp::slotLookAtClip( DocClipRef *clip, const GenTime &time )
 {
 	slotSetClipMonitorSource( clip );
-	m_clipMonitor->seek( time );
+	m_clipMonitor->editPanel()->seek( time );
 }
 
 
@@ -1378,3 +1389,5 @@ void KdenliveApp::slotRazorSelectedClips()
 {
 	addCommand(Command::DocumentMacroCommands::razorSelectedClipsAt(getDocument(), m_timeline->seekPosition()), true);
 }
+
+} // namespace Gui

@@ -43,8 +43,8 @@ EffectKeyFrame *EffectParamDoubleDesc::createKeyFrame(double time)
 }
 
 // virtual
-KMMTrackPanel *EffectParamDoubleDesc::createTrackPanel(KdenliveApp *app,
-				KTimeLine *timeline,
+Gui::KMMTrackPanel *EffectParamDoubleDesc::createTrackPanel(Gui::KdenliveApp *app,
+				Gui::KTimeLine *timeline,
 				KdenliveDoc *document,
 				DocTrackBase *docTrack,
 				QWidget *parent,
@@ -52,12 +52,12 @@ KMMTrackPanel *EffectParamDoubleDesc::createTrackPanel(KdenliveApp *app,
 {
 	kdWarning() << "EffectParamDoubleDesc::createTrackPanel()" << endl;
 	#warning - need to pass in the effect name/index from somewhere.
-	return new KMMTrackKeyFramePanel( timeline, document, docTrack, "alphablend", 0,  name, parent, name);
+	return new Gui::KMMTrackKeyFramePanel( timeline, document, docTrack, "alphablend", 0,  name, parent, name);
 }
 
 // virtual
-KMMTrackPanel *EffectParamDoubleDesc::createClipPanel(KdenliveApp *app,
-				KTimeLine *timeline,
+Gui::KMMTrackPanel *EffectParamDoubleDesc::createClipPanel(Gui::KdenliveApp *app,
+				Gui::KTimeLine *timeline,
 				KdenliveDoc *document,
 				DocClipRef *clip,
 				QWidget *parent,
@@ -65,5 +65,5 @@ KMMTrackPanel *EffectParamDoubleDesc::createClipPanel(KdenliveApp *app,
 {
 	kdWarning() << "EffectParamDoubleDesc::createTrackPanel()" << endl;
 	#warning - need to pass in the effect name/index from somewhere.
-	return new KMMClipKeyFramePanel( timeline, document, clip, EffectParamDesc::name(), 0,  name, parent, name);
+	return new Gui::KMMClipKeyFramePanel( timeline, document, clip, EffectParamDesc::name(), 0,  name, parent, name);
 }

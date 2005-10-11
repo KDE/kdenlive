@@ -24,9 +24,12 @@
 #include "doctracksound.h"
 #include "kmmtrackpanel.h"
 
-class KdenliveApp;
 class KdenliveDoc;
-class KTimeLine;
+
+namespace Gui
+{
+	class KdenliveApp;
+	class KTimeLine;
 
 /**KMMTrackSoundPanel is the Track panel for sound files.
 It contains several functions that can be used to manipulate
@@ -49,5 +52,7 @@ private: // Public attributes
   /**  */
   QLabel m_trackLabel;
 };
+
+} // namespace Gui
 
 #endif

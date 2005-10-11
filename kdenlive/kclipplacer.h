@@ -20,6 +20,9 @@
 #include <kplacer.h>
 
 class DocClipRef;
+
+namespace Gui
+{
 class KTimeLine;
 
 /**
@@ -45,5 +48,7 @@ private:
 	DocClipRef *m_clip;
 	KTimeLine *m_timeline;
 };
+
+} // namespace Gui
 
 #endif

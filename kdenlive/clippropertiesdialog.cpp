@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
  #include <cmath>
- 
+
 #include <klocale.h>
 
 #include <qnamespace.h>
@@ -25,6 +25,9 @@
 #include "clippropertiesdialog.h"
 #include "docclipavfile.h"
 #include "docclipref.h"
+
+namespace Gui
+{
 
 ClipPropertiesDialog::ClipPropertiesDialog(QWidget *parent, const char *name ):
 			QVBox( parent, name ),
@@ -55,7 +58,7 @@ ClipPropertiesDialog::ClipPropertiesDialog(QWidget *parent, const char *name ):
 	systemLabel->setFrameStyle( QFrame::Panel | QFrame::Sunken );
 	decompressorLabel = new QLabel( m_videoVBoxR );
 	decompressorLabel->setFrameStyle( QFrame::Panel | QFrame::Sunken );
-	
+
 	//audio info layout
 	QHGroupBox *m_audioGBox = new QHGroupBox( i18n( "Audio Stream" ), this, "audioStream" );
 	m_audioGBox->setAlignment( 0 );
@@ -116,7 +119,7 @@ void ClipPropertiesDialog::setClip(DocClipRef *clip)
 		}
 		systemLabel->setText( i18n( m_clip->avSystem() ) );
 		decompressorLabel->setText( i18n( m_clip->avDecompressor() ) );
-		
+
 		//audio properties
 		samplingRateLabel->setText( i18n( "0Hz" ) );
 		switch( m_clip->audioChannels() )
@@ -130,9 +133,10 @@ void ClipPropertiesDialog::setClip(DocClipRef *clip)
 			default:
 				channelsLabel->setText( i18n( QString::number( m_clip->audioChannels() ) ) );
 				break;
-		}		
+		}
 		formatLabel->setText( i18n( m_clip->audioFormat() ) );
 		audiobitLabel->setText( i18n( QString::number( m_clip->audioBits() ) + " bit") );
 	}
 }
 
+} // namespace Gui

@@ -16,6 +16,9 @@
  ***************************************************************************/
 #include "kplacer.h"
 
+namespace Gui
+{
+
 KPlacer::KPlacer()
 {
 }
@@ -25,3 +28,4 @@ KPlacer::~KPlacer()
 {
 }
 
+}	// namespace Gui

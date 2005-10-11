@@ -23,6 +23,9 @@
 #include "kdenlive.h"
 #include "effectdrag.h"
 
+namespace Gui
+{
+
 EffectStackListView::EffectStackListView( QWidget * parent, const char * name ) :
 		KListView( parent, name ),
 		m_app(NULL),
@@ -171,3 +174,5 @@ int EffectStackListView::selectedEffectIndex() const
 	kdWarning() << "selectedEffectIndex = " << result << endl;
 	return result;
 }
+
+} // namespace Gui

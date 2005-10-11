@@ -37,6 +37,9 @@
 #include "trackviewnamedecorator.h"
 #include "trackviewmarkerdecorator.h"
 
+namespace Gui
+{
+
 KMMTrackVideoPanel::KMMTrackVideoPanel(KdenliveApp *app,
 					KTimeLine *timeline,
 					KdenliveDoc *doc,
@@ -65,3 +68,5 @@ KMMTrackVideoPanel::KMMTrackVideoPanel(KdenliveApp *app,
 KMMTrackVideoPanel::~KMMTrackVideoPanel()
 {
 }
+
+} // namespace Gui

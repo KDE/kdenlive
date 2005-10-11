@@ -26,6 +26,9 @@ class KTimeLine;
 class KdenliveDoc;
 class DocClipRef;
 
+namespace Gui
+{
+
 /**
 A track panel that displays the keyframe of a single parameter from a single clip,
 
@@ -49,5 +52,7 @@ private:
 	QVBox m_verticalLayout;
 	QLabel m_effectNameLabel;
 };
+
+} // namespace Gui
 
 #endif

@@ -37,6 +37,9 @@
 #include "docclipref.h"
 #include "effect.h"
 
+namespace Gui
+{
+
 EffectParamDialog::EffectParamDialog(KdenliveApp *app, KdenliveDoc *document, QWidget *parent, const char *name ) :
 									QVBox(parent,name),
 									m_desc(0),
@@ -118,3 +121,5 @@ void EffectParamDialog::clearEffect()
 	m_clip = 0;
 	m_desc = 0;
 }
+
+} // namespace Gui

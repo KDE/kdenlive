@@ -16,6 +16,9 @@
  ***************************************************************************/
 #include "trackviewdoublekeyframedecorator.h"
 
+namespace Gui
+{
+
 TrackViewDoubleKeyFrameDecorator::TrackViewDoubleKeyFrameDecorator(KTimeLine *timeline, KdenliveDoc *doc, const QString &effectName, int effectIndex, const QString &paramName)
  							: DocTrackDecorator(timeline, doc),
 							m_effectName(effectName),
@@ -33,3 +36,5 @@ TrackViewDoubleKeyFrameDecorator::~TrackViewDoubleKeyFrameDecorator()
 void TrackViewDoubleKeyFrameDecorator::paintClip(double startX, double endx, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected)
 {
 }
+
+} // namespace Gui

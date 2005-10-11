@@ -29,9 +29,12 @@
 #include "trackviewdecorator.h"
 
 class KdenliveDoc;
-class KPlacer;
-class KTimeLine;
 class TrackPanelFunction;
+
+namespace Gui
+{
+	class KTimeLine;
+	class KPlacer;
 
 /**Base class for all Track panels and their associated views.
   *@author Jason Wood
@@ -61,5 +64,7 @@ private:	// private methods
 	/** A reference to the document this function applies to. */
 	KdenliveDoc *m_document;
 };
+
+} // namespace Gui
 
 #endif

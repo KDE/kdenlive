@@ -18,7 +18,10 @@
 #include "kfixedruler.h"
 #include <kdebug.h>
 
-KFixedRuler::KFixedRuler(int startValue, int endValue, int margin, 
+namespace Gui
+{
+
+KFixedRuler::KFixedRuler(int startValue, int endValue, int margin,
 			KRulerModel *model, QWidget *parent, const char *name ) :
 								KRuler(model, parent, name)
 {
@@ -41,7 +44,7 @@ KFixedRuler::KFixedRuler(QWidget *parent, const char *name) :
 {
 	m_margin = 20;
 	setRange(0, 60);
-	connect(this, SIGNAL(resized()), this, SLOT(calculateViewport()));	
+	connect(this, SIGNAL(resized()), this, SLOT(calculateViewport()));
 }
 
 KFixedRuler::~KFixedRuler()
@@ -76,19 +79,19 @@ void KFixedRuler::setMaxValue(const int end)
 void KFixedRuler::setRange(const int min, const int max)
 {
 	bool hasChanged = false;
-	
+
 	if(minValue()!=min) {
 		hasChanged = true;
 		emit startValueChanged(min);
 	}
-	
+
 	if(maxValue() != max) {
 		hasChanged = true;
 		emit endValueChanged(max);
 	}
 
 	KRuler::setRange(min, max);
-	
+
 	if(hasChanged) {
 		calculateViewport();
 	}
@@ -118,3 +121,5 @@ int KFixedRuler::margin() const
 {
 	return m_margin;
 }
+
+} // namespace Gui

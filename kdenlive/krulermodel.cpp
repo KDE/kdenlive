@@ -17,11 +17,14 @@
 
 #include "krulermodel.h"
 
+namespace Gui
+{
+
 KRulerModel::KRulerModel()
 {
 	setMinimumSmallTickSeperation(6);
 	setMinimumLargeTickSeperation(30);
-	setMinimumDisplayTickSeperation(100);	
+	setMinimumDisplayTickSeperation(100);
 }
 
 KRulerModel::~KRulerModel()
@@ -108,7 +111,7 @@ int KRulerModel::getTickDisplayInterval(const int tick) const
 		seconds = 2;
 	} else {
 		seconds = 1;
-	}	
+	}
 
 	return seconds;
 }
@@ -127,3 +130,5 @@ void KRulerModel::setMinimumDisplayTickSeperation(const int pixels)
 {
 	m_minimumDisplayTickSeperation = pixels;
 }
+
+} // namespace Gui

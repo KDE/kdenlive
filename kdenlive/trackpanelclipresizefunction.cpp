@@ -29,8 +29,8 @@
 // static
 const uint TrackPanelClipResizeFunction::s_resizeTolerance = 5;
 
-TrackPanelClipResizeFunction::TrackPanelClipResizeFunction(KdenliveApp *app,
-								KTimeLine *timeline,
+TrackPanelClipResizeFunction::TrackPanelClipResizeFunction(Gui::KdenliveApp *app,
+								Gui::KTimeLine *timeline,
 								KdenliveDoc *document) :
 								m_app(app),
 								m_timeline(timeline),
@@ -47,7 +47,7 @@ TrackPanelClipResizeFunction::~TrackPanelClipResizeFunction()
 }
 
 
-bool TrackPanelClipResizeFunction::mouseApplies(KTrackPanel *panel, QMouseEvent *event) const
+bool TrackPanelClipResizeFunction::mouseApplies(Gui::KTrackPanel *panel, QMouseEvent *event) const
 {
 	bool result = false;
 
@@ -70,12 +70,12 @@ bool TrackPanelClipResizeFunction::mouseApplies(KTrackPanel *panel, QMouseEvent 
 	return result;
 }
 
-QCursor TrackPanelClipResizeFunction::getMouseCursor(KTrackPanel *panel, QMouseEvent *event)
+QCursor TrackPanelClipResizeFunction::getMouseCursor(Gui::KTrackPanel *panel, QMouseEvent *event)
 {
 	return QCursor(Qt::SizeHorCursor);
 }
 
-bool TrackPanelClipResizeFunction::mousePressed(KTrackPanel *panel, QMouseEvent *event)
+bool TrackPanelClipResizeFunction::mousePressed(Gui::KTrackPanel *panel, QMouseEvent *event)
 {
 	bool result = false;
 
@@ -109,7 +109,7 @@ bool TrackPanelClipResizeFunction::mousePressed(KTrackPanel *panel, QMouseEvent 
 															true,
 															false));
 
-				m_snapToGrid.setSnapTolerance(GenTime(m_timeline->mapLocalToValue(KTimeLine::snapTolerance) - m_timeline->mapLocalToValue(0), m_document->framesPerSecond()));
+				m_snapToGrid.setSnapTolerance(GenTime(m_timeline->mapLocalToValue(Gui::KTimeLine::snapTolerance) - m_timeline->mapLocalToValue(0), m_document->framesPerSecond()));
 
 				QValueVector<GenTime> cursor;
 
@@ -130,7 +130,7 @@ bool TrackPanelClipResizeFunction::mousePressed(KTrackPanel *panel, QMouseEvent 
 	return result;
 }
 
-bool TrackPanelClipResizeFunction::mouseReleased(KTrackPanel *panel, QMouseEvent *event)
+bool TrackPanelClipResizeFunction::mouseReleased(Gui::KTrackPanel *panel, QMouseEvent *event)
 {
 	bool result = false;
 
@@ -143,7 +143,7 @@ bool TrackPanelClipResizeFunction::mouseReleased(KTrackPanel *panel, QMouseEvent
 	return result;
 }
 
-bool TrackPanelClipResizeFunction::mouseMoved(KTrackPanel *panel, QMouseEvent *event)
+bool TrackPanelClipResizeFunction::mouseMoved(Gui::KTrackPanel *panel, QMouseEvent *event)
 {
 	bool result = false;
 

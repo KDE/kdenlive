@@ -36,6 +36,9 @@ which reside in the main video widget
 
 class KdenliveDoc;
 
+namespace Gui
+{
+
 class KMMTrackVideoPanel : public KMMTrackPanel  {
    Q_OBJECT
 public:
@@ -52,5 +55,7 @@ private:
 	/** True if we are inside a dragging operation, false otherwise. */
 	bool m_dragging;
 };
+
+} // namespace Gui
 
 #endif

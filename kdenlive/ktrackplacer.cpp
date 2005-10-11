@@ -21,6 +21,9 @@
 #include "doctrackbase.h"
 #include "trackviewdecorator.h"
 
+namespace Gui
+{
+
 KTrackPlacer::KTrackPlacer(KdenliveDoc *doc, KTimeLine *timeline, DocTrackBase *track) :
 				m_docTrack(track),
 				m_timeline(timeline),
@@ -60,3 +63,5 @@ int KTrackPlacer::documentTrackIndex()  const
 {
 	return m_document->trackIndex(m_docTrack);
 }
+
+} // namespace Gui

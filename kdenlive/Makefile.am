@@ -7,40 +7,40 @@ mime_DATA = vnd.kde.kdenlive.desktop vnd.kde.kdenlive.scenelist.desktop
 ## INCLUDES were found outside kdevelop specific part
 
 kdenlive_SOURCES = avfileformatdesc.cpp avfileformatwidget.cpp avfilelist.cpp \
-	avformatdescbase.cpp avformatdescbool.cpp avformatdesccodec.cpp avformatdesccodeclist.cpp \
-	avformatdesccontainer.cpp avformatdesclist.cpp avformatwidgetbase.cpp avformatwidgetbool.cpp \
-	avformatwidgetcodec.cpp avformatwidgetcodeclist.cpp avformatwidgetcontainer.cpp \
-	avformatwidgetlist.cpp avlistviewitem.cpp clipdrag.cpp clippropertiesdialog.cpp \
-	displayaudiodesc.cpp displayvideodesc.cpp docclipavfile.cpp docclipbase.cpp \
-	docclipbaselist.cpp docclipproject.cpp doctrackbase.cpp doctrackbaselist.cpp \
-	doctrackclipiterator.cpp doctracksound.cpp doctrackvideo.cpp effect.cpp effectdesc.cpp \
-	effectlistdialog.cpp effectparamdialog.cpp exportdialog.cpp gentime.cpp kaddclipcommand.cpp \
-	kdenlive.cpp kdenlivedoc.cpp kdenlivesetupdlg.cpp kdenlivesplash.cpp kfixedruler.cpp \
-	kmmeditpanel.cpp kmmmonitor.cpp kmmrulerpanel.cpp kmmscreen.cpp \
-	kmmtrackkeyframepanel.cpp kmmtrackpanel.cpp kmmtracksoundpanel.cpp kmmtrackvideopanel.cpp \
-	kmoveclipscommand.cpp krender.cpp krendermanager.cpp kresizecommand.cpp kruler.cpp \
-	krulermodel.cpp krulersliderbase.cpp krulertimemodel.cpp kscalableruler.cpp \
-	kselectclipcommand.cpp main.cpp monitormanager.cpp projectlist.cpp projectlistview.cpp \
-	rangelist.cpp renderdebugpanel.cpp rendersetupdlg.cpp snaptogrid.cpp \
-	trackpanelclipmovefunction.cpp trackpanelclipresizefunction.cpp trackpanelfunction.cpp \
-	trackpanelrazorfunction.cpp trackpanelspacerfunction.cpp addtrackdialog_ui.ui kmmeditpanel_ui.ui \
-	kmmrulerpanel_ui.ui projectlist_ui.ui rendersetupdlg_ui.ui docclipref.cpp \
-	docclipreflist.cpp clipmanager.cpp documentclipnode.cpp documentgroupnode.cpp \
-	documentbasenode.cpp docsubclip.cpp kaddrefclipcommand.cpp configureproject_ui.ui \
-	configureproject.cpp configureprojectdialog.cpp exportconfig.cpp \
-	trackpanelmarkerfunction.cpp trackviewdecorator.cpp trackviewbackgrounddecorator.cpp \
-	trackviewnamedecorator.cpp trackviewmarkerdecorator.cpp kaddmarkercommand.cpp \
-	saveprojectfilter.cpp saveprojectnativefilter.cpp loadprojectfilter.cpp \
-	loadprojectnativefilter.cpp projectformatmanager.cpp loadprojectkinofilter.cpp timecode.cpp \
-	ktimeline.cpp kmmtimeline.cpp ktrackview.cpp documentmacrocommands.cpp \
-	saveprojectscenelistfilter.cpp trackpanelfunctionfactory.cpp trackpanelselectnonefunction.cpp \
-	effectkeyframe.cpp effectdoublekeyframe.cpp effectparamdesc.cpp effectparamdoubledesc.cpp \
-	effectparameter.cpp effectparamdescfactory.cpp doctrackdecorator.cpp ktrackpanel.cpp \
-	ktrackclippanel.cpp trackviewdoublekeyframedecorator.cpp effectstack.cpp \
-	effectstackdialog_ui.ui effectstackdialog.cpp effectdrag.cpp kaddeffectcommand.cpp \
-	effectdescriptionlist.cpp effectstacklistview.cpp trackpanelclipslipfunction.cpp ktrackplacer.cpp \
-	kplacer.cpp kclipplacer.cpp kmmclipkeyframepanel.cpp trackpanelcliprollfunction.cpp \
-	krollcommand.cpp dynamicToolTip.cpp
+			avformatdescbase.cpp avformatdescbool.cpp avformatdesccodec.cpp avformatdesccodeclist.cpp \
+			avformatdesccontainer.cpp avformatdesclist.cpp avformatwidgetbase.cpp avformatwidgetbool.cpp \
+			avformatwidgetcodec.cpp avformatwidgetcodeclist.cpp avformatwidgetcontainer.cpp \
+			avformatwidgetlist.cpp avlistviewitem.cpp clipdrag.cpp clippropertiesdialog.cpp \
+			displayaudiodesc.cpp displayvideodesc.cpp docclipavfile.cpp docclipbase.cpp \
+			docclipbaselist.cpp docclipproject.cpp doctrackbase.cpp doctrackbaselist.cpp \
+			doctrackclipiterator.cpp doctracksound.cpp doctrackvideo.cpp effect.cpp effectdesc.cpp \
+			effectlistdialog.cpp effectparamdialog.cpp exportdialog.cpp gentime.cpp kaddclipcommand.cpp \
+			kdenlive.cpp kdenlivedoc.cpp kdenlivesetupdlg.cpp kdenlivesplash.cpp kfixedruler.cpp \
+			kmmeditpanel.cpp kmmmonitor.cpp kmmrulerpanel.cpp kmmscreen.cpp \
+			kmmtrackkeyframepanel.cpp kmmtrackpanel.cpp kmmtracksoundpanel.cpp kmmtrackvideopanel.cpp \
+			kmoveclipscommand.cpp krender.cpp krendermanager.cpp kresizecommand.cpp kruler.cpp \
+			krulermodel.cpp krulersliderbase.cpp krulertimemodel.cpp kscalableruler.cpp \
+			kselectclipcommand.cpp main.cpp monitormanager.cpp projectlist.cpp projectlistview.cpp \
+			rangelist.cpp renderdebugpanel.cpp rendersetupdlg.cpp snaptogrid.cpp \
+			trackpanelclipmovefunction.cpp trackpanelclipresizefunction.cpp trackpanelfunction.cpp \
+			trackpanelrazorfunction.cpp trackpanelspacerfunction.cpp addtrackdialog_ui.ui kmmeditpanel_ui.ui \
+			kmmrulerpanel_ui.ui projectlist_ui.ui rendersetupdlg_ui.ui docclipref.cpp \
+			docclipreflist.cpp clipmanager.cpp documentclipnode.cpp documentgroupnode.cpp \
+			documentbasenode.cpp docsubclip.cpp kaddrefclipcommand.cpp configureproject_ui.ui \
+			configureproject.cpp configureprojectdialog.cpp exportconfig.cpp \
+			trackpanelmarkerfunction.cpp trackviewdecorator.cpp trackviewbackgrounddecorator.cpp \
+			trackviewnamedecorator.cpp trackviewmarkerdecorator.cpp kaddmarkercommand.cpp \
+			saveprojectfilter.cpp saveprojectnativefilter.cpp loadprojectfilter.cpp \
+			loadprojectnativefilter.cpp projectformatmanager.cpp loadprojectkinofilter.cpp timecode.cpp \
+			ktimeline.cpp kmmtimeline.cpp ktrackview.cpp documentmacrocommands.cpp \
+			saveprojectscenelistfilter.cpp trackpanelfunctionfactory.cpp trackpanelselectnonefunction.cpp \
+			effectkeyframe.cpp effectdoublekeyframe.cpp effectparamdesc.cpp effectparamdoubledesc.cpp \
+			effectparameter.cpp effectparamdescfactory.cpp doctrackdecorator.cpp ktrackpanel.cpp \
+			ktrackclippanel.cpp trackviewdoublekeyframedecorator.cpp effectstack.cpp \
+			effectstackdialog_ui.ui effectstackdialog.cpp effectdrag.cpp kaddeffectcommand.cpp \
+			effectdescriptionlist.cpp effectstacklistview.cpp trackpanelclipslipfunction.cpp ktrackplacer.cpp \
+			kplacer.cpp kclipplacer.cpp kmmclipkeyframepanel.cpp trackpanelcliprollfunction.cpp \
+			krollcommand.cpp dynamicToolTip.cpp kmonitor.cpp capturemonitor.cpp
 
 kdenlive_LDADD   =  $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET)
 
@@ -89,17 +89,17 @@ rc_DATA = kdenliveui.rc
 
 
 noinst_HEADERS = configureproject.h configureprojectdialog.h exportconfig.h \
-	trackpanelmarkerfunction.h trackviewdecorator.h trackviewbackgrounddecorator.h \
-	trackviewnamedecorator.h trackviewmarkerdecorator.h kaddmarkercommand.h saveprojectfilter.h \
-	saveprojectnativefilter.h loadprojectfilter.h loadprojectnativefilter.h projectformatmanager.h \
-	loadprojectkinofilter.h timecode.h ktimeline.h kmmtimeline.h ktrackview.h \
-	documentmacrocommands.h trackpanelfunctionfactory.h trackpanelselectnonefunction.h \
-	effectkeyframe.h effectdoublekeyframe.h effectparamdesc.h effectparamdoubledesc.h \
-	effectparameter.h effectparamdescfactory.h doctrackdecorator.h ktrackpanel.h \
-	ktrackclippanel.h trackviewdoublekeyframedecorator.h effectstack.h effectstackdialog.h \
-	effectdrag.h kaddeffectcommand.h effectdescriptionlist.h effectstacklistview.h \
-	saveprojectscenelistfilter.h ktrackplacer.h kplacer.h kclipplacer.h kmmclipkeyframepanel.h \
-	trackpanelcliprollfunction.h krollcommand.h dynamicToolTip.h
+			trackpanelmarkerfunction.h trackviewdecorator.h trackviewbackgrounddecorator.h \
+			trackviewnamedecorator.h trackviewmarkerdecorator.h kaddmarkercommand.h saveprojectfilter.h \
+			saveprojectnativefilter.h loadprojectfilter.h loadprojectnativefilter.h projectformatmanager.h \
+			loadprojectkinofilter.h timecode.h ktimeline.h kmmtimeline.h ktrackview.h \
+			documentmacrocommands.h trackpanelfunctionfactory.h trackpanelselectnonefunction.h \
+			effectkeyframe.h effectdoublekeyframe.h effectparamdesc.h effectparamdoubledesc.h \
+			effectparameter.h effectparamdescfactory.h doctrackdecorator.h ktrackpanel.h \
+			ktrackclippanel.h trackviewdoublekeyframedecorator.h effectstack.h effectstackdialog.h \
+			effectdrag.h kaddeffectcommand.h effectdescriptionlist.h effectstacklistview.h \
+			saveprojectscenelistfilter.h ktrackplacer.h kplacer.h kclipplacer.h kmmclipkeyframepanel.h \
+			trackpanelcliprollfunction.h krollcommand.h dynamicToolTip.h kmonitor.h capturemonitor.h
 
 
 

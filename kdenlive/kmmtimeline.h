@@ -21,6 +21,10 @@
 #include "qstring.h"
 
 class DocClipRef;
+
+namespace Gui
+{
+
 class KMMRulerPanel;
 
 /**
@@ -41,7 +45,7 @@ public:
 	//Return the current timescale slider value
 	int getTimeScaleSliderValue() const;
 	QString getTimeScaleSliderText() const;
-	
+
 public slots:
 	/** Invalidates the area of the back buffer used by this clip. */
 	void invalidateClipBuffer( DocClipRef *clip );
@@ -53,4 +57,7 @@ private:
 	KMMRulerPanel *m_rulerToolWidget;
 };
 
+} // namespace Gui
+
 #endif
+

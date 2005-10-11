@@ -24,6 +24,9 @@
 #include "rendersetupdlg.h"
 #include "kdenlive.h"
 
+namespace Gui
+{
+
 KdenliveSetupDlg::KdenliveSetupDlg(KdenliveApp *app, QWidget *parent, const char *name ) :
                               KDialogBase(IconList,
                                           i18n("Kdenlive Setup"),
@@ -34,7 +37,7 @@ KdenliveSetupDlg::KdenliveSetupDlg(KdenliveApp *app, QWidget *parent, const char
   QFrame *page = addPage( i18n("Renderer"),
 		          i18n("Setup External Renderer Program"),
 			  KGlobal::instance()->iconLoader()->loadIcon( "piave", KIcon::NoGroup, KIcon::SizeMedium ) );
-			  
+
   QVBoxLayout *topLayout = new QVBoxLayout( page, 0, 6 );
   m_renderDlg = new RenderSetupDlg(app->renderManager(), page, "renderdlg" );
   topLayout->addWidget( m_renderDlg );
@@ -54,7 +57,7 @@ void KdenliveSetupDlg::slotApply()
 void KdenliveSetupDlg::slotOk()
 {
   m_renderDlg->writeSettings();
-  accept();  
+  accept();
 }
 
 /** Called when the cancel button is clicked. */
@@ -68,3 +71,5 @@ void KdenliveSetupDlg::slotDefault()
 {
   m_renderDlg->readSettings();
 }
+
+} // namespace Gui

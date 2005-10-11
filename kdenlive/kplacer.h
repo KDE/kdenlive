@@ -19,7 +19,10 @@
 
 class QPainter;
 class QRect;
-class TrackViewDecorator;
+
+namespace Gui
+{
+	class TrackViewDecorator;
 
 /**
 A placer is a piece of code that "knows" where clips should be drawn on the timeline.
@@ -44,5 +47,7 @@ public:
     	/** Returns the track index into the underlying document model used by this track. Returns -1 if this is inapplicable. */
     	virtual int documentTrackIndex()  const = 0;
 };
+
+} // namespace Gui
 
 #endif

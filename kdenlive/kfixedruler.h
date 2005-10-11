@@ -20,6 +20,9 @@
 
 #include <kruler.h>
 
+namespace Gui
+{
+
 /**This class provides a simplified version of KRuler. Instead of the "start position and zoom" functionality, this class provides "start and end values",
 	allowing you to set up a non-panning ruler. Examples of uses for this class could be a media player, where the position indicator ticks from the
 	start to the end.
@@ -59,5 +62,7 @@ private: // Private attributes
   /** How much margin exists on either side of the ruler, in pixels */
   int m_margin;
 };
+
+} // namespace Gui
 
 #endif

@@ -21,8 +21,10 @@
 #include <qwidget.h>
 #include <kdialogbase.h>
 
-class KdenliveApp;
-class RenderSetupDlg;
+namespace Gui
+{
+	class KdenliveApp;
+	class RenderSetupDlg;
 
 /**This class handles the standard "Configure Kdenlive..." dialog box.
   *@author Jason Wood
@@ -30,7 +32,7 @@ class RenderSetupDlg;
 
 class KdenliveSetupDlg : public KDialogBase  {
    Q_OBJECT
-public: 
+public:
 	KdenliveSetupDlg(KdenliveApp *app, QWidget *parent=0, const char *name=0);
 	~KdenliveSetupDlg();
 public slots: // Public slots
@@ -45,5 +47,7 @@ public slots: // Public slots
 private:
   RenderSetupDlg *m_renderDlg;
 };
+
+} // namespace Gui
 
 #endif

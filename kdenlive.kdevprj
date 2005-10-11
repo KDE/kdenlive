@@ -141,7 +141,7 @@ sub_dirs=actions
 type=normal
 
 [icons/hicolor/32x32/actions/Makefile.am]
-files=icons/hicolor/32x32/actions/moveresize.png,icons/hicolor/32x32/actions/razor.png,icons/hicolor/32x32/actions/snaptoborder.png,icons/hicolor/32x32/actions/snaptoframe.png,icons/hicolor/32x32/actions/spacer.png,icons/hicolor/32x32/actions/loadlayout2.png,icons/hicolor/32x32/actions/loadlayout3.png,icons/hicolor/32x32/actions/loadlayout4.png,icons/hicolor/32x32/actions/exportvideo.png
+files=icons/hicolor/32x32/actions/moveresize.png,icons/hicolor/32x32/actions/razor.png,icons/hicolor/32x32/actions/snaptoborder.png,icons/hicolor/32x32/actions/snaptoframe.png,icons/hicolor/32x32/actions/spacer.png,icons/hicolor/32x32/actions/loadlayout2.png,icons/hicolor/32x32/actions/loadlayout3.png,icons/hicolor/32x32/actions/loadlayout4.png,icons/hicolor/32x32/actions/exportvideo.png,icons/hicolor/32x32/actions/record.png
 sub_dirs=
 type=normal
 

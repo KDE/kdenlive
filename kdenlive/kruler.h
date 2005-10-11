@@ -22,6 +22,9 @@
 #include <qpixmap.h>
 #include <qtimer.h>
 
+namespace Gui
+{
+
 class KRulerModel;
 
 /** The multimedia ruler used in the timeline. The ruler handles time in seconds,
@@ -192,5 +195,7 @@ protected: // Protected methods
   /** Sets the maximum value for this ruler. If a slider is ever set beyond this value, it will be reset to this value. If part of the ruler is visible which extends beyond this value, it will be drawn if a different colour to show that it is outside of the valid range of values. */
   void setMaxValue(int value);
 };
+
+} // namespace Gui
 
 #endif

@@ -106,7 +106,7 @@
                 </spacer>
             </vbox>
         </widget>
-        <widget class="EffectStackListView">
+        <widget class="Gui::EffectStackListView">
             <property name="name">
                 <cstring>m_effectList</cstring>
             </property>

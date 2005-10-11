@@ -27,6 +27,10 @@
 #include "dynamicToolTip.h"
 
 class DocClipBase;
+
+namespace Gui
+{
+
 class KTimeLine;
 class KTrackPanel;
 class KdenliveApp;
@@ -61,7 +65,7 @@ public:
 	void registerFunction(const QString &name, TrackPanelFunction *function);
 
 	void setDragFunction(const QString &name);
-	
+
 private:  // Private methods
 	void drawBackBuffer();
 	TrackPanelFunction *getApplicableFunction(KTrackPanel *panel, const QString &editMode, QMouseEvent *event);
@@ -82,16 +86,18 @@ private:  // Private methods
 	/** Factory containing the various decorating functions that can be applied to different tracks */
 	TrackPanelFunctionFactory m_factory;
 	GenTime currentSeekPos;
-	
+
 	KdenliveApp *m_app;
-	
+
 	DynamicToolTip *tiptst;
-	
+
 public slots: 	// Public slots
 	/** Invalidate the back buffer, alerting the trackview that it should redraw itself. */
 	void invalidateBackBuffer();
 signals:
 	void rightButtonPressed();
 };
+
+} // namespace Gui
 
 #endif

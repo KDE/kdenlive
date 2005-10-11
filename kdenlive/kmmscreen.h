@@ -24,8 +24,11 @@
 #include "gentime.h"
 
 class KRender;
-class KdenliveApp;
 class QXEmbed;
+
+namespace Gui
+{
+class KdenliveApp;
 
 /**KMMScreen acts as a wrapper for the window provided by the cutter.
 	It requests a video window from the cutter, and embeds it within
@@ -70,6 +73,8 @@ public slots: // Public slots
 	void play(double speed, const GenTime &startTime, const GenTime &endTime);
 	/** Set the displayed scenelist to the one specified. */
  	void setSceneList(const QDomDocument &scenelist);
+	/** Sets the screen up as a capture device */
+	void setCapture();
 	/** Called when the renderer stops playing */
 	void slotRendererStopped();
 signals: // Signals
@@ -88,5 +93,7 @@ signals: // Signals
 	/** Emitted when a drag has started to occur over the screen. */
 	void mouseDragged();
 };
+
+}
 
 #endif

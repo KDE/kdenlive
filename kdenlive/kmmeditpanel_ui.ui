@@ -37,7 +37,7 @@
         <property name="spacing">
             <number>0</number>
         </property>
-        <widget class="KFixedRuler" row="0" column="0">
+        <widget class="Gui::KFixedRuler" row="0" column="0">
             <property name="name">
                 <cstring>m_ruler</cstring>
             </property>

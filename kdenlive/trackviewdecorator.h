@@ -23,8 +23,11 @@ class QRect;
 
 class DocClipRef;
 class DocTrackBase;
-class KTimeLine;
 class KdenliveDoc;
+
+namespace Gui
+{
+	class KTimeLine;
 
 /**
 View decorators implement the functionality required to display clips on the timeline.
@@ -54,5 +57,7 @@ protected:
 private:
 	KTimeLine *m_timeline;
 };
+
+} // namespace Gui
 
 #endif

@@ -19,14 +19,13 @@
 
 #include <qhbox.h>
 
-
-
-
-class KPlacer;
-class KTimeLine;
-
 class TrackPanelFunction;
-class TrackViewDecorator;
+
+namespace Gui
+{
+	class KPlacer;
+	class KTimeLine;
+	class TrackViewDecorator;
 
 /**
 Abstract baseclass for track panels. Provides the interface that a track panel must implement. A KTrackPanel controls a track on the timline. It provides the track dialog that appears to the left of the track, and implements the display and functionality that occurs on the track itself.
@@ -87,5 +86,7 @@ private:
 	/** A placer defines the physical layout of a track, what clips are on it and how functions should know what is on it and where. */
 	KPlacer *m_placer;
 };
+
+} // namespace Gui
 
 #endif

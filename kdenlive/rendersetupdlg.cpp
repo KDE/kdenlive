@@ -23,6 +23,9 @@
 
 #include <kdebug.h>
 
+namespace Gui
+{
+
 RenderSetupDlg::RenderSetupDlg(KRenderManager *renderManager, QWidget *parent, const char *name ) : RenderSetupDlg_UI(parent,name)
 {
   m_renderManager = renderManager;
@@ -46,5 +49,7 @@ void RenderSetupDlg::writeSettings()
 void RenderSetupDlg::readSettings()
 {
   m_appPathBrowser->setURL(m_renderManager->renderAppPath().path());
-  m_appPortNum->setValue(m_renderManager->renderAppPort());      
+  m_appPortNum->setValue(m_renderManager->renderAppPort());
 }
+
+} // namespace Gui
