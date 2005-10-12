@@ -33,6 +33,8 @@
 #include "trackpanelspacerfunction.h"
 #include "trackpanelmarkerfunction.h"
 
+#include "trackviewvideobackgrounddecorator.h"
+#include "trackviewaudiobackgrounddecorator.h"
 #include "trackviewbackgrounddecorator.h"
 #include "trackviewnamedecorator.h"
 #include "trackviewmarkerdecorator.h"
@@ -59,8 +61,10 @@ KMMTrackVideoPanel::KMMTrackVideoPanel(KdenliveApp *app,
 	addFunctionDecorator("spacer", "spacer");
 	addFunctionDecorator("marker", "marker");
 	addFunctionDecorator("roll", "roll");
-
-	addViewDecorator(new TrackViewBackgroundDecorator(timeline, doc, QColor(128, 64, 64), QColor(255, 128, 128)));
+	int audioDecoratorSize=15;
+	addViewDecorator(new TrackViewVideoBackgroundDecorator(timeline, doc, QColor(128, 64, 64), QColor(255, 128, 128),audioDecoratorSize));
+	addViewDecorator(new TrackViewAudioBackgroundDecorator(timeline, doc, QColor(64, 128, 64), QColor(128, 255, 128),audioDecoratorSize));
+	//addViewDecorator(new TrackViewBackgroundDecorator(timeline, doc, QColor(128, 64, 64), QColor(255, 128, 128)));
 	addViewDecorator(new TrackViewNameDecorator(timeline, doc));
 	addViewDecorator(new TrackViewMarkerDecorator(timeline, doc));
 }

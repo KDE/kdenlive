@@ -21,6 +21,7 @@
 #include "ktrackplacer.h"
 
 #include "trackviewbackgrounddecorator.h"
+#include "trackviewaudiobackgrounddecorator.h"
 #include "trackviewnamedecorator.h"
 
 namespace Gui
@@ -38,8 +39,11 @@ KMMTrackSoundPanel::KMMTrackSoundPanel(KdenliveApp *app,
 	setMinimumHeight(20);
 	setMaximumHeight(20);
 
-	addViewDecorator(new TrackViewBackgroundDecorator(timeline, document, QColor(64, 128, 64), QColor(128, 255, 128)));
+	//addViewDecorator(new TrackViewBackgroundDecorator(timeline, document, QColor(64, 128, 64), QColor(128, 255, 128)));
+	addViewDecorator(new TrackViewAudioBackgroundDecorator(timeline, document, QColor(64, 128, 64), QColor(128, 255, 128)));
 	addViewDecorator(new TrackViewNameDecorator(timeline, document));
+	
+	
 }
 
 KMMTrackSoundPanel::~KMMTrackSoundPanel()

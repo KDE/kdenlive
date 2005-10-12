@@ -29,6 +29,7 @@ kdenlive_SOURCES = avfileformatdesc.cpp avfileformatwidget.cpp avfilelist.cpp \
 			documentbasenode.cpp docsubclip.cpp kaddrefclipcommand.cpp configureproject_ui.ui \
 			configureproject.cpp configureprojectdialog.cpp exportconfig.cpp \
 			trackpanelmarkerfunction.cpp trackviewdecorator.cpp trackviewbackgrounddecorator.cpp \
+			trackviewvideobackgrounddecorator.cpp trackviewaudiobackgrounddecorator.cpp \
 			trackviewnamedecorator.cpp trackviewmarkerdecorator.cpp kaddmarkercommand.cpp \
 			saveprojectfilter.cpp saveprojectnativefilter.cpp loadprojectfilter.cpp \
 			loadprojectnativefilter.cpp projectformatmanager.cpp loadprojectkinofilter.cpp timecode.cpp \
