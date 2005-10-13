@@ -5,7 +5,7 @@
     copyright            : (C) 2002 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
-
+/*decorators add by Marco Gittler (g.marco@freenet.de) Oct 2005 */
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -51,8 +51,8 @@ KMMTrackVideoPanel::KMMTrackVideoPanel(KdenliveApp *app,
 		KMMTrackPanel(timeline, doc, new KTrackPlacer(doc, timeline, docTrack), parent,name),
 		m_trackLabel(i18n("Video Track"), this, "Video Track")
 {
-	setMinimumHeight(20);
-	setMaximumHeight(20);
+	setMinimumHeight(40);
+	setMaximumHeight(40);
 
 	addFunctionDecorator("move", "resize");
 	addFunctionDecorator("move", "move");

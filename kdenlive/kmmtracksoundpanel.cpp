@@ -5,7 +5,7 @@
     copyright            : (C) 2002 by Jason Wood
     email                : jasonwood@blueyonder.co.uk
  ***************************************************************************/
-
+/*decorators added by MArco Gittler (g.marco@freenet.de)*/
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
