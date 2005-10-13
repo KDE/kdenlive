@@ -1,9 +1,9 @@
 /***************************************************************************
-                          trackviewbackgrounddecorator  -  description
+                          trackviewvideobackgrounddecorator  -  description
                              -------------------
-    begin                : Fri Nov 28 2003
-    copyright            : (C) 2003 by Jason Wood
-    email                : jasonwood@blueyonder.co.uk
+    begin                : May 2005
+    copyright            : (C) 2005 by Marco Gittler
+    email                : g.marco@freenet.de
  ***************************************************************************/
 
 /***************************************************************************
