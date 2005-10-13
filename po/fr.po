@@ -496,7 +496,7 @@ msgid "TimeLine"
 msgstr "Montage vidéo"
 
 #: kdenlive.cpp:289
-msgid "project list"
+msgid "Project List"
 msgstr "Projet"
 
 #: kdenlive.cpp:291

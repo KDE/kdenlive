@@ -298,7 +298,7 @@ void KdenliveApp::initView()
 	widget->setDockSite( KDockWidget::DockCorner );
 	widget->manualDock( mainDock, KDockWidget::DockBottom );
 
-	KDockWidget *projectDock = createDockWidget( "project list", QPixmap(), 0, i18n( "project list" ) );
+	KDockWidget *projectDock = createDockWidget( "Project List", QPixmap(), 0, i18n( "Project List" ) );
 	m_projectList = new ProjectList( this, getDocument(), projectDock );
 	QToolTip::add( projectDock, i18n( "Video files usable in current project" ) );
 	QWhatsThis::add( projectDock, i18n( "Video files usable in your project. "

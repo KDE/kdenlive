@@ -490,7 +490,7 @@ msgid "TimeLine"
 msgstr "TimeLine"
 
 #: kdenlive.cpp:289
-msgid "project list"
+msgid "Project List"
 msgstr "Projekt-Liste"
 
 #: kdenlive.cpp:291
