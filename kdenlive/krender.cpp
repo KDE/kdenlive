@@ -244,13 +244,14 @@ should create a video window. If show is true, then the window should be
 displayed, otherwise it should be hidden. KRender will emit the signal
 replyCreateVideoXWindow() once the renderer has replied. */
 
-/*
+
 static void consumer_frame_show (mlt_consumer sdl, KRender* self,mlt_frame frame_ptr){
 	//std::cout << frame_ptr << std::endl;
-}*/
+}
+
 void KRender::createVideoXWindow( bool show )
 {
-	/*Mlt::Factory::init();
+	Mlt::Factory::init();
 	std::cout << "opening video1" << std::endl;
 	Mlt::Consumer* c=new Mlt::Consumer("sdl");
 	std::cout << "opening video2" << std::endl;
@@ -260,14 +261,14 @@ void KRender::createVideoXWindow( bool show )
 	c->set("resize",1);
 	c->set("progressiv",1);
 	c->start();
-	std::cout << "opening video" << std::endl;*/
-	QDomDocument doc;
+	std::cout << "opening video" << std::endl;
+/*	QDomDocument doc;
 	QDomElement elem = doc.createElement( "createVideoXWindow" );
 	elem.setAttribute( "show", show ? "true" : "false" );
 	elem.setAttribute( "format", "xv" );
 	doc.appendChild( elem );
 
-	//sendCommand( doc );
+	//sendCommand( doc );*/
 }
 
 /** Wraps the VEML command of the same name; Seeks the renderer clip to the given time. */
@@ -509,6 +510,7 @@ bool KRender::endElement ( const QString &nameSpace, const QString & localName, 
 bool KRender::characters( const QString &ch )
 {
 	m_characterBuffer += ch;
+	return true;
 }
 
 
