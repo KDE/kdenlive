@@ -26,7 +26,8 @@
 #include "avformatdesccontainer.h"
 #include "avformatdesccodeclist.h"
 #include "avformatdesccodec.h"
-
+#include <mlt++/Mlt.h>
+#include <iostream>
 #include "effectparamdesc.h"
 
 KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, QObject *parent, const char *name ) :
@@ -242,15 +243,31 @@ QPtrList<AVFileFormatDesc> &KRender::fileFormats()
 should create a video window. If show is true, then the window should be
 displayed, otherwise it should be hidden. KRender will emit the signal
 replyCreateVideoXWindow() once the renderer has replied. */
+
+/*
+static void consumer_frame_show (mlt_consumer sdl, KRender* self,mlt_frame frame_ptr){
+	//std::cout << frame_ptr << std::endl;
+}*/
 void KRender::createVideoXWindow( bool show )
 {
+	/*Mlt::Factory::init();
+	std::cout << "opening video1" << std::endl;
+	Mlt::Consumer* c=new Mlt::Consumer("sdl");
+	std::cout << "opening video2" << std::endl;
+	c->listen("consumer-frame-show",this,(mlt_listener)consumer_frame_show);
+	std::cout << "opening video3" << std::endl;
+	//setenv("SDL_WINDOWID",retID,1);
+	c->set("resize",1);
+	c->set("progressiv",1);
+	c->start();
+	std::cout << "opening video" << std::endl;*/
 	QDomDocument doc;
 	QDomElement elem = doc.createElement( "createVideoXWindow" );
 	elem.setAttribute( "show", show ? "true" : "false" );
 	elem.setAttribute( "format", "xv" );
 	doc.appendChild( elem );
 
-	sendCommand( doc );
+	//sendCommand( doc );
 }
 
 /** Wraps the VEML command of the same name; Seeks the renderer clip to the given time. */
@@ -675,7 +692,8 @@ bool KRender::reply_createVideoXWindow_StartElement( const QString & localName,
 		emit renderDebug( m_name, "Window ID is " + winID );
 		retID = winID.toInt();
 	}
-	emit replyCreateVideoXWindow( retID );
+
+	//emit replyCreateVideoXWindow( retID );
 
 	pushIgnore();
 	return true;
