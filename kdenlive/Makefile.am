@@ -83,7 +83,7 @@ INCLUDES= $(all_includes) $(LIBMLT_CFLAGS)
 METASOURCES = AUTO
 
 # the library search path. 
-kdenlive_LDFLAGS = $(all_libraries) $(KDE_RPATH) $(LIBMLT_LIBS)
+kdenlive_LDFLAGS = $(all_libraries) $(KDE_RPATH) $(LIBMLT_LIBS) -lmlt++
 
 rcdir = $(kde_datadir)/kdenlive
 rc_DATA = kdenliveui.rc
