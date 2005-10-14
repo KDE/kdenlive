@@ -66,10 +66,44 @@ dnl CXXFLAGS="$CXXFLAGS $USE_EXCEPTIONS" dnl __kdevelop[exc]__
 dnl KDE_NEED_FLEX dnl __kdevelop__
 dnl AC_PROG_YACC dnl __kdevelop__
 
+
+
+KDE_FIND_PATH(mlt-config, MLT_CONFIG, [${prefix}/bin ${exec_prefix}/bin /usr/local/bin /opt/local/bin], [
+	AC_MSG_WARN([Could not find mlt-config anywhere, check http://mlt.sourceforge.net/])
+	HELP_SUBDIR=
+])
+
+if test -n "$MLT_CONFIG"; 
+then
+	vers=`$MLT_CONFIG --version 2>/dev/null | awk 'BEGIN { FS = "."; } { printf "%d", ($1 * 1000 + $2) * 1000 + $3;}'`
+	if test -n "$vers" && test "$vers" -ge 0001001 
+	then
+		LIBMLT_LIBS="`$MLT_CONFIG --libs`"
+
+		LIBMLT_RPATH=
+		for args in $LIBMLT_LIBS; do
+			case $args in
+				-L*)
+					LIBMLT_RPATH="$LIBMLT_RPATH $args"
+					;;
+			esac
+		done
+
+		LIBMLT_RPATH=`echo $LIBMLT_RPATH | sed -e "s/-L/-R/g"`
+		LIBMLT_CFLAGS="`$MLT_CONFIG --cflags`"
+	else
+		AC_MSG_WARN([You need at least mlt 0.1.1])	
+		HELP_SUBDIR=
+	fi
+fi	
+
+AC_SUBST(LIBMLT_LIBS)
+AC_SUBST(LIBMLT_CFLAGS)
 KDE_CREATE_SUBDIRSLIST
 AC_CONFIG_FILES([ Makefile ])
 AC_CONFIG_FILES([ doc/Makefile ])
 AC_CONFIG_FILES([ doc/de/Makefile ])
+AC_CONFIG_FILES([ doc/devel/Makefile ])
 AC_CONFIG_FILES([ doc/en/Makefile ])
 AC_CONFIG_FILES([ doc/fr/Makefile ])
 AC_CONFIG_FILES([ doc/it/Makefile ])

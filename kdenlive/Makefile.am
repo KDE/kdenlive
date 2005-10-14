@@ -78,12 +78,12 @@ uninstall-local:
 # kde_designerdir     Where Qt Designer plugins should go to (new in KDE 3).
 
 # set the include path for X, qt and KDE
-INCLUDES= $(all_includes)
+INCLUDES= $(all_includes) $(LIBMLT_CFLAGS)
 
 METASOURCES = AUTO
 
 # the library search path. 
-kdenlive_LDFLAGS = $(all_libraries) $(KDE_RPATH)
+kdenlive_LDFLAGS = $(all_libraries) $(KDE_RPATH) $(LIBMLT_LIBS)
 
 rcdir = $(kde_datadir)/kdenlive
 rc_DATA = kdenliveui.rc
