@@ -92,33 +92,6 @@ public:
 	/** Called when the xml parser encounters characters */
 	bool characters( const QString &ch );
 	/** Called when the xml parser encounters an opening element and we are outside of any command. */
-	bool topLevelStartElement( const QString & localName, const QString & qName, const QXmlAttributes & att );
-	bool reply_getCapabilities_StartElement( const QString & localName, const QString & qName, const QXmlAttributes & att );
-	bool reply_createVideoXWindow_StartElement( const QString & localName, const QString & qName, const QXmlAttributes & atts );
-	bool reply_capabilities_iostreams_StartElement( const QString & localName, const QString & qName, const QXmlAttributes & att );
-	bool reply_capabilities_iostreams_outstream_StartElement( const QString & localName, const QString & qName, const QXmlAttributes & att );
-	bool reply_capabilities_iostreams_outstream_file_StartElement( const QString & localName, const QString & qName, const QXmlAttributes & att );
-	bool reply_capabilities_iostreams_outstream_file_EndElement( const QString & localName, const QString & qName );
-	bool reply_capabilities_iostreams_outstream_container_StartElement( const QString & localName, const QString & qName, const QXmlAttributes & att );
-	bool reply_capabilities_iostreams_outstream_codec_StartElement( const QString & localName, const QString & qName, const QXmlAttributes & att );
-	bool reply_capabilities_iostreams_outstream_codec_EndElement( const QString & localName, const QString & qName );
-	bool reply_capabilities_codecs_StartElement( const QString & localName, const QString & qName, const QXmlAttributes & atts );
-	bool reply_capabilities_codecs_encoder_StartElement( const QString & localName, const QString & qName, const QXmlAttributes & atts );
-	bool reply_capabilities_codecs_encoder_EndElement( const QString & localName, const QString & qName );
-	bool reply_capabilities_codecs_encoder_about_EndElement( const QString & localName, const QString & qName );
-	bool reply_capabilities_effects_StartElement( const QString & localName, const QString & qName, const QXmlAttributes & atts );
-	bool reply_capabilities_effects_effect_StartElement( const QString & localName, const QString & qName, const QXmlAttributes & atts );
-	bool reply_capabilities_effects_effect_EndElement( const QString & localName, const QString & qName );
-	bool reply_capabilities_effects_effect_parameter_EndElement( const QString & localName, const QString & qName );
-	bool reply_capabilities_renderer_StartElement( const QString & localName, const QString & qName, const QXmlAttributes & atts );
-	bool reply_capabilities_renderer_about_EndElement( const QString & localName, const QString & qName );
-	bool replyError_StartElement( const QString & localName, const QString & qName, const QXmlAttributes & atts );
-	bool reply_errmsg_EndElement( const QString & localName, const QString & qName );
-	bool replyError_GetFileProperties_EndElement( const QString & localName, const QString & qName );
-	bool reply_getFileProperties_StartElement( const QString & localName, const QString &qName, const QXmlAttributes & atts );
-	bool reply_getFileProperties_stream_StartElement( const QString & localName, const QString &qName, const QXmlAttributes & atts );
-	bool reply_getFileProperties_stream_container_StartElement( const QString & localName, const QString &qName, const QXmlAttributes & atts );
-	bool reply_getFileProperties_EndElement( const QString & localName, const QString & qName );
 
 	/** Seeks the renderer clip to the given time. */
 	void seek( GenTime time );
