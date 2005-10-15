@@ -96,7 +96,9 @@ namespace Gui
 
 KdenliveApp::KdenliveApp( QWidget* , const char* name ) :
 		KDockMainWindow( 0, name ),
-		m_monitorManager( this )
+		m_monitorManager( this ),
+		m_workspaceMonitor( NULL ),
+		m_captureMonitor( NULL )
 {
 	config = kapp->config();
 
@@ -342,24 +344,24 @@ void KdenliveApp::initView()
 	widget->setDockSite( KDockWidget::DockFullSite );
 	widget->manualDock( projectDock, KDockWidget::DockCenter );
 
-	m_dockWorkspaceMonitor = createDockWidget( "Workspace Monitor", QPixmap(), 0, i18n( "Workspace Monitor" ) );
-	m_workspaceMonitor = m_monitorManager.createMonitor( getDocument(), m_dockWorkspaceMonitor, i18n( "Workspace Monitor" ) );
-	m_workspaceMonitor->setNoSeek( true );
-	m_dockWorkspaceMonitor->setWidget( m_workspaceMonitor );
-	m_dockWorkspaceMonitor->setDockSite( KDockWidget::DockFullSite );
-	m_dockWorkspaceMonitor->manualDock( mainDock, KDockWidget::DockRight );
+//	m_dockWorkspaceMonitor = createDockWidget( "Workspace Monitor", QPixmap(), 0, i18n( "Workspace Monitor" ) );
+//	m_workspaceMonitor = m_monitorManager.createMonitor( getDocument(), m_dockWorkspaceMonitor, i18n( "Workspace Monitor" ) );
+//	m_workspaceMonitor->setNoSeek( true );
+//	m_dockWorkspaceMonitor->setWidget( m_workspaceMonitor );
+//	m_dockWorkspaceMonitor->setDockSite( KDockWidget::DockFullSite );
+//	m_dockWorkspaceMonitor->manualDock( mainDock, KDockWidget::DockRight );
 
 	m_dockClipMonitor = createDockWidget( "Clip Monitor", QPixmap(), 0, i18n( "Clip Monitor" ) );
 	m_clipMonitor = m_monitorManager.createMonitor( getDocument(), m_dockClipMonitor, i18n( "Clip Monitor" ) );
 	m_dockClipMonitor->setWidget( m_clipMonitor );
 	m_dockClipMonitor->setDockSite( KDockWidget::DockFullSite );
-	m_dockClipMonitor->manualDock( m_dockWorkspaceMonitor, KDockWidget::DockCenter );
+//	m_dockClipMonitor->manualDock( m_dockWorkspaceMonitor, KDockWidget::DockCenter );
 
-	m_dockCaptureMonitor = createDockWidget( "Capture Monitor", QPixmap(), 0, i18n( "Capture Monitor" ) );
-	m_captureMonitor = m_monitorManager.createCaptureMonitor( getDocument(), m_dockCaptureMonitor, i18n( "Capture Monitor" ) );
-	m_dockCaptureMonitor->setWidget( m_captureMonitor );
-	m_dockCaptureMonitor->setDockSite( KDockWidget::DockFullSite );
-	m_dockCaptureMonitor->manualDock( m_dockWorkspaceMonitor, KDockWidget::DockCenter );
+//	m_dockCaptureMonitor = createDockWidget( "Capture Monitor", QPixmap(), 0, i18n( "Capture Monitor" ) );
+//	m_captureMonitor = m_monitorManager.createCaptureMonitor( getDocument(), m_dockCaptureMonitor, i18n( "Capture Monitor" ) );
+//	m_dockCaptureMonitor->setWidget( m_captureMonitor );
+//	m_dockCaptureMonitor->setDockSite( KDockWidget::DockFullSite );
+//	m_dockCaptureMonitor->manualDock( m_dockWorkspaceMonitor, KDockWidget::DockCenter );
 
 	setBackgroundMode( PaletteBase );
 
@@ -406,10 +408,12 @@ void KdenliveApp::initView()
 	connect( m_projectList, SIGNAL( clipSelected( DocClipRef *) ), this, SLOT( slotProjectClipProperties( DocClipRef * ) ) );
 	connect( m_projectList, SIGNAL( dragDropOccured( QDropEvent * ) ), this, SLOT( slot_insertClips( QDropEvent * ) ) );
 
-	connect( m_timeline, SIGNAL( seekPositionChanged( const GenTime & ) ), m_workspaceMonitor->editPanel(), SLOT( seek( const GenTime & ) ) );
-	//connect timeline sliders with editpanel sliders -reh
-	connect( m_timeline, SIGNAL( inpointPositionChanged( const GenTime & ) ), m_workspaceMonitor->editPanel(), SLOT( slotSetInpoint( const GenTime & ) ) );
-	connect( m_timeline, SIGNAL( outpointPositionChanged( const GenTime & ) ), m_workspaceMonitor->editPanel(), SLOT( slotSetOutpoint( const GenTime & ) ) );
+	if(m_workspaceMonitor) {
+		connect( m_timeline, SIGNAL( seekPositionChanged( const GenTime & ) ), m_workspaceMonitor->editPanel(), SLOT( seek( const GenTime & ) ) );
+		//connect timeline sliders with editpanel sliders -reh
+		connect( m_timeline, SIGNAL( inpointPositionChanged( const GenTime & ) ), m_workspaceMonitor->editPanel(), SLOT( setInpoint( const GenTime & ) ) );
+		connect( m_timeline, SIGNAL( outpointPositionChanged( const GenTime & ) ), m_workspaceMonitor->editPanel(), SLOT( setOutpoint( const GenTime & ) ) );
+	}
 
 	connect( m_timeline, SIGNAL( seekPositionChanged( const GenTime & ) ), this, SLOT( activateWorkspaceMonitor() ) );
 
