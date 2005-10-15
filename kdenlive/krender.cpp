@@ -65,6 +65,7 @@ KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, 
 
 	m_portNum = port;
 	m_appPath = appPath;
+	consumer=0;
 	openMlt();
 }
 
@@ -78,13 +79,18 @@ KRender::~KRender()
 /** Recieves timer events */
 void KRender::timerEvent( QTimerEvent *event )
 {
-	if ( m_socket.state() == QSocket::Idle ) {
-		if ( !m_process.isRunning() ) {
-			launchProcess();
-		} else {
-			m_socket.connectToHost( "127.0.0.1", m_portNum );
-		}
-	}
+	//if ( m_socket.state() == QSocket::Idle ) {
+		//if ( !m_process.isRunning() ) {
+			//if(m_refCount==1){
+			if (consumer==0){
+				launchProcess();
+				emit slotConnected();
+			}
+			//}
+		//} else {
+		//	m_socket.connectToHost( "127.0.0.1", m_portNum );
+		//}
+	//}
 }
 
 /** Catches errors from the socket. */
@@ -180,6 +186,7 @@ void KRender::launchProcess()
 {
 //   Removed some obsolete code that was responsible for artsd launch,
 //   but wasn't used anymore.
+	emit renderWarning( m_name, "Render should start" );
 }
 
 void KRender::slotReadStdout( KProcess *proc, char *buffer, int buflen )
@@ -216,8 +223,9 @@ void KRender::openMlt(){
 
 void KRender::closeMlt(){
 	m_refCount--;
-	if (m_refCount){
-		
+	if (m_refCount==1){
+		//m_mltMiracle->wait_for_shutdown();
+		//delete(m_mltMiracle);
 	}
 }
 
@@ -231,25 +239,43 @@ replyCreateVideoXWindow() once the renderer has replied. */
 static void consumer_frame_show (mlt_consumer sdl, KRender* self,mlt_frame frame_ptr){
 	//std::cout << frame_ptr << std::endl;
 }
-
+void my_lock(){
+	mutex.lock();
+}
+void my_unlock(){
+	mutex.unlock();
+}
 void KRender::createVideoXWindow( bool show ,WId winid)
 {
 	
-	std::cout << "opening video1" << std::endl;
-	Mlt::Consumer* c=new Mlt::Consumer("sdl");
-	std::cout << "opening video2" << std::endl;
-	c->listen("consumer-frame-show",this,(mlt_listener)consumer_frame_show);
-	std::cout << "opening video3" << std::endl;
-	//setenv("SDL_WINDOWID",retID,1);
-	c->set("resize",1);
-	c->set("progressiv",1);
-	c->start();
-	std::cout << "opening video" << std::endl;
+	
+	consumer=new Mlt::Consumer("sdl_preview:352x288");
+	consumer->listen("consumer-frame-show",this,(mlt_listener)consumer_frame_show);
+	consumer->set ("app_locked",1);
+	consumer->set("app_lock",(void*)my_lock,0);
+	consumer->set("app_unlock",(void*)my_unlock,0);
+	QString sid;
+	setenv("SDL_WINDOWID",sid.setNum(winid),1);
+	std::cout << "winid: << "<< sid << std::endl;
+	consumer->set("resize",1);
+	consumer->set("progressiv",1);
+	consumer->start();
+	
+	/*std::cout << m_refCount << std::endl;
+	if (m_refCount==5){*/
+	
+	Mlt::Producer *pr=new Mlt::Producer("noise");
+	
+	consumer->connect(*pr);
+	consumer->start();
+	
 }
 
 /** Wraps the VEML command of the same name; Seeks the renderer clip to the given time. */
 void KRender::seek( GenTime time )
 {
+
+
 	sendSeekCommand( time );
 	emit positionChanged( time );
 }
@@ -1077,7 +1103,7 @@ bool KRender::reply_getFileProperties_EndElement( const QString & localName, con
 bool KRender::rendererOk()
 {
 	
-	if ( m_appPathInvalid ) return false;
+	//if ( m_appPathInvalid ) return false;
 
 	return true;
 }

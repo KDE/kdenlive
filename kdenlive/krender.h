@@ -24,6 +24,7 @@
 #include <qxml.h>
 #include <qstring.h>
 #include <qmap.h>
+#include <qmutex.h>
 #include <qptrlist.h>
 #include <qvaluestack.h>
 
@@ -50,6 +51,7 @@ class AVFormatDescCodecList;
 class EffectParamDesc;
 namespace Mlt{
 class Miracle;
+class Consumer;
 };
 
 struct StackValue
@@ -61,10 +63,12 @@ struct StackValue
 	bool ( KRender::*funcEndElement ) ( const QString & localName, const QString & qName );
 };
 static int m_refCount;
+static QMutex mutex;
 class KRender : public QObject, public QXmlDefaultHandler
 {
 	Q_OBJECT
 public:
+	
 	enum FailStates { OK = 0,
 	                  APP_NOEXIST
 	                };
@@ -177,6 +181,9 @@ protected:  // Protected methods
 	virtual void timerEvent( QTimerEvent *event );
 private:  // Private attributes & methods
 	Mlt::Miracle* m_mltMiracle;
+	Mlt::Consumer* consumer;
+	
+
 	/** If true, we are currently parsing some data. Otherwise, we are not. */
 	bool m_parsing;
 	/** The socket that will connect to the server */
