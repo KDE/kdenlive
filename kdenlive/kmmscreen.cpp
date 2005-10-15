@@ -58,9 +58,10 @@ KMMScreen::~KMMScreen()
 /** The renderer is ready, so we open a video window, etc. here. */
 void KMMScreen::rendererReady()
 {
-
-	//m_render->createVideoXWindow(false,m_embed->embeddedWinId());
-	m_render->createVideoXWindow(false,winId());
+	QWidget *q=new QWidget(this);
+	m_embed->embed(q->winId());
+	m_render->createVideoXWindow(false,q->winId());
+	//m_render->createVideoXWindow(false,winId());
 }
 
 /** Embeds the specified window. */

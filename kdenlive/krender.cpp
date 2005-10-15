@@ -264,10 +264,9 @@ void KRender::createVideoXWindow( bool show ,WId winid)
 	/*std::cout << m_refCount << std::endl;
 	if (m_refCount==5){*/
 	
-	Mlt::Producer *pr=new Mlt::Producer("noise");
+	//Mlt::Producer *pr=new Mlt::Producer("noise");
 	
-	consumer->connect(*pr);
-	consumer->start();
+	//consumer->connect(*pr);
 	
 }
 
