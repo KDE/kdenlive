@@ -13,1356 +13,2047 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.0.1\n"
 
-#~ msgid "The &kdenlive; Handbook"
-#~ msgstr "Le manuel de &kdenlive;"
-
-#, fuzzy
-#~ msgid ""
-#~ "<firstname>Jason</firstname> <othername>M.</othername> <surname>Wood</"
-#~ "surname>"
-#~ msgstr ""
-#~ "<firstname>Jason</firstname> <othername>M.</othername> <surname>Wood</"
-#~ "surname> <affiliation> <address><email>jasonwood@blueyonder.co.uk</"
-#~ "email></address> </affiliation>"
-
-#, fuzzy
-#~ msgid "<firstname>Gilles</firstname> <surname>Caulier</surname>"
-#~ msgstr ""
-#~ "<firstname>Jason</firstname> <othername>M.</othername> <surname>Wood</"
-#~ "surname> <affiliation> <address><email>jasonwood@blueyonder.co.uk</"
-#~ "email></address> </affiliation>"
-
-#~ msgid "ROLES_OF_TRANSLATORS"
-#~ msgstr ""
-#~ "<othercredit role=\"translator\"> <firstname>CAULIER</"
-#~ "firstname><surname>Gilles</surname> <affiliation><address><email>caulier."
-#~ "gilles@free.fr</email></address></affiliation> <contrib>Traductions "
-#~ "Française </contrib></othercredit>"
-
-#~ msgid "Jason Wood"
-#~ msgstr "Jason Wood"
-
-#~ msgid "&kdenlive; is a non-linear video editor for KDE."
-#~ msgstr ""
-#~ "&kdenlive; est une application de montage vidéo non linéaire pour KDE."
-
-#~ msgid ""
-#~ "WARNING - this document has not yet been finished. In particular, "
-#~ "information on contributors to &kapp;, requirements for &kapp;, "
-#~ "installation instructions for &kapp; and the changelog info are all wrong "
-#~ "at present. Also, please contact me at <email>jasonwood@blueyonder.co.uk</"
-#~ "email> rather than bugging any of the kde mailing lists."
-#~ msgstr ""
-#~ "ATTENTION !!! Ce document n'est pas encore complètement terminé. Les "
-#~ "informations concernant les contributeurs de &kapp;, les programmes "
-#~ "requis, les instructions d'installation, et les informations de "
-#~ "changement de version ne sont pas à jour ou sont incomplètes. Veuillez "
-#~ "prendre contact avec l'auteur à l'adresse <email>jasonwood@blueyonder.co."
-#~ "uk</email> pour de plus amples informations."
-
-#~ msgid "Cheers,"
-#~ msgstr "Bonne lecture"
-
-#~ msgid "Jason"
-#~ msgstr "Jason"
-
-#~ msgid "<keyword>KDE</keyword>"
-#~ msgstr "<keyword>KDE</keyword>"
-
-#~ msgid "video editor"
-#~ msgstr "Montage vidéo"
-
-#~ msgid "kdenlive"
-#~ msgstr "kdenlive"
-
-#~ msgid "Introduction"
-#~ msgstr "Introduction"
-
-#~ msgid ""
-#~ "&kapp; is a non-linear video editor for KDE. Please report any problems "
-#~ "or feature requests to <email>jasonwood@blueyonder.co.uk</email>"
-#~ msgstr ""
-#~ "&kapp; est une application de montage vidéo non linéaire pour KDE. Pour "
-#~ "rapporter des bogues ou pour proposer de nouvelles fonctionnalités, "
-#~ "Veulliez envoyer un courrier électronique à <email>jasonwood@blueyonder."
-#~ "co.uk</email>"
-
-#~ msgid "What is a video editor?"
-#~ msgstr "Qu'est ce qu'un logiciel de montage vidéo ?"
-
-#~ msgid ""
-#~ "A video editor is an application that allows you to create a new video "
-#~ "out of various scenes from one or more other videos."
-#~ msgstr ""
-#~ "Un logiciel de montage vidéo est une application qui permet de créer une "
-#~ "séquence vidéo à partir de plusieurs plans vidéo indépendants ou à partir "
-#~ "d'autres séquences vidéo."
-
-#~ msgid ""
-#~ "What is the difference between linear editing and non-linear editing?"
-#~ msgstr "Différences entre le montage vidéo « linéaire » et « non linéaire »"
-
-#~ msgid ""
-#~ "Before editing video on computer was possible, most editing was done on "
-#~ "linear editors - these work by having essentially, two video recorders. "
-#~ "The first would hold the video that you are editing together, and the "
-#~ "second would be used to find the next clip that you want to record. Find "
-#~ "a clip, record it, find the next clip, record it. This is called linear "
-#~ "editing because the medium of tape forced things to be edited "
-#~ "sequentially. If you have edited 10 minutes worth of footage together, "
-#~ "and decide that you made a mistake after five minutes, you can't just "
-#~ "\"push\" the last five minutes around to add space for new clips."
-#~ msgstr ""
-#~ "Dans le passé, le montage vidéo sur l'ordinateur était possible à l'aide "
-#~ "d'un éditeur vidéo dit « linéaire », en utilisant essentiellement deux "
-#~ "magnétoscopes. Le premier contenait les séquences vidéo cibles, et le "
-#~ "second était employé pour rechercher les plans vidéo à monter dans les "
-#~ "séquences vidéo cibles. L'opération consistait à trouver un plan vidéo, à "
-#~ "l'enregistrer dans la séquence vidéo cible, à trouver le plan vidéo "
-#~ "suivant, à l'enregistrer dans une autre séquence vidéo cible, etc. Cette "
-#~ "méthode s'appelle « l'édition vidéo linéaire » car l'utilisation de bande "
-#~ "vidéo nécessitait une édition des séquences vidéo de manières "
-#~ "séquentielles. Par exemple, il est très difficile de libérer de l'espace "
-#~ "vide pour ajouter un nouveau plan vidéo à une séquence vidéo d'une durée "
-#~ "globale de 10 minutes, après les cinq premières minutes de celle ci."
-
-#~ msgid ""
-#~ "Non-linear editing is by far a more flexible way of editing. You can "
-#~ "place clips anywhere within your final video (in &kdenlive;, this is "
-#~ "represented via the timeline), and you can move them around as much as "
-#~ "you want, rearrange them in a completely different order. Best of all, at "
-#~ "any point during this you can press play and (with a sufficiently "
-#~ "powerful computer) watch back what you have done there and then."
-#~ msgstr ""
-#~ "Le montage vidéo « non linéaire » est un procédé plus flexible. Vous "
-#~ "pouvez placer des nouveaux plans vidéo n'importe où dans votre séquence "
-#~ "vidéo cible (dans &kdenlive;, ceci est représenté par l'intermédiaire de "
-#~ "la table de montage), et les déplacer n'importe où autant de fois que "
-#~ "vous voulez. Vous pouvez aussi les réarranger dans un ordre complètement "
-#~ "différent et avec un ordinateur suffisamment puissant, observer le "
-#~ "résultat final."
-
-#~ msgid "Quick Start Guide"
-#~ msgstr "Présentation rapide"
-
-#~ msgid ""
-#~ "Ok, so you have started &kdenlive; for the first time and want to dive "
-#~ "straight into creating your own video. This quick start guide will take "
-#~ "you from start to finish of making your own video."
-#~ msgstr ""
-#~ "&kdenlive; est une application qui va vous faire plonger dans l'univers "
-#~ "du montage vidéo numérique. Cette présentation rapide vous aidera à "
-#~ "réaliser quelques opérations de base pour le montage de votre premier "
-#~ "film."
-
-#~ msgid "The Main Window"
-#~ msgstr "La fenêtre principale"
-
-#~ msgid ""
-#~ "When you first start &kdenlive;, you will have a window looking something "
-#~ "like this :"
-#~ msgstr ""
-#~ "Lorsque vous lancez &kdenlive; pour la première fois, vous devez obtenir "
-#~ "une fenêtre similaire à celle ci :"
-
-#~ msgid "The main window"
-#~ msgstr "La fenêtre principale"
-
-#~ msgid ""
-#~ "In the default layout, there are three areas of the main window. Whilst "
-#~ "all layouts int &kdenlive; are fully configurable, it is assumed for this "
-#~ "tutorial that you are using the default layout."
-#~ msgstr ""
-#~ "Dans l'interface graphique par défaut de &kdenlive;, il y a trois "
-#~ "panneaux importants. Les positions de tous ces panneaux peuvent être "
-#~ "configurés individuellement en fonction de vos besoins."
-
-#~ msgid "The Project Panel"
-#~ msgstr "Le panneau du projet"
-
-#~ msgid "The project panel"
-#~ msgstr "Le panneau du projet"
-
-#~ msgid ""
-#~ "The panel to the top left holds various informational and editing panels "
-#~ "about the current project. Of most interest to us for this tutorial is "
-#~ "the Project List. This window shows which video clips are in the project."
-#~ msgstr ""
-#~ "Ce panneau propose différents options nécessaires au montage vidéo du "
-#~ "projet. L'onglet le plus important est la liste du projet. Il affiche "
-#~ "l'ensemble des plans vidéo qui sont inclus dans le projet."
-
-#~ msgid "The Monitor Panel"
-#~ msgstr "Le panneau de prévisualisation"
-
-#~ msgid "The monitor panel"
-#~ msgstr "Le panneau de prévisualisation"
-
-#~ msgid ""
-#~ "The panel to the top right holds the various monitors that &kdenlive; "
-#~ "uses. The workspace monitor displays the final video - what our final "
-#~ "edit will look like. The clip monitor is used to preview clips, and to "
-#~ "select a section of a clip to add to the timeline."
-#~ msgstr ""
-#~ "Ce panneau présente la liste des fenêtres de prévisualisation de "
-#~ "&kdenlive;. L'onglet « Montage vidéo » affiche le montage vidéo final. "
-#~ "L'onglet « Plan vidéo » affiche une prévisualisation du plan vidéo "
-#~ "courant, et permet de sélectionner une section d'un plan vidéo à ajouter "
-#~ "à la table de montage."
-
-#~ msgid "The Timeline"
-#~ msgstr "La table de montage vidéo"
-
-#~ msgid "The timeline"
-#~ msgstr "La table de montage vidéo"
-
-#~ msgid ""
-#~ "The panel at the bottom of the window holds the timeline. The timeline "
-#~ "gives you a visual representation of your project, and shows when clips "
-#~ "start, when they end, and in the case of overlapping clips, which one "
-#~ "will actually be used (whilst the architecture is mostly in place, "
-#~ "&kdenlive;/&piave; do not as yet support effects. This will be added in "
-#~ "&kdenlive;/&piave; 0.3.0"
-#~ msgstr ""
-#~ "Le panneau située en bas de la fenêtre principale est appelée la table de "
-#~ "montage vidéo. Elle offre une représentation visuelle de votre projet. "
-#~ "Elle affiche l'état de lecture et de non lecture des plans vidéo, le "
-#~ "chevauchement de plans vidéo, et le plan vidéo courant. Les versions "
-#~ "actuelles de &kdenlive; / &piave; ne gère pas encore les effets spéciaux. "
-#~ "Les futures versions implanteront cette fonctionnalité et elle sera "
-#~ "visible dans la table de montage."
-
-#~ msgid "Adding clips to your project"
-#~ msgstr "Ajouter un plan vidéo à votre projet"
-
-#~ msgid ""
-#~ "Now that you have a little understanding about the layout of &kdenlive;, "
-#~ "it is time to add some clips to the project. Now, it goes without saying "
-#~ "that to get any further, you will need to have some clips on your "
-#~ "computer that you can use. At this moment in time, &kdenlive; does not "
-#~ "include capture capabilities, and so you must use another application to "
-#~ "get the clips that you want. I recommend Kino, which you can download "
-#~ "from <ulink url=\"http://kino.schirmacher.de/\">http://kino.schirmacher."
-#~ "de/</ulink>."
-#~ msgstr ""
-#~ "Maintenant que vous avez une vue d'ensemble de &kdenlive;, il est temps "
-#~ "d'ajouter quelques plans vidéo à votre projet. Vous devez disposer de "
-#~ "quelques plans vidéo sur votre ordinateur pour réaliser cette opération. "
-#~ "Actuellement, &kdenlive; ne dispose pas encore des fonctionnalités de "
-#~ "capture vidéo, et vous devez utiliser une autre application pour réaliser "
-#~ "cette opération. Nous recommandons le programme « kino » qui peut être "
-#~ "téléchargé à l'adresse <ulink url=\"http://kino.schirmacher.de/\">http://"
-#~ "kino.schirmacher.de/</ulink>."
-
-#~ msgid ""
-#~ "Now that you have some clips, you can add them to your project. Select "
-#~ "the Project List tab on the project pane, and then right click on it to "
-#~ "bring up the context menu. From here, select <guimenuitem>Add Clips</"
-#~ "guimenuitem> to bring up a standard &kde; open dialog. Find your clips, "
-#~ "select as many as you want to add, and they will be added!"
-#~ msgstr ""
-#~ "Après avoir récupérer quelques plans vidéo sur votre ordinateur, vous "
-#~ "pourrez les ajouter à votre projet. Sélectionnez l'onglet « Projet » dans "
-#~ "le panneau relatif au projet, et activez le menu contextuel avec le "
-#~ "bouton droit de la souris. Sélectionnez l'option <guimenuitem>Ajouter des "
-#~ "plans vidéo</guimenuitem> qui ouvrira la boîte de dialogue de sélection "
-#~ "de fichiers de &kde;. Rechercher vos plans vidéo, choisissez les, et "
-#~ "validez votre sélection."
-
-#~ msgid ""
-#~ "Attempting to add some invalid file types to the project may cause the "
-#~ "underlying renderer to crash. This is a known bug, if it occurs, then "
-#~ "simply save your project (it is safe to do so, although it is recommended "
-#~ "that you save as a different filename), close &kdenlive; and restart. See "
-#~ "the <link linkend=\"known-issues\">Known Issues</link> section for more "
-#~ "details."
-#~ msgstr ""
-#~ "Si vous essayez d'ajouter des fichiers vidéo non valables dans la liste "
-#~ "du projet, cela peut entraîner un arrêt anormal du programme de rendu "
-#~ "vidéo (Piave). Ceci est un bogue connu. Lorsqu'il apparaît, enregistrer "
-#~ "votre projet (si possible dans un nom diffèrent si c'est un projet déjà "
-#~ "existant et en cours de modification), arrêter &kdenlive; et relancer le. "
-#~ "Consulter la section <link linkend=\"known-issues\">Problèmes connus et "
-#~ "solutions</link> pour plus de détails."
-
-#~ msgid ""
-#~ "Your added clips will now appear in the project list, along with their "
-#~ "duration and a few other pieces of information about them."
-#~ msgstr ""
-#~ "Les plans vidéo que vous avez ajouter doivent apparaître dans la liste du "
-#~ "projet, avec leurs durées ainsi que d'autres informations."
-
-#~ msgid "Dragging clips to the timeline"
-#~ msgstr "Glisser / déposer des plans vidéo dans la table de montage"
-
-#~ msgid ""
-#~ "Now that you have some clips in your project, it is time to start editing "
-#~ "them together into your dream video. There are a two basic ways in which "
-#~ "to add a clip to the timeline."
-#~ msgstr ""
-#~ "Maintenant que vous avez quelques plans vidéo dans votre projet, vous "
-#~ "pouvez commencer les opérations correspondantes au montage vidéo. Il "
-#~ "existe deux méthodes pour ajouter un plan vidéo à la table de montage."
-
-#~ msgid ""
-#~ "You can drag a clip directly from the project list. Select one of the "
-#~ "clips that you have added to the project list, and drag it to the "
-#~ "timeline. As soon as the mouse reaches a track, the clip will appear on "
-#~ "the track. With this kind of drag, the entire duration of the clip is "
-#~ "placed on the timeline. You can then edit the clip from the timeline."
-#~ msgstr ""
-#~ "Vous pouvez utiliser le « glisser / déposer » directement entre la liste "
-#~ "du projet et la table de montage. Choisissez un plan vidéo dans la liste "
-#~ "du projet et glisser le sur la table de montage à l'aide de la souris. La "
-#~ "piste vidéo doit apparaître dans la table de montage et peut y être "
-#~ "déplacer à volonté. Cette méthode place la totalité du plan vidéo dans la "
-#~ "table de montage."
-
-#~ msgid ""
-#~ "When you click on a clip in the project list, the clip monitor will "
-#~ "automatically load the clip. You can then press play on clip monitor and "
-#~ "get an idea as to which bits of the clip you actually want on the "
-#~ "timeline. Then, position the seek marker to where you want your clip to "
-#~ "start and click the \"inpoint\" button. Move to where you want the clip "
-#~ "to end and click the \"outpoint\" button. Finally, you can drag this cut-"
-#~ "down clip by clicking on the video on the clip monitor and dragging to "
-#~ "the timeline. The clip that appears on the timeline will be that part of "
-#~ "the clip between the in and out points on the monitor."
-#~ msgstr ""
-#~ "Lorsque vous cliquez sur un plan vidéo dans la liste du projet, l'onglet "
-#~ "« Plan vidéo » du panneau de prévisualisation affichera automatiquement "
-#~ "la première trame du plan vidéo. Vous pouvez appuyer sur le bouton de "
-#~ "lecture pour avoir une idée du contenu avant de le placer dans la table "
-#~ "de montage. Déplacez le curseur de lecture à la position ou vous voulez "
-#~ "commencer votre plan et appuyez sur le bouton « Point d'entrée ». De "
-#~ "même, déplacez le curseur de lecture à la position ou vous voulez "
-#~ "terminer votre plan et appuyez sur le bouton « Point de sortie ». Enfin "
-#~ "faite un « glisser / déposer » entre la prévisualisation du plan vidéo et "
-#~ "la table de montage pour ajouter le plan vidéo. Celui ci apparaîtra "
-#~ "découpé aux limites préalablement définies dans le panneau de "
-#~ "prévisualisation."
-
-#~ msgid "Selecting Clips on the Timeline"
-#~ msgstr "Sélection de plans vidéo dans la table de montage"
-
-#~ msgid ""
-#~ "You can select a clip from the timeline by clicking the left mouse "
-#~ "bouton. If you want to add clips to the current selection, hold down "
-#~ "Shift while clicking on the clips you want to add. Finally, you can "
-#~ "toggle whether a clip is selected or not by holding down Ctrl whilst "
-#~ "clicking on it."
-#~ msgstr ""
-#~ "Vous pouvez sélectionner un plan vidéo dans la table de montage en "
-#~ "clicquant dessus avec le bouton gauche de la souris. Si vous voulez "
-#~ "ajouter des plans vidéo à la sélection courante, appuyez sur la touche "
-#~ "« Maj » et sélectionnez de nouveaux plans vidéo dans la table de montage. "
-#~ "Vous pouvez sélectionner ou désélectionner un plan vidéo d'une sélection "
-#~ "en utilisant la touche « Ctrl » avec le bouton gauche de la souris."
-
-#~ msgid "Moving and Resizing Clips on the Timeline"
-#~ msgstr ""
-#~ "Déplacement et redimensionnement des plans vidéo dans la table de montage"
-
-#~ msgid ""
-#~ "Moving the selected clips around on the timeline is as simple as clicking "
-#~ "on them with the left mouse bouton and dragging them around. You can "
-#~ "resize clips directly from the timeline. Simply move the mouse cursor to "
-#~ "the the beginning or end of the clip you want to resize. Now, click and "
-#~ "drag with the left mouse bouton to resize the clip."
-#~ msgstr ""
-#~ "Pour déplacer les plans vidéo dans la table de montage, utiliser le "
-#~ "« glisser / déposer » avec le bouton gauche de la souris. Vous pouvez "
-#~ "redimensionner un plan vidéo directement dans la table de montage en "
-#~ "déplaçant le curseur de la souris sur le début ou la fin de celui ci, "
-#~ "puis en utilisant le le « glisser / déposer » avec le bouton gauche de la "
-#~ "souris afin d'obtenir la bonne dimension."
-
-#~ msgid ""
-#~ "Resizing a clip changes it's in and outpoints. If you reselect the clip "
-#~ "and look in the clip monitor, you will see that the in and out points on "
-#~ "the monitor show the new positions."
-#~ msgstr ""
-#~ "Le redimensionnement d'un plan vidéo change automatiquement les points "
-#~ "d'entrée et de sortie qui lui sont associés. Si vous resélectionnez le "
-#~ "plan vidéo et que vous l'affichez dans la fenêtre de prévisualisation des "
-#~ "plans vidéo, vous apercevrez alors leurs nouvelles positions."
-
-#~ msgid ""
-#~ "It is not possible to resize a clip past it's length - if a clip is 30 "
-#~ "seconds in length, then you will not be able to resize the clip so that "
-#~ "it finishes playing 35 seconds into the clip!"
-#~ msgstr ""
-#~ "Il n'est pas possible de redimensionner un plan vidéo au dessus de sa "
-#~ "taille d'origine. Par exemple, si un plan vidéo a une durée de 30 "
-#~ "secondes, vous ne pourrez pas le redimensionner à une durée de 35 "
-#~ "secondes."
-
-#~ msgid ""
-#~ "When you are resizing and moving clips, there is a handy \"snap to\" "
-#~ "feature, which will snap the edges of clips to other clips and the "
-#~ "current seek position. This is useful for quickly lining clips up with "
-#~ "each other, but in some cases may not be what you want. You can turn this "
-#~ "behaviour on and off using the Timeline->Snap To Border menu item."
-#~ msgstr ""
-#~ "Quand vous redimensionnez et déplacez des plans vidéo, les options "
-#~ "« Utiliser les trames » et « Utiliser les bords » du menu « Montage "
-#~ "vidéo » vous permettent d'ajuster la position des plans vidéo dans la "
-#~ "table de montage. Ceci peut être utile pour aligner rapidement l'un "
-#~ "derrière l'autre les plans vidéo."
-
-#~ msgid "Removing clips from the timeline"
-#~ msgstr "Suppression de plans vidéo dans la table de montage"
-
-#~ msgid ""
-#~ "There are currently two ways to remove a clip from the timeline. The "
-#~ "first way is to select the clip or clips that you want to delete, and to "
-#~ "press <keycombo action=\"simul\"><keycap>delete</keycap></keycombo>."
-#~ msgstr ""
-#~ "Il existe deux méthodes pour supprimer un plan vidéo de la table de "
-#~ "montage. La première est de sélectionner le plan ou les plans vidéo à "
-#~ "supprimer et d'appuyer sur la touche <keycombo action=\"simul"
-#~ "\"><keycap>Suppr</keycap></keycombo>."
-
-#~ msgid ""
-#~ "The second way is to select the clips that you want to delete, and to "
-#~ "drag them away from the timeline. As soon as the clips leave the "
-#~ "timeline, they will disappear."
-#~ msgstr ""
-#~ "La seconde méthode consiste à sélectionner les plans vidéo et de les "
-#~ "« glisser / déposer » en dehors de la table de montage."
-
-#~ msgid ""
-#~ "It not yet decided if this behaviour is a good thing or a bad thing. It "
-#~ "may be removed in later versions of &kdenlive;. You have been warned!"
-#~ msgstr ""
-#~ "L'équipe de développement n'a pas encore décidé si cette dernière méthode "
-#~ "est correcte ou non. Elle pourrait être supprimé dans des versions "
-#~ "futures de &kdenlive;"
-
-#~ msgid "Using &kdenlive;"
-#~ msgstr "Utilisation de &kdenlive;"
-
-#~ msgid "The Project List"
-#~ msgstr "La liste du projet"
-
-#~ msgid ""
-#~ "The project list shows all of the clips that are available for this "
-#~ "project."
-#~ msgstr ""
-#~ "La liste du projet affiche tous les plans vidéo qui sont disponibles dans "
-#~ "le projet."
-
-#~ msgid ""
-#~ "You can see the number of times that a particular clip is in use. This "
-#~ "includes all usage of the clip - for instance, if a clip is being "
-#~ "displayed in the clip monitor, then that counts as one usage for the "
-#~ "clip. (FIXME - this behaviour is likely to change in the future)."
-#~ msgstr ""
-#~ "Vous pouvez voir le nombre de fois qu'un plan vidéo est utilisé dans une "
-#~ "séquence vidéo. Ceci inclut tous les usages du plan vidéo, dont la "
-#~ "prévisualisation de celui ci."
-
-#~ msgid "Adding Clips to the Project"
-#~ msgstr "Ajouter un plan vidéo au projet"
-
-#~ msgid ""
-#~ "If you drag a clip onto the timeline that is not in the project (for "
-#~ "instance, if you drag a dv straight from konqueror to &kdenlive;), then "
-#~ "it will be automatically added to the project for you."
-#~ msgstr ""
-#~ "Si vous utilisez le glisser / déposer sur la table de montage un plan "
-#~ "vidéo qui n'est pas dans votre projet (par exemple en utilisant un "
-#~ "fichier au format « DV » à partir de Konqueror), alors celui ci sera "
-#~ "automatiquement ajouté au projet."
-
-#~ msgid ""
-#~ "You can add clips to the projectlist yourself. Either use the project "
-#~ "list context menu (right click on the window), or the Project menu on the "
-#~ "menu bar. Select 'Add Clips' to bring up a file dialog in which you can "
-#~ "select the clip you wish to add to this project. As long as the clips are "
-#~ "valid, they will appear in the project list."
-#~ msgstr ""
-#~ "Vous pouvez ajouter vous même un plan vidéo dans la liste du projet. On "
-#~ "utilise pour cela le menu contextuel de la liste du projet avec le bouton "
-#~ "droit de la souris, ou le menu « Projet » dans la barre de menu de "
-#~ "l'application. Sélectionnez l'option « Ajouter des plans vidéo » pour "
-#~ "ouvrir une boîte de dialogue de sélection de fichiers. Si les fichiers "
-#~ "vidéo choisis sont valides, il apparaîtront dans la liste du projet."
-
-#~ msgid "Deleting clips via the Project List"
-#~ msgstr "Suppression des plans vidéo via la liste du projet"
-
-#~ msgid ""
-#~ "Delete clips is currently non-functional - the only way to delete clips "
-#~ "is to use clean-project."
-#~ msgstr ""
-#~ "La suppression de plans vidéo n'est pas encore opérationnelle. La seule "
-#~ "manière de supprimer des plans vidéo est de purger le projet."
-
-#~ msgid "Examining Clip Properties"
-#~ msgstr "Consultation des propriétés des plans vidéo"
-
-#~ msgid ""
-#~ "Clip Properties is currently non-functional - there is no way to examine "
-#~ "the format of a clip except by examining the debug output ;-)"
-#~ msgstr ""
-#~ "L'affichage des propriétes d'un plan vidéo n'est pas encore "
-#~ "opérationnelle. La seule solution existante pour avoir des informations "
-#~ "sur un fichier vidéo est d'utiliser la fenêtre de débogage."
-
-#~ msgid "Clean Project - Removing unused Clips"
-#~ msgstr "Purger le projet - Suppression des plans vidéo non utilisés"
-
-#~ msgid ""
-#~ "Use clean project to remove any clips from your project that are "
-#~ "currently unused. This is great if your project list has become cluttered "
-#~ "and you want to get a concise view of which clips exist. Cleaning a "
-#~ "project will not alter your final edit in anyway - the only clips that "
-#~ "are removed are those that are no longer in use anywhere."
-#~ msgstr ""
-#~ "Utiliser l'option « Purger le projet » pour supprimer de la liste du "
-#~ "projet tous les plans vidéo non utilisés. Cette option est intéressante "
-#~ "lorsque la liste du projet contient un très grand nombre de plans vidéo. "
-#~ "La purge du projet n'affecte pas le montage vidéo final. Seul les plans "
-#~ "vidéo qui ne sont pas utilisés dans le montage vidéo seront supprimés de "
-#~ "la liste du projet."
-
-#, fuzzy
-#~ msgid "<title>The Debug Panel</title>"
-#~ msgstr "Le panneau de débogage"
-
-#, fuzzy
-#~ msgid "<phrase>The Debug Panel</phrase>"
-#~ msgstr "Le panneau de débogage"
-
-#~ msgid ""
-#~ "The debug panel is of most use to developers of &kdenlive;. It gives a "
-#~ "highly detailed account of what is going on behind the scenes of "
-#~ "&kdenlive;. This section will not help you to understand the output of "
-#~ "the debug panel, but will tell you why it looks like it is and how to "
-#~ "operate it."
-#~ msgstr ""
-#~ "Le panneau de débogage est très utilisé par l'équipe de développement de "
-#~ "&kdenlive;. Il affiche de nombreuses informations concernant les "
-#~ "processus de traitement des plans vidéo effectués par &kdenlive;. Cette "
-#~ "section ne vous aidera pas à comprendre les informations contenu dans le "
-#~ "panneau de débogage, mais vous expliquera pourquoi il existe et comment "
-#~ "il opère."
-
-#~ msgid ""
-#~ "On the left, the debug panel shows a list of the renderers in use by "
-#~ "&kdenlive;. Each renderer has a name that says which part of &kdenlive; "
-#~ "it is used by. There are three such renderers in the current version of "
-#~ "&kdenlive;. Clip monitor handles playback of video in the Clip Monitor. "
-#~ "Workspace monitor handles playback in the Workspace Monitor. The Document "
-#~ "renderer handles all other tasks, such as determining the lengths of "
-#~ "video files, and exporting the final video footage."
-#~ msgstr ""
-#~ "À la gauche du panneau de débogage, on trouve la liste des processus "
-#~ "nécessaires aux rendus vidéo de &kdenlive;. Chaque processus est nommé en "
-#~ "fonction de son utilisation dans &kdenlive;. Il y a trois processus dans "
-#~ "la version actuelle de &kdenlive;. Le processus « Plan vidéo » permet la "
-#~ "prévisualisation des plans vidéo. Le processus « Montage vidéo » permet "
-#~ "la prévisualisation du projet. Le processus « Projet » permet toutes les "
-#~ "autres tâches, tel que la détermination des durées des plans vidéo et "
-#~ "l'exportation finale du montage vidéo."
-
-#~ msgid ""
-#~ "If you select one of the renderers from the list, the text area will show "
-#~ "all debug output from the renderer. For general usage of &kdenlive;, you "
-#~ "do not need to understand this, but it is very important when filing bug "
-#~ "reports to send a copy of these messages - doing so will better aid us in "
-#~ "fixing your problems. Click the Save Messages button to bring up a "
-#~ "standard save dialog in which you can save the output."
-#~ msgstr ""
-#~ "Si vous choisissez un des processus de rendu vidéo dans la liste, la zone "
-#~ "de texte affichera les messages de débogage correspondants. En général, "
-#~ "il n'est pas nécessaire de connaître la signification des messages, mais "
-#~ "dans certain cas il est important de pouvoir récupérer ces informations "
-#~ "pour les rapports de bogues. Cliquez sur le bouton « Enregistrer les "
-#~ "messages » pour préciser le fichier cible de sauvegarde des messages."
-
-#~ msgid ""
-#~ "The Save Messages button will save output for all of the renderers. You "
-#~ "do not need to save each renderer's output individually."
-#~ msgstr ""
-#~ "Le bouton « Enregistrer les messages » vous permet de sauvegarder une "
-#~ "trace de tous les messages issus des programmes de rendu vidéo. Il n'est "
-#~ "pas nécessaire de sauvegarder individuellement les vues de tous les "
-#~ "programmes de rendu vidéo."
-
-#~ msgid ""
-#~ "There is a checkbox on the debug panel that allows you to turn off the "
-#~ "output of the debug messages. This may be necessary on slower machines or "
-#~ "if you run &kdenlive; for a long time, as keeping track of the messages "
-#~ "does slow &kdenlive; down, and will consume more and more memory the "
-#~ "longer that &kdenlive; is running for."
-#~ msgstr ""
-#~ "Une option est disponible dans le panneau de débogage pour pouvoir "
-#~ "activer ou désactiver l'affichage des messages de débogage. Cela peut "
-#~ "être nécessaire sur les ordinateurs peu puissants, ou lorsque vous "
-#~ "exécuter de longue session de &kdenlive;. En effet, l'affichage des "
-#~ "messages de débogage ralentissent le programme et consomment beaucoup de "
-#~ "mémoire."
-
-#~ msgid "The Effect List"
-#~ msgstr "La liste des effets"
-
-#~ msgid "This is non-functional in the current version of &kdenlive;."
-#~ msgstr ""
-#~ "Cette fonctionnalité n'est pas encore implantée dans la version actuelle "
-#~ "de &kdenlive;."
-
-#~ msgid "The Effect Setup Panel"
-#~ msgstr "Le panneau de configuration des effets"
-
-#~ msgid "This is..."
-#~ msgstr "À faire..."
-
-#~ msgid "The Clip Monitor"
-#~ msgstr "La prévisualisation des plans vidéo"
-
-#~ msgid "The Workspace Monitor"
-#~ msgstr "La prévisualisation du montage vidéo"
-
-#~ msgid ""
-#~ "The workspace monitor shows the video that is the result of the current "
-#~ "timeline. It works in a similar way to the clip monitor."
-#~ msgstr ""
-#~ "La prévisualisation du montage vidéo affiche la vidéo résultante du "
-#~ "contenu de la table de montage. Son fonctionnement est similaire à la "
-#~ "prévisualisation des plans vidéo."
-
-#~ msgid ""
-#~ "Inpoints and outpoints on the workspace monitor achieve the same purpose "
-#~ "as they do on the clip monitor. You can choose a part of the current "
-#~ "timeline, and drag a clip of it back to the timeline. You will get a "
-#~ "\"project clip\", which is a clip that contains all of the clips on the "
-#~ "timeline in the state when you made it. It is useful for grouping "
-#~ "together a number of clips when you have finished editing them and want "
-#~ "to be able to treat them as a single clip."
-#~ msgstr ""
-#~ "Les points d'entrée et de sortie de la fenêtre de prévisualisation du "
-#~ "montage vidéo ont les mêmes fonctions que ceux présent dans la fenêtre de "
-#~ "prévisualisation des plans vidéo. Vous pouvez obtenir ainsi un « plan "
-#~ "vidéo du projet », qui sera une séquence vidéo contenant tous les plans "
-#~ "vidéo présent dans la table de montage. Cette fonction est utile pour "
-#~ "regrouper ensemble un certain nombre de plans vidéo quand vous avez fini "
-#~ "de les associer dans la table de montage et que vous voulez les manipuler "
-#~ "comme un simple plan vidéo."
-
-#~ msgid "Rendering your project"
-#~ msgstr "Le rendu vidéo du projet"
-
-#~ msgid ""
-#~ "When you have finished editing, you can render your project via the "
-#~ "Render->Export Timeline menu. This brings up a dialog, which allows you "
-#~ "to choose your export format, export options, and filename to save as."
-#~ msgstr ""
-#~ "Quand vous avez terminé votre montage vidéo, vous pouvez l'exporter en "
-#~ "utilisant le menu « Rendu vidéo / Exporter le montage vidéo ». Ce menu "
-#~ "affichera une boîte de dialogue qui vous permettra de choisir le format, "
-#~ "les options, et le nom du fichier pour l'exportation de votre montage "
-#~ "vidéo."
-
-#~ msgid "The rendering project dialog box"
-#~ msgstr "La boîte de dialogue pour le rendu vidéo du projet."
-
-#~ msgid ""
-#~ "The current version of &kdenlive;/&piave; only supports export to raw dv "
-#~ "format."
-#~ msgstr ""
-#~ "Les versions actuelles des programmes &kdenlive; et &piave; ne gèrent "
-#~ "uniquement l'exportation vidéo au format « DV » brut (RAW)."
-
-#~ msgid "Loading and Saving your project"
-#~ msgstr "L'ouverture et l'enregistrement de votre projet"
-
-#~ msgid ""
-#~ "Load your project via the File->open menu. Save your project via the File-"
-#~ ">save-as menu."
-#~ msgstr ""
-#~ "Charger votre projet avec le menu « Fichier / Ouvrir ». Enregistrer votre "
-#~ "projet avec le menu « Fichier / Enregistrer sous »."
-
-#~ msgid "Setup the Renderer"
-#~ msgstr "La configuration du programme de rendu vidéo"
-
-#~ msgid ""
-#~ "With this dialogbox, you can configre all parameters for the renderer "
-#~ "program."
-#~ msgstr ""
-#~ "Avec cette boîte de dialogue, vous pouvez configurer tous les paramètres "
-#~ "nécessaires au fonctionnement du programme effectuant le rendu vidéo."
-
-#~ msgid "The setup renderer dialog box"
-#~ msgstr "La boîte de dialogue de configuration du programme de rendu vidéo"
-
-#~ msgid "Command Reference"
-#~ msgstr "Les commandes de référence"
-
-#~ msgid "The main &kdenlive; window"
-#~ msgstr "La fenêtre principale de &kdenlive;"
-
-#~ msgid "The File Menu"
-#~ msgstr "Le menu « Fichier »"
-
-#~ msgid ""
-#~ "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>n</keycap></keycombo> </"
-#~ "shortcut> <guimenu>File</guimenu> <guimenuitem>New</guimenuitem>"
-#~ msgstr ""
-#~ "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>n</keycap></keycombo> </"
-#~ "shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Nouveau</guimenuitem>"
-
-#~ msgid "Creates a new document."
-#~ msgstr "Création d'un nouveau projet de montage vidéo."
-
-#~ msgid ""
-#~ "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>o</keycap></keycombo> </"
-#~ "shortcut> <guimenu>File</guimenu> <guimenuitem>Open</guimenuitem>"
-#~ msgstr ""
-#~ "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>o</keycap></keycombo> </"
-#~ "shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Ouvrir</guimenuitem>"
-
-#~ msgid "Open a saved project."
-#~ msgstr "Ouvrir un projet préalablement enregistré."
-
-#~ msgid "<guimenu>File</guimenu> <guimenuitem>Open Recent</guimenuitem>"
-#~ msgstr ""
-#~ "<guimenu>Fichier</guimenu> <guimenuitem>Récemment ouvert(s)</guimenuitem>"
-
-#~ msgid "Open a recently used project."
-#~ msgstr "Ouvre un projet qui a été précédemment ouvert dans &kdenlive;."
-
-#~ msgid ""
-#~ "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>s</keycap></keycombo> </"
-#~ "shortcut> <guimenu>File</guimenu> <guimenuitem>Save</guimenuitem>"
-#~ msgstr ""
-#~ "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>s</keycap></keycombo> </"
-#~ "shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Enregistrer</"
-#~ "guimenuitem>"
-
-#~ msgid "Saves the project."
-#~ msgstr "Enregistre le projet courant."
-
-#~ msgid "<guimenu>File</guimenu> <guimenuitem>Save As...</guimenuitem>"
-#~ msgstr ""
-#~ "<guimenu>Fichier</guimenu> <guimenuitem>Enregistrer sous...</guimenuitem>"
-
-#~ msgid "Saves the project under a different filename."
-#~ msgstr "Enregistre le projet avec un nom différent."
-
-#~ msgid ""
-#~ "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>q</keycap></keycombo> </"
-#~ "shortcut> <guimenu>File</guimenu> <guimenuitem>Quit</guimenuitem>"
-#~ msgstr ""
-#~ "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>q</keycap></keycombo> </"
-#~ "shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Quitter</guimenuitem>"
-
-#~ msgid "<action>Quits</action> &kapp;"
-#~ msgstr "<action>Quitte</action> &kapp;"
-
-#~ msgid "The Edit Menu"
-#~ msgstr "Le menu « Édition »"
-
-#~ msgid ""
-#~ "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>z</keycap></keycombo> </"
-#~ "shortcut> <guimenu>Edit</guimenu> <guimenuitem>Undo</guimenuitem>"
-#~ msgstr ""
-#~ "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>z</keycap></keycombo> </"
-#~ "shortcut> <guimenu>Édition</guimenu> <guimenuitem>Annuler</guimenuitem>"
-
-#~ msgid "Undo the last edit to the timeline."
-#~ msgstr "Annule la dernière opération faite dans la table de montage."
-
-#~ msgid ""
-#~ "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</"
-#~ "keycap><keycap>z</keycap></keycombo> </shortcut> <guimenu>Edit</guimenu> "
-#~ "<guimenuitem>Redo</guimenuitem>"
-#~ msgstr ""
-#~ "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</"
-#~ "keycap><keycap>z</keycap></keycombo> </shortcut> <guimenu>Édition</"
-#~ "guimenu> <guimenuitem>Refaire</guimenuitem>"
-
-#~ msgid "Redo a previously undone edit to the timeline."
-#~ msgstr "Réitère la précédente opération faite dans la table de montage."
-
-#~ msgid ""
-#~ "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>x</keycap></keycombo> </"
-#~ "shortcut> <guimenu>Edit</guimenu> <guimenuitem>Cut</guimenuitem>"
-#~ msgstr ""
-#~ "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>x</keycap></keycombo> </"
-#~ "shortcut> <guimenu>Édition</guimenu> <guimenuitem>Couper</guimenuitem>"
-
-#~ msgid "Non-functional at present"
-#~ msgstr "Cette fonction n'est pas encore opérationnelle"
-
-#~ msgid ""
-#~ "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>c</keycap></keycombo> </"
-#~ "shortcut> <guimenu>Edit</guimenu> <guimenuitem>Copy</guimenuitem>"
-#~ msgstr ""
-#~ "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>c</keycap></keycombo> </"
-#~ "shortcut> <guimenu>Édition</guimenu> <guimenuitem>Copier</guimenuitem>"
-
-#~ msgid "Non-funtional at present."
-#~ msgstr "Cette fonction n'est pas encore opérationnelle"
-
-#~ msgid ""
-#~ "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>v</keycap></keycombo> </"
-#~ "shortcut> <guimenu>Edit</guimenu> <guimenuitem>Paste</guimenuitem>"
-#~ msgstr ""
-#~ "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>v</keycap></keycombo> </"
-#~ "shortcut> <guimenu>Édition</guimenu> <guimenuitem>Coller</guimenuitem>"
-
-#~ msgid "The Project Menu"
-#~ msgstr "Le menu « Projet »"
-
-#~ msgid "<guimenu>Project</guimenu> <guimenuitem>Add Clips</guimenuitem>"
-#~ msgstr ""
-#~ "<guimenu>Projet</guimenu> <guimenuitem>Ajouter des plans vidéo</"
-#~ "guimenuitem>"
-
-#~ msgid "Add clips to the project list."
-#~ msgstr "Ajoute des plans vidéo dans la liste du projet."
-
-#~ msgid "<guimenu>Project</guimenu> <guimenuitem>Delete Clips</guimenuitem>"
-#~ msgstr ""
-#~ "<guimenu>Projet</guimenu> <guimenuitem>Supprimer des plans vidéo</"
-#~ "guimenuitem>"
-
-#~ msgid "<guimenu>Project</guimenu> <guimenuitem>Clean Project</guimenuitem>"
-#~ msgstr ""
-#~ "<guimenu>Projet</guimenu> <guimenuitem>Purger le projet</guimenuitem>"
-
-#~ msgid "Remove unused clips from the project list."
-#~ msgstr "Suppression de la liste des plans vidéo inutilisés dans le projet."
-
-#~ msgid ""
-#~ "<guimenu>Project</guimenu> <guimenuitem>Clip Properties</guimenuitem>"
-#~ msgstr ""
-#~ "<guimenu>Projet</guimenu> <guimenuitem>Propriétés du plan vidéo</"
-#~ "guimenuitem>"
-
-#~ msgid "The Timeline Menu"
-#~ msgstr "Le menu « Montage vidéo »"
-
-#~ msgid ""
-#~ "<shortcut> <keycap>q</keycap> </shortcut> <guimenu>Timeline</guimenu> "
-#~ "<guimenuitem>Move/Resize Tool</guimenuitem>"
-#~ msgstr ""
-#~ "<shortcut> <keycap>q</keycap> </shortcut> <guimenu>Montage vidéo</"
-#~ "guimenu> <guimenuitem>Outil de déplacement / redimensionnement</"
-#~ "guimenuitem>"
-
-#~ msgid ""
-#~ "<action>Select the move/resize tool to use on the timeline.</action> This "
-#~ "tool lets you move and resize clips on the timeline. It is the standard "
-#~ "operating mode of the timeline."
-#~ msgstr ""
-#~ "<action>Choisir l'outil de déplacement / redimensionnement de la table de "
-#~ "montage.</action> Cet outil vous permet de déplacer et de redimensionner "
-#~ "les plans vidéo dans la table de montage. C'est l'outil qui est utilisé "
-#~ "par défaut dans la table de montage."
-
-#~ msgid ""
-#~ "<shortcut> <keycap>w</keycap> </shortcut> <guimenu>Timeline</guimenu> "
-#~ "<guimenuitem>Razor Tool</guimenuitem>"
-#~ msgstr ""
-#~ "<shortcut> <keycap>w</keycap> </shortcut> <guimenu>Montage vidéo</"
-#~ "guimenu> <guimenuitem>Outil de découpage</guimenuitem>"
-
-#~ msgid ""
-#~ "<action>Select the Razor tool to use on the timeline.</action> This tool "
-#~ "will cut (razor) the clip into two pieces at the time selected."
-#~ msgstr ""
-#~ "<action>Choisir l'outil de découpage de la table de montage.</action> Cet "
-#~ "outil vous permet de découper en deux pièces les plans vidéo à "
-#~ "l'emplacement du curseur dans la table de montage."
-
-#~ msgid ""
-#~ "<shortcut> <keycap>e</keycap> </shortcut> <guimenu>Timeline</guimenu> "
-#~ "<guimenuitem>Spacer Tool</guimenuitem>"
-#~ msgstr ""
-#~ "<shortcut> <keycap>e</keycap> </shortcut> <guimenu>Montage vidéo</"
-#~ "guimenu> <guimenuitem>Outil de séparation</guimenuitem>"
-
-#~ msgid ""
-#~ "<action>Select the Spacer tool to use on the timeline.</action> This tool "
-#~ "lets you select all clips to the right of where you click on the timeline."
-#~ msgstr ""
-#~ "<action>Choisir l'outil de séparation de la table de montage.</action> "
-#~ "Cette outil vous permet de sélectionner tous les plans vidéo situés à la "
-#~ "droite du curseur dans la table de montage."
-
-#~ msgid ""
-#~ "<guimenu>Timeline</guimenu> <guimenuitem>Snap To Frames</guimenuitem>"
-#~ msgstr ""
-#~ "<guimenu>Montage vidéo</guimenu> <guimenuitem>Utiliser les trames</"
-#~ "guimenuitem>"
-
-#~ msgid "If checked, all operations will snap to the nearest frame."
-#~ msgstr ""
-#~ "Si cette option est activée, toutes les opérations faites sur les plans "
-#~ "vidéo dans la table de montage utiliseront les trames vidéo comme "
-#~ "éléments de travail."
-
-#~ msgid ""
-#~ "<guimenu>Timeline</guimenu> <guimenuitem>Snap To Border</guimenuitem>"
-#~ msgstr ""
-#~ "<guimenu>Montage vidéo</guimenu> <guimenuitem>Utiliser les bords</"
-#~ "guimenuitem>"
-
-#~ msgid ""
-#~ "If checked, moving and resizing clips will snap to nearby clip borders "
-#~ "and the seek marker."
-#~ msgstr ""
-#~ "Si cette option est activée, le déplacement et le redimensionnement des "
-#~ "plans vidéo seront réalisés en utilisant les bords et les marqueurs de la "
-#~ "table de montage."
-
-#~ msgid "The Render Menu"
-#~ msgstr "Le menu « Rendu vidéo »"
-
-#~ msgid "<guimenu>Render</guimenu> <guimenuitem>Export Timeline</guimenuitem>"
-#~ msgstr ""
-#~ "<guimenu>Rendu vidéo</guimenu> <guimenuitem>Exporter le montage vidéo</"
-#~ "guimenuitem>"
-
-#~ msgid "Export the timeline to a video clip. Also known as rendering down."
-#~ msgstr ""
-#~ "Exporte le contenu de la table de montage dans une séquence vidéo. Cette "
-#~ "opération est aussi appelée le « rendu vidéo »."
-
-#~ msgid "The Layout Menu"
-#~ msgstr "Le menu « Fenêtre »"
-
-#~ msgid ""
-#~ "<shortcut> <keycap>F9</keycap> </shortcut> <guimenu>Layout Menu</guimenu> "
-#~ "<guimenuitem>Load Layout 1</guimenuitem>"
-#~ msgstr ""
-#~ "<shortcut> <keycap>F9</keycap> </shortcut> <guimenu>Fenêtre</guimenu> "
-#~ "<guimenuitem>Charger la fenêtre 1</guimenuitem>"
-
-#~ msgid "Loads up a previously saved screen layout."
-#~ msgstr ""
-#~ "Charge la configuration de la fenêtre d'édition vidéo précédemment "
-#~ "enregistré."
-
-#~ msgid ""
-#~ "<shortcut> <keycap>F10</keycap> </shortcut> <guimenu>Layout Menu</"
-#~ "guimenu> <guimenuitem>Load Layout 2</guimenuitem>"
-#~ msgstr ""
-#~ "<shortcut> <keycap>F10</keycap> </shortcut> <guimenu>Fenêtre</guimenu> "
-#~ "<guimenuitem>Charger la fenêtre 2</guimenuitem>"
-
-#~ msgid ""
-#~ "<shortcut> <keycap>F11</keycap> </shortcut> <guimenu>Layout Menu</"
-#~ "guimenu> <guimenuitem>Load Layout 3</guimenuitem>"
-#~ msgstr ""
-#~ "<shortcut> <keycap>F11</keycap> </shortcut> <guimenu>Fenêtre</guimenu> "
-#~ "<guimenuitem>Charger la fenêtre 3</guimenuitem>"
-
-#~ msgid ""
-#~ "<shortcut> <keycap>F12</keycap> </shortcut> <guimenu>Layout Menu</"
-#~ "guimenu> <guimenuitem>Load Layout 4</guimenuitem>"
-#~ msgstr ""
-#~ "<shortcut> <keycap>F12</keycap> </shortcut> <guimenu>Fenêtre</guimenu> "
-#~ "<guimenuitem>Charger la fenêtre 4</guimenuitem>"
-
-#~ msgid ""
-#~ "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</"
-#~ "keycap><keycap>F9</keycap></keycombo> </shortcut> <guimenu>Layout Menu</"
-#~ "guimenu> <guimenuitem>Save Layout 1</guimenuitem>"
-#~ msgstr ""
-#~ "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</"
-#~ "keycap><keycap>F9</keycap></keycombo> </shortcut> <guimenu>Fenêtre</"
-#~ "guimenu> <guimenuitem>Enregistrer la fenêtre 1</guimenuitem>"
-
-#~ msgid "Saves the current screen layout to layout slot 1."
-#~ msgstr ""
-#~ "Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 1."
-
-#~ msgid ""
-#~ "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</"
-#~ "keycap><keycap>F10</keycap></keycombo> </shortcut> <guimenu>Layout Menu</"
-#~ "guimenu> <guimenuitem>Save Layout 2</guimenuitem>"
-#~ msgstr ""
-#~ "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</"
-#~ "keycap><keycap>F10</keycap></keycombo> </shortcut> <guimenu>Fenêtre</"
-#~ "guimenu> <guimenuitem>Enregistrer la fenêtre 2</guimenuitem>"
-
-#~ msgid "Saves the current screen layout to layout slot 2."
-#~ msgstr ""
-#~ "Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 2."
-
-#~ msgid ""
-#~ "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</"
-#~ "keycap><keycap>F11</keycap></keycombo> </shortcut> <guimenu>Layout Menu</"
-#~ "guimenu> <guimenuitem>Save Layout 3</guimenuitem>"
-#~ msgstr ""
-#~ "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</"
-#~ "keycap><keycap>F11</keycap></keycombo> </shortcut> <guimenu>Fenêtre</"
-#~ "guimenu> <guimenuitem>Enregistrer la fenêtre 3</guimenuitem>"
-
-#~ msgid "Saves the current screen layout in layout slot 3."
-#~ msgstr ""
-#~ "Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 3."
-
-#~ msgid ""
-#~ "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</"
-#~ "keycap><keycap>F12</keycap></keycombo> </shortcut> <guimenu>Layout Menu</"
-#~ "guimenu> <guimenuitem>Save Layout 4</guimenuitem>"
-#~ msgstr ""
-#~ "<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</"
-#~ "keycap><keycap>F12</keycap></keycombo> </shortcut> <guimenu>Fenêtre</"
-#~ "guimenu> <guimenuitem>Enregistrer la fenêtre 4</guimenuitem>"
-
-#~ msgid "Saves the current screen layout in layout slot 4."
-#~ msgstr ""
-#~ "Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 4."
-
-#~ msgid "The Settings Menu"
-#~ msgstr "Le menu « Configuration »"
-
-#~ msgid "<guimenu>Settings</guimenu> <guimenuitem>Show Toolbar</guimenuitem>"
-#~ msgstr ""
-#~ "<guimenu>Configuration</guimenu> <guimenuitem>Afficher la barre d'outils</"
-#~ "guimenuitem>"
-
-#~ msgid "Show/hide the toolbars."
-#~ msgstr "Affiche ou cache la barre d'outils."
-
-#~ msgid ""
-#~ "<guimenu>Settings</guimenu> <guimenuitem>Show Statusbar</guimenuitem>"
-#~ msgstr ""
-#~ "<guimenu>Configuration</guimenu> <guimenuitem>Afficher la barre d'état</"
-#~ "guimenuitem>"
-
-#~ msgid "Show/Hide the status bar."
-#~ msgstr "Affiche ou cache la barre d'état."
-
-#~ msgid ""
-#~ "<guimenu>Settings</guimenu> <guimenuitem>Configure Shortcuts...</"
-#~ "guimenuitem>"
-#~ msgstr ""
-#~ "<guimenu>Configuration</guimenu> <guimenuitem>Configurer les raccourcis "
-#~ "clavier...</guimenuitem>"
-
-#~ msgid "Configure &kdenlive; keyboard shortcuts."
-#~ msgstr "Configure les raccourcis clavier de &kdenlive;."
-
-#~ msgid ""
-#~ "<guimenu>Settings</guimenu> <guimenuitem>Configure Toolbars...</"
-#~ "guimenuitem>"
-#~ msgstr ""
-#~ "<guimenu>Configuration</guimenu> <guimenuitem>Configurer les barres "
-#~ "d'outils...</guimenuitem>"
-
-#~ msgid "Configure the toolbars."
-#~ msgstr "Configure les barres d'outils de &kdenlive;."
-
-#~ msgid ""
-#~ "<guimenu>Settings</guimenu> <guimenuitem>Configure &kdenlive;...</"
-#~ "guimenuitem>"
-#~ msgstr ""
-#~ "<guimenu>Configuration</guimenu> <guimenuitem>Configurer &kdenlive;...</"
-#~ "guimenuitem>"
-
-#~ msgid "Configure &kdenlive;"
-#~ msgstr "Configure &kdenlive;"
-
-#~ msgid "The Help Menu"
-#~ msgstr "Le menu « Aide »"
-
-#~ msgid ""
-#~ "<guimenu>Help</guimenu> <guimenuitem>&kdenlive; Handbook</guimenuitem>"
-#~ msgstr ""
-#~ "<guimenu>Aide</guimenu> <guimenuitem>Manuel de &kdenlive;</guimenuitem>"
-
-#~ msgid "View the &kdenlive; handbook (this document)."
-#~ msgstr "Affiche le manuel de &kdenlive; (ce document)."
-
-#~ msgid ""
-#~ "<shortcut> <keycombo><keycap>Shift</keycap><keycap>F1</keycap></keycombo> "
-#~ "</shortcut> <guimenu>Help</guimenu> <guimenuitem>What's This?</"
-#~ "guimenuitem>"
-#~ msgstr ""
-#~ "<shortcut> <keycombo><keycap>Shift</keycap><keycap>F1</keycap></keycombo> "
-#~ "</shortcut> <guimenu>Aide</guimenu> <guimenuitem>Qu'est ce que c'est ?</"
-#~ "guimenuitem>"
-
-#~ msgid ""
-#~ "After selecting this, click on part of the gui to find out what it does."
-#~ msgstr ""
-#~ "Après avoir sélectionner cette option, cliquez sur une partie de "
-#~ "l'interface graphique pour obtenir de de plus amples informations la "
-#~ "concernant."
-
-#~ msgid "<guimenu>Help</guimenu> <guimenuitem>Report Bug...</guimenuitem>"
-#~ msgstr ""
-#~ "<guimenu>Aide</guimenu> <guimenuitem>Rapport de bogue...</guimenuitem>"
-
-#~ msgid "Report a bug about &kdenlive;"
-#~ msgstr "Rapporte un bogue à propos de &kdenlive;"
-
-#~ msgid "<guimenu>Help</guimenu> <guimenuitem>About &kdenlive;</guimenuitem>"
-#~ msgstr ""
-#~ "<guimenu>Aide</guimenu> <guimenuitem>À propos de &kdenlive;</guimenuitem>"
-
-#~ msgid ""
-#~ "See information about &kdenlive;, including the license, authors and "
-#~ "contributers."
-#~ msgstr ""
-#~ "Affiche les informations concernant &kdenlive;, dont la licence, les "
-#~ "auteurs, et les contributeurs."
-
-#~ msgid "<guimenu>Help</guimenu> <guimenuitem>About KDE</guimenuitem>"
-#~ msgstr "<guimenu>Aide</guimenu> <guimenuitem>À propos de KDE</guimenuitem>"
-
-#~ msgid "See information about the KDE project."
-#~ msgstr "Affiche les informations concernant le projet KDE."
-
-#~ msgid "Developer's Guide to &kdenlive;"
-#~ msgstr "Le guide du développeur de &kdenlive;"
-
-#~ msgid "To be written."
-#~ msgstr "À faire..."
-
-#~ msgid "Known Issues, Workarounds and Recovery Procedures"
-#~ msgstr "Problèmes connus et solutions"
-
-#~ msgid ""
-#~ "If &kdenlive; or one of the &piave; renderers crashes, it is possible "
-#~ "that it will prevent the current or and new copies of &kdenlive; from "
-#~ "running correctly."
-#~ msgstr ""
-#~ "Si une session de &kdenlive; ou une des sessions de &piave; s'arrête "
-#~ "anormalement, il est possible que la session courante ou une nouvelle "
-#~ "session de &kdenlive; ne puisse pas correctement s'exécuter."
-
-#~ msgid ""
-#~ "There are two reasons why this may happen. The first is if one of the "
-#~ "&piave; processes did not shut down on the previous run of &kdenlive;. "
-#~ "The simple solution to this is to close down &kdenlive; and type from the "
-#~ "command line:"
-#~ msgstr ""
-#~ "Il y a deux raisons à ce problème. La première est qu'une des sessions de "
-#~ "&piave; ne s'arrête pas correctement lors d'une précédente session de "
-#~ "&kdenlive;. La solution la plus simple est d'arrêter &kdenlive; et de "
-#~ "saisir la ligne de commande suivante :"
-
-#~ msgid "<prompt>%</prompt> <userinput>killall -9 piave</userinput>"
-#~ msgstr "<prompt>%</prompt> <userinput>killall -9 piave</userinput>"
-
-#~ msgid ""
-#~ "This will kill any stray &piave; processes, and should allow you to run "
-#~ "&kdenlive; normally again."
-#~ msgstr ""
-#~ "Cette opération arrêtera toutes les instances du programme &piave;. De "
-#~ "cette manière, &kdenlive; doit pouvoir s'exécuter correctement."
-
-#~ msgid ""
-#~ "If you try the above and it says <quote>piave:no process killed</quote> "
-#~ "then it may be that one of the ports that &piave; listens on has not yet "
-#~ "been freed after the previous run. Wait for about one minute before "
-#~ "starting &kdenlive; again - the TCP port will time out and become usable "
-#~ "again."
-#~ msgstr ""
-#~ "Si la ligne de commande précédente vous renvoie un message du genre "
-#~ "<quote>piave : no process killed</quote>, il est fort probable que des "
-#~ "ports de communication associés au programme &piave; n'ont pas été libéré "
-#~ "lors d'une précédente instance du programme. Attendez une minute avant de "
-#~ "relancer une nouvelle session de &kdenlive; (les ports TCP devrai être "
-#~ "normalement libérés après cette durée)."
-
-#~ msgid "Questions and Answers"
-#~ msgstr "Questions fréquemment posées (FAQ)"
-
-#~ msgid ""
-#~ "When I add clips to the project, the times show up as 'unknown'. I know "
-#~ "these clips are valid, why does this happen?"
-#~ msgstr ""
-#~ "Quand j'ajoute des plans vidéo au projet, la durée des fichiers vidéo est "
-#~ "annotée « inconnue ». Ces fichiers sont pourtant des fichiers vidéo dont "
-#~ "le format est connu. Que se passe t'il ?"
-
-#, fuzzy
-#~ msgid ""
-#~ "This is a sign that something has gone wrong with &piave;. Whilst &kapp; "
-#~ "will do it's best to pull itself back into working order, this is still "
-#~ "relatively new software and it doesn't manage it as often as one would "
-#~ "hope! The best solution is to quit &kapp; (if you have done any work, "
-#~ "then you are quite safe to save it), perform the following operation: "
-#~ "<screen width=\"40\">\n"
-#~ "                                                <prompt>%</prompt> "
-#~ "<userinput>killall -9 piave</userinput>.\n"
-#~ "                                        </screen> Wait a few seconds, and "
-#~ "then restart kdenlive."
-#~ msgstr ""
-#~ "Ce message est du à une non reconnaissance du format vidéo par le "
-#~ "programme &piave;. Comme &kapp; est une application encore récente, "
-#~ "certain dysfonctionnements ne sont pas encore correctement gérés. La "
-#~ "meilleure solution à ce problème et de quitter &kapp; (en enregistrant "
-#~ "votre travail préalablement), et d'ouvrir une console en saisissant les "
-#~ "lignes de commande suivantes : <screen width=\"40\">\n"
-#~ "\t\t\t\t\t\t<prompt>%</prompt> <userinput>killall -9 piave</userinput>.\n"
-#~ "\t\t\t\t\t</screen> Attendez quelques secondes et relancez Kdenlive."
-
-#~ msgid ""
-#~ "The &kdenlive; user interface is not keeping up when I play a video! What "
-#~ "is wrong?"
-#~ msgstr ""
-#~ "L'interface de &kdenlive; ne tient pas compte des opérations de "
-#~ "l'utilisateur lorsqu'un plan vidéo est prévisualisé. Quel est le "
-#~ "problème ?"
-
-#~ msgid ""
-#~ "Go to the debug panel and try checking the Ignore Incoming Messages "
-#~ "button. This will turn off output to the debug window, which can slow the "
-#~ "interface down considerably whilst playing back videos, especially when "
-#~ "they are long in length."
-#~ msgstr ""
-#~ "Aller dans l'onglet « Déboguer » et essayer de valider l'option « Ignorer "
-#~ "les messages entrants ». Cela désactivera l'affichage des messages de "
-#~ "débogage qui peuvent ralentir considérablement l'interface graphique "
-#~ "pendant la lecture de longs plans vidéo."
-
-#~ msgid "Credits and License"
-#~ msgstr "Remerciements et licences"
-
-#~ msgid "&kapp;"
-#~ msgstr "&kapp;"
-
-#~ msgid ""
-#~ "Program copyright 2002-2003 Jason Wood <email>jasonwood@blueyonder.co.uk</"
-#~ "email>"
-#~ msgstr ""
-#~ "Copyright Jason Wood <email>jasonwood@blueyonder.co.uk</email>, 2002-2003"
-
-#~ msgid "Contributors:"
-#~ msgstr "Contributeurs :"
-
-#~ msgid ""
-#~ "Caulier Gilles <email>caulier.Gilles@free.fr</email> : &kdenlive; and "
-#~ "&piave; i18n, French translations, splashscreen"
-#~ msgstr ""
-#~ "Caulier Gilles <email>caulier.Gilles@free.fr</email> : "
-#~ "internationalisation des programmes &kdenlive; et &piave;, traductions "
-#~ "Françaises, logo de démarrage."
-
-#~ msgid ""
-#~ "Rolf Dubitzky <email>dubitzky@pktw06.phy.tu-dresden.de</email> : &piave; "
-#~ "implementations"
-#~ msgstr ""
-#~ "Rolf Dubitzky <email>dubitzky@pktw06.phy.tu-dresden.de</email> : auteur "
-#~ "et mainteneur du programme &piave;."
-
-#~ msgid ""
-#~ "Documentation copyright 2003 Jason Wood <email>jasonwood@blueyonder.co."
-#~ "uk</email>"
-#~ msgstr ""
-#~ "Documentation de Kdenlive : copyright Jason Wood "
-#~ "<email>jasonwood@blueyonder.co.uk</email>, 2003 "
-
-#~ msgid "CREDIT_FOR_TRANSLATORS"
-#~ msgstr ""
-#~ "<para>Traductions : Caulier Gilles <email>caulier.gilles@free.fr</email>."
-#~ "</para>"
-
-#~ msgid "Installation"
-#~ msgstr "Installation"
-
-#~ msgid "How to obtain &kdenlive;"
-#~ msgstr "Comment obtenir &kdenlive;"
-
-#~ msgid ""
-#~ "The &kdenlive; WEB site is <ulink url=\"http://www.uchian.pwp.blueyonder."
-#~ "co.uk/kdenlive.html\">http://www.uchian.pwp.blueyonder.co.uk/kdenlive."
-#~ "html</ulink>. &kdenlive; can be found in the SourceForge project page on "
-#~ "<ulink url=\"http://sourceforge.net/projects/kdenlive/\">http://"
-#~ "sourceforge.net/projects/kdenlive/</ulink>"
-#~ msgstr ""
-#~ "La page WEB de &kdenlive; est <ulink url=\"http://www.uchian.pwp."
-#~ "blueyonder.co.uk/kdenlive.html\">http://www.uchian.pwp.blueyonder.co.uk/"
-#~ "kdenlive.html</ulink>. &kdenlive; peut être trouvé à la page du projet "
-#~ "<ulink url=\"http://sourceforge.net/projects/kdenlive/\">http://"
-#~ "sourceforge.net/projects/kdenlive/</ulink> du serveur SourceForge."
-
-#~ msgid "Requirements"
-#~ msgstr "Programmes requis"
-
-#~ msgid ""
-#~ "In order to successfully use &kdenlive;, you need KDE 3.0 or higher. "
-#~ "Additionally, you need piave in order to do anthing useful - kdenlive "
-#~ "itself is after all, just an interface :-)"
-#~ msgstr ""
-#~ "Pour pouvoir utiliser &kdenlive;, il est nécessaire d'avoir "
-#~ "l'environnement de bureau KDE en version 3.0 ou supérieure. De plus, il "
-#~ "est nécessaire d'avoir le programme « piave » pour pouvoir faire des "
-#~ "opérations sur les fichiers vidéo. Kdenlive est une interface graphique "
-#~ "pour ce programme."
-
-#~ msgid ""
-#~ "All required libraries as well as &kdenlive; itself can be found on or "
-#~ "via <ulink url=\"http://pwp.blueyonder.co.uk/kdenlive.html\">The "
-#~ "&kdenlive; home page</ulink>."
-#~ msgstr ""
-#~ "Toutes les bibliothèques ainsi le programme &kdenlive; peuvent être "
-#~ "trouvés sur <ulink url=\"http://pwp.blueyonder.co.uk/kdenlive.html\">la "
-#~ "page WEB du projet</ulink>."
-
-#~ msgid ""
-#~ "You can find a list of changes at <ulink url=\"http://pwp.blueyonder.co."
-#~ "uk/kdenlive.html\">http://pwp.blueyonder.co.uk/kdenlive.html</ulink>. "
-#~ "FIXME : this link does not actually point at a changelog."
-#~ msgstr ""
-#~ "Vous pouvez trouver la liste des dernières modifications de Kdenlive à "
-#~ "l'adresse <ulink url=\"http://pwp.blueyonder.co.uk/kdenlive.html\">http://"
-#~ "pwp.blueyonder.co.uk/kdenlive.html</ulink>."
-
-#~ msgid "Compilation and Installation"
-#~ msgstr "Compilation et installation"
-
-#~ msgid ""
-#~ "In order to compile and install &kdenlive; on your system, type the "
-#~ "following in the base directory of the &kdenlive; distribution:"
-#~ msgstr ""
-#~ "Pour compiler et installer &kdenlive; sur votre système, saisissez les "
-#~ "lignes de commande suivantes dans le dossier de base contenant les "
-#~ "sources du programme :"
-
-#, fuzzy
-#~ msgid ""
-#~ "<prompt>%</prompt> <userinput>./configure --prefix=`kde-config --prefix`</"
-#~ "userinput>"
-#~ msgstr "<prompt>%</prompt> <userinput>./configure --help</userinput>"
-
-#~ msgid "<prompt>%</prompt> <userinput>make</userinput>"
-#~ msgstr "<prompt>%</prompt> <userinput>make</userinput>"
-
-#~ msgid "<prompt>%</prompt> <userinput>make install</userinput>"
-#~ msgstr "<prompt>%</prompt> <userinput>make install</userinput>"
-
-#~ msgid ""
-#~ "Additional parameters for ./configure script may be required. Type the "
-#~ "following in the base directory of the &kdenlive; distribution:"
-#~ msgstr ""
-#~ "Des paramètres supplémentaires peuvent être nécessaires au script «./"
-#~ "configure ». Saisissez la ligne de commande suivante dans le dossier de "
-#~ "base contenant les sources du programme :"
-
-#~ msgid "<prompt>%</prompt> <userinput>./configure --help</userinput>"
-#~ msgstr "<prompt>%</prompt> <userinput>./configure --help</userinput>"
-
-#~ msgid ""
-#~ "Since &kdenlive; uses autoconf and automake you should have not trouble "
-#~ "compiling it. Should you run into problems please report them to "
-#~ "<email>jasonwood@blueyonder.co.uk</email>."
-#~ msgstr ""
-#~ "Depuis que &kdenlive; utilise les programmes « autoconf » et "
-#~ "« automake », vous ne devriez pas avoir de problèmes pour compiler celui "
-#~ "ci. Si vous rencontrez des difficultés, veulliez contacter l'auteur à "
-#~ "l'adresse <email>jasonwood@blueyonder.co.uk</email>."
+#. Tag: title
+#: index.docbook:46
+#, no-c-format
+msgid "The &kdenlive; Handbook"
+msgstr "Le manuel de &kdenlive;"
+
+#. Tag: author
+#: index.docbook:49
+#, fuzzy, no-c-format
+msgid ""
+"<firstname>Jason</firstname> <othername>M.</othername> <surname>Wood</"
+"surname>"
+msgstr ""
+"<firstname>Jason</firstname> <othername>M.</othername> <surname>Wood</"
+"surname> <affiliation> <address><email>jasonwood@blueyonder.co.uk</email></"
+"address> </affiliation>"
+
+#. Tag: email
+#: index.docbook:54
+#, no-c-format
+msgid "jasonwood@blueyonder.co.uk"
+msgstr ""
+
+#. Tag: author
+#: index.docbook:60
+#, fuzzy, no-c-format
+msgid "<firstname>Gilles</firstname> <surname>Caulier</surname>"
+msgstr ""
+"<firstname>Jason</firstname> <othername>M.</othername> <surname>Wood</"
+"surname> <affiliation> <address><email>jasonwood@blueyonder.co.uk</email></"
+"address> </affiliation>"
+
+#. Tag: email
+#: index.docbook:64
+#, no-c-format
+msgid "caulier.gilles@free.fr"
+msgstr ""
+
+#. Tag: trans_comment
+#: index.docbook:69
+#, no-c-format
+msgid "ROLES_OF_TRANSLATORS"
+msgstr ""
+"<othercredit role=\"translator\"> <firstname>CAULIER</"
+"firstname><surname>Gilles</surname> <affiliation><address><email>caulier."
+"gilles@free.fr</email></address></affiliation> <contrib>Traductions "
+"Française </contrib></othercredit>"
+
+#. Tag: holder
+#: index.docbook:73
+#, no-c-format
+msgid "Jason Wood"
+msgstr "Jason Wood"
+
+#. Tag: para
+#: index.docbook:93
+#, no-c-format
+msgid "&kdenlive; is a non-linear video editor for KDE."
+msgstr "&kdenlive; est une application de montage vidéo non linéaire pour KDE."
+
+#. Tag: para
+#: index.docbook:97
+#, no-c-format
+msgid ""
+"WARNING - this document has not yet been finished. In particular, "
+"information on contributors to &kapp;, requirements for &kapp;, installation "
+"instructions for &kapp; and the changelog info are all wrong at present. "
+"Also, please contact me at <email>jasonwood@blueyonder.co.uk</email> rather "
+"than bugging any of the kde mailing lists."
+msgstr ""
+"ATTENTION !!! Ce document n'est pas encore complètement terminé. Les "
+"informations concernant les contributeurs de &kapp;, les programmes requis, "
+"les instructions d'installation, et les informations de changement de "
+"version ne sont pas à jour ou sont incomplètes. Veuillez prendre contact "
+"avec l'auteur à l'adresse <email>jasonwood@blueyonder.co.uk</email> pour de "
+"plus amples informations."
+
+#. Tag: para
+#: index.docbook:105
+#, no-c-format
+msgid "Cheers,"
+msgstr "Bonne lecture"
+
+#. Tag: para
+#: index.docbook:108
+#, no-c-format
+msgid "Jason"
+msgstr "Jason"
+
+#. Tag: keyword
+#: index.docbook:119
+#, no-c-format
+msgid "<keyword>KDE</keyword>"
+msgstr "<keyword>KDE</keyword>"
+
+#. Tag: keyword
+#: index.docbook:120
+#, no-c-format
+msgid "video editor"
+msgstr "Montage vidéo"
+
+#. Tag: keyword
+#: index.docbook:121
+#, no-c-format
+msgid "kdenlive"
+msgstr "kdenlive"
+
+#. Tag: title
+#: index.docbook:138
+#, no-c-format
+msgid "Introduction"
+msgstr "Introduction"
+
+#. Tag: para
+#: index.docbook:145
+#, no-c-format
+msgid ""
+"&kapp; is a non-linear video editor for KDE. Please report any problems or "
+"feature requests to <email>jasonwood@blueyonder.co.uk</email>"
+msgstr ""
+"&kapp; est une application de montage vidéo non linéaire pour KDE. Pour "
+"rapporter des bogues ou pour proposer de nouvelles fonctionnalités, Veulliez "
+"envoyer un courrier électronique à <email>jasonwood@blueyonder.co.uk</email>"
+
+#. Tag: title
+#: index.docbook:151
+#, no-c-format
+msgid "What is a video editor?"
+msgstr "Qu'est ce qu'un logiciel de montage vidéo ?"
+
+#. Tag: para
+#: index.docbook:153
+#, no-c-format
+msgid ""
+"A video editor is an application that allows you to create a new video out "
+"of various scenes from one or more other videos."
+msgstr ""
+"Un logiciel de montage vidéo est une application qui permet de créer une "
+"séquence vidéo à partir de plusieurs plans vidéo indépendants ou à partir "
+"d'autres séquences vidéo."
+
+#. Tag: title
+#: index.docbook:159
+#, no-c-format
+msgid "What is the difference between linear editing and non-linear editing?"
+msgstr "Différences entre le montage vidéo « linéaire » et « non linéaire »"
+
+#. Tag: para
+#: index.docbook:161
+#, no-c-format
+msgid ""
+"Before editing video on computer was possible, most editing was done on "
+"linear editors - these work by having essentially, two video recorders. The "
+"first would hold the video that you are editing together, and the second "
+"would be used to find the next clip that you want to record. Find a clip, "
+"record it, find the next clip, record it. This is called linear editing "
+"because the medium of tape forced things to be edited sequentially. If you "
+"have edited 10 minutes worth of footage together, and decide that you made a "
+"mistake after five minutes, you can't just \"push\" the last five minutes "
+"around to add space for new clips."
+msgstr ""
+"Dans le passé, le montage vidéo sur l'ordinateur était possible à l'aide "
+"d'un éditeur vidéo dit « linéaire », en utilisant essentiellement deux "
+"magnétoscopes. Le premier contenait les séquences vidéo cibles, et le second "
+"était employé pour rechercher les plans vidéo à monter dans les séquences "
+"vidéo cibles. L'opération consistait à trouver un plan vidéo, à "
+"l'enregistrer dans la séquence vidéo cible, à trouver le plan vidéo suivant, "
+"à l'enregistrer dans une autre séquence vidéo cible, etc. Cette méthode "
+"s'appelle « l'édition vidéo linéaire » car l'utilisation de bande vidéo "
+"nécessitait une édition des séquences vidéo de manières séquentielles. Par "
+"exemple, il est très difficile de libérer de l'espace vide pour ajouter un "
+"nouveau plan vidéo à une séquence vidéo d'une durée globale de 10 minutes, "
+"après les cinq premières minutes de celle ci."
+
+#. Tag: para
+#: index.docbook:172
+#, no-c-format
+msgid ""
+"Non-linear editing is by far a more flexible way of editing. You can place "
+"clips anywhere within your final video (in &kdenlive;, this is represented "
+"via the timeline), and you can move them around as much as you want, "
+"rearrange them in a completely different order. Best of all, at any point "
+"during this you can press play and (with a sufficiently powerful computer) "
+"watch back what you have done there and then."
+msgstr ""
+"Le montage vidéo « non linéaire » est un procédé plus flexible. Vous pouvez "
+"placer des nouveaux plans vidéo n'importe où dans votre séquence vidéo cible "
+"(dans &kdenlive;, ceci est représenté par l'intermédiaire de la table de "
+"montage), et les déplacer n'importe où autant de fois que vous voulez. Vous "
+"pouvez aussi les réarranger dans un ordre complètement différent et avec un "
+"ordinateur suffisamment puissant, observer le résultat final."
+
+#. Tag: title
+#: index.docbook:183
+#, no-c-format
+msgid "Quick Start Guide"
+msgstr "Présentation rapide"
+
+#. Tag: para
+#: index.docbook:185
+#, no-c-format
+msgid ""
+"Ok, so you have started &kdenlive; for the first time and want to dive "
+"straight into creating your own video. This quick start guide will take you "
+"from start to finish of making your own video."
+msgstr ""
+"&kdenlive; est une application qui va vous faire plonger dans l'univers du "
+"montage vidéo numérique. Cette présentation rapide vous aidera à réaliser "
+"quelques opérations de base pour le montage de votre premier film."
+
+#. Tag: title
+#: index.docbook:192
+#, no-c-format
+msgid "The Main Window"
+msgstr "La fenêtre principale"
+
+#. Tag: para
+#: index.docbook:193
+#, no-c-format
+msgid ""
+"When you first start &kdenlive;, you will have a window looking something "
+"like this :"
+msgstr ""
+"Lorsque vous lancez &kdenlive; pour la première fois, vous devez obtenir une "
+"fenêtre similaire à celle ci :"
+
+#. Tag: phrase
+#: index.docbook:203
+#, no-c-format
+msgid "The main window"
+msgstr "La fenêtre principale"
+
+#. Tag: para
+#: index.docbook:208
+#, no-c-format
+msgid ""
+"In the default layout, there are three areas of the main window. Whilst all "
+"layouts int &kdenlive; are fully configurable, it is assumed for this "
+"tutorial that you are using the default layout."
+msgstr ""
+"Dans l'interface graphique par défaut de &kdenlive;, il y a trois panneaux "
+"importants. Les positions de tous ces panneaux peuvent être configurés "
+"individuellement en fonction de vos besoins."
+
+#. Tag: title
+#: index.docbook:215
+#, no-c-format
+msgid "The Project Panel"
+msgstr "Le panneau du projet"
+
+#. Tag: phrase
+#: index.docbook:222
+#, no-c-format
+msgid "The project panel"
+msgstr "Le panneau du projet"
+
+#. Tag: para
+#: index.docbook:226
+#, no-c-format
+msgid ""
+"The panel to the top left holds various informational and editing panels "
+"about the current project. Of most interest to us for this tutorial is the "
+"Project List. This window shows which video clips are in the project."
+msgstr ""
+"Ce panneau propose différents options nécessaires au montage vidéo du "
+"projet. L'onglet le plus important est la liste du projet. Il affiche "
+"l'ensemble des plans vidéo qui sont inclus dans le projet."
+
+#. Tag: title
+#: index.docbook:234
+#, no-c-format
+msgid "The Monitor Panel"
+msgstr "Le panneau de prévisualisation"
+
+#. Tag: phrase
+#: index.docbook:241
+#, no-c-format
+msgid "The monitor panel"
+msgstr "Le panneau de prévisualisation"
+
+#. Tag: para
+#: index.docbook:245
+#, no-c-format
+msgid ""
+"The panel to the top right holds the various monitors that &kdenlive; uses. "
+"The workspace monitor displays the final video - what our final edit will "
+"look like. The clip monitor is used to preview clips, and to select a "
+"section of a clip to add to the timeline."
+msgstr ""
+"Ce panneau présente la liste des fenêtres de prévisualisation de &kdenlive;. "
+"L'onglet « Montage vidéo » affiche le montage vidéo final. L'onglet « Plan "
+"vidéo » affiche une prévisualisation du plan vidéo courant, et permet de "
+"sélectionner une section d'un plan vidéo à ajouter à la table de montage."
+
+#. Tag: title
+#: index.docbook:254 index.docbook:533
+#, no-c-format
+msgid "The Timeline"
+msgstr "La table de montage vidéo"
+
+#. Tag: phrase
+#: index.docbook:261 index.docbook:315
+#, no-c-format
+msgid "The timeline"
+msgstr "La table de montage vidéo"
+
+#. Tag: para
+#: index.docbook:265
+#, no-c-format
+msgid ""
+"The panel at the bottom of the window holds the timeline. The timeline gives "
+"you a visual representation of your project, and shows when clips start, "
+"when they end, and in the case of overlapping clips, which one will actually "
+"be used (whilst the architecture is mostly in place, &kdenlive;/&piave; do "
+"not as yet support effects. This will be added in &kdenlive;/&piave; 0.3.0"
+msgstr ""
+"Le panneau située en bas de la fenêtre principale est appelée la table de "
+"montage vidéo. Elle offre une représentation visuelle de votre projet. Elle "
+"affiche l'état de lecture et de non lecture des plans vidéo, le "
+"chevauchement de plans vidéo, et le plan vidéo courant. Les versions "
+"actuelles de &kdenlive; / &piave; ne gère pas encore les effets spéciaux. "
+"Les futures versions implanteront cette fonctionnalité et elle sera visible "
+"dans la table de montage."
+
+#. Tag: title
+#: index.docbook:276
+#, no-c-format
+msgid "Adding clips to your project"
+msgstr "Ajouter un plan vidéo à votre projet"
+
+#. Tag: para
+#: index.docbook:278
+#, no-c-format
+msgid ""
+"Now that you have a little understanding about the layout of &kdenlive;, it "
+"is time to add some clips to the project. Now, it goes without saying that "
+"to get any further, you will need to have some clips on your computer that "
+"you can use. At this moment in time, &kdenlive; does not include capture "
+"capabilities, and so you must use another application to get the clips that "
+"you want. I recommend Kino, which you can download from <ulink url=\"http://"
+"kino.schirmacher.de/\">http://kino.schirmacher.de/</ulink>."
+msgstr ""
+"Maintenant que vous avez une vue d'ensemble de &kdenlive;, il est temps "
+"d'ajouter quelques plans vidéo à votre projet. Vous devez disposer de "
+"quelques plans vidéo sur votre ordinateur pour réaliser cette opération. "
+"Actuellement, &kdenlive; ne dispose pas encore des fonctionnalités de "
+"capture vidéo, et vous devez utiliser une autre application pour réaliser "
+"cette opération. Nous recommandons le programme « kino » qui peut être "
+"téléchargé à l'adresse <ulink url=\"http://kino.schirmacher.de/\">http://"
+"kino.schirmacher.de/</ulink>."
+
+#. Tag: para
+#: index.docbook:288
+#, no-c-format
+msgid ""
+"Now that you have some clips, you can add them to your project. Select the "
+"Project List tab on the project pane, and then right click on it to bring up "
+"the context menu. From here, select <guimenuitem>Add Clips</guimenuitem> to "
+"bring up a standard &kde; open dialog. Find your clips, select as many as "
+"you want to add, and they will be added!"
+msgstr ""
+"Après avoir récupérer quelques plans vidéo sur votre ordinateur, vous "
+"pourrez les ajouter à votre projet. Sélectionnez l'onglet « Projet » dans le "
+"panneau relatif au projet, et activez le menu contextuel avec le bouton "
+"droit de la souris. Sélectionnez l'option <guimenuitem>Ajouter des plans "
+"vidéo</guimenuitem> qui ouvrira la boîte de dialogue de sélection de "
+"fichiers de &kde;. Rechercher vos plans vidéo, choisissez les, et validez "
+"votre sélection."
+
+#. Tag: para
+#: index.docbook:296
+#, no-c-format
+msgid ""
+"Attempting to add some invalid file types to the project may cause the "
+"underlying renderer to crash. This is a known bug, if it occurs, then simply "
+"save your project (it is safe to do so, although it is recommended that you "
+"save as a different filename), close &kdenlive; and restart. See the <link "
+"linkend=\"known-issues\">Known Issues</link> section for more details."
+msgstr ""
+"Si vous essayez d'ajouter des fichiers vidéo non valables dans la liste du "
+"projet, cela peut entraîner un arrêt anormal du programme de rendu vidéo "
+"(Piave). Ceci est un bogue connu. Lorsqu'il apparaît, enregistrer votre "
+"projet (si possible dans un nom diffèrent si c'est un projet déjà existant "
+"et en cours de modification), arrêter &kdenlive; et relancer le. Consulter "
+"la section <link linkend=\"known-issues\">Problèmes connus et solutions</"
+"link> pour plus de détails."
+
+#. Tag: para
+#: index.docbook:305
+#, no-c-format
+msgid ""
+"Your added clips will now appear in the project list, along with their "
+"duration and a few other pieces of information about them."
+msgstr ""
+"Les plans vidéo que vous avez ajouter doivent apparaître dans la liste du "
+"projet, avec leurs durées ainsi que d'autres informations."
+
+#. Tag: title
+#: index.docbook:321
+#, no-c-format
+msgid "Dragging clips to the timeline"
+msgstr "Glisser / déposer des plans vidéo dans la table de montage"
+
+#. Tag: para
+#: index.docbook:323
+#, no-c-format
+msgid ""
+"Now that you have some clips in your project, it is time to start editing "
+"them together into your dream video. There are a two basic ways in which to "
+"add a clip to the timeline."
+msgstr ""
+"Maintenant que vous avez quelques plans vidéo dans votre projet, vous pouvez "
+"commencer les opérations correspondantes au montage vidéo. Il existe deux "
+"méthodes pour ajouter un plan vidéo à la table de montage."
+
+#. Tag: para
+#: index.docbook:328
+#, no-c-format
+msgid ""
+"You can drag a clip directly from the project list. Select one of the clips "
+"that you have added to the project list, and drag it to the timeline. As "
+"soon as the mouse reaches a track, the clip will appear on the track. With "
+"this kind of drag, the entire duration of the clip is placed on the "
+"timeline. You can then edit the clip from the timeline."
+msgstr ""
+"Vous pouvez utiliser le « glisser / déposer » directement entre la liste du "
+"projet et la table de montage. Choisissez un plan vidéo dans la liste du "
+"projet et glisser le sur la table de montage à l'aide de la souris. La piste "
+"vidéo doit apparaître dans la table de montage et peut y être déplacer à "
+"volonté. Cette méthode place la totalité du plan vidéo dans la table de "
+"montage."
+
+#. Tag: para
+#: index.docbook:335
+#, no-c-format
+msgid ""
+"When you click on a clip in the project list, the clip monitor will "
+"automatically load the clip. You can then press play on clip monitor and get "
+"an idea as to which bits of the clip you actually want on the timeline. "
+"Then, position the seek marker to where you want your clip to start and "
+"click the \"inpoint\" button. Move to where you want the clip to end and "
+"click the \"outpoint\" button. Finally, you can drag this cut-down clip by "
+"clicking on the video on the clip monitor and dragging to the timeline. The "
+"clip that appears on the timeline will be that part of the clip between the "
+"in and out points on the monitor."
+msgstr ""
+"Lorsque vous cliquez sur un plan vidéo dans la liste du projet, l'onglet "
+"« Plan vidéo » du panneau de prévisualisation affichera automatiquement la "
+"première trame du plan vidéo. Vous pouvez appuyer sur le bouton de lecture "
+"pour avoir une idée du contenu avant de le placer dans la table de montage. "
+"Déplacez le curseur de lecture à la position ou vous voulez commencer votre "
+"plan et appuyez sur le bouton « Point d'entrée ». De même, déplacez le "
+"curseur de lecture à la position ou vous voulez terminer votre plan et "
+"appuyez sur le bouton « Point de sortie ». Enfin faite un "
+"« glisser / déposer » entre la prévisualisation du plan vidéo et la table de "
+"montage pour ajouter le plan vidéo. Celui ci apparaîtra découpé aux limites "
+"préalablement définies dans le panneau de prévisualisation."
+
+#. Tag: title
+#: index.docbook:348
+#, no-c-format
+msgid "Selecting Clips on the Timeline"
+msgstr "Sélection de plans vidéo dans la table de montage"
+
+#. Tag: para
+#: index.docbook:350
+#, no-c-format
+msgid ""
+"You can select a clip from the timeline by clicking the left mouse bouton. "
+"If you want to add clips to the current selection, hold down Shift while "
+"clicking on the clips you want to add. Finally, you can toggle whether a "
+"clip is selected or not by holding down Ctrl whilst clicking on it."
+msgstr ""
+"Vous pouvez sélectionner un plan vidéo dans la table de montage en clicquant "
+"dessus avec le bouton gauche de la souris. Si vous voulez ajouter des plans "
+"vidéo à la sélection courante, appuyez sur la touche « Maj » et sélectionnez "
+"de nouveaux plans vidéo dans la table de montage. Vous pouvez sélectionner "
+"ou désélectionner un plan vidéo d'une sélection en utilisant la touche "
+"« Ctrl » avec le bouton gauche de la souris."
+
+#. Tag: title
+#: index.docbook:359
+#, no-c-format
+msgid "Moving and Resizing Clips on the Timeline"
+msgstr ""
+"Déplacement et redimensionnement des plans vidéo dans la table de montage"
+
+#. Tag: para
+#: index.docbook:360
+#, no-c-format
+msgid ""
+"Moving the selected clips around on the timeline is as simple as clicking on "
+"them with the left mouse bouton and dragging them around. You can resize "
+"clips directly from the timeline. Simply move the mouse cursor to the the "
+"beginning or end of the clip you want to resize. Now, click and drag with "
+"the left mouse bouton to resize the clip."
+msgstr ""
+"Pour déplacer les plans vidéo dans la table de montage, utiliser le "
+"« glisser / déposer » avec le bouton gauche de la souris. Vous pouvez "
+"redimensionner un plan vidéo directement dans la table de montage en "
+"déplaçant le curseur de la souris sur le début ou la fin de celui ci, puis "
+"en utilisant le le « glisser / déposer » avec le bouton gauche de la souris "
+"afin d'obtenir la bonne dimension."
+
+#. Tag: para
+#: index.docbook:367
+#, no-c-format
+msgid ""
+"Resizing a clip changes it's in and outpoints. If you reselect the clip and "
+"look in the clip monitor, you will see that the in and out points on the "
+"monitor show the new positions."
+msgstr ""
+"Le redimensionnement d'un plan vidéo change automatiquement les points "
+"d'entrée et de sortie qui lui sont associés. Si vous resélectionnez le plan "
+"vidéo et que vous l'affichez dans la fenêtre de prévisualisation des plans "
+"vidéo, vous apercevrez alors leurs nouvelles positions."
+
+#. Tag: para
+#: index.docbook:373
+#, no-c-format
+msgid ""
+"It is not possible to resize a clip past it's length - if a clip is 30 "
+"seconds in length, then you will not be able to resize the clip so that it "
+"finishes playing 35 seconds into the clip!"
+msgstr ""
+"Il n'est pas possible de redimensionner un plan vidéo au dessus de sa taille "
+"d'origine. Par exemple, si un plan vidéo a une durée de 30 secondes, vous ne "
+"pourrez pas le redimensionner à une durée de 35 secondes."
+
+#. Tag: para
+#: index.docbook:379
+#, no-c-format
+msgid ""
+"When you are resizing and moving clips, there is a handy \"snap to\" "
+"feature, which will snap the edges of clips to other clips and the current "
+"seek position. This is useful for quickly lining clips up with each other, "
+"but in some cases may not be what you want. You can turn this behaviour on "
+"and off using the Timeline->Snap To Border menu item."
+msgstr ""
+"Quand vous redimensionnez et déplacez des plans vidéo, les options "
+"« Utiliser les trames » et « Utiliser les bords » du menu « Montage vidéo » "
+"vous permettent d'ajuster la position des plans vidéo dans la table de "
+"montage. Ceci peut être utile pour aligner rapidement l'un derrière l'autre "
+"les plans vidéo."
+
+#. Tag: title
+#: index.docbook:389
+#, no-c-format
+msgid "Removing clips from the timeline"
+msgstr "Suppression de plans vidéo dans la table de montage"
+
+#. Tag: para
+#: index.docbook:391
+#, no-c-format
+msgid ""
+"There are currently two ways to remove a clip from the timeline. The first "
+"way is to select the clip or clips that you want to delete, and to press "
+"<keycombo action=\"simul\"><keycap>delete</keycap></keycombo>."
+msgstr ""
+"Il existe deux méthodes pour supprimer un plan vidéo de la table de montage. "
+"La première est de sélectionner le plan ou les plans vidéo à supprimer et "
+"d'appuyer sur la touche <keycombo action=\"simul\"><keycap>Suppr</keycap></"
+"keycombo>."
+
+#. Tag: para
+#: index.docbook:396
+#, no-c-format
+msgid ""
+"The second way is to select the clips that you want to delete, and to drag "
+"them away from the timeline. As soon as the clips leave the timeline, they "
+"will disappear."
+msgstr ""
+"La seconde méthode consiste à sélectionner les plans vidéo et de les "
+"« glisser / déposer » en dehors de la table de montage."
+
+#. Tag: para
+#: index.docbook:402
+#, no-c-format
+msgid ""
+"It not yet decided if this behaviour is a good thing or a bad thing. It may "
+"be removed in later versions of &kdenlive;. You have been warned!"
+msgstr ""
+"L'équipe de développement n'a pas encore décidé si cette dernière méthode "
+"est correcte ou non. Elle pourrait être supprimé dans des versions futures "
+"de &kdenlive;"
+
+#. Tag: title
+#: index.docbook:411
+#, no-c-format
+msgid "Using &kdenlive;"
+msgstr "Utilisation de &kdenlive;"
+
+#. Tag: title
+#: index.docbook:418
+#, no-c-format
+msgid "The Project List"
+msgstr "La liste du projet"
+
+#. Tag: para
+#: index.docbook:420
+#, no-c-format
+msgid ""
+"The project list shows all of the clips that are available for this project."
+msgstr ""
+"La liste du projet affiche tous les plans vidéo qui sont disponibles dans le "
+"projet."
+
+#. Tag: para
+#: index.docbook:423
+#, no-c-format
+msgid ""
+"You can see the number of times that a particular clip is in use. This "
+"includes all usage of the clip - for instance, if a clip is being displayed "
+"in the clip monitor, then that counts as one usage for the clip. (FIXME - "
+"this behaviour is likely to change in the future)."
+msgstr ""
+"Vous pouvez voir le nombre de fois qu'un plan vidéo est utilisé dans une "
+"séquence vidéo. Ceci inclut tous les usages du plan vidéo, dont la "
+"prévisualisation de celui ci."
+
+#. Tag: title
+#: index.docbook:429
+#, no-c-format
+msgid "Adding Clips to the Project"
+msgstr "Ajouter un plan vidéo au projet"
+
+#. Tag: para
+#: index.docbook:430
+#, no-c-format
+msgid ""
+"If you drag a clip onto the timeline that is not in the project (for "
+"instance, if you drag a dv straight from konqueror to &kdenlive;), then it "
+"will be automatically added to the project for you."
+msgstr ""
+"Si vous utilisez le glisser / déposer sur la table de montage un plan vidéo "
+"qui n'est pas dans votre projet (par exemple en utilisant un fichier au "
+"format « DV » à partir de Konqueror), alors celui ci sera automatiquement "
+"ajouté au projet."
+
+#. Tag: para
+#: index.docbook:435
+#, no-c-format
+msgid ""
+"You can add clips to the projectlist yourself. Either use the project list "
+"context menu (right click on the window), or the Project menu on the menu "
+"bar. Select 'Add Clips' to bring up a file dialog in which you can select "
+"the clip you wish to add to this project. As long as the clips are valid, "
+"they will appear in the project list."
+msgstr ""
+"Vous pouvez ajouter vous même un plan vidéo dans la liste du projet. On "
+"utilise pour cela le menu contextuel de la liste du projet avec le bouton "
+"droit de la souris, ou le menu « Projet » dans la barre de menu de "
+"l'application. Sélectionnez l'option « Ajouter des plans vidéo » pour ouvrir "
+"une boîte de dialogue de sélection de fichiers. Si les fichiers vidéo "
+"choisis sont valides, il apparaîtront dans la liste du projet."
+
+#. Tag: title
+#: index.docbook:444
+#, no-c-format
+msgid "Deleting clips via the Project List"
+msgstr "Suppression des plans vidéo via la liste du projet"
+
+#. Tag: para
+#: index.docbook:445
+#, no-c-format
+msgid ""
+"Delete clips is currently non-functional - the only way to delete clips is "
+"to use clean-project."
+msgstr ""
+"La suppression de plans vidéo n'est pas encore opérationnelle. La seule "
+"manière de supprimer des plans vidéo est de purger le projet."
+
+#. Tag: title
+#: index.docbook:451
+#, no-c-format
+msgid "Examining Clip Properties"
+msgstr "Consultation des propriétés des plans vidéo"
+
+#. Tag: para
+#: index.docbook:452
+#, no-c-format
+msgid ""
+"Clip Properties is currently non-functional - there is no way to examine the "
+"format of a clip except by examining the debug output ;-)"
+msgstr ""
+"L'affichage des propriétes d'un plan vidéo n'est pas encore opérationnelle. "
+"La seule solution existante pour avoir des informations sur un fichier vidéo "
+"est d'utiliser la fenêtre de débogage."
+
+#. Tag: title
+#: index.docbook:458
+#, no-c-format
+msgid "Clean Project - Removing unused Clips"
+msgstr "Purger le projet - Suppression des plans vidéo non utilisés"
+
+#. Tag: para
+#: index.docbook:459
+#, no-c-format
+msgid ""
+"Use clean project to remove any clips from your project that are currently "
+"unused. This is great if your project list has become cluttered and you want "
+"to get a concise view of which clips exist. Cleaning a project will not "
+"alter your final edit in anyway - the only clips that are removed are those "
+"that are no longer in use anywhere."
+msgstr ""
+"Utiliser l'option « Purger le projet » pour supprimer de la liste du projet "
+"tous les plans vidéo non utilisés. Cette option est intéressante lorsque la "
+"liste du projet contient un très grand nombre de plans vidéo. La purge du "
+"projet n'affecte pas le montage vidéo final. Seul les plans vidéo qui ne "
+"sont pas utilisés dans le montage vidéo seront supprimés de la liste du "
+"projet."
+
+#. Tag: title
+#: index.docbook:470
+#, fuzzy, no-c-format
+msgid "<title>The Debug Panel</title>"
+msgstr "Le panneau de débogage"
+
+#. Tag: phrase
+#: index.docbook:477
+#, fuzzy, no-c-format
+msgid "<phrase>The Debug Panel</phrase>"
+msgstr "Le panneau de débogage"
+
+#. Tag: para
+#: index.docbook:481
+#, no-c-format
+msgid ""
+"The debug panel is of most use to developers of &kdenlive;. It gives a "
+"highly detailed account of what is going on behind the scenes of &kdenlive;. "
+"This section will not help you to understand the output of the debug panel, "
+"but will tell you why it looks like it is and how to operate it."
+msgstr ""
+"Le panneau de débogage est très utilisé par l'équipe de développement de "
+"&kdenlive;. Il affiche de nombreuses informations concernant les processus "
+"de traitement des plans vidéo effectués par &kdenlive;. Cette section ne "
+"vous aidera pas à comprendre les informations contenu dans le panneau de "
+"débogage, mais vous expliquera pourquoi il existe et comment il opère."
+
+#. Tag: para
+#: index.docbook:487
+#, no-c-format
+msgid ""
+"On the left, the debug panel shows a list of the renderers in use by "
+"&kdenlive;. Each renderer has a name that says which part of &kdenlive; it "
+"is used by. There are three such renderers in the current version of "
+"&kdenlive;. Clip monitor handles playback of video in the Clip Monitor. "
+"Workspace monitor handles playback in the Workspace Monitor. The Document "
+"renderer handles all other tasks, such as determining the lengths of video "
+"files, and exporting the final video footage."
+msgstr ""
+"À la gauche du panneau de débogage, on trouve la liste des processus "
+"nécessaires aux rendus vidéo de &kdenlive;. Chaque processus est nommé en "
+"fonction de son utilisation dans &kdenlive;. Il y a trois processus dans la "
+"version actuelle de &kdenlive;. Le processus « Plan vidéo » permet la "
+"prévisualisation des plans vidéo. Le processus « Montage vidéo » permet la "
+"prévisualisation du projet. Le processus « Projet » permet toutes les autres "
+"tâches, tel que la détermination des durées des plans vidéo et l'exportation "
+"finale du montage vidéo."
+
+#. Tag: para
+#: index.docbook:495
+#, no-c-format
+msgid ""
+"If you select one of the renderers from the list, the text area will show "
+"all debug output from the renderer. For general usage of &kdenlive;, you do "
+"not need to understand this, but it is very important when filing bug "
+"reports to send a copy of these messages - doing so will better aid us in "
+"fixing your problems. Click the Save Messages button to bring up a standard "
+"save dialog in which you can save the output."
+msgstr ""
+"Si vous choisissez un des processus de rendu vidéo dans la liste, la zone de "
+"texte affichera les messages de débogage correspondants. En général, il "
+"n'est pas nécessaire de connaître la signification des messages, mais dans "
+"certain cas il est important de pouvoir récupérer ces informations pour les "
+"rapports de bogues. Cliquez sur le bouton « Enregistrer les messages » pour "
+"préciser le fichier cible de sauvegarde des messages."
+
+#. Tag: para
+#: index.docbook:503
+#, no-c-format
+msgid ""
+"The Save Messages button will save output for all of the renderers. You do "
+"not need to save each renderer's output individually."
+msgstr ""
+"Le bouton « Enregistrer les messages » vous permet de sauvegarder une trace "
+"de tous les messages issus des programmes de rendu vidéo. Il n'est pas "
+"nécessaire de sauvegarder individuellement les vues de tous les programmes "
+"de rendu vidéo."
+
+#. Tag: para
+#: index.docbook:508
+#, no-c-format
+msgid ""
+"There is a checkbox on the debug panel that allows you to turn off the "
+"output of the debug messages. This may be necessary on slower machines or if "
+"you run &kdenlive; for a long time, as keeping track of the messages does "
+"slow &kdenlive; down, and will consume more and more memory the longer that "
+"&kdenlive; is running for."
+msgstr ""
+"Une option est disponible dans le panneau de débogage pour pouvoir activer "
+"ou désactiver l'affichage des messages de débogage. Cela peut être "
+"nécessaire sur les ordinateurs peu puissants, ou lorsque vous exécuter de "
+"longue session de &kdenlive;. En effet, l'affichage des messages de débogage "
+"ralentissent le programme et consomment beaucoup de mémoire."
+
+#. Tag: title
+#: index.docbook:517
+#, no-c-format
+msgid "The Effect List"
+msgstr "La liste des effets"
+
+#. Tag: para
+#: index.docbook:519 index.docbook:527
+#, no-c-format
+msgid "This is non-functional in the current version of &kdenlive;."
+msgstr ""
+"Cette fonctionnalité n'est pas encore implantée dans la version actuelle de "
+"&kdenlive;."
+
+#. Tag: title
+#: index.docbook:525
+#, no-c-format
+msgid "The Effect Setup Panel"
+msgstr "Le panneau de configuration des effets"
+
+#. Tag: para
+#: index.docbook:534 index.docbook:541
+#, no-c-format
+msgid "This is..."
+msgstr "À faire..."
+
+#. Tag: title
+#: index.docbook:540
+#, no-c-format
+msgid "The Clip Monitor"
+msgstr "La prévisualisation des plans vidéo"
+
+#. Tag: title
+#: index.docbook:547
+#, no-c-format
+msgid "The Workspace Monitor"
+msgstr "La prévisualisation du montage vidéo"
+
+#. Tag: para
+#: index.docbook:548
+#, no-c-format
+msgid ""
+"The workspace monitor shows the video that is the result of the current "
+"timeline. It works in a similar way to the clip monitor."
+msgstr ""
+"La prévisualisation du montage vidéo affiche la vidéo résultante du contenu "
+"de la table de montage. Son fonctionnement est similaire à la "
+"prévisualisation des plans vidéo."
+
+#. Tag: para
+#: index.docbook:552
+#, no-c-format
+msgid ""
+"Inpoints and outpoints on the workspace monitor achieve the same purpose as "
+"they do on the clip monitor. You can choose a part of the current timeline, "
+"and drag a clip of it back to the timeline. You will get a \"project clip\", "
+"which is a clip that contains all of the clips on the timeline in the state "
+"when you made it. It is useful for grouping together a number of clips when "
+"you have finished editing them and want to be able to treat them as a single "
+"clip."
+msgstr ""
+"Les points d'entrée et de sortie de la fenêtre de prévisualisation du "
+"montage vidéo ont les mêmes fonctions que ceux présent dans la fenêtre de "
+"prévisualisation des plans vidéo. Vous pouvez obtenir ainsi un « plan vidéo "
+"du projet », qui sera une séquence vidéo contenant tous les plans vidéo "
+"présent dans la table de montage. Cette fonction est utile pour regrouper "
+"ensemble un certain nombre de plans vidéo quand vous avez fini de les "
+"associer dans la table de montage et que vous voulez les manipuler comme un "
+"simple plan vidéo."
+
+#. Tag: title
+#: index.docbook:563
+#, no-c-format
+msgid "Rendering your project"
+msgstr "Le rendu vidéo du projet"
+
+#. Tag: para
+#: index.docbook:564
+#, no-c-format
+msgid ""
+"When you have finished editing, you can render your project via the Render-"
+">Export Timeline menu. This brings up a dialog, which allows you to choose "
+"your export format, export options, and filename to save as."
+msgstr ""
+"Quand vous avez terminé votre montage vidéo, vous pouvez l'exporter en "
+"utilisant le menu « Rendu vidéo / Exporter le montage vidéo ». Ce menu "
+"affichera une boîte de dialogue qui vous permettra de choisir le format, les "
+"options, et le nom du fichier pour l'exportation de votre montage vidéo."
+
+#. Tag: phrase
+#: index.docbook:575
+#, no-c-format
+msgid "The rendering project dialog box"
+msgstr "La boîte de dialogue pour le rendu vidéo du projet."
+
+#. Tag: para
+#: index.docbook:580
+#, no-c-format
+msgid ""
+"The current version of &kdenlive;/&piave; only supports export to raw dv "
+"format."
+msgstr ""
+"Les versions actuelles des programmes &kdenlive; et &piave; ne gèrent "
+"uniquement l'exportation vidéo au format « DV » brut (RAW)."
+
+#. Tag: title
+#: index.docbook:587
+#, no-c-format
+msgid "Loading and Saving your project"
+msgstr "L'ouverture et l'enregistrement de votre projet"
+
+#. Tag: para
+#: index.docbook:588
+#, no-c-format
+msgid ""
+"Load your project via the File->open menu. Save your project via the File-"
+">save-as menu."
+msgstr ""
+"Charger votre projet avec le menu « Fichier / Ouvrir ». Enregistrer votre "
+"projet avec le menu « Fichier / Enregistrer sous »."
+
+#. Tag: title
+#: index.docbook:596
+#, no-c-format
+msgid "Setup the Renderer"
+msgstr "La configuration du programme de rendu vidéo"
+
+#. Tag: para
+#: index.docbook:597
+#, no-c-format
+msgid ""
+"With this dialogbox, you can configre all parameters for the renderer "
+"program."
+msgstr ""
+"Avec cette boîte de dialogue, vous pouvez configurer tous les paramètres "
+"nécessaires au fonctionnement du programme effectuant le rendu vidéo."
+
+#. Tag: phrase
+#: index.docbook:606
+#, no-c-format
+msgid "The setup renderer dialog box"
+msgstr "La boîte de dialogue de configuration du programme de rendu vidéo"
+
+#. Tag: title
+#: index.docbook:616
+#, no-c-format
+msgid "Command Reference"
+msgstr "Les commandes de référence"
+
+#. Tag: title
+#: index.docbook:625
+#, no-c-format
+msgid "The main &kdenlive; window"
+msgstr "La fenêtre principale de &kdenlive;"
+
+#. Tag: title
+#: index.docbook:629
+#, no-c-format
+msgid "The File Menu"
+msgstr "Le menu « Fichier »"
+
+#. Tag: menuchoice
+#: index.docbook:634
+#, no-c-format
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>n</keycap></keycombo> </"
+"shortcut> <guimenu>File</guimenu> <guimenuitem>New</guimenuitem>"
+msgstr ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>n</keycap></keycombo> </"
+"shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Nouveau</guimenuitem>"
+
+#. Tag: action
+#: index.docbook:641
+#, no-c-format
+msgid "Creates a new document."
+msgstr "Création d'un nouveau projet de montage vidéo."
+
+#. Tag: menuchoice
+#: index.docbook:645
+#, no-c-format
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>o</keycap></keycombo> </"
+"shortcut> <guimenu>File</guimenu> <guimenuitem>Open</guimenuitem>"
+msgstr ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>o</keycap></keycombo> </"
+"shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Ouvrir</guimenuitem>"
+
+#. Tag: action
+#: index.docbook:652
+#, no-c-format
+msgid "Open a saved project."
+msgstr "Ouvrir un projet préalablement enregistré."
+
+#. Tag: menuchoice
+#: index.docbook:656
+#, no-c-format
+msgid "<guimenu>File</guimenu> <guimenuitem>Open Recent</guimenuitem>"
+msgstr ""
+"<guimenu>Fichier</guimenu> <guimenuitem>Récemment ouvert(s)</guimenuitem>"
+
+#. Tag: action
+#: index.docbook:660
+#, no-c-format
+msgid "Open a recently used project."
+msgstr "Ouvre un projet qui a été précédemment ouvert dans &kdenlive;."
+
+#. Tag: menuchoice
+#: index.docbook:664
+#, no-c-format
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>s</keycap></keycombo> </"
+"shortcut> <guimenu>File</guimenu> <guimenuitem>Save</guimenuitem>"
+msgstr ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>s</keycap></keycombo> </"
+"shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Enregistrer</guimenuitem>"
+
+#. Tag: action
+#: index.docbook:671
+#, no-c-format
+msgid "Saves the project."
+msgstr "Enregistre le projet courant."
+
+#. Tag: menuchoice
+#: index.docbook:675
+#, no-c-format
+msgid "<guimenu>File</guimenu> <guimenuitem>Save As...</guimenuitem>"
+msgstr ""
+"<guimenu>Fichier</guimenu> <guimenuitem>Enregistrer sous...</guimenuitem>"
+
+#. Tag: action
+#: index.docbook:679
+#, no-c-format
+msgid "Saves the project under a different filename."
+msgstr "Enregistre le projet avec un nom différent."
+
+#. Tag: menuchoice
+#: index.docbook:683
+#, no-c-format
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>q</keycap></keycombo> </"
+"shortcut> <guimenu>File</guimenu> <guimenuitem>Quit</guimenuitem>"
+msgstr ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>q</keycap></keycombo> </"
+"shortcut> <guimenu>Fichier</guimenu> <guimenuitem>Quitter</guimenuitem>"
+
+#. Tag: para
+#: index.docbook:690
+#, no-c-format
+msgid "<action>Quits</action> &kapp;"
+msgstr "<action>Quitte</action> &kapp;"
+
+#. Tag: title
+#: index.docbook:698
+#, no-c-format
+msgid "The Edit Menu"
+msgstr "Le menu « Édition »"
+
+#. Tag: menuchoice
+#: index.docbook:703
+#, no-c-format
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>z</keycap></keycombo> </"
+"shortcut> <guimenu>Edit</guimenu> <guimenuitem>Undo</guimenuitem>"
+msgstr ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>z</keycap></keycombo> </"
+"shortcut> <guimenu>Édition</guimenu> <guimenuitem>Annuler</guimenuitem>"
+
+#. Tag: action
+#: index.docbook:713
+#, no-c-format
+msgid "Undo the last edit to the timeline."
+msgstr "Annule la dernière opération faite dans la table de montage."
+
+#. Tag: menuchoice
+#: index.docbook:719
+#, no-c-format
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>z</"
+"keycap></keycombo> </shortcut> <guimenu>Edit</guimenu> <guimenuitem>Redo</"
+"guimenuitem>"
+msgstr ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>z</"
+"keycap></keycombo> </shortcut> <guimenu>Édition</guimenu> "
+"<guimenuitem>Refaire</guimenuitem>"
+
+#. Tag: action
+#: index.docbook:729
+#, no-c-format
+msgid "Redo a previously undone edit to the timeline."
+msgstr "Réitère la précédente opération faite dans la table de montage."
+
+#. Tag: menuchoice
+#: index.docbook:735
+#, no-c-format
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>x</keycap></keycombo> </"
+"shortcut> <guimenu>Edit</guimenu> <guimenuitem>Cut</guimenuitem>"
+msgstr ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>x</keycap></keycombo> </"
+"shortcut> <guimenu>Édition</guimenu> <guimenuitem>Couper</guimenuitem>"
+
+#. Tag: action
+#: index.docbook:745 index.docbook:777 index.docbook:839
+#, no-c-format
+msgid "Non-functional at present"
+msgstr "Cette fonction n'est pas encore opérationnelle"
+
+#. Tag: menuchoice
+#: index.docbook:751
+#, no-c-format
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>c</keycap></keycombo> </"
+"shortcut> <guimenu>Edit</guimenu> <guimenuitem>Copy</guimenuitem>"
+msgstr ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>c</keycap></keycombo> </"
+"shortcut> <guimenu>Édition</guimenu> <guimenuitem>Copier</guimenuitem>"
+
+#. Tag: action
+#: index.docbook:761
+#, no-c-format
+msgid "Non-funtional at present."
+msgstr "Cette fonction n'est pas encore opérationnelle"
+
+#. Tag: menuchoice
+#: index.docbook:767
+#, no-c-format
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>v</keycap></keycombo> </"
+"shortcut> <guimenu>Edit</guimenu> <guimenuitem>Paste</guimenuitem>"
+msgstr ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>v</keycap></keycombo> </"
+"shortcut> <guimenu>Édition</guimenu> <guimenuitem>Coller</guimenuitem>"
+
+#. Tag: title
+#: index.docbook:787
+#, no-c-format
+msgid "The Project Menu"
+msgstr "Le menu « Projet »"
+
+#. Tag: menuchoice
+#: index.docbook:792
+#, no-c-format
+msgid "<guimenu>Project</guimenu> <guimenuitem>Add Clips</guimenuitem>"
+msgstr ""
+"<guimenu>Projet</guimenu> <guimenuitem>Ajouter des plans vidéo</guimenuitem>"
+
+#. Tag: action
+#: index.docbook:799
+#, no-c-format
+msgid "Add clips to the project list."
+msgstr "Ajoute des plans vidéo dans la liste du projet."
+
+#. Tag: menuchoice
+#: index.docbook:805
+#, no-c-format
+msgid "<guimenu>Project</guimenu> <guimenuitem>Delete Clips</guimenuitem>"
+msgstr ""
+"<guimenu>Projet</guimenu> <guimenuitem>Supprimer des plans vidéo</"
+"guimenuitem>"
+
+#. Tag: action
+#: index.docbook:812
+#, no-c-format
+msgid ""
+"Delete the selected clip from the project. This deletes all references to "
+"the clip, including those on the timeline, or those within composite clips."
+msgstr ""
+
+#. Tag: menuchoice
+#: index.docbook:819
+#, no-c-format
+msgid "<guimenu>Project</guimenu> <guimenuitem>Clean Project</guimenuitem>"
+msgstr "<guimenu>Projet</guimenu> <guimenuitem>Purger le projet</guimenuitem>"
+
+#. Tag: action
+#: index.docbook:826
+#, no-c-format
+msgid "Remove unused clips from the project list."
+msgstr "Suppression de la liste des plans vidéo inutilisés dans le projet."
+
+#. Tag: menuchoice
+#: index.docbook:832
+#, no-c-format
+msgid "<guimenu>Project</guimenu> <guimenuitem>Clip Properties</guimenuitem>"
+msgstr ""
+"<guimenu>Projet</guimenu> <guimenuitem>Propriétés du plan vidéo</guimenuitem>"
+
+#. Tag: title
+#: index.docbook:849
+#, no-c-format
+msgid "The Timeline Menu"
+msgstr "Le menu « Montage vidéo »"
+
+#. Tag: menuchoice
+#: index.docbook:854
+#, no-c-format
+msgid ""
+"<shortcut> <keycap>q</keycap> </shortcut> <guimenu>Timeline</guimenu> "
+"<guimenuitem>Move/Resize Tool</guimenuitem>"
+msgstr ""
+"<shortcut> <keycap>q</keycap> </shortcut> <guimenu>Montage vidéo</guimenu> "
+"<guimenuitem>Outil de déplacement / redimensionnement</guimenuitem>"
+
+#. Tag: para
+#: index.docbook:863
+#, no-c-format
+msgid ""
+"<action>Select the move/resize tool to use on the timeline.</action> This "
+"tool lets you move and resize clips on the timeline. It is the standard "
+"operating mode of the timeline."
+msgstr ""
+"<action>Choisir l'outil de déplacement / redimensionnement de la table de "
+"montage.</action> Cet outil vous permet de déplacer et de redimensionner les "
+"plans vidéo dans la table de montage. C'est l'outil qui est utilisé par "
+"défaut dans la table de montage."
+
+#. Tag: menuchoice
+#: index.docbook:871
+#, no-c-format
+msgid ""
+"<shortcut> <keycap>w</keycap> </shortcut> <guimenu>Timeline</guimenu> "
+"<guimenuitem>Razor Tool</guimenuitem>"
+msgstr ""
+"<shortcut> <keycap>w</keycap> </shortcut> <guimenu>Montage vidéo</guimenu> "
+"<guimenuitem>Outil de découpage</guimenuitem>"
+
+#. Tag: para
+#: index.docbook:880
+#, no-c-format
+msgid ""
+"<action>Select the Razor tool to use on the timeline.</action> This tool "
+"will cut (razor) the clip into two pieces at the time selected."
+msgstr ""
+"<action>Choisir l'outil de découpage de la table de montage.</action> Cet "
+"outil vous permet de découper en deux pièces les plans vidéo à l'emplacement "
+"du curseur dans la table de montage."
+
+#. Tag: menuchoice
+#: index.docbook:888
+#, no-c-format
+msgid ""
+"<shortcut> <keycap>e</keycap> </shortcut> <guimenu>Timeline</guimenu> "
+"<guimenuitem>Spacer Tool</guimenuitem>"
+msgstr ""
+"<shortcut> <keycap>e</keycap> </shortcut> <guimenu>Montage vidéo</guimenu> "
+"<guimenuitem>Outil de séparation</guimenuitem>"
+
+#. Tag: para
+#: index.docbook:897
+#, no-c-format
+msgid ""
+"<action>Select the Spacer tool to use on the timeline.</action> This tool "
+"lets you select all clips to the right of where you click on the timeline."
+msgstr ""
+"<action>Choisir l'outil de séparation de la table de montage.</action> Cette "
+"outil vous permet de sélectionner tous les plans vidéo situés à la droite du "
+"curseur dans la table de montage."
+
+#. Tag: menuchoice
+#: index.docbook:905
+#, no-c-format
+msgid "<guimenu>Timeline</guimenu> <guimenuitem>Snap To Frames</guimenuitem>"
+msgstr ""
+"<guimenu>Montage vidéo</guimenu> <guimenuitem>Utiliser les trames</"
+"guimenuitem>"
+
+#. Tag: action
+#: index.docbook:912
+#, no-c-format
+msgid "If checked, all operations will snap to the nearest frame."
+msgstr ""
+"Si cette option est activée, toutes les opérations faites sur les plans "
+"vidéo dans la table de montage utiliseront les trames vidéo comme éléments "
+"de travail."
+
+#. Tag: menuchoice
+#: index.docbook:918
+#, no-c-format
+msgid "<guimenu>Timeline</guimenu> <guimenuitem>Snap To Border</guimenuitem>"
+msgstr ""
+"<guimenu>Montage vidéo</guimenu> <guimenuitem>Utiliser les bords</"
+"guimenuitem>"
+
+#. Tag: action
+#: index.docbook:925
+#, no-c-format
+msgid ""
+"If checked, moving and resizing clips will snap to nearby clip borders and "
+"the seek marker."
+msgstr ""
+"Si cette option est activée, le déplacement et le redimensionnement des "
+"plans vidéo seront réalisés en utilisant les bords et les marqueurs de la "
+"table de montage."
+
+#. Tag: title
+#: index.docbook:935
+#, no-c-format
+msgid "The Render Menu"
+msgstr "Le menu « Rendu vidéo »"
+
+#. Tag: menuchoice
+#: index.docbook:940
+#, no-c-format
+msgid "<guimenu>Render</guimenu> <guimenuitem>Export Timeline</guimenuitem>"
+msgstr ""
+"<guimenu>Rendu vidéo</guimenu> <guimenuitem>Exporter le montage vidéo</"
+"guimenuitem>"
+
+#. Tag: action
+#: index.docbook:947
+#, no-c-format
+msgid "Export the timeline to a video clip. Also known as rendering down."
+msgstr ""
+"Exporte le contenu de la table de montage dans une séquence vidéo. Cette "
+"opération est aussi appelée le « rendu vidéo »."
+
+#. Tag: title
+#: index.docbook:957
+#, no-c-format
+msgid "The Layout Menu"
+msgstr "Le menu « Fenêtre »"
+
+#. Tag: menuchoice
+#: index.docbook:962
+#, no-c-format
+msgid ""
+"<shortcut> <keycap>F9</keycap> </shortcut> <guimenu>Layout Menu</guimenu> "
+"<guimenuitem>Load Layout 1</guimenuitem>"
+msgstr ""
+"<shortcut> <keycap>F9</keycap> </shortcut> <guimenu>Fenêtre</guimenu> "
+"<guimenuitem>Charger la fenêtre 1</guimenuitem>"
+
+#. Tag: action
+#: index.docbook:972 index.docbook:988 index.docbook:1004 index.docbook:1020
+#, no-c-format
+msgid "Loads up a previously saved screen layout."
+msgstr ""
+"Charge la configuration de la fenêtre d'édition vidéo précédemment "
+"enregistré."
+
+#. Tag: menuchoice
+#: index.docbook:978
+#, no-c-format
+msgid ""
+"<shortcut> <keycap>F10</keycap> </shortcut> <guimenu>Layout Menu</guimenu> "
+"<guimenuitem>Load Layout 2</guimenuitem>"
+msgstr ""
+"<shortcut> <keycap>F10</keycap> </shortcut> <guimenu>Fenêtre</guimenu> "
+"<guimenuitem>Charger la fenêtre 2</guimenuitem>"
+
+#. Tag: menuchoice
+#: index.docbook:994
+#, no-c-format
+msgid ""
+"<shortcut> <keycap>F11</keycap> </shortcut> <guimenu>Layout Menu</guimenu> "
+"<guimenuitem>Load Layout 3</guimenuitem>"
+msgstr ""
+"<shortcut> <keycap>F11</keycap> </shortcut> <guimenu>Fenêtre</guimenu> "
+"<guimenuitem>Charger la fenêtre 3</guimenuitem>"
+
+#. Tag: menuchoice
+#: index.docbook:1010
+#, no-c-format
+msgid ""
+"<shortcut> <keycap>F12</keycap> </shortcut> <guimenu>Layout Menu</guimenu> "
+"<guimenuitem>Load Layout 4</guimenuitem>"
+msgstr ""
+"<shortcut> <keycap>F12</keycap> </shortcut> <guimenu>Fenêtre</guimenu> "
+"<guimenuitem>Charger la fenêtre 4</guimenuitem>"
+
+#. Tag: menuchoice
+#: index.docbook:1026
+#, no-c-format
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F9</"
+"keycap></keycombo> </shortcut> <guimenu>Layout Menu</guimenu> "
+"<guimenuitem>Save Layout 1</guimenuitem>"
+msgstr ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F9</"
+"keycap></keycombo> </shortcut> <guimenu>Fenêtre</guimenu> "
+"<guimenuitem>Enregistrer la fenêtre 1</guimenuitem>"
+
+#. Tag: action
+#: index.docbook:1036
+#, no-c-format
+msgid "Saves the current screen layout to layout slot 1."
+msgstr "Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 1."
+
+#. Tag: menuchoice
+#: index.docbook:1042
+#, no-c-format
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F10</"
+"keycap></keycombo> </shortcut> <guimenu>Layout Menu</guimenu> "
+"<guimenuitem>Save Layout 2</guimenuitem>"
+msgstr ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F10</"
+"keycap></keycombo> </shortcut> <guimenu>Fenêtre</guimenu> "
+"<guimenuitem>Enregistrer la fenêtre 2</guimenuitem>"
+
+#. Tag: action
+#: index.docbook:1052
+#, no-c-format
+msgid "Saves the current screen layout to layout slot 2."
+msgstr "Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 2."
+
+#. Tag: menuchoice
+#: index.docbook:1058
+#, no-c-format
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F11</"
+"keycap></keycombo> </shortcut> <guimenu>Layout Menu</guimenu> "
+"<guimenuitem>Save Layout 3</guimenuitem>"
+msgstr ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F11</"
+"keycap></keycombo> </shortcut> <guimenu>Fenêtre</guimenu> "
+"<guimenuitem>Enregistrer la fenêtre 3</guimenuitem>"
+
+#. Tag: action
+#: index.docbook:1068
+#, no-c-format
+msgid "Saves the current screen layout in layout slot 3."
+msgstr "Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 3."
+
+#. Tag: menuchoice
+#: index.docbook:1074
+#, no-c-format
+msgid ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F12</"
+"keycap></keycombo> </shortcut> <guimenu>Layout Menu</guimenu> "
+"<guimenuitem>Save Layout 4</guimenuitem>"
+msgstr ""
+"<shortcut> <keycombo><keycap>Ctrl</keycap><keycap>Shift</keycap><keycap>F12</"
+"keycap></keycombo> </shortcut> <guimenu>Fenêtre</guimenu> "
+"<guimenuitem>Enregistrer la fenêtre 4</guimenuitem>"
+
+#. Tag: action
+#: index.docbook:1084
+#, no-c-format
+msgid "Saves the current screen layout in layout slot 4."
+msgstr "Enregistre la fenêtre d'édition vidéo courante en tant que fenêtre 4."
+
+#. Tag: title
+#: index.docbook:1094
+#, no-c-format
+msgid "The Settings Menu"
+msgstr "Le menu « Configuration »"
+
+#. Tag: menuchoice
+#: index.docbook:1099
+#, no-c-format
+msgid "<guimenu>Settings</guimenu> <guimenuitem>Show Toolbar</guimenuitem>"
+msgstr ""
+"<guimenu>Configuration</guimenu> <guimenuitem>Afficher la barre d'outils</"
+"guimenuitem>"
+
+#. Tag: action
+#: index.docbook:1106
+#, no-c-format
+msgid "Show/hide the toolbars."
+msgstr "Affiche ou cache la barre d'outils."
+
+#. Tag: menuchoice
+#: index.docbook:1112
+#, no-c-format
+msgid "<guimenu>Settings</guimenu> <guimenuitem>Show Statusbar</guimenuitem>"
+msgstr ""
+"<guimenu>Configuration</guimenu> <guimenuitem>Afficher la barre d'état</"
+"guimenuitem>"
+
+#. Tag: action
+#: index.docbook:1119
+#, no-c-format
+msgid "Show/Hide the status bar."
+msgstr "Affiche ou cache la barre d'état."
+
+#. Tag: menuchoice
+#: index.docbook:1125
+#, no-c-format
+msgid ""
+"<guimenu>Settings</guimenu> <guimenuitem>Configure Shortcuts...</guimenuitem>"
+msgstr ""
+"<guimenu>Configuration</guimenu> <guimenuitem>Configurer les raccourcis "
+"clavier...</guimenuitem>"
+
+#. Tag: action
+#: index.docbook:1132
+#, no-c-format
+msgid "Configure &kdenlive; keyboard shortcuts."
+msgstr "Configure les raccourcis clavier de &kdenlive;."
+
+#. Tag: menuchoice
+#: index.docbook:1138
+#, no-c-format
+msgid ""
+"<guimenu>Settings</guimenu> <guimenuitem>Configure Toolbars...</guimenuitem>"
+msgstr ""
+"<guimenu>Configuration</guimenu> <guimenuitem>Configurer les barres "
+"d'outils...</guimenuitem>"
+
+#. Tag: action
+#: index.docbook:1145
+#, no-c-format
+msgid "Configure the toolbars."
+msgstr "Configure les barres d'outils de &kdenlive;."
+
+#. Tag: menuchoice
+#: index.docbook:1151
+#, no-c-format
+msgid ""
+"<guimenu>Settings</guimenu> <guimenuitem>Configure &kdenlive;...</"
+"guimenuitem>"
+msgstr ""
+"<guimenu>Configuration</guimenu> <guimenuitem>Configurer &kdenlive;...</"
+"guimenuitem>"
+
+#. Tag: action
+#: index.docbook:1158
+#, no-c-format
+msgid "Configure &kdenlive;"
+msgstr "Configure &kdenlive;"
+
+#. Tag: title
+#: index.docbook:1168
+#, no-c-format
+msgid "The Help Menu"
+msgstr "Le menu « Aide »"
+
+#. Tag: menuchoice
+#: index.docbook:1173
+#, no-c-format
+msgid "<guimenu>Help</guimenu> <guimenuitem>&kdenlive; Handbook</guimenuitem>"
+msgstr ""
+"<guimenu>Aide</guimenu> <guimenuitem>Manuel de &kdenlive;</guimenuitem>"
+
+#. Tag: action
+#: index.docbook:1180
+#, no-c-format
+msgid "View the &kdenlive; handbook (this document)."
+msgstr "Affiche le manuel de &kdenlive; (ce document)."
+
+#. Tag: menuchoice
+#: index.docbook:1186
+#, no-c-format
+msgid ""
+"<shortcut> <keycombo><keycap>Shift</keycap><keycap>F1</keycap></keycombo> </"
+"shortcut> <guimenu>Help</guimenu> <guimenuitem>What's This?</guimenuitem>"
+msgstr ""
+"<shortcut> <keycombo><keycap>Shift</keycap><keycap>F1</keycap></keycombo> </"
+"shortcut> <guimenu>Aide</guimenu> <guimenuitem>Qu'est ce que c'est ?</"
+"guimenuitem>"
+
+#. Tag: action
+#: index.docbook:1196
+#, no-c-format
+msgid ""
+"After selecting this, click on part of the gui to find out what it does."
+msgstr ""
+"Après avoir sélectionner cette option, cliquez sur une partie de l'interface "
+"graphique pour obtenir de de plus amples informations la concernant."
+
+#. Tag: menuchoice
+#: index.docbook:1202
+#, no-c-format
+msgid "<guimenu>Help</guimenu> <guimenuitem>Report Bug...</guimenuitem>"
+msgstr "<guimenu>Aide</guimenu> <guimenuitem>Rapport de bogue...</guimenuitem>"
+
+#. Tag: action
+#: index.docbook:1209
+#, no-c-format
+msgid "Report a bug about &kdenlive;"
+msgstr "Rapporte un bogue à propos de &kdenlive;"
+
+#. Tag: menuchoice
+#: index.docbook:1215
+#, no-c-format
+msgid "<guimenu>Help</guimenu> <guimenuitem>About &kdenlive;</guimenuitem>"
+msgstr ""
+"<guimenu>Aide</guimenu> <guimenuitem>À propos de &kdenlive;</guimenuitem>"
+
+#. Tag: action
+#: index.docbook:1222
+#, no-c-format
+msgid ""
+"See information about &kdenlive;, including the license, authors and "
+"contributers."
+msgstr ""
+"Affiche les informations concernant &kdenlive;, dont la licence, les "
+"auteurs, et les contributeurs."
+
+#. Tag: menuchoice
+#: index.docbook:1228
+#, no-c-format
+msgid "<guimenu>Help</guimenu> <guimenuitem>About KDE</guimenuitem>"
+msgstr "<guimenu>Aide</guimenu> <guimenuitem>À propos de KDE</guimenuitem>"
+
+#. Tag: action
+#: index.docbook:1235
+#, no-c-format
+msgid "See information about the KDE project."
+msgstr "Affiche les informations concernant le projet KDE."
+
+#. Tag: title
+#: index.docbook:1248
+#, no-c-format
+msgid "Developer's Guide to &kdenlive;"
+msgstr "Le guide du développeur de &kdenlive;"
+
+#. Tag: para
+#: index.docbook:1254
+#, no-c-format
+msgid "To be written."
+msgstr "À faire..."
+
+#. Tag: title
+#: index.docbook:1265
+#, no-c-format
+msgid "Known Issues, Workarounds and Recovery Procedures"
+msgstr "Problèmes connus et solutions"
+
+#. Tag: para
+#: index.docbook:1267
+#, no-c-format
+msgid ""
+"If &kdenlive; or one of the &piave; renderers crashes, it is possible that "
+"it will prevent the current or and new copies of &kdenlive; from running "
+"correctly."
+msgstr ""
+"Si une session de &kdenlive; ou une des sessions de &piave; s'arrête "
+"anormalement, il est possible que la session courante ou une nouvelle "
+"session de &kdenlive; ne puisse pas correctement s'exécuter."
+
+#. Tag: para
+#: index.docbook:1272
+#, no-c-format
+msgid ""
+"There are two reasons why this may happen. The first is if one of the "
+"&piave; processes did not shut down on the previous run of &kdenlive;. The "
+"simple solution to this is to close down &kdenlive; and type from the "
+"command line:"
+msgstr ""
+"Il y a deux raisons à ce problème. La première est qu'une des sessions de "
+"&piave; ne s'arrête pas correctement lors d'une précédente session de "
+"&kdenlive;. La solution la plus simple est d'arrêter &kdenlive; et de saisir "
+"la ligne de commande suivante :"
+
+#. Tag: screen
+#: index.docbook:1276
+#, no-c-format
+msgid "<prompt>%</prompt> <userinput>killall -9 piave</userinput>"
+msgstr "<prompt>%</prompt> <userinput>killall -9 piave</userinput>"
+
+#. Tag: para
+#: index.docbook:1278
+#, no-c-format
+msgid ""
+"This will kill any stray &piave; processes, and should allow you to run "
+"&kdenlive; normally again."
+msgstr ""
+"Cette opération arrêtera toutes les instances du programme &piave;. De cette "
+"manière, &kdenlive; doit pouvoir s'exécuter correctement."
+
+#. Tag: para
+#: index.docbook:1282
+#, no-c-format
+msgid ""
+"If you try the above and it says <quote>piave:no process killed</quote> then "
+"it may be that one of the ports that &piave; listens on has not yet been "
+"freed after the previous run. Wait for about one minute before starting "
+"&kdenlive; again - the TCP port will time out and become usable again."
+msgstr ""
+"Si la ligne de commande précédente vous renvoie un message du genre "
+"<quote>piave : no process killed</quote>, il est fort probable que des ports "
+"de communication associés au programme &piave; n'ont pas été libéré lors "
+"d'une précédente instance du programme. Attendez une minute avant de "
+"relancer une nouvelle session de &kdenlive; (les ports TCP devrai être "
+"normalement libérés après cette durée)."
+
+#. Tag: title
+#: index.docbook:1291
+#, no-c-format
+msgid "Questions and Answers"
+msgstr "Questions fréquemment posées (FAQ)"
+
+#. Tag: chapter
+#: index.docbook:1291
+#, no-c-format
+msgid "&reporting.bugs;"
+msgstr ""
+
+#. Tag: para
+#: index.docbook:1309
+#, no-c-format
+msgid "What file formats does &kapp; support?"
+msgstr ""
+
+#. Tag: para
+#: index.docbook:1314
+#, no-c-format
+msgid ""
+"Currently, &kapp; supports playback of AVI files that use the DV codec "
+"(other types of AVI file will fail) and Raw DV files. Both of these formats "
+"are exported by &kino;."
+msgstr ""
+
+#. Tag: para
+#: index.docbook:1320
+#, no-c-format
+msgid ""
+"On a technical note, &kapp; does not provide any video formats itself; all "
+"video formats are provided by the backend renderer, &piave;."
+msgstr ""
+
+#. Tag: para
+#: index.docbook:1330
+#, no-c-format
+msgid "When will &kapp; support divx/mpeg files?"
+msgstr ""
+
+#. Tag: para
+#: index.docbook:1335
+#, no-c-format
+msgid "Short answer : When somebody codes the relevant plugin for &piave;."
+msgstr ""
+
+#. Tag: para
+#: index.docbook:1338
+#, no-c-format
+msgid ""
+"The long answer : Supporting divx files in an editing application is "
+"difficult. divx and mpeg formats are not designed for video editing. Some "
+"frames contain only part of the information required to display that frame, "
+"which makes the random acces required by a video editing application "
+"difficult to achieve. There are also quality issues with decompressing and "
+"recompressing files that need to be taken into account. For these reasons, "
+"support for these formats in &kapp; itself are of low priority compared to "
+"the effect framework, the capture program and other such features."
+msgstr ""
+
+#. Tag: para
+#: index.docbook:1348
+#, no-c-format
+msgid ""
+"If somebody is interested is adding divx/mpeg support to &kapp; (or to be "
+"technically correct, &piave;) then please contact me, and I will point you "
+"in the right direction. In the meantime, it is suggested that you capture "
+"video directly in Raw DV using &kino;, or convert your files to Raw DV "
+"format for use with &kapp;"
+msgstr ""
+
+#. Tag: para
+#: index.docbook:1359
+#, no-c-format
+msgid "When will &kapp; support mp3 files and other audio formats?"
+msgstr ""
+
+#. Tag: para
+#: index.docbook:1364
+#, no-c-format
+msgid ""
+"Sometime in the future, perhaps version 0.4.0 or 0.5.0. The roadmap on the "
+"website gives a rough idea of the order in which features are being added to "
+"&kapp;. The next priority is the effect framework, which will be the made "
+"addition for the 0.3.0 release. Once &kapp; 0.3.0 is released, we will "
+"decide on the next most important feature. This may be separate audio tracks."
+msgstr ""
+
+#. Tag: para
+#: index.docbook:1376
+#, no-c-format
+msgid ""
+"When I add clips to the project, the times show up as 'unknown'. I know "
+"these clips are valid, why does this happen?"
+msgstr ""
+"Quand j'ajoute des plans vidéo au projet, la durée des fichiers vidéo est "
+"annotée « inconnue ». Ces fichiers sont pourtant des fichiers vidéo dont le "
+"format est connu. Que se passe t'il ?"
+
+#. Tag: para
+#: index.docbook:1380
+#, fuzzy, no-c-format
+msgid ""
+"This is a sign that something has gone wrong with &piave;. Whilst &kapp; "
+"will do it's best to pull itself back into working order, this is still "
+"relatively new software and it doesn't manage it as often as one would hope! "
+"The best solution is to quit &kapp; (if you have done any work, then you are "
+"quite safe to save it), perform the following operation: <screen width=\"40"
+"\">\n"
+"                                                <prompt>%</prompt> "
+"<userinput>killall -9 piave</userinput>.\n"
+"                                        </screen> Wait a few seconds, and "
+"then restart kdenlive."
+msgstr ""
+"Ce message est du à une non reconnaissance du format vidéo par le programme "
+"&piave;. Comme &kapp; est une application encore récente, certain "
+"dysfonctionnements ne sont pas encore correctement gérés. La meilleure "
+"solution à ce problème et de quitter &kapp; (en enregistrant votre travail "
+"préalablement), et d'ouvrir une console en saisissant les lignes de commande "
+"suivantes : <screen width=\"40\">\n"
+"\t\t\t\t\t\t<prompt>%</prompt> <userinput>killall -9 piave</userinput>.\n"
+"\t\t\t\t\t</screen> Attendez quelques secondes et relancez Kdenlive."
+
+#. Tag: para
+#: index.docbook:1394
+#, no-c-format
+msgid ""
+"The &kdenlive; user interface is not keeping up when I play a video! What is "
+"wrong?"
+msgstr ""
+"L'interface de &kdenlive; ne tient pas compte des opérations de "
+"l'utilisateur lorsqu'un plan vidéo est prévisualisé. Quel est le problème ?"
+
+#. Tag: para
+#: index.docbook:1398
+#, no-c-format
+msgid ""
+"Go to the debug panel and try checking the Ignore Incoming Messages button. "
+"This will turn off output to the debug window, which can slow the interface "
+"down considerably whilst playing back videos, especially when they are long "
+"in length."
+msgstr ""
+"Aller dans l'onglet « Déboguer » et essayer de valider l'option « Ignorer "
+"les messages entrants ». Cela désactivera l'affichage des messages de "
+"débogage qui peuvent ralentir considérablement l'interface graphique pendant "
+"la lecture de longs plans vidéo."
+
+#. Tag: title
+#: index.docbook:1416
+#, no-c-format
+msgid "Credits and License"
+msgstr "Remerciements et licences"
+
+#. Tag: para
+#: index.docbook:1418
+#, no-c-format
+msgid "&kapp;"
+msgstr "&kapp;"
+
+#. Tag: para
+#: index.docbook:1421
+#, no-c-format
+msgid ""
+"Program copyright 2002-2003 Jason Wood <email>jasonwood@blueyonder.co.uk</"
+"email>"
+msgstr ""
+"Copyright Jason Wood <email>jasonwood@blueyonder.co.uk</email>, 2002-2003"
+
+#. Tag: para
+#: index.docbook:1424
+#, no-c-format
+msgid "Contributors:"
+msgstr "Contributeurs :"
+
+#. Tag: para
+#: index.docbook:1428
+#, no-c-format
+msgid ""
+"Caulier Gilles <email>caulier.Gilles@free.fr</email> : &kdenlive; and "
+"&piave; i18n, French translations, splashscreen"
+msgstr ""
+"Caulier Gilles <email>caulier.Gilles@free.fr</email> : internationalisation "
+"des programmes &kdenlive; et &piave;, traductions Françaises, logo de "
+"démarrage."
+
+#. Tag: para
+#: index.docbook:1433
+#, no-c-format
+msgid ""
+"Rolf Dubitzky <email>dubitzky@pktw06.phy.tu-dresden.de</email> : &piave; "
+"implementations"
+msgstr ""
+"Rolf Dubitzky <email>dubitzky@pktw06.phy.tu-dresden.de</email> : auteur et "
+"mainteneur du programme &piave;."
+
+#. Tag: para
+#: index.docbook:1440
+#, no-c-format
+msgid ""
+"Documentation copyright 2003 Jason Wood <email>jasonwood@blueyonder.co.uk</"
+"email>"
+msgstr ""
+"Documentation de Kdenlive : copyright Jason Wood <email>jasonwood@blueyonder."
+"co.uk</email>, 2003 "
+
+#. Tag: trans_comment
+#: index.docbook:1444
+#, no-c-format
+msgid "CREDIT_FOR_TRANSLATORS"
+msgstr ""
+"<para>Traductions : Caulier Gilles <email>caulier.gilles@free.fr</email>.</"
+"para>"
+
+#. Tag: chapter
+#: index.docbook:1444
+#, no-c-format
+msgid "&underFDL; &underGPL;"
+msgstr ""
+
+#. Tag: title
+#: index.docbook:1460
+#, no-c-format
+msgid "Installation"
+msgstr "Installation"
+
+#. Tag: title
+#: index.docbook:1463
+#, no-c-format
+msgid "How to obtain &kdenlive;"
+msgstr "Comment obtenir &kdenlive;"
+
+#. Tag: para
+#: index.docbook:1465
+#, no-c-format
+msgid ""
+"The &kdenlive; WEB site is <ulink url=\"http://www.uchian.pwp.blueyonder.co."
+"uk/kdenlive.html\">http://www.uchian.pwp.blueyonder.co.uk/kdenlive.html</"
+"ulink>. &kdenlive; can be found in the SourceForge project page on <ulink "
+"url=\"http://sourceforge.net/projects/kdenlive/\">http://sourceforge.net/"
+"projects/kdenlive/</ulink>"
+msgstr ""
+"La page WEB de &kdenlive; est <ulink url=\"http://www.uchian.pwp.blueyonder."
+"co.uk/kdenlive.html\">http://www.uchian.pwp.blueyonder.co.uk/kdenlive.html</"
+"ulink>. &kdenlive; peut être trouvé à la page du projet <ulink url=\"http://"
+"sourceforge.net/projects/kdenlive/\">http://sourceforge.net/projects/"
+"kdenlive/</ulink> du serveur SourceForge."
+
+#. Tag: title
+#: index.docbook:1474
+#, no-c-format
+msgid "Requirements"
+msgstr "Programmes requis"
+
+#. Tag: para
+#: index.docbook:1487
+#, no-c-format
+msgid ""
+"In order to successfully use &kdenlive;, you need KDE 3.0 or higher. "
+"Additionally, you need piave in order to do anthing useful - kdenlive itself "
+"is after all, just an interface :-)"
+msgstr ""
+"Pour pouvoir utiliser &kdenlive;, il est nécessaire d'avoir l'environnement "
+"de bureau KDE en version 3.0 ou supérieure. De plus, il est nécessaire "
+"d'avoir le programme « piave » pour pouvoir faire des opérations sur les "
+"fichiers vidéo. Kdenlive est une interface graphique pour ce programme."
+
+#. Tag: para
+#: index.docbook:1493
+#, no-c-format
+msgid ""
+"All required libraries as well as &kdenlive; itself can be found on or via "
+"<ulink url=\"http://pwp.blueyonder.co.uk/kdenlive.html\">The &kdenlive; home "
+"page</ulink>."
+msgstr ""
+"Toutes les bibliothèques ainsi le programme &kdenlive; peuvent être trouvés "
+"sur <ulink url=\"http://pwp.blueyonder.co.uk/kdenlive.html\">la page WEB du "
+"projet</ulink>."
+
+#. Tag: para
+#: index.docbook:1500
+#, no-c-format
+msgid ""
+"You can find a list of changes at <ulink url=\"http://pwp.blueyonder.co.uk/"
+"kdenlive.html\">http://pwp.blueyonder.co.uk/kdenlive.html</ulink>. FIXME : "
+"this link does not actually point at a changelog."
+msgstr ""
+"Vous pouvez trouver la liste des dernières modifications de Kdenlive à "
+"l'adresse <ulink url=\"http://pwp.blueyonder.co.uk/kdenlive.html\">http://"
+"pwp.blueyonder.co.uk/kdenlive.html</ulink>."
+
+#. Tag: title
+#: index.docbook:1506
+#, no-c-format
+msgid "Compilation and Installation"
+msgstr "Compilation et installation"
+
+#. Tag: para
+#: index.docbook:1508
+#, no-c-format
+msgid ""
+"In order to compile and install &kdenlive; on your system, type the "
+"following in the base directory of the &kdenlive; distribution:"
+msgstr ""
+"Pour compiler et installer &kdenlive; sur votre système, saisissez les "
+"lignes de commande suivantes dans le dossier de base contenant les sources "
+"du programme :"
+
+#. Tag: screen
+#: index.docbook:1511
+#, fuzzy, no-c-format
+msgid ""
+"<prompt>%</prompt> <userinput>./configure --prefix=`kde-config --prefix`</"
+"userinput>"
+msgstr "<prompt>%</prompt> <userinput>./configure --help</userinput>"
+
+#. Tag: screen
+#: index.docbook:1512
+#, no-c-format
+msgid "<prompt>%</prompt> <userinput>make</userinput>"
+msgstr "<prompt>%</prompt> <userinput>make</userinput>"
+
+#. Tag: screen
+#: index.docbook:1513
+#, no-c-format
+msgid "<prompt>%</prompt> <userinput>make install</userinput>"
+msgstr "<prompt>%</prompt> <userinput>make install</userinput>"
+
+#. Tag: para
+#: index.docbook:1516
+#, no-c-format
+msgid ""
+"Additional parameters for ./configure script may be required. Type the "
+"following in the base directory of the &kdenlive; distribution:"
+msgstr ""
+"Des paramètres supplémentaires peuvent être nécessaires au script «./"
+"configure ». Saisissez la ligne de commande suivante dans le dossier de base "
+"contenant les sources du programme :"
+
+#. Tag: screen
+#: index.docbook:1519
+#, no-c-format
+msgid "<prompt>%</prompt> <userinput>./configure --help</userinput>"
+msgstr "<prompt>%</prompt> <userinput>./configure --help</userinput>"
+
+#. Tag: para
+#: index.docbook:1522
+#, no-c-format
+msgid ""
+"Since &kdenlive; uses autoconf and automake you should have not trouble "
+"compiling it. Should you run into problems please report them to "
+"<email>jasonwood@blueyonder.co.uk</email>."
+msgstr ""
+"Depuis que &kdenlive; utilise les programmes « autoconf » et « automake », "
+"vous ne devriez pas avoir de problèmes pour compiler celui ci. Si vous "
+"rencontrez des difficultés, veulliez contacter l'auteur à l'adresse "
+"<email>jasonwood@blueyonder.co.uk</email>."
 
 #, fuzzy
 #~ msgid ""
