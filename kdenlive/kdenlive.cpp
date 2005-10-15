@@ -1224,7 +1224,7 @@ void KdenliveApp::slotSetRenderFinished()
 
 void KdenliveApp::slotConfKeys()
 {
-	KKeyDialog::configureKeys( actionCollection(), xmlFile(), true, this );
+  KKeyDialog::configure( actionCollection(), this, true );
 }
 
 void KdenliveApp::slotConfToolbars()
