@@ -176,35 +176,8 @@ void KRender::processExited()
 /** Launches a renderer process. */
 void KRender::launchProcess()
 {
-	if ( m_appPathInvalid ) return ;
-
-	if ( !KIO::NetAccess::exists( m_appPath ) ) {
-		emit renderError( m_name, "The rendering application '" + m_appPath.path() +
-		                  "' does not exist! Please make sure that you have " +
-		                  " installed a renderer, and that the executable is selected " +
-		                  " on the settings page. If you do not have a renderer installed, " +
-		                  " then please install Piave. You can download piave at " +
-				  "http://www.sourceforge.net/projects/modesto" );
-		m_appPathInvalid = true;
-		return ;
-	}
-	m_process.clearArguments();
-	m_process.setExecutable( "artsdsp" );
-	m_process << m_appPath.path();
-	m_process << "-d";
-	m_process << "-p" << QString::number( m_portNum );
-
-	emit renderWarning( m_name, "Launching Process " + m_appPath.path() +
-	                    " as server on port " + QString::number( m_portNum ) );
-	if ( m_process.start( KProcess::NotifyOnExit, KProcess::AllOutput ) ) {
-		emit renderWarning( m_name, "Process launching successfully, pid = " +
-		                    QString::number( m_process.pid() ) );
-		emit renderDebug( m_name, "Connecting to server on port " +
-		                  QString::number( m_portNum ) );
-		m_socket.connectToHost( "127.0.0.1", m_portNum );
-	} else {
-		emit renderWarning( m_name, "Could not start process" );
-	}
+//   Removed some obsolete code that was responsible for artsd launch,
+//   but wasn't used anymore.
 }
 
 void KRender::slotReadStdout( KProcess *proc, char *buffer, int buflen )
