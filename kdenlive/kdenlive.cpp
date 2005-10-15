@@ -110,7 +110,6 @@ KdenliveApp::KdenliveApp( QWidget* , const char* name ) :
 	initActions();
 	initDocument();
 	initView();
-
 	readOptions();
 
 	// disable actions at startup

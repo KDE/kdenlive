@@ -58,15 +58,15 @@ KMMScreen::~KMMScreen()
 /** The renderer is ready, so we open a video window, etc. here. */
 void KMMScreen::rendererReady()
 {
-	m_render->createVideoXWindow(false);
+	m_render->createVideoXWindow(false,m_embed->embeddedWinId());
 }
 
 /** Embeds the specified window. */
 void KMMScreen::embedWindow(WId wid)
 {
-	if(wid != 0) {
+/*if(wid != 0) {
 		m_embed->embed(wid);
-	}
+	}*/
 }
 
 /** Seeks to the specified time */

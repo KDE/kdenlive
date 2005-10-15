@@ -27,6 +27,7 @@ KRenderManager::KRenderManager() :
                         m_currentPort(6100)
 {
   m_renderList.setAutoDelete(true);
+	m_refCount=0;
 }
 
 KRenderManager::~KRenderManager()

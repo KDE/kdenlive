@@ -48,6 +48,9 @@ relevant signal that get's emitted once the call completes.
 class KRender;
 class AVFormatDescCodecList;
 class EffectParamDesc;
+namespace Mlt{
+class Miracle;
+};
 
 struct StackValue
 {
@@ -57,7 +60,7 @@ struct StackValue
 	/** A function pointer to the relevant method that should parse tagClose events */
 	bool ( KRender::*funcEndElement ) ( const QString & localName, const QString & qName );
 };
-
+static int m_refCount;
 class KRender : public QObject, public QXmlDefaultHandler
 {
 	Q_OBJECT
@@ -68,11 +71,12 @@ public:
 
 	KRender( const QString &rendererName, KURL appPath, unsigned int port, QObject *parent = 0, const char *name = 0 );
 	~KRender();
+	
 	/** Wraps the VEML command of the same name; requests that the renderer
 	should create a video window. If show is true, then the window should be
 	displayed, otherwise it should be hidden. KRender will emit the signal
 	replyCreateVideoXWindow() once the renderer has replied. */
-	void createVideoXWindow( bool show );
+	void createVideoXWindow( bool show,WId winid );
 	/** Occurs upon finishing reading an XML document */
 	bool endDocument();
 	/** Occurs upon starting to parse an XML document */
@@ -172,6 +176,7 @@ protected:  // Protected methods
 	/** Recieves timer events */
 	virtual void timerEvent( QTimerEvent *event );
 private:  // Private attributes & methods
+	Mlt::Miracle* m_mltMiracle;
 	/** If true, we are currently parsing some data. Otherwise, we are not. */
 	bool m_parsing;
 	/** The socket that will connect to the server */
@@ -270,6 +275,8 @@ private:  // Private attributes & methods
 	void setVersion( QString version );
 	/** Sets the description of this renderer to desc. */
 	void setDescription( const QString &description );
+	void openMlt();
+	void closeMlt();
 private slots:  // Private slots
 	/** Catches errors from the socket. */
 	void error( int error );

@@ -65,10 +65,12 @@ KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, 
 
 	m_portNum = port;
 	m_appPath = appPath;
+	openMlt();
 }
 
 KRender::~KRender()
 {
+	closeMlt();
 	killTimers();
 	quit();
 }
@@ -202,6 +204,22 @@ QPtrList<AVFileFormatDesc> &KRender::fileFormats()
 
 
 
+void KRender::openMlt(){
+	m_refCount++;
+	if (m_refCount==1){
+		Mlt::Factory::init();
+		m_mltMiracle=new Mlt::Miracle("miracle",5250);
+		m_mltMiracle->start();
+		std::cout << "Mlt inited" << std::endl;
+	}
+}
+
+void KRender::closeMlt(){
+	m_refCount--;
+	if (m_refCount){
+		
+	}
+}
 
 
 /** Wraps the VEML command of the same name; requests that the renderer
@@ -214,9 +232,9 @@ static void consumer_frame_show (mlt_consumer sdl, KRender* self,mlt_frame frame
 	//std::cout << frame_ptr << std::endl;
 }
 
-void KRender::createVideoXWindow( bool show )
+void KRender::createVideoXWindow( bool show ,WId winid)
 {
-	Mlt::Factory::init();
+	
 	std::cout << "opening video1" << std::endl;
 	Mlt::Consumer* c=new Mlt::Consumer("sdl");
 	std::cout << "opening video2" << std::endl;
@@ -1058,6 +1076,7 @@ bool KRender::reply_getFileProperties_EndElement( const QString & localName, con
 
 bool KRender::rendererOk()
 {
+	
 	if ( m_appPathInvalid ) return false;
 
 	return true;
