@@ -49,9 +49,11 @@ relevant signal that get's emitted once the call completes.
 class KRender;
 class AVFormatDescCodecList;
 class EffectParamDesc;
-namespace Mlt{
-class Miracle;
-class Consumer;
+
+namespace Mlt {
+	class Miracle;
+	class Consumer;
+	class Producer;
 };
 
 struct StackValue
@@ -85,14 +87,6 @@ public:
 	bool endDocument();
 	/** Occurs upon starting to parse an XML document */
 	bool startDocument();
-	/** Called when the xml parser encounters a closing tag */
-	bool endElement ( const QString &nameSpace, const QString & localName, const QString & qName );
-	/** Called when the xml parser encounters an opening element */
-	bool startElement( const QString &nameSpace, const QString & localName, const QString & qName, const QXmlAttributes & atts );
-	/** Called when the xml parser encounters characters */
-	bool characters( const QString &ch );
-	/** Called when the xml parser encounters an opening element and we are outside of any command. */
-
 	/** Seeks the renderer clip to the given time. */
 	void seek( GenTime time );
 	/** Wraps the VEML command of the same name. Requests the file properties
@@ -102,8 +96,8 @@ public:
 	/** Wraps the VEML command of the same name. Sets the current scene list to
 	be list. */
 	void setSceneList( QDomDocument list );
-	/** Wraps the VEML command of the same name - sends a <setCapture> command to the server,
-	which should reply with a <reply command="setCapture"> */
+
+	/** Sets up the renderer as a capture device. */
 	void setCapture();
 
 	/** Wraps the VEML command of the same name - sends a <ping> command to the server, which
@@ -154,7 +148,8 @@ protected:  // Protected methods
 	virtual void timerEvent( QTimerEvent *event );
 private:  // Private attributes & methods
 	Mlt::Miracle* m_mltMiracle;
-	Mlt::Consumer* consumer;
+	Mlt::Consumer* m_mltConsumer;
+	Mlt::Producer* m_mltProducer;
 	
 
 	/** If true, we are currently parsing some data. Otherwise, we are not. */

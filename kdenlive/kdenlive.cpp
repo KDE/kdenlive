@@ -1134,7 +1134,6 @@ void KdenliveApp::slotSetClipMonitorSource( DocClipRef *clip )
 {
 	m_clipMonitor->slotSetClip( clip );
 	activateClipMonitor();
-	m_workspaceMonitor->slotSetClip( clip );
 }
 
 void KdenliveApp::loadLayout1()

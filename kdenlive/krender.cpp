@@ -42,7 +42,12 @@ KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, 
 		m_codec( 0 ),
 		m_effect( 0 ),
 		m_playSpeed( 0.0 ),
-		m_parameter(0)
+		m_parameter(0),
+		m_portNum(0),
+		m_appPath(""),
+		m_mltMiracle(NULL),
+		m_mltConsumer(NULL),
+		m_mltProducer(NULL)
 {
 	startTimer( 1000 );
 	m_parsing = false;
@@ -65,7 +70,7 @@ KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, 
 
 	m_portNum = port;
 	m_appPath = appPath;
-	consumer=0;
+	m_mltConsumer = NULL;
 	openMlt();
 }
 
@@ -82,7 +87,7 @@ void KRender::timerEvent( QTimerEvent *event )
 	//if ( m_socket.state() == QSocket::Idle ) {
 		//if ( !m_process.isRunning() ) {
 			//if(m_refCount==1){
-			if (consumer==0){
+			if (m_mltConsumer==NULL){
 				launchProcess();
 				emit slotConnected();
 			}
@@ -217,29 +222,30 @@ void KRender::createVideoXWindow( bool show ,WId winid)
 {
 	
 	
-	consumer=new Mlt::Consumer("sdl_preview:352x288");
-	consumer->listen("consumer-frame-show",this,(mlt_listener)consumer_frame_show);
-	consumer->set ("app_locked",1);
-	consumer->set("app_lock",(void*)my_lock,0);
-	consumer->set("app_unlock",(void*)my_unlock,0);
+	m_mltConsumer=new Mlt::Consumer("sdl_preview:352x288");
+	m_mltConsumer->listen("consumer-frame-show",this,(mlt_listener)consumer_frame_show);
+	m_mltConsumer->set ("app_locked",1);
+	m_mltConsumer->set("app_lock",(void*)my_lock,0);
+	m_mltConsumer->set("app_unlock",(void*)my_unlock,0);
 	setenv("SDL_WINDOWID",QString::number(winid),1);
 	std::cout << "winid: << "<< winid << std::endl;
-	consumer->set("resize",1);
-	consumer->set("progressiv",1);
+	m_mltConsumer->set("resize",1);
+	m_mltConsumer->set("progressiv",1);
 	
 	/*std::cout << m_refCount << std::endl;
 	if (m_refCount==5){*/
 	
-	Mlt::Producer *pr=new Mlt::Producer("noise");
+	m_mltProducer=new Mlt::Producer("noise");
 	
-	consumer->connect(*pr);
-	consumer->start();
+	m_mltConsumer->connect(*m_mltProducer);
+//	m_mltConsumer->start();
 }
 
 /** Wraps the VEML command of the same name; Seeks the renderer clip to the given time. */
 void KRender::seek( GenTime time )
 {
 	sendSeekCommand( time );
+
 	emit positionChanged( time );
 }
 
@@ -248,13 +254,16 @@ void KRender::getFileProperties( KURL url )
 	if ( !rendererOk() ) {
 		emit replyErrorGetFileProperties( url.path(), i18n( "The renderer is unavailable, the file properties cannot be determined." ) );
 	} else {
-		QDomDocument doc;
-		QDomElement elem = doc.createElement( "getFileProperties" );
+		Mlt::Producer producer(const_cast<char *>(url.path().ascii()));
 
-		elem.setAttribute( "filename", url.path() );
-		doc.appendChild( elem );
+		m_filePropertyMap.clear();
+		m_filePropertyMap["filename"] = url.path();
+		m_filePropertyMap["duration"] = QString::number(producer.get_length());
+		// TODO - this line should not be hard coded.
+		m_filePropertyMap["type"] = "video";
+		
+		emit replyGetFileProperties(m_filePropertyMap);
 
-		sendCommand( doc );
 	}
 }
 
@@ -264,6 +273,16 @@ void KRender::setSceneList( QDomDocument list )
 {
 	m_sceneList = list;
 	m_setSceneListPending = true;
+	
+	m_mltConsumer->stop();
+
+	if(m_mltProducer != NULL) {
+		delete m_mltProducer;
+		m_mltProducer = NULL;
+	}
+
+	m_mltProducer = new Mlt::Producer("westley.txt");
+	m_mltConsumer->connect(*m_mltProducer);
 }
 
 /** Wraps the VEML command of the same name - sends a <ping> command to the server, which
@@ -283,11 +302,12 @@ void KRender::play( double speed )
 	if ( m_setSceneListPending ) {
 		sendSetSceneListCommand( m_sceneList );
 	}
-	QDomDocument doc;
-	QDomElement elem = doc.createElement( "play" );
-	elem.setAttribute( "speed", speed );
-	doc.appendChild( elem );
-	sendCommand( doc );
+
+	if(m_playSpeed != 0.0) {
+		m_mltConsumer->start();
+	} else {
+		m_mltConsumer->stop();
+	}
 }
 
 void KRender::play(double speed, const GenTime &startTime)
@@ -296,12 +316,12 @@ void KRender::play(double speed, const GenTime &startTime)
 	if(m_setSceneListPending) {
 		sendSetSceneListCommand(m_sceneList);
 	}
-	QDomDocument doc;
-	QDomElement elem = doc.createElement("play");
-	elem.setAttribute("speed", speed);
-	elem.setAttribute("start", startTime.seconds());
-	doc.appendChild(elem);
-	sendCommand(doc);
+
+	if(m_playSpeed != 0.0) {
+		m_mltConsumer->start();
+	} else {
+		m_mltConsumer->stop();
+	}
 }
 
 void KRender::play( double speed, const GenTime &startTime, const GenTime &stopTime )
@@ -311,13 +331,12 @@ void KRender::play( double speed, const GenTime &startTime, const GenTime &stopT
 	if ( m_setSceneListPending ) {
 		sendSetSceneListCommand( m_sceneList );
 	}
-	QDomDocument doc;
-	QDomElement elem = doc.createElement( "play" );
-	elem.setAttribute( "speed", speed );
-	elem.setAttribute( "start", startTime.seconds() );
-	elem.setAttribute( "stop", stopTime.seconds() );
-	doc.appendChild( elem );
-	sendCommand( doc );
+
+	if(m_playSpeed != 0.0) {
+		m_mltConsumer->start();
+	} else {
+		m_mltConsumer->stop();
+	}
 }
 
 void KRender::render( const KURL &url )
@@ -430,13 +449,6 @@ QString KRender::description()
 	return m_description;
 }
 
-
-
-
-
-
-
-
 /** Occurs upon starting to parse an XML document */
 bool KRender::startDocument()
 {
@@ -450,34 +462,6 @@ bool KRender::endDocument()
 	//  emit renderDebug(m_name, "Finishing parsing document");
 	return true;
 }
-
-/** Called when the xml parser encounters an opening element */
-bool KRender::startElement( const QString &nameSpace, const QString & localName,
-                            const QString & qName, const QXmlAttributes & atts )
-{
-	StackValue val = m_parseStack.top();
-	if ( val.funcStartElement == NULL ) {
-		emit renderDebug( m_name, "Ignoring tag " + localName );
-		pushIgnore();
-		return true;
-	}
-	return ( this->*val.funcStartElement ) ( localName, qName, atts );
-}
-
-/** Called when the xml parser encounters a closing tag */
-bool KRender::endElement ( const QString &nameSpace, const QString & localName, const QString & qName )
-{
-	StackValue val = m_parseStack.pop();
-	if ( val.funcEndElement == NULL ) return true;
-	return ( this->*val.funcEndElement ) ( localName, qName );
-}
-
-bool KRender::characters( const QString &ch )
-{
-	m_characterBuffer += ch;
-	return true;
-}
-
 
 bool KRender::rendererOk()
 {
