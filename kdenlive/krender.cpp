@@ -157,14 +157,6 @@ void KRender::readData()
 /** Sends an XML command to the renderer. */
 void KRender::sendCommand( QDomDocument command )
 {
-	if ( m_socket.state() == QSocket::Connected ) {
-		emit renderDebug( m_name, "Sending Command " + command.toString() );
-		QCString str = command.toCString() + "\n\n";
-		m_socket.writeBlock( str, strlen( str ) );
-	} else {
-		emit renderWarning( m_name, "Socket not connected, not sending Command " +
-		                    command.toString() );
-	}
 }
 
 /** Generates the quit command */
@@ -262,13 +254,6 @@ void KRender::createVideoXWindow( bool show )
 	c->set("progressiv",1);
 	c->start();
 	std::cout << "opening video" << std::endl;
-/*	QDomDocument doc;
-	QDomElement elem = doc.createElement( "createVideoXWindow" );
-	elem.setAttribute( "show", show ? "true" : "false" );
-	elem.setAttribute( "format", "xv" );
-	doc.appendChild( elem );
-
-	//sendCommand( doc );*/
 }
 
 /** Wraps the VEML command of the same name; Seeks the renderer clip to the given time. */
