@@ -280,19 +280,20 @@ void KRender::setSceneList( QDomDocument list )
 		delete m_mltProducer;
 		m_mltProducer = NULL;
 	}
-	QDomDocument doc;
-	QDomElement elem=doc.createElement("westley");
-	doc.appendChild(elem);
-	QDomElement elem1=doc.createElement("producer");
-	elem1.setAttribute("id","resource0");
-	elem.appendChild(elem1);
-	QDomElement elem2=doc.createElement("property");
-	elem2.setAttribute("name","resource");
-	elem1.appendChild(elem2);
-	QDomText elem3=doc.createTextNode("/home/marco/mtv.mpg");
-	elem2.appendChild(elem3);
-	std::cout <<  doc.toString() << std::endl;
-	m_mltProducer = new Mlt::Producer("westley-xml",(char*)doc.toString().ascii());
+//	QDomDocument doc;
+//	QDomElement elem=doc.createElement("westley");
+//	doc.appendChild(elem);
+//	QDomElement elem1=doc.createElement("producer");
+//	elem1.setAttribute("id","resource0");
+//	elem.appendChild(elem1);
+//	QDomElement elem2=doc.createElement("property");
+//	elem2.setAttribute("name","resource");
+//	elem1.appendChild(elem2);
+//	QDomText elem3=doc.createTextNode("test.mpg");
+//	elem2.appendChild(elem3);
+//	std::cout <<  doc.toString() << std::endl;
+//	m_mltProducer = new Mlt::Producer("westley-xml",const_cast<char*>(doc.toString().ascii()));
+	m_mltProducer = new Mlt::Producer("westley-xml",const_cast<char*>(list.toString().ascii()));
 	m_mltConsumer->connect(*m_mltProducer);
 }
 

@@ -151,17 +151,19 @@ QDomDocument DocClipAVFile::generateSceneList() const
 // virtual
 QDomDocument DocClipAVFile::sceneToXML(const GenTime &startTime, const GenTime &endTime) const
 {
-	static QString str_inpoint="clipBegin";
-	static QString str_outpoint="clipEnd";
-	static QString str_file="src";
 	QDomDocument sceneList;
 
-	QDomElement sceneClip = sceneList.createElement("video");
-	sceneClip.setAttribute(str_file, fileURL().path());
-	sceneClip.setAttribute(str_inpoint, QString::number(startTime.seconds()));
-	sceneClip.setAttribute(str_outpoint, QString::number(endTime.seconds()));
+	QDomElement property = sceneList.createElement("property");
+	property.setAttribute("name", "resource");
 
-	sceneList.appendChild(sceneClip);
+	QDomText textNode = sceneList.createTextNode(fileURL().path());
+
+	property.appendChild(textNode);
+	
+//	property.setAttribute(str_inpoint, QString::number(startTime.seconds()));
+//	property.setAttribute(str_outpoint, QString::number(endTime.seconds()));
+
+	sceneList.appendChild(property);
 
 	return sceneList;
 }
