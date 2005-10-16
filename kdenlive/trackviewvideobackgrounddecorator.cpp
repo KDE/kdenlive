@@ -49,8 +49,8 @@ TrackViewVideoBackgroundDecorator::~TrackViewVideoBackgroundDecorator()
 // virtual
 void TrackViewVideoBackgroundDecorator::paintClip(double startX, double endX, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected)
 {
-	QDomDocument myxml=clip->generateSceneList();
-	qDebug("%s\n",myxml.toString().ascii());
+	//QDomDocument myxml=clip->generateSceneList();
+	//qDebug("%s\n",myxml.toString().ascii());
 	
 	int sx = startX; // (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
 	int ex = endX; //(int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
@@ -72,31 +72,16 @@ void TrackViewVideoBackgroundDecorator::paintClip(double startX, double endX, QP
 	double aspect=4.0/3.0;
 	int width=(h)*aspect;
 	int i=sx;
-	/** this is only for testingmust be replaced with picture from video **/
-
-	//std::cout << document()->renderer()->getFileProperties(document()->URL()) << std::endl;
-	QPixmap img(locate( "appdata", "kdenlive-splash.png" ) );
-	/*QImage img(rect.height()*aspect,rect.height(),32);
-	img.fill(127);
-	img.setOffset(QPoint(rect.height()*aspect/2,rect.height()/2));
-	img.setColor(0,qRgb(255,255,255));
-	img.setText("","","Picture");*/
-					  
-	////////
 	int frame=0;
 	for (;i+width<ex;i+=width){
-		if (i+width<rect.x() || i>rect.x()+rect.width())
-			continue;
 		const QPixmap &newimg = clip->referencedClip()->thumbnail();
 		//document()->renderer()->getImage(document()->URL(),frame+=10,&newimg);
-		//painter.fillRect( i, rect.y(),width,rect.height(), col);
+		if (i+width<rect.x() || i>rect.x()+rect.width())
+			continue;
 		painter.drawPixmap(i,y,newimg,0,0,width,h);
 		painter.drawRect( i, y,width,h);	
 	}
 	if (i<ex){
-		//painter.fillRect(i, rect.y(),ex-i, rect.height(), col);
-		//QPixmap newimg(width,h,16);
-		//document()->renderer()->getImage(document()->URL(),frame+=10,&newimg);
 		const QPixmap &newimg = clip->referencedClip()->thumbnail();
 		painter.drawPixmap(i,y,newimg,0,0,ex-i,h);
 		painter.drawRect( i, y,ex-i, h);
