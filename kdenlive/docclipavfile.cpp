@@ -258,7 +258,7 @@ void DocClipAVFile::calculateFileProperties(const QMap<QString, QString> &attrib
 		m_filesize = fileInfo.size();
 
 		if(attributes.contains("duration")) {
-			m_duration = GenTime(attributes["duration"].toDouble());
+			m_duration = GenTime(attributes["duration"].toDouble(), 25);
 			m_durationKnown = true;
 		} else {
 			// No duration known, use an arbitrary one until it is.
