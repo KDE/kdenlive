@@ -63,6 +63,6 @@ bool DocTrackSound::canAddClip(DocClipRef * clip) const
 		*	with each type of clip. */
 const QString &DocTrackSound::clipType() const
 {
-  static QString clipType = "sound";
+  static QString clipType = "Sound";
 	return clipType;
 }
