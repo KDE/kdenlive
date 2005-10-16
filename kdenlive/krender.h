@@ -151,6 +151,8 @@ public:
 	const GenTime &seekPosition() const;
 
 	void sendDebugVemlCommand(const QString &name);
+
+	void emitFrameNumber(const GenTime &time);
 protected:  // Protected methods
 	/** Recieves timer events */
 	virtual void timerEvent( QTimerEvent *event );

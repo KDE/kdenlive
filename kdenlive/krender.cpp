@@ -209,15 +209,10 @@ void KRender::closeMlt(){
 
 }
 
-
-/** Wraps the VEML command of the same name; requests that the renderer
-should create a video window. If show is true, then the window should be
-displayed, otherwise it should be hidden. KRender will emit the signal
-replyCreateVideoXWindow() once the renderer has replied. */
-
-
 static void consumer_frame_show (mlt_consumer sdl, KRender* self,mlt_frame frame_ptr){
 	//std::cout << frame_ptr << std::endl;
+	mlt_position framePosition = mlt_frame_get_position(frame_ptr);
+	self->emitFrameNumber(GenTime(framePosition, 25));
 }
 void my_lock(){
 	
@@ -227,6 +222,12 @@ void my_unlock(){
 	
 	mutex.unlock();
 }
+
+/** Wraps the VEML command of the same name; requests that the renderer
+should create a video window. If show is true, then the window should be
+displayed, otherwise it should be hidden. KRender will emit the signal
+replyCreateVideoXWindow() once the renderer has replied. */
+
 void KRender::createVideoXWindow( bool show ,WId winid)
 {
 	m_mltConsumer=new Mlt::Consumer("sdl_preview:352x288");
@@ -536,3 +537,10 @@ void KRender::setCapture()
 
 	sendCommand( doc );
 }
+
+void KRender::emitFrameNumber(const GenTime &time)
+{
+	m_seekPosition = time;
+	emit positionChanged(time);
+}
+
