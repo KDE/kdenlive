@@ -94,6 +94,13 @@ public:
 	via replyGetFileProperties(). */
 	void getFileProperties( KURL url );
 	void getImage(KURL url,int frame,QPixmap* image);
+
+	/** Requests a particular frame from the given file. 
+	 * 
+	 * The pixmap will be returned by emitting the replyGetImage() signal.
+	 * */
+	void getImage(KURL url,int frame, int width, int height);
+	
 	/** Wraps the VEML command of the same name. Sets the current scene list to
 	be list. */
 	void setSceneList( QDomDocument list );
@@ -275,6 +282,10 @@ signals:  // Signals
 	void replyCreateVideoXWindow( WId );
 	/** emitted when the renderer recieves a reply to a getFileProperties request. */
 	void replyGetFileProperties( const QMap<QString, QString> & );
+	
+	/** emitted when the renderer recieves a reply to a getImage request. */
+	void replyGetImage( const KURL &, int, const QPixmap &);
+	
 	/** emitted when the renderer recieves a failed reply to a getFileProperties request.
 	    First string is file url, second string is the error message. */
 	void replyErrorGetFileProperties( const QString &, const QString & );

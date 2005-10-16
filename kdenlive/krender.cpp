@@ -253,9 +253,21 @@ void KRender::seek( GenTime time )
 
 	emit positionChanged( time );
 }
-void KRender::getImage(KURL url,int frame,QPixmap* image){
+
+void KRender::getImage(KURL url,int frame,QPixmap* image)
+{
 	image->fill(QColor(255,0,0));
 }	
+
+void KRender::getImage(KURL url,int frame, int width, int height)
+{
+	QPixmap pixmap(width, height);
+
+	pixmap.fill(QColor(255,0,0));
+
+	emit replyGetImage(url, frame, pixmap);
+}
+
 void KRender::getFileProperties( KURL url )
 {
 	if ( !rendererOk() ) {

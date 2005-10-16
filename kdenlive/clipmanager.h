@@ -101,6 +101,7 @@ public slots:
 	/** This slot occurs when the File properties for an AV File have been returned by the renderer.
 	The relevant AVFile can then be updated to the correct status. */
 	void AVFilePropertiesArrived(const QMap<QString, QString> &properties);
+	void AVImageArrived( const KURL &, int, const QPixmap &);
 private:
 	/** Finds the avclip that uses the given url. */
 	DocClipAVFile *findAVFile(const KURL &url);

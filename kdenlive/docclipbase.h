@@ -26,6 +26,7 @@
 #include <kurl.h>
 #include <qobject.h>
 #include <qvaluevector.h>
+#include <qpixmap.h>
 
 #include "gentime.h"
 
@@ -104,6 +105,12 @@ public:
 	 * it uses it as part of it's own composition. */
 	virtual bool referencesClip(DocClipBase *clip) const = 0;
 
+	/** Sets the thumbnail to be used by this clip */
+	void setThumbnail(const QPixmap &pixmap);
+	
+	/** Returns the thumbnail used by this clip */
+	const QPixmap &thumbnail() const;
+
 	static DocClipBase *createClip(const EffectDescriptionList &effectList, ClipManager &clipManager, const QDomElement &element);
 private: // Private attributes
 	/** The name of this clip */
@@ -113,6 +120,9 @@ private: // Private attributes
 	/** The number of times this clip is used in the project - the number of references to this clip
 	 * that exist. */
 	uint m_refcount;
+
+	/** A thumbnail for this clip */
+	QPixmap m_thumbnail;
 };
 
 #endif

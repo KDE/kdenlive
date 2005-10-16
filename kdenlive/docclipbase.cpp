@@ -174,3 +174,14 @@ QDomDocument DocClipBase::generateSceneList() const
 
 	return sceneList;
 }
+
+void DocClipBase::setThumbnail(const QPixmap &pixmap)
+{
+	m_thumbnail = pixmap;
+}
+
+const QPixmap &DocClipBase::thumbnail() const
+{
+	return m_thumbnail;
+}
+

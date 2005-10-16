@@ -35,6 +35,8 @@ ClipManager::ClipManager(KRenderManager &renderManager, QWidget *parent, const c
 
 	connect(m_render, SIGNAL(replyGetFileProperties(const QMap<QString, QString> &)),
   					 this, SLOT(AVFilePropertiesArrived(const QMap<QString, QString> &)));
+	connect(m_render, SIGNAL(replyGetImage(const KURL &, int, const QPixmap &)),
+					this, SLOT(AVImageArrived(const KURL &, int, const QPixmap &)));
 }
 
 ClipManager::~ClipManager()
@@ -49,6 +51,7 @@ DocClipBase *ClipManager::insertClip(const KURL &file)
 		clip = new DocClipAVFile(file.fileName(), file);
 		m_clipList.append(clip);
 		m_render->getFileProperties(file);
+		m_render->getImage(file, 1, 64, 64);
 		emit clipListUpdated();
 	}
 
@@ -115,7 +118,7 @@ void ClipManager::clear()
 
 DocClipAVFile *ClipManager::findAVFile(const KURL &url)
 {
-	DocClipAVFile *file = 0;
+	DocClipAVFile *file = NULL;
 
 	QPtrListIterator<DocClipBase> itt(m_clipList);
 
@@ -188,3 +191,13 @@ DocClipBase *ClipManager::addTemporaryClip(const KURL &file)
 #warning - to be written.
 	return insertClip(file);
 }
+
+void ClipManager::AVImageArrived( const KURL &url, int frame, const QPixmap &pixmap)
+{
+	DocClipBase *clip = findClip(url);
+
+	if(clip) {
+		clip->setThumbnail(pixmap);
+	}
+}
+
