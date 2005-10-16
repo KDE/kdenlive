@@ -27,6 +27,8 @@
 #include "avformatdesccodeclist.h"
 #include "avformatdesccodec.h"
 #include <mlt++/Mlt.h>
+#include <qcolor.h>
+#include <qpixmap.h>
 #include <iostream>
 #include "effectparamdesc.h"
 
@@ -251,7 +253,9 @@ void KRender::seek( GenTime time )
 
 	emit positionChanged( time );
 }
-
+void KRender::getImage(KURL url,int frame,QPixmap* image){
+	image->fill(QColor(255,0,0));
+}	
 void KRender::getFileProperties( KURL url )
 {
 	if ( !rendererOk() ) {

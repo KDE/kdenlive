@@ -49,7 +49,7 @@ relevant signal that get's emitted once the call completes.
 class KRender;
 class AVFormatDescCodecList;
 class EffectParamDesc;
-
+class QPixmap;
 namespace Mlt {
 	class Miracle;
 	class Consumer;
@@ -93,6 +93,7 @@ public:
 	for the specified url from the renderer. Upon return, the result will be emitted
 	via replyGetFileProperties(). */
 	void getFileProperties( KURL url );
+	void getImage(KURL url,int frame,QPixmap* image);
 	/** Wraps the VEML command of the same name. Sets the current scene list to
 	be list. */
 	void setSceneList( QDomDocument list );
