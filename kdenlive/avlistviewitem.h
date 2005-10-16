@@ -36,6 +36,7 @@ public:
 	~AVListViewItem();
 	virtual void setText( int column, const QString &text );
 	virtual QString text ( int column ) const;
+	virtual const QPixmap *pixmap ( int column ) const;
 	DocClipRef *clip() const;
 private:
 	void doCommonCtor();

@@ -229,8 +229,6 @@ void my_unlock(){
 }
 void KRender::createVideoXWindow( bool show ,WId winid)
 {
-	
-	
 	m_mltConsumer=new Mlt::Consumer("sdl_preview:352x288");
 	m_mltConsumer->listen("consumer-frame-show",this,(mlt_listener)consumer_frame_show);
 	//only as is saw, if we want to lock something with the sdl lock

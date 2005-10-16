@@ -359,7 +359,7 @@ void KdenliveDoc::clipChanged(DocClipBase *file)
 			emit clipChanged(clipNode->clipRef());
 		}
 	} else {
-		kdWarning() << "Got a request for a changed clip that is not in the document" << endl;
+		kdWarning() << "Got a request for a changed clip that is not in the document : " << file->name() << endl;
 	}
 }
 

@@ -29,6 +29,7 @@ ProjectListView::ProjectListView(QWidget *parent, const char *name):
 {
 		m_doc = 0;
 
+    addColumn( i18n( "Thumbnail" ) );
     addColumn( i18n( "Filename" ) );
     addColumn( i18n( "Type" ) );
     addColumn( i18n( "Duration" ) );

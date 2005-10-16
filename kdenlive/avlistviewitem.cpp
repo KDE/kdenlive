@@ -30,6 +30,8 @@
 #include <documentclipnode.h>
 #include <timecode.h>
 
+#include <iostream>
+
 AVListViewItem::AVListViewItem(KdenliveDoc *doc, QListViewItem *parent, DocumentBaseNode *node) :
 					KListViewItem(parent),
 					m_listView(parent->listView()),
@@ -54,7 +56,7 @@ AVListViewItem::AVListViewItem(KdenliveDoc *doc, QListView *parent, DocumentBase
 
 void AVListViewItem::doCommonCtor()
 {
-	setRenameEnabled(5, true);
+	setRenameEnabled(6, true);
 
 	// recursively populate the rest of the node tree.
 	QPtrListIterator<DocumentBaseNode> child(m_node->children());
@@ -72,6 +74,7 @@ AVListViewItem::~AVListViewItem()
 
 void AVListViewItem::setText( int column, const QString &text )
 {
+	std::cout << "setText ( " << column << ", " << text << " ) " << std::endl;
 	if(m_listView->columnText(column) == i18n("Description")) {
 		DocumentClipNode *clipNode = m_node->asClipNode();
 
@@ -83,8 +86,8 @@ void AVListViewItem::setText( int column, const QString &text )
 
 QString AVListViewItem::text ( int column ) const
 {
-	QString text;
- 	if(m_listView->columnText(column) == i18n("Filename")) {
+	QString text = "";
+	if(m_listView->columnText(column) == i18n("Filename")) {
  		text = m_node->name();
 	} else 	if(m_listView->columnText(column) == i18n("Duration")) {
 		DocumentClipNode *clipNode = m_node->asClipNode();
@@ -95,20 +98,9 @@ QString AVListViewItem::text ( int column ) const
 				timecode.setFormat(Timecode::Frames);
 
 				text = timecode.getTimecode(clip->duration(), 25);
-				/*int hours = ((int)clip->duration().seconds())/3600;
-				int minutes = (((int)clip->duration().seconds())/60) % 60;
-				int seconds = ((int)clip->duration().seconds()) % 60;
-				int milliseconds= ((int)clip->duration().ms()) % 1000;
-				int frames = ((int)(milliseconds * m_doc->framesPerSecond())) / 1000;
-				text = QString::number(hours).rightJustify(2, '0', FALSE) + ":" +
-	  				QString::number(minutes).rightJustify(2, '0', FALSE) + ":" +
-		  			QString::number(seconds).rightJustify(2, '0', FALSE) + "." +
-		  			QString::number(frames).leftJustify(2, '0', TRUE);*/
 			} else {
 				text = i18n("unknown");
 			}
-		} else {
-			text = "";
 		}
 	} else if(m_listView->columnText(column) == i18n("Size")) {
 		DocumentClipNode *clipNode = m_node->asClipNode();
@@ -133,8 +125,6 @@ QString AVListViewItem::text ( int column ) const
 						QString::number(tenth) + i18n(" Mb");
 				}
 			}
-		} else {
-			text = "";
 		}
 	} else if(m_listView->columnText(column) == i18n("Type")) {
 		if(m_node->asClipNode()) {
@@ -149,20 +139,34 @@ QString AVListViewItem::text ( int column ) const
 		if(clipNode) {
 			DocClipRef *clip = clipNode->clipRef();
 			text = QString::number(clip->numReferences());
-		} else {
-			text = "";
 		}
 	} else if(m_listView->columnText(column) == i18n("Description")) {
 		DocumentClipNode *clipNode = m_node->asClipNode();
 		if(clipNode) {
 			DocClipRef *clip = clipNode->clipRef();
 			text = clip->description();
-		} else {
-			text = "";
-		}
+		} 
 	}
 
 	return text;
+}
+
+const QPixmap *AVListViewItem::pixmap ( int column ) const
+{
+	const QPixmap *pixmap = 0;
+
+	if(m_listView->columnText(column) == i18n("Thumbnail")) {
+		DocumentClipNode *clipNode = m_node->asClipNode();
+		if(clipNode) {
+			DocClipRef *clip = clipNode->clipRef();
+			DocClipBase *baseClip = clip->referencedClip();
+			pixmap = &(baseClip->thumbnail());
+
+			if (pixmap->isNull()) pixmap = NULL;
+		}
+	}
+
+	return pixmap;
 }
 
 DocClipRef *AVListViewItem::clip() const
