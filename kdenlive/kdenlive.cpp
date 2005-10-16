@@ -593,8 +593,9 @@ bool KdenliveApp::saveModified()
 			} else {
 				m_projectFormatManager.saveDocument( doc->URL(), doc );
 			};
-
-			m_clipMonitor->slotClearClip();
+			if (m_clipMonitor)
+				m_clipMonitor->slotClearClip();
+			if (m_workspaceMonitor)
 			m_workspaceMonitor->slotClearClip();
 			doc->deleteContents();
 
@@ -602,8 +603,8 @@ bool KdenliveApp::saveModified()
 			break;
 
 			case KMessageBox::No:
-			m_clipMonitor->slotClearClip();
-			m_workspaceMonitor->slotClearClip();
+			if (m_clipMonitor)m_clipMonitor->slotClearClip();
+			if (m_workspaceMonitor)m_workspaceMonitor->slotClearClip();
 			doc->newDocument();
 			completed = true;
 			break;

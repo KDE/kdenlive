@@ -200,6 +200,11 @@ void KRender::closeMlt(){
 		//m_mltMiracle->wait_for_shutdown();
 		//delete(m_mltMiracle);
 	}
+	if (m_mltConsumer)
+		delete m_mltConsumer;
+	if (m_mltProducer);
+	delete m_mltProducer;
+
 }
 
 
@@ -213,9 +218,11 @@ static void consumer_frame_show (mlt_consumer sdl, KRender* self,mlt_frame frame
 	//std::cout << frame_ptr << std::endl;
 }
 void my_lock(){
+	
 	mutex.lock();
 }
 void my_unlock(){
+	
 	mutex.unlock();
 }
 void KRender::createVideoXWindow( bool show ,WId winid)
@@ -224,21 +231,17 @@ void KRender::createVideoXWindow( bool show ,WId winid)
 	
 	m_mltConsumer=new Mlt::Consumer("sdl_preview:352x288");
 	m_mltConsumer->listen("consumer-frame-show",this,(mlt_listener)consumer_frame_show);
+	//only as is saw, if we want to lock something with the sdl lock
 	m_mltConsumer->set ("app_locked",1);
 	m_mltConsumer->set("app_lock",(void*)my_lock,0);
 	m_mltConsumer->set("app_unlock",(void*)my_unlock,0);
-	setenv("SDL_WINDOWID",QString::number(winid),1);
-	std::cout << "winid: << "<< winid << std::endl;
+	m_mltConsumer->set("window_id",QString::number(winid).ascii());
 	m_mltConsumer->set("resize",1);
 	m_mltConsumer->set("progressiv",1);
-	
-	/*std::cout << m_refCount << std::endl;
-	if (m_refCount==5){*/
-	
+
 	m_mltProducer=new Mlt::Producer("noise");
-	
 	m_mltConsumer->connect(*m_mltProducer);
-//	m_mltConsumer->start();
+
 }
 
 /** Wraps the VEML command of the same name; Seeks the renderer clip to the given time. */
@@ -280,6 +283,7 @@ void KRender::setSceneList( QDomDocument list )
 		delete m_mltProducer;
 		m_mltProducer = NULL;
 	}
+
 //	QDomDocument doc;
 //	QDomElement elem=doc.createElement("westley");
 //	doc.appendChild(elem);
@@ -294,6 +298,7 @@ void KRender::setSceneList( QDomDocument list )
 //	std::cout <<  doc.toString() << std::endl;
 //	m_mltProducer = new Mlt::Producer("westley-xml",const_cast<char*>(doc.toString().ascii()));
 	m_mltProducer = new Mlt::Producer("westley-xml",const_cast<char*>(list.toString().ascii()));
+
 	m_mltConsumer->connect(*m_mltProducer);
 }
 
