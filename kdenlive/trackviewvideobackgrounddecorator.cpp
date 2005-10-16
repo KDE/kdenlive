@@ -23,6 +23,7 @@
 #include "kdenlivedoc.h"
 #include "ktimeline.h"
 #include <qimage.h>
+#include <iostream>
 
 //only for testing please remove if video get drawn
 #include <kstandarddirs.h>
@@ -48,6 +49,9 @@ TrackViewVideoBackgroundDecorator::~TrackViewVideoBackgroundDecorator()
 // virtual
 void TrackViewVideoBackgroundDecorator::paintClip(double startX, double endX, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected)
 {
+	QDomDocument myxml=clip->generateSceneList();
+	qDebug("%s\n",myxml.toString().ascii());
+	
 	int sx = startX; // (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
 	int ex = endX; //(int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
 
@@ -70,6 +74,7 @@ void TrackViewVideoBackgroundDecorator::paintClip(double startX, double endX, QP
 	int i=sx;
 	/** this is only for testingmust be replaced with picture from video **/
 
+	//std::cout << document()->renderer()->getFileProperties(document()->URL()) << std::endl;
 	QPixmap img(locate( "appdata", "kdenlive-splash.png" ) );
 	/*QImage img(rect.height()*aspect,rect.height(),32);
 	img.fill(127);
@@ -78,16 +83,21 @@ void TrackViewVideoBackgroundDecorator::paintClip(double startX, double endX, QP
 	img.setText("","","Picture");*/
 					  
 	////////
+	int frame=0;
 	for (;i+width<ex;i+=width){
 		if (i+width<rect.x() || i>rect.x()+rect.width())
 			continue;
+		QPixmap newimg(width,h,16);
+		document()->renderer()->getImage(document()->URL(),frame+=10,&newimg);
 		//painter.fillRect( i, rect.y(),width,rect.height(), col);
-		painter.drawPixmap(i,y,img,0,0,width,h);
+		painter.drawPixmap(i,y,newimg,0,0,width,h);
 		painter.drawRect( i, y,width,h);	
 	}
 	if (i<ex){
 		//painter.fillRect(i, rect.y(),ex-i, rect.height(), col);
-		painter.drawPixmap(i,y,img,0,0,ex-i,h);
+		QPixmap newimg(width,h,16);
+		document()->renderer()->getImage(document()->URL(),frame+=10,&newimg);
+		painter.drawPixmap(i,y,newimg,0,0,ex-i,h);
 		painter.drawRect( i, y,ex-i, h);
 	}
 	
