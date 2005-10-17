@@ -4,6 +4,11 @@
   begin                : Fri Nov 22 2002
   copyright            : (C) 2002 by Jason Wood
   email                : jasonwood@blueyonder.co.uk
+  copyright            : (C) 2005 Lúcio Flávio Corrêa	
+  email                : lucio.correa@gmail.com
+  copyright            : (C) Marco Gittler
+  email                : g.marco@freenet.de
+
 ***************************************************************************/
 
 /***************************************************************************
@@ -29,6 +34,7 @@
 #include <mlt++/Mlt.h>
 #include <qcolor.h>
 #include <qpixmap.h>
+#include <qimage.h>
 #include <iostream>
 #include "effectparamdesc.h"
 
@@ -258,14 +264,34 @@ void KRender::getImage(KURL url,int frame,QPixmap* image)
 	image->fill(QColor(255,0,0));
 }	
 
-void KRender::getImage(KURL url,int frame, int width, int height)
+void KRender::getImage( KURL url, int frame, int width, int height ) 
 {
-	QPixmap pixmap(width, height);
+	Mlt::Producer m_producer(const_cast<char*>((url.directory(false)+url.fileName()).ascii()));
 
-	pixmap.fill(QColor(255,0,0));
+	Mlt::Filter m_convert( "avcolour_space" );
+	m_convert.set( "forced",mlt_image_rgb24a );
+	m_producer.attach( m_convert );
+	m_producer.seek( frame );
+    
+	Mlt::Frame *m_frame = m_producer.get_frame();
+	m_frame->set( "rescale","nearest" );
+    
+	if (m_frame)
+	{
+		unsigned char *m_thumb = m_frame->fetch_image( mlt_image_rgb24a, width, height, 1 );
+		m_producer.set( "thumb", m_thumb, width * height * 4, mlt_pool_release );
+		m_frame->set( "image",m_thumb, 0, NULL, NULL );
 
-	emit replyGetImage(url, frame, pixmap);
+		QPixmap m_pixmap( width, height,32 );
+ 
+		QImage m_image( m_thumb, width, height, 32, 0, 0, QImage::IgnoreEndian );
+ 
+		delete m_frame;
+		m_pixmap.convertFromImage( m_image );
+		emit replyGetImage( url, frame, m_pixmap );
+	} 
 }
+	
 
 void KRender::getFileProperties( KURL url )
 {
@@ -542,17 +568,4 @@ void KRender::emitFrameNumber(const GenTime &time)
 {
 	m_seekPosition = time;
 	emit positionChanged(time);
-}
-
-QPixmap KRender::getFrame( Mlt::Producer *producer, int width, int height, int position = 0 ) 
-{
-	if ( producer != NULL )
-	{
-		producer->seek( position );
-		Mlt::Frame *frame = producer->get_frame( );
-		unsigned char *thumb = frame->fetch_image( mlt_image_rgb24, width, height, 0 );
-		QPixmap m_pixmap;
-		m_pixmap.loadFromData( thumb , sizeof( thumb) );
-		return m_pixmap;
-	}
 }
