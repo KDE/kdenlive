@@ -262,7 +262,9 @@ private:  // Private attributes & methods
 	void setDescription( const QString &description );
 	void openMlt();
 	void closeMlt();
-private slots:  // Private slots
+	/** Returns a QPixmap from producer, with the width, height and position  */
+	QPixmap getFrame( Mlt::Producer *producer, int width, int height, int position);
+ private slots:  // Private slots
 	/** Catches errors from the socket. */
 	void error( int error );
 	/** Called when some data has been recieved by the socket, reads the data and processes it. */

@@ -544,3 +544,15 @@ void KRender::emitFrameNumber(const GenTime &time)
 	emit positionChanged(time);
 }
 
+QPixmap KRender::getFrame( Mlt::Producer *producer, int width, int height, int position = 0 ) 
+{
+	if ( producer != NULL )
+	{
+		producer->seek( position );
+		Mlt::Frame *frame = producer->get_frame( );
+		unsigned char *thumb = frame->fetch_image( mlt_image_rgb24, width, height, 0 );
+		QPixmap m_pixmap;
+		m_pixmap.loadFromData( thumb , sizeof( thumb) );
+		return m_pixmap;
+	}
+}
