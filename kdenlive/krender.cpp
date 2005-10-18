@@ -38,6 +38,8 @@
 #include <iostream>
 #include "effectparamdesc.h"
 
+int m_refCount;
+
 KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, QObject *parent, const char *name ) :
 		QObject( parent, name ),
 		QXmlDefaultHandler(),
@@ -259,11 +261,33 @@ void KRender::seek( GenTime time )
 	emit positionChanged( time );
 }
 
+
 void KRender::getImage(KURL url,int frame,QPixmap* image)
 {
 	image->fill(QColor(255,0,0));
 }	
+/**
+Filles a ByteArray with soundsampledata for channel, from frame , with a length of frameLength (zoom) up to the length of the array
+*/
 
+void KRender::getSoundSamples(KURL url, int channel,int frame, double frameLength,QByteArray* array)
+{
+	/*std::cout << (url.directory(false)+url.fileName()).ascii() << std::endl;
+	Mlt::Producer m_producer(const_cast<char*>((url.directory(false)+url.fileName()).ascii()));
+	m_producer.seek( frame );
+	Mlt::Frame *m_frame = m_producer.get_frame();
+	int freq=32000,channels=2;
+	mlt_properties properties=MLT_FRAME_PROPERTIES(m_frame->get_frame());
+	double fps =mlt_properties_get_double(properties,"fps");
+	int samples=mlt_sample_calculator(fps,freq,mlt_frame_get_position(m_frame->get_frame()));
+	mlt_audio_format af=mlt_audio_pcm;
+	int16_t* pcm=m_frame->get_audio(af,freq,channels,samples);*/
+	for (int i=0;i<array->size();i++){
+		
+		(*array)[i]=short((double)i*256.0/(double)array->size()-128.0);
+		std::cout << i << " " << (int)(*array)[i] <<std::endl;
+	}
+}
 void KRender::getImage( KURL url, int frame, int width, int height ) 
 {
 	Mlt::Producer m_producer(const_cast<char*>((url.directory(false)+url.fileName()).ascii()));

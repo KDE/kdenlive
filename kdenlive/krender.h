@@ -50,6 +50,7 @@ class KRender;
 class AVFormatDescCodecList;
 class EffectParamDesc;
 class QPixmap;
+
 namespace Mlt {
 	class Miracle;
 	class Consumer;
@@ -64,7 +65,7 @@ struct StackValue
 	/** A function pointer to the relevant method that should parse tagClose events */
 	bool ( KRender::*funcEndElement ) ( const QString & localName, const QString & qName );
 };
-static int m_refCount;
+extern int m_refCount;
 static QMutex mutex;
 class KRender : public QObject, public QXmlDefaultHandler
 {
@@ -100,7 +101,7 @@ public:
 	 * The pixmap will be returned by emitting the replyGetImage() signal.
 	 * */
 	void getImage(KURL url,int frame, int width, int height);
-	
+	void getSoundSamples(KURL url,int channel,int frame, double frameLength,QByteArray* array);
 	/** Wraps the VEML command of the same name. Sets the current scene list to
 	be list. */
 	void setSceneList( QDomDocument list );

@@ -68,34 +68,27 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX, double endX, QP
 	double aspect=4.0/3.0;
 	int width=(int)(h)*aspect;
 	int i=sx;
-	/** this is only for testing must be replaced with picture from video **/
 
-	int soundbufferLen=1000;
-	short soundbuffer[soundbufferLen];
-	for(int i=0;i<soundbufferLen;i++){
-		soundbuffer[i]=sin((2.0*3.14259265*(double)i)/(double)soundbufferLen)*32000.0;
-	}
-	////////////////////
+	QByteArray ba(width);
+	document()->renderer()->getSoundSamples(document()->URL(),1,1,1.0,&ba);
+	int channels=2;
 	painter.drawRect( sx, y, ex-sx, h);
 	painter.fillRect( sx, y, ex-sx, h,col);
 	for (;i<ex;i+=width){
 		if (i+width<rect.x() || i>rect.x()+rect.width())
 			continue;
-		int xm=i,a=0;
-		int soundheight=h;
-		
-		for (;a<soundbufferLen && xm < ex;a+=soundbufferLen/width,xm+=1){
-			int val=abs(soundbuffer[a])*(soundheight/2)/32000;
-			painter.drawLine(
-				xm,y+soundheight/2-val,
-				xm,y+soundheight/2+val
-			);	
+		int deltaHeight=h/channels;
+		for (int countChannel=0;countChannel<channels;countChannel++){
+			drawChannel(countChannel,&ba,i,y+deltaHeight*countChannel,h/channels,painter);	
 		}
-
+	}	
+}
+void TrackViewAudioBackgroundDecorator::drawChannel(int channel,QByteArray *ba,int x,int y,int height,QPainter& painter)
+{
+	for (int a=0;a<ba->size();a++){
+		int val=abs((*ba)[a])*(height/2)/128;
+		painter.drawLine(a+x,y+height/2-val,a+x,y+height/2+val);	
 	}
-
-	
-	
 }
 
 };

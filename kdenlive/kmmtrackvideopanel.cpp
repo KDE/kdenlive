@@ -51,8 +51,8 @@ KMMTrackVideoPanel::KMMTrackVideoPanel(KdenliveApp *app,
 		KMMTrackPanel(timeline, doc, new KTrackPlacer(doc, timeline, docTrack), parent,name),
 		m_trackLabel(i18n("Video Track"), this, "Video Track")
 {
-	setMinimumHeight(40);
-	setMaximumHeight(40);
+	setMinimumHeight(70);
+	setMaximumHeight(70);
 
 	addFunctionDecorator("move", "resize");
 	addFunctionDecorator("move", "move");

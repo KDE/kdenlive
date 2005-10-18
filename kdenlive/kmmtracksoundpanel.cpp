@@ -36,8 +36,8 @@ KMMTrackSoundPanel::KMMTrackSoundPanel(KdenliveApp *app,
 						KMMTrackPanel(timeline, document, new KTrackPlacer(document, timeline, docTrack), parent,name),
 						m_trackLabel(this, "Sound Track")
 {
-	setMinimumHeight(20);
-	setMaximumHeight(20);
+	setMinimumHeight(40);
+	setMaximumHeight(40);
 
 	//addViewDecorator(new TrackViewBackgroundDecorator(timeline, document, QColor(64, 128, 64), QColor(128, 255, 128)));
 	addViewDecorator(new TrackViewAudioBackgroundDecorator(timeline, document, QColor(64, 128, 64), QColor(128, 255, 128)));
