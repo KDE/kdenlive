@@ -73,21 +73,16 @@ void TrackViewVideoBackgroundDecorator::paintClip(double startX, double endX, QP
 	int width=(h)*aspect;
 	int i=sx;
 	int frame=0;
-	for (;i+width<ex;i+=width){
+	for (;i<ex;i+=width){
 		const QPixmap &newimg = clip->referencedClip()->thumbnail();
 		//document()->renderer()->getImage(document()->URL(),frame+=10,&newimg);
-		if (i+width<rect.x() || i>rect.x()+rect.width())
-			continue;
-		painter.drawPixmap(i,y,newimg,0,0,width,h);
-		painter.drawRect( i, y,width,h);	
+		int drawWidth=width;
+		if (i+width>ex)
+			drawWidth=ex-i;
+		painter.drawPixmap(i,y,newimg,0,0,drawWidth,h);
+		painter.drawRect( i, y,drawWidth,h);	
 	}
-	if (i<ex){
-		const QPixmap &newimg = clip->referencedClip()->thumbnail();
-		painter.drawPixmap(i,y,newimg,0,0,ex-i,h);
-		painter.drawRect( i, y,ex-i, h);
-	}
-	
-	
+
 }
 
 };

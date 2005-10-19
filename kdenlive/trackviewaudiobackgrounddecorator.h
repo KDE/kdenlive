@@ -42,7 +42,7 @@ public:
 	virtual ~TrackViewAudioBackgroundDecorator();
 
     virtual void paintClip(double startX, double endx, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected) ;
-	 void drawChannel(int channel,QByteArray *,int x,int y,int height,QPainter &painter);
+	 void drawChannel(int channel,QByteArray *,int x,int y,int height,int maxWidth, QPainter &painter);
 private:
 	int m_height;
 	QColor m_selected;

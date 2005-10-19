@@ -79,14 +79,17 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX, double endX, QP
 			continue;
 		int deltaHeight=h/channels;
 		for (int countChannel=0;countChannel<channels;countChannel++){
-			drawChannel(countChannel,&ba,i,y+deltaHeight*countChannel,h/channels,painter);	
+			drawChannel(countChannel,&ba,i,y+deltaHeight*countChannel,h/channels,ex,painter);	
 		}
 	}	
 }
-void TrackViewAudioBackgroundDecorator::drawChannel(int channel,QByteArray *ba,int x,int y,int height,QPainter& painter)
+void TrackViewAudioBackgroundDecorator::drawChannel(int channel,QByteArray *ba,int x,int y,int height,int maxWidth,QPainter& painter)
 {
 	for (int a=0;a<ba->size();a++){
 		int val=abs((*ba)[a])*(height/2)/128;
+		
+		if (a+x>=maxWidth)
+			return;
 		painter.drawLine(a+x,y+height/2-val,a+x,y+height/2+val);	
 	}
 }
