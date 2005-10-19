@@ -70,7 +70,7 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX, double endX, QP
 	int i=sx;
 
 	QByteArray ba(width);
-	document()->renderer()->getSoundSamples(document()->URL(),1,1,1.0,&ba);
+	
 	int channels=2;
 	painter.drawRect( sx, y, ex-sx, h);
 	painter.fillRect( sx, y, ex-sx, h,col);
@@ -79,6 +79,7 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX, double endX, QP
 			continue;
 		int deltaHeight=h/channels;
 		for (int countChannel=0;countChannel<channels;countChannel++){
+			document()->renderer()->getSoundSamples(document()->URL(),countChannel,1,1.0,&ba);
 			drawChannel(countChannel,&ba,i,y+deltaHeight*countChannel,h/channels,ex,painter);	
 		}
 	}	
