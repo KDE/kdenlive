@@ -101,7 +101,7 @@ public:
 	 * The pixmap will be returned by emitting the replyGetImage() signal.
 	 * */
 	void getImage(KURL url,int frame, int width, int height);
-	void getSoundSamples(KURL url,int channel,int frame, double frameLength,QByteArray* array);
+	void getSoundSamples(KURL url,int channel,int frame, double frameLength);
 	/** Wraps the VEML command of the same name. Sets the current scene list to
 	be list. */
 	void setSceneList( QDomDocument list );
@@ -285,9 +285,13 @@ signals:  // Signals
 	void replyCreateVideoXWindow( WId );
 	/** emitted when the renderer recieves a reply to a getFileProperties request. */
 	void replyGetFileProperties( const QMap<QString, QString> & );
+
+	/** emitted when the renderer recieves a reply to a getFileProperties request. */
+	void replyGetSoundSamples(const KURL &url,int channel,int frame, double frameLength,const QByteArray &array);
 	
 	/** emitted when the renderer recieves a reply to a getImage request. */
-	void replyGetImage( const KURL &, int, const QPixmap &);
+	void replyGetImage( const KURL &, int, const QPixmap &, int, int);
+	void replyGetSoundSamples( const KURL &, int, const QPixmap &);
 	
 	/** emitted when the renderer recieves a failed reply to a getFileProperties request.
 	    First string is file url, second string is the error message. */

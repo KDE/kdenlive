@@ -35,7 +35,7 @@ ClipManager::ClipManager(KRenderManager &renderManager, QWidget *parent, const c
 
 	connect(m_render, SIGNAL(replyGetFileProperties(const QMap<QString, QString> &)),
   					 this, SLOT(AVFilePropertiesArrived(const QMap<QString, QString> &)));
-	connect(m_render, SIGNAL(replyGetImage(const KURL &, int, const QPixmap &)),
+	connect(m_render, SIGNAL(replyGetImage(const KURL &, int, const QPixmap &, int, int)),
 					this, SLOT(AVImageArrived(const KURL &, int, const QPixmap &)));
 }
 

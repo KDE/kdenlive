@@ -37,6 +37,8 @@ TrackViewAudioBackgroundDecorator::TrackViewAudioBackgroundDecorator(KTimeLine* 
 									m_unselected(unselected),
 									m_height(size)
 {
+	connect(document()->renderer(), SIGNAL(replyGetSoundSamples(const KURL &, int, int, double, const QByteArray &)), 
+			this, SLOT(setSoundSamples(const KURL &, int, int, double, const QByteArray &)));
 }
 
 
@@ -69,8 +71,6 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX, double endX, QP
 	int width=(int)(h)*aspect;
 	int i=sx;
 
-	QByteArray ba(width);
-	
 	int channels=2;
 	painter.drawRect( sx, y, ex-sx, h);
 	painter.fillRect( sx, y, ex-sx, h,col);
@@ -79,10 +79,13 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX, double endX, QP
 			continue;
 		int deltaHeight=h/channels;
 		for (int countChannel=0;countChannel<channels;countChannel++){
-			document()->renderer()->getSoundSamples(document()->URL(),countChannel,1,1.0,&ba);
-			drawChannel(countChannel,&ba,i,y+deltaHeight*countChannel,h/channels,ex,painter);	
+			if(m_array.size() == 0) {
+				document()->renderer()->getSoundSamples(document()->URL(),countChannel,1,1.0);
+			} else {
+				drawChannel(countChannel,&m_array,i,y+deltaHeight*countChannel,h/channels,ex,painter);	
+			}
 		}
-	}	
+	}
 }
 void TrackViewAudioBackgroundDecorator::drawChannel(int channel,QByteArray *ba,int x,int y,int height,int maxWidth,QPainter& painter)
 {
@@ -93,6 +96,11 @@ void TrackViewAudioBackgroundDecorator::drawChannel(int channel,QByteArray *ba,i
 			return;
 		painter.drawLine(a+x,y+height/2-val,a+x,y+height/2+val);	
 	}
+}
+
+void TrackViewAudioBackgroundDecorator::setSoundSamples(const KURL &url,int channel,int frame, double frameLength,const QByteArray &array)
+{
+	m_array = array;
 }
 
 };

@@ -270,7 +270,7 @@ void KRender::getImage(KURL url,int frame,QPixmap* image)
 Filles a ByteArray with soundsampledata for channel, from frame , with a length of frameLength (zoom) up to the length of the array
 */
 
-void KRender::getSoundSamples(KURL url, int channel,int frame, double frameLength,QByteArray* array)
+void KRender::getSoundSamples(KURL url, int channel,int frame, double frameLength)
 {
 	/*std::cout << (url.directory(false)+url.fileName()).ascii() << std::endl;
 	Mlt::Producer m_producer(const_cast<char*>((url.directory(false)+url.fileName()).ascii()));
@@ -282,11 +282,15 @@ void KRender::getSoundSamples(KURL url, int channel,int frame, double frameLengt
 	int samples=mlt_sample_calculator(fps,freq,mlt_frame_get_position(m_frame->get_frame()));
 	mlt_audio_format af=mlt_audio_pcm;
 	int16_t* pcm=m_frame->get_audio(af,freq,channels,samples);*/
-	for (int i=0;i<array->size();i++){
+	QByteArray array(10);
+
+	for (int i=0;i<array.size();i++){
 		
-		(*array)[i]=short((double)i*256.0/(double)array->size()-128.0);
-		std::cout << i << " " << (int)(*array)[i] <<std::endl;
+		array[i]=short((double)i*256.0/(double)array.size()-128.0);
+		std::cout << i << " " << (int)array[i] <<std::endl;
 	}
+
+	emit replyGetSoundSamples(url, channel, frame, frameLength, array);
 }
 void KRender::getImage( KURL url, int frame, int width, int height ) 
 {
@@ -312,7 +316,7 @@ void KRender::getImage( KURL url, int frame, int width, int height )
  
 		delete m_frame;
 		m_pixmap.convertFromImage( m_image );
-		emit replyGetImage( url, frame, m_pixmap );
+		emit replyGetImage( url, frame, m_pixmap, width, height );
 	} 
 }
 	

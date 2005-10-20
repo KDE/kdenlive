@@ -17,6 +17,7 @@
 #ifndef TRACKVIEWDECORATOR_H
 #define TRACKVIEWDECORATOR_H
 
+#include <qobject.h>
 
 class QPainter;
 class QRect;
@@ -34,7 +35,7 @@ View decorators implement the functionality required to display clips on the tim
 
 @author Jason Wood
 */
-class TrackViewDecorator {
+class TrackViewDecorator : public QObject {
 public:
     	TrackViewDecorator(KTimeLine *timeline);
 

@@ -23,6 +23,8 @@
 
 #include <ktimeline.h>
 
+class KURL;
+
 /**
 Draws the base preview image for a clip; in correct acpect ration and stretch togiven height .
 
@@ -32,6 +34,7 @@ namespace Gui{
 
 class TrackViewAudioBackgroundDecorator : public DocTrackDecorator
 {
+	Q_OBJECT
 public:
 	TrackViewAudioBackgroundDecorator(KTimeLine* timeline,
 									KdenliveDoc* doc,
@@ -43,10 +46,13 @@ public:
 
     virtual void paintClip(double startX, double endx, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected) ;
 	 void drawChannel(int channel,QByteArray *,int x,int y,int height,int maxWidth, QPainter &painter);
+public slots:
+	void setSoundSamples(const KURL &url,int channel,int frame, double frameLength,const QByteArray &array);
 private:
 	int m_height;
 	QColor m_selected;
 	QColor m_unselected;
+	QByteArray m_array;
 };
 
 };
