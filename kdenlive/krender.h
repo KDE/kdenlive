@@ -287,7 +287,7 @@ signals:  // Signals
 	void replyGetFileProperties( const QMap<QString, QString> & );
 
 	/** emitted when the renderer recieves a reply to a getFileProperties request. */
-	void replyGetSoundSamples(const KURL &url,int channel,int frame, double frameLength,const QByteArray &array);
+	void replyGetSoundSamples(const KURL &url,int channel,int frame, double frameLength,const QByteArray &array,int,int,int,int,QPainter&);
 	
 	/** emitted when the renderer recieves a reply to a getImage request. */
 	void replyGetImage( const KURL &, int, const QPixmap &, int, int);
@@ -326,7 +326,7 @@ public slots:  // Public slots
 	/** This slot reads stdIn and processes it. */
 	void slotReadStdout( KProcess *proc, char *buffer, int buflen );
 	void slotReadStderr( KProcess *proc, char *buffer, int buflen );
-	void getSoundSamples(const KURL& url,int channel,int frame, double frameLength,int arrayWidth);
+	void getSoundSamples(const KURL& url,int channel,int frame, double frameLength,int arrayWidth,int,int,int,int,QPainter&);
 };
 
 #endif
