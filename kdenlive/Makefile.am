@@ -97,10 +97,10 @@ noinst_HEADERS = configureproject.h configureprojectdialog.h exportconfig.h \
 			documentmacrocommands.h trackpanelfunctionfactory.h trackpanelselectnonefunction.h \
 			effectkeyframe.h effectdoublekeyframe.h effectparamdesc.h effectparamdoubledesc.h \
 			effectparameter.h effectparamdescfactory.h doctrackdecorator.h ktrackpanel.h \
-			ktrackclippanel.h trackviewdoublekeyframedecorator.h effectstack.h effectstackdialog.h \
-			effectdrag.h kaddeffectcommand.h effectdescriptionlist.h effectstacklistview.h \
-			saveprojectscenelistfilter.h ktrackplacer.h kplacer.h kclipplacer.h kmmclipkeyframepanel.h \
-			trackpanelcliprollfunction.h krollcommand.h dynamicToolTip.h kmonitor.h capturemonitor.h
+			ktrackclippanel.h trackviewdoublekeyframedecorator.h trackviewaudiobackgrounddecorator.h \
+			effectstack.h effectstackdialog.h effectdrag.h kaddeffectcommand.h effectdescriptionlist.h \
+			effectstacklistview.h saveprojectscenelistfilter.h ktrackplacer.h kplacer.h kclipplacer.h \
+			kmmclipkeyframepanel.h trackpanelcliprollfunction.h krollcommand.h dynamicToolTip.h kmonitor.h capturemonitor.h
 
 
 
