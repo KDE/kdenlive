@@ -101,7 +101,7 @@ public:
 	 * The pixmap will be returned by emitting the replyGetImage() signal.
 	 * */
 	void getImage(KURL url,int frame, int width, int height);
-	void getSoundSamples(KURL url,int channel,int frame, double frameLength);
+	
 	/** Wraps the VEML command of the same name. Sets the current scene list to
 	be list. */
 	void setSceneList( QDomDocument list );
@@ -326,6 +326,7 @@ public slots:  // Public slots
 	/** This slot reads stdIn and processes it. */
 	void slotReadStdout( KProcess *proc, char *buffer, int buflen );
 	void slotReadStderr( KProcess *proc, char *buffer, int buflen );
+	void getSoundSamples(const KURL& url,int channel,int frame, double frameLength,int arrayWidth);
 };
 
 #endif

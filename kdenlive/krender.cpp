@@ -270,7 +270,7 @@ void KRender::getImage(KURL url,int frame,QPixmap* image)
 Filles a ByteArray with soundsampledata for channel, from frame , with a length of frameLength (zoom) up to the length of the array
 */
 
-void KRender::getSoundSamples( KURL url, int channel,int frame, double frameLength )
+void KRender::getSoundSamples(const  KURL& url, int channel,int frame, double frameLength,int arrayWidth )
 {
 	
 	Mlt::Producer m_producer(const_cast<char*>((url.directory(false)+url.fileName()).ascii()));
@@ -281,7 +281,7 @@ void KRender::getSoundSamples( KURL url, int channel,int frame, double frameLeng
 	int m_frequency = 32000;
 	int m_channels = 2;
 	
-	QByteArray m_array(10);
+	QByteArray m_array(arrayWidth);
 	
 	if ( m_frame->is_valid() )
 	{

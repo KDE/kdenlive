@@ -53,6 +53,9 @@ private:
 	QColor m_selected;
 	QColor m_unselected;
 	QByteArray m_array;
+signals:
+	void getSoundSamples(const KURL& url,int countChannel,int frame,double frameLength,int arrayWidth);
+		
 };
 
 };

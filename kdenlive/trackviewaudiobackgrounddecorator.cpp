@@ -39,6 +39,8 @@ TrackViewAudioBackgroundDecorator::TrackViewAudioBackgroundDecorator(KTimeLine* 
 {
 	connect(document()->renderer(), SIGNAL(replyGetSoundSamples(const KURL &, int, int, double, const QByteArray &)), 
 			this, SLOT(setSoundSamples(const KURL &, int, int, double, const QByteArray &)));
+	connect(this, SIGNAL(getSoundSamples(const KURL &, int, int, double,int)), 
+			  document()->renderer(), SLOT(getSoundSamples(const KURL &, int, int, double,int)));
 }
 
 
@@ -80,7 +82,7 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX, double endX, QP
 		int deltaHeight=h/channels;
 		for (int countChannel=0;countChannel<channels;countChannel++){
 			if(m_array.size() == 0) {
-				document()->renderer()->getSoundSamples(document()->URL(),countChannel,1,1.0);
+				emit(getSoundSamples(document()->selectedClip()->fileURL(),countChannel,1,1.0,width));
 			} else {
 				drawChannel(countChannel,&m_array,i,y+deltaHeight*countChannel,h/channels,ex,painter);	
 			}
