@@ -4,7 +4,7 @@
   begin                : Fri Nov 22 2002
   copyright            : (C) 2002 by Jason Wood
   email                : jasonwood@blueyonder.co.uk
-  copyright            : (C) 2005 Lúcio Flávio Corrêa	
+  copyright            : (C) 2005 Lcio Flï¿½io Corrï¿½	
   email                : lucio.correa@gmail.com
   copyright            : (C) Marco Gittler
   email                : g.marco@freenet.de
@@ -241,8 +241,10 @@ void KRender::createVideoXWindow( bool show ,WId winid)
 	m_mltConsumer=new Mlt::Consumer("sdl_preview:352x288");
 	m_mltConsumer->listen("consumer-frame-show",this,(mlt_listener)consumer_frame_show);
 	//only as is saw, if we want to lock something with the sdl lock
+
 	m_mltConsumer->set ("app_locked",1);
 	m_mltConsumer->set("app_lock",(void*)my_lock,0);
+
 	m_mltConsumer->set("app_unlock",(void*)my_unlock,0);
 	m_mltConsumer->set("window_id",QString::number(winid).ascii());
 	m_mltConsumer->set("resize",1);
@@ -257,7 +259,6 @@ void KRender::createVideoXWindow( bool show ,WId winid)
 void KRender::seek( GenTime time )
 {
 	sendSeekCommand( time );
-
 	emit positionChanged( time );
 }
 
@@ -448,7 +449,9 @@ void KRender::render( const KURL &url )
 
 void KRender::sendSeekCommand( GenTime time )
 {
-	if ( m_setSceneListPending ) {
+	if (m_mltProducer)
+		m_mltProducer->seek(time.frames(m_mltProducer->get_double("fps")));	
+	/*if ( m_setSceneListPending ) {
 		sendSetSceneListCommand( m_sceneList );
 	}
 
@@ -458,7 +461,7 @@ void KRender::sendSeekCommand( GenTime time )
 	doc.appendChild( elem );
 	sendCommand( doc );
 
-	m_seekPosition = time;
+	m_seekPosition = time;*/
 }
 
 void KRender::sendSetSceneListCommand( const QDomDocument &list )
