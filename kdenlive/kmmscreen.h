@@ -54,7 +54,7 @@ protected:
 private: // Private attributes
 	KRender *m_render;
 	KdenliveApp *m_app;
-	QXEmbed *m_embed;
+	//QXEmbed *m_embed;
 	GenTime m_clipLength;
 private slots: // Private slots
   /** The renderer is ready, so we open
@@ -62,7 +62,7 @@ a video window, etc. here. */
   void rendererReady();
 public slots: // Public slots
 	/** Embeds the specified window. */
-	void embedWindow(WId wid);
+	//void embedWindow(WId wid);
 	/** Seeks to the specified time */
 	void seek(const GenTime &time);
 	/** Set the play speed of the screen */

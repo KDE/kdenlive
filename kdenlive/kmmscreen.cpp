@@ -33,14 +33,14 @@ namespace Gui
 KMMScreen::KMMScreen(KdenliveApp *app, QWidget *parent, const char *name ) :
                                     QVBox(parent,name),
                                     m_render(app->renderManager()->createRenderer(name)),
-                                    m_app(app),
-                                    m_embed(new QXEmbed(this, name)),
-				    m_clipLength(0)
+                                    m_app(app),m_clipLength(0)
+                                    //m_embed(new QXEmbed(this, name)),
+				    
 {
-	m_embed->setBackgroundMode(Qt::PaletteDark);
+	//m_embed->setBackgroundMode(Qt::PaletteDark);
 
 	connect(m_render, SIGNAL(initialised()), this, SLOT(rendererReady()));
-	connect(m_render, SIGNAL(replyCreateVideoXWindow(WId)), this, SLOT(embedWindow(WId)));
+	//connect(m_render, SIGNAL(replyCreateVideoXWindow(WId)), this, SLOT(embedWindow(WId)));
 	connect(m_render, SIGNAL(connected()), this, SIGNAL(rendererConnected()));
 	connect(m_render, SIGNAL(disconnected()), this, SIGNAL(rendererDisconnected()));
 	connect(m_render, SIGNAL(positionChanged(const GenTime &)), this, SIGNAL(seekPositionChanged(const GenTime &)));
@@ -58,20 +58,11 @@ KMMScreen::~KMMScreen()
 /** The renderer is ready, so we open a video window, etc. here. */
 void KMMScreen::rendererReady()
 {
-	QWidget *q=new QWidget(this);
-	m_embed->embed(q->winId());
-	m_render->createVideoXWindow(false,q->winId());
-	//m_render->createVideoXWindow(false,winId());
+	//QWidget *q=new QWidget(this);
+	m_render->createVideoXWindow(false,winId());
+
 }
 
-/** Embeds the specified window. */
-void KMMScreen::embedWindow(WId wid)
-{
-	//if(wid != 0) {
-	//	m_embed->embed(wid);
-	//}
-	//m_embed->
-}
 
 /** Seeks to the specified time */
 void KMMScreen::seek(const GenTime &time)
