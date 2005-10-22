@@ -71,7 +71,10 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX, double endX, QP
 	
 	QColor col = selected ? m_selected : m_unselected;
 	double aspect=4.0/3.0;
-	int width=(int)(h)*aspect;
+	int width=(int)timeline()->mapValueToLocal(1)-(int)timeline()->mapValueToLocal(0);
+	int width1=(int)(h)*aspect;
+	if (width1>width)
+		width=width1;
 	int i=sx;
 
 	int channels=2;
@@ -83,7 +86,7 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX, double endX, QP
 			continue;
 		int deltaHeight=h/channels;
 		for (int countChannel=0;countChannel<channels;countChannel++){
-			emit(getSoundSamples(document()->selectedClip()->fileURL(),countChannel,frame++,1.0,width,i,y+deltaHeight*countChannel,h/channels,ex,painter));
+			emit(getSoundSamples(document()->selectedClip()->fileURL(),countChannel,(int)timeline()->mapLocalToValue(i),1.0,width,i,y+deltaHeight*countChannel,h/channels,ex,painter));
 		}
 	}
 }

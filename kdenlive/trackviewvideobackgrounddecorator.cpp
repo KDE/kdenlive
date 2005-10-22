@@ -55,12 +55,12 @@ void TrackViewVideoBackgroundDecorator::paintClip(double startX, double endX, QP
 	int sx = startX; // (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
 	int ex = endX; //(int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
 
-	/*if(sx < rect.x()) {
+	if(sx < rect.x()) {
 		sx = rect.x();
 	}
 	if(ex > rect.x() + rect.width()) {
 		ex = rect.x() + rect.width();
-}*/
+	}
 	//ex -= sx;
 	int y=rect.y();
 	int h=rect.height();
@@ -70,7 +70,11 @@ void TrackViewVideoBackgroundDecorator::paintClip(double startX, double endX, QP
 	QColor col = selected ? m_selected : m_unselected;
  	//qDebug("%f",clip->clipWidth()+clip->clipHeight());
 	double aspect=4.0/3.0;
-	int width=(h)*aspect;
+	//width of a frame shown in timeline
+	int width=(int)timeline()->mapValueToLocal(1)-(int)timeline()->mapValueToLocal(0);
+	int width1=(h)*aspect;
+	if (width1>width)
+		width=width1;
 	int i=sx;
 	int frame=0;
 	for (;i<ex;i+=width){
