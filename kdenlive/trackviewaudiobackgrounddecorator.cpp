@@ -83,21 +83,16 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX, double endX, QP
 			continue;
 		int deltaHeight=h/channels;
 		for (int countChannel=0;countChannel<channels;countChannel++){
-			//if(m_array.size() == 0) {
-				
-			//} else {
 			emit(getSoundSamples(document()->selectedClip()->fileURL(),countChannel,frame++,1.0,width,i,y+deltaHeight*countChannel,h/channels,ex,painter));
-				//drawChannel(countChannel,&m_array,i,y+deltaHeight*countChannel,h/channels,ex,painter);	
-			//}
 		}
 	}
 }
-void TrackViewAudioBackgroundDecorator::drawChannel(int channel,QByteArray *ba,int x,int y,int height,int maxWidth,QPainter& painter)
+void TrackViewAudioBackgroundDecorator::drawChannel(int channel,const QByteArray *ba,int x,int y,int height,int maxWidth,QPainter& painter)
 {
 	for (int a=0;a<ba->size();a++){
 		int val=abs((*ba)[a])*(height/2)/128;
 		
-		if (a+x>=maxWidth)
+		if (a+x>=maxWidth || !painter.isActive())
 			return;
 		painter.drawLine(a+x,y+height/2-val,a+x,y+height/2+val);	
 	}
@@ -105,8 +100,8 @@ void TrackViewAudioBackgroundDecorator::drawChannel(int channel,QByteArray *ba,i
 
 void TrackViewAudioBackgroundDecorator::setSoundSamples(const KURL &url,int channel,int frame, double frameLength,const QByteArray &array,int x,int y,int height,int maxWidth, QPainter& painter)
 {
-	m_array = array;
-	drawChannel(channel,&m_array,x,y,height,maxWidth,painter);	
+
+	drawChannel(channel,&array,x,y,height,maxWidth,painter);	
 }
 
 };

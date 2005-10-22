@@ -45,14 +45,13 @@ public:
 	virtual ~TrackViewAudioBackgroundDecorator();
 
     virtual void paintClip(double startX, double endx, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected) ;
-	 void drawChannel(int channel,QByteArray *,int x,int y,int height,int maxWidth, QPainter &painter);
+	 void drawChannel(int channel,const QByteArray *,int x,int y,int height,int maxWidth, QPainter &painter);
 public slots:
 	void setSoundSamples(const KURL &url,int channel,int frame, double frameLength,const QByteArray &array,int,int,int,int,QPainter&);
 private:
 	int m_height;
 	QColor m_selected;
 	QColor m_unselected;
-	QByteArray m_array;
 	QPainter* m_painter;
 signals:
 	void getSoundSamples(const KURL& url,int countChannel,int frame,double frameLength,int arrayWidth,int,int,int,int, QPainter&);
