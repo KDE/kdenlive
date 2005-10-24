@@ -598,3 +598,11 @@ void DocClipRef::setEffectStack(const EffectStack &effectStack)
 {
 	m_effectStack = effectStack;
 }
+
+const QPixmap &DocClipRef::getAudioImage(int width, int height, double frame, double numFrames, int channel)
+{
+	static QPixmap nullPixmap;
+
+	return nullPixmap;
+}
+

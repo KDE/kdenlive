@@ -40,9 +40,27 @@
 
 int m_refCount;
 
+namespace {
+
+class KRenderThread : public QThread
+{
+protected:
+	virtual void run()
+	{
+		while(true)
+		{
+		};
+	}
+private:
+
+};
+
+	static KRenderThread *s_renderThread = NULL;
+	
+} // annonymous namespace
+
 KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, QObject *parent, const char *name ) :
 		QObject( parent, name ),
-		QXmlDefaultHandler(),
 		m_name( rendererName ),
 		m_renderName( "unknown" ),
 		m_renderVersion( "unknown" ),
@@ -67,8 +85,6 @@ KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, 
 	m_codeclist.setAutoDelete( true );
 	m_effectList.setAutoDelete( true );
 
-	m_xmlReader.setContentHandler( this );
-
 	connect( &m_socket, SIGNAL( error( int ) ), this, SLOT( error( int ) ) );
 	connect( &m_socket, SIGNAL( connected() ), this, SLOT( slotConnected() ) );
 	connect( &m_socket, SIGNAL( connectionClosed() ), this, SLOT( slotDisconnected() ) );
@@ -82,6 +98,11 @@ KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, 
 	m_appPath = appPath;
 	m_mltConsumer = NULL;
 	openMlt();
+
+	if(!s_renderThread) {
+		s_renderThread = new KRenderThread;
+		s_renderThread->start();
+	}
 }
 
 KRender::~KRender()

@@ -21,10 +21,10 @@
 #include <qobject.h>
 #include <qsocket.h>
 #include <qdom.h>
-#include <qxml.h>
 #include <qstring.h>
 #include <qmap.h>
 #include <qmutex.h>
+#include <qthread.h>
 #include <qptrlist.h>
 #include <qvaluestack.h>
 
@@ -65,9 +65,12 @@ struct StackValue
 	/** A function pointer to the relevant method that should parse tagClose events */
 	bool ( KRender::*funcEndElement ) ( const QString & localName, const QString & qName );
 };
+
 extern int m_refCount;
+
 static QMutex mutex;
-class KRender : public QObject, public QXmlDefaultHandler
+
+class KRender : public QObject
 {
 	Q_OBJECT
 public:
@@ -171,8 +174,6 @@ private:  // Private attributes & methods
 	KProcess m_process;
 	/** The port number used to connect to the renderer */
 	unsigned int m_portNum;
-	/** The XML reader */
-	QXmlSimpleReader m_xmlReader;
 	/** The path to the rendering application. */
 	KURL m_appPath;
 	/** true if we have a setSceneList command pending to be sent */

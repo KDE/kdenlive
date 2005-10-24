@@ -26,6 +26,7 @@
 #include <kurl.h>
 #include <qobject.h>
 #include <qvaluevector.h>
+#include <qmap.h>
 #include <qptrvector.h>
 
 #include "gentime.h"
@@ -36,6 +37,48 @@ class DocClipBase;
 class DocTrackBase;
 class KdenliveDoc;
 class EffectDescriptionList;
+
+struct AudioIdentifier
+{
+	double	m_framenum;
+	double	m_numframes;
+	double	m_imageWidth;
+	double	m_imageHeight;
+	int	m_channel;
+	
+	bool operator==(const AudioIdentifier &rhs) const
+	{
+		bool matches = true;
+
+		matches &= m_framenum == rhs.m_framenum;
+		matches &= m_numframes == rhs.m_numframes;
+		matches &= m_imageWidth == rhs.m_imageWidth;
+		matches &= m_imageHeight == rhs.m_imageHeight;
+		matches &= m_channel == rhs.m_channel;
+
+		return matches;
+	}
+	
+	bool operator<(const AudioIdentifier &rhs) const
+	{
+		if(m_framenum < rhs.m_framenum) return true;
+		if(m_framenum > rhs.m_framenum) return false;
+
+		if(m_numframes < rhs.m_numframes) return true;
+		if(m_numframes > rhs.m_numframes) return false;
+		
+		if(m_imageWidth < rhs.m_imageWidth) return true;
+		if(m_imageWidth > rhs.m_imageWidth) return false;
+		
+		if(m_imageHeight < rhs.m_imageHeight) return true;
+		if(m_imageHeight > rhs.m_imageHeight) return false;
+
+		if(m_channel < rhs.m_channel) return true;
+		if(m_channel > rhs.m_channel) return false;
+
+		return false;
+	}
+};
 
 class DocClipRef : public QObject {
 	Q_OBJECT
@@ -184,6 +227,8 @@ public:
 	int numEffects() const { return m_effectStack.count(); }
 
 	void setEffectStack(const EffectStack &effectStack);
+
+	const QPixmap &getAudioImage(int width, int height, double frame, double numFrames, int channel);
 private: // Private attributes
 	void setSnapMarkers(QValueVector<GenTime> markers);
 
@@ -215,6 +260,8 @@ private: // Private attributes
 
 	/** A list of effects that operate on this and only this clip. */
 	EffectStack m_effectStack;
+
+	QMap<AudioIdentifier, QPixmap> m_audioMap;
 };
 
 #endif
