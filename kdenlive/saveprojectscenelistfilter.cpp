@@ -16,6 +16,7 @@
  ***************************************************************************/
 #include "saveprojectscenelistfilter.h"
 
+#include <qfile.h>
 #include <qdom.h>
 #include <qstring.h>
 

@@ -17,6 +17,7 @@
 #include "loadprojectkinofilter.h"
 
 #include <qdom.h>
+#include <qfile.h>
 
 #include <kdebug.h>
 
