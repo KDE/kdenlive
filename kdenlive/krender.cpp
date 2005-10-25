@@ -245,11 +245,11 @@ static void consumer_frame_show (mlt_consumer sdl, KRender* self,mlt_frame frame
 }
 void my_lock(){
 	
-	mutex.lock();
+	//mutex.lock();
 }
 void my_unlock(){
 	
-	mutex.unlock();
+	//mutex.unlock();
 }
 
 /** Wraps the VEML command of the same name; requests that the renderer
@@ -259,7 +259,7 @@ replyCreateVideoXWindow() once the renderer has replied. */
 
 void KRender::createVideoXWindow( bool show ,WId winid)
 {
-	m_mltConsumer=new Mlt::Consumer("sdl_preview:352x288");
+	m_mltConsumer=new Mlt::Consumer("sdl_preview");
 	m_mltConsumer->listen("consumer-frame-show",this,(mlt_listener)consumer_frame_show);
 	//only as is saw, if we want to lock something with the sdl lock
 
@@ -268,11 +268,13 @@ void KRender::createVideoXWindow( bool show ,WId winid)
 
 	m_mltConsumer->set("app_unlock",(void*)my_unlock,0);
 	m_mltConsumer->set("window_id",QString::number(winid).ascii());
+	m_mltConsumer->start ();
+
 	m_mltConsumer->set("resize",1);
 	m_mltConsumer->set("progressiv",1);
 
-	m_mltProducer=new Mlt::Producer("noise");
-	m_mltConsumer->connect(*m_mltProducer);
+	//m_mltProducer=new Mlt::Producer("noise");
+	//m_mltConsumer->connect(*m_mltProducer);
 
 }
 
@@ -398,8 +400,11 @@ void KRender::setSceneList( QDomDocument list )
 //	std::cout <<  doc.toString() << std::endl;
 //	m_mltProducer = new Mlt::Producer("westley-xml",const_cast<char*>(doc.toString().ascii()));
 	m_mltProducer = new Mlt::Producer("westley-xml",const_cast<char*>(list.toString().ascii()));
-
+	m_mltConsumer->lock();
 	m_mltConsumer->connect(*m_mltProducer);
+	m_mltConsumer->start();
+	m_mltConsumer->unlock();
+	
 }
 
 /** Wraps the VEML command of the same name - sends a <ping> command to the server, which
@@ -419,12 +424,12 @@ void KRender::play( double speed )
 	if ( m_setSceneListPending ) {
 		sendSetSceneListCommand( m_sceneList );
 	}
-
-	if(m_playSpeed != 0.0) {
-		m_mltConsumer->start();
+	m_mltProducer->set_speed(speed);
+	/*if(m_playSpeed != 0.0) {
+		m_mltProducer->set_speed(1.0);
 	} else {
-		m_mltConsumer->stop();
-	}
+		m_mltProducer->set_speed(0.0);
+}*/
 }
 
 void KRender::play(double speed, const GenTime &startTime)
@@ -433,12 +438,12 @@ void KRender::play(double speed, const GenTime &startTime)
 	if(m_setSceneListPending) {
 		sendSetSceneListCommand(m_sceneList);
 	}
-
-	if(m_playSpeed != 0.0) {
-		m_mltConsumer->start();
+	m_mltProducer->set_speed(speed);
+	/*if(m_playSpeed != 0.0) {
+		m_mltProducer->set_speed(1.0);
 	} else {
-		m_mltConsumer->stop();
-	}
+		m_mltProducer->set_speed(0.0);
+}*/
 }
 
 void KRender::play( double speed, const GenTime &startTime, const GenTime &stopTime )
@@ -448,12 +453,12 @@ void KRender::play( double speed, const GenTime &startTime, const GenTime &stopT
 	if ( m_setSceneListPending ) {
 		sendSetSceneListCommand( m_sceneList );
 	}
-
-	if(m_playSpeed != 0.0) {
-		m_mltConsumer->start();
+	m_mltProducer->set_speed(speed);
+	/*if(m_playSpeed != 0.0) {
+		m_mltProducer->set_speed(1.0);
 	} else {
-		m_mltConsumer->stop();
-	}
+		m_mltProducer->set_speed(0.0);
+	}*/
 }
 
 void KRender::render( const KURL &url )
@@ -472,6 +477,9 @@ void KRender::sendSeekCommand( GenTime time )
 {
 	if (m_mltProducer)
 		m_mltProducer->seek(time.frames(m_mltProducer->get_double("fps")));	
+	m_mltConsumer->lock();
+	m_mltConsumer->set("refresh",1);
+	m_mltConsumer->unlock();
 	/*if ( m_setSceneListPending ) {
 		sendSetSceneListCommand( m_sceneList );
 	}
