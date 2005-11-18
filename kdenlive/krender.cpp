@@ -364,10 +364,24 @@ void KRender::getFileProperties( KURL url )
 		m_filePropertyMap.clear();
 		m_filePropertyMap["filename"] = url.path();
 		m_filePropertyMap["duration"] = QString::number(producer.get_length());
-		// TODO - this line should not be hard coded.
-		m_filePropertyMap["type"] = "video";
-		
+		Mlt::Frame *frame = producer.get_frame();
+	
+		if ( frame->is_valid() )
+		{
+			m_filePropertyMap["fps"] = QString::number(frame->get_double( "fps" ));
+			m_filePropertyMap["width"] = QString::number(frame->get_int( "width" ));
+			m_filePropertyMap["height"] = QString::number(frame->get_int( "height" ));
+			m_filePropertyMap["frequency"] = QString::number(frame->get_int( "frequency" ));
+			m_filePropertyMap["channels"] = QString::number(frame->get_int( "channels" ));
+			if (frame->get_int( "test_image" ) == 0) 
+			{
+			if (frame->get_int( "test_audio" ) == 0) m_filePropertyMap["type"] = "av";
+			else m_filePropertyMap["type"] = "video";
+			}
+			else if (frame->get_int( "test_audio" ) == 0) m_filePropertyMap["type"] = "audio";
+		}		
 		emit replyGetFileProperties(m_filePropertyMap);
+		delete frame;
 
 	}
 }
