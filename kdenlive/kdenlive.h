@@ -215,6 +215,8 @@ class KdenliveApp : public KDockMainWindow
 		void slotConfigureProject();
 		/** Called when the user activates the "Preferences" action */
 		void slotOptionsPreferences();
+		/** Update kdenlive to reflect preference changes */
+		void updateConfiguration();
 		/** Updates the current time in the status bar. */
 		void slotUpdateCurrentTime( const GenTime &time );
 		/** Cleans the project of unwanted clips */

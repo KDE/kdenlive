@@ -1,0 +1,9 @@
+# Code generation options for kconfig_compiler
+File=kdenlive.kcfg
+ClassName=KdenliveSettings
+Singleton=true
+Mutators=true
+# Inherits=KConfigSkeleton
+#IncludeFiles=kgpginterface.h
+# MemberVariables=public
+#CustomAdditions=true

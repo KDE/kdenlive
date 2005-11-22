@@ -19,57 +19,32 @@
 #include <qlabel.h>
 #include <klocale.h>
 #include <kiconloader.h>
+#include <kconfig.h>
 
 #include "kdenlivesetupdlg.h"
 #include "rendersetupdlg.h"
 #include "kdenlive.h"
+#include "kdenlivesettings.h"
+
 
 namespace Gui
 {
 
 KdenliveSetupDlg::KdenliveSetupDlg(KdenliveApp *app, QWidget *parent, const char *name ) :
-                              KDialogBase(IconList,
-                                          i18n("Kdenlive Setup"),
-                                          Help | Default | Ok | Apply | Cancel,
-                                          Ok,
-                                          parent, name)
+KConfigDialog( parent, name, KdenliveSettings::self())
 {
-  QFrame *page = addPage( i18n("Renderer"),
-		          i18n("Setup External Renderer Program"),
-			  KGlobal::instance()->iconLoader()->loadIcon( "piave", KIcon::NoGroup, KIcon::SizeMedium ) );
+    page1=new configInterface();
+    page2=new configTimeline();
 
-  QVBoxLayout *topLayout = new QVBoxLayout( page, 0, 6 );
-  m_renderDlg = new RenderSetupDlg(app->renderManager(), page, "renderdlg" );
-  topLayout->addWidget( m_renderDlg );
+    addPage(page1, i18n("Interface"), "looknfeel");
+    addPage(page2, i18n("Timeline"), "view");
 }
 
 KdenliveSetupDlg::~KdenliveSetupDlg()
 {
 }
 
-/** Occurs when the apply button is clicked. */
-void KdenliveSetupDlg::slotApply()
-{
-  m_renderDlg->writeSettings();
-}
 
-/** Called when the ok button is clicked. */
-void KdenliveSetupDlg::slotOk()
-{
-  m_renderDlg->writeSettings();
-  accept();
-}
 
-/** Called when the cancel button is clicked. */
-void KdenliveSetupDlg::slotCancel()
-{
-  reject();
-}
-
-/** Called when the "Default" button is pressed. */
-void KdenliveSetupDlg::slotDefault()
-{
-  m_renderDlg->readSettings();
-}
 
 } // namespace Gui

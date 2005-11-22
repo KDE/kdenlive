@@ -1,0 +1,85 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>configInterface</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>configInterface</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>359</width>
+            <height>159</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Interface configuration</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>kcfg_openlast</cstring>
+            </property>
+            <property name="text">
+                <string>Open last project on startup</string>
+            </property>
+        </widget>
+        <spacer row="2" column="0">
+            <property name="name">
+                <cstring>spacer2</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>16</width>
+                    <height>36</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QLabel" row="1" column="2">
+            <property name="name">
+                <cstring>textLabel1_2</cstring>
+            </property>
+            <property name="text">
+                <string>minutes</string>
+            </property>
+        </widget>
+        <widget class="QSpinBox" row="1" column="1">
+            <property name="name">
+                <cstring>kcfg_autosavetime</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="minValue">
+                <number>1</number>
+            </property>
+            <property name="value">
+                <number>10</number>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="1" column="0">
+            <property name="name">
+                <cstring>kcfg_autosave</cstring>
+            </property>
+            <property name="text">
+                <string>Autosave project every</string>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

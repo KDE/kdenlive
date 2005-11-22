@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+  <kcfgfile name="kdenliverc"/>
+  <group name="Interface">
+    <entry name="openlast" type="Bool">
+      <label>Open last project on startup.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="autosave" type="Bool">
+      <label>Autosave project.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="autosavetime" type="Int">
+      <label>Autosave interval.</label>
+      <default>10</default>
+    </entry>
+
+  </group>
+
+  <group name="Timeline">
+    <entry name="videotracksize" type="Int">
+      <label>Size of video tracks.</label>
+      <default>70</default>
+    </entry>
+
+    <entry name="audiotracksize" type="Int">
+      <label>Size of audio tracks.</label>
+      <default>50</default>
+    </entry>
+
+    <entry name="videothumbnails" type="Bool">
+      <label>Show video thumbnails.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="audiothumbnails" type="Bool">
+      <label>Show audio preview.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="videoclipcolor" type="Color">
+	<label>Color of the clips on video track</label>
+	<whatsthis>Color of the video clips inserted in timeline</whatsthis>
+	<default code="true">QColor(128, 64, 64)</default>
+    </entry>
+
+    <entry name="selectedvideoclipcolor" type="Color">
+	<label>Color of the clips on video track</label>
+	<whatsthis>Color of the video clips inserted in timeline</whatsthis>
+	<default code="true">QColor(255, 128, 128)</default>
+    </entry>
+
+    <entry name="audioclipcolor" type="Color">
+	<label>Color of the clips on video track</label>
+	<whatsthis>Color of the audio clips inserted in timeline</whatsthis>
+	<default code="true">QColor(64, 128, 64)</default>
+    </entry>
+
+    <entry name="selectedaudioclipcolor" type="Color">
+	<label>Color of the clips on video track</label>
+	<whatsthis>Color of the audio clips inserted in timeline</whatsthis>
+	<default code="true">QColor(128, 255, 128)</default>
+    </entry>
+
+  </group>
+</kcfg>

@@ -927,15 +927,27 @@ void KdenliveApp::slotRenderExportTimeline()
 	slotStatusMsg( i18n( "Ready." ) );
 }
 
+
 void KdenliveApp::slotOptionsPreferences()
 {
 	slotStatusMsg( i18n( "Editing Preferences" ) );
 
-	KdenliveSetupDlg dialog( this, this, "setupdlg" );
-	dialog.exec();
+	KdenliveSetupDlg *dialog = new KdenliveSetupDlg( this, this, "setupdlg" );
+	connect( dialog, SIGNAL(settingsChanged()), this, SLOT(updateConfiguration()) );
+	dialog->exec();
+	delete dialog;
 
 	slotStatusMsg( i18n( "Ready." ) );
 }
+
+
+/** Updates widgets according to the new preferences. */
+void KdenliveApp::updateConfiguration()
+{
+// redraw timeline in case size or colors changed.
+slotSyncTimeLineWithDocument();
+}
+
 
 /** Updates the current time in the status bar. */
 void KdenliveApp::slotUpdateCurrentTime( const GenTime &time )
