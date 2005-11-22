@@ -128,7 +128,13 @@ QString AVListViewItem::text ( int column ) const
 		}
 	} else if(m_listView->columnText(column) == i18n("Type")) {
 		if(m_node->asClipNode()) {
-			text = i18n("clip");
+		DocumentClipNode *clipNode = m_node->asClipNode();
+		if(clipNode) {
+			DocClipRef *clip = clipNode->clipRef();
+			if (clip->clipType() == DocClipBase::AV) text = i18n("video");
+			else if (clip->clipType() == DocClipBase::VIDEO) text = i18n("mute video");
+			else if (clip->clipType() == DocClipBase::AUDIO) text = i18n("audio");
+			}
 		} else if(m_node->asGroupNode()) {
 			text = i18n("group");
 		} else {

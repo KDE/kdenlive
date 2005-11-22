@@ -32,8 +32,6 @@ DocClipAVFile::DocClipAVFile(const QString &name, const KURL &url) :
 
 {
 	setName(name);
-
-	m_clipType = AV;
 }
 
 DocClipAVFile::DocClipAVFile(const KURL &url) :
@@ -44,7 +42,6 @@ DocClipAVFile::DocClipAVFile(const KURL &url) :
 				m_framesPerSecond(0)
 {
 	setName(url.fileName());
-	m_clipType = AV;
 }
 
 DocClipAVFile::~DocClipAVFile()
@@ -266,6 +263,14 @@ void DocClipAVFile::calculateFileProperties(const QMap<QString, QString> &attrib
 			m_durationKnown = false;
 		}
 		//extend attributes -reh
+		if(attributes.contains("type"))
+		{
+			if (attributes["type"] == "audio") m_clipType = AUDIO;
+			else if (attributes["type"] == "video") m_clipType = VIDEO;
+			else if (attributes["type"] == "av") m_clipType = AV;
+		}else{
+			m_clipType = AV;
+		}
 		if(attributes.contains("height"))
 		{
 			m_height = attributes["height"].toInt();

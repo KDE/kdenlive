@@ -31,9 +31,9 @@
 
 #include "gentime.h"
 #include "effectstack.h"
+#include "docclipbase.h"
 
 class ClipManager;
-class DocClipBase;
 class DocTrackBase;
 class KdenliveDoc;
 class EffectDescriptionList;
@@ -157,6 +157,8 @@ public:
 	// Returns the number of frames per second that this clip should play at.
 	double framesPerSecond() const;
 	//return clip video properties -reh
+	/** Returns clip type (audio, video,...) */
+	DocClipBase::CLIPTYPE clipType() const;
 	uint clipWidth() const;
 	uint clipHeight() const;
 	QString avDecompressor();
@@ -229,6 +231,7 @@ public:
 	void setEffectStack(const EffectStack &effectStack);
 
 	const QPixmap &getAudioImage(int width, int height, double frame, double numFrames, int channel);
+
 private: // Private attributes
 	void setSnapMarkers(QValueVector<GenTime> markers);
 

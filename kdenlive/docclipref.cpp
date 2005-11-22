@@ -264,6 +264,11 @@ double DocClipRef::framesPerSecond() const
 	}
 }
 //returns clip video properties -reh
+DocClipBase::CLIPTYPE DocClipRef::clipType() const
+{
+	return m_clip->toDocClipAVFile()->clipType();
+}
+
 uint DocClipRef::clipHeight() const
 {
 	return m_clip->toDocClipAVFile()->clipHeight();
