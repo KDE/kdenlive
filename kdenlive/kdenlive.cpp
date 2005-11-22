@@ -459,7 +459,6 @@ void KdenliveApp::openDocumentFile( const KURL& url )
 	slotStatusMsg( i18n( "Opening file..." ) );
 
 	m_projectFormatManager.openDocument( url, doc );
-	fileOpenRecent->addURL( url );
 	slotStatusMsg( i18n( "Ready." ) );
 }
 
@@ -478,7 +477,7 @@ void KdenliveApp::saveOptions()
 	config->writeEntry( "ToolBarPos", ( int ) toolBar( "mainToolBar" ) ->barPos() );
 	config->writeEntry( "TimeScaleSlider", m_timeline->getTimeScaleSliderValue() );
 
-	fileOpenRecent->saveEntries( config, "Recent Files" );
+	fileOpenRecent->saveEntries( config );
 	config->writeEntry( "FileDialogPath", m_fileDialogPath.path() );
 
 	m_renderManager->saveConfig( config );
@@ -516,7 +515,7 @@ void KdenliveApp::readOptions()
 	m_timeline->setSliderIndex( iTimeScaleSlider );
 
 	// initialize the recent file list
-	fileOpenRecent->loadEntries( config, "Recent Files" );
+	fileOpenRecent->loadEntries( config );
 	// file dialog path
 	m_fileDialogPath = KURL( config->readEntry( "FileDialogPath", "" ) );
 
