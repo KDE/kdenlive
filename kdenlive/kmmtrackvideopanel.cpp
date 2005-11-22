@@ -32,6 +32,7 @@
 #include "trackpanelrazorfunction.h"
 #include "trackpanelspacerfunction.h"
 #include "trackpanelmarkerfunction.h"
+#include "kdenlivesettings.h"
 
 #include "trackviewvideobackgrounddecorator.h"
 #include "trackviewaudiobackgrounddecorator.h"
@@ -48,11 +49,14 @@ KMMTrackVideoPanel::KMMTrackVideoPanel(KdenliveApp *app,
 					DocTrackVideo *docTrack,
 					QWidget *parent,
 				       	const char *name ) :
-		KMMTrackPanel(timeline, doc, new KTrackPlacer(doc, timeline, docTrack), parent,name),
+		KMMTrackPanel(timeline, doc, new KTrackPlacer(doc, timeline, docTrack), VIDEOTRACK, parent,name),
 		m_trackLabel(i18n("Video Track"), this, "Video Track")
 {
-	setMinimumHeight(70);
-	setMaximumHeight(70);
+
+	uint widgetHeight = KdenliveSettings::videotracksize();
+
+	setMinimumHeight(widgetHeight);
+	setMaximumHeight(widgetHeight);
 
 	addFunctionDecorator("move", "resize");
 	addFunctionDecorator("move", "move");
@@ -62,9 +66,17 @@ KMMTrackVideoPanel::KMMTrackVideoPanel(KdenliveApp *app,
 	addFunctionDecorator("marker", "marker");
 	addFunctionDecorator("roll", "roll");
 	int audioDecoratorSize=15;
-	addViewDecorator(new TrackViewVideoBackgroundDecorator(timeline, doc, QColor(128, 64, 64), QColor(255, 128, 128),audioDecoratorSize));
-	addViewDecorator(new TrackViewAudioBackgroundDecorator(timeline, doc, QColor(64, 128, 64), QColor(128, 255, 128),audioDecoratorSize));
-	//addViewDecorator(new TrackViewBackgroundDecorator(timeline, doc, QColor(128, 64, 64), QColor(255, 128, 128)));
+
+	// Show video thumbnails if user
+	if (KdenliveSettings::videothumbnails())
+	addViewDecorator(new TrackViewVideoBackgroundDecorator(timeline, doc, KdenliveSettings::selectedvideoclipcolor(), KdenliveSettings::videoclipcolor(),audioDecoratorSize));
+	else 
+	// Color only decoration
+	addViewDecorator(new TrackViewBackgroundDecorator(timeline, doc, KdenliveSettings::selectedvideoclipcolor(), KdenliveSettings::videoclipcolor()));
+
+	/* should be removed... audio decoration should only be on audio tracks */
+	//addViewDecorator(new TrackViewAudioBackgroundDecorator(timeline, doc, QColor(64, 128, 64), QColor(128, 255, 128),audioDecoratorSize));
+	
 	addViewDecorator(new TrackViewNameDecorator(timeline, doc));
 	addViewDecorator(new TrackViewMarkerDecorator(timeline, doc));
 }

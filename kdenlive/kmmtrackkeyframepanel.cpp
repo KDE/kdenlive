@@ -43,7 +43,7 @@ KMMTrackKeyFramePanel::KMMTrackKeyFramePanel(KTimeLine *timeline,
 						const QString &effectParam,
 						QWidget *parent,
 						const char *name) :
-					KMMTrackPanel(timeline, doc, new KTrackPlacer(doc, timeline, docTrack), parent,name)
+					KMMTrackPanel(timeline, doc, new KTrackPlacer(doc, timeline, docTrack), KEYFRAMETRACK, parent,name)
 {
 	setMinimumHeight(30);
 	setMaximumHeight(30);

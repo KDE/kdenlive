@@ -29,9 +29,10 @@ namespace Gui
 KMMTrackPanel::KMMTrackPanel( KTimeLine *timeline,
                               KdenliveDoc *document,
 			      KPlacer *placer,
+			      TRACKTYPE trackType,
                               QWidget *parent,
                               const char *name ) :
-		KTrackPanel(timeline, placer, parent, name),
+		KTrackPanel(timeline, placer, trackType, parent, name),
 		m_document( document )
 {
 	setSizePolicy( QSizePolicy( QSizePolicy::Maximum, QSizePolicy::Expanding ) );

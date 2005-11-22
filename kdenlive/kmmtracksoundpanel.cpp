@@ -19,6 +19,8 @@
 
 #include "kmmtracksoundpanel.h"
 #include "ktrackplacer.h"
+#include "klocale.h"
+#include "kdenlivesettings.h"
 
 #include "trackviewbackgrounddecorator.h"
 #include "trackviewaudiobackgrounddecorator.h"
@@ -33,14 +35,28 @@ KMMTrackSoundPanel::KMMTrackSoundPanel(KdenliveApp *app,
 					DocTrackSound *docTrack,
 					QWidget *parent,
 					const char *name ) :
-						KMMTrackPanel(timeline, document, new KTrackPlacer(document, timeline, docTrack), parent,name),
-						m_trackLabel(this, "Sound Track")
+						KMMTrackPanel(timeline, document, new KTrackPlacer(document, timeline, docTrack), SOUNDTRACK, parent,name),
+						m_trackLabel(i18n("Sound Track"), this, "Sound Track")
 {
-	setMinimumHeight(40);
-	setMaximumHeight(40);
 
-	//addViewDecorator(new TrackViewBackgroundDecorator(timeline, document, QColor(64, 128, 64), QColor(128, 255, 128)));
-	addViewDecorator(new TrackViewAudioBackgroundDecorator(timeline, document, QColor(64, 128, 64), QColor(128, 255, 128)));
+	uint widgetHeight = KdenliveSettings::audiotracksize();
+
+	setMinimumHeight(widgetHeight);
+	setMaximumHeight(widgetHeight);
+
+	addFunctionDecorator("move", "resize");
+	addFunctionDecorator("move", "move");
+	addFunctionDecorator("move", "selectnone");
+	addFunctionDecorator("razor", "razor");
+	addFunctionDecorator("spacer", "spacer");
+	addFunctionDecorator("marker", "marker");
+	addFunctionDecorator("roll", "roll");
+
+	if (KdenliveSettings::audiothumbnails())
+	addViewDecorator(new TrackViewAudioBackgroundDecorator(timeline, document, KdenliveSettings::selectedaudioclipcolor(), KdenliveSettings::audioclipcolor()));
+
+	else addViewDecorator(new TrackViewBackgroundDecorator(timeline, document, KdenliveSettings::selectedaudioclipcolor(), KdenliveSettings::audioclipcolor()));
+
 	addViewDecorator(new TrackViewNameDecorator(timeline, document));
 	
 	

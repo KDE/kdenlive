@@ -27,6 +27,9 @@ namespace Gui
 	class KTimeLine;
 	class TrackViewDecorator;
 
+    /** Used to identify different type of tracks */
+    enum TRACKTYPE { SOUNDTRACK = 1, VIDEOTRACK = 2, KEYFRAMETRACK = 3 };
+
 /**
 Abstract baseclass for track panels. Provides the interface that a track panel must implement. A KTrackPanel controls a track on the timline. It provides the track dialog that appears to the left of the track, and implements the display and functionality that occurs on the track itself.
 
@@ -35,8 +38,10 @@ Abstract baseclass for track panels. Provides the interface that a track panel m
 class KTrackPanel : public QHBox {
 	Q_OBJECT
 public:
+
     KTrackPanel(KTimeLine *timeline,
 					KPlacer *placer,
+					TRACKTYPE trackType,
                               		QWidget *parent,
                               		const char *name);
 
@@ -85,6 +90,15 @@ private:
 
 	/** A placer defines the physical layout of a track, what clips are on it and how functions should know what is on it and where. */
 	KPlacer *m_placer;
+
+	/** Defines the track type (audio, video,...) */
+	TRACKTYPE m_trackType;
+
+
+public slots:
+	/** Returns the type of track (audio, video,...)*/
+	TRACKTYPE trackType();
+
 };
 
 } // namespace Gui

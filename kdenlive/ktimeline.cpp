@@ -142,20 +142,28 @@ void KTimeLine::resizeEvent( QResizeEvent *event )
 void KTimeLine::resizeTracks()
 {
 	int height = 0;
+
+	// default height for keyframe tracks
 	int widgetHeight;
 
-	QWidget *panel = m_trackList.first();
+	KTrackPanel *panel = m_trackList.first();
 
-	while ( panel != 0 ) {
-		widgetHeight = panel->height();
+
+	while ( panel ) {
+
+		if (panel->trackType() == VIDEOTRACK)
+			widgetHeight = KdenliveSettings::videotracksize();
+		else if (panel->trackType() == SOUNDTRACK) 
+			widgetHeight = KdenliveSettings::audiotracksize();
+		else widgetHeight = 30;
 
 		m_trackScroll->moveChild( panel, 0, height );
 		panel->resize( m_panelWidth, widgetHeight );
-
 		height += widgetHeight;
-
 		panel = m_trackList.next();
+
 	}
+
 
 	m_trackScroll->moveChild( m_trackViewArea, m_panelWidth, 0 );
 	int newWidth = m_trackScroll->visibleWidth() - m_panelWidth ;

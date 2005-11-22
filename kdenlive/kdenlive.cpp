@@ -79,6 +79,7 @@
 #include "projectlist.h"
 #include "renderdebugpanel.h"
 
+
 #include "trackpanelclipmovefunction.h"
 #include "trackpanelrazorfunction.h"
 #include "trackpanelspacerfunction.h"
@@ -122,6 +123,14 @@ KdenliveApp::KdenliveApp( QWidget* , const char* name ) :
 	editPaste->setEnabled( false );
 
 	fileSaveAs->setEnabled( true );
+
+	// Reopen last project if user asked it
+	if (KdenliveSettings::openlast())
+	{
+	config->setGroup("RecentFiles");
+	QString Lastproject = config->readPathEntry("File1");
+	if (!Lastproject.isEmpty()) slotFileOpenRecent(KURL(Lastproject));
+	}
 }
 
 KdenliveApp::~KdenliveApp()
@@ -365,11 +374,13 @@ void KdenliveApp::initView()
 
 	setBackgroundMode( PaletteBase );
 
+	/*  COMMENTED TO PREVENT CRASH UNTiL WORKSPACE MONITOR IS IMPLEMENTED AGAIN 
 	connect( m_workspaceMonitor, SIGNAL( seekPositionChanged( const GenTime & ) ), m_timeline, SLOT( seek( const GenTime & ) ) );
 	connect( m_workspaceMonitor, SIGNAL( seekPositionChanged( const GenTime & ) ), this, SLOT( slotUpdateCurrentTime( const GenTime & ) ) );
 	//connect editpanel sliders with timeline sliders -reh
 	connect( m_workspaceMonitor, SIGNAL( inpointPositionChanged( const GenTime & ) ), m_timeline, SLOT( setInpointTimeline( const GenTime & ) ) );
 	connect( m_workspaceMonitor, SIGNAL( outpointPositionChanged( const GenTime & ) ), m_timeline, SLOT( setOutpointTimeline( const GenTime & ) ) );
+	*/
 
 	connect( getDocument(), SIGNAL( signalClipSelected( DocClipRef *) ), this, SLOT( slotSetClipMonitorSource( DocClipRef * ) ) );
 	connect( getDocument(), SIGNAL( signalClipSelected( DocClipRef *) ), m_effectStackDialog, SLOT( slotSetEffectStack( DocClipRef * ) ) );
@@ -415,7 +426,8 @@ void KdenliveApp::initView()
 		connect( m_timeline, SIGNAL( outpointPositionChanged( const GenTime & ) ), m_workspaceMonitor->editPanel(), SLOT( setOutpoint( const GenTime & ) ) );
 	}
 
-	connect( m_timeline, SIGNAL( seekPositionChanged( const GenTime & ) ), this, SLOT( activateWorkspaceMonitor() ) );
+	/*  COMMENTED TO PREVENT CRASH UNTiL WORKSPACE MONITOR IS IMPLEMENTED AGAIN 
+	connect( m_timeline, SIGNAL( seekPositionChanged( const GenTime & ) ), this, SLOT( activateWorkspaceMonitor() ) );*/
 
 	connect( m_timeline, SIGNAL( rightButtonPressed() ), this, SLOT(slotDisplayTimeLineContextMenu()));
 
@@ -1382,7 +1394,7 @@ void KdenliveApp::slotSyncTimeLineWithDocument()
 		} else if(trackItt.current()->clipType() == "Sound") {
 			m_timeline->insertTrack(index, new KMMTrackSoundPanel(this, m_timeline, getDocument(), (dynamic_cast<DocTrackSound *>(trackItt.current()))));
 			++index;
-			m_timeline->insertTrack(index, new KMMTrackKeyFramePanel(m_timeline, getDocument(), trackItt.current(), "alphablend", 0, "fade"));
+			m_timeline->insertTrack(index, new KMMTrackKeyFramePanel(m_timeline, getDocument(), (*trackItt), "alphablend", 0, "fade"));
 			++index;
 		} else {
 			kdWarning() << "Sync failed" << endl;

@@ -48,6 +48,7 @@ public:
 	KMMTrackPanel(KTimeLine *timeline,
 			KdenliveDoc *document,
 			KPlacer *placer,
+			TRACKTYPE trackType,
 			QWidget *parent,
 			const char *name);
 	virtual ~KMMTrackPanel();

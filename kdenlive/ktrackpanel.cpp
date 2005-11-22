@@ -25,11 +25,13 @@ namespace Gui
 
 KTrackPanel::KTrackPanel(KTimeLine *timeline,
 					KPlacer *placer,
+					TRACKTYPE trackType,
                               		QWidget *parent,
                               		const char *name) :
 			QHBox( parent, name ),
 			m_timeline( timeline ),
-			m_placer(placer)
+			m_placer(placer),
+			m_trackType(trackType)
 {
 	assert(timeline);
 	assert(placer);
@@ -83,6 +85,11 @@ bool KTrackPanel::hasDocumentTrackIndex() const
 int KTrackPanel::documentTrackIndex()  const
 {
 	return m_placer->documentTrackIndex();
+}
+
+TRACKTYPE KTrackPanel::trackType()
+{
+	return m_trackType;
 }
 
 } // namespace Gui

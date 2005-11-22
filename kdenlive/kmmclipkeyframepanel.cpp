@@ -32,7 +32,8 @@ KMMClipKeyFramePanel::KMMClipKeyFramePanel(KTimeLine *timeline,
 								const QString &effectParam,
 								QWidget *parent,
 								const char *name)
-		: KMMTrackPanel(timeline, document, new KClipPlacer(timeline, clip), parent,name),
+		: KMMTrackPanel(timeline, document, new KClipPlacer(timeline, clip),
+		KEYFRAMETRACK, parent,name),
 		m_verticalLayout(this, "KMMClipKeyFramePanel::verticalLayout"),
 		m_effectNameLabel(effectName, &m_verticalLayout, "KMMClipKeyFramePanel::effectNameLabel")
 {

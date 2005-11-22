@@ -35,6 +35,7 @@
 #include "gentime.h"
 #include "monitormanager.h"
 #include "projectformatmanager.h"
+#include "kdenlivesettings.h"
 
 // forward declaration of the Kdenlive classes
 class DocClipProject;
