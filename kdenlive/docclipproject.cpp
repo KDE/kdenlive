@@ -17,6 +17,7 @@
 
 #include "docclipproject.h"
 
+#include <assert.h>
 #include <qptrvector.h>
 #include <qvaluevector.h>
 #include <qptrlist.h>
@@ -459,7 +460,7 @@ QDomDocument DocClipProject::toXML()
 		node = node.nextSibling();
 	}
 
-	ASSERT(node.isNull());
+	assert(node.isNull());
 
 	return doc;
 }

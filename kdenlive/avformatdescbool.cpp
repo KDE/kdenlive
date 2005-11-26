@@ -18,7 +18,7 @@
 #include "avformatdescbool.h"
 #include <avformatwidgetbool.h>
 
-AVFormatDescBool::AVFormatDescBool(const QString &description, const QString &name) :
+AVFormatDescBool::AVFormatDescBool(const QString &description, const char * &name) :
                                           AVFormatDescBase(description, name)
 {
 }

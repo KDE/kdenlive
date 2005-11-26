@@ -18,7 +18,7 @@
 #include "avformatdesclist.h"
 #include "avformatwidgetlist.h"
 
-AVFormatDescList::AVFormatDescList(const QString &description, const QString &name) :
+AVFormatDescList::AVFormatDescList(const QString &description, const char * &name) :
                                           AVFormatDescBase(description, name)
 {
 }

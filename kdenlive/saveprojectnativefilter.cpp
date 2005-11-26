@@ -71,7 +71,7 @@ bool SaveProjectNativeFilter::save(QFile &file, KdenliveDoc *document)
 	elem.appendChild(doc.importNode(document->projectClip().toXML().documentElement(), true));
 
 	QString save = doc.toString();
-	file.writeBlock(save, save.length());
+	file.writeBlock(save.ascii(), save.length());
 
 	return true;
 }

@@ -59,23 +59,23 @@ RenderDebugPanel::RenderDebugPanel( QWidget *parent, const char *name ) :
 RenderDebugPanel::~RenderDebugPanel()
 {}
 
-void RenderDebugPanel::slotPrintRenderDebug( const QString &name, const QString &message )
+void RenderDebugPanel::slotPrintRenderDebug( const char * &name, const QString &message )
 {
 	slotPrintDebug( name, message );
 }
 
-void RenderDebugPanel::slotPrintRenderWarning( const QString &name, const QString &message )
+void RenderDebugPanel::slotPrintRenderWarning( const char * &name, const QString &message )
 {
 	slotPrintWarning( name, message );
 }
 
-void RenderDebugPanel::slotPrintRenderError( const QString &name, const QString &message )
+void RenderDebugPanel::slotPrintRenderError( const char * &name, const QString &message )
 {
 	slotPrintError( name, message );
 }
 
 /** Prints a warning message to the debug area. */
-void RenderDebugPanel::slotPrintWarning( const QString &name, const QString &message )
+void RenderDebugPanel::slotPrintWarning( const char * &name, const QString &message )
 {
 	if ( m_ignoreMessages.isChecked() ) return ;
 
@@ -94,7 +94,7 @@ void RenderDebugPanel::slotPrintWarning( const QString &name, const QString &mes
 }
 
 /** Prints an error message to the debug window. */
-void RenderDebugPanel::slotPrintError( const QString &name, const QString &message )
+void RenderDebugPanel::slotPrintError( const char * &name, const QString &message )
 {
 	if ( m_ignoreMessages.isChecked() ) return ;
 
@@ -112,7 +112,7 @@ void RenderDebugPanel::slotPrintError( const QString &name, const QString &messa
 }
 
 /** Prints a debug (informational) message to the debug */
-void RenderDebugPanel::slotPrintDebug( const QString &name, const QString &message )
+void RenderDebugPanel::slotPrintDebug( const char * &name, const QString &message )
 {
 	if ( m_ignoreMessages.isChecked() ) return ;
 
@@ -130,7 +130,7 @@ void RenderDebugPanel::slotPrintDebug( const QString &name, const QString &messa
 }
 
 /** Returns the text edit widget with the given name, creating one if it doesn't exist. */
-QTextEdit * RenderDebugPanel::getTextEdit( const QString &name )
+QTextEdit * RenderDebugPanel::getTextEdit( const char * &name )
 {
 	QTextEdit * edit;
 
@@ -166,7 +166,7 @@ void RenderDebugPanel::saveMessages()
 				       edit->text() +
 				       "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
 
-				file.writeBlock( save, save.length() );
+				file.writeBlock( save.ascii(), save.length() );
 			}
 			file.close();
 		}

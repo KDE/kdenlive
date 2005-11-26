@@ -38,7 +38,7 @@ bool SaveProjectScenelistFilter::save(QFile& file, KdenliveDoc* document)
 {
 	QDomDocument doc = document->projectClip().generateSceneList();
 	QString save = doc.toString();
-	file.writeBlock(save, save.length());
+	file.writeBlock(save.ascii(), save.length());
 	return true;
 }
 

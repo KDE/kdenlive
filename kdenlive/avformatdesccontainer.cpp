@@ -20,7 +20,7 @@
 
 #include <kdebug.h>
 
-AVFormatDescContainer::AVFormatDescContainer(const QString &description, const QString &name) :
+AVFormatDescContainer::AVFormatDescContainer(const QString &description, const char * &name) :
                             AVFormatDescBase(description, name)
 {
   m_descList.setAutoDelete(true);

@@ -58,17 +58,17 @@ class RenderDebugPanel : public QVBox
 		int m_nextId;
 	public slots:  // Public slots
 		/** Prints a debug (informational) message to the debug */
-		void slotPrintRenderDebug( const QString &name, const QString &message );
+		void slotPrintRenderDebug( const char * &name, const QString &message );
 		/** Prints a warning (oh oh....) message to the debug */
-		void slotPrintRenderWarning( const QString &name, const QString &message );
+		void slotPrintRenderWarning( const char * &name, const QString &message );
 		/** Prints an error (ARRGHH!) message to the debug window */
-		void slotPrintRenderError( const QString &name, const QString &message );
+		void slotPrintRenderError( const char * &name, const QString &message );
 		/** Prints a debug (informational) message to the debug */
-		void slotPrintDebug( const QString &name, const QString &message );
+		void slotPrintDebug( const char * &name, const QString &message );
 		/** Prints an error message to the debug window. */
-		void slotPrintError( const QString &name, const QString &message );
+		void slotPrintError( const char * &name, const QString &message );
 		/** Prints a warning message to the debug area. */
-		void slotPrintWarning( const QString &name, const QString &message );
+		void slotPrintWarning( const char * &name, const QString &message );
 		/** Requests a filename from the user and saves all messages into that file. */
 		void saveMessages();
 	private slots:
@@ -77,7 +77,7 @@ class RenderDebugPanel : public QVBox
 		void sendDebugVeml();
 	private:  // Private methods
 		/** Returns the text edit widget with the given name, creating one if it doesn't exist. */
-		QTextEdit * getTextEdit( const QString &name );
+		QTextEdit * getTextEdit( const char * &name );
 	signals:
 		void debugVemlSendRequest(const QString &rendererName, const QString &request);
 };

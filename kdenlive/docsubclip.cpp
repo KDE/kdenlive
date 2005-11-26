@@ -61,7 +61,7 @@ QDomDocument DocSubClip::toXML() {
 		node = node.nextSibling();
 	}
 
-	ASSERT(node.isNull());
+	assert(node.isNull());
 
 	/* This final return should never be reached, it is here to remove compiler warning. */
 	return doc;

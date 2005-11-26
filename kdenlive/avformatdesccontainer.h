@@ -28,7 +28,7 @@
 
 class AVFormatDescContainer : public AVFormatDescBase {
 public: 
-	AVFormatDescContainer(const QString &description, const QString &name);
+	AVFormatDescContainer(const QString &description, const char * &name);
 	~AVFormatDescContainer();
   /** Constructs a widget to display this container. Most likely, a qgroupbox. */
   virtual AVFormatWidgetBase * createWidget(QWidget *parent);

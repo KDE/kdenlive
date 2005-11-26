@@ -18,6 +18,7 @@
 #include "docclipavfile.h"
 
 #include <iostream>
+#include <assert.h>
 #include <kdebug.h>
 #include "clipmanager.h"
 #include <qfileinfo.h>
@@ -206,7 +207,7 @@ QDomDocument DocClipAVFile::toXML() const {
 		node = node.nextSibling();
 	}
 
-	ASSERT(node.isNull());
+	assert(node.isNull());
 
 	/* This final return should never be reached, it is here to remove compiler warning. */
 	return doc;

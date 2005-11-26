@@ -19,7 +19,7 @@
 #include "avformatwidgetcodeclist.h"
 #include "krender.h"
 
-AVFormatDescCodecList::AVFormatDescCodecList(KRender *renderer, const QString &description, const QString &name) :
+AVFormatDescCodecList::AVFormatDescCodecList(KRender *renderer, const QString &description, const char * &name) :
                         AVFormatDescBase(description, name),
                         m_renderer(renderer)
 {

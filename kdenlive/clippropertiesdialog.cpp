@@ -94,8 +94,8 @@ void ClipPropertiesDialog::setClip(DocClipRef *clip)
 	if( m_clip )
 	{
 		//video properties
-		filenameLabel->setText( i18n( m_clip->name() ) );
-		frameSizeLabel->setText( i18n( QString::number( m_clip->clipWidth() ) + "x" + QString::number ( m_clip->clipHeight() ) + ", " + QString::number( m_clip->framesPerSecond() ) + " fps" ) );
+		filenameLabel->setText( m_clip->name() );
+		frameSizeLabel->setText( i18n("%1x%2, %3 fps").arg( m_clip->clipWidth() ).arg( clip->clipHeight() ).arg( m_clip->framesPerSecond() ));
 		if( m_clip->durationKnown() )
 		{
 			QString length = "";
@@ -113,29 +113,29 @@ void ClipPropertiesDialog::setClip(DocClipRef *clip)
 			length.append(QString::number(minutes).rightJustify(2, '0', FALSE));
 			length.append(":");
 			length.append(QString::number(seconds).rightJustify(2, '0', FALSE));
-			videoLength->setText( i18n( length ) );
+			videoLength->setText( length );
 		}else{
 			videoLength->setText( i18n( "unknown" ) );
 		}
-		systemLabel->setText( i18n( m_clip->avSystem() ) );
-		decompressorLabel->setText( i18n( m_clip->avDecompressor() ) );
+		systemLabel->setText( m_clip->avSystem() );
+		decompressorLabel->setText( m_clip->avDecompressor() );
 
 		//audio properties
 		samplingRateLabel->setText( i18n( "0Hz" ) );
 		switch( m_clip->audioChannels() )
 		{
 			case 2:
-				channelsLabel->setText( i18n( QString::number( m_clip->audioChannels() ) + " (stereo)" ) );
+				channelsLabel->setText( i18n( "%1 (stereo)").arg( m_clip->audioChannels() ));
 				break;
 			case 1:
-				channelsLabel->setText( i18n( QString::number( m_clip->audioChannels() ) + " (mono)" ) );
+				channelsLabel->setText( i18n( "%1 (mono)").arg( m_clip->audioChannels() ));
 				break;
 			default:
-				channelsLabel->setText( i18n( QString::number( m_clip->audioChannels() ) ) );
+				channelsLabel->setText( QString::number( m_clip->audioChannels() ));
 				break;
 		}
-		formatLabel->setText( i18n( m_clip->audioFormat() ) );
-		audiobitLabel->setText( i18n( QString::number( m_clip->audioBits() ) + " bit") );
+		formatLabel->setText( m_clip->audioFormat() );
+		audiobitLabel->setText( i18n( "%1 bit" ).arg( m_clip->audioBits() ) );
 	}
 }
 

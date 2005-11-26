@@ -39,7 +39,7 @@ void ExportConfig::generateLayout()
 	QPtrListIterator<AVFileFormatDesc> itt( m_formatList );
 
 	while ( itt.current() ) {
-		QVBox * frame = addVBoxPage( itt.current() ->name() );
+		QVBox * frame = addVBoxPage( QString(itt.current() ->name()) );
 		QHBoxLayout *layout = new QHBoxLayout( frame, 0, 6 );
 		AVFormatWidgetBase *page = itt.current() ->createWidget( frame );
 		m_pageList.append( page );

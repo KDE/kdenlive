@@ -20,7 +20,7 @@
 #include "avfileformatdesc.h"
 #include "avfileformatwidget.h"
 
-AVFileFormatDesc::AVFileFormatDesc( const QString &description, const QString &name ) :
+AVFileFormatDesc::AVFileFormatDesc( const QString &description, const char * &name ) :
 		AVFormatDescContainer( description, name ),
 		m_fileExtension( QString::null )
 {

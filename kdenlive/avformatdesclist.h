@@ -29,7 +29,7 @@
 
 class AVFormatDescList : public AVFormatDescBase  {
 public: 	
-  AVFormatDescList(const QString &description, const QString &name);
+  AVFormatDescList(const QString &description, const char * &name);
 	~AVFormatDescList();
   /** Create a widget to handle a list value. Most likely, this will be a listbox. */
   AVFormatWidgetBase * createWidget(QWidget *parent);  

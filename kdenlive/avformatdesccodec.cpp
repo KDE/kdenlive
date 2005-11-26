@@ -18,7 +18,7 @@
 #include "avformatdesccodec.h"
 #include "avformatwidgetcodec.h"
 
-AVFormatDescCodec::AVFormatDescCodec(const QString &description, const QString &name) :
+AVFormatDescCodec::AVFormatDescCodec(const QString &description, const char * &name) :
                       AVFormatDescBase(description, name)
 {
 }

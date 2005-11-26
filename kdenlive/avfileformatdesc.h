@@ -30,7 +30,7 @@ class QWidget;
 
 class AVFileFormatDesc : public AVFormatDescContainer {
 public: 
-	AVFileFormatDesc(const QString &description, const QString &name);
+	AVFileFormatDesc(const QString &description, const char * &name);
 	~AVFileFormatDesc();
   /** Create and return a widget that embodies this file format description. */
   AVFormatWidgetBase * createWidget(QWidget *parent);

@@ -18,12 +18,14 @@
 
 #include <qpainter.h>
 
+
 #include "docclipref.h"
 #include "gentime.h"
 #include "kdenlivedoc.h"
 #include "ktimeline.h"
 #include <qimage.h>
-
+#include <tgmath.h>
+#include <math.h>
 //only for testing please remove if video get drawn
 #include <kstandarddirs.h>
 namespace Gui{

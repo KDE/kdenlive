@@ -30,7 +30,7 @@ class KRender;
 
 class AVFormatDescCodecList : public AVFormatDescBase  {
 public:
-	AVFormatDescCodecList(KRender *renderer, const QString &description, const QString &name);
+	AVFormatDescCodecList(KRender *renderer, const QString &description, const char * &name);
 	~AVFormatDescCodecList();
   /** Constructs a widget to display this container. Most likely, a qgroupbox with a combo list box + widget stack. */
   AVFormatWidgetBase * createWidget(QWidget * parent);
