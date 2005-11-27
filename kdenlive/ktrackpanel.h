@@ -17,6 +17,7 @@
 #ifndef KTRACKPANEL_H
 #define KTRACKPANEL_H
 
+
 #include <qhbox.h>
 
 class TrackPanelFunction;
@@ -29,6 +30,7 @@ namespace Gui
 
     /** Used to identify different type of tracks */
     enum TRACKTYPE { SOUNDTRACK = 1, VIDEOTRACK = 2, KEYFRAMETRACK = 3 };
+
 
 /**
 Abstract baseclass for track panels. Provides the interface that a track panel must implement. A KTrackPanel controls a track on the timline. It provides the track dialog that appears to the left of the track, and implements the display and functionality that occurs on the track itself.
@@ -46,6 +48,10 @@ public:
                               		const char *name);
 
     virtual ~KTrackPanel();
+
+    /** Holds the track state (collapsed or not) */
+    bool m_trackIsCollapsed;
+
 
     /** Returns true if this track panel has a document track index. */
     virtual bool hasDocumentTrackIndex() const;
@@ -73,6 +79,11 @@ protected:
 	*/
 	void addViewDecorator(TrackViewDecorator *view);
 
+	/** 
+	Remove all decorators 
+	*/
+	void clearViewDecorators();
+
     	KTimeLine *timeline() { return m_timeline; }
 private:
 	/** The KMMTrackPanel needs access to various methods from it's parents Timeline.
@@ -98,6 +109,8 @@ private:
 public slots:
 	/** Returns the type of track (audio, video,...)*/
 	TRACKTYPE trackType();
+	/**Is the track collapser */
+	bool isTrackCollapsed();
 
 };
 

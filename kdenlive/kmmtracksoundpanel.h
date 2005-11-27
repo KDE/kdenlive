@@ -21,6 +21,7 @@
 #include <qwidget.h>
 #include <qlabel.h>
 
+#include "trackheader_ui.h"
 #include "doctracksound.h"
 #include "kmmtrackpanel.h"
 
@@ -44,13 +45,21 @@ public:
 				KTimeLine *timeline,
 				KdenliveDoc *document,
 				DocTrackSound *docTrack,
+				bool isCollapsed, 
 				QWidget *parent=0,
 				const char *name=0);
 	~KMMTrackSoundPanel();
 
+private slots:
+	void resizeTrack();
+	void decorateTrack();
+
 private: // Public attributes
   /**  */
-  QLabel m_trackLabel;
+  TrackHeader m_trackHeader;
+
+signals:
+	void collapseTrack(KTrackPanel *, bool);
 };
 
 } // namespace Gui

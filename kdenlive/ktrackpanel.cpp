@@ -35,6 +35,7 @@ KTrackPanel::KTrackPanel(KTimeLine *timeline,
 {
 	assert(timeline);
 	assert(placer);
+	m_trackIsCollapsed = false;
 }
 
 
@@ -58,6 +59,12 @@ void KTrackPanel::drawToBackBuffer( QPainter &painter, QRect &rect )
 void KTrackPanel::addFunctionDecorator( const QString &mode, const QString &function )
 {
 	m_trackPanelFunctions[ mode ].append( function );
+}
+
+
+void KTrackPanel::clearViewDecorators()
+{
+	m_trackViewDecorators.clear();
 }
 
 void KTrackPanel::addViewDecorator( TrackViewDecorator *view )
@@ -87,9 +94,16 @@ int KTrackPanel::documentTrackIndex()  const
 	return m_placer->documentTrackIndex();
 }
 
+/** Returns the track type (video, sound,...) */
 TRACKTYPE KTrackPanel::trackType()
 {
 	return m_trackType;
+}
+
+/** Returns the track state (collapsed or not) */
+bool KTrackPanel::isTrackCollapsed()
+{
+	return m_trackIsCollapsed;
 }
 
 } // namespace Gui

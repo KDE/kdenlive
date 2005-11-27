@@ -18,6 +18,8 @@
 #include <qcursor.h>
 #include <kdebug.h>
 #include <klocale.h>
+#include <qtoolbutton.h>
+#include <kiconloader.h>
 
 #include <cmath>
 
@@ -47,16 +49,15 @@ KMMTrackVideoPanel::KMMTrackVideoPanel(KdenliveApp *app,
 					KTimeLine *timeline,
 					KdenliveDoc *doc,
 					DocTrackVideo *docTrack,
+					bool isCollapsed, 
 					QWidget *parent,
 				       	const char *name ) :
 		KMMTrackPanel(timeline, doc, new KTrackPlacer(doc, timeline, docTrack), VIDEOTRACK, parent,name),
-		m_trackLabel(i18n("Video Track"), this, "Video Track")
+		m_trackHeader( this, "video header")
 {
-
-	uint widgetHeight = KdenliveSettings::videotracksize();
-
-	setMinimumHeight(widgetHeight);
-	setMaximumHeight(widgetHeight);
+	m_trackHeader.trackLabel->setText(i18n("Video Track"));
+	m_trackIsCollapsed = isCollapsed;
+	connect (m_trackHeader.collapseButton, SIGNAL(clicked()), this, SLOT(resizeTrack()));
 
 	addFunctionDecorator("move", "resize");
 	addFunctionDecorator("move", "move");
@@ -65,24 +66,48 @@ KMMTrackVideoPanel::KMMTrackVideoPanel(KdenliveApp *app,
 	addFunctionDecorator("spacer", "spacer");
 	addFunctionDecorator("marker", "marker");
 	addFunctionDecorator("roll", "roll");
-	int audioDecoratorSize=15;
 
-	// Show video thumbnails if user
-	if (KdenliveSettings::videothumbnails())
-	addViewDecorator(new TrackViewVideoBackgroundDecorator(timeline, doc, KdenliveSettings::selectedvideoclipcolor(), KdenliveSettings::videoclipcolor(),audioDecoratorSize));
-	else 
-	// Color only decoration
-	addViewDecorator(new TrackViewBackgroundDecorator(timeline, doc, KdenliveSettings::selectedvideoclipcolor(), KdenliveSettings::videoclipcolor()));
-
-	/* should be removed... audio decoration should only be on audio tracks */
-	//addViewDecorator(new TrackViewAudioBackgroundDecorator(timeline, doc, QColor(64, 128, 64), QColor(128, 255, 128),audioDecoratorSize));
-	
-	addViewDecorator(new TrackViewNameDecorator(timeline, doc));
-	addViewDecorator(new TrackViewMarkerDecorator(timeline, doc));
+	decorateTrack();
 }
 
 KMMTrackVideoPanel::~KMMTrackVideoPanel()
 {
+}
+
+void KMMTrackVideoPanel::resizeTrack()
+{
+	m_trackIsCollapsed = !m_trackIsCollapsed;
+	clearViewDecorators();
+	decorateTrack();
+	emit collapseTrack(this, m_trackIsCollapsed);
+}
+
+void KMMTrackVideoPanel::decorateTrack()
+{
+	uint widgetHeight;
+
+	if (m_trackIsCollapsed) widgetHeight = collapsedTrackSize;
+	else widgetHeight = KdenliveSettings::videotracksize();
+
+	setMinimumHeight(widgetHeight);
+	setMaximumHeight(widgetHeight);
+	
+	// Show video thumbnails if user
+	if (KdenliveSettings::videothumbnails() && !m_trackIsCollapsed)
+	addViewDecorator(new TrackViewVideoBackgroundDecorator(timeline(), document(), KdenliveSettings::selectedvideoclipcolor(), KdenliveSettings::videoclipcolor(),0));
+	else 
+	// Color only decoration
+	addViewDecorator(new TrackViewBackgroundDecorator(timeline(), document(), KdenliveSettings::selectedvideoclipcolor(), KdenliveSettings::videoclipcolor()));
+
+	/* should be removed... audio decoration should only be on audio tracks */
+	//addViewDecorator(new TrackViewAudioBackgroundDecorator(timeline, doc, QColor(64, 128, 64), QColor(128, 255, 128),audioDecoratorSize));
+
+	addViewDecorator(new TrackViewNameDecorator(timeline(), document()));
+	addViewDecorator(new TrackViewMarkerDecorator(timeline(), document()));
+
+	if (m_trackIsCollapsed) m_trackHeader.collapseButton->setPixmap(KGlobal::iconLoader()->loadIcon("1downarrow",KIcon::Small,16));
+	else m_trackHeader.collapseButton->setPixmap(KGlobal::iconLoader()->loadIcon("1rightarrow",KIcon::Small,16));
+
 }
 
 } // namespace Gui

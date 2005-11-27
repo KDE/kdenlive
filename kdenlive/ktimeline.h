@@ -263,6 +263,8 @@ public slots:   // Public slots
 private slots:   // Private slots
 	/** Scroll the timeline by a set amount. Should be connected to m_scrollTimer */
 	void slotTimerScroll();
+	/** Collapse selected track */
+	void collapseTrack(KTrackPanel *panel, bool);
 signals:   // Signals
 	/** emitted when the length of the project has changed. */
 	void projectLengthChanged( int );

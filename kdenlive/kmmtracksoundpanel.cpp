@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include <qsizepolicy.h>
+#include <qtoolbutton.h>
+#include <kiconloader.h>
 
 #include "kmmtracksoundpanel.h"
 #include "ktrackplacer.h"
@@ -33,17 +35,17 @@ KMMTrackSoundPanel::KMMTrackSoundPanel(KdenliveApp *app,
 					KTimeLine *timeline,
 					KdenliveDoc *document,
 					DocTrackSound *docTrack,
+					bool isCollapsed, 
 					QWidget *parent,
 					const char *name ) :
 						KMMTrackPanel(timeline, document, new KTrackPlacer(document, timeline, docTrack), SOUNDTRACK, parent,name),
-						m_trackLabel(i18n("Sound Track"), this, "Sound Track")
+						m_trackHeader( this, "Sound Track")
 {
+	m_trackHeader.trackLabel->setText(i18n("Sound Track"));
+	m_trackIsCollapsed = isCollapsed;
+	connect (m_trackHeader.collapseButton, SIGNAL(clicked()), this, SLOT(resizeTrack()));
 
-	uint widgetHeight = KdenliveSettings::audiotracksize();
-
-	setMinimumHeight(widgetHeight);
-	setMaximumHeight(widgetHeight);
-
+	
 	addFunctionDecorator("move", "resize");
 	addFunctionDecorator("move", "move");
 	addFunctionDecorator("move", "selectnone");
@@ -52,18 +54,42 @@ KMMTrackSoundPanel::KMMTrackSoundPanel(KdenliveApp *app,
 	addFunctionDecorator("marker", "marker");
 	addFunctionDecorator("roll", "roll");
 
-	if (KdenliveSettings::audiothumbnails())
-	addViewDecorator(new TrackViewAudioBackgroundDecorator(timeline, document, KdenliveSettings::selectedaudioclipcolor(), KdenliveSettings::audioclipcolor()));
-
-	else addViewDecorator(new TrackViewBackgroundDecorator(timeline, document, KdenliveSettings::selectedaudioclipcolor(), KdenliveSettings::audioclipcolor()));
-
-	addViewDecorator(new TrackViewNameDecorator(timeline, document));
-	
+	decorateTrack();
 	
 }
 
 KMMTrackSoundPanel::~KMMTrackSoundPanel()
 {
+}
+
+void KMMTrackSoundPanel::resizeTrack()
+{
+	m_trackIsCollapsed = !m_trackIsCollapsed;
+	clearViewDecorators();
+	decorateTrack();
+	emit collapseTrack(this, m_trackIsCollapsed);
+
+}
+
+void KMMTrackSoundPanel::decorateTrack()
+{
+	uint widgetHeight;
+
+	if (m_trackIsCollapsed) widgetHeight = collapsedTrackSize;
+	else widgetHeight = KdenliveSettings::audiotracksize();
+
+	setMinimumHeight(widgetHeight);
+	setMaximumHeight(widgetHeight);
+
+	if (KdenliveSettings::audiothumbnails() && !m_trackIsCollapsed)
+	addViewDecorator(new TrackViewAudioBackgroundDecorator(timeline(), document(), KdenliveSettings::selectedaudioclipcolor(), KdenliveSettings::audioclipcolor()));
+
+	else addViewDecorator(new TrackViewBackgroundDecorator(timeline(), document(), KdenliveSettings::selectedaudioclipcolor(), KdenliveSettings::audioclipcolor()));
+
+	addViewDecorator(new TrackViewNameDecorator(timeline(), document()));
+
+	if (m_trackIsCollapsed) m_trackHeader.collapseButton->setPixmap(KGlobal::iconLoader()->loadIcon("1downarrow",KIcon::Small,16));
+	else m_trackHeader.collapseButton->setPixmap(KGlobal::iconLoader()->loadIcon("1rightarrow",KIcon::Small,16));
 }
 
 /*

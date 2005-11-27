@@ -37,7 +37,6 @@ KMMTrackPanel::KMMTrackPanel( KTimeLine *timeline,
 {
 	setSizePolicy( QSizePolicy( QSizePolicy::Maximum, QSizePolicy::Expanding ) );
 	setPalette( QPalette( QColor( 170, 170, 170 ) ) );
-
 	setFrameStyle( QFrame::Panel | QFrame::Sunken );
 }
 

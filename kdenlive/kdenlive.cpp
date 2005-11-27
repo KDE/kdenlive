@@ -443,8 +443,10 @@ void KdenliveApp::initView()
 	TrackPanelClipResizeFunction *resizeFunction = new TrackPanelClipResizeFunction(this, m_timeline, getDocument());
 	m_timeline->trackView()->registerFunction("resize", resizeFunction);
 	// connects for clip/workspace monitor activation (i.e. making sure they are visible when needed)
-	connect(resizeFunction, SIGNAL( signalClipCropStartChanged( DocClipRef * ) ), this, SLOT( activateClipMonitor() ) );
-	connect(resizeFunction, SIGNAL( signalClipCropEndChanged( DocClipRef * ) ), this, SLOT( activateClipMonitor() ) );
+	
+	/* disables, makes monitor flicker like hell while resizing a clip, and does not seem necessarx */
+	//connect(resizeFunction, SIGNAL( signalClipCropStartChanged( DocClipRef * ) ), this, SLOT( activateClipMonitor() ) );
+	//connect(resizeFunction, SIGNAL( signalClipCropEndChanged( DocClipRef * ) ), this, SLOT( activateClipMonitor() ) );
 	connect(resizeFunction, SIGNAL(signalClipCropStartChanged(DocClipRef* )), m_clipMonitor, SLOT(slotClipCropStartChanged( DocClipRef * )));
 	connect(resizeFunction, SIGNAL(signalClipCropEndChanged(DocClipRef* )), m_clipMonitor, SLOT(slotClipCropEndChanged( DocClipRef * )));
 
@@ -1387,12 +1389,12 @@ void KdenliveApp::slotSyncTimeLineWithDocument()
 		connect( trackItt.current(), SIGNAL( clipSelectionChanged() ), m_timeline, SLOT( drawTrackViewBackBuffer() ) );
 
 		if(trackItt.current()->clipType() == "Video") {
-			m_timeline->insertTrack(index, new KMMTrackVideoPanel(this, m_timeline, getDocument(), (dynamic_cast<DocTrackVideo *>(trackItt.current()))));
+			m_timeline->insertTrack(index, new KMMTrackVideoPanel(this, m_timeline, getDocument(), (dynamic_cast<DocTrackVideo *>(trackItt.current())), false));
 			++index;
 			m_timeline->insertTrack(index, new KMMTrackKeyFramePanel(m_timeline, getDocument(), (*trackItt), "alphablend", 0, "fade"));
 			++index;
 		} else if(trackItt.current()->clipType() == "Sound") {
-			m_timeline->insertTrack(index, new KMMTrackSoundPanel(this, m_timeline, getDocument(), (dynamic_cast<DocTrackSound *>(trackItt.current()))));
+			m_timeline->insertTrack(index, new KMMTrackSoundPanel(this, m_timeline, getDocument(), (dynamic_cast<DocTrackSound *>(trackItt.current())), false));
 			++index;
 			m_timeline->insertTrack(index, new KMMTrackKeyFramePanel(m_timeline, getDocument(), (*trackItt), "alphablend", 0, "fade"));
 			++index;

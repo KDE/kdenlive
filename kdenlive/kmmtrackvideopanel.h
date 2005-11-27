@@ -23,6 +23,7 @@
 #include <qhbox.h>
 #include <qpixmap.h>
 
+#include "trackheader_ui.h"
 #include "doctrackvideo.h"
 #include "kdenlive.h"
 #include "kmmtrackpanel.h"
@@ -46,14 +47,23 @@ public:
 				KTimeLine *timeline,
 				KdenliveDoc *document,
 				DocTrackVideo *docTrack,
+				bool isCollapsed, 
 				QWidget *parent=0,
 			       	const char *name=0);
 	~KMMTrackVideoPanel();
+
+private slots:
+	void resizeTrack();
+	void decorateTrack();
+
 private:
 	QHBox m_horzLayout;
-	QLabel m_trackLabel;
+	TrackHeader m_trackHeader;
 	/** True if we are inside a dragging operation, false otherwise. */
 	bool m_dragging;
+
+signals:
+	void collapseTrack(KTrackPanel *, bool);
 };
 
 } // namespace Gui

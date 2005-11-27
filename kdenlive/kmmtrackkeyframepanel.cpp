@@ -59,6 +59,17 @@ KMMTrackKeyFramePanel::KMMTrackKeyFramePanel(KTimeLine *timeline,
 	addViewDecorator(new TrackViewDoubleKeyFrameDecorator(timeline, doc, effectName, effectIndex, effectParam));
 }
 
+void KMMTrackKeyFramePanel::resizeTrack()
+{
+	//clearViewDecorators();
+	uint widgetHeight = 30;
+	m_trackIsCollapsed = !m_trackIsCollapsed;
+	if (m_trackIsCollapsed) widgetHeight = 0;
+	setMinimumHeight(widgetHeight);
+	setMaximumHeight(widgetHeight);
+/*	addViewDecorator(new TrackViewBackgroundDecorator(timeline(), document(), QColor(128, 128, 128), QColor(200, 200, 200)));
+	addViewDecorator(new TrackViewDoubleKeyFrameDecorator(timeline(), document(), effectName, effectIndex, effectParam));*/
+}
 
 KMMTrackKeyFramePanel::~KMMTrackKeyFramePanel()
 {

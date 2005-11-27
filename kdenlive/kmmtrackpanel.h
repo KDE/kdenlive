@@ -28,6 +28,8 @@
 #include "ktrackpanel.h"
 #include "trackviewdecorator.h"
 
+const uint collapsedTrackSize = 30;
+
 class KdenliveDoc;
 class TrackPanelFunction;
 
@@ -42,6 +44,7 @@ namespace Gui
 
 class KMMTrackPanel : public KTrackPanel  {
 	Q_OBJECT
+
 public:
 	enum ResizeState {None, Start, End};
 

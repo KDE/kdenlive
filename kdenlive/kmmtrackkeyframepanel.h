@@ -46,6 +46,11 @@ public:
 				QWidget *parent=0,
 				const char *name=0);
 	virtual ~KMMTrackKeyFramePanel();
+
+public slots:
+	void resizeTrack();
+signals:
+	void collapseTrack(KTrackPanel *, bool);
 };
 
 } // namespace Gui

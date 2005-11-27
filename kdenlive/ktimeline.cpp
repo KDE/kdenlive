@@ -38,6 +38,7 @@
 #include "kresizecommand.h"
 #include "kscalableruler.h"
 #include "kdenlive.h"
+#include "kmmtrackkeyframepanel.h"
 
 namespace
 {
@@ -128,7 +129,7 @@ void KTimeLine::insertTrack( int index, KTrackPanel *track )
 	assert(track);
 	track->reparent( m_trackScroll->viewport(), 0, QPoint( 0, 0 ), TRUE );
 	m_trackScroll->addChild( track );
-
+	connect(track, SIGNAL(collapseTrack(KTrackPanel *, bool)), this, SLOT(collapseTrack(KTrackPanel *, bool)));
 	m_trackList.insert( index, track );
 
 	resizeTracks();
@@ -137,6 +138,14 @@ void KTimeLine::insertTrack( int index, KTrackPanel *track )
 void KTimeLine::resizeEvent( QResizeEvent *event )
 {
 	resizeTracks();
+}
+
+void KTimeLine::collapseTrack(KTrackPanel *panel, bool collapse)
+{
+/* Hack: if a track is collapsed, also collapse its keyframetrack. Should maybe find a better way to locate it*/
+uint index = 2*panel->documentTrackIndex() + 1;
+(static_cast<KMMTrackKeyFramePanel *>(m_trackList.at(index)))->resizeTrack();
+resizeTracks();
 }
 
 void KTimeLine::resizeTracks()
@@ -151,11 +160,13 @@ void KTimeLine::resizeTracks()
 
 	while ( panel ) {
 
-		if (panel->trackType() == VIDEOTRACK)
-			widgetHeight = KdenliveSettings::videotracksize();
-		else if (panel->trackType() == SOUNDTRACK) 
-			widgetHeight = KdenliveSettings::audiotracksize();
-		else widgetHeight = 30;
+		if (panel->trackType() == KEYFRAMETRACK) {
+			if (panel->isTrackCollapsed()) widgetHeight = 0;
+			else widgetHeight = 30;
+		}
+		else if (panel->isTrackCollapsed()) widgetHeight = collapsedTrackSize;
+		else if (panel->trackType() == VIDEOTRACK) widgetHeight = KdenliveSettings::videotracksize();
+		else if (panel->trackType() == SOUNDTRACK) widgetHeight = KdenliveSettings::audiotracksize();
 
 		m_trackScroll->moveChild( panel, 0, height );
 		panel->resize( m_panelWidth, widgetHeight );
