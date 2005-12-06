@@ -47,12 +47,13 @@ Gui::KMMTrackPanel *EffectParamDoubleDesc::createTrackPanel(Gui::KdenliveApp *ap
 				Gui::KTimeLine *timeline,
 				KdenliveDoc *document,
 				DocTrackBase *docTrack,
+				bool isCollapsed,
 				QWidget *parent,
 				const char *name)
 {
 	kdWarning() << "EffectParamDoubleDesc::createTrackPanel()" << endl;
 	#warning - need to pass in the effect name/index from somewhere.
-	return new Gui::KMMTrackKeyFramePanel( timeline, document, docTrack, "alphablend", 0,  name, parent, name);
+	return new Gui::KMMTrackKeyFramePanel( timeline, document, docTrack, false, "alphablend", 0,  name, parent, name);
 }
 
 // virtual

@@ -76,7 +76,7 @@ KMMTrackVideoPanel::~KMMTrackVideoPanel()
 
 void KMMTrackVideoPanel::resizeTrack()
 {
-	m_trackIsCollapsed = !m_trackIsCollapsed;
+	m_trackIsCollapsed = (!m_trackIsCollapsed);
 	clearViewDecorators();
 	decorateTrack();
 	emit collapseTrack(this, m_trackIsCollapsed);

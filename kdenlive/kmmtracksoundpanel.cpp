@@ -44,7 +44,6 @@ KMMTrackSoundPanel::KMMTrackSoundPanel(KdenliveApp *app,
 	m_trackHeader.trackLabel->setText(i18n("Sound Track"));
 	m_trackIsCollapsed = isCollapsed;
 	connect (m_trackHeader.collapseButton, SIGNAL(clicked()), this, SLOT(resizeTrack()));
-
 	
 	addFunctionDecorator("move", "resize");
 	addFunctionDecorator("move", "move");
@@ -64,7 +63,8 @@ KMMTrackSoundPanel::~KMMTrackSoundPanel()
 
 void KMMTrackSoundPanel::resizeTrack()
 {
-	m_trackIsCollapsed = !m_trackIsCollapsed;
+	m_trackIsCollapsed = (!m_trackIsCollapsed);
+
 	clearViewDecorators();
 	decorateTrack();
 	emit collapseTrack(this, m_trackIsCollapsed);

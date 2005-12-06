@@ -40,6 +40,7 @@ public:
 	KMMTrackKeyFramePanel(KTimeLine *timeline,
 				KdenliveDoc *document,
 				DocTrackBase *docTrack,
+				bool isCollapsed, 
 				const QString &effectName,
 				int effectIndex,
 				const QString &effectParam,

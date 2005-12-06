@@ -54,6 +54,7 @@ public:
 									Gui::KTimeLine *timeline,
 									KdenliveDoc *document,
 									DocTrackBase *docTrack,
+									bool isCollapsed,
 									QWidget *parent=0,
 									const char *name=0) = 0;
 

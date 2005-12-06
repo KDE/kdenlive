@@ -38,6 +38,7 @@ namespace Gui
 KMMTrackKeyFramePanel::KMMTrackKeyFramePanel(KTimeLine *timeline,
 						KdenliveDoc *doc,
 						DocTrackBase *docTrack,
+						bool isCollapsed, 
 						const QString &effectName,
 						int effectIndex,
 						const QString &effectParam,
@@ -45,8 +46,12 @@ KMMTrackKeyFramePanel::KMMTrackKeyFramePanel(KTimeLine *timeline,
 						const char *name) :
 					KMMTrackPanel(timeline, doc, new KTrackPlacer(doc, timeline, docTrack), KEYFRAMETRACK, parent,name)
 {
-	setMinimumHeight(30);
-	setMaximumHeight(30);
+	m_trackIsCollapsed = isCollapsed;
+	uint widgetHeight = 30;
+	if (m_trackIsCollapsed) widgetHeight = 0;
+
+	setMinimumHeight(widgetHeight);
+	setMaximumHeight(widgetHeight);
 
 	addFunctionDecorator("move", "resize");
 	addFunctionDecorator("move", "move");
@@ -63,7 +68,8 @@ void KMMTrackKeyFramePanel::resizeTrack()
 {
 	//clearViewDecorators();
 	uint widgetHeight = 30;
-	m_trackIsCollapsed = !m_trackIsCollapsed;
+	m_trackIsCollapsed = (!m_trackIsCollapsed);
+
 	if (m_trackIsCollapsed) widgetHeight = 0;
 	setMinimumHeight(widgetHeight);
 	setMaximumHeight(widgetHeight);
