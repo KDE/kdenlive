@@ -70,6 +70,12 @@ void KMMScreen::seek(const GenTime &time)
 	m_render->seek(time);
 }
 
+/** Stop playing, reset speed to 0 and seek to clip inpoint */
+void KMMScreen::playStopped(const GenTime &startTime)
+{
+	m_render->stop(startTime);
+}
+
 /** Set the play speed of the screen */
 void KMMScreen::play(double speed)
 {

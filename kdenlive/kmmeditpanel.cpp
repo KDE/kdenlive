@@ -19,6 +19,8 @@
 #include <cmath>
 
 #include <kled.h>
+#include <qlcdnumber.h>
+#include <kdebug.h>
 
 #include "kmmeditpanel.h"
 
@@ -53,19 +55,25 @@ KMMEditPanel::KMMEditPanel( KdenliveDoc *document, QWidget* parent, const char* 
 	renderStatus->setColor( QColor( 0, 200, 0 ) );
 	renderStatus->setFixedSize( 20, 20 );
 
+	timeCode->setSegmentStyle(QLCDNumber::Flat);
+	timeCode->setPaletteBackgroundColor (Qt::black);
+	timeCode->setPaletteForegroundColor (Qt::green);
+
+	tcode.setFormat(Timecode::HH_MM_SS_FF);
+
 	KIconLoader loader;
 
-	startButton->setPixmap( loader.loadIcon( "player_start", KIcon::Toolbar ) );
-	rewindButton->setPixmap( loader.loadIcon( "player_rew", KIcon::Toolbar ) );
-	stopButton->setPixmap( loader.loadIcon( "player_stop", KIcon::Toolbar ) );
-	playButton->setPixmap( loader.loadIcon( "player_play", KIcon::Toolbar ) );
-	forwardButton->setPixmap( loader.loadIcon( "player_fwd", KIcon::Toolbar ) );
-	endButton->setPixmap( loader.loadIcon( "player_end", KIcon::Toolbar ) );
-	inpointButton->setPixmap( loader.loadIcon( "start", KIcon::Toolbar ) );
-	outpointButton->setPixmap( loader.loadIcon( "finish", KIcon::Toolbar ) );
+	startButton->setPixmap( loader.loadIcon( "player_start", KIcon::Small ) );
+	rewindButton->setPixmap( loader.loadIcon( "player_rew", KIcon::Small ) );
+	stopButton->setPixmap( loader.loadIcon( "player_stop", KIcon::Small ) );
+	playButton->setPixmap( loader.loadIcon( "player_play", KIcon::Small ) );
+	forwardButton->setPixmap( loader.loadIcon( "player_fwd", KIcon::Small ) );
+	endButton->setPixmap( loader.loadIcon( "player_end", KIcon::Small ) );
+	inpointButton->setPixmap( loader.loadIcon( "start", KIcon::Small ) );
+	outpointButton->setPixmap( loader.loadIcon( "finish", KIcon::Small ) );
 
-	previousMarkerButton->setPixmap( loader. loadIcon("1leftarrow", KIcon::Toolbar ) );
-	nextMarkerButton->setPixmap( loader.loadIcon("1rightarrow", KIcon::Toolbar ) );
+	previousMarkerButton->setPixmap( loader. loadIcon("1leftarrow", KIcon::Small ) );
+	nextMarkerButton->setPixmap( loader.loadIcon("1rightarrow", KIcon::Small ) );
 
 	connect( m_ruler, SIGNAL( sliderValueChanged( int, int ) ), this, SLOT( rulerValueChanged( int, int ) ) );
 
@@ -108,6 +116,7 @@ void KMMEditPanel::rulerValueChanged( int ID, int value )
 	switch ( ID ) {
 		case 0 :
 		emit seekPositionChanged( GenTime( value, m_document->framesPerSecond() ) );
+		timeCode->display(tcode.getTimecode(GenTime( value, m_document->framesPerSecond() ), m_document->framesPerSecond()));
 		break;
 		case 1 :
 		emit inpointPositionChanged( GenTime( value, m_document->framesPerSecond() ) );
@@ -259,7 +268,8 @@ void KMMEditPanel::stop()
 {
 	m_playSelected = true;
 	m_pauseMode = false;
-	setPlaying(false);
+	m_playSpeed = 0.0;
+	emit playStopped(inpoint());
 }
 
 void KMMEditPanel::setPlaying(bool play)
@@ -299,7 +309,7 @@ void KMMEditPanel::updateButtons()
 			}
 		}
 
-		playButton->setPixmap( loader.loadIcon( "player_pause", KIcon::Toolbar ) );
+		playButton->setPixmap( loader.loadIcon( "player_pause", KIcon::Small ) );
 
 	} else {
 		if(playButton->isOn()) {
@@ -309,7 +319,7 @@ void KMMEditPanel::updateButtons()
 			playSectionButton->toggle();
 		}
 
-		playButton->setPixmap( loader.loadIcon( "player_play", KIcon::Toolbar ) );
+		playButton->setPixmap( loader.loadIcon( "player_play", KIcon::Small ) );
 	}
 }
 

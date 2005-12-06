@@ -25,15 +25,15 @@
 #include <klocale.h>
 
 #include "krender.h"
-
+#include <mlt++/Mlt.h>
 #include "avformatdescbool.h"
 #include "avformatdesclist.h"
 #include "avformatdesccontainer.h"
 #include "avformatdesccodeclist.h"
 #include "avformatdesccodec.h"
-#include <mlt++/Mlt.h>
 #include <qcolor.h>
 #include <qpixmap.h>
+#include <qapplication.h>
 #include <qimage.h>
 #include <iostream>
 #include "effectparamdesc.h"
@@ -239,16 +239,19 @@ void KRender::closeMlt(){
 }
 
 static void consumer_frame_show (mlt_consumer sdl, KRender* self,mlt_frame frame_ptr){
-	//std::cout << frame_ptr << std::endl;
+
 	mlt_position framePosition = mlt_frame_get_position(frame_ptr);
 	self->emitFrameNumber(GenTime(framePosition, 25));
 }
+
 void my_lock(){
-	
+	//WARNING: I am not sure this is the way to handle it, but still seems better than nothing 
+	qApp->lock();
 	//mutex.lock();
 }
 void my_unlock(){
-	
+	//WARNING: I am not sure this is the way to handle it, but still seems better than nothing 
+	qApp->unlock();
 	//mutex.unlock();
 }
 
@@ -261,17 +264,19 @@ void KRender::createVideoXWindow( bool show ,WId winid)
 {
 	m_mltConsumer=new Mlt::Consumer("sdl_preview");
 	m_mltConsumer->listen("consumer-frame-show",this,(mlt_listener)consumer_frame_show);
+
 	//only as is saw, if we want to lock something with the sdl lock
 
 	m_mltConsumer->set ("app_locked",1);
-	m_mltConsumer->set("app_lock",(void*)my_lock,0);
+	m_mltConsumer->set("app_lock",(void*)&my_lock,0);
 
-	m_mltConsumer->set("app_unlock",(void*)my_unlock,0);
+	m_mltConsumer->set("app_unlock",(void*)&my_unlock,0);
 	m_mltConsumer->set("window_id",QString::number(winid).ascii());
-	m_mltConsumer->start ();
 
 	m_mltConsumer->set("resize",1);
 	m_mltConsumer->set("progressiv",1);
+
+	m_mltConsumer->start ();
 
 	//m_mltProducer=new Mlt::Producer("noise");
 	//m_mltConsumer->connect(*m_mltProducer);
@@ -325,7 +330,9 @@ void KRender::getSoundSamples(const  KURL& url, int channel,int frame, double fr
 	
 	emit replyGetSoundSamples(url, channel, frame, frameLength, m_array,x,y,h,w,painter);
 }
-void KRender::getImage( KURL url, int frame, int width, int height ) 
+
+
+void KRender::getImage( KURL url, int frame, int width, int height) 
 {
 	Mlt::Producer m_producer(const_cast<char*>((url.directory(false)+url.fileName()).ascii()));
 
@@ -336,19 +343,24 @@ void KRender::getImage( KURL url, int frame, int width, int height )
     
 	Mlt::Frame *m_frame = m_producer.get_frame();
 	m_frame->set( "rescale","nearest" );
+	double ratio = (double) height / m_frame->get_int("height");
+	double overSize = 1.0;
+	/* if we want a small thumbnail, oversize image a little bit and smooth rescale after, gives better results */
+	if (ratio < 0.3) overSize = 1.4;
     
 	if (m_frame)
-	{
-		unsigned char *m_thumb = m_frame->fetch_image( mlt_image_rgb24a, width, height, 1 );
-		m_producer.set( "thumb", m_thumb, width * height * 4, mlt_pool_release );
+	{	
+		unsigned char *m_thumb = m_frame->fetch_image( mlt_image_rgb24a, width * overSize, height* overSize, 1 );
+		m_producer.set( "thumb", m_thumb, width * height * overSize * overSize * 4, mlt_pool_release );
 		m_frame->set( "image",m_thumb, 0, NULL, NULL );
 
-		QPixmap m_pixmap( width, height,32 );
- 
-		QImage m_image( m_thumb, width, height, 32, 0, 0, QImage::IgnoreEndian );
+		QPixmap m_pixmap(width * overSize, height * overSize, 32);
+
+		QImage m_image( m_thumb, width * overSize, height * overSize, 32, 0, 0, QImage::IgnoreEndian );
  
 		delete m_frame;
-		m_pixmap.convertFromImage( m_image );
+		m_pixmap = m_image.smoothScale(width, height );
+		//m_pixmap.convertFromImage( m_image );
 		emit replyGetImage( url, frame, m_pixmap, width, height );
 	} 
 }
@@ -392,12 +404,13 @@ void KRender::setSceneList( QDomDocument list )
 {
 	m_sceneList = list;
 	m_setSceneListPending = true;
-	
-	m_mltConsumer->stop();
-
+	//	m_mltConsumer->stop();	
+		
 	if(m_mltProducer != NULL) {
+
 		delete m_mltProducer;
 		m_mltProducer = NULL;
+		emit stopped();
 	}
 
 //	QDomDocument doc;
@@ -414,10 +427,11 @@ void KRender::setSceneList( QDomDocument list )
 //	std::cout <<  doc.toString() << std::endl;
 //	m_mltProducer = new Mlt::Producer("westley-xml",const_cast<char*>(doc.toString().ascii()));
 	m_mltProducer = new Mlt::Producer("westley-xml",const_cast<char*>(list.toString().ascii()));
-	m_mltConsumer->lock();
+	m_mltProducer->set_speed(0.0);
 	m_mltConsumer->connect(*m_mltProducer);
-	m_mltConsumer->start();
-	m_mltConsumer->unlock();
+	//	m_mltConsumer->start();	
+	refresh();
+	
 	
 }
 
@@ -432,13 +446,25 @@ void KRender::ping( QString &ID )
 	sendCommand( doc );
 }
 
+void KRender::stop(const GenTime &startTime)
+{
+if (!m_mltProducer) return;
+
+m_mltProducer->set_speed(0.0);
+m_mltProducer->seek((int) (startTime.frames(m_mltProducer->get_double("fps"))));
+	refresh();
+}
+
 void KRender::play( double speed )
 {
+if (!m_mltProducer) return;
+
 	m_playSpeed = speed;
 	if ( m_setSceneListPending ) {
 		sendSetSceneListCommand( m_sceneList );
 	}
 	m_mltProducer->set_speed(speed);
+	refresh();
 	/*if(m_playSpeed != 0.0) {
 		m_mltProducer->set_speed(1.0);
 	} else {
@@ -448,11 +474,16 @@ void KRender::play( double speed )
 
 void KRender::play(double speed, const GenTime &startTime)
 {
+if (!m_mltProducer) return;
+
 	m_playSpeed = speed;
 	if(m_setSceneListPending) {
 		sendSetSceneListCommand(m_sceneList);
 	}
 	m_mltProducer->set_speed(speed);
+	m_mltProducer->seek((int) (startTime.frames(m_mltProducer->get_double("fps"))));
+	refresh();
+
 	/*if(m_playSpeed != 0.0) {
 		m_mltProducer->set_speed(1.0);
 	} else {
@@ -462,12 +493,20 @@ void KRender::play(double speed, const GenTime &startTime)
 
 void KRender::play( double speed, const GenTime &startTime, const GenTime &stopTime )
 {
+if (!m_mltProducer) return;
+
 	m_playSpeed = speed;
 
 	if ( m_setSceneListPending ) {
 		sendSetSceneListCommand( m_sceneList );
 	}
+
+	/* FIXME: Currently, only the startTime is considered. Playing will not stop at stopTime. Should find a clever way to do this... */
+
 	m_mltProducer->set_speed(speed);
+	m_mltProducer->seek((int) (startTime.frames(m_mltProducer->get_double("fps"))));
+	refresh();
+
 	/*if(m_playSpeed != 0.0) {
 		m_mltProducer->set_speed(1.0);
 	} else {
@@ -489,11 +528,11 @@ void KRender::render( const KURL &url )
 
 void KRender::sendSeekCommand( GenTime time )
 {
-	if (m_mltProducer)
-		m_mltProducer->seek(time.frames(m_mltProducer->get_double("fps")));	
-	m_mltConsumer->lock();
-	m_mltConsumer->set("refresh",1);
-	m_mltConsumer->unlock();
+
+if (!m_mltProducer) return;
+	m_mltProducer->seek((int) (time.frames(m_mltProducer->get_double("fps"))));
+	refresh();
+
 	/*if ( m_setSceneListPending ) {
 		sendSetSceneListCommand( m_sceneList );
 	}
@@ -502,9 +541,19 @@ void KRender::sendSeekCommand( GenTime time )
 	QDomElement elem = doc.createElement( "seek" );
 	elem.setAttribute( "time", QString::number( time.seconds() ) );
 	doc.appendChild( elem );
-	sendCommand( doc );
+	sendCommand( doc );*/
 
-	m_seekPosition = time;*/
+	m_seekPosition = time;
+}
+
+void KRender::refresh()
+{
+	if ( m_mltConsumer )
+	{
+		m_mltConsumer->lock( );
+		m_mltConsumer->set( "refresh", 1 );
+		m_mltConsumer->unlock( );
+	}
 }
 
 void KRender::sendSetSceneListCommand( const QDomDocument &list )

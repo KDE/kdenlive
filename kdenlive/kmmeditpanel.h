@@ -20,6 +20,7 @@
 
 #include "kmmeditpanel_ui.h"
 
+#include "timecode.h"
 #include "gentime.h"
 
 class KdenliveDoc;
@@ -47,12 +48,16 @@ public:
 private:
 	// Set or stop playback.
 	void setPlaying(bool play);
+	Timecode tcode;
+
 private slots: // Private slots
   /** A slider on the ruler has changed value */
   void rulerValueChanged(int ID, int value);
   /** Make sure that the edit buttons are in the correct state;have the correct image displayed */
   void updateButtons();
 signals: // Signals
+  /** Emitted when stop button pressed */
+  void playStopped(const GenTime &startTime);
   /** Emitted when the seek position has changed */
   void seekPositionChanged(const GenTime &);
   /** Emitted when the outpoint position has changed */

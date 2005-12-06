@@ -65,6 +65,8 @@ public slots: // Public slots
 	//void embedWindow(WId wid);
 	/** Seeks to the specified time */
 	void seek(const GenTime &time);
+	/** Stop playing */
+	void playStopped(const GenTime &startTime);
 	/** Set the play speed of the screen */
 	void play(double speed);
 	/** Set the play speed of the screen */

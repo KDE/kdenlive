@@ -82,12 +82,12 @@ KMMMonitor::~KMMMonitor()
 
 void KMMMonitor::screenPositionChanged(const GenTime &time)
 {
+
 	disconnect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)),
 					m_screen, SLOT(seek(const GenTime &)));
 	m_editPanel->seek(time);
 	connect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)),
 					m_screen, SLOT(seek(const GenTime &)));
-
 	updateEditPanel(time);
 }
 /**
@@ -124,6 +124,9 @@ void KMMMonitor::disconnectScreen()
 void KMMMonitor::connectScreen()
 {
 	connect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)), m_screen, SLOT(seek(const GenTime &)));
+
+	connect(m_editPanel, SIGNAL(playStopped(const GenTime &)), m_screen, SLOT(playStopped(const GenTime &)));
+
 	connect(m_editPanel, SIGNAL(playSpeedChanged(double)), m_screen, SLOT(play(double)));
 	connect(m_editPanel, SIGNAL(playSpeedChanged(double, const GenTime &)), m_screen, SLOT(play(double, const GenTime &)));
 	connect(m_editPanel, SIGNAL(playSpeedChanged(double, const GenTime &, const GenTime &)), m_screen, SLOT(play(double, const GenTime &, const GenTime &)));
@@ -149,7 +152,7 @@ const GenTime &KMMMonitor::seekPosition() const
 
 void KMMMonitor::slotSetActive()
 {
-	m_screenHolder->setPaletteBackgroundColor(QColor(0, 255, 0));
+	m_screenHolder->setPaletteBackgroundColor(QColor(16, 32, 71));
 }
 
 void KMMMonitor::slotSetInactive()
@@ -223,16 +226,15 @@ void KMMMonitor::doCommonSetClip()
 	m_editPanel->setClipLength((int)m_clip->duration().frames(m_document->framesPerSecond()));
 
 	//COMMENTED BY ROBERT 08-13-2004 --WAS RESETTING SEEK AND INPOINT/OUTPOINT MARKERS WHEN MOVING A CLIP
-	/*m_editPanel->setInpoint(m_clip->cropStartTime());
+	m_editPanel->setInpoint(m_clip->cropStartTime());
 	m_editPanel->setOutpoint(m_clip->cropStartTime() + m_clip->cropDuration());
 
 	if( (!m_noSeek) ||
 	    (seekPosition() < m_clip->cropStartTime()) ||
 	    (seekPosition() > m_clip->cropStartTime() + m_clip->cropDuration())) {
-		seek(m_clip->cropStartTime());
 		m_screen->seek(m_clip->cropStartTime());
 
-	}*/
+	}
 }
 
 void KMMMonitor::slotClearClip()

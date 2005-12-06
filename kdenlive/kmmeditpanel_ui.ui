@@ -325,6 +325,11 @@
                 </widget>
             </hbox>
         </widget>
+	<widget class="QLCDNumber" row="3" column="0">
+		<property name="name">
+			<cstring>timeCode</cstring>
+		</property>
+	</widget>
     </grid>
 </widget>
 <customwidgets>
