@@ -51,7 +51,7 @@ DocClipBase *ClipManager::insertClip(const KURL &file)
 		clip = new DocClipAVFile(file.fileName(), file);
 		m_clipList.append(clip);
 		m_render->getFileProperties(file);
-		m_render->getImage(file, 1, 64, 64);
+		m_render->getImage(file, 1, 64, 50);
 		emit clipListUpdated();
 	}
 
