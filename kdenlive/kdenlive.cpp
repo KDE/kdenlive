@@ -169,9 +169,9 @@ void KdenliveApp::initActions()
 	timelineSnapToBorder = new KToggleAction( i18n( "Snap To Border" ), "snaptoborder.png", 0, this, SLOT( slotTimelineSnapToBorder() ), actionCollection(), "timeline_snap_border" );
 	timelineSnapToMarker = new KToggleAction( i18n( "Snap To Marker" ), "snaptomarker.png", 0, this, SLOT( slotTimelineSnapToMarker() ), actionCollection(), "timeline_snap_marker" );
 
-	projectAddClips = new KToggleAction( i18n( "Add Clips" ), "addclips.png", 0, this, SLOT( slotProjectAddClips() ), actionCollection(), "project_add_clip" );
-	projectDeleteClips = new KToggleAction( i18n( "Delete Clips" ), "deleteclips.png", 0, this, SLOT( slotProjectDeleteClips() ), actionCollection(), "project_delete_clip" );
-	projectClean = new KToggleAction( i18n( "Clean Project" ), "cleanproject.png", 0, this, SLOT( slotProjectClean() ), actionCollection(), "project_clean" );
+	projectAddClips = new KAction( i18n( "Add Clips" ), "addclips.png", 0, this, SLOT( slotProjectAddClips() ), actionCollection(), "project_add_clip" );
+	projectDeleteClips = new KAction( i18n( "Delete Clips" ), "deleteclips.png", 0, this, SLOT( slotProjectDeleteClips() ), actionCollection(), "project_delete_clip" );
+	projectClean = new KAction( i18n( "Clean Project" ), "cleanproject.png", 0, this, SLOT( slotProjectClean() ), actionCollection(), "project_clean" );
 	projectClipProperties = new KAction( i18n( "Clip properties" ), "clipproperties.png", 0, this, SLOT( slotProjectClipProperties() ), actionCollection(), "project_clip_properties" );
 
 	renderExportTimeline = new KAction( i18n( "&Export Timeline" ), "exportvideo.png", 0, this, SLOT( slotRenderExportTimeline() ), actionCollection(), "render_export_timeline" );
@@ -1378,9 +1378,25 @@ void KdenliveApp::slotSyncTimeLineWithDocument()
 {
 	unsigned int index = 0;
 
+	QPtrListIterator<DocTrackBase> trackItt(getDocument()->trackList());
+
+	// Store the state of each track to restore it when rebuilding the tracks
+	QPtrListIterator<KTrackPanel> panelList(m_timeline->trackList());
+	uint tracksCount = trackItt.count()*2;  // double because of keyframe tracks
+	bool collapsedState[tracksCount];
+	
+	uint i = 0;
+
+	while ( i<tracksCount)
+	{
+		if (panelList.current()) collapsedState[i] = panelList.current()->isTrackCollapsed();
+		else collapsedState[i] = false;
+		i++;
+		++panelList;
+	}
+
 	m_timeline->clearTrackList();
 
-	QPtrListIterator<DocTrackBase> trackItt(getDocument()->trackList());
 
 	while(trackItt.current()) {
 		disconnect( trackItt.current(), SIGNAL( clipLayoutChanged() ), m_timeline, SLOT( drawTrackViewBackBuffer() ) );
@@ -1389,14 +1405,14 @@ void KdenliveApp::slotSyncTimeLineWithDocument()
 		connect( trackItt.current(), SIGNAL( clipSelectionChanged() ), m_timeline, SLOT( drawTrackViewBackBuffer() ) );
 
 		if(trackItt.current()->clipType() == "Video") {
-			m_timeline->insertTrack(index, new KMMTrackVideoPanel(this, m_timeline, getDocument(), (dynamic_cast<DocTrackVideo *>(trackItt.current())), false));
+			m_timeline->insertTrack(index, new KMMTrackVideoPanel(this, m_timeline, getDocument(), (dynamic_cast<DocTrackVideo *>(trackItt.current())), collapsedState[index]));
 			++index;
-			m_timeline->insertTrack(index, new KMMTrackKeyFramePanel(m_timeline, getDocument(), (*trackItt), "alphablend", 0, "fade"));
+			m_timeline->insertTrack(index, new KMMTrackKeyFramePanel(m_timeline, getDocument(), (*trackItt), collapsedState[index], "alphablend", 0, "fade"));
 			++index;
 		} else if(trackItt.current()->clipType() == "Sound") {
-			m_timeline->insertTrack(index, new KMMTrackSoundPanel(this, m_timeline, getDocument(), (dynamic_cast<DocTrackSound *>(trackItt.current())), false));
+			m_timeline->insertTrack(index, new KMMTrackSoundPanel(this, m_timeline, getDocument(), (dynamic_cast<DocTrackSound *>(trackItt.current())), collapsedState[index]));
 			++index;
-			m_timeline->insertTrack(index, new KMMTrackKeyFramePanel(m_timeline, getDocument(), (*trackItt), "alphablend", 0, "fade"));
+			m_timeline->insertTrack(index, new KMMTrackKeyFramePanel(m_timeline, getDocument(), (*trackItt), collapsedState[index], "alphablend", 0, "fade"));
 			++index;
 		} else {
 			kdWarning() << "Sync failed" << endl;
