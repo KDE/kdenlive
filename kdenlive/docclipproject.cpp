@@ -154,6 +154,11 @@ bool DocClipProject::moveSelectedClips(GenTime startOffset, int trackOffset)
 			clipStartTime = srcClipItt.current()->trackStart() + startOffset;
 			clipEndTime = clipStartTime + srcClipItt.current()->cropDuration();
 
+			// Make video clips can only be dropped on video tracks and audio on 
+			// audio tracks.
+			if ((srcClip->clipType() == VIDEO || srcClip->clipType() == AV) && destTrack->clipType() != "Video") return false;
+			else if (srcClip->clipType() == AUDIO && destTrack->clipType() != "Sound") return false;
+
 			while((destClip) && (destClip->trackStart() + destClip->cropDuration() <= clipStartTime)) {
 				++destClipItt;
 				destClip = destClipItt.current();
