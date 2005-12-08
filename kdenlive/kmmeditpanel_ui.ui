@@ -329,6 +329,11 @@
 		<property name="name">
 			<cstring>timeCode</cstring>
 		</property>
+		<property name="NumDigits">
+			<number>11</number>
+		</property>
+		
+
 	</widget>
     </grid>
 </widget>
