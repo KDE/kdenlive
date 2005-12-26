@@ -67,6 +67,10 @@ public slots: // Public slots
 	void seek(const GenTime &time);
 	/** Stop playing */
 	void playStopped(const GenTime &startTime);
+	/** Start renderer's consumer */
+	void startRenderer();
+	void stopRenderer();
+
 	/** Set the play speed of the screen */
 	void play(double speed);
 	/** Set the play speed of the screen */

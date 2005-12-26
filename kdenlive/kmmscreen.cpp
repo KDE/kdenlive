@@ -76,6 +76,16 @@ void KMMScreen::playStopped(const GenTime &startTime)
 	m_render->stop(startTime);
 }
 
+void KMMScreen::startRenderer()
+{
+	m_render->start();
+}
+
+void KMMScreen::stopRenderer()
+{
+	m_render->stop();
+}
+
 /** Set the play speed of the screen */
 void KMMScreen::play(double speed)
 {

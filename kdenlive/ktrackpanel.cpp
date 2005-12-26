@@ -31,11 +31,11 @@ KTrackPanel::KTrackPanel(KTimeLine *timeline,
 			QHBox( parent, name ),
 			m_timeline( timeline ),
 			m_placer(placer),
-			m_trackType(trackType)
+			m_trackType(trackType),
+			m_trackIsCollapsed(false)
 {
 	assert(timeline);
 	assert(placer);
-	m_trackIsCollapsed = false;
 }
 
 

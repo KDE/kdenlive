@@ -18,6 +18,7 @@
 
 #include "avfile.h"
 #include "docclipref.h"
+#include <kdebug.h>
 
 #include "kmmmonitor.h"
 #include "capturemonitor.h"
@@ -60,10 +61,12 @@ CaptureMonitor *MonitorManager::createCaptureMonitor(KdenliveDoc *document, QWid
 /** Cause the specified monitor to become active. */
 void MonitorManager::activateMonitor(KMonitor *monitor)
 {
+
+	if (monitor == activeMonitor()) return;
 	if(m_active) {
 		m_active->slotSetInactive();
 	}
-
+	
 	m_active = monitor;
 
 	if(m_active) {

@@ -80,6 +80,8 @@ signals: // Signals
 /** Creates or destroys a snap marker at the current time. */
   void toggleSnapMarker();
 
+  void activateMonitor();
+
 private: // Private attributes
   /** The document associated with this edit panel */
   KdenliveDoc * m_document;

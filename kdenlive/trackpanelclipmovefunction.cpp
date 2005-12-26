@@ -355,8 +355,9 @@ bool TrackPanelClipMoveFunction::moveSelectedClips( int newTrack, GenTime start 
 	trackOffset = newTrack - trackOffset;
 	startOffset = start - startOffset;
 
-	m_document->moveSelectedClips( startOffset, trackOffset );
 
+	m_document->moveSelectedClips( startOffset, trackOffset );
+	
 	m_timeline->drawTrackViewBackBuffer();
 	return true;
 }

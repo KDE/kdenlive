@@ -84,7 +84,7 @@ KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, 
 	m_fileFormats.setAutoDelete( true );
 	m_codeclist.setAutoDelete( true );
 	m_effectList.setAutoDelete( true );
-
+/*
 	connect( &m_socket, SIGNAL( error( int ) ), this, SLOT( error( int ) ) );
 	connect( &m_socket, SIGNAL( connected() ), this, SLOT( slotConnected() ) );
 	connect( &m_socket, SIGNAL( connectionClosed() ), this, SLOT( slotDisconnected() ) );
@@ -93,7 +93,7 @@ KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, 
 	connect( &m_process, SIGNAL( processExited( KProcess * ) ), this, SLOT( processExited() ) );
 	connect( &m_process, SIGNAL( receivedStdout( KProcess *, char *, int ) ), this, SLOT( slotReadStdout( KProcess *, char *, int ) ) );
 	connect( &m_process, SIGNAL( receivedStderr( KProcess *, char *, int ) ), this, SLOT( slotReadStderr( KProcess *, char *, int ) ) );
-
+*/
 	m_portNum = port;
 	m_appPath = appPath;
 	m_mltConsumer = NULL;
@@ -115,13 +115,18 @@ KRender::~KRender()
 /** Recieves timer events */
 void KRender::timerEvent( QTimerEvent *event )
 {
+if (m_mltConsumer==NULL){
+	emit initialised();
+	emit connected();
+}
+
 	//if ( m_socket.state() == QSocket::Idle ) {
 		//if ( !m_process.isRunning() ) {
 			//if(m_refCount==1){
-			if (m_mltConsumer==NULL){
+/*			if (m_mltConsumer==NULL){
 				launchProcess();
 				emit slotConnected();
-			}
+			}*/
 			//}
 		//} else {
 		//	m_socket.connectToHost( "127.0.0.1", m_portNum );
@@ -245,13 +250,9 @@ static void consumer_frame_show (mlt_consumer sdl, KRender* self,mlt_frame frame
 }
 
 void my_lock(){
-	//WARNING: I am not sure this is the way to handle it, but still seems better than nothing 
-	qApp->lock();
 	//mutex.lock();
 }
 void my_unlock(){
-	//WARNING: I am not sure this is the way to handle it, but still seems better than nothing 
-	qApp->unlock();
 	//mutex.unlock();
 }
 
@@ -260,9 +261,10 @@ should create a video window. If show is true, then the window should be
 displayed, otherwise it should be hidden. KRender will emit the signal
 replyCreateVideoXWindow() once the renderer has replied. */
 
-void KRender::createVideoXWindow( bool show ,WId winid)
+void KRender::createVideoXWindow( bool show ,WId winid )
 {
 	m_mltConsumer=new Mlt::Consumer("sdl_preview");
+	
 	m_mltConsumer->listen("consumer-frame-show",this,(mlt_listener)consumer_frame_show);
 
 	//only as is saw, if we want to lock something with the sdl lock
@@ -271,15 +273,15 @@ void KRender::createVideoXWindow( bool show ,WId winid)
 	m_mltConsumer->set("app_lock",(void*)&my_lock,0);
 
 	m_mltConsumer->set("app_unlock",(void*)&my_unlock,0);
-	m_mltConsumer->set("window_id",QString::number(winid).ascii());
-
+	m_mltConsumer->set("window_id", (int) winid);
+	
 	m_mltConsumer->set("resize",1);
+	//m_mltConsumer->set("audio_driver","dsp");
+
 	m_mltConsumer->set("progressiv",1);
+//	m_mltConsumer->start ();
+	
 
-	m_mltConsumer->start ();
-
-	//m_mltProducer=new Mlt::Producer("noise");
-	//m_mltConsumer->connect(*m_mltProducer);
 
 }
 
@@ -404,35 +406,21 @@ void KRender::setSceneList( QDomDocument list )
 {
 	m_sceneList = list;
 	m_setSceneListPending = true;
-	//	m_mltConsumer->stop();	
 		
 	if(m_mltProducer != NULL) {
-
 		delete m_mltProducer;
 		m_mltProducer = NULL;
-		emit stopped();
+		emit stopped();	
 	}
-
-//	QDomDocument doc;
-//	QDomElement elem=doc.createElement("westley");
-//	doc.appendChild(elem);
-//	QDomElement elem1=doc.createElement("producer");
-//	elem1.setAttribute("id","resource0");
-//	elem.appendChild(elem1);
-//	QDomElement elem2=doc.createElement("property");
-//	elem2.setAttribute("name","resource");
-//	elem1.appendChild(elem2);
-//	QDomText elem3=doc.createTextNode("test.mpg");
-//	elem2.appendChild(elem3);
-//	std::cout <<  doc.toString() << std::endl;
-//	m_mltProducer = new Mlt::Producer("westley-xml",const_cast<char*>(doc.toString().ascii()));
 	m_mltProducer = new Mlt::Producer("westley-xml",const_cast<char*>(list.toString().ascii()));
+
 	m_mltProducer->set_speed(0.0);
+	//if (m_mltConsumer) 
+	{
+	m_mltConsumer->start();	
 	m_mltConsumer->connect(*m_mltProducer);
-	//	m_mltConsumer->start();	
 	refresh();
-	
-	
+	}
 }
 
 /** Wraps the VEML command of the same name - sends a <ping> command to the server, which
@@ -446,13 +434,38 @@ void KRender::ping( QString &ID )
 	sendCommand( doc );
 }
 
+void KRender::start()
+{
+if (m_mltConsumer && m_mltConsumer->is_stopped()) 
+{
+m_mltConsumer->start();
+//refresh();
+}
+}
+
+void KRender::stop()
+{
+if (m_mltProducer)
+{
+m_mltProducer->set_speed(0.0);
+}
+
+if (m_mltConsumer && !m_mltConsumer->is_stopped())
+{
+m_mltConsumer->stop();
+}
+
+}
+
+
 void KRender::stop(const GenTime &startTime)
 {
-if (!m_mltProducer) return;
 
+if (m_mltProducer)
+{
 m_mltProducer->set_speed(0.0);
-m_mltProducer->seek((int) (startTime.frames(m_mltProducer->get_double("fps"))));
-	refresh();
+}
+//refresh();
 }
 
 void KRender::play( double speed )

@@ -41,7 +41,7 @@ public:
 	/** Creates a new renderer, guaranteeing it it's own port number, etc.
 	The name specified is used to identify this renderer, and may be shown to
 	the user in, for example, the debug dialog.*/
-	KRender * createRenderer( const QString &name );
+	KRender * createRenderer( const char *name );
 	/** Reads the configuration details for the renderer manager */
 	void readConfig( KConfig *config );
 	/** Saves the configuration details for the renderer manager */

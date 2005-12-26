@@ -64,6 +64,8 @@ KMMMonitor::KMMMonitor(KdenliveApp *app, KdenliveDoc *document, QWidget *parent,
 	connect(m_editPanel, SIGNAL(previousSnapMarkerClicked()),
 					this, SLOT(slotPreviousSnapMarker()));
 
+	connect(m_editPanel, SIGNAL(activateMonitor()), this, SLOT(activateMonitor()));
+
 	m_screenHolder->setMargin(3);
 	m_screenHolder->setPaletteBackgroundColor(QColor(0, 0, 0));
 	m_screenHolder->setSizePolicy(QSizePolicy (QSizePolicy::Expanding, QSizePolicy::Expanding, FALSE));
@@ -82,15 +84,13 @@ KMMMonitor::~KMMMonitor()
 
 void KMMMonitor::screenPositionChanged(const GenTime &time)
 {
-
-	disconnect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)),
-					m_screen, SLOT(seek(const GenTime &)));
+	disconnect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)), m_screen, SLOT(seek(const GenTime &)));
 	m_editPanel->seek(time);
-	connect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)),
-					m_screen, SLOT(seek(const GenTime &)));
+
+	connect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)),m_screen, SLOT(seek(const GenTime &)));
 	updateEditPanel(time);
 }
-/**
+/*
 void KMMMonitor::swapScreens(KMMMonitor *monitor)
 {
 	disconnectScreen();
@@ -131,9 +131,14 @@ void KMMMonitor::connectScreen()
 	connect(m_editPanel, SIGNAL(playSpeedChanged(double, const GenTime &)), m_screen, SLOT(play(double, const GenTime &)));
 	connect(m_editPanel, SIGNAL(playSpeedChanged(double, const GenTime &, const GenTime &)), m_screen, SLOT(play(double, const GenTime &, const GenTime &)));
 
+	
+
 	connect(m_screen, SIGNAL(rendererConnected()), m_editPanel, SLOT(rendererConnected()));
 	connect(m_screen, SIGNAL(rendererDisconnected()), m_editPanel, SLOT(rendererDisconnected()));
-	connect(m_screen, SIGNAL(seekPositionChanged(const GenTime &)), this, SLOT(screenPositionChanged(const GenTime &)));
+
+	//#FIXME following line, which updates the position cursor while playing, causes random crashes.
+	//connect(m_screen, SIGNAL(seekPositionChanged(const GenTime &)), this, SLOT(screenPositionChanged(const GenTime &)));
+
 	connect(m_screen, SIGNAL(playSpeedChanged(double)), m_editPanel, SLOT(screenPlaySpeedChanged(double)));
 	connect(m_screen, SIGNAL(mouseClicked()), this, SLOT(slotClickMonitor()));
 	connect(m_screen, SIGNAL(mouseRightClicked()), this, SLOT(slotRightClickMonitor()));
@@ -142,7 +147,14 @@ void KMMMonitor::connectScreen()
 
 void KMMMonitor::setSceneList(const QDomDocument &scenelist)
 {
+//kdDebug()<<"*************MONITOR "<<name()<<", SET SCENE*********\n\n"<<scenelist.toString()<<"************************************"<<endl;
+
+
+// #HACK currently, if there is no clip, the scenelist is: "</westley>" and it crashes, so test length as a temporary workaround
+if (scenelist.toString().length()>20)
+	{
 	m_screen->setSceneList(scenelist);
+	}
 }
 
 const GenTime &KMMMonitor::seekPosition() const
@@ -150,14 +162,21 @@ const GenTime &KMMMonitor::seekPosition() const
 	return m_screen->seekPosition();
 }
 
+void KMMMonitor::activateMonitor()
+{
+m_app->activateMonitor(this);
+}
+
 void KMMMonitor::slotSetActive()
 {
-	m_screenHolder->setPaletteBackgroundColor(QColor(16, 32, 71));
+	//m_screenHolder->setPaletteBackgroundColor(QColor(16, 32, 71));
+	m_screen->startRenderer();
 }
 
 void KMMMonitor::slotSetInactive()
 {
-	m_screenHolder->setPaletteBackgroundColor(QColor(0, 0, 0));
+	m_screen->stopRenderer();
+	//m_screenHolder->setPaletteBackgroundColor(QColor(0, 0, 0));
 }
 
 void KMMMonitor::mousePressEvent(QMouseEvent *e)
@@ -173,6 +192,7 @@ void KMMMonitor::slotClickMonitor()
 
 void KMMMonitor::slotSetClip(DocClipRef *clip)
 {
+	activateMonitor();
 	if(!clip) {
 		kdError() << "Null clip passed, not setting monitor." << endl;
 		return;
@@ -197,6 +217,7 @@ void KMMMonitor::slotSetClip(DocClipRef *clip)
 
 void KMMMonitor::slotSetClip(DocClipBase *clip)
 {
+	activateMonitor();
 	if(!clip) {
 		kdError() << "Null clip passed, not setting monitor." << endl;
 		return;
@@ -233,7 +254,6 @@ void KMMMonitor::doCommonSetClip()
 	    (seekPosition() < m_clip->cropStartTime()) ||
 	    (seekPosition() > m_clip->cropStartTime() + m_clip->cropDuration())) {
 		m_screen->seek(m_clip->cropStartTime());
-
 	}
 }
 

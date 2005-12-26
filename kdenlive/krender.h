@@ -122,6 +122,8 @@ public:
 	void play( double speed );
 	/** stop playing */
 	void stop(const GenTime &startTime);
+
+
 	/** Wraps the VEML command of the same name. Tells the renderer to
 	play the current scene at the speed specified, relative to normal
 	playback. e.g. 1.0 is normal speed, 0.0 is paused, -1.0 means play
@@ -336,6 +338,10 @@ public slots:  // Public slots
 	void slotReadStdout( KProcess *proc, char *buffer, int buflen );
 	void slotReadStderr( KProcess *proc, char *buffer, int buflen );
 	void getSoundSamples(const KURL& url,int channel,int frame, double frameLength,int arrayWidth,int,int,int,int,QPainter&);
+	/** Start Consumer */
+	void start();
+	/** Stop Consumer */
+	void stop();
 };
 
 #endif

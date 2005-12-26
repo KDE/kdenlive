@@ -51,7 +51,7 @@ public:
 	relevant signals/slots. This is required so that if a render instance
 	uses xv (of which there is only one port), we can use it in multiple
 	monitors. */
-/*	void swapScreens(KMMMonitor *monitor); */
+//	void swapScreens(KMMMonitor *monitor);
 
 	/** Returns the current seek position */
 	const GenTime &seekPosition() const;
@@ -64,10 +64,9 @@ public:
 	virtual KMMEditPanel *editPanel() const;
 	virtual KMMScreen *screen() const;
 
+
 protected:
 	void mousePressEvent(QMouseEvent *e);
-	/** Set the monitors scenelist to the one specified. */
-	void setSceneList(const QDomDocument &scenelist);
 private:
 	/** Bring up the monitor context menu, if one exist */
 	void popupContextMenu();
@@ -99,6 +98,9 @@ private:
 	void doCommonSetClip();
 
 public slots: // Public slots
+	/** Set the monitors scenelist to the one specified. */
+	void setSceneList(const QDomDocument &scenelist);
+
 	/** This slot is called when the screen changes position. */
 	void screenPositionChanged(const GenTime &time);
 	/** Sets this monitor to be the active monitor. It's colour changes to show it is active. */
@@ -118,6 +120,8 @@ public slots: // Public slots
 	/** Starts a drag operation, using the currently selected clip and the specified in
 	 *  and out points for it. */
 	void slotStartDrag();
+
+	void activateMonitor();
 
 	/** The specified clip has changed, if the monitor uses this clip it will update it's
 	representation, otherwise it will ignore the method. */

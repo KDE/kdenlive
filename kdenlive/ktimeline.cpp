@@ -102,7 +102,7 @@ KTimeLine::KTimeLine( QWidget *rulerToolWidget, QWidget *scrollToolWidget, QWidg
 
 	connect( m_ruler, SIGNAL( requestScrollLeft() ), this, SLOT( slotScrollLeft() ) );
 	connect( m_ruler, SIGNAL( requestScrollRight() ), this, SLOT( slotScrollRight() ) );
-	connect( &m_scrollTimer, SIGNAL( timeout() ), this, SLOT( slotTimerScroll() ) );
+	connect( &m_scrollTimer, SIGNAL( timeout() ), this, SLOT( slotTimerScroll() ) );	
 
 	connect( m_trackViewArea, SIGNAL( rightButtonPressed() ), this, SIGNAL( rightButtonPressed() ) );
 
@@ -142,7 +142,7 @@ void KTimeLine::resizeEvent( QResizeEvent *event )
 
 void KTimeLine::collapseTrack(KTrackPanel *panel, bool collapse)
 {
-/* Hack: if a track is collapsed, also collapse its keyframetrack. Should maybe find a better way to locate it*/
+ //#HACK: if a track is collapsed, also collapse its keyframetrack. Should maybe find a better way to locate it
 uint index = 2*panel->documentTrackIndex() + 1;
 (static_cast<KMMTrackKeyFramePanel *>(m_trackList.at(index)))->resizeTrack();
 resizeTracks();

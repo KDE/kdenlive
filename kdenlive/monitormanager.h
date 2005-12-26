@@ -51,9 +51,6 @@ public:
 	/** Returns true if Monitor Manager has a currently active monitor. */
 	bool hasActiveMonitor();
 
-	/** Cause the specified monitor to become active. */
-	void activateMonitor(KMonitor *monitor);
-
 	/** Returns the active monitor, or 0 if there isn't one.*/
 	KMonitor *activeMonitor();
 
@@ -71,6 +68,9 @@ private:
 	KMonitor *m_active;
 public slots:
 	void slotMonitorClicked(KMonitor *monitor);
+	/** Cause the specified monitor to become active. */
+	void activateMonitor(KMonitor *monitor);
+
 };
 
 } // namespace Gui

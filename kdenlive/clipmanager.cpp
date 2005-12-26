@@ -31,7 +31,7 @@ ClipManager::ClipManager(KRenderManager &renderManager, QWidget *parent, const c
 	m_clipList.setAutoDelete(true);
 	m_temporaryClipList.setAutoDelete(true);
 
-	m_render = renderManager.createRenderer(i18n("Clip Manager"));
+	m_render = renderManager.createRenderer("Clip Manager");
 
 	connect(m_render, SIGNAL(replyGetFileProperties(const QMap<QString, QString> &)),
   					 this, SLOT(AVFilePropertiesArrived(const QMap<QString, QString> &)));

@@ -151,17 +151,21 @@ QDomDocument DocClipAVFile::sceneToXML(const GenTime &startTime, const GenTime &
 {
 	QDomDocument sceneList;
 
+	QDomElement producer = sceneList.createElement("producer");
+
 	QDomElement property = sceneList.createElement("property");
 	property.setAttribute("name", "resource");
 
 	QDomText textNode = sceneList.createTextNode(fileURL().path());
 
 	property.appendChild(textNode);
-	
-//	property.setAttribute(str_inpoint, QString::number(startTime.seconds()));
-//	property.setAttribute(str_outpoint, QString::number(endTime.seconds()));
+	//kdDebug()<<"START AV: "<<startTime.frames(25)<<endl;
+	//kdDebug()<<"STOP AV: "<<endTime.frames(25)<<endl;
+	producer.setAttribute("in", QString::number(startTime.frames(25)));
+	producer.setAttribute("out", QString::number(endTime.frames(25)));
 
-	sceneList.appendChild(property);
+	producer.appendChild(property);
+	sceneList.appendChild(producer);
 
 	return sceneList;
 }

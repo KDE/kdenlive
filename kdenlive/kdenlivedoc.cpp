@@ -51,7 +51,7 @@ KdenliveDoc::KdenliveDoc(Gui::KdenliveApp *app, QWidget *parent, const char *nam
 				m_clipManager(*app->renderManager())
 {
 	m_app = app;
-	m_render = m_app->renderManager()->createRenderer(i18n("Document"));
+	m_render = m_app->renderManager()->createRenderer("Document");
 
 	/*connect(m_render, SIGNAL(replyErrorGetFileProperties(const QString &, const QString &)),
   					 this, SLOT(AVFilePropertiesError(const QString &, const QString &)));*/
@@ -208,6 +208,7 @@ bool KdenliveDoc::moveSelectedClips(GenTime startOffset, int trackOffset)
 /** Returns a scene list generated from the current document. */
 QDomDocument KdenliveDoc::generateSceneList()
 {
+//kdDebug()<<"GENERATING PRJECT SCENE LIST"<<endl;
 	if(m_projectClip) {
 		m_domSceneList = m_projectClip->generateSceneList();
 	} else {
@@ -222,8 +223,9 @@ void KdenliveDoc::hasBeenModified()
 {
 	if(m_sceneListGeneration) {
 		generateSceneList();
-		emit documentChanged();
+		//emit documentChanged();
 		emit documentChanged(m_projectClip);
+
 	}
 	setModified(true);
 }
@@ -249,7 +251,8 @@ void KdenliveDoc::connectProjectClip()
 	connect(m_projectClip, SIGNAL(effectStackChanged(DocClipRef *)), this, SIGNAL(effectStackChanged(DocClipRef *)));
 	connect(m_projectClip, SIGNAL(projectLengthChanged(const GenTime& )), this, SIGNAL(documentLengthChanged(const GenTime& )));
 
-	connect(m_projectClip, SIGNAL(clipLayoutChanged()), this, SLOT(hasBeenModified()));
+// Commented out following line, causes multiple unnecessary refreshes - jbm, 26/12/05 
+//	connect(m_projectClip, SIGNAL(clipLayoutChanged()), this, SLOT(hasBeenModified()));
 	connect(m_projectClip, SIGNAL(effectStackChanged(DocClipRef *)), this, SLOT(hasBeenModified()));
 }
 

@@ -146,11 +146,14 @@ QDomDocument DocClipBase::generateSceneList() const
 
 	QValueVector<GenTime>::Iterator sceneItt = times.begin();
 
-	while( (sceneItt != times.end()) && (sceneItt+1 != times.end()) ) {
-		QDomElement producer = sceneList.createElement("producer");
-		producer.setAttribute("id", QString("producer") + QString::number(value++));
+	QDomElement producer = sceneList.createElement("playlist");
+	producer.setAttribute("id", QString("playlist") + QString::number(value++));
+	
+	while( (sceneItt != times.end()) && (sceneItt+1 != times.end()) ) {	
 
 		QDomDocument clipDoc = sceneToXML(*sceneItt, *(sceneItt+1));
+		/*producer.setAttribute("in", QString::number((*sceneItt).frames(25)));
+		producer.setAttribute("out", QString::number((*(sceneItt+1)).frames(25)));*/
 		QDomElement property;
 
 		if(clipDoc.documentElement().isNull()) {
@@ -158,20 +161,20 @@ QDomDocument DocClipBase::generateSceneList() const
 //			sceneClip.setAttribute("rgbcolor", "#000000");
 //			sceneClip.setAttribute("dur", QString::number((*(sceneItt+1) - *sceneItt).seconds(), 'f', 10));
 //			scene.appendChild(sceneClip);
-			property = sceneList.createElement("property");
-			property.setAttribute("name", "mlt-service");
-			QDomText textNode = sceneList.createTextNode("noise");
-			property.appendChild(textNode);
+			property = sceneList.createElement("blank");
+			property.setAttribute("length", QString::number((*(sceneItt+1)-*sceneItt).frames(25)));
+			//QDomText textNode = sceneList.createTextNode("noise");
+			//property.appendChild(textNode);
 		} else {
 			property = sceneList.importNode(clipDoc.documentElement(), true).toElement();
 		}
-		producer.appendChild(property);
+		producer.appendChild(property);		
 
 		sceneList.documentElement().appendChild(producer);
 
 		++sceneItt;
 	}
-
+//	kdDebug()<<"+ + + DOCCLIPBASE SCENE: "<<sceneList.toString()<<endl;
 	return sceneList;
 }
 

@@ -35,9 +35,9 @@ KRenderManager::~KRenderManager()
 }
 
 /** Creates a new renderer, guaranteeing it it's own port number, etc. */
-KRender * KRenderManager::createRenderer(const QString &name)
+KRender * KRenderManager::createRenderer(const char * name)
 {
-	KRender *render = new KRender(name, m_renderAppPath, m_currentPort);
+	KRender *render = new KRender(name, m_renderAppPath, m_currentPort,0, name);
 
 	connect(render, SIGNAL(recievedStderr(const QString &, const QString &)),
 			this, SIGNAL(recievedStderr(const QString &, const QString &)));

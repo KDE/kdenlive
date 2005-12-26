@@ -353,18 +353,18 @@ void KdenliveApp::initView()
 	widget->setDockSite( KDockWidget::DockFullSite );
 	widget->manualDock( projectDock, KDockWidget::DockCenter );
 
-//	m_dockWorkspaceMonitor = createDockWidget( "Workspace Monitor", QPixmap(), 0, i18n( "Workspace Monitor" ) );
-//	m_workspaceMonitor = m_monitorManager.createMonitor( getDocument(), m_dockWorkspaceMonitor, i18n( "Workspace Monitor" ) );
-//	m_workspaceMonitor->setNoSeek( true );
-//	m_dockWorkspaceMonitor->setWidget( m_workspaceMonitor );
-//	m_dockWorkspaceMonitor->setDockSite( KDockWidget::DockFullSite );
-//	m_dockWorkspaceMonitor->manualDock( mainDock, KDockWidget::DockRight );
+	m_dockWorkspaceMonitor = createDockWidget( "Workspace Monitor", QPixmap(), 0, i18n( "Workspace Monitor" ) );
+	m_workspaceMonitor = m_monitorManager.createMonitor( getDocument(), m_dockWorkspaceMonitor,  "Workspace Monitor" );
+	m_workspaceMonitor->setNoSeek( true );
+	m_dockWorkspaceMonitor->setWidget( m_workspaceMonitor );
+	m_dockWorkspaceMonitor->setDockSite( KDockWidget::DockFullSite );
+	m_dockWorkspaceMonitor->manualDock( mainDock, KDockWidget::DockRight );
 
 	m_dockClipMonitor = createDockWidget( "Clip Monitor", QPixmap(), 0, i18n( "Clip Monitor" ) );
 	m_clipMonitor = m_monitorManager.createMonitor( getDocument(), m_dockClipMonitor, "Clip Monitor" );
 	m_dockClipMonitor->setWidget( m_clipMonitor );
 	m_dockClipMonitor->setDockSite( KDockWidget::DockFullSite );
-//	m_dockClipMonitor->manualDock( m_dockWorkspaceMonitor, KDockWidget::DockCenter );
+	//m_dockClipMonitor->manualDock( m_dockWorkspaceMonitor, KDockWidget::DockCenter );
 
 //	m_dockCaptureMonitor = createDockWidget( "Capture Monitor", QPixmap(), 0, i18n( "Capture Monitor" ) );
 //	m_captureMonitor = m_monitorManager.createCaptureMonitor( getDocument(), m_dockCaptureMonitor, i18n( "Capture Monitor" ) );
@@ -374,13 +374,15 @@ void KdenliveApp::initView()
 
 	setBackgroundMode( PaletteBase );
 
-	/*  COMMENTED TO PREVENT CRASH UNTiL WORKSPACE MONITOR IS IMPLEMENTED AGAIN 
+
 	connect( m_workspaceMonitor, SIGNAL( seekPositionChanged( const GenTime & ) ), m_timeline, SLOT( seek( const GenTime & ) ) );
-	connect( m_workspaceMonitor, SIGNAL( seekPositionChanged( const GenTime & ) ), this, SLOT( slotUpdateCurrentTime( const GenTime & ) ) );
+
+	//  COMMENTED BECAUSE IT CAUSES RANDOM CRASHES
+	//connect( m_workspaceMonitor, SIGNAL( seekPositionChanged( const GenTime & ) ), this, SLOT( slotUpdateCurrentTime( const GenTime & ) ) );
 	//connect editpanel sliders with timeline sliders -reh
 	connect( m_workspaceMonitor, SIGNAL( inpointPositionChanged( const GenTime & ) ), m_timeline, SLOT( setInpointTimeline( const GenTime & ) ) );
 	connect( m_workspaceMonitor, SIGNAL( outpointPositionChanged( const GenTime & ) ), m_timeline, SLOT( setOutpointTimeline( const GenTime & ) ) );
-	*/
+	
 
 	connect( getDocument(), SIGNAL( signalClipSelected( DocClipRef *) ), this, SLOT( slotSetClipMonitorSource( DocClipRef * ) ) );
 	connect( getDocument(), SIGNAL( signalClipSelected( DocClipRef *) ), m_effectStackDialog, SLOT( slotSetEffectStack( DocClipRef * ) ) );
@@ -393,7 +395,8 @@ void KdenliveApp::initView()
 	connect( getDocument(), SIGNAL( clipChanged( DocClipRef * ) ), m_projectList, SLOT( slot_clipChanged( DocClipRef * ) ) );
 	connect( getDocument(), SIGNAL( nodeDeleted( DocumentBaseNode * ) ), m_projectList, SLOT( slot_nodeDeleted( DocumentBaseNode * ) ) );
 
-	//connect( getDocument(), SIGNAL( documentChanged( DocClipBase * ) ), m_workspaceMonitor, SLOT( slotSetClip( DocClipBase * ) ) );
+	connect( getDocument(), SIGNAL( documentChanged( DocClipBase * ) ), m_workspaceMonitor, SLOT( slotSetClip( DocClipBase * ) ) );
+
 
 	connect( getDocument() ->renderer(), SIGNAL( effectListChanged( const QPtrList<EffectDesc> & ) ), m_effectListDialog, SLOT( setEffectList( const QPtrList<EffectDesc> & ) ) );
 
@@ -426,8 +429,8 @@ void KdenliveApp::initView()
 		connect( m_timeline, SIGNAL( outpointPositionChanged( const GenTime & ) ), m_workspaceMonitor->editPanel(), SLOT( setOutpoint( const GenTime & ) ) );
 	}
 
-	/*  COMMENTED TO PREVENT CRASH UNTiL WORKSPACE MONITOR IS IMPLEMENTED AGAIN 
-	connect( m_timeline, SIGNAL( seekPositionChanged( const GenTime & ) ), this, SLOT( activateWorkspaceMonitor() ) );*/
+
+	connect( m_timeline, SIGNAL( seekPositionChanged( const GenTime & ) ), this, SLOT( activateWorkspaceMonitor() ) );
 
 	connect( m_timeline, SIGNAL( rightButtonPressed() ), this, SLOT(slotDisplayTimeLineContextMenu()));
 
@@ -444,9 +447,8 @@ void KdenliveApp::initView()
 	m_timeline->trackView()->registerFunction("resize", resizeFunction);
 	// connects for clip/workspace monitor activation (i.e. making sure they are visible when needed)
 	
-	/* disables, makes monitor flicker like hell while resizing a clip, and does not seem necessarx */
-	//connect(resizeFunction, SIGNAL( signalClipCropStartChanged( DocClipRef * ) ), this, SLOT( activateClipMonitor() ) );
-	//connect(resizeFunction, SIGNAL( signalClipCropEndChanged( DocClipRef * ) ), this, SLOT( activateClipMonitor() ) );
+	connect(resizeFunction, SIGNAL( signalClipCropStartChanged( DocClipRef * ) ), this, SLOT( activateClipMonitor() ) );
+	connect(resizeFunction, SIGNAL( signalClipCropEndChanged( DocClipRef * ) ), this, SLOT( activateClipMonitor() ) );
 	connect(resizeFunction, SIGNAL(signalClipCropStartChanged(DocClipRef* )), m_clipMonitor, SLOT(slotClipCropStartChanged( DocClipRef * )));
 	connect(resizeFunction, SIGNAL(signalClipCropEndChanged(DocClipRef* )), m_clipMonitor, SLOT(slotClipCropEndChanged( DocClipRef * )));
 
@@ -1158,8 +1160,8 @@ KRenderManager * KdenliveApp::renderManager()
 /** Sets the clip monitor source to be the given clip. */
 void KdenliveApp::slotSetClipMonitorSource( DocClipRef *clip )
 {
+	//activateClipMonitor();
 	m_clipMonitor->slotSetClip( clip );
-	activateClipMonitor();
 }
 
 void KdenliveApp::loadLayout1()
@@ -1213,13 +1215,19 @@ void KdenliveApp::saveLayout4()
 
 void KdenliveApp::activateClipMonitor()
 {
-	m_dockClipMonitor->makeDockVisible();
+//	m_dockClipMonitor->makeDockVisible();
+	kdDebug()<<"------KDENLIVE: ACTIVATE CLIP MON"<<endl;
 	m_monitorManager.activateMonitor( m_clipMonitor );
+}
+
+void KdenliveApp::activateMonitor(KMonitor *monitor)
+{
+m_monitorManager.activateMonitor(monitor);
 }
 
 void KdenliveApp::activateWorkspaceMonitor()
 {
-	m_dockWorkspaceMonitor->makeDockVisible();
+//	m_dockWorkspaceMonitor->makeDockVisible();
 	m_monitorManager.activateMonitor( m_workspaceMonitor );
 }
 

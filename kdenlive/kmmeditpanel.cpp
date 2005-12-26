@@ -280,6 +280,8 @@ void KMMEditPanel::setPlaying(bool play)
 		m_playSpeed = 0.0;
 	}
 
+	emit activateMonitor();
+
 	if(m_playSelected) {
 		emit playSpeedChanged( m_playSpeed, inpoint(), outpoint() );
 	} else {

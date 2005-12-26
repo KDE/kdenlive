@@ -227,6 +227,7 @@ signals: // Signals
 	void documentChanged();
 	/** Also emitted when the document has changed in some way, fires off the project clip with it */
 	void documentChanged(DocClipBase *);
+
 	/** Emitted whenever a clip gets selected. */
 	void signalClipSelected(DocClipRef *);
 	/** Emitted when the length of the document changes. */
