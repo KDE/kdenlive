@@ -31,6 +31,7 @@ DocClipProject::DocClipProject(double framesPerSecond) :
   			DocClipBase(),
 			m_framesPerSecond(framesPerSecond)
 {
+	producersList = QDomDocument();
 	m_tracks.setAutoDelete(true);
 }
 
@@ -222,8 +223,116 @@ void DocClipProject::blockTrackSignals(bool block)
 	}
 }
 
-/*QDomDocument DocClipProject::generateSceneList() const
+
+QDomDocument DocClipProject::generateSceneList() const
 {
+QDomDocument doc;
+int tracknb = 0;
+int realtracks = 0;
+
+	QDomElement westley = doc.createElement("westley");
+	doc.appendChild(westley);
+
+	/* import the list of all producer clips */
+	westley.appendChild(producersList);
+
+	QDomElement tractor = doc.createElement("tractor");
+	QDomElement multitrack = doc.createElement("multitrack");
+
+	QPtrListIterator<DocTrackBase>trackItt(m_tracks);
+
+	while(trackItt.current()) {
+		DocTrackClipIterator itt(*(trackItt.current()) );
+		QDomElement playlist = doc.createElement("playlist");
+		playlist.setAttribute("id", QString("playlist") + QString::number(tracknb++));
+		int children = 0;
+		int timestart = 0;
+		while(itt.current()) {
+			if (timestart < itt.current()->trackStart().frames(framesPerSecond()))
+			{
+			QDomElement blank = doc.createElement("blank");
+			blank.setAttribute("length", QString::number(itt.current()->trackStart().frames(framesPerSecond()) - timestart));
+			playlist.appendChild(blank);
+			}
+			playlist.appendChild(itt.current()->generateXMLClip().firstChild());
+			timestart = itt.current()->trackEnd().frames(framesPerSecond())+1;
+			children++;
+			++itt;
+		}
+		if (children > 0 ) 
+		{
+		realtracks++;
+
+		multitrack.appendChild(playlist);
+		}
+		++trackItt;
+	}
+	tractor.appendChild(multitrack);
+
+	/* transition: mix audio tracks */
+	for (int i=0;i<realtracks-1;i++)
+	{
+	QDomElement transition = doc.createElement("transition");
+	transition.setAttribute("in", "0");
+	transition.setAttribute("out", QString::number(duration().frames(framesPerSecond())));
+
+	QDomElement properties_a = doc.createElement("property");
+	transition.appendChild(properties_a);
+	properties_a.setAttribute("name", "a_track");
+	QDomText textNodeMix_a = doc.createTextNode(QString::number(i));
+	properties_a.appendChild(textNodeMix_a);
+
+	QDomElement properties_b = doc.createElement("property");
+	transition.appendChild(properties_b);
+	properties_b.setAttribute("name", "b_track");
+	QDomText textNodeMix_b = doc.createTextNode(QString::number(i+1));
+	properties_b.appendChild(textNodeMix_b);
+
+	QDomElement properties = doc.createElement("property");
+	transition.appendChild(properties);
+	properties.setAttribute("name", "mlt_service");
+	QDomText textNodeMix = doc.createTextNode("mix");
+	properties.appendChild(textNodeMix);
+
+	QDomElement properties_s = doc.createElement("property");
+	transition.appendChild(properties_s);
+	properties_s.setAttribute("name", "start");
+	QDomText textNodeMix_s = doc.createTextNode("0.5");
+	properties_s.appendChild(textNodeMix_s);
+
+	QDomElement properties_e = doc.createElement("property");
+	transition.appendChild(properties_e);
+	properties_e.setAttribute("name", "end");
+	QDomText textNodeMix_e = doc.createTextNode("0.5");
+	properties_e.appendChild(textNodeMix_e);
+
+	tractor.appendChild(transition);
+	}
+	doc.documentElement().appendChild(tractor);
+
+	//kdDebug()<<"+ + + PROJECT SCENE: "<<doc.toString()<<endl;
+	return doc;
+}
+
+
+/*
+QDomDocument DocClipProject::generateSceneList() const
+{
+kdDebug()<<"GENERATING PROJECT CLIP SCENE"<<endl;
+QDomDocument doc;
+	QDomElement elem=doc.createElement("westley");
+	doc.appendChild(elem);
+	QDomElement elem1=doc.createElement("producer");
+	elem1.setAttribute("id","resource0");
+	elem.appendChild(elem1);
+	QDomElement elem2=doc.createElement("property");
+	elem2.setAttribute("name","resource");
+	elem1.appendChild(elem2);
+	QDomText elem3=doc.createTextNode("/home/one/Desktop/dvgrab-001.dv");
+	elem2.appendChild(elem3);
+
+
+
 	static QString str_inpoint="inpoint";
 	static QString str_outpoint="outpoint";
 	static QString str_file="file";
@@ -273,7 +382,8 @@ void DocClipProject::blockTrackSignals(bool block)
 	}
 
 	return sceneList;
-}*/
+}
+*/
 
 void DocClipProject::generateTracksFromXML(const EffectDescriptionList &effectList, ClipManager &clipManager, const QDomElement &e)
 {

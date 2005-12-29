@@ -141,6 +141,7 @@ public:
 
 	/** Delete an effect from a clip on the track and emit a signal. */
 	void deleteEffectFromClip(const GenTime &position, int effectIndex);
+
 private: // Private methods
 	/** Enables or disables clip sorting. This method is used internally to turn off the sorting of clips when it is known that they will be sorted elsewhere.
 

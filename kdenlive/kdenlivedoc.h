@@ -209,6 +209,8 @@ public slots:
 private slots: // Private slots
 	/** Called when the document is modifed in some way. */
 	void hasBeenModified();
+	/** Generates a list of all different clips in mlt's xml format*/
+	void generateProducersList();
 	/** Emitted when a particular clip has changed in someway. E.g, it has recieved it's duration. */
 	void clipChanged(DocClipBase *file);
 signals: // Signals

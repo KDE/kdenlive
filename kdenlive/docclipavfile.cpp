@@ -24,7 +24,7 @@
 #include <qfileinfo.h>
 
 
-DocClipAVFile::DocClipAVFile(const QString &name, const KURL &url) :
+DocClipAVFile::DocClipAVFile(const QString &name, const KURL &url, uint id) :
 						DocClipBase(),
 						m_duration(0.0),
 						m_url(url),
@@ -33,6 +33,7 @@ DocClipAVFile::DocClipAVFile(const QString &name, const KURL &url) :
 
 {
 	setName(name);
+	m_id = id;
 }
 
 DocClipAVFile::DocClipAVFile(const KURL &url) :
@@ -69,12 +70,12 @@ DocClipAVFile * DocClipAVFile::createClip(const QDomElement element)
 	DocClipAVFile *file = 0;
 
 
-	if(element.tagName() == "avfile") {
+/*	if(element.tagName() == "avfile") {
 		KURL url(element.attribute("url"));
 		file = new DocClipAVFile(url.filename(), url);
 	} else {
 		kdWarning() << "DocClipAVFile::createClip failed to generate clip" << endl;
-	}
+	}*/
 
 	return file;
 }
@@ -151,8 +152,24 @@ QDomDocument DocClipAVFile::sceneToXML(const GenTime &startTime, const GenTime &
 {
 	QDomDocument sceneList;
 
-	QDomElement producer = sceneList.createElement("producer");
+	QDomElement entry = sceneList.createElement("entry");
+	entry.setAttribute("producer", QString("producer") + QString::number(numReferences()) );
+	entry.setAttribute("in", QString::number(startTime.frames(25)));
+	entry.setAttribute("out", QString::number(endTime.frames(25)));
 
+
+	sceneList.appendChild(entry);
+
+	return sceneList;
+}
+
+
+QDomDocument DocClipAVFile::sceneToXML() const
+{
+QDomDocument sceneList;
+
+	QDomElement producer = sceneList.createElement("producer");
+	producer.setAttribute("id", QString("producer") + QString::number(numReferences()) );
 	QDomElement property = sceneList.createElement("property");
 	property.setAttribute("name", "resource");
 
@@ -161,8 +178,8 @@ QDomDocument DocClipAVFile::sceneToXML(const GenTime &startTime, const GenTime &
 	property.appendChild(textNode);
 	//kdDebug()<<"START AV: "<<startTime.frames(25)<<endl;
 	//kdDebug()<<"STOP AV: "<<endTime.frames(25)<<endl;
-	producer.setAttribute("in", QString::number(startTime.frames(25)));
-	producer.setAttribute("out", QString::number(endTime.frames(25)));
+	//producer.setAttribute("in", QString::number(startTime.frames(25)));
+	//producer.setAttribute("out", QString::number(endTime.frames(25)));
 
 	producer.appendChild(property);
 	sceneList.appendChild(producer);
@@ -184,7 +201,7 @@ uint DocClipAVFile::fileSize() const
 uint DocClipAVFile::numReferences() const
 {
 #warning TODO - write this funtion.
-	return 0;
+	return m_id;
 }
 
 // virtual

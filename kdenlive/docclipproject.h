@@ -59,6 +59,9 @@ public:
 	/** Generates the tracklist for this clip from the xml fragment passed in.*/
 	void generateTracksFromXML(const EffectDescriptionList &effectList, ClipManager &clipManager, const QDomElement &e);
 
+	
+	virtual QDomDocument generateSceneList() const;
+
 	/** If this is a project clip, return true. Overidden, always true from here. */
 	virtual bool isProjectClip() const { return true; }
 
@@ -103,6 +106,9 @@ public:
 	/** Returns true if the specified cliplist can be successfully merged with the track
 	views, false otherwise. */
 	bool canAddClipsToTracks( DocClipRefList &clips, int track, const GenTime &clipOffset ) const;
+	/** Holds a westley list of all different clips in the document */
+	QDomDocument producersList;
+
 private slots:
 	/** Check that the project length is correct. */
 	void slotCheckProjectLength();

@@ -102,6 +102,8 @@ public slots:
 	The relevant AVFile can then be updated to the correct status. */
 	void AVFilePropertiesArrived(const QMap<QString, QString> &properties);
 	void AVImageArrived( const KURL &, int, const QPixmap &);
+	/** returns an mlt list of producers for all the clips */ 
+	QDomDocument producersList();
 private:
 	/** Finds the avclip that uses the given url. */
 	DocClipAVFile *findAVFile(const KURL &url);
@@ -116,6 +118,10 @@ private:
 	/** This renderer is for multipurpose use, such as background rendering, and for
 	getting the file properties of the various AVFiles. */
 	KRender * m_render;
+
+	/** incremental counter that gives a unique id to each clip added in the project. 
+	This id is then used to play the clip with mlt */
+	uint m_clipCounter;
 };
 
 #endif // CLIPMANAGER_H

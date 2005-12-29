@@ -1215,8 +1215,7 @@ void KdenliveApp::saveLayout4()
 
 void KdenliveApp::activateClipMonitor()
 {
-//	m_dockClipMonitor->makeDockVisible();
-	kdDebug()<<"------KDENLIVE: ACTIVATE CLIP MON"<<endl;
+	m_dockClipMonitor->makeDockVisible();
 	m_monitorManager.activateMonitor( m_clipMonitor );
 }
 
@@ -1227,7 +1226,7 @@ m_monitorManager.activateMonitor(monitor);
 
 void KdenliveApp::activateWorkspaceMonitor()
 {
-//	m_dockWorkspaceMonitor->makeDockVisible();
+	m_dockWorkspaceMonitor->makeDockVisible();
 	m_monitorManager.activateMonitor( m_workspaceMonitor );
 }
 

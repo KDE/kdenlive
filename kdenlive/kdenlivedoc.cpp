@@ -206,6 +206,7 @@ bool KdenliveDoc::moveSelectedClips(GenTime startOffset, int trackOffset)
 }
 
 /** Returns a scene list generated from the current document. */
+
 QDomDocument KdenliveDoc::generateSceneList()
 {
 //kdDebug()<<"GENERATING PRJECT SCENE LIST"<<endl;
@@ -218,10 +219,18 @@ QDomDocument KdenliveDoc::generateSceneList()
 
 }
 
+/** Creates a list of producers */
+void KdenliveDoc::generateProducersList()
+{
+m_projectClip->producersList = m_clipManager.producersList();
+}
+
+
 /** Called when the document is modifed in some way. */
 void KdenliveDoc::hasBeenModified()
 {
 	if(m_sceneListGeneration) {
+		generateProducersList();
 		generateSceneList();
 		//emit documentChanged();
 		emit documentChanged(m_projectClip);
@@ -344,6 +353,7 @@ void KdenliveDoc::AVFilePropertiesError(const QString &path, const QString &errm
 
 void KdenliveDoc::addClipNode(const QString &parent, DocumentBaseNode *newNode)
 {
+kdDebug()<<"*** DOCUMENT adding clip: "<<newNode->name()<<endl;
 	DocumentBaseNode *node = findClipNode(parent);
 	if(node) {
 		node->addChild(newNode);

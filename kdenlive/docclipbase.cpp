@@ -115,8 +115,12 @@ DocClipBase *DocClipBase::createClip(const EffectDescriptionList &effectList, Cl
 	return clip;
 }
 
+
+
 QDomDocument DocClipBase::generateSceneList() const
 {
+}
+/*		
 	static QString str_inpoint="inpoint";
 	static QString str_outpoint="outpoint";
 	static QString str_file="file";
@@ -152,8 +156,6 @@ QDomDocument DocClipBase::generateSceneList() const
 	while( (sceneItt != times.end()) && (sceneItt+1 != times.end()) ) {	
 
 		QDomDocument clipDoc = sceneToXML(*sceneItt, *(sceneItt+1));
-		/*producer.setAttribute("in", QString::number((*sceneItt).frames(25)));
-		producer.setAttribute("out", QString::number((*(sceneItt+1)).frames(25)));*/
 		QDomElement property;
 
 		if(clipDoc.documentElement().isNull()) {
@@ -174,9 +176,10 @@ QDomDocument DocClipBase::generateSceneList() const
 
 		++sceneItt;
 	}
-//	kdDebug()<<"+ + + DOCCLIPBASE SCENE: "<<sceneList.toString()<<endl;
+	kdDebug()<<"+ + + DOCCLIPBASE SCENE: "<<sceneList.toString()<<endl;
 	return sceneList;
 }
+*/
 
 void DocClipBase::setThumbnail(const QPixmap &pixmap)
 {

@@ -30,6 +30,7 @@ ClipManager::ClipManager(KRenderManager &renderManager, QWidget *parent, const c
 {
 	m_clipList.setAutoDelete(true);
 	m_temporaryClipList.setAutoDelete(true);
+	m_clipCounter = 0;
 
 	m_render = renderManager.createRenderer("Clip Manager");
 
@@ -46,9 +47,8 @@ ClipManager::~ClipManager()
 DocClipBase *ClipManager::insertClip(const KURL &file)
 {
 	DocClipBase *clip = findClip(file);
-
 	if(!clip) {
-		clip = new DocClipAVFile(file.fileName(), file);
+		clip = new DocClipAVFile(file.fileName(), file, m_clipCounter++);
 		m_clipList.append(clip);
 		m_render->getFileProperties(file);
 		m_render->getImage(file, 1, 64, 50);
@@ -71,6 +71,29 @@ DocClipBase *ClipManager::findClip(const QDomElement &clip)
 	}
 
 	return result;
+}
+
+QDomDocument ClipManager::producersList()
+{
+	QDomDocument sceneList;
+
+	QPtrListIterator<DocClipBase> itt(m_clipList);
+	while(itt.current()) {
+		DocClipAVFile *avClip = itt.current()->toDocClipAVFile();
+		if (avClip)
+		{	
+			QDomElement producer = sceneList.createElement("producer");
+			producer.setAttribute("id", QString("producer") + QString::number(avClip->numReferences()) );
+			QDomElement property = sceneList.createElement("property");
+			property.setAttribute("name", "resource");
+			QDomText textNode = sceneList.createTextNode(avClip->fileURL().path());
+			property.appendChild(textNode);
+			producer.appendChild(property);
+			sceneList.appendChild(producer);
+		}
+		++itt;
+	}
+	return sceneList;
 }
 
 DocClipBase *ClipManager::findClip(const KURL &file)

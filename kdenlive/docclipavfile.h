@@ -34,7 +34,7 @@ class ClipManager;
 class DocClipAVFile : public DocClipBase {
 	Q_OBJECT
 public:
-	DocClipAVFile(const QString &name, const KURL &url);
+	DocClipAVFile(const QString &name, const KURL &url, uint id);
 	DocClipAVFile(const KURL &url);
 	~DocClipAVFile();
 	QString fileName();
@@ -75,8 +75,12 @@ public:
 	virtual uint audioBits() const;
 	// Appends scene times for this clip to the passed vector.
 	virtual void populateSceneTimes(QValueVector<GenTime> &toPopulate) const;
+
+	virtual QDomDocument sceneToXML() const;
+
 	// Returns an XML document that describes part of the current scene.
 	virtual QDomDocument sceneToXML(const GenTime &startTime, const GenTime &endTime) const;
+
 	/** Returns true if this clip refers to the clip passed in. For a DocClipAVFile, this
 	 * is true if this == clip */
 	virtual bool referencesClip(DocClipBase *clip) const;
@@ -104,6 +108,9 @@ private:
 	double m_framesPerSecond;
 	/** The size in bytes of this AVFile */
 	uint m_filesize;
+	/** a unique numeric id */
+	uint m_id;
+
 	
 	//extended video file properties -reh
 	uint m_height;

@@ -381,9 +381,16 @@ bool DocClipRef::durationKnown() const
 
 QDomDocument DocClipRef::generateSceneList()
 {
-#warning - this may not be correct.
 	return m_clip->generateSceneList();
 }
+
+
+QDomDocument DocClipRef::generateXMLClip()
+{
+	if (m_cropStart == m_trackEnd) return QDomDocument();
+	return m_clip->toDocClipAVFile()->sceneToXML(m_cropStart, m_cropStart+cropDuration());	
+}
+
 
 const KURL &DocClipRef::fileURL() const
 {
