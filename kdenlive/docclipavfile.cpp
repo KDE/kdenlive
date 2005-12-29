@@ -150,17 +150,6 @@ QDomDocument DocClipAVFile::generateSceneList() const
 // virtual
 QDomDocument DocClipAVFile::sceneToXML(const GenTime &startTime, const GenTime &endTime) const
 {
-	QDomDocument sceneList;
-
-	QDomElement entry = sceneList.createElement("entry");
-	entry.setAttribute("producer", QString("producer") + QString::number(numReferences()) );
-	entry.setAttribute("in", QString::number(startTime.frames(25)));
-	entry.setAttribute("out", QString::number(endTime.frames(25)));
-
-
-	sceneList.appendChild(entry);
-
-	return sceneList;
 }
 
 

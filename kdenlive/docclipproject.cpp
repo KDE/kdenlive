@@ -275,39 +275,26 @@ int realtracks = 0;
 	QDomElement transition = doc.createElement("transition");
 	transition.setAttribute("in", "0");
 	transition.setAttribute("out", QString::number(duration().frames(framesPerSecond())));
-
-	QDomElement properties_a = doc.createElement("property");
-	transition.appendChild(properties_a);
-	properties_a.setAttribute("name", "a_track");
-	QDomText textNodeMix_a = doc.createTextNode(QString::number(i));
-	properties_a.appendChild(textNodeMix_a);
-
-	QDomElement properties_b = doc.createElement("property");
-	transition.appendChild(properties_b);
-	properties_b.setAttribute("name", "b_track");
-	QDomText textNodeMix_b = doc.createTextNode(QString::number(i+1));
-	properties_b.appendChild(textNodeMix_b);
-
-	QDomElement properties = doc.createElement("property");
-	transition.appendChild(properties);
-	properties.setAttribute("name", "mlt_service");
-	QDomText textNodeMix = doc.createTextNode("mix");
-	properties.appendChild(textNodeMix);
-
-	QDomElement properties_s = doc.createElement("property");
-	transition.appendChild(properties_s);
-	properties_s.setAttribute("name", "start");
-	QDomText textNodeMix_s = doc.createTextNode("0.5");
-	properties_s.appendChild(textNodeMix_s);
-
-	QDomElement properties_e = doc.createElement("property");
-	transition.appendChild(properties_e);
-	properties_e.setAttribute("name", "end");
-	QDomText textNodeMix_e = doc.createTextNode("0.5");
-	properties_e.appendChild(textNodeMix_e);
+	transition.setAttribute("a_track", QString::number(i));
+	transition.setAttribute("b_track", QString::number(i+1));
+	transition.setAttribute("mlt_service", "mix");
+	transition.setAttribute("start", "0.5");
+	transition.setAttribute("end", "0.5");
 
 	tractor.appendChild(transition);
 	}
+
+/*
+	// sample transition test 
+	QDomElement transition = doc.createElement("transition");
+	transition.setAttribute("mlt_service", "luma");
+	transition.setAttribute("in", "0");
+	transition.setAttribute("out", "50");
+	transition.setAttribute("a_track", "0");
+	transition.setAttribute("b_track", "1");
+	tractor.appendChild(transition);
+*/
+
 	doc.documentElement().appendChild(tractor);
 
 	//kdDebug()<<"+ + + PROJECT SCENE: "<<doc.toString()<<endl;

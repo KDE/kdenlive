@@ -32,11 +32,13 @@ class EffectParamDesc;
 class EffectDesc
 {
 public:
-	EffectDesc( const QString &name );
+	EffectDesc( const QString &name,  const QString &tag );
 	~EffectDesc();
 
 	/** Returns the name of this effect. */
 	const QString &name() const ;
+	/** Returns the description of this effect. */
+	const QString &tag() const ;
 	/** Adds an input to this description. An input might be a video stream, and audio stream, or it may require both. */
 	void addInput( const QString &name, bool video, bool audio );
 	/** Adds an new parameter to this description. Examples of parameters could be opacity level, text, colour, font, etc. */
@@ -52,8 +54,10 @@ private:
 	/** Revoke operator= */
 	const EffectDesc &operator=(const Effect &rhs);
 
-	/** The name of this effect. */
+	/** The name of this effect, used by the renderer to process the effect. */
 	QString m_name;
+	/** The description of this effect, text that will be displayed in the effect list */
+ 	QString m_tag;
 
 	QPtrVector<EffectParamDesc> m_params;
 	QPtrList<Effect> m_presets;

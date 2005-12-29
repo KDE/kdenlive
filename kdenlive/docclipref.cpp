@@ -388,7 +388,28 @@ QDomDocument DocClipRef::generateSceneList()
 QDomDocument DocClipRef::generateXMLClip()
 {
 	if (m_cropStart == m_trackEnd) return QDomDocument();
-	return m_clip->toDocClipAVFile()->sceneToXML(m_cropStart, m_cropStart+cropDuration());	
+
+	QDomDocument sceneList;
+
+	QDomElement entry = sceneList.createElement("entry");
+	entry.setAttribute("producer", QString("producer") + QString::number(m_clip->toDocClipAVFile()->numReferences()) );
+	entry.setAttribute("in", QString::number(m_cropStart.frames(framesPerSecond())));
+	entry.setAttribute("out", QString::number((m_cropStart+cropDuration()).frames(framesPerSecond())));
+
+	uint i = 0;
+	while (effectAt(i) != NULL)
+	{
+	QDomElement transition = sceneList.createElement("filter");
+	transition.setAttribute("mlt_service",effectAt(i)->effectDescription().tag()); 
+	entry.appendChild(transition);
+	i++;
+	}
+
+	sceneList.appendChild(entry);
+
+	return sceneList;
+
+	//return m_clip->toDocClipAVFile()->sceneToXML(m_cropStart, m_cropStart+cropDuration());	
 }
 
 

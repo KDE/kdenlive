@@ -99,6 +99,10 @@ KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, 
 	m_mltConsumer = NULL;
 	openMlt();
 
+	EffectDesc *grey =new EffectDesc(i18n("Greyscale"), "greyscale");
+	
+	m_effectList.append(grey);
+
 	if(!s_renderThread) {
 		s_renderThread = new KRenderThread;
 		s_renderThread->start();
