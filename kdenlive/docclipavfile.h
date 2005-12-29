@@ -76,7 +76,7 @@ public:
 	// Appends scene times for this clip to the passed vector.
 	virtual void populateSceneTimes(QValueVector<GenTime> &toPopulate) const;
 
-	virtual QDomDocument sceneToXML() const;
+	virtual QDomDocument generateSceneList() const;
 
 	// Returns an XML document that describes part of the current scene.
 	virtual QDomDocument sceneToXML(const GenTime &startTime, const GenTime &endTime) const;

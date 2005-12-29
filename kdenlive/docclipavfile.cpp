@@ -55,7 +55,8 @@ const GenTime &DocClipAVFile::duration() const
 	return m_duration;
 }
 
-DocClipAVFile::CLIPTYPE DocClipAVFile::clipType() {
+DocClipAVFile::CLIPTYPE DocClipAVFile::clipType()
+{
   return m_clipType;
 }
 
@@ -67,17 +68,17 @@ const KURL &DocClipAVFile::fileURL() const
 
 DocClipAVFile * DocClipAVFile::createClip(const QDomElement element)
 {
-	DocClipAVFile *file = 0;
+/*	DocClipAVFile *file = 0;
 
 
-/*	if(element.tagName() == "avfile") {
+	if(element.tagName() == "avfile") {
 		KURL url(element.attribute("url"));
 		file = new DocClipAVFile(url.filename(), url);
 	} else {
 		kdWarning() << "DocClipAVFile::createClip failed to generate clip" << endl;
-	}*/
+	}
 
-	return file;
+	return file;*/
 }
 
 bool DocClipAVFile::durationKnown() const
@@ -152,11 +153,10 @@ QDomDocument DocClipAVFile::sceneToXML(const GenTime &startTime, const GenTime &
 {
 }
 
-
-QDomDocument DocClipAVFile::sceneToXML() const
+// virtual
+QDomDocument DocClipAVFile::generateSceneList() const
 {
 QDomDocument sceneList;
-
 	QDomElement producer = sceneList.createElement("producer");
 	producer.setAttribute("id", QString("producer") + QString::number(numReferences()) );
 	QDomElement property = sceneList.createElement("property");
@@ -210,6 +210,7 @@ QDomDocument DocClipAVFile::toXML() const {
 			if(element.tagName() == "clip") {
 				QDomElement avfile = doc.createElement("avfile");
 				avfile.setAttribute("url", fileURL().url());
+				avfile.setAttribute("type", m_clipType);
 				element.appendChild(avfile);
 				return doc;
 			}
