@@ -228,7 +228,9 @@ QDomDocument DocClipProject::generateSceneList() const
 {
 QDomDocument doc;
 int tracknb = 0;
-int realtracks = 0;
+uint usedAudioTracks[99];
+uint audioTracksCounter = 0;
+uint tracksCounter = 0;
 
 	QDomElement westley = doc.createElement("westley");
 	doc.appendChild(westley);
@@ -245,6 +247,9 @@ int realtracks = 0;
 		DocTrackClipIterator itt(*(trackItt.current()) );
 		QDomElement playlist = doc.createElement("playlist");
 		playlist.setAttribute("id", QString("playlist") + QString::number(tracknb++));
+		if (trackItt.current()->clipType() == "Sound") playlist.setAttribute("hide", "video");
+		if (trackItt.current()->clipType() == "Video") playlist.setAttribute("hide", "audio");
+
 		int children = 0;
 		int timestart = 0;
 		while(itt.current()) {
@@ -261,26 +266,32 @@ int realtracks = 0;
 		}
 		if (children > 0 ) 
 		{
-		realtracks++;
 
+		/* keep a list of audio tracks so that we can mix them later */
+		if (trackItt.current()->clipType() == "Sound") 
+		{
+		usedAudioTracks[audioTracksCounter++] = tracksCounter;
+		}
+		tracksCounter++;
 		multitrack.appendChild(playlist);
 		}
 		++trackItt;
 	}
 	tractor.appendChild(multitrack);
 
-	/* transition: mix audio tracks */
-	for (int i=0;i<realtracks-1;i++)
+
+	/* transition: mix all used audio tracks */
+	if (audioTracksCounter>1)
+	for (int i=0;i<audioTracksCounter-1;i++)
 	{
 	QDomElement transition = doc.createElement("transition");
 	transition.setAttribute("in", "0");
 	transition.setAttribute("out", QString::number(duration().frames(framesPerSecond())));
-	transition.setAttribute("a_track", QString::number(i));
-	transition.setAttribute("b_track", QString::number(i+1));
+	transition.setAttribute("a_track", QString::number(usedAudioTracks[i]));
+	transition.setAttribute("b_track", QString::number(usedAudioTracks[i+1]));
 	transition.setAttribute("mlt_service", "mix");
 	transition.setAttribute("start", "0.5");
 	transition.setAttribute("end", "0.5");
-
 	tractor.appendChild(transition);
 	}
 

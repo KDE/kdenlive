@@ -66,6 +66,7 @@ private: // Private methods
 	KdenliveApp *m_app;
 	/** return a popup menu. Must be deleted by owner.*/
 	QPopupMenu *contextMenu();
+	QPopupMenu *contextcreateMenu();
 public slots: // Public slots
 	/** No descriptions */
 	void rightButtonPressed ( QListViewItem *listViewItem, const QPoint &pos, int column) ;

@@ -175,6 +175,14 @@ void KdenliveApp::initActions()
 	timelineSnapToMarker = new KToggleAction( i18n( "Snap To Marker" ), "snaptomarker.png", 0, this, SLOT( slotTimelineSnapToMarker() ), actionCollection(), "timeline_snap_marker" );
 
 	projectAddClips = new KAction( i18n( "Add Clips" ), "addclips.png", 0, this, SLOT( slotProjectAddClips() ), actionCollection(), "project_add_clip" );
+
+	projectAddColorClip = new KAction( i18n( "Create Color Clip" ), "addclips.png", 0, this, SLOT( slotProjectAddColorClip() ), actionCollection(), "project_add_color_clip" );
+
+	projectAddImageClip = new KAction( i18n( "Create Image Clip" ), "addclips.png", 0, this, SLOT( slotProjectAddImageClip() ), actionCollection(), "project_add_image_clip" );
+
+	projectAddImageClip = new KAction( i18n( "Create Text Clip" ), "addclips.png", 0, this, SLOT( slotProjectAddTextClip() ), actionCollection(), "project_add_text_clip" );
+
+
 	projectDeleteClips = new KAction( i18n( "Delete Clips" ), "deleteclips.png", 0, this, SLOT( slotProjectDeleteClips() ), actionCollection(), "project_delete_clip" );
 	projectClean = new KAction( i18n( "Clean Project" ), "cleanproject.png", 0, this, SLOT( slotProjectClean() ), actionCollection(), "project_clean" );
 	projectClipProperties = new KAction( i18n( "Clip properties" ), "clipproperties.png", 0, this, SLOT( slotProjectClipProperties() ), actionCollection(), "project_clip_properties" );
@@ -1012,23 +1020,30 @@ void KdenliveApp::slotProjectAddClips()
 }
 
 
-/**  Create a new clip (color, text or image) */
-void KdenliveApp::slotProjectCreateClip()
+/**  Create a new color clip (color, text or image) */
+void KdenliveApp::slotProjectAddColorClip()
 {
-KDialogBase *dia = new KDialogBase(this,"create_clip",true,i18n("Create New Clip"));
-createClip_UI *clipChoice = new createClip_UI(dia);
+KDialogBase *dia = new KDialogBase(this,"create_clip",true,i18n("Create New Color Clip"));
+createColorClip_UI *clipChoice = new createColorClip_UI(dia);
 dia->setMainWidget(clipChoice);
 dia->adjustSize();
 if (dia->exec() == QDialog::Accepted){
-	if (clipChoice->radio_color->isChecked()){
 		QString color = clipChoice->button_color->color().name();
 		color = color.replace(0,1,"0x")+"ff";
 		GenTime duration(clipChoice->text_duration->value());
 		KCommand *command = new Command::KAddClipCommand( *doc, color, duration, true );
 		addCommand( command, true );
-
 		}
-	if (clipChoice->radio_image->isChecked()){
+delete dia;
+}
+
+void KdenliveApp::slotProjectAddImageClip()
+{
+KDialogBase *dia = new KDialogBase(this,"create_clip",true,i18n("Create New Image Clip"));
+createImageClip_UI *clipChoice = new createImageClip_UI(dia);
+dia->setMainWidget(clipChoice);
+dia->adjustSize();
+if (dia->exec() == QDialog::Accepted){
 		QString url = clipChoice->url_image->url();
 		QString extension = QString::null;
 		int ttl = 0;
@@ -1036,9 +1051,13 @@ if (dia->exec() == QDialog::Accepted){
 		KCommand *command = new Command::KAddClipCommand( *doc, KURL(url), extension, ttl, duration, true );
 		addCommand( command, true );
 		}
-	if (clipChoice->radio_text->isChecked()) kdDebug()<<"<<<<<<<<<<<<<  text "<<endl;
-	}
 delete dia;
+}
+
+/* Create text clip */
+void KdenliveApp::slotProjectAddTextClip()
+{
+// # To be written
 }
 
 

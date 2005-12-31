@@ -136,6 +136,7 @@ QDomDocument ClipManager::producersList()
 			producer.setAttribute("id", QString("producer") + QString::number(avClip->getId()) );
 			producer.setAttribute("mlt_service", "pixbuf");
 			producer.setAttribute("resource", avClip->fileURL().path());
+			producer.setAttribute("hide", "audio");
 			sceneList.appendChild(producer);
 			}
 
@@ -144,7 +145,25 @@ QDomDocument ClipManager::producersList()
 			QDomElement producer = sceneList.createElement("producer");
 			producer.setAttribute("id", QString("producer") + QString::number(avClip->getId()) );
 			producer.setAttribute("mlt_service", "colour");
+			producer.setAttribute("hide", "audio");
 			producer.setAttribute("colour", avClip->color());
+			sceneList.appendChild(producer);
+			}
+
+		else if (avClip->clipType() == DocClipBase::AUDIO )
+			{
+			QDomElement producer = sceneList.createElement("producer");
+			producer.setAttribute("id", QString("producer") + QString::number(avClip->getId()) );
+			producer.setAttribute("resource", avClip->fileURL().path());
+			producer.setAttribute("hide", "video");
+			sceneList.appendChild(producer);
+			}
+		else if (avClip->clipType() == DocClipBase::VIDEO )
+			{
+			QDomElement producer = sceneList.createElement("producer");
+			producer.setAttribute("id", QString("producer") + QString::number(avClip->getId()) );
+			producer.setAttribute("resource", avClip->fileURL().path());
+			producer.setAttribute("hide", "audio");
 			sceneList.appendChild(producer);
 			}
 
@@ -156,13 +175,7 @@ QDomDocument ClipManager::producersList()
 			sceneList.appendChild(producer);
 			}
 
-		/*if (avClip->clipType() == DocClipBase::AUDIO )
-			{
-			QDomElement producer = sceneList.createElement("producer");
-			producer.setAttribute("id", QString("audio_producer") + QString::number(avClip->getId()) );
-			producer.setAttribute("resource", avClip->fileURL().path());
-			sceneList.appendChild(producer);
-			}
+		/*
 
 		if (avClip->clipType() == DocClipBase::AV )
 			{

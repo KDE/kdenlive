@@ -54,16 +54,15 @@ ProjectList::ProjectList(KdenliveApp *app, KdenliveDoc *document, QWidget *paren
 
 	m_listView->setDocument(document);
 
+	QPopupMenu *menu = contextcreateMenu();
+	button_add->setPopup (menu);
 
 	/* clip shortcut buttons */
 	KIconLoader loader;
 	button_delete->setPixmap( loader.loadIcon( "editdelete", KIcon::Toolbar ) );
-	button_add->setPixmap( loader.loadIcon( "filenew", KIcon::Toolbar ) );
-	button_open->setPixmap( loader.loadIcon( "fileopen", KIcon::Toolbar ) );
+	button_add->setPixmap( loader.loadIcon( "filenew", KIcon::Toolbar ) );	
 	button_edit->setPixmap( loader.loadIcon( "edit", KIcon::Toolbar ) );
 
-	connect (button_open, SIGNAL(clicked()), app, SLOT(slotProjectAddClips()));
-	connect (button_add, SIGNAL(clicked()), app, SLOT(slotProjectCreateClip()));
 	connect (button_delete, SIGNAL(clicked()), app, SLOT(slotProjectDeleteClips()));
 
 
@@ -184,6 +183,12 @@ QPopupMenu *ProjectList::contextMenu()
 {
 	QPopupMenu *menu = (QPopupMenu *)m_app->factory()->container("projectlist_context", m_app);
 
+	return menu;
+}
+
+QPopupMenu *ProjectList::contextcreateMenu()
+{
+	QPopupMenu *menu = (QPopupMenu *)m_app->factory()->container("projectlist_create", m_app);
 	return menu;
 }
 

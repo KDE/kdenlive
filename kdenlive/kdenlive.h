@@ -36,7 +36,8 @@
 #include "monitormanager.h"
 #include "projectformatmanager.h"
 #include "kdenlivesettings.h"
-#include "createclip_ui.h"
+#include "createcolorclip_ui.h"
+#include "createimageclip_ui.h"
 
 // forward declaration of the Kdenlive classes
 class DocClipProject;
@@ -223,12 +224,13 @@ class KdenliveApp : public KDockMainWindow
 		void slotUpdateCurrentTime( const GenTime &time );
 		/** Cleans the project of unwanted clips */
 		void slotProjectClean();
-		/** Create a new clip (color, text, image,..) */
-		void slotProjectCreateClip();
 		/** Remove clips from the project */
 		void slotProjectDeleteClips();
 		/** Add clips to the project */
 		void slotProjectAddClips();
+		void slotProjectAddColorClip();
+		void slotProjectAddImageClip();
+		void slotProjectAddTextClip();
 		/** Opens a clip properties dialog */
 		void slotProjectClipProperties();
 		//sets properties for selected clip without showing dialog
@@ -334,6 +336,9 @@ class KdenliveApp : public KDockMainWindow
 		KAction* editPaste;
 		KAction* optionsPreferences;
 		KAction* projectAddClips;
+		KAction* projectAddColorClip;
+		KAction* projectAddImageClip;
+		KAction* projectAddTextClip;
 		KAction* projectDeleteClips;
 		KAction* projectClean;
 		KAction* projectClipProperties;
