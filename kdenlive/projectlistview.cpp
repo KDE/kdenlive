@@ -31,10 +31,10 @@ ProjectListView::ProjectListView(QWidget *parent, const char *name):
 
     addColumn( i18n( "Thumbnail" ) );
     addColumn( i18n( "Filename" ) );
-    addColumn( i18n( "Type" ) );
-    addColumn( i18n( "Duration" ) );
-    addColumn( i18n( "Usage Count" ) );
-    addColumn( i18n( "Size" ) );
+    //addColumn( i18n( "Type" ) );
+    //addColumn( i18n( "Duration" ) );
+    //addColumn( i18n( "Usage Count" ) );
+    //addColumn( i18n( "Size" ) );
     addColumn( i18n( "Description" ) );
 
     setDragEnabled(true);
@@ -43,7 +43,7 @@ ProjectListView::ProjectListView(QWidget *parent, const char *name):
     setFullWidth(true);
     setDefaultRenameAction(Accept);
     setAllColumnsShowFocus(true);
-	setRootIsDecorated(true);
+    setRootIsDecorated(true);
 
     connect(this, SIGNAL(dropped(QDropEvent*, QListViewItem*, QListViewItem*)), this,
     						  SLOT(dragDropped(QDropEvent*, QListViewItem*, QListViewItem*)));

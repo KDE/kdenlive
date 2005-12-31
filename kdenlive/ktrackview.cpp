@@ -207,7 +207,7 @@ void KTrackView::dragEnterEvent ( QDragEnterEvent *event )
 			m_panelUnderMouse = 0;
 		}
 	} else {
-		KTrackPanel *panel = m_timeline.trackList().first();
+		KTrackPanel *panel = panelAt(mapFromGlobal(QCursor::pos()).y());  //m_timeline.trackList().first();
 		if(panel) {
 			if((m_dragFunction) && (m_dragFunction->dragEntered(panel, event))) {
 				m_panelUnderMouse = panel;

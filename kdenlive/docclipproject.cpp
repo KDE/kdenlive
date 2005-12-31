@@ -157,8 +157,8 @@ bool DocClipProject::moveSelectedClips(GenTime startOffset, int trackOffset)
 
 			// Make video clips can only be dropped on video tracks and audio on 
 			// audio tracks.
-			if ((srcClip->clipType() == VIDEO || srcClip->clipType() == AV) && destTrack->clipType() != "Video") return false;
-			else if (srcClip->clipType() == AUDIO && destTrack->clipType() != "Sound") return false;
+/*			if ((srcClip->clipType() == VIDEO || srcClip->clipType() == AV) && destTrack->clipType() != "Video") return false;
+			else if (srcClip->clipType() == AUDIO && destTrack->clipType() != "Sound") return false;*/
 
 			while((destClip) && (destClip->trackStart() + destClip->cropDuration() <= clipStartTime)) {
 				++destClipItt;
@@ -248,7 +248,7 @@ int realtracks = 0;
 		int children = 0;
 		int timestart = 0;
 		while(itt.current()) {
-			if (timestart < itt.current()->trackStart().frames(framesPerSecond()))
+			if (itt.current()->trackStart().frames(framesPerSecond())- timestart > 0.01)
 			{
 			QDomElement blank = doc.createElement("blank");
 			blank.setAttribute("length", QString::number(itt.current()->trackStart().frames(framesPerSecond()) - timestart));
@@ -615,7 +615,6 @@ bool DocClipProject::canAddClipsToTracks( DocClipRefList &clips, int track, cons
 		trackOffset = clips.first() ->trackNum();
 		startOffset = clipOffset - clips.first() ->trackStart();
 	}
-
 	if ( trackOffset == -1 ) trackOffset = 0;
 	trackOffset = track - trackOffset;
 
@@ -630,10 +629,11 @@ bool DocClipProject::canAddClipsToTracks( DocClipRefList &clips, int track, cons
 			kdWarning() << "Clip Duration not known, cannot add clips" << endl;
 			return false;
 		}
+
 		int curTrack = itt.current() ->trackNum();
 		if ( curTrack == -1 ) curTrack = 0;
 		curTrack += trackOffset;
-
+	
 		if ( ( curTrack < 0 ) || ( curTrack >= numTracks() ) ) {
 			return false;
 		}

@@ -73,6 +73,7 @@ void KAddRefClipCommand::unexecute()
 
 void KAddRefClipCommand::addClip()
 {
+	kdDebug()<<"//////////////////////////////////COMMAND ADD CLIP ///////////"<<endl;
 	DocClipRef *clip = DocClipRef::createClip(m_effectList, m_clipManager, m_xmlClip.documentElement());
 	m_project->track(clip->trackNum())->addClip(clip, true);
 }

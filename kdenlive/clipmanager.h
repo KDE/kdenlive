@@ -61,6 +61,9 @@ public:
 	/** Destructor for the fileclass of the application */
 	~ClipManager();
 	
+	/** Find and return the AVFile with the id specified, or return null is no file matches. */
+	DocClipBase *findClipById(uint id);
+
 	/** Find and return the AVFile with the url specified, or return null is no file matches. */
 	DocClipBase *findClip(const KURL &file);
 	
@@ -70,6 +73,12 @@ public:
 	/** Insert an AVFile with the given url. If the file is already in the file list, return 
 	 * that instead. */
 	DocClipBase *insertClip(const KURL &file);
+
+	/** Insert a color clip */
+	DocClipBase *insertColorClip(const QString &color, const GenTime &duration);
+
+	/** Insert an image clip */
+	DocClipBase *insertImageClip(const KURL &file, const QString &extension, const int &ttl, const GenTime &duration);
 
 	/** Insert a specific clip */
 	DocClipBase *insertClip(const QDomElement &clip);
@@ -102,6 +111,7 @@ public slots:
 	The relevant AVFile can then be updated to the correct status. */
 	void AVFilePropertiesArrived(const QMap<QString, QString> &properties);
 	void AVImageArrived( const KURL &, int, const QPixmap &);
+	void AVImageArrived( int id, const QPixmap &);
 	/** returns an mlt list of producers for all the clips */ 
 	QDomDocument producersList();
 private:

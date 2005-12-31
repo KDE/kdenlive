@@ -97,7 +97,14 @@ public:
 	for the specified url from the renderer. Upon return, the result will be emitted
 	via replyGetFileProperties(). */
 	void getFileProperties( KURL url );
+
 	void getImage(KURL url,int frame,QPixmap* image);
+
+	/** Return thumbnail for color clip */
+	void getImage( int id, QString color, int width, int height);
+
+	/** Return thumbnail for image clip */
+	void getImage( KURL url, int width, int height);
 
 	/** Requests a particular frame from the given file. 
 	 * 
@@ -302,6 +309,8 @@ signals:  // Signals
 	
 	/** emitted when the renderer recieves a reply to a getImage request. */
 	void replyGetImage( const KURL &, int, const QPixmap &, int, int);
+	void replyGetImage( int, const QPixmap &, int, int);
+
 	void replyGetSoundSamples( const KURL &, int, const QPixmap &);
 	
 	/** emitted when the renderer recieves a failed reply to a getFileProperties request.

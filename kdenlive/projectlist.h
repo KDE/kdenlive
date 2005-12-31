@@ -18,7 +18,7 @@
 #ifndef PROJECTLIST_H
 #define PROJECTLIST_H
 
-#include "projectlist_ui.h"
+#include "projectview_ui.h"
 
 #include <projectlistview.h>
 #include <qvaluelist.h>

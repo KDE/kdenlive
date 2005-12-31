@@ -53,7 +53,14 @@ public:
 				DocumentBaseNode *parent,
 			       	bool create=true);
 
+	/** Construct a video / audio clip */
 	KAddClipCommand(KdenliveDoc &document, const KURL &url, bool create=true);
+
+	/** Construct a color clip */
+	KAddClipCommand(KdenliveDoc &document, const QString &color, const GenTime &duration, bool create=true);
+
+	/** Construct an image clip */
+	KAddClipCommand(KdenliveDoc &document, const KURL &url, const QString &extension, const int &ttl, const GenTime &duration, bool create=true);
 
 	~KAddClipCommand();
 	/** Unexecute the command */

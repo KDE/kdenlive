@@ -304,7 +304,9 @@ QDomDocument DocClipRef::toXML() const
 {
 	QDomDocument doc = m_clip->toXML();
 
+	
 	QDomElement clip = doc.documentElement();
+
 	if(clip.tagName() != "clip") {
 		kdError() << "Expected tagname of 'clip' in DocClipRef::toXML(), expect things to go wrong!" << endl;
 	}
@@ -337,9 +339,8 @@ QDomDocument DocClipRef::toXML() const
 		markers.appendChild(marker);
 	}
 	clip.appendChild(markers);
-
 	doc.appendChild(clip);
-
+	
 	return doc;
 }
 
@@ -390,11 +391,19 @@ QDomDocument DocClipRef::generateXMLClip()
 	if (m_cropStart == m_trackEnd) return QDomDocument();
 
 	QDomDocument sceneList;
-
+	
 	QDomElement entry = sceneList.createElement("entry");
-	entry.setAttribute("producer", QString("producer") + QString::number(m_clip->toDocClipAVFile()->numReferences()) );
+
+/*	if (parentTrack()->clipType() == "Sound") 
+	entry.setAttribute("producer", QString("audio_producer") + QString::number(m_clip->toDocClipAVFile()->getId()) );
+
+	else entry.setAttribute("producer", QString("video_producer") + QString::number(m_clip->toDocClipAVFile()->getId()) );*/
+
+	entry.setAttribute("producer", QString("producer") + QString::number(m_clip->toDocClipAVFile()->getId()) );
+
 	entry.setAttribute("in", QString::number(m_cropStart.frames(framesPerSecond())));
 	entry.setAttribute("out", QString::number((m_cropStart+cropDuration()).frames(framesPerSecond())));
+
 
 	uint i = 0;
 	while (effectAt(i) != NULL)

@@ -88,6 +88,47 @@ KAddClipCommand::KAddClipCommand(KdenliveDoc &document,
 	}
 }
 
+/** Add Color clip */
+KAddClipCommand::KAddClipCommand(KdenliveDoc &document, const QString &color, const GenTime &duration, bool create) :
+		m_document(document),
+		m_name(i18n("Color Clip")),
+		m_parent(document.clipHierarch()->name()),
+		m_create(create)
+{
+	if(!m_parent) {
+		kdWarning() << "Error - all clips created with kaddclipcommand should have a parent!" << endl;
+	}
+
+	DocClipBase *clip = document.clipManager().insertColorClip(color, duration);
+
+	DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
+	m_xmlClip = clipNode->clipRef()->toXML();
+	delete clipNode;
+
+}
+
+
+/** Add Image clip */
+KAddClipCommand::KAddClipCommand(KdenliveDoc &document, const KURL &url, const QString &extension, const int &ttl, const GenTime &duration, bool create) :
+		m_document(document),
+		m_name(url.filename()),
+		m_parent(document.clipHierarch()->name()),
+		m_create(create)
+{
+	if(!m_parent) {
+		kdWarning() << "Error - all clips created with kaddclipcommand should have a parent!" << endl;
+	}
+
+	DocClipBase *clip = document.clipManager().insertImageClip(url, extension, ttl, duration);
+
+	DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
+	m_xmlClip = clipNode->clipRef()->toXML();
+	delete clipNode;
+
+}
+
+
+/** Add video / audio clip */
 KAddClipCommand::KAddClipCommand(KdenliveDoc &document, const KURL &url, bool create) :
 		m_document(document),
 		m_name(url.filename()),
@@ -98,6 +139,7 @@ KAddClipCommand::KAddClipCommand(KdenliveDoc &document, const KURL &url, bool cr
 		kdWarning() << "Error - all clips created with kaddclipcommand should have a parent!" << endl;
 	}
 
+	kdDebug()<<"//////////////////////////////////KOMMAND  INSERT CLIP 1///////////"<<endl;
 	DocClipBase *clip = document.clipManager().insertClip(url);
 
 	DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
@@ -142,6 +184,7 @@ void KAddClipCommand::unexecute()
 /** Adds the clip */
 void KAddClipCommand::addClip()
 {
+	kdDebug()<<"//////////////////////////////////KOMMAND  INSERT CLIP ///////////"<<endl;
 	DocumentBaseNode *node = m_document.findClipNode(m_parent);
 
 	if(!node) {

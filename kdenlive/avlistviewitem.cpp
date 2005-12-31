@@ -56,7 +56,7 @@ AVListViewItem::AVListViewItem(KdenliveDoc *doc, QListView *parent, DocumentBase
 
 void AVListViewItem::doCommonCtor()
 {
-	setRenameEnabled(6, true);
+	setRenameEnabled(2, true);
 
 	// recursively populate the rest of the node tree.
 	QPtrListIterator<DocumentBaseNode> child(m_node->children());

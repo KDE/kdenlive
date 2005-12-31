@@ -36,6 +36,7 @@
 #include "monitormanager.h"
 #include "projectformatmanager.h"
 #include "kdenlivesettings.h"
+#include "createclip_ui.h"
 
 // forward declaration of the Kdenlive classes
 class DocClipProject;
@@ -222,6 +223,8 @@ class KdenliveApp : public KDockMainWindow
 		void slotUpdateCurrentTime( const GenTime &time );
 		/** Cleans the project of unwanted clips */
 		void slotProjectClean();
+		/** Create a new clip (color, text, image,..) */
+		void slotProjectCreateClip();
 		/** Remove clips from the project */
 		void slotProjectDeleteClips();
 		/** Add clips to the project */

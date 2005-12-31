@@ -19,9 +19,15 @@
 
 #include <iostream>
 #include <assert.h>
-#include <kdebug.h>
-#include "clipmanager.h"
+
 #include <qfileinfo.h>
+
+#include <kdebug.h>
+#include <klocale.h>
+
+
+#include "clipmanager.h"
+
 
 
 DocClipAVFile::DocClipAVFile(const QString &name, const KURL &url, uint id) :
@@ -29,11 +35,45 @@ DocClipAVFile::DocClipAVFile(const QString &name, const KURL &url, uint id) :
 						m_duration(0.0),
 						m_url(url),
 						m_durationKnown(false),
-						m_framesPerSecond(0)
+						m_framesPerSecond(0),
+						m_color(QString::null),
+						m_clipType(NONE),
+						m_id(id)
 
 {
 	setName(name);
-	m_id = id;
+}
+
+/* color clip */
+DocClipAVFile::DocClipAVFile(const QString &color, const GenTime &duration, uint id) :
+						DocClipBase(),
+						m_duration(duration),
+						m_url(QString::null),
+						m_durationKnown(true),
+						m_framesPerSecond(25),
+						m_color(color),
+						m_clipType(COLOR),
+						m_id(id),
+						m_filesize(0)
+{
+	setName(i18n("Color Clip"));
+}
+
+/* image clip */
+DocClipAVFile::DocClipAVFile(const KURL &url, const QString &extension, const int &ttl, const GenTime &duration, uint id) :
+				DocClipBase(),
+				m_duration(duration),
+				m_url(url),
+				m_durationKnown(true),
+				m_framesPerSecond(25),
+				m_color(QString::null),
+				m_clipType(IMAGE),
+				m_id(id)
+{
+	setName(url.fileName());
+	QFileInfo fileInfo(m_url.path());
+	 /* Determines the size of the file */
+	m_filesize = fileInfo.size();
 }
 
 DocClipAVFile::DocClipAVFile(const KURL &url) :
@@ -41,7 +81,9 @@ DocClipAVFile::DocClipAVFile(const KURL &url) :
 				m_duration(0.0),
 				m_url(url),
 				m_durationKnown(false),
-				m_framesPerSecond(0)
+				m_framesPerSecond(0),
+				m_color(QString::null),
+				m_clipType(NONE)
 {
 	setName(url.fileName());
 }
@@ -55,7 +97,7 @@ const GenTime &DocClipAVFile::duration() const
 	return m_duration;
 }
 
-DocClipAVFile::CLIPTYPE DocClipAVFile::clipType()
+const DocClipAVFile::CLIPTYPE &DocClipAVFile::clipType() const
 {
   return m_clipType;
 }
@@ -79,6 +121,11 @@ DocClipAVFile * DocClipAVFile::createClip(const QDomElement element)
 	}
 
 	return file;*/
+}
+
+const QString &DocClipAVFile::color() const
+{
+	return m_color;
 }
 
 bool DocClipAVFile::durationKnown() const
@@ -157,21 +204,62 @@ QDomDocument DocClipAVFile::sceneToXML(const GenTime &startTime, const GenTime &
 QDomDocument DocClipAVFile::generateSceneList() const
 {
 QDomDocument sceneList;
+
+	if (clipType() == IMAGE )
+	{
+	QDomElement westley = sceneList.createElement("westley");
+	sceneList.appendChild(westley);
+
 	QDomElement producer = sceneList.createElement("producer");
-	producer.setAttribute("id", QString("producer") + QString::number(numReferences()) );
-	QDomElement property = sceneList.createElement("property");
-	property.setAttribute("name", "resource");
+	producer.setAttribute("id", QString("producer0"));
+	producer.setAttribute("mlt_service", "pixbuf");
+	producer.setAttribute("resource", fileURL().path());
+	westley.appendChild(producer);
+	QDomElement playlist = sceneList.createElement("playlist");
+	playlist.setAttribute("in", "0");
+	playlist.setAttribute("out", QString::number(duration().frames(25)));
+	QDomElement entry = sceneList.createElement("entry");
+	entry.setAttribute("producer", QString("producer0"));
+	playlist.appendChild(entry);
+	westley.appendChild(playlist);
+	}
 
-	QDomText textNode = sceneList.createTextNode(fileURL().path());
+	else if (clipType() == COLOR )
+	{
+	QDomElement westley = sceneList.createElement("westley");
+	sceneList.appendChild(westley);
 
-	property.appendChild(textNode);
+	QDomElement producer = sceneList.createElement("producer");
+	producer.setAttribute("id", QString("producer0"));
+	producer.setAttribute("mlt_service", "colour");
+	producer.setAttribute("colour", color());
+	westley.appendChild(producer);
+	QDomElement playlist = sceneList.createElement("playlist");
+	playlist.setAttribute("in", "0");
+	playlist.setAttribute("out", QString::number(duration().frames(25)));
+	QDomElement entry = sceneList.createElement("entry");
+	entry.setAttribute("producer", QString("producer0"));
+	playlist.appendChild(entry);
+	westley.appendChild(playlist);
+	}
+
+
+	else {
+	QDomElement producer = sceneList.createElement("producer");
+	producer.setAttribute("id", QString("producer") + QString::number(getId()) );
+	producer.setAttribute("resource", fileURL().path());
+	sceneList.appendChild(producer);
+	}
+
 	//kdDebug()<<"START AV: "<<startTime.frames(25)<<endl;
 	//kdDebug()<<"STOP AV: "<<endTime.frames(25)<<endl;
 	//producer.setAttribute("in", QString::number(startTime.frames(25)));
 	//producer.setAttribute("out", QString::number(endTime.frames(25)));
 
-	producer.appendChild(property);
-	sceneList.appendChild(producer);
+
+
+//	kdDebug()<<"++++++++++++CLIP SCENE:\n"<<sceneList.toString()<<endl;
+
 
 	return sceneList;
 }
@@ -190,6 +278,10 @@ uint DocClipAVFile::fileSize() const
 uint DocClipAVFile::numReferences() const
 {
 #warning TODO - write this funtion.
+}
+
+uint DocClipAVFile::getId() const
+{
 	return m_id;
 }
 
@@ -201,9 +293,27 @@ bool DocClipAVFile::referencesClip(DocClipBase *clip) const
 
 // virtual
 QDomDocument DocClipAVFile::toXML() const {
+
+	/*QDomDocument doc;
+
+	QDomElement clip = doc.createElement("clip");
+	clip.setAttribute("name", name());
+	QDomText text = doc.createTextNode(description());
+	clip.appendChild(text);
+
+	QDomElement clip2 = doc.createElement("clip");
+	clip2.setAttribute("name", name());
+	QDomText text2 = doc.createTextNode(description());
+	clip2.appendChild(text2);
+
+	doc.appendChild(clip);
+	doc.appendChild(clip2);
+	*/
+
+
 	QDomDocument doc = DocClipBase::toXML();
 	QDomNode node = doc.firstChild();
-
+	
 	while( !node.isNull()) {
 		QDomElement element = node.toElement();
 		if(!element.isNull()) {
@@ -211,6 +321,7 @@ QDomDocument DocClipAVFile::toXML() const {
 				QDomElement avfile = doc.createElement("avfile");
 				avfile.setAttribute("url", fileURL().url());
 				avfile.setAttribute("type", m_clipType);
+				avfile.setAttribute("id", m_id);
 				element.appendChild(avfile);
 				return doc;
 			}
@@ -218,6 +329,7 @@ QDomDocument DocClipAVFile::toXML() const {
 		node = node.nextSibling();
 	}
 
+	
 	assert(node.isNull());
 
 	/* This final return should never be reached, it is here to remove compiler warning. */
@@ -243,7 +355,8 @@ bool DocClipAVFile::matchesXML(const QDomElement &element) const
 						break;
 					} else {
 						found = true;
-						if(avElement.attribute("url") == fileURL().url()) {
+						//if(avElement.attribute("url") == fileURL().url()) {
+						if(avElement.attribute("id") == QString::number(getId())) {
 							result = true;
 						}
 					}
@@ -256,6 +369,7 @@ bool DocClipAVFile::matchesXML(const QDomElement &element) const
 
 	return result;
 }
+
 
 /** Calculates properties for this file that will be useful for the rest of the program. */
 void DocClipAVFile::calculateFileProperties(const QMap<QString, QString> &attributes)

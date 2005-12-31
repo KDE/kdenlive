@@ -370,7 +370,29 @@ void KRender::getImage( KURL url, int frame, int width, int height)
 		emit replyGetImage( url, frame, m_pixmap, width, height );
 	} 
 }
-	
+
+/* Create thumbnail for color */
+void KRender::getImage( int id, QString color, int width, int height) 
+{
+		QPixmap pixmap(width, height);
+		color = color.replace(0,2,"#");
+		color = color.left(7);
+		
+		pixmap.fill(QColor(color));
+
+		emit replyGetImage( id, pixmap, width, height );
+}
+
+/* Create thumbnail for image */
+void KRender::getImage( KURL url, int width, int height) 
+{
+		QPixmap pixmap(url.path());
+		QImage im;
+		im = pixmap;
+		pixmap = im.smoothScale(width,height);
+
+		emit replyGetImage( url, 1, pixmap, width, height );
+}	
 
 void KRender::getFileProperties( KURL url )
 {

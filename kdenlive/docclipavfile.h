@@ -34,7 +34,16 @@ class ClipManager;
 class DocClipAVFile : public DocClipBase {
 	Q_OBJECT
 public:
+	
+	/* video/audio clip */
 	DocClipAVFile(const QString &name, const KURL &url, uint id);
+
+	/* image clip */
+	DocClipAVFile(const KURL &url, const QString &extension, const int &ttl, const GenTime &duration, uint id);
+
+	/* color clip */
+	DocClipAVFile(const QString &color, const GenTime &duration, uint id);
+
 	DocClipAVFile(const KURL &url);
 	~DocClipAVFile();
 	QString fileName();
@@ -50,10 +59,17 @@ public:
 	/** Returns the number of references to the underlying avfile. */
 	uint numReferences() const;
 
+	/** Returns the internal unique id of the avfile. */
+	uint getId() const;
+
 	/** Returns the duration of the file */
 	const GenTime &duration() const;
+
+	/** Returns the duration of the file */
+	const QString &color() const;
+
 	/** Returns the type of this clip */
-	DocClipBase::CLIPTYPE clipType();
+	const DocClipBase::CLIPTYPE &clipType() const;
 		
 	QDomDocument toXML() const;
 	/** Returns the url of the AVFile this clip contains */
@@ -115,6 +131,7 @@ private:
 	//extended video file properties -reh
 	uint m_height;
 	uint m_width;
+	QString m_color;
 	QString m_decompressor;
 	QString m_system;
 	//audio file properties

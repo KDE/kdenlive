@@ -160,17 +160,28 @@ bool TrackPanelClipMoveFunction::mouseMoved( Gui::KTrackPanel *panel, QMouseEven
 // virtual
 bool TrackPanelClipMoveFunction::dragEntered ( Gui::KTrackPanel *panel, QDragEnterEvent *event )
 {
+
 	if ( m_startedClipMove ) {
 		m_document->activateSceneListGeneration( false );
 		event->accept( true );
 	} else if ( ClipDrag::canDecode( event ) ) {
 		m_document->activateSceneListGeneration( false );
 		m_selection = ClipDrag::decode( m_document->effectDescriptions(), m_document->clipManager(), event );
-		if ( !m_selection.isEmpty() ) {
+
+		/*bool allowed = false;
+
+		kdDebug()<<"+++++++++++++DRAG CLIP: "<<m_selection.getFirst()->clipType()<<endl;
+		kdDebug()<<"+++++++++++++DRAG PANEL: "<<panel->trackType()<<endl;
+
+		if ((m_selection.getFirst()->clipType() == DocClipBase::VIDEO || m_selection.getFirst()->clipType() == DocClipBase::AV) && panel->trackType() == Gui::VIDEOTRACK) allowed = true;
+
+		if (m_selection.getFirst()->clipType() == DocClipBase::AUDIO && panel->trackType() == Gui::SOUNDTRACK) allowed = true;*/
+
+		if ( !m_selection.isEmpty()) {
 			if ( m_selection.masterClip() == 0 ) m_selection.setMasterClip( m_selection.first() );
 			m_masterClip = m_selection.masterClip();
 			m_clipOffset = GenTime();
-			if ( m_selection.isEmpty() ) {
+			if ( m_selection.isEmpty()) {
 				event->accept( false );
 			} else {
 				setupSnapToGrid();
@@ -198,14 +209,17 @@ bool TrackPanelClipMoveFunction::dragMoved ( Gui::KTrackPanel *panel, QDragMoveE
 		GenTime mouseTime = m_timeline->timeUnderMouse( ( double ) pos.x() ) - m_clipOffset;
 		mouseTime = m_snapToGrid.getSnappedTime( mouseTime );
 		mouseTime = mouseTime + m_clipOffset;
-
+		
 		int trackUnder = trackUnderPoint( pos );
 
 		if ( m_selection.isEmpty() ) {
 			moveSelectedClips( trackUnder, mouseTime - m_clipOffset );
 		} else {
+
 			if ( m_document->projectClip().canAddClipsToTracks( m_selection, trackUnder, mouseTime ) ) {
 				addClipsToTracks( m_selection, trackUnder, mouseTime , true );
+				//addClipsToTracks( m_selection, trackUnder+1, mouseTime , true );
+
 				setupSnapToGrid();
 				m_selection.clear();
 			}
@@ -229,7 +243,7 @@ bool TrackPanelClipMoveFunction::dragMoved ( Gui::KTrackPanel *panel, QDragMoveE
 
 int TrackPanelClipMoveFunction::trackUnderPoint( const QPoint &pos )
 {
-	uint y = pos.y();
+	uint y = m_timeline->mapLocalToValue(pos.y());
 	Gui::KTrackPanel *panel = m_timeline->trackView() ->panelAt( y );
 
 	if ( panel ) {
@@ -377,6 +391,7 @@ void TrackPanelClipMoveFunction::addClipsToTracks( DocClipRefList &clips, int tr
 	GenTime startOffset = value - masterClip->trackStart();
 
 	int trackOffset = masterClip->trackNum();
+
 	if ( trackOffset == -1 ) trackOffset = 0;
 	trackOffset = track - trackOffset;
 
@@ -385,7 +400,7 @@ void TrackPanelClipMoveFunction::addClipsToTracks( DocClipRefList &clips, int tr
 
 	while ( itt.current() != 0 ) {
 		moveToTrack = itt.current() ->trackNum();
-
+		
 		if ( moveToTrack == -1 ) {
 			moveToTrack = track;
 		} else {

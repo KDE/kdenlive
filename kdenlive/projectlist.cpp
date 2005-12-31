@@ -20,17 +20,21 @@
 #include "kdenlive.h"
 #include "kdenlivedoc.h"
 #include "docclipavfile.h"
+#include "timecode.h"
 
 /* This define really should go in projectlist_ui, but qt just puts the classname there at the moment :-( */
 #include <qpushbutton.h>
 
 #include <qcursor.h>
+#include <qlabel.h>
 
 #include <kdebug.h>
+#include <klineedit.h>
 #include <klocale.h>
 #include <kiconloader.h>
 #include <kfiledialog.h>
 #include <kmessagebox.h>
+#include <kpushbutton.h>
 
 #include <iostream>
 #include <string>
@@ -49,6 +53,20 @@ ProjectList::ProjectList(KdenliveApp *app, KdenliveDoc *document, QWidget *paren
 	}
 
 	m_listView->setDocument(document);
+
+
+	/* clip shortcut buttons */
+	KIconLoader loader;
+	button_delete->setPixmap( loader.loadIcon( "editdelete", KIcon::Toolbar ) );
+	button_add->setPixmap( loader.loadIcon( "filenew", KIcon::Toolbar ) );
+	button_open->setPixmap( loader.loadIcon( "fileopen", KIcon::Toolbar ) );
+	button_edit->setPixmap( loader.loadIcon( "edit", KIcon::Toolbar ) );
+
+	connect (button_open, SIGNAL(clicked()), app, SLOT(slotProjectAddClips()));
+	connect (button_add, SIGNAL(clicked()), app, SLOT(slotProjectCreateClip()));
+	connect (button_delete, SIGNAL(clicked()), app, SLOT(slotProjectDeleteClips()));
+
+
 	//add header tooltips -reh
 	colToolTip = new columnToolTip( m_listView->header() );
 
@@ -106,7 +124,51 @@ void ProjectList::projectListSelectionChanged(QListViewItem *item)
 {
   const AVListViewItem *avitem = (AVListViewItem *)item;
 
-  emit clipSelected(avitem->clip());
+  if (avitem->clip())
+  {
+  Timecode timecode;
+  text_duration->setText(timecode.getTimecode(avitem->clip()->duration(), 25));
+
+  QString text;
+  long fileSize = avitem->clip()->fileSize();
+			long tenth;
+			if(fileSize < 1024) {
+				text = QString::number(fileSize) + i18n(" byte(s)");
+			} else {
+				fileSize = (int)floor((fileSize / 1024.0)+0.5);
+
+				if(fileSize < 1024) {
+					text = QString::number(fileSize) + i18n(" Kb");
+				} else {
+					fileSize = (int)floor((fileSize / 102.4) + 0.5);
+
+					tenth = fileSize % 10;
+					fileSize /= 10;
+
+					text = QString::number(fileSize) + "." +
+						QString::number(tenth) + i18n(" Mb");
+				}
+			}
+
+  text_size->setText(text);
+  text_usage->setText(QString::number(avitem->clip()->numReferences()));
+
+  if (avitem->clip()->clipType() == DocClipBase::AV) text = i18n("video");
+  else if (avitem->clip()->clipType() == DocClipBase::VIDEO) text = i18n("mute video");
+  else if (avitem->clip()->clipType() == DocClipBase::AUDIO) text = i18n("audio");
+  else if (avitem->clip()->clipType() == DocClipBase::COLOR) text = i18n("color clip");
+  else if (avitem->clip()->clipType() == DocClipBase::IMAGE) text = i18n("image clip");
+  text_type->setText(text);
+
+  }
+  else 
+  {
+  text_type->setText(QString::null);
+  text_duration->setText(QString::null);
+  text_size->setText(QString::null);
+  text_usage->setText(QString::null);
+  }
+emit clipSelected(avitem->clip());  
 }
 
 DocClipRef *ProjectList::currentSelection()

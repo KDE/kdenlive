@@ -25,6 +25,9 @@
 #include <qprinter.h>
 #include <qpainter.h>
 #include <qtooltip.h>
+#include <qradiobutton.h>
+#include <qcolor.h>
+#include <qspinbox.h>
 #include <qwhatsthis.h>
 
 // include files for KDE
@@ -40,6 +43,8 @@
 #include <kmessagebox.h>
 #include <kstatusbar.h>
 #include <kstdaction.h>
+#include <kcolorbutton.h>
+#include <kurlrequester.h>
 
 // application specific includes
 // p.s., get the idea this class is kind, central to everything?
@@ -1005,6 +1010,37 @@ void KdenliveApp::slotProjectAddClips()
 
 	slotStatusMsg( i18n( "Ready." ) );
 }
+
+
+/**  Create a new clip (color, text or image) */
+void KdenliveApp::slotProjectCreateClip()
+{
+KDialogBase *dia = new KDialogBase(this,"create_clip",true,i18n("Create New Clip"));
+createClip_UI *clipChoice = new createClip_UI(dia);
+dia->setMainWidget(clipChoice);
+dia->adjustSize();
+if (dia->exec() == QDialog::Accepted){
+	if (clipChoice->radio_color->isChecked()){
+		QString color = clipChoice->button_color->color().name();
+		color = color.replace(0,1,"0x")+"ff";
+		GenTime duration(clipChoice->text_duration->value());
+		KCommand *command = new Command::KAddClipCommand( *doc, color, duration, true );
+		addCommand( command, true );
+
+		}
+	if (clipChoice->radio_image->isChecked()){
+		QString url = clipChoice->url_image->url();
+		QString extension = QString::null;
+		int ttl = 0;
+		GenTime duration(clipChoice->text_duration->value());
+		KCommand *command = new Command::KAddClipCommand( *doc, KURL(url), extension, ttl, duration, true );
+		addCommand( command, true );
+		}
+	if (clipChoice->radio_text->isChecked()) kdDebug()<<"<<<<<<<<<<<<<  text "<<endl;
+	}
+delete dia;
+}
+
 
 /** Remove clips from the project */
 void KdenliveApp::slotProjectDeleteClips()
