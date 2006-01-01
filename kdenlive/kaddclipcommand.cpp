@@ -89,9 +89,9 @@ KAddClipCommand::KAddClipCommand(KdenliveDoc &document,
 }
 
 /** Add Color clip */
-KAddClipCommand::KAddClipCommand(KdenliveDoc &document, const QString &color, const GenTime &duration, bool create) :
+KAddClipCommand::KAddClipCommand(KdenliveDoc &document, const QString &color, const GenTime &duration, const QString &name, const QString &description, bool create) :
 		m_document(document),
-		m_name(i18n("Color Clip")),
+		m_name("Color Clip"),
 		m_parent(document.clipHierarch()->name()),
 		m_create(create)
 {
@@ -99,7 +99,7 @@ KAddClipCommand::KAddClipCommand(KdenliveDoc &document, const QString &color, co
 		kdWarning() << "Error - all clips created with kaddclipcommand should have a parent!" << endl;
 	}
 
-	DocClipBase *clip = document.clipManager().insertColorClip(color, duration);
+	DocClipBase *clip = document.clipManager().insertColorClip(color, duration, name, description);
 
 	DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
 	m_xmlClip = clipNode->clipRef()->toXML();
@@ -109,7 +109,7 @@ KAddClipCommand::KAddClipCommand(KdenliveDoc &document, const QString &color, co
 
 
 /** Add Image clip */
-KAddClipCommand::KAddClipCommand(KdenliveDoc &document, const KURL &url, const QString &extension, const int &ttl, const GenTime &duration, bool create) :
+KAddClipCommand::KAddClipCommand(KdenliveDoc &document, const KURL &url, const QString &extension, const int &ttl, const GenTime &duration, const QString &description, bool create) :
 		m_document(document),
 		m_name(url.filename()),
 		m_parent(document.clipHierarch()->name()),
@@ -119,7 +119,7 @@ KAddClipCommand::KAddClipCommand(KdenliveDoc &document, const KURL &url, const Q
 		kdWarning() << "Error - all clips created with kaddclipcommand should have a parent!" << endl;
 	}
 
-	DocClipBase *clip = document.clipManager().insertImageClip(url, extension, ttl, duration);
+	DocClipBase *clip = document.clipManager().insertImageClip(url, extension, ttl, duration, description);
 
 	DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
 	m_xmlClip = clipNode->clipRef()->toXML();

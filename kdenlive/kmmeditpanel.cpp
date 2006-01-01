@@ -63,17 +63,19 @@ KMMEditPanel::KMMEditPanel( KdenliveDoc *document, QWidget* parent, const char* 
 
 	KIconLoader loader;
 
-	startButton->setPixmap( loader.loadIcon( "player_start", KIcon::Small ) );
-	rewindButton->setPixmap( loader.loadIcon( "player_rew", KIcon::Small ) );
-	stopButton->setPixmap( loader.loadIcon( "player_stop", KIcon::Small ) );
-	playButton->setPixmap( loader.loadIcon( "player_play", KIcon::Small ) );
-	forwardButton->setPixmap( loader.loadIcon( "player_fwd", KIcon::Small ) );
-	endButton->setPixmap( loader.loadIcon( "player_end", KIcon::Small ) );
-	inpointButton->setPixmap( loader.loadIcon( "start", KIcon::Small ) );
-	outpointButton->setPixmap( loader.loadIcon( "finish", KIcon::Small ) );
+	
 
-	previousMarkerButton->setPixmap( loader. loadIcon("1leftarrow", KIcon::Small ) );
-	nextMarkerButton->setPixmap( loader.loadIcon("1rightarrow", KIcon::Small ) );
+	startButton->setIconSet( QIconSet( loader.loadIcon( "player_start", KIcon::Small ) ));
+	rewindButton->setIconSet( QIconSet( loader.loadIcon( "player_rew", KIcon::Small ) ));
+	stopButton->setIconSet( QIconSet( loader.loadIcon( "player_stop", KIcon::Small ) ));
+	playButton->setIconSet( QIconSet( loader.loadIcon( "player_play", KIcon::Small ) ));
+	forwardButton->setIconSet( QIconSet( loader.loadIcon( "player_fwd", KIcon::Small ) ));
+	endButton->setIconSet( QIconSet( loader.loadIcon( "player_end", KIcon::Small ) ));
+	inpointButton->setIconSet( QIconSet( loader.loadIcon( "start", KIcon::Small ) ));
+	outpointButton->setIconSet( QIconSet( loader.loadIcon( "finish", KIcon::Small ) ));
+
+	previousMarkerButton->setIconSet( QIconSet( loader. loadIcon("1leftarrow", KIcon::Small ) ));
+	nextMarkerButton->setIconSet( QIconSet( loader.loadIcon("1rightarrow", KIcon::Small ) ));
 
 	connect( m_ruler, SIGNAL( sliderValueChanged( int, int ) ), this, SLOT( rulerValueChanged( int, int ) ) );
 

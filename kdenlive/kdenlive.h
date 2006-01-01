@@ -231,6 +231,8 @@ class KdenliveApp : public KDockMainWindow
 		void slotProjectAddColorClip();
 		void slotProjectAddImageClip();
 		void slotProjectAddTextClip();
+
+		void slotProjectEditClip();
 		/** Opens a clip properties dialog */
 		void slotProjectClipProperties();
 		//sets properties for selected clip without showing dialog
@@ -312,6 +314,12 @@ class KdenliveApp : public KDockMainWindow
 
 		/** Razor selected clips at the specified location */
 		void slotRazorSelectedClips();
+	private slots:
+		void slotToggleClipMonitor();
+		void slotToggleWorkspaceMonitor();
+		void slotToggleEffectList();
+		void slotToggleProjectList();
+
 	private:
 		/** the configuration object of the application */
 		KConfig *config;
@@ -413,6 +421,8 @@ class KdenliveApp : public KDockMainWindow
 		KDockWidget *m_dockClipMonitor;
 		KDockWidget *m_dockWorkspaceMonitor;
 		KDockWidget *m_dockCaptureMonitor;
+		KDockWidget *m_dockEffectList;
+		KDockWidget *m_dockProjectList;
 
 		/** The monitor manager that manages the life of the various monitors.*/
 		MonitorManager m_monitorManager;

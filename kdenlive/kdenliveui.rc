@@ -45,6 +45,12 @@
   	<Action name="save_layout_3"/>
   	<Action name="save_layout_4"/>
   </Menu>
+  <Menu name="Windows"><text>&amp;Windows</text>
+	  <Action name="toggle_clip_monitor"/>
+	  <Action name="toggle_workspace_monitor"/>
+	  <Action name="toggle_effect_list"/>
+	  <Action name="toggle_project_list"/>
+  </Menu>
 </MenuBar>
 
 <Menu name="projectlist_create">

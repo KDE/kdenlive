@@ -8,12 +8,12 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>453</width>
-            <height>216</height>
+            <width>411</width>
+            <height>251</height>
         </rect>
     </property>
     <property name="caption">
-        <string></string>
+        <string>ProjectList_UI</string>
     </property>
     <grid>
         <property name="name">
@@ -25,103 +25,81 @@
         <property name="spacing">
             <number>3</number>
         </property>
-        <widget class="ProjectListView" row="0" column="0" rowspan="10" colspan="1">
+        <widget class="ProjectListView" row="0" column="0" rowspan="9" colspan="1">
             <property name="name">
                 <cstring>m_listView</cstring>
             </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>7</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
         </widget>
-        <widget class="QLabel" row="5" column="1" rowspan="1" colspan="2">
+        <widget class="QLayoutWidget" row="0" column="1">
             <property name="name">
-                <cstring>textLabel2_2_2</cstring>
+                <cstring>layout3</cstring>
             </property>
-            <property name="font">
-                <font>
-                    <pointsize>9</pointsize>
-                </font>
-            </property>
-            <property name="text">
-                <string>&lt;qt&gt;&lt;b&gt;Usage:&lt;/b&gt;&lt;/qt&gt;</string>
-            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>button_add</cstring>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>25</width>
+                            <height>32767</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="flat">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>button_edit</cstring>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>25</width>
+                            <height>32767</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="flat">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>button_delete</cstring>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>25</width>
+                            <height>32767</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="flat">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+            </hbox>
         </widget>
-        <widget class="QLabel" row="7" column="1" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>textLabel2_2</cstring>
-            </property>
-            <property name="font">
-                <font>
-                    <pointsize>9</pointsize>
-                </font>
-            </property>
-            <property name="text">
-                <string>&lt;qt&gt;&lt;b&gt;Size:&lt;/b&gt;&lt;/qt&gt;</string>
-            </property>
-        </widget>
-        <widget class="QLabel" row="8" column="1" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>text_size</cstring>
-            </property>
-            <property name="font">
-                <font>
-                    <pointsize>9</pointsize>
-                </font>
-            </property>
-            <property name="text">
-                <string>0Kb</string>
-            </property>
-        </widget>
-        <widget class="QLabel" row="6" column="1">
-            <property name="name">
-                <cstring>text_usage</cstring>
-            </property>
-            <property name="font">
-                <font>
-                    <pointsize>9</pointsize>
-                </font>
-            </property>
-            <property name="text">
-                <string>0</string>
-            </property>
-        </widget>
-        <widget class="QLabel" row="4" column="1" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>text_duration</cstring>
-            </property>
-            <property name="font">
-                <font>
-                    <pointsize>9</pointsize>
-                </font>
-            </property>
-            <property name="text">
-                <string>00:00:00:00</string>
-            </property>
-        </widget>
-        <widget class="QLabel" row="3" column="1" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>textLabel2</cstring>
-            </property>
-            <property name="font">
-                <font>
-                    <pointsize>9</pointsize>
-                </font>
-            </property>
-            <property name="text">
-                <string>&lt;qt&gt;&lt;b&gt;Duration:&lt;/b&gt;&lt;/qt&gt;</string>
-            </property>
-        </widget>
-        <widget class="QLabel" row="2" column="1" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>text_type</cstring>
-            </property>
-            <property name="font">
-                <font>
-                    <pointsize>9</pointsize>
-                </font>
-            </property>
-            <property name="text">
-                <string>none</string>
-            </property>
-        </widget>
-        <widget class="QLabel" row="1" column="1" rowspan="1" colspan="2">
+        <widget class="QLabel" row="1" column="1">
             <property name="name">
                 <cstring>textLabel2_3</cstring>
             </property>
@@ -134,7 +112,146 @@
                 <string>&lt;qt&gt;&lt;b&gt;Type:&lt;/b&gt;&lt;/qt&gt;</string>
             </property>
         </widget>
-        <spacer row="9" column="1">
+        <widget class="QLabel" row="2" column="1">
+            <property name="name">
+                <cstring>text_type</cstring>
+            </property>
+            <property name="font">
+                <font>
+                    <pointsize>9</pointsize>
+                </font>
+            </property>
+            <property name="text">
+                <string>none</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="4" column="1">
+            <property name="name">
+                <cstring>text_duration</cstring>
+            </property>
+            <property name="font">
+                <font>
+                    <pointsize>9</pointsize>
+                </font>
+            </property>
+            <property name="text">
+                <string>00:00:00:00</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="3" column="1">
+            <property name="name">
+                <cstring>textLabel2</cstring>
+            </property>
+            <property name="font">
+                <font>
+                    <pointsize>9</pointsize>
+                </font>
+            </property>
+            <property name="text">
+                <string>&lt;qt&gt;&lt;b&gt;Duration:&lt;/b&gt;&lt;/qt&gt;</string>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget" row="7" column="1">
+            <property name="name">
+                <cstring>layout8</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>textLabel2_2_2</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>4</hsizetype>
+                            <vsizetype>5</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="font">
+                        <font>
+                            <pointsize>9</pointsize>
+                        </font>
+                    </property>
+                    <property name="text">
+                        <string>&lt;qt&gt;&lt;b&gt;Usage:&lt;/b&gt;&lt;/qt&gt;</string>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>text_usage</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>5</hsizetype>
+                            <vsizetype>5</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="font">
+                        <font>
+                            <pointsize>9</pointsize>
+                        </font>
+                    </property>
+                    <property name="text">
+                        <string>0</string>
+                    </property>
+                    <property name="alignment">
+                        <set>AlignVCenter|AlignLeft</set>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QLabel" row="5" column="1">
+            <property name="name">
+                <cstring>textLabel2_2</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>4</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="font">
+                <font>
+                    <pointsize>9</pointsize>
+                </font>
+            </property>
+            <property name="text">
+                <string>&lt;qt&gt;&lt;b&gt;Size:&lt;/b&gt;&lt;/qt&gt;</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="6" column="1">
+            <property name="name">
+                <cstring>text_size</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>5</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="font">
+                <font>
+                    <pointsize>9</pointsize>
+                </font>
+            </property>
+            <property name="text">
+                <string>0Kb</string>
+            </property>
+            <property name="alignment">
+                <set>AlignVCenter|AlignLeft</set>
+            </property>
+        </widget>
+        <spacer row="8" column="1">
             <property name="name">
                 <cstring>spacer3</cstring>
             </property>
@@ -147,61 +264,10 @@
             <property name="sizeHint">
                 <size>
                     <width>16</width>
-                    <height>33</height>
+                    <height>54</height>
                 </size>
             </property>
         </spacer>
-        <widget class="KPushButton" row="0" column="1">
-            <property name="name">
-                <cstring>button_add</cstring>
-            </property>
-            <property name="maximumSize">
-                <size>
-                    <width>25</width>
-                    <height>32767</height>
-                </size>
-            </property>
-            <property name="text">
-                <string></string>
-            </property>
-            <property name="flat">
-                <bool>true</bool>
-            </property>
-        </widget>
-        <widget class="KPushButton" row="0" column="3">
-            <property name="name">
-                <cstring>button_delete</cstring>
-            </property>
-            <property name="maximumSize">
-                <size>
-                    <width>25</width>
-                    <height>32767</height>
-                </size>
-            </property>
-            <property name="text">
-                <string></string>
-            </property>
-            <property name="flat">
-                <bool>true</bool>
-            </property>
-        </widget>
-        <widget class="KPushButton" row="0" column="2">
-            <property name="name">
-                <cstring>button_edit</cstring>
-            </property>
-            <property name="maximumSize">
-                <size>
-                    <width>25</width>
-                    <height>32767</height>
-                </size>
-            </property>
-            <property name="text">
-                <string></string>
-            </property>
-            <property name="flat">
-                <bool>true</bool>
-            </property>
-        </widget>
     </grid>
 </widget>
 <customwidgets>

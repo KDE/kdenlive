@@ -45,6 +45,7 @@
 #include <kstdaction.h>
 #include <kcolorbutton.h>
 #include <kurlrequester.h>
+#include <klineedit.h>
 
 // application specific includes
 // p.s., get the idea this class is kind, central to everything?
@@ -216,6 +217,11 @@ void KdenliveApp::initActions()
 	timelineRazorAllClips  = new KAction( i18n( "Razor All Clips" ), KShortcut( Qt::Key_W | Qt::CTRL | Qt::SHIFT), this, SLOT( slotRazorAllClips() ), actionCollection(), "razor_all_clips" );
 	timelineRazorSelectedClips  = new KAction( i18n( "Razor Selected Clips" ), KShortcut( Qt::Key_W | Qt::SHIFT), this, SLOT( slotRazorSelectedClips() ), actionCollection(), "razor_selected_clips" );
 
+	(void) new KAction( i18n( "Clip Monitor" ), 0, this, SLOT( slotToggleClipMonitor() ), actionCollection(), "toggle_clip_monitor" );
+	(void) new KAction( i18n( "Workspace Monitor" ), 0, this, SLOT( slotToggleWorkspaceMonitor() ), actionCollection(), "toggle_workspace_monitor" );
+	(void) new KAction( i18n( "Effect List" ), 0, this, SLOT( slotToggleEffectList() ), actionCollection(), "toggle_effect_list" );
+	(void) new KAction( i18n( "Project List" ), 0, this, SLOT( slotToggleProjectList() ), actionCollection(), "toggle_project_list" );
+
 	timelineMoveTool->setExclusiveGroup( "timeline_tools" );
 	timelineRazorTool->setExclusiveGroup( "timeline_tools" );
 	timelineSpacerTool->setExclusiveGroup( "timeline_tools" );
@@ -321,50 +327,50 @@ void KdenliveApp::initView()
 	widget->setDockSite( KDockWidget::DockCorner );
 	widget->manualDock( mainDock, KDockWidget::DockBottom );
 
-	KDockWidget *projectDock = createDockWidget( "Project List", QPixmap(), 0, i18n( "Project List" ) );
-	m_projectList = new ProjectList( this, getDocument(), projectDock );
-	QToolTip::add( projectDock, i18n( "Video files usable in current project" ) );
-	QWhatsThis::add( projectDock, i18n( "Video files usable in your project. "
+	m_dockProjectList = createDockWidget( "Project List", QPixmap(), 0, i18n( "Project List" ) );
+	m_projectList = new ProjectList( this, getDocument(), m_dockProjectList );
+	QToolTip::add( m_dockProjectList, i18n( "Video files usable in current project" ) );
+	QWhatsThis::add( m_dockProjectList, i18n( "Video files usable in your project. "
 		                                    "Add or remove files with the contextual menu. "
 		                                    "In order to add sequences to the current video project, use the drag and drop." ) );
-	projectDock->setWidget( m_projectList );
-	projectDock->setDockSite( KDockWidget::DockFullSite );
-	projectDock->manualDock( mainDock, KDockWidget::DockLeft );
+	m_dockProjectList->setWidget( m_projectList );
+	m_dockProjectList->setDockSite( KDockWidget::DockFullSite );
+	m_dockProjectList->manualDock( mainDock, KDockWidget::DockLeft );
 
 	widget = createDockWidget( "Debug", QPixmap(), 0, i18n( "Debug" ) );
 	m_renderDebugPanel = new RenderDebugPanel( widget );
 	QToolTip::add( widget, i18n( "Current debug messages between renderer and Kdenlive" ) );
 	widget->setWidget( m_renderDebugPanel );
 	widget->setDockSite( KDockWidget::DockFullSite );
-	widget->manualDock( projectDock, KDockWidget::DockCenter );
+	widget->manualDock( m_dockProjectList, KDockWidget::DockCenter );
 
-	widget = createDockWidget( "Effect List", QPixmap(), 0, i18n( "Effect List" ) );
+	m_dockEffectList = createDockWidget( "Effect List", QPixmap(), 0, i18n( "Effect List" ) );
 	m_effectListDialog = new EffectListDialog( getDocument() ->renderer() ->effectList(), widget, "effect list" );
-	QToolTip::add( widget, i18n( "Current effects usable with the renderer" ) );
-	widget->setWidget( m_effectListDialog );
-	widget->setDockSite( KDockWidget::DockFullSite );
-	widget->manualDock( projectDock, KDockWidget::DockCenter );
+	QToolTip::add( m_dockEffectList, i18n( "Current effects usable with the renderer" ) );
+	m_dockEffectList->setWidget( m_effectListDialog );
+	m_dockEffectList->setDockSite( KDockWidget::DockFullSite );
+	m_dockEffectList->manualDock( m_dockProjectList, KDockWidget::DockCenter );
 
 	widget = createDockWidget( "Effect Setup", QPixmap(), 0, i18n( "Effect Setup" ) );
 	m_effectParamDialog = new EffectParamDialog( this, getDocument(), widget, "effect setup" );
 	QToolTip::add( widget, i18n( "Edit the parameters of the currently selected effect." ) );
 	widget->setWidget( m_effectParamDialog );
 	widget->setDockSite( KDockWidget::DockFullSite );
-	widget->manualDock( projectDock, KDockWidget::DockCenter );
+	widget->manualDock( m_dockProjectList, KDockWidget::DockCenter );
 
 	clipWidget = createDockWidget( "Clip Properties", QPixmap(), 0, i18n( "Clip Properties" ) );
 	m_clipPropertyDialog = new ClipPropertiesDialog( clipWidget, "clip properties" );
 	QToolTip::add( clipWidget, i18n( "Properties of the currently selected clip." ) );
 	clipWidget->setWidget( m_clipPropertyDialog );
 	clipWidget->setDockSite( KDockWidget::DockFullSite );
-	clipWidget->manualDock( projectDock, KDockWidget::DockCenter );
+	clipWidget->manualDock( m_dockProjectList, KDockWidget::DockCenter );
 
 	widget = createDockWidget( "Effect Stack", QPixmap(), 0, i18n( "Effect Stack" ) );
 	m_effectStackDialog = new EffectStackDialog( this, getDocument(), widget, "effect stack" );
 	QToolTip::add( widget, i18n( "All effects on the currently selected widget." ) );
 	widget->setWidget( m_effectStackDialog );
 	widget->setDockSite( KDockWidget::DockFullSite );
-	widget->manualDock( projectDock, KDockWidget::DockCenter );
+	widget->manualDock( m_dockProjectList, KDockWidget::DockCenter );
 
 	m_dockWorkspaceMonitor = createDockWidget( "Workspace Monitor", QPixmap(), 0, i18n( "Workspace Monitor" ) );
 	m_workspaceMonitor = m_monitorManager.createMonitor( getDocument(), m_dockWorkspaceMonitor,  "Workspace Monitor" );
@@ -481,6 +487,27 @@ void KdenliveApp::initView()
 	m_timeline->setSnapToBorder(snapToBorderEnabled());
 	m_timeline->setSnapToMarker(snapToMarkersEnabled());
 	m_timeline->setEditMode("move");
+}
+
+
+void KdenliveApp::slotToggleClipMonitor()
+{
+m_dockClipMonitor->changeHideShowState();
+}
+
+void KdenliveApp::slotToggleWorkspaceMonitor()
+{
+m_dockWorkspaceMonitor->changeHideShowState();
+}
+
+void KdenliveApp::slotToggleEffectList()
+{
+m_dockEffectList->changeHideShowState();
+}
+
+void KdenliveApp::slotToggleProjectList()
+{
+m_dockProjectList->changeHideShowState();
 }
 
 void KdenliveApp::openDocumentFile( const KURL& url )
@@ -1023,35 +1050,42 @@ void KdenliveApp::slotProjectAddClips()
 /**  Create a new color clip (color, text or image) */
 void KdenliveApp::slotProjectAddColorClip()
 {
-KDialogBase *dia = new KDialogBase(this,"create_clip",true,i18n("Create New Color Clip"));
-createColorClip_UI *clipChoice = new createColorClip_UI(dia);
-dia->setMainWidget(clipChoice);
-dia->adjustSize();
-if (dia->exec() == QDialog::Accepted){
+	slotStatusMsg( i18n( "Adding Clips" ) );
+
+	KDialogBase *dia = new KDialogBase(this,"create_clip",true,i18n("Create New Color Clip"),KDialogBase::Ok|KDialogBase::Cancel);
+	createColorClip_UI *clipChoice = new createColorClip_UI(dia);
+	clipChoice->edit_name->setText(i18n("Color Clip"));
+	dia->setMainWidget(clipChoice);
+	dia->adjustSize();
+	if (dia->exec() == QDialog::Accepted){
 		QString color = clipChoice->button_color->color().name();
 		color = color.replace(0,1,"0x")+"ff";
 		GenTime duration(clipChoice->text_duration->value());
-		KCommand *command = new Command::KAddClipCommand( *doc, color, duration, true );
+		KCommand *command = new Command::KAddClipCommand( *doc, color, duration, clipChoice->edit_name->text(), clipChoice->edit_description->text(), true );
 		addCommand( command, true );
 		}
-delete dia;
+	delete dia;
+	slotStatusMsg( i18n( "Ready." ) );
 }
 
 void KdenliveApp::slotProjectAddImageClip()
 {
-KDialogBase *dia = new KDialogBase(this,"create_clip",true,i18n("Create New Image Clip"));
-createImageClip_UI *clipChoice = new createImageClip_UI(dia);
-dia->setMainWidget(clipChoice);
-dia->adjustSize();
-if (dia->exec() == QDialog::Accepted){
+	slotStatusMsg( i18n( "Adding Clips" ) );
+
+	KDialogBase *dia = new KDialogBase(this,"create_clip",true,i18n("Create New Image Clip"),KDialogBase::Ok|KDialogBase::Cancel);
+	createImageClip_UI *clipChoice = new createImageClip_UI(dia);
+	dia->setMainWidget(clipChoice);
+	dia->adjustSize();
+	if (dia->exec() == QDialog::Accepted){
 		QString url = clipChoice->url_image->url();
 		QString extension = QString::null;
 		int ttl = 0;
 		GenTime duration(clipChoice->text_duration->value());
-		KCommand *command = new Command::KAddClipCommand( *doc, KURL(url), extension, ttl, duration, true );
+		KCommand *command = new Command::KAddClipCommand( *doc, KURL(url), extension, ttl, duration,clipChoice->edit_description->text(), true );
 		addCommand( command, true );
 		}
-delete dia;
+	delete dia;
+	slotStatusMsg( i18n( "Ready." ) );
 }
 
 /* Create text clip */
@@ -1059,6 +1093,40 @@ void KdenliveApp::slotProjectAddTextClip()
 {
 // # To be written
 }
+
+void KdenliveApp::slotProjectEditClip()
+{
+	slotStatusMsg( i18n( "Editing Clips" ) );
+	DocClipRef *refClip = m_projectList->currentSelection();
+	if ( refClip ) {
+		DocClipBase * clip = refClip->referencedClip();
+
+		if (refClip->clipType() == DocClipBase::COLOR) {
+			KDialogBase *dia = new KDialogBase(this,"create_clip",true,i18n("Create New Color Clip"),KDialogBase::Ok|KDialogBase::Cancel);
+			createColorClip_UI *clipChoice = new createColorClip_UI(dia);
+			QString color = dynamic_cast<DocClipAVFile*>(clip)->color();
+			color = color.replace(0,2,"#");
+			color = color.left(7);
+			clipChoice->button_color->setColor(color);
+			clipChoice->edit_name->setText(clip->name());
+			clipChoice->edit_description->setText(clip->description());
+			clipChoice->text_duration->setValue((int) (clip->duration().ms()/1000));
+			dia->setMainWidget(clipChoice);
+			dia->adjustSize();
+			if (dia->exec() == QDialog::Accepted){
+			QString color = clipChoice->button_color->color().name();
+			color = color.replace(0,1,"0x")+"ff";
+			GenTime duration(clipChoice->text_duration->value());
+			//KCommand *command = new Command::KAddClipCommand( *doc, color, duration, clipChoice->edit_description->text(), true );
+			//addCommand( command, true );
+
+		}
+	delete dia;
+		}
+	}
+	slotStatusMsg( i18n( "Ready." ) );
+}
+
 
 
 /** Remove clips from the project */

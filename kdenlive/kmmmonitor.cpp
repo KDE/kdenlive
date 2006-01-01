@@ -151,6 +151,7 @@ void KMMMonitor::setSceneList(const QDomDocument &scenelist)
 
 
 // #HACK currently, if there is no clip, the scenelist is: "</westley>" and it crashes, so test length as a temporary workaround
+
 if (scenelist.toString().length()>20)
 	{
 	m_screen->setSceneList(scenelist);

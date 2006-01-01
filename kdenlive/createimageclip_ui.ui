@@ -8,23 +8,23 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>407</width>
-            <height>119</height>
+            <width>385</width>
+            <height>113</height>
         </rect>
     </property>
     <property name="caption">
-        <string></string>
+        <string>createImageClip_UI</string>
     </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="KLineEdit" row="2" column="2" rowspan="1" colspan="4">
+        <widget class="KLineEdit" row="2" column="1" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>edit_description</cstring>
             </property>
         </widget>
-        <widget class="QLabel" row="1" column="4">
+        <widget class="QLabel" row="1" column="3">
             <property name="name">
                 <cstring>textLabel4_2</cstring>
             </property>
@@ -32,7 +32,7 @@
                 <string>seconds</string>
             </property>
         </widget>
-        <widget class="QSpinBox" row="1" column="3">
+        <widget class="QSpinBox" row="1" column="2">
             <property name="name">
                 <cstring>text_duration</cstring>
             </property>
@@ -43,12 +43,12 @@
                 <number>3</number>
             </property>
         </widget>
-        <widget class="KURLRequester" row="0" column="2" rowspan="1" colspan="4">
+        <widget class="KURLRequester" row="0" column="1" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>url_image</cstring>
             </property>
         </widget>
-        <widget class="QLabel" row="2" column="1">
+        <widget class="QLabel" row="2" column="0">
             <property name="name">
                 <cstring>textLabel1_2</cstring>
             </property>
@@ -56,7 +56,7 @@
                 <string>Description</string>
             </property>
         </widget>
-        <widget class="QLabel" row="1" column="1" rowspan="1" colspan="2">
+        <widget class="QLabel" row="1" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>textLabel4</cstring>
             </property>
@@ -64,7 +64,7 @@
                 <string>Default duration</string>
             </property>
         </widget>
-        <widget class="QLabel" row="0" column="1">
+        <widget class="QLabel" row="0" column="0">
             <property name="name">
                 <cstring>textLabel2</cstring>
             </property>
@@ -72,7 +72,7 @@
                 <string>Image file</string>
             </property>
         </widget>
-        <spacer row="1" column="5">
+        <spacer row="1" column="4">
             <property name="name">
                 <cstring>spacer5</cstring>
             </property>
@@ -89,30 +89,7 @@
                 </size>
             </property>
         </spacer>
-        <widget class="QLabel" row="0" column="0" rowspan="3" colspan="1">
-            <property name="name">
-                <cstring>image_preview</cstring>
-            </property>
-            <property name="minimumSize">
-                <size>
-                    <width>120</width>
-                    <height>90</height>
-                </size>
-            </property>
-            <property name="maximumSize">
-                <size>
-                    <width>120</width>
-                    <height>90</height>
-                </size>
-            </property>
-            <property name="frameShape">
-                <enum>Box</enum>
-            </property>
-            <property name="text">
-                <string></string>
-            </property>
-        </widget>
-        <spacer row="3" column="3">
+        <spacer row="3" column="2">
             <property name="name">
                 <cstring>spacer7</cstring>
             </property>
@@ -125,7 +102,7 @@
             <property name="sizeHint">
                 <size>
                     <width>16</width>
-                    <height>42</height>
+                    <height>16</height>
                 </size>
             </property>
         </spacer>

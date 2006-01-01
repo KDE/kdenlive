@@ -8,12 +8,12 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>368</width>
-            <height>83</height>
+            <width>382</width>
+            <height>113</height>
         </rect>
     </property>
     <property name="caption">
-        <string></string>
+        <string>createColorClip_UI</string>
     </property>
     <grid>
         <property name="name">
@@ -78,7 +78,15 @@
                 </size>
             </property>
         </spacer>
-        <spacer row="2" column="5" rowspan="1" colspan="2">
+        <widget class="QLabel" row="0" column="0">
+            <property name="name">
+                <cstring>textLabel1</cstring>
+            </property>
+            <property name="text">
+                <string>Color</string>
+            </property>
+        </widget>
+        <spacer row="3" column="5">
             <property name="name">
                 <cstring>spacer5_2</cstring>
             </property>
@@ -91,19 +99,16 @@
             <property name="sizeHint">
                 <size>
                     <width>16</width>
-                    <height>42</height>
+                    <height>16</height>
                 </size>
             </property>
         </spacer>
-        <widget class="QLabel" row="0" column="0">
+        <widget class="KLineEdit" row="2" column="2" rowspan="1" colspan="5">
             <property name="name">
-                <cstring>textLabel1</cstring>
-            </property>
-            <property name="text">
-                <string>Color</string>
+                <cstring>edit_description</cstring>
             </property>
         </widget>
-        <widget class="QLabel" row="1" column="0" rowspan="1" colspan="2">
+        <widget class="QLabel" row="2" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>textLabel1_2</cstring>
             </property>
@@ -111,9 +116,17 @@
                 <string>Description</string>
             </property>
         </widget>
+        <widget class="QLabel" row="1" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>textLabel1_2_2</cstring>
+            </property>
+            <property name="text">
+                <string>Name</string>
+            </property>
+        </widget>
         <widget class="KLineEdit" row="1" column="2" rowspan="1" colspan="5">
             <property name="name">
-                <cstring>edit_description</cstring>
+                <cstring>edit_name</cstring>
             </property>
         </widget>
     </grid>
@@ -123,6 +136,7 @@
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>kcolorbutton.h</includehint>
+    <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>
 </includehints>
 </UI>

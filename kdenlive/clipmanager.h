@@ -75,10 +75,10 @@ public:
 	DocClipBase *insertClip(const KURL &file);
 
 	/** Insert a color clip */
-	DocClipBase *insertColorClip(const QString &color, const GenTime &duration);
+	DocClipBase *insertColorClip(const QString &color, const GenTime &duration, const QString &name, const QString &description);
 
 	/** Insert an image clip */
-	DocClipBase *insertImageClip(const KURL &file, const QString &extension, const int &ttl, const GenTime &duration);
+	DocClipBase *insertImageClip(const KURL &file, const QString &extension, const int &ttl, const GenTime &duration, const QString &description);
 
 	/** Insert a specific clip */
 	DocClipBase *insertClip(const QDomElement &clip);

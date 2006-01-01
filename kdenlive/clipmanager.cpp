@@ -63,10 +63,11 @@ DocClipBase *ClipManager::insertClip(const KURL &file)
 	return clip;
 }
 
-DocClipBase *ClipManager::insertImageClip(const KURL &file, const QString &extension, const int &ttl, const GenTime &duration)
+DocClipBase *ClipManager::insertImageClip(const KURL &file, const QString &extension, const int &ttl, const GenTime &duration, const QString &description)
 {
 		DocClipBase *clip;
 		clip = new DocClipAVFile(file, extension, ttl, duration, m_clipCounter);
+		clip->setDescription(description);
 		m_clipList.append(clip);
 		m_render->getImage(file, 64, 50);
 		m_clipCounter++;
@@ -76,10 +77,12 @@ DocClipBase *ClipManager::insertImageClip(const KURL &file, const QString &exten
 }
 
 
-DocClipBase *ClipManager::insertColorClip(const QString &color, const GenTime &duration)
+DocClipBase *ClipManager::insertColorClip(const QString &color, const GenTime &duration, const QString &name, const QString &description)
 {
 		DocClipBase *clip;
 		clip = new DocClipAVFile(color, duration, m_clipCounter);
+		clip->setDescription(description);
+		clip->setName(name);
 		m_clipList.append(clip);
 		//m_render->getFileProperties(file);
 		m_render->getImage(m_clipCounter, color, 64, 50);

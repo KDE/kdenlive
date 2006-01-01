@@ -59,12 +59,12 @@ ProjectList::ProjectList(KdenliveApp *app, KdenliveDoc *document, QWidget *paren
 
 	/* clip shortcut buttons */
 	KIconLoader loader;
-	button_delete->setPixmap( loader.loadIcon( "editdelete", KIcon::Toolbar ) );
-	button_add->setPixmap( loader.loadIcon( "filenew", KIcon::Toolbar ) );	
-	button_edit->setPixmap( loader.loadIcon( "edit", KIcon::Toolbar ) );
+	button_delete->setIconSet( QIconSet( loader.loadIcon( "editdelete", KIcon::Toolbar ) ));
+	button_add->setIconSet( QIconSet(loader.loadIcon( "filenew", KIcon::Toolbar )));	
+	button_edit->setIconSet( QIconSet( loader.loadIcon( "edit", KIcon::Toolbar )));
 
 	connect (button_delete, SIGNAL(clicked()), app, SLOT(slotProjectDeleteClips()));
-
+	connect (button_edit, SIGNAL(clicked()), app, SLOT(slotProjectEditClip()));
 
 	//add header tooltips -reh
 	colToolTip = new columnToolTip( m_listView->header() );
@@ -125,9 +125,11 @@ void ProjectList::projectListSelectionChanged(QListViewItem *item)
 
   if (avitem->clip())
   {
+  // display duration
   Timecode timecode;
   text_duration->setText(timecode.getTimecode(avitem->clip()->duration(), 25));
 
+  // display file size
   QString text;
   long fileSize = avitem->clip()->fileSize();
 			long tenth;
@@ -148,10 +150,12 @@ void ProjectList::projectListSelectionChanged(QListViewItem *item)
 						QString::number(tenth) + i18n(" Mb");
 				}
 			}
-
   text_size->setText(text);
+
+  // display usage
   text_usage->setText(QString::number(avitem->clip()->numReferences()));
 
+  // display clip type
   if (avitem->clip()->clipType() == DocClipBase::AV) text = i18n("video");
   else if (avitem->clip()->clipType() == DocClipBase::VIDEO) text = i18n("mute video");
   else if (avitem->clip()->clipType() == DocClipBase::AUDIO) text = i18n("audio");
@@ -162,6 +166,7 @@ void ProjectList::projectListSelectionChanged(QListViewItem *item)
   }
   else 
   {
+  // no clip selected, diplay blank infos
   text_type->setText(QString::null);
   text_duration->setText(QString::null);
   text_size->setText(QString::null);
