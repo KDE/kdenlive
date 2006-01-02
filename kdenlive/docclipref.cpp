@@ -622,6 +622,13 @@ void DocClipRef::deleteEffect(uint index)
 	m_effectStack.remove(index);
 }
 
+
+bool DocClipRef::hasEffect()
+{
+if (m_effectStack.count() > 0) return true;
+return false;
+}
+
 Effect *DocClipRef::effectAt(uint index) const
 {
 	EffectStack::iterator itt = m_effectStack.begin();

@@ -233,6 +233,8 @@ public:
 
 	const QPixmap &getAudioImage(int width, int height, double frame, double numFrames, int channel);
 
+	/** Returns true if effects are applied on the clip */
+	bool hasEffect();
 private: // Private attributes
 	void setSnapMarkers(QValueVector<GenTime> markers);
 

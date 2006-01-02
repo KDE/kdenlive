@@ -65,6 +65,10 @@ void TrackViewNameDecorator::paintClip(double startX, double endx, QPainter &pai
 	if(nameRepeat < 1) nameRepeat = 1;
 	int textWidth = clipWidth / nameRepeat;
 
+	// red line on top if clip has effects
+	if (clip->hasEffect())
+	painter.fillRect( sx+1, rect.y()+1, ex-2, 10, QBrush(Qt::red, Qt::Dense4Pattern));
+
 	if(textWidth > 0) {
 		int start = (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
 

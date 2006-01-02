@@ -616,6 +616,7 @@ void DocTrackBase::addEffectToClip(const GenTime &position, int effectIndex, Eff
 	if(clip) {
 		clip->addEffect(effectIndex, effect);
 		emit effectStackChanged(clip);
+		emit clipLayoutChanged();
 	} else {
 		kdError() << "DocTrackBase::addEffectToClip() - cannot find clip at position " << position.seconds() << endl;
 	}
@@ -627,6 +628,7 @@ void DocTrackBase::deleteEffectFromClip(const GenTime &position, int effectIndex
 	if(clip) {
 		clip->deleteEffect(effectIndex);
 		emit effectStackChanged(clip);
+		emit clipLayoutChanged();
 	} else {
 		kdError() << "DocTrackBase::deleteEffectFromClip() - cannot find clip at position " << position.seconds() << endl;
 	}
