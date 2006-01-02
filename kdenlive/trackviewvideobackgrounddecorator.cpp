@@ -21,6 +21,7 @@
 #include "docclipref.h"
 #include "gentime.h"
 #include "kdenlivedoc.h"
+#include "kdebug.h"
 #include "ktimeline.h"
 #include <qimage.h>
 #include <iostream>
@@ -77,16 +78,22 @@ void TrackViewVideoBackgroundDecorator::paintClip(double startX, double endX, QP
 		width=width1;
 	int i=sx;
 	int frame=0;
+
+	/* Use the clip's default thumbnail & scale it to track size to decorate until we have some better stuff */ 
+	QPixmap newimg = clip->referencedClip()->thumbnail();
+	QImage im;
+	im = newimg;
+	newimg = im.scale(width,h);
+
 	for (;i<ex;i+=width){
-		const QPixmap &newimg = clip->referencedClip()->thumbnail();
 		//document()->renderer()->getImage(document()->URL(),frame+=10,&newimg);
 		int drawWidth=width;
 		if (i+width>ex)
 			drawWidth=ex-i;
-		painter.drawPixmap(i,y,newimg,0,0,drawWidth,h);
+		painter.drawPixmap(i, y ,newimg,0,0,drawWidth,h);
 		painter.drawRect( i, y,drawWidth,h);	
 	}
-
+	
 }
 
 };

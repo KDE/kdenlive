@@ -33,6 +33,11 @@ EffectDoubleKeyFrame::~EffectDoubleKeyFrame()
 {
 }
 
+void EffectDoubleKeyFrame::setValue(double value)
+{
+	m_value = value;
+}
+
 double EffectDoubleKeyFrame::value() const
 {
 	return m_value;

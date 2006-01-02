@@ -52,7 +52,7 @@
                         </sizepolicy>
                     </property>
                     <property name="text">
-                        <string>Up</string>
+                        <string></string>
                     </property>
                 </widget>
                 <widget class="KPushButton">
@@ -68,7 +68,7 @@
                         </sizepolicy>
                     </property>
                     <property name="text">
-                        <string>Down</string>
+                        <string></string>
                     </property>
                 </widget>
                 <widget class="KPushButton">
@@ -84,7 +84,7 @@
                         </sizepolicy>
                     </property>
                     <property name="text">
-                        <string>Delete</string>
+                        <string></string>
                     </property>
                 </widget>
                 <spacer>

@@ -20,6 +20,7 @@
 #include <qhbox.h>
 #include <qvbox.h>
 #include <qcombobox.h>
+#include <qtooltip.h>
 
 #include <kdebug.h>
 #include <kiconloader.h>
@@ -52,15 +53,21 @@ EffectParamDialog::EffectParamDialog(KdenliveApp *app, KdenliveDoc *document, QW
 	m_presets = new QComboBox(m_presetLayout);
 	m_presets->insertItem(i18n("Custom"));
 
-	m_presetAdd = new KPushButton(i18n("add"), m_presetLayout, "preset_add");
-	m_presetDelete = new KPushButton(i18n("delete"), m_presetLayout, "preset_delete");
+	m_presetAdd = new KPushButton(QString::null, m_presetLayout, "preset_add");
+	m_presetDelete = new KPushButton(QString::null, m_presetLayout, "preset_delete");
 
-	m_presetAdd->setPixmap( loader.loadIcon( "edit_add", KIcon::Toolbar ) );
-	m_presetDelete->setPixmap( loader.loadIcon( "edit_remove", KIcon::Toolbar ) );
+	m_presetAdd->setIconSet(QIconSet( loader.loadIcon( "filenew", KIcon::Toolbar ) ));
+	m_presetDelete->setIconSet(QIconSet( loader.loadIcon( "editdelete", KIcon::Toolbar ) ));
+	
+	m_presetDelete->setFlat(true);
+	m_presetAdd->setFlat(true);
+
+	QToolTip::add(m_presetAdd, i18n("add"));
+	QToolTip::add(m_presetDelete, i18n("delete"));
 
 	m_editLayout = new QVBox(this);
 	m_timeline = new KTimeLine(0, 0, m_editLayout, name);
-	m_timeline->setPanelWidth(50);
+	m_timeline->setPanelWidth(70);
 
 	m_presets->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
 }
@@ -83,6 +90,7 @@ void EffectParamDialog::generateLayout()
 	m_timeline->clearTrackList();
 
 	assert(m_desc);
+	kdDebug()<<"FOUND: "<<m_desc->numParameters()<<" PARAMETERS FOR EFFECT: "<<m_effect->name()<<endl;
 
 	for(uint count=0; count<m_desc->numParameters(); ++count) {
 		EffectParamDesc *paramDesc = m_desc->parameter(count);
@@ -94,6 +102,7 @@ void EffectParamDialog::generateLayout()
 
 	if(m_clip) {
 		m_timeline->slotSetProjectLength(m_clip->cropDuration());
+		//m_timeline->setTimeScale(m_clip->cropDuration().frames(25));
 	} else {
 		m_timeline->slotSetProjectLength(GenTime(100.0));
 	}
@@ -101,7 +110,7 @@ void EffectParamDialog::generateLayout()
 
 void EffectParamDialog::slotSetEffect(DocClipRef *clip, Effect *effect)
 {
-	kdWarning() << "EffectParamDialog::slotSetEffect" << endl;
+	kdWarning() << "++++++++++ EffectParamDialog::slotSetEffect" << endl;
 	assert(effect);
 	clearEffect();
 

@@ -33,12 +33,12 @@ KMMClipKeyFramePanel::KMMClipKeyFramePanel(KTimeLine *timeline,
 								QWidget *parent,
 								const char *name)
 		: KMMTrackPanel(timeline, document, new KClipPlacer(timeline, clip),
-		KEYFRAMETRACK, parent,name),
+		EFFECTKEYFRAMETRACK, parent,name),
 		m_verticalLayout(this, "KMMClipKeyFramePanel::verticalLayout"),
 		m_effectNameLabel(effectName, &m_verticalLayout, "KMMClipKeyFramePanel::effectNameLabel")
 {
-	setMinimumHeight(30);
-	setMaximumHeight(30);
+	setMinimumHeight(50);
+	setMaximumHeight(50);
 
 	// addFunctionDecorator("move", "resize");
 

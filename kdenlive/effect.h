@@ -49,6 +49,10 @@ public:
 	static Effect *createEffect(const EffectDesc &desc, const QDomElement &effect);
 
 	const EffectDesc &effectDescription() const { return m_desc; }
+	EffectParameter *parameter(const uint ix);
+	void addKeyFrame(const uint ix, double time);
+	void addKeyFrame(const uint ix, double time, double value);
+
 private:
 	const EffectDesc &m_desc;
 	QString m_name;

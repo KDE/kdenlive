@@ -19,6 +19,7 @@
 
 #include "effectdesc.h"
 #include "effectparameter.h"
+#include "effectparamdesc.h"
 
 #include <kdebug.h>
 #include <qdom.h>
@@ -42,14 +43,39 @@ QDomDocument Effect::toXML() const
 	effect.setAttribute("name", name());
 	effect.setAttribute("type", m_desc.name());
 
+	for (uint i=0; i<m_desc.numParameters();i++)
+	{
+	EffectParamDesc *paramdesc = m_desc.parameter(i);
+	QDomElement param = doc.createElement("param");
+	param.setAttribute("name", paramdesc->name());
+	effect.appendChild(param);
+	}
+
 	doc.appendChild(effect);
 
 	return doc;
 }
 
+void Effect::addKeyFrame(const uint ix, double time)
+{
+	m_paramList.at(ix)->addKeyFrame(effectDescription().parameter(ix)->createKeyFrame(time));
+}
+
+void Effect::addKeyFrame(const uint ix, double time, double value)
+{
+	m_paramList.at(ix)->addKeyFrame(effectDescription().parameter(ix)->createKeyFrame(time, value));
+}
+
+
 void Effect::addParameter(const QString &name)
 {
 	m_paramList.append(new EffectParameter(name));
+}
+
+
+EffectParameter* Effect::parameter(const uint ix)
+{
+	return m_paramList.at(ix);
 }
 
 Effect *Effect::clone() const
@@ -68,8 +94,21 @@ Effect *Effect::createEffect(const EffectDesc &desc, const QDomElement &effect)
 		if(type != desc.name()) {
 			kdError() << "Effect::createEffect() failed integrity check - desc.name() == " << desc.name() << ", type == " << type << endl;
 		}
-
 		result = new Effect(desc, name);
+
+		QDomNode node = effect.firstChild();
+		while( !node.isNull()) {
+			QDomElement e = node.toElement();
+			if(!e.isNull()) {
+				if(e.tagName() == "param") {
+					result->addParameter(e.attribute("name",""));
+				}
+			}
+			node = node.nextSibling();
+		}
+		
+
+
 	} else {
 		kdError() << "Trying to create an effect from xml tag that is not <effect>" << endl;
 	}

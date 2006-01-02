@@ -262,7 +262,7 @@ uint tracksCounter = 0;
 		QDomElement playlist = doc.createElement("playlist");
 		playlist.setAttribute("id", QString("playlist") + QString::number(tracknb++));
 		if (trackItt.current()->clipType() == "Sound") playlist.setAttribute("hide", "video");
-		if (trackItt.current()->clipType() == "Video") playlist.setAttribute("hide", "audio");
+		//if (trackItt.current()->clipType() == "Video") playlist.setAttribute("hide", "audio");
 
 		int children = 0;
 		int timestart = 0;
@@ -294,14 +294,19 @@ uint tracksCounter = 0;
 
 
 	/* transition: mix all used audio tracks */
-	if (audioTracksCounter>1)
-	for (int i=0;i<audioTracksCounter-1;i++)
+	/*if (audioTracksCounter>1)
+	for (int i=0;i<audioTracksCounter-1;i++)*/
+	kdDebug()<<"+++++ PROJECT: "<<tracksCounter<<endl;
+	if (tracksCounter>1)
+	for (int i=0;i<tracksCounter-1;i++)
 	{
 	QDomElement transition = doc.createElement("transition");
 	transition.setAttribute("in", "0");
 	transition.setAttribute("out", QString::number(duration().frames(framesPerSecond())));
-	transition.setAttribute("a_track", QString::number(usedAudioTracks[i]));
-	transition.setAttribute("b_track", QString::number(usedAudioTracks[i+1]));
+	/*transition.setAttribute("a_track", QString::number(usedAudioTracks[i]));
+	transition.setAttribute("b_track", QString::number(usedAudioTracks[i+1]));*/
+	transition.setAttribute("a_track", QString::number(i));
+	transition.setAttribute("b_track", QString::number(i+1));
 	transition.setAttribute("mlt_service", "mix");
 	transition.setAttribute("start", "0.5");
 	transition.setAttribute("end", "0.5");

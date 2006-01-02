@@ -53,12 +53,11 @@ Effect *EffectDrag::decode( KdenliveDoc *document, const QMimeSource *e )
 		qdomdoc.setContent( data );
 
 		QDomElement elem = qdomdoc.documentElement();
-
+		kdDebug()<<"++++++ DRAG EFFECT: "<<qdomdoc.toString()<<endl;
 		effect = document->createEffect(elem);
 	} else {
 		kdWarning() << "Drag drop does no provide type application/x-kdenlive-effect" << endl;
 	}
-
 	return effect;
 }
 

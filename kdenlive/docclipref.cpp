@@ -24,6 +24,9 @@
 #include "doctrackbase.h"
 #include "docclipbase.h"
 #include "effectdesc.h"
+#include "effectkeyframe.h"
+#include "effectparameter.h"
+#include "effectdoublekeyframe.h"
 #include "kdenlivedoc.h"
 
 DocClipRef::DocClipRef(DocClipBase *clip) :
@@ -408,9 +411,31 @@ QDomDocument DocClipRef::generateXMLClip()
 	uint i = 0;
 	while (effectAt(i) != NULL)
 	{
+	Effect *effect = effectAt(i);
+	int keyFrameNum = effect->parameter(i)->numKeyFrames();
+	if (keyFrameNum > 1)
+	{
+	for (uint count = 0; count < keyFrameNum-1; count++)
+	{
+	QDomElement transition = sceneList.createElement("filter");
+	transition.setAttribute("mlt_service",effectAt(i)->effectDescription().tag()); 
+	uint in = m_cropStart.frames(framesPerSecond());
+	uint duration = cropDuration().frames(framesPerSecond());
+	transition.setAttribute("in",QString::number((in + effect->parameter(i)->keyframe(count)->time())*duration)); 
+	transition.setAttribute("start",QString::number(effect->parameter(i)->keyframe(count)->toDoubleKeyFrame()->value()/100)); 
+
+	transition.setAttribute("out",QString::number((in + effect->parameter(i)->keyframe(count+1)->time())*duration)); 
+	transition.setAttribute("end",QString::number(effect->parameter(i)->keyframe(count+1)->toDoubleKeyFrame()->value()/100)); 
+
+	entry.appendChild(transition);
+	}
+	}
+	else
+	{
 	QDomElement transition = sceneList.createElement("filter");
 	transition.setAttribute("mlt_service",effectAt(i)->effectDescription().tag()); 
 	entry.appendChild(transition);
+	}
 	i++;
 	}
 

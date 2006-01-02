@@ -32,9 +32,9 @@ EffectStackDialog::EffectStackDialog(KdenliveApp *app, KdenliveDoc *doc, QWidget
 {
 	KIconLoader loader;
 
-	m_upButton->setPixmap( loader.loadIcon( "1uparrow", KIcon::Toolbar ) );
-	m_downButton->setPixmap( loader.loadIcon( "1downarrow", KIcon::Toolbar ) );
-	m_deleteButton->setPixmap( loader.loadIcon( "editdelete", KIcon::Toolbar ) );
+	m_upButton->setIconSet( QIconSet( loader.loadIcon( "1uparrow", KIcon::Toolbar ) ));
+	m_downButton->setIconSet( QIconSet( loader.loadIcon( "1downarrow", KIcon::Toolbar ) ));
+	m_deleteButton->setIconSet( QIconSet( loader.loadIcon( "editdelete", KIcon::Toolbar ) ));
 
 	// HACK - We are setting app and doc here because we cannot pass app and doc directly via the auto-generated UI file. This
 	// needs to be fixed...

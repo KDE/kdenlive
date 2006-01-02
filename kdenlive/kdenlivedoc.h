@@ -96,10 +96,6 @@ class KdenliveDoc : public QObject
 	 * choice. */
 	DocClipRef *selectedClip() const;
 
-	// HACK HACK - we need a way to prevent the document from spewing hundreds of scenelist
-	// generation requests - this is it.
-	void activateSceneListGeneration(bool active);
-
 	// HACK - this method should not exist.
 	ClipManager &clipManager() { return m_clipManager; }
 
@@ -206,6 +202,10 @@ public slots:
   	void addVideoTrack();
 	/** Called when an error occurs whilst retrieving a file's properties. */
 	void AVFilePropertiesError(const QString &path, const QString &errmsg);
+	// HACK HACK - we need a way to prevent the document from spewing hundreds of scenelist
+	// generation requests - this is it.
+	void activateSceneListGeneration(bool active);
+
 private slots: // Private slots
 	/** Called when the document is modifed in some way. */
 	void hasBeenModified();

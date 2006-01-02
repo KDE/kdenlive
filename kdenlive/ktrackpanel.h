@@ -29,7 +29,7 @@ namespace Gui
 	class TrackViewDecorator;
 
     /** Used to identify different type of tracks */
-    enum TRACKTYPE { SOUNDTRACK = 1, VIDEOTRACK = 2, KEYFRAMETRACK = 3 };
+    enum TRACKTYPE { SOUNDTRACK = 1, VIDEOTRACK = 2, KEYFRAMETRACK = 3, EFFECTKEYFRAMETRACK = 4 };
 
 
 /**

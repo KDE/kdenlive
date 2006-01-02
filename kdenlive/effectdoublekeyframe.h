@@ -35,6 +35,7 @@ public:
     virtual EffectDoubleKeyFrame *toDoubleKeyFrame() { return this; }
 
     double value() const;
+    void setValue(double value);
 
     /** Return a keyfrane that interpolates between this and the passed keyframe, and is a keyframe that would exist at the
     specified time. */

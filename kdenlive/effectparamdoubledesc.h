@@ -35,6 +35,8 @@ public:
 
 	/** Creates a parameter that conforms to this parameter Description */
 	virtual EffectKeyFrame *createKeyFrame(double time);
+	virtual EffectKeyFrame *createKeyFrame(double time, double value);
+
 	virtual Gui::KMMTrackPanel *createTrackPanel(Gui::KdenliveApp *app,
 				Gui::KTimeLine *timeline,
 				KdenliveDoc *document,

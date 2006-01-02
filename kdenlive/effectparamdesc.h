@@ -49,6 +49,8 @@ public:
 	/** Creates a parameter that conforms to this parameter Description */
 	virtual EffectKeyFrame *createKeyFrame(double time) = 0;
 
+	virtual EffectKeyFrame *createKeyFrame(double time, double value) = 0;
+
 	/** Creates a track panel that can edit this parameter type. */
 	virtual Gui::KMMTrackPanel *createTrackPanel(Gui::KdenliveApp *app,
 									Gui::KTimeLine *timeline,

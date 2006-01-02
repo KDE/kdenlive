@@ -20,9 +20,11 @@
 #include <qstring.h>
 
 #include <doctrackdecorator.h>
+#include "effect.h"
 
 namespace Gui
 {
+class KTimeLine;
 
 /**
 @author Jason Wood
@@ -34,11 +36,12 @@ public:
 
     ~TrackViewDoubleKeyFrameDecorator();
 
-    virtual void paintClip(double startX, double endx, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected);
+    virtual void paintClip(double startX, double endX, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected);
 private:
 	QString m_effectName;
 	int m_effectIndex;
 	QString m_paramName;
+	Effect *m_effect;
 };
 
 } // namespace Gui

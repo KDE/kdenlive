@@ -63,6 +63,10 @@ ProjectList::ProjectList(KdenliveApp *app, KdenliveDoc *document, QWidget *paren
 	button_add->setIconSet( QIconSet(loader.loadIcon( "filenew", KIcon::Toolbar )));	
 	button_edit->setIconSet( QIconSet( loader.loadIcon( "edit", KIcon::Toolbar )));
 
+	QToolTip::add(button_edit, i18n("Edit Clip"));
+	QToolTip::add(button_add, i18n("Add Clip"));
+	QToolTip::add(button_delete, i18n("Delete Clip"));
+
 	connect (button_delete, SIGNAL(clicked()), app, SLOT(slotProjectDeleteClips()));
 	connect (button_edit, SIGNAL(clicked()), app, SLOT(slotProjectEditClip()));
 

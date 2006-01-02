@@ -45,6 +45,10 @@ public:
     /** @returns the keyframe in the list. */
     EffectKeyFrame *keyframe(int ix) const;
 
+    void addKeyFrame(EffectKeyFrame *effectKeyFrame);
+
+    EffectKeyFrame *deleteKeyFrame(int ix);
+
     /* @returns a keyframe at the given time. If the keyframe already exists,
      * it is returned. If it does not exist, a keyframe is created via interpolation.
      * This returned keyframe will not alter the shape of the keyframe graph - so
@@ -57,6 +61,7 @@ public:
 private:
 	QString m_name;
 	KeyFrameList m_keyFrames;
+
 };
 
 #endif

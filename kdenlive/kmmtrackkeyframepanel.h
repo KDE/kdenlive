@@ -44,12 +44,15 @@ public:
 				const QString &effectName,
 				int effectIndex,
 				const QString &effectParam,
+				TRACKTYPE type,
 				QWidget *parent=0,
 				const char *name=0);
 	virtual ~KMMTrackKeyFramePanel();
 
 public slots:
 	void resizeTrack();
+private:
+	TRACKTYPE m_type;
 signals:
 	void collapseTrack(KTrackPanel *, bool);
 };

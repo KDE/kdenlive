@@ -164,6 +164,10 @@ void KTimeLine::resizeTracks()
 			if (panel->isTrackCollapsed()) widgetHeight = 0;
 			else widgetHeight = 30;
 		}
+		else if (panel->trackType() == EFFECTKEYFRAMETRACK) {
+			if (panel->isTrackCollapsed()) widgetHeight = 0;
+			else widgetHeight = 50;
+		}
 		else if (panel->isTrackCollapsed()) widgetHeight = collapsedTrackSize;
 		else if (panel->trackType() == VIDEOTRACK) widgetHeight = KdenliveSettings::videotracksize();
 		else if (panel->trackType() == SOUNDTRACK) widgetHeight = KdenliveSettings::audiotracksize();

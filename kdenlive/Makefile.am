@@ -43,7 +43,7 @@ kdenlive_SOURCES = avfileformatdesc.cpp avfileformatwidget.cpp avfilelist.cpp \
 		krollcommand.cpp dynamicToolTip.cpp kmonitor.cpp capturemonitor.cpp \
 		configinterface_ui.ui configtimeline_ui.ui kdenlivesettings.kcfgc trackheader_ui.ui \
 		projectview_ui.ui createcolorclip_ui.ui createimageclip_ui.ui keditclipcommand.cpp \
-	keditclipcommand.h
+		keditclipcommand.h trackpanelkeyframefunction.cpp trackpanelkeyframefunction.h
 
 kdenlive_LDADD   =  $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET)
 

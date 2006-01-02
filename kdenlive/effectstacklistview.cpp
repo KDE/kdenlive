@@ -119,7 +119,7 @@ void EffectStackListView::dragDropped(QDropEvent* e, QListViewItem* parent, QLis
 				itemItt = itemItt->nextSibling();
 			}
 			if(!itemItt) {
-				kdWarning() << "adding addEffectCommand()" << endl;
+				kdWarning() << "adding new addEffectCommand()" << endl;
 				// we did not find a previous item - there may not be one! This is first item in the list...
 				m_app->addCommand(Command::KAddEffectCommand::insertEffect(m_document, m_clip, 0, effect));
 			}

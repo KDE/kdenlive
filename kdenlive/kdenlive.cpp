@@ -95,6 +95,7 @@
 #include "trackpanelcliprollfunction.h"
 #include "trackpanelmarkerfunction.h"
 #include "trackpanelselectnonefunction.h"
+#include "trackpanelkeyframefunction.h"
 
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
@@ -331,7 +332,7 @@ void KdenliveApp::initView()
 
 	m_dockProjectList = createDockWidget( "Project List", QPixmap(), 0, i18n( "Project List" ) );
 	m_projectList = new ProjectList( this, getDocument(), m_dockProjectList );
-	QToolTip::add( m_dockProjectList, i18n( "Video files usable in current project" ) );
+	//QToolTip::add( m_dockProjectList, i18n( "Video files usable in current project" ) );
 	QWhatsThis::add( m_dockProjectList, i18n( "Video files usable in your project. "
 		                                    "Add or remove files with the contextual menu. "
 		                                    "In order to add sequences to the current video project, use the drag and drop." ) );
@@ -466,7 +467,14 @@ void KdenliveApp::initView()
 	m_timeline->trackView()->registerFunction("move", new TrackPanelClipMoveFunction(this, m_timeline, getDocument()));
 	TrackPanelClipResizeFunction *resizeFunction = new TrackPanelClipResizeFunction(this, m_timeline, getDocument());
 	m_timeline->trackView()->registerFunction("resize", resizeFunction);
+
+	TrackPanelKeyFrameFunction *keyFrameFunction = new TrackPanelKeyFrameFunction(this, m_timeline, getDocument());
+	m_timeline->trackView()->registerFunction("keyframe", keyFrameFunction);
 	// connects for clip/workspace monitor activation (i.e. making sure they are visible when needed)
+
+	connect(keyFrameFunction, SIGNAL( signalKeyFrameChanged(bool) ), getDocument(), SLOT( activateSceneListGeneration(bool) ) );
+
+	connect(keyFrameFunction, SIGNAL( redrawTrack() ), m_timeline, SLOT( drawTrackViewBackBuffer() ) );
 	
 	connect(resizeFunction, SIGNAL( signalClipCropStartChanged( DocClipRef * ) ), this, SLOT( activateClipMonitor() ) );
 	connect(resizeFunction, SIGNAL( signalClipCropEndChanged( DocClipRef * ) ), this, SLOT( activateClipMonitor() ) );
@@ -475,6 +483,8 @@ void KdenliveApp::initView()
 
 	m_timeline->trackView()->registerFunction("marker", new TrackPanelMarkerFunction(this, m_timeline, getDocument()));
 	m_timeline->trackView()->registerFunction("spacer", new TrackPanelSpacerFunction(this, m_timeline, getDocument()));
+
+	//m_timeline->trackView()->registerFunction("effects", new TrackPanelSpacerFunction(this, m_timeline, getDocument()));
 
 	TrackPanelRazorFunction *razorFunction = new TrackPanelRazorFunction(this, m_timeline, getDocument());
 	m_timeline->trackView()->registerFunction("razor", razorFunction);
@@ -1571,12 +1581,13 @@ void KdenliveApp::slotSyncTimeLineWithDocument()
 		if(trackItt.current()->clipType() == "Video") {
 			m_timeline->insertTrack(index, new KMMTrackVideoPanel(this, m_timeline, getDocument(), (dynamic_cast<DocTrackVideo *>(trackItt.current())), collapsedState[index]));
 			++index;
-			m_timeline->insertTrack(index, new KMMTrackKeyFramePanel(m_timeline, getDocument(), (*trackItt), collapsedState[index], "alphablend", 0, "fade"));
+
+			m_timeline->insertTrack(index, new KMMTrackKeyFramePanel(m_timeline, getDocument(), (*trackItt), collapsedState[index], "alphablend", 0, "fade", KEYFRAMETRACK));
 			++index;
 		} else if(trackItt.current()->clipType() == "Sound") {
 			m_timeline->insertTrack(index, new KMMTrackSoundPanel(this, m_timeline, getDocument(), (dynamic_cast<DocTrackSound *>(trackItt.current())), collapsedState[index]));
 			++index;
-			m_timeline->insertTrack(index, new KMMTrackKeyFramePanel(m_timeline, getDocument(), (*trackItt), collapsedState[index], "alphablend", 0, "fade"));
+			m_timeline->insertTrack(index, new KMMTrackKeyFramePanel(m_timeline, getDocument(), (*trackItt), collapsedState[index], "alphablend", 0, "fade", KEYFRAMETRACK));
 			++index;
 		} else {
 			kdWarning() << "Sync failed" << endl;

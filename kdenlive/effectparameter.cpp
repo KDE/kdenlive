@@ -16,6 +16,7 @@
  ***************************************************************************/
 #include "effectparameter.h"
 #include "effectkeyframe.h"
+#include <kdebug.h>
 
 EffectParameter::EffectParameter(const QString &name) :
 				m_name(name)
@@ -32,6 +33,18 @@ int EffectParameter::numKeyFrames() const
 	return m_keyFrames.count();
 }
 
+void EffectParameter::addKeyFrame(EffectKeyFrame *effectKeyFrame)
+{
+	KeyFrameListIterator itt(m_keyFrames);
+	double time = effectKeyFrame->time();
+	uint i;
+	for( i = 0; itt.current(); i++) {
+		if (itt.current()->time() > time) break;
+		++itt;
+	}
+	m_keyFrames.insert(i, effectKeyFrame);
+}
+
 EffectKeyFrame *EffectParameter::keyframe(int ix) const
 {
 	KeyFrameListIterator itt(m_keyFrames);
@@ -41,6 +54,12 @@ EffectKeyFrame *EffectParameter::keyframe(int ix) const
 	}
 
 	return itt.current();
+}
+
+EffectKeyFrame *EffectParameter::deleteKeyFrame(int ix)
+{
+	kdDebug()<<"EFFET++++++ remove item: "<<ix<<endl;
+	m_keyFrames.remove(ix);
 }
 
 EffectKeyFrame *EffectParameter::interpolateKeyFrame(double time) const

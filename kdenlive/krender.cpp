@@ -33,6 +33,7 @@
 #include "avformatdesccodec.h"
 #include <qcolor.h>
 #include <qpixmap.h>
+#include <qxml.h>
 #include <qapplication.h>
 #include <qimage.h>
 #include <iostream>
@@ -99,9 +100,21 @@ KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, 
 	m_mltConsumer = NULL;
 	openMlt();
 
+
 	EffectDesc *grey =new EffectDesc(i18n("Greyscale"), "greyscale");
-	
+	QXmlAttributes xmlAttr;
+	xmlAttr.append("type", QString::null, QString::null, "double");
+	xmlAttr.append("name", QString::null, QString::null, "keyframe");
+	xmlAttr.append("max", QString::null, QString::null, "100");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
+	grey->addParameter(m_parameter);
 	m_effectList.append(grey);
+
+	EffectDesc *bright =new EffectDesc(i18n("Brightness"), "brightness");
+	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
+	bright->addParameter(m_parameter);
+	m_effectList.append(bright);
 
 	if(!s_renderThread) {
 		s_renderThread = new KRenderThread;

@@ -79,10 +79,10 @@ void TrackViewNameDecorator::paintClip(double startX, double endx, QPainter &pai
 			if(count+textWidth <= tx) {
         		painter.setPen( selected ? Qt::white : Qt::black );
 				painter.drawText( count, rect.y(), textWidth, rect.height(), Qt::AlignVCenter | Qt::AlignHCenter, clip->name());
-        		painter.setPen(Qt::black);
 			}
 			count += textWidth;
 		}
+	painter.setPen(Qt::black);
 	}
 
 	painter.setClipping(false);
