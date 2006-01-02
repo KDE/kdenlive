@@ -243,7 +243,7 @@ bool TrackPanelClipMoveFunction::dragMoved ( Gui::KTrackPanel *panel, QDragMoveE
 
 int TrackPanelClipMoveFunction::trackUnderPoint( const QPoint &pos )
 {
-	uint y = m_timeline->mapLocalToValue(pos.y());
+	uint y = pos.y();
 	Gui::KTrackPanel *panel = m_timeline->trackView() ->panelAt( y );
 
 	if ( panel ) {
