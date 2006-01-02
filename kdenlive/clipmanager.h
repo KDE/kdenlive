@@ -29,6 +29,7 @@
 #include <kurl.h>
 
 #include "docclipbaselist.h"
+#include "docclipref.h"
 
 // forward declaration of the Kdenlive classes
 class DocClipAVFile;
@@ -77,6 +78,15 @@ public:
 	/** Insert a color clip */
 	DocClipBase *insertColorClip(const QString &color, const GenTime &duration, const QString &name, const QString &description);
 
+	/** Edit a color clip */
+	void editColorClip(DocClipRef *clip, const QString &color, const GenTime &duration, const QString &name, const QString &description);
+
+	/** Edit an image clip */
+	void editImageClip(DocClipRef *clip, const KURL &file, const QString &extension, const int &ttl, const GenTime &duration, const QString &description);
+
+	/** Edit an a/v clip */
+	void editClip(DocClipRef *clip, const KURL &file);
+
 	/** Insert an image clip */
 	DocClipBase *insertImageClip(const KURL &file, const QString &extension, const int &ttl, const GenTime &duration, const QString &description);
 
@@ -105,6 +115,8 @@ signals:
   	void clipListUpdated();
 	/** Emitted when a particular clip has changed in someway. E.g, it has recieved it's duration. */
 	void clipChanged(DocClipBase *file);
+
+	void fixClipDuration(DocClipBase* );
 
 public slots:
 	/** This slot occurs when the File properties for an AV File have been returned by the renderer.

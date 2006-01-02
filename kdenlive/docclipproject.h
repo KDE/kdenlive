@@ -108,6 +108,9 @@ public:
 	bool canAddClipsToTracks( DocClipRefList &clips, int track, const GenTime &clipOffset ) const;
 	/** Holds a westley list of all different clips in the document */
 	QDomDocument producersList;
+public slots:
+	/** Check a clip does not exceed its maximum length */
+	void fixClipDuration(KURL url, GenTime length);
 
 private slots:
 	/** Check that the project length is correct. */

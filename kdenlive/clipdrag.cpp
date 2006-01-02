@@ -92,6 +92,10 @@ DocClipRefList ClipDrag::decode(const EffectDescriptionList &effectList, ClipMan
 		QDomElement elem = qdomdoc.documentElement();
 		QDomNode node;
 
+		kdDebug()<<"DRAG INSIDE-----------------------------------------"<<endl;
+		kdDebug()<<qdomdoc.toString()<<endl;
+		kdDebug()<<"DRAG INSIDE-----------------------------------------"<<endl;
+
 		// are we handling a single clip, or a clip list? Not sure if both cases will
 		// occur, but just in case, we check for it.
 		if(elem.tagName() == "cliplist") {
@@ -105,7 +109,6 @@ DocClipRefList ClipDrag::decode(const EffectDescriptionList &effectList, ClipMan
 			if(!element.isNull()) {
 				if(element.tagName() == "clip") {
 					DocClipRef *ref = DocClipRef::createClip(effectList, clipManager, element);
-
 					cliplist.append(ref);
 
 					if(element.attribute("master", "false") == "true") {

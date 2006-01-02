@@ -56,7 +56,6 @@ DocClipBase *ClipManager::insertClip(const KURL &file)
 		m_render->getFileProperties(file);
 		/* Thumbnail (none for audio files) */
 		if (dynamic_cast<DocClipAVFile*>(clip)->clipType() != DocClipBase::AUDIO ) m_render->getImage(file, 1, 64, 50);
-
 		emit clipListUpdated();
 	}
 
@@ -84,13 +83,54 @@ DocClipBase *ClipManager::insertColorClip(const QString &color, const GenTime &d
 		clip->setDescription(description);
 		clip->setName(name);
 		m_clipList.append(clip);
-		//m_render->getFileProperties(file);
 		m_render->getImage(m_clipCounter, color, 64, 50);
 		m_clipCounter++;
 		emit clipListUpdated();
 
 	return clip;
 }
+
+void ClipManager::editColorClip(DocClipRef *clip, const QString &color, const GenTime &duration, const QString &name, const QString &description)
+{
+		clip->setDescription(description);
+		clip->setCropDuration(duration);
+
+		DocClipAVFile *avClip = dynamic_cast<DocClipAVFile*>(clip->referencedClip());
+		if (avClip) {
+			avClip->setColor(color);
+			avClip->setName(name);
+			avClip->setDuration(duration);
+		}
+		m_render->getImage(avClip->getId(), color, 64, 50);
+		emit clipListUpdated();
+}
+
+void ClipManager::editImageClip(DocClipRef *clip, const KURL &file, const QString &extension, const int &ttl, const GenTime &duration, const QString &description)
+{
+		clip->setDescription(description);
+		clip->setCropDuration(duration);
+
+		DocClipAVFile *avClip = dynamic_cast<DocClipAVFile*>(clip->referencedClip());
+		if (avClip) {
+			avClip->setFileURL(file);
+			avClip->setDuration(duration);
+			m_render->getImage(file, 64, 50);
+		}
+		emit clipListUpdated();
+}
+
+
+void ClipManager::editClip(DocClipRef *clip, const KURL &file)
+{
+		DocClipAVFile *avClip = dynamic_cast<DocClipAVFile*>(clip->referencedClip());
+		if (avClip) {
+			avClip->setFileURL(file);
+			m_render->getFileProperties(file);
+			m_render->getImage(file, 1, 64, 50);
+		emit fixClipDuration(clip->referencedClip());
+		}
+}
+
 
 DocClipBase *ClipManager::findClip(const QDomElement &clip)
 {
@@ -113,7 +153,6 @@ DocClipBase *ClipManager::findClipById(uint id)
 
 	QPtrListIterator<DocClipBase> itt(m_clipList);
 	while(itt.current()) {
-		kdDebug()<<"+++++++++++ CLIP MANAGER, FIND : "<<id<<", CURR:"<<itt.current()->toDocClipAVFile()->getId()<<endl;
 		if(itt.current()->toDocClipAVFile()->getId() == id) {
 			result = itt.current();
 		}
@@ -221,7 +260,6 @@ DocClipBase *ClipManager::findClip(const KURL &file)
 
 DocClipBase *ClipManager::insertClip(const QDomElement &clip)
 {
-	kdDebug()<<"//////////////////////////////////CLIPMANAGER ADD CLIP ///////////"<<endl;
 	DocClipBase *result = findClip(clip);
 
 	if(!result) {
@@ -281,7 +319,6 @@ void ClipManager::AVFilePropertiesArrived(const QMap<QString, QString> &properti
 	}
 
 	file->calculateFileProperties(properties);
-
 	emit clipChanged(file);
 }
 

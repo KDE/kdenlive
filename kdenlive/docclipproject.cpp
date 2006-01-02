@@ -223,6 +223,20 @@ void DocClipProject::blockTrackSignals(bool block)
 	}
 }
 
+void DocClipProject::fixClipDuration(KURL url, GenTime length)
+{
+QPtrListIterator<DocTrackBase>trackItt(m_tracks);
+	while(trackItt.current()) {
+		DocTrackClipIterator itt(*(trackItt.current()) );
+		while(itt.current()) {
+			if (itt.current()->fileURL() == url &&  itt.current()->cropDuration() > length)
+			itt.current()->setCropDuration(length);
+		++itt;
+		}
+	++trackItt;
+	}
+emit trackListChanged();
+}
 
 QDomDocument DocClipProject::generateSceneList() const
 {
@@ -266,7 +280,6 @@ uint tracksCounter = 0;
 		}
 		if (children > 0 ) 
 		{
-
 		/* keep a list of audio tracks so that we can mix them later */
 		if (trackItt.current()->clipType() == "Sound") 
 		{
@@ -308,7 +321,7 @@ uint tracksCounter = 0;
 
 	doc.documentElement().appendChild(tractor);
 
-	//kdDebug()<<"+ + + PROJECT SCENE: "<<doc.toString()<<endl;
+	kdDebug()<<"+ + + PROJECT SCENE: "<<doc.toString()<<endl;
 	return doc;
 }
 

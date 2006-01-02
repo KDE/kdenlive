@@ -46,6 +46,7 @@
 #include <kcolorbutton.h>
 #include <kurlrequester.h>
 #include <klineedit.h>
+#include <kurlrequesterdlg.h>
 
 // application specific includes
 // p.s., get the idea this class is kind, central to everything?
@@ -67,6 +68,7 @@
 #include "kaddavfilecommand.h"
 #include "kaddmarkercommand.h"
 #include "kaddrefclipcommand.h"
+#include "keditclipcommand.h"
 #include "kdenlive.h"
 #include "kdenlivedoc.h"
 #include "kdenlivesetupdlg.h"
@@ -1102,7 +1104,7 @@ void KdenliveApp::slotProjectEditClip()
 		DocClipBase * clip = refClip->referencedClip();
 
 		if (refClip->clipType() == DocClipBase::COLOR) {
-			KDialogBase *dia = new KDialogBase(this,"create_clip",true,i18n("Create New Color Clip"),KDialogBase::Ok|KDialogBase::Cancel);
+			KDialogBase *dia = new KDialogBase(this,"edit_clip",true,i18n("Edit Color Clip"),KDialogBase::Ok|KDialogBase::Cancel);
 			createColorClip_UI *clipChoice = new createColorClip_UI(dia);
 			QString color = dynamic_cast<DocClipAVFile*>(clip)->color();
 			color = color.replace(0,2,"#");
@@ -1110,18 +1112,50 @@ void KdenliveApp::slotProjectEditClip()
 			clipChoice->button_color->setColor(color);
 			clipChoice->edit_name->setText(clip->name());
 			clipChoice->edit_description->setText(clip->description());
-			clipChoice->text_duration->setValue((int) (clip->duration().ms()/1000));
+			clipChoice->text_duration->setValue((int) (refClip->duration().ms()/1000));
 			dia->setMainWidget(clipChoice);
 			dia->adjustSize();
 			if (dia->exec() == QDialog::Accepted){
 			QString color = clipChoice->button_color->color().name();
 			color = color.replace(0,1,"0x")+"ff";
 			GenTime duration(clipChoice->text_duration->value());
-			//KCommand *command = new Command::KAddClipCommand( *doc, color, duration, clipChoice->edit_description->text(), true );
+			KCommand *command = new Command::KEditClipCommand( *doc, refClip, color, duration, clipChoice->edit_name->text(), clipChoice->edit_description->text());
 			//addCommand( command, true );
 
+			//m_projectList->updateListItem();
+			}
+			delete dia;
 		}
-	delete dia;
+
+		else if (refClip->clipType() == DocClipBase::IMAGE) {
+			KDialogBase *dia = new KDialogBase(this,"create_clip",true,i18n("Edit Image Clip"),KDialogBase::Ok|KDialogBase::Cancel);
+			createImageClip_UI *clipChoice = new createImageClip_UI(dia);
+
+			clipChoice->edit_description->setText(clip->description());
+			clipChoice->text_duration->setValue((int) (refClip->duration().ms()/1000));
+			clipChoice->url_image->setURL(refClip->fileURL().path());
+			dia->setMainWidget(clipChoice);
+			dia->adjustSize();
+			if (dia->exec() == QDialog::Accepted){
+			QString url = clipChoice->url_image->url();
+			QString extension = QString::null;
+			int ttl = 0;			
+			GenTime duration(clipChoice->text_duration->value());
+			KCommand *command = new Command::KEditClipCommand( *doc, refClip, KURL(url), extension, ttl, duration, clipChoice->edit_description->text());
+			//addCommand( command, true );
+
+			//m_projectList->updateListItem();
+			}
+			delete dia;
+		}
+
+		else {  // audio or video clip
+		KURL url = KURLRequesterDlg::getURL(refClip->fileURL().path(),this,i18n("Enter New URL"));
+		if (url.path()!= refClip->fileURL().path())
+		{
+		KCommand *command = new Command::KEditClipCommand( *doc, refClip, url);
+		//m_projectList->updateListItem();
+		}
 		}
 	}
 	slotStatusMsg( i18n( "Ready." ) );

@@ -74,8 +74,11 @@ ProjectList::ProjectList(KdenliveApp *app, KdenliveDoc *document, QWidget *paren
 	connect(m_listView, SIGNAL(rightButtonPressed ( QListViewItem *, const QPoint &, int )),
 				this, SLOT(rightButtonPressed ( QListViewItem *, const QPoint &, int )));
 
-	connect(m_listView, SIGNAL(executed(QListViewItem *)), this, SLOT(projectListSelectionChanged(QListViewItem *)));
-	connect(m_listView, SIGNAL(dragStarted(QListViewItem *)), this, SLOT(projectListSelectionChanged(QListViewItem *)));
+	//connect(m_listView, SIGNAL(executed(QListViewItem *)), this, SLOT(projectListSelectionChanged(QListViewItem *)));
+
+	connect(m_listView, SIGNAL(selectionChanged()), this, SLOT(updateListItem()));
+
+	//connect(m_listView, SIGNAL(dragStarted(QListViewItem *)), this, SLOT(projectListSelectionChanged(QListViewItem *)));
 }
 
 ProjectList::~ProjectList()
@@ -119,10 +122,11 @@ void ProjectList::slot_nodeDeleted(DocumentBaseNode *node)
 }
 
 /** Called when the project list changes. */
-void ProjectList::projectListSelectionChanged(QListViewItem *item)
+//void ProjectList::projectListSelectionChanged(QListViewItem *item)
+void ProjectList::updateListItem()
 {
-  const AVListViewItem *avitem = (AVListViewItem *)item;
-
+  const AVListViewItem *avitem = (AVListViewItem *) m_listView->currentItem();
+  if (!avitem) return;
   if (avitem->clip())
   {
   // display duration

@@ -68,6 +68,15 @@ public:
 	/** Returns the duration of the file */
 	const QString &color() const;
 
+	/** Set clip duration */
+	void setDuration(const GenTime &duration);
+
+	/** Set color for color clip */
+	void setColor(const QString color);
+
+	/** Set url for clip */
+	void setFileURL(const KURL &url);
+
 	/** Returns the type of this clip */
 	const DocClipBase::CLIPTYPE &clipType() const;
 		

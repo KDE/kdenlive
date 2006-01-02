@@ -213,6 +213,8 @@ private slots: // Private slots
 	void generateProducersList();
 	/** Emitted when a particular clip has changed in someway. E.g, it has recieved it's duration. */
 	void clipChanged(DocClipBase *file);
+	/** Emitted when a particular clip has been modified. */
+	void fixClipDuration(DocClipBase *file);
 signals: // Signals
   	/** This signal is emitted whenever tracks are added to or removed from the project. */
   	void trackListChanged();

@@ -360,15 +360,18 @@ void KRender::getImage( KURL url, int frame, int width, int height)
 		m_producer.set( "thumb", m_thumb, width * height * overSize * overSize * 4, mlt_pool_release );
 		m_frame->set( "image",m_thumb, 0, NULL, NULL );
 
-		QPixmap m_pixmap(width * overSize, height * overSize, 32);
+		QPixmap m_pixmap(width, height);
 
 		QImage m_image( m_thumb, width * overSize, height * overSize, 32, 0, 0, QImage::IgnoreEndian );
- 
+
 		delete m_frame;
-		m_pixmap = m_image.smoothScale(width, height );
+		if (!m_image.isNull()) m_pixmap = m_image.smoothScale(width, height );
+		else m_pixmap.fill(Qt::black);
+
 		//m_pixmap.convertFromImage( m_image );
 		emit replyGetImage( url, frame, m_pixmap, width, height );
 	} 
+
 }
 
 /* Create thumbnail for color */

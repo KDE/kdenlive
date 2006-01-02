@@ -76,6 +76,8 @@ public slots: // Public slots
 	void slot_clipChanged(DocClipRef *clip);
 	/** The node specified has been deleted - update the display. */
 	void slot_nodeDeleted(DocumentBaseNode *node);
+	/** updates the list when an item changed */
+	void updateListItem();
 signals: // Signals
 	/** this signal is called when a number of clips have been dropped onto the project list view. */
 	void dragDropOccured(QDropEvent *drop);
@@ -83,7 +85,7 @@ signals: // Signals
 	void clipSelected(DocClipRef *file);
 private slots: // Private slots
 	/** Called when the project list changes. */
-	void projectListSelectionChanged(QListViewItem *item);
+	//void projectListSelectionChanged(QListViewItem *item);
 	columnToolTip* colToolTip;
 };
 

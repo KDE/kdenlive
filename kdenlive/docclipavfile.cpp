@@ -123,6 +123,27 @@ DocClipAVFile * DocClipAVFile::createClip(const QDomElement element)
 	return file;*/
 }
 
+void DocClipAVFile::setFileURL(const KURL &url)
+{
+	m_url = url;
+	setName(url.fileName());
+	QFileInfo fileInfo(m_url.path());
+	m_durationKnown = false;
+	 /* Determines the size of the file */
+	m_filesize = fileInfo.size();
+}
+
+void DocClipAVFile::setDuration(const GenTime &duration)
+{
+	m_durationKnown = true;
+	m_duration = duration;
+}
+
+void DocClipAVFile::setColor(const QString color)
+{
+	m_color = color;
+}
+
 const QString &DocClipAVFile::color() const
 {
 	return m_color;

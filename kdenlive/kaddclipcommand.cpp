@@ -98,7 +98,6 @@ KAddClipCommand::KAddClipCommand(KdenliveDoc &document, const QString &color, co
 	if(!m_parent) {
 		kdWarning() << "Error - all clips created with kaddclipcommand should have a parent!" << endl;
 	}
-
 	DocClipBase *clip = document.clipManager().insertColorClip(color, duration, name, description);
 
 	DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
@@ -139,7 +138,6 @@ KAddClipCommand::KAddClipCommand(KdenliveDoc &document, const KURL &url, bool cr
 		kdWarning() << "Error - all clips created with kaddclipcommand should have a parent!" << endl;
 	}
 
-	kdDebug()<<"//////////////////////////////////KOMMAND  INSERT CLIP 1///////////"<<endl;
 	DocClipBase *clip = document.clipManager().insertClip(url);
 
 	DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
@@ -184,7 +182,6 @@ void KAddClipCommand::unexecute()
 /** Adds the clip */
 void KAddClipCommand::addClip()
 {
-	kdDebug()<<"//////////////////////////////////KOMMAND  INSERT CLIP ///////////"<<endl;
 	DocumentBaseNode *node = m_document.findClipNode(m_parent);
 
 	if(!node) {
