@@ -80,12 +80,16 @@ KAddClipCommand::KAddClipCommand(KdenliveDoc &document,
 			m_document(document),
 			m_name(name),
 			m_parent(parent->name()),
-			m_create(create),
-			m_xmlClip(clip->toXML())
+			m_create(create)
 {
 	if(!m_parent) {
 		kdWarning() << "Error - all clips created with kaddclipcommand should have a parent!" << endl;
 	}
+	if (!clip) {
+		m_create = false;
+		kdWarning() << "Error - Invalid clip" << endl;
+	}
+	else m_xmlClip = clip->toXML();
 }
 
 /** Add Color clip */
@@ -139,10 +143,11 @@ KAddClipCommand::KAddClipCommand(KdenliveDoc &document, const KURL &url, bool cr
 	}
 
 	DocClipBase *clip = document.clipManager().insertClip(url);
-
-	DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
-	m_xmlClip = clipNode->clipRef()->toXML();
-	delete clipNode;
+	if (clip) {
+		DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
+		m_xmlClip = clipNode->clipRef()->toXML();
+		delete clipNode;
+	}
 }
 
 KAddClipCommand::~KAddClipCommand()

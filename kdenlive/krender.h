@@ -342,6 +342,7 @@ signals:  // Signals
 	void effectListChanged( const QPtrList<EffectDesc> & );
 	/** Emitted when an error occurs within this renderer. */
 	void error( const QString &, const QString & );
+
 public slots:  // Public slots
 	/** This slot reads stdIn and processes it. */
 	void slotReadStdout( KProcess *proc, char *buffer, int buflen );
@@ -351,6 +352,8 @@ public slots:  // Public slots
 	void start();
 	/** Stop Consumer */
 	void stop();
+	/** If the file is readable by mlt, return true, otherwise false */
+	bool isValid( KURL url );
 };
 
 #endif

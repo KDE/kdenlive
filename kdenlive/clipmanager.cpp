@@ -20,6 +20,7 @@
 // include files for KDE
 #include <klocale.h>
 #include <kdebug.h>
+#include <kmessagebox.h>
 
 #include <docclipbase.h>
 #include <docclipavfile.h>
@@ -36,6 +37,7 @@ ClipManager::ClipManager(KRenderManager &renderManager, QWidget *parent, const c
 
 	connect(m_render, SIGNAL(replyGetFileProperties(const QMap<QString, QString> &)),
   					 this, SLOT(AVFilePropertiesArrived(const QMap<QString, QString> &)));
+
 	connect(m_render, SIGNAL(replyGetImage(const KURL &, int, const QPixmap &, int, int)),
 					this, SLOT(AVImageArrived(const KURL &, int, const QPixmap &)));
 
@@ -51,6 +53,11 @@ DocClipBase *ClipManager::insertClip(const KURL &file)
 {
 	DocClipBase *clip = findClip(file);
 	if(!clip) {
+		if (!m_render->isValid(file)) {
+		KMessageBox::sorry(0,i18n("The file %1 is not a valid video file for kdenlive...").arg(file.filename()));
+		return 0;
+		}
+		
 		clip = new DocClipAVFile(file.fileName(), file, m_clipCounter++);
 		m_clipList.append(clip);
 		m_render->getFileProperties(file);

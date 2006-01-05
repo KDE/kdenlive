@@ -361,14 +361,15 @@ void KRender::getImage( KURL url, int frame, int width, int height)
 	m_producer.seek( frame );
     
 	Mlt::Frame *m_frame = m_producer.get_frame();
-	m_frame->set( "rescale","nearest" );
-	double ratio = (double) height / m_frame->get_int("height");
-	double overSize = 1.0;
-	/* if we want a small thumbnail, oversize image a little bit and smooth rescale after, gives better results */
-	if (ratio < 0.3) overSize = 1.4;
+
+	if (m_frame) {
+		m_frame->set( "rescale","nearest" );
+		double ratio = (double) height / m_frame->get_int("height");
+		double overSize = 1.0;
+		/* if we want a small thumbnail, oversize image a little bit and smooth rescale after, gives better results */
+		if (ratio < 0.3) overSize = 1.4;
     
-	if (m_frame)
-	{	
+
 		unsigned char *m_thumb = m_frame->fetch_image( mlt_image_rgb24a, width * overSize, height* overSize, 1 );
 		m_producer.set( "thumb", m_thumb, width * height * overSize * overSize * 4, mlt_pool_release );
 		m_frame->set( "image",m_thumb, 0, NULL, NULL );
@@ -408,7 +409,16 @@ void KRender::getImage( KURL url, int width, int height)
 		pixmap = im.smoothScale(width,height);
 
 		emit replyGetImage( url, 1, pixmap, width, height );
-}	
+}
+
+bool KRender::isValid( KURL url )
+{
+	Mlt::Producer producer(const_cast<char *>(url.path().ascii()));
+	if (producer.is_blank()) return false;
+	
+	return true;
+}
+
 
 void KRender::getFileProperties( KURL url )
 {
@@ -435,7 +445,7 @@ void KRender::getFileProperties( KURL url )
 			else m_filePropertyMap["type"] = "video";
 			}
 			else if (frame->get_int( "test_audio" ) == 0) m_filePropertyMap["type"] = "audio";
-		}		
+		}
 		emit replyGetFileProperties(m_filePropertyMap);
 		delete frame;
 
