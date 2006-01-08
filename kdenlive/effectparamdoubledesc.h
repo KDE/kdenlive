@@ -50,6 +50,10 @@ public:
 				DocClipRef *clip,
 				QWidget *parent=0,
 				const char *name=0);
+
+	virtual double max();
+	virtual double min();
+
 private:
 	double m_min;
 	double m_max;

@@ -318,6 +318,7 @@ class KdenliveApp : public KDockMainWindow
 		void slotToggleClipMonitor();
 		void slotToggleWorkspaceMonitor();
 		void slotToggleEffectList();
+		void slotToggleEffectStack();
 		void slotToggleProjectList();
 
 	private:
@@ -423,6 +424,7 @@ class KdenliveApp : public KDockMainWindow
 		KDockWidget *m_dockCaptureMonitor;
 		KDockWidget *m_dockEffectList;
 		KDockWidget *m_dockProjectList;
+		KDockWidget *m_dockEffectStack;
 
 		/** The monitor manager that manages the life of the various monitors.*/
 		MonitorManager m_monitorManager;

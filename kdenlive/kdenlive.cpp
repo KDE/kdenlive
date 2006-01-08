@@ -99,7 +99,7 @@
 
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
-#define ID_CURTIME_MSG 2
+#define ID_CURTIME_MSG 3
 
 namespace Gui
 {
@@ -223,6 +223,7 @@ void KdenliveApp::initActions()
 	(void) new KAction( i18n( "Clip Monitor" ), 0, this, SLOT( slotToggleClipMonitor() ), actionCollection(), "toggle_clip_monitor" );
 	(void) new KAction( i18n( "Workspace Monitor" ), 0, this, SLOT( slotToggleWorkspaceMonitor() ), actionCollection(), "toggle_workspace_monitor" );
 	(void) new KAction( i18n( "Effect List" ), 0, this, SLOT( slotToggleEffectList() ), actionCollection(), "toggle_effect_list" );
+	(void) new KAction( i18n( "Effect Stack" ), 0, this, SLOT( slotToggleEffectStack() ), actionCollection(), "toggle_effect_stack" );
 	(void) new KAction( i18n( "Project List" ), 0, this, SLOT( slotToggleProjectList() ), actionCollection(), "toggle_project_list" );
 
 	timelineMoveTool->setExclusiveGroup( "timeline_tools" );
@@ -368,12 +369,12 @@ void KdenliveApp::initView()
 	clipWidget->setDockSite( KDockWidget::DockFullSite );
 	clipWidget->manualDock( m_dockProjectList, KDockWidget::DockCenter );
 
-	widget = createDockWidget( "Effect Stack", QPixmap(), 0, i18n( "Effect Stack" ) );
-	m_effectStackDialog = new EffectStackDialog( this, getDocument(), widget, "effect stack" );
-	QToolTip::add( widget, i18n( "All effects on the currently selected widget." ) );
-	widget->setWidget( m_effectStackDialog );
-	widget->setDockSite( KDockWidget::DockFullSite );
-	widget->manualDock( m_dockProjectList, KDockWidget::DockCenter );
+	m_dockEffectStack = createDockWidget( "Effect Stack", QPixmap(), 0, i18n( "Effect Stack" ) );
+	m_effectStackDialog = new EffectStackDialog( this, getDocument(), m_dockEffectStack, "effect stack" );
+	QToolTip::add( m_dockEffectStack, i18n( "All effects on the currently selected clip." ) );
+	m_dockEffectStack->setWidget( m_effectStackDialog );
+	m_dockEffectStack->setDockSite( KDockWidget::DockFullSite );
+	m_dockEffectStack->manualDock( m_dockProjectList, KDockWidget::DockCenter );
 
 	m_dockWorkspaceMonitor = createDockWidget( "Workspace Monitor", QPixmap(), 0, i18n( "Workspace Monitor" ) );
 	m_workspaceMonitor = m_monitorManager.createMonitor( getDocument(), m_dockWorkspaceMonitor,  "Workspace Monitor" );
@@ -409,7 +410,7 @@ void KdenliveApp::initView()
 	connect( getDocument(), SIGNAL( signalClipSelected( DocClipRef *) ), this, SLOT( slotSetClipMonitorSource( DocClipRef * ) ) );
 	connect( getDocument(), SIGNAL( signalClipSelected( DocClipRef *) ), m_effectStackDialog, SLOT( slotSetEffectStack( DocClipRef * ) ) );
 	connect( getDocument(), SIGNAL( effectStackChanged( DocClipRef *) ), m_effectStackDialog, SLOT( slotSetEffectStack( DocClipRef * ) ) );
-
+	connect( m_effectStackDialog, SIGNAL( generateSceneList() ), getDocument(), SLOT( hasBeenModified() ) );
 
 	connect(m_effectStackDialog, SIGNAL( effectSelected(DocClipRef *, Effect *) ), m_effectParamDialog, SLOT( slotSetEffect(DocClipRef *, Effect *)));
 
@@ -504,22 +505,27 @@ void KdenliveApp::initView()
 
 void KdenliveApp::slotToggleClipMonitor()
 {
-m_dockClipMonitor->changeHideShowState();
+	m_dockClipMonitor->changeHideShowState();
 }
 
 void KdenliveApp::slotToggleWorkspaceMonitor()
 {
-m_dockWorkspaceMonitor->changeHideShowState();
+	m_dockWorkspaceMonitor->changeHideShowState();
 }
 
 void KdenliveApp::slotToggleEffectList()
 {
-m_dockEffectList->changeHideShowState();
+	m_dockEffectList->changeHideShowState();
+}
+
+void KdenliveApp::slotToggleEffectStack()
+{
+	m_dockEffectStack->changeHideShowState();
 }
 
 void KdenliveApp::slotToggleProjectList()
 {
-m_dockProjectList->changeHideShowState();
+	m_dockProjectList->changeHideShowState();
 }
 
 void KdenliveApp::openDocumentFile( const KURL& url )
@@ -1022,7 +1028,7 @@ void KdenliveApp::slotUpdateCurrentTime( const GenTime &time )
 {
 #warning The following line is broken - since frames per second is rounded to the nearest int, krulerTimeModel
 #warning would never map the correct value to text if the frames per second is wrong.
-	statusBar() ->changeItem( i18n( "Current Time : " ) + KRulerTimeModel::mapValueToText( ( int ) floor( time.frames( doc->framesPerSecond() ) + 0.5 ), doc->framesPerSecond() ), ID_EDITMODE_MSG );
+	statusBar() ->changeItem( i18n( "Current Time : " ) + KRulerTimeModel::mapValueToText( ( int ) floor( time.frames( doc->framesPerSecond() ) + 0.5 ), doc->framesPerSecond() ), ID_CURTIME_MSG );
 }
 
 /** Add clips to the project */
@@ -1030,13 +1036,14 @@ void KdenliveApp::slotProjectAddClips()
 {
 	slotStatusMsg( i18n( "Adding Clips" ) );
 
-	// determine file types supported by Arts
-	QString filter = "*";
+	// Make a reasonable filter for video / audio files.
+	QString filter = "*.dv video/x-msvideo video/mpeg audio/x-mp3 audio/x-wav application/ogg";
 
 	KURL::List urlList = KFileDialog::getOpenURLs( m_fileDialogPath.path(),
 	                     filter,
 	                     this,
 	                     i18n( "Open File..." ) );
+	
 
 	KURL::List::Iterator it;
 	KURL url;
@@ -1087,6 +1094,9 @@ void KdenliveApp::slotProjectAddImageClip()
 	KDialogBase *dia = new KDialogBase(this,"create_clip",true,i18n("Create New Image Clip"),KDialogBase::Ok|KDialogBase::Cancel);
 	createImageClip_UI *clipChoice = new createImageClip_UI(dia);
 	dia->setMainWidget(clipChoice);
+	// Filter for the GDK pixbuf producer
+	QString filter = "image/gif image/jpeg image/png image/x-bmp";
+	clipChoice->url_image->setFilter(filter);
 	dia->adjustSize();
 	if (dia->exec() == QDialog::Accepted){
 		QString url = clipChoice->url_image->url();

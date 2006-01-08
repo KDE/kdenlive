@@ -23,6 +23,7 @@
 #include "docclipproject.h"
 #include "clipmanager.h"
 #include "effectdesc.h"
+#include "effectparamdesc.h"
 #include "effectparameter.h"
 
 DocTrackBase::DocTrackBase( DocClipProject *project )
@@ -617,8 +618,10 @@ void DocTrackBase::addEffectToClip(const GenTime &position, int effectIndex, Eff
 	DocClipRef *clip = getClipAt(position);
 	if(clip) {
 		// create default keyframes at end and beginning
-		effect->addKeyFrame(effectIndex, 0.0);
-		effect->addKeyFrame(effectIndex, 1.0);
+		if (effect->parameter(0) != NULL && effect->effectDescription().parameter(0)->type() == "double") {
+			effect->addKeyFrame(0, 0.0);
+			effect->addKeyFrame(0, 1.0);
+		}
 
 		clip->addEffect(effectIndex, effect);
 		emit effectStackChanged(clip);

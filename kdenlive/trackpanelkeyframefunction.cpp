@@ -59,17 +59,17 @@ bool TrackPanelKeyFrameFunction::mouseApplies(Gui::KTrackPanel *panel, QMouseEve
 		if(track) {
 			GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_document->framesPerSecond());
 			DocClipRef *clip = track->getClipAt(mouseTime);
-			if(clip) {
+			if(clip && clip->hasEffect()) {
 
 			// #TODO: Currently only works for the first effect
 			uint effectIndex = 0;
-			Effect *effect = clip->effectAt(0);
+			Effect *effect = clip->effectAt(effectIndex);
 			if (! effect) {
 			kdDebug()<<"////// ERROR, EFFECT NOT FOUND"<<endl;
 			return false;
 			}
 
-			if (effect->parameter(0))
+			if (effect->parameter(effectIndex))
 			{
 			uint count = effect->parameter(effectIndex)->numKeyFrames();
 			for (uint i = 0; i<count; i++)
@@ -114,7 +114,7 @@ kdDebug()<<"+++++++ KEYFRAME MOUSE PRESSED"<<endl;
 			// #TODO: Currently only works for the first effect
 			uint effectIndex = 0;
 			Effect *effect = m_clipUnderMouse->effectAt(0);
-			if (! effect) {
+			if (!effect || !m_clipUnderMouse->hasEffect()) {
 			kdDebug()<<"////// ERROR, EFFECT NOT FOUND"<<endl;
 			return false;
 			}
@@ -192,7 +192,7 @@ bool TrackPanelKeyFrameFunction::mouseMoved(Gui::KTrackPanel *panel, QMouseEvent
 
 			uint effectIndex = 0;
 			Effect *effect = m_clipUnderMouse->effectAt(effectIndex);
-			if (! effect) {
+			if (!effect || !m_clipUnderMouse->hasEffect()) {
 			kdDebug()<<"////// ERROR, EFFECT NOT FOUND"<<endl;
 			return false;
 			}
@@ -200,7 +200,8 @@ bool TrackPanelKeyFrameFunction::mouseMoved(Gui::KTrackPanel *panel, QMouseEvent
 			{
 			double dy1 = panel->height() - ((event->y()-m_selectedKeyframeValue)*100/panel->height());	
 
-			if ( dy1<-100 || dy1>200) 
+			// If the keyframe is not the first one nor the last and is dragged away of the track, delete it.
+			if ( (dy1<-100 || dy1>200) && m_selectedKeyframe!=0 && m_selectedKeyframe!=effect->parameter(effectIndex)->numKeyFrames()-1) 
 			{
 			effect->parameter(effectIndex)->deleteKeyFrame(m_selectedKeyframe);
 			m_selectedKeyframe = -1;

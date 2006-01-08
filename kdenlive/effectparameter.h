@@ -58,6 +58,7 @@ public:
      * leaks.
      */
     EffectKeyFrame *interpolateKeyFrame(double time) const;
+
 private:
 	QString m_name;
 	KeyFrameList m_keyFrames;

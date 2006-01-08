@@ -72,7 +72,6 @@ void Effect::addParameter(const QString &name)
 	m_paramList.append(new EffectParameter(name));
 }
 
-
 EffectParameter* Effect::parameter(const uint ix)
 {
 	return m_paramList.at(ix);

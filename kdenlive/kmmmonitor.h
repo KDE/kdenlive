@@ -99,7 +99,7 @@ private:
 
 public slots: // Public slots
 	/** Set the monitors scenelist to the one specified. */
-	void setSceneList(const QDomDocument &scenelist);
+	void setSceneList(const QDomDocument &scenelist, bool resetPosition = true);
 
 	/** This slot is called when the screen changes position. */
 	void screenPositionChanged(const GenTime &time);

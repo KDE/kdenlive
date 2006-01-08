@@ -21,10 +21,19 @@
 EffectParamDesc::EffectParamDesc(const QXmlAttributes &attributes)
 {
 	m_name = attributes.value("name");
+	m_type = attributes.value("type");
+	m_value = attributes.value("value").toDouble();
+	m_description = attributes.value("description");
 }
 
 EffectParamDesc::~EffectParamDesc()
 {
+}
+
+
+void EffectParamDesc::setValue(const double &value)
+{
+	m_value = value;
 }
 
 void EffectParamDesc::setDescription(const QString &description)

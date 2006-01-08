@@ -68,12 +68,23 @@ public:
 									QWidget *parent=0,
 									const char *name=0) = 0;
 
+	virtual double max() = 0;
+	virtual double min() = 0;
+
 	void setDescription(const QString &description);
 	const QString &description() const;
 	const QString &name() const { return m_name; }
+	const QString &type() const { return m_type; }
+	const double &value() const { return m_value; }
+	void setValue(const double &value);
+
 private:
 	/** The name of this parameter. */
 	QString m_name;
+	/** The type of this parameter. */
+	QString m_type;
+	/** The value of this parameter ( for constant parameters). */
+	double m_value;
 	/** A human-readable description of what this parameter does within the effect. */
 	QString m_description;
 };

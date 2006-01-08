@@ -103,9 +103,9 @@ void KMMScreen::play(double speed, const GenTime &startTime, const GenTime &endT
 }
 
 /** Set the displayed scenelist to the one specified. */
-void KMMScreen::setSceneList(const QDomDocument &scenelist)
+void KMMScreen::setSceneList(const QDomDocument &scenelist, bool resetPosition)
 {
-  m_render->setSceneList(scenelist);
+	m_render->setSceneList(scenelist, resetPosition);
 }
 
 void KMMScreen::setCapture()

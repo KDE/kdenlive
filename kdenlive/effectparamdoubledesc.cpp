@@ -36,6 +36,18 @@ EffectParamDoubleDesc::~EffectParamDoubleDesc()
 {
 }
 
+//Virtual
+double EffectParamDoubleDesc::max()
+{
+	return m_max;
+}
+
+//Virtual
+double EffectParamDoubleDesc::min()
+{
+	return m_min;
+}
+
 // virtual
 EffectKeyFrame *EffectParamDoubleDesc::createKeyFrame(double time)
 {

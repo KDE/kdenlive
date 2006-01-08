@@ -27,6 +27,8 @@ EffectParamDescFactory::EffectParamDescFactory()
 	m_registered.setAutoDelete(true);
 
 	registerFactory( new EffectParamDescFactoryTemplate<EffectParamDoubleDesc>("double") );
+	registerFactory( new EffectParamDescFactoryTemplate<EffectParamDoubleDesc>("constant") );
+	registerFactory( new EffectParamDescFactoryTemplate<EffectParamDoubleDesc>("boolean") );
 }
 
 

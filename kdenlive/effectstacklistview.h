@@ -55,6 +55,11 @@ public slots:
 	void slotMoveEffectDown();
 	/** Delete the currently selected effect. If no effect is selected nothing will happen. */
 	void slotDeleteEffect();
+
+	/** @returns the index of the currently selected effect, or -1 if no effect is currently selected. */
+	int selectedEffectIndex() const;
+
+	DocClipRef* clip();
 signals:
 	/** Emitted when a new effect has been selected in the effect stack. */
 	void effectSelected(DocClipRef *, Effect *);
@@ -72,8 +77,7 @@ private slots:
 
 
 private:
-	/** @returns the index of the currently selected effect, or -1 if no effect is currently selected. */
-	int selectedEffectIndex() const;
+	
 	DocClipRef *m_clip;
 	KdenliveApp *m_app;
 	KdenliveDoc *m_document;

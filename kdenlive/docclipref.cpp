@@ -26,6 +26,7 @@
 #include "effectdesc.h"
 #include "effectkeyframe.h"
 #include "effectparameter.h"
+#include "effectparamdesc.h"
 #include "effectdoublekeyframe.h"
 #include "kdenlivedoc.h"
 
@@ -407,42 +408,66 @@ QDomDocument DocClipRef::generateXMLClip()
 	entry.setAttribute("in", QString::number(m_cropStart.frames(framesPerSecond())));
 	entry.setAttribute("out", QString::number((m_cropStart+cropDuration()).frames(framesPerSecond())));
 
-
+	// Generate XML for the clip's effects 
+	// As a starting point, let's consider effects don't have more than one keyframable parameter.
+	// All other parameters are supposed to be "constant", ie a value which can be adjusted by 
+	// the user but remains the same during all the clip's duration.
 	uint i = 0;
-	while (effectAt(i) != NULL)
-	{
+	if (hasEffect())
+	while (effectAt(i) != NULL) {
 	Effect *effect = effectAt(i);
-	int keyFrameNum = effect->parameter(i)->numKeyFrames();
-	if (keyFrameNum > 1)
-	{
-	for (uint count = 0; count < keyFrameNum-1; count++)
-	{
-	QDomElement transition = sceneList.createElement("filter");
-	transition.setAttribute("mlt_service",effectAt(i)->effectDescription().tag()); 
-	uint in = m_cropStart.frames(framesPerSecond());
-	uint duration = cropDuration().frames(framesPerSecond());
-	transition.setAttribute("in",QString::number((in + effect->parameter(i)->keyframe(count)->time())*duration)); 
-	transition.setAttribute("start",QString::number(effect->parameter(i)->keyframe(count)->toDoubleKeyFrame()->value()/100)); 
+	uint parameterNum = 0;
+	bool hasParameters = false;
+	
+	while (effect->parameter(parameterNum)) {
+		uint keyFrameNum = 0;
+		uint maxValue;
+		uint minValue;
 
-	transition.setAttribute("out",QString::number((in + effect->parameter(i)->keyframe(count+1)->time())*duration)); 
-	transition.setAttribute("end",QString::number(effect->parameter(i)->keyframe(count+1)->toDoubleKeyFrame()->value()/100)); 
+		if (effect->effectDescription().parameter(parameterNum)->type() == "double") {
+			// Effect has one parameter with keyframes
+			keyFrameNum = effect->parameter(parameterNum)->numKeyFrames();
+			maxValue = effect->effectDescription().parameter(parameterNum)->max();
+			minValue = effect->effectDescription().parameter(parameterNum)->min();
 
-	entry.appendChild(transition);
-	}
-	}
-	else
-	{
-	QDomElement transition = sceneList.createElement("filter");
-	transition.setAttribute("mlt_service",effectAt(i)->effectDescription().tag()); 
-	entry.appendChild(transition);
+			if (keyFrameNum > 1) {
+				for (uint count = 0; count < keyFrameNum-1; count++) {
+					QDomElement transition = sceneList.createElement("filter");
+					transition.setAttribute("mlt_service",effect->effectDescription().tag()); 
+					uint in = m_cropStart.frames(framesPerSecond());
+					uint duration = cropDuration().frames(framesPerSecond());
+					transition.setAttribute("in",QString::number((in + effect->parameter(parameterNum)->keyframe(count)->time())*duration)); 
+					transition.setAttribute("start",QString::number(effect->parameter(parameterNum)->keyframe(count)->toDoubleKeyFrame()->value()/maxValue)); 
+					transition.setAttribute("out",QString::number((in + effect->parameter(parameterNum)->keyframe(count+1)->time())*duration)); 
+					transition.setAttribute("end",QString::number(effect->parameter(parameterNum)->keyframe(count+1)->toDoubleKeyFrame()->value()/maxValue));
+
+					// Add the other constant parameters if any
+					uint parameterNumBis = parameterNum;
+					while (effect->parameter(parameterNumBis)) {
+						transition.setAttribute(effect->effectDescription().parameter(parameterNumBis)->name(),QString::number(effect->effectDescription().parameter(parameterNumBis)->value()));
+						parameterNumBis++;
+					}
+					entry.appendChild(transition);
+				}
+			}
+		}
+		else { // Effect has only constant parameters
+			QDomElement transition = sceneList.createElement("filter");
+			transition.setAttribute("mlt_service",effect->effectDescription().tag());
+			if (effect->effectDescription().parameter(parameterNum)->type() == "constant")
+				while (effect->parameter(parameterNum)) {
+					transition.setAttribute(effect->effectDescription().parameter(parameterNum)->name(),QString::number(effect->effectDescription().parameter(parameterNum)->value()));
+					parameterNum++;
+				}
+			entry.appendChild(transition);
+		}
+		parameterNum++;
 	}
 	i++;
 	}
 
 	sceneList.appendChild(entry);
-
 	return sceneList;
-
 	//return m_clip->toDocClipAVFile()->sceneToXML(m_cropStart, m_cropStart+cropDuration());	
 }
 

@@ -39,7 +39,7 @@ KRender * KRenderManager::createRenderer(const char * name)
 {
 	KRender *render = new KRender(name, m_renderAppPath, m_currentPort,0, name);
 
-	connect(render, SIGNAL(recievedStderr(const QString &, const QString &)),
+	/*connect(render, SIGNAL(recievedStderr(const QString &, const QString &)),
 			this, SIGNAL(recievedStderr(const QString &, const QString &)));
 	connect(render, SIGNAL(recievedStdout(const QString &, const QString &)),
 			this, SIGNAL(recievedStdout(const QString &, const QString &)));
@@ -50,7 +50,7 @@ KRender * KRenderManager::createRenderer(const char * name)
 	connect(render, SIGNAL(renderWarning(const QString &, const QString &)),
 			this, SIGNAL(renderWarning(const QString &, const QString &)));
 	connect(render, SIGNAL(renderError(const QString &, const QString &)),
-			this, SIGNAL(renderError(const QString &, const QString &)));
+			this, SIGNAL(renderError(const QString &, const QString &)));*/
 
 	++m_currentPort;
 

@@ -145,7 +145,7 @@ void KMMMonitor::connectScreen()
 	connect(m_screen, SIGNAL(mouseDragged()), this, SLOT(slotStartDrag()));
 }
 
-void KMMMonitor::setSceneList(const QDomDocument &scenelist)
+void KMMMonitor::setSceneList(const QDomDocument &scenelist, bool resetPosition)
 {
 //kdDebug()<<"*************MONITOR "<<name()<<", SET SCENE*********\n\n"<<scenelist.toString()<<"************************************"<<endl;
 
@@ -154,7 +154,7 @@ void KMMMonitor::setSceneList(const QDomDocument &scenelist)
 
 if (scenelist.toString().length()>20)
 	{
-	m_screen->setSceneList(scenelist);
+	m_screen->setSceneList(scenelist, resetPosition);
 	}
 }
 
@@ -241,9 +241,9 @@ void KMMMonitor::slotSetClip(DocClipBase *clip)
 }
 
 void KMMMonitor::doCommonSetClip()
-{
+{	
 	QDomDocument scenelist = m_clip->generateSceneList();
-	setSceneList(scenelist);
+	setSceneList(scenelist, false);
 	m_screen->setClipLength((int)m_clip->duration().frames(m_document->framesPerSecond()));
 	m_editPanel->setClipLength((int)m_clip->duration().frames(m_document->framesPerSecond()));
 
@@ -253,7 +253,7 @@ void KMMMonitor::doCommonSetClip()
 
 	if( (!m_noSeek) ||
 	    (seekPosition() < m_clip->cropStartTime()) ||
-	    (seekPosition() > m_clip->cropStartTime() + m_clip->cropDuration())) {
+	    (seekPosition() > m_clip->cropStartTime() + m_clip->duration())) {
 		m_screen->seek(m_clip->cropStartTime());
 	}
 }

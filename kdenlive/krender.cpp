@@ -101,17 +101,86 @@ KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, 
 	openMlt();
 
 
-	EffectDesc *grey =new EffectDesc(i18n("Greyscale"), "greyscale");
 	QXmlAttributes xmlAttr;
-	xmlAttr.append("type", QString::null, QString::null, "double");
-	xmlAttr.append("name", QString::null, QString::null, "keyframe");
-	xmlAttr.append("max", QString::null, QString::null, "100");
-	xmlAttr.append("min", QString::null, QString::null, "0");
+
+	EffectDesc *grey =new EffectDesc(i18n("Greyscale"), "greyscale");
+	xmlAttr.append("type", QString::null, QString::null, "boolean");
 	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
 	grey->addParameter(m_parameter);
 	m_effectList.append(grey);
 
+	EffectDesc *invert =new EffectDesc(i18n("Invert"), "invert");
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "boolean");
+	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
+	invert->addParameter(m_parameter);
+	m_effectList.append(invert);
+
+	EffectDesc *sepia =new EffectDesc(i18n("Sepia"), "sepia");
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "u");
+	xmlAttr.append("description", QString::null, QString::null, "The U parameter");
+	xmlAttr.append("max", QString::null, QString::null, "255");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("value", QString::null, QString::null, "75");
+	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
+	sepia->addParameter(m_parameter);
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "v");
+	xmlAttr.append("max", QString::null, QString::null, "255");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("value", QString::null, QString::null, "150");
+	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
+	sepia->addParameter(m_parameter);
+	m_effectList.append(sepia);
+
+	EffectDesc *charcoal =new EffectDesc(i18n("Charcoal"), "charcoal");
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "x_scatter");
+	xmlAttr.append("max", QString::null, QString::null, "10");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
+	charcoal->addParameter(m_parameter);
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "y_scatter");
+	xmlAttr.append("max", QString::null, QString::null, "10");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
+	charcoal->addParameter(m_parameter);
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "scale");
+	xmlAttr.append("max", QString::null, QString::null, "10");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
+	charcoal->addParameter(m_parameter);
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "mix");
+	xmlAttr.append("max", QString::null, QString::null, "10");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
+	charcoal->addParameter(m_parameter);
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "invert");
+	xmlAttr.append("max", QString::null, QString::null, "1");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
+	charcoal->addParameter(m_parameter);
+	m_effectList.append(charcoal);
+
+
 	EffectDesc *bright =new EffectDesc(i18n("Brightness"), "brightness");
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "double");
+	xmlAttr.append("name", QString::null, QString::null, "Intensity");
+	xmlAttr.append("max", QString::null, QString::null, "100");
+	xmlAttr.append("min", QString::null, QString::null, "0");
 	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
 	bright->addParameter(m_parameter);
 	m_effectList.append(bright);
@@ -238,6 +307,7 @@ QPtrList<AVFileFormatDesc> &KRender::fileFormats()
 
 
 void KRender::openMlt(){
+
 	m_refCount++;
 	if (m_refCount==1){
 		Mlt::Factory::init();
@@ -280,6 +350,7 @@ replyCreateVideoXWindow() once the renderer has replied. */
 
 void KRender::createVideoXWindow( bool show ,WId winid )
 {
+
 	m_mltConsumer=new Mlt::Consumer("sdl_preview");
 	
 	m_mltConsumer->listen("consumer-frame-show",this,(mlt_listener)consumer_frame_show);
@@ -351,9 +422,10 @@ void KRender::getSoundSamples(const  KURL& url, int channel,int frame, double fr
 }
 
 
-void KRender::getImage( KURL url, int frame, int width, int height) 
+void KRender::getImage( KURL url, int frame, int width, int height)
 {
-	Mlt::Producer m_producer(const_cast<char*>((url.directory(false)+url.fileName()).ascii()));
+	// forcing avformat producer to grab the image since it handles more formats (raw dv is not supported in libdv)
+	Mlt::Producer m_producer(const_cast<char*>(QString("avformat:"+(url.directory(false)+url.fileName())).ascii()));
 
 	Mlt::Filter m_convert( "avcolour_space" );
 	m_convert.set( "forced",mlt_image_rgb24a );
@@ -364,19 +436,19 @@ void KRender::getImage( KURL url, int frame, int width, int height)
 
 	if (m_frame) {
 		m_frame->set( "rescale","nearest" );
-		double ratio = (double) height / m_frame->get_int("height");
-		double overSize = 1.0;
+		/*double ratio = (double) height / m_frame->get_int("height");
+		double overSize = 1.0;*/
 		/* if we want a small thumbnail, oversize image a little bit and smooth rescale after, gives better results */
-		if (ratio < 0.3) overSize = 1.4;
+		//if (ratio < 0.3) overSize = 1.4;
     
 
-		unsigned char *m_thumb = m_frame->fetch_image( mlt_image_rgb24a, width * overSize, height* overSize, 1 );
-		m_producer.set( "thumb", m_thumb, width * height * overSize * overSize * 4, mlt_pool_release );
+		uchar *m_thumb = m_frame->fetch_image( mlt_image_rgb24a, width, height, 1 );
+		m_producer.set( "thumb", m_thumb, width * height * 4, mlt_pool_release );
 		m_frame->set( "image",m_thumb, 0, NULL, NULL );
 
 		QPixmap m_pixmap(width, height);
 
-		QImage m_image( m_thumb, width * overSize, height * overSize, 32, 0, 0, QImage::IgnoreEndian );
+		QImage m_image( m_thumb, width, height, 32, 0, 0, QImage::IgnoreEndian );
 
 		delete m_frame;
 		if (!m_image.isNull()) m_pixmap = m_image.smoothScale(width, height );
@@ -454,8 +526,9 @@ void KRender::getFileProperties( KURL url )
 
 /** Wraps the VEML command of the same name. Sets the current scene list to
 be list. */
-void KRender::setSceneList( QDomDocument list )
+void KRender::setSceneList( QDomDocument list, bool resetPosition )
 {
+	GenTime pos = seekPosition();
 	m_sceneList = list;
 	m_setSceneListPending = true;
 		
@@ -465,7 +538,7 @@ void KRender::setSceneList( QDomDocument list )
 		emit stopped();	
 	}
 	m_mltProducer = new Mlt::Producer("westley-xml",const_cast<char*>(list.toString().ascii()));
-
+	if (!resetPosition) seek(pos);
 	m_mltProducer->set_speed(0.0);
 	//if (m_mltConsumer) 
 	{

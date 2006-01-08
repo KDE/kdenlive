@@ -114,7 +114,7 @@ public:
 	
 	/** Wraps the VEML command of the same name. Sets the current scene list to
 	be list. */
-	void setSceneList( QDomDocument list );
+	void setSceneList( QDomDocument list, bool resetPosition = true);
 
 	/** Sets up the renderer as a capture device. */
 	void setCapture();

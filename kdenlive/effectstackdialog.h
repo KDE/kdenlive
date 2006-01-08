@@ -17,6 +17,10 @@
 #ifndef EFFECTSTACKDIALOG_H
 #define EFFECTSTACKDIALOG_H
 
+//#include <effectstackdialog_ui.h>
+#include <klistbox.h>
+#include "effectstacklistview.h"
+
 #include <effectstackdialog_ui.h>
 
 class DocClipRef;
@@ -42,11 +46,19 @@ public:
 signals:
 	/** Emitted when a new effect has been selected in the effect stack. */
 	void effectSelected(DocClipRef *, Effect *);
+	/** Emitted when an effect parameter has been modified. */
+	void generateSceneList();
+
 public slots:
 	/** Setup the effect stack dialog to display the given clip */
 	void slotSetEffectStack(DocClipRef *clip);
+
+	void addParameters(DocClipRef *clip, Effect *effect);
 private:
 	void updateEffectStack();
+
+private slots:
+	void parameterChanged(int);
 };
 
 } // namespace Gui

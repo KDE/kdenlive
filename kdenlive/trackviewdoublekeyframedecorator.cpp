@@ -20,6 +20,7 @@
 #include "trackviewdoublekeyframedecorator.h"
 #include "ktimeline.h"
 #include "effectparameter.h"
+#include "effectparamdesc.h"
 #include "effectkeyframe.h"
 #include "effectdoublekeyframe.h"
 #include "docclipref.h"
@@ -45,6 +46,7 @@ TrackViewDoubleKeyFrameDecorator::~TrackViewDoubleKeyFrameDecorator()
 // virtual
 void TrackViewDoubleKeyFrameDecorator::paintClip(double startX, double endX, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected)
 {
+	if (!clip->hasEffect()) return;
 	int sx = startX; // (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
 	int ex = endX; //(int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
 
@@ -71,7 +73,7 @@ void TrackViewDoubleKeyFrameDecorator::paintClip(double startX, double endX, QPa
 		return;
 		}
 
-	if (m_effect->parameter(m_effectIndex))
+	if (m_effect->parameter(m_effectIndex) && m_effect->effectDescription().parameter(m_effectIndex)->type()=="double")
 	{
 	kdDebug()<<"+++++ EFFECT KEYFR. FOUND"<<m_effect->parameter(m_effectIndex)->numKeyFrames()<<endl;
 

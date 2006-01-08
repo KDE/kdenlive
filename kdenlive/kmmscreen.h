@@ -78,7 +78,7 @@ public slots: // Public slots
 	/** Set the play speed of the screen */
 	void play(double speed, const GenTime &startTime, const GenTime &endTime);
 	/** Set the displayed scenelist to the one specified. */
- 	void setSceneList(const QDomDocument &scenelist);
+ 	void setSceneList(const QDomDocument &scenelist, bool resetPosition = true);
 	/** Sets the screen up as a capture device */
 	void setCapture();
 	/** Called when the renderer stops playing */

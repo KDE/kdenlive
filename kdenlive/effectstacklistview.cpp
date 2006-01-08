@@ -36,7 +36,7 @@ EffectStackListView::EffectStackListView( QWidget * parent, const char * name ) 
 	setColumnWidthMode(0, Maximum);
 	setAcceptDrops( true );
 	setFullWidth( true );
-	connect( this, SIGNAL( executed( QListViewItem * ) ), this, SLOT( selectedEffect( QListViewItem * ) ) );
+	connect( this, SIGNAL( selectionChanged ( QListViewItem * ) ), this, SLOT( selectedEffect( QListViewItem * ) ) );
 
        connect(this, SIGNAL(dropped(QDropEvent*, QListViewItem*, QListViewItem*)), this,
     						  SLOT(dragDropped(QDropEvent*, QListViewItem*, QListViewItem*)));
@@ -64,7 +64,7 @@ void EffectStackListView::updateEffectStack()
 			lastItem = item;
 		}
 	}
-
+	if (firstChild()) setSelected(firstChild(), true);
 	triggerUpdate();
 }
 
@@ -142,7 +142,7 @@ void EffectStackListView::slotMoveEffectUp()
 void EffectStackListView::slotMoveEffectDown()
 {
 	int selectedIx = selectedEffectIndex();
-	if((selectedIx != -1) && (selectedIx < m_clip->effectStack().count())) {
+	if((selectedIx != -1) && (selectedIx < m_clip->effectStack().count()-1)) {
 		m_app->addCommand(Command::KAddEffectCommand::moveEffect(m_document, m_clip, selectedIx, selectedIx+1));
 	}
 }
@@ -173,6 +173,11 @@ int EffectStackListView::selectedEffectIndex() const
 	}
 	kdWarning() << "selectedEffectIndex = " << result << endl;
 	return result;
+}
+
+DocClipRef* EffectStackListView::clip()
+{
+	return m_clip;
 }
 
 } // namespace Gui
