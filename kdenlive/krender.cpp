@@ -101,6 +101,8 @@ KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, 
 	openMlt();
 
 
+	// Build effects. We should find a more elegant way to do it, and ultimately 
+	// retrieve it directly from mlt
 	QXmlAttributes xmlAttr;
 
 	EffectDesc *grey =new EffectDesc(i18n("Greyscale"), "greyscale");

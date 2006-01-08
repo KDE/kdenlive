@@ -232,7 +232,6 @@ m_projectClip->producersList = m_clipManager.producersList();
 /** Called when the document is modifed in some way. */
 void KdenliveDoc::hasBeenModified()
 {
-kdDebug()<<"//////////////////////  DOC HASBEENMODIFIED /////////////////////"<<endl;
 	if(m_sceneListGeneration) {
 		generateProducersList();
 		//generateSceneList();
