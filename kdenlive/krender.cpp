@@ -144,6 +144,7 @@ KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, 
 	xmlAttr.append("name", QString::null, QString::null, "x_scatter");
 	xmlAttr.append("max", QString::null, QString::null, "10");
 	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("value", QString::null, QString::null, "2");
 	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
 	charcoal->addParameter(m_parameter);
 	xmlAttr.clear();
@@ -151,6 +152,7 @@ KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, 
 	xmlAttr.append("name", QString::null, QString::null, "y_scatter");
 	xmlAttr.append("max", QString::null, QString::null, "10");
 	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("value", QString::null, QString::null, "2");
 	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
 	charcoal->addParameter(m_parameter);
 	xmlAttr.clear();
@@ -158,6 +160,7 @@ KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, 
 	xmlAttr.append("name", QString::null, QString::null, "scale");
 	xmlAttr.append("max", QString::null, QString::null, "10");
 	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("value", QString::null, QString::null, "1");
 	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
 	charcoal->addParameter(m_parameter);
 	xmlAttr.clear();
@@ -165,6 +168,7 @@ KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, 
 	xmlAttr.append("name", QString::null, QString::null, "mix");
 	xmlAttr.append("max", QString::null, QString::null, "10");
 	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("value", QString::null, QString::null, "0");
 	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
 	charcoal->addParameter(m_parameter);
 	xmlAttr.clear();
@@ -172,6 +176,7 @@ KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, 
 	xmlAttr.append("name", QString::null, QString::null, "invert");
 	xmlAttr.append("max", QString::null, QString::null, "1");
 	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("value", QString::null, QString::null, "1");
 	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
 	charcoal->addParameter(m_parameter);
 	m_effectList.append(charcoal);
