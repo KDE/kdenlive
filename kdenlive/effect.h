@@ -36,14 +36,14 @@ public:
 	~Effect();
 
 	/** Returns an XML representation of this effect. */
-	QDomDocument toXML() const;
+	QDomDocument toXML();
 
 	const QString &name() const { return m_name; }
 
 	void addParameter(const QString &name);
 
 	/** Produce a clone of this effect. */
-	Effect *clone() const;
+	Effect *clone();
 
 	/** Creates an effect from the specified xml */
 	static Effect *createEffect(const EffectDesc &desc, const QDomElement &effect);

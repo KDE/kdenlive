@@ -61,9 +61,9 @@ bool TrackPanelKeyFrameFunction::mouseApplies(Gui::KTrackPanel *panel, QMouseEve
 			DocClipRef *clip = track->getClipAt(mouseTime);
 			if(clip && clip->hasEffect()) {
 
-			// #TODO: Currently only works for the first effect
+			// #TODO: Currently only works for the first parameter
 			uint effectIndex = 0;
-			Effect *effect = clip->effectAt(effectIndex);
+			Effect *effect = clip->selectedEffect();
 			if (! effect) {
 			kdDebug()<<"////// ERROR, EFFECT NOT FOUND"<<endl;
 			return false;
@@ -113,7 +113,7 @@ kdDebug()<<"+++++++ KEYFRAME MOUSE PRESSED"<<endl;
 
 			// #TODO: Currently only works for the first effect
 			uint effectIndex = 0;
-			Effect *effect = m_clipUnderMouse->effectAt(0);
+			Effect *effect = m_clipUnderMouse->selectedEffect();
 			if (!effect || !m_clipUnderMouse->hasEffect()) {
 			kdDebug()<<"////// ERROR, EFFECT NOT FOUND"<<endl;
 			return false;
@@ -191,8 +191,8 @@ bool TrackPanelKeyFrameFunction::mouseMoved(Gui::KTrackPanel *panel, QMouseEvent
 
 
 			uint effectIndex = 0;
-			Effect *effect = m_clipUnderMouse->effectAt(effectIndex);
-			if (!effect || !m_clipUnderMouse->hasEffect()) {
+			Effect *effect = m_clipUnderMouse->selectedEffect();
+			if (!effect ) {
 			kdDebug()<<"////// ERROR, EFFECT NOT FOUND"<<endl;
 			return false;
 			}
@@ -200,13 +200,13 @@ bool TrackPanelKeyFrameFunction::mouseMoved(Gui::KTrackPanel *panel, QMouseEvent
 			{
 			double dy1 = panel->height() - ((event->y()-m_selectedKeyframeValue)*100/panel->height());	
 
-			// If the keyframe is not the first one nor the last and is dragged away of the track, delete it.
-			if ( (dy1<-100 || dy1>200) && m_selectedKeyframe!=0 && m_selectedKeyframe!=effect->parameter(effectIndex)->numKeyFrames()-1) 
-			{
-			effect->parameter(effectIndex)->deleteKeyFrame(m_selectedKeyframe);
-			m_selectedKeyframe = -1;
-			emit redrawTrack();
-			return true;
+			// There should never be less than 2 keyframes
+			if ( (dy1<-100 || dy1>200) && effect->parameter(effectIndex)->numKeyFrames()>2) {
+				effect->parameter(effectIndex)->deleteKeyFrame(m_selectedKeyframe);
+				m_selectedKeyframe = -1;
+				emit redrawTrack();
+				emit signalKeyFrameChanged(true);
+				return true;
 			}
 
 			if ( dy1<0 ) dy1 = 0;

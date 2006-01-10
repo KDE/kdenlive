@@ -414,6 +414,8 @@ void KdenliveApp::initView()
 
 	connect(m_effectStackDialog, SIGNAL( effectSelected(DocClipRef *, Effect *) ), m_effectParamDialog, SLOT( slotSetEffect(DocClipRef *, Effect *)));
 
+	connect(m_effectStackDialog, SIGNAL( redrawTracks() ), m_timeline, SLOT( invalidateBackBuffer()));
+
 	connect( getDocument(), SIGNAL( clipListUpdated() ), m_projectList, SLOT( slot_UpdateList() ) );
 	connect( getDocument(), SIGNAL( clipChanged( DocClipRef * ) ), m_projectList, SLOT( slot_clipChanged( DocClipRef * ) ) );
 	connect( getDocument(), SIGNAL( nodeDeleted( DocumentBaseNode * ) ), m_projectList, SLOT( slot_nodeDeleted( DocumentBaseNode * ) ) );

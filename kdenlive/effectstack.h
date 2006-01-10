@@ -35,10 +35,16 @@ public:
     EffectStack();
     EffectStack(const EffectStack &rhs);
     const EffectStack &operator=(const EffectStack&rhs);
+    Effect *selectedItem();
+    void setSelected(uint ix);
 
     Effect *operator[](int ix) const;
 
     ~EffectStack();
+
+private:
+    uint index;
+
 };
 
 typedef QPtrListIterator<Effect> EffectStackIterator;

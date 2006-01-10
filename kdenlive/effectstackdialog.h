@@ -48,6 +48,7 @@ signals:
 	void effectSelected(DocClipRef *, Effect *);
 	/** Emitted when an effect parameter has been modified. */
 	void generateSceneList();
+	void redrawTracks();
 
 public slots:
 	/** Setup the effect stack dialog to display the given clip */

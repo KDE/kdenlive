@@ -180,4 +180,5 @@ DocClipRef* EffectStackListView::clip()
 	return m_clip;
 }
 
+
 } // namespace Gui

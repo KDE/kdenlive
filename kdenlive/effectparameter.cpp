@@ -28,7 +28,7 @@ EffectParameter::~EffectParameter()
 {
 }
 
-int EffectParameter::numKeyFrames() const
+const int EffectParameter::numKeyFrames() const
 {
 	return m_keyFrames.count();
 }

@@ -50,23 +50,24 @@ void TrackViewDoubleKeyFrameDecorator::paintClip(double startX, double endX, QPa
 	int sx = startX; // (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
 	int ex = endX; //(int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
 
-	if(sx < rect.x()) {
+	/*if(sx < rect.x()) {
 		sx = rect.x();
 	}
 	if(ex > rect.x() + rect.width()) {
 		ex = rect.x() + rect.width();
-	}
+	}*/
 	ex -= sx;
 
 	int ey = rect.height();
 	int sy = rect.y() + ey;
 
 
+
 	// draw outline box
 //	painter.fillRect( sx, rect.y(), ex, rect.height(), col);
 	
-
-	m_effect = clip->effectAt(m_effectIndex);
+	m_effectIndex = 0;
+	m_effect = clip->selectedEffect();
 
 	if (! m_effect) {
 		kdDebug()<<"////// ERROR, EFFECT NOT FOUND"<<endl;
@@ -79,51 +80,25 @@ void TrackViewDoubleKeyFrameDecorator::paintClip(double startX, double endX, QPa
 
 	painter.setPen(Qt::red);
 	uint count = m_effect->parameter(m_effectIndex)->numKeyFrames();
-	if (count > 1 )
+
+	if (count > 1 ) {
+	uint start = m_effect->parameter(m_effectIndex)->keyframe(0)->time()*ex;
+	painter.fillRect(sx + start +1, rect.y()+1, m_effect->parameter(m_effectIndex)->keyframe(count-1)->time()*ex-2-start, rect.height()-2, QBrush(Qt::white));	
 		for (uint i = 0; i<count -1; i++)
 		{
 		uint dx1 = sx + m_effect->parameter(m_effectIndex)->keyframe(i)->time()*ex;
 		uint dy1 = sy - ey*m_effect->parameter(m_effectIndex)->keyframe(i)->toDoubleKeyFrame()->value()/100;
 		uint dx2 = sx + m_effect->parameter(m_effectIndex)->keyframe(i+1)->time()*ex;
 		uint dy2 = sy - ey*m_effect->parameter(m_effectIndex)->keyframe(i+1)->toDoubleKeyFrame()->value()/100;
-	kdDebug()<<"++++++ DRAWING KEYFRAME : "<<dx1<<", "<<dy1<<", "<<dx2<<", "<<dy2<<endl;
+		//kdDebug()<<"++++++ DRAWING KEYFRAME : "<<dx1<<", "<<dy1<<", "<<dx2<<", "<<dy2<<endl;
+
 		painter.fillRect(dx1-3, dy1-3, 6, 6, QBrush(Qt::red));
 		painter.fillRect(dx2-3, dy2-3, 6, 6, QBrush(Qt::red));
 		painter.drawLine (dx1, dy1, dx2, dy2);
 		}
-/*
-kdDebug()<<"++++++ KEYFRAME 0: "<<m_effect->parameter(m_effectIndex)->keyframe(0)->toDoubleKeyFrame()->value()<<endl;
-kdDebug()<<"++++++ KEYFRAME 1: "<<m_effect->parameter(m_effectIndex)->keyframe(1)->toDoubleKeyFrame()->value()<<endl;
-*/
-	
-
-//	painter.drawLine (sx, rect.y(), sx+ex, rect.y());
+	}
 	painter.setPen(Qt::black);
 	}
-
-
-/*		int sx = (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
-		int ex = (int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
-		int clipWidth = ex-sx;
-		int tx = ex;
-
-		if(sx < rect.x()) {
-			sx = rect.x();
-		}
-		if(ex > rect.x() + rect.width()) {
-			ex = rect.x() + rect.width();
-		}
-		ex -= sx;
-
-		painter.setClipping(true);
-		painter.setClipRect(sx, rect.y(), ex, rect.height());
-
-		painter.setPen(Qt::red);
-		painter.drawLine (sx+1, rect.y(), sx+ex-2, rect.y());
-		painter.setPen(Qt::black);
-
-		painter.setClipping(false);
-	}*/
 
 }
 

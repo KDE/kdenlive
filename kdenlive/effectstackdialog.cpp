@@ -55,7 +55,6 @@ EffectStackDialog::EffectStackDialog(KdenliveApp *app, KdenliveDoc *doc, QWidget
 	connect(m_upButton, SIGNAL(clicked()), m_effectList, SLOT(slotMoveEffectUp()));
 	connect(m_downButton, SIGNAL(clicked()), m_effectList, SLOT(slotMoveEffectDown()));
 	connect(m_deleteButton, SIGNAL(clicked()), m_effectList, SLOT(slotDeleteEffect()));
-	connect(m_effectList, SIGNAL(effectSelected(DocClipRef *, Effect *)), this, SIGNAL(effectSelected(DocClipRef *, Effect *)));
 
 	connect(m_effectList, SIGNAL(effectSelected(DocClipRef *, Effect *)), this, SLOT(addParameters(DocClipRef *, Effect *)));
 }
@@ -70,6 +69,7 @@ void EffectStackDialog::addParameters(DocClipRef *clip, Effect *effect)
 // Rebuild the effect parameters dialog
 
 	uint parameterNum = 0;
+	clip->setEffectStackSelectedItem(m_effectList->selectedEffectIndex());
 
 	// remove all previous params
 	if (m_parameter->child("container","QVBox")) delete m_parameter->child("container","QVBox");
@@ -95,6 +95,8 @@ void EffectStackDialog::addParameters(DocClipRef *clip, Effect *effect)
 		parameterNum++;
 	}
 	container->show();
+	emit effectSelected(clip, effect);
+	emit redrawTracks();
 }
 
 

@@ -19,10 +19,14 @@
 
 #include "effectdesc.h"
 #include "effectparameter.h"
+#include "effectparamdescfactory.h"
+#include "effectdoublekeyframe.h"
+#include "effectkeyframe.h"
 #include "effectparamdesc.h"
 
 #include <kdebug.h>
 #include <qdom.h>
+
 
 Effect::Effect(const EffectDesc &desc, const QString &name) :
 				m_desc(desc),
@@ -34,7 +38,7 @@ Effect::~Effect()
 {
 }
 
-QDomDocument Effect::toXML() const
+QDomDocument Effect::toXML()
 {
 	QDomDocument doc;
 
@@ -48,11 +52,21 @@ QDomDocument Effect::toXML() const
 	EffectParamDesc *paramdesc = m_desc.parameter(i);
 	QDomElement param = doc.createElement("param");
 	param.setAttribute("name", paramdesc->name());
+	param.setAttribute("type", paramdesc->type());
+	param.setAttribute("value", paramdesc->value());
+	param.setAttribute("max", paramdesc->max());
+	param.setAttribute("min", paramdesc->min());
+	if (paramdesc->type() == "double")
+		for (uint j=0; j<m_paramList.at(i)->numKeyFrames();j++) {
+			QDomElement keyframe = doc.createElement("keyframe");
+			keyframe.setAttribute("time", m_paramList.at(i)->keyframe(j)->time());
+			keyframe.setAttribute("value", m_paramList.at(i)->keyframe(j)->toDoubleKeyFrame()->value());
+			param.appendChild(keyframe);
+		}
 	effect.appendChild(param);
 	}
 
 	doc.appendChild(effect);
-
 	return doc;
 }
 
@@ -66,7 +80,6 @@ void Effect::addKeyFrame(const uint ix, double time, double value)
 	m_paramList.at(ix)->addKeyFrame(effectDescription().parameter(ix)->createKeyFrame(time, value));
 }
 
-
 void Effect::addParameter(const QString &name)
 {
 	m_paramList.append(new EffectParameter(name));
@@ -77,7 +90,7 @@ EffectParameter* Effect::parameter(const uint ix)
 	return m_paramList.at(ix);
 }
 
-Effect *Effect::clone() const
+Effect *Effect::clone()
 {
 	return Effect::createEffect(m_desc, toXML().documentElement());
 }
@@ -86,6 +99,7 @@ Effect *Effect::clone() const
 Effect *Effect::createEffect(const EffectDesc &desc, const QDomElement &effect)
 {
 	Effect *result = 0;
+	
 	if(effect.tagName() == "effect") {
 		QString name = effect.attribute("name", "");
 		QString type= effect.attribute("type", "");
@@ -96,18 +110,27 @@ Effect *Effect::createEffect(const EffectDesc &desc, const QDomElement &effect)
 		result = new Effect(desc, name);
 
 		QDomNode node = effect.firstChild();
+		uint index = 0;
+		EffectParamDescFactory m_effectDescParamFactory;
+
 		while( !node.isNull()) {
 			QDomElement e = node.toElement();
 			if(!e.isNull()) {
 				if(e.tagName() == "param") {
 					result->addParameter(e.attribute("name",""));
+					QDomNode keyNode = e.firstChild();
+					while( !keyNode.isNull()) {
+						QDomElement k = keyNode.toElement();
+						if(k.tagName() == "keyframe") {
+						result->addKeyFrame(index, k.attribute("time","").toDouble(), k.attribute("value","").toDouble());
+						}
+					keyNode = keyNode.nextSibling();
+					}
+				index++;
 				}
 			}
 			node = node.nextSibling();
 		}
-		
-
-
 	} else {
 		kdError() << "Trying to create an effect from xml tag that is not <effect>" << endl;
 	}

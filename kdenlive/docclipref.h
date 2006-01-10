@@ -221,6 +221,12 @@ public:
 	/** Adds an effect to effect stack at the specified marker position. */
 	void deleteEffect(uint index);
 
+	/** Sets the index for the currently selected effect */
+	void setEffectStackSelectedItem(uint ix);
+
+	/** Returns the currently selected effect */
+	Effect *selectedEffect();
+
 	/** Returns the effect stack */
 	const EffectStack &effectStack() const { return m_effectStack; }
 

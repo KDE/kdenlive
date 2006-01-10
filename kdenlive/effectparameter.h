@@ -40,7 +40,7 @@ public:
     ~EffectParameter();
 
     /** @returns the number of keyframes in this effect parameter. */
-    int numKeyFrames() const;
+    const int numKeyFrames() const;
 
     /** @returns the keyframe in the list. */
     EffectKeyFrame *keyframe(int ix) const;

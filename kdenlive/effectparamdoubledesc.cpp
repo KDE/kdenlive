@@ -57,7 +57,9 @@ EffectKeyFrame *EffectParamDoubleDesc::createKeyFrame(double time)
 // virtual
 EffectKeyFrame *EffectParamDoubleDesc::createKeyFrame(double time, double value)
 {
-	return new EffectDoubleKeyFrame(time, m_max*value);
+	if (value>m_max) value = m_max;
+	if (value<m_min) value = m_min;
+	return new EffectDoubleKeyFrame(time, value);
 }
 
 // virtual

@@ -19,7 +19,7 @@
 #include <kdebug.h>
 
 EffectStack::EffectStack()
- : QPtrList<Effect>()
+ : QPtrList<Effect>(), index(0)
 {
 	setAutoDelete(true);
 }
@@ -56,6 +56,16 @@ const EffectStack &EffectStack::operator=(const EffectStack& rhs)
 
 EffectStack::~EffectStack()
 {
+}
+
+void EffectStack::setSelected(uint ix)
+{
+	index = ix;
+}
+
+Effect *EffectStack::selectedItem()
+{
+	return at(index);
 }
 
 Effect *EffectStack::operator[](int ix) const

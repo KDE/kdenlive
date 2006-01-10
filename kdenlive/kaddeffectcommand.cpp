@@ -25,6 +25,7 @@
 #include "docclipref.h"
 #include "doctrackbase.h"
 #include "effect.h"
+#include "effectparameter.h"
 #include "kdenlivedoc.h"
 
 namespace Command {
@@ -51,6 +52,7 @@ KAddEffectCommand *KAddEffectCommand::removeEffect(KdenliveDoc *document, DocCli
 KCommand *KAddEffectCommand::moveEffect(KdenliveDoc *document, DocClipRef *clip, int effectIndex, int newEffectIndex)
 {
 	KMacroCommand *command = new KMacroCommand(i18n("Move Effect"));
+
 	command->addCommand(removeEffect(document, clip, effectIndex));
 	command->addCommand(insertEffect(document, clip, newEffectIndex, clip->effectStack()[effectIndex]));
 	return command;
