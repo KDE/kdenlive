@@ -95,7 +95,6 @@ EffectStackDialog::~EffectStackDialog()
 void EffectStackDialog::addParameters(DocClipRef *clip, Effect *effect)
 {
 // Rebuild the effect parameters dialog
-
 	uint parameterNum = 0;
 	m_hasKeyFrames = false;
 	spinIndex->setValue(0);
@@ -278,6 +277,7 @@ void EffectStackDialog::slotSetEffectStack(DocClipRef *clip)
 		delete m_parameter->child("container","QVBox");
 	if (m_keyframes->child("container","QVBox")) 
 		delete m_keyframes->child("container","QVBox");
+	tabWidget2->setTabEnabled(tabWidget2->page(1), false);
 
 	m_effectList->setEffectStack(clip);
 }
