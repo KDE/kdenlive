@@ -107,6 +107,7 @@ kdDebug()<<"+++++++ KEYFRAME MOUSE PRESSED"<<endl;
 			GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_document->framesPerSecond());
 			m_clipUnderMouse = track->getClipAt(mouseTime);
 			if(m_clipUnderMouse) {
+			if (!track->clipSelected(m_clipUnderMouse)) track->selectClip(m_clipUnderMouse, true);
 
 			// #TODO: Currently only works for the first effect
 			uint effectIndex = 0;
