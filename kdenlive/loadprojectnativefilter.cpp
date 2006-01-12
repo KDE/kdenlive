@@ -127,7 +127,19 @@ void LoadProjectNativeFilter::addToDocument(const QString &parent, QDomElement &
 
 	if(parentNode) {
 		if((clip.tagName() == "AVFile") || (clip.tagName() == "avfile")) {
-			DocClipBase *baseClip = document->clipManager().insertClip(clip.attribute("url", ""));
+			uint clipType;
+			clipType = clip.attribute("type", "").toInt();
+			DocClipBase *baseClip;
+
+			if (clipType<4) //  AUDIO OR VIDEO CLIP
+				baseClip = document->clipManager().insertClip(clip.attribute("url", ""));
+
+			if (clipType == DocClipBase::COLOR) //   COLOR CLIP
+				baseClip = document->clipManager().insertColorClip(clip.attribute("color", ""), GenTime(clip.attribute("duration", "").toInt(),25),clip.attribute("name", ""),clip.attribute("description", ""));
+
+			if (clipType == DocClipBase::IMAGE) //   IMAGE CLIP
+				baseClip = document->clipManager().insertImageClip(clip.attribute("url", ""),"",0, GenTime(clip.attribute("duration", "").toInt(),25),clip.attribute("description", ""));
+
 			DocumentClipNode *clipNode = new DocumentClipNode(parentNode, baseClip);
 			thisNode = clipNode;
 

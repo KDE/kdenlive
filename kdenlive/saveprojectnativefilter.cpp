@@ -24,6 +24,7 @@
 #include "kdenlivedoc.h"
 #include "documentclipnode.h"
 #include "docclipproject.h"
+#include "docclipavfile.h"
 
 SaveProjectNativeFilter::SaveProjectNativeFilter()
  : SaveProjectFilter()
@@ -45,7 +46,6 @@ bool SaveProjectNativeFilter::save(QFile &file, KdenliveDoc *document)
 
 	QDomElement avfilelist = doc.createElement("avfilelist");
 	DocumentBaseNode *node = document->clipHierarch();
-
 	QPtrListIterator<DocumentBaseNode> itt(node->children());
 
 	while(itt.current()) {
@@ -54,11 +54,23 @@ bool SaveProjectNativeFilter::save(QFile &file, KdenliveDoc *document)
 		if(clipNode) {
 			QDomElement avfile = doc.createElement("avfile");
 			avfile.setAttribute("url", clipNode->clipRef()->fileURL().path());
+			DocClipBase::CLIPTYPE clipType;
+			clipType = clipNode->clipRef()->clipType();
+			avfile.setAttribute("type", clipType);
+
+			if (clipType == DocClipBase::IMAGE)
+				avfile.setAttribute("duration", QString::number(clipNode->clipRef()->duration().frames(25)));
+
+			if (clipNode->clipRef()->clipType() == DocClipBase::COLOR) {
+				avfile.setAttribute("name", clipNode->clipRef()->name());
+				avfile.setAttribute("color", clipNode->clipRef()->referencedClip()->toDocClipAVFile()->color());
+				avfile.setAttribute("duration", QString::number(clipNode->clipRef()->duration().frames(25)));
+			}
 
 			QDomText description = doc.createTextNode(clipNode->clipRef()->description());
 			avfile.appendChild(description);
 
-			avfilelist.appendChild(avfile);
+			if (clipNode->clipRef()->name()!="") avfilelist.appendChild(avfile);
 		} else {
 			kdError() << "no support for saving group nodes yet!" << endl;
 		}
