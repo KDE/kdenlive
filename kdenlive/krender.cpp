@@ -106,14 +106,14 @@ KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, 
 	QXmlAttributes xmlAttr;
 
 	EffectDesc *grey =new EffectDesc(i18n("Greyscale"), "greyscale");
-	xmlAttr.append("type", QString::null, QString::null, "boolean");
+	xmlAttr.append("type", QString::null, QString::null, "fixed");
 	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
 	grey->addParameter(m_parameter);
 	m_effectList.append(grey);
 
 	EffectDesc *invert =new EffectDesc(i18n("Invert"), "invert");
 	xmlAttr.clear();
-	xmlAttr.append("type", QString::null, QString::null, "boolean");
+	xmlAttr.append("type", QString::null, QString::null, "fixed");
 	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
 	invert->addParameter(m_parameter);
 	m_effectList.append(invert);
@@ -125,7 +125,7 @@ KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, 
 	xmlAttr.append("description", QString::null, QString::null, "The U parameter");
 	xmlAttr.append("max", QString::null, QString::null, "255");
 	xmlAttr.append("min", QString::null, QString::null, "0");
-	xmlAttr.append("value", QString::null, QString::null, "75");
+	xmlAttr.append("default", QString::null, QString::null, "75");
 	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
 	sepia->addParameter(m_parameter);
 	xmlAttr.clear();
@@ -133,7 +133,7 @@ KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, 
 	xmlAttr.append("name", QString::null, QString::null, "v");
 	xmlAttr.append("max", QString::null, QString::null, "255");
 	xmlAttr.append("min", QString::null, QString::null, "0");
-	xmlAttr.append("value", QString::null, QString::null, "150");
+	xmlAttr.append("default", QString::null, QString::null, "150");
 	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
 	sepia->addParameter(m_parameter);
 	m_effectList.append(sepia);
@@ -144,7 +144,7 @@ KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, 
 	xmlAttr.append("name", QString::null, QString::null, "x_scatter");
 	xmlAttr.append("max", QString::null, QString::null, "10");
 	xmlAttr.append("min", QString::null, QString::null, "0");
-	xmlAttr.append("value", QString::null, QString::null, "2");
+	xmlAttr.append("default", QString::null, QString::null, "2");
 	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
 	charcoal->addParameter(m_parameter);
 	xmlAttr.clear();
@@ -152,7 +152,7 @@ KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, 
 	xmlAttr.append("name", QString::null, QString::null, "y_scatter");
 	xmlAttr.append("max", QString::null, QString::null, "10");
 	xmlAttr.append("min", QString::null, QString::null, "0");
-	xmlAttr.append("value", QString::null, QString::null, "2");
+	xmlAttr.append("default", QString::null, QString::null, "2");
 	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
 	charcoal->addParameter(m_parameter);
 	xmlAttr.clear();
@@ -160,7 +160,7 @@ KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, 
 	xmlAttr.append("name", QString::null, QString::null, "scale");
 	xmlAttr.append("max", QString::null, QString::null, "10");
 	xmlAttr.append("min", QString::null, QString::null, "0");
-	xmlAttr.append("value", QString::null, QString::null, "1");
+	xmlAttr.append("default", QString::null, QString::null, "1");
 	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
 	charcoal->addParameter(m_parameter);
 	xmlAttr.clear();
@@ -168,7 +168,7 @@ KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, 
 	xmlAttr.append("name", QString::null, QString::null, "mix");
 	xmlAttr.append("max", QString::null, QString::null, "10");
 	xmlAttr.append("min", QString::null, QString::null, "0");
-	xmlAttr.append("value", QString::null, QString::null, "0");
+	xmlAttr.append("default", QString::null, QString::null, "0");
 	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
 	charcoal->addParameter(m_parameter);
 	xmlAttr.clear();
@@ -176,7 +176,7 @@ KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, 
 	xmlAttr.append("name", QString::null, QString::null, "invert");
 	xmlAttr.append("max", QString::null, QString::null, "1");
 	xmlAttr.append("min", QString::null, QString::null, "0");
-	xmlAttr.append("value", QString::null, QString::null, "1");
+	xmlAttr.append("default", QString::null, QString::null, "1");
 	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
 	charcoal->addParameter(m_parameter);
 	m_effectList.append(charcoal);
@@ -186,11 +186,60 @@ KRender::KRender( const QString &rendererName, KURL appPath, unsigned int port, 
 	xmlAttr.clear();
 	xmlAttr.append("type", QString::null, QString::null, "double");
 	xmlAttr.append("name", QString::null, QString::null, "Intensity");
-	xmlAttr.append("max", QString::null, QString::null, "100");
+	xmlAttr.append("max", QString::null, QString::null, "3");
 	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("default", QString::null, QString::null, "1");
 	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
 	bright->addParameter(m_parameter);
 	m_effectList.append(bright);
+
+	EffectDesc *volume =new EffectDesc(i18n("Volume"), "volume");
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "double");
+	xmlAttr.append("name", QString::null, QString::null, "gain");
+	xmlAttr.append("starttag", QString::null, QString::null, "gain");
+	xmlAttr.append("max", QString::null, QString::null, "3");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("default", QString::null, QString::null, "1");
+	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
+	volume->addParameter(m_parameter);
+	m_effectList.append(volume);
+
+
+	EffectDesc *obscure =new EffectDesc(i18n("Obscure"), "obscure");
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "X");
+	xmlAttr.append("max", QString::null, QString::null, "720");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("default", QString::null, QString::null, "360");
+	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
+	obscure->addParameter(m_parameter);
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "Y");
+	xmlAttr.append("max", QString::null, QString::null, "576");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("default", QString::null, QString::null, "260");
+	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
+	obscure->addParameter(m_parameter);
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "W");
+	xmlAttr.append("max", QString::null, QString::null, "100");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("default", QString::null, QString::null, "40");
+	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
+	obscure->addParameter(m_parameter);
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "H");
+	xmlAttr.append("max", QString::null, QString::null, "100");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("default", QString::null, QString::null, "40");
+	m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
+	obscure->addParameter(m_parameter);
+	m_effectList.append(obscure);
 
 	if(!s_renderThread) {
 		s_renderThread = new KRenderThread;

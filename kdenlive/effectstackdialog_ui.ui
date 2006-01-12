@@ -2,14 +2,14 @@
 <class>EffectStackDialog_UI</class>
 <widget class="QWidget">
     <property name="name">
-	    <cstring>EffectStackDialog_UI</cstring>
+        <cstring>EffectStackDialog_UI</cstring>
     </property>
     <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>265</width>
-            <height>209</height>
+            <width>368</width>
+            <height>275</height>
         </rect>
     </property>
     <property name="caption">
@@ -22,37 +22,6 @@
         <widget class="KPushButton" row="0" column="0">
             <property name="name">
                 <cstring>m_upButton</cstring>
-            </property>
-            <property name="maximumSize">
-                <size>
-                    <width>25</width>
-                    <height>32767</height>
-                </size>
-            </property>
-            <property name="text">
-                <string></string>
-            </property>
-        </widget>
-        <spacer row="3" column="0">
-            <property name="name">
-                <cstring>spacer1</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Vertical</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>16</width>
-                    <height>81</height>
-                </size>
-            </property>
-        </spacer>
-        <widget class="KPushButton" row="2" column="0">
-            <property name="name">
-                <cstring>m_deleteButton</cstring>
             </property>
             <property name="maximumSize">
                 <size>
@@ -78,39 +47,263 @@
                 <string></string>
             </property>
         </widget>
-        <widget class="QGroupBox" row="0" column="2" rowspan="4" colspan="1">
+        <spacer row="4" column="0">
             <property name="name">
-                <cstring>m_parameter</cstring>
+                <cstring>spacer1</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>16</width>
+                    <height>108</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="KPushButton" row="2" column="0">
+            <property name="name">
+                <cstring>m_resetButton</cstring>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>25</width>
+                    <height>32767</height>
+                </size>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+        </widget>
+        <widget class="KPushButton" row="3" column="0">
+            <property name="name">
+                <cstring>m_deleteButton</cstring>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>25</width>
+                    <height>32767</height>
+                </size>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+        </widget>
+        <widget class="Gui::EffectStackListView" row="0" column="1" rowspan="5" colspan="1">
+            <property name="name">
+                <cstring>m_effectList</cstring>
             </property>
             <property name="sizePolicy">
                 <sizepolicy>
-                    <hsizetype>5</hsizetype>
+                    <hsizetype>1</hsizetype>
                     <vsizetype>5</vsizetype>
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                 </sizepolicy>
             </property>
-            <property name="frameShape">
-                <enum>NoFrame</enum>
-            </property>
-            <property name="title">
-                <string>Parameters</string>
-            </property>
-            <property name="flat">
-                <bool>true</bool>
-            </property>
         </widget>
-        <widget class="Gui::EffectStackListView" row="0" column="1" rowspan="4" colspan="1">
+        <widget class="QTabWidget" row="0" column="2" rowspan="5" colspan="1">
             <property name="name">
-                <cstring>m_effectList</cstring>
+                <cstring>tabWidget2</cstring>
             </property>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>tab</cstring>
+                </property>
+                <attribute name="title">
+                    <string>Parameters</string>
+                </attribute>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <property name="margin">
+                        <number>0</number>
+                    </property>
+                    <property name="spacing">
+                        <number>0</number>
+                    </property>
+                    <widget class="QGroupBox" row="0" column="0">
+                        <property name="name">
+                            <cstring>m_parameter</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>5</hsizetype>
+                                <vsizetype>5</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="frameShape">
+                            <enum>NoFrame</enum>
+                        </property>
+                        <property name="frameShadow">
+                            <enum>Plain</enum>
+                        </property>
+                        <property name="lineWidth">
+                            <number>0</number>
+                        </property>
+                        <property name="title">
+                            <string></string>
+                        </property>
+                        <property name="flat">
+                            <bool>true</bool>
+                        </property>
+                    </widget>
+                </grid>
+            </widget>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>tab</cstring>
+                </property>
+                <attribute name="title">
+                    <string>Keyframes</string>
+                </attribute>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <property name="margin">
+                        <number>0</number>
+                    </property>
+                    <property name="spacing">
+                        <number>0</number>
+                    </property>
+                    <widget class="QGroupBox" row="0" column="0">
+                        <property name="name">
+                            <cstring>m_keyframes</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>5</hsizetype>
+                                <vsizetype>3</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="frameShape">
+                            <enum>NoFrame</enum>
+                        </property>
+                        <property name="frameShadow">
+                            <enum>Plain</enum>
+                        </property>
+                        <property name="lineWidth">
+                            <number>0</number>
+                        </property>
+                        <property name="title">
+                            <string></string>
+                        </property>
+                        <property name="flat">
+                            <bool>true</bool>
+                        </property>
+                        <grid>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QLabel" row="0" column="0">
+                                <property name="name">
+                                    <cstring>textLabel1</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Index</string>
+                                </property>
+                            </widget>
+                            <widget class="QSpinBox" row="0" column="1">
+                                <property name="name">
+                                    <cstring>spinIndex</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="1" column="0" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>textLabel2</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Position</string>
+                                </property>
+                            </widget>
+                            <widget class="QSlider" row="1" column="2">
+                                <property name="name">
+                                    <cstring>sliderPosition</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                            </widget>
+                            <widget class="QSpinBox" row="1" column="3">
+                                <property name="name">
+                                    <cstring>spinPosition</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QSlider" row="2" column="2">
+                                <property name="name">
+                                    <cstring>sliderValue</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                            </widget>
+                            <widget class="QSpinBox" row="2" column="3">
+                                <property name="name">
+                                    <cstring>spinValue</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="2" column="0" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>textLabel2_2</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Value</string>
+                                </property>
+                            </widget>
+                            <spacer row="0" column="2" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>spacer2</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>108</width>
+                                        <height>16</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                            <spacer row="3" column="2">
+                                <property name="name">
+                                    <cstring>spacer3</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Vertical</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>12</width>
+                                        <height>43</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                        </grid>
+                    </widget>
+                </grid>
+            </widget>
         </widget>
     </grid>
 </widget>
 <customwidgets>
     <customwidget>
         <class>EffectStackListView</class>
-        <header location="global">effectstacklistview.h</header>
+        <header location="local">effectstacklistview.h</header>
         <sizehint>
             <width>-1</width>
             <height>-1</height>
@@ -132,6 +325,7 @@
 </images>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
+    <includehint>kpushbutton.h</includehint>
     <includehint>kpushbutton.h</includehint>
     <includehint>kpushbutton.h</includehint>
     <includehint>kpushbutton.h</includehint>

@@ -371,7 +371,7 @@ void KdenliveApp::initView()
 
 	m_dockEffectStack = createDockWidget( "Effect Stack", QPixmap(), 0, i18n( "Effect Stack" ) );
 	m_effectStackDialog = new EffectStackDialog( this, getDocument(), m_dockEffectStack, "effect stack" );
-	QToolTip::add( m_dockEffectStack, i18n( "All effects on the currently selected clip." ) );
+//	QToolTip::add( m_dockEffectStack, i18n( "All effects on the currently selected clip." ) );
 	m_dockEffectStack->setWidget( m_effectStackDialog );
 	m_dockEffectStack->setDockSite( KDockWidget::DockFullSite );
 	m_dockEffectStack->manualDock( m_dockProjectList, KDockWidget::DockCenter );
@@ -478,6 +478,7 @@ void KdenliveApp::initView()
 	connect(keyFrameFunction, SIGNAL( signalKeyFrameChanged(bool) ), getDocument(), SLOT( activateSceneListGeneration(bool) ) );
 
 	connect(keyFrameFunction, SIGNAL( redrawTrack() ), m_timeline, SLOT( drawTrackViewBackBuffer() ) );
+	connect(keyFrameFunction, SIGNAL( redrawTrack() ), m_effectStackDialog, SLOT( updateKeyFrames() ) );
 	
 	connect(resizeFunction, SIGNAL( signalClipCropStartChanged( DocClipRef * ) ), this, SLOT( activateClipMonitor() ) );
 	connect(resizeFunction, SIGNAL( signalClipCropEndChanged( DocClipRef * ) ), this, SLOT( activateClipMonitor() ) );

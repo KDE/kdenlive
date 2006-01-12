@@ -45,7 +45,7 @@ public:
     /** @returns the keyframe in the list. */
     EffectKeyFrame *keyframe(int ix) const;
 
-    void addKeyFrame(EffectKeyFrame *effectKeyFrame);
+    uint addKeyFrame(EffectKeyFrame *effectKeyFrame);
 
     EffectKeyFrame *deleteKeyFrame(int ix);
 
@@ -59,9 +59,13 @@ public:
      */
     EffectKeyFrame *interpolateKeyFrame(double time) const;
 
+	void setSelectedKeyFrame(int ix);
+	const int selectedKeyFrame() const;
+
 private:
 	QString m_name;
 	KeyFrameList m_keyFrames;
+	int m_selectedKeyFrame;
 
 };
 

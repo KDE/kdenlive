@@ -53,13 +53,21 @@ signals:
 public slots:
 	/** Setup the effect stack dialog to display the given clip */
 	void slotSetEffectStack(DocClipRef *clip);
-
 	void addParameters(DocClipRef *clip, Effect *effect);
+	void updateKeyFrames();
 private:
 	void updateEffectStack();
+	/** When performing an operation on several parameters, we don't want the scenelist and tracks to be generated for each parameter, just at the end of the operation. The m_blockUpdate is used for that purpose*/
+	bool m_blockUpdate;
+
+	bool m_hasKeyFrames;
 
 private slots:
 	void parameterChanged(int);
+	void resetParameters();
+	void selectKeyFrame(int);
+	void changeKeyFramePosition(int newTime);
+	void changeKeyFrameValue(int newTime);
 };
 
 } // namespace Gui

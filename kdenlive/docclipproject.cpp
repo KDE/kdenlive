@@ -326,7 +326,7 @@ uint tracksCounter = 0;
 
 	doc.documentElement().appendChild(tractor);
 
-//	kdDebug()<<"+ + + PROJECT SCENE: "<<doc.toString()<<endl;
+	kdDebug()<<"+ + + PROJECT SCENE: "<<doc.toString()<<endl;
 	return doc;
 }
 

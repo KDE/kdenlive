@@ -83,8 +83,6 @@ public:
 	continuing with the drag.*/
 	virtual bool mouseMoved(Gui::KTrackPanel *panel, QMouseEvent *event);
 
-
-	void setKeyFrame(int i);
 signals: // Signals
   /**
   Emitted when a keyframe was changed.
@@ -106,6 +104,7 @@ private:
   	/** This command holds the resize information during a resize operation */
   	Command::KResizeCommand * m_resizeCommand;
 	SnapToGrid m_snapToGrid;
+	bool m_refresh;
 };
 
 #endif

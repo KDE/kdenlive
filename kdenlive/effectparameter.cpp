@@ -19,7 +19,8 @@
 #include <kdebug.h>
 
 EffectParameter::EffectParameter(const QString &name) :
-				m_name(name)
+				m_name(name),
+				m_selectedKeyFrame(0)
 {
 }
 
@@ -33,7 +34,17 @@ const int EffectParameter::numKeyFrames() const
 	return m_keyFrames.count();
 }
 
-void EffectParameter::addKeyFrame(EffectKeyFrame *effectKeyFrame)
+void EffectParameter::setSelectedKeyFrame(int ix)
+{
+	m_selectedKeyFrame = ix;
+}
+
+const int EffectParameter::selectedKeyFrame() const
+{
+	return m_selectedKeyFrame;
+}
+
+uint EffectParameter::addKeyFrame(EffectKeyFrame *effectKeyFrame)
 {
 	KeyFrameListIterator itt(m_keyFrames);
 	double time = effectKeyFrame->time();
@@ -43,6 +54,7 @@ void EffectParameter::addKeyFrame(EffectKeyFrame *effectKeyFrame)
 		++itt;
 	}
 	m_keyFrames.insert(i, effectKeyFrame);
+	return i;
 }
 
 EffectKeyFrame *EffectParameter::keyframe(int ix) const

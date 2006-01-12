@@ -54,6 +54,7 @@ QDomDocument Effect::toXML()
 	param.setAttribute("name", paramdesc->name());
 	param.setAttribute("type", paramdesc->type());
 	param.setAttribute("value", paramdesc->value());
+	param.setAttribute("default", paramdesc->defaultValue());
 	param.setAttribute("max", paramdesc->max());
 	param.setAttribute("min", paramdesc->min());
 	if (paramdesc->type() == "double")
@@ -70,9 +71,9 @@ QDomDocument Effect::toXML()
 	return doc;
 }
 
-void Effect::addKeyFrame(const uint ix, double time)
+uint Effect::addKeyFrame(const uint ix, double time)
 {
-	m_paramList.at(ix)->addKeyFrame(effectDescription().parameter(ix)->createKeyFrame(time));
+	return m_paramList.at(ix)->addKeyFrame(effectDescription().parameter(ix)->createKeyFrame(time));
 }
 
 void Effect::addKeyFrame(const uint ix, double time, double value)

@@ -418,7 +418,16 @@ QDomDocument DocClipRef::generateXMLClip()
 	Effect *effect = effectAt(i);
 	uint parameterNum = 0;
 	bool hasParameters = false;
-	
+
+	if (effect->effectDescription().tag()=="obscure") { // just for testing purpose
+		QDomElement transition = sceneList.createElement("filter");
+		transition.setAttribute("mlt_service",effect->effectDescription().tag());
+		transition.setAttribute("in", QString::number(m_cropStart.frames(framesPerSecond())));
+		transition.setAttribute("out", QString::number((m_cropStart+cropDuration()).frames(framesPerSecond())));
+		transition.setAttribute("start", "400,180:120x120");
+		transition.setAttribute("end", "400,180:120x120");
+		entry.appendChild(transition);
+	} else 
 	while (effect->parameter(parameterNum)) {
 		uint keyFrameNum = 0;
 		uint maxValue;
@@ -426,9 +435,12 @@ QDomDocument DocClipRef::generateXMLClip()
 
 		if (effect->effectDescription().parameter(parameterNum)->type() == "double") {
 			// Effect has one parameter with keyframes
+			QString startTag, endTag;
 			keyFrameNum = effect->parameter(parameterNum)->numKeyFrames();
 			maxValue = effect->effectDescription().parameter(parameterNum)->max();
 			minValue = effect->effectDescription().parameter(parameterNum)->min();
+			startTag = effect->effectDescription().parameter(parameterNum)->startTag();
+			endTag = effect->effectDescription().parameter(parameterNum)->endTag();
 
 			if (keyFrameNum > 1) {
 				for (uint count = 0; count < keyFrameNum-1; count++) {
@@ -436,17 +448,17 @@ QDomDocument DocClipRef::generateXMLClip()
 					transition.setAttribute("mlt_service",effect->effectDescription().tag()); 
 					uint in = m_cropStart.frames(framesPerSecond());
 					uint duration = cropDuration().frames(framesPerSecond());
-					transition.setAttribute("in",QString::number((in + effect->parameter(parameterNum)->keyframe(count)->time())*duration)); 
-					transition.setAttribute("start",QString::number(effect->parameter(parameterNum)->keyframe(count)->toDoubleKeyFrame()->value()/maxValue)); 
-					transition.setAttribute("out",QString::number((in + effect->parameter(parameterNum)->keyframe(count+1)->time())*duration)); 
-					transition.setAttribute("end",QString::number(effect->parameter(parameterNum)->keyframe(count+1)->toDoubleKeyFrame()->value()/maxValue));
+					transition.setAttribute("in",QString::number(in + (effect->parameter(parameterNum)->keyframe(count)->time())*duration)); 
+					transition.setAttribute(startTag,QString::number(effect->parameter(parameterNum)->keyframe(count)->toDoubleKeyFrame()->value()*maxValue/100)); 
+					transition.setAttribute("out",QString::number(in + (effect->parameter(parameterNum)->keyframe(count+1)->time())*duration)); 
+					transition.setAttribute(endTag,QString::number(effect->parameter(parameterNum)->keyframe(count+1)->toDoubleKeyFrame()->value()*maxValue/100));
 
 					// Add the other constant parameters if any
-					uint parameterNumBis = parameterNum;
+					/*uint parameterNumBis = parameterNum;
 					while (effect->parameter(parameterNumBis)) {
 						transition.setAttribute(effect->effectDescription().parameter(parameterNumBis)->name(),QString::number(effect->effectDescription().parameter(parameterNumBis)->value()));
 						parameterNumBis++;
-					}
+					}*/
 					entry.appendChild(transition);
 				}
 			}

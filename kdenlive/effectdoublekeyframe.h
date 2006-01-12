@@ -42,6 +42,7 @@ public:
     virtual EffectKeyFrame *interpolateKeyFrame(EffectKeyFrame *keyframe, double time) const;
 
     virtual EffectKeyFrame *clone() const;
+
 private:
 	double m_value;
 };

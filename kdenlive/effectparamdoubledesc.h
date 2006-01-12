@@ -53,10 +53,14 @@ public:
 
 	virtual double max();
 	virtual double min();
+	virtual const QString endTag() const;
+	virtual const QString startTag() const;
 
 private:
 	double m_min;
 	double m_max;
+	QString m_starttag;
+	QString m_endtag;
 };
 
 #endif

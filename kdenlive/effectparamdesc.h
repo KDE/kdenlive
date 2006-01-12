@@ -71,11 +71,15 @@ public:
 	virtual double max() = 0;
 	virtual double min() = 0;
 
+	virtual const QString endTag() const = 0;
+	virtual const QString startTag() const = 0;
+
 	void setDescription(const QString &description);
 	const QString &description() const;
 	const QString &name() const { return m_name; }
 	const QString &type() const { return m_type; }
 	const double &value() const { return m_value; }
+	const double &defaultValue() const { return m_default; }
 	void setValue(const double &value);
 
 private:
@@ -85,6 +89,8 @@ private:
 	QString m_type;
 	/** The value of this parameter ( for constant parameters). */
 	double m_value;
+	/** The default parameter value. */
+	double m_default;
 	/** A human-readable description of what this parameter does within the effect. */
 	QString m_description;
 };

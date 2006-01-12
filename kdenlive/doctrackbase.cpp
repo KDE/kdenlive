@@ -476,6 +476,7 @@ bool DocTrackBase::selectClip( DocClipRef *clip, bool selected )
 				emit signalClipSelected( clip );
 			} else {
 				m_unselectedClipList.inSort( clip );
+				emit signalClipSelected( 0 );
 			}
 			result = true;
 			emit clipSelectionChanged();

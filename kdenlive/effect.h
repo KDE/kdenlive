@@ -50,7 +50,9 @@ public:
 
 	const EffectDesc &effectDescription() const { return m_desc; }
 	EffectParameter *parameter(const uint ix);
-	void addKeyFrame(const uint ix, double time);
+
+	/** Creates a new keyframe at specified time and returns the new key's index */
+	uint addKeyFrame(const uint ix, double time);
 	void addKeyFrame(const uint ix, double time, double value);
 
 private:

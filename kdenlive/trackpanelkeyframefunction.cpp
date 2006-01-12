@@ -41,7 +41,8 @@ TrackPanelKeyFrameFunction::TrackPanelKeyFrameFunction(Gui::KdenliveApp *app,
 								m_clipUnderMouse(0),
 								m_resizeCommand(0),
 								m_snapToGrid(),
-								m_selectedKeyframe(-1)
+								m_selectedKeyframe(-1),
+								m_refresh(false)
 {
 }
 
@@ -88,10 +89,6 @@ bool TrackPanelKeyFrameFunction::mouseApplies(Gui::KTrackPanel *panel, QMouseEve
 	return result;
 }
 
-void TrackPanelKeyFrameFunction::setKeyFrame(int i)
-{
-m_selectedKeyframe = i;
-}
 
 QCursor TrackPanelKeyFrameFunction::getMouseCursor(Gui::KTrackPanel *panel, QMouseEvent *event)
 {
@@ -149,10 +146,9 @@ kdDebug()<<"+++++++ KEYFRAME MOUSE PRESSED"<<endl;
 				double dx = (m_timeline->mapLocalToValue(event->x()) - m_clipUnderMouse->trackStart().frames(m_document->framesPerSecond()))/m_clipUnderMouse->cropDuration().frames(m_document->framesPerSecond());
 				kdDebug()<<"+++++++++++++ POSITON: "<<dx<<endl;
 				
-				effect->addKeyFrame(effectIndex,dx,0.5); //effect->parameter(effectIndex)->interpolateKeyFrame(0.7)->value());
-				//effect->parameter(effectIndex)->addKeyFrame(0.0);
-				//effect->parameter(effectIndex)->);
-				emit redrawTrack();
+				m_selectedKeyframe = effect->addKeyFrame(effectIndex,dx);
+				 //effect->parameter(effectIndex)->interpolateKeyFrame(0.7)->value());
+
 				return true;
 				
 			}
@@ -165,8 +161,14 @@ kdDebug()<<"+++++++ KEYFRAME MOUSE PRESSED"<<endl;
 bool TrackPanelKeyFrameFunction::mouseReleased(Gui::KTrackPanel *panel, QMouseEvent *event)
 {
 	bool result = false;
-	kdDebug()<<"KEYFRAME MOUSE RELEASED+++++++++++++++++++++++++++++++"<<endl;
-	emit signalKeyFrameChanged(true);
+	// Select the keyframe
+	Effect *effect = m_clipUnderMouse->selectedEffect();
+	uint effectIndex = 0;
+	effect->parameter(effectIndex)->setSelectedKeyFrame(m_selectedKeyframe);
+
+	emit redrawTrack();
+	if (m_refresh) emit signalKeyFrameChanged(true);
+	m_refresh = false;
 /*	m_resizeCommand->setEndSize(*m_clipUnderMouse);
 	m_app->addCommand(m_resizeCommand, false);
 	m_document->indirectlyModified();
@@ -198,12 +200,14 @@ bool TrackPanelKeyFrameFunction::mouseMoved(Gui::KTrackPanel *panel, QMouseEvent
 			}
 			if (effect->parameter(effectIndex))
 			{
+			m_refresh = true;
 			double dy1 = panel->height() - ((event->y()-m_selectedKeyframeValue)*100/panel->height());	
 
 			// There should never be less than 2 keyframes
 			if ( (dy1<-100 || dy1>200) && effect->parameter(effectIndex)->numKeyFrames()>2) {
 				effect->parameter(effectIndex)->deleteKeyFrame(m_selectedKeyframe);
 				m_selectedKeyframe = -1;
+				m_refresh = false;
 				emit redrawTrack();
 				emit signalKeyFrameChanged(true);
 				return true;
