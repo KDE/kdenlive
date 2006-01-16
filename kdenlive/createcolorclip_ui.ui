@@ -26,13 +26,6 @@
             <property name="text">
                 <string></string>
             </property>
-            <property name="color">
-                <color>
-                    <red>0</red>
-                    <green>0</green>
-                    <blue>0</blue>
-                </color>
-            </property>
         </widget>
         <widget class="QLabel" row="0" column="3">
             <property name="name">
