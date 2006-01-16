@@ -19,6 +19,7 @@
 
 //#include <effectstackdialog_ui.h>
 #include <klistbox.h>
+
 #include "effectstacklistview.h"
 
 #include <effectstackdialog_ui.h>
@@ -59,7 +60,7 @@ private:
 	void updateEffectStack();
 	/** When performing an operation on several parameters, we don't want the scenelist and tracks to be generated for each parameter, just at the end of the operation. The m_blockUpdate is used for that purpose*/
 	bool m_blockUpdate;
-
+	QString m_effecttype;
 	bool m_hasKeyFrames;
 
 private slots:

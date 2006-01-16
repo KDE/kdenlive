@@ -37,6 +37,15 @@ void EffectParamDesc::setValue(const double &value)
 	m_value = value;
 }
 
+EffectKeyFrame *EffectParamDesc::createKeyFrame(double time, double value)
+{}
+
+const QString EffectParamDesc::complexParamName(uint ix) const
+{}
+
+const uint EffectParamDesc::complexParamNum() const
+{}
+
 void EffectParamDesc::setDescription(const QString &description)
 {
 	m_description = description;

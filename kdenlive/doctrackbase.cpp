@@ -619,7 +619,7 @@ void DocTrackBase::addEffectToClip(const GenTime &position, int effectIndex, Eff
 	DocClipRef *clip = getClipAt(position);
 	if(clip) {
 		// If a new effect is inserted, create default keyframes at end and beginning
-		if (effect->parameter(0) != NULL && effect->effectDescription().parameter(0)->type() == "double" && effect->parameter(0)->numKeyFrames() == 0) {
+		if (effect->parameter(0) != NULL && (effect->effectDescription().parameter(0)->type() == "double" || effect->effectDescription().parameter(0)->type() == "complex" ) && effect->parameter(0)->numKeyFrames() == 0) {
 			effect->addKeyFrame(0, 0.0);
 			effect->addKeyFrame(0, 1.0);
 		}

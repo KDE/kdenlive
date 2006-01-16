@@ -28,6 +28,7 @@
 #include "effectparameter.h"
 #include "effectparamdesc.h"
 #include "effectdoublekeyframe.h"
+#include "effectcomplexkeyframe.h"
 #include "kdenlivedoc.h"
 
 DocClipRef::DocClipRef(DocClipBase *clip) :
@@ -41,6 +42,7 @@ DocClipRef::DocClipRef(DocClipBase *clip) :
 	if(!clip) {
 		kdError() << "Creating a DocClipRef with no clip - not a very clever thing to do!!!" << endl;
 	}
+	m_thumbnail = referencedClip()->thumbnail();
 }
 
 DocClipRef::~DocClipRef()
@@ -79,7 +81,7 @@ void DocClipRef::setCropStartTime(const GenTime &time)
 {
 	m_cropStart = time;
 	if(m_parentTrack) {
-		m_parentTrack->clipMoved(this);
+		m_parentTrack->clipMoved(this);	
 	}
 }
 
@@ -100,6 +102,17 @@ void DocClipRef::setTrackEnd(const GenTime &time)
 GenTime DocClipRef::cropDuration() const
 {
 	return m_trackEnd - m_trackStart;
+}
+
+void DocClipRef::updateThumbnail(QPixmap newpix)
+{
+	m_thumbnail = newpix;
+}
+
+
+QPixmap DocClipRef::thumbnail()
+{
+	return m_thumbnail;
 }
 
 DocClipRef *DocClipRef::createClip(const EffectDescriptionList &effectList, ClipManager &clipManager, const QDomElement &element)
@@ -419,21 +432,36 @@ QDomDocument DocClipRef::generateXMLClip()
 	uint parameterNum = 0;
 	bool hasParameters = false;
 
-	if (effect->effectDescription().tag()=="obscure") { // just for testing purpose
-		QDomElement transition = sceneList.createElement("filter");
-		transition.setAttribute("mlt_service",effect->effectDescription().tag());
-		transition.setAttribute("in", QString::number(m_cropStart.frames(framesPerSecond())));
-		transition.setAttribute("out", QString::number((m_cropStart+cropDuration()).frames(framesPerSecond())));
-		transition.setAttribute("start", "400,180:120x120");
-		transition.setAttribute("end", "400,180:120x120");
-		entry.appendChild(transition);
-	} else 
 	while (effect->parameter(parameterNum)) {
 		uint keyFrameNum = 0;
 		uint maxValue;
 		uint minValue;
 
-		if (effect->effectDescription().parameter(parameterNum)->type() == "double") {
+		if (effect->effectDescription().parameter(parameterNum)->type() == "complex") {
+			// Effect has keyframes with several sub-parameters
+			QString startTag, endTag;
+			keyFrameNum = effect->parameter(parameterNum)->numKeyFrames();
+			startTag = effect->effectDescription().parameter(parameterNum)->startTag();
+			endTag = effect->effectDescription().parameter(parameterNum)->endTag();
+
+			if (keyFrameNum > 1) {
+				for (uint count = 0; count < keyFrameNum-1; count++) {
+					QDomElement transition = sceneList.createElement("filter");
+					transition.setAttribute("mlt_service",effect->effectDescription().tag()); 
+					uint in = m_cropStart.frames(framesPerSecond());
+					uint duration = cropDuration().frames(framesPerSecond());
+					transition.setAttribute("in",QString::number(in + (effect->parameter(parameterNum)->keyframe(count)->time())*duration));
+					transition.setAttribute("out",QString::number(in + (effect->parameter(parameterNum)->keyframe(count+1)->time())*duration)); 
+
+					transition.setAttribute(startTag,effect->parameter(parameterNum)->keyframe(count)->toComplexKeyFrame()->processComplexKeyFrame()); 
+
+					transition.setAttribute(endTag,effect->parameter(parameterNum)->keyframe(count+1)->toComplexKeyFrame()->processComplexKeyFrame());
+					entry.appendChild(transition);
+				}
+			}
+		}
+
+		else if (effect->effectDescription().parameter(parameterNum)->type() == "double") {
 			// Effect has one parameter with keyframes
 			QString startTag, endTag;
 			keyFrameNum = effect->parameter(parameterNum)->numKeyFrames();

@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>368</width>
-            <height>275</height>
+            <width>415</width>
+            <height>295</height>
         </rect>
     </property>
     <property name="caption">
@@ -238,27 +238,6 @@
                                     <cstring>spinPosition</cstring>
                                 </property>
                             </widget>
-                            <widget class="QSlider" row="2" column="2">
-                                <property name="name">
-                                    <cstring>sliderValue</cstring>
-                                </property>
-                                <property name="orientation">
-                                    <enum>Horizontal</enum>
-                                </property>
-                            </widget>
-                            <widget class="QSpinBox" row="2" column="3">
-                                <property name="name">
-                                    <cstring>spinValue</cstring>
-                                </property>
-                            </widget>
-                            <widget class="QLabel" row="2" column="0" rowspan="1" colspan="2">
-                                <property name="name">
-                                    <cstring>textLabel2_2</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Value</string>
-                                </property>
-                            </widget>
                             <spacer row="0" column="2" rowspan="1" colspan="2">
                                 <property name="name">
                                     <cstring>spacer2</cstring>
@@ -276,23 +255,28 @@
                                     </size>
                                 </property>
                             </spacer>
-                            <spacer row="3" column="2">
+                            <widget class="QFrame" row="2" column="0" rowspan="1" colspan="4">
                                 <property name="name">
-                                    <cstring>spacer3</cstring>
+                                    <cstring>k_container</cstring>
                                 </property>
-                                <property name="orientation">
-                                    <enum>Vertical</enum>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>3</hsizetype>
+                                        <vsizetype>3</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
                                 </property>
-                                <property name="sizeType">
-                                    <enum>Expanding</enum>
+                                <property name="frameShape">
+                                    <enum>NoFrame</enum>
                                 </property>
-                                <property name="sizeHint">
-                                    <size>
-                                        <width>12</width>
-                                        <height>43</height>
-                                    </size>
+                                <property name="frameShadow">
+                                    <enum>Plain</enum>
                                 </property>
-                            </spacer>
+                                <property name="lineWidth">
+                                    <number>0</number>
+                                </property>
+                            </widget>
                         </grid>
                     </widget>
                 </grid>

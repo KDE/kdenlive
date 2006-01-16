@@ -2,8 +2,9 @@
                           trackviewdoublekeyframedecorator  -  description
                              -------------------
     begin                : Fri Jan 9 2004
-    copyright            : (C) 2004 by Jason Wood
-    email                : jasonwood@blueyonder.co.uk
+    copyright            : (C) 2004 Jason Wood, jasonwood@blueyonder.co.uk
+			 : (C) 2006 Jean-Baptiste Mardelle, jb@ader.ch
+
  ***************************************************************************/
 
 /***************************************************************************
@@ -74,9 +75,8 @@ void TrackViewDoubleKeyFrameDecorator::paintClip(double startX, double endX, QPa
 		return;
 		}
 
-	if (m_effect->parameter(m_effectIndex) && m_effect->effectDescription().parameter(m_effectIndex)->type()=="double")
-	{
-	kdDebug()<<"+++++ EFFECT KEYFR. FOUND"<<m_effect->parameter(m_effectIndex)->numKeyFrames()<<endl;
+	if (m_effect->parameter(m_effectIndex)) {
+	if (m_effect->effectDescription().parameter(m_effectIndex)->type()=="double") {
 
 	uint count = m_effect->parameter(m_effectIndex)->numKeyFrames();
 	QBrush brush(Qt::red);
@@ -105,6 +105,37 @@ void TrackViewDoubleKeyFrameDecorator::paintClip(double startX, double endX, QPa
 		}
 	}
 	painter.setPen(Qt::black);
+	}
+	else if (m_effect->effectDescription().parameter(m_effectIndex)->type()=="complex") {
+
+	uint count = m_effect->parameter(m_effectIndex)->numKeyFrames();
+	QBrush brush(Qt::red);
+
+	if (count > 1 ) {
+	uint start = m_effect->parameter(m_effectIndex)->keyframe(0)->time()*ex;
+	painter.fillRect(sx + start +1, rect.y()+1, m_effect->parameter(m_effectIndex)->keyframe(count-1)->time()*ex-2-start, rect.height()-2, QBrush(Qt::white));
+	painter.drawRect( sx + start, rect.y(), m_effect->parameter(m_effectIndex)->keyframe(count-1)->time()*ex-start, rect.height());
+
+	painter.setPen(Qt::red);
+	int selectedKeyFrame = m_effect->parameter(m_effectIndex)->selectedKeyFrame();
+		for (int i = 0; i<count -1; i++)
+		{
+		uint dx1 = sx + m_effect->parameter(m_effectIndex)->keyframe(i)->time()*ex;
+		uint dy1 = sy - ey/2;
+		uint dx2 = sx + m_effect->parameter(m_effectIndex)->keyframe(i+1)->time()*ex;
+		uint dy2 = sy - ey/2;
+
+		if (i == selectedKeyFrame) brush = QBrush(Qt::blue);
+			else brush = QBrush(Qt::red);
+		painter.fillRect(dx1-3, dy1-3, 6, 6, brush);
+		if (i+1 == selectedKeyFrame) brush = QBrush(Qt::blue);
+			else brush = QBrush(Qt::red);
+		painter.fillRect(dx2-3, dy2-3, 6, 6, brush);
+		painter.drawLine (dx1, dy1, dx2, dy2);
+		}
+	}
+	painter.setPen(Qt::black);
+	}
 	}
 
 }

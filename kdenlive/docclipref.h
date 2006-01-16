@@ -241,6 +241,10 @@ public:
 
 	/** Returns true if effects are applied on the clip */
 	bool hasEffect();
+
+	QPixmap thumbnail();
+	void updateThumbnail(QPixmap newpix);
+
 private: // Private attributes
 	void setSnapMarkers(QValueVector<GenTime> markers);
 
@@ -274,6 +278,7 @@ private: // Private attributes
 	EffectStack m_effectStack;
 
 	QMap<AudioIdentifier, QPixmap> m_audioMap;
+	QPixmap m_thumbnail;
 };
 
 #endif

@@ -18,6 +18,7 @@
 
 #include "effectparamdescfactory.h"
 #include "effectparamdoubledesc.h"
+#include "effectparamcomplexdesc.h"
 
 #include <qxml.h>
 #include <qstring.h>
@@ -30,6 +31,7 @@ EffectParamDescFactory::EffectParamDescFactory()
 	registerFactory( new EffectParamDescFactoryTemplate<EffectParamDoubleDesc>("constant") );
 	registerFactory( new EffectParamDescFactoryTemplate<EffectParamDoubleDesc>("boolean") );
 	registerFactory( new EffectParamDescFactoryTemplate<EffectParamDoubleDesc>("fixed") );
+	registerFactory( new EffectParamDescFactoryTemplate<EffectParamComplexDesc>("complex") );
 }
 
 

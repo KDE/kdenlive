@@ -20,6 +20,7 @@
 #include "gentime.h"
 
 class EffectDoubleKeyFrame;
+class EffectComplexKeyFrame;
 
 /**
 Base class for effect keyframe values. A keyframe specifies a specific value at a particular point in time.
@@ -37,6 +38,7 @@ public:
     virtual ~EffectKeyFrame();
 
     virtual EffectDoubleKeyFrame *toDoubleKeyFrame() { return 0; }
+    virtual EffectComplexKeyFrame *toComplexKeyFrame() { return 0; }
 
     void setTime(double time) { m_time = time; }
     void setTime(const GenTime &startTime, const GenTime &endTime, const GenTime &time) { m_time = (time - startTime).seconds() / (endTime - startTime).seconds(); }

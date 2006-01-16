@@ -2,8 +2,8 @@
                           trackpanelfunction.cpp  -  description
                              -------------------
     begin                : Sun May 18 2003
-    copyright            : (C) 2003 by Jason Wood
-    email                : jasonwood@blueyonder.co.uk
+    copyright            : (C) 2003 Jason Wood, jasonwood@blueyonder.co.uk
+			 : (C) 2006 Jean-Baptiste Mardelle, jb@ader.ch
  ***************************************************************************/
 
 /***************************************************************************
@@ -24,6 +24,7 @@
 #include "kresizecommand.h"
 #include "kselectclipcommand.h"
 #include "effectparameter.h"
+#include "effectparamdesc.h"
 #include "effectkeyframe.h"
 #include "effectdoublekeyframe.h"
 
@@ -70,7 +71,7 @@ bool TrackPanelKeyFrameFunction::mouseApplies(Gui::KTrackPanel *panel, QMouseEve
 			return false;
 			}
 
-			if (effect->parameter(effectIndex))
+			if (effect->parameter(effectIndex) && effect->effectDescription().parameter(effectIndex)->type() == "double")
 			{
 			uint count = effect->parameter(effectIndex)->numKeyFrames();
 			for (uint i = 0; i<count; i++)
@@ -98,7 +99,6 @@ return QCursor(Qt::Qt::PointingHandCursor);
 
 bool TrackPanelKeyFrameFunction::mousePressed(Gui::KTrackPanel *panel, QMouseEvent *event)
 {
-kdDebug()<<"+++++++ KEYFRAME MOUSE PRESSED"<<endl;
 	bool result = false;
 
 	if(panel->hasDocumentTrackIndex()) {
@@ -123,7 +123,9 @@ kdDebug()<<"+++++++ KEYFRAME MOUSE PRESSED"<<endl;
 			for (uint i = 0; i<count; i++)
 			{
 			uint dx1 = effect->parameter(effectIndex)->keyframe(i)->time()*m_clipUnderMouse->cropDuration().frames(m_document->framesPerSecond());
-			uint dy1 = panel->height() -  panel->height()*effect->parameter(effectIndex)->keyframe(i)->toDoubleKeyFrame()->value()/100;
+			uint dy1 = panel->height()/2;
+			if (effect->effectDescription().parameter(effectIndex)->type() == "double")
+			dy1 = panel->height() -  panel->height()*effect->parameter(effectIndex)->keyframe(i)->toDoubleKeyFrame()->value()/100;
 				
 				if(( fabs(m_timeline->mapValueToLocal(m_clipUnderMouse->trackStart().frames(m_document->framesPerSecond())+ dx1) - event->x()) < s_resizeTolerance))
 				{
@@ -143,10 +145,8 @@ kdDebug()<<"+++++++ KEYFRAME MOUSE PRESSED"<<endl;
 				return true;
 				}
 				}
-				kdDebug()<<"////// NEW KEYFRAME mouse: "<<m_timeline->mapLocalToValue(event->x())<<", CLIP: "<<m_clipUnderMouse->trackStart().frames(m_document->framesPerSecond())<<endl;
 				double dx = (m_timeline->mapLocalToValue(event->x()) - m_clipUnderMouse->trackStart().frames(m_document->framesPerSecond()))/m_clipUnderMouse->cropDuration().frames(m_document->framesPerSecond());
-				kdDebug()<<"+++++++++++++ POSITON: "<<dx<<endl;
-				
+				m_refresh = true;
 				m_selectedKeyframe = effect->addKeyFrame(effectIndex,dx);
 				 //effect->parameter(effectIndex)->interpolateKeyFrame(0.7)->value());
 
@@ -217,9 +217,9 @@ bool TrackPanelKeyFrameFunction::mouseMoved(Gui::KTrackPanel *panel, QMouseEvent
 			if ( dy1<0 ) dy1 = 0;
 			if ( dy1>100 ) dy1 = 100;
 			//double dy2 =  (panel->height() - (event->y()-m_selectedKeyframeValue)) / panel->height();
-			kdDebug()<< "+++  PANEL HEIGHT: "<<event->y()<<", "<<dy1<<endl;
 
-			effect->parameter(effectIndex)->keyframe(m_selectedKeyframe)->toDoubleKeyFrame()->setValue(dy1);
+			if (effect->effectDescription().parameter(effectIndex)->type() == "double")
+				effect->parameter(effectIndex)->keyframe(m_selectedKeyframe)->toDoubleKeyFrame()->setValue(dy1);
 			emit redrawTrack();
 			result = true;
 			}

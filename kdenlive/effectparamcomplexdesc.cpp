@@ -1,9 +1,9 @@
 /***************************************************************************
-                          effectparamdoubledesc  -  description
+                          effectparamcomplexdesc  -  description
                              -------------------
-    begin                : Fri Jan 2 2004
-    copyright            : (C) 2004 by Jason Wood
-    email                : jasonwood@blueyonder.co.uk
+    begin                : Fri Jan 16 2006
+    copyright            : (C) 2006 by Jean-Baptiste Mardelle
+    email                : jb@ader.ch
  ***************************************************************************/
 
 /***************************************************************************
@@ -14,76 +14,90 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include "effectparamdoubledesc.h"
+#include "effectparamcomplexdesc.h"
 
 #include <qxml.h>
 
 #include <kdebug.h>
 
-#include "effectdoublekeyframe.h"
+#include "effectcomplexkeyframe.h"
 
 #include "kmmclipkeyframepanel.h"
 #include "kmmtrackkeyframepanel.h"
 
-EffectParamDoubleDesc::EffectParamDoubleDesc(const QXmlAttributes &attributes)
+EffectParamComplexDesc::EffectParamComplexDesc(const QXmlAttributes &attributes)
  					: EffectParamDesc(attributes)
 {
-	m_min = attributes.value("min").toDouble();
-	m_max = attributes.value("max").toDouble();
+	m_mins = QStringList::split(";",attributes.value("min"));
+	m_maxs = QStringList::split(";",attributes.value("max"));
+	m_names = QStringList::split(";",attributes.value("name"));
 	m_starttag = attributes.value("starttag");
 	m_endtag = attributes.value("endtag");
-
 	if (m_starttag == "") m_starttag = "start";
 	if (m_endtag == "") m_endtag = "end";
+	m_defaults = QStringList::split(";",attributes.value("default"));
 }
 
-EffectParamDoubleDesc::~EffectParamDoubleDesc()
+EffectParamComplexDesc::~EffectParamComplexDesc()
 {
+}
+
+const QString EffectParamComplexDesc::complexParamName(uint ix) const
+{
+	return m_names[ix];
+}
+
+const uint EffectParamComplexDesc::complexParamNum() const
+{
+	return m_names.size();
+}
+
+//Virtual
+double EffectParamComplexDesc::max(uint ix) const
+{
+	return m_maxs[ix].toDouble();
+}
+
+//Virtual
+double EffectParamComplexDesc::min(uint ix) const
+{
+	return m_mins[ix].toDouble();
 }
 
 
 //Virtual
-double EffectParamDoubleDesc::max(uint) const
+const double &EffectParamComplexDesc::defaultValue(uint ix) const
 {
-	return m_max;
+	return m_defaults[ix].toDouble();
 }
 
 //Virtual
-double EffectParamDoubleDesc::min(uint) const
-{
-	return m_min;
-}
-
-//Virtual
-const QString EffectParamDoubleDesc::startTag() const
+const QString EffectParamComplexDesc::startTag() const
 {
 	return m_starttag;
 }
 
 //Virtual
-const QString EffectParamDoubleDesc::endTag() const
+const QString EffectParamComplexDesc::endTag() const
 {
 	return m_endtag;
 }
 
 // virtual
-EffectKeyFrame *EffectParamDoubleDesc::createKeyFrame(double time)
+EffectKeyFrame *EffectParamComplexDesc::createKeyFrame(double time)
 {
 	// Internally, the keyframe values are in a range from 0 to 100.
-	return new EffectDoubleKeyFrame(time, defaultValue()*100/m_max);
+	return new EffectComplexKeyFrame(time, m_defaults);
 }
 
 // virtual
-EffectKeyFrame *EffectParamDoubleDesc::createKeyFrame(double time, double value)
+EffectKeyFrame *EffectParamComplexDesc::createKeyFrame(double time, QStringList parametersList)
 {
-	// Internally, the keyframe values are in a range from 0 to 100.
-	if (value>100) value = 100;
-	if (value<0) value = 0;
-	return new EffectDoubleKeyFrame(time, value);
+	return new EffectComplexKeyFrame(time, parametersList);
 }
 
 // virtual
-Gui::KMMTrackPanel *EffectParamDoubleDesc::createTrackPanel(Gui::KdenliveApp *app,
+Gui::KMMTrackPanel *EffectParamComplexDesc::createTrackPanel(Gui::KdenliveApp *app,
 				Gui::KTimeLine *timeline,
 				KdenliveDoc *document,
 				DocTrackBase *docTrack,
@@ -91,20 +105,20 @@ Gui::KMMTrackPanel *EffectParamDoubleDesc::createTrackPanel(Gui::KdenliveApp *ap
 				QWidget *parent,
 				const char *name)
 {
-	kdWarning() << "EffectParamDoubleDesc::createTrackPanel()" << endl;
+	kdWarning() << "EffectParamComplexDesc::createTrackPanel()" << endl;
 	#warning - need to pass in the effect name/index from somewhere.
 	return new Gui::KMMTrackKeyFramePanel( timeline, document, docTrack, false, "alphablend", 0,  name, Gui::EFFECTKEYFRAMETRACK, parent, name);
 }
 
 // virtual
-Gui::KMMTrackPanel *EffectParamDoubleDesc::createClipPanel(Gui::KdenliveApp *app,
+Gui::KMMTrackPanel *EffectParamComplexDesc::createClipPanel(Gui::KdenliveApp *app,
 				Gui::KTimeLine *timeline,
 				KdenliveDoc *document,
 				DocClipRef *clip,
 				QWidget *parent,
 				const char *name)
 {
-	kdWarning() << "EffectParamDoubleDesc::createTrackPanel()" << endl;
+	kdWarning() << "EffectParamComplexDesc::createTrackPanel()" << endl;
 	#warning - need to pass in the effect name/index from somewhere.
 	return new Gui::KMMClipKeyFramePanel( timeline, document, clip, EffectParamDesc::name(), 0, name, parent, name);
 }

@@ -49,7 +49,7 @@ public:
 	/** Creates a parameter that conforms to this parameter Description */
 	virtual EffectKeyFrame *createKeyFrame(double time) = 0;
 
-	virtual EffectKeyFrame *createKeyFrame(double time, double value) = 0;
+	virtual EffectKeyFrame *createKeyFrame(double time, double value);
 
 	/** Creates a track panel that can edit this parameter type. */
 	virtual Gui::KMMTrackPanel *createTrackPanel(Gui::KdenliveApp *app,
@@ -68,8 +68,8 @@ public:
 									QWidget *parent=0,
 									const char *name=0) = 0;
 
-	virtual double max() = 0;
-	virtual double min() = 0;
+	virtual double max(uint ix=0) const = 0;
+	virtual double min(uint ix=0) const = 0;
 
 	virtual const QString endTag() const = 0;
 	virtual const QString startTag() const = 0;
@@ -78,9 +78,12 @@ public:
 	const QString &description() const;
 	const QString &name() const { return m_name; }
 	const QString &type() const { return m_type; }
-	const double &value() const { return m_value; }
-	const double &defaultValue() const { return m_default; }
-	void setValue(const double &value);
+	virtual const double &value(uint ix=0) const { return m_value; }
+	virtual const double &defaultValue(uint ix=0) const { return m_default; }
+	virtual void setValue(const double &value);
+
+	virtual const QString complexParamName(uint ix) const;
+	virtual const uint complexParamNum() const;
 
 private:
 	/** The name of this parameter. */

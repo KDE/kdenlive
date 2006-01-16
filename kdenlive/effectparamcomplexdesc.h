@@ -1,9 +1,9 @@
 /***************************************************************************
-                          effectparamdoubledesc  -  description
+                          effectparamcomplexdesc  -  description
                              -------------------
-    begin                : Fri Jan 2 2004
-    copyright            : (C) 2004 by Jason Wood
-    email                : jasonwood@blueyonder.co.uk
+    begin                : Fri Jan 16 2006
+    copyright            : (C) 2006 by Jean-Baptiste Mardelle
+    email                : jb@ader.ch
  ***************************************************************************/
 
 /***************************************************************************
@@ -14,8 +14,10 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef EFFECTPARAMDOUBLEDESC_H
-#define EFFECTPARAMDOUBLEDESC_H
+#ifndef EFFECTPARAMCOMPLEXDESC_H
+#define EFFECTPARAMCOMPLEXDESC_H
+
+#include <qstringlist.h>
 
 #include <effectparamdesc.h>
 
@@ -26,16 +28,16 @@ An effect parameter that holds a double value.
 
 @author Jason Wood
 */
-class EffectParamDoubleDesc : public EffectParamDesc
+class EffectParamComplexDesc : public EffectParamDesc
 {
 public:
-    EffectParamDoubleDesc(const QXmlAttributes &attributes);
+    EffectParamComplexDesc(const QXmlAttributes &attributes);
 
-    ~EffectParamDoubleDesc();
+    ~EffectParamComplexDesc();
 
 	/** Creates a parameter that conforms to this parameter Description */
 	virtual EffectKeyFrame *createKeyFrame(double time);
-	virtual EffectKeyFrame *createKeyFrame(double time, double value);
+	virtual EffectKeyFrame *createKeyFrame(double time,  QStringList parametersList);
 
 	virtual Gui::KMMTrackPanel *createTrackPanel(Gui::KdenliveApp *app,
 				Gui::KTimeLine *timeline,
@@ -51,14 +53,21 @@ public:
 				QWidget *parent=0,
 				const char *name=0);
 
-	virtual double max(uint ix = 0) const;
-	virtual double min(uint ix = 0) const;
 	virtual const QString endTag() const;
 	virtual const QString startTag() const;
 
+	virtual double max(uint ix = 0) const;
+	virtual double min(uint ix = 0) const;
+	virtual const double &defaultValue(uint ix = 0) const;
+
+	const QString complexParamName(uint ix) const;
+	const uint complexParamNum() const;
+
 private:
-	double m_min;
-	double m_max;
+	QStringList m_mins;
+	QStringList m_names;
+	QStringList m_maxs;
+	QStringList m_defaults;
 	QString m_starttag;
 	QString m_endtag;
 };
