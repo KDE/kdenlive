@@ -19,26 +19,24 @@
 
 #include <doctrackdecorator.h>
 
-namespace Gui
-{
-class KTimeLine;
+namespace Gui {
+    class KTimeLine;
 
 /**
 A decorator that adds the name of the clip to the clip itself.
 
 @author Jason Wood
 */
-class TrackViewNameDecorator : public DocTrackDecorator
-{
-public:
-    TrackViewNameDecorator(KTimeLine* timeline,
-    			KdenliveDoc* doc);
+    class TrackViewNameDecorator:public DocTrackDecorator {
+      public:
+	TrackViewNameDecorator(KTimeLine * timeline, KdenliveDoc * doc);
 
-    virtual ~TrackViewNameDecorator();
+	virtual ~ TrackViewNameDecorator();
 
-    virtual void paintClip(double startX, double endx, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected);
-};
+	virtual void paintClip(double startX, double endx,
+	    QPainter & painter, DocClipRef * clip, QRect & rect,
+	    bool selected);
+    };
 
-} // namespace Gui
-
+}				// namespace Gui
 #endif

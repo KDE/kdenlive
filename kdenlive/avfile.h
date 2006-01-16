@@ -32,30 +32,30 @@
    is no longer referenced, though this behaviour is normally activated via the project cleaning
    itself.
   *@author Jason Wood
-  */  
+  */
 
 //class DocClipAVFile;
 //  
 //class AVFile {
 //public: 
-//	~AVFile();
-//	/** Write property of QString m_name. */
-//	void setName( const QString& _newVal);
-//	/** Read property of QString m_name. */
-//	const QString& name() const;
-//	QString fileName() const;
-//	/** returns the size of the file */
-//	signed int fileSize() const;
+//      ~AVFile();
+//      /** Write property of QString m_name. */
+//      void setName( const QString& _newVal);
+//      /** Read property of QString m_name. */
+//      const QString& name() const;
+//      QString fileName() const;
+//      /** returns the size of the file */
+//      signed int fileSize() const;
 //
-//	/** Return a list of references to this avfile. */
-//	QPtrList<DocClipAVFile> references();
-//	
+//      /** Return a list of references to this avfile. */
+//      QPtrList<DocClipAVFile> references();
+//      
 //private: // Private attributes
-//	/** The name of this AVFile. */
-//	QString m_name;
-//	/** A list of all DocClipAVFiles which make use of this AVFile. This is used so that we can
-//	 *  clean up if we decide to delete an AVFile. */
-//	QPtrList<DocClipAVFile> m_referers;
+//      /** The name of this AVFile. */
+//      QString m_name;
+//      /** A list of all DocClipAVFiles which make use of this AVFile. This is used so that we can
+//       *  clean up if we decide to delete an AVFile. */
+//      QPtrList<DocClipAVFile> m_referers;
 //};
 //*/
 #endif

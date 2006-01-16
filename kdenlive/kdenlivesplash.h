@@ -24,10 +24,9 @@ class QPixmap;
 /**
 @author Lúcio Flávio Corrêa
 */
-class KdenliveSplash : public KSplashScreen
-{
-public:
-    KdenliveSplash(const QPixmap& pixmap, WFlags f = 0);
+class KdenliveSplash:public KSplashScreen {
+  public:
+    KdenliveSplash(const QPixmap & pixmap, WFlags f = 0);
     ~KdenliveSplash();
 };
 

@@ -21,18 +21,17 @@
 
 #include "docclipavfile.h"
 
-AVFile::AVFile(const QString &name, const KURL &url) :
-			m_framesPerSecond(0)
+AVFile::AVFile(const QString & name, const KURL & url):m_framesPerSecond(0)
 {
-	if(name.isNull()) {
-   	setName(url.filename());
-	} else {
-		setName(name);
- 	}
+    if (name.isNull()) {
+	setName(url.filename());
+    } else {
+	setName(name);
+    }
 
-	m_referers.setAutoDelete(false);
-		
-	calculateFileProperties(QMap<QString, QString>());
+    m_referers.setAutoDelete(false);
+
+    calculateFileProperties(QMap < QString, QString > ());
 }
 
 AVFile::~AVFile()
@@ -40,23 +39,23 @@ AVFile::~AVFile()
 }
 
 /** Read property of QString m_name. */
-const QString& AVFile::name() const
+const QString & AVFile::name() const const
 {
-	return m_name;
+    return m_name;
 }
 
 /** Write property of QString m_name. */
-void AVFile::setName( const QString& _newVal)
+void AVFile::setName(const QString & _newVal)
 {
-	m_name = _newVal;
+    m_name = _newVal;
 }
 
-QString AVFile::fileName() const
+QString AVFile::fileName() const const
 {
-	return m_url.fileName();
+    return m_url.fileName();
 }
 
-QPtrList<DocClipAVFile> AVFile::references()
+QPtrList < DocClipAVFile > AVFile::references()
 {
-	return m_referers;
+    return m_referers;
 }

@@ -25,96 +25,80 @@
   */
 
 class GenTime {
-public:
+  public:
 	/** Creates a time object, with a time of 0 seconds. */
-	GenTime();
+    GenTime();
 
 	/** Creates a time object, with time given in seconds. */
-	explicit GenTime(double seconds);
+    explicit GenTime(double seconds);
 
 	/** Creates a time object, by passing number of frames and how many frames per second */
-	GenTime(double frames, double framesPerSecond);
+     GenTime(double frames, double framesPerSecond);
 
 	/** returns the time, in seconds */
-	double seconds() const {
-		return m_time;
-	}
-
-	/** Returns the time, in milliseconds */
-	double ms() const;
+    double seconds() const {
+	return m_time;
+    }
+	/** Returns the time, in milliseconds */ double ms() const;
 
 	/** Returns the time in frames, after being given the number of frames per second */
-	double frames(double framesPerSecond) const;
+    double frames(double framesPerSecond) const;
 
-	GenTime &operator+=(GenTime op) {
-		m_time += op.m_time;
-		return *this;
-	}
-
-	/** Adds two GenTimes */
-	GenTime operator+(GenTime op) const {
-		return GenTime(m_time + op.m_time);
-	}
-
-	/** Subtracts one genTime from another */
-	GenTime operator-(GenTime op) const {
-		return GenTime(m_time - op.m_time);
-	}
-
-
+     GenTime & operator+=(GenTime op) {
+	m_time += op.m_time;
+	return *this;
+    }
+	/** Adds two GenTimes */ GenTime operator+(GenTime op) const {
+	return GenTime(m_time + op.m_time);
+    }
+	/** Subtracts one genTime from another */ GenTime operator-(GenTime op) const {
+	return GenTime(m_time - op.m_time);
+    }
 	/** Multiplies one GenTime by a double value, returning a GenTime */
 	GenTime operator*(double op) const {
-		return GenTime(m_time * op);
-	}
-
+	return GenTime(m_time * op);
+    }
 	/** Divides one GenTime by a double value, returning a GenTime */
 	GenTime operator/(double op) const {
-		return GenTime(m_time / op);
-	}
-
-	/* Implementation of < operator; Works identically as with basic types. */
+	return GenTime(m_time / op);
+    }
+    /* Implementation of < operator; Works identically as with basic types. */
 	bool operator<(GenTime op) const {
-		return m_time + s_delta < op.m_time;
-	}
-
-	/* Implementation of > operator; Works identically as with basic types. */
+	return m_time + s_delta < op.m_time;
+    }
+    /* Implementation of > operator; Works identically as with basic types. */
 	bool operator>(GenTime op) const {
-		return m_time > op.m_time + s_delta;
-	}
-
-	/* Implementation of >= operator; Works identically as with basic types. */
+	return m_time > op.m_time + s_delta;
+    }
+    /* Implementation of >= operator; Works identically as with basic types. */
 	bool operator>=(GenTime op) const {
-		return m_time+s_delta >= op.m_time;
-	}
-
-	/* Implementation of <= operator; Works identically as with basic types. */
+	return m_time + s_delta >= op.m_time;
+    }
+    /* Implementation of <= operator; Works identically as with basic types. */
 	bool operator<=(GenTime op) const {
-		return m_time <= op.m_time+s_delta;
-	}
-
-	/* Implementation of == operator; Works identically as with basic types. */
+	return m_time <= op.m_time + s_delta;
+    }
+    /* Implementation of == operator; Works identically as with basic types. */
 	bool operator==(GenTime op) const {
-		return fabs(m_time - op.m_time) < s_delta;
-	}
-
-	/* Implementation of != operator; Works identically as with basic types. */
+	return fabs(m_time - op.m_time) < s_delta;
+    }
+    /* Implementation of != operator; Works identically as with basic types. */
 	bool operator!=(GenTime op) const {
-		return fabs(m_time - op.m_time) >= s_delta;
-	}
+	return fabs(m_time - op.m_time) >= s_delta;
+    }
+    /* Rounds the GenTIme's value to the nearest frame */
+	GenTime & roundNearestFrame(double framesPerSecond) {
+	m_time = floor((m_time * framesPerSecond) + 0.5) / framesPerSecond;
+	return *this;
+    }
 
-	/* Rounds the GenTIme's value to the nearest frame */
-	GenTime &roundNearestFrame(double framesPerSecond) {
-		m_time = floor((m_time * framesPerSecond) + 0.5) / framesPerSecond;
-		return *this;
-	}
-
-	~GenTime();
-private: // Private attributes
+    ~GenTime();
+  private:			// Private attributes
   /** Holds the time for this object. */
-  double m_time;
+    double m_time;
 
   /** A delta value that is used to get around floating point rounding issues. */
-  static double s_delta;
+    static double s_delta;
 };
 
 #endif

@@ -22,36 +22,36 @@
 class KdenliveDoc;
 class DocTrackBase;
 
-namespace Gui
-{
+namespace Gui {
 
-class KTimeLine;
+    class KTimeLine;
 
 /**
 A placer that draws clips on a track, as represented in a DocTrackBase.
 
 @author Jason Wood
 */
-class KTrackPlacer : public KPlacer
-{
-public:
-	KTrackPlacer(KdenliveDoc *doc, KTimeLine *timeline, DocTrackBase *track);
+    class KTrackPlacer:public KPlacer {
+      public:
+	KTrackPlacer(KdenliveDoc * doc, KTimeLine * timeline,
+	    DocTrackBase * track);
 
-	virtual ~KTrackPlacer();
+	virtual ~ KTrackPlacer();
 
-	virtual void drawToBackBuffer(QPainter &painter, QRect &rect, TrackViewDecorator *decorator);
+	virtual void drawToBackBuffer(QPainter & painter, QRect & rect,
+	    TrackViewDecorator * decorator);
 
-    	/** Returns true if this track panel has a document track index. */
-    	virtual bool hasDocumentTrackIndex() const { return true; }
-
-    	/** Returns the track index into the underlying document model used by this track. Returns -1 if this is inapplicable. */
-    	virtual int documentTrackIndex()  const;
-private:
-	KdenliveDoc *m_document;
+	/** Returns true if this track panel has a document track index. */
+	virtual bool hasDocumentTrackIndex() const {
+	    return true;
+	}
+	/** Returns the track index into the underlying document model used by this track. Returns -1 if this is inapplicable. */
+	    virtual int documentTrackIndex() const;
+      private:
+	 KdenliveDoc * m_document;
 	DocTrackBase *m_docTrack;
 	KTimeLine *m_timeline;
-};
+    };
 
-} // namespace Gui
-
+}				// namespace Gui
 #endif

@@ -24,7 +24,7 @@
 #include <docclipproject.h>
 
 SaveProjectScenelistFilter::SaveProjectScenelistFilter()
- : SaveProjectFilter()
+:  SaveProjectFilter()
 {
 }
 
@@ -34,18 +34,17 @@ SaveProjectScenelistFilter::~SaveProjectScenelistFilter()
 }
 
 
-bool SaveProjectScenelistFilter::save(QFile& file, KdenliveDoc* document)
+bool SaveProjectScenelistFilter::save(QFile & file, KdenliveDoc * document)
 {
-	QDomDocument doc = document->projectClip().generateSceneList();
-	QString save = doc.toString();
-	file.writeBlock(save.ascii(), save.length());
-	return true;
+    QDomDocument doc = document->projectClip().generateSceneList();
+    QString save = doc.toString();
+    file.writeBlock(save.ascii(), save.length());
+    return true;
 }
 
 QStringList SaveProjectScenelistFilter::handledFormats() const
 {
-	QStringList list;
-	list.append("application/vnd.kde.kdenlive.scenelist");
-	return list;
+    QStringList list;
+    list.append("application/vnd.kde.kdenlive.scenelist");
+    return list;
 }
-

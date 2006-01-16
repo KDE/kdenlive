@@ -14,12 +14,12 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
 #include "avformatdesclist.h"
 #include "avformatwidgetlist.h"
 
-AVFormatDescList::AVFormatDescList(const QString &description, const char * &name) :
-                                          AVFormatDescBase(description, name)
+AVFormatDescList::AVFormatDescList(const QString & description, const char *&name):
+AVFormatDescBase(description, name)
 {
 }
 
@@ -27,19 +27,19 @@ AVFormatDescList::~AVFormatDescList()
 {
 }
 
-AVFormatWidgetBase *AVFormatDescList::createWidget(QWidget *parent)
+AVFormatWidgetBase *AVFormatDescList::createWidget(QWidget * parent)
 {
-  return new AVFormatWidgetList(this, parent, m_name);  
+    return new AVFormatWidgetList(this, parent, m_name);
 }
 
 /** Adds the specified string to the item list. */
-void AVFormatDescList::addItem(const QString &item)
+void AVFormatDescList::addItem(const QString & item)
 {
-  m_itemList.push_back(item);
+    m_itemList.push_back(item);
 }
 
 /** Returns the item list. */
-QValueVector<QString> AVFormatDescList::itemList()
+QValueVector < QString > AVFormatDescList::itemList()
 {
-  return m_itemList;
+    return m_itemList;
 }

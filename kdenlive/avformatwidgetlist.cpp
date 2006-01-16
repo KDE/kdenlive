@@ -22,17 +22,17 @@
 #include <qcombobox.h>
 #include <qvaluevector.h>
 
-AVFormatWidgetList::AVFormatWidgetList(AVFormatDescList *desc, QWidget *parent, const char *name ) :
-                                            QHBox(parent, name),
-                                            AVFormatWidgetBase(),                                            
-                                            m_label(new QLabel(desc->name(), this, name)),
-                                            m_comboBox(new QComboBox(this,name))
+AVFormatWidgetList::AVFormatWidgetList(AVFormatDescList * desc, QWidget * parent, const char *name):
+QHBox(parent, name),
+AVFormatWidgetBase(),
+m_label(new QLabel(desc->name(), this, name)),
+m_comboBox(new QComboBox(this, name))
 {
-  const QValueVector<QString> &list = desc->itemList();
+    const QValueVector < QString > &list = desc->itemList();
 
-  for(unsigned int count=0; count<list.size(); ++count) {
-    m_comboBox->insertItem(list[count]);
-  }
+    for (unsigned int count = 0; count < list.size(); ++count) {
+	m_comboBox->insertItem(list[count]);
+    }
 }
 
 AVFormatWidgetList::~AVFormatWidgetList()
@@ -41,5 +41,5 @@ AVFormatWidgetList::~AVFormatWidgetList()
 
 QWidget *AVFormatWidgetList::widget()
 {
-  return this;
+    return this;
 }

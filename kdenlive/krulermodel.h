@@ -20,26 +20,25 @@
 
 #include <qstring.h>
 
-namespace Gui
-{
+namespace Gui {
 
 /**Contains the default model for a KRuler. Different models can be provided by extending this class.
   *@author Jason Wood
   */
 
-class KRulerModel {
-public:
+    class KRulerModel {
+      public:
 	KRulerModel();
-	virtual ~KRulerModel();
+	virtual ~ KRulerModel();
   /** Returns a string representation of the value passed. The default model returns HH:MM:SS and assumes that the value passed is in seconds. Extend this class to provide a different representation. */
-  virtual QString mapValueToText(const int value) const;
+	virtual QString mapValueToText(const int value) const;
   /** Returns the minimum number of pixels that must exist between two large ticks. */
-  int minimumLargeTickSeparation() const;
+	int minimumLargeTickSeparation() const;
   /** returns the smallest number of pixels that must exist between two small ticks.
  */
-  int minimumSmallTickSeparation() const;
+	int minimumSmallTickSeparation() const;
   /** returns the minimum number of pixels which must exist between any two pieces of displayed text. */
-  int minimumTextSeparation() const;
+	int minimumTextSeparation() const;
   /** Finds a tick interval larger than or equal to the tick value passed which can be
     * considered a reasonable interval to display on screen. For example, when dealing
     * with hours:Minutes:Seconds, reasonable values might be every second, every 2
@@ -54,24 +53,23 @@ public:
 	  /** Sets the minimum number of pixels that must exist between any two large ticks. The ruler
    will pick the smallest tick count (as determined by getTickInterval) which leaves at least
     this number of pixels. */
-  void setMinimumLargeTickSeperation(const int pixels);
+	void setMinimumLargeTickSeperation(const int pixels);
     /** Sets the minimum number of pixels that must exist between any two small ticks. The ruler
    will pick the smallest tick count (as determined by getTickInterval) which leaves at least
     this number of pixels. */
-  void setMinimumSmallTickSeperation(const int pixels);
+	void setMinimumSmallTickSeperation(const int pixels);
     /** Sets the minimum number of pixels that must exist between any two text "ticks". The ruler
    will pick the smallest tick count (as determined by getTickInterval) which leaves at least
     this number of pixels. DisplayTicks are those which show text e.g. in HH:MM:SS format. */
-  void setMinimumDisplayTickSeperation(const int pixels);
-private: // Private attributes
+	void setMinimumDisplayTickSeperation(const int pixels);
+      private:			// Private attributes
   /** Holds the minimum number of pixels that must exist between any two large ticks. */
-  int m_minimumLargeTickSeperation;
+	int m_minimumLargeTickSeperation;
   /** Holds the minimum number of pixels that must exist between any two large ticks. */
-  int m_minimumSmallTickSeperation;
+	int m_minimumSmallTickSeperation;
   /** Holds the minimum number of pixels that must exist between any two large ticks. */
-  int m_minimumDisplayTickSeperation;
-};
+	int m_minimumDisplayTickSeperation;
+    };
 
-} // namespace Gui
-
+}				// namespace Gui
 #endif

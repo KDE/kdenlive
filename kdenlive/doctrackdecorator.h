@@ -19,26 +19,25 @@
 
 #include <trackviewdecorator.h>
 
- namespace Gui
-{
+namespace Gui {
 
 /**
 An abstract class for all decorators that implement a view based on a DocTrack.
 
 @author Jason Wood
 */
-class DocTrackDecorator : public TrackViewDecorator
-{
-public:
-	DocTrackDecorator(KTimeLine *timeline, KdenliveDoc *doc);
+    class DocTrackDecorator:public TrackViewDecorator {
+      public:
+	DocTrackDecorator(KTimeLine * timeline, KdenliveDoc * doc);
 
-    	~DocTrackDecorator();
-protected:
-	KdenliveDoc *document() { return m_document; }
-private:
-	KdenliveDoc *m_document;
-};
+	~DocTrackDecorator();
+      protected:
+	KdenliveDoc * document() {
+	    return m_document;
+      } private:
+	 KdenliveDoc * m_document;
+    };
 
-} // namespace Gui
+}				// namespace Gui
 
 #endif

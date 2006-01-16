@@ -38,29 +38,35 @@ class ProjectList;
 
 namespace Command {
 
-class KAddClipCommand : public KCommand  {
-public:
+    class KAddClipCommand:public KCommand {
+      public:
 	/** Return a command that wil clean the DocumentBaseNode node of all of it's children. */
-	static KCommand *clearChildren(DocumentBaseNode &node, KdenliveDoc &document);
+	static KCommand *clearChildren(DocumentBaseNode & node,
+	    KdenliveDoc & document);
 
 	/** Returns a command that will clean document of all DocumentBaseNodes. */
-	static KCommand *clearProject(KdenliveDoc &document);
+	static KCommand *clearProject(KdenliveDoc & document);
 
 	/** Construct an AddClipCommand that will delete a clip */
-	KAddClipCommand(KdenliveDoc &document,
-				const QString &name,
-				DocClipBase *clip,
-				DocumentBaseNode *parent,
-			       	bool create=true);
+	 KAddClipCommand(KdenliveDoc & document,
+	    const QString & name,
+	    DocClipBase * clip,
+	    DocumentBaseNode * parent, bool create = true);
 
 	/** Construct a video / audio clip */
-	KAddClipCommand(KdenliveDoc &document, const KURL &url, bool create=true);
+	 KAddClipCommand(KdenliveDoc & document, const KURL & url,
+	    bool create = true);
 
 	/** Construct a color clip */
-	KAddClipCommand(KdenliveDoc &document, const QString &color, const GenTime &duration,const QString &name, const QString &description, bool create=true);
+	 KAddClipCommand(KdenliveDoc & document, const QString & color,
+	    const GenTime & duration, const QString & name,
+	    const QString & description, bool create = true);
 
 	/** Construct an image clip */
-	KAddClipCommand(KdenliveDoc &document, const KURL &url, const QString &extension, const int &ttl, const GenTime &duration, const QString &description, bool create=true);
+	 KAddClipCommand(KdenliveDoc & document, const KURL & url,
+	    const QString & extension, const int &ttl,
+	    const GenTime & duration, const QString & description,
+	    bool create = true);
 
 	~KAddClipCommand();
 	/** Unexecute the command */
@@ -69,8 +75,8 @@ public:
 	void execute();
 	/** Returns the name of this command */
 	QString name() const;
-private: // Private attributes
-	KdenliveDoc &m_document;
+      private:			// Private attributes
+	 KdenliveDoc & m_document;
 	/** The name of the clip. */
 	QString m_name;
 	/** The name of it's parent. */
@@ -81,13 +87,13 @@ private: // Private attributes
 	bool m_create;
 	/** An xml representation of the clip */
 	QDomDocument m_xmlClip;
-	
-private: // Private methods
+
+      private:			// Private methods
 	/** Deletes the clip */
 	void deleteClip();
 	/** Adds the clip */
 	void addClip();
-};
+    };
 
-} // namespace command
+}				// namespace command
 #endif

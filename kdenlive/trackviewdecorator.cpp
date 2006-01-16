@@ -20,17 +20,11 @@
 
 #include "ktimeline.h"
 
-namespace Gui
-{
+namespace Gui {
 
-TrackViewDecorator::TrackViewDecorator(KTimeLine *timeline) :
-							m_timeline(timeline)
-{
-}
+    TrackViewDecorator::TrackViewDecorator(KTimeLine *
+	timeline):m_timeline(timeline) {
+    } TrackViewDecorator::~TrackViewDecorator() {
+    }
 
-
-TrackViewDecorator::~TrackViewDecorator()
-{
-}
-
-} // namespace Gui
+}				// namespace Gui

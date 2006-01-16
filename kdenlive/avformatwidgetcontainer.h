@@ -28,12 +28,12 @@ class AVFormatDescContainer;
   *@author Jason Wood
   */
 
-class AVFormatWidgetContainer : public QGroupBox, public AVFormatWidgetBase  {
-   Q_OBJECT
-public: 
-	AVFormatWidgetContainer(AVFormatDescContainer *desc, QWidget *parent=0, const char *name=0);
-	~AVFormatWidgetContainer();
-  virtual QWidget *widget();
+class AVFormatWidgetContainer:public QGroupBox, public AVFormatWidgetBase {
+  Q_OBJECT public:
+    AVFormatWidgetContainer(AVFormatDescContainer * desc,
+	QWidget * parent = 0, const char *name = 0);
+    ~AVFormatWidgetContainer();
+    virtual QWidget *widget();
 };
 
 #endif

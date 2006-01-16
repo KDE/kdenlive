@@ -35,33 +35,32 @@ Dialog for configuring the project. This configuration dialog is used for both p
 
 @author Jason Wood
 */
-class ConfigureProjectDialog : public KDialogBase
-{
-Q_OBJECT
-public:
-    ConfigureProjectDialog(QPtrList<AVFileFormatDesc> &formatList, QWidget *parent = 0, const char *name = 0, WFlags f = 0);
+class ConfigureProjectDialog:public KDialogBase {
+  Q_OBJECT public:
+    ConfigureProjectDialog(QPtrList < AVFileFormatDesc > &formatList,
+	QWidget * parent = 0, const char *name = 0, WFlags f = 0);
 
     ~ConfigureProjectDialog();
-public slots: // Public slots
+    public slots:		// Public slots
   /** Occurs when the apply button is clicked. */
-  void slotApply();
+    void slotApply();
   /** Called when the "Default" button is pressed. */
-  void slotDefault();
+    void slotDefault();
   /** Called when the cancel button is clicked. */
-  void slotCancel();
+    void slotCancel();
   /** Called when the ok button is clicked. */
-  void slotOk();
-private:
-	QSplitter *m_hSplitter;
-	QVBox *m_presetVBox;
-	KListBox *m_presetList;
-	KPushButton *m_addButton;
-	KPushButton *m_deleteButton;
+    void slotOk();
+  private:
+     QSplitter * m_hSplitter;
+    QVBox *m_presetVBox;
+    KListBox *m_presetList;
+    KPushButton *m_addButton;
+    KPushButton *m_deleteButton;
 
-	KJanusWidget *m_tabArea;
+    KJanusWidget *m_tabArea;
 
-	ExportConfig *m_export;
-	ConfigureProject *m_config;
+    ExportConfig *m_export;
+    ConfigureProject *m_config;
 };
 
 #endif

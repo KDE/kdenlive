@@ -26,31 +26,32 @@ Handles the conversion of a GenTime into a nicely formatted string, taking into 
 
 @author Jason Wood
 */
-class Timecode
-{
-public:
-	enum Formats { HH_MM_SS_FF, HH_MM_SS_HH, Frames, Seconds };
+class Timecode {
+  public:
+    enum Formats { HH_MM_SS_FF, HH_MM_SS_HH, Frames, Seconds };
 
-	Timecode(Formats format = HH_MM_SS_FF, int framesPerSecond = 25, bool dropFrame = false);
+     Timecode(Formats format = HH_MM_SS_FF, int framesPerSecond =
+	25, bool dropFrame = false);
 
 	/** Set the current timecode format; this is the output format for this timecode. */
-	void setFormat(Formats format) { m_format = format; }
-	Formats format() const { return m_format; }
-
-	~Timecode();
+    void setFormat(Formats format) {
+	m_format = format;
+    } Formats format() const {
+	return m_format;
+    } ~Timecode();
 
 	/** Returns the timecode for a given time */
-	QString getTimecode(const GenTime &time, double fps) const;
-private:
-	Formats m_format;
-	bool m_dropFrame;
-	int m_displayedFramesPerSecond;
+    QString getTimecode(const GenTime & time, double fps) const;
+  private:
+    Formats m_format;
+    bool m_dropFrame;
+    int m_displayedFramesPerSecond;
 
-	QString getTimecodeHH_MM_SS_FF(const GenTime &time, double fps) const;
-	QString getTimecodeHH_MM_SS_HH(const GenTime &time) const;
-	QString getTimecodeFrames(const GenTime &time, double fps) const;
-	QString getTimecodeSeconds(const GenTime &time) const;
-	QString getTimecodeDropFrame(const GenTime &time, double fps) const;
+    QString getTimecodeHH_MM_SS_FF(const GenTime & time, double fps) const;
+    QString getTimecodeHH_MM_SS_HH(const GenTime & time) const;
+    QString getTimecodeFrames(const GenTime & time, double fps) const;
+    QString getTimecodeSeconds(const GenTime & time) const;
+    QString getTimecodeDropFrame(const GenTime & time, double fps) const;
 };
 
 #endif

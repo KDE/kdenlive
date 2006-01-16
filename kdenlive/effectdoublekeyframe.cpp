@@ -18,13 +18,12 @@
 #include "assert.h"
 
 EffectDoubleKeyFrame::EffectDoubleKeyFrame()
- : EffectKeyFrame()
+:  EffectKeyFrame()
 {
 }
 
-EffectDoubleKeyFrame::EffectDoubleKeyFrame(double time, double value)  :
-			EffectKeyFrame(time),
-			m_value(value)
+EffectDoubleKeyFrame::EffectDoubleKeyFrame(double time, double value):
+EffectKeyFrame(time), m_value(value)
 {
 }
 
@@ -35,38 +34,41 @@ EffectDoubleKeyFrame::~EffectDoubleKeyFrame()
 
 void EffectDoubleKeyFrame::setValue(double value)
 {
-	m_value = value;
+    m_value = value;
 }
 
 double EffectDoubleKeyFrame::value() const
 {
-	return m_value;
+    return m_value;
 }
 
-EffectKeyFrame *EffectDoubleKeyFrame::interpolateKeyFrame(EffectKeyFrame *keyframe, double time) const
+EffectKeyFrame *EffectDoubleKeyFrame::interpolateKeyFrame(EffectKeyFrame *
+    keyframe, double time) const
 {
-	EffectKeyFrame *result = 0;
+    EffectKeyFrame *result = 0;
 
-	double startTime = this->time();
-	double endTime = keyframe->time();
-	double startValue = this->value();
+    double startTime = this->time();
+    double endTime = keyframe->time();
+    double startValue = this->value();
 
-	assert(keyframe);
-	assert(keyframe->toDoubleKeyFrame());
-	assert(time >= startTime);
-	assert(time <= endTime);
+    assert(keyframe);
+    assert(keyframe->toDoubleKeyFrame());
+    assert(time >= startTime);
+    assert(time <= endTime);
 
-	EffectDoubleKeyFrame *doubleKeyFrame = keyframe->toDoubleKeyFrame();
-	if(doubleKeyFrame) {
-		double endValue = doubleKeyFrame->value();
-		double value = startValue + ((endValue-startValue) * (time - startTime))/(endTime - startTime);
-		result = new EffectDoubleKeyFrame(time, value);
-	}
+    EffectDoubleKeyFrame *doubleKeyFrame = keyframe->toDoubleKeyFrame();
+    if (doubleKeyFrame) {
+	double endValue = doubleKeyFrame->value();
+	double value =
+	    startValue + ((endValue - startValue) * (time -
+		startTime)) / (endTime - startTime);
+	result = new EffectDoubleKeyFrame(time, value);
+    }
 
-	return result;
+    return result;
 }
 
 EffectKeyFrame *EffectDoubleKeyFrame::clone() const
 {
-	return new EffectDoubleKeyFrame(time(), value());
+    return new EffectDoubleKeyFrame(time(), value());
 }

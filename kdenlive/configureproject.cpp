@@ -18,15 +18,17 @@ email                : jasonwood@blueyonder.co.uk
 
 #include "configureproject.h"
 
-ConfigureProject::ConfigureProject( QWidget* parent, const char* name, WFlags fl )
-		: ConfigureProjectPanel_UI( parent, name, fl )
-{}
+ConfigureProject::ConfigureProject(QWidget * parent, const char *name,
+    WFlags fl)
+:ConfigureProjectPanel_UI(parent, name, fl)
+{
+}
 
 ConfigureProject::~ConfigureProject()
-{}
+{
+}
 
 /*$SPECIALIZATION$*/
 
 
 #include "configureproject.moc"
-

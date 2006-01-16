@@ -19,80 +19,83 @@
 
 #include <kdebug.h>
 
-DocClipRefList::DocClipRefList() : QPtrList<DocClipRef>()
+DocClipRefList::DocClipRefList():QPtrList < DocClipRef > ()
 {
-	m_masterClip = 0;
+    m_masterClip = 0;
 }
 
-DocClipRefList::DocClipRefList(const DocClipRefList &list) : QPtrList<DocClipRef>(list)
+DocClipRefList::DocClipRefList(const DocClipRefList & list):QPtrList < DocClipRef >
+    (list)
 {
-	m_masterClip = list.masterClip();
+    m_masterClip = list.masterClip();
 }
 
-DocClipRefList &DocClipRefList::operator=(const DocClipRefList &list)
+DocClipRefList & DocClipRefList::operator=(const DocClipRefList & list)
 {
-	QPtrList<DocClipRef>::operator=(list);
-	m_masterClip = list.masterClip();
-	return *this;
+    QPtrList < DocClipRef >::operator=(list);
+    m_masterClip = list.masterClip();
+    return *this;
 }
 
 DocClipRefList::~DocClipRefList()
 {
 }
 
-int DocClipRefList::compareItems (QPtrCollection::Item i1, QPtrCollection::Item i2)
+int DocClipRefList::compareItems(QPtrCollection::Item i1,
+    QPtrCollection::Item i2)
 {
-	DocClipRef *item1 = (DocClipRef *)i1;
-	DocClipRef *item2 = (DocClipRef *)i2;
+    DocClipRef *item1 = (DocClipRef *) i1;
+    DocClipRef *item2 = (DocClipRef *) i2;
 
-	const GenTime &trackStart1 = item1->trackStart();
-	const GenTime &trackStart2 = item2->trackStart();
+    const GenTime & trackStart1 = item1->trackStart();
+    const GenTime & trackStart2 = item2->trackStart();
 
-	if(trackStart1 == trackStart2) return 0;
-	return (trackStart1 > trackStart2) ? 1 : -1;
+    if (trackStart1 == trackStart2)
+	return 0;
+    return (trackStart1 > trackStart2) ? 1 : -1;
 }
 
-QDomDocument DocClipRefList::toXML(const QString &element)
+QDomDocument DocClipRefList::toXML(const QString & element)
 {
-	QDomDocument doc;
+    QDomDocument doc;
 
-	QPtrListIterator<DocClipRef> itt(*this);
+    QPtrListIterator < DocClipRef > itt(*this);
 
-	doc.appendChild(doc.createElement("element"));
+    doc.appendChild(doc.createElement("element"));
 
-	while(itt.current() != 0) {
-		QDomDocument clipDoc = itt.current()->toXML();
-		if(m_masterClip == itt.current()) {
-			clipDoc.documentElement().setAttribute("master", "true");
-		}
-		doc.documentElement().appendChild(doc.importNode(clipDoc.documentElement(), true));
-		++itt;
+    while (itt.current() != 0) {
+	QDomDocument clipDoc = itt.current()->toXML();
+	if (m_masterClip == itt.current()) {
+	    clipDoc.documentElement().setAttribute("master", "true");
 	}
+	doc.documentElement().appendChild(doc.importNode(clipDoc.
+		documentElement(), true));
+	++itt;
+    }
 
-	return doc;
+    return doc;
 }
 
-DocClipRef * DocClipRefList::masterClip() const
+DocClipRef *DocClipRefList::masterClip() const
 {
-	return m_masterClip;
+    return m_masterClip;
 }
 
-void DocClipRefList::setMasterClip(DocClipRef *clip)
+void DocClipRefList::setMasterClip(DocClipRef * clip)
 {
-	if(find(clip) != -1) {
-		m_masterClip = clip;
-	} else {
-		m_masterClip = 0;
-	}
+    if (find(clip) != -1) {
+	m_masterClip = clip;
+    } else {
+	m_masterClip = 0;
+    }
 }
 
-void DocClipRefList::appendList(const DocClipRefList &list)
+void DocClipRefList::appendList(const DocClipRefList & list)
 {
-	QPtrListIterator<DocClipRef> itt(list);
+    QPtrListIterator < DocClipRef > itt(list);
 
-	while(itt.current())
-	{
-		append(itt.current());
-		++itt;
-	}
+    while (itt.current()) {
+	append(itt.current());
+	++itt;
+    }
 }

@@ -27,19 +27,19 @@ class DocClipProject;
   *@author Jason Wood
   */
 
-class DocTrackSound : public DocTrackBase  {
-public:
-	DocTrackSound(DocClipProject *project);
-	~DocTrackSound();
+class DocTrackSound:public DocTrackBase {
+  public:
+    DocTrackSound(DocClipProject * project);
+    ~DocTrackSound();
   /** Returns true if the specified clip can be added to this track, false otherwise.
 		*
 		* This method needs to be implemented by inheriting classes to define
 		* which types of clip they support. */
-  bool canAddClip(DocClipRef * clip) const;
+    bool canAddClip(DocClipRef * clip) const;
   /** Returns the clip type as a string. This is a bit of a hack to give the
 		* KMMTimeLine a way to determine which class it should associate
 		*	with each type of clip. */
-  const QString &clipType() const;
+    const QString & clipType() const;
 };
 
 #endif

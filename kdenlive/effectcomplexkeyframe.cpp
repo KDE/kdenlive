@@ -21,13 +21,12 @@
 #include "assert.h"
 
 EffectComplexKeyFrame::EffectComplexKeyFrame()
- : EffectKeyFrame()
+:  EffectKeyFrame()
 {
 }
 
-EffectComplexKeyFrame::EffectComplexKeyFrame(double time, QStringList values)  :
-			EffectKeyFrame(time),
-			m_values(values)
+EffectComplexKeyFrame::EffectComplexKeyFrame(double time, QStringList values):
+EffectKeyFrame(time), m_values(values)
 {
 }
 
@@ -43,16 +42,18 @@ void EffectComplexKeyFrame::setValue(int ix, QString values)
 
 int EffectComplexKeyFrame::value(int ix) const
 {
-	return m_values[ix].toInt();
+    return m_values[ix].toInt();
 }
 
 const QString EffectComplexKeyFrame::processComplexKeyFrame() const
 {
-	return m_values[0]+","+m_values[1]+":"+m_values[2]+"x"+m_values[3]+":"+m_values[4]+"x"+m_values[4];
+    return m_values[0] + "," + m_values[1] + ":" + m_values[2] + "x" +
+	m_values[3] + ":" + m_values[4] + "x" + m_values[4];
 }
 
 
-EffectKeyFrame *EffectComplexKeyFrame::interpolateKeyFrame(EffectKeyFrame *keyframe, double time) const
+EffectKeyFrame *EffectComplexKeyFrame::interpolateKeyFrame(EffectKeyFrame *
+    keyframe, double time) const
 {
 /*	EffectKeyFrame *result = 0;
 
@@ -77,5 +78,5 @@ EffectKeyFrame *EffectComplexKeyFrame::interpolateKeyFrame(EffectKeyFrame *keyfr
 
 EffectKeyFrame *EffectComplexKeyFrame::clone() const
 {
-	return new EffectComplexKeyFrame(time(), m_values);
+    return new EffectComplexKeyFrame(time(), m_values);
 }

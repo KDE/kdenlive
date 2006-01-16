@@ -21,17 +21,11 @@
 #include "kdenlivedoc.h"
 #include "ktimeline.h"
 
-namespace Gui
-{
+namespace Gui {
 
-DocTrackDecorator::DocTrackDecorator(KTimeLine *timeline, KdenliveDoc *doc) :
-							TrackViewDecorator(timeline),
-							m_document(doc)
-{
-}
+    DocTrackDecorator::DocTrackDecorator(KTimeLine * timeline,
+	KdenliveDoc * doc):TrackViewDecorator(timeline), m_document(doc) {
+    } DocTrackDecorator::~DocTrackDecorator() {
+    }
 
-DocTrackDecorator::~DocTrackDecorator()
-{
-}
-
-} // namespace Gui
+}				// namespace Gui

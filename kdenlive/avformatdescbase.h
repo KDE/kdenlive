@@ -29,24 +29,24 @@ class QWidget;
   */
 
 class AVFormatDescBase {
-public: 
-	AVFormatDescBase(const QString &description, const char * &name);
-	virtual ~AVFormatDescBase();
+  public:
+    AVFormatDescBase(const QString & description, const char *&name);
+     virtual ~ AVFormatDescBase();
   /** Generates a widget that holds the specified value(s). */
-  virtual AVFormatWidgetBase * createWidget(QWidget *parent) = 0;  
+    virtual AVFormatWidgetBase *createWidget(QWidget * parent) = 0;
   /** Returns the name of this description element. */
-  const char * & name();
+    const char *&name();
   /** Sets the name of this Desc element to the one specified */
-  void setName(const char * &name);
+    void setName(const char *&name);
   /** Sets the description of this desc element. */
-  void setDescription(const QString &description);
+    void setDescription(const QString & description);
   /** Returns the description of this desc element. */
-  const QString & description();
-protected: // Protected attributes
+    const QString & description();
+  protected:			// Protected attributes
   /** The text description for the widget created - displayed in tooltips. */
-  QString m_description;
+     QString m_description;
   /** The name (text label) to be used by the widget created. */
-  const char * m_name;
+    const char *m_name;
 };
 
 #endif

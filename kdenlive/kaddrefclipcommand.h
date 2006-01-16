@@ -36,19 +36,18 @@ class KdenliveDoc;
 
 namespace Command {
 
-class KAddRefClipCommand : public KCommand  {
-public:
+    class KAddRefClipCommand:public KCommand {
+      public:
 	/**
 	Returns a command that will delete the currently selected clips on the timeline.
 	*/
-	static KMacroCommand *deleteSelectedClips( KdenliveDoc *document);
+	static KMacroCommand *deleteSelectedClips(KdenliveDoc * document);
 
 	/** Construct an AddClipCommand that will delete a clip */
-	KAddRefClipCommand(const EffectDescriptionList &effectList,
-					ClipManager &clipManager,
-					DocClipProject *project,
-					DocClipRef *clip,
-					bool create=true);
+	 KAddRefClipCommand(const EffectDescriptionList & effectList,
+	    ClipManager & clipManager,
+	    DocClipProject * project,
+	    DocClipRef * clip, bool create = true);
 
 	~KAddRefClipCommand();
 	/** Unexecute the command */
@@ -57,9 +56,9 @@ public:
 	void execute();
 	/** Returns the name of this command */
 	QString name() const;
-private: // Private attributes
-	ClipManager &m_clipManager;
-	const EffectDescriptionList &m_effectList;
+      private:			// Private attributes
+	 ClipManager & m_clipManager;
+	const EffectDescriptionList & m_effectList;
 	/** If true, then executing the command will create a clip, and
 		unexecuting the command will delete a clip. Otherwise, it will be the
 		other way around. */
@@ -77,8 +76,7 @@ private: // Private attributes
 	void deleteClip();
 	/** Adds the clip */
 	void addClip();
-};
+    };
 
-} // namespace command
+}				// namespace command
 #endif
-

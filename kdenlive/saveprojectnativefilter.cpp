@@ -27,7 +27,7 @@
 #include "docclipavfile.h"
 
 SaveProjectNativeFilter::SaveProjectNativeFilter()
- : SaveProjectFilter()
+:  SaveProjectFilter()
 {
 }
 
@@ -37,63 +37,73 @@ SaveProjectNativeFilter::~SaveProjectNativeFilter()
 }
 
 // virtual
-bool SaveProjectNativeFilter::save(QFile &file, KdenliveDoc *document)
+bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
 {
-	QDomDocument doc;
+    QDomDocument doc;
 
-	QDomElement elem = doc.createElement("kdenlivedoc");
-	doc.appendChild(elem);
+    QDomElement elem = doc.createElement("kdenlivedoc");
+    doc.appendChild(elem);
 
-	QDomElement avfilelist = doc.createElement("avfilelist");
-	DocumentBaseNode *node = document->clipHierarch();
-	QPtrListIterator<DocumentBaseNode> itt(node->children());
+    QDomElement avfilelist = doc.createElement("avfilelist");
+    DocumentBaseNode *node = document->clipHierarch();
+    QPtrListIterator < DocumentBaseNode > itt(node->children());
 
-	while(itt.current()) {
-		DocumentClipNode *clipNode = itt.current()->asClipNode();
+    while (itt.current()) {
+	DocumentClipNode *clipNode = itt.current()->asClipNode();
 
-		if(clipNode) {
-			QDomElement avfile = doc.createElement("avfile");
-			avfile.setAttribute("url", clipNode->clipRef()->fileURL().path());
-			DocClipBase::CLIPTYPE clipType;
-			clipType = clipNode->clipRef()->clipType();
-			avfile.setAttribute("type", clipType);
+	if (clipNode) {
+	    QDomElement avfile = doc.createElement("avfile");
+	    avfile.setAttribute("url",
+		clipNode->clipRef()->fileURL().path());
+	    DocClipBase::CLIPTYPE clipType;
+	    clipType = clipNode->clipRef()->clipType();
+	    avfile.setAttribute("type", clipType);
 
-			if (clipType == DocClipBase::IMAGE)
-				avfile.setAttribute("duration", QString::number(clipNode->clipRef()->duration().frames(25)));
+	    if (clipType == DocClipBase::IMAGE)
+		avfile.setAttribute("duration",
+		    QString::number(clipNode->clipRef()->duration().
+			frames(25)));
 
-			if (clipNode->clipRef()->clipType() == DocClipBase::COLOR) {
-				avfile.setAttribute("name", clipNode->clipRef()->name());
-				avfile.setAttribute("color", clipNode->clipRef()->referencedClip()->toDocClipAVFile()->color());
-				avfile.setAttribute("duration", QString::number(clipNode->clipRef()->duration().frames(25)));
-			}
+	    if (clipNode->clipRef()->clipType() == DocClipBase::COLOR) {
+		avfile.setAttribute("name", clipNode->clipRef()->name());
+		avfile.setAttribute("color",
+		    clipNode->clipRef()->referencedClip()->
+		    toDocClipAVFile()->color());
+		avfile.setAttribute("duration",
+		    QString::number(clipNode->clipRef()->duration().
+			frames(25)));
+	    }
 
-			QDomText description = doc.createTextNode(clipNode->clipRef()->description());
-			avfile.appendChild(description);
+	    QDomText description =
+		doc.createTextNode(clipNode->clipRef()->description());
+	    avfile.appendChild(description);
 
-			if (clipNode->clipRef()->name()!="") avfilelist.appendChild(avfile);
-		} else {
-			kdError() << "no support for saving group nodes yet!" << endl;
-		}
-		++itt;
+	    if (clipNode->clipRef()->name() != "")
+		avfilelist.appendChild(avfile);
+	} else {
+	    kdError() << "no support for saving group nodes yet!" << endl;
 	}
+	++itt;
+    }
 
 
-	elem.appendChild(avfilelist);
+    elem.appendChild(avfilelist);
 
-	elem.appendChild(doc.importNode(document->projectClip().toXML().documentElement(), true));
+    elem.appendChild(doc.importNode(document->projectClip().toXML().
+	    documentElement(), true));
 
-	QString save = doc.toString();
-	file.writeBlock(save.ascii(), save.length());
+    QString save = doc.toString();
+    file.writeBlock(save.ascii(), save.length());
 
-	return true;
+    return true;
 }
 
 // virtual
 QStringList SaveProjectNativeFilter::handledFormats() const
 {
-	QStringList list;
+    QStringList list;
 
-	list.append("application/vnd.kde.kdenlive");
+    list.append("application/vnd.kde.kdenlive");
 
-	return list;
+    return list;
 }

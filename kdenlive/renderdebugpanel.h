@@ -33,53 +33,52 @@
 
 class QTextEdit;
 
-class RenderDebugPanel : public QVBox
-{
-		Q_OBJECT
-	public:
-		RenderDebugPanel( QWidget *parent = 0, const char *name = 0 );
-		~RenderDebugPanel();
+class RenderDebugPanel:public QVBox {
+  Q_OBJECT public:
+    RenderDebugPanel(QWidget * parent = 0, const char *name = 0);
+    ~RenderDebugPanel();
 
-		void setIgnoreMessages(bool ignore);
-		bool ignoreMessages() const;
+    void setIgnoreMessages(bool ignore);
+    bool ignoreMessages() const;
 
-	private:
-		QHBox m_mainLayout;
-		QListBox m_rendererList;
-		QSplitter m_textLayout;
-		QWidgetStack m_widgetStack;
-		QTextEdit m_vemlEdit;
-		QHBox m_buttonLayout;
-		QWidget m_spacer;
-		QCheckBox m_ignoreMessages;
-		QPushButton m_sendVemlButton;
-		QPushButton m_saveMessages;
-		QMap<QString, int> m_boxNames;
-		int m_nextId;
-	public slots:  // Public slots
+  private:
+     QHBox m_mainLayout;
+    QListBox m_rendererList;
+    QSplitter m_textLayout;
+    QWidgetStack m_widgetStack;
+    QTextEdit m_vemlEdit;
+    QHBox m_buttonLayout;
+    QWidget m_spacer;
+    QCheckBox m_ignoreMessages;
+    QPushButton m_sendVemlButton;
+    QPushButton m_saveMessages;
+     QMap < QString, int >m_boxNames;
+    int m_nextId;
+    public slots:		// Public slots
 		/** Prints a debug (informational) message to the debug */
-		void slotPrintRenderDebug( const char * &name, const QString &message );
+    void slotPrintRenderDebug(const char *&name, const QString & message);
 		/** Prints a warning (oh oh....) message to the debug */
-		void slotPrintRenderWarning( const char * &name, const QString &message );
+    void slotPrintRenderWarning(const char *&name,
+	const QString & message);
 		/** Prints an error (ARRGHH!) message to the debug window */
-		void slotPrintRenderError( const char * &name, const QString &message );
+    void slotPrintRenderError(const char *&name, const QString & message);
 		/** Prints a debug (informational) message to the debug */
-		void slotPrintDebug( const char * &name, const QString &message );
+    void slotPrintDebug(const char *&name, const QString & message);
 		/** Prints an error message to the debug window. */
-		void slotPrintError( const char * &name, const QString &message );
+    void slotPrintError(const char *&name, const QString & message);
 		/** Prints a warning message to the debug area. */
-		void slotPrintWarning( const char * &name, const QString &message );
+    void slotPrintWarning(const char *&name, const QString & message);
 		/** Requests a filename from the user and saves all messages into that file. */
-		void saveMessages();
-	private slots:
+    void saveMessages();
+    private slots:
 		/** Get the contents of m_vemlEdit and send it to the currently selected renderer. This is
 		mostly of use for testing piave when the functionality to do so does not exist in kdenlive.*/
-		void sendDebugVeml();
-	private:  // Private methods
+    void sendDebugVeml();
+  private:			// Private methods
 		/** Returns the text edit widget with the given name, creating one if it doesn't exist. */
-		QTextEdit * getTextEdit( const char * &name );
-	signals:
-		void debugVemlSendRequest(const QString &rendererName, const QString &request);
+     QTextEdit * getTextEdit(const char *&name);
+     signals:void debugVemlSendRequest(const QString & rendererName,
+	const QString & request);
 };
 
 #endif

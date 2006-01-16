@@ -23,22 +23,21 @@
 
 #include "docclipref.h"
 
-DocumentClipNode::DocumentClipNode(DocumentBaseNode *parent, DocClipBase *clip) :
-			DocumentBaseNode(parent),
-			m_ref( new DocClipRef(clip) )
+DocumentClipNode::DocumentClipNode(DocumentBaseNode * parent, DocClipBase * clip):
+DocumentBaseNode(parent), m_ref(new DocClipRef(clip))
 {
-	if(m_ref->durationKnown()) {
-		m_ref->setTrackEnd(m_ref->duration());
-	}
+    if (m_ref->durationKnown()) {
+	m_ref->setTrackEnd(m_ref->duration());
+    }
 }
 
 DocumentClipNode::~DocumentClipNode()
 {
-	delete m_ref;
+    delete m_ref;
 }
 
 // virtual
-const QString &DocumentClipNode::name() const
+const QString & DocumentClipNode::name() const
 {
-	return m_ref->name();
+    return m_ref->name();
 }

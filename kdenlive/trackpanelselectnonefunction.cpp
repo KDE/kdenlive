@@ -18,11 +18,8 @@
 
 #include "kselectclipcommand.h"
 
-TrackPanelSelectNoneFunction::TrackPanelSelectNoneFunction(Gui::KdenliveApp *app, Gui::KTimeLine *timeline, KdenliveDoc *doc) :
-							TrackPanelFunction(),
-							m_app(app),
-							m_timeline(timeline),
-							m_doc(doc)
+TrackPanelSelectNoneFunction::TrackPanelSelectNoneFunction(Gui::KdenliveApp * app, Gui::KTimeLine * timeline, KdenliveDoc * doc):
+TrackPanelFunction(), m_app(app), m_timeline(timeline), m_doc(doc)
 {
 }
 
@@ -32,33 +29,38 @@ TrackPanelSelectNoneFunction::~TrackPanelSelectNoneFunction()
 }
 
 // virtual
-bool TrackPanelSelectNoneFunction::mouseApplies(Gui::KTrackPanel *panel, QMouseEvent *event) const
+bool TrackPanelSelectNoneFunction::mouseApplies(Gui::KTrackPanel * panel,
+    QMouseEvent * event) const
 {
-	return true;
+    return true;
 }
 
 // virtual
-QCursor TrackPanelSelectNoneFunction::getMouseCursor(Gui::KTrackPanel *panel, QMouseEvent *event)
+QCursor TrackPanelSelectNoneFunction::getMouseCursor(Gui::KTrackPanel *
+    panel, QMouseEvent * event)
 {
-	return QCursor( Qt::ArrowCursor );
+    return QCursor(Qt::ArrowCursor);
 }
 
 // virtual
-bool TrackPanelSelectNoneFunction::mousePressed(Gui::KTrackPanel *panel, QMouseEvent *event)
+bool TrackPanelSelectNoneFunction::mousePressed(Gui::KTrackPanel * panel,
+    QMouseEvent * event)
 {
-	return true;
+    return true;
 }
 
 // virtual
-bool TrackPanelSelectNoneFunction::mouseReleased(Gui::KTrackPanel *panel, QMouseEvent *event)
+bool TrackPanelSelectNoneFunction::mouseReleased(Gui::KTrackPanel * panel,
+    QMouseEvent * event)
 {
-	m_app->addCommand( Command::KSelectClipCommand::selectNone( m_doc ), true );
-	return true;
+    m_app->addCommand(Command::KSelectClipCommand::selectNone(m_doc),
+	true);
+    return true;
 }
 
 // virtual
-bool TrackPanelSelectNoneFunction::mouseMoved(Gui::KTrackPanel *panel, QMouseEvent *event)
+bool TrackPanelSelectNoneFunction::mouseMoved(Gui::KTrackPanel * panel,
+    QMouseEvent * event)
 {
-	return true;
+    return true;
 }
-

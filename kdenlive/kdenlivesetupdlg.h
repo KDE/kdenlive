@@ -24,25 +24,23 @@
 #include "configtimeline_ui.h"
 
 
-namespace Gui
-{
-	class KdenliveApp;
-	class RenderSetupDlg;
+namespace Gui {
+    class KdenliveApp;
+    class RenderSetupDlg;
 
 /**This class handles the standard "Configure Kdenlive..." dialog box.
   *@author Jason Wood
   */
 
-class KdenliveSetupDlg : public KConfigDialog  {
-   Q_OBJECT
-public:
-	KdenliveSetupDlg(KdenliveApp *app, QWidget *parent=0, const char *name=0);
+    class KdenliveSetupDlg:public KConfigDialog {
+      Q_OBJECT public:
+	KdenliveSetupDlg(KdenliveApp * app, QWidget * parent =
+	    0, const char *name = 0);
 	~KdenliveSetupDlg();
 
 	configInterface *page1;
 	configTimeline *page2;
-};
+    };
 
-} // namespace Gui
-
+}				// namespace Gui
 #endif

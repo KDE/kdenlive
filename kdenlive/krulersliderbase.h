@@ -28,29 +28,31 @@ class QPainter;
   */
 
 class KRulerSliderBase {
-public: 
-	KRulerSliderBase();
-	virtual ~KRulerSliderBase();
+  public:
+    KRulerSliderBase();
+    virtual ~ KRulerSliderBase();
   /** Draws a horizontal version of the slider, using the painter provided. The "x" coordinate is the pixel which coresponds to the slider value. The height of the widget is passed so that the marker can rescale itself to an appropriate size. */
-  virtual void drawHorizontalSlider(QPainter &painter, const int x, const int height) = 0;
-  
+    virtual void drawHorizontalSlider(QPainter & painter, const int x,
+	const int height) = 0;
+
 /** Returns true if the currrent slider is under the mouse position passed, otherwise returns false.
 midx is the coordinate corresponding to the value of the slider. height is that of the widget, as is passed so that the slider can determine it's scale. The x,y pair is the point that we are testing. */
-  virtual bool underMouse(const int x, const int y, const int midx, const int height) const = 0;
+    virtual bool underMouse(const int x, const int y, const int midx,
+	const int height) const = 0;
   /** Returns a new object of the same class as this one. */
-  KRulerSliderBase * newInstance();
-public: // Public attributes
+    KRulerSliderBase *newInstance();
+  public:			// Public attributes
   /** reference counter */
-  unsigned int m_ref;
+    unsigned int m_ref;
   /** Decreases reference count by one. If this count reaches zero, nothing is refering to the class and it can be deleted. */
-  void decrementRef();
+    void decrementRef();
   /** Add one to the reference count. If this count reaches zero, the KRulerSliderBase is destroyed. */
-  void incrementRef(); 
+    void incrementRef();
   /** Returns the right-most pixel that will be drawn by this slider in it's current position on the timeline. */
-  virtual int rightBound(int x, int height) = 0;
+    virtual int rightBound(int x, int height) = 0;
   /** Returns the left-most pixel on the timeline that will be drawn by this slider in
 	it's current position. */
-  virtual int leftBound(int x, int height) = 0;
+    virtual int leftBound(int x, int height) = 0;
 };
 
 #endif

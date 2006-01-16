@@ -18,8 +18,8 @@
 #include "avformatdesccodec.h"
 #include "avformatwidgetcodec.h"
 
-AVFormatDescCodec::AVFormatDescCodec(const QString &description, const char * &name) :
-                      AVFormatDescBase(description, name)
+AVFormatDescCodec::AVFormatDescCodec(const QString & description, const char *&name):
+AVFormatDescBase(description, name)
 {
 }
 
@@ -27,7 +27,7 @@ AVFormatDescCodec::~AVFormatDescCodec()
 {
 }
 
-AVFormatWidgetBase * AVFormatDescCodec::createWidget(QWidget * parent)
+AVFormatWidgetBase *AVFormatDescCodec::createWidget(QWidget * parent)
 {
-  return new AVFormatWidgetCodec(this, parent, m_name);
+    return new AVFormatWidgetCodec(this, parent, m_name);
 }

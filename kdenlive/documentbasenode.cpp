@@ -28,63 +28,65 @@
 #include "docclipref.h"
 #include "kaddclipcommand.h"
 
-DocumentBaseNode::DocumentBaseNode(DocumentBaseNode *parent) :
-			m_parent(parent)
+DocumentBaseNode::DocumentBaseNode(DocumentBaseNode * parent):
+m_parent(parent)
 {
 }
 
 DocumentBaseNode::~DocumentBaseNode()
 {
-	QPtrListIterator<DocumentBaseNode> itt(m_children);
+    QPtrListIterator < DocumentBaseNode > itt(m_children);
 
-	while(itt.current()) {
-		delete itt.current();
-		++itt;
-	}
+    while (itt.current()) {
+	delete itt.current();
+	++itt;
+    }
 }
 
 QDomDocument DocumentBaseNode::toXML() const
 {
-	QDomDocument doc;
-	QDomElement clip = doc.createElement("node");
-	clip.setAttribute("name", name());
+    QDomDocument doc;
+    QDomElement clip = doc.createElement("node");
+    clip.setAttribute("name", name());
 
-	QPtrListIterator<DocumentBaseNode> itt(m_children);
+    QPtrListIterator < DocumentBaseNode > itt(m_children);
 
-	while(itt.current()) {
-		clip.appendChild(doc.importNode(itt.current()->toXML().documentElement(), true));
-		++itt;
+    while (itt.current()) {
+	clip.appendChild(doc.importNode(itt.current()->toXML().
+		documentElement(), true));
+	++itt;
+    }
+
+    doc.appendChild(clip);
+
+    return doc;
+}
+
+DocumentBaseNode *DocumentBaseNode::findClipNode(const QString & name)
+{
+    DocumentBaseNode *result = 0;
+
+    if (this->name() == name) {
+	result = this;
+    } else {
+	QPtrListIterator < DocumentBaseNode > itt(m_children);
+	while (itt.current()) {
+	    result = itt.current()->findClipNode(name);
+	    if (result)
+		break;
+	    ++itt;
 	}
+    }
 
-	doc.appendChild(clip);
-
-	return doc;
+    return result;
 }
 
-DocumentBaseNode *DocumentBaseNode::findClipNode(const QString &name)
+void DocumentBaseNode::addChild(const DocumentBaseNode * node)
 {
-	DocumentBaseNode *result = 0;
-
-	if(this->name() == name) {
-		result = this;
-	} else {
-		QPtrListIterator<DocumentBaseNode> itt(m_children);
-		while(itt.current()) {
-			result = itt.current()->findClipNode(name);
-			if(result) break;
-			++itt;
-		}
-	}
-
-	return result;
+    m_children.append(node);
 }
 
-void DocumentBaseNode::addChild( const DocumentBaseNode *node )
+void DocumentBaseNode::removeChild(const DocumentBaseNode * node)
 {
-	m_children.append(node);
-}
-
-void DocumentBaseNode::removeChild( const DocumentBaseNode *node )
-{
-	m_children.remove(node);
+    m_children.remove(node);
 }

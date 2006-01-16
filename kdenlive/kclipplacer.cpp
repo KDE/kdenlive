@@ -20,34 +20,25 @@
 #include "ktimeline.h"
 #include "trackviewdecorator.h"
 
-namespace Gui
-{
+namespace Gui {
 
-KClipPlacer::KClipPlacer(KTimeLine *timeline, DocClipRef *clip) :
-					KPlacer(),
-					m_clip(clip),
-					m_timeline(timeline)
-{
-}
-
-
-KClipPlacer::~KClipPlacer()
-{
-}
+    KClipPlacer::KClipPlacer(KTimeLine * timeline,
+	DocClipRef * clip):KPlacer(), m_clip(clip), m_timeline(timeline) {
+    } KClipPlacer::~KClipPlacer() {
+    }
 
 // virtual
-void KClipPlacer::drawToBackBuffer(QPainter& painter, QRect& rect, TrackViewDecorator *decorator)
-{
+    void KClipPlacer::drawToBackBuffer(QPainter & painter, QRect & rect,
+	TrackViewDecorator * decorator) {
 	double sx = m_timeline->mapValueToLocal(0);
-	double ex = m_timeline->mapValueToLocal(m_clip->cropDuration().frames(m_clip->framesPerSecond()));
+	double ex =
+	    m_timeline->mapValueToLocal(m_clip->cropDuration().
+	    frames(m_clip->framesPerSecond()));
 	decorator->paintClip(sx, ex, painter, m_clip, rect, false);
-}
+    }
 
 /** Returns the track index into the underlying document model used by this track. Returns -1 if this is inapplicable. */
 //  virtual
-int KClipPlacer::documentTrackIndex()  const
-{
+    int KClipPlacer::documentTrackIndex() const {
 	return -1;
-}
-
-} // namespace Gui
+}}				// namespace Gui

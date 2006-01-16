@@ -18,126 +18,112 @@
 #include "krulertimemodel.h"
 #include <kdebug.h>
 
-namespace Gui
-{
+namespace Gui {
 
-KRulerTimeModel::KRulerTimeModel() :
-						KRulerModel()
-{
+    KRulerTimeModel::KRulerTimeModel():KRulerModel() {
 	setNumFrames(25);
 	setMinimumSmallTickSeperation(15);
 	setMinimumLargeTickSeperation(50);
 	setMinimumDisplayTickSeperation(100);
-}
+    } KRulerTimeModel::~KRulerTimeModel() {
+    }
 
-KRulerTimeModel::~KRulerTimeModel()
-{
-}
-
-QString KRulerTimeModel::mapValueToText(int value, double frames)
-{
+    QString KRulerTimeModel::mapValueToText(int value, double frames) {
 	QString text = "";
 	int frame;
 
-	if(value >=0) {
-		frame = value;
+	if (value >= 0) {
+	    frame = value;
 	} else {
-		frame = -value;
-		text = "-";
+	    frame = -value;
+	    text = "-";
 	}
 
 	int second = frame / frames;
 	frame -= (second * frames);
 
-	int minute = second/60;
+	int minute = second / 60;
 	second %= 60;
 
-	int hour = minute/60;
+	int hour = minute / 60;
 	minute %= 60;
 
 	text.append(QString::number(hour).rightJustify(1, '0', FALSE));
 	text.append(":");
 	text.append(QString::number(minute).rightJustify(2, '0', FALSE));
 	text.append(":");
-  	text.append(QString::number(second).rightJustify(2, '0', FALSE));
+	text.append(QString::number(second).rightJustify(2, '0', FALSE));
 	text.append(".");
-  	text.append(QString::number(frame).rightJustify(2, '0', FALSE));
+	text.append(QString::number(frame).rightJustify(2, '0', FALSE));
 
 	return text;
-}
+    }
 
 
-QString KRulerTimeModel::mapValueToText(const int value) const
-{
-  return KRulerTimeModel::mapValueToText(value, m_numFrames);
-}
-
-int KRulerTimeModel::getTickDisplayInterval(const int tick) const
-{
+    QString KRulerTimeModel::mapValueToText(const int value) const {
+	return KRulerTimeModel::mapValueToText(value, m_numFrames);
+    } int KRulerTimeModel::getTickDisplayInterval(const int tick) const {
 	int seconds = tick;
 
-	if(seconds > 3600*numFrames()) {
-		int hour = (tick / (3600*numFrames())) + 1;
-		seconds = hour * 3600 * numFrames();
-	} else if(seconds > 60 * numFrames()) {
-		int minute = (tick / (60 * numFrames())) + 1;
-		if(minute > 30) {
-			minute = 60;
-		} else if(minute > 20) {
-			minute = 30;
-		} else if(minute > 15) {
-			minute = 20;
-		} else if(minute > 10) {
-			minute = 15;
-		} else if(minute > 5) {
-			minute = 10;
-		} else if(minute > 1) {
-			minute = 5;
-		}
-		seconds = minute * 60 * numFrames();
-	} else if(seconds >= numFrames()) {
-		seconds /= numFrames();
-		seconds++;
+	if (seconds > 3600 * numFrames()) {
+	    int hour = (tick / (3600 * numFrames())) + 1;
+	     seconds = hour * 3600 * numFrames();
+	} else if (seconds > 60 * numFrames()) {
+	    int minute = (tick / (60 * numFrames())) + 1;
+	    if (minute > 30) {
+		minute = 60;
+	    } else if (minute > 20) {
+		minute = 30;
+	    } else if (minute > 15) {
+		minute = 20;
+	    } else if (minute > 10) {
+		minute = 15;
+	    } else if (minute > 5) {
+		minute = 10;
+	    } else if (minute > 1) {
+		minute = 5;
+	    }
+	    seconds = minute * 60 * numFrames();
+	} else if (seconds >= numFrames()) {
+	    seconds /= numFrames();
+	    seconds++;
 
-		if(seconds > 30) {
-			seconds = 60;
-		} else if(seconds > 20) {
-			seconds = 30;
-		} else if(seconds > 15) {
-			seconds = 20;
-		} else if(seconds > 10) {
-			seconds = 15;
-		} else if(seconds > 5) {
-			seconds = 10;
-		} else if(seconds > 2) {
-			seconds = 5;
-		}
+	    if (seconds > 30) {
+		seconds = 60;
+	    } else if (seconds > 20) {
+		seconds = 30;
+	    } else if (seconds > 15) {
+		seconds = 20;
+	    } else if (seconds > 10) {
+		seconds = 15;
+	    } else if (seconds > 5) {
+		seconds = 10;
+	    } else if (seconds > 2) {
+		seconds = 5;
+	    }
 
-		seconds *= numFrames();
+	    seconds *= numFrames();
 	} else {
-		int count;
-		for(count=1; count<numFrames(); count++) {
-		#warning - will not calculate correct intervals for none-integer frame rates.
-			if((int)numFrames() % count != 0) continue;
-			if(count >= seconds)	break;
-		}
+	    int count;
+	    for (count = 1; count < numFrames(); count++) {
+#warning - will not calculate correct intervals for none-integer frame rates.
+		if ((int) numFrames() % count != 0)
+		    continue;
+		if (count >= seconds)
+		    break;
+	    }
 
-		seconds = count;
+	    seconds = count;
 	}
 
 	return seconds;
-}
+    }
 
 /** Sets the number of frames per second for this ruler model. */
-void KRulerTimeModel::setNumFrames(double frames)
-{
+    void KRulerTimeModel::setNumFrames(double frames) {
 	m_numFrames = frames;
-}
+    }
 
-double KRulerTimeModel::numFrames() const
-{
+    double KRulerTimeModel::numFrames() const {
 	return m_numFrames;
-}
-
-} // namespace Gui
-
+}}				// namespace Gui

@@ -22,48 +22,45 @@
 
 #include "kmmrulerpanel_ui.h"
 
-namespace Gui
-{
+namespace Gui {
 
 /**The zoom panel contains various options to zoom the Timeline ruler to various scales
   *@author Jason Wood
   */
 
-class KMMRulerPanel : public KMMRulerPanel_UI  {
-   Q_OBJECT
-public:
-	KMMRulerPanel(QWidget *parent=0, const char *name=0);
+    class KMMRulerPanel:public KMMRulerPanel_UI {
+      Q_OBJECT public:
+	KMMRulerPanel(QWidget * parent = 0, const char *name = 0);
 	~KMMRulerPanel();
 
 	/** Set the overall scale to that specified. The scale value is in terms of ruler scale - i.e. how many pixels each ruler "unit"
 	  * takes up
 	  */
 	void setScale(double scale);
-signals: // Signals
+	 signals:		// Signals
 	/** emits the newly requested time scale. */
 	void timeScaleChanged(double);
-public slots:
+	public slots:
 	/** takes index and figures out the correct scale value from it, which then get's emitted. */
 	void comboScaleChange(int index);
-private slots: // Public slots
+	private slots:		// Public slots
 	/** Occurs when the slider changes value, emits a corrected value to provide a non-linear (and better) value scaling. */
 	void sliderScaleChange(int value);
-public: // Public attributes
-  static const double maxFrameSize;
-  static const double expA;
-  static const double expK;
+      public:			// Public attributes
+	static const double maxFrameSize;
+	static const double expA;
+	static const double expK;
   /** This scale is used to convert the combo box entries to scale values. */
-  static const int comboListLength;
-  static const int comboScale[];
-private: // Private attributes
+	static const int comboListLength;
+	static const int comboScale[];
+      private:			// Private attributes
   /** This variable is used when we are "syncing" the various widgets in the ruler
 panel. Since it is unlikely that the various representations can be made exactly
 equal, we instead make them as equal as possible. The m_sync variable
 prevents infinte loops from occuring as the multiple widgets keep rearranging
 each other's values. */
-  bool m_sync;
-};
+	 bool m_sync;
+    };
 
-} // namespace Gui
-
+}				// namespace Gui
 #endif

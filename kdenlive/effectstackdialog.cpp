@@ -44,164 +44,215 @@
 #include "effectdoublekeyframe.h"
 #include "effectcomplexkeyframe.h"
 
-namespace Gui
-{
+namespace Gui {
 
-EffectStackDialog::EffectStackDialog(KdenliveApp *app, KdenliveDoc *doc, QWidget *parent, const char *name )
- : EffectStackDialog_UI(parent, name)
-{
+    EffectStackDialog::EffectStackDialog(KdenliveApp * app,
+	KdenliveDoc * doc, QWidget * parent, const char *name)
+    :EffectStackDialog_UI(parent, name) {
 	// Use a smaller font for that dialog, it has many infos on it. Maybe it's not a good idea?
 	QFont dialogFont = font();
-	dialogFont.setPointSize(dialogFont.pointSize()-1);
-	setFont(dialogFont);
+	 dialogFont.setPointSize(dialogFont.pointSize() - 1);
+	 setFont(dialogFont);
 	KIconLoader loader;
 
-	m_upButton->setIconSet( QIconSet( loader.loadIcon( "1uparrow", KIcon::Toolbar ) ));
-	m_downButton->setIconSet( QIconSet( loader.loadIcon( "1downarrow", KIcon::Toolbar ) ));
-	m_resetButton->setIconSet( QIconSet( loader.loadIcon( "reload", KIcon::Toolbar ) ));
-	m_deleteButton->setIconSet( QIconSet( loader.loadIcon( "editdelete", KIcon::Toolbar ) ));
+	 m_upButton->setIconSet(QIconSet(loader.loadIcon("1uparrow",
+		    KIcon::Toolbar)));
+	 m_downButton->setIconSet(QIconSet(loader.loadIcon("1downarrow",
+		    KIcon::Toolbar)));
+	 m_resetButton->setIconSet(QIconSet(loader.loadIcon("reload",
+		    KIcon::Toolbar)));
+	 m_deleteButton->setIconSet(QIconSet(loader.loadIcon("editdelete",
+		    KIcon::Toolbar)));
 
-   	QToolTip::add( m_upButton, i18n("Move effect up") );
-	QToolTip::add( m_downButton, i18n("Move effect down") );
-	QToolTip::add( m_resetButton, i18n("Reset all parameters to default values") );
-	QToolTip::add( m_deleteButton, i18n("Remove effect") );
+	 QToolTip::add(m_upButton, i18n("Move effect up"));
+	 QToolTip::add(m_downButton, i18n("Move effect down"));
+	 QToolTip::add(m_resetButton,
+	    i18n("Reset all parameters to default values"));
+	 QToolTip::add(m_deleteButton, i18n("Remove effect"));
 
 	// HACK - We are setting app and doc here because we cannot pass app and doc directly via the auto-generated UI file. This
 	// needs to be fixed...
-	m_effectList->setAppAndDoc(app, doc);
+	 m_effectList->setAppAndDoc(app, doc);
 
-	m_parameter->setOrientation(Qt::Vertical);
-	m_parameter->setColumns(5);
-	m_blockUpdate = false;
-	m_effecttype = "";
-	m_hasKeyFrames = false;
-	tabWidget2->setTabEnabled(tabWidget2->page(1), false);
+	 m_parameter->setOrientation(Qt::Vertical);
+	 m_parameter->setColumns(5);
+	 m_blockUpdate = false;
+	 m_effecttype = "";
+	 m_hasKeyFrames = false;
+	 tabWidget2->setTabEnabled(tabWidget2->page(1), false);
 
-	connect(m_upButton, SIGNAL(clicked()), m_effectList, SLOT(slotMoveEffectUp()));
-	connect(m_downButton, SIGNAL(clicked()), m_effectList, SLOT(slotMoveEffectDown()));
-	connect(m_resetButton, SIGNAL(clicked()), this, SLOT(resetParameters()));
-	connect(m_deleteButton, SIGNAL(clicked()), m_effectList, SLOT(slotDeleteEffect()));
-	connect(spinIndex, SIGNAL(valueChanged(int)), this, SLOT(selectKeyFrame(int)));
-	connect(m_effectList, SIGNAL(effectSelected(DocClipRef *, Effect *)), this, SLOT(addParameters(DocClipRef *, Effect *)));
+	 connect(m_upButton, SIGNAL(clicked()), m_effectList,
+	    SLOT(slotMoveEffectUp()));
+	 connect(m_downButton, SIGNAL(clicked()), m_effectList,
+	    SLOT(slotMoveEffectDown()));
+	 connect(m_resetButton, SIGNAL(clicked()), this,
+	    SLOT(resetParameters()));
+	 connect(m_deleteButton, SIGNAL(clicked()), m_effectList,
+	    SLOT(slotDeleteEffect()));
+	 connect(spinIndex, SIGNAL(valueChanged(int)), this,
+	    SLOT(selectKeyFrame(int)));
+	 connect(m_effectList, SIGNAL(effectSelected(DocClipRef *,
+		    Effect *)), this, SLOT(addParameters(DocClipRef *,
+		    Effect *)));
 
-	connect(sliderPosition, SIGNAL(valueChanged(int)), spinPosition, SLOT(setValue(int)));
-	connect(spinPosition, SIGNAL(valueChanged(int)), sliderPosition, SLOT(setValue(int)));
-	connect(spinPosition, SIGNAL(valueChanged(int)), this, SLOT(changeKeyFramePosition(int)));
-	
+	 connect(sliderPosition, SIGNAL(valueChanged(int)), spinPosition,
+	    SLOT(setValue(int)));
+	 connect(spinPosition, SIGNAL(valueChanged(int)), sliderPosition,
+	    SLOT(setValue(int)));
+	 connect(spinPosition, SIGNAL(valueChanged(int)), this,
+	    SLOT(changeKeyFramePosition(int)));
+
 	/*connect(spinValue, SIGNAL(valueChanged(int)), sliderValue, SLOT(setValue(int)));
-	connect(sliderValue, SIGNAL(valueChanged(int)), spinValue, SLOT(setValue(int)));
-	connect(spinValue, SIGNAL(valueChanged(int)), this, SLOT(changeKeyFrameValue(int)));*/
-}
+	   connect(sliderValue, SIGNAL(valueChanged(int)), spinValue, SLOT(setValue(int)));
+	   connect(spinValue, SIGNAL(valueChanged(int)), this, SLOT(changeKeyFrameValue(int))); */
+    } EffectStackDialog::~EffectStackDialog() {
+    }
 
-
-EffectStackDialog::~EffectStackDialog()
-{
-}
-
-void EffectStackDialog::addParameters(DocClipRef *clip, Effect *effect)
-{
+    void EffectStackDialog::addParameters(DocClipRef * clip,
+	Effect * effect) {
 // Rebuild the effect parameters dialog
 	uint parameterNum = 0;
 	m_hasKeyFrames = false;
-	m_effecttype = effect->effectDescription().parameter(parameterNum)->type();
+	m_effecttype =
+	    effect->effectDescription().parameter(parameterNum)->type();
 	spinIndex->setValue(0);
 	updateKeyFrames();
-	clip->setEffectStackSelectedItem(m_effectList->selectedEffectIndex());
+	clip->setEffectStackSelectedItem(m_effectList->
+	    selectedEffectIndex());
 
 	// remove all previous params
-	if (m_parameter->child("container","QVBox")) delete m_parameter->child("container","QVBox");
-	if (k_container->child("container2"),"QFrame") delete k_container->child("container2","QFrame");
-	
-	QVBox *container = new QVBox(m_parameter,"container");
+	if (m_parameter->child("container", "QVBox"))
+	    delete m_parameter->child("container", "QVBox");
+	if (k_container->child("container2"), "QFrame")
+	    delete k_container->child("container2", "QFrame");
+
+	QVBox *container = new QVBox(m_parameter, "container");
 	container->setSpacing(5);
 
 	while (effect->parameter(parameterNum)) {
-		// for each constant parameter, build a QSpinBox with its value
-		if (m_effecttype == "constant") {
-			
-			
-			int maxValue = effect->effectDescription().parameter(parameterNum)->max();
-			int minValue = effect->effectDescription().parameter(parameterNum)->min();
-			QHBox *gb = new QHBox(container,"box");
-			(void) new QLabel(effect->effectDescription().parameter(parameterNum)->name(),gb);
-			QString widgetName = QString("param");
-			widgetName.append(QString::number(parameterNum));
-			QSpinBox *spinParam = new QSpinBox(gb,widgetName.ascii());
-			spinParam->setMaxValue(maxValue);
-			spinParam->setMinValue(minValue);
-			spinParam->setValue(effect->effectDescription().parameter(parameterNum)->value());
-			connect(spinParam, SIGNAL( valueChanged (int) ), this, SLOT( parameterChanged(int) ));
+	    // for each constant parameter, build a QSpinBox with its value
+	    if (m_effecttype == "constant") {
+
+
+		int maxValue =
+		    effect->effectDescription().parameter(parameterNum)->
+		    max();
+		int minValue =
+		    effect->effectDescription().parameter(parameterNum)->
+		    min();
+		QHBox *gb = new QHBox(container, "box");
+		(void) new QLabel(effect->effectDescription().
+		    parameter(parameterNum)->name(), gb);
+		QString widgetName = QString("param");
+		widgetName.append(QString::number(parameterNum));
+		QSpinBox *spinParam = new QSpinBox(gb, widgetName.ascii());
+		spinParam->setMaxValue(maxValue);
+		spinParam->setMinValue(minValue);
+		spinParam->setValue(effect->effectDescription().
+		    parameter(parameterNum)->value());
+		connect(spinParam, SIGNAL(valueChanged(int)), this,
+		    SLOT(parameterChanged(int)));
+	    }
+	    if (m_effecttype == "double") {
+		QFrame *frame = new QFrame(k_container, "container2");
+		frame->setSizePolicy(QSizePolicy::MinimumExpanding,
+		    QSizePolicy::MinimumExpanding);
+		QGridLayout *grid = new QGridLayout(frame, 3, 0, 0, 5);
+		spinIndex->setMaxValue(effect->parameter(parameterNum)->
+		    numKeyFrames() - 1);
+		int ix =
+		    effect->parameter(parameterNum)->selectedKeyFrame();
+		uint maxVal = 100;
+		uint minVal = 0;
+		uint currVal =
+		    effect->parameter(parameterNum)->keyframe(ix)->
+		    toDoubleKeyFrame()->value();
+		QLabel *label =
+		    new QLabel(effect->effectDescription().
+		    parameter(parameterNum)->name(), frame);
+		QSlider *sliderParam = new QSlider(Qt::Horizontal, frame);
+		sliderParam->setRange(minVal, maxVal);
+		QSpinBox *spinParam = new QSpinBox(frame, "value");
+
+		grid->addWidget(label, 0, 0);
+		grid->addWidget(sliderParam, 0, 1);
+		grid->addWidget(spinParam, 0, 2);
+
+		connect(sliderParam, SIGNAL(valueChanged(int)), spinParam,
+		    SLOT(setValue(int)));
+		connect(spinParam, SIGNAL(valueChanged(int)), sliderParam,
+		    SLOT(setValue(int)));
+		spinParam->setMaxValue(maxVal);
+		spinParam->setMinValue(minVal);
+		spinParam->setValue(currVal);
+
+		connect(spinParam, SIGNAL(valueChanged(int)), this,
+		    SLOT(changeKeyFrameValue(int)));
+		frame->adjustSize();
+		frame->show();
+		m_hasKeyFrames = true;
+	    }
+
+	    if (m_effecttype == "complex") {
+		QFrame *frame = new QFrame(k_container, "container2");
+		frame->setSizePolicy(QSizePolicy::MinimumExpanding,
+		    QSizePolicy::MinimumExpanding);
+		QGridLayout *grid = new QGridLayout(frame, 3, 0, 0, 5);
+		spinIndex->setMaxValue(effect->parameter(parameterNum)->
+		    numKeyFrames() - 1);
+
+		uint paramNum =
+		    effect->effectDescription().parameter(parameterNum)->
+		    complexParamNum();
+
+		for (uint i = 0; i < paramNum; i++) {
+		    int ix =
+			effect->parameter(parameterNum)->
+			selectedKeyFrame();
+		    uint maxVal =
+			effect->effectDescription().
+			parameter(parameterNum)->max(i);
+		    uint minVal =
+			effect->effectDescription().
+			parameter(parameterNum)->min(i);
+		    uint currVal =
+			effect->parameter(parameterNum)->keyframe(ix)->
+			toComplexKeyFrame()->value(i);
+
+		    QLabel *label =
+			new QLabel(effect->effectDescription().
+			parameter(parameterNum)->complexParamName(i),
+			frame);
+		    QString widgetName = QString("param");
+		    widgetName.append(QString::number(i));
+		    QSlider *sliderParam =
+			new QSlider(Qt::Horizontal, frame);
+		    sliderParam->setRange(minVal, maxVal);
+		    QSpinBox *spinParam =
+			new QSpinBox(frame, widgetName.ascii());
+
+		    grid->addWidget(label, i, 0);
+		    grid->addWidget(sliderParam, i, 1);
+		    grid->addWidget(spinParam, i, 2);
+
+		    connect(sliderParam, SIGNAL(valueChanged(int)),
+			spinParam, SLOT(setValue(int)));
+		    connect(spinParam, SIGNAL(valueChanged(int)),
+			sliderParam, SLOT(setValue(int)));
+
+		    spinParam->setMaxValue(maxVal);
+		    spinParam->setMinValue(minVal);
+		    spinParam->setValue(currVal);
+
+		    connect(spinParam, SIGNAL(valueChanged(int)), this,
+			SLOT(changeKeyFrameValue(int)));
 		}
-		if (m_effecttype == "double") {
-			QFrame *frame = new QFrame(k_container,"container2");
-			frame->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-			QGridLayout *grid = new QGridLayout( frame, 3, 0, 0, 5);
-			spinIndex->setMaxValue(effect->parameter(parameterNum)->numKeyFrames()-1);
-			int ix = effect->parameter(parameterNum)->selectedKeyFrame();
-			uint maxVal = 100;
-			uint minVal = 0;
-			uint currVal = effect->parameter(parameterNum)->keyframe(ix)->toDoubleKeyFrame()->value();
-			QLabel *label = new QLabel(effect->effectDescription().parameter(parameterNum)->name(),frame);
-			QSlider *sliderParam = new QSlider(Qt::Horizontal, frame);
-			sliderParam->setRange(minVal, maxVal);
-			QSpinBox *spinParam = new QSpinBox(frame,"value");
+		frame->adjustSize();
+		frame->show();
+		m_hasKeyFrames = true;
+	    }
 
-			grid->addWidget( label, 0, 0 );
-			grid->addWidget( sliderParam, 0, 1 );
-			grid->addWidget( spinParam, 0, 2 );
-
-			connect(sliderParam, SIGNAL(valueChanged(int)), spinParam, SLOT(setValue(int)));
-			connect(spinParam, SIGNAL(valueChanged(int)), sliderParam, SLOT(setValue(int)));
-			spinParam->setMaxValue(maxVal);
-			spinParam->setMinValue(minVal);
-			spinParam->setValue(currVal);
-
-			connect(spinParam, SIGNAL( valueChanged (int) ), this, SLOT( changeKeyFrameValue(int) ));
-			frame->adjustSize();
-			frame->show();
-			m_hasKeyFrames = true;
-			}
-
-		if (m_effecttype == "complex") {
-			QFrame *frame = new QFrame(k_container,"container2");
-			frame->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-			QGridLayout *grid = new QGridLayout( frame, 3, 0, 0, 5);
-			spinIndex->setMaxValue(effect->parameter(parameterNum)->numKeyFrames()-1);
-
-			uint paramNum = effect->effectDescription().parameter(parameterNum)->complexParamNum();
-
-			for (uint i = 0; i< paramNum;i++) {
-			int ix = effect->parameter(parameterNum)->selectedKeyFrame();
-			uint maxVal = effect->effectDescription().parameter(parameterNum)->max(i);
-			uint minVal = effect->effectDescription().parameter(parameterNum)->min(i);
-			uint currVal = effect->parameter(parameterNum)->keyframe(ix)->toComplexKeyFrame()->value(i);
-
-			QLabel *label = new QLabel(effect->effectDescription().parameter(parameterNum)->complexParamName(i),frame);
-			QString widgetName = QString("param");
-			widgetName.append(QString::number(i));
-			QSlider *sliderParam = new QSlider(Qt::Horizontal, frame);
-			sliderParam->setRange(minVal, maxVal);
-			QSpinBox *spinParam = new QSpinBox(frame,widgetName.ascii());
-
-			grid->addWidget( label, i, 0 );
-			grid->addWidget( sliderParam, i, 1 );
-			grid->addWidget( spinParam, i, 2 );
-
-			connect(sliderParam, SIGNAL(valueChanged(int)), spinParam, SLOT(setValue(int)));
-			connect(spinParam, SIGNAL(valueChanged(int)), sliderParam, SLOT(setValue(int)));
-
-			spinParam->setMaxValue(maxVal);
-			spinParam->setMinValue(minVal);
-			spinParam->setValue(currVal);
-
-			connect(spinParam, SIGNAL( valueChanged (int) ), this, SLOT( changeKeyFrameValue(int) ));
-			}
-			frame->adjustSize();
-			frame->show();
-			m_hasKeyFrames = true;
-			}
-
-		parameterNum++;
+	    parameterNum++;
 	}
 
 	tabWidget2->setTabEnabled(tabWidget2->page(1), m_hasKeyFrames);
@@ -209,118 +260,169 @@ void EffectStackDialog::addParameters(DocClipRef *clip, Effect *effect)
 	container->show();
 	emit effectSelected(clip, effect);
 	emit redrawTracks();
-}
+    }
 
-void EffectStackDialog::parameterChanged(int)
-{
+    void EffectStackDialog::parameterChanged(int) {
 	// A parameter was changed, sync the clip's effect with the spin box values
 	uint parameterNum = 0;
-	Effect *effect = m_effectList->clip()->effectAt(m_effectList->selectedEffectIndex());
+	Effect *effect =
+	    m_effectList->clip()->effectAt(m_effectList->
+	    selectedEffectIndex());
 	while (effect->parameter(parameterNum)) {
-		QString widgetName = QString("param");
-		widgetName.append(QString::number(parameterNum));
-		if (m_effecttype == "constant") {
-			QSpinBox *sbox = dynamic_cast<QSpinBox*> (m_parameter->child(widgetName.ascii(), "QSpinBox"));
-			if (!sbox) kdWarning()<<"EFFECTSTACKDIALOG ERROR, CANNOT FIND BOX FOR PARAMETER "<<parameterNum<<endl;
-			else effect->effectDescription().parameter(parameterNum)->setValue(sbox->value());
-		}
-		parameterNum++;
+	    QString widgetName = QString("param");
+	    widgetName.append(QString::number(parameterNum));
+	    if (m_effecttype == "constant") {
+		QSpinBox *sbox =
+		    dynamic_cast <
+		    QSpinBox * >(m_parameter->child(widgetName.ascii(),
+			"QSpinBox"));
+		if (!sbox)
+		    kdWarning() <<
+			"EFFECTSTACKDIALOG ERROR, CANNOT FIND BOX FOR PARAMETER "
+			<< parameterNum << endl;
+		else
+		    effect->effectDescription().parameter(parameterNum)->
+			setValue(sbox->value());
+	    }
+	    parameterNum++;
 	}
-	if (!m_blockUpdate) emit generateSceneList();
-}
+	if (!m_blockUpdate)
+	    emit generateSceneList();
+    }
 
-void EffectStackDialog::resetParameters()
-{
+    void EffectStackDialog::resetParameters() {
 	m_blockUpdate = true;
 	uint parameterNum = 0;
 	spinIndex->setValue(0);
-	Effect *effect = m_effectList->clip()->effectAt(m_effectList->selectedEffectIndex());
+	Effect *effect =
+	    m_effectList->clip()->effectAt(m_effectList->
+	    selectedEffectIndex());
 	while (effect->parameter(parameterNum)) {
-		QString widgetName = QString("param");
-		widgetName.append(QString::number(parameterNum));
+	    QString widgetName = QString("param");
+	    widgetName.append(QString::number(parameterNum));
 
-		if (m_effecttype == "double" || m_effecttype == "complex") {
+	    if (m_effecttype == "double" || m_effecttype == "complex") {
 		uint ix = effect->parameter(parameterNum)->numKeyFrames();
-		while (ix>0) {
-		effect->parameter(parameterNum)->deleteKeyFrame(ix-1);
-		ix--;
+		while (ix > 0) {
+		    effect->parameter(parameterNum)->deleteKeyFrame(ix -
+			1);
+		    ix--;
 		}
 		effect->addKeyFrame(0, 0.0);
 		effect->addKeyFrame(0, 1.0);
-		}
-		else if (effect->effectDescription().parameter(parameterNum)->type() == "constant") {
-			QSpinBox *sbox = dynamic_cast<QSpinBox*> (m_parameter->child(widgetName.ascii(), "QSpinBox"));
-			if (!sbox) kdWarning()<<"EFFECTSTACKDIALOG ERROR, CANNOT FIND BOX FOR PARAMETER "<<parameterNum<<endl;
-			else
-			sbox->setValue(effect->effectDescription().parameter(parameterNum)->defaultValue());
-		}
-		parameterNum++;
+	    } else if (effect->effectDescription().
+		parameter(parameterNum)->type() == "constant") {
+		QSpinBox *sbox =
+		    dynamic_cast <
+		    QSpinBox * >(m_parameter->child(widgetName.ascii(),
+			"QSpinBox"));
+		if (!sbox)
+		    kdWarning() <<
+			"EFFECTSTACKDIALOG ERROR, CANNOT FIND BOX FOR PARAMETER "
+			<< parameterNum << endl;
+		else
+		    sbox->setValue(effect->effectDescription().
+			parameter(parameterNum)->defaultValue());
+	    }
+	    parameterNum++;
 	}
 	m_blockUpdate = false;
 	emit redrawTracks();
 	emit generateSceneList();
-}
+    }
 
 
-void EffectStackDialog::updateKeyFrames()
-{	
-	Effect *effect = m_effectList->clip()->effectAt(m_effectList->selectedEffectIndex());
+    void EffectStackDialog::updateKeyFrames() {
+	Effect *effect =
+	    m_effectList->clip()->effectAt(m_effectList->
+	    selectedEffectIndex());
 	uint parameterNum = 0;
-	uint numKeyFrames = effect->parameter(parameterNum)->numKeyFrames();
-	if (numKeyFrames == 0 || !m_hasKeyFrames) return;
-	
+	uint numKeyFrames =
+	    effect->parameter(parameterNum)->numKeyFrames();
+	if (numKeyFrames == 0 || !m_hasKeyFrames)
+	    return;
+
 	int ix = effect->parameter(parameterNum)->selectedKeyFrame();
 	spinIndex->setValue(ix);
-	spinIndex->setMaxValue(numKeyFrames-1);
+	spinIndex->setMaxValue(numKeyFrames - 1);
 	selectKeyFrame(ix);
-}
+    }
 
 
-void EffectStackDialog::selectKeyFrame(int ix)
-{
+    void EffectStackDialog::selectKeyFrame(int ix) {
 	// User selected a keyframe
-	if (ix == -1 || !m_hasKeyFrames) return;
+	if (ix == -1 || !m_hasKeyFrames)
+	    return;
 	m_blockUpdate = true;
 	uint parameterNum = 0;
 	uint previousTime, nextTime, currentTime;
 	uint currentValue;
 
-	Effect *effect = m_effectList->clip()->effectAt(m_effectList->selectedEffectIndex());
+	Effect *effect =
+	    m_effectList->clip()->effectAt(m_effectList->
+	    selectedEffectIndex());
 	effect->parameter(parameterNum)->setSelectedKeyFrame(ix);
 
 	// Find the keyframe value & position
 	if (m_effecttype == "double") {
-		currentValue = effect->parameter(parameterNum)->keyframe(ix)->toDoubleKeyFrame()->value();
-		QSpinBox *sbox = dynamic_cast<QSpinBox*> (k_container->child("value", "QSpinBox"));
-		sbox->setValue(currentValue);
-	}
-	else if (m_effecttype == "complex") {
-		uint paramNum = effect->effectDescription().parameter(parameterNum)->complexParamNum();
-		for (uint i = 0; i< paramNum;i++) {
-			QString widgetName = QString("param");
-			widgetName.append(QString::number(i));
-			QSpinBox *sbox = dynamic_cast<QSpinBox*> (k_container->child(widgetName.ascii(), "QSpinBox"));
-			if (!sbox) kdWarning()<<"EFFECTSTACKDIALOG ERROR, CANNOT FIND BOX: "<<i<<endl;
-			else {
-				disconnect(sbox, SIGNAL( valueChanged (int) ), this, SLOT( changeKeyFrameValue(int) ));
-				sbox->setMaxValue(effect->effectDescription().parameter(parameterNum)->max(i));
-				sbox->setMinValue(effect->effectDescription().parameter(parameterNum)->min(i));
-				sbox->setValue(effect->parameter(parameterNum)->keyframe(ix)->toComplexKeyFrame()->value(i));
-				connect(sbox, SIGNAL( valueChanged (int) ), this, SLOT( changeKeyFrameValue(int) ));
-			}
+	    currentValue =
+		effect->parameter(parameterNum)->keyframe(ix)->
+		toDoubleKeyFrame()->value();
+	    QSpinBox *sbox =
+		dynamic_cast < QSpinBox * >(k_container->child("value",
+		    "QSpinBox"));
+	    sbox->setValue(currentValue);
+	} else if (m_effecttype == "complex") {
+	    uint paramNum =
+		effect->effectDescription().parameter(parameterNum)->
+		complexParamNum();
+	    for (uint i = 0; i < paramNum; i++) {
+		QString widgetName = QString("param");
+		widgetName.append(QString::number(i));
+		QSpinBox *sbox =
+		    dynamic_cast <
+		    QSpinBox * >(k_container->child(widgetName.ascii(),
+			"QSpinBox"));
+		if (!sbox)
+		    kdWarning() <<
+			"EFFECTSTACKDIALOG ERROR, CANNOT FIND BOX: " << i
+			<< endl;
+		else {
+		    disconnect(sbox, SIGNAL(valueChanged(int)), this,
+			SLOT(changeKeyFrameValue(int)));
+		    sbox->setMaxValue(effect->effectDescription().
+			parameter(parameterNum)->max(i));
+		    sbox->setMinValue(effect->effectDescription().
+			parameter(parameterNum)->min(i));
+		    sbox->setValue(effect->parameter(parameterNum)->
+			keyframe(ix)->toComplexKeyFrame()->value(i));
+		    connect(sbox, SIGNAL(valueChanged(int)), this,
+			SLOT(changeKeyFrameValue(int)));
 		}
+	    }
 	}
 
-	currentTime = effect->parameter(parameterNum)->keyframe(ix)->time()*m_effectList->clip()->cropDuration().frames(25);
+	currentTime =
+	    effect->parameter(parameterNum)->keyframe(ix)->time() *
+	    m_effectList->clip()->cropDuration().frames(25);
 
 	// Find the previous keyframe position to make sure the current keyframe cannot be moved before the previous one
-	if (ix == 0) previousTime = 0; 
-	else previousTime = effect->parameter(parameterNum)->keyframe(ix-1)->time()*m_effectList->clip()->cropDuration().frames(25)+1;
+	if (ix == 0)
+	    previousTime = 0;
+	else
+	    previousTime =
+		effect->parameter(parameterNum)->keyframe(ix -
+		1)->time() *
+		m_effectList->clip()->cropDuration().frames(25) + 1;
 
 	// Find the next keyframe position to make sure the current keyframe cannot be moved after the next one
-	if (ix == effect->parameter(parameterNum)->numKeyFrames()-1)
-		nextTime = m_effectList->clip()->cropDuration().frames(25);
-	else nextTime = effect->parameter(parameterNum)->keyframe(ix+1)->time()*m_effectList->clip()->cropDuration().frames(25)-1;
+	if (ix == effect->parameter(parameterNum)->numKeyFrames() - 1)
+	    nextTime = m_effectList->clip()->cropDuration().frames(25);
+	else
+	    nextTime =
+		effect->parameter(parameterNum)->keyframe(ix +
+		1)->time() *
+		m_effectList->clip()->cropDuration().frames(25) - 1;
 
 	spinPosition->setMinValue(previousTime);
 	spinPosition->setMaxValue(nextTime);
@@ -329,59 +431,73 @@ void EffectStackDialog::selectKeyFrame(int ix)
 	spinPosition->setValue(currentTime);
 	m_blockUpdate = false;
 	emit redrawTracks();
-}
+    }
 
 
-void EffectStackDialog::changeKeyFramePosition(int newTime)
-{
+    void EffectStackDialog::changeKeyFramePosition(int newTime) {
 	uint parameterNum = 0;
 	double currentTime;
 
-	currentTime = newTime / m_effectList->clip()->cropDuration().frames(25);
-	Effect *effect = m_effectList->clip()->effectAt(m_effectList->selectedEffectIndex());
+	currentTime =
+	    newTime / m_effectList->clip()->cropDuration().frames(25);
+	Effect *effect =
+	    m_effectList->clip()->effectAt(m_effectList->
+	    selectedEffectIndex());
 
 	int ix = effect->parameter(parameterNum)->selectedKeyFrame();
-	effect->parameter(parameterNum)->keyframe(ix)->setTime(currentTime);
+	effect->parameter(parameterNum)->keyframe(ix)->
+	    setTime(currentTime);
 
 	if (!m_blockUpdate) {
-		emit redrawTracks();
-		emit generateSceneList();
+	    emit redrawTracks();
+	    emit generateSceneList();
 	}
-}
+    }
 
 
-void EffectStackDialog::changeKeyFrameValue(int newValue)
-{
+    void EffectStackDialog::changeKeyFrameValue(int newValue) {
 	uint parameterNum = 0;
 	double currentTime;
 
-	Effect *effect = m_effectList->clip()->effectAt(m_effectList->selectedEffectIndex());
+	Effect *effect =
+	    m_effectList->clip()->effectAt(m_effectList->
+	    selectedEffectIndex());
 	int ix = effect->parameter(parameterNum)->selectedKeyFrame();
 	if (m_effecttype == "double")
-	effect->parameter(parameterNum)->keyframe(ix)->toDoubleKeyFrame()->setValue(newValue);
+	    effect->parameter(parameterNum)->keyframe(ix)->
+		toDoubleKeyFrame()->setValue(newValue);
 	if (m_effecttype == "complex") {
-		uint paramNum = effect->effectDescription().parameter(parameterNum)->complexParamNum();
-		for (uint i = 0; i< paramNum;i++) {
-			QString widgetName = QString("param");
-			widgetName.append(QString::number(i));
-			QSpinBox *sbox = dynamic_cast<QSpinBox*> (k_container->child(widgetName.ascii(), "QSpinBox"));
-			if (!sbox) kdWarning()<<"EFFECTSTACKDIALOG ERROR, CANNOT FIND BOX: "<<i<<endl;
-			else {
-			effect->parameter(parameterNum)->keyframe(ix)->toComplexKeyFrame()->setValue(i, QString::number(sbox->value()));
-			}
-
+	    uint paramNum =
+		effect->effectDescription().parameter(parameterNum)->
+		complexParamNum();
+	    for (uint i = 0; i < paramNum; i++) {
+		QString widgetName = QString("param");
+		widgetName.append(QString::number(i));
+		QSpinBox *sbox =
+		    dynamic_cast <
+		    QSpinBox * >(k_container->child(widgetName.ascii(),
+			"QSpinBox"));
+		if (!sbox)
+		    kdWarning() <<
+			"EFFECTSTACKDIALOG ERROR, CANNOT FIND BOX: " << i
+			<< endl;
+		else {
+		    effect->parameter(parameterNum)->keyframe(ix)->
+			toComplexKeyFrame()->setValue(i,
+			QString::number(sbox->value()));
 		}
+
+	    }
 	}
 
 	if (!m_blockUpdate) {
-		emit redrawTracks();
-		emit generateSceneList();
+	    emit redrawTracks();
+	    emit generateSceneList();
 	}
-}
+    }
 
 
-void EffectStackDialog::slotSetEffectStack(DocClipRef *clip)
-{
+    void EffectStackDialog::slotSetEffectStack(DocClipRef * clip) {
 
 	// remove all previous params
 /*	if (m_parameter->child("container","QVBox")) 
@@ -391,6 +507,6 @@ void EffectStackDialog::slotSetEffectStack(DocClipRef *clip)
 	tabWidget2->setTabEnabled(tabWidget2->page(1), false);
 
 	m_effectList->setEffectStack(clip);
-}
+    }
 
-} // namespace Gui
+}				// namespace Gui

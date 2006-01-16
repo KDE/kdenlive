@@ -17,7 +17,10 @@
 
 #include "displayvideodesc.h"
 
-DisplayVideoDesc::DisplayVideoDesc(){
+DisplayVideoDesc::DisplayVideoDesc()
+{
 }
-DisplayVideoDesc::~DisplayVideoDesc(){
+
+DisplayVideoDesc::~DisplayVideoDesc()
+{
 }

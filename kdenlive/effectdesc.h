@@ -29,41 +29,40 @@
 class Effect;
 class EffectParamDesc;
 
-class EffectDesc
-{
-public:
-	EffectDesc( const QString &name,  const QString &tag );
-	~EffectDesc();
+class EffectDesc {
+  public:
+    EffectDesc(const QString & name, const QString & tag);
+    ~EffectDesc();
 
 	/** Returns the name of this effect. */
-	const QString &name() const ;
+    const QString & name() const;
 	/** Returns the description of this effect. */
-	const QString &tag() const ;
+    const QString & tag() const;
 	/** Adds an input to this description. An input might be a video stream, and audio stream, or it may require both. */
-	void addInput( const QString &name, bool video, bool audio );
+    void addInput(const QString & name, bool video, bool audio);
 	/** Adds an new parameter to this description. Examples of parameters could be opacity level, text, colour, font, etc. */
-	void addParameter( EffectParamDesc *param );
-	uint numParameters() const;
-	EffectParamDesc *parameter(uint index) const;
+    void addParameter(EffectParamDesc * param);
+    uint numParameters() const;
+    EffectParamDesc *parameter(uint index) const;
 
 	/** Creates an effect with the correct number of parameters for this effect description. Use the given preset if one exists.*/
-	Effect *createEffect(const QString &preset = QString::null);
-private:
+    Effect *createEffect(const QString & preset = QString::null);
+  private:
 	/** Revoke copy ctor */
-	EffectDesc(const EffectDesc &copy);
+     EffectDesc(const EffectDesc & copy);
 	/** Revoke operator= */
-	const EffectDesc &operator=(const Effect &rhs);
+    const EffectDesc & operator=(const Effect & rhs);
 
 	/** The name of this effect, used by the renderer to process the effect. */
-	QString m_name;
+    QString m_name;
 	/** The description of this effect, text that will be displayed in the effect list */
- 	QString m_tag;
+    QString m_tag;
 
-	QPtrVector<EffectParamDesc> m_params;
-	QPtrList<Effect> m_presets;
+     QPtrVector < EffectParamDesc > m_params;
+     QPtrList < Effect > m_presets;
 
 	/** find and return the preset effect with the given name. */
-	Effect *findPreset(const QString &name);
+    Effect *findPreset(const QString & name);
 };
 
 #endif

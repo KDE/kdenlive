@@ -28,54 +28,54 @@
 
 class DocClipBase;
 
-namespace Gui
-{
+namespace Gui {
 
-class KTimeLine;
-class KTrackPanel;
-class KdenliveApp;
+    class KTimeLine;
+    class KTrackPanel;
+    class KdenliveApp;
 
 /**Timeline track view area.
   *@author Jason Wood
   */
 
-class KTrackView : public QWidget
-{
-	Q_OBJECT
-public:
-	KTrackView( KTimeLine &timeLine, QWidget *parent = 0, const char *name = 0 );
+    class KTrackView:public QWidget {
+      Q_OBJECT public:
+	KTrackView(KTimeLine & timeLine, QWidget * parent =
+	    0, const char *name = 0);
 	~KTrackView();
-	void resizeEvent( QResizeEvent *event );
-	void paintEvent( QPaintEvent *event );
+	void resizeEvent(QResizeEvent * event);
+	void paintEvent(QPaintEvent * event);
 	/** This event occurs when the mouse has been moved. */
-	void mouseMoveEvent( QMouseEvent *event );
+	void mouseMoveEvent(QMouseEvent * event);
 	/** This event occurs when a mouse button is released. */
-	void mouseReleaseEvent( QMouseEvent *event );
+	void mouseReleaseEvent(QMouseEvent * event);
 	/** This event occurs when a mouse button is pressed. */
-	void mousePressEvent( QMouseEvent *event );
+	void mousePressEvent(QMouseEvent * event);
 	/** Returns the track panel that lies at the specified y coordinate on the
 	TimelineTrackView. */
-	KTrackPanel *panelAt( int y );
+	KTrackPanel *panelAt(int y);
 
-	virtual void dragEnterEvent ( QDragEnterEvent * );
-    	virtual void dragMoveEvent ( QDragMoveEvent * );
-    	virtual void dragLeaveEvent ( QDragLeaveEvent * );
-    	virtual void dropEvent ( QDropEvent * );
+	virtual void dragEnterEvent(QDragEnterEvent *);
+	virtual void dragMoveEvent(QDragMoveEvent *);
+	virtual void dragLeaveEvent(QDragLeaveEvent *);
+	virtual void dropEvent(QDropEvent *);
 
-	void registerFunction(const QString &name, TrackPanelFunction *function);
+	void registerFunction(const QString & name,
+	    TrackPanelFunction * function);
 
-	void setDragFunction(const QString &name);
+	void setDragFunction(const QString & name);
 
-private:  // Private methods
+      private:			// Private methods
 	void drawBackBuffer();
-	TrackPanelFunction *getApplicableFunction(KTrackPanel *panel, const QString &editMode, QMouseEvent *event);
+	TrackPanelFunction *getApplicableFunction(KTrackPanel * panel,
+	    const QString & editMode, QMouseEvent * event);
 
 	QPixmap m_backBuffer;
-	KTimeLine & m_timeline;
+	 KTimeLine & m_timeline;
 	/** True if the back buffer needs to be redrawn. */
 	bool m_bufferInvalid;
 	int m_trackBaseNum;
-	KTrackPanel * m_panelUnderMouse;
+	KTrackPanel *m_panelUnderMouse;
 
 	/** The current function that is in operation*/
 	TrackPanelFunction *m_function;
@@ -91,13 +91,11 @@ private:  // Private methods
 
 	DynamicToolTip *tiptst;
 
-public slots: 	// Public slots
+	public slots:		// Public slots
 	/** Invalidate the back buffer, alerting the trackview that it should redraw itself. */
 	void invalidateBackBuffer();
-signals:
-	void rightButtonPressed();
-};
+	 signals: void rightButtonPressed();
+    };
 
-} // namespace Gui
-
+}				// namespace Gui
 #endif

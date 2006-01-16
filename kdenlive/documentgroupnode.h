@@ -20,7 +20,7 @@
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif 
+#endif
 
 #include <qstring.h>
 
@@ -28,20 +28,20 @@
 
 #include "documentbasenode.h"
 
-class DocumentGroupNode : public DocumentBaseNode
-{
-public:
+class DocumentGroupNode:public DocumentBaseNode {
+  public:
 	/** Constructor for the fileclass of the application */
-	DocumentGroupNode(DocumentBaseNode *parent, const QString &name);
+    DocumentGroupNode(DocumentBaseNode * parent, const QString & name);
 	/** Destructor for the fileclass of the application */
-	virtual ~DocumentGroupNode();
+    virtual ~ DocumentGroupNode();
 
-	/* Returns the name of this group. */
-	virtual const QString &name() const;
+    /* Returns the name of this group. */
+    virtual const QString & name() const;
 
-	virtual DocumentGroupNode *asGroupNode() { return this; }
-private:
-	QString m_name;
+    virtual DocumentGroupNode *asGroupNode() {
+	return this;
+  } private:
+     QString m_name;
 };
 
-#endif // DOCUMENTCLIPNODE_H
+#endif				// DOCUMENTCLIPNODE_H

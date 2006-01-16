@@ -17,38 +17,30 @@
 
 #include "kscalableruler.h"
 
-namespace Gui
-{
+namespace Gui {
 
-KScalableRuler::KScalableRuler(KRulerModel *model, QWidget *parent, const char *name ) :
-					 KRuler(model, parent, name)
-{
-}
+    KScalableRuler::KScalableRuler(KRulerModel * model, QWidget * parent,
+	const char *name):KRuler(model, parent, name) {
+    } KScalableRuler::KScalableRuler(QWidget * parent,
+	const char *name):KRuler(0, parent, name) {
+    }
 
-KScalableRuler::KScalableRuler(QWidget *parent, const char *name ) :
-						KRuler(0, parent, name)
-{
-}
-
-KScalableRuler::~KScalableRuler()
-{
-}
+    KScalableRuler::~KScalableRuler() {
+    }
 
 /** Sets the pixel which will be displayed leftmost or uppermost on the ruler. 0 pixels is equivalent to the value 0, other pixel amounts can be determined by multiplying by the scale factor. */
-void KScalableRuler::setStartPixel(int pixel)
-{
+    void KScalableRuler::setStartPixel(int pixel) {
 	KRuler::setStartPixel(pixel);
-}
+    }
 
 /** Sets the scale used to display values. The parameter specifies how many pixels should be used per value. */
-void KScalableRuler::setValueScale(double scale){
+    void KScalableRuler::setValueScale(double scale) {
 	KRuler::setValueScale(scale);
-}
+    }
 
 /** Sets the range of the active part of the ruler. */
-void KScalableRuler::setRange(const int start, const int end)
-{
+    void KScalableRuler::setRange(const int start, const int end) {
 	KRuler::setRange(start, end);
-}
+    }
 
-} // namespace Gui
+}				// namespace Gui

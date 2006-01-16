@@ -30,85 +30,65 @@
 
 
 
-DocClipAVFile::DocClipAVFile(const QString &name, const KURL &url, uint id) :
-						DocClipBase(),
-						m_duration(0.0),
-						m_url(url),
-						m_durationKnown(false),
-						m_framesPerSecond(0),
-						m_color(QString::null),
-						m_clipType(NONE),
-						m_id(id)
-
+DocClipAVFile::DocClipAVFile(const QString & name, const KURL & url,
+    uint id):DocClipBase(), m_duration(0.0), m_url(url),
+m_durationKnown(false), m_framesPerSecond(0), m_color(QString::null),
+m_clipType(NONE), m_id(id)
 {
-	setName(name);
+    setName(name);
 }
 
 /* color clip */
-DocClipAVFile::DocClipAVFile(const QString &color, const GenTime &duration, uint id) :
-						DocClipBase(),
-						m_duration(duration),
-						m_url(QString::null),
-						m_durationKnown(true),
-						m_framesPerSecond(25),
-						m_color(color),
-						m_clipType(COLOR),
-						m_id(id),
-						m_filesize(0)
+DocClipAVFile::DocClipAVFile(const QString & color,
+    const GenTime & duration, uint id):DocClipBase(), m_duration(duration),
+m_url(QString::null), m_durationKnown(true), m_framesPerSecond(25),
+m_color(color), m_clipType(COLOR), m_id(id), m_filesize(0)
 {
-	setName(i18n("Color Clip"));
+    setName(i18n("Color Clip"));
 }
 
 /* image clip */
-DocClipAVFile::DocClipAVFile(const KURL &url, const QString &extension, const int &ttl, const GenTime &duration, uint id) :
-				DocClipBase(),
-				m_duration(duration),
-				m_url(url),
-				m_durationKnown(true),
-				m_framesPerSecond(25),
-				m_color(QString::null),
-				m_clipType(IMAGE),
-				m_id(id)
+DocClipAVFile::DocClipAVFile(const KURL & url, const QString & extension,
+    const int &ttl, const GenTime & duration, uint id):DocClipBase(),
+m_duration(duration), m_url(url), m_durationKnown(true),
+m_framesPerSecond(25), m_color(QString::null), m_clipType(IMAGE), m_id(id)
 {
-	setName(url.fileName());
-	QFileInfo fileInfo(m_url.path());
-	 /* Determines the size of the file */
-	m_filesize = fileInfo.size();
+    setName(url.fileName());
+    QFileInfo fileInfo(m_url.path());
+    /* Determines the size of the file */
+    m_filesize = fileInfo.size();
 }
 
-DocClipAVFile::DocClipAVFile(const KURL &url) :
-				DocClipBase(),
-				m_duration(0.0),
-				m_url(url),
-				m_durationKnown(false),
-				m_framesPerSecond(0),
-				m_color(QString::null),
-				m_clipType(NONE)
+DocClipAVFile::DocClipAVFile(const KURL & url):DocClipBase(),
+m_duration(0.0),
+m_url(url),
+m_durationKnown(false),
+m_framesPerSecond(0), m_color(QString::null), m_clipType(NONE)
 {
-	setName(url.fileName());
+    setName(url.fileName());
 }
 
 DocClipAVFile::~DocClipAVFile()
 {
 }
 
-const GenTime &DocClipAVFile::duration() const
+const GenTime & DocClipAVFile::duration() const
 {
-	return m_duration;
+    return m_duration;
 }
 
-const DocClipAVFile::CLIPTYPE &DocClipAVFile::clipType() const
+const DocClipAVFile::CLIPTYPE & DocClipAVFile::clipType() const
 {
-  return m_clipType;
+    return m_clipType;
 }
 
 
-const KURL &DocClipAVFile::fileURL() const
+const KURL & DocClipAVFile::fileURL() const
 {
-	return m_url;
+    return m_url;
 }
 
-DocClipAVFile * DocClipAVFile::createClip(const QDomElement element)
+DocClipAVFile *DocClipAVFile::createClip(const QDomElement element)
 {
 /*	DocClipAVFile *file = 0;
 
@@ -123,73 +103,80 @@ DocClipAVFile * DocClipAVFile::createClip(const QDomElement element)
 	return file;*/
 }
 
-void DocClipAVFile::setFileURL(const KURL &url)
+void DocClipAVFile::setFileURL(const KURL & url)
 {
-	m_url = url;
-	setName(url.fileName());
-	QFileInfo fileInfo(m_url.path());
-	m_durationKnown = false;
-	 /* Determines the size of the file */
-	m_filesize = fileInfo.size();
+    m_url = url;
+    setName(url.fileName());
+    QFileInfo fileInfo(m_url.path());
+    m_durationKnown = false;
+    /* Determines the size of the file */
+    m_filesize = fileInfo.size();
 }
 
-void DocClipAVFile::setDuration(const GenTime &duration)
+void DocClipAVFile::setDuration(const GenTime & duration)
 {
-	m_durationKnown = true;
-	m_duration = duration;
+    m_durationKnown = true;
+    m_duration = duration;
 }
 
 void DocClipAVFile::setColor(const QString color)
 {
-	m_color = color;
+    m_color = color;
 }
 
-const QString &DocClipAVFile::color() const
+const QString & DocClipAVFile::color() const
 {
-	return m_color;
+    return m_color;
 }
 
 bool DocClipAVFile::durationKnown() const
 {
-	return m_durationKnown;
+    return m_durationKnown;
 }
 
 // virtual
 double DocClipAVFile::framesPerSecond() const
 {
-	return m_framesPerSecond;
+    return m_framesPerSecond;
 }
 
 //returns clip video properties -reh
 uint DocClipAVFile::clipHeight() const
 {
-	return m_height;
+    return m_height;
 }
+
 uint DocClipAVFile::clipWidth() const
 {
-	return m_width;
+    return m_width;
 }
+
 QString DocClipAVFile::avDecompressor()
 {
-	return m_decompressor;
+    return m_decompressor;
 }
+
 QString DocClipAVFile::avSystem()
 {
-	return m_system;
+    return m_system;
 }
+
 //returns clip audio properties -reh
 uint DocClipAVFile::audioChannels() const
 {
-	return m_channels;
+    return m_channels;
 }
+
 QString DocClipAVFile::audioFormat()
 {
-	return m_format;
+    return m_format;
 }
+
 uint DocClipAVFile::audioBits() const
 {
-	return m_bitspersample;
+    return m_bitspersample;
 }
+
 /*
 // virtual
 QDomDocument DocClipAVFile::generateSceneList() const
@@ -217,17 +204,17 @@ QDomDocument DocClipAVFile::generateSceneList() const
 */
 
 // virtual
-QDomDocument DocClipAVFile::sceneToXML(const GenTime &startTime, const GenTime &endTime) const
+QDomDocument DocClipAVFile::sceneToXML(const GenTime & startTime,
+    const GenTime & endTime) const
 {
 }
 
 // virtual
 QDomDocument DocClipAVFile::generateSceneList() const
 {
-QDomDocument sceneList;
+    QDomDocument sceneList;
 
-	if (clipType() == IMAGE )
-	{
+    if (clipType() == IMAGE) {
 	QDomElement westley = sceneList.createElement("westley");
 	sceneList.appendChild(westley);
 
@@ -238,15 +225,15 @@ QDomDocument sceneList;
 	westley.appendChild(producer);
 	QDomElement playlist = sceneList.createElement("playlist");
 	playlist.setAttribute("in", "0");
-	playlist.setAttribute("out", QString::number(duration().frames(25)));
+	playlist.setAttribute("out",
+	    QString::number(duration().frames(25)));
 	QDomElement entry = sceneList.createElement("entry");
 	entry.setAttribute("producer", QString("producer0"));
 	playlist.appendChild(entry);
 	westley.appendChild(playlist);
-	}
+    }
 
-	else if (clipType() == COLOR )
-	{
+    else if (clipType() == COLOR) {
 	QDomElement westley = sceneList.createElement("westley");
 	sceneList.appendChild(westley);
 
@@ -257,43 +244,46 @@ QDomDocument sceneList;
 	westley.appendChild(producer);
 	QDomElement playlist = sceneList.createElement("playlist");
 	playlist.setAttribute("in", "0");
-	playlist.setAttribute("out", QString::number(duration().frames(25)));
+	playlist.setAttribute("out",
+	    QString::number(duration().frames(25)));
 	QDomElement entry = sceneList.createElement("entry");
 	entry.setAttribute("producer", QString("producer0"));
 	playlist.appendChild(entry);
 	westley.appendChild(playlist);
-	}
+    }
 
 
-	else {
+    else {
 	QDomElement producer = sceneList.createElement("producer");
-	producer.setAttribute("id", QString("producer") + QString::number(getId()) );
+	producer.setAttribute("id",
+	    QString("producer") + QString::number(getId()));
 	producer.setAttribute("resource", fileURL().path());
 	sceneList.appendChild(producer);
-	}
+    }
 
-	//kdDebug()<<"START AV: "<<startTime.frames(25)<<endl;
-	//kdDebug()<<"STOP AV: "<<endTime.frames(25)<<endl;
-	//producer.setAttribute("in", QString::number(startTime.frames(25)));
-	//producer.setAttribute("out", QString::number(endTime.frames(25)));
-
-
-
-//	kdDebug()<<"++++++++++++CLIP SCENE:\n"<<sceneList.toString()<<endl;
+    //kdDebug()<<"START AV: "<<startTime.frames(25)<<endl;
+    //kdDebug()<<"STOP AV: "<<endTime.frames(25)<<endl;
+    //producer.setAttribute("in", QString::number(startTime.frames(25)));
+    //producer.setAttribute("out", QString::number(endTime.frames(25)));
 
 
-	return sceneList;
+
+//      kdDebug()<<"++++++++++++CLIP SCENE:\n"<<sceneList.toString()<<endl;
+
+
+    return sceneList;
 }
 
-void DocClipAVFile::populateSceneTimes(QValueVector<GenTime> &toPopulate) const
+void DocClipAVFile::populateSceneTimes(QValueVector < GenTime >
+    &toPopulate) const
 {
-	toPopulate.append(GenTime(0));
-	toPopulate.append(duration());
+    toPopulate.append(GenTime(0));
+    toPopulate.append(duration());
 }
 
 uint DocClipAVFile::fileSize() const
 {
-	return m_filesize;
+    return m_filesize;
 }
 
 uint DocClipAVFile::numReferences() const
@@ -303,180 +293,177 @@ uint DocClipAVFile::numReferences() const
 
 uint DocClipAVFile::getId() const
 {
-	return m_id;
+    return m_id;
 }
 
 // virtual
-bool DocClipAVFile::referencesClip(DocClipBase *clip) const
+bool DocClipAVFile::referencesClip(DocClipBase * clip) const
 {
-	return this == clip;
+    return this == clip;
 }
 
 // virtual
-QDomDocument DocClipAVFile::toXML() const {
-
-	/*QDomDocument doc;
-
-	QDomElement clip = doc.createElement("clip");
-	clip.setAttribute("name", name());
-	QDomText text = doc.createTextNode(description());
-	clip.appendChild(text);
-
-	QDomElement clip2 = doc.createElement("clip");
-	clip2.setAttribute("name", name());
-	QDomText text2 = doc.createTextNode(description());
-	clip2.appendChild(text2);
-
-	doc.appendChild(clip);
-	doc.appendChild(clip2);
-	*/
-
-
-	QDomDocument doc = DocClipBase::toXML();
-	QDomNode node = doc.firstChild();
-	
-	while( !node.isNull()) {
-		QDomElement element = node.toElement();
-		if(!element.isNull()) {
-			if(element.tagName() == "clip") {
-				QDomElement avfile = doc.createElement("avfile");
-				avfile.setAttribute("url", fileURL().url());
-				avfile.setAttribute("type", m_clipType);
-				avfile.setAttribute("id", m_id);
-				element.appendChild(avfile);
-				return doc;
-			}
-		}
-		node = node.nextSibling();
-	}
-
-	
-	assert(node.isNull());
-
-	/* This final return should never be reached, it is here to remove compiler warning. */
-	return doc;
-}
-
-// virtual
-bool DocClipAVFile::matchesXML(const QDomElement &element) const
+QDomDocument DocClipAVFile::toXML() const
 {
-	bool result = false;
 
-	if(element.tagName() == "clip")
-	{
-		bool found = false;
-		QDomNode n = element.firstChild();
-		while( !n.isNull() ) {
-        	QDomElement avElement = n.toElement(); // try to convert the node to an element.
+    /*QDomDocument doc;
 
-			if(!avElement.isNull()) {
-				if(avElement.tagName() == "avfile") {
-					if(found) {
-						kdWarning() << "Clip contains multiple avclip definitions, only matching XML of the first one," << endl;
-						break;
-					} else {
-						found = true;
-						//if(avElement.attribute("url") == fileURL().url()) {
-						if(avElement.attribute("id") == QString::number(getId())) {
-							result = true;
-						}
-					}
-				}
-			}
+       QDomElement clip = doc.createElement("clip");
+       clip.setAttribute("name", name());
+       QDomText text = doc.createTextNode(description());
+       clip.appendChild(text);
 
-			n = n.nextSibling();
-		}
+       QDomElement clip2 = doc.createElement("clip");
+       clip2.setAttribute("name", name());
+       QDomText text2 = doc.createTextNode(description());
+       clip2.appendChild(text2);
+
+       doc.appendChild(clip);
+       doc.appendChild(clip2);
+     */
+
+
+    QDomDocument doc = DocClipBase::toXML();
+    QDomNode node = doc.firstChild();
+
+    while (!node.isNull()) {
+	QDomElement element = node.toElement();
+	if (!element.isNull()) {
+	    if (element.tagName() == "clip") {
+		QDomElement avfile = doc.createElement("avfile");
+		avfile.setAttribute("url", fileURL().url());
+		avfile.setAttribute("type", m_clipType);
+		avfile.setAttribute("id", m_id);
+		element.appendChild(avfile);
+		return doc;
+	    }
 	}
+	node = node.nextSibling();
+    }
 
-	return result;
+
+    assert(node.isNull());
+
+    /* This final return should never be reached, it is here to remove compiler warning. */
+    return doc;
+}
+
+// virtual
+bool DocClipAVFile::matchesXML(const QDomElement & element) const
+{
+    bool result = false;
+
+    if (element.tagName() == "clip") {
+	bool found = false;
+	QDomNode n = element.firstChild();
+	while (!n.isNull()) {
+	    QDomElement avElement = n.toElement();	// try to convert the node to an element.
+
+	    if (!avElement.isNull()) {
+		if (avElement.tagName() == "avfile") {
+		    if (found) {
+			kdWarning() <<
+			    "Clip contains multiple avclip definitions, only matching XML of the first one,"
+			    << endl;
+			break;
+		    } else {
+			found = true;
+			//if(avElement.attribute("url") == fileURL().url()) {
+			if (avElement.attribute("id") ==
+			    QString::number(getId())) {
+			    result = true;
+			}
+		    }
+		}
+	    }
+
+	    n = n.nextSibling();
+	}
+    }
+
+    return result;
 }
 
 
 /** Calculates properties for this file that will be useful for the rest of the program. */
-void DocClipAVFile::calculateFileProperties(const QMap<QString, QString> &attributes)
+void DocClipAVFile::calculateFileProperties(const QMap < QString,
+    QString > &attributes)
 {
-	if(m_url.isLocalFile()) {
-		QFileInfo fileInfo(m_url.path());
+    if (m_url.isLocalFile()) {
+	QFileInfo fileInfo(m_url.path());
 
-	 	/* Determines the size of the file */
-		m_filesize = fileInfo.size();
+	/* Determines the size of the file */
+	m_filesize = fileInfo.size();
 
-		if(attributes.contains("duration")) {
-			m_duration = GenTime(attributes["duration"].toDouble(), 25);
-			m_durationKnown = true;
-		} else {
-			// No duration known, use an arbitrary one until it is.
-	  		m_duration = GenTime(0.0);
-			m_durationKnown = false;
-		}
-		//extend attributes -reh
-		if(attributes.contains("type"))
-		{
-			if (attributes["type"] == "audio") m_clipType = AUDIO;
-			else if (attributes["type"] == "video") m_clipType = VIDEO;
-			else if (attributes["type"] == "av") m_clipType = AV;
-		}else{
-			m_clipType = AV;
-		}
-		if(attributes.contains("height"))
-		{
-			m_height = attributes["height"].toInt();
-		}else{
-			m_height = 0;
-		}
-		if(attributes.contains("width"))
-		{
-			m_width = attributes["width"].toInt();
-		}else{
-			m_width = 0;
-		}
-		//decoder name
-		if(attributes.contains("name"))
-		{
-			m_decompressor = attributes["name"];
-		}else{
-			m_decompressor = "n/a";
-		}
-		//video type ntsc/pal
-		if(attributes.contains("system"))
-		{
-			m_system = attributes["system"];
-		}else{
-			m_system = "n/a";
-		}
-		if(attributes.contains("fps"))
-		{
-			m_framesPerSecond = attributes["fps"].toInt();
-		} else {
-			// No frame rate known.
-			m_framesPerSecond = 0;
-		}
-		//audio attributes -reh
-		if(attributes.contains("channels"))
-		{
-			m_channels = attributes["channels"].toInt();
-		} else {
-			m_channels = 0;
-		}
-		if(attributes.contains("format"))
-		{
-			m_format = attributes["format"];
-		} else {
-			m_format = "n/a";
-		}
-		if(attributes.contains("bitspersample"))
-		{
-			m_bitspersample = attributes["bitspersample"].toInt();
-		} else {
-			m_bitspersample = 0;
-		}
-
+	if (attributes.contains("duration")) {
+	    m_duration = GenTime(attributes["duration"].toDouble(), 25);
+	    m_durationKnown = true;
 	} else {
-		/** If the file is not local, then no file properties are currently returned */
-		m_duration = GenTime(0.0);
-		m_durationKnown = false;
-		m_framesPerSecond = 0;
-		m_filesize = 0;
+	    // No duration known, use an arbitrary one until it is.
+	    m_duration = GenTime(0.0);
+	    m_durationKnown = false;
 	}
-}
+	//extend attributes -reh
+	if (attributes.contains("type")) {
+	    if (attributes["type"] == "audio")
+		m_clipType = AUDIO;
+	    else if (attributes["type"] == "video")
+		m_clipType = VIDEO;
+	    else if (attributes["type"] == "av")
+		m_clipType = AV;
+	} else {
+	    m_clipType = AV;
+	}
+	if (attributes.contains("height")) {
+	    m_height = attributes["height"].toInt();
+	} else {
+	    m_height = 0;
+	}
+	if (attributes.contains("width")) {
+	    m_width = attributes["width"].toInt();
+	} else {
+	    m_width = 0;
+	}
+	//decoder name
+	if (attributes.contains("name")) {
+	    m_decompressor = attributes["name"];
+	} else {
+	    m_decompressor = "n/a";
+	}
+	//video type ntsc/pal
+	if (attributes.contains("system")) {
+	    m_system = attributes["system"];
+	} else {
+	    m_system = "n/a";
+	}
+	if (attributes.contains("fps")) {
+	    m_framesPerSecond = attributes["fps"].toInt();
+	} else {
+	    // No frame rate known.
+	    m_framesPerSecond = 0;
+	}
+	//audio attributes -reh
+	if (attributes.contains("channels")) {
+	    m_channels = attributes["channels"].toInt();
+	} else {
+	    m_channels = 0;
+	}
+	if (attributes.contains("format")) {
+	    m_format = attributes["format"];
+	} else {
+	    m_format = "n/a";
+	}
+	if (attributes.contains("bitspersample")) {
+	    m_bitspersample = attributes["bitspersample"].toInt();
+	} else {
+	    m_bitspersample = 0;
+	}
 
+    } else {
+		/** If the file is not local, then no file properties are currently returned */
+	m_duration = GenTime(0.0);
+	m_durationKnown = false;
+	m_framesPerSecond = 0;
+	m_filesize = 0;
+    }
+}

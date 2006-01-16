@@ -24,9 +24,9 @@
   */
 
 class DisplayVideoDesc {
-public: 
-	DisplayVideoDesc();
-	~DisplayVideoDesc();
+  public:
+    DisplayVideoDesc();
+    ~DisplayVideoDesc();
 };
 
 #endif

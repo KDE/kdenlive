@@ -23,36 +23,34 @@
 #include <kdebug.h>
 #include <iostream>
 
-namespace Gui
-{
+namespace Gui {
 
-KMMTrackPanel::KMMTrackPanel( KTimeLine *timeline,
-                              KdenliveDoc *document,
-			      KPlacer *placer,
-			      TRACKTYPE trackType,
-                              QWidget *parent,
-                              const char *name ) :
-		KTrackPanel(timeline, placer, trackType, parent, name),
-		m_document( document )
-{
-	setSizePolicy( QSizePolicy( QSizePolicy::Maximum, QSizePolicy::Expanding ) );
-	setPalette( QPalette( QColor( 170, 170, 170 ) ) );
-	setFrameStyle( QFrame::Panel | QFrame::Sunken );
-}
-
-KMMTrackPanel::~KMMTrackPanel()
-{}
+    KMMTrackPanel::KMMTrackPanel(KTimeLine * timeline,
+	KdenliveDoc * document,
+	KPlacer * placer,
+	TRACKTYPE trackType,
+	QWidget * parent,
+	const char *name):KTrackPanel(timeline, placer, trackType, parent,
+	name), m_document(document) {
+	setSizePolicy(QSizePolicy(QSizePolicy::Maximum,
+		QSizePolicy::Expanding));
+	setPalette(QPalette(QColor(170, 170, 170)));
+	setFrameStyle(QFrame::Panel | QFrame::Sunken);
+    } KMMTrackPanel::~KMMTrackPanel() {
+    }
 
 //virtual
-void KMMTrackPanel::drawToBackBuffer( QPainter &painter, QRect &rect )
-{
+    void KMMTrackPanel::drawToBackBuffer(QPainter & painter, QRect & rect) {
 	KTrackPanel::drawToBackBuffer(painter, rect);
 
 	// draw the vertical time marker
-	int value = ( int ) timeline() ->mapValueToLocal( timeline() ->seekPosition().frames( m_document->framesPerSecond() ) );
-	if ( value >= rect.x() && value <= rect.x() + rect.width() ) {
-		painter.drawLine( value, rect.y(), value, rect.y() + rect.height() );
+	int value =
+	    (int) timeline()->mapValueToLocal(timeline()->seekPosition().
+	    frames(m_document->framesPerSecond()));
+	if (value >= rect.x() && value <= rect.x() + rect.width()) {
+	    painter.drawLine(value, rect.y(), value,
+		rect.y() + rect.height());
 	}
-}
+    }
 
-} // namespace Gui
+}				// namespace Gui

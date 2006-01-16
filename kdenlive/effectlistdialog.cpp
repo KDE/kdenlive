@@ -23,89 +23,83 @@
 
 #include "krender.h"
 
-namespace Gui
-{
+namespace Gui {
 
-EffectListDialog::EffectListDialog( const QPtrList<EffectDesc> &effectList, QWidget *parent, const char *name ) :
-		KListView( parent, name )
-{
+    EffectListDialog::EffectListDialog(const QPtrList < EffectDesc >
+	&effectList, QWidget * parent, const char *name):KListView(parent,
+	name) {
 	m_effectList.setAutoDelete(false);
 
-	addColumn( i18n( "Effect" ) );
-	setEffectList( effectList );
+	addColumn(i18n("Effect"));
+	setEffectList(effectList);
 
-	setDragEnabled( true );
-	setFullWidth( true );
+	setDragEnabled(true);
+	setFullWidth(true);
 
-	connect(this, SIGNAL(executed(QListViewItem *)), this, SLOT(slotEffectSelected(QListViewItem* )));
-}
-
-EffectListDialog::~EffectListDialog()
-{}
+	connect(this, SIGNAL(executed(QListViewItem *)), this,
+	    SLOT(slotEffectSelected(QListViewItem *)));
+    } EffectListDialog::~EffectListDialog() {
+    }
 
 /** Generates the layout for this widget. */
-void EffectListDialog::generateLayout()
-{
+    void EffectListDialog::generateLayout() {
 	clear();
 
-	QPtrListIterator<EffectDesc> itt( m_effectList );
-	while ( itt.current() ) {
-		new KListViewItem( this, itt.current() ->name() );
-		++itt;
+	QPtrListIterator < EffectDesc > itt(m_effectList);
+	while (itt.current()) {
+	    new KListViewItem(this, itt.current()->name());
+	    ++itt;
 	}
-}
+    }
 
 /** Set the effect list displayed by this dialog. */
-void EffectListDialog::setEffectList( const QPtrList<EffectDesc> &effectList )
-{
+    void EffectListDialog::setEffectList(const QPtrList < EffectDesc >
+	&effectList) {
 	m_effectList = effectList;
 	generateLayout();
-}
+    }
 
-void EffectListDialog::slotEffectSelected(QListViewItem *item)
-{
-	QPtrListIterator<EffectDesc> itt( m_effectList );
-	while ( itt.current() ) {
-		if(itt.current()->name() == item->text(0)) {
-			// emit effectSelected(*itt.current());
-		}
-		++itt;
+    void EffectListDialog::slotEffectSelected(QListViewItem * item) {
+	QPtrListIterator < EffectDesc > itt(m_effectList);
+	while (itt.current()) {
+	    if (itt.current()->name() == item->text(0)) {
+		// emit effectSelected(*itt.current());
+	    }
+	    ++itt;
 	}
-}
+    }
 
 /** returns a drag object which is used for drag operations. */
-QDragObject *EffectListDialog::dragObject()
-{
+    QDragObject *EffectListDialog::dragObject() {
 	QListViewItem *selected = selectedItem();
 
 	kdWarning() << "Returning appropriate dragObejct" << endl;
 
 	EffectDesc *desc = findDescription(selected->text(0));
 
-	if(!desc) {
-		kdWarning() << "no selected item in effect list" << endl;
-		return 0;
+	if (!desc) {
+	    kdWarning() << "no selected item in effect list" << endl;
+	    return 0;
 	}
 
 	Effect *effect = desc->createEffect();
-	return new EffectDrag( effect, this, "drag object");
-}
+	return new EffectDrag(effect, this, "drag object");
+    }
 
-EffectDesc *EffectListDialog::findDescription(const QString &name)
-{
+    EffectDesc *EffectListDialog::findDescription(const QString & name) {
 	EffectDesc *desc = 0;
 
-	QPtrListIterator<EffectDesc> itt(m_effectList);
+	QPtrListIterator < EffectDesc > itt(m_effectList);
 
-	while(itt.current()) {
-		if(itt.current()->name() == name) {
-			desc = itt.current();
-			break;
-		}
-		++itt;
+	while (itt.current()) {
+	    if (itt.current()->name() == name) {
+		desc = itt.current();
+		break;
+	    }
+	    ++itt;
 	}
 
 	return desc;
-}
+    }
 
-} // namespace Gui
+}				// namespace Gui

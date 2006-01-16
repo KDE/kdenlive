@@ -28,22 +28,20 @@
 #include "avfileformatdesc.h"
 #include "avfileformatwidget.h"
 
-AVFileFormatWidget::AVFileFormatWidget(AVFileFormatDesc *desc, QWidget *parent, const char *name ) :
-                                            QVBox(parent,name),
-                                            m_fileHBox(new QHBox(this, "file_hbox")),
-                                            m_fileLabel(new QLabel(i18n("Filename:"), m_fileHBox, "file_label")),
-                                            m_filename(new KURLRequester(m_fileHBox, "browser")),
-                                            m_desc(desc)
+AVFileFormatWidget::AVFileFormatWidget(AVFileFormatDesc * desc, QWidget * parent, const char *name):
+QVBox(parent, name),
+m_fileHBox(new QHBox(this, "file_hbox")),
+m_fileLabel(new QLabel(i18n("Filename:"), m_fileHBox, "file_label")),
+m_filename(new KURLRequester(m_fileHBox, "browser")), m_desc(desc)
 {
-	QToolTip::add( m_fileHBox, i18n( "The name of ouput video file" ) );
+    QToolTip::add(m_fileHBox, i18n("The name of ouput video file"));
 
-	QPtrListIterator<AVFormatDescBase> itt(desc->list());
+    QPtrListIterator < AVFormatDescBase > itt(desc->list());
 
-	while(itt.current())
-	{
-		itt.current()->createWidget(this);
-		++itt;
-	}
+    while (itt.current()) {
+	itt.current()->createWidget(this);
+	++itt;
+    }
 }
 
 AVFileFormatWidget::~AVFileFormatWidget()
@@ -52,15 +50,15 @@ AVFileFormatWidget::~AVFileFormatWidget()
 
 QWidget *AVFileFormatWidget::widget()
 {
-  return this;
+    return this;
 }
 
 KURL AVFileFormatWidget::fileUrl() const
 {
-  return m_filename->url();
+    return m_filename->url();
 }
 
-AVFileFormatWidget * AVFileFormatWidget::fileFormatWidget()
+AVFileFormatWidget *AVFileFormatWidget::fileFormatWidget()
 {
-  return this;
+    return this;
 }

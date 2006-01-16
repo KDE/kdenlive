@@ -19,27 +19,29 @@
 
 KRulerSliderBase::KRulerSliderBase()
 {
-	m_ref = 1;
+    m_ref = 1;
 }
 
 KRulerSliderBase::~KRulerSliderBase()
 {
 }
 
-KRulerSliderBase * KRulerSliderBase::newInstance()
+KRulerSliderBase *KRulerSliderBase::newInstance()
 {
-	incrementRef();
-	return this;	
+    incrementRef();
+    return this;
 }
 
 /** Add one to the reference count. If this count reaches zero, the KRulerSliderBase is destroyed. */
 void KRulerSliderBase::incrementRef()
 {
-	m_ref++;
+    m_ref++;
 }
 
 /** Decreases reference count by one. If this count reaches zero, nothing is refering to the class and it can be deleted. */
-void KRulerSliderBase::decrementRef(){
-	m_ref--;
-	if(!m_ref) delete this;
+void KRulerSliderBase::decrementRef()
+{
+    m_ref--;
+    if (!m_ref)
+	delete this;
 }

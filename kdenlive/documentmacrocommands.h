@@ -31,20 +31,22 @@ A collection of commands that manipulate the document by using two or more base 
 */
 namespace Command {
 
-class DocumentMacroCommands{
-public:
+    class DocumentMacroCommands {
+      public:
 	/** Razors the clip that is on the specified track, at the specified time. */
-	static KCommand *razorClipAt( KdenliveDoc *document, DocTrackBase &track, const GenTime &time );
+	static KCommand *razorClipAt(KdenliveDoc * document,
+	    DocTrackBase & track, const GenTime & time);
 	/** Razor all clips which are at the time specified, irrespective of which track they are on. */
-	static KCommand *razorAllClipsAt( KdenliveDoc *document, const GenTime &time );
+	static KCommand *razorAllClipsAt(KdenliveDoc * document,
+	    const GenTime & time);
 	/** Razor all selected clips which are at the time specified, irrespective of which track they are on. */
-	static KCommand *razorSelectedClipsAt( KdenliveDoc *document, const GenTime &time );
+	static KCommand *razorSelectedClipsAt(KdenliveDoc * document,
+	    const GenTime & time);
 
-    DocumentMacroCommands();
-    ~DocumentMacroCommands();
+	 DocumentMacroCommands();
+	~DocumentMacroCommands();
 
-};
+    };
 
-} // namespace Command
-
+}				// namespace Command
 #endif

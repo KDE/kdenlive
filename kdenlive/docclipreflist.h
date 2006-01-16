@@ -27,29 +27,29 @@
   * @author Jason Wood
   */
 
-class DocClipRefList : public QPtrList<DocClipRef>  {
-public: 
-	DocClipRefList();
-	DocClipRefList(const DocClipRefList &list);
- 	DocClipRefList &operator=(const DocClipRefList &list);
-	~DocClipRefList();
+class DocClipRefList:public QPtrList < DocClipRef > {
+  public:
+    DocClipRefList();
+    DocClipRefList(const DocClipRefList & list);
+     DocClipRefList & operator=(const DocClipRefList & list);
+    ~DocClipRefList();
 	/** Compares Clips based upon starting time. */
-	int compareItems (QPtrCollection::Item i1, QPtrCollection::Item i2);
+    int compareItems(QPtrCollection::Item i1, QPtrCollection::Item i2);
 	/** Returns an XML version of this DocClipRefList. The root element will take the name passed in.*/
-	QDomDocument toXML(const QString &name);	
+    QDomDocument toXML(const QString & name);
 	/** Sets the master clip to the one specified. If the clip is not in the clip list, then the 
 	method does not do anything. */
-	void setMasterClip(DocClipRef *clip);
+    void setMasterClip(DocClipRef * clip);
 	/** Returns the current master clip for this cliplist. */
-	DocClipRef * masterClip() const;
+    DocClipRef *masterClip() const;
 
 	/** Appends list to the end of the current onw. */
-	void appendList(const DocClipRefList &list);
-private: // Private attributes
+    void appendList(const DocClipRefList & list);
+  private:			// Private attributes
 	/** The "master clip" of this list. The master clip is special only in that it is mentioned
 	seperately to every other clip in the clip list; it also appears in the clip list. It is
 	singled out so that operations that require a master clip can	make use of it. */
-	DocClipRef * m_masterClip;
+     DocClipRef * m_masterClip;
 };
 
 #endif

@@ -26,21 +26,21 @@
   */
 
 class DocTrackClipIterator {
-public: 
-	DocTrackClipIterator(const DocTrackBase &track);
-	~DocTrackClipIterator();	
+  public:
+    DocTrackClipIterator(const DocTrackBase & track);
+    ~DocTrackClipIterator();
 	/** Returns the current clip in the list, or returns 0 otherwise. */
-	DocClipRef * current();
+    DocClipRef *current();
 	/** Increments the iterator. Works identically to all other iterators. */
-	DocClipRef * operator++();
-private: // Private attributes
+    DocClipRef *operator++();
+  private:			// Private attributes
 	/** An iterator to the selected clip list */
-	QPtrListIterator<DocClipRef> *m_selectedItt;
+     QPtrListIterator < DocClipRef > *m_selectedItt;
 	/** An iterator to the unselected clip list */
-	QPtrListIterator<DocClipRef> *m_unselectedItt;  
+     QPtrListIterator < DocClipRef > *m_unselectedItt;
 	/** True if the current clip resides in the selected iterator, or false
 	if it lies in the unselected iterator. */
-	bool m_curSelected;
+    bool m_curSelected;
 };
 
 #endif

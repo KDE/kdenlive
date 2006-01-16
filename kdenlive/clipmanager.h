@@ -21,7 +21,7 @@
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif 
+#endif
 
 #include <qobject.h>
 #include <qdom.h>
@@ -53,97 +53,105 @@ class KRenderManager;
   * @author Jason Wood <jasonwood@blueyonder.co.uk>
   */
 
-class ClipManager : public QObject
-{
-Q_OBJECT
-public:
+class ClipManager:public QObject {
+  Q_OBJECT public:
 	/** Constructor for the fileclass of the application */
-	ClipManager(KRenderManager &renderManager, QWidget *parent=0, const char *name=0);
+    ClipManager(KRenderManager & renderManager, QWidget * parent =
+	0, const char *name = 0);
 	/** Destructor for the fileclass of the application */
-	~ClipManager();
-	
+    ~ClipManager();
+
 	/** Find and return the AVFile with the id specified, or return null is no file matches. */
-	DocClipBase *findClipById(uint id);
+    DocClipBase *findClipById(uint id);
 
 	/** Find and return the AVFile with the url specified, or return null is no file matches. */
-	DocClipBase *findClip(const KURL &file);
-	
+    DocClipBase *findClip(const KURL & file);
+
 	/** find a specific clip, returns null if no clip matches */
-	DocClipBase *findClip(const QDomElement &clip);
+    DocClipBase *findClip(const QDomElement & clip);
 
 	/** Insert an AVFile with the given url. If the file is already in the file list, return 
 	 * that instead. */
-	DocClipBase *insertClip(const KURL &file);
+    DocClipBase *insertClip(const KURL & file);
 
 	/** Insert a color clip */
-	DocClipBase *insertColorClip(const QString &color, const GenTime &duration, const QString &name, const QString &description);
+    DocClipBase *insertColorClip(const QString & color,
+	const GenTime & duration, const QString & name,
+	const QString & description);
 
 	/** Edit a color clip */
-	void editColorClip(DocClipRef *clip, const QString &color, const GenTime &duration, const QString &name, const QString &description);
+    void editColorClip(DocClipRef * clip, const QString & color,
+	const GenTime & duration, const QString & name,
+	const QString & description);
 
 	/** Edit an image clip */
-	void editImageClip(DocClipRef *clip, const KURL &file, const QString &extension, const int &ttl, const GenTime &duration, const QString &description);
+    void editImageClip(DocClipRef * clip, const KURL & file,
+	const QString & extension, const int &ttl,
+	const GenTime & duration, const QString & description);
 
 	/** Edit an a/v clip */
-	void editClip(DocClipRef *clip, const KURL &file);
+    void editClip(DocClipRef * clip, const KURL & file);
 
 	/** Insert an image clip */
-	DocClipBase *insertImageClip(const KURL &file, const QString &extension, const int &ttl, const GenTime &duration, const QString &description);
+    DocClipBase *insertImageClip(const KURL & file,
+	const QString & extension, const int &ttl,
+	const GenTime & duration, const QString & description);
 
 	/** Insert a specific clip */
-	DocClipBase *insertClip(const QDomElement &clip);
+    DocClipBase *insertClip(const QDomElement & clip);
 
 	/** Adds a temporary clip. This is a clip that does not "exist" in the project, but of which
 	 * some stored information is required. */
-	DocClipBase *addTemporaryClip(const QDomElement &clip);
-	
-	DocClipBase *addTemporaryClip(const KURL &file);
+    DocClipBase *addTemporaryClip(const QDomElement & clip);
+
+    DocClipBase *addTemporaryClip(const KURL & file);
 
 	/** Removes a clip from the clip manager. This method fails if the clip does not exist, or
 	 * if it is referenced from anywhere, including the timeline or other clips.*/
-	void removeClip(const KURL &file);
-	void removeClip(const QDomElement &clip);
+    void removeClip(const KURL & file);
+    void removeClip(const QDomElement & clip);
 
 	/** Remove all clips from the clip manager. */
-	void clear();
-	
-	void generateFromXML(KRender *render, const QDomElement &e);
-	QDomDocument toXML(const QString &element);
-signals:
- 	/** This is signal is emitted whenever the clipList changes, either through the addition 
+    void clear();
+
+    void generateFromXML(KRender * render, const QDomElement & e);
+    QDomDocument toXML(const QString & element);
+     signals:
+	/** This is signal is emitted whenever the clipList changes, either through the addition 
 	 * or removal of a clip, or when an clip changes. */
-  	void clipListUpdated();
+    void clipListUpdated();
 	/** Emitted when a particular clip has changed in someway. E.g, it has recieved it's duration. */
-	void clipChanged(DocClipBase *file);
+    void clipChanged(DocClipBase * file);
 
-	void fixClipDuration(DocClipBase* );
+    void fixClipDuration(DocClipBase *);
 
-public slots:
+    public slots:
 	/** This slot occurs when the File properties for an AV File have been returned by the renderer.
 	The relevant AVFile can then be updated to the correct status. */
-	void AVFilePropertiesArrived(const QMap<QString, QString> &properties);
-	void AVImageArrived( const KURL &, int, const QPixmap &);
-	void AVImageArrived( int id, const QPixmap &);
-	/** returns an mlt list of producers for all the clips */ 
-	QDomDocument producersList();
-private:
+    void AVFilePropertiesArrived(const QMap < QString,
+	QString > &properties);
+    void AVImageArrived(const KURL &, int, const QPixmap &);
+    void AVImageArrived(int id, const QPixmap &);
+	/** returns an mlt list of producers for all the clips */
+    QDomDocument producersList();
+  private:
 	/** Finds the avclip that uses the given url. */
-	DocClipAVFile *findAVFile(const KURL &url);
+     DocClipAVFile * findAVFile(const KURL & url);
 	/** A list of DocClipBase Files. There is one for each clip in the project. This is used to store
 	 *  information about clips */
-	DocClipBaseList m_clipList;
+    DocClipBaseList m_clipList;
 
 	/** A list of temporary clips - clips which we need to find the information of, but which we do
 	 * not yet know if they should be in the project. */
-	DocClipBaseList m_temporaryClipList;
+    DocClipBaseList m_temporaryClipList;
 
 	/** This renderer is for multipurpose use, such as background rendering, and for
 	getting the file properties of the various AVFiles. */
-	KRender * m_render;
+    KRender *m_render;
 
 	/** incremental counter that gives a unique id to each clip added in the project. 
 	This id is then used to play the clip with mlt */
-	uint m_clipCounter;
+    uint m_clipCounter;
 };
 
-#endif // CLIPMANAGER_H
+#endif				// CLIPMANAGER_H

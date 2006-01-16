@@ -23,9 +23,8 @@
 #include "doctrackbase.h"
 #include "clipmanager.h"
 
-DocClipBase::DocClipBase() :
-	m_description(""),
-	m_refcount(0)
+DocClipBase::DocClipBase():
+m_description(""), m_refcount(0)
 {
 }
 
@@ -35,84 +34,91 @@ DocClipBase::~DocClipBase()
 
 void DocClipBase::setName(const QString name)
 {
-	m_name = name;
+    m_name = name;
 }
 
-const QString &DocClipBase::name() const
+const QString & DocClipBase::name() const
 {
-	return m_name;
+    return m_name;
 }
 
-void DocClipBase::setDescription(const QString &description)
+void DocClipBase::setDescription(const QString & description)
 {
-	m_description = description;
+    m_description = description;
 }
 
-const QString &DocClipBase::description() const
+const QString & DocClipBase::description() const
 {
-	return m_description;
+    return m_description;
 }
 
 // virtual
-QDomDocument DocClipBase::toXML() const {
-	QDomDocument doc;
+QDomDocument DocClipBase::toXML() const
+{
+    QDomDocument doc;
 
-	QDomElement clip = doc.createElement("clip");
-	clip.setAttribute("name", name());
+    QDomElement clip = doc.createElement("clip");
+    clip.setAttribute("name", name());
 
-	QDomText text = doc.createTextNode(description());
-	clip.appendChild(text);
+    QDomText text = doc.createTextNode(description());
+    clip.appendChild(text);
 
-	doc.appendChild(clip);
+    doc.appendChild(clip);
 
-	return doc;
+    return doc;
 }
 
-DocClipBase *DocClipBase::createClip(const EffectDescriptionList &effectList, ClipManager &clipManager, const QDomElement &element)
+DocClipBase *DocClipBase::
+createClip(const EffectDescriptionList & effectList,
+    ClipManager & clipManager, const QDomElement & element)
 {
-	DocClipBase *clip = 0;
-	QString description;
-	int trackNum = 0;
+    DocClipBase *clip = 0;
+    QString description;
+    int trackNum = 0;
 
-	QDomNode node = element;
-	node.normalize();
+    QDomNode node = element;
+    node.normalize();
 
-	if(element.tagName() != "clip") {
-		kdWarning()	<< "DocClipBase::createClip() element has unknown tagName : " << element.tagName() << endl;
-		return 0;
-	}
+    if (element.tagName() != "clip") {
+	kdWarning() <<
+	    "DocClipBase::createClip() element has unknown tagName : " <<
+	    element.tagName() << endl;
+	return 0;
+    }
 
-	QDomNode n = element.firstChild();
+    QDomNode n = element.firstChild();
 
-	while(!n.isNull()) {
-		QDomElement e = n.toElement();
-		if(!e.isNull()) {
-			QString tagName = e.tagName();
-			if(e.tagName() == "avfile") {
-				clip = DocClipAVFile::createClip(e);
-			} else if(e.tagName() == "project") {
-				clip = DocClipProject::createClip(effectList, clipManager, e);
-			} else if(e.tagName() == "position") {
-				trackNum = e.attribute("track", "-1").toInt();
-			}
-		} else {
-			QDomText text = n.toText();
-			if(!text.isNull()) {
-				description = text.nodeValue();
-			}
-		}
-
-		n = n.nextSibling();
-	}
-	kdWarning()	<< "DocClipBase::createClip() n is null" << endl;
-	if(clip==0) {
-	  kdWarning()	<< "DocClipBase::createClip() unable to create clip" << endl;
+    while (!n.isNull()) {
+	QDomElement e = n.toElement();
+	if (!e.isNull()) {
+	    QString tagName = e.tagName();
+	    if (e.tagName() == "avfile") {
+		clip = DocClipAVFile::createClip(e);
+	    } else if (e.tagName() == "project") {
+		clip =
+		    DocClipProject::createClip(effectList, clipManager, e);
+	    } else if (e.tagName() == "position") {
+		trackNum = e.attribute("track", "-1").toInt();
+	    }
 	} else {
-		// setup DocClipBase specifics of the clip.
-		clip->setDescription(description);
+	    QDomText text = n.toText();
+	    if (!text.isNull()) {
+		description = text.nodeValue();
+	    }
 	}
 
-	return clip;
+	n = n.nextSibling();
+    }
+    kdWarning() << "DocClipBase::createClip() n is null" << endl;
+    if (clip == 0) {
+	kdWarning() << "DocClipBase::createClip() unable to create clip" <<
+	    endl;
+    } else {
+	// setup DocClipBase specifics of the clip.
+	clip->setDescription(description);
+    }
+
+    return clip;
 }
 
 
@@ -120,6 +126,7 @@ DocClipBase *DocClipBase::createClip(const EffectDescriptionList &effectList, Cl
 QDomDocument DocClipBase::generateSceneList() const
 {
 }
+
 /*		
 	static QString str_inpoint="inpoint";
 	static QString str_outpoint="outpoint";
@@ -181,13 +188,12 @@ QDomDocument DocClipBase::generateSceneList() const
 }
 */
 
-void DocClipBase::setThumbnail(const QPixmap &pixmap)
+void DocClipBase::setThumbnail(const QPixmap & pixmap)
 {
-	m_thumbnail = pixmap;
+    m_thumbnail = pixmap;
 }
 
-const QPixmap &DocClipBase::thumbnail() const
+const QPixmap & DocClipBase::thumbnail() const
 {
-	return m_thumbnail;
+    return m_thumbnail;
 }
-

@@ -33,41 +33,48 @@ class QDomDocument;
 class KCommand;
 class KdenliveDoc;
 
-class DocumentBaseNode
-{
-public:
+class DocumentBaseNode {
+  public:
 	/** Constructor for the fileclass of the application */
-	DocumentBaseNode(DocumentBaseNode *parent);
+    DocumentBaseNode(DocumentBaseNode * parent);
 
 	/** Destructor for the fileclass of the application */
-	virtual ~DocumentBaseNode();
+    virtual ~ DocumentBaseNode();
 
-	bool hasParent() const { return m_parent != 0; }
-	DocumentBaseNode *parent() { return m_parent; }
-
+    bool hasParent() const {
+	return m_parent != 0;
+    } DocumentBaseNode *parent() {
+	return m_parent;
+    }
 	/** Returns the name of this group or clip */
-	virtual const QString &name() const = 0;
+	virtual const QString & name() const = 0;
 
 	/** Returns an XML representation of this node and all of it's children. */
-	QDomDocument toXML() const;
+    QDomDocument toXML() const;
 
 	/** Removes a child from this node. */
 
-	DocumentBaseNode *findClipNode(const QString &name);
+    DocumentBaseNode *findClipNode(const QString & name);
 
-	void addChild( const DocumentBaseNode *node );
-	void removeChild( const DocumentBaseNode *node );
+    void addChild(const DocumentBaseNode * node);
+    void removeChild(const DocumentBaseNode * node);
 
-	const QPtrList<DocumentBaseNode> &children() { return m_children; }
-	bool hasChildren() const { return !m_children.isEmpty(); }
+    const QPtrList < DocumentBaseNode > &children() {
+	return m_children;
+    }
+    bool hasChildren() const {
+	return !m_children.isEmpty();
+    } virtual DocumentClipNode *asClipNode() {
+	return 0;
+    }
+    virtual DocumentGroupNode *asGroupNode() {
+	return 0;
+    }
+  private:
+    // pointer to the parent node.
+    DocumentBaseNode * m_parent;
 
-	virtual DocumentClipNode *asClipNode() { return 0; }
-	virtual DocumentGroupNode *asGroupNode() { return 0; }
-private:
-	// pointer to the parent node.
-	DocumentBaseNode *m_parent;
-
-	QPtrList<DocumentBaseNode> m_children;
+    QPtrList < DocumentBaseNode > m_children;
 };
 
-#endif // DOCUMENTBASENODE_H
+#endif				// DOCUMENTBASENODE_H

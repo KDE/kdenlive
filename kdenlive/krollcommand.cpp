@@ -23,8 +23,8 @@
 
 namespace Command {
 
-KRollCommand::KRollCommand(KdenliveDoc *doc, DocClipRef &clip, DocClipRef &clip2)
-{
+    KRollCommand::KRollCommand(KdenliveDoc * doc, DocClipRef & clip,
+	DocClipRef & clip2) {
 	m_doc = doc;
 	//track num is same for both clips
 	m_trackNum = clip.trackNum();
@@ -36,76 +36,77 @@ KRollCommand::KRollCommand(KdenliveDoc *doc, DocClipRef &clip, DocClipRef &clip2
 	m_end_trackEnd2 = m_start_trackEnd2 = clip2.trackEnd();
 	m_end_trackStart2 = m_start_trackStart2 = clip2.trackStart();
 	m_end_cropStart2 = m_start_cropStart2 = clip2.cropStartTime();
-}
+    } KRollCommand::~KRollCommand() {
+    }
 
-KRollCommand::~KRollCommand()
-{
-}
-
-void KRollCommand::setEndSize(DocClipRef &clip, DocClipRef &clip2)
-{
+    void KRollCommand::setEndSize(DocClipRef & clip, DocClipRef & clip2) {
 	m_end_trackEnd = clip.trackEnd();
 	m_end_trackStart = clip.trackStart();
 	m_end_cropStart = clip.cropStartTime();
-	
+
 	m_end_trackEnd2 = clip2.trackEnd();
 	m_end_trackStart2 = clip2.trackStart();
 	m_end_cropStart2 = clip2.cropStartTime();
-}
+    }
 
 /** Returns the name of this command */
-QString KRollCommand::name() const
-{
+    QString KRollCommand::name() const {
 	return i18n("Roll clips");
-}
-
-/** Executes this command */
-void KRollCommand::execute()
-{
-	DocClipRef *clip = m_doc->track(m_trackNum)->getClipAt( (m_start_trackStart + m_start_trackEnd) / 2.0);
-	DocClipRef *clip2 = m_doc->track(m_trackNum)->getClipAt( (m_start_trackStart2 + m_start_trackEnd2) / 2.0);
-	if(!clip || !clip2) {
-		kdWarning() << "RollCommand execute failed - cannot find both clips!!!" << endl;
+    }
+/** Executes this command */ void KRollCommand::execute() {
+	DocClipRef *clip =
+	    m_doc->track(m_trackNum)->getClipAt((m_start_trackStart +
+		m_start_trackEnd) / 2.0);
+	DocClipRef *clip2 =
+	    m_doc->track(m_trackNum)->getClipAt((m_start_trackStart2 +
+		m_start_trackEnd2) / 2.0);
+	if (!clip || !clip2) {
+	    kdWarning() <<
+		"RollCommand execute failed - cannot find both clips!!!" <<
+		endl;
 	} else {
-		clip->setTrackStart(m_end_trackStart);
-		clip->setCropStartTime(m_end_cropStart);
-		clip->setTrackEnd(m_end_trackEnd);
-		
-		clip2->setTrackStart(m_end_trackStart2);
-		clip2->setCropStartTime(m_end_cropStart2);
-		clip2->setTrackEnd(m_end_trackEnd2);
+	    clip->setTrackStart(m_end_trackStart);
+	    clip->setCropStartTime(m_end_cropStart);
+	    clip->setTrackEnd(m_end_trackEnd);
+
+	    clip2->setTrackStart(m_end_trackStart2);
+	    clip2->setCropStartTime(m_end_cropStart2);
+	    clip2->setTrackEnd(m_end_trackEnd2);
 	}
 	m_doc->indirectlyModified();
-}
+    }
 
 /** Unexecutes this command */
-void KRollCommand::unexecute()
-{
-	DocClipRef *clip = m_doc->track(m_trackNum)->getClipAt( m_end_trackStart + ((m_end_trackEnd - m_end_trackStart) / 2.0));
-	DocClipRef *clip2 = m_doc->track(m_trackNum)->getClipAt( m_end_trackStart2 + ((m_end_trackEnd2 - m_end_trackStart2) / 2.0));
-	if(!clip || !clip2) {
-		kdWarning() << "RollCommand unexecute failed - cannot find both clips!!!" << endl;
+    void KRollCommand::unexecute() {
+	DocClipRef *clip =
+	    m_doc->track(m_trackNum)->getClipAt(m_end_trackStart +
+	    ((m_end_trackEnd - m_end_trackStart) / 2.0));
+	DocClipRef *clip2 =
+	    m_doc->track(m_trackNum)->getClipAt(m_end_trackStart2 +
+	    ((m_end_trackEnd2 - m_end_trackStart2) / 2.0));
+	if (!clip || !clip2) {
+	    kdWarning() <<
+		"RollCommand unexecute failed - cannot find both clips!!!"
+		<< endl;
 	} else {
-		clip->setTrackStart(m_start_trackStart);
-		clip->setCropStartTime(m_start_cropStart);
-		clip->setTrackEnd(m_start_trackEnd);
-		
-		clip2->setTrackStart(m_start_trackStart2);
-		clip2->setCropStartTime(m_start_cropStart2);
-		clip2->setTrackEnd(m_start_trackEnd2);
+	    clip->setTrackStart(m_start_trackStart);
+	    clip->setCropStartTime(m_start_cropStart);
+	    clip->setTrackEnd(m_start_trackEnd);
+
+	    clip2->setTrackStart(m_start_trackStart2);
+	    clip2->setCropStartTime(m_start_cropStart2);
+	    clip2->setTrackEnd(m_start_trackEnd2);
 	}
 	m_doc->indirectlyModified();
-}
+    }
 
 /** Sets the trackEnd() for the end destination to the time specified. */
-void KRollCommand::setEndTrackEnd(const GenTime &time)
-{
+    void KRollCommand::setEndTrackEnd(const GenTime & time) {
 	m_end_trackEnd = time;
-}
+    }
 
-void KRollCommand::setEndTrackStart(const GenTime &time)
-{
+    void KRollCommand::setEndTrackStart(const GenTime & time) {
 	m_end_trackStart = time;
-}
+    }
 
-} // namespace Command
+}				// namespace Command

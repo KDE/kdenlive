@@ -26,14 +26,15 @@ SaveProjectFilter::~SaveProjectFilter()
 }
 
 // virtual 
-bool SaveProjectFilter::handlesFormat(const QString &format)
+bool SaveProjectFilter::handlesFormat(const QString & format)
 {
-	QStringList formats = handledFormats();
+    QStringList formats = handledFormats();
 
-	for(QStringList::Iterator itt = formats.begin(); itt != formats.end(); ++itt) {
-		if( *itt == format ) return true;
-	}
+    for (QStringList::Iterator itt = formats.begin(); itt != formats.end();
+	++itt) {
+	if (*itt == format)
+	    return true;
+    }
 
-	return false;
+    return false;
 }
-

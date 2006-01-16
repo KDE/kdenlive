@@ -24,69 +24,65 @@
 
 namespace Command {
 
-KResizeCommand::KResizeCommand(KdenliveDoc *doc, DocClipRef &clip)
-{
+    KResizeCommand::KResizeCommand(KdenliveDoc * doc, DocClipRef & clip) {
 	m_doc = doc;
 	m_trackNum = clip.trackNum();
 	m_end_trackEnd = m_start_trackEnd = clip.trackEnd();
 	m_end_trackStart = m_start_trackStart = clip.trackStart();
 	m_end_cropStart = m_start_cropStart = clip.cropStartTime();
-}
+    } KResizeCommand::~KResizeCommand() {
+    }
 
-KResizeCommand::~KResizeCommand()
-{
-}
-
-void KResizeCommand::setEndSize(DocClipRef &clip)
-{
+    void KResizeCommand::setEndSize(DocClipRef & clip) {
 	m_end_trackEnd = clip.trackEnd();
 	m_end_trackStart = clip.trackStart();
 	m_end_cropStart = clip.cropStartTime();
-}
+    }
 
 /** Returns the name of this command */
-QString KResizeCommand::name() const
-{
+    QString KResizeCommand::name() const {
 	return i18n("Resize clip");
-}
-
-/** Executes this command */
-void KResizeCommand::execute()
-{
-	DocClipRef *clip = m_doc->track(m_trackNum)->getClipAt( (m_start_trackStart + m_start_trackEnd) / 2.0);
-	if(!clip) {
-		kdWarning() << "ResizeCommand execute failed - cannot find clip!!!" << endl;
+    }
+/** Executes this command */ void KResizeCommand::execute() {
+	DocClipRef *clip =
+	    m_doc->track(m_trackNum)->getClipAt((m_start_trackStart +
+		m_start_trackEnd) / 2.0);
+	if (!clip) {
+	    kdWarning() <<
+		"ResizeCommand execute failed - cannot find clip!!!" <<
+		endl;
 	} else {
-		clip->setTrackStart(m_end_trackStart);
-		clip->setCropStartTime(m_end_cropStart);
-		clip->setTrackEnd(m_end_trackEnd);
+	    clip->setTrackStart(m_end_trackStart);
+	    clip->setCropStartTime(m_end_cropStart);
+	    clip->setTrackEnd(m_end_trackEnd);
 	}
 	m_doc->indirectlyModified();
-}
+    }
 
 /** Unexecutes this command */
-void KResizeCommand::unexecute()
-{
-	DocClipRef *clip = m_doc->track(m_trackNum)->getClipAt( m_end_trackStart + ((m_end_trackEnd - m_end_trackStart) / 2.0));
-	if(!clip) {
-		kdWarning() << "ResizeCommand unexecute failed - cannot find clip!!!" << endl;
+    void KResizeCommand::unexecute() {
+	DocClipRef *clip =
+	    m_doc->track(m_trackNum)->getClipAt(m_end_trackStart +
+	    ((m_end_trackEnd - m_end_trackStart) / 2.0));
+	if (!clip) {
+	    kdWarning() <<
+		"ResizeCommand unexecute failed - cannot find clip!!!" <<
+		endl;
 	} else {
-		clip->setTrackStart(m_start_trackStart);
-		clip->setCropStartTime(m_start_cropStart);
-		clip->setTrackEnd(m_start_trackEnd);
+	    clip->setTrackStart(m_start_trackStart);
+	    clip->setCropStartTime(m_start_cropStart);
+	    clip->setTrackEnd(m_start_trackEnd);
 	}
 	m_doc->indirectlyModified();
-}
+    }
 
 /** Sets the trackEnd() for the end destination to the time specified. */
-void KResizeCommand::setEndTrackEnd(const GenTime &time)
-{
+    void KResizeCommand::setEndTrackEnd(const GenTime & time) {
 	m_end_trackEnd = time;
-}
+    }
 
-void KResizeCommand::setEndTrackStart(const GenTime &time)
-{
+    void KResizeCommand::setEndTrackStart(const GenTime & time) {
 	m_end_trackStart = time;
-}
+    }
 
-} // namespace Command
+}				// namespace Command

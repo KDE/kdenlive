@@ -23,51 +23,51 @@
 #include <stdlib.h>
 #include <math.h>
 
-namespace Gui
-{
+namespace Gui {
 
-const double KMMRulerPanel::maxFrameSize = 100.0;
-const double KMMRulerPanel::expA = 0.9094862739;
-const double KMMRulerPanel::expK = 0.09487537302;
-const int KMMRulerPanel::comboListLength = 14;
-const int KMMRulerPanel::comboScale[] = {1, 2, 5, 10, 25, 50, 125, 250, 500, 725, 1500, 3000, 6000, 12000};
+    const double KMMRulerPanel::maxFrameSize = 100.0;
+    const double KMMRulerPanel::expA = 0.9094862739;
+    const double KMMRulerPanel::expK = 0.09487537302;
+    const int KMMRulerPanel::comboListLength = 14;
+    const int KMMRulerPanel::comboScale[] =
+	{ 1, 2, 5, 10, 25, 50, 125, 250, 500, 725, 1500, 3000, 6000,
+	    12000 };
 
-KMMRulerPanel::KMMRulerPanel(QWidget *parent, const char *name ) : KMMRulerPanel_UI(parent,name)
-{
-	connect(m_scaleCombo, SIGNAL(activated(int)), this, SLOT(comboScaleChange(int)));
-	connect(m_scaleSlider, SIGNAL(valueChanged(int)), this, SLOT(sliderScaleChange(int)));
+    KMMRulerPanel::KMMRulerPanel(QWidget * parent,
+	const char *name):KMMRulerPanel_UI(parent, name) {
+	connect(m_scaleCombo, SIGNAL(activated(int)), this,
+	    SLOT(comboScaleChange(int)));
+	connect(m_scaleSlider, SIGNAL(valueChanged(int)), this,
+	    SLOT(sliderScaleChange(int)));
 
 	m_sync = false;
-}
+    }
 
-KMMRulerPanel::~KMMRulerPanel()
-{
-}
+    KMMRulerPanel::~KMMRulerPanel() {
+    }
 
 /** takes index and figures out the correct scale value from it, which then get's emitted. */
-void KMMRulerPanel::comboScaleChange(int index)
-{
-	m_scaleCombo->setCurrentItem( index );
-	if(m_sync) {
-		m_sync = false;
-		return;
+    void KMMRulerPanel::comboScaleChange(int index) {
+	m_scaleCombo->setCurrentItem(index);
+	if (m_sync) {
+	    m_sync = false;
+	    return;
 	}
 
 	emit timeScaleChanged(maxFrameSize / comboScale[index]);
 	m_sync = true;
-	m_scaleSlider->setValue((int)(log(comboScale[index] / expA) / expK));
+	m_scaleSlider->setValue((int) (log(comboScale[index] / expA) /
+		expK));
 	m_sync = false;
-}
+    }
 
 /** Occurs when the slider changes value, emits a corrected value to provide a non-linear
  (and better) value scaling. */
-void KMMRulerPanel::sliderScaleChange(int value)
-{
-	if(m_sync) {
-		m_sync = false;
-		return;
+    void KMMRulerPanel::sliderScaleChange(int value) {
+	if (m_sync) {
+	    m_sync = false;
+	    return;
 	}
-
 	//
 	// The following values come from solving the following equation :
 	//
@@ -75,9 +75,10 @@ void KMMRulerPanel::sliderScaleChange(int value)
 	//
 	// where the values n=1, c=1 and n=100, c=12000 are passed.
 	// This is to give us a nice exponential curve for the slider.
-	int newValue = (int)(expA * exp(expK * value));
+	int newValue = (int) (expA * exp(expK * value));
 
-	if(newValue==0) newValue = 1;
+	if (newValue == 0)
+	    newValue = 1;
 	emit timeScaleChanged(maxFrameSize / newValue);
 
 	m_sync = true;
@@ -86,24 +87,23 @@ void KMMRulerPanel::sliderScaleChange(int value)
 	int bestPos = -1;
 	int curValue;
 
-	for(int count=0; count<comboListLength; count++) {
-		curValue = abs(comboScale[count] - newValue);
-		if((curValue < bestValue) || (bestPos==-1)) {
-			bestValue = curValue;
-			bestPos = count;
-		}
+	for (int count = 0; count < comboListLength; count++) {
+	    curValue = abs(comboScale[count] - newValue);
+	    if ((curValue < bestValue) || (bestPos == -1)) {
+		bestValue = curValue;
+		bestPos = count;
+	    }
 	}
 
-	if(bestPos!=-1) {
-		m_scaleCombo->setCurrentItem(bestPos);
+	if (bestPos != -1) {
+	    m_scaleCombo->setCurrentItem(bestPos);
 	}
 	m_sync = false;
-}
+    }
 
-void KMMRulerPanel::setScale(double scale)
-{
+    void KMMRulerPanel::setScale(double scale) {
 	double newScale = maxFrameSize / scale;
-	m_scaleSlider->setValue((int)(log(newScale / expA) / expK));
-}
+	m_scaleSlider->setValue((int) (log(newScale / expA) / expK));
+    }
 
-} // namespace Gui
+}				// namespace Gui

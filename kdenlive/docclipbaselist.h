@@ -29,27 +29,28 @@
 class ClipManager;
 class KRender;
 
-class DocClipBaseList : public QPtrList<DocClipBase>  {
-public:
-	DocClipBaseList();
-	DocClipBaseList(const DocClipBaseList &list);
- 	DocClipBaseList &operator=(const DocClipBaseList &list);
-	~DocClipBaseList();
+class DocClipBaseList:public QPtrList < DocClipBase > {
+  public:
+    DocClipBaseList();
+    DocClipBaseList(const DocClipBaseList & list);
+     DocClipBaseList & operator=(const DocClipBaseList & list);
+    ~DocClipBaseList();
 	/** Returns an XML version of this DocClipBaseList. The root element will take the name passed in.*/
-	QDomDocument toXML(const QString &name);
+    QDomDocument toXML(const QString & name);
 	/** Sets the master clip to the one specified. If the clip is not in the clip list, then the
 	method does not do anything. */
-	void setMasterClip(DocClipBase *clip);
+    void setMasterClip(DocClipBase * clip);
 	/** Returns the current master clip for this cliplist. */
-	DocClipBase * masterClip() const;
+    DocClipBase *masterClip() const;
 
 	/** Populates this clip list with the clips passed in via elem. */
-	void generateFromXML(const EffectDescriptionList &effectList, ClipManager &clipManager, KRender *render, QDomElement elem);
-private: // Private attributes
+    void generateFromXML(const EffectDescriptionList & effectList,
+	ClipManager & clipManager, KRender * render, QDomElement elem);
+  private:			// Private attributes
 	/** The "master clip" of this list. The master clip is special only in that it is mentioned
 	seperately to every other clip in the clip list; it also appears in the clip list. It is
 	singled out so that operations that require a master clip can	make use of it. */
-	DocClipBase * m_masterClip;
+     DocClipBase * m_masterClip;
 };
 
 #endif

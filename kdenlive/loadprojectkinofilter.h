@@ -30,17 +30,18 @@ Loads a kino project into kdenlive.
 
 @author Jason Wood
 */
-class LoadProjectKinoFilter : public LoadProjectFilter
-{
-public:
+class LoadProjectKinoFilter:public LoadProjectFilter {
+  public:
     LoadProjectKinoFilter();
 
     ~LoadProjectKinoFilter();
 
-    virtual bool load(QFile& file, KdenliveDoc* document);
+    virtual bool load(QFile & file, KdenliveDoc * document);
     virtual QStringList handledFormats() const;
-private:
-	GenTime loadSeq(const GenTime &currentTrackTime, const QDomElement &seqElem, DocTrackBase *track, KdenliveDoc *document);
+  private:
+     GenTime loadSeq(const GenTime & currentTrackTime,
+	const QDomElement & seqElem, DocTrackBase * track,
+	KdenliveDoc * document);
 };
 
 #endif

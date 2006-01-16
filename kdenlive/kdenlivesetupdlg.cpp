@@ -27,24 +27,20 @@
 #include "kdenlivesettings.h"
 
 
-namespace Gui
-{
+namespace Gui {
 
-KdenliveSetupDlg::KdenliveSetupDlg(KdenliveApp *app, QWidget *parent, const char *name ) :
-KConfigDialog( parent, name, KdenliveSettings::self())
-{
-    page1=new configInterface();
-    page2=new configTimeline();
+    KdenliveSetupDlg::KdenliveSetupDlg(KdenliveApp * app, QWidget * parent,
+	const char *name):KConfigDialog(parent, name,
+	KdenliveSettings::self()) {
+	page1 = new configInterface();
+	page2 = new configTimeline();
 
-    addPage(page1, i18n("Interface"), "looknfeel");
-    addPage(page2, i18n("Timeline"), "view");
-}
-
-KdenliveSetupDlg::~KdenliveSetupDlg()
-{
-}
+	addPage(page1, i18n("Interface"), "looknfeel");
+	addPage(page2, i18n("Timeline"), "view");
+    } KdenliveSetupDlg::~KdenliveSetupDlg() {
+    }
 
 
 
 
-} // namespace Gui
+}				// namespace Gui

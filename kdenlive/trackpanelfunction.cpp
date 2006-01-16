@@ -24,4 +24,3 @@ TrackPanelFunction::TrackPanelFunction()
 TrackPanelFunction::~TrackPanelFunction()
 {
 }
-

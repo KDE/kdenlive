@@ -24,28 +24,28 @@ A keyframe value that holds a double.
 
 @author Jason Wood
 */
-class EffectComplexKeyFrame : public EffectKeyFrame
-{
-public:
+class EffectComplexKeyFrame:public EffectKeyFrame {
+  public:
     EffectComplexKeyFrame();
     EffectComplexKeyFrame(double time, QStringList values);
 
-    virtual ~EffectComplexKeyFrame();
+     virtual ~ EffectComplexKeyFrame();
 
-    virtual EffectComplexKeyFrame *toComplexKeyFrame() { return this; }
-
-    int value(int ix) const;
+    virtual EffectComplexKeyFrame *toComplexKeyFrame() {
+	return this;
+    } int value(int ix) const;
     void setValue(int ix, QString);
     const QString processComplexKeyFrame() const;
 
     /** Return a keyfrane that interpolates between this and the passed keyframe, and is a keyframe that would exist at the
     specified time. */
-    virtual EffectKeyFrame *interpolateKeyFrame(EffectKeyFrame *keyframe, double time) const;
+    virtual EffectKeyFrame *interpolateKeyFrame(EffectKeyFrame * keyframe,
+	double time) const;
 
     virtual EffectKeyFrame *clone() const;
 
-private:
-	QStringList m_values;
+  private:
+    QStringList m_values;
 };
 
 #endif

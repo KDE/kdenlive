@@ -27,75 +27,72 @@ class KdenliveDoc;
 class QWidget;
 class QXmlAttributes;
 
-namespace Gui
-{
-	class KdenliveApp;
-	class KTimeLine;
-	class KMMTrackPanel;
+namespace Gui {
+    class KdenliveApp;
+    class KTimeLine;
+    class KMMTrackPanel;
 }
-
 /**
 A description of an effect parameter
 
 @author Jason Wood
-*/
-class EffectParamDesc
+*/ class EffectParamDesc
 {
-public:
-	EffectParamDesc(const QXmlAttributes &attributes);
+  public:
+    EffectParamDesc(const QXmlAttributes & attributes);
 
-	virtual ~EffectParamDesc();
+     virtual ~ EffectParamDesc();
 
 	/** Creates a parameter that conforms to this parameter Description */
-	virtual EffectKeyFrame *createKeyFrame(double time) = 0;
+    virtual EffectKeyFrame *createKeyFrame(double time) = 0;
 
-	virtual EffectKeyFrame *createKeyFrame(double time, double value);
-
-	/** Creates a track panel that can edit this parameter type. */
-	virtual Gui::KMMTrackPanel *createTrackPanel(Gui::KdenliveApp *app,
-									Gui::KTimeLine *timeline,
-									KdenliveDoc *document,
-									DocTrackBase *docTrack,
-									bool isCollapsed,
-									QWidget *parent=0,
-									const char *name=0) = 0;
+    virtual EffectKeyFrame *createKeyFrame(double time, double value);
 
 	/** Creates a track panel that can edit this parameter type. */
-	virtual Gui::KMMTrackPanel *createClipPanel(Gui::KdenliveApp *app,
-									Gui::KTimeLine *timeline,
-									KdenliveDoc *document,
-									DocClipRef *clip,
-									QWidget *parent=0,
-									const char *name=0) = 0;
+    virtual Gui::KMMTrackPanel * createTrackPanel(Gui::KdenliveApp * app,
+	Gui::KTimeLine * timeline,
+	KdenliveDoc * document,
+	DocTrackBase * docTrack,
+	bool isCollapsed, QWidget * parent = 0, const char *name = 0) = 0;
 
-	virtual double max(uint ix=0) const = 0;
-	virtual double min(uint ix=0) const = 0;
+	/** Creates a track panel that can edit this parameter type. */
+    virtual Gui::KMMTrackPanel * createClipPanel(Gui::KdenliveApp * app,
+	Gui::KTimeLine * timeline,
+	KdenliveDoc * document,
+	DocClipRef * clip, QWidget * parent = 0, const char *name = 0) = 0;
 
-	virtual const QString endTag() const = 0;
-	virtual const QString startTag() const = 0;
+    virtual double max(uint ix = 0) const = 0;
+    virtual double min(uint ix = 0) const = 0;
 
-	void setDescription(const QString &description);
-	const QString &description() const;
-	const QString &name() const { return m_name; }
-	const QString &type() const { return m_type; }
-	virtual const double &value(uint ix=0) const { return m_value; }
-	virtual const double &defaultValue(uint ix=0) const { return m_default; }
-	virtual void setValue(const double &value);
+    virtual const QString endTag() const = 0;
+    virtual const QString startTag() const = 0;
 
-	virtual const QString complexParamName(uint ix) const;
-	virtual const uint complexParamNum() const;
+    void setDescription(const QString & description);
+    const QString & description() const;
+    const QString & name() const {
+	return m_name;
+    } const QString & type() const {
+	return m_type;
+    } virtual const double &value(uint ix = 0) const {
+	return m_value;
+    } virtual const double &defaultValue(uint ix = 0) const {
+	return m_default;
+    } virtual void setValue(const double &value);
 
-private:
+    virtual const QString complexParamName(uint ix) const;
+    virtual const uint complexParamNum() const;
+
+  private:
 	/** The name of this parameter. */
-	QString m_name;
+     QString m_name;
 	/** The type of this parameter. */
-	QString m_type;
+    QString m_type;
 	/** The value of this parameter ( for constant parameters). */
-	double m_value;
+    double m_value;
 	/** The default parameter value. */
-	double m_default;
+    double m_default;
 	/** A human-readable description of what this parameter does within the effect. */
-	QString m_description;
+    QString m_description;
 };
 
 #endif

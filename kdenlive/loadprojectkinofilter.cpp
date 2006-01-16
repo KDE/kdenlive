@@ -29,7 +29,7 @@
 #include "kdenlivedoc.h"
 
 LoadProjectKinoFilter::LoadProjectKinoFilter()
- : LoadProjectFilter()
+:  LoadProjectFilter()
 {
 }
 
@@ -39,85 +39,98 @@ LoadProjectKinoFilter::~LoadProjectKinoFilter()
 }
 
 
-bool LoadProjectKinoFilter::load(QFile& file, KdenliveDoc* document)
+bool LoadProjectKinoFilter::load(QFile & file, KdenliveDoc * document)
 {
-	bool success = false;
-	QDomDocument doc;
-	doc.setContent(&file, false);
+    bool success = false;
+    QDomDocument doc;
+    doc.setContent(&file, false);
 
-	QDomElement documentElement = doc.documentElement();
+    QDomElement documentElement = doc.documentElement();
 
-	DocClipProject *project = new DocClipProject(25);
-	project->addTrack(new DocTrackVideo(project));
+    DocClipProject *project = new DocClipProject(25);
+    project->addTrack(new DocTrackVideo(project));
 
-	GenTime currentTrackTime = GenTime(0);
+    GenTime currentTrackTime = GenTime(0);
 
-	if(documentElement.tagName() == "smil") {
-		success = true;
+    if (documentElement.tagName() == "smil") {
+	success = true;
 
-		QDomNode n = documentElement.firstChild();
+	QDomNode n = documentElement.firstChild();
 
-		while(!n.isNull()) {
-			QDomElement e = n.toElement();
-			if(!e.isNull()) {
-				if(e.tagName() == "seq") {
-					currentTrackTime = loadSeq(currentTrackTime, e, project->track(0), document);
-				} else {
-					kdWarning() << "Loading smil : unknown element " << e.tagName() << ", ignoring..." << endl;
-				}
-			}
-
-			n = n.nextSibling();
+	while (!n.isNull()) {
+	    QDomElement e = n.toElement();
+	    if (!e.isNull()) {
+		if (e.tagName() == "seq") {
+		    currentTrackTime =
+			loadSeq(currentTrackTime, e, project->track(0),
+			document);
+		} else {
+		    kdWarning() << "Loading smil : unknown element " << e.
+			tagName() << ", ignoring..." << endl;
 		}
+	    }
+
+	    n = n.nextSibling();
 	}
+    }
 
-	document->setProjectClip(project);
+    document->setProjectClip(project);
 
-	return success;
+    return success;
 }
 
-GenTime LoadProjectKinoFilter::loadSeq(const GenTime &currentTrackTime, const QDomElement &seqElem, DocTrackBase *track, KdenliveDoc *document)
+GenTime LoadProjectKinoFilter::loadSeq(const GenTime & currentTrackTime,
+    const QDomElement & seqElem, DocTrackBase * track,
+    KdenliveDoc * document)
 {
-	GenTime newTrackTime = currentTrackTime;
+    GenTime newTrackTime = currentTrackTime;
 
-	QDomNode n = seqElem.firstChild();
-	while(!n.isNull()) {
-		QDomElement e = n.toElement();
-		if(!e.isNull()) {
-			if(e.tagName() == "video") {
-				DocClipBase *file = document->clipManager().insertClip(KURL(e.attribute("src", "")));
-				DocumentClipNode *clipNode = new DocumentClipNode(document->clipHierarch(), file);
-				document->addClipNode(document->clipHierarch()->name(), clipNode);
+    QDomNode n = seqElem.firstChild();
+    while (!n.isNull()) {
+	QDomElement e = n.toElement();
+	if (!e.isNull()) {
+	    if (e.tagName() == "video") {
+		DocClipBase *file =
+		    document->clipManager().insertClip(KURL(e.
+			attribute("src", "")));
+		DocumentClipNode *clipNode =
+		    new DocumentClipNode(document->clipHierarch(), file);
+		document->addClipNode(document->clipHierarch()->name(),
+		    clipNode);
 
-				DocClipRef	 *ref = new DocClipRef(file);
+		DocClipRef *ref = new DocClipRef(file);
 
-				GenTime cropStart = GenTime(e.attribute("clipBegin", "0").toDouble(), track->framesPerSecond());
-				GenTime cropDuration = GenTime(e.attribute("clipEnd", "0").toDouble(), track->framesPerSecond()) - cropStart;;
+		GenTime cropStart =
+		    GenTime(e.attribute("clipBegin", "0").toDouble(),
+		    track->framesPerSecond());
+		GenTime cropDuration =
+		    GenTime(e.attribute("clipEnd", "0").toDouble(),
+		    track->framesPerSecond()) - cropStart;;
 
-				ref->setTrackStart(newTrackTime);
-				ref->setCropStartTime(cropStart);
-				ref->setCropDuration(cropDuration);
+		ref->setTrackStart(newTrackTime);
+		ref->setCropStartTime(cropStart);
+		ref->setCropDuration(cropDuration);
 
-				track->addClip(ref, false);
+		track->addClip(ref, false);
 
-				newTrackTime += cropDuration;
-			} else {
-				kdWarning() << "Loading smil : unknown element " << e.tagName() << ", ignoring..." << endl;
-			}
-		}
-
-		n = n.nextSibling();
+		newTrackTime += cropDuration;
+	    } else {
+		kdWarning() << "Loading smil : unknown element " << e.
+		    tagName() << ", ignoring..." << endl;
+	    }
 	}
 
-	return newTrackTime;
+	n = n.nextSibling();
+    }
+
+    return newTrackTime;
 }
 
 QStringList LoadProjectKinoFilter::handledFormats() const
 {
-	QStringList list;
+    QStringList list;
 
-	list.append("application/smil");
+    list.append("application/smil");
 
-	return list;
+    return list;
 }
-

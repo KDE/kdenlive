@@ -19,7 +19,7 @@
 #include "effectdesc.h"
 
 EffectDescriptionList::EffectDescriptionList()
- : QPtrList<EffectDesc>()
+:  QPtrList < EffectDesc > ()
 {
 }
 
@@ -28,19 +28,19 @@ EffectDescriptionList::~EffectDescriptionList()
 {
 }
 
-EffectDesc *EffectDescriptionList::effectDescription(const QString &type) const
+EffectDesc *EffectDescriptionList::effectDescription(const QString & type) const
 {
-	EffectDesc *result = 0;
+    EffectDesc *result = 0;
 
-	QPtrListIterator<EffectDesc> itt(*this);
+    QPtrListIterator < EffectDesc > itt(*this);
 
-	while(itt.current()) {
-		if(itt.current()->name() == type) {
-			result  = itt.current();
-			break;
-		}
-		++itt;
+    while (itt.current()) {
+	if (itt.current()->name() == type) {
+	    result = itt.current();
+	    break;
 	}
+	++itt;
+    }
 
-	return result;
+    return result;
 }

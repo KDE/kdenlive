@@ -25,16 +25,19 @@
 #include "kmmclipkeyframepanel.h"
 #include "kmmtrackkeyframepanel.h"
 
-EffectParamDoubleDesc::EffectParamDoubleDesc(const QXmlAttributes &attributes)
- 					: EffectParamDesc(attributes)
+EffectParamDoubleDesc::
+EffectParamDoubleDesc(const QXmlAttributes & attributes)
+:  EffectParamDesc(attributes)
 {
-	m_min = attributes.value("min").toDouble();
-	m_max = attributes.value("max").toDouble();
-	m_starttag = attributes.value("starttag");
-	m_endtag = attributes.value("endtag");
+    m_min = attributes.value("min").toDouble();
+    m_max = attributes.value("max").toDouble();
+    m_starttag = attributes.value("starttag");
+    m_endtag = attributes.value("endtag");
 
-	if (m_starttag == "") m_starttag = "start";
-	if (m_endtag == "") m_endtag = "end";
+    if (m_starttag == "")
+	m_starttag = "start";
+    if (m_endtag == "")
+	m_endtag = "end";
 }
 
 EffectParamDoubleDesc::~EffectParamDoubleDesc()
@@ -45,66 +48,68 @@ EffectParamDoubleDesc::~EffectParamDoubleDesc()
 //Virtual
 double EffectParamDoubleDesc::max(uint) const
 {
-	return m_max;
+    return m_max;
 }
 
 //Virtual
 double EffectParamDoubleDesc::min(uint) const
 {
-	return m_min;
+    return m_min;
 }
 
 //Virtual
 const QString EffectParamDoubleDesc::startTag() const
 {
-	return m_starttag;
+    return m_starttag;
 }
 
 //Virtual
 const QString EffectParamDoubleDesc::endTag() const
 {
-	return m_endtag;
+    return m_endtag;
 }
 
 // virtual
 EffectKeyFrame *EffectParamDoubleDesc::createKeyFrame(double time)
 {
-	// Internally, the keyframe values are in a range from 0 to 100.
-	return new EffectDoubleKeyFrame(time, defaultValue()*100/m_max);
+    // Internally, the keyframe values are in a range from 0 to 100.
+    return new EffectDoubleKeyFrame(time, defaultValue() * 100 / m_max);
 }
 
 // virtual
-EffectKeyFrame *EffectParamDoubleDesc::createKeyFrame(double time, double value)
+EffectKeyFrame *EffectParamDoubleDesc::createKeyFrame(double time,
+    double value)
 {
-	// Internally, the keyframe values are in a range from 0 to 100.
-	if (value>100) value = 100;
-	if (value<0) value = 0;
-	return new EffectDoubleKeyFrame(time, value);
+    // Internally, the keyframe values are in a range from 0 to 100.
+    if (value > 100)
+	value = 100;
+    if (value < 0)
+	value = 0;
+    return new EffectDoubleKeyFrame(time, value);
 }
 
 // virtual
-Gui::KMMTrackPanel *EffectParamDoubleDesc::createTrackPanel(Gui::KdenliveApp *app,
-				Gui::KTimeLine *timeline,
-				KdenliveDoc *document,
-				DocTrackBase *docTrack,
-				bool isCollapsed,
-				QWidget *parent,
-				const char *name)
+Gui::KMMTrackPanel *
+    EffectParamDoubleDesc::createTrackPanel(Gui::KdenliveApp * app,
+    Gui::KTimeLine * timeline, KdenliveDoc * document,
+    DocTrackBase * docTrack, bool isCollapsed, QWidget * parent,
+    const char *name)
 {
-	kdWarning() << "EffectParamDoubleDesc::createTrackPanel()" << endl;
-	#warning - need to pass in the effect name/index from somewhere.
-	return new Gui::KMMTrackKeyFramePanel( timeline, document, docTrack, false, "alphablend", 0,  name, Gui::EFFECTKEYFRAMETRACK, parent, name);
+    kdWarning() << "EffectParamDoubleDesc::createTrackPanel()" << endl;
+#warning - need to pass in the effect name/index from somewhere.
+    return new Gui::KMMTrackKeyFramePanel(timeline, document, docTrack,
+	false, "alphablend", 0, name, Gui::EFFECTKEYFRAMETRACK, parent,
+	name);
 }
 
 // virtual
-Gui::KMMTrackPanel *EffectParamDoubleDesc::createClipPanel(Gui::KdenliveApp *app,
-				Gui::KTimeLine *timeline,
-				KdenliveDoc *document,
-				DocClipRef *clip,
-				QWidget *parent,
-				const char *name)
+Gui::KMMTrackPanel *
+    EffectParamDoubleDesc::createClipPanel(Gui::KdenliveApp * app,
+    Gui::KTimeLine * timeline, KdenliveDoc * document, DocClipRef * clip,
+    QWidget * parent, const char *name)
 {
-	kdWarning() << "EffectParamDoubleDesc::createTrackPanel()" << endl;
-	#warning - need to pass in the effect name/index from somewhere.
-	return new Gui::KMMClipKeyFramePanel( timeline, document, clip, EffectParamDesc::name(), 0, name, parent, name);
+    kdWarning() << "EffectParamDoubleDesc::createTrackPanel()" << endl;
+#warning - need to pass in the effect name/index from somewhere.
+    return new Gui::KMMClipKeyFramePanel(timeline, document, clip,
+	EffectParamDesc::name(), 0, name, parent, name);
 }

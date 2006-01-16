@@ -24,14 +24,13 @@ Saves the document as a scenelist file.
 
 @author Jason Wood
 */
-class SaveProjectScenelistFilter : public SaveProjectFilter
-{
-public:
+class SaveProjectScenelistFilter:public SaveProjectFilter {
+  public:
     SaveProjectScenelistFilter();
 
     ~SaveProjectScenelistFilter();
 
-    virtual bool save(QFile& file, KdenliveDoc* document);
+    virtual bool save(QFile & file, KdenliveDoc * document);
     virtual QStringList handledFormats() const;
 
 };

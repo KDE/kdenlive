@@ -16,7 +16,8 @@
  ***************************************************************************/
 #include "kdenlivesplash.h"
 
-KdenliveSplash::KdenliveSplash( const QPixmap& pixmap, WFlags f ) : KSplashScreen( pixmap, f )
+KdenliveSplash::KdenliveSplash(const QPixmap & pixmap, WFlags f):KSplashScreen(pixmap,
+    f)
 {
 }
 

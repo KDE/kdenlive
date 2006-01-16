@@ -28,25 +28,25 @@ Draws the base preview image for a clip; in correct acpect ration and stretch to
 
 @author Marco Gittler
 */
-namespace Gui{
-class TrackViewVideoBackgroundDecorator : public DocTrackDecorator
-{
-public:
-	TrackViewVideoBackgroundDecorator(KTimeLine* timeline,
-									KdenliveDoc* doc,
-									const QColor &selected,
-									const QColor &unselected,
-									int shift=-1);
+namespace Gui {
+    class TrackViewVideoBackgroundDecorator:public DocTrackDecorator {
+      public:
+	TrackViewVideoBackgroundDecorator(KTimeLine * timeline,
+	    KdenliveDoc * doc,
+	    const QColor & selected,
+	    const QColor & unselected, int shift = -1);
 
-	virtual ~TrackViewVideoBackgroundDecorator();
+	 virtual ~ TrackViewVideoBackgroundDecorator();
 
-    virtual void paintClip(double startX, double endx, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected) ;
-private:
-	
-	QColor m_selected;
+	virtual void paintClip(double startX, double endx,
+	    QPainter & painter, DocClipRef * clip, QRect & rect,
+	    bool selected);
+      private:
+
+	 QColor m_selected;
 	QColor m_unselected;
 	int m_shift;
-};
+    };
 
 };
 

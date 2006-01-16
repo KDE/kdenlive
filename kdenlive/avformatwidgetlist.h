@@ -29,16 +29,16 @@ class QComboBox;
   *@author Jason Wood
   */
 class AVFormatDescList;
-  
-class AVFormatWidgetList : public QHBox, public AVFormatWidgetBase {
-   Q_OBJECT
-public: 
-	AVFormatWidgetList(AVFormatDescList *desc, QWidget *parent=0, const char *name=0);
-	~AVFormatWidgetList();
-  virtual QWidget *widget();
-private:
-  QLabel *m_label;
-  QComboBox *m_comboBox;
+
+class AVFormatWidgetList:public QHBox, public AVFormatWidgetBase {
+  Q_OBJECT public:
+    AVFormatWidgetList(AVFormatDescList * desc, QWidget * parent =
+	0, const char *name = 0);
+    ~AVFormatWidgetList();
+    virtual QWidget *widget();
+  private:
+     QLabel * m_label;
+    QComboBox *m_comboBox;
 };
 
 #endif

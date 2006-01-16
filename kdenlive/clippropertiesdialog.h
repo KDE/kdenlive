@@ -28,24 +28,22 @@ class DocClipRef;
 class DocClipAVFile;
 class KdenliveDoc;
 
-namespace Gui
-{
-	class KdenliveApp;
+namespace Gui {
+    class KdenliveApp;
 
 /**Displays the properties of a sepcified clip.
   *@author Jason Wood
   */
 
-class ClipPropertiesDialog : public QVBox  {
-   Q_OBJECT
-public:
-	ClipPropertiesDialog(QWidget *parent=0, const char *name=0);
-	virtual ~ClipPropertiesDialog();
+    class ClipPropertiesDialog:public QVBox {
+      Q_OBJECT public:
+	ClipPropertiesDialog(QWidget * parent = 0, const char *name = 0);
+	 virtual ~ ClipPropertiesDialog();
 	/** Specifies the clip that we wish to display the properties of. */
-	void setClip(DocClipRef *clip);
-private:
+	void setClip(DocClipRef * clip);
+      private:
 	//video properties
-	QLabel *filenameLabel;
+	 QLabel * filenameLabel;
 	QLabel *frameSizeLabel;
 	QLabel *videoLength;
 	QLabel *systemLabel;
@@ -56,9 +54,8 @@ private:
 	QLabel *formatLabel;
 	QLabel *audiobitLabel;
 
-  	DocClipRef *m_clip;
-};
+	DocClipRef *m_clip;
+    };
 
-} // namespace Gui
-
+}				// namespace Gui
 #endif

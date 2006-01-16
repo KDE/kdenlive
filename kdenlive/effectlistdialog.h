@@ -24,23 +24,21 @@
 
 #include "effectdesc.h"
 
-namespace Gui
-{
+namespace Gui {
 
 /**The effectList dialog displays a list of effects and transitions known by the renderer. Effects in this dialog can be dragged to a clip, or in the case of transitions, dragged to two or more clips (how is yet to be determined)
   *@author Jason Wood
   */
 
-class EffectListDialog : public KListView
-{
-	Q_OBJECT
-public:
-	EffectListDialog( const QPtrList<EffectDesc> &effectList, QWidget *parent = 0, const char *name = 0 );
+    class EffectListDialog:public KListView {
+      Q_OBJECT public:
+	EffectListDialog(const QPtrList < EffectDesc > &effectList,
+	    QWidget * parent = 0, const char *name = 0);
 	~EffectListDialog();
 
 	/** returns a drag object which is used for drag operations. */
 	QDragObject *dragObject();
-private:
+      private:
 	/** Generates the layout for this widget. */
 	void generateLayout();
 
@@ -51,20 +49,18 @@ private:
 
 		Returns: The EffectDesc found, or 0 if nothing is found.
 	*/
-	EffectDesc *findDescription(const QString &name);
+	EffectDesc *findDescription(const QString & name);
 
-	QPtrList<EffectDesc> m_effectList;
-public slots:
+	 QPtrList < EffectDesc > m_effectList;
+	public slots:
 	/** Set the effect list displayed by this dialog. */
-	void setEffectList( const QPtrList<EffectDesc> &effectList );
+	void setEffectList(const QPtrList < EffectDesc > &effectList);
 
-private slots:
+	private slots:
 	/** an effect has been selected in the dialog */
-	void slotEffectSelected(QListViewItem *item);
-signals:
-	void effectSelected(const EffectDesc&);
-};
+	void slotEffectSelected(QListViewItem * item);
+	 signals: void effectSelected(const EffectDesc &);
+    };
 
-} // namespace Gui
-
+}				// namespace Gui
 #endif

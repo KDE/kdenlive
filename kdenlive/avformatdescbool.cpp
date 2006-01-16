@@ -14,12 +14,12 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
 #include "avformatdescbool.h"
 #include <avformatwidgetbool.h>
 
-AVFormatDescBool::AVFormatDescBool(const QString &description, const char * &name) :
-                                          AVFormatDescBase(description, name)
+AVFormatDescBool::AVFormatDescBool(const QString & description, const char *&name):
+AVFormatDescBase(description, name)
 {
 }
 
@@ -28,7 +28,7 @@ AVFormatDescBool::~AVFormatDescBool()
 }
 
 /** Create a widget to handle a boolean value. Most likely, this will be a check box. */
-AVFormatWidgetBase * AVFormatDescBool::createWidget(QWidget *parent)
+AVFormatWidgetBase *AVFormatDescBool::createWidget(QWidget * parent)
 {
-  return new AVFormatWidgetBool(this, parent, m_name);
+    return new AVFormatWidgetBool(this, parent, m_name);
 }

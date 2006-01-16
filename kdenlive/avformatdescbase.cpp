@@ -17,35 +17,37 @@
 
 #include "avformatdescbase.h"
 
-AVFormatDescBase::AVFormatDescBase( const QString &description, const char * &name )
+AVFormatDescBase::AVFormatDescBase(const QString & description,
+    const char *&name)
 {
-	m_description = description;
-	m_name = name;
+    m_description = description;
+    m_name = name;
 }
 
 AVFormatDescBase::~AVFormatDescBase()
-{}
+{
+}
 
 /** Returns the name of this description element. */
-const char * & AVFormatDescBase::name()
+const char *&AVFormatDescBase::name()
 {
-	return m_name;
+    return m_name;
 }
 
 /** Sets the name of this Desc element to the one specified */
-void AVFormatDescBase::setName( const char * &name )
+void AVFormatDescBase::setName(const char *&name)
 {
-	m_name = name;
+    m_name = name;
 }
 
 /** Sets the description of this desc element. */
-void AVFormatDescBase::setDescription( const QString &description )
+void AVFormatDescBase::setDescription(const QString & description)
 {
-	m_description = description;
+    m_description = description;
 }
 
 /** Returns the description of this desc element. */
 const QString & AVFormatDescBase::description()
 {
-	return m_description;
+    return m_description;
 }

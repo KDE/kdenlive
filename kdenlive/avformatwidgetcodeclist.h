@@ -33,23 +33,23 @@ class AVFormatDescCodecList;
   *@author Jason Wood
   */
 
-class AVFormatWidgetCodecList : public QGroupBox, public AVFormatWidgetBase  {
-   Q_OBJECT
-public:
-	AVFormatWidgetCodecList(AVFormatDescCodecList *desc, QWidget *parent=0, const char *name=0);
-	~AVFormatWidgetCodecList();
-   virtual QWidget *widget();
-private: // Private attributes
+class AVFormatWidgetCodecList:public QGroupBox, public AVFormatWidgetBase {
+  Q_OBJECT public:
+    AVFormatWidgetCodecList(AVFormatDescCodecList * desc,
+	QWidget * parent = 0, const char *name = 0);
+    ~AVFormatWidgetCodecList();
+    virtual QWidget *widget();
+  private:			// Private attributes
   /** This bnox lays out the codec and label side by side */
-  QHBox *m_codecLayout;
+     QHBox * m_codecLayout;
   /** This label names the codec select box */
-  QLabel *m_codecLabel;
+    QLabel *m_codecLabel;
   /** This combo box contains all known combo names. Choosing an entry changes the topmost widget in
    m_widgetStack. */
-  QComboBox *m_codecSelect;
+    QComboBox *m_codecSelect;
   /** The widgetStack contains the various dialogs for different codecs. The top-most is specified by
   QComboBox. */
-  QWidgetStack *m_widgetStack;
+    QWidgetStack *m_widgetStack;
 };
 
 #endif

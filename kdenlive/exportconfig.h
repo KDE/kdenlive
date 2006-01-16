@@ -28,27 +28,26 @@ The Export Configuration page
 
 @author Jason Wood
 */
-class ExportConfig : public KJanusWidget
-{
-Q_OBJECT
-public:
-    ExportConfig(QPtrList<AVFileFormatDesc> &formatList, QWidget *parent = 0, const char *name = 0, WFlags f = 0);
+class ExportConfig:public KJanusWidget {
+  Q_OBJECT public:
+    ExportConfig(QPtrList < AVFileFormatDesc > &formatList,
+	QWidget * parent = 0, const char *name = 0, WFlags f = 0);
 
     ~ExportConfig();
 
 	/** Generate a layout for this dialog, based upon the values that have been passed to it. */
-	void generateLayout();
+    void generateLayout();
 
 	/** Returns the url set inside of this export dialog. */
-	KURL url();
-public slots: // Public slots
+    KURL url();
+    public slots:		// Public slots
 	/** Specify a new file format list, and reconstruct the dialog box. */
-  	void setFormatList(const QPtrList<AVFileFormatDesc> &list);
-private:
+    void setFormatList(const QPtrList < AVFileFormatDesc > &list);
+  private:
 	/** A list of all known file formats */
-	QPtrList<AVFileFormatDesc> m_formatList;
+     QPtrList < AVFileFormatDesc > m_formatList;
 	/** A list of all pages that have been created */
-	QPtrList<AVFormatWidgetBase> m_pageList;
+     QPtrList < AVFormatWidgetBase > m_pageList;
 };
 
 #endif

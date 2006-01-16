@@ -40,116 +40,127 @@
 #include "kdenlive.h"
 #include "kmmtrackkeyframepanel.h"
 
-namespace
-{
-uint g_scrollTimerDelay = 50;
-uint g_scrollThreshold = 50;
+namespace {
+    uint g_scrollTimerDelay = 50;
+    uint g_scrollThreshold = 50;
 }
 
-namespace Gui
-{
+namespace Gui {
 
-uint KTimeLine::snapTolerance = 10;
+    uint KTimeLine::snapTolerance = 10;
 
-KTimeLine::KTimeLine( QWidget *rulerToolWidget, QWidget *scrollToolWidget, QWidget *parent, const char *name ) :
-		QVBox( parent, name ),
-		m_scrollTimer( this, "scroll timer" ),
-		m_scrollingRight( true ),
-		m_framesPerSecond(25),
-		m_editMode("undefined"),
-		m_panelWidth(200)
-{
-	m_rulerBox = new QHBox( this, "ruler box" );
-	m_trackScroll = new QScrollView( this, "track view", WPaintClever );
-	m_scrollBox = new QHBox( this, "scroll box" );
+     KTimeLine::KTimeLine(QWidget * rulerToolWidget,
+	QWidget * scrollToolWidget, QWidget * parent,
+	const char *name):QVBox(parent, name), m_scrollTimer(this,
+	"scroll timer"), m_scrollingRight(true), m_framesPerSecond(25),
+	m_editMode("undefined"), m_panelWidth(200) {
+	m_rulerBox = new QHBox(this, "ruler box");
+	m_trackScroll = new QScrollView(this, "track view", WPaintClever);
+	m_scrollBox = new QHBox(this, "scroll box");
 
 	m_rulerToolWidget = rulerToolWidget;
-	if ( !m_rulerToolWidget ) m_rulerToolWidget = new QLabel( i18n( "Ruler" ), 0, "ruler" );
-	m_rulerToolWidget->reparent( m_rulerBox, QPoint( 0, 0 ) );
+	if (!m_rulerToolWidget)
+	    m_rulerToolWidget = new QLabel(i18n("Ruler"), 0, "ruler");
+	m_rulerToolWidget->reparent(m_rulerBox, QPoint(0, 0));
 
-	m_ruler = new KScalableRuler( new KRulerTimeModel(), m_rulerBox, name );
-	m_ruler->addSlider( KRuler::TopMark, 0 );
+	m_ruler =
+	    new KScalableRuler(new KRulerTimeModel(), m_rulerBox, name);
+	m_ruler->addSlider(KRuler::TopMark, 0);
 	//added inpoint/outpoint markers -reh
-	m_ruler->addSlider( KRuler::StartMark, 0 );
-	m_ruler->addSlider( KRuler::EndMark, m_ruler->maxValue() );
-	m_ruler->addSlider( KRuler::HorizontalMark, m_ruler->maxValue()/2 );
-	m_ruler->setAutoClickSlider( 0 );
+	m_ruler->addSlider(KRuler::StartMark, 0);
+	m_ruler->addSlider(KRuler::EndMark, m_ruler->maxValue());
+	m_ruler->addSlider(KRuler::HorizontalMark,
+	    m_ruler->maxValue() / 2);
+	m_ruler->setAutoClickSlider(0);
 
 	m_scrollToolWidget = scrollToolWidget;
-	if ( !m_scrollToolWidget ) m_scrollToolWidget = new QLabel( i18n( "Scroll" ), 0, "Scroll" );
-	m_scrollToolWidget->reparent( m_scrollBox, QPoint( 0, 0 ) );
-	m_scrollBar = new QScrollBar( -100, 5000, 50, 500, 0, QScrollBar::Horizontal, m_scrollBox, "horizontal ScrollBar" );
+	if (!m_scrollToolWidget)
+	    m_scrollToolWidget = new QLabel(i18n("Scroll"), 0, "Scroll");
+	m_scrollToolWidget->reparent(m_scrollBox, QPoint(0, 0));
+	m_scrollBar =
+	    new QScrollBar(-100, 5000, 50, 500, 0, QScrollBar::Horizontal,
+	    m_scrollBox, "horizontal ScrollBar");
 
-	m_trackViewArea = new KTrackView( *this, m_trackScroll, "track view area" );
+	m_trackViewArea =
+	    new KTrackView(*this, m_trackScroll, "track view area");
 
-	m_trackScroll->enableClipper( TRUE );
-	m_trackScroll->setVScrollBarMode( QScrollView::AlwaysOn );
-	m_trackScroll->setHScrollBarMode( QScrollView::AlwaysOff );
-	m_trackScroll->setDragAutoScroll( true );
+	m_trackScroll->enableClipper(TRUE);
+	m_trackScroll->setVScrollBarMode(QScrollView::AlwaysOn);
+	m_trackScroll->setHScrollBarMode(QScrollView::AlwaysOff);
+	m_trackScroll->setDragAutoScroll(true);
 
 	setPanelWidth(200);
 
-	m_ruler->setValueScale( 1.0 );
+	m_ruler->setValueScale(1.0);
 
-	connect( m_scrollBar, SIGNAL( valueChanged( int ) ), m_ruler, SLOT( setStartPixel( int ) ) );
-	connect( m_scrollBar, SIGNAL( valueChanged( int ) ), m_ruler, SLOT( repaint() ) );
-	connect( m_scrollBar, SIGNAL( valueChanged( int ) ), this, SLOT( drawTrackViewBackBuffer() ) );
+	connect(m_scrollBar, SIGNAL(valueChanged(int)), m_ruler,
+	    SLOT(setStartPixel(int)));
+	 connect(m_scrollBar, SIGNAL(valueChanged(int)), m_ruler,
+	    SLOT(repaint()));
+	 connect(m_scrollBar, SIGNAL(valueChanged(int)), this,
+	    SLOT(drawTrackViewBackBuffer()));
 
-	connect( m_ruler, SIGNAL( scaleChanged( double ) ), this, SLOT( resetProjectSize() ) );
-	connect( m_ruler, SIGNAL( sliderValueChanged( int, int ) ), m_trackViewArea, SLOT( invalidateBackBuffer() ) );
-	connect( m_ruler, SIGNAL( sliderValueChanged( int, int ) ), m_ruler, SLOT( repaint() ) );
-	connect( m_ruler, SIGNAL( sliderValueChanged( int, int ) ), this, SLOT( slotSliderMoved( int, int ) ) );
+	 connect(m_ruler, SIGNAL(scaleChanged(double)), this,
+	    SLOT(resetProjectSize()));
+	 connect(m_ruler, SIGNAL(sliderValueChanged(int, int)),
+	    m_trackViewArea, SLOT(invalidateBackBuffer()));
+	 connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), m_ruler,
+	    SLOT(repaint()));
+	 connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), this,
+	    SLOT(slotSliderMoved(int, int)));
 
-	connect( m_ruler, SIGNAL( requestScrollLeft() ), this, SLOT( slotScrollLeft() ) );
-	connect( m_ruler, SIGNAL( requestScrollRight() ), this, SLOT( slotScrollRight() ) );
-	connect( &m_scrollTimer, SIGNAL( timeout() ), this, SLOT( slotTimerScroll() ) );	
+	 connect(m_ruler, SIGNAL(requestScrollLeft()), this,
+	    SLOT(slotScrollLeft()));
+	 connect(m_ruler, SIGNAL(requestScrollRight()), this,
+	    SLOT(slotScrollRight()));
+	 connect(&m_scrollTimer, SIGNAL(timeout()), this,
+	    SLOT(slotTimerScroll()));
 
-	connect( m_trackViewArea, SIGNAL( rightButtonPressed() ), this, SIGNAL( rightButtonPressed() ) );
+	 connect(m_trackViewArea, SIGNAL(rightButtonPressed()), this,
+	    SIGNAL(rightButtonPressed()));
 
-	setAcceptDrops( true );
+	 setAcceptDrops(true);
 
-	m_trackList.setAutoDelete( true );
-}
+	 m_trackList.setAutoDelete(true);
+    } KTimeLine::~KTimeLine() {
+    }
 
-KTimeLine::~KTimeLine()
-{}
-
-void KTimeLine::appendTrack( KTrackPanel *track )
-{
-	if(track) {
-		insertTrack( m_trackList.count(), track );
+    void KTimeLine::appendTrack(KTrackPanel * track) {
+	if (track) {
+	    insertTrack(m_trackList.count(), track);
 	} else {
-		kdWarning() << "KTimeLine::appendTrack() : Trying to append a NULL track!" << endl;
+	    kdWarning() <<
+		"KTimeLine::appendTrack() : Trying to append a NULL track!"
+		<< endl;
 	}
-}
+    }
 
 /** Inserts a track at the position specified by index */
-void KTimeLine::insertTrack( int index, KTrackPanel *track )
-{
+    void KTimeLine::insertTrack(int index, KTrackPanel * track) {
 	assert(track);
-	track->reparent( m_trackScroll->viewport(), 0, QPoint( 0, 0 ), TRUE );
-	m_trackScroll->addChild( track );
-	connect(track, SIGNAL(collapseTrack(KTrackPanel *, bool)), this, SLOT(collapseTrack(KTrackPanel *, bool)));
-	m_trackList.insert( index, track );
+	track->reparent(m_trackScroll->viewport(), 0, QPoint(0, 0), TRUE);
+	m_trackScroll->addChild(track);
+	connect(track, SIGNAL(collapseTrack(KTrackPanel *, bool)), this,
+	    SLOT(collapseTrack(KTrackPanel *, bool)));
+	m_trackList.insert(index, track);
 
 	resizeTracks();
-}
+    }
 
-void KTimeLine::resizeEvent( QResizeEvent *event )
-{
+    void KTimeLine::resizeEvent(QResizeEvent * event) {
 	resizeTracks();
-}
+    }
 
-void KTimeLine::collapseTrack(KTrackPanel *panel, bool collapse)
-{
- //#HACK: if a track is collapsed, also collapse its keyframetrack. Should maybe find a better way to locate it
-uint index = 2*panel->documentTrackIndex() + 1;
-(static_cast<KMMTrackKeyFramePanel *>(m_trackList.at(index)))->resizeTrack();
-resizeTracks();
-}
+    void KTimeLine::collapseTrack(KTrackPanel * panel, bool collapse) {
+	//#HACK: if a track is collapsed, also collapse its keyframetrack. Should maybe find a better way to locate it
+	uint index = 2 * panel->documentTrackIndex() + 1;
+	(static_cast <
+	    KMMTrackKeyFramePanel *
+	    >(m_trackList.at(index)))->resizeTrack();
+	resizeTracks();
+    }
 
-void KTimeLine::resizeTracks()
-{
+    void KTimeLine::resizeTracks() {
 	int height = 0;
 
 	// default height for keyframe tracks
@@ -158,356 +169,317 @@ void KTimeLine::resizeTracks()
 	KTrackPanel *panel = m_trackList.first();
 
 
-	while ( panel ) {
+	while (panel) {
 
-		if (panel->trackType() == KEYFRAMETRACK) {
-			if (panel->isTrackCollapsed()) widgetHeight = 0;
-			else widgetHeight = 30;
-		}
-		else if (panel->trackType() == EFFECTKEYFRAMETRACK) {
-			if (panel->isTrackCollapsed()) widgetHeight = 0;
-			else widgetHeight = 50;
-		}
-		else if (panel->isTrackCollapsed()) widgetHeight = collapsedTrackSize;
-		else if (panel->trackType() == VIDEOTRACK) widgetHeight = KdenliveSettings::videotracksize();
-		else if (panel->trackType() == SOUNDTRACK) widgetHeight = KdenliveSettings::audiotracksize();
+	    if (panel->trackType() == KEYFRAMETRACK) {
+		if (panel->isTrackCollapsed())
+		    widgetHeight = 0;
+		else
+		    widgetHeight = 30;
+	    } else if (panel->trackType() == EFFECTKEYFRAMETRACK) {
+		if (panel->isTrackCollapsed())
+		    widgetHeight = 0;
+		else
+		    widgetHeight = 50;
+	    } else if (panel->isTrackCollapsed())
+		widgetHeight = collapsedTrackSize;
+	    else if (panel->trackType() == VIDEOTRACK)
+		widgetHeight = KdenliveSettings::videotracksize();
+	    else if (panel->trackType() == SOUNDTRACK)
+		widgetHeight = KdenliveSettings::audiotracksize();
 
-		m_trackScroll->moveChild( panel, 0, height );
-		panel->resize( m_panelWidth, widgetHeight );
-		height += widgetHeight;
-		panel = m_trackList.next();
+	    m_trackScroll->moveChild(panel, 0, height);
+	    panel->resize(m_panelWidth, widgetHeight);
+	    height += widgetHeight;
+	    panel = m_trackList.next();
 
 	}
 
 
-	m_trackScroll->moveChild( m_trackViewArea, m_panelWidth, 0 );
-	int newWidth = m_trackScroll->visibleWidth() - m_panelWidth ;
-	if(newWidth < 0) newWidth = 0;
-	m_trackViewArea->resize( newWidth, height );
+	m_trackScroll->moveChild(m_trackViewArea, m_panelWidth, 0);
+	int newWidth = m_trackScroll->visibleWidth() - m_panelWidth;
+	if (newWidth < 0)
+	    newWidth = 0;
+	m_trackViewArea->resize(newWidth, height);
 
 	int viewWidth = m_trackScroll->visibleWidth() - m_panelWidth;
-	if ( viewWidth < 1 ) viewWidth = 1;
+	if (viewWidth < 1)
+	    viewWidth = 1;
 
-	QPixmap pixmap( viewWidth , height );
+	QPixmap pixmap(viewWidth, height);
 
-	m_trackScroll->resizeContents( m_trackScroll->visibleWidth(), height );
-}
+	m_trackScroll->resizeContents(m_trackScroll->visibleWidth(),
+	    height);
+    }
 
 /** No descriptions */
-void KTimeLine::polish()
-{
+    void KTimeLine::polish() {
 	resizeTracks();
-}
+    }
 
 /** This method maps a local coordinate value to the corresponding
 value that should be represented at that position. By using this, there is no need to calculate scale factors yourself. Takes the x
 coordinate, and returns the value associated with it. */
-double KTimeLine::mapLocalToValue( const double coordinate ) const
-{
-	return m_ruler->mapLocalToValue( coordinate );
-}
-
+    double KTimeLine::mapLocalToValue(const double coordinate) const {
+	return m_ruler->mapLocalToValue(coordinate);
+    }
 /** Takes the value that we wish to find the coordinate for, and returns the x coordinate. In cases where a single value covers multiple
 pixels, the left-most pixel is returned. */
-double KTimeLine::mapValueToLocal( const double value ) const
-{
-	return m_ruler->mapValueToLocal( value );
-}
-
-void KTimeLine::drawTrackViewBackBuffer()
-{
+	double KTimeLine::mapValueToLocal(const double value) const {
+	return m_ruler->mapValueToLocal(value);
+    } void KTimeLine::drawTrackViewBackBuffer() {
 	m_trackViewArea->invalidateBackBuffer();
-}
+    }
 
 /** Returns m_trackList
 
 Warning - this method is a bit of a hack, not good OO practice, and should be removed at some point. */
-QPtrList<KTrackPanel> &KTimeLine::trackList()
-{
+    QPtrList < KTrackPanel > &KTimeLine::trackList() {
 	return m_trackList;
-}
+    }
 
-void KTimeLine::scrollViewLeft()
-{
+    void KTimeLine::scrollViewLeft() {
 	m_scrollBar->subtractLine();
-}
+    }
 
-void KTimeLine::scrollViewRight()
-{
+    void KTimeLine::scrollViewRight() {
 	m_scrollBar->addLine();
-}
+    }
 
 /** Sets a new time scale for the timeline. This in turn calls the correct kruler funtion and updates
 the display. The scale is the size of one frame.*/
-void KTimeLine::setTimeScale( double scale )
-{
-	int localValue = ( int ) mapValueToLocal( m_ruler->getSliderValue( 0 ) );
+    void KTimeLine::setTimeScale(double scale) {
+	int localValue = (int) mapValueToLocal(m_ruler->getSliderValue(0));
 
-	m_ruler->setValueScale( scale );
+	m_ruler->setValueScale(scale);
 
-	m_scrollBar->setValue( ( int ) ( scale * m_ruler->getSliderValue( 0 ) ) - localValue );
+	m_scrollBar->setValue((int) (scale * m_ruler->getSliderValue(0)) -
+	    localValue);
 
 	drawTrackViewBackBuffer();
-}
+    }
 
 /** Calculates the size of the project, and sets up the timeline to accomodate it. */
-void KTimeLine::slotSetProjectLength(const GenTime &size)
-{
-	int frames = size.frames( m_framesPerSecond );
+    void KTimeLine::slotSetProjectLength(const GenTime & size) {
+	int frames = size.frames(m_framesPerSecond);
 
-	m_scrollBar->setRange( 0, ( frames * m_ruler->valueScale()) + m_scrollBar->width() );
-	m_ruler->setRange( 0, frames );
+	m_scrollBar->setRange(0,
+	    (frames * m_ruler->valueScale()) + m_scrollBar->width());
+	m_ruler->setRange(0, frames);
 
-	emit projectLengthChanged( frames );
-}
+	emit projectLengthChanged(frames);
+    }
 
-void KTimeLine::resetProjectSize()
-{
-	m_scrollBar->setRange( 0, (m_ruler->maxValue() * m_ruler->valueScale()) + m_scrollBar->width() );
-}
+    void KTimeLine::resetProjectSize() {
+	m_scrollBar->setRange(0,
+	    (m_ruler->maxValue() * m_ruler->valueScale()) +
+	    m_scrollBar->width());
+    }
 
-GenTime KTimeLine::seekPosition() const
-{
-	return GenTime( m_ruler->getSliderValue( 0 ), m_framesPerSecond );
-}
+    GenTime KTimeLine::seekPosition() const {
+	return GenTime(m_ruler->getSliderValue(0), m_framesPerSecond);
+    }
 //returns inpoint/outpoint timeline positions -reh
-GenTime KTimeLine::inpointPosition() const
-{
-	return GenTime( m_ruler->getSliderValue( 1 ), m_framesPerSecond );
-}
-
-GenTime KTimeLine::outpointPosition() const
-{
-	return GenTime( m_ruler->getSliderValue( 2 ), m_framesPerSecond );
-}
-
-GenTime KTimeLine::midpointPosition() const
-{
-	return GenTime( m_ruler->getSliderValue( 3 ), m_framesPerSecond );
-}
-
-void KTimeLine::setMidValueDiff()
-{
-	if( m_ruler->activeSliderID() != 3 ) {
-		if( m_ruler->activeSliderID() == 1 ) {
-			m_midPoint = midpointPosition() - inpointPosition();
-		}else if ( m_ruler->activeSliderID() == 2 ) {
-			m_midPoint = outpointPosition() - midpointPosition();
-		}else{
-			m_midPoint = outpointPosition() - midpointPosition();
-		}
+	GenTime KTimeLine::inpointPosition() const {
+	return GenTime(m_ruler->getSliderValue(1), m_framesPerSecond);
+    } GenTime KTimeLine::outpointPosition() const {
+	return GenTime(m_ruler->getSliderValue(2), m_framesPerSecond);
+    } GenTime KTimeLine::midpointPosition() const {
+	return GenTime(m_ruler->getSliderValue(3), m_framesPerSecond);
+    } void KTimeLine::setMidValueDiff() {
+	if (m_ruler->activeSliderID() != 3) {
+	    if (m_ruler->activeSliderID() == 1) {
+		m_midPoint = midpointPosition() - inpointPosition();
+	    } else if (m_ruler->activeSliderID() == 2) {
+		m_midPoint = outpointPosition() - midpointPosition();
+	    } else {
+		m_midPoint = outpointPosition() - midpointPosition();
+	    }
 	}
-}
+    }
 
-void KTimeLine::setEditMode(const QString &editMode)
-{
+    void KTimeLine::setEditMode(const QString & editMode) {
 	m_editMode = editMode;
-}
+    }
 
-const QString &KTimeLine::editMode() const
-{
+    const QString & KTimeLine::editMode() const {
 	return m_editMode;
-}
-
+    }
 /** A ruler slider has moved - do something! */
-void KTimeLine::slotSliderMoved( int slider, int value )
-{
-	switch(slider)
-	{
-		case 0:
-			emit seekPositionChanged( GenTime( value, m_framesPerSecond ) );
-			break;
-		case 1:
-			emit inpointPositionChanged( GenTime( value, m_framesPerSecond ) );
-			if( m_ruler->activeSliderID() != 3 ){
-				horizontalSlider( inpointPosition(), outpointPosition() );
-			}
-			setMidValueDiff();
-			if(value >= m_ruler->getSliderValue( 2 )) {
-				m_ruler->setSliderValue( 2, value + 8 );
-			}
-			break;
-		case 2:
-			emit outpointPositionChanged( GenTime( value, m_framesPerSecond ) );
-			if( m_ruler->activeSliderID() != 3){
-				horizontalSlider( inpointPosition(), outpointPosition() );
-			}
-			setMidValueDiff();
-			if(m_ruler->getSliderValue( 1 ) >= value) {
-				m_ruler->setSliderValue( 1, value - 8 );
-			}
-			break;
-		case 3:
-			if( m_ruler->activeSliderID() != 1 && m_ruler->activeSliderID() != 2 ){
-				if( m_ruler->activeSliderID() == 3 ){
-					m_ruler->setSliderValue( 1, ( int ) floor((midpointPosition() - m_midPoint).frames( m_framesPerSecond ) + 0.5) );
-					m_ruler->setSliderValue( 2, ( int ) floor((midpointPosition() + m_midPoint).frames( m_framesPerSecond ) + 0.5) );
-				}
-			}
-			break;
-		default:
-			break;
+	void KTimeLine::slotSliderMoved(int slider, int value) {
+	switch (slider) {
+	case 0:
+	    emit seekPositionChanged(GenTime(value, m_framesPerSecond));
+	    break;
+	case 1:
+	    emit inpointPositionChanged(GenTime(value, m_framesPerSecond));
+	    if (m_ruler->activeSliderID() != 3) {
+		horizontalSlider(inpointPosition(), outpointPosition());
+	    }
+	    setMidValueDiff();
+	    if (value >= m_ruler->getSliderValue(2)) {
+		m_ruler->setSliderValue(2, value + 8);
+	    }
+	    break;
+	case 2:
+	    emit outpointPositionChanged(GenTime(value,
+		    m_framesPerSecond));
+	    if (m_ruler->activeSliderID() != 3) {
+		horizontalSlider(inpointPosition(), outpointPosition());
+	    }
+	    setMidValueDiff();
+	    if (m_ruler->getSliderValue(1) >= value) {
+		m_ruler->setSliderValue(1, value - 8);
+	    }
+	    break;
+	case 3:
+	    if (m_ruler->activeSliderID() != 1
+		&& m_ruler->activeSliderID() != 2) {
+		if (m_ruler->activeSliderID() == 3) {
+		    m_ruler->setSliderValue(1,
+			(int) floor((midpointPosition() -
+				m_midPoint).frames(m_framesPerSecond) +
+			    0.5));
+		    m_ruler->setSliderValue(2,
+			(int) floor((midpointPosition() +
+				m_midPoint).frames(m_framesPerSecond) +
+			    0.5));
+		}
+	    }
+	    break;
+	default:
+	    break;
 	}
-}
+    }
 
 /** Seek the timeline to the current position. */
-void KTimeLine::seek( const GenTime &time )
-{
-	m_ruler->setSliderValue( 0, ( int ) floor( time.frames( m_framesPerSecond ) + 0.5 ) );
-}
+    void KTimeLine::seek(const GenTime & time) {
+	m_ruler->setSliderValue(0,
+	    (int) floor(time.frames(m_framesPerSecond) + 0.5));
+    }
 
-void KTimeLine::horizontalSlider( const GenTime &inpoint, const GenTime &outpoint )
-{
-	int midValue = ( int ) floor( outpoint.frames( m_framesPerSecond ) + 0.5) - ( int ) floor( inpoint.frames( m_framesPerSecond ) + 0.5);
-	midValue = midValue/2 + ( int ) floor( inpoint.frames( m_framesPerSecond ) + 0.5);
-	m_ruler->setSliderValue( 3, midValue );
-}
+    void KTimeLine::horizontalSlider(const GenTime & inpoint,
+	const GenTime & outpoint) {
+	int midValue =
+	    (int) floor(outpoint.frames(m_framesPerSecond) + 0.5) -
+	    (int) floor(inpoint.frames(m_framesPerSecond) + 0.5);
+	midValue =
+	    midValue / 2 + (int) floor(inpoint.frames(m_framesPerSecond) +
+	    0.5);
+	m_ruler->setSliderValue(3, midValue);
+    }
 
 /** Returns the correct "time under mouse", taking into account whether or not snap to frame is on or off, and other relevant effects. */
-GenTime KTimeLine::timeUnderMouse( double posX )
-{
-	GenTime value( m_ruler->mapLocalToValue( posX ), m_framesPerSecond );
+    GenTime KTimeLine::timeUnderMouse(double posX) {
+	GenTime value(m_ruler->mapLocalToValue(posX), m_framesPerSecond);
 
-	if ( snapToFrame() ) value = GenTime( floor( value.frames( m_framesPerSecond ) + 0.5 ), m_framesPerSecond );
+	if (snapToFrame())
+	    value =
+		GenTime(floor(value.frames(m_framesPerSecond) + 0.5),
+		m_framesPerSecond);
 
 	return value;
-}
+    }
 
-bool KTimeLine::snapToBorders() const
-{
+    bool KTimeLine::snapToBorders() const {
 	return m_snapToBorder;
-}
-
-bool KTimeLine::snapToFrame() const
-{
+    } bool KTimeLine::snapToFrame() const {
 	return m_snapToFrame;
-}
-
-bool KTimeLine::snapToMarkers() const
-{
+    } bool KTimeLine::snapToMarkers() const {
 	return m_snapToMarker;
-}
-
-bool KTimeLine::snapToSeekTime() const
-{
+    } bool KTimeLine::snapToSeekTime() const {
 #warning snapToSeekTime always returns true - needs to be wired up in KdenliveApp to
-	#warning a check box.
+#warning a check box.
 	return true;
-}
-
-GenTime KTimeLine::projectLength() const
-{
-	return GenTime( m_ruler->maxValue(), m_framesPerSecond );
-}
-
-void KTimeLine::slotTimerScroll()
-{
-	if ( m_scrollingRight ) {
-		m_scrollBar->addLine();
+    } GenTime KTimeLine::projectLength() const {
+	return GenTime(m_ruler->maxValue(), m_framesPerSecond);
+    } void KTimeLine::slotTimerScroll() {
+	if (m_scrollingRight) {
+	    m_scrollBar->addLine();
 	} else {
-		m_scrollBar->subtractLine();
+	    m_scrollBar->subtractLine();
 	}
-}
+    }
 
-void KTimeLine::slotScrollLeft()
-{
+    void KTimeLine::slotScrollLeft() {
 	m_scrollBar->subtractLine();
-}
+    }
 
-void KTimeLine::slotScrollRight()
-{
+    void KTimeLine::slotScrollRight() {
 	m_scrollBar->addLine();
-}
+    }
 
-void KTimeLine::clearTrackList()
-{
+    void KTimeLine::clearTrackList() {
 	m_trackList.clear();
 	resizeTracks();
-}
+    }
 
-uint KTimeLine::scrollThreshold() const
-{
+    uint KTimeLine::scrollThreshold() const {
 	return g_scrollThreshold;
-}
-
-uint KTimeLine::scrollTimerDelay() const
-{
+    } uint KTimeLine::scrollTimerDelay() const {
 	return g_scrollTimerDelay;
-}
-
-void KTimeLine::checkScrolling(const QPoint &pos)
-{
-	if ( pos.x() < scrollThreshold() ) {
-		if ( !m_scrollTimer.isActive() ) {
-			m_scrollTimer.start( scrollTimerDelay(), false );
-		}
-		m_scrollingRight = false;
-	} else if ( m_trackViewArea->width() - pos.x() < scrollThreshold() ) {
-		if ( !m_scrollTimer.isActive() ) {
-			m_scrollTimer.start( g_scrollTimerDelay, false );
-		}
-		m_scrollingRight = true;
+    } void KTimeLine::checkScrolling(const QPoint & pos) {
+	if (pos.x() < scrollThreshold()) {
+	    if (!m_scrollTimer.isActive()) {
+		m_scrollTimer.start(scrollTimerDelay(), false);
+	    }
+	    m_scrollingRight = false;
+	} else if (m_trackViewArea->width() - pos.x() < scrollThreshold()) {
+	    if (!m_scrollTimer.isActive()) {
+		m_scrollTimer.start(g_scrollTimerDelay, false);
+	    }
+	    m_scrollingRight = true;
 	} else {
-		m_scrollTimer.stop();
+	    m_scrollTimer.stop();
 	}
-}
+    }
 
-void KTimeLine::stopScrollTimer()
-{
+    void KTimeLine::stopScrollTimer() {
 	m_scrollTimer.stop();
-}
+    }
 
-void KTimeLine::slotSetFramesPerSecond(double fps)
-{
+    void KTimeLine::slotSetFramesPerSecond(double fps) {
 	m_framesPerSecond = fps;
-}
+    }
 
-void KTimeLine::setSnapToFrame(bool snapToFrame)
-{
+    void KTimeLine::setSnapToFrame(bool snapToFrame) {
 	m_snapToFrame = snapToFrame;
-}
+    }
 
-void KTimeLine::setSnapToBorder(bool snapToBorder)
-{
+    void KTimeLine::setSnapToBorder(bool snapToBorder) {
 	m_snapToBorder = snapToBorder;
-}
+    }
 
-void KTimeLine::setSnapToMarker(bool snapToMarker)
-{
-	m_snapToMarker= snapToMarker;
-}
+    void KTimeLine::setSnapToMarker(bool snapToMarker) {
+	m_snapToMarker = snapToMarker;
+    }
 
-void KTimeLine::invalidateBackBuffer()
-{
+    void KTimeLine::invalidateBackBuffer() {
 	m_trackViewArea->invalidateBackBuffer();
-}
+    }
 
-int KTimeLine::viewWidth() const
-{
+    int KTimeLine::viewWidth() const {
 	return m_trackViewArea->width();
-}
-
-void KTimeLine::setPanelWidth(int width)
-{
+    } void KTimeLine::setPanelWidth(int width) {
 	m_panelWidth = width;
 
-	m_rulerToolWidget->setMinimumWidth( m_panelWidth );
-	m_rulerToolWidget->setMaximumWidth( m_panelWidth );
+	m_rulerToolWidget->setMinimumWidth(m_panelWidth);
+	m_rulerToolWidget->setMaximumWidth(m_panelWidth);
 
-	m_scrollToolWidget->setMinimumWidth( m_panelWidth );
-	m_scrollToolWidget->setMaximumWidth( m_panelWidth );
+	m_scrollToolWidget->setMinimumWidth(m_panelWidth);
+	m_scrollToolWidget->setMaximumWidth(m_panelWidth);
 
 	resizeTracks();
-}
+    }
 
-void KTimeLine::setInpointTimeline( const GenTime &inpoint )
-{
-	m_ruler->setSliderValue( 1, ( int ) floor( inpoint.frames( m_framesPerSecond ) ) );
-}
+    void KTimeLine::setInpointTimeline(const GenTime & inpoint) {
+	m_ruler->setSliderValue(1,
+	    (int) floor(inpoint.frames(m_framesPerSecond)));
+    }
 
-void KTimeLine::setOutpointTimeline( const GenTime &outpoint )
-{
-	m_ruler->setSliderValue( 2, ( int ) floor( outpoint.frames( m_framesPerSecond ) ) );
-}
+    void KTimeLine::setOutpointTimeline(const GenTime & outpoint) {
+	m_ruler->setSliderValue(2,
+	    (int) floor(outpoint.frames(m_framesPerSecond)));
+    }
 
-}	// namespace Gui
+}				// namespace Gui

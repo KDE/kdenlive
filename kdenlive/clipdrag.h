@@ -31,38 +31,39 @@ class EffectDescriptionList;
   *@author Jason Wood
   */
 
-class ClipDrag : public KURLDrag
-{
-public:
-	ClipDrag(DocClipBase *clip, QWidget *dragSource, const char *name);
-	ClipDrag(DocClipRef *clip, QWidget *dragSource, const char *name);
+class ClipDrag:public KURLDrag {
+  public:
+    ClipDrag(DocClipBase * clip, QWidget * dragSource, const char *name);
+     ClipDrag(DocClipRef * clip, QWidget * dragSource, const char *name);
 	/** Constructs a clipDrag object consisting of the clips within the
 	DocCLipBaseList passed. */
-	ClipDrag(DocClipRefList &clips, QWidget *dragSource, const char *name);
+     ClipDrag(DocClipRefList & clips, QWidget * dragSource,
+	const char *name);
 
-	~ClipDrag();
+    ~ClipDrag();
 
 	/** Returns true if the mime type is decodable, false otherwise. */
-	static bool canDecode(const QMimeSource *mime);
+    static bool canDecode(const QMimeSource * mime);
 	/** Attempts to decode the mimetype e as a clip. Returns a clip, or returns null */
-	static DocClipRefList decode(const EffectDescriptionList &effectList, ClipManager &clipManager, const QMimeSource *e);
-protected:
+    static DocClipRefList decode(const EffectDescriptionList & effectList,
+	ClipManager & clipManager, const QMimeSource * e);
+  protected:
 	/** Reimplemented for internal reasons; the API is not affected.  */
-	QByteArray encodedData(const char *mime) const;
+     QByteArray encodedData(const char *mime) const;
 	/** Reimplemented for internal reasons; the API is not affected.  */
-	virtual const char * format(int i) const;
-private: // Private methods
- 	/** Returns a QValueList containing the URL of the clip.
+    virtual const char *format(int i) const;
+  private:			// Private methods
+	/** Returns a QValueList containing the URL of the clip.
 	 *
 	 * This is necessary, because the KURLDrag class which ClipDrag inherits
 	 * requires a list of URL's rather than a single URL.
 	 **/
-	static KURL::List createURLList(DocClipRefList *clipList);
-	static KURL::List createURLList(DocClipBase *clip);
-	static KURL::List createURLList(DocClipRef *clip);
+    static KURL::List createURLList(DocClipRefList * clipList);
+    static KURL::List createURLList(DocClipBase * clip);
+    static KURL::List createURLList(DocClipRef * clip);
 
 	/** Holds the XML representation of the clips being dragged */
-	QString m_xml;
+    QString m_xml;
 };
 
 #endif

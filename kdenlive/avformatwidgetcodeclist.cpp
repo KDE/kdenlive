@@ -30,28 +30,30 @@
 #include "avformatdesccodec.h"
 #include "krender.h"
 
-AVFormatWidgetCodecList::AVFormatWidgetCodecList(AVFormatDescCodecList *desc, QWidget *parent, const char *name ) :
-                                    QGroupBox(1, Horizontal, desc->name(), parent, name),
-                                    AVFormatWidgetBase(),
-                                    m_codecLayout(new QHBox(this, "codec_layout")),
-                                    m_codecLabel(new QLabel(i18n("Codec:"), m_codecLayout, "codec_label")),
-                                    m_codecSelect(new QComboBox(m_codecLayout, "codec_select")),
-                                    m_widgetStack(new QWidgetStack(this, "widget_stack"))
+AVFormatWidgetCodecList::AVFormatWidgetCodecList(AVFormatDescCodecList * desc, QWidget * parent, const char *name):
+QGroupBox(1, Horizontal, desc->name(), parent, name),
+AVFormatWidgetBase(),
+m_codecLayout(new QHBox(this, "codec_layout")),
+m_codecLabel(new QLabel(i18n("Codec:"), m_codecLayout, "codec_label")),
+m_codecSelect(new QComboBox(m_codecLayout, "codec_select")),
+m_widgetStack(new QWidgetStack(this, "widget_stack"))
 {
-  QToolTip::add( m_codecSelect, i18n( "Select the codec for your output file" ) );
+    QToolTip::add(m_codecSelect,
+	i18n("Select the codec for your output file"));
 
-  QValueListConstIterator<QString> itt = desc->codecList().begin();
-  int count = 0;
+    QValueListConstIterator < QString > itt = desc->codecList().begin();
+    int count = 0;
 
-  while(itt != desc->codecList().end()) {
-    AVFormatDescCodec *codecDesc = desc->renderer()->findCodec(*itt);
-    if(codecDesc != 0) {
-      m_codecSelect->insertItem(codecDesc->name(), count);
-      m_widgetStack->addWidget(codecDesc->createWidget(m_widgetStack)->widget(), count);
-      ++count;
+    while (itt != desc->codecList().end()) {
+	AVFormatDescCodec *codecDesc = desc->renderer()->findCodec(*itt);
+	if (codecDesc != 0) {
+	    m_codecSelect->insertItem(codecDesc->name(), count);
+	    m_widgetStack->addWidget(codecDesc->
+		createWidget(m_widgetStack)->widget(), count);
+	    ++count;
+	}
+	++itt;
     }
-    ++itt;
-  }
 }
 
 AVFormatWidgetCodecList::~AVFormatWidgetCodecList()
@@ -60,5 +62,5 @@ AVFormatWidgetCodecList::~AVFormatWidgetCodecList()
 
 QWidget *AVFormatWidgetCodecList::widget()
 {
-  return this;
+    return this;
 }

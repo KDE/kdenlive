@@ -18,13 +18,13 @@
 
 #include <qxml.h>
 
-EffectParamDesc::EffectParamDesc(const QXmlAttributes &attributes)
+EffectParamDesc::EffectParamDesc(const QXmlAttributes & attributes)
 {
-	m_name = attributes.value("name");
-	m_type = attributes.value("type");
-	m_default = attributes.value("default").toDouble();
-	m_value = m_default;
-	m_description = attributes.value("description");
+    m_name = attributes.value("name");
+    m_type = attributes.value("type");
+    m_default = attributes.value("default").toDouble();
+    m_value = m_default;
+    m_description = attributes.value("description");
 }
 
 EffectParamDesc::~EffectParamDesc()
@@ -34,24 +34,27 @@ EffectParamDesc::~EffectParamDesc()
 
 void EffectParamDesc::setValue(const double &value)
 {
-	m_value = value;
+    m_value = value;
 }
 
 EffectKeyFrame *EffectParamDesc::createKeyFrame(double time, double value)
-{}
-
-const QString EffectParamDesc::complexParamName(uint ix) const
-{}
-
-const uint EffectParamDesc::complexParamNum() const
-{}
-
-void EffectParamDesc::setDescription(const QString &description)
 {
-	m_description = description;
 }
 
-const QString &EffectParamDesc::description() const
+const QString EffectParamDesc::complexParamName(uint ix) const
 {
-	return m_description;
+}
+
+const uint EffectParamDesc::complexParamNum() const
+{
+}
+
+void EffectParamDesc::setDescription(const QString & description)
+{
+    m_description = description;
+}
+
+const QString & EffectParamDesc::description() const
+{
+    return m_description;
 }

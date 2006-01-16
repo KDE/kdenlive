@@ -19,9 +19,8 @@
 #include "avformatwidgetcodeclist.h"
 #include "krender.h"
 
-AVFormatDescCodecList::AVFormatDescCodecList(KRender *renderer, const QString &description, const char * &name) :
-                        AVFormatDescBase(description, name),
-                        m_renderer(renderer)
+AVFormatDescCodecList::AVFormatDescCodecList(KRender * renderer, const QString & description, const char *&name):
+AVFormatDescBase(description, name), m_renderer(renderer)
 {
 }
 
@@ -30,25 +29,25 @@ AVFormatDescCodecList::~AVFormatDescCodecList()
 }
 
 /** Constructs a widget to display this container. Most likely, a qgroupbox with a combo list box + widget stack. */
-AVFormatWidgetBase * AVFormatDescCodecList::createWidget(QWidget * parent)
+AVFormatWidgetBase *AVFormatDescCodecList::createWidget(QWidget * parent)
 {
-  return new AVFormatWidgetCodecList(this, parent, m_name);
+    return new AVFormatWidgetCodecList(this, parent, m_name);
 }
 
 /** Returns the codec name list */
 const QStringList & AVFormatDescCodecList::codecList()
 {
-  return m_codecList;
+    return m_codecList;
 }
 
 /** Adds a codec by name to this codec list. */
-void AVFormatDescCodecList::addCodec(const QString &codec)
+void AVFormatDescCodecList::addCodec(const QString & codec)
 {
-  m_codecList.append(codec);
+    m_codecList.append(codec);
 }
 
 /** Returns the renderer that generated this desc codec list */
-KRender * AVFormatDescCodecList::renderer()
+KRender *AVFormatDescCodecList::renderer()
 {
-  return m_renderer;
+    return m_renderer;
 }

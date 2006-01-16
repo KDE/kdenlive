@@ -27,22 +27,22 @@ Base class for loading projects into kdenlive
 
 @author Jason Wood
 */
-class LoadProjectFilter{
-public:
-	LoadProjectFilter();
+class LoadProjectFilter {
+  public:
+    LoadProjectFilter();
 
-	virtual ~LoadProjectFilter();
+    virtual ~ LoadProjectFilter();
 
 	/** Returns a list of formats handled by this filter. */
-	virtual QStringList handledFormats() const = 0;
-	
+    virtual QStringList handledFormats() const = 0;
+
 	/** Returns true if this filter handles the format passed */
-	virtual bool handlesFormat(const QString &format);
-	
+    virtual bool handlesFormat(const QString & format);
+
 	/** load the specified url into the document passed. The document is empty when 
 	 * passed in. Returns true on success.
 	 **/
-	virtual bool load(QFile &file, KdenliveDoc *document) = 0;
+    virtual bool load(QFile & file, KdenliveDoc * document) = 0;
 };
 
 #endif

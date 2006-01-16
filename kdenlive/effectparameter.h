@@ -30,12 +30,12 @@ A parameter in an effect. Contains a list of keyframes that make up that paramet
 @author Jason Wood
 */
 
-typedef QPtrList<EffectKeyFrame> KeyFrameList;
-typedef QPtrListIterator<EffectKeyFrame>KeyFrameListIterator;
+typedef QPtrList < EffectKeyFrame > KeyFrameList;
+typedef QPtrListIterator < EffectKeyFrame > KeyFrameListIterator;
 
-class EffectParameter{
-public:
-    EffectParameter(const QString &name);
+class EffectParameter {
+  public:
+    EffectParameter(const QString & name);
 
     ~EffectParameter();
 
@@ -45,7 +45,7 @@ public:
     /** @returns the keyframe in the list. */
     EffectKeyFrame *keyframe(int ix) const;
 
-    uint addKeyFrame(EffectKeyFrame *effectKeyFrame);
+    uint addKeyFrame(EffectKeyFrame * effectKeyFrame);
 
     EffectKeyFrame *deleteKeyFrame(int ix);
 
@@ -59,13 +59,13 @@ public:
      */
     EffectKeyFrame *interpolateKeyFrame(double time) const;
 
-	void setSelectedKeyFrame(int ix);
-	const int selectedKeyFrame() const;
+    void setSelectedKeyFrame(int ix);
+    const int selectedKeyFrame() const;
 
-private:
-	QString m_name;
-	KeyFrameList m_keyFrames;
-	int m_selectedKeyFrame;
+  private:
+     QString m_name;
+    KeyFrameList m_keyFrames;
+    int m_selectedKeyFrame;
 
 };
 

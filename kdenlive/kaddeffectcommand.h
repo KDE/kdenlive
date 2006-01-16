@@ -26,25 +26,26 @@ class DocClipRef;
 class Effect;
 class KdenliveDoc;
 
-namespace Command
-{
+namespace Command {
 
 /**
 Command to add effects to clips.
 
 @author Jason Wood
 */
-class KAddEffectCommand : public KCommand
-{
-public:
+    class KAddEffectCommand:public KCommand {
+      public:
 	/** Returns an AddEffectCommand that will append the effect to the end of the effect list.*/
-	static KAddEffectCommand *appendEffect(KdenliveDoc *document, DocClipRef *clip, Effect *effect);
+	static KAddEffectCommand *appendEffect(KdenliveDoc * document,
+	    DocClipRef * clip, Effect * effect);
 
 	/** Returns an AddEffectCommand that will insert the effect at the specified index in the effect list.*/
-	static KAddEffectCommand *insertEffect(KdenliveDoc *document, DocClipRef *clip, int effectIndex, Effect *effect);
+	static KAddEffectCommand *insertEffect(KdenliveDoc * document,
+	    DocClipRef * clip, int effectIndex, Effect * effect);
 
 	/** Returns an AddEffectCommand that will insert the effect at the specified index in the effect list.*/
-	static KAddEffectCommand *removeEffect(KdenliveDoc *document, DocClipRef *clip, int effectIndex);
+	static KAddEffectCommand *removeEffect(KdenliveDoc * document,
+	    DocClipRef * clip, int effectIndex);
 
 	/** Constructs a command to move the specified effect to a new place in the effect list.
 		@param document The document this command will act upon.
@@ -53,7 +54,8 @@ public:
 		@param newEffectIndex the index to which the effect will be moved.
 		@returns the AddEffectCommand that will perform the operation.
 	*/
-	static KCommand *moveEffect(KdenliveDoc *document, DocClipRef *clip, int effectIndex, int newEffectIndex);
+	static KCommand *moveEffect(KdenliveDoc * document,
+	    DocClipRef * clip, int effectIndex, int newEffectIndex);
 
 	~KAddEffectCommand();
 
@@ -64,12 +66,14 @@ public:
 	void unexecute();
 	/** Executes this command */
 	void execute();
-private:
+      private:
 	/** Creates a KAddEffectCommand that will add the specified effect at the specified effectIndex. */
-	KAddEffectCommand( KdenliveDoc *document, DocClipRef *clip, int effectIndex, Effect *effect);
+	 KAddEffectCommand(KdenliveDoc * document, DocClipRef * clip,
+	    int effectIndex, Effect * effect);
 
 	/** Creates a KAddEffectCommand that will remove the effect at the specified index */
-	KAddEffectCommand( KdenliveDoc *document, DocClipRef *clip, int effectIndex);
+	 KAddEffectCommand(KdenliveDoc * document, DocClipRef * clip,
+	    int effectIndex);
 
 	/** True if we are adding an Effect, false if we are removing an effect. */
 	bool m_addEffect;
@@ -92,8 +96,7 @@ private:
 	void deleteEffect();
 
 	KdenliveDoc *m_document;
-};
+    };
 
 }
-
 #endif

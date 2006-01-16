@@ -26,19 +26,19 @@ Loads in native Kdenlive format
 
 @author Jason Wood
 */
-class LoadProjectNativeFilter : public LoadProjectFilter
-{
-public:
-	LoadProjectNativeFilter();
+class LoadProjectNativeFilter:public LoadProjectFilter {
+  public:
+    LoadProjectNativeFilter();
 
-	virtual ~LoadProjectNativeFilter();
-    
-	QStringList handledFormats() const;
-	virtual bool load(QFile &file, KdenliveDoc *document);
-private:
-	void loadAVFileList(QDomElement &element, KdenliveDoc *document);
-	void loadTrackList(QDomElement &element, KdenliveDoc *document);
-	void addToDocument(const QString &parent, QDomElement &clip, KdenliveDoc *document);
+    virtual ~ LoadProjectNativeFilter();
+
+    QStringList handledFormats() const;
+    virtual bool load(QFile & file, KdenliveDoc * document);
+  private:
+    void loadAVFileList(QDomElement & element, KdenliveDoc * document);
+    void loadTrackList(QDomElement & element, KdenliveDoc * document);
+    void addToDocument(const QString & parent, QDomElement & clip,
+	KdenliveDoc * document);
 };
 
 #endif

@@ -20,14 +20,13 @@
 #include <kconfig.h>
 #include <kdebug.h>
 
-KRenderManager::KRenderManager() :
-                        QObject(),
-                        m_renderAppPath(KURL("/usr/bin/piave")),
-                        m_firstPort(6100),
-                        m_currentPort(6100)
+KRenderManager::KRenderManager():
+QObject(),
+m_renderAppPath(KURL("/usr/bin/piave")),
+m_firstPort(6100), m_currentPort(6100)
 {
-  m_renderList.setAutoDelete(true);
-	m_refCount=0;
+    m_renderList.setAutoDelete(true);
+    m_refCount = 0;
 }
 
 KRenderManager::~KRenderManager()
@@ -35,88 +34,91 @@ KRenderManager::~KRenderManager()
 }
 
 /** Creates a new renderer, guaranteeing it it's own port number, etc. */
-KRender * KRenderManager::createRenderer(const char * name)
+KRender *KRenderManager::createRenderer(const char *name)
 {
-	KRender *render = new KRender(name, m_renderAppPath, m_currentPort,0, name);
+    KRender *render =
+	new KRender(name, m_renderAppPath, m_currentPort, 0, name);
 
-	/*connect(render, SIGNAL(recievedStderr(const QString &, const QString &)),
-			this, SIGNAL(recievedStderr(const QString &, const QString &)));
-	connect(render, SIGNAL(recievedStdout(const QString &, const QString &)),
-			this, SIGNAL(recievedStdout(const QString &, const QString &)));
-	connect(render, SIGNAL(error(const QString &, const QString &)),
-			this, SIGNAL(error(const QString &, const QString &)));
-	connect(render, SIGNAL(renderDebug(const QString &, const QString &)),
-			this, SIGNAL(renderDebug(const QString &, const QString &)));
-	connect(render, SIGNAL(renderWarning(const QString &, const QString &)),
-			this, SIGNAL(renderWarning(const QString &, const QString &)));
-	connect(render, SIGNAL(renderError(const QString &, const QString &)),
-			this, SIGNAL(renderError(const QString &, const QString &)));*/
+    /*connect(render, SIGNAL(recievedStderr(const QString &, const QString &)),
+       this, SIGNAL(recievedStderr(const QString &, const QString &)));
+       connect(render, SIGNAL(recievedStdout(const QString &, const QString &)),
+       this, SIGNAL(recievedStdout(const QString &, const QString &)));
+       connect(render, SIGNAL(error(const QString &, const QString &)),
+       this, SIGNAL(error(const QString &, const QString &)));
+       connect(render, SIGNAL(renderDebug(const QString &, const QString &)),
+       this, SIGNAL(renderDebug(const QString &, const QString &)));
+       connect(render, SIGNAL(renderWarning(const QString &, const QString &)),
+       this, SIGNAL(renderWarning(const QString &, const QString &)));
+       connect(render, SIGNAL(renderError(const QString &, const QString &)),
+       this, SIGNAL(renderError(const QString &, const QString &))); */
 
-	++m_currentPort;
+    ++m_currentPort;
 
-	m_renderList.append(render);
-	return render;
+    m_renderList.append(render);
+    return render;
 }
 
 /** Reads the configuration details for the renderer manager */
-void KRenderManager::readConfig(KConfig *config)
+void KRenderManager::readConfig(KConfig * config)
 {
-  config->setGroup("Renderer Options");
-  setRenderAppPath(config->readEntry("App Path", "/usr/bin/piave"));
-  setRenderAppPort(config->readUnsignedNumEntry("App Port", 6100));
+    config->setGroup("Renderer Options");
+    setRenderAppPath(config->readEntry("App Path", "/usr/bin/piave"));
+    setRenderAppPort(config->readUnsignedNumEntry("App Port", 6100));
 }
 
-void KRenderManager::saveConfig(KConfig *config)
+void KRenderManager::saveConfig(KConfig * config)
 {
-  config->setGroup("Renderer Options");
-  config->writeEntry("App Path" , renderAppPath().path());
-  config->writeEntry("App Port" , renderAppPort());
+    config->setGroup("Renderer Options");
+    config->writeEntry("App Path", renderAppPath().path());
+    config->writeEntry("App Port", renderAppPort());
 }
 
 /** Read property of KURL m_renderAppPath. */
-const KURL& KRenderManager::renderAppPath()
+const KURL & KRenderManager::renderAppPath()
 {
-	return m_renderAppPath;
+    return m_renderAppPath;
 }
 
 /** Write property of KURL m_renderAppPath. */
-void KRenderManager::setRenderAppPath( const KURL& _newVal)
+void KRenderManager::setRenderAppPath(const KURL & _newVal)
 {
-	m_renderAppPath = _newVal;
+    m_renderAppPath = _newVal;
 }
 
 /** Read property of unsigned int m_renderAppPort. */
-const unsigned int& KRenderManager::renderAppPort()
+const unsigned int &KRenderManager::renderAppPort()
 {
-	return m_firstPort;
+    return m_firstPort;
 }
 
 /** Write property of unsigned int m_renderAppPort. */
-void KRenderManager::setRenderAppPort( const unsigned int& _newVal)
+void KRenderManager::setRenderAppPort(const unsigned int &_newVal)
 {
-	m_firstPort = _newVal;
+    m_firstPort = _newVal;
 }
 
-void KRenderManager::sendDebugCommand(const QString &renderName, const QString &debugCommand)
+void KRenderManager::sendDebugCommand(const QString & renderName,
+    const QString & debugCommand)
 {
-	KRender *renderer = findRenderer(renderName);
-	if(renderer) {
-		renderer->sendDebugVemlCommand(debugCommand);
-	} else {
-		kdWarning() << "Cannot send debug command, renderer " << renderName << " does not exist. " << endl;
-	}
+    KRender *renderer = findRenderer(renderName);
+    if (renderer) {
+	renderer->sendDebugVemlCommand(debugCommand);
+    } else {
+	kdWarning() << "Cannot send debug command, renderer " << renderName
+	    << " does not exist. " << endl;
+    }
 }
 
-KRender *KRenderManager::findRenderer(const QString &name)
+KRender *KRenderManager::findRenderer(const QString & name)
 {
-	KRender *result = 0;
-	QPtrListIterator<KRender> itt(m_renderList);
-	while(itt.current()) {
-		if(itt.current()->rendererName() == name) {
-			result = itt.current();
-			break;
-		}
-		++itt;
+    KRender *result = 0;
+    QPtrListIterator < KRender > itt(m_renderList);
+    while (itt.current()) {
+	if (itt.current()->rendererName() == name) {
+	    result = itt.current();
+	    break;
 	}
-	return result;
+	++itt;
+    }
+    return result;
 }

@@ -27,14 +27,13 @@ A list of effect descriptions.
 
 @author Jason Wood
 */
-class EffectDescriptionList : public QPtrList<EffectDesc>
-{
-public:
+class EffectDescriptionList:public QPtrList < EffectDesc > {
+  public:
     EffectDescriptionList();
 
     ~EffectDescriptionList();
 
-    EffectDesc *effectDescription(const QString &type) const;
+    EffectDesc *effectDescription(const QString & type) const;
 };
 
 #endif

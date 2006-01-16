@@ -28,12 +28,12 @@ class AVFormatDescCodec;
   *@author Jason Wood
   */
 
-class AVFormatWidgetCodec : public QVBox, public AVFormatWidgetBase {
-   Q_OBJECT
-public: 
-	AVFormatWidgetCodec(AVFormatDescCodec *desc, QWidget *parent=0, const char *name=0);
-	~AVFormatWidgetCodec();
-  virtual QWidget *widget();
+class AVFormatWidgetCodec:public QVBox, public AVFormatWidgetBase {
+  Q_OBJECT public:
+    AVFormatWidgetCodec(AVFormatDescCodec * desc, QWidget * parent =
+	0, const char *name = 0);
+    ~AVFormatWidgetCodec();
+    virtual QWidget *widget();
 };
 
 #endif

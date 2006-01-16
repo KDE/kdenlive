@@ -26,33 +26,28 @@ class KTimeLine;
 class KdenliveDoc;
 class DocClipRef;
 
-namespace Gui
-{
+namespace Gui {
 
 /**
 A track panel that displays the keyframe of a single parameter from a single clip,
 
 @author Jason Wood
 */
-class KMMClipKeyFramePanel : public KMMTrackPanel
-{
-	Q_OBJECT
-public:
-	KMMClipKeyFramePanel(KTimeLine *timeline,
-				KdenliveDoc *document,
-				DocClipRef *clip,
-				const QString &effectName,
-				int effectIndex,
-				const QString &effectParam,
-				QWidget *parent=0,
-				const char *name=0);
+    class KMMClipKeyFramePanel:public KMMTrackPanel {
+      Q_OBJECT public:
+	KMMClipKeyFramePanel(KTimeLine * timeline,
+	    KdenliveDoc * document,
+	    DocClipRef * clip,
+	    const QString & effectName,
+	    int effectIndex,
+	    const QString & effectParam,
+	    QWidget * parent = 0, const char *name = 0);
 
 	~KMMClipKeyFramePanel();
-private:
-	QVBox m_verticalLayout;
+      private:
+	 QVBox m_verticalLayout;
 	QLabel m_effectNameLabel;
-};
+    };
 
-} // namespace Gui
-
+}				// namespace Gui
 #endif

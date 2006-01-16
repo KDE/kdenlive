@@ -21,34 +21,33 @@
 
 class DocClipRef;
 
-namespace Gui
-{
-class KTimeLine;
+namespace Gui {
+    class KTimeLine;
 
 /**
 A placer that draws a single clip on the track.
 
 @author Jason Wood
 */
-class KClipPlacer : public KPlacer
-{
-public:
-    KClipPlacer(KTimeLine *timeline, DocClipRef *clip);
+    class KClipPlacer:public KPlacer {
+      public:
+	KClipPlacer(KTimeLine * timeline, DocClipRef * clip);
 
-    ~KClipPlacer();
+	~KClipPlacer();
 
-    virtual void drawToBackBuffer(QPainter& painter, QRect& rect, TrackViewDecorator *decorator);
+	virtual void drawToBackBuffer(QPainter & painter, QRect & rect,
+	    TrackViewDecorator * decorator);
 
     /** Returns true if this track panel has a document track index. */
-    virtual bool hasDocumentTrackIndex() const { return false; }
-
+	virtual bool hasDocumentTrackIndex() const {
+	    return false;
+	}
     /** Returns the track index into the underlying document model used by this track. Returns -1 if this is inapplicable. */
-    virtual int documentTrackIndex()  const;
-private:
-	DocClipRef *m_clip;
+	    virtual int documentTrackIndex() const;
+      private:
+	 DocClipRef * m_clip;
 	KTimeLine *m_timeline;
-};
+    };
 
-} // namespace Gui
-
+}				// namespace Gui
 #endif

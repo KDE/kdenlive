@@ -35,26 +35,25 @@ external files.
   *@author Jason Wood
   */
 
-namespace Gui
-{
+namespace Gui {
 
-class KdenliveApp;
+    class KdenliveApp;
 
-class KMMMonitor : public KMonitor  {
-   Q_OBJECT
-public:
-	KMMMonitor(KdenliveApp *app, KdenliveDoc *document, QWidget *parent=0, const char *name=0);
-	virtual ~KMMMonitor();
+    class KMMMonitor:public KMonitor {
+      Q_OBJECT public:
+	KMMMonitor(KdenliveApp * app, KdenliveDoc * document,
+	    QWidget * parent = 0, const char *name = 0);
+	 virtual ~ KMMMonitor();
 
 	/** ***Nasty Hack***
 	Swaps the screens of two monitors, reparenting and reconnecting all
 	relevant signals/slots. This is required so that if a render instance
 	uses xv (of which there is only one port), we can use it in multiple
 	monitors. */
-//	void swapScreens(KMMMonitor *monitor);
+//      void swapScreens(KMMMonitor *monitor);
 
 	/** Returns the current seek position */
-	const GenTime &seekPosition() const;
+	const GenTime & seekPosition() const;
 
 	/** See m_noSeek property for details. */
 	void setNoSeek(bool noSeek);
@@ -65,9 +64,9 @@ public:
 	virtual KMMScreen *screen() const;
 
 
-protected:
-	void mousePressEvent(QMouseEvent *e);
-private:
+      protected:
+	void mousePressEvent(QMouseEvent * e);
+      private:
 	/** Bring up the monitor context menu, if one exist */
 	void popupContextMenu();
 	KdenliveApp *m_app;
@@ -97,12 +96,13 @@ private:
 	/** Commont functionality for the setClip slots. */
 	void doCommonSetClip();
 
-public slots: // Public slots
+	public slots:		// Public slots
 	/** Set the monitors scenelist to the one specified. */
-	void setSceneList(const QDomDocument &scenelist, bool resetPosition = true);
+	void setSceneList(const QDomDocument & scenelist,
+	    bool resetPosition = true);
 
 	/** This slot is called when the screen changes position. */
-	void screenPositionChanged(const GenTime &time);
+	void screenPositionChanged(const GenTime & time);
 	/** Sets this monitor to be the active monitor. It's colour changes to show it is active. */
 	void slotSetActive();
 	/** Sets this monitor to be an inactive monitor. It's colour changes to show it is inactive. */
@@ -112,9 +112,9 @@ public slots: // Public slots
 	/** Causes the monitor to act as if a right mouse click has happened on it. */
 	void slotRightClickMonitor();
 	/** Sets the displayed clip in the timeline. */
-	void slotSetClip(DocClipBase *clip);
+	void slotSetClip(DocClipBase * clip);
 	/** Sets the displayed clip in the timeline. */
-	void slotSetClip(DocClipRef *clip);
+	void slotSetClip(DocClipRef * clip);
 	/** Clears the displayed clip on the timeline */
 	void slotClearClip();
 	/** Starts a drag operation, using the currently selected clip and the specified in
@@ -125,13 +125,13 @@ public slots: // Public slots
 
 	/** The specified clip has changed, if the monitor uses this clip it will update it's
 	representation, otherwise it will ignore the method. */
-	void slotUpdateClip(DocClipRef *clip);
+	void slotUpdateClip(DocClipRef * clip);
 
 	/** Called when a clip's crop start has changed. */
-	void slotClipCropStartChanged(DocClipRef *clip);
+	void slotClipCropStartChanged(DocClipRef * clip);
 
 	/** Called when a clip's crop end has changed. */
-	void slotClipCropEndChanged(DocClipRef *clip);
+	void slotClipCropEndChanged(DocClipRef * clip);
 
 	/** Toggles a snap marker on or off at the given position in the clip.. */
 	void slotToggleSnapMarker();
@@ -142,7 +142,7 @@ public slots: // Public slots
 	/** go to the next snap marker from the current seek position */
 	void slotNextSnapMarker();
 
-signals: // Signals
+	 signals:		// Signals
 	/** Emitted when the monitor's current position has changed. */
 	void seekPositionChanged(const GenTime &);
 	/** Emitted when the monitor's current inpoint has changed. */
@@ -150,11 +150,10 @@ signals: // Signals
 	/** Emitted when the monitor's current outpoint has changed. */
 	void outpointPositionChanged(const GenTime &);
 
-private slots:
-	// Update the edit panel, make sure that it's buttons are in sync.
-	void updateEditPanel(const GenTime &time);
-};
+	private slots:
+	    // Update the edit panel, make sure that it's buttons are in sync.
+	void updateEditPanel(const GenTime & time);
+    };
 
-} // namespace Gui
-
+}				// namespace Gui
 #endif

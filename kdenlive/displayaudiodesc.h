@@ -24,9 +24,9 @@
   */
 
 class DisplayAudioDesc {
-public: 
-	DisplayAudioDesc();
-	~DisplayAudioDesc();
+  public:
+    DisplayAudioDesc();
+    ~DisplayAudioDesc();
 };
 
 #endif

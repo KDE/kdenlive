@@ -136,7 +136,8 @@ namespace Gui {
 	    if (!Lastproject.isEmpty())
 		 slotFileOpenRecent(KURL(Lastproject));
 	}
-    } KdenliveApp::~KdenliveApp() {
+    }
+    KdenliveApp::~KdenliveApp() {
 	if (m_renderManager)
 	    delete m_renderManager;
 	if (m_commandHistory)
@@ -854,7 +855,9 @@ namespace Gui {
 
     KdenliveDoc *KdenliveApp::getDocument() const {
 	return doc;
-    } void KdenliveApp::saveOptions() {
+    }
+
+    void KdenliveApp::saveOptions() {
 	config->setGroup("General Options");
 	config->writeEntry("Geometry", size());
 	config->writeEntry("Show Toolbar", viewToolBar->isChecked());
@@ -874,10 +877,13 @@ namespace Gui {
 	config->writeEntry("Ignore Rendering Messages",
 	    m_renderDebugPanel->ignoreMessages());
     }
+
     QString KdenliveApp::getTimeScaleSliderText() const {
 	QString value = m_timeline->getTimeScaleSliderText();
 	 return value;
-    } void KdenliveApp::readOptions() {
+    }
+
+    void KdenliveApp::readOptions() {
 	config->setGroup("General Options");
 
 	// bar status settings
@@ -1225,9 +1231,11 @@ namespace Gui {
 
     bool KdenliveApp::snapToFrameEnabled() const {
 	return timelineSnapToFrame->isChecked();
-    } bool KdenliveApp::snapToBorderEnabled() const {
+    }
+    bool KdenliveApp::snapToBorderEnabled() const {
 	return timelineSnapToBorder->isChecked();
-    } bool KdenliveApp::snapToMarkersEnabled() const {
+    }
+    bool KdenliveApp::snapToMarkersEnabled() const {
 	return timelineSnapToMarker->isChecked();
     }
 /** Adds a command to the command history, execute it if execute is true. */
@@ -1357,8 +1365,7 @@ namespace Gui {
     void KdenliveApp::slotProjectAddColorClip() {
 	slotStatusMsg(i18n("Adding Clips"));
 
-	KDialogBase *dia =
-	    new KDialogBase(this, "create_clip", true,
+	KDialogBase *dia = new KDialogBase(this, "create_clip", true,
 	    i18n("Create New Color Clip"),
 	    KDialogBase::Ok | KDialogBase::Cancel);
 	createColorClip_UI *clipChoice = new createColorClip_UI(dia);
@@ -1382,10 +1389,10 @@ namespace Gui {
     void KdenliveApp::slotProjectAddImageClip() {
 	slotStatusMsg(i18n("Adding Clips"));
 
-	KDialogBase *dia =
-	    new KDialogBase(this, "create_clip", true,
+	KDialogBase *dia = new KDialogBase(this, "create_clip", true,
 	    i18n("Create New Image Clip"),
 	    KDialogBase::Ok | KDialogBase::Cancel);
+
 	createImageClip_UI *clipChoice = new createImageClip_UI(dia);
 	dia->setMainWidget(clipChoice);
 	// Filter for the GDK pixbuf producer
@@ -1418,8 +1425,7 @@ namespace Gui {
 	    DocClipBase *clip = refClip->referencedClip();
 
 	    if (refClip->clipType() == DocClipBase::COLOR) {
-		KDialogBase *dia =
-		    new KDialogBase(this, "edit_clip", true,
+		KDialogBase *dia = new KDialogBase(this, "edit_clip", true,
 		    i18n("Edit Color Clip"),
 		    KDialogBase::Ok | KDialogBase::Cancel);
 		createColorClip_UI *clipChoice =
@@ -1445,7 +1451,6 @@ namespace Gui {
 			duration, clipChoice->edit_name->text(),
 			clipChoice->edit_description->text());
 		    //addCommand( command, true );
-
 		    //m_projectList->updateListItem();
 		}
 		delete dia;

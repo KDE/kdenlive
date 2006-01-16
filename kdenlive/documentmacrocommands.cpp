@@ -29,78 +29,89 @@
 
 namespace Command {
 
-DocumentMacroCommands::DocumentMacroCommands()
-{
-}
+    DocumentMacroCommands::DocumentMacroCommands() {
+    } DocumentMacroCommands::~DocumentMacroCommands() {
+    }
 
+    KCommand *DocumentMacroCommands::razorAllClipsAt(KdenliveDoc *
+	document, const GenTime & time) {
+	KMacroCommand *command =
+	    new KMacroCommand(i18n("Razor all tracks"));
 
-DocumentMacroCommands::~DocumentMacroCommands()
-{
-}
-
-KCommand *DocumentMacroCommands::razorAllClipsAt( KdenliveDoc *document, const GenTime &time )
-{
-	KMacroCommand *command = new KMacroCommand(i18n("Razor all tracks"));
-
-	for(uint count=0; count<document->numTracks(); ++count) {
-		DocTrackBase *track = document->track(count);
-		KCommand *razorCommand = razorClipAt(document, *track, time);
-		if(razorCommand) command->addCommand(razorCommand);
+	for (uint count = 0; count < document->numTracks(); ++count) {
+	    DocTrackBase *track = document->track(count);
+	    KCommand *razorCommand = razorClipAt(document, *track, time);
+	    if (razorCommand)
+		command->addCommand(razorCommand);
 	}
 
 	return command;
-}
+    }
 
-KCommand *DocumentMacroCommands::razorSelectedClipsAt( KdenliveDoc *document, const GenTime &time )
-{
-	KMacroCommand *command = new KMacroCommand(i18n("Razor all tracks"));
+    KCommand *DocumentMacroCommands::razorSelectedClipsAt(KdenliveDoc *
+	document, const GenTime & time) {
+	KMacroCommand *command =
+	    new KMacroCommand(i18n("Razor all tracks"));
 
-	for(uint count=0; count<document->numTracks(); ++count) {
-		DocTrackBase *track = document->track(count);
-		DocClipRef *clip = track->getClipAt(time);
-		if(clip) {
-			if(track->clipSelected(clip)) {
-				KCommand *razorCommand = razorClipAt(document, *track, time);
-				if(razorCommand) command->addCommand(razorCommand);
-			}
+	for (uint count = 0; count < document->numTracks(); ++count) {
+	    DocTrackBase *track = document->track(count);
+	    DocClipRef *clip = track->getClipAt(time);
+	    if (clip) {
+		if (track->clipSelected(clip)) {
+		    KCommand *razorCommand =
+			razorClipAt(document, *track, time);
+		    if (razorCommand)
+			command->addCommand(razorCommand);
 		}
+	    }
 	}
 
 	return command;
-}
+    }
 
-KCommand *DocumentMacroCommands::razorClipAt( KdenliveDoc *document, DocTrackBase &track, const GenTime &time )
-{
-	KMacroCommand * command = 0;
+    KCommand *DocumentMacroCommands::razorClipAt(KdenliveDoc * document,
+	DocTrackBase & track, const GenTime & time) {
+	KMacroCommand *command = 0;
 
-	DocClipRef *clip = track.getClipAt( time );
-	if ( clip ) {
-		// disallow the creation of clips with 0 length.
-		if ( ( clip->trackStart() == time ) || ( clip->trackEnd() == time ) ) return 0;
+	DocClipRef *clip = track.getClipAt(time);
+	if (clip) {
+	    // disallow the creation of clips with 0 length.
+	    if ((clip->trackStart() == time) || (clip->trackEnd() == time))
+		return 0;
 
-		command = new KMacroCommand( i18n( "Razor clip" ) );
+	    command = new KMacroCommand(i18n("Razor clip"));
 
-		command->addCommand( Command::KSelectClipCommand::selectNone(document) );
+	    command->
+		addCommand(Command::KSelectClipCommand::
+		selectNone(document));
 
-		DocClipRef *clone = clip->clone( document->effectDescriptions(), document->clipManager() );
+	    DocClipRef *clone =
+		clip->clone(document->effectDescriptions(),
+		document->clipManager());
 
-		if ( clone ) {
-			clone->setTrackStart( time );
-			clone->setCropStartTime( clip->cropStartTime() + ( time - clip->trackStart() ) );
+	    if (clone) {
+		clone->setTrackStart(time);
+		clone->setCropStartTime(clip->cropStartTime() + (time -
+			clip->trackStart()));
 
-			Command::KResizeCommand * resizeCommand = new Command::KResizeCommand( document, *clip );
-			resizeCommand->setEndTrackEnd( time );
-			command->addCommand( resizeCommand );
+		Command::KResizeCommand * resizeCommand =
+		    new Command::KResizeCommand(document, *clip);
+		resizeCommand->setEndTrackEnd(time);
+		command->addCommand(resizeCommand);
 
-			command->addCommand( new Command::KAddRefClipCommand( document->effectDescriptions(), document->clipManager(), &document->projectClip(), clone, true ) );
+		command->
+		    addCommand(new Command::KAddRefClipCommand(document->
+			effectDescriptions(), document->clipManager(),
+			&document->projectClip(), clone, true));
 
-			delete clone;
-		} else {
-			kdError() << "razorClipAt - could not clone clip!!!" << endl;
-		}
+		delete clone;
+	    } else {
+		kdError() << "razorClipAt - could not clone clip!!!" <<
+		    endl;
+	    }
 	}
 
 	return command;
-}
+    }
 
-} // namespace Command
+}				// namespace Command

@@ -20,25 +20,20 @@
 
 #include "configureproject_ui.h"
 
-class ConfigureProject : public ConfigureProjectPanel_UI
-{
-  Q_OBJECT
+class ConfigureProject:public ConfigureProjectPanel_UI {
+  Q_OBJECT public:
+    ConfigureProject(QWidget * parent = 0, const char *name =
+	0, WFlags fl = 0);
+    ~ConfigureProject();
+    /*$PUBLIC_FUNCTIONS$ */
 
-public:
-  ConfigureProject(QWidget* parent = 0, const char* name = 0, WFlags fl = 0 );
-  ~ConfigureProject();
-  /*$PUBLIC_FUNCTIONS$*/
+    public slots:
+	/*$PUBLIC_SLOTS$ */
+  protected:
+    /*$PROTECTED_FUNCTIONS$ */
 
-public slots:
-  /*$PUBLIC_SLOTS$*/
-
-protected:
-  /*$PROTECTED_FUNCTIONS$*/
-
-protected slots:
-  /*$PROTECTED_SLOTS$*/
-
+     protected slots:
+	/*$PROTECTED_SLOTS$ */
 };
 
 #endif
-

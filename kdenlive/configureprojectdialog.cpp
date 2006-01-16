@@ -30,35 +30,38 @@
 #include "configureproject.h"
 #include "exportconfig.h"
 
-ConfigureProjectDialog::ConfigureProjectDialog(QPtrList<AVFileFormatDesc> &formatList, QWidget *parent, const char *name, WFlags f) :
-                              KDialogBase(Plain,
-                                          i18n("Configure Project"),
-                                          Help | Default | Ok | Apply | Cancel,
-                                          Ok,
-                                          parent, name)
+ConfigureProjectDialog::ConfigureProjectDialog(QPtrList <
+    AVFileFormatDesc > &formatList, QWidget * parent, const char *name,
+    WFlags f):KDialogBase(Plain, i18n("Configure Project"),
+    Help | Default | Ok | Apply | Cancel, Ok, parent, name)
 {
-	QHBoxLayout *topLayout = new QHBoxLayout( plainPage(), 0, 6 );
+    QHBoxLayout *topLayout = new QHBoxLayout(plainPage(), 0, 6);
 
-	m_hSplitter = new QSplitter( Horizontal, plainPage(), "horizontal splitter" );
-	topLayout->addWidget(m_hSplitter);
+    m_hSplitter =
+	new QSplitter(Horizontal, plainPage(), "horizontal splitter");
+    topLayout->addWidget(m_hSplitter);
 
-	m_presetVBox = new QVBox(m_hSplitter, "preset vbox");
+    m_presetVBox = new QVBox(m_hSplitter, "preset vbox");
 
-	m_presetList = new KListBox(m_presetVBox, "preset list");
-	m_addButton = new KPushButton(i18n("Add Preset"), m_presetVBox, "add");
-	m_deleteButton = new KPushButton(i18n("Delete Preset"), m_presetVBox, "delete");
+    m_presetList = new KListBox(m_presetVBox, "preset list");
+    m_addButton = new KPushButton(i18n("Add Preset"), m_presetVBox, "add");
+    m_deleteButton =
+	new KPushButton(i18n("Delete Preset"), m_presetVBox, "delete");
 
-	m_tabArea = new KJanusWidget(m_hSplitter, "tabbed area", Tabbed);
+    m_tabArea = new KJanusWidget(m_hSplitter, "tabbed area", Tabbed);
 
-	QFrame *m_configPage = m_tabArea->addVBoxPage(i18n("Project Configuration"),
-						i18n("Setup the project"),
-						KGlobal::instance()->iconLoader()->loadIcon( "piave", KIcon::NoGroup, KIcon::SizeMedium ));
-	QFrame *m_exportPage = m_tabArea->addVBoxPage(i18n("Default Export"),
-						i18n("Configure the default export setting"),
-						KGlobal::instance()->iconLoader()->loadIcon( "piave", KIcon::NoGroup, KIcon::SizeMedium ));
+    QFrame *m_configPage =
+	m_tabArea->addVBoxPage(i18n("Project Configuration"),
+	i18n("Setup the project"),
+	KGlobal::instance()->iconLoader()->loadIcon("piave",
+	    KIcon::NoGroup, KIcon::SizeMedium));
+    QFrame *m_exportPage = m_tabArea->addVBoxPage(i18n("Default Export"),
+	i18n("Configure the default export setting"),
+	KGlobal::instance()->iconLoader()->loadIcon("piave",
+	    KIcon::NoGroup, KIcon::SizeMedium));
 
-	m_config = new ConfigureProject( m_configPage, "configure page" );
-	m_export = new ExportConfig( formatList, m_exportPage, "export page");
+    m_config = new ConfigureProject(m_configPage, "configure page");
+    m_export = new ExportConfig(formatList, m_exportPage, "export page");
 }
 
 
@@ -70,26 +73,26 @@ ConfigureProjectDialog::~ConfigureProjectDialog()
 /** Occurs when the apply button is clicked. */
 void ConfigureProjectDialog::slotApply()
 {
-  //m_renderDlg->writeSettings();
+    //m_renderDlg->writeSettings();
 }
 
 /** Called when the ok button is clicked. */
 void ConfigureProjectDialog::slotOk()
 {
-  //m_renderDlg->writeSettings();
-  accept();
+    //m_renderDlg->writeSettings();
+    accept();
 }
 
 /** Called when the cancel button is clicked. */
 void ConfigureProjectDialog::slotCancel()
 {
-  reject();
+    reject();
 }
 
 /** Called when the "Default" button is pressed. */
 void ConfigureProjectDialog::slotDefault()
 {
-  //m_renderDlg->readSettings();
+    //m_renderDlg->readSettings();
 }
 
 #include "configureprojectdialog.moc"

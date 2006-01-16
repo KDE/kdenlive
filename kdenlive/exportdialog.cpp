@@ -26,24 +26,26 @@
 #include "avformatwidgetbase.h"
 #include "exportconfig.h"
 
-ExportDialog::ExportDialog(QPtrList<AVFileFormatDesc> &formatList, QWidget *parent, const char *name ) :
-                        KDialogBase(Plain, i18n("Render Dialog"), Ok | Default | Cancel, Ok, parent, name)
+ExportDialog::ExportDialog(QPtrList < AVFileFormatDesc > &formatList,
+    QWidget * parent, const char *name):KDialogBase(Plain,
+    i18n("Render Dialog"), Ok | Default | Cancel, Ok, parent, name)
 {
-	QHBoxLayout *topLayout = new QHBoxLayout( plainPage(), 0, 6 );
-	m_exportConfig = new ExportConfig(formatList, plainPage(), "export config2");
-	topLayout->addWidget(m_exportConfig);
+    QHBoxLayout *topLayout = new QHBoxLayout(plainPage(), 0, 6);
+    m_exportConfig =
+	new ExportConfig(formatList, plainPage(), "export config2");
+    topLayout->addWidget(m_exportConfig);
 }
 
 ExportDialog::~ExportDialog()
 {
 }
 
-void ExportDialog::setFormatList(const QPtrList<AVFileFormatDesc> &list)
+void ExportDialog::setFormatList(const QPtrList < AVFileFormatDesc > &list)
 {
-	m_exportConfig->setFormatList(list);
+    m_exportConfig->setFormatList(list);
 }
 
 KURL ExportDialog::url()
 {
-	return m_exportConfig->url();
+    return m_exportConfig->url();
 }

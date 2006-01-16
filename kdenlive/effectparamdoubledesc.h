@@ -26,41 +26,36 @@ An effect parameter that holds a double value.
 
 @author Jason Wood
 */
-class EffectParamDoubleDesc : public EffectParamDesc
-{
-public:
-    EffectParamDoubleDesc(const QXmlAttributes &attributes);
+class EffectParamDoubleDesc:public EffectParamDesc {
+  public:
+    EffectParamDoubleDesc(const QXmlAttributes & attributes);
 
     ~EffectParamDoubleDesc();
 
 	/** Creates a parameter that conforms to this parameter Description */
-	virtual EffectKeyFrame *createKeyFrame(double time);
-	virtual EffectKeyFrame *createKeyFrame(double time, double value);
+    virtual EffectKeyFrame *createKeyFrame(double time);
+    virtual EffectKeyFrame *createKeyFrame(double time, double value);
 
-	virtual Gui::KMMTrackPanel *createTrackPanel(Gui::KdenliveApp *app,
-				Gui::KTimeLine *timeline,
-				KdenliveDoc *document,
-				DocTrackBase *docTrack,
-				bool isCollapsed,
-				QWidget *parent=0,
-				const char *name=0);
-	virtual Gui::KMMTrackPanel *createClipPanel(Gui::KdenliveApp *app,
-				Gui::KTimeLine *timeline,
-				KdenliveDoc *document,
-				DocClipRef *clip,
-				QWidget *parent=0,
-				const char *name=0);
+    virtual Gui::KMMTrackPanel * createTrackPanel(Gui::KdenliveApp * app,
+	Gui::KTimeLine * timeline,
+	KdenliveDoc * document,
+	DocTrackBase * docTrack,
+	bool isCollapsed, QWidget * parent = 0, const char *name = 0);
+    virtual Gui::KMMTrackPanel * createClipPanel(Gui::KdenliveApp * app,
+	Gui::KTimeLine * timeline,
+	KdenliveDoc * document,
+	DocClipRef * clip, QWidget * parent = 0, const char *name = 0);
 
-	virtual double max(uint ix = 0) const;
-	virtual double min(uint ix = 0) const;
-	virtual const QString endTag() const;
-	virtual const QString startTag() const;
+    virtual double max(uint ix = 0) const;
+    virtual double min(uint ix = 0) const;
+    virtual const QString endTag() const;
+    virtual const QString startTag() const;
 
-private:
-	double m_min;
-	double m_max;
-	QString m_starttag;
-	QString m_endtag;
+  private:
+    double m_min;
+    double m_max;
+    QString m_starttag;
+    QString m_endtag;
 };
 
 #endif

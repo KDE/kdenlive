@@ -38,17 +38,22 @@ class ProjectList;
 
 namespace Command {
 
-class KEditClipCommand : public KCommand  {
-public:
+    class KEditClipCommand:public KCommand {
+      public:
 
 	/** Edit a color clip */
-	KEditClipCommand(KdenliveDoc &document, DocClipRef *clip, const QString &color, const GenTime &duration, const QString &name, const QString &description);
+	KEditClipCommand(KdenliveDoc & document, DocClipRef * clip,
+	    const QString & color, const GenTime & duration,
+	    const QString & name, const QString & description);
 
 	/** Edit an image clip */
-	KEditClipCommand(KdenliveDoc &document, DocClipRef *clip, const KURL &url, const QString &extension, const int &ttl, const GenTime &duration, const QString &description);
+	 KEditClipCommand(KdenliveDoc & document, DocClipRef * clip,
+	    const KURL & url, const QString & extension, const int &ttl,
+	    const GenTime & duration, const QString & description);
 
 	/** Edit an a/v clip */
-	KEditClipCommand(KdenliveDoc &document, DocClipRef *clip, const KURL &url);
+	 KEditClipCommand(KdenliveDoc & document, DocClipRef * clip,
+	    const KURL & url);
 
 	~KEditClipCommand();
 	/** Unexecute the command */
@@ -57,19 +62,19 @@ public:
 	void execute();
 	/** Returns the name of this command */
 	QString name() const;
-private: // Private attributes
-	KdenliveDoc &m_document;
+      private:			// Private attributes
+	 KdenliveDoc & m_document;
 	/** The name of the clip. */
 	QString m_name;
 	/** The name of it's parent. */
 	QString m_parent;
 	/** An xml representation of the clip */
 	QDomDocument m_xmlClip;
-	
-private: // Private methods
+
+      private:			// Private methods
 	/** Adds the clip */
 	void addClip();
-};
+    };
 
-} // namespace command
+}				// namespace command
 #endif

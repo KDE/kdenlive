@@ -24,33 +24,31 @@
 #include "kdenlivedoc.h"
 #include "ktimeline.h"
 
-namespace Gui
-{
+namespace Gui {
 
-TrackViewNameDecorator::TrackViewNameDecorator(KTimeLine* timeline,
-						KdenliveDoc* doc) :
-						DocTrackDecorator(timeline, doc)
-{
-}
-
-
-TrackViewNameDecorator::~TrackViewNameDecorator()
-{
-}
+    TrackViewNameDecorator::TrackViewNameDecorator(KTimeLine * timeline,
+	KdenliveDoc * doc):DocTrackDecorator(timeline, doc) {
+    } TrackViewNameDecorator::~TrackViewNameDecorator() {
+    }
 
 // virtual
-void TrackViewNameDecorator::paintClip(double startX, double endx, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected)
-{
-	int sx = (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
-	int ex = (int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
-	int clipWidth = ex-sx;
+    void TrackViewNameDecorator::paintClip(double startX, double endx,
+	QPainter & painter, DocClipRef * clip, QRect & rect,
+	bool selected) {
+	int sx =
+	    (int) timeline()->mapValueToLocal(clip->trackStart().
+	    frames(document()->framesPerSecond()));
+	int ex =
+	    (int) timeline()->mapValueToLocal(clip->trackEnd().
+	    frames(document()->framesPerSecond()));
+	int clipWidth = ex - sx;
 	int tx = ex;
 
-	if(sx < rect.x()) {
-		sx = rect.x();
+	if (sx < rect.x()) {
+	    sx = rect.x();
 	}
-	if(ex > rect.x() + rect.width()) {
-		ex = rect.x() + rect.width();
+	if (ex > rect.x() + rect.width()) {
+	    ex = rect.x() + rect.width();
 	}
 	ex -= sx;
 
@@ -58,35 +56,44 @@ void TrackViewNameDecorator::paintClip(double startX, double endx, QPainter &pai
 	painter.setClipRect(sx, rect.y(), ex, rect.height());
 
 	// draw video name text
-	QRect textBound = painter.boundingRect(0, 0, ex, rect.height(), Qt::AlignLeft, clip->name());
+	QRect textBound =
+	    painter.boundingRect(0, 0, ex, rect.height(), Qt::AlignLeft,
+	    clip->name());
 
 	double border = 50.0;
-	int nameRepeat = (int)std::floor((double)clipWidth / ((double)textBound.width() + border));
-	if(nameRepeat < 1) nameRepeat = 1;
+	int nameRepeat =
+	    (int) std::floor((double) clipWidth /
+	    ((double) textBound.width() + border));
+	if (nameRepeat < 1)
+	    nameRepeat = 1;
 	int textWidth = clipWidth / nameRepeat;
 
 	// red line on top if clip has effects
 	if (clip->hasEffect())
-	painter.fillRect( sx+1, rect.y()+1, ex-2, 10, QBrush(Qt::red, Qt::Dense4Pattern));
+	    painter.fillRect(sx + 1, rect.y() + 1, ex - 2, 10,
+		QBrush(Qt::red, Qt::Dense4Pattern));
 
-	if(textWidth > 0) {
-		int start = (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
+	if (textWidth > 0) {
+	    int start =
+		(int) timeline()->mapValueToLocal(clip->trackStart().
+		frames(document()->framesPerSecond()));
 
-		start = sx - ((sx - start) % textWidth);
-		int count = start;
+	    start = sx - ((sx - start) % textWidth);
+	    int count = start;
 
-		while(count < sx+ex) {
-			if(count+textWidth <= tx) {
-        		painter.setPen( selected ? Qt::white : Qt::black );
-				painter.drawText( count, rect.y(), textWidth, rect.height(), Qt::AlignVCenter | Qt::AlignHCenter, clip->name());
-			}
-			count += textWidth;
+	    while (count < sx + ex) {
+		if (count + textWidth <= tx) {
+		    painter.setPen(selected ? Qt::white : Qt::black);
+		    painter.drawText(count, rect.y(), textWidth,
+			rect.height(), Qt::AlignVCenter | Qt::AlignHCenter,
+			clip->name());
 		}
-	painter.setPen(Qt::black);
+		count += textWidth;
+	    }
+	    painter.setPen(Qt::black);
 	}
 
 	painter.setClipping(false);
-}
+    }
 
-} // namespace Gui
-
+}				// namespace Gui

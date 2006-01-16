@@ -24,27 +24,27 @@ A keyframe value that holds a double.
 
 @author Jason Wood
 */
-class EffectDoubleKeyFrame : public EffectKeyFrame
-{
-public:
+class EffectDoubleKeyFrame:public EffectKeyFrame {
+  public:
     EffectDoubleKeyFrame();
     EffectDoubleKeyFrame(double time, double value);
 
-    virtual ~EffectDoubleKeyFrame();
+     virtual ~ EffectDoubleKeyFrame();
 
-    virtual EffectDoubleKeyFrame *toDoubleKeyFrame() { return this; }
-
-    double value() const;
+    virtual EffectDoubleKeyFrame *toDoubleKeyFrame() {
+	return this;
+    } double value() const;
     void setValue(double value);
 
     /** Return a keyfrane that interpolates between this and the passed keyframe, and is a keyframe that would exist at the
     specified time. */
-    virtual EffectKeyFrame *interpolateKeyFrame(EffectKeyFrame *keyframe, double time) const;
+    virtual EffectKeyFrame *interpolateKeyFrame(EffectKeyFrame * keyframe,
+	double time) const;
 
     virtual EffectKeyFrame *clone() const;
 
-private:
-	double m_value;
+  private:
+    double m_value;
 };
 
 #endif

@@ -19,12 +19,10 @@
 #include "qptrlist.h"
 #include "qvaluelist.h"
 
-SnapToGrid::SnapToGrid() :
-		m_snapToFrame(true),
-		m_isDirty(true),
-		m_framesPerSecond(25)
+SnapToGrid::SnapToGrid():
+m_snapToFrame(true), m_isDirty(true), m_framesPerSecond(25)
 {
-	m_internalSnapTracker = m_internalSnapList.end();
+    m_internalSnapTracker = m_internalSnapList.end();
 }
 
 
@@ -38,46 +36,45 @@ current frame.
 */
 void SnapToGrid::setSnapToFrame(bool snapToFrame)
 {
-	if(m_snapToFrame != snapToFrame)
-	{
-		m_snapToFrame = snapToFrame;
-		setDirty(true);
-	}
+    if (m_snapToFrame != snapToFrame) {
+	m_snapToFrame = snapToFrame;
+	setDirty(true);
+    }
 }
 
 bool SnapToGrid::snapToFrame() const
 {
-	return m_snapToFrame;
+    return m_snapToFrame;
 }
 
 /**
 Sets the cursor times to the specified list. Each cursor time is individually
 'snapped' to the list of snap times when calculating the final snap.
 */
-void SnapToGrid::setCursorTimes(const QValueVector<GenTime> & time)
+void SnapToGrid::setCursorTimes(const QValueVector < GenTime > &time)
 {
-	m_cursorTimes = time;
-	setDirty(true);
+    m_cursorTimes = time;
+    setDirty(true);
 }
 
 void SnapToGrid::setDirty(bool dirty)
 {
-	m_isDirty = dirty;
+    m_isDirty = dirty;
 }
 
 bool SnapToGrid::isDirty() const
 {
-	return m_isDirty;
+    return m_isDirty;
 }
 
-void SnapToGrid::setSnapTolerance(const GenTime &tolerance)
+void SnapToGrid::setSnapTolerance(const GenTime & tolerance)
 {
-	m_snapTolerance = tolerance;
+    m_snapTolerance = tolerance;
 }
 
-const GenTime &SnapToGrid::snapTolerance() const
+const GenTime & SnapToGrid::snapTolerance() const
 {
-	return m_snapTolerance;
+    return m_snapTolerance;
 }
 
 /**
@@ -87,120 +84,127 @@ cursor time in the list will move to. The returned time takes into account clip
 begin/end times (if they are turned on), seek times (if they are turned on), and
 frame borders (if they are turned on).
 */
-GenTime SnapToGrid::getSnappedTime(const GenTime &time) const
+GenTime SnapToGrid::getSnappedTime(const GenTime & time) const
 {
-	GenTime result = time;
+    GenTime result = time;
 
-	if(isDirty()) {
-		createInternalSnapList();
-		m_isDirty = false;
+    if (isDirty()) {
+	createInternalSnapList();
+	m_isDirty = false;
+    }
+
+    if (m_internalSnapTracker != m_internalSnapList.end()) {
+	QValueListConstIterator < GenTime > itt = m_internalSnapTracker;
+	++itt;
+	while (itt != m_internalSnapList.end()) {
+	    double newTime = fabs(((*itt) - time).seconds());
+	    double oldTime =
+		fabs(((*m_internalSnapTracker) - time).seconds());
+	    if (newTime > oldTime)
+		break;
+
+	    m_internalSnapTracker = itt;
+	    ++itt;
 	}
 
-	if(m_internalSnapTracker != m_internalSnapList.end()) {
-		QValueListConstIterator<GenTime> itt = m_internalSnapTracker;
-		++itt;
-		while(itt != m_internalSnapList.end()) {
-			double newTime = fabs(((*itt) - time).seconds());
-			double oldTime = fabs(((*m_internalSnapTracker) - time).seconds());
-			if ( newTime > oldTime ) break;
+	itt = m_internalSnapTracker;
+	--itt;
+	while (m_internalSnapTracker != m_internalSnapList.begin()) {
+	    double newTime = fabs(((*itt) - time).seconds());
+	    double oldTime =
+		fabs(((*m_internalSnapTracker) - time).seconds());
+	    if (newTime > oldTime)
+		break;
 
-			m_internalSnapTracker = itt;
-			++itt;
-		}
-
-		itt = m_internalSnapTracker;
-		--itt;
-		while(m_internalSnapTracker != m_internalSnapList.begin()) {
-			double newTime = fabs(((*itt) - time).seconds());
-			double oldTime = fabs(((*m_internalSnapTracker) - time).seconds());
-			if(newTime > oldTime) break;
-
-			m_internalSnapTracker = itt;
-			--itt;
-		}
-
-		double diff = fabs(((*m_internalSnapTracker) - result).seconds());
-		if(diff < m_snapTolerance.seconds()) {
-			result = *m_internalSnapTracker;
-		}
+	    m_internalSnapTracker = itt;
+	    --itt;
 	}
 
-	if(m_snapToFrame) {
-		result.roundNearestFrame(m_framesPerSecond);
+	double diff = fabs(((*m_internalSnapTracker) - result).seconds());
+	if (diff < m_snapTolerance.seconds()) {
+	    result = *m_internalSnapTracker;
 	}
+    }
 
-	return result;
+    if (m_snapToFrame) {
+	result.roundNearestFrame(m_framesPerSecond);
+    }
+
+    return result;
 }
 
 void SnapToGrid::createInternalSnapList() const
 {
-	m_internalSnapList.clear();
-	m_internalSnapTracker = m_internalSnapList.begin();
-	if(m_cursorTimes.count() == 0) return;
+    m_internalSnapList.clear();
+    m_internalSnapTracker = m_internalSnapList.begin();
+    if (m_cursorTimes.count() == 0)
+	return;
 
-	QValueList<GenTime> list = snapToGridList();
+    QValueList < GenTime > list = snapToGridList();
 
-	// For each cursor time, append a correct snap time to the list.
-	// This is calculated as follows : masterClipTime + required snap time - cursor time.
+    // For each cursor time, append a correct snap time to the list.
+    // This is calculated as follows : masterClipTime + required snap time - cursor time.
 
-	QValueVector<GenTime>::const_iterator cursorItt = m_cursorTimes.begin();
-	while(cursorItt != m_cursorTimes.end())
-	{
-		QValueListIterator<GenTime> timeItt = list.begin();
+    QValueVector < GenTime >::const_iterator cursorItt =
+	m_cursorTimes.begin();
+    while (cursorItt != m_cursorTimes.end()) {
+	QValueListIterator < GenTime > timeItt = list.begin();
 
-		while(timeItt != list.end()) {
-			m_internalSnapList.append(m_cursorTimes[0] + (*timeItt) - (*cursorItt));
-			++timeItt;
-		}
-
-		++cursorItt;
+	while (timeItt != list.end()) {
+	    m_internalSnapList.append(m_cursorTimes[0] + (*timeItt) -
+		(*cursorItt));
+	    ++timeItt;
 	}
 
+	++cursorItt;
+    }
 
-  qHeapSort(m_internalSnapList);
 
-  QValueListIterator<GenTime> itt = m_internalSnapList.begin();
-  if(itt != m_internalSnapList.end()) {
-	 	QValueListIterator<GenTime> next = itt;
-	  ++next;
+    qHeapSort(m_internalSnapList);
 
-	  while(next != m_internalSnapList.end()) {
-	  	if((*itt) == (*next)) {
-	   		m_internalSnapList.remove(next);
-	   		next = itt;
-				++next;
-			} else {
-				++itt;
-				++next;
-			}
-	  }
+    QValueListIterator < GenTime > itt = m_internalSnapList.begin();
+    if (itt != m_internalSnapList.end()) {
+	QValueListIterator < GenTime > next = itt;
+	++next;
+
+	while (next != m_internalSnapList.end()) {
+	    if ((*itt) == (*next)) {
+		m_internalSnapList.remove(next);
+		next = itt;
+		++next;
+	    } else {
+		++itt;
+		++next;
+	    }
 	}
+    }
 
-  m_internalSnapTracker = m_internalSnapList.begin();
+    m_internalSnapTracker = m_internalSnapList.begin();
 }
 
 void SnapToGrid::clearSnapList()
 {
-	m_snapToGridList.clear();
+    m_snapToGridList.clear();
 }
 
-void SnapToGrid::addToSnapList(const GenTime &time)
+void SnapToGrid::addToSnapList(const GenTime & time)
 {
-	m_snapToGridList.append(time);
-	setDirty(true);
+    m_snapToGridList.append(time);
+    setDirty(true);
 }
 
-void SnapToGrid::addToSnapList(const QValueVector<GenTime> &times)
+void SnapToGrid::addToSnapList(const QValueVector < GenTime > &times)
 {
-	for(QValueVector<GenTime>::const_iterator itt =times.begin(); itt!=times.end(); ++itt) {
-		m_snapToGridList.append(*itt);
-	}
-	setDirty(true);
+    for (QValueVector < GenTime >::const_iterator itt = times.begin();
+	itt != times.end(); ++itt) {
+	m_snapToGridList.append(*itt);
+    }
+    setDirty(true);
 }
 
-QValueList<GenTime> SnapToGrid::snapToGridList() const
+QValueList < GenTime > SnapToGrid::snapToGridList() const
 {
-	return m_snapToGridList;
+    return m_snapToGridList;
 }
 
 	/**QValueList<GenTime> list;
@@ -250,15 +254,14 @@ QValueList<GenTime> SnapToGrid::snapToGridList() const
 	return list;
 }*/
 
-void SnapToGrid::prependCursor(const GenTime &cursor)
+void SnapToGrid::prependCursor(const GenTime & cursor)
 {
-	m_cursorTimes.insert(0, cursor);
-	setDirty(true);
+    m_cursorTimes.insert(0, cursor);
+    setDirty(true);
 }
 
-void SnapToGrid::appendCursor(const GenTime &cursor)
+void SnapToGrid::appendCursor(const GenTime & cursor)
 {
-	m_cursorTimes.append(cursor);
-	setDirty(true);
+    m_cursorTimes.append(cursor);
+    setDirty(true);
 }
-

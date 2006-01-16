@@ -25,86 +25,78 @@
 
 namespace Command {
 
-KAddRefClipCommand::KAddRefClipCommand(const EffectDescriptionList &effectList,
-					ClipManager &clipManager,
-					DocClipProject *project,
-					DocClipRef *clip,
-					bool create) :
-			m_clipManager(clipManager),
-			m_effectList(effectList),
-			m_create(create),
-			m_xmlClip(clip->toXML()),
-			m_findTime(clip->trackStart() + (clip->cropDuration() / 2.0)),
-			m_track(clip->trackNum()),
-			m_project(project)
-{
-}
+    KAddRefClipCommand::
+	KAddRefClipCommand(const EffectDescriptionList & effectList,
+	ClipManager & clipManager, DocClipProject * project,
+	DocClipRef * clip, bool create):m_clipManager(clipManager),
+	m_effectList(effectList), m_create(create),
+	m_xmlClip(clip->toXML()),
+	m_findTime(clip->trackStart() + (clip->cropDuration() / 2.0)),
+	m_track(clip->trackNum()), m_project(project) {
+    } KAddRefClipCommand::~KAddRefClipCommand() {
+    }
 
-KAddRefClipCommand::~KAddRefClipCommand()
-{
-}
-
-QString KAddRefClipCommand::name() const
-{
-	if(m_create) {
-		return i18n("Add Clip");
+    QString KAddRefClipCommand::name() const {
+	if (m_create) {
+	    return i18n("Add Clip");
 	} else {
-		return i18n("Delete Clip");
+	    return i18n("Delete Clip");
 	}
-}
+    }
 
-void KAddRefClipCommand::execute()
-{
-	if(m_create) {
-		addClip();
+    void KAddRefClipCommand::execute() {
+	if (m_create) {
+	    addClip();
 	} else {
-		deleteClip();
+	    deleteClip();
 	}
-}
+    }
 
-void KAddRefClipCommand::unexecute()
-{
-	if(m_create) {
-		deleteClip();
+    void KAddRefClipCommand::unexecute() {
+	if (m_create) {
+	    deleteClip();
 	} else {
-		addClip();
+	    addClip();
 	}
-}
+    }
 
-void KAddRefClipCommand::addClip()
-{
-	DocClipRef *clip = DocClipRef::createClip(m_effectList, m_clipManager, m_xmlClip.documentElement());
+    void KAddRefClipCommand::addClip() {
+	DocClipRef *clip =
+	    DocClipRef::createClip(m_effectList, m_clipManager,
+	    m_xmlClip.documentElement());
 	m_project->track(clip->trackNum())->addClip(clip, true);
-}
+    }
 
-void KAddRefClipCommand::deleteClip()
-{
+    void KAddRefClipCommand::deleteClip() {
 	DocTrackBase *track = m_project->track(m_track);
 	DocClipRef *clip = track->getClipAt(m_findTime);
 	track->removeClip(clip);
 
 	delete clip;
-}
+    }
 
 // static
-KMacroCommand *KAddRefClipCommand::deleteSelectedClips( KdenliveDoc *document)
-{
-	KMacroCommand * macroCommand = new KMacroCommand(i18n( "Delete Clips" ));
+    KMacroCommand *KAddRefClipCommand::deleteSelectedClips(KdenliveDoc *
+	document) {
+	KMacroCommand *macroCommand =
+	    new KMacroCommand(i18n("Delete Clips"));
 
-	for ( uint count = 0; count < document->numTracks(); ++count ) {
-		DocTrackBase *track = document->track( count );
+	for (uint count = 0; count < document->numTracks(); ++count) {
+	    DocTrackBase *track = document->track(count);
 
-		QPtrListIterator<DocClipRef> itt = track->firstClip( true );
+	    QPtrListIterator < DocClipRef > itt = track->firstClip(true);
 
-		while ( itt.current() ) {
-			Command::KAddRefClipCommand * command = new Command::KAddRefClipCommand( document->effectDescriptions(), document->clipManager(), &document->projectClip(), itt.current(), false );
-			macroCommand->addCommand( command );
-			++itt;
-		}
+	    while (itt.current()) {
+		Command::KAddRefClipCommand * command =
+		    new Command::KAddRefClipCommand(document->
+		    effectDescriptions(), document->clipManager(),
+		    &document->projectClip(), itt.current(), false);
+		macroCommand->addCommand(command);
+		++itt;
+	    }
 	}
 
 	return macroCommand;
-}
+    }
 
-} // namespace command
-
+}				// namespace command

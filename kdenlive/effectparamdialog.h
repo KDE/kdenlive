@@ -31,26 +31,25 @@ class KPushButton;
 class DocClipRef;
 class KdenliveDoc;
 
-namespace Gui
-{
+namespace Gui {
 
-class KFixedRuler;
-class KTimeLine;
-class KdenliveApp;
+    class KFixedRuler;
+    class KTimeLine;
+    class KdenliveApp;
 
 /**The effect param dialog displays the parameter settings for a particular effect. This may be in relation to a clip, or it may be in relation to the effect dialog.
   *@author Jason Wood
   */
 
-class EffectParamDialog : public QVBox  {
-   Q_OBJECT
-public:
-	EffectParamDialog(KdenliveApp *app, KdenliveDoc *document, QWidget *parent = 0, const char *name = 0);
+    class EffectParamDialog:public QVBox {
+      Q_OBJECT public:
+	EffectParamDialog(KdenliveApp * app, KdenliveDoc * document,
+	    QWidget * parent = 0, const char *name = 0);
 	~EffectParamDialog();
-public slots:
-	void slotSetEffectDescription(const EffectDesc &desc);
-	void slotSetEffect(DocClipRef *clip, Effect *effect);
-private:
+	public slots:void slotSetEffectDescription(const EffectDesc &
+	    desc);
+	void slotSetEffect(DocClipRef * clip, Effect * effect);
+      private:
 	/** Clears the effect that is seen in the parameter dialog. */
 	void clearEffect();
 
@@ -71,8 +70,7 @@ private:
 
 	KdenliveApp *m_app;
 	KdenliveDoc *m_document;
-};
+    };
 
-} // namespace Gui
-
+}				// namespace Gui
 #endif

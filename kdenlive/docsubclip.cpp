@@ -23,130 +23,135 @@
 #include <iostream>
 #include <kdebug.h>
 
-DocSubClip::DocSubClip(KdenliveDoc *doc, DocClipBase *clip) :
-						m_clip(clip)
+DocSubClip::DocSubClip(KdenliveDoc * doc, DocClipBase * clip):
+m_clip(clip)
 {
-	m_clipType = AV;
+    m_clipType = AV;
 }
 
 DocSubClip::~DocSubClip()
 {
-	m_clip = 0;
+    m_clip = 0;
 }
 
-const GenTime &DocSubClip::duration() const
+const GenTime & DocSubClip::duration() const
 {
-	return m_clip->duration();
+    return m_clip->duration();
 }
 
 /** Returns the type of this clip */
-DocSubClip::CLIPTYPE DocSubClip::clipType() {
-  return m_clipType;
+DocSubClip::CLIPTYPE DocSubClip::clipType()
+{
+    return m_clipType;
 }
 
-QDomDocument DocSubClip::toXML() {
-	QDomDocument doc = DocClipBase::toXML();
-	QDomNode node = doc.firstChild();
+QDomDocument DocSubClip::toXML()
+{
+    QDomDocument doc = DocClipBase::toXML();
+    QDomNode node = doc.firstChild();
 
-	while( !node.isNull()) {
-		QDomElement element = node.toElement();
-		if(!element.isNull()) {
-			if(element.tagName() == "clip") {
-				QDomElement avfile = doc.createElement("avfile");
-				avfile.setAttribute("url", fileURL().url());
-				element.appendChild(avfile);
-				return doc;
-			}
-		}
-		node = node.nextSibling();
+    while (!node.isNull()) {
+	QDomElement element = node.toElement();
+	if (!element.isNull()) {
+	    if (element.tagName() == "clip") {
+		QDomElement avfile = doc.createElement("avfile");
+		avfile.setAttribute("url", fileURL().url());
+		element.appendChild(avfile);
+		return doc;
+	    }
 	}
+	node = node.nextSibling();
+    }
 
-	assert(node.isNull());
+    assert(node.isNull());
 
-	/* This final return should never be reached, it is here to remove compiler warning. */
-	return doc;
+    /* This final return should never be reached, it is here to remove compiler warning. */
+    return doc;
 }
 
 /** Returns the url of the AVFile this clip contains */
 KURL DocSubClip::fileURL()
 {
-	return m_clip->fileURL();
+    return m_clip->fileURL();
 }
 
 /** Creates a clip from the passed QDomElement. This only pertains to those details specific to DocSubClip.*/
-DocSubClip * DocSubClip::createClip(KdenliveDoc *doc, const QDomElement element)
+DocSubClip *DocSubClip::createClip(KdenliveDoc * doc,
+    const QDomElement element)
 {
 #warning - needs writing.
-	return 0;
+    return 0;
 }
 
 /** Returns true if the clip duration is known, false otherwise. */
 bool DocSubClip::durationKnown()
 {
-  return m_clip->durationKnown();
+    return m_clip->durationKnown();
 }
 
 // virtual
 double DocSubClip::framesPerSecond() const
 {
-	return m_clip->framesPerSecond();
+    return m_clip->framesPerSecond();
 }
 
 
 // virtual
 QDomDocument DocSubClip::generateSceneList()
 {
-	static QString str_inpoint="inpoint";
-	static QString str_outpoint="outpoint";
-	static QString str_file="file";
+    static QString str_inpoint = "inpoint";
+    static QString str_outpoint = "outpoint";
+    static QString str_file = "file";
 
-	QDomDocument scenelist;
-	scenelist.appendChild(scenelist.createElement("scenelist"));
+    QDomDocument scenelist;
+    scenelist.appendChild(scenelist.createElement("scenelist"));
 
-	// generate the next scene.
-	QDomElement scene = scenelist.createElement("scene");
-	scene.setAttribute("duration", QString::number(duration().seconds()));
+    // generate the next scene.
+    QDomElement scene = scenelist.createElement("scene");
+    scene.setAttribute("duration", QString::number(duration().seconds()));
 
-	QDomElement sceneClip;
-	sceneClip = scenelist.createElement("input");
-	sceneClip.setAttribute(str_file, fileURL().path());
-	sceneClip.setAttribute(str_inpoint, "0.0");
-	sceneClip.setAttribute(str_outpoint, QString::number(duration().seconds()));
-	scene.appendChild(sceneClip);
-	scenelist.documentElement().appendChild(scene);
+    QDomElement sceneClip;
+    sceneClip = scenelist.createElement("input");
+    sceneClip.setAttribute(str_file, fileURL().path());
+    sceneClip.setAttribute(str_inpoint, "0.0");
+    sceneClip.setAttribute(str_outpoint,
+	QString::number(duration().seconds()));
+    scene.appendChild(sceneClip);
+    scenelist.documentElement().appendChild(scene);
 
-	return scenelist;
+    return scenelist;
 }
 
 // virtual
-QDomDocument DocSubClip::sceneToXML(const GenTime &startTime, const GenTime &endTime)
+QDomDocument DocSubClip::sceneToXML(const GenTime & startTime,
+    const GenTime & endTime)
 {
 #warning - need to re-add in/out points correctly.
-	static QString str_inpoint="inpoint";
-	static QString str_outpoint="outpoint";
-	static QString str_file="file";
-	QDomDocument sceneList;
+    static QString str_inpoint = "inpoint";
+    static QString str_outpoint = "outpoint";
+    static QString str_file = "file";
+    QDomDocument sceneList;
 
-	QDomElement sceneClip = sceneList.createElement("input");
-	sceneClip.setAttribute(str_file, fileURL().path());
+    QDomElement sceneClip = sceneList.createElement("input");
+    sceneClip.setAttribute(str_file, fileURL().path());
 
-	sceneList.appendChild(sceneClip);
-	return sceneList;
+    sceneList.appendChild(sceneClip);
+    return sceneList;
 }
 
-void DocSubClip::populateSceneTimes(QValueVector<GenTime> &toPopulate)
+void DocSubClip::populateSceneTimes(QValueVector < GenTime > &toPopulate)
 {
 }
 
 // virtual
-bool DocSubClip::matchesXML(const QDomElement &element)
+bool DocSubClip::matchesXML(const QDomElement & element)
 {
 # warning - needs to be written
-	return false;
+    return false;
 }
 
 // virtual
-bool DocSubClip::referencesClip(DocClipBase *clip) const
+bool DocSubClip::referencesClip(DocClipBase * clip) const
 {
-	return m_clip->referencesClip(clip);
+    return m_clip->referencesClip(clip);
 }

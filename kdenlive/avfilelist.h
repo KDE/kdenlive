@@ -34,8 +34,8 @@
 //
 //class AVFileList : public QPtrList<AVFile>  {
 //public: 
-//	AVFileList();	
-//	~AVFileList();
+//      AVFileList();   
+//      ~AVFileList();
 //  /** Returns an XML representation of the list. */
 //  QDomDocument toXML() const;
 //  /** Generates the file list from the XML stored in elem. */

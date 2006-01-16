@@ -27,31 +27,36 @@ TrackPanelFunctionFactory::TrackPanelFunctionFactory()
 
 TrackPanelFunctionFactory::~TrackPanelFunctionFactory()
 {
-	QMap<QString,  TrackPanelFunction*>::iterator itt = m_functionMap.begin();
+    QMap < QString, TrackPanelFunction * >::iterator itt =
+	m_functionMap.begin();
 
-	while(itt != m_functionMap.end()) {
-		delete (itt.data());
-		itt.data() = 0;
-		++itt;
-	}
+    while (itt != m_functionMap.end()) {
+	delete(itt.data());
+	itt.data() = 0;
+	++itt;
+    }
 }
 
-void TrackPanelFunctionFactory::registerFunction(const QString &name, TrackPanelFunction *function)
+void TrackPanelFunctionFactory::registerFunction(const QString & name,
+    TrackPanelFunction * function)
 {
-	if(!m_functionMap.contains(name)) {
-		m_functionMap[name] = function;
-	} else {
-		kdError() << "Factory already contains a function called " << name << endl;
-	}
+    if (!m_functionMap.contains(name)) {
+	m_functionMap[name] = function;
+    } else {
+	kdError() << "Factory already contains a function called " << name
+	    << endl;
+    }
 }
 
-TrackPanelFunction *TrackPanelFunctionFactory::function(const QString &name)
+TrackPanelFunction *TrackPanelFunctionFactory::
+function(const QString & name)
 {
-	if(m_functionMap.contains(name)) {
-		return m_functionMap[name];
-	} else {
-		kdError() << "No function called " << name << " found in factory" << endl;
-	}
+    if (m_functionMap.contains(name)) {
+	return m_functionMap[name];
+    } else {
+	kdError() << "No function called " << name << " found in factory"
+	    << endl;
+    }
 
-	return 0;
+    return 0;
 }

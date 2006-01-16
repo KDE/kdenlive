@@ -26,17 +26,15 @@
 class KdenliveDoc;
 class DocClipRef;
 
-namespace Command
-{
+namespace Command {
 
 /**This command handles the moving of clips, and the "unexecuting" of command, for undo/redo pruposes.
   *@author Jason Wood
   */
 
-class KMoveClipsCommand : public KCommand
-{
-public:
-	KMoveClipsCommand( KdenliveDoc *doc, DocClipRef *master );
+    class KMoveClipsCommand:public KCommand {
+      public:
+	KMoveClipsCommand(KdenliveDoc * doc, DocClipRef * master);
 	~KMoveClipsCommand();
 	/** Returns the (translated) name of this command */
 	virtual QString name() const;
@@ -45,9 +43,9 @@ public:
 	/** Executes this command */
 	void execute();
 	/** Specifies where the master clip should be moved to by this command. */
-	void setEndLocation( DocClipRef *master );
-private:
-	KdenliveDoc *m_doc;
+	void setEndLocation(DocClipRef * master);
+      private:
+	 KdenliveDoc * m_doc;
 
 	/** The track the master clip is on before execution */
 	int m_startTrack;
@@ -58,8 +56,7 @@ private:
 	int m_endTrack;
 	/** The start of the master clip after execution */
 	GenTime m_endTime;
-};
+    };
 
-} // namespace Command
-
+}				// namespace Command
 #endif

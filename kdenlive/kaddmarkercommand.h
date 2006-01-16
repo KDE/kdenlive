@@ -30,12 +30,12 @@ namespace Command {
 /**
 @author Jason Wood
 */
-class KAddMarkerCommand : public KCommand
-{
-public:
-    KAddMarkerCommand(KdenliveDoc &document, DocClipRef *clip, const GenTime &clipTime, bool create=true);
+    class KAddMarkerCommand:public KCommand {
+      public:
+	KAddMarkerCommand(KdenliveDoc & document, DocClipRef * clip,
+	    const GenTime & clipTime, bool create = true);
 
-    ~KAddMarkerCommand();
+	~KAddMarkerCommand();
 
 	/** Unexecute the command */
 	void unexecute();
@@ -43,8 +43,8 @@ public:
 	void execute();
 	/** Returns the name of this command */
 	QString name() const;
-private:
-	KdenliveDoc &m_document;
+      private:
+	 KdenliveDoc & m_document;
 	/** True if this command creates a marker when executed, false otherwise. */
 	bool m_create;
 
@@ -62,8 +62,7 @@ private:
 
 	/** Removes the marker this command is supposed to remove. */
 	void deleteMarker();
-};
+    };
 
 }
-
 #endif

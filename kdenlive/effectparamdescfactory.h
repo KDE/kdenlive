@@ -24,30 +24,30 @@ class EffectParamDesc;
 class QXmlAttributes;
 
 class EffectParamDescFactoryBase {
-public:
-	EffectParamDescFactoryBase(const QString &type) : m_type(type) {;}
-	virtual ~EffectParamDescFactoryBase() {;}
+  public:
+    EffectParamDescFactoryBase(const QString & type):m_type(type) {;
+    } virtual ~ EffectParamDescFactoryBase() {;
+    }
 
-	bool matchesType(const QString &type) const
-	{
-		return m_type == type;
-	}
-
-	virtual EffectParamDesc *createParameter(const QXmlAttributes &attributes) = 0;
-private:
-	QString m_type;
+    bool matchesType(const QString & type) const {
+	return m_type == type;
+    } virtual EffectParamDesc *createParameter(const QXmlAttributes &
+	attributes) = 0;
+  private:
+    QString m_type;
 };
 
-template<class Desc> class EffectParamDescFactoryTemplate : public EffectParamDescFactoryBase
+template < class Desc > class EffectParamDescFactoryTemplate:public EffectParamDescFactoryBase
 {
-public:
-	EffectParamDescFactoryTemplate(const QString &type) :
-				EffectParamDescFactoryBase(type)
-	{;}
+  public:
+    EffectParamDescFactoryTemplate(const QString &
+	type):EffectParamDescFactoryBase(type) {;
+    }
 
-	virtual EffectParamDesc *createParameter(const QXmlAttributes &attributes) {
-		return new Desc(attributes);
-	}
+    virtual EffectParamDesc *createParameter(const QXmlAttributes &
+	attributes) {
+	return new Desc(attributes);
+    }
 };
 
 /**
@@ -55,19 +55,19 @@ A factory for creating EffectParamDesc objects.
 
 @author Jason Wood
 */
-class EffectParamDescFactory{
-public:
+class EffectParamDescFactory {
+  public:
     EffectParamDescFactory();
 
     ~EffectParamDescFactory();
 
 	/** Construct an EffectParamDesc from the attribute list passed. Exactly what attributes are in the list will depend on the type of parameter
 	created - the only attribute that is guaranteed to exist is "type". */
-	EffectParamDesc *createParameter(const QXmlAttributes &attributes);
+    EffectParamDesc *createParameter(const QXmlAttributes & attributes);
 
-	void registerFactory(EffectParamDescFactoryBase *factory);
-private:
-	QPtrList<EffectParamDescFactoryBase> m_registered;
+    void registerFactory(EffectParamDescFactoryBase * factory);
+  private:
+     QPtrList < EffectParamDescFactoryBase > m_registered;
 };
 
 #endif

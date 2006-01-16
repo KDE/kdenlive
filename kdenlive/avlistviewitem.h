@@ -28,22 +28,24 @@ class KdenliveDoc;
   *@author Jason Wood
   */
 
-class AVListViewItem : public KListViewItem  {
-public: 
+class AVListViewItem:public KListViewItem {
+  public:
 	/** Create an AVListViewItem. Note that AVList takes ownership of the clip passed in. */
-	AVListViewItem(KdenliveDoc *doc, QListViewItem *parent, DocumentBaseNode *node);
-	AVListViewItem(KdenliveDoc *doc, QListView *parent, DocumentBaseNode *node);
-	~AVListViewItem();
-	virtual void setText( int column, const QString &text );
-	virtual QString text ( int column ) const;
-	virtual const QPixmap *pixmap ( int column ) const;
-	DocClipRef *clip() const;
-private:
-	void doCommonCtor();
+    AVListViewItem(KdenliveDoc * doc, QListViewItem * parent,
+	DocumentBaseNode * node);
+    AVListViewItem(KdenliveDoc * doc, QListView * parent,
+	DocumentBaseNode * node);
+    ~AVListViewItem();
+    virtual void setText(int column, const QString & text);
+    virtual QString text(int column) const;
+    virtual const QPixmap *pixmap(int column) const;
+    DocClipRef *clip() const;
+  private:
+    void doCommonCtor();
 
-	QListView *m_listView;
-	DocumentBaseNode *m_node;
-	KdenliveDoc *m_doc;
+    QListView *m_listView;
+    DocumentBaseNode *m_node;
+    KdenliveDoc *m_doc;
 };
 
 #endif

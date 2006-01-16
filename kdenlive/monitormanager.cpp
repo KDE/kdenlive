@@ -23,87 +23,78 @@
 #include "kmmmonitor.h"
 #include "capturemonitor.h"
 
-namespace Gui
-{
+namespace Gui {
 
-MonitorManager::MonitorManager(KdenliveApp *app) :
-		QObject(),
-		m_app(app),
-		m_active(0)
-{
-}
-
-
-MonitorManager::~MonitorManager()
-{
-}
+    MonitorManager::MonitorManager(KdenliveApp * app):QObject(),
+	m_app(app), m_active(0) {
+    } MonitorManager::~MonitorManager() {
+    }
 
 
 /** Creates a new monitor and returns it. */
-KMMMonitor *MonitorManager::createMonitor(KdenliveDoc *document, QWidget *parent, const char *name)
-{
-	KMMMonitor *monitor = new KMMMonitor(m_app, document, parent, name);
+    KMMMonitor *MonitorManager::createMonitor(KdenliveDoc * document,
+	QWidget * parent, const char *name) {
+	KMMMonitor *monitor =
+	    new KMMMonitor(m_app, document, parent, name);
 	m_monitors.append(monitor);
 	activateMonitor(monitor);
-	connect(monitor, SIGNAL(monitorClicked(KMonitor *)), this, SLOT(slotMonitorClicked(KMonitor *)));
+	connect(monitor, SIGNAL(monitorClicked(KMonitor *)), this,
+	    SLOT(slotMonitorClicked(KMonitor *)));
 	return monitor;
-}
+    }
 
-CaptureMonitor *MonitorManager::createCaptureMonitor(KdenliveDoc *document, QWidget *parent, const char *name)
-{
+    CaptureMonitor *MonitorManager::createCaptureMonitor(KdenliveDoc *
+	document, QWidget * parent, const char *name) {
 	CaptureMonitor *monitor = new CaptureMonitor(m_app, parent, name);
 	m_monitors.append(monitor);
 	activateMonitor(monitor);
-	connect(monitor, SIGNAL(monitorClicked(KMonitor *)), this, SLOT(slotMonitorClicked(KMonitor *)));
+	connect(monitor, SIGNAL(monitorClicked(KMonitor *)), this,
+	    SLOT(slotMonitorClicked(KMonitor *)));
 	return monitor;
-}
+    }
 
 /** Cause the specified monitor to become active. */
-void MonitorManager::activateMonitor(KMonitor *monitor)
-{
+    void MonitorManager::activateMonitor(KMonitor * monitor) {
 
-	if (monitor == activeMonitor()) return;
-	if(m_active) {
-		m_active->slotSetInactive();
+	if (monitor == activeMonitor())
+	    return;
+	if (m_active) {
+	    m_active->slotSetInactive();
 	}
-	
+
 	m_active = monitor;
 
-	if(m_active) {
-		m_active->slotSetActive();
+	if (m_active) {
+	    m_active->slotSetActive();
 	}
-}
+    }
 
 /** Returns the active monitor, or 0 if there isn't one.*/
-KMonitor *MonitorManager::activeMonitor()
-{
+    KMonitor *MonitorManager::activeMonitor() {
 	return m_active;
-}
+    }
 
-bool MonitorManager::hasActiveMonitor()
-{
+    bool MonitorManager::hasActiveMonitor() {
 	return m_active != 0;
-}
+    }
 
-void MonitorManager::slotMonitorClicked(KMonitor *monitor)
-{
+    void MonitorManager::slotMonitorClicked(KMonitor * monitor) {
 	activateMonitor(monitor);
-}
+    }
 
-void MonitorManager::clearClip(DocClipBase *clip)
-{
-	if(clip) {
-		QPtrListIterator<KMonitor> itt(m_monitors);
+    void MonitorManager::clearClip(DocClipBase * clip) {
+	if (clip) {
+	    QPtrListIterator < KMonitor > itt(m_monitors);
 
-		while(itt.current()) {
-			if(itt.current()->clip()) {
-				if(itt.current()->clip()->referencesClip(clip)) {
-					itt.current()->slotClearClip();
-				}
-			}
-			++itt;
+	    while (itt.current()) {
+		if (itt.current()->clip()) {
+		    if (itt.current()->clip()->referencesClip(clip)) {
+			itt.current()->slotClearClip();
+		    }
 		}
+		++itt;
+	    }
 	}
-}
+    }
 
-} // namespace Gui
+}				// namespace Gui

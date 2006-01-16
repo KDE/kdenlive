@@ -20,16 +20,15 @@
 
 #include <kdebug.h>
 
-AVFormatWidgetContainer::AVFormatWidgetContainer(AVFormatDescContainer *desc, QWidget *parent, const char *name) :
-                                                    QGroupBox(1, Horizontal, desc->name(), parent,name),
-                                                    AVFormatWidgetBase()
+AVFormatWidgetContainer::AVFormatWidgetContainer(AVFormatDescContainer * desc, QWidget * parent, const char *name):
+QGroupBox(1, Horizontal, desc->name(), parent, name), AVFormatWidgetBase()
 {
-  QPtrListIterator<AVFormatDescBase> itt(desc->list());
+    QPtrListIterator < AVFormatDescBase > itt(desc->list());
 
-  while(itt.current()) {
-    itt.current()->createWidget(this);
-    ++itt;
-  }
+    while (itt.current()) {
+	itt.current()->createWidget(this);
+	++itt;
+    }
 }
 
 AVFormatWidgetContainer::~AVFormatWidgetContainer()
@@ -38,5 +37,5 @@ AVFormatWidgetContainer::~AVFormatWidgetContainer()
 
 QWidget *AVFormatWidgetContainer::widget()
 {
-  return this;
+    return this;
 }

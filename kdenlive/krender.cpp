@@ -82,6 +82,7 @@ m_mltConsumer(NULL), m_mltProducer(NULL)
 	connect( &m_process, SIGNAL( receivedStdout( KProcess *, char *, int ) ), this, SLOT( slotReadStdout( KProcess *, char *, int ) ) );
 	connect( &m_process, SIGNAL( receivedStderr( KProcess *, char *, int ) ), this, SLOT( slotReadStderr( KProcess *, char *, int ) ) );
 */
+
     m_portNum = port;
     m_appPath = appPath;
     m_mltConsumer = NULL;
@@ -172,6 +173,7 @@ m_mltConsumer(NULL), m_mltProducer(NULL)
 
     EffectDesc *bright = new EffectDesc(i18n("Brightness"), "brightness");
     xmlAttr.clear();
+
     xmlAttr.append("type", QString::null, QString::null, "double");
     xmlAttr.append("name", QString::null, QString::null, "Intensity");
     xmlAttr.append("max", QString::null, QString::null, "3");
@@ -195,47 +197,28 @@ m_mltConsumer(NULL), m_mltProducer(NULL)
 
 
     EffectDesc *obscure = new EffectDesc(i18n("Obscure"), "obscure");
+
     xmlAttr.clear();
-    xmlAttr.append("type", QString::null, QString::null, "constant");
-    xmlAttr.append("name", QString::null, QString::null, "X");
-    xmlAttr.append("max", QString::null, QString::null, "720");
-    xmlAttr.append("min", QString::null, QString::null, "0");
-    xmlAttr.append("default", QString::null, QString::null, "360");
+    xmlAttr.append("type", QString::null, QString::null, "complex");
+    xmlAttr.append("name", QString::null, QString::null,
+	"X;Y;Width;Height;Averaging");
+    xmlAttr.append("min", QString::null, QString::null, "0;0;0;0;3");
+    xmlAttr.append("max", QString::null, QString::null,
+	"720;576;1000;1000;100");
+    xmlAttr.append("default", QString::null, QString::null,
+	"360;260;100;100;20");
     m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
     obscure->addParameter(m_parameter);
-    xmlAttr.clear();
-    xmlAttr.append("type", QString::null, QString::null, "constant");
-    xmlAttr.append("name", QString::null, QString::null, "Y");
-    xmlAttr.append("max", QString::null, QString::null, "576");
-    xmlAttr.append("min", QString::null, QString::null, "0");
-    xmlAttr.append("default", QString::null, QString::null, "260");
-    m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
-    obscure->addParameter(m_parameter);
-    xmlAttr.clear();
-    xmlAttr.append("type", QString::null, QString::null, "constant");
-    xmlAttr.append("name", QString::null, QString::null, "W");
-    xmlAttr.append("max", QString::null, QString::null, "100");
-    xmlAttr.append("min", QString::null, QString::null, "0");
-    xmlAttr.append("default", QString::null, QString::null, "40");
-    m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
-    obscure->addParameter(m_parameter);
-    xmlAttr.clear();
-    xmlAttr.append("type", QString::null, QString::null, "constant");
-    xmlAttr.append("name", QString::null, QString::null, "H");
-    xmlAttr.append("max", QString::null, QString::null, "100");
-    xmlAttr.append("min", QString::null, QString::null, "0");
-    xmlAttr.append("default", QString::null, QString::null, "40");
-    m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
-    obscure->addParameter(m_parameter);
+
     m_effectList.append(obscure);
 
-//      Does it do anything usefull? I mean, KRenderThread doesn't do anything useful at the moment
-//      (except being cpu hungry :)
+    //      Does it do anything usefull? I mean, KRenderThread doesn't do anything useful at the moment
+    //      (except being cpu hungry :)
 
     /*      if(!s_renderThread) {
-       s_renderThread = new KRenderThread;
-       s_renderThread->start();
-       } */
+    s_renderThread = new KRenderThread;
+    s_renderThread->start();
+    } */
 }
 
 KRender::~KRender()
@@ -404,6 +387,7 @@ replyCreateVideoXWindow() once the renderer has replied. */
 void KRender::createVideoXWindow(bool show, WId winid)
 {
 
+
     m_mltConsumer = new Mlt::Consumer("sdl_preview");
 
     m_mltConsumer->listen("consumer-frame-show", this,
@@ -423,8 +407,6 @@ void KRender::createVideoXWindow(bool show, WId winid)
     m_mltConsumer->set("progressiv", 1);
 //      m_mltConsumer->start ();
 
-
-
 }
 
 /** Wraps the VEML command of the same name; Seeks the renderer clip to the given time. */
@@ -437,8 +419,39 @@ void KRender::seek(GenTime time)
 
 void KRender::getImage(KURL url, int frame, QPixmap * image)
 {
-    image->fill(QColor(255, 0, 0));
+    //image->fill(QColor(255,0,0));
+    Mlt::Producer m_producer(const_cast <
+	char *>(QString((url.directory(false) + url.fileName())).ascii()));
+
+    Mlt::Filter m_convert("avcolour_space");
+    m_convert.set("forced", mlt_image_rgb24a);
+    m_producer.attach(m_convert);
+    m_producer.seek(frame);
+    uint width = image->width();
+    uint height = image->height();
+
+    Mlt::Frame * m_frame = m_producer.get_frame();
+
+    if (m_frame) {
+	m_frame->set("rescale", "nearest");
+	uchar *m_thumb =
+	    m_frame->fetch_image(mlt_image_rgb24a, width, height, 1);
+	m_producer.set("thumb", m_thumb, width * height * 4,
+	    mlt_pool_release);
+	m_frame->set("image", m_thumb, 0, NULL, NULL);
+
+
+	QImage m_image(m_thumb, width, height, 32, 0, 0,
+	    QImage::IgnoreEndian);
+
+	delete m_frame;
+	if (!m_image.isNull())
+	    *image = (m_image.smoothScale(width, height));
+	else
+	    image->fill(Qt::black);
+    }
 }
+
 
 /**
 Filles a ByteArray with soundsampledata for channel, from frame , with a length of frameLength (zoom) up to the length of the array
@@ -531,10 +544,10 @@ void KRender::getImage(int id, QString color, int width, int height)
     QPixmap pixmap(width, height);
     color = color.replace(0, 2, "#");
     color = color.left(7);
-
     pixmap.fill(QColor(color));
 
     emit replyGetImage(id, pixmap, width, height);
+
 }
 
 /* Create thumbnail for image */
@@ -546,6 +559,16 @@ void KRender::getImage(KURL url, int width, int height)
     pixmap = im.smoothScale(width, height);
 
     emit replyGetImage(url, 1, pixmap, width, height);
+}
+
+void KRender::getImage(DocClipRef * clip)
+{
+    QPixmap pixmap(clip->fileURL().path());
+    QImage im;
+    im = pixmap;
+    pixmap = im.smoothScale(63, 50);
+
+    clip->updateThumbnail(pixmap);
 }
 
 bool KRender::isValid(KURL url)
@@ -832,7 +855,7 @@ AVFormatDescCodec *KRender::findCodec(const QString & name)
 }
 
 /** Returns the effect list. */
-const EffectDescriptionList & KRender::effectList() const const
+const EffectDescriptionList & KRender::effectList() const
 {
     return m_effectList;
 }
@@ -887,7 +910,7 @@ double KRender::playSpeed()
     return m_playSpeed;
 }
 
-const GenTime & KRender::seekPosition() const const
+const GenTime & KRender::seekPosition() const
 {
     return m_seekPosition;
 }
@@ -904,7 +927,8 @@ void KRender::sendDebugVemlCommand(const QString & name)
     }
 }
 
-const QString & KRender::rendererName() const const
+
+const QString & KRender::rendererName() const
 {
     return m_name;
 }

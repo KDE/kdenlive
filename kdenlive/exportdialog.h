@@ -33,18 +33,18 @@
 
 class ExportConfig;
 
-class ExportDialog : public KDialogBase  {
-   Q_OBJECT
-public: 
-	ExportDialog(QPtrList<AVFileFormatDesc> &formatList, QWidget *parent=0, const char *name=0);
-	~ExportDialog();
+class ExportDialog:public KDialogBase {
+  Q_OBJECT public:
+    ExportDialog(QPtrList < AVFileFormatDesc > &formatList,
+	QWidget * parent = 0, const char *name = 0);
+    ~ExportDialog();
 	/** Returns the url set inside of this export dialog. */
-	KURL url();
-public slots: // Public slots
+    KURL url();
+    public slots:		// Public slots
   /** Specify a new file format list, and reconstruct the dialog box. */
-  void setFormatList(const QPtrList<AVFileFormatDesc> &list);
-private: // Private attributes
-  ExportConfig *m_exportConfig;
+    void setFormatList(const QPtrList < AVFileFormatDesc > &list);
+  private:			// Private attributes
+     ExportConfig * m_exportConfig;
 };
 
 #endif

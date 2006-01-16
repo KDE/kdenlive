@@ -16,20 +16,19 @@
  ***************************************************************************/
 #ifndef DYNAMICTOOLTIP_H
 #define DYNAMICTOOLTIP_H
- 
+
 #include <qwidget.h>
 #include <qtooltip.h>
 
 #include "docclipref.h"
 
 
-class DynamicToolTip : public QToolTip
-{
-public:
-    DynamicToolTip( QWidget * parent );
+class DynamicToolTip:public QToolTip {
+  public:
+    DynamicToolTip(QWidget * parent);
 
-protected:
-    void maybeTip( const QPoint & );
+  protected:
+    void maybeTip(const QPoint &);
 };
 
 #endif

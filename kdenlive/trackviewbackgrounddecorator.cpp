@@ -23,44 +23,36 @@
 #include "kdenlivedoc.h"
 #include "ktimeline.h"
 
-namespace Gui
-{
+namespace Gui {
 
-TrackViewBackgroundDecorator::TrackViewBackgroundDecorator(KTimeLine* timeline,
-												KdenliveDoc* doc,
-												const QColor &selected,
-												const QColor &unselected) :
-									DocTrackDecorator(timeline, doc),
-									m_selected(selected),
-									m_unselected(unselected)
-{
-}
-
-
-TrackViewBackgroundDecorator::~TrackViewBackgroundDecorator()
-{
-}
+    TrackViewBackgroundDecorator::TrackViewBackgroundDecorator(KTimeLine *
+	timeline, KdenliveDoc * doc, const QColor & selected,
+	const QColor & unselected):DocTrackDecorator(timeline, doc),
+	m_selected(selected), m_unselected(unselected) {
+    } TrackViewBackgroundDecorator::~TrackViewBackgroundDecorator() {
+    }
 
 // virtual
-void TrackViewBackgroundDecorator::paintClip(double startX, double endX, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected)
-{
-	int sx = startX; // (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
-	int ex = endX; //(int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
+    void TrackViewBackgroundDecorator::paintClip(double startX,
+	double endX, QPainter & painter, DocClipRef * clip, QRect & rect,
+	bool selected) {
+	int sx = startX;	// (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
+	int ex = endX;		//(int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
 
-	if(sx < rect.x()) {
-		sx = rect.x();
+	if (sx < rect.x()) {
+	    sx = rect.x();
 	}
-	if(ex > rect.x() + rect.width()) {
-		ex = rect.x() + rect.width();
+	if (ex > rect.x() + rect.width()) {
+	    ex = rect.x() + rect.width();
 	}
 	ex -= sx;
 
 	QColor col = selected ? m_selected : m_unselected;
 
 	// draw outline box
-	painter.fillRect( sx, rect.y(), ex, rect.height(), col);
+	painter.fillRect(sx, rect.y(), ex, rect.height(), col);
 
-	painter.drawRect( sx, rect.y(), ex, rect.height());
-}
+	painter.drawRect(sx, rect.y(), ex, rect.height());
+    }
 
-} // namespace Gui
+}				// namespace Gui

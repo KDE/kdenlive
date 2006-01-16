@@ -24,32 +24,33 @@ class QMouseEvent;
 class KdenliveDoc;
 class DocTrackBase;
 
-namespace Gui
-{
-	class KdenliveApp;
-	class KTimeLine;
+namespace Gui {
+    class KdenliveApp;
+    class KTimeLine;
 }
-
 /**
 @author Jason Wood
-*/
-class TrackPanelMarkerFunction : public TrackPanelFunction
+*/ class TrackPanelMarkerFunction:public TrackPanelFunction
 {
-Q_OBJECT
-public:
-    TrackPanelMarkerFunction(Gui::KdenliveApp *app, Gui::KTimeLine *timeline, KdenliveDoc *document);
+  Q_OBJECT public:
+    TrackPanelMarkerFunction(Gui::KdenliveApp * app,
+	Gui::KTimeLine * timeline, KdenliveDoc * document);
 
     ~TrackPanelMarkerFunction();
 
-    virtual bool mouseApplies(Gui::KTrackPanel *panel, QMouseEvent* event) const;
-    virtual bool mouseMoved(Gui::KTrackPanel *panel, QMouseEvent* event);
-    virtual bool mousePressed(Gui::KTrackPanel *panel, QMouseEvent* event);
-    virtual bool mouseReleased(Gui::KTrackPanel *panel, QMouseEvent* event);
-    virtual QCursor getMouseCursor(Gui::KTrackPanel *panel, QMouseEvent* event);
-private:
-	Gui::KdenliveApp *m_app;
-	Gui::KTimeLine *m_timeline;
-	KdenliveDoc *m_document;
+    virtual bool mouseApplies(Gui::KTrackPanel * panel,
+	QMouseEvent * event) const;
+    virtual bool mouseMoved(Gui::KTrackPanel * panel, QMouseEvent * event);
+    virtual bool mousePressed(Gui::KTrackPanel * panel,
+	QMouseEvent * event);
+    virtual bool mouseReleased(Gui::KTrackPanel * panel,
+	QMouseEvent * event);
+    virtual QCursor getMouseCursor(Gui::KTrackPanel * panel,
+	QMouseEvent * event);
+  private:
+     Gui::KdenliveApp * m_app;
+     Gui::KTimeLine * m_timeline;
+    KdenliveDoc *m_document;
 };
 
 #endif

@@ -19,12 +19,11 @@
 #include "kcombobox.h"
 #include "qstring.h"
 
-namespace Gui
-{
+namespace Gui {
 
-KMMTimeLine::KMMTimeLine( QWidget *scrollToolWidget, QWidget *parent , const char *name ) :
-		KTimeLine( new KMMRulerPanel( NULL, "Ruler Panel" ), scrollToolWidget, parent, name )
-{
+    KMMTimeLine::KMMTimeLine(QWidget * scrollToolWidget, QWidget * parent,
+	const char *name):KTimeLine(new KMMRulerPanel(NULL, "Ruler Panel"),
+	scrollToolWidget, parent, name) {
 	// HACK - to remove this dynamic cast, we need to change the way the relationship between KTimeline and KMMTimeline works. Either :
 	// 1. We only construct KMMTimeLine via static methods, then we can create the KMMRulerPanel in the static method and pass it to
 	// KMMTImeLine (and through that, KTimeLine).
@@ -32,46 +31,39 @@ KMMTimeLine::KMMTimeLine( QWidget *scrollToolWidget, QWidget *parent , const cha
 	// i.e. when the constructor has had chance to construct a KMMRulerPanel so that KMMTimeLine has a typed copy of it.
 	//
 	// Of the two solutions, I prefer 2.
-	m_rulerToolWidget = dynamic_cast<KMMRulerPanel *>( rulerToolWidget() );
+	m_rulerToolWidget =
+	    dynamic_cast < KMMRulerPanel * >(rulerToolWidget());
 
-	connect( m_rulerToolWidget, SIGNAL( timeScaleChanged( double ) ), this, SLOT( setTimeScale( double ) ) );
-}
+	connect(m_rulerToolWidget, SIGNAL(timeScaleChanged(double)), this,
+	    SLOT(setTimeScale(double)));
+    } KMMTimeLine::~KMMTimeLine() {
+    }
 
-KMMTimeLine::~KMMTimeLine()
-{}
-
-void KMMTimeLine::invalidateClipBuffer( DocClipRef *clip )
-{
-	#warning - unoptimised, should only update that part of the back buffer that needs to be updated. Current implementaion
-	#warning - wipes the entire buffer.
+    void KMMTimeLine::invalidateClipBuffer(DocClipRef * clip) {
+#warning - unoptimised, should only update that part of the back buffer that needs to be updated. Current implementaion
+#warning - wipes the entire buffer.
 	invalidateBackBuffer();
-}
+    }
 
-void KMMTimeLine::fitToWidth()
-{
-	double duration = projectLength().frames( framesPerSecond() );
-	if ( duration < 1.0 ) duration = 1.0;
+    void KMMTimeLine::fitToWidth() {
+	double duration = projectLength().frames(framesPerSecond());
+	if (duration < 1.0)
+	    duration = 1.0;
 
-	double scale = ( double ) viewWidth() / duration;
-	m_rulerToolWidget->setScale( scale );
+	double scale = (double) viewWidth() / duration;
+	m_rulerToolWidget->setScale(scale);
 
 	setTimeScale(scale);
-}
+    }
 
-void KMMTimeLine::setSliderIndex( int index )
-{
-	m_rulerToolWidget->comboScaleChange( index );
-}
+    void KMMTimeLine::setSliderIndex(int index) {
+	m_rulerToolWidget->comboScaleChange(index);
+    }
 
-int KMMTimeLine::getTimeScaleSliderValue() const
-{
+    int KMMTimeLine::getTimeScaleSliderValue() const {
 	int value = m_rulerToolWidget->m_scaleCombo->currentItem();
-	return value;
-}
-QString KMMTimeLine::getTimeScaleSliderText() const
-{
+	 return value;
+    } QString KMMTimeLine::getTimeScaleSliderText() const {
 	QString value = m_rulerToolWidget->m_scaleCombo->currentText();
-	return value;
-}
-
-} // namespace Gui
+	 return value;
+}}				// namespace Gui

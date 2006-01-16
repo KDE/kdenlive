@@ -17,56 +17,70 @@
 
 #include "doctrackclipiterator.h"
 
-DocTrackClipIterator::DocTrackClipIterator(const DocTrackBase &track)
+DocTrackClipIterator::DocTrackClipIterator(const DocTrackBase & track)
 {
-	m_selectedItt = new QPtrListIterator<DocClipRef>(track.firstClip(true));
-	m_unselectedItt = new QPtrListIterator<DocClipRef>(track.firstClip(false));
+    m_selectedItt =
+	new QPtrListIterator < DocClipRef > (track.firstClip(true));
+    m_unselectedItt =
+	new QPtrListIterator < DocClipRef > (track.firstClip(false));
 
-	if(m_selectedItt->current()) {
-		if(m_unselectedItt->current()) {
-			m_curSelected = m_selectedItt->current()->trackStart() < m_unselectedItt->current()->trackStart();
-		} else {
-			m_curSelected = true;
-		}
+    if (m_selectedItt->current()) {
+	if (m_unselectedItt->current()) {
+	    m_curSelected =
+		m_selectedItt->current()->trackStart() <
+		m_unselectedItt->current()->trackStart();
 	} else {
-		m_curSelected = false;
+	    m_curSelected = true;
 	}
+    } else {
+	m_curSelected = false;
+    }
 }
 
 DocTrackClipIterator::~DocTrackClipIterator()
 {
-	if(m_selectedItt) delete m_selectedItt;
-	if(m_unselectedItt) delete m_unselectedItt;
+    if (m_selectedItt)
+	delete m_selectedItt;
+    if (m_unselectedItt)
+	delete m_unselectedItt;
 }
 
 /** Returns the current clip in the list, or returns 0 otherwise. */
-DocClipRef * DocTrackClipIterator::current()
+DocClipRef *DocTrackClipIterator::current()
 {
-	return m_curSelected ? m_selectedItt->current() : m_unselectedItt->current();
+    return m_curSelected ? m_selectedItt->current() : m_unselectedItt->
+	current();
 }
 
 /** Increments the iterator. Works identically to all other iterators. */
-DocClipRef * DocTrackClipIterator::operator++()
+DocClipRef *DocTrackClipIterator::operator++()
 {
-	if(current() == 0) return 0;
+    if (current() == 0)
+	return 0;
 
-	GenTime curTime = (m_curSelected ? m_selectedItt : m_unselectedItt)->current()->trackStart();
+    GenTime curTime =
+	(m_curSelected ? m_selectedItt : m_unselectedItt)->current()->
+	trackStart();
 
-	while((m_selectedItt->current()) && (m_selectedItt->current()->trackStart() <= curTime)) ++(*m_selectedItt);
-	while((m_unselectedItt->current()) && (m_unselectedItt->current()->trackStart() <= curTime)) ++(*m_unselectedItt);
-	
-	if(m_selectedItt->current()) {
-		if(m_unselectedItt->current()) {
-			m_curSelected = (m_selectedItt->current()->trackStart() <
-																		m_unselectedItt->current()->trackStart()) ? true : false;
-		} else {
-			m_curSelected = true;
-		}
-	} else if(m_unselectedItt->current()) {
-		m_curSelected = false;
+    while ((m_selectedItt->current())
+	&& (m_selectedItt->current()->trackStart() <= curTime))
+	++(*m_selectedItt);
+    while ((m_unselectedItt->current())
+	&& (m_unselectedItt->current()->trackStart() <= curTime))
+	++(*m_unselectedItt);
+
+    if (m_selectedItt->current()) {
+	if (m_unselectedItt->current()) {
+	    m_curSelected = (m_selectedItt->current()->trackStart() <
+		m_unselectedItt->current()->trackStart())? true : false;
 	} else {
-		// nothing happens, we are already at the end of the list.		
+	    m_curSelected = true;
 	}
-		
-	return current();
+    } else if (m_unselectedItt->current()) {
+	m_curSelected = false;
+    } else {
+	// nothing happens, we are already at the end of the list.              
+    }
+
+    return current();
 }

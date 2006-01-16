@@ -25,13 +25,18 @@
 
 EffectParamDescFactory::EffectParamDescFactory()
 {
-	m_registered.setAutoDelete(true);
+    m_registered.setAutoDelete(true);
 
-	registerFactory( new EffectParamDescFactoryTemplate<EffectParamDoubleDesc>("double") );
-	registerFactory( new EffectParamDescFactoryTemplate<EffectParamDoubleDesc>("constant") );
-	registerFactory( new EffectParamDescFactoryTemplate<EffectParamDoubleDesc>("boolean") );
-	registerFactory( new EffectParamDescFactoryTemplate<EffectParamDoubleDesc>("fixed") );
-	registerFactory( new EffectParamDescFactoryTemplate<EffectParamComplexDesc>("complex") );
+    registerFactory(new EffectParamDescFactoryTemplate <
+	EffectParamDoubleDesc > ("double"));
+    registerFactory(new EffectParamDescFactoryTemplate <
+	EffectParamDoubleDesc > ("constant"));
+    registerFactory(new EffectParamDescFactoryTemplate <
+	EffectParamDoubleDesc > ("boolean"));
+    registerFactory(new EffectParamDescFactoryTemplate <
+	EffectParamDoubleDesc > ("fixed"));
+    registerFactory(new EffectParamDescFactoryTemplate <
+	EffectParamComplexDesc > ("complex"));
 }
 
 
@@ -39,24 +44,26 @@ EffectParamDescFactory::~EffectParamDescFactory()
 {
 }
 
-EffectParamDesc *EffectParamDescFactory::createParameter(const QXmlAttributes &attributes)
+EffectParamDesc *EffectParamDescFactory::
+createParameter(const QXmlAttributes & attributes)
 {
-	QString type = attributes.value( "type" );
+    QString type = attributes.value("type");
 
-	QPtrListIterator<EffectParamDescFactoryBase> itt(m_registered);
+    QPtrListIterator < EffectParamDescFactoryBase > itt(m_registered);
 
-	while(itt.current()) {
-		//kdDebug()<<"PARAM FACTORY, ADD :"<<itt.current()->name()<<endl;
-		if(itt.current()->matchesType(type)) {
-			return itt.current()->createParameter(attributes);
-		}
-		++itt;
+    while (itt.current()) {
+	//kdDebug()<<"PARAM FACTORY, ADD :"<<itt.current()->name()<<endl;
+	if (itt.current()->matchesType(type)) {
+	    return itt.current()->createParameter(attributes);
 	}
+	++itt;
+    }
 
-	return 0;
+    return 0;
 }
 
-void EffectParamDescFactory::registerFactory(EffectParamDescFactoryBase *factory)
+void EffectParamDescFactory::registerFactory(EffectParamDescFactoryBase *
+    factory)
 {
-	m_registered.append(factory);
+    m_registered.append(factory);
 }

@@ -30,36 +30,38 @@ class EffectParameter;
   */
 
 class Effect {
-public:
-	Effect(const EffectDesc &desc, const QString &name);
+  public:
+    Effect(const EffectDesc & desc, const QString & name);
 
-	~Effect();
+    ~Effect();
 
 	/** Returns an XML representation of this effect. */
-	QDomDocument toXML();
+    QDomDocument toXML();
 
-	const QString &name() const { return m_name; }
-
-	void addParameter(const QString &name);
+    const QString & name() const {
+	return m_name;
+    } void addParameter(const QString & name);
 
 	/** Produce a clone of this effect. */
-	Effect *clone();
+    Effect *clone();
 
 	/** Creates an effect from the specified xml */
-	static Effect *createEffect(const EffectDesc &desc, const QDomElement &effect);
+    static Effect *createEffect(const EffectDesc & desc,
+	const QDomElement & effect);
 
-	const EffectDesc &effectDescription() const { return m_desc; }
-	EffectParameter *parameter(const uint ix);
+    const EffectDesc & effectDescription() const {
+	return m_desc;
+    } EffectParameter *parameter(const uint ix);
 
 	/** Creates a new keyframe at specified time and returns the new key's index */
-	uint addKeyFrame(const uint ix, double time);
-	void addKeyFrame(const uint ix, double time, double value);
+    uint addKeyFrame(const uint ix, double time);
+    void addKeyFrame(const uint ix, double time, double value);
 
-private:
-	const EffectDesc &m_desc;
-	QString m_name;
+  private:
+    const EffectDesc & m_desc;
+    QString m_name;
 
-	QPtrList<EffectParameter> m_paramList;
+     QPtrList < EffectParameter > m_paramList;
 };
 
 #endif

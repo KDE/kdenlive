@@ -17,7 +17,10 @@
 
 #include "displayaudiodesc.h"
 
-DisplayAudioDesc::DisplayAudioDesc(){
+DisplayAudioDesc::DisplayAudioDesc()
+{
 }
-DisplayAudioDesc::~DisplayAudioDesc(){
+
+DisplayAudioDesc::~DisplayAudioDesc()
+{
 }

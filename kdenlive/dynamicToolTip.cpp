@@ -20,21 +20,21 @@
 #include <stdlib.h>
 
 
-DynamicToolTip::DynamicToolTip( QWidget *parent ) : QToolTip( parent )
+DynamicToolTip::DynamicToolTip(QWidget * parent):QToolTip(parent)
 {
     // no explicit initialization needed
 }
 
 
-void DynamicToolTip::maybeTip( const QPoint &pos )
+void DynamicToolTip::maybeTip(const QPoint & pos)
 {
 
     /*QRect r( ((TellMe*)parentWidget())->tip(pos) );
-    if ( !r.isValid() )
-        return;
-	*/
-    QRect r( 0, 0, 100, 100 );
+       if ( !r.isValid() )
+       return;
+     */
+    QRect r(0, 0, 100, 100);
     QString s = "testing dynamic";
     //s.sprintf( "position: %d,%d", r.center().x(), r.center().y() );
-    tip( r, s );
+    tip(r, s);
 }

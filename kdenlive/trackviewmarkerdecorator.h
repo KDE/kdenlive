@@ -19,27 +19,25 @@
 
 #include <doctrackdecorator.h>
 
-namespace Gui
-{
+namespace Gui {
 
-class KTimeLine;
+    class KTimeLine;
 
 /**
 A TrackViewDecorator that displays snap markers on a clip.
 
 @author Jason Wood
 */
-class TrackViewMarkerDecorator : public DocTrackDecorator
-{
-public:
-    TrackViewMarkerDecorator(KTimeLine* timeline,
-    			KdenliveDoc* doc);
+    class TrackViewMarkerDecorator:public DocTrackDecorator {
+      public:
+	TrackViewMarkerDecorator(KTimeLine * timeline, KdenliveDoc * doc);
 
-    virtual ~TrackViewMarkerDecorator();
+	virtual ~ TrackViewMarkerDecorator();
 
-    virtual void paintClip(double startX, double endX, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected);
-};
+	virtual void paintClip(double startX, double endX,
+	    QPainter & painter, DocClipRef * clip, QRect & rect,
+	    bool selected);
+    };
 
-} // namespace Gui
-
+}				// namespace Gui
 #endif

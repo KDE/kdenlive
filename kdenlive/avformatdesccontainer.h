@@ -26,19 +26,19 @@
   *@author Jason Wood
   */
 
-class AVFormatDescContainer : public AVFormatDescBase {
-public: 
-	AVFormatDescContainer(const QString &description, const char * &name);
-	~AVFormatDescContainer();
+class AVFormatDescContainer:public AVFormatDescBase {
+  public:
+    AVFormatDescContainer(const QString & description, const char *&name);
+    ~AVFormatDescContainer();
   /** Constructs a widget to display this container. Most likely, a qgroupbox. */
-  virtual AVFormatWidgetBase * createWidget(QWidget *parent);
+    virtual AVFormatWidgetBase *createWidget(QWidget * parent);
   /** Appends a new description element into this container. */
-  void append(AVFormatDescBase *elem);
+    void append(AVFormatDescBase * elem);
   /** Returns the format list. */
-  const QPtrList<AVFormatDescBase> &list();
-protected:
+    const QPtrList < AVFormatDescBase > &list();
+  protected:
   /** A list of all dsecription elements contained within this description. */
-  QPtrList<AVFormatDescBase> m_descList;
+     QPtrList < AVFormatDescBase > m_descList;
 };
 
 #endif

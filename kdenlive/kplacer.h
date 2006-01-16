@@ -20,34 +20,33 @@
 class QPainter;
 class QRect;
 
-namespace Gui
-{
-	class TrackViewDecorator;
+namespace Gui {
+    class TrackViewDecorator;
 
 /**
 A placer is a piece of code that "knows" where clips should be drawn on the timeline.
 
 @author Jason Wood
 */
-class KPlacer{
-public:
+    class KPlacer {
+      public:
 	KPlacer();
 
-	virtual ~KPlacer();
+	virtual ~ KPlacer();
 
 	/**
 	Paints the backbuffer into the relevant place using the painter supplied. The
 	track should be drawn into the area provided in area
 	*/
-	virtual void drawToBackBuffer(QPainter &painter, QRect &rect, TrackViewDecorator *decorator) = 0;
+	virtual void drawToBackBuffer(QPainter & painter, QRect & rect,
+	    TrackViewDecorator * decorator) = 0;
 
-    	/** Returns true if this track panel has a document track index. */
-    	virtual bool hasDocumentTrackIndex() const = 0;
+	/** Returns true if this track panel has a document track index. */
+	virtual bool hasDocumentTrackIndex() const = 0;
 
-    	/** Returns the track index into the underlying document model used by this track. Returns -1 if this is inapplicable. */
-    	virtual int documentTrackIndex()  const = 0;
-};
+	/** Returns the track index into the underlying document model used by this track. Returns -1 if this is inapplicable. */
+	virtual int documentTrackIndex() const = 0;
+    };
 
-} // namespace Gui
-
+}				// namespace Gui
 #endif

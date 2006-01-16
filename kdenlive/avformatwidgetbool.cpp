@@ -18,9 +18,8 @@
 #include "avformatwidgetbool.h"
 #include "avformatdescbool.h"
 
-AVFormatWidgetBool::AVFormatWidgetBool(AVFormatDescBool *desc, QWidget *parent, const char *name ) :
-                               QCheckBox(desc->name(), parent,name),
-                               AVFormatWidgetBase()
+AVFormatWidgetBool::AVFormatWidgetBool(AVFormatDescBool * desc, QWidget * parent, const char *name):
+QCheckBox(desc->name(), parent, name), AVFormatWidgetBase()
 {
 }
 
@@ -30,5 +29,5 @@ AVFormatWidgetBool::~AVFormatWidgetBool()
 
 QWidget *AVFormatWidgetBool::widget()
 {
-  return this;
+    return this;
 }

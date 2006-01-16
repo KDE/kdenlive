@@ -28,49 +28,45 @@ class DocClipRef;
 class Effect;
 class KdenliveDoc;
 
-namespace Gui
-{
-	class KdenliveApp;
+namespace Gui {
+    class KdenliveApp;
 
 /**
 Implementation of the EffectStackDialog
 
 @author Jason Wood
 */
-class EffectStackDialog : public EffectStackDialog_UI
-{
-	Q_OBJECT
-public:
-	EffectStackDialog( KdenliveApp *app, KdenliveDoc *doc, QWidget *parent = 0, const char *name = 0 );
+    class EffectStackDialog:public EffectStackDialog_UI {
+      Q_OBJECT public:
+	EffectStackDialog(KdenliveApp * app, KdenliveDoc * doc,
+	    QWidget * parent = 0, const char *name = 0);
 
-	virtual ~EffectStackDialog();
-signals:
+	 virtual ~ EffectStackDialog();
+	 signals:
 	/** Emitted when a new effect has been selected in the effect stack. */
 	void effectSelected(DocClipRef *, Effect *);
 	/** Emitted when an effect parameter has been modified. */
 	void generateSceneList();
 	void redrawTracks();
 
-public slots:
+	public slots:
 	/** Setup the effect stack dialog to display the given clip */
-	void slotSetEffectStack(DocClipRef *clip);
-	void addParameters(DocClipRef *clip, Effect *effect);
+	void slotSetEffectStack(DocClipRef * clip);
+	void addParameters(DocClipRef * clip, Effect * effect);
 	void updateKeyFrames();
-private:
+      private:
 	void updateEffectStack();
 	/** When performing an operation on several parameters, we don't want the scenelist and tracks to be generated for each parameter, just at the end of the operation. The m_blockUpdate is used for that purpose*/
 	bool m_blockUpdate;
 	QString m_effecttype;
 	bool m_hasKeyFrames;
 
-private slots:
-	void parameterChanged(int);
+	private slots: void parameterChanged(int);
 	void resetParameters();
 	void selectKeyFrame(int);
 	void changeKeyFramePosition(int newTime);
 	void changeKeyFrameValue(int newTime);
-};
+    };
 
-} // namespace Gui
-
+}				// namespace Gui
 #endif

@@ -20,7 +20,7 @@
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif 
+#endif
 
 #include <kurl.h>
 
@@ -29,23 +29,24 @@
 class DocClipBase;
 class DocClipRef;
 
-class DocumentClipNode : public DocumentBaseNode
-{
-public:
+class DocumentClipNode:public DocumentBaseNode {
+  public:
 	/** Constructor for the fileclass of the application */
-	DocumentClipNode(DocumentBaseNode *parent, DocClipBase *base);
+    DocumentClipNode(DocumentBaseNode * parent, DocClipBase * base);
 	/** Destructor for the fileclass of the application */
-	virtual ~DocumentClipNode();
+    virtual ~ DocumentClipNode();
 
 	/** Returns the name of this clip*/
-	virtual const QString &name() const;
-	
-	virtual DocumentClipNode *asClipNode() { return this; }
+    virtual const QString & name() const;
 
-	DocClipRef *clipRef() { return m_ref; }
-private:
-	// Reference to the correct clip.
-	DocClipRef *m_ref;
+    virtual DocumentClipNode *asClipNode() {
+	return this;
+    } DocClipRef *clipRef() {
+	return m_ref;
+    }
+  private:
+    // Reference to the correct clip.
+    DocClipRef * m_ref;
 };
 
-#endif // DOCUMENTCLIPNODE_H
+#endif				// DOCUMENTCLIPNODE_H

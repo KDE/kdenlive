@@ -22,69 +22,63 @@
 #include "kdenlivedoc.h"
 #include "ktimeline.h"
 
-namespace Gui
-{
+namespace Gui {
 
-TrackViewMarkerDecorator::TrackViewMarkerDecorator(KTimeLine* timeline,
-						KdenliveDoc* doc) :
-				DocTrackDecorator(timeline, doc)
-{
-}
-
-
-TrackViewMarkerDecorator::~TrackViewMarkerDecorator()
-{
-}
+    TrackViewMarkerDecorator::TrackViewMarkerDecorator(KTimeLine *
+	timeline, KdenliveDoc * doc):DocTrackDecorator(timeline, doc) {
+    } TrackViewMarkerDecorator::~TrackViewMarkerDecorator() {
+    }
 
 
 // virtual
-void TrackViewMarkerDecorator::paintClip(double startX, double endX, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected)
-{
+    void TrackViewMarkerDecorator::paintClip(double startX, double endX,
+	QPainter & painter, DocClipRef * clip, QRect & rect,
+	bool selected) {
 	int sx = startX;
 	int ex = endX;
 
-	if(sx < rect.x()) {
-		sx = rect.x();
+	if (sx < rect.x()) {
+	    sx = rect.x();
 	}
-	if(ex > rect.x() + rect.width()) {
-		ex = rect.x() + rect.width();
+	if (ex > rect.x() + rect.width()) {
+	    ex = rect.x() + rect.width();
 	}
 	ex -= sx;
 
 	painter.setClipping(true);
 	painter.setClipRect(sx, rect.y(), ex, rect.height());
 
-	QValueVector<GenTime> markers = clip->snapMarkersOnTrack();
+	QValueVector < GenTime > markers = clip->snapMarkersOnTrack();
 
-	QValueVector<GenTime>::iterator itt=markers.begin();
+	QValueVector < GenTime >::iterator itt = markers.begin();
 
-	while(itt != markers.end()) {
-		int x = (int)timeline()->mapValueToLocal((*itt).frames(document()->framesPerSecond()));
+	while (itt != markers.end()) {
+	    int x =
+		(int) timeline()->mapValueToLocal((*itt).
+		frames(document()->framesPerSecond()));
 
-		if((x >= sx) && (x <= sx + ex)) {
-			QPen currentPen = painter.pen();
-			QBrush currentBrush = painter.brush();
+	    if ((x >= sx) && (x <= sx + ex)) {
+		QPen currentPen = painter.pen();
+		QBrush currentBrush = painter.brush();
 
-			painter.setPen(QColor(255,0,0));
-			painter.setBrush(QColor(255, 0, 0));
+		painter.setPen(QColor(255, 0, 0));
+		painter.setBrush(QColor(255, 0, 0));
 
-			painter.drawLine(x, rect.y(), x, rect.y() + rect.height());
+		painter.drawLine(x, rect.y(), x, rect.y() + rect.height());
 
-			painter.setPen(Qt::black);
-			painter.drawEllipse(	x - (rect.height()/4),
-									rect.y() + (rect.height()/4),
-									rect.height()/2,
-									rect.height()/2);
+		painter.setPen(Qt::black);
+		painter.drawEllipse(x - (rect.height() / 4),
+		    rect.y() + (rect.height() / 4),
+		    rect.height() / 2, rect.height() / 2);
 
-			painter.setPen(currentPen);
-			painter.setBrush(currentBrush);
-		}
+		painter.setPen(currentPen);
+		painter.setBrush(currentBrush);
+	    }
 
-		++itt;
+	    ++itt;
 	}
 
 	painter.setClipping(false);
-}
+    }
 
-} // namespace Gui
-
+}				// namespace Gui

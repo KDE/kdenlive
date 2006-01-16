@@ -27,21 +27,20 @@ Baseclass for saving projects.
 
 @author Jason Wood
 */
-class SaveProjectFilter
-{
-public:
-	SaveProjectFilter();
+class SaveProjectFilter {
+  public:
+    SaveProjectFilter();
 
-	virtual ~SaveProjectFilter();
+    virtual ~ SaveProjectFilter();
 
 	/** Save the document to the specified url. */
-	virtual bool save(QFile &file, KdenliveDoc *document) = 0;
-	
+    virtual bool save(QFile & file, KdenliveDoc * document) = 0;
+
 	/** Returns a list of formats handled by this filter. */
-	virtual QStringList handledFormats() const = 0;
-	
+    virtual QStringList handledFormats() const = 0;
+
 	/** Returns true if this filter handles the format passed */
-	virtual bool handlesFormat(const QString &format);
+    virtual bool handlesFormat(const QString & format);
 };
 
 #endif

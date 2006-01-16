@@ -24,12 +24,12 @@
   *@author Jason Wood
   */
 
-class AVFormatDescBool : public AVFormatDescBase  {
-public: 
-	AVFormatDescBool(const QString &description, const char * &name);
-	~AVFormatDescBool();
+class AVFormatDescBool:public AVFormatDescBase {
+  public:
+    AVFormatDescBool(const QString & description, const char *&name);
+    ~AVFormatDescBool();
   /** Create a widget to handle a boolean value. Most likely, this will be a check box. */
-  AVFormatWidgetBase * createWidget(QWidget *parent);
+    AVFormatWidgetBase *createWidget(QWidget * parent);
 };
 
 #endif

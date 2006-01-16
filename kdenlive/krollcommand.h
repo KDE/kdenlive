@@ -30,13 +30,14 @@ class DocClipRef;
 
 namespace Command {
 
-class KRollCommand : public KCommand  {
-public: 
-	KRollCommand(KdenliveDoc *doc, DocClipRef &clip, DocClipRef &clip2);
+    class KRollCommand:public KCommand {
+      public:
+	KRollCommand(KdenliveDoc * doc, DocClipRef & clip,
+	    DocClipRef & clip2);
 	~KRollCommand();
 
 	/** Examines the clip, and picks out the relevant size info. */
-	void setEndSize(DocClipRef &clip, DocClipRef &clip2);
+	void setEndSize(DocClipRef & clip, DocClipRef & clip2);
 	/** Unexecutes this command */
 	void unexecute();
 	/** Executes this command */
@@ -44,10 +45,10 @@ public:
 	/** Returns the name of this command */
 	QString name() const;
 	/** Sets the clip trackEnd for the end destination to the time specified. */
-	void setEndTrackEnd(const GenTime &time);
-	/** Sets the clip trackStart for the end destination to the time specified. */  
-	void setEndTrackStart(const GenTime &time);
-private: // Private attributes
+	void setEndTrackEnd(const GenTime & time);
+	/** Sets the clip trackStart for the end destination to the time specified. */
+	void setEndTrackStart(const GenTime & time);
+      private:			// Private attributes
 	/** The track number that the clip is on. */
 	int m_trackNum;
 	/** A time within the clip, which allows us to discover the clip */
@@ -57,7 +58,7 @@ private: // Private attributes
 	GenTime m_end_trackStart;
 	GenTime m_end_cropStart;
 	GenTime m_end_trackEnd;
-	
+
 	/** A time within the clip, which allows us to discover the clip */
 	GenTime m_start_trackStart2;
 	GenTime m_start_cropStart2;
@@ -65,11 +66,10 @@ private: // Private attributes
 	GenTime m_end_trackStart2;
 	GenTime m_end_cropStart2;
 	GenTime m_end_trackEnd2;
-	
+
 	/** Pointer to the document */
-	KdenliveDoc * m_doc;
-};
+	KdenliveDoc *m_doc;
+    };
 
-} // namespace Command
-
+}				// namespace Command
 #endif

@@ -34,14 +34,14 @@
 
 ProjectFormatManager::ProjectFormatManager()
 {
-	m_saveFilters.setAutoDelete(true);
-	m_loadFilters.setAutoDelete(true);
+    m_saveFilters.setAutoDelete(true);
+    m_loadFilters.setAutoDelete(true);
 
-	registerLoadFilter(new LoadProjectNativeFilter());
-	registerLoadFilter(new LoadProjectKinoFilter());
+    registerLoadFilter(new LoadProjectNativeFilter());
+    registerLoadFilter(new LoadProjectKinoFilter());
 
-	registerSaveFilter(new SaveProjectNativeFilter());
-	registerSaveFilter(new SaveProjectScenelistFilter());
+    registerSaveFilter(new SaveProjectNativeFilter());
+    registerSaveFilter(new SaveProjectScenelistFilter());
 }
 
 
@@ -49,136 +49,141 @@ ProjectFormatManager::~ProjectFormatManager()
 {
 }
 
-bool ProjectFormatManager::openDocument(const KURL& url, KdenliveDoc *document)
+bool ProjectFormatManager::openDocument(const KURL & url,
+    KdenliveDoc * document)
 {
-	if(url.isEmpty()) return false;
-
-	KMimeType::Ptr format = KMimeType::findByURL(url);
-
-	LoadProjectFilter *filter = findLoadFormat(format->name());
-	// if(url.filename().right(9) == ".kdenlive")
-	if(filter) {
-		QString tmpfile;
-		if(KIO::NetAccess::download( url, tmpfile, 0)) {
-			QFile file(tmpfile);
-			if(file.open(IO_ReadOnly)) {
-				filter->load(file, document);
-    			document->setURL(url);
-			}
-			KIO::NetAccess::removeTempFile( tmpfile );
-			document->setModified(false);
-			return true;
-		}
-//	} else {
-//		document->clipManager().insertClip(url);
-	}
-
+    if (url.isEmpty())
 	return false;
-}
 
-bool ProjectFormatManager::saveDocument(const KURL& url, KdenliveDoc *document)
-{
-	if(url.isEmpty()) return false;
+    KMimeType::Ptr format = KMimeType::findByURL(url);
 
-	KMimeType::Ptr format = KMimeType::findByURL(url);
-	SaveProjectFilter *filter = findSaveFormat(format->name());
-
-	if(filter) {
-		KTempFile file;
-		//file.setAutoDelete(true);
-
-		if( (filter->save(*file.file(), document))) {
-			file.close();
-			if(!KIO::NetAccess::upload(file.name(), url, 0)) {
-				kdError() << "Could not upload file to correct location" << endl;
-			}
-		} else {
-			kdError() << "Save failed" << endl;
-		}
+    LoadProjectFilter *filter = findLoadFormat(format->name());
+    // if(url.filename().right(9) == ".kdenlive")
+    if (filter) {
+	QString tmpfile;
+	if (KIO::NetAccess::download(url, tmpfile, 0)) {
+	    QFile file(tmpfile);
+	    if (file.open(IO_ReadOnly)) {
+		filter->load(file, document);
+		document->setURL(url);
+	    }
+	    KIO::NetAccess::removeTempFile(tmpfile);
+	    document->setModified(false);
+	    return true;
 	}
+//      } else {
+//              document->clipManager().insertClip(url);
+    }
 
-	document->setModified(false);
-	return true;
+    return false;
 }
 
-void ProjectFormatManager::registerSaveFilter(SaveProjectFilter *filter)
+bool ProjectFormatManager::saveDocument(const KURL & url,
+    KdenliveDoc * document)
 {
-	m_saveFilters.append(filter);
-}
+    if (url.isEmpty())
+	return false;
 
-void ProjectFormatManager::registerLoadFilter(LoadProjectFilter *filter)
-{
-	m_loadFilters.append(filter);
-}
+    KMimeType::Ptr format = KMimeType::findByURL(url);
+    SaveProjectFilter *filter = findSaveFormat(format->name());
 
-LoadProjectFilter *ProjectFormatManager::findLoadFormat(const QString &format)
-{
-	QPtrListIterator<LoadProjectFilter> itt(m_loadFilters);
+    if (filter) {
+	KTempFile file;
+	//file.setAutoDelete(true);
 
-	while(itt.current()) {
-		if(itt.current()->handlesFormat(format)) {
-			return itt.current();
-		}
-		++itt;
+	if ((filter->save(*file.file(), document))) {
+	    file.close();
+	    if (!KIO::NetAccess::upload(file.name(), url, 0)) {
+		kdError() << "Could not upload file to correct location" <<
+		    endl;
+	    }
+	} else {
+	    kdError() << "Save failed" << endl;
 	}
+    }
 
-	return 0;
+    document->setModified(false);
+    return true;
 }
 
-SaveProjectFilter *ProjectFormatManager::findSaveFormat(const QString &format)
+void ProjectFormatManager::registerSaveFilter(SaveProjectFilter * filter)
 {
-	QPtrListIterator<SaveProjectFilter> itt(m_saveFilters);
+    m_saveFilters.append(filter);
+}
 
-	while(itt.current()) {
-		if(itt.current()->handlesFormat(format)) {
-			return itt.current();
-		}
-		++itt;
+void ProjectFormatManager::registerLoadFilter(LoadProjectFilter * filter)
+{
+    m_loadFilters.append(filter);
+}
+
+LoadProjectFilter *ProjectFormatManager::
+findLoadFormat(const QString & format)
+{
+    QPtrListIterator < LoadProjectFilter > itt(m_loadFilters);
+
+    while (itt.current()) {
+	if (itt.current()->handlesFormat(format)) {
+	    return itt.current();
 	}
+	++itt;
+    }
 
-	return 0;
+    return 0;
+}
+
+SaveProjectFilter *ProjectFormatManager::
+findSaveFormat(const QString & format)
+{
+    QPtrListIterator < SaveProjectFilter > itt(m_saveFilters);
+
+    while (itt.current()) {
+	if (itt.current()->handlesFormat(format)) {
+	    return itt.current();
+	}
+	++itt;
+    }
+
+    return 0;
 }
 
 /** Returns the mime types that can be loaded in */
 QString ProjectFormatManager::loadMimeTypes()
 {
-	QPtrListIterator<LoadProjectFilter> itt(m_loadFilters);
+    QPtrListIterator < LoadProjectFilter > itt(m_loadFilters);
 
-	QStringList list;
+    QStringList list;
 
-	while(itt.current()) {
-		QStringList extraList = itt.current()->handledFormats();
+    while (itt.current()) {
+	QStringList extraList = itt.current()->handledFormats();
 
-		for(QStringList::Iterator extraItt = extraList.begin();
-				extraItt != extraList.end();
-				++extraItt) {
-			list.append(*extraItt);
-		}
-
-		++itt;
+	for (QStringList::Iterator extraItt = extraList.begin();
+	    extraItt != extraList.end(); ++extraItt) {
+	    list.append(*extraItt);
 	}
 
-	return list.join(" ");
+	++itt;
+    }
+
+    return list.join(" ");
 }
 
 /** Returns the mime types that can be saved out */
 QString ProjectFormatManager::saveMimeTypes()
 {
-	QPtrListIterator<SaveProjectFilter> itt(m_saveFilters);
+    QPtrListIterator < SaveProjectFilter > itt(m_saveFilters);
 
-	QStringList list;
+    QStringList list;
 
-	while(itt.current()) {
-		QStringList extraList = itt.current()->handledFormats();
+    while (itt.current()) {
+	QStringList extraList = itt.current()->handledFormats();
 
-		for(QStringList::Iterator extraItt = extraList.begin();
-				extraItt != extraList.end();
-				++extraItt) {
-			list.append(*extraItt);
-		}
-
-		++itt;
+	for (QStringList::Iterator extraItt = extraList.begin();
+	    extraItt != extraList.end(); ++extraItt) {
+	    list.append(*extraItt);
 	}
 
-	return list.join(" ");
+	++itt;
+    }
+
+    return list.join(" ");
 }

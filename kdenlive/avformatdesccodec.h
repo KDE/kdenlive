@@ -26,12 +26,12 @@ class QString;
   *@author Jason Wood
   */
 
-class AVFormatDescCodec : public AVFormatDescBase  {
-public: 
-	AVFormatDescCodec(const QString &description, const char * &name);
-	~AVFormatDescCodec();
+class AVFormatDescCodec:public AVFormatDescBase {
+  public:
+    AVFormatDescCodec(const QString & description, const char *&name);
+    ~AVFormatDescCodec();
   /** Generates a widget that holds the specified value(s). */
-  AVFormatWidgetBase * createWidget(QWidget * parent);
+    AVFormatWidgetBase *createWidget(QWidget * parent);
 };
 
 #endif

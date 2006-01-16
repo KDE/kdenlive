@@ -27,10 +27,9 @@
 
 class KdenliveDoc;
 
-namespace Gui
-{
-	class KdenliveApp;
-	class KTimeLine;
+namespace Gui {
+    class KdenliveApp;
+    class KTimeLine;
 
 /**KMMTrackSoundPanel is the Track panel for sound files.
 It contains several functions that can be used to manipulate
@@ -38,30 +37,24 @@ the main sound widget in different ways.
   *@author Jason Wood
   */
 
-class KMMTrackSoundPanel : public KMMTrackPanel  {
-   Q_OBJECT
-public:
-	KMMTrackSoundPanel(KdenliveApp *app,
-				KTimeLine *timeline,
-				KdenliveDoc *document,
-				DocTrackSound *docTrack,
-				bool isCollapsed, 
-				QWidget *parent=0,
-				const char *name=0);
+    class KMMTrackSoundPanel:public KMMTrackPanel {
+      Q_OBJECT public:
+	KMMTrackSoundPanel(KdenliveApp * app,
+	    KTimeLine * timeline,
+	    KdenliveDoc * document,
+	    DocTrackSound * docTrack,
+	    bool isCollapsed, QWidget * parent = 0, const char *name = 0);
 	~KMMTrackSoundPanel();
 
-private slots:
-	void resizeTrack();
+	private slots:void resizeTrack();
 	void decorateTrack();
 
-private: // Public attributes
+      private:			// Public attributes
   /**  */
-  TrackHeader m_trackHeader;
+	 TrackHeader m_trackHeader;
 
-signals:
-	void collapseTrack(KTrackPanel *, bool);
-};
+	 signals: void collapseTrack(KTrackPanel *, bool);
+    };
 
-} // namespace Gui
-
+}				// namespace Gui
 #endif

@@ -24,30 +24,28 @@
 #include <ktimeline.h>
 
 
-namespace Gui
-{
+namespace Gui {
 
 /**
 Draws the base image for a clip; draws a border around the clip, and fills it with a flat-shaded colour.
 
 @author Jason Wood
 */
-class TrackViewBackgroundDecorator : public DocTrackDecorator
-{
-public:
-    TrackViewBackgroundDecorator(KTimeLine* timeline,
-									KdenliveDoc* doc,
-									const QColor &selected,
-									const QColor &unselected);
+    class TrackViewBackgroundDecorator:public DocTrackDecorator {
+      public:
+	TrackViewBackgroundDecorator(KTimeLine * timeline,
+	    KdenliveDoc * doc,
+	    const QColor & selected, const QColor & unselected);
 
-    virtual ~TrackViewBackgroundDecorator();
+	 virtual ~ TrackViewBackgroundDecorator();
 
-    virtual void paintClip(double startX, double endx, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected) ;
-private:
-	QColor m_selected;
+	virtual void paintClip(double startX, double endx,
+	    QPainter & painter, DocClipRef * clip, QRect & rect,
+	    bool selected);
+      private:
+	 QColor m_selected;
 	QColor m_unselected;
-};
+    };
 
-} // namespace Gui
-
+}				// namespace Gui
 #endif

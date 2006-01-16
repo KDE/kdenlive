@@ -20,9 +20,8 @@
 #include "avfileformatdesc.h"
 #include "avfileformatwidget.h"
 
-AVFileFormatDesc::AVFileFormatDesc( const QString &description, const char * &name ) :
-		AVFormatDescContainer( description, name ),
-		m_fileExtension( QString::null )
+AVFileFormatDesc::AVFileFormatDesc(const QString & description, const char *&name):
+AVFormatDescContainer(description, name), m_fileExtension(QString::null)
 {
 }
 
@@ -31,20 +30,21 @@ AVFileFormatDesc::~AVFileFormatDesc()
 }
 
 /** Create and return a widget that embodies this file format description. */
-AVFormatWidgetBase * AVFileFormatDesc::createWidget( QWidget *parent )
+AVFormatWidgetBase *AVFileFormatDesc::createWidget(QWidget * parent)
 {
-	AVFileFormatWidget * widget = new AVFileFormatWidget( this, parent, m_name );
-	return widget;
+    AVFileFormatWidget *widget =
+	new AVFileFormatWidget(this, parent, m_name);
+    return widget;
 }
 
 /** Sets the file extenstion for this description. */
-void AVFileFormatDesc::setFileExtension( const QString &extension )
+void AVFileFormatDesc::setFileExtension(const QString & extension)
 {
-	m_fileExtension = extension;
+    m_fileExtension = extension;
 }
 
 /** Returns the file extension for this file format. */
-const QString &AVFileFormatDesc::fileExtension()
+const QString & AVFileFormatDesc::fileExtension()
 {
-	return m_fileExtension;
+    return m_fileExtension;
 }

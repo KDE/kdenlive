@@ -30,33 +30,36 @@ Draws the base preview image for a clip; in correct acpect ration and stretch to
 
 @author Marco Gittler
 */
-namespace Gui{
+namespace Gui {
 
-class TrackViewAudioBackgroundDecorator : public DocTrackDecorator
-{
-	Q_OBJECT
-public:
-	TrackViewAudioBackgroundDecorator(KTimeLine* timeline,
-									KdenliveDoc* doc,
-									const QColor &selected,
-									const QColor &unselected,
-									int size=-1);
+    class TrackViewAudioBackgroundDecorator:public DocTrackDecorator {
+      Q_OBJECT public:
+	TrackViewAudioBackgroundDecorator(KTimeLine * timeline,
+	    KdenliveDoc * doc,
+	    const QColor & selected,
+	    const QColor & unselected, int size = -1);
 
-	virtual ~TrackViewAudioBackgroundDecorator();
+	 virtual ~ TrackViewAudioBackgroundDecorator();
 
-    virtual void paintClip(double startX, double endx, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected) ;
-	 void drawChannel(int channel,const QByteArray *,int x,int y,int height,int maxWidth, QPainter &painter);
-public slots:
-	void setSoundSamples(const KURL &url,int channel,int frame, double frameLength,const QByteArray &array,int,int,int,int,QPainter&);
-private:
+	virtual void paintClip(double startX, double endx,
+	    QPainter & painter, DocClipRef * clip, QRect & rect,
+	    bool selected);
+	void drawChannel(int channel, const QByteArray *, int x, int y,
+	    int height, int maxWidth, QPainter & painter);
+	public slots:void setSoundSamples(const KURL & url, int channel,
+	    int frame, double frameLength, const QByteArray & array, int,
+	    int, int, int, QPainter &);
+      private:
 	int m_height;
 	QColor m_selected;
 	QColor m_unselected;
-	QPainter* m_painter;
-signals:
-	void getSoundSamples(const KURL& url,int countChannel,int frame,double frameLength,int arrayWidth,int,int,int,int, QPainter&);
-		
-};
+	QPainter *m_painter;
+	 signals:
+	    void getSoundSamples(const KURL & url, int countChannel,
+	    int frame, double frameLength, int arrayWidth, int, int, int,
+	    int, QPainter &);
+
+    };
 
 };
 #endif

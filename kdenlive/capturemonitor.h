@@ -27,29 +27,27 @@ class QToolButton;
 
 namespace Gui {
 
-	class KdenliveApp;
-	class KMMEditPanel;
-	class KMMScreen;
+    class KdenliveApp;
+    class KMMEditPanel;
+    class KMMScreen;
 
 /**
 A capture monitor, that allows you to capture video from various devices, as supported by the renderer.
 
 @author Jason Wood
 */
-class CaptureMonitor : public KMonitor
-{
-Q_OBJECT
-public:
-    CaptureMonitor(KdenliveApp *app, QWidget *parent = 0, const char *name = 0);
+    class CaptureMonitor:public KMonitor {
+      Q_OBJECT public:
+	CaptureMonitor(KdenliveApp * app, QWidget * parent =
+	    0, const char *name = 0);
 
-    ~CaptureMonitor();
+	~CaptureMonitor();
 
 	virtual KMMEditPanel *editPanel() const;
 	virtual KMMScreen *screen() const;
 	virtual DocClipRef *clip() const;
 
-public slots:
-	void slotSetupScreen();
+	public slots: void slotSetupScreen();
 
 	void slotRewind();
 	void slotReverse();
@@ -59,27 +57,26 @@ public slots:
 	void slotPlay();
 	void slotForward();
 
-private:
-	QHBox			*m_mainLayout;
-	QVBox			*m_saveLayout;
-	QVBox			*m_rightLayout;
-	KURLRequester	*m_saveBrowser;
-	KListView		*m_playListView;
-	KMMScreen 		*m_screen;
+      private:
+	 QHBox * m_mainLayout;
+	QVBox *m_saveLayout;
+	QVBox *m_rightLayout;
+	KURLRequester *m_saveBrowser;
+	KListView *m_playListView;
+	KMMScreen *m_screen;
 
-	QHBox			*m_buttonLayout;
+	QHBox *m_buttonLayout;
 
-	QToolButton		*m_rewindButton;
-	QToolButton		*m_reverseButton;
-	QToolButton		*m_reverseSlowButton;
-	QToolButton		*m_stopButton;
-	QToolButton		*m_playSlowButton;
-	QToolButton		*m_playButton;
-	QToolButton		*m_forwardButton;
-  	QToolButton		*m_recordButton;
-	KLed			*m_renderStatus;
-};
+	QToolButton *m_rewindButton;
+	QToolButton *m_reverseButton;
+	QToolButton *m_reverseSlowButton;
+	QToolButton *m_stopButton;
+	QToolButton *m_playSlowButton;
+	QToolButton *m_playButton;
+	QToolButton *m_forwardButton;
+	QToolButton *m_recordButton;
+	KLed *m_renderStatus;
+    };
 
 }
-
 #endif

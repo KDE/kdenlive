@@ -22,28 +22,29 @@
 #include <doctrackdecorator.h>
 #include "effect.h"
 
-namespace Gui
-{
-class KTimeLine;
+namespace Gui {
+    class KTimeLine;
 
 /**
 @author Jason Wood
 */
-class TrackViewDoubleKeyFrameDecorator : public DocTrackDecorator
-{
-public:
-    TrackViewDoubleKeyFrameDecorator(KTimeLine *timeline, KdenliveDoc *doc, const QString &effectName, int effectIndex, const QString &paramName);
+    class TrackViewDoubleKeyFrameDecorator:public DocTrackDecorator {
+      public:
+	TrackViewDoubleKeyFrameDecorator(KTimeLine * timeline,
+	    KdenliveDoc * doc, const QString & effectName, int effectIndex,
+	    const QString & paramName);
 
-    ~TrackViewDoubleKeyFrameDecorator();
+	~TrackViewDoubleKeyFrameDecorator();
 
-    virtual void paintClip(double startX, double endX, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected);
-private:
-	QString m_effectName;
+	virtual void paintClip(double startX, double endX,
+	    QPainter & painter, DocClipRef * clip, QRect & rect,
+	    bool selected);
+      private:
+	 QString m_effectName;
 	int m_effectIndex;
 	QString m_paramName;
 	Effect *m_effect;
-};
+    };
 
-} // namespace Gui
-
+}				// namespace Gui
 #endif

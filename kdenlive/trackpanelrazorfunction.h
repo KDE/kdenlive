@@ -23,67 +23,65 @@
 class KdenliveDoc;
 class DocTrackBase;
 
-namespace Gui
-{
-	class KdenliveApp;
-	class KTimeLine;
+namespace Gui {
+    class KdenliveApp;
+    class KTimeLine;
 }
-
-
 /**
 Abstract Base Class for track panel functionality decorators. This and it's
 derived classes allow different behaviours to be added to panels as required.
 
 @author Jason Wood
-*/
-class TrackPanelRazorFunction : public TrackPanelFunction
+*/ class TrackPanelRazorFunction:public TrackPanelFunction
 {
-	Q_OBJECT
-public:
-	TrackPanelRazorFunction(Gui::KdenliveApp *app,
-					Gui::KTimeLine *timeline,
-					KdenliveDoc *document);
+  Q_OBJECT public:
+    TrackPanelRazorFunction(Gui::KdenliveApp * app,
+	Gui::KTimeLine * timeline, KdenliveDoc * document);
 
-	virtual ~TrackPanelRazorFunction();
+    virtual ~ TrackPanelRazorFunction();
 
 	/**
 	Returns true if the specified position should cause this function to activate,
 	otherwise returns false.
 	*/
-	virtual bool mouseApplies(Gui::KTrackPanel *panel, QMouseEvent *event) const;
+    virtual bool mouseApplies(Gui::KTrackPanel * panel,
+	QMouseEvent * event) const;
 
 	/**
 	Returns a relevant mouse cursor for the given mouse position
 	*/
-	virtual QCursor getMouseCursor(Gui::KTrackPanel *panel, QMouseEvent *event);
+    virtual QCursor getMouseCursor(Gui::KTrackPanel * panel,
+	QMouseEvent * event);
 
 	/**
 	A mouse button has been pressed. Returns true if we want to handle this event
 	*/
-	virtual bool mousePressed(Gui::KTrackPanel *panel, QMouseEvent *event);
+    virtual bool mousePressed(Gui::KTrackPanel * panel,
+	QMouseEvent * event);
 
 	/**
 	Mouse Release Events in the track view area. Returns true if we have finished
 	an operation now.
 	*/
-	virtual bool mouseReleased(Gui::KTrackPanel *panel, QMouseEvent *event);
+    virtual bool mouseReleased(Gui::KTrackPanel * panel,
+	QMouseEvent * event);
 
 	/**
 	Processes Mouse Move events in the track view area. Returns true if we are
 	continuing with the drag.*/
-	virtual bool mouseMoved(Gui::KTrackPanel *panel, QMouseEvent *event);
-signals: // Signals
+    virtual bool mouseMoved(Gui::KTrackPanel * panel, QMouseEvent * event);
+     signals:			// Signals
 	/**
 	emitted when a tool is "looking" at a clip, it signifies to whatever is listening
 	that displaying this information in some way would be useful.
 	*/
-	void lookingAtClip(DocClipRef *, const GenTime &);
-private:
+    void lookingAtClip(DocClipRef *, const GenTime &);
+  private:
 
-	Gui::KdenliveApp *m_app;
-	Gui::KTimeLine *m_timeline;
-	KdenliveDoc *m_document;
-	DocClipRef * m_clipUnderMouse;
+     Gui::KdenliveApp * m_app;
+     Gui::KTimeLine * m_timeline;
+    KdenliveDoc *m_document;
+    DocClipRef *m_clipUnderMouse;
 };
 
 #endif

@@ -30,14 +30,14 @@ This class provides a standard set of functions for building and reading an AVFi
   */
 
 class AVFormatWidgetBase {
-public: 
-	AVFormatWidgetBase();
-	virtual ~AVFormatWidgetBase();
+  public:
+    AVFormatWidgetBase();
+    virtual ~ AVFormatWidgetBase();
 
   /** Returns a pointer to this widget, as a QWidget. */
-  virtual QWidget *widget() = 0;
+    virtual QWidget *widget() = 0;
   /** Returns a pointer to this widget cast as an AVFileFormatWidget if that is what this widget it, otherwise it returns 0. */
-  virtual AVFileFormatWidget * fileFormatWidget();
+    virtual AVFileFormatWidget *fileFormatWidget();
 };
 
 #endif

@@ -20,10 +20,10 @@
 
 #include <kdebug.h>
 
-AVFormatDescContainer::AVFormatDescContainer(const QString &description, const char * &name) :
-                            AVFormatDescBase(description, name)
+AVFormatDescContainer::AVFormatDescContainer(const QString & description, const char *&name):
+AVFormatDescBase(description, name)
 {
-  m_descList.setAutoDelete(true);
+    m_descList.setAutoDelete(true);
 }
 
 AVFormatDescContainer::~AVFormatDescContainer()
@@ -31,19 +31,19 @@ AVFormatDescContainer::~AVFormatDescContainer()
 }
 
 /** Constructs a widget to display this container. Most likely, a qgroupbox. */
-AVFormatWidgetBase * AVFormatDescContainer::createWidget(QWidget *parent)
+AVFormatWidgetBase *AVFormatDescContainer::createWidget(QWidget * parent)
 {
-  return new AVFormatWidgetContainer(this, parent, m_name);
+    return new AVFormatWidgetContainer(this, parent, m_name);
 }
 
 /** Appends a new description element into this container. */
-void AVFormatDescContainer::append(AVFormatDescBase *elem)
+void AVFormatDescContainer::append(AVFormatDescBase * elem)
 {
-  m_descList.append(elem);
+    m_descList.append(elem);
 }
 
 /** Returns the format list. */
-const QPtrList<AVFormatDescBase> &AVFormatDescContainer::list()
+const QPtrList < AVFormatDescBase > &AVFormatDescContainer::list()
 {
-  return m_descList;
+    return m_descList;
 }

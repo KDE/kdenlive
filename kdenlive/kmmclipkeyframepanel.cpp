@@ -21,34 +21,29 @@
 #include "trackviewbackgrounddecorator.h"
 #include "trackviewdoublekeyframedecorator.h"
 
-namespace Gui
-{
+namespace Gui {
 
-KMMClipKeyFramePanel::KMMClipKeyFramePanel(KTimeLine *timeline,
-								KdenliveDoc *document,
-								DocClipRef *clip,
-								const QString &effectName,
-								int effectIndex,
-								const QString &effectParam,
-								QWidget *parent,
-								const char *name)
-		: KMMTrackPanel(timeline, document, new KClipPlacer(timeline, clip),
-		EFFECTKEYFRAMETRACK, parent,name),
-		m_verticalLayout(this, "KMMClipKeyFramePanel::verticalLayout"),
-		m_effectNameLabel(effectName, &m_verticalLayout, "KMMClipKeyFramePanel::effectNameLabel")
-{
+    KMMClipKeyFramePanel::KMMClipKeyFramePanel(KTimeLine * timeline,
+	KdenliveDoc * document,
+	DocClipRef * clip,
+	const QString & effectName,
+	int effectIndex,
+	const QString & effectParam, QWidget * parent, const char *name)
+    :KMMTrackPanel(timeline, document, new KClipPlacer(timeline, clip),
+	EFFECTKEYFRAMETRACK, parent, name),
+	m_verticalLayout(this, "KMMClipKeyFramePanel::verticalLayout"),
+	m_effectNameLabel(effectName, &m_verticalLayout,
+	"KMMClipKeyFramePanel::effectNameLabel") {
 	setMinimumHeight(50);
 	setMaximumHeight(50);
 
 	// addFunctionDecorator("move", "resize");
 
-	addViewDecorator(new TrackViewBackgroundDecorator(timeline, document,  QColor(128, 128, 128), QColor(200, 200, 200)));
-	addViewDecorator(new TrackViewDoubleKeyFrameDecorator(timeline, document, effectName, effectIndex, effectParam));
-}
+	addViewDecorator(new TrackViewBackgroundDecorator(timeline,
+		document, QColor(128, 128, 128), QColor(200, 200, 200)));
+	addViewDecorator(new TrackViewDoubleKeyFrameDecorator(timeline,
+		document, effectName, effectIndex, effectParam));
+    } KMMClipKeyFramePanel::~KMMClipKeyFramePanel() {
+    }
 
-
-KMMClipKeyFramePanel::~KMMClipKeyFramePanel()
-{}
-
-} // namespace Gui
-
+}				// namespace Gui

@@ -28,19 +28,19 @@
 
 class QWidget;
 
-class AVFileFormatDesc : public AVFormatDescContainer {
-public: 
-	AVFileFormatDesc(const QString &description, const char * &name);
-	~AVFileFormatDesc();
+class AVFileFormatDesc:public AVFormatDescContainer {
+  public:
+    AVFileFormatDesc(const QString & description, const char *&name);
+    ~AVFileFormatDesc();
   /** Create and return a widget that embodies this file format description. */
-  AVFormatWidgetBase * createWidget(QWidget *parent);
+    AVFormatWidgetBase *createWidget(QWidget * parent);
   /** Sets the file extenstion for this description. */
-  void setFileExtension(const QString &extension);
+    void setFileExtension(const QString & extension);
   /** Returns the file extension for this file format. */
-  const QString &fileExtension();
-private: // Private attributes
+    const QString & fileExtension();
+  private:			// Private attributes
   /** Specifies the file extension used by this file format. */
-  QString m_fileExtension;
+     QString m_fileExtension;
 };
 
 #endif

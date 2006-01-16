@@ -26,22 +26,21 @@ class DocClipRef;
 class DocTrackBase;
 class KdenliveDoc;
 
-namespace Gui
-{
-	class KTimeLine;
+namespace Gui {
+    class KTimeLine;
 
 /**
 View decorators implement the functionality required to display clips on the timeline.
 
 @author Jason Wood
 */
-class TrackViewDecorator : public QObject {
-public:
-    	TrackViewDecorator(KTimeLine *timeline);
+    class TrackViewDecorator:public QObject {
+      public:
+	TrackViewDecorator(KTimeLine * timeline);
 
-    	virtual ~TrackViewDecorator();
+	virtual ~ TrackViewDecorator();
 
-  	/** This function will paint a clip on screen. This funtion must be provided by a derived class.
+	/** This function will paint a clip on screen. This funtion must be provided by a derived class.
 		@param startX - The x coordinate of the start of the clip. This is not necessarily in the painting rectangle.
 		@param endX - The x coordinate of the end of the clip. This is not necessarily in the painting rectangle.
 		@param painter - The QPainter that should be used to draw.
@@ -49,16 +48,17 @@ public:
 		@param rect - The bounding rectangle of the draw area.
 		@param selected - True if the clip is selected, false otherwise.
 	*/
-	virtual void paintClip(double startX, double endX, QPainter &painter, DocClipRef *clip, QRect &rect, bool selected) = 0;
+	virtual void paintClip(double startX, double endX,
+	    QPainter & painter, DocClipRef * clip, QRect & rect,
+	    bool selected) = 0;
 
-protected:
-	KTimeLine *timeline() { return m_timeline; }
+      protected:
+	 KTimeLine * timeline() {
+	    return m_timeline;
+      } private:
+	 KTimeLine * m_timeline;
+    };
 
-
-private:
-	KTimeLine *m_timeline;
-};
-
-} // namespace Gui
+}				// namespace Gui
 
 #endif

@@ -37,35 +37,28 @@ which reside in the main video widget
 
 class KdenliveDoc;
 
-namespace Gui
-{
+namespace Gui {
 
-class KMMTrackVideoPanel : public KMMTrackPanel  {
-   Q_OBJECT
-public:
-	KMMTrackVideoPanel(KdenliveApp *app,
-				KTimeLine *timeline,
-				KdenliveDoc *document,
-				DocTrackVideo *docTrack,
-				bool isCollapsed, 
-				QWidget *parent=0,
-			       	const char *name=0);
+    class KMMTrackVideoPanel:public KMMTrackPanel {
+      Q_OBJECT public:
+	KMMTrackVideoPanel(KdenliveApp * app,
+	    KTimeLine * timeline,
+	    KdenliveDoc * document,
+	    DocTrackVideo * docTrack,
+	    bool isCollapsed, QWidget * parent = 0, const char *name = 0);
 	~KMMTrackVideoPanel();
 
-private slots:
-	void resizeTrack();
+	private slots:void resizeTrack();
 	void decorateTrack();
 
-private:
-	QHBox m_horzLayout;
+      private:
+	 QHBox m_horzLayout;
 	TrackHeader m_trackHeader;
 	/** True if we are inside a dragging operation, false otherwise. */
 	bool m_dragging;
 
-signals:
-	void collapseTrack(KTrackPanel *, bool);
-};
+	 signals: void collapseTrack(KTrackPanel *, bool);
+    };
 
-} // namespace Gui
-
+}				// namespace Gui
 #endif

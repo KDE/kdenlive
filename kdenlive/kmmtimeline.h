@@ -22,42 +22,39 @@
 
 class DocClipRef;
 
-namespace Gui
-{
+namespace Gui {
 
-class KMMRulerPanel;
+    class KMMRulerPanel;
 
 /**
 Implementation-specific derivation of KTimeLine. Includes correct drag/drop support, among other things.
 
 @author Jason Wood
 */
-class KMMTimeLine : public KTimeLine
-{
-public:
-	KMMTimeLine( QWidget *scrollToolWidget, QWidget *parent = 0, const char *name = 0 );
+    class KMMTimeLine:public KTimeLine {
+      public:
+	KMMTimeLine(QWidget * scrollToolWidget, QWidget * parent =
+	    0, const char *name = 0);
 
 	~KMMTimeLine();
 
 	void fitToWidth();
 	//set the timescale combobox to last saved value -reh
-	void setSliderIndex( int index );
+	void setSliderIndex(int index);
 	//Return the current timescale slider value
 	int getTimeScaleSliderValue() const;
 	QString getTimeScaleSliderText() const;
 
-public slots:
+	public slots:
 	/** Invalidates the area of the back buffer used by this clip. */
-	void invalidateClipBuffer( DocClipRef *clip );
-signals:
+	void invalidateClipBuffer(DocClipRef * clip);
+	 signals:
 	/** emitted when something of interest is happening over a clip on the timeline. */
-	void lookingAtClip( DocClipRef *, const GenTime & );
-private:
+	void lookingAtClip(DocClipRef *, const GenTime &);
+      private:
 	// A tool that can be used to change the timescale of the timeline.
-	KMMRulerPanel *m_rulerToolWidget;
-};
+	 KMMRulerPanel * m_rulerToolWidget;
+    };
 
-} // namespace Gui
-
+}				// namespace Gui
 #endif
-

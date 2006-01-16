@@ -21,9 +21,8 @@
 #include <klocale.h>
 #include <kdebug.h>
 
-DocumentGroupNode::DocumentGroupNode(DocumentBaseNode *parent, const QString &groupName) :
-			DocumentBaseNode(parent),
-			m_name(groupName)
+DocumentGroupNode::DocumentGroupNode(DocumentBaseNode * parent, const QString & groupName):
+DocumentBaseNode(parent), m_name(groupName)
 {
 }
 
@@ -32,7 +31,7 @@ DocumentGroupNode::~DocumentGroupNode()
 }
 
 // virtual 
-const QString &DocumentGroupNode::name() const
+const QString & DocumentGroupNode::name() const
 {
-	return m_name;
+    return m_name;
 }

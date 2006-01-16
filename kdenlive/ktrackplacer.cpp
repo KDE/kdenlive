@@ -21,47 +21,54 @@
 #include "doctrackbase.h"
 #include "trackviewdecorator.h"
 
-namespace Gui
-{
+namespace Gui {
 
-KTrackPlacer::KTrackPlacer(KdenliveDoc *doc, KTimeLine *timeline, DocTrackBase *track) :
-				m_docTrack(track),
-				m_timeline(timeline),
-				m_document(doc)
-{
-}
-
-
-KTrackPlacer::~KTrackPlacer()
-{
-}
+    KTrackPlacer::KTrackPlacer(KdenliveDoc * doc, KTimeLine * timeline,
+	DocTrackBase * track):m_docTrack(track), m_timeline(timeline),
+	m_document(doc) {
+    } KTrackPlacer::~KTrackPlacer() {
+    }
 
 // virtual
-void KTrackPlacer::drawToBackBuffer(QPainter &painter, QRect &rect, TrackViewDecorator *decorator)
-{
-	GenTime startValue = GenTime(m_timeline->mapLocalToValue(0.0), m_docTrack->framesPerSecond());
-	GenTime endValue = GenTime(m_timeline->mapLocalToValue(rect.width()), m_docTrack->framesPerSecond());
+    void KTrackPlacer::drawToBackBuffer(QPainter & painter, QRect & rect,
+	TrackViewDecorator * decorator) {
+	GenTime startValue =
+	    GenTime(m_timeline->mapLocalToValue(0.0),
+	    m_docTrack->framesPerSecond());
+	GenTime endValue =
+	    GenTime(m_timeline->mapLocalToValue(rect.width()),
+	    m_docTrack->framesPerSecond());
 
-	QPtrListIterator<DocClipRef> clip = m_docTrack->firstClip(startValue, endValue, false);
-	DocClipRef *endClip = m_docTrack->endClip(startValue, endValue, false).current();
-	for(DocClipRef *curClip; (curClip = clip.current())!=endClip; ++clip) {
-		double sx = m_timeline->mapValueToLocal(curClip->trackStart().frames(m_docTrack->framesPerSecond()));
-		double ex = m_timeline->mapValueToLocal(curClip->trackEnd().frames(m_docTrack->framesPerSecond()));
-		decorator->paintClip(sx, ex, painter, curClip, rect, false);
+	QPtrListIterator < DocClipRef > clip =
+	    m_docTrack->firstClip(startValue, endValue, false);
+	DocClipRef *endClip =
+	    m_docTrack->endClip(startValue, endValue, false).current();
+	for (DocClipRef * curClip; (curClip = clip.current()) != endClip;
+	    ++clip) {
+	    double sx =
+		m_timeline->mapValueToLocal(curClip->trackStart().
+		frames(m_docTrack->framesPerSecond()));
+	    double ex =
+		m_timeline->mapValueToLocal(curClip->trackEnd().
+		frames(m_docTrack->framesPerSecond()));
+	    decorator->paintClip(sx, ex, painter, curClip, rect, false);
 	}
 
 	clip = m_docTrack->firstClip(startValue, endValue, true);
-	endClip = m_docTrack->endClip(startValue, endValue, true).current();
-	for(DocClipRef *curClip; (curClip = clip.current())!=endClip; ++clip) {
-		double sx = m_timeline->mapValueToLocal(curClip->trackStart().frames(m_docTrack->framesPerSecond()));
-		double ex = m_timeline->mapValueToLocal(curClip->trackEnd().frames(m_docTrack->framesPerSecond()));
-		decorator->paintClip(sx, ex, painter, curClip, rect, true);
+	endClip =
+	    m_docTrack->endClip(startValue, endValue, true).current();
+	for (DocClipRef * curClip; (curClip = clip.current()) != endClip;
+	    ++clip) {
+	    double sx =
+		m_timeline->mapValueToLocal(curClip->trackStart().
+		frames(m_docTrack->framesPerSecond()));
+	    double ex =
+		m_timeline->mapValueToLocal(curClip->trackEnd().
+		frames(m_docTrack->framesPerSecond()));
+	    decorator->paintClip(sx, ex, painter, curClip, rect, true);
 	}
-}
+    }
 
-int KTrackPlacer::documentTrackIndex()  const
-{
+    int KTrackPlacer::documentTrackIndex() const {
 	return m_document->trackIndex(m_docTrack);
-}
-
-} // namespace Gui
+}}				// namespace Gui

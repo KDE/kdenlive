@@ -32,35 +32,35 @@ Manages the various load/save formats that Kdenlive is capable of reading, and p
 
 @author Jason Wood
 */
-class ProjectFormatManager{
-public:
+class ProjectFormatManager {
+  public:
     ProjectFormatManager();
 
     ~ProjectFormatManager();
 
 	/** loads the document by filename and format and emits the updateViews() signal */
-	bool openDocument(const KURL& url, KdenliveDoc *document);
+    bool openDocument(const KURL & url, KdenliveDoc * document);
 	/** saves the document under filename and format.*/
-	bool saveDocument(const KURL& url, KdenliveDoc *document);
+    bool saveDocument(const KURL & url, KdenliveDoc * document);
 
 	/** Returns the mime types that can be loaded in */
-	QString loadMimeTypes();
-	
+    QString loadMimeTypes();
+
 	/** Returns the mime types that can be saved out */
-	QString saveMimeTypes();
-private:
-	QPtrList<SaveProjectFilter> m_saveFilters;
-	QPtrList<LoadProjectFilter> m_loadFilters;
+    QString saveMimeTypes();
+  private:
+     QPtrList < SaveProjectFilter > m_saveFilters;
+     QPtrList < LoadProjectFilter > m_loadFilters;
 
 	/** Register a save filter with the project managaer. */
-	void registerSaveFilter(SaveProjectFilter *filter);
+    void registerSaveFilter(SaveProjectFilter * filter);
 	/** Register a load filter with the project managaer. */
-	void registerLoadFilter(LoadProjectFilter *filter);
+    void registerLoadFilter(LoadProjectFilter * filter);
 
 	/** Find a project filter that can load files of the given foramt. */
-	LoadProjectFilter *findLoadFormat(const QString &format);
+    LoadProjectFilter *findLoadFormat(const QString & format);
 	/** Find a project filter that can save files of the given foramt. */
-	SaveProjectFilter *findSaveFormat(const QString &format);
+    SaveProjectFilter *findSaveFormat(const QString & format);
 
 };
 

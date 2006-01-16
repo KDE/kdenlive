@@ -18,31 +18,22 @@
 
 namespace Gui {
 
-KMonitor::KMonitor( QWidget *parent, const char *name) :
-					QVBox(parent, name)
-{
-}
+    KMonitor::KMonitor(QWidget * parent, const char *name):QVBox(parent,
+	name) {
+    } KMonitor::~KMonitor() {
+    }
 
 
-KMonitor::~KMonitor()
-{
-}
+    void KMonitor::slotSetActive() {
+    }
 
+    void KMonitor::slotSetInactive() {
+    }
 
-void KMonitor::slotSetActive()
-{
-}
+    void KMonitor::slotClearClip() {
+    }
 
-void KMonitor::slotSetInactive()
-{
-}
-
-void KMonitor::slotClearClip()
-{
-}
-
-void KMonitor::slotToggleSnapMarker()
-{
-}
+    void KMonitor::slotToggleSnapMarker() {
+    }
 
 }

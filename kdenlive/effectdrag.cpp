@@ -23,64 +23,67 @@
 #include "effect.h"
 #include "kdenlivedoc.h"
 
-EffectDrag::EffectDrag( Effect *effect, QWidget*dragSource, const char *name ) :
-				QDragObject( dragSource, name ),
-				m_xml(effect->toXML().toString())
+EffectDrag::EffectDrag(Effect * effect, QWidget * dragSource, const char *name):
+QDragObject(dragSource, name), m_xml(effect->toXML().toString())
 {
-	kdWarning() << "Creating EffectDrag" << endl;
+    kdWarning() << "Creating EffectDrag" << endl;
 }
 
 
 EffectDrag::~EffectDrag()
-{}
-
-
-bool EffectDrag::canDecode( const QMimeSource *mime )
 {
-	if ( mime->provides( "application/x-kdenlive-effect" ) ) return true;
-
-	return false;
-}
-
-Effect *EffectDrag::decode( KdenliveDoc *document, const QMimeSource *e )
-{
-	Effect *effect = 0;
-
-	if ( e->provides( "application/x-kdenlive-effect" ) ) {
-		QByteArray data = e->encodedData( "application/x-kdenlive-effect" );
-		QString xml = data;
-		QDomDocument qdomdoc;
-		qdomdoc.setContent( data );
-
-		QDomElement elem = qdomdoc.documentElement();
-		kdDebug()<<"++++++ DRAG EFFECT: "<<qdomdoc.toString()<<endl;
-		effect = document->createEffect(elem);
-	} else {
-		kdWarning() << "Drag drop does no provide type application/x-kdenlive-effect" << endl;
-	}
-	return effect;
-}
-
-QByteArray EffectDrag::encodedData( const char *mime ) const
-{
-	QByteArray encoded;
-	QCString mimetype( mime );
-
-	if ( mimetype == "application/x-kdenlive-effect" ) {
-		encoded.resize( m_xml.length() + 1 );
-		memcpy( encoded.data(), m_xml.utf8().data(), m_xml.length() + 1 );
-	}
-
-	return encoded;
 }
 
 
-const char * EffectDrag::format(int i) const
+bool EffectDrag::canDecode(const QMimeSource * mime)
 {
-	switch (i)
-	{
-		case 0		:	return "application/x-kdenlive-effect";
-		default 	:	return 0;
-	}
+    if (mime->provides("application/x-kdenlive-effect"))
+	return true;
+
+    return false;
 }
 
+Effect *EffectDrag::decode(KdenliveDoc * document, const QMimeSource * e)
+{
+    Effect *effect = 0;
+
+    if (e->provides("application/x-kdenlive-effect")) {
+	QByteArray data = e->encodedData("application/x-kdenlive-effect");
+	QString xml = data;
+	QDomDocument qdomdoc;
+	qdomdoc.setContent(data);
+
+	QDomElement elem = qdomdoc.documentElement();
+	kdDebug() << "++++++ DRAG EFFECT: " << qdomdoc.toString() << endl;
+	effect = document->createEffect(elem);
+    } else {
+	kdWarning() <<
+	    "Drag drop does no provide type application/x-kdenlive-effect"
+	    << endl;
+    }
+    return effect;
+}
+
+QByteArray EffectDrag::encodedData(const char *mime) const
+{
+    QByteArray encoded;
+    QCString mimetype(mime);
+
+    if (mimetype == "application/x-kdenlive-effect") {
+	encoded.resize(m_xml.length() + 1);
+	memcpy(encoded.data(), m_xml.utf8().data(), m_xml.length() + 1);
+    }
+
+    return encoded;
+}
+
+
+const char *EffectDrag::format(int i) const
+{
+    switch (i) {
+    case 0:
+	return "application/x-kdenlive-effect";
+    default:
+	return 0;
+    }
+}

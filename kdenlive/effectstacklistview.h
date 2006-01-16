@@ -23,30 +23,28 @@
 
 class KdenliveDoc;
 
-namespace Gui
-{
-	class KdenliveApp;
+namespace Gui {
+    class KdenliveApp;
 
 /**
 A list view that displays an effect stack, and allows the relevant drag/drop operations for an effect stack.
 
 @author Jason Wood
 */
-class EffectStackListView : public KListView {
-	Q_OBJECT
-public:
-	EffectStackListView(QWidget * parent = 0, const char * name = 0);
+    class EffectStackListView:public KListView {
+      Q_OBJECT public:
+	EffectStackListView(QWidget * parent = 0, const char *name = 0);
 
 	~EffectStackListView();
 
 	void updateEffectStack();
 
 	/** Setup the effect stack dialog to display the given clip */
-	void setEffectStack(DocClipRef *clip);
+	void setEffectStack(DocClipRef * clip);
 
 	/** HACK - this method should be removed and app and doc should be set via the constructor. */
-	void setAppAndDoc(KdenliveApp *app, KdenliveDoc *document);
-public slots:
+	void setAppAndDoc(KdenliveApp * app, KdenliveDoc * document);
+	public slots:
 	/** Moves the currently selected effect one place up the effect stack. If no effect is selected, or if the selected effect is already first in the
 	 * list, then nothing will happen. */
 	void slotMoveEffectUp();
@@ -59,30 +57,29 @@ public slots:
 	/** @returns the index of the currently selected effect, or -1 if no effect is currently selected. */
 	int selectedEffectIndex() const;
 
-	DocClipRef* clip();
-signals:
+	DocClipRef *clip();
+	 signals:
 	/** Emitted when a new effect has been selected in the effect stack. */
 	void effectSelected(DocClipRef *, Effect *);
-protected:
+      protected:
 	/** Returns true if we can accept the drag. An effectstacklistview can accept EffectDrag events. When an event is
 	dropped onto the effectstack it should issue a command to insert the effect at the correct point in the list. */
-	bool acceptDrag (QDropEvent* event) const;
+	 bool acceptDrag(QDropEvent * event) const;
 
 
-private slots:
-	void selectedEffect(QListViewItem *item);
+	private slots: void selectedEffect(QListViewItem * item);
 
 	/** Called when a drag operation has dropped onto the effect stack list. */
-	void dragDropped(QDropEvent* e, QListViewItem* parent, QListViewItem* after);
+	void dragDropped(QDropEvent * e, QListViewItem * parent,
+	    QListViewItem * after);
 
 
-private:
-	
-	DocClipRef *m_clip;
+      private:
+
+	 DocClipRef * m_clip;
 	KdenliveApp *m_app;
 	KdenliveDoc *m_document;
-};
+    };
 
-} // namespace Gui
-
+}				// namespace Gui
 #endif

@@ -2,8 +2,8 @@
                           trackpanelclipresizefunction.h  -  description
                              -------------------
     begin                : Sun May 18 2003
-    copyright            : (C) 2003 by Jason Wood
-    email                : jasonwood@blueyonder.co.uk
+    copyright            : (C) 2003 Jason Wood, jasonwood@blueyonder.co.uk
+			 : (C) 2006 Jean-Baptiste Mardelle, jb@ader.ch
  ***************************************************************************/
 
 /***************************************************************************
@@ -28,83 +28,79 @@ class QMouseEvent;
 class DocTrackBase;
 class KdenliveDoc;
 
-namespace Gui
-{
-	class KdenliveApp;
-	class KTimeLine;
+namespace Gui {
+    class KdenliveApp;
+    class KTimeLine;
+} namespace Command {
+    class KResizeCommand;
 }
-
-
-namespace Command {
-	class KResizeCommand;
-}
-
 /**
 Abstract Base Class for track panel functionality decorators. This and it's
 derived classes allow different behaviours to be added to panels as required.
 
 @author Jason Wood
-*/
-class TrackPanelKeyFrameFunction : public TrackPanelFunction
+*/ class TrackPanelKeyFrameFunction:public TrackPanelFunction
 {
-	Q_OBJECT
-public:
-	TrackPanelKeyFrameFunction(Gui::KdenliveApp *app,
-					Gui::KTimeLine *timeline,
-					KdenliveDoc *document);
+  Q_OBJECT public:
+    TrackPanelKeyFrameFunction(Gui::KdenliveApp * app,
+	Gui::KTimeLine * timeline, KdenliveDoc * document);
 
-	virtual ~TrackPanelKeyFrameFunction();
+    virtual ~ TrackPanelKeyFrameFunction();
 
 
 	/**
 	Returns true if the specified position should cause this function to activate,
 	otherwise returns false.
 	*/
-	virtual bool mouseApplies(Gui::KTrackPanel *panel, QMouseEvent *event) const;
+    virtual bool mouseApplies(Gui::KTrackPanel * panel,
+	QMouseEvent * event) const;
 
 	/**
 	Returns a relevant mouse cursor for the given mouse position
 	*/
-	virtual QCursor getMouseCursor(Gui::KTrackPanel *panel, QMouseEvent *event);
+    virtual QCursor getMouseCursor(Gui::KTrackPanel * panel,
+	QMouseEvent * event);
 
 	/**
 	A mouse button has been pressed. Returns true if we want to handle this event
 	*/
-	virtual bool mousePressed(Gui::KTrackPanel *panel, QMouseEvent *event);
+    virtual bool mousePressed(Gui::KTrackPanel * panel,
+	QMouseEvent * event);
 
 	/**
 	Mouse Release Events in the track view area. Returns true if we have finished
 	an operation now.
 	*/
-	virtual bool mouseReleased(Gui::KTrackPanel *panel, QMouseEvent *event);
+    virtual bool mouseReleased(Gui::KTrackPanel * panel,
+	QMouseEvent * event);
 
 	/**
 	Processes Mouse Move events in the track view area. Returns true if we are
 	continuing with the drag.*/
-	virtual bool mouseMoved(Gui::KTrackPanel *panel, QMouseEvent *event);
+    virtual bool mouseMoved(Gui::KTrackPanel * panel, QMouseEvent * event);
 
-signals: // Signals
+     signals:			// Signals
   /**
   Emitted when a keyframe was changed.
   */
-  void signalKeyFrameChanged(bool); //DocClipRef *);
+    void signalKeyFrameChanged(bool);	//DocClipRef *);
 
-  void redrawTrack();
+    void redrawTrack();
 
-private:
-	//enum ActionState {Move, Create, None};
-	static const uint s_resizeTolerance;
-	Gui::KdenliveApp *m_app;
-	Gui::KTimeLine *m_timeline;
-	KdenliveDoc *m_document;
-	DocClipRef * m_clipUnderMouse;
-	//ActionState m_actionState;
-	int m_selectedKeyframe;
-	int m_selectedKeyframeValue;
-  	/** This command holds the resize information during a resize operation */
-  	Command::KResizeCommand * m_resizeCommand;
-	SnapToGrid m_snapToGrid;
-	bool m_refresh;
+  private:
+    //enum ActionState {Move, Create, None};
+    static const uint s_resizeTolerance;
+     Gui::KdenliveApp * m_app;
+     Gui::KTimeLine * m_timeline;
+    KdenliveDoc *m_document;
+    DocClipRef *m_clipUnderMouse;
+    //ActionState m_actionState;
+    int m_selectedKeyframe;
+    int m_selectedKeyframeValue;
+	/** This command holds the resize information during a resize operation */
+     Command::KResizeCommand * m_resizeCommand;
+    SnapToGrid m_snapToGrid;
+    bool m_refresh;
 };
 
 #endif

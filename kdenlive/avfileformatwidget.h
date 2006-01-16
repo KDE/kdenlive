@@ -31,20 +31,20 @@ class KURLRequester;
 class QHBox;
 class QLabel;
 
-class AVFileFormatWidget : public QVBox, public AVFormatWidgetBase  {
-   Q_OBJECT
-public: 
-	AVFileFormatWidget(AVFileFormatDesc *desc, QWidget *parent=0, const char *name=0);
-	~AVFileFormatWidget();
-  QWidget *widget();
+class AVFileFormatWidget:public QVBox, public AVFormatWidgetBase {
+  Q_OBJECT public:
+    AVFileFormatWidget(AVFileFormatDesc * desc, QWidget * parent =
+	0, const char *name = 0);
+    ~AVFileFormatWidget();
+    QWidget *widget();
    /** Returns the url of this file widget. */
-  KURL fileUrl() const;
-  AVFileFormatWidget * fileFormatWidget();
-private:
-  QHBox *m_fileHBox;
-  QLabel *m_fileLabel;
-  KURLRequester *m_filename;
-  AVFileFormatDesc *m_desc; 
+    KURL fileUrl() const;
+    AVFileFormatWidget *fileFormatWidget();
+  private:
+     QHBox * m_fileHBox;
+    QLabel *m_fileLabel;
+    KURLRequester *m_filename;
+    AVFileFormatDesc *m_desc;
 };
 
 #endif

@@ -23,27 +23,25 @@
 
 class KRenderManager;
 
-namespace Gui
-{
-	class KdenliveApp;
+namespace Gui {
+    class KdenliveApp;
 
 /**Contains the Setup dialog for the renderer.
   *@author Jason Wood
   */
 
-class RenderSetupDlg : public RenderSetupDlg_UI  {
-   Q_OBJECT
-public:
-  RenderSetupDlg(KRenderManager *renderManager, QWidget *parent=0, const char *name=0);
-  ~RenderSetupDlg();
+    class RenderSetupDlg:public RenderSetupDlg_UI {
+      Q_OBJECT public:
+	RenderSetupDlg(KRenderManager * renderManager, QWidget * parent =
+	    0, const char *name = 0);
+	~RenderSetupDlg();
   /** Read the settings from the application */
-  void readSettings();
+	void readSettings();
   /** Write the current settings back to the application */
-  void writeSettings();
-private:
-  KRenderManager *m_renderManager;
-};
+	void writeSettings();
+      private:
+	 KRenderManager * m_renderManager;
+    };
 
-} // namespace Gui
-
+}				// namespace Gui
 #endif

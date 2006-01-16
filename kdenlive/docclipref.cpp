@@ -31,728 +31,869 @@
 #include "effectcomplexkeyframe.h"
 #include "kdenlivedoc.h"
 
-DocClipRef::DocClipRef(DocClipBase *clip) :
-	m_trackStart(0.0),
-	m_cropStart(0.0),
-	m_trackEnd(0.0),
-	m_parentTrack(0),
-	m_trackNum(-1),
-	m_clip(clip)
+DocClipRef::DocClipRef(DocClipBase * clip):
+m_trackStart(0.0),
+m_cropStart(0.0),
+m_trackEnd(0.0), m_parentTrack(0), m_trackNum(-1), m_clip(clip)
 {
-	if(!clip) {
-		kdError() << "Creating a DocClipRef with no clip - not a very clever thing to do!!!" << endl;
-	}
-	m_thumbnail = referencedClip()->thumbnail();
+    if (!clip) {
+	kdError() <<
+	    "Creating a DocClipRef with no clip - not a very clever thing to do!!!"
+	    << endl;
+    }
+    m_thumbnail = referencedClip()->thumbnail();
 }
 
 DocClipRef::~DocClipRef()
 {
 }
 
-const GenTime &DocClipRef::trackStart() const {
-  return m_trackStart;
+const GenTime & DocClipRef::trackStart() const
+{
+    return m_trackStart;
 }
 
 void DocClipRef::setTrackStart(const GenTime time)
 {
-	m_trackStart = time;
+    m_trackStart = time;
 
-	if(m_parentTrack) {
-		m_parentTrack->clipMoved(this);
-	}
+    if (m_parentTrack) {
+	m_parentTrack->clipMoved(this);
+    }
 }
 
-const QString &DocClipRef::name() const
+const QString & DocClipRef::name() const
 {
-	return m_clip->name();
+    return m_clip->name();
 }
 
-const QString &DocClipRef::description() const
+const QString & DocClipRef::description() const
 {
-	return m_clip->description();
+    return m_clip->description();
 }
 
-void DocClipRef::setDescription(const QString &description)
+void DocClipRef::setDescription(const QString & description)
 {
-	m_clip->setDescription(description);
+    m_clip->setDescription(description);
 }
 
-void DocClipRef::setCropStartTime(const GenTime &time)
+void DocClipRef::setCropStartTime(const GenTime & time)
 {
-	m_cropStart = time;
-	if(m_parentTrack) {
-		m_parentTrack->clipMoved(this);	
-	}
+    m_cropStart = time;
+    if (m_parentTrack) {
+	m_parentTrack->clipMoved(this);
+    }
 }
 
-const GenTime &DocClipRef::cropStartTime() const
+const GenTime & DocClipRef::cropStartTime() const
 {
-	return m_cropStart;
+    return m_cropStart;
 }
 
-void DocClipRef::setTrackEnd(const GenTime &time)
+void DocClipRef::setTrackEnd(const GenTime & time)
 {
-	m_trackEnd = time;
+    m_trackEnd = time;
 
-	if(m_parentTrack) {
-		m_parentTrack->clipMoved(this);
-	}
+    if (m_parentTrack) {
+	m_parentTrack->clipMoved(this);
+    }
 }
 
 GenTime DocClipRef::cropDuration() const
 {
-	return m_trackEnd - m_trackStart;
+    return m_trackEnd - m_trackStart;
 }
 
 void DocClipRef::updateThumbnail(QPixmap newpix)
 {
-	m_thumbnail = newpix;
+    m_thumbnail = newpix;
 }
 
 
 QPixmap DocClipRef::thumbnail()
 {
-	return m_thumbnail;
+    return m_thumbnail;
 }
 
-DocClipRef *DocClipRef::createClip(const EffectDescriptionList &effectList, ClipManager &clipManager, const QDomElement &element)
+DocClipRef *DocClipRef::
+createClip(const EffectDescriptionList & effectList,
+    ClipManager & clipManager, const QDomElement & element)
 {
-	DocClipRef *clip = 0;
-	GenTime trackStart;
-	GenTime cropStart;
-	GenTime cropDuration;
-	GenTime trackEnd;
-	QString description;
-	QValueVector<GenTime> markers;
-	EffectStack effectStack;
+    DocClipRef *clip = 0;
+    GenTime trackStart;
+    GenTime cropStart;
+    GenTime cropDuration;
+    GenTime trackEnd;
+    QString description;
+    QValueVector < GenTime > markers;
+    EffectStack effectStack;
 
-	kdWarning() << "================================" << endl;
-	kdWarning() << "Creating Clip : " << element.ownerDocument().toString() << endl;
+    kdWarning() << "================================" << endl;
+    kdWarning() << "Creating Clip : " << element.ownerDocument().
+	toString() << endl;
 
-	int trackNum = 0;
+    int trackNum = 0;
 
-	QDomNode node = element;
-	node.normalize();
+    QDomNode node = element;
+    node.normalize();
 
-	if(element.tagName() != "clip") {
-		kdWarning()	<< "DocClipRef::createClip() element has unknown tagName : " << element.tagName() << endl;
-		return 0;
-	}
+    if (element.tagName() != "clip") {
+	kdWarning() <<
+	    "DocClipRef::createClip() element has unknown tagName : " <<
+	    element.tagName() << endl;
+	return 0;
+    }
 
-	DocClipBase *baseClip = clipManager.insertClip(element);
+    DocClipBase *baseClip = clipManager.insertClip(element);
 
-	if(baseClip) {
-		clip = new DocClipRef(baseClip);
-	}
+    if (baseClip) {
+	clip = new DocClipRef(baseClip);
+    }
 
-	QDomNode n = element.firstChild();
+    QDomNode n = element.firstChild();
 
-	while(!n.isNull()) {
-		QDomElement e = n.toElement();
-		if(!e.isNull()) {
-			kdWarning() << "DocClipRef::createClip() tag = " << e.tagName() << endl;
-			if(e.tagName() == "avfile") {
-				// Do nothing, this is handled via the clipmanage insertClip method above.
-			} else if(e.tagName() == "project") {
-				// Do nothing, this is handled via the clipmanage insertClip method above.
-			} else if(e.tagName() == "position") {
-				trackNum = e.attribute("track", "-1").toInt();
-				trackStart = GenTime(e.attribute("trackstart", "0").toDouble());
-				cropStart = GenTime(e.attribute("cropstart", "0").toDouble());
-				cropDuration = GenTime(e.attribute("cropduration", "0").toDouble());
-				trackEnd = GenTime(e.attribute("trackend", "-1").toDouble());
-			} else  if(e.tagName() == "markers") {
-				QDomNode markerNode = e.firstChild();
-				while(!markerNode.isNull()) {
-					QDomElement markerElement = markerNode.toElement();
-					if(!markerElement.isNull()) {
-						if(markerElement.tagName() == "marker") {
-							markers.append(GenTime(markerElement.attribute("time", "0").toDouble()));
-						} else {
-							kdWarning() << "Unknown tag " << markerElement.tagName() << endl;
-						}
-					}
-					markerNode = markerNode.nextSibling();
-				}
-			} else  if(e.tagName() == "effects") {
-				kdWarning() << "Found effects tag" << endl;
-				QDomNode effectNode = e.firstChild();
-				while(!effectNode.isNull()) {
-					QDomElement effectElement = effectNode.toElement();
-					kdWarning() << "Effect node..." << endl;
-					if(!effectElement.isNull()) {
-						kdWarning() << "has tag name "<< effectElement.tagName() << endl;
-						if(effectElement.tagName() == "effect") {
-							EffectDesc *desc = effectList.effectDescription(effectElement.attribute("type", QString::null));
-							if(desc) {
-								kdWarning() << "Appending effect " << desc->name() << endl;
-								effectStack.append(Effect::createEffect(*desc, effectElement));
-							} else {
-								kdWarning() << "Unknown effect " << effectElement.attribute("type", QString::null) << endl;
-							}
-						} else {
-							kdWarning() << "Unknown tag " << effectElement.tagName() << endl;
-						}
-					}
-					effectNode = effectNode.nextSibling();
-				}
+    while (!n.isNull()) {
+	QDomElement e = n.toElement();
+	if (!e.isNull()) {
+	    kdWarning() << "DocClipRef::createClip() tag = " << e.
+		tagName() << endl;
+	    if (e.tagName() == "avfile") {
+		// Do nothing, this is handled via the clipmanage insertClip method above.
+	    } else if (e.tagName() == "project") {
+		// Do nothing, this is handled via the clipmanage insertClip method above.
+	    } else if (e.tagName() == "position") {
+		trackNum = e.attribute("track", "-1").toInt();
+		trackStart =
+		    GenTime(e.attribute("trackstart", "0").toDouble());
+		cropStart =
+		    GenTime(e.attribute("cropstart", "0").toDouble());
+		cropDuration =
+		    GenTime(e.attribute("cropduration", "0").toDouble());
+		trackEnd =
+		    GenTime(e.attribute("trackend", "-1").toDouble());
+	    } else if (e.tagName() == "markers") {
+		QDomNode markerNode = e.firstChild();
+		while (!markerNode.isNull()) {
+		    QDomElement markerElement = markerNode.toElement();
+		    if (!markerElement.isNull()) {
+			if (markerElement.tagName() == "marker") {
+			    markers.append(GenTime(markerElement.
+				    attribute("time", "0").toDouble()));
 			} else {
-//				kdWarning() << "DocClipRef::createClip() unknown tag : " << e.tagName() << endl;
+			    kdWarning() << "Unknown tag " << markerElement.
+				tagName() << endl;
 			}
+		    }
+		    markerNode = markerNode.nextSibling();
 		}
-
-		n = n.nextSibling();
+	    } else if (e.tagName() == "effects") {
+		kdWarning() << "Found effects tag" << endl;
+		QDomNode effectNode = e.firstChild();
+		while (!effectNode.isNull()) {
+		    QDomElement effectElement = effectNode.toElement();
+		    kdWarning() << "Effect node..." << endl;
+		    if (!effectElement.isNull()) {
+			kdWarning() << "has tag name " << effectElement.
+			    tagName() << endl;
+			if (effectElement.tagName() == "effect") {
+			    EffectDesc *desc =
+				effectList.effectDescription(effectElement.
+				attribute("type", QString::null));
+			    if (desc) {
+				kdWarning() << "Appending effect " <<
+				    desc->name() << endl;
+				effectStack.
+				    append(Effect::createEffect(*desc,
+					effectElement));
+			    } else {
+				kdWarning() << "Unknown effect " <<
+				    effectElement.attribute("type",
+				    QString::null) << endl;
+			    }
+			} else {
+			    kdWarning() << "Unknown tag " << effectElement.
+				tagName() << endl;
+			}
+		    }
+		    effectNode = effectNode.nextSibling();
+		}
+	    } else {
+//                              kdWarning() << "DocClipRef::createClip() unknown tag : " << e.tagName() << endl;
+	    }
 	}
 
-	if(clip==0) {
-	  kdWarning()	<< "DocClipRef::createClip() unable to create clip" << endl;
+	n = n.nextSibling();
+    }
+
+    if (clip == 0) {
+	kdWarning() << "DocClipRef::createClip() unable to create clip" <<
+	    endl;
+    } else {
+	// setup DocClipRef specifics of the clip.
+	clip->setTrackStart(trackStart);
+	clip->setCropStartTime(cropStart);
+	if (trackEnd.seconds() != -1) {
+	    clip->setTrackEnd(trackEnd);
 	} else {
-		// setup DocClipRef specifics of the clip.
-		clip->setTrackStart(trackStart);
-		clip->setCropStartTime(cropStart);
-		if(trackEnd.seconds() != -1) {
-			clip->setTrackEnd(trackEnd);
-		} else {
-			clip->setTrackEnd(trackStart + cropDuration);
-		}
-		clip->setParentTrack(0, trackNum);
-		clip->setSnapMarkers(markers);
-		//clip->setDescription(description);
-		clip->setEffectStack(effectStack);
+	    clip->setTrackEnd(trackStart + cropDuration);
 	}
-	
-	return clip;
+	clip->setParentTrack(0, trackNum);
+	clip->setSnapMarkers(markers);
+	//clip->setDescription(description);
+	clip->setEffectStack(effectStack);
+    }
+
+    return clip;
 }
 
 /** Sets the parent track for this clip. */
-void DocClipRef::setParentTrack(DocTrackBase *track, const int trackNum)
+void DocClipRef::setParentTrack(DocTrackBase * track, const int trackNum)
 {
-	m_parentTrack = track;
-	m_trackNum = trackNum;
+    m_parentTrack = track;
+    m_trackNum = trackNum;
 }
 
 /** Returns the track number. This is a hint as to which track the clip is on, or should be placed on. */
 int DocClipRef::trackNum() const
 {
-	return m_trackNum;
+    return m_trackNum;
 }
 
 /** Returns the end of the clip on the track. A convenience function, equivalent
 to trackStart() + cropDuration() */
 GenTime DocClipRef::trackEnd() const
 {
-	return m_trackEnd;
+    return m_trackEnd;
 }
 
 /** Returns the parentTrack of this clip. */
-DocTrackBase * DocClipRef::parentTrack()
+DocTrackBase *DocClipRef::parentTrack()
 {
-	return m_parentTrack;
+    return m_parentTrack;
 }
 
 /** Move the clips so that it's trackStart coincides with the time specified. */
-void DocClipRef::moveTrackStart(const GenTime &time)
+void DocClipRef::moveTrackStart(const GenTime & time)
 {
-	m_trackEnd = m_trackEnd + time - m_trackStart;
-	m_trackStart = time;
+    m_trackEnd = m_trackEnd + time - m_trackStart;
+    m_trackStart = time;
 }
 
-DocClipRef *DocClipRef::clone(const EffectDescriptionList &effectList, ClipManager &clipManager)
+DocClipRef *DocClipRef::clone(const EffectDescriptionList & effectList,
+    ClipManager & clipManager)
 {
-	return createClip(effectList, clipManager, toXML().documentElement());
+    return createClip(effectList, clipManager, toXML().documentElement());
 }
 
-bool DocClipRef::referencesClip(DocClipBase *clip) const
+bool DocClipRef::referencesClip(DocClipBase * clip) const
 {
-	return m_clip->referencesClip(clip);
+    return m_clip->referencesClip(clip);
 }
 
 uint DocClipRef::numReferences() const
 {
-	return m_clip->numReferences();
+    return m_clip->numReferences();
 }
 
 double DocClipRef::framesPerSecond() const
 {
-	if(m_parentTrack) {
-		return m_parentTrack->framesPerSecond();
-	} else {
-		return m_clip->framesPerSecond();
-	}
+    if (m_parentTrack) {
+	return m_parentTrack->framesPerSecond();
+    } else {
+	return m_clip->framesPerSecond();
+    }
 }
+
 //returns clip video properties -reh
 DocClipBase::CLIPTYPE DocClipRef::clipType() const
 {
-	return m_clip->toDocClipAVFile()->clipType();
+    return m_clip->toDocClipAVFile()->clipType();
 }
 
 uint DocClipRef::clipHeight() const
 {
-	return m_clip->toDocClipAVFile()->clipHeight();
+    return m_clip->toDocClipAVFile()->clipHeight();
 }
+
 uint DocClipRef::clipWidth() const
 {
-	return m_clip->toDocClipAVFile()->clipWidth();
+    return m_clip->toDocClipAVFile()->clipWidth();
 }
+
 QString DocClipRef::avDecompressor()
 {
-	return m_clip->toDocClipAVFile()->avDecompressor();
+    return m_clip->toDocClipAVFile()->avDecompressor();
 }
+
 //type ntsc/pal
 QString DocClipRef::avSystem()
 {
-	return m_clip->toDocClipAVFile()->avSystem();
+    return m_clip->toDocClipAVFile()->avSystem();
 }
+
 //returns clip audio properties -reh
 uint DocClipRef::audioChannels() const
 {
-	return m_clip->toDocClipAVFile()->audioChannels();
+    return m_clip->toDocClipAVFile()->audioChannels();
 }
+
 QString DocClipRef::audioFormat()
 {
-	return m_clip->toDocClipAVFile()->audioFormat();
+    return m_clip->toDocClipAVFile()->audioFormat();
 }
+
 uint DocClipRef::audioBits() const
 {
-	return m_clip->toDocClipAVFile()->audioBits();
+    return m_clip->toDocClipAVFile()->audioBits();
 }
 
 QDomDocument DocClipRef::toXML() const
 {
-	QDomDocument doc = m_clip->toXML();
+    QDomDocument doc = m_clip->toXML();
 
-	
-	QDomElement clip = doc.documentElement();
 
-	if(clip.tagName() != "clip") {
-		kdError() << "Expected tagname of 'clip' in DocClipRef::toXML(), expect things to go wrong!" << endl;
+    QDomElement clip = doc.documentElement();
+
+    if (clip.tagName() != "clip") {
+	kdError() <<
+	    "Expected tagname of 'clip' in DocClipRef::toXML(), expect things to go wrong!"
+	    << endl;
+    }
+
+    QDomElement position = doc.createElement("position");
+    position.setAttribute("track", QString::number(trackNum()));
+    position.setAttribute("trackstart",
+	QString::number(trackStart().seconds(), 'f', 10));
+    position.setAttribute("cropstart",
+	QString::number(cropStartTime().seconds(), 'f', 10));
+    position.setAttribute("cropduration",
+	QString::number(cropDuration().seconds(), 'f', 10));
+    position.setAttribute("trackend", QString::number(trackEnd().seconds(),
+	    'f', 10));
+
+    clip.appendChild(position);
+
+    if (!m_effectStack.isEmpty()) {
+	QDomElement effects = doc.createElement("effects");
+
+	EffectStack::iterator itt = m_effectStack.begin();
+	while (itt != m_effectStack.end()) {
+	    effects.appendChild(doc.importNode((*itt)->toXML().
+		    documentElement(), true));
+	    ++itt;
 	}
 
-	QDomElement position = doc.createElement("position");
-	position.setAttribute("track", QString::number(trackNum()));
-	position.setAttribute("trackstart", QString::number(trackStart().seconds(), 'f', 10));
-	position.setAttribute("cropstart", QString::number(cropStartTime().seconds(), 'f', 10));
-	position.setAttribute("cropduration", QString::number(cropDuration().seconds(), 'f', 10));
-	position.setAttribute("trackend", QString::number(trackEnd().seconds(), 'f', 10));
+	clip.appendChild(effects);
+    }
 
-	clip.appendChild(position);
+    QDomElement markers = doc.createElement("markers");
+    for (uint count = 0; count < m_snapMarkers.count(); ++count) {
+	QDomElement marker = doc.createElement("marker");
+	marker.setAttribute("time",
+	    QString::number(m_snapMarkers[count].seconds(), 'f', 10));
+	markers.appendChild(marker);
+    }
+    clip.appendChild(markers);
+    doc.appendChild(clip);
 
-	if(!m_effectStack.isEmpty()) {
-		QDomElement effects = doc.createElement("effects");
-
-		EffectStack::iterator itt = m_effectStack.begin();
-		while(itt != m_effectStack.end()) {
-			effects.appendChild(doc.importNode((*itt)->toXML().documentElement(), true));
-			++itt;
-		}
-
-		clip.appendChild(effects);
-	}
-
-	QDomElement markers = doc.createElement("markers");
-	for(uint count=0; count<m_snapMarkers.count(); ++count) {
-		QDomElement marker = doc.createElement("marker");
-		marker.setAttribute("time", QString::number(m_snapMarkers[count].seconds(), 'f', 10));
-		markers.appendChild(marker);
-	}
-	clip.appendChild(markers);
-	doc.appendChild(clip);
-	
-	return doc;
+    return doc;
 }
 
-bool DocClipRef::matchesXML(const QDomElement &element) const
+bool DocClipRef::matchesXML(const QDomElement & element) const
 {
-	bool result = false;
-	if(element.tagName() == "clip")
-	{
-		QDomNodeList nodeList = element.elementsByTagName("position");
-		if(nodeList.length() > 0) {
-			if(nodeList.length() > 1) {
-				kdWarning() << "More than one position in XML for a docClip? Only matching first one" << endl;
-			}
-			QDomElement positionElement = nodeList.item(0).toElement();
+    bool result = false;
+    if (element.tagName() == "clip") {
+	QDomNodeList nodeList = element.elementsByTagName("position");
+	if (nodeList.length() > 0) {
+	    if (nodeList.length() > 1) {
+		kdWarning() <<
+		    "More than one position in XML for a docClip? Only matching first one"
+		    << endl;
+	    }
+	    QDomElement positionElement = nodeList.item(0).toElement();
 
-			if(!positionElement.isNull()) {
-				result = true;
-				if(positionElement.attribute("track").toInt() != trackNum()) result = false;
-				if(positionElement.attribute("trackstart").toInt() != trackStart().seconds()) result = false;
-				if(positionElement.attribute("cropstart").toInt() != cropStartTime().seconds()) result = false;
-				if(positionElement.attribute("cropduration").toInt() != cropDuration().seconds()) result = false;
-				if(positionElement.attribute("trackend").toInt() != trackEnd().seconds()) result = false;
-			}
-		}
+	    if (!positionElement.isNull()) {
+		result = true;
+		if (positionElement.attribute("track").toInt() !=
+		    trackNum())
+		    result = false;
+		if (positionElement.attribute("trackstart").toInt() !=
+		    trackStart().seconds())
+		    result = false;
+		if (positionElement.attribute("cropstart").toInt() !=
+		    cropStartTime().seconds())
+		    result = false;
+		if (positionElement.attribute("cropduration").toInt() !=
+		    cropDuration().seconds())
+		    result = false;
+		if (positionElement.attribute("trackend").toInt() !=
+		    trackEnd().seconds())
+		    result = false;
+	    }
 	}
+    }
 
-	return result;
+    return result;
 }
 
-const GenTime &DocClipRef::duration() const
+const GenTime & DocClipRef::duration() const
 {
-	return m_clip->duration();
+    return m_clip->duration();
 }
 
 bool DocClipRef::durationKnown() const
 {
-	return m_clip->durationKnown();
+    return m_clip->durationKnown();
 }
 
 QDomDocument DocClipRef::generateSceneList()
 {
-	return m_clip->generateSceneList();
+    return m_clip->generateSceneList();
 }
 
 
 QDomDocument DocClipRef::generateXMLClip()
 {
-	if (m_cropStart == m_trackEnd) return QDomDocument();
+    if (m_cropStart == m_trackEnd)
+	return QDomDocument();
 
-	QDomDocument sceneList;
-	
-	QDomElement entry = sceneList.createElement("entry");
+    QDomDocument sceneList;
+
+    QDomElement entry = sceneList.createElement("entry");
 
 /*	if (parentTrack()->clipType() == "Sound") 
 	entry.setAttribute("producer", QString("audio_producer") + QString::number(m_clip->toDocClipAVFile()->getId()) );
 
 	else entry.setAttribute("producer", QString("video_producer") + QString::number(m_clip->toDocClipAVFile()->getId()) );*/
 
-	entry.setAttribute("producer", QString("producer") + QString::number(m_clip->toDocClipAVFile()->getId()) );
+    entry.setAttribute("producer",
+	QString("producer") +
+	QString::number(m_clip->toDocClipAVFile()->getId()));
 
-	entry.setAttribute("in", QString::number(m_cropStart.frames(framesPerSecond())));
-	entry.setAttribute("out", QString::number((m_cropStart+cropDuration()).frames(framesPerSecond())));
+    entry.setAttribute("in",
+	QString::number(m_cropStart.frames(framesPerSecond())));
+    entry.setAttribute("out",
+	QString::number((m_cropStart +
+		cropDuration()).frames(framesPerSecond())));
 
-	// Generate XML for the clip's effects 
-	// As a starting point, let's consider effects don't have more than one keyframable parameter.
-	// All other parameters are supposed to be "constant", ie a value which can be adjusted by 
-	// the user but remains the same during all the clip's duration.
-	uint i = 0;
-	if (hasEffect())
+    // Generate XML for the clip's effects 
+    // As a starting point, let's consider effects don't have more than one keyframable parameter.
+    // All other parameters are supposed to be "constant", ie a value which can be adjusted by 
+    // the user but remains the same during all the clip's duration.
+    uint i = 0;
+    if (hasEffect())
 	while (effectAt(i) != NULL) {
-	Effect *effect = effectAt(i);
-	uint parameterNum = 0;
-	bool hasParameters = false;
+	    Effect *effect = effectAt(i);
+	    uint parameterNum = 0;
+	    bool hasParameters = false;
 
-	while (effect->parameter(parameterNum)) {
+	    while (effect->parameter(parameterNum)) {
 		uint keyFrameNum = 0;
 		uint maxValue;
 		uint minValue;
 
-		if (effect->effectDescription().parameter(parameterNum)->type() == "complex") {
-			// Effect has keyframes with several sub-parameters
-			QString startTag, endTag;
-			keyFrameNum = effect->parameter(parameterNum)->numKeyFrames();
-			startTag = effect->effectDescription().parameter(parameterNum)->startTag();
-			endTag = effect->effectDescription().parameter(parameterNum)->endTag();
+		if (effect->effectDescription().parameter(parameterNum)->
+		    type() == "complex") {
+		    // Effect has keyframes with several sub-parameters
+		    QString startTag, endTag;
+		    keyFrameNum =
+			effect->parameter(parameterNum)->numKeyFrames();
+		    startTag =
+			effect->effectDescription().
+			parameter(parameterNum)->startTag();
+		    endTag =
+			effect->effectDescription().
+			parameter(parameterNum)->endTag();
 
-			if (keyFrameNum > 1) {
-				for (uint count = 0; count < keyFrameNum-1; count++) {
-					QDomElement transition = sceneList.createElement("filter");
-					transition.setAttribute("mlt_service",effect->effectDescription().tag()); 
-					uint in = m_cropStart.frames(framesPerSecond());
-					uint duration = cropDuration().frames(framesPerSecond());
-					transition.setAttribute("in",QString::number(in + (effect->parameter(parameterNum)->keyframe(count)->time())*duration));
-					transition.setAttribute("out",QString::number(in + (effect->parameter(parameterNum)->keyframe(count+1)->time())*duration)); 
+		    if (keyFrameNum > 1) {
+			for (uint count = 0; count < keyFrameNum - 1;
+			    count++) {
+			    QDomElement transition =
+				sceneList.createElement("filter");
+			    transition.setAttribute("mlt_service",
+				effect->effectDescription().tag());
+			    uint in =
+				m_cropStart.frames(framesPerSecond());
+			    uint duration =
+				cropDuration().frames(framesPerSecond());
+			    transition.setAttribute("in",
+				QString::number(in +
+				    (effect->parameter(parameterNum)->
+					keyframe(count)->time()) *
+				    duration));
+			    transition.setAttribute("out",
+				QString::number(in +
+				    (effect->parameter(parameterNum)->
+					keyframe(count +
+					    1)->time()) * duration));
 
-					transition.setAttribute(startTag,effect->parameter(parameterNum)->keyframe(count)->toComplexKeyFrame()->processComplexKeyFrame()); 
+			    transition.setAttribute(startTag,
+				effect->parameter(parameterNum)->
+				keyframe(count)->toComplexKeyFrame()->
+				processComplexKeyFrame());
 
-					transition.setAttribute(endTag,effect->parameter(parameterNum)->keyframe(count+1)->toComplexKeyFrame()->processComplexKeyFrame());
-					entry.appendChild(transition);
-				}
+			    transition.setAttribute(endTag,
+				effect->parameter(parameterNum)->
+				keyframe(count +
+				    1)->toComplexKeyFrame()->
+				processComplexKeyFrame());
+			    entry.appendChild(transition);
 			}
+		    }
 		}
 
-		else if (effect->effectDescription().parameter(parameterNum)->type() == "double") {
-			// Effect has one parameter with keyframes
-			QString startTag, endTag;
-			keyFrameNum = effect->parameter(parameterNum)->numKeyFrames();
-			maxValue = effect->effectDescription().parameter(parameterNum)->max();
-			minValue = effect->effectDescription().parameter(parameterNum)->min();
-			startTag = effect->effectDescription().parameter(parameterNum)->startTag();
-			endTag = effect->effectDescription().parameter(parameterNum)->endTag();
+		else if (effect->effectDescription().
+		    parameter(parameterNum)->type() == "double") {
+		    // Effect has one parameter with keyframes
+		    QString startTag, endTag;
+		    keyFrameNum =
+			effect->parameter(parameterNum)->numKeyFrames();
+		    maxValue =
+			effect->effectDescription().
+			parameter(parameterNum)->max();
+		    minValue =
+			effect->effectDescription().
+			parameter(parameterNum)->min();
+		    startTag =
+			effect->effectDescription().
+			parameter(parameterNum)->startTag();
+		    endTag =
+			effect->effectDescription().
+			parameter(parameterNum)->endTag();
 
-			if (keyFrameNum > 1) {
-				for (uint count = 0; count < keyFrameNum-1; count++) {
-					QDomElement transition = sceneList.createElement("filter");
-					transition.setAttribute("mlt_service",effect->effectDescription().tag()); 
-					uint in = m_cropStart.frames(framesPerSecond());
-					uint duration = cropDuration().frames(framesPerSecond());
-					transition.setAttribute("in",QString::number(in + (effect->parameter(parameterNum)->keyframe(count)->time())*duration)); 
-					transition.setAttribute(startTag,QString::number(effect->parameter(parameterNum)->keyframe(count)->toDoubleKeyFrame()->value()*maxValue/100)); 
-					transition.setAttribute("out",QString::number(in + (effect->parameter(parameterNum)->keyframe(count+1)->time())*duration)); 
-					transition.setAttribute(endTag,QString::number(effect->parameter(parameterNum)->keyframe(count+1)->toDoubleKeyFrame()->value()*maxValue/100));
+		    if (keyFrameNum > 1) {
+			for (uint count = 0; count < keyFrameNum - 1;
+			    count++) {
+			    QDomElement transition =
+				sceneList.createElement("filter");
+			    transition.setAttribute("mlt_service",
+				effect->effectDescription().tag());
+			    uint in =
+				m_cropStart.frames(framesPerSecond());
+			    uint duration =
+				cropDuration().frames(framesPerSecond());
+			    transition.setAttribute("in",
+				QString::number(in +
+				    (effect->parameter(parameterNum)->
+					keyframe(count)->time()) *
+				    duration));
+			    transition.setAttribute(startTag,
+				QString::number(effect->
+				    parameter(parameterNum)->
+				    keyframe(count)->toDoubleKeyFrame()->
+				    value() * maxValue / 100));
+			    transition.setAttribute("out",
+				QString::number(in +
+				    (effect->parameter(parameterNum)->
+					keyframe(count +
+					    1)->time()) * duration));
+			    transition.setAttribute(endTag,
+				QString::number(effect->
+				    parameter(parameterNum)->
+				    keyframe(count +
+					1)->toDoubleKeyFrame()->value() *
+				    maxValue / 100));
 
-					// Add the other constant parameters if any
-					/*uint parameterNumBis = parameterNum;
-					while (effect->parameter(parameterNumBis)) {
-						transition.setAttribute(effect->effectDescription().parameter(parameterNumBis)->name(),QString::number(effect->effectDescription().parameter(parameterNumBis)->value()));
-						parameterNumBis++;
-					}*/
-					entry.appendChild(transition);
-				}
+			    // Add the other constant parameters if any
+			    /*uint parameterNumBis = parameterNum;
+			       while (effect->parameter(parameterNumBis)) {
+			       transition.setAttribute(effect->effectDescription().parameter(parameterNumBis)->name(),QString::number(effect->effectDescription().parameter(parameterNumBis)->value()));
+			       parameterNumBis++;
+			       } */
+			    entry.appendChild(transition);
 			}
-		}
-		else { // Effect has only constant parameters
-			QDomElement transition = sceneList.createElement("filter");
-			transition.setAttribute("mlt_service",effect->effectDescription().tag());
-			if (effect->effectDescription().parameter(parameterNum)->type() == "constant")
-				while (effect->parameter(parameterNum)) {
-					transition.setAttribute(effect->effectDescription().parameter(parameterNum)->name(),QString::number(effect->effectDescription().parameter(parameterNum)->value()));
-					parameterNum++;
-				}
-			entry.appendChild(transition);
+		    }
+		} else {	// Effect has only constant parameters
+		    QDomElement transition =
+			sceneList.createElement("filter");
+		    transition.setAttribute("mlt_service",
+			effect->effectDescription().tag());
+		    if (effect->effectDescription().
+			parameter(parameterNum)->type() == "constant")
+			while (effect->parameter(parameterNum)) {
+			    transition.setAttribute(effect->
+				effectDescription().
+				parameter(parameterNum)->name(),
+				QString::number(effect->
+				    effectDescription().
+				    parameter(parameterNum)->value()));
+			    parameterNum++;
+			}
+		    entry.appendChild(transition);
 		}
 		parameterNum++;
-	}
-	i++;
+	    }
+	    i++;
 	}
 
-	sceneList.appendChild(entry);
-	return sceneList;
-	//return m_clip->toDocClipAVFile()->sceneToXML(m_cropStart, m_cropStart+cropDuration());	
+    sceneList.appendChild(entry);
+    return sceneList;
+    //return m_clip->toDocClipAVFile()->sceneToXML(m_cropStart, m_cropStart+cropDuration());        
 }
 
 
-const KURL &DocClipRef::fileURL() const
+const KURL & DocClipRef::fileURL() const
 {
-	return m_clip->fileURL();
+    return m_clip->fileURL();
 }
 
 uint DocClipRef::fileSize() const
 {
-	return m_clip->fileSize();
+    return m_clip->fileSize();
 }
 
-void DocClipRef::populateSceneTimes(QValueVector<GenTime> &toPopulate)
+void DocClipRef::populateSceneTimes(QValueVector < GenTime > &toPopulate)
 {
-	QValueVector<GenTime> sceneTimes;
+    QValueVector < GenTime > sceneTimes;
 
-	m_clip->populateSceneTimes(sceneTimes);
+    m_clip->populateSceneTimes(sceneTimes);
 
-	QValueVector<GenTime>::iterator itt = sceneTimes.begin();
-	while(itt != sceneTimes.end())
-	{
-		GenTime convertedTime = (*itt) - cropStartTime();
-		if((convertedTime >= GenTime(0)) && (convertedTime <= cropDuration())) {
-			convertedTime += trackStart();
-			toPopulate.append(convertedTime);
-		}
-
-		++itt;
+    QValueVector < GenTime >::iterator itt = sceneTimes.begin();
+    while (itt != sceneTimes.end()) {
+	GenTime convertedTime = (*itt) - cropStartTime();
+	if ((convertedTime >= GenTime(0))
+	    && (convertedTime <= cropDuration())) {
+	    convertedTime += trackStart();
+	    toPopulate.append(convertedTime);
 	}
 
-	toPopulate.append(trackStart());
-	toPopulate.append(trackEnd());
+	++itt;
+    }
+
+    toPopulate.append(trackStart());
+    toPopulate.append(trackEnd());
 }
 
-QDomDocument DocClipRef::sceneToXML(const GenTime &startTime, const GenTime &endTime)
+QDomDocument DocClipRef::sceneToXML(const GenTime & startTime,
+    const GenTime & endTime)
 {
-	QDomDocument sceneDoc;
+    QDomDocument sceneDoc;
 
-	if(m_effectStack.isEmpty()) {
-		sceneDoc = m_clip->sceneToXML(startTime - trackStart() + cropStartTime(), endTime - trackStart() + cropStartTime());
+    if (m_effectStack.isEmpty()) {
+	sceneDoc =
+	    m_clip->sceneToXML(startTime - trackStart() + cropStartTime(),
+	    endTime - trackStart() + cropStartTime());
+    } else {
+	// We traverse the effect stack forwards; this let's us add the video clip at the top of the effect stack.
+	QDomNode constructedNode =
+	    sceneDoc.importNode(m_clip->sceneToXML(startTime -
+		trackStart() + cropStartTime(),
+		endTime - trackStart() +
+		cropStartTime()).documentElement(), true);
+	EffectStackIterator itt(m_effectStack);
+
+	while (itt.current()) {
+	    QDomElement parElement = sceneDoc.createElement("par");
+	    parElement.appendChild(constructedNode);
+
+	    QDomElement effectElement =
+		sceneDoc.createElement("videoeffect");
+	    effectElement.setAttribute("name",
+		(*itt)->effectDescription().name());
+	    effectElement.setAttribute("begin", QString::number(0, 'f',
+		    10));
+	    effectElement.setAttribute("dur",
+		QString::number((endTime - startTime).seconds(), 'f', 10));
+	    parElement.appendChild(effectElement);
+
+	    constructedNode = parElement;
+	    ++itt;
+	}
+	sceneDoc.appendChild(constructedNode);
+    }
+
+    return sceneDoc;
+}
+
+void DocClipRef::setSnapMarkers(QValueVector < GenTime > markers)
+{
+    m_snapMarkers = markers;
+    qHeapSort(m_snapMarkers);
+
+    /*QValueVectorIterator<GenTime> itt = markers.begin();
+
+       while(itt != markers.end()) {
+       addSnapMarker(*itt);
+       ++itt;
+       } */
+}
+
+QValueVector < GenTime > DocClipRef::snapMarkersOnTrack() const
+{
+    QValueVector < GenTime > markers;
+    markers.reserve(m_snapMarkers.count());
+
+    for (uint count = 0; count < m_snapMarkers.count(); ++count) {
+	markers.append(m_snapMarkers[count] + trackStart() -
+	    cropStartTime());
+    }
+
+    return markers;
+}
+
+void DocClipRef::addSnapMarker(const GenTime & time)
+{
+    QValueVector < GenTime >::Iterator itt = m_snapMarkers.begin();
+
+    while (itt != m_snapMarkers.end()) {
+	if (*itt >= time)
+	    break;
+	++itt;
+    }
+
+    if ((itt != m_snapMarkers.end()) && (*itt == time)) {
+	kdError() <<
+	    "trying to add Snap Marker that already exists, this will cause inconsistancies with undo/redo"
+	    << endl;
+    } else {
+	m_snapMarkers.insert(itt, time);
+
+	m_parentTrack->notifyClipChanged(this);
+    }
+}
+
+void DocClipRef::deleteSnapMarker(const GenTime & time)
+{
+    QValueVector < GenTime >::Iterator itt = m_snapMarkers.begin();
+
+    while (itt != m_snapMarkers.end()) {
+	if (*itt == time)
+	    break;
+	++itt;
+    }
+
+    if ((itt != m_snapMarkers.end()) && (*itt == time)) {
+	m_snapMarkers.erase(itt);
+	m_parentTrack->notifyClipChanged(this);
+    } else {
+	kdError() << "Could not delete marker at time " << time.
+	    seconds() << " - it doesn't exist!" << endl;
+    }
+}
+
+bool DocClipRef::hasSnapMarker(const GenTime & time)
+{
+    QValueVector < GenTime >::Iterator itt = m_snapMarkers.begin();
+
+    while (itt != m_snapMarkers.end()) {
+	if (*itt == time)
+	    return true;
+	++itt;
+    }
+
+    return false;
+}
+
+void DocClipRef::setCropDuration(const GenTime & time)
+{
+    setTrackEnd(trackStart() + time);
+}
+
+GenTime DocClipRef::findPreviousSnapMarker(const GenTime & time)
+{
+    QValueVector < GenTime >::Iterator itt = m_snapMarkers.begin();
+
+    while (itt != m_snapMarkers.end()) {
+	if (*itt >= time)
+	    break;
+	++itt;
+    }
+
+    if (itt != m_snapMarkers.begin()) {
+	--itt;
+	return *itt;
+    } else {
+	return GenTime(0);
+    }
+}
+
+GenTime DocClipRef::findNextSnapMarker(const GenTime & time)
+{
+    QValueVector < GenTime >::Iterator itt = m_snapMarkers.begin();
+
+    while (itt != m_snapMarkers.end()) {
+	if (time <= *itt)
+	    break;
+	++itt;
+    }
+
+    if (itt != m_snapMarkers.end()) {
+	if (*itt == time) {
+	    ++itt;
+	}
+	if (itt != m_snapMarkers.end()) {
+	    return *itt;
 	} else {
-		// We traverse the effect stack forwards; this let's us add the video clip at the top of the effect stack.
-		QDomNode constructedNode = sceneDoc.importNode(m_clip->sceneToXML(startTime - trackStart() + cropStartTime(), endTime - trackStart() + cropStartTime()).documentElement(), true);
-		EffectStackIterator itt(m_effectStack);
-
-		while(itt.current()) {
-			QDomElement parElement = sceneDoc.createElement("par");
-			parElement.appendChild(constructedNode);
-
-			QDomElement effectElement = sceneDoc.createElement("videoeffect");
-			effectElement.setAttribute("name", (*itt)->effectDescription().name());
-			effectElement.setAttribute("begin", QString::number(0, 'f', 10));
-			effectElement.setAttribute("dur", QString::number((endTime - startTime).seconds(), 'f', 10));
-			parElement.appendChild(effectElement);
-
-			constructedNode = parElement;
-			++itt;
-		}
-		sceneDoc.appendChild(constructedNode);
+	    return GenTime(duration());
 	}
-
-	return sceneDoc;
-}
-
-void DocClipRef::setSnapMarkers(QValueVector<GenTime> markers)
-{
-	m_snapMarkers = markers;
-	qHeapSort(m_snapMarkers);
-
-	/*QValueVectorIterator<GenTime> itt = markers.begin();
-
-	while(itt != markers.end()) {
-		addSnapMarker(*itt);
-		++itt;
-	}*/
-}
-
-QValueVector<GenTime> DocClipRef::snapMarkersOnTrack() const
-{
-	QValueVector<GenTime> markers;
-	markers.reserve(m_snapMarkers.count());
-
-	for(uint count=0; count<m_snapMarkers.count(); ++count) {
-		markers.append( m_snapMarkers[count] + trackStart() - cropStartTime() );
-	}
-
-	return markers;
-}
-
-void DocClipRef::addSnapMarker(const GenTime &time)
-{
-	QValueVector<GenTime>::Iterator itt = m_snapMarkers.begin();
-
-	while(itt != m_snapMarkers.end()) {
-		if(*itt >= time) break;
-		++itt;
-	}
-
-	if((itt != m_snapMarkers.end()) && (*itt == time)) {
-		kdError() << "trying to add Snap Marker that already exists, this will cause inconsistancies with undo/redo" << endl;
-	} else {
-		m_snapMarkers.insert(itt, time);
-
-		m_parentTrack->notifyClipChanged(this);
-	}
-}
-
-void DocClipRef::deleteSnapMarker(const GenTime &time)
-{
-	QValueVector<GenTime>::Iterator itt = m_snapMarkers.begin();
-
-	while(itt != m_snapMarkers.end()) {
-		if(*itt == time) break;
-		++itt;
-	}
-
-	if((itt != m_snapMarkers.end()) && (*itt == time)) {
-		m_snapMarkers.erase(itt);
-		m_parentTrack->notifyClipChanged(this);
-	} else {
-		kdError() << "Could not delete marker at time " << time.seconds() << " - it doesn't exist!" << endl;
-	}
-}
-
-bool DocClipRef::hasSnapMarker(const GenTime &time)
-{
-	QValueVector<GenTime>::Iterator itt = m_snapMarkers.begin();
-
-	while(itt != m_snapMarkers.end()) {
-		if(*itt == time) return true;
-		++itt;
-	}
-
-	return false;
-}
-
-void DocClipRef::setCropDuration(const GenTime &time)
-{
-	setTrackEnd( trackStart() + time );
-}
-
-GenTime DocClipRef::findPreviousSnapMarker(const GenTime &time)
-{
-	QValueVector<GenTime>::Iterator itt = m_snapMarkers.begin();
-
-	while(itt != m_snapMarkers.end()) {
-		if(*itt >= time) break;
-		++itt;
-	}
-
-	if(itt != m_snapMarkers.begin()) {
-		--itt;
-		return *itt;
-	} else {
-		return GenTime(0);
-	}
-}
-
-GenTime DocClipRef::findNextSnapMarker(const GenTime &time)
-{
-	QValueVector<GenTime>::Iterator itt = m_snapMarkers.begin();
-
-	while(itt != m_snapMarkers.end()) {
-		if(time <= *itt) break;
-		++itt;
-	}
-
-	if( itt != m_snapMarkers.end())
-	{
-		if(*itt == time) {
-			++itt;
-		}
-		if( itt != m_snapMarkers.end()) {
-			return *itt;
-		} else {
-			return GenTime(duration());
-		}
-	} else {
-		return GenTime(duration());
-	}
+    } else {
+	return GenTime(duration());
+    }
 }
 
 GenTime DocClipRef::trackMiddleTime() const
 {
-	return (m_trackStart + m_trackEnd)/2;
+    return (m_trackStart + m_trackEnd) / 2;
 }
 
-QValueVector<GenTime> DocClipRef::snapMarkers() const
+QValueVector < GenTime > DocClipRef::snapMarkers() const
 {
-	return m_snapMarkers;
+    return m_snapMarkers;
 }
 
-void DocClipRef::addEffect(uint index, Effect *effect)
+void DocClipRef::addEffect(uint index, Effect * effect)
 {
-	m_effectStack.insert(index, effect);
+    m_effectStack.insert(index, effect);
 }
 
 void DocClipRef::deleteEffect(uint index)
 {
-	m_effectStack.remove(index);
+    m_effectStack.remove(index);
 }
 
 
 void DocClipRef::setEffectStackSelectedItem(uint ix)
 {
-	m_effectStack.setSelected(ix);
-	
+    m_effectStack.setSelected(ix);
+
 }
 
 Effect *DocClipRef::selectedEffect()
 {
-	return m_effectStack.selectedItem();
+    return m_effectStack.selectedItem();
 }
 
 bool DocClipRef::hasEffect()
 {
-if (m_effectStack.count() > 0) return true;
-return false;
+    if (m_effectStack.count() > 0)
+	return true;
+    return false;
 }
 
 Effect *DocClipRef::effectAt(uint index) const
 {
-	EffectStack::iterator itt = m_effectStack.begin();
+    EffectStack::iterator itt = m_effectStack.begin();
 
-	if(index < m_effectStack.count()) {
-		for(uint count=0; count<index; ++count) ++itt;
-		return *itt;
-	}
+    if (index < m_effectStack.count()) {
+	for (uint count = 0; count < index; ++count)
+	    ++itt;
+	return *itt;
+    }
 
-	kdError() << "DocClipRef::effectAt() : index out of range" << endl;
-	return 0;
+    kdError() << "DocClipRef::effectAt() : index out of range" << endl;
+    return 0;
 
 }
 
-void DocClipRef::setEffectStack(const EffectStack &effectStack)
+void DocClipRef::setEffectStack(const EffectStack & effectStack)
 {
-	m_effectStack = effectStack;
+    m_effectStack = effectStack;
 }
 
-const QPixmap &DocClipRef::getAudioImage(int width, int height, double frame, double numFrames, int channel)
+const QPixmap & DocClipRef::getAudioImage(int width, int height,
+    double frame, double numFrames, int channel)
 {
-	static QPixmap nullPixmap;
+    static QPixmap nullPixmap;
 
-	return nullPixmap;
+    return nullPixmap;
 }
-

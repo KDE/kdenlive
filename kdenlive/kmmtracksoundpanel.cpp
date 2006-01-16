@@ -28,23 +28,22 @@
 #include "trackviewaudiobackgrounddecorator.h"
 #include "trackviewnamedecorator.h"
 
-namespace Gui
-{
+namespace Gui {
 
-KMMTrackSoundPanel::KMMTrackSoundPanel(KdenliveApp *app,
-					KTimeLine *timeline,
-					KdenliveDoc *document,
-					DocTrackSound *docTrack,
-					bool isCollapsed, 
-					QWidget *parent,
-					const char *name ) :
-						KMMTrackPanel(timeline, document, new KTrackPlacer(document, timeline, docTrack), SOUNDTRACK, parent,name),
-						m_trackHeader( this, "Sound Track")
-{
+    KMMTrackSoundPanel::KMMTrackSoundPanel(KdenliveApp * app,
+	KTimeLine * timeline,
+	KdenliveDoc * document,
+	DocTrackSound * docTrack,
+	bool isCollapsed,
+	QWidget * parent,
+	const char *name):KMMTrackPanel(timeline, document,
+	new KTrackPlacer(document, timeline, docTrack), SOUNDTRACK, parent,
+	name), m_trackHeader(this, "Sound Track") {
 	m_trackHeader.trackLabel->setText(i18n("Sound Track"));
 	m_trackIsCollapsed = isCollapsed;
-	connect (m_trackHeader.collapseButton, SIGNAL(clicked()), this, SLOT(resizeTrack()));
-	
+	connect(m_trackHeader.collapseButton, SIGNAL(clicked()), this,
+	    SLOT(resizeTrack()));
+
 	addFunctionDecorator("move", "resize");
 	addFunctionDecorator("move", "move");
 	addFunctionDecorator("move", "selectnone");
@@ -54,43 +53,51 @@ KMMTrackSoundPanel::KMMTrackSoundPanel(KdenliveApp *app,
 	addFunctionDecorator("roll", "roll");
 
 	decorateTrack();
-	
-}
 
-KMMTrackSoundPanel::~KMMTrackSoundPanel()
-{
-}
+    } KMMTrackSoundPanel::~KMMTrackSoundPanel() {
+    }
 
-void KMMTrackSoundPanel::resizeTrack()
-{
+    void KMMTrackSoundPanel::resizeTrack() {
 	m_trackIsCollapsed = (!m_trackIsCollapsed);
 
 	clearViewDecorators();
 	decorateTrack();
 	emit collapseTrack(this, m_trackIsCollapsed);
 
-}
+    }
 
-void KMMTrackSoundPanel::decorateTrack()
-{
+    void KMMTrackSoundPanel::decorateTrack() {
 	uint widgetHeight;
 
-	if (m_trackIsCollapsed) widgetHeight = collapsedTrackSize;
-	else widgetHeight = KdenliveSettings::audiotracksize();
+	if (m_trackIsCollapsed)
+	    widgetHeight = collapsedTrackSize;
+	else
+	    widgetHeight = KdenliveSettings::audiotracksize();
 
 	setMinimumHeight(widgetHeight);
 	setMaximumHeight(widgetHeight);
 
 	if (KdenliveSettings::audiothumbnails() && !m_trackIsCollapsed)
-	addViewDecorator(new TrackViewAudioBackgroundDecorator(timeline(), document(), KdenliveSettings::selectedaudioclipcolor(), KdenliveSettings::audioclipcolor()));
+	    addViewDecorator(new
+		TrackViewAudioBackgroundDecorator(timeline(), document(),
+		    KdenliveSettings::selectedaudioclipcolor(),
+		    KdenliveSettings::audioclipcolor()));
 
-	else addViewDecorator(new TrackViewBackgroundDecorator(timeline(), document(), KdenliveSettings::selectedaudioclipcolor(), KdenliveSettings::audioclipcolor()));
+	else
+	    addViewDecorator(new TrackViewBackgroundDecorator(timeline(),
+		    document(), KdenliveSettings::selectedaudioclipcolor(),
+		    KdenliveSettings::audioclipcolor()));
 
-	addViewDecorator(new TrackViewNameDecorator(timeline(), document()));
+	addViewDecorator(new TrackViewNameDecorator(timeline(),
+		document()));
 
-	if (m_trackIsCollapsed) m_trackHeader.collapseButton->setPixmap(KGlobal::iconLoader()->loadIcon("1downarrow",KIcon::Small,16));
-	else m_trackHeader.collapseButton->setPixmap(KGlobal::iconLoader()->loadIcon("1rightarrow",KIcon::Small,16));
-}
+	if (m_trackIsCollapsed)
+	    m_trackHeader.collapseButton->setPixmap(KGlobal::iconLoader()->
+		loadIcon("1downarrow", KIcon::Small, 16));
+	else
+	    m_trackHeader.collapseButton->setPixmap(KGlobal::iconLoader()->
+		loadIcon("1rightarrow", KIcon::Small, 16));
+    }
 
 /*
 void KMMTrackSoundPanel::paintClip(QPainter & painter, DocClipRef * clip, QRect &rect, bool selected)
@@ -116,4 +123,4 @@ void KMMTrackSoundPanel::paintClip(QPainter & painter, DocClipRef * clip, QRect 
 }
 */
 
-} // namespace Gui
+}				// namespace Gui

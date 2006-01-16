@@ -24,17 +24,16 @@ Native save format for Kdenlive. Saves everything.
 
 @author Jason Wood
 */
-class SaveProjectNativeFilter : public SaveProjectFilter
-{
-public:
-	SaveProjectNativeFilter();
+class SaveProjectNativeFilter:public SaveProjectFilter {
+  public:
+    SaveProjectNativeFilter();
 
-	virtual ~SaveProjectNativeFilter();
+    virtual ~ SaveProjectNativeFilter();
 
 	/** Save the document to the specified url. */
-	virtual bool save(QFile &file, KdenliveDoc *document);
-	
-	virtual QStringList handledFormats() const;
+    virtual bool save(QFile & file, KdenliveDoc * document);
+
+    virtual QStringList handledFormats() const;
 };
 
 #endif

@@ -20,21 +20,20 @@
 
 #include <krulermodel.h>
 
-namespace Gui
-{
+namespace Gui {
 
 /**Implements a ruler which has HH:MM:SS:FF format
   *@author Jason Wood
   */
 
-class KRulerTimeModel : public KRulerModel  {
-public:
+    class KRulerTimeModel:public KRulerModel {
+      public:
 	KRulerTimeModel();
 	~KRulerTimeModel();
-  static QString mapValueToText(int value, double frames)  ;
+	static QString mapValueToText(int value, double frames);
   /** Returns a string representation of the value passed in the format HH:MM:SS:FF
   and assumes that the value passed is in frames.*/
-  virtual QString mapValueToText(const int value) const;
+	virtual QString mapValueToText(const int value) const;
   /** Finds a tick interval larger than or equal to the tick value passed which can be
     * considered a reasonable interval to display on screen. For example, when dealing
     * with hours:Minutes:Seconds, reasonable values might be every second, every 2
@@ -46,13 +45,12 @@ public:
     */
 	virtual int getTickDisplayInterval(const int tick) const;
   /** Sets the number of frames per second for this ruler model. */
-  void setNumFrames( double frames);
-  double numFrames() const;
-private: // Private attributes
+	void setNumFrames(double frames);
+	double numFrames() const;
+      private:			// Private attributes
   /** holds the number of frames per second. Whilst we say frames, this could just as easily be milliseconds. */
-  double m_numFrames;
-};
+	double m_numFrames;
+    };
 
-} // namespace Gui
-
+}				// namespace Gui
 #endif

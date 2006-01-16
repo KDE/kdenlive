@@ -28,13 +28,13 @@ class AVFormatDescBool;
   *@author Jason Wood
   */
 
-class AVFormatWidgetBool : public QCheckBox, public AVFormatWidgetBase  {
-   Q_OBJECT
-public: 
-	AVFormatWidgetBool(AVFormatDescBool *desc, QWidget *parent=0, const char *name=0);
-	~AVFormatWidgetBool();
-  virtual QWidget *widget();
-  const KURL & fileUrl() const;  
+class AVFormatWidgetBool:public QCheckBox, public AVFormatWidgetBase {
+  Q_OBJECT public:
+    AVFormatWidgetBool(AVFormatDescBool * desc, QWidget * parent =
+	0, const char *name = 0);
+    ~AVFormatWidgetBool();
+    virtual QWidget *widget();
+    const KURL & fileUrl() const;
 };
 
 #endif

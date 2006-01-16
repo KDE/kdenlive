@@ -28,23 +28,24 @@ class KRender;
   *@author Jason Wood
   */
 
-class AVFormatDescCodecList : public AVFormatDescBase  {
-public:
-	AVFormatDescCodecList(KRender *renderer, const QString &description, const char * &name);
-	~AVFormatDescCodecList();
+class AVFormatDescCodecList:public AVFormatDescBase {
+  public:
+    AVFormatDescCodecList(KRender * renderer, const QString & description,
+	const char *&name);
+    ~AVFormatDescCodecList();
   /** Constructs a widget to display this container. Most likely, a qgroupbox with a combo list box + widget stack. */
-  AVFormatWidgetBase * createWidget(QWidget * parent);
+    AVFormatWidgetBase *createWidget(QWidget * parent);
   /** Returns the codec name list */
-  const QStringList & codecList();
+    const QStringList & codecList();
   /** Returns the renderer that generated this desc codec list */
-  KRender * renderer();
+    KRender *renderer();
   /** Adds a codec by name to this codec list. */
-  void addCodec(const QString &codec);
-private: // Private attributes
+    void addCodec(const QString & codec);
+  private:			// Private attributes
   /** A list of codec names in this codec list. */
-  QStringList m_codecList;
+     QStringList m_codecList;
   /** Holds a pointer to the renderer that generated this desc codec list. */
-  KRender * m_renderer;
+    KRender *m_renderer;
 };
 
 #endif

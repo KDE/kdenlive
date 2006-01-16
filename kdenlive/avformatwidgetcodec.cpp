@@ -16,17 +16,17 @@
  ***************************************************************************/
 
 #include <qtextedit.h>
- 
+
 #include "avformatwidgetcodec.h"
 #include "avformatdesccodec.h"
 
-AVFormatWidgetCodec::AVFormatWidgetCodec(AVFormatDescCodec *desc, QWidget *parent, const char *name ) :
-                                              QVBox(parent,name),
-                                              AVFormatWidgetBase()
+AVFormatWidgetCodec::AVFormatWidgetCodec(AVFormatDescCodec * desc, QWidget * parent, const char *name):
+QVBox(parent, name), AVFormatWidgetBase()
 {
-    QTextEdit *edit = new QTextEdit(desc->description(), QString::null, this, "label");
+    QTextEdit *edit =
+	new QTextEdit(desc->description(), QString::null, this, "label");
     edit->setReadOnly(true);
-            
+
 }
 
 AVFormatWidgetCodec::~AVFormatWidgetCodec()
@@ -35,5 +35,5 @@ AVFormatWidgetCodec::~AVFormatWidgetCodec()
 
 QWidget *AVFormatWidgetCodec::widget()
 {
-  return this;
+    return this;
 }

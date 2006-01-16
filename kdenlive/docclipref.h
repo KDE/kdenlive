@@ -38,247 +38,258 @@ class DocTrackBase;
 class KdenliveDoc;
 class EffectDescriptionList;
 
-struct AudioIdentifier
-{
-	double	m_framenum;
-	double	m_numframes;
-	double	m_imageWidth;
-	double	m_imageHeight;
-	int	m_channel;
-	
-	bool operator==(const AudioIdentifier &rhs) const
-	{
-		bool matches = true;
+struct AudioIdentifier {
+    double m_framenum;
+    double m_numframes;
+    double m_imageWidth;
+    double m_imageHeight;
+    int m_channel;
 
-		matches &= m_framenum == rhs.m_framenum;
-		matches &= m_numframes == rhs.m_numframes;
-		matches &= m_imageWidth == rhs.m_imageWidth;
-		matches &= m_imageHeight == rhs.m_imageHeight;
-		matches &= m_channel == rhs.m_channel;
+    bool operator==(const AudioIdentifier & rhs) const {
+	bool matches = true;
 
-		return matches;
-	}
-	
-	bool operator<(const AudioIdentifier &rhs) const
-	{
-		if(m_framenum < rhs.m_framenum) return true;
-		if(m_framenum > rhs.m_framenum) return false;
+	 matches &= m_framenum == rhs.m_framenum;
+	 matches &= m_numframes == rhs.m_numframes;
+	 matches &= m_imageWidth == rhs.m_imageWidth;
+	 matches &= m_imageHeight == rhs.m_imageHeight;
+	 matches &= m_channel == rhs.m_channel;
 
-		if(m_numframes < rhs.m_numframes) return true;
-		if(m_numframes > rhs.m_numframes) return false;
-		
-		if(m_imageWidth < rhs.m_imageWidth) return true;
-		if(m_imageWidth > rhs.m_imageWidth) return false;
-		
-		if(m_imageHeight < rhs.m_imageHeight) return true;
-		if(m_imageHeight > rhs.m_imageHeight) return false;
+	 return matches;
+    } bool operator<(const AudioIdentifier & rhs) const {
+	if (m_framenum < rhs.m_framenum)
+	    return true;
+	if (m_framenum > rhs.m_framenum)
+	    return false;
 
-		if(m_channel < rhs.m_channel) return true;
-		if(m_channel > rhs.m_channel) return false;
+	if (m_numframes < rhs.m_numframes)
+	    return true;
+	if (m_numframes > rhs.m_numframes)
+	    return false;
 
-		return false;
-	}
-};
+	if (m_imageWidth < rhs.m_imageWidth)
+	    return true;
+	if (m_imageWidth > rhs.m_imageWidth)
+	    return false;
 
-class DocClipRef : public QObject {
-	Q_OBJECT
-public:
-	DocClipRef(DocClipBase *clip);
-	~DocClipRef();
+	if (m_imageHeight < rhs.m_imageHeight)
+	    return true;
+	if (m_imageHeight > rhs.m_imageHeight)
+	    return false;
+
+	if (m_channel < rhs.m_channel)
+	    return true;
+	if (m_channel > rhs.m_channel)
+	    return false;
+
+	return false;
+}};
+
+class DocClipRef:public QObject {
+  Q_OBJECT public:
+    DocClipRef(DocClipBase * clip);
+    ~DocClipRef();
 
 	/** Returns where this clip starts */
-	const GenTime &trackStart() const;
+    const GenTime & trackStart() const;
 	/** Sets the position that this clip resides upon it's track. */
-	void setTrackStart(const GenTime time);
+    void setTrackStart(const GenTime time);
 
 	/** Returns the time where this clip is central on the track (i.e. trackStart + trackEnd / 2) Useful for grabbing a track time value
 	that is definitely on the clip. */
-	GenTime trackMiddleTime() const;
+    GenTime trackMiddleTime() const;
 
 	/** returns the name of this clip. */
-	const QString &name() const;
+    const QString & name() const;
 
 	/** Returns the description of this clip. */
-	const QString &description() const;
+    const QString & description() const;
 
 	/** Sets the description of this clip */
-	void setDescription(const QString &description);
+    void setDescription(const QString & description);
 
 	/** set the cropStart time for this clip.The "crop" timings are those which define which
 	part of a clip is wanted in the edit. For example, a clip may be 60 seconds long, but the first
 	10 is not needed. Setting the "crop start time" to 10 seconds means that the first 10 seconds isn't
 	used. The crop times are necessary, so that if at later time you decide you need an extra second
 	at the beginning of the clip, you can re-add it.*/
-	void setCropStartTime(const GenTime &);
+    void setCropStartTime(const GenTime &);
 
 	/** returns the cropStart time for this clip */
-	const GenTime &cropStartTime() const;
+    const GenTime & cropStartTime() const;
 
 	/** set the trackEnd time for this clip. */
-	void setTrackEnd(const GenTime &time);
+    void setTrackEnd(const GenTime & time);
 
 	/** returns the cropDuration time for this clip. */
-	GenTime cropDuration() const;
+    GenTime cropDuration() const;
 	/** Sets the cropDuration time for this clip - note, this will change the track end time as well. */
-	void setCropDuration(const GenTime &time);
+    void setCropDuration(const GenTime & time);
 
 	/** returns a QString containing all of the XML data required to recreate this clip. */
-	QDomDocument toXML() const;
+    QDomDocument toXML() const;
 
 	/** Returns true if the XML data matches the contexts of the clipref. */
-	bool matchesXML(const QDomElement &element) const;
+    bool matchesXML(const QDomElement & element) const;
 
 	/** returns the duration of this clip */
-	const GenTime &duration() const;
-	
+    const GenTime & duration() const;
+
 	/** Returns a url to a file describing this clip. Exactly what this url is,
 	whether it is temporary or not, and whether it provokes a render will
 	depend entirely on what the clip consists of. */
-	const KURL &fileURL() const;
+    const KURL & fileURL() const;
 
 	/** Reads in the element structure and creates a clip out of it.*/
-	static DocClipRef *createClip(const EffectDescriptionList &effectList, ClipManager &clipManager, const QDomElement &element);
+    static DocClipRef *createClip(const EffectDescriptionList & effectList,
+	ClipManager & clipManager, const QDomElement & element);
 	/** Sets the parent track for this clip. */
-	void setParentTrack(DocTrackBase *track, const int trackNum);
+    void setParentTrack(DocTrackBase * track, const int trackNum);
 	/** Returns the track number. This is a hint as to which track the clip is on, or
 	 * should be placed on. */
-	int trackNum() const;
+    int trackNum() const;
 	/** Returns the end of the clip on the track. A convenience function, equivalent
 	to trackStart() + cropDuration() */
-	GenTime trackEnd() const;
+    GenTime trackEnd() const;
 	/** Returns the parentTrack of this clip. */
-	DocTrackBase * parentTrack();
+    DocTrackBase *parentTrack();
 	/** Move the clips so that it's trackStart coincides with the time specified. */
-	void moveTrackStart(const GenTime &time);
+    void moveTrackStart(const GenTime & time);
 	/** Returns an identical but seperate (i.e. "deep") copy of this clip. */
-	DocClipRef * clone(const EffectDescriptionList &effectList, ClipManager &clipManager);
+    DocClipRef *clone(const EffectDescriptionList & effectList,
+	ClipManager & clipManager);
 	/** Returns true if the clip duration is known, false otherwise. */
-	bool durationKnown() const;
-	// Returns the number of frames per second that this clip should play at.
-	double framesPerSecond() const;
-	//return clip video properties -reh
+    bool durationKnown() const;
+    // Returns the number of frames per second that this clip should play at.
+    double framesPerSecond() const;
+    //return clip video properties -reh
 	/** Returns clip type (audio, video,...) */
-	DocClipBase::CLIPTYPE clipType() const;
-	uint clipWidth() const;
-	uint clipHeight() const;
-	QString avDecompressor();
-	QString avSystem();
-	//returns audio properties -reh
-	uint audioChannels() const;
-	QString audioFormat();
-	uint audioBits() const;
+     DocClipBase::CLIPTYPE clipType() const;
+    uint clipWidth() const;
+    uint clipHeight() const;
+    QString avDecompressor();
+    QString avSystem();
+    //returns audio properties -reh
+    uint audioChannels() const;
+    QString audioFormat();
+    uint audioBits() const;
 	/** Returns a scene list generated from this clip. */
-	QDomDocument generateSceneList();
-	QDomDocument generateXMLClip();
+    QDomDocument generateSceneList();
+    QDomDocument generateXMLClip();
 	/** Returns true if this clip is a project clip, false otherwise. Overridden in DocClipProject,
 	 * where it returns true. */
-	bool isProjectClip() { return false; }
+    bool isProjectClip() {
+	return false;
+    }
+    // Appends scene times for this clip to the passed vector.
+	void populateSceneTimes(QValueVector < GenTime > &toPopulate);
 
-	// Appends scene times for this clip to the passed vector.
-	void populateSceneTimes(QValueVector<GenTime> &toPopulate);
+    // Returns an XML document that describes part of the current scene.
+    QDomDocument sceneToXML(const GenTime & startTime,
+	const GenTime & endTime);
 
-	// Returns an XML document that describes part of the current scene.
-	QDomDocument sceneToXML(const GenTime &startTime, const GenTime &endTime);
-
-	bool referencesClip(DocClipBase *clip) const;
+    bool referencesClip(DocClipBase * clip) const;
 
 	/** Returns the number of times the DocClipBase referred to is referenced - by both this clip
 	 * and other clips. */
-	uint numReferences() const;
+    uint numReferences() const;
 
 	/** Returns true if this clip has a meaningful filesize. */
-	bool hasFileSize() const;
+    bool hasFileSize() const;
 	/** Returns the filesize, or 0 if there is no appropriate filesize. */
-	uint fileSize() const;
+    uint fileSize() const;
 
 	/** TBD - figure out a way to make this unnecessary. */
-	DocClipBase *referencedClip() { return m_clip; }
+    DocClipBase *referencedClip() {
+	return m_clip;
+    }
 
 	/** Returns a vector containing the snap marker in clip time */
-	QValueVector<GenTime> snapMarkers() const;
+    QValueVector < GenTime > snapMarkers()const;
 
 	/** Returns a vector containing the snap marker, in track time rather than clip time. */
-	QValueVector<GenTime> snapMarkersOnTrack() const;
+    QValueVector < GenTime > snapMarkersOnTrack()const;
 
 	/** Adds a snap marker at the given clip time (as opposed to track time) */
-	void addSnapMarker(const GenTime &time);
+    void addSnapMarker(const GenTime & time);
 
 	/** Deletes a snap marker at the given clip time (as opposed to track time) */
-	void deleteSnapMarker(const GenTime &time);
+    void deleteSnapMarker(const GenTime & time);
 
 	/** Returns true if this clip has a snap marker at the specified clip time */
-	bool hasSnapMarker(const GenTime &time);
+    bool hasSnapMarker(const GenTime & time);
 
 	/** Finds and returns the time of the snap marker directly before time. If there isn't one, returns 0. */
-	GenTime findPreviousSnapMarker(const GenTime &time);
+    GenTime findPreviousSnapMarker(const GenTime & time);
 
 	/** Finds and returns the time of the snap marker directly after time. If there isn't one, returns the duration of the clip. */
-	GenTime findNextSnapMarker(const GenTime &time);
+    GenTime findNextSnapMarker(const GenTime & time);
 
 	/** Adds an effect to the effect stack at the specified marker position. */
-	void addEffect(uint index, Effect *effect);
+    void addEffect(uint index, Effect * effect);
 
 	/** Adds an effect to effect stack at the specified marker position. */
-	void deleteEffect(uint index);
+    void deleteEffect(uint index);
 
 	/** Sets the index for the currently selected effect */
-	void setEffectStackSelectedItem(uint ix);
+    void setEffectStackSelectedItem(uint ix);
 
 	/** Returns the currently selected effect */
-	Effect *selectedEffect();
+    Effect *selectedEffect();
 
 	/** Returns the effect stack */
-	const EffectStack &effectStack() const { return m_effectStack; }
-
+    const EffectStack & effectStack() const {
+	return m_effectStack;
+    }
 	/** Returns the effect with the given index. Return s0 and outputs error if index is out of range. */
 	Effect *effectAt(uint index) const;
 
-	int numEffects() const { return m_effectStack.count(); }
+    int numEffects() const {
+	return m_effectStack.count();
+    } void setEffectStack(const EffectStack & effectStack);
 
-	void setEffectStack(const EffectStack &effectStack);
-
-	const QPixmap &getAudioImage(int width, int height, double frame, double numFrames, int channel);
+    const QPixmap & getAudioImage(int width, int height, double frame,
+	double numFrames, int channel);
 
 	/** Returns true if effects are applied on the clip */
-	bool hasEffect();
+    bool hasEffect();
 
-	QPixmap thumbnail();
-	void updateThumbnail(QPixmap newpix);
+    QPixmap thumbnail();
+    void updateThumbnail(QPixmap newpix);
 
-private: // Private attributes
-	void setSnapMarkers(QValueVector<GenTime> markers);
+  private:			// Private attributes
+    void setSnapMarkers(QValueVector < GenTime > markers);
 
 	/** Where this clip starts on the track that it resides on. */
-	GenTime m_trackStart;
+    GenTime m_trackStart;
 	/** The cropped start time for this clip - e.g. if the clip is 10 seconds long, this
 	 * might say that the the bit we want starts 3 seconds in.
 	 **/
-	GenTime m_cropStart;
+    GenTime m_cropStart;
 	/** The end time of this clip on the track.
 	 **/
-	GenTime m_trackEnd;
+    GenTime m_trackEnd;
 	/** The track to which this clip is parented. If NULL, the clip is not
 	parented to any track. */
-	DocTrackBase * m_parentTrack;
+    DocTrackBase *m_parentTrack;
 	/** The number of this track. This is the number of the track the clip resides on.
 	It is possible for this to be set and the parent track to be 0, in this situation
 	m_trackNum is a hint as to where the clip should be place when it get's parented
 	to a track. */
-	int m_trackNum;
+    int m_trackNum;
 
 	/** The clip to which this clip refers. */
-	DocClipBase *m_clip;
+    DocClipBase *m_clip;
 
-	KdenliveDoc *m_document;
+    KdenliveDoc *m_document;
 
 	/** A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
-	QValueVector<GenTime> m_snapMarkers;
+    QValueVector < GenTime > m_snapMarkers;
 
 	/** A list of effects that operate on this and only this clip. */
-	EffectStack m_effectStack;
+    EffectStack m_effectStack;
 
-	QMap<AudioIdentifier, QPixmap> m_audioMap;
-	QPixmap m_thumbnail;
+    QMap < AudioIdentifier, QPixmap > m_audioMap;
+    QPixmap m_thumbnail;
 };
 
 #endif

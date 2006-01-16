@@ -25,37 +25,31 @@
 
 class KdenliveDoc;
 
-namespace Gui
-{
+namespace Gui {
 
-class KTimeLine;
+    class KTimeLine;
 
 /**This panel widget handles the manipulation of keyframes.
   *@author Jason Wood
   */
 
-class KMMTrackKeyFramePanel : public KMMTrackPanel  {
-   Q_OBJECT
-public:
-	KMMTrackKeyFramePanel(KTimeLine *timeline,
-				KdenliveDoc *document,
-				DocTrackBase *docTrack,
-				bool isCollapsed, 
-				const QString &effectName,
-				int effectIndex,
-				const QString &effectParam,
-				TRACKTYPE type,
-				QWidget *parent=0,
-				const char *name=0);
-	virtual ~KMMTrackKeyFramePanel();
+    class KMMTrackKeyFramePanel:public KMMTrackPanel {
+      Q_OBJECT public:
+	KMMTrackKeyFramePanel(KTimeLine * timeline,
+	    KdenliveDoc * document,
+	    DocTrackBase * docTrack,
+	    bool isCollapsed,
+	    const QString & effectName,
+	    int effectIndex,
+	    const QString & effectParam,
+	    TRACKTYPE type, QWidget * parent = 0, const char *name = 0);
+	 virtual ~ KMMTrackKeyFramePanel();
 
-public slots:
-	void resizeTrack();
-private:
-	TRACKTYPE m_type;
-signals:
-	void collapseTrack(KTrackPanel *, bool);
-};
+	public slots:void resizeTrack();
+      private:
+	 TRACKTYPE m_type;
+	 signals: void collapseTrack(KTrackPanel *, bool);
+    };
 
-} // namespace Gui
+}				// namespace Gui
 #endif

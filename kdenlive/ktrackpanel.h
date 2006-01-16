@@ -22,14 +22,14 @@
 
 class TrackPanelFunction;
 
-namespace Gui
-{
-	class KPlacer;
-	class KTimeLine;
-	class TrackViewDecorator;
+namespace Gui {
+    class KPlacer;
+    class KTimeLine;
+    class TrackViewDecorator;
 
     /** Used to identify different type of tracks */
-    enum TRACKTYPE { SOUNDTRACK = 1, VIDEOTRACK = 2, KEYFRAMETRACK = 3, EFFECTKEYFRAMETRACK = 4 };
+    enum TRACKTYPE { SOUNDTRACK = 1, VIDEOTRACK = 2, KEYFRAMETRACK =
+	    3, EFFECTKEYFRAMETRACK = 4 };
 
 
 /**
@@ -37,63 +37,62 @@ Abstract baseclass for track panels. Provides the interface that a track panel m
 
 @author Jason Wood
 */
-class KTrackPanel : public QHBox {
-	Q_OBJECT
-public:
+    class KTrackPanel:public QHBox {
+      Q_OBJECT public:
 
-    KTrackPanel(KTimeLine *timeline,
-					KPlacer *placer,
-					TRACKTYPE trackType,
-                              		QWidget *parent,
-                              		const char *name);
+	KTrackPanel(KTimeLine * timeline,
+	    KPlacer * placer,
+	    TRACKTYPE trackType, QWidget * parent, const char *name);
 
-    virtual ~KTrackPanel();
+	 virtual ~ KTrackPanel();
 
     /** Holds the track state (collapsed or not) */
-    bool m_trackIsCollapsed;
+	bool m_trackIsCollapsed;
 
 
     /** Returns true if this track panel has a document track index. */
-    virtual bool hasDocumentTrackIndex() const;
+	virtual bool hasDocumentTrackIndex() const;
 
     /** Returns the track index into the underlying document model used by this track. Returns -1 if this is inapplicable. */
-    virtual int documentTrackIndex()  const;
+	virtual int documentTrackIndex() const;
 
-    virtual void drawToBackBuffer( QPainter &painter, QRect &rect );
+	virtual void drawToBackBuffer(QPainter & painter, QRect & rect);
 
 	/**
 	Returns the names of those functions that exist for the given mode.
 	*/
-	QStringList applicableFunctions(const QString &mode);
+	QStringList applicableFunctions(const QString & mode);
 
-protected:
+      protected:
 	/**
 	Add a TrackPanelFunction decorator to this panel. By adding decorators, we give the
 	class it's desired functionality.
 	*/
-	void addFunctionDecorator(const QString &mode, const QString &function);
+	void addFunctionDecorator(const QString & mode,
+	    const QString & function);
 
 	/**
 	Adds a new TrackViewDecorator to this panel. Each decorator adds it's own draw commands to each clip,
 	so you can piece together what it is you want to draw.
 	*/
-	void addViewDecorator(TrackViewDecorator *view);
+	void addViewDecorator(TrackViewDecorator * view);
 
 	/** 
 	Remove all decorators 
 	*/
 	void clearViewDecorators();
 
-    	KTimeLine *timeline() { return m_timeline; }
-private:
+	KTimeLine *timeline() {
+	    return m_timeline;
+      } private:
 	/** The KMMTrackPanel needs access to various methods from it's parents Timeline.
 	 *  The parent timeline is stored in this variable. */
-	KTimeLine *m_timeline;
+	 KTimeLine * m_timeline;
 
-	QPtrList<TrackViewDecorator> m_trackViewDecorators;
+	 QPtrList < TrackViewDecorator > m_trackViewDecorators;
 
 	/** A map of lists of track panel functions. */
-	QMap<QString , QStringList> m_trackPanelFunctions;
+	 QMap < QString, QStringList > m_trackPanelFunctions;
 
 	/** The currently applied function. This lasts from mousePressed
 		until mouseRelease. */
@@ -106,14 +105,14 @@ private:
 	TRACKTYPE m_trackType;
 
 
-public slots:
+	public slots:
 	/** Returns the type of track (audio, video,...)*/
-	TRACKTYPE trackType();
+	 TRACKTYPE trackType();
 	/**Is the track collapser */
 	bool isTrackCollapsed();
 
-};
+    };
 
-} // namespace Gui
+}				// namespace Gui
 
 #endif

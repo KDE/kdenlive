@@ -16,16 +16,10 @@
  ***************************************************************************/
 #include "kplacer.h"
 
-namespace Gui
-{
+namespace Gui {
 
-KPlacer::KPlacer()
-{
-}
+    KPlacer::KPlacer() {
+    } KPlacer::~KPlacer() {
+    }
 
-
-KPlacer::~KPlacer()
-{
-}
-
-}	// namespace Gui
+}				// namespace Gui

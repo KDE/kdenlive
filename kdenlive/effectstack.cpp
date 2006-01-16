@@ -19,39 +19,38 @@
 #include <kdebug.h>
 
 EffectStack::EffectStack()
- : QPtrList<Effect>(), index(0)
+:  QPtrList < Effect > (), index(0)
 {
-	setAutoDelete(true);
+    setAutoDelete(true);
 }
 
-EffectStack::EffectStack(const EffectStack &rhs)  :
-			QPtrList<Effect>()
+EffectStack::EffectStack(const EffectStack & rhs):QPtrList < Effect > ()
 {
-	for(QPtrListIterator<Effect> itt(rhs);  itt.current(); ++itt) {
-		Effect *effect = itt.current()->clone();
+    for (QPtrListIterator < Effect > itt(rhs); itt.current(); ++itt) {
+	Effect *effect = itt.current()->clone();
 
-		if(effect) {
-			append(effect);
-		} else {
-			kdError() << "EffectStack copy constructor failed. "<< endl;
-		}
+	if (effect) {
+	    append(effect);
+	} else {
+	    kdError() << "EffectStack copy constructor failed. " << endl;
 	}
+    }
 }
 
-const EffectStack &EffectStack::operator=(const EffectStack& rhs)
+const EffectStack & EffectStack::operator=(const EffectStack & rhs)
 {
-	clear();
-	for(QPtrListIterator<Effect> itt(rhs);  itt.current(); ++itt) {
-		Effect *effect = itt.current()->clone();
+    clear();
+    for (QPtrListIterator < Effect > itt(rhs); itt.current(); ++itt) {
+	Effect *effect = itt.current()->clone();
 
-		if(effect) {
-			append(effect);
-		} else {
-			kdError() << "EffectStack copy constructor failed. "<< endl;
-		}
+	if (effect) {
+	    append(effect);
+	} else {
+	    kdError() << "EffectStack copy constructor failed. " << endl;
 	}
+    }
 
-	return *this;
+    return *this;
 }
 
 EffectStack::~EffectStack()
@@ -60,21 +59,21 @@ EffectStack::~EffectStack()
 
 void EffectStack::setSelected(uint ix)
 {
-	index = ix;
+    index = ix;
 }
 
 Effect *EffectStack::selectedItem()
 {
-	return at(index);
+    return at(index);
 }
 
-Effect *EffectStack::operator[](int ix) const
+Effect *EffectStack::operator[] (int ix)
+const {
+    EffectStackIterator itt(*this);
+    int count = 0;
+    while (itt.current() && (count != ix))
 {
-	EffectStackIterator itt(*this);
-	int count=0;
-	while(itt.current() && (count != ix)) {
-		++itt;
-		++count;
-	}
-	return itt.current();
+++itt;
+++count;
+} return itt.current();
 }

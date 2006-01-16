@@ -27,26 +27,25 @@ Allows the dragging of effects within and outside of the application.
 
 @author Jason Wood
 */
-class EffectDrag : public QDragObject
-{
-	Q_OBJECT
-public:
-	EffectDrag( Effect *effect, QWidget* dragSource = 0, const char *name = 0 );
+class EffectDrag:public QDragObject {
+  Q_OBJECT public:
+    EffectDrag(Effect * effect, QWidget * dragSource =
+	0, const char *name = 0);
 
-	~EffectDrag();
+    ~EffectDrag();
 
 	/** Returns true if the mime type is decodable, false otherwise. */
-	static bool canDecode( const QMimeSource *mime );
+    static bool canDecode(const QMimeSource * mime);
 	/** Attempts to decode the mimetype e as a clip. Returns a clip, or returns null */
-	static Effect *decode( KdenliveDoc *document, const QMimeSource *e );
+    static Effect *decode(KdenliveDoc * document, const QMimeSource * e);
 
-protected:
+  protected:
 	/** Reimplemented for internal reasons; the API is not affected.  */
-	QByteArray encodedData( const char *mime ) const;
+     QByteArray encodedData(const char *mime) const;
 	/** Reimplemented for internal reasons; the API is not affected.  */
-	virtual const char * format( int i ) const;
-private:
-	QString m_xml;
+    virtual const char *format(int i) const;
+  private:
+     QString m_xml;
 };
 
 #endif

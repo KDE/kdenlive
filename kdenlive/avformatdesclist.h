@@ -27,18 +27,18 @@
   *@author Jason Wood
   */
 
-class AVFormatDescList : public AVFormatDescBase  {
-public: 	
-  AVFormatDescList(const QString &description, const char * &name);
-	~AVFormatDescList();
+class AVFormatDescList:public AVFormatDescBase {
+  public:
+    AVFormatDescList(const QString & description, const char *&name);
+    ~AVFormatDescList();
   /** Create a widget to handle a list value. Most likely, this will be a listbox. */
-  AVFormatWidgetBase * createWidget(QWidget *parent);  
+    AVFormatWidgetBase *createWidget(QWidget * parent);
   /** Adds the specified string to the item list. */
-  void addItem(const QString &item);
+    void addItem(const QString & item);
   /** Returns the item list. */
-  QValueVector<QString> itemList();
-private:
-  QValueVector<QString> m_itemList;
+     QValueVector < QString > itemList();
+  private:
+     QValueVector < QString > m_itemList;
 };
 
 #endif

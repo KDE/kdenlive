@@ -29,24 +29,23 @@ The effects in the effect stack are applied in order with the first effect in th
 
 @author Jason Wood
 */
-class EffectStack : public QPtrList<Effect>
-{
-public:
+class EffectStack:public QPtrList < Effect > {
+  public:
     EffectStack();
-    EffectStack(const EffectStack &rhs);
-    const EffectStack &operator=(const EffectStack&rhs);
+    EffectStack(const EffectStack & rhs);
+    const EffectStack & operator=(const EffectStack & rhs);
     Effect *selectedItem();
     void setSelected(uint ix);
 
-    Effect *operator[](int ix) const;
+    Effect *operator[] (int ix) const;
 
     ~EffectStack();
 
-private:
-    uint index;
+  private:
+     uint index;
 
 };
 
-typedef QPtrListIterator<Effect> EffectStackIterator;
+typedef QPtrListIterator < Effect > EffectStackIterator;
 
 #endif

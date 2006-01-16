@@ -16,18 +16,16 @@
  ***************************************************************************/
 #include "effectkeyframe.h"
 
-EffectKeyFrame::EffectKeyFrame() :
-				m_time(0)
+EffectKeyFrame::EffectKeyFrame():
+m_time(0)
 {
 }
 
-EffectKeyFrame::EffectKeyFrame(double time) :
-				m_time(time)
+EffectKeyFrame::EffectKeyFrame(double time):
+m_time(time)
 {
 }
 
 EffectKeyFrame::~EffectKeyFrame()
 {
 }
-
-
