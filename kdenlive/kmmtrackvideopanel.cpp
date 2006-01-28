@@ -41,6 +41,7 @@
 #include "trackviewbackgrounddecorator.h"
 #include "trackviewnamedecorator.h"
 #include "trackviewmarkerdecorator.h"
+#include "trackviewtransitiondecorator.h"
 
 namespace Gui {
 
@@ -103,6 +104,8 @@ namespace Gui {
 	/* should be removed... audio decoration should only be on audio tracks */
 	//addViewDecorator(new TrackViewAudioBackgroundDecorator(timeline, doc, QColor(64, 128, 64), QColor(128, 255, 128),audioDecoratorSize));
 
+        addViewDecorator(new TrackViewTransitionDecorator(timeline(), document()));
+        
 	addViewDecorator(new TrackViewNameDecorator(timeline(),
 		document()));
 	addViewDecorator(new TrackViewMarkerDecorator(timeline(),

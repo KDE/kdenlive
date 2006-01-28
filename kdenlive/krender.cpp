@@ -194,6 +194,17 @@ m_mltConsumer(NULL), m_mltProducer(NULL)
     m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
     volume->addParameter(m_parameter);
     m_effectList.append(volume);
+    
+    EffectDesc *mute = new EffectDesc(i18n("Mute"), "volume");
+    xmlAttr.clear();
+    xmlAttr.append("type", QString::null, QString::null, "constant");
+    xmlAttr.append("name", QString::null, QString::null, "gain");
+    xmlAttr.append("max", QString::null, QString::null, "0");
+    xmlAttr.append("min", QString::null, QString::null, "0");
+    xmlAttr.append("default", QString::null, QString::null, "0");
+    m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
+    mute->addParameter(m_parameter);
+    m_effectList.append(mute);
 
 
     EffectDesc *obscure = new EffectDesc(i18n("Obscure"), "obscure");
@@ -209,8 +220,8 @@ m_mltConsumer(NULL), m_mltProducer(NULL)
 	"360;260;100;100;20");
     m_parameter = m_effectDescParamFactory.createParameter(xmlAttr);
     obscure->addParameter(m_parameter);
-
     m_effectList.append(obscure);
+
 
     //      Does it do anything usefull? I mean, KRenderThread doesn't do anything useful at the moment
     //      (except being cpu hungry :)

@@ -80,8 +80,8 @@ int DocClipProject::trackIndex(DocTrackBase * track)
 
 void DocClipProject::connectTrack(DocTrackBase * track)
 {
-    connect(track, SIGNAL(clipLayoutChanged()), this,
-	SIGNAL(clipLayoutChanged()));
+//    connect(track, SIGNAL(()), this,
+//	SIGNAL(clipLayoutChanged()));
     connect(track, SIGNAL(signalClipSelected(DocClipRef *)), this,
 	SIGNAL(signalClipSelected(DocClipRef *)));
     connect(track, SIGNAL(clipChanged(DocClipRef *)), this,
@@ -259,18 +259,18 @@ QDomDocument DocClipProject::generateSceneList() const
 {
     QDomDocument doc;
     int tracknb = 0;
-    uint usedAudioTracks[99];
-    uint audioTracksCounter = 0;
     uint tracksCounter = 0;
 
     QDomElement westley = doc.createElement("westley");
     doc.appendChild(westley);
 
+    
     /* import the list of all producer clips */
     westley.appendChild(producersList);
 
     QDomElement tractor = doc.createElement("tractor");
     QDomElement multitrack = doc.createElement("multitrack");
+    
 
     QPtrListIterator < DocTrackBase > trackItt(m_tracks);
 
@@ -294,36 +294,30 @@ QDomDocument DocClipProject::generateSceneList() const
 			frames(framesPerSecond()) - timestart));
 		playlist.appendChild(blank);
 	    }
-	    playlist.appendChild(itt.current()->generateXMLClip().
-		firstChild());
+
+            playlist.appendChild(itt.current()->generateXMLClip().firstChild());
+
 	    timestart =
-		itt.current()->trackEnd().frames(framesPerSecond()) + 1;
+                    itt.current()->trackEnd().frames(framesPerSecond());
 	    children++;
 	    ++itt;
 	}
-	if (children > 0) {
-	    /* keep a list of audio tracks so that we can mix them later */
-	    if (trackItt.current()->clipType() == "Sound") {
-		usedAudioTracks[audioTracksCounter++] = tracksCounter;
-	    }
 	    tracksCounter++;
 	    multitrack.appendChild(playlist);
-	}
 	++trackItt;
     }
+    
     tractor.appendChild(multitrack);
-
-
+    
+    
     /* transition: mix all used audio tracks */
-    /*if (audioTracksCounter>1)
-       for (int i=0;i<audioTracksCounter-1;i++) */
-    kdDebug() << "+++++ PROJECT: " << tracksCounter << endl;
+    QString projectDuration = QString::number(duration().frames(framesPerSecond()));
+    
     if (tracksCounter > 1)
 	for (int i = 0; i < tracksCounter - 1; i++) {
 	    QDomElement transition = doc.createElement("transition");
 	    transition.setAttribute("in", "0");
-	    transition.setAttribute("out",
-		QString::number(duration().frames(framesPerSecond())));
+            transition.setAttribute("out", projectDuration);
 	    /*transition.setAttribute("a_track", QString::number(usedAudioTracks[i]));
 	       transition.setAttribute("b_track", QString::number(usedAudioTracks[i+1])); */
 	    transition.setAttribute("a_track", QString::number(i));
@@ -333,25 +327,46 @@ QDomDocument DocClipProject::generateSceneList() const
 	    transition.setAttribute("end", "0.5");
 	    tractor.appendChild(transition);
 	}
-
-/*
-	// sample transition test 
-	QDomElement transition = doc.createElement("transition");
-	transition.setAttribute("mlt_service", "luma");
-	transition.setAttribute("in", "0");
-	transition.setAttribute("out", "50");
-	transition.setAttribute("a_track", "0");
-	transition.setAttribute("b_track", "1");
-	tractor.appendChild(transition);
-*/
+        
+        /* Add transitions, currently only crossfade luma supported */
+        TransitionStack::iterator itt = m_transitionStack.begin();
+        uint index = m_transitionStack.count();
+            for (uint count = 0; count < index; ++count)
+            {
+                QDomElement transition = doc.createElement("transition");
+                transition.setAttribute("in", QString::number((*itt)->transitionStartTime()));
+                transition.setAttribute("out", QString::number((*itt)->transitionEndTime()));
+                transition.setAttribute("a_track", QString::number((*itt)->transitionStartTrack()));
+                transition.setAttribute("b_track", QString::number((*itt)->transitionEndTrack()));
+                transition.setAttribute("mlt_service", "luma");
+                transition.setAttribute("reverse", "0");
+                tractor.appendChild(transition);   
+                ++itt;
+            }
 
     doc.documentElement().appendChild(tractor);
 
-    kdDebug() << "+ + + PROJECT SCENE: " << doc.toString() << endl;
+    //kdDebug() << "+ + + PROJECT SCENE: " << doc.toString() << endl;
     return doc;
 }
 
 
+TransitionStack DocClipProject::clipHasTransition(DocClipRef *clip)
+{
+    TransitionStack result;
+    TransitionStack::iterator itt = m_transitionStack.begin();
+    uint count = 0;
+    while (itt)
+    {
+        Transition *tra = (*itt)->hasClip(clip);
+        if (tra) {
+            count++;
+            result.append(tra->clone());
+        }
+        ++itt;
+    }
+    return result;
+}
 /*
 QDomDocument DocClipProject::generateSceneList() const
 {
@@ -543,6 +558,84 @@ bool DocClipProject::hasSelectedClips()
 
     return result;
 }
+
+bool DocClipProject::hasTwoSelectedClips()
+{
+    // #FIXME: Currently, counts the number of tracks that have selected clips.
+    // It should count the total number of selected clips...
+    uint nb = 0;
+
+    for (uint count = 0; count < numTracks(); ++count) {
+        if (m_tracks.at(count)->hasSelectedClips())
+            nb++;
+    }
+
+    if (nb == 2) return true;
+    return false;
+}
+
+
+void DocClipProject::deleteTransition()
+{
+    /* Currently only deletes transitions for the first selected clip */
+    DocClipRef *selectedClip = 0;
+    DocTrackBase *srcTrack = 0;
+
+    for (uint track = 0; track < numTracks(); track++) {
+        srcTrack = m_tracks.at(track);
+        if (srcTrack->hasSelectedClips()) {
+            selectedClip = srcTrack->firstClip(true).current();
+            break;
+        }
+    }
+    if (selectedClip) deleteClipTransition(selectedClip);
+}
+
+
+void DocClipProject::deleteClipTransition(DocClipRef *clip)
+{
+    /* Currently only deletes transitions for the first selected clip */
+    TransitionStack::iterator itt = m_transitionStack.begin();
+    while (itt) {
+        if ((*itt)->hasClip(clip)) m_transitionStack.remove(*itt);
+        else ++itt;
+    }
+
+    generateSceneList();
+    emit clipLayoutChanged();
+}
+
+void DocClipProject::addTransition()
+{
+    DocClipRef *aResult = 0;
+    DocClipRef *bResult = 0;
+    DocTrackBase *srcTrack = 0;
+    uint ix = 0;
+
+    for (uint track = 0; track < numTracks(); track++) {
+        srcTrack = m_tracks.at(track);
+        ix++;
+        if (srcTrack->hasSelectedClips()) {
+            aResult = srcTrack->firstClip(true).current();
+            break;
+        }
+    }
+    
+    for (uint track = ix; track < numTracks(); track++) {
+        srcTrack = m_tracks.at(track);
+        if (srcTrack->hasSelectedClips()) {
+            bResult = srcTrack->firstClip(true).current();
+            break;
+        }
+    }
+    Transition *transit = new Transition(aResult,bResult);
+    m_transitionStack.append(transit);
+
+    generateSceneList();
+    emit clipLayoutChanged();
+    
+}
+
 
 DocClipRef *DocClipProject::selectedClip()
 {

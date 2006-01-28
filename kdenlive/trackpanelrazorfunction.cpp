@@ -65,7 +65,7 @@ QCursor TrackPanelRazorFunction::getMouseCursor(Gui::KTrackPanel * panel,
 	    }
 	}
     }
-    return QCursor(Qt::SplitVCursor);
+    return QCursor(Qt::SplitHCursor);
 }
 
 bool TrackPanelRazorFunction::mousePressed(Gui::KTrackPanel * panel,

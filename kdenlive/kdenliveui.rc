@@ -87,13 +87,35 @@
 		<Action name="timeline_snap_marker"/>
 	</Menu>
 	<Separator lineSeparator="true"/>
-	<Action name="razor_selected_clips"/>
 	<Action name="razor_all_clips"/>
 	<Separator lineSeparator="true"/>
 	<Action name="clear_all_snap_markers"/>
-	<Action name="clear_snap_markers_from_selected"/>
-	<Separator lineSeparator="true"/>
-	<Action name="delete_selected_clips"/>
+</Menu>
+
+<Menu name="timeline_clip_context">
+  <Action name="add_transition"/>
+  <Action name="del_transition"/>
+  <Separator lineSeparator="true"/>
+  <Menu name="tools"><text>Tools</text>
+    <Action name="timeline_move_tool"/>
+    <Action name="timeline_razor_tool"/>
+    <Action name="timeline_spacer_tool"/>
+    <Action name="timeline_marker_tool"/>
+    <Action name="timeline_roll_tool"/>
+  </Menu>
+  <Menu name="snap"><text>Snap To</text>
+    <Action name="timeline_snap_frame"/>
+    <Action name="timeline_snap_border"/>
+    <Action name="timeline_snap_marker"/>
+  </Menu>
+  <Separator lineSeparator="true"/>
+  <Action name="razor_selected_clips"/>
+  <Action name="razor_all_clips"/>
+  <Separator lineSeparator="true"/>
+  <Action name="clear_all_snap_markers"/>
+  <Action name="clear_snap_markers_from_selected"/>
+  <Separator lineSeparator="true"/>
+  <Action name="delete_selected_clips"/>
 </Menu>
 
 <Menu name="monitor_context">

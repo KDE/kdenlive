@@ -279,7 +279,7 @@ void KdenliveDoc::connectProjectClip()
 	this, SIGNAL(documentLengthChanged(const GenTime &)));
 
 // Commented out following line, causes multiple unnecessary refreshes - jbm, 26/12/05 
-//      connect(m_projectClip, SIGNAL(clipLayoutChanged()), this, SLOT(hasBeenModified()));
+    connect(m_projectClip, SIGNAL(clipLayoutChanged()), this, SLOT(hasBeenModified()));
     connect(m_projectClip, SIGNAL(effectStackChanged(DocClipRef *)), this,
 	SLOT(hasBeenModified()));
 }

@@ -311,11 +311,19 @@ namespace Gui {
 
 		/** Razor selected clips at the specified location */
 	void slotRazorSelectedClips();
-	private slots: void slotToggleClipMonitor();
+        
+      private slots: 
+        void slotToggleClipMonitor();
 	void slotToggleWorkspaceMonitor();
 	void slotToggleEffectList();
 	void slotToggleEffectStack();
 	void slotToggleProjectList();
+        
+        /** Add a transition between the 2 selected clips */
+        void addTransition();
+        
+        /** Delete the selected clip's transition */
+        void deleteTransition();
 
       private:
 		/** the configuration object of the application */

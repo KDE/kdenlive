@@ -21,6 +21,7 @@
 #include "docclipbase.h"
 #include "docclipref.h"
 #include "doctrackbaselist.h"
+#include "transitionstack.h"
 #include "gentime.h"
 
 class ClipManager;
@@ -84,6 +85,7 @@ class DocClipProject:public DocClipBase {
 
 	/** Returns true if at least one clip in the project clip is currently selected, false otherwise. */
     bool hasSelectedClips();
+    bool hasTwoSelectedClips();
 
 	/** Returns a clip that is currently selected. Only one clip is returned!
 	 * This function is intended for times when you need a "master" clip. but have no preferred
@@ -116,14 +118,28 @@ class DocClipProject:public DocClipBase {
 	const GenTime & clipOffset) const;
 	/** Holds a westley list of all different clips in the document */
     QDomDocument producersList;
+    
+
     public slots:
 	/** Check a clip does not exceed its maximum length */
     void fixClipDuration(KURL url, GenTime length);
+    
+    /** Add a transition between the 2 selected clips */
+    void addTransition();
+    
+    /** Delete the selected clip's transitions */
+    void deleteTransition();
+    void deleteClipTransition(DocClipRef *clip);
+    
+    /** Returns all the transitions related to the clip */
+    TransitionStack clipHasTransition(DocClipRef *clip);
 
     private slots:
 	/** Check that the project length is correct. */
     void slotCheckProjectLength();
-     signals:
+    
+    
+    signals:
 	/** This signal is emitted whenever tracks are added to or removed from the project. */
     void trackListChanged();
 	/** Emitted whenever the clip layout changes.*/
@@ -136,6 +152,7 @@ class DocClipProject:public DocClipBase {
     void effectStackChanged(DocClipRef *);
 	/** Emitted when the length of the project clip changes */
     void projectLengthChanged(const GenTime & length);
+    
   private:
 	/** Blocks all track signals if block==true, or unblocks them otherwise. Use when you want
 	 *  to temporarily ignore emits from tracks. */
@@ -146,6 +163,7 @@ class DocClipProject:public DocClipBase {
     double m_framesPerSecond;
 	/** Holds a list of all tracks in the project. */
     DocTrackBaseList m_tracks;
+    TransitionStack m_transitionStack;
 
     const DocTrackBase & track(uint track) const;
 

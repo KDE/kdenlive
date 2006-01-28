@@ -70,6 +70,7 @@ namespace Command {
     void KAddRefClipCommand::deleteClip() {
 	DocTrackBase *track = m_project->track(m_track);
 	DocClipRef *clip = track->getClipAt(m_findTime);
+        m_project->deleteClipTransition( clip );
 	track->removeClip(clip);
 
 	delete clip;

@@ -131,7 +131,7 @@ namespace Gui {
 
 	while (effect->parameter(parameterNum)) {
 	    // for each constant parameter, build a QSpinBox with its value
-	    if (m_effecttype == "constant") {
+            if (m_effecttype == "constant") {
 
 
 		int maxValue =
@@ -140,18 +140,17 @@ namespace Gui {
 		int minValue =
 		    effect->effectDescription().parameter(parameterNum)->
 		    min();
-		QHBox *gb = new QHBox(container, "box");
-		(void) new QLabel(effect->effectDescription().
-		    parameter(parameterNum)->name(), gb);
-		QString widgetName = QString("param");
-		widgetName.append(QString::number(parameterNum));
-		QSpinBox *spinParam = new QSpinBox(gb, widgetName.ascii());
-		spinParam->setMaxValue(maxValue);
-		spinParam->setMinValue(minValue);
-		spinParam->setValue(effect->effectDescription().
-		    parameter(parameterNum)->value());
-		connect(spinParam, SIGNAL(valueChanged(int)), this,
-		    SLOT(parameterChanged(int)));
+                if (maxValue != minValue) {
+		  QHBox *gb = new QHBox(container, "box");
+		  (void) new QLabel(effect->effectDescription().parameter(parameterNum)->name(), gb);
+		  QString widgetName = QString("param");
+		  widgetName.append(QString::number(parameterNum));
+		  QSpinBox *spinParam = new QSpinBox(gb, widgetName.ascii());
+		  spinParam->setMaxValue(maxValue);
+		  spinParam->setMinValue(minValue);
+		  spinParam->setValue(effect->effectDescription().parameter(parameterNum)->value());
+		  connect(spinParam, SIGNAL(valueChanged(int)), this, SLOT(parameterChanged(int)));
+                }
 	    }
 	    if (m_effecttype == "double") {
 		QFrame *frame = new QFrame(k_container, "container2");

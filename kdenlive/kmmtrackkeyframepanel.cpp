@@ -32,6 +32,7 @@
 #include "trackviewbackgrounddecorator.h"
 #include "trackviewdoublekeyframedecorator.h"
 
+
 namespace Gui {
 
     KMMTrackKeyFramePanel::KMMTrackKeyFramePanel(KTimeLine * timeline,
@@ -70,7 +71,9 @@ namespace Gui {
 	//addViewDecorator(new TrackViewBackgroundDecorator(timeline, doc, QColor(128, 128, 128), QColor(200, 200, 200)));
 	 addViewDecorator(new TrackViewDoubleKeyFrameDecorator(timeline,
 		doc, effectName, effectIndex, effectParam));
-    } void KMMTrackKeyFramePanel::resizeTrack() {
+        }
+    
+    void KMMTrackKeyFramePanel::resizeTrack() {
 	//clearViewDecorators();
 	uint widgetHeight;
 	if (m_type == EFFECTKEYFRAMETRACK)

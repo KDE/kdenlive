@@ -18,6 +18,7 @@
 
 #include <qnamespace.h>
 #include  <qpainter.h>
+#include  <kdebug.h>
 
 #include "docclipref.h"
 #include "gentime.h"
@@ -94,6 +95,19 @@ namespace Gui {
 	}
 
 	painter.setClipping(false);
+        
+        QPen pen = painter.pen();
+        if (selected) {
+            pen.setColor(Qt::red);
+            //pen.setStyle(Qt::DotLine);
+            painter.setPen(pen);
+        }
+        painter.drawRect(sx, rect.y(), ex, rect.height());
+        if (selected) {
+            pen.setColor(Qt::black);
+            //pen.setStyle(Qt::SolidLine);
+            painter.setPen(pen);
+        }
     }
 
 }				// namespace Gui

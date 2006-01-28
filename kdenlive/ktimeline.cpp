@@ -225,9 +225,11 @@ coordinate, and returns the value associated with it. */
     }
 /** Takes the value that we wish to find the coordinate for, and returns the x coordinate. In cases where a single value covers multiple
 pixels, the left-most pixel is returned. */
-	double KTimeLine::mapValueToLocal(const double value) const {
+    double KTimeLine::mapValueToLocal(const double value) const {
 	return m_ruler->mapValueToLocal(value);
-    } void KTimeLine::drawTrackViewBackBuffer() {
+    } 
+    
+    void KTimeLine::drawTrackViewBackBuffer() {
 	m_trackViewArea->invalidateBackBuffer();
     }
 

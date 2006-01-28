@@ -536,9 +536,13 @@ namespace Gui {
 
     double KRuler::mapValueToLocal(double value) const {
 	return ((value * m_xValueSize) - m_leftMostPixel);
-    } double KRuler::mapLocalToValue(double x) const {
+    } 
+    
+    double KRuler::mapLocalToValue(double x) const {
 	return (x + m_leftMostPixel) / m_xValueSize;
-    } int KRuler::addSlider(KRulerSliderType type, int value) {
+    } 
+    
+    int KRuler::addSlider(KRulerSliderType type, int value) {
 	KRulerPrivateSlider s(d->m_id, type, value, QPalette::Inactive);
 	d->m_sliders.append(s);
 	emit sliderValueChanged(d->m_id, value);

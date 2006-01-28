@@ -359,6 +359,14 @@ namespace Gui {
 	    SLOT(slotRazorSelectedClips()), actionCollection(),
 	    "razor_selected_clips");
 
+        (void) new KAction(i18n("Add Transition"), 0, this,
+        SLOT(addTransition()), actionCollection(),
+        "add_transition");
+        
+        (void) new KAction(i18n("Delete Transition"), 0, this,
+        SLOT(deleteTransition()), actionCollection(),
+        "del_transition");
+        
 	(void) new KAction(i18n("Clip Monitor"), 0, this,
 	    SLOT(slotToggleClipMonitor()), actionCollection(),
 	    "toggle_clip_monitor");
@@ -618,7 +626,7 @@ namespace Gui {
 	    m_dockClipMonitor, "Clip Monitor");
 	m_dockClipMonitor->setWidget(m_clipMonitor);
 	m_dockClipMonitor->setDockSite(KDockWidget::DockFullSite);
-	//m_dockClipMonitor->manualDock( m_dockWorkspaceMonitor, KDockWidget::DockCenter );
+	m_dockClipMonitor->manualDock( m_dockWorkspaceMonitor, KDockWidget::DockCenter );
 
 //      m_dockCaptureMonitor = createDockWidget( "Capture Monitor", QPixmap(), 0, i18n( "Capture Monitor" ) );
 //      m_captureMonitor = m_monitorManager.createCaptureMonitor( getDocument(), m_dockCaptureMonitor, i18n( "Capture Monitor" ) );
@@ -1869,11 +1877,36 @@ namespace Gui {
     }
 
     void KdenliveApp::slotDisplayTimeLineContextMenu() {
-	QPopupMenu *menu =
-	    (QPopupMenu *) factory()->container("timeline_context", this);
+      QPopupMenu *menu;
+      
+      int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(QCursor::pos()).y())->documentTrackIndex();
+      
+      DocTrackBase *track = getDocument()->track(ix);
+      GenTime mouseTime;
+      mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(QCursor::pos()).x());
+      
+      //DocClipRef *clip = track->getClipAt(mouseTime);
+      //if (clip) {
+      if (getDocument()->projectClip().hasSelectedClips()) {
+        menu = (QPopupMenu *) factory()->container("timeline_clip_context", this);
+      }
+      else menu = (QPopupMenu *) factory()->container("timeline_context", this);
 	if (menu) {
 	    menu->popup(QCursor::pos());
 	}
+    }
+    
+    
+    void KdenliveApp::addTransition() {
+        if (!getDocument()->projectClip().hasTwoSelectedClips()) {
+            KMessageBox::sorry(this,i18n("You need to select two clips to add a transition"));
+            return;
+        }
+        getDocument()->projectClip().addTransition();
+    }
+    
+    void KdenliveApp::deleteTransition() {
+        getDocument()->projectClip().deleteTransition();
     }
 
 

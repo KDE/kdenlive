@@ -47,12 +47,11 @@ namespace Gui {
 	}
 	ex -= sx;
 
-	QColor col = selected ? m_selected : m_unselected;
+        QColor col = selected ? m_selected : m_unselected;
 
 	// draw outline box
 	painter.fillRect(sx, rect.y(), ex, rect.height(), col);
 
-	painter.drawRect(sx, rect.y(), ex, rect.height());
     }
 
 }				// namespace Gui

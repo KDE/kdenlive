@@ -53,6 +53,7 @@ const GenTime & DocClipRef::trackStart() const
     return m_trackStart;
 }
 
+
 void DocClipRef::setTrackStart(const GenTime time)
 {
     m_trackStart = time;
@@ -458,7 +459,7 @@ QDomDocument DocClipRef::generateXMLClip()
 	return QDomDocument();
 
     QDomDocument sceneList;
-
+ 
     QDomElement entry = sceneList.createElement("entry");
 
 /*	if (parentTrack()->clipType() == "Sound") 
@@ -466,16 +467,14 @@ QDomDocument DocClipRef::generateXMLClip()
 
 	else entry.setAttribute("producer", QString("video_producer") + QString::number(m_clip->toDocClipAVFile()->getId()) );*/
 
-    entry.setAttribute("producer",
-	QString("producer") +
-	QString::number(m_clip->toDocClipAVFile()->getId()));
-
+    entry.setAttribute("producer", "producer" + QString::number(m_clip->toDocClipAVFile()->getId()));
     entry.setAttribute("in",
 	QString::number(m_cropStart.frames(framesPerSecond())));
     entry.setAttribute("out",
 	QString::number((m_cropStart +
 		cropDuration()).frames(framesPerSecond())));
 
+    
     // Generate XML for the clip's effects 
     // As a starting point, let's consider effects don't have more than one keyframable parameter.
     // All other parameters are supposed to be "constant", ie a value which can be adjusted by 
@@ -564,30 +563,30 @@ QDomDocument DocClipRef::generateXMLClip()
 		    if (keyFrameNum > 1) {
 			for (uint count = 0; count < keyFrameNum - 1;
 			    count++) {
-			    QDomElement transition =
+                                QDomElement clipFilter =
 				sceneList.createElement("filter");
-			    transition.setAttribute("mlt_service",
+			    clipFilter.setAttribute("mlt_service",
 				effect->effectDescription().tag());
 			    uint in =
 				m_cropStart.frames(framesPerSecond());
 			    uint duration =
 				cropDuration().frames(framesPerSecond());
-			    transition.setAttribute("in",
+			    clipFilter.setAttribute("in",
 				QString::number(in +
 				    (effect->parameter(parameterNum)->
 					keyframe(count)->time()) *
 				    duration));
-			    transition.setAttribute(startTag,
+			    clipFilter.setAttribute(startTag,
 				QString::number(effect->
 				    parameter(parameterNum)->
 				    keyframe(count)->toDoubleKeyFrame()->
 				    value() * maxValue / 100));
-			    transition.setAttribute("out",
+			    clipFilter.setAttribute("out",
 				QString::number(in +
 				    (effect->parameter(parameterNum)->
 					keyframe(count +
 					    1)->time()) * duration));
-			    transition.setAttribute(endTag,
+			    clipFilter.setAttribute(endTag,
 				QString::number(effect->
 				    parameter(parameterNum)->
 				    keyframe(count +
@@ -600,18 +599,19 @@ QDomDocument DocClipRef::generateXMLClip()
 			       transition.setAttribute(effect->effectDescription().parameter(parameterNumBis)->name(),QString::number(effect->effectDescription().parameter(parameterNumBis)->value()));
 			       parameterNumBis++;
 			       } */
-			    entry.appendChild(transition);
+			    entry.appendChild(clipFilter);
 			}
 		    }
-		} else {	// Effect has only constant parameters
-		    QDomElement transition =
+                    }
+                else {	// Effect has only constant parameters
+                    QDomElement clipFilter =
 			sceneList.createElement("filter");
-		    transition.setAttribute("mlt_service",
+                    clipFilter.setAttribute("mlt_service",
 			effect->effectDescription().tag());
 		    if (effect->effectDescription().
 			parameter(parameterNum)->type() == "constant")
 			while (effect->parameter(parameterNum)) {
-			    transition.setAttribute(effect->
+                        clipFilter.setAttribute(effect->
 				effectDescription().
 				parameter(parameterNum)->name(),
 				QString::number(effect->
@@ -619,7 +619,7 @@ QDomDocument DocClipRef::generateXMLClip()
 				    parameter(parameterNum)->value()));
 			    parameterNum++;
 			}
-		    entry.appendChild(transition);
+                        entry.appendChild(clipFilter);
 		}
 		parameterNum++;
 	    }
