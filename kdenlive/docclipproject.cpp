@@ -260,6 +260,7 @@ QDomDocument DocClipProject::generateSceneList() const
     QDomDocument doc;
     int tracknb = 0;
     uint tracksCounter = 0;
+    QString projectDuration = QString::number(duration().frames(framesPerSecond()));
 
     QDomElement westley = doc.createElement("westley");
     doc.appendChild(westley);
@@ -273,6 +274,15 @@ QDomDocument DocClipProject::generateSceneList() const
     
 
     QPtrListIterator < DocTrackBase > trackItt(m_tracks);
+    
+    // Add black clip as first track, so that empty spaces appear black
+    QDomElement playlist = doc.createElement("playlist");
+    QDomElement blank = doc.createElement("entry");
+    blank.setAttribute("in", "0");
+    blank.setAttribute("out", projectDuration);
+    blank.setAttribute("producer", "black");
+    playlist.appendChild(blank);
+    multitrack.appendChild(playlist);
 
     while (trackItt.current()) {
 	DocTrackClipIterator itt(*(trackItt.current()));
@@ -311,10 +321,9 @@ QDomDocument DocClipProject::generateSceneList() const
     
     
     /* transition: mix all used audio tracks */
-    QString projectDuration = QString::number(duration().frames(framesPerSecond()));
     
     if (tracksCounter > 1)
-	for (int i = 0; i < tracksCounter - 1; i++) {
+	for (int i = 1; i < tracksCounter; i++) {
 	    QDomElement transition = doc.createElement("transition");
 	    transition.setAttribute("in", "0");
             transition.setAttribute("out", projectDuration);
@@ -336,8 +345,8 @@ QDomDocument DocClipProject::generateSceneList() const
                 QDomElement transition = doc.createElement("transition");
                 transition.setAttribute("in", QString::number((*itt)->transitionStartTime()));
                 transition.setAttribute("out", QString::number((*itt)->transitionEndTime()));
-                transition.setAttribute("a_track", QString::number((*itt)->transitionStartTrack()));
-                transition.setAttribute("b_track", QString::number((*itt)->transitionEndTrack()));
+                transition.setAttribute("a_track", QString::number((*itt)->transitionStartTrack()+1));
+                transition.setAttribute("b_track", QString::number((*itt)->transitionEndTrack()+1));
                 transition.setAttribute("mlt_service", "luma");
                 transition.setAttribute("reverse", "0");
                 tractor.appendChild(transition);   

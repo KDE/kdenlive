@@ -194,6 +194,12 @@ QDomDocument ClipManager::producersList()
     QDomDocument sceneList;
 
     QPtrListIterator < DocClipBase > itt(m_clipList);
+    
+    QDomElement producer = sceneList.createElement("producer");
+    producer.setAttribute("id", "black");
+    producer.setAttribute("mlt_service", "colour");
+    sceneList.appendChild(producer);
+    
     while (itt.current()) {
 	DocClipAVFile *avClip = itt.current()->toDocClipAVFile();
 	if (avClip) {
