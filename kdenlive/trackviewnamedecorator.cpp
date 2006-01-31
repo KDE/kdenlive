@@ -61,7 +61,7 @@ namespace Gui {
 	    painter.boundingRect(0, 0, ex, rect.height(), Qt::AlignLeft,
 	    clip->name());
 
-	double border = 50.0;
+	double border = 150.0;
 	int nameRepeat =
 	    (int) std::floor((double) clipWidth /
 	    ((double) textBound.width() + border));

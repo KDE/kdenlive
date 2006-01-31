@@ -1909,6 +1909,9 @@ namespace Gui {
         getDocument()->projectClip().deleteTransition();
     }
 
+    void KdenliveApp::switchTransition() {
+        getDocument()->projectClip().switchTransition();
+    }
 
 /** At least one track within the project have been added or removed.
 *

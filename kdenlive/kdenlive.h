@@ -312,6 +312,9 @@ namespace Gui {
 		/** Razor selected clips at the specified location */
 	void slotRazorSelectedClips();
         
+        /** Add a transition between the 2 selected clips or remove it if it already exists */
+        void switchTransition();
+        
       private slots: 
         void slotToggleClipMonitor();
 	void slotToggleWorkspaceMonitor();

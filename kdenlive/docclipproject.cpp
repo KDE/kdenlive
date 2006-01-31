@@ -609,7 +609,6 @@ void DocClipProject::deleteClipTransition(DocClipRef *clip)
         if ((*itt)->hasClip(clip)) m_transitionStack.remove(*itt);
         else ++itt;
     }
-
     generateSceneList();
     emit clipLayoutChanged();
 }
@@ -637,6 +636,7 @@ void DocClipProject::addTransition()
             break;
         }
     }
+    if (!aResult || !bResult) return;
     Transition *transit = new Transition(aResult,bResult);
     m_transitionStack.append(transit);
 
@@ -645,6 +645,41 @@ void DocClipProject::addTransition()
     
 }
 
+
+void DocClipProject::switchTransition()
+{
+    DocClipRef *aResult = 0;
+    DocClipRef *bResult = 0;
+    DocTrackBase *srcTrack = 0;
+    uint ix = 0;
+
+    for (uint track = 0; track < numTracks(); track++) {
+        srcTrack = m_tracks.at(track);
+        ix++;
+        if (srcTrack->hasSelectedClips()) {
+            aResult = srcTrack->firstClip(true).current();
+            break;
+        }
+    }
+    
+    for (uint track = ix; track < numTracks(); track++) {
+        srcTrack = m_tracks.at(track);
+        if (srcTrack->hasSelectedClips()) {
+            bResult = srcTrack->firstClip(true).current();
+            break;
+        }
+    }
+    if (!aResult || !bResult) return;
+    Transition *transit = m_transitionStack.exists(aResult,bResult);
+    if (transit) m_transitionStack.remove(transit);
+    else {
+        transit = new Transition(aResult,bResult);
+        m_transitionStack.append(transit);
+    }
+
+    generateSceneList();
+    emit clipLayoutChanged();
+}
 
 DocClipRef *DocClipProject::selectedClip()
 {

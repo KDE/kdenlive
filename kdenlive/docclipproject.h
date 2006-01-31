@@ -129,6 +129,8 @@ class DocClipProject:public DocClipBase {
     
     /** Delete the selected clip's transitions */
     void deleteTransition();
+    void switchTransition();
+    
     void deleteClipTransition(DocClipRef *clip);
     
     /** Returns all the transitions related to the clip */

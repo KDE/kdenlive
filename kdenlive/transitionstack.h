@@ -37,7 +37,7 @@ class TransitionStack:public QPtrList < Transition > {
     void setSelected(uint ix);
 
     Transition *operator[] (int ix) const;
-
+    Transition* exists(const DocClipRef * clipa, const DocClipRef * clipb);
     ~TransitionStack();
 
   private:

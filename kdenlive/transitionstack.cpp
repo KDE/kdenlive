@@ -35,6 +35,16 @@ void TransitionStack::setSelected(uint ix)
     index = ix;
 }
 
+Transition* TransitionStack::exists(const DocClipRef * clipa, const DocClipRef * clipb)
+{
+    TransitionStackIterator itt(*this);
+    while (itt.current()) {
+        if ((*itt)->hasClip(clipa) && (*itt)->hasClip(clipb)) break;
+        ++itt;
+    }
+    return itt.current();
+}
+
 Transition *TransitionStack::selectedItem()
 {
     return at(index);
