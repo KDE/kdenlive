@@ -20,6 +20,7 @@
 #include "clipmanager.h"
 #include "docclipbase.h"
 #include "docclipavfile.h"
+#include "doccliptextfile.h"
 #include "docclipproject.h"
 #include "doctrackbase.h"
 #include "docclipbase.h"
@@ -30,11 +31,12 @@
 #include "effectdoublekeyframe.h"
 #include "effectcomplexkeyframe.h"
 #include "kdenlivedoc.h"
+#include "kdenlivesettings.h"
 
 DocClipRef::DocClipRef(DocClipBase * clip):
 m_trackStart(0.0),
 m_cropStart(0.0),
-m_trackEnd(0.0), m_parentTrack(0), m_trackNum(-1), m_clip(clip)
+m_trackEnd(0.0), m_parentTrack(0), m_trackNum(-1), m_clip(clip), m_thumbcreator(0)
 {
     if (!clip) {
 	kdError() <<
@@ -42,10 +44,35 @@ m_trackEnd(0.0), m_parentTrack(0), m_trackNum(-1), m_clip(clip)
 	    << endl;
     }
     m_thumbnail = referencedClip()->thumbnail();
+    m_endthumbnail = m_thumbnail;
+    // If clip is a video, resizing it should update the thumbnails
+    if (m_clip->clipType() == DocClipBase::VIDEO || m_clip->clipType() == DocClipBase::AV) {
+        m_thumbcreator = new KThumb();
+        startTimer = new QTimer( this );
+        endTimer = new QTimer( this );
+        connect(m_thumbcreator, SIGNAL(thumbReady(int, QPixmap)),this,SLOT(updateThumbnail(int, QPixmap)));
+        connect(this, SIGNAL(getClipThumbnail(KURL, int, int, int)), m_thumbcreator, SLOT(getImage(KURL, int, int, int)));
+
+        connect( startTimer, SIGNAL(timeout()), this, SLOT(fetchStartThumbnail()));
+        connect( endTimer, SIGNAL(timeout()), this, SLOT(fetchEndThumbnail()));
+    }
 }
 
 DocClipRef::~DocClipRef()
 {
+}
+
+bool DocClipRef::hasVariableThumbnails()
+{
+    if ((m_clip->clipType() != DocClipBase::VIDEO && m_clip->clipType() != DocClipBase::AV) || !KdenliveSettings::videothumbnails()) 
+        return false;
+    return true;
+}
+
+void DocClipRef::generateThumbnails()
+{
+    fetchStartThumbnail();
+    fetchEndThumbnail();
 }
 
 const GenTime & DocClipRef::trackStart() const
@@ -78,6 +105,22 @@ void DocClipRef::setDescription(const QString & description)
     m_clip->setDescription(description);
 }
 
+void DocClipRef::fetchStartThumbnail()
+{
+    uint height = KdenliveSettings::videotracksize();
+    uint width = height * 1.25;
+    emit getClipThumbnail(fileURL(), m_cropStart.frames(25), width, height);
+}
+
+void DocClipRef::fetchEndThumbnail()
+{
+    uint height = KdenliveSettings::videotracksize();
+    uint width = height * 1.25;
+    emit getClipThumbnail(fileURL(), m_cropStart.frames(25)+cropDuration().frames(25), width, height);
+}
+
+
+
 void DocClipRef::setCropStartTime(const GenTime & time)
 {
     m_cropStart = time;
@@ -90,6 +133,7 @@ const GenTime & DocClipRef::cropStartTime() const
 {
     return m_cropStart;
 }
+
 
 void DocClipRef::setTrackEnd(const GenTime & time)
 {
@@ -105,14 +149,18 @@ GenTime DocClipRef::cropDuration() const
     return m_trackEnd - m_trackStart;
 }
 
-void DocClipRef::updateThumbnail(QPixmap newpix)
+void DocClipRef::updateThumbnail(int frame, QPixmap newpix)
 {
-    m_thumbnail = newpix;
+    if (m_cropStart.frames(25)+cropDuration().frames(25)-5 < frame)
+        m_endthumbnail = newpix;
+    else m_thumbnail = newpix;
+    if (m_parentTrack) m_parentTrack->refreshLayout();
 }
 
 
-QPixmap DocClipRef::thumbnail()
+QPixmap DocClipRef::thumbnail(bool end)
 {
+    if (end) return m_endthumbnail;
     return m_thumbnail;
 }
 
@@ -308,44 +356,60 @@ double DocClipRef::framesPerSecond() const
 //returns clip video properties -reh
 DocClipBase::CLIPTYPE DocClipRef::clipType() const
 {
-    return m_clip->toDocClipAVFile()->clipType();
+    return m_clip->clipType();
 }
 
 uint DocClipRef::clipHeight() const
 {
-    return m_clip->toDocClipAVFile()->clipHeight();
+    if (m_clip->isDocClipAVFile())    
+        return m_clip->toDocClipAVFile()->clipHeight();
+    // #TODO should return the project height
+    return 576;
 }
 
 uint DocClipRef::clipWidth() const
 {
-    return m_clip->toDocClipAVFile()->clipWidth();
+    if (m_clip->isDocClipAVFile())
+        return m_clip->toDocClipAVFile()->clipWidth();
+    // #TODO should return the project width
+    return 720;
 }
 
 QString DocClipRef::avDecompressor()
 {
-    return m_clip->toDocClipAVFile()->avDecompressor();
+    if (m_clip->isDocClipAVFile())
+        return m_clip->toDocClipAVFile()->avDecompressor();
+    return QString::null;
 }
 
 //type ntsc/pal
 QString DocClipRef::avSystem()
 {
-    return m_clip->toDocClipAVFile()->avSystem();
+    if (m_clip->isDocClipAVFile())
+        return m_clip->toDocClipAVFile()->avSystem();
+    return QString::null;
 }
 
 //returns clip audio properties -reh
 uint DocClipRef::audioChannels() const
 {
-    return m_clip->toDocClipAVFile()->audioChannels();
+    if (m_clip->isDocClipAVFile())
+        return m_clip->toDocClipAVFile()->audioChannels();
+    return 0;
 }
 
 QString DocClipRef::audioFormat()
 {
-    return m_clip->toDocClipAVFile()->audioFormat();
+    if (m_clip->isDocClipAVFile())
+        return m_clip->toDocClipAVFile()->audioFormat();
+    return QString::null;
 }
 
 uint DocClipRef::audioBits() const
 {
-    return m_clip->toDocClipAVFile()->audioBits();
+    if (m_clip->isDocClipAVFile())
+        return m_clip->toDocClipAVFile()->audioBits();
+    return 0;
 }
 
 QDomDocument DocClipRef::toXML() const
@@ -466,8 +530,10 @@ QDomDocument DocClipRef::generateXMLClip()
 	entry.setAttribute("producer", QString("audio_producer") + QString::number(m_clip->toDocClipAVFile()->getId()) );
 
 	else entry.setAttribute("producer", QString("video_producer") + QString::number(m_clip->toDocClipAVFile()->getId()) );*/
-
+    if (m_clip->isDocClipAVFile())
     entry.setAttribute("producer", "producer" + QString::number(m_clip->toDocClipAVFile()->getId()));
+    else if (m_clip->isDocClipTextFile())
+        entry.setAttribute("producer", "producer" + QString::number(m_clip->toDocClipTextFile()->getId()));
     entry.setAttribute("in",
 	QString::number(m_cropStart.frames(framesPerSecond())));
     entry.setAttribute("out",

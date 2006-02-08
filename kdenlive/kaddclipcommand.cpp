@@ -114,6 +114,25 @@ namespace Command {
 
     }
 
+    /** Add Text clip */
+    KAddClipCommand::KAddClipCommand(KdenliveDoc & document,
+                                     const GenTime & duration,
+                                     const QString & name, const QString & description, const QDomDocument &xml,  KURL url, QPixmap &pix,
+                                     bool create):m_document(document), m_name("Text Clip"),
+    m_parent(document.clipHierarch()->name()), m_create(create) {
+        if (!m_parent) {
+            kdWarning() <<
+                    "Error - all clips created with kaddclipcommand should have a parent!"
+                    << endl;
+        }
+        DocClipBase *clip =
+                document.clipManager().insertTextClip(duration, name,
+        description, xml, url, pix);
+        DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
+        m_xmlClip = clipNode->clipRef()->toXML();
+        delete clipNode;
+
+    }
 
 /** Add Image clip */
     KAddClipCommand::KAddClipCommand(KdenliveDoc & document,

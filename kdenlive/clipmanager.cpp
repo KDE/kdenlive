@@ -17,6 +17,9 @@
 
 #include "clipmanager.h"
 
+
+#include <qfile.h>
+
 // include files for KDE
 #include <klocale.h>
 #include <kdebug.h>
@@ -24,8 +27,10 @@
 
 #include <docclipbase.h>
 #include <docclipavfile.h>
+#include <doccliptextfile.h>
 #include <krendermanager.h>
 #include <kaddclipcommand.h>
+#include <titlewidget.h>
 
 ClipManager::ClipManager(KRenderManager & renderManager, QWidget * parent,
     const char *name)
@@ -46,6 +51,8 @@ ClipManager::ClipManager(KRenderManager & renderManager, QWidget * parent,
 
     connect(m_render, SIGNAL(replyGetImage(int, const QPixmap &, int,
 		int)), this, SLOT(AVImageArrived(int, const QPixmap &)));
+    
+    connect(this, SIGNAL(getFileProperties(KURL)), m_render, SLOT(getFileProperties(KURL)));
 }
 
 ClipManager::~ClipManager()
@@ -66,10 +73,10 @@ DocClipBase *ClipManager::insertClip(const KURL & file)
 
 	clip = new DocClipAVFile(file.fileName(), file, m_clipCounter++);
 	m_clipList.append(clip);
-	m_render->getFileProperties(file);
+	//m_render->getFileProperties(file);
+        emit getFileProperties(file);
 	/* Thumbnail (none for audio files) */
-	if (dynamic_cast < DocClipAVFile * >(clip)->clipType() !=
-	    DocClipBase::AUDIO)
+	if (clip->clipType() != DocClipBase::AUDIO)
 	    m_render->getImage(file, 1, 64, 50);
 	emit clipListUpdated();
     }
@@ -93,10 +100,9 @@ DocClipBase *ClipManager::insertImageClip(const KURL & file,
     return clip;
 }
 
-
 DocClipBase *ClipManager::insertColorClip(const QString & color,
-    const GenTime & duration, const QString & name,
-    const QString & description)
+                                          const GenTime & duration, const QString & name,
+                                          const QString & description)
 {
     DocClipBase *clip;
     clip = new DocClipAVFile(color, duration, m_clipCounter);
@@ -108,6 +114,47 @@ DocClipBase *ClipManager::insertColorClip(const QString & color,
     emit clipListUpdated();
 
     return clip;
+}
+
+DocClipBase *ClipManager::insertTextClip(
+    const GenTime & duration, const QString & name,
+    const QString & description, const QDomDocument &xml, const KURL url, QPixmap &pix)
+{
+    if (!QFile(url.path()).exists() || pix.isNull()) {
+        titleWidget *txtWidget=new titleWidget();
+        txtWidget->setXml(xml);
+        txtWidget->createImage(url);
+        pix = txtWidget->thumbnail(64, 50);
+        delete txtWidget;
+    }
+
+    DocClipBase *clip;
+    clip = new DocClipTextFile( name, description, duration, xml, url, pix, m_clipCounter);
+    m_clipList.append(clip);
+    //m_render->getImage(m_clipCounter, description, 12, 64, 50);
+    m_clipCounter++;
+    emit clipListUpdated();
+
+    return clip;
+}
+
+void ClipManager::editTextClip(DocClipRef * clip, const GenTime & duration, const QString & name,
+                               const QString & description, const QDomDocument &xml, const KURL url, const QPixmap &pix)
+{
+    clip->setDescription(description);
+    clip->setCropDuration(duration);
+   
+    DocClipTextFile *avClip =
+            dynamic_cast < DocClipTextFile * >(clip->referencedClip());
+    if (avClip) {
+        avClip->setName(name);
+        avClip->setDuration(duration);
+        avClip->setFileURL(url);
+        avClip->setThumbnail(pix);
+        avClip->setTextClipXml(xml);
+    }
+    m_render->getImage(m_clipCounter, description, 12, 64, 50);
+    emit clipListUpdated();
 }
 
 void ClipManager::editColorClip(DocClipRef * clip, const QString & color,
@@ -124,7 +171,7 @@ void ClipManager::editColorClip(DocClipRef * clip, const QString & color,
 	avClip->setName(name);
 	avClip->setDuration(duration);
     }
-    m_render->getImage(avClip->getId(), color, 64, 50);
+    m_render->getImage(m_clipCounter, color, 64, 50);
     emit clipListUpdated();
 }
 
@@ -180,9 +227,12 @@ DocClipBase *ClipManager::findClipById(uint id)
 
     QPtrListIterator < DocClipBase > itt(m_clipList);
     while (itt.current()) {
-	if (itt.current()->toDocClipAVFile()->getId() == id) {
+        if (itt.current()->isDocClipAVFile() && (itt.current()->toDocClipAVFile()->getId() == id)) {
 	    result = itt.current();
 	}
+        else if (itt.current()->isDocClipTextFile() && (itt.current()->toDocClipTextFile()->getId() == id)) {
+            result = itt.current();
+        }
 	++itt;
     }
 
@@ -201,8 +251,10 @@ QDomDocument ClipManager::producersList()
     sceneList.appendChild(producer);
     
     while (itt.current()) {
-	DocClipAVFile *avClip = itt.current()->toDocClipAVFile();
-	if (avClip) {
+        if (itt.current()->isDocClipAVFile())
+        {
+        DocClipAVFile *avClip = itt.current()->toDocClipAVFile();
+        if (avClip) {
 
 	    if (avClip->clipType() == DocClipBase::IMAGE) {
 		QDomElement producer = sceneList.createElement("producer");
@@ -274,6 +326,28 @@ QDomDocument ClipManager::producersList()
 	       sceneList.appendChild(producer2);
 	       } */
 	}
+        }
+        else if (itt.current()->isDocClipTextFile())
+        {
+            DocClipTextFile *avClip = itt.current()->toDocClipTextFile();
+            if (avClip)
+            {
+                QDomElement producer = sceneList.createElement("producer");
+                producer.setAttribute("id",
+                                      QString("producer") + QString::number(avClip->getId()));
+                producer.setAttribute("mlt_service", "pixbuf");
+                producer.setAttribute("resource", avClip->fileURL().path());
+                producer.setAttribute("hide", "audio");
+                sceneList.appendChild(producer);
+                
+            /*QDomElement producer = sceneList.createElement("producer");
+            producer.setAttribute("id", QString("producer") + QString::number(avClip->getId()));
+            producer.setAttribute("resource","pango");
+            producer.setAttribute("bgcolour", "0x000000ff");
+            producer.setAttribute("markup", avClip->description());
+                sceneList.appendChild(producer);*/
+            }
+        }
 	++itt;
     }
     return sceneList;
@@ -285,7 +359,9 @@ DocClipBase *ClipManager::findClip(const KURL & file)
 
     QPtrListIterator < DocClipBase > itt(m_clipList);
     while (itt.current()) {
-	DocClipAVFile *avClip = itt.current()->toDocClipAVFile();
+        DocClipAVFile *avClip;
+        if (itt.current()->isDocClipAVFile())
+	   avClip = itt.current()->toDocClipAVFile();
 
 	if (avClip && (avClip->fileURL() == file)) {
 	    result = avClip;
@@ -333,10 +409,11 @@ DocClipAVFile *ClipManager::findAVFile(const KURL & url)
 
     while (itt.current()) {
 	DocClipBase *clip = itt.current();
+        DocClipAVFile *avClip;
 	if (clip->isDocClipAVFile()) {
-	    DocClipAVFile *avClip = clip->toDocClipAVFile();
+	    avClip = clip->toDocClipAVFile();
 
-	    if (avClip->fileURL() == url) {
+            if (avClip && avClip->fileURL() == url) {
 		file = avClip;
 		break;
 	    }

@@ -262,6 +262,7 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 
     void KMMMonitor::doCommonSetClip() {
 	QDomDocument scenelist = m_clip->generateSceneList();
+
 	setSceneList(scenelist, false);
 	m_screen->setClipLength((int) m_clip->duration().
 	    frames(m_document->framesPerSecond()));

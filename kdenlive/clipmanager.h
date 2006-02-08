@@ -33,6 +33,7 @@
 
 // forward declaration of the Kdenlive classes
 class DocClipAVFile;
+class DocClipTextFile;
 class KMacroCommand;
 class KRender;
 class KRenderManager;
@@ -79,10 +80,18 @@ class ClipManager:public QObject {
 	const GenTime & duration, const QString & name,
 	const QString & description);
 
-	/** Edit a color clip */
+    /** Insert a text clip */
+    DocClipBase *insertTextClip( const GenTime & duration, const QString & name,
+                                 const QString & description, const QDomDocument &xml, const KURL url, QPixmap &pix);
+	
+    /** Edit a color clip */
     void editColorClip(DocClipRef * clip, const QString & color,
 	const GenTime & duration, const QString & name,
 	const QString & description);
+    
+    /** Edit a text clip */
+    void editTextClip(DocClipRef * clip, const GenTime & duration, const QString & name,
+                      const QString & description, const QDomDocument &xml, const KURL url, const QPixmap &pix);
 
 	/** Edit an image clip */
     void editImageClip(DocClipRef * clip, const KURL & file,
@@ -116,6 +125,8 @@ class ClipManager:public QObject {
 
     void generateFromXML(KRender * render, const QDomElement & e);
     QDomDocument toXML(const QString & element);
+    
+    
      signals:
 	/** This is signal is emitted whenever the clipList changes, either through the addition 
 	 * or removal of a clip, or when an clip changes. */
@@ -124,6 +135,7 @@ class ClipManager:public QObject {
     void clipChanged(DocClipBase * file);
 
     void fixClipDuration(DocClipBase *);
+    void getFileProperties(KURL);
 
     public slots:
 	/** This slot occurs when the File properties for an AV File have been returned by the renderer.
@@ -134,6 +146,8 @@ class ClipManager:public QObject {
     void AVImageArrived(int id, const QPixmap &);
 	/** returns an mlt list of producers for all the clips */
     QDomDocument producersList();
+    
+    
   private:
 	/** Finds the avclip that uses the given url. */
      DocClipAVFile * findAVFile(const KURL & url);

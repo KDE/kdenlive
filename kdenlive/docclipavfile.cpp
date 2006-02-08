@@ -77,7 +77,7 @@ const GenTime & DocClipAVFile::duration() const
     return m_duration;
 }
 
-const DocClipAVFile::CLIPTYPE & DocClipAVFile::clipType() const
+const DocClipBase::CLIPTYPE & DocClipAVFile::clipType() const
 {
     return m_clipType;
 }

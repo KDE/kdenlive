@@ -55,6 +55,7 @@ namespace Command {
 	    clip->setTrackStart(m_end_trackStart);
 	    clip->setCropStartTime(m_end_cropStart);
 	    clip->setTrackEnd(m_end_trackEnd);
+            if (clip->hasVariableThumbnails()) clip->generateThumbnails();
 	}
 	m_doc->indirectlyModified();
     }

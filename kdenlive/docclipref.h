@@ -23,6 +23,8 @@
   */
 
 #include <qdom.h>
+#include <qtimer.h>
+
 #include <kurl.h>
 #include <qobject.h>
 #include <qvaluevector.h>
@@ -32,6 +34,7 @@
 #include "gentime.h"
 #include "effectstack.h"
 #include "docclipbase.h"
+#include "kthumb.h"
 
 class ClipManager;
 class DocTrackBase;
@@ -253,9 +256,26 @@ class DocClipRef:public QObject {
 	/** Returns true if effects are applied on the clip */
     bool hasEffect();
 
-    QPixmap thumbnail();
-    void updateThumbnail(QPixmap newpix);
+    QPixmap thumbnail(bool end = false);
+    QTimer *startTimer;
+    QTimer *endTimer;
 
+    
+  public slots:
+        void updateThumbnail(int frame, QPixmap newpix);
+        
+        /** generate start and end thumbnails for the clip */
+        void generateThumbnails();
+        
+        /** If a clip is a video, its thumbnails should be adjusted when resizing the clip. */ 
+        bool hasVariableThumbnails();
+        
+  private slots:
+        /** Fetch the thumbnail for the clip start */
+        void fetchStartThumbnail();
+        /** Fetch the thumbnail for the clip end */
+        void fetchEndThumbnail();
+        
   private:			// Private attributes
     void setSnapMarkers(QValueVector < GenTime > markers);
 
@@ -281,6 +301,7 @@ class DocClipRef:public QObject {
     DocClipBase *m_clip;
 
     KdenliveDoc *m_document;
+    KThumb *m_thumbcreator;
 
 	/** A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
     QValueVector < GenTime > m_snapMarkers;
@@ -290,6 +311,10 @@ class DocClipRef:public QObject {
 
     QMap < AudioIdentifier, QPixmap > m_audioMap;
     QPixmap m_thumbnail;
+    QPixmap m_endthumbnail;
+    
+signals:
+    void getClipThumbnail(KURL, int, int, int);
 };
 
 #endif

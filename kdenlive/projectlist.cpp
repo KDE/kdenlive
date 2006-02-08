@@ -181,6 +181,8 @@ namespace Gui {
 		text = i18n("color clip");
 	    else if (avitem->clip()->clipType() == DocClipBase::IMAGE)
 		text = i18n("image clip");
+            else if (avitem->clip()->clipType() == DocClipBase::TEXT)
+                text = i18n("text clip");
 	    text_type->setText(text);
 
 	} else {

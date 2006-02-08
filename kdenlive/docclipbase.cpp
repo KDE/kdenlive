@@ -19,6 +19,7 @@
 
 #include "docclipbase.h"
 #include "docclipavfile.h"
+#include "doccliptextfile.h"
 #include "docclipproject.h"
 #include "doctrackbase.h"
 #include "clipmanager.h"

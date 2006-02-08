@@ -94,17 +94,16 @@ class KRender:public QObject {
     bool startDocument();
 	/** Seeks the renderer clip to the given time. */
     void seek(GenTime time);
-	/** Wraps the VEML command of the same name. Requests the file properties
-	for the specified url from the renderer. Upon return, the result will be emitted
-	via replyGetFileProperties(). */
-    void getFileProperties(KURL url);
-
+    
     void getImage(KURL url, int frame, QPixmap * image);
 
 	/** Return thumbnail for color clip */
     void getImage(int id, QString color, int width, int height);
-
-	/** Return thumbnail for image clip */
+    
+    /** Return thumbnail for text clip */
+    void getImage(int id, QString txt, uint size, int width, int height);
+    
+    /** Return thumbnail for image clip */
     void getImage(KURL url, int width, int height);
 
 	/** Requests a particular frame from the given file. 
@@ -175,6 +174,8 @@ class KRender:public QObject {
   protected:			// Protected methods
 	/** Recieves timer events */
      virtual void timerEvent(QTimerEvent * event);
+     
+     
   private:			// Private attributes & methods
      Mlt::Miracle * m_mltMiracle;
      Mlt::Consumer * m_mltConsumer;
@@ -351,6 +352,7 @@ class KRender:public QObject {
 	/** Emitted when an error occurs within this renderer. */
     void error(const QString &, const QString &);
 
+    
     public slots:		// Public slots
 	/** This slot reads stdIn and processes it. */
     void slotReadStdout(KProcess * proc, char *buffer, int buflen);
@@ -364,6 +366,13 @@ class KRender:public QObject {
     void stop();
 	/** If the file is readable by mlt, return true, otherwise false */
     bool isValid(KURL url);
+    
+    void setTitlePreview(QString tmpFileName);
+    	/** Wraps the VEML command of the same name. Requests the file properties
+    for the specified url from the renderer. Upon return, the result will be emitted
+    via replyGetFileProperties(). */
+    void getFileProperties(KURL url);
+
 };
 
 #endif

@@ -46,6 +46,9 @@ class DocClipProject:public DocClipBase {
 
 	/** Returns the frames per second this clip runs at. */
     virtual double framesPerSecond() const;
+    
+    /** Returns the type of this clip */
+    const DocClipBase::CLIPTYPE & clipType() const;
 
 	/** Adds a track to the project */
     void addTrack(DocTrackBase * track);

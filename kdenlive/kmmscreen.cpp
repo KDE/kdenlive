@@ -101,6 +101,11 @@ namespace Gui {
 	bool resetPosition) {
 	m_render->setSceneList(scenelist, resetPosition);
     }
+    
+    void KMMScreen::setTitlePreview(QString tmpFileName)
+    {
+        m_render->setTitlePreview(tmpFileName);
+    }
 
     void KMMScreen::setCapture() {
 	m_render->setCapture();

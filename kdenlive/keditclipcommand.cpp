@@ -53,6 +53,25 @@ namespace Command {
     }
 
 
+    /** Edit Text clip */
+    KEditClipCommand::KEditClipCommand(KdenliveDoc & document,
+                                       DocClipRef * clip, const GenTime & duration,
+                                       const QString & name,
+                                       const QString & description, const QDomDocument &xml,  KURL url, const QPixmap &pix):m_document(document),
+    m_name("Text Clip"), m_parent(document.clipHierarch()->name()) {
+        if (!m_parent) {
+            kdWarning() <<
+                    "Error - all clips created with kaddclipcommand should have a parent!"
+                    << endl;
+        }
+        document.clipManager().editTextClip(clip, duration, name, description, xml, url, pix);
+
+/*	DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
+        m_xmlClip = clipNode->clipRef()->toXML();
+        delete clipNode;*/
+
+    }
+
 /** Edit Image clip */
     KEditClipCommand::KEditClipCommand(KdenliveDoc & document,
 	DocClipRef * clip, const KURL & url, const QString & extension,

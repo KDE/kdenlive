@@ -21,6 +21,7 @@
 #include <kcommand.h>
 #include <klocale.h>
 #include <qdom.h>
+#include <qpixmap.h>
 #include <kurl.h>
 
 #include "gentime.h"
@@ -62,7 +63,14 @@ namespace Command {
 	    const GenTime & duration, const QString & name,
 	    const QString & description, bool create = true);
 
-	/** Construct an image clip */
+         /** Construct a text clip */
+         KAddClipCommand(KdenliveDoc & document,
+                         const GenTime & duration,
+                         const QString & name, const QString & description, const QDomDocument &xml,  KURL url, QPixmap &pix,
+                         bool create = true);
+	
+         
+         /** Construct an image clip */
 	 KAddClipCommand(KdenliveDoc & document, const KURL & url,
 	    const QString & extension, const int &ttl,
 	    const GenTime & duration, const QString & description,

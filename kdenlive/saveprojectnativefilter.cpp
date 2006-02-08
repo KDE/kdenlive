@@ -25,6 +25,7 @@
 #include "documentclipnode.h"
 #include "docclipproject.h"
 #include "docclipavfile.h"
+#include "doccliptextfile.h"
 
 SaveProjectNativeFilter::SaveProjectNativeFilter()
 :  SaveProjectFilter()
@@ -64,7 +65,7 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
 		    QString::number(clipNode->clipRef()->duration().
 			frames(25)));
 
-	    if (clipNode->clipRef()->clipType() == DocClipBase::COLOR) {
+            else if (clipType == DocClipBase::COLOR) {
 		avfile.setAttribute("name", clipNode->clipRef()->name());
 		avfile.setAttribute("color",
 		    clipNode->clipRef()->referencedClip()->
@@ -73,7 +74,14 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
 		    QString::number(clipNode->clipRef()->duration().
 			frames(25)));
 	    }
-
+            else if (clipType == DocClipBase::TEXT) {
+                avfile.setAttribute("duration",
+                                    QString::number(clipNode->clipRef()->duration().
+                                            frames(25)));
+                avfile.setAttribute("name", clipNode->clipRef()->name());
+                avfile.setAttribute("xml",
+                                    clipNode->clipRef()->referencedClip()->toDocClipTextFile()->textClipXml().toString());
+            }
 	    QDomText description =
 		doc.createTextNode(clipNode->clipRef()->description());
 	    avfile.appendChild(description);

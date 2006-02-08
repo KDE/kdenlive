@@ -32,9 +32,9 @@ GenTime::GenTime(double seconds)
 }
 
 /** Creates a time object, by passing number of frames and how many frames per second */
-GenTime::GenTime(double frames, double framesPerSecond)
+GenTime::GenTime(int frames, double framesPerSecond)
 {
-    m_time = frames / framesPerSecond;
+    m_time = (double) frames / framesPerSecond;
 }
 
 /** Returns the time, in milliseconds */

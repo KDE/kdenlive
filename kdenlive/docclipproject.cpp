@@ -260,15 +260,15 @@ QDomDocument DocClipProject::generateSceneList() const
     QDomDocument doc;
     int tracknb = 0;
     uint tracksCounter = 0;
+
     QString projectDuration = QString::number(duration().frames(framesPerSecond()));
 
     QDomElement westley = doc.createElement("westley");
     doc.appendChild(westley);
 
-    
+
     /* import the list of all producer clips */
     westley.appendChild(producersList);
-
     QDomElement tractor = doc.createElement("tractor");
     QDomElement multitrack = doc.createElement("multitrack");
     
@@ -355,7 +355,7 @@ QDomDocument DocClipProject::generateSceneList() const
 
     doc.documentElement().appendChild(tractor);
 
-    //kdDebug() << "+ + + PROJECT SCENE: " << doc.toString() << endl;
+    kdDebug() << "+ + + PROJECT SCENE: " << doc.toString() << endl;
     return doc;
 }
 
@@ -491,6 +491,11 @@ createClip(const EffectDescriptionList & effectList,
     }
 
     return project;
+}
+
+const DocClipBase::CLIPTYPE & DocClipProject::clipType() const
+{
+    return NONE;
 }
 
 void DocClipProject::populateSceneTimes(QValueVector < GenTime > &toPopulate) const

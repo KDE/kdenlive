@@ -1,9 +1,9 @@
 /***************************************************************************
-                          avfile.h  -  description
+                          doccliptextfile.h  -  description
                              -------------------
-    begin                : Fri Feb 15 2002
-    copyright            : (C) 2002 by Jason Wood
-    email                : jasonwood@blueyonder.co.uk
+    begin                : Jan 31 2006
+    copyright            : (C) 2006 by Jean-Baptiste Mardelle
+    email                : jb@ader.ch
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,10 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef DOCCLIPAVFILE_H
-#define DOCCLIPAVFILE_H
+#ifndef DOCCLIPTEXTFILE_H
+#define DOCCLIPTEXTFILE_H
 
 #include <qstring.h>
+#include <qdom.h>
 
 #include "gentime.h"
 #include "docclipbase.h"
@@ -31,29 +32,21 @@ class ClipManager;
   *@author Jason Wood
   */
 
-class DocClipAVFile:public DocClipBase {
+class DocClipTextFile:public DocClipBase {
   Q_OBJECT public:
 
-    /* video/audio clip */
-    DocClipAVFile(const QString & name, const KURL & url, uint id);
+    /* text file clip */
+    DocClipTextFile(const QString & name, const KURL & url, uint id);
 
-    /* image clip */
-     DocClipAVFile(const KURL & url, const QString & extension,
-	const int &ttl, const GenTime & duration, uint id);
+    /* String clip */
+  DocClipTextFile(const QString & name, const QString & text,
+                  const GenTime & duration, const QDomDocument &xml, KURL url, const QPixmap &pix, uint id);
 
-    /* color clip */
-     DocClipAVFile(const QString & color, const GenTime & duration,
-	uint id);
 
-     DocClipAVFile(const KURL & url);
-    ~DocClipAVFile();
+     DocClipTextFile(const KURL & url);
+    ~DocClipTextFile();
     QString fileName();
 
-	/** Calculates properties for the file, including the size of the file, the duration of the file,
-	 * the file format, etc.
-	 **/
-    void calculateFileProperties(const QMap < QString,
-	QString > &attributes);
 
 	/** Returns the filesize of the underlying avfile. */
     virtual uint fileSize() const;
@@ -61,20 +54,15 @@ class DocClipAVFile:public DocClipBase {
 	/** Returns the number of references to the underlying avfile. */
     uint numReferences() const;
 
-	/** Returns the internal unique id of the avfile. */
+	/** Returns the internal unique id of the textfile. */
     uint getId() const;
 
 	/** Returns the duration of the file */
     const GenTime & duration() const;
 
-	/** Returns the duration of the file */
-    const QString & color() const;
 
 	/** Set clip duration */
     void setDuration(const GenTime & duration);
-
-	/** Set color for color clip */
-    void setColor(const QString color);
 
 	/** Set url for clip */
     void setFileURL(const KURL & url);
@@ -84,22 +72,22 @@ class DocClipAVFile:public DocClipBase {
 
     QDomDocument toXML() const;
 	/** Returns the url of the AVFile this clip contains */
+    
     const KURL & fileURL() const;
 	/** Creates a clip from the passed QDomElement. This only pertains to those details specific
-	 *  to DocClipAVFile. This action should only occur via the clipManager.*/
-    static DocClipAVFile *createClip(const QDomElement element);
+	 *  to DocClipTextFile. This action should only occur via the clipManager.*/
+    static DocClipTextFile *createClip(const QDomElement element);
 	/** Returns true if the clip duration is known, false otherwise. */
     virtual bool durationKnown() const;
+    // Returns the number of frames per second that this clip should play at.
     virtual double framesPerSecond() const;
+
+    const QDomDocument & textClipXml() const;
+    void setTextClipXml(const QDomDocument &xml);
+
     //returns clip video properties -reh
-    virtual uint clipWidth() const;
-    virtual uint clipHeight() const;
-    virtual QString avDecompressor();
-    virtual QString avSystem();
-    //returns audio properties
-    virtual uint audioChannels() const;
-    virtual QString audioFormat();
-    virtual uint audioBits() const;
+    uint clipWidth() const;
+    uint clipHeight() const;
     // Appends scene times for this clip to the passed vector.
     virtual void populateSceneTimes(QValueVector < GenTime >
 	&toPopulate) const;
@@ -110,7 +98,7 @@ class DocClipAVFile:public DocClipBase {
     virtual QDomDocument sceneToXML(const GenTime & startTime,
 	const GenTime & endTime) const;
 
-	/** Returns true if this clip refers to the clip passed in. For a DocClipAVFile, this
+	/** Returns true if this clip refers to the clip passed in. For a DocClipTextFile, this
 	 * is true if this == clip */
     virtual bool referencesClip(DocClipBase * clip) const;
 
@@ -121,19 +109,22 @@ class DocClipAVFile:public DocClipBase {
 	/** returns true if the xml passed matches the values in the clip */
 	virtual bool matchesXML(const QDomElement & element) const;
 
-    virtual bool isDocClipAVFile() const {
+    virtual bool isDocClipTextFile() const {
 	return true;
-    } virtual DocClipAVFile *toDocClipAVFile() {
+    } 
+    
+    virtual DocClipTextFile *toDocClipTextFile() {
 	return this;
-  } 
-  virtual bool isDocClipTextFile() const {
+  }
+  
+  virtual bool isDocClipAVFile() const {
       return false;
   } 
     
-  virtual DocClipTextFile *toDocClipTextFile() {
+  virtual DocClipAVFile *toDocClipAVFile() {
       return 0;
   }
-
+    
     
     private:
 	/** A play object factory, used for calculating information, and previewing files */
@@ -151,18 +142,12 @@ class DocClipAVFile:public DocClipBase {
     uint m_filesize;
 	/** a unique numeric id */
     uint m_id;
-
+    QString m_color;
+    QDomDocument m_xml;
 
     //extended video file properties -reh
     uint m_height;
     uint m_width;
-    QString m_color;
-    QString m_decompressor;
-    QString m_system;
-    //audio file properties
-    uint m_channels;
-    QString m_format;
-    uint m_bitspersample;
 };
 
 #endif

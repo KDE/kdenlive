@@ -33,7 +33,7 @@ class GenTime {
     explicit GenTime(double seconds);
 
 	/** Creates a time object, by passing number of frames and how many frames per second */
-     GenTime(double frames, double framesPerSecond);
+     GenTime(int frames, double framesPerSecond);
 
 	/** returns the time, in seconds */
     double seconds() const {

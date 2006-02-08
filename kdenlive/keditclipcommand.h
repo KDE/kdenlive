@@ -50,7 +50,12 @@ namespace Command {
 	 KEditClipCommand(KdenliveDoc & document, DocClipRef * clip,
 	    const KURL & url, const QString & extension, const int &ttl,
 	    const GenTime & duration, const QString & description);
-
+         
+         /** Edit an text clip */
+         KEditClipCommand(KdenliveDoc & document, DocClipRef * clip, const GenTime & duration,
+                                            const QString & name,
+                                            const QString & description, const QDomDocument &xml,  KURL url, const QPixmap &pix);
+         
 	/** Edit an a/v clip */
 	 KEditClipCommand(KdenliveDoc & document, DocClipRef * clip,
 	    const KURL & url);

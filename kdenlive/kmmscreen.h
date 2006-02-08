@@ -55,11 +55,12 @@ namespace Gui {
 	KdenliveApp *m_app;
 	//QXEmbed *m_embed;
 	GenTime m_clipLength;
-	private slots:		// Private slots
-  /** The renderer is ready, so we open
-a video window, etc. here. */
+private slots:
+        /** The renderer is ready, so we open
+        a video window, etc. here. */
 	void rendererReady();
-	public slots:		// Public slots
+
+public slots:
 	/** Embeds the specified window. */
 	    //void embedWindow(WId wid);
 	/** Seeks to the specified time */
@@ -84,7 +85,9 @@ a video window, etc. here. */
 	void setCapture();
 	/** Called when the renderer stops playing */
 	void slotRendererStopped();
-	 signals:		// Signals
+        void setTitlePreview(QString tmpFileName);
+        
+signals:
 	/** Emitted when a renderer connects. */
 	void rendererConnected();
 	/** Emitted when a renderer disconnects. */

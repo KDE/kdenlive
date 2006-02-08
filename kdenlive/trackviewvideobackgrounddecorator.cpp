@@ -2,8 +2,8 @@
                           trackviewvideobackgrounddecorator  -  description
                              -------------------
     begin                : May 2005
-    copyright            : (C) 2005 Marco Gittler
-    email                : g.marco@freenet.de
+    copyright            : (C) 2005 Marco Gittler, g.marco@freenet.de
+    copyright            : (C) 2006 Jean-Baptiste Mardelle, jb@ader.ch
  ***************************************************************************/
 
 /***************************************************************************
@@ -26,73 +26,79 @@
 #include <qimage.h>
 #include <iostream>
 
-//only for testing please remove if video get drawn
-#include <kstandarddirs.h>
+
 namespace Gui {
     TrackViewVideoBackgroundDecorator::
-	TrackViewVideoBackgroundDecorator(KTimeLine * timeline,
-	KdenliveDoc * doc, const QColor & selected,
-	const QColor & unselected, int shift):DocTrackDecorator(timeline,
-	doc), m_selected(selected), m_unselected(unselected),
-	m_shift(shift) {
+            TrackViewVideoBackgroundDecorator(KTimeLine * timeline,
+                                              KdenliveDoc * doc, const QColor & selected,
+                                              const QColor & unselected, int shift):DocTrackDecorator(timeline,
+                                              doc), m_selected(selected), m_unselected(unselected),
+    m_shift(shift) {
 
     } TrackViewVideoBackgroundDecorator::
-	~TrackViewVideoBackgroundDecorator() {
-    }
+            ~TrackViewVideoBackgroundDecorator() {
+            }
 
 // virtual
-    void TrackViewVideoBackgroundDecorator::paintClip(double startX,
-	double endX, QPainter & painter, DocClipRef * clip, QRect & rect,
-	bool selected) {
+            void TrackViewVideoBackgroundDecorator::paintClip(double startX,
+                    double endX, QPainter & painter, DocClipRef * clip, QRect & rect,
+                    bool selected) {
 	//QDomDocument myxml=clip->generateSceneList();
 	//qDebug("%s\n",myxml.toString().ascii());
 
-	int sx = startX;	// (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
-	int ex = endX;		//(int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
+                        int sx = startX;	// (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
+                        int ex = endX;		//(int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
 
-	if (sx < rect.x()) {
-	    sx = rect.x();
-	}
-	if (ex > rect.x() + rect.width()) {
-	    ex = rect.x() + rect.width();
-	}
+                        if (sx < rect.x()) {
+                            sx = rect.x();
+                        }
+                        if (ex > rect.x() + rect.width()) {
+                            ex = rect.x() + rect.width();
+                        }
 	//ex -= sx;
-	int y = rect.y();
-	int h = rect.height();
-	if (m_shift) {
-	    h -= m_shift;
-	}
-	QColor col = selected ? m_selected : m_unselected;
+                        int y = rect.y();
+                        int h = rect.height();
+                        if (m_shift) {
+                            h -= m_shift;
+                        }
+                        QColor col = selected ? m_selected : m_unselected;
+	// draw outline box
+                        painter.fillRect(sx, rect.y(), ex-sx, rect.height(), col);
 	//qDebug("%f",clip->clipWidth()+clip->clipHeight());
-	double aspect = 4.0 / 3.0;
+                        double aspect = 4.0 / 3.0;
 	//width of a frame shown in timeline
-	int width =
-	    (int) timeline()->mapValueToLocal(1) -
-	    (int) timeline()->mapValueToLocal(0);
-	int width1 = (h) * aspect;
-	if (width1 > width)
-	    width = width1;
-	int i = sx;
-	int frame = 0;
+                        int width =
+                                (int) timeline()->mapValueToLocal(1) -
+                                (int) timeline()->mapValueToLocal(0);
+                        int width1 = (h) * aspect;
+                        if (width1 > width)
+                            width = width1;
+                        int i = sx;
+                        int frame = 0;
 
-	/* Use the clip's default thumbnail & scale it to track size to decorate until we have some better stuff */
-        QPixmap newimg = clip->thumbnail();	// = clip->referencedClip()->thumbnail();
+                        /* Use the clip's default thumbnail & scale it to track size to decorate until we have some better stuff */
+                        QPixmap newimg = clip->thumbnail();
+	// = clip->referencedClip()->thumbnail();
 	/*QImage im;
-	   im = newimg;
-	   newimg = im.scale(width,h); */
+                        im = newimg;
+                        newimg = im.scale(width,h); */
 
-	for (;i<ex;i+=width){
+	//for (;i<ex;i+=width){
 	//document()->renderer()->getImage(clip->fileURL(),clip->cropStartTime().frames(25),&newimg);
-	QImage im;
-	im = newimg;
-	newimg = im.scale(width, h);
-	int drawWidth = width;
-	if (i + width > ex)
-	    drawWidth = ex - i;
-	painter.drawPixmap(i, y, newimg, 0, 0, drawWidth, h);
-	painter.drawRect(i, y, drawWidth, h);
-	}
+                        //QImage im;
+                        //im = newimg;
+                        //newimg = im.scale(width, h);
+                        int drawWidth = width;
+                        if (i + width > ex)
+                            drawWidth = ex - i;
+                        if (ex-sx>newimg.width()) {
+                            QPixmap newimg2 = clip->thumbnail(true);
+                            painter.drawPixmap(ex-newimg2.width(), y, newimg2, 0, 0, newimg2.width(), h);
+                        }
+                        painter.drawPixmap(i, y, newimg, 0, 0, drawWidth, h);
+                        //painter.drawRect(i, y, drawWidth, h);
+	//}
 
-    }
+                    }
 
 };

@@ -222,15 +222,13 @@ bool KdenliveDoc::moveSelectedClips(GenTime startOffset, int trackOffset)
 
 QDomDocument KdenliveDoc::generateSceneList()
 {
-//kdDebug()<<"GENERATING PRJECT SCENE LIST"<<endl;
     if (m_projectClip) {
-	m_domSceneList = m_projectClip->generateSceneList();
+        m_domSceneList = m_projectClip->generateSceneList();
     } else {
 	kdWarning() <<
 	    "Cannot generate scene list - m_projectClip is null!" << endl;
     }
     return m_domSceneList;
-
 }
 
 /** Creates a list of producers */

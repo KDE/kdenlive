@@ -151,7 +151,7 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
 		    document->clipManager().insertClip(clip.
 		    attribute("url", ""));
 
-	    if (clipType == DocClipBase::COLOR)	//   COLOR CLIP
+	    else if (clipType == DocClipBase::COLOR)	//   COLOR CLIP
 		baseClip =
 		    document->clipManager().insertColorClip(clip.
 		    attribute("color", ""),
@@ -159,12 +159,23 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
 		    clip.attribute("name", ""),
 		    clip.attribute("description", ""));
 
-	    if (clipType == DocClipBase::IMAGE)	//   IMAGE CLIP
+	    else if (clipType == DocClipBase::IMAGE)	//   IMAGE CLIP
 		baseClip =
 		    document->clipManager().insertImageClip(clip.
 		    attribute("url", ""), "", 0,
 		    GenTime(clip.attribute("duration", "").toInt(), 25),
 		    clip.attribute("description", ""));
+            
+            else if (clipType == DocClipBase::TEXT)	//   TEXT CLIP
+            {
+                QDomDocument xml;
+                QPixmap pm = QPixmap();
+                xml.setContent(clip.attribute("xml", ""));
+                baseClip =
+                        document->clipManager().insertTextClip(GenTime(clip.attribute("duration", "").toInt(), 25), clip.attribute("name", ""),
+                clip.attribute("description", ""),xml, clip.attribute("url", ""), pm);
+            }
+            
 
 	    DocumentClipNode *clipNode =
 		new DocumentClipNode(parentNode, baseClip);

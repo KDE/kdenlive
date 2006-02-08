@@ -39,6 +39,7 @@
 #include "createcolorclip_ui.h"
 #include "createimageclip_ui.h"
 
+
 // forward declaration of the Kdenlive classes
 class DocClipProject;
 class KdenliveDoc;

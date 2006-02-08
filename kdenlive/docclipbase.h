@@ -33,6 +33,7 @@
 class ClipManager;
 class DocTrackBase;
 class DocClipAVFile;
+class DocClipTextFile;
 class EffectDescriptionList;
 
 class DocClipBase:public QObject {
@@ -61,6 +62,8 @@ class DocClipBase:public QObject {
 
 	/** returns the duration of this clip */
     virtual const GenTime & duration() const = 0;
+    virtual const DocClipBase::CLIPTYPE & clipType() const = 0;
+    
 
 	/** Returns a url to a file describing this clip. Exactly what this url is,
 	whether it is temporary or not, and whether it provokes a render will
@@ -74,11 +77,23 @@ class DocClipBase:public QObject {
 
     virtual bool isDocClipAVFile() const {
 	return false;
-    } virtual DocClipAVFile *toDocClipAVFile() {
+    } 
+    
+    virtual DocClipAVFile *toDocClipAVFile() {
 	return 0;
     }
+    
+    virtual bool isDocClipTextFile() const {
+        return false;
+    } 
+    
+    virtual DocClipTextFile *toDocClipTextFile() {
+        return 0;
+    }
+    
 	/** Returns true if this clip is a project clip, false otherwise. Overridden in DocClipProject,
-	 * where it returns true. */ virtual bool isProjectClip() const {
+	 * where it returns true. */ 
+    virtual bool isProjectClip() const {
 	return false;
     }
     // Appends scene times for this clip to the passed vector.

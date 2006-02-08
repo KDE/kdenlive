@@ -1,0 +1,265 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>titleBaseWidget</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>titleBaseWidget</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>607</width>
+            <height>479</height>
+        </rect>
+    </property>
+    <property name="minimumSize">
+        <size>
+            <width>0</width>
+            <height>0</height>
+        </size>
+    </property>
+    <property name="caption">
+        <string>Titler</string>
+    </property>
+    <property name="sizeGripEnabled">
+        <bool>false</bool>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QToolButton" row="1" column="3">
+            <property name="name">
+                <cstring>upButton</cstring>
+            </property>
+            <property name="text">
+                <string>...</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="1" column="2">
+            <property name="name">
+                <cstring>rectButton</cstring>
+            </property>
+            <property name="text">
+                <string>...</string>
+            </property>
+            <property name="toggleButton">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="QPushButton" row="3" column="9" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>buttonOk</cstring>
+            </property>
+            <property name="text">
+                <string>&amp;OK</string>
+            </property>
+            <property name="accel">
+                <string></string>
+            </property>
+            <property name="autoDefault">
+                <bool>true</bool>
+            </property>
+            <property name="default">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="QPushButton" row="3" column="11">
+            <property name="name">
+                <cstring>buttonCancel</cstring>
+            </property>
+            <property name="text">
+                <string>&amp;Cancel</string>
+            </property>
+            <property name="accel">
+                <string></string>
+            </property>
+            <property name="autoDefault">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="1" column="1">
+            <property name="name">
+                <cstring>textButton</cstring>
+            </property>
+            <property name="text">
+                <string>...</string>
+            </property>
+            <property name="toggleButton">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="1" column="4">
+            <property name="name">
+                <cstring>downButton</cstring>
+            </property>
+            <property name="text">
+                <string>...</string>
+            </property>
+        </widget>
+        <widget class="QFrame" row="2" column="0" rowspan="1" colspan="12">
+            <property name="name">
+                <cstring>frame</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Raised</enum>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="1" column="0">
+            <property name="name">
+                <cstring>cursorButton</cstring>
+            </property>
+            <property name="text">
+                <string>...</string>
+            </property>
+            <property name="toggleButton">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="KFontCombo" row="1" column="5" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>fontFace</cstring>
+            </property>
+            <property name="currentItem">
+                <number>1</number>
+            </property>
+        </widget>
+        <widget class="QSpinBox" row="1" column="8">
+            <property name="name">
+                <cstring>fontSize</cstring>
+            </property>
+            <property name="maxValue">
+                <number>1000</number>
+            </property>
+            <property name="value">
+                <number>60</number>
+            </property>
+        </widget>
+        <widget class="KColorCombo" row="1" column="9" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>fontColor</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>3</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="color">
+                <color>
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>127</blue>
+                </color>
+            </property>
+        </widget>
+        <widget class="QLabel" row="0" column="11">
+            <property name="name">
+                <cstring>textLabel4_2</cstring>
+            </property>
+            <property name="text">
+                <string>seconds</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="0" column="7" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>textLabel4</cstring>
+            </property>
+            <property name="text">
+                <string>Default duration</string>
+            </property>
+        </widget>
+        <widget class="QSpinBox" row="0" column="10">
+            <property name="name">
+                <cstring>text_duration</cstring>
+            </property>
+            <property name="maxValue">
+                <number>300</number>
+            </property>
+            <property name="value">
+                <number>5</number>
+            </property>
+        </widget>
+        <widget class="KLineEdit" row="0" column="6">
+            <property name="name">
+                <cstring>titleName</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="0" column="0" rowspan="1" colspan="4">
+            <property name="name">
+                <cstring>textLabel1</cstring>
+            </property>
+            <property name="text">
+                <string>Clip Properties:</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="0" column="5">
+            <property name="name">
+                <cstring>textLabel1_2</cstring>
+            </property>
+            <property name="text">
+                <string>Name:</string>
+            </property>
+        </widget>
+        <widget class="QPushButton" row="3" column="0" rowspan="1" colspan="4">
+            <property name="name">
+                <cstring>previewButton</cstring>
+            </property>
+            <property name="text">
+                <string>Preview</string>
+            </property>
+            <property name="accel">
+                <string></string>
+            </property>
+            <property name="autoDefault">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <spacer row="3" column="4" rowspan="1" colspan="5">
+            <property name="name">
+                <cstring>Horizontal Spacing2</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>282</width>
+                    <height>20</height>
+                </size>
+            </property>
+        </spacer>
+    </grid>
+</widget>
+<customwidgets>
+</customwidgets>
+<connections>
+    <connection>
+        <sender>buttonOk</sender>
+        <signal>clicked()</signal>
+        <receiver>titleBaseWidget</receiver>
+        <slot>accept()</slot>
+    </connection>
+    <connection>
+        <sender>buttonCancel</sender>
+        <signal>clicked()</signal>
+        <receiver>titleBaseWidget</receiver>
+        <slot>reject()</slot>
+    </connection>
+</connections>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>kfontcombo.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kcolorcombo.h</includehint>
+    <includehint>klineedit.h</includehint>
+</includehints>
+</UI>

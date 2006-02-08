@@ -508,7 +508,7 @@ void KRender::getImage(KURL url, int frame, int width, int height)
 {
     // forcing avformat producer to grab the image since it handles more formats (raw dv is not supported in libdv)
     Mlt::Producer m_producer(const_cast <
-	char *>(QString("avformat:" + (url.directory(false) +
+	char *>(QString((url.directory(false) +
 		    url.fileName())).ascii()));
 
     Mlt::Filter m_convert("avcolour_space");
@@ -549,6 +549,48 @@ void KRender::getImage(KURL url, int frame, int width, int height)
 
 }
 
+/* Create thumbnail for text clip */
+void KRender::getImage(int id, QString txt, uint size, int width, int height)
+{
+    Mlt::Producer m_producer("pango");
+    m_producer.set("markup", txt.ascii());
+    Mlt::Filter m_convert("avcolour_space");
+    m_convert.set("forced", mlt_image_rgb24a);
+    m_producer.attach(m_convert);
+    m_producer.seek(1);
+    Mlt::Frame * m_frame = m_producer.get_frame();
+
+    if (m_frame) {
+        m_frame->set("rescale", "nearest");
+	/*double ratio = (double) height / m_frame->get_int("height");
+        double overSize = 1.0; */
+        /* if we want a small thumbnail, oversize image a little bit and smooth rescale after, gives better results */
+	//if (ratio < 0.3) overSize = 1.4;
+
+
+        uchar *m_thumb =
+                m_frame->fetch_image(mlt_image_rgb24a, width, height, 1);
+        m_producer.set("thumb", m_thumb, width * height * 4,
+                       mlt_pool_release);
+        m_frame->set("image", m_thumb, 0, NULL, NULL);
+
+        QPixmap m_pixmap(width, height);
+
+        QImage m_image(m_thumb, width, height, 32, 0, 0,
+                       QImage::IgnoreEndian);
+
+        delete m_frame;
+        if (!m_image.isNull())
+            m_pixmap = m_image.smoothScale(width, height);
+        else
+            m_pixmap.fill(Qt::black);
+
+	//m_pixmap.convertFromImage( m_image );
+        emit replyGetImage(id, m_pixmap, width, height);
+    }
+
+}
+
 /* Create thumbnail for color */
 void KRender::getImage(int id, QString color, int width, int height)
 {
@@ -579,7 +621,53 @@ void KRender::getImage(DocClipRef * clip)
     im = pixmap;
     pixmap = im.smoothScale(63, 50);
 
-    clip->updateThumbnail(pixmap);
+    clip->updateThumbnail(0,pixmap);
+}
+
+void KRender::setTitlePreview(QString tmpFileName)
+{
+
+    m_mltConsumer->stop();
+    int pos = 0;
+
+	// If there is no clip in the monitor, use a black video as first track	
+    if(m_mltProducer == NULL) {
+        QString ctext2;
+        ctext2="<producer><property name=\"mlt_service\">colour</property><property name=\"colour\">black</property></producer>";
+        m_mltProducer = new Mlt::Producer ("westley-xml",const_cast<char*>(ctext2.ascii()));
+    }
+    else pos = m_mltProducer->position();
+	
+    // Create second producer with the png image created by the titler
+    QString ctext;
+    ctext="<producer><property name=\"resource\">"+tmpFileName+"</property></producer>";
+    Mlt::Producer prod2("westley-xml",const_cast<char*>(ctext.ascii()));
+    Mlt::Tractor tracks;
+
+	// Add composite transition for overlaying the 2 tracks
+    Mlt::Transition convert( "composite" ); 
+    //convert.set("geometry","0,0:100%x100%:60");
+    convert.set("distort",1);
+    convert.set("progressive",1);
+    convert.set("always_active",1);
+	
+	// Define the 2 tracks
+    tracks.set_track(*m_mltProducer,0);
+    tracks.set_track(prod2,1);
+    tracks.plant_transition( convert ,0,1);
+    tracks.seek(pos);	
+
+	// Start playing preview
+    
+    
+    //refresh();
+    //m_mltConsumer->lock();
+    tracks.set_speed(0.0);
+    m_mltConsumer->connect(tracks);
+    m_mltConsumer->start();
+    refresh();
+    
+    //m_mltConsumer->unlock();
 }
 
 bool KRender::isValid(KURL url)

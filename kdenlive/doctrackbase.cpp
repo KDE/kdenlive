@@ -372,7 +372,9 @@ void DocTrackBase::resizeClipTrackStart(DocClipRef * clip,
 
     clip->setTrackStart(clip->trackStart() + newStart);
     clip->setCropStartTime(clip->cropStartTime() + newStart);
-
+    
+    // request for new start clip thumbnail
+    if (clip->hasVariableThumbnails()) clip->startTimer->start( 180 , TRUE);
     // Just in case : although resizeClipTrackStart should never cause the length of a track to change.
     checkTrackLength();
 }
@@ -427,6 +429,8 @@ void DocTrackBase::resizeClipTrackEnd(DocClipRef * clip, GenTime newEnd)
     }
 
     clip->setTrackEnd(newEnd);
+    // request for new end clip thumbnail
+    if (clip->hasVariableThumbnails()) clip->endTimer->start( 180 , TRUE);
     checkTrackLength();
 }
 
@@ -711,3 +715,8 @@ void DocTrackBase::deleteEffectFromClip(const GenTime & position,
 	    << position.seconds() << endl;
     }
 }
+
+void DocTrackBase::refreshLayout() {
+    emit clipLayoutChanged();
+}
+

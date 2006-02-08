@@ -153,7 +153,6 @@ bool TrackPanelClipResizeFunction::mouseReleased(Gui::KTrackPanel * panel,
     QMouseEvent * event)
 {
     bool result = false;
-
     m_resizeCommand->setEndSize(*m_clipUnderMouse);
     m_app->addCommand(m_resizeCommand, false);
     m_document->indirectlyModified();
