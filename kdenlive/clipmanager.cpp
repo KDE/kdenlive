@@ -73,11 +73,7 @@ DocClipBase *ClipManager::insertClip(const KURL & file)
 
 	clip = new DocClipAVFile(file.fileName(), file, m_clipCounter++);
 	m_clipList.append(clip);
-	//m_render->getFileProperties(file);
         emit getFileProperties(file);
-	/* Thumbnail (none for audio files) */
-	if (clip->clipType() != DocClipBase::AUDIO)
-	    m_render->getImage(file, 1, 64, 50);
 	emit clipListUpdated();
     }
 
@@ -199,8 +195,7 @@ void ClipManager::editClip(DocClipRef * clip, const KURL & file)
 	dynamic_cast < DocClipAVFile * >(clip->referencedClip());
     if (avClip) {
 	avClip->setFileURL(file);
-	m_render->getFileProperties(file);
-	m_render->getImage(file, 1, 64, 50);
+	emit getFileProperties(file);
 	emit fixClipDuration(clip->referencedClip());
     }
 }

@@ -447,10 +447,11 @@ void KRender::getImage(KURL url, int frame, QPixmap * image)
 	m_frame->set("rescale", "nearest");
 	uchar *m_thumb =
 	    m_frame->fetch_image(mlt_image_rgb24a, width, height, 1);
-	m_producer.set("thumb", m_thumb, width * height * 4,
+        
+        // what's the use of this ? I don't think we need it - commented out by jbm 
+	/*m_producer.set("thumb", m_thumb, width * height * 4,
 	    mlt_pool_release);
-	m_frame->set("image", m_thumb, 0, NULL, NULL);
-
+        m_frame->set("image", m_thumb, 0, NULL, NULL);*/
 
 	QImage m_image(m_thumb, width, height, 32, 0, 0,
 	    QImage::IgnoreEndian);
@@ -528,9 +529,9 @@ void KRender::getImage(KURL url, int frame, int width, int height)
 
 	uchar *m_thumb =
 	    m_frame->fetch_image(mlt_image_rgb24a, width, height, 1);
-	m_producer.set("thumb", m_thumb, width * height * 4,
+	/*m_producer.set("thumb", m_thumb, width * height * 4,
 	    mlt_pool_release);
-	m_frame->set("image", m_thumb, 0, NULL, NULL);
+        m_frame->set("image", m_thumb, 0, NULL, NULL);*/
 
 	QPixmap m_pixmap(width, height);
 
@@ -570,9 +571,10 @@ void KRender::getImage(int id, QString txt, uint size, int width, int height)
 
         uchar *m_thumb =
                 m_frame->fetch_image(mlt_image_rgb24a, width, height, 1);
+        /*
         m_producer.set("thumb", m_thumb, width * height * 4,
                        mlt_pool_release);
-        m_frame->set("image", m_thumb, 0, NULL, NULL);
+        m_frame->set("image", m_thumb, 0, NULL, NULL);*/
 
         QPixmap m_pixmap(width, height);
 
@@ -693,6 +695,11 @@ void KRender::getFileProperties(KURL url)
 	m_filePropertyMap["filename"] = url.path();
 	m_filePropertyMap["duration"] =
 	    QString::number(producer.get_length());
+        
+        Mlt::Filter m_convert("avcolour_space");
+        m_convert.set("forced", mlt_image_rgb24a);
+        producer.attach(m_convert);
+
 	Mlt::Frame * frame = producer.get_frame();
 
 	if (frame->is_valid()) {
@@ -711,6 +718,20 @@ void KRender::getFileProperties(KURL url)
 		    m_filePropertyMap["type"] = "av";
 		else
 		    m_filePropertyMap["type"] = "video";
+                
+                // Generate thumbnail for this frame
+                uint width = 64;
+                uint height = 50;
+                uchar *m_thumb = frame->fetch_image(mlt_image_rgb24a, width, height, 1);
+                QPixmap m_pixmap(width, height);
+                QImage m_image(m_thumb, width, height, 32, 0, 0,
+                               QImage::IgnoreEndian);
+                if (!m_image.isNull())
+                    m_pixmap = m_image.smoothScale(width, height);
+                else
+                    m_pixmap.fill(Qt::black);
+                emit replyGetImage(url, 0, m_pixmap, width, height);
+                
 	    } else if (frame->get_int("test_audio") == 0)
 		m_filePropertyMap["type"] = "audio";
 	}
