@@ -103,7 +103,7 @@ QCursor TrackPanelKeyFrameFunction::getMouseCursor(Gui::KTrackPanel *
     panel, QMouseEvent * event)
 {
 //return QCursor(Qt::SizeVerCursor);
-    return QCursor(Qt::Qt::PointingHandCursor);
+    return QCursor(Qt::PointingHandCursor);
 }
 
 bool TrackPanelKeyFrameFunction::mousePressed(Gui::KTrackPanel * panel,
