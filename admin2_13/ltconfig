@@ -1,4 +1,0 @@
-#! /bin/sh
-# Written by <matz@kde.org> and placed into the public domain ;-)
-echo "This file shouldn't be called.  It exists solely for the purpose"
-echo "to make automake 1.4 cope with newer libtools."
