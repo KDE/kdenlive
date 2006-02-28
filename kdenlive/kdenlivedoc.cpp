@@ -250,6 +250,7 @@ void KdenliveDoc::hasBeenModified()
     setModified(true);
 }
 
+
 /** Renders the current document timeline to the specified url. */
 void KdenliveDoc::renderDocument(const KURL & url)
 {
@@ -275,6 +276,8 @@ void KdenliveDoc::connectProjectClip()
 	SIGNAL(effectStackChanged(DocClipRef *)));
     connect(m_projectClip, SIGNAL(projectLengthChanged(const GenTime &)),
 	this, SIGNAL(documentLengthChanged(const GenTime &)));
+    connect(m_projectClip, SIGNAL(documentChanged(DocClipBase *)),
+            this, SIGNAL(documentChanged(DocClipBase *)));
 
 // Commented out following line, causes multiple unnecessary refreshes - jbm, 26/12/05 
     connect(m_projectClip, SIGNAL(clipLayoutChanged()), this, SLOT(hasBeenModified()));
