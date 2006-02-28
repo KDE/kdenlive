@@ -22,7 +22,7 @@
 #include <qptrlist.h>
 #include <qdom.h>
 
-#include "docclipref.h"
+#include "gentime.h"
 
 
 
@@ -30,22 +30,44 @@
   *@author Jean-Baptiste Mardelle
   */
 
+class DocClipRef;
+
 class Transition {
   public:
     Transition(const DocClipRef * clipa, const DocClipRef * clipb);
-
+    Transition(const DocClipRef * clipa);
     ~Transition();
 
-    public slots:double transitionStartTime();
-    double transitionEndTime();
-    uint transitionStartTrack();
-    uint transitionEndTrack();
-    Transition *clone();
-    Transition *hasClip(const DocClipRef * clip);
-  private:
-    const DocClipRef *m_clipa;
-    const DocClipRef *m_clipb;
 
+    GenTime transitionStartTime();
+    GenTime transitionEndTime();
+    int transitionStartTrack();
+    int transitionEndTrack();
+    Transition *clone();
+    bool hasClip(const DocClipRef * clip);
+    void resizeTransitionEnd(GenTime time);
+    void resizeTransitionStart(GenTime time);
+    void moveTransition(GenTime time);
+    bool invertTransition();
+    
+  private:
+    
+    GenTime m_transitionStart;
+    GenTime m_transitionDuration;
+    
+    /** Should the transition be reversed */
+    bool m_invertTransition;
+    
+    bool m_singleClip;
+    
+    /** The track to which the transition is attached*/
+    int m_track;
+    
+    /** The clip to which the transition is attached */
+    const DocClipRef *m_referenceClip;
+    
+    /** The 2nd clip to which the transition is attached */
+    const DocClipRef *m_secondClip;
 };
 
 #endif

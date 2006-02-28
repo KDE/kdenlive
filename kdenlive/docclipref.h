@@ -31,15 +31,18 @@
 #include <qmap.h>
 #include <qptrvector.h>
 
+
 #include "gentime.h"
 #include "effectstack.h"
 #include "docclipbase.h"
 #include "kthumb.h"
+#include "transitionstack.h"
 
 class ClipManager;
 class DocTrackBase;
 class KdenliveDoc;
 class EffectDescriptionList;
+class Transition;
 
 struct AudioIdentifier {
     double m_framenum;
@@ -270,6 +273,15 @@ class DocClipRef:public QObject {
         /** If a clip is a video, its thumbnails should be adjusted when resizing the clip. */ 
         bool hasVariableThumbnails();
         
+        bool hasTransition(DocClipRef *clip);
+        void deleteTransition();
+        void addTransition(Transition *transition);
+        TransitionStack clipTransitions();
+        void resizeTransitionStart(Transition *tra, GenTime time);
+        void resizeTransitionEnd(Transition *tra, GenTime time);
+        void moveTransition(Transition *tra, GenTime time);
+        QDomDocument generateXMLTransition();
+        
   private slots:
         /** Fetch the thumbnail for the clip start */
         void fetchStartThumbnail();
@@ -308,6 +320,9 @@ class DocClipRef:public QObject {
 
 	/** A list of effects that operate on this and only this clip. */
     EffectStack m_effectStack;
+    
+        /** A list of transitions attached to this clip. */
+    TransitionStack m_transitionStack;
 
     QMap < AudioIdentifier, QPixmap > m_audioMap;
     QPixmap m_thumbnail;

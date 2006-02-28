@@ -266,7 +266,8 @@ QDomDocument DocClipProject::generateSceneList() const
     QDomElement westley = doc.createElement("westley");
     doc.appendChild(westley);
 
-
+    QDomElement clipTransitions = doc.createElement("clipTransitions");
+    
     /* import the list of all producer clips */
     westley.appendChild(producersList);
     QDomElement tractor = doc.createElement("tractor");
@@ -304,11 +305,13 @@ QDomDocument DocClipProject::generateSceneList() const
 			frames(framesPerSecond()) - timestart));
 		playlist.appendChild(blank);
 	    }
-
+            // Insert xml describing clip
             playlist.appendChild(itt.current()->generateXMLClip().firstChild());
-
-	    timestart =
-                    itt.current()->trackEnd().frames(framesPerSecond());
+            
+            // Append clip's transitions
+            clipTransitions.appendChild(itt.current()->generateXMLTransition());
+            
+	    timestart = itt.current()->trackEnd().frames(framesPerSecond());
 	    children++;
 	    ++itt;
 	}
@@ -319,7 +322,10 @@ QDomDocument DocClipProject::generateSceneList() const
     
     tractor.appendChild(multitrack);
     
-    
+        // Add all transitions
+        
+    tractor.appendChild(clipTransitions);
+        
     /* transition: mix all used audio tracks */
     
     if (tracksCounter > 1)
@@ -332,26 +338,14 @@ QDomDocument DocClipProject::generateSceneList() const
 	    transition.setAttribute("a_track", QString::number(i));
 	    transition.setAttribute("b_track", QString::number(i + 1));
 	    transition.setAttribute("mlt_service", "mix");
-	    transition.setAttribute("start", "0.5");
-	    transition.setAttribute("end", "0.5");
+            
+            // use MLT's new audio mix, requires recent cvs (>25/02/06)
+            transition.setAttribute("combine", "1");
+	    /*transition.setAttribute("start", "0.5");
+            transition.setAttribute("end", "0.5");*/
 	    tractor.appendChild(transition);
 	}
-        
-        /* Add transitions, currently only crossfade luma supported */
-        TransitionStack::iterator itt = m_transitionStack.begin();
-        uint index = m_transitionStack.count();
-            for (uint count = 0; count < index; ++count)
-            {
-                QDomElement transition = doc.createElement("transition");
-                transition.setAttribute("in", QString::number((*itt)->transitionStartTime()));
-                transition.setAttribute("out", QString::number((*itt)->transitionEndTime()));
-                transition.setAttribute("a_track", QString::number((*itt)->transitionStartTrack()+1));
-                transition.setAttribute("b_track", QString::number((*itt)->transitionEndTrack()+1));
-                transition.setAttribute("mlt_service", "luma");
-                transition.setAttribute("reverse", "0");
-                tractor.appendChild(transition);   
-                ++itt;
-            }
+
 
     doc.documentElement().appendChild(tractor);
 
@@ -360,22 +354,9 @@ QDomDocument DocClipProject::generateSceneList() const
 }
 
 
-TransitionStack DocClipProject::clipHasTransition(DocClipRef *clip)
-{
-    TransitionStack result;
-    TransitionStack::iterator itt = m_transitionStack.begin();
-    uint count = 0;
-    while (itt)
-    {
-        Transition *tra = (*itt)->hasClip(clip);
-        if (tra) {
-            count++;
-            result.append(tra->clone());
-        }
-        ++itt;
-    }
-    return result;
-}
+
+
+
 /*
 QDomDocument DocClipProject::generateSceneList() const
 {
@@ -608,14 +589,8 @@ void DocClipProject::deleteTransition()
 
 void DocClipProject::deleteClipTransition(DocClipRef *clip)
 {
-    /* Currently only deletes transitions for the first selected clip */
-    TransitionStack::iterator itt = m_transitionStack.begin();
-    while (itt) {
-        if ((*itt)->hasClip(clip)) m_transitionStack.remove(*itt);
-        else ++itt;
-    }
-    generateSceneList();
-    emit clipLayoutChanged();
+    clip->deleteTransition();
+    emit documentChanged(this);
 }
 
 void DocClipProject::addTransition()
@@ -641,13 +616,17 @@ void DocClipProject::addTransition()
             break;
         }
     }
-    if (!aResult || !bResult) return;
-    Transition *transit = new Transition(aResult,bResult);
-    m_transitionStack.append(transit);
+    if (!aResult && !bResult) return;
+    if (bResult) {
+        Transition *transit = new Transition(aResult,bResult);
+        bResult->addTransition(transit);
+    }
+    else {
+        Transition *transit = new Transition(aResult);
+        aResult->addTransition(transit);
+    }
 
-    generateSceneList();
-    emit clipLayoutChanged();
-    
+    emit documentChanged(this);
 }
 
 
@@ -675,16 +654,16 @@ void DocClipProject::switchTransition()
         }
     }
     if (!aResult || !bResult) return;
-    Transition *transit = m_transitionStack.exists(aResult,bResult);
-    if (transit) m_transitionStack.remove(transit);
+    
+    if (bResult->hasTransition(aResult)) bResult->deleteTransition();
     else {
-        transit = new Transition(aResult,bResult);
-        m_transitionStack.append(transit);
+        Transition *transit = new Transition(aResult,bResult);
+        bResult->addTransition(transit);
     }
 
-    generateSceneList();
-    emit clipLayoutChanged();
+    emit documentChanged(this);
 }
+
 
 DocClipRef *DocClipProject::selectedClip()
 {

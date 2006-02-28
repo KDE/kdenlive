@@ -31,6 +31,7 @@
 
 #include "trackviewbackgrounddecorator.h"
 #include "trackviewdoublekeyframedecorator.h"
+#include "trackviewtransitiondecorator.h"
 
 
 namespace Gui {
@@ -60,6 +61,8 @@ namespace Gui {
 	 setMaximumHeight(widgetHeight);
 
 	 addFunctionDecorator("move", "keyframe");
+         addFunctionDecorator("move", "transitionresize");
+         addFunctionDecorator("move", "transitionmove");
 	//addFunctionDecorator("move", "move");
 	//addFunctionDecorator("move", "selectnone");
 	//addFunctionDecorator("razor", "razor");
@@ -69,8 +72,11 @@ namespace Gui {
 
 
 	//addViewDecorator(new TrackViewBackgroundDecorator(timeline, doc, QColor(128, 128, 128), QColor(200, 200, 200)));
+         addViewDecorator(new TrackViewTransitionDecorator(timeline, doc));
+         
 	 addViewDecorator(new TrackViewDoubleKeyFrameDecorator(timeline,
 		doc, effectName, effectIndex, effectParam));
+         
         }
     
     void KMMTrackKeyFramePanel::resizeTrack() {

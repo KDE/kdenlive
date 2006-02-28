@@ -16,66 +16,165 @@
  ***************************************************************************/
 
 #include "transition.h"
+#include "docclipref.h"
 
 #include <kdebug.h>
 #include <qdom.h>
 
+/* Transitions can be either be
+    1) placed on a track. They are not dependant of any clip // not implemented yet
+    2) Attached to one clip. They move with the clip
+    3) Attached to two clips. They automatically adjust to the length of the overlapping area
+*/
 
+/* create an "automatic" transition (type 3) */
 Transition::Transition(const DocClipRef * clipa, const DocClipRef * clipb)
 {
-    if (clipa->trackStart() < clipb->trackStart()) {
-	m_clipa = clipa;
-	m_clipb = clipb;
-    } else {
-	m_clipa = clipb;
-	m_clipb = clipa;
+    m_invertTransition = false;
+    m_singleClip = true;
+    if (clipb) {
+        // Transition is an automatic transition between 2 clips
+        
+        m_singleClip = false;
+        if (clipa->trackNum()<clipb->trackNum()) {
+            m_referenceClip = clipb;
+            m_secondClip = clipa;
+        }
+        else {
+            m_referenceClip = clipa;
+            m_secondClip = clipb;
+        }
+    
+        if (clipa->trackStart() < clipb->trackStart()) m_invertTransition = true;
     }
+    else {
+        // Transition is attached to a single clip
+        m_referenceClip = clipa;
+        m_transitionStart = GenTime(0.0);
+        
+        // Default duration = 1,5 seconds
+        if (GenTime(1.5) > m_referenceClip->cropDuration()) 
+            m_transitionDuration = m_referenceClip->cropDuration();
+        else m_transitionDuration = GenTime(1.5);
+        m_secondClip = 0;
+    }
+}
+
+/* create an "simple" transition (type 2) */
+Transition::Transition(const DocClipRef * clipa)
+{
+    m_invertTransition = false;
+    m_singleClip = true;
+        m_referenceClip = clipa;
+        m_transitionStart = GenTime(0.0);
+        
+        // Default duration = 1,5 seconds
+        if (GenTime(1.5) > m_referenceClip->cropDuration()) 
+            m_transitionDuration = m_referenceClip->cropDuration();
+        else m_transitionDuration = GenTime(1.5);
+        m_secondClip = 0;
 }
 
 Transition::~Transition()
 {
 }
 
-uint Transition::transitionStartTrack()
+bool Transition::invertTransition()
 {
-    return m_clipa->trackNum();
-}
-
-uint Transition::transitionEndTrack()
-{
-    return m_clipb->trackNum();
-}
-
-double Transition::transitionStartTime()
-{
-    double startb = m_clipb->trackStart().frames(25);
-    double starta = m_clipa->trackStart().frames(25);
-    if (startb > starta)
-	return startb;
-    return starta;
+    if (!m_singleClip) {
+        if (m_referenceClip->trackStart() < m_secondClip->trackStart()) return true;
+        else return false;
+    }
+    return m_invertTransition;
 }
 
 
-double Transition::transitionEndTime()
+int Transition::transitionStartTrack()
 {
-    double startb = m_clipb->trackStart().frames(25);
-    double enda =
-	m_clipa->trackStart().frames(25) +
-	m_clipa->cropDuration().frames(25);
-    if (startb > enda)
-	return transitionStartTime();
-    return enda;
+    return m_referenceClip->trackNum();
+}
+
+int Transition::transitionEndTrack()
+{
+    if (!m_singleClip) return m_secondClip->trackNum();
+    // #Warning: Should point to the previous video track. Currently we substract by 2 
+    // because we don't want the audio track, but should find a better way to get the track number.
+    else if (transitionStartTrack()>1) return m_referenceClip->trackNum()-2; 
+    else return transitionStartTrack()-1;
+}
+
+GenTime Transition::transitionStartTime()
+{
+    if (!m_singleClip) {
+        GenTime startb = m_secondClip->trackStart();
+        GenTime starta = m_referenceClip->trackStart();
+        if (startb > m_referenceClip->trackEnd()) return m_referenceClip->trackEnd() - GenTime(0.12);
+        if (startb > starta)
+	   return startb;
+        return starta;
+    }
+    else return m_referenceClip->trackStart() + m_transitionStart;
 }
 
 
-Transition *Transition::hasClip(const DocClipRef * clip)
+GenTime Transition::transitionEndTime()
 {
-    if (clip == m_clipa || clip == m_clipb)
-	return this;
-    return NULL;
+    if (!m_singleClip) {
+        GenTime endb = m_secondClip->trackEnd();
+        GenTime enda = m_referenceClip->trackEnd();
+        if (m_secondClip->trackStart() > enda) return enda;
+        if (endb < m_referenceClip->trackStart()) return m_referenceClip->trackStart() + GenTime(0.12);
+        else if (endb > enda) return enda;
+        else return endb;
+    }
+    else { 
+        if (m_transitionStart + m_transitionDuration > m_referenceClip->cropDuration())
+            return m_referenceClip->trackEnd();
+        return m_referenceClip->trackStart() + m_transitionStart + m_transitionDuration;
+    }
+}
+
+void Transition::resizeTransitionStart(GenTime time)
+{
+    if (!m_singleClip) return; //cannot resize automatic transitions
+    if (time < m_referenceClip->trackStart()) time = m_referenceClip->trackStart();
+    // Transitions shouldn't be shorter than 3 frames, about 0.12 seconds
+    if ( transitionEndTime().ms() - time.ms() < 120.0) time = transitionEndTime() - GenTime(0.12);
+    m_transitionDuration =m_transitionDuration - (time - m_referenceClip->trackStart() - m_transitionStart);
+    m_transitionStart = time - m_referenceClip->trackStart();
+    
+}
+
+void Transition::resizeTransitionEnd(GenTime time)
+{
+    if (!m_singleClip) return; //cannot resize automatic transitions
+    if (time > m_referenceClip->trackEnd()) time = m_referenceClip->trackEnd();
+    // Transitions shouldn't be shorter than 3 frames, about 0.12 seconds
+    if ( time.ms() - transitionStartTime().ms() < 120.0) time = transitionStartTime() + GenTime(0.12);
+    m_transitionDuration = time - ( m_referenceClip->trackStart() + m_transitionStart);
+}
+
+void Transition::moveTransition(GenTime time)
+{
+    if (!m_singleClip) return; //cannot move automatic transitions
+    if (m_transitionStart + time < GenTime(0.0)) m_transitionStart = GenTime(0.0);
+    else if ( m_transitionStart + time > m_referenceClip->cropDuration())
+        m_transitionStart = m_referenceClip->cropDuration() - GenTime(0.12);
+    else m_transitionStart = m_transitionStart + time;
+}
+
+
+
+bool Transition::hasClip(const DocClipRef * clip)
+{
+    if (clip == m_secondClip) return true;
+    return false;
 }
 
 Transition *Transition::clone()
 {
-    return new Transition::Transition(m_clipa, m_clipb);
+    if (m_singleClip || m_secondClip == 0)
+        return new Transition::Transition(m_referenceClip);
+    else
+        return new Transition::Transition(m_referenceClip, m_secondClip);
 }

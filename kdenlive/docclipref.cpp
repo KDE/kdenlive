@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "docclipref.h"
+
 #include <kdebug.h>
 
 #include "clipmanager.h"
@@ -32,6 +34,10 @@
 #include "effectcomplexkeyframe.h"
 #include "kdenlivedoc.h"
 #include "kdenlivesettings.h"
+
+
+
+
 
 DocClipRef::DocClipRef(DocClipBase * clip):
 m_trackStart(0.0),
@@ -516,6 +522,29 @@ QDomDocument DocClipRef::generateSceneList()
     return m_clip->generateSceneList();
 }
 
+QDomDocument DocClipRef::generateXMLTransition()
+{
+    QDomDocument transitionList;
+    TransitionStack::iterator itt = m_transitionStack.begin();
+    while (itt) {
+        QDomElement transition = transitionList.createElement("transition");
+        transition.setAttribute("in", QString::number((*itt)->transitionStartTime().frames(framesPerSecond())));
+        transition.setAttribute("out", QString::number((*itt)->transitionEndTime().frames(framesPerSecond())));
+        transition.setAttribute("mlt_service", "luma");
+        if ((*itt)->invertTransition()) {
+            transition.setAttribute("b_track", QString::number((*itt)->transitionStartTrack()+1));
+            transition.setAttribute("a_track", QString::number((*itt)->transitionEndTrack()+1));
+        }
+        else {
+            transition.setAttribute("a_track", QString::number((*itt)->transitionStartTrack()+1));
+            transition.setAttribute("b_track", QString::number((*itt)->transitionEndTrack()+1));
+        }
+        transition.setAttribute("reverse", "1");
+        transitionList.appendChild(transition);
+        ++itt;
+    }
+    return transitionList;
+}
 
 QDomDocument DocClipRef::generateXMLClip()
 {
@@ -962,4 +991,65 @@ const QPixmap & DocClipRef::getAudioImage(int width, int height,
     static QPixmap nullPixmap;
 
     return nullPixmap;
+}
+
+void DocClipRef::addTransition(Transition *transition)
+{
+    m_transitionStack.append(transition);
+    if (m_parentTrack) m_parentTrack->refreshLayout();
+}
+
+void DocClipRef::deleteTransition() //GenTime time)
+{
+    TransitionStack::iterator itt = m_transitionStack.begin();
+    while (itt) {
+        m_transitionStack.remove(*itt);
+        ++itt;
+    }
+    if (m_parentTrack) m_parentTrack->refreshLayout();
+}
+
+bool DocClipRef::hasTransition(DocClipRef *clip)
+{
+    TransitionStack::iterator itt = m_transitionStack.begin();
+    while (itt) {
+        if ((*itt)->hasClip(clip)) {
+            return true;
+        }
+        ++itt;
+    }
+    return false;
+}
+
+
+TransitionStack DocClipRef::clipTransitions()
+{
+    return m_transitionStack;
+}
+
+void DocClipRef::resizeTransitionStart(Transition *tra, GenTime time)
+{
+    m_transitionStack.selectedItem()->resizeTransitionStart(time);
+    /*TransitionStack::iterator itt = m_transitionStack.begin();
+    while (itt)
+    {
+        if ( tra == *itt) {
+            m_transitionStack.selectedItem()->resizeTransitionStart(time);
+            break;
+        }
+        ++itt;
+    }*/
+    if (m_parentTrack) m_parentTrack->refreshLayout();
+}
+
+void DocClipRef::resizeTransitionEnd(Transition *tra, GenTime time)
+{
+    m_transitionStack.selectedItem()->resizeTransitionEnd(time);
+    if (m_parentTrack) m_parentTrack->refreshLayout();
+}
+
+void DocClipRef::moveTransition(Transition *tra, GenTime time)
+{
+    m_transitionStack.selectedItem()->moveTransition(time);
+    if (m_parentTrack) m_parentTrack->refreshLayout();
 }

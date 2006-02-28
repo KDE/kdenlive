@@ -99,6 +99,8 @@
 #include "trackpanelmarkerfunction.h"
 #include "trackpanelselectnonefunction.h"
 #include "trackpanelkeyframefunction.h"
+#include "trackpaneltransitionresizefunction.h"
+#include "trackpaneltransitionmovefunction.h"
 
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
@@ -653,7 +655,9 @@ namespace Gui {
 	connect(m_workspaceMonitor,
 	    SIGNAL(outpointPositionChanged(const GenTime &)), m_timeline,
 	    SLOT(setOutpointTimeline(const GenTime &)));
-
+        
+        connect(m_timeline, SIGNAL(delayPlaying()), m_workspaceMonitor, SLOT(delayPlaying()));
+        connect(m_timeline, SIGNAL(restartPlaying()), m_workspaceMonitor, SLOT(restartPlaying()));
 
 	connect(getDocument(), SIGNAL(signalClipSelected(DocClipRef *)),
 	    this, SLOT(slotSetClipMonitorSource(DocClipRef *)));
@@ -783,13 +787,31 @@ namespace Gui {
 	    getDocument());
 	m_timeline->trackView()->registerFunction("keyframe",
 	    keyFrameFunction);
+        
+        TrackPanelTransitionResizeFunction *transitionResizeFunction =
+                new TrackPanelTransitionResizeFunction(this, m_timeline,
+                                               getDocument());
+        m_timeline->trackView()->registerFunction("transitionresize",
+        transitionResizeFunction);
+        
+        TrackPanelTransitionMoveFunction *transitionMoveFunction =
+                new TrackPanelTransitionMoveFunction(this, m_timeline,
+                getDocument());
+        m_timeline->trackView()->registerFunction("transitionmove",
+        transitionMoveFunction);
 	// connects for clip/workspace monitor activation (i.e. making sure they are visible when needed)
 
 	connect(keyFrameFunction, SIGNAL(signalKeyFrameChanged(bool)),
 	    getDocument(), SLOT(activateSceneListGeneration(bool)));
+        
+        connect(transitionMoveFunction, SIGNAL(transitionChanged(bool)),
+                getDocument(), SLOT(activateSceneListGeneration(bool)));
+        
+        connect(transitionResizeFunction, SIGNAL(transitionChanged(bool)),
+                getDocument(), SLOT(activateSceneListGeneration(bool)));
 
-	connect(keyFrameFunction, SIGNAL(redrawTrack()), m_timeline,
-	    SLOT(drawTrackViewBackBuffer()));
+/*	connect(keyFrameFunction, SIGNAL(redrawTrack()), m_timeline,
+        SLOT(drawTrackViewBackBuffer()));*/
 	connect(keyFrameFunction, SIGNAL(redrawTrack()),
 	    m_effectStackDialog, SLOT(updateKeyFrames()));
 
@@ -1954,10 +1976,10 @@ namespace Gui {
     
     
     void KdenliveApp::addTransition() {
-        if (!getDocument()->projectClip().hasTwoSelectedClips()) {
+        /*if (!getDocument()->projectClip().hasTwoSelectedClips()) {
             KMessageBox::sorry(this,i18n("You need to select two clips to add a transition"));
             return;
-        }
+    }*/
         getDocument()->projectClip().addTransition();
     }
     

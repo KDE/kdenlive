@@ -58,9 +58,9 @@ namespace Gui {
 	// draw outline box
 //      painter.fillRect( sx, rect.y(), ex, rect.height(), col);
 
-        TransitionStack m_transitions = document()->projectClip().clipHasTransition(clip);
+        TransitionStack m_transitions = clip->clipTransitions();
 
-        if (m_transitions.count() == 0) return;
+        if (m_transitions.isEmpty()) return;
 
         TransitionStack::iterator itt = m_transitions.begin();
 
@@ -71,20 +71,20 @@ namespace Gui {
 	    return;
         }*/
 
-        uint half = rect.height()*2/3;
-        uint start = timeline()->mapValueToLocal((*itt)->transitionStartTime());
-        uint end = timeline()->mapValueToLocal((*itt)->transitionEndTime())-start;
-        painter.fillRect(start, rect.y()+half, end, rect.height()-half, QBrush(QColor(252,255,79)));  //, Qt::Dense5Pattern));
-        painter.drawRect(start, rect.y()+half, end, rect.height()-half);
+        //uint half = rect.height()*2/3;
+            uint start = timeline()->mapValueToLocal((*itt)->transitionStartTime().frames(document()->framesPerSecond()));
+            uint end = timeline()->mapValueToLocal((*itt)->transitionEndTime().frames(document()->framesPerSecond()))-start;
+        painter.fillRect(start, rect.y(), end, rect.height(), QBrush(QColor(252,255,79)));  //, Qt::Dense5Pattern));
+        painter.drawRect(start, rect.y(), end, rect.height());
 
         QPoint p1, p2;
         if ((*itt)->transitionStartTrack() == clip->trackNum()) {
-            p1 = QPoint(start,rect.y()+half);
+            p1 = QPoint(start,rect.y());
             p2 = QPoint(start+end,rect.y()+rect.height()-1);
         }
         else {
             p1 = QPoint(start,rect.y()+rect.height()-1);
-            p2 = QPoint(start+end,rect.y()+half);
+            p2 = QPoint(start+end,rect.y());
         }
         painter.drawLine(p1,p2);
         ++itt;

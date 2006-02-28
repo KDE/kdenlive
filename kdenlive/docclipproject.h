@@ -136,8 +136,6 @@ class DocClipProject:public DocClipBase {
     
     void deleteClipTransition(DocClipRef *clip);
     
-    /** Returns all the transitions related to the clip */
-    TransitionStack clipHasTransition(DocClipRef *clip);
 
     private slots:
 	/** Check that the project length is correct. */
@@ -157,6 +155,9 @@ class DocClipProject:public DocClipBase {
     void effectStackChanged(DocClipRef *);
 	/** Emitted when the length of the project clip changes */
     void projectLengthChanged(const GenTime & length);
+    /** This signal is emitted whenever the timeline has changed */
+    void documentChanged(DocClipBase *);
+    
     
   private:
 	/** Blocks all track signals if block==true, or unblocks them otherwise. Use when you want
@@ -168,7 +169,6 @@ class DocClipProject:public DocClipBase {
     double m_framesPerSecond;
 	/** Holds a list of all tracks in the project. */
     DocTrackBaseList m_tracks;
-    TransitionStack m_transitionStack;
 
     const DocTrackBase & track(uint track) const;
 
