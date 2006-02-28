@@ -107,7 +107,7 @@ namespace Gui {
 	 connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), m_ruler,
 	    SLOT(repaint()));
 	 connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), this,
-	    SLOT(slotSliderMoved(int, int)));
+         SLOT(slotSliderMoved(int, int)));
 
 	 connect(m_ruler, SIGNAL(requestScrollLeft()), this,
 	    SLOT(slotScrollLeft()));
@@ -115,6 +115,11 @@ namespace Gui {
 	    SLOT(slotScrollRight()));
 	 connect(&m_scrollTimer, SIGNAL(timeout()), this,
 	    SLOT(slotTimerScroll()));
+         
+         connect(m_ruler, SIGNAL(delayPlaying()), this,
+                 SIGNAL(delayPlaying()));
+         connect(m_ruler, SIGNAL(restartPlaying()), this,
+                 SIGNAL(restartPlaying()));
 
 	 connect(m_trackViewArea, SIGNAL(rightButtonPressed()), this,
 	    SIGNAL(rightButtonPressed()));
@@ -307,6 +312,7 @@ the display. The scale is the size of one frame.*/
     const QString & KTimeLine::editMode() const {
 	return m_editMode;
     }
+    
 /** A ruler slider has moved - do something! */
 	void KTimeLine::slotSliderMoved(int slider, int value) {
 	switch (slider) {
@@ -340,12 +346,10 @@ the display. The scale is the size of one frame.*/
 		if (m_ruler->activeSliderID() == 3) {
 		    m_ruler->setSliderValue(1,
 			(int) floor((midpointPosition() -
-				m_midPoint).frames(m_framesPerSecond) +
-			    0.5));
+                                m_midPoint).frames(m_framesPerSecond)));
 		    m_ruler->setSliderValue(2,
 			(int) floor((midpointPosition() +
-				m_midPoint).frames(m_framesPerSecond) +
-			    0.5));
+                                m_midPoint).frames(m_framesPerSecond)));
 		}
 	    }
 	    break;
@@ -363,11 +367,10 @@ the display. The scale is the size of one frame.*/
     void KTimeLine::horizontalSlider(const GenTime & inpoint,
 	const GenTime & outpoint) {
 	int midValue =
-	    (int) floor(outpoint.frames(m_framesPerSecond) + 0.5) -
-	    (int) floor(inpoint.frames(m_framesPerSecond) + 0.5);
+	    (int) floor(outpoint.frames(m_framesPerSecond)) -
+                (int) floor(inpoint.frames(m_framesPerSecond));
 	midValue =
-	    midValue / 2 + (int) floor(inpoint.frames(m_framesPerSecond) +
-	    0.5);
+                midValue / 2 + (int) floor(inpoint.frames(m_framesPerSecond));
 	m_ruler->setSliderValue(3, midValue);
     }
 
@@ -377,8 +380,7 @@ the display. The scale is the size of one frame.*/
 
 	if (snapToFrame())
 	    value =
-		GenTime(floor(value.frames(m_framesPerSecond) + 0.5),
-		m_framesPerSecond);
+                    GenTime(floor(value.frames(m_framesPerSecond)) , m_framesPerSecond);
 
 	return value;
     }
