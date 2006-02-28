@@ -48,6 +48,7 @@ namespace Gui {
 	// Set or stop playback.
 	void setPlaying(bool play);
 	Timecode tcode;
+        int buttonSize;
 
 	private slots:		// Private slots
   /** A slider on the ruler has changed value */

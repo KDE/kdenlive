@@ -70,7 +70,7 @@
                 <property name="spacing">
                     <number>0</number>
                 </property>
-                <widget class="QToolButton">
+                <widget class="QPushButton">
                     <property name="name">
                         <cstring>startButton</cstring>
                     </property>
@@ -82,14 +82,11 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
-                    <property name="text">
-                        <string>Start</string>
-                    </property>
                     <property name="toolTip" stdset="0">
                         <string>Move to start of clip</string>
                     </property>
                 </widget>
-                <widget class="QToolButton">
+                <widget class="QPushButton">
                     <property name="name">
                         <cstring>rewindButton</cstring>
                     </property>
@@ -101,14 +98,11 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
-                    <property name="text">
-                        <string>Rewind</string>
-                    </property>
                     <property name="toolTip" stdset="0">
                         <string>Rewind clip</string>
                     </property>
                 </widget>
-                <widget class="QToolButton">
+                <widget class="QPushButton">
                     <property name="name">
                         <cstring>stopButton</cstring>
                     </property>
@@ -120,14 +114,11 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
-                    <property name="text">
-                        <string>Stop</string>
-                    </property>
                     <property name="toolTip" stdset="0">
                         <string>Stop clip</string>
                     </property>
                 </widget>
-                <widget class="QToolButton">
+                <widget class="QPushButton">
                     <property name="name">
                         <cstring>playButton</cstring>
                     </property>
@@ -139,9 +130,6 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
-                    <property name="text">
-                        <string>Play</string>
-                    </property>
                     <property name="toggleButton">
                         <bool>true</bool>
                     </property>
@@ -149,7 +137,7 @@
                         <string>Play clip</string>
                     </property>
                 </widget>
-                <widget class="QToolButton">
+                <widget class="QPushButton">
                     <property name="name">
                         <cstring>forwardButton</cstring>
                     </property>
@@ -161,14 +149,11 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
-                    <property name="text">
-                        <string>Fast Forward</string>
-                    </property>
                     <property name="toolTip" stdset="0">
                         <string>Forward clip</string>
                     </property>
                 </widget>
-                <widget class="QToolButton">
+                <widget class="QPushButton">
                     <property name="name">
                         <cstring>endButton</cstring>
                     </property>
@@ -179,9 +164,6 @@
                             <horstretch>0</horstretch>
                             <verstretch>0</verstretch>
                         </sizepolicy>
-                    </property>
-                    <property name="text">
-                        <string>End</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>Move to end of clip</string>
@@ -216,7 +198,7 @@
                 <property name="spacing">
                     <number>0</number>
                 </property>
-                <widget class="QToolButton">
+                <widget class="QPushButton">
                     <property name="name">
                         <cstring>inpointButton</cstring>
                     </property>
@@ -228,14 +210,11 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
-                    <property name="text">
-                        <string>Inpoint</string>
-                    </property>
                     <property name="toolTip" stdset="0">
                         <string>Set Inpoint</string>
                     </property>
                 </widget>
-                <widget class="QToolButton">
+                <widget class="QPushButton">
                     <property name="name">
                         <cstring>outpointButton</cstring>
                     </property>
@@ -247,14 +226,11 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
-                    <property name="text">
-                        <string>Outpoint</string>
-                    </property>
                     <property name="toolTip" stdset="0">
                         <string>Set Outpoint</string>
                     </property>
                 </widget>
-                <widget class="QToolButton">
+                <widget class="QPushButton">
                     <property name="name">
                         <cstring>playSectionButton</cstring>
                     </property>
@@ -276,18 +252,15 @@
                         <string>Play Section between inpoint and outpoint</string>
                     </property>
                 </widget>
-                <widget class="QToolButton">
+                <widget class="QPushButton">
                     <property name="name">
                         <cstring>previousMarkerButton</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Previous Marker</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>Move to previous marker</string>
                     </property>
                 </widget>
-                <widget class="QToolButton">
+                <widget class="QPushButton">
                     <property name="name">
                         <cstring>setMarkerButton</cstring>
                     </property>
@@ -312,12 +285,9 @@
                         <string>Set marker on timeline</string>
                     </property>
                 </widget>
-                <widget class="QToolButton">
+                <widget class="QPushButton">
                     <property name="name">
                         <cstring>nextMarkerButton</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Next Marker</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>Move to next marker</string>

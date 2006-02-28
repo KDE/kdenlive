@@ -25,7 +25,7 @@
 #include "kmmeditpanel.h"
 
 #include "kiconloader.h"
-#include "qtoolbutton.h"
+#include "qpushbutton.h"
 #include "qtooltip.h"
 
 #include "kfixedruler.h"
@@ -61,28 +61,43 @@ namespace Gui {
 	KIconLoader loader;
 
 
-
+        // get the usual font height in pixel
+        buttonSize = startButton->fontInfo().pixelSize ();
+        
 	 startButton->setIconSet(QIconSet(loader.loadIcon("player_start",
-		    KIcon::Small)));
+                                 KIcon::Small, buttonSize)));
 	 rewindButton->setIconSet(QIconSet(loader.loadIcon("player_rew",
-		    KIcon::Small)));
+                                  KIcon::Small, buttonSize)));
 	 stopButton->setIconSet(QIconSet(loader.loadIcon("player_stop",
-		    KIcon::Small)));
-	 playButton->setIconSet(QIconSet(loader.loadIcon("player_play",
-		    KIcon::Small)));
+                                KIcon::Small, buttonSize)));
+         playButton->setPixmap(loader.loadIcon("player_play",
+                               KIcon::Small, buttonSize));
 	 forwardButton->setIconSet(QIconSet(loader.loadIcon("player_fwd",
-		    KIcon::Small)));
+                                   KIcon::Small, buttonSize)));
 	 endButton->setIconSet(QIconSet(loader.loadIcon("player_end",
-		    KIcon::Small)));
+                               KIcon::Small, buttonSize)));
 	 inpointButton->setIconSet(QIconSet(loader.loadIcon("start",
-		    KIcon::Small)));
+                                   KIcon::Small, buttonSize)));
 	 outpointButton->setIconSet(QIconSet(loader.loadIcon("finish",
-		    KIcon::Small)));
+                                    KIcon::Small, buttonSize)));
 
 	 previousMarkerButton->setIconSet(QIconSet(loader.
 		loadIcon("1leftarrow", KIcon::Small)));
 	 nextMarkerButton->setIconSet(QIconSet(loader.
 		loadIcon("1rightarrow", KIcon::Small)));
+         
+         startButton->setFlat(true);
+         rewindButton->setFlat(true);
+         stopButton->setFlat(true);
+         playButton->setFlat(true);
+         forwardButton->setFlat(true);
+         endButton->setFlat(true);
+         inpointButton->setFlat(true);
+         outpointButton->setFlat(true);
+         previousMarkerButton->setFlat(true);
+         nextMarkerButton->setFlat(true);
+         setMarkerButton->setFlat(true);
+         playSectionButton->setFlat(true);
 
 	 connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), this,
 	    SLOT(rulerValueChanged(int, int)));
@@ -312,7 +327,7 @@ namespace Gui {
 	    }
 
 	    playButton->setPixmap(loader.loadIcon("player_pause",
-		    KIcon::Small));
+                                  KIcon::Small, buttonSize));
 
 	} else {
 	    if (playButton->isOn()) {
@@ -323,7 +338,7 @@ namespace Gui {
 	    }
 
 	    playButton->setPixmap(loader.loadIcon("player_play",
-		    KIcon::Small));
+                                  KIcon::Small, buttonSize));
 	}
     }
 
