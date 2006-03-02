@@ -79,14 +79,14 @@ int main(int argc, char *argv[])
 	RESTORE(Gui::KdenliveApp);
     } else {
 
-	QPixmap pixmap(locate("appdata", "kdenlive-splash.png"));
+        QPixmap pixmap(locate("appdata", "graphics/kdenlive-splash.png"));
 
 	KdenliveSplash *splash = new KdenliveSplash(pixmap);
 	splash->show();
 
 	Gui::KdenliveApp * kdenlive = new Gui::KdenliveApp();
 	kdenlive->show();
-
+        
 	splash->finish(kdenlive);
 	delete splash;
 
