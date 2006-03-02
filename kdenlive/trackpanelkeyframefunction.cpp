@@ -91,7 +91,6 @@ bool TrackPanelKeyFrameFunction::mouseApplies(Gui::KTrackPanel * panel,
 			    return true;
 		    }
 		}
-		result = true;
 	    }
 	}
     }
