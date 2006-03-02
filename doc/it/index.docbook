@@ -87,7 +87,8 @@ as Authors, publish date, the abstract, and Keywords -->
 </author>
 </authorgroup>
 
-ROLES_OF_TRANSLATORS 
+<!-- ROLES_OF_TRANSLATORS -->
+
 
 <copyright>
 <year
@@ -1577,7 +1578,7 @@ distribution. -->
 >jasonwood@blueyonder.co.uk</email
 > </para>
 
-CREDIT_FOR_TRANSLATORS 
+<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
 &underFDL; &underGPL; </chapter>
 
 <appendix id="installation">

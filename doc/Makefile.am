@@ -1,4 +1,2 @@
-SUBDIRS = en fr 
-
-####### kdevelop will overwrite this part!!! (end)############
-
+KDE_DOCS = AUTO
+SUBDIRS = $(AUTODIRS)
