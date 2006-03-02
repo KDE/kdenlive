@@ -97,6 +97,7 @@ class TrackPanelTransitionMoveFunction:public TrackPanelFunction
     DocClipRef *m_clipUnderMouse;
     ResizeState m_resizeState;
     Transition *m_selectedTransition;
+    GenTime m_transitionOffset;
     
 	/** This command holds the resize information during a resize operation */
      Command::KResizeCommand * m_resizeCommand;

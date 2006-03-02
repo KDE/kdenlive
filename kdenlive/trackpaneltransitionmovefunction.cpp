@@ -113,13 +113,14 @@ bool TrackPanelTransitionMoveFunction::mousePressed(Gui::KTrackPanel * panel,
                     {
                         m_selectedTransition = (*itt);
                         m_dragging = true;
-                        m_clipOffset = m_timeline->timeUnderMouse((double) event->x());
+                        m_clipOffset = m_timeline->timeUnderMouse((double) event->x()) - m_selectedTransition->transitionStartTime();
+                        m_transitionOffset = m_selectedTransition->transitionStartTime(); 
                         break;
                     }
                     ++itt;
                 }
                 
-                
+
                 m_snapToGrid.clearSnapList();
                 if (m_timeline->snapToSeekTime())
                     m_snapToGrid.addToSnapList(m_timeline->seekPosition());
@@ -136,11 +137,9 @@ bool TrackPanelTransitionMoveFunction::mousePressed(Gui::KTrackPanel * panel,
 
                 QValueVector < GenTime > cursor;
 
-                if (m_resizeState == Start) {
                     cursor.append((*itt)->transitionStartTime());
-                } else if (m_resizeState == End) {
                     cursor.append((*itt)->transitionEndTime());
-                }
+
                 m_snapToGrid.setCursorTimes(cursor);
                 
                        result = true;
@@ -186,14 +185,17 @@ bool TrackPanelTransitionMoveFunction::mouseMoved(Gui::KTrackPanel * panel,
         DocTrackBase *track =
                 m_document->track(panel->documentTrackIndex());
         if (track) {
+            
             GenTime mouseTime =
-                    m_snapToGrid.getSnappedTime(m_timeline->
-                    timeUnderMouse(event->x()));
+                    m_timeline->
+                    timeUnderMouse(event->x()) - m_clipOffset;
+            
+            mouseTime = m_snapToGrid.getSnappedTime(mouseTime);
 
             if (m_dragging && m_clipUnderMouse) {
                          m_startedTransitionMove = true;
-                         m_clipUnderMouse->moveTransition(m_selectedTransition, mouseTime - m_clipOffset);
-                         m_clipOffset = mouseTime;
+                         m_clipUnderMouse->moveTransition(m_selectedTransition, mouseTime - m_transitionOffset);
+                         m_transitionOffset = mouseTime;
                          result = true;
                 }
         }
@@ -201,6 +203,8 @@ bool TrackPanelTransitionMoveFunction::mouseMoved(Gui::KTrackPanel * panel,
 
     return result;
 }
+
+
 
 /*
 

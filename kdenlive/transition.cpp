@@ -68,10 +68,10 @@ Transition::Transition(const DocClipRef * clipa)
         m_referenceClip = clipa;
         m_transitionStart = GenTime(0.0);
         
-        // Default duration = 1,5 seconds
+        // Default duration = 2.5 seconds
         if (GenTime(1.5) > m_referenceClip->cropDuration()) 
             m_transitionDuration = m_referenceClip->cropDuration();
-        else m_transitionDuration = GenTime(1.5);
+        else m_transitionDuration = GenTime(2.5);
         m_secondClip = 0;
 }
 
