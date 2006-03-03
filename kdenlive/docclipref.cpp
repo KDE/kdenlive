@@ -525,6 +525,19 @@ QDomDocument DocClipRef::generateSceneList()
 QDomDocument DocClipRef::generateXMLTransition()
 {
     QDomDocument transitionList;
+    
+    if (clipType() == DocClipBase::TEXT && m_clip->toDocClipTextFile()->isTransparent()) {
+        QDomElement transition = transitionList.createElement("transition");
+        transition.setAttribute("in", trackStart().frames(framesPerSecond()));
+        transition.setAttribute("out", trackEnd().frames(framesPerSecond()));
+        transition.setAttribute("mlt_service", "composite");
+        transition.setAttribute("always_active", "1");
+        transition.setAttribute("progressive","1");
+        transition.setAttribute("a_track", trackNum()-1);
+        transition.setAttribute("b_track", trackNum()+1);
+        transitionList.appendChild(transition);
+    }
+    
     TransitionStack::iterator itt = m_transitionStack.begin();
     while (itt) {
         QDomElement transition = transitionList.createElement("transition");
@@ -552,6 +565,8 @@ QDomDocument DocClipRef::generateXMLTransition()
         transitionList.appendChild(transition);
         ++itt;
     }
+    
+        
     return transitionList;
 }
 

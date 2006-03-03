@@ -34,15 +34,15 @@
 DocClipTextFile::DocClipTextFile(const QString & name, const KURL & url,
     uint id):DocClipBase(), m_duration(0.0), m_url(url),
 m_durationKnown(false), m_framesPerSecond(0),
-m_clipType(TEXT), m_id(id)
+m_clipType(TEXT), m_alphaTransparency(false), m_id(id)
 {
     setName(name);
 }
 
 
 DocClipTextFile::DocClipTextFile(const QString & name, const QString & text,
-                                 const GenTime & duration, const QDomDocument &xml, KURL url, const QPixmap &pix, uint id):DocClipBase(), m_duration(duration), m_xml(xml),
-m_url(url), m_durationKnown(true), m_framesPerSecond(25), m_clipType(TEXT), m_id(id), m_filesize(0)
+                                 const GenTime & duration, const QDomDocument &xml, KURL url, const QPixmap &pix, bool transparency, uint id):DocClipBase(), m_duration(duration), m_xml(xml),
+m_url(url), m_durationKnown(true), m_framesPerSecond(25), m_clipType(TEXT), m_alphaTransparency(transparency), m_id(id), m_filesize(0)
 {
     setName(name);
     setDescription( text );
@@ -54,7 +54,7 @@ DocClipTextFile::DocClipTextFile(const KURL & url):DocClipBase(),
 m_duration(0.0),
 m_url(url),
 m_durationKnown(false),
-m_framesPerSecond(0), m_clipType(TEXT)
+m_framesPerSecond(0), m_clipType(TEXT), m_alphaTransparency(false)
 {
     setName(url.fileName());
 }
@@ -87,6 +87,16 @@ const QDomDocument & DocClipTextFile::textClipXml() const
 void DocClipTextFile::setTextClipXml(const QDomDocument &xml)
 {
     m_xml = xml;
+}
+
+void DocClipTextFile::setAlpha(bool transp)
+{
+    m_alphaTransparency = transp;
+}
+
+bool DocClipTextFile::isTransparent()
+{
+    return m_alphaTransparency;
 }
 
 DocClipTextFile *DocClipTextFile::createClip(const QDomElement element)

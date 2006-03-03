@@ -117,7 +117,7 @@ namespace Command {
     /** Add Text clip */
     KAddClipCommand::KAddClipCommand(KdenliveDoc & document,
                                      const GenTime & duration,
-                                     const QString & name, const QString & description, const QDomDocument &xml,  KURL url, QPixmap &pix,
+                                     const QString & name, const QString & description, const QDomDocument &xml,  KURL url, QPixmap &pix, bool alphaTransparency,
                                      bool create):m_document(document), m_name("Text Clip"),
     m_parent(document.clipHierarch()->name()), m_create(create) {
         if (!m_parent) {
@@ -127,7 +127,7 @@ namespace Command {
         }
         DocClipBase *clip =
                 document.clipManager().insertTextClip(duration, name,
-        description, xml, url, pix);
+        description, xml, url, pix, alphaTransparency);
         DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
         m_xmlClip = clipNode->clipRef()->toXML();
         delete clipNode;

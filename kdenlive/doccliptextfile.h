@@ -40,7 +40,7 @@ class DocClipTextFile:public DocClipBase {
 
     /* String clip */
   DocClipTextFile(const QString & name, const QString & text,
-                  const GenTime & duration, const QDomDocument &xml, KURL url, const QPixmap &pix, uint id);
+                  const GenTime & duration, const QDomDocument &xml, KURL url, const QPixmap &pix, bool transparency, uint id);
 
 
      DocClipTextFile(const KURL & url);
@@ -124,7 +124,9 @@ class DocClipTextFile:public DocClipBase {
   virtual DocClipAVFile *toDocClipAVFile() {
       return 0;
   }
-    
+  
+  bool isTransparent();
+  void setAlpha(bool transp);
     
     private:
 	/** A play object factory, used for calculating information, and previewing files */
@@ -144,6 +146,8 @@ class DocClipTextFile:public DocClipBase {
     uint m_id;
     QString m_color;
     QDomDocument m_xml;
+    
+    bool m_alphaTransparency;
 
     //extended video file properties -reh
     uint m_height;

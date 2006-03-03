@@ -54,7 +54,7 @@ namespace Command {
          /** Edit an text clip */
          KEditClipCommand(KdenliveDoc & document, DocClipRef * clip, const GenTime & duration,
                                             const QString & name,
-                                            const QString & description, const QDomDocument &xml,  KURL url, const QPixmap &pix);
+                                            const QString & description, const QDomDocument &xml,  KURL url, const QPixmap &pix, bool alphaTransparency);
          
 	/** Edit an a/v clip */
 	 KEditClipCommand(KdenliveDoc & document, DocClipRef * clip,

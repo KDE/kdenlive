@@ -114,7 +114,7 @@ DocClipBase *ClipManager::insertColorClip(const QString & color,
 
 DocClipBase *ClipManager::insertTextClip(
     const GenTime & duration, const QString & name,
-    const QString & description, const QDomDocument &xml, const KURL url, QPixmap &pix)
+    const QString & description, const QDomDocument &xml, const KURL url, QPixmap &pix, bool alphaTransparency)
 {
     if (!QFile(url.path()).exists() || pix.isNull()) {
         titleWidget *txtWidget=new titleWidget();
@@ -125,7 +125,7 @@ DocClipBase *ClipManager::insertTextClip(
     }
 
     DocClipBase *clip;
-    clip = new DocClipTextFile( name, description, duration, xml, url, pix, m_clipCounter);
+    clip = new DocClipTextFile( name, description, duration, xml, url, pix, alphaTransparency, m_clipCounter);
     m_clipList.append(clip);
     //m_render->getImage(m_clipCounter, description, 12, 64, 50);
     m_clipCounter++;
@@ -135,7 +135,7 @@ DocClipBase *ClipManager::insertTextClip(
 }
 
 void ClipManager::editTextClip(DocClipRef * clip, const GenTime & duration, const QString & name,
-                               const QString & description, const QDomDocument &xml, const KURL url, const QPixmap &pix)
+                               const QString & description, const QDomDocument &xml, const KURL url, const QPixmap &pix, bool alphaTransparency)
 {
     clip->setDescription(description);
     clip->setCropDuration(duration);
@@ -148,8 +148,9 @@ void ClipManager::editTextClip(DocClipRef * clip, const GenTime & duration, cons
         avClip->setFileURL(url);
         avClip->setThumbnail(pix);
         avClip->setTextClipXml(xml);
+        avClip->setAlpha(alphaTransparency);
     }
-    m_render->getImage(m_clipCounter, description, 12, 64, 50);
+    //m_render->getImage(m_clipCounter, description, 12, 64, 50);
     emit clipListUpdated();
 }
 
@@ -355,14 +356,13 @@ DocClipBase *ClipManager::findClip(const KURL & file)
     QPtrListIterator < DocClipBase > itt(m_clipList);
     while (itt.current()) {
         DocClipAVFile *avClip;
-        if (itt.current()->isDocClipAVFile())
+        if (itt.current()->isDocClipAVFile()) {
 	   avClip = itt.current()->toDocClipAVFile();
-
-	if (avClip && (avClip->fileURL() == file)) {
-	    result = avClip;
-	    break;
+  	   if (avClip && (avClip->fileURL() == file)) {
+	       result = avClip;
+	       break;
+           }
 	}
-
 	++itt;
     }
 

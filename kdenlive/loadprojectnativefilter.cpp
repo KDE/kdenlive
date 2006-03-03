@@ -171,9 +171,10 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
                 QDomDocument xml;
                 QPixmap pm = QPixmap();
                 xml.setContent(clip.attribute("xml", ""));
+                // TODO: save and load clip transparency
                 baseClip =
                         document->clipManager().insertTextClip(GenTime(clip.attribute("duration", "").toInt(), 25), clip.attribute("name", ""),
-                clip.attribute("description", ""),xml, clip.attribute("url", ""), pm);
+                clip.attribute("description", ""),xml, clip.attribute("url", ""), pm, false);
             }
             
 

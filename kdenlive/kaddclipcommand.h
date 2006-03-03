@@ -66,7 +66,7 @@ namespace Command {
          /** Construct a text clip */
          KAddClipCommand(KdenliveDoc & document,
                          const GenTime & duration,
-                         const QString & name, const QString & description, const QDomDocument &xml,  KURL url, QPixmap &pix,
+                         const QString & name, const QString & description, const QDomDocument &xml,  KURL url, QPixmap &pix, bool alphaTransparency,
                          bool create = true);
 	
          

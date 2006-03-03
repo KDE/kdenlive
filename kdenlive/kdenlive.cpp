@@ -1459,7 +1459,7 @@ namespace Gui {
             
             KCommand *command =
                     new Command::KAddClipCommand(*doc, duration,
-                    txtWidget->titleName->text(),QString::null, xml , txtWidget->previewFile(), thumb, true);
+                    txtWidget->titleName->text(),QString::null, xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked(), true);
             addCommand(command, true);
         }
         slotStatusMsg(i18n("Ready."));
@@ -1470,7 +1470,6 @@ namespace Gui {
 	DocClipRef *refClip = m_projectList->currentSelection();
 	if (refClip) {
 	    DocClipBase *clip = refClip->referencedClip();
-
 	    if (refClip->clipType() == DocClipBase::COLOR) {
 		KDialogBase *dia = new KDialogBase(this, "edit_clip", true,
 		    i18n("Edit Color Clip"),
@@ -1502,7 +1501,6 @@ namespace Gui {
 		}
 		delete dia;
 	    }
-
 	    else if (refClip->clipType() == DocClipBase::IMAGE) {
 		KDialogBase *dia =
 		    new KDialogBase(this, "create_clip", true,
@@ -1533,21 +1531,25 @@ namespace Gui {
 		delete dia;
 	    }
             else if (refClip->clipType() == DocClipBase::TEXT) {
-                
                 titleWidget *txtWidget=new titleWidget(this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
                 connect(txtWidget->canview,SIGNAL(showPreview(QString)),m_clipMonitor->screen(),SLOT(setTitlePreview(QString)));
                 txtWidget->text_duration->setValue((int) (refClip->duration().ms() / 1000));
                 txtWidget->setXml(clip->toDocClipTextFile()->textClipXml());
                 txtWidget->titleName->setText(clip->name());
+                txtWidget->transparentTitle->setChecked(clip->toDocClipTextFile()->isTransparent());
                 if (txtWidget->exec() == QDialog::Accepted) {
+                    kdDebug()<<"++++++++++++++++++++++++ 1 ++++++++++++++++++++++++"<<endl;
                     GenTime duration(txtWidget->text_duration->value());
+                    kdDebug()<<"++++++++++++++++++++++++ 2 ++++++++++++++++++++++++"<<endl;
                     QPixmap thumb = txtWidget->thumbnail(64, 50);
+                    kdDebug()<<"++++++++++++++++++++++++ 3 ++++++++++++++++++++++++"<<endl;
                     QDomDocument xml = txtWidget->toXml();
+                    kdDebug()<<"++++++++++++++++++++++++ 4 ++++++++++++++++++++++++"<<endl;
                     KCommand *command =
                             new Command::KEditClipCommand(*doc, refClip, duration,
-                            txtWidget->titleName->text(),QString::null, xml , txtWidget->previewFile(), thumb);
+                            txtWidget->titleName->text(),QString::null, xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked());
                 }
-                
+
                     /*
                 KDialogBase *dia = new KDialogBase(this, "edit_clip", true,
                         i18n("Edit Text Clip"),
