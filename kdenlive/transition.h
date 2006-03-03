@@ -21,6 +21,7 @@
 #include <qstring.h>
 #include <qptrlist.h>
 #include <qdom.h>
+#include <qmap.h>
 
 #include "gentime.h"
 
@@ -51,11 +52,15 @@ class Transition {
     bool invertTransition();
     QString transitionType();
     void setTransitionType(QString newType);
+    const QMap < QString, QString > transitionParameters();
+    void setTransitionParameters(const QMap < QString, QString > parameters);
+    void setTransitionDirection(bool inv);
     
   private:
     
     GenTime m_transitionStart;
     GenTime m_transitionDuration;
+    QMap < QString, QString > m_transitionParameters;
 
     /** The name of the transition (composite, luma,...)*/
     QString m_transitionType;

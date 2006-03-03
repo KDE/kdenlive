@@ -93,6 +93,16 @@ QString Transition::transitionType()
     return m_transitionType;
 }
 
+void Transition::setTransitionParameters(const QMap < QString, QString > parameters)
+{
+    m_transitionParameters = parameters;
+}
+
+const QMap < QString, QString > Transition::transitionParameters()
+{
+    return m_transitionParameters;
+}
+
 bool Transition::invertTransition()
 {
     if (!m_singleClip) {
@@ -100,6 +110,11 @@ bool Transition::invertTransition()
         else return false;
     }
     return m_invertTransition;
+}
+
+void Transition::setTransitionDirection(bool inv)
+{
+    m_invertTransition = inv;
 }
 
 

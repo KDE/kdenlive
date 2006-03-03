@@ -21,10 +21,12 @@
 #include <qwidget.h>
 #include <qlabel.h>
 #include <qvbox.h>
+#include <qmap.h>
 
 #include <kdialogbase.h>
 
-#include "transitiondialog_ui.h"
+#include "transitioncrossfade_ui.h"
+#include "transitionwipe_ui.h"
 
 
 class QVBox;
@@ -46,9 +48,15 @@ namespace Gui {
 	 virtual ~ TransitionDialog();
 
     QString selectedTransition();
+    bool transitionDirection();
+    const QMap < QString, QString > transitionParameters();
+    void setActivePage(const QString &pageName);
+    void setTransitionDirection(bool direc);
+    void setTransitionParameters(const QMap < QString, QString > parameters);
 
       private:
-	transitionDialog_UI *transitDialog;
+	transitionCrossfade_UI *transitCrossfade;
+        transitionWipe_UI *transitWipe;
 
     };
 

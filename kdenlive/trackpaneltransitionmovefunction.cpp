@@ -99,8 +99,13 @@ bool TrackPanelTransitionMoveFunction::mouseDoubleClicked(Gui::KTrackPanel * pan
 	    DocClipRef *clip = track->getClipAt(mouseTime);
 	    if (clip) {
     		Gui::TransitionDialog *dia = new Gui::TransitionDialog();
+                dia->setActivePage(clip->clipTransitions().first()->transitionType());
+                dia->setTransitionDirection(clip->clipTransitions().first()->invertTransition());
+                dia->setTransitionParameters(clip->clipTransitions().first()->transitionParameters());
     			if (dia->exec() == QDialog::Accepted) {
         			clip->clipTransitions().first()->setTransitionType(dia->selectedTransition());
+                                clip->clipTransitions().first()->setTransitionParameters(dia->transitionParameters());
+                                clip->clipTransitions().first()->setTransitionDirection(dia->transitionDirection());
 			emit transitionChanged(true);
     			}
     		delete dia;

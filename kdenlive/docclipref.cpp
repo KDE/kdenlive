@@ -531,9 +531,14 @@ QDomDocument DocClipRef::generateXMLTransition()
         transition.setAttribute("in", QString::number((*itt)->transitionStartTime().frames(framesPerSecond())));
         transition.setAttribute("out", QString::number((*itt)->transitionEndTime().frames(framesPerSecond())));
         transition.setAttribute("mlt_service", (*itt)->transitionType());
-
-	// Just for testing purpose:
-	transition.setAttribute("geometry", "0=0%,0%:100%x100%;-1=100%,0%:100%x100%");
+   
+        typedef QMap<QString, QString> ParamMap;
+        ParamMap params;
+        params = (*itt)->transitionParameters();
+        ParamMap::Iterator it;
+        for ( it = params.begin(); it != params.end(); ++it ) {
+            transition.setAttribute(it.key(), it.data());
+        }
 
         if ((*itt)->invertTransition()) {
             transition.setAttribute("b_track", QString::number((*itt)->transitionStartTrack()+1));
