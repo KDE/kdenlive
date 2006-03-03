@@ -63,6 +63,10 @@ class TrackPanelTransitionResizeFunction:public TrackPanelFunction
     virtual bool mousePressed(Gui::KTrackPanel * panel,
 	QMouseEvent * event);
 
+	/** Processes Mouse double click.*/
+    virtual bool mouseDoubleClicked(Gui::KTrackPanel * panel, QMouseEvent * event);
+
+
 	/**
 	Mouse Release Events in the track view area. Returns true if we have finished
 	an operation now.

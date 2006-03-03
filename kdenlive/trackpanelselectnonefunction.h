@@ -53,6 +53,10 @@ This function does nothing except call a "Select None" on the document. It is ge
     virtual bool mousePressed(Gui::KTrackPanel * panel,
 	QMouseEvent * event);
 
+	/** Processes Mouse double click.*/
+    virtual bool mouseDoubleClicked(Gui::KTrackPanel * panel, QMouseEvent * event);
+
+
 	/**
 	Mouse Release Events in the track view area. Returns true if we have finished
 	an operation now.

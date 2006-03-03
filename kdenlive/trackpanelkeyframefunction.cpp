@@ -189,6 +189,11 @@ bool TrackPanelKeyFrameFunction::mousePressed(Gui::KTrackPanel * panel,
     return result;
 }
 
+bool TrackPanelKeyFrameFunction::mouseDoubleClicked(Gui::KTrackPanel * panel, QMouseEvent * event)
+{
+    return true;
+}
+
 bool TrackPanelKeyFrameFunction::mouseReleased(Gui::KTrackPanel * panel,
     QMouseEvent * event)
 {

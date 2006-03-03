@@ -203,6 +203,11 @@ bool TrackPanelClipRollFunction::mousePressed(Gui::KTrackPanel * panel,
     return result;
 }
 
+bool TrackPanelClipRollFunction::mouseDoubleClicked(Gui::KTrackPanel * panel, QMouseEvent * event)
+{
+    return true;
+}
+
 bool TrackPanelClipRollFunction::mouseReleased(Gui::KTrackPanel * panel,
     QMouseEvent * event)
 {

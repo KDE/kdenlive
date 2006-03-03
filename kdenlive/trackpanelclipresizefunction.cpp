@@ -149,6 +149,11 @@ bool TrackPanelClipResizeFunction::mousePressed(Gui::KTrackPanel * panel,
     return result;
 }
 
+bool TrackPanelClipResizeFunction::mouseDoubleClicked(Gui::KTrackPanel * panel, QMouseEvent * event)
+{
+    return true;
+}
+
 bool TrackPanelClipResizeFunction::mouseReleased(Gui::KTrackPanel * panel,
     QMouseEvent * event)
 {

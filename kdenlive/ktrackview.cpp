@@ -23,6 +23,7 @@
 #include <qpopupmenu.h>
 
 #include <kdebug.h>
+#include <kmessagebox.h>
 
 #include "ktrackview.h"
 #include "ktimeline.h"
@@ -109,6 +110,35 @@ namespace Gui {
 	TrackPanelFunction * function) {
 	m_factory.registerFunction(name, function);
     }
+
+/** This event occurs when a double click occurs. */
+void KTrackView::mouseDoubleClickEvent(QMouseEvent * event) {
+
+KTrackPanel *panel = panelAt(event->y());
+	    if (m_panelUnderMouse != 0) {
+		kdWarning() <<
+		    "Error - mouse Press Event with panel already under mouse"
+		    << endl;
+	    }
+	    if (panel) {
+		if (event->button() == LeftButton) {
+		    bool result = false;
+		    m_function =
+			getApplicableFunction(panel, m_timeline.editMode(),
+			event);
+		    if (m_function)
+			result = m_function->mouseDoubleClicked(panel, event);
+		    if (result) {
+			m_panelUnderMouse = panel;
+		    } else {
+			m_function = 0;
+		    }
+		}
+	    }
+
+
+//KMessageBox::sorry(this, "Hello");
+}
 
 /** This event occurs when a mouse button is pressed. */
     void KTrackView::mousePressEvent(QMouseEvent * event) {

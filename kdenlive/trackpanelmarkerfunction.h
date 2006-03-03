@@ -43,6 +43,10 @@ namespace Gui {
     virtual bool mouseMoved(Gui::KTrackPanel * panel, QMouseEvent * event);
     virtual bool mousePressed(Gui::KTrackPanel * panel,
 	QMouseEvent * event);
+
+	/** Processes Mouse double click.*/
+    virtual bool mouseDoubleClicked(Gui::KTrackPanel * panel, QMouseEvent * event);
+
     virtual bool mouseReleased(Gui::KTrackPanel * panel,
 	QMouseEvent * event);
     virtual QCursor getMouseCursor(Gui::KTrackPanel * panel,

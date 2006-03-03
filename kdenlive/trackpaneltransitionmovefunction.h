@@ -74,6 +74,10 @@ class TrackPanelTransitionMoveFunction:public TrackPanelFunction
 	Processes Mouse Move events in the track view area. Returns true if we are
 	continuing with the drag.*/
     virtual bool mouseMoved(Gui::KTrackPanel * panel, QMouseEvent * event);
+
+	/**
+	Processes Mouse double click.*/
+    virtual bool mouseDoubleClicked(Gui::KTrackPanel * panel, QMouseEvent * event);
     
 //    virtual bool dragEntered(Gui::KTrackPanel * panel, QDragEnterEvent *);
     //virtual bool dragMoved(Gui::KTrackPanel * panel, QDragMoveEvent *);

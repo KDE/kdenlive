@@ -49,12 +49,17 @@ class Transition {
     void resizeTransitionStart(GenTime time);
     void moveTransition(GenTime time);
     bool invertTransition();
+    QString transitionType();
+    void setTransitionType(QString newType);
     
   private:
     
     GenTime m_transitionStart;
     GenTime m_transitionDuration;
-    
+
+    /** The name of the transition (composite, luma,...)*/
+    QString m_transitionType;
+
     /** Should the transition be reversed */
     bool m_invertTransition;
     

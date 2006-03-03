@@ -24,6 +24,7 @@
 #include "kselectclipcommand.h"
 #include "docclipproject.h"
 #include "transitionstack.h"
+#include "transitiondialog.h"
 
 #include <cmath>
 
@@ -85,6 +86,28 @@ QCursor TrackPanelTransitionMoveFunction::getMouseCursor(Gui::KTrackPanel *
     panel, QMouseEvent * event)
 {
     return QCursor(Qt::SizeAllCursor);
+}
+
+
+
+bool TrackPanelTransitionMoveFunction::mouseDoubleClicked(Gui::KTrackPanel * panel, QMouseEvent * event)
+{
+    if (panel->hasDocumentTrackIndex()) {
+	DocTrackBase *track = m_document->track(panel->documentTrackIndex());
+	if (track) {
+	    GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_document->framesPerSecond());
+	    DocClipRef *clip = track->getClipAt(mouseTime);
+	    if (clip) {
+    		Gui::TransitionDialog *dia = new Gui::TransitionDialog();
+    			if (dia->exec() == QDialog::Accepted) {
+        			clip->clipTransitions().first()->setTransitionType(dia->selectedTransition());
+			emit transitionChanged(true);
+    			}
+    		delete dia;
+	    }
+	}
+    }
+    return true;
 }
 
 bool TrackPanelTransitionMoveFunction::mousePressed(Gui::KTrackPanel * panel,

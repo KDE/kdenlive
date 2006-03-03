@@ -49,6 +49,11 @@ bool TrackPanelSelectNoneFunction::mousePressed(Gui::KTrackPanel * panel,
     return true;
 }
 
+bool TrackPanelSelectNoneFunction::mouseDoubleClicked(Gui::KTrackPanel * panel, QMouseEvent * event)
+{
+    return true;
+}
+
 // virtual
 bool TrackPanelSelectNoneFunction::mouseReleased(Gui::KTrackPanel * panel,
     QMouseEvent * event)

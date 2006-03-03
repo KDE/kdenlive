@@ -530,7 +530,11 @@ QDomDocument DocClipRef::generateXMLTransition()
         QDomElement transition = transitionList.createElement("transition");
         transition.setAttribute("in", QString::number((*itt)->transitionStartTime().frames(framesPerSecond())));
         transition.setAttribute("out", QString::number((*itt)->transitionEndTime().frames(framesPerSecond())));
-        transition.setAttribute("mlt_service", "luma");
+        transition.setAttribute("mlt_service", (*itt)->transitionType());
+
+	// Just for testing purpose:
+	transition.setAttribute("geometry", "0=0%,0%:100%x100%;-1=100%,0%:100%x100%");
+
         if ((*itt)->invertTransition()) {
             transition.setAttribute("b_track", QString::number((*itt)->transitionStartTrack()+1));
             transition.setAttribute("a_track", QString::number((*itt)->transitionEndTrack()+1));

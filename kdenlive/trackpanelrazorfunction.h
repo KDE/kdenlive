@@ -59,6 +59,9 @@ derived classes allow different behaviours to be added to panels as required.
     virtual bool mousePressed(Gui::KTrackPanel * panel,
 	QMouseEvent * event);
 
+	/** Processes Mouse double click.*/
+    virtual bool mouseDoubleClicked(Gui::KTrackPanel * panel, QMouseEvent * event);
+
 	/**
 	Mouse Release Events in the track view area. Returns true if we have finished
 	an operation now.

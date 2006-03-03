@@ -32,6 +32,8 @@ Transition::Transition(const DocClipRef * clipa, const DocClipRef * clipb)
 {
     m_invertTransition = false;
     m_singleClip = true;
+    m_transitionType = "luma";
+
     if (clipb) {
         // Transition is an automatic transition between 2 clips
         
@@ -65,6 +67,8 @@ Transition::Transition(const DocClipRef * clipa)
 {
     m_invertTransition = false;
     m_singleClip = true;
+    m_transitionType = "luma";
+
         m_referenceClip = clipa;
         m_transitionStart = GenTime(0.0);
         
@@ -77,6 +81,16 @@ Transition::Transition(const DocClipRef * clipa)
 
 Transition::~Transition()
 {
+}
+
+void Transition::setTransitionType(QString newType)
+{
+    m_transitionType = newType;
+}
+
+QString Transition::transitionType()
+{
+    return m_transitionType;
 }
 
 bool Transition::invertTransition()

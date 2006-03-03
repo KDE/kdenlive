@@ -51,6 +51,9 @@ namespace Gui {
 	void mouseReleaseEvent(QMouseEvent * event);
 	/** This event occurs when a mouse button is pressed. */
 	void mousePressEvent(QMouseEvent * event);
+	/** This event occurs when a double click occurs. */
+	void mouseDoubleClickEvent(QMouseEvent * event);
+
 	/** Returns the track panel that lies at the specified y coordinate on the
 	TimelineTrackView. */
 	KTrackPanel *panelAt(int y);
