@@ -79,6 +79,27 @@ Transition::Transition(const DocClipRef * clipa)
         m_secondClip = 0;
 }
 
+/* create an "simple" transition (type 2) around a given time*/
+Transition::Transition(const DocClipRef * clipa, const GenTime &time)
+{
+    m_invertTransition = false;
+    m_singleClip = true;
+    m_transitionType = "luma";
+    
+    // Default duration = 2.5 seconds
+    GenTime defaultTransitionDuration = GenTime(2.5);
+
+    m_referenceClip = clipa;
+    if (time - m_referenceClip->trackStart() < GenTime(2.0)) m_transitionStart = GenTime(0.0);
+    else if (m_referenceClip->trackEnd() - time < GenTime(2.0)) m_transitionStart = m_referenceClip->cropDuration() - defaultTransitionDuration;
+    else m_transitionStart = time - GenTime(1.0);
+    
+    if (m_transitionStart + defaultTransitionDuration > m_referenceClip->cropDuration()) 
+        m_transitionDuration = m_referenceClip->cropDuration() - m_transitionStart;
+    else m_transitionDuration = defaultTransitionDuration;
+    m_secondClip = 0;
+}
+
 Transition::~Transition()
 {
 }

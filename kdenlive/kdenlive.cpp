@@ -523,6 +523,7 @@ namespace Gui {
 	// connect the widget to your document to display document contents.
 
 	view = new QWidget(this);
+        m_menuPosition = QPoint();
 	KDockWidget *mainDock =
 	    createDockWidget("Application", QPixmap(), this,
 	    i18n("Application"));
@@ -1972,18 +1973,23 @@ namespace Gui {
       }
       else menu = (QPopupMenu *) factory()->container("timeline_context", this);
 	if (menu) {
+            // store the mouse click position
             m_menuPosition = QCursor::pos();
+            // display menu
 	    menu->popup(QCursor::pos());
 	}
     }
     
     
     void KdenliveApp::addTransition() {
-        /*if (!getDocument()->projectClip().hasTwoSelectedClips()) {
-            KMessageBox::sorry(this,i18n("You need to select two clips to add a transition"));
-            return;
-    }*/
-        getDocument()->projectClip().addTransition();
+        int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(m_menuPosition).y())->documentTrackIndex();
+        DocTrackBase *track = getDocument()->track(ix);
+        if (!track) return;
+        GenTime mouseTime;
+        mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(m_menuPosition).x());
+        DocClipRef *clip = track->getClipAt(mouseTime);
+        
+        if (clip) getDocument()->projectClip().addTransition(clip, mouseTime);
     }
     
     void KdenliveApp::deleteTransition() {

@@ -128,7 +128,7 @@ class DocClipProject:public DocClipBase {
     void fixClipDuration(KURL url, GenTime length);
     
     /** Add a transition between the 2 selected clips */
-    void addTransition();
+    void addTransition(DocClipRef *clip, const GenTime &time);
     
     /** Delete the selected clip's transitions */
     void switchTransition(const GenTime &time);

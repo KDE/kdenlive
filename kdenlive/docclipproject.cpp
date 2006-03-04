@@ -576,8 +576,11 @@ void DocClipProject::deleteClipTransition(DocClipRef *clip, const GenTime &time)
     emit documentChanged(this);
 }
 
-void DocClipProject::addTransition()
+void DocClipProject::addTransition(DocClipRef *clip, const GenTime &time)
 {
+    Transition *transit = new Transition(clip, time);
+    clip->addTransition(transit);
+    /*
     DocClipRef *aResult = 0;
     DocClipRef *bResult = 0;
     DocTrackBase *srcTrack = 0;
@@ -607,7 +610,7 @@ void DocClipProject::addTransition()
     else {
         Transition *transit = new Transition(aResult);
         aResult->addTransition(transit);
-    }
+}*/
 
     emit documentChanged(this);
 }

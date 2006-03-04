@@ -37,6 +37,7 @@ class Transition {
   public:
     Transition(const DocClipRef * clipa, const DocClipRef * clipb);
     Transition(const DocClipRef * clipa);
+    Transition(const DocClipRef * clipa, const GenTime &time);
     ~Transition();
 
 
