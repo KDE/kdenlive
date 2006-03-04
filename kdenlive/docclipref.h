@@ -277,9 +277,9 @@ class DocClipRef:public QObject {
         void deleteTransition();
         void addTransition(Transition *transition);
         TransitionStack clipTransitions();
-        void resizeTransitionStart(Transition *tra, GenTime time);
-        void resizeTransitionEnd(Transition *tra, GenTime time);
-        void moveTransition(Transition *tra, GenTime time);
+        void resizeTransitionStart(uint ix, GenTime time);
+        void resizeTransitionEnd(uint ix, GenTime time);
+        void moveTransition(uint ix, GenTime time);
         QDomDocument generateXMLTransition();
         
   private slots:

@@ -1001,7 +1001,6 @@ Effect *DocClipRef::effectAt(uint index) const
 
     kdError() << "DocClipRef::effectAt() : index out of range" << endl;
     return 0;
-
 }
 
 void DocClipRef::setEffectStack(const EffectStack & effectStack)
@@ -1051,29 +1050,20 @@ TransitionStack DocClipRef::clipTransitions()
     return m_transitionStack;
 }
 
-void DocClipRef::resizeTransitionStart(Transition *tra, GenTime time)
+void DocClipRef::resizeTransitionStart(uint ix, GenTime time)
 {
-    m_transitionStack.selectedItem()->resizeTransitionStart(time);
-    /*TransitionStack::iterator itt = m_transitionStack.begin();
-    while (itt)
-    {
-        if ( tra == *itt) {
-            m_transitionStack.selectedItem()->resizeTransitionStart(time);
-            break;
-        }
-        ++itt;
-    }*/
+    m_transitionStack.at(ix)->resizeTransitionStart(time);
     if (m_parentTrack) m_parentTrack->refreshLayout();
 }
 
-void DocClipRef::resizeTransitionEnd(Transition *tra, GenTime time)
+void DocClipRef::resizeTransitionEnd(uint ix, GenTime time)
 {
-    m_transitionStack.selectedItem()->resizeTransitionEnd(time);
+    m_transitionStack.at(ix)->resizeTransitionEnd(time);
     if (m_parentTrack) m_parentTrack->refreshLayout();
 }
 
-void DocClipRef::moveTransition(Transition *tra, GenTime time)
+void DocClipRef::moveTransition(uint ix, GenTime time)
 {
-    m_transitionStack.selectedItem()->moveTransition(time);
+    m_transitionStack.at(ix)->moveTransition(time);
     if (m_parentTrack) m_parentTrack->refreshLayout();
 }

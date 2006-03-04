@@ -94,7 +94,8 @@ class TrackPanelTransitionResizeFunction:public TrackPanelFunction
     KdenliveDoc *m_document;
     DocClipRef *m_clipUnderMouse;
     ResizeState m_resizeState;
-    Transition *m_selectedTransition;
+    uint m_selectedTransition;
+    bool m_dragStarted;
     
 	/** This command holds the resize information during a resize operation */
      Command::KResizeCommand * m_resizeCommand;

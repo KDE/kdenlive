@@ -99,13 +99,13 @@ bool TrackPanelTransitionMoveFunction::mouseDoubleClicked(Gui::KTrackPanel * pan
 	    DocClipRef *clip = track->getClipAt(mouseTime);
 	    if (clip) {
     		Gui::TransitionDialog *dia = new Gui::TransitionDialog();
-                dia->setActivePage(clip->clipTransitions().first()->transitionType());
-                dia->setTransitionDirection(clip->clipTransitions().first()->invertTransition());
-                dia->setTransitionParameters(clip->clipTransitions().first()->transitionParameters());
+                dia->setActivePage(clip->clipTransitions().at(m_selectedTransition)->transitionType());
+                dia->setTransitionDirection(clip->clipTransitions().at(m_selectedTransition)->invertTransition());
+                dia->setTransitionParameters(clip->clipTransitions().at(m_selectedTransition)->transitionParameters());
     			if (dia->exec() == QDialog::Accepted) {
-        			clip->clipTransitions().first()->setTransitionType(dia->selectedTransition());
-                                clip->clipTransitions().first()->setTransitionParameters(dia->transitionParameters());
-                                clip->clipTransitions().first()->setTransitionDirection(dia->transitionDirection());
+                            clip->clipTransitions().at(m_selectedTransition)->setTransitionType(dia->selectedTransition());
+                            clip->clipTransitions().at(m_selectedTransition)->setTransitionParameters(dia->transitionParameters());
+                            clip->clipTransitions().at(m_selectedTransition)->setTransitionDirection(dia->transitionDirection());
 			emit transitionChanged(true);
     			}
     		delete dia;
@@ -132,23 +132,28 @@ bool TrackPanelTransitionMoveFunction::mousePressed(Gui::KTrackPanel * panel,
                 if (m_transitions.isEmpty()) return false;
 
                 TransitionStack::iterator itt = m_transitions.begin();
+                uint ix = 0;
+                
                 //  Loop through the clip's transitions
                 while (itt) {
                     uint dx1 = m_timeline->mapValueToLocal((*itt)->transitionStartTime().frames(m_document->framesPerSecond()));
                     uint dx2 = m_timeline->mapValueToLocal((*itt)->transitionEndTime().frames(m_document->framesPerSecond()));
-
+                    
                     if ((event->x() > dx1+s_resizeTolerance) && (event->x()+s_resizeTolerance< dx2))
                     {
-                        m_selectedTransition = (*itt);
                         m_dragging = true;
-                        m_clipOffset = m_timeline->timeUnderMouse((double) event->x()) - m_selectedTransition->transitionStartTime();
-                        m_transitionOffset = m_selectedTransition->transitionStartTime(); 
+                        m_transitionOffset = (*itt)->transitionStartTime(); 
+                        m_clipOffset = m_timeline->timeUnderMouse((double) event->x()) - m_transitionOffset;
                         break;
                     }
                     ++itt;
+                    ix++;
                 }
+                m_selectedTransition = ix;
                 
-
+                kdDebug()<<"+++++++++++++++++++++++++++"<<endl;
+                kdDebug()<<"SELECTED: "<<ix<<", START TIME: "<<m_transitionOffset.frames(25)<<endl;
+                
                 m_snapToGrid.clearSnapList();
                 if (m_timeline->snapToSeekTime())
                     m_snapToGrid.addToSnapList(m_timeline->seekPosition());

@@ -37,7 +37,7 @@ m_document(document),
 m_clipUnderMouse(0),
 m_resizeCommand(0),
 m_selectedTransition(0),
-m_snapToGrid(), m_refresh(false)
+m_snapToGrid(), m_refresh(false), m_dragStarted(false)
 {
     
 }
@@ -110,6 +110,8 @@ bool TrackPanelTransitionResizeFunction::mousePressed(Gui::KTrackPanel * panel,
                 
                 int dx1;
                 int dx2;
+                uint ix = 0;
+                m_dragStarted = false;
                 
                 m_resizeState = None;
                 while (itt) {
@@ -117,17 +119,20 @@ bool TrackPanelTransitionResizeFunction::mousePressed(Gui::KTrackPanel * panel,
                 dx2 = (*itt)->transitionEndTime().frames(m_document->framesPerSecond());
                     if ((fabs(m_timeline->mapValueToLocal(dx1) - event->x()) < s_resizeTolerance)) {
                         m_resizeState = Start;
+                        m_dragStarted = true;
                         break;
                     }
                     if ((fabs(m_timeline->mapValueToLocal(dx2) - event->x()) < s_resizeTolerance)) {
                         m_resizeState = End;
+                        m_dragStarted = true;
                         break;
                     }
                     ++itt;
-
+                    ix++;
                 }
+                m_selectedTransition = ix;
                 if (m_resizeState == None ) return false;
-                m_selectedTransition = (*itt)->clone();
+                //m_selectedTransition = (*itt)->clone();
                         m_app->
 		    addCommand(Command::KSelectClipCommand::
                                 selectNone(m_document), true);
@@ -181,6 +186,7 @@ bool TrackPanelTransitionResizeFunction::mouseReleased(Gui::KTrackPanel * panel,
     QMouseEvent * event)
 {
     bool result = false;
+    m_dragStarted = false;
     m_selectedTransition = 0;
     emit transitionChanged(true);
     // Select the keyframe
@@ -214,7 +220,7 @@ bool TrackPanelTransitionResizeFunction::mouseMoved(Gui::KTrackPanel * panel,
 		m_snapToGrid.getSnappedTime(m_timeline->
 		timeUnderMouse(event->x()));
 
-            if (m_clipUnderMouse && m_selectedTransition) {
+            if (m_clipUnderMouse && m_dragStarted) {
                 result = true;
                 if (m_resizeState == Start) {
                     m_clipUnderMouse->resizeTransitionStart(m_selectedTransition, mouseTime);
