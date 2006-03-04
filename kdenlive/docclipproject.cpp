@@ -570,26 +570,9 @@ bool DocClipProject::hasTwoSelectedClips()
 }
 
 
-void DocClipProject::deleteTransition()
+void DocClipProject::deleteClipTransition(DocClipRef *clip, const GenTime &time)
 {
-    /* Currently only deletes transitions for the first selected clip */
-    DocClipRef *selectedClip = 0;
-    DocTrackBase *srcTrack = 0;
-
-    for (uint track = 0; track < numTracks(); track++) {
-        srcTrack = m_tracks.at(track);
-        if (srcTrack->hasSelectedClips()) {
-            selectedClip = srcTrack->firstClip(true).current();
-            break;
-        }
-    }
-    if (selectedClip) deleteClipTransition(selectedClip);
-}
-
-
-void DocClipProject::deleteClipTransition(DocClipRef *clip)
-{
-    clip->deleteTransition();
+    clip->deleteTransition(time);
     emit documentChanged(this);
 }
 
@@ -630,7 +613,7 @@ void DocClipProject::addTransition()
 }
 
 
-void DocClipProject::switchTransition()
+void DocClipProject::switchTransition(const GenTime &time)
 {
     DocClipRef *aResult = 0;
     DocClipRef *bResult = 0;
@@ -655,7 +638,7 @@ void DocClipProject::switchTransition()
     }
     if (!aResult || !bResult) return;
     
-    if (bResult->hasTransition(aResult)) bResult->deleteTransition();
+    if (bResult->hasTransition(aResult)) bResult->deleteTransition(time);
     else {
         Transition *transit = new Transition(aResult,bResult);
         bResult->addTransition(transit);

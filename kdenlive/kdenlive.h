@@ -425,6 +425,9 @@ namespace Gui {
 		/** Stores a copy of the last file dialog path used by kdenlive. */
 	KURL m_fileDialogPath;
 	KMMTimeLine *m_timeline;
+        
+        /** Stores the context menu position */
+        QPoint m_menuPosition;
 
 	// KDockWidgets for the docking interface to work correctly.
 	KDockWidget *m_dockClipMonitor;

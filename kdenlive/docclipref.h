@@ -274,7 +274,7 @@ class DocClipRef:public QObject {
         bool hasVariableThumbnails();
         
         bool hasTransition(DocClipRef *clip);
-        void deleteTransition();
+        void deleteTransition(const GenTime &time);
         void addTransition(Transition *transition);
         TransitionStack clipTransitions();
         void resizeTransitionStart(uint ix, GenTime time);

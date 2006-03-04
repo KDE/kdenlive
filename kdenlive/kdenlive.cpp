@@ -1965,13 +1965,14 @@ namespace Gui {
       GenTime mouseTime;
       mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(QCursor::pos()).x());
       
-      //DocClipRef *clip = track->getClipAt(mouseTime);
-      //if (clip) {
-      if (getDocument()->projectClip().hasSelectedClips()) {
+      DocClipRef *clip = track->getClipAt(mouseTime);
+      if (clip) {
+      //if (getDocument()->projectClip().hasSelectedClips()) {
         menu = (QPopupMenu *) factory()->container("timeline_clip_context", this);
       }
       else menu = (QPopupMenu *) factory()->container("timeline_context", this);
 	if (menu) {
+            m_menuPosition = QCursor::pos();
 	    menu->popup(QCursor::pos());
 	}
     }
@@ -1986,11 +1987,21 @@ namespace Gui {
     }
     
     void KdenliveApp::deleteTransition() {
-        getDocument()->projectClip().deleteTransition();
+
+    int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(m_menuPosition).y())->documentTrackIndex();
+    DocTrackBase *track = getDocument()->track(ix);
+    if (!track) return;
+    GenTime mouseTime;
+    mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(m_menuPosition).x());
+    DocClipRef *clip = track->getClipAt(mouseTime);
+
+    if (clip) getDocument()->projectClip().deleteClipTransition(clip, mouseTime);
     }
 
     void KdenliveApp::switchTransition() {
-        getDocument()->projectClip().switchTransition();
+        GenTime mouseTime;
+        mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(QCursor::pos()).x());
+        getDocument()->projectClip().switchTransition(mouseTime);
     }
 
 /** At least one track within the project have been added or removed.

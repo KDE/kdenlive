@@ -131,10 +131,8 @@ class DocClipProject:public DocClipBase {
     void addTransition();
     
     /** Delete the selected clip's transitions */
-    void deleteTransition();
-    void switchTransition();
-    
-    void deleteClipTransition(DocClipRef *clip);
+    void switchTransition(const GenTime &time);
+    void deleteClipTransition(DocClipRef *clip, const GenTime &time = GenTime(0.0));
     
 
     private slots:

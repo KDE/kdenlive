@@ -1022,11 +1022,13 @@ void DocClipRef::addTransition(Transition *transition)
     if (m_parentTrack) m_parentTrack->refreshLayout();
 }
 
-void DocClipRef::deleteTransition() //GenTime time)
+void DocClipRef::deleteTransition(const GenTime &time)
 {
     TransitionStack::iterator itt = m_transitionStack.begin();
     while (itt) {
-        m_transitionStack.remove(*itt);
+        if (time == GenTime(0.0)) m_transitionStack.remove(*itt);
+        else if ((*itt)->transitionStartTime()<time && (*itt)->transitionEndTime()>time)
+            m_transitionStack.remove(*itt);
         ++itt;
     }
     if (m_parentTrack) m_parentTrack->refreshLayout();

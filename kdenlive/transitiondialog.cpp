@@ -76,8 +76,8 @@ QString TransitionDialog::selectedTransition()
 
 void TransitionDialog::setTransitionDirection(bool direc)
 {
-    if (activePageIndex() == 0) transitCrossfade->invertTransition->setChecked(direc);
-    if (activePageIndex() == 1) transitWipe->invertTransition->setChecked(direc);
+    transitCrossfade->invertTransition->setChecked(direc);
+    transitWipe->invertTransition->setChecked(direc);
 }
 
 void TransitionDialog::setTransitionParameters(const QMap < QString, QString > parameters)
