@@ -8,7 +8,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>385</width>
+            <width>407</width>
             <height>113</height>
         </rect>
     </property>
@@ -19,12 +19,12 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="KLineEdit" row="2" column="1" rowspan="1" colspan="4">
+        <widget class="KLineEdit" row="2" column="1" rowspan="1" colspan="3">
             <property name="name">
                 <cstring>edit_description</cstring>
             </property>
         </widget>
-        <widget class="QLabel" row="1" column="3">
+        <widget class="QLabel" row="1" column="2">
             <property name="name">
                 <cstring>textLabel4_2</cstring>
             </property>
@@ -32,7 +32,7 @@
                 <string>seconds</string>
             </property>
         </widget>
-        <widget class="QSpinBox" row="1" column="2">
+        <widget class="QSpinBox" row="1" column="1">
             <property name="name">
                 <cstring>text_duration</cstring>
             </property>
@@ -43,7 +43,7 @@
                 <number>3</number>
             </property>
         </widget>
-        <widget class="KURLRequester" row="0" column="1" rowspan="1" colspan="4">
+        <widget class="KURLRequester" row="0" column="1" rowspan="1" colspan="3">
             <property name="name">
                 <cstring>url_image</cstring>
             </property>
@@ -56,12 +56,12 @@
                 <string>Description</string>
             </property>
         </widget>
-        <widget class="QLabel" row="1" column="0" rowspan="1" colspan="2">
+        <widget class="QLabel" row="1" column="0">
             <property name="name">
                 <cstring>textLabel4</cstring>
             </property>
             <property name="text">
-                <string>Default duration</string>
+                <string>Duration</string>
             </property>
         </widget>
         <widget class="QLabel" row="0" column="0">
@@ -70,6 +70,31 @@
             </property>
             <property name="text">
                 <string>Image file</string>
+            </property>
+        </widget>
+        <spacer row="3" column="1">
+            <property name="name">
+                <cstring>spacer7</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>16</width>
+                    <height>16</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QCheckBox" row="1" column="3">
+            <property name="name">
+                <cstring>transparentBg</cstring>
+            </property>
+            <property name="text">
+                <string>Transparent background</string>
             </property>
         </widget>
         <spacer row="1" column="4">
@@ -84,24 +109,7 @@
             </property>
             <property name="sizeHint">
                 <size>
-                    <width>126</width>
-                    <height>16</height>
-                </size>
-            </property>
-        </spacer>
-        <spacer row="3" column="2">
-            <property name="name">
-                <cstring>spacer7</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Vertical</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>16</width>
+                    <width>132</width>
                     <height>16</height>
                 </size>
             </property>

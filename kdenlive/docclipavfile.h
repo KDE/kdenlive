@@ -39,7 +39,7 @@ class DocClipAVFile:public DocClipBase {
 
     /* image clip */
      DocClipAVFile(const KURL & url, const QString & extension,
-	const int &ttl, const GenTime & duration, uint id);
+                   const int &ttl, const GenTime & duration, bool alphaTransparency, uint id);
 
     /* color clip */
      DocClipAVFile(const QString & color, const GenTime & duration,
@@ -89,6 +89,10 @@ class DocClipAVFile:public DocClipBase {
 	 *  to DocClipAVFile. This action should only occur via the clipManager.*/
     static DocClipAVFile *createClip(const QDomElement element);
 	/** Returns true if the clip duration is known, false otherwise. */
+    
+    void setAlpha(bool transp);
+    bool isTransparent();
+    
     virtual bool durationKnown() const;
     virtual double framesPerSecond() const;
     //returns clip video properties -reh
@@ -151,6 +155,9 @@ class DocClipAVFile:public DocClipBase {
     uint m_filesize;
 	/** a unique numeric id */
     uint m_id;
+    
+    /** Should the background be transparent (for image clips) */
+    bool m_alphaTransparency;
 
 
     //extended video file properties -reh

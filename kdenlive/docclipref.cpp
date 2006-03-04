@@ -533,7 +533,22 @@ QDomDocument DocClipRef::generateXMLTransition()
         transition.setAttribute("mlt_service", "composite");
         transition.setAttribute("always_active", "1");
         transition.setAttribute("progressive","1");
+        // TODO: we should find a better way to get the previous video track index
         transition.setAttribute("a_track", trackNum()-1);
+        // Set b_track to the current clip's track index (+1 because we add a black track at pos 0)
+        transition.setAttribute("b_track", trackNum()+1);
+        transitionList.appendChild(transition);
+    }
+    else if (clipType() == DocClipBase::IMAGE && m_clip->toDocClipAVFile()->isTransparent()) {
+        QDomElement transition = transitionList.createElement("transition");
+        transition.setAttribute("in", trackStart().frames(framesPerSecond()));
+        transition.setAttribute("out", trackEnd().frames(framesPerSecond()));
+        transition.setAttribute("mlt_service", "composite");
+        transition.setAttribute("always_active", "1");
+        transition.setAttribute("progressive","1");
+        // TODO: we should find a better way to get the previous video track index
+        transition.setAttribute("a_track", trackNum()-1);
+        // Set b_track to the current clip's track index (+1 because we add a black track at pos 0)
         transition.setAttribute("b_track", trackNum()+1);
         transitionList.appendChild(transition);
     }

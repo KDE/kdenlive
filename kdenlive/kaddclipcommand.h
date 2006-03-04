@@ -73,7 +73,7 @@ namespace Command {
          /** Construct an image clip */
 	 KAddClipCommand(KdenliveDoc & document, const KURL & url,
 	    const QString & extension, const int &ttl,
-	    const GenTime & duration, const QString & description,
+            const GenTime & duration, const QString & description, bool alphaTransparency,
 	    bool create = true);
 
 	~KAddClipCommand();

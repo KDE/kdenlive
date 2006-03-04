@@ -33,7 +33,7 @@
 DocClipAVFile::DocClipAVFile(const QString & name, const KURL & url,
     uint id):DocClipBase(), m_duration(0.0), m_url(url),
 m_durationKnown(false), m_framesPerSecond(0), m_color(QString::null),
-m_clipType(NONE), m_id(id)
+m_clipType(NONE), m_id(id), m_alphaTransparency(false)
 {
     setName(name);
 }
@@ -42,16 +42,16 @@ m_clipType(NONE), m_id(id)
 DocClipAVFile::DocClipAVFile(const QString & color,
     const GenTime & duration, uint id):DocClipBase(), m_duration(duration),
 m_url(QString::null), m_durationKnown(true), m_framesPerSecond(25),
-m_color(color), m_clipType(COLOR), m_id(id), m_filesize(0)
+m_color(color), m_clipType(COLOR), m_id(id), m_filesize(0), m_alphaTransparency(false)
 {
     setName(i18n("Color Clip"));
 }
 
 /* image clip */
 DocClipAVFile::DocClipAVFile(const KURL & url, const QString & extension,
-    const int &ttl, const GenTime & duration, uint id):DocClipBase(),
+    const int &ttl, const GenTime & duration, bool alphaTransparency, uint id):DocClipBase(),
 m_duration(duration), m_url(url), m_durationKnown(true),
-m_framesPerSecond(25), m_color(QString::null), m_clipType(IMAGE), m_id(id)
+m_framesPerSecond(25), m_color(QString::null), m_clipType(IMAGE), m_alphaTransparency(alphaTransparency), m_id(id)
 {
     setName(url.fileName());
     QFileInfo fileInfo(m_url.path());
@@ -63,13 +63,23 @@ DocClipAVFile::DocClipAVFile(const KURL & url):DocClipBase(),
 m_duration(0.0),
 m_url(url),
 m_durationKnown(false),
-m_framesPerSecond(0), m_color(QString::null), m_clipType(NONE)
+m_framesPerSecond(0), m_color(QString::null), m_clipType(NONE), m_alphaTransparency(false)
 {
     setName(url.fileName());
 }
 
 DocClipAVFile::~DocClipAVFile()
 {
+}
+
+bool DocClipAVFile::isTransparent()
+{
+    return m_alphaTransparency;
+}
+
+void DocClipAVFile::setAlpha(bool transp)
+{
+    m_alphaTransparency = transp;
 }
 
 const GenTime & DocClipAVFile::duration() const

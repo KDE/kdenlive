@@ -82,11 +82,10 @@ DocClipBase *ClipManager::insertClip(const KURL & file)
 
 DocClipBase *ClipManager::insertImageClip(const KURL & file,
     const QString & extension, const int &ttl, const GenTime & duration,
-    const QString & description)
+    const QString & description, bool alphaTransparency)
 {
     DocClipBase *clip;
-    clip =
-	new DocClipAVFile(file, extension, ttl, duration, m_clipCounter);
+    clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, m_clipCounter);
     clip->setDescription(description);
     m_clipList.append(clip);
     m_render->getImage(file, 64, 50);
@@ -174,7 +173,7 @@ void ClipManager::editColorClip(DocClipRef * clip, const QString & color,
 
 void ClipManager::editImageClip(DocClipRef * clip, const KURL & file,
     const QString & extension, const int &ttl, const GenTime & duration,
-    const QString & description)
+    const QString & description, bool alphaTransparency)
 {
     clip->setDescription(description);
     clip->setCropDuration(duration);
@@ -183,6 +182,7 @@ void ClipManager::editImageClip(DocClipRef * clip, const KURL & file,
 	dynamic_cast < DocClipAVFile * >(clip->referencedClip());
     if (avClip) {
 	avClip->setFileURL(file);
+        avClip->setAlpha(alphaTransparency);
 	avClip->setDuration(duration);
 	m_render->getImage(file, 64, 50);
     }

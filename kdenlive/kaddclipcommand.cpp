@@ -137,7 +137,7 @@ namespace Command {
 /** Add Image clip */
     KAddClipCommand::KAddClipCommand(KdenliveDoc & document,
 	const KURL & url, const QString & extension, const int &ttl,
-	const GenTime & duration, const QString & description,
+        const GenTime & duration, const QString & description, bool alphaTransparency,
 	bool create):m_document(document), m_name(url.filename()),
 	m_parent(document.clipHierarch()->name()), m_create(create) {
 	if (!m_parent) {
@@ -148,7 +148,7 @@ namespace Command {
 
 	DocClipBase *clip =
 	    document.clipManager().insertImageClip(url, extension, ttl,
-	    duration, description);
+        duration, description, alphaTransparency);
 
 	DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
 	m_xmlClip = clipNode->clipRef()->toXML();

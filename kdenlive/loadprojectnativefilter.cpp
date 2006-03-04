@@ -160,11 +160,12 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
 		    clip.attribute("description", ""));
 
 	    else if (clipType == DocClipBase::IMAGE)	//   IMAGE CLIP
+                // TODO: save and load clip transparency
 		baseClip =
 		    document->clipManager().insertImageClip(clip.
 		    attribute("url", ""), "", 0,
 		    GenTime(clip.attribute("duration", "").toInt(), 25),
-		    clip.attribute("description", ""));
+		    clip.attribute("description", ""), false);
             
             else if (clipType == DocClipBase::TEXT)	//   TEXT CLIP
             {

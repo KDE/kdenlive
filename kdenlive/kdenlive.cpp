@@ -1398,10 +1398,7 @@ namespace Gui {
 /**  Create a new color clip (color, text or image) */
     void KdenliveApp::slotProjectAddColorClip() {
 	slotStatusMsg(i18n("Adding Clips"));
-
-	KDialogBase *dia = new KDialogBase(this, "create_clip", true,
-	    i18n("Create New Color Clip"),
-	    KDialogBase::Ok | KDialogBase::Cancel);
+        KDialogBase *dia = new KDialogBase(  KDialogBase::Swallow, i18n("Create New Color Clip"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "create_clip", true);
 	createColorClip_UI *clipChoice = new createColorClip_UI(dia);
 	clipChoice->edit_name->setText(i18n("Color Clip"));
 	dia->setMainWidget(clipChoice);
@@ -1422,12 +1419,8 @@ namespace Gui {
 
     void KdenliveApp::slotProjectAddImageClip() {
 	slotStatusMsg(i18n("Adding Clips"));
-
-	KDialogBase *dia = new KDialogBase(this, "create_clip", true,
-	    i18n("Create New Image Clip"),
-	    KDialogBase::Ok | KDialogBase::Cancel);
-
-	createImageClip_UI *clipChoice = new createImageClip_UI(dia);
+        KDialogBase *dia = new KDialogBase(  KDialogBase::Swallow, i18n("Create New Image Clip"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "create_clip", true);
+        createImageClip_UI *clipChoice = new createImageClip_UI(dia);
 	dia->setMainWidget(clipChoice);
 	// Filter for the GDK pixbuf producer
 	QString filter = "image/gif image/jpeg image/png image/x-bmp";
@@ -1440,7 +1433,7 @@ namespace Gui {
 	    GenTime duration(clipChoice->text_duration->value());
 	    KCommand *command =
 		new Command::KAddClipCommand(*doc, KURL(url), extension,
-		ttl, duration, clipChoice->edit_description->text(), true);
+                                              ttl, duration, clipChoice->edit_description->text(), clipChoice->transparentBg->isChecked(), true);
 	    addCommand(command, true);
 	}
 	delete dia;
@@ -1472,25 +1465,19 @@ namespace Gui {
 	if (refClip) {
 	    DocClipBase *clip = refClip->referencedClip();
 	    if (refClip->clipType() == DocClipBase::COLOR) {
-		KDialogBase *dia = new KDialogBase(this, "edit_clip", true,
-		    i18n("Edit Color Clip"),
-		    KDialogBase::Ok | KDialogBase::Cancel);
-		createColorClip_UI *clipChoice =
-		    new createColorClip_UI(dia);
-		QString color =
-		    dynamic_cast < DocClipAVFile * >(clip)->color();
+                KDialogBase *dia = new KDialogBase(  KDialogBase::Swallow, i18n("Edit Color Clip"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "create_clip", true);
+                createColorClip_UI *clipChoice = new createColorClip_UI(dia);
+		QString color = dynamic_cast < DocClipAVFile * >(clip)->color();
 		color = color.replace(0, 2, "#");
 		color = color.left(7);
 		clipChoice->button_color->setColor(color);
 		clipChoice->edit_name->setText(clip->name());
 		clipChoice->edit_description->setText(clip->description());
-		clipChoice->text_duration->setValue((int) (refClip->
-			duration().ms() / 1000));
+		clipChoice->text_duration->setValue((int) (refClip->duration().ms() / 1000));
 		dia->setMainWidget(clipChoice);
 		dia->adjustSize();
 		if (dia->exec() == QDialog::Accepted) {
-		    QString color =
-			clipChoice->button_color->color().name();
+		    QString color = clipChoice->button_color->color().name();
 		    color = color.replace(0, 1, "0x") + "ff";
 		    GenTime duration(clipChoice->text_duration->value());
 		    KCommand *command =
@@ -1503,16 +1490,11 @@ namespace Gui {
 		delete dia;
 	    }
 	    else if (refClip->clipType() == DocClipBase::IMAGE) {
-		KDialogBase *dia =
-		    new KDialogBase(this, "create_clip", true,
-		    i18n("Edit Image Clip"),
-		    KDialogBase::Ok | KDialogBase::Cancel);
-		createImageClip_UI *clipChoice =
-		    new createImageClip_UI(dia);
-
+                KDialogBase *dia = new KDialogBase(  KDialogBase::Swallow, i18n("Edit Image Clip"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "create_clip", true);
+		createImageClip_UI *clipChoice = new createImageClip_UI(dia);
 		clipChoice->edit_description->setText(clip->description());
-		clipChoice->text_duration->setValue((int) (refClip->
-			duration().ms() / 1000));
+                clipChoice->transparentBg->setChecked(clip->toDocClipAVFile()->isTransparent());
+		clipChoice->text_duration->setValue((int) (refClip->duration().ms() / 1000));
 		clipChoice->url_image->setURL(refClip->fileURL().path());
 		dia->setMainWidget(clipChoice);
 		dia->adjustSize();
@@ -1522,9 +1504,8 @@ namespace Gui {
 		    int ttl = 0;
 		    GenTime duration(clipChoice->text_duration->value());
 		    KCommand *command =
-			new Command::KEditClipCommand(*doc, refClip,
-			KURL(url), extension, ttl, duration,
-			clipChoice->edit_description->text());
+			new Command::KEditClipCommand(*doc, refClip, KURL(url), extension, ttl, duration,
+                        clipChoice->edit_description->text(), clipChoice->transparentBg->isChecked());
 		    //addCommand( command, true );
 
 		    //m_projectList->updateListItem();
@@ -1539,13 +1520,9 @@ namespace Gui {
                 txtWidget->titleName->setText(clip->name());
                 txtWidget->transparentTitle->setChecked(clip->toDocClipTextFile()->isTransparent());
                 if (txtWidget->exec() == QDialog::Accepted) {
-                    kdDebug()<<"++++++++++++++++++++++++ 1 ++++++++++++++++++++++++"<<endl;
                     GenTime duration(txtWidget->text_duration->value());
-                    kdDebug()<<"++++++++++++++++++++++++ 2 ++++++++++++++++++++++++"<<endl;
                     QPixmap thumb = txtWidget->thumbnail(64, 50);
-                    kdDebug()<<"++++++++++++++++++++++++ 3 ++++++++++++++++++++++++"<<endl;
                     QDomDocument xml = txtWidget->toXml();
-                    kdDebug()<<"++++++++++++++++++++++++ 4 ++++++++++++++++++++++++"<<endl;
                     KCommand *command =
                             new Command::KEditClipCommand(*doc, refClip, duration,
                             txtWidget->titleName->text(),QString::null, xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked());

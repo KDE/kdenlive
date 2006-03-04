@@ -49,7 +49,7 @@ namespace Command {
 	/** Edit an image clip */
 	 KEditClipCommand(KdenliveDoc & document, DocClipRef * clip,
 	    const KURL & url, const QString & extension, const int &ttl,
-	    const GenTime & duration, const QString & description);
+            const GenTime & duration, const QString & description, bool alphaTransparency);
          
          /** Edit an text clip */
          KEditClipCommand(KdenliveDoc & document, DocClipRef * clip, const GenTime & duration,

@@ -76,7 +76,7 @@ namespace Command {
     KEditClipCommand::KEditClipCommand(KdenliveDoc & document,
 	DocClipRef * clip, const KURL & url, const QString & extension,
 	const int &ttl, const GenTime & duration,
-	const QString & description):m_document(document),
+	const QString & description, bool alphaTransparency):m_document(document),
 	m_name(url.filename()), m_parent(document.clipHierarch()->name()) {
 	if (!m_parent) {
 	    kdWarning() <<
@@ -85,7 +85,7 @@ namespace Command {
 	}
 
 	document.clipManager().editImageClip(clip, url, extension, ttl,
-	    duration, description);
+        duration, description, alphaTransparency);
 
 /*	DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
 	m_xmlClip = clipNode->clipRef()->toXML();
