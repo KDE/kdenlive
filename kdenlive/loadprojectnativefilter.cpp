@@ -43,6 +43,9 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 {
     bool avListLoaded = false;
     bool trackListLoaded = false;
+    
+    // clear previous project
+    document->clipManager().clear();
 
     QDomDocument doc;
     doc.setContent(&file, false);

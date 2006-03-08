@@ -38,9 +38,12 @@ class Transition {
     Transition(const DocClipRef * clipa, const DocClipRef * clipb);
     Transition(const DocClipRef * clipa);
     Transition(const DocClipRef * clipa, const GenTime &time);
+    Transition(const DocClipRef * clipa, const QString & type, const GenTime &startTime, const GenTime &endTime, bool inverted);
     ~Transition();
 
-
+    /** Returns an XML representation of this transition. */
+    QDomDocument toXML();
+    
     GenTime transitionStartTime();
     GenTime transitionEndTime();
     int transitionStartTrack();

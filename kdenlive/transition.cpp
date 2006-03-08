@@ -92,11 +92,33 @@ Transition::Transition(const DocClipRef * clipa, const GenTime &time)
     m_referenceClip = clipa;
     if (time - m_referenceClip->trackStart() < GenTime(2.0)) m_transitionStart = GenTime(0.0);
     else if (m_referenceClip->trackEnd() - time < GenTime(2.0)) m_transitionStart = m_referenceClip->cropDuration() - defaultTransitionDuration;
-    else m_transitionStart = time - GenTime(1.0);
+    else m_transitionStart = time - m_referenceClip->trackStart() - GenTime(1.0);
     
     if (m_transitionStart + defaultTransitionDuration > m_referenceClip->cropDuration()) 
         m_transitionDuration = m_referenceClip->cropDuration() - m_transitionStart;
     else m_transitionDuration = defaultTransitionDuration;
+    m_secondClip = 0;
+}
+
+/* create an "simple" transition (type 2) */
+Transition::Transition(const DocClipRef * clipa, const QString & type, const GenTime &startTime, const GenTime &endTime, bool inverted)
+{
+    m_invertTransition = inverted;
+    m_singleClip = true;
+    m_transitionType = type;
+    GenTime duration = endTime - startTime;
+    
+    // Default duration = 2.5 seconds
+    GenTime defaultTransitionDuration = GenTime(2.5);
+    
+    m_referenceClip = clipa;
+    if (startTime < m_referenceClip->trackStart()) m_transitionStart = GenTime(0.0);
+    else if (startTime > m_referenceClip->trackEnd()) m_transitionStart = m_referenceClip->cropDuration() - defaultTransitionDuration;
+    else m_transitionStart = startTime - m_referenceClip->trackStart();
+    
+    if (m_transitionStart + duration > m_referenceClip->cropDuration()) 
+        m_transitionDuration = m_referenceClip->cropDuration() - m_transitionStart;
+    else m_transitionDuration = duration;
     m_secondClip = 0;
 }
 
@@ -228,3 +250,30 @@ Transition *Transition::clone()
     else
         return new Transition::Transition(m_referenceClip, m_secondClip);
 }
+
+QDomDocument Transition::toXML()
+{
+    QDomDocument doc;
+
+    QDomElement effect = doc.createElement("transition");
+    effect.setAttribute("type", transitionType());
+    effect.setAttribute("inverted", invertTransition());
+    effect.setAttribute("start", transitionStartTime().frames(25.0));
+    effect.setAttribute("end", transitionEndTime().frames(25.0));
+    if (m_secondClip) {
+        effect.setAttribute("clipb_starttime", m_secondClip->trackStart().frames(25.0));
+        effect.setAttribute("clipb_track", transitionEndTrack());
+    }
+    
+
+    QMap<QString, QString>::Iterator it;
+    for ( it = m_transitionParameters.begin(); it != m_transitionParameters.end(); ++it ) {
+        QDomElement param = doc.createElement(it.key());
+        param.setAttribute("value",it.data());
+        effect.appendChild(param);
+    }
+
+    doc.appendChild(effect);
+    return doc;
+}
+

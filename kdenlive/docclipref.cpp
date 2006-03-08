@@ -204,6 +204,7 @@ createClip(const EffectDescriptionList & effectList,
     if (baseClip) {
 	clip = new DocClipRef(baseClip);
     }
+    QDomElement t;
 
     QDomNode n = element.firstChild();
 
@@ -272,8 +273,14 @@ createClip(const EffectDescriptionList & effectList,
 		    }
 		    effectNode = effectNode.nextSibling();
 		}
-	    } else {
-//                              kdWarning() << "DocClipRef::createClip() unknown tag : " << e.tagName() << endl;
+            }
+            else if (e.tagName() == "transitions") {
+                t = e;
+                kdWarning() << "Found transition tag" << endl;
+
+            }
+            else {
+//               kdWarning() << "DocClipRef::createClip() unknown tag : " << e.tagName() << endl;
 	    }
 	}
 
@@ -296,6 +303,39 @@ createClip(const EffectDescriptionList & effectList,
 	clip->setSnapMarkers(markers);
 	//clip->setDescription(description);
 	clip->setEffectStack(effectStack);
+        
+        // add Transitions
+        if (!t.isNull()) {
+            QDomNode transitionNode = t.firstChild();
+            while (!transitionNode.isNull()) {
+                QDomElement transitionElement = transitionNode.toElement();
+                kdWarning() << "Effect node..." << endl;
+                if (!transitionElement.isNull()) {
+                    kdWarning() << "has tag name " << transitionElement.tagName() << endl;
+                    if (transitionElement.tagName() == "transition") {
+                        GenTime startTime(transitionElement.attribute("start", QString::null).toInt(),25.0);
+                        GenTime endTime(transitionElement.attribute("end", QString::null).toInt(),25.0);
+                        Transition *transit = new Transition(clip, transitionElement.attribute("type", QString::null), startTime, endTime, transitionElement.attribute("inverted", "0").toInt());
+                        
+                        // load transition parameters
+                        typedef QMap<QString, QString> ParamMap;
+                        ParamMap params;
+                        for( QDomNode n = transitionElement.firstChild(); !n.isNull(); n = n.nextSibling() )
+                        {
+                            QDomElement paramElement = n.toElement();
+                            params[paramElement.tagName()] = paramElement.attribute("value", QString::null);
+                        }
+                        if (!params.isEmpty()) transit->setTransitionParameters(params);
+                        clip->addTransition(transit);
+                    } else {
+                        kdWarning() << "Unknown effect " <<transitionElement.attribute("type",QString::null) << endl;
+                    }
+                } else {
+                kdWarning() << "Unknown tag " << transitionElement.tagName() << endl;
+                }
+                transitionNode = transitionNode.nextSibling();
+            }
+        }
     }
 
     return clip;
@@ -444,6 +484,7 @@ QDomDocument DocClipRef::toXML() const
 
     clip.appendChild(position);
 
+    //  append clip effects
     if (!m_effectStack.isEmpty()) {
 	QDomElement effects = doc.createElement("effects");
 
@@ -455,6 +496,20 @@ QDomDocument DocClipRef::toXML() const
 	}
 
 	clip.appendChild(effects);
+    }
+    
+    //  append clip transitions
+    if (!m_transitionStack.isEmpty()) {
+        QDomElement trans = doc.createElement("transitions");
+
+        TransitionStack::iterator itt = m_transitionStack.begin();
+        while (itt != m_transitionStack.end()) {
+            trans.appendChild(doc.importNode((*itt)->toXML().
+                    documentElement(), true));
+            ++itt;
+        }
+
+        clip.appendChild(trans);
     }
 
     QDomElement markers = doc.createElement("markers");
