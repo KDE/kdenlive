@@ -160,7 +160,6 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
                     clip.attribute("description", ""), clip.attribute("id", "-1").toInt());
 
 	    else if (clipType == DocClipBase::IMAGE)	//   IMAGE CLIP
-                // TODO: save and load clip transparency
 		baseClip =
 		    document->clipManager().insertImageClip(clip.
 		    attribute("url", ""), "", 0,
@@ -172,7 +171,6 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
                 QDomDocument xml;
                 QPixmap pm = QPixmap();
                 xml.setContent(clip.attribute("xml", ""));
-                // TODO: save and load clip transparency
                 baseClip =
                         document->clipManager().insertTextClip(GenTime(clip.attribute("duration", "").toInt(), 25), clip.attribute("name", ""),
                 clip.attribute("description", ""),xml, clip.attribute("url", ""), pm, clip.attribute("transparency", "").toInt(), clip.attribute("id", "-1").toInt());

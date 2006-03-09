@@ -59,12 +59,15 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
 	    DocClipBase::CLIPTYPE clipType;
 	    clipType = clipNode->clipRef()->clipType();
 	    avfile.setAttribute("type", clipType);
+            
+            avfile.setAttribute("id", clipNode->clipRef()->referencedClip()->getId());
 
-	    if (clipType == DocClipBase::IMAGE)
+	    if (clipType == DocClipBase::IMAGE) {
 		avfile.setAttribute("duration",
 		    QString::number(clipNode->clipRef()->duration().
 			frames(25)));
-
+                avfile.setAttribute("transparency",clipNode->clipRef()->referencedClip()->toDocClipAVFile()->isTransparent());
+            }
             else if (clipType == DocClipBase::COLOR) {
 		avfile.setAttribute("name", clipNode->clipRef()->name());
 		avfile.setAttribute("color",
@@ -79,6 +82,7 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
                                     QString::number(clipNode->clipRef()->duration().
                                             frames(25)));
                 avfile.setAttribute("name", clipNode->clipRef()->name());
+                avfile.setAttribute("transparency",clipNode->clipRef()->referencedClip()->toDocClipTextFile()->isTransparent());
                 avfile.setAttribute("xml",
                                     clipNode->clipRef()->referencedClip()->toDocClipTextFile()->textClipXml().toString());
             }
