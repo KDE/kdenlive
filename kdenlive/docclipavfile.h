@@ -61,8 +61,6 @@ class DocClipAVFile:public DocClipBase {
 	/** Returns the number of references to the underlying avfile. */
     uint numReferences() const;
 
-	/** Returns the internal unique id of the avfile. */
-    uint getId() const;
 
 	/** Returns the duration of the file */
     const GenTime & duration() const;
@@ -153,8 +151,6 @@ class DocClipAVFile:public DocClipBase {
     double m_framesPerSecond;
 	/** The size in bytes of this AVFile */
     uint m_filesize;
-	/** a unique numeric id */
-    uint m_id;
     
     /** Should the background be transparent (for image clips) */
     bool m_alphaTransparency;

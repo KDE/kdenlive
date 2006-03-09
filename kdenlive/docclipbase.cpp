@@ -43,6 +43,16 @@ const QString & DocClipBase::name() const
     return m_name;
 }
 
+uint DocClipBase::getId() const
+{
+    return m_id;
+}
+
+void DocClipBase::setId( const uint &newId)
+{
+    m_id = newId;
+}
+
 void DocClipBase::setDescription(const QString & description)
 {
     m_description = description;

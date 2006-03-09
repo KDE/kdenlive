@@ -73,16 +73,16 @@ class ClipManager:public QObject {
 
 	/** Insert an AVFile with the given url. If the file is already in the file list, return 
 	 * that instead. */
-    DocClipBase *insertClip(const KURL & file);
+    DocClipBase *insertClip(const KURL & file, int clipId = -1);
 
 	/** Insert a color clip */
     DocClipBase *insertColorClip(const QString & color,
 	const GenTime & duration, const QString & name,
-	const QString & description);
+        const QString & description, int clipId = -1);
 
     /** Insert a text clip */
     DocClipBase *insertTextClip( const GenTime & duration, const QString & name,
-                                 const QString & description, const QDomDocument &xml, const KURL url, QPixmap &pix, bool alphaTransparency);
+                                 const QString & description, const QDomDocument &xml, const KURL url, QPixmap &pix, bool alphaTransparency, int clipId = -1);
 	
     /** Edit a color clip */
     void editColorClip(DocClipRef * clip, const QString & color,
@@ -104,7 +104,7 @@ class ClipManager:public QObject {
 	/** Insert an image clip */
     DocClipBase *insertImageClip(const KURL & file,
 	const QString & extension, const int &ttl,
-        const GenTime & duration, const QString & description, bool alphaTransparency);
+        const GenTime & duration, const QString & description, bool alphaTransparency, int clipId = -1);
 
 	/** Insert a specific clip */
     DocClipBase *insertClip(const QDomElement & clip);

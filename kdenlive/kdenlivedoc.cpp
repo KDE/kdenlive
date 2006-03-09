@@ -94,6 +94,7 @@ void KdenliveDoc::closeDocument()
 {
     kdDebug() << "KdenliveDoc in closeDocument()" << endl;
     deleteContents();
+    m_clipHierarch = new DocumentGroupNode(0, i18n("Clips"));
 }
 
 bool KdenliveDoc::newDocument()

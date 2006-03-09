@@ -60,6 +60,10 @@ class DocClipBase:public QObject {
 	/** Returns the description of this clip. */
     const QString & description() const;
 
+    /** Returns the internal unique id of the clip. */
+    uint getId() const;
+    void setId( const uint &newId);
+    
 	/** returns the duration of this clip */
     virtual const GenTime & duration() const = 0;
     virtual const DocClipBase::CLIPTYPE & clipType() const = 0;
@@ -150,6 +154,10 @@ class DocClipBase:public QObject {
 
 	/** A thumbnail for this clip */
     QPixmap m_thumbnail;
+    
+    /** a unique numeric id */
+    uint m_id;
+
 };
 
 #endif

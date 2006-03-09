@@ -59,7 +59,7 @@ ClipManager::~ClipManager()
 {
 }
 
-DocClipBase *ClipManager::insertClip(const KURL & file)
+DocClipBase *ClipManager::insertClip(const KURL & file, int clipId)
 {
     DocClipBase *clip = findClip(file);
     if (!clip) {
@@ -71,7 +71,11 @@ DocClipBase *ClipManager::insertClip(const KURL & file)
 	    return 0;
 	}
 
-	clip = new DocClipAVFile(file.fileName(), file, m_clipCounter++);
+        if (clipId == -1) clip = new DocClipAVFile(file.fileName(), file, m_clipCounter++);
+        else {
+            clip = new DocClipAVFile(file.fileName(), file, clipId);
+            if (clipId>=m_clipCounter) m_clipCounter = clipId+1;
+        }
 	m_clipList.append(clip);
         emit getFileProperties(file);
 	emit clipListUpdated();
@@ -82,14 +86,18 @@ DocClipBase *ClipManager::insertClip(const KURL & file)
 
 DocClipBase *ClipManager::insertImageClip(const KURL & file,
     const QString & extension, const int &ttl, const GenTime & duration,
-    const QString & description, bool alphaTransparency)
+    const QString & description, bool alphaTransparency, int clipId)
 {
     DocClipBase *clip;
-    clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, m_clipCounter);
+    if (clipId == -1) clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, m_clipCounter++);
+    else {
+        clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, clipId);
+        if (clipId>=m_clipCounter) m_clipCounter = clipId+1;
+    }
     clip->setDescription(description);
     m_clipList.append(clip);
     m_render->getImage(file, 64, 50);
-    m_clipCounter++;
+    
     emit clipListUpdated();
 
     return clip;
@@ -97,23 +105,26 @@ DocClipBase *ClipManager::insertImageClip(const KURL & file,
 
 DocClipBase *ClipManager::insertColorClip(const QString & color,
                                           const GenTime & duration, const QString & name,
-                                          const QString & description)
+                                          const QString & description, int clipId)
 {
     DocClipBase *clip;
-    clip = new DocClipAVFile(color, duration, m_clipCounter);
+    if (clipId == -1) clip = new DocClipAVFile(color, duration, m_clipCounter);
+    else {
+        clip = new DocClipAVFile(color, duration, clipId);
+        m_clipCounter = clipId;
+    }
     clip->setDescription(description);
     clip->setName(name);
     m_clipList.append(clip);
     m_render->getImage(m_clipCounter, color, 64, 50);
     m_clipCounter++;
     emit clipListUpdated();
-
     return clip;
 }
 
 DocClipBase *ClipManager::insertTextClip(
     const GenTime & duration, const QString & name,
-    const QString & description, const QDomDocument &xml, const KURL url, QPixmap &pix, bool alphaTransparency)
+    const QString & description, const QDomDocument &xml, const KURL url, QPixmap &pix, bool alphaTransparency, int clipId)
 {
     if (!QFile(url.path()).exists() || pix.isNull()) {
         titleWidget *txtWidget=new titleWidget();
@@ -124,10 +135,13 @@ DocClipBase *ClipManager::insertTextClip(
     }
 
     DocClipBase *clip;
-    clip = new DocClipTextFile( name, description, duration, xml, url, pix, alphaTransparency, m_clipCounter);
+    if (clipId == -1) clip = new DocClipTextFile( name, description, duration, xml, url, pix, alphaTransparency, m_clipCounter++);
+    else {
+        clip = new DocClipTextFile( name, description, duration, xml, url, pix, alphaTransparency, clipId);
+        if (clipId>=m_clipCounter) m_clipCounter = clipId+1;
+    }
     m_clipList.append(clip);
     //m_render->getImage(m_clipCounter, description, 12, 64, 50);
-    m_clipCounter++;
     emit clipListUpdated();
 
     return clip;
@@ -223,12 +237,10 @@ DocClipBase *ClipManager::findClipById(uint id)
 
     QPtrListIterator < DocClipBase > itt(m_clipList);
     while (itt.current()) {
-        if (itt.current()->isDocClipAVFile() && (itt.current()->toDocClipAVFile()->getId() == id)) {
+        if (itt.current()->getId() == id) {
 	    result = itt.current();
+            break;
 	}
-        else if (itt.current()->isDocClipTextFile() && (itt.current()->toDocClipTextFile()->getId() == id)) {
-            result = itt.current();
-        }
 	++itt;
     }
 
@@ -392,6 +404,7 @@ void ClipManager::clear()
 {
 #warning "This might blow up spectacularly - this implementation does not check"
 #warning "and clean up any references to said clips."
+    m_clipCounter = 0;
     m_clipList.clear();
     m_temporaryClipList.clear();
 }

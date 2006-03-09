@@ -54,9 +54,6 @@ class DocClipTextFile:public DocClipBase {
 	/** Returns the number of references to the underlying avfile. */
     uint numReferences() const;
 
-	/** Returns the internal unique id of the textfile. */
-    uint getId() const;
-
 	/** Returns the duration of the file */
     const GenTime & duration() const;
 

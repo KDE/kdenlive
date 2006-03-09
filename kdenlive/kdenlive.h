@@ -124,6 +124,9 @@ namespace Gui {
 		 * @see initView();
 		 */
 	void initDocument();
+		/** Do some stuff required before attempting to close the current project
+                 */
+        void requestDocumentClose();
 		/** creates the centerwidget of the KTMainWindow instance and sets it as the view
 		 */
 	void initView();

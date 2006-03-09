@@ -34,17 +34,19 @@
 DocClipTextFile::DocClipTextFile(const QString & name, const KURL & url,
     uint id):DocClipBase(), m_duration(0.0), m_url(url),
 m_durationKnown(false), m_framesPerSecond(0),
-m_clipType(TEXT), m_alphaTransparency(false), m_id(id)
+m_clipType(TEXT), m_alphaTransparency(false)
 {
     setName(name);
+    setId(id);
 }
 
 
 DocClipTextFile::DocClipTextFile(const QString & name, const QString & text,
                                  const GenTime & duration, const QDomDocument &xml, KURL url, const QPixmap &pix, bool transparency, uint id):DocClipBase(), m_duration(duration), m_xml(xml),
-m_url(url), m_durationKnown(true), m_framesPerSecond(25), m_clipType(TEXT), m_alphaTransparency(transparency), m_id(id), m_filesize(0)
+m_url(url), m_durationKnown(true), m_framesPerSecond(25), m_clipType(TEXT), m_alphaTransparency(transparency), m_filesize(0)
 {
     setName(name);
+    setId(id);
     setDescription( text );
     setThumbnail(pix);
 }
@@ -224,10 +226,6 @@ uint DocClipTextFile::numReferences() const
 #warning TODO - write this funtion.
 }
 
-uint DocClipTextFile::getId() const
-{
-    return m_id;
-}
 
 // virtual
 bool DocClipTextFile::referencesClip(DocClipBase * clip) const
@@ -266,7 +264,7 @@ QDomDocument DocClipTextFile::toXML() const
 		QDomElement avfile = doc.createElement("avfile");
 		//avfile.setAttribute("url", fileURL().url());
 		avfile.setAttribute("type", m_clipType);
-		avfile.setAttribute("id", m_id);
+                avfile.setAttribute("id", getId());
 		element.appendChild(avfile);
 		return doc;
 	    }

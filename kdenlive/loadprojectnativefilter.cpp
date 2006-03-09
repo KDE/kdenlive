@@ -44,9 +44,6 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
     bool avListLoaded = false;
     bool trackListLoaded = false;
     
-    // clear previous project
-    document->clipManager().clear();
-
     QDomDocument doc;
     doc.setContent(&file, false);
 
@@ -152,7 +149,7 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
 	    if (clipType < 4)	//  AUDIO OR VIDEO CLIP
 		baseClip =
 		    document->clipManager().insertClip(clip.
-		    attribute("url", ""));
+                        attribute("url", ""), clip.attribute("id", "-1").toInt());
 
 	    else if (clipType == DocClipBase::COLOR)	//   COLOR CLIP
 		baseClip =
@@ -160,7 +157,7 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
 		    attribute("color", ""),
 		    GenTime(clip.attribute("duration", "").toInt(), 25),
 		    clip.attribute("name", ""),
-		    clip.attribute("description", ""));
+                    clip.attribute("description", ""), clip.attribute("id", "-1").toInt());
 
 	    else if (clipType == DocClipBase::IMAGE)	//   IMAGE CLIP
                 // TODO: save and load clip transparency
@@ -168,7 +165,7 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
 		    document->clipManager().insertImageClip(clip.
 		    attribute("url", ""), "", 0,
 		    GenTime(clip.attribute("duration", "").toInt(), 25),
-		    clip.attribute("description", ""), false);
+                    clip.attribute("description", ""), clip.attribute("transparency", "").toInt(), clip.attribute("id", "-1").toInt());
             
             else if (clipType == DocClipBase::TEXT)	//   TEXT CLIP
             {
@@ -178,7 +175,7 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
                 // TODO: save and load clip transparency
                 baseClip =
                         document->clipManager().insertTextClip(GenTime(clip.attribute("duration", "").toInt(), 25), clip.attribute("name", ""),
-                clip.attribute("description", ""),xml, clip.attribute("url", ""), pm, false);
+                clip.attribute("description", ""),xml, clip.attribute("url", ""), pm, clip.attribute("transparency", "").toInt(), clip.attribute("id", "-1").toInt());
             }
             
 

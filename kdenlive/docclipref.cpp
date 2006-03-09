@@ -653,10 +653,7 @@ QDomDocument DocClipRef::generateXMLClip()
 	entry.setAttribute("producer", QString("audio_producer") + QString::number(m_clip->toDocClipAVFile()->getId()) );
 
 	else entry.setAttribute("producer", QString("video_producer") + QString::number(m_clip->toDocClipAVFile()->getId()) );*/
-    if (m_clip->isDocClipAVFile())
-    entry.setAttribute("producer", "producer" + QString::number(m_clip->toDocClipAVFile()->getId()));
-    else if (m_clip->isDocClipTextFile())
-        entry.setAttribute("producer", "producer" + QString::number(m_clip->toDocClipTextFile()->getId()));
+    entry.setAttribute("producer", "producer" + QString::number(m_clip->getId()));
     entry.setAttribute("in",
 	QString::number(m_cropStart.frames(framesPerSecond())));
     entry.setAttribute("out",

@@ -72,7 +72,8 @@ namespace Gui {
 	/** Get a fresh copy of files and clips from KdenliveDoc and display them. */
 	void slot_UpdateList();
 	/** The clip specified has changed - update the display. */
-	void slot_clipChanged(DocClipRef * clip);
+	void slot_clipChanged(DocClipRef *);
+        void slot_clipChanged();
 	/** The node specified has been deleted - update the display. */
 	void slot_nodeDeleted(DocumentBaseNode * node);
 	/** updates the list when an item changed */

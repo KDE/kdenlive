@@ -49,6 +49,7 @@ ProjectFormatManager::~ProjectFormatManager()
 {
 }
 
+
 bool ProjectFormatManager::openDocument(const KURL & url,
     KdenliveDoc * document)
 {
@@ -64,6 +65,7 @@ bool ProjectFormatManager::openDocument(const KURL & url,
 	if (KIO::NetAccess::download(url, tmpfile, 0)) {
 	    QFile file(tmpfile);
 	    if (file.open(IO_ReadOnly)) {
+                document->closeDocument();
 		filter->load(file, document);
 		document->setURL(url);
 	    }

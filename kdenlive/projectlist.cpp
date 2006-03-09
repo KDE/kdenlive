@@ -120,7 +120,11 @@ namespace Gui {
 
 /** The clip specified has changed - update the display.
  */
-    void ProjectList::slot_clipChanged(DocClipRef * clip) {
+    void ProjectList::slot_clipChanged(DocClipRef * ) {
+        slot_clipChanged();
+    }
+        
+    void ProjectList::slot_clipChanged() {
 	slot_UpdateList();
 	m_listView->triggerUpdate();
     }

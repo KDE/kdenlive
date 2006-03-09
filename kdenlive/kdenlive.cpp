@@ -881,7 +881,7 @@ namespace Gui {
 
     void KdenliveApp::openDocumentFile(const KURL & url) {
 	slotStatusMsg(i18n("Opening file..."));
-
+        if (!url.isEmpty()) requestDocumentClose();
 	m_projectFormatManager.openDocument(url, doc);
 	slotStatusMsg(i18n("Ready."));
     }
@@ -1029,11 +1029,11 @@ namespace Gui {
 		break;
 
 	    case KMessageBox::No:
-		if (m_clipMonitor)
+		/*if (m_clipMonitor)
 		    m_clipMonitor->slotClearClip();
 		if (m_workspaceMonitor)
 		    m_workspaceMonitor->slotClearClip();
-		doc->newDocument();
+                doc->newDocument();*/
 		completed = true;
 		break;
 
@@ -1085,6 +1085,7 @@ namespace Gui {
 		m_projectFormatManager.loadMimeTypes(),
 		this,
 		i18n("Open File..."));
+                requestDocumentClose();
 	    if (!url.isEmpty()) {
 		if (!m_projectFormatManager.openDocument(url, doc)) {
 		    KMessageBox::sorry(this,
@@ -1092,7 +1093,6 @@ namespace Gui {
 			    prettyURL()));
 		    return;
 		}
-
 		setCaption(url.fileName(), false);
 		fileOpenRecent->addURL(url);
 		m_fileDialogPath = url;
@@ -1101,6 +1101,15 @@ namespace Gui {
 	}
 	slotStatusMsg(i18n("Ready."));
     }
+    
+    void KdenliveApp::requestDocumentClose()
+    {
+    if (m_clipMonitor)
+        m_clipMonitor->slotClearClip();
+    if (m_workspaceMonitor)
+        m_workspaceMonitor->slotClearClip();
+    }
+
 
     void KdenliveApp::slotFileOpenRecent(const KURL & url) {
 	slotStatusMsg(i18n("Opening file..."));
@@ -1109,6 +1118,7 @@ namespace Gui {
 	    // here saving wasn't successful
 	} else {
 	    kdWarning() << "Opening url " << url.path() << endl;
+            requestDocumentClose();
 	    m_projectFormatManager.openDocument(url, doc);
 	    setCaption(url.fileName(), false);
 	}
