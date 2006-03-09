@@ -93,7 +93,8 @@ namespace Command {
 		clone->setTrackStart(time);
 		clone->setCropStartTime(clip->cropStartTime() + (time -
 			clip->trackStart()));
-
+                
+                clone->deleteTransitions();
 		Command::KResizeCommand * resizeCommand =
 		    new Command::KResizeCommand(document, *clip);
 		resizeCommand->setEndTrackEnd(time);

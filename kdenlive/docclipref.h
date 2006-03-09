@@ -275,6 +275,7 @@ class DocClipRef:public QObject {
         
         bool hasTransition(DocClipRef *clip);
         void deleteTransition(const GenTime &time);
+        void deleteTransitions();
         void addTransition(Transition *transition);
         TransitionStack clipTransitions();
         void resizeTransitionStart(uint ix, GenTime time);
