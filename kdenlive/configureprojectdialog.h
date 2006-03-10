@@ -30,6 +30,29 @@ class KPushButton;
 class ExportConfig;
 class ConfigureProject;
 
+
+class ProjectTemplate
+{
+    public:
+        ProjectTemplate() : m_name( QString::null ) { }
+        ProjectTemplate( const QString& name, double fps, int width, int height )
+    : m_name( name), m_fps( fps ), m_width( width ), m_height( height )
+        { }
+
+        QString name() const { return m_name; }
+        double fps() const { return m_fps; }
+        int width() const { return m_width; }
+        int height() const { return m_height; }
+
+    private:
+        QString m_name;
+        double m_fps;
+        int m_width;
+        int m_height;
+};
+
+
+
 /**
 Dialog for configuring the project. This configuration dialog is used for both project creation and simply changing the project configuration
 
@@ -50,6 +73,12 @@ class ConfigureProjectDialog:public KDialogBase {
     void slotCancel();
   /** Called when the ok button is clicked. */
     void slotOk();
+    
+    void loadTemplates();
+    void updateDisplay();
+    void loadSettings(const QString & name);
+    void setValues(const double &fps, const int &width, const int &height);
+            
   private:
      QSplitter * m_hSplitter;
     QVBox *m_presetVBox;
@@ -61,6 +90,8 @@ class ConfigureProjectDialog:public KDialogBase {
 
     ExportConfig *m_export;
     ConfigureProject *m_config;
+    
+    QPtrList <ProjectTemplate> projectList;
 };
 
 #endif

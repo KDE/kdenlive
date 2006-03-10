@@ -32,7 +32,7 @@ class ClipManager;
 
 class DocClipProject:public DocClipBase {
   Q_OBJECT public:
-    DocClipProject(double framesPerSecond);
+          DocClipProject(double framesPerSecond, int width, int height);
     ~DocClipProject();
 
     const GenTime & duration() const;
@@ -46,6 +46,9 @@ class DocClipProject:public DocClipBase {
 
 	/** Returns the frames per second this clip runs at. */
     virtual double framesPerSecond() const;
+    
+    const int videoHeight() {return m_videoheight;}
+    const int videoWidth() {return m_videowidth;}
     
     /** Returns the type of this clip */
     const DocClipBase::CLIPTYPE & clipType() const;
@@ -165,6 +168,10 @@ class DocClipProject:public DocClipBase {
     void connectTrack(DocTrackBase * track);
 	/** The number of frames per second. */
     double m_framesPerSecond;
+        /** The image width. */
+    int m_videowidth;
+        /** The image height. */
+    int m_videoheight;
 	/** Holds a list of all tracks in the project. */
     DocTrackBaseList m_tracks;
 

@@ -135,18 +135,25 @@ namespace Gui {
 	fileSaveAs->setEnabled(true);
 
 	// Reopen last project if user asked it
-	if (KdenliveSettings::openlast()) {
-	    config->setGroup("RecentFiles");
-	    QString Lastproject = config->readPathEntry("File1");
-	    if (!Lastproject.isEmpty())
-		 slotFileOpenRecent(KURL(Lastproject));
-	}
+	if (KdenliveSettings::openlast())
+            connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(openLastFile()));
     }
+    
+    
+    
     KdenliveApp::~KdenliveApp() {
 	if (m_renderManager)
 	    delete m_renderManager;
 	if (m_commandHistory)
 	    delete m_commandHistory;
+    }
+    
+    void KdenliveApp::openLastFile()
+    {
+        config->setGroup("RecentFiles");
+        QString Lastproject = config->readPathEntry("File1");
+        if (!Lastproject.isEmpty())
+            slotFileOpenRecent(KURL(Lastproject));
     }
 
     void KdenliveApp::initActions() {
@@ -511,7 +518,8 @@ namespace Gui {
     }
 
     void KdenliveApp::initDocument() {
-	doc = new KdenliveDoc(this, this);
+        // TODO: create new pal document, should be configurable
+	doc = new KdenliveDoc(25.0, 720, 576, this, this);
 	connect(doc, SIGNAL(modified(bool)), this,
 	    SLOT(documentModified(bool)));
 	doc->newDocument();
@@ -1843,6 +1851,7 @@ namespace Gui {
     void KdenliveApp::slotConfigureProject() {
 	ConfigureProjectDialog configDialog(getDocument()->renderer()->
 	    fileFormats(), this, "configure project dialog");
+        configDialog.setValues(doc->framesPerSecond(), doc->projectClip().videoWidth(), doc->projectClip().videoHeight());
 	if (QDialog::Accepted == configDialog.exec()) {
 	}
     }

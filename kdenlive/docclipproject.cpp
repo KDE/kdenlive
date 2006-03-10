@@ -27,8 +27,8 @@
 #include "doctrackbase.h"
 #include "doctrackclipiterator.h"
 
-DocClipProject::DocClipProject(double framesPerSecond):DocClipBase(),
-m_framesPerSecond(framesPerSecond)
+DocClipProject::DocClipProject(double framesPerSecond, int width, int height):DocClipBase(),
+m_framesPerSecond(framesPerSecond), m_videowidth(width), m_videoheight(height)
 {
     producersList = QDomDocument();
     m_tracks.setAutoDelete(true);
@@ -260,6 +260,7 @@ QDomDocument DocClipProject::generateSceneList() const
     QDomDocument doc;
     int tracknb = 0;
     uint tracksCounter = 0;
+    if (duration().frames(framesPerSecond()) == 0) return QDomDocument();
 
     QString projectDuration = QString::number(duration().frames(framesPerSecond()));
 
@@ -452,7 +453,9 @@ createClip(const EffectDescriptionList & effectList,
     if (element.tagName() == "project") {
 	KURL url(element.attribute("url"));
 	double framesPerSecond = element.attribute("fps", "25").toDouble();
-	project = new DocClipProject(framesPerSecond);
+        int videoWidth = element.attribute("videowidth", "720").toInt();
+        int videoHeight = element.attribute("videoheight", "576").toInt();
+        project = new DocClipProject(framesPerSecond, videoWidth, videoHeight);
 
 	QDomNode node = element.firstChild();
 

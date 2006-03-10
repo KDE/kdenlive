@@ -168,6 +168,8 @@ namespace Gui {
 	void slotFileSaveAs();
 		/** asks for saving if the file is modified, then closes the actual file and window*/
 	void slotFileClose();
+                /** Reopen the last project file*/
+        void openLastFile();
 		/** print the actual file */
 	void slotFilePrint();
 		/** closes all open windows by calling close() on each memberList item until the list is empty, then quits the application.

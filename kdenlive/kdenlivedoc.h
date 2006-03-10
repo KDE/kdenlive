@@ -60,7 +60,7 @@ class DocumentBaseNode;
 class KdenliveDoc:public QObject {
   Q_OBJECT public:
 	/** Constructor for the fileclass of the application */
-    KdenliveDoc(Gui::KdenliveApp * app, QWidget * parent,
+          KdenliveDoc(double fps, int width, int height, Gui::KdenliveApp * app, QWidget * parent,
 	const char *name = 0);
 
 	/** Destructor for the fileclass of the application */

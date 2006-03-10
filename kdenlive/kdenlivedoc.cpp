@@ -42,9 +42,9 @@
 #include "documentgroupnode.h"
 #include "documentbasenode.h"
 
-KdenliveDoc::KdenliveDoc(Gui::KdenliveApp * app, QWidget * parent, const char *name):
+KdenliveDoc::KdenliveDoc(double fps, int width, int height, Gui::KdenliveApp * app, QWidget * parent, const char *name):
 QObject(parent, name),
-m_projectClip(new DocClipProject(25)),
+m_projectClip(new DocClipProject(fps, width, height)),
 m_modified(false),
 m_sceneListGeneration(true),
 m_clipHierarch(0), m_clipManager(*app->renderManager())
@@ -127,7 +127,8 @@ void KdenliveDoc::deleteContents()
     kdDebug() << "deleting contents..." << endl;
 
     delete m_projectClip;
-    m_projectClip = new DocClipProject(25);
+    // TODO: create new pal document, should be configurable
+    m_projectClip = new DocClipProject(25.0, 720, 576);
     connectProjectClip();
 
     if (m_clipHierarch) {

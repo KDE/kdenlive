@@ -26,6 +26,8 @@
 #include <klistbox.h>
 #include <klocale.h>
 #include <kpushbutton.h>
+#include <knuminput.h>
+
 
 #include "configureproject.h"
 #include "exportconfig.h"
@@ -62,6 +64,10 @@ ConfigureProjectDialog::ConfigureProjectDialog(QPtrList <
 
     m_config = new ConfigureProject(m_configPage, "configure page");
     m_export = new ExportConfig(formatList, m_exportPage, "export page");
+
+    loadTemplates();
+    
+    connect ( m_presetList, SIGNAL(highlighted( const QString & )), this, SLOT(loadSettings(const QString & )));
 }
 
 
@@ -69,6 +75,43 @@ ConfigureProjectDialog::~ConfigureProjectDialog()
 {
 }
 
+void ConfigureProjectDialog::loadTemplates()
+{
+    projectList.setAutoDelete(true);
+    ProjectTemplate *pal = new ProjectTemplate("PAL", 25.0, 720, 576);
+    projectList.append(pal);
+    ProjectTemplate *ntsc = new ProjectTemplate("NTSC", 30.0, 720, 480);
+    projectList.append(ntsc);
+    updateDisplay();
+}
+
+void ConfigureProjectDialog::updateDisplay()
+{
+    ProjectTemplate *project;
+    for ( project = projectList.first(); project; project = projectList.next() ){
+        m_presetList->insertItem(project->name());
+    }
+}
+
+void ConfigureProjectDialog::setValues(const double &fps, const int &width, const int &height)
+{
+            m_config->m_framespersecond->setValue(fps);
+            m_config->m_widthInput->setValue(width);
+            m_config->m_heightInput->setValue(height);
+}
+
+void ConfigureProjectDialog::loadSettings(const QString & name)
+{
+    ProjectTemplate *project;
+    for ( project = projectList.first(); project; project = projectList.next() ){
+        if (project->name() == name) {
+            m_config->m_framespersecond->setValue(project->fps());
+            m_config->m_widthInput->setValue(project->width());
+            m_config->m_heightInput->setValue(project->height());
+            break;
+        }
+    }
+}
 
 /** Occurs when the apply button is clicked. */
 void ConfigureProjectDialog::slotApply()
