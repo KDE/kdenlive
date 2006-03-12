@@ -1,0 +1,215 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>configProject</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>configProject</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>381</width>
+            <height>240</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Configure Project...</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QGroupBox" row="1" column="1">
+            <property name="name">
+                <cstring>groupBox4</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>3</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="title">
+                <string>Aspect Ratio</string>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel" row="1" column="0">
+                    <property name="name">
+                        <cstring>textLabel5</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Height</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="0" column="0">
+                    <property name="name">
+                        <cstring>textLabel4</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Width</string>
+                    </property>
+                </widget>
+                <widget class="KIntNumInput" row="0" column="1">
+                    <property name="name">
+                        <cstring>kcfg_defaultwidth</cstring>
+                    </property>
+                </widget>
+                <widget class="KIntNumInput" row="1" column="1">
+                    <property name="name">
+                        <cstring>kcfg_defaultheight</cstring>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <widget class="QGroupBox" row="2" column="1" rowspan="3" colspan="1">
+            <property name="name">
+                <cstring>groupBox2</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>3</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="title">
+                <string>Timecode</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QComboBox">
+                    <item>
+                        <property name="text">
+                            <string>HH:MM:SS:FF</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>HH:MM:SS.hh</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>Frames</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>Seconds</string>
+                        </property>
+                    </item>
+                    <property name="name">
+                        <cstring>comboBox1</cstring>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>checkBox1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Use Drop Frame timecode</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string></string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Specifies that we should display timecodes using a drop frame timecode (specifically for NTSC). Drop frame timecode compensates for the fact that NTSC runs at 29.97 frames per second by "dropping" two frames a minute, except for every 10th minute. WIthout this, the timecode will slowly slip out of sync with the real world time.
+
+Drop frame timecode only affects the way that frames are numbered, no frames are dropped from the video edit.</string>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+        <widget class="QLayoutWidget" row="0" column="1">
+            <property name="name">
+                <cstring>layout6</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>textLabel2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Frames Per Second</string>
+                    </property>
+                </widget>
+                <widget class="KDoubleNumInput">
+                    <property name="name">
+                        <cstring>kcfg_defaultfps</cstring>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="KListBox" row="0" column="0" rowspan="3" colspan="1">
+            <property name="name">
+                <cstring>templatesList</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>1</hsizetype>
+                    <vsizetype>3</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+        </widget>
+        <widget class="KPushButton" row="3" column="0">
+            <property name="name">
+                <cstring>addButton</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>1</hsizetype>
+                    <vsizetype>4</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string>Add Template</string>
+            </property>
+        </widget>
+        <widget class="KPushButton" row="4" column="0">
+            <property name="name">
+                <cstring>deleteButton</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>1</hsizetype>
+                    <vsizetype>4</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string>Delete Template</string>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<customwidgets>
+</customwidgets>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>klistbox.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+</includehints>
+</UI>
