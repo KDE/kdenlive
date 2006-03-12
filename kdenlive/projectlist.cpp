@@ -84,6 +84,8 @@ namespace Gui {
 		    const QPoint &, int)), this,
 	    SLOT(rightButtonPressed(QListViewItem *, const QPoint &,
 		    int)));
+        
+        connect(m_listView, SIGNAL(doubleClicked( QListViewItem *, const QPoint &, int )), this, SLOT(editRequested( QListViewItem *, const QPoint &, int )));
 
 	//connect(m_listView, SIGNAL(executed(QListViewItem *)), this, SLOT(projectListSelectionChanged(QListViewItem *)));
 
@@ -94,6 +96,13 @@ namespace Gui {
     }
 
     ProjectList::~ProjectList() {
+    }
+    
+    /** An item was double clicked */
+    void ProjectList::editRequested( QListViewItem *, const QPoint &, int col)
+    {
+        // only react if the click is not in column 2 (because col 2 is the editable description
+        if (col!=2) emit editItem();
     }
 
 /** No descriptions */

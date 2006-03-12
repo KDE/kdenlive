@@ -53,7 +53,6 @@ KListViewItem(parent), m_listView(parent), m_node(node), m_doc(doc)
 void AVListViewItem::doCommonCtor()
 {
     setRenameEnabled(2, true);
-
     // recursively populate the rest of the node tree.
     QPtrListIterator < DocumentBaseNode > child(m_node->children());
     while (child.current()) {
@@ -72,7 +71,6 @@ void AVListViewItem::setText(int column, const QString & text)
     kdDebug() << "setText ( " << column << ", " << text << " ) " << endl;
     if (m_listView->columnText(column) == i18n("Description")) {
 	DocumentClipNode *clipNode = m_node->asClipNode();
-
 	if (clipNode) {
 	    clipNode->clipRef()->referencedClip()->setDescription(text);
 	}

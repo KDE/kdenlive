@@ -96,7 +96,7 @@ DocClipBase *ClipManager::insertImageClip(const KURL & file,
     }
     clip->setDescription(description);
     m_clipList.append(clip);
-    m_render->getImage(file, 64, 50);
+    m_render->getImage(file, 50, 40);
     
     emit clipListUpdated();
 
@@ -116,7 +116,7 @@ DocClipBase *ClipManager::insertColorClip(const QString & color,
     clip->setDescription(description);
     clip->setName(name);
     m_clipList.append(clip);
-    m_render->getImage(m_clipCounter, color, 64, 50);
+    m_render->getImage(m_clipCounter, color, 50, 40);
     m_clipCounter++;
     emit clipListUpdated();
     return clip;
@@ -130,7 +130,7 @@ DocClipBase *ClipManager::insertTextClip(
         titleWidget *txtWidget=new titleWidget(10,10);
         txtWidget->setXml(xml);
         txtWidget->createImage(url);
-        pix = txtWidget->thumbnail(64, 50);
+        pix = txtWidget->thumbnail(50, 40);
         delete txtWidget;
     }
 
@@ -181,7 +181,7 @@ void ClipManager::editColorClip(DocClipRef * clip, const QString & color,
 	avClip->setName(name);
 	avClip->setDuration(duration);
     }
-    m_render->getImage(m_clipCounter, color, 64, 50);
+    m_render->getImage(m_clipCounter, color, 50, 40);
     emit clipListUpdated();
 }
 
@@ -198,7 +198,7 @@ void ClipManager::editImageClip(DocClipRef * clip, const KURL & file,
 	avClip->setFileURL(file);
         avClip->setAlpha(alphaTransparency);
 	avClip->setDuration(duration);
-	m_render->getImage(file, 64, 50);
+	m_render->getImage(file, 50, 40);
     }
     emit clipListUpdated();
 }

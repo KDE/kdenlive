@@ -720,8 +720,8 @@ void KRender::getFileProperties(KURL url)
 		    m_filePropertyMap["type"] = "video";
                 
                 // Generate thumbnail for this frame
-                uint width = 64;
-                uint height = 50;
+                uint width = 50;
+                uint height = 40;
                 uchar *m_thumb = frame->fetch_image(mlt_image_rgb24a, width, height, 1);
                 QPixmap m_pixmap(width, height);
                 QImage m_image(m_thumb, width, height, 32, 0, 0,

@@ -748,6 +748,8 @@ namespace Gui {
 	    SLOT(slotProjectClipProperties(DocClipRef *)));
 	connect(m_projectList, SIGNAL(dragDropOccured(QDropEvent *)), this,
 	    SLOT(slot_insertClips(QDropEvent *)));
+        
+        connect(m_projectList, SIGNAL(editItem()), this, SLOT(slotProjectEditClip()));
 
 	if (m_workspaceMonitor) {
 	    connect(m_timeline,
@@ -1466,7 +1468,7 @@ namespace Gui {
         txtWidget->titleName->setText(i18n("Text Clip"));
         if (txtWidget->exec() == QDialog::Accepted) {
             GenTime duration(txtWidget->text_duration->value());
-            QPixmap thumb = txtWidget->thumbnail(64, 50);
+            QPixmap thumb = txtWidget->thumbnail(50, 40);
             QDomDocument xml = txtWidget->toXml();
             
             KCommand *command =
@@ -1539,7 +1541,7 @@ namespace Gui {
                 txtWidget->transparentTitle->setChecked(clip->toDocClipTextFile()->isTransparent());
                 if (txtWidget->exec() == QDialog::Accepted) {
                     GenTime duration(txtWidget->text_duration->value());
-                    QPixmap thumb = txtWidget->thumbnail(64, 50);
+                    QPixmap thumb = txtWidget->thumbnail(50, 40);
                     QDomDocument xml = txtWidget->toXml();
                     KCommand *command =
                             new Command::KEditClipCommand(*doc, refClip, duration,
@@ -1574,7 +1576,7 @@ namespace Gui {
 		KURL url =
 		    KURLRequesterDlg::getURL(refClip->fileURL().path(),
 		    this, i18n("Enter New URL"));
-		if (url.path() != refClip->fileURL().path()) {
+                if (!url.isEmpty() && url.path() != refClip->fileURL().path()) {
 		    KCommand *command =
 			new Command::KEditClipCommand(*doc, refClip, url);
 		    //m_projectList->updateListItem();

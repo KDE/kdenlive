@@ -57,6 +57,7 @@ namespace Gui {
 	~ProjectList();
 	/** Returns the currently selected clip in the project list. */
 	DocClipRef *currentSelection();
+        
       private:			// Private methods
 	/** Holds the document that this projectlist makes use of. */
 	 KdenliveDoc * m_document;
@@ -65,7 +66,8 @@ namespace Gui {
 	/** return a popup menu. Must be deleted by owner.*/
 	QPopupMenu *contextMenu();
 	QPopupMenu *contextcreateMenu();
-	public slots:		// Public slots
+
+      public slots:		// Public slots
 	/** No descriptions */
 	void rightButtonPressed(QListViewItem * listViewItem,
 	    const QPoint & pos, int column);
@@ -78,15 +80,20 @@ namespace Gui {
 	void slot_nodeDeleted(DocumentBaseNode * node);
 	/** updates the list when an item changed */
 	void updateListItem();
-	 signals:		// Signals
+        
+      signals:		// Signals
 	/** this signal is called when a number of clips have been dropped onto the project list view. */
 	void dragDropOccured(QDropEvent * drop);
 	/** This signal is emitted when an AVFile is selected in the project list. */
 	void clipSelected(DocClipRef * file);
+        void editItem();
+        
 	private slots:		// Private slots
 	/** Called when the project list changes. */
 	    //void projectListSelectionChanged(QListViewItem *item);
 	 columnToolTip * colToolTip;
+         /** an item was double clicked */
+         void editRequested( QListViewItem *, const QPoint &, int col);
     };
 
 }				// namespace Gui
