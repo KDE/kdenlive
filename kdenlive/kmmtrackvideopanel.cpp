@@ -16,9 +16,11 @@
  ***************************************************************************/
 
 #include <qcursor.h>
+
 #include <kdebug.h>
 #include <klocale.h>
 #include <qtoolbutton.h>
+#include <kstandarddirs.h>
 #include <kiconloader.h>
 
 #include <cmath>
@@ -41,6 +43,7 @@
 #include "trackviewbackgrounddecorator.h"
 #include "trackviewnamedecorator.h"
 #include "trackviewmarkerdecorator.h"
+#include "flatbutton.h"
 
 namespace Gui {
 
@@ -52,11 +55,18 @@ namespace Gui {
 	QWidget * parent,
 	const char *name):KMMTrackPanel(timeline, doc,
 	new KTrackPlacer(doc, timeline, docTrack), VIDEOTRACK, parent,
-	name), m_trackHeader(this, "video header") {
-	m_trackHeader.trackLabel->setText(i18n("Video Track"));
+        name), m_trackHeader(this, "Video Track"), m_mute(false), m_blind(false) {
+            
+            FlatButton *fl = new FlatButton(m_trackHeader.container, "expand", KGlobal::iconLoader()->loadIcon("kdenlive_down",KIcon::Toolbar,22), KGlobal::iconLoader()->loadIcon("kdenlive_right",KIcon::Toolbar,22), false);
+            
+            FlatButton *fl2 = new FlatButton(m_trackHeader.container_2, "video", KGlobal::iconLoader()->loadIcon("kdenlive_videooff",KIcon::Toolbar,22), KGlobal::iconLoader()->loadIcon("kdenlive_videoon",KIcon::Toolbar,22), false);
+            
+            FlatButton *fl3 = new FlatButton(m_trackHeader.container_3, "audio", KGlobal::iconLoader()->loadIcon("kdenlive_audiooff",KIcon::Toolbar,22), KGlobal::iconLoader()->loadIcon("kdenlive_audioon",KIcon::Toolbar,22), false);
+
 	m_trackIsCollapsed = isCollapsed;
-	connect(m_trackHeader.collapseButton, SIGNAL(clicked()), this,
-	    SLOT(resizeTrack()));
+        connect(fl, SIGNAL(clicked()), this, SLOT(resizeTrack()));
+        connect(fl2, SIGNAL(clicked()), this, SLOT(blindTrack()));
+        connect(fl3, SIGNAL(clicked()), this, SLOT(muteTrack()));
 
 	addFunctionDecorator("move", "resize");
 	addFunctionDecorator("move", "move");
@@ -67,7 +77,23 @@ namespace Gui {
 	addFunctionDecorator("roll", "roll");
 
 	decorateTrack();
-    } KMMTrackVideoPanel::~KMMTrackVideoPanel() {
+    } 
+    
+    KMMTrackVideoPanel::~KMMTrackVideoPanel() {
+    }
+    
+    void KMMTrackVideoPanel::muteTrack()
+    {
+        m_mute = !m_mute;
+        document()->track(documentTrackIndex())->mute(m_mute);
+        document()->activateSceneListGeneration(true);
+    }
+    
+    void KMMTrackVideoPanel::blindTrack()
+    {
+        m_blind = !m_blind;
+        document()->track(documentTrackIndex())->blind(m_blind);
+        document()->activateSceneListGeneration(true);
     }
 
     void KMMTrackVideoPanel::resizeTrack() {
@@ -108,12 +134,12 @@ namespace Gui {
 	addViewDecorator(new TrackViewMarkerDecorator(timeline(),
 		document()));
 
-	if (m_trackIsCollapsed)
+/*	if (m_trackIsCollapsed)
 	    m_trackHeader.collapseButton->setPixmap(KGlobal::iconLoader()->
 		loadIcon("1downarrow", KIcon::Small, 16));
 	else
 	    m_trackHeader.collapseButton->setPixmap(KGlobal::iconLoader()->
-		loadIcon("1rightarrow", KIcon::Small, 16));
+        loadIcon("1rightarrow", KIcon::Small, 16));*/
 
     }
 

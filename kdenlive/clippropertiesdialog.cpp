@@ -89,9 +89,11 @@ namespace Gui {
 	if (m_clip) {
 	    //video properties
 	    filenameLabel->setText(m_clip->name());
+            if (m_clip->clipWidth()!=0 && m_clip->clipHeight()!=0)
 	    frameSizeLabel->setText(i18n("%1x%2, %3 fps").arg(m_clip->
 		    clipWidth()).arg(clip->clipHeight()).arg(m_clip->
 		    framesPerSecond()));
+            else frameSizeLabel->setText(i18n("Unknown size, %1 fps").arg(m_clip->framesPerSecond()));
 	    if (m_clip->durationKnown()) {
 		QString length = "";
 		int seconds = (int) m_clip->duration().seconds() % 60;

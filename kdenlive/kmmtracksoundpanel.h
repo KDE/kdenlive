@@ -18,8 +18,11 @@
 #ifndef KMMTRACKSOUNDPANEL_H
 #define KMMTRACKSOUNDPANEL_H
 
-#include <qwidget.h>
+
 #include <qlabel.h>
+#include <qhbox.h>
+#include <qpixmap.h>
+#include <qlayout.h>
 
 #include "trackheader_ui.h"
 #include "doctracksound.h"
@@ -46,14 +49,18 @@ the main sound widget in different ways.
 	    bool isCollapsed, QWidget * parent = 0, const char *name = 0);
 	~KMMTrackSoundPanel();
 
-	private slots:void resizeTrack();
+	private slots:
+        void resizeTrack();
 	void decorateTrack();
+        void muteTrack();
 
       private:			// Public attributes
   /**  */
 	 TrackHeader m_trackHeader;
-
-	 signals: void collapseTrack(KTrackPanel *, bool);
+         bool m_mute;
+         
+      signals: 
+           void collapseTrack(KTrackPanel *, bool);
     };
 
 }				// namespace Gui

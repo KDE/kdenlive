@@ -13,20 +13,12 @@
         </rect>
     </property>
     <property name="caption">
-        <string></string>
+        <string>transitionWipe_UI</string>
     </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>invertTransition</cstring>
-            </property>
-            <property name="text">
-                <string>Invert direction</string>
-            </property>
-        </widget>
         <spacer row="1" column="2">
             <property name="name">
                 <cstring>spacer2</cstring>
@@ -121,7 +113,7 @@
                 </widget>
             </grid>
         </widget>
-        <spacer row="4" column="1">
+        <spacer row="3" column="1">
             <property name="name">
                 <cstring>spacer1</cstring>
             </property>
@@ -138,7 +130,7 @@
                 </size>
             </property>
         </spacer>
-        <widget class="QGroupBox" row="3" column="0" rowspan="1" colspan="2">
+        <widget class="QGroupBox" row="2" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>groupBox1</cstring>
             </property>
@@ -188,6 +180,22 @@
                     </property>
                 </widget>
             </grid>
+        </widget>
+        <widget class="QCheckBox" row="0" column="0">
+            <property name="name">
+                <cstring>invertTransition</cstring>
+            </property>
+            <property name="text">
+                <string>Invert direction</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="0" column="1">
+            <property name="name">
+                <cstring>rescaleImages</cstring>
+            </property>
+            <property name="text">
+                <string>Rescale images</string>
+            </property>
         </widget>
     </grid>
 </widget>

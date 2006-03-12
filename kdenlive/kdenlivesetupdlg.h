@@ -22,6 +22,7 @@
 #include <kconfigdialog.h>
 #include "configinterface_ui.h"
 #include "configtimeline_ui.h"
+#include "configproject_ui.h"
 
 
 namespace Gui {
@@ -40,6 +41,7 @@ namespace Gui {
 
 	configInterface *page1;
 	configTimeline *page2;
+        configProject *page3;
     };
 
 }				// namespace Gui

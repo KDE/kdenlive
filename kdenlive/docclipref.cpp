@@ -409,16 +409,20 @@ uint DocClipRef::clipHeight() const
 {
     if (m_clip->isDocClipAVFile())    
         return m_clip->toDocClipAVFile()->clipHeight();
+    else if (m_clip->isDocClipTextFile())    
+        return m_clip->toDocClipTextFile()->clipHeight();
     // #TODO should return the project height
-    return 576;
+    return 0;
 }
 
 uint DocClipRef::clipWidth() const
 {
     if (m_clip->isDocClipAVFile())
         return m_clip->toDocClipAVFile()->clipWidth();
+    else if (m_clip->isDocClipTextFile())
+        return m_clip->toDocClipTextFile()->clipWidth();
     // #TODO should return the project width
-    return 720;
+    return 0;
 }
 
 QString DocClipRef::avDecompressor()

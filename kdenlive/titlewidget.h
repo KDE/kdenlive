@@ -89,7 +89,7 @@ class titleWidget : public titleBaseWidget
 {
         Q_OBJECT
 public:
-        titleWidget( QWidget* parent=0, const char* name=0, WFlags fl=0);
+        titleWidget( int width, int height, QWidget* parent=0, const char* name=0, WFlags fl=0);
         virtual ~titleWidget();
         FigureEditor *canview;
 private:

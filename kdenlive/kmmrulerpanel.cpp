@@ -14,11 +14,17 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <klocale.h>
-#include "kmmrulerpanel.h"
-#include "kcombobox.h"
-#include "qslider.h"
+
 #include <qtooltip.h>
+#include <qslider.h>
+#include <qtoolbutton.h>
+
+#include <klocale.h>
+#include <kiconloader.h>
+#include "kmmrulerpanel.h"
+#include <kcombobox.h>
+#include <kdebug.h>
+
 
 #include <stdlib.h>
 #include <math.h>
@@ -35,8 +41,34 @@ namespace Gui {
 
     KMMRulerPanel::KMMRulerPanel(QWidget * parent,
 	const char *name):KMMRulerPanel_UI(parent, name) {
-	connect(m_scaleCombo, SIGNAL(activated(int)), this,
-	    SLOT(comboScaleChange(int)));
+        //QPopupMenu *menu = (QPopupMenu *) m_app->factory()->container("projectlist_context", m_app);
+            KIconLoader loader;
+            
+            menu = new QPopupMenu();
+            menu->insertItem(i18n("1 Frame"),0);
+            menu->insertItem(i18n("2 Frames"),1);
+            menu->insertItem(i18n("5 Frames"),2);
+            menu->insertItem(i18n("10 Frames"),3);
+            menu->insertItem(i18n("1 Second"),4);
+            menu->insertItem(i18n("2 Seconds"),5);
+            menu->insertItem(i18n("5 Seconds"),6);
+            menu->insertItem(i18n("10 Seconds"),7);
+            menu->insertItem(i18n("20 Seconds"),8);
+            menu->insertItem(i18n("30 Seconds"),9);
+            menu->insertItem(i18n("1 Minute"),10);
+            menu->insertItem(i18n("2 Minutes"),11);
+            menu->insertItem(i18n("4 Minutes"),12);
+            menu->insertItem(i18n("8 Minutes"),13);
+            menu->setCheckable(true);
+            zoomButton->setPopup(menu);
+            zoomButton->setPopupDelay(-1);
+            connect(zoomButton, SIGNAL(pressed()), zoomButton, SLOT(openPopup ()));
+            connect(menu, SIGNAL(activated(int)), this, SLOT(comboScaleChange(int)));
+            zoomButton->setIconSet(QIconSet(loader.loadIcon("viewmag", KIcon::Toolbar)));
+
+
+/*	connect(m_scaleCombo, SIGNAL(activated(int)), this,
+            SLOT(comboScaleChange(int)));*/
 	connect(m_scaleSlider, SIGNAL(valueChanged(int)), this,
 	    SLOT(sliderScaleChange(int)));
 
@@ -48,7 +80,14 @@ namespace Gui {
 
 /** takes index and figures out the correct scale value from it, which then get's emitted. */
     void KMMRulerPanel::comboScaleChange(int index) {
-	m_scaleCombo->setCurrentItem(index);
+        uint i=0;
+        while (menu->idAt(i)!=-1)
+        {
+            if (menu->idAt(i) != index) menu->setItemChecked(menu->idAt(i), false);
+            else menu->setItemChecked(menu->idAt(i), true);
+            i++;
+        }
+	//m_scaleCombo->setCurrentItem(index);
 	if (m_sync) {
 	    m_sync = false;
 	    return;
@@ -60,6 +99,10 @@ namespace Gui {
 		expK));
 	m_sync = false;
     }
+    
+void KMMRulerPanel::selectedZoom(int value) {
+    menu->setItemChecked(value, true);   
+}
 
 /** Occurs when the slider changes value, emits a corrected value to provide a non-linear
  (and better) value scaling. */
@@ -96,9 +139,18 @@ namespace Gui {
 	}
 
 	if (bestPos != -1) {
-	    m_scaleCombo->setCurrentItem(bestPos);
+            menu->setItemChecked(menu->idAt(selectedMenuItem()), false);
+            menu->setItemChecked(menu->idAt(bestPos), true);
+	    //m_scaleCombo->setCurrentItem(bestPos);
 	}
 	m_sync = false;
+    }
+    
+    int KMMRulerPanel::selectedMenuItem()
+    {
+        uint i=0;
+        while (!menu->isItemChecked(menu->idAt(i))) i++;
+        return i;
     }
 
     void KMMRulerPanel::setScale(double scale) {

@@ -28,6 +28,8 @@
 
 DocTrackBase::DocTrackBase(DocClipProject * project)
 {
+    m_mute = false;
+    m_blind = false;
     m_sortingEnabled = 1;
     m_collisionDetectionEnabled = 1;
     m_project = project;
@@ -39,6 +41,26 @@ DocTrackBase::~DocTrackBase()
 {
     m_selectedClipList.setAutoDelete(true);
     m_unselectedClipList.setAutoDelete(true);
+}
+
+void DocTrackBase::mute(bool muted)
+{
+    m_mute = muted;
+}
+
+bool DocTrackBase::isMute()
+{
+    return m_mute;   
+}
+
+void DocTrackBase::blind(bool blinded)
+{
+    m_blind = blinded;
+}
+
+bool DocTrackBase::isBlind()
+{
+    return m_blind;
 }
 
 bool DocTrackBase::addClip(DocClipRef * clip, bool selected)

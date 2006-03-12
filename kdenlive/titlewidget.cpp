@@ -556,9 +556,11 @@ void FigureEditor::setXml(const QDomDocument &xml)
 }
 
 
-titleWidget::titleWidget( QWidget* parent, const char* name, WFlags fl ):
+titleWidget::titleWidget(int width, int height, QWidget* parent, const char* name, WFlags fl ):
                 titleBaseWidget(parent,name)
 {
+        frame->setMinimumWidth(width);
+        frame->setMinimumHeight(height);
         canvas=new QCanvas(imageWidth,imageHeight);
         canview = new FigureEditor(*canvas,frame);
 

@@ -60,10 +60,11 @@ namespace Gui {
 	m_rulerToolWidget->comboScaleChange(index);
     }
 
-    int KMMTimeLine::getTimeScaleSliderValue() const {
-	int value = m_rulerToolWidget->m_scaleCombo->currentItem();
+
+    int KMMTimeLine::getTimeScaleSliderText() const {
+        int value = m_rulerToolWidget->selectedMenuItem();
 	 return value;
-    } QString KMMTimeLine::getTimeScaleSliderText() const {
-	QString value = m_rulerToolWidget->m_scaleCombo->currentText();
-	 return value;
-}}				// namespace Gui
+}
+
+
+}				// namespace Gui

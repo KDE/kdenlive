@@ -291,13 +291,20 @@ QDomDocument DocClipProject::generateSceneList() const
 	QDomElement playlist = doc.createElement("playlist");
 	playlist.setAttribute("id",
 	    QString("playlist") + QString::number(tracknb++));
-	if (trackItt.current()->clipType() == "Sound")
-	    playlist.setAttribute("hide", "video");
-	//if (trackItt.current()->clipType() == "Video") playlist.setAttribute("hide", "audio");
+	if (trackItt.current()->clipType() == "Sound") playlist.setAttribute("hide", "video");
+        else if (trackItt.current()->isBlind()) playlist.setAttribute("hide", "video");
 
 	int children = 0;
 	int timestart = 0;
-	while (itt.current()) {
+        bool hideTrack = false;
+        if (trackItt.current()->isMute()) 
+        {
+            if (trackItt.current()->isBlind()) hideTrack = true;
+            else playlist.setAttribute("hide", "audio");
+        }
+        
+        if (!hideTrack)
+        while (itt.current()) {
 	    if (itt.current()->trackStart().frames(framesPerSecond()) -
 		timestart > 0.01) {
 		QDomElement blank = doc.createElement("blank");
@@ -721,6 +728,8 @@ QDomDocument DocClipProject::toXML()
 		QDomElement project = doc.createElement("project");
 		project.setAttribute("fps",
 		    QString::number(m_framesPerSecond, 'f', 10));
+                project.setAttribute("videowidth", videoWidth());
+                project.setAttribute("videoheight", videoHeight());
 		element.appendChild(project);
 		project.appendChild(doc.importNode(m_tracks.toXML().
 			documentElement(), true));

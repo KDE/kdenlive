@@ -127,7 +127,7 @@ DocClipBase *ClipManager::insertTextClip(
     const QString & description, const QDomDocument &xml, const KURL url, QPixmap &pix, bool alphaTransparency, int clipId)
 {
     if (!QFile(url.path()).exists() || pix.isNull()) {
-        titleWidget *txtWidget=new titleWidget();
+        titleWidget *txtWidget=new titleWidget(10,10);
         txtWidget->setXml(xml);
         txtWidget->createImage(url);
         pix = txtWidget->thumbnail(64, 50);

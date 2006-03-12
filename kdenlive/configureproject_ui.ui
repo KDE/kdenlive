@@ -8,43 +8,28 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>238</width>
-            <height>232</height>
+            <width>381</width>
+            <height>240</height>
         </rect>
     </property>
     <property name="caption">
         <string>Configure Project...</string>
     </property>
-    <vbox>
+    <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QLayoutWidget">
-            <property name="name">
-                <cstring>layout6</cstring>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>textLabel2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Frames Per Second</string>
-                    </property>
-                </widget>
-                <widget class="KDoubleNumInput">
-                    <property name="name">
-                        <cstring>m_framespersecond</cstring>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
-        <widget class="QGroupBox">
+        <widget class="QGroupBox" row="1" column="1">
             <property name="name">
                 <cstring>groupBox4</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>3</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
             </property>
             <property name="title">
                 <string>Aspect Ratio</string>
@@ -81,9 +66,17 @@
                 </widget>
             </grid>
         </widget>
-        <widget class="QGroupBox">
+        <widget class="QGroupBox" row="2" column="1" rowspan="3" colspan="1">
             <property name="name">
                 <cstring>groupBox2</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>3</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
             </property>
             <property name="title">
                 <string>Timecode</string>
@@ -135,7 +128,75 @@ Drop frame timecode only affects the way that frames are numbered, no frames are
                 </widget>
             </vbox>
         </widget>
-    </vbox>
+        <widget class="QLayoutWidget" row="0" column="1">
+            <property name="name">
+                <cstring>layout6</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>textLabel2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Frames Per Second</string>
+                    </property>
+                </widget>
+                <widget class="KDoubleNumInput">
+                    <property name="name">
+                        <cstring>m_framespersecond</cstring>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="KListBox" row="0" column="0" rowspan="3" colspan="1">
+            <property name="name">
+                <cstring>templatesList</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>1</hsizetype>
+                    <vsizetype>3</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+        </widget>
+        <widget class="KPushButton" row="3" column="0">
+            <property name="name">
+                <cstring>addButton</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>1</hsizetype>
+                    <vsizetype>4</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string>Add Template</string>
+            </property>
+        </widget>
+        <widget class="KPushButton" row="4" column="0">
+            <property name="name">
+                <cstring>deleteButton</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>1</hsizetype>
+                    <vsizetype>4</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string>Delete Template</string>
+            </property>
+        </widget>
+    </grid>
 </widget>
 <customwidgets>
 </customwidgets>
@@ -147,5 +208,8 @@ Drop frame timecode only affects the way that frames are numbered, no frames are
     <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
+    <includehint>klistbox.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
 </includehints>
 </UI>

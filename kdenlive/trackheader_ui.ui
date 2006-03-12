@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>124</width>
-            <height>35</height>
+            <width>277</width>
+            <height>167</height>
         </rect>
     </property>
     <property name="caption">
@@ -20,9 +20,12 @@
             <cstring>unnamed</cstring>
         </property>
         <property name="margin">
-            <number>3</number>
+            <number>2</number>
         </property>
-        <spacer row="1" column="1">
+        <property name="spacing">
+            <number>0</number>
+        </property>
+        <spacer row="1" column="0">
             <property name="name">
                 <cstring>spacer1</cstring>
             </property>
@@ -35,21 +38,44 @@
             <property name="sizeHint">
                 <size>
                     <width>16</width>
-                    <height>16</height>
+                    <height>48</height>
                 </size>
             </property>
         </spacer>
-        <widget class="QLabel" row="0" column="1">
+        <widget class="QFrame" row="0" column="0">
             <property name="name">
-                <cstring>trackLabel</cstring>
+                <cstring>container</cstring>
             </property>
-            <property name="text">
-                <string>Track</string>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>1</hsizetype>
+                    <vsizetype>1</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>25</width>
+                    <height>20</height>
+                </size>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>25</width>
+                    <height>16</height>
+                </size>
+            </property>
+            <property name="frameShape">
+                <enum>NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Raised</enum>
             </property>
         </widget>
-        <spacer row="0" column="3">
+        <spacer row="0" column="1">
             <property name="name">
-                <cstring>spacer2</cstring>
+                <cstring>spacer3</cstring>
             </property>
             <property name="orientation">
                 <enum>Horizontal</enum>
@@ -59,17 +85,71 @@
             </property>
             <property name="sizeHint">
                 <size>
-                    <width>16</width>
+                    <width>138</width>
                     <height>16</height>
                 </size>
             </property>
         </spacer>
-        <widget class="QToolButton" row="0" column="0">
+        <widget class="QFrame" row="0" column="2">
             <property name="name">
-                <cstring>collapseButton</cstring>
+                <cstring>container_2</cstring>
             </property>
-            <property name="text">
-                <string>...</string>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>1</hsizetype>
+                    <vsizetype>1</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>25</width>
+                    <height>20</height>
+                </size>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>25</width>
+                    <height>16</height>
+                </size>
+            </property>
+            <property name="frameShape">
+                <enum>NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Raised</enum>
+            </property>
+        </widget>
+        <widget class="QFrame" row="0" column="3">
+            <property name="name">
+                <cstring>container_3</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>1</hsizetype>
+                    <vsizetype>1</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>25</width>
+                    <height>20</height>
+                </size>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>25</width>
+                    <height>16</height>
+                </size>
+            </property>
+            <property name="frameShape">
+                <enum>NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Raised</enum>
             </property>
         </widget>
     </grid>

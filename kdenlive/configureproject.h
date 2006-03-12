@@ -26,7 +26,7 @@ class ConfigureProject:public ConfigureProjectPanel_UI {
 	0, WFlags fl = 0);
     ~ConfigureProject();
     /*$PUBLIC_FUNCTIONS$ */
-
+    
     public slots:
 	/*$PUBLIC_SLOTS$ */
   protected:

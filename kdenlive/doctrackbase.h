@@ -147,6 +147,11 @@ class DocTrackBase:public QObject {
     
         /** Redraw the tracks view */
     void refreshLayout();
+    
+    bool isMute();
+    void mute(bool muted);
+    bool isBlind();
+    void blind(bool blinded);
 
   private:			// Private methods
 	/** Enables or disables clip sorting. This method is used internally to turn off the sorting of clips when it is known that they will be sorted elsewhere.
@@ -187,6 +192,9 @@ For internal use only, when the class Knows Better (TM) */
     int m_collisionDetectionEnabled;
 	/** Holds a pointer to the clip project which contains this track. */
     DocClipProject *m_project;
+    
+    bool m_mute;
+    bool m_blind;
 
     GenTime m_trackLength;
 };

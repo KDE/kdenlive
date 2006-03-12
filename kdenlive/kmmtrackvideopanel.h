@@ -18,10 +18,11 @@
 #ifndef KMMTRACKVIDEOPANEL_H
 #define KMMTRACKVIDEOPANEL_H
 
-#include <qwidget.h>
+
 #include <qlabel.h>
 #include <qhbox.h>
 #include <qpixmap.h>
+#include <qlayout.h>
 
 #include "trackheader_ui.h"
 #include "doctrackvideo.h"
@@ -48,16 +49,22 @@ namespace Gui {
 	    bool isCollapsed, QWidget * parent = 0, const char *name = 0);
 	~KMMTrackVideoPanel();
 
-	private slots:void resizeTrack();
-	void decorateTrack();
+	private slots:
+            void resizeTrack();
+	    void decorateTrack();
+            void muteTrack();
+            void blindTrack();
 
       private:
 	 QHBox m_horzLayout;
-	TrackHeader m_trackHeader;
+         TrackHeader m_trackHeader;
 	/** True if we are inside a dragging operation, false otherwise. */
 	bool m_dragging;
+        bool m_mute;
+        bool m_blind;
 
-	 signals: void collapseTrack(KTrackPanel *, bool);
+      signals: 
+         void collapseTrack(KTrackPanel *, bool);
     };
 
 }				// namespace Gui

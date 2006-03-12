@@ -98,7 +98,7 @@ bool TrackPanelTransitionMoveFunction::mouseDoubleClicked(Gui::KTrackPanel * pan
 	    GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_document->framesPerSecond());
 	    DocClipRef *clip = track->getClipAt(mouseTime);
 	    if (clip) {
-    		Gui::TransitionDialog *dia = new Gui::TransitionDialog();
+                Gui::TransitionDialog *dia = new Gui::TransitionDialog(m_document->projectClip().videoWidth(), m_document->projectClip().videoHeight());
                 dia->setActivePage(clip->clipTransitions().at(m_selectedTransition)->transitionType());
                 dia->setTransitionDirection(clip->clipTransitions().at(m_selectedTransition)->invertTransition());
                 dia->setTransitionParameters(clip->clipTransitions().at(m_selectedTransition)->transitionParameters());

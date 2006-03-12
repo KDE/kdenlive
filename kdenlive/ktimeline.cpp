@@ -53,7 +53,7 @@ namespace Gui {
 	QWidget * scrollToolWidget, QWidget * parent,
 	const char *name):QVBox(parent, name), m_scrollTimer(this,
 	"scroll timer"), m_scrollingRight(true), m_framesPerSecond(25),
-	m_editMode("undefined"), m_panelWidth(200) {
+	m_editMode("undefined"), m_panelWidth(140) {
 	m_rulerBox = new QHBox(this, "ruler box");
 	m_trackScroll = new QScrollView(this, "track view", WPaintClever);
 	m_scrollBox = new QHBox(this, "scroll box");
@@ -89,7 +89,7 @@ namespace Gui {
 	m_trackScroll->setHScrollBarMode(QScrollView::AlwaysOff);
 	m_trackScroll->setDragAutoScroll(true);
 
-	setPanelWidth(200);
+	setPanelWidth(140);
 
 	m_ruler->setValueScale(1.0);
 
@@ -164,6 +164,7 @@ namespace Gui {
 	    >(m_trackList.at(index)))->resizeTrack();
 	resizeTracks();
     }
+    
 
     void KTimeLine::resizeTracks() {
 	int height = 0;

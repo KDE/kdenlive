@@ -127,8 +127,8 @@ void KdenliveDoc::deleteContents()
     kdDebug() << "deleting contents..." << endl;
 
     delete m_projectClip;
-    // TODO: create new pal document, should be configurable
-    m_projectClip = new DocClipProject(25.0, 720, 576);
+
+    m_projectClip = new DocClipProject(KdenliveSettings::defaultfps(), KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight());
     connectProjectClip();
 
     if (m_clipHierarch) {

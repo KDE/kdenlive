@@ -42,8 +42,7 @@ Implementation-specific derivation of KTimeLine. Includes correct drag/drop supp
 	//set the timescale combobox to last saved value -reh
 	void setSliderIndex(int index);
 	//Return the current timescale slider value
-	int getTimeScaleSliderValue() const;
-	QString getTimeScaleSliderText() const;
+	int getTimeScaleSliderText() const;
 
 	public slots:
 	/** Invalidates the area of the back buffer used by this clip. */

@@ -44,7 +44,7 @@ namespace Gui {
 
     class TransitionDialog:public KDialogBase {
       Q_OBJECT public:
-	TransitionDialog(QWidget * parent = 0, const char *name = 0);
+              TransitionDialog(int width, int height, QWidget * parent = 0, const char *name = 0);
 	 virtual ~ TransitionDialog();
 
     QString selectedTransition();
@@ -57,6 +57,8 @@ namespace Gui {
       private:
 	transitionCrossfade_UI *transitCrossfade;
         transitionWipe_UI *transitWipe;
+        int m_height;
+        int m_width;
 
     };
 

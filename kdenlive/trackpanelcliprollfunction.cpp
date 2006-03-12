@@ -333,35 +333,35 @@ bool TrackPanelClipRollFunction::mouseMoved(Gui::KTrackPanel * panel,
 
 double TrackPanelClipRollFunction::getMinimumDrag() const
 {
-    QString currentScale(m_app->getTimeScaleSliderText());
+    int currentScale(m_app->getTimeScaleSliderText());
     double minimumDrag = 1.0;
-    if (currentScale == "1 Frame") {
+    if (currentScale == 0) {
 	minimumDrag = 0.05;
-    } else if (currentScale == "2 Frames") {
+    } else if (currentScale == 1) {
 	minimumDrag = 0.05;
-    } else if (currentScale == "5 Frames") {
+    } else if (currentScale == 2) {
 	minimumDrag = 0.05;
-    } else if (currentScale == "10 Frames") {
+    } else if (currentScale == 3) {
 	minimumDrag = 0.1;
-    } else if (currentScale == "1 Second") {
+    } else if (currentScale == 4) {
 	minimumDrag = 0.5;
-    } else if (currentScale == "2 Seconds") {
+    } else if (currentScale == 5) {
 	minimumDrag = 0.5;
-    } else if (currentScale == "5 Seconds") {
+    } else if (currentScale == 6) {
 	minimumDrag = 1.0;
-    } else if (currentScale == "10 Seconds") {
+    } else if (currentScale == 7) {
 	minimumDrag = 2.0;
-    } else if (currentScale == "20 Seconds") {
+    } else if (currentScale == 8) {
 	minimumDrag = 5.0;
-    } else if (currentScale == "30 Seconds") {
+    } else if (currentScale == 9) {
 	minimumDrag = 5.0;
-    } else if (currentScale == "1 Minute") {
+    } else if (currentScale == 10) {
 	minimumDrag = 10.0;
-    } else if (currentScale == "2 Minutes") {
+    } else if (currentScale == 11) {
 	minimumDrag = 10.0;
-    } else if (currentScale == "4 Minutes") {
+    } else if (currentScale == 12) {
 	minimumDrag = 20.0;
-    } else if (currentScale == "8 Minutes") {
+    } else if (currentScale == 13) {
 	minimumDrag = 40.0;
     } else {
 	minimumDrag = 1.0;

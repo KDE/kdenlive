@@ -35,8 +35,8 @@
 
 namespace Gui {
 
-    TransitionDialog::TransitionDialog(QWidget * parent,
-                                       const char *name):  KDialogBase (KDialogBase::IconList, 0, parent,name, true, i18n("Transition Dialog"), KDialogBase::Ok | KDialogBase::Cancel)
+    TransitionDialog::TransitionDialog(int width, int height, QWidget * parent,
+                                       const char *name):  KDialogBase (KDialogBase::IconList, 0, parent,name, true, i18n("Transition Dialog"), KDialogBase::Ok | KDialogBase::Cancel), m_height(height), m_width(width)
             //KDialogBase(parent, name, true, i18n("Transition Dialog"),KDialogBase::Ok | KDialogBase::Cancel) 
                                        {
     QVBox *page1 = addVBoxPage( i18n("Crossfade") );
@@ -84,6 +84,7 @@ void TransitionDialog::setTransitionParameters(const QMap < QString, QString > p
 {
     if (activePageIndex() == 1) {
         // parse the "geometry" argument of MLT's composite transition
+        transitWipe->rescaleImages->setChecked(parameters["distort"].toInt());
         QString geom = parameters["geometry"];
         QString geom2 = geom.left(geom.find(";"));
         
@@ -131,9 +132,11 @@ const QMap < QString, QString > TransitionDialog::transitionParameters()
         if (transp2 > 0) endTransparency = ":" + QString::number(100 - transp2);
         if (transitWipe->transitionDown->isOn()) paramList["geometry"] = "0=0%,0%:100%x100%" + startTransparency + ";-1=0%,100%:100%x100%" + endTransparency;
         else if (transitWipe->transitionUp->isOn()) paramList["geometry"] = "0=0%,0%:100%x100%" + startTransparency + ";-1=0%,-100%:100%x100%" + endTransparency;
-        else if (transitWipe->transitionRight->isOn()) paramList["geometry"] = "0=0%,0%:100%x100%" + startTransparency + ";-1=100%,0%:100%x100%" + endTransparency;
+        //else if (transitWipe->transitionRight->isOn()) paramList["geometry"] = "0=0%,0%:100%x100%" + startTransparency + ";-1=100%,0%:100%x100%" + endTransparency;
+        else if (transitWipe->transitionRight->isOn()) paramList["geometry"] = "0=0,0:720x576" + startTransparency + ";-1=720,0:720x576" + endTransparency;
         else if (transitWipe->transitionLeft->isOn()) paramList["geometry"] = "0=0%,0%:100%x100%" + startTransparency + ";-1=-100%,0%:100%x100%" + endTransparency;
         paramList["progressive"] = "1";
+        if (transitWipe->rescaleImages->isChecked()) paramList["distort"] = "1";
     }
     
 }

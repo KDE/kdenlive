@@ -116,11 +116,13 @@ namespace Gui {
 	// renderer options
 	m_renderManager = new KRenderManager();
 	m_renderManager->readConfig(config);
-
+            
 	// call inits to invoke all other construction parts
 	initStatusBar();
 	m_commandHistory = new KCommandHistory(actionCollection(), true);
 	initActions();
+        
+        
 	initDocument();
 	initView();
 	readOptions();
@@ -518,8 +520,7 @@ namespace Gui {
     }
 
     void KdenliveApp::initDocument() {
-        // TODO: create new pal document, should be configurable
-	doc = new KdenliveDoc(25.0, 720, 576, this, this);
+        doc = new KdenliveDoc(KdenliveSettings::defaultfps(), KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight(), this, this);
 	connect(doc, SIGNAL(modified(bool)), this,
 	    SLOT(documentModified(bool)));
 	doc->newDocument();
@@ -906,8 +907,7 @@ namespace Gui {
 	config->writeEntry("Show Statusbar", viewStatusBar->isChecked());
 	config->writeEntry("ToolBarPos",
 	    (int) toolBar("mainToolBar")->barPos());
-	config->writeEntry("TimeScaleSlider",
-	    m_timeline->getTimeScaleSliderValue());
+	config->writeEntry("TimeScaleSlider", m_timeline->getTimeScaleSliderText());
 
 	fileOpenRecent->saveEntries(config);
 	config->writeEntry("FileDialogPath", m_fileDialogPath.path());
@@ -920,8 +920,8 @@ namespace Gui {
 	    m_renderDebugPanel->ignoreMessages());
     }
 
-    QString KdenliveApp::getTimeScaleSliderText() const {
-	QString value = m_timeline->getTimeScaleSliderText();
+    int KdenliveApp::getTimeScaleSliderText() const {
+	int value = m_timeline->getTimeScaleSliderText();
 	 return value;
     }
 
@@ -1461,7 +1461,7 @@ namespace Gui {
 /* Create text clip */
     void KdenliveApp::slotProjectAddTextClip() {
         slotStatusMsg(i18n("Adding Clips"));
-        titleWidget *txtWidget=new titleWidget(this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
+        titleWidget *txtWidget=new titleWidget(doc->projectClip().videoWidth(), doc->projectClip().videoHeight(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
         connect(txtWidget->canview,SIGNAL(showPreview(QString)),m_clipMonitor->screen(),SLOT(setTitlePreview(QString)));
         txtWidget->titleName->setText(i18n("Text Clip"));
         if (txtWidget->exec() == QDialog::Accepted) {
@@ -1531,7 +1531,7 @@ namespace Gui {
 		delete dia;
 	    }
             else if (refClip->clipType() == DocClipBase::TEXT) {
-                titleWidget *txtWidget=new titleWidget(this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
+                titleWidget *txtWidget=new titleWidget(doc->projectClip().videoWidth(), doc->projectClip().videoHeight(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
                 connect(txtWidget->canview,SIGNAL(showPreview(QString)),m_clipMonitor->screen(),SLOT(setTitlePreview(QString)));
                 txtWidget->text_duration->setValue((int) (refClip->duration().ms() / 1000));
                 txtWidget->setXml(clip->toDocClipTextFile()->textClipXml());

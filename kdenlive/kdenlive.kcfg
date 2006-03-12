@@ -66,6 +66,20 @@
 	<whatsthis>Color of the audio clips inserted in timeline</whatsthis>
 	<default code="true">QColor(128, 255, 128)</default>
     </entry>
-
   </group>
+  
+   <group name="Default Project">
+    <entry name="defaultwidth" type="Int">
+      <label>Width of the project's video image.</label>
+      <default>720</default>
+    </entry>
+    <entry name="defaultheight" type="Int">
+      <label>Height of the project's video image.</label>
+      <default>576</default>
+    </entry>
+        <entry name="defaultfps" type="Double">
+      <label>Project's Frames per second value.</label>
+      <default>25.0</default>
+    </entry>
+    </group>
 </kcfg>

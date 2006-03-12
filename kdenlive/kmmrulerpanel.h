@@ -19,6 +19,7 @@
 #define KMMRULERPANEL_H
 
 #include <qwidget.h>
+#include <qpopupmenu.h>
 
 #include "kmmrulerpanel_ui.h"
 
@@ -43,9 +44,12 @@ namespace Gui {
 	public slots:
 	/** takes index and figures out the correct scale value from it, which then get's emitted. */
 	void comboScaleChange(int index);
+        int selectedMenuItem();
 	private slots:		// Public slots
 	/** Occurs when the slider changes value, emits a corrected value to provide a non-linear (and better) value scaling. */
 	void sliderScaleChange(int value);
+        
+        void selectedZoom(int value);
       public:			// Public attributes
 	static const double maxFrameSize;
 	static const double expA;
@@ -60,6 +64,7 @@ equal, we instead make them as equal as possible. The m_sync variable
 prevents infinte loops from occuring as the multiple widgets keep rearranging
 each other's values. */
 	 bool m_sync;
+         QPopupMenu *menu;
     };
 
 }				// namespace Gui
