@@ -25,6 +25,7 @@
 #include "effectdesc.h"
 #include "effectparamdesc.h"
 #include "effectparameter.h"
+#include "kdenlivesettings.h"
 
 DocTrackBase::DocTrackBase(DocClipProject * project)
 {
@@ -68,6 +69,10 @@ bool DocTrackBase::addClip(DocClipRef * clip, bool selected)
     bool result = false;
 
     if (canAddClip(clip)) {
+	if (KdenliveSettings::videothumbnails() && clip->hasVariableThumbnails()) {
+		clip->startTimer->start( 1 , TRUE);
+		clip->endTimer->start( 1 , TRUE);
+	}
 	if (selected) {
 	    m_selectedClipList.inSort(clip);
 	    emit signalClipSelected(clip);
@@ -396,7 +401,7 @@ void DocTrackBase::resizeClipTrackStart(DocClipRef * clip,
     clip->setCropStartTime(clip->cropStartTime() + newStart);
     
     // request for new start clip thumbnail
-    if (clip->hasVariableThumbnails()) clip->startTimer->start( 180 , TRUE);
+    if (KdenliveSettings::videothumbnails() && clip->hasVariableThumbnails()) clip->startTimer->start( 180 , TRUE);
     // Just in case : although resizeClipTrackStart should never cause the length of a track to change.
     checkTrackLength();
 }
