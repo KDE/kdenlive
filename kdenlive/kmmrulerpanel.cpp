@@ -62,7 +62,6 @@ namespace Gui {
             menu->setCheckable(true);
             zoomButton->setPopup(menu);
             zoomButton->setPopupDelay(-1);
-            connect(zoomButton, SIGNAL(pressed()), zoomButton, SLOT(openPopup ()));
             connect(menu, SIGNAL(activated(int)), this, SLOT(comboScaleChange(int)));
             zoomButton->setIconSet(QIconSet(loader.loadIcon("viewmag", KIcon::Toolbar)));
 
