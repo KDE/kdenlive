@@ -69,7 +69,7 @@ bool DocTrackBase::addClip(DocClipRef * clip, bool selected)
     bool result = false;
 
     if (canAddClip(clip)) {
-	if (KdenliveSettings::videothumbnails() && clip->hasVariableThumbnails()) {
+	if (KdenliveSettings::videothumbnails() && clip->hasVariableThumbnails() && clip->thumbnail().isNull()) {
 		clip->startTimer->start( 1 , TRUE);
 		clip->endTimer->start( 1 , TRUE);
 	}
