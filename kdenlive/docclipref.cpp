@@ -49,8 +49,8 @@ m_trackEnd(0.0), m_parentTrack(0), m_trackNum(-1), m_clip(clip), m_thumbcreator(
 	    "Creating a DocClipRef with no clip - not a very clever thing to do!!!"
 	    << endl;
     }
-    m_thumbnail = referencedClip()->thumbnail();
-    m_endthumbnail = m_thumbnail;
+    m_thumbnail = QPixmap();
+    m_endthumbnail = QPixmap();
     // If clip is a video, resizing it should update the thumbnails
     if (m_clip->clipType() == DocClipBase::VIDEO || m_clip->clipType() == DocClipBase::AV) {
         m_thumbcreator = new KThumb();
