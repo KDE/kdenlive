@@ -37,7 +37,10 @@ class DocClipAVFile:public DocClipBase {
     /* video/audio clip */
     DocClipAVFile(const QString & name, const KURL & url, uint id);
 
-    /* image clip */
+    /**  image clip 
+         The extension and ttl parameters will be used when slideshows will be implemented
+	 (Slidesows are managed by mlt)
+	*/
      DocClipAVFile(const KURL & url, const QString & extension,
                    const int &ttl, const GenTime & duration, bool alphaTransparency, uint id);
 
@@ -138,9 +141,7 @@ class DocClipAVFile:public DocClipBase {
 
     
     private:
-	/** A play object factory, used for calculating information, and previewing files */
-	/** Determines whether this file contains audio, video or both. */
-     DocClipBase::CLIPTYPE m_clipType;
+
 	/** The duration of this file. */
     GenTime m_duration;
 	/** Holds the url for this AV file. */
@@ -149,9 +150,18 @@ class DocClipAVFile:public DocClipBase {
     bool m_durationKnown;
 	/** The number of frames per second that this AVFile runs at. */
     double m_framesPerSecond;
+	/** the background color for color clips */
+    QString m_color;
+	/** A play object factory, used for calculating information, and previewing files */
+	/** Determines whether this file contains audio, video or both. */
+     DocClipBase::CLIPTYPE m_clipType;
+
+
 	/** The size in bytes of this AVFile */
     uint m_filesize;
     
+
+
     /** Should the background be transparent (for image clips) */
     bool m_alphaTransparency;
 
@@ -159,7 +169,6 @@ class DocClipAVFile:public DocClipBase {
     //extended video file properties -reh
     uint m_height;
     uint m_width;
-    QString m_color;
     QString m_decompressor;
     QString m_system;
     //audio file properties

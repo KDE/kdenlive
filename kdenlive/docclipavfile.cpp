@@ -49,7 +49,7 @@ m_color(color), m_clipType(COLOR), m_filesize(0), m_alphaTransparency(false)
     setId(id);
 }
 
-/* image clip */
+/*  Image clip */
 DocClipAVFile::DocClipAVFile(const KURL & url, const QString & extension,
     const int &ttl, const GenTime & duration, bool alphaTransparency, uint id):DocClipBase(),
 m_duration(duration), m_url(url), m_durationKnown(true),
@@ -407,7 +407,7 @@ void DocClipAVFile::calculateFileProperties(const QMap < QString,
 	m_filesize = fileInfo.size();
 
 	if (attributes.contains("duration")) {
-	    m_duration = GenTime(attributes["duration"].toDouble(), 25);
+	    m_duration = GenTime(attributes["duration"].toInt(), 25.0);
 	    m_durationKnown = true;
 	} else {
 	    // No duration known, use an arbitrary one until it is.
