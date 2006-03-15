@@ -186,12 +186,6 @@ namespace Gui {
 		/** paste the clipboard into the document
 		 */
 	void slotEditPaste();
-		/** toggles the toolbar
-		 */
-	void slotViewToolBar();
-		/** toggles the statusbar
-		 */
-	void slotViewStatusBar();
 		/** changes the statusbar contents for the standard label permanently, used to indicate current actions.
 		 * @param text the text that is displayed in the statusbar
 		 */
@@ -390,9 +384,6 @@ namespace Gui {
 	KAction *actionSaveLayout3;
 	KAction *actionSaveLayout4;
 
-	KToggleAction *viewToolBar;
-	KToggleAction *viewStatusBar;
-
 	KRadioAction *timelineMoveTool;
 	KRadioAction *timelineRazorTool;
 	KRadioAction *timelineSpacerTool;
@@ -423,6 +414,10 @@ namespace Gui {
 	EffectStackDialog *m_effectStackDialog;
 	ClipPropertiesDialog *m_clipPropertyDialog;
 	KDockWidget *clipWidget;
+
+	/** The monitor manager that manages the life of the various monitors.*/
+	MonitorManager m_monitorManager;
+
 	KRenderManager *m_renderManager;
 	KMMMonitor *m_workspaceMonitor;
 	KMMMonitor *m_clipMonitor;
@@ -442,8 +437,7 @@ namespace Gui {
 	KDockWidget *m_dockProjectList;
 	KDockWidget *m_dockEffectStack;
 
-		/** The monitor manager that manages the life of the various monitors.*/
-	MonitorManager m_monitorManager;
+
 	ProjectFormatManager m_projectFormatManager;
 
 		/** Generates commands to clears all snap markers in clips directly referenced in the project clip. The commands are added to

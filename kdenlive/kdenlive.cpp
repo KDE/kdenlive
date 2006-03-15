@@ -159,6 +159,8 @@ namespace Gui {
     }
 
     void KdenliveApp::initActions() {
+	setStandardToolBarMenuEnabled(true);
+	createStandardStatusBarAction();
 	fileNew =
 	    KStdAction::openNew(this, SLOT(slotFileNew()),
 	    actionCollection());
@@ -186,12 +188,6 @@ namespace Gui {
 	    actionCollection());
 	editPaste =
 	    KStdAction::paste(this, SLOT(slotEditPaste()),
-	    actionCollection());
-	viewToolBar =
-	    KStdAction::showToolbar(this, SLOT(slotViewToolBar()),
-	    actionCollection());
-	viewStatusBar =
-	    KStdAction::showStatusbar(this, SLOT(slotViewStatusBar()),
 	    actionCollection());
 	optionsPreferences =
 	    KStdAction::preferences(this, SLOT(slotOptionsPreferences()),
@@ -420,9 +416,6 @@ namespace Gui {
 	editPaste->
 	    setStatusText(i18n
 	    ("Pastes the clipboard contents to actual position"));
-	viewToolBar->setStatusText(i18n("Enables/disables the toolbar"));
-	viewStatusBar->
-	    setStatusText(i18n("Enables/disables the statusbar"));
 	timelineMoveTool->
 	    setStatusText(i18n("Moves and resizes the document"));
 	timelineRazorTool->
@@ -905,8 +898,6 @@ namespace Gui {
     void KdenliveApp::saveOptions() {
 	config->setGroup("General Options");
 	config->writeEntry("Geometry", size());
-	config->writeEntry("Show Toolbar", viewToolBar->isChecked());
-	config->writeEntry("Show Statusbar", viewStatusBar->isChecked());
 	config->writeEntry("ToolBarPos",
 	    (int) toolBar("mainToolBar")->barPos());
 	config->writeEntry("TimeScaleSlider", m_timeline->getTimeScaleSliderText());
@@ -929,16 +920,6 @@ namespace Gui {
 
     void KdenliveApp::readOptions() {
 	config->setGroup("General Options");
-
-	// bar status settings
-	bool bViewToolbar = config->readBoolEntry("Show Toolbar", true);
-	viewToolBar->setChecked(bViewToolbar);
-	slotViewToolBar();
-
-	bool bViewStatusbar =
-	    config->readBoolEntry("Show Statusbar", true);
-	viewStatusBar->setChecked(bViewStatusbar);
-	slotViewStatusBar();
 
 	// bar position settings
 	KToolBar::BarPosition toolBarPos;
@@ -1223,32 +1204,6 @@ namespace Gui {
 
     void KdenliveApp::slotEditPaste() {
 	slotStatusMsg(i18n("Inserting clipboard contents..."));
-
-	slotStatusMsg(i18n("Ready."));
-    }
-
-    void KdenliveApp::slotViewToolBar() {
-	slotStatusMsg(i18n("Toggling toolbar..."));
-	///////////////////////////////////////////////////////////////////
-	// turn Toolbar on or off
-	if (!viewToolBar->isChecked()) {
-	    toolBar("mainToolBar")->hide();
-	} else {
-	    toolBar("mainToolBar")->show();
-	}
-
-	slotStatusMsg(i18n("Ready."));
-    }
-
-    void KdenliveApp::slotViewStatusBar() {
-	slotStatusMsg(i18n("Toggle the statusbar..."));
-	///////////////////////////////////////////////////////////////////
-	//turn Statusbar on or off
-	if (!viewStatusBar->isChecked()) {
-	    statusBar()->hide();
-	} else {
-	    statusBar()->show();
-	}
 
 	slotStatusMsg(i18n("Ready."));
     }
