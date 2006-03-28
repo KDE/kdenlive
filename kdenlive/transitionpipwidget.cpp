@@ -26,6 +26,8 @@
 #include <qpainter.h>
 #include <qbitmap.h>
 #include <qimage.h>
+#include <qslider.h>
+#include <qspinbox.h>
 #include <qtoolbutton.h>
 #include <qcursor.h>
 
@@ -76,6 +78,17 @@ ScreenPreview::ScreenPreview(
         marginRect->setZ(-100);
         marginRect->setPen(QPen(QColor(255,255,255)));
         marginRect->show();
+        
+        	// add screen rect
+        QCanvasRectangle* i = new QCanvasRectangle(QRect(10,10,80,64),canvas());
+        i->setZ(1);
+        numItems++;
+        i->setPen(QPen(QColor(200,0,0)));
+        i->show();
+        moving = i;
+        operationMode=CursorMode;
+        setCursor(arrowCursor);
+
 }
 
 
@@ -94,20 +107,6 @@ void ScreenPreview::resizeEvent ( QResizeEvent * e)
         setWorldMatrix (wm);
 }
 
-
-void ScreenPreview::contentsMouseDoubleClickEvent(QMouseEvent* e)
-{
-        // Double clicking on a text item opens the text edit widget
-        if (selection)
-                delete selection;
-        selection=0;
-        QPoint p = inverseWorldMatrix().map(e->pos());
-        QCanvasItemList l=canvas()->collisions(p);
-        if (l.isEmpty())
-                return;
-        if ( (l.first())->rtti() == 3 )
-                emit editCanvasItem((QCanvasText*)(l.first()));
-}
 
 
 void ScreenPreview::contentsMouseReleaseEvent(QMouseEvent* e)
@@ -138,72 +137,11 @@ void ScreenPreview::contentsMouseReleaseEvent(QMouseEvent* e)
                 }
         }
         // If user was moving an item, end the move
-        else if (moving) {
-                moving=0;
-                setCursor(QCursor(Qt::ArrowCursor));
-        }
+        int x = (moving->x() + 40 - imageWidth/2) * 100.0 /(imageWidth/2);
+        int y = (moving->y() + 32 - imageHeight/2) * 100.0 /(imageHeight/2);
+        emit positionRect(x,y);
+
 }
-
-void ScreenPreview::keyPressEvent ( QKeyEvent * e )
-{
-        // delete item on del key press
-        if (e->key()==Qt::Key_Delete) {
-                if (selectedItem) {
-                        delete selectedItem;
-                        delete selection;
-                        selection=0;
-                        canvas()->update();
-                }
-        } else
-                e->ignore();
-}
-
-
-void ScreenPreview::itemUp()
-{
-        // move item up
-        if (!selectedItem)
-                return;
-        QCanvasItemList list = canvas()->allItems();
-        QCanvasItemList::Iterator it = list.begin();
-        for (; it != list.end(); ++it)
-                if ((*it)->z() == selectedItem->z()+1) {
-                        (*it)->setZ(selectedItem->z());
-                        selectedItem->setZ(selectedItem->z()+1);
-                        break;
-                }
-        canvas()->update();
-}
-
-
-void ScreenPreview::itemDown()
-{
-        // move item down
-        if (!selectedItem)
-                return;
-        QCanvasItemList list = canvas()->allItems();
-        QCanvasItemList::Iterator it = list.begin();
-        for (; it != list.end(); ++it)
-                if ((*it)->z() == selectedItem->z()-1) {
-                        (*it)->setZ(selectedItem->z());
-                        selectedItem->setZ(selectedItem->z()-1);
-                        break;
-                }
-        canvas()->update();
-}
-
-
-void ScreenPreview::deleteItem(QCanvasItem *i)
-{
-        // delete item
-        QCanvasItemList list = canvas()->allItems();
-        QCanvasItemList::Iterator it = list.begin();
-        for (; it != list.end(); ++it)
-                if ((*it)->z()<=i->z())
-                        (*it)->setZ((*it)->z()-1);
-        delete i;
-}
-
 
 void ScreenPreview::startResize(QPoint p)
 {
@@ -218,73 +156,25 @@ void ScreenPreview::startResize(QPoint p)
 void ScreenPreview::contentsMousePressEvent(QMouseEvent* e)
 {
         QPoint p = inverseWorldMatrix().map(e->pos());
-        kdDebug()<<"--------------  CLICKED  --------------"<<endl;
-        // Create new item if user wants to
-        if (operationMode!=CursorMode) {
-                delete selection;
-                selection=0;
-                moving = 0;
-                selectedItem = 0;
-                if (operationMode == TextMode)
-                        emit addText(p);
-                if (operationMode == RectMode)
-                        draw_start=p;
-                return;
-        }
+
 
         // Deselect item if user clicks in an empty area
         QCanvasItemList l=canvas()->collisions(p);
         if (l.isEmpty() || (l.first()->z()<0)) {
-                if (selection)
-                        delete selection;
-                selection = 0;
-                moving = 0;
-                selectedItem=0;
                 canvas()->update();
                 return;
         }
 
 	QCanvasItemList::Iterator it=l.begin();
-        // If user clicked in a rectangle corner, start resizing
-        if (*it == selection) {
-                uint dist=(p-(*selection).rect().topLeft()).manhattanLength();
-                if (dist<20) {
-                        startResize((*selection).rect().bottomRight());
-                        return;
-                }
-                dist=(p-(*selection).rect().topRight()).manhattanLength();
-                if (dist<20) {
-                        startResize((*selection).rect().bottomLeft());
-                        return;
-                }
-                dist=(p-(*selection).rect().bottomRight()).manhattanLength();
-                if (dist<20) {
-                        startResize((*selection).rect().topLeft());
-                        return;
-                }
-                dist=(p-(*selection).rect().bottomLeft()).manhattanLength();
-                if (dist<20) {
-                        startResize((*selection).rect().topRight());
-                        return;
-                }
-                it++;
-        }
 
         // Otherwise, select item and prepare for moving
-        moving = *it;
-        selectedItem = moving;
-        if (selection)
-                delete selection;
-        selection=0;
+/*        moving = *it;
+        selectedItem = moving;*/
 
-        if ( (*it)->rtti() == 3 ) {
-                selectRectangle(*it);
-                emit selectedCanvasItem((QCanvasText*)(*it));
-        }
-        if ( (*it)->rtti() == 5 ) {
-                selectRectangle(*it);
-                emit selectedCanvasItem((QCanvasRectangle*)(*it));
-        }
+
+                //selectRectangle(*it);
+                //emit selectedCanvasItem((QCanvasRectangle*)(*it));
+
         moving_start = p;
         canvas()->update();
 }
@@ -293,11 +183,7 @@ void ScreenPreview::contentsMousePressEvent(QMouseEvent* e)
 void ScreenPreview::selectRectangle(QCanvasItem *it)
 {
         // Draw selection rectangle around selected item
-        if ( (it)->rtti() == 3 )
-                selection = new QCanvasRectangle(((QCanvasText*)(it))->boundingRect (),canvas());
-        else
-                if ( (it)->rtti() == 5 )
-                        selection = new QCanvasRectangle(((QCanvasRectangle *)(it))->rect(),canvas());
+        selection = new QCanvasRectangle(((QCanvasRectangle *)(it))->rect(),canvas());
         // set its Z index to 1000, so it is not drawn by the export routine
         selection->setZ(1000);
 	QPen pen = QPen(QColor(120,60,60));
@@ -319,53 +205,33 @@ void ScreenPreview::clear()
 }
 
 
-void ScreenPreview::changeTextSize(int newSize)
+void ScreenPreview::moveX(int x)
 {
-        if (!selectedItem || selectedItem->rtti()!=3)
-                return;
-        ((QCanvasText*)(selectedItem))->setFont(QFont(((QCanvasText*)(selectedItem))->font().family(),newSize));
-
-        // Update selection rectangle
-        delete selection;
-        selection = new QCanvasRectangle(selectedItem->boundingRect (),canvas());
-        selection->setZ(1000);
-	QPen pen = QPen(QColor(120,60,60));
-        pen.setStyle(Qt::DotLine);
-        selection->setPen(pen);
-        selection->show();
+    if ( moving ) {
+        setCursor(QCursor(Qt::SizeAllCursor));
+        moving->setX(imageWidth/2 + imageWidth/2 * x/100.0 - 40);
         canvas()->update();
+    }
 }
 
-void ScreenPreview::changeTextFace(const QString & newFace)
+void ScreenPreview::moveY(int y)
 {
-        if (!selectedItem || selectedItem->rtti()!=3)
-                return;
-        ((QCanvasText*)(selectedItem))->setFont(QFont(newFace,((QCanvasText*)(selectedItem))->font().pointSize()));
-
-        // Update selection rectangle
-        delete selection;
-        selection = new QCanvasRectangle(selectedItem->boundingRect (),canvas());
-        selection->setZ(1000);
-	QPen pen = QPen(QColor(120,60,60));
-        pen.setStyle(Qt::DotLine);
-        selection->setPen(pen);
-        selection->show();
+    if ( moving ) {
+        setCursor(QCursor(Qt::SizeAllCursor));
+        moving->setY(imageHeight/2 + imageHeight/2 * y/100.0 - 32);
         canvas()->update();
+    }
 }
 
-void ScreenPreview::changeColor(const QColor & newColor)
+void ScreenPreview::adjustSize(int x)
 {
-        if (!selectedItem)
-                return;
-        if (selectedItem->rtti()==3)
-                ((QCanvasText*)(selectedItem))->setColor(newColor);
-        if (selectedItem->rtti()==5) {
-                ((QCanvasRectangle*)(selectedItem))->setBrush(newColor);
-                ((QCanvasRectangle*)(selectedItem))->setPen(QPen(newColor));
-        }
+    if ( moving ) {
+        setCursor(QCursor(Qt::SizeAllCursor));
+        ((QCanvasRectangle*)(moving))->setSize(x/100.0 * 80, x/100.0 * 64);
         canvas()->update();
+    }
+    
 }
-
 
 void ScreenPreview::contentsMouseMoveEvent(QMouseEvent* e)
 {
@@ -374,7 +240,6 @@ void ScreenPreview::contentsMouseMoveEvent(QMouseEvent* e)
         // move item
         if ( moving ) {
                 setCursor(QCursor(Qt::SizeAllCursor));
-                selection->moveBy(p.x() - moving_start.x(), p.y() - moving_start.y());
                 moving->moveBy(p.x() - moving_start.x(), p.y() - moving_start.y());
                 moving_start = p;
                 if (operationMode!=CursorMode) {
@@ -383,15 +248,7 @@ void ScreenPreview::contentsMouseMoveEvent(QMouseEvent* e)
                         emit adjustButtons();
                 }
         }
-        // Creating rectangle
-        else if (operationMode == RectMode || operationMode == ResizeMode) {
-                if (drawingRect)
-                        delete drawingRect;
-                drawingRect = new QCanvasRectangle(QRect(draw_start,p),canvas());
-                drawingRect->setPen(QPen(yellow));
-                drawingRect->setZ(1001);
-                drawingRect->show();
-        }
+        
         canvas()->setAllChanged ();
         canvas()->update();
 }
@@ -570,16 +427,20 @@ transitionPipWidget::transitionPipWidget(int width, int height, QWidget* parent,
         QHBoxLayout* flayout = new QHBoxLayout( frame_preview, 1, 1, "flayout");
         flayout->addWidget( canview, 1 );
 
-	// add screen rect
-	QCanvasRectangle* i = new QCanvasRectangle(QRect(10,10,80,64),canvas);
-                i->setZ(canview->numItems);
-                canview->numItems++;
-        i->setPen(QPen(QColor(200,0,0)));
-        i->show();
-	canview->selectedItem=i;
-        canview->selectRectangle(i);
-        canview->operationMode=CursorMode;
-        canview->setCursor(arrowCursor);
+        
+        connect(slider_transparency, SIGNAL(valueChanged(int)), spin_transparency, SLOT(setValue(int)));
+        connect(spin_transparency, SIGNAL(valueChanged(int)), slider_transparency, SLOT(setValue(int)));
+        connect(slider_size, SIGNAL(valueChanged(int)), spin_size, SLOT(setValue(int)));
+        connect(spin_size, SIGNAL(valueChanged(int)), slider_size, SLOT(setValue(int)));
+        connect(slider_x, SIGNAL(valueChanged(int)), spin_x, SLOT(setValue(int)));
+        connect(spin_x, SIGNAL(valueChanged(int)), slider_x, SLOT(setValue(int)));
+        connect(slider_y, SIGNAL(valueChanged(int)), spin_y, SLOT(setValue(int)));
+        connect(spin_y, SIGNAL(valueChanged(int)), slider_y, SLOT(setValue(int)));
+        
+        connect(spin_x, SIGNAL(valueChanged(int)), canview, SLOT(moveX(int)));
+        connect(spin_y, SIGNAL(valueChanged(int)), canview, SLOT(moveY(int)));
+        connect(canview, SIGNAL(positionRect(int, int)), this, SLOT(adjustSliders(int, int)));
+        connect(spin_size, SIGNAL(valueChanged(int)), canview, SLOT(adjustSize(int)));
 }
 
 
@@ -587,6 +448,12 @@ transitionPipWidget::~transitionPipWidget()
 {}
 
 
+
+void transitionPipWidget::adjustSliders(int x, int y)
+{
+    spin_x->setValue(x);
+    spin_y->setValue(y);
+}
 
 void transitionPipWidget::doPreview()
 {

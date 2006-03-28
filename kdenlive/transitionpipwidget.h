@@ -45,9 +45,7 @@ public:
 protected:
         void contentsMousePressEvent(QMouseEvent*);
         void contentsMouseMoveEvent(QMouseEvent*);
-        void contentsMouseDoubleClickEvent(QMouseEvent* e);
         void contentsMouseReleaseEvent(QMouseEvent* e);
-        void keyPressEvent ( QKeyEvent * e );
         void resizeEvent ( QResizeEvent * );
 
 signals:
@@ -59,21 +57,19 @@ signals:
         void selectedCanvasItem(QCanvasRectangle *);
         void showPreview(QString);
         void adjustButtons();
+        void positionRect(int, int);
 
 public slots:
-        void changeTextSize(int newSize);
-        void changeTextFace(const QString & newFace);
-        void changeColor(const QColor & newColor);
         void exportContent();
         void exportContent(KURL url);
         void selectRectangle(QCanvasItem *txt);
-        void deleteItem(QCanvasItem *i);
-        void itemUp();
-        void itemDown();
         QPixmap drawContent();
         void saveImage();
         QDomDocument toXml();
         void setXml(const QDomDocument &xml);
+        void moveX(int x);
+        void moveY(int y);
+        void adjustSize(int x);
 
 private slots:
         void startResize(QPoint p);
@@ -104,5 +100,6 @@ public slots:
     QDomDocument toXml();
     void setXml(const QDomDocument &xml);
     void createImage(KURL url);
+    void adjustSliders(int x, int y);
 };
 #endif

@@ -13,7 +13,7 @@
         </rect>
     </property>
     <property name="caption">
-        <string></string>
+        <string>transitionPip_UI</string>
     </property>
     <grid>
         <property name="name">
@@ -39,6 +39,12 @@
             <property name="name">
                 <cstring>spin_x</cstring>
             </property>
+            <property name="maxValue">
+                <number>100</number>
+            </property>
+            <property name="minValue">
+                <number>-100</number>
+            </property>
         </widget>
         <widget class="QSpinBox" row="1" column="2">
             <property name="name">
@@ -49,10 +55,22 @@
             <property name="name">
                 <cstring>spin_size</cstring>
             </property>
+            <property name="maxValue">
+                <number>200</number>
+            </property>
+            <property name="value">
+                <number>100</number>
+            </property>
         </widget>
         <widget class="QSpinBox" row="4" column="2">
             <property name="name">
                 <cstring>spin_y</cstring>
+            </property>
+            <property name="maxValue">
+                <number>100</number>
+            </property>
+            <property name="minValue">
+                <number>-100</number>
             </property>
         </widget>
         <widget class="QLabel" row="1" column="0">
@@ -86,6 +104,9 @@
             <property name="name">
                 <cstring>slider_y</cstring>
             </property>
+            <property name="minValue">
+                <number>-100</number>
+            </property>
             <property name="maxValue">
                 <number>100</number>
             </property>
@@ -96,6 +117,9 @@
         <widget class="QSlider" row="3" column="1">
             <property name="name">
                 <cstring>slider_x</cstring>
+            </property>
+            <property name="minValue">
+                <number>-100</number>
             </property>
             <property name="maxValue">
                 <number>100</number>
@@ -120,6 +144,9 @@
                 <cstring>slider_size</cstring>
             </property>
             <property name="maxValue">
+                <number>200</number>
+            </property>
+            <property name="value">
                 <number>100</number>
             </property>
             <property name="orientation">
@@ -161,77 +188,6 @@
                         <string>Number</string>
                     </property>
                 </widget>
-                <widget class="QLayoutWidget" row="2" column="0" rowspan="1" colspan="3">
-                    <property name="name">
-                        <cstring>layout1</cstring>
-                    </property>
-                    <hbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <spacer>
-                            <property name="name">
-                                <cstring>spacer5</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>31</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <widget class="QPushButton">
-                            <property name="name">
-                                <cstring>button_add</cstring>
-                            </property>
-                            <property name="text">
-                                <string>&amp;Add</string>
-                            </property>
-                            <property name="accel">
-                                <string>Alt+A</string>
-                            </property>
-                        </widget>
-                        <widget class="QPushButton">
-                            <property name="name">
-                                <cstring>button_remove</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Remove</string>
-                            </property>
-                            <property name="accel">
-                                <string></string>
-                            </property>
-                        </widget>
-                        <widget class="QPushButton">
-                            <property name="name">
-                                <cstring>button_next</cstring>
-                            </property>
-                            <property name="text">
-                                <string>&amp;Next</string>
-                            </property>
-                            <property name="accel">
-                                <string>Alt+N</string>
-                            </property>
-                        </widget>
-                        <widget class="QPushButton">
-                            <property name="name">
-                                <cstring>button_previous</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Pre&amp;vious</string>
-                            </property>
-                            <property name="accel">
-                                <string>Alt+V</string>
-                            </property>
-                        </widget>
-                    </hbox>
-                </widget>
                 <widget class="QSpinBox" row="0" column="1">
                     <property name="name">
                         <cstring>spin_kfNumber</cstring>
@@ -242,7 +198,7 @@
                         <cstring>spin_kfPosition</cstring>
                     </property>
                 </widget>
-                <widget class="QSlider" row="1" column="2">
+                <widget class="QSlider" row="1" column="2" rowspan="1" colspan="3">
                     <property name="name">
                         <cstring>slider_kfPosition</cstring>
                     </property>
@@ -253,6 +209,45 @@
                         <enum>Horizontal</enum>
                     </property>
                 </widget>
+                <widget class="QPushButton" row="0" column="4">
+                    <property name="name">
+                        <cstring>button_remove</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Remove</string>
+                    </property>
+                    <property name="accel">
+                        <string></string>
+                    </property>
+                </widget>
+                <widget class="QPushButton" row="0" column="3">
+                    <property name="name">
+                        <cstring>button_add</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Add</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+A</string>
+                    </property>
+                </widget>
+                <spacer row="0" column="2">
+                    <property name="name">
+                        <cstring>spacer5</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>16</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
             </grid>
         </widget>
     </grid>
