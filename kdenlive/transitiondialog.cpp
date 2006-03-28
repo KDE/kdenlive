@@ -44,6 +44,9 @@ namespace Gui {
 
     QVBox *page2 = addVBoxPage( i18n("Wipe") );
     transitWipe = new transitionWipe_UI(page2);
+
+    QVBox *page3 = addVBoxPage( i18n("PIP") );
+    transitPip = new transitionPipWidget(240,192,page3);
     
     adjustSize();
     

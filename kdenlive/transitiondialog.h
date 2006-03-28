@@ -27,6 +27,7 @@
 
 #include "transitioncrossfade_ui.h"
 #include "transitionwipe_ui.h"
+#include "transitionpipwidget.h"
 
 
 class QVBox;
@@ -57,6 +58,7 @@ namespace Gui {
       private:
 	transitionCrossfade_UI *transitCrossfade;
         transitionWipe_UI *transitWipe;
+	transitionPipWidget *transitPip;
         int m_height;
         int m_width;
 
