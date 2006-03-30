@@ -190,12 +190,12 @@
                 </widget>
                 <widget class="QSpinBox" row="0" column="1">
                     <property name="name">
-                        <cstring>spin_kfNumber</cstring>
+                        <cstring>spin_number</cstring>
                     </property>
                 </widget>
                 <widget class="QSpinBox" row="1" column="1">
                     <property name="name">
-                        <cstring>spin_kfPosition</cstring>
+                        <cstring>spin_position</cstring>
                     </property>
                 </widget>
                 <widget class="QSlider" row="1" column="2" rowspan="1" colspan="3">

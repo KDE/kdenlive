@@ -68,12 +68,14 @@ TransitionDialog::~TransitionDialog() {}
 void TransitionDialog::setActivePage(const QString &pageName)
 {
     if (pageName == "composite") showPage(1);
+    else if (pageName == "pip") showPage(2);
 }
 
 QString TransitionDialog::selectedTransition() 
 {
     QString pageName = "luma";
     if (activePageIndex() == 1) pageName = "composite";
+    else if (activePageIndex() == 2) pageName = "pip";
     return pageName;
 }
 
@@ -108,8 +110,12 @@ void TransitionDialog::setTransitionParameters(const QMap < QString, QString > p
         else if (geom.endsWith("0%,-100%:100%x100%")) transitWipe->transitionUp->setOn(true);
         else if (geom.endsWith("-100%,0%:100%x100%")) transitWipe->transitionLeft->setOn(true);
         else if (geom.endsWith("100%,0%:100%x100%")) transitWipe->transitionRight->setOn(true);
-
     }
+    else if (activePageIndex() == 2) {
+        // parse the "geometry" argument of MLT's composite transition
+        //transitWipe->rescaleImages->setChecked(parameters["distort"].toInt());
+        transitPip->setParameters(parameters["geometry"]);
+        }
 }
 
 bool TransitionDialog::transitionDirection()
@@ -117,6 +123,7 @@ bool TransitionDialog::transitionDirection()
     bool result = true;
     if (activePageIndex() == 0) result = transitCrossfade->invertTransition->isChecked();
     if (activePageIndex() == 1) result = transitWipe->invertTransition->isChecked();
+    //if (activePageIndex() == 2) result = transitPip->invertTransition->isChecked();
     return result;
 }
 
@@ -140,8 +147,15 @@ const QMap < QString, QString > TransitionDialog::transitionParameters()
         else if (transitWipe->transitionLeft->isOn()) paramList["geometry"] = "0=0%,0%:100%x100%" + startTransparency + ";-1=-100%,0%:100%x100%" + endTransparency;
         paramList["progressive"] = "1";
         if (transitWipe->rescaleImages->isChecked()) paramList["distort"] = "1";
+        
+    }
+    else if (activePageIndex() == 2) // pip
+    {
+      paramList["geometry"] = transitPip->parameters();
+      paramList["progressive"] = "1";
     }
     
+    return paramList;
 }
 
 } // namespace Gui

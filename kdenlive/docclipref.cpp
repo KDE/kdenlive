@@ -622,7 +622,8 @@ QDomDocument DocClipRef::generateXMLTransition()
         QDomElement transition = transitionList.createElement("transition");
         transition.setAttribute("in", QString::number((*itt)->transitionStartTime().frames(framesPerSecond())));
         transition.setAttribute("out", QString::number((*itt)->transitionEndTime().frames(framesPerSecond())));
-        transition.setAttribute("mlt_service", (*itt)->transitionType());
+        if ((*itt)->transitionType() == "pip") transition.setAttribute("mlt_service", "composite");
+        else transition.setAttribute("mlt_service", (*itt)->transitionType());
    
         typedef QMap<QString, QString> ParamMap;
         ParamMap params;

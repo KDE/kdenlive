@@ -18,6 +18,7 @@
 #include <qcanvas.h>
 #include <qpoint.h>
 #include <qdom.h>
+#include <qmap.h>
 
 #include <ktempfile.h>
 #include <kurl.h>
@@ -70,6 +71,7 @@ public slots:
         void moveX(int x);
         void moveY(int y);
         void adjustSize(int x);
+        void initRectangle(int x, int y, int w, int h);
 
 private slots:
         void startResize(QPoint p);
@@ -90,9 +92,17 @@ public:
         ScreenPreview *canview;
 private:
         QCanvas *canvas;
+        QPoint start, end;
+        QMap < int, QString > m_transitionParameters;
 
 private slots:
         void doPreview();
+        void changeKeyFrame(int ix);
+        void adjustSize(int x);
+        void moveY(int y);
+        void moveX(int x);
+        void adjustTransparency(int x);
+        void adjustSliders(int x, int y);
 
 public slots:
     QPixmap thumbnail(int width, int height);
@@ -100,6 +110,7 @@ public slots:
     QDomDocument toXml();
     void setXml(const QDomDocument &xml);
     void createImage(KURL url);
-    void adjustSliders(int x, int y);
+    QString parameters();
+    void setParameters(QString params);
 };
 #endif

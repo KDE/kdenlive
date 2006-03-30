@@ -51,8 +51,8 @@
 #define imageWidth 240
 #define imageHeight 192
 // safety margin for text
-#define horizontalMarginSize 20
-#define verticalMarginSize 20
+#define frameWidth 80
+#define frameHeight 64
 
 ScreenPreview::ScreenPreview(
         QCanvas& c, QWidget* parent,
@@ -66,26 +66,15 @@ ScreenPreview::ScreenPreview(
         drawingRect=0;
         selectedItem=0;
 
-        // Enable focus to grab keyboard events
-        setFocusPolicy(QWidget::StrongFocus);
-        setFocus();
-
         //TODO make background color configurable
         canvas()->setBackgroundColor(black);
 
-        // Draw rectangle showing safety margins for the text
-        QCanvasRectangle *marginRect = new QCanvasRectangle(QRect(imageWidth/2-40,imageHeight/2-32,80,64),canvas());
+        // Draw the monitor rectangle
+        QCanvasRectangle *marginRect = new QCanvasRectangle(QRect(imageWidth/2-frameWidth/2,imageHeight/2-frameHeight/2,frameWidth,frameHeight),canvas());
         marginRect->setZ(-100);
         marginRect->setPen(QPen(QColor(255,255,255)));
         marginRect->show();
-        
-        	// add screen rect
-        QCanvasRectangle* i = new QCanvasRectangle(QRect(10,10,80,64),canvas());
-        i->setZ(1);
-        numItems++;
-        i->setPen(QPen(QColor(200,0,0)));
-        i->show();
-        moving = i;
+
         operationMode=CursorMode;
         setCursor(arrowCursor);
 
@@ -96,6 +85,17 @@ ScreenPreview::~ScreenPreview()
 {
         // Delete temp file when it is not needed anymore
         //tmp->unlink();
+}
+
+void ScreenPreview::initRectangle(int x, int y, int w, int h)
+{
+    // add screen rect
+    QCanvasRectangle* i = new QCanvasRectangle(QRect(x,y,w,h),canvas());
+    i->setZ(1);
+    numItems++;
+    i->setPen(QPen(QColor(200,0,0)));
+    i->show();
+    moving = i;
 }
 
 
@@ -137,8 +137,8 @@ void ScreenPreview::contentsMouseReleaseEvent(QMouseEvent* e)
                 }
         }
         // If user was moving an item, end the move
-        int x = (moving->x() + 40 - imageWidth/2) * 100.0 /(imageWidth/2);
-        int y = (moving->y() + 32 - imageHeight/2) * 100.0 /(imageHeight/2);
+        int x = (moving->x() + frameWidth/2 - imageWidth/2) * 100.0 /(frameWidth);
+        int y = (moving->y() + frameHeight/2 - imageHeight/2) * 100.0 /(frameHeight);
         emit positionRect(x,y);
 
 }
@@ -209,7 +209,7 @@ void ScreenPreview::moveX(int x)
 {
     if ( moving ) {
         setCursor(QCursor(Qt::SizeAllCursor));
-        moving->setX(imageWidth/2 + imageWidth/2 * x/100.0 - 40);
+        moving->setX(imageWidth/2 + frameWidth * x/100.0 - frameWidth/2);
         canvas()->update();
     }
 }
@@ -218,7 +218,7 @@ void ScreenPreview::moveY(int y)
 {
     if ( moving ) {
         setCursor(QCursor(Qt::SizeAllCursor));
-        moving->setY(imageHeight/2 + imageHeight/2 * y/100.0 - 32);
+        moving->setY(imageHeight/2 + frameHeight * y/100.0 - frameHeight/2);
         canvas()->update();
     }
 }
@@ -227,7 +227,7 @@ void ScreenPreview::adjustSize(int x)
 {
     if ( moving ) {
         setCursor(QCursor(Qt::SizeAllCursor));
-        ((QCanvasRectangle*)(moving))->setSize(x/100.0 * 80, x/100.0 * 64);
+        ((QCanvasRectangle*)(moving))->setSize(x/100.0 * frameWidth, x/100.0 * frameHeight);
         canvas()->update();
     }
     
@@ -422,12 +422,13 @@ transitionPipWidget::transitionPipWidget(int width, int height, QWidget* parent,
 	frame_preview->setMaximumHeight(height);
         canvas=new QCanvas(imageWidth,imageHeight);
         canview = new ScreenPreview(*canvas,frame_preview);
-
+        canview->initRectangle(imageWidth/2-frameWidth/2,imageHeight/2-frameHeight/2,frameWidth,frameHeight);
+        spin_number->setMinValue(0);
+        spin_number->setMaxValue(1);
 
         QHBoxLayout* flayout = new QHBoxLayout( frame_preview, 1, 1, "flayout");
         flayout->addWidget( canview, 1 );
 
-        
         connect(slider_transparency, SIGNAL(valueChanged(int)), spin_transparency, SLOT(setValue(int)));
         connect(spin_transparency, SIGNAL(valueChanged(int)), slider_transparency, SLOT(setValue(int)));
         connect(slider_size, SIGNAL(valueChanged(int)), spin_size, SLOT(setValue(int)));
@@ -437,10 +438,16 @@ transitionPipWidget::transitionPipWidget(int width, int height, QWidget* parent,
         connect(slider_y, SIGNAL(valueChanged(int)), spin_y, SLOT(setValue(int)));
         connect(spin_y, SIGNAL(valueChanged(int)), slider_y, SLOT(setValue(int)));
         
-        connect(spin_x, SIGNAL(valueChanged(int)), canview, SLOT(moveX(int)));
-        connect(spin_y, SIGNAL(valueChanged(int)), canview, SLOT(moveY(int)));
+        connect(spin_x, SIGNAL(valueChanged(int)), this, SLOT(moveX(int)));
+        connect(spin_y, SIGNAL(valueChanged(int)), this, SLOT(moveY(int)));
         connect(canview, SIGNAL(positionRect(int, int)), this, SLOT(adjustSliders(int, int)));
-        connect(spin_size, SIGNAL(valueChanged(int)), canview, SLOT(adjustSize(int)));
+        connect(spin_size, SIGNAL(valueChanged(int)), this, SLOT(adjustSize(int)));
+        connect(spin_transparency, SIGNAL(valueChanged(int)), this, SLOT(adjustTransparency(int)));
+        
+        connect(spin_number, SIGNAL(valueChanged(int)), this, SLOT(changeKeyFrame(int)));
+        m_transitionParameters[0]="0:0:100:0";
+        m_transitionParameters[1]="50:0:100:0";
+        changeKeyFrame(0);
 }
 
 
@@ -448,9 +455,62 @@ transitionPipWidget::~transitionPipWidget()
 {}
 
 
+void transitionPipWidget::changeKeyFrame(int ix)
+{
+    int x, y, size, transp;
+    x = m_transitionParameters[ix].section(":",0,0).toInt();
+    y = m_transitionParameters[ix].section(":",1,1).toInt();
+    size = m_transitionParameters[ix].section(":",2,2).toInt();
+    transp = m_transitionParameters[ix].section(":",3,3).toInt();
+    slider_x->setValue(x);
+    slider_y->setValue(y);
+    slider_size->setValue(size);
+    slider_transparency->setValue(transp);
+}
+
+void transitionPipWidget::adjustSize(int x)
+{
+    int ix;
+    ix = spin_number->value();
+    QString s1 = m_transitionParameters[ix].section(":",0,1);
+    QString s2 = m_transitionParameters[ix].section(":",3);
+    m_transitionParameters[ix] = s1+":"+ QString::number(x)+":"+s2;
+    canview->adjustSize(x);
+}
+
+void transitionPipWidget::adjustTransparency(int x)
+{
+    int ix;
+    ix = spin_number->value();
+    QString s1 = m_transitionParameters[ix].section(":",0,2);
+    m_transitionParameters[ix] = s1+":"+ QString::number(x);
+}
+
+void transitionPipWidget::moveX(int x)
+{
+    int ix;
+    ix = spin_number->value();
+    QString s = m_transitionParameters[ix].section(":",1);
+    m_transitionParameters[ix] = QString::number(x)+":"+s;
+    canview->moveX(x);
+}
+
+void transitionPipWidget::moveY(int y)
+{
+    int ix;
+    ix = spin_number->value();
+    QString s1 = m_transitionParameters[ix].section(":",0,0);
+    QString s2 = m_transitionParameters[ix].section(":",2);
+    m_transitionParameters[ix] = s1+":"+ QString::number(y)+":"+s2;
+    canview->moveY(y);
+}
 
 void transitionPipWidget::adjustSliders(int x, int y)
 {
+    int ix;
+    ix = spin_number->value();
+    QString s = m_transitionParameters[ix].section(":",2);
+    m_transitionParameters[ix] = QString::number(x)+":"+QString::number(y)+":"+s;
     spin_x->setValue(x);
     spin_y->setValue(y);
 }
@@ -470,6 +530,41 @@ void transitionPipWidget::createImage(KURL url)
 KURL transitionPipWidget::previewFile()
 {
     return KURL(canview->tmp->name());
+}
+
+void transitionPipWidget::setParameters(QString params)
+{
+    QString param1 = params.section(";",0,0);
+    QString transp1 = QString::number(100-param1.section(":",-1).toInt());
+    QString size1 = param1.section("x",1,1).section("%",0,0);
+    QString x1 = param1.section("=",1,1).section("%",0,0);
+    QString y1 = param1.section(",",1,1).section("%",0,0);
+    
+    QString param2 = params.section(";",1,1);
+    QString transp2 = QString::number(100 - param2.section(":",-1).toInt());
+    QString size2 = param2.section("x",1,1).section("%",0,0);
+    QString x2 = param2.section("=",1,1).section("%",0,0);
+    QString y2 = param2.section(",",1,1).section("%",0,0);
+    
+    m_transitionParameters[0]=x1+":"+y1+":"+size1+":"+transp1;
+    m_transitionParameters[1]=x2+":"+y2+":"+size2+":"+transp2;
+    changeKeyFrame(0);
+}
+
+
+QString transitionPipWidget::parameters()
+{
+    QString x1 = m_transitionParameters[0].section(":",0,0)+"%";
+    QString y1 = m_transitionParameters[0].section(":",1,1)+"%";
+    QString size1 = m_transitionParameters[0].section(":",2,2)+"%";
+    QString transp1 = QString::number(100 - m_transitionParameters[0].section(":",3,3).toInt());
+    
+    QString x2 = m_transitionParameters[1].section(":",0,0)+"%";
+    QString y2 = m_transitionParameters[1].section(":",1,1)+"%";
+    QString size2 = m_transitionParameters[1].section(":",2,2)+"%";
+    QString transp2 = QString::number(100 - m_transitionParameters[1].section(":",3,3).toInt());
+    
+    return QString("0="+x1+","+y1+":"+size1+"x"+size1+":"+transp1+";-1="+x2+","+y2+":"+size2+"x"+size2+":"+transp2);
 }
 
 QPixmap transitionPipWidget::thumbnail(int width, int height)
