@@ -96,7 +96,7 @@ namespace Command {
 
 /** Edit AUDIO/VIDEO clip */
     KEditClipCommand::KEditClipCommand(KdenliveDoc & document,
-	DocClipRef * clip, const KURL & url):m_document(document),
+                                       DocClipRef * clip, const KURL & url, const QString & description):m_document(document),
 	m_name(url.filename()), m_parent(document.clipHierarch()->name()) {
 	if (!m_parent) {
 	    kdWarning() <<
@@ -104,7 +104,7 @@ namespace Command {
 		<< endl;
 	}
 
-	document.clipManager().editClip(clip, url);
+        document.clipManager().editClip(clip, url, description);
 
 /*	DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
 	m_xmlClip = clipNode->clipRef()->toXML();

@@ -58,7 +58,7 @@ namespace Command {
          
 	/** Edit an a/v clip */
 	 KEditClipCommand(KdenliveDoc & document, DocClipRef * clip,
-	    const KURL & url);
+                          const KURL & url, const QString & description);
 
 	~KEditClipCommand();
 	/** Unexecute the command */

@@ -99,7 +99,7 @@ class ClipManager:public QObject {
         const GenTime & duration, const QString & description, bool alphaTransparency);
 
 	/** Edit an a/v clip */
-    void editClip(DocClipRef * clip, const KURL & file);
+    void editClip(DocClipRef * clip, const KURL & file, const QString & description);
 
 	/** Insert an image clip */
     DocClipBase *insertImageClip(const KURL & file,

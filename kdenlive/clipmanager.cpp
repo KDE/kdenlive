@@ -181,7 +181,7 @@ void ClipManager::editColorClip(DocClipRef * clip, const QString & color,
 	avClip->setName(name);
 	avClip->setDuration(duration);
     }
-    m_render->getImage(m_clipCounter, color, 50, 40);
+    m_render->getImage(avClip->getId(), color, 50, 40);
     emit clipListUpdated();
 }
 
@@ -204,12 +204,13 @@ void ClipManager::editImageClip(DocClipRef * clip, const KURL & file,
 }
 
 
-void ClipManager::editClip(DocClipRef * clip, const KURL & file)
+void ClipManager::editClip(DocClipRef * clip, const KURL & file, const QString & description)
 {
     DocClipAVFile *avClip =
 	dynamic_cast < DocClipAVFile * >(clip->referencedClip());
     if (avClip) {
 	avClip->setFileURL(file);
+        clip->setDescription(description);
 	emit getFileProperties(file);
 	emit fixClipDuration(clip->referencedClip());
     }
@@ -269,7 +270,7 @@ QDomDocument ClipManager::producersList()
 		producer.setAttribute("id",
 		    QString("producer") +
 		    QString::number(avClip->getId()));
-		producer.setAttribute("mlt_service", "pixbuf");
+//		producer.setAttribute("mlt_service", "pixbuf");
 		producer.setAttribute("resource",
 		    avClip->fileURL().path());
 		producer.setAttribute("hide", "audio");
@@ -343,7 +344,7 @@ QDomDocument ClipManager::producersList()
                 QDomElement producer = sceneList.createElement("producer");
                 producer.setAttribute("id",
                                       QString("producer") + QString::number(avClip->getId()));
-                producer.setAttribute("mlt_service", "pixbuf");
+//                producer.setAttribute("mlt_service", "pixbuf");
                 producer.setAttribute("resource", avClip->fileURL().path());
                 producer.setAttribute("hide", "audio");
                 sceneList.appendChild(producer);

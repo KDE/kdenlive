@@ -235,7 +235,7 @@ QDomDocument DocClipAVFile::generateSceneList() const
 
 	QDomElement producer = sceneList.createElement("producer");
 	producer.setAttribute("id", QString("producer0"));
-	producer.setAttribute("mlt_service", "pixbuf");
+//	producer.setAttribute("mlt_service", "pixbuf");
 	producer.setAttribute("resource", fileURL().path());
 	westley.appendChild(producer);
 	QDomElement playlist = sceneList.createElement("playlist");

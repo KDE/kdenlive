@@ -430,14 +430,12 @@ void KRender::seek(GenTime time)
 
 void KRender::getImage(KURL url, int frame, QPixmap * image)
 {
-    //image->fill(QColor(255,0,0));
-    Mlt::Producer m_producer(const_cast <
-	char *>(QString((url.directory(false) + url.fileName())).ascii()));
-
+    Mlt::Producer m_producer(const_cast<char*>(url.path().ascii()));
     Mlt::Filter m_convert("avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
     m_producer.attach(m_convert);
     m_producer.seek(frame);
+    
     uint width = image->width();
     uint height = image->height();
 
@@ -445,16 +443,13 @@ void KRender::getImage(KURL url, int frame, QPixmap * image)
 
     if (m_frame) {
 	m_frame->set("rescale", "nearest");
-	uchar *m_thumb =
-	    m_frame->fetch_image(mlt_image_rgb24a, width, height, 1);
-        
-        // what's the use of this ? I don't think we need it - commented out by jbm 
-	/*m_producer.set("thumb", m_thumb, width * height * 4,
-	    mlt_pool_release);
-        m_frame->set("image", m_thumb, 0, NULL, NULL);*/
+	uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, width, height, 1);
 
-	QImage m_image(m_thumb, width, height, 32, 0, 0,
-	    QImage::IgnoreEndian);
+        // what's the use of this ? I don't think we need it - commented out by jbm 
+	m_producer.set("thumb", m_thumb, width * height * 4, mlt_pool_release);
+        m_frame->set("image", m_thumb, 0, NULL, NULL);
+
+	QImage m_image(m_thumb, width, height, 32, 0, 0, QImage::IgnoreEndian);
 
 	delete m_frame;
 	if (!m_image.isNull())
@@ -507,7 +502,6 @@ void KRender::getSoundSamples(const KURL & url, int channel, int frame,
 
 void KRender::getImage(KURL url, int frame, int width, int height)
 {
-    // forcing avformat producer to grab the image since it handles more formats (raw dv is not supported in libdv)
     Mlt::Producer m_producer(const_cast <
 	char *>(QString((url.directory(false) +
 		    url.fileName())).ascii()));

@@ -29,6 +29,7 @@
 #include <qcolor.h>
 #include <qspinbox.h>
 #include <qwhatsthis.h>
+#include <qtoolbutton.h>
 
 // include files for KDE
 #include <kconfig.h>
@@ -48,6 +49,7 @@
 #include <klineedit.h>
 #include <ktextedit.h>
 #include <kurlrequesterdlg.h>
+
 
 // application specific includes
 // p.s., get the idea this class is kind, central to everything?
@@ -89,6 +91,7 @@
 #include "projectlist.h"
 #include "renderdebugpanel.h"
 #include "titlewidget.h"
+#include "clipproperties.h"
 
 
 #include "trackpanelclipmovefunction.h"
@@ -101,6 +104,8 @@
 #include "trackpanelkeyframefunction.h"
 #include "trackpaneltransitionresizefunction.h"
 #include "trackpaneltransitionmovefunction.h"
+
+
 
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
@@ -1434,60 +1439,14 @@ namespace Gui {
         slotStatusMsg(i18n("Ready."));
     }
     
+    /* Edit existing clip */
     void KdenliveApp::slotProjectEditClip() {
 	slotStatusMsg(i18n("Editing Clips"));
 	DocClipRef *refClip = m_projectList->currentSelection();
 	if (refClip) {
 	    DocClipBase *clip = refClip->referencedClip();
-	    if (refClip->clipType() == DocClipBase::COLOR) {
-                KDialogBase *dia = new KDialogBase(  KDialogBase::Swallow, i18n("Edit Color Clip"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "create_clip", true);
-                createColorClip_UI *clipChoice = new createColorClip_UI(dia);
-		QString color = dynamic_cast < DocClipAVFile * >(clip)->color();
-		color = color.replace(0, 2, "#");
-		color = color.left(7);
-		clipChoice->button_color->setColor(color);
-		clipChoice->edit_name->setText(clip->name());
-		clipChoice->edit_description->setText(clip->description());
-		clipChoice->text_duration->setValue((int) (refClip->duration().ms() / 1000));
-		dia->setMainWidget(clipChoice);
-		dia->adjustSize();
-		if (dia->exec() == QDialog::Accepted) {
-		    QString color = clipChoice->button_color->color().name();
-		    color = color.replace(0, 1, "0x") + "ff";
-		    GenTime duration(clipChoice->text_duration->value());
-		    KCommand *command =
-			new Command::KEditClipCommand(*doc, refClip, color,
-			duration, clipChoice->edit_name->text(),
-			clipChoice->edit_description->text());
-		    //addCommand( command, true );
-		    //m_projectList->updateListItem();
-		}
-		delete dia;
-	    }
-	    else if (refClip->clipType() == DocClipBase::IMAGE) {
-                KDialogBase *dia = new KDialogBase(  KDialogBase::Swallow, i18n("Edit Image Clip"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "create_clip", true);
-		createImageClip_UI *clipChoice = new createImageClip_UI(dia);
-		clipChoice->edit_description->setText(clip->description());
-                clipChoice->transparentBg->setChecked(clip->toDocClipAVFile()->isTransparent());
-		clipChoice->text_duration->setValue((int) (refClip->duration().ms() / 1000));
-		clipChoice->url_image->setURL(refClip->fileURL().path());
-		dia->setMainWidget(clipChoice);
-		dia->adjustSize();
-		if (dia->exec() == QDialog::Accepted) {
-		    QString url = clipChoice->url_image->url();
-		    QString extension = QString::null;
-		    int ttl = 0;
-		    GenTime duration(clipChoice->text_duration->value());
-		    KCommand *command =
-			new Command::KEditClipCommand(*doc, refClip, KURL(url), extension, ttl, duration,
-                        clipChoice->edit_description->text(), clipChoice->transparentBg->isChecked());
-		    //addCommand( command, true );
-
-		    //m_projectList->updateListItem();
-		}
-		delete dia;
-	    }
-            else if (refClip->clipType() == DocClipBase::TEXT) {
+            
+            if (refClip->clipType() == DocClipBase::TEXT) {
                 titleWidget *txtWidget=new titleWidget(doc->projectClip().videoWidth(), doc->projectClip().videoHeight(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
                 connect(txtWidget->canview,SIGNAL(showPreview(QString)),m_clipMonitor->screen(),SLOT(setTitlePreview(QString)));
                 txtWidget->text_duration->setValue((int) (refClip->duration().ms() / 1000));
@@ -1498,45 +1457,27 @@ namespace Gui {
                     GenTime duration(txtWidget->text_duration->value());
                     QPixmap thumb = txtWidget->thumbnail(50, 40);
                     QDomDocument xml = txtWidget->toXml();
-                    KCommand *command =
-                            new Command::KEditClipCommand(*doc, refClip, duration,
-                            txtWidget->titleName->text(),QString::null, xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked());
+                    KCommand *command = new Command::KEditClipCommand(*doc, refClip, duration,                           txtWidget->titleName->text(),QString::null, xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked());
                 }
-
-                    /*
-                KDialogBase *dia = new KDialogBase(this, "edit_clip", true,
-                        i18n("Edit Text Clip"),
-                        KDialogBase::Ok | KDialogBase::Cancel);
-                createTextClip_UI *clipChoice =
-                        new createTextClip_UI(dia);
-                clipChoice->edit_name->setText(clip->name());
-                clipChoice->edit_description->setText(clip->description());
-                clipChoice->text_duration->setValue((int) (refClip->
-                        duration().ms() / 1000));
-                dia->setMainWidget(clipChoice);
-                dia->adjustSize();
-                if (dia->exec() == QDialog::Accepted) {
-                    GenTime duration(clipChoice->text_duration->value());
-                    KCommand *command =
-                            new Command::KEditClipCommand(*doc, refClip,
-                            duration, clipChoice->edit_name->text(),
-                            clipChoice->edit_description->text());
-		    //addCommand( command, true );
-		    //m_projectList->updateListItem();
-                }
-                    delete dia;*/
             }
-
-	    else {		// audio or video clip
-		KURL url =
-		    KURLRequesterDlg::getURL(refClip->fileURL().path(),
-		    this, i18n("Enter New URL"));
-                if (!url.isEmpty() && url.path() != refClip->fileURL().path()) {
-		    KCommand *command =
-			new Command::KEditClipCommand(*doc, refClip, url);
-		    //m_projectList->updateListItem();
-		}
-	    }
+            else {
+                ClipProperties *dia = new ClipProperties(refClip, getDocument()); 
+                if (dia->exec() == QDialog::Accepted) {
+                    if (refClip->clipType() == DocClipBase::COLOR) {
+                        KCommand *command =
+                                new Command::KEditClipCommand(*doc, refClip, dia->color(),
+                                dia->duration(), dia->name(), dia->description());
+                    }
+                    else if (refClip->clipType() == DocClipBase::IMAGE) {
+                        KCommand *command =
+                                new Command::KEditClipCommand(*doc, refClip, dia->url(), "",0,
+                                dia->duration(), dia->description(), dia->transparency());
+                    }
+                    else { // Video clip
+                        KCommand *command = new Command::KEditClipCommand(*doc, refClip, dia->url(),dia->description());
+                    }
+                }
+            }
 	}
 	slotStatusMsg(i18n("Ready."));
     }
