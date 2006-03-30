@@ -51,8 +51,7 @@ kdenlive_SOURCES = avfileformatdesc.cpp avfileformatwidget.cpp avfilelist.cpp \
 				trackpaneltransitionmovefunction.cpp trackpaneltransitionmovefunction.h \
 				trackpaneltransitionresizefunction.cpp trackpaneltransitionresizefunction.h transitiondialog.cpp \
 				transitiondialog.h transitioncrossfade_ui.ui transitionwipe_ui.ui configproject_ui.ui \
-		flatbutton.cpp flatbutton.h transitionpip_ui.ui transitionpipwidget.cpp \
-	transitionpipwidget.h
+		flatbutton.cpp flatbutton.h clipproperties_ui.ui clipproperties.cpp clipproperties.h transitionpip_ui.ui transitionpipwidget.cpp
 
 kdenlive_LDADD   =  $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET)
 
