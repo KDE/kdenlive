@@ -44,6 +44,11 @@ DocTrackBase::~DocTrackBase()
     m_unselectedClipList.setAutoDelete(true);
 }
 
+DocClipProject *DocTrackBase::projectClip()
+{
+    return m_project;
+}
+
 void DocTrackBase::mute(bool muted)
 {
     m_mute = muted;

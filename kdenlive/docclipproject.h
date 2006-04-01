@@ -137,6 +137,9 @@ class DocClipProject:public DocClipBase {
     void switchTransition(const GenTime &time);
     void deleteClipTransition(DocClipRef *clip, const GenTime &time = GenTime(0.0));
     
+    /** Return the position of a track in the MLT playlist*/
+    int playlistTrackNum(int ix) const;
+    
 
     private slots:
 	/** Check that the project length is correct. */

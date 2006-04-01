@@ -255,6 +255,21 @@ void DocClipProject::fixClipDuration(KURL url, GenTime length)
     emit trackListChanged();
 }
 
+int DocClipProject::playlistTrackNum(int ix) const
+{
+    int result = 1;
+    QPtrListIterator < DocTrackBase > trackItt(m_tracks);
+    while (ix>-1) {
+        ++trackItt;
+        ix--;
+    }
+    while (trackItt) {
+        if  (trackItt.current()->clipType() != "Sound") result++;
+        ++trackItt;
+    }
+    return result;
+}
+
 QDomDocument DocClipProject::generateSceneList() const
 {
     QDomDocument doc;
@@ -273,9 +288,11 @@ QDomDocument DocClipProject::generateSceneList() const
     westley.appendChild(producersList);
     QDomElement tractor = doc.createElement("tractor");
     QDomElement multitrack = doc.createElement("multitrack");
+    QDomElement audiotrack = doc.createElement("audio");
     
 
     QPtrListIterator < DocTrackBase > trackItt(m_tracks);
+    QPtrListIterator < DocTrackBase > trackCounter(m_tracks);
     
     // Add black clip as first track, so that empty spaces appear black
     QDomElement playlist = doc.createElement("playlist");
@@ -285,7 +302,9 @@ QDomDocument DocClipProject::generateSceneList() const
     blank.setAttribute("producer", "black");
     playlist.appendChild(blank);
     multitrack.appendChild(playlist);
-
+    
+    // parse the tracks in reverse order so that the upper tracks appear in front of the lower ones
+    trackItt.toLast();
     while (trackItt.current()) {
 	DocTrackClipIterator itt(*(trackItt.current()));
 	QDomElement playlist = doc.createElement("playlist");
@@ -316,18 +335,30 @@ QDomDocument DocClipProject::generateSceneList() const
             // Insert xml describing clip
             playlist.appendChild(itt.current()->generateXMLClip().firstChild());
             
+            // Find the position of the track in MLT's playlist
+            trackCounter = trackItt;
+            int trackPosition = 1;
+            ++trackCounter;
+            while (trackCounter) {
+                if  (trackCounter.current()->clipType() != "Sound")
+                    trackPosition++;
+                ++trackCounter;
+            }
+                    
             // Append clip's transitions
-            clipTransitions.appendChild(itt.current()->generateXMLTransition());
+            clipTransitions.appendChild(itt.current()->generateXMLTransition(trackPosition));
             
 	    timestart = itt.current()->trackEnd().frames(framesPerSecond());
 	    children++;
 	    ++itt;
 	}
 	    tracksCounter++;
-	    multitrack.appendChild(playlist);
-	++trackItt;
+            if (trackItt.current()->clipType() == "Sound") audiotrack.appendChild(playlist);
+            else multitrack.appendChild(playlist);
+	--trackItt;
     }
-    
+    // add audio tracks to the multitrack
+    multitrack.appendChild(audiotrack);
     tractor.appendChild(multitrack);
     
         // Add all transitions
@@ -654,7 +685,7 @@ void DocClipProject::switchTransition(const GenTime &time)
     if (bResult->hasTransition(aResult)) bResult->deleteTransition(time);
     else {
         Transition *transit = new Transition(aResult,bResult);
-        bResult->addTransition(transit);
+        aResult->addTransition(transit);
     }
 
     emit documentChanged(this);

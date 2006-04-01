@@ -148,6 +148,9 @@ class DocTrackBase:public QObject {
         /** Redraw the tracks view */
     void refreshLayout();
     
+        /** Return a pointer to the project */
+    DocClipProject * projectClip();
+    
     bool isMute();
     void mute(bool muted);
     bool isBlind();

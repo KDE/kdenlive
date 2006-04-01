@@ -130,8 +130,6 @@ void DocClipRef::fetchEndThumbnail()
     emit getClipThumbnail(fileURL(), m_cropStart.frames(25)+cropDuration().frames(25), width, height);
 }
 
-
-
 void DocClipRef::setCropStartTime(const GenTime & time)
 {
     m_cropStart = time;
@@ -357,6 +355,12 @@ void DocClipRef::setParentTrack(DocTrackBase * track, const int trackNum)
 int DocClipRef::trackNum() const
 {
     return m_trackNum;
+}
+
+/** Returns the track number in MLT's playlist */
+int DocClipRef::playlistTrackNum() const
+{
+    return m_parentTrack->projectClip()->playlistTrackNum(m_trackNum);
 }
 
 /** Returns the end of the clip on the track. A convenience function, equivalent
@@ -586,7 +590,7 @@ QDomDocument DocClipRef::generateSceneList()
     return m_clip->generateSceneList();
 }
 
-QDomDocument DocClipRef::generateXMLTransition()
+QDomDocument DocClipRef::generateXMLTransition(int trackPosition)
 {
     QDomDocument transitionList;
     
@@ -598,9 +602,9 @@ QDomDocument DocClipRef::generateXMLTransition()
         transition.setAttribute("always_active", "1");
         transition.setAttribute("progressive","1");
         // TODO: we should find a better way to get the previous video track index
-        transition.setAttribute("a_track", trackNum()-1);
+        transition.setAttribute("a_track", QString::number(trackPosition - 1));
         // Set b_track to the current clip's track index (+1 because we add a black track at pos 0)
-        transition.setAttribute("b_track", trackNum()+1);
+        transition.setAttribute("b_track", QString::number(trackPosition));
         transitionList.appendChild(transition);
     }
     else if (clipType() == DocClipBase::IMAGE && m_clip->toDocClipAVFile()->isTransparent()) {
@@ -611,9 +615,9 @@ QDomDocument DocClipRef::generateXMLTransition()
         transition.setAttribute("always_active", "1");
         transition.setAttribute("progressive","1");
         // TODO: we should find a better way to get the previous video track index
-        transition.setAttribute("a_track", trackNum()-1);
+        transition.setAttribute("a_track", QString::number(trackPosition - 1));
         // Set b_track to the current clip's track index (+1 because we add a black track at pos 0)
-        transition.setAttribute("b_track", trackNum()+1);
+        transition.setAttribute("b_track", QString::number(trackPosition));
         transitionList.appendChild(transition);
     }
     
@@ -634,12 +638,16 @@ QDomDocument DocClipRef::generateXMLTransition()
         }
 
         if ((*itt)->invertTransition()) {
-            transition.setAttribute("b_track", QString::number((*itt)->transitionStartTrack()+1));
-            transition.setAttribute("a_track", QString::number((*itt)->transitionEndTrack()+1));
+            transition.setAttribute("b_track", QString::number((*itt)->transitionStartTrack()));
+            transition.setAttribute("a_track", QString::number((*itt)->transitionEndTrack()));
+            //transition.setAttribute("b_track", QString::number(trackPosition));
+            //transition.setAttribute("a_track", QString::number(trackPosition - 1));
         }
         else {
-            transition.setAttribute("a_track", QString::number((*itt)->transitionStartTrack()+1));
-            transition.setAttribute("b_track", QString::number((*itt)->transitionEndTrack()+1));
+            transition.setAttribute("a_track", QString::number((*itt)->transitionStartTrack()));
+            transition.setAttribute("b_track", QString::number((*itt)->transitionEndTrack()));
+            //transition.setAttribute("b_track", QString::number(trackPosition - 1));
+            //transition.setAttribute("a_track", QString::number(trackPosition));
         }
         transition.setAttribute("reverse", "1");
         transitionList.appendChild(transition);

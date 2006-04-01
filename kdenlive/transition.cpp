@@ -36,9 +36,8 @@ Transition::Transition(const DocClipRef * clipa, const DocClipRef * clipb)
 
     if (clipb) {
         // Transition is an automatic transition between 2 clips
-        
         m_singleClip = false;
-        if (clipa->trackNum()<clipb->trackNum()) {
+        if (clipa->trackNum()>clipb->trackNum()) {
             m_referenceClip = clipb;
             m_secondClip = clipa;
         }
@@ -163,16 +162,17 @@ void Transition::setTransitionDirection(bool inv)
 
 int Transition::transitionStartTrack()
 {
-    return m_referenceClip->trackNum();
+    return m_referenceClip->playlistTrackNum();
 }
 
 int Transition::transitionEndTrack()
 {
-    if (!m_singleClip) return m_secondClip->trackNum();
+    if (!m_singleClip) return m_secondClip->playlistTrackNum();
     // #Warning: Should point to the previous video track. Currently we substract by 2 
     // because we don't want the audio track, but should find a better way to get the track number.
-    else if (transitionStartTrack()>1) return m_referenceClip->trackNum()-2; 
-    else return transitionStartTrack()-1;
+    //else if (transitionStartTrack()>1) return m_referenceClip->trackNum()-2; 
+    //else 
+    return transitionStartTrack()-1;
 }
 
 GenTime Transition::transitionStartTime()

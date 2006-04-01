@@ -108,10 +108,9 @@ bool KdenliveDoc::newDocument()
     m_clipHierarch = new DocumentGroupNode(0, i18n("Clips"));
 
     addVideoTrack();
-    addSoundTrack();
+    addVideoTrack();
     addVideoTrack();
     addSoundTrack();
-    addVideoTrack();
     addSoundTrack();
 
     m_doc_url.setFileName(i18n("Untitled"));

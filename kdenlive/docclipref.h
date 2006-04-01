@@ -153,6 +153,10 @@ class DocClipRef:public QObject {
 	/** Returns the track number. This is a hint as to which track the clip is on, or
 	 * should be placed on. */
     int trackNum() const;
+    
+        /** Return the position of the track in MLT's playlist*/
+    int playlistTrackNum() const;
+    
 	/** Returns the end of the clip on the track. A convenience function, equivalent
 	to trackStart() + cropDuration() */
     GenTime trackEnd() const;
@@ -161,8 +165,7 @@ class DocClipRef:public QObject {
 	/** Move the clips so that it's trackStart coincides with the time specified. */
     void moveTrackStart(const GenTime & time);
 	/** Returns an identical but seperate (i.e. "deep") copy of this clip. */
-    DocClipRef *clone(const EffectDescriptionList & effectList,
-	ClipManager & clipManager);
+    DocClipRef *clone(const EffectDescriptionList & effectList, ClipManager & clipManager);
 	/** Returns true if the clip duration is known, false otherwise. */
     bool durationKnown() const;
     // Returns the number of frames per second that this clip should play at.
@@ -187,7 +190,7 @@ class DocClipRef:public QObject {
 	return false;
     }
     // Appends scene times for this clip to the passed vector.
-	void populateSceneTimes(QValueVector < GenTime > &toPopulate);
+    void populateSceneTimes(QValueVector < GenTime > &toPopulate);
 
     // Returns an XML document that describes part of the current scene.
     QDomDocument sceneToXML(const GenTime & startTime,
@@ -281,7 +284,7 @@ class DocClipRef:public QObject {
         void resizeTransitionStart(uint ix, GenTime time);
         void resizeTransitionEnd(uint ix, GenTime time);
         void moveTransition(uint ix, GenTime time);
-        QDomDocument generateXMLTransition();
+        QDomDocument generateXMLTransition(int trackPosition);
         
   private slots:
         /** Fetch the thumbnail for the clip start */
@@ -312,8 +315,6 @@ class DocClipRef:public QObject {
 
 	/** The clip to which this clip refers. */
     DocClipBase *m_clip;
-
-    KdenliveDoc *m_document;
     KThumb *m_thumbcreator;
 
 	/** A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
