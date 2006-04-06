@@ -70,6 +70,8 @@ public slots:
 	/** Start renderer's consumer */
 	void startRenderer();
 	void stopRenderer();
+        
+        void positionChanged(GenTime t);
 
 	/** Set the play speed of the screen */
 	void play(double speed);
@@ -86,6 +88,10 @@ public slots:
 	/** Called when the renderer stops playing */
 	void slotRendererStopped();
         void setTitlePreview(QString tmpFileName);
+        /** Render project to file */
+        void exportTimeline(QString url, QString format, QString size, GenTime startTime, GenTime endTime);
+        void stopTimeLineExport();
+        void slotExportOver();
         
 signals:
 	/** Emitted when a renderer connects. */
@@ -102,6 +108,7 @@ signals:
 	void mouseRightClicked();
 	/** Emitted when a drag has started to occur over the screen. */
 	void mouseDragged();
+        void exportOver();
     };
 
 }

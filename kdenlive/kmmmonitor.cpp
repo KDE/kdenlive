@@ -86,10 +86,10 @@ namespace Gui {
 	    SIGNAL(seekPositionChanged(const GenTime &)), m_screen,
 	    SLOT(seek(const GenTime &)));
 	m_editPanel->seek(time);
-
 	connect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)),
 	    m_screen, SLOT(seek(const GenTime &)));
 	updateEditPanel(time);
+
     }
 /*
 void KMMMonitor::swapScreens(KMMMonitor *monitor)
@@ -159,7 +159,7 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	    SLOT(rendererDisconnected()));
 
 	//#FIXME following line, which updates the position cursor while playing, causes random crashes.
-	//connect(m_screen, SIGNAL(seekPositionChanged(const GenTime &)), this, SLOT(screenPositionChanged(const GenTime &)));
+	connect(m_screen, SIGNAL(seekPositionChanged(const GenTime &)), this, SLOT(screenPositionChanged(const GenTime &)));
 
 	connect(m_screen, SIGNAL(playSpeedChanged(double)), m_editPanel,
 	    SLOT(screenPlaySpeedChanged(double)));
@@ -173,7 +173,8 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 
     void KMMMonitor::setSceneList(const QDomDocument & scenelist,
 	bool resetPosition) {
-//kdDebug()<<"*************MONITOR "<<name()<<", SET SCENE*********\n\n"<<scenelist.toString()<<"************************************"<<endl;
+            kdDebug()<<"*************MONITOR "<<name()<<endl;
+            kdDebug()<<"SET SCENE: "<<scenelist.toString()<<"\n\n************************************"<<endl;
 
 
 // #HACK currently, if there is no clip, the scenelist is: "</westley>" and it crashes, so test length as a temporary workaround

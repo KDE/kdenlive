@@ -23,6 +23,7 @@
 #include "kurl.h"
 
 #include "krender.h"
+#include "kdenlive.h"
 
 class KConfig;
 
@@ -34,7 +35,7 @@ It manages the creation and deletion of such renderers.
 
 class KRenderManager:public QObject {
   Q_OBJECT public:
-    KRenderManager();
+          KRenderManager(Gui::KdenliveApp* parent=0);
     ~KRenderManager();
 	/** Creates a new renderer, guaranteeing it it's own port number, etc.
 	The name specified is used to identify this renderer, and may be shown to
@@ -57,6 +58,7 @@ class KRenderManager:public QObject {
      KRender * findRenderer(const QString & name);
      QPtrList < KRender > m_renderList;
     KURL m_renderAppPath;
+    Gui::KdenliveApp *m_app;
     unsigned int m_firstPort;
     unsigned int m_currentPort;
      signals:

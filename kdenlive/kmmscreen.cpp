@@ -44,13 +44,17 @@ namespace Gui {
 	    SIGNAL(rendererConnected()));
 	connect(m_render, SIGNAL(disconnected()), this,
 	    SIGNAL(rendererDisconnected()));
-	connect(m_render, SIGNAL(positionChanged(const GenTime &)), this,
-	    SIGNAL(seekPositionChanged(const GenTime &)));
+	/*connect(m_render, SIGNAL(positionChanged(const GenTime &)), this,
+        SIGNAL(seekPositionChanged(const GenTime &)));*/
+        /*connect(m_app, SIGNAL(positionChanged(const GenTime &)), this,
+        SIGNAL(seekPositionChanged(const GenTime &)));*/
 	 connect(m_render, SIGNAL(playing(double)), this,
 	    SIGNAL(playSpeedChanged(double)));
 	 connect(m_render, SIGNAL(stopped()), this,
 	    SLOT(slotRendererStopped()));
-    } KMMScreen::~KMMScreen() {
+    } 
+    
+    KMMScreen::~KMMScreen() {
 	// TODO - the renderer needs to be unregistered from the render manager. We
 	// should not delete it ourselves here.
 	// if(m_render) delete m_render;
@@ -95,7 +99,26 @@ namespace Gui {
 	const GenTime & endTime) {
 	m_render->play(speed, startTime, endTime);
     }
+    
+    /** Render project to file */
+    void KMMScreen::exportTimeline(QString url, QString format, QString size, GenTime startTime, GenTime endTime)
+    {
+        m_render->exportTimeline(url, format, size, startTime, endTime);
+    }
+    
+    /** Stop file rendering */
+    void KMMScreen::stopTimeLineExport()
+    {
+        m_render->stopExport();
+    }
 
+    void KMMScreen::slotExportOver()
+    {
+        kdDebug() << "******* EXPORT OVER!!!!!!!!!!!!! ********* "<< endl;
+        emit exportOver();
+    }
+    
+    
 /** Set the displayed scenelist to the one specified. */
     void KMMScreen::setSceneList(const QDomDocument & scenelist,
 	bool resetPosition) {
@@ -121,6 +144,10 @@ namespace Gui {
 
     const GenTime & KMMScreen::seekPosition() const {
 	return m_render->seekPosition();
+    }
+    
+    void KMMScreen::positionChanged(GenTime t) {
+        emit seekPositionChanged(t);
     }
 
     // virtual 

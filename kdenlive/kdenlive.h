@@ -38,7 +38,7 @@
 #include "kdenlivesettings.h"
 #include "createcolorclip_ui.h"
 #include "createimageclip_ui.h"
-
+#include "exportwidget.h"
 
 // forward declaration of the Kdenlive classes
 class DocClipProject;
@@ -52,6 +52,18 @@ class RenderDebugPanel;
 class AVFile;
 class DocClipBase;
 class DocClipRef;
+
+class PositionChangeEvent : public QCustomEvent
+{
+    public:
+        PositionChangeEvent( GenTime pos, bool isFile )
+    : QCustomEvent( 10000 ), m_pos( pos ), m_isFile(isFile) {};
+        GenTime position() const { return m_pos; };
+        bool isFile() const { return m_isFile; };
+    private:
+        GenTime m_pos;
+        bool m_isFile;
+};
 
 namespace Gui {
 
@@ -154,6 +166,7 @@ namespace Gui {
 		 * @see KTMainWindow#readProperties
 		 */
 	virtual void readProperties(KConfig * _cfg);
+        virtual void customEvent(QCustomEvent * e);
 
 	public slots:
 		/** clears the document in the actual view to reuse it as the new document */
@@ -436,6 +449,8 @@ namespace Gui {
 	KDockWidget *m_dockEffectList;
 	KDockWidget *m_dockProjectList;
 	KDockWidget *m_dockEffectStack;
+        
+        exportWidget *m_exportWidget;
 
 
 	ProjectFormatManager m_projectFormatManager;

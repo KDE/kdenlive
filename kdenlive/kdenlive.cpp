@@ -106,7 +106,6 @@
 #include "trackpaneltransitionmovefunction.h"
 
 
-
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
 #define ID_CURTIME_MSG 3
@@ -115,11 +114,11 @@ namespace Gui {
 
     KdenliveApp::KdenliveApp(QWidget *,
 	const char *name):KDockMainWindow(0, name), m_monitorManager(this),
-	m_workspaceMonitor(NULL), m_captureMonitor(NULL) {
+    m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL) {
 	config = kapp->config();
 
 	// renderer options
-	m_renderManager = new KRenderManager();
+	m_renderManager = new KRenderManager(this);
 	m_renderManager->readConfig(config);
             
 	// call inits to invoke all other construction parts
@@ -655,7 +654,7 @@ namespace Gui {
 	    SLOT(seek(const GenTime &)));
 
 	//  COMMENTED BECAUSE IT CAUSES RANDOM CRASHES
-	//connect( m_workspaceMonitor, SIGNAL( seekPositionChanged( const GenTime & ) ), this, SLOT( slotUpdateCurrentTime( const GenTime & ) ) );
+	connect( m_workspaceMonitor, SIGNAL( seekPositionChanged( const GenTime & ) ), this, SLOT( slotUpdateCurrentTime( const GenTime & ) ) );
 	//connect editpanel sliders with timeline sliders -reh
 	connect(m_workspaceMonitor,
 	    SIGNAL(inpointPositionChanged(const GenTime &)), m_timeline,
@@ -767,7 +766,7 @@ namespace Gui {
 
 
 	connect(m_timeline, SIGNAL(seekPositionChanged(const GenTime &)),
-	    this, SLOT(activateWorkspaceMonitor()));
+        this, SLOT(activateWorkspaceMonitor()));
 
 	connect(m_timeline, SIGNAL(rightButtonPressed()), this,
 	    SLOT(slotDisplayTimeLineContextMenu()));
@@ -866,7 +865,20 @@ namespace Gui {
 	m_timeline->setSnapToMarker(snapToMarkersEnabled());
 	m_timeline->setEditMode("move");
     }
-
+    
+    void KdenliveApp::customEvent(QCustomEvent* e)
+    {
+        if( e->type() == 10000) {
+            PositionChangeEvent *ev = (PositionChangeEvent *)e;
+            if (!ev->isFile()) m_workspaceMonitor->screen()->positionChanged(ev->position());
+            else {
+                if (m_exportWidget) m_exportWidget->reportProgress(ev->position());
+            }
+        }
+        else if( e->type() == 10001) {
+            m_workspaceMonitor->screen()->slotExportOver();
+        }
+    }
 
     void KdenliveApp::slotToggleClipMonitor() {
 	m_dockClipMonitor->changeHideShowState();
@@ -1291,6 +1303,14 @@ namespace Gui {
     void KdenliveApp::slotRenderExportTimeline() {
 	slotStatusMsg(i18n("Exporting Timeline..."));
 
+        m_exportWidget=new exportWidget(doc->projectClip().duration(), this,"exporter",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
+        connect(m_exportWidget,SIGNAL(exportTimeLine(QString, QString, QString, GenTime, GenTime)),m_workspaceMonitor->screen(),SLOT(exportTimeline(QString, QString, QString, GenTime, GenTime)));
+        connect(m_exportWidget,SIGNAL(stopTimeLineExport()),m_workspaceMonitor->screen(),SLOT(stopTimeLineExport()));
+        
+        connect(m_workspaceMonitor->screen(),SIGNAL(exportOver()),m_exportWidget,SLOT(endExport()));
+        m_exportWidget->exec();
+        
+        /*
 	if (getDocument()->renderer()->rendererOk()) {
 	    ExportDialog exportDialog(getDocument()->renderer()->
 		fileFormats(), this, "export dialog");
@@ -1305,7 +1325,7 @@ namespace Gui {
 		("The renderer is not available. Please check your settings."),
 		i18n("Cannot Export Timeline"));
 	}
-
+        */
 	slotStatusMsg(i18n("Ready."));
     }
 

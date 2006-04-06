@@ -20,24 +20,31 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kio/netaccess.h>
-#include <kdebug.h>
-#include <klocale.h>
+#include <iostream>
 
-#include "krender.h"
 #include <mlt++/Mlt.h>
-#include "avformatdescbool.h"
-#include "avformatdesclist.h"
-#include "avformatdesccontainer.h"
-#include "avformatdesccodeclist.h"
-#include "avformatdesccodec.h"
+
 #include <qcolor.h>
 #include <qpixmap.h>
 #include <qxml.h>
 #include <qapplication.h>
 #include <qimage.h>
-#include <iostream>
+#include <qmutex.h>
+#include <qevent.h>
+
+#include <kio/netaccess.h>
+#include <kdebug.h>
+#include <klocale.h>
+
+#include "krender.h"
+#include "avformatdescbool.h"
+#include "avformatdesclist.h"
+#include "avformatdesccontainer.h"
+#include "avformatdesccodeclist.h"
+#include "avformatdesccodec.h"
 #include "effectparamdesc.h"
+
+static QMutex mutex (true);
 
 int m_refCount;
 
@@ -58,12 +65,12 @@ namespace {
 }				// annonymous namespace
 
 KRender::KRender(const QString & rendererName, KURL appPath,
-    unsigned int port, QObject * parent, const char *name):QObject(parent,
-    name), m_name(rendererName), m_renderName("unknown"),
+                 unsigned int port, Gui::KdenliveApp *parent, const char *name):QObject(parent,
+                 name), m_name(rendererName), m_renderName("unknown"), m_app(parent), 
 m_renderVersion("unknown"), m_appPathInvalid(false), m_fileFormat(0),
 m_desccodeclist(0), m_codec(0), m_effect(0), m_playSpeed(0.0),
 m_parameter(0), m_portNum(0), m_appPath(""), m_mltMiracle(NULL),
-m_mltConsumer(NULL), m_mltProducer(NULL)
+m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL)
 {
     startTimer(1000);
     m_parsing = false;
@@ -85,7 +92,6 @@ m_mltConsumer(NULL), m_mltProducer(NULL)
 
     m_portNum = port;
     m_appPath = appPath;
-    m_mltConsumer = NULL;
     openMlt();
 
 
@@ -369,16 +375,28 @@ void KRender::closeMlt()
     if (m_mltConsumer)
 	delete m_mltConsumer;
     if (m_mltProducer);
-    delete m_mltProducer;
+        delete m_mltProducer;
 
 }
 
-static void consumer_frame_show(mlt_consumer sdl, KRender * self,
+static void consumer_frame_show(mlt_consumer, KRender * self,
     mlt_frame frame_ptr)
 {
-
     mlt_position framePosition = mlt_frame_get_position(frame_ptr);
-    self->emitFrameNumber(GenTime(framePosition, 25));
+    self->emitFrameNumber(GenTime(framePosition, 25), false);
+}
+
+static void file_consumer_frame_show(mlt_consumer, KRender * self,
+                                mlt_frame frame_ptr)
+{
+    mlt_position framePosition = mlt_frame_get_position(frame_ptr);
+    self->emitFrameNumber(GenTime(framePosition, 25), true);
+}
+
+static void consumer_stopped(mlt_consumer, KRender * self,
+                                mlt_frame)
+{
+    self->emitConsumerStopped();
 }
 
 void my_lock()
@@ -424,7 +442,7 @@ void KRender::createVideoXWindow(bool show, WId winid)
 void KRender::seek(GenTime time)
 {
     sendSeekCommand(time);
-    emit positionChanged(time);
+    //emit positionChanged(time);
 }
 
 
@@ -790,7 +808,6 @@ void KRender::stop()
     if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
 	m_mltConsumer->stop();
     }
-
 }
 
 
@@ -1056,8 +1073,140 @@ void KRender::setCapture()
     sendCommand(doc);
 }
 
-void KRender::emitFrameNumber(const GenTime & time)
+void KRender::emitFrameNumber(const GenTime & time, bool isFile)
 {
     m_seekPosition = time;
-    emit positionChanged(time);
+    QApplication::postEvent(m_app, new PositionChangeEvent(m_seekPosition, isFile));
+}
+
+void KRender::emitConsumerStopped()
+{
+    m_mltConsumer->start();
+    // This is used when exporting to a file so that we know when the export is finished
+    QApplication::postEvent(m_app, new QCustomEvent(10001));
+}
+
+/*                           FILE RENDERING STUFF                     */
+
+
+/*  TEST STUFF FOR FIREWIRE EXPORT, REQUIRES LIBIECi61883
+static int read_frame (unsigned char *data, int n, unsigned int dropped, void *callback_data)
+{
+    FILE *f = (FILE*) callback_data;
+
+    if (n == 1)
+        if (fread (data, 480, 1, f) < 1) {
+        return -1;
+        } else
+            return 0;
+            else
+                return 0;
+}
+
+static int g_done = 0;
+
+static void sighandler (int sig)
+{
+    g_done = 1;
+}
+
+void KRender::dv_transmit( raw1394handle_t handle, FILE *f, int channel)
+{	
+    iec61883_dv_t dv;
+    unsigned char data[480];
+    int ispal;
+	
+    fread (data, 480, 1, f);
+    ispal = (data[ 3 ] & 0x80) != 0;
+    dv = iec61883_dv_xmit_init (handle, ispal, read_frame, (void *)f );
+	
+    if (dv && iec61883_dv_xmit_start (dv, channel) == 0)
+    {
+        int fd = raw1394_get_fd (handle);
+        struct timeval tv;
+        fd_set rfds;
+        int result = 0;
+		
+        signal (SIGINT, sighandler);
+        signal (SIGPIPE, sighandler);
+        fprintf (stderr, "Starting to transmit %s\n", ispal ? "PAL" : "NTSC");
+
+        do {
+            FD_ZERO (&rfds);
+            FD_SET (fd, &rfds);
+            tv.tv_sec = 0;
+            tv.tv_usec = 20000;
+			
+            if (select (fd + 1, &rfds, NULL, NULL, &tv) > 0)
+                result = raw1394_loop_iterate (handle);
+			
+        } while (g_done == 0 && result == 0);
+		
+        fprintf (stderr, "done.\n");
+    }
+    iec61883_dv_close (dv);
+}
+
+
+void KRender::exportFileToDv(QString srcFileName)
+{
+    exportTimeline(QString::null);
+
+    FILE *f = NULL;
+    int oplug = -1, iplug = -1;
+    f = fopen (srcFileName.ascii(), "rb");
+    raw1394handle_t handle = raw1394_new_handle_on_port (0);
+    nodeid_t node = 0xffc0;
+    int bandwidth;
+    int channel = iec61883_cmp_connect (handle, raw1394_get_local_id (handle), &oplug, node, &iplug, &bandwidth);
+    if (channel > -1)
+    {
+        dv_transmit (handle, f, channel);
+        iec61883_cmp_disconnect (handle, raw1394_get_local_id (handle), oplug, node, iplug, channel, bandwidth);
+    }
+    else kdDebug() << "*******  NO DV FOUND  ********* "<< endl;
+
+    kdDebug() << "*******  OVER ********* "<< endl;
+    fclose (f);
+    raw1394_destroy_handle (handle);
+}
+*/
+
+void KRender::stopExport()
+{
+    if (m_fileRenderer && !m_fileRenderer->is_stopped()) {
+        m_mltProducer->set_speed(0.0);
+    }
+}
+
+void KRender::exportTimeline(const QString &url, const QString &format, const QString &videoSize, GenTime exportStart, GenTime exportEnd)
+{
+    m_mltConsumer->stop();
+    if (m_fileRenderer) delete m_fileRenderer;
+    m_fileRenderer = 0;
+    if (format == "dv") m_fileRenderer=new Mlt::Consumer("libdv");
+    else {
+        m_fileRenderer=new Mlt::Consumer("avformat");
+        m_fileRenderer->set ("format", "mpeg");
+        m_fileRenderer->set ("vcodec", "mpeg2video");
+        m_fileRenderer->set ("acodec", "mp3");
+        if (videoSize != QString::null) m_fileRenderer->set("size",videoSize.ascii());
+    }
+    
+    m_fileRenderer->set ("target",url.ascii());
+    m_fileRenderer->set ("real_time","0");
+    
+    m_fileRenderer->listen("consumer-frame-show", this, (mlt_listener) file_consumer_frame_show);
+    m_fileRenderer->listen("consumer-stopped", this, (mlt_listener) consumer_stopped);
+    
+    m_fileRenderer->connect(*m_mltProducer);
+
+    firstExportFrame = exportStart.frames(m_mltProducer->get_double("fps"));
+    lastExportFrame = exportEnd.frames(m_mltProducer->get_double("fps"));
+    exportDuration = lastExportFrame - firstExportFrame;
+
+    m_mltProducer->seek(firstExportFrame);
+    m_fileRenderer->start();
+    m_mltProducer->set_speed(1.0);
+
 }

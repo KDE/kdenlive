@@ -23,7 +23,6 @@
 #include <qdom.h>
 #include <qstring.h>
 #include <qmap.h>
-#include <qmutex.h>
 #include <qthread.h>
 #include <qptrlist.h>
 #include <qvaluestack.h>
@@ -38,6 +37,7 @@
 #include "effectdesc.h"
 #include "effectdescriptionlist.h"
 #include "effectparamdescfactory.h"
+#include "kdenlive.h"
 
 /**KRender encapsulates the client side of the interface to a renderer.
 From Kdenlive's point of view, you treat the KRender object as the
@@ -70,8 +70,6 @@ struct StackValue {
 
 extern int m_refCount;
 
-static QMutex mutex;
-
 class KRender:public QObject {
   Q_OBJECT public:
 
@@ -80,7 +78,7 @@ class KRender:public QObject {
     };
 
      KRender(const QString & rendererName, KURL appPath, unsigned int port,
-	QObject * parent = 0, const char *name = 0);
+             Gui::KdenliveApp *parent = 0, const char *name = 0);
     ~KRender();
 
 	/** Wraps the VEML command of the same name; requests that the renderer
@@ -167,9 +165,14 @@ class KRender:public QObject {
     const GenTime & seekPosition() const;
 
     void sendDebugVemlCommand(const QString & name);
-    void emitFrameNumber(const GenTime & time);
-
+    void emitFrameNumber(const GenTime & time, bool isFile);
+    void emitConsumerStopped();
+    
     void getImage(DocClipRef * clip);
+    
+    /** render timeline to a file */
+    void exportTimeline(const QString &url, const QString &format, const QString &videoSize, GenTime exportStart, GenTime exportEnd);
+    void stopExport();
 
   protected:			// Protected methods
 	/** Recieves timer events */
@@ -180,6 +183,10 @@ class KRender:public QObject {
      Mlt::Miracle * m_mltMiracle;
      Mlt::Consumer * m_mltConsumer;
      Mlt::Producer * m_mltProducer;
+     Mlt::Consumer *m_fileRenderer;
+     Gui::KdenliveApp *m_app;
+     
+     int exportDuration, firstExportFrame, lastExportFrame;
 
 
 	/** If true, we are currently parsing some data. Otherwise, we are not. */
@@ -344,7 +351,7 @@ class KRender:public QObject {
 	/** Emitted when rendering has finished */
     void renderFinished();
 	/** Emitted when the current seek position has been changed by the renderer. */
-    void positionChanged(const GenTime &);
+//    void positionChanged(const GenTime &);
 	/** Emitted when file formats are updated. */
     void signalFileFormatsUpdated(const QPtrList < AVFileFormatDesc > &);
 	/** No descriptions */

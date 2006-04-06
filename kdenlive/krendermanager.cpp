@@ -15,13 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "krendermanager.h"
-
 #include <kconfig.h>
 #include <kdebug.h>
 
-KRenderManager::KRenderManager():
-QObject(),
+#include "krendermanager.h"
+
+KRenderManager::KRenderManager(Gui::KdenliveApp *parent):
+QObject(), m_app(parent),
 m_renderAppPath(KURL("/usr/bin/piave")),
 m_firstPort(6100), m_currentPort(6100)
 {
@@ -37,7 +37,7 @@ KRenderManager::~KRenderManager()
 KRender *KRenderManager::createRenderer(const char *name)
 {
     KRender *render =
-	new KRender(name, m_renderAppPath, m_currentPort, 0, name);
+	new KRender(name, m_renderAppPath, m_currentPort, m_app, name);
 
     /*connect(render, SIGNAL(recievedStderr(const QString &, const QString &)),
        this, SIGNAL(recievedStderr(const QString &, const QString &)));
