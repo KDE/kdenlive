@@ -102,10 +102,10 @@ namespace Gui {
 
 	 connect(m_ruler, SIGNAL(scaleChanged(double)), this,
 	    SLOT(resetProjectSize()));
-	 connect(m_ruler, SIGNAL(sliderValueChanged(int, int)),
-	    m_trackViewArea, SLOT(invalidateBackBuffer()));
-	 connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), m_ruler,
-	    SLOT(repaint()));
+	 connect(m_ruler, SIGNAL(sliderValueMoved(int, int)),
+	    m_trackViewArea, SLOT(invalidateBackBuffer(int, int)));
+/*	 connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), m_ruler,
+         SLOT(repaint()));*/
 	 connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), this,
          SLOT(slotSliderMoved(int, int)));
 
@@ -115,11 +115,6 @@ namespace Gui {
 	    SLOT(slotScrollRight()));
 	 connect(&m_scrollTimer, SIGNAL(timeout()), this,
 	    SLOT(slotTimerScroll()));
-         
-         connect(m_ruler, SIGNAL(delayPlaying()), this,
-                 SIGNAL(delayPlaying()));
-         connect(m_ruler, SIGNAL(restartPlaying()), this,
-                 SIGNAL(restartPlaying()));
 
 	 connect(m_trackViewArea, SIGNAL(rightButtonPressed()), this,
 	    SIGNAL(rightButtonPressed()));
@@ -318,7 +313,7 @@ the display. The scale is the size of one frame.*/
 	void KTimeLine::slotSliderMoved(int slider, int value) {
 	switch (slider) {
 	case 0:
-	    emit seekPositionChanged(GenTime(value, m_framesPerSecond));
+            emit seekPositionChanged(GenTime(value, m_framesPerSecond));
 	    break;
 	case 1:
 	    emit inpointPositionChanged(GenTime(value, m_framesPerSecond));

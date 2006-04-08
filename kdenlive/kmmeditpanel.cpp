@@ -183,9 +183,7 @@ namespace Gui {
     }
 
     void KMMEditPanel::seek(const GenTime & time) {
-	m_ruler->setSliderValue(0,
-	    (int) (floor(time.frames(m_document->framesPerSecond()) +
-		    0.5)));
+	m_ruler->setSliderValue(0, (int) (time.frames(m_document->framesPerSecond())));
     }
 
     void KMMEditPanel::rendererConnected() {

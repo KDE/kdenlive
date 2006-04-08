@@ -41,8 +41,11 @@ namespace Gui {
     class KRulerPrivateSliderDiamond:public KRulerSliderBase {
       public:
 	KRulerPrivateSliderDiamond() {
-	} ~KRulerPrivateSliderDiamond() {
-	} void drawHorizontalSlider(QPainter & painter, int x, int height) {
+	} 
+        
+        ~KRulerPrivateSliderDiamond() {} 
+        
+        void drawHorizontalSlider(QPainter & painter, int x, int height) {
 	    QPointArray points(4);
 
 	    points.setPoint(0, x - (height / 8) - 1, height / 2);
@@ -58,12 +61,14 @@ namespace Gui {
 	    if (x > midx + (height / 8) + 1)
 		return false;
 	    return true;
-	} int leftBound(int x, int height) {
-	    return x - (height / 8) - 1;
+	} 
+        
+        int leftBound(int x, int height) {
+	    return x - (height / 8) - 2;
 	}
 
 	int rightBound(int x, int height) {
-	    return x + (height / 8) + 1;
+	    return x + (height / 8) + 2;
 	}
     };
 
@@ -91,19 +96,18 @@ namespace Gui {
 		return false;
 	    return true;
 	} int leftBound(int x, int height) {
-	    return x - (height / 4) - 1;
+	    return x - (height / 4) - 2;
 	}
 
 	int rightBound(int x, int height) {
-	    return x + (height / 4) + 1;
+	    return x + (height / 4) + 2;
 	}
     };
 
     class KRulerPrivateSliderBottomMark:public KRulerSliderBase {
       public:
-	KRulerPrivateSliderBottomMark() {
-	} ~KRulerPrivateSliderBottomMark() {
-	}
+	KRulerPrivateSliderBottomMark() {} 
+        ~KRulerPrivateSliderBottomMark() {}
 
 	void drawHorizontalSlider(QPainter & painter, int x, int height) {
 	    QPointArray points(3);
@@ -122,12 +126,14 @@ namespace Gui {
 	    if (y < height / 2)
 		return false;
 	    return true;
-	} int leftBound(int x, int height) {
-	    return x - (height / 4) - 1;
+	} 
+        
+        int leftBound(int x, int height) {
+	    return x - (height / 4) - 2;
 	}
 
 	int rightBound(int x, int height) {
-	    return x + (height / 4) + 1;
+	    return x + (height / 4) + 2;
 	}
     };
 
@@ -154,12 +160,14 @@ namespace Gui {
 	    if (y < height / 2)
 		return false;
 	    return true;
-	} int leftBound(int x, int height) {
+	} 
+        
+        int leftBound(int x, int height) {
 	    return x;
 	}
 
 	int rightBound(int x, int height) {
-	    return x + (height / 4) + 1;
+	    return x + (height / 4) + 2;
 	}
     };
 
@@ -186,12 +194,14 @@ namespace Gui {
 	    if (y < height / 2)
 		return false;
 	    return true;
-	} int leftBound(int x, int height) {
+	} 
+        
+        int leftBound(int x, int height) {
 	    return x - (height / 4) - 1;
 	}
 
 	int rightBound(int x, int height) {
-	    return x;
+	    return x + 1;
 	}
     };
 
@@ -223,12 +233,14 @@ namespace Gui {
 	    if (y < (height / 2) + 3)
 		return false;
 	    return true;
-	} int leftBound(int x, int height) {
-	    return x - 4;
+	} 
+        
+        int leftBound(int x, int height) {
+	    return x - 5;
 	}
 
 	int rightBound(int x, int height) {
-	    return x + 4;
+	    return x + 5;
 	}
     };
 
@@ -240,7 +252,8 @@ namespace Gui {
 	    setType(KRuler::Diamond);
 	    m_value = 0;
 	    m_status = QPalette::Inactive;
-	} KRulerPrivateSlider(int id, const KRuler::KRulerSliderType type,
+	} 
+        KRulerPrivateSlider(int id, const KRuler::KRulerSliderType type,
 	    int value, const QPalette::ColorGroup status) {
 	    m_id = id;
 	    m_sliderType = 0;
@@ -266,9 +279,13 @@ namespace Gui {
 
 	int getID() const {
 	    return m_id;
-	} int getValue() const {
+	} 
+        
+        int getValue() const {
 	    return m_value;
-	} void setType(KRuler::KRulerSliderType type) {
+	} 
+        
+        void setType(KRuler::KRulerSliderType type) {
 	    switch (type) {
 	    case KRuler::Diamond:
 		setType(new KRulerPrivateSliderDiamond());
@@ -319,9 +336,13 @@ namespace Gui {
 
 	QPalette::ColorGroup status()const {
 	    return m_status;
-	} bool underMouse(int x, int y, int midx, int height) const {
+	} 
+        
+        bool underMouse(int x, int y, int midx, int height) const {
 	    return m_sliderType->underMouse(x, y, midx, height);
-	} void drawSlider(KRuler * ruler, QPainter & painter, int x,
+	} 
+        
+        void drawSlider(KRuler * ruler, QPainter & painter, int x,
 	    int height) {
 	    painter.setPen(ruler->palette().color(status(),
 		    QColorGroup::Foreground));
@@ -334,6 +355,7 @@ namespace Gui {
 	KRulerSliderBase *newTypeInstance() const {
 	    return m_sliderType->newInstance();
 	}
+        
 	/** Returns the left-most pixel that will be drawn by a horizontal slider. */
 	    int leftBound(int midx, int height) {
 	    return m_sliderType->leftBound(midx, height);
@@ -436,19 +458,16 @@ namespace Gui {
 
     void KRuler::paintEvent(QPaintEvent * event) {
 	RangeListIterator < int >itt(d->m_bufferDrawList);
-
+        QPainter painter(this);
+        
 	while (!itt.finished()) {
 	    drawToBackBuffer(itt.start(), itt.end());
 	    ++itt;
 	}
 	d->m_bufferDrawList.clear();
 
-	QPainter painter(this);
-
-	painter.drawPixmap(event->rect().x(), event->rect().y(),
-	    m_backBuffer,
-	    event->rect().x(), event->rect().y(),
-	    event->rect().width(), event->rect().height());
+	painter.drawPixmap(event->rect().x(), event->rect().y(), m_backBuffer, 
+        event->rect().x(), event->rect().y(), event->rect().width(), event->rect().height());
     }
 
     inline void KRuler::drawSmallTick(QPainter & painter, int pixel) {
@@ -566,25 +585,28 @@ namespace Gui {
     void KRuler::setSliderValue(int id, int value) {
 	int actValue = (value < minValue())? minValue() : value;
 	actValue = (actValue > maxValue())? maxValue() : actValue;
-
+        int oldValue = 0;
 	QValueList < KRulerPrivateSlider >::Iterator it;
 
 	for (it = d->m_sliders.begin(); it != d->m_sliders.end(); it++) {
 	    if ((*it).getID() == id) {
-		invalidateBackBuffer(
+                oldValue = (*it).getValue();
+                int oldStart = (*it).leftBound((int) mapValueToLocal((*it).getValue()), height());
+                int oldEnd = (*it).rightBound((int) mapValueToLocal((*it).getValue()), height()+1);
+                /*invalidateBackBuffer(
 		    (*it).leftBound((int) mapValueToLocal((*it).
 			    getValue()), height()),
 		    (*it).rightBound((int) mapValueToLocal((*it).
-			    getValue()), height()) + 1);
-
+                getValue()), height()) + 1);*/
 		if ((*it).setValue(actValue)) {
+                    invalidateBackBuffer(oldStart, oldEnd);
 		    invalidateBackBuffer(
 			(*it).leftBound((int) mapValueToLocal((*it).
 				getValue()), height()),
 			(*it).rightBound((int) mapValueToLocal((*it).
 				getValue()), height()) + 1);
-
 		    emit sliderValueChanged(id, actValue);
+                    if (id == 0) emit sliderValueMoved(oldValue, actValue);
 		    break;
 		}
 	    }
@@ -667,9 +689,13 @@ namespace Gui {
 
     int KRuler::minValue() const {
 	return m_minValue;
-    } int KRuler::maxValue() const {
+    } 
+    
+    int KRuler::maxValue() const {
 	return m_maxValue;
-    } void KRuler::mousePressEvent(QMouseEvent * event) {
+    } 
+    
+    void KRuler::mousePressEvent(QMouseEvent * event) {
 	if (event->button() == QMouseEvent::RightButton) {
 	    if (d->m_oldValue != -1) {
 		setSliderValue(activeSliderID(), d->m_oldValue);
@@ -697,8 +723,7 @@ namespace Gui {
     void KRuler::mouseMoveEvent(QMouseEvent * event) {
 	if (event->state() & (QMouseEvent::LeftButton | QMouseEvent::RightButton | QMouseEvent::MidButton)) {
 	    if (d->m_oldValue != -1) {
-		setSliderValue(activeSliderID(),
-		    (int) floor(mapLocalToValue((int) event->x()) + 0.5));
+		setSliderValue(activeSliderID(), (int) floor(mapLocalToValue((int) event->x()) + 0.5));
 
 		if (event->x() < g_scrollThreshold) {
 		    m_scrollRight = false;
@@ -856,17 +881,17 @@ namespace Gui {
 		(*it).drawSlider(this, painter, value, height());
 	    }
 	}
-
-	update();
+	//update();
     }
 
-    void KRuler::invalidateBackBuffer() {
-	invalidateBackBuffer(0, width());
+    void KRuler::invalidateBackBuffer() {	
+        invalidateBackBuffer(0, width());
     }
 
     void KRuler::invalidateBackBuffer(int start, int end) {
 	d->m_bufferDrawList.addRange(start, end);
-	update();
+        // Optimise painting and redraw only around the moving cursor
+        update(start, -1, end - start, height() + 1);
     }
 
     void KRuler::setSlidersToRange() {

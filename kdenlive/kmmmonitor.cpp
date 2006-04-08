@@ -89,7 +89,6 @@ namespace Gui {
 	connect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)),
 	    m_screen, SLOT(seek(const GenTime &)));
 	updateEditPanel(time);
-
     }
 /*
 void KMMMonitor::swapScreens(KMMMonitor *monitor)

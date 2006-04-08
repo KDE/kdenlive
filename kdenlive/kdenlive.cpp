@@ -662,9 +662,6 @@ namespace Gui {
 	connect(m_workspaceMonitor,
 	    SIGNAL(outpointPositionChanged(const GenTime &)), m_timeline,
 	    SLOT(setOutpointTimeline(const GenTime &)));
-        
-        connect(m_timeline, SIGNAL(delayPlaying()), m_workspaceMonitor, SLOT(delayPlaying()));
-        connect(m_timeline, SIGNAL(restartPlaying()), m_workspaceMonitor, SLOT(restartPlaying()));
 
 	connect(getDocument(), SIGNAL(signalClipSelected(DocClipRef *)),
 	    this, SLOT(slotSetClipMonitorSource(DocClipRef *)));
@@ -877,7 +874,7 @@ namespace Gui {
         }
         else if( e->type() == 10001) {
             m_workspaceMonitor->screen()->slotExportOver();
-        }
+    }
     }
 
     void KdenliveApp::slotToggleClipMonitor() {

@@ -23,7 +23,7 @@
 #include "gentime.h"
 
 #include "trackpanelfunctionfactory.h"
-
+#include "rangelist.h"
 #include "dynamicToolTip.h"
 
 class DocClipBase;
@@ -69,7 +69,9 @@ namespace Gui {
 	void setDragFunction(const QString & name);
 
       private:			// Private methods
-	void drawBackBuffer();
+        RangeList < int >m_bufferDrawList;
+        void drawBackBuffer();
+        void drawBackBuffer(int start, int end);
 	TrackPanelFunction *getApplicableFunction(KTrackPanel * panel,
 	    const QString & editMode, QMouseEvent * event);
 
@@ -94,10 +96,13 @@ namespace Gui {
 
 	DynamicToolTip *tiptst;
 
-	public slots:		// Public slots
+    public slots:		// Public slots
 	/** Invalidate the back buffer, alerting the trackview that it should redraw itself. */
 	void invalidateBackBuffer();
-	 signals: void rightButtonPressed();
+        void invalidateBackBuffer(int pos1, int pos2);
+        
+    signals: 
+             void rightButtonPressed();
     };
 
 }				// namespace Gui

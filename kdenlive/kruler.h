@@ -108,6 +108,8 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
 	void resized();
 	/** This signal is emitted whenever a sliders value changes. */
 	void sliderValueChanged(int, int);
+        /** This signal is emitted whenever the first slider value changes. */
+        void sliderValueMoved(int, int);
 	/** Emitted when the scale of the ruler changes. */
 	void scaleChanged(double);
 	/** Emitted when the ruler would like to be scrolled to the right. */

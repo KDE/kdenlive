@@ -277,10 +277,6 @@ namespace Command {
 	void outpointPositionChanged(const GenTime &);
 	/** Emitted when the right mouse button is pressed over the timeline. */
 	void rightButtonPressed();
-        /** Emitted when the user stopped to seek. */
-        void restartPlaying();
-        /** Emitted when the user started to seek. */
-        void delayPlaying();
     };
 
 }				// namespace Gui

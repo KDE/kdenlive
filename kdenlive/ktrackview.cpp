@@ -49,22 +49,31 @@ namespace Gui {
     }
 
     void KTrackView::resizeEvent(QResizeEvent * event) {
+        m_bufferDrawList.setFullRange(0, width());
 	m_backBuffer.resize(event->size().width(), event->size().height());
 	drawBackBuffer();
     }
 
     void KTrackView::paintEvent(QPaintEvent * event) {
-	if (m_bufferInvalid) {
+        RangeListIterator < int >itt(m_bufferDrawList);
+        
+        while (!itt.finished()) {
+            drawBackBuffer(itt.start(), itt.end());
+            ++itt;
+            
+        }
+        m_bufferDrawList.clear();
+        
+	/*if (m_bufferInvalid) {
+            
 	    drawBackBuffer();
 	    m_bufferInvalid = false;
-	}
-
-	QPainter painter(this);
-
+        }*/
+        QPainter painter(this);
 	painter.drawPixmap(event->rect().x(), event->rect().y(),
 	    m_backBuffer,
 	    event->rect().x(), event->rect().y(),
-	    event->rect().width(), event->rect().height());
+        event->rect().width(), event->rect().height());
     }
 
     void KTrackView::drawBackBuffer() {
@@ -82,6 +91,27 @@ namespace Gui {
 
 	    panel = m_timeline.trackList().next();
 	}
+    }
+    
+    void KTrackView::drawBackBuffer(int start, int end) {
+        int sx = start;
+        int ex = end;
+        
+        QPainter painter(&m_backBuffer);
+        painter.setClipRect(sx, 0, ex - sx, height());
+
+        painter.fillRect(sx, 0, ex - sx, height(),
+                         palette().active().background());
+
+        KTrackPanel *panel = m_timeline.trackList().first();
+        while (panel != 0) {
+            int y = panel->y() - this->y();
+
+            QRect rect(0, y, width(), panel->height());
+            panel->drawToBackBuffer(painter, rect);
+
+            panel = m_timeline.trackList().next();
+        }
     }
 
     KTrackPanel *KTrackView::panelAt(int y) {
@@ -102,8 +132,26 @@ namespace Gui {
 
 /** Invalidate the back buffer, alerting the trackview that it should redraw itself. */
     void KTrackView::invalidateBackBuffer() {
+        m_bufferDrawList.addRange(0, width());
 	m_bufferInvalid = true;
 	update();
+    }
+    
+    void KTrackView::invalidateBackBuffer(int pos1, int pos2) {
+        pos1 = m_timeline.mapValueToLocal(pos1);
+        pos2 = m_timeline.mapValueToLocal(pos2);
+        if (pos1 < pos2) {
+            m_bufferDrawList.addRange(pos1-2, pos2+2);
+            // Optimise painting and redraw only around the moving cursor
+            update(pos1-2, -1, pos2 - pos1 + 4, height() + 1);
+        }
+        else {
+            m_bufferDrawList.addRange(pos2-2, pos1+2);
+            // Optimise painting and redraw only around the moving cursor
+            update(pos2-2, -1, pos1 - pos2 + 4, height() + 1);
+        }
+        
+        m_bufferInvalid = true;
     }
 
     void KTrackView::registerFunction(const QString & name,

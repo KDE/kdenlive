@@ -30,11 +30,9 @@ template < class T > class RangeListIterator {
 	m_itt = m_range.begin();
     }
 
-    ~RangeListIterator() {
-    }
+    ~RangeListIterator() {}
 
-    const RangeListIterator < T > &operator=(const RangeListIterator < T >
-	itt) {
+    const RangeListIterator < T > &operator=(const RangeListIterator < T > itt) {
 	m_itt = itt.curItt();
 	return *this;
     }
@@ -63,9 +61,11 @@ template < class T > class RangeListIterator {
 
     QValueListIterator < T > &curItt()const {
 	return m_itt;
-  } private:
-     QValueList < T > &m_range;
-    QValueListIterator < T > m_itt;
+    } 
+    
+    private:
+        QValueList < T > &m_range;
+        QValueListIterator < T > m_itt;
 };
 
 /**Holds a list of type, and holds ranges of values. These ranges never overlap - if a new range
@@ -83,8 +83,7 @@ template < class T > class RangeList {
     m_min(0), m_max(0) {
     }
 
-    ~RangeList() {
-    }
+    ~RangeList() {}
 
 	/** Clears the currently set ranges */
     void clear() {
