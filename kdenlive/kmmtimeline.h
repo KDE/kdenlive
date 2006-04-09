@@ -44,7 +44,7 @@ Implementation-specific derivation of KTimeLine. Includes correct drag/drop supp
 	//Return the current timescale slider value
 	int getTimeScaleSliderText() const;
 
-	public slots:
+    public slots:
 	/** Invalidates the area of the back buffer used by this clip. */
 	void invalidateClipBuffer(DocClipRef * clip);
 	 signals:

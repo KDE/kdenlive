@@ -20,8 +20,8 @@
 
 #include <qwidget.h>
 #include <qpixmap.h>
-#include "gentime.h"
 
+#include "gentime.h"
 #include "trackpanelfunctionfactory.h"
 #include "rangelist.h"
 #include "dynamicToolTip.h"
@@ -63,17 +63,18 @@ namespace Gui {
 	virtual void dragLeaveEvent(QDragLeaveEvent *);
 	virtual void dropEvent(QDropEvent *);
 
-	void registerFunction(const QString & name,
-	    TrackPanelFunction * function);
-
+	void registerFunction(const QString & name, TrackPanelFunction * function);
 	void setDragFunction(const QString & name);
+        
+      protected:
+          void wheelEvent( QWheelEvent * e );
 
       private:			// Private methods
         RangeList < int >m_bufferDrawList;
         void drawBackBuffer();
         void drawBackBuffer(int start, int end);
 	TrackPanelFunction *getApplicableFunction(KTrackPanel * panel,
-	    const QString & editMode, QMouseEvent * event);
+	const QString & editMode, QMouseEvent * event);
 
 	QPixmap m_backBuffer;
 	 KTimeLine & m_timeline;
@@ -102,7 +103,8 @@ namespace Gui {
         void invalidateBackBuffer(int pos1, int pos2);
         
     signals: 
-             void rightButtonPressed();
+        void rightButtonPressed();
+        void changeZoom(bool);
     };
 
 }				// namespace Gui

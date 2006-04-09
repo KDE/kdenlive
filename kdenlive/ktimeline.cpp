@@ -26,7 +26,6 @@
 #include <qscrollview.h>
 #include <qhbox.h>
 #include <qlabel.h>
-
 #include <qrect.h>
 #include <qpainter.h>
 
@@ -55,7 +54,7 @@ namespace Gui {
 	"scroll timer"), m_scrollingRight(true), m_framesPerSecond(25),
 	m_editMode("undefined"), m_panelWidth(140) {
 	m_rulerBox = new QHBox(this, "ruler box");
-	m_trackScroll = new QScrollView(this, "track view", WPaintClever);
+        m_trackScroll = new QScrollView(this, "track view", WPaintClever);
 	m_scrollBox = new QHBox(this, "scroll box");
 
 	m_rulerToolWidget = rulerToolWidget;
@@ -81,13 +80,12 @@ namespace Gui {
 	    new QScrollBar(-100, 5000, 50, 500, 0, QScrollBar::Horizontal,
 	    m_scrollBox, "horizontal ScrollBar");
 
-	m_trackViewArea =
-	    new KTrackView(*this, m_trackScroll, "track view area");
+	m_trackViewArea = new KTrackView(*this, m_trackScroll, "track view area");
 
 	m_trackScroll->enableClipper(TRUE);
 	m_trackScroll->setVScrollBarMode(QScrollView::AlwaysOn);
 	m_trackScroll->setHScrollBarMode(QScrollView::AlwaysOff);
-	m_trackScroll->setDragAutoScroll(true);
+        m_trackScroll->setDragAutoScroll(true);
 
 	setPanelWidth(140);
 
@@ -99,7 +97,7 @@ namespace Gui {
 	    SLOT(repaint()));
 	 connect(m_scrollBar, SIGNAL(valueChanged(int)), this,
 	    SLOT(drawTrackViewBackBuffer()));
-
+         
 	 connect(m_ruler, SIGNAL(scaleChanged(double)), this,
 	    SLOT(resetProjectSize()));
 	 connect(m_ruler, SIGNAL(sliderValueMoved(int, int)),
@@ -120,10 +118,10 @@ namespace Gui {
 	    SIGNAL(rightButtonPressed()));
 
 	 setAcceptDrops(true);
-
 	 m_trackList.setAutoDelete(true);
-    } KTimeLine::~KTimeLine() {
-    }
+    } 
+    
+    KTimeLine::~KTimeLine() {}
 
     void KTimeLine::appendTrack(KTrackPanel * track) {
 	if (track) {
@@ -135,6 +133,7 @@ namespace Gui {
 	}
     }
 
+    
 /** Inserts a track at the position specified by index */
     void KTimeLine::insertTrack(int index, KTrackPanel * track) {
 	assert(track);
@@ -383,17 +382,27 @@ the display. The scale is the size of one frame.*/
 
     bool KTimeLine::snapToBorders() const {
 	return m_snapToBorder;
-    } bool KTimeLine::snapToFrame() const {
+    } 
+    
+    bool KTimeLine::snapToFrame() const {
 	return m_snapToFrame;
-    } bool KTimeLine::snapToMarkers() const {
+    } 
+    
+    bool KTimeLine::snapToMarkers() const {
 	return m_snapToMarker;
-    } bool KTimeLine::snapToSeekTime() const {
+    } 
+    
+    bool KTimeLine::snapToSeekTime() const {
 #warning snapToSeekTime always returns true - needs to be wired up in KdenliveApp to
 #warning a check box.
 	return true;
-    } GenTime KTimeLine::projectLength() const {
+    } 
+    
+    GenTime KTimeLine::projectLength() const {
 	return GenTime(m_ruler->maxValue(), m_framesPerSecond);
-    } void KTimeLine::slotTimerScroll() {
+    } 
+    
+    void KTimeLine::slotTimerScroll() {
 	if (m_scrollingRight) {
 	    m_scrollBar->addLine();
 	} else {
@@ -416,9 +425,13 @@ the display. The scale is the size of one frame.*/
 
     uint KTimeLine::scrollThreshold() const {
 	return g_scrollThreshold;
-    } uint KTimeLine::scrollTimerDelay() const {
+    } 
+    
+    uint KTimeLine::scrollTimerDelay() const {
 	return g_scrollTimerDelay;
-    } void KTimeLine::checkScrolling(const QPoint & pos) {
+    } 
+    
+    void KTimeLine::checkScrolling(const QPoint & pos) {
 	if (pos.x() < scrollThreshold()) {
 	    if (!m_scrollTimer.isActive()) {
 		m_scrollTimer.start(scrollTimerDelay(), false);

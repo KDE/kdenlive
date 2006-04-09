@@ -38,14 +38,17 @@ namespace Gui {
 	  * takes up
 	  */
 	void setScale(double scale);
-	 signals:		// Signals
+    signals:		// Signals
 	/** emits the newly requested time scale. */
 	void timeScaleChanged(double);
-	public slots:
+        
+    public slots:
 	/** takes index and figures out the correct scale value from it, which then get's emitted. */
 	void comboScaleChange(int index);
         int selectedMenuItem();
-	private slots:		// Public slots
+        void changeZoom(bool isUp);
+        
+    private slots:		// Public slots
 	/** Occurs when the slider changes value, emits a corrected value to provide a non-linear (and better) value scaling. */
 	void sliderScaleChange(int value);
         

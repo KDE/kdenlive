@@ -45,20 +45,20 @@ namespace Gui {
             KIconLoader loader;
             
             menu = new QPopupMenu();
-            menu->insertItem(i18n("1 Frame"),0);
-            menu->insertItem(i18n("2 Frames"),1);
-            menu->insertItem(i18n("5 Frames"),2);
-            menu->insertItem(i18n("10 Frames"),3);
-            menu->insertItem(i18n("1 Second"),4);
-            menu->insertItem(i18n("2 Seconds"),5);
-            menu->insertItem(i18n("5 Seconds"),6);
-            menu->insertItem(i18n("10 Seconds"),7);
-            menu->insertItem(i18n("20 Seconds"),8);
-            menu->insertItem(i18n("30 Seconds"),9);
-            menu->insertItem(i18n("1 Minute"),10);
-            menu->insertItem(i18n("2 Minutes"),11);
-            menu->insertItem(i18n("4 Minutes"),12);
-            menu->insertItem(i18n("8 Minutes"),13);
+            menu->insertItem(i18n("1 Frame"),0,0);
+            menu->insertItem(i18n("2 Frames"),1,1);
+            menu->insertItem(i18n("5 Frames"),2,2);
+            menu->insertItem(i18n("10 Frames"),3,3);
+            menu->insertItem(i18n("1 Second"),4,4);
+            menu->insertItem(i18n("2 Seconds"),5,5);
+            menu->insertItem(i18n("5 Seconds"),6,6);
+            menu->insertItem(i18n("10 Seconds"),7,7);
+            menu->insertItem(i18n("20 Seconds"),8,8);
+            menu->insertItem(i18n("30 Seconds"),9,9);
+            menu->insertItem(i18n("1 Minute"),10,10);
+            menu->insertItem(i18n("2 Minutes"),11,11);
+            menu->insertItem(i18n("4 Minutes"),12,12);
+            menu->insertItem(i18n("8 Minutes"),13,13);
             menu->setCheckable(true);
             zoomButton->setPopup(menu);
             zoomButton->setPopupDelay(-1);
@@ -100,7 +100,16 @@ namespace Gui {
     }
     
 void KMMRulerPanel::selectedZoom(int value) {
-    menu->setItemChecked(value, true);   
+    menu->setItemChecked(value, true);
+}
+
+void KMMRulerPanel::changeZoom(bool isUp) {
+    int i = selectedMenuItem();
+    if (isUp) i = i+1;
+    else i = i-1;
+    if (i < 0) i = 0;
+    if (i > comboListLength - 1) i = comboListLength -1;
+    comboScaleChange(i);
 }
 
 /** Occurs when the slider changes value, emits a corrected value to provide a non-linear
@@ -148,7 +157,7 @@ void KMMRulerPanel::selectedZoom(int value) {
     int KMMRulerPanel::selectedMenuItem()
     {
         uint i=0;
-        while (!menu->isItemChecked(menu->idAt(i))) i++;
+        while (!menu->isItemChecked(i) && (i < comboListLength)) i++;
         return i;
     }
 

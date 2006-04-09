@@ -185,6 +185,8 @@ namespace Command {
 	/** Returns the width of the view area. The view area is the area of the timeline where clips and tracks reside.
 	  * @returns the width of the view area. */
 	    int viewWidth() const;
+
+            
       private:
 	/** GUI elements */
 	 QHBox * m_rulerBox;	// Horizontal box holding the ruler
@@ -241,8 +243,7 @@ namespace Command {
 	/** Seek the timeline to the current position. */
 	void seek(const GenTime & time);
 	//move horizontal slider to the current position based on inpoint/outpoint -reh
-	void horizontalSlider(const GenTime & inpoint,
-	    const GenTime & outpoint);
+	void horizontalSlider(const GenTime & inpoint, const GenTime & outpoint);
 
 	/** Scroll the timeline left */
 	void slotScrollLeft();

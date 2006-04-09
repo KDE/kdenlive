@@ -14,10 +14,15 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
+#include <qstring.h>
+#include <kcombobox.h>
+#include <kdebug.h>
+
 #include "kmmtimeline.h"
 #include "kmmrulerpanel.h"
-#include "kcombobox.h"
-#include "qstring.h"
+#include "ktrackview.h"
+
 
 namespace Gui {
 
@@ -33,11 +38,12 @@ namespace Gui {
 	// Of the two solutions, I prefer 2.
 	m_rulerToolWidget =
 	    dynamic_cast < KMMRulerPanel * >(rulerToolWidget());
-
+        connect(trackView(), SIGNAL(changeZoom(bool)), m_rulerToolWidget, SLOT(changeZoom(bool)));
 	connect(m_rulerToolWidget, SIGNAL(timeScaleChanged(double)), this,
 	    SLOT(setTimeScale(double)));
-    } KMMTimeLine::~KMMTimeLine() {
-    }
+    } 
+    
+    KMMTimeLine::~KMMTimeLine() {}
 
     void KMMTimeLine::invalidateClipBuffer(DocClipRef * clip) {
 #warning - unoptimised, should only update that part of the back buffer that needs to be updated. Current implementaion
@@ -65,6 +71,5 @@ namespace Gui {
         int value = m_rulerToolWidget->selectedMenuItem();
 	 return value;
 }
-
 
 }				// namespace Gui
