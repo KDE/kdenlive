@@ -154,7 +154,7 @@ void FigureEditor::keyPressEvent ( QKeyEvent * e )
         // delete item on del key press
         if (e->key()==Qt::Key_Delete) {
                 if (selectedItem) {
-                        delete selectedItem;
+                        deleteItem(selectedItem);
                         delete selection;
                         selection=0;
                         canvas()->update();
@@ -201,12 +201,15 @@ void FigureEditor::itemDown()
 void FigureEditor::deleteItem(QCanvasItem *i)
 {
         // delete item
+        int deletedIndex = i->z();
+        delete i;
+        numItems--;
         QCanvasItemList list = canvas()->allItems();
         QCanvasItemList::Iterator it = list.begin();
-        for (; it != list.end(); ++it)
-                if ((*it)->z()<=i->z())
+        for (; it != list.end(); ++it) {
+            if ((*it)->z()>deletedIndex && (*it)->z()<1000)
                         (*it)->setZ((*it)->z()-1);
-        delete i;
+        }
 }
 
 
@@ -413,7 +416,7 @@ void FigureEditor::contentsMouseMoveEvent(QMouseEvent* e)
                 canvas()->setAllChanged ();
                 canvas()->update();
         }
-        else if (!l.isEmpty()) {
+        else if (!l.isEmpty() && operationMode == CursorMode) {
             QCanvasItemList::Iterator it=l.begin();
             //if (*it) setCursor(crossCursor);
             bool isInCorner = false;
@@ -559,7 +562,7 @@ QDomDocument FigureEditor::toXml()
         // Parse items in revers order to draw them on the pixmap
     QCanvasItemList::Iterator it = list.fromLast ();
     for (; it!=list.end(); --it) {
-        if ( *it ) {
+        if ( *it && (*it)->z()>=0 && (*it)->z()<1000) {
             
             QDomElement producer = sceneList.createElement("object");
             producer.setAttribute("type", QString::number((*it)->rtti ()));
@@ -588,7 +591,7 @@ QDomDocument FigureEditor::toXml()
 void FigureEditor::setXml(const QDomDocument &xml)
 {
     QDomElement docElem = xml.documentElement();
-
+    numItems = 0;
     QDomNode n = docElem.firstChild();
     while( !n.isNull() ) {
         QDomElement e = n.toElement(); // try to convert the node to an element.
