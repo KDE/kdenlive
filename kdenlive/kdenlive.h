@@ -258,6 +258,10 @@ namespace Gui {
 	void slotNextFrame();
 		/** Move the active monitor backwards one frame */
 	void slotLastFrame();
+        /** Move the active monitor forward one second */
+        void slotNextSecond();
+        /** Move the active monitor backwards one second */
+        void slotLastSecond();
 		/** Set the inpoint of the active monitor to the current seek position */
 	void slotSetInpoint();
 		/** Set the outpoint of the active monitor to the current seek position */
@@ -381,7 +385,9 @@ namespace Gui {
 	KAction *actionTogglePlaySelected;
 	KAction *actionNextFrame;
 	KAction *actionLastFrame;
-	KAction *actionSetInpoint;
+        KAction *actionNextSecond;
+        KAction *actionLastSecond;
+        KAction *actionSetInpoint;
 	KAction *actionSetOutpoint;
 	KAction *actionDeleteSelected;
 	KAction *actionToggleSnapMarker;

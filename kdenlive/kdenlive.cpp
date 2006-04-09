@@ -305,6 +305,14 @@ namespace Gui {
 	    new KAction(i18n("Back one frame"), KShortcut(Qt::Key_Left),
 	    this, SLOT(slotLastFrame()), actionCollection(),
 	    "backward_frame");
+        actionNextSecond =
+                new KAction(i18n("Forward 1 second"),
+                            KShortcut(Qt::CTRL | Qt::Key_Right), this, SLOT(slotNextSecond()),
+                            actionCollection(), "forward_second");
+        actionLastSecond =
+                new KAction(i18n("Back one second"), KShortcut(Qt::CTRL | Qt::Key_Left),
+                            this, SLOT(slotLastSecond()), actionCollection(),
+                            "backward_second");
 	actionSetInpoint =
 	    new KAction(i18n("Set inpoint"), KShortcut(Qt::Key_I), this,
 	    SLOT(slotSetInpoint()), actionCollection(), "set_inpoint");
@@ -1613,27 +1621,45 @@ namespace Gui {
     void KdenliveApp::slotNextFrame() {
         if (keyTimer->isActive()) return; // do not allow key repeat too often otherwise the cursor gets crazy
         keyTimer->start(100, true);
-	slotStatusMsg(i18n("Moving forward one frame"));
 	if (m_monitorManager.hasActiveMonitor()) {
 	    m_monitorManager.activeMonitor()->editPanel()->
 		seek(m_monitorManager.activeMonitor()->screen()->
 		seekPosition() + GenTime(1,
 		    getDocument()->framesPerSecond()));
 	}
-	slotStatusMsg(i18n("Ready."));
     }
 
     void KdenliveApp::slotLastFrame() {
         if (keyTimer->isActive()) return; // do not allow key repeat too often otherwise the cursor gets crazy
         keyTimer->start(100, true);
-	slotStatusMsg(i18n("Moving backwards one frame"));
 	if (m_monitorManager.hasActiveMonitor()) {
 	    m_monitorManager.activeMonitor()->editPanel()->
 		seek(m_monitorManager.activeMonitor()->screen()->
 		seekPosition() - GenTime(1,
 		    getDocument()->framesPerSecond()));
 	}
-	slotStatusMsg(i18n("Ready."));
+    }
+    
+    void KdenliveApp::slotNextSecond() {
+        if (keyTimer->isActive()) return; // do not allow key repeat too often otherwise the cursor gets crazy
+        keyTimer->start(100, true);
+        if (m_monitorManager.hasActiveMonitor()) {
+            m_monitorManager.activeMonitor()->editPanel()->
+                    seek(m_monitorManager.activeMonitor()->screen()->
+                    seekPosition() + GenTime(getDocument()->framesPerSecond(),
+            getDocument()->framesPerSecond()));
+        }
+    }
+
+    void KdenliveApp::slotLastSecond() {
+        if (keyTimer->isActive()) return; // do not allow key repeat too often otherwise the cursor gets crazy
+        keyTimer->start(100, true);
+        if (m_monitorManager.hasActiveMonitor()) {
+            m_monitorManager.activeMonitor()->editPanel()->
+                    seek(m_monitorManager.activeMonitor()->screen()->
+                    seekPosition() - GenTime(getDocument()->framesPerSecond(),
+            getDocument()->framesPerSecond()));
+        }
     }
 
     void KdenliveApp::slotSetInpoint() {
