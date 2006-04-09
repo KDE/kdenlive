@@ -59,10 +59,13 @@ FigureEditor::FigureEditor(
 {
         //Create temp file that will be used for preview in the Mlt monitor
         tmp=new KTempFile(QString::null,".png");
-        selection=0;
-        numItems=0;
-        drawingRect=0;
-        selectedItem=0;
+        selection = 0;
+        moving = 0;
+        numItems = 0;
+        drawingRect = 0;
+        selectedItem = 0;
+        operationMode = CursorMode;
+        m_isDrawing = false;
 
         // Enable focus to grab keyboard events
         setFocusPolicy(QWidget::StrongFocus);
@@ -70,6 +73,7 @@ FigureEditor::FigureEditor(
 
         //TODO make background color configurable
         canvas()->setBackgroundColor(black);
+        viewport()->setMouseTracking(true);
 
         // Draw rectangle showing safety margins for the text
         QCanvasRectangle *marginRect = new QCanvasRectangle(QRect(horizontalMarginSize,verticalMarginSize,imageWidth-(2*horizontalMarginSize),imageHeight-(2*verticalMarginSize)),canvas());
@@ -124,6 +128,7 @@ void FigureEditor::contentsMouseReleaseEvent(QMouseEvent* e)
         }
         // If user was drawing a new rectangle, create it
         if (operationMode == RectMode) {
+                m_isDrawing = false;
                 delete drawingRect;
                 drawingRect=0;
                 QPoint p = inverseWorldMatrix().map(e->pos());
@@ -218,7 +223,6 @@ void FigureEditor::startResize(QPoint p)
 void FigureEditor::contentsMousePressEvent(QMouseEvent* e)
 {
         QPoint p = inverseWorldMatrix().map(e->pos());
-        kdDebug()<<"--------------  CLICKED  --------------"<<endl;
         // Create new item if user wants to
         if (operationMode!=CursorMode) {
                 delete selection;
@@ -228,6 +232,7 @@ void FigureEditor::contentsMousePressEvent(QMouseEvent* e)
                 if (operationMode == TextMode)
                         emit addText(p);
                 if (operationMode == RectMode)
+                        m_isDrawing = true;
                         draw_start=p;
                 return;
         }
@@ -246,31 +251,42 @@ void FigureEditor::contentsMousePressEvent(QMouseEvent* e)
 
 	QCanvasItemList::Iterator it=l.begin();
         // If user clicked in a rectangle corner, start resizing
-        if (*it == selection) {
-                uint dist=(p-(*selection).rect().topLeft()).manhattanLength();
+        for (; it!=l.end(); ++it) {
+            if (*it && (*it)->rtti()!=3 && (*it)->z()>=0 && (*it)->z()<1000) {
+                uint dist=(p-((QCanvasRectangle *)(*it))->rect().topLeft()).manhattanLength();
                 if (dist<20) {
-                        startResize((*selection).rect().bottomRight());
+                    selectedItem = *it;
+                    emit selectedCanvasItem((QCanvasRectangle*)(*it));
+                    startResize(((QCanvasRectangle *)(*it))->rect().bottomRight());
                         return;
                 }
-                dist=(p-(*selection).rect().topRight()).manhattanLength();
+                dist=(p-((QCanvasRectangle *)(*it))->rect().topRight()).manhattanLength();
                 if (dist<20) {
-                        startResize((*selection).rect().bottomLeft());
+                    selectedItem = *it;
+                    emit selectedCanvasItem((QCanvasRectangle*)(*it));
+                    startResize(((QCanvasRectangle *)(*it))->rect().bottomLeft());
                         return;
                 }
-                dist=(p-(*selection).rect().bottomRight()).manhattanLength();
+                dist=(p-((QCanvasRectangle *)(*it))->rect().bottomRight()).manhattanLength();
                 if (dist<20) {
-                        startResize((*selection).rect().topLeft());
+                    selectedItem = *it;
+                    emit selectedCanvasItem((QCanvasRectangle*)(*it));
+                    startResize(((QCanvasRectangle *)(*it))->rect().topLeft());
                         return;
                 }
-                dist=(p-(*selection).rect().bottomLeft()).manhattanLength();
+                dist=(p-((QCanvasRectangle *)(*it))->rect().bottomLeft()).manhattanLength();
                 if (dist<20) {
-                        startResize((*selection).rect().topRight());
+                    selectedItem = *it;
+                    emit selectedCanvasItem((QCanvasRectangle*)(*it));
+                    startResize(((QCanvasRectangle *)(*it))->rect().topRight());
                         return;
                 }
-                it++;
+            }
         }
 
         // Otherwise, select item and prepare for moving
+        it = l.begin();
+        if (*it == selection) it++;
         moving = *it;
         selectedItem = moving;
         if (selection)
@@ -370,7 +386,8 @@ void FigureEditor::changeColor(const QColor & newColor)
 void FigureEditor::contentsMouseMoveEvent(QMouseEvent* e)
 {
         QPoint p = inverseWorldMatrix().map(e->pos());
-
+        QCanvasItemList l=canvas()->collisions(p);
+        
         // move item
         if ( moving ) {
                 setCursor(QCursor(Qt::SizeAllCursor));
@@ -382,18 +399,65 @@ void FigureEditor::contentsMouseMoveEvent(QMouseEvent* e)
                         setCursor(arrowCursor);
                         emit adjustButtons();
                 }
+                canvas()->setAllChanged ();
+                canvas()->update();
         }
         // Creating rectangle
-        else if (operationMode == RectMode || operationMode == ResizeMode) {
+        else if ((operationMode == RectMode && m_isDrawing) || operationMode == ResizeMode) {
                 if (drawingRect)
                         delete drawingRect;
                 drawingRect = new QCanvasRectangle(QRect(draw_start,p),canvas());
                 drawingRect->setPen(QPen(yellow));
                 drawingRect->setZ(1001);
                 drawingRect->show();
+                canvas()->setAllChanged ();
+                canvas()->update();
         }
-        canvas()->setAllChanged ();
-        canvas()->update();
+        else if (!l.isEmpty()) {
+            QCanvasItemList::Iterator it=l.begin();
+            //if (*it) setCursor(crossCursor);
+            bool isInCorner = false;
+            bool found = false;
+            bool reverseCursor = false;
+            for (; it!=l.end(); ++it) {
+                if (*it && (*it)->z()>=0 && (*it)->z()<1000) {
+                    found = true;
+                    if ((*it)->rtti ()==5) {// can only resize rectangle items
+                    
+                    uint dist=(p-((QCanvasRectangle *)(*it))->rect().topLeft()).manhattanLength();
+                    if (dist<20) {
+                        isInCorner = true;
+                        reverseCursor = true;
+                        break;
+                    }
+                    dist=(p-((QCanvasRectangle *)(*it))->rect().topRight()).manhattanLength();
+                    if (dist<20) {
+                        isInCorner = true;
+                        break;
+                    }
+                    dist=(p-((QCanvasRectangle *)(*it))->rect().bottomRight()).manhattanLength();
+                    if (dist<20) {
+                        isInCorner = true;
+                        reverseCursor = true;
+                        break;
+                    }
+                    dist=(p-((QCanvasRectangle *)(*it))->rect().bottomLeft()).manhattanLength();
+                    if (dist<20) {
+                        isInCorner = true;
+                        break;
+                    }
+                }
+            }
+            }
+            if (found) {
+                if (isInCorner) {
+                    if (reverseCursor) setCursor(SizeFDiagCursor);
+                    else setCursor(SizeBDiagCursor);
+                }
+                else setCursor(sizeAllCursor);
+            }
+            else setCursor(arrowCursor);
+        }
 }
 
 

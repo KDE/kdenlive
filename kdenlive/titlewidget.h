@@ -82,6 +82,7 @@ private:
         QCanvasItem* moving;
         QPoint moving_start;
         QPoint draw_start;
+        bool m_isDrawing;
 };
 
 
