@@ -451,6 +451,7 @@ namespace Gui {
 	KDockWidget *m_dockEffectStack;
         
         exportWidget *m_exportWidget;
+        QTimer *keyTimer;
 
 
 	ProjectFormatManager m_projectFormatManager;

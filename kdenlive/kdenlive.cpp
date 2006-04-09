@@ -528,6 +528,7 @@ namespace Gui {
 	// create the main widget here that is managed by KTMainWindow's view-region and
 	// connect the widget to your document to display document contents.
 
+        keyTimer = new QTimer( this );
 	view = new QWidget(this);
         m_menuPosition = QPoint();
 	KDockWidget *mainDock =
@@ -1610,6 +1611,8 @@ namespace Gui {
     }
 
     void KdenliveApp::slotNextFrame() {
+        if (keyTimer->isActive()) return; // do not allow key repeat too often otherwise the cursor gets crazy
+        keyTimer->start(100, true);
 	slotStatusMsg(i18n("Moving forward one frame"));
 	if (m_monitorManager.hasActiveMonitor()) {
 	    m_monitorManager.activeMonitor()->editPanel()->
@@ -1621,6 +1624,8 @@ namespace Gui {
     }
 
     void KdenliveApp::slotLastFrame() {
+        if (keyTimer->isActive()) return; // do not allow key repeat too often otherwise the cursor gets crazy
+        keyTimer->start(100, true);
 	slotStatusMsg(i18n("Moving backwards one frame"));
 	if (m_monitorManager.hasActiveMonitor()) {
 	    m_monitorManager.activeMonitor()->editPanel()->
