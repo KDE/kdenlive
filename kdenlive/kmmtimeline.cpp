@@ -36,11 +36,9 @@ namespace Gui {
 	// i.e. when the constructor has had chance to construct a KMMRulerPanel so that KMMTimeLine has a typed copy of it.
 	//
 	// Of the two solutions, I prefer 2.
-	m_rulerToolWidget =
-	    dynamic_cast < KMMRulerPanel * >(rulerToolWidget());
+	m_rulerToolWidget = dynamic_cast < KMMRulerPanel * >(rulerToolWidget());
         connect(trackView(), SIGNAL(changeZoom(bool)), m_rulerToolWidget, SLOT(changeZoom(bool)));
-	connect(m_rulerToolWidget, SIGNAL(timeScaleChanged(double)), this,
-	    SLOT(setTimeScale(double)));
+	connect(m_rulerToolWidget, SIGNAL(timeScaleChanged(double)), this, SLOT(setTimeScale(double)));
     } 
     
     KMMTimeLine::~KMMTimeLine() {}

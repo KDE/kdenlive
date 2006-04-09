@@ -173,7 +173,7 @@ namespace Command {
 	of the ruler widget and the scrollbar widget.*/
 	void setPanelWidth(int width);
 
-      protected:
+    protected:
 	/** @returns the ruler tool widget. */
 	 QWidget * rulerToolWidget() const {
 	    return m_rulerToolWidget;
@@ -186,8 +186,8 @@ namespace Command {
 	  * @returns the width of the view area. */
 	    int viewWidth() const;
 
-            
-      private:
+
+    private:
 	/** GUI elements */
 	 QHBox * m_rulerBox;	// Horizontal box holding the ruler
 	QScrollView *m_trackScroll;	// Scrollview holding the tracks
@@ -225,7 +225,7 @@ namespace Command {
 	//difference between midpoint and inpoint/outpoint when inpoint or outpoint moved
 	GenTime m_midPoint;
 
-	public slots:		// Public slots
+    public slots:		// Public slots
 	/** Update the back buffer for the track views, and tell the trackViewArea widget to
 	repaint itself. */
 	void drawTrackViewBackBuffer();
@@ -262,12 +262,15 @@ namespace Command {
 	//get difference between inpoint or outpoint and midpoint when inpoint/outpoint slider moved
 	void setMidValueDiff();
 
-	private slots:		// Private slots
+    private slots:		// Private slots
 	/** Scroll the timeline by a set amount. Should be connected to m_scrollTimer */
 	void slotTimerScroll();
 	/** Collapse selected track */
 	void collapseTrack(KTrackPanel * panel, bool);
-	 signals:		// Signals
+        void slotMoveForward(bool fast);
+        void slotMoveBackward(bool fast);
+        
+    signals:		// Signals
 	/** emitted when the length of the project has changed. */
 	void projectLengthChanged(int);
 	/** Emitted when the seek position on the timeline changes. */

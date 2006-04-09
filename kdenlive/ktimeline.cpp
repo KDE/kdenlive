@@ -106,6 +106,9 @@ namespace Gui {
          SLOT(repaint()));*/
 	 connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), this,
          SLOT(slotSliderMoved(int, int)));
+         
+         connect(m_ruler, SIGNAL(moveForward(bool)), this, SLOT(slotMoveForward(bool)));
+         connect(m_ruler, SIGNAL(moveBackward(bool)), this, SLOT(slotMoveBackward(bool)));
 
 	 connect(m_ruler, SIGNAL(requestScrollLeft()), this,
 	    SLOT(slotScrollLeft()));
@@ -281,14 +284,37 @@ the display. The scale is the size of one frame.*/
     GenTime KTimeLine::seekPosition() const {
 	return GenTime(m_ruler->getSliderValue(0), m_framesPerSecond);
     }
+    
+    void KTimeLine::slotMoveForward(bool fast)
+    {
+        GenTime t = seekPosition();
+        if (fast) t += GenTime(m_framesPerSecond, m_framesPerSecond);
+        else t += GenTime(1, m_framesPerSecond);
+        seek(t);
+    }
+    
+    void KTimeLine::slotMoveBackward(bool fast)
+    {
+        GenTime t = seekPosition();
+        if (fast) t = t - GenTime(m_framesPerSecond, m_framesPerSecond);
+        else t = t - GenTime(1, m_framesPerSecond);
+        seek(t);
+    }
+    
 //returns inpoint/outpoint timeline positions -reh
-	GenTime KTimeLine::inpointPosition() const {
+    GenTime KTimeLine::inpointPosition() const {
 	return GenTime(m_ruler->getSliderValue(1), m_framesPerSecond);
-    } GenTime KTimeLine::outpointPosition() const {
+    } 
+    
+    GenTime KTimeLine::outpointPosition() const {
 	return GenTime(m_ruler->getSliderValue(2), m_framesPerSecond);
-    } GenTime KTimeLine::midpointPosition() const {
+    } 
+    
+    GenTime KTimeLine::midpointPosition() const {
 	return GenTime(m_ruler->getSliderValue(3), m_framesPerSecond);
-    } void KTimeLine::setMidValueDiff() {
+    } 
+    
+    void KTimeLine::setMidValueDiff() {
 	if (m_ruler->activeSliderID() != 3) {
 	    if (m_ruler->activeSliderID() == 1) {
 		m_midPoint = midpointPosition() - inpointPosition();

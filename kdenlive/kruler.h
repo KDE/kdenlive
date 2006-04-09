@@ -93,17 +93,18 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
   /** Sets the slider which will be "selected" if no other slider is under the mouse. Select -1 for no slider. */
 	void setAutoClickSlider(int ID);
 
-  /** Draws the ruler to a back buffered QImage, but does not display it. This image can then be
+   /** Draws the ruler to a back buffered QImage, but does not display it. This image can then be
    blitted straight to the screen for speedy drawing. */
 	void drawToBackBuffer(int start, int end);
   /** Specifies that the entire back buffer needs to be redrawn.  */
 	void invalidateBackBuffer();
   /** Specifies that part of the back buffer needs to be redrawn.  */
 	void invalidateBackBuffer(int start, int end);
-	public slots:		// public slots
+    public slots:		// public slots
 	/** Sets the slider with the given id to the given value. The display will be updated.  */
 	void setSliderValue(int id, int value);
-	 signals:		// Signals
+        
+    signals:		// Signals
 	/** This signal is emitted when the ruler is resized. */
 	void resized();
 	/** This signal is emitted whenever a sliders value changes. */
@@ -116,8 +117,11 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
 	void requestScrollRight();
 	/** Emitted when the ruler would like to be scrolled to the left. */
 	void requestScrollLeft();
+        /** Emitted when mouse wheel moves, user wants to move the cursor accordingly */
+        void moveBackward(bool);
+        void moveForward(bool);
 
-	protected slots:	// Protected slots
+    protected slots:	// Protected slots
 	/** Sets the leftmost pixel which is displayed on the widget. To understand why this
 	is in pixels rather than setting the value directly, remember that the timeline is
 	essential a "view" into the full timeline. The timeline can be scaled, so that
@@ -135,7 +139,7 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
    * to say that we would like our position updated. */
 	void slotTimerScrollEvent();
 
-      private:			// private variables
+    private:			// private variables
 	 QSize m_sizeHint;
 	/** This is the back buffer image, to which the ruler is drawn before being displayed on
 	screen. This helps to optimise drawing, and reduces flicker. */
@@ -167,7 +171,7 @@ is under the mouse. */
   /** True if the scroll timer events should emit requestScrollRight signals, false otherwise. */
 	bool m_scrollRight;
 
-      private:			// private methods
+    private:			// private methods
   /** Sets the slider under the specified coordinate to be active, and setting other sliders
   as inactive. This does not include disabled sliders. */
 	void activateSliderUnderCoordinate(int x, int y);
@@ -180,7 +184,8 @@ is under the mouse. */
 	inline void drawBigTick(QPainter & painter, int pixel);
   /** Checks that all sliders are within the ruler's current range, and if not moves them to the beginning or end of the range as appropriate. */
 	void setSlidersToRange();
-      protected:		// Protected methods
+        
+    protected:		// Protected methods
   /** Handles mouse movement. This includes tracking which slider currently has focus, but not dragging
 		of sliders around. */
 	void mouseMoveEvent(QMouseEvent * event);
@@ -188,6 +193,8 @@ is under the mouse. */
 	void mouseReleaseEvent(QMouseEvent * event);
   /** This method is called when the mouse is pressed */
 	void mousePressEvent(QMouseEvent * event);
+        
+        void wheelEvent( QWheelEvent * e );
   /** Handles window resize events. */
 	void resizeEvent(QResizeEvent * event);
   /** Sets the minimum value allowed by the ruler. If a slider is below this value at any point, it will be incremented so that it is at this value. If the part of the ruler which displays values less than this value is visible, it will be displayed in a different color to show that it is out of range. */

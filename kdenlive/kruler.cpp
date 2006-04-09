@@ -741,6 +741,19 @@ namespace Gui {
 	    }
 	}
     }
+    
+    void KRuler::wheelEvent ( QWheelEvent * e ) {
+        if (( e->state() & ControlButton) == ControlButton) { // If Ctrl is pressed, move faster
+            if (e->delta() > 0) emit moveBackward(true);
+            else emit moveForward(true);
+            e->accept();
+        }
+        else {
+            if (e->delta() > 0) emit moveBackward(false);
+            else emit moveForward(false);
+            e->accept();
+        }
+    }
 
     void KRuler::setRulerModel(KRulerModel * model) {
 	if (m_rulerModel != 0) {
