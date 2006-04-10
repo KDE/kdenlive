@@ -749,6 +749,7 @@ namespace Gui {
 	    SLOT(slotSetClipMonitorSource(DocClipRef *)));
 	connect(m_projectList, SIGNAL(clipSelected(DocClipRef *)), this,
 	    SLOT(slotProjectClipProperties(DocClipRef *)));
+
 	connect(m_projectList, SIGNAL(dragDropOccured(QDropEvent *)), this,
 	    SLOT(slot_insertClips(QDropEvent *)));
         
@@ -876,7 +877,7 @@ namespace Gui {
     {
         if( e->type() == 10000) {
             PositionChangeEvent *ev = (PositionChangeEvent *)e;
-            if (!ev->isFile()) m_workspaceMonitor->screen()->positionChanged(ev->position());
+            if (!ev->isFile()) m_monitorManager.activeMonitor()->screen()->positionChanged(ev->position());
             else {
                 if (m_exportWidget) m_exportWidget->reportProgress(ev->position());
             }
