@@ -92,6 +92,7 @@ public slots:
         void exportTimeline(QString url, QString format, QString size, GenTime startTime, GenTime endTime);
         void stopTimeLineExport();
         void slotExportOver();
+        void exportToFirewire(QString url, int port);
         
 signals:
 	/** Emitted when a renderer connects. */

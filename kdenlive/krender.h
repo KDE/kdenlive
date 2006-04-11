@@ -30,6 +30,10 @@
 #include <kprocess.h>
 #include <kurl.h>
 
+#ifdef ENABLE_FIREWIRE
+#include <libiec61883/iec61883.h>
+#endif
+
 #include "gentime.h"
 #include "avfileformatdesc.h"
 #include "avformatdesccodec.h"
@@ -289,6 +293,10 @@ class KRender:public QObject {
     void setDescription(const QString & description);
     void openMlt();
     void closeMlt();
+    
+#ifdef ENABLE_FIREWIRE
+    void dv_transmit( raw1394handle_t handle, FILE *f, int channel);
+#endif
 
     private slots:		// Private slots
 	/** Catches errors from the socket. */
@@ -379,6 +387,8 @@ class KRender:public QObject {
     for the specified url from the renderer. Upon return, the result will be emitted
     via replyGetFileProperties(). */
     void getFileProperties(KURL url);
+    
+    void exportFileToFirewire(QString srcFileName, int port);
 
 };
 

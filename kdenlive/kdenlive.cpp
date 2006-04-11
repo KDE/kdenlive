@@ -1313,8 +1313,9 @@ namespace Gui {
         m_exportWidget=new exportWidget(doc->projectClip().duration(), this,"exporter",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
         connect(m_exportWidget,SIGNAL(exportTimeLine(QString, QString, QString, GenTime, GenTime)),m_workspaceMonitor->screen(),SLOT(exportTimeline(QString, QString, QString, GenTime, GenTime)));
         connect(m_exportWidget,SIGNAL(stopTimeLineExport()),m_workspaceMonitor->screen(),SLOT(stopTimeLineExport()));
-        
         connect(m_workspaceMonitor->screen(),SIGNAL(exportOver()),m_exportWidget,SLOT(endExport()));
+        
+        connect(m_exportWidget,SIGNAL(exportToFirewire(QString, int)),m_workspaceMonitor->screen(),SLOT(exportToFirewire(QString, int)));
         m_exportWidget->exec();
         
         /*

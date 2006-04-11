@@ -49,6 +49,7 @@ public slots:
 signals:
     void exportTimeLine(QString, QString, QString, GenTime, GenTime);
     void stopTimeLineExport();
+    void exportToFirewire(QString, int);
 	
 };
 #endif

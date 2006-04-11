@@ -17,6 +17,7 @@
 
 #include <qtabwidget.h>
 #include <qpushbutton.h>
+#include <qradiobutton.h>
 #include <qslider.h>
 #include <qspinbox.h>
 #include <qapplication.h>
@@ -45,7 +46,11 @@ exportWidget::exportWidget( const GenTime &duration, QWidget* parent, const char
     m_isRunning = false;
     
     tabWidget->page(1)->setEnabled(false);
+#ifdef ENABLE_FIREWIRE
+    tabWidget->page(2)->setEnabled(true);
+#else
     tabWidget->page(2)->setEnabled(false);
+#endif
     connect(exportButton,SIGNAL(clicked()),this,SLOT(startExport()));
     connect(encoders,SIGNAL(activated(int)),this,SLOT(slotAdjustWidgets(int)));
 }
@@ -84,38 +89,52 @@ void exportWidget::stopExport()
 
 void exportWidget::startExport()
 {
-    if (fileExportUrl->url().isEmpty()) {
-        KMessageBox::sorry(this, i18n("Please enter a file name"));
-        return;
+    if (tabWidget->currentPageIndex () == 0) { // export to file
+        if (fileExportUrl->url().isEmpty()) {
+            KMessageBox::sorry(this, i18n("Please enter a file name"));
+            return;
+        }
+        processProgress->setProgress(0);
+        if (m_isRunning) {
+            stopExport();
+            return;
+        }
+        //exportButton->setEnabled(false);
+        exportButton->setText(i18n("Stop"));
+        m_isRunning = true;
+        QString format;
+        switch (encoders->currentItem()) {
+            case 0: 
+                format = "dv";
+                break;
+            case 1:
+                format = "mpeg";
+                break;
+            case 3:
+                format = "theora";
+                break;
+            default:
+                format = "dv";
+        }
+        if (format == "mpeg") {
+            QString vsize = videoSize->currentText();
+            emit exportTimeLine(fileExportUrl->url(), format, vsize, GenTime(0), GenTime(20));
+        }
+        else {
+            emit exportTimeLine(fileExportUrl->url(), format, "", GenTime(0), GenTime(20));
+        }
     }
-    processProgress->setProgress(0);
-    if (m_isRunning) {
-        stopExport();
-        return;
-    }
-    //exportButton->setEnabled(false);
-    exportButton->setText(i18n("Stop"));
-    m_isRunning = true;
-    QString format;
-    switch (encoders->currentItem()) {
-        case 0: 
-            format = "dv";
-            break;
-        case 1:
-            format = "mpeg";
-            break;
-        case 3:
-            format = "theora";
-            break;
-        default:
-            format = "dv";
-    }
-    if (format == "mpeg") {
-        QString vsize = videoSize->currentText();
-        emit exportTimeLine(fileExportUrl->url(), format, vsize, GenTime(0), GenTime(20));
-    }
-    else {
-        emit exportTimeLine(fileExportUrl->url(), format, "", GenTime(0), GenTime(20));
+    else if (tabWidget->currentPageIndex () == 2) { // Firewire export
+        kdDebug()<<"++++++++++++++ FIREWIRE EXPORT"<<endl;
+        if ( fw_timelinebutton->isChecked()) { // export timeline
+        }
+        else { // export existing file
+            if (fw_URL->url().isEmpty()) {
+                KMessageBox::sorry(this, i18n("Please enter a file name"));
+                return;
+            }
+            emit exportToFirewire(fw_URL->url(), firewireport->currentItem());
+        }
     }
 }
 

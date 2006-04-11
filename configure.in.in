@@ -44,3 +44,24 @@ fi
 
 AC_SUBST(LIBMLT_LIBS)
 AC_SUBST(LIBMLT_CFLAGS)
+
+dnl check libraries
+PKG_CHECK_MODULES(LIBIEC61883, libiec61883 >= 1.0.0, 
+[use_iec61883=yes],
+[use_iec61883=no])
+AC_SUBST(LIBIEC61883_CFLAGS)
+AC_SUBST(LIBIEC61883_LIBS)
+if test "$use_iec61883" = "yes"; then
+  CXXFLAGS="$CXXFLAGS -DENABLE_FIREWIRE"
+fi
+AM_CONDITIONAL(ENABLE_FIREWIRE, test "$use_iec61883" = "yes")
+AC_OUTPUT
+if test "$use_iec61883" = "no"; then
+ echo " ****************************************** "
+ echo "WARNING: You do not have LIBIEC61883 >= 1.0.0."
+ echo "Firewire export / import will be disabled."
+ echo "Please install it from: www.linux1394.org"
+ echo " ****************************************** "
+fi
+
+

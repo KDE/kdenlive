@@ -34,6 +34,7 @@
 
 #include <kio/netaccess.h>
 #include <kdebug.h>
+#include <kmessagebox.h>
 #include <klocale.h>
 
 #include "krender.h"
@@ -1088,8 +1089,8 @@ void KRender::emitConsumerStopped()
 
 /*                           FILE RENDERING STUFF                     */
 
-
-/*  TEST STUFF FOR FIREWIRE EXPORT, REQUIRES LIBIECi61883
+#ifdef ENABLE_FIREWIRE
+//  FIREWIRE EXPORT, REQUIRES LIBIECi61883
 static int read_frame (unsigned char *data, int n, unsigned int dropped, void *callback_data)
 {
     FILE *f = (FILE*) callback_data;
@@ -1146,16 +1147,26 @@ void KRender::dv_transmit( raw1394handle_t handle, FILE *f, int channel)
     }
     iec61883_dv_close (dv);
 }
+#endif
 
-
-void KRender::exportFileToDv(QString srcFileName)
+void KRender::exportFileToFirewire(QString srcFileName, int port)
 {
-    exportTimeline(QString::null);
+#ifdef ENABLE_FIREWIRE
+    //exportTimeline(QString::null);
+    kdDebug()<<"EXPORT ++++++++++++++: "<<srcFileName<<endl;
 
     FILE *f = NULL;
     int oplug = -1, iplug = -1;
     f = fopen (srcFileName.ascii(), "rb");
-    raw1394handle_t handle = raw1394_new_handle_on_port (0);
+    raw1394handle_t handle = raw1394_new_handle_on_port (port);
+    if (f == NULL) {
+        KMessageBox::sorry(0,i18n("Cannot open file: ")+srcFileName.ascii());
+        return;
+    }
+    if (handle == NULL) {
+        KMessageBox::sorry(0,i18n("NO firewire access on that port"));
+        return;
+    }
     nodeid_t node = 0xffc0;
     int bandwidth;
     int channel = iec61883_cmp_connect (handle, raw1394_get_local_id (handle), &oplug, node, &iplug, &bandwidth);
@@ -1164,13 +1175,14 @@ void KRender::exportFileToDv(QString srcFileName)
         dv_transmit (handle, f, channel);
         iec61883_cmp_disconnect (handle, raw1394_get_local_id (handle), oplug, node, iplug, channel, bandwidth);
     }
-    else kdDebug() << "*******  NO DV FOUND  ********* "<< endl;
-
-    kdDebug() << "*******  OVER ********* "<< endl;
+    else KMessageBox::sorry(0,i18n("NO DV device found"));
     fclose (f);
     raw1394_destroy_handle (handle);
+#else
+KMessageBox::sorry(0, i18n("Firewire is not enabled on your system.\n Please install Libiec61883 and recompile Kdenlive"));
+#endif
 }
-*/
+
 
 void KRender::stopExport()
 {

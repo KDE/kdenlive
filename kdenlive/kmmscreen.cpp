@@ -106,6 +106,12 @@ namespace Gui {
         m_render->exportTimeline(url, format, size, startTime, endTime);
     }
     
+    /** Render project to firewire */
+    void KMMScreen::exportToFirewire(QString url, int port)
+    {
+        m_render->exportFileToFirewire(url, port);
+    }
+    
     /** Stop file rendering */
     void KMMScreen::stopTimeLineExport()
     {

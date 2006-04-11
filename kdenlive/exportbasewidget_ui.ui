@@ -8,7 +8,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>300</width>
+            <width>283</width>
             <height>356</height>
         </rect>
     </property>
@@ -28,7 +28,7 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QLayoutWidget" row="1" column="0">
+        <widget class="QLayoutWidget" row="3" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>layout2</cstring>
             </property>
@@ -83,7 +83,7 @@
                 </widget>
             </hbox>
         </widget>
-        <widget class="QTabWidget" row="0" column="0">
+        <widget class="QTabWidget" row="0" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>tabWidget</cstring>
             </property>
@@ -98,41 +98,7 @@
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <widget class="QLabel" row="4" column="0" rowspan="1" colspan="3">
-                        <property name="name">
-                            <cstring>process_label</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Processing:</string>
-                        </property>
-                    </widget>
-                    <widget class="QLabel" row="5" column="0" rowspan="1" colspan="3">
-                        <property name="name">
-                            <cstring>convert_label</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Converting:</string>
-                        </property>
-                    </widget>
-                    <widget class="KProgress" row="4" column="3" rowspan="1" colspan="2">
-                        <property name="name">
-                            <cstring>processProgress</cstring>
-                        </property>
-                    </widget>
-                    <widget class="KProgress" row="5" column="3" rowspan="1" colspan="2">
-                        <property name="name">
-                            <cstring>convertProgress</cstring>
-                        </property>
-                    </widget>
-                    <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="5">
-                        <property name="name">
-                            <cstring>autoPlay</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Play video after export</string>
-                        </property>
-                    </widget>
-                    <widget class="KComboBox" row="1" column="2" rowspan="1" colspan="2">
+                    <widget class="KComboBox" row="1" column="2">
                         <property name="name">
                             <cstring>encoders</cstring>
                         </property>
@@ -153,12 +119,12 @@
                             <string>File:</string>
                         </property>
                     </widget>
-                    <widget class="KURLRequester" row="0" column="1" rowspan="1" colspan="4">
+                    <widget class="KURLRequester" row="0" column="1" rowspan="1" colspan="3">
                         <property name="name">
                             <cstring>fileExportUrl</cstring>
                         </property>
                     </widget>
-                    <spacer row="1" column="4">
+                    <spacer row="1" column="3">
                         <property name="name">
                             <cstring>spacer5_2</cstring>
                         </property>
@@ -170,12 +136,12 @@
                         </property>
                         <property name="sizeHint">
                             <size>
-                                <width>67</width>
-                                <height>12</height>
+                                <width>224</width>
+                                <height>16</height>
                             </size>
                         </property>
                     </spacer>
-                    <widget class="QFrame" row="2" column="0" rowspan="1" colspan="5">
+                    <widget class="QFrame" row="2" column="0" rowspan="1" colspan="4">
                         <property name="name">
                             <cstring>container</cstring>
                         </property>
@@ -185,7 +151,7 @@
                         <property name="sizePolicy">
                             <sizepolicy>
                                 <hsizetype>5</hsizetype>
-                                <vsizetype>3</vsizetype>
+                                <vsizetype>1</vsizetype>
                                 <horstretch>0</horstretch>
                                 <verstretch>0</verstretch>
                             </sizepolicy>
@@ -320,25 +286,33 @@
                                     <bool>true</bool>
                                 </property>
                             </widget>
-                            <spacer row="3" column="1">
-                                <property name="name">
-                                    <cstring>spacer7</cstring>
-                                </property>
-                                <property name="orientation">
-                                    <enum>Vertical</enum>
-                                </property>
-                                <property name="sizeType">
-                                    <enum>Expanding</enum>
-                                </property>
-                                <property name="sizeHint">
-                                    <size>
-                                        <width>12</width>
-                                        <height>49</height>
-                                    </size>
-                                </property>
-                            </spacer>
                         </grid>
                     </widget>
+                    <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="4">
+                        <property name="name">
+                            <cstring>autoPlay</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Play video after export</string>
+                        </property>
+                    </widget>
+                    <spacer row="4" column="3">
+                        <property name="name">
+                            <cstring>spacer7</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>13</width>
+                                <height>31</height>
+                            </size>
+                        </property>
+                    </spacer>
                 </grid>
             </widget>
             <widget class="QWidget">
@@ -398,14 +372,29 @@
                     <widget class="KComboBox" row="0" column="1">
                         <item>
                             <property name="text">
+                                <string>0</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
                                 <string>1</string>
                             </property>
                         </item>
+                        <item>
+                            <property name="text">
+                                <string>2</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>3</string>
+                            </property>
+                        </item>
                         <property name="name">
-                            <cstring>kComboBox2</cstring>
+                            <cstring>firewireport</cstring>
                         </property>
                     </widget>
-                    <spacer row="0" column="2" rowspan="1" colspan="2">
+                    <spacer row="0" column="2">
                         <property name="name">
                             <cstring>spacer5</cstring>
                         </property>
@@ -422,7 +411,53 @@
                             </size>
                         </property>
                     </spacer>
-                    <spacer row="2" column="1">
+                    <widget class="QButtonGroup" row="1" column="0" rowspan="1" colspan="3">
+                        <property name="name">
+                            <cstring>buttonGroup1</cstring>
+                        </property>
+                        <property name="title">
+                            <string>Source</string>
+                        </property>
+                        <property name="exclusive">
+                            <bool>true</bool>
+                        </property>
+                        <grid>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QRadioButton" row="1" column="0" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>fw_timelinebutton</cstring>
+                                </property>
+                                <property name="enabled">
+                                    <bool>false</bool>
+                                </property>
+                                <property name="text">
+                                    <string>Current Timeline</string>
+                                </property>
+                                <property name="checked">
+                                    <bool>false</bool>
+                                </property>
+                            </widget>
+                            <widget class="QRadioButton" row="0" column="0">
+                                <property name="name">
+                                    <cstring>fw_filebutton</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>File</string>
+                                </property>
+                                <property name="checked">
+                                    <bool>true</bool>
+                                </property>
+                            </widget>
+                            <widget class="KURLRequester" row="0" column="1">
+                                <property name="name">
+                                    <cstring>fw_URL</cstring>
+                                </property>
+                            </widget>
+                        </grid>
+                    </widget>
+                    <spacer row="2" column="2">
                         <property name="name">
                             <cstring>spacer4</cstring>
                         </property>
@@ -435,12 +470,38 @@
                         <property name="sizeHint">
                             <size>
                                 <width>16</width>
-                                <height>66</height>
+                                <height>30</height>
                             </size>
                         </property>
                     </spacer>
                 </grid>
             </widget>
+        </widget>
+        <widget class="KProgress" row="2" column="1">
+            <property name="name">
+                <cstring>convertProgress</cstring>
+            </property>
+        </widget>
+        <widget class="KProgress" row="1" column="1">
+            <property name="name">
+                <cstring>processProgress</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="2" column="0">
+            <property name="name">
+                <cstring>convert_label</cstring>
+            </property>
+            <property name="text">
+                <string>Exporting:</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="1" column="0">
+            <property name="name">
+                <cstring>process_label</cstring>
+            </property>
+            <property name="text">
+                <string>Rendering:</string>
+            </property>
         </widget>
     </grid>
 </widget>
@@ -456,8 +517,6 @@
 </connections>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>kprogress.h</includehint>
-    <includehint>kprogress.h</includehint>
     <includehint>kcombobox.h</includehint>
     <includehint>kurlrequester.h</includehint>
     <includehint>klineedit.h</includehint>
@@ -466,5 +525,10 @@
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>
     <includehint>kcombobox.h</includehint>
+    <includehint>kurlrequester.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kprogress.h</includehint>
+    <includehint>kprogress.h</includehint>
 </includehints>
 </UI>
