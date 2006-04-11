@@ -135,8 +135,9 @@ namespace Gui {
 	 connect(stopButton, SIGNAL(pressed()), this, SLOT(stop()));
 	 connect(stopButton, SIGNAL(pressed()), this,
 	    SLOT(updateButtons()));
-    } KMMEditPanel::~KMMEditPanel() {
-    }
+    } 
+    
+    KMMEditPanel::~KMMEditPanel() {}
 
 /** Sets the length of the clip that we are viewing. */
     void KMMEditPanel::setClipLength(int frames) {
@@ -304,7 +305,7 @@ namespace Gui {
 		emit playSpeedChanged(m_playSpeed, point());
 	    } else
 		emit playSpeedChanged(m_playSpeed);
-	}
+    }
 
     }
 

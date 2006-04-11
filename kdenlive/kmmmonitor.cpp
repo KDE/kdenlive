@@ -51,7 +51,7 @@ namespace Gui {
 	    SIGNAL(inpointPositionChanged(const GenTime &)));
 	 connect(m_editPanel,
 	    SIGNAL(outpointPositionChanged(const GenTime &)), this,
-	    SIGNAL(outpointPositionChanged(const GenTime &)));
+         SIGNAL(outpointPositionChanged(const GenTime &)));
 
 	 connect(m_editPanel, SIGNAL(toggleSnapMarker()),
 	    this, SLOT(slotToggleSnapMarker()));
@@ -68,9 +68,10 @@ namespace Gui {
 	 m_screenHolder->setSizePolicy(QSizePolicy(QSizePolicy::Expanding,
 		QSizePolicy::Expanding, FALSE));
 	//m_editPanel->setSizePolicy(QSizePolicy (QSizePolicy::Expanding, QSizePolicy::Maximum, FALSE));
-
 	 connectScreen();
-    } KMMMonitor::~KMMMonitor() {
+    } 
+    
+    KMMMonitor::~KMMMonitor() {
 	if (m_editPanel)
 	    delete m_editPanel;
 	if (m_screen)
@@ -150,14 +151,11 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 		    const GenTime &, const GenTime &)), m_screen,
 	    SLOT(play(double, const GenTime &, const GenTime &)));
 
-
-
 	connect(m_screen, SIGNAL(rendererConnected()), m_editPanel,
 	    SLOT(rendererConnected()));
 	connect(m_screen, SIGNAL(rendererDisconnected()), m_editPanel,
 	    SLOT(rendererDisconnected()));
 
-	//#FIXME following line, which updates the position cursor while playing, causes random crashes.
 	connect(m_screen, SIGNAL(seekPositionChanged(const GenTime &)), this, SLOT(screenPositionChanged(const GenTime &)));
 
 	connect(m_screen, SIGNAL(playSpeedChanged(double)), m_editPanel,
@@ -185,7 +183,9 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 
     const GenTime & KMMMonitor::seekPosition() const {
 	return m_screen->seekPosition();
-    } void KMMMonitor::activateMonitor() {
+    } 
+    
+    void KMMMonitor::activateMonitor() {
 	m_app->activateMonitor(this);
     }
 
@@ -293,7 +293,7 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	m_editPanel->setInpoint(GenTime(0));
 	m_editPanel->setOutpoint(GenTime(0));
 
-	m_editPanel->seek(GenTime(0));
+        m_editPanel->seek(GenTime(0));
     }
 
     void KMMMonitor::slotStartDrag() {

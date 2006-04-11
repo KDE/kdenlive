@@ -97,7 +97,7 @@ namespace Gui {
 	bool m_playSelected;
 
 	bool m_pauseMode;
-	public slots:		// Public slots
+    public slots:		// Public slots
   /** Seeks to the end of the ruler */
 	void seekEnd();
   /** Seeks to the beginning of the ruler. */
