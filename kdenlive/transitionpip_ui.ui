@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>356</width>
-            <height>435</height>
+            <width>447</width>
+            <height>205</height>
         </rect>
     </property>
     <property name="caption">
@@ -19,20 +19,21 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QLabel" row="2" column="0">
+        <widget class="QFrame" row="0" column="3" rowspan="5" colspan="1">
             <property name="name">
-                <cstring>textLabel1</cstring>
+                <cstring>frame_preview</cstring>
             </property>
-            <property name="text">
-                <string>Size</string>
+            <property name="minimumSize">
+                <size>
+                    <width>200</width>
+                    <height>0</height>
+                </size>
             </property>
-        </widget>
-        <widget class="QLabel" row="4" column="0">
-            <property name="name">
-                <cstring>textLabel1_4</cstring>
+            <property name="frameShape">
+                <enum>Box</enum>
             </property>
-            <property name="text">
-                <string>Vert. position</string>
+            <property name="frameShadow">
+                <enum>Plain</enum>
             </property>
         </widget>
         <widget class="QSpinBox" row="3" column="2">
@@ -46,20 +47,18 @@
                 <number>-100</number>
             </property>
         </widget>
-        <widget class="QSpinBox" row="1" column="2">
+        <widget class="QSlider" row="2" column="1">
             <property name="name">
-                <cstring>spin_transparency</cstring>
-            </property>
-        </widget>
-        <widget class="QSpinBox" row="2" column="2">
-            <property name="name">
-                <cstring>spin_size</cstring>
+                <cstring>slider_size</cstring>
             </property>
             <property name="maxValue">
                 <number>200</number>
             </property>
             <property name="value">
                 <number>100</number>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
             </property>
         </widget>
         <widget class="QSpinBox" row="4" column="2">
@@ -71,6 +70,38 @@
             </property>
             <property name="minValue">
                 <number>-100</number>
+            </property>
+        </widget>
+        <widget class="QSpinBox" row="1" column="2">
+            <property name="name">
+                <cstring>spin_transparency</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="4" column="0">
+            <property name="name">
+                <cstring>textLabel1_4</cstring>
+            </property>
+            <property name="text">
+                <string>Vert. position</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="2" column="0">
+            <property name="name">
+                <cstring>textLabel1</cstring>
+            </property>
+            <property name="text">
+                <string>Size</string>
+            </property>
+        </widget>
+        <widget class="QSpinBox" row="2" column="2">
+            <property name="name">
+                <cstring>spin_size</cstring>
+            </property>
+            <property name="maxValue">
+                <number>200</number>
+            </property>
+            <property name="value">
+                <number>100</number>
             </property>
         </widget>
         <widget class="QLabel" row="1" column="0">
@@ -100,20 +131,6 @@
                 <enum>Horizontal</enum>
             </property>
         </widget>
-        <widget class="QSlider" row="4" column="1">
-            <property name="name">
-                <cstring>slider_y</cstring>
-            </property>
-            <property name="minValue">
-                <number>-100</number>
-            </property>
-            <property name="maxValue">
-                <number>100</number>
-            </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-        </widget>
         <widget class="QSlider" row="3" column="1">
             <property name="name">
                 <cstring>slider_x</cstring>
@@ -128,112 +145,79 @@
                 <enum>Horizontal</enum>
             </property>
         </widget>
-        <widget class="QFrame" row="5" column="0" rowspan="1" colspan="3">
+        <widget class="QSlider" row="4" column="1">
             <property name="name">
-                <cstring>frame_preview</cstring>
+                <cstring>slider_y</cstring>
             </property>
-            <property name="frameShape">
-                <enum>Box</enum>
-            </property>
-            <property name="frameShadow">
-                <enum>Plain</enum>
-            </property>
-        </widget>
-        <widget class="QSlider" row="2" column="1">
-            <property name="name">
-                <cstring>slider_size</cstring>
+            <property name="minValue">
+                <number>-100</number>
             </property>
             <property name="maxValue">
-                <number>200</number>
-            </property>
-            <property name="value">
                 <number>100</number>
             </property>
             <property name="orientation">
                 <enum>Horizontal</enum>
             </property>
         </widget>
-        <widget class="QGroupBox" row="0" column="0" rowspan="1" colspan="3">
+        <spacer row="5" column="1">
             <property name="name">
-                <cstring>groupBox2</cstring>
+                <cstring>spacer2</cstring>
             </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>5</hsizetype>
-                    <vsizetype>4</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>16</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QButtonGroup" row="0" column="0" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>buttonGroup1</cstring>
             </property>
             <property name="title">
-                <string>Keyframe</string>
+                <string>Keyframes</string>
+            </property>
+            <property name="exclusive">
+                <bool>true</bool>
             </property>
             <grid>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QLabel" row="1" column="0">
+                <widget class="QRadioButton" row="0" column="0">
                     <property name="name">
-                        <cstring>textLabel1_2_2_2</cstring>
+                        <cstring>radio_start</cstring>
                     </property>
                     <property name="text">
-                        <string>Position</string>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="0" column="0">
-                    <property name="name">
-                        <cstring>textLabel1_2_2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Number</string>
-                    </property>
-                </widget>
-                <widget class="QSpinBox" row="0" column="1">
-                    <property name="name">
-                        <cstring>spin_number</cstring>
-                    </property>
-                </widget>
-                <widget class="QSpinBox" row="1" column="1">
-                    <property name="name">
-                        <cstring>spin_position</cstring>
-                    </property>
-                </widget>
-                <widget class="QSlider" row="1" column="2" rowspan="1" colspan="3">
-                    <property name="name">
-                        <cstring>slider_kfPosition</cstring>
-                    </property>
-                    <property name="maxValue">
-                        <number>100</number>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                </widget>
-                <widget class="QPushButton" row="0" column="4">
-                    <property name="name">
-                        <cstring>button_remove</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Remove</string>
-                    </property>
-                    <property name="accel">
-                        <string></string>
-                    </property>
-                </widget>
-                <widget class="QPushButton" row="0" column="3">
-                    <property name="name">
-                        <cstring>button_add</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Add</string>
+                        <string>St&amp;art</string>
                     </property>
                     <property name="accel">
                         <string>Alt+A</string>
                     </property>
+                    <property name="checked">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="0" column="1">
+                    <property name="name">
+                        <cstring>radio_end</cstring>
+                    </property>
+                    <property name="text">
+                        <string>E&amp;nd</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+N</string>
+                    </property>
                 </widget>
                 <spacer row="0" column="2">
                     <property name="name">
-                        <cstring>spacer5</cstring>
+                        <cstring>spacer3</cstring>
                     </property>
                     <property name="orientation">
                         <enum>Horizontal</enum>
@@ -243,7 +227,7 @@
                     </property>
                     <property name="sizeHint">
                         <size>
-                            <width>16</width>
+                            <width>31</width>
                             <height>20</height>
                         </size>
                     </property>

@@ -39,6 +39,8 @@
 #include "createcolorclip_ui.h"
 #include "createimageclip_ui.h"
 #include "exportwidget.h"
+#include "transitiondialog.h"
+#include "transition.h"
 
 // forward declaration of the Kdenlive classes
 class DocClipProject;
@@ -331,6 +333,11 @@ namespace Gui {
         
         /** Add a transition between the 2 selected clips or remove it if it already exists */
         void switchTransition();
+	TransitionDialog *transitionPanel(){
+            return m_transitionPanel;
+    	};
+
+	void slotEditTransition(Transition *transition);
         
       private slots: 
         void slotToggleClipMonitor();
@@ -432,6 +439,7 @@ namespace Gui {
 	EffectParamDialog *m_effectParamDialog;
 	EffectStackDialog *m_effectStackDialog;
 	ClipPropertiesDialog *m_clipPropertyDialog;
+	TransitionDialog *m_transitionPanel;
 	KDockWidget *clipWidget;
 
 	/** The monitor manager that manages the life of the various monitors.*/
@@ -455,6 +463,7 @@ namespace Gui {
 	KDockWidget *m_dockEffectList;
 	KDockWidget *m_dockProjectList;
 	KDockWidget *m_dockEffectStack;
+	KDockWidget *m_dockTransition;
         
         exportWidget *m_exportWidget;
         QTimer *keyTimer;

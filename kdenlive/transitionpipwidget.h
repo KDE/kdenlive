@@ -112,5 +112,8 @@ public slots:
     void createImage(KURL url);
     QString parameters();
     void setParameters(QString params);
+
+signals:
+    void transitionChanged();
 };
 #endif

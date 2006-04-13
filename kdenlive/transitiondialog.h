@@ -22,9 +22,11 @@
 #include <qlabel.h>
 #include <qvbox.h>
 #include <qmap.h>
+#include <qtabwidget.h>
 
 #include <kdialogbase.h>
 
+#include "transition.h"
 #include "transitioncrossfade_ui.h"
 #include "transitionwipe_ui.h"
 #include "transitionpipwidget.h"
@@ -43,7 +45,7 @@ namespace Gui {
   *@author Jason Wood
   */
 
-    class TransitionDialog:public KDialogBase {
+    class TransitionDialog:public QTabWidget {
       Q_OBJECT public:
               TransitionDialog(int width, int height, QWidget * parent = 0, const char *name = 0);
 	 virtual ~ TransitionDialog();
@@ -54,6 +56,10 @@ namespace Gui {
     void setActivePage(const QString &pageName);
     void setTransitionDirection(bool direc);
     void setTransitionParameters(const QMap < QString, QString > parameters);
+    void setTransition(Transition *transition);
+
+    private slots:
+	void applyChanges();
 
       private:
 	transitionCrossfade_UI *transitCrossfade;
@@ -61,6 +67,10 @@ namespace Gui {
 	transitionPipWidget *transitPip;
         int m_height;
         int m_width;
+	Transition *m_transition;
+
+    signals:
+	void transitionChanged(bool);
 
     };
 

@@ -29,6 +29,7 @@
 #include <qslider.h>
 #include <qspinbox.h>
 #include <qtoolbutton.h>
+#include <qradiobutton.h>
 #include <qcursor.h>
 
 #include <kpushbutton.h>
@@ -423,8 +424,6 @@ transitionPipWidget::transitionPipWidget(int width, int height, QWidget* parent,
         canvas=new QCanvas(imageWidth,imageHeight);
         canview = new ScreenPreview(*canvas,frame_preview);
         canview->initRectangle(imageWidth/2-frameWidth/2,imageHeight/2-frameHeight/2,frameWidth,frameHeight);
-        spin_number->setMinValue(0);
-        spin_number->setMaxValue(1);
 
         QHBoxLayout* flayout = new QHBoxLayout( frame_preview, 1, 1, "flayout");
         flayout->addWidget( canview, 1 );
@@ -444,7 +443,7 @@ transitionPipWidget::transitionPipWidget(int width, int height, QWidget* parent,
         connect(spin_size, SIGNAL(valueChanged(int)), this, SLOT(adjustSize(int)));
         connect(spin_transparency, SIGNAL(valueChanged(int)), this, SLOT(adjustTransparency(int)));
         
-        connect(spin_number, SIGNAL(valueChanged(int)), this, SLOT(changeKeyFrame(int)));
+        connect(radio_start, SIGNAL(stateChanged(int)), this, SLOT(changeKeyFrame(int)));
         m_transitionParameters[0]="0:0:100:0";
         m_transitionParameters[1]="50:0:100:0";
         changeKeyFrame(0);
@@ -455,9 +454,11 @@ transitionPipWidget::~transitionPipWidget()
 {}
 
 
-void transitionPipWidget::changeKeyFrame(int ix)
+void transitionPipWidget::changeKeyFrame(int isOn)
 {
-    int x, y, size, transp;
+    int x, y, size, transp, ix;
+    if (isOn == QButton::On) ix = 0;
+    else ix = 1;
     x = m_transitionParameters[ix].section(":",0,0).toInt();
     y = m_transitionParameters[ix].section(":",1,1).toInt();
     size = m_transitionParameters[ix].section(":",2,2).toInt();
@@ -471,7 +472,8 @@ void transitionPipWidget::changeKeyFrame(int ix)
 void transitionPipWidget::adjustSize(int x)
 {
     int ix;
-    ix = spin_number->value();
+    if (radio_start->isChecked()) ix = 0;
+    else ix = 1;
     QString s1 = m_transitionParameters[ix].section(":",0,1);
     QString s2 = m_transitionParameters[ix].section(":",3);
     m_transitionParameters[ix] = s1+":"+ QString::number(x)+":"+s2;
@@ -481,34 +483,41 @@ void transitionPipWidget::adjustSize(int x)
 void transitionPipWidget::adjustTransparency(int x)
 {
     int ix;
-    ix = spin_number->value();
+    if (radio_start->isChecked()) ix = 0;
+    else ix = 1;
     QString s1 = m_transitionParameters[ix].section(":",0,2);
     m_transitionParameters[ix] = s1+":"+ QString::number(x);
+    emit transitionChanged();
 }
 
 void transitionPipWidget::moveX(int x)
 {
     int ix;
-    ix = spin_number->value();
+    if (radio_start->isChecked()) ix = 0;
+    else ix = 1;
     QString s = m_transitionParameters[ix].section(":",1);
     m_transitionParameters[ix] = QString::number(x)+":"+s;
     canview->moveX(x);
+    emit transitionChanged();
 }
 
 void transitionPipWidget::moveY(int y)
 {
     int ix;
-    ix = spin_number->value();
+    if (radio_start->isChecked()) ix = 0;
+    else ix = 1;
     QString s1 = m_transitionParameters[ix].section(":",0,0);
     QString s2 = m_transitionParameters[ix].section(":",2);
     m_transitionParameters[ix] = s1+":"+ QString::number(y)+":"+s2;
     canview->moveY(y);
+    emit transitionChanged();
 }
 
 void transitionPipWidget::adjustSliders(int x, int y)
 {
     int ix;
-    ix = spin_number->value();
+    if (radio_start->isChecked()) ix = 0;
+    else ix = 1;
     QString s = m_transitionParameters[ix].section(":",2);
     m_transitionParameters[ix] = QString::number(x)+":"+QString::number(y)+":"+s;
     spin_x->setValue(x);
@@ -548,7 +557,8 @@ void transitionPipWidget::setParameters(QString params)
     
     m_transitionParameters[0]=x1+":"+y1+":"+size1+":"+transp1;
     m_transitionParameters[1]=x2+":"+y2+":"+size2+":"+transp2;
-    changeKeyFrame(0);
+    changeKeyFrame(QButton::On);
+
 }
 
 

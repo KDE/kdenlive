@@ -36,17 +36,33 @@
 namespace Gui {
 
     TransitionDialog::TransitionDialog(int width, int height, QWidget * parent,
-                                       const char *name):  KDialogBase (KDialogBase::IconList, 0, parent,name, true, i18n("Transition Dialog"), KDialogBase::Ok | KDialogBase::Cancel), m_height(height), m_width(width)
+                                       const char *name):  QTabWidget(parent)
+
+/*KDialogBase (KDialogBase::IconList, 0, parent,name, true, i18n("Transition Dialog"), KDialogBase::Ok | KDialogBase::Cancel)*/, m_height(height), m_width(width), m_transition(0)
             //KDialogBase(parent, name, true, i18n("Transition Dialog"),KDialogBase::Ok | KDialogBase::Cancel) 
                                        {
-    QVBox *page1 = addVBoxPage( i18n("Crossfade") );
-    transitCrossfade = new transitionCrossfade_UI(page1);
+    
+    transitCrossfade = new transitionCrossfade_UI(this);
+    addTab(transitCrossfade, i18n("Crossfade") );
 
-    QVBox *page2 = addVBoxPage( i18n("Wipe") );
-    transitWipe = new transitionWipe_UI(page2);
+    transitWipe = new transitionWipe_UI(this);
+    addTab(transitWipe, i18n("Wipe") );
+    
+    transitPip = new transitionPipWidget(240,192,this);
+    addTab(transitPip, i18n("PIP") );
 
-    QVBox *page3 = addVBoxPage( i18n("PIP") );
-    transitPip = new transitionPipWidget(240,192,page3);
+    connect(transitWipe->transpStart, SIGNAL(sliderReleased ()), this, SLOT(applyChanges()));
+    connect(transitWipe->transpEnd, SIGNAL(sliderReleased ()), this, SLOT(applyChanges()));
+    connect(transitWipe->transitionDown, SIGNAL(pressed()), this, SLOT(applyChanges()));
+    connect(transitWipe->transitionUp, SIGNAL(pressed()), this, SLOT(applyChanges()));
+    connect(transitWipe->transitionRight, SIGNAL(pressed()), this, SLOT(applyChanges()));
+    connect(transitWipe->transitionLeft, SIGNAL(pressed()), this, SLOT(applyChanges()));
+
+    connect(transitPip, SIGNAL(transitionChanged()), this, SLOT(applyChanges()));
+
+    connect(this, SIGNAL( currentChanged ( QWidget * )), this, SLOT(applyChanges()));
+
+
     
     adjustSize();
     
@@ -65,17 +81,35 @@ namespace Gui {
 
 TransitionDialog::~TransitionDialog() {}
 
+void TransitionDialog::setTransition(Transition *transition)
+{
+	m_transition = transition;
+	setActivePage(transition->transitionType());
+        setTransitionDirection(transition->invertTransition());
+        setTransitionParameters(transition->transitionParameters());
+}
+
+void TransitionDialog::applyChanges()
+{
+	if (m_transition == 0) return;
+	m_transition->setTransitionType(selectedTransition());
+        m_transition->setTransitionParameters(transitionParameters());
+	m_transition->setTransitionDirection(transitionDirection());
+	emit transitionChanged(true);
+}
+
 void TransitionDialog::setActivePage(const QString &pageName)
 {
-    if (pageName == "composite") showPage(1);
-    else if (pageName == "pip") showPage(2);
+    if (pageName == "composite") setCurrentPage(1);
+    else if (pageName == "pip") setCurrentPage(2);
+    else setCurrentPage(0);
 }
 
 QString TransitionDialog::selectedTransition() 
 {
     QString pageName = "luma";
-    if (activePageIndex() == 1) pageName = "composite";
-    else if (activePageIndex() == 2) pageName = "pip";
+    if (currentPageIndex() == 1) pageName = "composite";
+    else if (currentPageIndex() == 2) pageName = "pip";
     return pageName;
 }
 
@@ -87,7 +121,7 @@ void TransitionDialog::setTransitionDirection(bool direc)
 
 void TransitionDialog::setTransitionParameters(const QMap < QString, QString > parameters)
 {
-    if (activePageIndex() == 1) {
+    if (currentPageIndex() == 1) {
         // parse the "geometry" argument of MLT's composite transition
         transitWipe->rescaleImages->setChecked(parameters["distort"].toInt());
         QString geom = parameters["geometry"];
@@ -111,7 +145,7 @@ void TransitionDialog::setTransitionParameters(const QMap < QString, QString > p
         else if (geom.endsWith("-100%,0%:100%x100%")) transitWipe->transitionLeft->setOn(true);
         else if (geom.endsWith("100%,0%:100%x100%")) transitWipe->transitionRight->setOn(true);
     }
-    else if (activePageIndex() == 2) {
+    else if (currentPageIndex() == 2) {
         // parse the "geometry" argument of MLT's composite transition
         //transitWipe->rescaleImages->setChecked(parameters["distort"].toInt());
         transitPip->setParameters(parameters["geometry"]);
@@ -121,8 +155,8 @@ void TransitionDialog::setTransitionParameters(const QMap < QString, QString > p
 bool TransitionDialog::transitionDirection()
 {
     bool result = true;
-    if (activePageIndex() == 0) result = transitCrossfade->invertTransition->isChecked();
-    if (activePageIndex() == 1) result = transitWipe->invertTransition->isChecked();
+    if (currentPageIndex() == 0) result = transitCrossfade->invertTransition->isChecked();
+    if (currentPageIndex() == 1) result = transitWipe->invertTransition->isChecked();
     //if (activePageIndex() == 2) result = transitPip->invertTransition->isChecked();
     return result;
 }
@@ -131,8 +165,8 @@ bool TransitionDialog::transitionDirection()
 const QMap < QString, QString > TransitionDialog::transitionParameters() 
 {
     QMap < QString, QString > paramList;
-    if (activePageIndex() == 0) return paramList; // crossfade
-    if (activePageIndex() == 1) // wipe
+    if (currentPageIndex() == 0) return paramList; // crossfade
+    if (currentPageIndex() == 1) // wipe
     {
         QString startTransparency = QString::null;
         QString endTransparency = QString::null;
@@ -149,7 +183,7 @@ const QMap < QString, QString > TransitionDialog::transitionParameters()
         if (transitWipe->rescaleImages->isChecked()) paramList["distort"] = "1";
         
     }
-    else if (activePageIndex() == 2) // pip
+    else if (currentPageIndex() == 2) // pip
     {
       paramList["geometry"] = transitPip->parameters();
       paramList["progressive"] = "1";

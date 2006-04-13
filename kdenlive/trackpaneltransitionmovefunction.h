@@ -91,6 +91,7 @@ class TrackPanelTransitionMoveFunction:public TrackPanelFunction
   */
     void redrawTrack();
     void transitionChanged(bool);
+    void editTransition(Transition *);
 
   private:
     enum ResizeState { None, Start, End };

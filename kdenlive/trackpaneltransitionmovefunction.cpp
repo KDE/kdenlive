@@ -98,17 +98,19 @@ bool TrackPanelTransitionMoveFunction::mouseDoubleClicked(Gui::KTrackPanel * pan
 	    GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_document->framesPerSecond());
 	    DocClipRef *clip = track->getClipAt(mouseTime);
 	    if (clip) {
-                Gui::TransitionDialog *dia = new Gui::TransitionDialog(m_document->projectClip().videoWidth(), m_document->projectClip().videoHeight());
-                dia->setActivePage(clip->clipTransitions().at(m_selectedTransition)->transitionType());
-                dia->setTransitionDirection(clip->clipTransitions().at(m_selectedTransition)->invertTransition());
-                dia->setTransitionParameters(clip->clipTransitions().at(m_selectedTransition)->transitionParameters());
+                /*Gui::TransitionDialog *dia = new Gui::TransitionDialog(m_document->projectClip().videoWidth(), m_document->projectClip().videoHeight());*/
+		emit editTransition(clip->clipTransitions().at(m_selectedTransition));
+/*
+                m_app->transitionPanel()->setActivePage(clip->clipTransitions().at(m_selectedTransition)->transitionType());
+                m_app->transitionPanel()->setTransitionDirection(clip->clipTransitions().at(m_selectedTransition)->invertTransition());
+                m_app->transitionPanel()->setTransitionParameters(clip->clipTransitions().at(m_selectedTransition)->transitionParameters());
     			if (dia->exec() == QDialog::Accepted) {
                             clip->clipTransitions().at(m_selectedTransition)->setTransitionType(dia->selectedTransition());
                             clip->clipTransitions().at(m_selectedTransition)->setTransitionParameters(dia->transitionParameters());
                             clip->clipTransitions().at(m_selectedTransition)->setTransitionDirection(dia->transitionDirection());
 			emit transitionChanged(true);
     			}
-    		delete dia;
+    		delete dia;*/
 	    }
 	}
     }

@@ -94,6 +94,7 @@
 #include "clipproperties.h"
 
 
+
 #include "trackpanelclipmovefunction.h"
 #include "trackpanelrazorfunction.h"
 #include "trackpanelspacerfunction.h"
@@ -571,6 +572,15 @@ namespace Gui {
 	m_dockProjectList->setDockSite(KDockWidget::DockFullSite);
 	m_dockProjectList->manualDock(mainDock, KDockWidget::DockLeft);
 
+	m_dockTransition = createDockWidget("transition", QPixmap(), 0, i18n("Transitions"));
+	m_transitionPanel = new TransitionDialog(200,200, m_dockTransition);
+	QToolTip::add(m_dockTransition,
+	    i18n("Current debug messages between renderer and Kdenlive"));
+	m_dockTransition->setWidget(m_transitionPanel);
+	m_dockTransition->setDockSite(KDockWidget::DockFullSite);
+	m_dockTransition->manualDock(m_dockProjectList, KDockWidget::DockCenter);
+	
+
 	widget = createDockWidget("Debug", QPixmap(), 0, i18n("Debug"));
 	m_renderDebugPanel = new RenderDebugPanel(widget);
 	QToolTip::add(widget,
@@ -817,11 +827,17 @@ namespace Gui {
         transitionMoveFunction);
 	// connects for clip/workspace monitor activation (i.e. making sure they are visible when needed)
 
+	connect(m_transitionPanel, SIGNAL(transitionChanged(bool)),
+                getDocument(), SLOT(activateSceneListGeneration(bool)));
+
 	connect(keyFrameFunction, SIGNAL(signalKeyFrameChanged(bool)),
 	    getDocument(), SLOT(activateSceneListGeneration(bool)));
         
         connect(transitionMoveFunction, SIGNAL(transitionChanged(bool)),
                 getDocument(), SLOT(activateSceneListGeneration(bool)));
+
+	connect(transitionMoveFunction, SIGNAL(editTransition(Transition *)), this, SLOT(slotEditTransition(Transition *)));
+
         
         connect(transitionResizeFunction, SIGNAL(transitionChanged(bool)),
                 getDocument(), SLOT(activateSceneListGeneration(bool)));
@@ -885,6 +901,11 @@ namespace Gui {
         else if( e->type() == 10001) {
             m_workspaceMonitor->screen()->slotExportOver();
     }
+    }
+
+    void KdenliveApp::slotEditTransition(Transition *transition) {
+	m_dockTransition->makeDockVisible();
+	m_transitionPanel->setTransition(transition);
     }
 
     void KdenliveApp::slotToggleClipMonitor() {
