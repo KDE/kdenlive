@@ -61,6 +61,8 @@ namespace Gui {
 
     private slots:
 	void applyChanges();
+        void connectTransition();
+        void disconnectTransition();
 
       private:
 	transitionCrossfade_UI *transitCrossfade;

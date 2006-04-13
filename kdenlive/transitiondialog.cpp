@@ -50,19 +50,6 @@ namespace Gui {
     
     transitPip = new transitionPipWidget(240,192,this);
     addTab(transitPip, i18n("PIP") );
-
-    connect(transitWipe->transpStart, SIGNAL(sliderReleased ()), this, SLOT(applyChanges()));
-    connect(transitWipe->transpEnd, SIGNAL(sliderReleased ()), this, SLOT(applyChanges()));
-    connect(transitWipe->transitionDown, SIGNAL(released()), this, SLOT(applyChanges()));
-    connect(transitWipe->transitionUp, SIGNAL(released()), this, SLOT(applyChanges()));
-    connect(transitWipe->transitionRight, SIGNAL(released()), this, SLOT(applyChanges()));
-    connect(transitWipe->transitionLeft, SIGNAL(released()), this, SLOT(applyChanges()));
-
-    connect(transitPip, SIGNAL(transitionChanged()), this, SLOT(applyChanges()));
-
-    connect(this, SIGNAL( currentChanged ( QWidget * )), this, SLOT(applyChanges()));
-
-
     
     adjustSize();
     
@@ -83,11 +70,39 @@ TransitionDialog::~TransitionDialog() {}
 
 void TransitionDialog::setTransition(Transition *transition)
 {
+        disconnectTransition();
 	m_transition = transition;
 	if (transition == 0) return;
 	setActivePage(transition->transitionType());
         setTransitionDirection(transition->invertTransition());
         setTransitionParameters(transition->transitionParameters());
+        connectTransition();
+}
+
+void TransitionDialog::connectTransition()
+{
+   connect(this, SIGNAL( currentChanged ( QWidget * )), this, SLOT(applyChanges()));
+   connect(transitWipe->transpStart, SIGNAL(sliderReleased ()), this, SLOT(applyChanges()));
+   connect(transitWipe->transpEnd, SIGNAL(sliderReleased ()), this, SLOT(applyChanges()));
+   connect(transitWipe->transitionDown, SIGNAL(released()), this, SLOT(applyChanges()));
+   connect(transitWipe->transitionUp, SIGNAL(released()), this, SLOT(applyChanges()));
+   connect(transitWipe->transitionRight, SIGNAL(released()), this, SLOT(applyChanges()));
+   connect(transitWipe->transitionLeft, SIGNAL(released()), this, SLOT(applyChanges()));
+
+   connect(transitPip, SIGNAL(transitionChanged()), this, SLOT(applyChanges()));
+}
+
+void TransitionDialog::disconnectTransition()
+{
+    disconnect(this, SIGNAL( currentChanged ( QWidget * )), this, SLOT(applyChanges()));
+    disconnect(transitWipe->transpStart, SIGNAL(sliderReleased ()), this, SLOT(applyChanges()));
+    disconnect(transitWipe->transpEnd, SIGNAL(sliderReleased ()), this, SLOT(applyChanges()));
+    disconnect(transitWipe->transitionDown, SIGNAL(released()), this, SLOT(applyChanges()));
+    disconnect(transitWipe->transitionUp, SIGNAL(released()), this, SLOT(applyChanges()));
+    disconnect(transitWipe->transitionRight, SIGNAL(released()), this, SLOT(applyChanges()));
+    disconnect(transitWipe->transitionLeft, SIGNAL(released()), this, SLOT(applyChanges()));
+
+    disconnect(transitPip, SIGNAL(transitionChanged()), this, SLOT(applyChanges()));
 }
 
 bool TransitionDialog::isActiveTransition(Transition *transition)

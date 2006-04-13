@@ -167,6 +167,8 @@ class KdenliveDoc:public QObject {
 
 	/** Return the list of tracks that make up this document. */
     const DocTrackBaseList & trackList() const;
+    
+    
   private:
 	/** The base clip for this document. This must be a project clip, as it lists the tracks within
 	 * the project, etc. */
@@ -196,6 +198,8 @@ class KdenliveDoc:public QObject {
 	/** Connects the various project clip signals/slots up to the document. This should be done whenever
 	a new document project clip is created.*/
     void connectProjectClip();
+    
+    
     public slots:
 	/** Adds a sound track to the project */
     void addSoundTrack();
@@ -207,6 +211,10 @@ class KdenliveDoc:public QObject {
     // HACK HACK - we need a way to prevent the document from spewing hundreds of scenelist
     // generation requests - this is it.
     void activateSceneListGeneration(bool active);
+    
+    Gui::KdenliveApp *application() {
+    return m_app;
+    }
 
     private slots:		// Private slots
 	/** Called when the document is modifed in some way. */

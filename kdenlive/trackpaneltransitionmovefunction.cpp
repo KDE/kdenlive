@@ -98,8 +98,24 @@ bool TrackPanelTransitionMoveFunction::mouseDoubleClicked(Gui::KTrackPanel * pan
 	    GenTime mouseTime(m_timeline->mapLocalToValue(event->x()), m_document->framesPerSecond());
 	    DocClipRef *clip = track->getClipAt(mouseTime);
 	    if (clip) {
+                
+                TransitionStack m_transitions = clip->clipTransitions();
+                if (m_transitions.isEmpty()) return false;
+
+                TransitionStack::iterator itt = m_transitions.begin();
+                //  Loop through the clip's transitions
+                while (itt) {
+                    uint dx1 = m_timeline->mapValueToLocal((*itt)->transitionStartTime().frames(m_document->framesPerSecond()));
+                    uint dx2 = m_timeline->mapValueToLocal((*itt)->transitionEndTime().frames(m_document->framesPerSecond()));
+
+                    if ((event->x() > dx1+s_resizeTolerance) && (event->x()+s_resizeTolerance< dx2)) {
+                        emit editTransition(*itt);
+                        break;
+                    }
+                    ++itt;
+                }
                 /*Gui::TransitionDialog *dia = new Gui::TransitionDialog(m_document->projectClip().videoWidth(), m_document->projectClip().videoHeight());*/
-		emit editTransition(clip->clipTransitions().at(m_selectedTransition));
+		
 /*
                 m_app->transitionPanel()->setActivePage(clip->clipTransitions().at(m_selectedTransition)->transitionType());
                 m_app->transitionPanel()->setTransitionDirection(clip->clipTransitions().at(m_selectedTransition)->invertTransition());

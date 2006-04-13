@@ -900,12 +900,13 @@ namespace Gui {
         }
         else if( e->type() == 10001) {
             m_workspaceMonitor->screen()->slotExportOver();
-    }
+        }
     }
 
     void KdenliveApp::slotEditTransition(Transition *transition) {
 	m_dockTransition->makeDockVisible();
 	m_transitionPanel->setTransition(transition);
+        m_timeline->invalidateBackBuffer(); 
     }
 
     void KdenliveApp::slotToggleClipMonitor() {
@@ -1336,7 +1337,7 @@ namespace Gui {
         connect(m_exportWidget,SIGNAL(stopTimeLineExport()),m_workspaceMonitor->screen(),SLOT(stopTimeLineExport()));
         connect(m_workspaceMonitor->screen(),SIGNAL(exportOver()),m_exportWidget,SLOT(endExport()));
         
-        connect(m_exportWidget,SIGNAL(exportToFirewire(QString, int)),m_workspaceMonitor->screen(),SLOT(exportToFirewire(QString, int)));
+        connect(m_exportWidget,SIGNAL(exportToFirewire(QString, int, AVC*, int)),m_workspaceMonitor->screen(),SLOT(exportToFirewire(QString, int, AVC*, int)));
         m_exportWidget->exec();
         
         /*
