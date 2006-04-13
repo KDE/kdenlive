@@ -1119,6 +1119,17 @@ void DocClipRef::deleteTransition(const GenTime &time)
     if (m_parentTrack) m_parentTrack->refreshLayout();
 }
 
+Transition *DocClipRef::transitionAt(const GenTime &time)
+{
+    TransitionStack::iterator itt = m_transitionStack.begin();
+    while (itt) {
+        if ((*itt)->transitionStartTime()<time && (*itt)->transitionEndTime()>time)
+            return (*itt);
+        ++itt;
+    }
+    return 0;
+}
+
 void DocClipRef::deleteTransitions()
 {
     m_transitionStack.clear();

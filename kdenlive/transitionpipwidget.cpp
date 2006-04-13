@@ -478,6 +478,7 @@ void transitionPipWidget::adjustSize(int x)
     QString s2 = m_transitionParameters[ix].section(":",3);
     m_transitionParameters[ix] = s1+":"+ QString::number(x)+":"+s2;
     canview->adjustSize(x);
+    emit transitionChanged();
 }
 
 void transitionPipWidget::adjustTransparency(int x)

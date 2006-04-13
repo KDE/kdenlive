@@ -53,10 +53,10 @@ namespace Gui {
 
     connect(transitWipe->transpStart, SIGNAL(sliderReleased ()), this, SLOT(applyChanges()));
     connect(transitWipe->transpEnd, SIGNAL(sliderReleased ()), this, SLOT(applyChanges()));
-    connect(transitWipe->transitionDown, SIGNAL(pressed()), this, SLOT(applyChanges()));
-    connect(transitWipe->transitionUp, SIGNAL(pressed()), this, SLOT(applyChanges()));
-    connect(transitWipe->transitionRight, SIGNAL(pressed()), this, SLOT(applyChanges()));
-    connect(transitWipe->transitionLeft, SIGNAL(pressed()), this, SLOT(applyChanges()));
+    connect(transitWipe->transitionDown, SIGNAL(released()), this, SLOT(applyChanges()));
+    connect(transitWipe->transitionUp, SIGNAL(released()), this, SLOT(applyChanges()));
+    connect(transitWipe->transitionRight, SIGNAL(released()), this, SLOT(applyChanges()));
+    connect(transitWipe->transitionLeft, SIGNAL(released()), this, SLOT(applyChanges()));
 
     connect(transitPip, SIGNAL(transitionChanged()), this, SLOT(applyChanges()));
 
@@ -84,18 +84,27 @@ TransitionDialog::~TransitionDialog() {}
 void TransitionDialog::setTransition(Transition *transition)
 {
 	m_transition = transition;
+	if (transition == 0) return;
 	setActivePage(transition->transitionType());
         setTransitionDirection(transition->invertTransition());
         setTransitionParameters(transition->transitionParameters());
 }
 
+bool TransitionDialog::isActiveTransition(Transition *transition)
+{
+	if (transition == m_transition) return true;
+	return false;
+}
+
 void TransitionDialog::applyChanges()
 {
-	if (m_transition == 0) return;
-	m_transition->setTransitionType(selectedTransition());
-        m_transition->setTransitionParameters(transitionParameters());
-	m_transition->setTransitionDirection(transitionDirection());
-	emit transitionChanged(true);
+	if (m_transition) {
+		if (m_transition == 0) return;
+		m_transition->setTransitionType(selectedTransition());
+        	m_transition->setTransitionParameters(transitionParameters());
+		m_transition->setTransitionDirection(transitionDirection());
+		emit transitionChanged(true);
+	}
 }
 
 void TransitionDialog::setActivePage(const QString &pageName)

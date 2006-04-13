@@ -254,13 +254,16 @@ class DocClipRef:public QObject {
 
     int numEffects() const {
 	return m_effectStack.count();
-    } void setEffectStack(const EffectStack & effectStack);
+    } 
+    void setEffectStack(const EffectStack & effectStack);
 
     const QPixmap & getAudioImage(int width, int height, double frame,
 	double numFrames, int channel);
 
 	/** Returns true if effects are applied on the clip */
     bool hasEffect();
+
+    Transition *transitionAt(const GenTime &time);
 
     QPixmap thumbnail(bool end = false);
     QTimer *startTimer;

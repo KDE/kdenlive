@@ -57,6 +57,7 @@ namespace Gui {
     void setTransitionDirection(bool direc);
     void setTransitionParameters(const QMap < QString, QString > parameters);
     void setTransition(Transition *transition);
+    bool isActiveTransition(Transition *transition);
 
     private slots:
 	void applyChanges();

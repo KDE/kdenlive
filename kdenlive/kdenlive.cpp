@@ -1965,7 +1965,8 @@ namespace Gui {
     GenTime mouseTime;
     mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(m_menuPosition).x());
     DocClipRef *clip = track->getClipAt(mouseTime);
-
+    if (m_transitionPanel->isActiveTransition( clip->transitionAt( mouseTime)))
+	m_transitionPanel->setTransition( 0 );
     if (clip) getDocument()->projectClip().deleteClipTransition(clip, mouseTime);
     }
 
