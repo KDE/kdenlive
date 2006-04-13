@@ -24,7 +24,7 @@
 #include "kselectclipcommand.h"
 #include "docclipproject.h"
 #include "transitionstack.h"
-#include "transitiondialog.h"
+
 
 #include <cmath>
 
@@ -114,19 +114,6 @@ bool TrackPanelTransitionMoveFunction::mouseDoubleClicked(Gui::KTrackPanel * pan
                     }
                     ++itt;
                 }
-                /*Gui::TransitionDialog *dia = new Gui::TransitionDialog(m_document->projectClip().videoWidth(), m_document->projectClip().videoHeight());*/
-		
-/*
-                m_app->transitionPanel()->setActivePage(clip->clipTransitions().at(m_selectedTransition)->transitionType());
-                m_app->transitionPanel()->setTransitionDirection(clip->clipTransitions().at(m_selectedTransition)->invertTransition());
-                m_app->transitionPanel()->setTransitionParameters(clip->clipTransitions().at(m_selectedTransition)->transitionParameters());
-    			if (dia->exec() == QDialog::Accepted) {
-                            clip->clipTransitions().at(m_selectedTransition)->setTransitionType(dia->selectedTransition());
-                            clip->clipTransitions().at(m_selectedTransition)->setTransitionParameters(dia->transitionParameters());
-                            clip->clipTransitions().at(m_selectedTransition)->setTransitionDirection(dia->transitionDirection());
-			emit transitionChanged(true);
-    			}
-    		delete dia;*/
 	    }
 	}
     }

@@ -1337,7 +1337,7 @@ namespace Gui {
         connect(m_exportWidget,SIGNAL(stopTimeLineExport()),m_workspaceMonitor->screen(),SLOT(stopTimeLineExport()));
         connect(m_workspaceMonitor->screen(),SIGNAL(exportOver()),m_exportWidget,SLOT(endExport()));
         
-        connect(m_exportWidget,SIGNAL(exportToFirewire(QString, int, AVC*, int)),m_workspaceMonitor->screen(),SLOT(exportToFirewire(QString, int, AVC*, int)));
+        connect(m_exportWidget,SIGNAL(exportToFirewire(QString, int)),m_workspaceMonitor->screen(),SLOT(exportToFirewire(QString, int)));
         m_exportWidget->exec();
         
         /*
