@@ -88,6 +88,10 @@ void TransitionDialog::connectTransition()
    connect(transitWipe->transitionUp, SIGNAL(released()), this, SLOT(applyChanges()));
    connect(transitWipe->transitionRight, SIGNAL(released()), this, SLOT(applyChanges()));
    connect(transitWipe->transitionLeft, SIGNAL(released()), this, SLOT(applyChanges()));
+   connect(transitWipe->invertTransition, SIGNAL(released()), this, SLOT(applyChanges()));
+   connect(transitWipe->rescaleImages, SIGNAL(released()), this, SLOT(applyChanges()));
+   
+   connect(transitCrossfade->invertTransition, SIGNAL(released()), this, SLOT(applyChanges()));
 
    connect(transitPip, SIGNAL(transitionChanged()), this, SLOT(applyChanges()));
 }
@@ -101,6 +105,10 @@ void TransitionDialog::disconnectTransition()
     disconnect(transitWipe->transitionUp, SIGNAL(released()), this, SLOT(applyChanges()));
     disconnect(transitWipe->transitionRight, SIGNAL(released()), this, SLOT(applyChanges()));
     disconnect(transitWipe->transitionLeft, SIGNAL(released()), this, SLOT(applyChanges()));
+    disconnect(transitWipe->invertTransition, SIGNAL(released()), this, SLOT(applyChanges()));
+    disconnect(transitWipe->rescaleImages, SIGNAL(released()), this, SLOT(applyChanges()));
+    
+    disconnect(transitCrossfade->invertTransition, SIGNAL(released()), this, SLOT(applyChanges()));
 
     disconnect(transitPip, SIGNAL(transitionChanged()), this, SLOT(applyChanges()));
 }
