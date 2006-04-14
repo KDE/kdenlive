@@ -105,7 +105,7 @@ namespace Gui {
 /*	 connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), m_ruler,
          SLOT(repaint()));*/
 	 connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), this,
-         SLOT(slotSliderMoved(int, int)));
+                 SLOT(slotSliderMoved(int, int)));
          
          connect(m_ruler, SIGNAL(moveForward(bool)), this, SLOT(slotMoveForward(bool)));
          connect(m_ruler, SIGNAL(moveBackward(bool)), this, SLOT(slotMoveBackward(bool)));

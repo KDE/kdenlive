@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include <qstring.h>
+#include <qscrollbar.h>
+
 #include <kcombobox.h>
 #include <kdebug.h>
 
@@ -56,7 +58,7 @@ namespace Gui {
 
 	double scale = (double) viewWidth() / duration;
 	m_rulerToolWidget->setScale(scale);
-
+        scrollBar()->setValue(0);
 	setTimeScale(scale);
     }
 

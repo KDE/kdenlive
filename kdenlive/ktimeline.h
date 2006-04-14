@@ -172,6 +172,10 @@ namespace Command {
 	/** Set the width of the panels that accompany the timeline's tracks. This also affects the width
 	of the ruler widget and the scrollbar widget.*/
 	void setPanelWidth(int width);
+        
+        QScrollBar *scrollBar() {
+            return m_scrollBar;
+        }
 
     protected:
 	/** @returns the ruler tool widget. */
