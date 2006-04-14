@@ -32,6 +32,7 @@
 #include <qimage.h>
 #include <qmutex.h>
 #include <qevent.h>
+#include <qtextstream.h>
 
 #include <kio/netaccess.h>
 #include <kdebug.h>
@@ -394,19 +395,23 @@ static void consumer_frame_show(mlt_consumer, KRender * self,
 static void file_consumer_frame_show(mlt_consumer, KRender * self,
                                 mlt_frame frame_ptr)
 {
+    mlt_position framePosition = mlt_frame_get_position(frame_ptr);
+    self->emitFrameNumber(GenTime(framePosition, 25), true);
     // detect if the producer has finished playing. Is there a better way to do it ?
     if (mlt_properties_get_double( MLT_FRAME_PROPERTIES( frame_ptr ), "_speed" ) == 0)
         self->emitFileConsumerStopped();
-    else {
-        mlt_position framePosition = mlt_frame_get_position(frame_ptr);
-        self->emitFrameNumber(GenTime(framePosition, 25), true);
-    }
 }
 
 static void consumer_stopped(mlt_consumer, KRender * self,
                                 mlt_frame)
 {
     self->emitConsumerStopped();
+}
+
+static void file_consumer_stopped(mlt_consumer, KRender * self,
+                             mlt_frame)
+{
+    self->emitFileConsumerStopped();
 }
 
 void my_lock()
@@ -1091,12 +1096,13 @@ void KRender::emitFrameNumber(const GenTime & time, bool isFile)
 
 void KRender::emitConsumerStopped()
 {
-    // This is used when exporting to a file so that we know when the export is finished
+    // This is used to know when the export is finished
     QApplication::postEvent(m_app, new QCustomEvent(10001));
 }
 
 void KRender::emitFileConsumerStopped()
 {
+    kdDebug()<<"+++++++++++  FILE CONSUMER STOPPING ++++++++++++++++++"<<endl;
     if (m_fileRenderer && !m_fileRenderer->is_stopped()) {
         mlt_properties_set_int( MLT_PRODUCER_PROPERTIES( m_fileRenderer->get_consumer() ), "done", 1 );
         delete m_fileRenderer;
@@ -1211,25 +1217,36 @@ void KRender::stopExport()
 
 void KRender::exportTimeline(const QString &url, const QString &format, const QString &videoSize, GenTime exportStart, GenTime exportEnd)
 {
-    kdDebug()<<"+++++++++  START EXPORT  +++++++++++"<<endl;
+    kdDebug()<<"+++++++++  START EXPORT: "<<format<<endl;
     m_mltConsumer->stop();
     m_mltProducer->set_speed(0.0);
     if (m_fileRenderer) delete m_fileRenderer;
     m_fileRenderer = 0;
     if (format == "dv") m_fileRenderer=new Mlt::Consumer("libdv");
-    else {
+    else if (format == "mpeg") {
         m_fileRenderer=new Mlt::Consumer("avformat");
         m_fileRenderer->set ("format", "mpeg");
         m_fileRenderer->set ("vcodec", "mpeg2video");
         m_fileRenderer->set ("acodec", "mp3");
         if (videoSize != QString::null) m_fileRenderer->set("size",videoSize.ascii());
     }
+    else if (format == "westley") {
+        QFile *file = new QFile();
+        file->setName(url);
+        file->open(IO_WriteOnly);
+        QTextStream stream( file );
+        stream.setEncoding (QTextStream::UnicodeUTF8);
+        stream << m_sceneList.toString();
+        file->close();
+        emitFileConsumerStopped();
+        return;
+    }
     
     m_fileRenderer->set ("target",url.ascii());
     m_fileRenderer->set ("real_time","0");
     
     m_fileRenderer->listen("consumer-frame-show", this, (mlt_listener) file_consumer_frame_show);
-    //m_fileRenderer->listen("consumer-stopped", this, (mlt_listener) consumer_stopped);
+    m_fileRenderer->listen("consumer-stopped", this, (mlt_listener) file_consumer_stopped);
     
     m_fileRenderer->connect(*m_mltProducer);
 

@@ -108,16 +108,17 @@ void exportWidget::initEncoders()
     container->setEnabled(false);
     //flayout = 0;
     encoders->insertItem(i18n("mpeg"));
+    encoders->insertItem(i18n("westley"));
 }
 
 void exportWidget::slotAdjustWidgets(int pos)
 {
-    if (pos==0) {
-        container->setEnabled(false);
+    if (pos==1) {
+        container->setEnabled(true);
         convertProgress->hide();
     }
     else {
-        container->setEnabled(true);
+        container->setEnabled(false);
         convertProgress->hide();
     }
 }
@@ -150,8 +151,8 @@ void exportWidget::startExport()
             case 1:
                 format = "mpeg";
                 break;
-            case 3:
-                format = "theora";
+            case 2:
+                format = "westley";
                 break;
             default:
                 format = "dv";
