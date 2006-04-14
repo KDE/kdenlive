@@ -288,7 +288,7 @@ QDomDocument DocClipProject::generateSceneList() const
     westley.appendChild(producersList);
     QDomElement tractor = doc.createElement("tractor");
     QDomElement multitrack = doc.createElement("multitrack");
-    QDomElement audiotrack = doc.createElement("audio");
+    QDomDocument audiotrack;
     
 
     QPtrListIterator < DocTrackBase > trackItt(m_tracks);
@@ -359,6 +359,7 @@ QDomDocument DocClipProject::generateSceneList() const
     }
     // add audio tracks to the multitrack
     multitrack.appendChild(audiotrack);
+    
     tractor.appendChild(multitrack);
     
         // Add all transitions
@@ -368,14 +369,12 @@ QDomDocument DocClipProject::generateSceneList() const
     /* transition: mix all used audio tracks */
     
     if (tracksCounter > 1)
-	for (int i = 1; i < tracksCounter; i++) {
+        for (int i = 2; i <tracksCounter +1 ; i++) {
 	    QDomElement transition = doc.createElement("transition");
 	    transition.setAttribute("in", "0");
             transition.setAttribute("out", projectDuration);
-	    /*transition.setAttribute("a_track", QString::number(usedAudioTracks[i]));
-	       transition.setAttribute("b_track", QString::number(usedAudioTracks[i+1])); */
-	    transition.setAttribute("a_track", QString::number(i));
-	    transition.setAttribute("b_track", QString::number(i + 1));
+            transition.setAttribute("a_track", QString::number(1));
+	    transition.setAttribute("b_track", QString::number(i));
 	    transition.setAttribute("mlt_service", "mix");
             
             // use MLT's new audio mix, requires recent cvs (>25/02/06)
