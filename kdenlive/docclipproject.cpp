@@ -318,7 +318,7 @@ QDomDocument DocClipProject::generateSceneList() const
         bool hideTrack = false;
         if (trackItt.current()->isMute()) 
         {
-            if (trackItt.current()->isBlind()) hideTrack = true;
+            if (trackItt.current()->isBlind() || trackItt.current()->clipType() == "Sound") hideTrack = true;
             else playlist.setAttribute("hide", "audio");
         }
         
