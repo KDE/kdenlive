@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>283</width>
-            <height>356</height>
+            <width>264</width>
+            <height>354</height>
         </rect>
     </property>
     <property name="minimumSize">
@@ -357,124 +357,174 @@
                 <attribute name="title">
                     <string>Firewire</string>
                 </attribute>
-                <grid>
+                <widget class="QLabel">
                     <property name="name">
-                        <cstring>unnamed</cstring>
+                        <cstring>textLabel3</cstring>
                     </property>
-                    <widget class="QLabel" row="0" column="0">
+                    <property name="geometry">
+                        <rect>
+                            <x>11</x>
+                            <y>11</y>
+                            <width>57</width>
+                            <height>24</height>
+                        </rect>
+                    </property>
+                    <property name="text">
+                        <string>Adapter:</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer5</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>152</width>
+                            <height>16</height>
+                        </size>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>123</x>
+                            <y>15</y>
+                            <width>104</width>
+                            <height>16</height>
+                        </rect>
+                    </property>
+                </spacer>
+                <widget class="QButtonGroup">
+                    <property name="name">
+                        <cstring>buttonGroup1</cstring>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>11</x>
+                            <y>41</y>
+                            <width>216</width>
+                            <height>86</height>
+                        </rect>
+                    </property>
+                    <property name="title">
+                        <string>Source</string>
+                    </property>
+                    <property name="exclusive">
+                        <bool>true</bool>
+                    </property>
+                    <grid>
                         <property name="name">
-                            <cstring>textLabel3</cstring>
+                            <cstring>unnamed</cstring>
                         </property>
-                        <property name="text">
-                            <string>Adapter:</string>
-                        </property>
-                    </widget>
-                    <widget class="KComboBox" row="0" column="1">
-                        <item>
-                            <property name="text">
-                                <string>0</string>
-                            </property>
-                        </item>
-                        <item>
-                            <property name="text">
-                                <string>1</string>
-                            </property>
-                        </item>
-                        <item>
-                            <property name="text">
-                                <string>2</string>
-                            </property>
-                        </item>
-                        <item>
-                            <property name="text">
-                                <string>3</string>
-                            </property>
-                        </item>
-                        <property name="name">
-                            <cstring>firewireport</cstring>
-                        </property>
-                    </widget>
-                    <spacer row="0" column="2">
-                        <property name="name">
-                            <cstring>spacer5</cstring>
-                        </property>
-                        <property name="orientation">
-                            <enum>Horizontal</enum>
-                        </property>
-                        <property name="sizeType">
-                            <enum>Expanding</enum>
-                        </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>152</width>
-                                <height>16</height>
-                            </size>
-                        </property>
-                    </spacer>
-                    <widget class="QButtonGroup" row="1" column="0" rowspan="1" colspan="3">
-                        <property name="name">
-                            <cstring>buttonGroup1</cstring>
-                        </property>
-                        <property name="title">
-                            <string>Source</string>
-                        </property>
-                        <property name="exclusive">
-                            <bool>true</bool>
-                        </property>
-                        <grid>
+                        <widget class="QRadioButton" row="1" column="0" rowspan="1" colspan="2">
                             <property name="name">
-                                <cstring>unnamed</cstring>
+                                <cstring>fw_timelinebutton</cstring>
                             </property>
-                            <widget class="QRadioButton" row="1" column="0" rowspan="1" colspan="2">
-                                <property name="name">
-                                    <cstring>fw_timelinebutton</cstring>
-                                </property>
-                                <property name="enabled">
-                                    <bool>false</bool>
-                                </property>
-                                <property name="text">
-                                    <string>Current Timeline</string>
-                                </property>
-                                <property name="checked">
-                                    <bool>false</bool>
-                                </property>
-                            </widget>
-                            <widget class="QRadioButton" row="0" column="0">
-                                <property name="name">
-                                    <cstring>fw_filebutton</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>File</string>
-                                </property>
-                                <property name="checked">
-                                    <bool>true</bool>
-                                </property>
-                            </widget>
-                            <widget class="KURLRequester" row="0" column="1">
-                                <property name="name">
-                                    <cstring>fw_URL</cstring>
-                                </property>
-                            </widget>
-                        </grid>
-                    </widget>
-                    <spacer row="2" column="2">
-                        <property name="name">
-                            <cstring>spacer4</cstring>
-                        </property>
-                        <property name="orientation">
-                            <enum>Vertical</enum>
-                        </property>
-                        <property name="sizeType">
-                            <enum>Expanding</enum>
-                        </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>16</width>
-                                <height>30</height>
-                            </size>
-                        </property>
-                    </spacer>
-                </grid>
+                            <property name="enabled">
+                                <bool>false</bool>
+                            </property>
+                            <property name="text">
+                                <string>Current Timeline</string>
+                            </property>
+                            <property name="checked">
+                                <bool>false</bool>
+                            </property>
+                        </widget>
+                        <widget class="QRadioButton" row="0" column="0">
+                            <property name="name">
+                                <cstring>fw_filebutton</cstring>
+                            </property>
+                            <property name="text">
+                                <string>File</string>
+                            </property>
+                            <property name="checked">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                        <widget class="KURLRequester" row="0" column="1">
+                            <property name="name">
+                                <cstring>fw_URL</cstring>
+                            </property>
+                        </widget>
+                    </grid>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>textLabel1_4</cstring>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>11</x>
+                            <y>133</y>
+                            <width>106</width>
+                            <height>17</height>
+                        </rect>
+                    </property>
+                    <property name="text">
+                        <string>Firewire status:</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer4</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Vertical</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>16</width>
+                            <height>16</height>
+                        </size>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>87</x>
+                            <y>179</y>
+                            <width>16</width>
+                            <height>16</height>
+                        </rect>
+                    </property>
+                </spacer>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>firewire_status</cstring>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>11</x>
+                            <y>156</y>
+                            <width>216</width>
+                            <height>17</height>
+                        </rect>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                </widget>
+                <widget class="QSpinBox">
+                    <property name="name">
+                        <cstring>firewireport</cstring>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>77</x>
+                            <y>14</y>
+                            <width>32</width>
+                            <height>25</height>
+                        </rect>
+                    </property>
+                    <property name="maxValue">
+                        <number>9</number>
+                    </property>
+                </widget>
             </widget>
         </widget>
         <widget class="KProgress" row="2" column="1">
@@ -524,7 +574,6 @@
     <includehint>kurlrequester.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>
-    <includehint>kcombobox.h</includehint>
     <includehint>kurlrequester.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>

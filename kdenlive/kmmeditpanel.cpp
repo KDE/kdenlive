@@ -229,13 +229,19 @@ namespace Gui {
     GenTime KMMEditPanel::point() const {
 	return GenTime(m_ruler->getSliderValue(0),
 	    m_document->framesPerSecond());
-    } GenTime KMMEditPanel::inpoint() const {
+    } 
+    
+    GenTime KMMEditPanel::inpoint() const {
 	return GenTime(m_ruler->getSliderValue(1),
 	    m_document->framesPerSecond());
-    } GenTime KMMEditPanel::outpoint() const {
+    } 
+    
+    GenTime KMMEditPanel::outpoint() const {
 	return GenTime(m_ruler->getSliderValue(2),
 	    m_document->framesPerSecond());
-    } void KMMEditPanel::togglePlay() {
+    } 
+    
+    void KMMEditPanel::togglePlay() {
 	m_playSelected = false;
 	if (isPlaying()) {
 	    setPlaying(false);
@@ -258,6 +264,11 @@ namespace Gui {
     void KMMEditPanel::screenPlaySpeedChanged(double speed) {
 	m_playSpeed = speed;
 	updateButtons();
+    }
+    
+    void KMMEditPanel::screenPlayStopped() {
+        m_playSpeed = 0.0;
+        updateButtons();
     }
 
     void KMMEditPanel::playSelected() {

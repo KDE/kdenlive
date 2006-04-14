@@ -23,6 +23,7 @@
 
 #include "gentime.h"
 
+
 class KRender;
 class QXEmbed;
 
@@ -91,7 +92,7 @@ public slots:
         /** Render project to file */
         void exportTimeline(QString url, QString format, QString size, GenTime startTime, GenTime endTime);
         void stopTimeLineExport();
-        void slotExportOver();
+        void slotConsumerStopped();
         void exportToFirewire(QString url, int port);
         
 signals:

@@ -18,7 +18,14 @@
 #ifndef EXPORTW_H
 #define EXPORTW_H
 
+#include <stdint.h>
+
 #include <qlayout.h>
+
+#ifdef ENABLE_FIREWIRE
+#include <libiec61883/iec61883.h>
+#endif
+
 
 #include "gentime.h"
 #include "exportbasewidget_ui.h"
@@ -34,6 +41,12 @@ private:
         QHBoxLayout* flayout;
         GenTime m_duration;
         bool m_isRunning;
+        
+        /** AVC stuff 
+        int m_port;
+        int m_node;
+        uint64_t m_guid;
+        AVC *m_avc;*/
 
 private slots:
 	void startExport();
@@ -41,6 +54,7 @@ private slots:
 	void exportFileToTheora(QString dstFileName, int width = 320, int height = 240, int audio =2, int video =4);
 	void slotAdjustWidgets(int pos);
         void initEncoders();
+        void initDvConnection();
 
 public slots:
 	void endExport();

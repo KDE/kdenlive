@@ -133,6 +133,8 @@ namespace Gui {
   /** called when the screen has changed it's play speed - e.g., the renderer has
   reached the end of the file. */
 	void screenPlaySpeedChanged(double speed);
+        /** called when the renderer stopped. */
+        void screenPlayStopped();
   /**  set whether the edit panel displays that there is a snap marker at the current seek time or not */
 	void setSnapMarker(bool markerHere);
     };

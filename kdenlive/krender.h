@@ -171,6 +171,7 @@ class KRender:public QObject {
     void sendDebugVemlCommand(const QString & name);
     void emitFrameNumber(const GenTime & time, bool isFile);
     void emitConsumerStopped();
+    void emitFileConsumerStopped();
     
     void getImage(DocClipRef * clip);
     

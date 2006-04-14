@@ -38,10 +38,14 @@
 #include "exportwidget.h"
 
 
-
 exportWidget::exportWidget( const GenTime &duration, QWidget* parent, const char* name, WFlags fl ):
                 exportBaseWidget_UI(parent,name), m_duration(duration)
 {
+/*    m_node = -1;
+    m_port = -1;
+    m_guid = 0;
+    m_avc = 0;*/
+    
     initEncoders();
     m_isRunning = false;
     
@@ -51,12 +55,48 @@ exportWidget::exportWidget( const GenTime &duration, QWidget* parent, const char
 #else
     tabWidget->page(2)->setEnabled(false);
 #endif
+
+    initDvConnection();
     connect(exportButton,SIGNAL(clicked()),this,SLOT(startExport()));
     connect(encoders,SIGNAL(activated(int)),this,SLOT(slotAdjustWidgets(int)));
 }
 
 exportWidget::~exportWidget()
 {}
+
+void exportWidget::initDvConnection()
+{
+#ifdef ENABLE_FIREWIRE
+
+    
+    /*m_node = discoverAVC( &m_port, m_guid );
+
+    if ( m_node == -1 ) {
+        tabWidget->page(2)->setEnabled(false);
+        firewire_status->setText(i18n("No Firewire device detected"));
+        return;
+}*/
+    tabWidget->page(2)->setEnabled(true);
+    
+    /*
+    if ( m_port != -1 )
+    {
+        AVC::CheckConsistency( m_port, m_node );
+        m_avc = new AVC( m_port );
+        if ( ! m_avc ) {
+            firewire_status->setText(i18n("failed to initialize AV/C on port %1").arg(m_port));
+            return;
+    }
+        
+        firewire_status->setText(i18n("Found device on port %1").arg(m_port));
+        firewireport->setValue(m_port);
+    }
+    else firewire_status->setText(i18n("Cannot communicate on port %1").arg(m_port));
+    */
+#else
+    firewire_status->setText(i18n("Firewire support not enabled. Please install the required libraries..."));
+#endif
+}
 
 
 void exportWidget::initEncoders()
@@ -118,10 +158,10 @@ void exportWidget::startExport()
         }
         if (format == "mpeg") {
             QString vsize = videoSize->currentText();
-            emit exportTimeLine(fileExportUrl->url(), format, vsize, GenTime(0), GenTime(20));
+            emit exportTimeLine(fileExportUrl->url(), format, vsize, GenTime(0), m_duration);
         }
         else {
-            emit exportTimeLine(fileExportUrl->url(), format, "", GenTime(0), GenTime(20));
+            emit exportTimeLine(fileExportUrl->url(), format, "", GenTime(0), m_duration);
         }
     }
     else if (tabWidget->currentPageIndex () == 2) { // Firewire export
@@ -133,7 +173,7 @@ void exportWidget::startExport()
                 KMessageBox::sorry(this, i18n("Please enter a file name"));
                 return;
             }
-            emit exportToFirewire(fw_URL->url(), firewireport->currentItem());
+            emit exportToFirewire(fw_URL->url(), firewireport->value());
         }
     }
 }
@@ -148,6 +188,7 @@ void exportWidget::endExport()
 {
     exportButton->setText(i18n("Export"));
     m_isRunning = false;
+    processProgress->setProgress(0);
     if (autoPlay->isChecked ()) {
         KRun *run=new KRun(KURL(fileExportUrl->url()));
     }

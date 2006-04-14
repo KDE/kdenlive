@@ -23,6 +23,7 @@
 #include <iostream>
 
 #include <mlt++/Mlt.h>
+#include <sys/wait.h>
 
 #include <qcolor.h>
 #include <qpixmap.h>
@@ -385,13 +386,21 @@ static void consumer_frame_show(mlt_consumer, KRender * self,
 {
     mlt_position framePosition = mlt_frame_get_position(frame_ptr);
     self->emitFrameNumber(GenTime(framePosition, 25), false);
+    // detect if the producer has finished playing. Is there a better way to do it ?
+    if (mlt_properties_get_double( MLT_FRAME_PROPERTIES( frame_ptr ), "_speed" ) == 0)
+        self->emitConsumerStopped();
 }
 
 static void file_consumer_frame_show(mlt_consumer, KRender * self,
                                 mlt_frame frame_ptr)
 {
-    mlt_position framePosition = mlt_frame_get_position(frame_ptr);
-    self->emitFrameNumber(GenTime(framePosition, 25), true);
+    // detect if the producer has finished playing. Is there a better way to do it ?
+    if (mlt_properties_get_double( MLT_FRAME_PROPERTIES( frame_ptr ), "_speed" ) == 0)
+        self->emitFileConsumerStopped();
+    else {
+        mlt_position framePosition = mlt_frame_get_position(frame_ptr);
+        self->emitFrameNumber(GenTime(framePosition, 25), true);
+    }
 }
 
 static void consumer_stopped(mlt_consumer, KRender * self,
@@ -419,9 +428,9 @@ void KRender::createVideoXWindow(bool show, WId winid)
 
 
     m_mltConsumer = new Mlt::Consumer("sdl_preview");
-
     m_mltConsumer->listen("consumer-frame-show", this,
 	(mlt_listener) consumer_frame_show);
+    //m_mltConsumer->listen("consumer-stopped", this, (mlt_listener) consumer_stopped);
 
     //only as is saw, if we want to lock something with the sdl lock
 
@@ -1082,9 +1091,19 @@ void KRender::emitFrameNumber(const GenTime & time, bool isFile)
 
 void KRender::emitConsumerStopped()
 {
-    m_mltConsumer->start();
     // This is used when exporting to a file so that we know when the export is finished
     QApplication::postEvent(m_app, new QCustomEvent(10001));
+}
+
+void KRender::emitFileConsumerStopped()
+{
+    if (m_fileRenderer && !m_fileRenderer->is_stopped()) {
+        mlt_properties_set_int( MLT_PRODUCER_PROPERTIES( m_fileRenderer->get_consumer() ), "done", 1 );
+        delete m_fileRenderer;
+        m_fileRenderer = 0;
+    }
+    // This is used when exporting to a file so that we know when the export is finished
+         QApplication::postEvent(m_app, new QCustomEvent(10001));
 }
 
 /*                           FILE RENDERING STUFF                     */
@@ -1142,7 +1161,6 @@ void KRender::dv_transmit( raw1394handle_t handle, FILE *f, int channel)
                 result = raw1394_loop_iterate (handle);
 			
         } while (g_done == 0 && result == 0);
-		
         fprintf (stderr, "done.\n");
     }
     iec61883_dv_close (dv);
@@ -1153,7 +1171,7 @@ void KRender::exportFileToFirewire(QString srcFileName, int port)
 {
 #ifdef ENABLE_FIREWIRE
     //exportTimeline(QString::null);
-    kdDebug()<<"EXPORT ++++++++++++++: "<<srcFileName<<endl;
+    kdDebug()<<"START DV EXPORT ++++++++++++++: "<<srcFileName<<endl;
 
     FILE *f = NULL;
     int oplug = -1, iplug = -1;
@@ -1164,11 +1182,11 @@ void KRender::exportFileToFirewire(QString srcFileName, int port)
         return;
     }
     if (handle == NULL) {
-        KMessageBox::sorry(0,i18n("NO firewire access on that port"));
+        KMessageBox::sorry(0,i18n("NO firewire access on that port\nMake sure you have loaded the raw1394 module and that you have write access on /dev/raw1394..."));
         return;
     }
     nodeid_t node = 0xffc0;
-    int bandwidth;
+    int bandwidth = -1;
     int channel = iec61883_cmp_connect (handle, raw1394_get_local_id (handle), &oplug, node, &iplug, &bandwidth);
     if (channel > -1)
     {
@@ -1193,7 +1211,9 @@ void KRender::stopExport()
 
 void KRender::exportTimeline(const QString &url, const QString &format, const QString &videoSize, GenTime exportStart, GenTime exportEnd)
 {
+    kdDebug()<<"+++++++++  START EXPORT  +++++++++++"<<endl;
     m_mltConsumer->stop();
+    m_mltProducer->set_speed(0.0);
     if (m_fileRenderer) delete m_fileRenderer;
     m_fileRenderer = 0;
     if (format == "dv") m_fileRenderer=new Mlt::Consumer("libdv");
@@ -1209,7 +1229,7 @@ void KRender::exportTimeline(const QString &url, const QString &format, const QS
     m_fileRenderer->set ("real_time","0");
     
     m_fileRenderer->listen("consumer-frame-show", this, (mlt_listener) file_consumer_frame_show);
-    m_fileRenderer->listen("consumer-stopped", this, (mlt_listener) consumer_stopped);
+    //m_fileRenderer->listen("consumer-stopped", this, (mlt_listener) consumer_stopped);
     
     m_fileRenderer->connect(*m_mltProducer);
 
@@ -1220,5 +1240,4 @@ void KRender::exportTimeline(const QString &url, const QString &format, const QS
     m_mltProducer->seek(firstExportFrame);
     m_fileRenderer->start();
     m_mltProducer->set_speed(1.0);
-
 }

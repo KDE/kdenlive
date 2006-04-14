@@ -118,9 +118,9 @@ namespace Gui {
         m_render->stopExport();
     }
 
-    void KMMScreen::slotExportOver()
+    void KMMScreen::slotConsumerStopped()
     {
-        kdDebug() << "******* EXPORT OVER!!!!!!!!!!!!! ********* "<< endl;
+        //kdDebug() << "******* EXPORT OVER!!!!!!!!!!!!! ********* "<< endl;
         emit exportOver();
     }
     

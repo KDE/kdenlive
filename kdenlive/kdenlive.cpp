@@ -899,7 +899,7 @@ namespace Gui {
             }
         }
         else if( e->type() == 10001) {
-            m_workspaceMonitor->screen()->slotExportOver();
+            m_workspaceMonitor->screen()->slotConsumerStopped();
         }
     }
 
