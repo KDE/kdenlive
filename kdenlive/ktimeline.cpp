@@ -436,6 +436,10 @@ the display. The scale is the size of one frame.*/
 	}
     }
 
+    void KTimeLine::resetScrollBar() {
+        m_scrollBar->setValue(0);
+    }
+    
     void KTimeLine::slotScrollLeft() {
 	m_scrollBar->subtractLine();
     }

@@ -58,7 +58,7 @@ namespace Gui {
 
 	double scale = (double) viewWidth() / duration;
 	m_rulerToolWidget->setScale(scale);
-        scrollBar()->setValue(0);
+        resetScrollBar();
 	setTimeScale(scale);
     }
 

@@ -173,9 +173,7 @@ namespace Command {
 	of the ruler widget and the scrollbar widget.*/
 	void setPanelWidth(int width);
         
-        QScrollBar *scrollBar() {
-            return m_scrollBar;
-        }
+        void resetScrollBar();
 
     protected:
 	/** @returns the ruler tool widget. */
