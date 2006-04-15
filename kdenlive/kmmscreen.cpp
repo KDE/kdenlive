@@ -107,9 +107,9 @@ namespace Gui {
     }
     
     /** Render project to firewire */
-    void KMMScreen::exportToFirewire(QString url, int port)
+    void KMMScreen::exportToFirewire(QString url, int port, GenTime startTime, GenTime endTime)
     {
-        m_render->exportFileToFirewire(url, port);
+        m_render->exportFileToFirewire(url, port, startTime, endTime);
     }
     
     /** Stop file rendering */
@@ -118,10 +118,14 @@ namespace Gui {
         m_render->stopExport();
     }
 
-    void KMMScreen::slotConsumerStopped()
+    void KMMScreen::slotExportStopped()
     {
-        //kdDebug() << "******* EXPORT OVER!!!!!!!!!!!!! ********* "<< endl;
         emit exportOver();
+    }
+    
+    void KMMScreen::slotPlayingStopped()
+    {
+        emit playingStopped();
     }
     
     
@@ -134,10 +138,6 @@ namespace Gui {
     void KMMScreen::setTitlePreview(QString tmpFileName)
     {
         m_render->setTitlePreview(tmpFileName);
-    }
-
-    void KMMScreen::setCapture() {
-	m_render->setCapture();
     }
 
     void KMMScreen::slotRendererStopped() {

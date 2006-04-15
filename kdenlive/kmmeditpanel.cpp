@@ -115,12 +115,10 @@ namespace Gui {
 	    SLOT(setOutpoint()));
 
 	 connect(playButton, SIGNAL(pressed()), this, SLOT(play()));
-	 connect(playSectionButton, SIGNAL(pressed()), this,
-	    SLOT(playSelected()));
-	 connect(playButton, SIGNAL(released()), this,
-	    SLOT(updateButtons()));
-	 connect(playSectionButton, SIGNAL(released()), this,
-	    SLOT(updateButtons()));
+	 connect(playButton, SIGNAL(released()), this, SLOT(updateButtons()));
+         
+         connect(playSectionButton, SIGNAL(pressed()), this, SLOT(playSelected()));
+	 connect(playSectionButton, SIGNAL(released()), this, SLOT(updateButtons()));
 
 	 connect(setMarkerButton, SIGNAL(clicked()), this,
 	    SIGNAL(toggleSnapMarker()));

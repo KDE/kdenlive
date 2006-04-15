@@ -81,8 +81,7 @@ class KRender:public QObject {
 	APP_NOEXIST
     };
 
-     KRender(const QString & rendererName, KURL appPath, unsigned int port,
-             Gui::KdenliveApp *parent = 0, const char *name = 0);
+     KRender(const QString & rendererName, Gui::KdenliveApp *parent = 0, const char *name = 0);
     ~KRender();
 
 	/** Wraps the VEML command of the same name; requests that the renderer
@@ -90,10 +89,6 @@ class KRender:public QObject {
 	displayed, otherwise it should be hidden. KRender will emit the signal
 	replyCreateVideoXWindow() once the renderer has replied. */
     void createVideoXWindow(bool show, WId winid);
-	/** Occurs upon finishing reading an XML document */
-    bool endDocument();
-	/** Occurs upon starting to parse an XML document */
-    bool startDocument();
 	/** Seeks the renderer clip to the given time. */
     void seek(GenTime time);
     
@@ -118,12 +113,6 @@ class KRender:public QObject {
 	be list. */
     void setSceneList(QDomDocument list, bool resetPosition = true);
 
-	/** Sets up the renderer as a capture device. */
-    void setCapture();
-
-	/** Wraps the VEML command of the same name - sends a <ping> command to the server, which
-	should reply with a <pong> - let's us determine the round-trip latency of the connection. */
-    void ping(QString & ID);
 	/** Wraps the VEML command of the same name. Tells the renderer to
 	play the current scene at the speed specified, relative to normal
 	playback. e.g. 1.0 is normal speed, 0.0 is paused, -1.0 means play
@@ -144,19 +133,14 @@ class KRender:public QObject {
 	specified sceneList - set with setSceneList() - to the document
 	name specified. */
     void render(const KURL & url);
-	/** Wraps the VEML command of the same name. Requests that the renderer should return it's capabilities. */
-    void getCapabilities();
 	/** Returns a list of all available file formats in this renderer. */
      QPtrList < AVFileFormatDesc > &fileFormats();
-	/** Returns the codec with the given name */
-    AVFormatDescCodec *findCodec(const QString & name);
 	/** Returns the effect list. */
     const EffectDescriptionList & effectList() const;
 	/** Returns the renderer version. */
     QString version();
 	/** Returns the description of this renderer */
-    QString description();	/** Returns true if the renderer is capable, or is believed to be capable of running and processing commands. It does not necessarily mean that the renderer is currently running, only that KRender has not given up trying to connect to/launch the renderer. Returns false if the renderer cannot be started. */
-    bool rendererOk();
+    QString description();
 
 	/** Returns the name of the renderer. */
     const QString & rendererName() const;
@@ -168,7 +152,6 @@ class KRender:public QObject {
 	/** Returns the current seek position of the renderer. */
     const GenTime & seekPosition() const;
 
-    void sendDebugVemlCommand(const QString & name);
     void emitFrameNumber(const GenTime & time, bool isFile);
     void emitConsumerStopped();
     void emitFileConsumerStopped();
@@ -191,21 +174,14 @@ class KRender:public QObject {
      Mlt::Consumer *m_fileRenderer;
      Gui::KdenliveApp *m_app;
      
+     
      int exportDuration, firstExportFrame, lastExportFrame;
 
 
 	/** If true, we are currently parsing some data. Otherwise, we are not. */
     bool m_parsing;
-	/** The socket that will connect to the server */
-    QSocket m_socket;
 	/** If we have started our own renderer, this is it's process */
     KProcess m_process;
-	/** The port number used to connect to the renderer */
-    uint m_portNum;
-	/** The path to the rendering application. */
-    KURL m_appPath;
-	/** true if we have a setSceneList command pending to be sent */
-    bool m_setSceneListPending;
 	/** Holds the scenelist to be sent, if pending. */
     QDomDocument m_sceneList;
 	/** Holds the buffered communication from the socket, ready for processing. */
@@ -216,9 +192,6 @@ class KRender:public QObject {
     QString m_renderName;
 	/** The version of the renderer */
     QString m_renderVersion;
-	/** Becomes true if it is known that the application path does not point to a valid file, false if
-	this is unknown, or if a valid executable is known to exist */
-    bool m_appPathInvalid;
 	/** Holds a description of all available file formats. */
      QPtrList < AVFileFormatDesc > m_fileFormats;
 	/** The parse stack for start/end element events. */
@@ -257,36 +230,14 @@ class KRender:public QObject {
 	/** Holds the last error message discovered */
     QString m_errorMessage;
 
-	/** The current speed of playback */
-    double m_playSpeed;
-
 	/**The current seek position */
     GenTime m_seekPosition;
 
 	/** A bit hackish, well, a lot haackish really. File properties exist across a number of xml tags,
 	 * so we have to collect them together before emmitting them. We do that with this value here. */
      QMap < QString, QString > m_filePropertyMap;
-	/** Sends a quit command to the renderer*/
-    void quit();
-	/** Sends an XML command to the renderer. */
-    void sendCommand(QDomDocument command);
-	/** Launches a renderer process. */
-    void launchProcess();
 	/** The actually seek command, private so people can't avoid the buffering of multiple seek commands. */
     void sendSeekCommand(GenTime time);
-	/** The actually setScenelist command, private so people can't avoid the buffering of multiple setSceneList commands. */
-    void sendSetSceneListCommand(const QDomDocument & list);
-	/** Pushes a stack parse with no definition, this effectively causes all
-	following tags in the current hierarch to be ignored until the end tag is
-	reached. */
-    void pushIgnore();
-
-    // Pushes a value onto the stack.
-    void pushStack(QString element,
-	bool(KRender::*funcStartElement) (const QString & localName,
-	    const QString & qName, const QXmlAttributes & atts),
-	bool(KRender::*funcEndElement) (const QString & localName,
-	    const QString & qName));
 
 	/** Sets the renderer version for this renderer. */
     void setVersion(QString version);
@@ -300,17 +251,6 @@ class KRender:public QObject {
 #endif
 
     private slots:		// Private slots
-	/** Catches errors from the socket. */
-    void error(int error);
-	/** Called when some data has been recieved by the socket, reads the data and processes it. */
-    void readData();
-	/** Called when we have connected to the renderer. */
-    void slotConnected();
-	/** Called when we have disconnected to the renderer. */
-    void slotDisconnected();
-	/** Called if the rendering process has exited. */
-    void processExited();
-
 	/** refresh monitor display */
     void refresh();
 
@@ -329,8 +269,8 @@ class KRender:public QObject {
 
 	/** emitted when the renderer recieves a reply to a getFileProperties request. */
     void replyGetSoundSamples(const KURL & url, int channel, int frame,
-	double frameLength, const QByteArray & array, int, int, int, int,
-	QPainter &);
+                              
+    double frameLength, const QByteArray & array, int, int, int, int, QPainter &);
 
 	/** emitted when the renderer recieves a reply to a getImage request. */
     void replyGetImage(const KURL &, int, const QPixmap &, int, int);
@@ -338,19 +278,6 @@ class KRender:public QObject {
 
     void replyGetSoundSamples(const KURL &, int, const QPixmap &);
 
-	/** emitted when the renderer recieves a failed reply to a getFileProperties request.
-	    First string is file url, second string is the error message. */
-    void replyErrorGetFileProperties(const QString &, const QString &);
-	/** Emitted when the renderer has recieved text from stdout */
-    void recievedStdout(const QString &, const QString &);
-	/** Emitted when the renderer has recieved text from stderr */
-    void recievedStderr(const QString &, const QString &);
-	/** Emits useful rendering debug info. */
-    void renderDebug(const QString &, const QString &);
-	/** Emits renderer warnings info. */
-    void renderWarning(const QString &, const QString &);
-	/** Emits renderer errors. */
-    void renderError(const QString &, const QString &);
 	/** Emitted when the renderer stops, either playing or rendering. */
     void stopped();
 	/** Emitted when the renderer starts playing. */
@@ -370,16 +297,12 @@ class KRender:public QObject {
 
     
     public slots:		// Public slots
-	/** This slot reads stdIn and processes it. */
-    void slotReadStdout(KProcess * proc, char *buffer, int buflen);
-    void slotReadStderr(KProcess * proc, char *buffer, int buflen);
-    void getSoundSamples(const KURL & url, int channel, int frame,
-	double frameLength, int arrayWidth, int, int, int, int,
-	QPainter &);
+    void getSoundSamples(const KURL & url, int channel, int frame, double frameLength, int arrayWidth, int, int, int, int, QPainter &);
 	/** Start Consumer */
     void start();
 	/** Stop Consumer */
     void stop();
+    
 	/** If the file is readable by mlt, return true, otherwise false */
     bool isValid(KURL url);
     
@@ -389,7 +312,7 @@ class KRender:public QObject {
     via replyGetFileProperties(). */
     void getFileProperties(KURL url);
     
-    void exportFileToFirewire(QString srcFileName, int port);
+    void exportFileToFirewire(QString srcFileName, int port, GenTime startTime, GenTime endTime);
 
 };
 

@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>264</width>
-            <height>354</height>
+            <height>382</height>
         </rect>
     </property>
     <property name="minimumSize">
@@ -28,61 +28,6 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QLayoutWidget" row="3" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>layout2</cstring>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QPushButton">
-                    <property name="name">
-                        <cstring>exportButton</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Export</string>
-                    </property>
-                    <property name="accel">
-                        <string></string>
-                    </property>
-                    <property name="autoDefault">
-                        <bool>true</bool>
-                    </property>
-                </widget>
-                <spacer>
-                    <property name="name">
-                        <cstring>Horizontal Spacing2</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>552</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="QPushButton">
-                    <property name="name">
-                        <cstring>closeButton</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Close</string>
-                    </property>
-                    <property name="accel">
-                        <string></string>
-                    </property>
-                    <property name="autoDefault">
-                        <bool>true</bool>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
         <widget class="QTabWidget" row="0" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>tabWidget</cstring>
@@ -173,6 +118,9 @@
                                 <property name="name">
                                     <cstring>textLabel2</cstring>
                                 </property>
+                                <property name="enabled">
+                                    <bool>false</bool>
+                                </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
                                         <hsizetype>4</hsizetype>
@@ -188,6 +136,9 @@
                             <widget class="QSpinBox" row="2" column="3">
                                 <property name="name">
                                     <cstring>fps</cstring>
+                                </property>
+                                <property name="enabled">
+                                    <bool>false</bool>
                                 </property>
                                 <property name="sizePolicy">
                                     <sizepolicy>
@@ -211,6 +162,9 @@
                                 <property name="name">
                                     <cstring>textLabel1_2_2</cstring>
                                 </property>
+                                <property name="enabled">
+                                    <bool>false</bool>
+                                </property>
                                 <property name="text">
                                     <string>Quality</string>
                                 </property>
@@ -218,6 +172,9 @@
                             <widget class="QSlider" row="1" column="1" rowspan="1" colspan="3">
                                 <property name="name">
                                     <cstring>quality</cstring>
+                                </property>
+                                <property name="enabled">
+                                    <bool>false</bool>
                                 </property>
                                 <property name="maxValue">
                                     <number>255</number>
@@ -260,6 +217,9 @@
                                 <property name="name">
                                     <cstring>hasAudio</cstring>
                                 </property>
+                                <property name="enabled">
+                                    <bool>false</bool>
+                                </property>
                                 <property name="text">
                                     <string>Audio</string>
                                 </property>
@@ -278,6 +238,9 @@
                             <widget class="QCheckBox" row="2" column="1">
                                 <property name="name">
                                     <cstring>hasVideo</cstring>
+                                </property>
+                                <property name="enabled">
+                                    <bool>false</bool>
                                 </property>
                                 <property name="text">
                                     <string>Video</string>
@@ -385,7 +348,7 @@
                     </property>
                     <property name="sizeHint">
                         <size>
-                            <width>152</width>
+                            <width>104</width>
                             <height>16</height>
                         </size>
                     </property>
@@ -527,17 +490,80 @@
                 </widget>
             </widget>
         </widget>
-        <widget class="KProgress" row="2" column="1">
+        <widget class="QLayoutWidget" row="4" column="0" rowspan="1" colspan="2">
             <property name="name">
-                <cstring>convertProgress</cstring>
+                <cstring>layout2</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>exportButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Export</string>
+                    </property>
+                    <property name="accel">
+                        <string></string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>Horizontal Spacing2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>552</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>closeButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Close</string>
+                    </property>
+                    <property name="accel">
+                        <string></string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QLabel" row="2" column="0">
+            <property name="name">
+                <cstring>process_label</cstring>
+            </property>
+            <property name="text">
+                <string>Rendering:</string>
             </property>
         </widget>
-        <widget class="KProgress" row="1" column="1">
+        <widget class="KProgress" row="2" column="1">
             <property name="name">
                 <cstring>processProgress</cstring>
             </property>
         </widget>
-        <widget class="QLabel" row="2" column="0">
+        <widget class="KProgress" row="3" column="1">
+            <property name="name">
+                <cstring>convertProgress</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="3" column="0">
             <property name="name">
                 <cstring>convert_label</cstring>
             </property>
@@ -545,12 +571,12 @@
                 <string>Exporting:</string>
             </property>
         </widget>
-        <widget class="QLabel" row="1" column="0">
+        <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="2">
             <property name="name">
-                <cstring>process_label</cstring>
+                <cstring>export_selected</cstring>
             </property>
             <property name="text">
-                <string>Rendering:</string>
+                <string>Export selected zone only</string>
             </property>
         </widget>
     </grid>

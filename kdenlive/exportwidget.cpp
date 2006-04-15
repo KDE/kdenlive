@@ -35,11 +35,12 @@
 #include <kdebug.h>
 #include <kmessagebox.h>
 
+#include "gentime.h"
 #include "exportwidget.h"
 
 
-exportWidget::exportWidget( const GenTime &duration, QWidget* parent, const char* name, WFlags fl ):
-                exportBaseWidget_UI(parent,name), m_duration(duration)
+exportWidget::exportWidget( Gui::KTimeLine *timeline, QWidget* parent, const char* name):
+                exportBaseWidget_UI(parent,name), m_duration(0)
 {
 /*    m_node = -1;
     m_port = -1;
@@ -48,6 +49,10 @@ exportWidget::exportWidget( const GenTime &duration, QWidget* parent, const char
     
     initEncoders();
     m_isRunning = false;
+    m_startTime = GenTime(0);
+    m_endTime = timeline->projectLength();
+    m_startSelection = timeline->inpointPosition();
+    m_endSelection = timeline->outpointPosition();
     
     tabWidget->page(1)->setEnabled(false);
 #ifdef ENABLE_FIREWIRE
@@ -140,6 +145,18 @@ void exportWidget::startExport()
             stopExport();
             return;
         }
+        
+        if (export_selected->isChecked()) {
+            startExportTime = m_startSelection;
+            endExportTime = m_endSelection;
+        }
+        else {
+            startExportTime = m_startTime;
+            endExportTime = m_endTime;
+        }
+        
+        m_duration = endExportTime - startExportTime;
+        
         //exportButton->setEnabled(false);
         exportButton->setText(i18n("Stop"));
         m_isRunning = true;
@@ -159,10 +176,10 @@ void exportWidget::startExport()
         }
         if (format == "mpeg") {
             QString vsize = videoSize->currentText();
-            emit exportTimeLine(fileExportUrl->url(), format, vsize, GenTime(0), m_duration);
+            emit exportTimeLine(fileExportUrl->url(), format, vsize, startExportTime, endExportTime);
         }
         else {
-            emit exportTimeLine(fileExportUrl->url(), format, "", GenTime(0), m_duration);
+            emit exportTimeLine(fileExportUrl->url(), format, "", startExportTime, endExportTime);
         }
     }
     else if (tabWidget->currentPageIndex () == 2) { // Firewire export
@@ -174,19 +191,22 @@ void exportWidget::startExport()
                 KMessageBox::sorry(this, i18n("Please enter a file name"));
                 return;
             }
-            emit exportToFirewire(fw_URL->url(), firewireport->value());
+            emit exportToFirewire(fw_URL->url(), firewireport->value(), startExportTime, endExportTime);
         }
     }
 }
 
 void exportWidget::reportProgress(GenTime progress)
 {
+    progress = progress - startExportTime;
     int prog = (100 * progress.frames(25))/m_duration.frames(25);
     processProgress->setProgress(prog);
 }
 
 void exportWidget::endExport()
 {
+    kdDebug()<<"++++++++++  EXPORT DIALOG ENDOVER  +++++++++++++"<<endl;
+    //if (!m_isRunning) return;
     exportButton->setText(i18n("Export"));
     m_isRunning = false;
     processProgress->setProgress(0);

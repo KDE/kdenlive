@@ -30,6 +30,7 @@
 #include <qspinbox.h>
 #include <qwhatsthis.h>
 #include <qtoolbutton.h>
+#include <qcheckbox.h>
 
 // include files for KDE
 #include <kconfig.h>
@@ -89,7 +90,6 @@
 #include "krendermanager.h"
 #include "krulertimemodel.h"
 #include "projectlist.h"
-#include "renderdebugpanel.h"
 #include "titlewidget.h"
 #include "clipproperties.h"
 
@@ -120,8 +120,7 @@ namespace Gui {
 
 	// renderer options
 	m_renderManager = new KRenderManager(this);
-	m_renderManager->readConfig(config);
-            
+
 	// call inits to invoke all other construction parts
 	initStatusBar();
 	m_commandHistory = new KCommandHistory(actionCollection(), true);
@@ -527,9 +526,8 @@ namespace Gui {
 
     void KdenliveApp::initDocument() {
         doc = new KdenliveDoc(KdenliveSettings::defaultfps(), KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight(), this, this);
-	connect(doc, SIGNAL(modified(bool)), this,
-	    SLOT(documentModified(bool)));
-	doc->newDocument();
+	connect(doc, SIGNAL(modified(bool)), this, SLOT(documentModified(bool)));
+        doc->newDocument();
     }
 
     void KdenliveApp::initView() {
@@ -537,7 +535,6 @@ namespace Gui {
 	// create the main widget here that is managed by KTMainWindow's view-region and
 	// connect the widget to your document to display document contents.
 
-        keyTimer = new QTimer( this );
 	view = new QWidget(this);
         m_menuPosition = QPoint();
 	KDockWidget *mainDock =
@@ -580,15 +577,6 @@ namespace Gui {
 	m_dockTransition->setDockSite(KDockWidget::DockFullSite);
 	m_dockTransition->manualDock(m_dockProjectList, KDockWidget::DockCenter);
 	
-
-	widget = createDockWidget("Debug", QPixmap(), 0, i18n("Debug"));
-	m_renderDebugPanel = new RenderDebugPanel(widget);
-	QToolTip::add(widget,
-	    i18n("Current debug messages between renderer and Kdenlive"));
-	widget->setWidget(m_renderDebugPanel);
-	widget->setDockSite(KDockWidget::DockFullSite);
-	widget->manualDock(m_dockProjectList, KDockWidget::DockCenter);
-
 	m_dockEffectList =
 	    createDockWidget("Effect List", QPixmap(), 0,
 	    i18n("Effect List"));
@@ -602,7 +590,8 @@ namespace Gui {
 	m_dockEffectList->manualDock(m_dockProjectList,
 	    KDockWidget::DockCenter);
 
-	widget =
+	/*  Effect setup window, currently not used
+        widget =
 	    createDockWidget("Effect Setup", QPixmap(), 0,
 	    i18n("Effect Setup"));
 	m_effectParamDialog =
@@ -613,6 +602,7 @@ namespace Gui {
 	widget->setWidget(m_effectParamDialog);
 	widget->setDockSite(KDockWidget::DockFullSite);
 	widget->manualDock(m_dockProjectList, KDockWidget::DockCenter);
+        */
 
 	clipWidget =
 	    createDockWidget("Clip Properties", QPixmap(), 0,
@@ -691,9 +681,9 @@ namespace Gui {
 	connect(m_effectStackDialog, SIGNAL(generateSceneList()),
 	    getDocument(), SLOT(hasBeenModified()));
 
-	connect(m_effectStackDialog, SIGNAL(effectSelected(DocClipRef *,
+	/*connect(m_effectStackDialog, SIGNAL(effectSelected(DocClipRef *,
 		    Effect *)), m_effectParamDialog,
-	    SLOT(slotSetEffect(DocClipRef *, Effect *)));
+        SLOT(slotSetEffect(DocClipRef *, Effect *)));*/
 
 	connect(m_effectStackDialog, SIGNAL(redrawTracks()), m_timeline,
 	    SLOT(invalidateBackBuffer()));
@@ -727,31 +717,6 @@ namespace Gui {
 	connect(getDocument(),
 	    SIGNAL(documentLengthChanged(const GenTime &)), m_timeline,
 	    SLOT(slotSetProjectLength(const GenTime &)));
-
-	connect(m_renderManager, SIGNAL(renderDebug(const QString &,
-		    const QString &)), m_renderDebugPanel,
-	    SLOT(slotPrintRenderDebug(const QString &, const QString &)));
-	connect(m_renderManager, SIGNAL(renderWarning(const QString &,
-		    const QString &)), m_renderDebugPanel,
-	    SLOT(slotPrintRenderWarning(const QString &,
-		    const QString &)));
-	connect(m_renderManager, SIGNAL(renderError(const QString &,
-		    const QString &)), m_renderDebugPanel,
-	    SLOT(slotPrintRenderError(const QString &, const QString &)));
-	connect(m_renderManager, SIGNAL(recievedStdout(const QString &,
-		    const QString &)), m_renderDebugPanel,
-	    SLOT(slotPrintWarning(const QString &, const QString &)));
-	connect(m_renderManager, SIGNAL(recievedStderr(const QString &,
-		    const QString &)), m_renderDebugPanel,
-	    SLOT(slotPrintError(const QString &, const QString &)));
-	connect(m_renderManager, SIGNAL(error(const QString &,
-		    const QString &)), this,
-	    SLOT(slotRenderError(const QString &, const QString &)));
-
-	connect(m_renderDebugPanel,
-	    SIGNAL(debugVemlSendRequest(const QString &, const QString &)),
-	    m_renderManager, SLOT(sendDebugCommand(const QString &,
-		    const QString &)));
 
 	connect(m_projectList, SIGNAL(clipSelected(DocClipRef *)), this,
 	    SLOT(activateClipMonitor()));
@@ -788,10 +753,10 @@ namespace Gui {
 	connect(m_timeline, SIGNAL(rightButtonPressed()), this,
 	    SLOT(slotDisplayTimeLineContextMenu()));
 
-	connect(m_effectListDialog,
+	/*connect(m_effectListDialog,
 	    SIGNAL(effectSelected(const EffectDesc &)),
 	    m_effectParamDialog,
-	    SLOT(slotSetEffectDescription(const EffectDesc &)));
+        SLOT(slotSetEffectDescription(const EffectDesc &)));*/
 
 	makeDockInvisible(mainDock);
 
@@ -899,7 +864,11 @@ namespace Gui {
             }
         }
         else if( e->type() == 10001) {
-            m_workspaceMonitor->screen()->slotConsumerStopped();
+            QTimer::singleShot( 200, m_workspaceMonitor->screen(), SLOT(slotPlayingStopped()) );
+            //m_workspaceMonitor->screen()->slotPlayingStopped();
+        }
+        else if( e->type() == 10002) {
+            m_workspaceMonitor->screen()->slotExportStopped();
         }
     }
 
@@ -951,12 +920,8 @@ namespace Gui {
 	fileOpenRecent->saveEntries(config);
 	config->writeEntry("FileDialogPath", m_fileDialogPath.path());
 
-	m_renderManager->saveConfig(config);
 	writeDockConfig(config, "Default Layout");
 
-	config->setGroup("Debug Options");
-	config->writeEntry("Ignore Rendering Messages",
-	    m_renderDebugPanel->ignoreMessages());
     }
 
     int KdenliveApp::getTimeScaleSliderText() const {
@@ -989,10 +954,6 @@ namespace Gui {
 	    resize(size);
 	}
 
-	config->setGroup("Debug Options");
-	bool ignoreMessages =
-	    config->readBoolEntry("Ignore Rendering Messages", true);
-	m_renderDebugPanel->setIgnoreMessages(ignoreMessages);
     }
 
     void KdenliveApp::saveProperties(KConfig * _cfg) {
@@ -1332,30 +1293,14 @@ namespace Gui {
     void KdenliveApp::slotRenderExportTimeline() {
 	slotStatusMsg(i18n("Exporting Timeline..."));
 
-        m_exportWidget=new exportWidget(doc->projectClip().duration(), this,"exporter",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
+        m_exportWidget=new exportWidget(m_timeline, this,"exporter");
         connect(m_exportWidget,SIGNAL(exportTimeLine(QString, QString, QString, GenTime, GenTime)),m_workspaceMonitor->screen(),SLOT(exportTimeline(QString, QString, QString, GenTime, GenTime)));
         connect(m_exportWidget,SIGNAL(stopTimeLineExport()),m_workspaceMonitor->screen(),SLOT(stopTimeLineExport()));
         connect(m_workspaceMonitor->screen(),SIGNAL(exportOver()),m_exportWidget,SLOT(endExport()));
-        
-        connect(m_exportWidget,SIGNAL(exportToFirewire(QString, int)),m_workspaceMonitor->screen(),SLOT(exportToFirewire(QString, int)));
+        connect(m_exportWidget,SIGNAL(exportToFirewire(QString, int, GenTime, GenTime)),m_workspaceMonitor->screen(),SLOT(exportToFirewire(QString, int, GenTime, GenTime)));
         m_exportWidget->exec();
-        
-        /*
-	if (getDocument()->renderer()->rendererOk()) {
-	    ExportDialog exportDialog(getDocument()->renderer()->
-		fileFormats(), this, "export dialog");
-	    if (QDialog::Accepted == exportDialog.exec()) {
-		if (!exportDialog.url().isEmpty()) {
-		    doc->renderDocument(exportDialog.url());
-		}
-	    }
-	} else {
-	    KMessageBox::sorry(this,
-		i18n
-		("The renderer is not available. Please check your settings."),
-		i18n("Cannot Export Timeline"));
-	}
-        */
+        delete m_exportWidget;
+        m_exportWidget = 0;
 	slotStatusMsg(i18n("Ready."));
     }
 
@@ -1608,7 +1553,7 @@ namespace Gui {
 	slotStatusMsg(i18n("Ready."));
     }
 
-    void KdenliveApp::slotProjectClipProperties(DocClipRef * clip) {
+    void KdenliveApp::slotProjectClipProperties(DocClipRef * ) {
 	slotStatusMsg(i18n("Viewing clip properties"));
 	m_clipPropertyDialog->setClip(m_projectList->currentSelection());
 	slotStatusMsg(i18n("Ready."));
@@ -1643,8 +1588,6 @@ namespace Gui {
     }
 
     void KdenliveApp::slotNextFrame() {
-        if (keyTimer->isActive()) return; // do not allow key repeat too often otherwise the cursor gets crazy
-        keyTimer->start(100, true);
 	if (m_monitorManager.hasActiveMonitor()) {
 	    m_monitorManager.activeMonitor()->editPanel()->
 		seek(m_monitorManager.activeMonitor()->screen()->
@@ -1654,8 +1597,6 @@ namespace Gui {
     }
 
     void KdenliveApp::slotLastFrame() {
-        if (keyTimer->isActive()) return; // do not allow key repeat too often otherwise the cursor gets crazy
-        keyTimer->start(100, true);
 	if (m_monitorManager.hasActiveMonitor()) {
 	    m_monitorManager.activeMonitor()->editPanel()->
 		seek(m_monitorManager.activeMonitor()->screen()->
@@ -1665,23 +1606,19 @@ namespace Gui {
     }
     
     void KdenliveApp::slotNextSecond() {
-        if (keyTimer->isActive()) return; // do not allow key repeat too often otherwise the cursor gets crazy
-        keyTimer->start(100, true);
         if (m_monitorManager.hasActiveMonitor()) {
             m_monitorManager.activeMonitor()->editPanel()->
                     seek(m_monitorManager.activeMonitor()->screen()->
-                    seekPosition() + GenTime(getDocument()->framesPerSecond(),
+                    seekPosition() + GenTime((int) getDocument()->framesPerSecond(),
             getDocument()->framesPerSecond()));
         }
     }
 
     void KdenliveApp::slotLastSecond() {
-        if (keyTimer->isActive()) return; // do not allow key repeat too often otherwise the cursor gets crazy
-        keyTimer->start(100, true);
         if (m_monitorManager.hasActiveMonitor()) {
             m_monitorManager.activeMonitor()->editPanel()->
                     seek(m_monitorManager.activeMonitor()->screen()->
-                    seekPosition() - GenTime(getDocument()->framesPerSecond(),
+                    seekPosition() - GenTime((int) getDocument()->framesPerSecond(),
             getDocument()->framesPerSecond()));
         }
     }
@@ -1783,12 +1720,7 @@ namespace Gui {
     }
 
 
-    void KdenliveApp::slotRenderError(const QString & name,
-	const QString & message) {
-	KMessageBox::sorry(this, message, name);
-    }
-
-    void KdenliveApp::slotSetRenderProgress(const GenTime & time) {
+   void KdenliveApp::slotSetRenderProgress(const GenTime & time) {
 	m_statusBarProgress->setPercentageVisible(true);
 	m_statusBarProgress->setTotalSteps((int) m_timeline->
 	    projectLength().frames(getDocument()->framesPerSecond()));

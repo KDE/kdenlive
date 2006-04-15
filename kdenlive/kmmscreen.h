@@ -84,16 +84,15 @@ public slots:
 	/** Set the displayed scenelist to the one specified. */
 	void setSceneList(const QDomDocument & scenelist,
 	    bool resetPosition = true);
-	/** Sets the screen up as a capture device */
-	void setCapture();
 	/** Called when the renderer stops playing */
 	void slotRendererStopped();
         void setTitlePreview(QString tmpFileName);
         /** Render project to file */
         void exportTimeline(QString url, QString format, QString size, GenTime startTime, GenTime endTime);
         void stopTimeLineExport();
-        void slotConsumerStopped();
-        void exportToFirewire(QString url, int port);
+        void slotExportStopped();
+        void slotPlayingStopped();
+        void exportToFirewire(QString url, int port, GenTime startTime, GenTime endTime);
         
 signals:
 	/** Emitted when a renderer connects. */
@@ -111,6 +110,7 @@ signals:
 	/** Emitted when a drag has started to occur over the screen. */
 	void mouseDragged();
         void exportOver();
+        void playingStopped();
     };
 
 }

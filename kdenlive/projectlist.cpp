@@ -167,14 +167,21 @@ namespace Gui {
 
 		if (fileSize < 1024) {
 		    text = QString::number(fileSize) + i18n(" Kb");
-		} else {
+		} 
+                else {
 		    fileSize = (int) floor((fileSize / 102.4) + 0.5);
-
-		    tenth = fileSize % 10;
-		    fileSize /= 10;
-
-		    text = QString::number(fileSize) + "." +
-			QString::number(tenth) + i18n(" Mb");
+                    if (fileSize < 10000) {
+		      tenth = fileSize % 10;
+		      fileSize /= 10;
+		      text = QString::number(fileSize) + "." + QString::number(tenth) + i18n(" Mb");
+                    }
+                    else {
+                        fileSize = (int) floor((fileSize / 1000) + 0.5);
+                        tenth = fileSize % 10;
+                        fileSize /= 10;
+                        text = QString::number(fileSize) + "." + QString::number(tenth) + i18n(" Gb");
+                        
+                    }
 		}
 	    }
 	    text_size->setText(text);

@@ -71,13 +71,21 @@ A description of an effect parameter
     const QString & description() const;
     const QString & name() const {
 	return m_name;
-    } const QString & type() const {
+    } 
+    
+    const QString & type() const {
 	return m_type;
-    } virtual const double &value(uint ix = 0) const {
+    } 
+    
+    virtual const double &value() const {
 	return m_value;
-    } virtual const double &defaultValue(uint ix = 0) const {
+    } 
+    
+    virtual const double &defaultValue() const {
 	return m_default;
-    } virtual void setValue(const double &value);
+    } 
+    
+    virtual void setValue(const double &value);
 
     virtual const QString complexParamName(uint ix) const;
     virtual const uint complexParamNum() const;

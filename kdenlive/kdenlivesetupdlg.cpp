@@ -22,7 +22,6 @@
 #include <kconfig.h>
 
 #include "kdenlivesetupdlg.h"
-#include "rendersetupdlg.h"
 #include "kdenlive.h"
 #include "kdenlivesettings.h"
 

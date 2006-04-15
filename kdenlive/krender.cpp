@@ -8,6 +8,8 @@
   email                : lucio.correa@gmail.com
   copyright            : (C) Marco Gittler
   email                : g.marco@freenet.de
+  copyright            : (C) 2006 Jean-Baptiste Mardelle
+  email                : jb@ader.ch
 
 ***************************************************************************/
 
@@ -67,34 +69,21 @@ namespace {
 
 }				// annonymous namespace
 
-KRender::KRender(const QString & rendererName, KURL appPath,
-                 unsigned int port, Gui::KdenliveApp *parent, const char *name):QObject(parent,
+KRender::KRender(const QString & rendererName, Gui::KdenliveApp *parent, const char *name):QObject(parent,
                  name), m_name(rendererName), m_renderName("unknown"), m_app(parent), 
-m_renderVersion("unknown"), m_appPathInvalid(false), m_fileFormat(0),
-m_desccodeclist(0), m_codec(0), m_effect(0), m_playSpeed(0.0),
-m_parameter(0), m_portNum(0), m_appPath(""), m_mltMiracle(NULL),
+m_renderVersion("unknown"), m_fileFormat(0),
+m_desccodeclist(0), m_codec(0), m_effect(0),
+m_parameter(0), m_mltMiracle(NULL),
 m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL)
 {
     startTimer(1000);
     m_parsing = false;
-    m_setSceneListPending = false;
+    m_seekPosition = GenTime(0);
 
     m_fileFormats.setAutoDelete(true);
     m_codeclist.setAutoDelete(true);
     m_effectList.setAutoDelete(true);
-/*
-	connect( &m_socket, SIGNAL( error( int ) ), this, SLOT( error( int ) ) );
-	connect( &m_socket, SIGNAL( connected() ), this, SLOT( slotConnected() ) );
-	connect( &m_socket, SIGNAL( connectionClosed() ), this, SLOT( slotDisconnected() ) );
-	connect( &m_socket, SIGNAL( readyRead() ), this, SLOT( readData() ) );
 
-	connect( &m_process, SIGNAL( processExited( KProcess * ) ), this, SLOT( processExited() ) );
-	connect( &m_process, SIGNAL( receivedStdout( KProcess *, char *, int ) ), this, SLOT( slotReadStdout( KProcess *, char *, int ) ) );
-	connect( &m_process, SIGNAL( receivedStderr( KProcess *, char *, int ) ), this, SLOT( slotReadStderr( KProcess *, char *, int ) ) );
-*/
-
-    m_portNum = port;
-    m_appPath = appPath;
     openMlt();
 
 
@@ -245,115 +234,23 @@ KRender::~KRender()
 {
     closeMlt();
     killTimers();
-    quit();
 }
 
 /** Recieves timer events */
-void KRender::timerEvent(QTimerEvent * event)
+void KRender::timerEvent(QTimerEvent * )
 {
     if (m_mltConsumer == NULL) {
 	emit initialised();
 	emit connected();
     }
-    //if ( m_socket.state() == QSocket::Idle ) {
-    //if ( !m_process.isRunning() ) {
-    //if(m_refCount==1){
-/*			if (m_mltConsumer==NULL){
-				launchProcess();
-				emit slotConnected();
-			}*/
-    //}
-    //} else {
-    //      m_socket.connectToHost( "127.0.0.1", m_portNum );
-    //}
-    //}
 }
 
-/** Catches errors from the socket. */
-void KRender::error(int error)
-{
-    switch (error) {
-    case QSocket::ErrConnectionRefused:
-	emit renderWarning(m_name, "Connection Refused");
-	break;
-    case QSocket::ErrHostNotFound:
-	emit renderWarning(m_name, "Host Not Found");
-	break;
-    case QSocket::ErrSocketRead:
-	emit renderWarning(m_name, "Error Reading Socket");
-	break;
-    }
-}
-
-/** Called when we have connected to the renderer. */
-void KRender::slotConnected()
-{
-    getCapabilities();
-
-    emit renderDebug(m_name,
-	"Connected on port " + QString::number(m_socket.port()) +
-	" to host on port " + QString::number(m_socket.peerPort()));
-    emit initialised();
-    emit connected();
-}
-
-/** Called when we have disconnected from the renderer. */
-void KRender::slotDisconnected()
-{
-    emit renderWarning(m_name, "Disconnected");
-
-    emit disconnected();
-}
-
-/** Called when some data has been recieved by the socket, reads the data and processes it. */
-void KRender::readData()
-{
-}
-
-/** Sends an XML command to the renderer. */
-void KRender::sendCommand(QDomDocument command)
-{
-}
-
-/** Generates the quit command */
-void KRender::quit()
-{
-}
-
-/** Called if the rendering process has exited. */
-void KRender::processExited()
-{
-    emit renderWarning(m_name, "Render Process Exited");
-}
-
-/** Launches a renderer process. */
-void KRender::launchProcess()
-{
-//   Removed some obsolete code that was responsible for artsd launch,
-//   but wasn't used anymore.
-    emit renderWarning(m_name, "Render should start");
-}
-
-void KRender::slotReadStdout(KProcess * proc, char *buffer, int buflen)
-{
-    QString mess;
-    mess.setLatin1(buffer, buflen);
-    emit recievedStdout(m_name, mess);
-}
-
-void KRender::slotReadStderr(KProcess * proc, char *buffer, int buflen)
-{
-    QString mess;
-    mess.setLatin1(buffer, buflen);
-    emit recievedStderr(m_name, mess);
-}
 
 /** Returns a list of all available file formats in this renderer. */
 QPtrList < AVFileFormatDesc > &KRender::fileFormats()
 {
     return m_fileFormats;
 }
-
 
 
 void KRender::openMlt()
@@ -382,18 +279,19 @@ void KRender::closeMlt()
 
 }
 
-static void consumer_frame_show(mlt_consumer, KRender * self,
-    mlt_frame frame_ptr)
+ 
+
+static void consumer_frame_show(mlt_consumer, KRender * self, mlt_frame frame_ptr)
 {
     mlt_position framePosition = mlt_frame_get_position(frame_ptr);
     self->emitFrameNumber(GenTime(framePosition, 25), false);
+    
     // detect if the producer has finished playing. Is there a better way to do it ?
     if (mlt_properties_get_double( MLT_FRAME_PROPERTIES( frame_ptr ), "_speed" ) == 0)
         self->emitConsumerStopped();
 }
 
-static void file_consumer_frame_show(mlt_consumer, KRender * self,
-                                mlt_frame frame_ptr)
+static void file_consumer_frame_show(mlt_consumer, KRender * self, mlt_frame frame_ptr)
 {
     mlt_position framePosition = mlt_frame_get_position(frame_ptr);
     self->emitFrameNumber(GenTime(framePosition, 25), true);
@@ -402,14 +300,12 @@ static void file_consumer_frame_show(mlt_consumer, KRender * self,
         self->emitFileConsumerStopped();
 }
 
-static void consumer_stopped(mlt_consumer, KRender * self,
-                                mlt_frame)
+static void consumer_stopped(mlt_consumer, KRender * self, mlt_frame)
 {
     self->emitConsumerStopped();
 }
 
-static void file_consumer_stopped(mlt_consumer, KRender * self,
-                             mlt_frame)
+static void file_consumer_stopped(mlt_consumer, KRender * self, mlt_frame)
 {
     self->emitFileConsumerStopped();
 }
@@ -428,17 +324,16 @@ should create a video window. If show is true, then the window should be
 displayed, otherwise it should be hidden. KRender will emit the signal
 replyCreateVideoXWindow() once the renderer has replied. */
 
-void KRender::createVideoXWindow(bool show, WId winid)
+void KRender::createVideoXWindow(bool , WId winid)
 {
 
 
     m_mltConsumer = new Mlt::Consumer("sdl_preview");
-    m_mltConsumer->listen("consumer-frame-show", this,
-	(mlt_listener) consumer_frame_show);
+    m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
     //m_mltConsumer->listen("consumer-stopped", this, (mlt_listener) consumer_stopped);
 
     //only as is saw, if we want to lock something with the sdl lock
-
+    
     m_mltConsumer->set("app_locked", 1);
     m_mltConsumer->set("app_lock", (void *) &my_lock, 0);
 
@@ -711,17 +606,11 @@ bool KRender::isValid(KURL url)
 
 void KRender::getFileProperties(KURL url)
 {
-    if (!rendererOk()) {
-	emit replyErrorGetFileProperties(url.path(),
-	    i18n
-	    ("The renderer is unavailable, the file properties cannot be determined."));
-    } else {
 	Mlt::Producer producer(const_cast < char *>(url.path().ascii()));
 
 	m_filePropertyMap.clear();
 	m_filePropertyMap["filename"] = url.path();
-	m_filePropertyMap["duration"] =
-	    QString::number(producer.get_length());
+	m_filePropertyMap["duration"] = QString::number(producer.get_length());
         
         Mlt::Filter m_convert("avcolour_space");
         m_convert.set("forced", mlt_image_rgb24a);
@@ -764,26 +653,21 @@ void KRender::getFileProperties(KURL url)
 	}
 	emit replyGetFileProperties(m_filePropertyMap);
 	delete frame;
-
-    }
 }
 
-/** Wraps the VEML command of the same name. Sets the current scene list to
-be list. */
+/** Create the producer from the Westley QDomDocument */
 void KRender::setSceneList(QDomDocument list, bool resetPosition)
 {
     GenTime pos = seekPosition();
     m_sceneList = list;
-    m_setSceneListPending = true;
 
     if (m_mltProducer != NULL) {
 	delete m_mltProducer;
 	m_mltProducer = NULL;
 	emit stopped();
     }
-    m_mltProducer =
-	new Mlt::Producer("westley-xml",
-	const_cast < char *>(list.toString().ascii()));
+    m_mltProducer = new Mlt::Producer("westley-xml", const_cast < char *>(list.toString().ascii()));
+
     if (!resetPosition)
 	seek(pos);
     m_mltProducer->set_speed(0.0);
@@ -795,16 +679,6 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
     }
 }
 
-/** Wraps the VEML command of the same name - sends a <ping> command to the server, which
-should reply with a <pong> - let's us determine the round-trip latency of the connection. */
-void KRender::ping(QString & ID)
-{
-    QDomDocument doc;
-    QDomElement elem = doc.createElement("ping");
-    elem.setAttribute("id", ID);
-    doc.appendChild(elem);
-    sendCommand(doc);
-}
 
 void KRender::start()
 {
@@ -825,10 +699,8 @@ void KRender::stop()
     }
 }
 
-
 void KRender::stop(const GenTime & startTime)
 {
-
     if (m_mltProducer) {
 	m_mltProducer->set_speed(0.0);
     }
@@ -839,39 +711,17 @@ void KRender::play(double speed)
 {
     if (!m_mltProducer)
 	return;
-
-    m_playSpeed = speed;
-    if (m_setSceneListPending) {
-	sendSetSceneListCommand(m_sceneList);
-    }
     m_mltProducer->set_speed(speed);
     refresh();
-    /*if(m_playSpeed != 0.0) {
-       m_mltProducer->set_speed(1.0);
-       } else {
-       m_mltProducer->set_speed(0.0);
-       } */
 }
 
 void KRender::play(double speed, const GenTime & startTime)
 {
     if (!m_mltProducer)
 	return;
-
-    m_playSpeed = speed;
-    if (m_setSceneListPending) {
-	sendSetSceneListCommand(m_sceneList);
-    }
     m_mltProducer->set_speed(speed);
-    m_mltProducer->seek((int) (startTime.frames(m_mltProducer->
-		get_double("fps"))));
+    m_mltProducer->seek((int) (startTime.frames(m_mltProducer->get_fps())));
     refresh();
-
-    /*if(m_playSpeed != 0.0) {
-       m_mltProducer->set_speed(1.0);
-       } else {
-       m_mltProducer->set_speed(0.0);
-       } */
 }
 
 void KRender::play(double speed, const GenTime & startTime,
@@ -880,58 +730,27 @@ void KRender::play(double speed, const GenTime & startTime,
     if (!m_mltProducer)
 	return;
 
-    m_playSpeed = speed;
-
-    if (m_setSceneListPending) {
-	sendSetSceneListCommand(m_sceneList);
-    }
-
-    /* FIXME: Currently, only the startTime is considered. Playing will not stop at stopTime. Should find a clever way to do this... */
-
+    m_mltProducer->set("out", stopTime.frames(m_mltProducer->get_fps()));
+    m_mltProducer->seek((int) (startTime.frames(m_mltProducer->get_fps())));
     m_mltProducer->set_speed(speed);
-    m_mltProducer->seek((int) (startTime.frames(m_mltProducer->
-		get_double("fps"))));
     refresh();
-
-    /*if(m_playSpeed != 0.0) {
-       m_mltProducer->set_speed(1.0);
-       } else {
-       m_mltProducer->set_speed(0.0);
-       } */
 }
 
 void KRender::render(const KURL & url)
 {
-    if (m_setSceneListPending) {
-	sendSetSceneListCommand(m_sceneList);
-    }
     QDomDocument doc;
     QDomElement elem = doc.createElement("render");
     elem.setAttribute("filename", url.path());
     doc.appendChild(elem);
-    sendCommand(doc);
 }
 
 void KRender::sendSeekCommand(GenTime time)
 {
-
     if (!m_mltProducer)
 	return;
-    m_mltProducer->seek((int) (time.frames(m_mltProducer->
-		get_double("fps"))));
+    m_mltProducer->seek((int) (time.frames(m_mltProducer->get_fps())));
     refresh();
-
-    /*if ( m_setSceneListPending ) {
-       sendSetSceneListCommand( m_sceneList );
-       }
-
-       QDomDocument doc;
-       QDomElement elem = doc.createElement( "seek" );
-       elem.setAttribute( "time", QString::number( time.seconds() ) );
-       doc.appendChild( elem );
-       sendCommand( doc ); */
-
-    m_seekPosition = time;
+    //m_seekPosition = time;
 }
 
 void KRender::refresh()
@@ -943,62 +762,6 @@ void KRender::refresh()
     }
 }
 
-void KRender::sendSetSceneListCommand(const QDomDocument & list)
-{
-    m_setSceneListPending = false;
-
-    QDomDocument doc;
-    QDomElement elem = doc.createElement("setSceneList");
-    elem.appendChild(doc.importNode(list.documentElement(), true));
-    doc.appendChild(elem);
-    sendCommand(doc);
-}
-
-void KRender::getCapabilities()
-{
-    QDomDocument doc;
-    QDomElement elem = doc.createElement("getCapabilities");
-    doc.appendChild(elem);
-    sendCommand(doc);
-}
-
-void KRender::pushIgnore()
-{
-    StackValue val;
-    val.element = "ignore";
-    val.funcStartElement = 0;
-    val.funcEndElement = 0;
-    m_parseStack.push(val);
-}
-
-// Pushes a value onto the stack.
-void KRender::pushStack(QString element,
-    bool(KRender::*funcStartElement) (const QString & localName,
-	const QString & qName, const QXmlAttributes & atts),
-    bool(KRender::*funcEndElement) (const QString & localName,
-	const QString & qName))
-{
-    StackValue val;
-    val.element = element;
-    val.funcStartElement = funcStartElement;
-    val.funcEndElement = funcEndElement;
-    m_parseStack.push(val);
-}
-
-/** Returns the codec with the given name */
-AVFormatDescCodec *KRender::findCodec(const QString & name)
-{
-    QPtrListIterator < AVFormatDescCodec > itt(m_codeclist);
-
-    while (itt.current()) {
-	emit renderWarning(m_name,
-	    "Comparing " + name + " with " + itt.current()->name());
-	if (name == itt.current()->name())
-	    return itt.current();
-	++itt;
-    }
-    return 0;
-}
 
 /** Returns the effect list. */
 const EffectDescriptionList & KRender::effectList() const
@@ -1030,47 +793,17 @@ QString KRender::description()
     return m_description;
 }
 
-/** Occurs upon starting to parse an XML document */
-bool KRender::startDocument()
-{
-    //  emit renderDebug(m_name, "Starting to parse document");
-    return true;
-}
-
-/** Occurs upon finishing reading an XML document */
-bool KRender::endDocument()
-{
-    //  emit renderDebug(m_name, "Finishing parsing document");
-    return true;
-}
-
-bool KRender::rendererOk()
-{
-    //if ( m_appPathInvalid ) return false;
-
-    return true;
-}
 
 double KRender::playSpeed()
 {
-    return m_playSpeed;
+    if (m_mltProducer) return m_mltProducer->get_speed();
+    return 0.0;
 }
 
 const GenTime & KRender::seekPosition() const
 {
-    return m_seekPosition;
-}
-
-void KRender::sendDebugVemlCommand(const QString & name)
-{
-    if (m_socket.state() == QSocket::Connected) {
-	kdWarning() << "Sending debug command " << name << endl;
-	QCString str = (name + "\n\n").latin1();
-	m_socket.writeBlock(str, strlen(str));
-    } else {
-	emit renderWarning(m_name,
-	    "Socket not connected, not sending Command " + name);
-    }
+    if (m_mltProducer) return GenTime(m_mltProducer->position(), m_mltProducer->get_fps());
+    return GenTime(0);
 }
 
 
@@ -1079,37 +812,42 @@ const QString & KRender::rendererName() const
     return m_name;
 }
 
-void KRender::setCapture()
-{
-    QDomDocument doc;
-    QDomElement elem = doc.createElement("setCapture");
-    doc.appendChild(elem);
-
-    sendCommand(doc);
-}
 
 void KRender::emitFrameNumber(const GenTime & time, bool isFile)
 {
-    m_seekPosition = time;
-    QApplication::postEvent(m_app, new PositionChangeEvent(m_seekPosition, isFile));
+    //m_seekPosition = time;
+    if (m_mltProducer) {
+        QApplication::postEvent(m_app, new PositionChangeEvent(GenTime(m_mltProducer->position(), m_mltProducer->get_fps()), isFile));
+    }
 }
 
 void KRender::emitConsumerStopped()
 {
-    // This is used to know when the export is finished
+    //kdDebug()<<"+++++++++++  SDL CONSUMER STOPPING ++++++++++++++++++"<<endl;
+    // This is used to know when the playing stopped
+    if (m_mltProducer) m_mltProducer->set("out", m_mltProducer->get_length() - 1);
     QApplication::postEvent(m_app, new QCustomEvent(10001));
 }
 
 void KRender::emitFileConsumerStopped()
 {
-    kdDebug()<<"+++++++++++  FILE CONSUMER STOPPING ++++++++++++++++++"<<endl;
-    if (m_fileRenderer && !m_fileRenderer->is_stopped()) {
-        mlt_properties_set_int( MLT_PRODUCER_PROPERTIES( m_fileRenderer->get_consumer() ), "done", 1 );
+    //kdDebug()<<"+++++++++++  FILE CONSUMER STOPPING ++++++++++++++++++"<<endl;
+    if (m_fileRenderer) {
+        if (!m_fileRenderer->is_stopped())
+            m_fileRenderer->stop();
+        m_mltProducer->set_speed(0.0);
+//        mlt_properties_set_int( MLT_PRODUCER_PROPERTIES( m_fileRenderer->get_consumer() ), "done", 1 );
         delete m_fileRenderer;
         m_fileRenderer = 0;
+        m_mltProducer->set("out", m_mltProducer->get_length() - 1);
+        // This is used when exporting to a file so that we know when the export is finished
+        QApplication::postEvent(m_app, new QCustomEvent(10002));
     }
-    // This is used when exporting to a file so that we know when the export is finished
-         QApplication::postEvent(m_app, new QCustomEvent(10001));
+    
+    if (m_mltConsumer->is_stopped()) {
+        m_mltConsumer->start();
+        refresh();
+    }
 }
 
 /*                           FILE RENDERING STUFF                     */
@@ -1173,7 +911,7 @@ void KRender::dv_transmit( raw1394handle_t handle, FILE *f, int channel)
 }
 #endif
 
-void KRender::exportFileToFirewire(QString srcFileName, int port)
+void KRender::exportFileToFirewire(QString srcFileName, int port, GenTime startTime, GenTime endTime)
 {
 #ifdef ENABLE_FIREWIRE
     //exportTimeline(QString::null);
@@ -1218,10 +956,12 @@ void KRender::stopExport()
 void KRender::exportTimeline(const QString &url, const QString &format, const QString &videoSize, GenTime exportStart, GenTime exportEnd)
 {
     kdDebug()<<"+++++++++  START EXPORT: "<<format<<endl;
-    m_mltConsumer->stop();
+    if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
     m_mltProducer->set_speed(0.0);
-    if (m_fileRenderer) delete m_fileRenderer;
-    m_fileRenderer = 0;
+    if (m_fileRenderer) {
+        delete m_fileRenderer;
+        m_fileRenderer = 0;
+    }
     if (format == "dv") m_fileRenderer=new Mlt::Consumer("libdv");
     else if (format == "mpeg") {
         m_fileRenderer=new Mlt::Consumer("avformat");
@@ -1248,13 +988,11 @@ void KRender::exportTimeline(const QString &url, const QString &format, const QS
     m_fileRenderer->listen("consumer-frame-show", this, (mlt_listener) file_consumer_frame_show);
     m_fileRenderer->listen("consumer-stopped", this, (mlt_listener) file_consumer_stopped);
     
+    m_mltProducer->seek((int) exportStart.frames(m_mltProducer->get_fps()));
+    m_mltProducer->set("out", exportEnd.frames(m_mltProducer->get_fps()));
+    
     m_fileRenderer->connect(*m_mltProducer);
-
-    firstExportFrame = exportStart.frames(m_mltProducer->get_double("fps"));
-    lastExportFrame = exportEnd.frames(m_mltProducer->get_double("fps"));
-    exportDuration = lastExportFrame - firstExportFrame;
-
-    m_mltProducer->seek(firstExportFrame);
-    m_fileRenderer->start();
     m_mltProducer->set_speed(1.0);
+    m_fileRenderer->start();
+
 }

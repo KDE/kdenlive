@@ -75,16 +75,16 @@ derived classes allow different behaviours to be added to panels as required.
 
 	/**
 	Process Drag events*/
-    virtual bool dragEntered(Gui::KTrackPanel * panel, QDragEnterEvent *) {
+    virtual bool dragEntered(Gui::KTrackPanel * , QDragEnterEvent *) {
 	return false;
     };
-    virtual bool dragMoved(Gui::KTrackPanel * panel, QDragMoveEvent *) {
+    virtual bool dragMoved(Gui::KTrackPanel * , QDragMoveEvent *) {
 	return false;
     };
-    virtual bool dragLeft(Gui::KTrackPanel * panel, QDragLeaveEvent *) {
+    virtual bool dragLeft(Gui::KTrackPanel * , QDragLeaveEvent *) {
 	return false;
     };
-    virtual bool dragDropped(Gui::KTrackPanel * panel, QDropEvent *) {
+    virtual bool dragDropped(Gui::KTrackPanel * , QDropEvent *) {
 	return false;
     };
 

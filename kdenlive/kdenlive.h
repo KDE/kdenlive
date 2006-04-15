@@ -50,7 +50,6 @@ class KCommand;
 class KProgress;
 class KRenderManager;
 class KMacroCommand;
-class RenderDebugPanel;
 class AVFile;
 class DocClipBase;
 class DocClipRef;
@@ -310,9 +309,6 @@ namespace Gui {
 	void activateMonitor(KMonitor * monitor);
 		/** Selects a clip into the clip monitor and seeks to the given time. */
 	void slotLookAtClip(DocClipRef * clip, const GenTime & time);
-		/** Display an error message in a suitable way to the user. */
-	void slotRenderError(const QString & name,
-	    const QString & message);
 
 		/** Configure keys */
 	void slotConfKeys();
@@ -434,7 +430,6 @@ namespace Gui {
 
 		/** Application view setup */
 	ProjectList *m_projectList;
-	RenderDebugPanel *m_renderDebugPanel;
 	EffectListDialog *m_effectListDialog;
 	EffectParamDialog *m_effectParamDialog;
 	EffectStackDialog *m_effectStackDialog;
@@ -466,8 +461,6 @@ namespace Gui {
 	KDockWidget *m_dockTransition;
         
         exportWidget *m_exportWidget;
-        QTimer *keyTimer;
-
 
 	ProjectFormatManager m_projectFormatManager;
 

@@ -47,7 +47,7 @@
 
 namespace Gui {
 
-    KMMTrackVideoPanel::KMMTrackVideoPanel(KdenliveApp * app,
+    KMMTrackVideoPanel::KMMTrackVideoPanel(KdenliveApp * ,
 	KTimeLine * timeline,
 	KdenliveDoc * doc,
 	DocTrackVideo * docTrack,

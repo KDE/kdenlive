@@ -399,7 +399,6 @@ namespace Gui {
 	m_rulerModel(0), d(new KRulerPrivate()), m_minValue(min),
 	m_maxValue(max), m_scrollTimer(this, "scroll timer") {
 	setRulerModel(model);
-
 	setValueScale(scale);
 	setRange(min, max);
 
@@ -412,7 +411,6 @@ namespace Gui {
 	d(new KRulerPrivate()), m_minValue(0), m_maxValue(100),
 	m_scrollTimer(this, "scroll timer") {
 	setRulerModel(model);
-
 	setValueScale(1);
 	setRange(0, 100);
 
@@ -424,7 +422,6 @@ namespace Gui {
 	m_leftMostPixel(0), m_rulerModel(0), d(new KRulerPrivate()),
 	m_minValue(0), m_maxValue(0), m_scrollTimer(this, "scroll timer") {
 	setRulerModel(0);
-
 	setValueScale(1);
 	setRange(0, 100);
 
@@ -723,7 +720,7 @@ namespace Gui {
     void KRuler::mouseMoveEvent(QMouseEvent * event) {
 	if (event->state() & (QMouseEvent::LeftButton | QMouseEvent::RightButton | QMouseEvent::MidButton)) {
 	    if (d->m_oldValue != -1) {
-		setSliderValue(activeSliderID(), (int) floor(mapLocalToValue((int) event->x()) + 0.5));
+		setSliderValue(activeSliderID(), (int) (mapLocalToValue((int) event->x())));
 
 		if (event->x() < g_scrollThreshold) {
 		    m_scrollRight = false;

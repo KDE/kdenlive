@@ -45,7 +45,7 @@ m_widgetStack(new QWidgetStack(this, "widget_stack"))
     int count = 0;
 
     while (itt != desc->codecList().end()) {
-	AVFormatDescCodec *codecDesc = desc->renderer()->findCodec(*itt);
+	AVFormatDescCodec *codecDesc = 0;
 	if (codecDesc != 0) {
 	    m_codecSelect->insertItem(codecDesc->name(), count);
 	    m_widgetStack->addWidget(codecDesc->

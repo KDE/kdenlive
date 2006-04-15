@@ -99,8 +99,10 @@ namespace Gui {
 	return NULL;
     } DocClipRef *CaptureMonitor::clip() const {
 	return NULL;
-    } void CaptureMonitor::slotSetupScreen() {
-	m_screen->setCapture();
+    } 
+    
+    void CaptureMonitor::slotSetupScreen() {
+	//m_screen->setCapture();
     }
 
     void CaptureMonitor::slotRewind() {

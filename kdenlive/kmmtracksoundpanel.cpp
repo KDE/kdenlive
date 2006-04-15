@@ -33,7 +33,7 @@
 
 namespace Gui {
 
-    KMMTrackSoundPanel::KMMTrackSoundPanel(KdenliveApp * app,
+    KMMTrackSoundPanel::KMMTrackSoundPanel(KdenliveApp *,
 	KTimeLine * timeline,
 	KdenliveDoc * document,
 	DocTrackSound * docTrack,

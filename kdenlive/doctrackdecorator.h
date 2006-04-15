@@ -34,7 +34,8 @@ An abstract class for all decorators that implement a view based on a DocTrack.
       protected:
 	KdenliveDoc * document() {
 	    return m_document;
-      } private:
+      } 
+        private:
 	 KdenliveDoc * m_document;
     };
 

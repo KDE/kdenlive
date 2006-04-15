@@ -168,8 +168,7 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	    SLOT(slotRightClickMonitor()));
 	connect(m_screen, SIGNAL(mouseDragged()), this,
 	    SLOT(slotStartDrag()));
-        connect(m_screen, SIGNAL(exportOver()), m_editPanel,
-                SLOT(screenPlayStopped()));
+        connect(m_screen, SIGNAL(playingStopped()), m_editPanel, SLOT(screenPlayStopped()));
     }
 
     void KMMMonitor::setSceneList(const QDomDocument & scenelist,

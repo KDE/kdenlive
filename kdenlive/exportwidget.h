@@ -28,18 +28,24 @@
 
 
 #include "gentime.h"
+#include "ktimeline.h"
 #include "exportbasewidget_ui.h"
 
 class exportWidget : public exportBaseWidget_UI
 {
         Q_OBJECT
 public:
-    exportWidget( const GenTime &duration, QWidget* parent=0, const char* name=0, WFlags fl=0);
+    exportWidget( Gui::KTimeLine *timeline, QWidget* parent=0, const char* name=0);
         virtual ~exportWidget();
 
 private:
         QHBoxLayout* flayout;
+        GenTime m_startTime;
+        GenTime m_endTime;
+        GenTime m_startSelection;
+        GenTime m_endSelection;
         GenTime m_duration;
+        GenTime startExportTime, endExportTime;
         bool m_isRunning;
         
         /** AVC stuff 
@@ -63,7 +69,7 @@ public slots:
 signals:
     void exportTimeLine(QString, QString, QString, GenTime, GenTime);
     void stopTimeLineExport();
-    void exportToFirewire(QString, int);
+    void exportToFirewire(QString, int, GenTime, GenTime);
 	
 };
 #endif

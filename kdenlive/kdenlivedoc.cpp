@@ -52,20 +52,11 @@ m_clipHierarch(0), m_clipManager(*app->renderManager())
     m_app = app;
     m_render = m_app->renderManager()->createRenderer("Document");
 
-    /*connect(m_render, SIGNAL(replyErrorGetFileProperties(const QString &, const QString &)),
-       this, SLOT(AVFilePropertiesError(const QString &, const QString &))); */
+    connect(this, SIGNAL(trackListChanged()), this, SLOT(hasBeenModified()));
 
-
-    connect(this, SIGNAL(trackListChanged()), this,
-	SLOT(hasBeenModified()));
-
-    connect(&m_clipManager, SIGNAL(clipListUpdated()), this,
-	SLOT(hasBeenModified()));
-    connect(&m_clipManager, SIGNAL(clipChanged(DocClipBase *)), this,
-	SLOT(clipChanged(DocClipBase *)));
-    connect(&m_clipManager, SIGNAL(fixClipDuration(DocClipBase *)), this,
-	SLOT(fixClipDuration(DocClipBase *)));
-
+    connect(&m_clipManager, SIGNAL(clipListUpdated()), this, SLOT(hasBeenModified()));
+    connect(&m_clipManager, SIGNAL(clipChanged(DocClipBase *)), this, SLOT(clipChanged(DocClipBase *)));
+    connect(&m_clipManager, SIGNAL(fixClipDuration(DocClipBase *)), this, SLOT(fixClipDuration(DocClipBase *)));
 
     m_domSceneList.appendChild(m_domSceneList.createElement("scenelist"));
     generateSceneList();
