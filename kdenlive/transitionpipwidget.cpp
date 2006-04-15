@@ -55,13 +55,9 @@
 #define frameWidth 80
 #define frameHeight 64
 
-ScreenPreview::ScreenPreview(
-        QCanvas& c, QWidget* parent,
-        const char* name, WFlags f) :
-                QCanvasView(&c,parent,name,f)
+ScreenPreview::ScreenPreview(QCanvas& c, QWidget* parent, const char* name, WFlags f) :
+                QCanvasView(&c,parent,name,f), m_silent(false)
 {
-        //Create temp file that will be used for preview in the Mlt monitor
-        tmp=new KTempFile(QString::null,".png");
         selection=0;
         numItems=0;
         drawingRect=0;
@@ -86,6 +82,10 @@ ScreenPreview::~ScreenPreview()
 {
         // Delete temp file when it is not needed anymore
         //tmp->unlink();
+}
+
+void ScreenPreview::setSilent(bool silent) {
+    m_silent = silent;
 }
 
 void ScreenPreview::initRectangle(int x, int y, int w, int h)
@@ -144,15 +144,6 @@ void ScreenPreview::contentsMouseReleaseEvent(QMouseEvent* e)
 
 }
 
-void ScreenPreview::startResize(QPoint p)
-{
-        // User wants to resize a rectangle
-        delete selection;
-        selection=0;
-        operationMode=ResizeMode;
-        draw_start=p;
-        canvas()->update();
-}
 
 void ScreenPreview::contentsMousePressEvent(QMouseEvent* e)
 {
@@ -162,37 +153,15 @@ void ScreenPreview::contentsMousePressEvent(QMouseEvent* e)
         // Deselect item if user clicks in an empty area
         QCanvasItemList l=canvas()->collisions(p);
         if (l.isEmpty() || (l.first()->z()<0)) {
-                canvas()->update();
+                //canvas()->update();
                 return;
         }
 
 	QCanvasItemList::Iterator it=l.begin();
-
-        // Otherwise, select item and prepare for moving
-/*        moving = *it;
-        selectedItem = moving;*/
-
-
-                //selectRectangle(*it);
-                //emit selectedCanvasItem((QCanvasRectangle*)(*it));
-
         moving_start = p;
-        canvas()->update();
+        //canvas()->update();
 }
 
-
-void ScreenPreview::selectRectangle(QCanvasItem *it)
-{
-        // Draw selection rectangle around selected item
-        selection = new QCanvasRectangle(((QCanvasRectangle *)(it))->rect(),canvas());
-        // set its Z index to 1000, so it is not drawn by the export routine
-        selection->setZ(1000);
-	QPen pen = QPen(QColor(120,60,60));
-        pen.setStyle(Qt::DotLine);
-        selection->setPen(pen);
-        selection->show();
-        canvas()->update();
-}
 
 void ScreenPreview::clear()
 {
@@ -211,7 +180,7 @@ void ScreenPreview::moveX(int x)
     if ( moving ) {
         setCursor(QCursor(Qt::SizeAllCursor));
         moving->setX(imageWidth/2 + frameWidth * x/100.0 - frameWidth/2);
-        canvas()->update();
+        if (!m_silent) canvas()->update();
     }
 }
 
@@ -220,7 +189,7 @@ void ScreenPreview::moveY(int y)
     if ( moving ) {
         setCursor(QCursor(Qt::SizeAllCursor));
         moving->setY(imageHeight/2 + frameHeight * y/100.0 - frameHeight/2);
-        canvas()->update();
+        if (!m_silent) canvas()->update();
     }
 }
 
@@ -229,7 +198,7 @@ void ScreenPreview::adjustSize(int x)
     if ( moving ) {
         setCursor(QCursor(Qt::SizeAllCursor));
         ((QCanvasRectangle*)(moving))->setSize(x/100.0 * frameWidth, x/100.0 * frameHeight);
-        canvas()->update();
+        if (!m_silent) canvas()->update();
     }
     
 }
@@ -249,173 +218,13 @@ void ScreenPreview::contentsMouseMoveEvent(QMouseEvent* e)
                         emit adjustButtons();
                 }
         }
-        
         canvas()->setAllChanged ();
         canvas()->update();
 }
 
 
-void ScreenPreview::exportContent()
-{
-        QPixmap im = drawContent();
-        // Save resulting pixmap in a file for mlt
-        im.save(tmp->name(),"PNG");
-        tmp->sync();
-        tmp->close();
-
-        emit showPreview(tmp->name());
-}
-
-void ScreenPreview::exportContent(KURL url)
-{
-    QPixmap im = drawContent();
-        // Save resulting pixmap in a file for mlt
-    im.save(url.path(),"PNG");
-}
-
-void ScreenPreview::saveImage()
-{
-    QPixmap im = drawContent();
-        // Save resulting pixmap in a file for mlt
-    im.save(tmp->name(),"PNG");
-    tmp->sync();
-    tmp->close();
-}
-
-QPixmap ScreenPreview::drawContent()
-{
-           // Export content to a png image which can be used by mlt to create a video preview
-        // All items are then drawed on the pixmap. To get transparency, it is required to
-        // draw again all items on the alpha mask.
-
-    QPixmap im(imageWidth,imageHeight);
-    QPainter p;
-
-        // Fill pixmap with color0, which sould be transparent but looks in fact to be black...
-    im.fill(color0);
-
-        // Create transparency mask
-    im.setMask(im.createHeuristicMask());
-
-        // Select all items
-    QCanvasItemList list=canvas()->collisions(canvas()->rect());
-
-        // Parse items in revers order to draw them on the pixmap
-    QCanvasItemList::Iterator it = list.fromLast ();
-    for (; it!=list.end(); --it) {
-        if ( *it ) {
-            if ((*it)->rtti ()==3) // text item
-            {
-                p.begin(&im);
-                p.setPen(((QCanvasText*)(*it))->color());
-                p.setFont(((QCanvasText*)(*it))->font());
-                int wi=((QCanvasText*)(*it))->boundingRect().width()/2;
-                int he=((QCanvasText*)(*it))->boundingRect().height();
-                p.drawText(((QCanvasText*)(*it))->boundingRect(),Qt::AlignAuto,((QCanvasText*)(*it))->text());
-                p.end();
-
-                                // Draw again on transparency mask
-                p.begin(im.mask());
-                p.setPen(((QCanvasText*)(*it))->color());
-                p.setFont(((QCanvasText*)(*it))->font());
-                p.drawText(((QCanvasText*)(*it))->boundingRect(),Qt::AlignAuto,((QCanvasText*)(*it))->text());
-                p.end();
-            }
-
-            if ((*it)->rtti ()==5 && (*it)->z()>=0 && (*it)->z()<1000) // rectangle item but don't draw the safe margins rectangle
-            {
-                p.begin(&im);
-                p.setPen(((QCanvasPolygonalItem*)(*it))->pen());
-                p.setBrush(((QCanvasPolygonalItem*)(*it))->brush());
-                p.drawRect((*it)->x(),(*it)->y(),((QCanvasRectangle*)(*it))->width(),((QCanvasRectangle*)(*it))->height());
-                p.end();
-
-                                // Draw again on transparency mask
-                p.begin(im.mask());
-                p.setPen(QPen(color1,((QCanvasPolygonalItem*)(*it))->pen().width()));
-                p.setBrush(QBrush(color1));
-                p.drawRect((*it)->x(),(*it)->y(),((QCanvasRectangle*)(*it))->width(),((QCanvasRectangle*)(*it))->height());
-                p.end();
-            }
-        }
-    }
-    return im;
-}
-
-QDomDocument ScreenPreview::toXml()
-{
-        // Select all items
-    QCanvasItemList list=canvas()->allItems ();
-    QDomDocument sceneList;
-    QDomElement textclip = sceneList.createElement("textclip");
-    sceneList.appendChild(textclip);
-    
-        // Parse items in revers order to draw them on the pixmap
-    QCanvasItemList::Iterator it = list.fromLast ();
-    for (; it!=list.end(); --it) {
-        if ( *it ) {
-            
-            QDomElement producer = sceneList.createElement("object");
-            producer.setAttribute("type", QString::number((*it)->rtti ()));
-            producer.setAttribute("z", QString::number((*it)->z()));
-            if ((*it)->rtti ()==3) {
-                producer.setAttribute("color", ((QCanvasText*)(*it))->color().name());
-                producer.setAttribute("font_family", ((QCanvasText*)(*it))->font().family());
-                producer.setAttribute("font_size", QString::number(((QCanvasText*)(*it))->font().pointSize()));
-                producer.setAttribute("text", ((QCanvasText*)(*it))->text());
-                producer.setAttribute("x", QString::number(((QCanvasText*)(*it))->x()));
-                producer.setAttribute("y", QString::number(((QCanvasText*)(*it))->y()));
-            }
-            else if ((*it)->rtti ()==5 && (*it)->z()>=0 && (*it)->z()<1000) {
-                producer.setAttribute("color", ((QCanvasPolygonalItem*)(*it))->pen().color().name());
-                producer.setAttribute("width", QString::number(((QCanvasRectangle*)(*it))->width()));
-                producer.setAttribute("height", QString::number(((QCanvasRectangle*)(*it))->height()));
-                producer.setAttribute("x", QString::number(((QCanvasRectangle*)(*it))->x()));
-                producer.setAttribute("y", QString::number(((QCanvasRectangle*)(*it))->y()));
-            }
-            textclip.appendChild(producer);
-        }
-    }
-    return sceneList;
-}
-
-void ScreenPreview::setXml(const QDomDocument &xml)
-{
-    QDomElement docElem = xml.documentElement();
-
-    QDomNode n = docElem.firstChild();
-    while( !n.isNull() ) {
-        QDomElement e = n.toElement(); // try to convert the node to an element.
-        if( !e.isNull() ) {
-            if (e.attribute("type")== "3") { // Insert text object
-                QCanvasText* i = new QCanvasText(canvas());
-                i->setZ(e.attribute("z").toDouble());
-                i->setText(e.attribute("text"));
-                i->setFont(QFont(e.attribute("font_family"),e.attribute("font_size").toInt()));
-                i->setColor(e.attribute("color"));
-                i->move(e.attribute("x").toDouble(),e.attribute("y").toDouble());
-                i->show();
-                numItems++;
-            }
-            else if (e.attribute("type")== "5") { // Insert rectangle object
-                QCanvasRectangle* i = new QCanvasRectangle(QRect(e.attribute("x").toInt(), e.attribute("y").toInt(), e.attribute("width").toInt(), e.attribute("height").toInt()),canvas());
-                i->setZ(e.attribute("z").toDouble());
-                i->setBrush(QBrush(QColor(e.attribute("color"))));
-                QPen pen = QPen(QColor(e.attribute("color")));
-                pen.setWidth(0);
-                i->setPen(pen);
-                i->show();
-                numItems++;
-            }
-        }
-        n = n.nextSibling();
-    }
-    operationMode = CursorMode;
-}
-
-
 transitionPipWidget::transitionPipWidget(int width, int height, QWidget* parent, const char* name, WFlags fl ):
-                transitionPip_UI(parent,name)
+        transitionPip_UI(parent,name), m_silent(false)
 {
         frame_preview->setMinimumWidth(width);
 	frame_preview->setMaximumWidth(width);
@@ -451,7 +260,10 @@ transitionPipWidget::transitionPipWidget(int width, int height, QWidget* parent,
 
 
 transitionPipWidget::~transitionPipWidget()
-{}
+{
+    delete canview;
+    delete canvas;
+}
 
 
 void transitionPipWidget::changeKeyFrame(int isOn)
@@ -463,10 +275,16 @@ void transitionPipWidget::changeKeyFrame(int isOn)
     y = m_transitionParameters[ix].section(":",1,1).toInt();
     size = m_transitionParameters[ix].section(":",2,2).toInt();
     transp = m_transitionParameters[ix].section(":",3,3).toInt();
+    m_silent = true;
+    canview->setSilent(true);
     slider_x->setValue(x);
     slider_y->setValue(y);
     slider_size->setValue(size);
     slider_transparency->setValue(transp);
+    m_silent = false;
+    canview->setSilent(false);
+    emit transitionChanged();
+    canview->canvas()->update();
 }
 
 void transitionPipWidget::adjustSize(int x)
@@ -478,7 +296,7 @@ void transitionPipWidget::adjustSize(int x)
     QString s2 = m_transitionParameters[ix].section(":",3);
     m_transitionParameters[ix] = s1+":"+ QString::number(x)+":"+s2;
     canview->adjustSize(x);
-    emit transitionChanged();
+    if (!m_silent) emit transitionChanged();
 }
 
 void transitionPipWidget::adjustTransparency(int x)
@@ -488,7 +306,7 @@ void transitionPipWidget::adjustTransparency(int x)
     else ix = 1;
     QString s1 = m_transitionParameters[ix].section(":",0,2);
     m_transitionParameters[ix] = s1+":"+ QString::number(x);
-    emit transitionChanged();
+    if (!m_silent) emit transitionChanged();
 }
 
 void transitionPipWidget::moveX(int x)
@@ -499,7 +317,7 @@ void transitionPipWidget::moveX(int x)
     QString s = m_transitionParameters[ix].section(":",1);
     m_transitionParameters[ix] = QString::number(x)+":"+s;
     canview->moveX(x);
-    emit transitionChanged();
+    if (!m_silent) emit transitionChanged();
 }
 
 void transitionPipWidget::moveY(int y)
@@ -511,7 +329,7 @@ void transitionPipWidget::moveY(int y)
     QString s2 = m_transitionParameters[ix].section(":",2);
     m_transitionParameters[ix] = s1+":"+ QString::number(y)+":"+s2;
     canview->moveY(y);
-    emit transitionChanged();
+    if (!m_silent) emit transitionChanged();
 }
 
 void transitionPipWidget::adjustSliders(int x, int y)
@@ -525,22 +343,6 @@ void transitionPipWidget::adjustSliders(int x, int y)
     spin_y->setValue(y);
 }
 
-void transitionPipWidget::doPreview()
-{
-        // Prepare for mlt preview
-        canview->exportContent();
-}
-
-void transitionPipWidget::createImage(KURL url)
-{
-        // Save the title png image in url
-    canview->exportContent(url);
-}
-
-KURL transitionPipWidget::previewFile()
-{
-    return KURL(canview->tmp->name());
-}
 
 void transitionPipWidget::setParameters(QString params)
 {
@@ -578,24 +380,5 @@ QString transitionPipWidget::parameters()
     return QString("0="+x1+","+y1+":"+size1+"x"+size1+":"+transp1+";-1="+x2+","+y2+":"+size2+"x"+size2+":"+transp2);
 }
 
-QPixmap transitionPipWidget::thumbnail(int width, int height)
-{
-    QPixmap pm = canview->drawContent();
-    QImage  src = pm.convertToImage();
-    QImage  dest = src.smoothScale( width, height );
-    pm.convertFromImage( dest );
-
-    return pm;
-}
-
-QDomDocument transitionPipWidget::toXml()
-{
-    return canview->toXml();
-}
-
-void transitionPipWidget::setXml(const QDomDocument &xml)
-{
-    canview->setXml(xml);
-}
 
 

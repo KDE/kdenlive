@@ -148,6 +148,12 @@ namespace Gui {
     
     
     KdenliveApp::~KdenliveApp() {
+        delete m_transitionPanel;
+        delete m_effectStackDialog;
+        delete m_projectList;
+        delete m_effectListDialog;
+        delete m_clipPropertyDialog;
+        
 	if (m_renderManager)
 	    delete m_renderManager;
 	if (m_commandHistory)
@@ -570,9 +576,7 @@ namespace Gui {
 	m_dockProjectList->manualDock(mainDock, KDockWidget::DockLeft);
 
 	m_dockTransition = createDockWidget("transition", QPixmap(), 0, i18n("Transitions"));
-	m_transitionPanel = new TransitionDialog(200,200, m_dockTransition);
-	QToolTip::add(m_dockTransition,
-	    i18n("Current debug messages between renderer and Kdenlive"));
+	m_transitionPanel = new TransitionDialog(m_dockTransition);
 	m_dockTransition->setWidget(m_transitionPanel);
 	m_dockTransition->setDockSite(KDockWidget::DockFullSite);
 	m_dockTransition->manualDock(m_dockProjectList, KDockWidget::DockCenter);
@@ -864,8 +868,8 @@ namespace Gui {
             }
         }
         else if( e->type() == 10001) {
-            QTimer::singleShot( 200, m_workspaceMonitor->screen(), SLOT(slotPlayingStopped()) );
-            //m_workspaceMonitor->screen()->slotPlayingStopped();
+            //QTimer::singleShot( 200, m_workspaceMonitor->screen(), SLOT(slotPlayingStopped()) );
+            m_workspaceMonitor->screen()->slotPlayingStopped();
         }
         else if( e->type() == 10002) {
             m_workspaceMonitor->screen()->slotExportStopped();

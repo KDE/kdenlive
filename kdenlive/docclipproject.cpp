@@ -272,6 +272,7 @@ int DocClipProject::playlistTrackNum(int ix) const
 
 QDomDocument DocClipProject::generateSceneList() const
 {
+    kdDebug()<<"+++++++++++  Generating scenelist start...  ++++++++++++++++++"<<endl;
     QDomDocument doc;
     int tracknb = 0;
     uint tracksCounter = 0;
@@ -386,7 +387,7 @@ QDomDocument DocClipProject::generateSceneList() const
 
 
     doc.documentElement().appendChild(tractor);
-
+    kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
     kdDebug() << "+ + + PROJECT SCENE: " << doc.toString() << endl;
     return doc;
 }

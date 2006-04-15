@@ -329,6 +329,8 @@ namespace Gui {
         
         /** Add a transition between the 2 selected clips or remove it if it already exists */
         void switchTransition();
+        
+        /** Returns the transition parameters widget */
 	TransitionDialog *transitionPanel(){
             return m_transitionPanel;
     	};
@@ -431,7 +433,7 @@ namespace Gui {
 		/** Application view setup */
 	ProjectList *m_projectList;
 	EffectListDialog *m_effectListDialog;
-	EffectParamDialog *m_effectParamDialog;
+	//EffectParamDialog *m_effectParamDialog;
 	EffectStackDialog *m_effectStackDialog;
 	ClipPropertiesDialog *m_clipPropertyDialog;
 	TransitionDialog *m_transitionPanel;

@@ -695,8 +695,7 @@ QDomDocument DocClipRef::generateXMLClip()
 		uint maxValue;
 		uint minValue;
 
-		if (effect->effectDescription().parameter(parameterNum)->
-		    type() == "complex") {
+		if (effect->effectDescription().parameter(parameterNum)->type() == "complex") {
 		    // Effect has keyframes with several sub-parameters
 		    QString startTag, endTag;
 		    keyFrameNum =

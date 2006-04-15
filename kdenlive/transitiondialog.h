@@ -47,7 +47,7 @@ namespace Gui {
 
     class TransitionDialog:public QTabWidget {
       Q_OBJECT public:
-              TransitionDialog(int width, int height, QWidget * parent = 0, const char *name = 0);
+              TransitionDialog(QWidget * parent = 0, const char *name = 0);
 	 virtual ~ TransitionDialog();
 
     QString selectedTransition();
@@ -68,8 +68,6 @@ namespace Gui {
 	transitionCrossfade_UI *transitCrossfade;
         transitionWipe_UI *transitWipe;
 	transitionPipWidget *transitPip;
-        int m_height;
-        int m_width;
 	Transition *m_transition;
 
     signals:

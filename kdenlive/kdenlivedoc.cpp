@@ -54,7 +54,7 @@ m_clipHierarch(0), m_clipManager(*app->renderManager())
 
     connect(this, SIGNAL(trackListChanged()), this, SLOT(hasBeenModified()));
 
-    connect(&m_clipManager, SIGNAL(clipListUpdated()), this, SLOT(hasBeenModified()));
+    connect(&m_clipManager, SIGNAL(clipListUpdated()), this, SLOT(generateProducersList()));
     connect(&m_clipManager, SIGNAL(clipChanged(DocClipBase *)), this, SLOT(clipChanged(DocClipBase *)));
     connect(&m_clipManager, SIGNAL(fixClipDuration(DocClipBase *)), this, SLOT(fixClipDuration(DocClipBase *)));
 
@@ -234,9 +234,7 @@ void KdenliveDoc::generateProducersList()
 void KdenliveDoc::hasBeenModified()
 {
     if (m_sceneListGeneration) {
-	generateProducersList();
-	//generateSceneList();
-	//emit documentChanged();
+        if (m_projectClip->producersList.isNull()) generateProducersList();
 	emit documentChanged(m_projectClip);
     }
     setModified(true);

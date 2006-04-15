@@ -113,8 +113,8 @@ namespace Gui {
 // Rebuild the effect parameters dialog
 	uint parameterNum = 0;
 	m_hasKeyFrames = false;
-	m_effecttype =
-	    effect->effectDescription().parameter(parameterNum)->type();
+        if (!effect->parameter(parameterNum)) return;
+	m_effecttype = effect->effectDescription().parameter(parameterNum)->type();
 	spinIndex->setValue(0);
 	updateKeyFrames();
 	clip->setEffectStackSelectedItem(m_effectList->
@@ -357,9 +357,8 @@ namespace Gui {
 	uint previousTime, nextTime, currentTime;
 	uint currentValue;
 
-	Effect *effect =
-	    m_effectList->clip()->effectAt(m_effectList->
-	    selectedEffectIndex());
+	Effect *effect = m_effectList->clip()->effectAt(m_effectList->selectedEffectIndex());
+        if (!effect->parameter(parameterNum)) return;
 	effect->parameter(parameterNum)->setSelectedKeyFrame(ix);
 
 	// Find the keyframe value & position
@@ -458,17 +457,14 @@ namespace Gui {
 	uint parameterNum = 0;
 	double currentTime;
 
-	Effect *effect =
-	    m_effectList->clip()->effectAt(m_effectList->
-	    selectedEffectIndex());
+	Effect *effect = m_effectList->clip()->effectAt(m_effectList->selectedEffectIndex());
+        if (!effect->parameter(parameterNum)) return;
 	int ix = effect->parameter(parameterNum)->selectedKeyFrame();
 	if (m_effecttype == "double")
 	    effect->parameter(parameterNum)->keyframe(ix)->
 		toDoubleKeyFrame()->setValue(newValue);
 	if (m_effecttype == "complex") {
-	    uint paramNum =
-		effect->effectDescription().parameter(parameterNum)->
-		complexParamNum();
+	    uint paramNum = effect->effectDescription().parameter(parameterNum)->complexParamNum();
 	    for (uint i = 0; i < paramNum; i++) {
 		QString widgetName = QString("param");
 		widgetName.append(QString::number(i));

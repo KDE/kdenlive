@@ -35,49 +35,44 @@
 
 namespace Gui {
 
-    TransitionDialog::TransitionDialog(int width, int height, QWidget * parent,
-                                       const char *name):  QTabWidget(parent)
-
-/*KDialogBase (KDialogBase::IconList, 0, parent,name, true, i18n("Transition Dialog"), KDialogBase::Ok | KDialogBase::Cancel)*/, m_height(height), m_width(width), m_transition(0)
-            //KDialogBase(parent, name, true, i18n("Transition Dialog"),KDialogBase::Ok | KDialogBase::Cancel) 
-                                       {
-    
+    TransitionDialog::TransitionDialog(QWidget * parent,
+                                       const char *name):  QTabWidget(parent), m_transition(0)
+{
     transitCrossfade = new transitionCrossfade_UI(this);
     addTab(transitCrossfade, i18n("Crossfade") );
 
     transitWipe = new transitionWipe_UI(this);
     addTab(transitWipe, i18n("Wipe") );
-    
+
     transitPip = new transitionPipWidget(240,192,this);
     addTab(transitPip, i18n("PIP") );
-    
+    setEnabled(false);
     adjustSize();
-    
-/*    QWidget *qwidgetPage = new QWidget(this);
+}
 
-  // Create the layout for the page
-  QVBoxLayout *qvboxlayoutPage = new QVBoxLayout(qwidgetPage);
-
-    transitDialog = new transitionDialog_UI(qwidgetPage);
-    (void) new QListBoxText(transitDialog->transitionList, "luma");
-    (void) new QListBoxText(transitDialog->transitionList, "composite");
-    transitDialog->transitionList->setCurrentItem(0);
-    qvboxlayoutPage->addWidget(transitDialog);
-    setMainWidget(qwidgetPage);*/
-    }
-
-TransitionDialog::~TransitionDialog() {}
+TransitionDialog::~TransitionDialog() 
+{
+    disconnectTransition();
+    delete transitCrossfade;
+    delete transitWipe;
+    delete transitPip;
+}
 
 void TransitionDialog::setTransition(Transition *transition)
 {
         disconnectTransition();
 	m_transition = transition;
-	if (transition == 0) return;
+        if (transition == 0) {
+            setEnabled(false);
+            return;
+        }
+        setEnabled(true);
 	setActivePage(transition->transitionType());
         setTransitionDirection(transition->invertTransition());
         setTransitionParameters(transition->transitionParameters());
         connectTransition();
 }
+
 
 void TransitionDialog::connectTransition()
 {
@@ -92,7 +87,7 @@ void TransitionDialog::connectTransition()
    connect(transitWipe->rescaleImages, SIGNAL(released()), this, SLOT(applyChanges()));
    
    connect(transitCrossfade->invertTransition, SIGNAL(released()), this, SLOT(applyChanges()));
-
+   
    connect(transitPip, SIGNAL(transitionChanged()), this, SLOT(applyChanges()));
 }
 
@@ -127,7 +122,7 @@ void TransitionDialog::applyChanges()
         	m_transition->setTransitionParameters(transitionParameters());
 		m_transition->setTransitionDirection(transitionDirection());
 		emit transitionChanged(true);
-	}
+        }
 }
 
 void TransitionDialog::setActivePage(const QString &pageName)

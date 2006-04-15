@@ -20,7 +20,6 @@
 #include <qdom.h>
 #include <qmap.h>
 
-#include <ktempfile.h>
 #include <kurl.h>
 
 #include "transitionpip_ui.h"
@@ -41,7 +40,6 @@ public:
         QCanvasItem* selectedItem;
         uint operationMode;
         uint numItems;
-        KTempFile *tmp;
 
 protected:
         void contentsMousePressEvent(QMouseEvent*);
@@ -52,34 +50,24 @@ protected:
 signals:
         void status(const QString&);
         void editCanvasItem(QCanvasText *);
-        void addText(QPoint);
         void addRect(QRect,int);
         void selectedCanvasItem(QCanvasText *);
         void selectedCanvasItem(QCanvasRectangle *);
-        void showPreview(QString);
         void adjustButtons();
         void positionRect(int, int);
 
 public slots:
-        void exportContent();
-        void exportContent(KURL url);
-        void selectRectangle(QCanvasItem *txt);
-        QPixmap drawContent();
-        void saveImage();
-        QDomDocument toXml();
-        void setXml(const QDomDocument &xml);
         void moveX(int x);
         void moveY(int y);
         void adjustSize(int x);
         void initRectangle(int x, int y, int w, int h);
-
-private slots:
-        void startResize(QPoint p);
+        void setSilent(bool);
 
 private:
         QCanvasItem* moving;
         QPoint moving_start;
         QPoint draw_start;
+        bool m_silent;
 };
 
 
@@ -94,9 +82,10 @@ private:
         QCanvas *canvas;
         QPoint start, end;
         QMap < int, QString > m_transitionParameters;
+        /** when changing keyframe, emit only one refresh signal, not one for every parameter. m_silent is used for that...*/
+        bool m_silent;
 
 private slots:
-        void doPreview();
         void changeKeyFrame(int ix);
         void adjustSize(int x);
         void moveY(int y);
@@ -105,15 +94,10 @@ private slots:
         void adjustSliders(int x, int y);
 
 public slots:
-    QPixmap thumbnail(int width, int height);
-    KURL previewFile();
-    QDomDocument toXml();
-    void setXml(const QDomDocument &xml);
-    void createImage(KURL url);
-    QString parameters();
-    void setParameters(QString params);
+        QString parameters();
+        void setParameters(QString params);
 
 signals:
-    void transitionChanged();
+        void transitionChanged();
 };
 #endif
