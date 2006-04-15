@@ -253,6 +253,7 @@ namespace Gui {
 	    m_value = 0;
 	    m_status = QPalette::Inactive;
 	} 
+        
         KRulerPrivateSlider(int id, const KRuler::KRulerSliderType type,
 	    int value, const QPalette::ColorGroup status) {
 	    m_id = id;
@@ -283,8 +284,9 @@ namespace Gui {
         
         int getValue() const {
 	    return m_value;
-	} 
+	}
         
+       
         void setType(KRuler::KRulerSliderType type) {
 	    switch (type) {
 	    case KRuler::Diamond:
@@ -590,18 +592,15 @@ namespace Gui {
                 oldValue = (*it).getValue();
                 int oldStart = (*it).leftBound((int) mapValueToLocal((*it).getValue()), height());
                 int oldEnd = (*it).rightBound((int) mapValueToLocal((*it).getValue()), height()+1);
-                /*invalidateBackBuffer(
-		    (*it).leftBound((int) mapValueToLocal((*it).
-			    getValue()), height()),
-		    (*it).rightBound((int) mapValueToLocal((*it).
-                getValue()), height()) + 1);*/
+
 		if ((*it).setValue(actValue)) {
-                    invalidateBackBuffer(oldStart, oldEnd);
-		    invalidateBackBuffer(
-			(*it).leftBound((int) mapValueToLocal((*it).
-				getValue()), height()),
-			(*it).rightBound((int) mapValueToLocal((*it).
-				getValue()), height()) + 1);
+                    if ((*it).leftBound((int) mapValueToLocal((*it).
+                          getValue()), height()) < oldStart) 
+                        invalidateBackBuffer((*it).leftBound((int) mapValueToLocal((*it).
+                                getValue()), height()), oldEnd);
+                    
+                    else invalidateBackBuffer(oldStart, (*it).rightBound((int) mapValueToLocal((*it).
+                                getValue()), height()) + 1);
 		    emit sliderValueChanged(id, actValue);
                     if (id == 0) emit sliderValueMoved(oldValue, actValue);
 		    break;
@@ -805,6 +804,25 @@ namespace Gui {
 	    painter.fillRect(endRuler, 0, ex - endRuler, height(),
 		palette().active().background());
 	}
+        
+        int selectedStart = 0;
+        int selectedEnd = 0;
+        
+        // Yellow background for the selected area
+        QValueList < KRulerPrivateSlider >::Iterator it;
+        for (it = d->m_sliders.begin(); it != d->m_sliders.end(); it++) {
+            if ((*it).getID() == 1) {
+                selectedStart = (int) mapValueToLocal((*it).getValue());
+                if (sx >= selectedStart) selectedStart = sx;
+            }
+            else if ((*it).getID() == 2) {
+                selectedEnd = (int) mapValueToLocal((*it).getValue());
+                if (ex <= selectedEnd) selectedEnd = ex;
+            }
+        }
+        
+        if (selectedStart < selectedEnd)  
+            painter.fillRect(selectedStart, (int) height()/2, selectedEnd - selectedStart, (int) height()/2, QBrush(QColor(253,255,143)));
 
 	painter.setPen(palette().active().foreground());
 	painter.setBrush(palette().active().background());
@@ -881,7 +899,6 @@ namespace Gui {
 	// draw sliders
 	//
 
-	QValueList < KRulerPrivateSlider >::Iterator it;
 
 	for (it = d->m_sliders.begin(); it != d->m_sliders.end(); it++) {
 	    value = (int) mapValueToLocal((*it).getValue());
