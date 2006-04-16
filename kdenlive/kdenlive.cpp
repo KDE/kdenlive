@@ -1431,7 +1431,7 @@ namespace Gui {
     void KdenliveApp::slotProjectAddTextClip() {
         slotStatusMsg(i18n("Adding Clips"));
         titleWidget *txtWidget=new titleWidget(doc->projectClip().videoWidth(), doc->projectClip().videoHeight(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
-        connect(txtWidget->canview,SIGNAL(showPreview(QString)),m_clipMonitor->screen(),SLOT(setTitlePreview(QString)));
+        connect(txtWidget->canview,SIGNAL(showPreview(QString)),m_workspaceMonitor->screen(),SLOT(setTitlePreview(QString)));
         txtWidget->titleName->setText(i18n("Text Clip"));
         if (txtWidget->exec() == QDialog::Accepted) {
             GenTime duration(txtWidget->text_duration->value());
@@ -1443,6 +1443,7 @@ namespace Gui {
                     txtWidget->titleName->text(),QString::null, xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked(), true);
             addCommand(command, true);
         }
+        m_workspaceMonitor->screen()->restoreProducer();
         slotStatusMsg(i18n("Ready."));
     }
     
@@ -1455,7 +1456,7 @@ namespace Gui {
             
             if (refClip->clipType() == DocClipBase::TEXT) {
                 titleWidget *txtWidget=new titleWidget(doc->projectClip().videoWidth(), doc->projectClip().videoHeight(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
-                connect(txtWidget->canview,SIGNAL(showPreview(QString)),m_clipMonitor->screen(),SLOT(setTitlePreview(QString)));
+                connect(txtWidget->canview,SIGNAL(showPreview(QString)),m_workspaceMonitor->screen(),SLOT(setTitlePreview(QString)));
                 txtWidget->text_duration->setValue((int) (refClip->duration().ms() / 1000));
                 txtWidget->setXml(clip->toDocClipTextFile()->textClipXml());
                 txtWidget->titleName->setText(clip->name());
@@ -1466,6 +1467,7 @@ namespace Gui {
                     QDomDocument xml = txtWidget->toXml();
                     KCommand *command = new Command::KEditClipCommand(*doc, refClip, duration,                           txtWidget->titleName->text(),QString::null, xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked());
                 }
+                m_workspaceMonitor->screen()->restoreProducer();
             }
             else {
                 ClipProperties *dia = new ClipProperties(refClip, getDocument()); 

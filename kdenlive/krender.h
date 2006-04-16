@@ -134,7 +134,7 @@ class KRender:public QObject {
 	name specified. */
     void render(const KURL & url);
 	/** Returns a list of all available file formats in this renderer. */
-     QPtrList < AVFileFormatDesc > &fileFormats();
+    QPtrList < AVFileFormatDesc > &fileFormats();
 	/** Returns the effect list. */
     const EffectDescriptionList & effectList() const;
 	/** Returns the renderer version. */
@@ -161,6 +161,7 @@ class KRender:public QObject {
     /** render timeline to a file */
     void exportTimeline(const QString &url, const QString &format, const QString &videoSize, GenTime exportStart, GenTime exportEnd);
     void stopExport();
+    
 
   protected:			// Protected methods
 	/** Recieves timer events */
@@ -302,7 +303,12 @@ class KRender:public QObject {
 	/** If the file is readable by mlt, return true, otherwise false */
     bool isValid(KURL url);
     
+    /** Create a new producer to show the title clip on top of the current monitor view */
     void setTitlePreview(QString tmpFileName);
+    
+    /** Restore the original producer after a title preview */
+    void restoreProducer();
+    
     	/** Wraps the VEML command of the same name. Requests the file properties
     for the specified url from the renderer. Upon return, the result will be emitted
     via replyGetFileProperties(). */

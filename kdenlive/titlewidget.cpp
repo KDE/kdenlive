@@ -31,7 +31,7 @@
 
 #include <kpushbutton.h>
 #include <kfontcombo.h>
-#include <kcolorcombo.h>
+#include <kcolorbutton.h>
 #include <kinputdialog.h>
 #include <kdebug.h>
 #include <kiconloader.h>
@@ -665,7 +665,7 @@ titleWidget::titleWidget(int width, int height, QWidget* parent, const char* nam
         QObject::connect(previewButton,SIGNAL(clicked()),this,SLOT(doPreview()));
         QObject::connect(fontSize,SIGNAL(valueChanged(int)),canview,SLOT(changeTextSize(int)));
         QObject::connect(fontFace,SIGNAL(textChanged(const QString &)),canview,SLOT(changeTextFace(const QString &)));
-        QObject::connect(fontColor,SIGNAL(activated(const QColor &)),canview,SLOT(changeColor(const QColor &)));
+        QObject::connect(fontColor,SIGNAL(changed(const QColor &)),canview,SLOT(changeColor(const QColor &)));
         QObject::connect(canview,SIGNAL(editCanvasItem(QCanvasText*)),this,SLOT(editText(QCanvasText*)));
         QObject::connect(canview,SIGNAL(selectedCanvasItem(QCanvasText*)),this,SLOT(adjustWidgets(QCanvasText*)));
         QObject::connect(canview,SIGNAL(selectedCanvasItem(QCanvasRectangle*)),this,SLOT(adjustWidgets(QCanvasRectangle*)));

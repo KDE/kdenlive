@@ -19,7 +19,6 @@
 #define TRANSITION_H
 
 #include <qstring.h>
-#include <qptrlist.h>
 #include <qdom.h>
 #include <qmap.h>
 

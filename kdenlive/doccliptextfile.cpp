@@ -176,8 +176,7 @@ QDomDocument DocClipTextFile::generateSceneList() const
     westley.appendChild(producer);
     QDomElement playlist = sceneList.createElement("playlist");
     playlist.setAttribute("in", "0");
-    playlist.setAttribute("out",
-                          QString::number(duration().frames(25)));
+    playlist.setAttribute("out", QString::number(duration().frames(25)));
     QDomElement entry = sceneList.createElement("entry");
     entry.setAttribute("producer", QString("producer0"));
     playlist.appendChild(entry);

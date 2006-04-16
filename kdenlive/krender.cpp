@@ -542,9 +542,18 @@ void KRender::getImage(DocClipRef * clip)
     clip->updateThumbnail(0,pixmap);
 }
 
+void KRender::restoreProducer()
+{
+    if(m_mltProducer == NULL) return;
+    m_mltConsumer->stop();
+    m_mltConsumer->connect(*m_mltProducer);
+    m_mltConsumer->start();
+    m_mltProducer->set_speed(0.0);
+    refresh();
+}
+
 void KRender::setTitlePreview(QString tmpFileName)
 {
-
     m_mltConsumer->stop();
     int pos = 0;
 

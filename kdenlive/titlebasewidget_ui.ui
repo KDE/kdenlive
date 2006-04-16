@@ -97,17 +97,6 @@
                 <string>...</string>
             </property>
         </widget>
-        <widget class="QFrame" row="2" column="0" rowspan="1" colspan="12">
-            <property name="name">
-                <cstring>frame</cstring>
-            </property>
-            <property name="frameShape">
-                <enum>StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-                <enum>Raised</enum>
-            </property>
-        </widget>
         <widget class="QToolButton" row="1" column="0">
             <property name="name">
                 <cstring>cursorButton</cstring>
@@ -136,26 +125,6 @@
             </property>
             <property name="value">
                 <number>60</number>
-            </property>
-        </widget>
-        <widget class="KColorCombo" row="1" column="10" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>fontColor</cstring>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>3</hsizetype>
-                    <vsizetype>0</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-            <property name="color">
-                <color>
-                    <red>0</red>
-                    <green>0</green>
-                    <blue>127</blue>
-                </color>
             </property>
         </widget>
         <widget class="QPushButton" row="3" column="0" rowspan="1" colspan="4">
@@ -237,6 +206,28 @@
                 <string>Transparent background</string>
             </property>
         </widget>
+        <widget class="KColorButton" row="1" column="10" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>fontColor</cstring>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="flat">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="QFrame" row="2" column="0" rowspan="1" colspan="12">
+            <property name="name">
+                <cstring>frame</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Raised</enum>
+            </property>
+        </widget>
     </grid>
 </widget>
 <customwidgets>
@@ -259,7 +250,7 @@
 <includehints>
     <includehint>kfontcombo.h</includehint>
     <includehint>klineedit.h</includehint>
-    <includehint>kcolorcombo.h</includehint>
     <includehint>klineedit.h</includehint>
+    <includehint>kcolorbutton.h</includehint>
 </includehints>
 </UI>

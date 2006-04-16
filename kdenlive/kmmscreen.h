@@ -88,6 +88,7 @@ public slots:
 	/** Called when the renderer stops playing */
 	void slotRendererStopped();
         void setTitlePreview(QString tmpFileName);
+        void restoreProducer();
         /** Render project to file */
         void exportTimeline(QString url, QString format, QString size, GenTime startTime, GenTime endTime);
         void stopTimeLineExport();
