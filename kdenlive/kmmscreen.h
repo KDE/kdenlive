@@ -52,8 +52,9 @@ namespace Gui {
 	void wheelEvent(QWheelEvent * e);
 	void mouseMoveEvent(QMouseEvent * e);
       private:			// Private attributes
-	 KRender * m_render;
+	KRender * m_render;
 	KdenliveApp *m_app;
+        QString m_name;
 	//QXEmbed *m_embed;
 	GenTime m_clipLength;
 private slots:

@@ -32,7 +32,7 @@ namespace Gui {
     KMMScreen::KMMScreen(KdenliveApp * app, QWidget * parent,
 	const char *name):QVBox(parent, name),
         m_render(app->renderManager()->findRenderer(name)), m_app(app),
-	m_clipLength(0)
+        m_clipLength(0), m_name(name)
 	//m_embed(new QXEmbed(this, name)),
     {
 	//m_embed->setBackgroundMode(Qt::PaletteDark);
@@ -167,7 +167,8 @@ namespace Gui {
     void KMMScreen::mouseMoveEvent(QMouseEvent * e) {
 	if ((e->state() & LeftButton) || (e->state() & RightButton)
 	    || (e->state() & MidButton)) {
-	    emit mouseDragged();
+            // TODO: Allow dragging from workspace monitor to create a new clip from a timeline section
+            if (m_name != "Document") emit mouseDragged();
 	}
     }
 
