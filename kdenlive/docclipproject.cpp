@@ -701,6 +701,7 @@ DocClipRef *DocClipProject::selectedClip()
 	srcTrack = m_tracks.at(track);
 	if (srcTrack->hasSelectedClips()) {
 	    pResult = srcTrack->firstClip(true).current();
+            break;
 	}
     }
 

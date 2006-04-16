@@ -1113,9 +1113,14 @@ void DocClipRef::deleteTransition(const GenTime &time)
 {
     TransitionStack::iterator itt = m_transitionStack.begin();
     while (itt) {
-        if (time == GenTime(0.0)) m_transitionStack.remove(*itt);
-        else if ((*itt)->transitionStartTime()<time && (*itt)->transitionEndTime()>time)
+        if (time < trackStart() || time == GenTime(0.0) || time > trackEnd()) {
             m_transitionStack.remove(*itt);
+            break;
+        }
+        else if ((*itt)->transitionStartTime()<=time && (*itt)->transitionEndTime()>=time) {
+            m_transitionStack.remove(*itt);
+            break;
+        }
         ++itt;
     }
     if (m_parentTrack) m_parentTrack->refreshLayout();
