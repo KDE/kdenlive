@@ -336,12 +336,12 @@ namespace Gui {
 	    m_effectList->clip()->effectAt(m_effectList->
 	    selectedEffectIndex());
 	uint parameterNum = 0;
-	uint numKeyFrames =
-	    effect->parameter(parameterNum)->numKeyFrames();
+	uint numKeyFrames = effect->parameter(parameterNum)->numKeyFrames();
 	if (numKeyFrames == 0 || !m_hasKeyFrames)
 	    return;
 
 	int ix = effect->parameter(parameterNum)->selectedKeyFrame();
+        //if (ix > numKeyFrames -1) ix = numKeyFrames -1;
 	spinIndex->setValue(ix);
 	spinIndex->setMaxValue(numKeyFrames - 1);
 	selectKeyFrame(ix);

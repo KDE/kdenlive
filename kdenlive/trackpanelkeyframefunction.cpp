@@ -52,7 +52,6 @@ bool TrackPanelKeyFrameFunction::mouseApplies(Gui::KTrackPanel * panel,
     QMouseEvent * event) const
 {
     bool result = false;
-
     if (panel->hasDocumentTrackIndex()) {
 	DocTrackBase *track =
 	    m_document->track(panel->documentTrackIndex());
@@ -71,8 +70,12 @@ bool TrackPanelKeyFrameFunction::mouseApplies(Gui::KTrackPanel * panel,
 		}
 
 		if (effect->parameter(effectIndex)
-		    && effect->effectDescription().parameter(effectIndex)->
-		    type() == "double") {
+		    && (effect->effectDescription().parameter(effectIndex)->
+                                  type() == "double" || effect->effectDescription().parameter(effectIndex)->
+                                  type() == "complex")) {
+                    return true;
+                    
+                    /*
 		    uint count =
 			effect->parameter(effectIndex)->numKeyFrames();
 		    for (uint i = 0; i < count; i++) {
@@ -89,7 +92,7 @@ bool TrackPanelKeyFrameFunction::mouseApplies(Gui::KTrackPanel * panel,
 
 			if ((fabs(m_timeline->mapValueToLocal(clip->trackStart().frames(m_document->framesPerSecond()) + dx1) - event->x()) < s_resizeTolerance))	//(fabs(m_timeline->mapValueToLocal(clip->trackStart().frames(m_document->framesPerSecond())) + dy1 - event->y()) < s_resizeTolerance))
 			    return true;
-		    }
+                    } */
 		}
 	    }
 	}
@@ -139,8 +142,8 @@ bool TrackPanelKeyFrameFunction::mousePressed(Gui::KTrackPanel * panel,
 			    m_clipUnderMouse->cropDuration().
 			    frames(m_document->framesPerSecond());
 			uint dy1 = panel->height() / 2;
-			if (effect->effectDescription().
-			    parameter(effectIndex)->type() == "double")
+                        if (effect->effectDescription().parameter(effectIndex)->
+                            type() == "double")
 			    dy1 =
 				panel->height() -
 				panel->height() *
