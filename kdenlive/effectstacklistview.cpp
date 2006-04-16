@@ -39,8 +39,9 @@ namespace Gui {
 	connect(this, SIGNAL(dropped(QDropEvent *, QListViewItem *,
 		    QListViewItem *)), this, SLOT(dragDropped(QDropEvent *,
 		    QListViewItem *, QListViewItem *)));
-    } void EffectStackListView::setAppAndDoc(KdenliveApp * app,
-	KdenliveDoc * document) {
+    } 
+    
+    void EffectStackListView::setAppAndDoc(KdenliveApp * app, KdenliveDoc * document) {
 	m_app = app;
 	m_document = document;
     }
@@ -100,7 +101,9 @@ namespace Gui {
 
     bool EffectStackListView::acceptDrag(QDropEvent * event) const {
 	return EffectDrag::canDecode(event);
-    } void EffectStackListView::dragDropped(QDropEvent * e,
+    } 
+    
+    void EffectStackListView::dragDropped(QDropEvent * e,
 	QListViewItem * parent, QListViewItem * after) {
 	kdWarning() << "dragDropped()" << endl;
 	if (EffectDrag::canDecode(e)) {

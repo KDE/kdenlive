@@ -64,7 +64,6 @@ bool TrackPanelTransitionMoveFunction::mouseApplies(Gui::KTrackPanel * panel,
 	    if (clip) {
                 TransitionStack m_transitions = clip->clipTransitions();
                 if (m_transitions.isEmpty()) return false;
-
                 TransitionStack::iterator itt = m_transitions.begin();
                 //  Loop through the clip's transitions
                 while (itt) {

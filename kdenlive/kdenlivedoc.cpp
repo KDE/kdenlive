@@ -47,10 +47,10 @@ QObject(parent, name),
 m_projectClip(new DocClipProject(fps, width, height)),
 m_modified(false),
 m_sceneListGeneration(true),
-m_clipHierarch(0), m_clipManager(*app->renderManager())
+m_clipHierarch(0), m_render(app->renderManager()->findRenderer("Document")), m_clipManager(m_render), m_app(app) //, m_clipManager(*app->renderManager())
 {
-    m_app = app;
-    m_render = m_app->renderManager()->createRenderer("Document");
+    //m_render = m_app->renderManager()->createRenderer("Document");
+    //m_clipManager = new ClipManager(m_render)
 
     connect(this, SIGNAL(trackListChanged()), this, SLOT(hasBeenModified()));
 

@@ -28,13 +28,12 @@ QObject(), m_app(parent)
 }
 
 KRenderManager::~KRenderManager()
-{
-}
+{}
 
 /** Creates a new renderer, guaranteeing it it's own port number, etc. */
-KRender *KRenderManager::createRenderer(const char *name)
+KRender *KRenderManager::createRenderer(const QString &name)
 {
-    KRender *render = new KRender(name, m_app, name);
+    KRender *render = new KRender(name, m_app, name.ascii());
     m_renderList.append(render);
     return render;
 }
@@ -44,12 +43,15 @@ KRender *KRenderManager::findRenderer(const QString & name)
 {
     KRender *result = 0;
     QPtrListIterator < KRender > itt(m_renderList);
+    bool found = false;
     while (itt.current()) {
 	if (itt.current()->rendererName() == name) {
 	    result = itt.current();
+            found = true;
 	    break;
 	}
 	++itt;
     }
+    if (!found) return createRenderer(name);
     return result;
 }

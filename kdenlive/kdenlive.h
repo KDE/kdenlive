@@ -446,7 +446,7 @@ namespace Gui {
 	KMMMonitor *m_workspaceMonitor;
 	KMMMonitor *m_clipMonitor;
 	CaptureMonitor *m_captureMonitor;
-		/** Stores a copy of the last file dialog path used by kdenlive. */
+	/** Stores a copy of the last file dialog path used by kdenlive. */
 	KURL m_fileDialogPath;
 	KMMTimeLine *m_timeline;
         
@@ -456,7 +456,7 @@ namespace Gui {
 	// KDockWidgets for the docking interface to work correctly.
 	KDockWidget *m_dockClipMonitor;
 	KDockWidget *m_dockWorkspaceMonitor;
-	KDockWidget *m_dockCaptureMonitor;
+	//KDockWidget *m_dockCaptureMonitor;
 	KDockWidget *m_dockEffectList;
 	KDockWidget *m_dockProjectList;
 	KDockWidget *m_dockEffectStack;

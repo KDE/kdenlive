@@ -40,13 +40,13 @@ class KRenderManager:public QObject {
 	/** Creates a new renderer, guaranteeing it it's own port number, etc.
 	The name specified is used to identify this renderer, and may be shown to
 	the user in, for example, the debug dialog.*/
-    KRender *createRenderer(const char *name);
+    KRender *createRenderer(const QString &name);
+    /** Finds a renderer by name. Returns null if no such renderer exists. */
+    KRender * findRenderer(const QString & name);
 
   private:
-	/** Finds a renderer by name. Returns null if no such renderer exists. */
-     KRender * findRenderer(const QString & name);
      QPtrList < KRender > m_renderList;
-    Gui::KdenliveApp *m_app;
+     Gui::KdenliveApp *m_app;
 };
 
 #endif

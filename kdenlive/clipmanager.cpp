@@ -32,14 +32,14 @@
 #include <kaddclipcommand.h>
 #include <titlewidget.h>
 
-ClipManager::ClipManager(KRenderManager & renderManager, QWidget * parent,
-    const char *name)
+ClipManager::ClipManager(KRender *render, QWidget * parent,
+    const char *name) //Manager & renderManager
 {
     m_clipList.setAutoDelete(true);
     m_temporaryClipList.setAutoDelete(true);
     m_clipCounter = 0;
 
-    m_render = renderManager.createRenderer("Clip Manager");
+    m_render = render; //renderManager.createRenderer("Clip Manager");
 
     connect(m_render, SIGNAL(replyGetFileProperties(const QMap < QString,
 		QString > &)), this,

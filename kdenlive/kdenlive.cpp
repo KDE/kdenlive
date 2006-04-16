@@ -148,16 +148,24 @@ namespace Gui {
     
     
     KdenliveApp::~KdenliveApp() {
+        if (m_renderManager) delete m_renderManager;
         delete m_transitionPanel;
         delete m_effectStackDialog;
         delete m_projectList;
         delete m_effectListDialog;
         delete m_clipPropertyDialog;
-        
-	if (m_renderManager)
-	    delete m_renderManager;
-	if (m_commandHistory)
-	    delete m_commandHistory;
+        if (m_workspaceMonitor) delete m_workspaceMonitor;
+        if (m_clipMonitor) delete m_clipMonitor;
+        if (m_captureMonitor) delete m_captureMonitor;
+        if (m_timeline) delete m_timeline;
+        if (m_dockClipMonitor) delete m_dockClipMonitor;
+        if (m_dockWorkspaceMonitor) delete m_dockWorkspaceMonitor;
+        if (m_dockEffectList) delete m_dockEffectList;
+        if (m_dockProjectList) delete m_dockProjectList;
+        if (m_dockEffectStack) delete m_dockEffectStack;
+        if (m_dockTransition) delete m_dockTransition;
+        if (m_exportWidget) delete m_exportWidget;
+	if (m_commandHistory) delete m_commandHistory;
     }
     
     void KdenliveApp::openLastFile()
@@ -636,7 +644,7 @@ namespace Gui {
 	    i18n("Workspace Monitor"));
 	m_workspaceMonitor =
 	    m_monitorManager.createMonitor(getDocument(),
-	    m_dockWorkspaceMonitor, "Workspace Monitor");
+	    m_dockWorkspaceMonitor, "Document");
 	m_workspaceMonitor->setNoSeek(true);
 	m_dockWorkspaceMonitor->setWidget(m_workspaceMonitor);
 	m_dockWorkspaceMonitor->setDockSite(KDockWidget::DockFullSite);

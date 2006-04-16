@@ -188,10 +188,6 @@ class KRender:public QObject {
     QString m_buffer;
 	/** The name of this renderer - useful to identify the renderes by what they do - e.g. background rendering, workspace monitor, etc... */
     QString m_name;
-	/** The name of the associated renderer - this is the application we are using.*/
-    QString m_renderName;
-	/** The version of the renderer */
-    QString m_renderVersion;
 	/** Holds a description of all available file formats. */
      QPtrList < AVFileFormatDesc > m_fileFormats;
 	/** The parse stack for start/end element events. */

@@ -57,7 +57,7 @@ class KRenderManager;
 class ClipManager:public QObject {
   Q_OBJECT public:
 	/** Constructor for the fileclass of the application */
-    ClipManager(KRenderManager & renderManager, QWidget * parent =
+          ClipManager(KRender *render, QWidget * parent =
 	0, const char *name = 0);
 	/** Destructor for the fileclass of the application */
     ~ClipManager();

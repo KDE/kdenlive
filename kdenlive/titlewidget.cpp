@@ -85,6 +85,10 @@ FigureEditor::FigureEditor(
 
 FigureEditor::~FigureEditor()
 {
+    if (selection) delete selection;
+    if (selectedItem) delete selectedItem;
+    if (drawingRect) delete drawingRect;
+    if (moving) delete moving;
         // Delete temp file when it is not needed anymore
         //tmp->unlink();
 }

@@ -31,7 +31,7 @@ namespace Gui {
 
     KMMScreen::KMMScreen(KdenliveApp * app, QWidget * parent,
 	const char *name):QVBox(parent, name),
-	m_render(app->renderManager()->createRenderer(name)), m_app(app),
+        m_render(app->renderManager()->findRenderer(name)), m_app(app),
 	m_clipLength(0)
 	//m_embed(new QXEmbed(this, name)),
     {

@@ -25,7 +25,6 @@
 #include <iostream>
 
 #include <mlt++/Mlt.h>
-#include <sys/wait.h>
 
 #include <qcolor.h>
 #include <qpixmap.h>
@@ -51,7 +50,7 @@
 
 static QMutex mutex (true);
 
-int m_refCount;
+int m_refCount = 0;
 
 namespace {
 
@@ -69,9 +68,7 @@ namespace {
 
 }				// annonymous namespace
 
-KRender::KRender(const QString & rendererName, Gui::KdenliveApp *parent, const char *name):QObject(parent,
-                 name), m_name(rendererName), m_renderName("unknown"), m_app(parent), 
-m_renderVersion("unknown"), m_fileFormat(0),
+KRender::KRender(const QString & rendererName, Gui::KdenliveApp *parent, const char *name):QObject(parent, name), m_name(rendererName), m_app(parent), m_fileFormat(0),
 m_desccodeclist(0), m_codec(0), m_effect(0),
 m_parameter(0), m_mltMiracle(NULL),
 m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL)
@@ -255,7 +252,6 @@ QPtrList < AVFileFormatDesc > &KRender::fileFormats()
 
 void KRender::openMlt()
 {
-
     m_refCount++;
     if (m_refCount == 1) {
 	Mlt::Factory::init();
@@ -268,15 +264,16 @@ void KRender::openMlt()
 void KRender::closeMlt()
 {
     m_refCount--;
-    if (m_refCount == 1) {
-	//m_mltMiracle->wait_for_shutdown();
-	//delete(m_mltMiracle);
-    }
+    
     if (m_mltConsumer)
-	delete m_mltConsumer;
+        delete m_mltConsumer;
     if (m_mltProducer);
-        delete m_mltProducer;
-
+    delete m_mltProducer;
+    
+    if (m_refCount == 0) {
+	//m_mltMiracle->wait_for_shutdown();
+	delete(m_mltMiracle);
+    }
 }
 
  
@@ -449,11 +446,10 @@ void KRender::getImage(KURL url, int frame, int width, int height)
 	//if (ratio < 0.3) overSize = 1.4;
 
 
-	uchar *m_thumb =
-	    m_frame->fetch_image(mlt_image_rgb24a, width, height, 1);
-	/*m_producer.set("thumb", m_thumb, width * height * 4,
-	    mlt_pool_release);
-        m_frame->set("image", m_thumb, 0, NULL, NULL);*/
+	uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, width, height, 1);
+        
+	m_producer.set("thumb", m_thumb, width * height * 4, mlt_pool_release);
+        m_frame->set("image", m_thumb, 0, NULL, NULL);
 
 	QPixmap m_pixmap(width, height);
 
@@ -491,12 +487,10 @@ void KRender::getImage(int id, QString txt, uint size, int width, int height)
 	//if (ratio < 0.3) overSize = 1.4;
 
 
-        uchar *m_thumb =
-                m_frame->fetch_image(mlt_image_rgb24a, width, height, 1);
-        /*
-        m_producer.set("thumb", m_thumb, width * height * 4,
-                       mlt_pool_release);
-        m_frame->set("image", m_thumb, 0, NULL, NULL);*/
+        uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, width, height, 1);
+        
+        m_producer.set("thumb", m_thumb, width * height * 4, mlt_pool_release);
+        m_frame->set("image", m_thumb, 0, NULL, NULL);
 
         QPixmap m_pixmap(width, height);
 

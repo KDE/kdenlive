@@ -38,7 +38,9 @@ namespace Gui {
 
 	connect(this, SIGNAL(executed(QListViewItem *)), this,
 	    SLOT(slotEffectSelected(QListViewItem *)));
-    } EffectListDialog::~EffectListDialog() {
+    } 
+    
+    EffectListDialog::~EffectListDialog() {
     }
 
 /** Generates the layout for this widget. */

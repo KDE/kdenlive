@@ -261,8 +261,8 @@ transitionPipWidget::transitionPipWidget(int width, int height, QWidget* parent,
 
 transitionPipWidget::~transitionPipWidget()
 {
-    delete canview;
-    delete canvas;
+    if (canview) delete canview;
+    if (canvas) delete canvas;
 }
 
 
