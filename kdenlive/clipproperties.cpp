@@ -84,6 +84,17 @@ namespace Gui {
             clipChoice->clipFps->setText("-");
             clipChoice->clipFilesize->setText(formattedSize(refClip->fileSize()));
         }
+        else if (refClip->clipType() == DocClipBase::AUDIO) {
+            clipChoice->transparent_bg->hide();
+            clipChoice->label_color->hide();
+            clipChoice->button_color->hide();
+            clipChoice->label_name->hide();
+            clipChoice->edit_name->hide();
+            clipChoice->clipType->setText(i18n("Audio Clip"));
+            clipChoice->clipFps->setText(QString::number(refClip->framesPerSecond()));
+            clipChoice->edit_duration->setReadOnly(true);
+            clipChoice->clipFilesize->setText(formattedSize(refClip->fileSize()));
+        }
         else { // Video clip
             document->renderer()->getImage(refClip->fileURL().path(), 0, m_pix);
             clipChoice->preview_pixmap->setPixmap(*m_pix);
@@ -103,7 +114,10 @@ namespace Gui {
             clipChoice->show();    
     }
 
-    ClipProperties::~ClipProperties() {}
+    ClipProperties::~ClipProperties() 
+    {
+        delete m_pix;
+    }
 
 
     QString ClipProperties::formattedSize(uint fileSize)
