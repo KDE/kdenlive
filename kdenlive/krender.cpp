@@ -827,11 +827,11 @@ void KRender::emitFileConsumerStopped()
 {
     //kdDebug()<<"+++++++++++  FILE CONSUMER STOPPING ++++++++++++++++++"<<endl;
     if (m_fileRenderer) {
-        if (!m_fileRenderer->is_stopped())
-            m_fileRenderer->stop();
-        m_mltProducer->set_speed(0.0);
-//        mlt_properties_set_int( MLT_PRODUCER_PROPERTIES( m_fileRenderer->get_consumer() ), "done", 1 );
+        mlt_properties_set_int( MLT_PRODUCER_PROPERTIES( m_fileRenderer->get_consumer() ), "done", 1 );
+        /*if (!m_fileRenderer->is_stopped())
+        m_fileRenderer->stop();*/
         delete m_fileRenderer;
+        m_mltProducer->set_speed(0.0);
         m_fileRenderer = 0;
         m_mltProducer->set("out", m_mltProducer->get_length() - 1);
         // This is used when exporting to a file so that we know when the export is finished
