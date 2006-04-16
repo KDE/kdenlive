@@ -42,7 +42,7 @@
 DocClipRef::DocClipRef(DocClipBase * clip):
 m_trackStart(0.0),
 m_cropStart(0.0),
-m_trackEnd(0.0), m_parentTrack(0), m_trackNum(-1), m_clip(clip), m_thumbcreator(0)
+m_trackEnd(0.0), m_parentTrack(0), m_trackNum(-1), m_clip(clip), m_thumbcreator(0), startTimer(0), endTimer(0)
 {
     if (!clip) {
 	kdError() <<
@@ -71,6 +71,9 @@ m_trackEnd(0.0), m_parentTrack(0), m_trackNum(-1), m_clip(clip), m_thumbcreator(
 
 DocClipRef::~DocClipRef()
 {
+    delete startTimer;
+    delete endTimer;
+    delete m_thumbcreator;
 }
 
 bool DocClipRef::hasVariableThumbnails()
@@ -207,6 +210,7 @@ createClip(const EffectDescriptionList & effectList,
     if (baseClip) {
 	clip = new DocClipRef(baseClip);
     }
+
     QDomElement t;
 
     QDomNode n = element.firstChild();
