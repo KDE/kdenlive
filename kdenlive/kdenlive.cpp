@@ -1355,11 +1355,26 @@ namespace Gui {
 	// Make a reasonable filter for video / audio files.
 	QString filter =
 	    "*.dv video/x-msvideo video/mpeg audio/x-mp3 audio/x-wav application/ogg";
+        KURL::List urlList;
 
-	KURL::List urlList =
+        KFileDialog *fd = new KFileDialog(m_fileDialogPath.path(), filter, this, "add_clip", true);
+        fd->setOperationMode(KFileDialog::Opening);
+        QWidget *w = new QWidget(this,"blank");
+        
+        // Disable previewing in the open file dialog until I discover why it crashes kdenlive
+        fd->setPreviewWidget(w);
+        if (fd->exec() == QDialog::Accepted) {
+            urlList = fd->selectedURLs();
+            delete fd;
+        }
+        else {
+            delete fd;
+            return;
+        }
+
+	/*KURL::List urlList =
 	    KFileDialog::getOpenURLs(m_fileDialogPath.path(), filter, this,
-	    i18n("Open File..."));
-
+        i18n("Open File..."));*/
 
 	KURL::List::Iterator it;
 	KURL url;
@@ -1894,27 +1909,23 @@ namespace Gui {
     
     
     void KdenliveApp::addTransition() {
-        int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(m_menuPosition).y())->documentTrackIndex();
-        DocTrackBase *track = getDocument()->track(ix);
-        if (!track) return;
+        if (!getDocument()->projectClip().hasSelectedClips()) {
+            KMessageBox::sorry(this, i18n("Please select a clip to apply transition"));
+            return;
+        }
         GenTime mouseTime;
         mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(m_menuPosition).x());
-        DocClipRef *clip = track->getClipAt(mouseTime);
-        
-        if (clip) getDocument()->projectClip().addTransition(clip, mouseTime);
+        getDocument()->projectClip().addTransition(getDocument()->projectClip().selectedClip(), mouseTime);
     }
     
     void KdenliveApp::deleteTransition() {
-
-    int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(m_menuPosition).y())->documentTrackIndex();
-    DocTrackBase *track = getDocument()->track(ix);
-    if (!track) return;
+        if (!getDocument()->projectClip().hasSelectedClips()) {
+            KMessageBox::sorry(this, i18n("Please select a clip to delete transition"));
+            return;
+        }
     GenTime mouseTime;
     mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(m_menuPosition).x());
-    DocClipRef *clip = track->getClipAt(mouseTime);
-    if (m_transitionPanel->isActiveTransition( clip->transitionAt( mouseTime)))
-	m_transitionPanel->setTransition( 0 );
-    if (clip) getDocument()->projectClip().deleteClipTransition(clip, mouseTime);
+    getDocument()->projectClip().deleteClipTransition(getDocument()->projectClip().selectedClip(), mouseTime);
     }
 
     void KdenliveApp::switchTransition() {
