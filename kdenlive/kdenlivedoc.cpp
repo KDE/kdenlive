@@ -477,6 +477,26 @@ QValueVector < GenTime > KdenliveDoc::getSnapTimes(bool includeClipEnds,
     return list;
 }
 
+void KdenliveDoc::updateTracksThumbnails()
+{
+    QPtrListIterator < DocTrackBase > trackItt(trackList());
+
+    while (trackItt.current()) {
+        QPtrListIterator < DocClipRef > clipItt(trackItt.current()->firstClip(true));
+        while (clipItt.current()) {
+            (*clipItt)->generateThumbnails();
+            ++clipItt;
+        }
+        
+        QPtrListIterator < DocClipRef > clipItt2(trackItt.current()->firstClip(false));
+        while (clipItt2.current()) {
+            (*clipItt2)->generateThumbnails();
+            ++clipItt2;
+        }
+        ++trackItt;
+    }
+}
+
 DocClipRefList KdenliveDoc::listSelected() const
 {
     DocClipRefList list;

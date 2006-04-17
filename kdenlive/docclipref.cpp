@@ -15,9 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "docclipref.h"
+#include <qimage.h>
 
 #include <kdebug.h>
+
+#include "docclipref.h"
 
 #include "clipmanager.h"
 #include "docclipbase.h"
@@ -59,13 +61,12 @@ m_trackEnd(0.0), m_parentTrack(0), m_trackNum(-1), m_clip(clip), m_thumbcreator(
         endTimer = new QTimer( this );
         connect(m_thumbcreator, SIGNAL(thumbReady(int, QPixmap)),this,SLOT(updateThumbnail(int, QPixmap)));
         connect(this, SIGNAL(getClipThumbnail(KURL, int, int, int)), m_thumbcreator, SLOT(getImage(KURL, int, int, int)));
-
         connect( startTimer, SIGNAL(timeout()), this, SLOT(fetchStartThumbnail()));
         connect( endTimer, SIGNAL(timeout()), this, SLOT(fetchEndThumbnail()));
     }
-    else {
-    m_thumbnail = referencedClip()->thumbnail();
-    m_endthumbnail = m_thumbnail;
+    else if (m_clip->clipType() == DocClipBase::AUDIO) {
+        m_thumbnail = referencedClip()->thumbnail();
+        m_endthumbnail = m_thumbnail;
     }
 }
 
@@ -85,8 +86,31 @@ bool DocClipRef::hasVariableThumbnails()
 
 void DocClipRef::generateThumbnails()
 {
-    fetchStartThumbnail();
-    fetchEndThumbnail();
+    kdDebug()<<"++++++++++++++++  FETCHING THUMBS FOR CLIP ++++++++++++++++++"<<endl;
+    if (m_clip->clipType() == DocClipBase::VIDEO || m_clip->clipType() == DocClipBase::AV) {
+        fetchStartThumbnail();
+        fetchEndThumbnail();
+    }
+    else if (m_clip->clipType() == DocClipBase::COLOR) {
+        uint height = KdenliveSettings::videotracksize();
+        uint width = height * 1.25;
+        QPixmap p(width, height);
+        QString col = m_clip->toDocClipAVFile()->color();
+        col = col.replace(0, 2, "#");
+        p.fill(QColor(col.left(7)));
+        m_endthumbnail = p;
+        m_thumbnail = p;
+    }
+    else if (m_clip->clipType() == DocClipBase::TEXT || m_clip->clipType() == DocClipBase::IMAGE) {
+        uint height = KdenliveSettings::videotracksize();
+        uint width = height * 1.25;
+        QPixmap p(fileURL().path());
+        QImage im;
+        im = p;
+        p = im.smoothScale(width, height);
+        m_endthumbnail = p;
+        m_thumbnail = p;
+    }
 }
 
 const GenTime & DocClipRef::trackStart() const
@@ -420,7 +444,7 @@ DocClipBase::CLIPTYPE DocClipRef::clipType() const
 
 uint DocClipRef::clipHeight() const
 {
-    if (m_clip->isDocClipAVFile())    
+    if (m_clip->isDocClipAVFile())
         return m_clip->toDocClipAVFile()->clipHeight();
     else if (m_clip->isDocClipTextFile())    
         return m_clip->toDocClipTextFile()->clipHeight();

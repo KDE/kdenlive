@@ -168,6 +168,9 @@ class KdenliveDoc:public QObject {
 	/** Return the list of tracks that make up this document. */
     const DocTrackBaseList & trackList() const;
     
+        /** Updates all clipthumbnails in the document */
+    void updateTracksThumbnails();
+    
     
   private:
 	/** The base clip for this document. This must be a project clip, as it lists the tracks within

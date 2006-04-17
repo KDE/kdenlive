@@ -1969,10 +1969,6 @@ namespace Gui {
 		m_timeline, SLOT(drawTrackViewBackBuffer()));
 	    disconnect(trackItt.current(), SIGNAL(clipSelectionChanged()),
 		m_timeline, SLOT(drawTrackViewBackBuffer()));
-	    connect(trackItt.current(), SIGNAL(clipLayoutChanged()),
-		m_timeline, SLOT(drawTrackViewBackBuffer()));
-	    connect(trackItt.current(), SIGNAL(clipSelectionChanged()),
-		m_timeline, SLOT(drawTrackViewBackBuffer()));
 
 	    if (trackItt.current()->clipType() == "Video") {
 		m_timeline->insertTrack(index, new KMMTrackVideoPanel(this,
@@ -2003,10 +1999,15 @@ namespace Gui {
 		kdWarning() << "Sync failed" << endl;
 	    }
 
+            connect(trackItt.current(), SIGNAL(clipLayoutChanged()),
+                    m_timeline, SLOT(drawTrackViewBackBuffer()));
+            connect(trackItt.current(), SIGNAL(clipSelectionChanged()),
+                    m_timeline, SLOT(drawTrackViewBackBuffer()));
+
 	    ++trackItt;
 	}
-
-	m_timeline->resizeTracks();
+        if (KdenliveSettings::videothumbnails()) getDocument()->updateTracksThumbnails();
+	//m_timeline->resizeTracks();
     }
 
     void KdenliveApp::slotRazorAllClips() {

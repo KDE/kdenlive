@@ -38,10 +38,9 @@ namespace Gui {
 	addPage(page1, i18n("Interface"), "looknfeel");
 	addPage(page2, i18n("Timeline"), "view_details");
         addPage(page3, i18n("Default Project"), "filenew");
-    } KdenliveSetupDlg::~KdenliveSetupDlg() {
-    }
-
-
+    } 
+    
+    KdenliveSetupDlg::~KdenliveSetupDlg() {}
 
 
 }				// namespace Gui
