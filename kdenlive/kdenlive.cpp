@@ -1359,6 +1359,8 @@ namespace Gui {
 
         KFileDialog *fd = new KFileDialog(m_fileDialogPath.path(), filter, this, "add_clip", true);
         fd->setOperationMode(KFileDialog::Opening);
+        fd->setMode(KFile::Files);
+        
         QWidget *w = new QWidget(this,"blank");
         
         // Disable previewing in the open file dialog until I discover why it crashes kdenlive
