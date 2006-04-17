@@ -268,6 +268,9 @@ void KdenliveDoc::connectProjectClip()
 	this, SIGNAL(documentLengthChanged(const GenTime &)));
     connect(m_projectClip, SIGNAL(documentChanged(DocClipBase *)),
             this, SIGNAL(documentChanged(DocClipBase *)));
+    
+    connect(m_projectClip, SIGNAL(deletedClipTransition()),
+            this, SLOT(slotDeleteClipTransition()));
 
 // Commented out following line, causes multiple unnecessary refreshes - jbm, 26/12/05 
     connect(m_projectClip, SIGNAL(clipLayoutChanged()), this, SLOT(hasBeenModified()));
@@ -549,6 +552,13 @@ EffectDesc *KdenliveDoc::effectDescription(const QString & type) const
 {
     return effectDescriptions().effectDescription(type);
 }
+
+void KdenliveDoc::slotDeleteClipTransition()
+{
+    application()->transitionPanel()->setTransition(0);
+    emit documentChanged(m_projectClip);
+}
+
 
 const DocTrackBaseList & KdenliveDoc::trackList() const
 {

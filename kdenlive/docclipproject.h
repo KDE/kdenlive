@@ -161,6 +161,8 @@ class DocClipProject:public DocClipBase {
     void projectLengthChanged(const GenTime & length);
     /** This signal is emitted whenever the timeline has changed */
     void documentChanged(DocClipBase *);
+    /** This signal is emitted whenever a transition was deleted */
+    void deletedClipTransition();
     
     
   private:

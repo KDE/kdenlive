@@ -614,7 +614,7 @@ bool DocClipProject::hasTwoSelectedClips()
 void DocClipProject::deleteClipTransition(DocClipRef *clip, const GenTime &time)
 {
     clip->deleteTransition(time);
-    emit documentChanged(this);
+    emit deletedClipTransition();
 }
 
 void DocClipProject::addTransition(DocClipRef *clip, const GenTime &time)

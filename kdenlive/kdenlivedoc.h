@@ -214,6 +214,8 @@ class KdenliveDoc:public QObject {
     // HACK HACK - we need a way to prevent the document from spewing hundreds of scenelist
     // generation requests - this is it.
     void activateSceneListGeneration(bool active);
+    /** When a transition was deleted, disable the transition dialog in case its transition was deleted*/
+    void slotDeleteClipTransition();
     
     Gui::KdenliveApp *application() {
     return m_app;
