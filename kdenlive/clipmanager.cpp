@@ -365,10 +365,10 @@ QDomDocument ClipManager::producersList()
 DocClipBase *ClipManager::findClip(const KURL & file)
 {
     DocClipBase *result = 0;
+    DocClipAVFile *avClip;
 
     QPtrListIterator < DocClipBase > itt(m_clipList);
     while (itt.current()) {
-        DocClipAVFile *avClip;
         if (itt.current()->isDocClipAVFile()) {
 	   avClip = itt.current()->toDocClipAVFile();
   	   if (avClip && (avClip->fileURL() == file)) {

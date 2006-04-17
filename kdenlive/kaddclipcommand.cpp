@@ -161,13 +161,13 @@ namespace Command {
     KAddClipCommand::KAddClipCommand(KdenliveDoc & document,
 	const KURL & url, bool create):m_document(document),
 	m_name(url.filename()), m_parent(document.clipHierarch()->name()),
-	m_create(create) {
+        m_create(create) {
 	if (!m_parent) {
 	    kdWarning() <<
 		"Error - all clips created with kaddclipcommand should have a parent!"
 		<< endl;
 	}
-
+        m_xmlClip = QDomDocument();
 	DocClipBase *clip = document.clipManager().insertClip(url);
 	if (clip) {
 	    DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
@@ -208,28 +208,25 @@ namespace Command {
 
 /** Adds the clip */
     void KAddClipCommand::addClip() {
+        if (m_xmlClip.isNull()) return;
 	DocumentBaseNode *node = m_document.findClipNode(m_parent);
-
 	if (!node) {
 	    kdWarning() <<
 		"Could not find parent in document, cannot add document base node"
 		<< endl;
 	} else {
-	    DocClipBase *clip =
-		m_document.clipManager().insertClip(m_xmlClip.
-		documentElement());
+	    DocClipBase *clip = m_document.clipManager().insertClip(m_xmlClip.documentElement());
 	    if (!clip) {
-		m_document.addClipNode(m_parent,
-		    new DocumentGroupNode(node, m_name));
+		m_document.addClipNode(m_parent, new DocumentGroupNode(node, m_name));
 	    } else {
-		m_document.addClipNode(m_parent, new DocumentClipNode(node,
-			clip));
+		m_document.addClipNode(m_parent, new DocumentClipNode(node, clip));
 	    }
 	}
     }
 
 /** Deletes the clip */
     void KAddClipCommand::deleteClip() {
+        if (m_xmlClip.isNull()) return;
 	DocumentBaseNode *node = m_document.findClipNode(m_parent);
 
 	if (!node) {
