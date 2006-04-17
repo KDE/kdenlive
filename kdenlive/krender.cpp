@@ -70,7 +70,7 @@ namespace {
 
 KRender::KRender(const QString & rendererName, Gui::KdenliveApp *parent, const char *name):QObject(parent, name), m_name(rendererName), m_app(parent), m_fileFormat(0),
 m_desccodeclist(0), m_codec(0), m_effect(0),
-m_parameter(0), m_mltMiracle(NULL),
+m_parameter(0), //m_mltMiracle(NULL),
 m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL)
 {
     startTimer(1000);
@@ -255,9 +255,9 @@ void KRender::openMlt()
     m_refCount++;
     if (m_refCount == 1) {
 	Mlt::Factory::init();
-	m_mltMiracle = new Mlt::Miracle("miracle", 5250);
-	m_mltMiracle->start();
-	std::cout << "Mlt inited" << std::endl;
+	//m_mltMiracle = new Mlt::Miracle("miracle", 5250);
+	//m_mltMiracle->start();
+	kdDebug() << "Mlt inited" << endl;
     }
 }
 
@@ -272,7 +272,7 @@ void KRender::closeMlt()
     
     if (m_refCount == 0) {
 	//m_mltMiracle->wait_for_shutdown();
-	delete(m_mltMiracle);
+	//delete(m_mltMiracle);
     }
 }
 

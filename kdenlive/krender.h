@@ -57,7 +57,7 @@ class EffectParamDesc;
 class QPixmap;
 
 namespace Mlt {
-    class Miracle;
+    //class Miracle;
     class Consumer;
     class Producer;
 };
@@ -169,7 +169,7 @@ class KRender:public QObject {
      
      
   private:			// Private attributes & methods
-     Mlt::Miracle * m_mltMiracle;
+     //Mlt::Miracle * m_mltMiracle;
      Mlt::Consumer * m_mltConsumer;
      Mlt::Producer * m_mltProducer;
      Mlt::Consumer *m_fileRenderer;
