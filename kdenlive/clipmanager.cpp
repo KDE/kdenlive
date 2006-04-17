@@ -97,7 +97,7 @@ DocClipBase *ClipManager::insertImageClip(const KURL & file,
     clip->setDescription(description);
     m_clipList.append(clip);
     m_render->getImage(file, 50, 40);
-    
+
     emit clipListUpdated();
 
     return clip;

@@ -86,7 +86,6 @@ bool DocClipRef::hasVariableThumbnails()
 
 void DocClipRef::generateThumbnails()
 {
-    kdDebug()<<"++++++++++++++++  FETCHING THUMBS FOR CLIP ++++++++++++++++++"<<endl;
     if (m_clip->clipType() == DocClipBase::VIDEO || m_clip->clipType() == DocClipBase::AV) {
         fetchStartThumbnail();
         fetchEndThumbnail();

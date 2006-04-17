@@ -1682,8 +1682,11 @@ namespace Gui {
 
 /** Sets the clip monitor source to be the given clip. */
     void KdenliveApp::slotSetClipMonitorSource(DocClipRef * clip) {
-	//activateClipMonitor();
-	m_clipMonitor->slotSetClip(clip);
+        if (clip) {
+	   activateClipMonitor();
+	   m_clipMonitor->slotSetClip(clip);
+        }
+        else activateWorkspaceMonitor();
     }
 
     void KdenliveApp::loadLayout1() {
