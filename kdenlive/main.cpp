@@ -26,9 +26,9 @@
 
 static const char *description = I18N_NOOP("Kdenlive"
     "\n\nA non-linear video editor for KDE."
-    "\n\nKdenlive is a frontend for Piave video renderer."
-    "\nYou can download the Piave program on this url:"
-    "\nhttp://modesto.sourceforge.net/piave");
+    "\n\nKdenlive is a frontend for the Mlt Framework."
+    "\nYou can download the Mlt Framework on this url:"
+    "\nhttp://mlt.sourceforge.net/");
 
 static KCmdLineOptions options[] = {
     {"+[File]", I18N_NOOP("file to open"), 0},
@@ -69,6 +69,8 @@ int main(int argc, char *argv[])
 	"dannya40uk@yahoo.co.uk", "");
     aboutData.addAuthor("Rob Hare", I18N_NOOP("Kdenlive programmer"),
 	"rob@nocturnalatl.com", "");
+	 aboutData.addAuthor("Marco Gittler", I18N_NOOP("Kdenlive programmer, Trackdecorators"),
+	"g.marco@freenet.de", "");
 
     KCmdLineArgs::init(argc, argv, &aboutData);
     KCmdLineArgs::addCmdLineOptions(options);	// Add our own options.
