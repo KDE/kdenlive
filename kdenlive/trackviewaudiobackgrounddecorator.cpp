@@ -84,6 +84,7 @@ namespace Gui {
 	int frame = 0;
 	painter.drawRect(sx, y, ex - sx, h);
 	painter.fillRect(sx, y, ex - sx, h, col);
+        /*
 	for (; i < ex; i += width) {
 	    if (i + width < rect.x() || i > rect.x() + rect.width())
 		continue;
@@ -96,7 +97,9 @@ namespace Gui {
 			h / channels, ex, painter));
 	    }
 	}
+        */
     }
+    
     void TrackViewAudioBackgroundDecorator::drawChannel(int channel,
 	const QByteArray * ba, int x, int y, int height, int maxWidth,
 	QPainter & painter) {
