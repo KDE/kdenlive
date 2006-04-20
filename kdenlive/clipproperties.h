@@ -67,7 +67,6 @@ namespace Gui {
         int m_width;
         QPixmap *m_pix;
         clipProperties_UI *clipChoice;
-        Timecode tcode;
         KdenliveDoc *m_document;
 
     };

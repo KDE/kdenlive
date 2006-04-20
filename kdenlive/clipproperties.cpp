@@ -46,6 +46,7 @@ namespace Gui {
         clipChoice = new clipProperties_UI(this);
         clipChoice->edit_name->setText(refClip->name());
         clipChoice->edit_description->setText(refClip->description());
+        Timecode tcode;
         clipChoice->edit_duration->setText(tcode.getTimecode(refClip->duration(), 25.0));
         m_pix = new QPixmap(120,96);
         m_document = document;
