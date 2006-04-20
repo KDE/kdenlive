@@ -164,7 +164,6 @@ namespace Gui {
         if (m_dockProjectList) delete m_dockProjectList;
         if (m_dockEffectStack) delete m_dockEffectStack;
         if (m_dockTransition) delete m_dockTransition;
-        if (m_exportWidget) delete m_exportWidget;
 	if (m_commandHistory) delete m_commandHistory;
     }
     
@@ -541,6 +540,7 @@ namespace Gui {
     void KdenliveApp::initDocument() {
         doc = new KdenliveDoc(KdenliveSettings::defaultfps(), KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight(), this, this);
 	connect(doc, SIGNAL(modified(bool)), this, SLOT(documentModified(bool)));
+        
         doc->newDocument();
     }
 
@@ -869,17 +869,21 @@ namespace Gui {
     void KdenliveApp::customEvent(QCustomEvent* e)
     {
         if( e->type() == 10000) {
+            // The timeline playing position changed...
             PositionChangeEvent *ev = (PositionChangeEvent *)e;
-            if (!ev->isFile()) m_monitorManager.activeMonitor()->screen()->positionChanged(ev->position());
-            else {
-                if (m_exportWidget) m_exportWidget->reportProgress(ev->position());
-            }
+            m_monitorManager.activeMonitor()->screen()->positionChanged(ev->position());
         }
         else if( e->type() == 10001) {
-            //QTimer::singleShot( 200, m_workspaceMonitor->screen(), SLOT(slotPlayingStopped()) );
-            m_workspaceMonitor->screen()->slotPlayingStopped();
+            // The export process progressed
+            PositionChangeEvent *ev = (PositionChangeEvent *)e;
+            if (m_exportWidget) m_exportWidget->reportProgress(ev->position());
         }
         else if( e->type() == 10002) {
+            // Timeline playing stopped
+            m_workspaceMonitor->screen()->slotPlayingStopped();
+        }
+        else if( e->type() == 10003) {
+            // export is over
             m_workspaceMonitor->screen()->slotExportStopped();
         }
     }
@@ -1305,12 +1309,13 @@ namespace Gui {
     void KdenliveApp::slotRenderExportTimeline() {
 	slotStatusMsg(i18n("Exporting Timeline..."));
 
-        m_exportWidget=new exportWidget(m_timeline, this,"exporter");
-        connect(m_exportWidget,SIGNAL(exportTimeLine(QString, QString, QString, GenTime, GenTime)),m_workspaceMonitor->screen(),SLOT(exportTimeline(QString, QString, QString, GenTime, GenTime)));
-        connect(m_exportWidget,SIGNAL(stopTimeLineExport()),m_workspaceMonitor->screen(),SLOT(stopTimeLineExport()));
-        connect(m_workspaceMonitor->screen(),SIGNAL(exportOver()),m_exportWidget,SLOT(endExport()));
-        connect(m_exportWidget,SIGNAL(exportToFirewire(QString, int, GenTime, GenTime)),m_workspaceMonitor->screen(),SLOT(exportToFirewire(QString, int, GenTime, GenTime)));
-        m_exportWidget->exec();
+            m_exportWidget=new exportWidget(m_timeline, this,"exporter");
+            connect(m_exportWidget,SIGNAL(exportTimeLine(QString, QString, GenTime, GenTime, QString, QString)),m_workspaceMonitor->screen(),SLOT(exportTimeline(QString, QString, GenTime, GenTime, QString, QString)));
+            connect(m_exportWidget,SIGNAL(stopTimeLineExport()),m_workspaceMonitor->screen(),SLOT(stopTimeLineExport()));
+            connect(m_workspaceMonitor->screen(),SIGNAL(exportOver()),m_exportWidget,SLOT(endExport()));
+            connect(m_exportWidget,SIGNAL(exportToFirewire(QString, int, GenTime, GenTime)),m_workspaceMonitor->screen(),SLOT(exportToFirewire(QString, int, GenTime, GenTime)));
+            m_exportWidget->exec();
+        
         delete m_exportWidget;
         m_exportWidget = 0;
 	slotStatusMsg(i18n("Ready."));

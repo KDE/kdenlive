@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>264</width>
-            <height>382</height>
+            <width>220</width>
+            <height>322</height>
         </rect>
     </property>
     <property name="minimumSize">
@@ -28,6 +28,95 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
+        <widget class="QLayoutWidget" row="4" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>layout2</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>exportButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Export</string>
+                    </property>
+                    <property name="accel">
+                        <string></string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>Horizontal Spacing2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>552</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>closeButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Close</string>
+                    </property>
+                    <property name="accel">
+                        <string></string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QLabel" row="2" column="0">
+            <property name="name">
+                <cstring>process_label</cstring>
+            </property>
+            <property name="text">
+                <string>Rendering:</string>
+            </property>
+        </widget>
+        <widget class="KProgress" row="2" column="1">
+            <property name="name">
+                <cstring>processProgress</cstring>
+            </property>
+        </widget>
+        <widget class="KProgress" row="3" column="1">
+            <property name="name">
+                <cstring>convertProgress</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="3" column="0">
+            <property name="name">
+                <cstring>convert_label</cstring>
+            </property>
+            <property name="text">
+                <string>Exporting:</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>export_selected</cstring>
+            </property>
+            <property name="text">
+                <string>Export selected zone only</string>
+            </property>
+        </widget>
         <widget class="QTabWidget" row="0" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>tabWidget</cstring>
@@ -86,6 +175,31 @@
                             </size>
                         </property>
                     </spacer>
+                    <spacer row="4" column="3">
+                        <property name="name">
+                            <cstring>spacer7</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>16</width>
+                                <height>48</height>
+                            </size>
+                        </property>
+                    </spacer>
+                    <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="4">
+                        <property name="name">
+                            <cstring>autoPlay</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Play video after export</string>
+                        </property>
+                    </widget>
                     <widget class="QFrame" row="2" column="0" rowspan="1" colspan="4">
                         <property name="name">
                             <cstring>container</cstring>
@@ -114,76 +228,15 @@
                             <property name="margin">
                                 <number>0</number>
                             </property>
-                            <widget class="QLabel" row="2" column="2">
+                            <widget class="QCheckBox" row="0" column="0">
                                 <property name="name">
-                                    <cstring>textLabel2</cstring>
-                                </property>
-                                <property name="enabled">
-                                    <bool>false</bool>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>4</hsizetype>
-                                        <vsizetype>5</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
+                                    <cstring>check_size</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Fps</string>
+                                    <string>Resize</string>
                                 </property>
                             </widget>
-                            <widget class="QSpinBox" row="2" column="3">
-                                <property name="name">
-                                    <cstring>fps</cstring>
-                                </property>
-                                <property name="enabled">
-                                    <bool>false</bool>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>1</hsizetype>
-                                        <vsizetype>0</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                                <property name="maxValue">
-                                    <number>30</number>
-                                </property>
-                                <property name="minValue">
-                                    <number>1</number>
-                                </property>
-                                <property name="value">
-                                    <number>25</number>
-                                </property>
-                            </widget>
-                            <widget class="QLabel" row="1" column="0">
-                                <property name="name">
-                                    <cstring>textLabel1_2_2</cstring>
-                                </property>
-                                <property name="enabled">
-                                    <bool>false</bool>
-                                </property>
-                                <property name="text">
-                                    <string>Quality</string>
-                                </property>
-                            </widget>
-                            <widget class="QSlider" row="1" column="1" rowspan="1" colspan="3">
-                                <property name="name">
-                                    <cstring>quality</cstring>
-                                </property>
-                                <property name="enabled">
-                                    <bool>false</bool>
-                                </property>
-                                <property name="maxValue">
-                                    <number>255</number>
-                                </property>
-                                <property name="orientation">
-                                    <enum>Horizontal</enum>
-                                </property>
-                            </widget>
-                            <widget class="QComboBox" row="0" column="1" rowspan="1" colspan="3">
+                            <widget class="QComboBox" row="0" column="1" rowspan="1" colspan="2">
                                 <item>
                                     <property name="text">
                                         <string>160x120</string>
@@ -212,70 +265,12 @@
                                 <property name="name">
                                     <cstring>videoSize</cstring>
                                 </property>
-                            </widget>
-                            <widget class="QCheckBox" row="2" column="0">
-                                <property name="name">
-                                    <cstring>hasAudio</cstring>
-                                </property>
                                 <property name="enabled">
                                     <bool>false</bool>
-                                </property>
-                                <property name="text">
-                                    <string>Audio</string>
-                                </property>
-                                <property name="checked">
-                                    <bool>true</bool>
-                                </property>
-                            </widget>
-                            <widget class="QLabel" row="0" column="0">
-                                <property name="name">
-                                    <cstring>textLabel1_3</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Size</string>
-                                </property>
-                            </widget>
-                            <widget class="QCheckBox" row="2" column="1">
-                                <property name="name">
-                                    <cstring>hasVideo</cstring>
-                                </property>
-                                <property name="enabled">
-                                    <bool>false</bool>
-                                </property>
-                                <property name="text">
-                                    <string>Video</string>
-                                </property>
-                                <property name="checked">
-                                    <bool>true</bool>
                                 </property>
                             </widget>
                         </grid>
                     </widget>
-                    <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="4">
-                        <property name="name">
-                            <cstring>autoPlay</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Play video after export</string>
-                        </property>
-                    </widget>
-                    <spacer row="4" column="3">
-                        <property name="name">
-                            <cstring>spacer7</cstring>
-                        </property>
-                        <property name="orientation">
-                            <enum>Vertical</enum>
-                        </property>
-                        <property name="sizeType">
-                            <enum>Expanding</enum>
-                        </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>13</width>
-                                <height>31</height>
-                            </size>
-                        </property>
-                    </spacer>
                 </grid>
             </widget>
             <widget class="QWidget">
@@ -490,95 +485,6 @@
                 </widget>
             </widget>
         </widget>
-        <widget class="QLayoutWidget" row="4" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>layout2</cstring>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QPushButton">
-                    <property name="name">
-                        <cstring>exportButton</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Export</string>
-                    </property>
-                    <property name="accel">
-                        <string></string>
-                    </property>
-                    <property name="autoDefault">
-                        <bool>true</bool>
-                    </property>
-                </widget>
-                <spacer>
-                    <property name="name">
-                        <cstring>Horizontal Spacing2</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>552</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="QPushButton">
-                    <property name="name">
-                        <cstring>closeButton</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Close</string>
-                    </property>
-                    <property name="accel">
-                        <string></string>
-                    </property>
-                    <property name="autoDefault">
-                        <bool>true</bool>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
-        <widget class="QLabel" row="2" column="0">
-            <property name="name">
-                <cstring>process_label</cstring>
-            </property>
-            <property name="text">
-                <string>Rendering:</string>
-            </property>
-        </widget>
-        <widget class="KProgress" row="2" column="1">
-            <property name="name">
-                <cstring>processProgress</cstring>
-            </property>
-        </widget>
-        <widget class="KProgress" row="3" column="1">
-            <property name="name">
-                <cstring>convertProgress</cstring>
-            </property>
-        </widget>
-        <widget class="QLabel" row="3" column="0">
-            <property name="name">
-                <cstring>convert_label</cstring>
-            </property>
-            <property name="text">
-                <string>Exporting:</string>
-            </property>
-        </widget>
-        <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>export_selected</cstring>
-            </property>
-            <property name="text">
-                <string>Export selected zone only</string>
-            </property>
-        </widget>
     </grid>
 </widget>
 <customwidgets>
@@ -593,6 +499,8 @@
 </connections>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
+    <includehint>kprogress.h</includehint>
+    <includehint>kprogress.h</includehint>
     <includehint>kcombobox.h</includehint>
     <includehint>kurlrequester.h</includehint>
     <includehint>klineedit.h</includehint>
@@ -603,7 +511,5 @@
     <includehint>kurlrequester.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>
-    <includehint>kprogress.h</includehint>
-    <includehint>kprogress.h</includehint>
 </includehints>
 </UI>

@@ -39,6 +39,7 @@
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <klocale.h>
+#include <kstandarddirs.h>
 
 #include "krender.h"
 #include "avformatdescbool.h"
@@ -70,8 +71,8 @@ namespace {
 
 KRender::KRender(const QString & rendererName, Gui::KdenliveApp *parent, const char *name):QObject(parent, name), m_name(rendererName), m_app(parent), m_fileFormat(0),
 m_desccodeclist(0), m_codec(0), m_effect(0),
-m_parameter(0), //m_mltMiracle(NULL),
-m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL)
+m_parameter(0), m_isRendering(false), m_renderingFormat(0),
+m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProducer(NULL)
 {
     startTimer(1000);
     m_parsing = false;
@@ -264,7 +265,8 @@ void KRender::openMlt()
 void KRender::closeMlt()
 {
     m_refCount--;
-    
+    if (m_fileRenderer) delete m_fileRenderer;
+    if (m_mltFileProducer) delete m_mltFileProducer;
     if (m_mltConsumer)
         delete m_mltConsumer;
     if (m_mltProducer);
@@ -281,7 +283,7 @@ void KRender::closeMlt()
 static void consumer_frame_show(mlt_consumer, KRender * self, mlt_frame frame_ptr)
 {
     mlt_position framePosition = mlt_frame_get_position(frame_ptr);
-    self->emitFrameNumber(GenTime(framePosition, 25), false);
+    self->emitFrameNumber(GenTime(framePosition, 25), 10000);
     
     // detect if the producer has finished playing. Is there a better way to do it ?
     if (mlt_properties_get_double( MLT_FRAME_PROPERTIES( frame_ptr ), "_speed" ) == 0)
@@ -291,10 +293,10 @@ static void consumer_frame_show(mlt_consumer, KRender * self, mlt_frame frame_pt
 static void file_consumer_frame_show(mlt_consumer, KRender * self, mlt_frame frame_ptr)
 {
     mlt_position framePosition = mlt_frame_get_position(frame_ptr);
-    self->emitFrameNumber(GenTime(framePosition, 25), true);
+    self->emitFileFrameNumber(GenTime(framePosition, 25), 10001);
     // detect if the producer has finished playing. Is there a better way to do it ?
     if (mlt_properties_get_double( MLT_FRAME_PROPERTIES( frame_ptr ), "_speed" ) == 0)
-        self->emitFileConsumerStopped();
+    self->emitFileConsumerStopped();
 }
 
 static void consumer_stopped(mlt_consumer, KRender * self, mlt_frame)
@@ -816,11 +818,18 @@ const QString & KRender::rendererName() const
 }
 
 
-void KRender::emitFrameNumber(const GenTime & time, bool isFile)
+void KRender::emitFrameNumber(const GenTime & time, int eventType)
 {
     //m_seekPosition = time;
     if (m_mltProducer) {
-        QApplication::postEvent(m_app, new PositionChangeEvent(GenTime(m_mltProducer->position(), m_mltProducer->get_fps()), isFile));
+        QApplication::postEvent(m_app, new PositionChangeEvent(GenTime(m_mltProducer->position(), m_mltProducer->get_fps()), eventType));
+    }
+}
+
+void KRender::emitFileFrameNumber(const GenTime & time, int eventType)
+{
+    if (m_fileRenderer) {
+        QApplication::postEvent(m_app, new PositionChangeEvent(GenTime(m_mltFileProducer->position(), m_mltFileProducer->get_fps()), eventType));
     }
 }
 
@@ -828,29 +837,29 @@ void KRender::emitConsumerStopped()
 {
     //kdDebug()<<"+++++++++++  SDL CONSUMER STOPPING ++++++++++++++++++"<<endl;
     // This is used to know when the playing stopped
-    if (m_mltProducer) m_mltProducer->set("out", m_mltProducer->get_length() - 1);
-    QApplication::postEvent(m_app, new QCustomEvent(10001));
+    //if (m_mltProducer) m_mltProducer->set("out", m_mltProducer->get_length() - 1);
+    if (m_mltProducer) QApplication::postEvent(m_app, new QCustomEvent(10002));
 }
 
 void KRender::emitFileConsumerStopped()
 {
     //kdDebug()<<"+++++++++++  FILE CONSUMER STOPPING ++++++++++++++++++"<<endl;
-    if (m_fileRenderer) {
-        mlt_properties_set_int( MLT_PRODUCER_PROPERTIES( m_fileRenderer->get_consumer() ), "done", 1 );
-        /*if (!m_fileRenderer->is_stopped())
-        m_fileRenderer->stop();*/
-        delete m_fileRenderer;
-        m_mltProducer->set_speed(0.0);
-        m_fileRenderer = 0;
-        m_mltProducer->set("out", m_mltProducer->get_length() - 1);
+
+    if (m_fileRenderer && m_isRendering) {
+        //mlt_properties_set_int( MLT_PRODUCER_PROPERTIES( m_fileRenderer->get_consumer() ), "done", 1 );
+        if (!m_fileRenderer->is_stopped()) m_fileRenderer->stop();
+        //if (m_renderingFormat == "dv") delete m_fileRenderer;
+        //m_mltProducer->set_speed(0.0);
+        m_isRendering = false;
+
         // This is used when exporting to a file so that we know when the export is finished
-        QApplication::postEvent(m_app, new QCustomEvent(10002));
+        QApplication::postEvent(m_app, new QCustomEvent(10003));
     }
     
-    if (m_mltConsumer->is_stopped()) {
+/*    if (m_mltConsumer->is_stopped()) {
         m_mltConsumer->start();
-        refresh();
-    }
+    refresh();
+}*/
 }
 
 /*                           FILE RENDERING STUFF                     */
@@ -952,28 +961,37 @@ KMessageBox::sorry(0, i18n("Firewire is not enabled on your system.\n Please ins
 void KRender::stopExport()
 {
     if (m_fileRenderer && !m_fileRenderer->is_stopped()) {
-        m_mltProducer->set_speed(0.0);
+        m_mltFileProducer->set_speed(0.0);
     }
 }
 
-void KRender::exportTimeline(const QString &url, const QString &format, const QString &videoSize, GenTime exportStart, GenTime exportEnd)
+void KRender::exportTimeline(const QString &url, const QString &format, GenTime exportStart, GenTime exportEnd, const QString &videoSize, const QString &videoFps)
 {
-    kdDebug()<<"+++++++++  START EXPORT: "<<format<<endl;
-    if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
+    kdDebug()<<"+++++++++  START EXPORT: "<<format<<", "<<videoFps<<endl;
+    /*if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();*/
     m_mltProducer->set_speed(0.0);
+    m_renderingFormat = format;
     if (m_fileRenderer) {
         delete m_fileRenderer;
         m_fileRenderer = 0;
     }
-    if (format == "dv") m_fileRenderer=new Mlt::Consumer("libdv");
-    else if (format == "mpeg") {
-        m_fileRenderer=new Mlt::Consumer("avformat");
-        m_fileRenderer->set ("format", "mpeg");
-        m_fileRenderer->set ("vcodec", "mpeg2video");
-        m_fileRenderer->set ("acodec", "mp3");
-        if (videoSize != QString::null) m_fileRenderer->set("size",videoSize.ascii());
+    if (m_mltFileProducer) {
+        delete m_mltFileProducer;
+        m_mltFileProducer = 0;
     }
-    else if (format == "westley") {
+    if (format == "dv") m_fileRenderer=new Mlt::Consumer("libdv");
+    else if (format != "westley") {
+        m_fileRenderer=new Mlt::Consumer("avformat");
+        // Find corresponding profile file
+        QString profile = locate("data", "kdenlive/profiles/"+format+".profile");
+        Mlt::Properties *m_fileProperties = new Mlt::Properties(profile.ascii());
+        mlt_properties_inherit(MLT_CONSUMER_PROPERTIES(m_fileRenderer->get_consumer()), m_fileProperties->get_properties());
+
+        if (videoSize != QString::null) m_fileRenderer->set("size",videoSize.ascii());
+        if (videoFps != QString::null) m_fileRenderer->set("fps",videoFps.toDouble());
+
+    }
+    else {
         QFile *file = new QFile();
         file->setName(url);
         file->open(IO_WriteOnly);
@@ -991,11 +1009,12 @@ void KRender::exportTimeline(const QString &url, const QString &format, const QS
     m_fileRenderer->listen("consumer-frame-show", this, (mlt_listener) file_consumer_frame_show);
     m_fileRenderer->listen("consumer-stopped", this, (mlt_listener) file_consumer_stopped);
     
-    m_mltProducer->seek((int) exportStart.frames(m_mltProducer->get_fps()));
-    m_mltProducer->set("out", exportEnd.frames(m_mltProducer->get_fps()));
-    
-    m_fileRenderer->connect(*m_mltProducer);
-    m_mltProducer->set_speed(1.0);
+    m_mltFileProducer = new Mlt::Producer(m_mltProducer->cut((int) exportStart.frames(m_mltProducer->get_fps()), (int) exportEnd.frames(m_mltProducer->get_fps())));
+    /*m_mltFileProducer->seek((int) exportStart.frames(m_mltProducer->get_fps()));
+    m_mltFileProducer->cut((int) exportStart.frames(m_mltProducer->get_fps()), (int) exportEnd.frames(m_mltProducer->get_fps()));*/
+    m_isRendering = true;
+    m_fileRenderer->connect(*m_mltFileProducer);
+    m_mltFileProducer->set_speed(1.0);
     m_fileRenderer->start();
 
 }

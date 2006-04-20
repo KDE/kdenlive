@@ -67,7 +67,7 @@ public slots:
 	void reportProgress(GenTime progress);
 
 signals:
-    void exportTimeLine(QString, QString, QString, GenTime, GenTime);
+    void exportTimeLine(QString, QString, GenTime, GenTime, QString, QString);
     void stopTimeLineExport();
     void exportToFirewire(QString, int, GenTime, GenTime);
 	

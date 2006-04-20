@@ -101,9 +101,9 @@ namespace Gui {
     }
     
     /** Render project to file */
-    void KMMScreen::exportTimeline(QString url, QString format, QString size, GenTime startTime, GenTime endTime)
+    void KMMScreen::exportTimeline(QString url, QString format, GenTime startTime, GenTime endTime, QString size, QString fps)
     {
-        m_render->exportTimeline(url, format, size, startTime, endTime);
+        m_render->exportTimeline(url, format, startTime, endTime, size, fps);
     }
     
     /** Render project to firewire */

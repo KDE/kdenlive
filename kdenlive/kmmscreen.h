@@ -90,7 +90,7 @@ public slots:
         void setTitlePreview(QString tmpFileName);
         void restoreProducer();
         /** Render project to file */
-        void exportTimeline(QString url, QString format, QString size, GenTime startTime, GenTime endTime);
+        void exportTimeline(QString url, QString format, GenTime startTime, GenTime endTime, QString size, QString fps);
         void stopTimeLineExport();
         void slotExportStopped();
         void slotPlayingStopped();

@@ -152,14 +152,15 @@ class KRender:public QObject {
 	/** Returns the current seek position of the renderer. */
     const GenTime & seekPosition() const;
 
-    void emitFrameNumber(const GenTime & time, bool isFile);
+    void emitFrameNumber(const GenTime & time, int eventType);
+    void emitFileFrameNumber(const GenTime & time, int eventType);
     void emitConsumerStopped();
     void emitFileConsumerStopped();
     
     void getImage(DocClipRef * clip);
     
     /** render timeline to a file */
-    void exportTimeline(const QString &url, const QString &format, const QString &videoSize, GenTime exportStart, GenTime exportEnd);
+    void exportTimeline(const QString &url, const QString &format, GenTime exportStart, GenTime exportEnd, const QString &videoSize, const QString &videoFps);
     void stopExport();
     
 
@@ -173,7 +174,11 @@ class KRender:public QObject {
      Mlt::Consumer * m_mltConsumer;
      Mlt::Producer * m_mltProducer;
      Mlt::Consumer *m_fileRenderer;
+     Mlt::Producer * m_mltFileProducer;
      Gui::KdenliveApp *m_app;
+     
+     bool m_isRendering;
+     QString m_renderingFormat;
      
      
      int exportDuration, firstExportFrame, lastExportFrame;

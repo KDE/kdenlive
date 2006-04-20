@@ -57,13 +57,11 @@ class DocClipRef;
 class PositionChangeEvent : public QCustomEvent
 {
     public:
-        PositionChangeEvent( GenTime pos, bool isFile )
-    : QCustomEvent( 10000 ), m_pos( pos ), m_isFile(isFile) {};
+        PositionChangeEvent( GenTime pos, int eventType )
+    : QCustomEvent( eventType ), m_pos( pos ) {};
         GenTime position() const { return m_pos; };
-        bool isFile() const { return m_isFile; };
     private:
         GenTime m_pos;
-        bool m_isFile;
 };
 
 namespace Gui {
@@ -349,6 +347,7 @@ namespace Gui {
         
         /** Delete the selected clip's transition */
         void deleteTransition();
+
 
       private:
 		/** the configuration object of the application */

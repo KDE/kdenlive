@@ -62,6 +62,8 @@ exportWidget::exportWidget( Gui::KTimeLine *timeline, QWidget* parent, const cha
 #endif
 
     initDvConnection();
+    connect(check_size, SIGNAL(toggled(bool)), videoSize, SLOT(setEnabled(bool)));
+//    connect(check_fps, SIGNAL(toggled(bool)), fps, SLOT(setEnabled(bool)));
     connect(exportButton,SIGNAL(clicked()),this,SLOT(startExport()));
     connect(encoders,SIGNAL(activated(int)),this,SLOT(slotAdjustWidgets(int)));
 }
@@ -107,23 +109,24 @@ void exportWidget::initDvConnection()
 void exportWidget::initEncoders()
 {
     encoders->insertItem(i18n("dv"));
-    //container->hide();
     convertProgress->hide();
     convert_label->hide();
     container->setEnabled(false);
-    //flayout = 0;
+
     encoders->insertItem(i18n("mpeg"));
-    encoders->insertItem(i18n("westley"));
+    encoders->insertItem(i18n("flash"));
+    encoders->insertItem(i18n("mpeg4"));
+    encoders->insertItem(i18n("pal-dvd"));
 }
 
 void exportWidget::slotAdjustWidgets(int pos)
 {
-    if (pos==1) {
-        container->setEnabled(true);
+    if (pos==0) {
+        container->setEnabled(false);
         convertProgress->hide();
     }
     else {
-        container->setEnabled(false);
+        container->setEnabled(true);
         convertProgress->hide();
     }
 }
@@ -145,6 +148,7 @@ void exportWidget::startExport()
             stopExport();
             return;
         }
+        tabWidget->page(0)->setEnabled(false);
         
         if (export_selected->isChecked()) {
             startExportTime = m_startSelection;
@@ -154,32 +158,20 @@ void exportWidget::startExport()
             startExportTime = m_startTime;
             endExportTime = m_endTime;
         }
-        
         m_duration = endExportTime - startExportTime;
-        
-        //exportButton->setEnabled(false);
         exportButton->setText(i18n("Stop"));
         m_isRunning = true;
-        QString format;
-        switch (encoders->currentItem()) {
-            case 0: 
-                format = "dv";
-                break;
-            case 1:
-                format = "mpeg";
-                break;
-            case 2:
-                format = "westley";
-                break;
-            default:
-                format = "dv";
-        }
-        if (format == "mpeg") {
-            QString vsize = videoSize->currentText();
-            emit exportTimeLine(fileExportUrl->url(), format, vsize, startExportTime, endExportTime);
+        if (encoders->currentText() != "dv") {
+            // AVformat (FFmpeg) export
+            QString vsize = QString::null;
+            QString vfps = QString::null;
+            if (check_size->isChecked()) vsize = videoSize->currentText();
+//            if (check_fps->isChecked()) vfps = QString::number(fps->value());
+            emit exportTimeLine(fileExportUrl->url(), encoders->currentText(), startExportTime, endExportTime, vsize, vfps);
         }
         else {
-            emit exportTimeLine(fileExportUrl->url(), format, "", startExportTime, endExportTime);
+            // Libdv export
+            emit exportTimeLine(fileExportUrl->url(), encoders->currentText(), startExportTime, endExportTime, "", "");
         }
     }
     else if (tabWidget->currentPageIndex () == 2) { // Firewire export
@@ -198,18 +190,16 @@ void exportWidget::startExport()
 
 void exportWidget::reportProgress(GenTime progress)
 {
-    progress = progress - startExportTime;
     int prog = (100 * progress.frames(25))/m_duration.frames(25);
     processProgress->setProgress(prog);
 }
 
 void exportWidget::endExport()
 {
-    kdDebug()<<"++++++++++  EXPORT DIALOG ENDOVER  +++++++++++++"<<endl;
-    //if (!m_isRunning) return;
     exportButton->setText(i18n("Export"));
     m_isRunning = false;
     processProgress->setProgress(0);
+    tabWidget->page(0)->setEnabled(true);
     if (autoPlay->isChecked ()) {
         KRun *run=new KRun(KURL(fileExportUrl->url()));
     }
