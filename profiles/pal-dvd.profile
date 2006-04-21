@@ -1,3 +1,4 @@
+## extension=vob
 target=dvd
 vcodec=mpeg2video
 acodec=ac3

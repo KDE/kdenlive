@@ -1,17 +1,16 @@
 # Kdenlive profile file. Lines beginning with ##
 
-## extension=flv
+## extension=mov
 ## video_bit_rate=200000,600000,1200000 600000
 ## audio_bit_rate=8000,16000,32000,64000 16000
-## size=160x120,240x180,320x240,640x480,720x576 320x240
+## frequency=11025,22050,44100 22050
+## size=128x96,176x144,352x288,704x576 352x288
 
-format=flv
-acodec=mp3
+format=mov
+vcodec=svq1
+acodec=ac3
 frequency=22050
-#video_bit_rate=400000
-#video_rc_max_rate=8000000
-#video_rc_min_rate=0
+#video_bit_rate=200000
 #audio_bit_rate=64000
-
 
 
