@@ -34,6 +34,7 @@
 #include <qmutex.h>
 #include <qevent.h>
 #include <qtextstream.h>
+#include <qstringlist.h>
 
 #include <kio/netaccess.h>
 #include <kdebug.h>
@@ -294,9 +295,6 @@ static void file_consumer_frame_show(mlt_consumer, KRender * self, mlt_frame fra
 {
     mlt_position framePosition = mlt_frame_get_position(frame_ptr);
     self->emitFileFrameNumber(GenTime(framePosition, 25), 10001);
-    // detect if the producer has finished playing. Is there a better way to do it ?
-    if (mlt_properties_get_double( MLT_FRAME_PROPERTIES( frame_ptr ), "_speed" ) == 0)
-    self->emitFileConsumerStopped();
 }
 
 static void consumer_stopped(mlt_consumer, KRender * self, mlt_frame)
@@ -965,9 +963,8 @@ void KRender::stopExport()
     }
 }
 
-void KRender::exportTimeline(const QString &url, const QString &format, GenTime exportStart, GenTime exportEnd, const QString &videoSize, const QString &videoFps)
+void KRender::exportTimeline(const QString &url, const QString &format, GenTime exportStart, GenTime exportEnd, QStringList params)
 {
-    kdDebug()<<"+++++++++  START EXPORT: "<<format<<", "<<videoFps<<endl;
     /*if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();*/
     m_mltProducer->set_speed(0.0);
     m_renderingFormat = format;
@@ -986,10 +983,14 @@ void KRender::exportTimeline(const QString &url, const QString &format, GenTime 
         QString profile = locate("data", "kdenlive/profiles/"+format+".profile");
         Mlt::Properties *m_fileProperties = new Mlt::Properties(profile.ascii());
         mlt_properties_inherit(MLT_CONSUMER_PROPERTIES(m_fileRenderer->get_consumer()), m_fileProperties->get_properties());
-
-        if (videoSize != QString::null) m_fileRenderer->set("size",videoSize.ascii());
-        if (videoFps != QString::null) m_fileRenderer->set("fps",videoFps.toDouble());
-
+        
+        for ( QStringList::Iterator it = params.begin(); it != params.end(); ++it ) {
+            QString p = (*it).section("=",0,0);
+            QString v = (*it).section("=",1);
+            kdDebug()<<"+++ encoding parameters: "<<p<<" = "<<v<<endl;
+            m_fileRenderer->set(p.ascii(), v.ascii());
+        }
+    
     }
     else {
         QFile *file = new QFile();
@@ -1005,13 +1006,13 @@ void KRender::exportTimeline(const QString &url, const QString &format, GenTime 
     
     m_fileRenderer->set ("target",url.ascii());
     m_fileRenderer->set ("real_time","0");
+    m_fileRenderer->set ("progressive","1");
+    m_fileRenderer->set ("terminate_on_pause", 1);
     
     m_fileRenderer->listen("consumer-frame-show", this, (mlt_listener) file_consumer_frame_show);
     m_fileRenderer->listen("consumer-stopped", this, (mlt_listener) file_consumer_stopped);
     
     m_mltFileProducer = new Mlt::Producer(m_mltProducer->cut((int) exportStart.frames(m_mltProducer->get_fps()), (int) exportEnd.frames(m_mltProducer->get_fps())));
-    /*m_mltFileProducer->seek((int) exportStart.frames(m_mltProducer->get_fps()));
-    m_mltFileProducer->cut((int) exportStart.frames(m_mltProducer->get_fps()), (int) exportEnd.frames(m_mltProducer->get_fps()));*/
     m_isRendering = true;
     m_fileRenderer->connect(*m_mltFileProducer);
     m_mltFileProducer->set_speed(1.0);

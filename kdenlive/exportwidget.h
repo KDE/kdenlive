@@ -47,6 +47,8 @@ private:
         GenTime m_duration;
         GenTime startExportTime, endExportTime;
         bool m_isRunning;
+        typedef QMap<QString, QStringList> ParamMap;
+        ParamMap encodersList;
         
         /** AVC stuff 
         int m_port;
@@ -61,13 +63,15 @@ private slots:
 	void slotAdjustWidgets(int pos);
         void initEncoders();
         void initDvConnection();
+        void parseFileForParameters(const QString & fName);
+        QString profileParameter(const QString & profile, const QString &param);
 
 public slots:
 	void endExport();
 	void reportProgress(GenTime progress);
 
 signals:
-    void exportTimeLine(QString, QString, GenTime, GenTime, QString, QString);
+    void exportTimeLine(QString, QString, GenTime, GenTime, QStringList);
     void stopTimeLineExport();
     void exportToFirewire(QString, int, GenTime, GenTime);
 	

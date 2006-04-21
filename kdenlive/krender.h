@@ -160,7 +160,7 @@ class KRender:public QObject {
     void getImage(DocClipRef * clip);
     
     /** render timeline to a file */
-    void exportTimeline(const QString &url, const QString &format, GenTime exportStart, GenTime exportEnd, const QString &videoSize, const QString &videoFps);
+    void exportTimeline(const QString &url, const QString &format, GenTime exportStart, GenTime exportEnd, QStringList params);
     void stopExport();
     
 
