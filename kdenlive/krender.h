@@ -163,6 +163,9 @@ class KRender:public QObject {
     void exportTimeline(const QString &url, const QString &format, GenTime exportStart, GenTime exportEnd, QStringList params);
     void stopExport();
     
+    /** Gives the aspect ratio of the consumer */
+    double consumerRatio();
+    
 
   protected:			// Protected methods
 	/** Recieves timer events */

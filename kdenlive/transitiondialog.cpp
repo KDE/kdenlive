@@ -204,7 +204,7 @@ const QMap < QString, QString > TransitionDialog::transitionParameters()
         if (transitWipe->transitionDown->isOn()) paramList["geometry"] = "0=0%,0%:100%x100%" + startTransparency + ";-1=0%,100%:100%x100%" + endTransparency;
         else if (transitWipe->transitionUp->isOn()) paramList["geometry"] = "0=0%,0%:100%x100%" + startTransparency + ";-1=0%,-100%:100%x100%" + endTransparency;
         //else if (transitWipe->transitionRight->isOn()) paramList["geometry"] = "0=0%,0%:100%x100%" + startTransparency + ";-1=100%,0%:100%x100%" + endTransparency;
-        else if (transitWipe->transitionRight->isOn()) paramList["geometry"] = "0=0,0:720x576" + startTransparency + ";-1=720,0:720x576" + endTransparency;
+        else if (transitWipe->transitionRight->isOn()) paramList["geometry"] = "0=0,0:100%x100%" + startTransparency + ";-1=720,0:100%x100%" + endTransparency;
         else if (transitWipe->transitionLeft->isOn()) paramList["geometry"] = "0=0%,0%:100%x100%" + startTransparency + ";-1=-100%,0%:100%x100%" + endTransparency;
         paramList["progressive"] = "1";
         if (transitWipe->rescaleImages->isChecked()) paramList["distort"] = "1";

@@ -71,6 +71,7 @@ exportWidget::exportWidget( Gui::KTimeLine *timeline, QWidget* parent, const cha
     initDvConnection();
     connect(check_size, SIGNAL(toggled(bool)), videoSize, SLOT(setEnabled(bool)));
     connect(check_vbitrate, SIGNAL(toggled(bool)), videoBitrate, SLOT(setEnabled(bool)));
+    connect(check_fps, SIGNAL(toggled(bool)), fps, SLOT(setEnabled(bool)));
     connect(check_abitrate, SIGNAL(toggled(bool)), audioBitrate, SLOT(setEnabled(bool)));
     connect(check_freq, SIGNAL(toggled(bool)), frequency, SLOT(setEnabled(bool)));
 //    connect(check_fps, SIGNAL(toggled(bool)), fps, SLOT(setEnabled(bool)));
@@ -199,6 +200,22 @@ void exportWidget::slotAdjustWidgets(int pos)
         videoBitrate->show();
     }
     
+    if (profileParameter(encoders->currentText(), "frame_rate_num").isEmpty()) {
+        check_fps->setEnabled(false);
+        check_fps->setChecked(false);
+        check_fps->hide();
+        fps->hide();
+    }
+    else {
+        check_fps->setEnabled(true);
+        check_fps->setChecked(false);
+        QStringList params = QStringList::split(",",profileParameter(encoders->currentText(), "frame_rate_num").section(" ",0,0));
+        fps->insertStringList(params);
+        fps->setCurrentText(profileParameter(encoders->currentText(), "frame_rate_num").section(" ",1,1));
+        check_fps->show();
+        fps->show();
+    }
+    
     if (profileParameter(encoders->currentText(), "audio_bit_rate").isEmpty()) {
         check_abitrate->setEnabled(false);
         check_abitrate->setChecked(false);
@@ -296,6 +313,7 @@ void exportWidget::startExport()
             QStringList params;
             if (!videoSize->currentText().isEmpty() && videoSize->isEnabled()) params.append("size="+videoSize->currentText());
             if (!videoBitrate->currentText().isEmpty() && videoBitrate->isEnabled()) params.append("video_bit_rate="+videoBitrate->currentText());
+            if (!fps->currentText().isEmpty() && fps->isEnabled()) params.append("frame_rate_num="+fps->currentText());
             if (!audioBitrate->currentText().isEmpty() && audioBitrate->isEnabled()) params.append("audio_bit_rate="+audioBitrate->currentText());
             if (!frequency->currentText().isEmpty() && frequency->isEnabled()) params.append("frequency="+frequency->currentText());
             emit exportTimeLine(fileExportFolder->url()+"/"+fileExportName->text(), encoders->currentText(), startExportTime, endExportTime, params);

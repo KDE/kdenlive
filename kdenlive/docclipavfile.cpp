@@ -27,6 +27,7 @@
 
 
 #include "clipmanager.h"
+#include "kdenlivesettings.h"
 
 
 
@@ -46,6 +47,8 @@ m_url(QString::null), m_durationKnown(true), m_framesPerSecond(25),
 m_color(color), m_clipType(COLOR), m_filesize(0), m_alphaTransparency(false)
 {
     setName(i18n("Color Clip"));
+    m_width = KdenliveSettings::defaultwidth();
+    m_height = KdenliveSettings::defaultheight();
     setId(id);
 }
 
@@ -56,8 +59,12 @@ m_duration(duration), m_url(url), m_durationKnown(true),
 m_framesPerSecond(25), m_color(QString::null), m_clipType(IMAGE), m_alphaTransparency(alphaTransparency)
 {
     setName(url.fileName());
+    
     setId(id);
     QFileInfo fileInfo(m_url.path());
+    QPixmap p(m_url.path());
+    m_width = p.width();
+    m_height = p.height();
     /* Determines the size of the file */
     m_filesize = fileInfo.size();
     

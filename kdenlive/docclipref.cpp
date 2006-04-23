@@ -626,6 +626,8 @@ QDomDocument DocClipRef::generateXMLTransition(int trackPosition)
         transition.setAttribute("in", trackStart().frames(framesPerSecond()));
         transition.setAttribute("out", trackEnd().frames(framesPerSecond()));
         transition.setAttribute("mlt_service", "composite");
+        transition.setAttribute("fill", "1");
+        //transition.setAttribute("distort", "1");
         //transition.setAttribute("always_active", "1");
         transition.setAttribute("progressive","1");
         // TODO: we should find a better way to get the previous video track index
@@ -640,6 +642,8 @@ QDomDocument DocClipRef::generateXMLTransition(int trackPosition)
         transition.setAttribute("out", trackEnd().frames(framesPerSecond()));
         transition.setAttribute("mlt_service", "composite");
         //transition.setAttribute("always_active", "1");
+        transition.setAttribute("fill", "1");
+        //transition.setAttribute("distort", "1");
         transition.setAttribute("progressive","1");
         // TODO: we should find a better way to get the previous video track index
         transition.setAttribute("a_track", QString::number(trackPosition - 1));
@@ -655,6 +659,8 @@ QDomDocument DocClipRef::generateXMLTransition(int trackPosition)
         transition.setAttribute("out", QString::number((*itt)->transitionEndTime().frames(framesPerSecond())));
         if ((*itt)->transitionType() == "pip") transition.setAttribute("mlt_service", "composite");
         else transition.setAttribute("mlt_service", (*itt)->transitionType());
+        transition.setAttribute("fill", "1");
+        //transition.setAttribute("distort", "1");
    
         typedef QMap<QString, QString> ParamMap;
         ParamMap params;

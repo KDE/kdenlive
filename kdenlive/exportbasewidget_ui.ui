@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>342</width>
-            <height>444</height>
+            <width>285</width>
+            <height>472</height>
         </rect>
     </property>
     <property name="minimumSize">
@@ -28,95 +28,6 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="KProgress" row="3" column="1">
-            <property name="name">
-                <cstring>convertProgress</cstring>
-            </property>
-        </widget>
-        <widget class="QLayoutWidget" row="4" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>layout2</cstring>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QPushButton">
-                    <property name="name">
-                        <cstring>exportButton</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Export</string>
-                    </property>
-                    <property name="accel">
-                        <string></string>
-                    </property>
-                    <property name="autoDefault">
-                        <bool>true</bool>
-                    </property>
-                </widget>
-                <spacer>
-                    <property name="name">
-                        <cstring>Horizontal Spacing2</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>552</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="QPushButton">
-                    <property name="name">
-                        <cstring>closeButton</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Close</string>
-                    </property>
-                    <property name="accel">
-                        <string></string>
-                    </property>
-                    <property name="autoDefault">
-                        <bool>true</bool>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
-        <widget class="QLabel" row="3" column="0">
-            <property name="name">
-                <cstring>convert_label</cstring>
-            </property>
-            <property name="text">
-                <string>Exporting:</string>
-            </property>
-        </widget>
-        <widget class="QLabel" row="2" column="0">
-            <property name="name">
-                <cstring>process_label</cstring>
-            </property>
-            <property name="text">
-                <string>Rendering:</string>
-            </property>
-        </widget>
-        <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>export_selected</cstring>
-            </property>
-            <property name="text">
-                <string>Export selected zone only</string>
-            </property>
-        </widget>
-        <widget class="KProgress" row="2" column="1">
-            <property name="name">
-                <cstring>processProgress</cstring>
-            </property>
-        </widget>
         <widget class="QTabWidget" row="0" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>tabWidget</cstring>
@@ -145,112 +56,10 @@
                         <property name="sizeHint">
                             <size>
                                 <width>16</width>
-                                <height>24</height>
+                                <height>16</height>
                             </size>
                         </property>
                     </spacer>
-                    <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="4">
-                        <property name="name">
-                            <cstring>autoPlay</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Play video after export</string>
-                        </property>
-                    </widget>
-                    <widget class="QFrame" row="3" column="0" rowspan="1" colspan="4">
-                        <property name="name">
-                            <cstring>container</cstring>
-                        </property>
-                        <property name="enabled">
-                            <bool>true</bool>
-                        </property>
-                        <property name="sizePolicy">
-                            <sizepolicy>
-                                <hsizetype>5</hsizetype>
-                                <vsizetype>1</vsizetype>
-                                <horstretch>0</horstretch>
-                                <verstretch>0</verstretch>
-                            </sizepolicy>
-                        </property>
-                        <property name="frameShape">
-                            <enum>NoFrame</enum>
-                        </property>
-                        <property name="frameShadow">
-                            <enum>Plain</enum>
-                        </property>
-                        <grid>
-                            <property name="name">
-                                <cstring>unnamed</cstring>
-                            </property>
-                            <property name="margin">
-                                <number>0</number>
-                            </property>
-                            <widget class="QCheckBox" row="3" column="0">
-                                <property name="name">
-                                    <cstring>check_freq</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Audio Freq.</string>
-                                </property>
-                            </widget>
-                            <widget class="QComboBox" row="2" column="1">
-                                <property name="name">
-                                    <cstring>audioBitrate</cstring>
-                                </property>
-                                <property name="enabled">
-                                    <bool>false</bool>
-                                </property>
-                            </widget>
-                            <widget class="QComboBox" row="1" column="1">
-                                <property name="name">
-                                    <cstring>videoBitrate</cstring>
-                                </property>
-                                <property name="enabled">
-                                    <bool>false</bool>
-                                </property>
-                            </widget>
-                            <widget class="QComboBox" row="3" column="1">
-                                <property name="name">
-                                    <cstring>frequency</cstring>
-                                </property>
-                                <property name="enabled">
-                                    <bool>false</bool>
-                                </property>
-                            </widget>
-                            <widget class="QCheckBox" row="1" column="0">
-                                <property name="name">
-                                    <cstring>check_vbitrate</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Video Bitrate</string>
-                                </property>
-                            </widget>
-                            <widget class="QCheckBox" row="2" column="0">
-                                <property name="name">
-                                    <cstring>check_abitrate</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Audio Bitrate</string>
-                                </property>
-                            </widget>
-                            <widget class="QComboBox" row="0" column="1">
-                                <property name="name">
-                                    <cstring>videoSize</cstring>
-                                </property>
-                                <property name="enabled">
-                                    <bool>false</bool>
-                                </property>
-                            </widget>
-                            <widget class="QCheckBox" row="0" column="0">
-                                <property name="name">
-                                    <cstring>check_size</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Resize</string>
-                                </property>
-                            </widget>
-                        </grid>
-                    </widget>
                     <widget class="QLabel" row="2" column="0">
                         <property name="name">
                             <cstring>textLabel1</cstring>
@@ -306,6 +115,124 @@
                         <property name="name">
                             <cstring>fileExportName</cstring>
                         </property>
+                    </widget>
+                    <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="4">
+                        <property name="name">
+                            <cstring>autoPlay</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Play video after export</string>
+                        </property>
+                    </widget>
+                    <widget class="QFrame" row="3" column="0" rowspan="1" colspan="4">
+                        <property name="name">
+                            <cstring>container</cstring>
+                        </property>
+                        <property name="enabled">
+                            <bool>true</bool>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>5</hsizetype>
+                                <vsizetype>1</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="frameShape">
+                            <enum>NoFrame</enum>
+                        </property>
+                        <property name="frameShadow">
+                            <enum>Plain</enum>
+                        </property>
+                        <grid>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <property name="margin">
+                                <number>0</number>
+                            </property>
+                            <widget class="QComboBox" row="0" column="1">
+                                <property name="name">
+                                    <cstring>videoSize</cstring>
+                                </property>
+                                <property name="enabled">
+                                    <bool>false</bool>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="0" column="0">
+                                <property name="name">
+                                    <cstring>check_size</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Resize</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="3" column="0">
+                                <property name="name">
+                                    <cstring>check_abitrate</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Audio Bitrate</string>
+                                </property>
+                            </widget>
+                            <widget class="QComboBox" row="3" column="1">
+                                <property name="name">
+                                    <cstring>audioBitrate</cstring>
+                                </property>
+                                <property name="enabled">
+                                    <bool>false</bool>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="1" column="0">
+                                <property name="name">
+                                    <cstring>check_vbitrate</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Video Bitrate</string>
+                                </property>
+                            </widget>
+                            <widget class="QComboBox" row="1" column="1">
+                                <property name="name">
+                                    <cstring>videoBitrate</cstring>
+                                </property>
+                                <property name="enabled">
+                                    <bool>false</bool>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="2" column="0">
+                                <property name="name">
+                                    <cstring>check_fps</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Frame Rate</string>
+                                </property>
+                            </widget>
+                            <widget class="QComboBox" row="2" column="1">
+                                <property name="name">
+                                    <cstring>fps</cstring>
+                                </property>
+                                <property name="enabled">
+                                    <bool>false</bool>
+                                </property>
+                            </widget>
+                            <widget class="QComboBox" row="4" column="1">
+                                <property name="name">
+                                    <cstring>frequency</cstring>
+                                </property>
+                                <property name="enabled">
+                                    <bool>false</bool>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="4" column="0">
+                                <property name="name">
+                                    <cstring>check_freq</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Audio Freq.</string>
+                                </property>
+                            </widget>
+                        </grid>
                     </widget>
                 </grid>
             </widget>
@@ -521,6 +448,95 @@
                 </widget>
             </widget>
         </widget>
+        <widget class="QLayoutWidget" row="4" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>layout2</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>exportButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Export</string>
+                    </property>
+                    <property name="accel">
+                        <string></string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>Horizontal Spacing2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>552</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>closeButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Close</string>
+                    </property>
+                    <property name="accel">
+                        <string></string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QLabel" row="2" column="0">
+            <property name="name">
+                <cstring>process_label</cstring>
+            </property>
+            <property name="text">
+                <string>Rendering:</string>
+            </property>
+        </widget>
+        <widget class="KProgress" row="3" column="1">
+            <property name="name">
+                <cstring>convertProgress</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="3" column="0">
+            <property name="name">
+                <cstring>convert_label</cstring>
+            </property>
+            <property name="text">
+                <string>Exporting:</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>export_selected</cstring>
+            </property>
+            <property name="text">
+                <string>Export selected zone only</string>
+            </property>
+        </widget>
+        <widget class="KProgress" row="2" column="1">
+            <property name="name">
+                <cstring>processProgress</cstring>
+            </property>
+        </widget>
     </grid>
 </widget>
 <customwidgets>
@@ -535,8 +551,6 @@
 </connections>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>kprogress.h</includehint>
-    <includehint>kprogress.h</includehint>
     <includehint>kcombobox.h</includehint>
     <includehint>kurlrequester.h</includehint>
     <includehint>klineedit.h</includehint>
@@ -548,5 +562,7 @@
     <includehint>kurlrequester.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>
+    <includehint>kprogress.h</includehint>
+    <includehint>kprogress.h</includehint>
 </includehints>
 </UI>

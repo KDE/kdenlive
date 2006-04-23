@@ -542,6 +542,12 @@ void KRender::getImage(DocClipRef * clip)
     clip->updateThumbnail(0,pixmap);
 }
 
+double KRender::consumerRatio()
+{
+    if (!m_mltConsumer) return 1.0;
+    return (m_mltConsumer->get_double("aspect_ratio_num")/m_mltConsumer->get_double("aspect_ratio_den"));
+}
+
 void KRender::restoreProducer()
 {
     if(m_mltProducer == NULL) return;
@@ -670,7 +676,6 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
 	emit stopped();
     }
     m_mltProducer = new Mlt::Producer("westley-xml", const_cast < char *>(list.toString().ascii()));
-
     if (!resetPosition)
 	seek(pos);
     m_mltProducer->set_speed(0.0);
@@ -968,6 +973,7 @@ void KRender::exportTimeline(const QString &url, const QString &format, GenTime 
     /*if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();*/
     m_mltProducer->set_speed(0.0);
     m_renderingFormat = format;
+    QString frequency;
     if (m_fileRenderer) {
         delete m_fileRenderer;
         m_fileRenderer = 0;
@@ -981,12 +987,13 @@ void KRender::exportTimeline(const QString &url, const QString &format, GenTime 
         m_fileRenderer=new Mlt::Consumer("avformat");
         // Find corresponding profile file
         QString profile = locate("data", "kdenlive/profiles/"+format+".profile");
-        Mlt::Properties *m_fileProperties = new Mlt::Properties(profile.ascii());
-        mlt_properties_inherit(MLT_CONSUMER_PROPERTIES(m_fileRenderer->get_consumer()), m_fileProperties->get_properties());
+        Mlt::Properties m_fileProperties(profile.ascii());
+        mlt_properties_inherit(MLT_CONSUMER_PROPERTIES(m_fileRenderer->get_consumer()), m_fileProperties.get_properties());
         
         for ( QStringList::Iterator it = params.begin(); it != params.end(); ++it ) {
             QString p = (*it).section("=",0,0);
             QString v = (*it).section("=",1);
+//            if (p == "frequency") frequency = v;
             kdDebug()<<"+++ encoding parameters: "<<p<<" = "<<v<<endl;
             m_fileRenderer->set(p.ascii(), v.ascii());
         }
@@ -1013,6 +1020,14 @@ void KRender::exportTimeline(const QString &url, const QString &format, GenTime 
     m_fileRenderer->listen("consumer-stopped", this, (mlt_listener) file_consumer_stopped);
     
     m_mltFileProducer = new Mlt::Producer(m_mltProducer->cut((int) exportStart.frames(m_mltProducer->get_fps()), (int) exportEnd.frames(m_mltProducer->get_fps())));
+    
+    if (!frequency.isEmpty()) {
+        Mlt::Filter m_convert("resample");
+        m_convert.set("frequency", frequency.ascii());
+        kdDebug()<<"++++  SETTING FREQUENCY: "<<frequency<<endl;
+        m_mltFileProducer->attach(m_convert);
+    }
+    
     m_isRendering = true;
     m_fileRenderer->connect(*m_mltFileProducer);
     m_mltFileProducer->set_speed(1.0);

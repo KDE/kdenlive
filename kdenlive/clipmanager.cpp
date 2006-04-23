@@ -270,7 +270,8 @@ QDomDocument ClipManager::producersList()
 		producer.setAttribute("id",
 		    QString("producer") +
 		    QString::number(avClip->getId()));
-//		producer.setAttribute("mlt_service", "pixbuf");
+                double ratio = ((double) KdenliveSettings::defaultwidth()/KdenliveSettings::defaultheight())/((double)avClip->clipWidth()/avClip->clipHeight()) * m_render->consumerRatio();
+                producer.setAttribute("aspect_ratio", QString::number(ratio));
 		producer.setAttribute("resource",
 		    avClip->fileURL().path());
 		producer.setAttribute("hide", "audio");
@@ -344,7 +345,7 @@ QDomDocument ClipManager::producersList()
                 QDomElement producer = sceneList.createElement("producer");
                 producer.setAttribute("id",
                                       QString("producer") + QString::number(avClip->getId()));
-//                producer.setAttribute("mlt_service", "pixbuf");
+                producer.setAttribute("aspect_ratio", QString::number(m_render->consumerRatio()));
                 producer.setAttribute("resource", avClip->fileURL().path());
                 producer.setAttribute("hide", "audio");
                 sceneList.appendChild(producer);
