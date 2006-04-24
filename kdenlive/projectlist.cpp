@@ -154,7 +154,7 @@ namespace Gui {
 	    // display duration
 	    Timecode timecode;
 	    text_duration->setText(timecode.getTimecode(avitem->clip()->
-		    duration(), 25));
+                    duration(), KdenliveSettings::defaultfps()));
 
 	    // display file size
 	    QString text;

@@ -19,6 +19,8 @@
 #include "docclipavfile.h"
 
 #include <qptrlist.h>
+#include <qpainter.h>
+#include <qheader.h>
 
 #include <klocale.h>
 #include <kdenlivedoc.h>
@@ -62,6 +64,31 @@ void AVListViewItem::doCommonCtor()
 
 }
 
+void AVListViewItem::paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align)
+{
+    if (column == 1 && childCount() == 0) {
+        // Draw the clip name with duration underneath
+        QFont font = p->font();
+        font.setPointSize(font.pointSize() - 2 );
+        int fontHeight = QFontMetrics(p->font()).height() + 1;
+        int smallFontHeight = QFontMetrics(font).height();
+        p->setPen(QPen(NoPen));
+        if (isSelected()) p->setBrush(cg.highlight());
+	else p->setBrush(QColor(backgroundColor(column)));
+        p->drawRect(0,0,m_listView->header()->sectionSize(1),height());
+        QRect r1(0, height()/2 - (fontHeight + smallFontHeight)/2, m_listView->header()->sectionSize(1), fontHeight);
+        
+        if (isSelected()) p->setPen(cg.highlightedText());
+        p->drawText(r1, Qt::AlignLeft | Qt::AlignBottom | Qt::SingleLine, text(1));
+        QRect r2(0, height()/2 - (fontHeight + smallFontHeight)/2 + fontHeight, m_listView->header()->sectionSize(1), smallFontHeight);
+	p->setFont(font);
+        p->setPen(cg.mid());
+	p->drawText(r2, Qt::AlignLeft | Qt::AlignTop | Qt::SingleLine, clipDuration());
+	return;
+    }
+    KListViewItem::paintCell(p, cg, column, width, align);
+}
+
 AVListViewItem::~AVListViewItem()
 {
 }
@@ -77,6 +104,17 @@ void AVListViewItem::setText(int column, const QString & text)
     }
 }
 
+QString AVListViewItem::clipDuration() const {
+	QString text;
+	DocumentClipNode *clipNode = m_node->asClipNode();
+	if (clipNode) {
+	    DocClipRef *clip = clipNode->clipRef();
+	    Timecode timecode;
+            text = timecode.getEasyTimecode(clip->duration(), KdenliveSettings::defaultfps());
+	    }
+	return text;
+}
+
 QString AVListViewItem::text(int column) const
 {
     QString text = "";
@@ -90,7 +128,7 @@ QString AVListViewItem::text(int column) const
 		Timecode timecode;
 		timecode.setFormat(Timecode::Frames);
 
-		text = timecode.getTimecode(clip->duration(), 25);
+                text = timecode.getTimecode(clip->duration(), KdenliveSettings::defaultfps());
 	    } else {
 		text = i18n("unknown");
 	    }

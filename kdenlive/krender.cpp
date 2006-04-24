@@ -615,6 +615,8 @@ bool KRender::isValid(KURL url)
 
 void KRender::getFileProperties(KURL url)
 {
+        uint width = 50;
+        uint height = 40;
 	Mlt::Producer producer(const_cast < char *>(url.path().ascii()));
 
 	m_filePropertyMap.clear();
@@ -645,20 +647,21 @@ void KRender::getFileProperties(KURL url)
 		    m_filePropertyMap["type"] = "video";
                 
                 // Generate thumbnail for this frame
-                uint width = 50;
-                uint height = 40;
                 uchar *m_thumb = frame->fetch_image(mlt_image_rgb24a, width, height, 1);
-                QPixmap m_pixmap(width, height);
+                QPixmap pixmap(width, height);
                 QImage m_image(m_thumb, width, height, 32, 0, 0,
                                QImage::IgnoreEndian);
                 if (!m_image.isNull())
-                    m_pixmap = m_image.smoothScale(width, height);
+                    pixmap = m_image.smoothScale(width, height);
                 else
-                    m_pixmap.fill(Qt::black);
-                emit replyGetImage(url, 0, m_pixmap, width, height);
+                    pixmap.fill(Qt::black);
+                emit replyGetImage(url, 0, pixmap, width, height);
                 
-	    } else if (frame->get_int("test_audio") == 0)
+	    } else if (frame->get_int("test_audio") == 0) {
+                QPixmap pixmap(locate("appdata", "graphics/music.png"));
+                emit replyGetImage(url, 0, pixmap, width, height);
 		m_filePropertyMap["type"] = "audio";
+            }
 	}
 	emit replyGetFileProperties(m_filePropertyMap);
 	delete frame;

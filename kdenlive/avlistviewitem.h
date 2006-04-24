@@ -40,8 +40,10 @@ class AVListViewItem:public KListViewItem {
     virtual QString text(int column) const;
     virtual const QPixmap *pixmap(int column) const;
     DocClipRef *clip() const;
+    virtual void paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align);
   private:
     void doCommonCtor();
+    QString clipDuration() const;
 
     QListView *m_listView;
     DocumentBaseNode *m_node;

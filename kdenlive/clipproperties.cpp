@@ -47,7 +47,7 @@ namespace Gui {
         clipChoice->edit_name->setText(refClip->name());
         clipChoice->edit_description->setText(refClip->description());
         Timecode tcode;
-        clipChoice->edit_duration->setText(tcode.getTimecode(refClip->duration(), 25.0));
+        clipChoice->edit_duration->setText(tcode.getTimecode(refClip->duration(), KdenliveSettings::defaultfps()));
         m_pix = new QPixmap(120,96);
         m_document = document;
 
@@ -171,8 +171,8 @@ namespace Gui {
     GenTime ClipProperties::duration()
     {
         QString d = clipChoice->edit_duration->text();
-        double sec = d.section(":",0,0).toDouble()*3600 + d.section(":",1,1).toDouble()*60 + d.section(":",2,2).toDouble() + d.section(":",3,3).toDouble()/1000;
-        return GenTime(sec);
+        double frames = (d.section(":",0,0).toDouble()*3600 + d.section(":",1,1).toDouble()*60 + d.section(":",2,2).toDouble()) * KdenliveSettings::defaultfps() + d.section(":",3,3).toDouble();
+        return GenTime(frames , KdenliveSettings::defaultfps());
     }
     
     void ClipProperties::updateColor(const QColor &c)

@@ -17,13 +17,13 @@
 #include "timecode.h"
 
 #include <kdebug.h>
+#include <klocale.h>
 
 Timecode::Timecode(Formats format, int framesPerSecond,
     bool dropFrame):m_format(format), m_dropFrame(dropFrame),
 m_displayedFramesPerSecond(framesPerSecond)
 {
 }
-
 
 Timecode::~Timecode()
 {
@@ -50,6 +50,53 @@ QString Timecode::getTimecode(const GenTime & time, double fps) const
 	    << endl;
 	return getTimecodeHH_MM_SS_FF(time, fps);
     }
+}
+
+QString Timecode::getEasyTimecode(const GenTime & time, double fps) const
+{
+    
+    // Returns the timecode in an easily read display, like 3 min. 5 sec.
+    int frames = time.frames(fps);
+    int seconds = frames / m_displayedFramesPerSecond;
+    frames = frames % m_displayedFramesPerSecond;
+
+    int minutes = seconds / 60;
+    seconds = seconds % 60;
+    int hours = minutes / 60;
+    minutes = minutes % 60;
+
+    QString text;
+    bool trim = false;
+
+    if (hours!= 0) {
+        text.append(QString::number(hours).rightJustify(2, '0', FALSE));
+        text.append(" " + i18n("hour") + " ");
+        trim = true;
+    }
+    if (minutes!= 0 || trim) {
+        if (!trim) {
+            text.append(QString::number(minutes));
+        }
+        else
+            text.append(QString::number(minutes).rightJustify(2, '0', FALSE));
+        text.append(" " + i18n("min.") + " ");
+        trim = true;
+    }
+    if (seconds!= 0 || trim) {
+        if (!trim) {
+            text.append(QString::number(seconds));
+        }
+        else 
+            text.append(QString::number(seconds).rightJustify(2, '0', FALSE));
+        text.append(" " + i18n("sec."));
+        trim = true;
+    }
+    if (!trim) {
+            text.append(QString::number(frames));
+            text.append(" " + i18n("frames"));
+    }
+
+    return text;
 }
 
 QString Timecode::getTimecodeHH_MM_SS_FF(const GenTime & time, double fps) const
