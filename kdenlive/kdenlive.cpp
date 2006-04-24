@@ -1410,12 +1410,18 @@ namespace Gui {
         KDialogBase *dia = new KDialogBase(  KDialogBase::Swallow, i18n("Create New Color Clip"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "create_clip", true);
 	createColorClip_UI *clipChoice = new createColorClip_UI(dia);
 	clipChoice->edit_name->setText(i18n("Color Clip"));
+        clipChoice->edit_duration->setText(KdenliveSettings::colorclipduration());
 	dia->setMainWidget(clipChoice);
 	dia->adjustSize();
 	if (dia->exec() == QDialog::Accepted) {
 	    QString color = clipChoice->button_color->color().name();
 	    color = color.replace(0, 1, "0x") + "ff";
-	    GenTime duration(clipChoice->text_duration->value());
+            
+            QString dur = clipChoice->edit_duration->text();
+            int frames = (dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt();
+            
+            GenTime duration(frames , KdenliveSettings::defaultfps());
+            
 	    KCommand *command =
 		new Command::KAddClipCommand(*doc, color, duration,
 		clipChoice->edit_name->text(),
@@ -1434,12 +1440,17 @@ namespace Gui {
 	// Filter for the GDK pixbuf producer
 	QString filter = "image/gif image/jpeg image/png image/x-bmp";
 	clipChoice->url_image->setFilter(filter);
+        clipChoice->edit_duration->setText(KdenliveSettings::colorclipduration());
 	dia->adjustSize();
 	if (dia->exec() == QDialog::Accepted) {
 	    QString url = clipChoice->url_image->url();
 	    QString extension = QString::null;
 	    int ttl = 0;
-	    GenTime duration(clipChoice->text_duration->value());
+            
+            QString dur = clipChoice->edit_duration->text();
+            int frames = (dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt();
+            
+            GenTime duration(frames , KdenliveSettings::defaultfps());
 	    KCommand *command =
 		new Command::KAddClipCommand(*doc, KURL(url), extension,
                                               ttl, duration, clipChoice->edit_description->text(), clipChoice->transparentBg->isChecked(), true);
@@ -1455,8 +1466,12 @@ namespace Gui {
         titleWidget *txtWidget=new titleWidget(doc->projectClip().videoWidth(), doc->projectClip().videoHeight(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
         connect(txtWidget->canview,SIGNAL(showPreview(QString)),m_workspaceMonitor->screen(),SLOT(setTitlePreview(QString)));
         txtWidget->titleName->setText(i18n("Text Clip"));
+        txtWidget->edit_duration->setText(KdenliveSettings::textclipduration());
         if (txtWidget->exec() == QDialog::Accepted) {
-            GenTime duration(txtWidget->text_duration->value());
+            QString dur = txtWidget->edit_duration->text();
+            int frames = (dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt();
+            
+            GenTime duration(frames , KdenliveSettings::defaultfps());
             QPixmap thumb = txtWidget->thumbnail(50, 40);
             QDomDocument xml = txtWidget->toXml();
             
@@ -1479,12 +1494,17 @@ namespace Gui {
             if (refClip->clipType() == DocClipBase::TEXT) {
                 titleWidget *txtWidget=new titleWidget(doc->projectClip().videoWidth(), doc->projectClip().videoHeight(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
                 connect(txtWidget->canview,SIGNAL(showPreview(QString)),m_workspaceMonitor->screen(),SLOT(setTitlePreview(QString)));
-                txtWidget->text_duration->setValue((int) (refClip->duration().ms() / 1000));
+                Timecode tcode;
+                txtWidget->edit_duration->setText(tcode.getTimecode(refClip->duration(), KdenliveSettings::defaultfps()));
+
                 txtWidget->setXml(clip->toDocClipTextFile()->textClipXml());
                 txtWidget->titleName->setText(clip->name());
                 txtWidget->transparentTitle->setChecked(clip->toDocClipTextFile()->isTransparent());
                 if (txtWidget->exec() == QDialog::Accepted) {
-                    GenTime duration(txtWidget->text_duration->value());
+                    QString dur = txtWidget->edit_duration->text();
+                    int frames = (dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt();
+            
+                    GenTime duration(frames , KdenliveSettings::defaultfps());
                     QPixmap thumb = txtWidget->thumbnail(50, 40);
                     QDomDocument xml = txtWidget->toXml();
                     KCommand *command = new Command::KEditClipCommand(*doc, refClip, duration,                           txtWidget->titleName->text(),QString::null, xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked());

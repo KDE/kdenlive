@@ -1,0 +1,103 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>configMisc</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>configMisc</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>364</width>
+            <height>97</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Form1</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <spacer row="2" column="1">
+            <property name="name">
+                <cstring>spacer2</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>16</width>
+                    <height>42</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="KRestrictedLine" row="0" column="1">
+            <property name="name">
+                <cstring>kcfg_textclipduration</cstring>
+            </property>
+            <property name="text">
+                <string>:::</string>
+            </property>
+            <property name="inputMask">
+                <string>99:99:99:99; </string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="0" column="0">
+            <property name="name">
+                <cstring>textLabel4</cstring>
+            </property>
+            <property name="text">
+                <string>Default text clip duration</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="1" column="0">
+            <property name="name">
+                <cstring>textLabel4_2</cstring>
+            </property>
+            <property name="text">
+                <string>Default color/image clip duration</string>
+            </property>
+        </widget>
+        <widget class="KRestrictedLine" row="1" column="1">
+            <property name="name">
+                <cstring>kcfg_colorclipduration</cstring>
+            </property>
+            <property name="text">
+                <string>:::</string>
+            </property>
+            <property name="inputMask">
+                <string>99:99:99:99; </string>
+            </property>
+        </widget>
+        <spacer row="0" column="2">
+            <property name="name">
+                <cstring>spacer5</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>16</width>
+                    <height>16</height>
+                </size>
+            </property>
+        </spacer>
+    </grid>
+</widget>
+<customwidgets>
+</customwidgets>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>krestrictedline.h</includehint>
+    <includehint>krestrictedline.h</includehint>
+</includehints>
+</UI>

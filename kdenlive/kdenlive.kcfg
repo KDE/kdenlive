@@ -82,4 +82,15 @@
       <default>25.0</default>
     </entry>
     </group>
+    
+    <group name="Misc">
+    <entry name="textclipduration" type="String">
+      <label>Default duration for new text clips.</label>
+      <default>00:00:10:00</default>
+    </entry>
+    <entry name="colorclipduration" type="String">
+      <label>Default duration for new color clips.</label>
+      <default>00:00:10:00</default>
+    </entry>
+    </group>
 </kcfg>

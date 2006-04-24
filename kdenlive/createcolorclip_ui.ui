@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>382</width>
-            <height>113</height>
+            <width>359</width>
+            <height>114</height>
         </rect>
     </property>
     <property name="caption">
@@ -32,45 +32,9 @@
                 <cstring>textLabel4</cstring>
             </property>
             <property name="text">
-                <string>Default duration</string>
+                <string>Duration</string>
             </property>
         </widget>
-        <widget class="QSpinBox" row="0" column="4">
-            <property name="name">
-                <cstring>text_duration</cstring>
-            </property>
-            <property name="maxValue">
-                <number>300</number>
-            </property>
-            <property name="value">
-                <number>3</number>
-            </property>
-        </widget>
-        <widget class="QLabel" row="0" column="5">
-            <property name="name">
-                <cstring>textLabel4_2</cstring>
-            </property>
-            <property name="text">
-                <string>seconds</string>
-            </property>
-        </widget>
-        <spacer row="0" column="6">
-            <property name="name">
-                <cstring>spacer5</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>16</width>
-                    <height>16</height>
-                </size>
-            </property>
-        </spacer>
         <widget class="QLabel" row="0" column="0">
             <property name="name">
                 <cstring>textLabel1</cstring>
@@ -79,7 +43,7 @@
                 <string>Color</string>
             </property>
         </widget>
-        <spacer row="3" column="5">
+        <spacer row="3" column="4">
             <property name="name">
                 <cstring>spacer5_2</cstring>
             </property>
@@ -96,7 +60,7 @@
                 </size>
             </property>
         </spacer>
-        <widget class="KLineEdit" row="2" column="2" rowspan="1" colspan="5">
+        <widget class="KLineEdit" row="2" column="2" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>edit_description</cstring>
             </property>
@@ -117,9 +81,28 @@
                 <string>Name</string>
             </property>
         </widget>
-        <widget class="KLineEdit" row="1" column="2" rowspan="1" colspan="5">
+        <widget class="KLineEdit" row="1" column="2" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>edit_name</cstring>
+            </property>
+        </widget>
+        <widget class="KRestrictedLine" row="0" column="4">
+            <property name="name">
+                <cstring>edit_duration</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>3</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string>:::</string>
+            </property>
+            <property name="inputMask">
+                <string>99:99:99:99; </string>
             </property>
         </widget>
     </grid>
@@ -131,5 +114,6 @@
     <includehint>kcolorbutton.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>
+    <includehint>krestrictedline.h</includehint>
 </includehints>
 </UI>

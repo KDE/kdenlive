@@ -171,7 +171,7 @@ namespace Gui {
     GenTime ClipProperties::duration()
     {
         QString d = clipChoice->edit_duration->text();
-        double frames = (d.section(":",0,0).toDouble()*3600 + d.section(":",1,1).toDouble()*60 + d.section(":",2,2).toDouble()) * KdenliveSettings::defaultfps() + d.section(":",3,3).toDouble();
+        int frames = (d.section(":",0,0).toInt()*3600 + d.section(":",1,1).toInt()*60 + d.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + d.section(":",3,3).toInt();
         return GenTime(frames , KdenliveSettings::defaultfps());
     }
     

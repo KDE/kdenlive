@@ -47,7 +47,7 @@
                 <bool>true</bool>
             </property>
         </widget>
-        <widget class="QPushButton" row="3" column="10">
+        <widget class="QPushButton" row="3" column="9">
             <property name="name">
                 <cstring>buttonOk</cstring>
             </property>
@@ -64,7 +64,7 @@
                 <bool>true</bool>
             </property>
         </widget>
-        <widget class="QPushButton" row="3" column="11">
+        <widget class="QPushButton" row="3" column="10">
             <property name="name">
                 <cstring>buttonCancel</cstring>
             </property>
@@ -108,7 +108,7 @@
                 <bool>true</bool>
             </property>
         </widget>
-        <widget class="KFontCombo" row="1" column="5" rowspan="1" colspan="4">
+        <widget class="KFontCombo" row="1" column="5" rowspan="1" colspan="3">
             <property name="name">
                 <cstring>fontFace</cstring>
             </property>
@@ -116,7 +116,7 @@
                 <number>1</number>
             </property>
         </widget>
-        <widget class="QSpinBox" row="1" column="9">
+        <widget class="QSpinBox" row="1" column="8">
             <property name="name">
                 <cstring>fontSize</cstring>
             </property>
@@ -141,7 +141,7 @@
                 <bool>true</bool>
             </property>
         </widget>
-        <spacer row="3" column="4" rowspan="1" colspan="6">
+        <spacer row="3" column="4" rowspan="1" colspan="5">
             <property name="name">
                 <cstring>Horizontal Spacing2</cstring>
             </property>
@@ -179,26 +179,7 @@
                 <string>Duration</string>
             </property>
         </widget>
-        <widget class="QSpinBox" row="0" column="7">
-            <property name="name">
-                <cstring>text_duration</cstring>
-            </property>
-            <property name="maxValue">
-                <number>300</number>
-            </property>
-            <property name="value">
-                <number>5</number>
-            </property>
-        </widget>
-        <widget class="QLabel" row="0" column="8" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>textLabel4_2</cstring>
-            </property>
-            <property name="text">
-                <string>seconds</string>
-            </property>
-        </widget>
-        <widget class="QCheckBox" row="0" column="10" rowspan="1" colspan="2">
+        <widget class="QCheckBox" row="0" column="9" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>transparentTitle</cstring>
             </property>
@@ -206,7 +187,7 @@
                 <string>Transparent background</string>
             </property>
         </widget>
-        <widget class="KColorButton" row="1" column="10" rowspan="1" colspan="2">
+        <widget class="KColorButton" row="1" column="9" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>fontColor</cstring>
             </property>
@@ -224,7 +205,7 @@
                 </color>
             </property>
         </widget>
-        <widget class="QFrame" row="2" column="0" rowspan="1" colspan="12">
+        <widget class="QFrame" row="2" column="0" rowspan="1" colspan="11">
             <property name="name">
                 <cstring>frame</cstring>
             </property>
@@ -233,6 +214,17 @@
             </property>
             <property name="frameShadow">
                 <enum>Raised</enum>
+            </property>
+        </widget>
+        <widget class="KRestrictedLine" row="0" column="7" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>edit_duration</cstring>
+            </property>
+            <property name="text">
+                <string>:::</string>
+            </property>
+            <property name="inputMask">
+                <string>99:99:99:99; </string>
             </property>
         </widget>
     </grid>
@@ -259,5 +251,6 @@
     <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kcolorbutton.h</includehint>
+    <includehint>krestrictedline.h</includehint>
 </includehints>
 </UI>
