@@ -76,6 +76,8 @@ m_parameter(0), m_isRendering(false), m_renderingFormat(0),
 m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProducer(NULL)
 {
     startTimer(1000);
+    refreshTimer = new QTimer( this );
+    connect( refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()) );
     m_parsing = false;
     m_seekPosition = GenTime(0);
 
@@ -764,8 +766,14 @@ void KRender::sendSeekCommand(GenTime time)
     //m_seekPosition = time;
 }
 
+void KRender::askForRefresh()
+{
+    refreshTimer->start(200, TRUE);
+}
+
 void KRender::refresh()
 {
+    refreshTimer->stop();
     if (m_mltConsumer) {
 	m_mltConsumer->lock();
 	m_mltConsumer->set("refresh", 1);

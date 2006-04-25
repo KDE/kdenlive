@@ -166,6 +166,9 @@ class KRender:public QObject {
     /** Gives the aspect ratio of the consumer */
     double consumerRatio();
     
+    /** Gives the aspect ratio of the consumer */
+    void askForRefresh();
+    
 
   protected:			// Protected methods
 	/** Recieves timer events */
@@ -180,6 +183,7 @@ class KRender:public QObject {
      Mlt::Producer * m_mltFileProducer;
      Gui::KdenliveApp *m_app;
      
+     QTimer *refreshTimer;
      bool m_isRendering;
      QString m_renderingFormat;
      
@@ -255,9 +259,10 @@ class KRender:public QObject {
     void dv_transmit( raw1394handle_t handle, FILE *f, int channel);
 #endif
 
+
     private slots:		// Private slots
 	/** refresh monitor display */
-    void refresh();
+        void refresh();
 
 
      signals:			// Signals

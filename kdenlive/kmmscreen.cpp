@@ -64,8 +64,12 @@ namespace Gui {
     void KMMScreen::rendererReady() {
 	//QWidget *q=new QWidget(this);
 	m_render->createVideoXWindow(false, winId());
-
     }
+    
+    void KMMScreen::paintEvent ( QPaintEvent * ) {
+        m_render->askForRefresh();
+    }
+    
 
 
 /** Seeks to the specified time */

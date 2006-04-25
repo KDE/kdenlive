@@ -51,6 +51,7 @@ namespace Gui {
 	void mousePressEvent(QMouseEvent * e);
 	void wheelEvent(QWheelEvent * e);
 	void mouseMoveEvent(QMouseEvent * e);
+        void paintEvent ( QPaintEvent * );
       private:			// Private attributes
 	KRender * m_render;
 	KdenliveApp *m_app;
