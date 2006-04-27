@@ -86,8 +86,7 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
                 avfile.setAttribute("xml",
                                     clipNode->clipRef()->referencedClip()->toDocClipTextFile()->textClipXml().toString());
             }
-	    QDomText description =
-		doc.createTextNode(clipNode->clipRef()->description());
+	    QDomText description = doc.createTextNode(clipNode->clipRef()->description());
 	    avfile.appendChild(description);
 
 	    if (clipNode->clipRef()->name() != "")
@@ -101,11 +100,10 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
 
     elem.appendChild(avfilelist);
 
-    elem.appendChild(doc.importNode(document->projectClip().toXML().
-	    documentElement(), true));
+    elem.appendChild(doc.importNode(document->projectClip().toXML().documentElement(), true));
 
     QString save = doc.toString();
-    file.writeBlock(save.ascii(), save.length());
+    file.writeBlock(save.utf8(), save.length());
 
     return true;
 }
