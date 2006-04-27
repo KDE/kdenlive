@@ -260,11 +260,11 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 		"KMMMonitor : Could not copy clip - drag 'n' drop will not work!"
 		<< endl;
 	} else {
-	    doCommonSetClip();
+	    doCommonSetClip(false);
 	}
     }
 
-    void KMMMonitor::doCommonSetClip() {
+    void KMMMonitor::doCommonSetClip(bool resetCropPosition) {
 	QDomDocument scenelist = m_clip->generateSceneList();
 
 	setSceneList(scenelist, false);
@@ -274,9 +274,10 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	    frames(m_document->framesPerSecond()));
 
 	//COMMENTED BY ROBERT 08-13-2004 --WAS RESETTING SEEK AND INPOINT/OUTPOINT MARKERS WHEN MOVING A CLIP
-	m_editPanel->setInpoint(m_clip->cropStartTime());
-	m_editPanel->setOutpoint(m_clip->cropStartTime() +
-	    m_clip->cropDuration());
+        if (resetCropPosition) {
+	   m_editPanel->setInpoint(m_clip->cropStartTime());
+	   m_editPanel->setOutpoint(m_clip->cropStartTime() + m_clip->cropDuration());
+        }
 
 	if ((!m_noSeek) ||
 	    (seekPosition() < m_clip->cropStartTime()) ||

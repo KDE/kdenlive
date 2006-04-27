@@ -94,7 +94,7 @@ namespace Gui {
 	void disconnectScreen();
 
 	/** Commont functionality for the setClip slots. */
-	void doCommonSetClip();
+        void doCommonSetClip(bool resetCropPosition = true);
 
 	public slots:		// Public slots
 	/** Set the monitors scenelist to the one specified. */

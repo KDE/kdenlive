@@ -743,7 +743,6 @@ void KRender::play(double speed, const GenTime & startTime,
 {
     if (!m_mltProducer)
 	return;
-
     m_mltProducer->set("out", stopTime.frames(m_mltProducer->get_fps()));
     m_mltProducer->seek((int) (startTime.frames(m_mltProducer->get_fps())));
     m_mltProducer->set_speed(speed);
@@ -853,7 +852,7 @@ void KRender::emitConsumerStopped()
 {
     //kdDebug()<<"+++++++++++  SDL CONSUMER STOPPING ++++++++++++++++++"<<endl;
     // This is used to know when the playing stopped
-    //if (m_mltProducer) m_mltProducer->set("out", m_mltProducer->get_length() - 1);
+    if (m_mltProducer) m_mltProducer->set("out", m_mltProducer->get_length() - 1);
     if (m_mltProducer) QApplication::postEvent(m_app, new QCustomEvent(10002));
 }
 
