@@ -73,18 +73,20 @@ derived classes allow different behaviours to be added to panels as required.
 	Processes Mouse Move events in the track view area. Returns true if we are
 	continuing with the drag.*/
     virtual bool mouseMoved(Gui::KTrackPanel * panel, QMouseEvent * event);
-     signals:			// Signals
+    
+  signals:			// Signals
 	/**
 	emitted when a tool is "looking" at a clip, it signifies to whatever is listening
 	that displaying this information in some way would be useful.
 	*/
-    void lookingAtClip(DocClipRef *, const GenTime &);
+        void lookingAtClip(DocClipRef *, const GenTime &);
+        void sceneListChanged(bool);
   private:
 
      Gui::KdenliveApp * m_app;
      Gui::KTimeLine * m_timeline;
-    KdenliveDoc *m_document;
-    DocClipRef *m_clipUnderMouse;
+     KdenliveDoc *m_document;
+     DocClipRef *m_clipUnderMouse;
 };
 
 #endif

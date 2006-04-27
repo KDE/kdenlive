@@ -173,8 +173,8 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 
     void KMMMonitor::setSceneList(const QDomDocument & scenelist,
 	bool resetPosition) {
-            kdDebug()<<"*************MONITOR "<<name()<<endl;
-            kdDebug()<<"SET SCENE: "<<scenelist.toString()<<"\n\n************************************"<<endl;
+//            kdDebug()<<"*************MONITOR "<<name()<<endl;
+//            kdDebug()<<"SET SCENE: "<<scenelist.toString()<<"\n\n************************************"<<endl;
 
 
 // #HACK currently, if there is no clip, the scenelist is: "</westley>" and it crashes, so test length as a temporary workaround
@@ -213,12 +213,12 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
     }
 
     void KMMMonitor::slotSetClip(DocClipRef * clip) {
-	activateMonitor();
 	if (!clip) {
 	    kdError() << "Null clip passed, not setting monitor." << endl;
 	    return;
 	}
 
+        if (m_referredClip == clip) return;
 	m_referredClip = 0;
 	if (m_clip != 0) {
 	    delete m_clip;
@@ -240,12 +240,13 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
     }
 
     void KMMMonitor::slotSetClip(DocClipBase * clip) {
-	activateMonitor();
+        
+        activateMonitor();
+	
 	if (!clip) {
 	    kdError() << "Null clip passed, not setting monitor." << endl;
 	    return;
 	}
-
 	m_referredClip = 0;
 	if (m_clip != 0) {
 	    delete m_clip;

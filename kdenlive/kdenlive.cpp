@@ -847,9 +847,12 @@ namespace Gui {
 	TrackPanelRazorFunction *razorFunction =
 	    new TrackPanelRazorFunction(this, m_timeline, getDocument());
 	m_timeline->trackView()->registerFunction("razor", razorFunction);
-	connect(razorFunction, SIGNAL(lookingAtClip(DocClipRef *,
-		    const GenTime &)), this,
+	connect(razorFunction, SIGNAL(lookingAtClip(DocClipRef *, const GenTime &)), this,
 	    SLOT(slotLookAtClip(DocClipRef *, const GenTime &)));
+        
+        connect(razorFunction, SIGNAL(sceneListChanged(bool)),
+                getDocument(), SLOT(activateSceneListGeneration(bool)));
+
 	//register roll function -reh
 	m_timeline->trackView()->registerFunction("roll",
 	    new TrackPanelClipRollFunction(this, m_timeline,
@@ -1710,7 +1713,7 @@ namespace Gui {
 /** Sets the clip monitor source to be the given clip. */
     void KdenliveApp::slotSetClipMonitorSource(DocClipRef * clip) {
         if (clip) {
-	   activateClipMonitor();
+           activateClipMonitor();
 	   m_clipMonitor->slotSetClip(clip);
         }
         else activateWorkspaceMonitor();

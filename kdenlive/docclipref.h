@@ -61,7 +61,9 @@ struct AudioIdentifier {
 	 matches &= m_channel == rhs.m_channel;
 
 	 return matches;
-    } bool operator<(const AudioIdentifier & rhs) const {
+    } 
+    
+    bool operator<(const AudioIdentifier & rhs) const {
 	if (m_framenum < rhs.m_framenum)
 	    return true;
 	if (m_framenum > rhs.m_framenum)
@@ -88,7 +90,8 @@ struct AudioIdentifier {
 	    return false;
 
 	return false;
-}};
+    }
+};
 
 class DocClipRef:public QObject {
   Q_OBJECT public:

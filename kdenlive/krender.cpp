@@ -268,6 +268,7 @@ void KRender::openMlt()
 void KRender::closeMlt()
 {
     m_refCount--;
+    delete refreshTimer;
     if (m_fileRenderer) delete m_fileRenderer;
     if (m_mltFileProducer) delete m_mltFileProducer;
     if (m_mltConsumer)
@@ -697,7 +698,7 @@ void KRender::start()
 {
     if (m_mltConsumer && m_mltConsumer->is_stopped()) {
 	m_mltConsumer->start();
-//refresh();
+        refresh();
     }
 }
 
@@ -768,6 +769,7 @@ void KRender::sendSeekCommand(GenTime time)
 
 void KRender::askForRefresh()
 {
+    // Use a Timer so that we don't refresh too much
     refreshTimer->start(200, TRUE);
 }
 

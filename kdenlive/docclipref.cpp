@@ -212,9 +212,9 @@ createClip(const EffectDescriptionList & effectList,
     QValueVector < GenTime > markers;
     EffectStack effectStack;
 
-    kdWarning() << "================================" << endl;
+    /*kdWarning() << "================================" << endl;
     kdWarning() << "Creating Clip : " << element.ownerDocument().
-	toString() << endl;
+    toString() << endl;*/
 
     int trackNum = 0;
 
@@ -241,8 +241,7 @@ createClip(const EffectDescriptionList & effectList,
     while (!n.isNull()) {
 	QDomElement e = n.toElement();
 	if (!e.isNull()) {
-	    kdWarning() << "DocClipRef::createClip() tag = " << e.
-		tagName() << endl;
+	    //kdWarning() << "DocClipRef::createClip() tag = " << e.tagName() << endl;
 	    if (e.tagName() == "avfile") {
 		// Do nothing, this is handled via the clipmanage insertClip method above.
 	    } else if (e.tagName() == "project") {
@@ -273,28 +272,23 @@ createClip(const EffectDescriptionList & effectList,
 		    markerNode = markerNode.nextSibling();
 		}
 	    } else if (e.tagName() == "effects") {
-		kdWarning() << "Found effects tag" << endl;
+		//kdWarning() << "Found effects tag" << endl;
 		QDomNode effectNode = e.firstChild();
 		while (!effectNode.isNull()) {
 		    QDomElement effectElement = effectNode.toElement();
-		    kdWarning() << "Effect node..." << endl;
+		    //kdWarning() << "Effect node..." << endl;
 		    if (!effectElement.isNull()) {
-			kdWarning() << "has tag name " << effectElement.
-			    tagName() << endl;
+			//kdWarning() << "has tag name " << effectElement.tagName() << endl;
 			if (effectElement.tagName() == "effect") {
 			    EffectDesc *desc =
 				effectList.effectDescription(effectElement.
 				attribute("type", QString::null));
 			    if (desc) {
-				kdWarning() << "Appending effect " <<
-				    desc->name() << endl;
-				effectStack.
-				    append(Effect::createEffect(*desc,
-					effectElement));
+				//kdWarning() << "Appending effect " <<desc->name() << endl;
+				effectStack.append(Effect::createEffect(*desc, effectElement));
 			    } else {
 				kdWarning() << "Unknown effect " <<
-				    effectElement.attribute("type",
-				    QString::null) << endl;
+				    effectElement.attribute("type", QString::null) << endl;
 			    }
 			} else {
 			    kdWarning() << "Unknown tag " << effectElement.
@@ -306,7 +300,7 @@ createClip(const EffectDescriptionList & effectList,
             }
             else if (e.tagName() == "transitions") {
                 t = e;
-                kdWarning() << "Found transition tag" << endl;
+                //kdWarning() << "Found transition tag" << endl;
 
             }
             else {
@@ -339,9 +333,7 @@ createClip(const EffectDescriptionList & effectList,
             QDomNode transitionNode = t.firstChild();
             while (!transitionNode.isNull()) {
                 QDomElement transitionElement = transitionNode.toElement();
-                kdWarning() << "Effect node..." << endl;
                 if (!transitionElement.isNull()) {
-                    kdWarning() << "has tag name " << transitionElement.tagName() << endl;
                     if (transitionElement.tagName() == "transition") {
                         GenTime startTime(transitionElement.attribute("start", QString::null).toInt(),25.0);
                         GenTime endTime(transitionElement.attribute("end", QString::null).toInt(),25.0);
@@ -358,7 +350,7 @@ createClip(const EffectDescriptionList & effectList,
                         if (!params.isEmpty()) transit->setTransitionParameters(params);
                         clip->addTransition(transit);
                     } else {
-                        kdWarning() << "Unknown effect " <<transitionElement.attribute("type",QString::null) << endl;
+                        kdWarning() << "Unknown transition " <<transitionElement.attribute("type",QString::null) << endl;
                     }
                 } else {
                 kdWarning() << "Unknown tag " << transitionElement.tagName() << endl;

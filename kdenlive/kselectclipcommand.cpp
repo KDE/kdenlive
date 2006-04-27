@@ -34,7 +34,9 @@ namespace Command {
 	 m_findTime = clip->trackStart() + (clip->cropDuration() / 2.0);
 	 m_selectClip = select;
 	 m_unexecuteSelection = docTrack->clipSelected(clip);
-    } KSelectClipCommand::~KSelectClipCommand() {
+    } 
+    
+    KSelectClipCommand::~KSelectClipCommand() {
     }
 
 /** Executes the command */

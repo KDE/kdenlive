@@ -93,6 +93,7 @@ bool TrackPanelRazorFunction::mousePressed(Gui::KTrackPanel * panel,
 			razorClipAt(m_document, *track, roundedMouseTime),
 			true);
 		}
+                emit sceneListChanged(true);
 		return true;
 	    }
 	}
