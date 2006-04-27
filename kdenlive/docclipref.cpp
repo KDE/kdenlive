@@ -153,7 +153,7 @@ void DocClipRef::fetchEndThumbnail()
 {
     uint height = KdenliveSettings::videotracksize();
     uint width = height * 1.25;
-    emit getClipThumbnail(fileURL(), m_cropStart.frames(25)+cropDuration().frames(25), width, height);
+    emit getClipThumbnail(fileURL(), m_cropStart.frames(25)+cropDuration().frames(25) - 1, width, height);
 }
 
 void DocClipRef::setCropStartTime(const GenTime & time)
@@ -321,7 +321,7 @@ createClip(const EffectDescriptionList & effectList,
 	if (trackEnd.seconds() != -1) {
 	    clip->setTrackEnd(trackEnd);
 	} else {
-	    clip->setTrackEnd(trackStart + cropDuration);
+            clip->setTrackEnd(trackStart + cropDuration - GenTime(1, clip->framesPerSecond()));
 	}
 	clip->setParentTrack(0, trackNum);
 	clip->setSnapMarkers(markers);

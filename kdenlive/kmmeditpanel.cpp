@@ -206,7 +206,7 @@ namespace Gui {
 
     void KMMEditPanel::setOutpoint() {
 	int value = m_ruler->getSliderValue(0);
-	m_ruler->setSliderValue(2, value);
+	m_ruler->setSliderValue(2, value + 1);
 
 	//if(m_ruler->getSliderValue( 1 ) >= value) {
 	//      m_ruler->setSliderValue( 1, value - 8 );
@@ -235,7 +235,7 @@ namespace Gui {
     } 
     
     GenTime KMMEditPanel::outpoint() const {
-	return GenTime(m_ruler->getSliderValue(2),
+	return GenTime(m_ruler->getSliderValue(2) - 1,
 	    m_document->framesPerSecond());
     } 
     
@@ -308,7 +308,7 @@ namespace Gui {
 	emit activateMonitor();
 
 	if (m_playSelected) {
-	    emit playSpeedChanged(m_playSpeed, inpoint(), outpoint());
+            emit playSpeedChanged(m_playSpeed, inpoint(), outpoint());
 	} else {
 	    if (m_pauseMode == true) {
 		emit playSpeedChanged(m_playSpeed, point());

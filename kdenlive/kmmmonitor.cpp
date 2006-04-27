@@ -349,8 +349,7 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
     void KMMMonitor::slotClipCropEndChanged(DocClipRef * clip) {
 	if (m_referredClip == clip) {
 	    slotUpdateClip(clip);
-	    m_editPanel->seek(clip->cropStartTime() +
-		clip->cropDuration());
+            m_editPanel->seek(clip->cropStartTime() + clip->cropDuration() - GenTime(1, m_document->framesPerSecond()));
 	}
     }
 
