@@ -46,15 +46,16 @@ namespace Gui {
 	TRACKTYPE type,
 	QWidget * parent,
 	const char *name):KMMTrackPanel(timeline, doc,
-	new KTrackPlacer(doc, timeline, docTrack), type, parent, name) {
+        new KTrackPlacer(doc, timeline, docTrack), type, parent, name) {
+            
+        trackIsCollapsed = isCollapsed;
 	m_type = type;
-	m_trackIsCollapsed = isCollapsed;
 	uint widgetHeight;
 	if (type == EFFECTKEYFRAMETRACK)
 	    widgetHeight = 50;
 	else
 	     widgetHeight = 30;
-	if (m_trackIsCollapsed)
+	if (trackIsCollapsed)
 	     widgetHeight = 0;
 
 	 setMinimumHeight(widgetHeight);
@@ -86,9 +87,9 @@ namespace Gui {
 	    widgetHeight = 50;
 	else
 	    widgetHeight = 30;
-	m_trackIsCollapsed = (!m_trackIsCollapsed);
+	trackIsCollapsed = (!trackIsCollapsed);
 
-	if (m_trackIsCollapsed)
+	if (trackIsCollapsed)
 	    widgetHeight = 0;
 	setMinimumHeight(widgetHeight);
 	setMaximumHeight(widgetHeight);

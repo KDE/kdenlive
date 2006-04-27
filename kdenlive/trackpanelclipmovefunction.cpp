@@ -208,6 +208,7 @@ bool TrackPanelClipMoveFunction::dragEntered(Gui::KTrackPanel * panel,
     if (m_startedClipMove) {
 	m_document->activateSceneListGeneration(false);
 	event->accept(true);
+//        return true;
     } else if (ClipDrag::canDecode(event)) {
 	m_document->activateSceneListGeneration(false);
 	m_selection =
@@ -244,8 +245,7 @@ bool TrackPanelClipMoveFunction::dragEntered(Gui::KTrackPanel * panel,
     } else {
 	event->accept(false);
     }
-
-    m_startedClipMove = false;
+    //m_startedClipMove = false;
 
     return true;
 }
@@ -314,7 +314,7 @@ bool TrackPanelClipMoveFunction::dragLeft(Gui::KTrackPanel * panel,
 	m_selection.clear();
 	m_selection.setAutoDelete(false);
     }
-
+    
     if (m_addingClips) {
 	m_addingClips = false;
 
@@ -330,10 +330,13 @@ bool TrackPanelClipMoveFunction::dragLeft(Gui::KTrackPanel * panel,
     }
 
     if (m_moveClipsCommand) {
+        m_moveClipsCommand->setEndLocation(m_masterClip);
+        m_app->addCommand(m_moveClipsCommand, false);
+
 	// In a drag Leave Event, any clips in the selection are removed from the timeline.
-	delete m_moveClipsCommand;
-	m_moveClipsCommand = 0;
-	m_document->activateSceneListGeneration(true);
+	//delete m_moveClipsCommand;
+        m_moveClipsCommand = 0;
+        m_document->activateSceneListGeneration(true);
     }
 
     if (m_deleteClipsCommand) {
@@ -352,7 +355,7 @@ bool TrackPanelClipMoveFunction::dragLeft(Gui::KTrackPanel * panel,
     m_timeline->drawTrackViewBackBuffer();
 
     m_timeline->stopScrollTimer();
-
+    
     return true;
 }
 
@@ -360,6 +363,8 @@ bool TrackPanelClipMoveFunction::dragLeft(Gui::KTrackPanel * panel,
 bool TrackPanelClipMoveFunction::dragDropped(Gui::KTrackPanel * panel,
     QDropEvent * event)
 {
+    m_startedClipMove = false;
+    
     if (ClipDrag::canDecode(event)) {
 	if (!m_selection.isEmpty()) {
 	    m_selection.setAutoDelete(true);

@@ -66,6 +66,7 @@ namespace Gui {
 	/** return a popup menu. Must be deleted by owner.*/
 	QPopupMenu *contextMenu();
 	QPopupMenu *contextcreateMenu();
+        columnToolTip * colToolTip;
 
       public slots:		// Public slots
 	/** No descriptions */
@@ -91,7 +92,6 @@ namespace Gui {
 	private slots:		// Private slots
 	/** Called when the project list changes. */
 	    //void projectListSelectionChanged(QListViewItem *item);
-	 columnToolTip * colToolTip;
          /** an item was double clicked */
          void editRequested( QListViewItem *, const QPoint &, int col);
     };

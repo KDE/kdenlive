@@ -29,7 +29,7 @@ namespace Gui {
 	const char *name):QHBox(parent, name),
 	m_timeline(timeline),
 	m_placer(placer),
-	m_trackType(trackType), m_trackIsCollapsed(false) {
+	m_trackType(trackType), trackIsCollapsed(false) {
 	assert(timeline);
 	assert(placer);
     } KTrackPanel::~KTrackPanel() {
@@ -85,7 +85,7 @@ namespace Gui {
 
 /** Returns the track state (collapsed or not) */
     bool KTrackPanel::isTrackCollapsed() {
-	return m_trackIsCollapsed;
+	return trackIsCollapsed;
     }
 
 }				// namespace Gui

@@ -295,9 +295,7 @@ KTrackPanel *panel = panelAt(event->y());
 	// If there is a "panelUnderMouse" if means that the drag was initiated by one of the panels. Otherwise, the drag has reached
 	// the timeline from somewhere else.
 	if (m_panelUnderMouse) {
-	    if ((!m_dragFunction)
-		|| (!m_dragFunction->dragEntered(m_panelUnderMouse,
-			event))) {
+	    if ((!m_dragFunction) || (!m_dragFunction->dragEntered(m_panelUnderMouse, event))) {
 		m_panelUnderMouse = 0;
 	    }
 	} else {
@@ -324,19 +322,18 @@ KTrackPanel *panel = panelAt(event->y());
 
 // virtual
     void KTrackView::dragLeaveEvent(QDragLeaveEvent * event) {
+        /*
 	if (m_panelUnderMouse) {
 	    if (m_dragFunction)
 		m_dragFunction->dragLeft(m_panelUnderMouse, event);
 	    m_panelUnderMouse = 0;
-	}
+    }*/
     }
 
 // virtual
     void KTrackView::dropEvent(QDropEvent * event) {
 	if (m_panelUnderMouse) {
-	    if ((!m_dragFunction)
-		|| (!m_dragFunction->dragDropped(m_panelUnderMouse,
-			event))) {
+	    if ((!m_dragFunction) || (!m_dragFunction->dragDropped(m_panelUnderMouse, event))) {
 		m_panelUnderMouse = 0;
 	    }
 	}

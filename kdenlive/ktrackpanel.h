@@ -45,10 +45,9 @@ Abstract baseclass for track panels. Provides the interface that a track panel m
 	    TRACKTYPE trackType, QWidget * parent, const char *name);
 
 	 virtual ~ KTrackPanel();
-
-    /** Holds the track state (collapsed or not) */
-	bool m_trackIsCollapsed;
-
+         
+         /** Holds the track state (collapsed or not) */
+        bool trackIsCollapsed;
 
     /** Returns true if this track panel has a document track index. */
 	virtual bool hasDocumentTrackIndex() const;
@@ -62,14 +61,14 @@ Abstract baseclass for track panels. Provides the interface that a track panel m
 	Returns the names of those functions that exist for the given mode.
 	*/
 	QStringList applicableFunctions(const QString & mode);
+        
 
       protected:
 	/**
 	Add a TrackPanelFunction decorator to this panel. By adding decorators, we give the
 	class it's desired functionality.
 	*/
-	void addFunctionDecorator(const QString & mode,
-	    const QString & function);
+	void addFunctionDecorator(const QString & mode, const QString & function);
 
 	/**
 	Adds a new TrackViewDecorator to this panel. Each decorator adds it's own draw commands to each clip,
@@ -84,7 +83,9 @@ Abstract baseclass for track panels. Provides the interface that a track panel m
 
 	KTimeLine *timeline() {
 	    return m_timeline;
-      } private:
+        }
+        
+    private:
 	/** The KMMTrackPanel needs access to various methods from it's parents Timeline.
 	 *  The parent timeline is stored in this variable. */
 	 KTimeLine * m_timeline;

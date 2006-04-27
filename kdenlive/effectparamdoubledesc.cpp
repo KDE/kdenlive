@@ -90,7 +90,7 @@ EffectKeyFrame *EffectParamDoubleDesc::createKeyFrame(double time,
 
 // virtual
 Gui::KMMTrackPanel *
-    EffectParamDoubleDesc::createTrackPanel(Gui::KdenliveApp * app,
+    EffectParamDoubleDesc::createTrackPanel(Gui::KdenliveApp *,
     Gui::KTimeLine * timeline, KdenliveDoc * document,
     DocTrackBase * docTrack, bool isCollapsed, QWidget * parent,
     const char *name)
@@ -104,7 +104,7 @@ Gui::KMMTrackPanel *
 
 // virtual
 Gui::KMMTrackPanel *
-    EffectParamDoubleDesc::createClipPanel(Gui::KdenliveApp * app,
+    EffectParamDoubleDesc::createClipPanel(Gui::KdenliveApp *,
     Gui::KTimeLine * timeline, KdenliveDoc * document, DocClipRef * clip,
     QWidget * parent, const char *name)
 {

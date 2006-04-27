@@ -40,9 +40,9 @@ class FlatButton:public QLabel {
     virtual void leaveEvent ( QEvent * );
     
   private:
-      bool m_isOn;
       QPixmap m_onPixmap;
       QPixmap m_offPixmap;
+      bool m_isOn;
       
   signals:
       void clicked();

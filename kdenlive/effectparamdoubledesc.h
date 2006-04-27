@@ -36,12 +36,12 @@ class EffectParamDoubleDesc:public EffectParamDesc {
     virtual EffectKeyFrame *createKeyFrame(double time);
     virtual EffectKeyFrame *createKeyFrame(double time, double value);
 
-    virtual Gui::KMMTrackPanel * createTrackPanel(Gui::KdenliveApp * app,
+    virtual Gui::KMMTrackPanel * createTrackPanel(Gui::KdenliveApp *,
 	Gui::KTimeLine * timeline,
 	KdenliveDoc * document,
 	DocTrackBase * docTrack,
 	bool isCollapsed, QWidget * parent = 0, const char *name = 0);
-    virtual Gui::KMMTrackPanel * createClipPanel(Gui::KdenliveApp * app,
+    virtual Gui::KMMTrackPanel * createClipPanel(Gui::KdenliveApp *,
 	Gui::KTimeLine * timeline,
 	KdenliveDoc * document,
 	DocClipRef * clip, QWidget * parent = 0, const char *name = 0);

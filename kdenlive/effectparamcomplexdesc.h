@@ -39,12 +39,12 @@ class EffectParamComplexDesc:public EffectParamDesc {
     virtual EffectKeyFrame *createKeyFrame(double time,
 	QStringList parametersList);
 
-    virtual Gui::KMMTrackPanel * createTrackPanel(Gui::KdenliveApp * app,
+    virtual Gui::KMMTrackPanel * createTrackPanel(Gui::KdenliveApp *,
 	Gui::KTimeLine * timeline,
 	KdenliveDoc * document,
 	DocTrackBase * docTrack,
 	bool isCollapsed, QWidget * parent = 0, const char *name = 0);
-    virtual Gui::KMMTrackPanel * createClipPanel(Gui::KdenliveApp * app,
+    virtual Gui::KMMTrackPanel * createClipPanel(Gui::KdenliveApp *,
 	Gui::KTimeLine * timeline,
 	KdenliveDoc * document,
 	DocClipRef * clip, QWidget * parent = 0, const char *name = 0);
@@ -60,7 +60,7 @@ class EffectParamComplexDesc:public EffectParamDesc {
     const uint complexParamNum() const;
 
   private:
-     QStringList m_mins;
+    QStringList m_mins;
     QStringList m_names;
     QStringList m_maxs;
     QStringList m_defaults;

@@ -47,7 +47,7 @@ namespace Gui {
             
             FlatButton *fl3 = new FlatButton(m_trackHeader.container_3, "audio", KGlobal::iconLoader()->loadIcon("kdenlive_audiooff",KIcon::Toolbar,22), KGlobal::iconLoader()->loadIcon("kdenlive_audioon",KIcon::Toolbar,22), false);
 
-	m_trackIsCollapsed = isCollapsed;
+	trackIsCollapsed = isCollapsed;
         connect(fl, SIGNAL(clicked()), this, SLOT(resizeTrack()));
         connect(fl3, SIGNAL(clicked()), this, SLOT(muteTrack()));
 
@@ -75,17 +75,17 @@ namespace Gui {
     
     
     void KMMTrackSoundPanel::resizeTrack() {
-	m_trackIsCollapsed = (!m_trackIsCollapsed);
+	trackIsCollapsed = (!trackIsCollapsed);
 
 	clearViewDecorators();
 	decorateTrack();
-	emit collapseTrack(this, m_trackIsCollapsed);
+	emit collapseTrack(this, trackIsCollapsed);
     }
 
     void KMMTrackSoundPanel::decorateTrack() {
 	uint widgetHeight;
 
-	if (m_trackIsCollapsed)
+	if (trackIsCollapsed)
 	    widgetHeight = collapsedTrackSize;
 	else
 	    widgetHeight = KdenliveSettings::audiotracksize();
@@ -93,7 +93,7 @@ namespace Gui {
 	setMinimumHeight(widgetHeight);
 	setMaximumHeight(widgetHeight);
 
-	if (KdenliveSettings::audiothumbnails() && !m_trackIsCollapsed)
+	if (KdenliveSettings::audiothumbnails() && !trackIsCollapsed)
 	    addViewDecorator(new
 		TrackViewAudioBackgroundDecorator(timeline(), document(),
 		    KdenliveSettings::selectedaudioclipcolor(),
@@ -107,7 +107,7 @@ namespace Gui {
 	addViewDecorator(new TrackViewNameDecorator(timeline(),
 		document()));
 
-/*	if (m_trackIsCollapsed)
+/*	if (trackIsCollapsed)
 	    m_trackHeader.collapseButton->setPixmap(KGlobal::iconLoader()->
 		loadIcon("1downarrow", KIcon::Small, 16));
 	else

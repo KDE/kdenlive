@@ -172,7 +172,8 @@ const GenTime & DocClipRef::cropStartTime() const
 
 void DocClipRef::setTrackEnd(const GenTime & time)
 {
-    m_trackEnd = time;
+    if (time < m_trackStart || time == m_trackStart) m_trackEnd = m_trackStart + GenTime(5, m_clip->framesPerSecond());
+    else m_trackEnd = time;
 
     if (m_parentTrack) {
 	m_parentTrack->clipMoved(this);
