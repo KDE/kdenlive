@@ -38,7 +38,7 @@ Implementation-specific derivation of KTimeLine. Includes correct drag/drop supp
 
 	~KMMTimeLine();
 
-	void fitToWidth();
+        void fitToWidth(bool restore);
 	//set the timescale combobox to last saved value -reh
 	void setSliderIndex(int index);
 	//Return the current timescale slider value
@@ -50,9 +50,12 @@ Implementation-specific derivation of KTimeLine. Includes correct drag/drop supp
 	 signals:
 	/** emitted when something of interest is happening over a clip on the timeline. */
 	void lookingAtClip(DocClipRef *, const GenTime &);
-      private:
+    private:
 	// A tool that can be used to change the timescale of the timeline.
 	 KMMRulerPanel * m_rulerToolWidget;
+         // used to store the last used zoom
+         double m_lastZoom;
+         int m_lastPosition;
     };
 
 }				// namespace Gui

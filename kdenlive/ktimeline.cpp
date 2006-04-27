@@ -145,7 +145,6 @@ namespace Gui {
 	connect(track, SIGNAL(collapseTrack(KTrackPanel *, bool)), this,
 	    SLOT(collapseTrack(KTrackPanel *, bool)));
 	m_trackList.insert(index, track);
-
 	resizeTracks();
     }
 
@@ -170,7 +169,6 @@ namespace Gui {
 	int widgetHeight;
 
 	KTrackPanel *panel = m_trackList.first();
-
 
 	while (panel) {
 
@@ -262,6 +260,10 @@ the display. The scale is the size of one frame.*/
 	    localValue);
 
 	drawTrackViewBackBuffer();
+    }
+    
+    double KTimeLine::timeScale() {
+        return m_ruler->valueScale();
     }
 
 /** Calculates the size of the project, and sets up the timeline to accomodate it. */
@@ -435,8 +437,12 @@ the display. The scale is the size of one frame.*/
 	}
     }
 
-    void KTimeLine::resetScrollBar() {
-        m_scrollBar->setValue(0);
+    void KTimeLine::placeScrollBar(int pos) {
+        m_scrollBar->setValue(pos);
+    }
+    
+    int KTimeLine::scrollBarPosition() {
+        return m_scrollBar->value();
     }
     
     void KTimeLine::slotScrollLeft() {

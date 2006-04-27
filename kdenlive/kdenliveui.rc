@@ -1,10 +1,10 @@
 <!DOCTYPE kpartgui>
 <kpartgui name="kdenlive" version="0.1">
 <MenuBar>
-  <Menu name="file"><text>&amp;File</text>
+  <Menu name="file">
   	<Action name="file_new_window"/>
   </Menu>
-  <Menu name="edit"><text>&amp;Edit</text>
+  <Menu name="edit">
   	<Action name="delete_selected_clips"/>
 	<Action name="razor_selected_clips"/>
 	<Action name="razor_all_clips"/>
@@ -12,6 +12,10 @@
 	<Action name="clear_all_snap_markers"/>
 	<Action name="clear_snap_markers_from_selected"/>
   </Menu>
+  <Menu name="view">
+      <Action name="restore_zoom"/>
+  </Menu>
+  
   <Menu name="project"><text>&amp;Project</text>
 	<Action name="project_add_clip"/>
 	<Action name="project_delete_clip"/>

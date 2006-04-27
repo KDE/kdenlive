@@ -173,7 +173,8 @@ namespace Command {
 	of the ruler widget and the scrollbar widget.*/
 	void setPanelWidth(int width);
         
-        void resetScrollBar();
+        void placeScrollBar(int pos);
+        int scrollBarPosition();
 
     protected:
 	/** @returns the ruler tool widget. */
@@ -238,6 +239,10 @@ namespace Command {
 	/** Sets a new time scale for the timeline. This in turn calls the correct kruler funtion and
 	updates the display. */
 	void setTimeScale(double scale);
+        
+        /** Get the current timescale */
+        double timeScale();
+        
 	/** Set the length of the project */
 	void slotSetProjectLength(const GenTime & size);
 	/** A ruler slider has moved - do something! */

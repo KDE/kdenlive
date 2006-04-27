@@ -39,6 +39,8 @@ namespace Gui {
 	//
 	// Of the two solutions, I prefer 2.
 	m_rulerToolWidget = dynamic_cast < KMMRulerPanel * >(rulerToolWidget());
+        m_lastZoom = 0;
+        m_lastPosition = 0;
         connect(trackView(), SIGNAL(changeZoom(bool)), m_rulerToolWidget, SLOT(changeZoom(bool)));
 	connect(m_rulerToolWidget, SIGNAL(timeScaleChanged(double)), this, SLOT(setTimeScale(double)));
     } 
@@ -51,15 +53,23 @@ namespace Gui {
 	invalidateBackBuffer();
     }
 
-    void KMMTimeLine::fitToWidth() {
-	double duration = projectLength().frames(framesPerSecond());
-	if (duration < 1.0)
-	    duration = 1.0;
-
-	double scale = (double) viewWidth() / duration;
-	m_rulerToolWidget->setScale(scale);
-        resetScrollBar();
-	setTimeScale(scale);
+    void KMMTimeLine::fitToWidth(bool restore) {
+        if (!restore) {
+           m_lastZoom = timeScale();
+           m_lastPosition = scrollBarPosition();
+	   double duration = projectLength().frames(framesPerSecond());
+	   if (duration < 1.0)
+	       duration = 1.0;
+	   double scale = (double) viewWidth() / duration;
+           m_rulerToolWidget->setScale(scale);
+           setTimeScale(scale);
+           placeScrollBar(0);
+        }
+        else if (m_lastZoom != 0) {
+            m_rulerToolWidget->setScale(m_lastZoom);
+            setTimeScale(m_lastZoom);
+            placeScrollBar(m_lastPosition);
+        }
     }
 
     void KMMTimeLine::setSliderIndex(int index) {
