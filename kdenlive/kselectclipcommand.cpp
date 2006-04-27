@@ -55,7 +55,9 @@ namespace Command {
 /** Rerturns the (translated) name of this command */
     QString KSelectClipCommand::name() const {
 	return i18n("Selection");
-    } KCommand *KSelectClipCommand::selectNone(KdenliveDoc * document) {
+    } 
+    
+    KCommand *KSelectClipCommand::selectNone(KdenliveDoc * document) {
 	KMacroCommand *command = new KMacroCommand(i18n("Selection"));
 
 	QPtrListIterator < DocTrackBase > trackItt(document->trackList());

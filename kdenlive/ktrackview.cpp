@@ -206,31 +206,27 @@ KTrackPanel *panel = panelAt(event->y());
 
 /** This event occurs when a mouse button is pressed. */
     void KTrackView::mousePressEvent(QMouseEvent * event) {
-	if (event->button() == RightButton) {
-	    emit rightButtonPressed();
-	} else {
-	    KTrackPanel *panel = panelAt(event->y());
-	    if (m_panelUnderMouse != 0) {
-		kdWarning() <<
-		    "Error - mouse Press Event with panel already under mouse"
-		    << endl;
-	    }
-	    if (panel) {
-		if (event->button() == LeftButton) {
-		    bool result = false;
-		    m_function =
-			getApplicableFunction(panel, m_timeline.editMode(),
-			event);
-		    if (m_function)
-			result = m_function->mousePressed(panel, event);
-		    if (result) {
-			m_panelUnderMouse = panel;
-		    } else {
-			m_function = 0;
-		    }
-		}
-	    }
-	}
+        if (event->button() == RightButton) {
+            emit rightButtonPressed();
+            return;
+        }
+        KTrackPanel *panel = panelAt(event->y());
+        if (m_panelUnderMouse != 0) {
+            kdWarning() << "Error - mouse Press Event with panel already under mouse"<< endl;
+        }
+	if (panel) {
+            if (event->button() == LeftButton) {
+                bool result = false;
+                m_function = getApplicableFunction(panel, m_timeline.editMode(), event);
+                if (m_function)
+                    result = m_function->mousePressed(panel, event);
+                if (result) {
+                    m_panelUnderMouse = panel;
+                } else {
+                    m_function = 0;
+                }
+            }
+        }
     }
 
 /** This event occurs when a mouse button is released. */
