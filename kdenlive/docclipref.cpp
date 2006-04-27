@@ -697,11 +697,14 @@ QDomDocument DocClipRef::generateXMLClip()
 
 	else entry.setAttribute("producer", QString("video_producer") + QString::number(m_clip->toDocClipAVFile()->getId()) );*/
     entry.setAttribute("producer", "producer" + QString::number(m_clip->getId()));
-    entry.setAttribute("in",
-	QString::number(m_cropStart.frames(framesPerSecond())));
-    entry.setAttribute("out",
-	QString::number((m_cropStart + cropDuration()).frames(framesPerSecond()) - 1));
-
+    
+    // Check if clip is positionned under 0 in the timeline
+    int checkStart = m_trackStart.frames(framesPerSecond());
+    if (checkStart < 0)
+        entry.setAttribute("in", QString::number(m_cropStart.frames(framesPerSecond()) - checkStart));
+    else 
+        entry.setAttribute("in", QString::number(m_cropStart.frames(framesPerSecond())));
+        entry.setAttribute("out", QString::number((m_cropStart + cropDuration()).frames(framesPerSecond()) - 1));
     
     // Generate XML for the clip's effects 
     // As a starting point, let's consider effects don't have more than one keyframable parameter.

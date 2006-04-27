@@ -278,7 +278,7 @@ QDomDocument DocClipProject::generateSceneList() const
     uint tracksCounter = 0;
     if (duration().frames(framesPerSecond()) == 0) return QDomDocument();
 
-    QString projectDuration = QString::number(duration().frames(framesPerSecond()));
+    QString projectLastFrame = QString::number(duration().frames(framesPerSecond()) - 1);
 
     QDomElement westley = doc.createElement("westley");
     doc.appendChild(westley);
@@ -299,7 +299,7 @@ QDomDocument DocClipProject::generateSceneList() const
     QDomElement playlist = doc.createElement("playlist");
     QDomElement blank = doc.createElement("entry");
     blank.setAttribute("in", "0");
-    blank.setAttribute("out", projectDuration);
+    blank.setAttribute("out", projectLastFrame);
     blank.setAttribute("producer", "black");
     playlist.appendChild(blank);
     multitrack.appendChild(playlist);
@@ -373,7 +373,7 @@ QDomDocument DocClipProject::generateSceneList() const
         for (int i = 2; i <tracksCounter +1 ; i++) {
 	    QDomElement transition = doc.createElement("transition");
 	    transition.setAttribute("in", "0");
-            transition.setAttribute("out", projectDuration);
+            transition.setAttribute("out", projectLastFrame);
             transition.setAttribute("a_track", QString::number(1));
 	    transition.setAttribute("b_track", QString::number(i));
 	    transition.setAttribute("mlt_service", "mix");
@@ -388,7 +388,7 @@ QDomDocument DocClipProject::generateSceneList() const
 
     doc.documentElement().appendChild(tractor);
     //kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
-    //kdDebug() << "+ + + PROJECT SCENE: " << doc.toString() << endl;
+    kdDebug() << "+ + + PROJECT SCENE: " << doc.toString() << endl;
     return doc;
 }
 
