@@ -143,7 +143,7 @@ bool TrackPanelClipMoveFunction::mouseReleased(Gui::KTrackPanel * panel,
 		    m_app->
 			addCommand(Command::KSelectClipCommand::
 			selectClipAt(m_document, *track, mouseTime),
-			true);;
+			true);
 		}
 		result = true;
 	    }
