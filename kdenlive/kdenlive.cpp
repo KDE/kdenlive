@@ -1928,7 +1928,10 @@ namespace Gui {
       
       DocClipRef *clip = track->getClipAt(mouseTime);
       if (clip) {
-      //if (getDocument()->projectClip().hasSelectedClips()) {
+          // select clip under mouse
+        addCommand(Command::KSelectClipCommand::selectNone(getDocument()), true);
+        addCommand(Command::KSelectClipCommand::selectClipAt(getDocument(), *track, mouseTime),        true);
+        //track->selectClip(clip, true);
         menu = (QPopupMenu *) factory()->container("timeline_clip_context", this);
       }
       else menu = (QPopupMenu *) factory()->container("timeline_context", this);
