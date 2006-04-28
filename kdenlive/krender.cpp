@@ -75,7 +75,7 @@ m_desccodeclist(0), m_codec(0), m_effect(0),
 m_parameter(0), m_isRendering(false), m_renderingFormat(0),
 m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProducer(NULL)
 {
-    startTimer(1000);
+    startTimer(10);
     refreshTimer = new QTimer( this );
     connect( refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()) );
     m_parsing = false;
@@ -222,6 +222,7 @@ m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProduce
     m_effectList.append(obscure);
 
 
+
     //      Does it do anything usefull? I mean, KRenderThread doesn't do anything useful at the moment
     //      (except being cpu hungry :)
 
@@ -236,6 +237,7 @@ KRender::~KRender()
     closeMlt();
     killTimers();
 }
+
 
 /** Recieves timer events */
 void KRender::timerEvent(QTimerEvent * )
