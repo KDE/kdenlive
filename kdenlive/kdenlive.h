@@ -275,6 +275,9 @@ namespace Gui {
 
 		/** Called when fitToWidth is actioned */
 	void slotFitToWidth();
+        
+                /** Called when user wants to go back to last zoom after fitToWidth was actioned */
+        void slotRestoreZoom();
 
 		/** Given a drop event, inserts all contained clips into the project list, if they are not
 		 * there already. */

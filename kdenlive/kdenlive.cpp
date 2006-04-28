@@ -113,8 +113,8 @@
 
 namespace Gui {
 
-    KdenliveApp::KdenliveApp(QWidget *,
-	const char *name):KDockMainWindow(0, name), m_monitorManager(this),
+    KdenliveApp::KdenliveApp(QWidget *parent,
+	const char *name):KDockMainWindow(parent, name), m_monitorManager(this),
     m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL) {
 	config = kapp->config();
 
@@ -218,6 +218,10 @@ namespace Gui {
 	fitToWidth =
 	    KStdAction::fitToWidth(this, SLOT(slotFitToWidth()),
 	    actionCollection());
+        
+        (void) new KAction(i18n("Restore Last Zoom"), 0, this,
+        SLOT(slotRestoreZoom()), actionCollection(),
+        "restore_zoom");
 
 	timelineMoveTool =
 	    new KRadioAction(i18n("Move/Resize Tool"), "moveresize.png",
@@ -556,6 +560,8 @@ namespace Gui {
 	    i18n("Application"));
 	mainDock->setWidget(view);
 	mainDock->setDockSite(KDockWidget::DockFullSite);
+        mainDock->setEnableDocking(KDockWidget::DockNone);
+        //mainDock->setFocusPolicy(QWidget::WheelFocus); //QWidget::TabFocus
 	setCentralWidget(mainDock);
 	setMainDockWidget(mainDock);
 	setCaption(doc->URL().fileName(), false);
@@ -1363,6 +1369,9 @@ namespace Gui {
 	// Make a reasonable filter for video / audio files.
 	QString filter =
 	    "*.dv video/x-msvideo video/mpeg audio/x-mp3 audio/x-wav application/ogg";
+        
+        //  Video preview doesn't seem to crash anymore, so disable hack preventing preview
+        /*
         KURL::List urlList;
 
         KFileDialog *fd = new KFileDialog(m_fileDialogPath.path(), filter, this, "add_clip", true);
@@ -1380,11 +1389,11 @@ namespace Gui {
         else {
             delete fd;
             return;
-        }
+        }*/
 
-	/*KURL::List urlList =
+	KURL::List urlList =
 	    KFileDialog::getOpenURLs(m_fileDialogPath.path(), filter, this,
-        i18n("Open File..."));*/
+        i18n("Open File..."));
 
 	KURL::List::Iterator it;
 	KURL url;
@@ -1849,7 +1858,11 @@ namespace Gui {
     }
 
     void KdenliveApp::slotFitToWidth() {
-	m_timeline->fitToWidth();
+	m_timeline->fitToWidth(false);
+    }
+    
+    void KdenliveApp::slotRestoreZoom() {
+        m_timeline->fitToWidth(true);
     }
 
 
