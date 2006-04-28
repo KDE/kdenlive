@@ -1348,7 +1348,10 @@ namespace Gui {
 /** Updates widgets according to the new preferences. */
     void KdenliveApp::updateConfiguration() {
 // redraw timeline in case size or colors changed.
+        m_clipMonitor->editPanel()->showLcd(KdenliveSettings::showlcd());
+        m_workspaceMonitor->editPanel()->showLcd(KdenliveSettings::showlcd());
 	slotSyncTimeLineWithDocument();
+        
     }
 
 

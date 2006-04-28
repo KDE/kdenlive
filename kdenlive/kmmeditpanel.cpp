@@ -36,7 +36,7 @@ namespace Gui {
 
     KMMEditPanel::KMMEditPanel(KdenliveDoc * document, QWidget * parent,
 	const char *name, WFlags fl):KMMEditPanel_UI(parent, name, fl),
-	m_playSpeed(0.0), m_playSelected(false) {
+    m_playSpeed(0.0), m_playSelected(false), m_showLcd(true) {
 	m_document = document;
 
 	m_ruler->setRulerModel(new KRulerTimeModel());
@@ -141,6 +141,12 @@ namespace Gui {
     void KMMEditPanel::setClipLength(int frames) {
 	m_ruler->setMaxValue(frames);
     }
+    
+    void KMMEditPanel::showLcd(bool show) {
+        m_showLcd = show;
+        if (!m_showLcd) timeCode->hide();
+        else timeCode->show();
+    }
 
 /** A slider on the ruler has changed value */
     void KMMEditPanel::rulerValueChanged(int ID, int value) {
@@ -148,9 +154,8 @@ namespace Gui {
 	case 0:
 	    emit seekPositionChanged(GenTime(value,
 		    m_document->framesPerSecond()));
-	    timeCode->display(tcode.getTimecode(GenTime(value,
-			m_document->framesPerSecond()),
-		    m_document->framesPerSecond()));
+            if (m_showLcd) timeCode->display(tcode.getTimecode(GenTime(value,
+			m_document->framesPerSecond()), m_document->framesPerSecond()));
 	    break;
 	case 1:
 	    emit inpointPositionChanged(GenTime(value,

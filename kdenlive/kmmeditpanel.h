@@ -49,6 +49,7 @@ namespace Gui {
 	void setPlaying(bool play);
 	Timecode tcode;
         int buttonSize;
+        bool m_showLcd;
 
 	private slots:		// Private slots
   /** A slider on the ruler has changed value */
@@ -137,6 +138,8 @@ namespace Gui {
         void screenPlayStopped();
   /**  set whether the edit panel displays that there is a snap marker at the current seek time or not */
 	void setSnapMarker(bool markerHere);
+        
+        void showLcd(bool show);
     };
 
 }				// namespace Gui

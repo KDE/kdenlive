@@ -92,5 +92,10 @@
       <label>Default duration for new color clips.</label>
       <default>00:00:10:00</default>
     </entry>
+    
+      <entry name="showlcd" type="Bool">
+      <label>Display LCD screen under monitors.</label>
+      <default>true</default>
+    </entry>
     </group>
 </kcfg>
