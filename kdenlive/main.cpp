@@ -19,10 +19,8 @@
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <klocale.h>
-#include <kstandarddirs.h>
 
 #include "kdenlive.h"
-#include "kdenlivesplash.h"
 
 static const char *description = I18N_NOOP("Kdenlive"
     "\n\nA non-linear video editor for KDE."
@@ -45,16 +43,16 @@ int main(int argc, char *argv[])
 	KAboutData::License_GPL,
 	"(c) 2002-2003, Jason Wood",
 	0,
-	"http://www.uchian.pwp.blueyonder.co.uk/kdenlive.html",
+        "http://kdenlive.sourceforge.net",
 	"jasonwood@blueyonder.co.uk");
 
     aboutData.addAuthor("Jason Wood",
-	I18N_NOOP("Kdenlive author and Maintainer"),
+	I18N_NOOP("Kdenlive original author"),
 	"jasonwood@blueyonder.co.uk",
 	"http://www.uchian.pwp.blueyonder.co.uk/kdenlive.html");
 
     aboutData.addAuthor("Rolf Dubitzky",
-	I18N_NOOP("Piave renderer author and maintainer"),
+	I18N_NOOP("Piave renderer author"),
 	"dubitzky@pktw06.phy.tu-dresden.de",
 	"http://modesto.sourceforge.net/piave");
 
@@ -67,10 +65,14 @@ int main(int argc, char *argv[])
 	I18N_NOOP
 	("Artist, Kdenlive logo, splashscreen and application icon"),
 	"dannya40uk@yahoo.co.uk", "");
+    
     aboutData.addAuthor("Rob Hare", I18N_NOOP("Kdenlive programmer"),
 	"rob@nocturnalatl.com", "");
-	 aboutData.addAuthor("Marco Gittler", I18N_NOOP("Kdenlive programmer, Trackdecorators"),
+    
+    aboutData.addAuthor("Marco Gittler", I18N_NOOP("Kdenlive programmer, Trackdecorators"),
 	"g.marco@freenet.de", "");
+    
+    aboutData.addAuthor("Jean-Baptiste Mardelle", I18N_NOOP("Kdenlive programmer, MLT porting, Effects, Transitions"), "jb@ader.ch", "");
 
     KCmdLineArgs::init(argc, argv, &aboutData);
     KCmdLineArgs::addCmdLineOptions(options);	// Add our own options.
@@ -81,16 +83,8 @@ int main(int argc, char *argv[])
 	RESTORE(Gui::KdenliveApp);
     } else {
 
-        QPixmap pixmap(locate("appdata", "graphics/kdenlive-splash.png"));
-
-	KdenliveSplash *splash = new KdenliveSplash(pixmap);
-	splash->show();
-
 	Gui::KdenliveApp * kdenlive = new Gui::KdenliveApp();
 	kdenlive->show();
-        
-	splash->finish(kdenlive);
-	delete splash;
 
 	KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 

@@ -182,6 +182,7 @@ class KRender:public QObject {
      Mlt::Consumer *m_fileRenderer;
      Mlt::Producer * m_mltFileProducer;
      Gui::KdenliveApp *m_app;
+     Mlt::Producer *m_mltTextProducer;
      
      QTimer *refreshTimer;
      bool m_isRendering;

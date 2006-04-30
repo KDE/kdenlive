@@ -41,6 +41,7 @@
 #include "exportwidget.h"
 #include "transitiondialog.h"
 #include "transition.h"
+#include "kdenlivesplash.h"
 
 // forward declaration of the Kdenlive classes
 class DocClipProject;
@@ -350,6 +351,7 @@ namespace Gui {
         
         /** Delete the selected clip's transition */
         void deleteTransition();
+        void slotSplashTimeout();
 
 
       private:
@@ -425,6 +427,8 @@ namespace Gui {
 
 	KAction *renderExportTimeline;
 	KAction *configureProject;
+        
+        KdenliveSplash *splash;
 
 		/** The progress widget on the status bar, used by various long-winded methods. */
 	KProgress *m_statusBarProgress;

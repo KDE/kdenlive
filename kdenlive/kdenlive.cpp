@@ -50,6 +50,7 @@
 #include <klineedit.h>
 #include <ktextedit.h>
 #include <kurlrequesterdlg.h>
+#include <kstandarddirs.h>
 
 
 // application specific includes
@@ -107,6 +108,7 @@
 #include "trackpaneltransitionmovefunction.h"
 
 
+
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
 #define ID_CURTIME_MSG 3
@@ -117,6 +119,14 @@ namespace Gui {
 	const char *name):KDockMainWindow(parent, name), m_monitorManager(this),
     m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL) {
 	config = kapp->config();
+        
+        QPixmap pixmap(locate("appdata", "graphics/kdenlive-splash.png"));
+
+        splash = new KdenliveSplash(pixmap);
+        splash->show();
+        
+        QTimer::singleShot(10*1000, this, SLOT(slotSplashTimeout()));
+
 
 	// renderer options
 	m_renderManager = new KRenderManager(this);
@@ -130,6 +140,7 @@ namespace Gui {
 	initDocument();
 	initView();
 	readOptions();
+        connect(m_workspaceMonitor->screen(), SIGNAL(screenIsReady(bool)), splash, SLOT(setShown(bool)));
 
 	// disable actions at startup
 	fileSave->setEnabled(false);
@@ -146,8 +157,15 @@ namespace Gui {
     }
     
     
+    void KdenliveApp::slotSplashTimeout()
+    {
+        delete splash;
+        splash = 0L;
+    }
+    
     
     KdenliveApp::~KdenliveApp() {
+        if (splash) delete splash;
         if (m_renderManager) delete m_renderManager;
         delete m_transitionPanel;
         delete m_effectStackDialog;
@@ -1478,6 +1496,7 @@ namespace Gui {
 /* Create text clip */
     void KdenliveApp::slotProjectAddTextClip() {
         slotStatusMsg(i18n("Adding Clips"));
+        activateWorkspaceMonitor();
         titleWidget *txtWidget=new titleWidget(doc->projectClip().videoWidth(), doc->projectClip().videoHeight(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
         connect(txtWidget->canview,SIGNAL(showPreview(QString)),m_workspaceMonitor->screen(),SLOT(setTitlePreview(QString)));
         txtWidget->titleName->setText(i18n("Text Clip"));
@@ -1507,6 +1526,7 @@ namespace Gui {
 	    DocClipBase *clip = refClip->referencedClip();
             
             if (refClip->clipType() == DocClipBase::TEXT) {
+                activateWorkspaceMonitor();
                 titleWidget *txtWidget=new titleWidget(doc->projectClip().videoWidth(), doc->projectClip().videoHeight(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
                 connect(txtWidget->canview,SIGNAL(showPreview(QString)),m_workspaceMonitor->screen(),SLOT(setTitlePreview(QString)));
                 Timecode tcode;

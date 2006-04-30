@@ -73,7 +73,7 @@ namespace {
 KRender::KRender(const QString & rendererName, Gui::KdenliveApp *parent, const char *name):QObject(parent, name), m_name(rendererName), m_app(parent), m_fileFormat(0),
 m_desccodeclist(0), m_codec(0), m_effect(0),
 m_parameter(0), m_isRendering(false), m_renderingFormat(0),
-m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProducer(NULL)
+m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProducer(NULL), m_mltTextProducer(NULL)
 {
     startTimer(10);
     refreshTimer = new QTimer( this );
@@ -555,27 +555,36 @@ double KRender::consumerRatio()
 
 void KRender::restoreProducer()
 {
+    if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
+    if (m_mltTextProducer) delete m_mltTextProducer;
+    m_mltTextProducer = 0;
+    m_mltConsumer->purge();
     if(m_mltProducer == NULL) return;
-    m_mltConsumer->stop();
-    m_mltConsumer->connect(*m_mltProducer);
-    m_mltConsumer->start();
     m_mltProducer->set_speed(0.0);
+    m_mltConsumer->start();
+    m_mltConsumer->connect(*m_mltProducer);
     refresh();
 }
 
 void KRender::setTitlePreview(QString tmpFileName)
 {
-    m_mltConsumer->stop();
+    if (!m_mltConsumer->is_stopped()) {
+        m_mltConsumer->stop();
+    }
+    m_mltConsumer->purge();
     int pos = 0;
-
+    if (m_mltTextProducer) delete m_mltTextProducer;
+    m_mltTextProducer = 0;
 	// If there is no clip in the monitor, use a black video as first track	
     if(m_mltProducer == NULL) {
         QString ctext2;
         ctext2="<producer><property name=\"mlt_service\">colour</property><property name=\"colour\">black</property></producer>";
-        m_mltProducer = new Mlt::Producer ("westley-xml",const_cast<char*>(ctext2.ascii()));
+        m_mltTextProducer = new Mlt::Producer("westley-xml",const_cast<char*>(ctext2.ascii()));
     }
-    else pos = m_mltProducer->position();
-	
+    else {
+        pos = m_mltProducer->position();
+        m_mltTextProducer = new Mlt::Producer(m_mltProducer->get_producer());
+    }
     // Create second producer with the png image created by the titler
     QString ctext;
     ctext="<producer><property name=\"resource\">"+tmpFileName+"</property></producer>";
@@ -584,28 +593,20 @@ void KRender::setTitlePreview(QString tmpFileName)
 
 	// Add composite transition for overlaying the 2 tracks
     Mlt::Transition convert( "composite" ); 
-    //convert.set("geometry","0,0:100%x100%:60");
     convert.set("distort",1);
     convert.set("progressive",1);
     convert.set("always_active",1);
-	
+    
 	// Define the 2 tracks
-    tracks.set_track(*m_mltProducer,0);
+    tracks.set_track(*m_mltTextProducer,0);
     tracks.set_track(prod2,1);
     tracks.plant_transition( convert ,0,1);
-    tracks.seek(pos);	
-
-	// Start playing preview
-    
-    
-    //refresh();
-    //m_mltConsumer->lock();
+    tracks.seek(pos);
+    m_mltTextProducer->seek(pos);
     tracks.set_speed(0.0);
     m_mltConsumer->connect(tracks);
     m_mltConsumer->start();
     refresh();
-    
-    //m_mltConsumer->unlock();
 }
 
 bool KRender::isValid(KURL url)

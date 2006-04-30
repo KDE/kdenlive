@@ -14,11 +14,13 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#include <klocale.h>
 #include "kdenlivesplash.h"
 
 KdenliveSplash::KdenliveSplash(const QPixmap & pixmap, WFlags f):KSplashScreen(pixmap,
     f)
 {
+    message(i18n("Version 0.3 beta"), AlignLeft, white);
 }
 
 KdenliveSplash::~KdenliveSplash()
