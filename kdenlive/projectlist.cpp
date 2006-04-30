@@ -214,6 +214,17 @@ namespace Gui {
 	}
 	emit clipSelected(avitem->clip());
     }
+    
+    void ProjectList::updateReference() {
+        const AVListViewItem *avitem =
+                (AVListViewItem *) m_listView->currentItem();
+        if (!avitem)
+            return;
+        if (avitem->clip()) {
+            text_usage->setText(QString::number(avitem->clip()->
+                    numReferences()));
+        }
+    }
 
     DocClipRef *ProjectList::currentSelection() {
 	const AVListViewItem *avitem =

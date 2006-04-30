@@ -33,7 +33,9 @@ namespace Command {
 	m_xmlClip(clip->toXML()),
 	m_findTime(clip->trackStart() + (clip->cropDuration() / 2.0)),
 	m_track(clip->trackNum()), m_project(project) {
-    } KAddRefClipCommand::~KAddRefClipCommand() {
+    } 
+    
+    KAddRefClipCommand::~KAddRefClipCommand() {
     }
 
     QString KAddRefClipCommand::name() const {
@@ -65,7 +67,9 @@ namespace Command {
 	    DocClipRef::createClip(m_effectList, m_clipManager,
 	    m_xmlClip.documentElement());
         //if (clip->hasVariableThumbnails()) clip->generateThumbnails();
+        clip->referencedClip()->addReference();
 	m_project->track(clip->trackNum())->addClip(clip, true);
+        m_project->slotClipReferenceChanged();
     }
 
     void KAddRefClipCommand::deleteClip() {
@@ -73,7 +77,8 @@ namespace Command {
 	DocClipRef *clip = track->getClipAt(m_findTime);
         m_project->deleteClipTransition( clip );
 	track->removeClip(clip);
-
+        clip->referencedClip()->removeReference();
+        m_project->slotClipReferenceChanged();
 	delete clip;
     }
 

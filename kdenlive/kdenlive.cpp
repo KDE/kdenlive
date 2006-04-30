@@ -140,7 +140,6 @@ namespace Gui {
 	initDocument();
 	initView();
 	readOptions();
-        connect(m_workspaceMonitor->screen(), SIGNAL(screenIsReady(bool)), splash, SLOT(setShown(bool)));
 
 	// disable actions at startup
 	fileSave->setEnabled(false);
@@ -154,6 +153,7 @@ namespace Gui {
 	// Reopen last project if user asked it
 	if (KdenliveSettings::openlast())
             connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(openLastFile()));
+        else connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(slotSplashTimeout()));
     }
     
     
@@ -191,6 +191,7 @@ namespace Gui {
         QString Lastproject = config->readPathEntry("File1");
         if (!Lastproject.isEmpty())
             slotFileOpenRecent(KURL(Lastproject));
+        slotSplashTimeout();
     }
 
     void KdenliveApp::initActions() {
@@ -723,6 +724,9 @@ namespace Gui {
 
 	connect(m_effectStackDialog, SIGNAL(redrawTracks()), m_timeline,
 	    SLOT(invalidateBackBuffer()));
+        
+        connect(&(getDocument()->projectClip()), SIGNAL(clipReferenceChanged()), this,
+                SLOT(clipReferenceChanged()));
 
 	connect(getDocument(), SIGNAL(clipListUpdated()), m_projectList,
 	    SLOT(slot_UpdateList()));
@@ -1735,6 +1739,10 @@ namespace Gui {
 	addCommand(Command::KAddRefClipCommand::
 	    deleteSelectedClips(getDocument()), true);
 	slotStatusMsg(i18n("Ready."));
+    }
+    
+    void KdenliveApp::clipReferenceChanged() {
+        m_projectList->updateReference();
     }
 
 /** Returns the render manager. */

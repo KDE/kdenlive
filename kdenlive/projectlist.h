@@ -82,6 +82,8 @@ namespace Gui {
 	/** updates the list when an item changed */
 	void updateListItem();
         
+        void updateReference();
+        
       signals:		// Signals
 	/** this signal is called when a number of clips have been dropped onto the project list view. */
 	void dragDropOccured(QDropEvent * drop);

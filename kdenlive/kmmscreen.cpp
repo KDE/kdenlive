@@ -64,7 +64,6 @@ namespace Gui {
     void KMMScreen::rendererReady() {
 	//QWidget *q=new QWidget(this);
 	m_render->createVideoXWindow(false, winId());
-        emit screenIsReady(false);
     }
     
     void KMMScreen::paintEvent ( QPaintEvent * ) {

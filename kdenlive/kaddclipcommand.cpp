@@ -40,7 +40,9 @@ namespace Command {
 	 macroCommand->addCommand(command);
 
 	 return macroCommand;
-    } KCommand *KAddClipCommand::clearChildren(DocumentBaseNode & node,
+    } 
+    
+    KCommand *KAddClipCommand::clearChildren(DocumentBaseNode & node,
 	KdenliveDoc & document) {
 	KMacroCommand *macroCommand =
 	    new KMacroCommand(i18n("Clean project"));

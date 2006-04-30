@@ -360,7 +360,6 @@ createClip(const EffectDescriptionList & effectList,
             }
         }
     }
-
     return clip;
 }
 

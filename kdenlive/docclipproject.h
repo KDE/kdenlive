@@ -61,6 +61,7 @@ class DocClipProject:public DocClipBase {
     DocTrackBase *track(uint track);
     bool moveSelectedClips(GenTime startOffset, int trackOffset);
     const DocTrackBaseList & trackList() const;
+    void slotClipReferenceChanged();
 
 	/** Generates the tracklist for this clip from the xml fragment passed in.*/
     void generateTracksFromXML(const EffectDescriptionList & effectList,
@@ -163,6 +164,8 @@ class DocClipProject:public DocClipBase {
     void documentChanged(DocClipBase *);
     /** This signal is emitted whenever a transition was deleted */
     void deletedClipTransition();
+    /** This signal is emmitted when a clip was added/removed so that we update its reference number in the project list view */
+    void clipReferenceChanged();
     
     
   private:

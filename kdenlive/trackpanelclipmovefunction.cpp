@@ -375,6 +375,7 @@ bool TrackPanelClipMoveFunction::dragDropped(Gui::KTrackPanel * panel,
 	if (m_addingClips) {
 	    m_app->addCommand(createAddClipsCommand(), false);
 	    m_addingClips = false;
+            m_app->clipReferenceChanged();
 	    m_document->activateSceneListGeneration(true);
 	}
 
@@ -558,6 +559,7 @@ KMacroCommand *TrackPanelClipMoveFunction::createAddClipsCommand()
 		effectDescriptions(), m_document->clipManager(),
 		&m_document->projectClip(), itt.current(), true);
 	    macroCommand->addCommand(command);
+            (*itt)->referencedClip()->addReference();
 	    ++itt;
 	}
     }

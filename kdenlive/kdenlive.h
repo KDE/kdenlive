@@ -339,6 +339,8 @@ namespace Gui {
 
 	void slotEditTransition(Transition *transition);
         
+        void clipReferenceChanged();
+        
       private slots: 
         void slotToggleClipMonitor();
 	void slotToggleWorkspaceMonitor();

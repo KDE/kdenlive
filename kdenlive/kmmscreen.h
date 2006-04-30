@@ -114,7 +114,6 @@ signals:
 	void mouseDragged();
         void exportOver();
         void playingStopped();
-        void screenIsReady(bool);
     };
 
 }

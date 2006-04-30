@@ -51,6 +51,11 @@ const KURL & DocClipProject::fileURL() const
     return emptyUrl;
 }
 
+void DocClipProject::slotClipReferenceChanged()
+{
+    emit clipReferenceChanged();
+}
+
 /** Returns true if the clip duration is known, false otherwise. */
 bool DocClipProject::durationKnown() const
 {

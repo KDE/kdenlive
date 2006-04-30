@@ -175,7 +175,7 @@ class DocClipRef:public QObject {
     double framesPerSecond() const;
     //return clip video properties -reh
 	/** Returns clip type (audio, video,...) */
-     DocClipBase::CLIPTYPE clipType() const;
+    DocClipBase::CLIPTYPE clipType() const;
     uint clipWidth() const;
     uint clipHeight() const;
     QString avDecompressor();
