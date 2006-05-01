@@ -49,7 +49,6 @@ namespace Gui {
         Timecode tcode;
         clipChoice->edit_duration->setText(tcode.getTimecode(refClip->duration(), KdenliveSettings::defaultfps()));
         m_pix = new QPixmap(120,96);
-        m_hasChanged = false;
         m_document = document;
 
         clipChoice->preview_pixmap->pixmap()->resize(120, 96);
@@ -150,14 +149,8 @@ namespace Gui {
     
     void ClipProperties::updateThumb(const QString &path)
     {
-        m_hasChanged = true;
         m_document->renderer()->getImage(path, 0, m_pix);
         clipChoice->preview_pixmap->setPixmap(*m_pix);
-    }
-    
-    void ClipProperties::updateDuration(const QString &)
-    {
-        m_hasChanged = true;
     }
 
     QString ClipProperties::color()
@@ -186,7 +179,6 @@ namespace Gui {
     
     void ClipProperties::updateColor(const QColor &c)
     {
-        m_hasChanged = true;
         clipChoice->preview_pixmap->pixmap()->fill(c);
         clipChoice->preview_pixmap->repaint();
     }
