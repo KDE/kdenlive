@@ -96,6 +96,8 @@ Transition::Transition(const DocClipRef * clipa, const GenTime &time)
     if (m_transitionStart + defaultTransitionDuration > m_referenceClip->cropDuration()) 
         m_transitionDuration = m_referenceClip->cropDuration() - m_transitionStart;
     else m_transitionDuration = defaultTransitionDuration;
+    
+    if (time > clipa->trackMiddleTime()) m_invertTransition = true;
     m_secondClip = 0;
 }
 
