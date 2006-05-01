@@ -347,6 +347,7 @@ namespace Gui {
 	void slotToggleEffectList();
 	void slotToggleEffectStack();
 	void slotToggleProjectList();
+        void slotToggleTransitions();
         
         /** Add a transition between the 2 selected clips */
         void addTransition();

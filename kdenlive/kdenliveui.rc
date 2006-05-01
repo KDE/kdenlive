@@ -55,6 +55,7 @@
 	  <Action name="toggle_effect_list"/>
 	  <Action name="toggle_effect_stack"/>
 	  <Action name="toggle_project_list"/>
+          <Action name="toggle_transitions"/>
   </Menu>
 </MenuBar>
 

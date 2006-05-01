@@ -150,6 +150,9 @@ namespace Gui {
 
 	fileSaveAs->setEnabled(true);
 
+        m_clipMonitor->editPanel()->showLcd(KdenliveSettings::showlcd());
+        m_workspaceMonitor->editPanel()->showLcd(KdenliveSettings::showlcd());
+        
 	// Reopen last project if user asked it
 	if (KdenliveSettings::openlast())
             connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(openLastFile()));
@@ -440,6 +443,9 @@ namespace Gui {
 	(void) new KAction(i18n("Project List"), 0, this,
 	    SLOT(slotToggleProjectList()), actionCollection(),
 	    "toggle_project_list");
+        (void) new KAction(i18n("Transitions"), 0, this,
+        SLOT(slotToggleTransitions()), actionCollection(),
+        "toggle_transitions");
 
 	timelineMoveTool->setExclusiveGroup("timeline_tools");
 	timelineRazorTool->setExclusiveGroup("timeline_tools");
@@ -943,6 +949,10 @@ namespace Gui {
 
     void KdenliveApp::slotToggleProjectList() {
 	m_dockProjectList->changeHideShowState();
+    }
+    
+    void KdenliveApp::slotToggleTransitions() {
+        m_dockTransition->changeHideShowState();
     }
 
     void KdenliveApp::openDocumentFile(const KURL & url) {
