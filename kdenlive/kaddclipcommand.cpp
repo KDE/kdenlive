@@ -67,10 +67,13 @@ namespace Command {
 				clipNode->clipRef()->referencedClip(),
 				clipNode->parent(), false));
 		    }
-		} else {
+                } 
+                /*
+                What's this ? Currently crashes kdenlive, so commented out - 1 mai 06, jbm
+                else {
 		    macroCommand->addCommand(new KAddClipCommand(document,
 			    node->name(), NULL, node->parent(), false));
-		}
+                }*/
 	    }
 
 	    ++itt;

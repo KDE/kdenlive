@@ -81,7 +81,7 @@ namespace Gui {
 	void slot_nodeDeleted(DocumentBaseNode * node);
 	/** updates the list when an item changed */
 	void updateListItem();
-        
+        void selectClip(DocClipBase *clip);
         void updateReference();
         
       signals:		// Signals

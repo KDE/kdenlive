@@ -56,6 +56,7 @@ m_clipHierarch(0), m_render(app->renderManager()->findRenderer("Document")), m_c
 
     connect(&m_clipManager, SIGNAL(clipListUpdated()), this, SLOT(generateProducersList()));
     connect(&m_clipManager, SIGNAL(clipChanged(DocClipBase *)), this, SLOT(clipChanged(DocClipBase *)));
+    connect(&m_clipManager, SIGNAL(updateClipThumbnails(DocClipBase *)), this, SLOT(slotUpdateClipThumbnails(DocClipBase *)));
     connect(&m_clipManager, SIGNAL(fixClipDuration(DocClipBase *)), this, SLOT(fixClipDuration(DocClipBase *)));
 
     m_domSceneList.appendChild(m_domSceneList.createElement("scenelist"));
@@ -420,11 +421,51 @@ void KdenliveDoc::setProjectClip(DocClipProject * projectClip)
 	delete m_projectClip;
     }
     m_projectClip = projectClip;
-
     connectProjectClip();
-
+    updateReferences();
     emit trackListChanged();
     emit documentLengthChanged(projectDuration());
+}
+
+void KdenliveDoc::slotUpdateClipThumbnails(DocClipBase *clip)
+{
+    QPtrListIterator < DocTrackBase > trackItt(trackList());
+    while (trackItt.current()) {
+        QPtrListIterator < DocClipRef > clipItt(trackItt.current()->firstClip(true));
+        while (clipItt.current()) {
+            if ((*clipItt)->referencedClip() == clip)
+                (*clipItt)->generateThumbnails();
+            ++clipItt;
+            
+        }
+        QPtrListIterator < DocClipRef > clipItt2(trackItt.current()->firstClip(false));
+        while (clipItt2.current()) {
+            if ((*clipItt2)->referencedClip() == clip)
+                (*clipItt2)->generateThumbnails();
+            ++clipItt2;
+        }
+        ++trackItt;
+    }
+    emit timelineClipUpdated();
+}
+
+void KdenliveDoc::updateReferences()
+{
+    QPtrListIterator < DocTrackBase > trackItt(trackList());
+    while (trackItt.current()) {
+        QPtrListIterator < DocClipRef > clipItt(trackItt.current()->firstClip(true));
+        while (clipItt.current()) {
+            (*clipItt)->referencedClip()->addReference();
+            ++clipItt;
+            
+        }
+        QPtrListIterator < DocClipRef > clipItt2(trackItt.current()->firstClip(false));
+        while (clipItt2.current()) {
+            (*clipItt2)->referencedClip()->addReference();
+            ++clipItt2;
+        }
+        ++trackItt;
+    }
 }
 
 QValueVector < GenTime > KdenliveDoc::getSnapTimes(bool includeClipEnds,

@@ -20,7 +20,7 @@
 	<Action name="project_add_clip"/>
 	<Action name="project_delete_clip"/>
 	<Action name="project_clean"/>
-	<Action name="project_clip_properties"/>
+        <Action name="edit_clip"/>
 	<Separator lineSeparator="true"/>
 	<Action name="configure_project"/>
   </Menu>
@@ -74,8 +74,9 @@
 		<Action name="project_add_text_clip"/>
 	</Menu>
 	<Action name="project_delete_clip"/>
-	<Action name="project_clean"/>
-	<Action name="project_clip_properties"/>
+        <Action name="edit_clip"/>
+        <Separator lineSeparator="true"/>
+        <Action name="project_clean"/>
 </Menu>
 
 <Menu name="timeline_context">
@@ -121,6 +122,8 @@
   <Action name="clear_snap_markers_from_selected"/>
   <Separator lineSeparator="true"/>
   <Action name="delete_selected_clips"/>
+  <Separator lineSeparator="true"/>
+  <Action name="project_edit_clip"/>
 </Menu>
 
 <Menu name="monitor_context">

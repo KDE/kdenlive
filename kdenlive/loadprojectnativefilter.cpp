@@ -176,7 +176,6 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
                 clip.attribute("description", ""),xml, clip.attribute("url", ""), pm, clip.attribute("transparency", "").toInt(), clip.attribute("id", "-1").toInt());
             }
             
-
 	    DocumentClipNode *clipNode =
 		new DocumentClipNode(parentNode, baseClip);
 	    thisNode = clipNode;

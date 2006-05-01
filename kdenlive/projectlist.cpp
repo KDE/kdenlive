@@ -234,6 +234,20 @@ namespace Gui {
 	}
 	return 0;
     }
+    
+    void ProjectList::selectClip(DocClipBase *clip) {
+        
+        QListViewItemIterator it( m_listView );
+        while ( it.current() ) {
+            const AVListViewItem *avitem = static_cast < AVListViewItem * >(*it);
+            if (avitem && avitem->clip() && avitem->clip()->referencedClip() == clip) {
+                m_listView->setSelected(*it, true);
+                m_listView->ensureItemVisible(*it);
+                break;
+            }
+            ++it;
+        }
+    }
 
     QPopupMenu *ProjectList::contextMenu() {
 	QPopupMenu *menu =

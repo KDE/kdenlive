@@ -56,11 +56,13 @@ namespace Gui {
         GenTime duration();
         QString url();
         bool transparency();
+        bool hasChanged() { return m_hasChanged;};
 
       private slots:
         void updateColor(const QColor &c);
         QString formattedSize(uint fileSize);
         void updateThumb(const QString &path);
+        void updateDuration(const QString &);
         
       private:
         int m_height;
@@ -68,6 +70,8 @@ namespace Gui {
         QPixmap *m_pix;
         clipProperties_UI *clipChoice;
         KdenliveDoc *m_document;
+        /** Used to tell if user has changed a setting & we need to refresh timeline */
+        bool m_hasChanged;
 
     };
 

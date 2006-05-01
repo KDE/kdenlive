@@ -162,8 +162,9 @@ void ClipManager::editTextClip(DocClipRef * clip, const GenTime & duration, cons
         avClip->setThumbnail(pix);
         avClip->setTextClipXml(xml);
         avClip->setAlpha(alphaTransparency);
+        m_render->getImage(url, 50, 40);
+        if (clip->numReferences() > 0) emit updateClipThumbnails(clip->referencedClip());
     }
-    //m_render->getImage(m_clipCounter, description, 12, 64, 50);
     emit clipListUpdated();
 }
 
@@ -177,11 +178,14 @@ void ClipManager::editColorClip(DocClipRef * clip, const QString & color,
     DocClipAVFile *avClip =
 	dynamic_cast < DocClipAVFile * >(clip->referencedClip());
     if (avClip) {
-	avClip->setColor(color);
 	avClip->setName(name);
 	avClip->setDuration(duration);
+        if (avClip->color() != color) {
+            avClip->setColor(color);
+            m_render->getImage(avClip->getId(), color, 50, 40);
+            if (clip->numReferences() > 0) emit updateClipThumbnails(clip->referencedClip());
+        }
     }
-    m_render->getImage(avClip->getId(), color, 50, 40);
     emit clipListUpdated();
 }
 
@@ -195,10 +199,13 @@ void ClipManager::editImageClip(DocClipRef * clip, const KURL & file,
     DocClipAVFile *avClip =
 	dynamic_cast < DocClipAVFile * >(clip->referencedClip());
     if (avClip) {
-	avClip->setFileURL(file);
         avClip->setAlpha(alphaTransparency);
 	avClip->setDuration(duration);
-	m_render->getImage(file, 50, 40);
+        if (avClip->fileURL() != file) {
+            avClip->setFileURL(file);
+            m_render->getImage(file, 50, 40);
+            if (clip->numReferences() > 0) emit updateClipThumbnails(clip->referencedClip());
+        }
     }
     emit clipListUpdated();
 }
@@ -209,10 +216,15 @@ void ClipManager::editClip(DocClipRef * clip, const KURL & file, const QString &
     DocClipAVFile *avClip =
 	dynamic_cast < DocClipAVFile * >(clip->referencedClip());
     if (avClip) {
-	avClip->setFileURL(file);
         clip->setDescription(description);
-	emit getFileProperties(file);
-	emit fixClipDuration(clip->referencedClip());
+        if (avClip->fileURL() != file) {
+            avClip->setFileURL(file);
+            emit getFileProperties(file);
+            if (clip->numReferences() > 0)  {
+                emit fixClipDuration(clip->referencedClip());
+                emit updateClipThumbnails(clip->referencedClip());
+            }
+        }
     }
 }
 

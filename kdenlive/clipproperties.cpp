@@ -49,11 +49,14 @@ namespace Gui {
         Timecode tcode;
         clipChoice->edit_duration->setText(tcode.getTimecode(refClip->duration(), KdenliveSettings::defaultfps()));
         m_pix = new QPixmap(120,96);
+        m_hasChanged = false;
         m_document = document;
 
         clipChoice->preview_pixmap->pixmap()->resize(120, 96);
         connect(clipChoice->button_color, SIGNAL(changed(const QColor &)), this, SLOT(updateColor(const QColor &)));
         connect(clipChoice->edit_url, SIGNAL(textChanged(const QString &)), this, SLOT(updateThumb(const QString &)));
+        connect(clipChoice->edit_duration, SIGNAL(textChanged(const QString &)), this, SLOT(updateDuration(const QString &)));
+        
 
         clipChoice->edit_url->setURL(refClip->fileURL().path());
         DocClipBase *clip = refClip->referencedClip();
@@ -147,8 +150,14 @@ namespace Gui {
     
     void ClipProperties::updateThumb(const QString &path)
     {
+        m_hasChanged = true;
         m_document->renderer()->getImage(path, 0, m_pix);
         clipChoice->preview_pixmap->setPixmap(*m_pix);
+    }
+    
+    void ClipProperties::updateDuration(const QString &)
+    {
+        m_hasChanged = true;
     }
 
     QString ClipProperties::color()
@@ -177,6 +186,7 @@ namespace Gui {
     
     void ClipProperties::updateColor(const QColor &c)
     {
+        m_hasChanged = true;
         clipChoice->preview_pixmap->pixmap()->fill(c);
         clipChoice->preview_pixmap->repaint();
     }

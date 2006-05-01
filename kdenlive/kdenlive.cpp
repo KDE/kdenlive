@@ -311,6 +311,11 @@ namespace Gui {
 	    new KAction(i18n("Clip properties"), "clipproperties.png", 0,
 	    this, SLOT(slotProjectClipProperties()), actionCollection(),
 	    "project_clip_properties");
+        
+        projectClipProperties =
+                new KAction(i18n("Clip properties"), "clipproperties.png", 0,
+                            this, SLOT(slotProjectClipProperties()), actionCollection(),
+                            "project_clip_properties");
 
 	renderExportTimeline =
 	    new KAction(i18n("&Export Timeline"), "exportvideo.png", 0,
@@ -443,9 +448,20 @@ namespace Gui {
 	(void) new KAction(i18n("Project List"), 0, this,
 	    SLOT(slotToggleProjectList()), actionCollection(),
 	    "toggle_project_list");
+        
         (void) new KAction(i18n("Transitions"), 0, this,
         SLOT(slotToggleTransitions()), actionCollection(),
         "toggle_transitions");
+        
+        (void) new KAction(i18n("Edit Clip"), 0, this,
+        SLOT(slotProjectEditClip()), actionCollection(),
+        "edit_clip");
+        
+        (void) new KAction(i18n("Edit Parent Clip"), 0, this,
+        SLOT(slotProjectEditParentClip()), actionCollection(),
+        "project_edit_clip");
+        
+        
 
 	timelineMoveTool->setExclusiveGroup("timeline_tools");
 	timelineRazorTool->setExclusiveGroup("timeline_tools");
@@ -736,6 +752,10 @@ namespace Gui {
 
 	connect(getDocument(), SIGNAL(clipListUpdated()), m_projectList,
 	    SLOT(slot_UpdateList()));
+        
+        connect(getDocument(), SIGNAL(timelineClipUpdated()), m_timeline,
+                SLOT(invalidateBackBuffer()));
+        
 	connect(getDocument(), SIGNAL(clipChanged(DocClipRef *)),
 	    m_projectList, SLOT(slot_clipChanged(DocClipRef *)));
 	connect(getDocument(), SIGNAL(nodeDeleted(DocumentBaseNode *)),
@@ -795,7 +815,7 @@ namespace Gui {
 
 	connect(m_timeline, SIGNAL(seekPositionChanged(const GenTime &)),
         this, SLOT(activateWorkspaceMonitor()));
-
+        
 	connect(m_timeline, SIGNAL(rightButtonPressed()), this,
 	    SLOT(slotDisplayTimeLineContextMenu()));
 
@@ -1531,6 +1551,14 @@ namespace Gui {
         m_workspaceMonitor->screen()->restoreProducer();
         slotStatusMsg(i18n("Ready."));
     }
+    
+    
+    /* Edit parent clip of the selected timeline clip*/
+    void KdenliveApp::slotProjectEditParentClip() {
+        m_projectList->selectClip(getDocument()->projectClip().selectedClip()->referencedClip());
+        slotProjectEditClip();
+    }
+    
     
     /* Edit existing clip */
     void KdenliveApp::slotProjectEditClip() {

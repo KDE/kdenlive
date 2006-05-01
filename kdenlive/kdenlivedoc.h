@@ -201,7 +201,9 @@ class KdenliveDoc:public QObject {
 	/** Connects the various project clip signals/slots up to the document. This should be done whenever
 	a new document project clip is created.*/
     void connectProjectClip();
-    
+    /** When loading a new project, update the project list clip's reference (how much time each clip is used in timeline*/
+    void updateReferences();
+
     
     public slots:
 	/** Adds a sound track to the project */
@@ -216,7 +218,8 @@ class KdenliveDoc:public QObject {
     void activateSceneListGeneration(bool active);
     /** When a transition was deleted, disable the transition dialog in case its transition was deleted*/
     void slotDeleteClipTransition();
-    
+    void slotUpdateClipThumbnails(DocClipBase *clip);
+
     Gui::KdenliveApp *application() {
     return m_app;
     }
@@ -236,6 +239,8 @@ class KdenliveDoc:public QObject {
 	/** This is signal is emitted whenever the avFileList changes, either through the addition
 	 * or removal of an AVFile, or when an AVFile changes. */
     void clipListUpdated();
+    /** This is signal is emitted whenever a clip thumbnail has changed, so timeline needs to be updated*/
+    void timelineClipUpdated();
 	/** Emitted when the modified state of the document changes. */
     void modified(bool);
 	/** Emitted when a particular clip has changed in someway. E.g, it has recieved it's duration. */

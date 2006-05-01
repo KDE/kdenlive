@@ -242,6 +242,7 @@ namespace Gui {
 	void slotProjectAddTextClip();
 
 	void slotProjectEditClip();
+        void slotProjectEditParentClip();
 		/** Opens a clip properties dialog */
 	void slotProjectClipProperties();
 	//sets properties for selected clip without showing dialog

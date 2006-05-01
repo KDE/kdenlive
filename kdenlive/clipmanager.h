@@ -136,6 +136,7 @@ class ClipManager:public QObject {
 
     void fixClipDuration(DocClipBase *);
     void getFileProperties(KURL);
+    void updateClipThumbnails(DocClipBase *);
 
     public slots:
 	/** This slot occurs when the File properties for an AV File have been returned by the renderer.
