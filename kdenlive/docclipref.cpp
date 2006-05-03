@@ -158,6 +158,15 @@ void DocClipRef::fetchEndThumbnail()
 
 void DocClipRef::setCropStartTime(const GenTime & time)
 {
+    // Adjust all transitions
+    if (!m_transitionStack.isEmpty()) {
+        TransitionStack::iterator itt = m_transitionStack.begin();
+        while (itt != m_transitionStack.end()) {
+            if ((*itt)->transitionStartTime() != trackStart())
+                (*itt)->moveTransition(m_cropStart - time);
+            ++itt;
+        }
+    }
     m_cropStart = time;
     if (m_parentTrack) {
 	m_parentTrack->clipMoved(this);
@@ -172,6 +181,17 @@ const GenTime & DocClipRef::cropStartTime() const
 
 void DocClipRef::setTrackEnd(const GenTime & time)
 {
+    // Check all transitions
+    if (!m_transitionStack.isEmpty()) {
+        TransitionStack::iterator itt = m_transitionStack.begin();
+        while (itt != m_transitionStack.end()) {
+            if (time - (*itt)->transitionStartTime() < GenTime(2, m_clip->framesPerSecond()))
+                (*itt)->moveTransition(time - trackEnd()); 
+            //GenTime(0) - GenTime(3, m_clip->framesPerSecond()));
+            ++itt;
+        }
+    }
+    
     if (time < m_trackStart || time == m_trackStart) m_trackEnd = m_trackStart + GenTime(5, m_clip->framesPerSecond());
     else m_trackEnd = time;
 
