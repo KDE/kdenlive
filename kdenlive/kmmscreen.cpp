@@ -70,6 +70,9 @@ namespace Gui {
         m_render->askForRefresh();
     }
     
+    void KMMScreen::exportCurrentFrame() {
+        m_render->exportCurrentFrame();
+    }
 
 
 /** Seeks to the specified time */

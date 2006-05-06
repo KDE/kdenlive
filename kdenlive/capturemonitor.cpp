@@ -90,14 +90,22 @@ namespace Gui {
 	    SLOT(slotForward()));
     } CaptureMonitor::~CaptureMonitor() {
     }
+    
+    void CaptureMonitor::exportCurrentFrame() const {
+	// TODO FIXME
+    } 
 
     KMMEditPanel *CaptureMonitor::editPanel() const {
 	// TODO FIXME
 	return NULL;
-    } KMMScreen *CaptureMonitor::screen() const {
+    } 
+    
+    KMMScreen *CaptureMonitor::screen() const {
 	// TODO FIXME
 	return NULL;
-    } DocClipRef *CaptureMonitor::clip() const {
+    } 
+    
+    DocClipRef *CaptureMonitor::clip() const {
 	return NULL;
     } 
     

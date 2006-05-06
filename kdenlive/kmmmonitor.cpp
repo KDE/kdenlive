@@ -183,6 +183,10 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	    m_screen->setSceneList(scenelist, resetPosition);
 	}
     }
+    
+    void KMMMonitor::exportCurrentFrame() const {
+        m_screen->exportCurrentFrame();
+    }
 
     const GenTime & KMMMonitor::seekPosition() const {
 	return m_screen->seekPosition();
@@ -192,12 +196,12 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	m_app->activateMonitor(this);
     }
 
-    void KMMMonitor::slotSetActive() {
+    void KMMMonitor::slotSetActive() const {
 	//m_screenHolder->setPaletteBackgroundColor(QColor(16, 32, 71));
 	m_screen->startRenderer();
     }
 
-    void KMMMonitor::slotSetInactive() {
+    void KMMMonitor::slotSetInactive() const {
 	m_screen->stopRenderer();
 	//m_screenHolder->setPaletteBackgroundColor(QColor(0, 0, 0));
     }

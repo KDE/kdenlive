@@ -19,6 +19,11 @@
       <label>Autosave interval.</label>
       <default>10</default>
     </entry>
+    
+    <entry name="showsplash" type="Bool">
+      <label>Show splash screen on startup.</label>
+      <default>true</default>
+    </entry>
 
   </group>
 

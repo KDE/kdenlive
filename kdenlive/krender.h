@@ -169,6 +169,9 @@ class KRender:public QObject {
     /** Gives the aspect ratio of the consumer */
     void askForRefresh();
     
+    /** Save current producer frame as image */
+    void exportCurrentFrame();
+    
 
   protected:			// Protected methods
 	/** Recieves timer events */

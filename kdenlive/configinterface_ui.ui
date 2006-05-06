@@ -27,23 +27,6 @@
                 <string>Open last project on startup</string>
             </property>
         </widget>
-        <spacer row="2" column="0">
-            <property name="name">
-                <cstring>spacer2</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Vertical</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>16</width>
-                    <height>36</height>
-                </size>
-            </property>
-        </spacer>
         <widget class="QLabel" row="1" column="2">
             <property name="name">
                 <cstring>textLabel1_2</cstring>
@@ -77,6 +60,31 @@
             </property>
             <property name="text">
                 <string>Autosave project every</string>
+            </property>
+        </widget>
+        <spacer row="3" column="0">
+            <property name="name">
+                <cstring>spacer2</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>16</width>
+                    <height>18</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>kcfg_showsplash</cstring>
+            </property>
+            <property name="text">
+                <string>Show splash screen</string>
             </property>
         </widget>
     </grid>

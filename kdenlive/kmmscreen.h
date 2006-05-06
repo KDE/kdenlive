@@ -96,6 +96,7 @@ public slots:
         void slotExportStopped();
         void slotPlayingStopped();
         void exportToFirewire(QString url, int port, GenTime startTime, GenTime endTime);
+        void exportCurrentFrame();
         
 signals:
 	/** Emitted when a renderer connects. */

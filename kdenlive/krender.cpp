@@ -983,6 +983,10 @@ void KRender::stopExport()
     }
 }
 
+void KRender::exportCurrentFrame() {
+    // To be written
+}
+
 void KRender::exportTimeline(const QString &url, const QString &format, GenTime exportStart, GenTime exportEnd, QStringList params)
 {
     /*if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();*/

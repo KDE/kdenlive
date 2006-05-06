@@ -23,6 +23,8 @@ namespace Gui {
     } KMonitor::~KMonitor() {
     }
 
+    void KMonitor::exportCurrentFrame() const {
+    }
 
     void KMonitor::slotSetActive() {
     }

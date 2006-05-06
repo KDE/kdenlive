@@ -122,10 +122,11 @@ namespace Gui {
         
         QPixmap pixmap(locate("appdata", "graphics/kdenlive-splash.png"));
 
-        splash = new KdenliveSplash(pixmap);
-        splash->show();
-        
-        QTimer::singleShot(10*1000, this, SLOT(slotSplashTimeout()));
+        if (KdenliveSettings::showsplash()) {
+            splash = new KdenliveSplash(pixmap);
+            splash->show();
+            QTimer::singleShot(10*1000, this, SLOT(slotSplashTimeout()));
+        }
 
 
 	// renderer options
@@ -156,7 +157,7 @@ namespace Gui {
 	// Reopen last project if user asked it
 	if (KdenliveSettings::openlast())
             connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(openLastFile()));
-        else connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(slotSplashTimeout()));
+        else if (KdenliveSettings::showsplash()) connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(slotSplashTimeout()));
     }
     
     
@@ -461,6 +462,10 @@ namespace Gui {
         SLOT(slotProjectEditParentClip()), actionCollection(),
         "project_edit_clip");
         
+        (void) new KAction(i18n("Export Current Frame"), 0, this,
+        SLOT(slotExportCurrentFrame()), actionCollection(),
+        "export_current_frame");
+        
         
 
 	timelineMoveTool->setExclusiveGroup("timeline_tools");
@@ -758,6 +763,7 @@ namespace Gui {
         
 	connect(getDocument(), SIGNAL(clipChanged(DocClipRef *)),
 	    m_projectList, SLOT(slot_clipChanged(DocClipRef *)));
+        
 	connect(getDocument(), SIGNAL(nodeDeleted(DocumentBaseNode *)),
 	    m_projectList, SLOT(slot_nodeDeleted(DocumentBaseNode *)));
 
@@ -778,8 +784,10 @@ namespace Gui {
 
 	connect(getDocument(), SIGNAL(trackListChanged()), this,
 	    SLOT(slotSyncTimeLineWithDocument()));
-	connect(getDocument(), SIGNAL(clipChanged(DocClipRef *)),
+	
+        connect(getDocument(), SIGNAL(clipChanged(DocClipRef *)),
 	    m_timeline, SLOT(invalidateBackBuffer()));
+        
 	connect(getDocument(),
 	    SIGNAL(documentLengthChanged(const GenTime &)), m_timeline,
 	    SLOT(slotSetProjectLength(const GenTime &)));
@@ -1551,6 +1559,15 @@ namespace Gui {
         m_workspaceMonitor->screen()->restoreProducer();
         slotStatusMsg(i18n("Ready."));
     }
+    
+    
+    void KdenliveApp::slotExportCurrentFrame() {
+        if (m_monitorManager.hasActiveMonitor()) {
+            m_monitorManager.activeMonitor()->exportCurrentFrame();
+        }
+        else KMessageBox::sorry(this, i18n("Please activate a monitor if you want to save a frame"));
+    }
+
     
     
     /* Edit parent clip of the selected timeline clip*/

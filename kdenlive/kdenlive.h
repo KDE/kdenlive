@@ -119,6 +119,7 @@ namespace Gui {
 		 * can proceed. i.e., the document has been saved or discarded. */
 	bool saveModified();
 	int getTimeScaleSliderText() const;
+        
       protected:
 		/** save general Options like all bar positions and status as well as the geometry and the recent file list to the configuration
 		 * file
@@ -356,6 +357,7 @@ namespace Gui {
         /** Delete the selected clip's transition */
         void deleteTransition();
         void slotSplashTimeout();
+        void slotExportCurrentFrame();
 
 
       private:

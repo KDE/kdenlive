@@ -2,7 +2,7 @@
 <kpartgui name="kdenlive" version="0.1">
 <MenuBar>
   <Menu name="file">
-  	<Action name="file_new_window"/>
+        <Action name="export_current_frame"/>
   </Menu>
   <Menu name="edit">
   	<Action name="delete_selected_clips"/>
@@ -95,7 +95,9 @@
 	<Separator lineSeparator="true"/>
 	<Action name="razor_all_clips"/>
 	<Separator lineSeparator="true"/>
-	<Action name="clear_all_snap_markers"/>
+        <Action name="export_current_frame"/>
+	<Separator lineSeparator="true"/>
+        <Action name="clear_all_snap_markers"/>
 </Menu>
 
 <Menu name="timeline_clip_context">
