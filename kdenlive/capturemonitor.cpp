@@ -91,7 +91,7 @@ namespace Gui {
     } CaptureMonitor::~CaptureMonitor() {
     }
     
-    void CaptureMonitor::exportCurrentFrame() const {
+    void CaptureMonitor::exportCurrentFrame(KURL url) const {
 	// TODO FIXME
     } 
 

@@ -54,8 +54,7 @@ namespace Gui {
         clipChoice->preview_pixmap->pixmap()->resize(120, 96);
         connect(clipChoice->button_color, SIGNAL(changed(const QColor &)), this, SLOT(updateColor(const QColor &)));
         connect(clipChoice->edit_url, SIGNAL(textChanged(const QString &)), this, SLOT(updateThumb(const QString &)));
-        connect(clipChoice->edit_duration, SIGNAL(textChanged(const QString &)), this, SLOT(updateDuration(const QString &)));
-        
+
 
         clipChoice->edit_url->setURL(refClip->fileURL().path());
         DocClipBase *clip = refClip->referencedClip();

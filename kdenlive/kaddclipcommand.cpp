@@ -195,6 +195,7 @@ namespace Command {
 
 /** Execute the command */
     void KAddClipCommand::execute() {
+        m_document.setModified(true);
 	if (m_create) {
 	    addClip();
 	} else {
@@ -204,6 +205,7 @@ namespace Command {
 
 /** Unexecute the command */
     void KAddClipCommand::unexecute() {
+        m_document.setModified(true);
 	if (m_create) {
 	    deleteClip();
 	} else {

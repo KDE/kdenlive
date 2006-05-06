@@ -70,8 +70,8 @@ namespace Gui {
         m_render->askForRefresh();
     }
     
-    void KMMScreen::exportCurrentFrame() {
-        m_render->exportCurrentFrame();
+    void KMMScreen::exportCurrentFrame(KURL url) {
+        m_render->exportCurrentFrame(url);
     }
 
 

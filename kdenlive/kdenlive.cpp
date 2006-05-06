@@ -1563,7 +1563,25 @@ namespace Gui {
     
     void KdenliveApp::slotExportCurrentFrame() {
         if (m_monitorManager.hasActiveMonitor()) {
-            m_monitorManager.activeMonitor()->exportCurrentFrame();
+            QString filter = "image/png";
+            QCheckBox * addToProject = new QCheckBox(i18n("Add image to project"),this);
+            KFileDialog *fd = new KFileDialog(m_fileDialogPath.path(), filter, this, "save_frame", true,addToProject);
+            fd->setOperationMode(KFileDialog::Saving);
+            fd->setMode(KFile::File);
+            if (fd->exec() == QDialog::Accepted) {
+                m_monitorManager.activeMonitor()->exportCurrentFrame(fd->selectedURL());
+                //KMacroCommand *macroCommand = new KMacroCommand(i18n("Add Clips"));
+                if (addToProject->isChecked()) {
+                    QString dur = KdenliveSettings::colorclipduration();
+                    int frames = (dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt();
+                    GenTime duration(frames , KdenliveSettings::defaultfps());
+                    KCommand *command =
+                            new Command::KAddClipCommand(*doc, fd->selectedURL(), QString::null,
+                            0, duration, QString::null, false, true);
+                    addCommand(command, true);
+                }
+            }
+            delete fd;
         }
         else KMessageBox::sorry(this, i18n("Please activate a monitor if you want to save a frame"));
     }
@@ -1640,7 +1658,6 @@ namespace Gui {
 		    i18n
 		    ("This will remove all clips on the timeline that are currently using this clip. Are you sure you want to do this?"))
 		== KMessageBox::Continue) {
-
 		// Create a macro command that will delete all clips from the timeline involving this
 		// avfile. Then, delete it.
 		KMacroCommand *macroCommand =

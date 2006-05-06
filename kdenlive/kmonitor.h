@@ -18,6 +18,7 @@
 #define GUIKMONITOR_H
 
 #include <qvbox.h>
+#include <kurl.h>
 
 class DocClipRef;
 
@@ -37,7 +38,7 @@ ABC class for the various monitor types that exist in Kdenlive
 
 	~KMonitor();
 
-        virtual void exportCurrentFrame() const;
+        virtual void exportCurrentFrame(KURL url) const;
 	virtual KMMEditPanel *editPanel() const = 0;
 	virtual KMMScreen *screen() const = 0;
 	virtual DocClipRef *clip() const = 0;

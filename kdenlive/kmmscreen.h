@@ -21,6 +21,8 @@
 #include <qdom.h>
 #include <qvbox.h>
 
+#include <kurl.h>
+
 #include "gentime.h"
 
 
@@ -96,7 +98,7 @@ public slots:
         void slotExportStopped();
         void slotPlayingStopped();
         void exportToFirewire(QString url, int port, GenTime startTime, GenTime endTime);
-        void exportCurrentFrame();
+        void exportCurrentFrame(KURL url);
         
 signals:
 	/** Emitted when a renderer connects. */

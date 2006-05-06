@@ -376,8 +376,8 @@ void KRender::getImage(KURL url, int frame, QPixmap * image)
 	uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, width, height, 1);
 
         // what's the use of this ? I don't think we need it - commented out by jbm 
-	m_producer.set("thumb", m_thumb, width * height * 4, mlt_pool_release);
-        m_frame->set("image", m_thumb, 0, NULL, NULL);
+	//m_producer.set("thumb", m_thumb, width * height * 4, mlt_pool_release);
+        //m_frame->set("image", m_thumb, 0, NULL, NULL);
 
 	QImage m_image(m_thumb, width, height, 32, 0, 0, QImage::IgnoreEndian);
 
@@ -453,8 +453,8 @@ void KRender::getImage(KURL url, int frame, int width, int height)
 
 	uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, width, height, 1);
         
-	m_producer.set("thumb", m_thumb, width * height * 4, mlt_pool_release);
-        m_frame->set("image", m_thumb, 0, NULL, NULL);
+	//m_producer.set("thumb", m_thumb, width * height * 4, mlt_pool_release);
+        //m_frame->set("image", m_thumb, 0, NULL, NULL);
 
 	QPixmap m_pixmap(width, height);
 
@@ -494,8 +494,8 @@ void KRender::getImage(int id, QString txt, uint size, int width, int height)
 
         uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, width, height, 1);
         
-        m_producer.set("thumb", m_thumb, width * height * 4, mlt_pool_release);
-        m_frame->set("image", m_thumb, 0, NULL, NULL);
+        //m_producer.set("thumb", m_thumb, width * height * 4, mlt_pool_release);
+        //m_frame->set("image", m_thumb, 0, NULL, NULL);
 
         QPixmap m_pixmap(width, height);
 
@@ -983,8 +983,33 @@ void KRender::stopExport()
     }
 }
 
-void KRender::exportCurrentFrame() {
-    // To be written
+void KRender::exportCurrentFrame(KURL url) {
+    m_mltProducer->set_speed(0.0);
+
+    QString frequency;
+    if (m_fileRenderer) {
+        delete m_fileRenderer;
+        m_fileRenderer = 0;
+    }
+    if (m_mltFileProducer) {
+        delete m_mltFileProducer;
+        m_mltFileProducer = 0;
+    }
+    
+    m_fileRenderer=new Mlt::Consumer("avformat");
+    m_fileRenderer->set ("target",url.path().ascii());
+    m_fileRenderer->set ("real_time","0");
+    m_fileRenderer->set ("progressive","1");
+    m_fileRenderer->set ("vcodec","png");
+    m_fileRenderer->set ("format","rawvideo");
+    m_fileRenderer->set ("vframes","1");
+    m_fileRenderer->set ("terminate_on_pause", 1);
+    
+    m_mltFileProducer = new Mlt::Producer(m_mltProducer->cut((int) m_mltProducer->position(), (int) m_mltProducer->position()));
+    
+    m_fileRenderer->connect(*m_mltFileProducer);
+    m_mltFileProducer->set_speed(1.0);
+    m_fileRenderer->start();
 }
 
 void KRender::exportTimeline(const QString &url, const QString &format, GenTime exportStart, GenTime exportEnd, QStringList params)
@@ -1013,7 +1038,7 @@ void KRender::exportTimeline(const QString &url, const QString &format, GenTime 
             QString p = (*it).section("=",0,0);
             QString v = (*it).section("=",1);
 //            if (p == "frequency") frequency = v;
-            kdDebug()<<"+++ encoding parameters: "<<p<<" = "<<v<<endl;
+//            kdDebug()<<"+++ encoding parameters: "<<p<<" = "<<v<<endl;
             m_fileRenderer->set(p.ascii(), v.ascii());
         }
     

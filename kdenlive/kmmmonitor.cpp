@@ -119,10 +119,10 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 		    const GenTime &, const GenTime &)), m_screen,
 	    SLOT(play(double, const GenTime &, const GenTime &)));
 
-	disconnect(m_screen, SIGNAL(rendererConnected()), m_editPanel,
+/*	disconnect(m_screen, SIGNAL(rendererConnected()), m_editPanel,
 	    SLOT(rendererConnected()));
 	disconnect(m_screen, SIGNAL(rendererDisconnected()), m_editPanel,
-	    SLOT(rendererDisconnected()));
+        SLOT(rendererDisconnected()));*/
 	disconnect(m_screen, SIGNAL(seekPositionChanged(const GenTime &)),
 	    this, SLOT(screenPositionChanged(const GenTime &)));
 	disconnect(m_screen, SIGNAL(playSpeedChanged(double)), m_editPanel,
@@ -153,10 +153,11 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 		    const GenTime &, const GenTime &)), m_screen,
 	    SLOT(play(double, const GenTime &, const GenTime &)));
 
-	connect(m_screen, SIGNAL(rendererConnected()), m_editPanel,
+/*	connect(m_screen, SIGNAL(rendererConnected()), m_editPanel,
 	    SLOT(rendererConnected()));
+        
 	connect(m_screen, SIGNAL(rendererDisconnected()), m_editPanel,
-	    SLOT(rendererDisconnected()));
+        SLOT(rendererDisconnected()));*/
 
 	connect(m_screen, SIGNAL(seekPositionChanged(const GenTime &)), this, SLOT(screenPositionChanged(const GenTime &)));
 
@@ -184,8 +185,8 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	}
     }
     
-    void KMMMonitor::exportCurrentFrame() const {
-        m_screen->exportCurrentFrame();
+    void KMMMonitor::exportCurrentFrame(KURL url) const {
+        m_screen->exportCurrentFrame(url);
     }
 
     const GenTime & KMMMonitor::seekPosition() const {
@@ -196,12 +197,14 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	m_app->activateMonitor(this);
     }
 
-    void KMMMonitor::slotSetActive() const {
+    void KMMMonitor::slotSetActive() {
+        m_editPanel->rendererConnected();
 	//m_screenHolder->setPaletteBackgroundColor(QColor(16, 32, 71));
 	m_screen->startRenderer();
     }
 
-    void KMMMonitor::slotSetInactive() const {
+    void KMMMonitor::slotSetInactive() {
+        m_editPanel->rendererDisconnected();
 	m_screen->stopRenderer();
 	//m_screenHolder->setPaletteBackgroundColor(QColor(0, 0, 0));
     }

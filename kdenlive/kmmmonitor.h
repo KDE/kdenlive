@@ -63,7 +63,7 @@ namespace Gui {
 	virtual KMMEditPanel *editPanel() const;
 	virtual KMMScreen *screen() const;
         /** Save current frame as picture file */
-        virtual void exportCurrentFrame() const;
+        virtual void exportCurrentFrame(KURL url) const;
 
 
       protected:
@@ -106,9 +106,9 @@ namespace Gui {
 	/** This slot is called when the screen changes position. */
 	void screenPositionChanged(const GenTime & time);
 	/** Sets this monitor to be the active monitor. It's colour changes to show it is active. */
-	void slotSetActive() const;
+	void slotSetActive();
 	/** Sets this monitor to be an inactive monitor. It's colour changes to show it is inactive. */
-	void slotSetInactive() const;
+	void slotSetInactive();
 	/** Causes the monitor to act as if a mouse click has happened on it. */
 	void slotClickMonitor();
 	/** Causes the monitor to act as if a right mouse click has happened on it. */

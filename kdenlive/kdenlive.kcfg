@@ -86,6 +86,11 @@
       <label>Project's Frames per second value.</label>
       <default>25.0</default>
     </entry>
+    
+    <entry name="aspectratio" type="Double">
+      <label>Aspect ratio.</label>
+      <default>1.09259</default>
+    </entry>
     </group>
     
     <group name="Misc">

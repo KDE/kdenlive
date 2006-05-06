@@ -170,7 +170,7 @@ class KRender:public QObject {
     void askForRefresh();
     
     /** Save current producer frame as image */
-    void exportCurrentFrame();
+    void exportCurrentFrame(KURL url);
     
 
   protected:			// Protected methods

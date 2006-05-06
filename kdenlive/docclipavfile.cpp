@@ -239,20 +239,22 @@ QDomDocument DocClipAVFile::generateSceneList() const
     if (clipType() == IMAGE) {
 	QDomElement westley = sceneList.createElement("westley");
 	sceneList.appendChild(westley);
-
-	QDomElement producer = sceneList.createElement("producer");
-	producer.setAttribute("id", QString("producer0"));
-//	producer.setAttribute("mlt_service", "pixbuf");
-	producer.setAttribute("resource", fileURL().path());
-	westley.appendChild(producer);
-	QDomElement playlist = sceneList.createElement("playlist");
-	playlist.setAttribute("in", "0");
-	playlist.setAttribute("out",
-	    QString::number(duration().frames(25)));
-	QDomElement entry = sceneList.createElement("entry");
-	entry.setAttribute("producer", QString("producer0"));
-	playlist.appendChild(entry);
-	westley.appendChild(playlist);
+        
+        
+       	QDomElement producer = sceneList.createElement("producer");
+        producer.setAttribute("id", QString("producer0"));
+        producer.setAttribute("resource", fileURL().path());
+        double ratio = ((double) KdenliveSettings::defaultwidth()/KdenliveSettings::defaultheight())/((double)clipWidth()/clipHeight()) * KdenliveSettings::aspectratio();
+        producer.setAttribute("aspect_ratio", QString::number(ratio));
+        westley.appendChild(producer);
+        QDomElement playlist = sceneList.createElement("playlist");
+        playlist.setAttribute("in", "0");
+        playlist.setAttribute("out",
+        QString::number(duration().frames(25)));
+        QDomElement entry = sceneList.createElement("entry");
+        entry.setAttribute("producer", QString("producer0"));
+        playlist.appendChild(entry);
+        westley.appendChild(playlist);
     }
 
     else if (clipType() == COLOR) {
