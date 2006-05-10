@@ -272,6 +272,7 @@ namespace Gui {
 	void slotDeleteSelected();
 		/** Sets the clip monitor source to be the given clip. */
 	void slotSetClipMonitorSource(DocClipRef * clip);
+        void slotSetClipMonitorSourceAndSeek(DocClipRef * clip);
 		/** SLots to Save/Load the current dockwidget layout to/from the layout number specified. */
 	void slotSetRenderProgress(const GenTime &);
 	void slotSetRenderFinished();
@@ -427,6 +428,13 @@ namespace Gui {
 	KToggleAction *timelineSnapToFrame;
 	KToggleAction *timelineSnapToBorder;
 	KToggleAction *timelineSnapToMarker;
+        
+        KToggleAction *showClipMonitor;
+        KToggleAction *showWorkspaceMonitor;
+        KToggleAction *showTransitions;
+        KToggleAction *showEffectList;
+        KToggleAction *showEffectStack;
+        KToggleAction *showProjectList;
 
 	KAction *timelineRazorAllClips;
 	KAction *timelineRazorSelectedClips;

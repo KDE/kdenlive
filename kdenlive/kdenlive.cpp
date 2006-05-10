@@ -434,23 +434,23 @@ namespace Gui {
         SLOT(deleteTransition()), actionCollection(),
         "del_transition");
         
-	(void) new KAction(i18n("Clip Monitor"), 0, this,
+        showClipMonitor = new KToggleAction(i18n("Clip Monitor"), 0, this,
 	    SLOT(slotToggleClipMonitor()), actionCollection(),
 	    "toggle_clip_monitor");
-	(void) new KAction(i18n("Workspace Monitor"), 0, this,
+	showWorkspaceMonitor = new KToggleAction(i18n("Workspace Monitor"), 0, this,
 	    SLOT(slotToggleWorkspaceMonitor()), actionCollection(),
 	    "toggle_workspace_monitor");
-	(void) new KAction(i18n("Effect List"), 0, this,
+        showEffectList = new KToggleAction(i18n("Effect List"), 0, this,
 	    SLOT(slotToggleEffectList()), actionCollection(),
 	    "toggle_effect_list");
-	(void) new KAction(i18n("Effect Stack"), 0, this,
+        showEffectStack = new KToggleAction(i18n("Effect Stack"), 0, this,
 	    SLOT(slotToggleEffectStack()), actionCollection(),
 	    "toggle_effect_stack");
-	(void) new KAction(i18n("Project List"), 0, this,
+        showProjectList = new KToggleAction(i18n("Project List"), 0, this,
 	    SLOT(slotToggleProjectList()), actionCollection(),
 	    "toggle_project_list");
         
-        (void) new KAction(i18n("Transitions"), 0, this,
+        showTransitions = new KToggleAction(i18n("Transitions"), 0, this,
         SLOT(slotToggleTransitions()), actionCollection(),
         "toggle_transitions");
         
@@ -737,7 +737,7 @@ namespace Gui {
 	    SLOT(setOutpointTimeline(const GenTime &)));
 
 	connect(getDocument(), SIGNAL(signalClipSelected(DocClipRef *)),
-	    this, SLOT(slotSetClipMonitorSource(DocClipRef *)));
+	    this, SLOT(slotSetClipMonitorSourceAndSeek(DocClipRef *)));
 	connect(getDocument(), SIGNAL(signalClipSelected(DocClipRef *)),
 	    m_effectStackDialog, SLOT(slotSetEffectStack(DocClipRef *)));
 	connect(getDocument(), SIGNAL(effectStackChanged(DocClipRef *)),
@@ -930,6 +930,7 @@ namespace Gui {
 	m_timeline->setSnapToMarker(snapToMarkersEnabled());
 	m_timeline->setEditMode("move");
     }
+    
     
     void KdenliveApp::customEvent(QCustomEvent* e)
     {
@@ -1827,6 +1828,21 @@ namespace Gui {
         if (clip) {
            activateClipMonitor();
 	   m_clipMonitor->slotSetClip(clip);
+        }
+        else activateWorkspaceMonitor();
+    }
+    
+            /** Sets the clip monitor source to be the given clip. */
+    void KdenliveApp::slotSetClipMonitorSourceAndSeek(DocClipRef * clip) {
+        if (clip) {
+            GenTime value = getDocument()->renderer()->seekPosition();
+            GenTime trackStart = clip->trackStart();
+            GenTime trackEnd = clip->trackEnd();
+            activateClipMonitor();
+            m_clipMonitor->slotSetClip(clip);
+            if (value > trackStart && value < trackEnd) {
+                m_clipMonitor->editPanel()->seek(clip->cropStartTime() + value - trackStart);
+            }
         }
         else activateWorkspaceMonitor();
     }
