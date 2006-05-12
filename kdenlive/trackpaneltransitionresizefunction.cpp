@@ -211,7 +211,7 @@ bool TrackPanelTransitionResizeFunction::mouseReleased(Gui::KTrackPanel * panel,
 bool TrackPanelTransitionResizeFunction::mouseMoved(Gui::KTrackPanel * panel,
     QMouseEvent * event)
 {
-    bool result = false;    
+    bool result = false;
     if (panel->hasDocumentTrackIndex()) {
 	DocTrackBase *track =
 	    m_document->track(panel->documentTrackIndex());

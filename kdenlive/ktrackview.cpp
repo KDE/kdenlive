@@ -63,7 +63,7 @@ namespace Gui {
             }
         }
         else if (( e->state() & ControlButton) == ControlButton) {
-            if (e->delta() < 0) emit changeZoom(false);
+            if (e->delta() > 0) emit changeZoom(false);
             else emit changeZoom(true);
             e->accept();
         }

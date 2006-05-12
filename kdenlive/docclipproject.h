@@ -154,6 +154,7 @@ class DocClipProject:public DocClipBase {
     void clipLayoutChanged();
 	/** Emitted whenever a clip gets selected. */
     void signalClipSelected(DocClipRef *);
+    void signalOpenClip(DocClipRef *);
 	/** Emitted when a clip has changed in some way. */
     void clipChanged(DocClipRef *);
 	/** Emitted when the effect stack of a clip changes */

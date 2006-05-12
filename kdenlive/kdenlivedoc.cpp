@@ -261,6 +261,8 @@ void KdenliveDoc::connectProjectClip()
 	SIGNAL(trackListChanged()));
     connect(m_projectClip, SIGNAL(signalClipSelected(DocClipRef *)), this,
 	SIGNAL(signalClipSelected(DocClipRef *)));
+    connect(m_projectClip, SIGNAL(signalOpenClip(DocClipRef *)), this,
+	SIGNAL(signalOpenClip(DocClipRef *)));
     connect(m_projectClip, SIGNAL(clipChanged(DocClipRef *)), this,
 	SIGNAL(clipChanged(DocClipRef *)));
     connect(m_projectClip, SIGNAL(effectStackChanged(DocClipRef *)), this,

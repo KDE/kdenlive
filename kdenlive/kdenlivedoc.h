@@ -254,6 +254,7 @@ class KdenliveDoc:public QObject {
 
 	/** Emitted whenever a clip gets selected. */
     void signalClipSelected(DocClipRef *);
+    void signalOpenClip(DocClipRef *);
 	/** Emitted when the length of the document changes. */
     void documentLengthChanged(const GenTime &);
 	/** Emitted when the effect stack of a clip changes. */

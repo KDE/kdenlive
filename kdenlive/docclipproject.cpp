@@ -89,6 +89,8 @@ void DocClipProject::connectTrack(DocTrackBase * track)
 //	SIGNAL(clipLayoutChanged()));
     connect(track, SIGNAL(signalClipSelected(DocClipRef *)), this,
 	SIGNAL(signalClipSelected(DocClipRef *)));
+    connect(track, SIGNAL(signalOpenClip(DocClipRef *)), this,
+	SIGNAL(signalOpenClip(DocClipRef *)));
     connect(track, SIGNAL(clipChanged(DocClipRef *)), this,
 	SIGNAL(clipChanged(DocClipRef *)));
     connect(track, SIGNAL(trackLengthChanged(const GenTime &)), this,

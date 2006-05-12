@@ -359,6 +359,7 @@ namespace Gui {
         void deleteTransition();
         void slotSplashTimeout();
         void slotExportCurrentFrame();
+	void slotViewSelectedClip();
 
 
       private:

@@ -465,6 +465,10 @@ namespace Gui {
         (void) new KAction(i18n("Export Current Frame"), 0, this,
         SLOT(slotExportCurrentFrame()), actionCollection(),
         "export_current_frame");
+
+        (void) new KAction(i18n("View Selected Clip"), 0, this,
+        SLOT(slotViewSelectedClip()), actionCollection(),
+        "view_selected_clip");
         
         
 
@@ -737,6 +741,8 @@ namespace Gui {
 	    SLOT(setOutpointTimeline(const GenTime &)));
 
 	connect(getDocument(), SIGNAL(signalClipSelected(DocClipRef *)),
+	    this, SLOT(slotSetClipMonitorSource(DocClipRef *)));
+	connect(getDocument(), SIGNAL(signalOpenClip(DocClipRef *)),
 	    this, SLOT(slotSetClipMonitorSourceAndSeek(DocClipRef *)));
 	connect(getDocument(), SIGNAL(signalClipSelected(DocClipRef *)),
 	    m_effectStackDialog, SLOT(slotSetEffectStack(DocClipRef *)));
@@ -886,12 +892,19 @@ namespace Gui {
 	connect(keyFrameFunction, SIGNAL(redrawTrack()),
 	    m_effectStackDialog, SLOT(updateKeyFrames()));
 
-	connect(resizeFunction,
+	/*connect(resizeFunction,
 	    SIGNAL(signalClipCropStartChanged(DocClipRef *)), this,
 	    SLOT(activateClipMonitor()));
 	connect(resizeFunction,
 	    SIGNAL(signalClipCropEndChanged(DocClipRef *)), this,
-	    SLOT(activateClipMonitor()));
+	    SLOT(activateClipMonitor()));*/
+	connect(resizeFunction,
+	    SIGNAL(signalClipCropStartChanged(DocClipRef *)), this,
+	    SLOT(slotSetClipMonitorSource(DocClipRef *)));
+	connect(resizeFunction,
+	    SIGNAL(signalClipCropEndChanged(DocClipRef *)), this,
+	    SLOT(slotSetClipMonitorSource(DocClipRef *)));
+
 	connect(resizeFunction,
 	    SIGNAL(signalClipCropStartChanged(DocClipRef *)),
 	    m_clipMonitor, SLOT(slotClipCropStartChanged(DocClipRef *)));
@@ -1561,6 +1574,11 @@ namespace Gui {
         slotStatusMsg(i18n("Ready."));
     }
     
+    void KdenliveApp::slotViewSelectedClip() {
+	DocClipRef *clip = getDocument()->projectClip().selectedClip();
+	if (clip) slotSetClipMonitorSourceAndSeek(clip);
+    }
+
     
     void KdenliveApp::slotExportCurrentFrame() {
         if (m_monitorManager.hasActiveMonitor()) {

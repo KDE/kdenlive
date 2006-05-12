@@ -119,6 +119,7 @@ namespace Command {
 	return command;
     }
 
+
 // static
     KCommand *KSelectClipCommand::toggleSelectClipAt(KdenliveDoc *
 	document, const DocTrackBase & track, const GenTime & value) {

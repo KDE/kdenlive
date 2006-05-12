@@ -543,6 +543,14 @@ void DocTrackBase::trackIndexChanged(int index)
     }
 }
 
+
+bool DocTrackBase::openClip(DocClipRef * clip)
+{
+    if (clip) {
+	emit signalOpenClip(clip);
+	}
+}
+
 /** Sets the specified clip to be in the specified selection state. Does nothing if the clip is not on the track. */
 bool DocTrackBase::selectClip(DocClipRef * clip, bool selected)
 {
@@ -558,10 +566,10 @@ bool DocTrackBase::selectClip(DocClipRef * clip, bool selected)
 	} else {
 	    if (selected) {
 		m_selectedClipList.inSort(clip);
-		emit signalClipSelected(clip);
+		//emit signalClipSelected(clip);
 	    } else {
 		m_unselectedClipList.inSort(clip);
-		emit signalClipSelected(0);
+		//emit signalClipSelected(0);
 	    }
 	    result = true;
 	    emit clipSelectionChanged();

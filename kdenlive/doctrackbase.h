@@ -122,6 +122,8 @@ class DocTrackBase:public QObject {
 	is not on the track. */
     bool selectClip(DocClipRef * clip, bool selected);
 
+    bool openClip(DocClipRef * clip);
+
 	/** Returns true if the clip is referenced by at least one clip on the track. */
     bool referencesClip(DocClipBase * clip) const;
 
@@ -177,6 +179,7 @@ For internal use only, when the class Knows Better (TM) */
     void clipSelectionChanged();
 	/** Emitted whenever a clip becomes selected. */
     void signalClipSelected(DocClipRef *);
+    void signalOpenClip(DocClipRef *);
 	/** Emitted whenever a clip changes in some way, for example, gains or loses snapMarkers. */
     void clipChanged(DocClipRef *);
 	/** Emitted if the length of the track changes. */
