@@ -1479,9 +1479,12 @@ namespace Gui {
 	for (it = urlList.begin(); it != urlList.end(); it++) {
 	    url = (*it);
 	    if (!url.isEmpty()) {
-		Command::KAddClipCommand * command;
-		command = new Command::KAddClipCommand(*doc, url, true);
-		macroCommand->addCommand(command);
+		if (getDocument()->clipManager().findClip(url)) KMessageBox::sorry(this, i18n("The clip %1 is already present in this project").arg(url.filename()));
+		else { 
+			Command::KAddClipCommand * command;
+			command = new Command::KAddClipCommand(*doc, url, true);
+			macroCommand->addCommand(command);
+		}
 		m_fileDialogPath = url;
 	    }
 	}
@@ -1982,12 +1985,12 @@ namespace Gui {
 	KMacroCommand *macroCommand = new KMacroCommand(i18n("Add Clips"));
 
 	while (itt.current()) {
-	    Command::KAddClipCommand * command =
+	    	Command::KAddClipCommand * command =
 		new Command::KAddClipCommand(*getDocument(),
 		"TBD - give proper name", itt.current()->referencedClip(),
 		getDocument()->clipHierarch(), true);
-	    macroCommand->addCommand(command);
-	    ++itt;
+	    	macroCommand->addCommand(command);
+	        ++itt;
 	}
 
 	addCommand(macroCommand, true);

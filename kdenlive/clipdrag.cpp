@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 #include <kdebug.h>
+#include <kmessagebox.h>
+#include <klocale.h>
 
 #include "clipdrag.h"
 #include "docclipavfile.h"
@@ -139,9 +141,10 @@ DocClipRefList ClipDrag::decode(const EffectDescriptionList & effectList,
 	    DocClipBase *file = clipManager.findClip(*it);
 	    if (!file) {
 		file = clipManager.addTemporaryClip(*it);
+	        DocClipRef *refFile = new DocClipRef(file);
+	        cliplist.append(refFile);
 	    }
-	    DocClipRef *refFile = new DocClipRef(file);
-	    cliplist.append(refFile);
+	    else KMessageBox::sorry(0, i18n("The clip %1 is already present in this project").arg((*it).filename()));
 	}
     }
 
