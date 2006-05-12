@@ -1969,9 +1969,8 @@ namespace Gui {
 
     void KdenliveApp::slot_insertClips(QDropEvent * event) {
 	// sanity check.
-	if (!ClipDrag::canDecode(event))
+	if (!ClipDrag::canDecode(event, true))
 	    return;
-
 	DocClipRefList clips =
 	    ClipDrag::decode(getDocument()->effectDescriptions(),
 	    getDocument()->clipManager(), event);

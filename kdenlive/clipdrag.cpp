@@ -76,10 +76,12 @@ QByteArray ClipDrag::encodedData(const char *mime) const
     }
 }
 
-bool ClipDrag::canDecode(const QMimeSource * mime)
+bool ClipDrag::canDecode(const QMimeSource * mime, bool onlyExternal)
 {
-    if (mime->provides("application/x-kdenlive-clip"))
+    if (mime->provides("application/x-kdenlive-clip")) {
+	if (onlyExternal) return false;
 	return true;
+    }
 
     return KURLDrag::canDecode(mime);
 }

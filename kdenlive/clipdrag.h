@@ -43,7 +43,7 @@ class ClipDrag:public KURLDrag {
     ~ClipDrag();
 
 	/** Returns true if the mime type is decodable, false otherwise. */
-    static bool canDecode(const QMimeSource * mime);
+    static bool canDecode(const QMimeSource * mime, bool onlyExternal = false);
 	/** Attempts to decode the mimetype e as a clip. Returns a clip, or returns null */
     static DocClipRefList decode(const EffectDescriptionList & effectList,
 	ClipManager & clipManager, const QMimeSource * e);
