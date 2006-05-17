@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kdenlive" version="0.1">
+<kpartgui name="kdenlive" version="2">
 <MenuBar>
   <Menu name="file">
         <Action name="export_current_frame"/>
@@ -57,6 +57,13 @@
 	  <Action name="toggle_effect_stack"/>
 	  <Action name="toggle_project_list"/>
           <Action name="toggle_transitions"/>
+	  <Separator lineSeperator="true"/>
+	  <Action name="focus_clip_monitor"/>
+	  <Action name="focus_workspace_monitor"/>
+	  <Action name="focus_effect_list"/>
+	  <Action name="focus_effect_stack"/>
+	  <Action name="focus_project_list"/>
+	  <Action name="focus_transitions"/>
   </Menu>
 </MenuBar>
 

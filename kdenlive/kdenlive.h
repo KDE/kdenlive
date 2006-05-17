@@ -65,7 +65,9 @@ class PositionChangeEvent : public QCustomEvent
         GenTime m_pos;
 };
 
+
 namespace Gui {
+
 
     class CaptureMonitor;
     class ClipPropertiesDialog;
@@ -351,6 +353,14 @@ namespace Gui {
 	void slotToggleEffectStack();
 	void slotToggleProjectList();
         void slotToggleTransitions();
+	void slotUpdateLayoutState();
+
+	void slotFocusClipMonitor();
+	void slotFocusWorkspaceMonitor();
+	void slotFocusEffectList();
+	void slotFocusEffectStack();
+	void slotFocusProjectList();
+        void slotFocusTransitions();
         
         /** Add a transition between the 2 selected clips */
         void addTransition();

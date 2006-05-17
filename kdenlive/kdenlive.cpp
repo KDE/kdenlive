@@ -136,8 +136,7 @@ namespace Gui {
 	initStatusBar();
 	m_commandHistory = new KCommandHistory(actionCollection(), true);
 	initActions();
-        
-        
+
 	initDocument();
 	initView();
 	readOptions();
@@ -158,6 +157,8 @@ namespace Gui {
 	if (KdenliveSettings::openlast())
             connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(openLastFile()));
         else if (KdenliveSettings::showsplash()) connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(slotSplashTimeout()));
+
+	connect(manager(), SIGNAL(change()), this, SLOT(slotUpdateLayoutState()));
     }
     
     
@@ -449,11 +450,30 @@ namespace Gui {
         showProjectList = new KToggleAction(i18n("Project List"), 0, this,
 	    SLOT(slotToggleProjectList()), actionCollection(),
 	    "toggle_project_list");
-        
         showTransitions = new KToggleAction(i18n("Transitions"), 0, this,
         SLOT(slotToggleTransitions()), actionCollection(),
         "toggle_transitions");
-        
+
+        (void) new KAction(i18n("Focus Clip Monitor"), 0, this,
+	    SLOT(slotFocusClipMonitor()), actionCollection(),
+	    "focus_clip_monitor");
+	(void) new KAction(i18n("Focus Workspace Monitor"), 0, this,
+	    SLOT(slotFocusWorkspaceMonitor()), actionCollection(),
+	    "focus_workspace_monitor");
+        (void) new KAction(i18n("Focus Effect List"), 0, this,
+	    SLOT(slotFocusEffectList()), actionCollection(),
+	    "focus_effect_list");
+        (void) new KAction(i18n("Focus Effect Stack"), 0, this,
+	    SLOT(slotFocusEffectStack()), actionCollection(),
+	    "focus_effect_stack");
+        (void) new KAction(i18n("Focus Project List"), 0, this,
+	    SLOT(slotFocusProjectList()), actionCollection(),
+	    "focus_project_list");
+        (void) new KAction(i18n("Focus Transitions"), 0, this,
+        SLOT(slotFocusTransitions()), actionCollection(),
+        "focus_transitions");
+
+
         (void) new KAction(i18n("Edit Clip"), 0, this,
         SLOT(slotProjectEditClip()), actionCollection(),
         "edit_clip");
@@ -625,11 +645,8 @@ namespace Gui {
 	widget->setDockSite(KDockWidget::DockCorner);
 	widget->manualDock(mainDock, KDockWidget::DockBottom);
 
-	m_dockProjectList =
-	    createDockWidget("Project List", QPixmap(), 0,
-	    i18n("Project List"));
-	m_projectList =
-	    new ProjectList(this, getDocument(), m_dockProjectList);
+	m_dockProjectList = createDockWidget("Project List", QPixmap(), 0, i18n("Project List"));
+	m_projectList = new ProjectList(this, getDocument(), m_dockProjectList);
 	//QToolTip::add( m_dockProjectList, i18n( "Video files usable in current project" ) );
 	QWhatsThis::add(m_dockProjectList,
 	    i18n("Video files usable in your project. "
@@ -645,9 +662,7 @@ namespace Gui {
 	m_dockTransition->setDockSite(KDockWidget::DockFullSite);
 	m_dockTransition->manualDock(m_dockProjectList, KDockWidget::DockCenter);
 	
-	m_dockEffectList =
-	    createDockWidget("Effect List", QPixmap(), 0,
-	    i18n("Effect List"));
+	m_dockEffectList = createDockWidget("Effect List", QPixmap(), 0, i18n("Effect List"));
 	m_effectListDialog =
 	    new EffectListDialog(getDocument()->renderer()->effectList(),
 	    widget, "effect list");
@@ -672,9 +687,7 @@ namespace Gui {
 	widget->manualDock(m_dockProjectList, KDockWidget::DockCenter);
         */
 
-	clipWidget =
-	    createDockWidget("Clip Properties", QPixmap(), 0,
-	    i18n("Clip Properties"));
+	clipWidget = createDockWidget("Clip Properties", QPixmap(), 0, i18n("Clip Properties"));
 	m_clipPropertyDialog =
 	    new ClipPropertiesDialog(clipWidget, "clip properties");
 	QToolTip::add(clipWidget,
@@ -683,9 +696,7 @@ namespace Gui {
 	clipWidget->setDockSite(KDockWidget::DockFullSite);
 	clipWidget->manualDock(m_dockProjectList, KDockWidget::DockCenter);
 
-	m_dockEffectStack =
-	    createDockWidget("Effect Stack", QPixmap(), 0,
-	    i18n("Effect Stack"));
+	m_dockEffectStack = createDockWidget("Effect Stack", QPixmap(), 0, i18n("Effect Stack"));
 	m_effectStackDialog =
 	    new EffectStackDialog(this, getDocument(), m_dockEffectStack,
 	    "effect stack");
@@ -695,9 +706,7 @@ namespace Gui {
 	m_dockEffectStack->manualDock(m_dockProjectList,
 	    KDockWidget::DockCenter);
 
-	m_dockWorkspaceMonitor =
-	    createDockWidget("Workspace Monitor", QPixmap(), 0,
-	    i18n("Workspace Monitor"));
+	m_dockWorkspaceMonitor = createDockWidget("Workspace Monitor", QPixmap(), 0, i18n("Workspace Monitor"));
 	m_workspaceMonitor =
 	    m_monitorManager.createMonitor(getDocument(),
 	    m_dockWorkspaceMonitor, "Document");
@@ -707,9 +716,7 @@ namespace Gui {
 	m_dockWorkspaceMonitor->manualDock(mainDock,
 	    KDockWidget::DockRight);
 
-	m_dockClipMonitor =
-	    createDockWidget("Clip Monitor", QPixmap(), 0,
-	    i18n("Clip Monitor"));
+	m_dockClipMonitor = createDockWidget("Clip Monitor", QPixmap(), 0, i18n("Clip Monitor"));
 	m_clipMonitor =
 	    m_monitorManager.createMonitor(getDocument(),
 	    m_dockClipMonitor, "Clip Monitor");
@@ -944,6 +951,15 @@ namespace Gui {
 	m_timeline->setEditMode("move");
     }
     
+
+    void KdenliveApp::slotUpdateLayoutState() {
+	showClipMonitor->setChecked(!m_dockClipMonitor->mayBeShow());
+	showWorkspaceMonitor->setChecked(!m_dockWorkspaceMonitor->mayBeShow());
+	showEffectList->setChecked(!m_dockEffectList->mayBeShow());
+	showProjectList->setChecked(!m_dockProjectList->mayBeShow());
+	showEffectStack->setChecked(!m_dockEffectStack->mayBeShow());
+	showTransitions->setChecked(!m_dockTransition->mayBeShow());
+    }
     
     void KdenliveApp::customEvent(QCustomEvent* e)
     {
@@ -996,6 +1012,37 @@ namespace Gui {
     void KdenliveApp::slotToggleTransitions() {
         m_dockTransition->changeHideShowState();
     }
+
+    void KdenliveApp::slotFocusClipMonitor() {
+	activateClipMonitor();
+	//m_dockClipMonitor->makeDockVisible();
+    }
+
+    void KdenliveApp::slotFocusWorkspaceMonitor() {
+	activateWorkspaceMonitor();
+	//m_dockWorkspaceMonitor->makeDockVisible();
+    }
+
+    void KdenliveApp::slotFocusEffectList() {
+	m_dockEffectList->makeDockVisible();
+	m_effectListDialog->setFocus();
+    }
+
+    void KdenliveApp::slotFocusEffectStack() {
+	m_dockEffectStack->makeDockVisible();
+	m_effectStackDialog->m_effectList->setFocus();
+    }
+
+    void KdenliveApp::slotFocusProjectList() {
+	m_dockProjectList->makeDockVisible();
+	m_projectList->m_listView->setFocus();
+    }
+    
+    void KdenliveApp::slotFocusTransitions() {
+        m_dockTransition->makeDockVisible();
+	m_dockTransition->setFocus();
+    }
+
 
     void KdenliveApp::openDocumentFile(const KURL & url) {
 	slotStatusMsg(i18n("Opening file..."));
