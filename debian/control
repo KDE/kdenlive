@@ -1,0 +1,15 @@
+Source: kdenlive
+Section: multimedia
+Priority: optional
+Maintainer: Jean-Baptiste Mardelle <jbm@kdemail.org>
+Build-Depends: debhelper (>= 4.0.0), autotools-dev
+Standards-Version: 3.6.2
+
+Package: kdenlive
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Non linear video editor for KDE
+ Kdenlive is a multi track video editor. It is based on the MLT
+ video framework and the FFMPEG libraries. You can directly
+ insert files in many formats (MPEG, dv, AVI, DIVX, PNG, JPEG, WAV, MP3)
+ and mix them using effects and transitions.
