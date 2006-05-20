@@ -28,6 +28,7 @@
 
 
 #include "clipmanager.h"
+#include "kdenlivesettings.h"
 
 
 
@@ -147,12 +148,12 @@ double DocClipTextFile::framesPerSecond() const
 //returns clip video properties -reh
 uint DocClipTextFile::clipHeight() const
 {
-    return 576;
+    return KdenliveSettings::defaultheight();
 }
 
 uint DocClipTextFile::clipWidth() const
 {
-    return 720;
+    return KdenliveSettings::defaultwidth();
 }
 
 

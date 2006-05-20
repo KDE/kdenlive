@@ -24,6 +24,8 @@
 #include <kmimetype.h>
 #include <ktempfile.h>
 #include <kurl.h>
+#include <klocale.h>
+#include <kmessagebox.h>
 
 #include "kdenlivedoc.h"
 
@@ -85,7 +87,7 @@ bool ProjectFormatManager::saveDocument(const KURL & url,
 {
     if (url.isEmpty())
 	return false;
-
+    bool result = false;
     KMimeType::Ptr format = KMimeType::findByURL(url);
     SaveProjectFilter *filter = findSaveFormat(format->name());
 
@@ -96,16 +98,17 @@ bool ProjectFormatManager::saveDocument(const KURL & url,
 	if ((filter->save(*file.file(), document))) {
 	    file.close();
 	    if (!KIO::NetAccess::upload(file.name(), url, 0)) {
-		kdError() << "Could not upload file to correct location" <<
-		    endl;
+		//kdError() << "Could not upload file to correct location" << endl;
+		KMessageBox::sorry(0, i18n("Could not save file %1.\nPlease check your permissions").arg(url.path()));
 	    }
+	    else result = true;
 	} else {
 	    kdError() << "Save failed" << endl;
 	}
     }
 
-    document->setModified(false);
-    return true;
+    if (result) document->setModified(false);
+    return result;
 }
 
 void ProjectFormatManager::registerSaveFilter(SaveProjectFilter * filter)

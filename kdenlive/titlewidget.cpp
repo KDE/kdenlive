@@ -1,7 +1,7 @@
 /***************************************************************************
                           titlewidget  -  description
                              -------------------
-    begin                : Féb 2005
+    begin                : Fï¿½ 2005
     copyright            : (C) 2005 by Jean-Baptiste Mardelle
     email                : jb@ader.ch
  ***************************************************************************/
@@ -39,15 +39,13 @@
 #include <klocale.h>
 
 #include "titlewidget.h"
+#include "kdenlivesettings.h"
 
 #define CursorMode 1
 #define TextMode 2
 #define RectMode 3
 #define ResizeMode 4
 
-//TODO don't hardcode image size
-#define imageWidth 720
-#define imageHeight 576
 // safety margin for text
 #define horizontalMarginSize 20
 #define verticalMarginSize 20
@@ -76,7 +74,7 @@ FigureEditor::FigureEditor(
         viewport()->setMouseTracking(true);
 
         // Draw rectangle showing safety margins for the text
-        QCanvasRectangle *marginRect = new QCanvasRectangle(QRect(horizontalMarginSize,verticalMarginSize,imageWidth-(2*horizontalMarginSize),imageHeight-(2*verticalMarginSize)),canvas());
+        QCanvasRectangle *marginRect = new QCanvasRectangle(QRect(horizontalMarginSize,verticalMarginSize,KdenliveSettings::defaultwidth()-(2*horizontalMarginSize),KdenliveSettings::defaultheight()-(2*verticalMarginSize)),canvas());
         marginRect->setZ(-100);
         marginRect->setPen(QPen(QColor(255,255,255)));
         marginRect->show();
@@ -98,7 +96,7 @@ void FigureEditor::resizeEvent ( QResizeEvent * e)
 {
         //TODO make canvas keep a fixed ratio when resizing
         QWMatrix wm;
-        wm.scale(((double) width()-10)/((double) imageWidth),((double) height()-10)/((double) imageHeight));
+        wm.scale(((double) width()-10)/((double) KdenliveSettings::defaultwidth()),((double) height()-10)/((double) KdenliveSettings::defaultheight()));
         setWorldMatrix (wm);
 }
 
@@ -501,7 +499,7 @@ QPixmap FigureEditor::drawContent()
         // All items are then drawed on the pixmap. To get transparency, it is required to
         // draw again all items on the alpha mask.
 
-    QPixmap im(imageWidth,imageHeight);
+    QPixmap im(KdenliveSettings::defaultwidth(),KdenliveSettings::defaultheight());
     QPainter p;
 
         // Fill pixmap with color0, which sould be transparent but looks in fact to be black...
@@ -632,7 +630,7 @@ titleWidget::titleWidget(int width, int height, QWidget* parent, const char* nam
 {
         frame->setMinimumWidth(width);
         frame->setMinimumHeight(height);
-        canvas=new QCanvas(imageWidth,imageHeight);
+        canvas=new QCanvas(KdenliveSettings::defaultwidth(),KdenliveSettings::defaultheight());
         canview = new FigureEditor(*canvas,frame);
 
         // Put icons on buttons

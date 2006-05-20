@@ -128,7 +128,6 @@ createClip(const EffectDescriptionList & effectList,
 	// setup DocClipBase specifics of the clip.
 	clip->setDescription(description);
     }
-
     return clip;
 }
 

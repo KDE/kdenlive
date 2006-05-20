@@ -175,27 +175,33 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
                         document->clipManager().insertTextClip(GenTime(clip.attribute("duration", "").toInt(), 25), clip.attribute("name", ""),
                 clip.attribute("description", ""),xml, clip.attribute("url", ""), pm, clip.attribute("transparency", "").toInt(), clip.attribute("id", "-1").toInt());
             }
+
+	    if (baseClip) {
+		
             
-	    DocumentClipNode *clipNode =
-		new DocumentClipNode(parentNode, baseClip);
-	    thisNode = clipNode;
+	    	DocumentClipNode *clipNode = new DocumentClipNode(parentNode, baseClip);
+	    	thisNode = clipNode;
 
-	    QString desc;
-	    // find description, if one exists.
-	    QDomNode n = clip.firstChild();
+	    	QString desc;
+	    	// find description, if one exists.
+	    	QDomNode n = clip.firstChild();
 
-	    while (!n.isNull()) {
-		QDomText t = n.toText();
+	    	while (!n.isNull()) {
+			QDomText t = n.toText();
+			if (!t.isNull()) {
+		    		desc.append(t.nodeValue());
+			}
 
-		if (!t.isNull()) {
-		    desc.append(t.nodeValue());
-		}
+			n = n.nextSibling();
+	    	}
 
-		n = n.nextSibling();
+	    	clipNode->clipRef()->setDescription(desc);
 	    }
-
-	    clipNode->clipRef()->setDescription(desc);
-
+	    else {
+		// clip does not exist
+		kdDebug()<<"+++ One clip removed from list"<<endl;
+		thisNode = 0;
+	    }
 	}
     } else {
 	kdError() << "Could not find document base node " << parent <<
@@ -204,7 +210,6 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
 
     if (thisNode) {
 	document->addClipNode(parent, thisNode);
-
 	QDomNode n = clip.firstChild();
 
 	while (!n.isNull()) {

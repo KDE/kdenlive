@@ -126,7 +126,6 @@ class ClipManager:public QObject {
     void generateFromXML(KRender * render, const QDomElement & e);
     QDomDocument toXML(const QString & element);
     
-    
      signals:
 	/** This is signal is emitted whenever the clipList changes, either through the addition 
 	 * or removal of a clip, or when an clip changes. */

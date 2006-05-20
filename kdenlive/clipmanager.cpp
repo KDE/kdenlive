@@ -24,6 +24,8 @@
 #include <klocale.h>
 #include <kdebug.h>
 #include <kmessagebox.h>
+#include <kfiledialog.h>
+#include <kio/netaccess.h>
 
 #include <docclipbase.h>
 #include <docclipavfile.h>
@@ -61,6 +63,14 @@ ClipManager::~ClipManager()
 
 DocClipBase *ClipManager::insertClip(const KURL & file, int clipId)
 {
+    if (!KIO::NetAccess::exists(file, true, 0)) {
+	if (KMessageBox::questionYesNo(0, i18n("Cannot open file %1\nDo you want to search for the file or remove it from the project ?").arg(file.path()), i18n("Missing File"), i18n("Find File"), i18n("Remove")) == KMessageBox::Yes) {
+	KURL url = KFileDialog::getOpenURL(file.path());
+	if (!url.isEmpty()) return insertClip(url, clipId);
+	else return 0;
+	}
+	else return 0;
+    }
     DocClipBase *clip = findClip(file);
     if (!clip) {
 	if (!m_render->isValid(file)) {
@@ -227,6 +237,7 @@ void ClipManager::editClip(DocClipRef * clip, const KURL & file, const QString &
         }
     }
 }
+
 
 
 DocClipBase *ClipManager::findClip(const QDomElement & clip)
@@ -398,7 +409,6 @@ DocClipBase *ClipManager::findClip(const KURL & file)
 DocClipBase *ClipManager::insertClip(const QDomElement & clip)
 {
     DocClipBase *result = findClip(clip);
-
     if (!result) {
 	result =
 	    DocClipBase::createClip(m_render->effectList(), *this, clip);
@@ -410,7 +420,6 @@ DocClipBase *ClipManager::insertClip(const QDomElement & clip)
 		<< endl;
 	}
     }
-
     return result;
 }
 
@@ -445,6 +454,7 @@ DocClipAVFile *ClipManager::findAVFile(const KURL & url)
 
     return file;
 }
+
 
 void ClipManager::AVFilePropertiesArrived(const QMap < QString,
     QString > &properties)

@@ -26,6 +26,7 @@
 
 #include "doctrackbase.h"
 #include "doctrackclipiterator.h"
+#include "kdenlivesettings.h"
 
 DocClipProject::DocClipProject(double framesPerSecond, int width, int height):DocClipBase(),
 m_framesPerSecond(framesPerSecond), m_videowidth(width), m_videoheight(height)
@@ -497,9 +498,9 @@ createClip(const EffectDescriptionList & effectList,
 
     if (element.tagName() == "project") {
 	KURL url(element.attribute("url"));
-	double framesPerSecond = element.attribute("fps", "25").toDouble();
-        int videoWidth = element.attribute("videowidth", "720").toInt();
-        int videoHeight = element.attribute("videoheight", "576").toInt();
+	double framesPerSecond = element.attribute("fps", QString::number(KdenliveSettings::defaultfps())).toDouble();
+        int videoWidth = element.attribute("videowidth", QString::number(KdenliveSettings::defaultwidth())).toInt();
+        int videoHeight = element.attribute("videoheight", QString::number(KdenliveSettings::defaultheight())).toInt();
         project = new DocClipProject(framesPerSecond, videoWidth, videoHeight);
 
 	QDomNode node = element.firstChild();

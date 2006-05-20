@@ -24,6 +24,7 @@
 
 #include <kdebug.h>
 #include <klocale.h>
+#include <kio/netaccess.h>
 
 
 #include "clipmanager.h"
@@ -112,17 +113,16 @@ const KURL & DocClipAVFile::fileURL() const
 
 DocClipAVFile *DocClipAVFile::createClip(const QDomElement element)
 {
-/*	DocClipAVFile *file = 0;
-
-
+	DocClipAVFile *file = 0;
 	if(element.tagName() == "avfile") {
 		KURL url(element.attribute("url"));
-		file = new DocClipAVFile(url.filename(), url);
+    		if (KIO::NetAccess::exists(url, true, 0))
+			file = new DocClipAVFile(url);
 	} else {
 		kdWarning() << "DocClipAVFile::createClip failed to generate clip" << endl;
 	}
 
-	return file;*/
+	return file;
 }
 
 void DocClipAVFile::setFileURL(const KURL & url)

@@ -208,6 +208,7 @@ GenTime Transition::transitionEndTime()
     }
 }
 
+
 void Transition::resizeTransitionStart(GenTime time)
 {
     if (!m_singleClip) return; //cannot resize automatic transitions
@@ -216,7 +217,6 @@ void Transition::resizeTransitionStart(GenTime time)
     if ( transitionEndTime().ms() - time.ms() < 120.0) time = transitionEndTime() - GenTime(0.12);
     m_transitionDuration =m_transitionDuration - (time - m_referenceClip->trackStart() - m_transitionStart);
     m_transitionStart = time - m_referenceClip->trackStart();
-    
 }
 
 void Transition::resizeTransitionEnd(GenTime time)

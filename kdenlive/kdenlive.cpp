@@ -51,6 +51,7 @@
 #include <ktextedit.h>
 #include <kurlrequesterdlg.h>
 #include <kstandarddirs.h>
+#include <kio/netaccess.h>
 
 
 // application specific includes
@@ -1260,22 +1261,24 @@ namespace Gui {
 
 	if (!saveModified()) {
 	    // here saving wasn't successful
-	} else {
+	} else if (KIO::NetAccess::exists(url, true, this)) {
 	    kdWarning() << "Opening url " << url.path() << endl;
             requestDocumentClose();
 	    m_projectFormatManager.openDocument(url, doc);
 	    setCaption(url.fileName(), false);
 	}
+	else KMessageBox::sorry(this, i18n("Cannot read file: %1").arg(url.path()));
 
 	slotStatusMsg(i18n("Ready."));
     }
 
     void KdenliveApp::slotFileSave() {
-	slotStatusMsg(i18n("Saving file..."));
-
-	m_projectFormatManager.saveDocument(doc->URL(), doc);
-
-	slotStatusMsg(i18n("Ready."));
+	if (doc->URL().fileName() == i18n("Untitled")) slotFileSaveAs();
+	else {
+		slotStatusMsg(i18n("Saving file..."));
+		m_projectFormatManager.saveDocument(doc->URL(), doc);
+		slotStatusMsg(i18n("Ready."));
+	}
     }
 
     void KdenliveApp::slotFileSaveAs() {
@@ -1290,9 +1293,10 @@ namespace Gui {
 	    if (url.path().find(".") == -1) {
 		url.setFileName(url.filename() + ".kdenlive");
 	    }
-	    m_projectFormatManager.saveDocument(url, doc);
+	    if (m_projectFormatManager.saveDocument(url, doc)) {
 	    fileOpenRecent->addURL(url);
 	    setCaption(url.fileName(), doc->isModified());
+	    }
 	    m_fileDialogPath = url;
 	    m_fileDialogPath.setFileName(QString::null);
 	}
@@ -1491,8 +1495,7 @@ namespace Gui {
 	slotStatusMsg(i18n("Adding Clips"));
 
 	// Make a reasonable filter for video / audio files.
-	QString filter =
-	    "*.dv video/x-msvideo video/mpeg audio/x-mp3 audio/x-wav application/ogg";
+	QString filter = "*.dv video/x-msvideo video/mpeg audio/x-mp3 audio/x-wav application/ogg";
         
         //  Video preview doesn't seem to crash anymore, so disable hack preventing preview
         /*
@@ -1576,7 +1579,7 @@ namespace Gui {
         KDialogBase *dia = new KDialogBase(  KDialogBase::Swallow, i18n("Create New Image Clip"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "create_clip", true);
         createImageClip_UI *clipChoice = new createImageClip_UI(dia);
 	dia->setMainWidget(clipChoice);
-	// Filter for the GDK pixbuf producer
+	// Filter for the image producer
 	QString filter = "image/gif image/jpeg image/png image/x-bmp";
 	clipChoice->url_image->setFilter(filter);
         clipChoice->edit_duration->setText(KdenliveSettings::colorclipduration());
