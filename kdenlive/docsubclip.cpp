@@ -22,7 +22,7 @@
 
 #include <iostream>
 #include <kdebug.h>
-
+#include <assert.h>
 DocSubClip::DocSubClip(KdenliveDoc * doc, DocClipBase * clip):
 m_clip(clip)
 {
