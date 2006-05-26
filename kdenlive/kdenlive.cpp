@@ -725,11 +725,12 @@ namespace Gui {
 	m_dockClipMonitor->setDockSite(KDockWidget::DockFullSite);
 	m_dockClipMonitor->manualDock( m_dockWorkspaceMonitor, KDockWidget::DockCenter );
 
-//      m_dockCaptureMonitor = createDockWidget( "Capture Monitor", QPixmap(), 0, i18n( "Capture Monitor" ) );
-//      m_captureMonitor = m_monitorManager.createCaptureMonitor( getDocument(), m_dockCaptureMonitor, i18n( "Capture Monitor" ) );
-//      m_dockCaptureMonitor->setWidget( m_captureMonitor );
-//      m_dockCaptureMonitor->setDockSite( KDockWidget::DockFullSite );
-//      m_dockCaptureMonitor->manualDock( m_dockWorkspaceMonitor, KDockWidget::DockCenter );
+	m_dockCaptureMonitor = createDockWidget( "Capture Monitor", QPixmap(), 0, i18n( "Capture Monitor" ) );
+	m_captureMonitor = m_monitorManager.createCaptureMonitor( getDocument(), m_dockCaptureMonitor, "Capture Monitor" );
+	m_dockCaptureMonitor->setWidget( m_captureMonitor );
+	m_dockCaptureMonitor->setDockSite( KDockWidget::DockFullSite );
+	m_dockCaptureMonitor->manualDock( m_dockWorkspaceMonitor, KDockWidget::DockCenter );
+	m_dockCaptureMonitor->editPanel()->showLcd(KdenliveSettings::showlcd());
 
 	setBackgroundMode(PaletteBase);
 
@@ -1761,6 +1762,7 @@ namespace Gui {
 			node->name(), clip, node->parent(), false));
 
 		addCommand(macroCommand, true);
+		getDocument()->activateSceneListGeneration(true);		
 	    }
 	}
 
