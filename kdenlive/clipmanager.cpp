@@ -243,7 +243,6 @@ void ClipManager::editClip(DocClipRef * clip, const KURL & file, const QString &
 DocClipBase *ClipManager::findClip(const QDomElement & clip)
 {
     DocClipBase *result = NULL;
-
     QPtrListIterator < DocClipBase > itt(m_clipList);
     while (itt.current()) {
 	if (itt.current()->matchesXML(clip)) {
@@ -491,6 +490,17 @@ void ClipManager::removeClip(const KURL & file)
 {
 #warning - to be written
 }
+
+void ClipManager::removeClip(int clipId)
+{
+    //kdDebug()<<"++++  TRYING to delete clip: "<<clipId<<endl;
+    DocClipBase *clip = findClipById(clipId);
+    if (clip) {
+	if (m_clipList.find(clip)!=-1) m_clipList.remove();
+    }
+    else kdDebug()<<"++++  CLIP NOT FOUND!"<<endl;
+}
+
 
 void ClipManager::removeClip(const QDomElement & clip)
 {

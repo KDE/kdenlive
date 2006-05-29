@@ -119,6 +119,7 @@ class ClipManager:public QObject {
 	 * if it is referenced from anywhere, including the timeline or other clips.*/
     void removeClip(const KURL & file);
     void removeClip(const QDomElement & clip);
+    void removeClip(int clipId);
 
 	/** Remove all clips from the clip manager. */
     void clear();

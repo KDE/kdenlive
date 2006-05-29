@@ -1753,6 +1753,7 @@ namespace Gui {
 
 		// NOTE - we clear the monitors of the clip here - this does _not_ go into the macro
 		// command.
+		int id = clip->getId();
 		m_monitorManager.clearClip(clip);
 
 		DocumentBaseNode *node =
@@ -1762,6 +1763,7 @@ namespace Gui {
 			node->name(), clip, node->parent(), false));
 
 		addCommand(macroCommand, true);
+		getDocument()->clipManager().removeClip(id);
 		getDocument()->activateSceneListGeneration(true);		
 	    }
 	}
