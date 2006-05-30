@@ -2,7 +2,7 @@
                           kdenlivesplash  -  description
                              -------------------
     begin                : Qui Out 14 2004
-    copyright            : (C) 2004 by Lúcio Flávio Corrêa
+    copyright            : (C) 2004 by Lcio Flï¿½io Corrï¿½
     email                : lucio.correa@uol.com.br
  ***************************************************************************/
 
@@ -20,7 +20,7 @@
 KdenliveSplash::KdenliveSplash(const QPixmap & pixmap, WFlags f):KSplashScreen(pixmap,
     f)
 {
-    message(i18n("Version 0.3 beta"), AlignLeft, white);
+    message(i18n("Version 0.3"), AlignLeft, white);
 }
 
 KdenliveSplash::~KdenliveSplash()
