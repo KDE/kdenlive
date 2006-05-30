@@ -40,7 +40,7 @@
 
     <entry name="videothumbnails" type="Bool">
       <label>Show video thumbnails.</label>
-      <default>false</default>
+      <default>true</default>
     </entry>
 
     <entry name="audiothumbnails" type="Bool">
