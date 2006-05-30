@@ -1,6 +1,6 @@
 #MIN_CONFIG(3.2)
 
-AM_INIT_AUTOMAKE(kdenlive,0.2.4)
+AM_INIT_AUTOMAKE(kdenlive,0.3)
 
 dnl CXXFLAGS="$NOOPT_CXXFLAGS" dnl __kdevelop[noopt]__
 dnl CFLAGS="$NOOPT_CFLAGS" dnl __kdevelop[noopt]__
@@ -46,14 +46,34 @@ AC_SUBST(LIBMLT_LIBS)
 AC_SUBST(LIBMLT_CFLAGS)
 
 dnl check libraries
+
+# LIBRAW1394
+
+#PKG_CHECK_MODULES(LIBRAW1394, libraw1394 >= 1.1.0)
+#AC_SUBST(LIBRAW1394_CFLAGS)
+#AC_SUBST(LIBRAW1394_LIBS)
+
+# LIBIEC61883
+
 PKG_CHECK_MODULES(LIBIEC61883, libiec61883 >= 1.0.0, 
 [use_iec61883=yes],
 [use_iec61883=no])
 AC_SUBST(LIBIEC61883_CFLAGS)
 AC_SUBST(LIBIEC61883_LIBS)
+
+# LIBAVC1394
+
+AC_CHECK_HEADER([libavc1394/avc1394.h],
+[use_avc=yes],
+[use_avc=no])
+
+#AC_CHECK_LIB(avc1394, avc1394_vcr_play,[use_avc2=yes],
+#[use_avc2=no], [$LIBRAW1394_LIBS -lm])
+
 if test "$use_iec61883" = "yes"; then
   CXXFLAGS="$CXXFLAGS -DENABLE_FIREWIRE"
 fi
+
 AM_CONDITIONAL(ENABLE_FIREWIRE, test "$use_iec61883" = "yes")
 AC_OUTPUT
 if test "$use_iec61883" = "no"; then
