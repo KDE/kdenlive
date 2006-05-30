@@ -247,9 +247,9 @@ namespace Gui {
 	void slotProjectEditClip();
         void slotProjectEditParentClip();
 		/** Opens a clip properties dialog */
-	void slotProjectClipProperties();
+	//void slotProjectClipProperties();
 	//sets properties for selected clip without showing dialog
-	void slotProjectClipProperties(DocClipRef * clip);
+	//void slotProjectClipProperties(DocClipRef * clip);
 		/** Seek forwards one frame in the active monitor */
 	void slotSeekForwards();
 		/** Seek backwards one frame in the active monitor */
@@ -487,7 +487,7 @@ namespace Gui {
 	// KDockWidgets for the docking interface to work correctly.
 	KDockWidget *m_dockClipMonitor;
 	KDockWidget *m_dockWorkspaceMonitor;
-	//KDockWidget *m_dockCaptureMonitor;
+	KDockWidget *m_dockCaptureMonitor;
 	KDockWidget *m_dockEffectList;
 	KDockWidget *m_dockProjectList;
 	KDockWidget *m_dockEffectStack;

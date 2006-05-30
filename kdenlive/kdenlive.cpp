@@ -177,7 +177,7 @@ namespace Gui {
         delete m_effectStackDialog;
         delete m_projectList;
         delete m_effectListDialog;
-        delete m_clipPropertyDialog;
+        //delete m_clipPropertyDialog;
         if (m_workspaceMonitor) delete m_workspaceMonitor;
         if (m_clipMonitor) delete m_clipMonitor;
         if (m_captureMonitor) delete m_captureMonitor;
@@ -310,15 +310,11 @@ namespace Gui {
 	projectClean =
 	    new KAction(i18n("Clean Project"), "cleanproject.png", 0, this,
 	    SLOT(slotProjectClean()), actionCollection(), "project_clean");
-	projectClipProperties =
+/*	projectClipProperties =
 	    new KAction(i18n("Clip properties"), "clipproperties.png", 0,
 	    this, SLOT(slotProjectClipProperties()), actionCollection(),
-	    "project_clip_properties");
+	    "project_clip_properties");*/
         
-        projectClipProperties =
-                new KAction(i18n("Clip properties"), "clipproperties.png", 0,
-                            this, SLOT(slotProjectClipProperties()), actionCollection(),
-                            "project_clip_properties");
 
 	renderExportTimeline =
 	    new KAction(i18n("&Export Timeline"), "exportvideo.png", 0,
@@ -688,14 +684,14 @@ namespace Gui {
 	widget->manualDock(m_dockProjectList, KDockWidget::DockCenter);
         */
 
-	clipWidget = createDockWidget("Clip Properties", QPixmap(), 0, i18n("Clip Properties"));
+	/*clipWidget = createDockWidget("Clip Properties", QPixmap(), 0, i18n("Clip Properties"));
 	m_clipPropertyDialog =
 	    new ClipPropertiesDialog(clipWidget, "clip properties");
 	QToolTip::add(clipWidget,
 	    i18n("Properties of the currently selected clip."));
 	clipWidget->setWidget(m_clipPropertyDialog);
 	clipWidget->setDockSite(KDockWidget::DockFullSite);
-	clipWidget->manualDock(m_dockProjectList, KDockWidget::DockCenter);
+	clipWidget->manualDock(m_dockProjectList, KDockWidget::DockCenter);*/
 
 	m_dockEffectStack = createDockWidget("Effect Stack", QPixmap(), 0, i18n("Effect Stack"));
 	m_effectStackDialog =
@@ -739,7 +735,7 @@ namespace Gui {
 	    SIGNAL(seekPositionChanged(const GenTime &)), m_timeline,
 	    SLOT(seek(const GenTime &)));
 
-	//  COMMENTED BECAUSE IT CAUSES RANDOM CRASHES
+	
 	connect( m_workspaceMonitor, SIGNAL( seekPositionChanged( const GenTime & ) ), this, SLOT( slotUpdateCurrentTime( const GenTime & ) ) );
 	//connect editpanel sliders with timeline sliders -reh
 	connect(m_workspaceMonitor,
@@ -811,8 +807,8 @@ namespace Gui {
 	    SLOT(activateClipMonitor()));
 	connect(m_projectList, SIGNAL(clipSelected(DocClipRef *)), this,
 	    SLOT(slotSetClipMonitorSource(DocClipRef *)));
-	connect(m_projectList, SIGNAL(clipSelected(DocClipRef *)), this,
-	    SLOT(slotProjectClipProperties(DocClipRef *)));
+	/*connect(m_projectList, SIGNAL(clipSelected(DocClipRef *)), this,
+	    SLOT(slotProjectClipProperties(DocClipRef *)));*/
 
 	connect(m_projectList, SIGNAL(dragDropOccured(QDropEvent *)), this,
 	    SLOT(slot_insertClips(QDropEvent *)));
@@ -1789,6 +1785,7 @@ namespace Gui {
 	slotStatusMsg(i18n("Ready."));
     }
 
+/*
     void KdenliveApp::slotProjectClipProperties() {
 	slotStatusMsg(i18n("Viewing clip properties"));
 	m_clipPropertyDialog->setClip(m_projectList->currentSelection());
@@ -1801,6 +1798,7 @@ namespace Gui {
 	m_clipPropertyDialog->setClip(m_projectList->currentSelection());
 	slotStatusMsg(i18n("Ready."));
     }
+*/
 
     void KdenliveApp::slotSeekForwards() {
 	slotStatusMsg(i18n("Seeking Forwards one frame"));
