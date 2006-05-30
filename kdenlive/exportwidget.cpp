@@ -61,11 +61,10 @@ exportWidget::exportWidget( Gui::KTimeLine *timeline, QWidget* parent, const cha
     fileExportFolder->setMode(KFile::Directory);
     fileExportFolder->fileDialog()->setOperationMode(KFileDialog::Saving);
     
-    tabWidget->page(1)->setEnabled(false);
 #ifdef ENABLE_FIREWIRE
-    tabWidget->page(2)->setEnabled(true);
+    tabWidget->page(1)->setEnabled(true);
 #else
-    tabWidget->page(2)->setEnabled(false);
+    tabWidget->page(1)->setEnabled(false);
 #endif
 
     initDvConnection();
@@ -94,7 +93,7 @@ void exportWidget::initDvConnection()
         firewire_status->setText(i18n("No Firewire device detected"));
         return;
 }*/
-    tabWidget->page(2)->setEnabled(true);
+    tabWidget->page(1)->setEnabled(true);
     
     /*
     if ( m_port != -1 )
