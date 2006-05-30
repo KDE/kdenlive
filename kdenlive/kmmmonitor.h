@@ -58,7 +58,7 @@ namespace Gui {
 	/** See m_noSeek property for details. */
 	void setNoSeek(bool noSeek);
 
-	DocClipRef *clip() const;
+	virtual DocClipRef *clip() const;
 
 	virtual KMMEditPanel *editPanel() const;
 	virtual KMMScreen *screen() const;

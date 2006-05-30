@@ -335,7 +335,10 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 
     DocClipRef *KMMMonitor::clip() const {
 	return m_clip;
-    } void KMMMonitor::slotUpdateClip(DocClipRef * clip) {
+    } 
+
+
+    void KMMMonitor::slotUpdateClip(DocClipRef * clip) {
 	if (m_referredClip == clip) {
 	    m_clip->setCropStartTime(clip->cropStartTime());
 	    m_clip->setCropDuration(clip->cropDuration());
@@ -396,9 +399,13 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 
     KMMEditPanel *KMMMonitor::editPanel() const {
 	return m_editPanel;
-    } KMMScreen *KMMMonitor::screen() const {
+    } 
+
+    KMMScreen *KMMMonitor::screen() const {
 	return m_screen;
-    } void KMMMonitor::slotToggleSnapMarker() {
+    } 
+
+    void KMMMonitor::slotToggleSnapMarker() {
 	if (m_referredClip) {
 	    Command::KAddMarkerCommand * command;
 
