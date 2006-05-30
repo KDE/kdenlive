@@ -89,28 +89,46 @@ DocClipBase *ClipManager::insertClip(const KURL & file, int clipId)
 	m_clipList.append(clip);
         emit getFileProperties(file);
 	emit clipListUpdated();
+	return clip;
     }
-
-    return clip;
+    return 0;
 }
 
 DocClipBase *ClipManager::insertImageClip(const KURL & file,
     const QString & extension, const int &ttl, const GenTime & duration,
     const QString & description, bool alphaTransparency, int clipId)
 {
-    DocClipBase *clip;
-    if (clipId == -1) clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, m_clipCounter++);
-    else {
-        clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, clipId);
-        if (clipId>=m_clipCounter) m_clipCounter = clipId+1;
+    if (!KIO::NetAccess::exists(file, true, 0)) {
+	if (KMessageBox::questionYesNo(0, i18n("Cannot open file %1\nDo you want to search for the file or remove it from the project ?").arg(file.path()), i18n("Missing File"), i18n("Find File"), i18n("Remove")) == KMessageBox::Yes) {
+	KURL url = KFileDialog::getOpenURL(file.path());
+	if (!url.isEmpty()) return insertImageClip(url, extension, ttl, duration, description, alphaTransparency, clipId);
+	else return 0;
+	}
+	else return 0;
     }
-    clip->setDescription(description);
-    m_clipList.append(clip);
-    m_render->getImage(file, 50, 40);
+    DocClipBase *clip = findClip(file);
+    if (!clip) {
+	if (!m_render->isValid(file)) {
+	    KMessageBox::sorry(0,
+		i18n
+		("The file %1 is not a valid video file for kdenlive...").
+		arg(file.filename()));
+	    return 0;
+	}
 
-    emit clipListUpdated();
+    	if (clipId == -1) clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, m_clipCounter++);
+    	else {
+        	clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, clipId);
+        	if (clipId>=m_clipCounter) m_clipCounter = clipId+1;
+    	}
+    	clip->setDescription(description);
+    	m_clipList.append(clip);
+    	m_render->getImage(file, 50, 40);
 
-    return clip;
+    	emit clipListUpdated();
+	return clip;
+    }
+    return 0;
 }
 
 DocClipBase *ClipManager::insertColorClip(const QString & color,

@@ -151,7 +151,7 @@ class ClipManager:public QObject {
     
   private:
 	/** Finds the avclip that uses the given url. */
-     DocClipAVFile * findAVFile(const KURL & url);
+    DocClipAVFile * findAVFile(const KURL & url);
 	/** A list of DocClipBase Files. There is one for each clip in the project. This is used to store
 	 *  information about clips */
     DocClipBaseList m_clipList;
