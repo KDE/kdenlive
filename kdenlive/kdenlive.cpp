@@ -160,6 +160,7 @@ namespace Gui {
         else if (KdenliveSettings::showsplash()) connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(slotSplashTimeout()));
 
 	connect(manager(), SIGNAL(change()), this, SLOT(slotUpdateLayoutState()));
+	setAutoSaveSettings();
     }
     
     
@@ -1057,8 +1058,6 @@ namespace Gui {
     void KdenliveApp::saveOptions() {
 	config->setGroup("General Options");
 	config->writeEntry("Geometry", size());
-	config->writeEntry("ToolBarPos",
-	    (int) toolBar("mainToolBar")->barPos());
 	config->writeEntry("TimeScaleSlider", m_timeline->getTimeScaleSliderText());
 
 	fileOpenRecent->saveEntries(config);
@@ -1075,13 +1074,6 @@ namespace Gui {
 
     void KdenliveApp::readOptions() {
 	config->setGroup("General Options");
-
-	// bar position settings
-	KToolBar::BarPosition toolBarPos;
-	toolBarPos =
-	    (KToolBar::BarPosition) config->readNumEntry("ToolBarPos",
-	    KToolBar::Top);
-	toolBar("mainToolBar")->setBarPos(toolBarPos);
 
 	//timeline slider timescale setting
 	int iTimeScaleSlider =
