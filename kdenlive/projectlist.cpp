@@ -36,6 +36,7 @@
 #include <kmessagebox.h>
 #include <kpushbutton.h>
 
+
 #include <iostream>
 #include <string>
 #include <map>
@@ -50,7 +51,9 @@ namespace Gui {
 		"ProjectList created with no document - expect a crash shortly"
 		<< endl;
 	}
-
+	QBoxLayout * l = new QHBoxLayout( lv_frame );
+        l->setAutoAdd( TRUE );
+	lv_search = new KListViewSearchLineWidget(m_listView, lv_frame, "search_line");
 	m_listView->setDocument(document);
 
 	QPopupMenu *menu = contextcreateMenu();
@@ -150,11 +153,13 @@ namespace Gui {
 	    (AVListViewItem *) m_listView->currentItem();
 	if (!avitem)
 	    return;
-	if (avitem->clip()) {
-	    // display duration
+	if (avitem->clip()) emit clipSelected(avitem->clip());
+/*	    // display duration
 	    Timecode timecode;
+
 	    text_duration->setText(timecode.getTimecode(avitem->clip()->
                     duration(), KdenliveSettings::defaultfps()));
+
 
 	    // display file size
 	    QString text;
@@ -185,7 +190,7 @@ namespace Gui {
 		}
 	    }
 	    text_size->setText(text);
-
+	    
 	    // display usage
 	    text_usage->setText(QString::number(avitem->clip()->
 		    numReferences()));
@@ -211,8 +216,7 @@ namespace Gui {
 	    text_duration->setText(QString::null);
 	    text_size->setText(QString::null);
 	    text_usage->setText(QString::null);
-	}
-	emit clipSelected(avitem->clip());
+	}*/
     }
     
     void ProjectList::updateReference() {
@@ -221,8 +225,7 @@ namespace Gui {
         if (!avitem)
             return;
         if (avitem->clip()) {
-            text_usage->setText(QString::number(avitem->clip()->
-                    numReferences()));
+//            text_usage->setText(QString::number(avitem->clip()->numReferences()));
         }
     }
 

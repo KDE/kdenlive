@@ -18,8 +18,14 @@
 #ifndef PROJECTLISTVIEW_H
 #define PROJECTLISTVIEW_H
 
+
+#include <qtooltip.h>
+#include <qlistview.h>
+#include <qheader.h>
+
 #include <klistview.h>
 
+#include "avlistviewitem.h"
 #include "docclipbase.h"
 
 class KdenliveDoc;
@@ -36,13 +42,18 @@ class ProjectListView:public KListView {
     ~ProjectListView();
 	/** returns a drag object which is used for drag operations. */
     QDragObject *dragObject();
+    QString m_popuptext;
 	/** Sets the document to the one specified */
     void setDocument(KdenliveDoc * doc);
-     signals:			// Signals
+    QString popupText();
+    void setPopupText(QString txt);
+
+  signals:			// Signals
 	/** This signal is called whenever clips are drag'n'dropped onto the project list view. */
     void dragDropOccured(QDropEvent * e);
 	/** This signal is called whenever a drag'n'drop is started */
     void dragStarted(QListViewItem * i);
+
   protected:
 		/** returns true if the drop event is compatable with the project list */
      bool acceptDrag(QDropEvent * event) const;
@@ -55,6 +66,43 @@ class ProjectListView:public KListView {
      KdenliveDoc * m_doc;
 };
 
+
+class ListViewToolTip : public QToolTip
+{
+public:
+    ListViewToolTip( QListView* parent );
+protected:
+    void maybeTip( const QPoint& p );
+private:
+    QListView* listView;
+};
+inline ListViewToolTip::ListViewToolTip( QListView* parent )
+    : QToolTip( parent->viewport() ), listView( parent ) {}
+inline void ListViewToolTip::maybeTip( const QPoint& p ) {
+    if ( !listView )
+        return;
+    const AVListViewItem* item = static_cast<AVListViewItem *>(listView->itemAt( p ));
+    if ( !item )
+        return;
+    const QRect itemRect = listView->itemRect( item );
+    if ( !itemRect.isValid() )
+        return;
+    const int col = listView->header()->sectionAt( p.x() );
+    if ( col == -1 )
+        return;
+    const QRect headerRect = listView->header()->sectionRect( col );
+    if ( !headerRect.isValid() )
+        return;
+  const QRect cellRect( headerRect.left(), itemRect.top(),
+                         headerRect.width(), itemRect.height() );
+  QString tipStr;
+  if( col == 2 )
+       tipStr = item->text(2);
+  else if( col == 1 )
+       tipStr = item->getInfo();
+
+  tip( cellRect, tipStr );
+};
 
 
 #endif

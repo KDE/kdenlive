@@ -41,6 +41,8 @@ class AVListViewItem:public KListViewItem {
     virtual const QPixmap *pixmap(int column) const;
     DocClipRef *clip() const;
     virtual void paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align);
+
+    QString getInfo() const;
   private:
     void doCommonCtor();
     QString clipDuration() const;

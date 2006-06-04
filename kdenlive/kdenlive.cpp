@@ -31,6 +31,7 @@
 #include <qwhatsthis.h>
 #include <qtoolbutton.h>
 #include <qcheckbox.h>
+#include <qsplitter.h>
 
 // include files for KDE
 #include <kconfig.h>
@@ -644,7 +645,12 @@ namespace Gui {
 	widget->manualDock(mainDock, KDockWidget::DockBottom);
 
 	m_dockProjectList = createDockWidget("Project List", QPixmap(), 0, i18n("Project List"));
+	//QSplitter *split = new QSplitter(Qt::Horizontal, m_dockProjectList, "splitter");
 	m_projectList = new ProjectList(this, getDocument(), m_dockProjectList);
+	/*QLabel *lab = new QLabel(split);
+	lab->setText("jijijij");
+	lab->show();*/
+
 	//QToolTip::add( m_dockProjectList, i18n( "Video files usable in current project" ) );
 	QWhatsThis::add(m_dockProjectList,
 	    i18n("Video files usable in your project. "
@@ -1285,6 +1291,7 @@ namespace Gui {
 	    if (m_projectFormatManager.saveDocument(url, doc)) {
 	    fileOpenRecent->addURL(url);
 	    setCaption(url.fileName(), doc->isModified());
+	    doc->setURL(url);
 	    }
 	    m_fileDialogPath = url;
 	    m_fileDialogPath.setFileName(QString::null);

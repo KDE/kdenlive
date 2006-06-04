@@ -17,9 +17,9 @@
 
 #include <qtooltip.h>
 #include <qslider.h>
-#include <qtoolbutton.h>
 
 #include <klocale.h>
+#include <kpushbutton.h>
 #include <kiconloader.h>
 #include "kmmrulerpanel.h"
 #include <kcombobox.h>
@@ -60,10 +60,10 @@ namespace Gui {
             menu->insertItem(i18n("4 Minutes"),12,12);
             menu->insertItem(i18n("8 Minutes"),13,13);
             menu->setCheckable(true);
-            zoomButton->setPopup(menu);
-            zoomButton->setPopupDelay(-1);
             connect(menu, SIGNAL(activated(int)), this, SLOT(comboScaleChange(int)));
             zoomButton->setIconSet(QIconSet(loader.loadIcon("viewmag", KIcon::Toolbar)));
+            zoomButton->setPopup(menu);
+
 
 
 /*	connect(m_scaleCombo, SIGNAL(activated(int)), this,

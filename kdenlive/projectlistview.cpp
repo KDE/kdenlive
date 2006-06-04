@@ -28,6 +28,7 @@ ProjectListView::ProjectListView(QWidget * parent, const char *name):
 KListView(parent, name)
 {
     m_doc = 0;
+    m_popuptext = "";
 
     addColumn(i18n("Thumbnail"));
     addColumn(i18n("Filename"));
@@ -44,6 +45,8 @@ KListView(parent, name)
     setDefaultRenameAction(Accept);
     setAllColumnsShowFocus(true);
     setRootIsDecorated(true);
+    QToolTip::remove(this);
+    new ListViewToolTip(this);
 
     connect(this, SIGNAL(dropped(QDropEvent *, QListViewItem *,
 		QListViewItem *)), this, SLOT(dragDropped(QDropEvent *,
@@ -53,6 +56,16 @@ KListView(parent, name)
 
 ProjectListView::~ProjectListView()
 {
+}
+
+QString ProjectListView::popupText()
+{
+	return m_popuptext;
+}
+
+void ProjectListView::setPopupText(QString txt)
+{
+	m_popuptext = txt;
 }
 
 /** returns a drag object which is used for drag operations. */

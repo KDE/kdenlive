@@ -18,9 +18,6 @@
 #ifndef PROJECTLIST_H
 #define PROJECTLIST_H
 
-#include "projectview_ui.h"
-
-#include <projectlistview.h>
 #include <qvaluelist.h>
 #include <qpopupmenu.h>
 #include <qevent.h>
@@ -28,6 +25,10 @@
 #include <qtooltip.h>
 
 #include <kurl.h>
+#include <klistviewsearchline.h>
+
+#include <projectlistview.h>
+#include "projectview_ui.h"
 
 class DocClipRef;
 class KdenliveDoc;
@@ -67,6 +68,8 @@ namespace Gui {
 	QPopupMenu *contextMenu();
 	QPopupMenu *contextcreateMenu();
         columnToolTip * colToolTip;
+	KListViewSearchLineWidget *lv_search;
+
 
       public slots:		// Public slots
 	/** No descriptions */

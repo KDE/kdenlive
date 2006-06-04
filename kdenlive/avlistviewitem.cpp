@@ -115,6 +115,50 @@ QString AVListViewItem::clipDuration() const {
 	return text;
 }
 
+QString AVListViewItem::getInfo() const
+{
+	QString text;
+	DocumentClipNode *clipNode = m_node->asClipNode();
+	if (clipNode) {
+	    DocClipRef *clip = clipNode->clipRef();
+		if (clip->clipType() == DocClipBase::AV)
+		    text = "<b>"+i18n("Video Clip")+"</b><br>";
+		else if (clip->clipType() == DocClipBase::VIDEO)
+		    text = "<b>"+i18n("Mute Video Clip")+"</b><br>";
+		else if (clip->clipType() == DocClipBase::AUDIO)
+		    text = "<b>"+i18n("Audio Clip")+"</b><br>";
+	    	else if (clip->clipType() == DocClipBase::COLOR)
+		    text = "<b>"+i18n("Color Clip")+"</b><br>";
+	    	else if (clip->clipType() == DocClipBase::IMAGE)
+		    text = "<b>"+i18n("Image Clip")+"</b><br>";
+            	else if (clip->clipType() == DocClipBase::TEXT)
+                    text = "<b>"+i18n("Text Clip")+"</b><br>";
+
+	    if (clip->clipType() != DocClipBase::TEXT && clip->clipType() != DocClipBase::COLOR) {
+		    text.append(i18n("Path: %1").arg(clip->fileURL().directory())+"<br>");
+	    	long fileSize = clip->fileSize();
+	    	long tenth;
+	    	text.append(i18n("File Size: "));
+	    	if (fileSize < 1024) {
+			text.append(QString::number(fileSize) + i18n(" byte(s)") + "<br>");
+	    	} else {
+			fileSize = (int) floor((fileSize / 1024.0) + 0.5);
+			if (fileSize < 1024) {
+		    	text.append(QString::number(fileSize) + i18n(" Kb") + "<br>");
+			} else {
+			    fileSize = (int) floor((fileSize / 102.4) + 0.5);
+		    	tenth = fileSize % 10;
+		    	fileSize /= 10;
+		    	text.append(QString::number(fileSize) + "." +
+				QString::number(tenth) + i18n(" Mb") + "<br>");
+			}
+	    	}
+	    }
+	text.append(i18n("Usage: %1").arg(QString::number(clip->numReferences())));
+	}
+	return text;
+}
+
 QString AVListViewItem::text(int column) const
 {
     QString text = "";
