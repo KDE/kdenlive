@@ -84,25 +84,27 @@ namespace Gui {
 	int frame = 0;
 	painter.drawRect(sx, y, ex - sx, h);
 	painter.fillRect(sx, y, ex - sx, h, col);
-        /*
+        
 	for (; i < ex; i += width) {
 	    if (i + width < rect.x() || i > rect.x() + rect.width())
 		continue;
 	    int deltaHeight = h / channels;
 	    for (int countChannel = 0; countChannel < channels;
 		countChannel++) {
-		emit(getSoundSamples(document()->selectedClip()->fileURL(),
-			countChannel, (int) timeline()->mapLocalToValue(i),
-			1.0, width, i, y + deltaHeight * countChannel,
-			h / channels, ex, painter));
+		if(document()->selectedClip())	
+			emit(getSoundSamples(document()->selectedClip()->fileURL(),
+				countChannel, (int) timeline()->mapLocalToValue(i),
+				1.0, width, i, y + deltaHeight * countChannel,
+				h / channels, ex, painter));
 	    }
 	}
-        */
+        
     }
     
     void TrackViewAudioBackgroundDecorator::drawChannel(int channel,
 	const QByteArray * ba, int x, int y, int height, int maxWidth,
 	QPainter & painter) {
+		
 	for (int a = 0; a < ba->size(); a++) {
 	    int val = abs((*ba)[a]) * (height / 2) / 128;
 
