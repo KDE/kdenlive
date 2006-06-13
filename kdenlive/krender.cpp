@@ -423,7 +423,8 @@ void KRender::getSoundSamples(const KURL & url, int channel, int frame,
 			//kdDebug() << *m_pcm << endl;
        		}
        } 
-
+       if (m_frame)
+	       delete m_frame;
 	emit replyGetSoundSamples(url, channel, frame, frameLength, m_array, x,
 	y, h, w, painter);
 }
