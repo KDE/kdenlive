@@ -36,8 +36,8 @@
 #include "effectcomplexkeyframe.h"
 #include "kdenlivedoc.h"
 #include "kdenlivesettings.h"
-
-
+#include <mlt++/Mlt.h>
+#include <iostream>
 
 
 
@@ -1221,4 +1221,16 @@ void DocClipRef::moveTransition(uint ix, GenTime time)
 {
     m_transitionStack.at(ix)->moveTransition(time);
     if (m_parentTrack) m_parentTrack->refreshLayout();
+}
+QByteArray DocClipRef::getAudioThumbs(int channel, double frame, double frameLength, int arrayWidth, int x, int y, int h , int w){
+	QMap<double,QByteArray>::Iterator it=audioFrameChache.find(frame);
+	if (it!=audioFrameChache.end()){
+		return *it;
+	}else{
+		QByteArray arr=m_thumbcreator->getAudioThumbs(fileURL(),channel,frame,frameLength,arrayWidth,x,y,h,w);
+		audioFrameChache[frame]=arr;
+		return arr;
+		//return QByteArray(arrayWidth);
+	}
+	
 }

@@ -271,9 +271,10 @@ class DocClipRef:public QObject {
     QPixmap thumbnail(bool end = false);
     QTimer *startTimer;
     QTimer *endTimer;
-
+    QMap<double,QByteArray> audioFrameChache;
     
   public slots:
+	QByteArray getAudioThumbs(int channel,double frame, double frameLength, int arrayWidth, int, int, int, int);
         void updateThumbnail(int frame, QPixmap newpix);
         
         /** generate start and end thumbnails for the clip */

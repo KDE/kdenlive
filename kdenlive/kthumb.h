@@ -48,6 +48,7 @@ class KThumb:public QObject {
 
 public slots:
 	void getImage(KURL url, int frame, int width, int height);
+	QByteArray getAudioThumbs(KURL url,int channel, double frame, double frameLength, int arrayWidth, int, int, int, int);
 
 signals:
 	void thumbReady(int frame, QPixmap pm);

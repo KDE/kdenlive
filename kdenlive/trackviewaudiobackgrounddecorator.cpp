@@ -72,13 +72,15 @@ namespace Gui {
 
 	QColor col = selected ? m_selected : m_unselected;
 	double aspect = 4.0 / 3.0;
-	int width =
-	    (int) timeline()->mapValueToLocal(1) -
-	    (int) timeline()->mapValueToLocal(0);
-	int width1 = (int) (h) * aspect;
-	if (width1 > width)
-	    width = width1;
-	int i = sx;
+	int width=30;
+	double FramesInOnePixel =
+			width/(timeline()->mapValueToLocal(1) -
+			timeline()->mapValueToLocal(0));
+	//int width1 = (int) (h) * aspect;
+	//if (width1 > width)
+	//    width = width1;
+	//kdDebug() << timeline()->mapLocalToValue(1) << " " << timeline()->mapLocalToValue(0) << " " << width << endl;
+	double i = sx;
 
 	int channels = 2;
 	int frame = 0;
@@ -91,11 +93,17 @@ namespace Gui {
 	    int deltaHeight = h / channels;
 	    for (int countChannel = 0; countChannel < channels;
 		countChannel++) {
-		if(document()->selectedClip())	
-			emit(getSoundSamples(document()->selectedClip()->fileURL(),
-				countChannel, (int) timeline()->mapLocalToValue(i),
-				1.0, width, i, y + deltaHeight * countChannel,
-				h / channels, ex, painter));
+			//clip->referencedClip()	
+			if(clip->referencedClip()	)	{
+				QByteArray a=clip->getAudioThumbs(countChannel, (int) timeline()->mapLocalToValue(i),
+						1/FramesInOnePixel, width, i, y + deltaHeight * countChannel,
+					h / channels, ex);
+				drawChannel(countChannel,&a,i,y + deltaHeight * countChannel,h / channels, ex,painter);
+				//emit(getSoundSamples(clip->referencedClip()->fileURL(),
+				//	countChannel, (int) timeline()->mapLocalToValue(i),
+				//	1.0, width, i, y + deltaHeight * countChannel,
+				//	h / channels, ex, painter));
+			}
 	    }
 	}
         
