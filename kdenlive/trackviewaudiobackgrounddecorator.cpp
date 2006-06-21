@@ -95,9 +95,17 @@ namespace Gui {
 		countChannel++) {
 			//clip->referencedClip()	
 			if(clip->referencedClip()	)	{
-				QByteArray a=clip->getAudioThumbs(countChannel, (int) timeline()->mapLocalToValue(i),
-						1/FramesInOnePixel, width, i, y + deltaHeight * countChannel,
-					h / channels, ex);
+				double FrameDiffFromNull=
+					clip->trackStart().frames(document()->framesPerSecond());
+				double RealFrame=
+					timeline()->mapLocalToValue(i);
+				//kdDebug() << "fromnull=" << RealFrame<< endl;
+				
+				QByteArray a=clip->getAudioThumbs(countChannel,
+						RealFrame-FrameDiffFromNull,
+						//timeline()->mapLocalToValue(i),
+						/*(double)width**/FramesInOnePixel, width);
+				//, i, y + deltaHeight * countChannel,h / channels, ex);
 				drawChannel(countChannel,&a,i,y + deltaHeight * countChannel,h / channels, ex,painter);
 				//emit(getSoundSamples(clip->referencedClip()->fileURL(),
 				//	countChannel, (int) timeline()->mapLocalToValue(i),

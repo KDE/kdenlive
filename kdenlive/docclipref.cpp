@@ -36,9 +36,7 @@
 #include "effectcomplexkeyframe.h"
 #include "kdenlivedoc.h"
 #include "kdenlivesettings.h"
-#include <mlt++/Mlt.h>
-#include <iostream>
-
+#include <stdlib.h>
 
 
 DocClipRef::DocClipRef(DocClipBase * clip):
@@ -64,9 +62,14 @@ m_trackEnd(0.0), m_parentTrack(0), m_trackNum(-1), m_clip(clip), m_thumbcreator(
         connect( startTimer, SIGNAL(timeout()), this, SLOT(fetchStartThumbnail()));
         connect( endTimer, SIGNAL(timeout()), this, SLOT(fetchEndThumbnail()));
     }
-    else if (m_clip->clipType() == DocClipBase::AUDIO) {
-        m_thumbnail = referencedClip()->thumbnail();
-        m_endthumbnail = m_thumbnail;
+    if (m_clip->clipType() == DocClipBase::AUDIO || m_clip->clipType() == DocClipBase::AV) {
+	if (m_clip->clipType() != DocClipBase::AV){
+        	m_thumbnail = referencedClip()->thumbnail();
+        	m_endthumbnail = m_thumbnail;
+	}
+    	m_thumbcreator = new KThumb();
+    	m_thumbcreator->getAudioThumbs(fileURL(),0,0,
+	   5000,10,referencedClip()->audioFrameChache);
     }
 }
 
@@ -1222,15 +1225,63 @@ void DocClipRef::moveTransition(uint ix, GenTime time)
     m_transitionStack.at(ix)->moveTransition(time);
     if (m_parentTrack) m_parentTrack->refreshLayout();
 }
-QByteArray DocClipRef::getAudioThumbs(int channel, double frame, double frameLength, int arrayWidth, int x, int y, int h , int w){
-	QMap<double,QByteArray>::Iterator it=audioFrameChache.find(frame);
-	if (it!=audioFrameChache.end()){
-		return *it;
-	}else{
-		QByteArray arr=m_thumbcreator->getAudioThumbs(fileURL(),channel,frame,frameLength,arrayWidth,x,y,h,w);
-		audioFrameChache[frame]=arr;
-		return arr;
-		//return QByteArray(arrayWidth);
+int DocClipRef::getAudioPart(double from, double length,int channel){
+	int ret=0;
+	QMap<int,QByteArray>::Iterator it;
+	/** max from first framepart*/
+	int startpart=(int)(from*10.0)%10;
+	int endpart=(int)((from+length)*10.0)%10;
+	for (int i=(int)from;i<(int)from+1;i++){
+		/*it=referencedClip()->audioFrameChache.find(i);
+		if (it==referencedClip()->audioFrameChache.end()){
+			m_thumbcreator->getAudioThumbs(fileURL(),channel,i,
+					200.0,10,referencedClip()->audioFrameChache);
+			
+	}*/
+		it=referencedClip()->audioFrameChache.find(i);
+		if (it!=referencedClip()->audioFrameChache.end()){
+			QByteArray arr=*it;
+			int end=endpart;
+			if (length>=1.0)
+				end=9;
+			for (int j=startpart;j<=end;j++){
+				if (abs(arr[j])>abs(ret))
+					ret=arr[j];
+			}
+		}
 	}
+
+	/** max from full frames between */
+	for (int i=(int)from+1;i<from+length /*&& i<(int)from +2*/;i++){
+		/*m_thumbcreator->getAudioThumbs(fileURL(),channel,i,
+		200.0,10,referencedClip()->audioFrameChache);*/
+		it=referencedClip()->audioFrameChache.find(i);
+		QByteArray arr=*it;
+		if (it!=referencedClip()->audioFrameChache.end()){
+			for (int j=0;j<10;j++){
+				if (abs(arr[j])>abs(ret))
+					ret=arr[j];
+			}
+		}
+	}
+	/** max from last frame part */
+	
+	
+	return ret;
+
+	
+}
+
+QByteArray DocClipRef::getAudioThumbs(int channel, double frame, double frameLength, int arrayWidth){
+	
+	/** Merge alle Frames into scaled frames*/	
+	QByteArray ret(arrayWidth);
+	for ( int i=0;i< arrayWidth;i++){
+		double step=(double)frameLength/(double)arrayWidth;
+		double startpos=frame+(double)i*step;
+		ret[i]=getAudioPart(startpos,step,channel);
+	}
+	return ret;
+
 	
 }

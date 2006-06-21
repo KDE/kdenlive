@@ -143,6 +143,8 @@ class DocClipBase:public QObject {
     static DocClipBase *createClip(const EffectDescriptionList &
 	effectList, ClipManager & clipManager,
 	const QDomElement & element);
+    /** Cache for every audio Frame with 10 Bytes */
+    QMap<int,QByteArray> audioFrameChache;
   private:			// Private attributes
 	/** The name of this clip */
     QString m_name;
@@ -154,6 +156,7 @@ class DocClipBase:public QObject {
 
 	/** A thumbnail for this clip */
     QPixmap m_thumbnail;
+    
     
     /** a unique numeric id */
     uint m_id;

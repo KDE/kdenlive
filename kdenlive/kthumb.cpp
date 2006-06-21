@@ -85,32 +85,38 @@ QPixmap image(width, height);
 emit thumbReady(frame, image);
 }
 
-QByteArray KThumb::getAudioThumbs(KURL url,int channel, double frame, double frameLength, int arrayWidth, int, int, int, int){
+void KThumb::getAudioThumbs(KURL url,int channel, double frame, double frameLength, int arrayWidth,QMap<int,QByteArray> & storeIn){
 	Mlt::Producer m_producer(const_cast<char*>((url.directory(false)+url.fileName()).ascii()));
-	m_producer.seek( frame );
-	Mlt::Frame *m_frame = m_producer.get_frame();
+	
 
        //FIXME: Hardcoded!!! 
 	int m_frequency = 32000;
 	int m_channels = 2; 
-
-	QByteArray m_array(arrayWidth);
-
-	if ( m_frame->is_valid() )
-	{
-		double m_framesPerSecond = m_frame->get_double( "fps" );
-		int m_samples = mlt_sample_calculator( m_framesPerSecond, m_frequency, 
-				mlt_frame_get_position(m_frame->get_frame()) );
-		mlt_audio_format m_audioFormat = mlt_audio_pcm;
-		
-		int16_t* m_pcm = m_frame->get_audio( m_audioFormat, m_frequency, m_channels, m_samples ); 
-		//kdDebug() << "got " << m_samples << " samples and " << m_channels << " channels  and frame=" << frame << endl;
-		for (int i = 0; i < m_array.size(); i++){
-			m_array[i] =  (*( m_pcm + channel + i * m_samples / m_array.size() ))>>8;
-			//kdDebug() << *m_pcm << endl;
+	for (int z=frame;z<frame+frameLength && m_producer.is_valid();z++){
+		//kdDebug() << "frame=" << z << endl;
+		if (storeIn.find(z)==storeIn.end()){
+			QByteArray m_array(arrayWidth);
+			m_producer.seek( z );
+			Mlt::Frame *m_frame = m_producer.get_frame();
+			if ( m_frame->is_valid() )
+			{
+				//kdDebug() << "getting=" << z << endl;
+				double m_framesPerSecond = m_frame->get_double( "fps" );
+				int m_samples = mlt_sample_calculator( m_framesPerSecond, m_frequency, 
+						mlt_frame_get_position(m_frame->get_frame()) );
+				mlt_audio_format m_audioFormat = mlt_audio_pcm;
+				
+				int16_t* m_pcm = m_frame->get_audio( m_audioFormat, m_frequency, m_channels, m_samples ); 
+				//kdDebug() << "got " << m_samples << " samples and " << m_channels << " channels  and frame=" << frame << endl;
+				for (int i = 0; i < m_array.size(); i++){
+					m_array[i] =  (*( m_pcm + channel + i * m_samples / m_array.size() ))>>8;
+					//kdDebug() << *m_pcm << endl;
+				}
+			} 
+			if (m_frame)
+				delete m_frame;
+			storeIn[z]=m_array;
 		}
-	} 
-	if (m_frame)
-		delete m_frame;
-	return m_array;
+	}
+	//return m_array;
 }
