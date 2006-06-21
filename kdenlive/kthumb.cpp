@@ -109,7 +109,7 @@ void KThumb::getAudioThumbs(KURL url,int channel, double frame, double frameLeng
 				int16_t* m_pcm = m_frame->get_audio( m_audioFormat, m_frequency, m_channels, m_samples ); 
 				//kdDebug() << "got " << m_samples << " samples and " << m_channels << " channels  and frame=" << frame << endl;
 				for (int i = 0; i < m_array.size(); i++){
-					m_array[i] =  (*( m_pcm + channel + i * m_samples / m_array.size() ))>>8;
+					m_array[i] =  QABS((*( m_pcm + channel + i * m_samples / m_array.size() ))>>8);
 					//kdDebug() << *m_pcm << endl;
 				}
 			} 

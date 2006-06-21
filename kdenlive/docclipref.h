@@ -298,7 +298,7 @@ class DocClipRef:public QObject {
         void fetchStartThumbnail();
         /** Fetch the thumbnail for the clip end */
         void fetchEndThumbnail();
-        
+
   private:			// Private attributes
     void setSnapMarkers(QValueVector < GenTime > markers);
     int getAudioPart(double from, double length,int channel);
@@ -339,6 +339,7 @@ class DocClipRef:public QObject {
     
 signals:
     void getClipThumbnail(KURL, int, int, int);
+    void getAudioThumbnails(KURL, int ,double,double ,int, QMap<int,QByteArray>&);
 };
 
 #endif
