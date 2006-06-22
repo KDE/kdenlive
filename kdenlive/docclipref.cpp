@@ -70,8 +70,9 @@ m_trackEnd(0.0), m_parentTrack(0), m_trackNum(-1), m_clip(clip), m_thumbcreator(
 	if (!m_thumbcreator)
     		m_thumbcreator = new KThumb();
 	connect(this,SIGNAL(getAudioThumbnails(KURL,int,double,double,int,QMap<int,QByteArray>&)),m_thumbcreator,SLOT(getAudioThumbs(KURL,int,double,double,int,QMap<int,QByteArray>&)));
+	double lengthInFrames=m_clip->duration().frames(m_clip->framesPerSecond());
 	emit getAudioThumbnails(fileURL(),0,0,
-			    5000,AUDIO_FRAME_WIDTH,referencedClip()->audioFrameChache);
+			    lengthInFrames,AUDIO_FRAME_WIDTH,referencedClip()->audioFrameChache);
     }
 }
 

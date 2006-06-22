@@ -93,6 +93,7 @@ namespace Gui {
 		countChannel++) {
 			//clip->referencedClip()	
 			if(clip->referencedClip()	)	{
+				double framesCrop=clip->cropStartTime().frames(document()->framesPerSecond());
 				double FrameDiffFromNull=
 					clip->trackStart().frames(document()->framesPerSecond());
 				double RealFrame=
@@ -100,10 +101,9 @@ namespace Gui {
 				//kdDebug() << "fromnull=" << RealFrame<< endl;
 				
 				QByteArray a=clip->getAudioThumbs(countChannel,
-						RealFrame-FrameDiffFromNull,
-						//timeline()->mapLocalToValue(i),
-						/*(double)width**/FramesInOnePixel, width);
-				//, i, y + deltaHeight * countChannel,h / channels, ex);
+						RealFrame-FrameDiffFromNull+framesCrop,
+						FramesInOnePixel, width);
+				
 				drawChannel(countChannel,&a,i,y + deltaHeight * countChannel,h / channels, ex,painter);
 				//emit(getSoundSamples(clip->referencedClip()->fileURL(),
 				//	countChannel, (int) timeline()->mapLocalToValue(i),
