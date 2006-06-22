@@ -339,7 +339,7 @@ class DocClipRef:public QObject {
     
 signals:
     void getClipThumbnail(KURL, int, int, int);
-    void getAudioThumbnails(KURL, int ,double,double ,int, QMap<int,QByteArray>&);
+    void getAudioThumbnails(KURL, int ,double,double ,int, QMap<int,QMap<int,QByteArray> >&);
 };
 
 #endif

@@ -69,7 +69,11 @@ m_trackEnd(0.0), m_parentTrack(0), m_trackNum(-1), m_clip(clip), m_thumbcreator(
 	}
 	if (!m_thumbcreator)
     		m_thumbcreator = new KThumb();
-	connect(this,SIGNAL(getAudioThumbnails(KURL,int,double,double,int,QMap<int,QByteArray>&)),m_thumbcreator,SLOT(getAudioThumbs(KURL,int,double,double,int,QMap<int,QByteArray>&)));
+	connect(this,
+		SIGNAL(getAudioThumbnails(KURL,int,double,double,int,QMap<int,QMap<int,QByteArray> >&)),
+		m_thumbcreator,
+		SLOT(getAudioThumbs(KURL,int,double,double,int,QMap<int,QMap<int,QByteArray> >&))
+	       );
 	double lengthInFrames=m_clip->duration().frames(m_clip->framesPerSecond());
 	emit getAudioThumbnails(fileURL(),0,0,
 			    lengthInFrames,AUDIO_FRAME_WIDTH,referencedClip()->audioFrameChache);
@@ -1230,7 +1234,7 @@ void DocClipRef::moveTransition(uint ix, GenTime time)
 }
 int DocClipRef::getAudioPart(double from, double length,int channel){
 	int ret=0;
-	QMap<int,QByteArray>::Iterator it;
+	QMap<int,QMap<int,QByteArray> >::Iterator it;
 	/** we can have frame fro 7.2 to 10.4
 		so we need max(max (7.2-7.99999),
 		max(8-10),
@@ -1243,12 +1247,16 @@ int DocClipRef::getAudioPart(double from, double length,int channel){
 	for (int i=(int)from;i<(int)from+1;i++){
 		it=referencedClip()->audioFrameChache.find(i);
 		if (it!=referencedClip()->audioFrameChache.end()){
-			QByteArray arr=*it;
-			size_t end=endpart;
-			if (length>=1.0)
-				end=AUDIO_FRAME_WIDTH-1;
-			for (size_t j=startpart;j<=end;j++){
-				ret=QMAX(arr[j],ret);
+			QMap<int,QByteArray>::iterator it_channel;
+			it_channel=(*it).find(channel);
+			if (it_channel!=(*it).end()){
+				QByteArray arr=*it_channel;
+				size_t end=endpart;
+				if (length>=1.0)
+					end=AUDIO_FRAME_WIDTH-1;
+				for (size_t j=startpart;j<=end;j++){
+					ret=QMAX(arr[j],ret);
+				}
 			}
 		}
 	}
@@ -1258,10 +1266,16 @@ int DocClipRef::getAudioPart(double from, double length,int channel){
 		/*m_thumbcreator->getAudioThumbs(fileURL(),channel,i,
 		200.0,10,referencedClip()->audioFrameChache);*/
 		it=referencedClip()->audioFrameChache.find(i);
-		QByteArray arr=*it;
+		
+		
 		if (it!=referencedClip()->audioFrameChache.end()){
-			for (int j=0;j<AUDIO_FRAME_WIDTH;j++){
-				ret=QMAX(arr[j],ret);
+			QMap<int,QByteArray>::iterator it_channel;
+			it_channel=(*it).find(channel);
+			if (it_channel!=(*it).end()){
+				QByteArray arr=*it_channel;
+				for (int j=0;j<AUDIO_FRAME_WIDTH;j++){
+					ret=QMAX(arr[j],ret);
+				}
 			}
 		}
 	}

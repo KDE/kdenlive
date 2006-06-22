@@ -144,7 +144,8 @@ class DocClipBase:public QObject {
 	effectList, ClipManager & clipManager,
 	const QDomElement & element);
     /** Cache for every audio Frame with 10 Bytes */
-    QMap<int,QByteArray> audioFrameChache;
+    /** format is frame -> channel ->bytes */
+    QMap<int,QMap<int,QByteArray> > audioFrameChache;
   private:			// Private attributes
 	/** The name of this clip */
     QString m_name;
