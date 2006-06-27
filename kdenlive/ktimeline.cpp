@@ -286,6 +286,17 @@ the display. The scale is the size of one frame.*/
     GenTime KTimeLine::seekPosition() const {
 	return GenTime(m_ruler->getSliderValue(0), m_framesPerSecond);
     }
+
+    void KTimeLine::autoScroll() {
+	int max = mapLocalToValue(viewWidth());
+	int min = max - (max - mapLocalToValue(0))/2.4;
+	// Only scroll if the cursor is in the right part of the timeline and 
+	// zoom factor is lower than 2 frames 
+	if (seekPosition().frames( m_framesPerSecond ) < min || seekPosition().frames( m_framesPerSecond ) > max || timeScale()>20) return;
+	int step = 1;
+	if (timeScale() > 1) step = timeScale();
+	m_scrollBar->setValue( m_scrollBar->value() + step );
+    }
     
     void KTimeLine::slotMoveForward(bool fast)
     {

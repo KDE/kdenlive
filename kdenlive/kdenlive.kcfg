@@ -71,6 +71,12 @@
 	<whatsthis>Color of the audio clips inserted in timeline</whatsthis>
 	<default code="true">QColor(128, 255, 128)</default>
     </entry>
+
+    <entry name="autoscroll" type="Bool">
+      <label>Automatically scroll timeline while playing.</label>
+      <default>false</default>
+    </entry>
+
   </group>
   
    <group name="Default Project">

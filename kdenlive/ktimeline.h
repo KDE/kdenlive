@@ -268,6 +268,8 @@ namespace Command {
 	void setOutpointTimeline(const GenTime & outpoint);
 	//get difference between inpoint or outpoint and midpoint when inpoint/outpoint slider moved
 	void setMidValueDiff();
+	/** automatically scroll the timeline while playing */
+	void autoScroll();
 
     private slots:		// Private slots
 	/** Scroll the timeline by a set amount. Should be connected to m_scrollTimer */

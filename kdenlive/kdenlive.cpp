@@ -972,6 +972,7 @@ namespace Gui {
             // The timeline playing position changed...
             PositionChangeEvent *ev = (PositionChangeEvent *)e;
             m_monitorManager.activeMonitor()->screen()->positionChanged(ev->position());
+	    if (KdenliveSettings::autoscroll() && m_workspaceMonitor->screen()->playSpeed() > 0) m_timeline->autoScroll();
         }
         else if( e->type() == 10001) {
             // The export process progressed
