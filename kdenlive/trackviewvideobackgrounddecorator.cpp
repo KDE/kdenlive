@@ -33,69 +33,61 @@ namespace Gui {
                                               KdenliveDoc * doc, const QColor & selected,
                                               const QColor & unselected, int shift):DocTrackDecorator(timeline,
                                               doc), m_selected(selected), m_unselected(unselected),
-    m_shift(shift) {
+    	m_shift(shift) {
 
-    } TrackViewVideoBackgroundDecorator::
-            ~TrackViewVideoBackgroundDecorator() {
+    } 
+
+    TrackViewVideoBackgroundDecorator::~TrackViewVideoBackgroundDecorator() {
             }
 
-// virtual
-            void TrackViewVideoBackgroundDecorator::paintClip(double startX,
+    // virtual
+    void TrackViewVideoBackgroundDecorator::paintClip(double startX,
                     double endX, QPainter & painter, DocClipRef * clip, QRect & rect,
                     bool selected) {
-	//QDomDocument myxml=clip->generateSceneList();
-	//qDebug("%s\n",myxml.toString().ascii());
-
-                        int sx = startX;	// (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
-                        int ex = endX;		//(int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
-
+                        int sx = startX;
+                        int ex = endX;
+			
                         if (sx < rect.x()) {
                             sx = rect.x();
                         }
                         if (ex > rect.x() + rect.width()) {
                             ex = rect.x() + rect.width();
                         }
-	//ex -= sx;
                         int y = rect.y();
                         int h = rect.height();
-                        if (m_shift) {
+                        if (m_shift)
                             h -= m_shift;
-                        }
+
+			//kdDebug()<< "++++++++  VIDEO REFRESH ("<<clip->name()<<"): "<<startX<<", "<<endX<<", RECT: "<<rect.x()<<", "<<rect.width()<<endl;
+
                         QColor col = selected ? m_selected : m_unselected;
-	// draw outline box
+			// fill clip with color
                         painter.fillRect(sx, rect.y(), ex-sx, rect.height(), col);
-	//qDebug("%f",clip->clipWidth()+clip->clipHeight());
+			painter.setClipRect(sx, rect.y(), ex, rect.height());
+
                         double aspect = 4.0 / 3.0;
-	//width of a frame shown in timeline
+			//width of a frame shown in timeline
                         int width =
                                 (int) timeline()->mapValueToLocal(1) -
                                 (int) timeline()->mapValueToLocal(0);
+
                         int width1 = (h) * aspect;
                         if (width1 > width)
                             width = width1;
                         int i = sx;
                         int frame = 0;
-
+			int clipStart = timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
+			int clipEnd = timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
                         /* Use the clip's default thumbnail & scale it to track size to decorate until we have some better stuff */
                         QPixmap newimg = clip->thumbnail();
-	// = clip->referencedClip()->thumbnail();
-	/*QImage im;
-                        im = newimg;
-                        newimg = im.scale(width,h); */
-
-	//for (;i<ex;i+=width){
-	//document()->renderer()->getImage(clip->fileURL(),clip->cropStartTime().frames(25),&newimg);
-                        //QImage im;
-                        //im = newimg;
-                        //newimg = im.scale(width, h);
-                        int drawWidth = width;
-                        if (i + width > ex)
-                            drawWidth = ex - i;
-                        if (ex-sx>newimg.width()) {
-                            QPixmap newimg2 = clip->thumbnail(true);
-                            painter.drawPixmap(ex-newimg2.width(), y, newimg2, 0, 0, newimg2.width(), h);
+                        int drawWidth = newimg.width();
+                        if (endX - startX < drawWidth)
+                            drawWidth = endX - startX;
+                        if (ex + sx > endX - newimg.width()) 
+			{
+                            painter.drawPixmap(endX-drawWidth, y, clip->thumbnail(true), 0, 0, drawWidth, h);
                         }
-                        painter.drawPixmap(i, y, newimg, 0, 0, drawWidth, h);
+                        if (sx < startX + newimg.width()) painter.drawPixmap(startX, y, newimg, 0, 0, drawWidth, h);
                         //painter.drawRect(i, y, drawWidth, h);
 	//}
 

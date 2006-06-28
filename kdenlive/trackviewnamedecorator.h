@@ -33,7 +33,7 @@ A decorator that adds the name of the clip to the clip itself.
 
 	virtual ~ TrackViewNameDecorator();
 
-	virtual void paintClip(double startX, double endx,
+	virtual void paintClip(double startX, double endX,
 	    QPainter & painter, DocClipRef * clip, QRect & rect,
 	    bool selected);
     };

@@ -33,12 +33,12 @@ namespace Gui {
     void KTrackPlacer::drawToBackBuffer(QPainter & painter, QRect & rect,
 	TrackViewDecorator * decorator) {
 	GenTime startValue =
-	    GenTime(m_timeline->mapLocalToValue(0.0),
+	    GenTime(m_timeline->mapLocalToValue(rect.x()),
 	    m_docTrack->framesPerSecond());
 	GenTime endValue =
-	    GenTime(m_timeline->mapLocalToValue(rect.width()),
+	    GenTime(m_timeline->mapLocalToValue(rect.x() + rect.width()),
 	    m_docTrack->framesPerSecond());
-
+	
 	QPtrListIterator < DocClipRef > clip =
 	    m_docTrack->firstClip(startValue, endValue, false);
 	DocClipRef *endClip =

@@ -42,14 +42,16 @@ namespace Gui {
 		    double, int, int, int, int, int, QPainter &)),
 	    document()->renderer(), SLOT(getSoundSamples(const KURL &, int,
 		    int, double, int, int, int, int, int, QPainter &)));
-    } TrackViewAudioBackgroundDecorator::
-	~TrackViewAudioBackgroundDecorator() {
+    } 
+
+    TrackViewAudioBackgroundDecorator::~TrackViewAudioBackgroundDecorator() {
     }
 
 // virtual
     void TrackViewAudioBackgroundDecorator::paintClip(double startX,
 	double endX, QPainter & painter, DocClipRef * clip, QRect & rect,
 	bool selected) {
+	if (!clip->referencedClip()) return;
 	int sx = startX;	// (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
 	int ex = endX;		//(int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
 
@@ -70,7 +72,8 @@ namespace Gui {
 
 	QColor col = selected ? m_selected : m_unselected;
 	double aspect = 4.0 / 3.0;
-	int width=30;
+	int width = 30;
+	
 	double FramesInOnePixel =
 			width/(timeline()->mapValueToLocal(1) -
 			timeline()->mapValueToLocal(0));
@@ -82,28 +85,29 @@ namespace Gui {
 
 	int channels = 2;
 	int frame = 0;
-	painter.drawRect(sx, y, ex - sx, h);
+//	painter.drawRect(sx, y, ex - sx, h);
 	painter.fillRect(sx, y, ex - sx, h, col);
+	painter.setClipping(true);
+	painter.setClipRect(sx, rect.y(), ex, rect.height());
+
         
+	/*double framesCrop = clip->cropStartTime().frames(document()->framesPerSecond());
+	double FrameDiffFromNull = clip->trackStart().frames(document()->framesPerSecond());*/
+	double timeDiff = clip->cropStartTime().frames(document()->framesPerSecond()) - clip->trackStart().frames(document()->framesPerSecond());
+	
+
 	for (; i < ex; i += width) {
 	    if (i + width < rect.x() || i > rect.x() + rect.width())
 		continue;
 	    int deltaHeight = h / channels;
+	    double RealFrame = timeline()->mapLocalToValue(i);
 	    for (int countChannel = 0; countChannel < channels;
 		countChannel++) {
-			//clip->referencedClip()	
-			if(clip->referencedClip()	)	{
-				double framesCrop=clip->cropStartTime().frames(document()->framesPerSecond());
-				double FrameDiffFromNull=
-					clip->trackStart().frames(document()->framesPerSecond());
-				double RealFrame=
-					timeline()->mapLocalToValue(i);
+			 {
 				//kdDebug() << "fromnull=" << RealFrame<< endl;
-				
 				QByteArray a=clip->getAudioThumbs(countChannel,
-						RealFrame-FrameDiffFromNull+framesCrop,
+						RealFrame + timeDiff,
 						FramesInOnePixel, width);
-				
 				drawChannel(countChannel,&a,i,y + deltaHeight * countChannel,h / channels, ex,painter);
 				//emit(getSoundSamples(clip->referencedClip()->fileURL(),
 				//	countChannel, (int) timeline()->mapLocalToValue(i),
