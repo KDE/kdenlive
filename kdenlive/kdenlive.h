@@ -485,7 +485,7 @@ namespace Gui {
 
 	/** Url to open after Kdenlive is initialised*/
 	KURL m_selectedFile;
-	QString newProjectName;
+	QString m_newProjectName;
         
         /** Stores the context menu position */
         QPoint m_menuPosition;

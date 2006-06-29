@@ -8,45 +8,18 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>341</width>
-            <height>111</height>
+            <width>320</width>
+            <height>166</height>
         </rect>
     </property>
     <property name="caption">
-        <string>Form1</string>
+        <string></string>
     </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="KRestrictedLine" row="0" column="1">
-            <property name="name">
-                <cstring>kcfg_textclipduration</cstring>
-            </property>
-            <property name="text">
-                <string>:::</string>
-            </property>
-            <property name="inputMask">
-                <string>99:99:99:99; </string>
-            </property>
-        </widget>
-        <widget class="QLabel" row="0" column="0">
-            <property name="name">
-                <cstring>textLabel4</cstring>
-            </property>
-            <property name="text">
-                <string>Default text clip duration</string>
-            </property>
-        </widget>
-        <widget class="QLabel" row="1" column="0">
-            <property name="name">
-                <cstring>textLabel4_2</cstring>
-            </property>
-            <property name="text">
-                <string>Default color/image clip duration</string>
-            </property>
-        </widget>
-        <spacer row="0" column="2">
+        <spacer row="2" column="2">
             <property name="name">
                 <cstring>spacer5</cstring>
             </property>
@@ -63,7 +36,58 @@
                 </size>
             </property>
         </spacer>
-        <spacer row="3" column="1">
+        <widget class="KRestrictedLine" row="3" column="1">
+            <property name="name">
+                <cstring>kcfg_colorclipduration</cstring>
+            </property>
+            <property name="text">
+                <string>:::</string>
+            </property>
+            <property name="inputMask">
+                <string>99:99:99:99; </string>
+            </property>
+        </widget>
+        <widget class="KRestrictedLine" row="2" column="1">
+            <property name="name">
+                <cstring>kcfg_textclipduration</cstring>
+            </property>
+            <property name="text">
+                <string>:::</string>
+            </property>
+            <property name="inputMask">
+                <string>99:99:99:99; </string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="2" column="0">
+            <property name="name">
+                <cstring>textLabel4</cstring>
+            </property>
+            <property name="text">
+                <string>Default text clip duration</string>
+            </property>
+        </widget>
+        <widget class="KURLRequester" row="1" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>kcfg_defaultfolder</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="3" column="0">
+            <property name="name">
+                <cstring>textLabel4_2</cstring>
+            </property>
+            <property name="text">
+                <string>Default color/image clip duration</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>kcfg_showlcd</cstring>
+            </property>
+            <property name="text">
+                <string>Show LCD screen under monitors</string>
+            </property>
+        </widget>
+        <spacer row="5" column="1">
             <property name="name">
                 <cstring>spacer2</cstring>
             </property>
@@ -76,27 +100,16 @@
             <property name="sizeHint">
                 <size>
                     <width>16</width>
-                    <height>16</height>
+                    <height>24</height>
                 </size>
             </property>
         </spacer>
-        <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="2">
+        <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
             <property name="name">
-                <cstring>kcfg_showlcd</cstring>
+                <cstring>textLabel1</cstring>
             </property>
             <property name="text">
-                <string>Show LCD screen under monitors</string>
-            </property>
-        </widget>
-        <widget class="KRestrictedLine" row="1" column="1">
-            <property name="name">
-                <cstring>kcfg_colorclipduration</cstring>
-            </property>
-            <property name="text">
-                <string>:::</string>
-            </property>
-            <property name="inputMask">
-                <string>99:99:99:99; </string>
+                <string>Default folder to store previews &amp; thumbnails</string>
             </property>
         </widget>
     </grid>
@@ -107,5 +120,8 @@
 <includehints>
     <includehint>krestrictedline.h</includehint>
     <includehint>krestrictedline.h</includehint>
+    <includehint>kurlrequester.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kpushbutton.h</includehint>
 </includehints>
 </UI>

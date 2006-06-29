@@ -29,20 +29,24 @@ namespace Gui {
       Q_OBJECT public:
 		/** construtor of KdenliveApp, calls all init functions to create the application.
 		  */
-	newProject(QWidget * parent = 0, const char *name = 0, QStringList list = 0);
+	newProject(QString defaultFolder, QStringList list = 0, QWidget * parent = 0, const char *name = 0 );
 	~newProject();
 
-	KURL m_selectedProject;
+    private:
 	bool m_isNewFile;
+	KURL m_selectedProject;
+	QString m_defaultFolder;
+
 
     public slots:
-	void adjustButton();
 	bool isNewFile();
 	KURL selectedFile();
+	KURL projectFolderPath();
 
     private slots:
 	void openProject();
     	void checkFile();
+	void adjustButton();
     };
 
 }				// namespace Gui

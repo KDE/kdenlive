@@ -100,6 +100,11 @@
     </group>
     
     <group name="Misc">
+    <entry name="defaultfolder" type="String">
+      <label>Default folder for new projects (used to store the project file, thumbnails and previews).</label>
+      <default>~/kdenlive/</default>
+    </entry>
+
     <entry name="textclipduration" type="String">
       <label>Default duration for new text clips.</label>
       <default>00:00:10:00</default>

@@ -133,14 +133,13 @@ namespace Gui {
 			i++;
 			Lastproject = config->readPathEntry("File" + QString::number(i));
 		}
-		newProject *newProjectDialog = new newProject(this, "new_project", recentFiles);
-		newProjectDialog->projectName->setText(i18n("Untitled"));
-		newProjectDialog->projectFolder->setURL("~/.kdenlive/");
+		newProject *newProjectDialog = new newProject(KdenliveSettings::defaultfolder(), recentFiles, this, "new_project");
+		//newProjectDialog->projectName->setText(i18n("Untitled"));
 		if (newProjectDialog->exec() == QDialog::Rejected) exit(1);
 		else {
 			if (newProjectDialog->isNewFile()) {
-				newProjectName = newProjectDialog->projectName->text();
-				projectFolder = newProjectDialog->projectFolder->url();
+				m_newProjectName = newProjectDialog->projectName->text();
+				projectFolder = newProjectDialog->projectFolderPath();
 			}
 			else {
 				m_selectedFile = newProjectDialog->selectedFile();
@@ -190,7 +189,7 @@ namespace Gui {
 	else {
 	    if (KdenliveSettings::showsplash())
 		connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(slotSplashTimeout()));
-	    setCaption(newProjectName, doc->isModified());
+	    setCaption(m_newProjectName, doc->isModified());
 	    doc->setProjectFolder(projectFolder);
 	}
 
@@ -1316,13 +1315,13 @@ namespace Gui {
 
     void KdenliveApp::slotFileSaveAs() {
 	slotStatusMsg(i18n("Saving file with a new filename..."));
-	if (!newProjectName.isEmpty()) newProjectName.append(".kdenlive");
-	KURL url = KFileDialog::getSaveURL(m_fileDialogPath.path() + newProjectName ,
+	if (!m_newProjectName.isEmpty()) m_newProjectName.append(".kdenlive");
+	KURL url = KFileDialog::getSaveURL(m_fileDialogPath.path() + m_newProjectName ,
 	    m_projectFormatManager.saveMimeTypes(),
 	    /* i18n( "*.kdenlive|Kdenlive Project Files (*.kdenlive)" ), */
 	    this,
 	    i18n("Save as..."));
-	newProjectName = QString();
+	m_newProjectName = QString();
 	if (!url.isEmpty()) {
 	    if (url.path().find(".") == -1) {
 		url.setFileName(url.filename() + ".kdenlive");

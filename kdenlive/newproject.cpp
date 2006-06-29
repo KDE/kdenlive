@@ -31,11 +31,13 @@
 
 namespace Gui {
 
-    newProject::newProject(QWidget *parent, const char *name, QStringList list):newProject_UI(parent, name) 
+    newProject::newProject(QString defaultFolder, QStringList list, QWidget *parent, const char *name):newProject_UI(parent, name)
     {
 	recentFiles->insertStringList(list);
 	m_isNewFile = false;
+	m_defaultFolder = defaultFolder;
 	projectFolder->setMode(KFile::Directory);
+	projectFolder->setURL(defaultFolder);
 	if (!list.isEmpty()) recentFiles->setCurrentItem(0);
 	connect(tabWidget, SIGNAL(currentChanged ( QWidget * )), this, SLOT(adjustButton()));
 	connect(projectName, SIGNAL(textChanged (const QString &)), this, SLOT(adjustButton()));
@@ -43,7 +45,7 @@ namespace Gui {
 	connect(buttonQuit, SIGNAL(clicked ()), this, SLOT(reject()));
 	connect(buttonOpen, SIGNAL(clicked ()), this, SLOT(openProject()));
 	connect(buttonOk, SIGNAL(clicked ()), this, SLOT(checkFile()));
-	connect(recentFiles, SIGNAL(executed (QListBoxItem *)), this, SLOT(checkFile()));
+	connect(recentFiles, SIGNAL(doubleClicked(QListBoxItem *item, const QPoint &pos)), this, SLOT(checkFile()));
     }
 
     newProject::~newProject() {}
@@ -71,12 +73,22 @@ namespace Gui {
     {
 	if (tabWidget->currentPageIndex() == 0) {
 		m_isNewFile = true;
-		if (!KIO::NetAccess::exists(projectFolder->url(), false, this)) 
+		if (!KIO::NetAccess::exists(KURL(projectFolder->url()), false, this)) {
 			KIO::NetAccess::mkdir(KURL(projectFolder->url()), this);
-		if (!KIO::NetAccess::exists(projectFolder->url(), false, this)) {
-			KMessageBox::sorry(this, i18n("Unable to read / create the selected folder.\nPlease chose another project folder."));
+			if (!KIO::NetAccess::exists(KURL(projectFolder->url()), false, this)) {
+				KMessageBox::sorry(this, i18n("Unable to access the selected folder.\nPlease chose another project folder."));
+				return;
+			}
 		}
-		else accept();
+		if (!KIO::NetAccess::exists(KURL(projectFolder->url() + projectName->text()), false, this)) {
+			KIO::NetAccess::mkdir(KURL(projectFolder->url() + projectName->text()), this);
+			if (!KIO::NetAccess::exists(KURL(projectFolder->url() + projectName->text()), false, this)) {
+				KMessageBox::sorry(this, i18n("Unable to access the selected folder.\nPlease chose another project folder."));
+				return;
+			}
+		}
+
+		accept();
 	}
 	else {
 		m_selectedProject = KURL(recentFiles->currentText());
@@ -92,6 +104,11 @@ namespace Gui {
     bool newProject::isNewFile()
     {
 	return m_isNewFile;
+    }
+
+    KURL newProject::projectFolderPath()
+    {
+	return KURL(projectFolder->url() + projectName->text());
     }
 
 }

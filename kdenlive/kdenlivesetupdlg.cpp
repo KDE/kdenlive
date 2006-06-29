@@ -20,6 +20,8 @@
 #include <klocale.h>
 #include <kiconloader.h>
 #include <kconfig.h>
+#include <kurlrequester.h>
+
 
 #include "kdenlivesetupdlg.h"
 #include "kdenlive.h"
@@ -35,6 +37,8 @@ namespace Gui {
 	page2 = new configTimeline();
         page3 = new configMisc();
         page4 = new configProject();
+	
+	page3->kcfg_defaultfolder->setMode(KFile::Directory);
 
 	addPage(page1, i18n("Interface"), "looknfeel");
 	addPage(page2, i18n("Timeline"), "view_details");
