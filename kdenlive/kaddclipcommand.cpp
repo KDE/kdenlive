@@ -132,7 +132,7 @@ namespace Command {
         }
         DocClipBase *clip =
                 document.clipManager().insertTextClip(duration, name,
-        description, xml, url, pix, alphaTransparency);
+        description, xml, url, pix, alphaTransparency, document.projectFolder());
         DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
         m_xmlClip = clipNode->clipRef()->toXML();
         delete clipNode;

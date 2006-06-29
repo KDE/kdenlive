@@ -95,7 +95,7 @@
 #include "projectlist.h"
 #include "titlewidget.h"
 #include "clipproperties.h"
-
+#include "newproject.h"
 
 
 #include "trackpanelclipmovefunction.h"
@@ -119,9 +119,36 @@ namespace Gui {
 
     KdenliveApp::KdenliveApp(QWidget *parent,
 	const char *name):KDockMainWindow(parent, name), m_monitorManager(this),
-    m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL) {
+    m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_selectedFile(NULL) {
 	config = kapp->config();
-        
+
+	KURL projectFolder;
+	if (!KdenliveSettings::openlast()) {
+		int i = 1;
+		QStringList recentFiles;
+		config->setGroup("RecentFiles");
+		QString Lastproject = config->readPathEntry("File1");
+		while (!Lastproject.isEmpty()) {
+			recentFiles<<Lastproject;
+			i++;
+			Lastproject = config->readPathEntry("File" + QString::number(i));
+		}
+		newProject *newProjectDialog = new newProject(this, "new_project", recentFiles);
+		newProjectDialog->projectName->setText(i18n("Untitled"));
+		newProjectDialog->projectFolder->setURL("~/.kdenlive/");
+		if (newProjectDialog->exec() == QDialog::Rejected) exit(1);
+		else {
+			if (newProjectDialog->isNewFile()) {
+				newProjectName = newProjectDialog->projectName->text();
+				projectFolder = newProjectDialog->projectFolder->url();
+			}
+			else {
+				m_selectedFile = newProjectDialog->selectedFile();
+			}
+		}
+		delete newProjectDialog;
+	}
+
         QPixmap pixmap(locate("appdata", "graphics/kdenlive-splash.png"));
 
         if (KdenliveSettings::showsplash()) {
@@ -158,7 +185,14 @@ namespace Gui {
 	// Reopen last project if user asked it
 	if (KdenliveSettings::openlast())
             connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(openLastFile()));
-        else if (KdenliveSettings::showsplash()) connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(slotSplashTimeout()));
+        else if (!m_selectedFile.isEmpty()) 
+	    connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(openSelectedFile()));
+	else {
+	    if (KdenliveSettings::showsplash())
+		connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(slotSplashTimeout()));
+	    setCaption(newProjectName, doc->isModified());
+	    doc->setProjectFolder(projectFolder);
+	}
 
 	connect(manager(), SIGNAL(change()), this, SLOT(slotUpdateLayoutState()));
 	setAutoSaveSettings();
@@ -193,6 +227,12 @@ namespace Gui {
 	if (m_commandHistory) delete m_commandHistory;
     }
     
+    void KdenliveApp::openSelectedFile()
+    {
+        slotFileOpenRecent(m_selectedFile);
+        slotSplashTimeout();
+    }
+
     void KdenliveApp::openLastFile()
     {
         config->setGroup("RecentFiles");
@@ -1066,12 +1106,9 @@ namespace Gui {
 	config->setGroup("General Options");
 	config->writeEntry("Geometry", size());
 	config->writeEntry("TimeScaleSlider", m_timeline->getTimeScaleSliderText());
-
 	fileOpenRecent->saveEntries(config);
 	config->writeEntry("FileDialogPath", m_fileDialogPath.path());
-
 	writeDockConfig(config, "Default Layout");
-
     }
 
     int KdenliveApp::getTimeScaleSliderText() const {
@@ -1193,7 +1230,7 @@ namespace Gui {
     }
 
     bool KdenliveApp::queryExit() {
-	saveOptions();
+	//saveOptions();
 	return true;
     }
 
@@ -1279,12 +1316,13 @@ namespace Gui {
 
     void KdenliveApp::slotFileSaveAs() {
 	slotStatusMsg(i18n("Saving file with a new filename..."));
-
-	KURL url = KFileDialog::getSaveURL(m_fileDialogPath.path(),
+	if (!newProjectName.isEmpty()) newProjectName.append(".kdenlive");
+	KURL url = KFileDialog::getSaveURL(m_fileDialogPath.path() + newProjectName ,
 	    m_projectFormatManager.saveMimeTypes(),
 	    /* i18n( "*.kdenlive|Kdenlive Project Files (*.kdenlive)" ), */
 	    this,
 	    i18n("Save as..."));
+	newProjectName = QString();
 	if (!url.isEmpty()) {
 	    if (url.path().find(".") == -1) {
 		url.setFileName(url.filename() + ".kdenlive");
@@ -1603,7 +1641,7 @@ namespace Gui {
     void KdenliveApp::slotProjectAddTextClip() {
         slotStatusMsg(i18n("Adding Clips"));
         activateWorkspaceMonitor();
-        titleWidget *txtWidget=new titleWidget(doc->projectClip().videoWidth(), doc->projectClip().videoHeight(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
+        titleWidget *txtWidget=new titleWidget(doc->projectClip().videoWidth(), doc->projectClip().videoHeight(), doc->projectFolder(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
         connect(txtWidget->canview,SIGNAL(showPreview(QString)),m_workspaceMonitor->screen(),SLOT(setTitlePreview(QString)));
         txtWidget->titleName->setText(i18n("Text Clip"));
         txtWidget->edit_duration->setText(KdenliveSettings::textclipduration());
@@ -1673,7 +1711,7 @@ namespace Gui {
             
             if (refClip->clipType() == DocClipBase::TEXT) {
                 activateWorkspaceMonitor();
-                titleWidget *txtWidget=new titleWidget(doc->projectClip().videoWidth(), doc->projectClip().videoHeight(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
+                titleWidget *txtWidget=new titleWidget(doc->projectClip().videoWidth(), doc->projectClip().videoHeight(), doc->projectFolder(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
                 connect(txtWidget->canview,SIGNAL(showPreview(QString)),m_workspaceMonitor->screen(),SLOT(setTitlePreview(QString)));
                 Timecode tcode;
                 txtWidget->edit_duration->setText(tcode.getTimecode(refClip->duration(), KdenliveSettings::defaultfps()));
@@ -2016,8 +2054,9 @@ namespace Gui {
     void KdenliveApp::slotConfigureProject() {
 	ConfigureProjectDialog configDialog(getDocument()->renderer()->
 	    fileFormats(), this, "configure project dialog");
-        configDialog.setValues(doc->framesPerSecond(), doc->projectClip().videoWidth(), doc->projectClip().videoHeight());
+        configDialog.setValues(doc->framesPerSecond(), doc->projectClip().videoWidth(), doc->projectClip().videoHeight(), doc->projectFolder());
 	if (QDialog::Accepted == configDialog.exec()) {
+	getDocument()->setProjectFolder(configDialog.projectFolder());
 	}
     }
 

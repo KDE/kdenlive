@@ -60,7 +60,10 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
     while (!n.isNull()) {
 	QDomElement e = n.toElement();
 	if (!e.isNull()) {
-	    if ((e.tagName() == "AVFileList")
+	    if (e.tagName() == "properties") {
+		document->setProjectFolder(KURL(e.attribute("projectfolder","~/.kdenlive/")));
+	    }
+	    else if ((e.tagName() == "AVFileList")
 		|| (e.tagName() == "avfilelist")) {
 		if (!avListLoaded) {
 		    avListLoaded = true;
@@ -173,7 +176,7 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
                 xml.setContent(clip.attribute("xml", ""));
                 baseClip =
                         document->clipManager().insertTextClip(GenTime(clip.attribute("duration", "").toInt(), 25), clip.attribute("name", ""),
-                clip.attribute("description", ""),xml, clip.attribute("url", ""), pm, clip.attribute("transparency", "").toInt(), clip.attribute("id", "-1").toInt());
+                clip.attribute("description", ""),xml, clip.attribute("url", ""), pm, clip.attribute("transparency", "").toInt(), document->projectFolder(), clip.attribute("id", "-1").toInt());
             }
 
 	    if (baseClip) {

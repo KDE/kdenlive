@@ -44,6 +44,9 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
 
     QDomElement elem = doc.createElement("kdenlivedoc");
     doc.appendChild(elem);
+    QDomElement docinfos = doc.createElement("properties");
+    docinfos.setAttribute("projectfolder", document->projectFolder().url());
+    elem.appendChild(docinfos);
 
     QDomElement avfilelist = doc.createElement("avfilelist");
     DocumentBaseNode *node = document->clipHierarch();

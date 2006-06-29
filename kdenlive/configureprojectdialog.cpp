@@ -23,6 +23,7 @@
 
 #include <kiconloader.h>
 #include <kjanuswidget.h>
+#include <kurlrequester.h>
 #include <klistbox.h>
 #include <klocale.h>
 #include <kpushbutton.h>
@@ -63,6 +64,7 @@ ConfigureProjectDialog::ConfigureProjectDialog(QPtrList <
 	    KIcon::NoGroup, KIcon::SizeMedium));
 
     m_config = new ConfigureProject(m_configPage, "configure page");
+    m_config->m_projectFolder->setMode(KFile::Directory);
     m_export = new ExportConfig(formatList, m_exportPage, "export page");
 
     loadTemplates();
@@ -93,11 +95,17 @@ void ConfigureProjectDialog::updateDisplay()
     }
 }
 
-void ConfigureProjectDialog::setValues(const double &fps, const int &width, const int &height)
+void ConfigureProjectDialog::setValues(const double &fps, const int &width, const int &height, KURL folder)
 {
             m_config->m_framespersecond->setValue(fps);
             m_config->m_widthInput->setValue(width);
             m_config->m_heightInput->setValue(height);
+	    m_config->m_projectFolder->setURL(folder.url());
+}
+
+KURL ConfigureProjectDialog::projectFolder()
+{
+	return m_config->m_projectFolder->url();
 }
 
 void ConfigureProjectDialog::loadSettings(const QString & name)

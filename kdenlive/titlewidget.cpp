@@ -51,12 +51,12 @@
 #define verticalMarginSize 20
 
 FigureEditor::FigureEditor(
-        QCanvas& c, QWidget* parent,
+        QCanvas& c, QWidget* parent, KURL tmpFolder,
         const char* name, WFlags f) :
                 QCanvasView(&c,parent,name,f)
 {
         //Create temp file that will be used for preview in the Mlt monitor
-        tmp=new KTempFile(QString::null,".png");
+        tmp=new KTempFile(tmpFolder.url(),".png");
         selection = 0;
         moving = 0;
         numItems = 0;
@@ -625,13 +625,13 @@ void FigureEditor::setXml(const QDomDocument &xml)
 }
 
 
-titleWidget::titleWidget(int width, int height, QWidget* parent, const char* name, WFlags fl ):
+titleWidget::titleWidget(int width, int height, KURL tmpFolder, QWidget* parent, const char* name, WFlags fl ):
                 titleBaseWidget(parent,name)
 {
         frame->setMinimumWidth(width);
         frame->setMinimumHeight(height);
         canvas=new QCanvas(KdenliveSettings::defaultwidth(),KdenliveSettings::defaultheight());
-        canview = new FigureEditor(*canvas,frame);
+        canview = new FigureEditor(*canvas, frame, tmpFolder);
 
         // Put icons on buttons
         textButton->setPixmap(KGlobal::iconLoader()->loadIcon("title_text",KIcon::Small,22));

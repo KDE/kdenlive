@@ -105,6 +105,8 @@ class KdenliveDoc:public QObject {
     DocClipProject & projectClip() {
 	return *m_projectClip;
     }
+    void setProjectFolder(KURL);
+    KURL projectFolder();
 
 	/** Returns the number of frames per second. */
     double framesPerSecond() const;
@@ -203,6 +205,9 @@ class KdenliveDoc:public QObject {
     void connectProjectClip();
     /** When loading a new project, update the project list clip's reference (how much time each clip is used in timeline*/
     void updateReferences();
+
+    /** Folder where all temp files/previews will be stored*/
+    KURL m_projectFolder;
 
     
     public slots:

@@ -18,6 +18,7 @@
 #define CONFIGUREPROJECTDIALOG_H
 
 #include <kdialogbase.h>
+#include <kurl.h>
 
 #include "avfileformatdesc.h"
 
@@ -73,11 +74,12 @@ class ConfigureProjectDialog:public KDialogBase {
     void slotCancel();
   /** Called when the ok button is clicked. */
     void slotOk();
-    
+
+    KURL projectFolder();
     void loadTemplates();
     void updateDisplay();
     void loadSettings(const QString & name);
-    void setValues(const double &fps, const int &width, const int &height);
+    void setValues(const double &fps, const int &width, const int &height, KURL folder);
             
   private:
      QSplitter * m_hSplitter;

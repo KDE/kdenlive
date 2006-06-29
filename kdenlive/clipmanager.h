@@ -82,7 +82,7 @@ class ClipManager:public QObject {
 
     /** Insert a text clip */
     DocClipBase *insertTextClip( const GenTime & duration, const QString & name,
-                                 const QString & description, const QDomDocument &xml, const KURL url, QPixmap &pix, bool alphaTransparency, int clipId = -1);
+                                 const QString & description, const QDomDocument &xml, const KURL url, QPixmap &pix, bool alphaTransparency, KURL tmpFolder, int clipId = -1);
 	
     /** Edit a color clip */
     void editColorClip(DocClipRef * clip, const QString & color,

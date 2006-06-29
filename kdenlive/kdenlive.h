@@ -371,6 +371,8 @@ namespace Gui {
         void slotExportCurrentFrame();
 	void slotViewSelectedClip();
 
+	void openSelectedFile();
+
 
       private:
 		/** the configuration object of the application */
@@ -480,6 +482,10 @@ namespace Gui {
 	/** Stores a copy of the last file dialog path used by kdenlive. */
 	KURL m_fileDialogPath;
 	KMMTimeLine *m_timeline;
+
+	/** Url to open after Kdenlive is initialised*/
+	KURL m_selectedFile;
+	QString newProjectName;
         
         /** Stores the context menu position */
         QPoint m_menuPosition;

@@ -31,6 +31,7 @@
 #include "krendermanager.h"
 #include "kdenlivedoc.h"
 #include "kdenlive.h"
+#include "kio/netaccess.h"
 
 #include "docclipavfile.h"
 #include "docclipproject.h"
@@ -70,6 +71,17 @@ KdenliveDoc::~KdenliveDoc()
 {
     if (m_projectClip)
 	delete m_projectClip;
+}
+
+void KdenliveDoc::setProjectFolder(KURL url) {
+    m_projectFolder = url;
+}
+
+KURL KdenliveDoc::projectFolder() {
+    if (m_projectFolder.isEmpty()) m_projectFolder = KURL("~/.kdenlive/");
+    if (!KIO::NetAccess::exists(m_projectFolder, false, m_app)) 
+	KIO::NetAccess::mkdir(m_projectFolder, m_app);
+    return m_projectFolder;
 }
 
 void KdenliveDoc::setURL(const KURL & url)
