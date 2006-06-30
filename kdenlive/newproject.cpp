@@ -45,7 +45,7 @@ namespace Gui {
 	connect(buttonQuit, SIGNAL(clicked ()), this, SLOT(reject()));
 	connect(buttonOpen, SIGNAL(clicked ()), this, SLOT(openProject()));
 	connect(buttonOk, SIGNAL(clicked ()), this, SLOT(checkFile()));
-	connect(recentFiles, SIGNAL(doubleClicked(QListBoxItem *item, const QPoint &pos)), this, SLOT(checkFile()));
+	connect(recentFiles, SIGNAL(doubleClicked(QListBoxItem *, const QPoint &)), this, SLOT(checkFile()));
     }
 
     newProject::~newProject() {}
