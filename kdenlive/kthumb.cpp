@@ -23,6 +23,7 @@
 #include <kio/netaccess.h>
 #include <kdebug.h>
 #include <klocale.h>
+#include <kdenlivesettings.h>
 
 #include "kthumb.h"
 #include <mlt++/Mlt.h>
@@ -85,42 +86,64 @@ QPixmap image(width, height);
 emit thumbReady(frame, image);
 }
 
-void KThumb::getAudioThumbs(KURL url,int channel, double frame, double frameLength, int arrayWidth,QMap<int,QMap<int, QByteArray> >& storeIn){
+void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLength, int arrayWidth,QMap<int,QMap<int, QByteArray> >& storeIn){
 	Mlt::Producer m_producer(const_cast<char*>((url.directory(false)+url.fileName()).ascii()));
 	
 
        //FIXME: Hardcoded!!! 
 	int m_frequency = 48000;
 	int m_channels = 2; 
-	for (int z=frame;z<frame+frameLength && m_producer.is_valid();z++){
-		//kdDebug() << "frame=" << z << endl;
-		if (storeIn.find(z)==storeIn.end()){
-			
-			m_producer.seek( z );
-			Mlt::Frame *m_frame = m_producer.get_frame();
-			if ( m_frame->is_valid() )
-			{
-				double m_framesPerSecond = m_frame->get_double( "fps" );
-				int m_samples = mlt_sample_calculator( m_framesPerSecond, m_frequency, 
-						mlt_frame_get_position(m_frame->get_frame()) );
-				mlt_audio_format m_audioFormat = mlt_audio_pcm;
-				
-				int16_t* m_pcm = m_frame->get_audio(m_audioFormat, m_frequency, m_channels, m_samples ); 
-
-				for (int c=0;c< m_channels;c++){
-					QByteArray m_array(arrayWidth);
-					for (int i = 0; i < m_array.size(); i++){
-						m_array[i] =  QABS((*( m_pcm + c + i * m_samples / m_array.size() ))>>8);
-					}
-					storeIn[z][c]=m_array;
-				}
-			} else{
-				storeIn[z][0]=QByteArray(arrayWidth);
+	QString thumbname = KdenliveSettings::defaultfolder() + "/" + url.fileName() + ".thumb";
+	//kdDebug()<<"THUMBFILE NAME: "<<thumbname <<endl;
+	QFile f(thumbname);
+	if (f.open( IO_ReadOnly )) {
+		QByteArray channelarray(arrayWidth*(frame+frameLength)*m_channels);
+		channelarray = f.readAll();
+		f.close();
+		for (int z=frame;z<frame+frameLength;z++) {
+			//kdDebug() << "frame=" << z << ", total: "<< frame+frameLength <<endl;
+			for (int c=0;c< m_channels;c++){
+				QByteArray m_array(arrayWidth);
+				for (int i = 0; i < arrayWidth; i++)
+					m_array[i] = channelarray[z*arrayWidth*m_channels + c*arrayWidth + i];
+				storeIn[z][c] = m_array;
 			}
-			if (m_frame)
-				delete m_frame;
-			
 		}
+	}
+	else {
+		f.open( IO_WriteOnly );
+		for (int z=frame;z<frame+frameLength && m_producer.is_valid();z++){
+			//kdDebug() << "frame=" << z << ", total: "<< frame+frameLength <<endl;
+			if (storeIn.find(z)==storeIn.end()){
+			
+				m_producer.seek( z );
+				Mlt::Frame *m_frame = m_producer.get_frame();
+				if ( m_frame->is_valid() )
+				{
+					double m_framesPerSecond = m_frame->get_double( "fps" );
+					int m_samples = mlt_sample_calculator( m_framesPerSecond, m_frequency, 
+							mlt_frame_get_position(m_frame->get_frame()) );
+					mlt_audio_format m_audioFormat = mlt_audio_pcm;
+				
+					int16_t* m_pcm = m_frame->get_audio(m_audioFormat, m_frequency, m_channels, m_samples ); 
+
+					for (int c=0;c< m_channels;c++){
+						QByteArray m_array(arrayWidth);
+						for (int i = 0; i < m_array.size(); i++){
+							m_array[i] =  QABS((*( m_pcm + c + i * m_samples / m_array.size() ))>>8);
+						}
+						f.writeBlock(m_array);
+						storeIn[z][c]=m_array;
+					}
+				} else{
+					storeIn[z][0]=QByteArray(arrayWidth);
+					f.writeBlock(QByteArray(arrayWidth));
+				}
+				if (m_frame)
+					delete m_frame;
+			}
+		}
+		f.close();
 	}
 
 }
