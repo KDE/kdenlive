@@ -39,6 +39,7 @@ namespace Gui {
 	projectFolder->setMode(KFile::Directory);
 	projectFolder->setURL(defaultFolder);
 	if (!list.isEmpty()) recentFiles->setCurrentItem(0);
+	projectName->setFocus();
 	connect(tabWidget, SIGNAL(currentChanged ( QWidget * )), this, SLOT(adjustButton()));
 	connect(projectName, SIGNAL(textChanged (const QString &)), this, SLOT(adjustButton()));
 	connect(projectFolder, SIGNAL(textChanged (const QString &)), this, SLOT(adjustButton()));
