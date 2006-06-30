@@ -41,7 +41,7 @@ namespace Gui {
     public slots:
 	bool isNewFile();
 	KURL selectedFile();
-	KURL projectFolderPath();
+	QString projectFolderPath();
 
     private slots:
 	void openProject();

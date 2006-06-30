@@ -105,8 +105,6 @@ class KdenliveDoc:public QObject {
     DocClipProject & projectClip() {
 	return *m_projectClip;
     }
-    void setProjectFolder(KURL);
-    KURL projectFolder();
 
 	/** Returns the number of frames per second. */
     double framesPerSecond() const;

@@ -34,8 +34,7 @@
 #include <kaddclipcommand.h>
 #include <titlewidget.h>
 
-ClipManager::ClipManager(KRender *render, QWidget * parent,
-    const char *name) //Manager & renderManager
+ClipManager::ClipManager(KRender *render, QWidget * parent, const char *name) //Manager & renderManager
 {
     m_clipList.setAutoDelete(true);
     m_temporaryClipList.setAutoDelete(true);
@@ -152,10 +151,10 @@ DocClipBase *ClipManager::insertColorClip(const QString & color,
 
 DocClipBase *ClipManager::insertTextClip(
     const GenTime & duration, const QString & name,
-    const QString & description, const QDomDocument &xml, const KURL url, QPixmap &pix, bool alphaTransparency, KURL tmpFolder, int clipId)
+    const QString & description, const QDomDocument &xml, const KURL url, QPixmap &pix, bool alphaTransparency, int clipId)
 {
     if (!QFile(url.path()).exists() || pix.isNull()) {
-        titleWidget *txtWidget=new titleWidget(10,10, tmpFolder);
+        titleWidget *txtWidget=new titleWidget(10,10);
         txtWidget->setXml(xml);
         txtWidget->createImage(url);
         pix = txtWidget->thumbnail(50, 40);

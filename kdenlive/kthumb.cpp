@@ -93,7 +93,7 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
        //FIXME: Hardcoded!!! 
 	int m_frequency = 48000;
 	int m_channels = 2; 
-	QString thumbname = KdenliveSettings::defaultfolder() + "/" + url.fileName() + ".thumb";
+	QString thumbname = KdenliveSettings::currentdefaultfolder() + "/" + url.fileName() + ".thumb";
 	//kdDebug()<<"THUMBFILE NAME: "<<thumbname <<endl;
 	QFile f(thumbname);
 	if (f.open( IO_ReadOnly )) {

@@ -32,7 +32,7 @@ class FigureEditor : public QCanvasView
         Q_OBJECT
 
 public:
-        FigureEditor(QCanvas&, QWidget* parent=0, KURL tmpFolder=0, const char* name=0, WFlags f=0);
+        FigureEditor(QCanvas&, QWidget* parent=0, const char* name=0, WFlags f=0);
         virtual ~FigureEditor();
         void clear();
         QCanvasRectangle* selection;
@@ -90,7 +90,7 @@ class titleWidget : public titleBaseWidget
 {
         Q_OBJECT
 public:
-        titleWidget( int width, int height, KURL tmpFolder, QWidget* parent=0, const char* name=0, WFlags fl=0);
+        titleWidget( int width, int height, QWidget* parent=0, const char* name=0, WFlags fl=0);
         virtual ~titleWidget();
         FigureEditor *canview;
 private:

@@ -73,16 +73,6 @@ KdenliveDoc::~KdenliveDoc()
 	delete m_projectClip;
 }
 
-void KdenliveDoc::setProjectFolder(KURL url) {
-    m_projectFolder = url;
-}
-
-KURL KdenliveDoc::projectFolder() {
-    if (m_projectFolder.isEmpty()) m_projectFolder = KURL(KdenliveSettings::defaultfolder());
-    if (!KIO::NetAccess::exists(m_projectFolder, false, m_app)) 
-	KIO::NetAccess::mkdir(m_projectFolder, m_app);
-    return m_projectFolder;
-}
 
 void KdenliveDoc::setURL(const KURL & url)
 {

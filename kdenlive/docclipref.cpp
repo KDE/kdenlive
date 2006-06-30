@@ -70,12 +70,12 @@ m_trackEnd(0.0), m_parentTrack(0), m_trackNum(-1), m_clip(clip), m_thumbcreator(
 	if (!m_thumbcreator)
     		m_thumbcreator = new KThumb();
 	connect(this,
-		SIGNAL(getAudioThumbnails(KURL,int,double,double,int,QMap<int,QMap<int,QByteArray> >&)),
+		SIGNAL(getAudioThumbnails(KURL, int,double,double,int,QMap<int,QMap<int,QByteArray> >&)),
 		m_thumbcreator,
-		SLOT(getAudioThumbs(KURL,int,double,double,int,QMap<int,QMap<int,QByteArray> >&))
+		SLOT(getAudioThumbs(KURL, int,double,double,int,QMap<int,QMap<int,QByteArray> >&))
 	       );
 	double lengthInFrames=m_clip->duration().frames(m_clip->framesPerSecond());
-	emit getAudioThumbnails(fileURL(),0,0,
+	emit getAudioThumbnails(fileURL(), 0,0,
 			    lengthInFrames,AUDIO_FRAME_WIDTH,referencedClip()->audioFrameChache);
     }
 }
@@ -260,7 +260,6 @@ createClip(const EffectDescriptionList & effectList,
     }
 
     DocClipBase *baseClip = clipManager.insertClip(element);
-
     if (baseClip) {
 	clip = new DocClipRef(baseClip);
     }
@@ -1232,6 +1231,7 @@ void DocClipRef::moveTransition(uint ix, GenTime time)
     m_transitionStack.at(ix)->moveTransition(time);
     if (m_parentTrack) m_parentTrack->refreshLayout();
 }
+
 int DocClipRef::getAudioPart(double from, double length,int channel){
 	int ret=0;
 	QMap<int,QMap<int,QByteArray> >::Iterator it;

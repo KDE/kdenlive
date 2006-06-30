@@ -41,7 +41,8 @@ class DocumentClipNode:public DocumentBaseNode {
 
     virtual DocumentClipNode *asClipNode() {
 	return this;
-    } DocClipRef *clipRef() {
+    } 
+    DocClipRef *clipRef() {
 	return m_ref;
     }
   private:

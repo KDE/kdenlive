@@ -106,9 +106,9 @@ namespace Gui {
 	return m_isNewFile;
     }
 
-    KURL newProject::projectFolderPath()
+    QString newProject::projectFolderPath()
     {
-	return KURL(projectFolder->url() + projectName->text());
+	return QString(projectFolder->url() + projectName->text());
     }
 
 }

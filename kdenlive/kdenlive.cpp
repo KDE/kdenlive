@@ -122,7 +122,6 @@ namespace Gui {
     m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_selectedFile(NULL) {
 	config = kapp->config();
 
-	KURL projectFolder;
 	if (!KdenliveSettings::openlast()) {
 		int i = 1;
 		QStringList recentFiles;
@@ -139,7 +138,7 @@ namespace Gui {
 		else {
 			if (newProjectDialog->isNewFile()) {
 				m_newProjectName = newProjectDialog->projectName->text();
-				projectFolder = newProjectDialog->projectFolderPath();
+				KdenliveSettings::setCurrentdefaultfolder(newProjectDialog->projectFolderPath());
 			}
 			else {
 				m_selectedFile = newProjectDialog->selectedFile();
@@ -190,7 +189,6 @@ namespace Gui {
 	    if (KdenliveSettings::showsplash())
 		connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(slotSplashTimeout()));
 	    setCaption(m_newProjectName, doc->isModified());
-	    doc->setProjectFolder(projectFolder);
 	}
 
 	connect(manager(), SIGNAL(change()), this, SLOT(slotUpdateLayoutState()));
@@ -229,6 +227,11 @@ namespace Gui {
     void KdenliveApp::openSelectedFile()
     {
         slotFileOpenRecent(m_selectedFile);
+	if (KdenliveSettings::currentdefaultfolder().isEmpty()) 
+		KdenliveSettings::setCurrentdefaultfolder(KdenliveSettings::defaultfolder());
+    	if (!KIO::NetAccess::exists(KURL(KdenliveSettings::currentdefaultfolder()), false, this)) 
+		KIO::NetAccess::mkdir(KURL(KdenliveSettings::currentdefaultfolder()), this);
+	// TODO: error message if folder is unreadable
         slotSplashTimeout();
     }
 
@@ -1640,7 +1643,7 @@ namespace Gui {
     void KdenliveApp::slotProjectAddTextClip() {
         slotStatusMsg(i18n("Adding Clips"));
         activateWorkspaceMonitor();
-        titleWidget *txtWidget=new titleWidget(doc->projectClip().videoWidth(), doc->projectClip().videoHeight(), doc->projectFolder(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
+        titleWidget *txtWidget=new titleWidget(doc->projectClip().videoWidth(), doc->projectClip().videoHeight(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
         connect(txtWidget->canview,SIGNAL(showPreview(QString)),m_workspaceMonitor->screen(),SLOT(setTitlePreview(QString)));
         txtWidget->titleName->setText(i18n("Text Clip"));
         txtWidget->edit_duration->setText(KdenliveSettings::textclipduration());
@@ -1710,7 +1713,7 @@ namespace Gui {
             
             if (refClip->clipType() == DocClipBase::TEXT) {
                 activateWorkspaceMonitor();
-                titleWidget *txtWidget=new titleWidget(doc->projectClip().videoWidth(), doc->projectClip().videoHeight(), doc->projectFolder(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
+                titleWidget *txtWidget=new titleWidget(doc->projectClip().videoWidth(), doc->projectClip().videoHeight(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
                 connect(txtWidget->canview,SIGNAL(showPreview(QString)),m_workspaceMonitor->screen(),SLOT(setTitlePreview(QString)));
                 Timecode tcode;
                 txtWidget->edit_duration->setText(tcode.getTimecode(refClip->duration(), KdenliveSettings::defaultfps()));
@@ -2053,9 +2056,9 @@ namespace Gui {
     void KdenliveApp::slotConfigureProject() {
 	ConfigureProjectDialog configDialog(getDocument()->renderer()->
 	    fileFormats(), this, "configure project dialog");
-        configDialog.setValues(doc->framesPerSecond(), doc->projectClip().videoWidth(), doc->projectClip().videoHeight(), doc->projectFolder());
+        configDialog.setValues(doc->framesPerSecond(), doc->projectClip().videoWidth(), doc->projectClip().videoHeight(), KdenliveSettings::currentdefaultfolder());
 	if (QDialog::Accepted == configDialog.exec()) {
-	getDocument()->setProjectFolder(configDialog.projectFolder());
+	KdenliveSettings::setCurrentdefaultfolder(configDialog.projectFolder().url());
 	}
     }
 

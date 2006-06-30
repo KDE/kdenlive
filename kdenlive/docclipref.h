@@ -272,7 +272,6 @@ class DocClipRef:public QObject {
     QTimer *startTimer;
     QTimer *endTimer;
     
-    
   public slots:
 	QByteArray getAudioThumbs(int channel,double frame, double frameLength, int arrayWidth);
         void updateThumbnail(int frame, QPixmap newpix);
