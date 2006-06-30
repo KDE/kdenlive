@@ -1924,6 +1924,7 @@ namespace Gui {
 	slotStatusMsg(i18n("Deleting Selected Clips"));
 	addCommand(Command::KAddRefClipCommand::
 	    deleteSelectedClips(getDocument()), true);
+	getDocument()->activateSceneListGeneration(true);
 	slotStatusMsg(i18n("Ready."));
     }
     
