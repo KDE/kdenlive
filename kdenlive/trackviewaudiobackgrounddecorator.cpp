@@ -61,7 +61,7 @@ namespace Gui {
 	if (ex > rect.x() + rect.width()) {
 	    ex = rect.x() + rect.width();
 	}
-	//ex -= sx;
+
 	int y = rect.y();
 	int h = rect.height();
 
@@ -85,10 +85,11 @@ namespace Gui {
 
 	int channels = 2;
 	int frame = 0;
-//	painter.drawRect(sx, y, ex - sx, h);
-	painter.fillRect(sx, y, ex - sx, h, col);
-	painter.setClipping(true);
-	painter.setClipRect(sx, rect.y(), ex, rect.height());
+
+	painter.setClipRect(sx, rect.y(), ex - sx, rect.height());
+	painter.fillRect(sx, rect.y(), ex - sx, rect.height(), col);
+
+
 
         
 	/*double framesCrop = clip->cropStartTime().frames(document()->framesPerSecond());
@@ -116,7 +117,7 @@ namespace Gui {
 			}
 	    }
 	}
-        
+        painter.setClipping(false);
     }
     
     void TrackViewAudioBackgroundDecorator::drawChannel(int channel,

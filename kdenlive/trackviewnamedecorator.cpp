@@ -51,14 +51,13 @@ namespace Gui {
 	if (ex > rect.x() + rect.width()) {
 	    ex = rect.x() + rect.width();
 	}
-	ex -= sx;
+	//ex -= sx;
 
-	painter.setClipping(true);
-	painter.setClipRect(sx, rect.y(), ex, rect.height());
+	//painter.setClipRect(sx, rect.y(), clipWidth, rect.height());
 
 	// draw video name text
 	QRect textBound =
-	    painter.boundingRect(0, 0, ex, rect.height(), Qt::AlignLeft,
+	    painter.boundingRect(0, 0, clipWidth, rect.height(), Qt::AlignLeft,
 	    clip->name());
 
 	double border = 150.0;

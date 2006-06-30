@@ -57,13 +57,14 @@ namespace Gui {
                         int h = rect.height();
                         if (m_shift)
                             h -= m_shift;
-
+			ex -= sx;
 			//kdDebug()<< "++++++++  VIDEO REFRESH ("<<clip->name()<<"): "<<startX<<", "<<endX<<", RECT: "<<rect.x()<<", "<<rect.width()<<endl;
 
                         QColor col = selected ? m_selected : m_unselected;
 			// fill clip with color
-                        painter.fillRect(sx, rect.y(), ex-sx, rect.height(), col);
 			painter.setClipRect(sx, rect.y(), ex, rect.height());
+                        painter.fillRect(sx, rect.y(), ex, rect.height(), col);
+			
 
                         double aspect = 4.0 / 3.0;
 			//width of a frame shown in timeline
@@ -90,7 +91,7 @@ namespace Gui {
                         if (sx < startX + newimg.width()) painter.drawPixmap(startX, y, newimg, 0, 0, drawWidth, h);
                         //painter.drawRect(i, y, drawWidth, h);
 	//}
-
+        		painter.setClipping(false);
                     }
 
 };
