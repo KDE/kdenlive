@@ -109,7 +109,7 @@ namespace Gui {
 
     QString newProject::projectFolderPath()
     {
-	return QString(projectFolder->url() + projectName->text());
+	return QString(KURL(projectFolder->url()).path() + projectName->text());
     }
 
 }
