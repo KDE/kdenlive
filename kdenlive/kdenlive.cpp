@@ -53,7 +53,8 @@
 #include <kurlrequesterdlg.h>
 #include <kstandarddirs.h>
 #include <kio/netaccess.h>
-
+#include <kmdcodec.h>
+#include <kfileitem.h>
 
 // application specific includes
 // p.s., get the idea this class is kind, central to everything?
@@ -1798,7 +1799,8 @@ namespace Gui {
 		macroCommand->addCommand(new Command::KAddClipCommand(*doc,
 			node->name(), clip, node->parent(), false));
 		// remove thumbnail file
-		KIO::NetAccess::del(KURL(KdenliveSettings::currentdefaultfolder() + "/" + clip->name() + ".thumb"), this);
+		KMD5 context ((KFileItem(clip->fileURL(),"text/plain", S_IFREG).timeString() + clip->fileURL().fileName()).ascii());
+		KIO::NetAccess::del(KURL(KdenliveSettings::currentdefaultfolder() + "/" + context.hexDigest().data() + ".thumb"), this);
 		addCommand(macroCommand, true);
 
 		getDocument()->clipManager().removeClip(id);

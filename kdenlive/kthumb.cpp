@@ -24,6 +24,8 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kdenlivesettings.h>
+#include <kfileitem.h>
+#include <kmdcodec.h>
 
 #include "kthumb.h"
 #include <mlt++/Mlt.h>
@@ -93,7 +95,9 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
        //FIXME: Hardcoded!!! 
 	int m_frequency = 48000;
 	int m_channels = 2; 
-	QString thumbname = KdenliveSettings::currentdefaultfolder() + "/" + url.fileName() + ".thumb";
+	KMD5 context ((KFileItem(url,"text/plain", S_IFREG).timeString() + url.fileName()).ascii());
+	kdDebug()<<"FILE MODTIME: "<<KFileItem(url,"text/plain", S_IFREG).timeString()<<endl;;
+	QString thumbname = KdenliveSettings::currentdefaultfolder() + "/" + context.hexDigest().data() + ".thumb"; //url.fileName()
 	//kdDebug()<<"THUMBFILE NAME: "<<thumbname <<endl;
 	QFile f(thumbname);
 	if (f.open( IO_ReadOnly )) {
@@ -111,7 +115,7 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
 		}
 	}
 	else {
-		f.open( IO_WriteOnly );
+		if (!f.open( IO_WriteOnly )) kdDebug()<<"++++++++  ERROR WRITING TO FILE: "<<thumbname<<endl;
 		for (int z=frame;z<frame+frameLength && m_producer.is_valid();z++){
 			//kdDebug() << "frame=" << z << ", total: "<< frame+frameLength <<endl;
 			if (storeIn.find(z)==storeIn.end()){
