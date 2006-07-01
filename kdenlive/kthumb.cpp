@@ -96,7 +96,6 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
 	int m_frequency = 48000;
 	int m_channels = 2; 
 	KMD5 context ((KFileItem(url,"text/plain", S_IFREG).timeString() + url.fileName()).ascii());
-	kdDebug()<<"FILE MODTIME: "<<KFileItem(url,"text/plain", S_IFREG).timeString()<<endl;;
 	QString thumbname = KdenliveSettings::currentdefaultfolder() + "/" + context.hexDigest().data() + ".thumb"; //url.fileName()
 	//kdDebug()<<"THUMBFILE NAME: "<<thumbname <<endl;
 	QFile f(thumbname);
