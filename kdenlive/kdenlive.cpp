@@ -1797,8 +1797,10 @@ namespace Gui {
 
 		macroCommand->addCommand(new Command::KAddClipCommand(*doc,
 			node->name(), clip, node->parent(), false));
-
+		// remove thumbnail file
+		KIO::NetAccess::del(KURL(KdenliveSettings::currentdefaultfolder() + "/" + clip->name() + ".thumb"), this);
 		addCommand(macroCommand, true);
+
 		getDocument()->clipManager().removeClip(id);
 		getDocument()->activateSceneListGeneration(true);		
 	    }
