@@ -1,0 +1,30 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>LoadProgress</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>LoadProgress</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>562</width>
+            <height>44</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Test</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QProgressBar" row="0" column="0">
+            <property name="name">
+                <cstring>progressBar</cstring>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>
