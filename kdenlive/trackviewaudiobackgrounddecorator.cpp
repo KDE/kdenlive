@@ -31,9 +31,9 @@ namespace Gui {
 	TrackViewAudioBackgroundDecorator(KTimeLine * timeline,
 	KdenliveDoc * doc, const QColor & selected,
 	const QColor & unselected, int size):DocTrackDecorator(timeline,
-	doc), m_selected(selected), m_unselected(unselected),
-	m_height(size) {
-	connect(document()->renderer(),
+	doc),m_height(size), m_selected(selected), m_unselected(unselected)
+	 {
+	/*connect(document()->renderer(),
 	    SIGNAL(replyGetSoundSamples(const KURL &, int, int, double,
 		    const QByteArray &, int, int, int, int, QPainter &)),
 	    this, SLOT(setSoundSamples(const KURL &, int, int, double,
@@ -41,19 +41,19 @@ namespace Gui {
 	 connect(this, SIGNAL(getSoundSamples(const KURL &, int, int,
 		    double, int, int, int, int, int, QPainter &)),
 	    document()->renderer(), SLOT(getSoundSamples(const KURL &, int,
-		    int, double, int, int, int, int, int, QPainter &)));
-    } 
+		 int, double, int, int, int, int, int, QPainter &)));*/
+	 } 
 
     TrackViewAudioBackgroundDecorator::~TrackViewAudioBackgroundDecorator() {
     }
 
 // virtual
-    void TrackViewAudioBackgroundDecorator::paintClip(double startX,
+void TrackViewAudioBackgroundDecorator::paintClip(double startX,
 	double endX, QPainter & painter, DocClipRef * clip, QRect & rect,
 	bool selected) {
 	if (!clip->referencedClip()) return;
-	int sx = startX;	// (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
-	int ex = endX;		//(int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
+	int sx = (int)startX;	// (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
+	int ex = (int)endX;		//(int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
 
 	if (sx < rect.x()) {
 	    sx = rect.x();
@@ -71,7 +71,7 @@ namespace Gui {
 	}
 
 	QColor col = selected ? m_selected : m_unselected;
-	double aspect = 4.0 / 3.0;
+	//double aspect = 4.0 / 3.0;
 	int width = 30;
 	
 	double FramesInOnePixel =
@@ -83,63 +83,60 @@ namespace Gui {
 	//kdDebug() << timeline()->mapLocalToValue(1) << " " << timeline()->mapLocalToValue(0) << " " << width << endl;
 	double i = sx;
 
-	int channels = 2;
-	int frame = 0;
+	int channels =clip->audioChannels();
+	if (channels==0)
+			channels=1;
+	//int frame = 0;
 
 	painter.setClipRect(sx, rect.y(), ex - sx, rect.height());
 	painter.fillRect(sx, rect.y(), ex - sx, rect.height(), col);
 
-
-
-        
 	/*double framesCrop = clip->cropStartTime().frames(document()->framesPerSecond());
 	double FrameDiffFromNull = clip->trackStart().frames(document()->framesPerSecond());*/
 	double timeDiff = clip->cropStartTime().frames(document()->framesPerSecond()) - clip->trackStart().frames(document()->framesPerSecond());
 	
 
 	for (; i < ex; i += width) {
-	    if (i + width < rect.x() || i > rect.x() + rect.width())
-		continue;
-	    int deltaHeight = h / channels;
-	    double RealFrame = timeline()->mapLocalToValue(i);
-	    for (int countChannel = 0; countChannel < channels;
-		countChannel++) {
-			 {
-				//kdDebug() << "fromnull=" << RealFrame<< endl;
-				QByteArray a=clip->getAudioThumbs(countChannel,
-						RealFrame + timeDiff,
-						FramesInOnePixel, width);
-				drawChannel(countChannel,&a,i,y + deltaHeight * countChannel,h / channels, ex,painter);
-				//emit(getSoundSamples(clip->referencedClip()->fileURL(),
-				//	countChannel, (int) timeline()->mapLocalToValue(i),
-				//	1.0, width, i, y + deltaHeight * countChannel,
-				//	h / channels, ex, painter));
+		if (i + width < rect.x() || i > rect.x() + rect.width())
+			continue;
+		int deltaHeight = h / channels;
+		double RealFrame = timeline()->mapLocalToValue(i);
+		for (int countChannel = 0; countChannel < channels;countChannel++) {
+		{
+			//kdDebug() << "fromnull=" << RealFrame<< endl;
+			QByteArray a=clip->getAudioThumbs(countChannel,
+					RealFrame + timeDiff,
+					FramesInOnePixel, width);
+			drawChannel(&a,(int)i,y + deltaHeight * countChannel,h / channels, ex,painter);
+			//emit(getSoundSamples(clip->referencedClip()->fileURL(),
+			//	countChannel, (int) timeline()->mapLocalToValue(i),
+			//	1.0, width, i, y + deltaHeight * countChannel,
+			//	h / channels, ex, painter));
 			}
 	    }
 	}
-        painter.setClipping(false);
-    }
-    
-    void TrackViewAudioBackgroundDecorator::drawChannel(int channel,
-	const QByteArray * ba, int x, int y, int height, int maxWidth,
+	painter.setClipping(false);
+}
+
+void TrackViewAudioBackgroundDecorator::drawChannel(const QByteArray * ba,
+	int x, int y, int height, int maxWidth,
 	QPainter & painter) {
 		
-	for (int a = 0; a < ba->size(); a++) {
-	    int val = (*ba)[a] * (height / 2) / 128;
-
-	    if (a + x >= maxWidth || !painter.isActive())
-		return;
-	    painter.drawLine(a + x, y + height / 2 - val, a + x,
-		y + height / 2 + val);
+	for (int a = 0; a < (int)ba->size(); a++) {
+		int val = (*ba)[a] * (height / 2) / 128;
+		if (a + x >= maxWidth || !painter.isActive())
+			return;	
+		painter.drawLine(a + x, y + height / 2 - val, a + x,
+			y + height / 2 + val);
 	}
-    }
+}
 
-    void TrackViewAudioBackgroundDecorator::
+/*void TrackViewAudioBackgroundDecorator::
 	setSoundSamples(const KURL & url, int channel, int frame,
 	double frameLength, const QByteArray & array, int x, int y,
 	int height, int maxWidth, QPainter & painter) {
 
-	drawChannel(channel, &array, x, y, height, maxWidth, painter);
-    }
+		drawChannel(channel, &array, x, y, height, maxWidth, painter);
+	}*/
 
 };
