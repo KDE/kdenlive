@@ -122,7 +122,7 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
 	else {
 		if (!f.open( IO_WriteOnly )) kdDebug()<<"++++++++  ERROR WRITING TO FILE: "<<thumbname<<endl;
 		progressdialog->show();
-		progressdialog->setCaption("Generating Audio Thumbnails");
+		progressdialog->setCaption(QString(tr2i18n("Generating Audio Thumbnails for ")).append(url.fileName()));
 		//progressdialog->desc->setText("Generating Audio Thumbnails");
 		int last_val=0;
 		for (int z=frame;z<frame+frameLength && m_producer.is_valid();z++){
