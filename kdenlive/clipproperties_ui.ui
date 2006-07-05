@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>236</width>
-            <height>372</height>
+            <width>303</width>
+            <height>386</height>
         </rect>
     </property>
     <property name="caption">
@@ -22,7 +22,7 @@
         <property name="margin">
             <number>0</number>
         </property>
-        <widget class="Line" row="10" column="0" rowspan="1" colspan="5">
+        <widget class="Line" row="11" column="0" rowspan="1" colspan="5">
             <property name="name">
                 <cstring>line2</cstring>
             </property>
@@ -36,7 +36,7 @@
                 <enum>Horizontal</enum>
             </property>
         </widget>
-        <widget class="QLabel" row="9" column="0" rowspan="1" colspan="2">
+        <widget class="QLabel" row="10" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>label_fsize</cstring>
             </property>
@@ -44,7 +44,7 @@
                 <string>File size:</string>
             </property>
         </widget>
-        <widget class="QLabel" row="9" column="2" rowspan="1" colspan="3">
+        <widget class="QLabel" row="10" column="2" rowspan="1" colspan="3">
             <property name="name">
                 <cstring>clipFilesize</cstring>
             </property>
@@ -52,7 +52,7 @@
                 <string></string>
             </property>
         </widget>
-        <widget class="QLabel" row="8" column="0" rowspan="1" colspan="2">
+        <widget class="QLabel" row="9" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>textLabel1_2_3</cstring>
             </property>
@@ -60,7 +60,7 @@
                 <string>Duration:</string>
             </property>
         </widget>
-        <widget class="KRestrictedLine" row="8" column="2" rowspan="1" colspan="3">
+        <widget class="KRestrictedLine" row="9" column="2" rowspan="1" colspan="3">
             <property name="name">
                 <cstring>edit_duration</cstring>
             </property>
@@ -71,7 +71,7 @@
                 <string>99:99:99:99; </string>
             </property>
         </widget>
-        <widget class="QCheckBox" row="7" column="0" rowspan="1" colspan="5">
+        <widget class="QCheckBox" row="8" column="0" rowspan="1" colspan="5">
             <property name="name">
                 <cstring>transparent_bg</cstring>
             </property>
@@ -79,38 +79,12 @@
                 <string>Transparent &amp;background</string>
             </property>
         </widget>
-        <widget class="QLabel" row="0" column="0" rowspan="4" colspan="3">
-            <property name="name">
-                <cstring>preview_pixmap</cstring>
-            </property>
-            <property name="minimumSize">
-                <size>
-                    <width>120</width>
-                    <height>96</height>
-                </size>
-            </property>
-            <property name="maximumSize">
-                <size>
-                    <width>120</width>
-                    <height>96</height>
-                </size>
-            </property>
-            <property name="frameShape">
-                <enum>Box</enum>
-            </property>
-            <property name="pixmap">
-                <pixmap>image0</pixmap>
-            </property>
-            <property name="scaledContents">
-                <bool>false</bool>
-            </property>
-        </widget>
-        <widget class="QTextEdit" row="12" column="0" rowspan="1" colspan="5">
+        <widget class="QTextEdit" row="13" column="0" rowspan="1" colspan="5">
             <property name="name">
                 <cstring>edit_description</cstring>
             </property>
         </widget>
-        <widget class="QLabel" row="11" column="0" rowspan="1" colspan="5">
+        <widget class="QLabel" row="12" column="0" rowspan="1" colspan="5">
             <property name="name">
                 <cstring>textLabel1_2_3_3</cstring>
             </property>
@@ -118,7 +92,7 @@
                 <string>Description:</string>
             </property>
         </widget>
-        <widget class="QLabel" row="5" column="0">
+        <widget class="QLabel" row="6" column="0">
             <property name="name">
                 <cstring>label_name</cstring>
             </property>
@@ -126,7 +100,7 @@
                 <string>Name:</string>
             </property>
         </widget>
-        <widget class="QLabel" row="6" column="0">
+        <widget class="QLabel" row="7" column="0">
             <property name="name">
                 <cstring>label_color</cstring>
             </property>
@@ -134,7 +108,7 @@
                 <string>Color:</string>
             </property>
         </widget>
-        <widget class="KLineEdit" row="5" column="1" rowspan="1" colspan="4">
+        <widget class="KLineEdit" row="6" column="1" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>edit_name</cstring>
             </property>
@@ -147,7 +121,7 @@
                 </sizepolicy>
             </property>
         </widget>
-        <widget class="KColorButton" row="6" column="1" rowspan="1" colspan="4">
+        <widget class="KColorButton" row="7" column="1" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>button_color</cstring>
             </property>
@@ -158,7 +132,7 @@
                 <bool>true</bool>
             </property>
         </widget>
-        <widget class="QLabel" row="4" column="0">
+        <widget class="QLabel" row="5" column="0">
             <property name="name">
                 <cstring>label_file</cstring>
             </property>
@@ -166,7 +140,7 @@
                 <string>File:</string>
             </property>
         </widget>
-        <widget class="KURLRequester" row="4" column="1" rowspan="1" colspan="4">
+        <widget class="KURLRequester" row="5" column="1" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>edit_url</cstring>
             </property>
@@ -235,22 +209,6 @@
                 <string>Size:</string>
             </property>
         </widget>
-        <widget class="QLabel" row="2" column="4">
-            <property name="name">
-                <cstring>clipFps</cstring>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>3</hsizetype>
-                    <vsizetype>5</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-            <property name="text">
-                <string></string>
-            </property>
-        </widget>
         <widget class="QLabel" row="2" column="3">
             <property name="name">
                 <cstring>label_fps</cstring>
@@ -267,7 +225,81 @@
                 <string>Fps:</string>
             </property>
         </widget>
-        <spacer row="3" column="4">
+        <widget class="QLabel" row="2" column="4">
+            <property name="name">
+                <cstring>clipFps</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>3</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="0" column="0" rowspan="4" colspan="3">
+            <property name="name">
+                <cstring>preview_pixmap</cstring>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>120</width>
+                    <height>96</height>
+                </size>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>120</width>
+                    <height>96</height>
+                </size>
+            </property>
+            <property name="frameShape">
+                <enum>Box</enum>
+            </property>
+            <property name="pixmap">
+                <pixmap>image0</pixmap>
+            </property>
+            <property name="scaledContents">
+                <bool>false</bool>
+            </property>
+        </widget>
+        <widget class="QLabel" row="3" column="4">
+            <property name="name">
+                <cstring>clipAudio</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>3</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="3" column="3">
+            <property name="name">
+                <cstring>label_fps_2</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>4</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string>Audio:</string>
+            </property>
+        </widget>
+        <spacer row="4" column="4">
             <property name="name">
                 <cstring>spacer2</cstring>
             </property>
@@ -279,8 +311,8 @@
             </property>
             <property name="sizeHint">
                 <size>
-                    <width>12</width>
-                    <height>19</height>
+                    <width>16</width>
+                    <height>84</height>
                 </size>
             </property>
         </spacer>

@@ -71,6 +71,7 @@ namespace Gui {
             clipChoice->clipType->setText(i18n("Color Clip"));
             clipChoice->clipSize->setText("-");
             clipChoice->clipFps->setText("-");
+	    clipChoice->clipAudio->setText("-");
             clipChoice->clipFilesize->setText("-");
         }
         else if (refClip->clipType() == DocClipBase::IMAGE) {
@@ -84,36 +85,46 @@ namespace Gui {
             clipChoice->clipType->setText(i18n("Image Clip"));
             clipChoice->clipSize->setText(QString::number(refClip->clipWidth())+"x"+QString::number(refClip->clipHeight()));
             clipChoice->clipFps->setText("-");
+	    clipChoice->clipAudio->setText("-");
             clipChoice->clipFilesize->setText(formattedSize(refClip->fileSize()));
         }
-        else if (refClip->clipType() == DocClipBase::AUDIO) {
-            clipChoice->transparent_bg->hide();
-            clipChoice->label_color->hide();
-            clipChoice->button_color->hide();
-            clipChoice->label_name->hide();
-            clipChoice->edit_name->hide();
-            clipChoice->clipType->setText(i18n("Audio Clip"));
-            clipChoice->clipFps->setText(QString::number(refClip->framesPerSecond()));
-            clipChoice->edit_duration->setReadOnly(true);
-            clipChoice->clipFilesize->setText(formattedSize(refClip->fileSize()));
-        }
-        else { // Video clip
-            document->renderer()->getImage(refClip->fileURL().path(), 0, m_pix);
-            clipChoice->preview_pixmap->setPixmap(*m_pix);
-            clipChoice->transparent_bg->hide();
-            clipChoice->label_color->hide();
-            clipChoice->button_color->hide();
-            clipChoice->label_name->hide();
-            clipChoice->edit_name->hide();
-            clipChoice->clipType->setText(i18n("Video Clip"));
-            clipChoice->clipSize->setText(QString::number(refClip->clipWidth())+"x"+QString::number(refClip->clipHeight()));
-            clipChoice->clipFps->setText(QString::number(refClip->framesPerSecond()));
-            clipChoice->edit_duration->setReadOnly(true);
-            clipChoice->clipFilesize->setText(formattedSize(refClip->fileSize()));
+        else {
+            	clipChoice->transparent_bg->hide();
+            	clipChoice->label_color->hide();
+            	clipChoice->button_color->hide();
+            	clipChoice->label_name->hide();
+            	clipChoice->edit_name->hide();
+		clipChoice->clipFps->setText(QString::number(refClip->framesPerSecond()));
+            	clipChoice->edit_duration->setReadOnly(true);
+            	clipChoice->clipFilesize->setText(formattedSize(refClip->fileSize()));
+	    if (refClip->clipType() != DocClipBase::VIDEO) { // Clip is not a mute video
+		QString soundChannels;
+		switch (clip->toDocClipAVFile()->audioChannels()) {
+	    	    case 1:
+			soundChannels = i18n("Mono");
+			break;
+	    	    case 2:
+			soundChannels = i18n("Stereo");
+			break;
+	    	    default:
+			soundChannels = i18n("%1 Channels").arg(clip->toDocClipAVFile()->audioChannels());
+			break;
+		}
+		clipChoice->clipAudio->setText(i18n("%1Hz %2").arg(clip->toDocClipAVFile()->audioFrequency()).arg(soundChannels));
+	    }
+	    else clipChoice->clipAudio->setText(i18n("None"));
+	    if (refClip->clipType() == DocClipBase::AUDIO) {
+            	clipChoice->clipType->setText(i18n("Audio Clip"));
             }
-        
-            setMainWidget(clipChoice);
-            clipChoice->show();    
+            else { // Video clip
+            	document->renderer()->getImage(refClip->fileURL().path(), 0, m_pix);
+            	clipChoice->preview_pixmap->setPixmap(*m_pix);
+            	clipChoice->clipType->setText(i18n("Video Clip"));
+            	clipChoice->clipSize->setText(QString::number(refClip->clipWidth())+"x"+QString::number(refClip->clipHeight()));
+            }
+        }
+        setMainWidget(clipChoice);
+        clipChoice->show();    
     }
 
     ClipProperties::~ClipProperties() 

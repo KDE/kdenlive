@@ -199,6 +199,11 @@ uint DocClipAVFile::audioBits() const
     return m_bitspersample;
 }
 
+uint DocClipAVFile::audioFrequency() const
+{
+    return m_frequency;
+}
+
 /*
 // virtual
 QDomDocument DocClipAVFile::generateSceneList() const
@@ -473,10 +478,10 @@ void DocClipAVFile::calculateFileProperties(const QMap < QString,
 	} else {
 	    m_format = "n/a";
 	}
-	if (attributes.contains("bitspersample")) {
-	    m_bitspersample = attributes["bitspersample"].toInt();
+	if (attributes.contains("frequency")) {
+	    m_frequency = attributes["frequency"].toInt();
 	} else {
-	    m_bitspersample = 0;
+	    m_frequency = 0;
 	}
 
     } else {

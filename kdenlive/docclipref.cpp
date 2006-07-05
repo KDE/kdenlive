@@ -519,6 +519,13 @@ uint DocClipRef::audioBits() const
     return 0;
 }
 
+uint DocClipRef::audioFrequency() const
+{
+    if (m_clip->isDocClipAVFile())
+        return m_clip->toDocClipAVFile()->audioFrequency();
+    return 0;
+}
+
 QDomDocument DocClipRef::toXML() const
 {
     QDomDocument doc = m_clip->toXML();

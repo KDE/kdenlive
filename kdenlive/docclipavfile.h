@@ -105,6 +105,7 @@ class DocClipAVFile:public DocClipBase {
     virtual uint audioChannels() const;
     virtual QString audioFormat();
     virtual uint audioBits() const;
+    virtual uint audioFrequency() const;
     // Appends scene times for this clip to the passed vector.
     virtual void populateSceneTimes(QValueVector < GenTime >
 	&toPopulate) const;
@@ -175,6 +176,7 @@ class DocClipAVFile:public DocClipBase {
     uint m_channels;
     QString m_format;
     uint m_bitspersample;
+    uint m_frequency;
 };
 
 #endif

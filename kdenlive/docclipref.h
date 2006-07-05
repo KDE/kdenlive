@@ -184,6 +184,7 @@ class DocClipRef:public QObject {
     uint audioChannels() const;
     QString audioFormat();
     uint audioBits() const;
+    uint audioFrequency() const;
 	/** Returns a scene list generated from this clip. */
     QDomDocument generateSceneList();
     QDomDocument generateXMLClip();
