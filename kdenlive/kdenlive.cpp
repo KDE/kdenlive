@@ -1537,6 +1537,7 @@ namespace Gui {
 
     void KdenliveApp::slotProjectAddFolder() {
 	QString folderName = KInputDialog::getText(i18n("New Folder"), i18n("Enter new folder name: "));
+	if (folderName.isEmpty()) return;
 	AVListViewItem *item = new AVListViewItem(getDocument(), m_projectList->m_listView->firstChild(), new DocumentGroupNode(0, folderName));
 	item->setExpandable(true);
 	DocumentGroupNode *nFolder = new DocumentGroupNode(0, folderName);
