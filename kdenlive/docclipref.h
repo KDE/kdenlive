@@ -292,6 +292,8 @@ class DocClipRef:public QObject {
         void resizeTransitionEnd(uint ix, GenTime time);
         void moveTransition(uint ix, GenTime time);
         QDomDocument generateXMLTransition(int trackPosition);
+	void updateAudioThumbnail(QMap<int,QMap<int,QByteArray> > data);
+	void refreshAudioThumbnail();
         
   private slots:
         /** Fetch the thumbnail for the clip start */
@@ -322,7 +324,6 @@ class DocClipRef:public QObject {
 
 	/** The clip to which this clip refers. */
     DocClipBase *m_clip;
-    KThumb *m_thumbcreator;
 
 	/** A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
     QValueVector < GenTime > m_snapMarkers;
@@ -339,7 +340,7 @@ class DocClipRef:public QObject {
     
 signals:
     void getClipThumbnail(KURL, int, int, int);
-    void getAudioThumbnails(KURL, int ,double,double ,int, QMap<int,QMap<int,QByteArray> >&);
+    //void getAudioThumbnails(KURL, int ,double,double ,int);
 };
 
 #endif

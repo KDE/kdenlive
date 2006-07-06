@@ -604,6 +604,7 @@ void KRender::getFileProperties(KURL url)
 		QString::number(frame->get_int("height"));
 	    m_filePropertyMap["frequency"] =
 		QString::number(frame->get_int("frequency"));
+	    kdDebug()<<"********  PROPERTY RETREIVED: "<<frame->get_int("frequency")<<endl;
 	    m_filePropertyMap["channels"] =
 		QString::number(frame->get_int("channels"));
 	    if (frame->get_int("test_image") == 0) {

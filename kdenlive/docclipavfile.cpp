@@ -30,6 +30,7 @@
 #include "clipmanager.h"
 #include "kdenlivesettings.h"
 
+#define AUDIO_FRAME_WIDTH 20
 
 
 DocClipAVFile::DocClipAVFile(const QString & name, const KURL & url,
@@ -202,6 +203,12 @@ uint DocClipAVFile::audioBits() const
 uint DocClipAVFile::audioFrequency() const
 {
     return m_frequency;
+}
+
+void DocClipAVFile::getAudioThumbs()
+{
+    double lengthInFrames=duration().frames(framesPerSecond());
+    thumbCreator->getAudioThumbs(fileURL(), 0, 0, lengthInFrames,AUDIO_FRAME_WIDTH);
 }
 
 /*

@@ -8,12 +8,12 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>372</width>
-            <height>220</height>
+            <width>364</width>
+            <height>248</height>
         </rect>
     </property>
     <property name="caption">
-        <string></string>
+        <string>newProject_UI</string>
     </property>
     <property name="sizeGripEnabled">
         <bool>false</bool>
@@ -37,7 +37,7 @@
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <widget class="QLabel" row="0" column="0">
+                    <widget class="QLabel" row="0" column="0" rowspan="1" colspan="3">
                         <property name="name">
                             <cstring>textLabel1</cstring>
                         </property>
@@ -45,12 +45,12 @@
                             <string>Project name:</string>
                         </property>
                     </widget>
-                    <widget class="KLineEdit" row="1" column="0" rowspan="1" colspan="2">
+                    <widget class="KLineEdit" row="1" column="0" rowspan="1" colspan="5">
                         <property name="name">
                             <cstring>projectName</cstring>
                         </property>
                     </widget>
-                    <widget class="QLabel" row="2" column="0" rowspan="1" colspan="2">
+                    <widget class="QLabel" row="2" column="0" rowspan="1" colspan="5">
                         <property name="name">
                             <cstring>textLabel1_2</cstring>
                         </property>
@@ -58,12 +58,20 @@
                             <string>Project folder (to store previews and thumbnails):</string>
                         </property>
                     </widget>
-                    <widget class="KURLRequester" row="3" column="0" rowspan="1" colspan="2">
+                    <widget class="KURLRequester" row="3" column="0" rowspan="1" colspan="5">
                         <property name="name">
                             <cstring>projectFolder</cstring>
                         </property>
                     </widget>
-                    <spacer row="4" column="1">
+                    <widget class="QLabel" row="4" column="0">
+                        <property name="name">
+                            <cstring>textLabel1_3</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Video tracks:</string>
+                        </property>
+                    </widget>
+                    <spacer row="5" column="1">
                         <property name="name">
                             <cstring>spacer5</cstring>
                         </property>
@@ -76,7 +84,54 @@
                         <property name="sizeHint">
                             <size>
                                 <width>16</width>
-                                <height>30</height>
+                                <height>16</height>
+                            </size>
+                        </property>
+                    </spacer>
+                    <widget class="QSpinBox" row="4" column="1">
+                        <property name="name">
+                            <cstring>videoTracks</cstring>
+                        </property>
+                        <property name="enabled">
+                            <bool>false</bool>
+                        </property>
+                        <property name="value">
+                            <number>3</number>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="4" column="2">
+                        <property name="name">
+                            <cstring>textLabel1_3_2</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Audio tracks:</string>
+                        </property>
+                    </widget>
+                    <widget class="QSpinBox" row="4" column="3">
+                        <property name="name">
+                            <cstring>audioTracks</cstring>
+                        </property>
+                        <property name="enabled">
+                            <bool>false</bool>
+                        </property>
+                        <property name="value">
+                            <number>2</number>
+                        </property>
+                    </widget>
+                    <spacer row="4" column="4">
+                        <property name="name">
+                            <cstring>spacer4</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Horizontal</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>31</width>
+                                <height>12</height>
                             </size>
                         </property>
                     </spacer>

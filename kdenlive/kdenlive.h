@@ -243,6 +243,7 @@ namespace Gui {
 	void slotProjectAddColorClip();
 	void slotProjectAddImageClip();
 	void slotProjectAddTextClip();
+	void slotProjectAddFolder();
 
 	void slotProjectEditClip();
         void slotProjectEditParentClip();
@@ -287,7 +288,9 @@ namespace Gui {
 
 		/** Given a drop event, inserts all contained clips into the project list, if they are not
 		 * there already. */
-	void slot_insertClips(QDropEvent * event);
+	void slot_insertClips(QDropEvent * event, QListViewItem * parent);
+		/** Move clips inside the project list view */
+        void slot_moveClips(QDropEvent * event, QListViewItem * parent);
 
 		/** Toggles a snap marker on/off in the currently active monitor */
 	void slotToggleSnapMarker();
@@ -485,7 +488,6 @@ namespace Gui {
 
 	/** Url to open after Kdenlive is initialised*/
 	KURL m_selectedFile;
-	QString m_newProjectName;
         
         /** Stores the context menu position */
         QPoint m_menuPosition;

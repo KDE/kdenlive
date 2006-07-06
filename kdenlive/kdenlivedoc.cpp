@@ -419,6 +419,20 @@ void KdenliveDoc::clipChanged(DocClipBase * file)
     }
 }
 
+void KdenliveDoc::refreshAudioThumbnails()
+{
+    if (!m_clipHierarch) return;
+    QPtrListIterator < DocumentBaseNode > itt(m_clipHierarch->children());
+    while (itt.current()) {
+	DocumentClipNode *clipNode = itt.current()->asClipNode();
+	if (clipNode) {
+	    clipNode->clipRef()->refreshAudioThumbnail();
+	}
+	++itt;
+    }
+}
+
+
 void KdenliveDoc::setProjectClip(DocClipProject * projectClip)
 {
     if (m_projectClip) {
@@ -544,6 +558,7 @@ void KdenliveDoc::updateTracksThumbnails()
         ++trackItt;
     }
 }
+
 
 DocClipRefList KdenliveDoc::listSelected() const
 {

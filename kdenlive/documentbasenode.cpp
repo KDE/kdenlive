@@ -81,6 +81,11 @@ DocumentBaseNode *DocumentBaseNode::findClipNode(const QString & name)
     return result;
 }
 
+void DocumentBaseNode::reParent(DocumentBaseNode * node)
+{
+    m_parent = node;
+}
+
 void DocumentBaseNode::addChild(const DocumentBaseNode * node)
 {
     m_children.append(node);

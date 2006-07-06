@@ -17,13 +17,16 @@
 #include "trackviewaudiobackgrounddecorator.h"
 
 #include <qpainter.h>
+#include <qimage.h>
 
+#include <klocale.h>
+#include <kiconloader.h>
 
 #include "docclipref.h"
 #include "gentime.h"
 #include "kdenlivedoc.h"
 #include "ktimeline.h"
-#include <qimage.h>
+
 //only for testing please remove if video get drawn
 #include <kstandarddirs.h>
 namespace Gui {
@@ -80,11 +83,18 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX,
 	painter.setClipRect(sx, rect.y(), ex - sx, rect.height());
 	painter.fillRect(sx, rect.y(), ex - sx, rect.height(), col);
 
-	/*double framesCrop = clip->cropStartTime().frames(document()->framesPerSecond());
-	double FrameDiffFromNull = clip->trackStart().frames(document()->framesPerSecond());*/
+
 	double timeDiff = clip->cropStartTime().frames(document()->framesPerSecond()) - clip->trackStart().frames(document()->framesPerSecond());
 	
-	for (; i < ex; i += width) {
+
+	if (clip->referencedClip()->audioThumbCreated == false) {
+		if (clip->clipType() == DocClipBase::AV || clip->clipType() == DocClipBase::AUDIO) {
+			KIconLoader loader;
+			QPixmap pixmap(loader.loadIcon("run", KIcon::Toolbar));
+			painter.drawPixmap(startX, rect.y(), pixmap);
+		}
+	}
+	else for (; i < ex; i += width) {
 		if (i + width < rect.x() || i > rect.x() + rect.width())
 			continue;
 		int deltaHeight = h / channels;

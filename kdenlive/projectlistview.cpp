@@ -40,6 +40,7 @@ KListView(parent, name)
 
     setDragEnabled(true);
     setAcceptDrops(true);
+    setItemsMovable(true);
     setDropVisualizer(true);
     setFullWidth(true);
     setDefaultRenameAction(Accept);
@@ -98,7 +99,7 @@ bool ProjectListView::acceptDrag(QDropEvent * event) const
 void ProjectListView::dragDropped(QDropEvent * e, QListViewItem * parent,
     QListViewItem * after)
 {
-    emit dragDropOccured(e);
+    emit dragDropOccured(e, after);
 }
 
 /** Sets the document to the one specified */

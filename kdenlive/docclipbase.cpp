@@ -25,12 +25,14 @@
 #include "clipmanager.h"
 
 DocClipBase::DocClipBase():
-m_description(""), m_refcount(0)
+m_description(""), m_refcount(0), audioThumbCreated(false)
 {
+    thumbCreator = new KThumb();
 }
 
 DocClipBase::~DocClipBase()
 {
+    delete thumbCreator;
 }
 
 void DocClipBase::setName(const QString name)
@@ -206,4 +208,10 @@ void DocClipBase::setThumbnail(const QPixmap & pixmap)
 const QPixmap & DocClipBase::thumbnail() const
 {
     return m_thumbnail;
+}
+
+void DocClipBase::updateAudioThumbnail(QMap<int,QMap<int,QByteArray> > data)
+{
+    audioFrameChache = data;
+    audioThumbCreated = true;
 }

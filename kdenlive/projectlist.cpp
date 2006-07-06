@@ -35,6 +35,7 @@
 #include <kfiledialog.h>
 #include <kmessagebox.h>
 #include <kpushbutton.h>
+#include <documentbasenode.h>
 
 
 #include <iostream>
@@ -80,8 +81,8 @@ namespace Gui {
 	//add header tooltips -reh
 	colToolTip = new columnToolTip(m_listView->header());
 
-	connect(m_listView, SIGNAL(dragDropOccured(QDropEvent *)), this,
-	    SIGNAL(dragDropOccured(QDropEvent *)));
+	connect(m_listView, SIGNAL(dragDropOccured(QDropEvent *, QListViewItem *)), this,
+	    SIGNAL(dragDropOccured(QDropEvent *, QListViewItem * )));
 
 	connect(m_listView, SIGNAL(rightButtonPressed(QListViewItem *,
 		    const QPoint &, int)), this,
@@ -122,12 +123,20 @@ namespace Gui {
 	m_listView->clear();
 
 	DocumentBaseNode *node = m_document->clipHierarch();
-
 	if (node) {
+		QPtrListIterator < DocumentBaseNode > child(node->children());
+    		while (child.current()) {
+			if (child.current())
+				new AVListViewItem(m_document, m_listView, child.current());
+			++child;
+    		}
+	}
+
+	/*if (node) {
 	    AVListViewItem *item =
 		new AVListViewItem(m_document, m_listView, node);
 	    item->setOpen(true);
-	}
+	}*/
     }
 
 /** The clip specified has changed - update the display.
@@ -149,10 +158,9 @@ namespace Gui {
 /** Called when the project list changes. */
 //void ProjectList::projectListSelectionChanged(QListViewItem *item)
     void ProjectList::updateListItem() {
-	const AVListViewItem *avitem =
-	    (AVListViewItem *) m_listView->currentItem();
-	if (!avitem)
-	    return;
+	if (m_listView->currentItem()->depth() == 0) return;
+	const AVListViewItem *avitem = (AVListViewItem *) m_listView->currentItem();
+	if (!avitem) return;
 	if (avitem->clip()) emit clipSelected(avitem->clip());
 /*	    // display duration
 	    Timecode timecode;

@@ -40,7 +40,9 @@ class DocumentGroupNode:public DocumentBaseNode {
 
     virtual DocumentGroupNode *asGroupNode() {
 	return this;
-  } private:
+    }
+
+ private:
      QString m_name;
 };
 

@@ -222,6 +222,8 @@ class KdenliveDoc:public QObject {
     /** When a transition was deleted, disable the transition dialog in case its transition was deleted*/
     void slotDeleteClipTransition();
     void slotUpdateClipThumbnails(DocClipBase *clip);
+	/** Check that all audio thumbnails have been generated. */
+    void refreshAudioThumbnails();
 
     Gui::KdenliveApp *application() {
     return m_app;
@@ -236,6 +238,7 @@ class KdenliveDoc:public QObject {
     void clipChanged(DocClipBase * file);
 	/** Emitted when a particular clip has been modified. */
     void fixClipDuration(DocClipBase * file);
+
   signals:			// Signals
 	/** This signal is emitted whenever tracks are added to or removed from the project. */
     void trackListChanged();

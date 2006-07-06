@@ -43,10 +43,11 @@ class AVListViewItem:public KListViewItem {
     virtual void paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align);
 
     QString getInfo() const;
+
+
   private:
     void doCommonCtor();
     QString clipDuration() const;
-
     QListView *m_listView;
     DocumentBaseNode *m_node;
     KdenliveDoc *m_doc;

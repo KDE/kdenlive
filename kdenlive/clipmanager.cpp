@@ -34,6 +34,7 @@
 #include <kaddclipcommand.h>
 #include <titlewidget.h>
 
+
 ClipManager::ClipManager(KRender *render, QWidget * parent, const char *name) //Manager & renderManager
 {
     m_clipList.setAutoDelete(true);
@@ -489,6 +490,11 @@ void ClipManager::AVFilePropertiesArrived(const QMap < QString,
     }
 
     file->calculateFileProperties(properties);
+    if (file->clipType() == DocClipBase::AV || file->clipType() == DocClipBase::AUDIO) {
+	connect(file->thumbCreator, SIGNAL(audioThumbReady(QMap<int,QMap<int,QByteArray> >)), file, SLOT(updateAudioThumbnail(QMap<int,QMap<int,QByteArray> >)));
+	if (KdenliveSettings::audiothumbnails()) 
+		QTimer::singleShot(1000, file, SLOT(getAudioThumbs()));
+    }
     emit clipChanged(file);
 }
 

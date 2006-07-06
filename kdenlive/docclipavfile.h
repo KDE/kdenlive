@@ -140,6 +140,9 @@ class DocClipAVFile:public DocClipBase {
       return 0;
   }
 
+    public slots:
+	void getAudioThumbs();
+
     
     private:
 

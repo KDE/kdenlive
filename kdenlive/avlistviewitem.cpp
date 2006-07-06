@@ -58,7 +58,11 @@ void AVListViewItem::doCommonCtor()
     // recursively populate the rest of the node tree.
     QPtrListIterator < DocumentBaseNode > child(m_node->children());
     while (child.current()) {
-	new AVListViewItem(m_doc, this, child.current());
+	if (child.current()) {
+//		if (this->depth() < 2) new AVListViewItem(m_doc, m_listView, child.current());
+		new AVListViewItem(m_doc, this, child.current());
+
+	}
 	++child;
     }
 
@@ -66,7 +70,7 @@ void AVListViewItem::doCommonCtor()
 
 void AVListViewItem::paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align)
 {
-    if (column == 1 && childCount() == 0) {
+    if (column == 1 && !isExpandable() > 0) {
         // Draw the clip name with duration underneath
         QFont font = p->font();
         font.setPointSize(font.pointSize() - 2 );
@@ -118,7 +122,8 @@ QString AVListViewItem::clipDuration() const {
 QString AVListViewItem::getInfo() const
 {
 	QString text;
-	DocumentClipNode *clipNode = m_node->asClipNode();
+	DocumentClipNode *clipNode;
+	if (m_node) clipNode = m_node->asClipNode();
 	if (clipNode) {
 	    DocClipRef *clip = clipNode->clipRef();
 		if (clip->clipType() == DocClipBase::AV)

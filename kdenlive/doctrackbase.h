@@ -147,9 +147,6 @@ class DocTrackBase:public QObject {
 	/** Delete an effect from a clip on the track and emit a signal. */
     void deleteEffectFromClip(const GenTime & position, int effectIndex);
     
-        /** Redraw the tracks view */
-    void refreshLayout();
-    
         /** Return a pointer to the project */
     DocClipProject * projectClip();
     
@@ -157,6 +154,11 @@ class DocTrackBase:public QObject {
     void mute(bool muted);
     bool isBlind();
     void blind(bool blinded);
+
+  public slots:
+        /** Redraw the tracks view */
+    void refreshLayout();
+
 
   private:			// Private methods
 	/** Enables or disables clip sorting. This method is used internally to turn off the sorting of clips when it is known that they will be sorted elsewhere.

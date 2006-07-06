@@ -55,6 +55,7 @@
 #include <kio/netaccess.h>
 #include <kmdcodec.h>
 #include <kfileitem.h>
+#include <kinputdialog.h>
 
 // application specific includes
 // p.s., get the idea this class is kind, central to everything?
@@ -97,6 +98,7 @@
 #include "titlewidget.h"
 #include "clipproperties.h"
 #include "newproject.h"
+#include "documentgroupnode.h"
 
 
 #include "trackpanelclipmovefunction.h"
@@ -122,7 +124,7 @@ namespace Gui {
 	const char *name):KDockMainWindow(parent, name), m_monitorManager(this),
     m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_selectedFile(NULL) {
 	config = kapp->config();
-
+	QString newProjectName;
 	if (!KdenliveSettings::openlast()) {
 		int i = 1;
 		QStringList recentFiles;
@@ -138,7 +140,7 @@ namespace Gui {
 		if (newProjectDialog->exec() == QDialog::Rejected) exit(1);
 		else {
 			if (newProjectDialog->isNewFile()) {
-				m_newProjectName = newProjectDialog->projectName->text();
+				newProjectName = newProjectDialog->projectName->text();
 				KdenliveSettings::setCurrentdefaultfolder(newProjectDialog->projectFolderPath());
 			}
 			else {
@@ -189,7 +191,8 @@ namespace Gui {
 	else {
 	    if (KdenliveSettings::showsplash())
 		connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(slotSplashTimeout()));
-	    setCaption(m_newProjectName, doc->isModified());
+	    setCaption(newProjectName + ".kdenlive", doc->isModified());
+	    doc->setURL(KURL(KdenliveSettings::currentdefaultfolder() + "/" + newProjectName + ".kdenlive"));
 	}
 
 	connect(manager(), SIGNAL(change()), this, SLOT(slotUpdateLayoutState()));
@@ -468,6 +471,10 @@ namespace Gui {
 	    KShortcut(Qt::Key_W | Qt::SHIFT), this,
 	    SLOT(slotRazorSelectedClips()), actionCollection(),
 	    "razor_selected_clips");
+
+	(void) new KAction(i18n("Create Folder"), "folder_new.png", 0, this,
+	    SLOT(slotProjectAddFolder()), actionCollection(),
+	    "create_folder");
 
         (void) new KAction(i18n("Add Transition"), 0, this,
         SLOT(addTransition()), actionCollection(),
@@ -860,8 +867,8 @@ namespace Gui {
 	/*connect(m_projectList, SIGNAL(clipSelected(DocClipRef *)), this,
 	    SLOT(slotProjectClipProperties(DocClipRef *)));*/
 
-	connect(m_projectList, SIGNAL(dragDropOccured(QDropEvent *)), this,
-	    SLOT(slot_insertClips(QDropEvent *)));
+	connect(m_projectList, SIGNAL(dragDropOccured(QDropEvent *, QListViewItem *)), this,
+	    SLOT(slot_insertClips(QDropEvent *, QListViewItem *)));
         
         connect(m_projectList, SIGNAL(editItem()), this, SLOT(slotProjectEditClip()));
 
@@ -1109,9 +1116,9 @@ namespace Gui {
 	config->setGroup("General Options");
 	config->writeEntry("Geometry", size());
 	config->writeEntry("TimeScaleSlider", m_timeline->getTimeScaleSliderText());
-	fileOpenRecent->saveEntries(config);
 	config->writeEntry("FileDialogPath", m_fileDialogPath.path());
 	writeDockConfig(config, "Default Layout");
+	fileOpenRecent->saveEntries(config);
     }
 
     int KdenliveApp::getTimeScaleSliderText() const {
@@ -1181,6 +1188,7 @@ namespace Gui {
     }
 
     bool KdenliveApp::queryClose() {
+	saveOptions();
 	return saveModified();
     }
 
@@ -1314,18 +1322,19 @@ namespace Gui {
 		slotStatusMsg(i18n("Saving file..."));
 		m_projectFormatManager.saveDocument(doc->URL(), doc);
 		slotStatusMsg(i18n("Ready."));
+		fileOpenRecent->addURL(doc->URL());
 	}
     }
 
     void KdenliveApp::slotFileSaveAs() {
 	slotStatusMsg(i18n("Saving file with a new filename..."));
-	if (!m_newProjectName.isEmpty()) m_newProjectName.append(".kdenlive");
-	KURL url = KFileDialog::getSaveURL(m_fileDialogPath.path() + m_newProjectName ,
+
+	KURL url = KFileDialog::getSaveURL(m_fileDialogPath.path(),
 	    m_projectFormatManager.saveMimeTypes(),
 	    /* i18n( "*.kdenlive|Kdenlive Project Files (*.kdenlive)" ), */
 	    this,
 	    i18n("Save as..."));
-	m_newProjectName = QString();
+
 	if (!url.isEmpty()) {
 	    if (url.path().find(".") == -1) {
 		url.setFileName(url.filename() + ".kdenlive");
@@ -1344,9 +1353,7 @@ namespace Gui {
 
     void KdenliveApp::slotFileClose() {
 	slotStatusMsg(i18n("Closing file..."));
-
 	close();
-
 	slotStatusMsg(i18n("Ready."));
     }
 
@@ -1514,7 +1521,6 @@ namespace Gui {
         m_clipMonitor->editPanel()->showLcd(KdenliveSettings::showlcd());
         m_workspaceMonitor->editPanel()->showLcd(KdenliveSettings::showlcd());
 	slotSyncTimeLineWithDocument();
-        
     }
 
 
@@ -1528,12 +1534,21 @@ namespace Gui {
 	    ID_CURTIME_MSG);
     }
 
+
+    void KdenliveApp::slotProjectAddFolder() {
+	QString folderName = KInputDialog::getText(i18n("New Folder"), i18n("Enter new folder name: "));
+	AVListViewItem *item = new AVListViewItem(getDocument(), m_projectList->m_listView->firstChild(), new DocumentGroupNode(0, folderName));
+	item->setExpandable(true);
+	DocumentGroupNode *nFolder = new DocumentGroupNode(0, folderName);
+	getDocument()->addClipNode(i18n("Clips"), nFolder);
+    }
+
 /** Add clips to the project */
     void KdenliveApp::slotProjectAddClips() {
 	slotStatusMsg(i18n("Adding Clips"));
 
 	// Make a reasonable filter for video / audio files.
-	QString filter = "*.dv video/x-msvideo video/mpeg audio/x-mp3 audio/x-wav application/ogg";
+	QString filter = "video/x-dv video/x-msvideo video/mpeg audio/x-mp3 audio/x-wav application/ogg";
         
         //  Video preview doesn't seem to crash anymore, so disable hack preventing preview
         /*
@@ -2067,11 +2082,7 @@ namespace Gui {
 	}
     }
 
-
-    void KdenliveApp::slot_insertClips(QDropEvent * event) {
-	// sanity check.
-	if (!ClipDrag::canDecode(event, true))
-	    return;
+    void KdenliveApp::slot_moveClips(QDropEvent * event, QListViewItem * parent) {
 	DocClipRefList clips =
 	    ClipDrag::decode(getDocument()->effectDescriptions(),
 	    getDocument()->clipManager(), event);
@@ -2079,14 +2090,60 @@ namespace Gui {
 	clips.setAutoDelete(true);
 
 	QPtrListIterator < DocClipRef > itt(clips);
+	DocumentBaseNode *parentNode;
+	if (parent) {
+		if (parent->pixmap(0) == 0) parentNode = getDocument()->findClipNode(parent->text(1));
+		else if (parent->parent() && parent->parent()->pixmap(0) == 0) 
+			parentNode = getDocument()->findClipNode(parent->parent()->text(1));
+		else parentNode = getDocument()->clipHierarch();
+	}
+	else parentNode = getDocument()->clipHierarch();
+	kdDebug()<<"*******  DROPPED ON PARENT ITEM: "<<parentNode->name()<<endl;
+	while (itt.current()) {
+		DocumentBaseNode *node = doc->findClipNode(itt.current()->name());
+		if (node->hasParent()) {
+			DocumentBaseNode *oldParentNode = node->parent();
+			kdDebug()<<"*******  OLD PARENT ITEM: "<<oldParentNode->name()<<endl;
+			oldParentNode->removeChild(node);
+		}
+		node->reParent(parentNode);
+		parentNode->addChild(node);
+	        ++itt;
+	}
+	m_projectList->slot_UpdateList();
+    }
 
+    void KdenliveApp::slot_insertClips(QDropEvent * event, QListViewItem * parent) {
+	// sanity check.
+	kdDebug()<<"+++++++++++++++++++  DROPPED CLIP +++++++++++++++++++++"<<endl;
+	if (!ClipDrag::canDecode(event, true)) {
+	    slot_moveClips(event, parent);
+	    return;
+	}
+	DocClipRefList clips =
+	    ClipDrag::decode(getDocument()->effectDescriptions(),
+	    getDocument()->clipManager(), event);
+
+	clips.setAutoDelete(true);
+
+	QPtrListIterator < DocClipRef > itt(clips);
+	DocumentBaseNode *parentNode;
+	if (parent) {
+		if (parent->pixmap(0) == 0) parentNode = getDocument()->findClipNode(parent->text(1));
+		else if (parent->parent() && parent->parent()->pixmap(0) == 0) 
+			parentNode = getDocument()->findClipNode(parent->parent()->text(1));
+		else parentNode = getDocument()->clipHierarch();
+	}
+	else parentNode = getDocument()->clipHierarch();
+	
 	KMacroCommand *macroCommand = new KMacroCommand(i18n("Add Clips"));
 
 	while (itt.current()) {
 	    	Command::KAddClipCommand * command =
 		new Command::KAddClipCommand(*getDocument(),
 		"TBD - give proper name", itt.current()->referencedClip(),
-		getDocument()->clipHierarch(), true);
+		parentNode, true);
+		//getDocument()->clipHierarch(), true);
 	    	macroCommand->addCommand(command);
 	        ++itt;
 	}
@@ -2293,6 +2350,7 @@ namespace Gui {
 	    ++trackItt;
 	}
         if (KdenliveSettings::videothumbnails()) getDocument()->updateTracksThumbnails();
+	getDocument()->refreshAudioThumbnails();
 	//m_timeline->resizeTracks();
     }
 

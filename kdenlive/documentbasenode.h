@@ -43,11 +43,16 @@ class DocumentBaseNode {
 
     bool hasParent() const {
 	return m_parent != 0;
-    } DocumentBaseNode *parent() {
+    } 
+
+    DocumentBaseNode *parent() {
 	return m_parent;
     }
+
+    void reParent(DocumentBaseNode * node);
+
 	/** Returns the name of this group or clip */
-	virtual const QString & name() const = 0;
+    virtual const QString & name() const = 0;
 
 	/** Returns an XML representation of this node and all of it's children. */
     QDomDocument toXML() const;
@@ -64,7 +69,8 @@ class DocumentBaseNode {
     }
     bool hasChildren() const {
 	return !m_children.isEmpty();
-    } virtual DocumentClipNode *asClipNode() {
+    } 
+    virtual DocumentClipNode *asClipNode() {
 	return 0;
     }
     virtual DocumentGroupNode *asGroupNode() {

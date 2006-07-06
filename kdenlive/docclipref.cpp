@@ -42,7 +42,7 @@
 DocClipRef::DocClipRef(DocClipBase * clip):
 m_trackStart(0.0),
 m_cropStart(0.0),
-m_trackEnd(0.0), m_parentTrack(0), m_trackNum(-1), m_clip(clip), m_thumbcreator(0), startTimer(0), endTimer(0)
+m_trackEnd(0.0), m_parentTrack(0), m_trackNum(-1), m_clip(clip), startTimer(0), endTimer(0)
 {
     if (!clip) {
 	kdError() <<
@@ -54,11 +54,10 @@ m_trackEnd(0.0), m_parentTrack(0), m_trackNum(-1), m_clip(clip), m_thumbcreator(
     if (m_clip->clipType() == DocClipBase::VIDEO || m_clip->clipType() == DocClipBase::AV) {
 	m_thumbnail = QPixmap();
         m_endthumbnail = QPixmap();
-        m_thumbcreator = new KThumb();
         startTimer = new QTimer( this );
         endTimer = new QTimer( this );
-        connect(m_thumbcreator, SIGNAL(thumbReady(int, QPixmap)),this,SLOT(updateThumbnail(int, QPixmap)));
-        connect(this, SIGNAL(getClipThumbnail(KURL, int, int, int)), m_thumbcreator, SLOT(getImage(KURL, int, int, int)));
+        connect(clip->thumbCreator, SIGNAL(thumbReady(int, QPixmap)),this,SLOT(updateThumbnail(int, QPixmap)));
+        connect(this, SIGNAL(getClipThumbnail(KURL, int, int, int)), clip->thumbCreator, SLOT(getImage(KURL, int, int, int)));
         connect( startTimer, SIGNAL(timeout()), this, SLOT(fetchStartThumbnail()));
         connect( endTimer, SIGNAL(timeout()), this, SLOT(fetchEndThumbnail()));
     }
@@ -67,16 +66,13 @@ m_trackEnd(0.0), m_parentTrack(0), m_trackNum(-1), m_clip(clip), m_thumbcreator(
         	m_thumbnail = referencedClip()->thumbnail();
         	m_endthumbnail = m_thumbnail;
 	}
-	if (!m_thumbcreator)
-    		m_thumbcreator = new KThumb();
-	connect(this,
-		SIGNAL(getAudioThumbnails(KURL, int,double,double,int,QMap<int,QMap<int,QByteArray> >&)),
-		m_thumbcreator,
-		SLOT(getAudioThumbs(KURL, int,double,double,int,QMap<int,QMap<int,QByteArray> >&))
-	       );
+	connect(clip->thumbCreator, SIGNAL(audioThumbReady(QMap<int,QMap<int,QByteArray> >)), this, SLOT(updateAudioThumbnail(QMap<int,QMap<int,QByteArray> >)));
+	/*connect(this,
+		SIGNAL(getAudioThumbnails(KURL, int,double,double,int)), //,QMap<int,QMap<int,QByteArray> >&)),
+		clip->thumbCreator,
+		SLOT(getAudioThumbs(KURL, int,double,double,int))); //,QMap<int,QMap<int,QByteArray> >&)));
 	double lengthInFrames=m_clip->duration().frames(m_clip->framesPerSecond());
-	emit getAudioThumbnails(fileURL(), 0,0,
-			    lengthInFrames,AUDIO_FRAME_WIDTH,referencedClip()->audioFrameChache);
+	if (KdenliveSettings::audiothumbnails()) emit getAudioThumbnails(fileURL(), 0, 0, lengthInFrames,AUDIO_FRAME_WIDTH);*/ //referencedClip()->audioFrameChache
     }
 }
 
@@ -84,7 +80,26 @@ DocClipRef::~DocClipRef()
 {
     delete startTimer;
     delete endTimer;
-    delete m_thumbcreator;
+}
+
+void DocClipRef::refreshAudioThumbnail()
+{
+	if (m_clip->clipType() != DocClipBase::AV && m_clip->clipType() != DocClipBase::AUDIO) return;
+	if (KdenliveSettings::audiothumbnails()) {
+		double lengthInFrames=m_clip->duration().frames(m_clip->framesPerSecond());
+		if (!m_clip->audioThumbCreated) m_clip->toDocClipAVFile()->getAudioThumbs();
+	}
+	else {
+		m_clip->audioThumbCreated = false;
+		referencedClip()->audioFrameChache.clear();
+	}
+}
+
+void DocClipRef::updateAudioThumbnail(QMap<int,QMap<int,QByteArray> > data)
+{
+    /*referencedClip()->audioFrameChache = data;
+    m_clip->audioThumbCreated = true;*/
+    if (m_parentTrack) QTimer::singleShot(200,m_parentTrack, SLOT(refreshLayout()));
 }
 
 bool DocClipRef::hasVariableThumbnails()
@@ -1296,11 +1311,12 @@ int DocClipRef::getAudioPart(double from, double length,int channel){
 
 QByteArray DocClipRef::getAudioThumbs(int channel, double frame, double frameLength, int arrayWidth){
 	
-	/** Merge alle Frames into scaled frames*/	
+	/** Merge alle Frames into scaled frames*/
 	if (frame<0.0)
 		frame=0.0;
 	QByteArray ret(arrayWidth);
-	for ( int i=0;i< arrayWidth;i++){
+	if (!m_clip->audioThumbCreated) ret.fill(00);
+	else for ( int i=0;i< arrayWidth;i++){
 		double step=(double)frameLength/(double)arrayWidth;
 		double startpos=frame+(double)i*step;
 		ret[i]=getAudioPart(startpos,step,channel);

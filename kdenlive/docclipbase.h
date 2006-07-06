@@ -23,12 +23,14 @@
   */
 
 #include <qdom.h>
-#include <kurl.h>
 #include <qobject.h>
 #include <qvaluevector.h>
 #include <qpixmap.h>
 
+#include <kurl.h>
+
 #include "gentime.h"
+#include "kthumb.h"
 
 class ClipManager;
 class DocTrackBase;
@@ -63,6 +65,9 @@ class DocClipBase:public QObject {
     /** Returns the internal unique id of the clip. */
     uint getId() const;
     void setId( const uint &newId);
+
+    KThumb *thumbCreator;
+    bool audioThumbCreated;
     
 	/** returns the duration of this clip */
     virtual const GenTime & duration() const = 0;
@@ -146,6 +151,10 @@ class DocClipBase:public QObject {
     /** Cache for every audio Frame with 10 Bytes */
     /** format is frame -> channel ->bytes */
     QMap<int,QMap<int,QByteArray> > audioFrameChache;
+
+  public slots:
+	void updateAudioThumbnail(QMap<int,QMap<int,QByteArray> > data);
+
   private:			// Private attributes
 	/** The name of this clip */
     QString m_name;
@@ -157,7 +166,6 @@ class DocClipBase:public QObject {
 
 	/** A thumbnail for this clip */
     QPixmap m_thumbnail;
-    
     
     /** a unique numeric id */
     uint m_id;
