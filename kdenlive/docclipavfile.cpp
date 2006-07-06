@@ -36,7 +36,7 @@
 DocClipAVFile::DocClipAVFile(const QString & name, const KURL & url,
     uint id):DocClipBase(), m_duration(0.0), m_url(url),
 m_durationKnown(false), m_framesPerSecond(0), m_color(QString::null),
-m_clipType(NONE), m_alphaTransparency(false)
+m_clipType(NONE), m_alphaTransparency(false), m_frequency(0), m_channels(0)
 {
     setName(name);
     setId(id);
@@ -46,7 +46,7 @@ m_clipType(NONE), m_alphaTransparency(false)
 DocClipAVFile::DocClipAVFile(const QString & color,
     const GenTime & duration, uint id):DocClipBase(), m_duration(duration),
 m_url(QString::null), m_durationKnown(true), m_framesPerSecond(25),
-m_color(color), m_clipType(COLOR), m_filesize(0), m_alphaTransparency(false)
+m_color(color), m_clipType(COLOR), m_filesize(0), m_alphaTransparency(false), m_frequency(0), m_channels(0)
 {
     setName(i18n("Color Clip"));
     m_width = KdenliveSettings::defaultwidth();
@@ -58,7 +58,7 @@ m_color(color), m_clipType(COLOR), m_filesize(0), m_alphaTransparency(false)
 DocClipAVFile::DocClipAVFile(const KURL & url, const QString & extension,
     const int &ttl, const GenTime & duration, bool alphaTransparency, uint id):DocClipBase(),
 m_duration(duration), m_url(url), m_durationKnown(true),
-m_framesPerSecond(25), m_color(QString::null), m_clipType(IMAGE), m_alphaTransparency(alphaTransparency)
+m_framesPerSecond(25), m_color(QString::null), m_clipType(IMAGE), m_alphaTransparency(alphaTransparency), m_frequency(0), m_channels(0)
 {
     setName(url.fileName());
     
@@ -76,7 +76,7 @@ DocClipAVFile::DocClipAVFile(const KURL & url):DocClipBase(),
 m_duration(0.0),
 m_url(url),
 m_durationKnown(false),
-m_framesPerSecond(0), m_color(QString::null), m_clipType(NONE), m_alphaTransparency(false)
+m_framesPerSecond(0), m_color(QString::null), m_clipType(NONE), m_alphaTransparency(false), m_frequency(0), m_channels(0)
 {
     setName(url.fileName());
     // #TODO: What about the id of these clips ?

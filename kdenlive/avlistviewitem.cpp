@@ -59,9 +59,7 @@ void AVListViewItem::doCommonCtor()
     QPtrListIterator < DocumentBaseNode > child(m_node->children());
     while (child.current()) {
 	if (child.current()) {
-//		if (this->depth() < 2) new AVListViewItem(m_doc, m_listView, child.current());
 		new AVListViewItem(m_doc, this, child.current());
-
 	}
 	++child;
     }
@@ -159,19 +157,21 @@ QString AVListViewItem::getInfo() const
 			}
 	    	}
 	    }
-	QString soundChannels;
-	switch (clip->audioChannels()) {
-	    case 1:
-		soundChannels = i18n("Mono");
-		break;
-	    case 2:
-		soundChannels = i18n("Stereo");
-		break;
-	    default:
-		soundChannels = i18n("%1 Channels").arg(clip->audioChannels());
-		break;
+	if (clip->audioChannels() + clip->audioFrequency() != 0) {
+	    QString soundChannels;
+	    switch (clip->audioChannels()) {
+	        case 1:
+		    soundChannels = i18n("Mono");
+		    break;
+	        case 2:
+		    soundChannels = i18n("Stereo");
+		    break;
+	        default:
+		    soundChannels = i18n("%1 Channels").arg(clip->audioChannels());
+		    break;
+	    }
+	    text.append(i18n("Audio: %1Hz %2").arg(QString::number(clip->audioFrequency())).arg(soundChannels) + "<br>");
 	}
-	text.append(i18n("Audio: %1Hz %2").arg(QString::number(clip->audioFrequency())).arg(soundChannels) + "<br>");
 	text.append(i18n("Usage: %1").arg(QString::number(clip->numReferences())));
 	}
 	return text;
