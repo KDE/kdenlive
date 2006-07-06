@@ -138,7 +138,7 @@ namespace Gui {
 		/** initializes the document object of the main window that is connected to the view in initView().
 		 * @see initView();
 		 */
-	void initDocument();
+	void initDocument(int vtracks, int atracks);
 		/** Do some stuff required before attempting to close the current project
                  */
         void requestDocumentClose();
@@ -375,6 +375,8 @@ namespace Gui {
 	void slotViewSelectedClip();
 
 	void openSelectedFile();
+
+	void slotNewProject(QString *newProjectName, KURL *fileUrl, int *videoTracks, int *audioTracks);
 
 
       private:

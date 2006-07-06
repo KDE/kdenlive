@@ -78,7 +78,7 @@ class KdenliveDoc:public QObject {
 	/** deletes the document's contents */
     void deleteContents();
 	/** initializes the document generally */
-    bool newDocument();
+    bool newDocument(int videoTracks, int audioTracks);
 	/** closes the acutal document */
     void closeDocument();
 	/** returns the KURL of the document */

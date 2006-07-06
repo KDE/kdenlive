@@ -91,7 +91,7 @@ void KdenliveDoc::closeDocument()
     m_clipHierarch = new DocumentGroupNode(0, i18n("Clips"));
 }
 
-bool KdenliveDoc::newDocument()
+bool KdenliveDoc::newDocument(int videoTracks, int audioTracks)
 {
     kdDebug() << "Creating new document" << endl;
 
@@ -101,11 +101,11 @@ bool KdenliveDoc::newDocument()
 
     m_clipHierarch = new DocumentGroupNode(0, i18n("Clips"));
 
-    addVideoTrack();
-    addVideoTrack();
-    addVideoTrack();
-    addSoundTrack();
-    addSoundTrack();
+    for (; videoTracks>0; videoTracks--)
+    	addVideoTrack();
+
+    for (; audioTracks>0; audioTracks--)
+    	addSoundTrack();
 
     m_doc_url.setFileName(i18n("Untitled"));
 

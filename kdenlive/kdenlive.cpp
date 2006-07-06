@@ -125,31 +125,13 @@ namespace Gui {
     m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_selectedFile(NULL) {
 	config = kapp->config();
 	QString newProjectName;
+	int audioTracks = 2;
+	int videoTracks = 3;
 	if (!KdenliveSettings::openlast()) {
-		int i = 1;
-		QStringList recentFiles;
-		config->setGroup("RecentFiles");
-		QString Lastproject = config->readPathEntry("File1");
-		while (!Lastproject.isEmpty()) {
-			recentFiles<<Lastproject;
-			i++;
-			Lastproject = config->readPathEntry("File" + QString::number(i));
-		}
-		newProject *newProjectDialog = new newProject(KdenliveSettings::defaultfolder(), recentFiles, this, "new_project");
-		//newProjectDialog->projectName->setText(i18n("Untitled"));
-		if (newProjectDialog->exec() == QDialog::Rejected) exit(1);
-		else {
-			if (newProjectDialog->isNewFile()) {
-				newProjectName = newProjectDialog->projectName->text();
-				KdenliveSettings::setCurrentdefaultfolder(newProjectDialog->projectFolderPath());
-			}
-			else {
-				m_selectedFile = newProjectDialog->selectedFile();
-			}
-		}
-		delete newProjectDialog;
+		slotNewProject(&newProjectName, &m_selectedFile, &videoTracks, &audioTracks);
 	}
 
+	
         QPixmap pixmap(locate("appdata", "graphics/kdenlive-splash.png"));
 
         if (KdenliveSettings::showsplash()) {
@@ -167,7 +149,7 @@ namespace Gui {
 	m_commandHistory = new KCommandHistory(actionCollection(), true);
 	initActions();
 
-	initDocument();
+	initDocument(videoTracks, audioTracks);
 	initView();
 	readOptions();
 
@@ -660,11 +642,10 @@ namespace Gui {
 	    ID_CURTIME_MSG, 0, true);
     }
 
-    void KdenliveApp::initDocument() {
+    void KdenliveApp::initDocument(int vtracks, int atracks) {
         doc = new KdenliveDoc(KdenliveSettings::defaultfps(), KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight(), this, this);
 	connect(doc, SIGNAL(modified(bool)), this, SLOT(documentModified(bool)));
-        
-        doc->newDocument();
+        doc->newDocument(vtracks, atracks);
     }
 
     void KdenliveApp::initView() {
@@ -1254,14 +1235,54 @@ namespace Gui {
 
 	if (!saveModified()) {
 	    // here saving wasn't successful
-
 	} else {
-	    doc->newDocument();
-	    setCaption(doc->URL().fileName(), false);
+	    int videoTracks = 3;
+	    int audioTracks = 2;
+	    QString newProjectName;
+	    m_selectedFile = NULL;
+	    slotNewProject(&newProjectName, &m_selectedFile, &videoTracks, &audioTracks);
+
+            if (!m_selectedFile.isEmpty()) {
+	    	openSelectedFile();
+	    }
+	    else {
+	    	doc->newDocument(videoTracks, audioTracks);
+	    	setCaption(newProjectName + ".kdenlive", doc->isModified());
+	    	doc->setURL(KURL(KdenliveSettings::currentdefaultfolder() + "/" + newProjectName + ".kdenlive"));
+	    }
 	}
 
 	slotStatusMsg(i18n("Ready."));
     }
+
+
+	void KdenliveApp::slotNewProject(QString *newProjectName, KURL *fileUrl, int *videoTracks, int *audioTracks) {
+    		int i = 1;
+		QStringList recentFiles;
+		config->setGroup("RecentFiles");
+		QString Lastproject = config->readPathEntry("File1");
+		while (!Lastproject.isEmpty()) {
+			recentFiles<<Lastproject;
+			i++;
+			Lastproject = config->readPathEntry("File" + QString::number(i));
+		}
+		newProject *newProjectDialog = new newProject(KdenliveSettings::defaultfolder(), recentFiles, this, "new_project");
+		newProjectDialog->setCaption(i18n("Kdenlive - New Project"));
+		if (newProjectDialog->exec() == QDialog::Rejected) exit(1);
+		else {
+			if (newProjectDialog->isNewFile()) {
+				*newProjectName = newProjectDialog->projectName->text();
+				KdenliveSettings::setCurrentdefaultfolder(newProjectDialog->projectFolderPath());
+				*audioTracks = newProjectDialog->audioTracks->value();
+				*videoTracks = newProjectDialog->videoTracks->value();
+			}
+			else {
+				*fileUrl = newProjectDialog->selectedFile();
+			}
+		}
+		delete newProjectDialog;
+	}
+
 
     void KdenliveApp::slotFileOpen() {
 	slotStatusMsg(i18n("Opening file..."));
