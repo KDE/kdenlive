@@ -281,16 +281,9 @@ class KRender:public QObject {
 	/** emitted when the renderer recieves a reply to a getFileProperties request. */
     void replyGetFileProperties(const QMap < QString, QString > &);
 
-	/** emitted when the renderer recieves a reply to a getFileProperties request. */
-    void replyGetSoundSamples(const KURL & url, int channel, int frame,
-                              
-    double frameLength, const QByteArray & array, int, int, int, int, QPainter &);
-
 	/** emitted when the renderer recieves a reply to a getImage request. */
     void replyGetImage(const KURL &, int, const QPixmap &, int, int);
     void replyGetImage(int, const QPixmap &, int, int);
-
-    void replyGetSoundSamples(const KURL &, int, const QPixmap &);
 
 	/** Emitted when the renderer stops, either playing or rendering. */
     void stopped();
@@ -311,7 +304,6 @@ class KRender:public QObject {
 
     
     public slots:		// Public slots
-    void getSoundSamples(const KURL & url, int channel, int frame, double frameLength, int arrayWidth, int, int, int, int, QPainter &);
 	/** Start Consumer */
     void start();
 	/** Stop Consumer */
