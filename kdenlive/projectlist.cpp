@@ -121,7 +121,6 @@ namespace Gui {
 /** Get a fresh copy of files from KdenliveDoc and display them. */
     void ProjectList::slot_UpdateList() {
 	m_listView->clear();
-
 	DocumentBaseNode *node = m_document->clipHierarch();
 	if (node) {
 		QPtrListIterator < DocumentBaseNode > child(node->children());
@@ -158,7 +157,6 @@ namespace Gui {
 /** Called when the project list changes. */
 //void ProjectList::projectListSelectionChanged(QListViewItem *item)
     void ProjectList::updateListItem() {
-	if (m_listView->currentItem()->depth() == 0) return;
 	const AVListViewItem *avitem = (AVListViewItem *) m_listView->currentItem();
 	if (!avitem) return;
 	if (avitem->clip()) emit clipSelected(avitem->clip());
