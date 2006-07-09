@@ -2087,7 +2087,7 @@ namespace Gui {
     void KdenliveApp::slotConfToolbars() {
 	saveMainWindowSettings(KGlobal::config(), "General Options");
 	KEditToolbar *dlg =
-	    new KEditToolbar(actionCollection(), "kdenliveui.rc");
+	    new KEditToolbar(actionCollection(), "kdenliveui.rc", true, this);
 	if (dlg->exec()) {
 	    createGUI("kdenliveui.rc");
 	    applyMainWindowSettings(KGlobal::config(), "General Options");
