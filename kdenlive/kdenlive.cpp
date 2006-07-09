@@ -1556,9 +1556,19 @@ namespace Gui {
     }
 
 
-    void KdenliveApp::slotProjectAddFolder() {
-	QString folderName = KInputDialog::getText(i18n("New Folder"), i18n("Enter new folder name: "));
+    void KdenliveApp::slotProjectAddFolder(QString message) {
+	QString folderName = KInputDialog::getText(i18n("New Folder"), message + i18n("Enter new folder name: "));
 	if (folderName.isEmpty()) return;
+	// check folder name doesn't exist
+        QListViewItemIterator it( m_projectList->m_listView );
+        while ( it.current() ) {
+            if (it.current()->text(1) == folderName && (!static_cast<AVListViewItem *>(it.current())->clip())) {
+		slotProjectAddFolder(i18n("Folder %1 already exists\n").arg(folderName));
+		return;
+	    }
+            ++it;
+        }
+
 	AVListViewItem *item = new AVListViewItem(getDocument(), m_projectList->m_listView->firstChild(), new DocumentGroupNode(0, folderName));
 	item->setExpandable(true);
 	DocumentGroupNode *nFolder = new DocumentGroupNode(0, folderName);
@@ -2110,22 +2120,27 @@ namespace Gui {
 	    getDocument()->clipManager(), event);
 
 	clips.setAutoDelete(true);
-
 	QPtrListIterator < DocClipRef > itt(clips);
 	DocumentBaseNode *parentNode;
+	// find folder on which the item was dropped
 	if (parent) {
-		if (parent->pixmap(0) == 0) parentNode = getDocument()->findClipNode(parent->text(1));
-		else if (parent->parent() && parent->parent()->pixmap(0) == 0) 
+		if (static_cast<AVListViewItem *>(parent)->clip() == 0) {
+			parentNode = getDocument()->findClipNode(parent->text(1));
+			parent->setOpen(true);
+		}
+		else if (parent->parent() && (static_cast<AVListViewItem *>(parent->parent()))->clip() == 0) { 
 			parentNode = getDocument()->findClipNode(parent->parent()->text(1));
+			parent->parent()->setOpen(true);
+		}
 		else parentNode = getDocument()->clipHierarch();
 	}
 	else parentNode = getDocument()->clipHierarch();
-	kdDebug()<<"*******  DROPPED ON PARENT ITEM: "<<parentNode->name()<<endl;
+
+	// reparent the item
 	while (itt.current()) {
 		DocumentBaseNode *node = doc->findClipNode(itt.current()->name());
 		if (node->hasParent()) {
 			DocumentBaseNode *oldParentNode = node->parent();
-			kdDebug()<<"*******  OLD PARENT ITEM: "<<oldParentNode->name()<<endl;
 			oldParentNode->removeChild(node);
 		}
 		node->reParent(parentNode);
@@ -2137,7 +2152,6 @@ namespace Gui {
 
     void KdenliveApp::slot_insertClips(QDropEvent * event, QListViewItem * parent) {
 	// sanity check.
-	kdDebug()<<"+++++++++++++++++++  DROPPED CLIP +++++++++++++++++++++"<<endl;
 	if (!ClipDrag::canDecode(event, true)) {
 	    slot_moveClips(event, parent);
 	    return;

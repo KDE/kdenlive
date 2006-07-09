@@ -89,8 +89,7 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX,
 
 	if (clip->referencedClip()->audioThumbCreated == false) {
 		if (clip->clipType() == DocClipBase::AV || clip->clipType() == DocClipBase::AUDIO) {
-			KIconLoader loader;
-			QPixmap pixmap(loader.loadIcon("run", KIcon::Toolbar));
+			QPixmap pixmap(KGlobal::iconLoader()->loadIcon("run", KIcon::Toolbar));
 			painter.drawPixmap(startX, rect.y(), pixmap);
 		}
 	}

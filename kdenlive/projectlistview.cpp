@@ -46,6 +46,7 @@ KListView(parent, name)
     setDefaultRenameAction(Accept);
     setAllColumnsShowFocus(true);
     setRootIsDecorated(true);
+    setSorting(1);
     QToolTip::remove(this);
     new ListViewToolTip(this);
 

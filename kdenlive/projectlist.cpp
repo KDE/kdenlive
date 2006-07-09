@@ -120,6 +120,14 @@ namespace Gui {
 
 /** Get a fresh copy of files from KdenliveDoc and display them. */
     void ProjectList::slot_UpdateList() {
+	QStringList openFolders;
+	// Check which folders are open
+        QListViewItemIterator it( m_listView );
+        while ( it.current() ) {
+            if (it.current()->isOpen()) openFolders.append(it.current()->text(1));
+            ++it;
+        }
+
 	m_listView->clear();
 	DocumentBaseNode *node = m_document->clipHierarch();
 	if (node) {
@@ -129,6 +137,14 @@ namespace Gui {
 				new AVListViewItem(m_document, m_listView, child.current());
 			++child;
     		}
+	}
+	if (!openFolders.isEmpty()) {
+		QListViewItemIterator it( m_listView );
+        	while ( it.current() ) {
+            		if (openFolders.find(it.current()->text(1)) != openFolders.end())
+				it.current()->setOpen(true);
+            		++it;
+        	}
 	}
 
 	/*if (node) {

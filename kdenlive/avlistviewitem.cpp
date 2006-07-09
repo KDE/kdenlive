@@ -25,6 +25,7 @@
 #include <klocale.h>
 #include <kdenlivedoc.h>
 #include <kdebug.h>
+#include <kiconloader.h>
 
 #include <math.h>
 
@@ -66,9 +67,18 @@ void AVListViewItem::doCommonCtor()
 
 }
 
+QString AVListViewItem::key ( int column, bool ascending ) const
+{
+  if (column == 0) column = 1;
+  QString key = QListViewItem::key(column, ascending);
+  // Hack to make folders appear first in the list
+  if (!m_node->asClipNode()) key = "aaaaa" + key;
+  return key; 
+} 
+
 void AVListViewItem::paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align)
 {
-    if (column == 1 && !isExpandable() > 0) {
+    if (column == 1 && m_node->asClipNode()) {
         // Draw the clip name with duration underneath
         QFont font = p->font();
         font.setPointSize(font.pointSize() - 2 );
@@ -174,6 +184,11 @@ QString AVListViewItem::getInfo() const
 	}
 	text.append(i18n("Usage: %1").arg(QString::number(clip->numReferences())));
 	}
+	else {
+		text = "<b>"+i18n("Folder")+"</b><br>";
+		text.append(i18n("%1 clips").arg(childCount()));
+
+	}
 	return text;
 }
 
@@ -266,6 +281,10 @@ const QPixmap *AVListViewItem::pixmap(int column) const
 
 	    if (pixmap->isNull())
 		pixmap = NULL;
+	}
+	else {
+		QPixmap *pix = new QPixmap(KGlobal::iconLoader()->loadIcon("folder", KIcon::Toolbar));
+		return pix;
 	}
     }
 

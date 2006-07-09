@@ -243,7 +243,7 @@ namespace Gui {
 	void slotProjectAddColorClip();
 	void slotProjectAddImageClip();
 	void slotProjectAddTextClip();
-	void slotProjectAddFolder();
+	void slotProjectAddFolder(QString message = QString());
 
 	void slotProjectEditClip();
         void slotProjectEditParentClip();

@@ -39,6 +39,7 @@ class AVListViewItem:public KListViewItem {
     virtual void setText(int column, const QString & text);
     virtual QString text(int column) const;
     virtual const QPixmap *pixmap(int column) const;
+    virtual QString key ( int , bool ) const;
     DocClipRef *clip() const;
     virtual void paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align);
 
