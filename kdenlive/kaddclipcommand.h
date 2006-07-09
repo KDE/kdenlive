@@ -55,23 +55,23 @@ namespace Command {
 	    DocumentBaseNode * parent, bool create = true);
 
 	/** Construct a video / audio clip */
-	 KAddClipCommand(KdenliveDoc & document, const KURL & url,
+	 KAddClipCommand(KdenliveDoc & document, const QString & parent, const KURL & url,
 	    bool create = true);
 
 	/** Construct a color clip */
-	 KAddClipCommand(KdenliveDoc & document, const QString & color,
+	 KAddClipCommand(KdenliveDoc & document, const QString & parent, const QString & color,
 	    const GenTime & duration, const QString & name,
 	    const QString & description, bool create = true);
 
          /** Construct a text clip */
-         KAddClipCommand(KdenliveDoc & document,
+         KAddClipCommand(KdenliveDoc & document, const QString & parent,
                          const GenTime & duration,
                          const QString & name, const QString & description, const QDomDocument &xml,  KURL url, QPixmap &pix, bool alphaTransparency,
                          bool create = true);
 	
          
          /** Construct an image clip */
-	 KAddClipCommand(KdenliveDoc & document, const KURL & url,
+	 KAddClipCommand(KdenliveDoc & document, const QString & parent, const KURL & url,
 	    const QString & extension, const int &ttl,
             const GenTime & duration, const QString & description, bool alphaTransparency,
 	    bool create = true);

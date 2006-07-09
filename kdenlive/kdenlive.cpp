@@ -1622,28 +1622,6 @@ namespace Gui {
 
 	// Make a reasonable filter for video / audio files.
 	QString filter = "video/x-dv video/x-msvideo video/mpeg audio/x-mp3 audio/x-wav application/ogg";
-        
-        //  Video preview doesn't seem to crash anymore, so disable hack preventing preview
-        /*
-        KURL::List urlList;
-
-        KFileDialog *fd = new KFileDialog(m_fileDialogPath.path(), filter, this, "add_clip", true);
-        fd->setOperationMode(KFileDialog::Opening);
-        fd->setMode(KFile::Files);
-        
-        QWidget *w = new QWidget(this,"blank");
-        
-        // Disable previewing in the open file dialog until I discover why it crashes kdenlive
-        fd->setPreviewWidget(w);
-        if (fd->exec() == QDialog::Accepted) {
-            urlList = fd->selectedURLs();
-            delete fd;
-        }
-        else {
-            delete fd;
-            return;
-        }*/
-
 	KURL::List urlList =
 	    KFileDialog::getOpenURLs(m_fileDialogPath.path(), filter, this,
         i18n("Open File..."));
@@ -1651,6 +1629,7 @@ namespace Gui {
 	KURL::List::Iterator it;
 	KURL url;
 
+	
 	KMacroCommand *macroCommand = new KMacroCommand(i18n("Add Clips"));
 	for (it = urlList.begin(); it != urlList.end(); it++) {
 	    url = (*it);
@@ -1658,7 +1637,7 @@ namespace Gui {
 		if (getDocument()->clipManager().findClip(url)) KMessageBox::sorry(this, i18n("The clip %1 is already present in this project").arg(url.filename()));
 		else { 
 			Command::KAddClipCommand * command;
-			command = new Command::KAddClipCommand(*doc, url, true);
+			command = new Command::KAddClipCommand(*doc, m_projectList->m_listView->parentName(), url, true);
 			macroCommand->addCommand(command);
 		}
 		m_fileDialogPath = url;
@@ -1691,7 +1670,7 @@ namespace Gui {
             GenTime duration(frames , KdenliveSettings::defaultfps());
             
 	    KCommand *command =
-		new Command::KAddClipCommand(*doc, color, duration,
+		new Command::KAddClipCommand(*doc, m_projectList->m_listView->parentName(), color, duration,
 		clipChoice->edit_name->text(),
 		clipChoice->edit_description->text(), true);
 	    addCommand(command, true);
@@ -1720,7 +1699,7 @@ namespace Gui {
             
             GenTime duration(frames , KdenliveSettings::defaultfps());
 	    KCommand *command =
-		new Command::KAddClipCommand(*doc, KURL(url), extension,
+		new Command::KAddClipCommand(*doc, m_projectList->m_listView->parentName(), KURL(url), extension,
                                               ttl, duration, clipChoice->edit_description->text(), clipChoice->transparentBg->isChecked(), true);
 	    addCommand(command, true);
 	}
@@ -1745,7 +1724,7 @@ namespace Gui {
             QDomDocument xml = txtWidget->toXml();
             
             KCommand *command =
-                    new Command::KAddClipCommand(*doc, duration,
+                    new Command::KAddClipCommand(*doc, m_projectList->m_listView->parentName(), duration,
                     txtWidget->titleName->text(),QString::null, xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked(), true);
             addCommand(command, true);
         }
@@ -1774,7 +1753,7 @@ namespace Gui {
                     int frames = (dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt();
                     GenTime duration(frames , KdenliveSettings::defaultfps());
                     KCommand *command =
-                            new Command::KAddClipCommand(*doc, fd->selectedURL(), QString::null,
+                            new Command::KAddClipCommand(*doc, m_projectList->m_listView->parentName(), fd->selectedURL(), QString::null,
                             0, duration, QString::null, false, true);
                     addCommand(command, true);
                 }
@@ -2165,6 +2144,7 @@ namespace Gui {
 	DocumentBaseNode *parentNode;
 	// find folder on which the item was dropped
 	if (parent) {
+		kdDebug()<<"+++++++ dropped on: "<<parent->text(1)<<endl;
 		if (static_cast<AVListViewItem *>(parent)->clip() == 0) {
 			parentNode = getDocument()->findClipNode(parent->text(1));
 			parent->setOpen(true);

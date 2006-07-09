@@ -20,6 +20,7 @@
 #include "avlistviewitem.h"
 #include "docclipavfile.h"
 #include "clipdrag.h"
+#include "documentbasenode.h"
 
 #include <kdebug.h>
 #include <klocale.h>
@@ -58,6 +59,22 @@ KListView(parent, name)
 
 ProjectListView::~ProjectListView()
 {
+}
+
+QString ProjectListView::parentName()
+{
+	QString parentNode;
+	if (!currentItem()) parentNode = m_doc->clipHierarch()->name();
+	else if (!static_cast<AVListViewItem *>(currentItem())->clip()) {
+	    currentItem()->setOpen(true);
+	    parentNode = currentItem()->text(1);
+	}
+	else if (currentItem()->parent()) {
+	    currentItem()->parent()->setOpen(true);
+	    parentNode = currentItem()->parent()->text(1);
+	}
+	else parentNode = m_doc->clipHierarch()->name();
+	return parentNode;
 }
 
 QString ProjectListView::popupText()
@@ -100,7 +117,8 @@ bool ProjectListView::acceptDrag(QDropEvent * event) const
 void ProjectListView::dragDropped(QDropEvent * e, QListViewItem * parent,
     QListViewItem * after)
 {
-    emit dragDropOccured(e, after);
+    if (after) emit dragDropOccured(e, after);
+    else emit dragDropOccured(e, parent);
 }
 
 /** Sets the document to the one specified */

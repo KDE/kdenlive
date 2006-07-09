@@ -27,8 +27,8 @@
 
 #include "avlistviewitem.h"
 #include "docclipbase.h"
+#include "kdenlivedoc.h"
 
-class KdenliveDoc;
 
 /**
 	* ProjectListView contains a derived class from KListView which sets up the correct column headers
@@ -47,6 +47,7 @@ class ProjectListView:public KListView {
     void setDocument(KdenliveDoc * doc);
     QString popupText();
     void setPopupText(QString txt);
+    QString parentName();
 
   signals:			// Signals
 	/** This signal is called whenever clips are drag'n'dropped onto the project list view. */

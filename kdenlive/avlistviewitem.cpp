@@ -107,7 +107,7 @@ AVListViewItem::~AVListViewItem()
 
 void AVListViewItem::setText(int column, const QString & text)
 {
-    kdDebug() << "setText ( " << column << ", " << text << " ) " << endl;
+    //kdDebug() << "setText ( " << column << ", " << text << " ) " << endl;
     if (m_listView->columnText(column) == i18n("Description")) {
 	DocumentClipNode *clipNode = m_node->asClipNode();
 	if (clipNode) {

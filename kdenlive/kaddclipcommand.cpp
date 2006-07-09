@@ -99,11 +99,11 @@ namespace Command {
     }
 
 /** Add Color clip */
-    KAddClipCommand::KAddClipCommand(KdenliveDoc & document,
+    KAddClipCommand::KAddClipCommand(KdenliveDoc & document, const QString & parent,
 	const QString & color, const GenTime & duration,
 	const QString & name, const QString & description,
 	bool create):m_document(document), m_name("Color Clip"),
-	m_parent(document.clipHierarch()->name()), m_create(create) {
+	m_parent(parent), m_create(create) {
 	if (!m_parent) {
 	    kdWarning() <<
 		"Error - all clips created with kaddclipcommand should have a parent!"
@@ -120,11 +120,11 @@ namespace Command {
     }
 
     /** Add Text clip */
-    KAddClipCommand::KAddClipCommand(KdenliveDoc & document,
+    KAddClipCommand::KAddClipCommand(KdenliveDoc & document, const QString & parent,
                                      const GenTime & duration,
                                      const QString & name, const QString & description, const QDomDocument &xml,  KURL url, QPixmap &pix, bool alphaTransparency,
                                      bool create):m_document(document), m_name("Text Clip"),
-    m_parent(document.clipHierarch()->name()), m_create(create) {
+    m_parent(parent), m_create(create) {
         if (!m_parent) {
             kdWarning() <<
                     "Error - all clips created with kaddclipcommand should have a parent!"
@@ -140,11 +140,11 @@ namespace Command {
     }
 
 /** Add Image clip */
-    KAddClipCommand::KAddClipCommand(KdenliveDoc & document,
+    KAddClipCommand::KAddClipCommand(KdenliveDoc & document, const QString & parent,
 	const KURL & url, const QString & extension, const int &ttl,
         const GenTime & duration, const QString & description, bool alphaTransparency,
 	bool create):m_document(document), m_name(url.filename()),
-	m_parent(document.clipHierarch()->name()), m_create(create) {
+	m_parent(parent), m_create(create) {
 	if (!m_parent) {
 	    kdWarning() <<
 		"Error - all clips created with kaddclipcommand should have a parent!"
@@ -163,9 +163,9 @@ namespace Command {
 
 
 /** Add video / audio clip */
-    KAddClipCommand::KAddClipCommand(KdenliveDoc & document,
+    KAddClipCommand::KAddClipCommand(KdenliveDoc & document, const QString & parent,
 	const KURL & url, bool create):m_document(document),
-	m_name(url.filename()), m_parent(document.clipHierarch()->name()),
+	m_name(url.filename()), m_parent(parent),
         m_create(create) {
 	if (!m_parent) {
 	    kdWarning() <<
