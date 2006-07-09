@@ -22,7 +22,8 @@
 #include <kdebug.h>
 
 #include "kdenlivedoc.h"
-#include "documentclipnode.h"
+
+#include "documentgroupnode.h"
 #include "docclipproject.h"
 #include "docclipavfile.h"
 #include "doccliptextfile.h"
@@ -54,14 +55,50 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
 
     while (itt.current()) {
 	DocumentClipNode *clipNode = itt.current()->asClipNode();
-
 	if (clipNode) {
 	    QDomElement avfile = doc.createElement("avfile");
-	    avfile.setAttribute("url",
-		clipNode->clipRef()->fileURL().path());
-	    DocClipBase::CLIPTYPE clipType;
-	    clipType = clipNode->clipRef()->clipType();
-	    avfile.setAttribute("type", clipType);
+	    if (clipNode->clipRef()->name() != "")
+		avfilelist.appendChild(processedNode(clipNode, avfile));
+	} else {
+	    QDomElement folderItem = doc.createElement("folder");
+	    folderItem.setAttribute("name", itt.current()->name());
+	    DocumentGroupNode *folder = document->findClipNode(itt.current()->name())->asGroupNode();
+    	    QPtrListIterator < DocumentBaseNode > itt(folder->children());
+
+    	    while (itt.current()) {
+		DocumentClipNode *clipNode = itt.current()->asClipNode();
+		if (clipNode) {
+			QDomElement avfile = doc.createElement("avfile");
+	        	if (clipNode->clipRef()->name() != "")
+			folderItem.appendChild(processedNode(clipNode, avfile));
+		} 
+		++itt;
+        }
+
+	avfilelist.appendChild(folderItem);
+
+	    //kdError() << "no support for saving group nodes yet!" << endl;
+	}
+	++itt;
+    }
+
+
+    elem.appendChild(avfilelist);
+
+    elem.appendChild(doc.importNode(document->projectClip().toXML().documentElement(), true));
+
+    QString save = doc.toString();
+    file.writeBlock(save.utf8(), save.length());
+
+    return true;
+}
+
+QDomElement SaveProjectNativeFilter::processedNode(DocumentClipNode *clipNode, QDomElement avfile)
+{
+	avfile.setAttribute("url", clipNode->clipRef()->fileURL().path());
+	DocClipBase::CLIPTYPE clipType;
+	clipType = clipNode->clipRef()->clipType();
+	avfile.setAttribute("type", clipType);
             
             avfile.setAttribute("id", clipNode->clipRef()->referencedClip()->getId());
 
@@ -89,26 +126,10 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
                 avfile.setAttribute("xml",
                                     clipNode->clipRef()->referencedClip()->toDocClipTextFile()->textClipXml().toString());
             }
-	    QDomText description = doc.createTextNode(clipNode->clipRef()->description());
+	    QDomText description = avfile.ownerDocument().createTextNode(clipNode->clipRef()->description());
 	    avfile.appendChild(description);
 
-	    if (clipNode->clipRef()->name() != "")
-		avfilelist.appendChild(avfile);
-	} else {
-	    kdError() << "no support for saving group nodes yet!" << endl;
-	}
-	++itt;
-    }
-
-
-    elem.appendChild(avfilelist);
-
-    elem.appendChild(doc.importNode(document->projectClip().toXML().documentElement(), true));
-
-    QString save = doc.toString();
-    file.writeBlock(save.utf8(), save.length());
-
-    return true;
+	    return avfile;
 }
 
 // virtual

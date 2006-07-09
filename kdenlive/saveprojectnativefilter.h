@@ -17,7 +17,11 @@
 #ifndef SAVEPROJECTNATIVEFILTER_H
 #define SAVEPROJECTNATIVEFILTER_H
 
-#include <saveprojectfilter.h>
+#include <qdom.h>
+
+#include "saveprojectfilter.h"
+#include "documentclipnode.h"
+
 
 /**
 Native save format for Kdenlive. Saves everything.
@@ -32,7 +36,7 @@ class SaveProjectNativeFilter:public SaveProjectFilter {
 
 	/** Save the document to the specified url. */
     virtual bool save(QFile & file, KdenliveDoc * document);
-
+    QDomElement processedNode(DocumentClipNode *clipNode, QDomElement avfile);
     virtual QStringList handledFormats() const;
 };
 

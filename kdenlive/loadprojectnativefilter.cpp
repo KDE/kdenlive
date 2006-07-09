@@ -26,6 +26,7 @@
 #include "clipmanager.h"
 #include "docclipproject.h"
 #include "documentclipnode.h"
+#include "documentgroupnode.h"
 #include "kdenlivedoc.h"
 
 LoadProjectNativeFilter::LoadProjectNativeFilter()
@@ -142,6 +143,7 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
 {
     DocumentBaseNode *parentNode = document->findClipNode(parent);
     DocumentBaseNode *thisNode = 0;
+    kdDebug()<<"*********  INSERT: "<<parent<<endl;
 
     if (parentNode) {
 	if ((clip.tagName() == "AVFile") || (clip.tagName() == "avfile")) {
@@ -180,8 +182,6 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
             }
 
 	    if (baseClip) {
-		
-            
 	    	DocumentClipNode *clipNode = new DocumentClipNode(parentNode, baseClip);
 	    	thisNode = clipNode;
 
@@ -206,9 +206,11 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
 		thisNode = 0;
 	    }
 	}
+	else if (clip.tagName() == "folder") {
+		thisNode = new DocumentGroupNode(0, clip.attribute("name", ""));
+	}
     } else {
-	kdError() << "Could not find document base node " << parent <<
-	    " in document" << endl;
+	kdError() << "Could not find document base node " << parent << " in document" << endl;
     }
 
     if (thisNode) {
