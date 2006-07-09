@@ -42,6 +42,8 @@ class DocumentGroupNode:public DocumentBaseNode {
 	return this;
     }
 
+    void rename(const QString & newName);
+
  private:
      QString m_name;
 };

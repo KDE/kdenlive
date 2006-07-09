@@ -335,6 +335,22 @@ DocClipRefList KdenliveDoc::referencedClips(DocClipBase * clip) const
     return m_projectClip->referencedClips(clip);
 }
 
+void KdenliveDoc::deleteGroupNode(const QString & name)
+{
+    DocumentBaseNode *node = findClipNode(name);
+    if (node && !node->hasChildren()) {
+		m_clipHierarch->removeChild(node);
+		emit nodeDeleted(node);
+		delete node;
+	    } else {
+		kdError() <<
+		    "Trying to delete group that has references in the document - "
+		    <<
+		    "must delete references first. Silently ignoring delete request"
+		    << endl;
+    }
+}
+
 void KdenliveDoc::deleteClipNode(const QString & name)
 {
     DocumentBaseNode *node = findClipNode(name);

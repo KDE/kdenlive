@@ -334,7 +334,7 @@ namespace Gui {
 
 
 	projectDeleteClips =
-	    new KAction(i18n("Delete Clips"), "deleteclips.png", 0, this,
+	    new KAction(i18n("Delete Clips"), "editdelete.png", 0, this,
 	    SLOT(slotProjectDeleteClips()), actionCollection(),
 	    "project_delete_clip");
 	projectClean =
@@ -457,6 +457,15 @@ namespace Gui {
 	(void) new KAction(i18n("Create Folder"), "folder_new.png", 0, this,
 	    SLOT(slotProjectAddFolder()), actionCollection(),
 	    "create_folder");
+
+	(void) new KAction(i18n("Rename Folder"), 0, this,
+	    SLOT(slotProjectRenameFolder()), actionCollection(),
+	    "rename_folder");
+
+	(void) new KAction(i18n("Delete Folder"), "editdelete.png", 0, this,
+	    SLOT(slotProjectDeleteFolder()), actionCollection(),
+	    "delete_folder");
+
 
         (void) new KAction(i18n("Add Transition"), 0, this,
         SLOT(addTransition()), actionCollection(),
@@ -1556,6 +1565,38 @@ namespace Gui {
     }
 
 
+    void KdenliveApp::slotProjectRenameFolder(QString message) {
+	if (!m_projectList->m_listView->currentItem() || static_cast<AVListViewItem *>(m_projectList->m_listView->currentItem())->clip()) return;
+	QString folderName = KInputDialog::getText(i18n("Rename Folder"), message + i18n("Enter new folder name: "), m_projectList->m_listView->currentItem()->text(1));
+	if (folderName.isEmpty()) return;
+	// check folder name doesn't exist
+        QListViewItemIterator it( m_projectList->m_listView );
+        while ( it.current() ) {
+            if (it.current()->text(1) == folderName && (!static_cast<AVListViewItem *>(it.current())->clip())) {
+		slotProjectRenameFolder(i18n("Folder %1 already exists\n").arg(folderName));
+		return;
+	    }
+            ++it;
+        }
+
+	DocumentGroupNode *folder = getDocument()->findClipNode(m_projectList->m_listView->currentItem()->text(1))->asGroupNode();
+	folder->rename(folderName);
+    }
+
+    void KdenliveApp::slotProjectDeleteFolder() {
+	if (!m_projectList->m_listView->currentItem() || static_cast<AVListViewItem *>(m_projectList->m_listView->currentItem())->clip()) return;
+	if (m_projectList->m_listView->currentItem()->childCount()>0)
+	if (KMessageBox::questionYesNo(this, i18n("Deleting this folder will remove all reference to its clips in your project.\nDelete this folder ?")) ==  KMessageBox::No) return;
+	QString folderName = m_projectList->m_listView->currentItem()->text(1);
+	QListViewItem * myChild = m_projectList->m_listView->currentItem()->firstChild();
+        while( myChild ) {
+            m_projectList->m_listView->setCurrentItem( myChild );
+	    slotProjectDeleteClips(false);
+            myChild = myChild->nextSibling();
+        }
+	getDocument()->deleteGroupNode(folderName);
+    }
+
     void KdenliveApp::slotProjectAddFolder(QString message) {
 	QString folderName = KInputDialog::getText(i18n("New Folder"), message + i18n("Enter new folder name: "));
 	if (folderName.isEmpty()) return;
@@ -1569,9 +1610,9 @@ namespace Gui {
             ++it;
         }
 
-	AVListViewItem *item = new AVListViewItem(getDocument(), m_projectList->m_listView->firstChild(), new DocumentGroupNode(0, folderName));
-	item->setExpandable(true);
 	DocumentGroupNode *nFolder = new DocumentGroupNode(0, folderName);
+	//AVListViewItem *item = new AVListViewItem(getDocument(), m_projectList->m_listView->firstChild(), nFolder);
+	//item->setExpandable(true);
 	getDocument()->addClipNode(i18n("Clips"), nFolder);
     }
 
@@ -1805,13 +1846,13 @@ namespace Gui {
 
 
 /** Remove clips from the project */
-    void KdenliveApp::slotProjectDeleteClips() {
+    void KdenliveApp::slotProjectDeleteClips(bool confirm) {
 	slotStatusMsg(i18n("Removing Clips"));
 
 	DocClipRef *refClip = m_projectList->currentSelection();
 	if (refClip) {
 	    DocClipBase *clip = refClip->referencedClip();
-	    if (KMessageBox::warningContinueCancel(this,
+	    if (!confirm || KMessageBox::warningContinueCancel(this,
 		    i18n
 		    ("This will remove all clips on the timeline that are currently using this clip. Are you sure you want to do this?"))
 		== KMessageBox::Continue) {

@@ -64,8 +64,6 @@ namespace Gui {
 	 KdenliveDoc * m_document;
 	/** Holds a pointer to the application. FIXME: Is this necessary? */
 	KdenliveApp *m_app;
-	/** return a popup menu. Must be deleted by owner.*/
-	QPopupMenu *contextMenu();
 	QPopupMenu *contextcreateMenu();
         columnToolTip * colToolTip;
 	KListViewSearchLineWidget *lv_search;

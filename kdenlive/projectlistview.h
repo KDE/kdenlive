@@ -98,8 +98,7 @@ inline void ListViewToolTip::maybeTip( const QPoint& p ) {
   QString tipStr;
   if( col == 2 )
        tipStr = item->text(2);
-  else if( col == 1 )
-       tipStr = item->getInfo();
+  else tipStr = item->getInfo();
 
   tip( cellRect, tipStr );
 };

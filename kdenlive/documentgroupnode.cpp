@@ -35,3 +35,8 @@ const QString & DocumentGroupNode::name() const
 {
     return m_name;
 }
+
+void DocumentGroupNode::rename(const QString & newName)
+{
+    m_name = newName;
+}

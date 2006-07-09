@@ -237,13 +237,15 @@ namespace Gui {
 		/** Cleans the project of unwanted clips */
 	void slotProjectClean();
 		/** Remove clips from the project */
-	void slotProjectDeleteClips();
+	void slotProjectDeleteClips(bool confirm = true);
 		/** Add clips to the project */
 	void slotProjectAddClips();
 	void slotProjectAddColorClip();
 	void slotProjectAddImageClip();
 	void slotProjectAddTextClip();
 	void slotProjectAddFolder(QString message = QString());
+	void slotProjectRenameFolder(QString message = QString());
+	void slotProjectDeleteFolder();
 
 	void slotProjectEditClip();
         void slotProjectEditParentClip();

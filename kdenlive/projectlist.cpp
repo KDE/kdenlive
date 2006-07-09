@@ -112,7 +112,11 @@ namespace Gui {
 /** No descriptions */
     void ProjectList::rightButtonPressed(QListViewItem * listViewItem,
 	const QPoint & pos, int column) {
-	QPopupMenu *menu = contextMenu();
+	QPopupMenu *menu;
+	if (!listViewItem) menu = (QPopupMenu *) m_app->factory()->container("projectlist_context", m_app);
+	else if (!static_cast<AVListViewItem*>(listViewItem)->clip())
+	    menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_folder", m_app);
+	else menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_clip", m_app);
 	if (menu) {
 	    menu->popup(QCursor::pos());
 	}
@@ -274,13 +278,6 @@ namespace Gui {
         }
     }
 
-    QPopupMenu *ProjectList::contextMenu() {
-	QPopupMenu *menu =
-	    (QPopupMenu *) m_app->factory()->
-	    container("projectlist_context", m_app);
-
-	return menu;
-    }
 
     QPopupMenu *ProjectList::contextcreateMenu() {
 	QPopupMenu *menu =

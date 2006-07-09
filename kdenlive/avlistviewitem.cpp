@@ -55,7 +55,7 @@ KListViewItem(parent), m_listView(parent), m_node(node), m_doc(doc)
 
 void AVListViewItem::doCommonCtor()
 {
-    setRenameEnabled(2, true);
+    if (m_node->asClipNode()) setRenameEnabled(2, true);
     // recursively populate the rest of the node tree.
     QPtrListIterator < DocumentBaseNode > child(m_node->children());
     while (child.current()) {
@@ -72,7 +72,7 @@ QString AVListViewItem::key ( int column, bool ascending ) const
   if (column == 0) column = 1;
   QString key = QListViewItem::key(column, ascending);
   // Hack to make folders appear first in the list
-  if (!m_node->asClipNode()) key = "aaaaa" + key;
+  if (!m_node->asClipNode()) key = "000000" + key;
   return key; 
 } 
 

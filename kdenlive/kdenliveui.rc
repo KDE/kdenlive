@@ -82,10 +82,36 @@
 		<Action name="project_add_image_clip"/>
 		<Action name="project_add_text_clip"/>
 	</Menu>
+	<Separator lineSeparator="true"/>
+	<Action name="project_clean"/>
+</Menu>
+
+<Menu name="projectlist_context_clip">
+	<Action name="create_folder"/>
+	<Action name="project_add_clip"/>
+	<Menu name="create_clips"><text>Create Clip</text>
+		<Action name="project_add_color_clip"/>
+		<Action name="project_add_image_clip"/>
+		<Action name="project_add_text_clip"/>
+	</Menu>
 	<Action name="project_delete_clip"/>
         <Action name="edit_clip"/>
         <Separator lineSeparator="true"/>
         <Action name="project_clean"/>
+</Menu>
+
+<Menu name="projectlist_context_folder">
+	<Action name="create_folder"/>	
+	<Action name="rename_folder"/>
+	<Action name="project_add_clip"/>
+	<Menu name="create_clips"><text>Create Clip</text>
+		<Action name="project_add_color_clip"/>
+		<Action name="project_add_image_clip"/>
+		<Action name="project_add_text_clip"/>
+	</Menu>
+	<Action name="delete_folder"/>
+	<Separator lineSeparator="true"/>
+	<Action name="project_clean"/>
 </Menu>
 
 <Menu name="timeline_context">
