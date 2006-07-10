@@ -42,7 +42,7 @@ namespace Command {
 	Returns a command that will delete the currently selected clips on the timeline.
 	*/
 	static KMacroCommand *deleteSelectedClips(KdenliveDoc * document);
-
+	static KMacroCommand *deleteAllTrackClips(KdenliveDoc *document, int ix);
 	/** Construct an AddClipCommand that will delete a clip */
 	 KAddRefClipCommand(const EffectDescriptionList & effectList,
 	    ClipManager & clipManager,
@@ -56,6 +56,7 @@ namespace Command {
 	void execute();
 	/** Returns the name of this command */
 	QString name() const;
+
       private:			// Private attributes
 	 ClipManager & m_clipManager;
 	const EffectDescriptionList & m_effectList;

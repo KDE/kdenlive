@@ -42,7 +42,7 @@ namespace Gui {
 
     class KMMTrackVideoPanel:public KMMTrackPanel {
       Q_OBJECT public:
-	KMMTrackVideoPanel(KdenliveApp * app,
+	KMMTrackVideoPanel(KdenliveApp *,
 	    KTimeLine * timeline,
 	    KdenliveDoc * document,
 	    DocTrackVideo * docTrack,
@@ -62,6 +62,7 @@ namespace Gui {
 	bool m_dragging;
         bool m_mute;
         bool m_blind;
+
 
       signals: 
          void collapseTrack(KTrackPanel *, bool);

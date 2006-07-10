@@ -70,11 +70,32 @@ double DocClipProject::framesPerSecond() const
 }
 
 /** Adds a track to the project */
-void DocClipProject::addTrack(DocTrackBase * track)
+void DocClipProject::addTrack(DocTrackBase * track, int ix)
 {
-    m_tracks.append(track);
-    track->trackIndexChanged(trackIndex(track));
+    /*if (ix != -1) {
+    	QPtrListIterator < DocTrackBase > itt(m_tracks);
+
+    	if (ix >= m_tracks.count())
+		ix = m_tracks.count();
+    	else itt += ix;
+    	while (itt) {
+		kdDebug()<<"////  CHANGING INDEX FOR TRACK: "<<trackIndex(itt)<<endl;
+		(*itt)->trackIndexChanged(trackIndex(itt) + 1);
+		itt += 1;
+    	}
+    }*/
+
+    if (ix == -1) ix = m_tracks.count();
+    //m_tracks.append(track);
+    m_tracks.insert(ix, track);
+    track->trackIndexChanged(ix); //trackIndex(track));
     connectTrack(track);
+    emit trackListChanged();
+}
+
+void DocClipProject::deleteTrack(int ix)
+{
+    m_tracks.remove(ix);
     emit trackListChanged();
 }
 

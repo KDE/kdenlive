@@ -127,6 +127,11 @@
 		<Action name="timeline_snap_border"/>
 		<Action name="timeline_snap_marker"/>
 	</Menu>
+	<Menu name="tracks"><text>Tracks</text>
+		<Action name="timeline_add_video"/>
+		<Action name="timeline_add_audio"/>
+		<Action name="timeline_delete_track"/>
+	</Menu>
 	<Separator lineSeparator="true"/>
 	<Action name="razor_all_clips"/>
 	<Separator lineSeparator="true"/>

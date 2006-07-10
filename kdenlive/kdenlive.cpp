@@ -474,7 +474,19 @@ namespace Gui {
         (void) new KAction(i18n("Delete Transition"), 0, this,
         SLOT(deleteTransition()), actionCollection(),
         "del_transition");
-        
+
+        (void) new KAction(i18n("Add Video Track"), 0, this,
+        SLOT(addVideoTrack()), actionCollection(),
+        "timeline_add_video");
+
+        (void) new KAction(i18n("Add Audio Track"), 0, this,
+        SLOT(addSoundTrack()), actionCollection(),
+        "timeline_add_audio");
+
+	(void) new KAction(i18n("Delete Track"), 0, this,
+        SLOT(deleteTrack()), actionCollection(),
+        "timeline_delete_track");
+
         showClipMonitor = new KToggleAction(i18n("Clip Monitor"), 0, this,
 	    SLOT(slotToggleClipMonitor()), actionCollection(),
 	    "toggle_clip_monitor");
@@ -1329,6 +1341,25 @@ namespace Gui {
         m_workspaceMonitor->slotClearClip();
     }
 
+    void KdenliveApp::deleteTrack()
+    {
+	int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(m_menuPosition).y())->documentTrackIndex();
+	//kdDebug()<<"+++++++++++++++++++++  ASK TRACK DELETION: "<<ix<<endl;
+	addCommand(Command::KAddRefClipCommand::deleteAllTrackClips(getDocument(), ix));
+	getDocument()->deleteTrack(ix);
+    }
+
+    void KdenliveApp::addVideoTrack()
+    {
+	int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(m_menuPosition).y())->documentTrackIndex();
+	getDocument()->addVideoTrack(ix);
+    }
+
+    void KdenliveApp::addSoundTrack()
+    {
+	int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(m_menuPosition).y())->documentTrackIndex();
+	getDocument()->addSoundTrack(ix);
+    }
 
     void KdenliveApp::slotFileOpenRecent(const KURL & url) {
 	slotStatusMsg(i18n("Opening file..."));

@@ -211,9 +211,10 @@ class KdenliveDoc:public QObject {
     
     public slots:
 	/** Adds a sound track to the project */
-    void addSoundTrack();
+    void addSoundTrack(int ix = -1);
 	/** Adds an empty video track to the project */
-    void addVideoTrack();
+    void addVideoTrack(int ix = -1);
+    void deleteTrack(int ix);
 	/** Called when an error occurs whilst retrieving a file's properties. */
     void AVFilePropertiesError(const QString & path,
 	const QString & errmsg);

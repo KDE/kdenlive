@@ -1186,6 +1186,8 @@ void DocClipRef::addTransition(Transition *transition)
 
 void DocClipRef::deleteTransition(const GenTime &time)
 {
+    kdDebug()<<"//////  DELETE TRANS AT: "<<time.frames(25)<<endl;
+    if (m_transitionStack.isEmpty()) return;
     TransitionStack::iterator itt = m_transitionStack.begin();
     while (itt) {
         if (time < trackStart() || time == GenTime(0.0) || time > trackEnd()) {
@@ -1198,6 +1200,7 @@ void DocClipRef::deleteTransition(const GenTime &time)
         }
         ++itt;
     }
+    kdDebug()<<"//////  RELAYOUT"<<endl;
     if (m_parentTrack) m_parentTrack->refreshLayout();
 }
 

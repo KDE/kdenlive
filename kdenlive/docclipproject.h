@@ -54,7 +54,9 @@ class DocClipProject:public DocClipBase {
     const DocClipBase::CLIPTYPE & clipType() const;
 
 	/** Adds a track to the project */
-    void addTrack(DocTrackBase * track);
+    void addTrack(DocTrackBase * track, int ix = -1);
+    void deleteTrack(int ix);
+
     int trackIndex(DocTrackBase * track);
     uint numTracks() const;
     DocTrackBase *findTrack(DocClipRef * clip) const;

@@ -74,7 +74,15 @@ namespace Command {
 
     void KAddRefClipCommand::deleteClip() {
 	DocTrackBase *track = m_project->track(m_track);
+	if (!track) {
+		kdDebug()<<"///////// WARNING, TRYING TO DELETE CLIP ON DEAD TRACK "<<m_track<<endl;
+		return;
+	}
 	DocClipRef *clip = track->getClipAt(m_findTime);
+	if (!clip) {
+		kdDebug()<<"///////// WARNING, TRYING TO DELETE DEAD CLIP AT "<<m_findTime.frames(25)<<endl;
+		return;
+	}
         m_project->deleteClipTransition( clip );
 	track->removeClip(clip);
         clip->referencedClip()->removeReference();
@@ -102,6 +110,35 @@ namespace Command {
 		++itt;
 	    }
 	}
+
+	return macroCommand;
+    }
+
+    KMacroCommand *KAddRefClipCommand::deleteAllTrackClips(KdenliveDoc *
+	document, int ix) {
+	KMacroCommand *macroCommand = new KMacroCommand(i18n("Delete Clips"));
+	
+	    DocTrackBase *track = document->track(ix);
+
+	    QPtrListIterator < DocClipRef > itt = track->firstClip(true);
+	    while (itt.current()) {
+		Command::KAddRefClipCommand * command =
+		    new Command::KAddRefClipCommand(document->
+		    effectDescriptions(), document->clipManager(),
+		    &document->projectClip(), itt.current(), false);
+		macroCommand->addCommand(command);
+		++itt;
+	    }
+
+	    itt = track->firstClip(false);
+	    while (itt.current()) {
+		Command::KAddRefClipCommand * command =
+		    new Command::KAddRefClipCommand(document->
+		    effectDescriptions(), document->clipManager(),
+		    &document->projectClip(), itt.current(), false);
+		macroCommand->addCommand(command);
+		++itt;
+	    }
 
 	return macroCommand;
     }

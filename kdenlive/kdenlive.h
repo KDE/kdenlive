@@ -366,6 +366,10 @@ namespace Gui {
 	void slotFocusEffectStack();
 	void slotFocusProjectList();
         void slotFocusTransitions();
+
+	void deleteTrack();
+	void addVideoTrack();
+	void addSoundTrack();
         
         /** Add a transition between the 2 selected clips */
         void addTransition();
