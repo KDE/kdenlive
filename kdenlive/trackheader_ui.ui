@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>277</width>
-            <height>167</height>
+            <width>231</width>
+            <height>47</height>
         </rect>
     </property>
     <property name="caption">
@@ -25,23 +25,6 @@
         <property name="spacing">
             <number>0</number>
         </property>
-        <spacer row="1" column="0">
-            <property name="name">
-                <cstring>spacer1</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Vertical</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>16</width>
-                    <height>48</height>
-                </size>
-            </property>
-        </spacer>
         <widget class="QFrame" row="0" column="0">
             <property name="name">
                 <cstring>container</cstring>
@@ -73,23 +56,6 @@
                 <enum>Raised</enum>
             </property>
         </widget>
-        <spacer row="0" column="1">
-            <property name="name">
-                <cstring>spacer3</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>138</width>
-                    <height>16</height>
-                </size>
-            </property>
-        </spacer>
         <widget class="QFrame" row="0" column="2">
             <property name="name">
                 <cstring>container_2</cstring>
@@ -150,6 +116,39 @@
             </property>
             <property name="frameShadow">
                 <enum>Raised</enum>
+            </property>
+        </widget>
+        <spacer row="1" column="0">
+            <property name="name">
+                <cstring>spacer1</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>90</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QLabel" row="0" column="1">
+            <property name="name">
+                <cstring>trackNumber</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>3</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string></string>
             </property>
         </widget>
     </grid>

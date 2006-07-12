@@ -128,8 +128,7 @@
 		<Action name="timeline_snap_marker"/>
 	</Menu>
 	<Menu name="tracks"><text>Tracks</text>
-		<Action name="timeline_add_video"/>
-		<Action name="timeline_add_audio"/>
+		<Action name="timeline_add_track"/>
 		<Action name="timeline_delete_track"/>
 	</Menu>
 	<Separator lineSeparator="true"/>

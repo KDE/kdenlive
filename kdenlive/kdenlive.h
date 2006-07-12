@@ -368,8 +368,7 @@ namespace Gui {
         void slotFocusTransitions();
 
 	void deleteTrack();
-	void addVideoTrack();
-	void addSoundTrack();
+	void addTrack();
         
         /** Add a transition between the 2 selected clips */
         void addTransition();

@@ -99,6 +99,7 @@
 #include "clipproperties.h"
 #include "newproject.h"
 #include "documentgroupnode.h"
+#include "addtrackdialog_ui.h"
 
 
 #include "trackpanelclipmovefunction.h"
@@ -475,13 +476,9 @@ namespace Gui {
         SLOT(deleteTransition()), actionCollection(),
         "del_transition");
 
-        (void) new KAction(i18n("Add Video Track"), 0, this,
-        SLOT(addVideoTrack()), actionCollection(),
-        "timeline_add_video");
-
-        (void) new KAction(i18n("Add Audio Track"), 0, this,
-        SLOT(addSoundTrack()), actionCollection(),
-        "timeline_add_audio");
+        (void) new KAction(i18n("Add Track"), 0, this,
+        SLOT(addTrack()), actionCollection(),
+        "timeline_add_track");
 
 	(void) new KAction(i18n("Delete Track"), 0, this,
         SLOT(deleteTrack()), actionCollection(),
@@ -1344,22 +1341,27 @@ namespace Gui {
     void KdenliveApp::deleteTrack()
     {
 	int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(m_menuPosition).y())->documentTrackIndex();
+	if (KMessageBox::warningContinueCancel(this, i18n("Remove track %1 ?\nThis will remove all clips on that track.").arg(ix),i18n("Delete Track")) != KMessageBox::Continue) return;
 	//kdDebug()<<"+++++++++++++++++++++  ASK TRACK DELETION: "<<ix<<endl;
 	addCommand(Command::KAddRefClipCommand::deleteAllTrackClips(getDocument(), ix));
 	getDocument()->deleteTrack(ix);
     }
 
-    void KdenliveApp::addVideoTrack()
+    void KdenliveApp::addTrack()
     {
 	int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(m_menuPosition).y())->documentTrackIndex();
-	getDocument()->addVideoTrack(ix);
+	addTrackDialog_UI *addTrack = new addTrackDialog_UI(this);
+	addTrack->setCaption(i18n("Add Track"));
+	addTrack->trackNumber->setValue(ix);
+	if (addTrack->exec() == QDialog::Accepted) {
+		ix = addTrack->trackNumber->value();
+		if (addTrack->trackPosition->currentItem() == 1) ix++;
+		if (addTrack->trackVideo->isChecked())
+			getDocument()->addVideoTrack(ix);
+		else getDocument()->addSoundTrack(ix);
+	}
     }
 
-    void KdenliveApp::addSoundTrack()
-    {
-	int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(m_menuPosition).y())->documentTrackIndex();
-	getDocument()->addSoundTrack(ix);
-    }
 
     void KdenliveApp::slotFileOpenRecent(const KURL & url) {
 	slotStatusMsg(i18n("Opening file..."));

@@ -59,8 +59,7 @@ namespace Gui {
         name), m_trackHeader(this, "Video Track"), m_mute(false), m_blind(false) {
             
             FlatButton *fl = new FlatButton(m_trackHeader.container, "expand", KGlobal::iconLoader()->loadIcon("kdenlive_down",KIcon::Toolbar,22), KGlobal::iconLoader()->loadIcon("kdenlive_right",KIcon::Toolbar,22), false);
-	    //(void) new QLabel(i18n("%1").arg(doc->trackIndex(docTrack)),m_trackHeader.container);
-            
+	    m_trackHeader.trackNumber->setText(i18n("Track %1").arg(doc->trackIndex(docTrack)));
             FlatButton *fl2 = new FlatButton(m_trackHeader.container_2, "video", KGlobal::iconLoader()->loadIcon("kdenlive_videooff",KIcon::Toolbar,22), KGlobal::iconLoader()->loadIcon("kdenlive_videoon",KIcon::Toolbar,22), false);
             
             FlatButton *fl3 = new FlatButton(m_trackHeader.container_3, "audio", KGlobal::iconLoader()->loadIcon("kdenlive_audiooff",KIcon::Toolbar,22), KGlobal::iconLoader()->loadIcon("kdenlive_audioon",KIcon::Toolbar,22), false);
