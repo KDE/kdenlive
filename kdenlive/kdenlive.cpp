@@ -1025,8 +1025,7 @@ namespace Gui {
         }
         else if( e->type() == 10001) {
             // The export process progressed
-            PositionChangeEvent *ev = (PositionChangeEvent *)e;
-            if (m_exportWidget) m_exportWidget->reportProgress(ev->position());
+            if (m_exportWidget) m_exportWidget->reportProgress(((PositionChangeEvent *)e)->position());
         }
         else if( e->type() == 10002) {
             // Timeline playing stopped
@@ -1037,10 +1036,8 @@ namespace Gui {
             m_workspaceMonitor->screen()->slotExportStopped();
         }
 	else if( e->type() == 10005) {
-            // export is over
-	    ProgressEvent *ev = (ProgressEvent *)e;
-	    kdDebug()<<"++++++++++  THUMB PROGRESS: "<<ev->value()<<endl;
-	    m_statusBarProgress->setProgress(ev->value());
+            // Show progress of an audio thumb
+	    m_statusBarProgress->setProgress(((ProgressEvent *)e)->value());
         }
     }
 
