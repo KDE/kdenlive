@@ -78,6 +78,9 @@ m_trackEnd(0.0), m_parentTrack(0), m_trackNum(-1), m_clip(clip), startTimer(0), 
 
 DocClipRef::~DocClipRef()
 {
+    if (m_clip->clipType() == DocClipBase::AUDIO || m_clip->clipType() == DocClipBase::AV) {
+	disconnect(m_clip->thumbCreator, SIGNAL(audioThumbReady(QMap<int,QMap<int,QByteArray> >)), this, SLOT(updateAudioThumbnail(QMap<int,QMap<int,QByteArray> >)));
+    }
     delete startTimer;
     delete endTimer;
 }
