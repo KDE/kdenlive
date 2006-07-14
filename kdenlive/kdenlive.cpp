@@ -1036,6 +1036,12 @@ namespace Gui {
             // export is over
             m_workspaceMonitor->screen()->slotExportStopped();
         }
+	else if( e->type() == 10005) {
+            // export is over
+	    ProgressEvent *ev = (ProgressEvent *)e;
+	    kdDebug()<<"++++++++++  THUMB PROGRESS: "<<ev->value()<<endl;
+	    m_statusBarProgress->setProgress(ev->value());
+        }
     }
 
     void KdenliveApp::slotEditTransition(Transition *transition) {

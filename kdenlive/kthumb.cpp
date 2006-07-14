@@ -29,16 +29,19 @@
 #include <kfileitem.h>
 #include <kmdcodec.h>
 
-#include "kthumb.h"
 #include <mlt++/Mlt.h>
 
 #include <qxml.h>
 #include <qimage.h>
 #include <qlabel.h>
+#include <qapplication.h>
 #include <qprogressbar.h>
 #include <qthread.h>
 
 #include <loadprogress_ui.h>
+
+#include "kthumb.h"
+#include "kdenlive.h"
 
 KThumb::KThumb(QObject * parent, const char *name):QObject(parent,
     name)
@@ -124,17 +127,17 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
 			return;
 		progressdialog->show();
 		progressdialog->setCaption(QString(tr2i18n("Generating Audio Thumbnails for ")).append(url.fileName()));
-		//progressdialog->desc->setText("Generating Audio Thumbnails");
-		int last_val=0;*/
+		//progressdialog->desc->setText("Generating Audio Thumbnails");*/
+		QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(0));
+		int last_val=0;
 		for (int z=frame;z<frame+frameLength && m_producer.is_valid();z++){
 			qApp->processEvents();
-			/*
+			
 			int val=(int)((z-frame)/(frame+frameLength)*100.0);
 			if (last_val!=val){
-				progressdialog->progressBar->setProgress(val);
-				progressdialog->desc->update();
+				QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(val));
 				last_val=val;
-			}*/
+			}
 			//kdDebug() << "frame=" << z << ", total: "<< frame+frameLength <<endl;
 			if (storeIn.find(z)==storeIn.end()){
 			
@@ -167,8 +170,7 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
 			}
 		}
 		f.close();
-		/*progressdialog->hide();
-		delete progressdialog;*/
+		QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(0));
 	}
 	emit audioThumbReady(storeIn);
 }

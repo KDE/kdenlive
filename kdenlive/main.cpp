@@ -84,8 +84,8 @@ int main(int argc, char *argv[])
     } else {
 
 	Gui::KdenliveApp * kdenlive = new Gui::KdenliveApp();
+	app.setMainWidget(kdenlive);
 	kdenlive->show();
-
 	KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
 	if (args->count()) {

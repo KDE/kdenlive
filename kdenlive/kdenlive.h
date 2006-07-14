@@ -66,6 +66,17 @@ class PositionChangeEvent : public QCustomEvent
 };
 
 
+class ProgressEvent : public QCustomEvent
+{
+    public:
+        ProgressEvent( int value )
+    : QCustomEvent( 10005 ), m_val( value ) {};
+        int value() const { return m_val; };
+    private:
+        int m_val;
+};
+
+
 namespace Gui {
 
 
