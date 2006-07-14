@@ -647,9 +647,11 @@ namespace Gui {
 	///////////////////////////////////////////////////////////////////
 	// STATUSBAR
 	// TODO: add your own items you need for displaying current application status.
+
 	statusBar()->insertItem(i18n("Ready."), ID_STATUS_MSG);
 
 	m_statusBarProgress = new KProgress(statusBar());
+	m_statusBarProgress->setMaximumWidth(100);
 	m_statusBarProgress->setTextEnabled(false);
 
 	statusBar()->addWidget(m_statusBarProgress);
@@ -1037,7 +1039,13 @@ namespace Gui {
         }
 	else if( e->type() == 10005) {
             // Show progress of an audio thumb
-	    m_statusBarProgress->setProgress(((ProgressEvent *)e)->value());
+	    int val = ((ProgressEvent *)e)->value();
+	    if (val == 0) slotStatusMsg(i18n("Generating audio thumb"));
+	    else if (val == 100) {
+		slotStatusMsg(i18n("Ready."));
+		val = 0;
+	    }
+	    m_statusBarProgress->setProgress(val);
         }
     }
 
