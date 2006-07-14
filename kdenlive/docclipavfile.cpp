@@ -38,6 +38,7 @@ DocClipAVFile::DocClipAVFile(const QString & name, const KURL & url,
 m_durationKnown(false), m_framesPerSecond(0), m_color(QString::null),
 m_clipType(NONE), m_alphaTransparency(false), m_frequency(0), m_channels(0)
 {
+    thumbCreator = new KThumb();
     setName(name);
     setId(id);
 }
@@ -79,6 +80,7 @@ m_durationKnown(false),
 m_framesPerSecond(0), m_color(QString::null), m_clipType(NONE), m_alphaTransparency(false), m_frequency(0), m_channels(0)
 {
     setName(url.fileName());
+    thumbCreator = new KThumb();
     // #TODO: What about the id of these clips ?
 }
 

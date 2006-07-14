@@ -27,7 +27,7 @@
 DocClipBase::DocClipBase():
 m_description(""), m_refcount(0), audioThumbCreated(false)
 {
-    thumbCreator = new KThumb();
+    thumbCreator = 0;
 }
 
 DocClipBase::~DocClipBase()

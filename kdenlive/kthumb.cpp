@@ -170,7 +170,7 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
 			}
 		}
 		f.close();
-		QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(0));
+		QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(100));
 	}
 	emit audioThumbReady(storeIn);
 }
