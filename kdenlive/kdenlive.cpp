@@ -1923,7 +1923,7 @@ namespace Gui {
 		if (confirm) getDocument()->activateSceneListGeneration(true);
 	    }
 	}
-
+	else if (confirm) slotProjectDeleteFolder();
 	slotStatusMsg(i18n("Ready."));
     }
 
