@@ -1636,13 +1636,14 @@ namespace Gui {
 	if (m_projectList->m_listView->currentItem()->childCount()>0)
 	if (KMessageBox::questionYesNo(this, i18n("Deleting this folder will remove all reference to its clips in your project.\nDelete this folder ?")) ==  KMessageBox::No) return;
 	QString folderName = m_projectList->m_listView->currentItem()->text(1);
-	QListViewItem * myChild = m_projectList->m_listView->currentItem()->firstChild();
-        while( myChild ) {
-            m_projectList->m_listView->setCurrentItem( myChild );
+	QListViewItem * myChild = m_projectList->m_listView->currentItem();
+        while( myChild->firstChild() ) {
+            m_projectList->m_listView->setCurrentItem( myChild->firstChild() );
 	    slotProjectDeleteClips(false);
-            myChild = myChild->nextSibling();
+	    myChild = m_projectList->m_listView->findItem(folderName, 1, Qt::CaseSensitive);
         }
 	getDocument()->deleteGroupNode(folderName);
+	getDocument()->activateSceneListGeneration(true);
     }
 
     void KdenliveApp::slotProjectAddFolder(QString message) {
@@ -1669,7 +1670,7 @@ namespace Gui {
 	slotStatusMsg(i18n("Adding Clips"));
 
 	// Make a reasonable filter for video / audio files.
-	QString filter = "video/x-dv video/x-msvideo video/mpeg audio/x-mp3 audio/x-wav application/ogg";
+	QString filter = "application/vnd.rn-realmedia video/x-dv video/x-msvideo video/mpeg audio/x-mp3 audio/x-wav application/ogg";
 	KURL::List urlList =
 	    KFileDialog::getOpenURLs(m_fileDialogPath.path(), filter, this,
         i18n("Open File..."));
@@ -1919,7 +1920,7 @@ namespace Gui {
 		addCommand(macroCommand, true);
 
 		getDocument()->clipManager().removeClip(id);
-		getDocument()->activateSceneListGeneration(true);		
+		if (confirm) getDocument()->activateSceneListGeneration(true);
 	    }
 	}
 
