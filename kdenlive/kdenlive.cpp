@@ -2199,14 +2199,12 @@ namespace Gui {
 	DocumentBaseNode *parentNode;
 	// find folder on which the item was dropped
 	if (parent) {
-		kdDebug()<<"+++++++ dropped on: "<<parent->text(1)<<endl;
+		//kdDebug()<<"+++++++ dropped on: "<<parent->text(1)<<endl;
 		if (static_cast<AVListViewItem *>(parent)->clip() == 0) {
 			parentNode = getDocument()->findClipNode(parent->text(1));
-			parent->setOpen(true);
 		}
 		else if (parent->parent() && (static_cast<AVListViewItem *>(parent->parent()))->clip() == 0) { 
 			parentNode = getDocument()->findClipNode(parent->parent()->text(1));
-			parent->parent()->setOpen(true);
 		}
 		else parentNode = getDocument()->clipHierarch();
 	}
