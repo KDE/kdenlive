@@ -2216,12 +2216,12 @@ namespace Gui {
 	// reparent the item
 	while (itt.current()) {
 		DocumentBaseNode *node = doc->findClipNode(itt.current()->name());
-		if (node->hasParent()) {
+		if (node->hasParent() && node->parent()->name() != parentNode->name()) {
 			DocumentBaseNode *oldParentNode = node->parent();
 			oldParentNode->removeChild(node);
+			node->reParent(parentNode);
+			parentNode->addChild(node);
 		}
-		node->reParent(parentNode);
-		parentNode->addChild(node);
 	        ++itt;
 	}
 	m_projectList->slot_UpdateList();
