@@ -1852,7 +1852,9 @@ namespace Gui {
                     QPixmap thumb = txtWidget->thumbnail(50, 40);
                     QDomDocument xml = txtWidget->toXml();
                     KCommand *command = new Command::KEditClipCommand(*doc, refClip, duration,                           txtWidget->titleName->text(),QString::null, xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked());
-                }
+
+		    if (refClip->numReferences() > 0) getDocument()->activateSceneListGeneration(true);
+            	}
                 m_workspaceMonitor->screen()->restoreProducer();
             }
             else {
@@ -1871,6 +1873,7 @@ namespace Gui {
                     else { // Video clip
                         KCommand *command = new Command::KEditClipCommand(*doc, refClip, dia->url(),dia->description());
                     }
+		if (refClip->numReferences() > 0) getDocument()->activateSceneListGeneration(true);
                 }
             }
 	}
