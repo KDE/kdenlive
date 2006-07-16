@@ -44,6 +44,7 @@ KListView(parent, name)
     setItemsMovable(true);
     setDropVisualizer(true);
     setFullWidth(true);
+    setShadeSortColumn(false);
     setDefaultRenameAction(Accept);
     setAllColumnsShowFocus(true);
     setRootIsDecorated(true);

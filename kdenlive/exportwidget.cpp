@@ -120,11 +120,15 @@ void exportWidget::initEncoders()
 {
     fileExportName->setText("untitled.dv");
     fileExportFolder->setURL("~");
-    encoders->insertItem(i18n("dv"));
+    encoders->insertItem("dv");
+    encodersList["dv"] << "extension=dv"<<"bypass=true";
+
+    encoders->insertItem("theora");
+    encodersList["theora"] << "extension=ogg"<<"bypass=true";
     convertProgress->hide();
     convert_label->hide();
     //container->setEnabled(false);
-    encodersList["dv"] = "dv";
+
 
     // Find all profiles and add them to the list
     
@@ -170,9 +174,7 @@ void exportWidget::slotAdjustWidgets(int pos)
         QString currentName=fileExportName->text();
         int i = currentName.findRev(".");
         if (i!=-1) currentName = currentName.left(i);
-        QString extension;
-        if (pos!=0) extension = profileParameter(encoders->currentText(), "extension");
-        else extension = "dv";
+        QString extension = profileParameter(encoders->currentText(), "extension");
         fileExportName->setText(currentName+"." + extension);
                 //encodersList[encoders->currentText()]);
     }
@@ -263,7 +265,37 @@ void exportWidget::slotAdjustWidgets(int pos)
         videoSize->show();
     }
 
-    
+    if (!profileParameter(encoders->currentText(), "aquality").isEmpty()) {
+    	check_aquality->setEnabled(true);
+	aquality->setEnabled(true);
+	QStringList params = QStringList::split(",",profileParameter(encoders->currentText(), "aquality").section(" ",0,0));
+        aquality->insertStringList(params);
+        aquality->setCurrentText(profileParameter(encoders->currentText(), "aquality").section(" ",1,1));
+        aquality->show();
+        check_aquality->show();
+    }
+    else {
+	check_aquality->setEnabled(false);
+	check_aquality->setChecked(false);
+        aquality->hide();
+        check_aquality->hide();
+    }
+
+    if (!profileParameter(encoders->currentText(), "vquality").isEmpty()) {
+    	check_vquality->setEnabled(true);
+	vquality->setEnabled(true);
+	QStringList params = QStringList::split(",",profileParameter(encoders->currentText(), "vquality").section(" ",0,0));
+        vquality->insertStringList(params);
+        vquality->setCurrentText(profileParameter(encoders->currentText(), "vquality").section(" ",1,1));
+        vquality->show();
+        check_vquality->show();
+    }
+    else {
+	check_vquality->setEnabled(false);
+	check_vquality->setChecked(false);
+        vquality->hide();
+        check_vquality->hide();
+    }
         
     if (pos==0) {
         container->setEnabled(false);
@@ -307,7 +339,7 @@ void exportWidget::startExport()
         m_duration = endExportTime - startExportTime;
         exportButton->setText(i18n("Stop"));
         m_isRunning = true;
-        if (encoders->currentText() != "dv") {
+        if (profileParameter(encoders->currentText(), "bypass") != "true") {
             // AVformat (FFmpeg) export, build parameters
             QStringList params;
             if (!videoSize->currentText().isEmpty() && videoSize->isEnabled()) params.append("size="+videoSize->currentText());
@@ -319,7 +351,9 @@ void exportWidget::startExport()
         }
         else {
             // Libdv export
-            emit exportTimeLine(fileExportFolder->url()+"/"+fileExportName->text(), encoders->currentText(), startExportTime, endExportTime, "");
+	    if (encoders->currentText() == "theora") 
+	    	emit exportTimeLine(fileExportFolder->url()+"/"+fileExportName->text() + ".dv", "dv", startExportTime, endExportTime, "");
+            else emit exportTimeLine(fileExportFolder->url()+"/"+fileExportName->text(), encoders->currentText(), startExportTime, endExportTime, "");
         }
         tabWidget->page(0)->setEnabled(false);
     }
@@ -347,16 +381,22 @@ void exportWidget::endExport()
 {
     exportButton->setText(i18n("Export"));
     m_isRunning = false;
-    processProgress->setProgress(0);
-    tabWidget->page(0)->setEnabled(true);
-    if (autoPlay->isChecked ()) {
-        KRun *run=new KRun(KURL(fileExportFolder->url()+"/"+fileExportName->text()));
+    if (encoders->currentText() == "theora") {
+	exportFileToTheora(KURL(fileExportFolder->url()+"/"+fileExportName->text() + ".dv").path(), vquality->currentText().toInt(), aquality->currentText().toInt(), videoSize->currentText());
+    }
+    else {
+    	processProgress->setProgress(0);
+    	tabWidget->page(0)->setEnabled(true);
+    	if (autoPlay->isChecked ()) {
+	        KRun *run=new KRun(KURL(fileExportFolder->url()+"/"+fileExportName->text()));
+    	}
     }
 }
 
-void exportWidget::exportFileToTheora(QString dstFileName, int width, int height, int audio, int video)
+void exportWidget::exportFileToTheora(QString srcFileName, int video, int audio, QString size)
 {
-    QString command = "ffmpeg2theora /home/one/output.dv -a "+QString::number(audio)+" -v "+QString::number(video)+" -f dv -x "+QString::number(width)+" -y "+QString::number(height)+" -o "+dstFileName;
+    QString dstFileName = srcFileName.left(srcFileName.findRev("."));
+    QString command = "ffmpeg2theora " + srcFileName + " -a "+QString::number(audio)+" -v "+QString::number(video) +" -f dv -x "+size.section("x", 0, 0)+" -y "+size.section("x", 1, 1) + " -o " + dstFileName;
     FILE *fp;
     char line[130];
     command +=" 2>&1";
@@ -367,9 +407,19 @@ void exportWidget::exportFileToTheora(QString dstFileName, int width, int height
     }
     else while ( fgets( line, sizeof line, fp)) {
 	qApp->processEvents();
-	kdDebug() << "******* THEORA : "<< QString(line).stripWhiteSpace ().section(" ",0,0) <<endl;
+	kdDebug() << "******* THEORA : "<< QString(line).stripWhiteSpace().section(" ",0,0) <<endl;
     }
     kdDebug() << "******* FINISHED : "<< endl;
     pclose(fp);
+	
+    // remove temporary dv file
+    KIO::NetAccess::del(KURL(srcFileName), this);
+
+    processProgress->setProgress(0);
+    tabWidget->page(0)->setEnabled(true);
+    if (autoPlay->isChecked ()) {
+	KRun *run=new KRun(KURL(fileExportFolder->url()+"/"+fileExportName->text()));
+    }
+    
 }
 

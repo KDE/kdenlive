@@ -59,7 +59,7 @@ private:
 private slots:
 	void startExport();
         void stopExport();
-	void exportFileToTheora(QString dstFileName, int width = 320, int height = 240, int audio =2, int video =4);
+	void exportFileToTheora(QString srcFileName, int audio =1, int video =5, QString size = QString());
 	void slotAdjustWidgets(int pos);
         void initEncoders();
         void initDvConnection();
