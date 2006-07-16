@@ -210,7 +210,7 @@ uint DocClipAVFile::audioFrequency() const
 void DocClipAVFile::getAudioThumbs()
 {
     double lengthInFrames=duration().frames(framesPerSecond());
-    thumbCreator->getAudioThumbs(fileURL(), 0, 0, lengthInFrames,AUDIO_FRAME_WIDTH);
+    thumbCreator->getAudioThumbs(fileURL(), m_channels, 0, lengthInFrames,AUDIO_FRAME_WIDTH);
 }
 
 /*

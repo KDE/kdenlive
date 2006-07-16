@@ -50,6 +50,9 @@ public slots:
 	void getImage(KURL url, int frame, int width, int height);
 	void getAudioThumbs(KURL url, int channel, double frame, double frameLength, int arrayWidth); //, QMap<int,QMap<int,QByteArray> >&);
 
+private:
+	bool m_workingOnAudio;
+
 signals:
 	void thumbReady(int frame, QPixmap pm);
 	void audioThumbReady(QMap <int, QMap <int, QByteArray> >);

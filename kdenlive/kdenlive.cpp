@@ -652,6 +652,7 @@ namespace Gui {
 
 	m_statusBarProgress = new KProgress(statusBar());
 	m_statusBarProgress->setMaximumWidth(100);
+	m_statusBarProgress->setTotalSteps(0);
 	m_statusBarProgress->setTextEnabled(false);
 	statusBar()->addWidget(m_statusBarProgress);
 	m_statusBarProgress->hide();
@@ -1040,16 +1041,21 @@ namespace Gui {
 	else if( e->type() == 10005) {
             // Show progress of an audio thumb
 	    int val = ((ProgressEvent *)e)->value();
-	    if (val == 0) {
+	    if (val == -1) {
+		m_statusBarProgress->setTotalSteps(m_statusBarProgress->totalSteps() + 100);
 		slotStatusMsg(i18n("Generating audio thumb"));
 		m_statusBarProgress->show();
 	    }
-	    else if (val == 100) {
-		slotStatusMsg(i18n("Ready."));
-		val = 0;
-		m_statusBarProgress->hide();
+	    else {
+		if (m_statusBarProgress->progress() + val == m_statusBarProgress->totalSteps()) {
+			slotStatusMsg(i18n("Ready."));
+			val = 0;
+			m_statusBarProgress->setTotalSteps(0);
+			m_statusBarProgress->setProgress(0);
+			m_statusBarProgress->hide();
+	    	}
+	    	m_statusBarProgress->setProgress(m_statusBarProgress->progress() + val);
 	    }
-	    m_statusBarProgress->setProgress(val);
         }
     }
 

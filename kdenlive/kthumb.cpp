@@ -44,7 +44,7 @@
 #include "kdenlive.h"
 
 KThumb::KThumb(QObject * parent, const char *name):QObject(parent,
-    name)
+    name), m_workingOnAudio(false)
 {
 }
 
@@ -98,18 +98,27 @@ emit thumbReady(frame, image);
 
 void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLength, int arrayWidth){
 	QMap <int, QMap <int, QByteArray> > storeIn;
-	Mlt::Producer m_producer(const_cast<char*>((url.directory(false)+url.fileName()).ascii()));
+
+	if (m_workingOnAudio) return;
 	
        //FIXME: Hardcoded!!! 
 	int m_frequency = 48000;
-	int m_channels = 2; 
+	int m_channels = channel; 
 	KMD5 context ((KFileItem(url,"text/plain", S_IFREG).timeString() + url.fileName()).ascii());
 	QString thumbname = KdenliveSettings::currentdefaultfolder() + "/" + context.hexDigest().data() + ".thumb";
 	QFile f(thumbname);
 	if (f.open( IO_ReadOnly )) {
-		QByteArray channelarray(arrayWidth*(frame+frameLength)*m_channels);
-		channelarray = f.readAll();
+		//kdDebug()<<"--- READING AUDIO THUMB: "<<url.filename()<<", arrayW: "<<arrayWidth<<endl;
+		//QByteArray channelarray(arrayWidth*(frame+frameLength)*m_channels);
+		QByteArray channelarray = f.readAll();
 		f.close();
+		if (channelarray.size() != arrayWidth*(frame+frameLength)*m_channels) {
+			kdDebug()<<"--- BROKEN THUMB FOR: "<<url.filename()<<" ---------------------- "<<endl;
+			f.remove();
+			return;
+
+		}
+		
 		for (int z=frame;z<frame+frameLength;z++) {
 			//kdDebug() << "frame=" << z << ", total: "<< frame+frameLength <<endl;
 			for (int c=0;c< m_channels;c++){
@@ -122,23 +131,22 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
 	}
 	else {
 		if (!f.open( IO_WriteOnly )) kdDebug()<<"++++++++  ERROR WRITING TO FILE: "<<thumbname<<endl;
-		/*LoadProgress *progressdialog=new LoadProgress();
-		if (!progressdialog)
-			return;
-		progressdialog->show();
-		progressdialog->setCaption(QString(tr2i18n("Generating Audio Thumbnails for ")).append(url.fileName()));
-		//progressdialog->desc->setText("Generating Audio Thumbnails");*/
-		QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(0));
-		int last_val=0;
+		m_workingOnAudio = true;
+
+		Mlt::Producer m_producer(const_cast<char*>((url.directory(false)+url.fileName()).ascii()));
+		QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1));
+
+		int last_val = 0;
+		int val = 0;
 		for (int z=frame;z<frame+frameLength && m_producer.is_valid();z++){
 			qApp->processEvents();
 			
-			int val=(int)((z-frame)/(frame+frameLength)*100.0);
+			val=(int)((z-frame)/(frame+frameLength)*100.0);
 			if (last_val!=val){
-				QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(val));
+				QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(val - last_val));
 				last_val=val;
 			}
-			//kdDebug() << "frame=" << z << ", total: "<< frame+frameLength <<endl;
+			
 			if (storeIn.find(z)==storeIn.end()){
 			
 				m_producer.seek( z );
@@ -170,7 +178,8 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
 			}
 		}
 		f.close();
-		QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(100));
+		m_workingOnAudio = false;
+		if (val != 100) QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(100 - val));
 	}
 	emit audioThumbReady(storeIn);
 }

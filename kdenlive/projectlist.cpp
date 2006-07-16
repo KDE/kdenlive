@@ -128,9 +128,14 @@ namespace Gui {
 	// Check which folders are open
         QListViewItemIterator it( m_listView );
         while ( it.current() ) {
-            if (it.current()->isOpen()) openFolders.append(it.current()->text(1));
+            if (it.current()->isOpen()) {
+	    openFolders.append(it.current()->text(1));
+	    kdDebug()<<"****  OPEN FOLDER: "<<it.current()->text(1)<<endl;
+	    }
             ++it;
         }
+
+	kdDebug()<<"+++++++++++  PASSED CHECK"<<endl;
 
 	m_listView->clear();
 	DocumentBaseNode *node = m_document->clipHierarch();
@@ -142,6 +147,9 @@ namespace Gui {
 			++child;
     		}
 	}
+
+	kdDebug()<<"+++++++++++  REOPEN FOLDERS"<<endl;
+
 	if (!openFolders.isEmpty()) {
 		QListViewItemIterator it( m_listView );
         	while ( it.current() ) {
@@ -150,7 +158,7 @@ namespace Gui {
             		++it;
         	}
 	}
-
+	kdDebug()<<"+++++++++++  REOPEN FOLDERS... DONE"<<endl;
 	/*if (node) {
 	    AVListViewItem *item =
 		new AVListViewItem(m_document, m_listView, node);

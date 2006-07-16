@@ -98,10 +98,8 @@ void DocClipRef::refreshAudioThumbnail()
 	}
 }
 
-void DocClipRef::updateAudioThumbnail(QMap<int,QMap<int,QByteArray> > data)
+void DocClipRef::updateAudioThumbnail(QMap<int,QMap<int,QByteArray> >)
 {
-    /*referencedClip()->audioFrameChache = data;
-    m_clip->audioThumbCreated = true;*/
     if (m_parentTrack) QTimer::singleShot(200,m_parentTrack, SLOT(refreshLayout()));
 }
 
