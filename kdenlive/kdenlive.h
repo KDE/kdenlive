@@ -394,6 +394,9 @@ namespace Gui {
 
 	void slotNewProject(QString *newProjectName, KURL *fileUrl, int *videoTracks, int *audioTracks);
 
+	void PasteClip();
+	void CopyClip();
+
 
       private:
 		/** the configuration object of the application */
@@ -478,6 +481,8 @@ namespace Gui {
         
         KdenliveSplash *splash;
 
+	DocClipRef *m_copiedClip;
+
 		/** The progress widget on the status bar, used by various long-winded methods. */
 	KProgress *m_statusBarProgress;
 
@@ -527,6 +532,7 @@ namespace Gui {
 		// the macroCommand. selectedClips determines whether this uses selectedClips or unselectedClips */
 	void populateClearSnapMarkers(KMacroCommand * macroCommand,
 	    DocClipProject & clip, bool selectedClips);
+
     };
 
 }				// namespace Gui

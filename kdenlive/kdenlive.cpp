@@ -123,7 +123,7 @@ namespace Gui {
 
     KdenliveApp::KdenliveApp(QWidget *parent,
 	const char *name):KDockMainWindow(parent, name), m_monitorManager(this),
-    m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_selectedFile(NULL) {
+    m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_selectedFile(NULL), m_copiedClip(NULL) {
 	config = kapp->config();
 	QString newProjectName;
 	int audioTracks = 2;
@@ -483,6 +483,14 @@ namespace Gui {
 	(void) new KAction(i18n("Delete Track"), 0, this,
         SLOT(deleteTrack()), actionCollection(),
         "timeline_delete_track");
+
+	(void) new KAction(i18n("Copy Clip"), 0, this,
+        SLOT(CopyClip()), actionCollection(),
+        "clip_copy");
+
+	(void) new KAction(i18n("Paste Clip"), 0, this,
+        SLOT(PasteClip()), actionCollection(),
+        "clip_paste");
 
         showClipMonitor = new KToggleAction(i18n("Clip Monitor"), 0, this,
 	    SLOT(slotToggleClipMonitor()), actionCollection(),
@@ -1357,6 +1365,43 @@ namespace Gui {
         m_clipMonitor->slotClearClip();
     if (m_workspaceMonitor)
         m_workspaceMonitor->slotClearClip();
+    }
+
+    void KdenliveApp::CopyClip()
+    {
+ 	if (!getDocument()->projectClip().hasSelectedClips()) {
+            KMessageBox::sorry(this, i18n("No clip selected"));
+            return;
+        }
+	if (m_copiedClip) delete m_copiedClip; 
+	m_copiedClip = getDocument()->projectClip().selectedClip()->clone(getDocument()->effectDescriptions(), getDocument()->clipManager());
+	
+	
+
+    }
+
+    void KdenliveApp::PasteClip()
+    {
+ 	if (!m_copiedClip) {
+            KMessageBox::sorry(this, i18n("No clip in clipboard"));
+            return;
+        }
+
+	int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(m_menuPosition).y())->documentTrackIndex();
+
+	GenTime insertTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(m_menuPosition).x());
+
+	DocClipRef *m_pastedClip = m_copiedClip->clone(getDocument()->effectDescriptions(), getDocument()->clipManager());
+
+	DocClipRefList selectedClip;
+	selectedClip.append(m_pastedClip);
+	if (getDocument()->projectClip().canAddClipsToTracks(selectedClip, ix, insertTime)) {
+		m_pastedClip->setParentTrack(getDocument()->track(ix), ix);
+		m_pastedClip->moveTrackStart(insertTime);
+		getDocument()->track(ix)->addClip(m_pastedClip, false);
+	}
+	else kdDebug()<<"++++++++++++++  CANNOT ADD CLIP: "<<m_pastedClip->name()<<", ON TRACK: "<<ix<<" AT TIME: "<<insertTime.frames(25.0)<<endl;
+
     }
 
     void KdenliveApp::deleteTrack()
