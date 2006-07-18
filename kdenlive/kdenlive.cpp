@@ -157,8 +157,8 @@ namespace Gui {
 	// disable actions at startup
 	fileSave->setEnabled(false);
 	//  filePrint->setEnabled(false);
-	editCut->setEnabled(false);
-	editCopy->setEnabled(false);
+	editCut->setEnabled(true);
+	editCopy->setEnabled(true);
 	editPaste->setEnabled(false);
 
 	fileSaveAs->setEnabled(true);
@@ -483,14 +483,6 @@ namespace Gui {
 	(void) new KAction(i18n("Delete Track"), 0, this,
         SLOT(deleteTrack()), actionCollection(),
         "timeline_delete_track");
-
-	(void) new KAction(i18n("Copy Clip"), 0, this,
-        SLOT(CopyClip()), actionCollection(),
-        "clip_copy");
-
-	(void) new KAction(i18n("Paste Clip"), 0, this,
-        SLOT(PasteClip()), actionCollection(),
-        "clip_paste");
 
         showClipMonitor = new KToggleAction(i18n("Clip Monitor"), 0, this,
 	    SLOT(slotToggleClipMonitor()), actionCollection(),
@@ -1367,20 +1359,30 @@ namespace Gui {
         m_workspaceMonitor->slotClearClip();
     }
 
-    void KdenliveApp::CopyClip()
+    void KdenliveApp::slotEditCopy()
     {
  	if (!getDocument()->projectClip().hasSelectedClips()) {
             KMessageBox::sorry(this, i18n("No clip selected"));
             return;
         }
+	editPaste->setEnabled(true);
 	if (m_copiedClip) delete m_copiedClip; 
 	m_copiedClip = getDocument()->projectClip().selectedClip()->clone(getDocument()->effectDescriptions(), getDocument()->clipManager());
-	
-	
-
     }
 
-    void KdenliveApp::PasteClip()
+    void KdenliveApp::slotEditCut()
+    {
+ 	if (!getDocument()->projectClip().hasSelectedClips()) {
+            KMessageBox::sorry(this, i18n("No clip selected"));
+            return;
+        }
+	editPaste->setEnabled(true);
+	if (m_copiedClip) delete m_copiedClip;
+	m_copiedClip = getDocument()->projectClip().selectedClip()->clone(getDocument()->effectDescriptions(), getDocument()->clipManager());
+	slotDeleteSelected();
+    }
+
+    void KdenliveApp::slotEditPaste()
     {
  	if (!m_copiedClip) {
             KMessageBox::sorry(this, i18n("No clip in clipboard"));
@@ -1520,25 +1522,6 @@ namespace Gui {
 	    kdDebug() << "Done" << endl;
 	}
     }
-
-    void KdenliveApp::slotEditCut() {
-	slotStatusMsg(i18n("Cutting selection..."));
-
-	slotStatusMsg(i18n("Ready."));
-    }
-
-    void KdenliveApp::slotEditCopy() {
-	slotStatusMsg(i18n("Copying selection to clipboard..."));
-
-	slotStatusMsg(i18n("Ready."));
-    }
-
-    void KdenliveApp::slotEditPaste() {
-	slotStatusMsg(i18n("Inserting clipboard contents..."));
-
-	slotStatusMsg(i18n("Ready."));
-    }
-
 
     void KdenliveApp::slotStatusMsg(const QString & text) {
 	///////////////////////////////////////////////////////////////////

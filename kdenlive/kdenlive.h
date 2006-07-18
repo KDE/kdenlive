@@ -394,9 +394,6 @@ namespace Gui {
 
 	void slotNewProject(QString *newProjectName, KURL *fileUrl, int *videoTracks, int *audioTracks);
 
-	void PasteClip();
-	void CopyClip();
-
 
       private:
 		/** the configuration object of the application */

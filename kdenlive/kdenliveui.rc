@@ -115,7 +115,7 @@
 </Menu>
 
 <Menu name="timeline_context">
-	<Action name="clip_paste"/>
+	<Action name="edit_paste"/>
 	<Separator lineSeparator="true"/>
 	<Menu name="tools"><text>Tools</text>
 		<Action name="timeline_move_tool"/>
@@ -145,7 +145,8 @@
   <Action name="add_transition"/>
   <Action name="del_transition"/>
   <Separator lineSeparator="true"/>
-  <Action name="clip_copy"/>
+  <Action name="edit_copy"/>
+  <Action name="edit_cut"/>
   <Separator lineSeparator="true"/>
   <Menu name="tools"><text>Tools</text>
     <Action name="timeline_move_tool"/>
