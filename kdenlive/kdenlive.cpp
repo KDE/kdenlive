@@ -1365,9 +1365,11 @@ namespace Gui {
             KMessageBox::sorry(this, i18n("No clip selected"));
             return;
         }
+	slotStatusMsg(i18n("Copying clip %1.").arg(getDocument()->projectClip().selectedClip()->name()));
 	editPaste->setEnabled(true);
 	if (m_copiedClip) delete m_copiedClip; 
 	m_copiedClip = getDocument()->projectClip().selectedClip()->clone(getDocument()->effectDescriptions(), getDocument()->clipManager());
+	slotStatusMsg(i18n("Ready."));
     }
 
     void KdenliveApp::slotEditCut()
@@ -1376,10 +1378,12 @@ namespace Gui {
             KMessageBox::sorry(this, i18n("No clip selected"));
             return;
         }
+	slotStatusMsg(i18n("Cutting clip %1.").arg(getDocument()->projectClip().selectedClip()->name()));
 	editPaste->setEnabled(true);
 	if (m_copiedClip) delete m_copiedClip;
 	m_copiedClip = getDocument()->projectClip().selectedClip()->clone(getDocument()->effectDescriptions(), getDocument()->clipManager());
 	slotDeleteSelected();
+	slotStatusMsg(i18n("Ready."));
     }
 
     void KdenliveApp::slotEditPaste()
@@ -1388,7 +1392,7 @@ namespace Gui {
             KMessageBox::sorry(this, i18n("No clip in clipboard"));
             return;
         }
-
+	slotStatusMsg(i18n("Pasting clip %1.").arg(m_copiedClip->name()));
 	int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(m_menuPosition).y())->documentTrackIndex();
 
 	GenTime insertTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(m_menuPosition).x());
@@ -1401,9 +1405,11 @@ namespace Gui {
 		m_pastedClip->setParentTrack(getDocument()->track(ix), ix);
 		m_pastedClip->moveTrackStart(insertTime);
 		getDocument()->track(ix)->addClip(m_pastedClip, false);
+		slotStatusMsg(i18n("Ready."));
 	}
-	else kdDebug()<<"++++++++++++++  CANNOT ADD CLIP: "<<m_pastedClip->name()<<", ON TRACK: "<<ix<<" AT TIME: "<<insertTime.frames(25.0)<<endl;
-
+	else {
+		slotStatusMsg(i18n("Cannot past clip %1 on track %2 at %3").arg(m_pastedClip->name()).arg(ix).arg(Timecode::getEasyTimecode(insertTime, doc->framesPerSecond())));
+	}
     }
 
     void KdenliveApp::deleteTrack()
