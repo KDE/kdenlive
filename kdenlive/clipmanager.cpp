@@ -98,7 +98,7 @@ DocClipBase *ClipManager::insertImageClip(const KURL & file,
     const QString & extension, const int &ttl, const GenTime & duration,
     const QString & description, bool alphaTransparency, int clipId)
 {
-    if (!KIO::NetAccess::exists(file, true, 0)) {
+    if (!KIO::NetAccess::exists(file, true, 0) && file.filename()!=".all.png") {
 	if (KMessageBox::questionYesNo(0, i18n("Cannot open file %1\nDo you want to search for the file or remove it from the project ?").arg(file.path()), i18n("Missing File"), i18n("Find File"), i18n("Remove")) == KMessageBox::Yes) {
 	KURL url = KFileDialog::getOpenURL(file.path());
 	if (!url.isEmpty()) return insertImageClip(url, extension, ttl, duration, description, alphaTransparency, clipId);

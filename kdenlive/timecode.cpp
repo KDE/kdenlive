@@ -52,13 +52,14 @@ QString Timecode::getTimecode(const GenTime & time, double fps) const
     }
 }
 
-QString Timecode::getEasyTimecode(const GenTime & time, double fps) const
+//static 
+QString Timecode::getEasyTimecode(const GenTime & time, const double &fps)
 {
     
     // Returns the timecode in an easily read display, like 3 min. 5 sec.
     int frames = time.frames(fps);
-    int seconds = frames / m_displayedFramesPerSecond;
-    frames = frames % m_displayedFramesPerSecond;
+    int seconds = frames / (int) fps;
+    frames = frames % ((int) fps);
 
     int minutes = seconds / 60;
     seconds = seconds % 60;

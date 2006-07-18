@@ -121,8 +121,7 @@ QString AVListViewItem::clipDuration() const {
 	DocumentClipNode *clipNode = m_node->asClipNode();
 	if (clipNode) {
 	    DocClipRef *clip = clipNode->clipRef();
-	    Timecode timecode;
-            text = timecode.getEasyTimecode(clip->duration(), KdenliveSettings::defaultfps());
+            text = Timecode::getEasyTimecode(clip->duration(), KdenliveSettings::defaultfps());
 	    }
 	return text;
 }

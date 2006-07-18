@@ -71,6 +71,7 @@
 	<Action name="project_add_clip"/>
 	<Action name="project_add_color_clip"/>
 	<Action name="project_add_image_clip"/>
+	<Action name="project_add_slideshow_clip"/>
 	<Action name="project_add_text_clip"/>
 </Menu>
 
@@ -80,6 +81,7 @@
 	<Menu name="create_clips"><text>Create Clip</text>
 		<Action name="project_add_color_clip"/>
 		<Action name="project_add_image_clip"/>
+		<Action name="project_add_slideshow_clip"/>
 		<Action name="project_add_text_clip"/>
 	</Menu>
 	<Separator lineSeparator="true"/>
@@ -92,6 +94,7 @@
 	<Menu name="create_clips"><text>Create Clip</text>
 		<Action name="project_add_color_clip"/>
 		<Action name="project_add_image_clip"/>
+		<Action name="project_add_slideshow_clip"/>
 		<Action name="project_add_text_clip"/>
 	</Menu>
 	<Action name="project_delete_clip"/>
@@ -107,6 +110,7 @@
 	<Menu name="create_clips"><text>Create Clip</text>
 		<Action name="project_add_color_clip"/>
 		<Action name="project_add_image_clip"/>
+		<Action name="project_add_slideshow_clip"/>
 		<Action name="project_add_text_clip"/>
 	</Menu>
 	<Action name="delete_folder"/>

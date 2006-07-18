@@ -42,7 +42,7 @@ class Timecode {
 
 	/** Returns the timecode for a given time */
     QString getTimecode(const GenTime & time, double fps) const;
-    QString getEasyTimecode(const GenTime & time, double fps) const;
+    static QString getEasyTimecode(const GenTime & time, const double &fps);
   private:
     Formats m_format;
     bool m_dropFrame;

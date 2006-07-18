@@ -328,6 +328,10 @@ namespace Gui {
 	    SLOT(slotProjectAddImageClip()), actionCollection(),
 	    "project_add_image_clip");
 
+	(void) new KAction(i18n("Create Slideshow Clip"), "addclips.png", 0, this,
+	    SLOT(slotProjectAddSlideshowClip()), actionCollection(),
+	    "project_add_slideshow_clip");
+
 	projectAddTextClip =
 	    new KAction(i18n("Create Text Clip"), "addclips.png", 0, this,
 	    SLOT(slotProjectAddTextClip()), actionCollection(),
@@ -1795,6 +1799,36 @@ namespace Gui {
 	delete dia;
 	slotStatusMsg(i18n("Ready."));
     }
+
+
+void KdenliveApp::slotProjectAddSlideshowClip() {
+	slotStatusMsg(i18n("Adding Clips"));
+        KDialogBase *dia = new KDialogBase(  KDialogBase::Swallow, i18n("Create New Slideshow Clip"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "create_clip", true);
+        createImageClip_UI *clipChoice = new createImageClip_UI(dia);
+	dia->setMainWidget(clipChoice);
+	// Filter for the image producer
+	QString filter = "image/gif image/jpeg image/png image/x-bmp";
+	clipChoice->url_image->setFilter(filter);
+        clipChoice->edit_duration->setText(KdenliveSettings::colorclipduration());
+	dia->adjustSize();
+	if (dia->exec() == QDialog::Accepted) {
+	    QString url = KURL(clipChoice->url_image->url()).directory() + "/.all.png";
+	    QString extension = QString::null;
+	    int ttl = 0;
+            
+            QString dur = clipChoice->edit_duration->text();
+            int frames = (dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt();
+            
+            GenTime duration(frames , KdenliveSettings::defaultfps());
+	    KCommand *command =
+		new Command::KAddClipCommand(*doc, m_projectList->m_listView->parentName(), KURL(url), extension,
+                                              ttl, duration, clipChoice->edit_description->text(), clipChoice->transparentBg->isChecked(), true);
+	    addCommand(command, true);
+	}
+	delete dia;
+	slotStatusMsg(i18n("Ready."));
+    }
+
 
 /* Create text clip */
     void KdenliveApp::slotProjectAddTextClip() {
