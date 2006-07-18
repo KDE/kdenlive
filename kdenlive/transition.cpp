@@ -24,10 +24,10 @@
 /* Transitions can be either be
     1) placed on a track. They are not dependant of any clip // not implemented yet
     2) Attached to one clip. They move with the clip
-    3) Attached to two clips. They automatically adjust to the length of the overlapping area
+    3) Attached to two clips. They automatically adjust to the length of the overlapping area //disabled for the moment
 */
 
-/* create an "automatic" transition (type 3) */
+/* create an "automatic duration" transition */
 Transition::Transition(const DocClipRef * clipa, const DocClipRef * clipb)
 {
     m_invertTransition = false;
@@ -36,7 +36,7 @@ Transition::Transition(const DocClipRef * clipa, const DocClipRef * clipb)
 
     if (clipb) {
         // Transition is an automatic transition between 2 clips
-        m_singleClip = false;
+        m_singleClip = true;
         if (clipa->trackNum()>clipb->trackNum()) {
             m_referenceClip = clipb;
             m_secondClip = clipa;
@@ -46,7 +46,34 @@ Transition::Transition(const DocClipRef * clipa, const DocClipRef * clipb)
             m_secondClip = clipb;
         }
     
-        if (clipa->trackStart() < clipb->trackStart()) m_invertTransition = true;
+        if (m_referenceClip->trackStart() < m_secondClip->trackStart())
+		m_invertTransition = true;
+
+	GenTime startb = m_secondClip->trackStart();
+        GenTime starta = m_referenceClip->trackStart();
+	GenTime endb = m_secondClip->trackEnd();
+        GenTime enda = m_referenceClip->trackEnd();
+	GenTime transitionDuration;
+	if (starta > startb && starta < endb) {
+		m_transitionStart = GenTime(0.0);
+        	if (endb < enda) m_transitionDuration = endb - starta;
+		else m_transitionDuration = enda - starta;
+	}
+	else if (startb > starta && startb < enda){
+		m_transitionStart = startb - starta;
+		if (endb > enda) m_transitionDuration = enda - startb;
+		else m_transitionDuration = endb - startb;
+	}
+	else {
+		if (starta > endb)
+			m_transitionStart = GenTime(0.0);
+		else m_transitionStart = enda - starta -GenTime(3.0);
+
+		m_transitionDuration = GenTime(3.0);
+	}
+
+	if (m_transitionDuration < GenTime(0.12)) m_transitionDuration = GenTime(0.12);
+	m_secondClip = 0; // disable auto transition for the moment
     }
     else {
         // Transition is attached to a single clip
