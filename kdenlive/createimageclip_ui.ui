@@ -8,7 +8,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>418</width>
+            <width>412</width>
             <height>115</height>
         </rect>
     </property>
@@ -37,7 +37,7 @@
         </widget>
         <widget class="QLabel" row="0" column="0">
             <property name="name">
-                <cstring>textLabel2</cstring>
+                <cstring>urlLabel</cstring>
             </property>
             <property name="text">
                 <string>Image file</string>
@@ -60,7 +60,7 @@
                 </size>
             </property>
         </spacer>
-        <widget class="QCheckBox" row="1" column="2">
+        <widget class="QCheckBox" row="1" column="2" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>transparentBg</cstring>
             </property>
@@ -87,14 +87,34 @@
                 <string>99:99:99:99; </string>
             </property>
         </widget>
-        <widget class="KLineEdit" row="2" column="1" rowspan="1" colspan="3">
+        <widget class="KURLRequester" row="0" column="1" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>url_image</cstring>
+            </property>
+        </widget>
+        <widget class="KLineEdit" row="2" column="1" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>edit_description</cstring>
             </property>
         </widget>
-        <widget class="KURLRequester" row="0" column="1" rowspan="1" colspan="3">
+        <widget class="QComboBox" row="2" column="3">
+            <item>
+                <property name="text">
+                    <string>png</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>jpg</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>gif</string>
+                </property>
+            </item>
             <property name="name">
-                <cstring>url_image</cstring>
+                <cstring>imageExtension</cstring>
             </property>
         </widget>
     </grid>
@@ -104,9 +124,9 @@
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>krestrictedline.h</includehint>
-    <includehint>klineedit.h</includehint>
     <includehint>kurlrequester.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>
+    <includehint>klineedit.h</includehint>
 </includehints>
 </UI>

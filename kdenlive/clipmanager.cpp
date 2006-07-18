@@ -98,7 +98,7 @@ DocClipBase *ClipManager::insertImageClip(const KURL & file,
     const QString & extension, const int &ttl, const GenTime & duration,
     const QString & description, bool alphaTransparency, int clipId)
 {
-    if (!KIO::NetAccess::exists(file, true, 0) && file.filename()!=".all.png") {
+    if (!KIO::NetAccess::exists(file, true, 0) && !file.filename().startsWith(".all.")) {
 	if (KMessageBox::questionYesNo(0, i18n("Cannot open file %1\nDo you want to search for the file or remove it from the project ?").arg(file.path()), i18n("Missing File"), i18n("Find File"), i18n("Remove")) == KMessageBox::Yes) {
 	KURL url = KFileDialog::getOpenURL(file.path());
 	if (!url.isEmpty()) return insertImageClip(url, extension, ttl, duration, description, alphaTransparency, clipId);
@@ -121,8 +121,13 @@ DocClipBase *ClipManager::insertImageClip(const KURL & file,
         	clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, clipId);
         	if (clipId>=m_clipCounter) m_clipCounter = clipId+1;
     	}
+	if (ttl != 0) {
+		int imageCount = duration.frames(KdenliveSettings::defaultfps()) / ttl;
+		clip->setName(clip->name() + i18n(" [%1 images]").arg(QString::number(imageCount)));
+	}
     	clip->setDescription(description);
     	m_clipList.append(clip);
+
     	m_render->getImage(file, 50, 40);
 
     	emit clipListUpdated();
@@ -315,6 +320,7 @@ QDomDocument ClipManager::producersList()
 		producer.setAttribute("resource",
 		    avClip->fileURL().path());
 		producer.setAttribute("hide", "audio");
+		if (avClip->clipTtl()!=0) producer.setAttribute("ttl", QString::number(avClip->clipTtl()));
 		sceneList.appendChild(producer);
 	    }
 

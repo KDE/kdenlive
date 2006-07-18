@@ -106,6 +106,8 @@ QDomElement SaveProjectNativeFilter::processedNode(DocumentClipNode *clipNode, Q
 		avfile.setAttribute("duration",
 		    QString::number(clipNode->clipRef()->duration().
 			frames(25)));
+		avfile.setAttribute("ttl",
+		    QString::number(clipNode->clipRef()->referencedClip()->toDocClipAVFile()->clipTtl()));
                 avfile.setAttribute("transparency",clipNode->clipRef()->referencedClip()->toDocClipAVFile()->isTransparent());
             }
             else if (clipType == DocClipBase::COLOR) {

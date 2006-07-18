@@ -100,7 +100,9 @@
 #include "newproject.h"
 #include "documentgroupnode.h"
 #include "addtrackdialog_ui.h"
-
+#include "createcolorclip_ui.h"
+#include "createslideshowclip_ui.h"
+#include "createimageclip_ui.h"
 
 #include "trackpanelclipmovefunction.h"
 #include "trackpanelrazorfunction.h"
@@ -1776,6 +1778,7 @@ namespace Gui {
 	slotStatusMsg(i18n("Adding Clips"));
         KDialogBase *dia = new KDialogBase(  KDialogBase::Swallow, i18n("Create New Image Clip"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "create_clip", true);
         createImageClip_UI *clipChoice = new createImageClip_UI(dia);
+	clipChoice->imageExtension->hide();
 	dia->setMainWidget(clipChoice);
 	// Filter for the image producer
 	QString filter = "image/gif image/jpeg image/png image/x-bmp";
@@ -1804,25 +1807,33 @@ namespace Gui {
 void KdenliveApp::slotProjectAddSlideshowClip() {
 	slotStatusMsg(i18n("Adding Clips"));
         KDialogBase *dia = new KDialogBase(  KDialogBase::Swallow, i18n("Create New Slideshow Clip"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "create_clip", true);
-        createImageClip_UI *clipChoice = new createImageClip_UI(dia);
+        createSlideshowClip_UI *clipChoice = new createSlideshowClip_UI(dia);
+	clipChoice->url_image->setMode(KFile::Directory);
 	dia->setMainWidget(clipChoice);
 	// Filter for the image producer
-	QString filter = "image/gif image/jpeg image/png image/x-bmp";
-	clipChoice->url_image->setFilter(filter);
-        clipChoice->edit_duration->setText(KdenliveSettings::colorclipduration());
+	//clipChoice->edit_duration->setText(KdenliveSettings::colorclipduration());
+        //clipChoice->edit_duration->setText("00:00:01:00");
 	dia->adjustSize();
 	if (dia->exec() == QDialog::Accepted) {
-	    QString url = KURL(clipChoice->url_image->url()).directory() + "/.all.png";
+	    QString url = clipChoice->url_image->url() + "/.all." + clipChoice->imageExtension->currentText();
 	    QString extension = QString::null;
-	    int ttl = 0;
-            
-            QString dur = clipChoice->edit_duration->text();
-            int frames = (dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt();
-            
-            GenTime duration(frames , KdenliveSettings::defaultfps());
+	    int ttl = clipChoice->image_ttl->value();
+
+	    QString fileType = clipChoice->imageExtension->currentText();
+
+    	    QStringList more;
+    	    QStringList::Iterator it;
+
+            QDir dir( clipChoice->url_image->url() );
+            more = dir.entryList( QDir::Files );
+	    int imageCount = 0;
+            for ( it = more.begin() ; it != more.end() ; ++it )
+                if ((*it).endsWith("."+fileType, FALSE)) imageCount++;
+
+            GenTime duration(imageCount * ttl , KdenliveSettings::defaultfps());
+
 	    KCommand *command =
-		new Command::KAddClipCommand(*doc, m_projectList->m_listView->parentName(), KURL(url), extension,
-                                              ttl, duration, clipChoice->edit_description->text(), clipChoice->transparentBg->isChecked(), true);
+		new Command::KAddClipCommand(*doc, m_projectList->m_listView->parentName(), KURL(url), extension, ttl, duration, clipChoice->edit_description->text(), clipChoice->transparentBg->isChecked(), true);
 	    addCommand(command, true);
 	}
 	delete dia;

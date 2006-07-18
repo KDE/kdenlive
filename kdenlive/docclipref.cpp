@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <qimage.h>
+#include <qdir.h>
 
 #include <kdebug.h>
 
@@ -129,12 +130,44 @@ void DocClipRef::generateThumbnails()
     else if (m_clip->clipType() == DocClipBase::TEXT || m_clip->clipType() == DocClipBase::IMAGE) {
         uint height = KdenliveSettings::videotracksize();
         uint width = height * 1.25;
-        QPixmap p(fileURL().path());
-        QImage im;
-        im = p;
-        p = im.smoothScale(width, height);
-        m_endthumbnail = p;
-        m_thumbnail = p;
+
+	if (m_clip->clipType() == DocClipBase::IMAGE && m_clip->toDocClipAVFile()->clipTtl()!=0 && fileURL().filename().startsWith(".all.")) {  //  check for slideshow
+	    QString fileType = fileURL().filename().right(3);
+	    QStringList more;
+    	    QStringList::Iterator it;
+    	    QPixmap p1, p2;
+    	    QDir dir( fileURL().directory() );
+    	    more = dir.entryList( QDir::Files );
+ 	
+    	    for ( it = more.begin() ; it != more.end() ; ++it ) {
+        	if ((*it).endsWith("."+fileType, FALSE)) {
+		    p1.load(fileURL().directory() + "/" + *it);
+		    break;
+		}
+    	    }
+
+    	    for ( it = more.end() ; it != more.begin() ; --it ) {
+    	        if ((*it).endsWith("."+fileType, FALSE)) {
+    	    	    p2.load(fileURL().directory() + "/" + *it);
+		    break;
+		}
+    	    }
+    	    QImage im;
+    	    im = p1;
+    	    p1 = im.smoothScale(width, height);
+    	    m_thumbnail = p1;
+    	    im = p2;
+    	    p2 = im.smoothScale(width, height);
+    	    m_endthumbnail = p2;
+    	}
+        else {
+	    QPixmap p(fileURL().path());
+            QImage im;
+            im = p;
+            p = im.smoothScale(width, height);
+            m_endthumbnail = p;
+            m_thumbnail = p;
+	}
     }
 }
 

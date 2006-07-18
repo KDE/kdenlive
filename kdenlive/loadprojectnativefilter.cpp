@@ -167,7 +167,7 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
 	    else if (clipType == DocClipBase::IMAGE)	//   IMAGE CLIP
 		baseClip =
 		    document->clipManager().insertImageClip(clip.
-		    attribute("url", ""), "", 0,
+		    attribute("url", ""), "", clip.attribute("ttl", "0").toInt(),
 		    GenTime(clip.attribute("duration", "").toInt(), 25),
                     clip.attribute("description", ""), clip.attribute("transparency", "").toInt(), clip.attribute("id", "-1").toInt());
             

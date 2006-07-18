@@ -35,6 +35,7 @@
 #include <qevent.h>
 #include <qtextstream.h>
 #include <qstringlist.h>
+#include <qdir.h>
 
 #include <kio/netaccess.h>
 #include <kdebug.h>
@@ -360,16 +361,39 @@ void KRender::seek(GenTime time)
 
 void KRender::getImage(KURL url, int frame, QPixmap * image)
 {
-    Mlt::Producer m_producer(const_cast<char*>(url.path().ascii()));
+    Mlt::Producer *m_producer;
+
+    if (url.filename().startsWith(".all.")) {  //  check for slideshow
+	    QString fileType = url.filename().right(3);
+    	    QStringList more;
+    	    QStringList::Iterator it;
+
+            QDir dir( url.directory() );
+            more = dir.entryList( QDir::Files );
+ 
+            for ( it = more.begin() ; it != more.end() ; ++it ) {
+                if ((*it).endsWith("."+fileType, FALSE)) {
+			m_producer = new Mlt::Producer(const_cast<char*>((url.directory() + "/" + (*it)).ascii()));
+			break;
+		}
+	    if (m_producer->is_blank()) {
+		delete m_producer;
+		*image = QPixmap(50,50);
+		image->fill(Qt::black);
+		return;
+	    }
+	}
+    }
+    else m_producer = new Mlt::Producer(const_cast<char*>(url.path().ascii()));
     Mlt::Filter m_convert("avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
-    m_producer.attach(m_convert);
-    m_producer.seek(frame);
+    m_producer->attach(m_convert);
+    m_producer->seek(frame);
     
     uint width = image->width();
     uint height = image->height();
 
-    Mlt::Frame * m_frame = m_producer.get_frame();
+    Mlt::Frame * m_frame = m_producer->get_frame();
 
     if (m_frame) {
 	m_frame->set("rescale", "nearest");
@@ -380,21 +404,19 @@ void KRender::getImage(KURL url, int frame, QPixmap * image)
         //m_frame->set("image", m_thumb, 0, NULL, NULL);
 
 	QImage m_image(m_thumb, width, height, 32, 0, 0, QImage::IgnoreEndian);
-
 	delete m_frame;
 	if (!m_image.isNull())
 	    *image = (m_image.smoothScale(width, height));
 	else
 	    image->fill(Qt::black);
     }
+    delete m_producer;
 }
 
 
 void KRender::getImage(KURL url, int frame, int width, int height)
 {
-    Mlt::Producer m_producer(const_cast <
-	char *>(QString((url.directory(false) +
-		    url.fileName())).ascii()));
+    Mlt::Producer m_producer(const_cast<char*>(url.path().ascii()));
 
     Mlt::Filter m_convert("avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
@@ -430,7 +452,6 @@ void KRender::getImage(KURL url, int frame, int width, int height)
 	//m_pixmap.convertFromImage( m_image );
 	emit replyGetImage(url, frame, m_pixmap, width, height);
     }
-
 }
 
 /* Create thumbnail for text clip */
@@ -489,7 +510,23 @@ void KRender::getImage(int id, QString color, int width, int height)
 /* Create thumbnail for image */
 void KRender::getImage(KURL url, int width, int height)
 {
-    QPixmap pixmap(url.path());
+    QPixmap pixmap;
+    if (url.filename().startsWith(".all.")) {  //  check for slideshow
+	    QString fileType = url.filename().right(3);
+    	    QStringList more;
+    	    QStringList::Iterator it;
+
+            QDir dir( url.directory() );
+            more = dir.entryList( QDir::Files );
+ 
+            for ( it = more.begin() ; it != more.end() ; ++it ) {
+                if ((*it).endsWith("."+fileType, FALSE)) {
+			pixmap.load(url.directory() + "/" + *it);
+			break;
+		}
+	    }
+    }
+    else pixmap.load(url.path());
     QImage im;
     im = pixmap;
     pixmap = im.smoothScale(width, height);

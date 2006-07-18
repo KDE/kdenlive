@@ -141,8 +141,11 @@ QString AVListViewItem::getInfo() const
 		    text = "<b>"+i18n("Audio Clip")+"</b><br>";
 	    	else if (clip->clipType() == DocClipBase::COLOR)
 		    text = "<b>"+i18n("Color Clip")+"</b><br>";
-	    	else if (clip->clipType() == DocClipBase::IMAGE)
-		    text = "<b>"+i18n("Image Clip")+"</b><br>";
+	    	else if (clip->clipType() == DocClipBase::IMAGE) {
+		    if (clip->referencedClip()->toDocClipAVFile()->clipTtl()!=0) 
+			text = "<b>"+i18n("Slideshow Clip")+"</b><br>";
+		    else text = "<b>"+i18n("Image Clip")+"</b><br>";
+		}
             	else if (clip->clipType() == DocClipBase::TEXT)
                     text = "<b>"+i18n("Text Clip")+"</b><br>";
 

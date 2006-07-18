@@ -93,6 +93,7 @@ class DocClipAVFile:public DocClipBase {
     
     void setAlpha(bool transp);
     bool isTransparent();
+    int clipTtl() const;
     
     virtual bool durationKnown() const;
     virtual double framesPerSecond() const;
@@ -180,6 +181,7 @@ class DocClipAVFile:public DocClipBase {
     QString m_format;
     uint m_bitspersample;
     uint m_frequency;
+    int m_ttl;
 };
 
 #endif

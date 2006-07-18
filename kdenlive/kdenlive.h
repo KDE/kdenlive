@@ -36,8 +36,7 @@
 #include "monitormanager.h"
 #include "projectformatmanager.h"
 #include "kdenlivesettings.h"
-#include "createcolorclip_ui.h"
-#include "createimageclip_ui.h"
+
 #include "exportwidget.h"
 #include "transitiondialog.h"
 #include "transition.h"
