@@ -307,7 +307,7 @@
         </widget>
         <widget class="QLabel" row="10" column="0" rowspan="1" colspan="2">
             <property name="name">
-                <cstring>textLabel1_2_3</cstring>
+                <cstring>label_duration</cstring>
             </property>
             <property name="text">
                 <string>Duration:</string>

@@ -44,7 +44,7 @@
 
 namespace Gui {
 
-    ClipProperties::ClipProperties(DocClipRef *refClip, KdenliveDoc * document, QWidget * parent, const char *name):  KDialogBase (KDialogBase::Swallow, 0, parent,name, true, i18n("Clip Properties"), KDialogBase::Ok | KDialogBase::Cancel) {
+    ClipProperties::ClipProperties(DocClipRef *refClip, KdenliveDoc * document, QWidget * parent, const char *name):  KDialogBase (KDialogBase::Swallow, 0, parent,name, true, i18n("Clip Properties"), KDialogBase::Ok | KDialogBase::Cancel), m_imageCount(0) {
 
         clipChoice = new clipProperties_UI(this);
         clipChoice->edit_name->setText(refClip->name());
@@ -104,7 +104,11 @@ namespace Gui {
 		clipChoice->imageType->setCurrentItem(refClip->fileURL().filename().left(3));
 		clipChoice->edit_url->fileDialog()->setMode(KFile::Directory);
 		clipChoice->edit_url->setURL(refClip->fileURL().directory());
+		connect(clipChoice->imageType, SIGNAL(activated (int)), this, SLOT(updateList()));
+		connect(clipChoice->image_ttl, SIGNAL(valueChanged (int)), this, SLOT(updateDuration()));
+
 		clipChoice->edit_duration->setReadOnly(true);
+		updateList();
 		clipChoice->edit_url->setEnabled(false); // disable folder change for the moment
 	    }
             clipChoice->clipFps->setText("-");
@@ -157,6 +161,33 @@ namespace Gui {
         delete m_pix;
     }
 
+    void ClipProperties::updateDuration()
+    {
+	Timecode tcode;
+        clipChoice->edit_duration->setText(tcode.getTimecode(GenTime(m_imageCount * ttl(), KdenliveSettings::defaultfps()), KdenliveSettings::defaultfps()));
+    }
+
+    void ClipProperties::updateList()
+    {
+	QStringList more;
+    	QStringList::Iterator it;
+
+        QDir dir( url() );
+        more = dir.entryList( QDir::Files );
+	m_imageCount = 0;
+
+        for ( it = more.begin() ; it != more.end() ; ++it )
+            if ((*it).endsWith("." + clipChoice->imageType->currentText(), FALSE)) {
+		m_imageCount++;
+	    }
+
+	updateDuration();
+
+	clipChoice->label_duration->setText(i18n("Duration (%1 images)").arg(QString::number(m_imageCount)));
+
+	if (m_imageCount == 0) enableButtonOK(false);
+	else enableButtonOK(true);
+    }
 
     QString ClipProperties::formattedSize(uint fileSize)
     {

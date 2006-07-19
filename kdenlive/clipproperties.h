@@ -63,10 +63,13 @@ namespace Gui {
         void updateColor(const QColor &c);
         QString formattedSize(uint fileSize);
         void updateThumb(const QString &path);
+	void updateList();
+	void updateDuration();
         
       private:
         int m_height;
         int m_width;
+	int m_imageCount;
         QPixmap *m_pix;
         clipProperties_UI *clipChoice;
         KdenliveDoc *m_document;
