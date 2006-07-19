@@ -26,11 +26,14 @@
 #include <qtextedit.h>
 #include <qcolor.h>
 #include <qtoolbutton.h>
+#include <qspinbox.h>
 
 #include <kpushbutton.h>
 #include <kurlrequester.h>
 #include <klocale.h>
 #include <kcolorbutton.h>
+#include <kfiledialog.h>
+#include <kcombobox.h>
 #include <kdebug.h>
 
 #include "transition.h"
@@ -53,8 +56,12 @@ namespace Gui {
 
         clipChoice->preview_pixmap->pixmap()->resize(120, 96);
         connect(clipChoice->button_color, SIGNAL(changed(const QColor &)), this, SLOT(updateColor(const QColor &)));
-        connect(clipChoice->edit_url, SIGNAL(textChanged(const QString &)), this, SLOT(updateThumb(const QString &)));
 
+	// slideshow stuff
+	clipChoice->ttl_label->hide();
+        clipChoice->image_ttl->hide();
+	clipChoice->image_type_label->hide();
+        clipChoice->imageType->hide();
 
         clipChoice->edit_url->setURL(refClip->fileURL().path());
         DocClipBase *clip = refClip->referencedClip();
@@ -82,8 +89,24 @@ namespace Gui {
             clipChoice->button_color->hide();
             clipChoice->label_name->hide();
             clipChoice->edit_name->hide();
-            clipChoice->clipType->setText(i18n("Image Clip"));
-            clipChoice->clipSize->setText(QString::number(refClip->clipWidth())+"x"+QString::number(refClip->clipHeight()));
+	    if ((refClip->referencedClip()->toDocClipAVFile()->clipTtl()==0)) {
+            	clipChoice->clipType->setText(i18n("Image Clip"));
+            	clipChoice->clipSize->setText(QString::number(refClip->clipWidth())+"x"+QString::number(refClip->clipHeight()));
+	    }
+	    else { // this is a slideshow clip
+		clipChoice->clipType->setText(i18n("Slideshow Clip"));
+	    	clipChoice->ttl_label->show();
+	    	clipChoice->image_ttl->show();
+		clipChoice->image_ttl->setValue(refClip->referencedClip()->toDocClipAVFile()->clipTtl());
+	    	clipChoice->image_type_label->show();
+	    	clipChoice->imageType->show();
+		clipChoice->label_file->setText(i18n("Folder:"));
+		clipChoice->imageType->setCurrentItem(refClip->fileURL().filename().left(3));
+		clipChoice->edit_url->fileDialog()->setMode(KFile::Directory);
+		clipChoice->edit_url->setURL(refClip->fileURL().directory());
+		clipChoice->edit_duration->setReadOnly(true);
+		clipChoice->edit_url->setEnabled(false); // disable folder change for the moment
+	    }
             clipChoice->clipFps->setText("-");
 	    clipChoice->clipAudio->setText("-");
             clipChoice->clipFilesize->setText(formattedSize(refClip->fileSize()));
@@ -123,8 +146,10 @@ namespace Gui {
             	clipChoice->clipSize->setText(QString::number(refClip->clipWidth())+"x"+QString::number(refClip->clipHeight()));
             }
         }
+
+	connect(clipChoice->edit_url, SIGNAL(textChanged(const QString &)), this, SLOT(updateThumb(const QString &)));
         setMainWidget(clipChoice);
-        clipChoice->show();    
+        clipChoice->show();
     }
 
     ClipProperties::~ClipProperties() 
@@ -173,6 +198,16 @@ namespace Gui {
     QString ClipProperties::name()
     {
         return clipChoice->edit_name->text();
+    }
+
+    int ClipProperties::ttl()
+    {
+        return clipChoice->image_ttl->value();
+    }
+
+    QString ClipProperties::extension()
+    {
+        return clipChoice->imageType->currentText();
     }
     
     QString ClipProperties::description()

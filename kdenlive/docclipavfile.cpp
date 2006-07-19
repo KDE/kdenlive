@@ -182,6 +182,11 @@ int DocClipAVFile::clipTtl() const
     return m_ttl;
 }
 
+void DocClipAVFile::setClipTtl(const int &ttl)
+{
+    m_ttl = ttl;
+}
+
 QString DocClipAVFile::avDecompressor()
 {
     return m_decompressor;

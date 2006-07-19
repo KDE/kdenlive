@@ -18,13 +18,13 @@
 #include <qlistbox.h>
 #include <qspinbox.h>
 #include <qcheckbox.h>
-#include <qcombobox.h>
 #include <qstringlist.h>
 #include <qdir.h>
 #include <qlabel.h>
 #include <qpixmap.h>
 #include <qimage.h>
 
+#include <kcombobox.h>
 #include <kurlrequester.h>
 #include <klocale.h>
 #include <kdebug.h>

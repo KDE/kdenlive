@@ -56,6 +56,8 @@ namespace Gui {
         GenTime duration();
         QString url();
         bool transparency();
+	int ttl();
+	QString extension();
 
       private slots:
         void updateColor(const QColor &c);

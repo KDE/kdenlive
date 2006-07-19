@@ -66,20 +66,6 @@
                 <cstring>url_image</cstring>
             </property>
         </widget>
-        <widget class="QSpinBox" row="1" column="2">
-            <property name="name">
-                <cstring>image_ttl</cstring>
-            </property>
-            <property name="maxValue">
-                <number>500</number>
-            </property>
-            <property name="minValue">
-                <number>1</number>
-            </property>
-            <property name="value">
-                <number>25</number>
-            </property>
-        </widget>
         <widget class="QLabel" row="2" column="0">
             <property name="name">
                 <cstring>textLabel4_3</cstring>
@@ -118,7 +104,29 @@
                 <string>Total duration</string>
             </property>
         </widget>
-        <widget class="QComboBox" row="2" column="2">
+        <widget class="QLabel" row="3" column="0" rowspan="1" colspan="5">
+            <property name="name">
+                <cstring>scanResult</cstring>
+            </property>
+            <property name="text">
+                <string>No images in slideshow</string>
+            </property>
+        </widget>
+        <widget class="QSpinBox" row="1" column="2">
+            <property name="name">
+                <cstring>image_ttl</cstring>
+            </property>
+            <property name="maxValue">
+                <number>500</number>
+            </property>
+            <property name="minValue">
+                <number>1</number>
+            </property>
+            <property name="value">
+                <number>25</number>
+            </property>
+        </widget>
+        <widget class="KComboBox" row="2" column="2">
             <item>
                 <property name="text">
                     <string>png</string>
@@ -143,14 +151,6 @@
                 <cstring>imageType</cstring>
             </property>
         </widget>
-        <widget class="QLabel" row="3" column="0" rowspan="1" colspan="5">
-            <property name="name">
-                <cstring>scanResult</cstring>
-            </property>
-            <property name="text">
-                <string>No images in slideshow</string>
-            </property>
-        </widget>
     </grid>
 </widget>
 <layoutdefaults spacing="6" margin="11"/>
@@ -161,5 +161,6 @@
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>
     <includehint>krestrictedline.h</includehint>
+    <includehint>kcombobox.h</includehint>
 </includehints>
 </UI>

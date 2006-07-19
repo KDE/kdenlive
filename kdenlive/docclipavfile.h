@@ -94,6 +94,7 @@ class DocClipAVFile:public DocClipBase {
     void setAlpha(bool transp);
     bool isTransparent();
     int clipTtl() const;
+    void setClipTtl(const int &ttl);
     
     virtual bool durationKnown() const;
     virtual double framesPerSecond() const;

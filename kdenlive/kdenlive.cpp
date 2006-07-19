@@ -1927,8 +1927,10 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                                 dia->duration(), dia->name(), dia->description());
                     }
                     else if (refClip->clipType() == DocClipBase::IMAGE) {
+			QString url = dia->url();
+			if (dia->ttl() != 0) url = url + "/.all." + dia->extension();
                         KCommand *command =
-                                new Command::KEditClipCommand(*doc, refClip, dia->url(), "",0,
+                                new Command::KEditClipCommand(*doc, refClip, url, "",dia->ttl(),
                                 dia->duration(), dia->description(), dia->transparency());
                     }
                     else { // Video clip

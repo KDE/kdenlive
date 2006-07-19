@@ -228,7 +228,7 @@ void ClipManager::editImageClip(DocClipRef * clip, const KURL & file,
 {
     clip->setDescription(description);
     clip->setCropDuration(duration);
-
+    if (ttl != 0) clip->referencedClip()->toDocClipAVFile()->setClipTtl(ttl);
     DocClipAVFile *avClip =
 	dynamic_cast < DocClipAVFile * >(clip->referencedClip());
     if (avClip) {
