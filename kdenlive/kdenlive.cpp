@@ -101,7 +101,7 @@
 #include "documentgroupnode.h"
 #include "addtrackdialog_ui.h"
 #include "createcolorclip_ui.h"
-#include "createslideshowclip_ui.h"
+#include "createslideshowclip.h"
 #include "createimageclip_ui.h"
 
 #include "trackpanelclipmovefunction.h"
@@ -1806,37 +1806,31 @@ namespace Gui {
 
 void KdenliveApp::slotProjectAddSlideshowClip() {
 	slotStatusMsg(i18n("Adding Clips"));
-        KDialogBase *dia = new KDialogBase(  KDialogBase::Swallow, i18n("Create New Slideshow Clip"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "create_clip", true);
-        createSlideshowClip_UI *clipChoice = new createSlideshowClip_UI(dia);
-	clipChoice->url_image->setMode(KFile::Directory);
-	dia->setMainWidget(clipChoice);
-	// Filter for the image producer
-	//clipChoice->edit_duration->setText(KdenliveSettings::colorclipduration());
-        //clipChoice->edit_duration->setText("00:00:01:00");
-	dia->adjustSize();
-	if (dia->exec() == QDialog::Accepted) {
-	    QString url = clipChoice->url_image->url() + "/.all." + clipChoice->imageExtension->currentText();
-	    QString extension = QString::null;
-	    int ttl = clipChoice->image_ttl->value();
 
-	    QString fileType = clipChoice->imageExtension->currentText();
+        createSlideshowClip *slideDialog = new createSlideshowClip(this, "slide");
+	if (slideDialog->exec() == QDialog::Accepted) {
+	    QString extension = slideDialog->selectedExtension();
+	    QString url = slideDialog->selectedFolder() + "/.all." + extension;
+	    
+	    int ttl = slideDialog->ttl();
+
 
     	    QStringList more;
     	    QStringList::Iterator it;
 
-            QDir dir( clipChoice->url_image->url() );
+            QDir dir( slideDialog->selectedFolder() );
             more = dir.entryList( QDir::Files );
 	    int imageCount = 0;
             for ( it = more.begin() ; it != more.end() ; ++it )
-                if ((*it).endsWith("."+fileType, FALSE)) imageCount++;
+                if ((*it).endsWith("."+extension, FALSE)) imageCount++;
 
             GenTime duration(imageCount * ttl , KdenliveSettings::defaultfps());
 
 	    KCommand *command =
-		new Command::KAddClipCommand(*doc, m_projectList->m_listView->parentName(), KURL(url), extension, ttl, duration, clipChoice->edit_description->text(), clipChoice->transparentBg->isChecked(), true);
+		new Command::KAddClipCommand(*doc, m_projectList->m_listView->parentName(), KURL(url), extension, ttl, duration, slideDialog->description(), slideDialog->isTransparent(), true);
 	    addCommand(command, true);
 	}
-	delete dia;
+	delete slideDialog;
 	slotStatusMsg(i18n("Ready."));
     }
 

@@ -58,7 +58,7 @@ kdenlive_SOURCES = avfileformatdesc.cpp avfileformatwidget.cpp avfilelist.cpp \
 				flatbutton.cpp flatbutton.h clipproperties_ui.ui clipproperties.cpp clipproperties.h \
 				transitionpip_ui.ui transitionpipwidget.cpp exportbasewidget_ui.ui exportwidget.cpp \
 				exportwidget.h configmisc_ui.ui newproject_ui.ui newproject.cpp \
-	createslideshowclip_ui.ui
+	createslideshowclip_ui.ui createslideshowclip.cpp createslideshowclip.h
 
 kdenlive_LDADD   =  $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) \ 
 		    $(LIBSOCKET) $(LIB_FIREWIRE)
