@@ -296,6 +296,8 @@ class DocClipRef:public QObject {
         QDomDocument generateXMLTransition(int trackPosition);
 	void updateAudioThumbnail(QMap<int,QMap<int,QByteArray> > data);
 	void refreshAudioThumbnail();
+	void setSpeed(double speed);
+	double speed() const;
         
   private slots:
         /** Fetch the thumbnail for the clip start */
@@ -339,6 +341,8 @@ class DocClipRef:public QObject {
     QMap < AudioIdentifier, QPixmap > m_audioMap;
     QPixmap m_thumbnail;
     QPixmap m_endthumbnail;
+	/** Clip speed, used for slowmotion */
+    double m_speed;
     
 signals:
     void getClipThumbnail(KURL, int, int, int);

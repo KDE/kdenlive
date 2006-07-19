@@ -43,7 +43,7 @@
 DocClipRef::DocClipRef(DocClipBase * clip):
 m_trackStart(0.0),
 m_cropStart(0.0),
-m_trackEnd(0.0), m_parentTrack(0), m_trackNum(-1), m_clip(clip), startTimer(0), endTimer(0)
+m_trackEnd(0.0), m_parentTrack(0), m_trackNum(-1), m_clip(clip), startTimer(0), endTimer(0), m_speed(1.0)
 {
     if (!clip) {
 	kdError() <<
@@ -696,6 +696,16 @@ bool DocClipRef::durationKnown() const
     return m_clip->durationKnown();
 }
 
+double DocClipRef::speed() const
+{
+    return m_speed;
+}
+
+void DocClipRef::setSpeed(double speed)
+{
+    m_speed = speed;
+}
+
 QDomDocument DocClipRef::generateSceneList()
 {
     return m_clip->generateSceneList();
@@ -782,13 +792,22 @@ QDomDocument DocClipRef::generateXMLClip()
 
     QDomDocument sceneList;
  
-    QDomElement entry = sceneList.createElement("entry");
+    QDomElement entry;
 
-/*	if (parentTrack()->clipType() == "Sound") 
-	entry.setAttribute("producer", QString("audio_producer") + QString::number(m_clip->toDocClipAVFile()->getId()) );
+     if (m_speed == 1.0) {
+	entry = sceneList.createElement("entry");
+    	entry.setAttribute("producer", "producer" + QString::number(m_clip->getId()));
+    }
+    else {  // experimental slowmotion
+    	entry = sceneList.createElement("producer");
+    	entry.setAttribute("mlt_service","slowmotion");
+    	entry.setAttribute("id","slowmotion"+ QString::number(m_clip->getId()));
+    	entry.setAttribute("resource", fileURL().path().ascii());
+    	entry.setAttribute("_speed", "0.3");
+    	//entry.setAttribute("method", "1");
+    	//sceneList.appendChild(prod);
+    }
 
-	else entry.setAttribute("producer", QString("video_producer") + QString::number(m_clip->toDocClipAVFile()->getId()) );*/
-    entry.setAttribute("producer", "producer" + QString::number(m_clip->getId()));
     
     // Check if clip is positionned under 0 in the timeline
     int checkStart = m_trackStart.frames(framesPerSecond());

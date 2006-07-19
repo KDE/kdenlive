@@ -148,6 +148,7 @@
 <Menu name="timeline_clip_context">
   <Action name="add_transition"/>
   <Action name="del_transition"/>
+  <Action name="change_speed"/>
   <Separator lineSeparator="true"/>
   <Action name="edit_copy"/>
   <Action name="edit_cut"/>

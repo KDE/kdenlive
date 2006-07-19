@@ -482,6 +482,10 @@ namespace Gui {
         SLOT(deleteTransition()), actionCollection(),
         "del_transition");
 
+	(void) new KAction(i18n("Change speed"), 0, this,
+        SLOT(changeClipSpeed()), actionCollection(),
+        "change_speed");
+
         (void) new KAction(i18n("Add Track"), 0, this,
         SLOT(addTrack()), actionCollection(),
         "timeline_add_track");
@@ -2429,6 +2433,19 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
             // display menu
 	    menu->popup(QCursor::pos());
 	}
+    }
+
+
+    void KdenliveApp::changeClipSpeed()
+    {
+	if (!getDocument()->projectClip().hasSelectedClips()) {
+            KMessageBox::sorry(this, i18n("Please select a clip to change its speed"));
+            return;
+        }
+	if (getDocument()->projectClip().selectedClip()->speed() == 1.0)
+		getDocument()->projectClip().selectedClip()->setSpeed(0.3);
+	else getDocument()->projectClip().selectedClip()->setSpeed(1.0);
+	getDocument()->activateSceneListGeneration(true);
     }
     
     
