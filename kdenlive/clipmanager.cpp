@@ -525,7 +525,10 @@ void ClipManager::removeClip(int clipId)
     //kdDebug()<<"++++  TRYING to delete clip: "<<clipId<<endl;
     DocClipBase *clip = findClipById(clipId);
     if (clip) {
-	if (m_clipList.find(clip)!=-1) m_clipList.remove();
+	if (m_clipList.find(clip)!=-1) {
+		disconnect(clip->toDocClipAVFile()->thumbCreator, SIGNAL(audioThumbReady(QMap<int,QMap<int,QByteArray> >)), clip->toDocClipAVFile(), SLOT(updateAudioThumbnail(QMap<int,QMap<int,QByteArray> >)));
+		m_clipList.remove();
+	}
     }
     else kdDebug()<<"++++  CLIP NOT FOUND!"<<endl;
 }

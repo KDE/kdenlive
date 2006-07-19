@@ -81,8 +81,15 @@ DocClipRef::~DocClipRef()
 {
     delete startTimer;
     delete endTimer;
-    if (m_clip && m_clip->thumbCreator && (m_clip->clipType() == DocClipBase::AUDIO || m_clip->clipType() == DocClipBase::AV)) {
+    disconnectThumbCreator();
+}
+
+void DocClipRef::disconnectThumbCreator()
+{
+    if (m_clip && m_clip->thumbCreator) {
 	disconnect(m_clip->thumbCreator, SIGNAL(audioThumbReady(QMap<int,QMap<int,QByteArray> >)), this, SLOT(updateAudioThumbnail(QMap<int,QMap<int,QByteArray> >)));
+	disconnect(this, SIGNAL(getClipThumbnail(KURL, int, int, int)), m_clip->thumbCreator, SLOT(getImage(KURL, int, int, int)));
+	disconnect(m_clip->thumbCreator, SIGNAL(thumbReady(int, QPixmap)),this,SLOT(updateThumbnail(int, QPixmap)));
     }
 }
 

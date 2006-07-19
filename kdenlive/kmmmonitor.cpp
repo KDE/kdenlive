@@ -261,7 +261,6 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	}
 	// create a copy of the clip.
 	m_clip = new DocClipRef(clip);
-
 	if (!m_clip) {
 	    kdError() <<
 		"KMMMonitor : Could not copy clip - drag 'n' drop will not work!"
@@ -297,6 +296,7 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
     void KMMMonitor::slotClearClip() {
 	m_referredClip = 0;
 	if (m_clip != 0) {
+	    m_clip->disconnectThumbCreator();
 	    delete m_clip;
 	    m_clip = 0;
 	}

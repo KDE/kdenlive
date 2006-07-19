@@ -1979,6 +1979,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		// NOTE - we clear the monitors of the clip here - this does _not_ go into the macro
 		// command.
 		int id = clip->getId();
+
 		m_monitorManager.clearClip(clip);
 
 		DocumentBaseNode *node =
@@ -1986,6 +1987,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
 		macroCommand->addCommand(new Command::KAddClipCommand(*doc,
 			node->name(), clip, node->parent(), false));
+
 		// remove thumbnail file
 		KMD5 context ((KFileItem(clip->fileURL(),"text/plain", S_IFREG).timeString() + clip->fileURL().fileName()).ascii());
 		KIO::NetAccess::del(KURL(KdenliveSettings::currentdefaultfolder() + "/" + context.hexDigest().data() + ".thumb"), this);

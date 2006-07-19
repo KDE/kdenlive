@@ -267,6 +267,8 @@ class DocClipRef:public QObject {
 	/** Returns true if effects are applied on the clip */
     bool hasEffect();
 
+    void disconnectThumbCreator();
+
     Transition *transitionAt(const GenTime &time);
 
     QPixmap thumbnail(bool end = false);
