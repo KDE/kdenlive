@@ -24,6 +24,7 @@
 #include <kdialogbase.h>
 #include <kurl.h>
 
+#include "gentime.h"
 #include "createslideshowclip_ui.h"
 
 
@@ -43,10 +44,16 @@ namespace Gui {
 	int ttl();
 	QString description();
 	bool isTransparent();
+	int imageCount();
+	GenTime duration();
 
       private:
-	QString m_extension;
 	createSlideshowClip_UI *clipChoice;
+	int m_imageCount;
+
+      private slots:
+	void updateList();
+	void updateDuration();
     };
 
 }				// namespace Gui

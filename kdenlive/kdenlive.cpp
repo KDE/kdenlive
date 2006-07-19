@@ -1814,20 +1814,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    
 	    int ttl = slideDialog->ttl();
 
-
-    	    QStringList more;
-    	    QStringList::Iterator it;
-
-            QDir dir( slideDialog->selectedFolder() );
-            more = dir.entryList( QDir::Files );
-	    int imageCount = 0;
-            for ( it = more.begin() ; it != more.end() ; ++it )
-                if ((*it).endsWith("."+extension, FALSE)) imageCount++;
-
-            GenTime duration(imageCount * ttl , KdenliveSettings::defaultfps());
-
 	    KCommand *command =
-		new Command::KAddClipCommand(*doc, m_projectList->m_listView->parentName(), KURL(url), extension, ttl, duration, slideDialog->description(), slideDialog->isTransparent(), true);
+		new Command::KAddClipCommand(*doc, m_projectList->m_listView->parentName(), KURL(url), extension, ttl, slideDialog->duration(), slideDialog->description(), slideDialog->isTransparent(), true);
 	    addCommand(command, true);
 	}
 	delete slideDialog;
