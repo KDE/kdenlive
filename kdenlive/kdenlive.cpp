@@ -1411,6 +1411,9 @@ namespace Gui {
 		m_pastedClip->setParentTrack(getDocument()->track(ix), ix);
 		m_pastedClip->moveTrackStart(insertTime);
 		getDocument()->track(ix)->addClip(m_pastedClip, false);
+		if (m_pastedClip->trackEnd() > getDocument()->projectClip().duration())
+			 getDocument()->track(ix)->checkTrackLength();
+		getDocument()->activateSceneListGeneration(true);
 		slotStatusMsg(i18n("Ready."));
 	}
 	else {
