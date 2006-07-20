@@ -803,7 +803,7 @@ QDomDocument DocClipRef::generateXMLClip()
     	entry.setAttribute("mlt_service","slowmotion");
     	entry.setAttribute("id","slowmotion"+ QString::number(m_clip->getId()));
     	entry.setAttribute("resource", fileURL().path().ascii());
-    	entry.setAttribute("_speed", "0.3");
+    	entry.setAttribute("_speed", QString::number(m_speed));
     	//entry.setAttribute("method", "1");
     	//sceneList.appendChild(prod);
     }

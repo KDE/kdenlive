@@ -391,7 +391,7 @@ namespace Gui {
 	void slotViewSelectedClip();
 
 	void openSelectedFile();
-	void changeClipSpeed();
+	void slotChangeClipSpeed();
 
 	void slotNewProject(QString *newProjectName, KURL *fileUrl, int *videoTracks, int *audioTracks);
 
