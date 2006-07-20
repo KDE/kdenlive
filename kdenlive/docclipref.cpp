@@ -273,9 +273,9 @@ GenTime DocClipRef::cropDuration() const
 
 void DocClipRef::updateThumbnail(int frame, QPixmap newpix)
 {
-    if (m_cropStart.frames(25)+cropDuration().frames(25)-5 < frame)
+    if (m_cropStart.frames(25) + cropDuration().frames(25) -1 == frame)
         m_endthumbnail = newpix;
-    else m_thumbnail = newpix;
+    else if (m_cropStart.frames(25) == frame) m_thumbnail = newpix;
     if (m_parentTrack) m_parentTrack->refreshLayout();
 }
 
@@ -688,7 +688,11 @@ bool DocClipRef::matchesXML(const QDomElement & element) const
 
 const GenTime & DocClipRef::duration() const
 {
-    return m_clip->duration();
+    if (m_speed == 1.0) return m_clip->duration();
+    else {
+	int frameCount = m_clip->duration().frames(framesPerSecond()) / m_speed;
+	return GenTime(frameCount, framesPerSecond());
+    }
 }
 
 bool DocClipRef::durationKnown() const
@@ -704,6 +708,8 @@ double DocClipRef::speed() const
 void DocClipRef::setSpeed(double speed)
 {
     m_speed = speed;
+    if (cropStartTime() + cropDuration() > duration()) 
+	setCropDuration(duration() - cropStartTime());
 }
 
 QDomDocument DocClipRef::generateSceneList()
