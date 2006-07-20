@@ -276,6 +276,7 @@ void DocClipRef::updateThumbnail(int frame, QPixmap newpix)
     if (m_cropStart.frames(25) + cropDuration().frames(25) -1 == frame)
         m_endthumbnail = newpix;
     else if (m_cropStart.frames(25) == frame) m_thumbnail = newpix;
+    else return;
     if (m_parentTrack) m_parentTrack->refreshLayout();
 }
 
