@@ -2444,7 +2444,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
             return;
         }
 
-	changeClipSpeed *changeSpeed = new changeClipSpeed(getDocument()->projectClip().selectedClip()->speed() * 100, this);
+	changeClipSpeed *changeSpeed = new changeClipSpeed(getDocument()->projectClip().selectedClip()->speed() * 100, getDocument()->projectClip().selectedClip()->duration(), this);
 	if (changeSpeed->exec() == QDialog::Accepted) {
 		getDocument()->projectClip().selectedClip()->setSpeed(changeSpeed->selectedSpeed());
 		getDocument()->activateSceneListGeneration(true);

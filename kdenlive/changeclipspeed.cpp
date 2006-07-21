@@ -31,7 +31,7 @@
 
 namespace Gui {
 
-    changeClipSpeed::changeClipSpeed(int speed, QWidget * parent, const char *name):  changeClipSpeed_UI (parent,name), m_speed(speed) {
+    changeClipSpeed::changeClipSpeed(int speed, GenTime duration, QWidget * parent, const char *name):  changeClipSpeed_UI (parent,name), m_duration(duration)  {
 
 	connect(speedSlider, SIGNAL(valueChanged(int)), speedBox, SLOT(setValue(int)));
         connect(speedBox, SIGNAL(valueChanged(int)), speedSlider, SLOT(setValue(int)));
@@ -39,6 +39,8 @@ namespace Gui {
 	connect(speedSlider, SIGNAL(valueChanged(int)), this, SLOT(updateDuration()));
 	connect(buttonReset, SIGNAL(clicked()), this, SLOT(resetSpeed()));
 	speedBox->setValue(speed);
+	updateDuration();
+	
     }
 
     changeClipSpeed::~changeClipSpeed()
@@ -54,7 +56,8 @@ namespace Gui {
     void changeClipSpeed::updateDuration()
     {
 	Timecode tcode;
-        //edit_duration->setText(tcode.getTimecode(GenTime(m_imageCount * ttl(), KdenliveSettings::defaultfps()), KdenliveSettings::defaultfps()));
+	GenTime newDuration(m_duration.frames(KdenliveSettings::defaultfps()) / selectedSpeed(), KdenliveSettings::defaultfps());
+        edit_duration->setText(tcode.getTimecode(newDuration, KdenliveSettings::defaultfps()));
     }
 
     void changeClipSpeed::resetSpeed()

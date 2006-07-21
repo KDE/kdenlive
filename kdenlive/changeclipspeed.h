@@ -36,7 +36,7 @@ namespace Gui {
 
     class changeClipSpeed:public changeClipSpeed_UI {
       Q_OBJECT public:
-        changeClipSpeed(int speed, QWidget * parent = 0, const char *name = 0);
+        changeClipSpeed(int speed, GenTime duration, QWidget * parent = 0, const char *name = 0);
         virtual ~changeClipSpeed();
 
 	GenTime duration();
@@ -44,6 +44,7 @@ namespace Gui {
 
       private:
 	int m_speed;
+	GenTime m_duration;
 
       private slots:
 	void updateDuration();
