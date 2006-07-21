@@ -73,6 +73,11 @@ namespace Gui {
 	    painter.fillRect(sx + 1, rect.y() + 1, ex - sx - 2, 10,
 		QBrush(Qt::red, Qt::Dense4Pattern));
 
+	// blue line on bottom if clip has slowmotion
+	if (clip->speed() != 1.0)
+	    painter.fillRect(sx + 1, rect.y() + rect.height() -11, ex - sx - 2, 10,
+		QBrush(Qt::blue, Qt::Dense4Pattern));
+
 	if (textWidth > 0) {
 	    int start =
 		(int) timeline()->mapValueToLocal(clip->trackStart().

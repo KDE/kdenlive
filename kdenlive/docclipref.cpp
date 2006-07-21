@@ -711,6 +711,7 @@ void DocClipRef::setSpeed(double speed)
     m_speed = speed;
     if (cropStartTime() + cropDuration() > duration()) 
 	setCropDuration(duration() - cropStartTime());
+    else if (m_parentTrack) m_parentTrack->refreshLayout();
 }
 
 QDomDocument DocClipRef::generateSceneList()
