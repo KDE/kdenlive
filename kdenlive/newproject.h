@@ -47,6 +47,8 @@ namespace Gui {
 	void openProject();
     	void checkFile();
 	void adjustButton();
+	void adjustFolderName();
+	void checkFolderName();
     };
 
 }				// namespace Gui

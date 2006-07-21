@@ -26,6 +26,7 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kio/netaccess.h>
+#include <kdenlivesettings.h>
 
 #include "newproject.h"
 
@@ -41,8 +42,9 @@ namespace Gui {
 	if (!list.isEmpty()) recentFiles->setCurrentItem(0);
 	projectName->setFocus();
 	connect(tabWidget, SIGNAL(currentChanged ( QWidget * )), this, SLOT(adjustButton()));
-	connect(projectName, SIGNAL(textChanged (const QString &)), this, SLOT(adjustButton()));
+	connect(projectName, SIGNAL(textChanged (const QString &)), this, SLOT(adjustFolderName()));
 	connect(projectFolder, SIGNAL(textChanged (const QString &)), this, SLOT(adjustButton()));
+	connect(projectFolder, SIGNAL(urlSelected(const QString&)), this, SLOT(checkFolderName()));
 	connect(buttonQuit, SIGNAL(clicked ()), this, SLOT(reject()));
 	connect(buttonOpen, SIGNAL(clicked ()), this, SLOT(openProject()));
 	connect(buttonOk, SIGNAL(clicked ()), this, SLOT(checkFile()));
@@ -51,14 +53,25 @@ namespace Gui {
 
     newProject::~newProject() {}
 
+    void newProject::adjustFolderName()
+    {
+	if (projectName->text().isEmpty()) buttonOk->setEnabled(false);
+	else if (!projectFolder->url().isEmpty()) buttonOk->setEnabled(true);
+	QString folderUrl = projectFolder->url();
+	folderUrl = folderUrl.left(folderUrl.findRev("/", -1) + 1);
+	projectFolder->setURL(folderUrl + projectName->text());
+    }
+
+    void newProject::checkFolderName()
+    {
+	if (!projectFolder->url().endsWith("/"))
+		projectFolder->setURL(projectFolder->url() + "/");
+	
+    }
+
     void newProject::adjustButton()
     {
-	if (tabWidget->currentPageIndex() == 0) {
-		if (projectName->text().isEmpty() || projectFolder->url().isEmpty())
-			buttonOk->setEnabled(false);
-		else buttonOk->setEnabled(true);
-	}
-	else if (recentFiles->count()>0) buttonOk->setEnabled(true);
+	if (tabWidget->currentPageIndex() != 0 && recentFiles->count()>0) buttonOk->setEnabled(true);
     }
 
     void newProject::openProject()
@@ -74,6 +87,9 @@ namespace Gui {
     {
 	if (tabWidget->currentPageIndex() == 0) {
 		m_isNewFile = true;
+		if (!KIO::NetAccess::exists(KURL(KdenliveSettings::defaultfolder()), false, this)) {
+			KIO::NetAccess::mkdir(KURL(KdenliveSettings::defaultfolder()), this);
+		}
 		if (!KIO::NetAccess::exists(KURL(projectFolder->url()), false, this)) {
 			KIO::NetAccess::mkdir(KURL(projectFolder->url()), this);
 			if (!KIO::NetAccess::exists(KURL(projectFolder->url()), false, this)) {
@@ -81,14 +97,6 @@ namespace Gui {
 				return;
 			}
 		}
-		if (!KIO::NetAccess::exists(KURL(projectFolder->url() + projectName->text()), false, this)) {
-			KIO::NetAccess::mkdir(KURL(projectFolder->url() + projectName->text()), this);
-			if (!KIO::NetAccess::exists(KURL(projectFolder->url() + projectName->text()), false, this)) {
-				KMessageBox::sorry(this, i18n("Unable to access the selected folder.\nPlease chose another project folder."));
-				return;
-			}
-		}
-
 		accept();
 	}
 	else {
@@ -109,7 +117,7 @@ namespace Gui {
 
     QString newProject::projectFolderPath()
     {
-	return QString(KURL(projectFolder->url()).path() + projectName->text());
+	return QString(KURL(projectFolder->url()).path());
     }
 
 }
