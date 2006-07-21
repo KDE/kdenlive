@@ -297,6 +297,7 @@ createClip(const EffectDescriptionList & effectList,
     GenTime cropDuration;
     GenTime trackEnd;
     QString description;
+    double speed = 1.0;
     QValueVector < GenTime > markers;
     EffectStack effectStack;
 
@@ -343,6 +344,7 @@ createClip(const EffectDescriptionList & effectList,
 		    GenTime(e.attribute("cropduration", "0").toDouble());
 		trackEnd =
 		    GenTime(e.attribute("trackend", "-1").toDouble());
+		speed = e.attribute("speed", "1.0").toDouble();
 	    } else if (e.tagName() == "markers") {
 		QDomNode markerNode = e.firstChild();
 		while (!markerNode.isNull()) {
@@ -405,6 +407,7 @@ createClip(const EffectDescriptionList & effectList,
 	// setup DocClipRef specifics of the clip.
 	clip->setTrackStart(trackStart);
 	clip->setCropStartTime(cropStart);
+	clip->setSpeed(speed);
 	if (trackEnd.seconds() != -1) {
 	    clip->setTrackEnd(trackEnd);
 	} else {
@@ -606,6 +609,8 @@ QDomDocument DocClipRef::toXML() const
 	QString::number(cropDuration().seconds(), 'f', 10));
     position.setAttribute("trackend", QString::number(trackEnd().seconds(),
 	    'f', 10));
+    position.setAttribute("speed",
+	QString::number(speed(), 'f'));
 
     clip.appendChild(position);
 
@@ -680,6 +685,10 @@ bool DocClipRef::matchesXML(const QDomElement & element) const
 		if (positionElement.attribute("trackend").toInt() !=
 		    trackEnd().seconds())
 		    result = false;
+		if (positionElement.attribute("speed").toDouble() !=
+		    speed())
+		    result = false;
+
 	    }
 	}
     }
