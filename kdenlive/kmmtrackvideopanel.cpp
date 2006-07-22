@@ -120,7 +120,7 @@ namespace Gui {
 	    addViewDecorator(new
 		TrackViewVideoBackgroundDecorator(timeline(), document(),
 		    KdenliveSettings::selectedvideoclipcolor(),
-		    KdenliveSettings::videoclipcolor(), 0));
+		    KdenliveSettings::videoclipcolor(), KdenliveSettings::audiothumbnails()));
 	else
 	    // Color only decoration
 	    addViewDecorator(new TrackViewBackgroundDecorator(timeline(),
@@ -128,6 +128,12 @@ namespace Gui {
 		    KdenliveSettings::videoclipcolor()));
 
 	/* should be removed... audio decoration should only be on audio tracks */
+	if (KdenliveSettings::audiothumbnails() && !trackIsCollapsed)
+	    addViewDecorator(new
+		TrackViewAudioBackgroundDecorator(timeline(), document(),
+		    KdenliveSettings::selectedaudioclipcolor(),
+		    KdenliveSettings::audioclipcolor(), true));
+
 	//addViewDecorator(new TrackViewAudioBackgroundDecorator(timeline, doc, QColor(64, 128, 64), QColor(128, 255, 128),audioDecoratorSize));
 
 	addViewDecorator(new TrackViewNameDecorator(timeline(),

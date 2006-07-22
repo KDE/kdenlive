@@ -54,11 +54,11 @@ namespace Gui {
 	//ex -= sx;
 
 	//painter.setClipRect(sx, rect.y(), clipWidth, rect.height());
-
+	QString txt = clip->name();
+	if (clip->speed() != 1.0) txt.append(" (" + QString::number((int)(clip->speed() * 100)) + "%)");
 	// draw video name text
 	QRect textBound =
-	    painter.boundingRect(0, 0, clipWidth, rect.height(), Qt::AlignLeft,
-	    clip->name());
+	    painter.boundingRect(0, 0, clipWidth, rect.height(), Qt::AlignLeft, txt);
 
 	double border = 150.0;
 	int nameRepeat =
@@ -89,9 +89,9 @@ namespace Gui {
 	    while (count < sx + ex) {
 		if (count + textWidth <= tx) {
 		    painter.setPen(selected ? Qt::white : Qt::black);
-		    painter.drawText(count, rect.y(), textWidth,
-			rect.height(), Qt::AlignVCenter | Qt::AlignHCenter,
-			clip->name());
+		    painter.drawText(count, rect.y() + 15, textWidth,
+			rect.height() - 15, Qt::AlignTop | Qt::AlignHCenter,
+			txt);
 		}
 		count += textWidth;
 	    }

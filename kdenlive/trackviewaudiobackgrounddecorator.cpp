@@ -33,8 +33,8 @@ namespace Gui {
     TrackViewAudioBackgroundDecorator::
 	TrackViewAudioBackgroundDecorator(KTimeLine * timeline,
 	KdenliveDoc * doc, const QColor & selected,
-	const QColor & unselected, int size):DocTrackDecorator(timeline,
-	doc),m_height(size), m_selected(selected), m_unselected(unselected)
+	const QColor & unselected, bool shift):DocTrackDecorator(timeline,
+	doc),m_shift(shift), m_selected(selected), m_unselected(unselected)
 {
 
 } 
@@ -47,7 +47,7 @@ TrackViewAudioBackgroundDecorator::~TrackViewAudioBackgroundDecorator()
 void TrackViewAudioBackgroundDecorator::paintClip(double startX,
 	double endX, QPainter & painter, DocClipRef * clip, QRect & rect,
 	bool selected) {
-	if (!clip->referencedClip()) return;
+	if (!clip->referencedClip() || clip->audioChannels() == 0 || clip->speed() != 1.0) return;
 	int sx = (int)startX;	// (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
 	int ex = (int)endX;		//(int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
 
@@ -61,9 +61,9 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX,
 	int y = rect.y();
 	int h = rect.height();
 
-	if (m_height > 0) {
-	    y += (h - m_height);
-	    h = m_height;
+	if (m_shift) {
+	    h = h/3;
+	    y += 2*h;
 	}
 
 	QColor col = selected ? m_selected : m_unselected;
@@ -80,9 +80,9 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX,
 	if (channels==0)
 			channels=1;
 
-	painter.setClipRect(sx, rect.y(), ex - sx, rect.height());
-	painter.fillRect(sx, rect.y(), ex - sx, rect.height(), col);
-
+	painter.setClipRect(sx, y, ex - sx, h);
+	painter.fillRect(sx, y, ex - sx, h, col);
+	if (m_shift) painter.drawLine(sx, y, ex, y);
 
 	double timeDiff = clip->cropStartTime().frames(document()->framesPerSecond()) - clip->trackStart().frames(document()->framesPerSecond());
 	

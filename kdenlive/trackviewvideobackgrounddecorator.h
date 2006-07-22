@@ -34,7 +34,7 @@ namespace Gui {
 	TrackViewVideoBackgroundDecorator(KTimeLine * timeline,
 	    KdenliveDoc * doc,
 	    const QColor & selected,
-	    const QColor & unselected, int shift = -1);
+	    const QColor & unselected, bool shift = false);
 
 	 virtual ~ TrackViewVideoBackgroundDecorator();
 
@@ -45,7 +45,7 @@ namespace Gui {
 
 	 QColor m_selected;
 	QColor m_unselected;
-	int m_shift;
+	bool m_shift;
     };
 
 };

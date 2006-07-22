@@ -31,7 +31,7 @@ namespace Gui {
     TrackViewVideoBackgroundDecorator::
             TrackViewVideoBackgroundDecorator(KTimeLine * timeline,
                                               KdenliveDoc * doc, const QColor & selected,
-                                              const QColor & unselected, int shift):DocTrackDecorator(timeline,
+                                              const QColor & unselected, bool shift):DocTrackDecorator(timeline,
                                               doc), m_selected(selected), m_unselected(unselected),
     	m_shift(shift) {
 
@@ -55,15 +55,22 @@ namespace Gui {
                         }
                         int y = rect.y();
                         int h = rect.height();
-                        if (m_shift)
-                            h -= m_shift;
+
+                        QPixmap startThumbnail = clip->thumbnail();
+			int drawWidth = startThumbnail.width();
+
+                        if (m_shift && clip->audioChannels() > 0 && clip->speed() == 1.0) {
+                            h = h / 3 * 2;
+			    drawWidth = drawWidth / 3 * 2;
+			    startThumbnail = startThumbnail.convertToImage().smoothScale(drawWidth, h);
+			}
 			ex -= sx;
 			//kdDebug()<< "++++++++  VIDEO REFRESH ("<<clip->name()<<"): "<<startX<<", "<<endX<<", RECT: "<<rect.x()<<", "<<rect.width()<<endl;
 
                         QColor col = selected ? m_selected : m_unselected;
 			// fill clip with color
-			painter.setClipRect(sx, rect.y(), ex, rect.height());
-                        painter.fillRect(sx, rect.y(), ex, rect.height(), col);
+			painter.setClipRect(sx, rect.y(), ex, h);
+                        painter.fillRect(sx, rect.y(), ex, h, col);
 			
 
                         double aspect = 4.0 / 3.0;
@@ -80,15 +87,18 @@ namespace Gui {
 			int clipStart = timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
 			int clipEnd = timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
                         /* Use the clip's default thumbnail & scale it to track size to decorate until we have some better stuff */
-                        QPixmap newimg = clip->thumbnail();
-                        int drawWidth = newimg.width();
+                        
                         if (endX - startX < drawWidth)
                             drawWidth = endX - startX;
-                        if (ex + sx > endX - newimg.width()) 
+                        if (ex + sx > endX - startThumbnail.width()) 
 			{
-                            painter.drawPixmap(endX-drawWidth, y, clip->thumbnail(true), 0, 0, drawWidth, h);
+                            QPixmap endThumbnail = clip->thumbnail(true);
+			    if (m_shift && clip->audioChannels() > 0 && clip->speed() == 1.0)
+				endThumbnail = endThumbnail.convertToImage().smoothScale(drawWidth, h);
+			    
+                            painter.drawPixmap(endX-drawWidth, y, endThumbnail, 0, 0, drawWidth, h);
                         }
-                        if (sx < startX + newimg.width()) painter.drawPixmap(startX, y, newimg, 0, 0, drawWidth, h);
+                        if (sx < startX + startThumbnail.width()) painter.drawPixmap(startX, y, startThumbnail, 0, 0, drawWidth, h);
                         //painter.drawRect(i, y, drawWidth, h);
 	//}
         		painter.setClipping(false);
