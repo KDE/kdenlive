@@ -105,7 +105,6 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX,
 					RealFrame + timeDiff,
 					FramesInOnePixel, width);
 			drawChannel(&a,(int)i,y + deltaHeight * countChannel,h / channels, ex,painter);
-
 			}
 	    }
 	}

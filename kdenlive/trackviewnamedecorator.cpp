@@ -89,8 +89,8 @@ namespace Gui {
 	    while (count < sx + ex) {
 		if (count + textWidth <= tx) {
 		    painter.setPen(selected ? Qt::white : Qt::black);
-		    painter.drawText(count, rect.y() + 15, textWidth,
-			rect.height() - 15, Qt::AlignTop | Qt::AlignHCenter,
+		    painter.drawText(count, rect.y() + 12, textWidth,
+			rect.height() - 12, Qt::AlignTop | Qt::AlignHCenter,
 			txt);
 		}
 		count += textWidth;

@@ -119,17 +119,21 @@ void KdenliveDoc::deleteContents()
 {
     kdDebug() << "deleting contents..." << endl;
 
-    delete m_projectClip;
+    /*delete m_projectClip;
 
     m_projectClip = new DocClipProject(KdenliveSettings::defaultfps(), KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight());
-    connectProjectClip();
+    connectProjectClip();*/
+
+    setProjectClip(new DocClipProject(KdenliveSettings::defaultfps(), KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight()));
+
 
     if (m_clipHierarch) {
 	delete m_clipHierarch;
 	m_clipHierarch = 0;
     }
 
-    emit trackListChanged();
+    
+    //emit trackListChanged();
 
     m_clipManager.clear();
     emit clipListUpdated();

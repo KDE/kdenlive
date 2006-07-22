@@ -82,6 +82,16 @@ namespace Gui {
 	activateMonitor(monitor);
     }
 
+    void MonitorManager::resetMonitors() {
+	    QPtrListIterator < KMonitor > itt(m_monitors);
+
+	    while (itt.current()) {
+		if (itt.current()->clip())
+			itt.current()->slotClearClip();
+		++itt;
+	    }
+    }
+
     void MonitorManager::clearClip(DocClipBase * clip) {
 	if (clip) {
 	    QPtrListIterator < KMonitor > itt(m_monitors);

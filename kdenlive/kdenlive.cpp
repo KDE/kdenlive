@@ -1320,6 +1320,7 @@ namespace Gui {
 		newProjectDialog->setCaption(i18n("Kdenlive - New Project"));
 		if (newProjectDialog->exec() == QDialog::Rejected) exit(1);
 		else {
+			m_monitorManager.resetMonitors();
 			if (newProjectDialog->isNewFile()) {
 				*newProjectName = newProjectDialog->projectName->text();
 				KdenliveSettings::setCurrentdefaultfolder(newProjectDialog->projectFolderPath());

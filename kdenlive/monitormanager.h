@@ -55,6 +55,9 @@ Manages the creation and life of a GUI monitor. Importantly, it makes sure that 
 
 	/** Searches through monitors and clears any that are using the specified avfile. */
 	void clearClip(DocClipBase * clip);
+	/** Remove clips from all monitors */
+	void resetMonitors();
+
       private:
 	/** A list of all monitors */
 	 QPtrList < KMonitor > m_monitors;
@@ -65,7 +68,8 @@ Manages the creation and life of a GUI monitor. Importantly, it makes sure that 
 
 	/** The currently active monitor */
 	KMonitor *m_active;
-	public slots: void slotMonitorClicked(KMonitor * monitor);
+      public slots: 
+	void slotMonitorClicked(KMonitor * monitor);
 	/** Cause the specified monitor to become active. */
 	void activateMonitor(KMonitor * monitor);
 
