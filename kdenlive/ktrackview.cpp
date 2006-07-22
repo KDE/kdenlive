@@ -100,10 +100,10 @@ namespace Gui {
 	KTrackPanel *panel = m_timeline.trackList().first();
 	while (panel != 0) {
 	    int y = panel->y() - this->y();
-
 	    QRect rect(0, y, width(), panel->height());
+	    if (panel->trackType() == KEYFRAMETRACK) // white background on transition / effets track
+		painter.fillRect(rect, palette().active().light());
 	    panel->drawToBackBuffer(painter, rect);
-
 	    panel = m_timeline.trackList().next();
 	}
     }
@@ -120,8 +120,9 @@ namespace Gui {
         KTrackPanel *panel = m_timeline.trackList().first();
         while (panel != 0) {
             int y = panel->y() - this->y();
-            //QRect rect(0, y, width(), panel->height());
 	    QRect rect(sx, y, ex - sx, panel->height());
+	    if (panel->trackType() == KEYFRAMETRACK) // white background on transition / effets track
+		painter.fillRect(rect, palette().active().light());
             panel->drawToBackBuffer(painter, rect);
             panel = m_timeline.trackList().next();
         }
