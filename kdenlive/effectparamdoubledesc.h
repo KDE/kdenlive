@@ -50,12 +50,14 @@ class EffectParamDoubleDesc:public EffectParamDesc {
     virtual double min(uint ix = 0) const;
     virtual const QString endTag() const;
     virtual const QString startTag() const;
+    virtual const QString list() const;
 
   private:
     double m_min;
     double m_max;
     QString m_starttag;
     QString m_endtag;
+    QString m_list;
 };
 
 #endif

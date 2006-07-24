@@ -86,6 +86,12 @@ const QString EffectParamComplexDesc::endTag() const
     return m_endtag;
 }
 
+//Virtual
+const QString EffectParamComplexDesc::list() const
+{
+    return QString();
+}
+
 // virtual
 EffectKeyFrame *EffectParamComplexDesc::createKeyFrame(double time)
 {

@@ -51,6 +51,7 @@ class EffectParamComplexDesc:public EffectParamDesc {
 
     virtual const QString endTag() const;
     virtual const QString startTag() const;
+    virtual const QString list() const;
 
     virtual double max(uint ix = 0) const;
     virtual double min(uint ix = 0) const;

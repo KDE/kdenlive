@@ -35,6 +35,8 @@ EffectParamDescFactory::EffectParamDescFactory()
     registerFactory(new EffectParamDescFactoryTemplate <
 	EffectParamDoubleDesc > ("fixed"));
     registerFactory(new EffectParamDescFactoryTemplate <
+	EffectParamDoubleDesc > ("list"));
+    registerFactory(new EffectParamDescFactoryTemplate <
 	EffectParamComplexDesc > ("complex"));
 }
 

@@ -22,7 +22,7 @@ EffectParamDesc::EffectParamDesc(const QXmlAttributes & attributes)
 {
     m_name = attributes.value("name");
     m_type = attributes.value("type");
-    m_default = attributes.value("default").toDouble();
+    m_default = attributes.value("default");
     m_value = m_default;
     m_description = attributes.value("description");
 }
@@ -32,7 +32,7 @@ EffectParamDesc::~EffectParamDesc()
 }
 
 
-void EffectParamDesc::setValue(const double &value)
+void EffectParamDesc::setValue(const QString &value)
 {
     m_value = value;
 }

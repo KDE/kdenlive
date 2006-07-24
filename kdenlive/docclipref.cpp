@@ -972,9 +972,9 @@ QDomDocument DocClipRef::generateXMLClip()
                         clipFilter.setAttribute(effect->
 				effectDescription().
 				parameter(parameterNum)->name(),
-				QString::number(effect->
+				effect->
 				    effectDescription().
-				    parameter(parameterNum)->value()));
+				    parameter(parameterNum)->value());
 			    parameterNum++;
 			}
                         entry.appendChild(clipFilter);

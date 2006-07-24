@@ -66,6 +66,7 @@ A description of an effect parameter
 
     virtual const QString endTag() const = 0;
     virtual const QString startTag() const = 0;
+    virtual const QString list() const = 0;
 
     void setDescription(const QString & description);
     const QString & description() const;
@@ -77,15 +78,15 @@ A description of an effect parameter
 	return m_type;
     } 
     
-    virtual const double &value() const {
+    virtual const QString &value() const {
 	return m_value;
     } 
     
-    virtual const double &defaultValue() const {
+    virtual const QString &defaultValue() const {
 	return m_default;
     } 
     
-    virtual void setValue(const double &value);
+    virtual void setValue(const QString &value);
 
     virtual const QString complexParamName(uint ix) const;
     virtual const uint complexParamNum() const;
@@ -96,9 +97,9 @@ A description of an effect parameter
 	/** The type of this parameter. */
     QString m_type;
 	/** The value of this parameter ( for constant parameters). */
-    double m_value;
+    QString m_value;
 	/** The default parameter value. */
-    double m_default;
+    QString m_default;
 	/** A human-readable description of what this parameter does within the effect. */
     QString m_description;
 };

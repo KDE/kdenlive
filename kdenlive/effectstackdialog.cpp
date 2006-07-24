@@ -32,6 +32,7 @@
 #include <kiconloader.h>
 #include <kpushbutton.h>
 #include <klocale.h>
+#include <kcombobox.h>
 
 #include <effectstacklistview.h>
 
@@ -132,8 +133,6 @@ namespace Gui {
 	while (effect->parameter(parameterNum)) {
 	    // for each constant parameter, build a QSpinBox with its value
             if (m_effecttype == "constant") {
-
-
 		int maxValue =
 		    effect->effectDescription().parameter(parameterNum)->
 		    max();
@@ -148,11 +147,26 @@ namespace Gui {
 		  QSpinBox *spinParam = new QSpinBox(gb, widgetName.ascii());
 		  spinParam->setMaxValue(maxValue);
 		  spinParam->setMinValue(minValue);
-		  spinParam->setValue(effect->effectDescription().parameter(parameterNum)->value());
+		  spinParam->setValue(effect->effectDescription().parameter(parameterNum)->value().toInt());
 		  connect(spinParam, SIGNAL(valueChanged(int)), this, SLOT(parameterChanged(int)));
                 }
 	    }
-	    if (m_effecttype == "double") {
+	    else if (m_effecttype == "list") {
+		QStringList list = QStringList::split(",", 
+		    effect->effectDescription().parameter(parameterNum)->
+		    list());
+
+		  // build combobox
+		  QHBox *gb = new QHBox(container, "box");
+		  (void) new QLabel(effect->effectDescription().parameter(parameterNum)->name(), gb);
+		  QString widgetName = QString("param");
+		  widgetName.append(QString::number(parameterNum));
+		  KComboBox *comboParam = new KComboBox(gb, widgetName.ascii());
+		  comboParam->insertStringList(list);
+		  connect(comboParam, SIGNAL(activated(int)), this, SLOT(parameterChanged(int)));
+                
+	    }
+	    else if (m_effecttype == "double") {
 		QFrame *frame = new QFrame(k_container, "container2");
 		frame->setSizePolicy(QSizePolicy::MinimumExpanding,
 		    QSizePolicy::MinimumExpanding);
@@ -192,7 +206,7 @@ namespace Gui {
 		m_hasKeyFrames = true;
 	    }
 
-	    if (m_effecttype == "complex") {
+	    else if (m_effecttype == "complex") {
 		QFrame *frame = new QFrame(k_container, "container2");
 		frame->setSizePolicy(QSizePolicy::MinimumExpanding,
 		    QSizePolicy::MinimumExpanding);
@@ -281,8 +295,21 @@ namespace Gui {
 			<< parameterNum << endl;
 		else
 		    effect->effectDescription().parameter(parameterNum)->
-			setValue(sbox->value());
+			setValue(QString::number(sbox->value()));
 	    }
+	    else if (m_effecttype == "list") {
+		KComboBox *sbox =
+		    dynamic_cast <
+		    KComboBox * >(m_parameter->child(widgetName.ascii(),
+			"KComboBox"));
+		if (!sbox)
+		    kdWarning() <<
+			"EFFECTSTACKDIALOG ERROR, CANNOT FIND BOX FOR PARAMETER "
+			<< parameterNum << endl;
+		else
+		    effect->effectDescription().parameter(parameterNum)->
+			setValue(sbox->currentText());
+	    }		
 	    parameterNum++;
 	}
 	if (!m_blockUpdate)
@@ -321,7 +348,7 @@ namespace Gui {
 			<< parameterNum << endl;
 		else
 		    sbox->setValue(effect->effectDescription().
-			parameter(parameterNum)->defaultValue());
+			parameter(parameterNum)->defaultValue().toInt());
 	    }
 	    parameterNum++;
 	}

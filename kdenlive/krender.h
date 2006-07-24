@@ -41,6 +41,7 @@
 #include "effectdesc.h"
 #include "effectdescriptionlist.h"
 #include "effectparamdescfactory.h"
+#include "initeffects.h"
 #include "kdenlive.h"
 
 /**KRender encapsulates the client side of the interface to a renderer.
@@ -220,13 +221,6 @@ class KRender:public QObject {
 	/** Holds a codec description during constructuion. Keep an eye out for potential memory leaks
 	and null pointer exceptions. */
     AVFormatDescCodec *m_codec;
-	/** Holds an effect description during construction. Keep an eye out for potential memory leaks. */
-    EffectDesc *m_effect;
-	/** Holds an effect parameter during construction. Keep an eye out for potential memory leaks. */
-    EffectParamDesc *m_parameter;
-
-	/** The factory used to create EffectDescParam objects. */
-    EffectParamDescFactory m_effectDescParamFactory;
 
 	/** Holds a list of all available codecs. */
      QPtrList < AVFormatDescCodec > m_codeclist;
