@@ -42,7 +42,7 @@
 
 #include "gentime.h"
 #include "exportwidget.h"
-
+#include "kdenlivesettings.h"
 
 exportWidget::exportWidget( Gui::KTimeLine *timeline, QWidget* parent, const char* name):
                 exportBaseWidget_UI(parent,name), m_duration(0)
@@ -373,7 +373,7 @@ void exportWidget::startExport()
 
 void exportWidget::reportProgress(GenTime progress)
 {
-    int prog = (100 * progress.frames(25))/m_duration.frames(25);
+    int prog = (100 * progress.frames(KdenliveSettings::defaultfps()))/m_duration.frames(KdenliveSettings::defaultfps());
     processProgress->setProgress(prog);
 }
 

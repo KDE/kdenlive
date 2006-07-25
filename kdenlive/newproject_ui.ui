@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>364</width>
-            <height>248</height>
+            <height>276</height>
         </rect>
     </property>
     <property name="caption">
@@ -37,14 +37,6 @@
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <widget class="QLabel" row="0" column="0" rowspan="1" colspan="3">
-                        <property name="name">
-                            <cstring>textLabel1</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Project name:</string>
-                        </property>
-                    </widget>
                     <widget class="KLineEdit" row="1" column="0" rowspan="1" colspan="5">
                         <property name="name">
                             <cstring>projectName</cstring>
@@ -63,15 +55,15 @@
                             <cstring>projectFolder</cstring>
                         </property>
                     </widget>
-                    <widget class="QLabel" row="4" column="0">
+                    <widget class="QLabel" row="0" column="0" rowspan="1" colspan="3">
                         <property name="name">
-                            <cstring>textLabel1_3</cstring>
+                            <cstring>textLabel1</cstring>
                         </property>
                         <property name="text">
-                            <string>Video tracks:</string>
+                            <string>Project name:</string>
                         </property>
                     </widget>
-                    <spacer row="5" column="1">
+                    <spacer row="6" column="1">
                         <property name="name">
                             <cstring>spacer5</cstring>
                         </property>
@@ -88,18 +80,7 @@
                             </size>
                         </property>
                     </spacer>
-                    <widget class="QSpinBox" row="4" column="1">
-                        <property name="name">
-                            <cstring>videoTracks</cstring>
-                        </property>
-                        <property name="enabled">
-                            <bool>true</bool>
-                        </property>
-                        <property name="value">
-                            <number>3</number>
-                        </property>
-                    </widget>
-                    <widget class="QLabel" row="4" column="2">
+                    <widget class="QLabel" row="5" column="2">
                         <property name="name">
                             <cstring>textLabel1_3_2</cstring>
                         </property>
@@ -107,18 +88,15 @@
                             <string>Audio tracks:</string>
                         </property>
                     </widget>
-                    <widget class="QSpinBox" row="4" column="3">
+                    <widget class="QLabel" row="5" column="0">
                         <property name="name">
-                            <cstring>audioTracks</cstring>
+                            <cstring>textLabel1_3</cstring>
                         </property>
-                        <property name="enabled">
-                            <bool>true</bool>
-                        </property>
-                        <property name="value">
-                            <number>2</number>
+                        <property name="text">
+                            <string>Video tracks:</string>
                         </property>
                     </widget>
-                    <spacer row="4" column="4">
+                    <spacer row="5" column="4">
                         <property name="name">
                             <cstring>spacer4</cstring>
                         </property>
@@ -130,11 +108,56 @@
                         </property>
                         <property name="sizeHint">
                             <size>
-                                <width>31</width>
-                                <height>12</height>
+                                <width>16</width>
+                                <height>16</height>
                             </size>
                         </property>
                     </spacer>
+                    <widget class="QSpinBox" row="5" column="3">
+                        <property name="name">
+                            <cstring>audioTracks</cstring>
+                        </property>
+                        <property name="enabled">
+                            <bool>true</bool>
+                        </property>
+                        <property name="value">
+                            <number>2</number>
+                        </property>
+                    </widget>
+                    <widget class="QSpinBox" row="5" column="1">
+                        <property name="name">
+                            <cstring>videoTracks</cstring>
+                        </property>
+                        <property name="enabled">
+                            <bool>true</bool>
+                        </property>
+                        <property name="value">
+                            <number>3</number>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="4" column="0">
+                        <property name="name">
+                            <cstring>textLabel1_4</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Project format:</string>
+                        </property>
+                    </widget>
+                    <widget class="KComboBox" row="4" column="1" rowspan="1" colspan="4">
+                        <item>
+                            <property name="text">
+                                <string>PAL (720x576, 25fps)</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>NTSC (720x480, 30fps)</string>
+                            </property>
+                        </item>
+                        <property name="name">
+                            <cstring>video_format</cstring>
+                        </property>
+                    </widget>
                 </grid>
             </widget>
             <widget class="QWidget">
@@ -237,6 +260,7 @@
     <includehint>kurlrequester.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>
+    <includehint>kcombobox.h</includehint>
     <includehint>klistbox.h</includehint>
 </includehints>
 </UI>

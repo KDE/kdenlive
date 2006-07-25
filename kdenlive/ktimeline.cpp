@@ -51,7 +51,7 @@ namespace Gui {
      KTimeLine::KTimeLine(QWidget * rulerToolWidget,
 	QWidget * scrollToolWidget, QWidget * parent,
 	const char *name):QVBox(parent, name), m_scrollTimer(this,
-	"scroll timer"), m_scrollingRight(true), m_framesPerSecond(25),
+	"scroll timer"), m_scrollingRight(true), m_framesPerSecond(KdenliveSettings::defaultfps()),
 	m_editMode("undefined"), m_panelWidth(140) {
 	m_rulerBox = new QHBox(this, "ruler box");
         m_trackScroll = new QScrollView(this, "track view", WPaintClever);

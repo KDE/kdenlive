@@ -404,7 +404,7 @@ namespace Gui {
 		/** doc represents your actual document and is created only once. It keeps
 		 * information such as filename and does the serialization of your files.
 		 */
-	KdenliveDoc *doc;
+	KdenliveDoc *m_doc;
 
 	// KAction pointers to enable/disable actions
 	KAction *fileNew;

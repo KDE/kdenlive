@@ -16,6 +16,8 @@
  ***************************************************************************/
 #include "loadprojectnativefilter.h"
 
+#include <stdlib.h>
+
 #include <qdom.h>
 #include <qfile.h>
 
@@ -63,6 +65,12 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 	if (!e.isNull()) {
 	    if (e.tagName() == "properties") {
 		KdenliveSettings::setCurrentdefaultfolder(e.attribute("projectfolder",""));
+		KdenliveSettings::setDefaultheight(e.attribute("projectheight","576").toInt());
+		if (KdenliveSettings::defaultheight() == 576) putenv ("MLT_NORMALISATION=PAL");
+		else putenv ("MLT_NORMALISATION=NTSC");
+		KdenliveSettings::setDefaultwidth(e.attribute("projectwidth","720").toInt());
+		KdenliveSettings::setDefaultfps(e.attribute("projectfps","25.0").toDouble());
+		KdenliveSettings::setAspectratio(e.attribute("projectratio","1.09259").toDouble());
 	    }
 	    else if ((e.tagName() == "AVFileList")
 		|| (e.tagName() == "avfilelist")) {
@@ -177,7 +185,7 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
                 QPixmap pm = QPixmap();
                 xml.setContent(clip.attribute("xml", ""));
                 baseClip =
-                        document->clipManager().insertTextClip(GenTime(clip.attribute("duration", "").toInt(), 25), clip.attribute("name", ""),
+                        document->clipManager().insertTextClip(GenTime(clip.attribute("duration", "").toInt(), KdenliveSettings::defaultfps()), clip.attribute("name", ""),
                 clip.attribute("description", ""),xml, clip.attribute("url", ""), pm, clip.attribute("transparency", "").toInt(), clip.attribute("id", "-1").toInt());
             }
 

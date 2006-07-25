@@ -103,6 +103,7 @@ void DocClipRef::refreshAudioThumbnail()
 	else {
 		m_clip->audioThumbCreated = false;
 		referencedClip()->audioFrameChache.clear();
+		kdDebug()<<"**********  FREED MEM FOR: "<<name()<<", COUNT: "<<referencedClip()->audioFrameChache.count ()<<endl;
 	}
 }
 
@@ -212,14 +213,14 @@ void DocClipRef::fetchStartThumbnail()
 {
     uint height = KdenliveSettings::videotracksize();
     uint width = height * 1.25;
-    emit getClipThumbnail(fileURL(), m_cropStart.frames(25), width, height);
+    emit getClipThumbnail(fileURL(), m_cropStart.frames(KdenliveSettings::defaultfps()), width, height);
 }
 
 void DocClipRef::fetchEndThumbnail()
 {
     uint height = KdenliveSettings::videotracksize();
     uint width = height * 1.25;
-    emit getClipThumbnail(fileURL(), m_cropStart.frames(25)+cropDuration().frames(25) - 1, width, height);
+    emit getClipThumbnail(fileURL(), m_cropStart.frames(KdenliveSettings::defaultfps())+cropDuration().frames(KdenliveSettings::defaultfps()) - 1, width, height);
 }
 
 void DocClipRef::setCropStartTime(const GenTime & time)
@@ -273,9 +274,9 @@ GenTime DocClipRef::cropDuration() const
 
 void DocClipRef::updateThumbnail(int frame, QPixmap newpix)
 {
-    if (m_cropStart.frames(25) + cropDuration().frames(25) -1 == frame)
+    if (m_cropStart.frames(KdenliveSettings::defaultfps()) + cropDuration().frames(KdenliveSettings::defaultfps()) -1 == frame)
         m_endthumbnail = newpix;
-    else if (m_cropStart.frames(25) == frame) m_thumbnail = newpix;
+    else if (m_cropStart.frames(KdenliveSettings::defaultfps()) == frame) m_thumbnail = newpix;
     else return;
     if (m_parentTrack) m_parentTrack->refreshLayout();
 }
@@ -425,8 +426,8 @@ createClip(const EffectDescriptionList & effectList,
                 QDomElement transitionElement = transitionNode.toElement();
                 if (!transitionElement.isNull()) {
                     if (transitionElement.tagName() == "transition") {
-                        GenTime startTime(transitionElement.attribute("start", QString::null).toInt(),25.0);
-                        GenTime endTime(transitionElement.attribute("end", QString::null).toInt(),25.0);
+                        GenTime startTime(transitionElement.attribute("start", QString::null).toInt(),KdenliveSettings::defaultfps());
+                        GenTime endTime(transitionElement.attribute("end", QString::null).toInt(),KdenliveSettings::defaultfps());
                         Transition *transit = new Transition(clip, transitionElement.attribute("type", QString::null), startTime, endTime, transitionElement.attribute("inverted", "0").toInt());
                         
                         // load transition parameters
@@ -1264,7 +1265,6 @@ void DocClipRef::addTransition(Transition *transition)
 
 void DocClipRef::deleteTransition(const GenTime &time)
 {
-    kdDebug()<<"//////  DELETE TRANS AT: "<<time.frames(25)<<endl;
     if (m_transitionStack.isEmpty()) return;
     TransitionStack::iterator itt = m_transitionStack.begin();
     while (itt) {

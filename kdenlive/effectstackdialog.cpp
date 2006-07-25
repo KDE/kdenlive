@@ -44,6 +44,7 @@
 #include "effectkeyframe.h"
 #include "effectdoublekeyframe.h"
 #include "effectcomplexkeyframe.h"
+#include "kdenlivesettings.h"
 
 namespace Gui {
 
@@ -479,7 +480,7 @@ namespace Gui {
 
 	currentTime =
 	    effect->parameter(parameterNum)->keyframe(ix)->time() *
-	    m_effectList->clip()->cropDuration().frames(25);
+	    m_effectList->clip()->cropDuration().frames(KdenliveSettings::defaultfps());
 
 	// Find the previous keyframe position to make sure the current keyframe cannot be moved before the previous one
 	if (ix == 0)
@@ -488,16 +489,16 @@ namespace Gui {
 	    previousTime =
 		effect->parameter(parameterNum)->keyframe(ix -
 		1)->time() *
-		m_effectList->clip()->cropDuration().frames(25) + 1;
+		m_effectList->clip()->cropDuration().frames(KdenliveSettings::defaultfps()) + 1;
 
 	// Find the next keyframe position to make sure the current keyframe cannot be moved after the next one
 	if (ix == effect->parameter(parameterNum)->numKeyFrames() - 1)
-	    nextTime = m_effectList->clip()->cropDuration().frames(25);
+	    nextTime = m_effectList->clip()->cropDuration().frames(KdenliveSettings::defaultfps());
 	else
 	    nextTime =
 		effect->parameter(parameterNum)->keyframe(ix +
 		1)->time() *
-		m_effectList->clip()->cropDuration().frames(25) - 1;
+		m_effectList->clip()->cropDuration().frames(KdenliveSettings::defaultfps()) - 1;
 
 	spinPosition->setMinValue(previousTime);
 	spinPosition->setMaxValue(nextTime);
@@ -514,7 +515,7 @@ namespace Gui {
 	double currentTime;
 
 	currentTime =
-	    newTime / m_effectList->clip()->cropDuration().frames(25);
+	    newTime / m_effectList->clip()->cropDuration().frames(KdenliveSettings::defaultfps());
 	Effect *effect =
 	    m_effectList->clip()->effectAt(m_effectList->
 	    selectedEffectIndex());

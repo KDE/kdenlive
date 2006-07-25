@@ -47,6 +47,10 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
     doc.appendChild(elem);
     QDomElement docinfos = doc.createElement("properties");
     docinfos.setAttribute("projectfolder", KdenliveSettings::currentdefaultfolder());
+    docinfos.setAttribute("projectheight", QString::number(KdenliveSettings::defaultheight()));
+    docinfos.setAttribute("projectwidth", QString::number(KdenliveSettings::defaultwidth()));
+    docinfos.setAttribute("projectfps", QString::number(KdenliveSettings::defaultfps()));
+    docinfos.setAttribute("projectratio", QString::number(KdenliveSettings::aspectratio()));
     elem.appendChild(docinfos);
 
     QDomElement avfilelist = doc.createElement("avfilelist");
@@ -105,7 +109,7 @@ QDomElement SaveProjectNativeFilter::processedNode(DocumentClipNode *clipNode, Q
 	    if (clipType == DocClipBase::IMAGE) {
 		avfile.setAttribute("duration",
 		    QString::number(clipNode->clipRef()->duration().
-			frames(25)));
+			frames(KdenliveSettings::defaultfps())));
 		avfile.setAttribute("ttl",
 		    QString::number(clipNode->clipRef()->referencedClip()->toDocClipAVFile()->clipTtl()));
                 avfile.setAttribute("transparency",clipNode->clipRef()->referencedClip()->toDocClipAVFile()->isTransparent());
@@ -117,12 +121,12 @@ QDomElement SaveProjectNativeFilter::processedNode(DocumentClipNode *clipNode, Q
 		    toDocClipAVFile()->color());
 		avfile.setAttribute("duration",
 		    QString::number(clipNode->clipRef()->duration().
-			frames(25)));
+			frames(KdenliveSettings::defaultfps())));
 	    }
             else if (clipType == DocClipBase::TEXT) {
                 avfile.setAttribute("duration",
                                     QString::number(clipNode->clipRef()->duration().
-                                            frames(25)));
+                                            frames(KdenliveSettings::defaultfps())));
                 avfile.setAttribute("name", clipNode->clipRef()->name());
                 avfile.setAttribute("transparency",clipNode->clipRef()->referencedClip()->toDocClipTextFile()->isTransparent());
                 avfile.setAttribute("xml",

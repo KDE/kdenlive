@@ -15,13 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "krulertimemodel.h"
 #include <kdebug.h>
+
+#include "krulertimemodel.h"
+#include "kdenlivesettings.h"
 
 namespace Gui {
 
     KRulerTimeModel::KRulerTimeModel():KRulerModel() {
-	setNumFrames(25);
+	setNumFrames(KdenliveSettings::defaultfps());
 	setMinimumSmallTickSeperation(15);
 	setMinimumLargeTickSeperation(50);
 	setMinimumDisplayTickSeperation(100);

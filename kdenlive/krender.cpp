@@ -157,7 +157,7 @@ void KRender::closeMlt()
 static void consumer_frame_show(mlt_consumer, KRender * self, mlt_frame frame_ptr)
 {
     mlt_position framePosition = mlt_frame_get_position(frame_ptr);
-    self->emitFrameNumber(GenTime(framePosition, 25), 10000);
+    self->emitFrameNumber(GenTime(framePosition, KdenliveSettings::defaultfps()), 10000);
     
     // detect if the producer has finished playing. Is there a better way to do it ?
     if (mlt_properties_get_double( MLT_FRAME_PROPERTIES( frame_ptr ), "_speed" ) == 0)
@@ -167,7 +167,7 @@ static void consumer_frame_show(mlt_consumer, KRender * self, mlt_frame frame_pt
 static void file_consumer_frame_show(mlt_consumer, KRender * self, mlt_frame frame_ptr)
 {
     mlt_position framePosition = mlt_frame_get_position(frame_ptr);
-    self->emitFileFrameNumber(GenTime(framePosition, 25), 10001);
+    self->emitFileFrameNumber(GenTime(framePosition, KdenliveSettings::defaultfps()), 10001);
 }
 
 static void consumer_stopped(mlt_consumer, KRender * self, mlt_frame)

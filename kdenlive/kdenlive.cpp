@@ -44,6 +44,7 @@
 #include <klocale.h>
 #include <kmenubar.h>
 #include <kmessagebox.h>
+#include <kcombobox.h>
 #include <kstatusbar.h>
 #include <kstdaction.h>
 #include <kcolorbutton.h>
@@ -126,7 +127,7 @@ namespace Gui {
 
     KdenliveApp::KdenliveApp(QWidget *parent,
 	const char *name):KDockMainWindow(parent, name), m_monitorManager(this),
-    m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_selectedFile(NULL), m_copiedClip(NULL) {
+    m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_renderManager(NULL), m_doc(NULL) {
 	config = kapp->config();
 	QString newProjectName;
 	int audioTracks = 2;
@@ -177,8 +178,8 @@ namespace Gui {
 	else {
 	    if (KdenliveSettings::showsplash())
 		connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(slotSplashTimeout()));
-	    setCaption(newProjectName + ".kdenlive", doc->isModified());
-	    doc->setURL(KURL(KdenliveSettings::currentdefaultfolder() + "/" + newProjectName + ".kdenlive"));
+	    setCaption(newProjectName + ".kdenlive", m_doc->isModified());
+	    m_doc->setURL(KURL(KdenliveSettings::currentdefaultfolder() + "/" + newProjectName + ".kdenlive"));
 	}
 
 	connect(manager(), SIGNAL(change()), this, SLOT(slotUpdateLayoutState()));
@@ -675,9 +676,10 @@ namespace Gui {
     }
 
     void KdenliveApp::initDocument(int vtracks, int atracks) {
-        doc = new KdenliveDoc(KdenliveSettings::defaultfps(), KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight(), this, this);
-	connect(doc, SIGNAL(modified(bool)), this, SLOT(documentModified(bool)));
-        doc->newDocument(vtracks, atracks);
+	if (m_doc) delete m_doc;
+        m_doc = new KdenliveDoc(KdenliveSettings::defaultfps(), KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight(), this, this);
+	connect(m_doc, SIGNAL(modified(bool)), this, SLOT(documentModified(bool)));
+        m_doc->newDocument(vtracks, atracks);
     }
 
     void KdenliveApp::initView() {
@@ -696,7 +698,7 @@ namespace Gui {
         //mainDock->setFocusPolicy(QWidget::WheelFocus); //QWidget::TabFocus
 	setCentralWidget(mainDock);
 	setMainDockWidget(mainDock);
-	setCaption(doc->URL().fileName(), false);
+	setCaption(m_doc->URL().fileName(), false);
 
 	KDockWidget *widget =
 	    createDockWidget(i18n("TimeLine"), QPixmap(), 0,
@@ -1137,13 +1139,13 @@ namespace Gui {
     void KdenliveApp::openDocumentFile(const KURL & url) {
 	slotStatusMsg(i18n("Opening file..."));
         if (!url.isEmpty()) requestDocumentClose();
-	m_projectFormatManager.openDocument(url, doc);
+	m_projectFormatManager.openDocument(url, m_doc);
 	slotStatusMsg(i18n("Ready."));
     }
 
 
     KdenliveDoc *KdenliveApp::getDocument() const {
-	return doc;
+	return m_doc;
     }
 
     void KdenliveApp::saveOptions() {
@@ -1181,18 +1183,18 @@ namespace Gui {
     }
 
     void KdenliveApp::saveProperties(KConfig * _cfg) {
-	if (doc->URL().fileName() != i18n("Untitled")
-	    && !doc->isModified()) {
+	if (m_doc->URL().fileName() != i18n("Untitled")
+	    && !m_doc->isModified()) {
 	    // saving to tempfile not necessary
 
 	} else {
-	    KURL url = doc->URL();
+	    KURL url = m_doc->URL();
 	    _cfg->writeEntry("filename", url.url());
-	    _cfg->writeEntry("modified", doc->isModified());
+	    _cfg->writeEntry("modified", m_doc->isModified());
 	    QString tempname = kapp->tempSaveName(url.url());
 	    QString tempurl = KURL::encode_string(tempname);
 	    KURL _url(tempurl);
-	    m_projectFormatManager.saveDocument(_url, doc);
+	    m_projectFormatManager.saveDocument(_url, m_doc);
 	}
     }
 
@@ -1208,14 +1210,14 @@ namespace Gui {
 	    KURL _url(tempname);
 
 	    if (canRecover) {
-		m_projectFormatManager.openDocument(_url, doc);
-		doc->setModified(true);
+		m_projectFormatManager.openDocument(_url, m_doc);
+		m_doc->setModified(true);
 		setCaption(_url.fileName(), true);
 		QFile::remove(tempname);
 	    }
 	} else {
 	    if (!filename.isEmpty()) {
-		m_projectFormatManager.openDocument(url, doc);
+		m_projectFormatManager.openDocument(url, m_doc);
 		setCaption(url.fileName(), false);
 	    }
 	}
@@ -1229,7 +1231,7 @@ namespace Gui {
     bool KdenliveApp::saveModified() {
 	bool completed = true;
 
-	if (doc->isModified()) {
+	if (m_doc->isModified()) {
 	    int want_save = KMessageBox::warningYesNoCancel(this,
 		i18n("The current file has been modified.\n"
 		    "Do you want to save it?"),
@@ -1237,16 +1239,16 @@ namespace Gui {
 
 	    switch (want_save) {
 	    case KMessageBox::Yes:
-		if (doc->URL().fileName() == i18n("Untitled")) {
+		if (m_doc->URL().fileName() == i18n("Untitled")) {
 		    slotFileSaveAs();
 		} else {
-		    m_projectFormatManager.saveDocument(doc->URL(), doc);
+		    m_projectFormatManager.saveDocument(m_doc->URL(), m_doc);
 		};
 		if (m_clipMonitor)
 		    m_clipMonitor->slotClearClip();
 		if (m_workspaceMonitor)
 		    m_workspaceMonitor->slotClearClip();
-		doc->deleteContents();
+		m_doc->deleteContents();
 
 		completed = true;
 		break;
@@ -1256,7 +1258,7 @@ namespace Gui {
 		    m_clipMonitor->slotClearClip();
 		if (m_workspaceMonitor)
 		    m_workspaceMonitor->slotClearClip();
-                doc->newDocument();*/
+                m_doc->newDocument();*/
 		completed = true;
 		break;
 
@@ -1299,9 +1301,9 @@ namespace Gui {
 	    }
 	    else {
 		requestDocumentClose();
-	    	doc->newDocument(videoTracks, audioTracks);
-	    	setCaption(newProjectName + ".kdenlive", doc->isModified());
-	    	doc->setURL(KURL(KdenliveSettings::currentdefaultfolder() + "/" + newProjectName + ".kdenlive"));
+	    	m_doc->newDocument(videoTracks, audioTracks);
+	    	setCaption(newProjectName + ".kdenlive", m_doc->isModified());
+	    	m_doc->setURL(KURL(KdenliveSettings::currentdefaultfolder() + "/" + newProjectName + ".kdenlive"));
 	    }
 	}
 
@@ -1327,6 +1329,21 @@ namespace Gui {
 			if (newProjectDialog->isNewFile()) {
 				*newProjectName = newProjectDialog->projectName->text();
 				KdenliveSettings::setCurrentdefaultfolder(newProjectDialog->projectFolderPath());
+				if (newProjectDialog->video_format->currentItem() == 0) {
+					// PAL project
+					KdenliveSettings::setDefaultheight(576);
+					KdenliveSettings::setDefaultfps(25.0);
+					KdenliveSettings::setAspectratio(1.09259);
+					putenv ("MLT_NORMALISATION=PAL");
+				}
+				else {
+					// NTSC project
+					KdenliveSettings::setDefaultheight(480);
+					KdenliveSettings::setDefaultfps(30.0);
+					KdenliveSettings::setAspectratio(0.909);
+					putenv ("MLT_NORMALISATION=NTSC");
+				}
+
 				*audioTracks = newProjectDialog->audioTracks->value();
 				*videoTracks = newProjectDialog->videoTracks->value();
 			}
@@ -1351,7 +1368,7 @@ namespace Gui {
 		i18n("Open File..."));
                 requestDocumentClose();
 	    if (!url.isEmpty()) {
-		if (!m_projectFormatManager.openDocument(url, doc)) {
+		if (!m_projectFormatManager.openDocument(url, m_doc)) {
 		    KMessageBox::sorry(this,
 			i18n("Could not read project file: %1").arg(url.
 			    prettyURL()));
@@ -1427,7 +1444,7 @@ namespace Gui {
 		slotStatusMsg(i18n("Ready."));
 	}
 	else {
-		slotStatusMsg(i18n("Cannot past clip %1 on track %2 at %3").arg(m_pastedClip->name()).arg(ix).arg(Timecode::getEasyTimecode(insertTime, doc->framesPerSecond())));
+		slotStatusMsg(i18n("Cannot past clip %1 on track %2 at %3").arg(m_pastedClip->name()).arg(ix).arg(Timecode::getEasyTimecode(insertTime, m_doc->framesPerSecond())));
 	}
     }
 
@@ -1464,7 +1481,8 @@ namespace Gui {
 	} else if (KIO::NetAccess::exists(url, true, this)) {
 	    kdWarning() << "Opening url " << url.path() << endl;
             requestDocumentClose();
-	    m_projectFormatManager.openDocument(url, doc);
+	    m_projectFormatManager.openDocument(url, m_doc);
+
 	    setCaption(url.fileName(), false);
 	}
 	else KMessageBox::sorry(this, i18n("Cannot read file: %1").arg(url.path()));
@@ -1473,12 +1491,12 @@ namespace Gui {
     }
 
     void KdenliveApp::slotFileSave() {
-	if (doc->URL().fileName() == i18n("Untitled")) slotFileSaveAs();
+	if (m_doc->URL().fileName() == i18n("Untitled")) slotFileSaveAs();
 	else {
 		slotStatusMsg(i18n("Saving file..."));
-		m_projectFormatManager.saveDocument(doc->URL(), doc);
+		m_projectFormatManager.saveDocument(m_doc->URL(), m_doc);
 		slotStatusMsg(i18n("Ready."));
-		fileOpenRecent->addURL(doc->URL());
+		fileOpenRecent->addURL(m_doc->URL());
 	}
     }
 
@@ -1495,10 +1513,10 @@ namespace Gui {
 	    if (url.path().find(".") == -1) {
 		url.setFileName(url.filename() + ".kdenlive");
 	    }
-	    if (m_projectFormatManager.saveDocument(url, doc)) {
+	    if (m_projectFormatManager.saveDocument(url, m_doc)) {
 	    fileOpenRecent->addURL(url);
-	    setCaption(url.fileName(), doc->isModified());
-	    doc->setURL(url);
+	    setCaption(url.fileName(), m_doc->isModified());
+	    m_doc->setURL(url);
 	    }
 	    m_fileDialogPath = url;
 	    m_fileDialogPath.setFileName(QString::null);
@@ -1562,7 +1580,7 @@ namespace Gui {
 	} else {
 	    fileSave->setEnabled(false);
 	}
-	setCaption(doc->URL().fileName(), modified);
+	setCaption(m_doc->URL().fileName(), modified);
     }
 
     void KdenliveApp::slotTimelineSnapToBorder() {
@@ -1666,8 +1684,8 @@ namespace Gui {
 #warning The following line is broken - since frames per second is rounded to the nearest int, krulerTimeModel
 #warning would never map the correct value to text if the frames per second is wrong.
 	statusBar()->changeItem(i18n("Current Time : ") +
-	    KRulerTimeModel::mapValueToText((int) floor(time.frames(doc->
-			framesPerSecond()) + 0.5), doc->framesPerSecond()),
+	    KRulerTimeModel::mapValueToText((int) floor(time.frames(m_doc->
+			framesPerSecond()) + 0.5), m_doc->framesPerSecond()),
 	    ID_CURTIME_MSG);
     }
 
@@ -1745,7 +1763,7 @@ namespace Gui {
 		if (getDocument()->clipManager().findClip(url)) KMessageBox::sorry(this, i18n("The clip %1 is already present in this project").arg(url.filename()));
 		else { 
 			Command::KAddClipCommand * command;
-			command = new Command::KAddClipCommand(*doc, m_projectList->m_listView->parentName(), url, true);
+			command = new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), url, true);
 			macroCommand->addCommand(command);
 		}
 		m_fileDialogPath = url;
@@ -1778,7 +1796,7 @@ namespace Gui {
             GenTime duration(frames , KdenliveSettings::defaultfps());
             
 	    KCommand *command =
-		new Command::KAddClipCommand(*doc, m_projectList->m_listView->parentName(), color, duration,
+		new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), color, duration,
 		clipChoice->edit_name->text(),
 		clipChoice->edit_description->text(), true);
 	    addCommand(command, true);
@@ -1808,7 +1826,7 @@ namespace Gui {
             
             GenTime duration(frames , KdenliveSettings::defaultfps());
 	    KCommand *command =
-		new Command::KAddClipCommand(*doc, m_projectList->m_listView->parentName(), KURL(url), extension,
+		new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), KURL(url), extension,
                                               ttl, duration, clipChoice->edit_description->text(), clipChoice->transparentBg->isChecked(), true);
 	    addCommand(command, true);
 	}
@@ -1828,7 +1846,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    int ttl = slideDialog->ttl();
 
 	    KCommand *command =
-		new Command::KAddClipCommand(*doc, m_projectList->m_listView->parentName(), KURL(url), extension, ttl, slideDialog->duration(), slideDialog->description(), slideDialog->isTransparent(), true);
+		new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), KURL(url), extension, ttl, slideDialog->duration(), slideDialog->description(), slideDialog->isTransparent(), true);
 	    addCommand(command, true);
 	}
 	delete slideDialog;
@@ -1840,7 +1858,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     void KdenliveApp::slotProjectAddTextClip() {
         slotStatusMsg(i18n("Adding Clips"));
         activateWorkspaceMonitor();
-        titleWidget *txtWidget=new titleWidget(doc->projectClip().videoWidth(), doc->projectClip().videoHeight(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
+        titleWidget *txtWidget=new titleWidget(m_doc->projectClip().videoWidth(), m_doc->projectClip().videoHeight(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
         connect(txtWidget->canview,SIGNAL(showPreview(QString)),m_workspaceMonitor->screen(),SLOT(setTitlePreview(QString)));
         txtWidget->titleName->setText(i18n("Text Clip"));
         txtWidget->edit_duration->setText(KdenliveSettings::textclipduration());
@@ -1853,7 +1871,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
             QDomDocument xml = txtWidget->toXml();
             
             KCommand *command =
-                    new Command::KAddClipCommand(*doc, m_projectList->m_listView->parentName(), duration,
+                    new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), duration,
                     txtWidget->titleName->text(),QString::null, xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked(), true);
             addCommand(command, true);
         }
@@ -1882,7 +1900,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                     int frames = (dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt();
                     GenTime duration(frames , KdenliveSettings::defaultfps());
                     KCommand *command =
-                            new Command::KAddClipCommand(*doc, m_projectList->m_listView->parentName(), fd->selectedURL(), QString::null,
+                            new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), fd->selectedURL(), QString::null,
                             0, duration, QString::null, false, true);
                     addCommand(command, true);
                 }
@@ -1910,7 +1928,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
             
             if (refClip->clipType() == DocClipBase::TEXT) {
                 activateWorkspaceMonitor();
-                titleWidget *txtWidget=new titleWidget(doc->projectClip().videoWidth(), doc->projectClip().videoHeight(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
+                titleWidget *txtWidget=new titleWidget(m_doc->projectClip().videoWidth(), m_doc->projectClip().videoHeight(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
                 connect(txtWidget->canview,SIGNAL(showPreview(QString)),m_workspaceMonitor->screen(),SLOT(setTitlePreview(QString)));
                 Timecode tcode;
                 txtWidget->edit_duration->setText(tcode.getTimecode(refClip->duration(), KdenliveSettings::defaultfps()));
@@ -1925,7 +1943,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                     GenTime duration(frames , KdenliveSettings::defaultfps());
                     QPixmap thumb = txtWidget->thumbnail(50, 40);
                     QDomDocument xml = txtWidget->toXml();
-                    KCommand *command = new Command::KEditClipCommand(*doc, refClip, duration,                           txtWidget->titleName->text(),QString::null, xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked());
+                    KCommand *command = new Command::KEditClipCommand(*m_doc, refClip, duration,                           txtWidget->titleName->text(),QString::null, xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked());
 
 		    if (refClip->numReferences() > 0) getDocument()->activateSceneListGeneration(true);
             	}
@@ -1936,18 +1954,18 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                 if (dia->exec() == QDialog::Accepted) {
                     if (refClip->clipType() == DocClipBase::COLOR) {
                         KCommand *command =
-                                new Command::KEditClipCommand(*doc, refClip, dia->color(),
+                                new Command::KEditClipCommand(*m_doc, refClip, dia->color(),
                                 dia->duration(), dia->name(), dia->description());
                     }
                     else if (refClip->clipType() == DocClipBase::IMAGE) {
 			QString url = dia->url();
 			if (dia->ttl() != 0) url = url + "/.all." + dia->extension();
                         KCommand *command =
-                                new Command::KEditClipCommand(*doc, refClip, url, "",dia->ttl(),
+                                new Command::KEditClipCommand(*m_doc, refClip, url, "",dia->ttl(),
                                 dia->duration(), dia->description(), dia->transparency());
                     }
                     else { // Video clip
-                        KCommand *command = new Command::KEditClipCommand(*doc, refClip, dia->url(),dia->description());
+                        KCommand *command = new Command::KEditClipCommand(*m_doc, refClip, dia->url(),dia->description());
                     }
 		if (refClip->numReferences() > 0) getDocument()->activateSceneListGeneration(true);
                 }
@@ -1975,16 +1993,16 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		    new KMacroCommand(i18n("Delete Clip"));
 
 		DocClipRefList list =
-		    doc->referencedClips(m_projectList->
+		    m_doc->referencedClips(m_projectList->
 		    currentSelection()->referencedClip());
 
 		QPtrListIterator < DocClipRef > itt(list);
 
 		while (itt.current()) {
 		    Command::KAddRefClipCommand * command =
-			new Command::KAddRefClipCommand(doc->
-			effectDescriptions(), doc->clipManager(),
-			&(doc->projectClip()), itt.current(), false);
+			new Command::KAddRefClipCommand(m_doc->
+			effectDescriptions(), m_doc->clipManager(),
+			&(m_doc->projectClip()), itt.current(), false);
 		    macroCommand->addCommand(command);
 		    ++itt;
 		}
@@ -1996,9 +2014,9 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		m_monitorManager.clearClip(clip);
 
 		DocumentBaseNode *node =
-		    doc->findClipNode(refClip->name());
+		    m_doc->findClipNode(refClip->name());
 
-		macroCommand->addCommand(new Command::KAddClipCommand(*doc,
+		macroCommand->addCommand(new Command::KAddClipCommand(*m_doc,
 			node->name(), clip, node->parent(), false));
 
 		// remove thumbnail file
@@ -2024,7 +2042,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    KMessageBox::Continue) {
 
 	    KCommand *command =
-		Command::KAddClipCommand::clearProject(*doc);
+		Command::KAddClipCommand::clearProject(*m_doc);
 
 	    addCommand(command, true);
 	}
@@ -2266,7 +2284,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     void KdenliveApp::slotConfigureProject() {
 	ConfigureProjectDialog configDialog(getDocument()->renderer()->
 	    fileFormats(), this, "configure project dialog");
-        configDialog.setValues(doc->framesPerSecond(), doc->projectClip().videoWidth(), doc->projectClip().videoHeight(), KdenliveSettings::currentdefaultfolder());
+        configDialog.setValues(m_doc->framesPerSecond(), m_doc->projectClip().videoWidth(), m_doc->projectClip().videoHeight(), KdenliveSettings::currentdefaultfolder());
 	if (QDialog::Accepted == configDialog.exec()) {
 	KdenliveSettings::setCurrentdefaultfolder(configDialog.projectFolder().url());
 	}
@@ -2295,7 +2313,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
 	// reparent the item
 	while (itt.current()) {
-		DocumentBaseNode *node = doc->findClipNode(itt.current()->name());
+		DocumentBaseNode *node = m_doc->findClipNode(itt.current()->name());
 		if (node->hasParent() && node->parent()->name() != parentNode->name()) {
 			DocumentBaseNode *oldParentNode = node->parent();
 			oldParentNode->removeChild(node);

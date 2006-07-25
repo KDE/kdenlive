@@ -19,8 +19,10 @@
 #include "qptrlist.h"
 #include "qvaluelist.h"
 
+#include "kdenlivesettings.h"
+
 SnapToGrid::SnapToGrid():
-m_snapToFrame(true), m_isDirty(true), m_framesPerSecond(25)
+m_snapToFrame(true), m_isDirty(true), m_framesPerSecond(KdenliveSettings::defaultfps())
 {
     m_internalSnapTracker = m_internalSnapList.end();
 }

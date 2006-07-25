@@ -46,7 +46,7 @@ m_clipType(NONE), m_alphaTransparency(false), m_frequency(0), m_channels(0), m_t
 /* color clip */
 DocClipAVFile::DocClipAVFile(const QString & color,
     const GenTime & duration, uint id):DocClipBase(), m_duration(duration),
-m_url(QString::null), m_durationKnown(true), m_framesPerSecond(25),
+m_url(QString::null), m_durationKnown(true), m_framesPerSecond(KdenliveSettings::defaultfps()),
 m_color(color), m_clipType(COLOR), m_filesize(0), m_alphaTransparency(false), m_frequency(0), m_channels(0), m_ttl(0)
 {
     setName(i18n("Color Clip"));
@@ -59,7 +59,7 @@ m_color(color), m_clipType(COLOR), m_filesize(0), m_alphaTransparency(false), m_
 DocClipAVFile::DocClipAVFile(const KURL & url, const QString & extension,
     const int &ttl, const GenTime & duration, bool alphaTransparency, uint id):DocClipBase(),
 m_duration(duration), m_url(url), m_durationKnown(true),
-m_framesPerSecond(25), m_color(QString::null), m_clipType(IMAGE), m_alphaTransparency(alphaTransparency), m_frequency(0), m_channels(0), m_ttl(ttl)
+m_framesPerSecond(KdenliveSettings::defaultfps()), m_color(QString::null), m_clipType(IMAGE), m_alphaTransparency(alphaTransparency), m_frequency(0), m_channels(0), m_ttl(ttl)
 {
     if (ttl == 0) setName(url.fileName());
     else setName(i18n("Slideshow"));
@@ -275,7 +275,7 @@ QDomDocument DocClipAVFile::generateSceneList() const
         QDomElement playlist = sceneList.createElement("playlist");
         playlist.setAttribute("in", "0");
         playlist.setAttribute("out",
-        QString::number(duration().frames(25)));
+        QString::number(duration().frames(KdenliveSettings::defaultfps())));
         QDomElement entry = sceneList.createElement("entry");
         entry.setAttribute("producer", QString("producer0"));
         playlist.appendChild(entry);
@@ -294,7 +294,7 @@ QDomDocument DocClipAVFile::generateSceneList() const
 	QDomElement playlist = sceneList.createElement("playlist");
 	playlist.setAttribute("in", "0");
 	playlist.setAttribute("out",
-	    QString::number(duration().frames(25)));
+	    QString::number(duration().frames(KdenliveSettings::defaultfps())));
 	QDomElement entry = sceneList.createElement("entry");
 	entry.setAttribute("producer", QString("producer0"));
 	playlist.appendChild(entry);
@@ -441,7 +441,7 @@ void DocClipAVFile::calculateFileProperties(const QMap < QString,
 	m_filesize = fileInfo.size();
 
 	if (attributes.contains("duration")) {
-	    m_duration = GenTime(attributes["duration"].toInt(), 25.0);
+	    m_duration = GenTime(attributes["duration"].toInt(), KdenliveSettings::defaultfps());
 	    m_durationKnown = true;
 	} else {
 	    // No duration known, use an arbitrary one until it is.

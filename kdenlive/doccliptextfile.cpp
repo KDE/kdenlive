@@ -44,7 +44,7 @@ m_clipType(TEXT), m_alphaTransparency(false)
 
 DocClipTextFile::DocClipTextFile(const QString & name, const QString & text,
                                  const GenTime & duration, const QDomDocument &xml, KURL url, const QPixmap &pix, bool transparency, uint id):DocClipBase(), m_duration(duration), m_xml(xml),
-m_url(url), m_durationKnown(true), m_framesPerSecond(25), m_clipType(TEXT), m_alphaTransparency(transparency), m_filesize(0)
+m_url(url), m_durationKnown(true), m_framesPerSecond(KdenliveSettings::defaultfps()), m_clipType(TEXT), m_alphaTransparency(transparency), m_filesize(0)
 {
     setName(name);
     setId(id);
@@ -177,7 +177,7 @@ QDomDocument DocClipTextFile::generateSceneList() const
     westley.appendChild(producer);
     QDomElement playlist = sceneList.createElement("playlist");
     playlist.setAttribute("in", "0");
-    playlist.setAttribute("out", QString::number(duration().frames(25)));
+    playlist.setAttribute("out", QString::number(duration().frames(KdenliveSettings::defaultfps())));
     QDomElement entry = sceneList.createElement("entry");
     entry.setAttribute("producer", QString("producer0"));
     playlist.appendChild(entry);

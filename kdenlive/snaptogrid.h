@@ -56,7 +56,9 @@ class SnapToGrid {
 
     double framesPerSecond() const {
 	return m_framesPerSecond;
-    } void setFramesPerSecond(double fps) {
+    } 
+
+    void setFramesPerSecond(double fps) {
 	m_framesPerSecond = fps;
     }
 	/**

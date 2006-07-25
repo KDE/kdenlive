@@ -55,3 +55,4 @@ KRender *KRenderManager::findRenderer(const QString & name)
     if (!found) return createRenderer(name);
     return result;
 }
+

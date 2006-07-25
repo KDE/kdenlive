@@ -17,6 +17,7 @@
 
 #include "transition.h"
 #include "docclipref.h"
+#include "kdenlivesettings.h"
 
 #include <kdebug.h>
 #include <qdom.h>
@@ -287,10 +288,10 @@ QDomDocument Transition::toXML()
     QDomElement effect = doc.createElement("transition");
     effect.setAttribute("type", transitionType());
     effect.setAttribute("inverted", invertTransition());
-    effect.setAttribute("start", transitionStartTime().frames(25.0));
-    effect.setAttribute("end", transitionEndTime().frames(25.0));
+    effect.setAttribute("start", transitionStartTime().frames(KdenliveSettings::defaultfps()));
+    effect.setAttribute("end", transitionEndTime().frames(KdenliveSettings::defaultfps()));
     if (m_secondClip) {
-        effect.setAttribute("clipb_starttime", m_secondClip->trackStart().frames(25.0));
+        effect.setAttribute("clipb_starttime", m_secondClip->trackStart().frames(KdenliveSettings::defaultfps()));
         effect.setAttribute("clipb_track", transitionEndTrack());
     }
     

@@ -21,6 +21,7 @@
 #include <qxml.h>
 #include <klocale.h>
 
+#include "kdenlivesettings.h"
 #include "effectdesc.h"
 #include "effectdescriptionlist.h"
 #include "effectparamdescfactory.h"
@@ -153,9 +154,9 @@ static void initEffects(EffectDescriptionList *effectList)
 	"X;Y;Width;Height;Averaging");
     xmlAttr.append("min", QString::null, QString::null, "0;0;0;0;3");
     xmlAttr.append("max", QString::null, QString::null,
-	"720;576;1000;1000;100");
+	QString::number(KdenliveSettings::defaultwidth()) + ";" + QString::number(KdenliveSettings::defaultheight()) + ";1000;1000;100");
     xmlAttr.append("default", QString::null, QString::null,
-	"360;260;100;100;20");
+	QString::number((int) KdenliveSettings::defaultwidth() / 2) + ";" + QString::number((int) KdenliveSettings::defaultheight() / 2) + ";100;100;20");
     obscure->addParameter(effectDescParamFactory.createParameter(xmlAttr));
     effectList->append(obscure);
 
