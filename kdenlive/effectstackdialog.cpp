@@ -126,6 +126,17 @@ namespace Gui {
 	m_deleteButton->setEnabled(true);
     }
 
+    void EffectStackDialog::cleanWidgets()
+    {
+	if (m_parameter->child("container"), "QWidget")
+	    delete m_parameter->child("container", "QWidget");
+	
+	if (k_container->child("container2", "QWidget")) 
+	    delete k_container->child("container2", "QWidget");
+    }
+
+
+
     void EffectStackDialog::addParameters(DocClipRef * clip,
 	Effect * effect) {
 	// Rebuild the effect parameters dialog
@@ -145,10 +156,7 @@ namespace Gui {
 	    selectedEffectIndex());
 
 	// remove all previous params
-	if (m_parameter->child("container", "QVBox"))
-	    delete m_parameter->child("container", "QVBox");
-	if (k_container->child("container2"), "QFrame")
-	    delete k_container->child("container2", "QFrame");
+	cleanWidgets();
 
 	QVBox *container = new QVBox(m_parameter, "container");
 	container->setSpacing(5);
@@ -341,11 +349,7 @@ namespace Gui {
 
     void EffectStackDialog::slotDeleteEffect() {
 	// remove all previous params
-	if (m_parameter->child("container", "QVBox"))
-	    delete m_parameter->child("container", "QVBox");
-	if (k_container->child("container2"), "QFrame")
-	    delete k_container->child("container2", "QFrame");
-
+	cleanWidgets();
 	m_effectList->slotDeleteEffect();
     }
 
@@ -567,10 +571,7 @@ namespace Gui {
 
     void EffectStackDialog::slotSetEffectStack(DocClipRef * clip) {
 	// remove all previous params
-	if (m_parameter->child("container", "QVBox"))
-	    delete m_parameter->child("container", "QVBox");
-	if (k_container->child("container2"), "QFrame")
-	    delete k_container->child("container2", "QFrame");
+	cleanWidgets();
 	disableButtons();
 	tabWidget2->setTabEnabled(tabWidget2->page(1), false);
 	m_effectList->setEffectStack(clip);

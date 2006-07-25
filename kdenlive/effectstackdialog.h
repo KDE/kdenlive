@@ -70,6 +70,7 @@ Implementation of the EffectStackDialog
 	void changeKeyFrameValue(int newTime);
 	void disableButtons();
 	void enableButtons();
+	void cleanWidgets();
     };
 
 }				// namespace Gui
