@@ -68,6 +68,8 @@ Implementation of the EffectStackDialog
 	void selectKeyFrame(int);
 	void changeKeyFramePosition(int newTime);
 	void changeKeyFrameValue(int newTime);
+	void disableButtons();
+	void enableButtons();
     };
 
 }				// namespace Gui

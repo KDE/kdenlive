@@ -102,11 +102,28 @@ namespace Gui {
 	    SLOT(setValue(int)));
 	 connect(spinPosition, SIGNAL(valueChanged(int)), this,
 	    SLOT(changeKeyFramePosition(int)));
+	disableButtons();
 
 	/*connect(spinValue, SIGNAL(valueChanged(int)), sliderValue, SLOT(setValue(int)));
 	   connect(sliderValue, SIGNAL(valueChanged(int)), spinValue, SLOT(setValue(int)));
 	   connect(spinValue, SIGNAL(valueChanged(int)), this, SLOT(changeKeyFrameValue(int))); */
     } EffectStackDialog::~EffectStackDialog() {
+    }
+
+    void EffectStackDialog::disableButtons()
+    {
+	m_upButton->setEnabled(false);
+	m_downButton->setEnabled(false);
+	m_resetButton->setEnabled(false);
+	m_deleteButton->setEnabled(false);
+    }
+
+    void EffectStackDialog::enableButtons()
+    {
+	m_upButton->setEnabled(true);
+	m_downButton->setEnabled(true);
+	m_resetButton->setEnabled(true);
+	m_deleteButton->setEnabled(true);
     }
 
     void EffectStackDialog::addParameters(DocClipRef * clip,
@@ -115,7 +132,12 @@ namespace Gui {
 	kdDebug()<<"++++++++++++  REBUILD PARAMETER DIALOG FOR CLIP: "<<clip->name()<<endl;
 	uint parameterNum = 0;
 	m_hasKeyFrames = false;
-        if (!effect->parameter(parameterNum)) return;
+        if (!effect->parameter(parameterNum)) {
+		disableButtons();
+		return;
+	}
+	enableButtons();
+
 	m_effecttype = effect->effectDescription().parameter(parameterNum)->type();
 	spinIndex->setValue(0);
 	updateKeyFrames();
@@ -361,11 +383,24 @@ namespace Gui {
 		    sbox->setValue(effect->effectDescription().
 			parameter(parameterNum)->defaultValue().toInt());
 	    }
+	    else if (effect->effectDescription().parameter(parameterNum)->type() == "list") {
+		KComboBox *sbox =
+		    dynamic_cast <
+		    KComboBox * >(m_parameter->child(widgetName.ascii(),
+			"KComboBox"));
+		if (!sbox)
+		    kdWarning() <<
+			"EFFECTSTACKDIALOG ERROR, CANNOT FIND BOX FOR PARAMETER "
+			<< parameterNum << endl;
+		else
+		    sbox->setCurrentText(effect->effectDescription().
+			parameter(parameterNum)->defaultValue());
+	    }
 	    parameterNum++;
 	}
 	m_blockUpdate = false;
 	emit redrawTracks();
-	emit generateSceneList();
+	parameterChanged(0);
     }
 
 
@@ -536,7 +571,7 @@ namespace Gui {
 	    delete m_parameter->child("container", "QVBox");
 	if (k_container->child("container2"), "QFrame")
 	    delete k_container->child("container2", "QFrame");
-
+	disableButtons();
 	tabWidget2->setTabEnabled(tabWidget2->page(1), false);
 	m_effectList->setEffectStack(clip);
     }
