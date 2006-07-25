@@ -81,7 +81,7 @@ DocClipRef::~DocClipRef()
 {
     delete startTimer;
     delete endTimer;
-    disconnectThumbCreator();
+    //disconnectThumbCreator();
 }
 
 void DocClipRef::disconnectThumbCreator()
@@ -967,7 +967,8 @@ QDomDocument DocClipRef::generateXMLClip()
                     clipFilter.setAttribute("mlt_service",
 			effect->effectDescription().tag());
 		    if (effect->effectDescription().
-			parameter(parameterNum)->type() == "constant")
+			parameter(parameterNum)->type() == "constant" || effect->effectDescription().
+			parameter(parameterNum)->type() == "list")
 			while (effect->parameter(parameterNum)) {
                         clipFilter.setAttribute(effect->
 				effectDescription().

@@ -164,6 +164,7 @@ static void initEffects(EffectDescriptionList *effectList)
     xmlAttr.clear();
     xmlAttr.append("type", QString::null, QString::null, "list");
     xmlAttr.append("paramlist", QString::null, QString::null, "horizontal,vertical,diagonal,xdiagonal,flip,flop");
+    xmlAttr.append("default", QString::null, QString::null, "horizontal");
     xmlAttr.append("name", QString::null, QString::null,
 	"mirror");
     mirror->addParameter(effectDescParamFactory.createParameter(xmlAttr));

@@ -815,8 +815,11 @@ namespace Gui {
 	    SIGNAL(outpointPositionChanged(const GenTime &)), m_timeline,
 	    SLOT(setOutpointTimeline(const GenTime &)));
 
+/*	
+	Don't display timeline clip in workspace monitor on single click
 	connect(getDocument(), SIGNAL(signalClipSelected(DocClipRef *)),
-	    this, SLOT(slotSetClipMonitorSource(DocClipRef *)));
+	    this, SLOT(slotSetClipMonitorSource(DocClipRef *)));*/
+
 	connect(getDocument(), SIGNAL(signalOpenClip(DocClipRef *)),
 	    this, SLOT(slotSetClipMonitorSourceAndSeek(DocClipRef *)));
 	connect(getDocument(), SIGNAL(signalClipSelected(DocClipRef *)),
@@ -1291,11 +1294,11 @@ namespace Gui {
 	    QString newProjectName;
 	    m_selectedFile = NULL;
 	    slotNewProject(&newProjectName, &m_selectedFile, &videoTracks, &audioTracks);
-
             if (!m_selectedFile.isEmpty()) {
 	    	openSelectedFile();
 	    }
 	    else {
+		requestDocumentClose();
 	    	doc->newDocument(videoTracks, audioTracks);
 	    	setCaption(newProjectName + ".kdenlive", doc->isModified());
 	    	doc->setURL(KURL(KdenliveSettings::currentdefaultfolder() + "/" + newProjectName + ".kdenlive"));
@@ -1365,6 +1368,7 @@ namespace Gui {
     
     void KdenliveApp::requestDocumentClose()
     {
+    m_effectStackDialog->slotSetEffectStack(0);
     if (m_clipMonitor)
         m_clipMonitor->slotClearClip();
     if (m_workspaceMonitor)
@@ -2125,6 +2129,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
     void KdenliveApp::slotDeleteSelected() {
 	slotStatusMsg(i18n("Deleting Selected Clips"));
+
+	m_effectStackDialog->slotSetEffectStack(0);
 	addCommand(Command::KAddRefClipCommand::
 	    deleteSelectedClips(getDocument()), true);
 	getDocument()->activateSceneListGeneration(true);

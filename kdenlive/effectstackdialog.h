@@ -61,8 +61,10 @@ Implementation of the EffectStackDialog
 	QString m_effecttype;
 	bool m_hasKeyFrames;
 
-	private slots: void parameterChanged(int);
+      private slots: 
+	void parameterChanged(int);
 	void resetParameters();
+        void slotDeleteEffect();
 	void selectKeyFrame(int);
 	void changeKeyFramePosition(int newTime);
 	void changeKeyFrameValue(int newTime);

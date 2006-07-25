@@ -295,8 +295,8 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 
     void KMMMonitor::slotClearClip() {
 	m_referredClip = 0;
-	if (m_clip != 0) {
-	    m_clip->disconnectThumbCreator();
+	if (m_clip) {
+//	    m_clip->disconnectThumbCreator();
 	    delete m_clip;
 	    m_clip = 0;
 	}

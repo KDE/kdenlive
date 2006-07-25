@@ -124,18 +124,17 @@ void KdenliveDoc::deleteContents()
     m_projectClip = new DocClipProject(KdenliveSettings::defaultfps(), KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight());
     connectProjectClip();*/
 
-    setProjectClip(new DocClipProject(KdenliveSettings::defaultfps(), KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight()));
-
-
     if (m_clipHierarch) {
 	delete m_clipHierarch;
 	m_clipHierarch = 0;
     }
 
-    
     //emit trackListChanged();
 
     m_clipManager.clear();
+
+    setProjectClip(new DocClipProject(KdenliveSettings::defaultfps(), KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight()));
+
     emit clipListUpdated();
 }
 
@@ -465,10 +464,10 @@ void KdenliveDoc::setProjectClip(DocClipProject * projectClip)
 	delete m_projectClip;
     }
     m_projectClip = projectClip;
-    connectProjectClip();
     updateReferences();
     emit trackListChanged();
     emit documentLengthChanged(projectDuration());
+    connectProjectClip();
 }
 
 void KdenliveDoc::slotUpdateClipThumbnails(DocClipBase *clip)

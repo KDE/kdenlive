@@ -566,10 +566,10 @@ bool DocTrackBase::selectClip(DocClipRef * clip, bool selected)
 	} else {
 	    if (selected) {
 		m_selectedClipList.inSort(clip);
-		//emit signalClipSelected(clip);
+		emit signalClipSelected(clip);
 	    } else {
 		m_unselectedClipList.inSort(clip);
-		//emit signalClipSelected(0);
+		emit signalClipSelected(0);
 	    }
 	    result = true;
 	    emit clipSelectionChanged();
