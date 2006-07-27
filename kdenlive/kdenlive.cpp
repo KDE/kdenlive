@@ -127,7 +127,7 @@ namespace Gui {
 
     KdenliveApp::KdenliveApp(QWidget *parent,
 	const char *name):KDockMainWindow(parent, name), m_monitorManager(this),
-    m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_renderManager(NULL), m_doc(NULL) {
+    m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_renderManager(NULL), m_doc(NULL), m_effectStackDialog(NULL), m_clipMonitor(NULL), m_projectList(NULL), m_effectListDialog(NULL) {
 	config = kapp->config();
 	QString newProjectName;
 	int audioTracks = 2;
@@ -155,7 +155,8 @@ namespace Gui {
 	initActions();
 
 	initDocument(videoTracks, audioTracks);
-	initView();
+
+	initWidgets();
 	readOptions();
 
 	// disable actions at startup
@@ -167,15 +168,14 @@ namespace Gui {
 
 	fileSaveAs->setEnabled(true);
 
-        m_clipMonitor->editPanel()->showLcd(KdenliveSettings::showlcd());
-        m_workspaceMonitor->editPanel()->showLcd(KdenliveSettings::showlcd());
         
 	// Reopen last project if user asked it
-	if (KdenliveSettings::openlast())
-            connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(openLastFile()));
-        else if (!m_selectedFile.isEmpty()) 
-	    connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(openSelectedFile()));
+	if (KdenliveSettings::openlast()) openLastFile();
+            //connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(openLastFile()));
+        else if (!m_selectedFile.isEmpty()) openSelectedFile();
+	    //connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(openSelectedFile()));
 	else {
+	    initView();
 	    if (KdenliveSettings::showsplash())
 		connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(slotSplashTimeout()));
 	    setCaption(newProjectName + ".kdenlive", m_doc->isModified());
@@ -677,16 +677,14 @@ namespace Gui {
 
     void KdenliveApp::initDocument(int vtracks, int atracks) {
 	if (m_doc) delete m_doc;
+	renderManager()->resetRenderers();
         m_doc = new KdenliveDoc(KdenliveSettings::defaultfps(), KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight(), this, this);
 	connect(m_doc, SIGNAL(modified(bool)), this, SLOT(documentModified(bool)));
         m_doc->newDocument(vtracks, atracks);
     }
 
-    void KdenliveApp::initView() {
-	////////////////////////////////////////////////////////////////////
-	// create the main widget here that is managed by KTMainWindow's view-region and
-	// connect the widget to your document to display document contents.
 
+    void KdenliveApp::initWidgets() {
 	view = new QWidget(this);
         m_menuPosition = QPoint();
 	KDockWidget *mainDock =
@@ -700,28 +698,20 @@ namespace Gui {
 	setMainDockWidget(mainDock);
 	setCaption(m_doc->URL().fileName(), false);
 
-	KDockWidget *widget =
+	m_timelineWidget =
 	    createDockWidget(i18n("TimeLine"), QPixmap(), 0,
 	    i18n("TimeLine"));
-	m_timeline = new KMMTimeLine(NULL, widget);
-	widget->setWidget(m_timeline);
-	widget->setDockSite(KDockWidget::DockFullSite);
-	widget->setDockSite(KDockWidget::DockCorner);
-	widget->manualDock(mainDock, KDockWidget::DockBottom);
+	m_timeline = new KMMTimeLine(NULL, m_timelineWidget);
+	m_timelineWidget->setWidget(m_timeline);
+	m_timelineWidget->setDockSite(KDockWidget::DockFullSite);
+	m_timelineWidget->setDockSite(KDockWidget::DockCorner);
+	m_timelineWidget->manualDock(mainDock, KDockWidget::DockBottom);
 
 	m_dockProjectList = createDockWidget("Project List", QPixmap(), 0, i18n("Project List"));
-	//QSplitter *split = new QSplitter(Qt::Horizontal, m_dockProjectList, "splitter");
-	m_projectList = new ProjectList(this, getDocument(), m_dockProjectList);
-	/*QLabel *lab = new QLabel(split);
-	lab->setText("jijijij");
-	lab->show();*/
-
-	//QToolTip::add( m_dockProjectList, i18n( "Video files usable in current project" ) );
 	QWhatsThis::add(m_dockProjectList,
 	    i18n("Video files usable in your project. "
 		"Add or remove files with the contextual menu. "
 		"In order to add sequences to the current video project, use the drag and drop."));
-	m_dockProjectList->setWidget(m_projectList);
 	m_dockProjectList->setDockSite(KDockWidget::DockFullSite);
 	m_dockProjectList->manualDock(mainDock, KDockWidget::DockLeft);
 
@@ -732,66 +722,84 @@ namespace Gui {
 	m_dockTransition->manualDock(m_dockProjectList, KDockWidget::DockCenter);
 	
 	m_dockEffectList = createDockWidget("Effect List", QPixmap(), 0, i18n("Effect List"));
-	m_effectListDialog =
-	    new EffectListDialog(getDocument()->renderer()->effectList(),
-	    widget, "effect list");
 	QToolTip::add(m_dockEffectList,
 	    i18n("Current effects usable with the renderer"));
-	m_dockEffectList->setWidget(m_effectListDialog);
 	m_dockEffectList->setDockSite(KDockWidget::DockFullSite);
 	m_dockEffectList->manualDock(m_dockProjectList,
 	    KDockWidget::DockCenter);
-
-	/*  Effect setup window, currently not used
-        widget =
-	    createDockWidget("Effect Setup", QPixmap(), 0,
-	    i18n("Effect Setup"));
-	m_effectParamDialog =
-	    new EffectParamDialog(this, getDocument(), widget,
-	    "effect setup");
-	QToolTip::add(widget,
-	    i18n("Edit the parameters of the currently selected effect."));
-	widget->setWidget(m_effectParamDialog);
-	widget->setDockSite(KDockWidget::DockFullSite);
-	widget->manualDock(m_dockProjectList, KDockWidget::DockCenter);
-        */
-
-	/*clipWidget = createDockWidget("Clip Properties", QPixmap(), 0, i18n("Clip Properties"));
-	m_clipPropertyDialog =
-	    new ClipPropertiesDialog(clipWidget, "clip properties");
-	QToolTip::add(clipWidget,
-	    i18n("Properties of the currently selected clip."));
-	clipWidget->setWidget(m_clipPropertyDialog);
-	clipWidget->setDockSite(KDockWidget::DockFullSite);
-	clipWidget->manualDock(m_dockProjectList, KDockWidget::DockCenter);*/
-
 	m_dockEffectStack = createDockWidget("Effect Stack", QPixmap(), 0, i18n("Effect Stack"));
-	m_effectStackDialog =
-	    new EffectStackDialog(this, getDocument(), m_dockEffectStack,
-	    "effect stack");
-//      QToolTip::add( m_dockEffectStack, i18n( "All effects on the currently selected clip." ) );
-	m_dockEffectStack->setWidget(m_effectStackDialog);
 	m_dockEffectStack->setDockSite(KDockWidget::DockFullSite);
 	m_dockEffectStack->manualDock(m_dockProjectList,
 	    KDockWidget::DockCenter);
 
 	m_dockWorkspaceMonitor = createDockWidget("Workspace Monitor", QPixmap(), 0, i18n("Workspace Monitor"));
-	m_workspaceMonitor =
-	    m_monitorManager.createMonitor(getDocument(),
-	    m_dockWorkspaceMonitor, "Document");
-	m_workspaceMonitor->setNoSeek(true);
-	m_dockWorkspaceMonitor->setWidget(m_workspaceMonitor);
+
 	m_dockWorkspaceMonitor->setDockSite(KDockWidget::DockFullSite);
-	m_dockWorkspaceMonitor->manualDock(mainDock,
-	    KDockWidget::DockRight);
+	m_dockWorkspaceMonitor->manualDock(mainDock, KDockWidget::DockRight);
 
 	m_dockClipMonitor = createDockWidget("Clip Monitor", QPixmap(), 0, i18n("Clip Monitor"));
+	m_dockClipMonitor->setDockSite(KDockWidget::DockFullSite);
+	m_dockClipMonitor->manualDock( m_dockWorkspaceMonitor, KDockWidget::DockCenter );
+
+	setBackgroundMode(PaletteBase);
+	makeDockInvisible(mainDock);
+	readDockConfig(config, "Default Layout");
+
+
+    }
+
+
+    void KdenliveApp::initView() {
+	////////////////////////////////////////////////////////////////////
+	// create the main widget here that is managed by KTMainWindow's view-region and
+	// connect the widget to your document to display document contents.
+	kdDebug()<<"****************  INIT DOCUMENT VIEW ***************"<<endl;
+
+
+	if (m_projectList) delete m_projectList;
+	m_projectList = new ProjectList(this, getDocument(), m_dockProjectList);
+	m_dockProjectList->setWidget(m_projectList);
+	m_projectList->slot_UpdateList();
+	m_projectList->show();
+	m_dockProjectList->update();
+
+	if (m_effectListDialog) delete m_effectListDialog;
+	m_effectListDialog =
+	    new EffectListDialog(getDocument()->renderer()->effectList(),
+	    m_timelineWidget, "effect list");
+	m_dockEffectList->setWidget(m_effectListDialog);
+	m_effectListDialog->show();
+	m_dockEffectList->update();
+
+	if (m_effectStackDialog) delete m_effectStackDialog;
+	m_effectStackDialog =
+	    new EffectStackDialog(this, getDocument(), m_dockEffectStack,
+	    "effect stack");
+//      QToolTip::add( m_dockEffectStack, i18n( "All effects on the currently selected clip." ) );
+	m_dockEffectStack->setWidget(m_effectStackDialog);
+	m_effectStackDialog->show();
+	m_dockEffectStack->update();
+
+	m_monitorManager.deleteMonitors();
+
+	if (m_workspaceMonitor) delete m_workspaceMonitor;
+	m_workspaceMonitor = m_monitorManager.createMonitor(getDocument(), m_dockWorkspaceMonitor, "Document");
+
+	m_workspaceMonitor->setNoSeek(true);
+	m_dockWorkspaceMonitor->setWidget(m_workspaceMonitor);
+        m_workspaceMonitor->editPanel()->showLcd(KdenliveSettings::showlcd());
+	m_workspaceMonitor->show();
+	m_dockWorkspaceMonitor->update();
+
+
+	if (m_clipMonitor) delete m_clipMonitor;
 	m_clipMonitor =
 	    m_monitorManager.createMonitor(getDocument(),
 	    m_dockClipMonitor, "Clip Monitor");
 	m_dockClipMonitor->setWidget(m_clipMonitor);
-	m_dockClipMonitor->setDockSite(KDockWidget::DockFullSite);
-	m_dockClipMonitor->manualDock( m_dockWorkspaceMonitor, KDockWidget::DockCenter );
+	m_clipMonitor->editPanel()->showLcd(KdenliveSettings::showlcd());
+	m_clipMonitor->show();
+	m_dockClipMonitor->update();
 
 //	m_dockCaptureMonitor = createDockWidget( "Capture Monitor", QPixmap(), 0, i18n( "Capture Monitor" ) );
 //	m_captureMonitor = m_monitorManager.createCaptureMonitor( getDocument(), m_dockCaptureMonitor, "Capture Monitor" );
@@ -799,9 +807,6 @@ namespace Gui {
 //	m_dockCaptureMonitor->setDockSite( KDockWidget::DockFullSite );
 //	m_dockCaptureMonitor->manualDock( m_dockWorkspaceMonitor, KDockWidget::DockCenter );
 //	m_dockCaptureMonitor->editPanel()->showLcd(KdenliveSettings::showlcd());
-
-	setBackgroundMode(PaletteBase);
-
 
 	connect(m_workspaceMonitor,
 	    SIGNAL(seekPositionChanged(const GenTime &)), m_timeline,
@@ -918,11 +923,7 @@ namespace Gui {
 	    m_effectParamDialog,
         SLOT(slotSetEffectDescription(const EffectDesc &)));*/
 
-	makeDockInvisible(mainDock);
-
-	readDockConfig(config, "Default Layout");
-
-	slotSyncTimeLineWithDocument();
+	m_timeline->trackView()->clearFunctions();
 
 	m_timeline->trackView()->registerFunction("move",
 	    new TrackPanelClipMoveFunction(this, m_timeline,
@@ -1022,6 +1023,14 @@ namespace Gui {
 	m_timeline->setSnapToBorder(snapToBorderEnabled());
 	m_timeline->setSnapToMarker(snapToMarkersEnabled());
 	m_timeline->setEditMode("move");
+
+	slotSyncTimeLineWithDocument();
+
+	m_timeline->slotSetFramesPerSecond(KdenliveSettings::defaultfps());
+	m_timeline->slotSetProjectLength(getDocument()->projectClip().duration());
+
+        QTimer::singleShot(200, getDocument(), SLOT(activateSceneListGeneration()));
+	
     }
     
 
@@ -1138,8 +1147,11 @@ namespace Gui {
 
     void KdenliveApp::openDocumentFile(const KURL & url) {
 	slotStatusMsg(i18n("Opening file..."));
-        if (!url.isEmpty()) requestDocumentClose();
-	m_projectFormatManager.openDocument(url, m_doc);
+        if (!url.isEmpty()) {
+		requestDocumentClose(url);
+		m_projectFormatManager.openDocument(url, m_doc);
+		initView();
+	}
 	slotStatusMsg(i18n("Ready."));
     }
 
@@ -1211,6 +1223,7 @@ namespace Gui {
 
 	    if (canRecover) {
 		m_projectFormatManager.openDocument(_url, m_doc);
+		initView();
 		m_doc->setModified(true);
 		setCaption(_url.fileName(), true);
 		QFile::remove(tempname);
@@ -1218,6 +1231,7 @@ namespace Gui {
 	} else {
 	    if (!filename.isEmpty()) {
 		m_projectFormatManager.openDocument(url, m_doc);
+		initView();
 		setCaption(url.fileName(), false);
 	    }
 	}
@@ -1302,6 +1316,7 @@ namespace Gui {
 	    else {
 		requestDocumentClose();
 	    	m_doc->newDocument(videoTracks, audioTracks);
+		initView();
 	    	setCaption(newProjectName + ".kdenlive", m_doc->isModified());
 	    	m_doc->setURL(KURL(KdenliveSettings::currentdefaultfolder() + "/" + newProjectName + ".kdenlive"));
 	    }
@@ -1325,7 +1340,6 @@ namespace Gui {
 		newProjectDialog->setCaption(i18n("Kdenlive - New Project"));
 		if (newProjectDialog->exec() == QDialog::Rejected) exit(1);
 		else {
-			m_monitorManager.resetMonitors();
 			if (newProjectDialog->isNewFile()) {
 				*newProjectName = newProjectDialog->projectName->text();
 				KdenliveSettings::setCurrentdefaultfolder(newProjectDialog->projectFolderPath());
@@ -1366,30 +1380,47 @@ namespace Gui {
 		m_projectFormatManager.loadMimeTypes(),
 		this,
 		i18n("Open File..."));
-                requestDocumentClose();
-	    if (!url.isEmpty()) {
+                //requestDocumentClose(url);
+	    if (!url.isEmpty()) slotFileOpenRecent(url);
+
+	/*{
 		if (!m_projectFormatManager.openDocument(url, m_doc)) {
 		    KMessageBox::sorry(this,
 			i18n("Could not read project file: %1").arg(url.
 			    prettyURL()));
 		    return;
 		}
+		initView();
 		setCaption(url.fileName(), false);
 		fileOpenRecent->addURL(url);
 		m_fileDialogPath = url;
 		m_fileDialogPath.setFileName(QString::null);
-	    }
+	    }*/
 	}
 	slotStatusMsg(i18n("Ready."));
     }
     
-    void KdenliveApp::requestDocumentClose()
+    void KdenliveApp::requestDocumentClose(KURL new_url)
     {
-    m_effectStackDialog->slotSetEffectStack(0);
-    if (m_clipMonitor)
-        m_clipMonitor->slotClearClip();
-    if (m_workspaceMonitor)
-        m_workspaceMonitor->slotClearClip();
+    // Check if new file is an NTSC or PAL doc and set environnement variables accordingly
+    bool isNTSC = false;
+    if (!new_url.isEmpty()) {
+	QFile myFile(new_url.path());
+	if (myFile.open(IO_ReadOnly)) {
+		QTextStream stream( &myFile );
+		QString fileToText = stream.read();
+		if (fileToText.find("projectheight=\"480\"") != -1) {
+			kdDebug()<<"--------   KDENLIVE OPENING NTSC FILE ----------------"<<endl;
+			isNTSC = true;	
+		}
+	myFile.close();
+	}
+    }
+    if (isNTSC) putenv ("MLT_NORMALISATION=NTSC");
+    else putenv ("MLT_NORMALISATION=PAL");
+    if (m_effectStackDialog) m_effectStackDialog->slotSetEffectStack(0);
+    m_monitorManager.resetMonitors();
+    initDocument(3,2);
     }
 
     void KdenliveApp::slotEditCopy()
@@ -1480,9 +1511,9 @@ namespace Gui {
 	    // here saving wasn't successful
 	} else if (KIO::NetAccess::exists(url, true, this)) {
 	    kdWarning() << "Opening url " << url.path() << endl;
-            requestDocumentClose();
+            requestDocumentClose(url);
 	    m_projectFormatManager.openDocument(url, m_doc);
-
+	    initView();
 	    setCaption(url.fileName(), false);
 	}
 	else KMessageBox::sorry(this, i18n("Cannot read file: %1").arg(url.path()));

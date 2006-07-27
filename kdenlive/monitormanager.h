@@ -72,6 +72,7 @@ Manages the creation and life of a GUI monitor. Importantly, it makes sure that 
 	void slotMonitorClicked(KMonitor * monitor);
 	/** Cause the specified monitor to become active. */
 	void activateMonitor(KMonitor * monitor);
+	void deleteMonitors();
 
     };
 

@@ -56,3 +56,18 @@ KRender *KRenderManager::findRenderer(const QString & name)
     return result;
 }
 
+void KRenderManager::resetRenderers()
+{
+
+    QStringList renderNames;
+    QPtrListIterator < KRender > itt(m_renderList);
+    while (itt.current()) {
+	renderNames.append(itt.current()->rendererName());
+	++itt;
+    }
+    m_renderList.clear();
+
+    for ( QStringList::Iterator it = renderNames.begin(); it != renderNames.end(); ++it ) {
+        createRenderer(*it);
+    }
+}

@@ -66,8 +66,14 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 	    if (e.tagName() == "properties") {
 		KdenliveSettings::setCurrentdefaultfolder(e.attribute("projectfolder",""));
 		KdenliveSettings::setDefaultheight(e.attribute("projectheight","576").toInt());
-		if (KdenliveSettings::defaultheight() == 576) putenv ("MLT_NORMALISATION=PAL");
-		else putenv ("MLT_NORMALISATION=NTSC");
+		if (KdenliveSettings::defaultheight() == 480) {
+			kdDebug()<<" ++++++++++  OPENING NTSC PROJECT +++++++++++++++"<<endl;
+			putenv ("MLT_NORMALISATION=NTSC");
+		}
+		else {
+			kdDebug()<<" ++++++++++  OPENING PAL PROJECT +++++++++++++++"<<endl;
+			putenv ("MLT_NORMALISATION=PAL");
+		}
 		KdenliveSettings::setDefaultwidth(e.attribute("projectwidth","720").toInt());
 		KdenliveSettings::setDefaultfps(e.attribute("projectfps","25.0").toDouble());
 		KdenliveSettings::setAspectratio(e.attribute("projectratio","1.09259").toDouble());

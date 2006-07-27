@@ -27,6 +27,11 @@ TrackPanelFunctionFactory::TrackPanelFunctionFactory()
 
 TrackPanelFunctionFactory::~TrackPanelFunctionFactory()
 {
+    clearFactory();
+}
+
+void TrackPanelFunctionFactory::clearFactory()
+{
     QMap < QString, TrackPanelFunction * >::iterator itt =
 	m_functionMap.begin();
 
@@ -35,6 +40,7 @@ TrackPanelFunctionFactory::~TrackPanelFunctionFactory()
 	itt.data() = 0;
 	++itt;
     }
+    m_functionMap.clear();
 }
 
 void TrackPanelFunctionFactory::registerFunction(const QString & name,

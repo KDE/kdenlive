@@ -27,7 +27,9 @@ namespace Gui {
 
     MonitorManager::MonitorManager(KdenliveApp * app):QObject(),
 	m_app(app), m_active(0) {
-    } MonitorManager::~MonitorManager() {
+    } 
+
+    MonitorManager::~MonitorManager() {
     }
 
 
@@ -90,6 +92,11 @@ namespace Gui {
 			itt.current()->slotClearClip();
 		++itt;
 	    }
+    }
+
+    void MonitorManager::deleteMonitors() {
+	m_monitors.clear();
+	m_active = 0;
     }
 
     void MonitorManager::clearClip(DocClipBase * clip) {

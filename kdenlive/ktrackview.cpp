@@ -171,6 +171,10 @@ namespace Gui {
 	m_factory.registerFunction(name, function);
     }
 
+    void KTrackView::clearFunctions() {
+	m_factory.clearFactory();
+    }
+
 /** This event occurs when a double click occurs. */
 void KTrackView::mouseDoubleClickEvent(QMouseEvent * event) {
 

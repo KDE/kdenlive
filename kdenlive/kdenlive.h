@@ -151,10 +151,11 @@ namespace Gui {
 	void initDocument(int vtracks, int atracks);
 		/** Do some stuff required before attempting to close the current project
                  */
-        void requestDocumentClose();
+        void requestDocumentClose(KURL new_url = NULL);
 		/** creates the centerwidget of the KTMainWindow instance and sets it as the view
 		 */
 	void initView();
+	void initWidgets();
 		/** queryClose is called by KTMainWindow on each closeEvent of a window. Against the
 		 * default implementation (only returns true), this calles saveModified() on the document object to ask if the document shall
 		 * be saved if Modified; on cancel the closeEvent is rejected.
@@ -495,6 +496,7 @@ namespace Gui {
 	ClipPropertiesDialog *m_clipPropertyDialog;
 	TransitionDialog *m_transitionPanel;
 	KDockWidget *clipWidget;
+	KDockWidget *m_timelineWidget;
 
 	/** The monitor manager that manages the life of the various monitors.*/
 	MonitorManager m_monitorManager;

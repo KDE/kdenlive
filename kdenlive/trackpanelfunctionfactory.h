@@ -36,6 +36,8 @@ class TrackPanelFunctionFactory {
     void registerFunction(const QString & name,
 	TrackPanelFunction * function);
     TrackPanelFunction *function(const QString & name);
+    void clearFactory();
+
   private:
      QMap < QString, TrackPanelFunction * >m_functionMap;
 };

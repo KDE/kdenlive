@@ -73,7 +73,6 @@ KdenliveDoc::~KdenliveDoc()
 	delete m_projectClip;
 }
 
-
 void KdenliveDoc::setURL(const KURL & url)
 {
     m_doc_url = url;

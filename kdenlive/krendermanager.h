@@ -43,6 +43,7 @@ class KRenderManager:public QObject {
     KRender *createRenderer(const QString &name);
     /** Finds a renderer by name. Returns null if no such renderer exists. */
     KRender * findRenderer(const QString & name);
+    void resetRenderers();
 
   private:
      QPtrList < KRender > m_renderList;
