@@ -129,6 +129,7 @@ namespace Gui {
 		 * can proceed. i.e., the document has been saved or discarded. */
 	bool saveModified();
 	int getTimeScaleSliderText() const;
+ 	void setProjectNtsc(bool isNtsc);
         
       protected:
 		/** save general Options like all bar positions and status as well as the geometry and the recent file list to the configuration
@@ -480,6 +481,9 @@ namespace Gui {
         KdenliveSplash *splash;
 
 	DocClipRef *m_copiedClip;
+
+		/** tells whether the project is PAL or NTSC; */
+	bool isNtscProject;
 
 		/** The progress widget on the status bar, used by various long-winded methods. */
 	KProgress *m_statusBarProgress;

@@ -73,6 +73,11 @@ KdenliveDoc::~KdenliveDoc()
 	delete m_projectClip;
 }
 
+void KdenliveDoc::setProjectNtsc(bool isNtsc)
+{
+    m_app->setProjectNtsc(isNtsc);
+}
+
 void KdenliveDoc::setURL(const KURL & url)
 {
     m_doc_url = url;
@@ -467,6 +472,7 @@ void KdenliveDoc::setProjectClip(DocClipProject * projectClip)
     emit trackListChanged();
     emit documentLengthChanged(projectDuration());
     connectProjectClip();
+    setModified(false);
 }
 
 void KdenliveDoc::slotUpdateClipThumbnails(DocClipBase *clip)

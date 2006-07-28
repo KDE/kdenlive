@@ -127,7 +127,7 @@ namespace Gui {
 
     KdenliveApp::KdenliveApp(bool newDoc, QWidget *parent,
 	const char *name):KDockMainWindow(parent, name), m_monitorManager(this),
-    m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_renderManager(NULL), m_doc(NULL), m_effectStackDialog(NULL), m_clipMonitor(NULL), m_projectList(NULL), m_effectListDialog(NULL) {
+    m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_renderManager(NULL), m_doc(NULL), m_effectStackDialog(NULL), m_clipMonitor(NULL), m_projectList(NULL), m_effectListDialog(NULL), isNtscProject(false) {
 	config = kapp->config();
 	QString newProjectName;
 	int audioTracks = 2;
@@ -176,7 +176,10 @@ namespace Gui {
 	    initView();
 	    if (KdenliveSettings::showsplash())
 		connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(slotSplashTimeout()));
-	    setCaption(newProjectName + ".kdenlive", m_doc->isModified());
+	    QString projectType;
+	    if (isNtscProject) projectType = i18n("NTSC");
+	    else projectType = i18n("PAL");
+	    setCaption(newProjectName + ".kdenlive" + " - " + projectType, false);
 	    m_doc->setURL(KURL(KdenliveSettings::currentdefaultfolder() + "/" + newProjectName + ".kdenlive"));
 	}
 
@@ -672,8 +675,8 @@ namespace Gui {
 	if (m_doc) delete m_doc;
 	renderManager()->resetRenderers();
         m_doc = new KdenliveDoc(KdenliveSettings::defaultfps(), KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight(), this, this);
+	m_doc->newDocument(vtracks, atracks);
 	connect(m_doc, SIGNAL(modified(bool)), this, SLOT(documentModified(bool)));
-        m_doc->newDocument(vtracks, atracks);
     }
 
 
@@ -689,7 +692,7 @@ namespace Gui {
         //mainDock->setFocusPolicy(QWidget::WheelFocus); //QWidget::TabFocus
 	setCentralWidget(mainDock);
 	setMainDockWidget(mainDock);
-	setCaption(m_doc->URL().fileName(), false);
+	//setCaption(m_doc->URL().fileName(), false);
 
 	m_timelineWidget =
 	    createDockWidget(i18n("TimeLine"), QPixmap(), 0,
@@ -1023,6 +1026,7 @@ namespace Gui {
 	m_timeline->slotSetProjectLength(getDocument()->projectClip().duration());
 
         QTimer::singleShot(200, getDocument(), SLOT(activateSceneListGeneration()));
+	m_doc->setModified(false);
 	
     }
     
@@ -1146,7 +1150,10 @@ namespace Gui {
             requestDocumentClose(url);
 	    m_projectFormatManager.openDocument(url, m_doc);
 	    initView();
-	    setCaption(url.fileName(), false);
+	    QString projectType;
+	    if (isNtscProject) projectType = i18n("NTSC");
+	    else projectType = i18n("PAL");
+	    setCaption(url.fileName() + " - " + projectType, false);
 	}
 	else KMessageBox::sorry(this, i18n("Cannot read file: %1").arg(url.path()));
 
@@ -1239,14 +1246,20 @@ namespace Gui {
 		m_projectFormatManager.openDocument(_url, m_doc);
 		initView();
 		m_doc->setModified(true);
-		setCaption(_url.fileName(), true);
+		QString projectType;
+		if (isNtscProject) projectType = i18n("NTSC");
+	    	else projectType = i18n("PAL");
+	    	setCaption(url.fileName() + " - " + projectType, true);
 		QFile::remove(tempname);
 	    }
 	} else {
 	    if (!filename.isEmpty()) {
 		m_projectFormatManager.openDocument(url, m_doc);
 		initView();
-		setCaption(url.fileName(), false);
+		QString projectType;
+		if (isNtscProject) projectType = i18n("NTSC");
+	    	else projectType = i18n("PAL");
+	    	setCaption(url.fileName() + " - " + projectType, false);
 	    }
 	}
     }
@@ -1309,6 +1322,12 @@ namespace Gui {
 	return true;
     }
 
+    void KdenliveApp::setProjectNtsc(bool isNtsc) {
+	if (isNtsc) putenv ("MLT_NORMALISATION=NTSC");
+	else putenv ("MLT_NORMALISATION=PAL");
+	isNtscProject = isNtsc;
+    }
+
 /////////////////////////////////////////////////////////////////////
 // SLOT IMPLEMENTATION
 /////////////////////////////////////////////////////////////////////
@@ -1331,7 +1350,10 @@ namespace Gui {
 		requestDocumentClose();
 	    	m_doc->newDocument(videoTracks, audioTracks);
 		initView();
-	    	setCaption(newProjectName + ".kdenlive", m_doc->isModified());
+		QString projectType;
+		if (isNtscProject) projectType = i18n("NTSC");
+	    	else projectType = i18n("PAL");
+	    	setCaption(newProjectName + ".kdenlive" + " - " + projectType, false);
 	    	m_doc->setURL(KURL(KdenliveSettings::currentdefaultfolder() + "/" + newProjectName + ".kdenlive"));
 	    }
 	}
@@ -1362,14 +1384,14 @@ namespace Gui {
 					KdenliveSettings::setDefaultheight(576);
 					KdenliveSettings::setDefaultfps(25.0);
 					KdenliveSettings::setAspectratio(1.09259);
-					putenv ("MLT_NORMALISATION=PAL");
+					setProjectNtsc(false);
 				}
 				else {
 					// NTSC project
 					KdenliveSettings::setDefaultheight(480);
 					KdenliveSettings::setDefaultfps(30.0);
 					KdenliveSettings::setAspectratio(0.909);
-					putenv ("MLT_NORMALISATION=NTSC");
+					setProjectNtsc(true);
 				}
 
 				*audioTracks = newProjectDialog->audioTracks->value();
@@ -1417,7 +1439,6 @@ namespace Gui {
     void KdenliveApp::requestDocumentClose(KURL new_url)
     {
     // Check if new file is an NTSC or PAL doc and set environnement variables accordingly
-    bool isNTSC = false;
     if (!new_url.isEmpty()) {
 	QFile myFile(new_url.path());
 	if (myFile.open(IO_ReadOnly)) {
@@ -1425,12 +1446,13 @@ namespace Gui {
 		QString fileToText = stream.read();
 		if (fileToText.find("projectheight=\"480\"") != -1) {
 			kdDebug()<<"--------   KDENLIVE OPENING NTSC FILE ----------------"<<endl;
-			isNTSC = true;	
+			setProjectNtsc(true);
 		}
+		else setProjectNtsc(false);
 	myFile.close();
 	}
     }
-    if (isNTSC) putenv ("MLT_NORMALISATION=NTSC");
+    if (isNtscProject) putenv ("MLT_NORMALISATION=NTSC");
     else putenv ("MLT_NORMALISATION=PAL");
     if (m_effectStackDialog) m_effectStackDialog->slotSetEffectStack(0);
     m_monitorManager.resetMonitors();
@@ -1543,7 +1565,11 @@ namespace Gui {
 	    }
 	    if (m_projectFormatManager.saveDocument(url, m_doc)) {
 	    fileOpenRecent->addURL(url);
-	    setCaption(url.fileName(), m_doc->isModified());
+
+	    QString projectType;
+	    if (isNtscProject) projectType = i18n("NTSC");
+	    else projectType = i18n("PAL");
+            setCaption(url.fileName() + " - " + projectType, m_doc->isModified());
 	    m_doc->setURL(url);
 	    }
 	    m_fileDialogPath = url;
@@ -1608,7 +1634,11 @@ namespace Gui {
 	} else {
 	    fileSave->setEnabled(false);
 	}
-	setCaption(m_doc->URL().fileName(), modified);
+	QString projectType;
+	if (isNtscProject) projectType = i18n("NTSC");
+	else projectType = i18n("PAL");
+
+	setCaption(m_doc->URL().filename() + " - " + projectType, modified);
     }
 
     void KdenliveApp::slotTimelineSnapToBorder() {

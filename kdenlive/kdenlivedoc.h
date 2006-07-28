@@ -171,6 +171,8 @@ class KdenliveDoc:public QObject {
     
         /** Updates all clipthumbnails in the document */
     void updateTracksThumbnails();
+
+    void setProjectNtsc(bool isNtsc);
     
     
   private:
@@ -220,7 +222,7 @@ class KdenliveDoc:public QObject {
 	const QString & errmsg);
     // HACK HACK - we need a way to prevent the document from spewing hundreds of scenelist
     // generation requests - this is it.
-    void activateSceneListGeneration(bool active = true);
+    void activateSceneListGeneration(bool active = false);
     /** When a transition was deleted, disable the transition dialog in case its transition was deleted*/
     void slotDeleteClipTransition();
     void slotUpdateClipThumbnails(DocClipBase *clip);
