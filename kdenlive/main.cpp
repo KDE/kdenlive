@@ -15,9 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qdir.h>
+
 #include <kapplication.h>
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
+#include <kurl.h>
 #include <klocale.h>
 
 #include "kdenlive.h"
@@ -80,19 +83,21 @@ int main(int argc, char *argv[])
     KApplication app;
 
     if (app.isRestored()) {
-	RESTORE(Gui::KdenliveApp);
+	RESTORE(Gui::KdenliveApp(false));
     } else {
 
-	Gui::KdenliveApp * kdenlive = new Gui::KdenliveApp();
-	app.setMainWidget(kdenlive);
-	kdenlive->show();
 	KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
+	Gui::KdenliveApp * kdenlive = new Gui::KdenliveApp(args->count());
+	app.setMainWidget(kdenlive);
+
 	if (args->count()) {
-	    kdenlive->openDocumentFile(args->arg(0));
-	} else {
-	    kdenlive->openDocumentFile();
+		if (KURL(args->arg(0)).path().isEmpty())
+			kdenlive->openDocumentFile(KURL(QDir::currentDirPath() + "/" + args->arg(0)));
+		else kdenlive->openDocumentFile(KURL(args->arg(0)));
 	}
+	kdenlive->show();
+
 	args->clear();
     }
 

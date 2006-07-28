@@ -125,14 +125,14 @@
 
 namespace Gui {
 
-    KdenliveApp::KdenliveApp(QWidget *parent,
+    KdenliveApp::KdenliveApp(bool newDoc, QWidget *parent,
 	const char *name):KDockMainWindow(parent, name), m_monitorManager(this),
     m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_renderManager(NULL), m_doc(NULL), m_effectStackDialog(NULL), m_clipMonitor(NULL), m_projectList(NULL), m_effectListDialog(NULL) {
 	config = kapp->config();
 	QString newProjectName;
 	int audioTracks = 2;
 	int videoTracks = 3;
-	if (!KdenliveSettings::openlast()) {
+	if (!KdenliveSettings::openlast() && !newDoc) {
 		slotNewProject(&newProjectName, &m_selectedFile, &videoTracks, &audioTracks);
 	}
 
@@ -171,10 +171,8 @@ namespace Gui {
         
 	// Reopen last project if user asked it
 	if (KdenliveSettings::openlast()) openLastFile();
-            //connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(openLastFile()));
         else if (!m_selectedFile.isEmpty()) openSelectedFile();
-	    //connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(openSelectedFile()));
-	else {
+	else if (!newDoc) {
 	    initView();
 	    if (KdenliveSettings::showsplash())
 		connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(slotSplashTimeout()));
@@ -217,12 +215,7 @@ namespace Gui {
     
     void KdenliveApp::openSelectedFile()
     {
-        slotFileOpenRecent(m_selectedFile);
-	if (KdenliveSettings::currentdefaultfolder().isEmpty()) 
-		KdenliveSettings::setCurrentdefaultfolder(KdenliveSettings::defaultfolder());
-    	if (!KIO::NetAccess::exists(KURL(KdenliveSettings::currentdefaultfolder()), false, this)) 
-		KIO::NetAccess::mkdir(KURL(KdenliveSettings::currentdefaultfolder()), this);
-	// TODO: error message if folder is unreadable
+        openDocumentFile(m_selectedFile);
         slotSplashTimeout();
     }
 
@@ -231,7 +224,7 @@ namespace Gui {
         config->setGroup("RecentFiles");
         QString Lastproject = config->readPathEntry("File1");
         if (!Lastproject.isEmpty())
-            slotFileOpenRecent(KURL(Lastproject));
+            openDocumentFile(KURL(Lastproject));
         slotSplashTimeout();
     }
 
@@ -246,7 +239,7 @@ namespace Gui {
 	    actionCollection());
 	fileOpenRecent =
 	    KStdAction::openRecent(this,
-	    SLOT(slotFileOpenRecent(const KURL &)), actionCollection());
+	    SLOT(openDocumentFile(const KURL &)), actionCollection());
 	fileSave =
 	    KStdAction::save(this, SLOT(slotFileSave()),
 	    actionCollection());
@@ -1146,11 +1139,32 @@ namespace Gui {
 
 
     void KdenliveApp::openDocumentFile(const KURL & url) {
-	slotStatusMsg(i18n("Opening file..."));
-        if (!url.isEmpty()) {
-		requestDocumentClose(url);
-		m_projectFormatManager.openDocument(url, m_doc);
-		initView();
+	if (!saveModified()) {
+	    // here saving wasn't successful
+	} else if (KIO::NetAccess::exists(url, true, this)) {
+	    kdWarning() << "Opening url " << url.path() << endl;
+            requestDocumentClose(url);
+	    m_projectFormatManager.openDocument(url, m_doc);
+	    initView();
+	    setCaption(url.fileName(), false);
+	}
+	else KMessageBox::sorry(this, i18n("Cannot read file: %1").arg(url.path()));
+
+	if (!KIO::NetAccess::exists(KURL(KdenliveSettings::currentdefaultfolder()), false, this)) {
+		if (KMessageBox::questionYesNo(this, i18n("Cannot write to the temporary folder:\n%1\nDo you want to create the folder ?\n Answering no will disable audio thumbnails").arg(KdenliveSettings::currentdefaultfolder())) ==  KMessageBox::No) {
+			KdenliveSettings::setAudiothumbnails(false);
+		}
+		else {
+			if (!KIO::NetAccess::exists(KURL(KdenliveSettings::defaultfolder()), false, this))
+				KIO::NetAccess::mkdir(KURL(KdenliveSettings::defaultfolder()));
+			if (!KIO::NetAccess::exists(KURL(KdenliveSettings::currentdefaultfolder()), false, this)) {
+				KIO::NetAccess::mkdir(KURL(KdenliveSettings::currentdefaultfolder()));
+				if (!KIO::NetAccess::exists(KURL(KdenliveSettings::currentdefaultfolder()), false, this)) {
+					KMessageBox::sorry(0, i18n("Unable to create the project folder. Audio thumbnails will be disabled."));
+					KdenliveSettings::setAudiothumbnails(false);
+				}
+			}
+		}
 	}
 	slotStatusMsg(i18n("Ready."));
     }
@@ -1381,7 +1395,7 @@ namespace Gui {
 		this,
 		i18n("Open File..."));
                 //requestDocumentClose(url);
-	    if (!url.isEmpty()) slotFileOpenRecent(url);
+	    if (!url.isEmpty()) openDocumentFile(url);
 
 	/*{
 		if (!m_projectFormatManager.openDocument(url, m_doc)) {
@@ -1503,23 +1517,6 @@ namespace Gui {
 	}
     }
 
-
-    void KdenliveApp::slotFileOpenRecent(const KURL & url) {
-	slotStatusMsg(i18n("Opening file..."));
-
-	if (!saveModified()) {
-	    // here saving wasn't successful
-	} else if (KIO::NetAccess::exists(url, true, this)) {
-	    kdWarning() << "Opening url " << url.path() << endl;
-            requestDocumentClose(url);
-	    m_projectFormatManager.openDocument(url, m_doc);
-	    initView();
-	    setCaption(url.fileName(), false);
-	}
-	else KMessageBox::sorry(this, i18n("Cannot read file: %1").arg(url.path()));
-
-	slotStatusMsg(i18n("Ready."));
-    }
 
     void KdenliveApp::slotFileSave() {
 	if (m_doc->URL().fileName() == i18n("Untitled")) slotFileSaveAs();

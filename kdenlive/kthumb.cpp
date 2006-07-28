@@ -28,6 +28,7 @@
 #include <kdenlivesettings.h>
 #include <kfileitem.h>
 #include <kmdcodec.h>
+#include <kmessagebox.h>
 
 #include <mlt++/Mlt.h>
 
@@ -130,8 +131,14 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
 		}
 	}
 	else {
-		if (!f.open( IO_WriteOnly )) kdDebug()<<"++++++++  ERROR WRITING TO FILE: "<<thumbname<<endl;
 		m_workingOnAudio = true;
+		if (!f.open( IO_WriteOnly )) {
+			kdDebug()<<"++++++++  ERROR WRITING TO FILE: "<<thumbname<<endl;
+			kdDebug()<<"++++++++  DISABLING AUDIO THUMBS"<<endl;
+			KdenliveSettings::setAudiothumbnails(false);
+			return;
+		}
+		
 
 		Mlt::Producer m_producer(const_cast<char*>((url.directory(false)+url.fileName()).ascii()));
 		QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1));

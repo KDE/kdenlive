@@ -106,11 +106,9 @@ namespace Gui {
       Q_OBJECT public:
 		/** construtor of KdenliveApp, calls all init functions to create the application.
 		  */
-	KdenliveApp(QWidget * parent = 0, const char *name = 0);
+	KdenliveApp(bool newDoc, QWidget * parent = 0, const char *name = 0);
 	~KdenliveApp();
-		/** opens a file specified by commandline option
-		 */
-	void openDocumentFile(const KURL & url = 0);
+
 		/** returns a pointer to the current document connected to the KTMainWindow instance and is used by
 		 * the View class to access the document object's methods
 		 */
@@ -183,12 +181,13 @@ namespace Gui {
         virtual void customEvent(QCustomEvent * e);
 
 	public slots:
+		/** opens a file specified by commandline option
+		 */
+	void openDocumentFile(const KURL & url = 0);
 		/** clears the document in the actual view to reuse it as the new document */
 	void slotFileNew();
 		/** open a file and load it into the document*/
 	void slotFileOpen();
-		/** opens a file from the recent files menu */
-	void slotFileOpenRecent(const KURL & url);
 		/** save a document */
 	void slotFileSave();
 		/** save a document by a new filename*/
