@@ -19,6 +19,7 @@
 #define EFFECT_H
 
 #include <qstring.h>
+#include <qstringlist.h>
 #include <qptrlist.h>
 #include <qdom.h>
 
@@ -56,12 +57,13 @@ class Effect {
 	/** Creates a new keyframe at specified time and returns the new key's index */
     uint addKeyFrame(const uint ix, double time);
     void addKeyFrame(const uint ix, double time, double value);
+    void addKeyFrame(const uint ix, double time, QStringList values);
 
   private:
     const EffectDesc & m_desc;
     QString m_name;
 
-     QPtrList < EffectParameter > m_paramList;
+    QPtrList < EffectParameter > m_paramList;
 };
 
 #endif

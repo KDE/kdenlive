@@ -51,6 +51,11 @@ const QString EffectComplexKeyFrame::processComplexKeyFrame() const
 	m_values[3] + ":" + m_values[4] + "x" + m_values[4];
 }
 
+const QString EffectComplexKeyFrame::toString() const
+{
+    return m_values.join(";");
+}
+
 
 EffectKeyFrame *EffectComplexKeyFrame::interpolateKeyFrame(EffectKeyFrame *
     keyframe, double time) const

@@ -41,6 +41,10 @@ EffectKeyFrame *EffectParamDesc::createKeyFrame(double time, double value)
 {
 }
 
+EffectKeyFrame *EffectParamDesc::createKeyFrame(double time, QStringList parametersList)
+{
+}
+
 const QString EffectParamDesc::complexParamName(uint ix) const
 {
 }

@@ -17,6 +17,8 @@
 #ifndef EFFECTCOMPLEXKEYFRAME_H
 #define EFFECTCOMPLEXKEYFRAME_H
 
+#include <qstringlist.h>
+
 #include <effectkeyframe.h>
 
 /**
@@ -43,6 +45,7 @@ class EffectComplexKeyFrame:public EffectKeyFrame {
 	double time) const;
 
     virtual EffectKeyFrame *clone() const;
+    const QString toString() const;
 
   private:
     QStringList m_values;

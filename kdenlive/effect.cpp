@@ -21,11 +21,13 @@
 #include "effectparameter.h"
 #include "effectparamdescfactory.h"
 #include "effectdoublekeyframe.h"
+#include "effectcomplexkeyframe.h"
 #include "effectkeyframe.h"
 #include "effectparamdesc.h"
 
 #include <kdebug.h>
 #include <qdom.h>
+
 
 
 Effect::Effect(const EffectDesc & desc, const QString & name):m_desc(desc),
@@ -65,10 +67,22 @@ QDomDocument Effect::toXML()
 		    value());
 		param.appendChild(keyframe);
 	    }
+	if (paramdesc->type() == "complex")
+	    for (uint j = 0; j < m_paramList.at(i)->numKeyFrames(); j++) {
+		QDomElement keyframe = doc.createElement("keyframe");
+		keyframe.setAttribute("time",
+		    m_paramList.at(i)->keyframe(j)->time());
+		keyframe.setAttribute("value",
+		    m_paramList.at(i)->keyframe(j)->toComplexKeyFrame()->
+		    toString());
+		param.appendChild(keyframe);
+	    }
 	effect.appendChild(param);
     }
-
     doc.appendChild(effect);
+/*  kdDebug()<<"---------- EFFECT -------------------"<<endl;
+    kdDebug()<<doc.toString()<<endl;
+    kdDebug()<<"---------- EFFECT -------------------"<<endl;*/
     return doc;
 }
 
@@ -83,6 +97,13 @@ void Effect::addKeyFrame(const uint ix, double time, double value)
     if (!parameter(ix)) return;
     m_paramList.at(ix)->addKeyFrame(effectDescription().parameter(ix)->
 	createKeyFrame(time, value));
+}
+
+void Effect::addKeyFrame(const uint ix, double time, QStringList values)
+{
+    if (!parameter(ix)) return;
+    m_paramList.at(ix)->addKeyFrame(effectDescription().parameter(ix)->
+	createKeyFrame(time, values));
 }
 
 void Effect::addParameter(const QString & name)
@@ -127,12 +148,14 @@ Effect *Effect::createEffect(const EffectDesc & desc,
 		if (e.tagName() == "param") {
 		    result->addParameter(e.attribute("name", ""));
 		    QDomNode keyNode = e.firstChild();
+		    QString paramType = e.attribute("type", "");
 		    while (!keyNode.isNull()) {
 			QDomElement k = keyNode.toElement();
 			if (k.tagName() == "keyframe") {
-			    result->addKeyFrame(index, k.attribute("time",
-				    "").toDouble(), k.attribute("value",
-				    "").toDouble());
+			    if (paramType == "double")
+			    	result->addKeyFrame(index, k.attribute("time", "").toDouble(), k.attribute("value", "").toDouble());
+			    else if (paramType == "complex")
+			    	result->addKeyFrame(index, k.attribute("time", "").toDouble(), QStringList::split(";", k.attribute("value", "")));
 			}
 			keyNode = keyNode.nextSibling();
 		    }

@@ -18,6 +18,7 @@
 #define EFFECTPARAMDESC_H
 
 #include <qstring.h>
+#include <qstringlist.h>
 
 class DocClipRef;
 class DocTrackBase;
@@ -45,8 +46,8 @@ A description of an effect parameter
 
 	/** Creates a parameter that conforms to this parameter Description */
     virtual EffectKeyFrame *createKeyFrame(double time) = 0;
-
     virtual EffectKeyFrame *createKeyFrame(double time, double value);
+    virtual EffectKeyFrame *createKeyFrame(double time, QStringList parametersList);
 
 	/** Creates a track panel that can edit this parameter type. */
     virtual Gui::KMMTrackPanel * createTrackPanel(Gui::KdenliveApp * app,
