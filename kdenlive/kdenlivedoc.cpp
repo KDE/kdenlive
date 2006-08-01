@@ -247,13 +247,13 @@ void KdenliveDoc::generateProducersList()
 
 
 /** Called when the document is modifed in some way. */
-void KdenliveDoc::hasBeenModified()
+void KdenliveDoc::hasBeenModified(bool mod)
 {
     if (m_sceneListGeneration) {
         if (m_projectClip->producersList.isNull()) generateProducersList();
 	emit documentChanged(m_projectClip);
     }
-    setModified(true);
+    setModified(mod);
 }
 
 
@@ -341,6 +341,12 @@ void KdenliveDoc::activateSceneListGeneration(bool active)
     if (active) {
 	hasBeenModified();
     }
+}
+
+void KdenliveDoc::initSceneListGeneration()
+{
+    m_sceneListGeneration = true;
+    hasBeenModified(false);
 }
 
 DocClipRefList KdenliveDoc::referencedClips(DocClipBase * clip) const

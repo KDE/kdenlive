@@ -362,6 +362,13 @@ namespace Gui {
 	void slotEditTransition(Transition *transition);
         
         void clipReferenceChanged();
+
+	/** Returns the timeline's in point */
+	GenTime inpointPosition() const;
+	void setInpointPosition(const GenTime out);
+	/** Returns the timeline's out point */
+	GenTime outpointPosition() const;
+	void setOutpointPosition(const GenTime out);
         
       private slots: 
         void slotToggleClipMonitor();

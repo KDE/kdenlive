@@ -91,6 +91,7 @@ m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProduce
 
 
 
+
     //      Does it do anything usefull? I mean, KRenderThread doesn't do anything useful at the moment
     //      (except being cpu hungry :)
 
@@ -108,12 +109,13 @@ KRender::~KRender()
 
 
 /** Recieves timer events */
-void KRender::timerEvent(QTimerEvent * )
+void KRender::timerEvent(QTimerEvent *event)
 {
     if (m_mltConsumer == NULL) {
 	emit initialised();
 	emit connected();
     }
+    killTimer(event->timerId());
 }
 
 
@@ -552,12 +554,14 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
     if (!resetPosition)
 	seek(pos);
     m_mltProducer->set_speed(0.0);
-    //if (m_mltConsumer) 
+
+    if (m_mltConsumer) 
     {
 	m_mltConsumer->start();
 	m_mltConsumer->connect(*m_mltProducer);
 	refresh();
     }
+    else kdDebug()<<"++++++++ WARNING, SET SCENE LIST BUT CONSUMER NOT READY"<<endl;
 }
 
 

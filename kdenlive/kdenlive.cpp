@@ -751,7 +751,6 @@ namespace Gui {
 	// connect the widget to your document to display document contents.
 	kdDebug()<<"****************  INIT DOCUMENT VIEW ***************"<<endl;
 
-
 	if (m_projectList) delete m_projectList;
 	m_projectList = new ProjectList(this, getDocument(), m_dockProjectList);
 	m_dockProjectList->setWidget(m_projectList);
@@ -1025,7 +1024,7 @@ namespace Gui {
 	m_timeline->slotSetFramesPerSecond(KdenliveSettings::defaultfps());
 	m_timeline->slotSetProjectLength(getDocument()->projectClip().duration());
 
-        QTimer::singleShot(200, getDocument(), SLOT(activateSceneListGeneration()));
+        //QTimer::singleShot(200, getDocument(), SLOT(activateSceneListGeneration()));
 	m_doc->setModified(false);
 	
     }
@@ -1148,8 +1147,8 @@ namespace Gui {
 	} else if (KIO::NetAccess::exists(url, true, this)) {
 	    kdWarning() << "Opening url " << url.path() << endl;
             requestDocumentClose(url);
-	    m_projectFormatManager.openDocument(url, m_doc);
 	    initView();
+	    m_projectFormatManager.openDocument(url, m_doc);
 	    QString projectType;
 	    if (isNtscProject) projectType = i18n("NTSC");
 	    else projectType = i18n("PAL");
@@ -1176,6 +1175,21 @@ namespace Gui {
 	slotStatusMsg(i18n("Ready."));
     }
 
+    GenTime KdenliveApp::inpointPosition() const {
+	return m_timeline->inpointPosition();
+    }
+
+    void KdenliveApp::setInpointPosition(const GenTime in) {
+	m_timeline->setInpointTimeline(in);
+    }
+
+    GenTime KdenliveApp::outpointPosition() const {
+	return m_timeline->outpointPosition();
+    }
+
+    void KdenliveApp::setOutpointPosition(const GenTime out) {
+	m_timeline->setOutpointTimeline(out);
+    }
 
     KdenliveDoc *KdenliveApp::getDocument() const {
 	return m_doc;
@@ -1243,8 +1257,8 @@ namespace Gui {
 	    KURL _url(tempname);
 
 	    if (canRecover) {
-		m_projectFormatManager.openDocument(_url, m_doc);
 		initView();
+		m_projectFormatManager.openDocument(_url, m_doc);
 		m_doc->setModified(true);
 		QString projectType;
 		if (isNtscProject) projectType = i18n("NTSC");
@@ -1254,8 +1268,8 @@ namespace Gui {
 	    }
 	} else {
 	    if (!filename.isEmpty()) {
-		m_projectFormatManager.openDocument(url, m_doc);
 		initView();
+		m_projectFormatManager.openDocument(url, m_doc);
 		QString projectType;
 		if (isNtscProject) projectType = i18n("NTSC");
 	    	else projectType = i18n("PAL");
@@ -1348,8 +1362,8 @@ namespace Gui {
 	    }
 	    else {
 		requestDocumentClose();
-	    	m_doc->newDocument(videoTracks, audioTracks);
 		initView();
+	    	m_doc->newDocument(videoTracks, audioTracks);
 		QString projectType;
 		if (isNtscProject) projectType = i18n("NTSC");
 	    	else projectType = i18n("PAL");

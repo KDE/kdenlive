@@ -229,13 +229,16 @@ class KdenliveDoc:public QObject {
 	/** Check that all audio thumbnails have been generated. */
     void refreshAudioThumbnails();
 
+	/** called to generate scenelist the first time a document is loaded */
+    void initSceneListGeneration();
+
     Gui::KdenliveApp *application() {
     return m_app;
     }
 
     private slots:		// Private slots
 	/** Called when the document is modifed in some way. */
-    void hasBeenModified();
+    void hasBeenModified(bool mod = true);
 	/** Generates a list of all different clips in mlt's xml format*/
     void generateProducersList();
 	/** Emitted when a particular clip has changed in someway. E.g, it has recieved it's duration. */

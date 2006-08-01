@@ -51,6 +51,10 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
     docinfos.setAttribute("projectwidth", QString::number(KdenliveSettings::defaultwidth()));
     docinfos.setAttribute("projectfps", QString::number(KdenliveSettings::defaultfps()));
     docinfos.setAttribute("projectratio", QString::number(KdenliveSettings::aspectratio()));
+
+    docinfos.setAttribute("inpoint", QString::number(document->application()->inpointPosition().frames(KdenliveSettings::defaultfps())));
+    docinfos.setAttribute("outpoint", QString::number(document->application()->outpointPosition().frames(KdenliveSettings::defaultfps())));
+
     elem.appendChild(docinfos);
 
     QDomElement avfilelist = doc.createElement("avfilelist");

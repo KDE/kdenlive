@@ -44,6 +44,8 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 {
     bool avListLoaded = false;
     bool trackListLoaded = false;
+    GenTime inPoint(0.0);
+    GenTime outPoint(3.0);
     
     QDomDocument doc;
     doc.setContent(&file, false);
@@ -73,6 +75,11 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 		KdenliveSettings::setDefaultwidth(e.attribute("projectwidth","720").toInt());
 		KdenliveSettings::setDefaultfps(e.attribute("projectfps","25.0").toDouble());
 		KdenliveSettings::setAspectratio(e.attribute("projectratio","1.09259").toDouble());
+		inPoint = GenTime(e.attribute("inpoint","0").toInt(), KdenliveSettings::defaultfps());
+		outPoint = GenTime(e.attribute("outpoint","100").toInt(), KdenliveSettings::defaultfps());
+
+		/*document->application()->setInpointPosition(GenTime(e.attribute("inpoint","0").toInt(), KdenliveSettings::defaultfps())); 
+		document->application()->setOutpointPosition(GenTime(e.attribute("outpoint","100").toInt(), KdenliveSettings::defaultfps()));*/
 	    }
 	    else if ((e.tagName() == "AVFileList")
 		|| (e.tagName() == "avfilelist")) {
@@ -100,6 +107,8 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 	n = n.nextSibling();
     }
 
+    document->application()->setInpointPosition(inPoint);
+    document->application()->setOutpointPosition(outPoint);
     return true;
 }
 

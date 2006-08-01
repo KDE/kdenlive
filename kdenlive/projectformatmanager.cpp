@@ -72,7 +72,8 @@ bool ProjectFormatManager::openDocument(const KURL & url,
 		document->setURL(url);
 	    }
 	    KIO::NetAccess::removeTempFile(tmpfile);
-	    document->setModified(false);
+	    //document->initSceneListGeneration();
+	    QTimer::singleShot(200, document, SLOT(initSceneListGeneration()));
 	    return true;
 	}
 //      } else {
