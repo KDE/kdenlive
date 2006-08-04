@@ -1078,6 +1078,10 @@ namespace Gui {
 	    	m_statusBarProgress->setProgress(m_statusBarProgress->progress() + val);
 	    }
         }
+	else if( e->type() == 10006) {
+            // The export process progressed
+            if (m_exportWidget) m_exportWidget->reportProgress(((ProgressEvent *)e)->value());
+        }
     }
 
     void KdenliveApp::slotEditTransition(Transition *transition) {

@@ -141,7 +141,7 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
 		
 
 		Mlt::Producer m_producer(const_cast<char*>((url.directory(false)+url.fileName()).ascii()));
-		QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1));
+		QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1, 10005));
 
 		int last_val = 0;
 		int val = 0;
@@ -150,7 +150,7 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
 			
 			val=(int)((z-frame)/(frame+frameLength)*100.0);
 			if (last_val!=val){
-				QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(val - last_val));
+				QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(val - last_val, 10005));
 				last_val=val;
 			}
 			
@@ -186,7 +186,7 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
 		}
 		f.close();
 		m_workingOnAudio = false;
-		if (val != 100) QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(100 - val));
+		if (val != 100) QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(100 - val, 10005));
 	}
 	emit audioThumbReady(storeIn);
 }
