@@ -31,6 +31,8 @@ EffectParamDescFactory::EffectParamDescFactory()
     registerFactory(new EffectParamDescFactoryTemplate <
 	EffectParamDoubleDesc > ("constant"));
     registerFactory(new EffectParamDescFactoryTemplate <
+	EffectParamDoubleDesc > ("bool"));
+    registerFactory(new EffectParamDescFactoryTemplate <
 	EffectParamDoubleDesc > ("boolean"));
     registerFactory(new EffectParamDescFactoryTemplate <
 	EffectParamDoubleDesc > ("fixed"));

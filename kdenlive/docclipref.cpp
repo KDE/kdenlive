@@ -963,13 +963,15 @@ QDomDocument DocClipRef::generateXMLClip()
 		    }
                     }
                 else {	// Effect has only constant parameters
+		    if (effect->effectDescription().tag() != "slowmotion") { 
                     QDomElement clipFilter =
 			sceneList.createElement("filter");
                     clipFilter.setAttribute("mlt_service",
 			effect->effectDescription().tag());
 		    if (effect->effectDescription().
 			parameter(parameterNum)->type() == "constant" || effect->effectDescription().
-			parameter(parameterNum)->type() == "list")
+			parameter(parameterNum)->type() == "list" || effect->effectDescription().
+			parameter(parameterNum)->type() == "bool")
 			while (effect->parameter(parameterNum)) {
                         clipFilter.setAttribute(effect->
 				effectDescription().
@@ -980,6 +982,16 @@ QDomDocument DocClipRef::generateXMLClip()
 			    parameterNum++;
 			}
                         entry.appendChild(clipFilter);
+		    }
+		    else while (effect->parameter(parameterNum)) {  
+			    //slowmotion effect, use special producer
+			    entry.setAttribute(effect->
+				effectDescription().
+				parameter(parameterNum)->name(), effect->
+				    effectDescription().
+				    parameter(parameterNum)->value());
+			    parameterNum++;
+		    }
 		}
 		parameterNum++;
 	    }

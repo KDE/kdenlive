@@ -17,6 +17,11 @@
 #ifndef EFFECTSTACKDIALOG_H
 #define EFFECTSTACKDIALOG_H
 
+
+#include <qgrid.h>
+#include <qframe.h>
+
+
 //#include <effectstackdialog_ui.h>
 #include <klistbox.h>
 
@@ -60,9 +65,11 @@ Implementation of the EffectStackDialog
 	bool m_blockUpdate;
 	QString m_effecttype;
 	bool m_hasKeyFrames;
+	QGrid *m_container;
+	QFrame *m_frame;
 
       private slots: 
-	void parameterChanged(int);
+	void parameterChanged();
 	void resetParameters();
         void slotDeleteEffect();
 	void selectKeyFrame(int);

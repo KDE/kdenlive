@@ -20,6 +20,7 @@
 #include <qhbox.h>
 #include <qvbox.h>
 #include <qgroupbox.h>
+#include <qcheckbox.h>
 #include <qlabel.h>
 #include <qfont.h>
 #include <qtabwidget.h>
@@ -50,7 +51,7 @@ namespace Gui {
 
     EffectStackDialog::EffectStackDialog(KdenliveApp * app,
 	KdenliveDoc * doc, QWidget * parent, const char *name)
-    :EffectStackDialog_UI(parent, name) {
+    :EffectStackDialog_UI(parent, name), m_container(NULL), m_frame(NULL) {
 	// Use a smaller font for that dialog, it has many infos on it. Maybe it's not a good idea?
 	QFont dialogFont = font();
 	 dialogFont.setPointSize(dialogFont.pointSize() - 1);
@@ -128,12 +129,16 @@ namespace Gui {
     }
 
     void EffectStackDialog::cleanWidgets()
-    {
-	if (m_parameter->child("container"), "QWidget")
-	    delete m_parameter->child("container", "QWidget");
+    {/*
+	if (m_parameter->child("container", "QGrid"))
+	    delete m_parameter->child("container", "QGrid");
 	
 	if (k_container->child("container2", "QWidget")) 
-	    delete k_container->child("container2", "QWidget");
+	    delete k_container->child("container2", "QWidget");*/
+	if (m_container) delete m_container;
+	if (m_frame) delete m_frame;
+	m_container = 0;
+	m_frame = 0;
     }
 
 
@@ -159,10 +164,14 @@ namespace Gui {
 	// remove all previous params
 	cleanWidgets();
 
-	QVBox *container = new QVBox(m_parameter, "container");
-	container->setSpacing(5);
+	//QVBox *container = new QVBox(m_parameter, "container");
+
+	m_container = new QGrid(2, Qt::Horizontal, m_parameter, "container");
+	m_container->setSpacing(5);
+	m_container->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum));
 
 	while (effect->parameter(parameterNum)) {
+	    m_effecttype = effect->effectDescription().parameter(parameterNum)->type();
 	    // for each constant parameter, build a QSpinBox with its value
             if (m_effecttype == "constant") {
 		int maxValue =
@@ -172,16 +181,26 @@ namespace Gui {
 		    effect->effectDescription().parameter(parameterNum)->
 		    min();
                 if (maxValue != minValue) {
-		  QHBox *gb = new QHBox(container, "box");
-		  (void) new QLabel(effect->effectDescription().parameter(parameterNum)->name(), gb);
+		  (void) new QLabel(effect->effectDescription().parameter(parameterNum)->description(), m_container);
 		  QString widgetName = QString("param");
 		  widgetName.append(QString::number(parameterNum));
-		  QSpinBox *spinParam = new QSpinBox(gb, widgetName.ascii());
+		  QSpinBox *spinParam = new QSpinBox(m_container, widgetName.ascii());
 		  spinParam->setMaxValue(maxValue);
 		  spinParam->setMinValue(minValue);
 		  spinParam->setValue(effect->effectDescription().parameter(parameterNum)->value().toInt());
-		  connect(spinParam, SIGNAL(valueChanged(int)), this, SLOT(parameterChanged(int)));
+		  connect(spinParam, SIGNAL(valueChanged(int)), this, SLOT(parameterChanged()));
                 }
+	    }
+            else if (m_effecttype == "bool") {
+		  (void) new QLabel(effect->effectDescription().parameter(parameterNum)->description(), m_container);
+		  QString widgetName = QString("param");
+		  widgetName.append(QString::number(parameterNum));
+		  QCheckBox *checkParam = new QCheckBox(m_container, widgetName.ascii());
+		  int value = effect->effectDescription().parameter(parameterNum)->value().toInt();
+		  kdDebug()<<" ++++  VALUE FOR BOOL PARAM: "<<effect->effectDescription().parameter(parameterNum)->description()<<" IS: "<<value<<endl;
+		  if (value == 1) checkParam->setChecked(true);
+		  else checkParam->setChecked(false);
+		  connect(checkParam, SIGNAL(toggled(bool)), this, SLOT(parameterChanged()));
 	    }
 	    else if (m_effecttype == "list") {
 		QStringList list = QStringList::split(",", 
@@ -189,20 +208,20 @@ namespace Gui {
 		    list());
 
 		  // build combobox
-		  QHBox *gb = new QHBox(container, "box");
-		  (void) new QLabel(effect->effectDescription().parameter(parameterNum)->name(), gb);
+
+		  (void) new QLabel(effect->effectDescription().parameter(parameterNum)->description(), m_container);
 		  QString widgetName = QString("param");
 		  widgetName.append(QString::number(parameterNum));
-		  KComboBox *comboParam = new KComboBox(gb, widgetName.ascii());
+		  KComboBox *comboParam = new KComboBox(m_container, widgetName.ascii());
 		  comboParam->insertStringList(list);
-		  connect(comboParam, SIGNAL(activated(int)), this, SLOT(parameterChanged(int)));
+		  connect(comboParam, SIGNAL(activated(int)), this, SLOT(parameterChanged()));
                 
 	    }
 	    else if (m_effecttype == "double") {
-		QFrame *frame = new QFrame(k_container, "container2");
-		frame->setSizePolicy(QSizePolicy::MinimumExpanding,
+		m_frame = new QFrame(k_container, "container2");
+		m_frame->setSizePolicy(QSizePolicy::MinimumExpanding,
 		    QSizePolicy::MinimumExpanding);
-		QGridLayout *grid = new QGridLayout(frame, 3, 0, 0, 5);
+		QGridLayout *grid = new QGridLayout(m_frame, 3, 0, 0, 5);
 		spinIndex->setMaxValue(effect->parameter(parameterNum)->
 		    numKeyFrames() - 1);
 		int ix =
@@ -214,10 +233,10 @@ namespace Gui {
 		    toDoubleKeyFrame()->value();
 		QLabel *label =
 		    new QLabel(effect->effectDescription().
-		    parameter(parameterNum)->name(), frame);
-		QSlider *sliderParam = new QSlider(Qt::Horizontal, frame);
+		    parameter(parameterNum)->name(), m_frame);
+		QSlider *sliderParam = new QSlider(Qt::Horizontal, m_frame);
 		sliderParam->setRange(minVal, maxVal);
-		QSpinBox *spinParam = new QSpinBox(frame, "value");
+		QSpinBox *spinParam = new QSpinBox(m_frame, "value");
 
 		grid->addWidget(label, 0, 0);
 		grid->addWidget(sliderParam, 0, 1);
@@ -233,16 +252,16 @@ namespace Gui {
 
 		connect(spinParam, SIGNAL(valueChanged(int)), this,
 		    SLOT(changeKeyFrameValue(int)));
-		frame->adjustSize();
-		frame->show();
+		m_frame->adjustSize();
+		m_frame->show();
 		m_hasKeyFrames = true;
 	    }
 
 	    else if (m_effecttype == "complex") {
-		QFrame *frame = new QFrame(k_container, "container2");
-		frame->setSizePolicy(QSizePolicy::MinimumExpanding,
+		m_frame = new QFrame(k_container, "container2");
+		m_frame->setSizePolicy(QSizePolicy::MinimumExpanding,
 		    QSizePolicy::MinimumExpanding);
-		QGridLayout *grid = new QGridLayout(frame, 3, 0, 0, 5);
+		QGridLayout *grid = new QGridLayout(m_frame, 3, 0, 0, 5);
 		spinIndex->setMaxValue(effect->parameter(parameterNum)->
 		    numKeyFrames() - 1);
 
@@ -267,14 +286,14 @@ namespace Gui {
 		    QLabel *label =
 			new QLabel(effect->effectDescription().
 			parameter(parameterNum)->complexParamName(i),
-			frame);
+			m_frame);
 		    QString widgetName = QString("param");
 		    widgetName.append(QString::number(i));
 		    QSlider *sliderParam =
-			new QSlider(Qt::Horizontal, frame);
+			new QSlider(Qt::Horizontal, m_frame);
 		    sliderParam->setRange(minVal, maxVal);
 		    QSpinBox *spinParam =
-			new QSpinBox(frame, widgetName.ascii());
+			new QSpinBox(m_frame, widgetName.ascii());
 
 		    grid->addWidget(label, i, 0);
 		    grid->addWidget(sliderParam, i, 1);
@@ -292,8 +311,8 @@ namespace Gui {
 		    connect(spinParam, SIGNAL(valueChanged(int)), this,
 			SLOT(changeKeyFrameValue(int)));
 		}
-		frame->adjustSize();
-		frame->show();
+		m_frame->adjustSize();
+		m_frame->show();
 		m_hasKeyFrames = true;
 	    }
 
@@ -301,19 +320,20 @@ namespace Gui {
 	}
 
 	tabWidget2->setTabEnabled(tabWidget2->page(1), m_hasKeyFrames);
-	container->adjustSize();
-	container->show();
+	m_container->adjustSize();
+	m_container->show();
 	emit effectSelected(clip, effect);
 	emit redrawTracks();
     }
 
-    void EffectStackDialog::parameterChanged(int) {
+    void EffectStackDialog::parameterChanged() {
 	// A parameter was changed, sync the clip's effect with the spin box values
 	uint parameterNum = 0;
 	Effect *effect =
 	    m_effectList->clip()->effectAt(m_effectList->
 	    selectedEffectIndex());
 	while (effect->parameter(parameterNum)) {
+	    m_effecttype = effect->effectDescription().parameter(parameterNum)->type();
 	    QString widgetName = QString("param");
 	    widgetName.append(QString::number(parameterNum));
 	    if (m_effecttype == "constant") {
@@ -328,6 +348,21 @@ namespace Gui {
 		else
 		    effect->effectDescription().parameter(parameterNum)->
 			setValue(QString::number(sbox->value()));
+	    }
+	    else if (m_effecttype == "bool") {
+		QCheckBox *sbox =
+		    dynamic_cast <
+		    QCheckBox * >(m_parameter->child(widgetName.ascii(),
+			"QCheckBox"));
+		if (!sbox)
+		    kdWarning() <<
+			"EFFECTSTACKDIALOG ERROR, CANNOT FIND BOX FOR PARAMETER "
+			<< parameterNum <<", "<<widgetName.ascii()<< endl;
+		else {
+		    int value = sbox->isChecked() ? 1 : 0;
+		    effect->effectDescription().parameter(parameterNum)->
+			setValue(QString::number(value));
+		}
 	    }
 	    else if (m_effecttype == "list") {
 		KComboBox *sbox =
@@ -348,6 +383,7 @@ namespace Gui {
 	    emit generateSceneList();
     }
 
+
     void EffectStackDialog::slotDeleteEffect() {
 	// remove all previous params
 	cleanWidgets();
@@ -362,6 +398,7 @@ namespace Gui {
 	    m_effectList->clip()->effectAt(m_effectList->
 	    selectedEffectIndex());
 	while (effect->parameter(parameterNum)) {
+	    m_effecttype = effect->effectDescription().parameter(parameterNum)->type();
 	    QString widgetName = QString("param");
 	    widgetName.append(QString::number(parameterNum));
 
@@ -387,6 +424,19 @@ namespace Gui {
 		else
 		    sbox->setValue(effect->effectDescription().
 			parameter(parameterNum)->defaultValue().toInt());
+	    } else if (effect->effectDescription().
+		parameter(parameterNum)->type() == "bool") {
+		QCheckBox *sbox =
+		    dynamic_cast <
+		    QCheckBox * >(m_parameter->child(widgetName.ascii(),
+			"QCheckBox"));
+		if (!sbox)
+		    kdWarning() <<
+			"EFFECTSTACKDIALOG ERROR, CANNOT FIND BOX FOR PARAMETER "
+			<< parameterNum << endl;
+		else
+		    sbox->setChecked(effect->effectDescription().
+			parameter(parameterNum)->defaultValue().toInt());
 	    }
 	    else if (effect->effectDescription().parameter(parameterNum)->type() == "list") {
 		KComboBox *sbox =
@@ -405,7 +455,7 @@ namespace Gui {
 	}
 	m_blockUpdate = false;
 	emit redrawTracks();
-	parameterChanged(0);
+	parameterChanged();
     }
 
 
@@ -439,6 +489,7 @@ namespace Gui {
         if (!effect->parameter(parameterNum)) return;
 	effect->parameter(parameterNum)->setSelectedKeyFrame(ix);
 
+	m_effecttype = effect->effectDescription().parameter(parameterNum)->type();
 	// Find the keyframe value & position
 	if (m_effecttype == "double") {
 	    currentValue =
@@ -538,6 +589,7 @@ namespace Gui {
 	Effect *effect = m_effectList->clip()->effectAt(m_effectList->selectedEffectIndex());
         if (!effect->parameter(parameterNum)) return;
 	int ix = effect->parameter(parameterNum)->selectedKeyFrame();
+	m_effecttype = effect->effectDescription().parameter(parameterNum)->type();
 	if (m_effecttype == "double")
 	    effect->parameter(parameterNum)->keyframe(ix)->
 		toDoubleKeyFrame()->setValue(newValue);

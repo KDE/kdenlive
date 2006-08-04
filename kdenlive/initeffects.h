@@ -56,7 +56,7 @@ static void initEffects(EffectDescriptionList *effectList)
     xmlAttr.append("type", QString::null, QString::null, "constant");
     xmlAttr.append("name", QString::null, QString::null, "u");
     xmlAttr.append("description", QString::null, QString::null,
-	"The U parameter");
+	"Chrominance U");
     xmlAttr.append("max", QString::null, QString::null, "255");
     xmlAttr.append("min", QString::null, QString::null, "0");
     xmlAttr.append("default", QString::null, QString::null, "75");
@@ -64,6 +64,8 @@ static void initEffects(EffectDescriptionList *effectList)
     xmlAttr.clear();
     xmlAttr.append("type", QString::null, QString::null, "constant");
     xmlAttr.append("name", QString::null, QString::null, "v");
+    xmlAttr.append("description", QString::null, QString::null,
+	i18n("Chrominance V"));
     xmlAttr.append("max", QString::null, QString::null, "255");
     xmlAttr.append("min", QString::null, QString::null, "0");
     xmlAttr.append("default", QString::null, QString::null, "150");
@@ -75,6 +77,8 @@ static void initEffects(EffectDescriptionList *effectList)
     xmlAttr.clear();
     xmlAttr.append("type", QString::null, QString::null, "constant");
     xmlAttr.append("name", QString::null, QString::null, "x_scatter");
+    xmlAttr.append("description", QString::null, QString::null,
+	i18n("Horizontal scatter"));
     xmlAttr.append("max", QString::null, QString::null, "10");
     xmlAttr.append("min", QString::null, QString::null, "0");
     xmlAttr.append("default", QString::null, QString::null, "2");
@@ -82,6 +86,8 @@ static void initEffects(EffectDescriptionList *effectList)
     xmlAttr.clear();
     xmlAttr.append("type", QString::null, QString::null, "constant");
     xmlAttr.append("name", QString::null, QString::null, "y_scatter");
+    xmlAttr.append("description", QString::null, QString::null,
+	i18n("Vertical scatter"));
     xmlAttr.append("max", QString::null, QString::null, "10");
     xmlAttr.append("min", QString::null, QString::null, "0");
     xmlAttr.append("default", QString::null, QString::null, "2");
@@ -89,6 +95,8 @@ static void initEffects(EffectDescriptionList *effectList)
     xmlAttr.clear();
     xmlAttr.append("type", QString::null, QString::null, "constant");
     xmlAttr.append("name", QString::null, QString::null, "scale");
+    xmlAttr.append("description", QString::null, QString::null,
+	i18n("Scale"));
     xmlAttr.append("max", QString::null, QString::null, "10");
     xmlAttr.append("min", QString::null, QString::null, "0");
     xmlAttr.append("default", QString::null, QString::null, "1");
@@ -96,16 +104,18 @@ static void initEffects(EffectDescriptionList *effectList)
     xmlAttr.clear();
     xmlAttr.append("type", QString::null, QString::null, "constant");
     xmlAttr.append("name", QString::null, QString::null, "mix");
+    xmlAttr.append("description", QString::null, QString::null,
+	i18n("Mix"));
     xmlAttr.append("max", QString::null, QString::null, "10");
     xmlAttr.append("min", QString::null, QString::null, "0");
     xmlAttr.append("default", QString::null, QString::null, "0");
     charcoal->addParameter(effectDescParamFactory.createParameter(xmlAttr));
     xmlAttr.clear();
-    xmlAttr.append("type", QString::null, QString::null, "constant");
+    xmlAttr.append("type", QString::null, QString::null, "bool");
     xmlAttr.append("name", QString::null, QString::null, "invert");
-    xmlAttr.append("max", QString::null, QString::null, "1");
-    xmlAttr.append("min", QString::null, QString::null, "0");
-    xmlAttr.append("default", QString::null, QString::null, "1");
+    xmlAttr.append("description", QString::null, QString::null,
+	i18n("Invert"));
+    xmlAttr.append("default", QString::null, QString::null, "0");
     charcoal->addParameter(effectDescParamFactory.createParameter(xmlAttr));
     effectList->append(charcoal);
 
@@ -168,9 +178,42 @@ static void initEffects(EffectDescriptionList *effectList)
     xmlAttr.append("default", QString::null, QString::null, "horizontal");
     xmlAttr.append("name", QString::null, QString::null,
 	"mirror");
+    xmlAttr.append("description", QString::null, QString::null,
+	i18n("Mirroring direction"));
+    mirror->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+    xmlAttr.clear();
+    xmlAttr.append("type", QString::null, QString::null, "bool");
+    xmlAttr.append("name", QString::null, QString::null, "reverse");
+    xmlAttr.append("description", QString::null, QString::null,
+	i18n("Invert"));
+    xmlAttr.append("default", QString::null, QString::null, "0");
     mirror->addParameter(effectDescParamFactory.createParameter(xmlAttr));
     xmlAttr.clear();
     effectList->append(mirror);
+
+    /*
+    // Work in progress: Slowmotion
+    EffectDesc *slowmo = new EffectDesc(i18n("Speed"), "slowmotion");
+    xmlAttr.clear();
+    xmlAttr.append("type", QString::null, QString::null, "constant");
+    xmlAttr.append("name", QString::null, QString::null, "_speed");
+    xmlAttr.append("description", QString::null, QString::null,
+	i18n("Start Speed"));
+    xmlAttr.append("max", QString::null, QString::null, "300");
+    xmlAttr.append("min", QString::null, QString::null, "1");
+    xmlAttr.append("default", QString::null, QString::null, "100");
+    slowmo->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+    xmlAttr.clear();
+    xmlAttr.append("type", QString::null, QString::null, "constant");
+    xmlAttr.append("name", QString::null, QString::null, "_speed_end");
+    xmlAttr.append("description", QString::null, QString::null,
+	i18n("End Speed"));
+    xmlAttr.append("max", QString::null, QString::null, "300");
+    xmlAttr.append("min", QString::null, QString::null, "1");
+    xmlAttr.append("default", QString::null, QString::null, "100");
+    slowmo->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+    effectList->append(slowmo);
+    */
 }
 
 
