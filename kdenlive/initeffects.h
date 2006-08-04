@@ -191,8 +191,7 @@ static void initEffects(EffectDescriptionList *effectList)
     xmlAttr.clear();
     effectList->append(mirror);
 
-    /*
-    // Work in progress: Slowmotion
+    // Slowmotion
     EffectDesc *slowmo = new EffectDesc(i18n("Speed"), "slowmotion");
     xmlAttr.clear();
     xmlAttr.append("type", QString::null, QString::null, "constant");
@@ -213,7 +212,7 @@ static void initEffects(EffectDescriptionList *effectList)
     xmlAttr.append("default", QString::null, QString::null, "100");
     slowmo->addParameter(effectDescParamFactory.createParameter(xmlAttr));
     effectList->append(slowmo);
-    */
+
 }
 
 

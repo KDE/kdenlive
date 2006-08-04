@@ -104,7 +104,6 @@
 #include "createcolorclip_ui.h"
 #include "createslideshowclip.h"
 #include "createimageclip_ui.h"
-#include "changeclipspeed.h"
 
 #include "trackpanelclipmovefunction.h"
 #include "trackpanelrazorfunction.h"
@@ -479,10 +478,6 @@ namespace Gui {
         (void) new KAction(i18n("Delete Transition"), 0, this,
         SLOT(deleteTransition()), actionCollection(),
         "del_transition");
-
-	(void) new KAction(i18n("Change speed"), 0, this,
-        SLOT(slotChangeClipSpeed()), actionCollection(),
-        "change_speed");
 
         (void) new KAction(i18n("Add Track"), 0, this,
         SLOT(addTrack()), actionCollection(),
@@ -2538,22 +2533,6 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     }
 
 
-    void KdenliveApp::slotChangeClipSpeed()
-    {
-	if (!getDocument()->projectClip().hasSelectedClips()) {
-            KMessageBox::sorry(this, i18n("Please select a clip to change its speed"));
-            return;
-        }
-
-	changeClipSpeed *changeSpeed = new changeClipSpeed(getDocument()->projectClip().selectedClip()->speed() * 100, getDocument()->projectClip().selectedClip()->duration(), this);
-	if (changeSpeed->exec() == QDialog::Accepted) {
-		getDocument()->projectClip().selectedClip()->setSpeed(changeSpeed->selectedSpeed());
-		getDocument()->activateSceneListGeneration(true);
-	}
-	delete changeSpeed;
-    }
-    
-    
     void KdenliveApp::addTransition() {
         if (!getDocument()->projectClip().hasSelectedClips()) {
             KMessageBox::sorry(this, i18n("Please select a clip to apply transition"));

@@ -812,11 +812,12 @@ QDomDocument DocClipRef::generateXMLClip()
  
     QDomElement entry;
 
-     if (m_speed == 1.0) {
+     //if (m_speed == 1.0) 
+    {
 	entry = sceneList.createElement("entry");
     	entry.setAttribute("producer", "producer" + QString::number(m_clip->getId()));
     }
-    else {  // experimental slowmotion
+    /*else {  // experimental slowmotion
     	entry = sceneList.createElement("producer");
     	entry.setAttribute("mlt_service","slowmotion");
     	entry.setAttribute("id","slowmotion"+ QString::number(m_clip->getId()));
@@ -824,7 +825,7 @@ QDomDocument DocClipRef::generateXMLClip()
     	entry.setAttribute("_speed", QString::number(m_speed));
     	//entry.setAttribute("method", "1");
     	//sceneList.appendChild(prod);
-    }
+    }*/
 
     
     // Check if clip is positionned under 0 in the timeline
@@ -963,7 +964,7 @@ QDomDocument DocClipRef::generateXMLClip()
 		    }
                     }
                 else {	// Effect has only constant parameters
-		    if (effect->effectDescription().tag() != "slowmotion") { 
+		    if (effect->effectDescription().tag() != "slowmotion") {
                     QDomElement clipFilter =
 			sceneList.createElement("filter");
                     clipFilter.setAttribute("mlt_service",
@@ -983,14 +984,16 @@ QDomDocument DocClipRef::generateXMLClip()
 			}
                         entry.appendChild(clipFilter);
 		    }
-		    else while (effect->parameter(parameterNum)) {  
-			    //slowmotion effect, use special producer
-			    entry.setAttribute(effect->
-				effectDescription().
-				parameter(parameterNum)->name(), effect->
-				    effectDescription().
-				    parameter(parameterNum)->value());
-			    parameterNum++;
+		    else {  //slowmotion effect, use special producer
+    				entry.setTagName("producer");
+    				entry.setAttribute("mlt_service","slowmotion");
+    				entry.setAttribute("id","slowmotion"+ QString::number(m_clip->getId()));
+    				entry.setAttribute("resource", fileURL().path().ascii());
+    				entry.removeAttribute("producer");
+				while (effect->parameter(parameterNum)) {
+			    		entry.setAttribute(effect->effectDescription().parameter(parameterNum)->name(), QString::number(effect->effectDescription().parameter(parameterNum)->value().toDouble() / 100.0));
+			    		parameterNum++;
+				}
 		    }
 		}
 		parameterNum++;
