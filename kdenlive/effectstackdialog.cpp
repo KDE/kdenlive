@@ -214,6 +214,7 @@ namespace Gui {
 		  widgetName.append(QString::number(parameterNum));
 		  KComboBox *comboParam = new KComboBox(m_container, widgetName.ascii());
 		  comboParam->insertStringList(list);
+		  comboParam->setCurrentItem(effect->effectDescription().parameter(parameterNum)->value());
 		  connect(comboParam, SIGNAL(activated(int)), this, SLOT(parameterChanged()));
                 
 	    }
