@@ -41,6 +41,7 @@
 
 #include <loadprogress_ui.h>
 
+#include "krender.h"
 #include "kthumb.h"
 #include "kdenlive.h"
 
@@ -59,8 +60,7 @@ void KThumb::getImage(KURL url, int frame, int width, int height)
 if (url.isEmpty()) return;
 QPixmap image(width, height);
 
-    Mlt::Producer m_producer(const_cast <
-	char *>(QString((url.directory(false) + url.fileName())).ascii()));
+    Mlt::Producer m_producer(KRender::decodedString(url.path()));
 
     if (m_producer.is_blank()) {
 	image.fill(Qt::black);
@@ -107,6 +107,7 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
 	int m_channels = channel; 
 	KMD5 context ((KFileItem(url,"text/plain", S_IFREG).timeString() + url.fileName()).ascii());
 	QString thumbname = KdenliveSettings::currentdefaultfolder() + "/" + context.hexDigest().data() + ".thumb";
+	kdDebug()<<"+++++++++ THUMB GET READY FOR: "<<thumbname<<endl;
 	QFile f(thumbname);
 	if (f.open( IO_ReadOnly )) {
 		//kdDebug()<<"--- READING AUDIO THUMB: "<<url.filename()<<", arrayW: "<<arrayWidth<<endl;
@@ -140,7 +141,7 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
 		}
 		
 
-		Mlt::Producer m_producer(const_cast<char*>((url.directory(false)+url.fileName()).ascii()));
+		Mlt::Producer m_producer(KRender::decodedString(url.path()));
 		QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1, 10005));
 
 		int last_val = 0;

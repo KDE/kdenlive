@@ -36,6 +36,7 @@
 #include <qtextstream.h>
 #include <qstringlist.h>
 #include <qdir.h>
+#include <qcstring.h>
 
 #include <kio/netaccess.h>
 #include <kdebug.h>
@@ -227,6 +228,14 @@ void KRender::seek(GenTime time)
     //emit positionChanged(time);
 }
 
+//static
+char *KRender::decodedString(QString str)
+{
+    QCString fn = QFile::encodeName(str);
+    char *t = new char[fn.length() + 1];
+    strcpy(t, (const char *)fn);
+    return t;
+}
 
 void KRender::getImage(KURL url, int frame, QPixmap * image)
 {
@@ -242,7 +251,10 @@ void KRender::getImage(KURL url, int frame, QPixmap * image)
  
             for ( it = more.begin() ; it != more.end() ; ++it ) {
                 if ((*it).endsWith("."+fileType, FALSE)) {
-			m_producer = new Mlt::Producer(const_cast<char*>((url.directory() + "/" + (*it)).ascii()));
+
+
+
+			m_producer = new Mlt::Producer(decodedString(url.directory() + "/" + (*it)));
 			break;
 		}
 	    if (m_producer->is_blank()) {
@@ -253,7 +265,7 @@ void KRender::getImage(KURL url, int frame, QPixmap * image)
 	    }
 	}
     }
-    else m_producer = new Mlt::Producer(const_cast<char*>(url.path().ascii()));
+    else m_producer = new Mlt::Producer(decodedString(url.path()));
     Mlt::Filter m_convert("avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
     m_producer->attach(m_convert);
@@ -285,7 +297,7 @@ void KRender::getImage(KURL url, int frame, QPixmap * image)
 
 void KRender::getImage(KURL url, int frame, int width, int height)
 {
-    Mlt::Producer m_producer(const_cast<char*>(url.path().ascii()));
+    Mlt::Producer m_producer(decodedString(url.path()));
 
     Mlt::Filter m_convert("avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
@@ -327,7 +339,7 @@ void KRender::getImage(KURL url, int frame, int width, int height)
 void KRender::getImage(int id, QString txt, uint size, int width, int height)
 {
     Mlt::Producer m_producer("pango");
-    m_producer.set("markup", txt.ascii());
+    m_producer.set("markup", decodedString(txt));
     Mlt::Filter m_convert("avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
     m_producer.attach(m_convert);
@@ -445,7 +457,7 @@ void KRender::setTitlePreview(QString tmpFileName)
     if(m_mltProducer == NULL) {
         QString ctext2;
         ctext2="<producer><property name=\"mlt_service\">colour</property><property name=\"colour\">black</property></producer>";
-        m_mltTextProducer = new Mlt::Producer("westley-xml",const_cast<char*>(ctext2.ascii()));
+        m_mltTextProducer = new Mlt::Producer("westley-xml",decodedString(ctext2));
     }
     else {
         pos = m_mltProducer->position();
@@ -454,7 +466,7 @@ void KRender::setTitlePreview(QString tmpFileName)
     // Create second producer with the png image created by the titler
     QString ctext;
     ctext="<producer><property name=\"resource\">"+tmpFileName+"</property></producer>";
-    Mlt::Producer prod2("westley-xml",const_cast<char*>(ctext.ascii()));
+    Mlt::Producer prod2("westley-xml",decodedString(ctext));
     Mlt::Tractor tracks;
 
 	// Add composite transition for overlaying the 2 tracks
@@ -477,7 +489,7 @@ void KRender::setTitlePreview(QString tmpFileName)
 
 bool KRender::isValid(KURL url)
 {
-    Mlt::Producer producer(const_cast < char *>(url.path().ascii()));
+    Mlt::Producer producer(decodedString(url.path()));
     if (producer.is_blank())
 	return false;
 
@@ -489,7 +501,8 @@ void KRender::getFileProperties(KURL url)
 {
         uint width = 50;
         uint height = 40;
-	Mlt::Producer producer(const_cast < char *>(url.path().ascii()));
+	Mlt::Producer producer(decodedString(url.path()));
+//	Mlt::Producer producer(const_cast < char *>(url.path().ascii()));
 
 	m_filePropertyMap.clear();
 	m_filePropertyMap["filename"] = url.path();
@@ -550,7 +563,9 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
 	m_mltProducer = NULL;
 	emit stopped();
     }
-    m_mltProducer = new Mlt::Producer("westley-xml", const_cast < char *>(list.toString().ascii()));
+
+
+    m_mltProducer = new Mlt::Producer("westley-xml", decodedString(list.toString()));
     if (!resetPosition)
 	seek(pos);
     m_mltProducer->set_speed(0.0);
@@ -751,18 +766,28 @@ void KRender::emitFileConsumerStopped()
 /*                           FILE RENDERING STUFF                     */
 
 #ifdef ENABLE_FIREWIRE
+int readCount = 1;
+int fileSize = 0;
+int fileProgress = 0;
+int droppedFrames = 0;
+
 //  FIREWIRE EXPORT, REQUIRES LIBIECi61883
 static int read_frame (unsigned char *data, int n, unsigned int dropped, void *callback_data)
 {
     FILE *f = (FILE*) callback_data;
 
+
     if (n == 1)
         if (fread (data, 480, 1, f) < 1) {
         return -1;
-        } else
+        } else {
+	    //long int position = ftell(f);
+	    readCount++;
             return 0;
-            else
+	}
+            else {
                 return 0;
+	    }
 }
 
 static int g_done = 0;
@@ -781,6 +806,8 @@ void KRender::dv_transmit( raw1394handle_t handle, FILE *f, int channel)
     fread (data, 480, 1, f);
     ispal = (data[ 3 ] & 0x80) != 0;
     dv = iec61883_dv_xmit_init (handle, ispal, read_frame, (void *)f );
+
+    if (dv) iec61883_dv_set_synch( dv, 1 );
 	
     if (dv && iec61883_dv_xmit_start (dv, channel) == 0)
     {
@@ -798,11 +825,19 @@ void KRender::dv_transmit( raw1394handle_t handle, FILE *f, int channel)
             FD_SET (fd, &rfds);
             tv.tv_sec = 0;
             tv.tv_usec = 20000;
-			
-            if (select (fd + 1, &rfds, NULL, NULL, &tv) > 0)
+            if (select (fd + 1, &rfds, NULL, NULL, &tv) > 0) {
                 result = raw1394_loop_iterate (handle);
+		if (((int)(readCount * 100 / fileSize )) != fileProgress) {
+			fileProgress = readCount * 100 / fileSize;
+	    		//kdDebug()<<"++ FRAME READ2: "<<fileProgress<<endl;
+	    		QApplication::postEvent(m_app, new ProgressEvent(fileProgress, 10006));
+			qApp->processEvents();
+		}
+	    }
 			
         } while (g_done == 0 && result == 0);
+	iec61883_dv_xmit_stop (dv);
+	droppedFrames = iec61883_dv_get_dropped(dv);
         fprintf (stderr, "done.\n");
     }
     iec61883_dv_close (dv);
@@ -815,9 +850,13 @@ void KRender::exportFileToFirewire(QString srcFileName, int port, GenTime startT
     //exportTimeline(QString::null);
     kdDebug()<<"START DV EXPORT ++++++++++++++: "<<srcFileName<<endl;
 
+    fileSize = QFile(srcFileName).size() / 480;
+    readCount = 1;
+    fileProgress = 0;
+
     FILE *f = NULL;
     int oplug = -1, iplug = -1;
-    f = fopen (srcFileName.ascii(), "rb");
+    f = fopen (decodedString(srcFileName), "rb");
     raw1394handle_t handle = raw1394_new_handle_on_port (port);
     if (f == NULL) {
         KMessageBox::sorry(0,i18n("Cannot open file: ")+srcFileName.ascii());
@@ -838,6 +877,9 @@ void KRender::exportFileToFirewire(QString srcFileName, int port, GenTime startT
     else KMessageBox::sorry(0,i18n("NO DV device found"));
     fclose (f);
     raw1394_destroy_handle (handle);
+    QApplication::postEvent(m_app, new QCustomEvent(10003));
+    if (droppedFrames > 0) KMessageBox::sorry(0, i18n("Transmission of dv file is finished.\n%1 frames were dropped during transfer.").arg(droppedFrames));
+    else KMessageBox::information(0, i18n("Transmission of dv file finished successfully."));
 #else
 KMessageBox::sorry(0, i18n("Firewire is not enabled on your system.\n Please install Libiec61883 and recompile Kdenlive"));
 #endif
@@ -865,7 +907,7 @@ void KRender::exportCurrentFrame(KURL url) {
     }
     
     m_fileRenderer=new Mlt::Consumer("avformat");
-    m_fileRenderer->set ("target",url.path().ascii());
+    m_fileRenderer->set ("target",decodedString(url.path()));
     m_fileRenderer->set ("real_time","0");
     m_fileRenderer->set ("progressive","1");
     m_fileRenderer->set ("vcodec","png");
@@ -899,7 +941,7 @@ void KRender::exportTimeline(const QString &url, const QString &format, GenTime 
         m_fileRenderer=new Mlt::Consumer("avformat");
         // Find corresponding profile file
         QString profile = locate("data", "kdenlive/profiles/"+format+".profile");
-        Mlt::Properties m_fileProperties(profile.ascii());
+        Mlt::Properties m_fileProperties(decodedString(profile));
         mlt_properties_inherit(MLT_CONSUMER_PROPERTIES(m_fileRenderer->get_consumer()), m_fileProperties.get_properties());
         
         for ( QStringList::Iterator it = params.begin(); it != params.end(); ++it ) {
@@ -923,7 +965,7 @@ void KRender::exportTimeline(const QString &url, const QString &format, GenTime 
         return;
     }
     
-    m_fileRenderer->set ("target",url.ascii());
+    m_fileRenderer->set ("target",decodedString(url));
     m_fileRenderer->set ("real_time","0");
     m_fileRenderer->set ("progressive","1");
     m_fileRenderer->set ("terminate_on_pause", 1);

@@ -192,7 +192,6 @@ class KRender:public QObject {
      bool m_isRendering;
      QString m_renderingFormat;
      
-     
      int exportDuration, firstExportFrame, lastExportFrame;
 
 
@@ -318,6 +317,7 @@ class KRender:public QObject {
     void getFileProperties(KURL url);
     
     void exportFileToFirewire(QString srcFileName, int port, GenTime startTime, GenTime endTime);
+    static char *decodedString(QString str);
 
 };
 
