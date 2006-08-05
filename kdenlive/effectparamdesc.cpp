@@ -23,6 +23,8 @@ EffectParamDesc::EffectParamDesc(const QXmlAttributes & attributes)
     m_name = attributes.value("name");
     m_type = attributes.value("type");
     m_default = attributes.value("default");
+    m_factor = attributes.value("factor").toDouble();
+    if (m_factor == 0.0) m_factor = 1.0;
     m_value = m_default;
     m_description = attributes.value("description");
 }

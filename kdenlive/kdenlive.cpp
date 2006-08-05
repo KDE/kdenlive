@@ -1023,6 +1023,11 @@ namespace Gui {
 	m_doc->setModified(false);
 	
     }
+
+    void KdenliveApp::focusTimelineWidget()
+    {
+        m_timelineWidget->setFocus();
+    }
     
 
     void KdenliveApp::slotUpdateLayoutState() {

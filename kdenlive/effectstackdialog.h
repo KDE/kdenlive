@@ -25,6 +25,7 @@
 //#include <effectstackdialog_ui.h>
 #include <klistbox.h>
 
+#include "kdenlive.h"
 #include "effectstacklistview.h"
 
 #include <effectstackdialog_ui.h>
@@ -34,7 +35,6 @@ class Effect;
 class KdenliveDoc;
 
 namespace Gui {
-    class KdenliveApp;
 
 /**
 Implementation of the EffectStackDialog
@@ -67,6 +67,7 @@ Implementation of the EffectStackDialog
 	bool m_hasKeyFrames;
 	QGrid *m_container;
 	QFrame *m_frame;
+	KdenliveApp * m_app;
 
       private slots: 
 	void parameterChanged();

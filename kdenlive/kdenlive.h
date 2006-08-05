@@ -369,6 +369,8 @@ namespace Gui {
 	/** Returns the timeline's out point */
 	GenTime outpointPosition() const;
 	void setOutpointPosition(const GenTime out);
+
+	void focusTimelineWidget();
         
       private slots: 
         void slotToggleClipMonitor();

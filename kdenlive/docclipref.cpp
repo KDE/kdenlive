@@ -974,12 +974,18 @@ QDomDocument DocClipRef::generateXMLClip()
 			parameter(parameterNum)->type() == "list" || effect->effectDescription().
 			parameter(parameterNum)->type() == "bool")
 			while (effect->parameter(parameterNum)) {
-                        clipFilter.setAttribute(effect->
+			    if (effect->effectDescription().parameter(parameterNum)->factor() != 1.0)
+                            clipFilter.setAttribute(effect->
 				effectDescription().
-				parameter(parameterNum)->name(),
+				parameter(parameterNum)->name(), QString::number(
 				effect->
 				    effectDescription().
-				    parameter(parameterNum)->value());
+				    parameter(parameterNum)->value().toDouble() / effect->
+				    effectDescription().
+				    parameter(parameterNum)->factor()));
+			    else clipFilter.setAttribute(effect->
+				effectDescription().
+				parameter(parameterNum)->name(), effect->effectDescription().parameter(parameterNum)->value());
 			    parameterNum++;
 			}
                         entry.appendChild(clipFilter);

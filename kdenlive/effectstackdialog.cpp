@@ -51,7 +51,7 @@ namespace Gui {
 
     EffectStackDialog::EffectStackDialog(KdenliveApp * app,
 	KdenliveDoc * doc, QWidget * parent, const char *name)
-    :EffectStackDialog_UI(parent, name), m_container(NULL), m_frame(NULL) {
+    :EffectStackDialog_UI(parent, name), m_container(NULL), m_frame(NULL), m_app(app) {
 	// Use a smaller font for that dialog, it has many infos on it. Maybe it's not a good idea?
 	QFont dialogFont = font();
 	 dialogFont.setPointSize(dialogFont.pointSize() - 1);
@@ -380,8 +380,10 @@ namespace Gui {
 	    }		
 	    parameterNum++;
 	}
-	if (!m_blockUpdate)
+	if (!m_blockUpdate) {
 	    emit generateSceneList();
+ 	    m_app->focusTimelineWidget();
+	}
     }
 
 

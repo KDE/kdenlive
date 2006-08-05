@@ -81,7 +81,11 @@ A description of an effect parameter
     
     virtual const QString &value() const {
 	return m_value;
-    } 
+    }
+
+    const double &factor() const {
+	return m_factor;
+    }  
     
     virtual const QString &defaultValue() const {
 	return m_default;
@@ -103,6 +107,8 @@ A description of an effect parameter
     QString m_default;
 	/** A human-readable description of what this parameter does within the effect. */
     QString m_description;
+	/** The parameter value should be divided by this value before being passed to the filter. */
+    double m_factor;
 };
 
 #endif

@@ -213,6 +213,22 @@ static void initEffects(EffectDescriptionList *effectList)
     slowmo->addParameter(effectDescParamFactory.createParameter(xmlAttr));
     effectList->append(slowmo);
 
+    // Gamma
+    EffectDesc *gamma = new EffectDesc(i18n("Gamma"), "gamma");
+    xmlAttr.clear();
+    xmlAttr.append("type", QString::null, QString::null, "constant");
+    xmlAttr.append("name", QString::null, QString::null, "gamma");
+    xmlAttr.append("description", QString::null, QString::null,
+	i18n("Gamma"));
+    xmlAttr.append("max", QString::null, QString::null, "300");
+    xmlAttr.append("min", QString::null, QString::null, "1");
+    xmlAttr.append("default", QString::null, QString::null, "100");
+    xmlAttr.append("factor", QString::null, QString::null, "100");
+    gamma->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+    xmlAttr.clear();
+    gamma->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+    effectList->append(gamma);
+
 }
 
 
