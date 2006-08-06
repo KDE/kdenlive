@@ -47,7 +47,7 @@ namespace Gui {
 
     class TransitionDialog:public QTabWidget {
       Q_OBJECT public:
-              TransitionDialog(QWidget * parent = 0, const char *name = 0);
+              TransitionDialog(KdenliveApp * app, QWidget * parent = 0, const char *name = 0);
 	 virtual ~ TransitionDialog();
 
     QString selectedTransition();

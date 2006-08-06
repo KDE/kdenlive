@@ -70,7 +70,7 @@ namespace Gui {
 
 	// red line on top if clip has effects
 	if (clip->hasEffect())
-	    painter.fillRect(sx + 1, rect.y() + 1, ex - sx - 2, 10,
+	    painter.fillRect(sx + 1, rect.y() + 1, ex - sx - 2, 7,
 		QBrush(Qt::red, Qt::Dense4Pattern));
 
 	if (textWidth > 0) {

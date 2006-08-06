@@ -42,6 +42,7 @@
 #include <klocale.h>
 
 #include "transitionpipwidget.h"
+#include "kdenlive.h"
 
 #define CursorMode 1
 #define TextMode 2
@@ -54,6 +55,9 @@
 // safety margin for text
 #define frameWidth 80
 #define frameHeight 64
+
+
+namespace Gui {
 
 ScreenPreview::ScreenPreview(QCanvas& c, QWidget* parent, const char* name, WFlags f) :
                 QCanvasView(&c,parent,name,f), m_silent(false)
@@ -223,8 +227,9 @@ void ScreenPreview::contentsMouseMoveEvent(QMouseEvent* e)
 }
 
 
-transitionPipWidget::transitionPipWidget(int width, int height, QWidget* parent, const char* name, WFlags fl ):
-        transitionPip_UI(parent,name), m_silent(false)
+
+transitionPipWidget::transitionPipWidget(KdenliveApp * app, int width, int height, QWidget* parent, const char* name, WFlags fl ):
+        transitionPip_UI(parent,name), m_silent(false), m_app(app)
 {
         frame_preview->setMinimumWidth(width);
 	frame_preview->setMaximumWidth(width);
@@ -296,7 +301,10 @@ void transitionPipWidget::adjustSize(int x)
     QString s2 = m_transitionParameters[ix].section(":",3);
     m_transitionParameters[ix] = s1+":"+ QString::number(x)+":"+s2;
     canview->adjustSize(x);
-    if (!m_silent) emit transitionChanged();
+    if (!m_silent) {
+	emit transitionChanged();
+	m_app->focusTimelineWidget();
+    }
 }
 
 void transitionPipWidget::adjustTransparency(int x)
@@ -306,7 +314,10 @@ void transitionPipWidget::adjustTransparency(int x)
     else ix = 1;
     QString s1 = m_transitionParameters[ix].section(":",0,2);
     m_transitionParameters[ix] = s1+":"+ QString::number(x);
-    if (!m_silent) emit transitionChanged();
+    if (!m_silent) {
+	emit transitionChanged();
+	m_app->focusTimelineWidget();
+    }
 }
 
 void transitionPipWidget::moveX(int x)
@@ -317,7 +328,10 @@ void transitionPipWidget::moveX(int x)
     QString s = m_transitionParameters[ix].section(":",1);
     m_transitionParameters[ix] = QString::number(x)+":"+s;
     canview->moveX(x);
-    if (!m_silent) emit transitionChanged();
+    if (!m_silent) {
+	emit transitionChanged();
+	m_app->focusTimelineWidget();
+    }
 }
 
 void transitionPipWidget::moveY(int y)
@@ -329,7 +343,10 @@ void transitionPipWidget::moveY(int y)
     QString s2 = m_transitionParameters[ix].section(":",2);
     m_transitionParameters[ix] = s1+":"+ QString::number(y)+":"+s2;
     canview->moveY(y);
-    if (!m_silent) emit transitionChanged();
+    if (!m_silent) {
+	emit transitionChanged();
+	m_app->focusTimelineWidget();
+    }
 }
 
 void transitionPipWidget::adjustSliders(int x, int y)
@@ -380,5 +397,4 @@ QString transitionPipWidget::parameters()
     return QString("0="+x1+","+y1+":"+size1+"x"+size1+":"+transp1+";-1="+x2+","+y2+":"+size2+"x"+size2+":"+transp2);
 }
 
-
-
+}  //  end GUI namespace

@@ -35,7 +35,7 @@
 
 namespace Gui {
 
-    TransitionDialog::TransitionDialog(QWidget * parent,
+    TransitionDialog::TransitionDialog(KdenliveApp * app, QWidget * parent,
                                        const char *name):  QTabWidget(parent), m_transition(0)
 {
     transitCrossfade = new transitionCrossfade_UI(this);
@@ -44,7 +44,7 @@ namespace Gui {
     transitWipe = new transitionWipe_UI(this);
     addTab(transitWipe, i18n("Wipe") );
 
-    transitPip = new transitionPipWidget(240,192,this);
+    transitPip = new transitionPipWidget(app, 240,192,this);
     addTab(transitPip, i18n("PIP") );
     setEnabled(false);
     adjustSize();

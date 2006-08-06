@@ -596,7 +596,7 @@ namespace Gui {
 	if (m_effecttype == "double")
 	    effect->parameter(parameterNum)->keyframe(ix)->
 		toDoubleKeyFrame()->setValue(newValue);
-	if (m_effecttype == "complex") {
+	else if (m_effecttype == "complex") {
 	    uint paramNum = effect->effectDescription().parameter(parameterNum)->complexParamNum();
 	    for (uint i = 0; i < paramNum; i++) {
 		QString widgetName = QString("param");
@@ -621,6 +621,7 @@ namespace Gui {
 	if (!m_blockUpdate) {
 	    emit redrawTracks();
 	    emit generateSceneList();
+	    m_app->focusTimelineWidget();
 	}
     }
 

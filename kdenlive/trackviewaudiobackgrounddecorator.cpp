@@ -83,7 +83,7 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX,
 	painter.setClipRect(sx, y, ex - sx, h);
 	painter.fillRect(sx, y, ex - sx, h, col);
 	if (m_shift) painter.drawLine(sx, y, ex, y);
-
+	painter.setPen(col.dark(160));
 	double timeDiff = clip->cropStartTime().frames(document()->framesPerSecond()) - clip->trackStart().frames(document()->framesPerSecond());
 	
 

@@ -22,10 +22,14 @@
 
 #include <kurl.h>
 
+
 #include "transitionpip_ui.h"
 
 #ifndef TRANSITIONPIPWIDGET_H
 #define TRANSITIONPIPWIDGET_H
+
+namespace Gui {
+    class KdenliveApp;
 
 class ScreenPreview : public QCanvasView
 {
@@ -75,7 +79,7 @@ class transitionPipWidget : public transitionPip_UI
 {
         Q_OBJECT
 public:
-        transitionPipWidget( int width, int height, QWidget* parent=0, const char* name=0, WFlags fl=0);
+        transitionPipWidget( KdenliveApp * app, int width, int height, QWidget* parent=0, const char* name=0, WFlags fl=0);
         virtual ~transitionPipWidget();
         ScreenPreview *canview;
 private:
@@ -84,6 +88,7 @@ private:
         QMap < int, QString > m_transitionParameters;
         /** when changing keyframe, emit only one refresh signal, not one for every parameter. m_silent is used for that...*/
         bool m_silent;
+	KdenliveApp *m_app;
 
 private slots:
         void changeKeyFrame(int ix);
@@ -100,4 +105,7 @@ public slots:
 signals:
         void transitionChanged();
 };
+
+}  //  end GUI namespace
+
 #endif
