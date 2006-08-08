@@ -241,7 +241,7 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
     effectList->append(pitch);
 
     // Reverb
-    EffectDesc *reverb = new EffectDesc(i18n("Reverb"), "ladspa1216", "audio");
+    EffectDesc *reverb = new EffectDesc(i18n("Room reverb"), "ladspa1216", "audio");
     xmlAttr.clear();
     xmlAttr.append("type", QString::null, QString::null, "constant");
     xmlAttr.append("name", QString::null, QString::null, "room");
@@ -255,7 +255,7 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
     xmlAttr.append("type", QString::null, QString::null, "constant");
     xmlAttr.append("name", QString::null, QString::null, "delay");
     xmlAttr.append("description", QString::null, QString::null,
-	i18n("Delay (s)"));
+	i18n("Delay (s/10)"));
     xmlAttr.append("max", QString::null, QString::null, "300");
     xmlAttr.append("min", QString::null, QString::null, "1");
     xmlAttr.append("default", QString::null, QString::null, "75");
@@ -263,6 +263,53 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
     reverb->addParameter(effectDescParamFactory.createParameter(xmlAttr));
     xmlAttr.clear();
     effectList->append(reverb);
+
+    // Reverb 2
+    EffectDesc *reverb2 = new EffectDesc(i18n("Reverb"), "ladspa1423", "audio");
+    xmlAttr.clear();
+    xmlAttr.append("type", QString::null, QString::null, "constant");
+    xmlAttr.append("name", QString::null, QString::null, "time");
+    xmlAttr.append("description", QString::null, QString::null,
+	i18n("Reverb time"));
+    xmlAttr.append("max", QString::null, QString::null, "85");
+    xmlAttr.append("min", QString::null, QString::null, "1");
+    xmlAttr.append("default", QString::null, QString::null, "42");
+    xmlAttr.append("factor", QString::null, QString::null, "10");
+    reverb2->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+    xmlAttr.clear();
+    effectList->append(reverb2);
+
+    // Equalizer
+    EffectDesc *equ = new EffectDesc(i18n("Equalizer"), "ladspa1901", "audio");
+    xmlAttr.clear();
+    xmlAttr.append("type", QString::null, QString::null, "constant");
+    xmlAttr.append("name", QString::null, QString::null, "logain");
+    xmlAttr.append("description", QString::null, QString::null,
+	i18n("Lo gain"));
+    xmlAttr.append("max", QString::null, QString::null, "6");
+    xmlAttr.append("min", QString::null, QString::null, "-70");
+    xmlAttr.append("default", QString::null, QString::null, "0");
+    equ->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+    xmlAttr.clear();
+    xmlAttr.append("type", QString::null, QString::null, "constant");
+    xmlAttr.append("name", QString::null, QString::null, "midgain");
+    xmlAttr.append("description", QString::null, QString::null,
+	i18n("Mid gain"));
+    xmlAttr.append("max", QString::null, QString::null, "6");
+    xmlAttr.append("min", QString::null, QString::null, "-70");
+    xmlAttr.append("default", QString::null, QString::null, "0");
+    equ->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+    xmlAttr.clear();
+    xmlAttr.append("type", QString::null, QString::null, "constant");
+    xmlAttr.append("name", QString::null, QString::null, "higain");
+    xmlAttr.append("description", QString::null, QString::null,
+	i18n("Hi gain"));
+    xmlAttr.append("max", QString::null, QString::null, "6");
+    xmlAttr.append("min", QString::null, QString::null, "-70");
+    xmlAttr.append("default", QString::null, QString::null, "0");
+    equ->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+    xmlAttr.clear();
+    effectList->append(equ);
 }
 
 //static 
@@ -270,8 +317,12 @@ char* initEffects::ladspaEffectString(int ladspaId, QStringList params)
 {
     if (ladspaId == 1433 ) //Pitch
 	return ladspaPitchEffectString(params);
-    else if (ladspaId == 1216 ) //Reverb
+    else if (ladspaId == 1216 ) //Room Reverb
+	return ladspaRoomReverbEffectString(params);
+    else if (ladspaId == 1423 ) //Reverb
 	return ladspaReverbEffectString(params);
+    else if (ladspaId == 1901 ) //Reverb
+	return ladspaEqualizerEffectString(params);
     else {
 	kdDebug()<<"++++++++++  ASKING FOR UNKNOWN LADSPA EFFECT: "<<ladspaId<<endl;
 	return("<jackrack></jackrack>");
@@ -283,9 +334,19 @@ char* initEffects::ladspaPitchEffectString(QStringList params)
 	return KRender::decodedString( QString("<?xml version=\"1.0\"?><!DOCTYPE jackrack SYSTEM \"http://purge.bash.sh/~rah/jack_rack_1.2.dtd\"><jackrack><channels>2</channels><samplerate>48000</samplerate><plugin><id>1433</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.0</value><value>1.0</value></wet_dry_values><lockall>true</lockall><controlrow><lock>true</lock><value>%1</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>4.000000</value><value>4.000000</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[0]));
 }
 
-char* initEffects::ladspaReverbEffectString(QStringList params)
+char* initEffects::ladspaRoomReverbEffectString(QStringList params)
 {
 	return KRender::decodedString( QString("<?xml version=\"1.0\"?><!DOCTYPE jackrack SYSTEM \"http://purge.bash.sh/~rah/jack_rack_1.2.dtd\"><jackrack><channels>2</channels><samplerate>48000</samplerate>  <plugin><id>1216</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><lockall>true</lockall><controlrow><lock>true</lock><value>%1</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>%2</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>0.500000</value><value>0.500000</value></controlrow><controlrow><lock>true</lock><value>0.750000</value><value>0.750000</value></controlrow><controlrow><lock>true</lock><value>-70.000000</value><value>-70.000000</value></controlrow><controlrow><lock>true</lock><value>0.000000</value><value>0.000000</value></controlrow><controlrow><lock>true</lock><value>-17.500000</value><value>-17.500000</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[0]).arg(params[1]).arg(params[1]));
+}
+
+char* initEffects::ladspaReverbEffectString(QStringList params)
+{
+	return KRender::decodedString( QString("<?xml version=\"1.0\"?><!DOCTYPE jackrack SYSTEM \"http://purge.bash.sh/~rah/jack_rack_1.2.dtd\"><jackrack><channels>2</channels><samplerate>48000</samplerate><plugin><id>1423</id><enabled>true</enabled>  <wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked>    <wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values>    <lockall>true</lockall><controlrow><lock>true</lock><value>%1</value>      <value>%1</value></controlrow><controlrow><lock>true</lock><value>0.250000</value><value>0.250000</value></controlrow><controlrow><lock>true</lock><value>0.250000</value><value>0.250000</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[0]));
+}
+
+char* initEffects::ladspaEqualizerEffectString(QStringList params)
+{
+	return KRender::decodedString( QString("<?xml version=\"1.0\"?><!DOCTYPE jackrack SYSTEM \"http://purge.bash.sh/~rah/jack_rack_1.2.dtd\"><jackrack><channels>2</channels><samplerate>48000</samplerate><plugin><id>1901</id><enabled>true</enabled>    <wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked>    <wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><controlrow><value>%1</value></controlrow><controlrow><value>%2</value></controlrow>    <controlrow><value>%3</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[1]).arg(params[2]));
 }
 
 
