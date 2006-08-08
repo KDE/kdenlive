@@ -1080,7 +1080,7 @@ namespace Gui {
         }
 	else if( e->type() == 10006) {
             // The export process progressed
-            if (m_exportWidget) m_exportWidget->reportProgress(((ProgressEvent *)e)->value());
+            //if (m_exportWidget) m_exportWidget->reportProgress(((ProgressEvent *)e)->value());
         }
     }
 
