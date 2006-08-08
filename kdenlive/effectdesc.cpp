@@ -23,8 +23,8 @@
 #include "effect.h"
 #include "effectparamdesc.h"
 
-EffectDesc::EffectDesc(const QString & name, const QString & tag):
-m_name(name), m_tag(tag)
+EffectDesc::EffectDesc(const QString & name, const QString & tag, const QString & type):
+m_name(name), m_tag(tag), m_type(type)
 {
     m_params.setAutoDelete(true);
 
@@ -45,6 +45,12 @@ const QString & EffectDesc::name() const
 const QString & EffectDesc::tag() const
 {
     return m_tag;
+}
+
+/** Returns the tag for this effect. */
+const QString & EffectDesc::type() const
+{
+    return m_type;
 }
 
 /** Adds an input to this description. An input might be a video stream, and audio stream, or it may require both. */

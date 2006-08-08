@@ -36,20 +36,20 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
     EffectParamDescFactory effectDescParamFactory;
 
     // Grayscale
-    EffectDesc *grey = new EffectDesc(i18n("Greyscale"), "greyscale");
+    EffectDesc *grey = new EffectDesc(i18n("Greyscale"), "greyscale", "video");
     xmlAttr.append("type", QString::null, QString::null, "fixed");
     grey->addParameter(effectDescParamFactory.createParameter(xmlAttr));
     effectList->append(grey);
 
     // Invert
-    EffectDesc *invert = new EffectDesc(i18n("Invert"), "invert");
+    EffectDesc *invert = new EffectDesc(i18n("Invert"), "invert", "video");
     xmlAttr.clear();
     xmlAttr.append("type", QString::null, QString::null, "fixed");
     invert->addParameter(effectDescParamFactory.createParameter(xmlAttr));
     effectList->append(invert);
 
     // Sepia
-    EffectDesc *sepia = new EffectDesc(i18n("Sepia"), "sepia");
+    EffectDesc *sepia = new EffectDesc(i18n("Sepia"), "sepia", "video");
     xmlAttr.clear();
     xmlAttr.append("type", QString::null, QString::null, "constant");
     xmlAttr.append("name", QString::null, QString::null, "u");
@@ -71,7 +71,7 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
     effectList->append(sepia);
 
     // Charcoal
-    EffectDesc *charcoal = new EffectDesc(i18n("Charcoal"), "charcoal");
+    EffectDesc *charcoal = new EffectDesc(i18n("Charcoal"), "charcoal", "video");
     xmlAttr.clear();
     xmlAttr.append("type", QString::null, QString::null, "constant");
     xmlAttr.append("name", QString::null, QString::null, "x_scatter");
@@ -118,7 +118,7 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
     effectList->append(charcoal);
 
     // Brightness
-    EffectDesc *bright = new EffectDesc(i18n("Brightness"), "brightness");
+    EffectDesc *bright = new EffectDesc(i18n("Brightness"), "brightness", "video");
     xmlAttr.clear();
 
     xmlAttr.append("type", QString::null, QString::null, "double");
@@ -130,7 +130,7 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
     effectList->append(bright);
 
     // Audio volume
-    EffectDesc *volume = new EffectDesc(i18n("Volume"), "volume");
+    EffectDesc *volume = new EffectDesc(i18n("Volume"), "volume", "audio");
     xmlAttr.clear();
     xmlAttr.append("type", QString::null, QString::null, "double");
     xmlAttr.append("name", QString::null, QString::null, "gain");
@@ -142,7 +142,7 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
     effectList->append(volume);
     
     // Audio muting
-    EffectDesc *mute = new EffectDesc(i18n("Mute"), "volume");
+    EffectDesc *mute = new EffectDesc(i18n("Mute"), "volume", "audio");
     xmlAttr.clear();
     xmlAttr.append("type", QString::null, QString::null, "constant");
     xmlAttr.append("name", QString::null, QString::null, "gain");
@@ -154,7 +154,7 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 
 
     // Region obscure
-    EffectDesc *obscure = new EffectDesc(i18n("Obscure"), "obscure");
+    EffectDesc *obscure = new EffectDesc(i18n("Obscure"), "obscure", "video");
 
     xmlAttr.clear();
     xmlAttr.append("type", QString::null, QString::null, "complex");
@@ -169,7 +169,7 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
     effectList->append(obscure);
 
     // Mirror
-    EffectDesc *mirror = new EffectDesc(i18n("Mirror"), "mirror");
+    EffectDesc *mirror = new EffectDesc(i18n("Mirror"), "mirror", "video");
     xmlAttr.clear();
     xmlAttr.append("type", QString::null, QString::null, "list");
     xmlAttr.append("paramlist", QString::null, QString::null, "horizontal,vertical,diagonal,xdiagonal,flip,flop");
@@ -190,7 +190,7 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
     effectList->append(mirror);
 
     // Slowmotion
-    EffectDesc *slowmo = new EffectDesc(i18n("Speed"), "slowmotion");
+    EffectDesc *slowmo = new EffectDesc(i18n("Speed"), "slowmotion", "video");
     xmlAttr.clear();
     xmlAttr.append("type", QString::null, QString::null, "constant");
     xmlAttr.append("name", QString::null, QString::null, "_speed");
@@ -212,7 +212,7 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
     effectList->append(slowmo);
 
     // Gamma
-    EffectDesc *gamma = new EffectDesc(i18n("Gamma"), "gamma");
+    EffectDesc *gamma = new EffectDesc(i18n("Gamma"), "gamma", "video");
     xmlAttr.clear();
     xmlAttr.append("type", QString::null, QString::null, "constant");
     xmlAttr.append("name", QString::null, QString::null, "gamma");
@@ -227,7 +227,7 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 
 
     // Pitch shifter
-    EffectDesc *pitch = new EffectDesc(i18n("Pitch Shift"), "ladspa1433");
+    EffectDesc *pitch = new EffectDesc(i18n("Pitch Shift"), "ladspa1433", "audio");
     xmlAttr.clear();
     xmlAttr.append("type", QString::null, QString::null, "constant");
     xmlAttr.append("name", QString::null, QString::null, "pitch");
@@ -241,7 +241,7 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
     effectList->append(pitch);
 
     // Reverb
-    EffectDesc *reverb = new EffectDesc(i18n("Reverb"), "ladspa1216");
+    EffectDesc *reverb = new EffectDesc(i18n("Reverb"), "ladspa1216", "audio");
     xmlAttr.clear();
     xmlAttr.append("type", QString::null, QString::null, "constant");
     xmlAttr.append("name", QString::null, QString::null, "room");

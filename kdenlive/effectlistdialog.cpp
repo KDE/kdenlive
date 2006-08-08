@@ -46,12 +46,16 @@ namespace Gui {
 /** Generates the layout for this widget. */
     void EffectListDialog::generateLayout() {
 	clear();
-
+	KListViewItem *video = new KListViewItem(this, i18n("Video"));
+	KListViewItem *audio = new KListViewItem(this, i18n("Audio"));
 	QPtrListIterator < EffectDesc > itt(m_effectList);
 	while (itt.current()) {
-	    new KListViewItem(this, itt.current()->name());
+	    if (itt.current()->type() == "video") new KListViewItem(video, itt.current()->name());
+	    else new KListViewItem(audio, itt.current()->name());
 	    ++itt;
 	}
+	audio->setOpen(true);
+	video->setOpen(true);
     }
 
 /** Set the effect list displayed by this dialog. */
