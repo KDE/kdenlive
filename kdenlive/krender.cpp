@@ -88,7 +88,7 @@ m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProduce
     m_effectList.setAutoDelete(true);
 
     openMlt();
-    initEffects( &m_effectList );
+    initEffects::initializeEffects( &m_effectList );
 
 
 

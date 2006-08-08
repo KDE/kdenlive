@@ -847,7 +847,34 @@ QDomDocument DocClipRef::generateXMLClip()
 	    uint parameterNum = 0;
 	    bool hasParameters = false;
 
-	    while (effect->parameter(parameterNum)) {
+	    if (effect->effectDescription().tag().startsWith("ladspa", false)) {
+		// THIS is a LADSPA FILTER, process 
+                        QDomElement clipFilter = sceneList.createElement("filter");
+			clipFilter.setAttribute("mlt_service", "ladspa");
+			QStringList params;
+
+
+			while (effect->parameter(parameterNum)) {
+			    if (effect->effectDescription().parameter(parameterNum)->type() == "constant") {
+				double effectParam;
+			    	if (effect->effectDescription().parameter(parameterNum)->factor() != 1.0)
+                            		effectParam = effect->effectDescription().parameter(parameterNum)->value().toDouble() / effect->effectDescription().parameter(parameterNum)->factor();
+			    	else effectParam = effect->effectDescription().parameter(parameterNum)->value().toDouble();
+				params.append(QString::number(effectParam));
+			    }
+			    else params.append(effect->effectDescription().parameter(parameterNum)->value());
+			    parameterNum++;
+			}
+			int ladspaid = effect->effectDescription().tag().right(effect->effectDescription().tag().length() - 6).toInt();
+			kdDebug()<<"++++++++++FOUND LADSPA FILTER: "<<ladspaid<<endl;
+			clipFilter.setAttribute("data", initEffects::ladspaEffectString(ladspaid, params ));
+//			clipFilter.setAttribute("src", "/home/kubuntu/1.rack");
+		    	entry.appendChild(clipFilter);
+
+		// end of LADSPA FILTER
+
+	    }
+	    else while (effect->parameter(parameterNum)) {
 		uint keyFrameNum = 0;
 		uint maxValue;
 		uint minValue;
