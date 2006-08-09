@@ -390,6 +390,15 @@ namespace Gui {
                 new KAction(i18n("Back one second"), KShortcut(Qt::CTRL | Qt::Key_Left),
                             this, SLOT(slotLastSecond()), actionCollection(),
                             "backward_second");
+
+        (void) new KAction(i18n("Forward to next snap point"),
+                            KShortcut(Qt::ALT | Qt::Key_Right), this, SLOT(slotNextSnap()),
+                            actionCollection(), "forward_snap");
+
+        (void) new KAction(i18n("Rewind to previous snap point"),
+                            KShortcut(Qt::ALT | Qt::Key_Left), this, SLOT(slotPreviousSnap()),
+                            actionCollection(), "rewind_snap");
+
 	actionSetInpoint =
 	    new KAction(i18n("Set inpoint"), KShortcut(Qt::Key_I), this,
 	    SLOT(slotSetInpoint()), actionCollection(), "set_inpoint");
@@ -1166,9 +1175,9 @@ namespace Gui {
 		}
 		else {
 			if (!KIO::NetAccess::exists(KURL(KdenliveSettings::defaultfolder()), false, this))
-				KIO::NetAccess::mkdir(KURL(KdenliveSettings::defaultfolder()));
+				KIO::NetAccess::mkdir(KURL(KdenliveSettings::defaultfolder()), this);
 			if (!KIO::NetAccess::exists(KURL(KdenliveSettings::currentdefaultfolder()), false, this)) {
-				KIO::NetAccess::mkdir(KURL(KdenliveSettings::currentdefaultfolder()));
+				KIO::NetAccess::mkdir(KURL(KdenliveSettings::currentdefaultfolder()), this);
 				if (!KIO::NetAccess::exists(KURL(KdenliveSettings::currentdefaultfolder()), false, this)) {
 					KMessageBox::sorry(0, i18n("Unable to create the project folder. Audio thumbnails will be disabled."));
 					KdenliveSettings::setAudiothumbnails(false);
@@ -1867,7 +1876,7 @@ namespace Gui {
 	    color = color.replace(0, 1, "0x") + "ff";
             
             QString dur = clipChoice->edit_duration->text();
-            int frames = (dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt();
+            int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt());
             
             GenTime duration(frames , KdenliveSettings::defaultfps());
             
@@ -1898,7 +1907,7 @@ namespace Gui {
 	    int ttl = 0;
             
             QString dur = clipChoice->edit_duration->text();
-            int frames = (dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt();
+            int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt());
             
             GenTime duration(frames , KdenliveSettings::defaultfps());
 	    KCommand *command =
@@ -1973,7 +1982,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                 //KMacroCommand *macroCommand = new KMacroCommand(i18n("Add Clips"));
                 if (addToProject->isChecked()) {
                     QString dur = KdenliveSettings::colorclipduration();
-                    int frames = (dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt();
+                    int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt());
                     GenTime duration(frames , KdenliveSettings::defaultfps());
                     KCommand *command =
                             new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), fd->selectedURL(), QString::null,
@@ -2014,7 +2023,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                 txtWidget->transparentTitle->setChecked(clip->toDocClipTextFile()->isTransparent());
                 if (txtWidget->exec() == QDialog::Accepted) {
                     QString dur = txtWidget->edit_duration->text();
-                    int frames = (dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt();
+                    int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt());
             
                     GenTime duration(frames , KdenliveSettings::defaultfps());
                     QPixmap thumb = txtWidget->thumbnail(50, 40);
@@ -2187,6 +2196,22 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	}
     }
     
+    void KdenliveApp::slotNextSnap() {
+        if (m_monitorManager.hasActiveMonitor()) {
+            m_monitorManager.activeMonitor()->editPanel()->
+                    seek(m_doc->toSnapTime(m_monitorManager.activeMonitor()->screen()->
+                    seekPosition()));
+        }
+    }
+
+    void KdenliveApp::slotPreviousSnap() {
+        if (m_monitorManager.hasActiveMonitor()) {
+            m_monitorManager.activeMonitor()->editPanel()->
+                    seek(m_doc->toSnapTime(m_monitorManager.activeMonitor()->screen()->
+                    seekPosition(), false));
+        }
+    }
+
     void KdenliveApp::slotNextSecond() {
         if (m_monitorManager.hasActiveMonitor()) {
             m_monitorManager.activeMonitor()->editPanel()->

@@ -575,6 +575,70 @@ QValueVector < GenTime > KdenliveDoc::getSnapTimes(bool includeClipEnds,
     return list;
 }
 
+GenTime KdenliveDoc::toSnapTime(GenTime currTime, bool forward, bool includeSnapMarkers)
+{
+    QValueVector < GenTime > list;
+    bool includeUnselectedClips = true;
+    bool includeSelectedClips = true;
+    bool includeClipEnds = true;
+
+    for (uint count = 0; count < numTracks(); ++count) {
+	if (includeUnselectedClips) {
+	    QPtrListIterator < DocClipRef > clipItt =
+		track(count)->firstClip(false);
+	    while (clipItt.current()) {
+		if (includeClipEnds) {
+		    list.append(clipItt.current()->trackStart());
+		    list.append(clipItt.current()->trackEnd());
+		}
+
+		if (includeSnapMarkers) {
+		    QValueVector < GenTime > markers =
+			clipItt.current()->snapMarkersOnTrack();
+		    for (uint count = 0; count < markers.count(); ++count) {
+			list.append(markers[count]);
+		    }
+		}
+
+		++clipItt;
+	    }
+	}
+
+	if (includeSelectedClips) {
+	    QPtrListIterator < DocClipRef > clipItt =
+		track(count)->firstClip(true);
+	    while (clipItt.current()) {
+		if (includeClipEnds) {
+		    list.append(clipItt.current()->trackStart());
+		    list.append(clipItt.current()->trackEnd());
+		}
+
+		if (includeSnapMarkers) {
+		    QValueVector < GenTime > markers =
+			clipItt.current()->snapMarkersOnTrack();
+		    for (uint count = 0; count < markers.count(); ++count) {
+			list.append(markers[count]);
+		    }
+		}
+
+		++clipItt;
+	    }
+	}
+    }
+     QValueVector <GenTime>::iterator it;
+     GenTime diff(500.0);
+        for( it = list.begin(); it != list.end(); ++it )
+            if (forward && (*it) > currTime) {
+		diff = (*it) - currTime < diff ? (*it) - currTime : diff;
+	    }
+	    else if (!forward && (*it) < currTime) {
+		diff = currTime - (*it) < diff ? currTime - (*it) : diff;
+	    }
+
+    if (forward) return currTime + diff;
+    else return currTime - diff;
+}
+
 void KdenliveDoc::updateTracksThumbnails()
 {
     QPtrListIterator < DocTrackBase > trackItt(trackList());

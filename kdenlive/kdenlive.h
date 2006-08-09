@@ -277,6 +277,11 @@ namespace Gui {
 	void slotNextFrame();
 		/** Move the active monitor backwards one frame */
 	void slotLastFrame();
+
+	/** Move the active monitor next snap point */
+	void slotNextSnap();
+	/** Move the active monitor previous snap point */
+	void slotPreviousSnap();
         /** Move the active monitor forward one second */
         void slotNextSecond();
         /** Move the active monitor backwards one second */

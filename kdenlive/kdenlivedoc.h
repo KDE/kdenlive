@@ -154,6 +154,8 @@ class KdenliveDoc:public QObject {
 	bool includeSnapMarkers,
 	bool includeUnSelectedClips, bool includeSelectedClips);
 
+    GenTime toSnapTime(GenTime currTime, bool forward = true, bool includeSnapMarkers = true);
+
 	/** Constructs a list of all clips that are currently selected. */
     DocClipRefList listSelected() const;
 
@@ -184,6 +186,9 @@ class KdenliveDoc:public QObject {
     bool m_modified;
     KURL m_doc_url;
 
+	/** The clip hierarchy for this project. Clips can be put into groups. */
+    DocumentBaseNode *m_clipHierarch;
+
 	/** This renderer is for multipurpose use, such as background rendering, and for
 	getting the file properties of the various AVFiles. */
     KRender *m_render;
@@ -197,8 +202,6 @@ class KdenliveDoc:public QObject {
 	/** HACK HACK - generate scenelist if true, don't if false) */
     bool m_sceneListGeneration;
 
-	/** The clip hierarchy for this project. Clips can be put into groups. */
-    DocumentBaseNode *m_clipHierarch;
 	/** Clip manager maintains the list of clips that exist in the document. */
     ClipManager m_clipManager;
 	/** Connects the various project clip signals/slots up to the document. This should be done whenever
