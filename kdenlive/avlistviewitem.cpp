@@ -129,7 +129,7 @@ QString AVListViewItem::clipDuration() const {
 QString AVListViewItem::getInfo() const
 {
 	QString text;
-	DocumentClipNode *clipNode;
+	DocumentClipNode *clipNode = NULL;
 	if (m_node) clipNode = m_node->asClipNode();
 	if (clipNode) {
 	    DocClipRef *clip = clipNode->clipRef();
