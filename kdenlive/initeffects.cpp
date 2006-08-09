@@ -262,6 +262,16 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
     xmlAttr.append("factor", QString::null, QString::null, "10");
     reverb->addParameter(effectDescParamFactory.createParameter(xmlAttr));
     xmlAttr.clear();
+    xmlAttr.append("type", QString::null, QString::null, "constant");
+    xmlAttr.append("name", QString::null, QString::null, "damp");
+    xmlAttr.append("description", QString::null, QString::null,
+	i18n("Damping"));
+    xmlAttr.append("max", QString::null, QString::null, "100");
+    xmlAttr.append("min", QString::null, QString::null, "1");
+    xmlAttr.append("default", QString::null, QString::null, "50");
+    xmlAttr.append("factor", QString::null, QString::null, "100");
+    reverb->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+    xmlAttr.clear();
     effectList->append(reverb);
 
     // Reverb 2
@@ -275,6 +285,16 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
     xmlAttr.append("min", QString::null, QString::null, "1");
     xmlAttr.append("default", QString::null, QString::null, "42");
     xmlAttr.append("factor", QString::null, QString::null, "10");
+    reverb2->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+    xmlAttr.clear();
+    xmlAttr.append("type", QString::null, QString::null, "constant");
+    xmlAttr.append("name", QString::null, QString::null, "damp");
+    xmlAttr.append("description", QString::null, QString::null,
+	i18n("Damping"));
+    xmlAttr.append("max", QString::null, QString::null, "100");
+    xmlAttr.append("min", QString::null, QString::null, "0");
+    xmlAttr.append("default", QString::null, QString::null, "25");
+    xmlAttr.append("factor", QString::null, QString::null, "100");
     reverb2->addParameter(effectDescParamFactory.createParameter(xmlAttr));
     xmlAttr.clear();
     effectList->append(reverb2);
@@ -336,12 +356,12 @@ char* initEffects::ladspaPitchEffectString(QStringList params)
 
 char* initEffects::ladspaRoomReverbEffectString(QStringList params)
 {
-	return KRender::decodedString( QString("<?xml version=\"1.0\"?><!DOCTYPE jackrack SYSTEM \"http://purge.bash.sh/~rah/jack_rack_1.2.dtd\"><jackrack><channels>2</channels><samplerate>48000</samplerate>  <plugin><id>1216</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><lockall>true</lockall><controlrow><lock>true</lock><value>%1</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>%2</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>0.500000</value><value>0.500000</value></controlrow><controlrow><lock>true</lock><value>0.750000</value><value>0.750000</value></controlrow><controlrow><lock>true</lock><value>-70.000000</value><value>-70.000000</value></controlrow><controlrow><lock>true</lock><value>0.000000</value><value>0.000000</value></controlrow><controlrow><lock>true</lock><value>-17.500000</value><value>-17.500000</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[0]).arg(params[1]).arg(params[1]));
+	return KRender::decodedString( QString("<?xml version=\"1.0\"?><!DOCTYPE jackrack SYSTEM \"http://purge.bash.sh/~rah/jack_rack_1.2.dtd\"><jackrack><channels>2</channels><samplerate>48000</samplerate>  <plugin><id>1216</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><lockall>true</lockall><controlrow><lock>true</lock><value>%1</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>%3</value><value>%4</value></controlrow><controlrow><lock>true</lock><value>%5</value><value>%6</value></controlrow><controlrow><lock>true</lock><value>0.750000</value><value>0.750000</value></controlrow><controlrow><lock>true</lock><value>-70.000000</value><value>-70.000000</value></controlrow><controlrow><lock>true</lock><value>0.000000</value><value>0.000000</value></controlrow><controlrow><lock>true</lock><value>-17.500000</value><value>-17.500000</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[0]).arg(params[1]).arg(params[1]).arg(params[2]).arg(params[2]));
 }
 
 char* initEffects::ladspaReverbEffectString(QStringList params)
 {
-	return KRender::decodedString( QString("<?xml version=\"1.0\"?><!DOCTYPE jackrack SYSTEM \"http://purge.bash.sh/~rah/jack_rack_1.2.dtd\"><jackrack><channels>2</channels><samplerate>48000</samplerate><plugin><id>1423</id><enabled>true</enabled>  <wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked>    <wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values>    <lockall>true</lockall><controlrow><lock>true</lock><value>%1</value>      <value>%1</value></controlrow><controlrow><lock>true</lock><value>0.250000</value><value>0.250000</value></controlrow><controlrow><lock>true</lock><value>0.250000</value><value>0.250000</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[0]));
+	return KRender::decodedString( QString("<?xml version=\"1.0\"?><!DOCTYPE jackrack SYSTEM \"http://purge.bash.sh/~rah/jack_rack_1.2.dtd\"><jackrack><channels>2</channels><samplerate>48000</samplerate><plugin><id>1423</id><enabled>true</enabled>  <wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked>    <wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values>    <lockall>true</lockall><controlrow><lock>true</lock><value>%1</value>      <value>%2</value></controlrow><controlrow><lock>true</lock><value>%3</value><value>%4</value></controlrow><controlrow><lock>true</lock><value>0.250000</value><value>0.250000</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[0]).arg(params[1]).arg(params[1]));
 }
 
 char* initEffects::ladspaEqualizerEffectString(QStringList params)
