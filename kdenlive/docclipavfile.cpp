@@ -36,7 +36,7 @@
 DocClipAVFile::DocClipAVFile(const QString & name, const KURL & url,
     uint id):DocClipBase(), m_duration(0.0), m_url(url),
 m_durationKnown(false), m_framesPerSecond(0), m_color(QString::null),
-m_clipType(NONE), m_alphaTransparency(false), m_frequency(0), m_channels(0), m_ttl(0)
+m_clipType(NONE), m_alphaTransparency(false), m_channels(0), m_frequency(0), m_ttl(0)
 {
     thumbCreator = new KThumb();
     setName(name);
@@ -45,9 +45,9 @@ m_clipType(NONE), m_alphaTransparency(false), m_frequency(0), m_channels(0), m_t
 
 /* color clip */
 DocClipAVFile::DocClipAVFile(const QString & color,
-    const GenTime & duration, uint id):DocClipBase(), m_duration(duration),
-m_url(QString::null), m_durationKnown(true), m_framesPerSecond(KdenliveSettings::defaultfps()),
-m_color(color), m_clipType(COLOR), m_filesize(0), m_alphaTransparency(false), m_frequency(0), m_channels(0), m_ttl(0)
+									  const GenTime & duration, uint id):DocClipBase(),  m_duration(duration),
+m_url(QString::null), m_durationKnown(true),m_framesPerSecond(KdenliveSettings::defaultfps()),
+m_color(color), m_clipType(COLOR), m_filesize(0), m_alphaTransparency(false),  m_channels(0),m_frequency(0), m_ttl(0)
 {
     setName(i18n("Color Clip"));
     m_width = KdenliveSettings::defaultwidth();
@@ -59,7 +59,7 @@ m_color(color), m_clipType(COLOR), m_filesize(0), m_alphaTransparency(false), m_
 DocClipAVFile::DocClipAVFile(const KURL & url, const QString & extension,
     const int &ttl, const GenTime & duration, bool alphaTransparency, uint id):DocClipBase(),
 m_duration(duration), m_url(url), m_durationKnown(true),
-m_framesPerSecond(KdenliveSettings::defaultfps()), m_color(QString::null), m_clipType(IMAGE), m_alphaTransparency(alphaTransparency), m_frequency(0), m_channels(0), m_ttl(ttl)
+m_framesPerSecond(KdenliveSettings::defaultfps()), m_color(QString::null), m_clipType(IMAGE), m_alphaTransparency(alphaTransparency), m_channels(0), m_frequency(0), m_ttl(ttl)
 {
     if (ttl == 0) setName(url.fileName());
     else setName(i18n("Slideshow"));
@@ -77,7 +77,7 @@ DocClipAVFile::DocClipAVFile(const KURL & url):DocClipBase(),
 m_duration(0.0),
 m_url(url),
 m_durationKnown(false),
-m_framesPerSecond(0), m_color(QString::null), m_clipType(NONE), m_alphaTransparency(false), m_frequency(0), m_channels(0), m_ttl(0)
+m_framesPerSecond(0), m_color(QString::null), m_clipType(NONE), m_alphaTransparency(false),m_channels(0), m_frequency(0),  m_ttl(0)
 {
     setName(url.fileName());
     thumbCreator = new KThumb();

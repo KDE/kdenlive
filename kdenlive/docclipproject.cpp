@@ -378,7 +378,7 @@ QDomDocument DocClipProject::generateSceneList() const
             // Append clip's transitions
             clipTransitions.appendChild(itt.current()->generateXMLTransition(trackPosition));
             
-	    timestart = itt.current()->trackEnd().frames(framesPerSecond());
+		timestart = (int)itt.current()->trackEnd().frames(framesPerSecond());
 	    children++;
 	    ++itt;
 	}
@@ -399,7 +399,7 @@ QDomDocument DocClipProject::generateSceneList() const
     /* transition: mix all used audio tracks */
     
     if (tracksCounter > 1)
-        for (int i = 2; i <tracksCounter +1 ; i++) {
+        for (uint i = 2; i <tracksCounter +1 ; i++) {
 	    QDomElement transition = doc.createElement("transition");
 	    transition.setAttribute("in", "0");
             transition.setAttribute("out", projectLastFrame);

@@ -41,9 +41,11 @@
 
 #define AUDIO_FRAME_WIDTH 20
 DocClipRef::DocClipRef(DocClipBase * clip):
+startTimer(0),
+endTimer(0),
 m_trackStart(0.0),
 m_cropStart(0.0),
-m_trackEnd(0.0), m_parentTrack(0), m_trackNum(-1), m_clip(clip), startTimer(0), endTimer(0), m_speed(1.0)
+m_trackEnd(0.0), m_parentTrack(0),  m_trackNum(-1), m_clip(clip),  m_speed(1.0)
 {
     if (!clip) {
 	kdError() <<
@@ -97,7 +99,7 @@ void DocClipRef::refreshAudioThumbnail()
 {
 	if (m_clip->clipType() != DocClipBase::AV && m_clip->clipType() != DocClipBase::AUDIO) return;
 	if (KdenliveSettings::audiothumbnails()) {
-		double lengthInFrames=m_clip->duration().frames(m_clip->framesPerSecond());
+		//double lengthInFrames=m_clip->duration().frames(m_clip->framesPerSecond());
 		if (!m_clip->audioThumbCreated) m_clip->toDocClipAVFile()->getAudioThumbs();
 	}
 	else {
@@ -126,8 +128,8 @@ void DocClipRef::generateThumbnails()
         fetchEndThumbnail();
     }
     else if (m_clip->clipType() == DocClipBase::COLOR) {
-        uint height = KdenliveSettings::videotracksize();
-        uint width = height * 1.25;
+		 uint height = (uint)KdenliveSettings::videotracksize();
+		 uint width = (uint) (height * 1.25);
         QPixmap p(width, height);
         QString col = m_clip->toDocClipAVFile()->color();
         col = col.replace(0, 2, "#");
@@ -136,8 +138,8 @@ void DocClipRef::generateThumbnails()
         m_thumbnail = p;
     }
     else if (m_clip->clipType() == DocClipBase::TEXT || m_clip->clipType() == DocClipBase::IMAGE) {
-        uint height = KdenliveSettings::videotracksize();
-        uint width = height * 1.25;
+		 uint height = (uint)(KdenliveSettings::videotracksize());
+		 uint width = (uint)(height * 1.25);
 
 	if (m_clip->clipType() == DocClipBase::IMAGE && m_clip->toDocClipAVFile()->clipTtl()!=0 && fileURL().filename().startsWith(".all.")) {  //  check for slideshow
 	    QString fileType = fileURL().filename().right(3);
@@ -211,16 +213,16 @@ void DocClipRef::setDescription(const QString & description)
 
 void DocClipRef::fetchStartThumbnail()
 {
-    uint height = KdenliveSettings::videotracksize();
-    uint width = height * 1.25;
-    emit getClipThumbnail(fileURL(), m_cropStart.frames(KdenliveSettings::defaultfps()), width, height);
+	uint height = (uint)(KdenliveSettings::videotracksize());
+	uint width = (uint)(height * 1.25);
+	emit getClipThumbnail(fileURL(), (int)m_cropStart.frames(KdenliveSettings::defaultfps()), width, height);
 }
 
 void DocClipRef::fetchEndThumbnail()
 {
-    uint height = KdenliveSettings::videotracksize();
-    uint width = height * 1.25;
-    emit getClipThumbnail(fileURL(), m_cropStart.frames(KdenliveSettings::defaultfps())+cropDuration().frames(KdenliveSettings::defaultfps()) - 1, width, height);
+	uint height = (uint)(KdenliveSettings::videotracksize());
+	uint width = (uint)(height * 1.25);
+	emit getClipThumbnail(fileURL(),(int) ( m_cropStart.frames(KdenliveSettings::defaultfps())+cropDuration().frames(KdenliveSettings::defaultfps()) - 1), width, height);
 }
 
 void DocClipRef::setCropStartTime(const GenTime & time)
@@ -701,8 +703,8 @@ const GenTime & DocClipRef::duration() const
 {
     if (m_speed == 1.0) return m_clip->duration();
     else {
-	int frameCount = m_clip->duration().frames(framesPerSecond()) / m_speed;
-	return GenTime(frameCount, framesPerSecond());
+		 int frameCount = (int)(m_clip->duration().frames(framesPerSecond()) / m_speed);
+			return GenTime(frameCount, framesPerSecond());
     }
 }
 
@@ -829,7 +831,7 @@ QDomDocument DocClipRef::generateXMLClip()
 
     
     // Check if clip is positionned under 0 in the timeline
-    int checkStart = m_trackStart.frames(framesPerSecond());
+	 int checkStart = (int)(m_trackStart.frames(framesPerSecond()));
     if (checkStart < 0)
         entry.setAttribute("in", QString::number(m_cropStart.frames(framesPerSecond()) - checkStart));
     else 
@@ -845,7 +847,7 @@ QDomDocument DocClipRef::generateXMLClip()
 	while (effectAt(i) != NULL) {
 	    Effect *effect = effectAt(i);
 	    uint parameterNum = 0;
-	    bool hasParameters = false;
+	   // bool hasParameters = false;
 
 	    if (effect->effectDescription().tag().startsWith("ladspa", false)) {
 		// THIS is a LADSPA FILTER, process 
@@ -899,9 +901,9 @@ QDomDocument DocClipRef::generateXMLClip()
 			    transition.setAttribute("mlt_service",
 				effect->effectDescription().tag());
 			    uint in =
-				m_cropStart.frames(framesPerSecond());
+				(uint)(m_cropStart.frames(framesPerSecond()));
 			    uint duration =
-				cropDuration().frames(framesPerSecond());
+				(uint)(cropDuration().frames(framesPerSecond()));
 			    transition.setAttribute("in",
 				QString::number(in +
 				    (effect->parameter(parameterNum)->
@@ -934,10 +936,10 @@ QDomDocument DocClipRef::generateXMLClip()
 		    QString startTag, endTag;
 		    keyFrameNum =
 			effect->parameter(parameterNum)->numKeyFrames();
-		    maxValue =
+			 maxValue =(uint)
 			effect->effectDescription().
 			parameter(parameterNum)->max();
-		    minValue =
+			 minValue =(uint)
 			effect->effectDescription().
 			parameter(parameterNum)->min();
 		    startTag =
@@ -954,9 +956,9 @@ QDomDocument DocClipRef::generateXMLClip()
 				sceneList.createElement("filter");
 			    clipFilter.setAttribute("mlt_service",
 				effect->effectDescription().tag());
-			    uint in =
+				 uint in =(uint)
 				m_cropStart.frames(framesPerSecond());
-			    uint duration =
+				 uint duration =(uint)
 				cropDuration().frames(framesPerSecond());
 			    clipFilter.setAttribute("in",
 				QString::number(in +
@@ -1297,8 +1299,8 @@ void DocClipRef::setEffectStack(const EffectStack & effectStack)
     m_effectStack = effectStack;
 }
 
-const QPixmap & DocClipRef::getAudioImage(int width, int height,
-    double frame, double numFrames, int channel)
+const QPixmap & DocClipRef::getAudioImage(int /*width*/, int /*height*/,
+	double /*frame*/, double /*numFrames*/, int /*channel*/)
 {
     static QPixmap nullPixmap;
 

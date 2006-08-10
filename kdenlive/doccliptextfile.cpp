@@ -33,9 +33,9 @@
 
 
 DocClipTextFile::DocClipTextFile(const QString & name, const KURL & url,
-    uint id):DocClipBase(), m_duration(0.0), m_url(url),
+    uint id):DocClipBase(),m_clipType(TEXT), m_duration(0.0), m_url(url),
 m_durationKnown(false), m_framesPerSecond(0),
-m_clipType(TEXT), m_alphaTransparency(false)
+ m_alphaTransparency(false)
 {
     setName(name);
     setId(id);
@@ -43,8 +43,8 @@ m_clipType(TEXT), m_alphaTransparency(false)
 
 
 DocClipTextFile::DocClipTextFile(const QString & name, const QString & text,
-                                 const GenTime & duration, const QDomDocument &xml, KURL url, const QPixmap &pix, bool transparency, uint id):DocClipBase(), m_duration(duration), m_xml(xml),
-m_url(url), m_durationKnown(true), m_framesPerSecond(KdenliveSettings::defaultfps()), m_clipType(TEXT), m_alphaTransparency(transparency), m_filesize(0)
+											const GenTime & duration, const QDomDocument &xml, KURL url, const QPixmap &pix, bool transparency, uint id):DocClipBase(),m_clipType(TEXT), m_duration(duration), m_url(url),
+ m_durationKnown(true), m_framesPerSecond(KdenliveSettings::defaultfps()), m_filesize(0), m_xml(xml), m_alphaTransparency(transparency)
 {
     setName(name);
     setId(id);
@@ -54,10 +54,11 @@ m_url(url), m_durationKnown(true), m_framesPerSecond(KdenliveSettings::defaultfp
 
 
 DocClipTextFile::DocClipTextFile(const KURL & url):DocClipBase(),
+ m_clipType(TEXT),
 m_duration(0.0),
 m_url(url),
 m_durationKnown(false),
-m_framesPerSecond(0), m_clipType(TEXT), m_alphaTransparency(false)
+m_framesPerSecond(0), m_alphaTransparency(false)
 {
     setName(url.fileName());
 }
