@@ -150,7 +150,7 @@ void exportWidget::parseFileForParameters(const QString & fName)
     QString line;
     if ( file.open( IO_ReadOnly ) ) {
         QTextStream stream( &file );
-        int i = 1;
+        //int i = 1;
         while ( !stream.atEnd() ) {
             line = stream.readLine(); // line of text excluding '\n'
             if (line.startsWith("## ")) encodersList[fName].append(line.section(" ",1));
@@ -373,7 +373,7 @@ void exportWidget::startExport()
 
 void exportWidget::reportProgress(GenTime progress)
 {
-    int prog = (100 * progress.frames(KdenliveSettings::defaultfps()))/m_duration.frames(KdenliveSettings::defaultfps());
+	int prog = (int)((100 * progress.frames(KdenliveSettings::defaultfps()))/m_duration.frames(KdenliveSettings::defaultfps()));
     processProgress->setProgress(prog);
 }
 
@@ -388,7 +388,7 @@ void exportWidget::endExport()
     	processProgress->setProgress(0);
     	tabWidget->page(0)->setEnabled(true);
     	if (autoPlay->isChecked ()) {
-	        KRun *run=new KRun(KURL(fileExportFolder->url()+"/"+fileExportName->text()));
+	        //KRun *run=new KRun(KURL(fileExportFolder->url()+"/"+fileExportName->text()));
     	}
     }
 }
@@ -418,7 +418,7 @@ void exportWidget::exportFileToTheora(QString srcFileName, int video, int audio,
     processProgress->setProgress(0);
     tabWidget->page(0)->setEnabled(true);
     if (autoPlay->isChecked ()) {
-	KRun *run=new KRun(KURL(fileExportFolder->url()+"/"+fileExportName->text()));
+			//KRun *run=new KRun(KURL(fileExportFolder->url()+"/"+fileExportName->text()));
     }
     
 }

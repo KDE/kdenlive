@@ -35,7 +35,7 @@ TrackPanelClipSlipFunction::TrackPanelClipSlipFunction(Gui::KdenliveApp * app, G
 m_app(app),
 m_timeline(timeline),
 m_document(document),
-m_startedClipMove(false), m_masterClip(0), m_dragging(false)
+ m_dragging(false),m_startedClipMove(false),m_masterClip(0)
 {
     m_moveClipsCommand = 0;
     m_deleteClipsCommand = 0;
@@ -64,7 +64,7 @@ bool TrackPanelClipSlipFunction::mouseApplies(const QPoint & pos) const
 	    DocTrackBase *track =
 		m_document->track(panel->documentTrackIndex());
 	    if (track) {
-		GenTime mouseTime(m_timeline->mapLocalToValue(pos.x()),
+			 GenTime mouseTime((int)m_timeline->mapLocalToValue(pos.x()),
 		    m_document->framesPerSecond());
 		clipUnderMouse = track->getClipAt(mouseTime);
 	    }
@@ -89,7 +89,7 @@ bool TrackPanelClipSlipFunction::mousePressed(Gui::KTrackPanel * panel,
 	DocTrackBase *track =
 	    m_document->track(panel->documentTrackIndex());
 	if (track) {
-	    GenTime mouseTime(m_timeline->mapLocalToValue(event->x()),
+		GenTime mouseTime((int)m_timeline->mapLocalToValue(event->x()),
 		m_document->framesPerSecond());
 	    m_clipUnderMouse = 0;
 	    m_clipUnderMouse = track->getClipAt(mouseTime);
@@ -131,7 +131,7 @@ bool TrackPanelClipSlipFunction::mouseReleased(Gui::KTrackPanel * panel,
 		if (event->state() & Qt::ControlButton) {
 		} else if (event->state() & Qt::ShiftButton) {
 		} else {
-		    GenTime mouseTime(m_timeline->mapLocalToValue(event->
+			GenTime mouseTime((int)m_timeline->mapLocalToValue(event->
 			    x()), m_document->framesPerSecond());
 		    m_app->
 			addCommand(Command::KSelectClipCommand::
@@ -158,7 +158,7 @@ bool TrackPanelClipSlipFunction::mouseMoved(Gui::KTrackPanel * panel,
 	DocTrackBase *track =
 	    m_document->track(panel->documentTrackIndex());
 	if (track) {
-	    GenTime mouseTime(m_timeline->mapLocalToValue(event->x()),
+		GenTime mouseTime((int)m_timeline->mapLocalToValue(event->x()),
 		m_document->framesPerSecond());
 
 	    if (m_dragging) {
@@ -379,7 +379,7 @@ bool TrackPanelClipSlipFunction::dragDropped(Gui::KTrackPanel * panel,
 	    DocTrackBase *track =
 		m_document->track(panel->documentTrackIndex());
 	    if (track) {
-		GenTime mouseTime(m_timeline->mapLocalToValue(event->pos().
+			 GenTime mouseTime((int)m_timeline->mapLocalToValue(event->pos().
 			x()), m_document->framesPerSecond());
 		clipUnderMouse = track->getClipAt(mouseTime);
 	    }
@@ -468,7 +468,7 @@ void TrackPanelClipSlipFunction::addClipsToTracks(DocClipRefList & clips,
 	itt.current()->moveTrackStart(itt.current()->trackStart() +
 	    startOffset);
 
-	if ((moveToTrack >= 0) && (moveToTrack < m_document->numTracks())) {
+	if ((moveToTrack >= 0) && (moveToTrack < (int)m_document->numTracks())) {
 	    m_document->track(moveToTrack)->addClip(itt.current(),
 		selected);
 	}
@@ -494,9 +494,9 @@ void TrackPanelClipSlipFunction::setupSnapToGrid()
 	m_timeline->snapToMarkers(), false, true);
     m_snapToGrid.setCursorTimes(cursor);
 
-    m_snapToGrid.setSnapTolerance(GenTime(m_timeline->
+	 m_snapToGrid.setSnapTolerance(GenTime((int)(m_timeline->
 	    mapLocalToValue(Gui::KTimeLine::snapTolerance) -
-	    m_timeline->mapLocalToValue(0),
+			 m_timeline->mapLocalToValue(0)),
 	    m_document->framesPerSecond()));
 }
 
@@ -526,7 +526,7 @@ KMacroCommand *TrackPanelClipSlipFunction::createAddClipsCommand()
 {
     KMacroCommand *macroCommand = new KMacroCommand(i18n("Delete Clips"));
 
-    for (int count = 0; count < m_document->numTracks(); ++count) {
+	 for (int count = 0; count < (int)m_document->numTracks(); ++count) {
 	DocTrackBase *track = m_document->track(count);
 
 	QPtrListIterator < DocClipRef > itt = track->firstClip(true);

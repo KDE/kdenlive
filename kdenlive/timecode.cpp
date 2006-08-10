@@ -57,7 +57,7 @@ QString Timecode::getEasyTimecode(const GenTime & time, const double &fps)
 {
     
     // Returns the timecode in an easily read display, like 3 min. 5 sec.
-    int frames = time.frames(fps);
+	int frames = (int)time.frames(fps);
     int seconds = frames / (int) fps;
     frames = frames % ((int) fps);
 
@@ -105,7 +105,7 @@ QString Timecode::getTimecodeHH_MM_SS_FF(const GenTime & time, double fps) const
     if (m_dropFrame)
 	return getTimecodeDropFrame(time, fps);
 
-    int frames = time.frames(fps);
+	 int frames = (int)time.frames(fps);
     int seconds = frames / m_displayedFramesPerSecond;
     frames = frames % m_displayedFramesPerSecond;
 
@@ -129,7 +129,7 @@ QString Timecode::getTimecodeHH_MM_SS_FF(const GenTime & time, double fps) const
 
 QString Timecode::getTimecodeHH_MM_SS_HH(const GenTime & time) const
 {
-    int hundredths = time.seconds() * 100;
+	int hundredths = (int)(time.seconds() * 100);
     int seconds = hundredths / 100;
     hundredths = hundredths % 100;
     int minutes = seconds / 60;
@@ -165,10 +165,10 @@ QString Timecode::getTimecodeDropFrame(const GenTime & time, double fps) const
     // Calculate the timecode using dropframes to remove the difference in fps. Note that this algorithm should work
     // for NTSC times, but is untested for any others - it is in no way an "official" algorithm, unless it's by fluke.
 
-    int frames = time.frames(fps);
+	int frames = (int)time.frames(fps);
 
     // calculate how many frames need to be dropped every minute.
-    int toDrop = (m_displayedFramesPerSecond - fps) * 600;
+	int toDrop = (int)((m_displayedFramesPerSecond - fps) * 600);
 
     int perMinute = toDrop / 9;
     int tenthMinute = toDrop % 9;

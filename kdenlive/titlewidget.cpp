@@ -119,7 +119,7 @@ void FigureEditor::contentsMouseReleaseEvent(QMouseEvent* e)
 {
         // If user was resizing replace rect with the new one
         if (operationMode == ResizeMode) {
-                int pos=selectedItem->z();
+			  int pos=(int)selectedItem->z();
                 delete selectedItem;
                 delete drawingRect;
                 drawingRect=0;
@@ -202,7 +202,7 @@ void FigureEditor::itemDown()
 void FigureEditor::deleteItem(QCanvasItem *i)
 {
         // delete item
-        int deletedIndex = i->z();
+	int deletedIndex = (int)i->z();
         delete i;
         numItems--;
         QCanvasItemList list = canvas()->allItems();
@@ -519,8 +519,8 @@ QPixmap FigureEditor::drawContent()
                 p.begin(&im);
                 p.setPen(((QCanvasText*)(*it))->color());
                 p.setFont(((QCanvasText*)(*it))->font());
-                int wi=((QCanvasText*)(*it))->boundingRect().width()/2;
-                int he=((QCanvasText*)(*it))->boundingRect().height();
+               // int wi=((QCanvasText*)(*it))->boundingRect().width()/2;
+               // int he=((QCanvasText*)(*it))->boundingRect().height();
                 p.drawText(((QCanvasText*)(*it))->boundingRect(),Qt::AlignAuto,((QCanvasText*)(*it))->text());
                 p.end();
 
@@ -537,14 +537,14 @@ QPixmap FigureEditor::drawContent()
                 p.begin(&im);
                 p.setPen(((QCanvasPolygonalItem*)(*it))->pen());
                 p.setBrush(((QCanvasPolygonalItem*)(*it))->brush());
-                p.drawRect((*it)->x(),(*it)->y(),((QCanvasRectangle*)(*it))->width(),((QCanvasRectangle*)(*it))->height());
+					 p.drawRect((int)((*it)->x()),(int)((*it)->y()),((QCanvasRectangle*)(*it))->width(),((QCanvasRectangle*)(*it))->height());
                 p.end();
 
                                 // Draw again on transparency mask
                 p.begin(im.mask());
                 p.setPen(QPen(color1,((QCanvasPolygonalItem*)(*it))->pen().width()));
                 p.setBrush(QBrush(color1));
-                p.drawRect((*it)->x(),(*it)->y(),((QCanvasRectangle*)(*it))->width(),((QCanvasRectangle*)(*it))->height());
+					 p.drawRect((int)((*it)->x()),(int)((*it)->y()),((QCanvasRectangle*)(*it))->width(),((QCanvasRectangle*)(*it))->height());
                 p.end();
             }
         }

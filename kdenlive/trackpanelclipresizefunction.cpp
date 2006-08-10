@@ -52,7 +52,7 @@ bool TrackPanelClipResizeFunction::mouseApplies(Gui::KTrackPanel * panel,
 	DocTrackBase *track =
 	    m_document->track(panel->documentTrackIndex());
 	if (track) {
-	    GenTime mouseTime(m_timeline->mapLocalToValue(event->x()),
+		GenTime mouseTime((int)m_timeline->mapLocalToValue(event->x()),
 		m_document->framesPerSecond());
 	    DocClipRef *clip = track->getClipAt(mouseTime);
 	    if (clip) {
@@ -88,7 +88,7 @@ bool TrackPanelClipResizeFunction::mousePressed(Gui::KTrackPanel * panel,
 	DocTrackBase *track =
 	    m_document->track(panel->documentTrackIndex());
 	if (track) {
-	    GenTime mouseTime(m_timeline->mapLocalToValue(event->x()),
+		GenTime mouseTime((int)m_timeline->mapLocalToValue(event->x()),
 		m_document->framesPerSecond());
 	    m_clipUnderMouse = track->getClipAt(mouseTime);
 	    if (m_clipUnderMouse) {
@@ -124,9 +124,9 @@ bool TrackPanelClipResizeFunction::mousePressed(Gui::KTrackPanel * panel,
 		    getSnapTimes(m_timeline->snapToBorders(),
 			m_timeline->snapToMarkers(), true, false));
 
-		m_snapToGrid.setSnapTolerance(GenTime(m_timeline->
+		m_snapToGrid.setSnapTolerance(GenTime((int)(m_timeline->
 			mapLocalToValue(Gui::KTimeLine::snapTolerance) -
-			m_timeline->mapLocalToValue(0),
+				m_timeline->mapLocalToValue(0)),
 			m_document->framesPerSecond()));
 
 		QValueVector < GenTime > cursor;

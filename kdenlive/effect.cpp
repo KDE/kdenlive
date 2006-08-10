@@ -58,7 +58,7 @@ QDomDocument Effect::toXML()
 	param.setAttribute("max", paramdesc->max());
 	param.setAttribute("min", paramdesc->min());
 	if (paramdesc->type() == "double")
-	    for (uint j = 0; j < m_paramList.at(i)->numKeyFrames(); j++) {
+		for (uint j = 0; j < (uint)m_paramList.at(i)->numKeyFrames(); j++) {
 		QDomElement keyframe = doc.createElement("keyframe");
 		keyframe.setAttribute("time",
 		    m_paramList.at(i)->keyframe(j)->time());
@@ -68,7 +68,7 @@ QDomDocument Effect::toXML()
 		param.appendChild(keyframe);
 	    }
 	if (paramdesc->type() == "complex")
-	    for (uint j = 0; j < m_paramList.at(i)->numKeyFrames(); j++) {
+		for (uint j = 0; j < (uint)m_paramList.at(i)->numKeyFrames(); j++) {
 		QDomElement keyframe = doc.createElement("keyframe");
 		keyframe.setAttribute("time",
 		    m_paramList.at(i)->keyframe(j)->time());

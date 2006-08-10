@@ -168,7 +168,7 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
 	if ((clip.tagName() == "AVFile") || (clip.tagName() == "avfile")) {
 	    uint clipType;
 	    clipType = clip.attribute("type", "").toInt();
-	    DocClipBase *baseClip;
+	    DocClipBase *baseClip=0;
 
 	    if (clipType < 4)	//  AUDIO OR VIDEO CLIP
 		baseClip =

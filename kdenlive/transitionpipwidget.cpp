@@ -118,7 +118,7 @@ void ScreenPreview::contentsMouseReleaseEvent(QMouseEvent* e)
 {
         // If user was resizing replace rect with the new one
         if (operationMode == ResizeMode) {
-                int pos=selectedItem->z();
+			  int pos=(int)selectedItem->z();
                 delete selectedItem;
                 delete drawingRect;
                 drawingRect=0;
@@ -142,8 +142,8 @@ void ScreenPreview::contentsMouseReleaseEvent(QMouseEvent* e)
                 }
         }
         // If user was moving an item, end the move
-        int x = (moving->x() + frameWidth/2 - imageWidth/2) * 100.0 /(frameWidth);
-        int y = (moving->y() + frameHeight/2 - imageHeight/2) * 100.0 /(frameHeight);
+		  int x = (int)((moving->x() + frameWidth/2 - imageWidth/2) * 100.0 /(frameWidth));
+		  int y = (int)((moving->y() + frameHeight/2 - imageHeight/2) * 100.0 /(frameHeight));
         emit positionRect(x,y);
 
 }
@@ -201,7 +201,7 @@ void ScreenPreview::adjustSize(int x)
 {
     if ( moving ) {
         setCursor(QCursor(Qt::SizeAllCursor));
-        ((QCanvasRectangle*)(moving))->setSize(x/100.0 * frameWidth, x/100.0 * frameHeight);
+		  ((QCanvasRectangle*)(moving))->setSize((int)(x/100.0 * frameWidth), (int)(x/100.0 * frameHeight));
         if (!m_silent) canvas()->update();
     }
     

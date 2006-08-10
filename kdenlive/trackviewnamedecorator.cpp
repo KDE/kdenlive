@@ -36,10 +36,10 @@ namespace Gui {
     void TrackViewNameDecorator::paintClip(double startX, double endX,
 	QPainter & painter, DocClipRef * clip, QRect & rect,
 	bool selected) {
-	int sx = startX;
+		int sx = (int)startX;
 	    /*(int) timeline()->mapValueToLocal(clip->trackStart().
 	    frames(document()->framesPerSecond()));*/
-	int ex = endX;
+		int ex = (int)endX;
 	    /*(int) timeline()->mapValueToLocal(clip->trackEnd().
 	    frames(document()->framesPerSecond()));*/
 	int clipWidth = ex - sx;
@@ -101,7 +101,7 @@ namespace Gui {
             //pen.setStyle(Qt::DotLine);
             painter.setPen(pen);
         }
-        painter.drawRect(startX, rect.y(), endX - startX, rect.height());
+		  painter.drawRect((int)startX, rect.y(), (int)(endX - startX), rect.height());
         if (selected) {
             pen.setColor(Qt::black);
             //pen.setStyle(Qt::SolidLine);

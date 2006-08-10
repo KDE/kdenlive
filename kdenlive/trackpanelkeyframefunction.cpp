@@ -38,8 +38,9 @@ m_app(app),
 m_timeline(timeline),
 m_document(document),
 m_clipUnderMouse(0),
+ m_selectedKeyframe(-1),
 m_resizeCommand(0),
-m_snapToGrid(), m_selectedKeyframe(-1), m_refresh(false)
+ m_snapToGrid(),m_refresh(false)
 {
 }
 
@@ -56,7 +57,7 @@ bool TrackPanelKeyFrameFunction::mouseApplies(Gui::KTrackPanel * panel,
 	DocTrackBase *track =
 	    m_document->track(panel->documentTrackIndex());
 	if (track) {
-	    GenTime mouseTime(m_timeline->mapLocalToValue(event->x()),
+		GenTime mouseTime((int)m_timeline->mapLocalToValue(event->x()),
 		m_document->framesPerSecond());
 	    DocClipRef *clip = track->getClipAt(mouseTime);
 	    if (clip && clip->hasEffect()) {
@@ -117,7 +118,7 @@ bool TrackPanelKeyFrameFunction::mousePressed(Gui::KTrackPanel * panel,
 	DocTrackBase *track =
 	    m_document->track(panel->documentTrackIndex());
 	if (track) {
-	    GenTime mouseTime(m_timeline->mapLocalToValue(event->x()),
+		GenTime mouseTime((int)m_timeline->mapLocalToValue(event->x()),
 		m_document->framesPerSecond());
 	    m_clipUnderMouse = track->getClipAt(mouseTime);
 	    if (m_clipUnderMouse) {
@@ -136,20 +137,20 @@ bool TrackPanelKeyFrameFunction::mousePressed(Gui::KTrackPanel * panel,
 		    uint count =
 			effect->parameter(effectIndex)->numKeyFrames();
 		    for (uint i = 0; i < count; i++) {
-			uint dx1 =
+				 uint dx1 =(uint)(
 			    effect->parameter(effectIndex)->keyframe(i)->
 			    time() *
 			    m_clipUnderMouse->cropDuration().
-			    frames(m_document->framesPerSecond());
-			uint dy1 = panel->height() / 2;
+						 frames(m_document->framesPerSecond()));
+				 uint dy1 = panel->height() / 2;
                         if (effect->effectDescription().parameter(effectIndex)->
                             type() == "double")
-			    dy1 =
+				dy1 =(uint)(
 				panel->height() -
 				panel->height() *
 				effect->parameter(effectIndex)->
 				keyframe(i)->toDoubleKeyFrame()->value() /
-				100;
+				100);
 
 			if ((fabs(m_timeline->
 				    mapValueToLocal(m_clipUnderMouse->

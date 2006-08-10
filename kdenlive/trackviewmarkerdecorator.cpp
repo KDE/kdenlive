@@ -34,8 +34,8 @@ namespace Gui {
     void TrackViewMarkerDecorator::paintClip(double startX, double endX,
 	QPainter & painter, DocClipRef * clip, QRect & rect,
 	bool selected) {
-	int sx = startX;
-	int ex = endX;
+	int sx = (int)startX;
+	int ex = (int)endX;
 
 	if (sx < rect.x()) {
 	    sx = rect.x();

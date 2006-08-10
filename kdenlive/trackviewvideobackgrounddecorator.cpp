@@ -44,8 +44,8 @@ namespace Gui {
     void TrackViewVideoBackgroundDecorator::paintClip(double startX,
                     double endX, QPainter & painter, DocClipRef * clip, QRect & rect,
                     bool selected) {
-                        int sx = startX;
-                        int ex = endX;
+							  int sx = (int)startX;
+							  int ex = (int)endX;
 			
                         if (sx < rect.x()) {
                             sx = rect.x();
@@ -79,26 +79,26 @@ namespace Gui {
                                 (int) timeline()->mapValueToLocal(1) -
                                 (int) timeline()->mapValueToLocal(0);
 
-                        int width1 = (h) * aspect;
+								int width1 = (int)((h) * aspect);
                         if (width1 > width)
                             width = width1;
-                        int i = sx;
-                        int frame = 0;
-			int clipStart = timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
-			int clipEnd = timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
+                        //int i = sx;
+                        //int frame = 0;
+								//int clipStart = (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
+								//int clipEnd = (int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
                         /* Use the clip's default thumbnail & scale it to track size to decorate until we have some better stuff */
                         
                         if (endX - startX < drawWidth)
-                            drawWidth = endX - startX;
+									drawWidth = (int)(endX - startX);
                         if (ex + sx > endX - startThumbnail.width()) 
 			{
                             QPixmap endThumbnail = clip->thumbnail(true);
 			    if (m_shift && clip->audioChannels() > 0 && clip->speed() == 1.0)
 				endThumbnail = endThumbnail.convertToImage().smoothScale(drawWidth, h);
 			    
-                            painter.drawPixmap(endX-drawWidth, y, endThumbnail, 0, 0, drawWidth, h);
+				 painter.drawPixmap((int)(endX-drawWidth), y, endThumbnail, 0, 0, drawWidth, h);
                         }
-                        if (sx < startX + startThumbnail.width()) painter.drawPixmap(startX, y, startThumbnail, 0, 0, drawWidth, h);
+								if (sx < startX + startThumbnail.width()) painter.drawPixmap((int)startX, y, startThumbnail, 0, 0, drawWidth, h);
                         //painter.drawRect(i, y, drawWidth, h);
 	//}
         		painter.setClipping(false);

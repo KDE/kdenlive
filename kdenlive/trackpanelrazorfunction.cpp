@@ -40,7 +40,7 @@ bool TrackPanelRazorFunction::mouseApplies(Gui::KTrackPanel * panel,
 	DocTrackBase *track =
 	    m_document->track(panel->documentTrackIndex());
 	if (track) {
-	    GenTime mouseTime(m_timeline->mapLocalToValue(event->x()),
+		GenTime mouseTime((int)(m_timeline->mapLocalToValue(event->x())),
 		m_document->framesPerSecond());
 	    clip = track->getClipAt(mouseTime);
 	}
@@ -55,7 +55,7 @@ QCursor TrackPanelRazorFunction::getMouseCursor(Gui::KTrackPanel * panel,
 	DocTrackBase *track =
 	    m_document->track(panel->documentTrackIndex());
 	if (track) {
-	    GenTime mouseTime(m_timeline->mapLocalToValue(event->x()),
+		GenTime mouseTime((int)(m_timeline->mapLocalToValue(event->x())),
 		m_document->framesPerSecond());
 	    DocClipRef *clip = track->getClipAt(mouseTime);
 	    if (clip) {
@@ -75,7 +75,7 @@ bool TrackPanelRazorFunction::mousePressed(Gui::KTrackPanel * panel,
 	DocTrackBase *track =
 	    m_document->track(panel->documentTrackIndex());
 	if (track) {
-	    GenTime mouseTime(m_timeline->mapLocalToValue(event->x()),
+		GenTime mouseTime((int)(m_timeline->mapLocalToValue(event->x())),
 		m_document->framesPerSecond());
 	    GenTime roundedMouseTime =
 		m_timeline->timeUnderMouse(event->x());

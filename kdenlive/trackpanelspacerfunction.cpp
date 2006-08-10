@@ -49,7 +49,7 @@ QCursor TrackPanelSpacerFunction::getMouseCursor(Gui::KTrackPanel * panel,
 bool TrackPanelSpacerFunction::mousePressed(Gui::KTrackPanel * panel,
     QMouseEvent * event)
 {
-    GenTime mouseTime(m_timeline->mapLocalToValue(event->x()),
+	GenTime mouseTime((int)(m_timeline->mapLocalToValue(event->x())),
 	m_doc->framesPerSecond());
     GenTime roundedMouseTime = m_timeline->timeUnderMouse(event->x());
     m_clipUnderMouse = 0;
@@ -74,9 +74,9 @@ bool TrackPanelSpacerFunction::mousePressed(Gui::KTrackPanel * panel,
 	m_snapToGrid.setSnapToFrame(m_timeline->snapToFrame());
 	if (m_timeline->snapToSeekTime())
 	    m_snapToGrid.addToSnapList(m_timeline->seekPosition());
-	m_snapToGrid.setSnapTolerance(GenTime(m_timeline->
+	m_snapToGrid.setSnapTolerance(GenTime((int)(m_timeline->
 		mapLocalToValue(Gui::KTimeLine::snapTolerance) -
-		m_timeline->mapLocalToValue(0), m_doc->framesPerSecond()));
+			m_timeline->mapLocalToValue(0)), m_doc->framesPerSecond()));
 
 	m_snapToGrid.addToSnapList(m_doc->getSnapTimes(m_timeline->
 		snapToBorders(), m_timeline->snapToMarkers(), true,

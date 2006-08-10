@@ -61,14 +61,14 @@ bool TrackPanelClipRollFunction::mouseApplies(Gui::KTrackPanel * panel,
 	DocTrackBase *track =
 	    m_document->track(panel->documentTrackIndex());
 	if (track) {
-	    GenTime mouseTime(m_timeline->mapLocalToValue(event->x()),
+		GenTime mouseTime((int)m_timeline->mapLocalToValue(event->x()),
 		m_document->framesPerSecond());
 	    DocClipRef *clip = track->getClipAt(mouseTime);
 	    if (clip) {
 		if (fabs(m_timeline->mapValueToLocal(clip->trackStart().
 			    frames(m_document->framesPerSecond())) -
 			event->x()) < s_resizeTolerance) {
-		    GenTime beforeTime(minDrag,
+			GenTime beforeTime((int)minDrag,
 			m_document->framesPerSecond());
 		    beforeTime = clip->trackStart() - beforeTime;
 		    DocClipRef *clipBefore = track->getClipAt(beforeTime);
@@ -79,7 +79,7 @@ bool TrackPanelClipRollFunction::mouseApplies(Gui::KTrackPanel * panel,
 		if (fabs(m_timeline->mapValueToLocal((clip->trackEnd()).
 			    frames(m_document->framesPerSecond())) -
 			event->x()) < s_resizeTolerance) {
-		    GenTime afterTime(minDrag,
+			GenTime afterTime((int)minDrag,
 			m_document->framesPerSecond());
 		    afterTime = clip->trackEnd() + afterTime;
 		    DocClipRef *clipAfter = track->getClipAt(afterTime);
@@ -110,7 +110,7 @@ bool TrackPanelClipRollFunction::mousePressed(Gui::KTrackPanel * panel,
 	    m_document->track(panel->documentTrackIndex());
 
 	if (track) {
-	    GenTime mouseTime(m_timeline->mapLocalToValue(event->x()),
+		GenTime mouseTime((int)m_timeline->mapLocalToValue(event->x()),
 		m_document->framesPerSecond());
 	    m_clipUnderMouse = track->getClipAt(mouseTime);
 	    if (m_clipUnderMouse) {
@@ -131,7 +131,7 @@ bool TrackPanelClipRollFunction::mousePressed(Gui::KTrackPanel * panel,
 		    addCommand(Command::KSelectClipCommand::
 		    selectNone(m_document), true);
 		//select both clips simultaneously
-		GenTime beforeTime(1.0, m_document->framesPerSecond());
+		GenTime beforeTime(1, m_document->framesPerSecond());
 		if (m_resizeState == Start) {
 		    m_app->
 			addCommand(Command::KSelectClipCommand::
@@ -172,9 +172,9 @@ bool TrackPanelClipRollFunction::mousePressed(Gui::KTrackPanel * panel,
 		    getSnapTimes(m_timeline->snapToBorders(),
 			m_timeline->snapToMarkers(), true, false));
 
-		m_snapToGrid.setSnapTolerance(GenTime(m_timeline->
+		m_snapToGrid.setSnapTolerance(GenTime((int)(m_timeline->
 			mapLocalToValue(Gui::KTimeLine::snapTolerance) -
-			m_timeline->mapLocalToValue(0),
+				m_timeline->mapLocalToValue(0)),
 			m_document->framesPerSecond()));
 
 		QValueVector < GenTime > cursor;

@@ -41,8 +41,8 @@ bool TrackPanelMarkerFunction::mouseApplies(Gui::KTrackPanel * panel,
 	DocTrackBase *track =
 	    m_document->track(panel->documentTrackIndex());
 	if (track) {
-	    GenTime mouseTime(m_timeline->mapLocalToValue(event->x()),
-		m_document->framesPerSecond());
+		GenTime mouseTime((int)(m_timeline->mapLocalToValue(event->x()),
+								 m_document->framesPerSecond()));
 	    clipUnderMouse = track->getClipAt(mouseTime);
 	}
     }
@@ -76,7 +76,7 @@ bool TrackPanelMarkerFunction::mouseReleased(Gui::KTrackPanel * panel,
 	DocTrackBase *track =
 	    m_document->track(panel->documentTrackIndex());
 	if (track) {
-	    GenTime mouseTime(m_timeline->mapLocalToValue(event->x()),
+		GenTime mouseTime((int)(m_timeline->mapLocalToValue(event->x())),
 		m_document->framesPerSecond());
 	    clipUnderMouse = track->getClipAt(mouseTime);
 

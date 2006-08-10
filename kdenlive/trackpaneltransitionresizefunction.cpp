@@ -35,9 +35,11 @@ m_app(app),
 m_timeline(timeline),
 m_document(document),
 m_clipUnderMouse(0),
-m_resizeCommand(0),
+
 m_selectedTransition(0),
-m_snapToGrid(), m_refresh(false), m_dragStarted(false)
+m_dragStarted(false),
+m_resizeCommand(0),
+m_snapToGrid(), m_refresh(false)
 {
     
 }
@@ -56,7 +58,7 @@ bool TrackPanelTransitionResizeFunction::mouseApplies(Gui::KTrackPanel * panel,
 	DocTrackBase *track =
 	    m_document->track(panel->documentTrackIndex());
 	if (track) {
-	    GenTime mouseTime(m_timeline->mapLocalToValue(event->x()),
+		GenTime mouseTime((int)m_timeline->mapLocalToValue(event->x()),
 		m_document->framesPerSecond());
 	    DocClipRef *clip = track->getClipAt(mouseTime);
 	    if (clip) {
@@ -66,8 +68,8 @@ bool TrackPanelTransitionResizeFunction::mouseApplies(Gui::KTrackPanel * panel,
                 TransitionStack::iterator itt = m_transitions.begin();
                 //  Loop through the clip's transitions
                 while (itt) {
-                    uint dx1 = (*itt)->transitionStartTime().frames(m_document->framesPerSecond());
-                    uint dx2 = (*itt)->transitionEndTime().frames(m_document->framesPerSecond());
+						 uint dx1 = (uint)(*itt)->transitionStartTime().frames(m_document->framesPerSecond());
+						 uint dx2 = (uint)(*itt)->transitionEndTime().frames(m_document->framesPerSecond());
 			if ((fabs(m_timeline->mapValueToLocal(dx1) - event->x()) < s_resizeTolerance))
                             return true;
                         if ((fabs(m_timeline->mapValueToLocal(dx2) - event->x()) < s_resizeTolerance))
@@ -97,7 +99,7 @@ bool TrackPanelTransitionResizeFunction::mousePressed(Gui::KTrackPanel * panel,
 	DocTrackBase *track =
 	    m_document->track(panel->documentTrackIndex());
 	if (track) {
-	    GenTime mouseTime(m_timeline->mapLocalToValue(event->x()),
+		GenTime mouseTime((int)m_timeline->mapLocalToValue(event->x()),
 		m_document->framesPerSecond());
 	    m_clipUnderMouse = track->getClipAt(mouseTime);
 	    if (m_clipUnderMouse) {
@@ -115,8 +117,8 @@ bool TrackPanelTransitionResizeFunction::mousePressed(Gui::KTrackPanel * panel,
                 
                 m_resizeState = None;
                 while (itt) {
-                dx1 = (*itt)->transitionStartTime().frames(m_document->framesPerSecond());
-                dx2 = (*itt)->transitionEndTime().frames(m_document->framesPerSecond());
+						 dx1 = (uint)(*itt)->transitionStartTime().frames(m_document->framesPerSecond());
+						 dx2 = (uint)(*itt)->transitionEndTime().frames(m_document->framesPerSecond());
                     if ((fabs(m_timeline->mapValueToLocal(dx1) - event->x()) < s_resizeTolerance)) {
                         m_resizeState = Start;
                         m_dragStarted = true;
@@ -152,9 +154,9 @@ bool TrackPanelTransitionResizeFunction::mousePressed(Gui::KTrackPanel * panel,
                                 getSnapTimes(m_timeline->snapToBorders(),
                                              m_timeline->snapToMarkers(), true, false));
 
-                        m_snapToGrid.setSnapTolerance(GenTime(m_timeline->
+								m_snapToGrid.setSnapTolerance(GenTime((int)(m_timeline->
                                 mapLocalToValue(Gui::KTimeLine::snapTolerance) -
-                                m_timeline->mapLocalToValue(0),
+										m_timeline->mapLocalToValue(0)),
                         m_document->framesPerSecond()));
 
                         QValueVector < GenTime > cursor;

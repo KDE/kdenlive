@@ -35,7 +35,7 @@ const int EffectParameter::numKeyFrames() const
 
 void EffectParameter::setSelectedKeyFrame(int ix)
 {
-    if (ix > m_keyFrames.count() -1) ix = m_keyFrames.count() -1;
+	if (ix > (int)m_keyFrames.count() -1) ix = m_keyFrames.count() -1;
     m_selectedKeyFrame = ix;
 }
 
@@ -73,7 +73,7 @@ EffectKeyFrame *EffectParameter::deleteKeyFrame(int ix)
 {
     kdDebug() << "EFFET++++++ remove item: " << ix << endl;
     m_keyFrames.remove(ix);
-    if (m_selectedKeyFrame > m_keyFrames.count() -1) m_selectedKeyFrame = m_keyFrames.count() -1;
+	 if (m_selectedKeyFrame > (int)m_keyFrames.count() -1) m_selectedKeyFrame = m_keyFrames.count() -1;
 }
 
 EffectKeyFrame *EffectParameter::interpolateKeyFrame(double time) const

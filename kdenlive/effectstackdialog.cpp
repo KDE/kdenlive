@@ -174,10 +174,10 @@ namespace Gui {
 	    m_effecttype = effect->effectDescription().parameter(parameterNum)->type();
 	    // for each constant parameter, build a QSpinBox with its value
             if (m_effecttype == "constant") {
-		int maxValue =
+		int maxValue =(int)
 		    effect->effectDescription().parameter(parameterNum)->
 		    max();
-		int minValue =
+		int minValue =(int)
 		    effect->effectDescription().parameter(parameterNum)->
 		    min();
                 if (maxValue != minValue) {
@@ -229,7 +229,7 @@ namespace Gui {
 		    effect->parameter(parameterNum)->selectedKeyFrame();
 		uint maxVal = 100;
 		uint minVal = 0;
-		uint currVal =
+		uint currVal =(uint)
 		    effect->parameter(parameterNum)->keyframe(ix)->
 		    toDoubleKeyFrame()->value();
 		QLabel *label =
@@ -274,13 +274,13 @@ namespace Gui {
 		    int ix =
 			effect->parameter(parameterNum)->
 			selectedKeyFrame();
-		    uint maxVal =
+			 uint maxVal =(uint)
 			effect->effectDescription().
 			parameter(parameterNum)->max(i);
-		    uint minVal =
+			 uint minVal =(uint)
 			effect->effectDescription().
 			parameter(parameterNum)->min(i);
-		    uint currVal =
+			 uint currVal =
 			effect->parameter(parameterNum)->keyframe(ix)->
 			toComplexKeyFrame()->value(i);
 
@@ -495,7 +495,7 @@ namespace Gui {
 	m_effecttype = effect->effectDescription().parameter(parameterNum)->type();
 	// Find the keyframe value & position
 	if (m_effecttype == "double") {
-	    currentValue =
+		currentValue =(uint)
 		effect->parameter(parameterNum)->keyframe(ix)->
 		toDoubleKeyFrame()->value();
 	    QSpinBox *sbox =
@@ -520,9 +520,9 @@ namespace Gui {
 		else {
 		    disconnect(sbox, SIGNAL(valueChanged(int)), this,
 			SLOT(changeKeyFrameValue(int)));
-		    sbox->setMaxValue(effect->effectDescription().
+			 sbox->setMaxValue((int)effect->effectDescription().
 			parameter(parameterNum)->max(i));
-		    sbox->setMinValue(effect->effectDescription().
+			 sbox->setMinValue((int)effect->effectDescription().
 			parameter(parameterNum)->min(i));
 		    sbox->setValue(effect->parameter(parameterNum)->
 			keyframe(ix)->toComplexKeyFrame()->value(i));
@@ -532,27 +532,27 @@ namespace Gui {
 	    }
 	}
 
-	currentTime =
+	currentTime = (uint)(
 	    effect->parameter(parameterNum)->keyframe(ix)->time() *
-	    m_effectList->clip()->cropDuration().frames(KdenliveSettings::defaultfps());
+			m_effectList->clip()->cropDuration().frames(KdenliveSettings::defaultfps()));
 
 	// Find the previous keyframe position to make sure the current keyframe cannot be moved before the previous one
 	if (ix == 0)
 	    previousTime = 0;
 	else
-	    previousTime =
+		previousTime = (uint)(
 		effect->parameter(parameterNum)->keyframe(ix -
 		1)->time() *
-		m_effectList->clip()->cropDuration().frames(KdenliveSettings::defaultfps()) + 1;
+		m_effectList->clip()->cropDuration().frames(KdenliveSettings::defaultfps()) + 1);
 
 	// Find the next keyframe position to make sure the current keyframe cannot be moved after the next one
 	if (ix == effect->parameter(parameterNum)->numKeyFrames() - 1)
-	    nextTime = m_effectList->clip()->cropDuration().frames(KdenliveSettings::defaultfps());
+		nextTime = (uint)(m_effectList->clip()->cropDuration().frames(KdenliveSettings::defaultfps()));
 	else
-	    nextTime =
+		nextTime =(uint)(
 		effect->parameter(parameterNum)->keyframe(ix +
 		1)->time() *
-		m_effectList->clip()->cropDuration().frames(KdenliveSettings::defaultfps()) - 1;
+		m_effectList->clip()->cropDuration().frames(KdenliveSettings::defaultfps()) - 1);
 
 	spinPosition->setMinValue(previousTime);
 	spinPosition->setMaxValue(nextTime);
@@ -587,7 +587,7 @@ namespace Gui {
 
     void EffectStackDialog::changeKeyFrameValue(int newValue) {
 	uint parameterNum = 0;
-	double currentTime;
+	//double currentTime;
 
 	Effect *effect = m_effectList->clip()->effectAt(m_effectList->selectedEffectIndex());
         if (!effect->parameter(parameterNum)) return;

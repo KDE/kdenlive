@@ -155,7 +155,7 @@ namespace Gui {
     void EffectStackListView::slotMoveEffectDown() {
 	int selectedIx = selectedEffectIndex();
 	if ((selectedIx != -1)
-	    && (selectedIx < m_clip->effectStack().count() - 1)) {
+		&& (selectedIx < (int)m_clip->effectStack().count() - 1)) {
 	    m_app->
 		addCommand(Command::KAddEffectCommand::
 		moveEffect(m_document, m_clip, selectedIx,

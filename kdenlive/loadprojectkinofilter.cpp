@@ -101,10 +101,10 @@ GenTime LoadProjectKinoFilter::loadSeq(const GenTime & currentTrackTime,
 		DocClipRef *ref = new DocClipRef(file);
 
 		GenTime cropStart =
-		    GenTime(e.attribute("clipBegin", "0").toDouble(),
+				GenTime(e.attribute("clipBegin", "0").toInt(),///was toDouble
 		    track->framesPerSecond());
 		GenTime cropDuration =
-		    GenTime(e.attribute("clipEnd", "0").toDouble(),
+				GenTime(e.attribute("clipEnd", "0").toInt(),///was toDouble
 		    track->framesPerSecond()) - cropStart;;
 
 		ref->setTrackStart(newTrackTime);
