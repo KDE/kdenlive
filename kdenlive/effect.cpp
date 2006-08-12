@@ -15,8 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "effect.h"
+#include <ctime>
+#include <cstdlib>
+#include <qdom.h>
 
+#include <kio/netaccess.h>
+#include <kdebug.h>
+
+#include "effect.h"
 #include "effectdesc.h"
 #include "effectparameter.h"
 #include "effectparamdescfactory.h"
@@ -24,19 +30,24 @@
 #include "effectcomplexkeyframe.h"
 #include "effectkeyframe.h"
 #include "effectparamdesc.h"
-
-#include <kdebug.h>
-#include <qdom.h>
-
+#include "kdenlivesettings.h"
 
 
 Effect::Effect(const EffectDesc & desc, const QString & name):m_desc(desc),
 m_name(name)
 {
+	if (m_desc.tag().startsWith("ladspa", false)) { 
+		//ladspa filter, needs a unique temp file for xml input file
+		m_paramFile = QString::number(time(0)) + QString::number(rand()) + ".rack";
+	}
 }
 
 Effect::~Effect()
 {
+	// remove temp file is ther was one
+	if (!m_paramFile.isEmpty() && KIO::NetAccess::exists(m_paramFile, false, 0)) {
+		KIO::NetAccess::del(m_paramFile, 0);
+ 	}
 }
 
 QDomDocument Effect::toXML()
@@ -47,6 +58,7 @@ QDomDocument Effect::toXML()
 
     effect.setAttribute("name", name());
     effect.setAttribute("type", m_desc.name());
+    if (!m_paramFile.isEmpty()) effect.setAttribute("tempfile", m_paramFile);
 
     for (uint i = 0; i < m_desc.numParameters(); i++) {
 	EffectParamDesc *paramdesc = m_desc.parameter(i);

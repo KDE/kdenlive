@@ -92,6 +92,7 @@ namespace Gui {
 		}
 		if (!KIO::NetAccess::exists(KURL(projectFolder->url()), false, this)) {
 			KIO::NetAccess::mkdir(KURL(projectFolder->url()), this);
+			KIO::NetAccess::mkdir(KURL(projectFolder->url() + "/tmp/"), this);
 			if (!KIO::NetAccess::exists(KURL(projectFolder->url()), false, this)) {
 				KMessageBox::sorry(this, i18n("Unable to access the selected folder.\nPlease chose another project folder."));
 				return;

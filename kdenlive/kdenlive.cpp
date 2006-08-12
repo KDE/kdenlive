@@ -1178,6 +1178,7 @@ namespace Gui {
 				KIO::NetAccess::mkdir(KURL(KdenliveSettings::defaultfolder()), this);
 			if (!KIO::NetAccess::exists(KURL(KdenliveSettings::currentdefaultfolder()), false, this)) {
 				KIO::NetAccess::mkdir(KURL(KdenliveSettings::currentdefaultfolder()), this);
+				
 				if (!KIO::NetAccess::exists(KURL(KdenliveSettings::currentdefaultfolder()), false, this)) {
 					KMessageBox::sorry(0, i18n("Unable to create the project folder. Audio thumbnails will be disabled."));
 					KdenliveSettings::setAudiothumbnails(false);
@@ -1406,6 +1407,7 @@ namespace Gui {
 			if (newProjectDialog->isNewFile()) {
 				*newProjectName = newProjectDialog->projectName->text();
 				KdenliveSettings::setCurrentdefaultfolder(newProjectDialog->projectFolderPath());
+				KdenliveSettings::setCurrenttmpfolder(KdenliveSettings::currentdefaultfolder() + "/tmp/");
 				if (newProjectDialog->video_format->currentItem() == 0) {
 					// PAL project
 					KdenliveSettings::setDefaultheight(576);
@@ -2388,6 +2390,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
         configDialog.setValues(m_doc->framesPerSecond(), m_doc->projectClip().videoWidth(), m_doc->projectClip().videoHeight(), KdenliveSettings::currentdefaultfolder());
 	if (QDialog::Accepted == configDialog.exec()) {
 	KdenliveSettings::setCurrentdefaultfolder(configDialog.projectFolder().url());
+	KdenliveSettings::setCurrenttmpfolder(KdenliveSettings::currentdefaultfolder() + "/tmp/");
 	}
     }
 

@@ -110,6 +110,12 @@
       <default></default>
     </entry>
 
+    <entry name="currenttmpfolder" type="String">
+      <label>Default folder for the current project tmp files (thumbnails and previews).</label>
+      <default></default>
+    </entry>
+
+
     <entry name="textclipduration" type="String">
       <label>Default duration for new text clips.</label>
       <default>00:00:10:00</default>

@@ -349,6 +349,33 @@ char* initEffects::ladspaEffectString(int ladspaId, QStringList params)
     }
 }
 
+//static 
+void initEffects::ladspaEffectFile(const QString & fname, int ladspaId, QStringList params)
+{
+    char *filterString;
+    if (ladspaId == 1433 ) //Pitch
+	filterString = ladspaPitchEffectString(params);
+    else if (ladspaId == 1216 ) //Room Reverb
+	filterString = ladspaRoomReverbEffectString(params);
+    else if (ladspaId == 1423 ) //Reverb
+	filterString = ladspaReverbEffectString(params);
+    else if (ladspaId == 1901 ) //Reverb
+	filterString = ladspaEqualizerEffectString(params);
+    else {
+	kdDebug()<<"++++++++++  ASKING FOR UNKNOWN LADSPA EFFECT: "<<ladspaId<<endl;
+	return;
+    }
+
+	QFile f( QString( KdenliveSettings::currenttmpfolder() + "/" + fname).ascii() );
+    	if ( f.open( IO_WriteOnly ) ) 
+	{
+        	QTextStream stream( &f );
+		stream << filterString;
+		f.close();
+    	}
+    	else kdDebug()<<"++++++++++  ERROR CANNOT WRITE TO: "<<KdenliveSettings::currenttmpfolder() + "/" + fname<<endl;
+}
+
 char* initEffects::ladspaPitchEffectString(QStringList params)
 {
 	return KRender::decodedString( QString("<?xml version=\"1.0\"?><!DOCTYPE jackrack SYSTEM \"http://purge.bash.sh/~rah/jack_rack_1.2.dtd\"><jackrack><channels>2</channels><samplerate>48000</samplerate><plugin><id>1433</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.0</value><value>1.0</value></wet_dry_values><lockall>true</lockall><controlrow><lock>true</lock><value>%1</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>4.000000</value><value>4.000000</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[0]));

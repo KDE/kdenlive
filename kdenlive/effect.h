@@ -59,10 +59,14 @@ class Effect {
     void addKeyFrame(const uint ix, double time, double value);
     void addKeyFrame(const uint ix, double time, QStringList values);
 
+    QString tempFileName() {
+	return m_paramFile;
+    }
+
   private:
     const EffectDesc & m_desc;
     QString m_name;
-
+    QString m_paramFile;
     QPtrList < EffectParameter > m_paramList;
 };
 

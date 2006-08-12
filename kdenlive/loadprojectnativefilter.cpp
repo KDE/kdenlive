@@ -14,7 +14,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include "loadprojectnativefilter.h"
 
 #include <qdom.h>
 #include <qfile.h>
@@ -22,7 +21,9 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kurl.h>
+#include <kio/netaccess.h>
 
+#include "loadprojectnativefilter.h"
 #include "clipmanager.h"
 #include "docclipproject.h"
 #include "documentclipnode.h"
@@ -65,6 +66,10 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 	if (!e.isNull()) {
 	    if (e.tagName() == "properties") {
 		KdenliveSettings::setCurrentdefaultfolder(e.attribute("projectfolder",""));
+		KdenliveSettings::setCurrenttmpfolder(KdenliveSettings::currentdefaultfolder() + "/tmp/");
+
+		// create tmp folder if doesn't exist
+		KIO::NetAccess::mkdir(KURL(KdenliveSettings::currenttmpfolder()), 0, -1);
 		KdenliveSettings::setDefaultheight(e.attribute("projectheight","576").toInt());
 		if (KdenliveSettings::defaultheight() == 480) {
 			document->setProjectNtsc(true);

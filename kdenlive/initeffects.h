@@ -38,6 +38,8 @@ class initEffects
 
 	static void initializeEffects(EffectDescriptionList *effectList);
 	static char* ladspaEffectString(int ladspaId, QStringList params);
+	static void ladspaEffectFile(const QString & fname, int ladspaId, QStringList params);
+
 	static char* ladspaPitchEffectString(QStringList params);
 	static char* ladspaReverbEffectString(QStringList params);
 	static char* ladspaRoomReverbEffectString(QStringList params);

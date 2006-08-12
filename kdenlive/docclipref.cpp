@@ -868,9 +868,12 @@ QDomDocument DocClipRef::generateXMLClip()
 			    parameterNum++;
 			}
 			int ladspaid = effect->effectDescription().tag().right(effect->effectDescription().tag().length() - 6).toInt();
-			kdDebug()<<"++++++++++FOUND LADSPA FILTER: "<<ladspaid<<endl;
-			clipFilter.setAttribute("data", initEffects::ladspaEffectString(ladspaid, params ));
-//			clipFilter.setAttribute("src", "/home/kubuntu/1.rack");
+
+			QString effectFile = effect->tempFileName();
+			if (!effectFile.isEmpty()) {
+			initEffects::ladspaEffectFile( effectFile, ladspaid, params );
+			clipFilter.setAttribute("src", KdenliveSettings::currenttmpfolder() + "/" + effectFile );}
+//			clipFilter.setAttribute("data", initEffects::ladspaEffectString(ladspaid, params ));
 		    	entry.appendChild(clipFilter);
 
 		// end of LADSPA FILTER
