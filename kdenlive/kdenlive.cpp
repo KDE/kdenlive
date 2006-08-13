@@ -2195,6 +2195,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		seek(m_monitorManager.activeMonitor()->screen()->
 		seekPosition() + GenTime(1,
 		    getDocument()->framesPerSecond()));
+	    m_timeline->ensureCursorVisible();
 	}
     }
 
@@ -2204,6 +2205,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		seek(m_monitorManager.activeMonitor()->screen()->
 		seekPosition() - GenTime(1,
 		    getDocument()->framesPerSecond()));
+	    m_timeline->ensureCursorVisible();
 	}
     }
     
@@ -2212,6 +2214,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
             m_monitorManager.activeMonitor()->editPanel()->
                     seek(m_doc->toSnapTime(m_monitorManager.activeMonitor()->screen()->
                     seekPosition()));
+	    m_timeline->ensureCursorVisible();
         }
     }
 
@@ -2220,6 +2223,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
             m_monitorManager.activeMonitor()->editPanel()->
                     seek(m_doc->toSnapTime(m_monitorManager.activeMonitor()->screen()->
                     seekPosition(), false));
+	    m_timeline->ensureCursorVisible();
         }
     }
 
@@ -2229,6 +2233,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                     seek(m_monitorManager.activeMonitor()->screen()->
                     seekPosition() + GenTime((int) getDocument()->framesPerSecond(),
             getDocument()->framesPerSecond()));
+	    m_timeline->ensureCursorVisible();
         }
     }
 
@@ -2238,6 +2243,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                     seek(m_monitorManager.activeMonitor()->screen()->
                     seekPosition() - GenTime((int) getDocument()->framesPerSecond(),
             getDocument()->framesPerSecond()));
+	    m_timeline->ensureCursorVisible();
         }
     }
 

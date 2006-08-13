@@ -270,6 +270,8 @@ namespace Command {
 	void setMidValueDiff();
 	/** automatically scroll the timeline while playing */
 	void autoScroll();
+	/** automatically scroll the timeline to make sure cursor is visible*/
+	void ensureCursorVisible();
 
     private slots:		// Private slots
 	/** Scroll the timeline by a set amount. Should be connected to m_scrollTimer */

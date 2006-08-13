@@ -297,6 +297,21 @@ the display. The scale is the size of one frame.*/
 	if (timeScale() > 1) step = timeScale();
 	m_scrollBar->setValue( m_scrollBar->value() + step );
     }
+
+    void KTimeLine::ensureCursorVisible() {
+	int max = mapLocalToValue(viewWidth());
+	int min = mapLocalToValue(0);
+
+	// Only scroll if the cursor is out of view
+	if (seekPosition().frames( m_framesPerSecond ) < min ) {
+		int diff = (min - seekPosition().frames( m_framesPerSecond) + (max - min) / 3) * timeScale();
+		m_scrollBar->setValue( m_scrollBar->value() - diff );
+	}
+	else if ( seekPosition().frames( m_framesPerSecond ) > max) {
+		int diff = ( seekPosition().frames( m_framesPerSecond ) - max + (max - min) / 3) * timeScale();
+		m_scrollBar->setValue( m_scrollBar->value() + diff );
+	}
+    }
     
     void KTimeLine::slotMoveForward(bool fast)
     {
