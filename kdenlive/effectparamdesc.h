@@ -17,6 +17,7 @@
 #ifndef EFFECTPARAMDESC_H
 #define EFFECTPARAMDESC_H
 
+#include <qxml.h>
 #include <qstring.h>
 #include <qstringlist.h>
 
@@ -96,6 +97,8 @@ A description of an effect parameter
     virtual const QString complexParamName(uint ix) const;
     virtual const uint complexParamNum() const;
 
+    EffectParamDesc *clone();
+
   private:
 	/** The name of this parameter. */
      QString m_name;
@@ -109,6 +112,8 @@ A description of an effect parameter
     QString m_description;
 	/** The parameter value should be divided by this value before being passed to the filter. */
     double m_factor;
+    QXmlAttributes m_xml;
+
 };
 
 #endif

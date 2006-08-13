@@ -58,9 +58,7 @@ namespace Gui {
 	    for (EffectStack::const_iterator itt =
 		m_clip->effectStack().begin();
 		itt != m_clip->effectStack().end(); ++itt) {
-		QListViewItem *item =
-		    new QListViewItem(this, lastItem, (*itt)->name());
-		insertItem(item);
+		QListViewItem *item = new QListViewItem(this, lastItem, (*itt)->name());
 		lastItem = item;
 	    }
 	}

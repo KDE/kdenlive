@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 #include "effectdescriptionlist.h"
-
+#include "effectparamdesc.h"
 #include "effectdesc.h"
 
 EffectDescriptionList::EffectDescriptionList()
@@ -31,16 +31,20 @@ EffectDescriptionList::~EffectDescriptionList()
 EffectDesc *EffectDescriptionList::effectDescription(const QString & type) const
 {
     EffectDesc *result = 0;
-
     QPtrListIterator < EffectDesc > itt(*this);
 
     while (itt.current()) {
 	if (itt.current()->name() == type) {
-	    result = itt.current();
+	    //result = itt.current();
 	    break;
 	}
 	++itt;
     }
 
+    if (itt.current()) {
+	result = new EffectDesc( itt.current()->name(), itt.current()->tag(),itt.current()->type());
+	   for (uint count = 0; count < itt.current()->numParameters(); ++count)
+		result->addParameter(itt.current()->parameter(count)->clone());
+    }
     return result;
 }

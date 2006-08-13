@@ -15,11 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 #include "effectparamdesc.h"
-
-#include <qxml.h>
+#include "effectparamdescfactory.h"
 
 EffectParamDesc::EffectParamDesc(const QXmlAttributes & attributes)
 {
+    m_xml = attributes;
     m_name = attributes.value("name");
     m_type = attributes.value("type");
     m_default = attributes.value("default");
@@ -33,6 +33,11 @@ EffectParamDesc::~EffectParamDesc()
 {
 }
 
+EffectParamDesc *EffectParamDesc::clone()
+{
+    EffectParamDescFactory effectDescParamFactory;
+    return effectDescParamFactory.createParameter(m_xml);
+}
 
 void EffectParamDesc::setValue(const QString &value)
 {

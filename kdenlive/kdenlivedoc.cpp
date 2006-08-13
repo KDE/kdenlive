@@ -683,7 +683,7 @@ DocClipRefList KdenliveDoc::listSelected() const
 
 const EffectDescriptionList & KdenliveDoc::effectDescriptions() const
 {
-    return m_render->effectList();
+    return m_app->effectList();
 }
 
 Effect *KdenliveDoc::createEffect(const QDomElement & element) const
