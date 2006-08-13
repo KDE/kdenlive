@@ -323,7 +323,6 @@ namespace Gui {
 	tabWidget2->setTabEnabled(tabWidget2->page(1), m_hasKeyFrames);
 	m_container->adjustSize();
 	m_container->show();
-	emit effectSelected(clip, effect);
 	emit redrawTracks();
     }
 

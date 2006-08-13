@@ -39,9 +39,7 @@
 #include "avformatdesccodec.h"
 #include "docclipref.h"
 #include "effectdesc.h"
-#include "effectdescriptionlist.h"
 #include "effectparamdescfactory.h"
-#include "initeffects.h"
 #include "kdenlive.h"
 
 /**KRender encapsulates the client side of the interface to a renderer.
@@ -223,8 +221,7 @@ class KRender:public QObject {
 
 	/** Holds a list of all available codecs. */
      QPtrList < AVFormatDescCodec > m_codeclist;
-	/** Holds a list of all available effects. */
-    EffectDescriptionList m_effectList;
+
 	/** The renderer version number. */
     QString m_version;
 	/** Holds the authors of this renderer. */

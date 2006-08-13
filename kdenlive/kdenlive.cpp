@@ -153,6 +153,10 @@ namespace Gui {
 	m_commandHistory = new KCommandHistory(actionCollection(), true);
 	initActions();
 
+	m_effectList.setAutoDelete(true);
+
+	initEffects::initializeEffects( &m_effectList );
+
 	initDocument(videoTracks, audioTracks);
 
 	initWidgets();
@@ -215,6 +219,11 @@ namespace Gui {
 	if (m_commandHistory) delete m_commandHistory;
     }
     
+    const EffectDescriptionList & KdenliveApp::effectList() const
+    {
+	return m_effectList;
+    }
+
     void KdenliveApp::openSelectedFile()
     {
         openDocumentFile(m_selectedFile);

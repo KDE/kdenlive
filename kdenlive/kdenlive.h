@@ -41,6 +41,8 @@
 #include "transitiondialog.h"
 #include "transition.h"
 #include "kdenlivesplash.h"
+#include "initeffects.h"
+#include "effectdescriptionlist.h"
 
 // forward declaration of the Kdenlive classes
 class DocClipProject;
@@ -376,6 +378,9 @@ namespace Gui {
 	void setOutpointPosition(const GenTime out);
 
 	void focusTimelineWidget();
+
+	/** Returns the effect list. */
+	const EffectDescriptionList & effectList() const;
         
       private slots: 
         void slotToggleClipMonitor();
@@ -419,6 +424,9 @@ namespace Gui {
 		 * information such as filename and does the serialization of your files.
 		 */
 	KdenliveDoc *m_doc;
+
+	/** Holds a list of all available effects. */
+	EffectDescriptionList m_effectList;
 
 	// KAction pointers to enable/disable actions
 	KAction *fileNew;

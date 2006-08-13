@@ -85,11 +85,8 @@ m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProduce
 
     m_fileFormats.setAutoDelete(true);
     m_codeclist.setAutoDelete(true);
-    m_effectList.setAutoDelete(true);
 
     openMlt();
-    initEffects::initializeEffects( &m_effectList );
-
 
 
 
@@ -672,7 +669,7 @@ void KRender::refresh()
 /** Returns the effect list. */
 const EffectDescriptionList & KRender::effectList() const
 {
-    return m_effectList;
+    return m_app->effectList();
 }
 
 /** Sets the renderer version for this renderer. */

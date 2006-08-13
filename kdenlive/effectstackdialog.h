@@ -48,8 +48,6 @@ Implementation of the EffectStackDialog
 
 	 virtual ~ EffectStackDialog();
 	 signals:
-	/** Emitted when a new effect has been selected in the effect stack. */
-	void effectSelected(DocClipRef *, Effect *);
 	/** Emitted when an effect parameter has been modified. */
 	void generateSceneList();
 	void redrawTracks();
