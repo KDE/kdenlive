@@ -53,6 +53,10 @@ namespace Gui {
 	invalidateBackBuffer();
     }
 
+    void KMMTimeLine::zoomTimeline(bool up) {
+	m_rulerToolWidget->changeZoom(!up);
+    }
+
     void KMMTimeLine::fitToWidth(bool restore) {
         if (!restore) {
            m_lastZoom = timeScale();

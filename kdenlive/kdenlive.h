@@ -303,7 +303,8 @@ namespace Gui {
 
 		/** Called when fitToWidth is actioned */
 	void slotFitToWidth();
-        
+	void slotZoomIn();
+	void slotZoomOut();
                 /** Called when user wants to go back to last zoom after fitToWidth was actioned */
         void slotRestoreZoom();
 

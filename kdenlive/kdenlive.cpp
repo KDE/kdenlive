@@ -282,6 +282,11 @@ namespace Gui {
 	fitToWidth =
 	    KStdAction::fitToWidth(this, SLOT(slotFitToWidth()),
 	    actionCollection());
+
+	(void) KStdAction::zoomIn(this, SLOT(slotZoomIn()),
+	    actionCollection());
+	(void) KStdAction::zoomOut(this, SLOT(slotZoomOut()),
+	    actionCollection());
         
         (void) new KAction(i18n("Restore Last Zoom"), 0, this,
         SLOT(slotRestoreZoom()), actionCollection(),
@@ -2479,6 +2484,14 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	}
 
 	addCommand(macroCommand, true);
+    }
+
+    void KdenliveApp::slotZoomIn() {
+	m_timeline->zoomTimeline(true);
+    }
+
+    void KdenliveApp::slotZoomOut() {
+	m_timeline->zoomTimeline(false);
     }
 
     void KdenliveApp::slotFitToWidth() {
