@@ -679,9 +679,16 @@ namespace Gui {
 	m_statusBarProgress = new KProgress(statusBar());
 	m_statusBarProgress->setMaximumWidth(100);
 	m_statusBarProgress->setTotalSteps(0);
-	m_statusBarProgress->setTextEnabled(false);
+	//m_statusBarProgress->setTextEnabled(false);
 	statusBar()->addWidget(m_statusBarProgress);
 	m_statusBarProgress->hide();
+
+	m_statusBarExportProgress = new KProgress(statusBar());
+	m_statusBarExportProgress->setMaximumWidth(100);
+	m_statusBarExportProgress->setTotalSteps(100);
+	//m_statusBarExportProgress->setTextEnabled(false);
+	statusBar()->addWidget(m_statusBarExportProgress);
+	m_statusBarExportProgress->hide();
 
 	statusBar()->insertItem(i18n("Move/Resize mode"), ID_EDITMODE_MSG,
 	    0, true);
@@ -1086,11 +1093,12 @@ namespace Gui {
             // Show progress of an audio thumb
 	    int val = ((ProgressEvent *)e)->value();
 	    if (val == -1) {
-		m_statusBarProgress->setTotalSteps(m_statusBarProgress->totalSteps() + 100);
-		slotStatusMsg(i18n("Generating audio thumb"));
+		m_statusBarProgress->setTotalSteps(m_statusBarProgress->totalSteps() + 100);		slotStatusMsg(i18n("Generating audio thumb"));
 		m_statusBarProgress->show();
 	    }
 	    else {
+		slotStatusMsg(i18n("Generating audio thumb"));
+		m_statusBarProgress->show();
 		if (m_statusBarProgress->progress() + val == m_statusBarProgress->totalSteps()) {
 			slotStatusMsg(i18n("Ready."));
 			val = 0;
@@ -1105,6 +1113,19 @@ namespace Gui {
             // The export process progressed
             //if (m_exportWidget) m_exportWidget->reportProgress(((ProgressEvent *)e)->value());
         }
+	else if( e->type() == 10007) {
+            // Show progress of an export process
+	    int val = ((ProgressEvent *)e)->value();
+	    if (val == 0) {
+		slotStatusMsg(i18n("Ready."));
+		m_statusBarExportProgress->hide();
+	    }
+	    else {
+		slotStatusMsg(i18n("Exporting to File"));
+		m_statusBarExportProgress->show();
+	    }
+	    m_statusBarExportProgress->setProgress(val);
+	    }
     }
 
     void KdenliveApp::slotEditTransition(Transition *transition) {
@@ -1743,16 +1764,18 @@ namespace Gui {
 /** Called when the user activates the "Export Timeline" action */
     void KdenliveApp::slotRenderExportTimeline() {
 	slotStatusMsg(i18n("Exporting Timeline..."));
-
-            m_exportWidget=new exportWidget(m_timeline, this,"exporter");
+	    if (!m_exportWidget) { 
+            m_exportWidget=new exportWidget(m_workspaceMonitor->screen(), m_timeline, this,"exporter");
             connect(m_exportWidget,SIGNAL(exportTimeLine(QString, QString, GenTime, GenTime, QStringList)),m_workspaceMonitor->screen(),SLOT(exportTimeline(QString, QString, GenTime, GenTime, QStringList)));
             connect(m_exportWidget,SIGNAL(stopTimeLineExport()),m_workspaceMonitor->screen(),SLOT(stopTimeLineExport()));
             connect(m_workspaceMonitor->screen(),SIGNAL(exportOver()),m_exportWidget,SLOT(endExport()));
             connect(m_exportWidget,SIGNAL(exportToFirewire(QString, int, GenTime, GenTime)),m_workspaceMonitor->screen(),SLOT(exportToFirewire(QString, int, GenTime, GenTime)));
-            m_exportWidget->exec();
+	    }
+	    if (m_exportWidget->isVisible()) m_exportWidget->hide();
+	    else m_exportWidget->show();
         
-        delete m_exportWidget;
-        m_exportWidget = 0;
+        //delete m_exportWidget;
+        //m_exportWidget = 0;
 	slotStatusMsg(i18n("Ready."));
     }
 

@@ -99,6 +99,9 @@ public slots:
         void slotPlayingStopped();
         void exportToFirewire(QString url, int port, GenTime startTime, GenTime endTime);
         void exportCurrentFrame(KURL url);
+
+	/** return current scenelist */
+	QDomDocument sceneList();
         
 signals:
 	/** Emitted when a renderer connects. */

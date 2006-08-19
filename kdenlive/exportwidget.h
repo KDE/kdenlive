@@ -20,7 +20,10 @@
 
 #include <stdint.h>
 
+#include <qdom.h>
 #include <qlayout.h>
+
+#include <kprocess.h>
 
 #ifdef ENABLE_FIREWIRE
 #include <libiec61883/iec61883.h>
@@ -29,26 +32,29 @@
 
 #include "gentime.h"
 #include "ktimeline.h"
+#include "kmmscreen.h"
 #include "exportbasewidget_ui.h"
 
 class exportWidget : public exportBaseWidget_UI
 {
         Q_OBJECT
 public:
-    exportWidget( Gui::KTimeLine *timeline, QWidget* parent=0, const char* name=0);
+    exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, QWidget* parent=0, const char* name=0);
         virtual ~exportWidget();
 
 private:
         QHBoxLayout* flayout;
-        GenTime m_startTime;
-        GenTime m_endTime;
-        GenTime m_startSelection;
-        GenTime m_endSelection;
         GenTime m_duration;
         GenTime startExportTime, endExportTime;
         bool m_isRunning;
         typedef QMap<QString, QStringList> ParamMap;
         ParamMap encodersList;
+	ParamMap encodersFixedList;
+	int m_progress;
+	KProcess *m_exportProcess;
+	KProcess *m_convertProcess;
+	Gui::KMMScreen *m_screen;
+	Gui::KTimeLine *m_timeline;
         
         /** AVC stuff 
         int m_port;
@@ -65,14 +71,19 @@ private slots:
         void initDvConnection();
         void parseFileForParameters(const QString & fName);
         QString profileParameter(const QString & profile, const QString &param);
+	void doExport(QString file, QStringList params,  bool isDv = false);
+	void endExport(KProcess *);
+	void receivedStderr(KProcess *, char *buffer, int buflen);
+	void endConvert(KProcess *);
+	void receivedConvertStderr(KProcess *, char *buffer, int buflen);
 
 public slots:
 	void endExport();
 	void reportProgress(GenTime progress);
 
 signals:
-    void exportTimeLine(QString, QString, GenTime, GenTime, QStringList);
-    void stopTimeLineExport();
+    /*void exportTimeLine(QString, QString, GenTime, GenTime, QStringList);
+    void stopTimeLineExport();*/
     void exportToFirewire(QString, int, GenTime, GenTime);
 	
 };

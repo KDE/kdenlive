@@ -509,6 +509,7 @@ namespace Gui {
 
 		/** The progress widget on the status bar, used by various long-winded methods. */
 	KProgress *m_statusBarProgress;
+	KProgress *m_statusBarExportProgress;
 
 		/** Holds the undo/redo command history */
 	KCommandHistory *m_commandHistory;

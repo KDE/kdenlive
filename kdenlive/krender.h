@@ -170,6 +170,9 @@ class KRender:public QObject {
     
     /** Save current producer frame as image */
     void exportCurrentFrame(KURL url);
+
+    /** returns the current scenelist */
+    QDomDocument sceneList();
     
 
   protected:			// Protected methods

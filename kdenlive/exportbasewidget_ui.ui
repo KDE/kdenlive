@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>256</width>
-            <height>532</height>
+            <height>470</height>
         </rect>
     </property>
     <property name="minimumSize">
@@ -483,32 +483,6 @@
                 </widget>
             </hbox>
         </widget>
-        <widget class="QLabel" row="2" column="0">
-            <property name="name">
-                <cstring>process_label</cstring>
-            </property>
-            <property name="text">
-                <string>Rendering:</string>
-            </property>
-        </widget>
-        <widget class="KProgress" row="3" column="1">
-            <property name="name">
-                <cstring>convertProgress</cstring>
-            </property>
-        </widget>
-        <widget class="QLabel" row="3" column="0">
-            <property name="name">
-                <cstring>convert_label</cstring>
-            </property>
-            <property name="text">
-                <string>Exporting:</string>
-            </property>
-        </widget>
-        <widget class="KProgress" row="2" column="1">
-            <property name="name">
-                <cstring>processProgress</cstring>
-            </property>
-        </widget>
         <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>export_selected</cstring>
@@ -539,7 +513,5 @@
     <includehint>kurlrequester.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>
-    <includehint>kprogress.h</includehint>
-    <includehint>kprogress.h</includehint>
 </includehints>
 </UI>

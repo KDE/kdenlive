@@ -549,6 +549,11 @@ void KRender::getFileProperties(KURL url)
 	delete frame;
 }
 
+QDomDocument KRender::sceneList()
+{
+    return m_sceneList;
+}
+
 /** Create the producer from the Westley QDomDocument */
 void KRender::setSceneList(QDomDocument list, bool resetPosition)
 {

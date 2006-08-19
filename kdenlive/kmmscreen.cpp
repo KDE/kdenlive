@@ -135,6 +135,12 @@ namespace Gui {
         emit playingStopped();
     }
     
+    /** return current scenelist */
+    QDomDocument KMMScreen::sceneList()
+    {
+	return m_render->sceneList();
+    }
+
     
 /** Set the displayed scenelist to the one specified. */
     void KMMScreen::setSceneList(const QDomDocument & scenelist,
