@@ -24,6 +24,7 @@
 #include <qlayout.h>
 
 #include <kprocess.h>
+#include <ktempfile.h>
 
 #ifdef ENABLE_FIREWIRE
 #include <libiec61883/iec61883.h>
@@ -55,6 +56,8 @@ private:
 	KProcess *m_convertProcess;
 	Gui::KMMScreen *m_screen;
 	Gui::KTimeLine *m_timeline;
+	KTempFile *m_tmpFile;
+
         
         /** AVC stuff 
         int m_port;

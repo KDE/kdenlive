@@ -38,7 +38,6 @@
 #include <kstandarddirs.h>
 #include <klineedit.h>
 #include <kfiledialog.h>
-#include <ktempfile.h>
 #include <kiconloader.h>
 #include <kpassivepopup.h>
 #include <kio/netaccess.h>
@@ -48,7 +47,7 @@
 #include "exportwidget.h"
 #include "kdenlivesettings.h"
 
-exportWidget::exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, QWidget* parent, const char* name): exportBaseWidget_UI(parent,name), m_duration(0), m_exportProcess(NULL), m_convertProcess(NULL), m_screen(screen), m_timeline(timeline)
+exportWidget::exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, QWidget* parent, const char* name): exportBaseWidget_UI(parent,name), m_duration(0), m_exportProcess(NULL), m_convertProcess(NULL), m_screen(screen), m_timeline(timeline), m_tmpFile(NULL)
 {
 /*    m_node = -1;
     m_port = -1;
@@ -383,22 +382,23 @@ void exportWidget::startExport()
 
 void exportWidget::doExport(QString file, QStringList params, bool isDv)
 {
-    KTempFile tmp( QString::null, ".westley");
+    if (m_tmpFile) delete m_tmpFile;
+    m_tmpFile = new KTempFile( QString::null, ".westley");
     m_progress = 0;
     if (m_exportProcess) {
     	m_exportProcess->kill();
     	delete m_exportProcess;
     }
-    kdDebug()<<"++++++  PREPARE TO WRITE TO: "<<tmp.name()<<endl;
+    kdDebug()<<"++++++  PREPARE TO WRITE TO: "<<m_tmpFile->name()<<endl;
     //QFile file = tmp.file();
     //if ( tmp.file()->open( IO_WriteOnly ) ) {
-        QTextStream stream( tmp.file() );
+        QTextStream stream( m_tmpFile->file() );
         stream << m_screen->sceneList().toString() << "\n";
-        tmp.file()->close();
+        m_tmpFile->file()->close();
 
     m_exportProcess = new KProcess;
     *m_exportProcess << "inigo";
-    *m_exportProcess << tmp.name();
+    *m_exportProcess << m_tmpFile->name();
     *m_exportProcess << "real_time=0";
     *m_exportProcess << QString("in=%1").arg(startExportTime.frames(KdenliveSettings::defaultfps()));
     *m_exportProcess << QString("out=%1").arg(endExportTime.frames(KdenliveSettings::defaultfps()));
@@ -455,6 +455,9 @@ void exportWidget::endExport(KProcess *)
 {
     bool finishedOK = true;
     bool twoPassEncoding = false;
+    m_tmpFile->unlink();
+    delete m_tmpFile;
+    m_tmpFile = 0;
     if (encoders->currentText() == "theora") twoPassEncoding = true; 
 
     if (!m_exportProcess->normalExit()) {
