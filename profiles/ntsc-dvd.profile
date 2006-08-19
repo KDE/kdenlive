@@ -1,11 +1,11 @@
 ## extension=vob
 
 ### vcodec=mpeg2video
-### acodec=ac3
 ### opt_format=dvd
-### opt_frame_size=720x576
-### opt_frame_rate=25
-### opt_gop_size=15
+### acodec=ac3
+### opt_frame_size=720x480
+### opt_frame_rate=30000/1001
+### opt_gop_size=18
 ### video_bit_rate=6000000
 ### video_rc_max_rate=9000000
 ### video_rc_min_rate=0
