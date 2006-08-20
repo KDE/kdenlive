@@ -211,9 +211,12 @@ void KRender::createVideoXWindow(bool , WId winid)
     m_mltConsumer->set("window_id", (int) winid);
 
     m_mltConsumer->set("resize", 1);
+    m_mltConsumer->set("rescale", "nearest");
     //m_mltConsumer->set("audio_driver","dsp");
-
-    m_mltConsumer->set("progressiv", 1);
+    m_mltConsumer->set("progressive", 1);
+    m_mltConsumer->set("audio_buffer", 1024);
+    m_mltConsumer->set("frequency", 44100);
+    m_mltConsumer->set("buffer", 1);
 //      m_mltConsumer->start ();
 
 }
@@ -658,15 +661,16 @@ void KRender::askForRefresh()
 {
     // Use a Timer so that we don't refresh too much
     refreshTimer->start(200, TRUE);
+    kdDebug()<<"++++++++  START REFRESH ++++++"<<endl;
 }
 
 void KRender::refresh()
 {
     refreshTimer->stop();
     if (m_mltConsumer) {
-	m_mltConsumer->lock();
+	//m_mltConsumer->lock();
 	m_mltConsumer->set("refresh", 1);
-	m_mltConsumer->unlock();
+	//m_mltConsumer->unlock();
     }
 }
 
