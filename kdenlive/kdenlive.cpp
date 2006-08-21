@@ -373,13 +373,6 @@ namespace Gui {
 	    0, this, SLOT(slotConfigureProject()), actionCollection(),
 	    "configure_project");
 
-	actionSeekForwards =
-	    new KAction(i18n("Seek &Forwards"), KShortcut(), this,
-	    SLOT(slotSeekForwards()), actionCollection(), "seek_forwards");
-	actionSeekBackwards =
-	    new KAction(i18n("Seek Backwards"), KShortcut(), this,
-	    SLOT(slotSeekBackwards()), actionCollection(),
-	    "seek_backwards");
 	actionTogglePlay =
 	    new KAction(i18n("Start/Stop"), KShortcut(Qt::Key_Space), this,
 	    SLOT(slotTogglePlay()), actionCollection(), "toggle_play");
@@ -388,6 +381,17 @@ namespace Gui {
 	    KShortcut(Qt::Key_Space | Qt::CTRL), this,
 	    SLOT(slotTogglePlaySelected()), actionCollection(),
 	    "toggle_play_selection");
+
+	(void) new KAction(i18n("Play/Pause"), KShortcut(Qt::Key_K), this,
+	    SLOT(slotPlay()), actionCollection(), "play_clip");
+
+	(void) new KAction(i18n("Forward"), KShortcut(Qt::Key_L), this,
+	    SLOT(slotToggleForwards()), actionCollection(), "toggle_forwards");
+
+	(void) new KAction(i18n("Backward"), KShortcut(Qt::Key_J), this,
+	    SLOT(slotToggleBackwards()), actionCollection(), "toggle_backwards");
+
+
 	actionNextFrame =
 	    new KAction(i18n("Forward one frame"),
 	    KShortcut(Qt::Key_Right), this, SLOT(slotNextFrame()),
@@ -616,9 +620,6 @@ namespace Gui {
 	projectClean->
 	    setStatusText(i18n("Remove unused clips from the project"));
 	//projectClipProperties->setStatusText( i18n( "View the properties of the selected clip" ) );
-	actionSeekForwards->setStatusText(i18n("Seek forward one frame"));
-	actionSeekBackwards->
-	    setStatusText(i18n("Seek backwards one frame"));
 	actionTogglePlay->setStatusText(i18n("Start or stop playback"));
 	actionTogglePlay->
 	    setStatusText(i18n
@@ -2189,20 +2190,19 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     }
 */
 
-    void KdenliveApp::slotSeekForwards() {
-	slotStatusMsg(i18n("Seeking Forwards one frame"));
-	slotStatusMsg(i18n("Ready."));
-    }
-
-    void KdenliveApp::slotSeekBackwards() {
-	slotStatusMsg(i18n("Seeking Backwards One Frame"));
-	slotStatusMsg(i18n("Ready."));
-    }
 
     void KdenliveApp::slotTogglePlay() {
 	slotStatusMsg(i18n("Starting/stopping playback"));
 	if (m_monitorManager.hasActiveMonitor()) {
 	    m_monitorManager.activeMonitor()->editPanel()->togglePlay();
+	}
+	slotStatusMsg(i18n("Ready."));
+    }
+
+    void KdenliveApp::slotPlay() {
+	slotStatusMsg(i18n("Play at normal speed"));
+	if (m_monitorManager.hasActiveMonitor()) {
+	    m_monitorManager.activeMonitor()->editPanel()->play();
 	}
 	slotStatusMsg(i18n("Ready."));
     }
@@ -2217,7 +2217,23 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	slotStatusMsg(i18n("Ready."));
     }
 
+
+    void KdenliveApp::slotToggleForwards() {
+	slotStatusMsg(i18n("Playing Forwards"));
+	if (m_monitorManager.hasActiveMonitor()) {
+	    m_monitorManager.activeMonitor()->editPanel()->toggleForward();
+	}
+    }
+
+    void KdenliveApp::slotToggleBackwards() {
+	slotStatusMsg(i18n("Playing Backwards"));
+	if (m_monitorManager.hasActiveMonitor()) {
+	    m_monitorManager.activeMonitor()->editPanel()->toggleRewind();
+	}
+    }
+
     void KdenliveApp::slotNextFrame() {
+	slotStatusMsg(i18n("Seeking Forwards one frame"));
 	if (m_monitorManager.hasActiveMonitor()) {
 	    m_monitorManager.activeMonitor()->editPanel()->
 		seek(m_monitorManager.activeMonitor()->screen()->
@@ -2228,6 +2244,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     }
 
     void KdenliveApp::slotLastFrame() {
+	slotStatusMsg(i18n("Seeking Backwards one frame"));
 	if (m_monitorManager.hasActiveMonitor()) {
 	    m_monitorManager.activeMonitor()->editPanel()->
 		seek(m_monitorManager.activeMonitor()->screen()->

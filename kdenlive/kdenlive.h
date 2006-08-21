@@ -267,19 +267,19 @@ namespace Gui {
 	//void slotProjectClipProperties();
 	//sets properties for selected clip without showing dialog
 	//void slotProjectClipProperties(DocClipRef * clip);
-		/** Seek forwards one frame in the active monitor */
-	void slotSeekForwards();
-		/** Seek backwards one frame in the active monitor */
-	void slotSeekBackwards();
 		/** Toggle between play/stop in the active monitor */
 	void slotTogglePlay();
+	void slotPlay();
 		/** Toggle between play/stop in the active monitor */
 	void slotTogglePlaySelected();
 		/** Move the active monitor forward one frame */
 	void slotNextFrame();
 		/** Move the active monitor backwards one frame */
 	void slotLastFrame();
-
+		/** Play forwards (fast) */
+        void slotToggleForwards();
+		/** Play backwards (fast) */
+        void slotToggleBackwards();
 	/** Move the active monitor next snap point */
 	void slotNextSnap();
 	/** Move the active monitor previous snap point */
@@ -453,8 +453,6 @@ namespace Gui {
 	KAction *configureToolbars;
 	KAction *fitToWidth;
 
-	KAction *actionSeekForwards;
-	KAction *actionSeekBackwards;
 	KAction *actionTogglePlay;
 	KAction *actionTogglePlaySelected;
 	KAction *actionNextFrame;

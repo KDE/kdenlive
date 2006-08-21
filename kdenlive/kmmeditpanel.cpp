@@ -64,7 +64,7 @@ namespace Gui {
         // get the usual font height in pixel
         buttonSize = startButton->fontInfo().pixelSize ();
         
-	 startButton->setIconSet(QIconSet(loader.loadIcon("player_start",
+	 /*startButton->setIconSet(QIconSet(loader.loadIcon("player_start",
                                  KIcon::Small, buttonSize)));
 	 rewindButton->setIconSet(QIconSet(loader.loadIcon("player_rew",
                                   KIcon::Small, buttonSize)));
@@ -97,7 +97,7 @@ namespace Gui {
          previousMarkerButton->setFlat(true);
          nextMarkerButton->setFlat(true);
          setMarkerButton->setFlat(true);
-         playSectionButton->setFlat(true);
+         playSectionButton->setFlat(true);*/
 
 	 connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), this,
 	    SLOT(rulerValueChanged(int, int)));
@@ -106,9 +106,13 @@ namespace Gui {
 	    SLOT(seekBeginning()));
 	 connect(endButton, SIGNAL(pressed()), this, SLOT(seekEnd()));
 
-	 connect(rewindButton, SIGNAL(pressed()), this, SLOT(stepBack()));
-	 connect(forwardButton, SIGNAL(pressed()), this,
+	 connect(rew1Button, SIGNAL(pressed()), this, SLOT(stepBack()));
+	 connect(rewindButton, SIGNAL(pressed()), this, SLOT(toggleRewind()));
+
+	 connect(fwd1Button, SIGNAL(pressed()), this,
 	    SLOT(stepForwards()));
+	connect(forwardButton, SIGNAL(pressed()), this,
+	    SLOT(toggleForward()));
 	 connect(inpointButton, SIGNAL(pressed()), this,
 	    SLOT(setInpoint()));
 	 connect(outpointButton, SIGNAL(pressed()), this,
@@ -251,7 +255,6 @@ namespace Gui {
 	} else {
 	    setPlaying(true);
 	}
-	updateButtons();
     }
 
     void KMMEditPanel::togglePlaySelected() {
@@ -261,15 +264,34 @@ namespace Gui {
 	} else {
 	    setPlaying(true);
 	}
-	updateButtons();
+    }
+
+    void KMMEditPanel::toggleForward() {
+	m_playSelected = false;
+	if (m_playSpeed < 0.0) m_playSpeed = 2;
+        else m_playSpeed = m_playSpeed * 2;
+	if (m_playSpeed == 0) m_playSpeed = 2;
+ 	if (m_playSpeed == 32) m_playSpeed = 2;
+	setPlaying(true);
+    }
+
+    void KMMEditPanel::toggleRewind() {
+	m_playSelected = false;
+	if (m_playSpeed > 0.0) m_playSpeed = -2; 
+        else m_playSpeed = m_playSpeed * 2;
+	if (m_playSpeed == 0) m_playSpeed = -2;
+ 	if (m_playSpeed == -32) m_playSpeed = -2;
+	setPlaying(true);
     }
 
     void KMMEditPanel::screenPlaySpeedChanged(double speed) {
+	if (m_pauseMode) return;
 	m_playSpeed = speed;
 	updateButtons();
     }
     
     void KMMEditPanel::screenPlayStopped() {
+	if (m_pauseMode) return;
         m_playSpeed = 0.0;
         updateButtons();
     }
@@ -286,13 +308,11 @@ namespace Gui {
 
     void KMMEditPanel::play() {
 	m_playSelected = false;
-
+	m_playSpeed = 1.0;
 	if (isPlaying()) {
 	    setPlaying(false);
-	    m_pauseMode = true;
 	} else {
 	    setPlaying(true);
-	    m_pauseMode = false;
 	}
     }
 
@@ -304,28 +324,34 @@ namespace Gui {
     }
 
     void KMMEditPanel::setPlaying(bool play) {
+	double playSpeed;
+	if (play && m_playSpeed == 0.0) m_playSpeed = 1.0;
+	m_pauseMode = !play;
 	if (play) {
-	    m_playSpeed = 1.0;
-	} else {
-	    m_playSpeed = 0.0;
+		playSpeed =  m_playSpeed;
+	}
+	else {
+		playSpeed = 0.0;
 	}
 
 	emit activateMonitor();
 
 	if (m_playSelected) {
-            emit playSpeedChanged(m_playSpeed, inpoint(), outpoint());
+            emit playSpeedChanged(playSpeed, inpoint(), outpoint());
 	} else {
 	    if (m_pauseMode == true) {
-		emit playSpeedChanged(m_playSpeed, point());
+		emit playSpeedChanged(playSpeed, point());
 	    } else
-		emit playSpeedChanged(m_playSpeed);
-    }
-
+		emit playSpeedChanged(playSpeed);
+        }
+	updateButtons();
     }
 
     void KMMEditPanel::updateButtons() {
 	KIconLoader loader;
 	if (isPlaying()) {
+	    forwardButton->setDown(isForwarding());
+	    rewindButton->setDown(isRewinding());
 	    if (!playButton->isOn()) {
 		playButton->toggle();
 		if (m_playSelected) {
@@ -339,7 +365,7 @@ namespace Gui {
 		}
 	    }
 
-	    playButton->setPixmap(loader.loadIcon("player_pause",
+	    playButton->setPixmap(loader.loadIcon("kdenlive_pause",
                                   KIcon::Small, buttonSize));
 
 	} else {
@@ -350,7 +376,7 @@ namespace Gui {
 		playSectionButton->toggle();
 	    }
 
-	    playButton->setPixmap(loader.loadIcon("player_play",
+	    playButton->setPixmap(loader.loadIcon("kdenlive_play",
                                   KIcon::Small, buttonSize));
 	}
     }

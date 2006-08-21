@@ -91,7 +91,14 @@ namespace Gui {
 
 	// True if we are playing, false otherwise.
 	bool isPlaying() const {
+	    if (m_pauseMode) return false;
 	    return m_playSpeed != 0.0;
+	};
+	bool isForwarding() const {
+	    return m_playSpeed > 1.0;
+	};
+	bool isRewinding() const {
+	    return m_playSpeed < -1.0;
 	};
 
 	// True if we are only playing the section of the file between inpoint and outpoint.
@@ -131,6 +138,8 @@ namespace Gui {
 	void togglePlay();
   /** Toggles whether or not we are currently "playing" the inpoint/outpoint selection*/
 	void togglePlaySelected();
+	void toggleForward();
+	void toggleRewind();
   /** called when the screen has changed it's play speed - e.g., the renderer has
   reached the end of the file. */
 	void screenPlaySpeedChanged(double speed);
