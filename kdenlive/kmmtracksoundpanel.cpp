@@ -27,6 +27,7 @@
 #include "kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "trackviewbackgrounddecorator.h"
+#include "trackviewmarkerdecorator.h"
 #include "trackviewaudiobackgrounddecorator.h"
 #include "trackviewnamedecorator.h"
 #include "flatbutton.h"
@@ -107,6 +108,8 @@ namespace Gui {
 		    KdenliveSettings::audioclipcolor()));
 
 	addViewDecorator(new TrackViewNameDecorator(timeline(),
+		document()));
+	addViewDecorator(new TrackViewMarkerDecorator(timeline(),
 		document()));
 
 /*	if (trackIsCollapsed)
