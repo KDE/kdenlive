@@ -308,12 +308,12 @@ namespace Gui {
 
     void KMMEditPanel::play() {
 	m_playSelected = false;
-	m_playSpeed = 1.0;
-	if (isPlaying()) {
+	if (isPlaying() && (m_playSpeed == 1.0)) {
 	    setPlaying(false);
-	} else {
-	    setPlaying(true);
+	    return;
 	}
+        m_playSpeed = 1.0;
+	setPlaying(true);
     }
 
     void KMMEditPanel::stop() {
