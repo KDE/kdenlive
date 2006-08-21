@@ -9,3 +9,4 @@ EXTRA_DIST = hi16-app-kdenlive.png hi32-app-kdenlive.png hi48-app-kdenlive.png h
 
 
 KDE_ICON = AUTO
+kde_icon_KDEICON = hi16-action-kdenlive_pause.png hi16-action-kdenlive_play.png
