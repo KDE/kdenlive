@@ -44,12 +44,6 @@ namespace Gui {
 	GenTime inpoint() const;
 	/** Returns the outpoint time for the current clip. */
 	GenTime outpoint() const;
-      private:
-	// Set or stop playback.
-	void setPlaying(bool play);
-	Timecode tcode;
-        int buttonSize;
-        bool m_showLcd;
 
 	private slots:		// Private slots
   /** A slider on the ruler has changed value */
@@ -86,10 +80,16 @@ namespace Gui {
       private:			// Private attributes
   /** The document associated with this edit panel */
 	 KdenliveDoc * m_document;
+ double m_playSpeed;
+  
+ // Set or stop playback.
+  void setPlaying(bool play);
+  Timecode tcode;
+  int buttonSize;
+  bool m_playSelected; 
+  bool m_showLcd;
 
-	double m_playSpeed;
-
-	// True if we are playing, false otherwise.
+   // True if we are playing, false otherwise.
 	bool isPlaying() const {
 	    if (m_pauseMode) return false;
 	    return m_playSpeed != 0.0;
@@ -102,7 +102,7 @@ namespace Gui {
 	};
 
 	// True if we are only playing the section of the file between inpoint and outpoint.
-	bool m_playSelected;
+
 
 	bool m_pauseMode;
     public slots:		// Public slots

@@ -39,7 +39,8 @@ namespace Gui {
   */
 
     class KMMScreen:public QVBox {
-      Q_OBJECT public:
+      Q_OBJECT
+public:
 	KMMScreen(KdenliveApp * app, QWidget * parent =
 	    0, const char *name = 0);
 	~KMMScreen();
@@ -49,20 +50,21 @@ namespace Gui {
 	/** Returns the current seek position */
 	const GenTime & seekPosition() const;
 	void setClipLength(int frames);
-      protected:
+protected:
 	void mousePressEvent(QMouseEvent * e);
 	void wheelEvent(QWheelEvent * e);
 	void mouseMoveEvent(QMouseEvent * e);
-        void paintEvent ( QPaintEvent * );
-      private:			// Private attributes
-	KRender * m_render;
+  void paintEvent ( QPaintEvent * );
+private:			// Private attributes
+  KRender * m_render;
 	KdenliveApp *m_app;
-        QString m_name;
+
 	//QXEmbed *m_embed;
 	GenTime m_clipLength;
+  QString m_name;
 private slots:
-        /** The renderer is ready, so we open
-        a video window, etc. here. */
+   /** The renderer is ready, so we open
+   a video window, etc. here. */
 	void rendererReady();
 
 public slots:
@@ -90,19 +92,19 @@ public slots:
 	    bool resetPosition = true);
 	/** Called when the renderer stops playing */
 	void slotRendererStopped();
-        void setTitlePreview(QString tmpFileName);
-        void restoreProducer();
-        /** Render project to file */
-        void exportTimeline(QString url, QString format, GenTime startTime, GenTime endTime, QStringList params);
-        void stopTimeLineExport();
-        void slotExportStopped();
-        void slotPlayingStopped();
-        void exportToFirewire(QString url, int port, GenTime startTime, GenTime endTime);
-        void exportCurrentFrame(KURL url);
+  void setTitlePreview(QString tmpFileName);
+  void restoreProducer();
+   /** Render project to file */
+  void exportTimeline(QString url, QString format, GenTime startTime, GenTime endTime, QStringList params);
+  void stopTimeLineExport();
+  void slotExportStopped();
+  void slotPlayingStopped();
+  void exportToFirewire(QString url, int port, GenTime startTime, GenTime endTime);
+  void exportCurrentFrame(KURL url);
 
 	/** return current scenelist */
 	QDomDocument sceneList();
-        
+
 signals:
 	/** Emitted when a renderer connects. */
 	void rendererConnected();
@@ -118,9 +120,8 @@ signals:
 	void mouseRightClicked();
 	/** Emitted when a drag has started to occur over the screen. */
 	void mouseDragged();
-        void exportOver();
-        void playingStopped();
+  void exportOver();
+  void playingStopped();
     };
-
 }
 #endif
