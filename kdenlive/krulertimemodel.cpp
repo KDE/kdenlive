@@ -41,8 +41,8 @@ namespace Gui {
 	    text = "-";
 	}
 
-	int second = frame / frames;
-	frame -= (second * frames);
+  int second = frame / (int) frames;
+  frame -= (second * (int) frames);
 
 	int minute = second / 60;
 	second %= 60;
@@ -68,10 +68,10 @@ namespace Gui {
 	int seconds = tick;
 
 	if (seconds > 3600 * numFrames()) {
-	    int hour = (tick / (3600 * numFrames())) + 1;
-	     seconds = hour * 3600 * numFrames();
-	} else if (seconds > 60 * numFrames()) {
-	    int minute = (tick / (60 * numFrames())) + 1;
+    int hour = (tick / (3600 * (int) numFrames())) + 1;
+    seconds = hour * 3600 * (int) numFrames();
+  } else if (seconds > 60 * (int) numFrames()) {
+    int minute = (tick / (60 * (int) numFrames())) + 1;
 	    if (minute > 30) {
 		minute = 60;
 	    } else if (minute > 20) {
@@ -85,9 +85,9 @@ namespace Gui {
 	    } else if (minute > 1) {
 		minute = 5;
 	    }
-	    seconds = minute * 60 * numFrames();
-	} else if (seconds >= numFrames()) {
-	    seconds /= numFrames();
+      seconds = minute * 60 * (int) numFrames();
+  } else if (seconds >= (int) numFrames()) {
+    seconds /= (int) numFrames();
 	    seconds++;
 
 	    if (seconds > 30) {
@@ -104,7 +104,7 @@ namespace Gui {
 		seconds = 5;
 	    }
 
-	    seconds *= numFrames();
+      seconds *= (int) numFrames();
 	} else {
 	    int count;
 	    for (count = 1; count < numFrames(); count++) {

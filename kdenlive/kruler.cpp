@@ -721,12 +721,12 @@ namespace Gui {
 	    if (d->m_oldValue != -1) {
 		setSliderValue(activeSliderID(), (int) (mapLocalToValue((int) event->x())));
 
-		if (event->x() < g_scrollThreshold) {
+    if (event->x() < (int) g_scrollThreshold) {
 		    m_scrollRight = false;
 		    if (!m_scrollTimer.isActive()) {
 			m_scrollTimer.start(g_scrollTimerDelay, false);
 		    }
-		} else if (width() - event->x() < g_scrollThreshold) {
+    } else if (width() - event->x() < (int) g_scrollThreshold) {
 		    m_scrollRight = true;
 		    if (!m_scrollTimer.isActive()) {
 			m_scrollTimer.start(g_scrollTimerDelay, false);

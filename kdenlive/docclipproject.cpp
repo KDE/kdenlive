@@ -179,7 +179,7 @@ bool DocClipProject::moveSelectedClips(GenTime startOffset,
 
 	destTrackNum = track + trackOffset;
 
-	if ((destTrackNum < 0) || (destTrackNum >= numTracks()))
+  if ((destTrackNum < 0) || (destTrackNum >= (int) numTracks()))
 	    return false;	// This track will be moving it's clips out of the timeline, so fail automatically.
 
 	destTrack = m_tracks.at(destTrackNum);
@@ -885,7 +885,7 @@ bool DocClipProject::canAddClipsToTracks(DocClipRefList & clips, int track,
 	    curTrack = 0;
 	curTrack += trackOffset;
 
-	if ((curTrack < 0) || (curTrack >= numTracks())) {
+  if ((curTrack < 0) || (curTrack >= (int) numTracks())) {
 	    return false;
 	}
 
