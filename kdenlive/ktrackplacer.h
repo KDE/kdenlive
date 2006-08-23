@@ -48,9 +48,11 @@ A placer that draws clips on a track, as represented in a DocTrackBase.
 	/** Returns the track index into the underlying document model used by this track. Returns -1 if this is inapplicable. */
 	    virtual int documentTrackIndex() const;
       private:
-	 KdenliveDoc * m_document;
-	DocTrackBase *m_docTrack;
-	KTimeLine *m_timeline;
+    DocTrackBase *m_docTrack;
+    KTimeLine *m_timeline;
+   KdenliveDoc * m_document;
+	
+	
     };
 
 }				// namespace Gui

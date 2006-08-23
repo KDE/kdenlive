@@ -49,14 +49,14 @@ namespace Gui {
     GenTime changeClipSpeed::duration()
     {
         QString d = edit_duration->text();
-        int frames = (d.section(":",0,0).toInt()*3600 + d.section(":",1,1).toInt()*60 + d.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + d.section(":",3,3).toInt();
+        int frames = (d.section(":",0,0).toInt()*3600 + d.section(":",1,1).toInt()*60 + d.section(":",2,2).toInt()) * (int) KdenliveSettings::defaultfps() + d.section(":",3,3).toInt();
         return GenTime(frames , KdenliveSettings::defaultfps());
     }
 
     void changeClipSpeed::updateDuration()
     {
 	Timecode tcode;
-	GenTime newDuration(m_duration.frames(KdenliveSettings::defaultfps()) / selectedSpeed(), KdenliveSettings::defaultfps());
+  GenTime newDuration(m_duration.frames(KdenliveSettings::defaultfps()) / selectedSpeed(), (int) KdenliveSettings::defaultfps());
         edit_duration->setText(tcode.getTimecode(newDuration, KdenliveSettings::defaultfps()));
     }
 

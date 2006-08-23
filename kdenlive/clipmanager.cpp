@@ -84,7 +84,7 @@ DocClipBase *ClipManager::insertClip(const KURL & file, int clipId)
         if (clipId == -1) clip = new DocClipAVFile(file.fileName(), file, m_clipCounter++);
         else {
             clip = new DocClipAVFile(file.fileName(), file, clipId);
-            if (clipId>=m_clipCounter) m_clipCounter = clipId+1;
+            if (clipId>= (int) m_clipCounter) m_clipCounter = clipId+1;
         }
 	m_clipList.append(clip);
         emit getFileProperties(file);
@@ -119,10 +119,10 @@ DocClipBase *ClipManager::insertImageClip(const KURL & file,
     	if (clipId == -1) clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, m_clipCounter++);
     	else {
         	clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, clipId);
-        	if (clipId>=m_clipCounter) m_clipCounter = clipId+1;
+          if (clipId>= (int) m_clipCounter) m_clipCounter = clipId+1;
     	}
 	if (ttl != 0) {
-		int imageCount = duration.frames(KdenliveSettings::defaultfps()) / ttl;
+    int imageCount = (int) duration.frames(KdenliveSettings::defaultfps()) / ttl;
 		clip->setName(clip->name() + i18n(" [%1 images]").arg(QString::number(imageCount)));
 	}
     	clip->setDescription(description);
@@ -171,7 +171,7 @@ DocClipBase *ClipManager::insertTextClip(
     if (clipId == -1) clip = new DocClipTextFile( name, description, duration, xml, url, pix, alphaTransparency, m_clipCounter++);
     else {
         clip = new DocClipTextFile( name, description, duration, xml, url, pix, alphaTransparency, clipId);
-        if (clipId>=m_clipCounter) m_clipCounter = clipId+1;
+        if (clipId>=(int) m_clipCounter) m_clipCounter = clipId+1;
     }
     m_clipList.append(clip);
     //m_render->getImage(m_clipCounter, description, 12, 64, 50);

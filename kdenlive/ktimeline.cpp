@@ -268,10 +268,10 @@ the display. The scale is the size of one frame.*/
 
 /** Calculates the size of the project, and sets up the timeline to accomodate it. */
     void KTimeLine::slotSetProjectLength(const GenTime & size) {
-	int frames = size.frames(m_framesPerSecond);
+      int frames = (int) size.frames( m_framesPerSecond);
 
 	m_scrollBar->setRange(0,
-	    (frames * m_ruler->valueScale()) + m_scrollBar->width());
+                        (frames * (int)  m_ruler->valueScale()) + m_scrollBar->width());
 	m_ruler->setRange(0, frames);
 
 	emit projectLengthChanged(frames);
@@ -279,7 +279,7 @@ the display. The scale is the size of one frame.*/
 
     void KTimeLine::resetProjectSize() {
 	m_scrollBar->setRange(0,
-	    (m_ruler->maxValue() * m_ruler->valueScale()) +
+                        (m_ruler->maxValue() * (int) m_ruler->valueScale()) +
 	    m_scrollBar->width());
     }
 
@@ -287,28 +287,28 @@ the display. The scale is the size of one frame.*/
 	return GenTime(m_ruler->getSliderValue(0), m_framesPerSecond);
     }
 
-    void KTimeLine::autoScroll() {
-	int max = mapLocalToValue(viewWidth());
-	int min = max - (max - mapLocalToValue(0))/2.4;
+void KTimeLine::autoScroll() {
+  int max = (int) mapLocalToValue(viewWidth());
+  int min = max - (max - mapLocalToValue(0))/2.4;
 	// Only scroll if the cursor is in the right part of the timeline and 
 	// zoom factor is lower than 2 frames 
 	if (seekPosition().frames( m_framesPerSecond ) < min || seekPosition().frames( m_framesPerSecond ) > max || timeScale()>20) return;
 	int step = 1;
-	if (timeScale() > 1) step = timeScale();
+  if (timeScale() > 1) step = (int) timeScale();
 	m_scrollBar->setValue( m_scrollBar->value() + step );
     }
 
-    void KTimeLine::ensureCursorVisible() {
-	int max = mapLocalToValue(viewWidth());
-	int min = mapLocalToValue(0);
+void KTimeLine::ensureCursorVisible() {
+  int max =(int) mapLocalToValue(viewWidth());
+  int min = (int) mapLocalToValue(0);
 
 	// Only scroll if the cursor is out of view
 	if (seekPosition().frames( m_framesPerSecond ) < min ) {
-		int diff = (min - seekPosition().frames( m_framesPerSecond) + (max - min) / 3) * timeScale();
+    int diff = (min -  seekPosition().frames(m_framesPerSecond) + (max - min) / 3) * timeScale();
 		m_scrollBar->setValue( m_scrollBar->value() - diff );
 	}
 	else if ( seekPosition().frames( m_framesPerSecond ) > max) {
-		int diff = ( seekPosition().frames( m_framesPerSecond ) - max + (max - min) / 3) * timeScale();
+    int diff = (seekPosition().frames(m_framesPerSecond ) - max + (max - min) / 3) * timeScale();
 		m_scrollBar->setValue( m_scrollBar->value() + diff );
 	}
     }
@@ -316,7 +316,7 @@ the display. The scale is the size of one frame.*/
     void KTimeLine::slotMoveForward(bool fast)
     {
         GenTime t = seekPosition();
-        if (fast) t += GenTime(m_framesPerSecond, m_framesPerSecond);
+        if (fast) t += GenTime( (int) m_framesPerSecond, m_framesPerSecond);
         else t += GenTime(1, m_framesPerSecond);
         seek(t);
     }
@@ -324,7 +324,7 @@ the display. The scale is the size of one frame.*/
     void KTimeLine::slotMoveBackward(bool fast)
     {
         GenTime t = seekPosition();
-        if (fast) t = t - GenTime(m_framesPerSecond, m_framesPerSecond);
+        if (fast) t = t - GenTime( (int) m_framesPerSecond, m_framesPerSecond);
         else t = t - GenTime(1, m_framesPerSecond);
         seek(t);
     }
@@ -423,12 +423,12 @@ the display. The scale is the size of one frame.*/
     }
 
 /** Returns the correct "time under mouse", taking into account whether or not snap to frame is on or off, and other relevant effects. */
-    GenTime KTimeLine::timeUnderMouse(double posX) {
-	GenTime value(m_ruler->mapLocalToValue(posX), m_framesPerSecond);
+GenTime KTimeLine::timeUnderMouse(double posX) {
+
+  GenTime value( (int) m_ruler->mapLocalToValue(posX), m_framesPerSecond);
 
 	if (snapToFrame())
-	    value =
-                    GenTime(floor(value.frames(m_framesPerSecond)) , m_framesPerSecond);
+	    value = GenTime(floor(value.frames(m_framesPerSecond)) , m_framesPerSecond);
 
 	return value;
     }
@@ -493,12 +493,12 @@ the display. The scale is the size of one frame.*/
     } 
     
     void KTimeLine::checkScrolling(const QPoint & pos) {
-	if (pos.x() < scrollThreshold()) {
+      if (pos.x() < (int) scrollThreshold()) {
 	    if (!m_scrollTimer.isActive()) {
 		m_scrollTimer.start(scrollTimerDelay(), false);
 	    }
 	    m_scrollingRight = false;
-	} else if (m_trackViewArea->width() - pos.x() < scrollThreshold()) {
+      } else if (m_trackViewArea->width() - pos.x() < (int) scrollThreshold()) {
 	    if (!m_scrollTimer.isActive()) {
 		m_scrollTimer.start(g_scrollTimerDelay, false);
 	    }

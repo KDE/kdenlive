@@ -150,21 +150,21 @@ namespace Gui {
 	m_bufferInvalid = true;
 	update();
     }
-    
-    void KTrackView::invalidateBackBuffer(int pos1, int pos2) {
-        pos1 = m_timeline.mapValueToLocal(pos1);
-        pos2 = m_timeline.mapValueToLocal(pos2);
-        if (pos1 < pos2) {
-            m_bufferDrawList.addRange(pos1 - 2, pos2 + 2);
-            // Optimise painting and redraw only around the moving cursor
-            update(pos1 - 2, -1, pos2 - pos1 + 4, height() + 1);
-        }
-        else {
-            m_bufferDrawList.addRange(pos2 - 3, pos1 + 3);
-            // Optimise painting and redraw only around the moving cursor
-            update(pos2 - 2, -1, pos1 - pos2 + 4, height() + 1);
-        }
-    }
+
+void KTrackView::invalidateBackBuffer(int pos1, int pos2) {
+   pos1 = (int) m_timeline.mapValueToLocal(pos1);
+   pos2 = (int) m_timeline.mapValueToLocal(pos2);
+   if (pos1 < pos2) {
+      m_bufferDrawList.addRange(pos1 - 2, pos2 + 2);
+      // Optimise painting and redraw only around the moving cursor
+       update(pos1 - 2, -1, pos2 - pos1 + 4, height() + 1);
+   }
+   else {
+      m_bufferDrawList.addRange(pos2 - 3, pos1 + 3);
+      // Optimise painting and redraw only around the moving cursor
+       update(pos2 - 2, -1, pos1 - pos2 + 4, height() + 1);
+   }
+}
 
     void KTrackView::registerFunction(const QString & name,
 	TrackPanelFunction * function) {

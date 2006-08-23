@@ -59,13 +59,14 @@ A capture monitor, that allows you to capture video from various devices, as sup
 	void slotForward();
 
       private:
-	 QHBox * m_mainLayout;
-	QVBox *m_saveLayout;
-	QVBox *m_rightLayout;
+
 	KURLRequester *m_saveBrowser;
 	KListView *m_playListView;
 	KMMScreen *m_screen;
 
+  QHBox * m_mainLayout;
+  QVBox *m_saveLayout;
+  QVBox *m_rightLayout;
 	QHBox *m_buttonLayout;
 
 	QToolButton *m_rewindButton;
