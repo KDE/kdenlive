@@ -436,7 +436,8 @@ void exportWidget::receivedConvertStderr(KProcess *, char *buffer, int )
 	int minutes = result.section(":", 1, 1).toInt();
 	int seconds = result.section(":", 2, 2).section(".", 0, 0).toInt();
 	int milliseconds = result.section(":", 2, 2).section(".", 1, 1).toInt();
-	int progress = hours * 3600 * KdenliveSettings::defaultfps() + minutes * 60 * KdenliveSettings::defaultfps() + seconds * KdenliveSettings::defaultfps() + milliseconds * KdenliveSettings::defaultfps() / 100.0;
+	int defaultfps = (int) KdenliveSettings::defaultfps();
+	int progress = hours * 3600 * defaultfps + minutes * 60 * defaultfps + seconds * defaultfps + milliseconds * defaultfps / 100;
 	//kdDebug()<<"++ THEORA: "<<result<<", FRAMES: "<<progress<<", DURATION: "<<m_duration.frames(KdenliveSettings::defaultfps())<<endl;
 
 	if (progress > 0 && progress > m_progress) {
