@@ -4,7 +4,7 @@
   begin                : Fri Nov 22 2002
   copyright            : (C) 2002 by Jason Wood
   email                : jasonwood@blueyonder.co.uk
-  copyright            : (C) 2005 Lcio Fl�io Corr�	
+  copyright            : (C) 2005 Lucio Flavio Correa
   email                : lucio.correa@gmail.com
   copyright            : (C) Marco Gittler
   email                : g.marco@freenet.de

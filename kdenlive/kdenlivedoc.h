@@ -186,24 +186,27 @@ class KdenliveDoc:public QObject {
     bool m_modified;
     KURL m_doc_url;
 
+/** HACK HACK - generate scenelist if true, don't if false) */
+    bool m_sceneListGeneration;
+
 	/** The clip hierarchy for this project. Clips can be put into groups. */
     DocumentBaseNode *m_clipHierarch;
 
 	/** This renderer is for multipurpose use, such as background rendering, and for
 	getting the file properties of the various AVFiles. */
     KRender *m_render;
-	/** The range of times in the timeline that are currently out of date in the scene list.
+    
+    /** Clip manager maintains the list of clips that exist in the document. */
+    ClipManager m_clipManager;
+
+    /** The range of times in the timeline that are currently out of date in the scene list.
 	 * This list is used to re-sync the scene list. */
     RangeList < GenTime > m_invalidSceneTimes;
 	/** Application pointer. */
     Gui::KdenliveApp * m_app;
 	/** This is the scenelist that get's passed from the clip to a renderer. */
     QDomDocument m_domSceneList;
-	/** HACK HACK - generate scenelist if true, don't if false) */
-    bool m_sceneListGeneration;
 
-	/** Clip manager maintains the list of clips that exist in the document. */
-    ClipManager m_clipManager;
 	/** Connects the various project clip signals/slots up to the document. This should be done whenever
 	a new document project clip is created.*/
     void connectProjectClip();
