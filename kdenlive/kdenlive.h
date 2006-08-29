@@ -398,6 +398,9 @@ namespace Gui {
 	void slotFocusEffectStack();
 	void slotFocusProjectList();
         void slotFocusTransitions();
+	void resetTimelineMenuPosition();
+	void hideTimelineMenu();
+	QPoint mousePosition();
 
 	void deleteTrack();
 	void addTrack();
@@ -497,7 +500,8 @@ namespace Gui {
 
 	KAction *renderExportTimeline;
 	KAction *configureProject;
-        
+	QPopupMenu *m_timelinePopupMenu;
+
         KdenliveSplash *splash;
 
 	DocClipRef *m_copiedClip;

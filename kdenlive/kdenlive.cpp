@@ -126,7 +126,7 @@ namespace Gui {
 
     KdenliveApp::KdenliveApp(bool newDoc, QWidget *parent,
 	const char *name):KDockMainWindow(parent, name), m_monitorManager(this),
-    m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_renderManager(NULL), m_doc(NULL), m_effectStackDialog(NULL), m_clipMonitor(NULL), m_projectList(NULL), m_effectListDialog(NULL), isNtscProject(false) {
+    m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_renderManager(NULL), m_doc(NULL), m_effectStackDialog(NULL), m_clipMonitor(NULL), m_projectList(NULL), m_effectListDialog(NULL), isNtscProject(false), m_timelinePopupMenu(NULL) {
 	config = kapp->config();
 	QString newProjectName;
 	int audioTracks = 2;
@@ -267,9 +267,10 @@ namespace Gui {
 	editCopy =
 	    KStdAction::copy(this, SLOT(slotEditCopy()),
 	    actionCollection());
-	editPaste =
-	    KStdAction::paste(this, SLOT(slotEditPaste()),
+
+	editPaste = KStdAction::paste(this, SLOT(slotEditPaste()),
 	    actionCollection());
+
 	optionsPreferences =
 	    KStdAction::preferences(this, SLOT(slotOptionsPreferences()),
 	    actionCollection());
@@ -1558,9 +1559,10 @@ namespace Gui {
             return;
         }
 	slotStatusMsg(i18n("Pasting clip %1.").arg(m_copiedClip->name()));
-	int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(m_menuPosition).y())->documentTrackIndex();
+	QPoint position = mousePosition();
+	int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(position).y())->documentTrackIndex();
 
-	GenTime insertTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(m_menuPosition).x());
+	GenTime insertTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(position).x());
 
 	DocClipRef *m_pastedClip = m_copiedClip->clone(getDocument()->effectDescriptions(), getDocument()->clipManager());
 
@@ -1582,7 +1584,8 @@ namespace Gui {
 
     void KdenliveApp::deleteTrack()
     {
-	int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(m_menuPosition).y())->documentTrackIndex();
+	QPoint position = mousePosition();
+	int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(position).y())->documentTrackIndex();
 	if (KMessageBox::warningContinueCancel(this, i18n("Remove track %1 ?\nThis will remove all clips on that track.").arg(ix),i18n("Delete Track")) != KMessageBox::Continue) return;
 	//kdDebug()<<"+++++++++++++++++++++  ASK TRACK DELETION: "<<ix<<endl;
 	addCommand(Command::KAddRefClipCommand::deleteAllTrackClips(getDocument(), ix));
@@ -1591,7 +1594,8 @@ namespace Gui {
 
     void KdenliveApp::addTrack()
     {
-	int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(m_menuPosition).y())->documentTrackIndex();
+	QPoint position = mousePosition();
+	int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(position).y())->documentTrackIndex();
 	addTrackDialog_UI *addTrack = new addTrackDialog_UI(this);
 	addTrack->setCaption(i18n("Add Track"));
 	addTrack->trackNumber->setValue(ix);
@@ -2608,29 +2612,47 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     }
 
     void KdenliveApp::slotDisplayTimeLineContextMenu() {
-      QPopupMenu *menu;
-      
-      int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(QCursor::pos()).y())->documentTrackIndex();
-      
-      DocTrackBase *track = getDocument()->track(ix);
-      GenTime mouseTime;
-      mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(QCursor::pos()).x());
-      
-      DocClipRef *clip = track->getClipAt(mouseTime);
-      if (clip) {
+
+	int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(QCursor::pos()).y())->documentTrackIndex();
+
+	DocTrackBase *track = getDocument()->track(ix);
+	GenTime mouseTime;
+	mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(QCursor::pos()).x());
+
+	DocClipRef *clip = track->getClipAt(mouseTime);
+	if (clip) {
           // select clip under mouse
-        addCommand(Command::KSelectClipCommand::selectNone(getDocument()), true);
-        addCommand(Command::KSelectClipCommand::selectClipAt(getDocument(), *track, mouseTime),        true);
-        //track->selectClip(clip, true);
-        menu = (QPopupMenu *) factory()->container("timeline_clip_context", this);
-      }
-      else menu = (QPopupMenu *) factory()->container("timeline_context", this);
-	if (menu) {
+          addCommand(Command::KSelectClipCommand::selectNone(getDocument()), true);
+          addCommand(Command::KSelectClipCommand::selectClipAt(getDocument(), *track, mouseTime),        true);
+          //track->selectClip(clip, true);
+          m_timelinePopupMenu = (QPopupMenu *) factory()->container("timeline_clip_context", this);
+	}
+	else m_timelinePopupMenu = (QPopupMenu *) factory()->container("timeline_context", this);
+
+	if (m_timelinePopupMenu) {
             // store the mouse click position
             m_menuPosition = QCursor::pos();
+	    connect(m_timelinePopupMenu, SIGNAL(aboutToHide()), this, SLOT(hideTimelineMenu()));
             // display menu
-	    menu->popup(QCursor::pos());
+	    m_timelinePopupMenu->popup(QCursor::pos());
 	}
+	else m_menuPosition = QPoint();
+    }
+
+    void KdenliveApp::resetTimelineMenuPosition() {
+	m_menuPosition = QPoint();
+    }
+
+    void KdenliveApp::hideTimelineMenu() {
+	// #hack: wait until the menu closes and its action is called, the reset the menu position.
+	QTimer::singleShot(200, this, SLOT(resetTimelineMenuPosition()));
+    }
+
+    QPoint KdenliveApp::mousePosition() {
+	// Try to return the best mouse position: If a context menu was displayed, return position of the menu, 
+	// otherwise return current mouse position. 
+	if (m_menuPosition.isNull()) return QCursor::pos();
+	else return m_menuPosition; 
     }
 
 
@@ -2640,7 +2662,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
             return;
         }
         GenTime mouseTime;
-        mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(m_menuPosition).x());
+	QPoint position = mousePosition();
+        mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(position).x());
         getDocument()->projectClip().addTransition(getDocument()->projectClip().selectedClip(), mouseTime);
     }
     
@@ -2649,9 +2672,10 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
             KMessageBox::sorry(this, i18n("Please select a clip to delete transition"));
             return;
         }
-    GenTime mouseTime;
-    mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(m_menuPosition).x());
-    getDocument()->projectClip().deleteClipTransition(getDocument()->projectClip().selectedClip(), mouseTime);
+	GenTime mouseTime;
+	QPoint position = mousePosition();
+	mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(position).x());
+	getDocument()->projectClip().deleteClipTransition(getDocument()->projectClip().selectedClip(), mouseTime);
     }
 
     void KdenliveApp::switchTransition() {
