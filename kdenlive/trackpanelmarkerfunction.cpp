@@ -69,7 +69,6 @@ bool TrackPanelMarkerFunction::mouseDoubleClicked(Gui::KTrackPanel * panel, QMou
 bool TrackPanelMarkerFunction::mouseReleased(Gui::KTrackPanel * panel,
     QMouseEvent * event)
 {
-    kdDebug()<<"*** MARKER MOUSE RELEASED"<<endl;
     DocClipRef *clipUnderMouse = 0;
 
     if (panel->hasDocumentTrackIndex()) {
@@ -79,9 +78,9 @@ bool TrackPanelMarkerFunction::mouseReleased(Gui::KTrackPanel * panel,
 		GenTime mouseTime((int)(m_timeline->mapLocalToValue(event->x())),
 		m_document->framesPerSecond());
 	    clipUnderMouse = track->getClipAt(mouseTime);
-	    kdDebug()<<"*** get ready for marker on track: "<<panel->documentTrackIndex()<<endl;
+	    //kdDebug()<<"*** get ready for marker on track: "<<panel->documentTrackIndex()<<endl;
 	    if (clipUnderMouse) {
-		kdDebug()<<"*** get ready for marker on clip: "<<clipUnderMouse->name()<<endl;
+		//kdDebug()<<"*** get ready for marker on clip: "<<clipUnderMouse->name()<<endl;
 		Command::KAddMarkerCommand * command =
 		    new Command::KAddMarkerCommand(*m_document,
 		    clipUnderMouse,
