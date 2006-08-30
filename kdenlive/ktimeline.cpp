@@ -253,9 +253,11 @@ Warning - this method is a bit of a hack, not good OO practice, and should be re
 the display. The scale is the size of one frame.*/
     void KTimeLine::setTimeScale(double scale) {
 	int localValue = (int) mapValueToLocal(m_ruler->getSliderValue(0));
-
+	if (localValue < 0 || localValue > (int) mapValueToLocal(viewWidth())) {
+	  ensureCursorVisible();
+	  localValue = (int) mapValueToLocal(m_ruler->getSliderValue(0));
+	}
 	m_ruler->setValueScale(scale);
-
 	m_scrollBar->setValue((int) (scale * m_ruler->getSliderValue(0)) -
 	    localValue);
 
@@ -278,9 +280,7 @@ the display. The scale is the size of one frame.*/
     }
 
     void KTimeLine::resetProjectSize() {
-	m_scrollBar->setRange(0,
-                        (m_ruler->maxValue() * (int) m_ruler->valueScale()) +
-	    m_scrollBar->width());
+	m_scrollBar->setRange(0, ((int) (m_ruler->maxValue() * m_ruler->valueScale())) + m_scrollBar->width());
     }
 
     GenTime KTimeLine::seekPosition() const {
