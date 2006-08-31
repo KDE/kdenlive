@@ -83,14 +83,10 @@ namespace Gui {
 			uint start =(uint)(
 			m_effect->parameter(effectIndex)->keyframe(0)->
 			time() * ex);
-		    /*painter.fillRect(sx + start + 1, rect.y() + 1,
-			(int)(m_effect->parameter(effectIndex)->
-			keyframe(count - 1)->time() * ex - 2 - start),
-			rect.height() - 2, QBrush(Qt::white));*/
-		    painter.drawRect(sx + start, rect.y(),
+		    /*painter.drawRect(sx + start, rect.y(),
 			(int)(m_effect->parameter(effectIndex)->
 			keyframe(count - 1)->time() * ex - start),
-			rect.height());
+			rect.height());*/
 
 		    painter.setPen(Qt::red);
 		    int selectedKeyFrame =
@@ -142,14 +138,14 @@ namespace Gui {
 			uint start =(uint)(
 			m_effect->parameter(effectIndex)->keyframe(0)->
 			time() * ex);
-		    painter.fillRect(sx + start + 1, rect.y() + 1,
+		    /*painter.fillRect(sx + start + 1, rect.y() + 1,
 			(int)(m_effect->parameter(effectIndex)->
 			keyframe(count - 1)->time() * ex - 2 - start),
 			rect.height() - 2, QBrush(Qt::white));
 		    painter.drawRect(sx + start, rect.y(),
 			(int)(m_effect->parameter(effectIndex)->
 			keyframe(count - 1)->time() * ex - start),
-			rect.height());
+			rect.height());*/
 
 		    painter.setPen(Qt::red);
 		    int selectedKeyFrame =

@@ -70,10 +70,9 @@ bool TrackPanelKeyFrameFunction::mouseApplies(Gui::KTrackPanel * panel,
 		    return false;
 		}
 
-		if (effect->parameter(effectIndex)
-		    && (effect->effectDescription().parameter(effectIndex)->
-                                  type() == "double" || effect->effectDescription().parameter(effectIndex)->
-                                  type() == "complex")) {
+		if (!effect->parameter(effectIndex)) return false;
+
+		if (effect->effectDescription().parameter(effectIndex)->type() == "double" || effect->effectDescription().parameter(effectIndex)->type() == "complex") {
 		    if (event->state() & Qt::ControlButton) // Press ctrl to add keyframe
                         return true;
                     
@@ -86,10 +85,11 @@ bool TrackPanelKeyFrameFunction::mouseApplies(Gui::KTrackPanel * panel,
 			    clip->cropDuration().frames(m_document->
 			    framesPerSecond());
 
+			uint dy1;
+			if (effect->effectDescription().parameter(effectIndex)->type() == "complex")
+			  dy1 = panel->y() - 2000 + panel->height()/2;
 			// #WARNING: I don't understand why the panel->y() for first track is 2000 !!!
-			uint dy1 = panel->y() - 2000 + panel->height() - panel->height() * effect->parameter(effectIndex)->keyframe(i)->toDoubleKeyFrame()->value() / 100;
-
-//panel->height() * (panel->documentTrackIndex() + 1) + 20 * panel->documentTrackIndex()
+			else dy1 = panel->y() - 2000 + panel->height() - panel->height() * effect->parameter(effectIndex)->keyframe(i)->toDoubleKeyFrame()->value() / 100;
 
 			if ((fabs(m_timeline->mapValueToLocal(clip->trackStart().frames(m_document->framesPerSecond()) + dx1) - event->x()) < s_resizeTolerance) && (fabs(dy1 - event->y()) < s_resizeTolerance))
 			    return true;
@@ -136,20 +136,13 @@ bool TrackPanelKeyFrameFunction::mousePressed(Gui::KTrackPanel * panel,
 		    m_offset = panel->y() - 2000;
 		    uint count = effect->parameter(effectIndex)->numKeyFrames();
 		    for (uint i = 0; i < count; i++) {
-				 uint dx1 =(uint)(
-			    effect->parameter(effectIndex)->keyframe(i)->
-			    time() *
-			    m_clipUnderMouse->cropDuration().
-						 frames(m_document->framesPerSecond()));
-				 uint dy1 = panel->height() / 2;
+			uint dx1 =(uint)( effect->parameter(effectIndex)->keyframe(i)-> time() *m_clipUnderMouse->cropDuration().frames(m_document->framesPerSecond()));
+
+			uint dy1;
                         if (effect->effectDescription().parameter(effectIndex)->
                             type() == "double")
-				dy1 =(uint)(
-				panel->height() -
-				panel->height() *
-				effect->parameter(effectIndex)->
-				keyframe(i)->toDoubleKeyFrame()->value() /
-				100);
+				dy1 = (uint)(panel->height() - panel->height() * effect->parameter(effectIndex)->keyframe(i)->toDoubleKeyFrame()->value() / 100);
+			else dy1 = panel->height() / 2;
 
 			if ((fabs(m_timeline->
 				    mapValueToLocal(m_clipUnderMouse->
@@ -179,8 +172,10 @@ bool TrackPanelKeyFrameFunction::mousePressed(Gui::KTrackPanel * panel,
 			m_clipUnderMouse->cropDuration().
 			frames(m_document->framesPerSecond());
 		    m_refresh = true;
+		    if (effect->effectDescription().parameter(effectIndex)->                           type() == "double")
 		    m_selectedKeyframe =
 			effect->addKeyFrame(effectIndex, dx, (panel->height() - (event->y() - m_offset)) * 100.0 / panel->height());
+		    else m_selectedKeyframe = effect->addKeyFrame(effectIndex, dx);
 
 
 		    //double dy1 = 100 - ((event->y() - m_offset)* 100 / panel->height());
