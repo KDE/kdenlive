@@ -260,8 +260,8 @@ void Transition::moveTransition(GenTime time)
 {
     if (!m_singleClip) return; //cannot move automatic transitions
     if (m_transitionStart + time < GenTime(0.0)) m_transitionStart = GenTime(0.0);
-    else if ( m_transitionStart + time > m_referenceClip->cropDuration())
-        m_transitionStart = m_referenceClip->cropDuration() - GenTime(0.12);
+    else if ( m_transitionStart + time > m_referenceClip->cropDuration() - m_transitionDuration)
+        m_transitionStart = m_referenceClip->cropDuration() - m_transitionDuration;
     else m_transitionStart = m_transitionStart + time;
 }
 
