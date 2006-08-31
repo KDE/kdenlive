@@ -153,11 +153,17 @@ namespace Gui {
     }
 
     void KTimeLine::collapseTrack(KTrackPanel * panel, bool collapse) {
-	//#HACK: if a track is collapsed, also collapse its keyframetrack. Should maybe find a better way to locate it
-	uint index = 2 * panel->documentTrackIndex() + 1;
-	(static_cast <
-	    KMMTrackKeyFramePanel *
-	    >(m_trackList.at(index)))->resizeTrack();
+	if (panel->trackType() == VIDEOTRACK) {
+	    KTrackPanel *pane = m_trackList.first();
+	    while (pane) {
+		if (pane == panel) {
+		    pane = m_trackList.next();
+		    static_cast < KMMTrackKeyFramePanel *>(pane)->resizeTrack();
+		    break;
+		}
+		pane = m_trackList.next();
+	    }
+	}
 	resizeTracks();
     }
     
