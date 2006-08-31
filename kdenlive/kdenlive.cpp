@@ -2648,7 +2648,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
     void KdenliveApp::hideTimelineMenu() {
 	// #hack: wait until the menu closes and its action is called, the reset the menu position.
-	QTimer::singleShot(200, this, SLOT(resetTimelineMenuPosition()));
+	QTimer::singleShot(500, this, SLOT(resetTimelineMenuPosition()));
     }
 
     QPoint KdenliveApp::mousePosition() {
