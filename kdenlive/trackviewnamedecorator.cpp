@@ -53,7 +53,7 @@ namespace Gui {
 	}
 	//ex -= sx;
 
-	//painter.setClipRect(sx, rect.y(), clipWidth, rect.height());
+	painter.setClipRect(sx, rect.y(), clipWidth, rect.height());
 	QString txt = clip->name();
 	if (clip->speed() != 1.0) txt.append(" (" + QString::number((int)(clip->speed() * 100)) + "%)");
 	// draw video name text
@@ -95,9 +95,9 @@ namespace Gui {
 	    ft.setPixelSize(7);
 	    painter.setFont(ft);
 	    int textWidth = painter.fontMetrics().width( txt );
-	    painter.fillRect(startX + 1, rect.y() + 1, textWidth + 4, 9, QBrush(Qt::black));
+	    painter.fillRect((int) startX + 2, rect.y() + 2, textWidth + 8, 11, QBrush(Qt::black));
 	    painter.setPen(Qt::white);
-	    painter.drawText(startX + 2, rect.y() + 1, textWidth + 2, 8, Qt::AlignTop | Qt::AlignLeft, txt);
+	    painter.drawText((int) startX + 2, rect.y() + 2, textWidth + 8, 11, Qt::AlignCenter | Qt::AlignHCenter, txt);
 	    painter.setFont(orig);
 	}
 	    painter.setPen(Qt::black);
