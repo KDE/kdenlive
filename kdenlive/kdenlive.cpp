@@ -978,6 +978,9 @@ namespace Gui {
 	connect(m_transitionPanel, SIGNAL(transitionChanged(bool)),
                 getDocument(), SLOT(activateSceneListGeneration(bool)));
 
+	connect(m_transitionPanel, SIGNAL(transitionChanged(bool)),
+	    m_timeline, SLOT(invalidateBackBuffer()));
+
 	connect(keyFrameFunction, SIGNAL(signalKeyFrameChanged(bool)),
 	    getDocument(), SLOT(activateSceneListGeneration(bool)));
         

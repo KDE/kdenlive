@@ -72,7 +72,6 @@ namespace Gui {
 
     signals:
 	void transitionChanged(bool);
-
     };
 
 }				// namespace Gui

@@ -121,6 +121,12 @@ void TransitionDialog::applyChanges()
 		m_transition->setTransitionType(selectedTransition());
         	m_transition->setTransitionParameters(transitionParameters());
 		m_transition->setTransitionDirection(transitionDirection());
+		if (currentPageIndex() == 1) {
+		    if (transitWipe->transitionDown->isOn()) m_transition->setTransitionWipeDirection("down");
+		    else if (transitWipe->transitionUp->isOn()) m_transition->setTransitionWipeDirection("up");
+		    else if (transitWipe->transitionRight->isOn()) m_transition->setTransitionWipeDirection("right");
+		    else m_transition->setTransitionWipeDirection("left");
+		}
 		emit transitionChanged(true);
         }
 }

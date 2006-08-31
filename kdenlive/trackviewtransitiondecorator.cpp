@@ -100,6 +100,7 @@ namespace Gui {
 
 	    // draw transition icon
 	    painter.drawPixmap((int) start + 3, rect.y() + (rect.height() - 15 ) / 2, (*itt)->transitionPixmap());
+	    painter.setClipping(false);
 	
 
         /*QPoint p1, p2;
@@ -114,7 +115,7 @@ namespace Gui {
         painter.drawLine(p1,p2);*/
         ++itt;
     }
-    painter.setClipping(false);
+    
 
         }
 
