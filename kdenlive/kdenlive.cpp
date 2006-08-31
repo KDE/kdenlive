@@ -2742,10 +2742,10 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 			    DocTrackSound * >(trackItt.current())),
 			collapsedState[index]));
 		++index;
-		m_timeline->insertTrack(index,
+		/*m_timeline->insertTrack(index,
 		    new KMMTrackKeyFramePanel(m_timeline, getDocument(),
 			(*trackItt), collapsedState[index], KEYFRAMETRACK));
-		++index;
+		++index;*/
 	    } else {
 		kdWarning() << "Sync failed" << endl;
 	    }

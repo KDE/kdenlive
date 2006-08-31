@@ -123,8 +123,13 @@ namespace Gui {
 	while (panel != 0) {
 	    int y = panel->y() - this->y();
 	    QRect rect(0, y, width(), panel->height());
-	    if (panel->trackType() == KEYFRAMETRACK) // white background on transition / effets track
+	    if (panel->trackType() == KEYFRAMETRACK) // white background on transition track
 		painter.fillRect(rect, palette().active().light());
+	    else {
+		painter.setPen(QColor(Qt::gray));
+		painter.drawLine(0, y, width(), y); // gray line between the tracks
+		painter.setPen(QColor(Qt::black));
+	    }
 	    panel->drawToBackBuffer(painter, rect);
 	    panel = m_timeline.trackList().next();
 	}
@@ -143,8 +148,13 @@ namespace Gui {
         while (panel != 0) {
             int y = panel->y() - this->y();
 	    QRect rect(sx, y, ex - sx, panel->height());
-	    if (panel->trackType() == KEYFRAMETRACK) // white background on transition / effets track
+	    if (panel->trackType() == KEYFRAMETRACK) // white background on transition track
 		painter.fillRect(rect, palette().active().light());
+	    else {
+		painter.setPen(QColor(Qt::gray));
+		painter.drawLine(sx, y, ex, y); // gray line between the tracks
+		painter.setPen(QColor(Qt::black));
+	    }
             panel->drawToBackBuffer(painter, rect);
             panel = m_timeline.trackList().next();
         }
