@@ -20,6 +20,8 @@
 #include "kdenlivesettings.h"
 
 #include <kdebug.h>
+#include <kiconloader.h>
+#include <klocale.h>
 #include <qdom.h>
 
 /* Transitions can be either be
@@ -34,6 +36,7 @@ Transition::Transition(const DocClipRef * clipa, const DocClipRef * clipb)
     m_invertTransition = false;
     m_singleClip = true;
     m_transitionType = "luma";
+    m_transitionName = i18n("Crossfade");
 
     if (clipb) {
         // Transition is an automatic transition between 2 clips
@@ -95,6 +98,7 @@ Transition::Transition(const DocClipRef * clipa)
     m_invertTransition = false;
     m_singleClip = true;
     m_transitionType = "luma";
+    m_transitionName = i18n("Crossfade");
 
         m_referenceClip = clipa;
         m_transitionStart = GenTime(0.0);
@@ -112,6 +116,7 @@ Transition::Transition(const DocClipRef * clipa, const GenTime &time)
     m_invertTransition = false;
     m_singleClip = true;
     m_transitionType = "luma";
+    m_transitionName = i18n("Crossfade");
     
     // Default duration = 2.5 seconds
     GenTime defaultTransitionDuration = GenTime(2.5);
@@ -135,6 +140,11 @@ Transition::Transition(const DocClipRef * clipa, const QString & type, const Gen
     m_invertTransition = inverted;
     m_singleClip = true;
     m_transitionType = type;
+    if (m_transitionType == "composite") m_transitionName = i18n("Wipe");
+    else if (m_transitionType == "pip")	m_transitionName = i18n("Pip");
+    else m_transitionName = i18n("Crossfade");
+
+
     GenTime duration = endTime - startTime;
     
     // Default duration = 2.5 seconds
@@ -158,11 +168,19 @@ Transition::~Transition()
 void Transition::setTransitionType(QString newType)
 {
     m_transitionType = newType;
+    if (m_transitionType == "composite") m_transitionName = i18n("Wipe");
+    else if (m_transitionType == "pip")	m_transitionName = i18n("Pip");
+    else m_transitionName = i18n("Crossfade");
 }
 
 QString Transition::transitionType()
 {
     return m_transitionType;
+}
+
+QString Transition::transitionName()
+{
+    return m_transitionName;
 }
 
 void Transition::setTransitionParameters(const QMap < QString, QString > parameters)
@@ -182,6 +200,18 @@ bool Transition::invertTransition()
         else return false;
     }
     return m_invertTransition;
+}
+
+QPixmap Transition::transitionPixmap()
+{
+    if (m_transitionType == "luma") {
+	if (invertTransition()) return KGlobal::iconLoader()->loadIcon("kdenlive_trans_down", KIcon::Small, 15);
+	else return KGlobal::iconLoader()->loadIcon("kdenlive_trans_up", KIcon::Small, 15);
+    }
+    else if (m_transitionType == "composite") {
+        return KGlobal::iconLoader()->loadIcon("kdenlive_trans_wiper", KIcon::Small, 15);
+    }
+    else return KGlobal::iconLoader()->loadIcon("kdenlive_trans_pip", KIcon::Small, 15);
 }
 
 void Transition::setTransitionDirection(bool inv)

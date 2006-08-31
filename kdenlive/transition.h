@@ -19,6 +19,7 @@
 #define TRANSITION_H
 
 #include <qstring.h>
+#include <qpixmap.h>
 #include <qdom.h>
 #include <qmap.h>
 
@@ -54,10 +55,12 @@ class Transition {
     void moveTransition(GenTime time);
     bool invertTransition();
     QString transitionType();
+    QString transitionName();
     void setTransitionType(QString newType);
     const QMap < QString, QString > transitionParameters();
     void setTransitionParameters(const QMap < QString, QString > parameters);
     void setTransitionDirection(bool inv);
+    QPixmap transitionPixmap();
     
   private:
     
@@ -65,8 +68,11 @@ class Transition {
     GenTime m_transitionDuration;
     QMap < QString, QString > m_transitionParameters;
 
-    /** The name of the transition (composite, luma,...)*/
+    /** The name of the transition used by mlt (composite, luma,...)*/
     QString m_transitionType;
+
+    /** The name of the transition to be displayed to user */
+    QString m_transitionName;
 
     /** Should the transition be reversed */
     bool m_invertTransition;

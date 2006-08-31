@@ -76,10 +76,33 @@ namespace Gui {
             if (document()->application()->transitionPanel()->isActiveTransition( *itt)) col.setRgb(255,50,50);
             uint start = timeline()->mapValueToLocal((*itt)->transitionStartTime().frames(document()->framesPerSecond()));
             uint end = timeline()->mapValueToLocal((*itt)->transitionEndTime().frames(document()->framesPerSecond()))-start;
-        painter.fillRect(start, rect.y(), end, rect.height(), QBrush(col));  //, Qt::Dense5Pattern));
+        //painter.fillRect(start, rect.y(), end, rect.height(), QBrush(col));  //, Qt::Dense5Pattern));
+	QBrush br = painter.brush();
+	painter.setBrush(QBrush(col));
         painter.drawRect(start, rect.y(), end, rect.height());
+	painter.setBrush(br);
+	painter.setClipRect(start, rect.y(), end, rect.height());
+	
+	 
+	    /*
+		// Draw transition name
+	    QString txt = (*itt)->transitionName().upper();
+	    QFont orig = painter.font();
+	    QFont ft = orig;
+	    ft.setPixelSize(7);
+	    painter.setFont(ft);
+	    int textWidth = painter.fontMetrics().width( txt );
+	    //painter.fillRect((int) start + 2, rect.y() + 2, textWidth + 8, 11, QBrush(Qt::black));
+	    painter.setPen(Qt::darkRed);
+	    painter.drawText((int) start + 2, rect.y() + 2, textWidth + 8, 11, Qt::AlignCenter | Qt::AlignHCenter, txt);
+	    painter.setFont(orig);	
+	    painter.setPen(Qt::black);*/
 
-        QPoint p1, p2;
+	    // draw transition icon
+	    painter.drawPixmap((int) start + 3, rect.y() + (rect.height() - 15 ) / 2, (*itt)->transitionPixmap());
+	
+
+        /*QPoint p1, p2;
         if ((*itt)->transitionStartTrack() == clip->trackNum()) {
             p1 = QPoint(start,rect.y());
             p2 = QPoint(start+end,rect.y()+rect.height()-1);
@@ -88,9 +111,10 @@ namespace Gui {
             p1 = QPoint(start,rect.y()+rect.height()-1);
             p2 = QPoint(start+end,rect.y());
         }
-        painter.drawLine(p1,p2);
+        painter.drawLine(p1,p2);*/
         ++itt;
     }
+    painter.setClipping(false);
 
         }
 
