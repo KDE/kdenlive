@@ -176,7 +176,7 @@ namespace Gui {
 		if (panel->isTrackCollapsed())
 		    widgetHeight = 0;
 		else
-		    widgetHeight = 30;
+		    widgetHeight = 20;
 	    } else if (panel->trackType() == EFFECTKEYFRAMETRACK) {
 		if (panel->isTrackCollapsed())
 		    widgetHeight = 0;

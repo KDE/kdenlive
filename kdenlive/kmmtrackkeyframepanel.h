@@ -39,9 +39,6 @@ namespace Gui {
 	    KdenliveDoc * document,
 	    DocTrackBase * docTrack,
 	    bool isCollapsed,
-	    const QString & effectName,
-	    int effectIndex,
-	    const QString & effectParam,
 	    TRACKTYPE type, QWidget * parent = 0, const char *name = 0);
 	 virtual ~ KMMTrackKeyFramePanel();
 

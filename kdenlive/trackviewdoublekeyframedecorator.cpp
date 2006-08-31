@@ -31,12 +31,11 @@
 namespace Gui {
 
     TrackViewDoubleKeyFrameDecorator::
-	TrackViewDoubleKeyFrameDecorator(KTimeLine * timeline,
-	KdenliveDoc * doc, const QString & effectName, int effectIndex,
-	const QString & paramName)
-    :DocTrackDecorator(timeline, doc), m_effectName(effectName),
-	m_effectIndex(effectIndex), m_paramName(paramName) {
-    } TrackViewDoubleKeyFrameDecorator::~TrackViewDoubleKeyFrameDecorator() {
+	TrackViewDoubleKeyFrameDecorator(KTimeLine * timeline, KdenliveDoc * doc)
+    :DocTrackDecorator(timeline, doc) {
+    } 
+
+    TrackViewDoubleKeyFrameDecorator::~TrackViewDoubleKeyFrameDecorator() {
     }
 
 // virtual
@@ -64,7 +63,7 @@ namespace Gui {
 	// draw outline box
 //      painter.fillRect( sx, rect.y(), ex, rect.height(), col);
 
-	m_effectIndex = 0;
+	int effectIndex = 0;
 	m_effect = clip->selectedEffect();
 
 	if (!m_effect) {
@@ -72,49 +71,49 @@ namespace Gui {
 	    return;
 	}
 
-	if (m_effect->parameter(m_effectIndex)) {
-	    if (m_effect->effectDescription().parameter(m_effectIndex)->
+	if (m_effect->parameter(effectIndex)) {
+	    if (m_effect->effectDescription().parameter(effectIndex)->
 		type() == "double") {
 
 		uint count =
-		    m_effect->parameter(m_effectIndex)->numKeyFrames();
+		    m_effect->parameter(effectIndex)->numKeyFrames();
 		QBrush brush(Qt::red);
 
 		if (count > 1) {
 			uint start =(uint)(
-			m_effect->parameter(m_effectIndex)->keyframe(0)->
+			m_effect->parameter(effectIndex)->keyframe(0)->
 			time() * ex);
-		    painter.fillRect(sx + start + 1, rect.y() + 1,
-			(int)(m_effect->parameter(m_effectIndex)->
+		    /*painter.fillRect(sx + start + 1, rect.y() + 1,
+			(int)(m_effect->parameter(effectIndex)->
 			keyframe(count - 1)->time() * ex - 2 - start),
-			rect.height() - 2, QBrush(Qt::white));
+			rect.height() - 2, QBrush(Qt::white));*/
 		    painter.drawRect(sx + start, rect.y(),
-			(int)(m_effect->parameter(m_effectIndex)->
+			(int)(m_effect->parameter(effectIndex)->
 			keyframe(count - 1)->time() * ex - start),
 			rect.height());
 
 		    painter.setPen(Qt::red);
 		    int selectedKeyFrame =
-			m_effect->parameter(m_effectIndex)->
+			m_effect->parameter(effectIndex)->
 			selectedKeyFrame();
 			 for (int i = 0; i < (int)count - 1; i++) {
 				 uint dx1 =(uint)(
 			    sx +
-			    m_effect->parameter(m_effectIndex)->
+			    m_effect->parameter(effectIndex)->
 				keyframe(i)->time() * ex);
 				 uint dy1 =(uint)(
 			    sy -
 			    ey *
-			    m_effect->parameter(m_effectIndex)->
+			    m_effect->parameter(effectIndex)->
 				keyframe(i)->toDoubleKeyFrame()->value() / 100);
 				 uint dx2 =(uint)(
 			    sx +
-			    m_effect->parameter(m_effectIndex)->
+			    m_effect->parameter(effectIndex)->
 						 keyframe(i + 1)->time() * ex);
 				 uint dy2 =(uint)(
 			    sy -
 			    ey *
-			    m_effect->parameter(m_effectIndex)->
+			    m_effect->parameter(effectIndex)->
 			    keyframe(i +
 				1)->toDoubleKeyFrame()->value() / 100);
 			//kdDebug()<<"++++++ DRAWING KEYFRAME : "<<dx1<<", "<<dy1<<", "<<dx2<<", "<<dy2<<endl;
@@ -133,38 +132,38 @@ namespace Gui {
 		}
 		painter.setPen(Qt::black);
 	    } else if (m_effect->effectDescription().
-		parameter(m_effectIndex)->type() == "complex") {
+		parameter(effectIndex)->type() == "complex") {
 
 		uint count =
-		    m_effect->parameter(m_effectIndex)->numKeyFrames();
+		    m_effect->parameter(effectIndex)->numKeyFrames();
 		QBrush brush(Qt::red);
 
 		if (count > 1) {
 			uint start =(uint)(
-			m_effect->parameter(m_effectIndex)->keyframe(0)->
+			m_effect->parameter(effectIndex)->keyframe(0)->
 			time() * ex);
 		    painter.fillRect(sx + start + 1, rect.y() + 1,
-			(int)(m_effect->parameter(m_effectIndex)->
+			(int)(m_effect->parameter(effectIndex)->
 			keyframe(count - 1)->time() * ex - 2 - start),
 			rect.height() - 2, QBrush(Qt::white));
 		    painter.drawRect(sx + start, rect.y(),
-			(int)(m_effect->parameter(m_effectIndex)->
+			(int)(m_effect->parameter(effectIndex)->
 			keyframe(count - 1)->time() * ex - start),
 			rect.height());
 
 		    painter.setPen(Qt::red);
 		    int selectedKeyFrame =
-			m_effect->parameter(m_effectIndex)->
+			m_effect->parameter(effectIndex)->
 			selectedKeyFrame();
 			 for (int i = 0; i < (int)count - 1; i++) {
 				 uint dx1 =(uint)(
 			    sx +
-			    m_effect->parameter(m_effectIndex)->
+			    m_effect->parameter(effectIndex)->
 				keyframe(i)->time() * ex);
 			uint dy1 = sy - ey / 2;
 			uint dx2 =(uint)(
 			    sx +
-			    m_effect->parameter(m_effectIndex)->
+			    m_effect->parameter(effectIndex)->
 				keyframe(i + 1)->time() * ex);
 			uint dy2 = sy - ey / 2;
 

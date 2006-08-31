@@ -42,7 +42,7 @@ namespace Gui {
 	addViewDecorator(new TrackViewBackgroundDecorator(timeline,
 		document, QColor(128, 128, 128), QColor(200, 200, 200)));
 	addViewDecorator(new TrackViewDoubleKeyFrameDecorator(timeline,
-		document, effectName, effectIndex, effectParam));
+		document));
     } KMMClipKeyFramePanel::~KMMClipKeyFramePanel() {
     }
 

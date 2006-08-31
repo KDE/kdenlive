@@ -116,7 +116,7 @@ Gui::KMMTrackPanel *
     kdWarning() << "EffectParamComplexDesc::createTrackPanel()" << endl;
 #warning - need to pass in the effect name/index from somewhere.
     return new Gui::KMMTrackKeyFramePanel(timeline, document, docTrack,
-	false, "alphablend", 0, name, Gui::EFFECTKEYFRAMETRACK, parent,
+	false, Gui::EFFECTKEYFRAMETRACK, parent,
 	name);
 }
 

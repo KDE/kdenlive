@@ -68,10 +68,6 @@ namespace Gui {
 	    nameRepeat = 1;
 	int textWidth = clipWidth / nameRepeat;
 
-	// red line on top if clip has effects
-	if (clip->hasEffect())
-	    painter.fillRect(sx + 1, rect.y() + 1, ex - sx - 2, 7,
-		QBrush(Qt::red, Qt::Dense4Pattern));
 
 	if (textWidth > 0) {
 	    int start =
@@ -90,6 +86,20 @@ namespace Gui {
 		}
 		count += textWidth;
 	    }
+
+	// black line on top if clip has effects
+	if (clip->hasEffect()) {
+	    QString txt = clip->selectedEffect()->name().upper();
+	    QFont orig = painter.font();
+	    QFont ft = orig;
+	    ft.setPixelSize(7);
+	    painter.setFont(ft);
+	    int textWidth = painter.fontMetrics().width( txt );
+	    painter.fillRect(startX + 1, rect.y() + 1, textWidth + 4, 9, QBrush(Qt::black));
+	    painter.setPen(Qt::white);
+	    painter.drawText(startX + 2, rect.y() + 1, textWidth + 2, 8, Qt::AlignTop | Qt::AlignLeft, txt);
+	    painter.setFont(orig);
+	}
 	    painter.setPen(Qt::black);
 	}
 

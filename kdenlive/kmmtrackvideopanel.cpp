@@ -41,6 +41,7 @@
 
 #include "trackviewvideobackgrounddecorator.h"
 #include "trackviewaudiobackgrounddecorator.h"
+#include "trackviewdoublekeyframedecorator.h"
 #include "trackviewbackgrounddecorator.h"
 #include "trackviewnamedecorator.h"
 #include "trackviewmarkerdecorator.h"
@@ -69,6 +70,7 @@ namespace Gui {
         connect(fl2, SIGNAL(clicked()), this, SLOT(blindTrack()));
         connect(fl3, SIGNAL(clicked()), this, SLOT(muteTrack()));
 
+	addFunctionDecorator("move", "keyframe");
 	addFunctionDecorator("move", "resize");
 	addFunctionDecorator("move", "move");
 	addFunctionDecorator("move", "selectnone");
@@ -136,10 +138,10 @@ namespace Gui {
 
 	//addViewDecorator(new TrackViewAudioBackgroundDecorator(timeline, doc, QColor(64, 128, 64), QColor(128, 255, 128),audioDecoratorSize));
 
-	addViewDecorator(new TrackViewNameDecorator(timeline(),
-		document()));
-	addViewDecorator(new TrackViewMarkerDecorator(timeline(),
-		document()));
+	addViewDecorator(new TrackViewNameDecorator(timeline(), document()));
+	addViewDecorator(new TrackViewMarkerDecorator(timeline(), document()));
+
+	addViewDecorator(new TrackViewDoubleKeyFrameDecorator(timeline(), document()));
 
 /*	if (trackIsCollapsed)
 	    m_trackHeader.collapseButton->setPixmap(KGlobal::iconLoader()->

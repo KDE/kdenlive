@@ -2730,8 +2730,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
 		m_timeline->insertTrack(index,
 		    new KMMTrackKeyFramePanel(m_timeline, getDocument(),
-			(*trackItt), collapsedState[index], "alphablend",
-			0, "fade", KEYFRAMETRACK));
+			(*trackItt), collapsedState[index], KEYFRAMETRACK));
 		++index;
 	    } else if (trackItt.current()->clipType() == "Sound") {
 		m_timeline->insertTrack(index, new KMMTrackSoundPanel(this,
@@ -2742,8 +2741,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		++index;
 		m_timeline->insertTrack(index,
 		    new KMMTrackKeyFramePanel(m_timeline, getDocument(),
-			(*trackItt), collapsedState[index], "alphablend",
-			0, "fade", KEYFRAMETRACK));
+			(*trackItt), collapsedState[index], KEYFRAMETRACK));
 		++index;
 	    } else {
 		kdWarning() << "Sync failed" << endl;

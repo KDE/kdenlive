@@ -44,7 +44,7 @@ namespace Gui {
 
 	setAcceptDrops(true);
 
-	tiptst = new DynamicToolTip(this);
+	//tiptst = new DynamicToolTip(this);
     } KTrackView::~KTrackView() {
     }
 

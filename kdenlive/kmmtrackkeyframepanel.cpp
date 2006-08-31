@@ -39,10 +39,7 @@ namespace Gui {
     KMMTrackKeyFramePanel::KMMTrackKeyFramePanel(KTimeLine * timeline,
 	KdenliveDoc * doc,
 	DocTrackBase * docTrack,
-	bool isCollapsed,
-	const QString & effectName,
-	int effectIndex,
-	const QString & effectParam,
+	bool isCollapsed,	
 	TRACKTYPE type,
 	QWidget * parent,
 	const char *name):KMMTrackPanel(timeline, doc,
@@ -54,14 +51,14 @@ namespace Gui {
 	if (type == EFFECTKEYFRAMETRACK)
 	    widgetHeight = 50;
 	else
-	     widgetHeight = 30;
+	     widgetHeight = 20;
 	if (trackIsCollapsed)
 	     widgetHeight = 0;
 
 	 setMinimumHeight(widgetHeight);
 	 setMaximumHeight(widgetHeight);
 
-	 addFunctionDecorator("move", "keyframe");
+	 //addFunctionDecorator("move", "keyframe");
          addFunctionDecorator("move", "transitionresize");
          addFunctionDecorator("move", "transitionmove");
 	//addFunctionDecorator("move", "move");
@@ -75,8 +72,7 @@ namespace Gui {
 	//addViewDecorator(new TrackViewBackgroundDecorator(timeline, doc, QColor(128, 128, 128), QColor(200, 200, 200)));
          addViewDecorator(new TrackViewTransitionDecorator(timeline, doc));
          
-	 addViewDecorator(new TrackViewDoubleKeyFrameDecorator(timeline,
-		doc, effectName, effectIndex, effectParam));
+	 //addViewDecorator(new TrackViewDoubleKeyFrameDecorator(timeline, doc));
          
         }
     
@@ -86,7 +82,7 @@ namespace Gui {
 	if (m_type == EFFECTKEYFRAMETRACK)
 	    widgetHeight = 50;
 	else
-	    widgetHeight = 30;
+	    widgetHeight = 20;
 	trackIsCollapsed = (!trackIsCollapsed);
 
 	if (trackIsCollapsed)

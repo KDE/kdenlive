@@ -104,10 +104,10 @@ uint Effect::addKeyFrame(const uint ix, double time)
 	parameter(ix)->createKeyFrame(time));
 }
 
-void Effect::addKeyFrame(const uint ix, double time, double value)
+uint Effect::addKeyFrame(const uint ix, double time, double value)
 {
-    if (!parameter(ix)) return;
-    m_paramList.at(ix)->addKeyFrame(effectDescription().parameter(ix)->
+    if (!parameter(ix)) return 0;
+    return m_paramList.at(ix)->addKeyFrame(effectDescription().parameter(ix)->
 	createKeyFrame(time, value));
 }
 

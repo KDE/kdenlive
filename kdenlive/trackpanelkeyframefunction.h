@@ -104,6 +104,7 @@ derived classes allow different behaviours to be added to panels as required.
      Command::KResizeCommand * m_resizeCommand;
     SnapToGrid m_snapToGrid;
     bool m_refresh;
+    uint m_offset;
 };
 
 #endif

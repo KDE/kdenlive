@@ -31,7 +31,7 @@
 #include <cmath>
 
 // static
-const uint TrackPanelKeyFrameFunction::s_resizeTolerance = 5;
+const uint TrackPanelKeyFrameFunction::s_resizeTolerance = 10;
 
 TrackPanelKeyFrameFunction::TrackPanelKeyFrameFunction(Gui::KdenliveApp * app, Gui::KTimeLine * timeline, KdenliveDoc * document):
 m_app(app),
@@ -40,7 +40,7 @@ m_document(document),
 m_clipUnderMouse(0),
  m_selectedKeyframe(-1),
 m_resizeCommand(0),
- m_snapToGrid(),m_refresh(false)
+ m_snapToGrid(), m_refresh(false), m_offset(0)
 {
 }
 
@@ -74,9 +74,9 @@ bool TrackPanelKeyFrameFunction::mouseApplies(Gui::KTrackPanel * panel,
 		    && (effect->effectDescription().parameter(effectIndex)->
                                   type() == "double" || effect->effectDescription().parameter(effectIndex)->
                                   type() == "complex")) {
-                    return true;
+		    if (event->state() & Qt::ControlButton) // Press ctrl to add keyframe
+                        return true;
                     
-                    /*
 		    uint count =
 			effect->parameter(effectIndex)->numKeyFrames();
 		    for (uint i = 0; i < count; i++) {
@@ -85,15 +85,15 @@ bool TrackPanelKeyFrameFunction::mouseApplies(Gui::KTrackPanel * panel,
 			    time() *
 			    clip->cropDuration().frames(m_document->
 			    framesPerSecond());
-			uint dy1 =
-			    panel->height() -
-			    panel->height() *
-			    effect->parameter(effectIndex)->keyframe(i)->
-			    toDoubleKeyFrame()->value() / 100;
 
-			if ((fabs(m_timeline->mapValueToLocal(clip->trackStart().frames(m_document->framesPerSecond()) + dx1) - event->x()) < s_resizeTolerance))	//(fabs(m_timeline->mapValueToLocal(clip->trackStart().frames(m_document->framesPerSecond())) + dy1 - event->y()) < s_resizeTolerance))
+			// #WARNING: I don't understand why the panel->y() for first track is 2000 !!!
+			uint dy1 = panel->y() - 2000 + panel->height() - panel->height() * effect->parameter(effectIndex)->keyframe(i)->toDoubleKeyFrame()->value() / 100;
+
+//panel->height() * (panel->documentTrackIndex() + 1) + 20 * panel->documentTrackIndex()
+
+			if ((fabs(m_timeline->mapValueToLocal(clip->trackStart().frames(m_document->framesPerSecond()) + dx1) - event->x()) < s_resizeTolerance) && (fabs(dy1 - event->y()) < s_resizeTolerance))
 			    return true;
-                    } */
+                    }
 		}
 	    }
 	}
@@ -113,13 +113,12 @@ bool TrackPanelKeyFrameFunction::mousePressed(Gui::KTrackPanel * panel,
     QMouseEvent * event)
 {
     bool result = false;
-
+    m_offset = 0;
     if (panel->hasDocumentTrackIndex()) {
 	DocTrackBase *track =
 	    m_document->track(panel->documentTrackIndex());
 	if (track) {
-		GenTime mouseTime((int)m_timeline->mapLocalToValue(event->x()),
-		m_document->framesPerSecond());
+	    GenTime mouseTime((int)m_timeline->mapLocalToValue(event->x()), m_document->framesPerSecond());
 	    m_clipUnderMouse = track->getClipAt(mouseTime);
 	    if (m_clipUnderMouse) {
 		if (!track->clipSelected(m_clipUnderMouse))
@@ -134,8 +133,8 @@ bool TrackPanelKeyFrameFunction::mousePressed(Gui::KTrackPanel * panel,
 		}
 
 		if (effect->parameter(0)) {
-		    uint count =
-			effect->parameter(effectIndex)->numKeyFrames();
+		    m_offset = panel->y() - 2000;
+		    uint count = effect->parameter(effectIndex)->numKeyFrames();
 		    for (uint i = 0; i < count; i++) {
 				 uint dx1 =(uint)(
 			    effect->parameter(effectIndex)->keyframe(i)->
@@ -181,7 +180,11 @@ bool TrackPanelKeyFrameFunction::mousePressed(Gui::KTrackPanel * panel,
 			frames(m_document->framesPerSecond());
 		    m_refresh = true;
 		    m_selectedKeyframe =
-			effect->addKeyFrame(effectIndex, dx);
+			effect->addKeyFrame(effectIndex, dx, (panel->height() - (event->y() - m_offset)) * 100.0 / panel->height());
+
+
+		    //double dy1 = 100 - ((event->y() - m_offset)* 100 / panel->height());
+
 		    //effect->parameter(effectIndex)->interpolateKeyFrame(0.7)->value());
 
 		    return true;
@@ -247,15 +250,12 @@ bool TrackPanelKeyFrameFunction::mouseMoved(Gui::KTrackPanel * panel,
 		}
 		if (effect->parameter(effectIndex)) {
 		    m_refresh = true;
-		    double dy1 =
-			panel->height() - ((event->y() -
-			    m_selectedKeyframeValue) * 100 /
-			panel->height());
+		    int dy1 = 100 - ((event->y() - m_offset)* 100 / panel->height()); 
 
-		    // There should never be less than 2 keyframes
-		    if ((dy1 < -100 || dy1 > 200)
-			&& effect->parameter(effectIndex)->numKeyFrames() >
-			2) {
+		    // If keyframe is moved out of the clip, remove it (but there should never be less than 2 keyframes
+		    int delta = event->y() - m_offset;
+
+		    if ((delta < -20 || (delta - panel->height()) > 20) && effect->parameter(effectIndex)->numKeyFrames() > 2) {
 			effect->parameter(effectIndex)->
 			    deleteKeyFrame(m_selectedKeyframe);
 			m_selectedKeyframe = -1;
@@ -264,6 +264,7 @@ bool TrackPanelKeyFrameFunction::mouseMoved(Gui::KTrackPanel * panel,
 			emit signalKeyFrameChanged(true);
 			return true;
 		    }
+		    if (delta < 0) dy1 = 100;
 
 		    if (dy1 < 0)
 			dy1 = 0;
@@ -271,12 +272,17 @@ bool TrackPanelKeyFrameFunction::mouseMoved(Gui::KTrackPanel * panel,
 			dy1 = 100;
 		    //double dy2 =  (panel->height() - (event->y()-m_selectedKeyframeValue)) / panel->height();
 
-		    if (effect->effectDescription().
-			parameter(effectIndex)->type() == "double")
-			effect->parameter(effectIndex)->
-			    keyframe(m_selectedKeyframe)->
-			    toDoubleKeyFrame()->setValue(dy1);
-		    emit redrawTrack();
+		    if (effect->effectDescription().parameter(effectIndex)->type() == "double") {
+			effect->parameter(effectIndex)->keyframe(m_selectedKeyframe)->   toDoubleKeyFrame()->setValue(dy1);
+			if (m_selectedKeyframe > 0 && m_selectedKeyframe < effect->parameter(effectIndex)->numKeyFrames() - 1) {
+				double currentTime = (m_timeline->mapLocalToValue(event->x()) - m_clipUnderMouse->trackStart().frames(m_document->framesPerSecond())) /m_clipUnderMouse->cropDuration().frames(m_document->framesPerSecond());
+				double prevTime = effect->parameter(effectIndex)->keyframe(m_selectedKeyframe - 1)->time();
+				double nextTime = effect->parameter(effectIndex)->keyframe(m_selectedKeyframe + 1)->time();
+				if (currentTime > prevTime && currentTime < nextTime)
+					effect->parameter(effectIndex)->keyframe(m_selectedKeyframe)->setTime(currentTime);
+			}
+		    	emit redrawTrack();
+		    }
 		    result = true;
 		}
 

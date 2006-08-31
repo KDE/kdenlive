@@ -42,9 +42,10 @@ bool TrackPanelRazorFunction::mouseApplies(Gui::KTrackPanel * panel,
 	if (track) {
 		GenTime mouseTime((int)(m_timeline->mapLocalToValue(event->x())),
 		m_document->framesPerSecond());
-	    clip = track->getClipAt(mouseTime);
+	        clip = track->getClipAt(mouseTime);
 	}
     }
+    
     return clip;
 }
 

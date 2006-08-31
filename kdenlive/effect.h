@@ -56,7 +56,7 @@ class Effect {
 
 	/** Creates a new keyframe at specified time and returns the new key's index */
     uint addKeyFrame(const uint ix, double time);
-    void addKeyFrame(const uint ix, double time, double value);
+    uint addKeyFrame(const uint ix, double time, double value);
     void addKeyFrame(const uint ix, double time, QStringList values);
 
     QString tempFileName() {

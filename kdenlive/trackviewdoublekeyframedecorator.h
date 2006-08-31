@@ -30,9 +30,7 @@ namespace Gui {
 */
     class TrackViewDoubleKeyFrameDecorator:public DocTrackDecorator {
       public:
-	TrackViewDoubleKeyFrameDecorator(KTimeLine * timeline,
-	    KdenliveDoc * doc, const QString & effectName, int effectIndex,
-	    const QString & paramName);
+	TrackViewDoubleKeyFrameDecorator(KTimeLine * timeline, KdenliveDoc * doc);
 
 	~TrackViewDoubleKeyFrameDecorator();
 
@@ -40,9 +38,6 @@ namespace Gui {
 	    QPainter & painter, DocClipRef * clip, QRect & rect,
 	    bool selected);
       private:
-	 QString m_effectName;
-	int m_effectIndex;
-	QString m_paramName;
 	Effect *m_effect;
     };
 
