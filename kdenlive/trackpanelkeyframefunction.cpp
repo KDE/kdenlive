@@ -54,6 +54,7 @@ bool TrackPanelKeyFrameFunction::mouseApplies(Gui::KTrackPanel * panel,
 {
     bool result = false;
     if (panel->hasDocumentTrackIndex()) {
+	if (panel->isTrackCollapsed()) return false; 
 	DocTrackBase *track =
 	    m_document->track(panel->documentTrackIndex());
 	if (track) {

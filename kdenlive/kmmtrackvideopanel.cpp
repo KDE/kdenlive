@@ -141,7 +141,7 @@ namespace Gui {
 	addViewDecorator(new TrackViewNameDecorator(timeline(), document()));
 	addViewDecorator(new TrackViewMarkerDecorator(timeline(), document()));
 
-	addViewDecorator(new TrackViewDoubleKeyFrameDecorator(timeline(), document()));
+	if (!trackIsCollapsed) addViewDecorator(new TrackViewDoubleKeyFrameDecorator(timeline(), document()));
 
 /*	if (trackIsCollapsed)
 	    m_trackHeader.collapseButton->setPixmap(KGlobal::iconLoader()->
