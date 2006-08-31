@@ -241,13 +241,6 @@ Warning - this method is a bit of a hack, not good OO practice, and should be re
 	return m_trackList;
     }
 
-    void KTimeLine::scrollViewLeft() {
-	m_scrollBar->subtractLine();
-    }
-
-    void KTimeLine::scrollViewRight() {
-	m_scrollBar->addLine();
-    }
 
 /** Sets a new time scale for the timeline. This in turn calls the correct kruler funtion and updates
 the display. The scale is the size of one frame.*/
@@ -477,6 +470,14 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
 
     void KTimeLine::slotScrollRight() {
 	m_scrollBar->addLine();
+    }
+
+    void KTimeLine::slotScrollUp() {
+	m_trackScroll->verticalScrollBar()->subtractLine();
+    }
+
+    void KTimeLine::slotScrollDown() {
+	m_trackScroll->verticalScrollBar()->addLine();
     }
 
     void KTimeLine::clearTrackList() {

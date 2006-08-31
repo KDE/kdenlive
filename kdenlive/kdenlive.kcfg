@@ -25,6 +25,12 @@
       <default>true</default>
     </entry>
 
+    <entry name="horizontalmouse" type="Bool">
+      <label>Mouse Wheel moves timeline horizontally.</label>
+      <default>true</default>
+    </entry>
+
+
   </group>
 
   <group name="Timeline">

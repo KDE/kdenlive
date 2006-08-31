@@ -78,13 +78,6 @@ namespace Command {
 	some point. */
 	 QPtrList < KTrackPanel > &trackList();
 
-	/** Scrolls the track view area right by whatever the step value in the
-	relevant scrollbar is. */
-	void scrollViewRight();
-
-	/** Scrolls the track view area left by whatever the step value of the relevant scroll bar is. */
-	void scrollViewLeft();
-
 	/** Returns the seek position of the timeline - this is the currently playing frame, or
 	the currently seeked frame. */
 	GenTime seekPosition() const;
@@ -256,6 +249,8 @@ namespace Command {
 	void slotScrollLeft();
 	/** Scroll the timeline Right */
 	void slotScrollRight();
+	void slotScrollUp();
+	void slotScrollDown();
 
 	/** Set the number of frames per second */
 	void slotSetFramesPerSecond(double fps);

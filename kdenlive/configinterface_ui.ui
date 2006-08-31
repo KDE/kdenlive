@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>359</width>
-            <height>159</height>
+            <width>392</width>
+            <height>138</height>
         </rect>
     </property>
     <property name="caption">
@@ -62,7 +62,7 @@
                 <string>Autosave project every</string>
             </property>
         </widget>
-        <spacer row="3" column="0">
+        <spacer row="4" column="0">
             <property name="name">
                 <cstring>spacer2</cstring>
             </property>
@@ -75,7 +75,7 @@
             <property name="sizeHint">
                 <size>
                     <width>16</width>
-                    <height>18</height>
+                    <height>60</height>
                 </size>
             </property>
         </spacer>
@@ -85,6 +85,14 @@
             </property>
             <property name="text">
                 <string>Show splash screen</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>kcfg_horizontalmouse</cstring>
+            </property>
+            <property name="text">
+                <string>Mouse wheel moves horizontally (Alt for vertical scroll)</string>
             </property>
         </widget>
     </grid>

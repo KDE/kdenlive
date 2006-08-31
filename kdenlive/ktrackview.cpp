@@ -55,7 +55,28 @@ namespace Gui {
     }
 
     void KTrackView::wheelEvent ( QWheelEvent * e ) {
+	if (KdenliveSettings::horizontalmouse()) {
         if ( ( e->state() & AltButton) == AltButton) {
+            if ( e->orientation() == Horizontal) {
+                if (e->delta() < 0) m_timeline.slotScrollDown();
+                else m_timeline.slotScrollUp();
+                e->accept();
+            }
+        }
+        else if (( e->state() & ControlButton) == ControlButton) {
+            if (e->delta() > 0) emit changeZoom(false);
+            else emit changeZoom(true);
+            e->accept();
+        }
+        else if ( e->orientation() == Vertical)
+	{
+		if (e->delta() < 0) m_timeline.slotScrollRight();
+                else m_timeline.slotScrollLeft();
+                e->accept();
+	}
+	}
+	else {
+	    if ( ( e->state() & AltButton) == AltButton) {
             if ( e->orientation() == Horizontal) {
                 if (e->delta() < 0) m_timeline.slotScrollRight();
                 else m_timeline.slotScrollLeft();
@@ -67,7 +88,8 @@ namespace Gui {
             else emit changeZoom(true);
             e->accept();
         }
-        else e->ignore();
+	else e->ignore();
+	}
     }
     
     void KTrackView::paintEvent(QPaintEvent * event) {
