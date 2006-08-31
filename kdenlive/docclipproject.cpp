@@ -375,10 +375,11 @@ QDomDocument DocClipProject::generateSceneList() const
                 ++trackCounter;
             }
                     
-            // Append clip's transitions
-            clipTransitions.appendChild(itt.current()->generateXMLTransition(trackPosition));
+            // Append clip's transitions for video tracks
+            if  (trackItt.current()->clipType() == "Video")
+	    clipTransitions.appendChild(itt.current()->generateXMLTransition(trackPosition));
             
-		timestart = (int)itt.current()->trackEnd().frames(framesPerSecond());
+	    timestart = (int)itt.current()->trackEnd().frames(framesPerSecond());
 	    children++;
 	    ++itt;
 	}
@@ -416,8 +417,8 @@ QDomDocument DocClipProject::generateSceneList() const
 
 
     doc.documentElement().appendChild(tractor);
-    //kdDebug() << doc.toString() << endl;
-    //kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
+    // kdDebug() << doc.toString() << endl;
+    // kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
     return doc;
 }
 
