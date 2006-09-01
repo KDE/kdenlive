@@ -54,16 +54,20 @@ namespace Gui {
 	clear();
 
 	if (m_clip) {
+	    uint selected = m_clip->effectStack().selectedItemIndex();
+	    uint ix = 0;
 	    QListViewItem *lastItem = NULL;
 	    for (EffectStack::const_iterator itt =
 		m_clip->effectStack().begin();
 		itt != m_clip->effectStack().end(); ++itt) {
 		QListViewItem *item = new QListViewItem(this, lastItem, (*itt)->name());
+		if (ix == selected) setSelected(item, true);
+		ix++; 
 		lastItem = item;
 	    }
 	}
-	if (firstChild())
-	    setSelected(firstChild(), true);
+	/*if (firstChild())
+	    setSelected(itemAt(m_clip->selectedEffectIndex()), true);*/
 	triggerUpdate();
     }
 

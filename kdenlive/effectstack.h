@@ -36,7 +36,7 @@ class EffectStack:public QPtrList < Effect > {
     const EffectStack & operator=(const EffectStack & rhs);
     Effect *selectedItem();
     void setSelected(uint ix);
-
+    const uint selectedItemIndex() const;
     Effect *operator[] (int ix) const;
 
     ~EffectStack();

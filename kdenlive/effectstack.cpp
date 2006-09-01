@@ -67,6 +67,11 @@ Effect *EffectStack::selectedItem()
     return at(index);
 }
 
+const uint EffectStack::selectedItemIndex() const
+{
+    return index;
+}
+
 Effect *EffectStack::operator[] (int ix)
 const {
     EffectStackIterator itt(*this);
