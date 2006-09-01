@@ -95,7 +95,7 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX,
 	    // draw rect between thumbnails
 	    if (newx2 > newx1) painter.fillRect(newx1, y, newx2 - newx1, h, col);
 	    // draw semi transparent pixmap over thumbnails to lighten them
-	    if (newx1 > clipw) painter.drawPixmap(sx, y, m_overlayPixmap, 0, 0, clipw, h);
+	    if (newx1 > clipw) painter.drawPixmap(startX, y, m_overlayPixmap, 0, 0, clipw, h);
 	    if (endX - newx2 > clipw) painter.drawPixmap(endX - clipw, y, m_overlayPixmap, 0, 0, clipw, h);
 	}
 	painter.setPen(col.dark(160));
