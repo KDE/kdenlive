@@ -251,9 +251,6 @@ void KRender::getImage(KURL url, int frame, QPixmap * image)
  
             for ( it = more.begin() ; it != more.end() ; ++it ) {
                 if ((*it).endsWith("."+fileType, FALSE)) {
-
-
-
 			m_producer = new Mlt::Producer(decodedString(url.directory() + "/" + (*it)));
 			break;
 		}
@@ -273,23 +270,23 @@ void KRender::getImage(KURL url, int frame, QPixmap * image)
     
     uint width = image->width();
     uint height = image->height();
+    image->fill(Qt::black);
 
     Mlt::Frame * m_frame = m_producer->get_frame();
 
     if (m_frame) {
 	m_frame->set("rescale", "nearest");
-	uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, width, height, 1);
+	uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, width - 2, height - 2, 1);
 
         // what's the use of this ? I don't think we need it - commented out by jbm 
 	//m_producer.set("thumb", m_thumb, width * height * 4, mlt_pool_release);
         //m_frame->set("image", m_thumb, 0, NULL, NULL);
 
-	QImage m_image(m_thumb, width, height, 32, 0, 0, QImage::IgnoreEndian);
+	QImage m_image(m_thumb, width - 2, height - 2, 32, 0, 0, QImage::IgnoreEndian);
 	delete m_frame;
 	if (!m_image.isNull())
-	    *image = (m_image.smoothScale(width, height));
-	else
-	    image->fill(Qt::black);
+	    bitBlt(image, 1, 1, &m_image, 0, 0, width - 2, height - 2);
+	    //*image = (m_image.smoothScale(width, height));
     }
     delete m_producer;
 }
@@ -359,11 +356,8 @@ void KRender::getImage(int id, QString txt, uint size, int width, int height)
 
         delete m_frame;
         if (!m_image.isNull())
-            //m_pixmap = m_image.smoothScale(width, height);
 	    bitBlt(&m_pixmap, 1, 1, &m_image, 0, 0, width - 2, height - 2);
-            
 
-	//m_pixmap.convertFromImage( m_image );
         emit replyGetImage(id, m_pixmap, width, height);
     }
 
@@ -372,12 +366,14 @@ void KRender::getImage(int id, QString txt, uint size, int width, int height)
 /* Create thumbnail for color */
 void KRender::getImage(int id, QString color, int width, int height)
 {
-    QPixmap pixmap(width, height);
+    QPixmap pixmap(width-2, height-2);
     color = color.replace(0, 2, "#");
     color = color.left(7);
     pixmap.fill(QColor(color));
-
-    emit replyGetImage(id, pixmap, width, height);
+    QPixmap result(width, height);
+    result.fill(Qt::black);
+    bitBlt(&result, 1, 1, &pixmap, 0, 0, width - 2, height - 2);
+    emit replyGetImage(id, result, width, height);
 
 }
 
@@ -403,20 +399,13 @@ void KRender::getImage(KURL url, int width, int height)
     else pixmap.load(url.path());
     QImage im;
     im = pixmap;
-    pixmap = im.smoothScale(width, height);
-
-    emit replyGetImage(url, 1, pixmap, width, height);
+    pixmap = im.smoothScale(width-2, height-2);
+    QPixmap result(width, height);
+    result.fill(Qt::black);
+    bitBlt(&result, 1, 1, &pixmap, 0, 0, width - 2, height - 2);
+    emit replyGetImage(url, 1, result, width, height);
 }
 
-void KRender::getImage(DocClipRef * clip)
-{
-    QPixmap pixmap(clip->fileURL().path());
-    QImage im;
-    im = pixmap;
-    pixmap = im.smoothScale(63, 50);
-
-    clip->updateThumbnail(0,pixmap);
-}
 
 double KRender::consumerRatio()
 {

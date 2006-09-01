@@ -159,18 +159,21 @@ DocClipBase *ClipManager::insertTextClip(
     const GenTime & duration, const QString & name,
     const QString & description, const QDomDocument &xml, const KURL url, QPixmap &pix, bool alphaTransparency, int clipId)
 {
+    QPixmap result(50, 40);
+    result.fill(Qt::black);
     if (!QFile(url.path()).exists() || pix.isNull()) {
         titleWidget *txtWidget=new titleWidget(10,10);
         txtWidget->setXml(xml);
         txtWidget->createImage(url);
-        pix = txtWidget->thumbnail(50, 40);
+        pix = txtWidget->thumbnail(48, 38);
+    	bitBlt(&result, 1, 1, &pix, 0, 0, 48, 38);
         delete txtWidget;
     }
 
     DocClipBase *clip;
-    if (clipId == -1) clip = new DocClipTextFile( name, description, duration, xml, url, pix, alphaTransparency, m_clipCounter++);
+    if (clipId == -1) clip = new DocClipTextFile( name, description, duration, xml, url, result, alphaTransparency, m_clipCounter++);
     else {
-        clip = new DocClipTextFile( name, description, duration, xml, url, pix, alphaTransparency, clipId);
+        clip = new DocClipTextFile( name, description, duration, xml, url, result, alphaTransparency, clipId);
         if (clipId>=(int) m_clipCounter) m_clipCounter = clipId+1;
     }
     m_clipList.append(clip);

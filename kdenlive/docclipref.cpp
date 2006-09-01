@@ -126,21 +126,25 @@ void DocClipRef::generateThumbnails()
     if (m_clip->clipType() == DocClipBase::VIDEO || m_clip->clipType() == DocClipBase::AV) {
         fetchStartThumbnail();
         fetchEndThumbnail();
+	return;
     }
-    else if (m_clip->clipType() == DocClipBase::COLOR) {
-		 uint height = (uint)KdenliveSettings::videotracksize();
-		 uint width = (uint) (height * 1.25);
-        QPixmap p(width, height);
+
+    uint height = (uint)KdenliveSettings::videotracksize();
+    uint width = (uint) (height * 1.25);
+
+    QPixmap result(width, height);
+    result.fill(Qt::black);
+
+    if (m_clip->clipType() == DocClipBase::COLOR) {
+        QPixmap p(width - 2, height - 2);
         QString col = m_clip->toDocClipAVFile()->color();
         col = col.replace(0, 2, "#");
         p.fill(QColor(col.left(7)));
-        m_endthumbnail = p;
-        m_thumbnail = p;
+	bitBlt(&result, 1, 1, &p, 0, 0, width - 2, height - 2);
+        m_endthumbnail = result;
+        m_thumbnail = result;
     }
     else if (m_clip->clipType() == DocClipBase::TEXT || m_clip->clipType() == DocClipBase::IMAGE) {
-		 uint height = (uint)(KdenliveSettings::videotracksize());
-		 uint width = (uint)(height * 1.25);
-
 	if (m_clip->clipType() == DocClipBase::IMAGE && m_clip->toDocClipAVFile()->clipTtl()!=0 && fileURL().filename().startsWith(".all.")) {  //  check for slideshow
 	    QString fileType = fileURL().filename().right(3);
 	    QStringList more;
@@ -164,19 +168,23 @@ void DocClipRef::generateThumbnails()
     	    }
     	    QImage im;
     	    im = p1;
-    	    p1 = im.smoothScale(width, height);
-    	    m_thumbnail = p1;
+    	    p1 = im.smoothScale(width - 2, height - 2);
+	    bitBlt(&result, 1, 1, &p1, 0, 0, width - 2, height - 2);
+    	    m_thumbnail = result;
+	    result.fill(Qt::black);
     	    im = p2;
-    	    p2 = im.smoothScale(width, height);
-    	    m_endthumbnail = p2;
+    	    p2 = im.smoothScale(width - 2, height - 2);
+	    bitBlt(&result, 1, 1, &p2, 0, 0, width - 2, height - 2);
+    	    m_endthumbnail = result;
     	}
         else {
 	    QPixmap p(fileURL().path());
             QImage im;
             im = p;
-            p = im.smoothScale(width, height);
-            m_endthumbnail = p;
-            m_thumbnail = p;
+            p = im.smoothScale(width - 2, height - 2);
+	    bitBlt(&result, 1, 1, &p, 0, 0, width - 2, height - 2);
+            m_endthumbnail = result;
+            m_thumbnail = result;
 	}
     }
 }
@@ -642,8 +650,7 @@ QDomDocument DocClipRef::toXML() const
 
         TransitionStack::iterator itt = m_transitionStack.begin();
         while (itt != m_transitionStack.end()) {
-            trans.appendChild(doc.importNode((*itt)->toXML().
-                    documentElement(), true));
+            trans.appendChild(doc.importNode((*itt)->toXML().documentElement(), true));
             ++itt;
         }
 
@@ -752,7 +759,7 @@ QDomDocument DocClipRef::generateSceneList()
 QDomDocument DocClipRef::generateXMLTransition(int trackPosition)
 {
     QDomDocument transitionList;
-    
+
     if (clipType() == DocClipBase::TEXT && m_clip->toDocClipTextFile()->isTransparent()) {
         QDomElement transition = transitionList.createElement("transition");
         transition.setAttribute("in", trackStart().frames(framesPerSecond()));
@@ -783,8 +790,8 @@ QDomDocument DocClipRef::generateXMLTransition(int trackPosition)
         transition.setAttribute("b_track", QString::number(trackPosition));
         transitionList.appendChild(transition);
     }
-    
-    TransitionStack::iterator itt = m_transitionStack.begin();
+ 
+    TransitionStack::iterator itt = m_transitionStack.begin(); 
     while (itt) {
         QDomElement transition = transitionList.createElement("transition");
         transition.setAttribute("in", QString::number((*itt)->transitionStartTime().frames(framesPerSecond())));
@@ -819,7 +826,6 @@ QDomDocument DocClipRef::generateXMLTransition(int trackPosition)
         ++itt;
     }
     
-        
     return transitionList;
 }
 

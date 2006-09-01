@@ -156,7 +156,6 @@ class KRender:public QObject {
     void emitConsumerStopped();
     void emitFileConsumerStopped();
     
-    void getImage(DocClipRef * clip);
     
     /** render timeline to a file */
     void exportTimeline(const QString &url, const QString &format, GenTime exportStart, GenTime exportEnd, QStringList params);
