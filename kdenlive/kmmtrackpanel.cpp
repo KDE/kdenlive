@@ -35,7 +35,7 @@ namespace Gui {
 	setSizePolicy(QSizePolicy(QSizePolicy::Maximum,
 		QSizePolicy::Expanding));
 	setPalette(QPalette(QColor(170, 170, 170)));
-	setFrameStyle(QFrame::Panel | QFrame::Sunken);
+	setFrameStyle(QFrame::Panel | QFrame::Plain);
     } KMMTrackPanel::~KMMTrackPanel() {
     }
 

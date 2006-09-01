@@ -44,7 +44,9 @@ namespace Gui {
 	QWidget * parent,
 	const char *name):KMMTrackPanel(timeline, doc,
         new KTrackPlacer(doc, timeline, docTrack), type, parent, name) {
-            
+        setFrameStyle(QFrame::NoFrame);
+	setPalette(QPalette(QColor(210, 210, 210)));
+	//(void) new QLabel(i18n("Transition track"), this);
         trackIsCollapsed = isCollapsed;
 	m_type = type;
 	uint widgetHeight;
