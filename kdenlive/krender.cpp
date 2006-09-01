@@ -308,27 +308,20 @@ void KRender::getImage(KURL url, int frame, int width, int height)
 
     if (m_frame) {
 	m_frame->set("rescale", "nearest");
-	/*double ratio = (double) height / m_frame->get_int("height");
-	   double overSize = 1.0; */
-	/* if we want a small thumbnail, oversize image a little bit and smooth rescale after, gives better results */
-	//if (ratio < 0.3) overSize = 1.4;
-
-
-	uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, width, height, 1);
+	uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, width - 2, height - 2, 1);
         
 	//m_producer.set("thumb", m_thumb, width * height * 4, mlt_pool_release);
         //m_frame->set("image", m_thumb, 0, NULL, NULL);
 
 	QPixmap m_pixmap(width, height);
-
-	QImage m_image(m_thumb, width, height, 32, 0, 0,
+	m_pixmap.fill(Qt::black);
+	QImage m_image(m_thumb, width - 2, height - 2, 32, 0, 0,
 	    QImage::IgnoreEndian);
 
 	delete m_frame;
 	if (!m_image.isNull())
-	    m_pixmap = m_image.smoothScale(width, height);
-	else
-	    m_pixmap.fill(Qt::black);
+	    //m_pixmap = m_image.smoothScale(width, height);
+	    bitBlt(&m_pixmap, 1, 1, &m_image, 0, 0, width - 2, height - 2);
 
 	//m_pixmap.convertFromImage( m_image );
 	emit replyGetImage(url, frame, m_pixmap, width, height);
@@ -354,21 +347,21 @@ void KRender::getImage(int id, QString txt, uint size, int width, int height)
 	//if (ratio < 0.3) overSize = 1.4;
 
 
-        uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, width, height, 1);
+        uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, width - 2, height - 2, 1);
         
         //m_producer.set("thumb", m_thumb, width * height * 4, mlt_pool_release);
         //m_frame->set("image", m_thumb, 0, NULL, NULL);
 
         QPixmap m_pixmap(width, height);
+	m_pixmap.fill(Qt::black);
 
-        QImage m_image(m_thumb, width, height, 32, 0, 0,
-                       QImage::IgnoreEndian);
+        QImage m_image(m_thumb, width - 2, height - 2, 32, 0, 0,                       QImage::IgnoreEndian);
 
         delete m_frame;
         if (!m_image.isNull())
-            m_pixmap = m_image.smoothScale(width, height);
-        else
-            m_pixmap.fill(Qt::black);
+            //m_pixmap = m_image.smoothScale(width, height);
+	    bitBlt(&m_pixmap, 1, 1, &m_image, 0, 0, width - 2, height - 2);
+            
 
 	//m_pixmap.convertFromImage( m_image );
         emit replyGetImage(id, m_pixmap, width, height);
@@ -532,14 +525,14 @@ void KRender::getFileProperties(KURL url)
 		    m_filePropertyMap["type"] = "video";
                 
                 // Generate thumbnail for this frame
-                uchar *m_thumb = frame->fetch_image(mlt_image_rgb24a, width, height, 1);
+                uchar *m_thumb = frame->fetch_image(mlt_image_rgb24a, width - 2, height - 2, 1);
                 QPixmap pixmap(width, height);
-                QImage m_image(m_thumb, width, height, 32, 0, 0,
-                               QImage::IgnoreEndian);
+		pixmap.fill(Qt::black);
+                QImage m_image(m_thumb, width - 2, height - 2, 32, 0, 0,                            QImage::IgnoreEndian);
                 if (!m_image.isNull())
-                    pixmap = m_image.smoothScale(width, height);
-                else
-                    pixmap.fill(Qt::black);
+		    bitBlt(&pixmap, 1, 1, &m_image, 0, 0, width - 2, height - 2);
+                    //pixmap = m_image.smoothScale(width, height);
+                    
                 emit replyGetImage(url, 0, pixmap, width, height);
                 
 	    } else if (frame->get_int("test_audio") == 0) {
@@ -661,7 +654,7 @@ void KRender::askForRefresh()
 {
     // Use a Timer so that we don't refresh too much
     refreshTimer->start(200, TRUE);
-    kdDebug()<<"++++++++  START REFRESH ++++++"<<endl;
+//    kdDebug()<<"++++++++  START REFRESH ++++++"<<endl;
 }
 
 void KRender::refresh()
