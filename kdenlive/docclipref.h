@@ -266,6 +266,8 @@ class DocClipRef:public QObject {
 
 	/** Returns true if effects are applied on the clip */
     bool hasEffect();
+	/** Returns a list of the clip effects names */
+    QStringList clipEffectNames();
 
     void disconnectThumbCreator();
 

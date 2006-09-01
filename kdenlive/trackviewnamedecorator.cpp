@@ -89,15 +89,25 @@ namespace Gui {
 
 	// black line on top if clip has effects
 	if (clip->hasEffect()) {
-	    QString txt = clip->selectedEffect()->name().upper();
+	    QStringList effectNames = clip->clipEffectNames();
+	    QString selectedTxt = clip->selectedEffect()->name().upper();
 	    QFont orig = painter.font();
 	    QFont ft = orig;
 	    ft.setPixelSize(7);
 	    painter.setFont(ft);
-	    int textWidth = painter.fontMetrics().width( txt );
-	    painter.fillRect((int) startX + 2, rect.y() + 2, textWidth + 8, 11, QBrush(Qt::black));
-	    painter.setPen(Qt::white);
-	    painter.drawText((int) startX + 2, rect.y() + 2, textWidth + 8, 11, Qt::AlignCenter | Qt::AlignHCenter, txt);
+	    int offset = 2;
+    	    for ( QStringList::Iterator it = effectNames.begin(); it != effectNames.end(); ++it ) {
+        	QString txt = *it;
+	    	int textWidth = painter.fontMetrics().width( txt );
+		if (txt == selectedTxt)
+	    		painter.fillRect((int) startX + offset, rect.y() + 2, textWidth + 8, 11, QBrush(Qt::black));
+		else 
+			painter.fillRect((int) startX + offset, rect.y() + 2, textWidth + 8, 11, QBrush(Qt::gray));
+	    	painter.setPen(Qt::white);
+	    	painter.drawText((int) startX + offset, rect.y() + 2, textWidth + 8, 11, Qt::AlignCenter | Qt::AlignHCenter, txt);
+	    	offset += textWidth + 10;
+	    }
+
 	    painter.setFont(orig);
 	}
 	    painter.setPen(Qt::black);

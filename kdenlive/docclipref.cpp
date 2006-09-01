@@ -658,6 +658,19 @@ QDomDocument DocClipRef::toXML() const
     return doc;
 }
 
+QStringList DocClipRef::clipEffectNames()
+{
+    QStringList effectNames;
+    if (!m_effectStack.isEmpty()) {
+	EffectStack::iterator itt = m_effectStack.begin();
+	while (itt != m_effectStack.end()) {
+	    effectNames<<(*itt)->name().upper();
+	    ++itt;
+	}
+    }
+    return effectNames;
+}
+
 bool DocClipRef::matchesXML(const QDomElement & element) const
 {
     bool result = false;
