@@ -36,7 +36,7 @@ namespace Gui {
 	const QColor & unselected, bool shift):DocTrackDecorator(timeline,
 	doc),m_shift(shift), m_selected(selected), m_unselected(unselected)
 {
-
+	m_overlayPixmap = QPixmap (locate("appdata", "graphics/lighten.png"));
 } 
 
 TrackViewAudioBackgroundDecorator::~TrackViewAudioBackgroundDecorator() 
@@ -81,8 +81,23 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX,
 			channels=1;
 
 	painter.setClipRect(sx, y, ex - sx, h);
-	painter.fillRect(sx, y, ex - sx, h, col);
-	if (m_shift) painter.drawLine(sx, y, ex, y);
+	if (!m_shift) {
+	    // Audio track
+	    painter.fillRect(sx, y, ex - sx, h, col);
+	}
+	else {
+	    // video track
+	    int newx1 = sx;
+	    int newx2 = ex;
+	    int clipw = clip->thumbnailWidth();
+	    if (newx1 < startX + clipw) newx1 = startX + clipw;
+	    if (newx2 > endX - clipw) newx2 = endX - clipw;
+	    // draw rect between thumbnails
+	    if (newx2 > newx1) painter.fillRect(newx1, y, newx2 - newx1, h, col);
+	    // draw semi transparent pixmap over thumbnails to lighten them
+	    if (newx1 > clipw) painter.drawPixmap(sx, y, m_overlayPixmap, 0, 0, clipw, h);
+	    if (endX - newx2 > clipw) painter.drawPixmap(endX - clipw, y, m_overlayPixmap, 0, 0, clipw, h);
+	}
 	painter.setPen(col.dark(160));
 	double timeDiff = clip->cropStartTime().frames(document()->framesPerSecond()) - clip->trackStart().frames(document()->framesPerSecond());
 	
@@ -108,6 +123,7 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX,
 			}
 	    }
 	}
+	painter.setPen(Qt::black);
 	painter.setClipping(false);
 }
 

@@ -20,6 +20,7 @@
 #include <doctrackdecorator.h>
 #include <qpainter.h>
 #include <qcolor.h>
+#include <qpixmap.h>
 
 #include <ktimeline.h>
 
@@ -54,6 +55,7 @@ namespace Gui {
 	QColor m_selected;
 	QColor m_unselected;
 	QPainter *m_painter;
+	QPixmap m_overlayPixmap;
 	 //signals:
 	    //void getSoundSamples(const KURL & url, int countChannel,
 	    //int frame, double frameLength, int arrayWidth, int, int, int,

@@ -59,11 +59,11 @@ namespace Gui {
                         QPixmap startThumbnail = clip->thumbnail();
 			int drawWidth = startThumbnail.width();
 
-                        if (m_shift && clip->audioChannels() > 0 && clip->speed() == 1.0) {
+                        /*if (m_shift && clip->audioChannels() > 0 && clip->speed() == 1.0) {
                             h = h / 3 * 2;
 			    drawWidth = drawWidth / 3 * 2;
 			    startThumbnail = startThumbnail.convertToImage().smoothScale(drawWidth, h);
-			}
+			}*/
 			ex -= sx;
 			//kdDebug()<< "++++++++  VIDEO REFRESH ("<<clip->name()<<"): "<<startX<<", "<<endX<<", RECT: "<<rect.x()<<", "<<rect.width()<<endl;
 
@@ -89,12 +89,12 @@ namespace Gui {
                         /* Use the clip's default thumbnail & scale it to track size to decorate until we have some better stuff */
                         
                         if (endX - startX < drawWidth)
-									drawWidth = (int)(endX - startX);
+				drawWidth = (int)(endX - startX);
                         if (ex + sx > endX - startThumbnail.width()) 
 			{
                             QPixmap endThumbnail = clip->thumbnail(true);
-			    if (m_shift && clip->audioChannels() > 0 && clip->speed() == 1.0)
-				endThumbnail = endThumbnail.convertToImage().smoothScale(drawWidth, h);
+			    /*if (m_shift && clip->audioChannels() > 0 && clip->speed() == 1.0)
+				endThumbnail = endThumbnail.convertToImage().smoothScale(drawWidth, h);*/
 			    
 				 painter.drawPixmap((int)(endX-drawWidth), y, endThumbnail, 0, 0, drawWidth, h);
                         }

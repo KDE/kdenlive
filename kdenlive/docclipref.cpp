@@ -290,6 +290,11 @@ QPixmap DocClipRef::thumbnail(bool end)
     return m_thumbnail;
 }
 
+int DocClipRef::thumbnailWidth()
+{
+    return m_thumbnail.width();
+}
+
 DocClipRef *DocClipRef::
 createClip(const EffectDescriptionList & effectList,
     ClipManager & clipManager, const QDomElement & element)
