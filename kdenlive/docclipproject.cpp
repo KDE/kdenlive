@@ -72,7 +72,8 @@ double DocClipProject::framesPerSecond() const
 /** Adds a track to the project */
 void DocClipProject::addTrack(DocTrackBase * track, int ix)
 {
-    /*if (ix != -1) {
+    if (ix != -1) {
+	// If we insert a track in th middle of a project, adjust the parent track for all clips below
     	QPtrListIterator < DocTrackBase > itt(m_tracks);
 
     	if (ix >= m_tracks.count())
@@ -83,7 +84,7 @@ void DocClipProject::addTrack(DocTrackBase * track, int ix)
 		(*itt)->trackIndexChanged(trackIndex(itt) + 1);
 		itt += 1;
     	}
-    }*/
+    }
 
     if (ix == -1) ix = m_tracks.count();
     //m_tracks.append(track);
@@ -95,6 +96,19 @@ void DocClipProject::addTrack(DocTrackBase * track, int ix)
 
 void DocClipProject::deleteTrack(int ix)
 {
+    
+    // If we delete a track in the middle of a project, adjust the parent track for all clips below
+    QPtrListIterator < DocTrackBase > itt(m_tracks);
+
+    if (ix >= m_tracks.count())
+	ix = m_tracks.count();
+    else itt += ix + 1;
+    while (itt) {
+	kdDebug()<<"////  CHANGING INDEX FOR TRACK: "<<trackIndex(itt)<<endl;
+	(*itt)->trackIndexChanged(trackIndex(itt) - 1);
+	itt += 1;
+    }
+
     m_tracks.remove(ix);
     emit trackListChanged();
 }
