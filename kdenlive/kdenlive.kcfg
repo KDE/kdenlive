@@ -60,22 +60,10 @@
 	<default code="true">QColor(128, 64, 64)</default>
     </entry>
 
-    <entry name="selectedvideoclipcolor" type="Color">
-	<label>Color of the clips on video track</label>
-	<whatsthis>Color of the video clips inserted in timeline</whatsthis>
-	<default code="true">QColor(255, 128, 128)</default>
-    </entry>
-
     <entry name="audioclipcolor" type="Color">
 	<label>Color of the clips on video track</label>
 	<whatsthis>Color of the audio clips inserted in timeline</whatsthis>
 	<default code="true">QColor(64, 128, 64)</default>
-    </entry>
-
-    <entry name="selectedaudioclipcolor" type="Color">
-	<label>Color of the clips on video track</label>
-	<whatsthis>Color of the audio clips inserted in timeline</whatsthis>
-	<default code="true">QColor(128, 255, 128)</default>
     </entry>
 
     <entry name="autoscroll" type="Bool">

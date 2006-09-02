@@ -19,6 +19,7 @@
 #include <qnamespace.h>
 #include  <qpainter.h>
 #include  <kdebug.h>
+#include <kstandarddirs.h>
 
 #include "docclipref.h"
 #include "gentime.h"
@@ -29,7 +30,9 @@ namespace Gui {
 
     TrackViewNameDecorator::TrackViewNameDecorator(KTimeLine * timeline,
 	KdenliveDoc * doc):DocTrackDecorator(timeline, doc) {
-    } TrackViewNameDecorator::~TrackViewNameDecorator() {
+    } 
+
+    TrackViewNameDecorator::~TrackViewNameDecorator() {
     }
 
 // virtual
@@ -121,7 +124,7 @@ namespace Gui {
             //pen.setStyle(Qt::DotLine);
             painter.setPen(pen);
         }
-		  painter.drawRect((int)startX, rect.y(), (int)(endX - startX), rect.height());
+	painter.drawRect((int)startX, rect.y(), (int)(endX - startX), rect.height());
         if (selected) {
             pen.setColor(Qt::black);
             //pen.setStyle(Qt::SolidLine);

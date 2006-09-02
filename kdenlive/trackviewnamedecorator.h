@@ -17,6 +17,7 @@
 #ifndef TRACKVIEWNAMEDECORATOR_H
 #define TRACKVIEWNAMEDECORATOR_H
 
+
 #include <doctrackdecorator.h>
 
 namespace Gui {

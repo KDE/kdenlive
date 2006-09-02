@@ -267,6 +267,7 @@ namespace Command {
 	void autoScroll();
 	/** automatically scroll the timeline to make sure cursor is visible*/
 	void ensureCursorVisible();
+	void slotHeaderRightButtonPressed();
 
     private slots:		// Private slots
 	/** Scroll the timeline by a set amount. Should be connected to m_scrollTimer */
@@ -287,6 +288,8 @@ namespace Command {
 	void outpointPositionChanged(const GenTime &);
 	/** Emitted when the right mouse button is pressed over the timeline. */
 	void rightButtonPressed();
+	/** Emitted when the right mouse button is pressed over the tracks header. */
+	void headerRightButtonPressed();
     };
 
 }				// namespace Gui

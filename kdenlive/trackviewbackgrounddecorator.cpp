@@ -26,10 +26,11 @@
 namespace Gui {
 
     TrackViewBackgroundDecorator::TrackViewBackgroundDecorator(KTimeLine *
-	timeline, KdenliveDoc * doc, const QColor & selected,
-	const QColor & unselected):DocTrackDecorator(timeline, doc),
-	m_selected(selected), m_unselected(unselected) {
-    } TrackViewBackgroundDecorator::~TrackViewBackgroundDecorator() {
+	timeline, KdenliveDoc * doc, const QColor & unselected):DocTrackDecorator(timeline, doc), m_unselected(unselected) {
+	m_selected = m_unselected.light(140);
+    } 
+
+    TrackViewBackgroundDecorator::~TrackViewBackgroundDecorator() {
     }
 
 // virtual

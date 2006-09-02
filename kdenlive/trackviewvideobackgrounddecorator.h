@@ -33,7 +33,6 @@ namespace Gui {
       public:
 	TrackViewVideoBackgroundDecorator(KTimeLine * timeline,
 	    KdenliveDoc * doc,
-	    const QColor & selected,
 	    const QColor & unselected, bool shift = false);
 
 	 virtual ~ TrackViewVideoBackgroundDecorator();

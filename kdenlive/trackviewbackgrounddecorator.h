@@ -34,8 +34,7 @@ Draws the base image for a clip; draws a border around the clip, and fills it wi
     class TrackViewBackgroundDecorator:public DocTrackDecorator {
       public:
 	TrackViewBackgroundDecorator(KTimeLine * timeline,
-	    KdenliveDoc * doc,
-	    const QColor & selected, const QColor & unselected);
+	    KdenliveDoc * doc, const QColor & unselected);
 
 	 virtual ~ TrackViewBackgroundDecorator();
 

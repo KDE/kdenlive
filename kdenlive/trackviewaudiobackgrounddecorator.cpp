@@ -32,10 +32,10 @@
 namespace Gui {
     TrackViewAudioBackgroundDecorator::
 	TrackViewAudioBackgroundDecorator(KTimeLine * timeline,
-	KdenliveDoc * doc, const QColor & selected,
-	const QColor & unselected, bool shift):DocTrackDecorator(timeline,
-	doc),m_shift(shift), m_selected(selected), m_unselected(unselected)
+	KdenliveDoc * doc, const QColor & unselected, bool shift):DocTrackDecorator(timeline,
+	doc),m_shift(shift), m_unselected(unselected)
 {
+	m_selected = m_unselected.light(140);
 	m_overlayPixmap = QPixmap (locate("appdata", "graphics/lighten.png"));
 } 
 

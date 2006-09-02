@@ -58,11 +58,10 @@ namespace Gui {
 	const char *name):KMMTrackPanel(timeline, doc,
 	new KTrackPlacer(doc, timeline, docTrack), VIDEOTRACK, parent,
         name), m_trackHeader(this, "Video Track"), m_mute(false), m_blind(false) {
-            
             FlatButton *fl = new FlatButton(m_trackHeader.container, "expand", KGlobal::iconLoader()->loadIcon("kdenlive_down",KIcon::Toolbar,22), KGlobal::iconLoader()->loadIcon("kdenlive_right",KIcon::Toolbar,22), false);
 	    m_trackHeader.trackNumber->setText(i18n("Track %1").arg(doc->trackIndex(docTrack)));
             FlatButton *fl2 = new FlatButton(m_trackHeader.container_2, "video", KGlobal::iconLoader()->loadIcon("kdenlive_videooff",KIcon::Toolbar,22), KGlobal::iconLoader()->loadIcon("kdenlive_videoon",KIcon::Toolbar,22), false);
-            
+
             FlatButton *fl3 = new FlatButton(m_trackHeader.container_3, "audio", KGlobal::iconLoader()->loadIcon("kdenlive_audiooff",KIcon::Toolbar,22), KGlobal::iconLoader()->loadIcon("kdenlive_audioon",KIcon::Toolbar,22), false);
 
 	trackIsCollapsed = isCollapsed;
@@ -121,19 +120,16 @@ namespace Gui {
 	if (KdenliveSettings::videothumbnails() && !trackIsCollapsed)
 	    addViewDecorator(new
 		TrackViewVideoBackgroundDecorator(timeline(), document(),
-		    KdenliveSettings::selectedvideoclipcolor(),
 		    KdenliveSettings::videoclipcolor(), KdenliveSettings::audiothumbnails()));
 	else
 	    // Color only decoration
 	    addViewDecorator(new TrackViewBackgroundDecorator(timeline(),
-		    document(), KdenliveSettings::selectedvideoclipcolor(),
-		    KdenliveSettings::videoclipcolor()));
+		    document(), KdenliveSettings::videoclipcolor()));
 
 	/* should be removed... audio decoration should only be on audio tracks */
 	if (KdenliveSettings::audiothumbnails() && !trackIsCollapsed)
 	    addViewDecorator(new
 		TrackViewAudioBackgroundDecorator(timeline(), document(),
-		    KdenliveSettings::selectedaudioclipcolor(),
 		    KdenliveSettings::audioclipcolor(), true));
 
 	//addViewDecorator(new TrackViewAudioBackgroundDecorator(timeline, doc, QColor(64, 128, 64), QColor(128, 255, 128),audioDecoratorSize));

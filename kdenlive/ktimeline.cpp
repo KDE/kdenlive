@@ -83,7 +83,7 @@ namespace Gui {
 	m_trackViewArea = new KTrackView(*this, m_trackScroll, "track view area");
 
 	m_trackScroll->enableClipper(TRUE);
-	m_trackScroll->setVScrollBarMode(QScrollView::AlwaysOn);
+	//m_trackScroll->setVScrollBarMode(QScrollView::AlwaysOn);
 	m_trackScroll->setHScrollBarMode(QScrollView::AlwaysOff);
         m_trackScroll->setDragAutoScroll(true);
 
@@ -125,6 +125,10 @@ namespace Gui {
     } 
     
     KTimeLine::~KTimeLine() {}
+
+    void KTimeLine::slotHeaderRightButtonPressed() {
+	emit headerRightButtonPressed();
+    }
 
     void KTimeLine::appendTrack(KTrackPanel * track) {
 	if (track) {

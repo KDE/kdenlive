@@ -40,12 +40,17 @@ void FlatButton::leaveEvent ( QEvent * )
     setBackgroundMode(Qt::PaletteBackground);
 }
 
-void FlatButton::mousePressEvent( QMouseEvent * )
+void FlatButton::mousePressEvent( QMouseEvent * e)
 {
+    if (e->button() != QMouseEvent::LeftButton) {
+	e->ignore();
+	return;
+    }
     m_isOn = !m_isOn;
     if (m_isOn) setPixmap(m_onPixmap);
     else  setPixmap(m_offPixmap);
     emit clicked();
+    e->accept();
 }
 
 };

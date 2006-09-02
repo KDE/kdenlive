@@ -31,12 +31,19 @@ namespace Gui {
 	TRACKTYPE trackType,
 	QWidget * parent,
 	const char *name):KTrackPanel(timeline, placer, trackType, parent,
-	name), m_document(document) {
-	setSizePolicy(QSizePolicy(QSizePolicy::Maximum,
-		QSizePolicy::Expanding));
+	name), m_document(document) 
+    {
+	setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding));
 	setPalette(QPalette(QColor(170, 170, 170)));
 	setFrameStyle(QFrame::Panel | QFrame::Plain);
-    } KMMTrackPanel::~KMMTrackPanel() {
+    }
+
+    KMMTrackPanel::~KMMTrackPanel() {
+    }
+
+    void KMMTrackPanel::contextMenuEvent( QContextMenuEvent *e) {
+	timeline()->slotHeaderRightButtonPressed();
+	e->accept();
     }
 
 //virtual

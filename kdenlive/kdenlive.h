@@ -349,6 +349,7 @@ namespace Gui {
 
 		/** Displays the context menu for the timeline */
 	void slotDisplayTimeLineContextMenu();
+	void slotDisplayTrackHeaderContextMenu();
 
 		/** Syncrhonise the display of the timeline with that of the document. */
 	void slotSyncTimeLineWithDocument();

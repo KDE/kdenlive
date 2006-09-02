@@ -939,6 +939,8 @@ namespace Gui {
         
 	connect(m_timeline, SIGNAL(rightButtonPressed()), this,
 	    SLOT(slotDisplayTimeLineContextMenu()));
+	connect(m_timeline, SIGNAL(headerRightButtonPressed()), this,
+	    SLOT(slotDisplayTrackHeaderContextMenu()));
 
 	/*connect(m_effectListDialog,
 	    SIGNAL(effectSelected(const EffectDesc &)),
@@ -2612,6 +2614,13 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		++itt;
 	    }
 	}
+    }
+
+    void KdenliveApp::slotDisplayTrackHeaderContextMenu() {
+	m_timelinePopupMenu = (QPopupMenu *) factory()->container("timeline_header_context", this);
+	m_menuPosition = QCursor::pos();
+	connect(m_timelinePopupMenu, SIGNAL(aboutToHide()), this, SLOT(hideTimelineMenu()));
+	m_timelinePopupMenu->popup(QCursor::pos());
     }
 
     void KdenliveApp::slotDisplayTimeLineContextMenu() {

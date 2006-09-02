@@ -59,7 +59,10 @@ namespace Gui {
       protected:		// Protected methods
 	 KdenliveDoc * document() {
 	    return m_document;
-      } private:		// private methods
+	}
+	void contextMenuEvent( QContextMenuEvent *e);
+
+	private:		// private methods
 
 	/** A reference to the document this function applies to. */
 	 KdenliveDoc * m_document;

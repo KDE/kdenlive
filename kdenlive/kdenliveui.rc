@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kdenlive" version="2">
+<kpartgui name="kdenlive" version="3">
 <MenuBar>
   <Menu name="file">
         <Action name="export_current_frame"/>
@@ -118,9 +118,7 @@
 	<Action name="project_clean"/>
 </Menu>
 
-<Menu name="timeline_context">
-	<Action name="edit_paste"/>
-	<Separator lineSeparator="true"/>
+<Menu name="timeline_header_context">
 	<Menu name="tools"><text>Tools</text>
 		<Action name="timeline_move_tool"/>
 		<Action name="timeline_razor_tool"/>
@@ -136,6 +134,23 @@
 	<Menu name="tracks"><text>Tracks</text>
 		<Action name="timeline_add_track"/>
 		<Action name="timeline_delete_track"/>
+	</Menu>
+</Menu>
+
+<Menu name="timeline_context">
+	<Action name="edit_paste"/>
+	<Separator lineSeparator="true"/>
+	<Menu name="tools"><text>Tools</text>
+		<Action name="timeline_move_tool"/>
+		<Action name="timeline_razor_tool"/>
+		<Action name="timeline_spacer_tool"/>
+		<Action name="timeline_marker_tool"/>
+		<Action name="timeline_roll_tool"/>
+	</Menu>
+	<Menu name="snap"><text>Snap To</text>
+		<Action name="timeline_snap_frame"/>
+		<Action name="timeline_snap_border"/>
+		<Action name="timeline_snap_marker"/>
 	</Menu>
 	<Separator lineSeparator="true"/>
 	<Action name="razor_all_clips"/>

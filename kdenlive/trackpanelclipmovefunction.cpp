@@ -134,32 +134,7 @@ bool TrackPanelClipMoveFunction::mouseDoubleClicked(Gui::KTrackPanel * panel, QM
 bool TrackPanelClipMoveFunction::mouseReleased(Gui::KTrackPanel * panel,
     QMouseEvent * event)
 {
-    bool result = false;
-
-    if (panel->hasDocumentTrackIndex()) {
-	DocTrackBase *track =
-	    m_document->track(panel->documentTrackIndex());
-	if (track) {
-	    if (m_clipUnderMouse) {
-		if (event->state() & Qt::ControlButton) {
-		} else if (event->state() & Qt::ShiftButton) {
-		} else {
-			GenTime mouseTime((int)(m_timeline->mapLocalToValue(event->
-					x())), m_document->framesPerSecond());
-		    m_app->
-			addCommand(Command::KSelectClipCommand::
-			selectNone(m_document), true);
-		    m_app->
-			addCommand(Command::KSelectClipCommand::
-			selectClipAt(m_document, *track, mouseTime),
-			true);
-		}
-		result = true;
-	    }
-	}
-    }
-
-    return result;
+    return true;
 }
 
 bool TrackPanelClipMoveFunction::mouseMoved(Gui::KTrackPanel * panel,
@@ -179,8 +154,7 @@ bool TrackPanelClipMoveFunction::mouseMoved(Gui::KTrackPanel * panel,
 		result = true;
 	    } else {
 		if (m_clipUnderMouse) {
-		    if (!m_document->projectClip().
-			clipSelected(m_clipUnderMouse)) {
+		    if (!m_document->projectClip().clipSelected(m_clipUnderMouse)) {
 			if ((event->state() & Qt::ControlButton)
 			    || (event->state() & Qt::ShiftButton)) {
 			    m_app->

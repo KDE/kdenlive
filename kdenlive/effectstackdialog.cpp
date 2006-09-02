@@ -143,8 +143,7 @@ namespace Gui {
 
 
 
-    void EffectStackDialog::addParameters(DocClipRef * clip,
-	Effect * effect) {
+    void EffectStackDialog::addParameters(DocClipRef * clip, Effect * effect) {
 	// Rebuild the effect parameters dialog
 	kdDebug()<<"++++++++++++  REBUILD PARAMETER DIALOG FOR CLIP: "<<clip->name()<<endl;
 	uint parameterNum = 0;
@@ -158,8 +157,7 @@ namespace Gui {
 	m_effecttype = effect->effectDescription().parameter(parameterNum)->type();
 	spinIndex->setValue(0);
 	updateKeyFrames();
-	clip->setEffectStackSelectedItem(m_effectList->
-	    selectedEffectIndex());
+	clip->setEffectStackSelectedItem(m_effectList->selectedEffectIndex());
 
 	// remove all previous params
 	cleanWidgets();
