@@ -44,24 +44,20 @@ namespace Gui {
 	bool selected) {
 	if (!clip->hasEffect())
 	    return;
-	int sx = (int)startX;	// (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
-	int ex = (int)endX;		//(int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
+	int sx = (int)startX;	
+	int ex = (int)endX;
+	//ex -= sx;
+	int clipWidth = ex - sx;
 
-	/*if(sx < rect.x()) {
-	   sx = rect.x();
-	   }
-	   if(ex > rect.x() + rect.width()) {
-	   ex = rect.x() + rect.width();
-	   } */
-	ex -= sx;
+	if (sx < rect.x()) {
+            sx = rect.x();
+	}
+	if (ex > rect.x() + rect.width()) {
+	    ex = rect.x() + rect.width();
+	}
 
 	int ey = rect.height();
 	int sy = rect.y() + ey;
-
-
-
-	// draw outline box
-//      painter.fillRect( sx, rect.y(), ex, rect.height(), col);
 
 	int effectIndex = 0;
 	m_effect = clip->selectedEffect();
@@ -70,60 +66,46 @@ namespace Gui {
 	    kdDebug() << "////// ERROR, EFFECT NOT FOUND" << endl;
 	    return;
 	}
-
+	
 	if (m_effect->parameter(effectIndex)) {
+	    painter.setClipRect(sx - 2, rect.y(), ex - sx + 4, rect.height());
 	    if (m_effect->effectDescription().parameter(effectIndex)->
 		type() == "double") {
 
-		uint count =
-		    m_effect->parameter(effectIndex)->numKeyFrames();
+		uint count = m_effect->parameter(effectIndex)->numKeyFrames();
 		QBrush brush(Qt::red);
 
 		if (count > 1) {
-			uint start =(uint)(
-			m_effect->parameter(effectIndex)->keyframe(0)->
-			time() * ex);
-		    /*painter.drawRect(sx + start, rect.y(),
-			(int)(m_effect->parameter(effectIndex)->
-			keyframe(count - 1)->time() * ex - start),
-			rect.height());*/
+		    uint start =(uint)(m_effect->parameter(effectIndex)->keyframe(0)->time() * clipWidth);
 
 		    painter.setPen(Qt::red);
-		    int selectedKeyFrame =
-			m_effect->parameter(effectIndex)->
-			selectedKeyFrame();
-			 for (int i = 0; i < (int)count - 1; i++) {
-				 uint dx1 =(uint)(
-			    sx +
-			    m_effect->parameter(effectIndex)->
-				keyframe(i)->time() * ex);
-				 uint dy1 =(uint)(
-			    sy -
-			    ey *
-			    m_effect->parameter(effectIndex)->
-				keyframe(i)->toDoubleKeyFrame()->value() / 100);
-				 uint dx2 =(uint)(
-			    sx +
-			    m_effect->parameter(effectIndex)->
-						 keyframe(i + 1)->time() * ex);
-				 uint dy2 =(uint)(
-			    sy -
-			    ey *
-			    m_effect->parameter(effectIndex)->
-			    keyframe(i +
-				1)->toDoubleKeyFrame()->value() / 100);
-			//kdDebug()<<"++++++ DRAWING KEYFRAME : "<<dx1<<", "<<dy1<<", "<<dx2<<", "<<dy2<<endl;
-			if (i == selectedKeyFrame)
-			    brush = QBrush(Qt::blue);
-			else
-			    brush = QBrush(Qt::red);
-			painter.fillRect(dx1 - 3, dy1 - 3, 6, 6, brush);
-			if (i + 1 == selectedKeyFrame)
-			    brush = QBrush(Qt::blue);
-			else
-			    brush = QBrush(Qt::red);
-			painter.fillRect(dx2 - 3, dy2 - 3, 6, 6, brush);
-			painter.drawLine(dx1, dy1, dx2, dy2);
+		    int selectedKeyFrame = m_effect->parameter(effectIndex)->selectedKeyFrame();
+		    for (int i = 0; i < (int)count - 1; i++) {
+			int dx1 =(int)( startX +  m_effect->parameter(effectIndex)->keyframe(i)->time() * clipWidth);
+			int dy1 =(int)( sy - ey * m_effect->parameter(effectIndex)->keyframe(i)->toDoubleKeyFrame()->value() / 100);
+			int dx2 =(int)( startX + m_effect->parameter(effectIndex)->keyframe(i + 1)->time() * clipWidth);
+			int dy2 =(int)( sy - ey * m_effect->parameter(effectIndex)->keyframe(i + 1)->toDoubleKeyFrame()->value() / 100);
+			kdDebug()<<"+++  KEYFRAME DX1: "<<dx1<<", EX: "<<ex<<", DX+: "<<startX +  m_effect->parameter(effectIndex)->keyframe(i)->time() * clipWidth<<endl;
+			kdDebug()<<"+++  KEYFRAME DX2: "<<dx2<<", EX: "<<ex<<", DX+: "<<startX +  m_effect->parameter(effectIndex)->keyframe(i + 1)->time() * clipWidth<<endl;
+
+			// #HACK: if x coordinates go beyond max int values, the drawLine method
+			// gives strange results, so limit it for the moment...
+			if (dx1 < -32700) dx1 = -32700;
+			if (dx2 > 32700) dx2 = 32700;
+			if (dx1 <= ex) {
+			    if (dx2 > ex && dx1 > ex ) break; 
+			    if (i == selectedKeyFrame)
+			    	brush = QBrush(Qt::blue);
+			    else
+			    	brush = QBrush(Qt::red);
+			    painter.fillRect(dx1 - 3, dy1 - 3, 6, 6, brush);
+			    if (i + 1 == selectedKeyFrame)
+			    	brush = QBrush(Qt::blue);
+			    else
+			    	brush = QBrush(Qt::red);
+			    painter.fillRect(dx2 - 3, dy2 - 3, 6, 6, brush);
+			    painter.drawLine(dx1, dy1, dx2, dy2);
+			}
 		    }
 		}
 		painter.setPen(Qt::black);
@@ -135,51 +117,38 @@ namespace Gui {
 		QBrush brush(Qt::red);
 
 		if (count > 1) {
-			uint start =(uint)(
-			m_effect->parameter(effectIndex)->keyframe(0)->
-			time() * ex);
-		    /*painter.fillRect(sx + start + 1, rect.y() + 1,
-			(int)(m_effect->parameter(effectIndex)->
-			keyframe(count - 1)->time() * ex - 2 - start),
-			rect.height() - 2, QBrush(Qt::white));
-		    painter.drawRect(sx + start, rect.y(),
-			(int)(m_effect->parameter(effectIndex)->
-			keyframe(count - 1)->time() * ex - start),
-			rect.height());*/
-
 		    painter.setPen(Qt::red);
-		    int selectedKeyFrame =
-			m_effect->parameter(effectIndex)->
-			selectedKeyFrame();
-			 for (int i = 0; i < (int)count - 1; i++) {
-				 uint dx1 =(uint)(
-			    sx +
-			    m_effect->parameter(effectIndex)->
-				keyframe(i)->time() * ex);
-			uint dy1 = sy - ey / 2;
-			uint dx2 =(uint)(
-			    sx +
-			    m_effect->parameter(effectIndex)->
-				keyframe(i + 1)->time() * ex);
-			uint dy2 = sy - ey / 2;
+		    int selectedKeyFrame = m_effect->parameter(effectIndex)->selectedKeyFrame();
+		    for (int i = 0; i < (int)count - 1; i++) {
+			int dx1 =(int)( startX + m_effect->parameter(effectIndex)->keyframe(i)->time() * clipWidth);
+			int dy1 = sy - ey / 2;
+			int dx2 =(int)( startX + m_effect->parameter(effectIndex)->keyframe(i + 1)->time() * clipWidth);
+			int dy2 = sy - ey / 2;
 
 			if (i == selectedKeyFrame)
 			    brush = QBrush(Qt::blue);
 			else
 			    brush = QBrush(Qt::red);
-			painter.fillRect(dx1 - 3, dy1 - 3, 6, 6, brush);
-			if (i + 1 == selectedKeyFrame)
-			    brush = QBrush(Qt::blue);
-			else
-			    brush = QBrush(Qt::red);
-			painter.fillRect(dx2 - 3, dy2 - 3, 6, 6, brush);
-			painter.drawLine(dx1, dy1, dx2, dy2);
+
+			// #HACK: if x coordinates go beyond max int values, the drawLine method
+			// gives strange results, so limit it for the moment...
+			if (dx1 < -32700) dx1 = -32700;
+			if (dx2 > 32700) dx2 = 32700;
+			if (dx1 <= ex) {
+			    if (dx2 > ex && dx1 > ex ) break; 
+			    painter.fillRect(dx1 - 3, dy1 - 3, 6, 6, brush);
+			    if (i + 1 == selectedKeyFrame)
+			        brush = QBrush(Qt::blue);
+			    else
+			        brush = QBrush(Qt::red);
+			    painter.fillRect(dx2 - 3, dy2 - 3, 6, 6, brush);
+			    painter.drawLine(dx1, dy1, dx2, dy2);
+			}
 		    }
 		}
 		painter.setPen(Qt::black);
 	    }
 	}
-
+    painter.setClipping(false);
     }
-
 }				// namespace Gui
