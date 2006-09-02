@@ -109,6 +109,10 @@ bool TrackPanelClipMoveFunction::mousePressed(Gui::KTrackPanel * panel,
 			//addCommand(Command::KSelectClipCommand::
 			//selectClipAt(m_document, *track, mouseTime), true);
 		}
+		else {
+		    m_app->addCommand(Command::KSelectClipCommand::selectNone(m_document), true);
+                    m_app->addCommand(Command::KSelectClipCommand::selectClipAt(m_document, *track, mouseTime), true);
+		}
 		result = true;
 	    }
 	}
