@@ -338,15 +338,26 @@ QDomDocument DocClipProject::generateSceneList() const
     QPtrListIterator < DocTrackBase > trackItt(m_tracks);
     QPtrListIterator < DocTrackBase > trackCounter(m_tracks);
     
-    // Add black clip as first track, so that empty spaces appear black
+    // Add black clip as first track, so that empty spaces appear black 
+    // (looks like color producer cannot be longer than 15000 frames, so hack around it... 
     QDomElement playlist = doc.createElement("playlist");
+    int dur = duration().frames(framesPerSecond()) - 1;
+    while (dur > 14000) {
+        QDomElement blank = doc.createElement("entry");
+        blank.setAttribute("in", "0");
+        blank.setAttribute("out", QString::number(13999));
+        blank.setAttribute("producer", "black");
+        playlist.appendChild(blank);
+	dur = dur - 14000;
+    }
+	 
     QDomElement blank = doc.createElement("entry");
     blank.setAttribute("in", "0");
-    blank.setAttribute("out", projectLastFrame);
+    blank.setAttribute("out", QString::number(dur));
     blank.setAttribute("producer", "black");
     playlist.appendChild(blank);
     multitrack.appendChild(playlist);
-    
+
     // parse the tracks in reverse order so that the upper tracks appear in front of the lower ones
     trackItt.toLast();
     while (trackItt.current()) {
@@ -431,8 +442,8 @@ QDomDocument DocClipProject::generateSceneList() const
 
 
     doc.documentElement().appendChild(tractor);
-    // kdDebug() << doc.toString() << endl;
-    // kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
+     // kdDebug() << doc.toString() << endl;
+     // kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
     return doc;
 }
 
