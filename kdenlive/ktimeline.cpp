@@ -321,6 +321,7 @@ void KTimeLine::ensureCursorVisible() {
         if (fast) t += GenTime( (int) m_framesPerSecond, m_framesPerSecond);
         else t += GenTime(1, m_framesPerSecond);
         seek(t);
+	ensureCursorVisible();
     }
     
     void KTimeLine::slotMoveBackward(bool fast)
@@ -328,7 +329,7 @@ void KTimeLine::ensureCursorVisible() {
         GenTime t = seekPosition();
         if (fast) t = t - GenTime( (int) m_framesPerSecond, m_framesPerSecond);
         else t = t - GenTime(1, m_framesPerSecond);
-        seek(t);
+        ensureCursorVisible();
     }
     
 //returns inpoint/outpoint timeline positions -reh
