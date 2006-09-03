@@ -268,9 +268,14 @@ void DocClipRef::setTrackEnd(const GenTime & time)
             ++itt;
         }
     }
-    
-    if (time < m_trackStart || time == m_trackStart) m_trackEnd = m_trackStart + GenTime(5, m_clip->framesPerSecond());
-    else m_trackEnd = time;
+
+    // do not allow clips below 0
+    if (time > GenTime(0.0)) {
+    	// If user tries to make clip of 0 frame, resize to 5 frames
+    	if (time < m_trackStart || time == m_trackStart) m_trackEnd = m_trackStart + GenTime(5, m_clip->framesPerSecond());
+    	else m_trackEnd = time;
+    }
+    else m_trackEnd = GenTime(5, m_clip->framesPerSecond());
 
     if (m_parentTrack) {
 	m_parentTrack->clipMoved(this);
@@ -1316,8 +1321,7 @@ Effect *DocClipRef::effectAt(uint index) const
 	    ++itt;
 	return *itt;
     }
-
-    kdError() << "DocClipRef::effectAt() : index out of range" << endl;
+    //kdError() << "DocClipRef::effectAt() : index out of range" << endl;
     return 0;
 }
 
