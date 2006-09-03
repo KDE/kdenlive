@@ -85,8 +85,6 @@ namespace Gui {
 			int dy1 =(int)( sy - ey * m_effect->parameter(effectIndex)->keyframe(i)->toDoubleKeyFrame()->value() / 100);
 			int dx2 =(int)( startX + m_effect->parameter(effectIndex)->keyframe(i + 1)->time() * clipWidth);
 			int dy2 =(int)( sy - ey * m_effect->parameter(effectIndex)->keyframe(i + 1)->toDoubleKeyFrame()->value() / 100);
-			kdDebug()<<"+++  KEYFRAME DX1: "<<dx1<<", EX: "<<ex<<", DX+: "<<startX +  m_effect->parameter(effectIndex)->keyframe(i)->time() * clipWidth<<endl;
-			kdDebug()<<"+++  KEYFRAME DX2: "<<dx2<<", EX: "<<ex<<", DX+: "<<startX +  m_effect->parameter(effectIndex)->keyframe(i + 1)->time() * clipWidth<<endl;
 
 			// #HACK: if x coordinates go beyond max int values, the drawLine method
 			// gives strange results, so limit it for the moment...
