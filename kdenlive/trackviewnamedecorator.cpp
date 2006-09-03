@@ -39,12 +39,9 @@ namespace Gui {
     void TrackViewNameDecorator::paintClip(double startX, double endX,
 	QPainter & painter, DocClipRef * clip, QRect & rect,
 	bool selected) {
-		int sx = (int)startX;
-	    /*(int) timeline()->mapValueToLocal(clip->trackStart().
-	    frames(document()->framesPerSecond()));*/
-		int ex = (int)endX;
-	    /*(int) timeline()->mapValueToLocal(clip->trackEnd().
-	    frames(document()->framesPerSecond()));*/
+	int sx = (int)startX;
+	int ex = (int)endX;
+
 	int clipWidth = ex - sx;
 	int tx = ex;
 
@@ -54,7 +51,6 @@ namespace Gui {
 	if (ex > rect.x() + rect.width()) {
 	    ex = rect.x() + rect.width();
 	}
-	//ex -= sx;
 
 	painter.setClipRect(sx, rect.y(), ex -sx , rect.height());
 	QString txt = clip->name();
@@ -90,7 +86,7 @@ namespace Gui {
 		count += textWidth;
 	    }
 
-	// black line on top if clip has effects
+	// Display effect names
 	if (clip->hasEffect()) {
 	    QStringList effectNames = clip->clipEffectNames();
 	    QString selectedTxt = clip->selectedEffect()->name().upper();
@@ -124,6 +120,12 @@ namespace Gui {
             //pen.setStyle(Qt::DotLine);
             painter.setPen(pen);
         }
+	// #HACK: if x coordinates go beyond 32000, the drawLine method
+	// gives strange results, so limit it for the moment...
+	if (startX < -100) startX = -100;
+	if (startX > 32700) startX = 32700;
+	if (endX < -100) endX = -100;
+	if (endX > 32700) endX = 32700;
 	painter.drawRect((int)startX, rect.y(), (int)(endX - startX), rect.height());
         if (selected) {
             pen.setColor(Qt::black);
