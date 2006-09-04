@@ -37,13 +37,7 @@ namespace Gui {
     {
 	//m_embed->setBackgroundMode(Qt::PaletteDark);
 
-	connect(m_render, SIGNAL(initialised()), this,
-	    SLOT(rendererReady()));
 	//connect(m_render, SIGNAL(replyCreateVideoXWindow(WId)), this, SLOT(embedWindow(WId)));
-	connect(m_render, SIGNAL(connected()), this,
-	    SIGNAL(rendererConnected()));
-	connect(m_render, SIGNAL(disconnected()), this,
-	    SIGNAL(rendererDisconnected()));
 	/*connect(m_render, SIGNAL(positionChanged(const GenTime &)), this,
         SIGNAL(seekPositionChanged(const GenTime &)));*/
         /*connect(m_app, SIGNAL(positionChanged(const GenTime &)), this,
@@ -52,6 +46,7 @@ namespace Gui {
 	    SIGNAL(playSpeedChanged(double)));
 	 connect(m_render, SIGNAL(stopped()), this,
 	    SLOT(slotRendererStopped()));
+	rendererReady();
     } 
     
     KMMScreen::~KMMScreen() {

@@ -172,13 +172,8 @@ class KRender:public QObject {
 
     /** returns the current scenelist */
     QDomDocument sceneList();
-    
 
-  protected:			// Protected methods
-	/** Recieves timer events */
-     virtual void timerEvent(QTimerEvent * event);
-     
-     
+ 
   private:			// Private attributes & methods
      //Mlt::Miracle * m_mltMiracle;
      Mlt::Consumer * m_mltConsumer;
@@ -262,12 +257,6 @@ class KRender:public QObject {
 
 
      signals:			// Signals
-	/** This signal is emitted once the renderer has initialised itself. */
-    void initialised();
-	/** This signal is emitted upon connection */
-    void connected();
-	/** This signal is emitted upon disconnection */
-    void disconnected();
 	/** This signal is emitted once a reply to createVideoXWidow() has been recieved. */
     void replyCreateVideoXWindow(WId);
 	/** emitted when the renderer recieves a reply to a getFileProperties request. */

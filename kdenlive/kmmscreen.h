@@ -106,10 +106,6 @@ public slots:
 	QDomDocument sceneList();
 
 signals:
-	/** Emitted when a renderer connects. */
-	void rendererConnected();
-	/** Emitted when a renderer disconnects. */
-	void rendererDisconnected();
 	/** Emitted when the screen has seeked to a new position, e.g. when the renderer is playing. */
 	void seekPositionChanged(const GenTime &);
 	/** Emitted when the play speed changes */

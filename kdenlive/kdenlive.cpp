@@ -177,13 +177,12 @@ namespace Gui {
         else if (!m_selectedFile.isEmpty()) openSelectedFile();
 	else if (!newDoc) {
 	    initView();
-	    if (KdenliveSettings::showsplash())
-		connect(m_workspaceMonitor->screen(), SIGNAL(rendererConnected()), this, SLOT(slotSplashTimeout()));
 	    QString projectType;
 	    if (isNtscProject) projectType = i18n("NTSC");
 	    else projectType = i18n("PAL");
 	    setCaption(newProjectName + ".kdenlive" + " - " + projectType, false);
 	    m_doc->setURL(KURL(KdenliveSettings::currentdefaultfolder() + "/" + newProjectName + ".kdenlive"));
+	    if (KdenliveSettings::showsplash()) slotSplashTimeout();
 	}
 
 	connect(manager(), SIGNAL(change()), this, SLOT(slotUpdateLayoutState()));

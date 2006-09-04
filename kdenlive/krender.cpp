@@ -77,7 +77,7 @@ KRender::KRender(const QString & rendererName, Gui::KdenliveApp *parent, const c
 m_desccodeclist(0), m_codec(0), m_isRendering(false), m_renderingFormat(0),
 m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProducer(NULL), m_mltTextProducer(NULL)
 {
-    startTimer(10);
+    openMlt();
     refreshTimer = new QTimer( this );
     connect( refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()) );
     m_parsing = false;
@@ -85,9 +85,6 @@ m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProduce
 
     m_fileFormats.setAutoDelete(true);
     m_codeclist.setAutoDelete(true);
-
-    openMlt();
-
 
 
     //      Does it do anything usefull? I mean, KRenderThread doesn't do anything useful at the moment
@@ -102,18 +99,7 @@ m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProduce
 KRender::~KRender()
 {
     closeMlt();
-    killTimers();
-}
-
-
-/** Recieves timer events */
-void KRender::timerEvent(QTimerEvent *event)
-{
-    if (m_mltConsumer == NULL) {
-	emit initialised();
-	emit connected();
-    }
-    killTimer(event->timerId());
+    //killTimers();
 }
 
 
@@ -128,10 +114,8 @@ void KRender::openMlt()
 {
     m_refCount++;
     if (m_refCount == 1) {
-	Mlt::Factory::init();
-	//m_mltMiracle = new Mlt::Miracle("miracle", 5250);
-	//m_mltMiracle->start();
-	kdDebug() << "Mlt inited" << endl;
+	if (Mlt::Factory::init() != 0) kdWarning()<<"Error initializing MLT, Crash will follow"<<endl;
+	else kdDebug() << "Mlt inited" << endl;
     }
 }
 
@@ -196,9 +180,8 @@ replyCreateVideoXWindow() once the renderer has replied. */
 
 void KRender::createVideoXWindow(bool , WId winid)
 {
-
-
     m_mltConsumer = new Mlt::Consumer("sdl_preview");
+    if (!m_mltConsumer->is_valid()) kdError()<<"Sorry, cannot create MLT consumer, check your MLT install"<<endl;
     m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
     //m_mltConsumer->listen("consumer-stopped", this, (mlt_listener) consumer_stopped);
 
@@ -217,8 +200,6 @@ void KRender::createVideoXWindow(bool , WId winid)
     m_mltConsumer->set("audio_buffer", 1024);
     m_mltConsumer->set("frequency", 44100);
     m_mltConsumer->set("buffer", 1);
-//      m_mltConsumer->start ();
-
 }
 
 /** Wraps the VEML command of the same name; Seeks the renderer clip to the given time. */
@@ -553,17 +534,20 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
 
 
     m_mltProducer = new Mlt::Producer("westley-xml", decodedString(list.toString()));
-    if (!resetPosition)
-	seek(pos);
-    m_mltProducer->set_speed(0.0);
+    if (!m_mltProducer->is_valid()) 
+	kdWarning()<<" ++++ WARNING, UNABLE TO CREATE MLT PRODUCER"<<endl;
+    else {
+    	if (!resetPosition) seek(pos);
+	m_mltProducer->set_speed(0.0);
 
-    if (m_mltConsumer) 
-    {
-	m_mltConsumer->start();
-	m_mltConsumer->connect(*m_mltProducer);
-	refresh();
+    	if (m_mltConsumer) 
+    	{
+	    m_mltConsumer->start();
+	    m_mltConsumer->connect(*m_mltProducer);
+	    refresh();
+    	}
+    	else kdDebug()<<"++++++++ WARNING, SET SCENE LIST BUT CONSUMER NOT READY"<<endl;
     }
-    else kdDebug()<<"++++++++ WARNING, SET SCENE LIST BUT CONSUMER NOT READY"<<endl;
 }
 
 
