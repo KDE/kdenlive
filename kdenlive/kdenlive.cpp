@@ -2146,19 +2146,24 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
 		m_monitorManager.clearClip(clip);
 
+		// remove thumbnail file
+		if (clip->clipType() == DocClipBase::AUDIO  || clip->clipType() == DocClipBase::VIDEO) {
+		KMD5 context ((KFileItem(clip->fileURL(),"text/plain", S_IFREG).timeString() + clip->fileURL().fileName()).ascii());
+		KIO::NetAccess::del(KURL(KdenliveSettings::currentdefaultfolder() + "/" + context.hexDigest().data() + ".thumb"), this);
+		}
+
 		DocumentBaseNode *node =
 		    m_doc->findClipNode(refClip->name());
 
 		macroCommand->addCommand(new Command::KAddClipCommand(*m_doc,
 			node->name(), clip, node->parent(), false));
-
-		// remove thumbnail file
-		KMD5 context ((KFileItem(clip->fileURL(),"text/plain", S_IFREG).timeString() + clip->fileURL().fileName()).ascii());
-		KIO::NetAccess::del(KURL(KdenliveSettings::currentdefaultfolder() + "/" + context.hexDigest().data() + ".thumb"), this);
 		addCommand(macroCommand, true);
 
 		getDocument()->clipManager().removeClip(id);
-		if (confirm) getDocument()->activateSceneListGeneration(true);
+		if (confirm) {
+		    getDocument()->activateSceneListGeneration(true);
+		}
+
 	    }
 	}
 	else if (confirm) slotProjectDeleteFolder();
