@@ -47,7 +47,7 @@ namespace Gui {
         setFrameStyle(QFrame::NoFrame);
 	setPalette(QPalette(QColor(210, 210, 210)));
 	//(void) new QLabel(i18n("Transition track"), this);
-        trackIsCollapsed = isCollapsed;
+        trackIsCollapsed = false; //isCollapsed;
 	m_type = type;
 	uint widgetHeight;
 	if (type == EFFECTKEYFRAMETRACK)

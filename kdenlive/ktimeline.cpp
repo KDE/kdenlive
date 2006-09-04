@@ -157,6 +157,8 @@ namespace Gui {
     }
 
     void KTimeLine::collapseTrack(KTrackPanel * panel, bool collapse) {
+	/*
+	// if we collapse a video track, also collapse its transition track...
 	if (panel->trackType() == VIDEOTRACK) {
 	    KTrackPanel *pane = m_trackList.first();
 	    while (pane) {
@@ -167,7 +169,7 @@ namespace Gui {
 		}
 		pane = m_trackList.next();
 	    }
-	}
+	}*/
 	resizeTracks();
     }
     
