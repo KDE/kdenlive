@@ -85,7 +85,7 @@ namespace Command {
 /** Construct an AddClipCommand that will add or delete a clip */
   KAddClipCommand::KAddClipCommand(KdenliveDoc & document, const QString & name, DocClipBase * clip, DocumentBaseNode * parent, bool create):
     m_document(document),
-	m_name(name), m_parent(parent->name()), m_create(create) {
+	m_name(name), m_parent(parent->name()), m_create(create), m_id(clip->getId()) {
 	if (!m_parent) {
 	    kdWarning() <<
 		"Error - all clips created with kaddclipcommand should have a parent!"
@@ -112,7 +112,7 @@ namespace Command {
 	DocClipBase *clip =
 	    document.clipManager().insertColorClip(color, duration, name,
 	    description);
-
+	m_id = clip->getId();
 	DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
 	m_xmlClip = clipNode->clipRef()->toXML();
 	delete clipNode;
@@ -133,6 +133,7 @@ namespace Command {
         DocClipBase *clip =
                 document.clipManager().insertTextClip(duration, name,
         description, xml, url, pix, alphaTransparency);
+	m_id = clip->getId();
         DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
         m_xmlClip = clipNode->clipRef()->toXML();
         delete clipNode;
@@ -154,6 +155,7 @@ namespace Command {
 	DocClipBase *clip =
 	    document.clipManager().insertImageClip(url, extension, ttl,
         duration, description, alphaTransparency);
+	m_id = clip->getId();
 
 	DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
 	m_xmlClip = clipNode->clipRef()->toXML();
@@ -166,7 +168,7 @@ namespace Command {
     KAddClipCommand::KAddClipCommand(KdenliveDoc & document, const QString & parent,
 	const KURL & url, bool create):m_document(document),
 	m_name(url.filename()), m_parent(parent),
-        m_create(create) {
+        m_create(create), m_id(-1) {
 	if (!m_parent) {
 	    kdWarning() <<
 		"Error - all clips created with kaddclipcommand should have a parent!"
@@ -175,6 +177,7 @@ namespace Command {
         m_xmlClip = QDomDocument();
 	DocClipBase *clip = document.clipManager().insertClip(url);
 	if (clip) {
+	    m_id = clip->getId();
 	    DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
 	    m_xmlClip = clipNode->clipRef()->toXML();
 	    delete clipNode;
@@ -241,7 +244,7 @@ namespace Command {
 		"Could not find parent in document, cannot delete document base node"
 		<< endl;
 	} else {
-	    m_document.deleteClipNode(m_name);
+	    m_document.deleteClipNodeById(m_id); //m_name);
 	}
     }
 

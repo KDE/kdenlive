@@ -87,6 +87,7 @@ namespace Command {
 	 KdenliveDoc & m_document;
 	/** The name of the clip. */
 	QString m_name;
+	int m_id;
 	/** The name of it's parent. */
 	QString m_parent;
 	/** If true, then executing the command will create a clip, and
@@ -101,6 +102,7 @@ namespace Command {
 	void deleteClip();
 	/** Adds the clip */
 	void addClip();
+
     };
 
 }				// namespace command

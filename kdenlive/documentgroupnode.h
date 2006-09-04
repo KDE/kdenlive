@@ -37,6 +37,7 @@ class DocumentGroupNode:public DocumentBaseNode {
 
     /* Returns the name of this group. */
     virtual const QString & name() const;
+    virtual const int & getId() const;
 
     virtual DocumentGroupNode *asGroupNode() {
 	return this;

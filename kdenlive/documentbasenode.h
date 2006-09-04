@@ -53,6 +53,7 @@ class DocumentBaseNode {
 
 	/** Returns the name of this group or clip */
     virtual const QString & name() const = 0;
+    virtual const int & getId() const = 0;
 
 	/** Returns an XML representation of this node and all of it's children. */
     QDomDocument toXML() const;
@@ -60,6 +61,7 @@ class DocumentBaseNode {
 	/** Removes a child from this node. */
 
     DocumentBaseNode *findClipNode(const QString & name);
+    DocumentBaseNode *findClipNodeById(const int & id);
 
     void addChild(const DocumentBaseNode * node);
     void removeChild(const DocumentBaseNode * node);

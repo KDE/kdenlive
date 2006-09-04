@@ -81,6 +81,25 @@ DocumentBaseNode *DocumentBaseNode::findClipNode(const QString & name)
     return result;
 }
 
+DocumentBaseNode *DocumentBaseNode::findClipNodeById(const int & id)
+{
+    DocumentBaseNode *result = 0;
+
+    if (this->getId() == id) {
+	result = this;
+    } else {
+	QPtrListIterator < DocumentBaseNode > itt(m_children);
+	while (itt.current()) {
+	    result = itt.current()->findClipNodeById(id);
+	    if (result)
+		break;
+	    ++itt;
+	}
+    }
+
+    return result;
+}
+
 void DocumentBaseNode::reParent(DocumentBaseNode * node)
 {
     m_parent = node;

@@ -40,3 +40,10 @@ void DocumentGroupNode::rename(const QString & newName)
 {
     m_name = newName;
 }
+
+// virtual
+const int & DocumentGroupNode::getId() const
+{
+    return -1;
+}
+

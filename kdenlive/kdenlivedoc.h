@@ -146,6 +146,7 @@ class KdenliveDoc:public QObject {
 	/** Delete the named documentBaseNode */
     void deleteClipNode(const QString & name);
     void deleteGroupNode(const QString & name);
+    void deleteClipNodeById(const int & id);
 
 	/** Add the given base node to the named parent */
     void addClipNode(const QString & parent, DocumentBaseNode * newNode);

@@ -399,6 +399,35 @@ void KdenliveDoc::deleteClipNode(const QString & name)
     }
 }
 
+void KdenliveDoc::deleteClipNodeById(const int & id)
+{
+    DocumentBaseNode *node = m_clipHierarch->findClipNodeById(id);
+
+    if (node) {
+	if (!node->hasChildren()) {
+	    if ((node->asClipNode() == NULL)
+		|| (!m_projectClip->referencesClip(node->asClipNode()->
+			clipRef()->referencedClip()))) {
+		node->parent()->removeChild(node);
+		emit nodeDeleted(node);
+		delete node;
+	    } else {
+		kdError() <<
+		    "Trying to delete clip that has references in the document - "
+		    <<
+		    "must delete references first. Silently ignoring delete request"
+		    << endl;
+	    }
+	} else {
+	    kdError() <<
+		"cannot delete DocumentBaseNode if it has children" <<
+		endl;
+	}
+    } else {
+	kdError() << "Cannot delete node, cannot find clip" << endl;
+    }
+}
+
 DocumentBaseNode *KdenliveDoc::findClipNode(const QString & name) const
 {
     return m_clipHierarch->findClipNode(name);
