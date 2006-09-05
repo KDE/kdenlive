@@ -20,6 +20,7 @@
 
 #include <qdom.h>
 #include <qvbox.h>
+#include <qpixmap.h>
 
 #include <kurl.h>
 
@@ -79,7 +80,7 @@ public slots:
 	void stopRenderer();
         
         void positionChanged(GenTime t);
-
+	QPixmap extractFrame(int percent, int width, int height);
 	/** Set the play speed of the screen */
 	void play(double speed);
 	/** Set the play speed of the screen */
@@ -92,15 +93,16 @@ public slots:
 	    bool resetPosition = true);
 	/** Called when the renderer stops playing */
 	void slotRendererStopped();
-  void setTitlePreview(QString tmpFileName);
-  void restoreProducer();
-   /** Render project to file */
-  void exportTimeline(QString url, QString format, GenTime startTime, GenTime endTime, QStringList params);
-  void stopTimeLineExport();
-  void slotExportStopped();
-  void slotPlayingStopped();
-  void exportToFirewire(QString url, int port, GenTime startTime, GenTime endTime);
-  void exportCurrentFrame(KURL url);
+	int getLength();
+  	void setTitlePreview(QString tmpFileName);
+  	void restoreProducer();
+   	/** Render project to file */
+  	void exportTimeline(QString url, QString format, GenTime startTime, GenTime endTime, QStringList params);
+  	void stopTimeLineExport();
+  	void slotExportStopped();
+  	void slotPlayingStopped();
+  	void exportToFirewire(QString url, int port, GenTime startTime, GenTime endTime);
+  	void exportCurrentFrame(KURL url);
 
 	/** return current scenelist */
 	QDomDocument sceneList();

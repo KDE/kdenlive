@@ -162,12 +162,12 @@ DocClipBase *ClipManager::insertTextClip(
     QPixmap result(50, 40);
     result.fill(Qt::black);
     if (!QFile(url.path()).exists() || pix.isNull()) {
-        titleWidget *txtWidget=new titleWidget(10,10);
+/*        titleWidget *txtWidget=new titleWidget(10,10);
         txtWidget->setXml(xml);
         txtWidget->createImage(url);
         pix = txtWidget->thumbnail(48, 38);
     	bitBlt(&result, 1, 1, &pix, 0, 0, 48, 38);
-        delete txtWidget;
+        delete txtWidget;*/
     }
 
     DocClipBase *clip;

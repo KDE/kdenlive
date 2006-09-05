@@ -69,6 +69,10 @@ namespace Gui {
         m_render->exportCurrentFrame(url);
     }
 
+    QPixmap KMMScreen::extractFrame(int percent, int width, int height) {
+        return m_render->extractFrame(percent, width, height);
+    }
+
 
 /** Seeks to the specified time */
     void KMMScreen::seek(const GenTime & time) {
@@ -141,6 +145,11 @@ namespace Gui {
     void KMMScreen::setSceneList(const QDomDocument & scenelist,
 	bool resetPosition) {
 	m_render->setSceneList(scenelist, resetPosition);
+    }
+
+    int KMMScreen::getLength()
+    {
+        return m_render->getLength();
     }
     
     void KMMScreen::setTitlePreview(QString tmpFileName)

@@ -218,6 +218,32 @@ char *KRender::decodedString(QString str)
     return t;
 }
 
+QPixmap KRender::extractFrame(int percent, int width, int height)
+{
+    QPixmap pix(width, height);
+
+    Mlt::Producer * mlt_producer = new Mlt::Producer(m_mltProducer->get_producer());
+    mlt_producer->seek(getLength() * percent / 100);
+    Mlt::Filter m_convert("avcolour_space");
+    m_convert.set("forced", mlt_image_rgb24a);
+    mlt_producer->attach(m_convert);
+    pix.fill(Qt::black);
+
+    Mlt::Frame *m_frame = mlt_producer->get_frame();
+
+    if (m_frame) {
+	m_frame->set("rescale", "nearest");
+	uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, width, height, 1);
+	QImage m_image(m_thumb, width, height, 32, 0, 0, QImage::IgnoreEndian);
+	delete m_frame;
+	
+	if (!m_image.isNull())
+	    bitBlt(&pix, 1, 1, &m_image, 0, 0, width, height);
+    }
+    delete mlt_producer;
+    return pix;
+}
+
 void KRender::getImage(KURL url, int frame, QPixmap * image)
 {
     Mlt::Producer *m_producer;
@@ -450,6 +476,12 @@ void KRender::setTitlePreview(QString tmpFileName)
     refresh();
 }
 
+int KRender::getLength()
+{
+    if (m_mltProducer) return m_mltProducer->get_length();
+    return 0;
+}
+
 bool KRender::isValid(KURL url)
 {
     Mlt::Producer producer(decodedString(url.path()));
@@ -525,18 +557,18 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
 {
     GenTime pos = seekPosition();
     m_sceneList = list;
-
+ 
     if (m_mltProducer != NULL) {
 	delete m_mltProducer;
 	m_mltProducer = NULL;
 	emit stopped();
     }
-
-
+ 
     m_mltProducer = new Mlt::Producer("westley-xml", decodedString(list.toString()));
     if (!m_mltProducer->is_valid()) 
 	kdWarning()<<" ++++ WARNING, UNABLE TO CREATE MLT PRODUCER"<<endl;
     else {
+	kdDebug()<<"++SEEK POS: "<<pos.frames(25)<<endl;
     	if (!resetPosition) seek(pos);
 	m_mltProducer->set_speed(0.0);
 
@@ -680,7 +712,7 @@ double KRender::playSpeed()
 
 const GenTime & KRender::seekPosition() const
 {
-    if (m_mltProducer) return GenTime(m_mltProducer->position(), m_mltProducer->get_fps());
+    if (m_mltProducer) return GenTime((int) m_mltProducer->position(), m_mltProducer->get_fps());
     return GenTime(0);
 }
 

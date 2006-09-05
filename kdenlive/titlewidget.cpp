@@ -22,6 +22,7 @@
 #include <qwmatrix.h>
 #include <qtooltip.h>
 #include <qspinbox.h>
+#include <qslider.h>
 #include <qpixmap.h>
 #include <qpainter.h>
 #include <qbitmap.h>
@@ -69,7 +70,7 @@ FigureEditor::FigureEditor(
         setFocus();
 
         //TODO make background color configurable
-        canvas()->setBackgroundColor(black);
+        //canvas()->setBackgroundColor(black);
         viewport()->setMouseTracking(true);
 
         // Draw rectangle showing safety margins for the text
@@ -624,13 +625,17 @@ void FigureEditor::setXml(const QDomDocument &xml)
 }
 
 
-titleWidget::titleWidget(int width, int height, QWidget* parent, const char* name, WFlags fl ):
+titleWidget::titleWidget(Gui::KMMScreen *screen, int width, int height, QWidget* parent, const char* name, WFlags fl ):
                 titleBaseWidget(parent,name)
 {
         frame->setMinimumWidth(width);
         frame->setMinimumHeight(height);
         canvas=new QCanvas(KdenliveSettings::defaultwidth(),KdenliveSettings::defaultheight());
         canview = new FigureEditor(*canvas, frame);
+	int pos = screen->seekPosition().frames(KdenliveSettings::defaultfps()) * 100 / screen->getLength();
+	timelineSlider->setValue(pos);
+	canview->canvas()->setBackgroundPixmap(screen->extractFrame(pos, KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight()));
+	m_screen = screen;
 
         // Put icons on buttons
         textButton->setPixmap(KGlobal::iconLoader()->loadIcon("title_text",KIcon::Small,22));
@@ -659,7 +664,7 @@ titleWidget::titleWidget(int width, int height, QWidget* parent, const char* nam
         QObject::connect(downButton,SIGNAL(clicked()),canview,SLOT(itemDown()));
         QObject::connect(rectButton,SIGNAL(clicked()),this,SLOT(rectMode()));
         QObject::connect(canview,SIGNAL(addRect(QRect,int)),this,SLOT(addBlock(QRect,int)));
-        QObject::connect(previewButton,SIGNAL(clicked()),this,SLOT(doPreview()));
+        QObject::connect(timelineSlider,SIGNAL(valueChanged(int)),this,SLOT(doPreview(int)));
         QObject::connect(fontSize,SIGNAL(valueChanged(int)),canview,SLOT(changeTextSize(int)));
         QObject::connect(fontFace,SIGNAL(textChanged(const QString &)),canview,SLOT(changeTextFace(const QString &)));
         QObject::connect(fontColor,SIGNAL(changed(const QColor &)),canview,SLOT(changeColor(const QColor &)));
@@ -795,10 +800,11 @@ void titleWidget::adjustWidgets(QCanvasRectangle* i)
         fontColor->setColor(i->brush().color());
 }
 
-void titleWidget::doPreview()
+void titleWidget::doPreview(int pos)
 {
         // Prepare for mlt preview
-        canview->exportContent();
+        canview->canvas()->setBackgroundPixmap(m_screen->extractFrame(pos, KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight()));
+	//exportContent();
 }
 
 void titleWidget::createImage(KURL url)

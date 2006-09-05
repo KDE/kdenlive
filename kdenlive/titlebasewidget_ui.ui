@@ -127,37 +127,6 @@
                 <number>60</number>
             </property>
         </widget>
-        <widget class="QPushButton" row="3" column="0" rowspan="1" colspan="4">
-            <property name="name">
-                <cstring>previewButton</cstring>
-            </property>
-            <property name="text">
-                <string>Preview</string>
-            </property>
-            <property name="accel">
-                <string></string>
-            </property>
-            <property name="autoDefault">
-                <bool>true</bool>
-            </property>
-        </widget>
-        <spacer row="3" column="4" rowspan="1" colspan="5">
-            <property name="name">
-                <cstring>Horizontal Spacing2</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>282</width>
-                    <height>20</height>
-                </size>
-            </property>
-        </spacer>
         <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>textLabel1_2</cstring>
@@ -205,17 +174,6 @@
                 </color>
             </property>
         </widget>
-        <widget class="QFrame" row="2" column="0" rowspan="1" colspan="11">
-            <property name="name">
-                <cstring>frame</cstring>
-            </property>
-            <property name="frameShape">
-                <enum>StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-                <enum>Raised</enum>
-            </property>
-        </widget>
         <widget class="KRestrictedLine" row="0" column="7" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>edit_duration</cstring>
@@ -227,10 +185,27 @@
                 <string>99:99:99:99; </string>
             </property>
         </widget>
+        <widget class="QSlider" row="3" column="0" rowspan="1" colspan="9">
+            <property name="name">
+                <cstring>timelineSlider</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+        </widget>
+        <widget class="QFrame" row="2" column="0" rowspan="1" colspan="11">
+            <property name="name">
+                <cstring>frame</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Raised</enum>
+            </property>
+        </widget>
     </grid>
 </widget>
-<customwidgets>
-</customwidgets>
 <connections>
     <connection>
         <sender>buttonOk</sender>

@@ -23,6 +23,7 @@
 #include <kurl.h>
 
 #include "titlebasewidget_ui.h"
+#include "kmmscreen.h"
 
 #ifndef TITLE_H
 #define TITLE_H
@@ -90,11 +91,12 @@ class titleWidget : public titleBaseWidget
 {
         Q_OBJECT
 public:
-        titleWidget( int width, int height, QWidget* parent=0, const char* name=0, WFlags fl=0);
+        titleWidget(Gui::KMMScreen *screen, int width, int height, QWidget* parent=0, const char* name=0, WFlags fl=0);
         virtual ~titleWidget();
         FigureEditor *canview;
 private:
         QCanvas *canvas;
+	Gui::KMMScreen *m_screen;
 
 private slots:
         void textMode();
@@ -102,7 +104,7 @@ private slots:
         void cursorMode();
         void addText(QPoint p);
         void addBlock(QRect rec,int pos=-1);
-        void doPreview();
+        void doPreview(int pos);
         void editText(QCanvasText*);
         void adjustWidgets(QCanvasText* i);
         void adjustWidgets(QCanvasRectangle* i);

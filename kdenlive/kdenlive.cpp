@@ -1991,7 +1991,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     void KdenliveApp::slotProjectAddTextClip() {
         slotStatusMsg(i18n("Adding Clips"));
         activateWorkspaceMonitor();
-        titleWidget *txtWidget=new titleWidget(m_doc->projectClip().videoWidth(), m_doc->projectClip().videoHeight(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
+        titleWidget *txtWidget=new titleWidget(m_workspaceMonitor->screen(), m_doc->projectClip().videoWidth(), m_doc->projectClip().videoHeight(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
         connect(txtWidget->canview,SIGNAL(showPreview(QString)),m_workspaceMonitor->screen(),SLOT(setTitlePreview(QString)));
         txtWidget->titleName->setText(i18n("Text Clip"));
         txtWidget->edit_duration->setText(KdenliveSettings::textclipduration());
@@ -2061,8 +2061,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
             
             if (refClip->clipType() == DocClipBase::TEXT) {
                 activateWorkspaceMonitor();
-                titleWidget *txtWidget=new titleWidget(m_doc->projectClip().videoWidth(), m_doc->projectClip().videoHeight(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
-                connect(txtWidget->canview,SIGNAL(showPreview(QString)),m_workspaceMonitor->screen(),SLOT(setTitlePreview(QString)));
+                titleWidget *txtWidget=new titleWidget(m_workspaceMonitor->screen(), m_doc->projectClip().videoWidth(), m_doc->projectClip().videoHeight(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
+                /*connect(txtWidget->canview,SIGNAL(showPreview(QString)),m_workspaceMonitor->screen(),SLOT(setTitlePreview(QString)));*/
                 Timecode tcode;
                 txtWidget->edit_duration->setText(tcode.getTimecode(refClip->duration(), KdenliveSettings::defaultfps()));
 
