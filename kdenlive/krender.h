@@ -91,7 +91,8 @@ class KRender:public QObject {
 	/** Seeks the renderer clip to the given time. */
     void seek(GenTime time);
     
-    void getImage(KURL url, int frame, QPixmap * image);
+    QPixmap getVideoThumbnail(KURL url, int frame, int width, int height);
+    QPixmap getImageThumbnail(KURL url, int width, int height);
 
 	/** Return thumbnail for color clip */
     void getImage(int id, QString color, int width, int height);

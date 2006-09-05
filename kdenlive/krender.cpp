@@ -244,10 +244,10 @@ QPixmap KRender::extractFrame(int percent, int width, int height)
     return pix;
 }
 
-void KRender::getImage(KURL url, int frame, QPixmap * image)
+QPixmap KRender::getImageThumbnail(KURL url, int width, int height)
 {
-    Mlt::Producer *m_producer;
-
+    QImage im;
+    QPixmap pixmap;
     if (url.filename().startsWith(".all.")) {  //  check for slideshow
 	    QString fileType = url.filename().right(3);
     	    QStringList more;
@@ -258,44 +258,39 @@ void KRender::getImage(KURL url, int frame, QPixmap * image)
  
             for ( it = more.begin() ; it != more.end() ; ++it ) {
                 if ((*it).endsWith("."+fileType, FALSE)) {
-			m_producer = new Mlt::Producer(decodedString(url.directory() + "/" + (*it)));
+			im.load(url.directory() + "/" + *it);
 			break;
 		}
-	    if (m_producer->is_blank()) {
-		delete m_producer;
-		*image = QPixmap(50,50);
-		image->fill(Qt::black);
-		return;
 	    }
-	}
     }
-    else m_producer = new Mlt::Producer(decodedString(url.path()));
+    else im.load(url.path());
+    pixmap = im.smoothScale(width, height);
+    return pixmap;
+}
+
+QPixmap KRender::getVideoThumbnail(KURL url, int frame, int width, int height)
+{
+    QPixmap pixmap(width, height);
+    Mlt::Producer m_producer(decodedString(url.path()));
     Mlt::Filter m_convert("avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
-    m_producer->attach(m_convert);
-    m_producer->seek(frame);
-    
-    uint width = image->width();
-    uint height = image->height();
-    image->fill(Qt::black);
-
-    Mlt::Frame * m_frame = m_producer->get_frame();
+    m_producer.attach(m_convert);
+    m_producer.seek(frame);
+    Mlt::Frame * m_frame = m_producer.get_frame();
 
     if (m_frame) {
 	m_frame->set("rescale", "nearest");
-	uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, width - 2, height - 2, 1);
+	uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, width, height, 1);
 
         // what's the use of this ? I don't think we need it - commented out by jbm 
 	//m_producer.set("thumb", m_thumb, width * height * 4, mlt_pool_release);
         //m_frame->set("image", m_thumb, 0, NULL, NULL);
-
-	QImage m_image(m_thumb, width - 2, height - 2, 32, 0, 0, QImage::IgnoreEndian);
+	QImage m_image(m_thumb, width, height, 32, 0, 0, QImage::IgnoreEndian);
 	delete m_frame;
 	if (!m_image.isNull())
-	    bitBlt(image, 1, 1, &m_image, 0, 0, width - 2, height - 2);
-	    //*image = (m_image.smoothScale(width, height));
+	    bitBlt(&pixmap, 0, 0, &m_image, 0, 0, width, height);
     }
-    delete m_producer;
+    return pixmap;
 }
 
 
@@ -345,11 +340,6 @@ void KRender::getImage(int id, QString txt, uint size, int width, int height)
 
     if (m_frame) {
         m_frame->set("rescale", "nearest");
-	/*double ratio = (double) height / m_frame->get_int("height");
-        double overSize = 1.0; */
-        /* if we want a small thumbnail, oversize image a little bit and smooth rescale after, gives better results */
-	//if (ratio < 0.3) overSize = 1.4;
-
 
         uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, width - 2, height - 2, 1);
         
@@ -387,6 +377,7 @@ void KRender::getImage(int id, QString color, int width, int height)
 /* Create thumbnail for image */
 void KRender::getImage(KURL url, int width, int height)
 {
+    QImage im;
     QPixmap pixmap;
     if (url.filename().startsWith(".all.")) {  //  check for slideshow
 	    QString fileType = url.filename().right(3);
@@ -398,14 +389,13 @@ void KRender::getImage(KURL url, int width, int height)
  
             for ( it = more.begin() ; it != more.end() ; ++it ) {
                 if ((*it).endsWith("."+fileType, FALSE)) {
-			pixmap.load(url.directory() + "/" + *it);
+			im.load(url.directory() + "/" + *it);
 			break;
 		}
 	    }
     }
-    else pixmap.load(url.path());
-    QImage im;
-    im = pixmap;
+    else im.load(url.path());
+
     pixmap = im.smoothScale(width-2, height-2);
     QPixmap result(width, height);
     result.fill(Qt::black);

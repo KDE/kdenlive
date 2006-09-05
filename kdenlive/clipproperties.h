@@ -70,9 +70,9 @@ namespace Gui {
         int m_height;
         int m_width;
 	int m_imageCount;
-        QPixmap *m_pix;
         clipProperties_UI *clipChoice;
         KdenliveDoc *m_document;
+	DocClipBase::CLIPTYPE m_clipType;
     };
 
 }				// namespace Gui

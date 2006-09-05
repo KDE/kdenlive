@@ -51,7 +51,6 @@ namespace Gui {
         clipChoice->edit_description->setText(refClip->description());
         Timecode tcode;
         clipChoice->edit_duration->setText(tcode.getTimecode(refClip->duration(), KdenliveSettings::defaultfps()));
-        m_pix = new QPixmap(120,96);
         m_document = document;
 
         clipChoice->preview_pixmap->pixmap()->resize(120, 96);
@@ -65,8 +64,9 @@ namespace Gui {
 
         clipChoice->edit_url->setURL(refClip->fileURL().path());
         DocClipBase *clip = refClip->referencedClip();
+	m_clipType = refClip->clipType();
 
-        if (refClip->clipType() == DocClipBase::COLOR) {
+        if (m_clipType == DocClipBase::COLOR) {
             QString color = dynamic_cast < DocClipAVFile * >(clip)->color();
             color = color.replace(0, 2, "#");
             color = color.left(7);
@@ -81,10 +81,10 @@ namespace Gui {
 	    clipChoice->clipAudio->setText("-");
             clipChoice->clipFilesize->setText("-");
         }
-        else if (refClip->clipType() == DocClipBase::IMAGE) {
-            document->renderer()->getImage(refClip->fileURL().path(), 0, m_pix);
-            clipChoice->preview_pixmap->setPixmap(*m_pix);
+        else if (m_clipType == DocClipBase::IMAGE) {
             clipChoice->transparent_bg->setChecked(clip->toDocClipAVFile()->isTransparent());
+	    QPixmap pix = document->renderer()->getImageThumbnail(refClip->fileURL().path(), 120, 96);
+	    clipChoice->preview_pixmap->setPixmap(pix);
             clipChoice->label_color->hide();
             clipChoice->button_color->hide();
             clipChoice->label_name->hide();
@@ -104,6 +104,7 @@ namespace Gui {
 		clipChoice->imageType->setCurrentItem(refClip->fileURL().filename().left(3));
 		clipChoice->edit_url->fileDialog()->setMode(KFile::Directory);
 		clipChoice->edit_url->setURL(refClip->fileURL().directory());
+		clipChoice->imageType->setCurrentText(refClip->fileURL().path().section(".", -1));
 		connect(clipChoice->imageType, SIGNAL(activated (int)), this, SLOT(updateList()));
 		connect(clipChoice->image_ttl, SIGNAL(valueChanged (int)), this, SLOT(updateDuration()));
 
@@ -140,12 +141,12 @@ namespace Gui {
 		clipChoice->clipAudio->setText(i18n("%1Hz %2").arg(clip->toDocClipAVFile()->audioFrequency()).arg(soundChannels));
 	    }
 	    else clipChoice->clipAudio->setText(i18n("None"));
-	    if (refClip->clipType() == DocClipBase::AUDIO) {
+	    if (m_clipType == DocClipBase::AUDIO) {
             	clipChoice->clipType->setText(i18n("Audio Clip"));
             }
             else { // Video clip
-            	document->renderer()->getImage(refClip->fileURL().path(), 0, m_pix);
-            	clipChoice->preview_pixmap->setPixmap(*m_pix);
+            	QPixmap pix = document->renderer()->getVideoThumbnail(refClip->fileURL().path(), 0, 120, 96);
+            	clipChoice->preview_pixmap->setPixmap(pix);
             	clipChoice->clipType->setText(i18n("Video Clip"));
             	clipChoice->clipSize->setText(QString::number(refClip->clipWidth())+"x"+QString::number(refClip->clipHeight()));
             }
@@ -158,7 +159,6 @@ namespace Gui {
 
     ClipProperties::~ClipProperties() 
     {
-        delete m_pix;
     }
 
     void ClipProperties::updateDuration()
@@ -215,8 +215,13 @@ namespace Gui {
     
     void ClipProperties::updateThumb(const QString &path)
     {
-        m_document->renderer()->getImage(path, 0, m_pix);
-        clipChoice->preview_pixmap->setPixmap(*m_pix);
+	QPixmap pix;
+	if (m_clipType == DocClipBase::VIDEO) 
+	    pix = m_document->renderer()->getVideoThumbnail(path, 0, 120, 96);
+	else if (m_clipType == DocClipBase::IMAGE)
+	    pix = m_document->renderer()->getImageThumbnail(path, 120, 96);
+	else return;
+        clipChoice->preview_pixmap->setPixmap(pix);
     }
 
     QString ClipProperties::color()
