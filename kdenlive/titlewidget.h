@@ -109,6 +109,7 @@ private slots:
         void adjustWidgets(QCanvasText* i);
         void adjustWidgets(QCanvasRectangle* i);
         void adjustButtons();
+	void transparencyToggled(bool);
 
 public slots:
     QPixmap thumbnail(int width, int height);

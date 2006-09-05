@@ -29,6 +29,7 @@
 #include <qimage.h>
 #include <qtoolbutton.h>
 #include <qcursor.h>
+#include <qcheckbox.h>
 
 #include <kpushbutton.h>
 #include <kfontcombo.h>
@@ -70,7 +71,7 @@ FigureEditor::FigureEditor(
         setFocus();
 
         //TODO make background color configurable
-        //canvas()->setBackgroundColor(black);
+        canvas()->setBackgroundColor(black);
         viewport()->setMouseTracking(true);
 
         // Draw rectangle showing safety margins for the text
@@ -634,9 +635,9 @@ titleWidget::titleWidget(Gui::KMMScreen *screen, int width, int height, QWidget*
         canview = new FigureEditor(*canvas, frame);
 	int pos = screen->seekPosition().frames(KdenliveSettings::defaultfps()) * 100 / screen->getLength();
 	timelineSlider->setValue(pos);
-	canview->canvas()->setBackgroundPixmap(screen->extractFrame(pos, KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight()));
+	//canview->canvas()->setBackgroundPixmap(screen->extractFrame(pos, KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight()));
 	m_screen = screen;
-
+	
         // Put icons on buttons
         textButton->setPixmap(KGlobal::iconLoader()->loadIcon("title_text",KIcon::Small,22));
         rectButton->setPixmap(KGlobal::iconLoader()->loadIcon("title_rect",KIcon::Small,22));
@@ -658,7 +659,7 @@ titleWidget::titleWidget(Gui::KMMScreen *screen, int width, int height, QWidget*
         QObject::connect(canview,SIGNAL(addText(QPoint)),this,SLOT(addText(QPoint)));
         QObject::connect(textButton,SIGNAL(clicked()),this,SLOT(textMode()));
         QObject::connect(buttonOk,SIGNAL(clicked()),canview,SLOT(saveImage()));
-        
+        QObject::connect(transparentTitle, SIGNAL(toggled (bool)), this, SLOT(transparencyToggled(bool)));
         QObject::connect(cursorButton,SIGNAL(clicked()),this,SLOT(cursorMode()));
         QObject::connect(upButton,SIGNAL(clicked()),canview,SLOT(itemUp()));
         QObject::connect(downButton,SIGNAL(clicked()),canview,SLOT(itemDown()));
@@ -677,6 +678,10 @@ titleWidget::titleWidget(Gui::KMMScreen *screen, int width, int height, QWidget*
 titleWidget::~titleWidget()
 {}
 
+void titleWidget::transparencyToggled(bool)
+{
+    doPreview(timelineSlider->value());
+}
 
 void titleWidget::adjustButtons()
 {
@@ -803,7 +808,9 @@ void titleWidget::adjustWidgets(QCanvasRectangle* i)
 void titleWidget::doPreview(int pos)
 {
         // Prepare for mlt preview
+	if (transparentTitle->isOn())
         canview->canvas()->setBackgroundPixmap(m_screen->extractFrame(pos, KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight()));
+	else canview->canvas()->setBackgroundPixmap(QPixmap());
 	//exportContent();
 }
 
