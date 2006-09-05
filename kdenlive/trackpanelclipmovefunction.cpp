@@ -191,7 +191,10 @@ bool TrackPanelClipMoveFunction::mouseMoved(Gui::KTrackPanel * panel,
 bool TrackPanelClipMoveFunction::dragEntered(Gui::KTrackPanel * panel,
     QDragEnterEvent * event)
 {
-
+    if (m_dragging) {
+	event->accept();
+	return true;
+    }
     if (m_startedClipMove) {
 	m_document->activateSceneListGeneration(false);
 	event->accept(true);
@@ -250,17 +253,15 @@ bool TrackPanelClipMoveFunction::dragMoved(Gui::KTrackPanel * panel,
 
 	int trackUnder = trackUnderPoint(pos);
 
-	if (m_selection.isEmpty()) {
+	if (m_selection.isEmpty() || m_dragging) {
 	    moveSelectedClips(trackUnder, mouseTime - m_clipOffset);
 	} else {
-
 	    if (m_document->projectClip().canAddClipsToTracks(m_selection,
 		    trackUnder, mouseTime)) {
 		addClipsToTracks(m_selection, trackUnder, mouseTime, true);
-		//addClipsToTracks( m_selection, trackUnder+1, mouseTime , true );
-
 		setupSnapToGrid();
 		m_selection.clear();
+		m_dragging = true;
 	    }
 	}
 
@@ -296,6 +297,7 @@ int TrackPanelClipMoveFunction::trackUnderPoint(const QPoint & pos)
 bool TrackPanelClipMoveFunction::dragLeft(Gui::KTrackPanel * panel,
     QDragLeaveEvent * event)
 {
+    m_dragging = false;
     if (!m_selection.isEmpty()) {
 	m_selection.setAutoDelete(true);
 	m_selection.clear();
@@ -350,6 +352,7 @@ bool TrackPanelClipMoveFunction::dragLeft(Gui::KTrackPanel * panel,
 bool TrackPanelClipMoveFunction::dragDropped(Gui::KTrackPanel * panel,
     QDropEvent * event)
 {
+    m_dragging = false;
     m_startedClipMove = false;
     
     if (ClipDrag::canDecode(event)) {
