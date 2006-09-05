@@ -66,28 +66,23 @@ void KThumb::getImage(KURL url, int frame, int width, int height)
     if (m_producer.is_blank()) {
 	emit thumbReady(frame, image);
 	return;
-	}
-
+    }
     Mlt::Filter m_convert("avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
     m_producer.attach(m_convert);
     m_producer.seek(frame);
     uint orig_width = width - 2;
     uint orig_height = height - 2;
-
     Mlt::Frame * m_frame = m_producer.get_frame();
 
     if (m_frame) {
 	m_frame->set("rescale", "nearest");
-	uchar *m_thumb =
-	    m_frame->fetch_image(mlt_image_rgb24a, orig_width, orig_height, 1);
+	uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, orig_width, orig_height, 1);
 	m_producer.set("thumb", m_thumb, orig_width * orig_height * 4,
 	    mlt_pool_release);
 	m_frame->set("image", m_thumb, 0, NULL, NULL);
 
-
-	QImage m_image(m_thumb, orig_width, orig_height, 32, 0, 0,
-	    QImage::IgnoreEndian);
+	QImage m_image(m_thumb, orig_width, orig_height, 32, 0, 0, QImage::IgnoreEndian);
 
 	delete m_frame;
 	if (!m_image.isNull())
@@ -95,7 +90,7 @@ void KThumb::getImage(KURL url, int frame, int width, int height)
 	else
 	    image.fill(Qt::black);
     }
-emit thumbReady(frame, image);
+    emit thumbReady(frame, image);
 }
 
 void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLength, int arrayWidth){
