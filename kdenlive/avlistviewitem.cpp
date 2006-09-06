@@ -285,8 +285,7 @@ const QPixmap *AVListViewItem::pixmap(int column) const
 		pixmap = NULL;
 	}
 	else {
-		QPixmap *pix = new QPixmap(KGlobal::iconLoader()->loadIcon("folder", KIcon::Toolbar));
-		return pix;
+	    pixmap = new QPixmap(KGlobal::iconLoader()->loadIcon("folder", KIcon::Toolbar));
 	}
     }
 
