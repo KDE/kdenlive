@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 
+#include <kdebug.h>
+
 #include "initeffects.h"
 #include "krender.h"
 
