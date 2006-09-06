@@ -39,14 +39,14 @@
             </property>
             <property name="minimumSize">
                 <size>
-                    <width>25</width>
-                    <height>20</height>
+                    <width>16</width>
+                    <height>16</height>
                 </size>
             </property>
             <property name="maximumSize">
                 <size>
                     <width>25</width>
-                    <height>16</height>
+                    <height>25</height>
                 </size>
             </property>
             <property name="frameShape">
@@ -70,14 +70,14 @@
             </property>
             <property name="minimumSize">
                 <size>
-                    <width>25</width>
-                    <height>20</height>
+                    <width>16</width>
+                    <height>16</height>
                 </size>
             </property>
             <property name="maximumSize">
                 <size>
                     <width>25</width>
-                    <height>16</height>
+                    <height>25</height>
                 </size>
             </property>
             <property name="frameShape">
@@ -101,14 +101,14 @@
             </property>
             <property name="minimumSize">
                 <size>
-                    <width>25</width>
-                    <height>20</height>
+                    <width>16</width>
+                    <height>16</height>
                 </size>
             </property>
             <property name="maximumSize">
                 <size>
                     <width>25</width>
-                    <height>16</height>
+                    <height>25</height>
                 </size>
             </property>
             <property name="frameShape">

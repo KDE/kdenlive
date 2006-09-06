@@ -45,11 +45,11 @@ namespace Gui {
 	new KTrackPlacer(document, timeline, docTrack), SOUNDTRACK, parent,
         name), m_trackHeader(this, "Sound Track"), m_mute(false) {
 
-            FlatButton *fl = new FlatButton(m_trackHeader.container, "expand", KGlobal::iconLoader()->loadIcon("kdenlive_down",KIcon::Toolbar,22), KGlobal::iconLoader()->loadIcon("kdenlive_right",KIcon::Toolbar,22), false);
+            FlatButton *fl = new FlatButton(m_trackHeader.container, "expand", KGlobal::iconLoader()->loadIcon("kdenlive_down",KIcon::Toolbar,16), KGlobal::iconLoader()->loadIcon("kdenlive_right",KIcon::Toolbar,16), false);
 
 	    m_trackHeader.trackNumber->setText(i18n("Track %1").arg(document->trackIndex(docTrack)));
             
-            FlatButton *fl3 = new FlatButton(m_trackHeader.container_3, "audio", KGlobal::iconLoader()->loadIcon("kdenlive_audiooff",KIcon::Toolbar,22), KGlobal::iconLoader()->loadIcon("kdenlive_audioon",KIcon::Toolbar,22), false);
+            FlatButton *fl3 = new FlatButton(m_trackHeader.container_3, "audio", KGlobal::iconLoader()->loadIcon("kdenlive_audiooff",KIcon::Toolbar,16), KGlobal::iconLoader()->loadIcon("kdenlive_audioon",KIcon::Toolbar,16), false);
 
 	trackIsCollapsed = isCollapsed;
         connect(fl, SIGNAL(clicked()), this, SLOT(resizeTrack()));
