@@ -32,6 +32,7 @@ const uint collapsedTrackSize = 30;
 
 class KdenliveDoc;
 class TrackPanelFunction;
+class DocClipRef;
 
 namespace Gui {
     class KTimeLine;
@@ -56,6 +57,9 @@ namespace Gui {
 	track should be drawn into the area provided in area
 	*/
 	void drawToBackBuffer(QPainter & painter, QRect & rect);
+	DocClipRef *getClipAt(int pos);
+	int getLocalValue(GenTime time);
+
       protected:		// Protected methods
 	 KdenliveDoc * document() {
 	    return m_document;

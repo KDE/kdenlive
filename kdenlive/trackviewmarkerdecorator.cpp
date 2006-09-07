@@ -17,7 +17,12 @@
 #include "trackviewmarkerdecorator.h"
 
 #include <qpainter.h>
+#include <qrect.h>
+#include <qtooltip.h>
 
+#include <kiconloader.h>
+
+#include "ktrackview.h"
 #include "docclipref.h"
 #include "kdenlivedoc.h"
 #include "ktimeline.h"
@@ -25,8 +30,12 @@
 namespace Gui {
 
     TrackViewMarkerDecorator::TrackViewMarkerDecorator(KTimeLine *
-	timeline, KdenliveDoc * doc):DocTrackDecorator(timeline, doc) {
-    } TrackViewMarkerDecorator::~TrackViewMarkerDecorator() {
+	timeline, KdenliveDoc * doc, QWidget *parent):DocTrackDecorator(timeline, doc), m_parent(parent) 
+    {
+	m_markerPixmap = KGlobal::iconLoader()->loadIcon("kdenlive_marker", KIcon::Small, 15);
+    } 
+
+    TrackViewMarkerDecorator::~TrackViewMarkerDecorator() {
     }
 
 
@@ -57,19 +66,20 @@ namespace Gui {
 		(int) timeline()->mapValueToLocal((*itt).
 		frames(document()->framesPerSecond()));
 
-	    if ((x >= sx) && (x <= sx + ex)) {
+	    if ((x >= sx - 7) && (x <= sx + ex + 7)) {
 		QPen currentPen = painter.pen();
 		QBrush currentBrush = painter.brush();
 
 		painter.setPen(QColor(255, 0, 0));
 		painter.setBrush(QColor(255, 0, 0));
-
 		painter.drawLine(x, rect.y(), x, rect.y() + rect.height());
 
-		painter.setPen(Qt::black);
+		painter.drawPixmap(x - 7, rect.y() + rect.height() / 2  - 7, m_markerPixmap);
+
+		/*painter.setPen(Qt::black);
 		painter.drawEllipse(x - (rect.height() / 4),
 		    rect.y() + (rect.height() / 4),
-		    rect.height() / 2, rect.height() / 2);
+		    rect.height() / 2, rect.height() / 2);*/
 
 		painter.setPen(currentPen);
 		painter.setBrush(currentBrush);

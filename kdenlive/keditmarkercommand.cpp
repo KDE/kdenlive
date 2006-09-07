@@ -14,7 +14,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include "kaddmarkercommand.h"
+#include "keditmarkercommand.h"
 
 #include "kdebug.h"
 #include "klocale.h"
@@ -27,28 +27,30 @@
 
 namespace Command {
 
-    KAddMarkerCommand::KAddMarkerCommand(KdenliveDoc & document,
+    KEditMarkerCommand::KEditMarkerCommand(KdenliveDoc & document,
 	DocClipRef * clip,
 	const GenTime & clipTime,
 	bool create):KCommand(),
 	m_document(document),
 	m_create(create),
 	m_clipTime(clipTime),
-	m_trackTime(clip->trackMiddleTime()), m_track(clip->trackNum()) {
-    } KAddMarkerCommand::~KAddMarkerCommand() {
+	m_trackTime(clip->trackMiddleTime()), m_track(clip->trackNum()), m_previousComment(QString::null) {
+    } 
+
+    KEditMarkerCommand::~KEditMarkerCommand() {
     }
 
 /** Returns the name of this command */
-    QString KAddMarkerCommand::name() const {
+    QString KEditMarkerCommand::name() const {
 	if (m_create) {
-	    return i18n("Add Snap Marker");
+	    return i18n("Edit Snap Marker");
 	} else {
-	    return i18n("Delete Snap Marker");
+	    return i18n("Undo Edit Snap Marker");
 	}
     }
 
 /** Execute the command */
-    void KAddMarkerCommand::execute() {
+    void KEditMarkerCommand::execute() {
 	if (m_create) {
 	    addMarker();
 	} else {
@@ -57,7 +59,7 @@ namespace Command {
     }
 
 /** Unexecute the command */
-    void KAddMarkerCommand::unexecute() {
+    void KEditMarkerCommand::unexecute() {
 	if (m_create) {
 	    deleteMarker();
 	} else {
@@ -65,46 +67,71 @@ namespace Command {
 	}
     }
 
-    void KAddMarkerCommand::addMarker() {
+    void KEditMarkerCommand::addMarker() {
 	DocTrackBase *track = m_document.projectClip().track(m_track);
 
 	if (track) {
 	    DocClipRef *clip = track->getClipAt(m_trackTime);
 	    if (clip) {
-		QString comment = KInputDialog::getText(i18n("Add Marker"), i18n("Marker comment: "));
-		if (!comment.isEmpty())
-		    clip->addSnapMarker(m_clipTime, comment);
+		QValueVector < CommentedTime > markers = clip->commentedSnapMarkers();
+		QValueVector < CommentedTime >::iterator itt = markers.begin();
+		while (itt != markers.end()) {
+		    if ((*itt).time() == m_clipTime) break;
+		    ++itt;
+		}
+		if (itt != markers.end()) {
+		    m_previousComment = (*itt).comment();
+		    QString comment = KInputDialog::getText(i18n("Edit Marker"), i18n("Marker comment: "), m_previousComment);
+		    if (!comment.isEmpty()) clip->editSnapMarker(m_clipTime, comment);
+		} else {
+		kdError() <<
+		    "Cannot find Marker..."
+		    << endl;
+	    }
 	    } else {
 		kdError() <<
-		    "Trying to add marker; no clip exists at this point on the track!"
+		    "Trying to edit marker; no clip exists at this point on the track!"
 		    << endl;
 	    }
 
 	} else {
 	    kdError() <<
-		"KAddMarkerCommand : trying to add marker, specified track "
+		"KEditMarkerCommand : trying to add marker, specified track "
 		<< m_track << " does not exist in the project!" << endl;
 	}
     }
 
-    void KAddMarkerCommand::deleteMarker() {
+    void KEditMarkerCommand::deleteMarker() {
 	DocTrackBase *track = m_document.projectClip().track(m_track);
 
 	if (track) {
 	    DocClipRef *clip = track->getClipAt(m_trackTime);
 	    if (clip) {
-		clip->deleteSnapMarker(m_clipTime);
+		QValueVector < CommentedTime > markers = clip->commentedSnapMarkers();
+		QValueVector < CommentedTime >::iterator itt = markers.begin();
+		while (itt != markers.end()) {
+		    if ((*itt).time() == m_clipTime) break;
+		    ++itt;
+		}
+		if (itt != markers.end()) {
+		    clip->editSnapMarker(m_clipTime, m_previousComment);
+		} else {
+		kdError() <<
+		    "Cannot find Marker..."
+		    << endl;
+	    }
 	    } else {
 		kdError() <<
-		    "Trying to delete marker; no clip exists at this point on the track!"
+		    "Trying to edit marker; no clip exists at this point on the track!"
 		    << endl;
 	    }
 
 	} else {
 	    kdError() <<
-		"KAddMarkerCommand : trying to delete marker, specified track "
+		"KEditMarkerCommand : trying to add marker, specified track "
 		<< m_track << " does not exist in the project!" << endl;
 	}
+
     }
 
 }

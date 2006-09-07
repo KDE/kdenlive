@@ -26,6 +26,7 @@
 #include <qtimer.h>
 
 #include <kurl.h>
+#include <klocale.h>
 #include <qobject.h>
 #include <qvaluevector.h>
 #include <qmap.h>
@@ -92,6 +93,24 @@ struct AudioIdentifier {
 	return false;
     }
 };
+
+
+class CommentedTime
+    {
+    public:
+        CommentedTime(): t(GenTime(0)) {}
+        CommentedTime( const GenTime time, QString comment)
+            : t( time ), c( comment )
+        { }
+
+        QString comment()   const          { return (c.isEmpty() ? i18n("Marker") : c);}
+        GenTime time() const          { return t; }
+        void    setComment( QString comm) { c = comm; }
+    private:
+        GenTime t;
+        QString c;
+    };
+
 
 class DocClipRef:public QObject {
   Q_OBJECT public:
@@ -221,9 +240,13 @@ class DocClipRef:public QObject {
 
 	/** Returns a vector containing the snap marker, in track time rather than clip time. */
     QValueVector < GenTime > snapMarkersOnTrack()const;
+    QValueVector < CommentedTime > commentedSnapMarkers()const;
+    QValueVector < CommentedTime > commentedTrackSnapMarkers()const;
 
 	/** Adds a snap marker at the given clip time (as opposed to track time) */
-    void addSnapMarker(const GenTime & time);
+    void addSnapMarker(const GenTime & time, QString comment, bool notify = true);
+	/** Adds a snap marker at the given clip time (as opposed to track time) */
+    void editSnapMarker(const GenTime & time, QString comment);
 
 	/** Deletes a snap marker at the given clip time (as opposed to track time) */
     void deleteSnapMarker(const GenTime & time);
@@ -309,7 +332,7 @@ class DocClipRef:public QObject {
         void fetchEndThumbnail();
 
   private:			// Private attributes
-    void setSnapMarkers(QValueVector < GenTime > markers);
+    void setSnapMarkers(QValueVector < CommentedTime > markers);
     int getAudioPart(double from, double length,int channel);
 	/** Where this clip starts on the track that it resides on. */
     GenTime m_trackStart;
@@ -333,7 +356,7 @@ class DocClipRef:public QObject {
     DocClipBase *m_clip;
 
 	/** A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
-    QValueVector < GenTime > m_snapMarkers;
+    QValueVector < CommentedTime > m_snapMarkers;
 
 	/** A list of effects that operate on this and only this clip. */
     EffectStack m_effectStack;

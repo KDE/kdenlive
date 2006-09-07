@@ -32,7 +32,9 @@ namespace Gui {
 	m_trackType(trackType), trackIsCollapsed(false) {
 	assert(timeline);
 	assert(placer);
-    } KTrackPanel::~KTrackPanel() {
+    } 
+
+KTrackPanel::~KTrackPanel() {
 	if (m_placer)
 	    delete m_placer;
     }

@@ -2004,8 +2004,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
             QDomDocument xml = txtWidget->toXml();
             
             KCommand *command =
-                    new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), duration,
-                    txtWidget->titleName->text(),QString::null, xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked(), true);
+                    new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), duration, txtWidget->titleName->text(),QString::null, xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked(), true);
             addCommand(command, true);
         }
         m_workspaceMonitor->screen()->restoreProducer();

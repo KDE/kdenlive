@@ -135,7 +135,7 @@ namespace Gui {
 	//addViewDecorator(new TrackViewAudioBackgroundDecorator(timeline, doc, QColor(64, 128, 64), QColor(128, 255, 128),audioDecoratorSize));
 
 	addViewDecorator(new TrackViewNameDecorator(timeline(), document()));
-	addViewDecorator(new TrackViewMarkerDecorator(timeline(), document()));
+	addViewDecorator(new TrackViewMarkerDecorator(timeline(), document(), this));
 
 	if (!trackIsCollapsed) addViewDecorator(new TrackViewDoubleKeyFrameDecorator(timeline(), document()));
 

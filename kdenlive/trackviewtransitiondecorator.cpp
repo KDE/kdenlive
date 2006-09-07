@@ -39,15 +39,16 @@ namespace Gui {
 	double endX, QPainter & painter, DocClipRef * clip, QRect & rect,
 	bool selected) {
 
-	int sx = startX;	// (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
-	int ex = endX;		//(int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
+	int sx = (int) startX;
+	int ex = (int) endX;
 
-	/*if(sx < rect.x()) {
+	if(sx < rect.x()) {
 	   sx = rect.x();
 	   }
-	   if(ex > rect.x() + rect.width()) {
+	if(ex > rect.x() + rect.width()) {
 	   ex = rect.x() + rect.width();
-	   } */
+	}
+
 	ex -= sx;
 
 	int ey = rect.height();

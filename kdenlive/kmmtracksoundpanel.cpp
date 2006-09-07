@@ -17,6 +17,7 @@
 
 #include <qsizepolicy.h>
 #include <qtoolbutton.h>
+
 #include <kstandarddirs.h>
 #include <kiconloader.h>
 
@@ -110,7 +111,7 @@ namespace Gui {
 	addViewDecorator(new TrackViewNameDecorator(timeline(),
 		document()));
 	addViewDecorator(new TrackViewMarkerDecorator(timeline(),
-		document()));
+		document(), this));
 	if (!trackIsCollapsed) addViewDecorator(new TrackViewDoubleKeyFrameDecorator(timeline(), document()));
 
 /*	if (trackIsCollapsed)

@@ -19,8 +19,13 @@
 #include <qpainter.h>
 #include <stdlib.h>
 
+#include "kmmtrackpanel.h"
+#include "ktrackview.h"
+#include "kdenlivedoc.h"
 
-DynamicToolTip::DynamicToolTip(QWidget * parent):QToolTip(parent)
+namespace Gui {
+
+DynamicToolTip::DynamicToolTip(KTrackView * parent):QToolTip(parent), m_trackview(parent)
 {
     // no explicit initialization needed
 }
@@ -28,13 +33,31 @@ DynamicToolTip::DynamicToolTip(QWidget * parent):QToolTip(parent)
 
 void DynamicToolTip::maybeTip(const QPoint & pos)
 {
+    KTrackPanel *panel = m_trackview->panelAt(pos.y());
+    KMMTrackPanel *m_panel = static_cast<KMMTrackPanel*> (panel);
+    DocClipRef *underMouse = m_panel->getClipAt(pos.x()); 
+    if (!underMouse) return;
 
-    /*QRect r( ((TellMe*)parentWidget())->tip(pos) );
-       if ( !r.isValid() )
-       return;
-     */
-    QRect r(0, 0, 100, 100);
-    QString s = "testing dynamic";
-    //s.sprintf( "position: %d,%d", r.center().x(), r.center().y() );
-    tip(r, s);
+    QString messageTip;
+
+	QRect r(m_panel->getLocalValue(underMouse->trackStart()), m_panel->y() - m_trackview->y(), m_panel->getLocalValue(underMouse->duration()), 20);
+	messageTip = underMouse->description();
+	if (messageTip.isEmpty()) messageTip = underMouse->name();
+	tip(r, messageTip);
+
+    QValueVector < CommentedTime > markers = underMouse->commentedTrackSnapMarkers();
+    QValueVector < CommentedTime >::iterator itt = markers.begin();
+
+    while (itt != markers.end()) {
+	int x = m_panel->getLocalValue((*itt).time());
+	if ( fabs(x - pos.x()) < 5) {
+	    QRect r(x -7, m_panel->y() - m_trackview->y(), 15, m_panel->height());
+	    tip(r, (*itt).comment());
+	    break;
+	}
+	++itt;
+    }
+
 }
+
+}				// namespace Gui

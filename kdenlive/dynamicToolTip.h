@@ -23,12 +23,20 @@
 #include "docclipref.h"
 
 
+namespace Gui {
+
+class KTrackView;
+
 class DynamicToolTip:public QToolTip {
   public:
-    DynamicToolTip(QWidget * parent);
+    DynamicToolTip(KTrackView * parent);
+  private:
+    KTrackView *m_trackview;
 
   protected:
     void maybeTip(const QPoint &);
 };
+
+}				// namespace Gui
 
 #endif

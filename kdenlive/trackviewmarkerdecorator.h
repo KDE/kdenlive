@@ -17,6 +17,7 @@
 #ifndef TRACKVIEWMARKERDECORATOR_H
 #define TRACKVIEWMARKERDECORATOR_H
 
+#include <qpixmap.h>
 #include <doctrackdecorator.h>
 
 namespace Gui {
@@ -30,13 +31,17 @@ A TrackViewDecorator that displays snap markers on a clip.
 */
     class TrackViewMarkerDecorator:public DocTrackDecorator {
       public:
-	TrackViewMarkerDecorator(KTimeLine * timeline, KdenliveDoc * doc);
+	TrackViewMarkerDecorator(KTimeLine * timeline, KdenliveDoc * doc, QWidget *parent);
 
 	virtual ~ TrackViewMarkerDecorator();
 
 	virtual void paintClip(double startX, double endX,
 	    QPainter & painter, DocClipRef * clip, QRect & rect,
 	    bool selected);
+
+    private:
+	QPixmap m_markerPixmap;
+	QWidget *m_parent;
     };
 
 }				// namespace Gui

@@ -319,7 +319,7 @@ createClip(const EffectDescriptionList & effectList,
     GenTime trackEnd;
     QString description;
     double speed = 1.0;
-    QValueVector < GenTime > markers;
+    QValueVector < CommentedTime > markers;
     EffectStack effectStack;
 
     /*kdWarning() << "================================" << endl;
@@ -372,8 +372,8 @@ createClip(const EffectDescriptionList & effectList,
 		    QDomElement markerElement = markerNode.toElement();
 		    if (!markerElement.isNull()) {
 			if (markerElement.tagName() == "marker") {
-			    markers.append(GenTime(markerElement.
-				    attribute("time", "0").toDouble()));
+			    markers.append(CommentedTime(GenTime(markerElement.
+				    attribute("time", "0").toDouble()),markerElement.attribute("comment", "")));
 			} else {
 			    kdWarning() << "Unknown tag " << markerElement.
 				tagName() << endl;
@@ -666,7 +666,8 @@ QDomDocument DocClipRef::toXML() const
     for (uint count = 0; count < m_snapMarkers.count(); ++count) {
 	QDomElement marker = doc.createElement("marker");
 	marker.setAttribute("time",
-	    QString::number(m_snapMarkers[count].seconds(), 'f', 10));
+	    QString::number(m_snapMarkers[count].time().seconds(), 'f', 10));
+	marker.setAttribute("comment", m_snapMarkers[count].comment());
 	markers.appendChild(marker);
     }
     clip.appendChild(markers);
@@ -1147,17 +1148,16 @@ QDomDocument DocClipRef::sceneToXML(const GenTime & startTime,
     return sceneDoc;
 }
 
-void DocClipRef::setSnapMarkers(QValueVector < GenTime > markers)
+void DocClipRef::setSnapMarkers(QValueVector < CommentedTime > markers)
 {
     m_snapMarkers = markers;
-    qHeapSort(m_snapMarkers);
+    /*qHeapSort(m_snapMarkers);
 
-    /*QValueVectorIterator<GenTime> itt = markers.begin();
-
+    QValueVector < CommentedTime >::Iterator itt = markers.begin();
        while(itt != markers.end()) {
-       addSnapMarker(*itt);
+       addSnapMarker((*itt).time(), (*itt).comment(), false);
        ++itt;
-       } */
+       }*/
 }
 
 QValueVector < GenTime > DocClipRef::snapMarkersOnTrack() const
@@ -1166,45 +1166,62 @@ QValueVector < GenTime > DocClipRef::snapMarkersOnTrack() const
     markers.reserve(m_snapMarkers.count());
 
     for (uint count = 0; count < m_snapMarkers.count(); ++count) {
-	markers.append(m_snapMarkers[count] + trackStart() -
+	markers.append(m_snapMarkers[count].time() + trackStart() -
 	    cropStartTime());
     }
 
     return markers;
 }
 
-void DocClipRef::addSnapMarker(const GenTime & time)
+void DocClipRef::addSnapMarker(const GenTime & time, QString comment, bool notify)
 {
-    QValueVector < GenTime >::Iterator itt = m_snapMarkers.begin();
-
-    while (itt != m_snapMarkers.end()) {
-	if (*itt >= time)
+    QValueVector < CommentedTime >::Iterator it = m_snapMarkers.begin();
+    for ( it = m_snapMarkers.begin(); it != m_snapMarkers.end(); ++it ) {
+	if ((*it).time() >= time)
 	    break;
-	++itt;
     }
 
-    if ((itt != m_snapMarkers.end()) && (*itt == time)) {
+
+    if ((it != m_snapMarkers.end()) && ((*it).time() == time)) {
 	kdError() <<
 	    "trying to add Snap Marker that already exists, this will cause inconsistancies with undo/redo"
 	    << endl;
     } else {
-	m_snapMarkers.insert(itt, time);
+	CommentedTime t(time, comment);
+	m_snapMarkers.insert(it, t);
 
-	m_parentTrack->notifyClipChanged(this);
+	if (notify) m_parentTrack->notifyClipChanged(this);
     }
+
+}
+
+void DocClipRef::editSnapMarker(const GenTime & time, QString comment)
+{
+    QValueVector < CommentedTime >::Iterator it = m_snapMarkers.begin();
+    for ( it = m_snapMarkers.begin(); it != m_snapMarkers.end(); ++it ) {
+	if ((*it).time() == time)
+	    break;
+    }
+    if (it != m_snapMarkers.end()) {
+	(*it).setComment(comment);
+    } else {
+	kdError() <<
+	    "trying to edit Snap Marker that does not already exists"  << endl;
+    }
+
 }
 
 void DocClipRef::deleteSnapMarker(const GenTime & time)
 {
-    QValueVector < GenTime >::Iterator itt = m_snapMarkers.begin();
+    QValueVector < CommentedTime >::Iterator itt = m_snapMarkers.begin();
 
     while (itt != m_snapMarkers.end()) {
-	if (*itt == time)
+	if ((*itt).time() == time)
 	    break;
 	++itt;
     }
 
-    if ((itt != m_snapMarkers.end()) && (*itt == time)) {
+    if ((itt != m_snapMarkers.end()) && ((*itt).time() == time)) {
 	m_snapMarkers.erase(itt);
 	m_parentTrack->notifyClipChanged(this);
     } else {
@@ -1215,10 +1232,10 @@ void DocClipRef::deleteSnapMarker(const GenTime & time)
 
 bool DocClipRef::hasSnapMarker(const GenTime & time)
 {
-    QValueVector < GenTime >::Iterator itt = m_snapMarkers.begin();
+    QValueVector < CommentedTime >::Iterator itt = m_snapMarkers.begin();
 
     while (itt != m_snapMarkers.end()) {
-	if (*itt == time)
+	if ((*itt).time() == time)
 	    return true;
 	++itt;
     }
@@ -1233,17 +1250,17 @@ void DocClipRef::setCropDuration(const GenTime & time)
 
 GenTime DocClipRef::findPreviousSnapMarker(const GenTime & time)
 {
-    QValueVector < GenTime >::Iterator itt = m_snapMarkers.begin();
+    QValueVector < CommentedTime >::Iterator itt = m_snapMarkers.begin();
 
     while (itt != m_snapMarkers.end()) {
-	if (*itt >= time)
+	if ((*itt).time() >= time)
 	    break;
 	++itt;
     }
 
     if (itt != m_snapMarkers.begin()) {
 	--itt;
-	return *itt;
+	return (*itt).time();
     } else {
 	return GenTime(0);
     }
@@ -1251,20 +1268,20 @@ GenTime DocClipRef::findPreviousSnapMarker(const GenTime & time)
 
 GenTime DocClipRef::findNextSnapMarker(const GenTime & time)
 {
-    QValueVector < GenTime >::Iterator itt = m_snapMarkers.begin();
+    QValueVector < CommentedTime >::Iterator itt = m_snapMarkers.begin();
 
     while (itt != m_snapMarkers.end()) {
-	if (time <= *itt)
+	if (time <= (*itt).time())
 	    break;
 	++itt;
     }
 
     if (itt != m_snapMarkers.end()) {
-	if (*itt == time) {
+	if ((*itt).time() == time) {
 	    ++itt;
 	}
 	if (itt != m_snapMarkers.end()) {
-	    return *itt;
+	    return (*itt).time();
 	} else {
 	    return GenTime(duration());
 	}
@@ -1280,7 +1297,32 @@ GenTime DocClipRef::trackMiddleTime() const
 
 QValueVector < GenTime > DocClipRef::snapMarkers() const
 {
+    QValueVector < GenTime > markers;
+    markers.reserve(m_snapMarkers.count());
+
+    for (uint count = 0; count < m_snapMarkers.count(); ++count) {
+	markers.append(m_snapMarkers[count].time());
+    }
+
+    return markers;
+}
+
+QValueVector < CommentedTime > DocClipRef::commentedSnapMarkers() const
+{
     return m_snapMarkers;
+}
+
+QValueVector < CommentedTime > DocClipRef::commentedTrackSnapMarkers() const
+{
+    QValueVector < CommentedTime > markers;
+    markers.reserve(m_snapMarkers.count());
+
+    for (uint count = 0; count < m_snapMarkers.count(); ++count) {
+	markers.append(CommentedTime(m_snapMarkers[count].time() + trackStart() -
+	    cropStartTime(), m_snapMarkers[count].comment()));
+    }
+
+    return markers;
 }
 
 void DocClipRef::addEffect(uint index, Effect * effect)

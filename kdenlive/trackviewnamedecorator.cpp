@@ -79,8 +79,8 @@ namespace Gui {
 	    while (count < sx + ex) {
 		if (count + textWidth <= tx) {
 		    painter.setPen(selected ? Qt::white : Qt::black);
-		    painter.drawText(count, rect.y() + 12, textWidth,
-			rect.height() - 12, Qt::AlignTop | Qt::AlignHCenter,
+		    painter.drawText(count, rect.y(), textWidth,
+			rect.height(), Qt::AlignVCenter | Qt::AlignHCenter,
 			txt);
 		}
 		count += textWidth;
@@ -112,8 +112,6 @@ namespace Gui {
 	    painter.setPen(Qt::black);
 	}
 
-	//painter.setClipping(false);
-        
         QPen pen = painter.pen();
         if (selected) {
             pen.setColor(Qt::red);
@@ -132,6 +130,7 @@ namespace Gui {
             //pen.setStyle(Qt::SolidLine);
             painter.setPen(pen);
         }
+	painter.setClipping(false);
     }
 
 }				// namespace Gui

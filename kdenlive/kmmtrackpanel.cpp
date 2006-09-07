@@ -46,6 +46,16 @@ namespace Gui {
 	e->accept();
     }
 
+    DocClipRef *KMMTrackPanel::getClipAt(int pos) {
+	GenTime mouseTime((int)timeline()->mapLocalToValue(pos),
+		document()->framesPerSecond());
+	return document()->track(documentTrackIndex())->getClipAt(mouseTime);
+    }
+
+    int KMMTrackPanel::getLocalValue(GenTime time) {
+	return (int)timeline()->mapValueToLocal(time.frames(m_document->framesPerSecond()));
+    }
+
 //virtual
     void KMMTrackPanel::drawToBackBuffer(QPainter & painter, QRect & rect) {
 	KTrackPanel::drawToBackBuffer(painter, rect);

@@ -21,6 +21,7 @@
 #include <qpainter.h>
 #include <qcursor.h>
 #include <qpopupmenu.h>
+#include <qtooltip.h>
 
 #include <kdebug.h>
 #include <kmessagebox.h>
@@ -44,8 +45,10 @@ namespace Gui {
 
 	setAcceptDrops(true);
 
-	//tiptst = new DynamicToolTip(this);
-    } KTrackView::~KTrackView() {
+	tiptst = new DynamicToolTip(this);
+    } 
+
+    KTrackView::~KTrackView() {
     }
 
     void KTrackView::resizeEvent(QResizeEvent * event) {
@@ -138,7 +141,6 @@ namespace Gui {
     void KTrackView::drawBackBuffer(int start, int end) {
         int sx = start - 2;
         int ex = end + 4;
-        
         QPainter painter(&m_backBuffer);
         painter.fillRect(sx, 0, ex - sx, height(),
                          palette().active().background());

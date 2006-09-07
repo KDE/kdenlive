@@ -17,6 +17,7 @@
 #include "trackpanelmarkerfunction.h"
 
 #include "kaddmarkercommand.h"
+#include "keditmarkercommand.h"
 #include "kdenlive.h"
 #include "kdenlivedoc.h"
 #include "ktimeline.h"
@@ -80,6 +81,22 @@ bool TrackPanelMarkerFunction::mouseReleased(Gui::KTrackPanel * panel,
 	    clipUnderMouse = track->getClipAt(mouseTime);
 	    //kdDebug()<<"*** get ready for marker on track: "<<panel->documentTrackIndex()<<endl;
 	    if (clipUnderMouse) {
+		QValueVector < GenTime > markers = clipUnderMouse->snapMarkers();
+		QValueVector < GenTime >::iterator itt = markers.begin();
+		while (itt != markers.end()) {
+		    int x = (int)(m_timeline->mapValueToLocal((*itt + clipUnderMouse->trackStart() - clipUnderMouse->cropStartTime()).frames(m_document->framesPerSecond())));
+		    if (fabs(x - event->x()) < 10) {
+			Command::KEditMarkerCommand * command =
+		    new Command::KEditMarkerCommand(*m_document,
+		    clipUnderMouse,
+		    (*itt), true);
+		    m_app->addCommand(command);
+			return true;
+		    }
+		    ++itt;
+		}
+
+
 		//kdDebug()<<"*** get ready for marker on clip: "<<clipUnderMouse->name()<<endl;
 		Command::KAddMarkerCommand * command =
 		    new Command::KAddMarkerCommand(*m_document,
