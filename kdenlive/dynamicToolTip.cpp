@@ -40,7 +40,7 @@ void DynamicToolTip::maybeTip(const QPoint & pos)
 
     QString messageTip;
 
-	QRect r(m_panel->getLocalValue(underMouse->trackStart()), m_panel->y() - m_trackview->y(), m_panel->getLocalValue(underMouse->duration()), 20);
+	QRect r(m_panel->getLocalValue(underMouse->trackStart()), m_panel->y() - m_trackview->y(), abs(m_panel->getLocalValue(underMouse->duration()) - m_panel->getLocalValue(GenTime(0))), 20);
 	messageTip = underMouse->description();
 	if (messageTip.isEmpty()) messageTip = underMouse->name();
 	tip(r, messageTip);
