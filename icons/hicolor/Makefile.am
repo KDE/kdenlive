@@ -12,4 +12,4 @@ KDE_ICON = AUTO
 kde_icon_KDEICON = hi16-action-kdenlive_pause.png hi16-action-kdenlive_play.png \
 		hi16-action-kdenlive_trans_down.png hi16-action-kdenlive_trans_up.png hi16-action-kdenlive_trans_wiped.png \
 		hi16-action-kdenlive_trans_wipel.png hi16-action-kdenlive_trans_wiper.png \
-		hi16-action-kdenlive_trans_wipeu.png hi16-action-kdenlive_trans_pip.png hi16-action-kdenlive_marker.png
+		hi16-action-kdenlive_trans_wipeu.png hi16-action-kdenlive_trans_pip.png hi16-action-kdenlive_guide.png
