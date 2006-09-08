@@ -19,7 +19,6 @@
 #define KTIMELINE_H
 
 #include <qvaluelist.h>
-#include <qvaluevector.h>
 #include <qvbox.h>
 #include <qtimer.h>
 
@@ -171,7 +170,7 @@ namespace Command {
         int scrollBarPosition();
 
 	/** Return the list of all timeline guides */
-	QValueVector < GenTime > timelineGuides();
+	QValueList < int > timelineGuides();
 
     protected:
 	/** @returns the ruler tool widget. */

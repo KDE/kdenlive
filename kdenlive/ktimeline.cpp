@@ -575,7 +575,7 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
 	    (int) floor(outpoint.frames(m_framesPerSecond)));
     }
 
-    QValueVector < GenTime > KTimeLine::timelineGuides() {
+    QValueList < int > KTimeLine::timelineGuides() {
 	return m_ruler->timelineGuides();
     }
 
@@ -585,6 +585,7 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
 
     void KTimeLine::deleteGuide() {
 	m_ruler->deleteGuide();
+	trackView()->invalidateBackBuffer(m_ruler->getSliderValue(0) - 7, m_ruler->getSliderValue(0) + 7);
     }
 
 }				// namespace Gui

@@ -138,11 +138,11 @@ namespace Gui {
 	}
 
 	// Draw guides
-	QValueVector < GenTime > guides;
+	QValueList < int > guides;
 	guides = m_timeline.timelineGuides();
-	QValueVector < GenTime >::Iterator it = guides.begin();
+	QValueList < int >::Iterator it = guides.begin();
         for ( it = guides.begin(); it != guides.end(); ++it ) {
-	int guidePosition = m_timeline.mapValueToLocal( it->frames( 25));
+	int guidePosition = m_timeline.mapValueToLocal(*it);
 	if (guidePosition >= 0 && guidePosition <= width()) {
 	    painter.setPen(QColor(Qt::gray));
 	    painter.drawLine(guidePosition, 0, guidePosition, height());
@@ -177,11 +177,11 @@ namespace Gui {
         }
 
 	// Draw guides
-	QValueVector < GenTime > guides;
+	QValueList < int > guides;
 	guides = m_timeline.timelineGuides();
-	QValueVector < GenTime >::Iterator it = guides.begin();
+	QValueList < int >::Iterator it = guides.begin();
         for ( it = guides.begin(); it != guides.end(); ++it ) {
-	int guidePosition = m_timeline.mapValueToLocal( it->frames( 25));
+	int guidePosition = m_timeline.mapValueToLocal( *it );
 	if (guidePosition >= start && guidePosition <= end) {
 	    painter.setPen(QColor(Qt::gray));
 	    painter.drawLine(guidePosition, 0, guidePosition, height());

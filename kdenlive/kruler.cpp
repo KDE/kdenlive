@@ -939,13 +939,13 @@ namespace Gui {
 	}
     }
 
-   QValueVector < GenTime > KRuler::timelineGuides() {
+   QValueList < int > KRuler::timelineGuides() {
 	return m_guides;
     }
 
    void KRuler::addGuide() {
-	GenTime time = GenTime(getSliderValue(0), 25);
-        QValueVector < GenTime >::Iterator it = m_guides.begin();
+	int time = (int) getSliderValue(0);
+        QValueList < int >::Iterator it = m_guides.begin();
         for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
 	    if ((*it) >= time)
 	    	break;
@@ -962,9 +962,9 @@ namespace Gui {
 
     void KRuler::deleteGuide() {
 	int localTime = (int) mapValueToLocal(getSliderValue(0));
-        QValueVector < GenTime >::Iterator it = m_guides.begin();
+        QValueList < int >::Iterator it = m_guides.begin();
         for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
-	    if (abs(mapValueToLocal((*it).frames(25)) - localTime) < 10)
+	    if (abs(mapValueToLocal(*it) - localTime) < 10)
 	    	break;
         }
 

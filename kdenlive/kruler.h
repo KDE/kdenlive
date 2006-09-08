@@ -21,9 +21,8 @@
 #include <qwidget.h>
 #include <qpixmap.h>
 #include <qtimer.h>
-#include <qvaluevector.h>
+#include <qvaluelist.h>
 
-#include "gentime.h"
 
 namespace Gui {
 
@@ -107,7 +106,7 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
 	/** Sets the slider with the given id to the given value. The display will be updated.  */
 	void setSliderValue(int id, int value);
 	/** Return the list of all timeline guides */
-	QValueVector < GenTime > timelineGuides();
+	QValueList < int > timelineGuides();
 	void deleteGuide();
 	void addGuide();
 
@@ -181,7 +180,7 @@ is under the mouse. */
 	bool m_scrollRight;
 
 	/** The list of timeline guides */
-	QValueVector < GenTime > m_guides;
+	QValueList < int > m_guides;
 
 
     private:			// private methods
