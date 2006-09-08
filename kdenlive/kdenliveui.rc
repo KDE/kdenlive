@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kdenlive" version="3">
+<kpartgui name="kdenlive" version="4">
 <MenuBar>
   <Menu name="file">
         <Action name="export_current_frame"/>
