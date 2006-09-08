@@ -181,7 +181,7 @@ is under the mouse. */
 
 	/** The list of timeline guides */
 	QValueList < int > m_guides;
-
+	QPixmap m_markerPixmap;
 
     private:			// private methods
   /** Sets the slider under the specified coordinate to be active, and setting other sliders

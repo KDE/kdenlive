@@ -25,6 +25,7 @@
 
 #include <kdebug.h>
 #include <kstyle.h>
+#include <kiconloader.h>
 
 #include "rangelist.h"
 #include "kruler.h"
@@ -432,7 +433,7 @@ namespace Gui {
 
     void KRuler::doCommonCtor() {
 	setStartPixel(0);
-
+	m_markerPixmap = KGlobal::iconLoader()->loadIcon("kdenlive_marker", KIcon::Small, 15);
 	setMinimumHeight(16);
 	setMinimumWidth(32);
 	setMaximumHeight(32);
@@ -897,6 +898,17 @@ namespace Gui {
 	}
 
 	//
+	// draw guide markers
+	//
+
+        QValueList < int >::Iterator itt = m_guides.begin();
+        for ( itt = m_guides.begin(); itt != m_guides.end(); ++itt ) {
+	    value = (int) mapValueToLocal(*itt);
+	    if (value +7 >= sx && value -7 <= ex) 
+		painter.drawPixmap(value - 7, height() - 15, m_markerPixmap);
+	}
+
+	//
 	// draw sliders
 	//
 
@@ -957,6 +969,7 @@ namespace Gui {
 	    << endl;
     	} else {
 	    m_guides.insert(it, time);
+	    invalidateBackBuffer(mapLocalToValue(time) - 7, mapLocalToValue(time) + 7);
 	}
     }
 
@@ -970,6 +983,7 @@ namespace Gui {
 
     	if ((it != m_guides.end())) {
 	    m_guides.erase(it);
+	    invalidateBackBuffer(mapValueToLocal(*it) - 7, mapValueToLocal(*it) + 7);
     	} else {
 	    kdError()<<"CANNOT find guide to delete"<<endl;
 	}
