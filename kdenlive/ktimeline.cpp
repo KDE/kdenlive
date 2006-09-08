@@ -120,6 +120,9 @@ namespace Gui {
 	 connect(m_trackViewArea, SIGNAL(rightButtonPressed()), this,
 	    SIGNAL(rightButtonPressed()));
 
+	 connect(m_ruler, SIGNAL(rightButtonPressed()), this,
+	    SIGNAL(rulerRightButtonPressed()));
+
 	 setAcceptDrops(true);
 	 m_trackList.setAutoDelete(true);
     } 
@@ -570,6 +573,18 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
     void KTimeLine::setOutpointTimeline(const GenTime & outpoint) {
 	m_ruler->setSliderValue(2,
 	    (int) floor(outpoint.frames(m_framesPerSecond)));
+    }
+
+    QValueVector < GenTime > KTimeLine::timelineGuides() {
+	return m_ruler->timelineGuides();
+    }
+
+    void KTimeLine::addGuide() {
+	m_ruler->addGuide();
+    }
+
+    void KTimeLine::deleteGuide() {
+	m_ruler->deleteGuide();
     }
 
 }				// namespace Gui

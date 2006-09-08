@@ -693,6 +693,7 @@ namespace Gui {
     
     void KRuler::mousePressEvent(QMouseEvent * event) {
 	if (event->button() == QMouseEvent::RightButton) {
+	    emit rightButtonPressed();
 	    if (d->m_oldValue != -1) {
 		setSliderValue(activeSliderID(), d->m_oldValue);
 		d->m_oldValue = -1;
@@ -935,6 +936,42 @@ namespace Gui {
 	    emit requestScrollRight();
 	} else {
 	    emit requestScrollLeft();
+	}
+    }
+
+   QValueVector < GenTime > KRuler::timelineGuides() {
+	return m_guides;
+    }
+
+   void KRuler::addGuide() {
+	GenTime time = GenTime(getSliderValue(0), 25);
+        QValueVector < GenTime >::Iterator it = m_guides.begin();
+        for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
+	    if ((*it) >= time)
+	    	break;
+        }
+
+    	if ((it != m_guides.end()) && ((*it) == time)) {
+	kdError() <<
+	    "trying to add Guide that already exists, this will cause inconsistancies with undo/redo"
+	    << endl;
+    	} else {
+	    m_guides.insert(it, time);
+	}
+    }
+
+    void KRuler::deleteGuide() {
+	int localTime = (int) mapValueToLocal(getSliderValue(0));
+        QValueVector < GenTime >::Iterator it = m_guides.begin();
+        for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
+	    if (abs(mapValueToLocal((*it).frames(25)) - localTime) < 10)
+	    	break;
+        }
+
+    	if ((it != m_guides.end())) {
+	    m_guides.erase(it);
+    	} else {
+	    kdError()<<"CANNOT find guide to delete"<<endl;
 	}
     }
 

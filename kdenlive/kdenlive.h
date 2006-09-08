@@ -350,6 +350,7 @@ namespace Gui {
 		/** Displays the context menu for the timeline */
 	void slotDisplayTimeLineContextMenu();
 	void slotDisplayTrackHeaderContextMenu();
+	void slotDisplayRulerContextMenu();
 
 		/** Syncrhonise the display of the timeline with that of the document. */
 	void slotSyncTimeLineWithDocument();
@@ -406,6 +407,9 @@ namespace Gui {
 	void deleteTrack();
 	void addTrack();
         
+	void deleteGuide();
+	void addGuide();
+
         /** Add a transition between the 2 selected clips */
         void addTransition();
         

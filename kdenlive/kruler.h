@@ -21,6 +21,9 @@
 #include <qwidget.h>
 #include <qpixmap.h>
 #include <qtimer.h>
+#include <qvaluevector.h>
+
+#include "gentime.h"
 
 namespace Gui {
 
@@ -103,7 +106,11 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
     public slots:		// public slots
 	/** Sets the slider with the given id to the given value. The display will be updated.  */
 	void setSliderValue(int id, int value);
-        
+	/** Return the list of all timeline guides */
+	QValueVector < GenTime > timelineGuides();
+	void deleteGuide();
+	void addGuide();
+
     signals:		// Signals
 	/** This signal is emitted when the ruler is resized. */
 	void resized();
@@ -120,6 +127,8 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
         /** Emitted when mouse wheel moves, user wants to move the cursor accordingly */
         void moveBackward(bool);
         void moveForward(bool);
+	void rightButtonPressed();
+
 
     protected slots:	// Protected slots
 	/** Sets the leftmost pixel which is displayed on the widget. To understand why this
@@ -170,6 +179,10 @@ is under the mouse. */
 	QTimer m_scrollTimer;
   /** True if the scroll timer events should emit requestScrollRight signals, false otherwise. */
 	bool m_scrollRight;
+
+	/** The list of timeline guides */
+	QValueVector < GenTime > m_guides;
+
 
     private:			// private methods
   /** Sets the slider under the specified coordinate to be active, and setting other sliders

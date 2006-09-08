@@ -19,6 +19,7 @@
 #define KTIMELINE_H
 
 #include <qvaluelist.h>
+#include <qvaluevector.h>
 #include <qvbox.h>
 #include <qtimer.h>
 
@@ -169,6 +170,9 @@ namespace Command {
         void placeScrollBar(int pos);
         int scrollBarPosition();
 
+	/** Return the list of all timeline guides */
+	QValueVector < GenTime > timelineGuides();
+
     protected:
 	/** @returns the ruler tool widget. */
 	 QWidget * rulerToolWidget() const {
@@ -218,7 +222,7 @@ namespace Command {
 	/** The width of the panels at the left hand side of the timeline. */
 	int m_panelWidth;
 
-	//difference between midpoint and inpoint/outpoint when inpoint or outpoint moved
+	/** difference between midpoint and inpoint/outpoint when inpoint or outpoint moved */
 	GenTime m_midPoint;
 
     public slots:		// Public slots
@@ -251,6 +255,8 @@ namespace Command {
 	void slotScrollRight();
 	void slotScrollUp();
 	void slotScrollDown();
+	void deleteGuide();
+	void addGuide();
 
 	/** Set the number of frames per second */
 	void slotSetFramesPerSecond(double fps);
@@ -290,6 +296,8 @@ namespace Command {
 	void rightButtonPressed();
 	/** Emitted when the right mouse button is pressed over the tracks header. */
 	void headerRightButtonPressed();
+	/** Emitted when the right mouse button is pressed over the timeline ruler. */
+	void rulerRightButtonPressed();
     };
 
 }				// namespace Gui

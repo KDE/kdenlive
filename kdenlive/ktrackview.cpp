@@ -136,6 +136,21 @@ namespace Gui {
 	    panel->drawToBackBuffer(painter, rect);
 	    panel = m_timeline.trackList().next();
 	}
+
+	// Draw guides
+	QValueVector < GenTime > guides;
+	guides = m_timeline.timelineGuides();
+	QValueVector < GenTime >::Iterator it = guides.begin();
+        for ( it = guides.begin(); it != guides.end(); ++it ) {
+	int guidePosition = m_timeline.mapValueToLocal( it->frames( 25));
+	if (guidePosition >= 0 && guidePosition <= width()) {
+	    painter.setPen(QColor(Qt::gray));
+	    painter.drawLine(guidePosition, 0, guidePosition, height());
+	    painter.setPen(QColor(Qt::black));
+	}    
+        }
+
+	
     }
     
     void KTrackView::drawBackBuffer(int start, int end) {
@@ -160,7 +175,22 @@ namespace Gui {
             panel->drawToBackBuffer(painter, rect);
             panel = m_timeline.trackList().next();
         }
+
+	// Draw guides
+	QValueVector < GenTime > guides;
+	guides = m_timeline.timelineGuides();
+	QValueVector < GenTime >::Iterator it = guides.begin();
+        for ( it = guides.begin(); it != guides.end(); ++it ) {
+	int guidePosition = m_timeline.mapValueToLocal( it->frames( 25));
+	if (guidePosition >= start && guidePosition <= end) {
+	    painter.setPen(QColor(Qt::gray));
+	    painter.drawLine(guidePosition, 0, guidePosition, height());
+	    painter.setPen(QColor(Qt::black));
+	}    
+        }
+
     }
+
 
     KTrackPanel *KTrackView::panelAt(int y) {
 	KTrackPanel *panel = m_timeline.trackList().first();

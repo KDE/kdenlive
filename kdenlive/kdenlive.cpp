@@ -514,6 +514,14 @@ namespace Gui {
         SLOT(deleteTrack()), actionCollection(),
         "timeline_delete_track");
 
+        (void) new KAction(i18n("Add Guide"), 0, this,
+        SLOT(addGuide()), actionCollection(),
+        "timeline_add_guide");
+
+	(void) new KAction(i18n("Delete Guide"), 0, this,
+        SLOT(deleteGuide()), actionCollection(),
+        "timeline_delete_guide");
+
         showClipMonitor = new KToggleAction(i18n("Clip Monitor"), 0, this,
 	    SLOT(slotToggleClipMonitor()), actionCollection(),
 	    "toggle_clip_monitor");
@@ -938,8 +946,12 @@ namespace Gui {
         
 	connect(m_timeline, SIGNAL(rightButtonPressed()), this,
 	    SLOT(slotDisplayTimeLineContextMenu()));
+
 	connect(m_timeline, SIGNAL(headerRightButtonPressed()), this,
 	    SLOT(slotDisplayTrackHeaderContextMenu()));
+
+	connect(m_timeline, SIGNAL(rulerRightButtonPressed()), this,
+	    SLOT(slotDisplayRulerContextMenu()));
 
 	/*connect(m_effectListDialog,
 	    SIGNAL(effectSelected(const EffectDesc &)),
@@ -1610,6 +1622,16 @@ namespace Gui {
 			getDocument()->addVideoTrack(ix);
 		else getDocument()->addSoundTrack(ix);
 	}
+    }
+
+    void KdenliveApp::deleteGuide()
+    {
+	m_timeline->deleteGuide();
+    }
+
+    void KdenliveApp::addGuide()
+    {
+	m_timeline->addGuide();
     }
 
 
@@ -2626,6 +2648,12 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	m_timelinePopupMenu->popup(QCursor::pos());
     }
 
+    void KdenliveApp::slotDisplayRulerContextMenu() {
+	QPopupMenu * rulerPopupMenu = (QPopupMenu *) factory()->container("ruler_context", this);
+        // display menu
+        rulerPopupMenu->popup(QCursor::pos());
+    }
+
     void KdenliveApp::slotDisplayTimeLineContextMenu() {
 
 	int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(QCursor::pos()).y())->documentTrackIndex();
@@ -2754,10 +2782,10 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 			    DocTrackSound * >(trackItt.current())),
 			collapsedState[index]));
 		++index;
-		/*m_timeline->insertTrack(index,
+		m_timeline->insertTrack(index,
 		    new KMMTrackKeyFramePanel(m_timeline, getDocument(),
 			(*trackItt), collapsedState[index], KEYFRAMETRACK));
-		++index;*/
+		++index;
 	    } else {
 		kdWarning() << "Sync failed" << endl;
 	    }

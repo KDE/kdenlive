@@ -118,6 +118,25 @@
 	<Action name="project_clean"/>
 </Menu>
 
+<Menu name="ruler_context">
+	<Menu name="tools"><text>Tools</text>
+		<Action name="timeline_move_tool"/>
+		<Action name="timeline_razor_tool"/>
+		<Action name="timeline_spacer_tool"/>
+		<Action name="timeline_marker_tool"/>
+		<Action name="timeline_roll_tool"/>
+	</Menu>
+	<Menu name="snap"><text>Snap To</text>
+		<Action name="timeline_snap_frame"/>
+		<Action name="timeline_snap_border"/>
+		<Action name="timeline_snap_marker"/>
+	</Menu>
+	<Menu name="guides"><text>Guides</text>
+		<Action name="timeline_add_guide"/>
+		<Action name="timeline_delete_guide"/>
+	</Menu>
+</Menu>
+
 <Menu name="timeline_header_context">
 	<Menu name="tools"><text>Tools</text>
 		<Action name="timeline_move_tool"/>
