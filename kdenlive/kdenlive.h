@@ -384,6 +384,8 @@ namespace Gui {
 
 	/** Returns the effect list. */
 	const EffectDescriptionList & effectList() const;
+
+        QValueList <int> timelineGuides() const;
         
       private slots: 
         void slotToggleClipMonitor();

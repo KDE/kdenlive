@@ -155,7 +155,7 @@ class KdenliveDoc:public QObject {
 	bool includeSnapMarkers,
 	bool includeUnSelectedClips, bool includeSelectedClips);
 
-    GenTime toSnapTime(GenTime currTime, bool forward = true, bool includeSnapMarkers = true);
+    GenTime toSnapTime(GenTime currTime, bool forward = true, bool includeSnapMarkers = true, bool includeGuides = true);
 
 	/** Constructs a list of all clips that are currently selected. */
     DocClipRefList listSelected() const;

@@ -433,7 +433,7 @@ namespace Gui {
 
     void KRuler::doCommonCtor() {
 	setStartPixel(0);
-	m_markerPixmap = KGlobal::iconLoader()->loadIcon("kdenlive_marker", KIcon::Small, 15);
+	m_markerPixmap = KGlobal::iconLoader()->loadIcon("kdenlive_guide", KIcon::Small, 15);
 	setMinimumHeight(16);
 	setMinimumWidth(32);
 	setMaximumHeight(32);
@@ -905,7 +905,7 @@ namespace Gui {
         for ( itt = m_guides.begin(); itt != m_guides.end(); ++itt ) {
 	    value = (int) mapValueToLocal(*itt);
 	    if (value +7 >= sx && value -7 <= ex) 
-		painter.drawPixmap(value - 7, height() - 15, m_markerPixmap);
+		painter.drawPixmap(value - 7, height() - 18, m_markerPixmap);
 	}
 
 	//

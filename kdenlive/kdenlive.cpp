@@ -1250,6 +1250,10 @@ namespace Gui {
 	m_timeline->setInpointTimeline(in);
     }
 
+    QValueList <int> KdenliveApp::timelineGuides() const {
+	return m_timeline->timelineGuides();
+    }
+
     GenTime KdenliveApp::outpointPosition() const {
 	return m_timeline->outpointPosition();
     }
