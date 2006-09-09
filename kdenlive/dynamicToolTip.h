@@ -20,8 +20,6 @@
 #include <qwidget.h>
 #include <qtooltip.h>
 
-#include "docclipref.h"
-
 
 namespace Gui {
 

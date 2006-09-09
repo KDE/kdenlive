@@ -102,13 +102,15 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
 	void invalidateBackBuffer();
   /** Specifies that part of the back buffer needs to be redrawn.  */
 	void invalidateBackBuffer(int start, int end);
+	void tip(const QPoint &pos, QRect &rect, QString &tipText);
+
     public slots:		// public slots
 	/** Sets the slider with the given id to the given value. The display will be updated.  */
 	void setSliderValue(int id, int value);
 	/** Return the list of all timeline guides */
 	QValueList < int > timelineGuides();
 	void deleteGuide();
-	void addGuide();
+	void addGuide(QString comment);
 
     signals:		// Signals
 	/** This signal is emitted when the ruler is resized. */
@@ -181,6 +183,7 @@ is under the mouse. */
 
 	/** The list of timeline guides */
 	QValueList < int > m_guides;
+	QStringList guideComments;
 	QPixmap m_markerPixmap;
 
     private:			// private methods

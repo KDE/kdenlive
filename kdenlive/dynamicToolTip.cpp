@@ -19,9 +19,12 @@
 #include <qpainter.h>
 #include <stdlib.h>
 
+#include <kdebug.h>
+
 #include "kmmtrackpanel.h"
 #include "ktrackview.h"
-#include "kdenlivedoc.h"
+#include "kruler.h"
+
 
 namespace Gui {
 
@@ -35,8 +38,13 @@ void DynamicToolTip::maybeTip(const QPoint & pos)
 {
     QRect rect;
     QString txt;
-    if ( parentWidget()->inherits( "QWidget" ) )
+    kdDebug()<<"+++ TIP: "<<parentWidget()->name()<<endl;
+    if ( QString(parentWidget()->name()) == "trackview_area" ) {
         ((KTrackView*)parentWidget())->tip(pos, rect, txt);
+    }
+    else if ( QString(parentWidget()->name()) == "timeline_ruler" ) {
+        ((KRuler*)parentWidget())->tip(pos, rect, txt);
+    }
     if ( rect.isValid() ) tip(rect, txt);
 
 }

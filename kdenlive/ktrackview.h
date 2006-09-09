@@ -97,7 +97,7 @@ namespace Gui {
 
 	KdenliveApp *m_app;
 
-	DynamicToolTip *tiptst;
+	DynamicToolTip *trackview_tips;
 
     public slots:		// Public slots
 	/** Invalidate the back buffer, alerting the trackview that it should redraw itself. */

@@ -29,11 +29,11 @@ namespace Command {
 
     KEditMarkerCommand::KEditMarkerCommand(KdenliveDoc & document,
 	DocClipRef * clip,
-	const GenTime & clipTime,
+	const GenTime & clipTime, QString comment,
 	bool create):KCommand(),
 	m_document(document),
 	m_create(create),
-	m_clipTime(clipTime),
+	m_clipTime(clipTime), m_comment(comment),
 	m_trackTime(clip->trackMiddleTime()), m_track(clip->trackNum()), m_previousComment(QString::null) {
     } 
 
@@ -81,8 +81,7 @@ namespace Command {
 		}
 		if (itt != markers.end()) {
 		    m_previousComment = (*itt).comment();
-		    QString comment = KInputDialog::getText(i18n("Edit Marker"), i18n("Marker comment: "), m_previousComment);
-		    if (!comment.isEmpty()) clip->editSnapMarker(m_clipTime, comment);
+		    clip->editSnapMarker(m_clipTime, m_comment);
 		} else {
 		kdError() <<
 		    "Cannot find Marker..."

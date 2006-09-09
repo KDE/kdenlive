@@ -412,11 +412,11 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	    if (m_referredClip->hasSnapMarker(seekPosition())) {
 		command =
 		    new Command::KAddMarkerCommand(*m_document,
-		    m_referredClip, seekPosition(), false);
+		    m_referredClip, seekPosition(), QString::null, false);
 	    } else {
 		command =
 		    new Command::KAddMarkerCommand(*m_document,
-		    m_referredClip, seekPosition(), true);
+		    m_referredClip, seekPosition(), i18n("Marker"), true);
 	    }
 
 	    m_app->addCommand(command, true);

@@ -456,6 +456,21 @@ namespace Gui {
 	delete m_rulerModel;
     }
 
+    void KRuler::tip(const QPoint &pos, QRect &rect, QString &tipText) {
+
+        QValueList < int >::Iterator itt = m_guides.begin();
+	uint ct = 0;
+        for ( itt = m_guides.begin(); itt != m_guides.end(); ++itt ) {
+	    int value = (int) mapValueToLocal(*itt);
+	    if (abs (pos.x() - value) < 7 ) { 
+		rect.setRect( value -7, y(), 15, height());
+		tipText = guideComments[ct];
+		break;
+	    }
+	    ct++;
+	}
+    }
+
     void KRuler::paintEvent(QPaintEvent * event) {
 	RangeListIterator < int >itt(d->m_bufferDrawList);
         QPainter painter(this);
@@ -953,12 +968,14 @@ namespace Gui {
 	return m_guides;
     }
 
-   void KRuler::addGuide() {
+   void KRuler::addGuide(QString comment) {
 	int time = (int) getSliderValue(0);
+	uint ct = 0;
         QValueList < int >::Iterator it = m_guides.begin();
         for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
 	    if ((*it) >= time)
 	    	break;
+	    ct++;
         }
 
     	if ((it != m_guides.end()) && ((*it) == time)) {
@@ -967,20 +984,32 @@ namespace Gui {
 	    << endl;
     	} else {
 	    m_guides.insert(it, time);
+	    QStringList::Iterator itt = guideComments.begin();
+	    for (uint ix = 0; ix < ct; ix++) {
+		++itt;
+	    }
+	    guideComments.insert(itt, comment);
 	    invalidateBackBuffer(mapValueToLocal(time) - 7, mapValueToLocal(time) + 7);
 	}
     }
 
     void KRuler::deleteGuide() {
 	int localTime = (int) mapValueToLocal(getSliderValue(0));
+	uint ct = 0;
         QValueList < int >::Iterator it = m_guides.begin();
         for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
 	    if (abs(mapValueToLocal(*it) - localTime) < 10)
 	    	break;
+	    ct++;
         }
-
     	if ((it != m_guides.end())) {
 	    m_guides.erase(it);
+	    QStringList::Iterator itt = guideComments.begin();
+	    for (uint ix = 0; ix < ct; ix++) {
+		++itt;
+	    }
+	    ++itt;
+	    guideComments.erase(itt);
 	    invalidateBackBuffer(mapValueToLocal(*it) - 7, mapValueToLocal(*it) + 7);
     	} else {
 	    kdError()<<"CANNOT find guide to delete"<<endl;

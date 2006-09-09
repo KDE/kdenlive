@@ -33,7 +33,7 @@ namespace Command {
     class KEditMarkerCommand:public KCommand {
       public:
 	KEditMarkerCommand(KdenliveDoc & document, DocClipRef * clip,
-	    const GenTime & clipTime, bool create = true);
+	    const GenTime & clipTime, QString comment, bool create = true);
 
 	~KEditMarkerCommand();
 
@@ -51,6 +51,7 @@ namespace Command {
 
 	/** The time (in clip time) that the marker should be placed at. */
 	GenTime m_clipTime;
+	QString m_comment;
 
 	/** A time on the track where the clip in question exists. */
 	GenTime m_trackTime;

@@ -44,12 +44,11 @@ namespace Gui {
 	m_bufferInvalid = false;
 
 	setAcceptDrops(true);
-
-	tiptst = new DynamicToolTip(this);
+	trackview_tips = new DynamicToolTip(this);
     } 
 
     KTrackView::~KTrackView() {
-	delete tiptst;
+	delete trackview_tips;
     }
 
     void KTrackView::tip(const QPoint &pos, QRect &rect, QString &tipText) {
@@ -62,21 +61,17 @@ namespace Gui {
     	QValueVector < CommentedTime >::iterator itt = markers.begin();
 	int revativeOffset = m_panel->y() - y();
 	int trackHeight = m_panel->height();
-	
-    	if (abs(pos.y() - trackHeight / 2) < 10) 
 	while (itt != markers.end()) {
 	    int x = m_panel->getLocalValue((*itt).time());
 	    if ( fabs(x - pos.x()) < 5) {
-	    	QRect r(x -7, revativeOffset + trackHeight/2 - 10, 15, 20);
-	    	rect = r;
+	    	rect.setRect(x -7, revativeOffset + trackHeight/2 - 10, 15, 20);
 		tipText = (*itt).comment();
 		return;
 	    }
 	    ++itt;
     	}
 
-	QRect r(m_panel->getLocalValue(underMouse->trackStart()), revativeOffset, abs(m_panel->getLocalValue(underMouse->duration()) - m_panel->getLocalValue(GenTime(0))), 20);
-	rect = r;
+	rect.setRect(m_panel->getLocalValue(underMouse->trackStart()), revativeOffset, abs(m_panel->getLocalValue(underMouse->duration()) - m_panel->getLocalValue(GenTime(0))), 20);
 	tipText = underMouse->description();
 	if (tipText.isEmpty()) tipText = underMouse->name();
     }

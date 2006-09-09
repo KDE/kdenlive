@@ -29,11 +29,11 @@ namespace Command {
 
     KAddMarkerCommand::KAddMarkerCommand(KdenliveDoc & document,
 	DocClipRef * clip,
-	const GenTime & clipTime,
+	const GenTime & clipTime, QString comment,
 	bool create):KCommand(),
 	m_document(document),
 	m_create(create),
-	m_clipTime(clipTime),
+	m_clipTime(clipTime), m_comment(comment), 
 	m_trackTime(clip->trackMiddleTime()), m_track(clip->trackNum()) {
     } KAddMarkerCommand::~KAddMarkerCommand() {
     }
@@ -71,9 +71,7 @@ namespace Command {
 	if (track) {
 	    DocClipRef *clip = track->getClipAt(m_trackTime);
 	    if (clip) {
-		QString comment = KInputDialog::getText(i18n("Add Marker"), i18n("Marker comment: "));
-		if (!comment.isEmpty())
-		    clip->addSnapMarker(m_clipTime, comment);
+		clip->addSnapMarker(m_clipTime, m_comment);
 	    } else {
 		kdError() <<
 		    "Trying to add marker; no clip exists at this point on the track!"

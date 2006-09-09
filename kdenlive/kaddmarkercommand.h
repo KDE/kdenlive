@@ -33,7 +33,7 @@ namespace Command {
     class KAddMarkerCommand:public KCommand {
       public:
 	KAddMarkerCommand(KdenliveDoc & document, DocClipRef * clip,
-	    const GenTime & clipTime, bool create = true);
+	    const GenTime & clipTime, QString comment, bool create = true);
 
 	~KAddMarkerCommand();
 
@@ -47,7 +47,7 @@ namespace Command {
 	 KdenliveDoc & m_document;
 	/** True if this command creates a marker when executed, false otherwise. */
 	bool m_create;
-
+	QString m_comment;
 	/** The time (in clip time) that the marker should be placed at. */
 	GenTime m_clipTime;
 

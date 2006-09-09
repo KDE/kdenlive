@@ -21,6 +21,7 @@
 #include "kdenlive.h"
 #include "kdenlivedoc.h"
 #include "ktimeline.h"
+#include "kinputdialog.h"
 
 TrackPanelMarkerFunction::TrackPanelMarkerFunction(Gui::KdenliveApp * app, Gui::KTimeLine * timeline, KdenliveDoc * document):
 m_app(app), m_timeline(timeline), m_document(document)
@@ -81,29 +82,28 @@ bool TrackPanelMarkerFunction::mouseReleased(Gui::KTrackPanel * panel,
 	    clipUnderMouse = track->getClipAt(mouseTime);
 	    //kdDebug()<<"*** get ready for marker on track: "<<panel->documentTrackIndex()<<endl;
 	    if (clipUnderMouse) {
-		QValueVector < GenTime > markers = clipUnderMouse->snapMarkers();
-		QValueVector < GenTime >::iterator itt = markers.begin();
+		QValueVector < CommentedTime > markers = clipUnderMouse->commentedSnapMarkers();
+		QValueVector < CommentedTime >::iterator itt = markers.begin();
 		while (itt != markers.end()) {
-		    int x = (int)(m_timeline->mapValueToLocal((*itt + clipUnderMouse->trackStart() - clipUnderMouse->cropStartTime()).frames(m_document->framesPerSecond())));
+		    int x = (int)(m_timeline->mapValueToLocal(((*itt).time() + clipUnderMouse->trackStart() - clipUnderMouse->cropStartTime()).frames(m_document->framesPerSecond())));
 		    if (fabs(x - event->x()) < 10) {
-			Command::KEditMarkerCommand * command =
-		    new Command::KEditMarkerCommand(*m_document,
-		    clipUnderMouse,
-		    (*itt), true);
-		    m_app->addCommand(command);
+			bool ok;
+		        QString comment = KInputDialog::getText(i18n("Edit Marker"), i18n("Marker comment: "), (*itt).comment(), &ok);
+			if (ok) {
+			    Command::KEditMarkerCommand * command = new Command::KEditMarkerCommand(*m_document, clipUnderMouse, (*itt).time(), comment, true);
+		     	    m_app->addCommand(command);
+			}
 			return true;
 		    }
 		    ++itt;
 		}
-
-
 		//kdDebug()<<"*** get ready for marker on clip: "<<clipUnderMouse->name()<<endl;
-		Command::KAddMarkerCommand * command =
-		    new Command::KAddMarkerCommand(*m_document,
-		    clipUnderMouse,
-		    mouseTime - clipUnderMouse->trackStart() +
-		    clipUnderMouse->cropStartTime(), true);
-		m_app->addCommand(command);
+		bool ok;
+		QString comment = KInputDialog::getText(i18n("Add Marker"), i18n("Marker comment: "), i18n("Marker"), &ok);
+		if (ok) {
+		    Command::KAddMarkerCommand * command = new Command::KAddMarkerCommand(*m_document, clipUnderMouse, mouseTime - clipUnderMouse->trackStart() + clipUnderMouse->cropStartTime(), comment, true);
+		    m_app->addCommand(command);
+		}
 	    }
 	}
     }

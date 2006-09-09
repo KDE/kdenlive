@@ -23,7 +23,7 @@
 #include <qtimer.h>
 
 #include "gentime.h"
-
+#include "dynamicToolTip.h"
 #include "ktrackpanel.h"
 
 class QHBox;
@@ -223,6 +223,7 @@ namespace Command {
 
 	/** difference between midpoint and inpoint/outpoint when inpoint or outpoint moved */
 	GenTime m_midPoint;
+	DynamicToolTip *ruler_tips;
 
     public slots:		// Public slots
 	/** Update the back buffer for the track views, and tell the trackViewArea widget to

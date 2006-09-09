@@ -22,6 +22,8 @@
 #include <assert.h>
 
 #include <klocale.h>
+#include <kinputdialog.h>
+
 #include <qscrollbar.h>
 #include <qscrollview.h>
 #include <qhbox.h>
@@ -38,6 +40,7 @@
 #include "kscalableruler.h"
 #include "kdenlive.h"
 #include "kmmtrackkeyframepanel.h"
+
 
 namespace {
     uint g_scrollTimerDelay = 50;
@@ -63,8 +66,9 @@ namespace Gui {
 	m_rulerToolWidget->reparent(m_rulerBox, QPoint(0, 0));
 
 	m_ruler =
-	    new KScalableRuler(new KRulerTimeModel(), m_rulerBox, name);
+	    new KScalableRuler(new KRulerTimeModel(), m_rulerBox, "timeline_ruler");
 	m_ruler->addSlider(KRuler::TopMark, 0);
+	ruler_tips = new DynamicToolTip(m_ruler);
 	//added inpoint/outpoint markers -reh
 	m_ruler->addSlider(KRuler::StartMark, 0);
 	m_ruler->addSlider(KRuler::EndMark, m_ruler->maxValue());
@@ -80,8 +84,7 @@ namespace Gui {
 	    new QScrollBar(-100, 5000, 50, 500, 0, QScrollBar::Horizontal,
 	    m_scrollBox, "horizontal ScrollBar");
 
-	m_trackViewArea = new KTrackView(*this, m_trackScroll, "track view area");
-
+	m_trackViewArea = new KTrackView(*this, m_trackScroll, "trackview_area");
 	m_trackScroll->enableClipper(TRUE);
 	//m_trackScroll->setVScrollBarMode(QScrollView::AlwaysOn);
 	m_trackScroll->setHScrollBarMode(QScrollView::AlwaysOff);
@@ -127,7 +130,9 @@ namespace Gui {
 	 m_trackList.setAutoDelete(true);
     } 
     
-    KTimeLine::~KTimeLine() {}
+    KTimeLine::~KTimeLine() {
+	delete ruler_tips;
+    }
 
     void KTimeLine::slotHeaderRightButtonPressed() {
 	emit headerRightButtonPressed();
@@ -580,7 +585,9 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
     }
 
     void KTimeLine::addGuide() {
-	m_ruler->addGuide();
+	bool ok;
+	QString comment = KInputDialog::getText(i18n("Add Guide"), i18n("Guide comment: "), QString::null, &ok);
+	if (ok) m_ruler->addGuide(comment);
     }
 
     void KTimeLine::deleteGuide() {
