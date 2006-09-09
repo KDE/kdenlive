@@ -969,7 +969,7 @@ namespace Gui {
 	    << endl;
     	} else {
 	    m_guides.insert(it, time);
-	    invalidateBackBuffer(mapLocalToValue(time) - 7, mapLocalToValue(time) + 7);
+	    invalidateBackBuffer(mapValueToLocal(time) - 7, mapValueToLocal(time) + 7);
 	}
     }
 
