@@ -25,7 +25,7 @@
 
 namespace Gui {
 
-DynamicToolTip::DynamicToolTip(KTrackView * parent):QToolTip(parent), m_trackview(parent)
+DynamicToolTip::DynamicToolTip(QWidget * parent):QToolTip(parent)
 {
     // no explicit initialization needed
 }
@@ -33,30 +33,11 @@ DynamicToolTip::DynamicToolTip(KTrackView * parent):QToolTip(parent), m_trackvie
 
 void DynamicToolTip::maybeTip(const QPoint & pos)
 {
-    KTrackPanel *panel = m_trackview->panelAt(pos.y());
-    KMMTrackPanel *m_panel = static_cast<KMMTrackPanel*> (panel);
-    DocClipRef *underMouse = m_panel->getClipAt(pos.x()); 
-    if (!underMouse) return;
-
-    QString messageTip;
-
-	QRect r(m_panel->getLocalValue(underMouse->trackStart()), m_panel->y() - m_trackview->y(), abs(m_panel->getLocalValue(underMouse->duration()) - m_panel->getLocalValue(GenTime(0))), 20);
-	messageTip = underMouse->description();
-	if (messageTip.isEmpty()) messageTip = underMouse->name();
-	tip(r, messageTip);
-
-    QValueVector < CommentedTime > markers = underMouse->commentedTrackSnapMarkers();
-    QValueVector < CommentedTime >::iterator itt = markers.begin();
-
-    while (itt != markers.end()) {
-	int x = m_panel->getLocalValue((*itt).time());
-	if ( fabs(x - pos.x()) < 5) {
-	    QRect r(x -7, m_panel->y() - m_trackview->y(), 15, m_panel->height());
-	    tip(r, (*itt).comment());
-	    break;
-	}
-	++itt;
-    }
+    QRect rect;
+    QString txt;
+    if ( parentWidget()->inherits( "QWidget" ) )
+        ((KTrackView*)parentWidget())->tip(pos, rect, txt);
+    if ( rect.isValid() ) tip(rect, txt);
 
 }
 

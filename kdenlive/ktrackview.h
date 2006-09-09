@@ -66,6 +66,7 @@ namespace Gui {
 	void registerFunction(const QString & name, TrackPanelFunction * function);
 	void clearFunctions();
 	void setDragFunction(const QString & name);
+	void tip(const QPoint &pos, QRect &rect, QString &tipText);
         
       protected:
           void wheelEvent( QWheelEvent * e );

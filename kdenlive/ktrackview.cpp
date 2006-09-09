@@ -49,6 +49,36 @@ namespace Gui {
     } 
 
     KTrackView::~KTrackView() {
+	delete tiptst;
+    }
+
+    void KTrackView::tip(const QPoint &pos, QRect &rect, QString &tipText) {
+	KTrackPanel *panel = panelAt(pos.y());
+    	KMMTrackPanel *m_panel = static_cast<KMMTrackPanel*> (panel);
+	DocClipRef *underMouse = m_panel->getClipAt(pos.x());
+	if (!underMouse) return;
+
+    	QValueVector < CommentedTime > markers = underMouse->commentedTrackSnapMarkers();
+    	QValueVector < CommentedTime >::iterator itt = markers.begin();
+	int revativeOffset = m_panel->y() - y();
+	int trackHeight = m_panel->height();
+	
+    	if (abs(pos.y() - trackHeight / 2) < 10) 
+	while (itt != markers.end()) {
+	    int x = m_panel->getLocalValue((*itt).time());
+	    if ( fabs(x - pos.x()) < 5) {
+	    	QRect r(x -7, revativeOffset + trackHeight/2 - 10, 15, 20);
+	    	rect = r;
+		tipText = (*itt).comment();
+		return;
+	    }
+	    ++itt;
+    	}
+
+	QRect r(m_panel->getLocalValue(underMouse->trackStart()), revativeOffset, abs(m_panel->getLocalValue(underMouse->duration()) - m_panel->getLocalValue(GenTime(0))), 20);
+	rect = r;
+	tipText = underMouse->description();
+	if (tipText.isEmpty()) tipText = underMouse->name();
     }
 
     void KTrackView::resizeEvent(QResizeEvent * event) {
@@ -147,7 +177,7 @@ namespace Gui {
 	    painter.setPen(QColor(Qt::gray));
 	    painter.drawLine(guidePosition, 0, guidePosition, height());
 	    painter.setPen(QColor(Qt::black));
-	}    
+	}
         }
 
 	
