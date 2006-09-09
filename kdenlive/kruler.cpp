@@ -694,11 +694,9 @@ namespace Gui {
     
     void KRuler::mousePressEvent(QMouseEvent * event) {
 	if (event->button() == QMouseEvent::RightButton) {
-	    emit rightButtonPressed();
-	    if (d->m_oldValue != -1) {
-		setSliderValue(activeSliderID(), d->m_oldValue);
+		setSliderValue(0,  (int) floor(mapLocalToValue((int) event->x()) + 0.5));
 		d->m_oldValue = -1;
-	    }
+		emit rightButtonPressed();
 	} else if (event->button() == QMouseEvent::LeftButton) {
 	    if (d->m_oldValue == -1) {
 		activateSliderUnderCoordinate(event->x(), event->y());
