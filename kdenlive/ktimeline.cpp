@@ -23,6 +23,7 @@
 
 #include <klocale.h>
 #include <kinputdialog.h>
+#include <krestrictedline.h>
 
 #include <qscrollbar.h>
 #include <qscrollview.h>
@@ -40,6 +41,8 @@
 #include "kscalableruler.h"
 #include "kdenlive.h"
 #include "kmmtrackkeyframepanel.h"
+#include "addmarker_ui.h"
+#include "timecode.h"
 
 
 namespace {
@@ -297,6 +300,10 @@ the display. The scale is the size of one frame.*/
 
     GenTime KTimeLine::seekPosition() const {
 	return GenTime(m_ruler->getSliderValue(0), m_framesPerSecond);
+    }
+
+    int KTimeLine::localSeekPosition() const {
+	return m_ruler->getSliderValue(0);
     }
 
 void KTimeLine::autoScroll() {
@@ -589,21 +596,52 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
     }
 
     void KTimeLine::addGuide() {
-	bool ok;
-	QString comment = KInputDialog::getText(i18n("Add Guide"), i18n("Guide comment: "), QString::null, &ok);
-	if (ok) m_ruler->addGuide(comment);
+	AddMarker_UI dlg;
+	Timecode tcode;
+	dlg.setCaption(i18n("Add Guide"));
+	GenTime pos = GenTime(m_ruler->getSliderValue(0), m_framesPerSecond);
+	dlg.marker_position->setText(tcode.getTimecode(pos, m_framesPerSecond));
+	if (dlg.exec() == QDialog::Accepted) {
+	    QString dur = dlg.marker_position->text();
+            int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * m_framesPerSecond + dur.section(":",3,3).toInt());
+	    m_ruler->addGuide(frames, dlg.marker_comment->text());
+	    trackView()->invalidateBackBuffer(frames - 7, frames + 7);
+	}
     }
 
     void KTimeLine::deleteGuide() {
 	m_ruler->deleteGuide();
-	trackView()->invalidateBackBuffer(m_ruler->getSliderValue(0) - 7, m_ruler->getSliderValue(0) + 7);
+	trackView()->invalidateBackBuffer(m_ruler->getSliderValue(0) - 2, m_ruler->getSliderValue(0) + 2);
     }
 
     void KTimeLine::editGuide() {
-	QString comment = m_ruler->currentGuideComment();
-	bool ok;
-	comment = KInputDialog::getText(i18n("Edit Guide"), i18n("Guide comment: "), comment, &ok);
-	if (ok) m_ruler->editGuide(comment);
+	int ix = m_ruler->currentGuideIndex();
+	if (ix == -1) {
+	    kdDebug()<<" NO GUIDE FOUND UNDER TIMELINE POSITON"<<endl;
+	    return;
+	}
+	QString comment = m_ruler->guideComment(ix);
+	int pos = m_ruler->guidePosition(ix);
+	AddMarker_UI dlg;
+	dlg.setCaption(i18n("Edit Guide"));
+	Timecode tcode;
+	GenTime position = GenTime(pos, m_framesPerSecond);
+	dlg.marker_position->setText(tcode.getTimecode(position, m_framesPerSecond));
+	dlg.marker_comment->setText(comment);
+	if (dlg.exec() == QDialog::Accepted) {
+	    QString dur = dlg.marker_position->text();
+            int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * m_framesPerSecond + dur.section(":",3,3).toInt());
+	    if (frames == m_ruler->getSliderValue(0)) {
+		// only comment has changed
+		m_ruler->editGuide(comment);
+	    }
+	    else {
+		m_ruler->deleteGuide();
+		m_ruler->addGuide(frames, dlg.marker_comment->text());
+	    	trackView()->invalidateBackBuffer(pos - 2, pos + 2);
+		trackView()->invalidateBackBuffer(frames - 2, frames + 2);
+	    }
+	}
     }
 
     void KTimeLine::gotoGuide(int ix) {

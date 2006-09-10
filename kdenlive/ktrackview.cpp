@@ -175,6 +175,10 @@ namespace Gui {
 	}
         }
 
+	// draw the vertical time marker
+	int value = m_timeline.mapValueToLocal(m_timeline.localSeekPosition());
+	painter.drawLine(value, 0, value, height());
+
 	
     }
     
@@ -211,8 +215,14 @@ namespace Gui {
 	    painter.setPen(QColor(Qt::gray));
 	    painter.drawLine(guidePosition, 0, guidePosition, height());
 	    painter.setPen(QColor(Qt::black));
-	}    
+	}
         }
+
+	// draw the vertical time marker
+	int value = m_timeline.mapValueToLocal(m_timeline.localSeekPosition());
+	if (value >= start && value <= end) {
+	    painter.drawLine(value, 0, value, height());
+	}
 
     }
 

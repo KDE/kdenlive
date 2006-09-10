@@ -968,8 +968,7 @@ namespace Gui {
 	return m_guides;
     }
 
-   void KRuler::addGuide(QString comment) {
-	int time = (int) getSliderValue(0);
+   void KRuler::addGuide(int time, QString comment) {
 	uint ct = 0;
         QValueList < int >::Iterator it = m_guides.begin();
         for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
@@ -1032,7 +1031,7 @@ namespace Gui {
 	return guideComments;
     }
 
-    QString KRuler::currentGuideComment() {
+    int KRuler::currentGuideIndex() {
 	int localTime = (int) mapValueToLocal(getSliderValue(0));
 	uint ct = 0;
         QValueList < int >::Iterator it = m_guides.begin();
@@ -1041,8 +1040,18 @@ namespace Gui {
 	    	break;
 	    ct++;
         }
-	if (it != m_guides.end()) return guideComments[ct];
+	if (it != m_guides.end()) return ct;
+	return -1;
+    }
+
+    QString KRuler::guideComment(int ix) {
+	if (ix != -1) return guideComments[ix];
 	return QString::null;
+    }
+
+    int KRuler::guidePosition(int ix) {
+	if (ix != -1) return m_guides[ix];
+	return 0;
     }
 
 }				// namespace Gui

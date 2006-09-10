@@ -59,15 +59,6 @@ namespace Gui {
 //virtual
     void KMMTrackPanel::drawToBackBuffer(QPainter & painter, QRect & rect) {
 	KTrackPanel::drawToBackBuffer(painter, rect);
-
-	// draw the vertical time marker
-	int value =
-	    (int) timeline()->mapValueToLocal(timeline()->seekPosition().
-	    frames(m_document->framesPerSecond()));
-	if (value >= rect.x() && value <= rect.x() + rect.width()) {
-	    painter.drawLine(value, rect.y(), value,
-		rect.y() + rect.height());
-	}
     }
 
 }				// namespace Gui

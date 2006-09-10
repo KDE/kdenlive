@@ -111,9 +111,11 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
 	QValueList < int > timelineGuides();
 	void deleteGuide();
 	void editGuide(QString comment);
-	void addGuide(QString comment);
+	void addGuide(int time, QString comment);
 	QStringList timelineRulerComments();
-	QString currentGuideComment();
+	int currentGuideIndex();
+	int guidePosition(int ix);
+	QString guideComment(int ix);
 
     signals:		// Signals
 	/** This signal is emitted when the ruler is resized. */

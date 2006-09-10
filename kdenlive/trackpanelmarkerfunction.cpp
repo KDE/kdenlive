@@ -87,6 +87,12 @@ bool TrackPanelMarkerFunction::mouseReleased(Gui::KTrackPanel * panel,
 		while (itt != markers.end()) {
 		    int x = (int)(m_timeline->mapValueToLocal(((*itt).time() + clipUnderMouse->trackStart() - clipUnderMouse->cropStartTime()).frames(m_document->framesPerSecond())));
 		    if (fabs(x - event->x()) < 10) {
+			if (event->state() & Qt::ControlButton) {
+			    // Pressing CTRL removes current marker
+			    Command::KAddMarkerCommand * command = new Command::KAddMarkerCommand(*m_document, clipUnderMouse, (*itt).time(), (*itt).comment(), false);
+		    	    m_app->addCommand(command);
+			    return true;
+			}
 			bool ok;
 		        QString comment = KInputDialog::getText(i18n("Edit Marker"), i18n("Marker comment: "), (*itt).comment(), &ok);
 			if (ok) {

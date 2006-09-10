@@ -81,6 +81,7 @@ namespace Command {
 	/** Returns the seek position of the timeline - this is the currently playing frame, or
 	the currently seeked frame. */
 	GenTime seekPosition() const;
+	int localSeekPosition() const;
 
 	//Returns the inpoint/outpoing position of the timeline
 	GenTime inpointPosition() const;
