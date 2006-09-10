@@ -110,7 +110,10 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
 	/** Return the list of all timeline guides */
 	QValueList < int > timelineGuides();
 	void deleteGuide();
+	void editGuide(QString comment);
 	void addGuide(QString comment);
+	QStringList timelineRulerComments();
+	QString currentGuideComment();
 
     signals:		// Signals
 	/** This signal is emitted when the ruler is resized. */

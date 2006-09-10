@@ -584,6 +584,10 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
 	return m_ruler->timelineGuides();
     }
 
+    QStringList KTimeLine::timelineRulerComments() {
+	return m_ruler->timelineRulerComments();
+    }
+
     void KTimeLine::addGuide() {
 	bool ok;
 	QString comment = KInputDialog::getText(i18n("Add Guide"), i18n("Guide comment: "), QString::null, &ok);
@@ -593,6 +597,20 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
     void KTimeLine::deleteGuide() {
 	m_ruler->deleteGuide();
 	trackView()->invalidateBackBuffer(m_ruler->getSliderValue(0) - 7, m_ruler->getSliderValue(0) + 7);
+    }
+
+    void KTimeLine::editGuide() {
+	QString comment = m_ruler->currentGuideComment();
+	bool ok;
+	comment = KInputDialog::getText(i18n("Edit Guide"), i18n("Guide comment: "), comment, &ok);
+	if (ok) m_ruler->editGuide(comment);
+    }
+
+    void KTimeLine::gotoGuide(int ix) {
+	//move to guide number ix (substract 100 because in the popupmenu, we start the items id at 100)
+	int pos = *(m_ruler->timelineGuides().at(ix - 100));
+	m_ruler->setSliderValue(0, pos);
+	ensureCursorVisible();	
     }
 
 }				// namespace Gui

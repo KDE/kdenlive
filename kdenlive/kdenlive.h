@@ -411,6 +411,7 @@ namespace Gui {
         
 	void deleteGuide();
 	void addGuide();
+	void editGuide();
 
         /** Add a transition between the 2 selected clips */
         void addTransition();
@@ -508,6 +509,7 @@ namespace Gui {
 	KAction *renderExportTimeline;
 	KAction *configureProject;
 	QPopupMenu *m_timelinePopupMenu;
+	QPopupMenu *m_rulerPopupMenu;
 
         KdenliveSplash *splash;
 

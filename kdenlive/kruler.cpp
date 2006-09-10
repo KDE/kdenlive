@@ -709,7 +709,7 @@ namespace Gui {
     
     void KRuler::mousePressEvent(QMouseEvent * event) {
 	if (event->button() == QMouseEvent::RightButton) {
-		setSliderValue(0,  (int) floor(mapLocalToValue((int) event->x()) + 0.5));
+		//setSliderValue(0,  (int) floor(mapLocalToValue((int) event->x()) + 0.5));
 		d->m_oldValue = -1;
 		emit rightButtonPressed();
 	} else if (event->button() == QMouseEvent::LeftButton) {
@@ -1002,18 +1002,47 @@ namespace Gui {
 	    	break;
 	    ct++;
         }
-    	if ((it != m_guides.end())) {
+    	if (it != m_guides.end()) {
 	    m_guides.erase(it);
 	    QStringList::Iterator itt = guideComments.begin();
 	    for (uint ix = 0; ix < ct; ix++) {
 		++itt;
 	    }
-	    ++itt;
 	    guideComments.erase(itt);
 	    invalidateBackBuffer(mapValueToLocal(*it) - 7, mapValueToLocal(*it) + 7);
     	} else {
 	    kdError()<<"CANNOT find guide to delete"<<endl;
 	}
+    }
+
+    void KRuler::editGuide(QString comment) {
+	int localTime = (int) mapValueToLocal(getSliderValue(0));
+	uint ct = 0;
+        QValueList < int >::Iterator it = m_guides.begin();
+        for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
+	    if (abs(mapValueToLocal(*it) - localTime) < 10)
+	    	break;
+	    ct++;
+        }
+    	if (it != m_guides.end())
+	    guideComments[ct] = comment;
+    }
+
+    QStringList KRuler::timelineRulerComments() {
+	return guideComments;
+    }
+
+    QString KRuler::currentGuideComment() {
+	int localTime = (int) mapValueToLocal(getSliderValue(0));
+	uint ct = 0;
+        QValueList < int >::Iterator it = m_guides.begin();
+        for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
+	    if (abs(mapValueToLocal(*it) - localTime) < 10)
+	    	break;
+	    ct++;
+        }
+	if (it != m_guides.end()) return guideComments[ct];
+	return QString::null;
     }
 
 }				// namespace Gui

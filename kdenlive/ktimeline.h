@@ -171,6 +171,7 @@ namespace Command {
 
 	/** Return the list of all timeline guides */
 	QValueList < int > timelineGuides();
+	QStringList timelineRulerComments();
 
     protected:
 	/** @returns the ruler tool widget. */
@@ -257,6 +258,7 @@ namespace Command {
 	void slotScrollDown();
 	void deleteGuide();
 	void addGuide();
+	void editGuide();
 
 	/** Set the number of frames per second */
 	void slotSetFramesPerSecond(double fps);
@@ -274,6 +276,7 @@ namespace Command {
 	/** automatically scroll the timeline to make sure cursor is visible*/
 	void ensureCursorVisible();
 	void slotHeaderRightButtonPressed();
+    	void gotoGuide(int ix);
 
     private slots:		// Private slots
 	/** Scroll the timeline by a set amount. Should be connected to m_scrollTimer */

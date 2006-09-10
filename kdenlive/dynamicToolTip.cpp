@@ -38,7 +38,6 @@ void DynamicToolTip::maybeTip(const QPoint & pos)
 {
     QRect rect;
     QString txt;
-    kdDebug()<<"+++ TIP: "<<parentWidget()->name()<<endl;
     if ( QString(parentWidget()->name()) == "trackview_area" ) {
         ((KTrackView*)parentWidget())->tip(pos, rect, txt);
     }

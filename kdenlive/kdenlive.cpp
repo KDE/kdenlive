@@ -126,7 +126,7 @@ namespace Gui {
 
     KdenliveApp::KdenliveApp(bool newDoc, QWidget *parent,
 	const char *name):KDockMainWindow(parent, name), m_monitorManager(this),
-    m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_renderManager(NULL), m_doc(NULL), m_effectStackDialog(NULL), m_clipMonitor(NULL), m_projectList(NULL), m_effectListDialog(NULL), isNtscProject(false), m_timelinePopupMenu(NULL) {
+    m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_renderManager(NULL), m_doc(NULL), m_effectStackDialog(NULL), m_clipMonitor(NULL), m_projectList(NULL), m_effectListDialog(NULL), isNtscProject(false), m_timelinePopupMenu(NULL), m_rulerPopupMenu(NULL) {
 	config = kapp->config();
 	QString newProjectName;
 	int audioTracks = 2;
@@ -521,6 +521,10 @@ namespace Gui {
 	(void) new KAction(i18n("Delete Guide"), 0, this,
         SLOT(deleteGuide()), actionCollection(),
         "timeline_delete_guide");
+
+	(void) new KAction(i18n("Edit Guide"), 0, this,
+        SLOT(editGuide()), actionCollection(),
+        "timeline_edit_guide");
 
         showClipMonitor = new KToggleAction(i18n("Clip Monitor"), 0, this,
 	    SLOT(slotToggleClipMonitor()), actionCollection(),
@@ -1638,6 +1642,11 @@ namespace Gui {
 	m_timeline->addGuide();
     }
 
+    void KdenliveApp::editGuide()
+    {
+	m_timeline->editGuide();
+    }
+
 
     void KdenliveApp::slotFileSave() {
 	if (m_doc->URL().fileName() == i18n("Untitled")) slotFileSaveAs();
@@ -2653,9 +2662,21 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     }
 
     void KdenliveApp::slotDisplayRulerContextMenu() {
-	QPopupMenu * rulerPopupMenu = (QPopupMenu *) factory()->container("ruler_context", this);
+	m_rulerPopupMenu = (QPopupMenu *) factory()->container("ruler_context", this);
+	QStringList guides = m_timeline->timelineRulerComments();
+	m_rulerPopupMenu->removeItemAt(3);
+	if (!guides.isEmpty()) {
+	    QPopupMenu *gotoGuide = new QPopupMenu;
+	    uint ct = 100;
+	    for ( QStringList::Iterator it = guides.begin(); it != guides.end(); ++it ) {
+		gotoGuide->insertItem(*it, ct);
+		ct++;
+	    }
+	    connect(gotoGuide, SIGNAL(activated(int)), m_timeline, SLOT(gotoGuide(int)));
+	    m_rulerPopupMenu->insertItem(i18n("Go To"), gotoGuide);
+	}
         // display menu
-        rulerPopupMenu->popup(QCursor::pos());
+        m_rulerPopupMenu->popup(QCursor::pos());
     }
 
     void KdenliveApp::slotDisplayTimeLineContextMenu() {
