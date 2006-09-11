@@ -603,6 +603,18 @@ namespace Gui {
         int oldValue = 0;
 	QValueList < KRulerPrivateSlider >::Iterator it;
 
+	if (id == 1 || id == 2) { // snap to guides
+	    QValueList < int >::Iterator itt = m_guides.begin();
+            for ( itt = m_guides.begin(); itt != m_guides.end(); ++itt ) {
+	        int pos = (int) mapValueToLocal(*itt);
+		int sliderpos = (int) mapValueToLocal(actValue);
+	        if (abs(pos - sliderpos) < 10) {
+		    actValue = *itt;
+		    break;
+		}
+	    }
+	}
+
 	for (it = d->m_sliders.begin(); it != d->m_sliders.end(); it++) {
 	    if ((*it).getID() == id) {
                 oldValue = (*it).getValue();
