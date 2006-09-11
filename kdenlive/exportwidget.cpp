@@ -76,6 +76,7 @@ exportWidget::exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, QWi
     connect(exportButton,SIGNAL(clicked()),this,SLOT(startExport()));
     connect(encoders,SIGNAL(activated(int)),this,SLOT(slotAdjustWidgets(int)));
     connect(guide_start, SIGNAL(activated(int)),this,SLOT(slotAdjustGuides(int)));
+    connect(export_guide, SIGNAL(toggled(bool)), guide_box, SLOT(setEnabled(bool)));
 }
 
 exportWidget::~exportWidget()
@@ -365,7 +366,10 @@ void exportWidget::startExport()
             startExportTime = m_timeline->inpointPosition();
             endExportTime = m_timeline->outpointPosition();
         }
-        else {
+        else if (export_guide->isChecked()){
+	    startExportTime = m_timeline->guideTime(guide_start->currentItem ());
+            endExportTime = m_timeline->guideTime(guide_end->currentItem () + guide_start->currentItem () + 1);
+	} else {
             startExportTime = GenTime(0);
             endExportTime = m_timeline->projectLength();
         }

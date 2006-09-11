@@ -595,6 +595,11 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
 	return m_ruler->timelineRulerComments();
     }
 
+    GenTime KTimeLine::guideTime(int ix) {
+	int pos = *(m_ruler->timelineGuides().at(ix));
+	return GenTime(pos, m_framesPerSecond);
+    }
+
     void KTimeLine::addGuide() {
 	AddMarker_UI dlg;
 	Timecode tcode;

@@ -260,6 +260,7 @@ namespace Command {
 	void deleteGuide();
 	void addGuide();
 	void editGuide();
+        GenTime guideTime(int ix);
 
 	/** Set the number of frames per second */
 	void slotSetFramesPerSecond(double fps);
