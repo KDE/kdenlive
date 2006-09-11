@@ -58,6 +58,7 @@ exportWidget::exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, QWi
     m_isRunning = false;
     fileExportFolder->setMode(KFile::Directory);
     fileExportFolder->fileDialog()->setOperationMode(KFileDialog::Saving);
+    updateGuides();
     
 #ifdef ENABLE_FIREWIRE
     tabWidget->page(1)->setEnabled(true);
@@ -74,10 +75,40 @@ exportWidget::exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, QWi
 //    connect(check_fps, SIGNAL(toggled(bool)), fps, SLOT(setEnabled(bool)));
     connect(exportButton,SIGNAL(clicked()),this,SLOT(startExport()));
     connect(encoders,SIGNAL(activated(int)),this,SLOT(slotAdjustWidgets(int)));
+    connect(guide_start, SIGNAL(activated(int)),this,SLOT(slotAdjustGuides(int)));
 }
 
 exportWidget::~exportWidget()
 {}
+
+void exportWidget::updateGuides()
+{
+    guide_start->clear();
+    guide_end->clear();
+    m_guidesList = m_timeline->timelineRulerComments();
+    bool enable = m_guidesList.count() > 1;
+    guide_start->setEnabled(enable);
+    guide_end->setEnabled(enable);
+    export_guide->setEnabled(enable);
+    if (!enable) return;
+    QStringList startGuides = m_guidesList;
+    startGuides.pop_back();
+    guide_start->insertStringList(startGuides);
+    QStringList endGuides = m_guidesList;
+    endGuides.pop_front();
+    guide_end->insertStringList(endGuides);
+}
+
+void exportWidget::slotAdjustGuides(int ix)
+{
+    QStringList endGuides = m_guidesList;
+    while (ix >= 0) {
+        endGuides.pop_front();
+	ix--;
+    }
+    guide_end->clear();
+    guide_end->insertStringList(endGuides);
+}
 
 void exportWidget::initDvConnection()
 {

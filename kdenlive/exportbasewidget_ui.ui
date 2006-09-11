@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>256</width>
-            <height>470</height>
+            <width>347</width>
+            <height>498</height>
         </rect>
     </property>
     <property name="minimumSize">
@@ -28,7 +28,7 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QTabWidget" row="0" column="0" rowspan="1" colspan="2">
+        <widget class="QTabWidget" row="0" column="0" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>tabWidget</cstring>
             </property>
@@ -428,7 +428,7 @@
                 </grid>
             </widget>
         </widget>
-        <widget class="QLayoutWidget" row="4" column="0" rowspan="1" colspan="2">
+        <widget class="QLayoutWidget" row="4" column="0" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>layout2</cstring>
             </property>
@@ -483,7 +483,65 @@
                 </widget>
             </hbox>
         </widget>
-        <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="2">
+        <widget class="QLabel" row="3" column="0">
+            <property name="name">
+                <cstring>textLabel1_3</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>4</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string>From</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="3" column="2">
+            <property name="name">
+                <cstring>textLabel1_3_2</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>4</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string>to</string>
+            </property>
+        </widget>
+        <widget class="KComboBox" row="3" column="1">
+            <property name="name">
+                <cstring>guide_start</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>5</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+        </widget>
+        <widget class="KComboBox" row="3" column="3">
+            <property name="name">
+                <cstring>guide_end</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>5</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>export_selected</cstring>
             </property>
@@ -491,10 +549,16 @@
                 <string>Export selected zone only</string>
             </property>
         </widget>
+        <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="4">
+            <property name="name">
+                <cstring>export_guide</cstring>
+            </property>
+            <property name="text">
+                <string>Export guide zone</string>
+            </property>
+        </widget>
     </grid>
 </widget>
-<customwidgets>
-</customwidgets>
 <connections>
     <connection>
         <sender>closeButton</sender>
@@ -513,5 +577,7 @@
     <includehint>kurlrequester.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
 </includehints>
 </UI>

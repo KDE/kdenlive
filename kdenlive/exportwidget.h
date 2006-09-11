@@ -57,7 +57,7 @@ private:
 	Gui::KMMScreen *m_screen;
 	Gui::KTimeLine *m_timeline;
 	KTempFile *m_tmpFile;
-
+	QStringList m_guidesList;
         
         /** AVC stuff 
         int m_port;
@@ -79,10 +79,12 @@ private slots:
 	void receivedStderr(KProcess *, char *buffer, int buflen);
 	void endConvert(KProcess *);
 	void receivedConvertStderr(KProcess *, char *buffer, int buflen);
+	void slotAdjustGuides(int ix);
 
 public slots:
 	void endExport();
 	void reportProgress(GenTime progress);
+	void updateGuides();
 
 signals:
     /*void exportTimeLine(QString, QString, GenTime, GenTime, QStringList);

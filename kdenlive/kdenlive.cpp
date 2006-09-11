@@ -1635,16 +1635,19 @@ namespace Gui {
     void KdenliveApp::deleteGuide()
     {
 	m_timeline->deleteGuide();
+	if (m_exportWidget) m_exportWidget->updateGuides();
     }
 
     void KdenliveApp::addGuide()
     {
 	m_timeline->addGuide();
+	if (m_exportWidget) m_exportWidget->updateGuides();
     }
 
     void KdenliveApp::editGuide()
     {
 	m_timeline->editGuide();
+	if (m_exportWidget) m_exportWidget->updateGuides();
     }
 
 
