@@ -35,6 +35,7 @@ Transition::Transition(const DocClipRef * clipa, const DocClipRef * clipb)
 {
     m_invertTransition = false;
     m_singleClip = true;
+    m_secondClip = NULL;
     m_transitionType = "luma";
     m_transitionName = i18n("Crossfade");
     m_transitionWipeDirection = "right";
@@ -98,6 +99,7 @@ Transition::Transition(const DocClipRef * clipa)
 {
     m_invertTransition = false;
     m_singleClip = true;
+    m_secondClip = NULL;
     m_transitionType = "luma";
     m_transitionName = i18n("Crossfade");
     m_transitionWipeDirection = "right";
@@ -117,6 +119,7 @@ Transition::Transition(const DocClipRef * clipa, const GenTime &time)
 {
     m_invertTransition = false;
     m_singleClip = true;
+    m_secondClip = NULL;
     m_transitionType = "luma";
     m_transitionName = i18n("Crossfade");
     m_transitionWipeDirection = "right";
@@ -142,6 +145,7 @@ Transition::Transition(const DocClipRef * clipa, const QString & type, const Gen
 {
     m_invertTransition = inverted;
     m_singleClip = true;
+    m_secondClip = NULL;
     m_transitionType = type;
     if (m_transitionType == "composite") m_transitionName = i18n("Wipe");
     else if (m_transitionType == "pip")	m_transitionName = i18n("Pip");
@@ -163,6 +167,40 @@ Transition::Transition(const DocClipRef * clipa, const QString & type, const Gen
         m_transitionDuration = m_referenceClip->cropDuration() - m_transitionStart;
     else m_transitionDuration = duration;
     m_secondClip = 0;
+}
+
+// create a transition from XML
+Transition::Transition(const DocClipRef * clip, QDomElement transitionElement)
+{
+	//QDomNode node = transitionXml.firstChild();
+	//QDomElement transitionElement = transitionXml.toElement(); //node.toElement();
+
+	//kdDebug()<<"+++++"<<transitionXml.toString()<<endl;
+
+
+	m_referenceClip = clip;
+	m_singleClip = true;
+        m_secondClip = NULL;
+	m_transitionStart = GenTime (transitionElement.attribute("start", QString::null).toInt(),KdenliveSettings::defaultfps());
+	m_transitionDuration = GenTime(transitionElement.attribute("end", QString::null).toInt(),KdenliveSettings::defaultfps()) - m_transitionStart;
+
+	m_transitionStart = m_transitionStart - clip->trackStart();
+	kdDebug()<<"***********************************************"<<endl;
+	kdDebug()<<"Created transition with start: "<<m_transitionStart.frames(25)<<", end: "<< m_transitionDuration.frames(25)<<endl;
+	kdDebug()<<"***********************************************"<<endl;
+
+        m_invertTransition = transitionElement.attribute("inverted", "0").toInt();
+	m_transitionType = transitionElement.attribute("type", QString::null);
+
+	// load transition parameters
+        typedef QMap<QString, QString> ParamMap;
+        ParamMap params;
+        for( QDomNode n = transitionElement.firstChild(); !n.isNull(); n = n.nextSibling() )
+        {
+            QDomElement paramElement = n.toElement();
+            params[paramElement.tagName()] = paramElement.attribute("value", QString::null);
+        }
+        if (!params.isEmpty()) setTransitionParameters(params);
 }
 
 Transition::~Transition()
@@ -323,10 +361,9 @@ Transition *Transition::clone()
         return new Transition::Transition(m_referenceClip, m_secondClip);
 }
 
-QDomDocument Transition::toXML()
+QDomElement Transition::toXML()
 {
     QDomDocument doc;
-
     QDomElement effect = doc.createElement("transition");
     effect.setAttribute("type", transitionType());
     effect.setAttribute("inverted", invertTransition());
@@ -345,7 +382,6 @@ QDomDocument Transition::toXML()
         effect.appendChild(param);
     }
 
-    doc.appendChild(effect);
-    return doc;
+    return effect;
 }
 

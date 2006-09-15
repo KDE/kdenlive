@@ -612,6 +612,18 @@ QValueVector < GenTime > KdenliveDoc::getSnapTimes(bool includeClipEnds,
     return list;
 }
 
+QString KdenliveDoc::guidesStringList()
+{
+	QStringList guidesList;
+	QValueList <int> guides;
+	guides = m_app->timelineGuides();
+	QValueList < int >::Iterator itt = guides.begin();
+        for ( itt = guides.begin(); itt != guides.end(); ++itt ) {
+	    guidesList.append(QString::number(*itt));
+	}
+	return guidesList.join(";");
+}
+
 GenTime KdenliveDoc::toSnapTime(GenTime currTime, bool forward, bool includeSnapMarkers)
 {
     QValueVector < GenTime > list;

@@ -82,6 +82,7 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 		KdenliveSettings::setAspectratio(e.attribute("projectratio","1.09259").toDouble());
 		inPoint = GenTime(e.attribute("inpoint","0").toInt(), KdenliveSettings::defaultfps());
 		outPoint = GenTime(e.attribute("outpoint","100").toInt(), KdenliveSettings::defaultfps());
+		document->application()->insertGuides(e.attribute("projectguides", QString::null), e.attribute("projectguidescomments", QString::null));
 
 		/*document->application()->setInpointPosition(GenTime(e.attribute("inpoint","0").toInt(), KdenliveSettings::defaultfps())); 
 		document->application()->setOutpointPosition(GenTime(e.attribute("outpoint","100").toInt(), KdenliveSettings::defaultfps()));*/

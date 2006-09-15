@@ -192,7 +192,8 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
     effectList->append(mirror);
 
     // Slowmotion
-    EffectDesc *slowmo = new EffectDesc(i18n("Speed"), "slowmotion", "video");
+    /* disable until MLT gets patched
+    EffectDesc *slowmo = new EffectDesc(i18n("Speed"), "framebuffer", "video");
     xmlAttr.clear();
     xmlAttr.append("type", QString::null, QString::null, "constant");
     xmlAttr.append("name", QString::null, QString::null, "_speed");
@@ -201,8 +202,9 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
     xmlAttr.append("max", QString::null, QString::null, "300");
     xmlAttr.append("min", QString::null, QString::null, "1");
     xmlAttr.append("default", QString::null, QString::null, "100");
-    slowmo->addParameter(effectDescParamFactory.createParameter(xmlAttr));
-    xmlAttr.clear();
+    xmlAttr.append("factor", QString::null, QString::null, "100");
+    slowmo->addParameter(effectDescParamFactory.createParameter(xmlAttr));*/
+    /*xmlAttr.clear();  // MLT is not ready yet for variable speed
     xmlAttr.append("type", QString::null, QString::null, "constant");
     xmlAttr.append("name", QString::null, QString::null, "_speed_end");
     xmlAttr.append("description", QString::null, QString::null,
@@ -210,8 +212,18 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
     xmlAttr.append("max", QString::null, QString::null, "300");
     xmlAttr.append("min", QString::null, QString::null, "1");
     xmlAttr.append("default", QString::null, QString::null, "100");
+    xmlAttr.append("factor", QString::null, QString::null, "100");
+    slowmo->addParameter(effectDescParamFactory.createParameter(xmlAttr));*/
+    /*xmlAttr.clear();
+    xmlAttr.append("type", QString::null, QString::null, "constant");
+    xmlAttr.append("name", QString::null, QString::null, "strobe");
+    xmlAttr.append("description", QString::null, QString::null,
+	i18n("Stroboscope"));
+    xmlAttr.append("max", QString::null, QString::null, "100");
+    xmlAttr.append("min", QString::null, QString::null, "0");
+    xmlAttr.append("default", QString::null, QString::null, "0");
     slowmo->addParameter(effectDescParamFactory.createParameter(xmlAttr));
-    effectList->append(slowmo);
+    effectList->append(slowmo);*/
 
     // Gamma
     EffectDesc *gamma = new EffectDesc(i18n("Gamma"), "gamma", "video");

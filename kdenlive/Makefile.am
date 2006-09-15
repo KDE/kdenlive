@@ -59,7 +59,8 @@ kdenlive_SOURCES = avfileformatdesc.cpp avfileformatwidget.cpp avfilelist.cpp \
 				exportbasewidget_ui.ui exportwidget.cpp exportwidget.h configmisc_ui.ui newproject_ui.ui \
 				newproject.cpp createslideshowclip_ui.ui createslideshowclip.cpp createslideshowclip.h \
 				changeclipspeed.cpp changeclipspeed.h changeclipspeed_ui.ui initeffects.h initeffects.cpp \
-		keditmarkercommand.cpp keditmarkercommand.h addmarker_ui.ui
+		keditmarkercommand.cpp keditmarkercommand.h addmarker_ui.ui kaddtransitioncommand.cpp \
+	kaddtransitioncommand.h
 
 kdenlive_LDADD   =  $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) \ 
 		    $(LIBSOCKET) $(LIB_FIREWIRE)

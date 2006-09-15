@@ -238,6 +238,9 @@ class KdenliveDoc:public QObject {
 	/** called to generate scenelist the first time a document is loaded */
     void initSceneListGeneration();
 
+	/** return a string list of timeline guides to save them*/
+    QString guidesStringList();
+
     Gui::KdenliveApp *application() {
     return m_app;
     }

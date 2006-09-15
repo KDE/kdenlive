@@ -259,6 +259,7 @@ namespace Command {
 	void slotScrollDown();
 	void deleteGuide();
 	void addGuide();
+	void insertSilentGuide(int frame, QString comment);
 	void editGuide();
         GenTime guideTime(int ix);
 

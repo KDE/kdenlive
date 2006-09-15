@@ -133,12 +133,9 @@ class DocClipProject:public DocClipBase {
 	/** Check a clip does not exceed its maximum length */
     void fixClipDuration(KURL url, GenTime length);
     
-    /** Add a transition between the 2 selected clips */
-    void addTransition(DocClipRef *clip, const GenTime &time);
     
     /** Delete the selected clip's transitions */
     void switchTransition(const GenTime &time);
-    void deleteClipTransition(DocClipRef *clip, const GenTime &time = GenTime(0.0));
     
     /** Return the position of a track in the MLT playlist*/
     int playlistTrackNum(int ix) const;

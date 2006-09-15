@@ -386,7 +386,9 @@ namespace Gui {
 	const EffectDescriptionList & effectList() const;
 
         QValueList <int> timelineGuides() const;
-        
+	QString timelineGuidesComments() const;
+	void insertGuides(QString guides, QString comments);
+
       private slots: 
         void slotToggleClipMonitor();
 	void slotToggleWorkspaceMonitor();

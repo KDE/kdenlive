@@ -81,6 +81,7 @@ m_trackEnd(0.0), m_parentTrack(0),  m_trackNum(-1), m_clip(clip),  m_speed(1.0)
 
 DocClipRef::~DocClipRef()
 {
+    
     delete startTimer;
     delete endTimer;
     //disconnectThumbCreator();
@@ -446,19 +447,7 @@ createClip(const EffectDescriptionList & effectList,
                 QDomElement transitionElement = transitionNode.toElement();
                 if (!transitionElement.isNull()) {
                     if (transitionElement.tagName() == "transition") {
-                        GenTime startTime(transitionElement.attribute("start", QString::null).toInt(),KdenliveSettings::defaultfps());
-                        GenTime endTime(transitionElement.attribute("end", QString::null).toInt(),KdenliveSettings::defaultfps());
-                        Transition *transit = new Transition(clip, transitionElement.attribute("type", QString::null), startTime, endTime, transitionElement.attribute("inverted", "0").toInt());
-                        
-                        // load transition parameters
-                        typedef QMap<QString, QString> ParamMap;
-                        ParamMap params;
-                        for( QDomNode n = transitionElement.firstChild(); !n.isNull(); n = n.nextSibling() )
-                        {
-                            QDomElement paramElement = n.toElement();
-                            params[paramElement.tagName()] = paramElement.attribute("value", QString::null);
-                        }
-                        if (!params.isEmpty()) transit->setTransitionParameters(params);
+			Transition *transit = new Transition(clip, transitionElement);
                         clip->addTransition(transit);
                     } else {
                         kdWarning() << "Unknown transition " <<transitionElement.attribute("type",QString::null) << endl;
@@ -655,7 +644,7 @@ QDomDocument DocClipRef::toXML() const
 
         TransitionStack::iterator itt = m_transitionStack.begin();
         while (itt != m_transitionStack.end()) {
-            trans.appendChild(doc.importNode((*itt)->toXML().documentElement(), true));
+            trans.appendChild(doc.importNode((*itt)->toXML(), true));
             ++itt;
         }
 
@@ -734,8 +723,8 @@ const GenTime & DocClipRef::duration() const
 {
     if (m_speed == 1.0) return m_clip->duration();
     else {
-		 int frameCount = (int)(m_clip->duration().frames(framesPerSecond()) / m_speed);
-			return GenTime(frameCount, framesPerSecond());
+	int frameCount = (int)(m_clip->duration().frames(framesPerSecond()) / m_speed);
+	return GenTime(frameCount, framesPerSecond());
     }
 }
 
@@ -1026,7 +1015,7 @@ QDomDocument DocClipRef::generateXMLClip()
 		    }
                     }
                 else {	// Effect has only constant parameters
-		    if (effect->effectDescription().tag() != "slowmotion") {
+		    if (effect->effectDescription().tag() != "framebuffer") {
                     QDomElement clipFilter =
 			sceneList.createElement("filter");
                     clipFilter.setAttribute("mlt_service",
@@ -1054,12 +1043,13 @@ QDomDocument DocClipRef::generateXMLClip()
 		    }
 		    else {  //slowmotion effect, use special producer
     				entry.setTagName("producer");
-    				entry.setAttribute("mlt_service","slowmotion");
+    				entry.setAttribute("mlt_service","framebuffer");
     				entry.setAttribute("id","slowmotion"+ QString::number(m_clip->getId()));
-    				entry.setAttribute("resource", fileURL().path().ascii());
+				QString slowmo = fileURL().path() + ":" + QString::number(effect->effectDescription().parameter(0)->value().toDouble() / effect->effectDescription().parameter(0)->factor());
+    				entry.setAttribute("resource", slowmo.ascii());
     				entry.removeAttribute("producer");
 				while (effect->parameter(parameterNum)) {
-			    		entry.setAttribute(effect->effectDescription().parameter(parameterNum)->name(), QString::number(effect->effectDescription().parameter(parameterNum)->value().toDouble() / 100.0));
+					entry.setAttribute(effect->effectDescription().parameter(parameterNum)->name(), QString::number(effect->effectDescription().parameter(parameterNum)->value().toDouble() / effect->effectDescription().parameter(parameterNum)->factor()));
 			    		parameterNum++;
 				}
 		    }
@@ -1386,6 +1376,20 @@ void DocClipRef::addTransition(Transition *transition)
     if (m_parentTrack) m_parentTrack->refreshLayout();
 }
 
+void DocClipRef::deleteTransition(QDomElement transitionXml)
+{
+    if (m_transitionStack.isEmpty()) return;
+    TransitionStack::iterator itt = m_transitionStack.begin();
+    while (itt) {
+        if ((*itt)->toXML().attribute("start") == transitionXml.attribute("start") && (*itt)->toXML().attribute("end") == transitionXml.attribute("end")) { 
+            m_transitionStack.remove(*itt);
+            break;
+        }
+        ++itt;
+    }
+    if (m_parentTrack) m_parentTrack->refreshLayout();
+}
+
 void DocClipRef::deleteTransition(const GenTime &time)
 {
     if (m_transitionStack.isEmpty()) return;
@@ -1409,8 +1413,10 @@ Transition *DocClipRef::transitionAt(const GenTime &time)
 {
     TransitionStack::iterator itt = m_transitionStack.begin();
     while (itt) {
-        if ((*itt)->transitionStartTime()<time && (*itt)->transitionEndTime()>time)
+        if ((*itt)->transitionStartTime()<time && (*itt)->transitionEndTime()>time) {
+	    kdDebug()<<" ++ FOUND TRANS AT: "<<(*itt)->transitionStartTime().frames(25)<<endl;
             return (*itt);
+	    }
         ++itt;
     }
     return 0;

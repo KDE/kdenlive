@@ -22,11 +22,14 @@
 #include <qvaluevector.h>
 #include <qptrlist.h>
 
+#include <kcommand.h>
 #include <kdebug.h>
 
 #include "doctrackbase.h"
+#include "kaddtransitioncommand.h"
 #include "doctrackclipiterator.h"
 #include "kdenlivesettings.h"
+
 
 DocClipProject::DocClipProject(double framesPerSecond, int width, int height):DocClipBase(),
 m_framesPerSecond(framesPerSecond), m_videowidth(width), m_videoheight(height)
@@ -442,8 +445,8 @@ QDomDocument DocClipProject::generateSceneList() const
 
 
     doc.documentElement().appendChild(tractor);
-     // kdDebug() << doc.toString() << endl;
-     // kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
+      // kdDebug() << doc.toString() << endl;
+      // kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
     return doc;
 }
 
@@ -663,52 +666,6 @@ bool DocClipProject::hasTwoSelectedClips()
 
     if (nb == 2) return true;
     return false;
-}
-
-
-void DocClipProject::deleteClipTransition(DocClipRef *clip, const GenTime &time)
-{
-    clip->deleteTransition(time);
-    emit deletedClipTransition();
-}
-
-void DocClipProject::addTransition(DocClipRef *clip, const GenTime &time)
-{
-    Transition *transit = new Transition(clip, time);
-    clip->addTransition(transit);
-    /*
-    DocClipRef *aResult = 0;
-    DocClipRef *bResult = 0;
-    DocTrackBase *srcTrack = 0;
-    uint ix = 0;
-
-    for (uint track = 0; track < numTracks(); track++) {
-        srcTrack = m_tracks.at(track);
-        ix++;
-        if (srcTrack->hasSelectedClips()) {
-            aResult = srcTrack->firstClip(true).current();
-            break;
-        }
-    }
-    
-    for (uint track = ix; track < numTracks(); track++) {
-        srcTrack = m_tracks.at(track);
-        if (srcTrack->hasSelectedClips()) {
-            bResult = srcTrack->firstClip(true).current();
-            break;
-        }
-    }
-    if (!aResult && !bResult) return;
-    if (bResult) {
-        Transition *transit = new Transition(aResult,bResult);
-        bResult->addTransition(transit);
-    }
-    else {
-        Transition *transit = new Transition(aResult);
-        aResult->addTransition(transit);
-}*/
-
-    emit documentChanged(this);
 }
 
 

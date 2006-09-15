@@ -315,6 +315,7 @@ class DocClipRef:public QObject {
         void deleteTransition(const GenTime &time);
         void deleteTransitions();
         void addTransition(Transition *transition);
+	void deleteTransition(QDomElement transitionXml);
         TransitionStack clipTransitions();
         void resizeTransitionStart(uint ix, GenTime time);
         void resizeTransitionEnd(uint ix, GenTime time);

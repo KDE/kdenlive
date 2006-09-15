@@ -619,6 +619,10 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
 	trackView()->invalidateBackBuffer(m_ruler->getSliderValue(0) - 2, m_ruler->getSliderValue(0) + 2);
     }
 
+    void KTimeLine::insertSilentGuide(int frame, QString comment) {
+        m_ruler->addGuide(frame, comment);
+    }
+
     void KTimeLine::editGuide() {
 	int ix = m_ruler->currentGuideIndex();
 	if (ix == -1) {

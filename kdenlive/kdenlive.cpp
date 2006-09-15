@@ -104,6 +104,7 @@
 #include "createcolorclip_ui.h"
 #include "createslideshowclip.h"
 #include "createimageclip_ui.h"
+#include "kaddtransitioncommand.h"
 
 #include "trackpanelclipmovefunction.h"
 #include "trackpanelrazorfunction.h"
@@ -1258,6 +1259,10 @@ namespace Gui {
 	return m_timeline->timelineGuides();
     }
 
+    QString KdenliveApp::timelineGuidesComments() const {
+	return m_timeline->timelineRulerComments().join(";");
+    }
+
     GenTime KdenliveApp::outpointPosition() const {
 	return m_timeline->outpointPosition();
     }
@@ -1642,7 +1647,18 @@ namespace Gui {
     {
 	m_timeline->addGuide();
 	if (m_exportWidget) m_exportWidget->updateGuides();
+    }	
+
+    void KdenliveApp::insertGuides(QString guides, QString comments)
+    {
+	QStringList guidesList = QStringList::split(";", guides);
+	QStringList commentsList = QStringList::split(";", comments);
+	int i = 0;
+	for (; i < guidesList.count(); i++) {
+	    m_timeline->insertSilentGuide((*(guidesList.at(i))).toInt(), *(commentsList.at(i)));
+	}
     }
+
 
     void KdenliveApp::editGuide()
     {
@@ -2735,7 +2751,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
         GenTime mouseTime;
 	QPoint position = mousePosition();
         mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(position).x());
-        getDocument()->projectClip().addTransition(getDocument()->projectClip().selectedClip(), mouseTime);
+	addCommand(Command::KAddTransitionCommand::appendTransition(getDocument()->projectClip().selectedClip(), mouseTime), true);
+	getDocument()->indirectlyModified();
     }
     
     void KdenliveApp::deleteTransition() {
@@ -2746,7 +2763,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	GenTime mouseTime;
 	QPoint position = mousePosition();
 	mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(position).x());
-	getDocument()->projectClip().deleteClipTransition(getDocument()->projectClip().selectedClip(), mouseTime);
+	addCommand(Command::KAddTransitionCommand::removeTransition(getDocument()->projectClip().selectedClip(), mouseTime), true);
+	getDocument()->indirectlyModified();
     }
 
     void KdenliveApp::switchTransition() {
