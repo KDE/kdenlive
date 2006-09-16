@@ -57,13 +57,13 @@
     <entry name="videoclipcolor" type="Color">
 	<label>Color of the clips on video track</label>
 	<whatsthis>Color of the video clips inserted in timeline</whatsthis>
-	<default code="true">QColor(128, 64, 64)</default>
+	<default code="true">QColor(98, 118, 158)</default>
     </entry>
 
     <entry name="audioclipcolor" type="Color">
 	<label>Color of the clips on video track</label>
 	<whatsthis>Color of the audio clips inserted in timeline</whatsthis>
-	<default code="true">QColor(64, 128, 64)</default>
+	<default code="true">QColor(127, 159, 162)</default>
     </entry>
 
     <entry name="autoscroll" type="Bool">
