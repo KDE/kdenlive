@@ -1414,7 +1414,6 @@ Transition *DocClipRef::transitionAt(const GenTime &time)
     TransitionStack::iterator itt = m_transitionStack.begin();
     while (itt) {
         if ((*itt)->transitionStartTime()<time && (*itt)->transitionEndTime()>time) {
-	    kdDebug()<<" ++ FOUND TRANS AT: "<<(*itt)->transitionStartTime().frames(25)<<endl;
             return (*itt);
 	    }
         ++itt;
