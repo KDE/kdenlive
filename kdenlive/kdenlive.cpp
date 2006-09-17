@@ -1224,8 +1224,13 @@ namespace Gui {
 	    if (isNtscProject) projectType = i18n("NTSC");
 	    else projectType = i18n("PAL");
 	    setCaption(url.fileName() + " - " + projectType, false);
+	    fileOpenRecent->addURL(m_doc->URL());
 	}
-	else KMessageBox::sorry(this, i18n("Cannot read file: %1").arg(url.path()));
+	else {
+	    KMessageBox::sorry(this, i18n("Cannot read file: %1").arg(url.path()));
+	    slotFileNew();
+	    return;
+	}
 
 	if (!KIO::NetAccess::exists(KURL(KdenliveSettings::currentdefaultfolder()), false, this)) {
 		if (KMessageBox::questionYesNo(this, i18n("Cannot write to the temporary folder:\n%1\nDo you want to create the folder ?\n Answering no will disable audio thumbnails").arg(KdenliveSettings::currentdefaultfolder())) ==  KMessageBox::No) {
@@ -1513,20 +1518,6 @@ namespace Gui {
 		i18n("Open File..."));
                 //requestDocumentClose(url);
 	    if (!url.isEmpty()) openDocumentFile(url);
-
-	/*{
-		if (!m_projectFormatManager.openDocument(url, m_doc)) {
-		    KMessageBox::sorry(this,
-			i18n("Could not read project file: %1").arg(url.
-			    prettyURL()));
-		    return;
-		}
-		initView();
-		setCaption(url.fileName(), false);
-		fileOpenRecent->addURL(url);
-		m_fileDialogPath = url;
-		m_fileDialogPath.setFileName(QString::null);
-	    }*/
 	}
 	slotStatusMsg(i18n("Ready."));
     }
@@ -1934,7 +1925,7 @@ namespace Gui {
 	slotStatusMsg(i18n("Adding Clips"));
 
 	// Make a reasonable filter for video / audio files.
-	QString filter = "application/vnd.rn-realmedia video/x-dv video/x-msvideo video/mpeg audio/x-mp3 audio/x-wav application/ogg";
+	QString filter = "application/flv application/vnd.rn-realmedia video/x-dv video/x-msvideo video/mpeg audio/x-mp3 audio/x-wav application/ogg";
 	KURL::List urlList =
 	    KFileDialog::getOpenURLs(m_fileDialogPath.path(), filter, this,
         i18n("Open File..."));
@@ -2051,7 +2042,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
         txtWidget->edit_duration->setText(KdenliveSettings::textclipduration());
         if (txtWidget->exec() == QDialog::Accepted) {
             QString dur = txtWidget->edit_duration->text();
-            int frames = (dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt();
+            int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt());
             
             GenTime duration(frames , KdenliveSettings::defaultfps());
             QPixmap thumb = txtWidget->thumbnail(50, 40);
