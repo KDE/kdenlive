@@ -122,6 +122,10 @@ QString AVListViewItem::clipDuration() const {
 	if (clipNode) {
 	    DocClipRef *clip = clipNode->clipRef();
             text = Timecode::getEasyTimecode(clip->duration(), KdenliveSettings::defaultfps());
+	    int usage = clip->referencedClip()->numReferences();
+	    if (usage > 0) {
+	    	text.append(", [" + QString::number(usage) + "]");
+	    }
 	    }
 	return text;
 }

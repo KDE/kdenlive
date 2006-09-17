@@ -351,6 +351,10 @@ namespace Gui {
 	    SLOT(slotProjectAddTextClip()), actionCollection(),
 	    "project_add_text_clip");
 
+	(void) new KAction(i18n("Duplicate Text Clip"), "addclips.png", 0, this,
+	    SLOT(slotProjectDuplicateTextClip()), actionCollection(),
+	    "project_duplicate_text_clip");
+	
 
 	projectDeleteClips =
 	    new KAction(i18n("Delete Clips"), "editdelete.png", 0, this,
@@ -2090,7 +2094,31 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
         slotProjectEditClip();
     }
     
-    
+    /* Duplicate text clip */
+    void KdenliveApp::slotProjectDuplicateTextClip() {
+	DocClipRef *refClip = m_projectList->currentSelection();
+	if (refClip) {
+	    DocClipBase *clip = refClip->referencedClip();
+            
+            if (refClip->clipType() != DocClipBase::TEXT) return;
+	    QString clipName = clip->name();
+	    int revision = clipName.section("#", -1).toInt();
+	    if (revision > 0) { 
+		revision++;
+		clipName = clipName.section("#", 0, 0).append("#"+QString::number(revision));
+	    }
+	    else clipName.append("#2");
+	 
+
+	    KTempFile tmp(KdenliveSettings::currentdefaultfolder(),".png");
+	    QPixmap thumb = clip->thumbnail();
+            KCommand *command =
+                    new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), refClip->duration(), clip->name(), QString::null, clip->toDocClipTextFile()->textClipXml() , KURL(tmp.name()), thumb, clip->toDocClipTextFile()->isTransparent(), true);
+            addCommand(command, true);
+	}
+	slotStatusMsg(i18n("Ready."));
+    }
+
     /* Edit existing clip */
     void KdenliveApp::slotProjectEditClip() {
 	slotStatusMsg(i18n("Editing Clips"));

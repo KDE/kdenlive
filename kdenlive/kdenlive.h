@@ -257,6 +257,7 @@ namespace Gui {
 	void slotProjectAddImageClip();
 	void slotProjectAddSlideshowClip();
 	void slotProjectAddTextClip();
+	void slotProjectDuplicateTextClip();
 	void slotProjectAddFolder(QString message = QString());
 	void slotProjectRenameFolder(QString message = QString());
 	void slotProjectDeleteFolder();
