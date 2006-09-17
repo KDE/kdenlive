@@ -631,6 +631,11 @@ titleWidget::titleWidget(Gui::KMMScreen *screen, int width, int height, QWidget*
 {
         frame->setMinimumWidth(width);
         frame->setMinimumHeight(height);
+	QFont defFont = KdenliveSettings::titlerfont();
+
+	fontFace->setCurrentFont(defFont.family());
+	fontSize->setValue(defFont.pointSize());
+	fontColor->setColor(KdenliveSettings::titlercolor());
         canvas=new QCanvas(KdenliveSettings::defaultwidth(),KdenliveSettings::defaultheight());
         canview = new FigureEditor(*canvas, frame);
 	int pos = screen->seekPosition().frames(KdenliveSettings::defaultfps()) * 100 / screen->getLength();
@@ -831,7 +836,6 @@ QPixmap titleWidget::thumbnail(int width, int height)
     QImage  src = pm.convertToImage();
     QImage  dest = src.smoothScale( width, height );
     pm.convertFromImage( dest );
-
     return pm;
 }
 

@@ -124,4 +124,15 @@
       <default>true</default>
     </entry>
     </group>
+
+  <group name="Titler">
+    <entry name="titlerfont" type="Font">
+      <label>Default font for titles</label>
+      <default code="true">KGlobalSettings::generalFont()</default>
+    </entry>
+    <entry name="titlercolor" type="Color">
+	<label>Color of title text</label>
+	<default code="true">QColor(0, 0, 0)</default>
+    </entry>
+  </group>
 </kcfg>

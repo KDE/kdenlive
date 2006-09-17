@@ -24,6 +24,7 @@
 #include "configtimeline_ui.h"
 #include "configproject_ui.h"
 #include "configmisc_ui.h"
+#include "configtitler_ui.h"
 
 
 namespace Gui {
@@ -43,7 +44,8 @@ namespace Gui {
 	configInterface *page1;
 	configTimeline *page2;
         configMisc *page3;
-        configProject *page4;
+        configProject *page5;
+        configTitler *page4;
     };
 
 }				// namespace Gui

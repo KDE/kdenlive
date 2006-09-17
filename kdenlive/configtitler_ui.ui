@@ -1,0 +1,52 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>configTitler</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>configTitler</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>464</width>
+            <height>417</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string></string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="KFontChooser" row="0" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>kcfg_titlerfont</cstring>
+            </property>
+        </widget>
+        <widget class="KColorButton" row="1" column="1">
+            <property name="name">
+                <cstring>kcfg_titlercolor</cstring>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="1" column="0">
+            <property name="name">
+                <cstring>textLabel1</cstring>
+            </property>
+            <property name="text">
+                <string>Default Color</string>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<customwidgets>
+</customwidgets>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>kfontdialog.h</includehint>
+    <includehint>kcolorbutton.h</includehint>
+</includehints>
+</UI>

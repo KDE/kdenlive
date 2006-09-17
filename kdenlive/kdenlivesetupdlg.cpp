@@ -21,6 +21,8 @@
 #include <kiconloader.h>
 #include <kconfig.h>
 #include <kurlrequester.h>
+#include <kcolorbutton.h>
+#include <kfontdialog.h>
 
 
 #include "kdenlivesetupdlg.h"
@@ -36,14 +38,17 @@ namespace Gui {
 	page1 = new configInterface();
 	page2 = new configTimeline();
         page3 = new configMisc();
-        page4 = new configProject();
+        page4 = new configTitler();
+        page5 = new configProject();
 	
 	page3->kcfg_defaultfolder->setMode(KFile::Directory);
+	page4->kcfg_titlerfont->enableColumn( KFontChooser::StyleList, false);
 
 	addPage(page1, i18n("Interface"), "looknfeel");
 	addPage(page2, i18n("Timeline"), "view_details");
         addPage(page3, i18n("Misc"), "run");
-        addPage(page4, i18n("Default Project"), "filenew");
+        addPage(page4, i18n("Titler"), "text");
+        addPage(page5, i18n("Default Project"), "filenew");
     } 
     
     KdenliveSetupDlg::~KdenliveSetupDlg() {}
