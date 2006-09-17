@@ -69,8 +69,8 @@ namespace Gui {
         m_render->exportCurrentFrame(url);
     }
 
-    QPixmap KMMScreen::extractFrame(int percent, int width, int height) {
-        return m_render->extractFrame(percent, width, height);
+    QPixmap KMMScreen::extractFrame(int frame, int width, int height) {
+        return m_render->extractFrame(frame, width, height);
     }
 
 

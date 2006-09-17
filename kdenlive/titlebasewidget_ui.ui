@@ -47,7 +47,7 @@
                 <bool>true</bool>
             </property>
         </widget>
-        <widget class="QPushButton" row="3" column="9">
+        <widget class="QPushButton" row="3" column="10">
             <property name="name">
                 <cstring>buttonOk</cstring>
             </property>
@@ -64,7 +64,7 @@
                 <bool>true</bool>
             </property>
         </widget>
-        <widget class="QPushButton" row="3" column="10">
+        <widget class="QPushButton" row="3" column="11">
             <property name="name">
                 <cstring>buttonCancel</cstring>
             </property>
@@ -108,7 +108,7 @@
                 <bool>true</bool>
             </property>
         </widget>
-        <widget class="KFontCombo" row="1" column="5" rowspan="1" colspan="3">
+        <widget class="KFontCombo" row="1" column="5" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>fontFace</cstring>
             </property>
@@ -116,7 +116,7 @@
                 <number>1</number>
             </property>
         </widget>
-        <widget class="QSpinBox" row="1" column="8">
+        <widget class="QSpinBox" row="1" column="9">
             <property name="name">
                 <cstring>fontSize</cstring>
             </property>
@@ -148,7 +148,7 @@
                 <string>Duration</string>
             </property>
         </widget>
-        <widget class="QCheckBox" row="0" column="9" rowspan="1" colspan="2">
+        <widget class="QCheckBox" row="0" column="10" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>transparentTitle</cstring>
             </property>
@@ -156,7 +156,7 @@
                 <string>Transparent background</string>
             </property>
         </widget>
-        <widget class="KColorButton" row="1" column="9" rowspan="1" colspan="2">
+        <widget class="KColorButton" row="1" column="10" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>fontColor</cstring>
             </property>
@@ -174,7 +174,7 @@
                 </color>
             </property>
         </widget>
-        <widget class="KRestrictedLine" row="0" column="7" rowspan="1" colspan="2">
+        <widget class="KRestrictedLine" row="0" column="7" rowspan="1" colspan="3">
             <property name="name">
                 <cstring>edit_duration</cstring>
             </property>
@@ -185,15 +185,7 @@
                 <string>99:99:99:99; </string>
             </property>
         </widget>
-        <widget class="QSlider" row="3" column="0" rowspan="1" colspan="9">
-            <property name="name">
-                <cstring>timelineSlider</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-        </widget>
-        <widget class="QFrame" row="2" column="0" rowspan="1" colspan="11">
+        <widget class="QFrame" row="2" column="0" rowspan="1" colspan="12">
             <property name="name">
                 <cstring>frame</cstring>
             </property>
@@ -204,8 +196,29 @@
                 <enum>Raised</enum>
             </property>
         </widget>
+        <widget class="KRestrictedLine" row="3" column="8" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>timelineposition</cstring>
+            </property>
+            <property name="text">
+                <string>:::</string>
+            </property>
+            <property name="inputMask">
+                <string>99:99:99:99; </string>
+            </property>
+        </widget>
+        <widget class="QSlider" row="3" column="0" rowspan="1" colspan="8">
+            <property name="name">
+                <cstring>timelineSlider</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+        </widget>
     </grid>
 </widget>
+<customwidgets>
+</customwidgets>
 <connections>
     <connection>
         <sender>buttonOk</sender>
@@ -226,6 +239,7 @@
     <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kcolorbutton.h</includehint>
+    <includehint>krestrictedline.h</includehint>
     <includehint>krestrictedline.h</includehint>
 </includehints>
 </UI>

@@ -80,7 +80,7 @@ public slots:
 	void stopRenderer();
         
         void positionChanged(GenTime t);
-	QPixmap extractFrame(int percent, int width, int height);
+	QPixmap extractFrame(int frame, int width, int height);
 	/** Set the play speed of the screen */
 	void play(double speed);
 	/** Set the play speed of the screen */

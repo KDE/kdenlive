@@ -110,6 +110,7 @@ private slots:
         void adjustWidgets(QCanvasRectangle* i);
         void adjustButtons();
 	void transparencyToggled(bool);
+	void seekToPos(const QString &);
 
 public slots:
     QPixmap thumbnail(int width, int height);

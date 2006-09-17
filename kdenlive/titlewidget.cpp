@@ -39,9 +39,11 @@
 #include <kiconloader.h>
 #include <ktempfile.h>
 #include <klocale.h>
+#include <krestrictedline.h>
 
 #include "titlewidget.h"
 #include "kdenlivesettings.h"
+#include "timecode.h"
 
 #define CursorMode 1
 #define TextMode 2
@@ -677,6 +679,7 @@ titleWidget::titleWidget(Gui::KMMScreen *screen, int width, int height, QWidget*
         QObject::connect(canview,SIGNAL(editCanvasItem(QCanvasText*)),this,SLOT(editText(QCanvasText*)));
         QObject::connect(canview,SIGNAL(selectedCanvasItem(QCanvasText*)),this,SLOT(adjustWidgets(QCanvasText*)));
         QObject::connect(canview,SIGNAL(selectedCanvasItem(QCanvasRectangle*)),this,SLOT(adjustWidgets(QCanvasRectangle*)));
+	QObject::connect(timelineposition,SIGNAL(textChanged(const QString &)),this,SLOT(seekToPos(const QString &)));
 }
 
 
@@ -813,10 +816,18 @@ void titleWidget::adjustWidgets(QCanvasRectangle* i)
 void titleWidget::doPreview(int pos)
 {
         // Prepare for mlt preview
+	int position = m_screen->getLength() * pos / 100;
+	Timecode tcode;
+	timelineposition->setText(tcode.getTimecode(GenTime(position, KdenliveSettings::defaultfps()), KdenliveSettings::defaultfps()));
+}
+
+void titleWidget::seekToPos(const QString &)
+{
+	QString dur = timelineposition->text();
+	int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt());
 	if (transparentTitle->isOn())
-        canview->canvas()->setBackgroundPixmap(m_screen->extractFrame(pos, KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight()));
+        canview->canvas()->setBackgroundPixmap(m_screen->extractFrame(frames, KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight()));
 	else canview->canvas()->setBackgroundPixmap(QPixmap());
-	//exportContent();
 }
 
 void titleWidget::createImage(KURL url)

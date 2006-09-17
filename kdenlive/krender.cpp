@@ -218,12 +218,12 @@ char *KRender::decodedString(QString str)
     return t;
 }
 
-QPixmap KRender::extractFrame(int percent, int width, int height)
+QPixmap KRender::extractFrame(int frame, int width, int height)
 {
     QPixmap pix(width, height);
 
     Mlt::Producer * mlt_producer = new Mlt::Producer(m_mltProducer->get_producer());
-    mlt_producer->seek(getLength() * percent / 100);
+    mlt_producer->seek(frame);
     Mlt::Filter m_convert("avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
     mlt_producer->attach(m_convert);
