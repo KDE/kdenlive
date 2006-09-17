@@ -1384,21 +1384,16 @@ namespace Gui {
 		} else {
 		    m_projectFormatManager.saveDocument(m_doc->URL(), m_doc);
 		};
-		if (m_clipMonitor)
+		/*if (m_clipMonitor)
 		    m_clipMonitor->slotClearClip();
 		if (m_workspaceMonitor)
 		    m_workspaceMonitor->slotClearClip();
-		m_doc->deleteContents();
+		m_doc->deleteContents();*/
 
 		completed = true;
 		break;
 
 	    case KMessageBox::No:
-		/*if (m_clipMonitor)
-		    m_clipMonitor->slotClearClip();
-		if (m_workspaceMonitor)
-		    m_workspaceMonitor->slotClearClip();
-                m_doc->newDocument();*/
 		completed = true;
 		break;
 
