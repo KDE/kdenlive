@@ -61,7 +61,7 @@ bool TrackPanelKeyFrameFunction::mouseApplies(Gui::KTrackPanel * panel,
 		GenTime mouseTime((int)m_timeline->mapLocalToValue(event->x()),
 		m_document->framesPerSecond());
 	    DocClipRef *clip = track->getClipAt(mouseTime);
-	    if (clip && clip->hasEffect()) {
+	    if (clip && clip->hasEffect() && m_document->hasSelectedClips() == 1 && clip == m_document->selectedClip()) {
 
 		// #TODO: Currently only works for the first parameter
 		uint effectIndex = 0;
@@ -152,17 +152,6 @@ bool TrackPanelKeyFrameFunction::mousePressed(Gui::KTrackPanel * panel,
 				    event->x()) < s_resizeTolerance)) {
 			    m_selectedKeyframe = i;
 			    m_selectedKeyframeValue = event->y();
-			    //m_app->addCommand(Command::KSelectClipCommand::selectNone(m_document), true);
-
-			    /*m_app->addCommand(
-			       Command::KSelectClipCommand::selectClipAt(
-			       m_document,
-			       *track,
-			       (m_clipUnderMouse->trackStart() + m_clipUnderMouse->trackEnd())/2.0)); */
-
-			    //m_snapToGrid.setCursorTimes(cursor);
-			    //m_resizeCommand = new Command::KResizeCommand(m_document, *m_clipUnderMouse);
-
 			    return true;
 			}
 		    }

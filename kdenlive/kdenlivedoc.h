@@ -87,7 +87,7 @@ class KdenliveDoc:public QObject {
     void setURL(const KURL & url);
 
 	/** Returns true if at least one clip in the project is selected. */
-    bool hasSelectedClips() const;
+    int hasSelectedClips() const;
 
 	/** Returns a clip that is currently selected. Only one clip is returned!
 	 * This function is intended for times when you need a "master" clip. but have no preferred

@@ -93,8 +93,7 @@ class DocClipProject:public DocClipBase {
     virtual bool matchesXML(const QDomElement & element) const;
 
 	/** Returns true if at least one clip in the project clip is currently selected, false otherwise. */
-    bool hasSelectedClips();
-    bool hasTwoSelectedClips();
+    int hasSelectedClips();
 
 	/** Returns a clip that is currently selected. Only one clip is returned!
 	 * This function is intended for times when you need a "master" clip. but have no preferred

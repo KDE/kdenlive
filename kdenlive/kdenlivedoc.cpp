@@ -306,9 +306,9 @@ void KdenliveDoc::indirectlyModified()
     hasBeenModified();
 }
 
-bool KdenliveDoc::hasSelectedClips() const
+int KdenliveDoc::hasSelectedClips() const
 {
-    bool result = false;
+    int result = 0;
 
     if (m_projectClip) {
 	result = m_projectClip->hasSelectedClips();

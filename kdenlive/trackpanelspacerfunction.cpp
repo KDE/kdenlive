@@ -64,7 +64,7 @@ bool TrackPanelSpacerFunction::mousePressed(Gui::KTrackPanel * panel,
 		mouseTime, true), true);
     }
 
-    if (m_doc->hasSelectedClips()) {
+    if (m_doc->hasSelectedClips() > 0) {
 	m_masterClip = m_doc->selectedClip();
 	m_moveClipsCommand =
 	    new Command::KMoveClipsCommand(m_doc, m_masterClip);

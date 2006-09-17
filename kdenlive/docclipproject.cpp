@@ -191,7 +191,7 @@ bool DocClipProject::moveSelectedClips(GenTime startOffset,
 
     for (uint track = 0; track < numTracks(); track++) {
 	srcTrack = m_tracks.at(track);
-	if (!srcTrack->hasSelectedClips())
+	if (srcTrack->hasSelectedClips() == 0)
 	    continue;
 
 	destTrackNum = track + trackOffset;
@@ -257,7 +257,7 @@ bool DocClipProject::moveSelectedClips(GenTime startOffset,
 
     for (int track = startAtTrack; track != endAtTrack; track += direction) {
 	srcTrack = m_tracks.at(track);
-	if (!srcTrack->hasSelectedClips())
+	if (srcTrack->hasSelectedClips() == 0)
 	    continue;
 	srcTrack->moveClips(startOffset, true);
 
@@ -639,34 +639,17 @@ QDomDocument DocClipProject::sceneToXML(const GenTime & startTime, const GenTime
     return doc;
 }
 
-bool DocClipProject::hasSelectedClips()
+int DocClipProject::hasSelectedClips()
 {
-    bool result = false;
+    int result = 0;
 
     for (uint count = 0; count < numTracks(); ++count) {
-	if (m_tracks.at(count)->hasSelectedClips()) {
-	    result = true;
-	    break;
-	}
+	result += m_tracks.at(count)->hasSelectedClips();
     }
 
     return result;
 }
 
-bool DocClipProject::hasTwoSelectedClips()
-{
-    // #FIXME: Currently, counts the number of tracks that have selected clips.
-    // It should count the total number of selected clips...
-    uint nb = 0;
-
-    for (uint count = 0; count < numTracks(); ++count) {
-        if (m_tracks.at(count)->hasSelectedClips())
-            nb++;
-    }
-
-    if (nb == 2) return true;
-    return false;
-}
 
 
 void DocClipProject::switchTransition(const GenTime &time)
@@ -679,7 +662,7 @@ void DocClipProject::switchTransition(const GenTime &time)
     for (uint track = 0; track < numTracks(); track++) {
         srcTrack = m_tracks.at(track);
         ix++;
-        if (srcTrack->hasSelectedClips()) {
+        if (srcTrack->hasSelectedClips() > 0) {
             aResult = srcTrack->firstClip(true).current();
             break;
         }
@@ -687,7 +670,7 @@ void DocClipProject::switchTransition(const GenTime &time)
     
     for (uint track = ix; track < numTracks(); track++) {
         srcTrack = m_tracks.at(track);
-        if (srcTrack->hasSelectedClips()) {
+        if (srcTrack->hasSelectedClips() > 0) {
             bResult = srcTrack->firstClip(true).current();
             break;
         }
@@ -711,7 +694,7 @@ DocClipRef *DocClipProject::selectedClip()
 
     for (uint track = 0; track < numTracks(); track++) {
 	srcTrack = m_tracks.at(track);
-	if (srcTrack->hasSelectedClips()) {
+	if (srcTrack->hasSelectedClips() > 0) {
 	    pResult = srcTrack->firstClip(true).current();
             break;
 	}

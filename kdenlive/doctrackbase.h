@@ -81,7 +81,7 @@ class DocTrackBase:public QObject {
 	are still in the correct order, rearranging them if they are not. */
     void clipMoved(DocClipRef * clip);
 	/** Returns true if at least one clip in the track is selected, false otherwise. */
-    bool hasSelectedClips();
+    int hasSelectedClips();
 	/** Returns an iterator to the first clip on the track.
 	You must choose which list of tracks you are interested in - the selected or unselected. */
      QPtrListIterator < DocClipRef > firstClip(bool selected) const;

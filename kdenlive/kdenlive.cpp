@@ -1556,7 +1556,7 @@ namespace Gui {
 
     void KdenliveApp::slotEditCopy()
     {
- 	if (!getDocument()->projectClip().hasSelectedClips()) {
+ 	if (getDocument()->projectClip().hasSelectedClips() == 0) {
             KMessageBox::sorry(this, i18n("No clip selected"));
             return;
         }
@@ -1569,7 +1569,7 @@ namespace Gui {
 
     void KdenliveApp::slotEditCut()
     {
- 	if (!getDocument()->projectClip().hasSelectedClips()) {
+ 	if (getDocument()->projectClip().hasSelectedClips() == 0) {
             KMessageBox::sorry(this, i18n("No clip selected"));
             return;
         }
@@ -2744,7 +2744,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
 
     void KdenliveApp::addTransition() {
-        if (!getDocument()->projectClip().hasSelectedClips()) {
+        if (getDocument()->projectClip().hasSelectedClips() == 0) {
             KMessageBox::sorry(this, i18n("Please select a clip to apply transition"));
             return;
         }
@@ -2756,7 +2756,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     }
     
     void KdenliveApp::deleteTransition() {
-        if (!getDocument()->projectClip().hasSelectedClips()) {
+        if (getDocument()->projectClip().hasSelectedClips() == 0) {
             KMessageBox::sorry(this, i18n("Please select a clip to delete transition"));
             return;
         }

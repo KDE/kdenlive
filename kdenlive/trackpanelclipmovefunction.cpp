@@ -110,8 +110,10 @@ bool TrackPanelClipMoveFunction::mousePressed(Gui::KTrackPanel * panel,
 			//selectClipAt(m_document, *track, mouseTime), true);
 		}
 		else {
-		    m_app->addCommand(Command::KSelectClipCommand::selectNone(m_document), true);
-                    m_app->addCommand(Command::KSelectClipCommand::selectClipAt(m_document, *track, mouseTime), true);
+		    if (!track->clipSelected(m_clipUnderMouse)) {
+		        m_app->addCommand(Command::KSelectClipCommand::selectNone(m_document), true);
+                        m_app->addCommand(Command::KSelectClipCommand::selectClipAt(m_document, *track, mouseTime), true);
+		    }
 		}
 		result = true;
 	    }
@@ -246,11 +248,10 @@ bool TrackPanelClipMoveFunction::dragMoved(Gui::KTrackPanel * panel,
 {
     QPoint pos = event->pos();
     if (ClipDrag::canDecode(event)) {
-	GenTime mouseTime =
-	    m_timeline->timeUnderMouse((double) pos.x()) - m_clipOffset;
+	GenTime mouseTime = m_timeline->timeUnderMouse((double) pos.x()) - m_clipOffset;
 	mouseTime = m_snapToGrid.getSnappedTime(mouseTime);
 	mouseTime = mouseTime + m_clipOffset;
-
+	//kdDebug()<<"+++ MOVE clip: "<<mouseTime.frames(25)<<endl;
 	int trackUnder = trackUnderPoint(pos);
 
 	if (m_selection.isEmpty() || m_dragging) {

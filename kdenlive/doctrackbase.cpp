@@ -267,9 +267,10 @@ void DocTrackBase::clipMoved(DocClipRef * clip)
     checkTrackLength();
 }
 
-bool DocTrackBase::hasSelectedClips()
+int DocTrackBase::hasSelectedClips()
 {
-    return (!m_selectedClipList.isEmpty());
+    //return (!m_selectedClipList.isEmpty());
+    return (m_selectedClipList.count());
 }
 
 QPtrListIterator < DocClipRef > DocTrackBase::firstClip(bool selected) const
