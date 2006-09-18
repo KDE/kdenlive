@@ -44,6 +44,7 @@ namespace Gui {
 	int ttl();
 	QString description();
 	bool isTransparent();
+	bool hasCrossfade();
 	int imageCount();
 	GenTime duration();
 

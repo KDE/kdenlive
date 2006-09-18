@@ -49,6 +49,8 @@ Command to add effects to clips.
 /*	static KCommand *moveEffect(KdenliveDoc * document,
 	    DocClipRef * clip, int effectIndex, int newEffectIndex);
 */
+	/** Creates a KAddTransitionCommand that will add the specified effect at the specified effectIndex. */
+	 KAddTransitionCommand(DocClipRef * clip, Transition * transit, bool add);
 	~KAddTransitionCommand();
 
 	/** Returns the (translated) name of this command */
@@ -58,9 +60,8 @@ Command to add effects to clips.
 	void unexecute();
 	/** Executes this command */
 	void execute();
+
       private:
-	/** Creates a KAddTransitionCommand that will add the specified effect at the specified effectIndex. */
-	 KAddTransitionCommand(DocClipRef * clip, Transition * transit, bool add);
 
 	/** True if we are adding an Effect, false if we are removing an effect. */
 	bool m_addTransition;

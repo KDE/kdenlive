@@ -91,6 +91,11 @@ namespace Gui {
 	return clipChoice->transparentBg->isChecked();
     }
 
+    bool createSlideshowClip::hasCrossfade()
+    {
+	return clipChoice->crossfade->isChecked();
+    }
+
     void createSlideshowClip::updateDuration()
     {
 	Timecode tcode;

@@ -95,13 +95,12 @@ DocClipBase *ClipManager::insertClip(const KURL & file, int clipId)
 }
 
 DocClipBase *ClipManager::insertImageClip(const KURL & file,
-    const QString & extension, const int &ttl, const GenTime & duration,
-    const QString & description, bool alphaTransparency, int clipId)
+    const GenTime & duration, const QString & description, bool alphaTransparency, int clipId)
 {
-    if (!KIO::NetAccess::exists(file, true, 0) && !file.filename().startsWith(".all.")) {
+    if (!KIO::NetAccess::exists(file, true, 0)) {
 	if (KMessageBox::questionYesNo(0, i18n("Cannot open file %1\nDo you want to search for the file or remove it from the project ?").arg(file.path()), i18n("Missing File"), i18n("Find File"), i18n("Remove")) == KMessageBox::Yes) {
 	KURL url = KFileDialog::getOpenURL(file.path());
-	if (!url.isEmpty()) return insertImageClip(url, extension, ttl, duration, description, alphaTransparency, clipId);
+	if (!url.isEmpty()) return insertImageClip(url, duration, description, alphaTransparency, clipId);
 	else return 0;
 	}
 	else return 0;
@@ -116,15 +115,42 @@ DocClipBase *ClipManager::insertImageClip(const KURL & file,
 	    return 0;
 	}
 
-    	if (clipId == -1) clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, m_clipCounter++);
+    	if (clipId == -1) clip = new DocClipAVFile(file, duration, alphaTransparency, m_clipCounter++);
     	else {
-        	clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, clipId);
+        	clip = new DocClipAVFile(file, duration, alphaTransparency, clipId);
           if (clipId>= (int) m_clipCounter) m_clipCounter = clipId+1;
     	}
-	if (ttl != 0) {
-    int imageCount = (int) duration.frames(KdenliveSettings::defaultfps()) / ttl;
-		clip->setName(clip->name() + i18n(" [%1 images]").arg(QString::number(imageCount)));
+    	clip->setDescription(description);
+    	m_clipList.append(clip);
+    	m_render->getImage(file, 50, 40);
+    	emit clipListUpdated();
+	return clip;
+    }
+    return 0;
+}
+
+DocClipBase *ClipManager::insertSlideshowClip(const KURL & file,
+    const QString & extension, const int &ttl, bool crossfade, const GenTime & duration,
+    const QString & description, bool alphaTransparency, int clipId)
+{
+    DocClipBase *clip = findClip(file);
+    if (!clip) {
+	if (!m_render->isValid(file)) {
+	    KMessageBox::sorry(0,
+		i18n
+		("The file %1 is not a valid video file for kdenlive...").
+		arg(file.filename()));
+	    return 0;
 	}
+
+    	if (clipId == -1) clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, crossfade, m_clipCounter++);
+    	else {
+        	clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, crossfade, clipId);
+          if (clipId>= (int) m_clipCounter) m_clipCounter = clipId+1;
+    	}
+	int imageCount = (int) duration.frames(KdenliveSettings::defaultfps()) / ttl;
+	clip->setName(clip->name() + i18n(" [%1 images]").arg(QString::number(imageCount)));
+	
     	clip->setDescription(description);
     	m_clipList.append(clip);
 
@@ -226,12 +252,11 @@ void ClipManager::editColorClip(DocClipRef * clip, const QString & color,
 }
 
 void ClipManager::editImageClip(DocClipRef * clip, const KURL & file,
-    const QString & extension, const int &ttl, const GenTime & duration,
+    const GenTime & duration,
     const QString & description, bool alphaTransparency)
 {
     clip->setDescription(description);
     clip->setCropDuration(duration);
-    if (ttl != 0) clip->referencedClip()->toDocClipAVFile()->setClipTtl(ttl);
     DocClipAVFile *avClip =
 	dynamic_cast < DocClipAVFile * >(clip->referencedClip());
     if (avClip) {
@@ -246,6 +271,26 @@ void ClipManager::editImageClip(DocClipRef * clip, const KURL & file,
     emit clipListUpdated();
 }
 
+void ClipManager::editSlideshowClip(DocClipRef * clip, const KURL & file,
+    const QString & extension, const int &ttl, bool crossfade, const GenTime & duration, const QString & description, bool alphaTransparency)
+{
+    clip->setDescription(description);
+    clip->setCropDuration(duration);
+    clip->referencedClip()->toDocClipAVFile()->setClipTtl(ttl);
+    clip->referencedClip()->toDocClipAVFile()->setCrossfade(crossfade);
+    DocClipAVFile *avClip =
+	dynamic_cast < DocClipAVFile * >(clip->referencedClip());
+    if (avClip) {
+        avClip->setAlpha(alphaTransparency);
+	avClip->setDuration(duration);
+        if (avClip->fileURL() != file) {
+            avClip->setFileURL(file);
+            m_render->getImage(file, 50, 40);
+            if (clip->numReferences() > 0) emit updateClipThumbnails(clip->referencedClip());
+        }
+    }
+    emit clipListUpdated();
+}
 
 void ClipManager::editClip(DocClipRef * clip, const KURL & file, const QString & description)
 {
@@ -313,7 +358,7 @@ QDomDocument ClipManager::producersList()
         DocClipAVFile *avClip = itt.current()->toDocClipAVFile();
         if (avClip) {
 
-	    if (avClip->clipType() == DocClipBase::IMAGE) {
+	    if (avClip->clipType() == DocClipBase::IMAGE || avClip->clipType() == DocClipBase::SLIDESHOW) {
 		QDomElement producer = sceneList.createElement("producer");
 		producer.setAttribute("id",
 		    QString("producer") +

@@ -38,6 +38,9 @@ namespace Gui {
     TransitionDialog::TransitionDialog(KdenliveApp * app, QWidget * parent,
                                        const char *name):  QTabWidget(parent), m_transition(0)
 {
+    QFont dialogFont = font();
+    dialogFont.setPointSize(dialogFont.pointSize() - 1);
+    setFont(dialogFont);
     transitCrossfade = new transitionCrossfade_UI(this);
     addTab(transitCrossfade, i18n("Crossfade") );
 

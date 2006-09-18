@@ -57,10 +57,13 @@ namespace Gui {
         connect(clipChoice->button_color, SIGNAL(changed(const QColor &)), this, SLOT(updateColor(const QColor &)));
 
 	// slideshow stuff
-	clipChoice->ttl_label->hide();
-        clipChoice->image_ttl->hide();
-	clipChoice->image_type_label->hide();
-        clipChoice->imageType->hide();
+	if (m_clipType != DocClipBase::SLIDESHOW) {
+            clipChoice->ttl_label->hide();
+            clipChoice->crossfade->hide();
+            clipChoice->image_ttl->hide();
+            clipChoice->image_type_label->hide();
+            clipChoice->imageType->hide();
+	}
 
         clipChoice->edit_url->setURL(refClip->fileURL().path());
         DocClipBase *clip = refClip->referencedClip();
@@ -89,29 +92,36 @@ namespace Gui {
             clipChoice->button_color->hide();
             clipChoice->label_name->hide();
             clipChoice->edit_name->hide();
-	    if ((refClip->referencedClip()->toDocClipAVFile()->clipTtl()==0)) {
-            	clipChoice->clipType->setText(i18n("Image Clip"));
-            	clipChoice->clipSize->setText(QString::number(refClip->clipWidth())+"x"+QString::number(refClip->clipHeight()));
-	    }
-	    else { // this is a slideshow clip
-		clipChoice->clipType->setText(i18n("Slideshow Clip"));
-	    	clipChoice->ttl_label->show();
-	    	clipChoice->image_ttl->show();
-		clipChoice->image_ttl->setValue(refClip->referencedClip()->toDocClipAVFile()->clipTtl());
-	    	clipChoice->image_type_label->show();
-	    	clipChoice->imageType->show();
-		clipChoice->label_file->setText(i18n("Folder:"));
-		clipChoice->imageType->setCurrentItem(refClip->fileURL().filename().left(3));
-		clipChoice->edit_url->fileDialog()->setMode(KFile::Directory);
-		clipChoice->edit_url->setURL(refClip->fileURL().directory());
-		clipChoice->imageType->setCurrentText(refClip->fileURL().path().section(".", -1));
-		connect(clipChoice->imageType, SIGNAL(activated (int)), this, SLOT(updateList()));
-		connect(clipChoice->image_ttl, SIGNAL(valueChanged (int)), this, SLOT(updateDuration()));
+	    clipChoice->clipType->setText(i18n("Image Clip"));
+            clipChoice->clipSize->setText(QString::number(refClip->clipWidth())+"x"+QString::number(refClip->clipHeight()));
+	    clipChoice->clipFps->setText("-");
+	    clipChoice->clipAudio->setText("-");
+            clipChoice->clipFilesize->setText(formattedSize(refClip->fileSize()));
+	}
+	else if (m_clipType == DocClipBase::SLIDESHOW) {
+	    clipChoice->transparent_bg->setChecked(clip->toDocClipAVFile()->isTransparent());
+	    clipChoice->crossfade->setChecked(clip->toDocClipAVFile()->hasCrossfade());
 
-		clipChoice->edit_duration->setReadOnly(true);
-		updateList();
-		clipChoice->edit_url->setEnabled(false); // disable folder change for the moment
-	    }
+	    QPixmap pix = document->renderer()->getImageThumbnail(refClip->fileURL().path(), 120, 96);
+	    clipChoice->preview_pixmap->setPixmap(pix);
+            clipChoice->label_color->hide();
+            clipChoice->button_color->hide();
+            clipChoice->label_name->hide();
+            clipChoice->edit_name->hide();
+	    clipChoice->clipType->setText(i18n("Slideshow Clip"));
+	    clipChoice->image_ttl->setValue(refClip->referencedClip()->toDocClipAVFile()->clipTtl());
+	    clipChoice->label_file->setText(i18n("Folder:"));
+	    clipChoice->imageType->setCurrentItem(refClip->fileURL().filename().left(3));
+	    clipChoice->edit_url->fileDialog()->setMode(KFile::Directory);
+	    clipChoice->edit_url->setURL(refClip->fileURL().directory());
+	    clipChoice->imageType->setCurrentText(refClip->fileURL().path().section(".", -1));
+	    connect(clipChoice->imageType, SIGNAL(activated (int)), this, SLOT(updateList()));
+	    connect(clipChoice->image_ttl, SIGNAL(valueChanged (int)), this, SLOT(updateDuration()));
+
+	    clipChoice->edit_duration->setReadOnly(true);
+	    updateList();
+	    clipChoice->edit_url->setEnabled(false); // disable folder change for the moment
+	
             clipChoice->clipFps->setText("-");
 	    clipChoice->clipAudio->setText("-");
             clipChoice->clipFilesize->setText(formattedSize(refClip->fileSize()));
@@ -218,7 +228,7 @@ namespace Gui {
 	QPixmap pix;
 	if (m_clipType == DocClipBase::VIDEO) 
 	    pix = m_document->renderer()->getVideoThumbnail(path, 0, 120, 96);
-	else if (m_clipType == DocClipBase::IMAGE)
+	else if (m_clipType == DocClipBase::IMAGE || m_clipType == DocClipBase::SLIDESHOW)
 	    pix = m_document->renderer()->getImageThumbnail(path, 120, 96);
 	else return;
         clipChoice->preview_pixmap->setPixmap(pix);
@@ -272,6 +282,11 @@ namespace Gui {
     bool ClipProperties::transparency()
     {
         return clipChoice->transparent_bg->isChecked(); 
+    }
+
+    bool ClipProperties::crossfading()
+    {
+        return clipChoice->crossfade->isChecked(); 
     }
     
 

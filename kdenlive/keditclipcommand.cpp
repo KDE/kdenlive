@@ -74,8 +74,7 @@ namespace Command {
 
 /** Edit Image clip */
     KEditClipCommand::KEditClipCommand(KdenliveDoc & document,
-	DocClipRef * clip, const KURL & url, const QString & extension,
-	const int &ttl, const GenTime & duration,
+	DocClipRef * clip, const KURL & url, const GenTime & duration,
 	const QString & description, bool alphaTransparency):m_document(document),
 	m_name(url.filename()), m_parent(document.clipHierarch()->name()) {
 	if (!m_parent) {
@@ -84,15 +83,24 @@ namespace Command {
 		<< endl;
 	}
 
-	document.clipManager().editImageClip(clip, url, extension, ttl,
-        duration, description, alphaTransparency);
-
-/*	DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
-	m_xmlClip = clipNode->clipRef()->toXML();
-	delete clipNode;*/
+	document.clipManager().editImageClip(clip, url, duration, description, alphaTransparency);
     }
 
+/** Edit Slideshow clip */
+    KEditClipCommand::KEditClipCommand(KdenliveDoc & document,
+	DocClipRef * clip, const KURL & url, const QString & extension,
+	const int &ttl, bool crossfade, const GenTime & duration,
+	const QString & description, bool alphaTransparency):m_document(document),
+	m_name(url.filename()), m_parent(document.clipHierarch()->name()) {
+	if (!m_parent) {
+	    kdWarning() <<
+		"Error - all clips created with kaddclipcommand should have a parent!"
+		<< endl;
+	}
 
+	document.clipManager().editSlideshowClip(clip, url, extension, ttl, crossfade,
+        duration, description, alphaTransparency);
+    }
 
 /** Edit AUDIO/VIDEO clip */
     KEditClipCommand::KEditClipCommand(KdenliveDoc & document,

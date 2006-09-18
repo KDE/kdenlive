@@ -1995,16 +1995,13 @@ namespace Gui {
 	dia->adjustSize();
 	if (dia->exec() == QDialog::Accepted) {
 	    QString url = clipChoice->url_image->url();
-	    QString extension = QString::null;
-	    int ttl = 0;
             
             QString dur = clipChoice->edit_duration->text();
             int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt());
             
             GenTime duration(frames , KdenliveSettings::defaultfps());
 	    KCommand *command =
-		new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), KURL(url), extension,
-                                              ttl, duration, clipChoice->edit_description->text(), clipChoice->transparentBg->isChecked(), true);
+		new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), KURL(url), duration, clipChoice->edit_description->text(), clipChoice->transparentBg->isChecked(), true);
 	    addCommand(command, true);
 	}
 	delete dia;
@@ -2023,7 +2020,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    int ttl = slideDialog->ttl();
 
 	    KCommand *command =
-		new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), KURL(url), extension, ttl, slideDialog->duration(), slideDialog->description(), slideDialog->isTransparent(), true);
+		new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), KURL(url), extension, ttl, slideDialog->hasCrossfade(), slideDialog->duration(), slideDialog->description(), slideDialog->isTransparent(), true);
 	    addCommand(command, true);
 	}
 	delete slideDialog;
@@ -2077,8 +2074,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                     int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt());
                     GenTime duration(frames , KdenliveSettings::defaultfps());
                     KCommand *command =
-                            new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), fd->selectedURL(), QString::null,
-                            0, duration, QString::null, false, true);
+                            new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), fd->selectedURL(), duration, QString::null, false, true);
                     addCommand(command, true);
                 }
             }
@@ -2160,9 +2156,13 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                     }
                     else if (refClip->clipType() == DocClipBase::IMAGE) {
 			QString url = dia->url();
-			if (dia->ttl() != 0) url = url + "/.all." + dia->extension();
                         KCommand *command =
-                                new Command::KEditClipCommand(*m_doc, refClip, url, "",dia->ttl(),
+                                new Command::KEditClipCommand(*m_doc, refClip, url, dia->duration(), dia->description(), dia->transparency());
+		    }
+		    else if (refClip->clipType() == DocClipBase::SLIDESHOW) {
+			QString url = dia->url() + "/.all." + dia->extension();
+                        KCommand *command =
+                                new Command::KEditClipCommand(*m_doc, refClip, url, "",dia->ttl(), dia->crossfading(), 
                                 dia->duration(), dia->description(), dia->transparency());
                     }
                     else { // Video clip

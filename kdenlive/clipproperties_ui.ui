@@ -8,7 +8,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>249</width>
+            <width>277</width>
             <height>417</height>
         </rect>
     </property>
@@ -22,17 +22,6 @@
         <property name="margin">
             <number>0</number>
         </property>
-        <widget class="QCheckBox" row="7" column="0" rowspan="1" colspan="5">
-            <property name="name">
-                <cstring>transparent_bg</cstring>
-            </property>
-            <property name="text">
-                <string>Transparent &amp;background</string>
-            </property>
-            <property name="accel">
-                <string>Alt+B</string>
-            </property>
-        </widget>
         <widget class="QLabel" row="5" column="0">
             <property name="name">
                 <cstring>label_name</cstring>
@@ -49,7 +38,7 @@
                 <string>Color:</string>
             </property>
         </widget>
-        <widget class="KLineEdit" row="5" column="1" rowspan="1" colspan="4">
+        <widget class="KLineEdit" row="5" column="1" rowspan="1" colspan="5">
             <property name="name">
                 <cstring>edit_name</cstring>
             </property>
@@ -62,7 +51,7 @@
                 </sizepolicy>
             </property>
         </widget>
-        <widget class="KColorButton" row="6" column="1" rowspan="1" colspan="4">
+        <widget class="KColorButton" row="6" column="1" rowspan="1" colspan="5">
             <property name="name">
                 <cstring>button_color</cstring>
             </property>
@@ -81,7 +70,7 @@
                 <string>File:</string>
             </property>
         </widget>
-        <widget class="KURLRequester" row="4" column="1" rowspan="1" colspan="4">
+        <widget class="KURLRequester" row="4" column="1" rowspan="1" colspan="5">
             <property name="name">
                 <cstring>edit_url</cstring>
             </property>
@@ -102,7 +91,7 @@
                 <string>Type:</string>
             </property>
         </widget>
-        <widget class="QLabel" row="0" column="4">
+        <widget class="QLabel" row="0" column="4" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>clipType</cstring>
             </property>
@@ -118,7 +107,7 @@
                 <string></string>
             </property>
         </widget>
-        <widget class="QLabel" row="1" column="4">
+        <widget class="QLabel" row="1" column="4" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>clipSize</cstring>
             </property>
@@ -166,7 +155,7 @@
                 <string>Fps:</string>
             </property>
         </widget>
-        <widget class="QLabel" row="2" column="4">
+        <widget class="QLabel" row="2" column="4" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>clipFps</cstring>
             </property>
@@ -208,7 +197,7 @@
                 <bool>false</bool>
             </property>
         </widget>
-        <widget class="QLabel" row="3" column="4">
+        <widget class="QLabel" row="3" column="4" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>clipAudio</cstring>
             </property>
@@ -240,7 +229,7 @@
                 <string>Audio:</string>
             </property>
         </widget>
-        <widget class="QSpinBox" row="8" column="3" rowspan="1" colspan="2">
+        <widget class="QSpinBox" row="8" column="3" rowspan="1" colspan="3">
             <property name="name">
                 <cstring>image_ttl</cstring>
             </property>
@@ -262,7 +251,7 @@
                 <string>Frames per Image</string>
             </property>
         </widget>
-        <widget class="QLabel" row="13" column="0" rowspan="1" colspan="5">
+        <widget class="QLabel" row="13" column="0" rowspan="1" colspan="6">
             <property name="name">
                 <cstring>textLabel1_2_3_3</cstring>
             </property>
@@ -270,12 +259,12 @@
                 <string>Description:</string>
             </property>
         </widget>
-        <widget class="QTextEdit" row="14" column="0" rowspan="1" colspan="5">
+        <widget class="QTextEdit" row="14" column="0" rowspan="1" colspan="6">
             <property name="name">
                 <cstring>edit_description</cstring>
             </property>
         </widget>
-        <widget class="Line" row="12" column="0" rowspan="1" colspan="5">
+        <widget class="Line" row="12" column="0" rowspan="1" colspan="6">
             <property name="name">
                 <cstring>line2</cstring>
             </property>
@@ -297,7 +286,7 @@
                 <string>File size:</string>
             </property>
         </widget>
-        <widget class="QLabel" row="11" column="2" rowspan="1" colspan="3">
+        <widget class="QLabel" row="11" column="2" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>clipFilesize</cstring>
             </property>
@@ -321,7 +310,7 @@
                 <string>Image type</string>
             </property>
         </widget>
-        <widget class="KComboBox" row="9" column="3" rowspan="1" colspan="2">
+        <widget class="KComboBox" row="9" column="3" rowspan="1" colspan="3">
             <item>
                 <property name="text">
                     <string>png</string>
@@ -346,7 +335,7 @@
                 <cstring>imageType</cstring>
             </property>
         </widget>
-        <widget class="KRestrictedLine" row="10" column="3" rowspan="1" colspan="2">
+        <widget class="KRestrictedLine" row="10" column="3" rowspan="1" colspan="3">
             <property name="name">
                 <cstring>edit_duration</cstring>
             </property>
@@ -355,6 +344,25 @@
             </property>
             <property name="inputMask">
                 <string>99:99:99:99; </string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="7" column="0" rowspan="1" colspan="5">
+            <property name="name">
+                <cstring>transparent_bg</cstring>
+            </property>
+            <property name="text">
+                <string>Transparent &amp;background</string>
+            </property>
+            <property name="accel">
+                <string>Alt+B</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="7" column="5">
+            <property name="name">
+                <cstring>crossfade</cstring>
+            </property>
+            <property name="text">
+                <string>Crossfade</string>
             </property>
         </widget>
     </grid>

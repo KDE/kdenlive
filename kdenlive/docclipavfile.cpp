@@ -36,7 +36,7 @@
 DocClipAVFile::DocClipAVFile(const QString & name, const KURL & url,
     uint id):DocClipBase(), m_duration(0.0), m_url(url),
 m_durationKnown(false), m_framesPerSecond(0), m_color(QString::null),
-m_clipType(NONE), m_alphaTransparency(false), m_channels(0), m_frequency(0), m_ttl(0)
+m_clipType(NONE), m_alphaTransparency(false), m_channels(0), m_frequency(0), m_ttl(0), m_hasCrossfade(false)
 {
     thumbCreator = new KThumb();
     setName(name);
@@ -44,9 +44,8 @@ m_clipType(NONE), m_alphaTransparency(false), m_channels(0), m_frequency(0), m_t
 }
 
 /* color clip */
-DocClipAVFile::DocClipAVFile(const QString & color,
-									  const GenTime & duration, uint id):DocClipBase(),  m_duration(duration),
-m_url(QString::null), m_durationKnown(true),m_framesPerSecond(KdenliveSettings::defaultfps()),
+DocClipAVFile::DocClipAVFile(const QString & color, const GenTime & duration, uint id):DocClipBase(),  m_duration(duration),
+m_url(QString::null), m_hasCrossfade(false), m_durationKnown(true),m_framesPerSecond(KdenliveSettings::defaultfps()),
 m_color(color), m_clipType(COLOR), m_filesize(0), m_alphaTransparency(false),  m_channels(0),m_frequency(0), m_ttl(0)
 {
     setName(i18n("Color Clip"));
@@ -56,13 +55,28 @@ m_color(color), m_clipType(COLOR), m_filesize(0), m_alphaTransparency(false),  m
 }
 
 /*  Image clip */
-DocClipAVFile::DocClipAVFile(const KURL & url, const QString & extension,
-    const int &ttl, const GenTime & duration, bool alphaTransparency, uint id):DocClipBase(),
-m_duration(duration), m_url(url), m_durationKnown(true),
-m_framesPerSecond(KdenliveSettings::defaultfps()), m_color(QString::null), m_clipType(IMAGE), m_alphaTransparency(alphaTransparency), m_channels(0), m_frequency(0), m_ttl(ttl)
+DocClipAVFile::DocClipAVFile(const KURL & url, const GenTime & duration, bool alphaTransparency, uint id):DocClipBase(),
+m_duration(duration), m_hasCrossfade(false), m_url(url), m_durationKnown(true),
+m_framesPerSecond(KdenliveSettings::defaultfps()), m_color(QString::null), m_clipType(IMAGE), m_alphaTransparency(alphaTransparency), m_channels(0), m_frequency(0), m_ttl(0)
 {
-    if (ttl == 0) setName(url.fileName());
-    else setName(i18n("Slideshow"));
+    setName(url.fileName());
+    setId(id);
+    QFileInfo fileInfo(m_url.path());
+    QPixmap p(m_url.path());
+    m_width = p.width();
+    m_height = p.height();
+    /* Determines the size of the file */
+    m_filesize = fileInfo.size();
+    
+}
+
+/*  Slideshow clip */
+DocClipAVFile::DocClipAVFile(const KURL & url, const QString & extension,
+    const int &ttl, const GenTime & duration, bool alphaTransparency, bool crossfade, uint id):DocClipBase(),
+m_duration(duration), m_url(url), m_durationKnown(true), m_hasCrossfade(crossfade),
+m_framesPerSecond(KdenliveSettings::defaultfps()), m_color(QString::null), m_clipType(SLIDESHOW), m_alphaTransparency(alphaTransparency), m_channels(0), m_frequency(0), m_ttl(ttl)
+{
+    setName(i18n("Slideshow"));
     setId(id);
     QFileInfo fileInfo(m_url.path());
     QPixmap p(m_url.path());
@@ -75,8 +89,8 @@ m_framesPerSecond(KdenliveSettings::defaultfps()), m_color(QString::null), m_cli
 
 DocClipAVFile::DocClipAVFile(const KURL & url):DocClipBase(),
 m_duration(0.0),
-m_url(url),
-m_durationKnown(false),
+m_url(url), m_hasCrossfade(false), 
+m_durationKnown(false), 
 m_framesPerSecond(0), m_color(QString::null), m_clipType(NONE), m_alphaTransparency(false),m_channels(0), m_frequency(0),  m_ttl(0)
 {
     setName(url.fileName());
@@ -91,6 +105,16 @@ DocClipAVFile::~DocClipAVFile()
 bool DocClipAVFile::isTransparent()
 {
     return m_alphaTransparency;
+}
+
+bool DocClipAVFile::hasCrossfade()
+{
+    return m_hasCrossfade;
+}
+
+void DocClipAVFile::setCrossfade( bool cross)
+{
+    m_hasCrossfade = cross;
 }
 
 void DocClipAVFile::setAlpha(bool transp)
@@ -261,7 +285,7 @@ QDomDocument DocClipAVFile::generateSceneList() const
 {
     QDomDocument sceneList;
 
-    if (clipType() == IMAGE) {
+    if (clipType() == IMAGE || clipType() == SLIDESHOW ) {
 	QDomElement westley = sceneList.createElement("westley");
 	sceneList.appendChild(westley);
         

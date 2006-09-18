@@ -146,7 +146,15 @@ void DocClipRef::generateThumbnails()
         m_thumbnail = result;
     }
     else if (m_clip->clipType() == DocClipBase::TEXT || m_clip->clipType() == DocClipBase::IMAGE) {
-	if (m_clip->clipType() == DocClipBase::IMAGE && m_clip->toDocClipAVFile()->clipTtl()!=0 && fileURL().filename().startsWith(".all.")) {  //  check for slideshow
+	    QPixmap p(fileURL().path());
+            QImage im;
+            im = p;
+            p = im.smoothScale(width - 2, height - 2);
+	    bitBlt(&result, 1, 1, &p, 0, 0, width - 2, height - 2);
+            m_endthumbnail = result;
+            m_thumbnail = result;
+    }
+    else if (m_clip->clipType() == DocClipBase::SLIDESHOW) {
 	    QString fileType = fileURL().filename().right(3);
 	    QStringList more;
     	    QStringList::Iterator it;
@@ -178,16 +186,6 @@ void DocClipRef::generateThumbnails()
 	    bitBlt(&result, 1, 1, &p2, 0, 0, width - 2, height - 2);
     	    m_endthumbnail = result;
     	}
-        else {
-	    QPixmap p(fileURL().path());
-            QImage im;
-            im = p;
-            p = im.smoothScale(width - 2, height - 2);
-	    bitBlt(&result, 1, 1, &p, 0, 0, width - 2, height - 2);
-            m_endthumbnail = result;
-            m_thumbnail = result;
-	}
-    }
 }
 
 const GenTime & DocClipRef::trackStart() const
@@ -242,6 +240,24 @@ void DocClipRef::setCropStartTime(const GenTime & time)
         while (itt != m_transitionStack.end()) {
             if ((*itt)->transitionStartTime() != trackStart())
                 (*itt)->moveTransition(m_cropStart - time);
+            ++itt;
+        }
+    }
+    m_cropStart = time;
+    if (m_parentTrack) {
+	m_parentTrack->clipMoved(this);
+    }
+}
+
+void DocClipRef::moveCropStartTime(const GenTime & time)
+{
+    // Delete all transitions before new start time
+    if (!m_transitionStack.isEmpty()) {
+        TransitionStack::iterator itt = m_transitionStack.begin();
+        while (itt != m_transitionStack.end()) {
+            if ((*itt)->transitionStartTime() < time)
+                m_transitionStack.remove(*itt);
+	    else (*itt)->moveTransition(m_cropStart - time);
             ++itt;
         }
     }
@@ -770,7 +786,7 @@ QDomDocument DocClipRef::generateXMLTransition(int trackPosition)
         transition.setAttribute("b_track", QString::number(trackPosition));
         transitionList.appendChild(transition);
     }
-    else if (clipType() == DocClipBase::IMAGE && m_clip->toDocClipAVFile()->isTransparent()) {
+    else if ((clipType() == DocClipBase::IMAGE || clipType() == DocClipBase::SLIDESHOW) && m_clip->toDocClipAVFile()->isTransparent()) {
         QDomElement transition = transitionList.createElement("transition");
         transition.setAttribute("in", trackStart().frames(framesPerSecond()));
         transition.setAttribute("out", trackEnd().frames(framesPerSecond()));
@@ -838,17 +854,15 @@ QDomDocument DocClipRef::generateXMLClip()
 	entry = sceneList.createElement("entry");
     	entry.setAttribute("producer", "producer" + QString::number(m_clip->getId()));
     }
-    /*else {  // experimental slowmotion
-    	entry = sceneList.createElement("producer");
-    	entry.setAttribute("mlt_service","slowmotion");
-    	entry.setAttribute("id","slowmotion"+ QString::number(m_clip->getId()));
-    	entry.setAttribute("resource", fileURL().path().ascii());
-    	entry.setAttribute("_speed", QString::number(m_speed));
-    	//entry.setAttribute("method", "1");
-    	//sceneList.appendChild(prod);
-    }*/
 
-    
+    if (m_clip->clipType() == DocClipBase::SLIDESHOW && m_clip->toDocClipAVFile()->hasCrossfade()) {
+    	QDomElement clipFilter =
+	sceneList.createElement("filter");
+        clipFilter.setAttribute("mlt_service", "luma");
+	clipFilter.setAttribute("period", QString::number(m_clip->toDocClipAVFile()->clipTtl() - 1));
+	entry.appendChild(clipFilter);
+    }
+
     // Check if clip is positionned under 0 in the timeline
 	 int checkStart = (int)(m_trackStart.frames(framesPerSecond()));
     if (checkStart < 0)
@@ -1389,6 +1403,7 @@ void DocClipRef::deleteTransition(QDomElement transitionXml)
     }
     if (m_parentTrack) m_parentTrack->refreshLayout();
 }
+
 
 void DocClipRef::deleteTransition(const GenTime &time)
 {

@@ -56,6 +56,7 @@ namespace Gui {
         GenTime duration();
         QString url();
         bool transparency();
+	bool crossfading();
 	int ttl();
 	QString extension();
 

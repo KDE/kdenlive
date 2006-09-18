@@ -80,7 +80,7 @@ namespace Command {
 	}
 	DocClipRef *clip = track->getClipAt(m_findTime);
 	if (!clip) {
-		kdDebug()<<"///////// WARNING, TRYING TO DELETE DEAD CLIP AT "<<m_findTime.frames(25)<<endl;
+		kdDebug()<<"///////// WARNING, TRYING TO DELETE DEAD CLIP AT "<<m_findTime.frames(25)<<" ON TRACK: "<<m_track<<endl;
 		return;
 	}
 	//clip->deleteTransitions();
@@ -98,7 +98,7 @@ namespace Command {
 
 	for (uint count = 0; count < document->numTracks(); ++count) {
 	    DocTrackBase *track = document->track(count);
-
+	    uint found = 0;
 	    QPtrListIterator < DocClipRef > itt = track->firstClip(true);
 
 	    while (itt.current()) {
@@ -107,8 +107,10 @@ namespace Command {
 		    effectDescriptions(), document->clipManager(),
 		    &document->projectClip(), itt.current(), false);
 		macroCommand->addCommand(command);
+		found++;
 		++itt;
 	    }
+	    kdDebug()<<" -----------  FOUND: "<<found<<" selected clips on track: "<<count<<endl;
 	}
 
 	return macroCommand;

@@ -95,7 +95,11 @@ class ClipManager:public QObject {
 
 	/** Edit an image clip */
     void editImageClip(DocClipRef * clip, const KURL & file,
-	const QString & extension, const int &ttl,
+        const GenTime & duration, const QString & description, bool alphaTransparency);
+
+	/** Edit a slideshow clip */
+    void editSlideshowClip(DocClipRef * clip, const KURL & file,
+	const QString & extension, const int &ttl, bool crossfade,
         const GenTime & duration, const QString & description, bool alphaTransparency);
 
 	/** Edit an a/v clip */
@@ -103,7 +107,11 @@ class ClipManager:public QObject {
 
 	/** Insert an image clip */
     DocClipBase *insertImageClip(const KURL & file,
-	const QString & extension, const int &ttl,
+        const GenTime & duration, const QString & description, bool alphaTransparency, int clipId = -1);
+
+	/** Insert a slideshow clip */
+    DocClipBase *insertSlideshowClip(const KURL & file,
+	const QString & extension, const int &ttl, bool crossfade,
         const GenTime & duration, const QString & description, bool alphaTransparency, int clipId = -1);
 
 	/** Insert a specific clip */

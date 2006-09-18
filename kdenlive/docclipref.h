@@ -141,6 +141,7 @@ class DocClipRef:public QObject {
 	used. The crop times are necessary, so that if at later time you decide you need an extra second
 	at the beginning of the clip, you can re-add it.*/
     void setCropStartTime(const GenTime &);
+    void moveCropStartTime(const GenTime & time);
 
 	/** returns the cropStart time for this clip */
     const GenTime & cropStartTime() const;

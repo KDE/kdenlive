@@ -45,7 +45,7 @@ class DocClipBase:public QObject {
 	 *   done here. If a new clip type is added then it should be possible to combine it with both audio
 	 *   and video. */
     enum CLIPTYPE { NONE = 0, AUDIO = 1, VIDEO = 2, AV = 3, COLOR =
-	    4, IMAGE = 5, TEXT = 6 };
+	    4, IMAGE = 5, TEXT = 6, SLIDESHOW = 7};
 
      DocClipBase();
      virtual ~ DocClipBase();

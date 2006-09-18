@@ -13,7 +13,7 @@
         </rect>
     </property>
     <property name="caption">
-        <string></string>
+        <string>createSlideshowClip_UI</string>
     </property>
     <grid>
         <property name="name">
@@ -27,14 +27,6 @@
                 <string>Image folder</string>
             </property>
         </widget>
-        <widget class="QCheckBox" row="1" column="3" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>transparentBg</cstring>
-            </property>
-            <property name="text">
-                <string>Transparent background</string>
-            </property>
-        </widget>
         <widget class="KLineEdit" row="5" column="1" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>edit_description</cstring>
@@ -46,11 +38,6 @@
             </property>
             <property name="text">
                 <string>Description</string>
-            </property>
-        </widget>
-        <widget class="KListBox" row="4" column="0" rowspan="1" colspan="5">
-            <property name="name">
-                <cstring>imageList</cstring>
             </property>
         </widget>
         <widget class="QLabel" row="1" column="0" rowspan="1" colspan="2">
@@ -96,22 +83,6 @@
                 <string>99:99:99:99; </string>
             </property>
         </widget>
-        <widget class="QLabel" row="2" column="3">
-            <property name="name">
-                <cstring>textLabel4</cstring>
-            </property>
-            <property name="text">
-                <string>Total duration</string>
-            </property>
-        </widget>
-        <widget class="QLabel" row="3" column="0" rowspan="1" colspan="5">
-            <property name="name">
-                <cstring>scanResult</cstring>
-            </property>
-            <property name="text">
-                <string>No images in slideshow</string>
-            </property>
-        </widget>
         <widget class="QSpinBox" row="1" column="2">
             <property name="name">
                 <cstring>image_ttl</cstring>
@@ -151,16 +122,53 @@
                 <cstring>imageType</cstring>
             </property>
         </widget>
+        <widget class="QLabel" row="2" column="3">
+            <property name="name">
+                <cstring>textLabel4</cstring>
+            </property>
+            <property name="text">
+                <string>Total duration</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="3" column="0" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>scanResult</cstring>
+            </property>
+            <property name="text">
+                <string>No images in slideshow</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="1" column="3" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>transparentBg</cstring>
+            </property>
+            <property name="text">
+                <string>Transparent background</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="3" column="3" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>crossfade</cstring>
+            </property>
+            <property name="text">
+                <string>Crossfade</string>
+            </property>
+        </widget>
+        <widget class="KListBox" row="4" column="0" rowspan="1" colspan="5">
+            <property name="name">
+                <cstring>imageList</cstring>
+            </property>
+        </widget>
     </grid>
 </widget>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klineedit.h</includehint>
-    <includehint>klistbox.h</includehint>
     <includehint>kurlrequester.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>
     <includehint>krestrictedline.h</includehint>
     <includehint>kcombobox.h</includehint>
+    <includehint>klistbox.h</includehint>
 </includehints>
 </UI>

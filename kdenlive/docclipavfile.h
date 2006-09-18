@@ -37,12 +37,12 @@ class DocClipAVFile:public DocClipBase {
     /* video/audio clip */
     DocClipAVFile(const QString & name, const KURL & url, uint id);
 
-    /**  image clip 
-         The extension and ttl parameters will be used when slideshows will be implemented
-	 (Slidesows are managed by mlt)
-	*/
+    /**  image clip  */
+     DocClipAVFile(const KURL & url, const GenTime & duration, bool alphaTransparency, uint id);
+
+    /**  slideshow clip  */
      DocClipAVFile(const KURL & url, const QString & extension,
-                   const int &ttl, const GenTime & duration, bool alphaTransparency, uint id);
+                   const int &ttl, const GenTime & duration, bool alphaTransparency, bool crossfade, uint id);
 
     /* color clip */
      DocClipAVFile(const QString & color, const GenTime & duration,
@@ -92,7 +92,9 @@ class DocClipAVFile:public DocClipBase {
 	/** Returns true if the clip duration is known, false otherwise. */
     
     void setAlpha(bool transp);
+    void setCrossfade( bool cross);
     bool isTransparent();
+    bool hasCrossfade();
     int clipTtl() const;
     void setClipTtl(const int &ttl);
     
@@ -165,11 +167,10 @@ class DocClipAVFile:public DocClipBase {
 
 	/** The size in bytes of this AVFile */
     uint m_filesize;
-    
-
-
     /** Should the background be transparent (for image clips) */
     bool m_alphaTransparency;
+    /** Should we crossfade between images (only for slideshows) */
+    bool m_hasCrossfade;
 
 
     //extended video file properties -reh

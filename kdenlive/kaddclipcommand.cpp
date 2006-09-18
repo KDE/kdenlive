@@ -142,19 +142,16 @@ namespace Command {
 
 /** Add Image clip */
     KAddClipCommand::KAddClipCommand(KdenliveDoc & document, const QString & parent,
-	const KURL & url, const QString & extension, const int &ttl,
-        const GenTime & duration, const QString & description, bool alphaTransparency,
+	const KURL & url, const GenTime & duration, const QString & description, bool alphaTransparency,
 	bool create):m_document(document), m_name(url.filename()),
 	m_parent(parent), m_create(create) {
+	DocClipBase *clip;
 	if (!m_parent) {
 	    kdWarning() <<
 		"Error - all clips created with kaddclipcommand should have a parent!"
 		<< endl;
 	}
-
-	DocClipBase *clip =
-	    document.clipManager().insertImageClip(url, extension, ttl,
-        duration, description, alphaTransparency);
+        clip = document.clipManager().insertImageClip(url, duration, description, alphaTransparency);
 	m_id = clip->getId();
 
 	DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
@@ -163,6 +160,28 @@ namespace Command {
 
     }
 
+
+/** Add Slideshow clip */
+    KAddClipCommand::KAddClipCommand(KdenliveDoc & document, const QString & parent,
+	const KURL & url, const QString & extension, const int &ttl, bool crossfade,
+        const GenTime & duration, const QString & description, bool alphaTransparency,
+	bool create):m_document(document), m_name(url.filename()),
+	m_parent(parent), m_create(create) {
+	DocClipBase *clip;
+	if (!m_parent) {
+	    kdWarning() <<
+		"Error - all clips created with kaddclipcommand should have a parent!"
+		<< endl;
+	}
+        clip = document.clipManager().insertSlideshowClip(url, extension, ttl, crossfade,    duration, description, alphaTransparency);
+
+	m_id = clip->getId();
+
+	DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
+	m_xmlClip = clipNode->clipRef()->toXML();
+	delete clipNode;
+
+    }
 
 /** Add video / audio clip */
     KAddClipCommand::KAddClipCommand(KdenliveDoc & document, const QString & parent,

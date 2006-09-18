@@ -192,10 +192,16 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
 	    else if (clipType == DocClipBase::IMAGE)	//   IMAGE CLIP
 		baseClip =
 		    document->clipManager().insertImageClip(clip.
-		    attribute("url", ""), "", clip.attribute("ttl", "0").toInt(),
-		    GenTime(clip.attribute("duration", "").toInt(), 25),
+		    attribute("url", ""), GenTime(clip.attribute("duration", "").toInt(), 25),
                     clip.attribute("description", ""), clip.attribute("transparency", "").toInt(), clip.attribute("id", "-1").toInt());
-            
+
+	    else if (clipType == DocClipBase::SLIDESHOW)	//   SLIDESHOW CLIP
+		baseClip =
+		    document->clipManager().insertSlideshowClip(clip.
+		    attribute("url", ""), "", clip.attribute("ttl", "0").toInt(), clip.attribute("crossfade","").toInt(),
+		    GenTime(clip.attribute("duration", "").toInt(), 25),
+                    clip.attribute("description", ""), clip.attribute("transparency","").toInt(), clip.attribute("id", "-1").toInt());
+
             else if (clipType == DocClipBase::TEXT)	//   TEXT CLIP
             {
                 QDomDocument xml;

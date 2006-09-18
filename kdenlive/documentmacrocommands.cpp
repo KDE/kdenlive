@@ -26,6 +26,7 @@
 #include "kaddrefclipcommand.h"
 #include "kresizecommand.h"
 #include "kselectclipcommand.h"
+#include "kaddtransitioncommand.h"
 
 namespace Command {
 
@@ -51,7 +52,7 @@ namespace Command {
     KCommand *DocumentMacroCommands::razorSelectedClipsAt(KdenliveDoc *
 	document, const GenTime & time) {
 	KMacroCommand *command =
-	    new KMacroCommand(i18n("Razor all tracks"));
+	    new KMacroCommand(i18n("Razor selected Clips"));
 
 	for (uint count = 0; count < document->numTracks(); ++count) {
 	    DocTrackBase *track = document->track(count);
@@ -81,20 +82,32 @@ namespace Command {
 
 	    command = new KMacroCommand(i18n("Razor clip"));
 
-	    command->
+	    DocClipRef *clone = clip->clone(document->effectDescriptions(), document->clipManager());
+
+	    clone->moveCropStartTime(clip->cropStartTime() + (time - clip->trackStart()));
+	    clone->setTrackStart(time);
+
+	    if (clone) {
+	
+	    // Remove original clip's transitions that are after the cut
+	    TransitionStack transitionStack = clip->clipTransitions();
+	    if (!transitionStack.isEmpty()) {
+    		TransitionStack::iterator itt = transitionStack.begin();
+    		while (itt) {
+        	    if ((*itt)->transitionStartTime()>=time) {
+			Command::KAddTransitionCommand * remTransitionCommand =
+		    new Command::KAddTransitionCommand(clip, *itt, false);
+			command->addCommand(remTransitionCommand);
+		    }
+        	++itt;
+    		}
+	    }
+
+
+		command->
 		addCommand(Command::KSelectClipCommand::
 		selectNone(document));
 
-	    DocClipRef *clone =
-		clip->clone(document->effectDescriptions(),
-		document->clipManager());
-
-	    if (clone) {
-		clone->setTrackStart(time);
-		clone->setCropStartTime(clip->cropStartTime() + (time -
-			clip->trackStart()));
-                
-                clone->deleteTransitions();
 		Command::KResizeCommand * resizeCommand =
 		    new Command::KResizeCommand(document, *clip);
 		resizeCommand->setEndTrackEnd(time);

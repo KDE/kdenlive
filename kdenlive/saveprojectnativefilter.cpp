@@ -116,9 +116,16 @@ QDomElement SaveProjectNativeFilter::processedNode(DocumentClipNode *clipNode, Q
 		avfile.setAttribute("duration",
 		    QString::number(clipNode->clipRef()->duration().
 			frames(KdenliveSettings::defaultfps())));
+                avfile.setAttribute("transparency",clipNode->clipRef()->referencedClip()->toDocClipAVFile()->isTransparent());
+            }
+	    else if (clipType == DocClipBase::SLIDESHOW) {
+		avfile.setAttribute("duration",
+		    QString::number(clipNode->clipRef()->duration().
+			frames(KdenliveSettings::defaultfps())));
 		avfile.setAttribute("ttl",
 		    QString::number(clipNode->clipRef()->referencedClip()->toDocClipAVFile()->clipTtl()));
                 avfile.setAttribute("transparency",clipNode->clipRef()->referencedClip()->toDocClipAVFile()->isTransparent());
+		avfile.setAttribute("crossfade",clipNode->clipRef()->referencedClip()->toDocClipAVFile()->hasCrossfade());
             }
             else if (clipType == DocClipBase::COLOR) {
 		avfile.setAttribute("name", clipNode->clipRef()->name());

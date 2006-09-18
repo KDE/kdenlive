@@ -32,8 +32,36 @@ initEffects::~initEffects()
 //static 
 void initEffects::initializeEffects(EffectDescriptionList *effectList)
 {
-	// Build effects. We should find a more elegant way to do it, and ultimately 
+    // Build effects. We should find a more elegant way to do it, and ultimately 
     // retrieve it directly from mlt
+
+
+    /**
+
+	This lists all effects that will be available in  Kdenlive.
+	To add a new effect, do something like this:
+
+	1) create effect entry
+	
+	EffectDesc *my_effect = new EffectDesc(i18n("display_name"), "mlt_name", "effect_type");
+	
+	where display_name is the name of the effect that will be displayed in Kdenlive
+	mlt_name is the effect name in MLT, which will be used during creation of the playlist
+	effect_type is either "audio" or "video", depending on whether the effect affects auido or video,  which allows kdenlive to sort effects according to their type.
+
+	2) Add parameters.
+	
+	Each effect can have several parameters. The parameter types are:
+	
+	* fixed : There are no parameters to this effect
+	* constant : a integer number that will remains constant during all effect duration.
+		Constant effects have parameters: name is the MLT param name, description is the param name to be displayed in ui, max, min and default are self describing, factor is the number that will divide your param before passing it to MLT. For example if you need a parameter between 0.0 and 1.0, you give a min of 0, a max of 100 and a factor of 100.
+	* double : The value of this parameter will change during the effect. User can create keyframes. NB: currently, there can only be one double parameter in your effect, and it must be inserted as the first parameter of the effect.
+	* complex : this is a special case that was created for the MLT obscure effect
+	* bool: a boolean value that will be represented ba a checkbox
+
+    **/
+
     QXmlAttributes xmlAttr;
     EffectParamDescFactory effectDescParamFactory;
 

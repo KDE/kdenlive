@@ -185,9 +185,6 @@ Transition::Transition(const DocClipRef * clip, QDomElement transitionElement)
 	m_transitionDuration = GenTime(transitionElement.attribute("end", QString::null).toInt(),KdenliveSettings::defaultfps()) - m_transitionStart;
 
 	m_transitionStart = m_transitionStart - clip->trackStart();
-	kdDebug()<<"***********************************************"<<endl;
-	kdDebug()<<"Created transition with start: "<<m_transitionStart.frames(25)<<", end: "<< m_transitionDuration.frames(25)<<endl;
-	kdDebug()<<"***********************************************"<<endl;
 
         m_invertTransition = transitionElement.attribute("inverted", "0").toInt();
 	m_transitionType = transitionElement.attribute("type", QString::null);
@@ -344,8 +341,6 @@ void Transition::moveTransition(GenTime time)
         m_transitionStart = m_referenceClip->cropDuration() - m_transitionDuration;
     else m_transitionStart = m_transitionStart + time;
 }
-
-
 
 bool Transition::hasClip(const DocClipRef * clip)
 {
