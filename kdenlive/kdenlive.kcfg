@@ -36,12 +36,12 @@
   <group name="Timeline">
     <entry name="videotracksize" type="Int">
       <label>Size of video tracks.</label>
-      <default>70</default>
+      <default>50</default>
     </entry>
 
     <entry name="audiotracksize" type="Int">
       <label>Size of audio tracks.</label>
-      <default>50</default>
+      <default>40</default>
     </entry>
 
     <entry name="videothumbnails" type="Bool">
