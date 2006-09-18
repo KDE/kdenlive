@@ -253,15 +253,15 @@ void DocClipRef::moveCropStartTime(const GenTime & time)
 {
     // Delete all transitions before new start time
     if (!m_transitionStack.isEmpty()) {
-	GenTime cutTime = time + m_trackStart;
+	GenTime cutTime = time + m_trackStart - m_cropStart;
         TransitionStack::iterator itt = m_transitionStack.begin();
         while (itt != m_transitionStack.end()) {
             if ((*itt)->transitionStartTime() < cutTime) {
                 if ((*itt)->transitionEndTime() < cutTime) m_transitionStack.remove(*itt);
 		else {
-			GenTime transEnd = (*itt)->transitionEndTime() - time;
+			GenTime transEnd = (*itt)->transitionEndTime();
 			(*itt)->moveTransition(m_cropStart - time);
-			(*itt)->resizeTransitionEnd(transEnd);
+			(*itt)->resizeTransitionEnd(transEnd + m_cropStart - time);
 		}
 	    }
 	    else (*itt)->moveTransition(m_cropStart - time);
