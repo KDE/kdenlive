@@ -377,6 +377,39 @@
                         <string>Play Section between inpoint and outpoint</string>
                     </property>
                 </widget>
+<widget class="QPushButton">
+                    <property name="name">
+                        <cstring>loopSection</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>1</hsizetype>
+                            <vsizetype>1</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="font">
+                        <font>
+                            <pointsize>8</pointsize>
+                        </font>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="pixmap">
+                        <pixmap>image11</pixmap>
+                    </property>
+                    <property name="toggleButton">
+                        <bool>true</bool>
+                    </property>
+                    <property name="flat">
+                        <bool>true</bool>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Loop Section between inpoint and outpoint</string>
+                    </property>
+                </widget>
                 <widget class="QPushButton">
                     <property name="name">
                         <cstring>previousMarkerButton</cstring>
@@ -385,7 +418,7 @@
                         <string></string>
                     </property>
                     <property name="pixmap">
-                        <pixmap>image11</pixmap>
+                        <pixmap>image12</pixmap>
                     </property>
                     <property name="flat">
                         <bool>true</bool>
@@ -415,7 +448,7 @@
                         <string></string>
                     </property>
                     <property name="pixmap">
-                        <pixmap>image12</pixmap>
+                        <pixmap>image13</pixmap>
                     </property>
                     <property name="flat">
                         <bool>true</bool>
@@ -432,7 +465,7 @@
                         <string></string>
                     </property>
                     <property name="pixmap">
-                        <pixmap>image13</pixmap>
+                        <pixmap>image14</pixmap>
                     </property>
                     <property name="flat">
                         <bool>true</bool>
@@ -506,12 +539,15 @@
         <data format="PNG" length="123">89504e470d0a1a0a0000000d494844520000000e0000000d080600000099dc5f7f00000042494441542891add2310a0030084351f5fe77ae5b116a4c9066fe0f17cd3eee285194b802846f1720a097273862062156608b55e81bf82005b6884188d0a4cf592f01bcf90b0ce7ff81ee0000000049454e44ae426082</data>
     </image>
     <image name="image11">
-        <data format="PNG" length="134">89504e470d0a1a0a0000000d494844520000000e0000000d080600000099dc5f7f0000004d494441542891bd8f310e002008030bffff334e26884594c19b2ae100814fd80cda915e448b85281a69daa4281ac9540200a91a3247fd23194af1a70ac9a97c9ceaf05f594eadb85d70b5b9c7003aac0c0d5741ab9e0000000049454e44ae426082</data>
+        <data format="PNG" length="133">89504e470d0a1a0a0000000d494844520000000e0000000d080600000099dc5f7f0000004c494441542891bd90c10e00200842a9f5ffbf6cb7560c1aeb1037a74f50e0b71ad595323b98400b1e02e214727157318cfbb19041ebc06290872dac1c1d2c6f740f51bddb2c4a38477a82224d84610e0b20f7bb250000000049454e44ae426082</data>
     </image>
     <image name="image12">
-        <data format="PNG" length="102">89504e470d0a1a0a0000000d494844520000000e0000000d080600000099dc5f7f0000002d49444154289163601816e03f1463058c7834e155874d232e5b50d432e1720a2140b646b2fd880fe00dd52104006e2f07041554e86a0000000049454e44ae426082</data>
+        <data format="PNG" length="134">89504e470d0a1a0a0000000d494844520000000e0000000d080600000099dc5f7f0000004d494441542891bd8f310e002008030bffff334e26884594c19b2ae100814fd80cda915e448b85281a69daa4281ac9540200a91a3247fd23194af1a70ac9a97c9ceaf05f594eadb85d70b5b9c7003aac0c0d5741ab9e0000000049454e44ae426082</data>
     </image>
     <image name="image13">
+        <data format="PNG" length="102">89504e470d0a1a0a0000000d494844520000000e0000000d080600000099dc5f7f0000002d49444154289163601816e03f1463058c7834e155874d232e5b50d432e1720a2140b646b2fd880fe00dd52104006e2f07041554e86a0000000049454e44ae426082</data>
+    </image>
+    <image name="image14">
         <data format="PNG" length="131">89504e470d0a1a0a0000000d494844520000000e0000000d080600000099dc5f7f0000004a494441542891ad92310e00200803c1ffff1957694a15e22d98c6a30e9a7d203a97d75446f15966229303b34a3ce52099b96851b86ac4c52953a2c34ce7eaa9ac29c11aaf12d2fa3963367a3c0c0d06cf3db30000000049454e44ae426082</data>
     </image>
 </images>

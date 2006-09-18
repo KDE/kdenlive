@@ -36,7 +36,7 @@ namespace Gui {
 
     KMMEditPanel::KMMEditPanel(KdenliveDoc * document, QWidget * parent,
 	const char *name, WFlags fl):KMMEditPanel_UI(parent, name, fl),
-    m_playSpeed(0.0), m_playSelected(false), m_showLcd(true) {
+    m_playSpeed(0.0), m_playSelected(false), m_showLcd(true), m_loop(false) {
 	m_document = document;
 
 	m_ruler->setRulerModel(new KRulerTimeModel());
@@ -123,6 +123,9 @@ namespace Gui {
          
          connect(playSectionButton, SIGNAL(pressed()), this, SLOT(playSelected()));
 	 connect(playSectionButton, SIGNAL(released()), this, SLOT(updateButtons()));
+
+         connect(loopSection, SIGNAL(pressed()), this, SLOT(loopSelected()));
+	 connect(loopSection, SIGNAL(released()), this, SLOT(updateButtons()));
 
 	 connect(setMarkerButton, SIGNAL(clicked()), this,
 	    SIGNAL(toggleSnapMarker()));
@@ -291,6 +294,11 @@ namespace Gui {
     }
     
     void KMMEditPanel::screenPlayStopped() {
+	if (m_loop) {
+	    m_playSelected = true;
+	    setPlaying(true);
+	    return;
+	}
 	if (m_pauseMode) return;
         m_playSpeed = 0.0;
         updateButtons();
@@ -298,6 +306,16 @@ namespace Gui {
 
     void KMMEditPanel::playSelected() {
 	m_playSelected = true;
+	if (isPlaying()) {
+	    setPlaying(false);
+	} else {
+	    setPlaying(true);
+	}
+    }
+
+    void KMMEditPanel::loopSelected() {
+	m_playSelected = true;
+	m_loop = true;
 
 	if (isPlaying()) {
 	    setPlaying(false);
@@ -308,6 +326,7 @@ namespace Gui {
 
     void KMMEditPanel::play() {
 	m_playSelected = false;
+	m_loop = false;
 	if (isPlaying() && (m_playSpeed == 1.0)) {
 	    setPlaying(false);
 	    return;
@@ -319,6 +338,7 @@ namespace Gui {
     void KMMEditPanel::stop() {
 	m_playSelected = true;
 	m_pauseMode = false;
+	m_loop = false;
 	m_playSpeed = 0.0;
 	emit playStopped(inpoint());
     }

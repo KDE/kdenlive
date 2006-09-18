@@ -80,13 +80,14 @@ namespace Gui {
       private:			// Private attributes
   /** The document associated with this edit panel */
 	 KdenliveDoc * m_document;
- double m_playSpeed;
+  double m_playSpeed;
   
  // Set or stop playback.
   void setPlaying(bool play);
   Timecode tcode;
   int buttonSize;
-  bool m_playSelected; 
+  bool m_playSelected;
+  bool m_loop;
   bool m_showLcd;
 
    // True if we are playing, false otherwise.
@@ -120,6 +121,7 @@ namespace Gui {
 	void play();
   /** Called when the "play selected" button is pressed */
 	void playSelected();
+	void loopSelected();
   /** Sets the current seek position to the one specified */
 	void seek(const GenTime & time);
   /** Alerts the edit panel that the renderer has disconnected. */
