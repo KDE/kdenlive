@@ -56,6 +56,10 @@ namespace Gui {
         clipChoice->preview_pixmap->pixmap()->resize(120, 96);
         connect(clipChoice->button_color, SIGNAL(changed(const QColor &)), this, SLOT(updateColor(const QColor &)));
 
+        clipChoice->edit_url->setURL(refClip->fileURL().path());
+        DocClipBase *clip = refClip->referencedClip();
+	m_clipType = refClip->clipType();
+
 	// slideshow stuff
 	if (m_clipType != DocClipBase::SLIDESHOW) {
             clipChoice->ttl_label->hide();
@@ -64,10 +68,6 @@ namespace Gui {
             clipChoice->image_type_label->hide();
             clipChoice->imageType->hide();
 	}
-
-        clipChoice->edit_url->setURL(refClip->fileURL().path());
-        DocClipBase *clip = refClip->referencedClip();
-	m_clipType = refClip->clipType();
 
         if (m_clipType == DocClipBase::COLOR) {
             QString color = dynamic_cast < DocClipAVFile * >(clip)->color();
