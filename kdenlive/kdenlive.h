@@ -289,6 +289,9 @@ namespace Gui {
         void slotNextSecond();
         /** Move the active monitor backwards one second */
         void slotLastSecond();
+	/** Move to start / end of project */
+	void slotGotoStart();
+	void slotGotoEnd();
 		/** Set the inpoint of the active monitor to the current seek position */
 	void slotSetInpoint();
 		/** Set the outpoint of the active monitor to the current seek position */

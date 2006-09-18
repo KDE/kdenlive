@@ -32,6 +32,9 @@
 	<Action name="timeline_marker_tool"/>
 	<Action name="timeline_roll_tool"/>
 	<Separator lineSeperator="true"/>	
+	<Action name="timeline_go_start"/>
+	<Action name="timeline_go_end"/>
+	<Separator lineSeperator="true"/>	
 	<Action name="timeline_add_guide"/>
 	<Action name="timeline_edit_guide"/>
 	<Action name="timeline_delete_guide"/>

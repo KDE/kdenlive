@@ -327,6 +327,13 @@ namespace Gui {
 	    0, this, SLOT(slotTimelineSnapToMarker()), actionCollection(),
 	    "timeline_snap_marker");
 
+	(void) new KAction(i18n("Play/Pause"), KShortcut(Qt::Key_K), this,
+	    SLOT(slotPlay()), actionCollection(), "play_clip");
+
+	(void) new KAction(i18n("Go To Start"), KStdAccel::home(), this, SLOT(slotGotoStart()), actionCollection(), "timeline_go_start");
+
+	(void) new KAction(i18n("Go To End"), KStdAccel::end(), this, SLOT(slotGotoEnd()), actionCollection(), "timeline_go_end");
+
 	projectAddClips =
 	    new KAction(i18n("Add Clips"), "addclips.png", 0, this,
 	    SLOT(slotProjectAddClips()), actionCollection(),
@@ -2371,6 +2378,20 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
             getDocument()->framesPerSecond()));
 	    m_timeline->ensureCursorVisible();
         }
+    }
+
+    void KdenliveApp::slotGotoStart() {
+        if (m_monitorManager.hasActiveMonitor()) {
+            m_monitorManager.activeMonitor()->editPanel()->seek(GenTime(0.0));
+	    m_timeline->ensureCursorVisible();
+	}
+    }
+
+    void KdenliveApp::slotGotoEnd() {
+        if (m_monitorManager.hasActiveMonitor()) {
+            m_monitorManager.activeMonitor()->editPanel()->seek(m_doc->projectClip().duration());
+	    m_timeline->ensureCursorVisible();
+	}
     }
 
     void KdenliveApp::slotSetInpoint() {
