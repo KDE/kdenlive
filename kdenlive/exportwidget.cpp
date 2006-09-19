@@ -67,6 +67,13 @@ exportWidget::exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, QWi
 #endif
 
     initDvConnection();
+
+    QStringList priority;
+    priority<<i18n("Lowest")<<i18n("Low")<<i18n("Lower");
+    priority<<i18n("Normal")<<i18n("High")<<i18n("Higher")<<i18n("Highest");
+    export_priority->insertStringList(priority);
+    export_priority->setCurrentText(i18n("Normal"));
+
     connect(check_size, SIGNAL(toggled(bool)), videoSize, SLOT(setEnabled(bool)));
     connect(check_vbitrate, SIGNAL(toggled(bool)), videoBitrate, SLOT(setEnabled(bool)));
     connect(check_fps, SIGNAL(toggled(bool)), fps, SLOT(setEnabled(bool)));
@@ -446,6 +453,29 @@ void exportWidget::doExport(QString file, QStringList params, bool isDv)
     *m_exportProcess << params;
     QApplication::connect(m_exportProcess, SIGNAL(processExited(KProcess *)), this, SLOT(endExport(KProcess *)));
     QApplication::connect(m_exportProcess, SIGNAL(receivedStderr (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));
+    switch (export_priority->currentItem()) {
+	case 0:
+	    m_exportProcess->setPriority(19);
+	    break;
+	case 1:
+	    m_exportProcess->setPriority(10);
+	    break;
+	case 2:
+	    m_exportProcess->setPriority(5);
+	    break;
+	case 3:
+	    m_exportProcess->setPriority(0);
+	    break;
+	case 4:
+	    m_exportProcess->setPriority(-5);
+	    break;
+	case 5:
+	    m_exportProcess->setPriority(-10);
+	    break;
+	case 6:
+	    m_exportProcess->setPriority(-19);
+	    break;
+    }
     m_exportProcess->start(KProcess::NotifyOnExit, KProcess::AllOutput);
     //tmp.setAutoDelete(true);
 }
