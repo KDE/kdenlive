@@ -43,7 +43,7 @@ const QString & DocumentClipNode::name() const
 }
 
 // virtual
-const int & DocumentClipNode::getId() const
+const int DocumentClipNode::getId() const
 {
     return m_ref->referencedClip()->getId();
 }

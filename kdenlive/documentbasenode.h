@@ -53,7 +53,7 @@ class DocumentBaseNode {
 
 	/** Returns the name of this group or clip */
     virtual const QString & name() const = 0;
-    virtual const int & getId() const = 0;
+    virtual const int getId() const = 0;
 
 	/** Returns an XML representation of this node and all of it's children. */
     QDomDocument toXML() const;

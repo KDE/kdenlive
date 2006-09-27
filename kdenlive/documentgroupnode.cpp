@@ -42,7 +42,7 @@ void DocumentGroupNode::rename(const QString & newName)
 }
 
 // virtual
-const int & DocumentGroupNode::getId() const
+const int DocumentGroupNode::getId() const
 {
     return -1;
 }

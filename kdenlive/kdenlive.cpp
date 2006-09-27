@@ -1,4 +1,3 @@
-
 /***************************************************************************
                          kdenlive.cpp  -  description
                             -------------------
@@ -2200,6 +2199,11 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		KMacroCommand *macroCommand =
 		    new KMacroCommand(i18n("Delete Clip"));
 
+		// NOTE - we clear the monitors of the clip here - this does _not_ go into the macro
+		// command.
+		int id = clip->getId();
+		m_monitorManager.clearClip(clip);
+
 		DocClipRefList list =
 		    m_doc->referencedClips(m_projectList->
 		    currentSelection()->referencedClip());
@@ -2215,26 +2219,18 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		    ++itt;
 		}
 
-		// NOTE - we clear the monitors of the clip here - this does _not_ go into the macro
-		// command.
-		int id = clip->getId();
-
-		m_monitorManager.clearClip(clip);
-
 		// remove thumbnail file
 		if (clip->clipType() == DocClipBase::AUDIO  || clip->clipType() == DocClipBase::VIDEO) {
 		KMD5 context ((KFileItem(clip->fileURL(),"text/plain", S_IFREG).timeString() + clip->fileURL().fileName()).ascii());
 		KIO::NetAccess::del(KURL(KdenliveSettings::currentdefaultfolder() + "/" + context.hexDigest().data() + ".thumb"), this);
 		}
 
-		DocumentBaseNode *node =
-		    m_doc->findClipNode(refClip->name());
-
+		DocumentBaseNode *node = m_doc->findClipNodeById(id);
+		if (!node) kdDebug()<<"++++++  CANNOT FIND NODE: "<<id<<endl;
 		macroCommand->addCommand(new Command::KAddClipCommand(*m_doc,
 			node->name(), clip, node->parent(), false));
 		addCommand(macroCommand, true);
 
-		getDocument()->clipManager().removeClip(id);
 		if (confirm) {
 		    getDocument()->activateSceneListGeneration(true);
 		}

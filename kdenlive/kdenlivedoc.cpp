@@ -399,6 +399,12 @@ void KdenliveDoc::deleteClipNode(const QString & name)
     }
 }
 
+DocumentBaseNode * KdenliveDoc::findClipNodeById(const int & id)
+{
+    return m_clipHierarch->findClipNodeById(id);
+
+}
+
 void KdenliveDoc::deleteClipNodeById(const int & id)
 {
     DocumentBaseNode *node = m_clipHierarch->findClipNodeById(id);

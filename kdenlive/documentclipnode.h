@@ -39,7 +39,7 @@ class DocumentClipNode:public DocumentBaseNode {
 	/** Returns the name of this clip*/
     virtual const QString & name() const;
 	/** Returns the id of this clip*/
-    virtual const int & getId() const;
+    virtual const int getId() const;
 
     virtual DocumentClipNode *asClipNode() {
 	return this;
