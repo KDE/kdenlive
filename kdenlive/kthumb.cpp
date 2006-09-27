@@ -96,7 +96,7 @@ void KThumb::getImage(KURL url, int frame, int width, int height)
 void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLength, int arrayWidth){
 	QMap <int, QMap <int, QByteArray> > storeIn;
 
-	if (m_workingOnAudio) return;
+	if (m_workingOnAudio || channel == 0) return;
 	
        //FIXME: Hardcoded!!! 
 	int m_frequency = 48000;
@@ -117,7 +117,7 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
 
 		}
 		
-		for (int z=frame;z<frame+frameLength;z++) {
+		for (int z=(int) frame;z<(int) (frame+frameLength);z++) {
 			//kdDebug() << "frame=" << z << ", total: "<< frame+frameLength <<endl;
 			for (int c=0;c< m_channels;c++){
 				QByteArray m_array(arrayWidth);
@@ -138,11 +138,12 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
 		
 
 		Mlt::Producer m_producer(KRender::decodedString(url.path()));
-		QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1, 10005));
+		if (qApp->mainWidget()) 
+		    QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1, 10005));
 
 		int last_val = 0;
 		int val = 0;
-		for (int z=frame;z<frame+frameLength && m_producer.is_valid();z++){
+		for (int z=(int) frame;z<(int) (frame+frameLength) && m_producer.is_valid();z++){
 			qApp->processEvents();
 			
 			val=(int)((z-frame)/(frame+frameLength)*100.0);
@@ -166,7 +167,7 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
 
 					for (int c=0;c< m_channels;c++){
 						QByteArray m_array(arrayWidth);
-						for (int i = 0; i < m_array.size(); i++){
+						for (uint i = 0; i < m_array.size(); i++){
 							m_array[i] =  QABS((*( m_pcm + c + i * m_samples / m_array.size() ))>>8);
 						}
 						qApp->processEvents();
