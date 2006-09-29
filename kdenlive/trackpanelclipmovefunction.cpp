@@ -326,7 +326,7 @@ bool TrackPanelClipMoveFunction::dragLeft(Gui::KTrackPanel * panel,
 	}
     }
 
-    m_timeline->drawTrackViewBackBuffer();
+    //m_timeline->drawTrackViewBackBuffer();
 
     m_timeline->stopScrollTimer();
     

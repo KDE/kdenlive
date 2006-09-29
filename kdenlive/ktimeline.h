@@ -230,11 +230,12 @@ namespace Command {
     public slots:		// Public slots
 	/** Update the back buffer for the track views, and tell the trackViewArea widget to
 	repaint itself. */
-	void drawTrackViewBackBuffer();
-
-	/** Invalidates the entire back buffer. */
-	void invalidateBackBuffer();
-
+	void drawTrackViewBackBuffer(int startTrack = 0, int endTrack = -1);
+	/** Update the back buffer for the track views, and tell the trackViewArea widget to
+	repaint itself. */
+	void drawPartialTrackViewBackBuffer(int start, int end, int startTrack = 0, int endTrack = -1);
+	/** Udate only the track which contains selected clip */
+	void drawCurrentTrack(int track, int offset);
 	/** Sets a new time scale for the timeline. This in turn calls the correct kruler funtion and
 	updates the display. */
 	void setTimeScale(double scale);

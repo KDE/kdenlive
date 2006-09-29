@@ -885,7 +885,7 @@ namespace Gui {
         SLOT(slotSetEffect(DocClipRef *, Effect *)));*/
 
 	connect(m_effectStackDialog, SIGNAL(redrawTracks()), m_timeline,
-	    SLOT(invalidateBackBuffer()));
+	    SLOT(drawTrackViewBackBuffer()));
         
         connect(&(getDocument()->projectClip()), SIGNAL(clipReferenceChanged()), this,
                 SLOT(clipReferenceChanged()));
@@ -894,8 +894,11 @@ namespace Gui {
 	    SLOT(slot_UpdateList()));
         
         connect(getDocument(), SIGNAL(timelineClipUpdated()), m_timeline,
-                SLOT(invalidateBackBuffer()));
-        
+                SLOT(drawTrackViewBackBuffer()));
+
+        connect(getDocument(), SIGNAL(refreshCurrentClipTrack(int, int)), m_timeline,
+                SLOT(drawCurrentTrack(int, int)));
+
 	connect(getDocument(), SIGNAL(clipChanged(DocClipRef *)),
 	    m_projectList, SLOT(slot_clipChanged(DocClipRef *)));
         
@@ -921,7 +924,7 @@ namespace Gui {
 	    SLOT(slotSyncTimeLineWithDocument()));
 	
         connect(getDocument(), SIGNAL(clipChanged(DocClipRef *)),
-	    m_timeline, SLOT(invalidateBackBuffer()));
+	    m_timeline, SLOT(drawTrackViewBackBuffer()));
         
 	connect(getDocument(),
 	    SIGNAL(documentLengthChanged(const GenTime &)), m_timeline,
@@ -1007,7 +1010,7 @@ namespace Gui {
                 getDocument(), SLOT(activateSceneListGeneration(bool)));
 
 	connect(m_transitionPanel, SIGNAL(transitionChanged(bool)),
-	    m_timeline, SLOT(invalidateBackBuffer()));
+	    m_timeline, SLOT(drawTrackViewBackBuffer()));
 
 	connect(keyFrameFunction, SIGNAL(signalKeyFrameChanged(bool)),
 	    getDocument(), SLOT(activateSceneListGeneration(bool)));
@@ -1164,7 +1167,7 @@ namespace Gui {
     void KdenliveApp::slotEditTransition(Transition *transition) {
 	m_dockTransition->makeDockVisible();
 	m_transitionPanel->setTransition(transition);
-        m_timeline->invalidateBackBuffer(); 
+        m_timeline->drawTrackViewBackBuffer();
     }
 
     void KdenliveApp::slotToggleClipMonitor() {

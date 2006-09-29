@@ -223,7 +223,8 @@ bool KdenliveDoc::moveSelectedClips(GenTime startOffset, int trackOffset)
 
     if (result) {
 	hasBeenModified();
-	emit timelineClipUpdated();
+        int currTrack = selectedClip()->trackNum();
+	emit refreshCurrentClipTrack(currTrack, trackOffset);
     }
     return result;
 }

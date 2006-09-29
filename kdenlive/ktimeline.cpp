@@ -107,7 +107,7 @@ namespace Gui {
 	 connect(m_ruler, SIGNAL(scaleChanged(double)), this,
 	    SLOT(resetProjectSize()));
 	 connect(m_ruler, SIGNAL(sliderValueMoved(int, int)),
-	    m_trackViewArea, SLOT(invalidateBackBuffer(int, int)));
+	    m_trackViewArea, SLOT(invalidatePartialBackBuffer(int, int)));
 /*	 connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), m_ruler,
          SLOT(repaint()));*/
 	 connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), this,
@@ -253,8 +253,19 @@ pixels, the left-most pixel is returned. */
 	return m_ruler->mapValueToLocal(value);
     } 
     
-    void KTimeLine::drawTrackViewBackBuffer() {
-	m_trackViewArea->invalidateBackBuffer();
+    void KTimeLine::drawTrackViewBackBuffer(int startTrack, int endTrack) {
+	m_trackViewArea->invalidateBackBuffer(startTrack, endTrack);
+    }
+
+    void KTimeLine::drawPartialTrackViewBackBuffer(int start, int end, int startTrack, int endTrack)
+    {
+	m_trackViewArea->invalidatePartialBackBuffer(start, end, startTrack, endTrack);
+    }
+
+    void KTimeLine::drawCurrentTrack(int track, int offset) {
+	if (offset > 0)
+		drawTrackViewBackBuffer(2 * (track - offset), 2 * track + 1);
+	else drawTrackViewBackBuffer(2 * track, 2 * (track - offset) + 1);
     }
 
 /** Returns m_trackList
@@ -557,10 +568,6 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
 	m_snapToMarker = snapToMarker;
     }
 
-    void KTimeLine::invalidateBackBuffer() {
-	m_trackViewArea->invalidateBackBuffer();
-    }
-
     int KTimeLine::viewWidth() const {
 	return m_trackViewArea->width();
     } 
@@ -610,13 +617,13 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
 	    QString dur = dlg.marker_position->text();
             int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * m_framesPerSecond + dur.section(":",3,3).toInt());
 	    m_ruler->addGuide(frames, dlg.marker_comment->text());
-	    trackView()->invalidateBackBuffer(frames - 7, frames + 7);
+	    trackView()->invalidatePartialBackBuffer(frames - 7, frames + 7);
 	}
     }
 
     void KTimeLine::deleteGuide() {
 	m_ruler->deleteGuide();
-	trackView()->invalidateBackBuffer(m_ruler->getSliderValue(0) - 2, m_ruler->getSliderValue(0) + 2);
+	trackView()->invalidatePartialBackBuffer(m_ruler->getSliderValue(0) - 2, m_ruler->getSliderValue(0) + 2);
     }
 
     void KTimeLine::insertSilentGuide(int frame, QString comment) {
@@ -647,8 +654,8 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
 	    else {
 		m_ruler->deleteGuide();
 		m_ruler->addGuide(frames, dlg.marker_comment->text());
-	    	trackView()->invalidateBackBuffer(pos - 2, pos + 2);
-		trackView()->invalidateBackBuffer(frames - 2, frames + 2);
+	    	trackView()->invalidatePartialBackBuffer(pos - 2, pos + 2);
+		trackView()->invalidatePartialBackBuffer(frames - 2, frames + 2);
 	    }
 	}
     }

@@ -937,7 +937,6 @@ namespace Gui {
 	// draw sliders
 	//
 
-
 	for (it = d->m_sliders.begin(); it != d->m_sliders.end(); it++) {
 	    value = (int) mapValueToLocal((*it).getValue());
 
@@ -947,6 +946,7 @@ namespace Gui {
 	    }
 	}
 	//update();
+	painter.setClipping(false);
     }
 
     void KRuler::invalidateBackBuffer() {	

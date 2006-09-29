@@ -77,6 +77,8 @@ namespace Gui {
         void drawBackBuffer(int start, int end);
 	TrackPanelFunction *getApplicableFunction(KTrackPanel * panel,
 	const QString & editMode, QMouseEvent * event);
+	int m_startTrack;
+	int m_endTrack;
 
 	QPixmap m_backBuffer;
 	 KTimeLine & m_timeline;
@@ -101,8 +103,8 @@ namespace Gui {
 
     public slots:		// Public slots
 	/** Invalidate the back buffer, alerting the trackview that it should redraw itself. */
-	void invalidateBackBuffer();
-        void invalidateBackBuffer(int pos1, int pos2);
+	void invalidateBackBuffer(int startTrack = 0, int endTrack = -1);
+        void invalidatePartialBackBuffer(int pos1, int pos2, int startTrack = 0, int endTrack = -1);
         
     signals: 
         void rightButtonPressed();

@@ -50,7 +50,7 @@ namespace Gui {
     void KMMTimeLine::invalidateClipBuffer(DocClipRef * clip) {
 #warning - unoptimised, should only update that part of the back buffer that needs to be updated. Current implementaion
 #warning - wipes the entire buffer.
-	invalidateBackBuffer();
+	drawTrackViewBackBuffer();
     }
 
     void KMMTimeLine::zoomTimeline(bool up) {

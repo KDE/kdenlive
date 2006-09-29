@@ -54,7 +54,6 @@ namespace Gui {
 	}
 	ex -= sx;
 
-	painter.setClipping(true);
 	painter.setClipRect(sx, rect.y(), ex, rect.height());
 
 	QValueVector < GenTime > markers = clip->snapMarkersOnTrack();

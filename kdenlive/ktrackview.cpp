@@ -42,7 +42,8 @@ namespace Gui {
 	setBackgroundMode(Qt::NoBackground);
 	setMouseTracking(true);
 	m_bufferInvalid = false;
-
+	m_startTrack = 0;
+	m_endTrack = -1;
 	setAcceptDrops(true);
 	trackview_tips = new DynamicToolTip(this);
     } 
@@ -145,22 +146,38 @@ namespace Gui {
     void KTrackView::drawBackBuffer() {
 	QPainter painter(&m_backBuffer);
 
-	painter.fillRect(0, 0, width(), height(),
-	    palette().active().background());
-
 	KTrackPanel *panel = m_timeline.trackList().first();
+	if (!panel) return;
+	int ix = 0;
+	while (m_startTrack > 0 && panel != 0) {
+	    panel = m_timeline.trackList().next();
+	    ix++;
+	    m_startTrack--;
+	}
+
+	int panelHeight = panel->height();
+	int totalHeight;
+	if (m_endTrack == -1) totalHeight = height();
+	else totalHeight = (m_endTrack - m_startTrack + 1) * panelHeight;
+
+	/*painter.fillRect(0, panel->y() - this->y(), width(), totalHeight,
+	    palette().active().background());*/
+
 	while (panel != 0) {
 	    int y = panel->y() - this->y();
 	    QRect rect(0, y, width(), panel->height());
 	    if (panel->trackType() == KEYFRAMETRACK) // white background on transition track
 		painter.fillRect(rect, palette().active().light());
 	    else {
+		painter.fillRect(rect, palette().active().background());
 		painter.setPen(QColor(Qt::gray));
 		painter.drawLine(0, y, width(), y); // gray line between the tracks
 		painter.setPen(QColor(Qt::black));
 	    }
 	    panel->drawToBackBuffer(painter, rect);
 	    panel = m_timeline.trackList().next();
+	    if (m_endTrack != -1 && m_endTrack == ix) break; 
+	    ix++;
 	}
 
 	// Draw guides
@@ -186,24 +203,39 @@ namespace Gui {
     void KTrackView::drawBackBuffer(int start, int end) {
         int sx = start - 2;
         int ex = end + 4;
-        QPainter painter(&m_backBuffer);
-        painter.fillRect(sx, 0, ex - sx, height(),
-                         palette().active().background());
+	KTrackPanel *panel = m_timeline.trackList().first();
+	if (!panel) return;
 	//painter.setClipRect(sx, 0, ex - sx, height());
+	int ix = 0;
+	while (m_startTrack > 0 && panel != 0) {
+	    panel = m_timeline.trackList().next();
+	    ix++;
+	    m_startTrack--;
+	}
 
-        KTrackPanel *panel = m_timeline.trackList().first();
+	int panelHeight = panel->height();
+	int totalHeight;
+	if (m_endTrack == -1) totalHeight = height();
+	else totalHeight = (m_endTrack - m_startTrack + 1) * panelHeight;
+        QPainter painter(&m_backBuffer);
+        /*painter.fillRect(sx, panel->y() - this->y(), ex - sx,  totalHeight,
+                         palette().active().background());*/
+
         while (panel != 0) {
             int y = panel->y() - this->y();
 	    QRect rect(sx, y, ex - sx, panel->height());
 	    if (panel->trackType() == KEYFRAMETRACK) // white background on transition track
 		painter.fillRect(rect, palette().active().light());
 	    else {
+		painter.fillRect(rect, palette().active().background());
 		painter.setPen(QColor(Qt::gray));
 		painter.drawLine(sx, y, ex, y); // gray line between the tracks
 		painter.setPen(QColor(Qt::black));
 	    }
             panel->drawToBackBuffer(painter, rect);
             panel = m_timeline.trackList().next();
+	    if (m_endTrack != -1 && m_endTrack == ix) break; 
+	    ix++;
         }
 
 	// Draw guides
@@ -245,13 +277,17 @@ namespace Gui {
     }
 
 /** Invalidate the back buffer, alerting the trackview that it should redraw itself. */
-    void KTrackView::invalidateBackBuffer() {
+    void KTrackView::invalidateBackBuffer(int startTrack, int endTrack) {
+	m_startTrack = startTrack;
+	m_endTrack = endTrack;
         m_bufferDrawList.addRange(0, width());
 	m_bufferInvalid = true;
 	update();
     }
 
-void KTrackView::invalidateBackBuffer(int pos1, int pos2) {
+void KTrackView::invalidatePartialBackBuffer(int pos1, int pos2, int startTrack, int endTrack) {
+   m_startTrack = startTrack;
+   m_endTrack = endTrack;
    pos1 = (int) m_timeline.mapValueToLocal(pos1);
    pos2 = (int) m_timeline.mapValueToLocal(pos2);
    if (pos1 < pos2) {
