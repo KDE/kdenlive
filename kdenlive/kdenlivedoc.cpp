@@ -221,8 +221,10 @@ bool KdenliveDoc::moveSelectedClips(GenTime startOffset, int trackOffset)
     bool result =
 	m_projectClip->moveSelectedClips(startOffset, trackOffset);
 
-    if (result)
+    if (result) {
 	hasBeenModified();
+	emit timelineClipUpdated();
+    }
     return result;
 }
 
