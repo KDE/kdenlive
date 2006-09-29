@@ -2038,7 +2038,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     void KdenliveApp::slotProjectAddTextClip() {
         slotStatusMsg(i18n("Adding Clips"));
         activateWorkspaceMonitor();
-        titleWidget *txtWidget=new titleWidget(m_workspaceMonitor->screen(), m_doc->projectClip().videoWidth(), m_doc->projectClip().videoHeight(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
+        titleWidget *txtWidget=new titleWidget(m_workspaceMonitor->screen(), m_doc->projectClip().videoWidth(), m_doc->projectClip().videoHeight(), NULL, this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
 	connect(txtWidget,SIGNAL(syncTimelineWithTitler(int)), this , SLOT(slotSyncTimelineWithTitler(int)));
         //connect(txtWidget->canview,SIGNAL(showPreview(QString)),m_workspaceMonitor->screen(),SLOT(setTitlePreview(QString)));
         txtWidget->titleName->setText(i18n("Text Clip"));
@@ -2131,7 +2131,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
             
             if (refClip->clipType() == DocClipBase::TEXT) {
                 activateWorkspaceMonitor();
-                titleWidget *txtWidget=new titleWidget(m_workspaceMonitor->screen(), m_doc->projectClip().videoWidth(), m_doc->projectClip().videoHeight(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
+                titleWidget *txtWidget=new titleWidget(m_workspaceMonitor->screen(), m_doc->projectClip().videoWidth(), m_doc->projectClip().videoHeight(), clip->fileURL(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
                 /*connect(txtWidget->canview,SIGNAL(showPreview(QString)),m_workspaceMonitor->screen(),SLOT(setTitlePreview(QString)));*/
                 Timecode tcode;
                 txtWidget->edit_duration->setText(tcode.getTimecode(refClip->duration(), KdenliveSettings::defaultfps()));
@@ -2224,6 +2224,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		KMD5 context ((KFileItem(clip->fileURL(),"text/plain", S_IFREG).timeString() + clip->fileURL().fileName()).ascii());
 		KIO::NetAccess::del(KURL(KdenliveSettings::currentdefaultfolder() + "/" + context.hexDigest().data() + ".thumb"), this);
 		}
+
 
 		DocumentBaseNode *node = m_doc->findClipNodeById(id);
 		if (!node) kdDebug()<<"++++++  CANNOT FIND NODE: "<<id<<endl;

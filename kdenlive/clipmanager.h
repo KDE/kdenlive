@@ -74,15 +74,26 @@ class ClipManager:public QObject {
 	/** Insert an AVFile with the given url. If the file is already in the file list, return 
 	 * that instead. */
     DocClipBase *insertClip(const KURL & file, int clipId = -1);
+    QDomDocument buildClip(const KURL & file, int clipId = -1);
 
 	/** Insert a color clip */
     DocClipBase *insertColorClip(const QString & color,
 	const GenTime & duration, const QString & name,
         const QString & description, int clipId = -1);
 
+    QDomDocument buildColorClip(const QString & color,
+                                          const GenTime & duration, const QString & name,
+                                          const QString & description, int clipId = -1);
+
     /** Insert a text clip */
     DocClipBase *insertTextClip( const GenTime & duration, const QString & name,
                                  const QString & description, const QDomDocument &xml, const KURL url, QPixmap &pix, bool alphaTransparency, int clipId = -1);
+    QDomDocument buildTextClip( const GenTime & duration, const QString & name,
+                                 const QString & description, const QDomDocument &xml, const KURL url, QPixmap &pix, bool alphaTransparency, int clipId = -1);
+
+    /** Insert a clip from its XML description */
+    DocClipBase *insertXMLClip(QDomDocument node);
+    DocClipBase *insertXMLTextClip(QDomDocument node);
 	
     /** Edit a color clip */
     void editColorClip(DocClipRef * clip, const QString & color,
@@ -109,13 +120,20 @@ class ClipManager:public QObject {
     DocClipBase *insertImageClip(const KURL & file,
         const GenTime & duration, const QString & description, bool alphaTransparency, int clipId = -1);
 
+    QDomDocument buildImageClip(const KURL & file,
+    const GenTime & duration, const QString & description, bool alphaTransparency, int clipId = -1);
+
 	/** Insert a slideshow clip */
     DocClipBase *insertSlideshowClip(const KURL & file,
+	const QString & extension, const int &ttl, bool crossfade,
+        const GenTime & duration, const QString & description, bool alphaTransparency, int clipId = -1);
+    QDomDocument buildSlideshowClip(const KURL & file,
 	const QString & extension, const int &ttl, bool crossfade,
         const GenTime & duration, const QString & description, bool alphaTransparency, int clipId = -1);
 
 	/** Insert a specific clip */
     DocClipBase *insertClip(const QDomElement & clip);
+    DocClipBase *insertXMLClip(const QDomElement & clip);
 
 	/** Adds a temporary clip. This is a clip that does not "exist" in the project, but of which
 	 * some stored information is required. */

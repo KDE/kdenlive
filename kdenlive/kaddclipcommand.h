@@ -101,6 +101,7 @@ namespace Command {
 	bool m_create;
 	/** An xml representation of the clip */
 	QDomDocument m_xmlClip;
+	bool m_isTextClip;
 
       private:			// Private methods
 	/** Deletes the clip */

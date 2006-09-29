@@ -33,7 +33,7 @@ class FigureEditor : public QCanvasView
         Q_OBJECT
 
 public:
-        FigureEditor(QCanvas&, QWidget* parent=0, const char* name=0, WFlags f=0);
+        FigureEditor(QCanvas&, QWidget* parent=0, KURL tmpUrl = NULL, const char* name=0, WFlags f=0);
         virtual ~FigureEditor();
         void clear();
         QCanvasRectangle* selection;
@@ -42,6 +42,7 @@ public:
         uint operationMode;
         uint numItems;
         KTempFile *tmp;
+	QString tmpFileName;
 
 protected:
         void contentsMousePressEvent(QMouseEvent*);
@@ -91,7 +92,7 @@ class titleWidget : public titleBaseWidget
 {
         Q_OBJECT
 public:
-        titleWidget(Gui::KMMScreen *screen, int width, int height, QWidget* parent=0, const char* name=0, WFlags fl=0);
+        titleWidget(Gui::KMMScreen *screen, int width, int height, KURL tmpUrl = NULL, QWidget* parent=0, const char* name=0, WFlags fl=0);
         virtual ~titleWidget();
         FigureEditor *canview;
 private:

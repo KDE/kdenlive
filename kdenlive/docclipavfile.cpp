@@ -98,6 +98,79 @@ m_framesPerSecond(0), m_color(QString::null), m_clipType(NONE), m_alphaTranspare
     // #TODO: What about the id of these clips ?
 }
 
+DocClipAVFile::DocClipAVFile(QDomDocument node):DocClipBase()
+{
+QDomElement element = node.documentElement(); 
+ if (element.tagName() != "clip") {
+	kdWarning() <<
+	    "DocClipRef::createClip() element has unknown tagName : " <<
+	    element.tagName() << endl;
+	return;
+    }
+
+    QDomNode n = element.firstChild();
+
+    while (!n.isNull()) {
+	QDomElement e = n.toElement();
+	if (!e.isNull()) {
+	    //kdWarning() << "DocClipRef::createClip() tag = " << e.tagName() << endl;
+	    if (e.tagName() == "avfile") {
+		kdDebug()<<"++ FOUND CLIP"<<endl;
+		m_url = KURL(e.attribute("url", QString::null));
+		uint clipType = e.attribute("type", QString::null).toInt();
+                setId(e.attribute("id", "-1").toInt());
+                m_filesize = e.attribute("filesize", "0").toInt();
+		m_alphaTransparency = e.attribute("transparency", "0").toInt();
+		m_hasCrossfade = e.attribute("crossfade", "0").toInt();
+		m_ttl = e.attribute("ttl", "0").toInt();
+		m_width = e.attribute("width", "0").toInt();
+		m_height = e.attribute("height", "0").toInt();
+		m_channels = e.attribute("channels", "0").toInt();
+		m_frequency = e.attribute("frequency", "0").toInt();
+		m_durationKnown = e.attribute("durationknown", "0" ).toInt();
+		m_color = e.attribute("color", QString::null);
+		m_duration = GenTime(e.attribute("duration", "0").toInt(), KdenliveSettings::defaultfps());
+		setName(e.attribute("name", QString::null));
+		setDescription(e.attribute("description", QString::null));
+
+		switch (clipType) {
+			case DocClipBase::NONE:
+			thumbCreator = new KThumb();
+			m_clipType = DocClipBase::NONE;
+			break;
+			case DocClipBase::AUDIO:
+			thumbCreator = new KThumb();
+			m_clipType = DocClipBase::AUDIO;
+			break;
+			case DocClipBase::VIDEO:
+			thumbCreator = new KThumb();
+			m_clipType = DocClipBase::VIDEO;
+			break;
+			case DocClipBase::AV:
+			thumbCreator = new KThumb();
+			m_clipType = DocClipBase::AV;
+			break;
+			case DocClipBase::COLOR:
+			m_clipType = DocClipBase::COLOR;
+			break;
+			case DocClipBase::IMAGE:
+			m_clipType = DocClipBase::IMAGE;
+			break;
+			case DocClipBase::TEXT:
+			m_clipType = DocClipBase::TEXT;
+			break;
+			case DocClipBase::SLIDESHOW:
+			m_clipType = DocClipBase::SLIDESHOW;
+			break;
+		}
+	    }
+	}
+	n = n.nextSibling();
+    }
+
+}
+
+
 DocClipAVFile::~DocClipAVFile()
 {
 }
@@ -375,23 +448,6 @@ bool DocClipAVFile::referencesClip(DocClipBase * clip) const
 QDomDocument DocClipAVFile::toXML() const
 {
 
-    /*QDomDocument doc;
-
-       QDomElement clip = doc.createElement("clip");
-       clip.setAttribute("name", name());
-       QDomText text = doc.createTextNode(description());
-       clip.appendChild(text);
-
-       QDomElement clip2 = doc.createElement("clip");
-       clip2.setAttribute("name", name());
-       QDomText text2 = doc.createTextNode(description());
-       clip2.appendChild(text2);
-
-       doc.appendChild(clip);
-       doc.appendChild(clip2);
-     */
-
-
     QDomDocument doc = DocClipBase::toXML();
     QDomNode node = doc.firstChild();
 
@@ -403,7 +459,24 @@ QDomDocument DocClipAVFile::toXML() const
 		avfile.setAttribute("url", fileURL().url());
 		avfile.setAttribute("type", m_clipType);
                 avfile.setAttribute("id", getId());
+                avfile.setAttribute("filesize", m_filesize);
+		avfile.setAttribute("transparency", m_alphaTransparency);
+		avfile.setAttribute("crossfade", m_hasCrossfade);
+		avfile.setAttribute("ttl", m_ttl);
+		avfile.setAttribute("channels", m_channels);
+		avfile.setAttribute("frequency", m_frequency);
+		avfile.setAttribute("durationknown", m_durationKnown );
+		avfile.setAttribute("color", m_color);
+		avfile.setAttribute("duration", m_duration.frames(KdenliveSettings::defaultfps()));
+		avfile.setAttribute("description", description());
+		avfile.setAttribute("name", name());
+		avfile.setAttribute("width", m_width);
+		avfile.setAttribute("height", m_height);
+
 		element.appendChild(avfile);
+		kdDebug()<<"-----------------------"<<endl;
+		kdDebug()<<doc.toString()<<endl;
+		kdDebug()<<"-----------------------"<<endl;
 		return doc;
 	    }
 	}

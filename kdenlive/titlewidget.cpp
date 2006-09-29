@@ -55,11 +55,12 @@
 #define verticalMarginSize 20
 
 FigureEditor::FigureEditor(
-        QCanvas& c, QWidget* parent, const char* name, WFlags f) :
+        QCanvas& c, QWidget* parent, KURL tmpUrl, const char* name, WFlags f) :
                 QCanvasView(&c,parent,name,f)
 {
         //Create temp file that will be used for preview in the Mlt monitor
-        tmp=new KTempFile(KdenliveSettings::currentdefaultfolder(),".png");
+	if (!tmpUrl.isEmpty()) tmpFileName = tmpUrl.path();
+	else tmpFileName = KTempFile(KdenliveSettings::currentdefaultfolder(),".png").name();
         selection = 0;
         moving = 0;
         numItems = 0;
@@ -473,11 +474,8 @@ void FigureEditor::exportContent()
 {
         QPixmap im = drawContent();
         // Save resulting pixmap in a file for mlt
-        im.save(tmp->name(),"PNG");
-        tmp->sync();
-        tmp->close();
-
-        emit showPreview(tmp->name());
+        im.save(tmpFileName,"PNG");
+        emit showPreview(tmpFileName);
 }
 
 void FigureEditor::exportContent(KURL url)
@@ -491,9 +489,7 @@ void FigureEditor::saveImage()
 {
     QPixmap im = drawContent();
         // Save resulting pixmap in a file for mlt
-    im.save(tmp->name(),"PNG");
-    tmp->sync();
-    tmp->close();
+    im.save(tmpFileName,"PNG");
 }
 
 QPixmap FigureEditor::drawContent()
@@ -628,7 +624,7 @@ void FigureEditor::setXml(const QDomDocument &xml)
 }
 
 
-titleWidget::titleWidget(Gui::KMMScreen *screen, int width, int height, QWidget* parent, const char* name, WFlags fl ):
+titleWidget::titleWidget(Gui::KMMScreen *screen, int width, int height, KURL tmpUrl, QWidget* parent, const char* name, WFlags fl ):
                 titleBaseWidget(parent,name)
 {
         frame->setMinimumWidth(width);
@@ -639,11 +635,13 @@ titleWidget::titleWidget(Gui::KMMScreen *screen, int width, int height, QWidget*
 	fontSize->setValue(defFont.pointSize());
 	fontColor->setColor(KdenliveSettings::titlercolor());
         canvas=new QCanvas(KdenliveSettings::defaultwidth(),KdenliveSettings::defaultheight());
-        canview = new FigureEditor(*canvas, frame);
-	int pos = screen->seekPosition().frames(KdenliveSettings::defaultfps()) * 100 / screen->getLength();
-	timelineSlider->setValue(pos);
+        canview = new FigureEditor(*canvas, frame, tmpUrl);
+	if (screen) {
+	    int pos = screen->seekPosition().frames(KdenliveSettings::defaultfps()) * 100 / screen->getLength();
+	    timelineSlider->setValue(pos);
 	//canview->canvas()->setBackgroundPixmap(screen->extractFrame(pos, KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight()));
-	m_screen = screen;
+	    m_screen = screen;
+	}
 	
         // Put icons on buttons
         textButton->setPixmap(KGlobal::iconLoader()->loadIcon("title_text",KIcon::Small,22));
@@ -838,7 +836,7 @@ void titleWidget::createImage(KURL url)
 
 KURL titleWidget::previewFile()
 {
-    return KURL(canview->tmp->name());
+    return KURL(canview->tmpFileName);
 }
 
 QPixmap titleWidget::thumbnail(int width, int height)

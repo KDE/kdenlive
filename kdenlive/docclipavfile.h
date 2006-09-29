@@ -48,6 +48,9 @@ class DocClipAVFile:public DocClipBase {
      DocClipAVFile(const QString & color, const GenTime & duration,
 	uint id);
 
+
+    DocClipAVFile(QDomDocument node);
+
      DocClipAVFile(const KURL & url);
     ~DocClipAVFile();
     QString fileName();
@@ -171,7 +174,6 @@ class DocClipAVFile:public DocClipBase {
     bool m_alphaTransparency;
     /** Should we crossfade between images (only for slideshows) */
     bool m_hasCrossfade;
-
 
     //extended video file properties -reh
     uint m_height;

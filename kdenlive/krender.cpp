@@ -386,10 +386,10 @@ void KRender::getImage(KURL url, int width, int height)
 
             QDir dir( url.directory() );
             more = dir.entryList( QDir::Files );
- 
             for ( it = more.begin() ; it != more.end() ; ++it ) {
                 if ((*it).endsWith("."+fileType, FALSE)) {
-			im.load(url.directory() + "/" + *it);
+			if (!im.load(url.directory() + "/" + *it))
+			    kdDebug()<<"++ ERROR LOADIN IMAGE: "<<url.directory() + "/" + *it<<endl;
 			break;
 		}
 	    }

@@ -19,6 +19,7 @@
 
 
 #include <qfile.h>
+#include <qimage.h>
 
 // include files for KDE
 #include <klocale.h>
@@ -41,7 +42,7 @@ ClipManager::ClipManager(KRender *render, QWidget * parent, const char *name) //
     m_temporaryClipList.setAutoDelete(true);
     m_clipCounter = 0;
 
-    m_render = render; //renderManager.createRenderer("Clip Manager");
+    m_render = render;
 
     connect(m_render, SIGNAL(replyGetFileProperties(const QMap < QString,
 		QString > &)), this,
@@ -94,6 +95,37 @@ DocClipBase *ClipManager::insertClip(const KURL & file, int clipId)
     return 0;
 }
 
+QDomDocument ClipManager::buildClip(const KURL & file, int clipId)
+{
+    if (!KIO::NetAccess::exists(file, true, 0)) {
+	if (KMessageBox::questionYesNo(0, i18n("Cannot open file %1\nDo you want to search for the file or remove it from the project ?").arg(file.path()), i18n("Missing File"), i18n("Find File"), i18n("Remove")) == KMessageBox::Yes) {
+	KURL url = KFileDialog::getOpenURL(file.path());
+	if (!url.isEmpty()) return buildClip(url, clipId);
+	else return QDomDocument();
+	}
+	else return QDomDocument();
+    }
+    DocClipBase *clip = findClip(file);
+    if (clip) return clip->toXML();
+
+	if (!m_render->isValid(file)) {
+	    KMessageBox::sorry(0,
+		i18n
+		("The file %1 is not a valid video file for kdenlive...").
+		arg(file.filename()));
+	    return QDomDocument();
+	}
+
+        if (clipId == -1) clip = new DocClipAVFile(file.fileName(), file, m_clipCounter++);
+        else {
+            clip = new DocClipAVFile(file.fileName(), file, clipId);
+        }
+	QDomDocument xml = clip->toXML();
+	delete clip;
+	return xml;
+}
+
+
 DocClipBase *ClipManager::insertImageClip(const KURL & file,
     const GenTime & duration, const QString & description, bool alphaTransparency, int clipId)
 {
@@ -129,6 +161,38 @@ DocClipBase *ClipManager::insertImageClip(const KURL & file,
     return 0;
 }
 
+QDomDocument ClipManager::buildImageClip(const KURL & file,
+    const GenTime & duration, const QString & description, bool alphaTransparency, int clipId)
+{
+    if (!KIO::NetAccess::exists(file, true, 0)) {
+	if (KMessageBox::questionYesNo(0, i18n("Cannot open file %1\nDo you want to search for the file or remove it from the project ?").arg(file.path()), i18n("Missing File"), i18n("Find File"), i18n("Remove")) == KMessageBox::Yes) {
+	KURL url = KFileDialog::getOpenURL(file.path());
+	if (!url.isEmpty()) return buildImageClip(url, duration, description, alphaTransparency, clipId);
+	else return QDomDocument();
+	}
+	else return QDomDocument();
+    }
+    DocClipBase *clip = findClip(file);
+    if (clip) return clip->toXML();
+	if (!m_render->isValid(file)) {
+	    KMessageBox::sorry(0,
+		i18n
+		("The file %1 is not a valid video file for kdenlive...").
+		arg(file.filename()));
+	    return QDomDocument();
+	}
+
+    	if (clipId == -1) clip = new DocClipAVFile(file, duration, alphaTransparency, m_clipCounter++);
+    	else {
+        	clip = new DocClipAVFile(file, duration, alphaTransparency, clipId);
+    	}
+    	clip->setDescription(description);
+    	
+	QDomDocument xml = clip->toXML();
+	delete clip;
+	return xml;
+}
+
 DocClipBase *ClipManager::insertSlideshowClip(const KURL & file,
     const QString & extension, const int &ttl, bool crossfade, const GenTime & duration,
     const QString & description, bool alphaTransparency, int clipId)
@@ -162,6 +226,34 @@ DocClipBase *ClipManager::insertSlideshowClip(const KURL & file,
     return 0;
 }
 
+
+QDomDocument ClipManager::buildSlideshowClip(const KURL & file,
+    const QString & extension, const int &ttl, bool crossfade, const GenTime & duration,
+    const QString & description, bool alphaTransparency, int clipId)
+{
+    DocClipBase *clip = findClip(file);
+    
+	if (!m_render->isValid(file)) {
+	    KMessageBox::sorry(0,
+		i18n
+		("The file %1 is not a valid video file for kdenlive...").
+		arg(file.filename()));
+	    return QDomDocument();
+	}
+
+    	if (clipId == -1) clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, crossfade, m_clipCounter++);
+    	else {
+        	clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, crossfade, clipId);
+    	}
+	int imageCount = (int) duration.frames(KdenliveSettings::defaultfps()) / ttl;
+	clip->setName(clip->name() + i18n(" [%1 images]").arg(QString::number(imageCount)));	
+    	clip->setDescription(description);
+	QDomDocument xml = clip->toXML();
+	delete clip;
+	return xml;
+}
+
+
 DocClipBase *ClipManager::insertColorClip(const QString & color,
                                           const GenTime & duration, const QString & name,
                                           const QString & description, int clipId)
@@ -181,6 +273,89 @@ DocClipBase *ClipManager::insertColorClip(const QString & color,
     return clip;
 }
 
+QDomDocument ClipManager::buildColorClip(const QString & color,
+                                          const GenTime & duration, const QString & name,
+                                          const QString & description, int clipId)
+{
+    DocClipBase *clip;
+    if (clipId == -1) clip = new DocClipAVFile(color, duration, m_clipCounter);
+    else {
+        clip = new DocClipAVFile(color, duration, clipId);
+        m_clipCounter = clipId;
+    }
+    clip->setDescription(description);
+    clip->setName(name);
+    QDomDocument xml = clip->toXML();
+    delete clip;
+    return xml;
+}
+
+QDomDocument ClipManager::buildTextClip(const GenTime & duration, const QString & name,
+    const QString & description, const QDomDocument &xml, const KURL url, QPixmap &pix, bool alphaTransparency, int clipId)
+{
+    DocClipBase *clip;
+    if (clipId == -1) clip = new DocClipTextFile( name, description, duration, xml, url, 0, alphaTransparency, m_clipCounter++);
+    else {
+        clip = new DocClipTextFile( name, description, duration, xml, url, 0, alphaTransparency, clipId);
+    }
+
+    QDomDocument resultxml = clip->toXML();
+    delete clip;
+    return resultxml;
+}
+
+
+DocClipBase *ClipManager::insertXMLClip(QDomDocument node)
+{
+    DocClipAVFile *clip = new DocClipAVFile(node);
+    m_clipList.append(clip);
+    m_clipCounter++;
+    switch (clip->clipType()) {
+    case DocClipBase::COLOR:
+	m_render->getImage(clip->getId(), clip->color(), 50, 40);
+	break;
+    case DocClipBase::IMAGE:
+	m_render->getImage(clip->fileURL(), 50, 40);
+	break;
+    case DocClipBase::SLIDESHOW:
+	m_render->getImage(clip->fileURL(), 50, 40);
+	break;
+    default:
+	emit getFileProperties(clip->fileURL());
+	//m_render->getImage(clip->fileURL(), 1, 50, 40);//
+	break;
+    }
+    if (clip->getId() >= m_clipCounter) m_clipCounter = clip->getId() + 1;
+    emit clipListUpdated();
+    return clip;
+}
+
+DocClipBase *ClipManager::insertXMLTextClip(QDomDocument node)
+{
+    DocClipBase *clip;
+    clip = new DocClipTextFile(node);
+    m_clipList.append(clip);
+    QPixmap result(50, 40);
+    QPixmap pix(48,38);
+    result.fill(Qt::black);
+    if (!QFile(clip->fileURL().path()).exists()) {
+            titleWidget *txtWidget=new titleWidget(0,10,10);
+            txtWidget->setXml(clip->toDocClipTextFile()->textClipXml());
+            txtWidget->createImage(clip->toDocClipTextFile()->fileURL());
+	    pix = txtWidget->thumbnail(48, 38);
+            delete txtWidget;
+    }
+    else {
+	    QImage im(clip->fileURL().path());
+	    pix = im.smoothScale(48,38);
+    }
+    bitBlt(&result, 1, 1, &pix, 0, 0, 48, 38);
+    clip->setThumbnail(result);
+    m_clipCounter++;
+    emit clipListUpdated();
+    return clip;
+}
+
 DocClipBase *ClipManager::insertTextClip(
     const GenTime & duration, const QString & name,
     const QString & description, const QDomDocument &xml, const KURL url, QPixmap &pix, bool alphaTransparency, int clipId)
@@ -188,12 +363,12 @@ DocClipBase *ClipManager::insertTextClip(
     QPixmap result(50, 40);
     result.fill(Qt::black);
     if (!QFile(url.path()).exists() || pix.isNull()) {
-/*        titleWidget *txtWidget=new titleWidget(10,10);
+        titleWidget *txtWidget=new titleWidget(0 ,10,10);
         txtWidget->setXml(xml);
         txtWidget->createImage(url);
         pix = txtWidget->thumbnail(48, 38);
     	bitBlt(&result, 1, 1, &pix, 0, 0, 48, 38);
-        delete txtWidget;*/
+        delete txtWidget;
     }
 
     DocClipBase *clip;
@@ -224,7 +399,14 @@ void ClipManager::editTextClip(DocClipRef * clip, const GenTime & duration, cons
         avClip->setThumbnail(pix);
         avClip->setTextClipXml(xml);
         avClip->setAlpha(alphaTransparency);
-        m_render->getImage(url, 50, 40);
+
+        QPixmap result(50, 40);
+        result.fill(Qt::black);
+        QImage im(url.path());
+	QPixmap pix = im.smoothScale(48,38);
+	bitBlt(&result, 1, 1, &pix, 0, 0, 48, 38);
+	clip->referencedClip()->setThumbnail(result);
+//        m_render->getImage(url, 50, 40);
         if (clip->numReferences() > 0) emit updateClipThumbnails(clip->referencedClip());
     }
     emit clipListUpdated();
@@ -464,13 +646,10 @@ DocClipBase *ClipManager::findClip(const KURL & file)
 
     QPtrListIterator < DocClipBase > itt(m_clipList);
     while (itt.current()) {
-        if (itt.current()->isDocClipAVFile()) {
-	   avClip = itt.current()->toDocClipAVFile();
-  	   if (avClip && (avClip->fileURL() == file)) {
-	       result = avClip;
-	       break;
-           }
-	}
+	if (itt.current()->fileURL().path() == file.path()) {
+		result = itt.current();
+		break;
+	} 
 	++itt;
     }
 
@@ -481,8 +660,7 @@ DocClipBase *ClipManager::insertClip(const QDomElement & clip)
 {
     DocClipBase *result = findClip(clip);
     if (!result) {
-	result =
-	    DocClipBase::createClip(m_render->effectList(), *this, clip);
+	result = DocClipBase::createClip(m_render->effectList(), *this, clip);
 	if (result) {
 	    m_clipList.append(result);
 	} else {
@@ -492,6 +670,23 @@ DocClipBase *ClipManager::insertClip(const QDomElement & clip)
 	}
     }
     return result;
+}
+
+DocClipBase *ClipManager::insertXMLClip(const QDomElement & clip)
+{
+    DocClipBase *tmp = DocClipBase::createClip(m_render->effectList(), *this, clip);
+    if (tmp) {
+	    int clipId = tmp->getId();
+            DocClipBase *result = new DocClipAVFile(tmp->name(), tmp->fileURL(), clipId);
+            if (clipId>= (int) m_clipCounter) m_clipCounter = clipId+1;
+	m_clipList.append(result);
+        emit getFileProperties(tmp->fileURL());
+	emit clipListUpdated();
+	} else {
+	    kdError() <<
+		"Could not insert clip into clip manager - createClip failed"
+		<< endl;
+	}
 }
 
 void ClipManager::clear()
@@ -514,8 +709,7 @@ DocClipAVFile *ClipManager::findAVFile(const KURL & url)
         DocClipAVFile *avClip;
 	if (clip->isDocClipAVFile()) {
 	    avClip = clip->toDocClipAVFile();
-
-            if (avClip && avClip->fileURL() == url) {
+            if (avClip && avClip->fileURL().path() == url.path()) {
 		file = avClip;
 		break;
 	    }
@@ -544,7 +738,7 @@ void ClipManager::AVFilePropertiesArrived(const QMap < QString,
     }
 
     file->calculateFileProperties(properties);
-    if (file->clipType() == DocClipBase::AV || file->clipType() == DocClipBase::AUDIO) {
+    if ((file->clipType() == DocClipBase::AV || file->clipType() == DocClipBase::AUDIO) && file->thumbCreator) {
 	connect(file->thumbCreator, SIGNAL(audioThumbReady(QMap<int,QMap<int,QByteArray> >)), file, SLOT(updateAudioThumbnail(QMap<int,QMap<int,QByteArray> >)));
 	if (KdenliveSettings::audiothumbnails()) 
 		QTimer::singleShot(1000, file, SLOT(getAudioThumbs()));
@@ -570,12 +764,13 @@ void ClipManager::removeClip(const KURL & file)
 
 void ClipManager::removeClip(int clipId)
 {
-    //kdDebug()<<"++++  TRYING to delete clip: "<<clipId<<endl;
+    kdDebug()<<"++++  TRYING to delete clip: "<<clipId<<endl;
     DocClipBase *clip = findClipById(clipId);
     if (clip) {
 	if (m_clipList.find(clip)!=-1) {
-		disconnect(clip->toDocClipAVFile()->thumbCreator, SIGNAL(audioThumbReady(QMap<int,QMap<int,QByteArray> >)), clip->toDocClipAVFile(), SLOT(updateAudioThumbnail(QMap<int,QMap<int,QByteArray> >)));
+		/*disconnect(clip->toDocClipAVFile()->thumbCreator, SIGNAL(audioThumbReady(QMap<int,QMap<int,QByteArray> >)), clip->toDocClipAVFile(), SLOT(updateAudioThumbnail(QMap<int,QMap<int,QByteArray> >)));*/
 		m_clipList.remove();
+		m_clipCounter--;
 	}
     }
     else kdDebug()<<"++++  CLIP NOT FOUND!"<<endl;
@@ -613,7 +808,6 @@ void ClipManager::AVImageArrived(const KURL & url, int frame,
     const QPixmap & pixmap)
 {
     DocClipBase *clip = findClip(url);
-
     if (clip) {
 	clip->setThumbnail(pixmap);
     }

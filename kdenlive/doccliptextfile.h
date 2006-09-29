@@ -43,6 +43,8 @@ class DocClipTextFile:public DocClipBase {
                   const GenTime & duration, const QDomDocument &xml, KURL url, const QPixmap &pix, bool transparency, uint id);
 
 
+    DocClipTextFile(QDomDocument node);
+
      DocClipTextFile(const KURL & url);
     ~DocClipTextFile();
     QString fileName();

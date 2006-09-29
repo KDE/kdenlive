@@ -94,8 +94,11 @@ namespace Command {
 	if (!clip) {
 	    m_create = false;
 	    kdWarning() << "Error - Invalid clip" << endl;
-	} else
+	} else {
 	    m_xmlClip = clip->toXML();
+	    if (clip->clipType() == DocClipBase::TEXT) m_isTextClip = true;
+	    else m_isTextClip = false;
+	}
     }
 
 /** Add Color clip */
@@ -103,20 +106,14 @@ namespace Command {
 	const QString & color, const GenTime & duration,
 	const QString & name, const QString & description,
 	bool create):m_document(document), m_name("Color Clip"),
-	m_parent(parent), m_create(create) {
+	m_parent(parent), m_create(create), m_isTextClip(false) {
 	if (!m_parent) {
 	    kdWarning() <<
 		"Error - all clips created with kaddclipcommand should have a parent!"
 		<< endl;
 	}
-	DocClipBase *clip =
-	    document.clipManager().insertColorClip(color, duration, name,
-	    description);
-	m_id = clip->getId();
-	DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
-	m_xmlClip = clipNode->clipRef()->toXML();
-	delete clipNode;
-
+	m_xmlClip = document.clipManager().buildColorClip(color, duration, name, description);
+	m_id = -1;
     }
 
     /** Add Text clip */
@@ -124,19 +121,23 @@ namespace Command {
                                      const GenTime & duration,
                                      const QString & name, const QString & description, const QDomDocument &xml,  KURL url, QPixmap &pix, bool alphaTransparency,
                                      bool create):m_document(document), m_name("Text Clip"),
-    m_parent(parent), m_create(create) {
+    m_parent(parent), m_create(create), m_isTextClip(true) {
         if (!m_parent) {
             kdWarning() <<
                     "Error - all clips created with kaddclipcommand should have a parent!"
                     << endl;
         }
-        DocClipBase *clip =
+
+	m_xmlClip = document.clipManager().buildTextClip(duration, name, description, xml, url, pix, alphaTransparency);
+	m_id = -1;
+
+        /*DocClipBase *clip =
                 document.clipManager().insertTextClip(duration, name,
         description, xml, url, pix, alphaTransparency);
 	m_id = clip->getId();
         DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
         m_xmlClip = clipNode->clipRef()->toXML();
-        delete clipNode;
+        delete clipNode;*/
 
     }
 
@@ -144,19 +145,15 @@ namespace Command {
     KAddClipCommand::KAddClipCommand(KdenliveDoc & document, const QString & parent,
 	const KURL & url, const GenTime & duration, const QString & description, bool alphaTransparency,
 	bool create):m_document(document), m_name(url.filename()),
-	m_parent(parent), m_create(create) {
-	DocClipBase *clip;
+	m_parent(parent), m_create(create), m_isTextClip(false) {
+
 	if (!m_parent) {
 	    kdWarning() <<
 		"Error - all clips created with kaddclipcommand should have a parent!"
 		<< endl;
 	}
-        clip = document.clipManager().insertImageClip(url, duration, description, alphaTransparency);
-	m_id = clip->getId();
-
-	DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
-	m_xmlClip = clipNode->clipRef()->toXML();
-	delete clipNode;
+        m_xmlClip = document.clipManager().buildImageClip(url, duration, description, alphaTransparency);
+	m_id = -1;
 
     }
 
@@ -166,41 +163,28 @@ namespace Command {
 	const KURL & url, const QString & extension, const int &ttl, bool crossfade,
         const GenTime & duration, const QString & description, bool alphaTransparency,
 	bool create):m_document(document), m_name(url.filename()),
-	m_parent(parent), m_create(create) {
-	DocClipBase *clip;
+	m_parent(parent), m_create(create), m_isTextClip(false) {
+
 	if (!m_parent) {
 	    kdWarning() <<
 		"Error - all clips created with kaddclipcommand should have a parent!"
 		<< endl;
 	}
-        clip = document.clipManager().insertSlideshowClip(url, extension, ttl, crossfade,    duration, description, alphaTransparency);
-
-	m_id = clip->getId();
-
-	DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
-	m_xmlClip = clipNode->clipRef()->toXML();
-	delete clipNode;
-
+        m_xmlClip = document.clipManager().buildSlideshowClip(url, extension, ttl, crossfade,    duration, description, alphaTransparency);
+	m_id = -1;
     }
 
 /** Add video / audio clip */
     KAddClipCommand::KAddClipCommand(KdenliveDoc & document, const QString & parent,
 	const KURL & url, bool create):m_document(document),
 	m_name(url.filename()), m_parent(parent),
-        m_create(create), m_id(-1) {
+        m_create(create), m_isTextClip(false), m_id(-1) {
 	if (!m_parent) {
 	    kdWarning() <<
 		"Error - all clips created with kaddclipcommand should have a parent!"
 		<< endl;
 	}
-        m_xmlClip = QDomDocument();
-	DocClipBase *clip = document.clipManager().insertClip(url);
-	if (clip) {
-	    m_id = clip->getId();
-	    DocumentClipNode *clipNode = new DocumentClipNode(0, clip);
-	    m_xmlClip = clipNode->clipRef()->toXML();
-	    delete clipNode;
-	}
+        m_xmlClip = document.clipManager().buildClip(url);
     }
 
     KAddClipCommand::~KAddClipCommand() {
@@ -244,7 +228,12 @@ namespace Command {
 		"Could not find parent in document, cannot add document base node"
 		<< endl;
 	} else {
-	    DocClipBase *clip = m_document.clipManager().insertClip(m_xmlClip.documentElement());
+	    DocClipBase *clip;
+	    if (m_isTextClip) 
+		clip = m_document.clipManager().insertXMLTextClip(m_xmlClip);
+	    else clip = m_document.clipManager().insertXMLClip(m_xmlClip);
+	    m_id = clip->getId();
+	    //DocClipBase *clip = m_document.clipManager().insertClip(m_xmlClip.documentElement());
 	    if (!clip) {
 		m_document.addClipNode(m_parent, new DocumentGroupNode(node, m_name));
 	    } else {
@@ -263,7 +252,8 @@ namespace Command {
 		"Could not find parent in document, cannot delete document base node"
 		<< endl;
 	} else {
-	    m_document.deleteClipNodeById(m_id); //m_name);
+	    m_document.clipManager().removeClip(m_id);
+	    m_document.deleteClipNodeById(m_id);
 	}
     }
 

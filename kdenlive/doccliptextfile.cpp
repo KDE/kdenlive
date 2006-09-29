@@ -42,8 +42,7 @@ m_durationKnown(false), m_framesPerSecond(0),
 }
 
 
-DocClipTextFile::DocClipTextFile(const QString & name, const QString & text,
-											const GenTime & duration, const QDomDocument &xml, KURL url, const QPixmap &pix, bool transparency, uint id):DocClipBase(),m_clipType(TEXT), m_duration(duration), m_url(url),
+DocClipTextFile::DocClipTextFile(const QString & name, const QString & text, const GenTime & duration, const QDomDocument &xml, KURL url, const QPixmap &pix, bool transparency, uint id):DocClipBase(),m_clipType(TEXT), m_duration(duration), m_url(url),
  m_durationKnown(true), m_framesPerSecond(KdenliveSettings::defaultfps()), m_filesize(0), m_xml(xml), m_alphaTransparency(transparency)
 {
     setName(name);
@@ -61,6 +60,46 @@ m_durationKnown(false),
 m_framesPerSecond(0), m_alphaTransparency(false)
 {
     setName(url.fileName());
+}
+
+
+DocClipTextFile::DocClipTextFile(QDomDocument node):DocClipBase(),m_clipType(TEXT), m_duration(0.0),  m_durationKnown(false), m_framesPerSecond(0), m_alphaTransparency(false)
+{
+QDomElement element = node.documentElement(); 
+ if (element.tagName() != "clip") {
+	kdWarning() <<
+	    "DocClipRef::createClip() element has unknown tagName : " <<
+	    element.tagName() << endl;
+	return;
+    }
+
+    QDomNode n = element.firstChild();
+
+    while (!n.isNull()) {
+	QDomElement e = n.toElement();
+	if (!e.isNull()) {
+	    //kdWarning() << "DocClipRef::createClip() tag = " << e.tagName() << endl;
+	    if (e.tagName() == "avfile") {
+		kdDebug()<<"++ FOUND CLIP"<<endl;
+		m_url = KURL(e.attribute("url", QString::null));
+                setId(e.attribute("id", "-1").toInt());
+                m_filesize = e.attribute("filesize", "0").toInt();
+		m_alphaTransparency = e.attribute("transparency", "0").toInt();
+		m_width = e.attribute("width", "0").toInt();
+		m_height = e.attribute("height", "0").toInt();
+		m_durationKnown = e.attribute("durationknown", "0" ).toInt();
+		m_color = e.attribute("color", QString::null);
+		m_duration = GenTime(e.attribute("duration", "0").toInt(), KdenliveSettings::defaultfps());
+		setName(e.attribute("name", QString::null));
+		setDescription(e.attribute("description", QString::null));
+		QDomDocument xml;
+                xml.setContent(e.attribute("textxml", QString::null));
+		setTextClipXml( xml);
+	    }
+	}
+	n = n.nextSibling();
+    }
+
 }
 
 DocClipTextFile::~DocClipTextFile()
@@ -237,24 +276,6 @@ bool DocClipTextFile::referencesClip(DocClipBase * clip) const
 // virtual
 QDomDocument DocClipTextFile::toXML() const
 {
-
-    /*QDomDocument doc;
-
-       QDomElement clip = doc.createElement("clip");
-       clip.setAttribute("name", name());
-       QDomText text = doc.createTextNode(description());
-       clip.appendChild(text);
-
-       QDomElement clip2 = doc.createElement("clip");
-       clip2.setAttribute("name", name());
-       QDomText text2 = doc.createTextNode(description());
-       clip2.appendChild(text2);
-
-       doc.appendChild(clip);
-       doc.appendChild(clip2);
-     */
-
-
     QDomDocument doc = DocClipBase::toXML();
     QDomNode node = doc.firstChild();
 
@@ -263,9 +284,19 @@ QDomDocument DocClipTextFile::toXML() const
 	if (!element.isNull()) {
 	    if (element.tagName() == "clip") {
 		QDomElement avfile = doc.createElement("avfile");
-		//avfile.setAttribute("url", fileURL().url());
+		avfile.setAttribute("url", m_url.path());
 		avfile.setAttribute("type", m_clipType);
                 avfile.setAttribute("id", getId());
+                avfile.setAttribute("filesize", m_filesize);
+		avfile.setAttribute("transparency", m_alphaTransparency);
+		avfile.setAttribute("durationknown", m_durationKnown );
+		avfile.setAttribute("color", m_color);
+		avfile.setAttribute("duration", m_duration.frames(KdenliveSettings::defaultfps()));
+		avfile.setAttribute("description", description());
+		avfile.setAttribute("name", name());
+		avfile.setAttribute("textxml", m_xml.toString());
+		avfile.setAttribute("width", m_width);
+		avfile.setAttribute("height", m_height);
 		element.appendChild(avfile);
 		return doc;
 	    }

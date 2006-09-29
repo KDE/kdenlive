@@ -132,7 +132,7 @@
     </entry>
     <entry name="titlercolor" type="Color">
 	<label>Color of title text</label>
-	<default code="true">QColor(0, 0, 0)</default>
+	<default code="true">QColor(255, 255, 255)</default>
     </entry>
   </group>
 </kcfg>
