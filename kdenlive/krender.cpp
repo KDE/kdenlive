@@ -558,7 +558,7 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
     if (!m_mltProducer->is_valid()) 
 	kdWarning()<<" ++++ WARNING, UNABLE TO CREATE MLT PRODUCER"<<endl;
     else {
-	kdDebug()<<"++SEEK POS: "<<pos.frames(25)<<endl;
+	//kdDebug()<<"++SEEK POS: "<<pos.frames(25)<<endl;
     	if (!resetPosition) seek(pos);
 	m_mltProducer->set_speed(0.0);
 

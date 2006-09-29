@@ -474,9 +474,6 @@ QDomDocument DocClipAVFile::toXML() const
 		avfile.setAttribute("height", m_height);
 
 		element.appendChild(avfile);
-		kdDebug()<<"-----------------------"<<endl;
-		kdDebug()<<doc.toString()<<endl;
-		kdDebug()<<"-----------------------"<<endl;
 		return doc;
 	    }
 	}

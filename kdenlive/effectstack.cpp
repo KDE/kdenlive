@@ -69,6 +69,7 @@ Effect *EffectStack::selectedItem()
 
 const uint EffectStack::selectedItemIndex() const
 {
+    if (index + 1> count ()) return count() -1;
     return index;
 }
 

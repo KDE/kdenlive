@@ -31,7 +31,7 @@ ClipDrag::ClipDrag(DocClipBase * clip, QWidget * dragSource,
 {
     m_xml = clip->toXML().toString();
 
-    kdWarning() << "XML is " << m_xml << endl;
+//    kdWarning() << "XML is " << m_xml << endl;
 }
 
 ClipDrag::ClipDrag(DocClipRef * clip, QWidget * dragSource,
@@ -39,7 +39,7 @@ ClipDrag::ClipDrag(DocClipRef * clip, QWidget * dragSource,
     name)
 {
     m_xml = clip->toXML().toString();
-    kdWarning() << "XML is " << m_xml << endl;
+//    kdWarning() << "XML is " << m_xml << endl;
 }
 
 ClipDrag::ClipDrag(DocClipRefList & clips, QWidget * dragSource,
@@ -47,7 +47,7 @@ ClipDrag::ClipDrag(DocClipRefList & clips, QWidget * dragSource,
     name)
 {
     m_xml = clips.toXML("cliplist").toString();
-    kdWarning() << "XML is " << m_xml << endl;
+//    kdWarning() << "XML is " << m_xml << endl;
 }
 
 ClipDrag::~ClipDrag()
@@ -102,11 +102,11 @@ DocClipRefList ClipDrag::decode(const EffectDescriptionList & effectList,
 	QDomElement elem = qdomdoc.documentElement();
 	QDomNode node;
 
-	kdDebug() << "DRAG INSIDE-----------------------------------------"
+	/*kdDebug() << "DRAG INSIDE-----------------------------------------"
 	    << endl;
 	kdDebug() << qdomdoc.toString() << endl;
 	kdDebug() << "DRAG INSIDE-----------------------------------------"
-	    << endl;
+	    << endl;*/
 
 	// are we handling a single clip, or a clip list? Not sure if both cases will
 	// occur, but just in case, we check for it.

@@ -84,7 +84,7 @@ bool TrackPanelSpacerFunction::mousePressed(Gui::KTrackPanel * panel,
 
 	QValueVector < GenTime > cursor =
 	    m_doc->getSnapTimes(m_timeline->snapToBorders(),
-	    m_timeline->snapToMarkers(), false, true);
+	    m_timeline->snapToMarkers(), false, true, false);
 	m_snapToGrid.setCursorTimes(cursor);
     }
 

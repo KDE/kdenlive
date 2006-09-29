@@ -111,7 +111,6 @@ namespace Gui {
 	}
 	    painter.setPen(Qt::black);
 	}
-
         QPen pen = painter.pen();
         if (selected) {
             pen.setColor(Qt::red);

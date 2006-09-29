@@ -153,9 +153,9 @@ class KdenliveDoc:public QObject {
     void addClipNode(const QString & parent, DocumentBaseNode * newNode);
 
     QValueVector < GenTime > getSnapTimes(bool includeClipEnds,
-	bool includeSnapMarkers, bool includeUnSelectedClips, bool includeSelectedClips);
+	bool includeSnapMarkers, bool includeUnSelectedClips, bool includeSelectedClips, bool includeGuides = true);
 
-    GenTime toSnapTime(GenTime currTime, bool forward = true, bool includeSnapMarkers = true);
+    GenTime toSnapTime(GenTime currTime, bool forward = true, bool includeSnapMarkers = true, bool includeGuides = true);
 
 	/** Constructs a list of all clips that are currently selected. */
     DocClipRefList listSelected() const;

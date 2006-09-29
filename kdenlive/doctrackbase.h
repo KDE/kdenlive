@@ -176,7 +176,7 @@ For internal use only, when the class Knows Better (TM) */
     
     signals:
 	/** Emitted whenever the clip layout changes.*/
-    void clipLayoutChanged();
+    void clipLayoutChanged(int);
 	/** Emitted whenever the clip selection.*/
     void clipSelectionChanged();
 	/** Emitted whenever a clip becomes selected. */

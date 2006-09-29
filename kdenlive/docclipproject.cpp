@@ -445,8 +445,8 @@ QDomDocument DocClipProject::generateSceneList() const
 
 
     doc.documentElement().appendChild(tractor);
-      // kdDebug() << doc.toString() << endl;
-      // kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
+       //kdDebug() << doc.toString() << endl;
+       //kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
     return doc;
 }
 

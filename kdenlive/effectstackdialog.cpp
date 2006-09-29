@@ -321,7 +321,7 @@ namespace Gui {
 	tabWidget2->setTabEnabled(tabWidget2->page(1), m_hasKeyFrames);
 	m_container->adjustSize();
 	m_container->show();
-	emit redrawTracks();
+	emit redrawTrack(clip->trackNum());
     }
 
     void EffectStackDialog::parameterChanged() {
@@ -330,6 +330,7 @@ namespace Gui {
 	Effect *effect =
 	    m_effectList->clip()->effectAt(m_effectList->
 	    selectedEffectIndex());
+	
 	while (effect->parameter(parameterNum)) {
 	    m_effecttype = effect->effectDescription().parameter(parameterNum)->type();
 	    QString widgetName = QString("param");
@@ -343,9 +344,14 @@ namespace Gui {
 		    kdWarning() <<
 			"EFFECTSTACKDIALOG ERROR, CANNOT FIND BOX FOR PARAMETER "
 			<< parameterNum << endl;
-		else
+		else {
 		    effect->effectDescription().parameter(parameterNum)->
 			setValue(QString::number(sbox->value()));
+
+	    	    if (effect->effectDescription().tag() == "framebuffer" && parameterNum == 0) {
+	    		m_effectList->clip()->setSpeed( (double) sbox->value() / 100.0);
+		    }
+		}
 	    }
 	    else if (m_effecttype == "bool") {
 		QCheckBox *sbox =
@@ -454,7 +460,7 @@ namespace Gui {
 	    parameterNum++;
 	}
 	m_blockUpdate = false;
-	emit redrawTracks();
+	emit redrawTrack(m_effectList->clip()->trackNum());
 	parameterChanged();
     }
 
@@ -515,16 +521,11 @@ namespace Gui {
 			"EFFECTSTACKDIALOG ERROR, CANNOT FIND BOX: " << i
 			<< endl;
 		else {
-		    disconnect(sbox, SIGNAL(valueChanged(int)), this,
-			SLOT(changeKeyFrameValue(int)));
-			 sbox->setMaxValue((int)effect->effectDescription().
-			parameter(parameterNum)->max(i));
-			 sbox->setMinValue((int)effect->effectDescription().
-			parameter(parameterNum)->min(i));
-		    sbox->setValue(effect->parameter(parameterNum)->
-			keyframe(ix)->toComplexKeyFrame()->value(i));
-		    connect(sbox, SIGNAL(valueChanged(int)), this,
-			SLOT(changeKeyFrameValue(int)));
+		    disconnect(sbox, SIGNAL(valueChanged(int)), this, SLOT(changeKeyFrameValue(int)));
+		    sbox->setMaxValue((int)effect->effectDescription().parameter(parameterNum)->max(i));
+		    sbox->setMinValue((int)effect->effectDescription().parameter(parameterNum)->min(i));
+		    sbox->setValue(effect->parameter(parameterNum)->keyframe(ix)->toComplexKeyFrame()->value(i));
+		    connect(sbox, SIGNAL(valueChanged(int)), this, SLOT(changeKeyFrameValue(int)));
 		}
 	    }
 	}
@@ -557,7 +558,7 @@ namespace Gui {
 	sliderPosition->setMaxValue(nextTime);
 	spinPosition->setValue(currentTime);
 	m_blockUpdate = false;
-	emit redrawTracks();
+	emit redrawTrack(m_effectList->clip()->trackNum());
     }
 
 
@@ -576,7 +577,7 @@ namespace Gui {
 	    setTime(currentTime);
 
 	if (!m_blockUpdate) {
-	    emit redrawTracks();
+	    emit redrawTrack(m_effectList->clip()->trackNum());
 	    emit generateSceneList();
 	}
     }
@@ -616,7 +617,7 @@ namespace Gui {
 	}
 
 	if (!m_blockUpdate) {
-	    emit redrawTracks();
+	    emit redrawTrack(m_effectList->clip()->trackNum());
 	    emit generateSceneList();
 	    m_app->focusTimelineWidget();
 	}
@@ -629,6 +630,7 @@ namespace Gui {
 	disableButtons();
 	tabWidget2->setTabEnabled(tabWidget2->page(1), false);
 	m_effectList->setEffectStack(clip);
+	if (clip) emit redrawTrack(clip->trackNum());
     }
 
 }				// namespace Gui

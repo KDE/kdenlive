@@ -243,9 +243,6 @@ QDomDocument DocClipTextFile::generateSceneList() const
 	playlist.appendChild(entry);
     westley.appendChild(playlist);*/
 
-        kdDebug()<<"----------------------------------------------"<<endl;
-        kdDebug()<<sceneList.toString()<<endl;
-        kdDebug()<<"----------------------------------------------"<<endl;
     return sceneList;
 }
 

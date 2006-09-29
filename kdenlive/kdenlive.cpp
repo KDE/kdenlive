@@ -884,8 +884,8 @@ namespace Gui {
 		    Effect *)), m_effectParamDialog,
         SLOT(slotSetEffect(DocClipRef *, Effect *)));*/
 
-	connect(m_effectStackDialog, SIGNAL(redrawTracks()), m_timeline,
-	    SLOT(drawTrackViewBackBuffer()));
+	connect(m_effectStackDialog, SIGNAL(redrawTrack(int)), m_timeline,
+	    SLOT(drawCurrentTrack(int)));
         
         connect(&(getDocument()->projectClip()), SIGNAL(clipReferenceChanged()), this,
                 SLOT(clipReferenceChanged()));
@@ -1532,6 +1532,7 @@ namespace Gui {
     
     void KdenliveApp::requestDocumentClose(KURL new_url)
     {
+    m_timeline->clearGuides();
     // Check if new file is an NTSC or PAL doc and set environnement variables accordingly
     if (!new_url.isEmpty()) {
 	QFile myFile(new_url.path());
@@ -2840,8 +2841,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
 
 	while (trackItt.current()) {
-	    disconnect(trackItt.current(), SIGNAL(clipLayoutChanged()),
-		m_timeline, SLOT(drawTrackViewBackBuffer()));
+	    disconnect(trackItt.current(), SIGNAL(clipLayoutChanged(int)),
+		m_timeline, SLOT(drawCurrentTrack(int)));
 	    disconnect(trackItt.current(), SIGNAL(clipSelectionChanged()),
 		m_timeline, SLOT(drawTrackViewBackBuffer()));
 
@@ -2872,8 +2873,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		kdWarning() << "Sync failed" << endl;
 	    }
 
-            connect(trackItt.current(), SIGNAL(clipLayoutChanged()),
-                    m_timeline, SLOT(drawTrackViewBackBuffer()));
+            connect(trackItt.current(), SIGNAL(clipLayoutChanged(int)),
+                    m_timeline, SLOT(drawCurrentTrack(int)));
             connect(trackItt.current(), SIGNAL(clipSelectionChanged()),
                     m_timeline, SLOT(drawTrackViewBackBuffer()));
 

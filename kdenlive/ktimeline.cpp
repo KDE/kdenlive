@@ -263,8 +263,10 @@ pixels, the left-most pixel is returned. */
     }
 
     void KTimeLine::drawCurrentTrack(int track, int offset) {
-	if (offset > 0)
-		drawTrackViewBackBuffer(2 * (track - offset), 2 * track + 1);
+	if (track = -1) {
+	    drawTrackViewBackBuffer();
+	}
+	else if (offset > 0) drawTrackViewBackBuffer(2 * (track - offset), 2 * track + 1);
 	else drawTrackViewBackBuffer(2 * track, 2 * (track - offset) + 1);
     }
 
@@ -665,6 +667,11 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
 	int pos = *(m_ruler->timelineGuides().at(ix - 100));
 	m_ruler->setSliderValue(0, pos);
 	ensureCursorVisible();	
+    }
+
+    void KTimeLine::clearGuides() {
+	m_ruler->clearGuides();
+	trackView()->invalidateBackBuffer();
     }
 
 }				// namespace Gui

@@ -1026,6 +1026,12 @@ namespace Gui {
 	}
     }
 
+    void KRuler::clearGuides() {
+        m_guides.clear();
+        guideComments.clear();
+	invalidateBackBuffer();
+    }
+
     void KRuler::editGuide(QString comment) {
 	int localTime = (int) mapValueToLocal(getSliderValue(0));
 	uint ct = 0;

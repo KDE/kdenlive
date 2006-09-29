@@ -84,7 +84,7 @@ bool DocTrackBase::addClip(DocClipRef * clip, bool selected)
 	    m_unselectedClipList.inSort(clip);
 	}
 	clip->setParentTrack(this, m_project->trackIndex(this));
-	emit clipLayoutChanged();
+	emit clipLayoutChanged(clip->trackNum());
 	result = true;
     }
 
@@ -227,7 +227,7 @@ bool DocTrackBase::removeClip(DocClipRef * clip)
     }
 
     if (result) {
-	emit clipLayoutChanged();
+	emit clipLayoutChanged(clip->trackNum());
 	checkTrackLength();
     }
 
@@ -263,7 +263,7 @@ void DocTrackBase::clipMoved(DocClipRef * clip)
 
     list->take(pos);
     list->inSort(clip);
-    emit clipLayoutChanged();
+    emit clipLayoutChanged(clip->trackNum());
     checkTrackLength();
 }
 
@@ -316,9 +316,9 @@ DocClipRefList DocTrackBase::removeClips(bool selected)
     DocClipRefList & list =
 	selected ? m_selectedClipList : m_unselectedClipList;
     DocClipRefList returnList;
-
+    DocClipRef *clip;
     while (!list.isEmpty()) {
-	DocClipRef *clip = list.first();
+	clip = list.first();
 	// When we are removing clips and placing them into a list, it is likely that we are removing clips from
 	// a number of tracks and putting them into a single list elsewhere. We must wipe the parent track pointer,
 	// but by keeping the track hint, we make it easier to relocate the clips on a different timeline or some
@@ -328,7 +328,7 @@ DocClipRefList DocTrackBase::removeClips(bool selected)
 	returnList.append(clip);
     }
 
-    emit clipLayoutChanged();
+    emit clipLayoutChanged(clip->trackNum());
     checkTrackLength();
     return returnList;
 }
@@ -341,7 +341,7 @@ void DocTrackBase::deleteClips(bool selected)
     list->setAutoDelete(true);
     list->clear();
     list->setAutoDelete(false);
-    emit clipLayoutChanged();
+    emit clipLayoutChanged(-1);
     checkTrackLength();
 }
 
@@ -733,7 +733,7 @@ void DocTrackBase::addEffectToClip(const GenTime & position,
 
 	clip->addEffect(effectIndex, effect);
 	emit effectStackChanged(clip);
-	emit clipLayoutChanged();
+	emit clipLayoutChanged(clip->trackNum());
     } else {
 	kdError() <<
 	    "DocTrackBase::addEffectToClip() - cannot find clip at position "
@@ -748,7 +748,7 @@ void DocTrackBase::deleteEffectFromClip(const GenTime & position,
     if (clip) {
 	clip->deleteEffect(effectIndex);
 	emit effectStackChanged(clip);
-	emit clipLayoutChanged();
+	//emit clipLayoutChanged(clip->trackNum());
     } else {
 	kdError() <<
 	    "DocTrackBase::deleteEffectFromClip() - cannot find clip at position "
@@ -757,6 +757,6 @@ void DocTrackBase::deleteEffectFromClip(const GenTime & position,
 }
 
 void DocTrackBase::refreshLayout() {
-    emit clipLayoutChanged();
+    emit clipLayoutChanged(-1);
 }
 

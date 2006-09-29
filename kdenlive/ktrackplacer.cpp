@@ -32,17 +32,16 @@ namespace Gui {
 // virtual
     void KTrackPlacer::drawToBackBuffer(QPainter & painter, QRect & rect,
 	TrackViewDecorator * decorator) {
+
 	GenTime startValue =
 	    GenTime( (int) m_timeline->mapLocalToValue(rect.x()),
 	    m_docTrack->framesPerSecond());
 	GenTime endValue =
 	    GenTime( (int) m_timeline->mapLocalToValue(rect.x() + rect.width()),
 	    m_docTrack->framesPerSecond());
-	
-	QPtrListIterator < DocClipRef > clip =
-	    m_docTrack->firstClip(startValue, endValue, false);
-	DocClipRef *endClip =
-	    m_docTrack->endClip(startValue, endValue, false).current();
+
+	QPtrListIterator < DocClipRef > clip = m_docTrack->firstClip(startValue, endValue, false);
+	DocClipRef *endClip = m_docTrack->endClip(startValue, endValue, false).current();
 	for (DocClipRef * curClip; (curClip = clip.current()) != endClip;
 	    ++clip) {
 	    double sx =
@@ -53,10 +52,9 @@ namespace Gui {
 		frames(m_docTrack->framesPerSecond()));
 	    decorator->paintClip(sx, ex, painter, curClip, rect, false);
 	}
-
 	clip = m_docTrack->firstClip(startValue, endValue, true);
-	endClip =
-	    m_docTrack->endClip(startValue, endValue, true).current();
+	endClip = m_docTrack->endClip(startValue, endValue, true).current();
+
 	for (DocClipRef * curClip; (curClip = clip.current()) != endClip;
 	    ++clip) {
 	    double sx =
@@ -67,6 +65,7 @@ namespace Gui {
 		frames(m_docTrack->framesPerSecond()));
 	    decorator->paintClip(sx, ex, painter, curClip, rect, true);
 	}
+
     }
 
     int KTrackPlacer::documentTrackIndex() const {

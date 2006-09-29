@@ -485,7 +485,7 @@ void TrackPanelClipMoveFunction::setupSnapToGrid()
 
     QValueVector < GenTime > cursor =
 	m_document->getSnapTimes(m_timeline->snapToBorders(),
-	m_timeline->snapToMarkers(), false, true);
+	m_timeline->snapToMarkers(), false, true, false);
     m_snapToGrid.setCursorTimes(cursor);
 
 	 m_snapToGrid.setSnapTolerance(GenTime((int)(m_timeline->
