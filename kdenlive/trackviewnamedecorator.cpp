@@ -52,7 +52,7 @@ namespace Gui {
 	    ex = rect.x() + rect.width();
 	}
 
-	painter.setClipRect(sx, rect.y(), ex -sx , rect.height());
+	painter.setClipRect(sx, rect.y(), clipWidth , rect.height());
 	QString txt = clip->name();
 	if (clip->speed() != 1.0) txt.append(" (" + QString::number((int)(clip->speed() * 100)) + "%)");
 	// draw video name text
@@ -123,7 +123,7 @@ namespace Gui {
 	if (startX > 32700) startX = 32700;
 	if (endX < -100) endX = -100;
 	if (endX > 32700) endX = 32700;
-	painter.drawRect((int)startX, rect.y(), (int)(endX - startX), rect.height());
+	painter.drawRect((int)startX, rect.y(), (int) endX - (int) startX, rect.height());
         if (selected) {
             pen.setColor(Qt::black);
             //pen.setStyle(Qt::SolidLine);

@@ -37,8 +37,8 @@ namespace Gui {
     void TrackViewBackgroundDecorator::paintClip(double startX,
 	double endX, QPainter & painter, DocClipRef * clip, QRect & rect,
 	bool selected) {
-	int sx = (int)startX;	// (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
-	int ex = (int)endX;		//(int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
+	int sx = (int)startX;
+	int ex = (int)endX;
 
 	if (sx < rect.x()) {
 	    sx = rect.x();

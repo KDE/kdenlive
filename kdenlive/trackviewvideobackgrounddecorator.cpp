@@ -42,8 +42,8 @@ namespace Gui {
     void TrackViewVideoBackgroundDecorator::paintClip(double startX,
                     double endX, QPainter & painter, DocClipRef * clip, QRect & rect,
                     bool selected) {
-							  int sx = (int)startX;
-							  int ex = (int)endX;
+			int sx = (int)startX;
+			int ex = (int)endX;
 			
                         if (sx < rect.x()) {
                             sx = rect.x();
