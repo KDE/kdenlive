@@ -84,7 +84,6 @@ bool TrackPanelClipMoveFunction::mousePressed(Gui::KTrackPanel * panel,
     QMouseEvent * event)
 {
     bool result = false;
-
     if (panel->hasDocumentTrackIndex()) {
 	DocTrackBase *track =
 	    m_document->track(panel->documentTrackIndex());
@@ -147,7 +146,6 @@ bool TrackPanelClipMoveFunction::mouseMoved(Gui::KTrackPanel * panel,
     QMouseEvent * event)
 {
     bool result = false;
-
     if (panel->hasDocumentTrackIndex()) {
 	DocTrackBase *track =
 	    m_document->track(panel->documentTrackIndex());
@@ -193,28 +191,17 @@ bool TrackPanelClipMoveFunction::mouseMoved(Gui::KTrackPanel * panel,
 bool TrackPanelClipMoveFunction::dragEntered(Gui::KTrackPanel * panel,
     QDragEnterEvent * event)
 {
-    if (m_dragging) {
-	event->accept();
-	return true;
-    }
+
     if (m_startedClipMove) {
 	m_document->activateSceneListGeneration(false);
 	event->accept(true);
-//        return true;
+
     } else if (ClipDrag::canDecode(event)) {
 	m_document->activateSceneListGeneration(false);
 	m_selection =
 	    ClipDrag::decode(m_document->effectDescriptions(),
 	    m_document->clipManager(), event);
 
-	/*bool allowed = false;
-
-	   kdDebug()<<"+++++++++++++DRAG CLIP: "<<m_selection.getFirst()->clipType()<<endl;
-	   kdDebug()<<"+++++++++++++DRAG PANEL: "<<panel->trackType()<<endl;
-
-	   if ((m_selection.getFirst()->clipType() == DocClipBase::VIDEO || m_selection.getFirst()->clipType() == DocClipBase::AV) && panel->trackType() == Gui::VIDEOTRACK) allowed = true;
-
-	   if (m_selection.getFirst()->clipType() == DocClipBase::AUDIO && panel->trackType() == Gui::SOUNDTRACK) allowed = true; */
 
 	if (!m_selection.isEmpty()) {
 	    if (m_selection.masterClip() == 0)
@@ -251,7 +238,7 @@ bool TrackPanelClipMoveFunction::dragMoved(Gui::KTrackPanel * panel,
 	GenTime mouseTime = m_timeline->timeUnderMouse((double) pos.x()) - m_clipOffset;
 	mouseTime = m_snapToGrid.getSnappedTime(mouseTime);
 	mouseTime = mouseTime + m_clipOffset;
-	//kdDebug()<<"+++ MOVE clip: "<<mouseTime.frames(25)<<endl;
+
 	int trackUnder = trackUnderPoint(pos);
 
 	if (m_selection.isEmpty() || m_dragging) {
@@ -265,8 +252,6 @@ bool TrackPanelClipMoveFunction::dragMoved(Gui::KTrackPanel * panel,
 		m_dragging = true;
 	    }
 	}
-
-	//m_timeline->trackView()->update();
     } else if (EffectDrag::canDecode(event)) {
 	if (mouseApplies(pos)) {
 	    event->accept();
@@ -276,7 +261,6 @@ bool TrackPanelClipMoveFunction::dragMoved(Gui::KTrackPanel * panel,
     } else {
 	event->ignore();
     }
-
     m_timeline->checkScrolling(pos);
 
     return true;
@@ -433,7 +417,6 @@ bool TrackPanelClipMoveFunction::moveSelectedClips(int newTrack,
 
     trackOffset = newTrack - trackOffset;
     startOffset = start - startOffset;
-
 
     m_document->moveSelectedClips(startOffset, trackOffset);
     return true;
