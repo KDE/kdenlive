@@ -760,7 +760,7 @@ namespace Gui {
 	m_dockProjectList->setDockSite(KDockWidget::DockFullSite);
 	m_dockProjectList->manualDock(mainDock, KDockWidget::DockLeft);
 
-	m_dockTransition = createDockWidget("transition", QPixmap(), 0, i18n("Transitions"));
+	m_dockTransition = createDockWidget("transition", QPixmap(), 0, i18n("Transition"));
 	m_transitionPanel = new TransitionDialog(this, m_dockTransition);
 	m_dockTransition->setWidget(m_transitionPanel);
 	m_dockTransition->setDockSite(KDockWidget::DockFullSite);
