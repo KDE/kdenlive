@@ -1004,6 +1004,15 @@ namespace Gui {
                 getDocument());
         m_timeline->trackView()->registerFunction("transitionmove",
         transitionMoveFunction);
+
+	TrackPanelClipRollFunction *rollFunction =
+	    new TrackPanelClipRollFunction(this, m_timeline,
+	    getDocument());
+
+	//register roll function -reh
+	m_timeline->trackView()->registerFunction("roll", rollFunction);
+
+
 	// connects for clip/workspace monitor activation (i.e. making sure they are visible when needed)
 
 	connect(m_transitionPanel, SIGNAL(transitionChanged(bool)),
@@ -1029,12 +1038,6 @@ namespace Gui {
 	connect(keyFrameFunction, SIGNAL(redrawTrack()),
 	    m_effectStackDialog, SLOT(updateKeyFrames()));
 
-	/*connect(resizeFunction,
-	    SIGNAL(signalClipCropStartChanged(DocClipRef *)), this,
-	    SLOT(activateClipMonitor()));
-	connect(resizeFunction,
-	    SIGNAL(signalClipCropEndChanged(DocClipRef *)), this,
-	    SLOT(activateClipMonitor()));*/
 	connect(resizeFunction,
 	    SIGNAL(signalClipCropStartChanged(DocClipRef *)), this,
 	    SLOT(slotSetClipMonitorSource(DocClipRef *)));
@@ -1046,6 +1049,20 @@ namespace Gui {
 	    SIGNAL(signalClipCropStartChanged(DocClipRef *)),
 	    m_clipMonitor, SLOT(slotClipCropStartChanged(DocClipRef *)));
 	connect(resizeFunction,
+	    SIGNAL(signalClipCropEndChanged(DocClipRef *)), m_clipMonitor,
+	    SLOT(slotClipCropEndChanged(DocClipRef *)));
+
+	/*connect(rollFunction,
+	    SIGNAL(signalClipCropStartChanged(DocClipRef *)), this,
+	    SLOT(slotSetClipMonitorSource(DocClipRef *)));*/
+	connect(rollFunction,
+	    SIGNAL(signalClipCropEndChanged(DocClipRef *)), this,
+	    SLOT(slotSetClipMonitorSource(DocClipRef *)));
+
+	/*connect(rollFunction,
+	    SIGNAL(signalClipCropStartChanged(DocClipRef *)),
+	    m_clipMonitor, SLOT(slotClipCropStartChanged(DocClipRef *)));*/
+	connect(rollFunction,
 	    SIGNAL(signalClipCropEndChanged(DocClipRef *)), m_clipMonitor,
 	    SLOT(slotClipCropEndChanged(DocClipRef *)));
 
@@ -1065,10 +1082,9 @@ namespace Gui {
         connect(razorFunction, SIGNAL(sceneListChanged(bool)),
                 getDocument(), SLOT(activateSceneListGeneration(bool)));
 
-	//register roll function -reh
-	m_timeline->trackView()->registerFunction("roll",
-	    new TrackPanelClipRollFunction(this, m_timeline,
-		getDocument()));
+
+
+
 
 	m_timeline->trackView()->registerFunction("selectnone",
 	    new TrackPanelSelectNoneFunction(this, m_timeline,

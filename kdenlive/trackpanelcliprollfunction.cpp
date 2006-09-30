@@ -262,8 +262,7 @@ bool TrackPanelClipRollFunction::mouseMoved(Gui::KTrackPanel * panel,
 			}
 		    } else {
 			//dragging right, mouse on beginning of second track
-			if (m_clipBeforeMouse->trackEnd() -
-			    m_clipBeforeMouse->cropStartTime() <=
+			if (m_clipBeforeMouse->cropDuration() <=
 			    m_clipBeforeMouse->duration() -
 			    GenTime(getMinimumDrag())
 			    && m_clipUnderMouse->cropDuration() >
@@ -286,8 +285,7 @@ bool TrackPanelClipRollFunction::mouseMoved(Gui::KTrackPanel * panel,
 			//dragging right, mouse on end of first track
 			if (m_clipAfterMouse->cropDuration() >
 			    GenTime(getMinimumDrag())
-			    && m_clipUnderMouse->trackEnd() -
-			    m_clipUnderMouse->cropStartTime() <=
+			    && m_clipUnderMouse->cropDuration() <=
 			    m_clipUnderMouse->duration() -
 			    GenTime(getMinimumDrag())) {
 			    track->resizeClipTrackStart(m_clipAfterMouse,
