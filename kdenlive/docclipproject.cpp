@@ -364,19 +364,20 @@ QDomDocument DocClipProject::generateSceneList() const
     // parse the tracks in reverse order so that the upper tracks appear in front of the lower ones
     trackItt.toLast();
     while (trackItt.current()) {
+	bool isBlind = trackItt.current()->isBlind();
 	DocTrackClipIterator itt(*(trackItt.current()));
 	QDomElement playlist = doc.createElement("playlist");
 	playlist.setAttribute("id",
 	    QString("playlist") + QString::number(tracknb++));
 	if (trackItt.current()->clipType() == "Sound") playlist.setAttribute("hide", "video");
-        else if (trackItt.current()->isBlind()) playlist.setAttribute("hide", "video");
+        else if (isBlind) playlist.setAttribute("hide", "video");
 
 	int children = 0;
 	int timestart = 0;
         bool hideTrack = false;
         if (trackItt.current()->isMute()) 
         {
-            if (trackItt.current()->isBlind() || trackItt.current()->clipType() == "Sound") hideTrack = true;
+            if (isBlind || trackItt.current()->clipType() == "Sound") hideTrack = true;
             else playlist.setAttribute("hide", "audio");
         }
         
@@ -404,7 +405,7 @@ QDomDocument DocClipProject::generateSceneList() const
             }
                     
             // Append clip's transitions for video tracks
-            if  (trackItt.current()->clipType() == "Video")
+            if  (trackItt.current()->clipType() == "Video" && !isBlind)
 	    clipTransitions.appendChild(itt.current()->generateXMLTransition(trackPosition));
             
 	    timestart = (int)itt.current()->trackEnd().frames(framesPerSecond());
@@ -445,8 +446,8 @@ QDomDocument DocClipProject::generateSceneList() const
 
 
     doc.documentElement().appendChild(tractor);
-       //kdDebug() << doc.toString() << endl;
-       //kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
+       // kdDebug() << doc.toString() << endl;
+       // kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
     return doc;
 }
 
