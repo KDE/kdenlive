@@ -100,7 +100,8 @@ namespace Gui {
 	connect(m_scrollBar, SIGNAL(valueChanged(int)), m_ruler,
 	    SLOT(setStartPixel(int)));
 	 connect(m_scrollBar, SIGNAL(valueChanged(int)), m_ruler,
-	    SLOT(repaint()));
+	    SLOT(update()));
+
 	 connect(m_scrollBar, SIGNAL(valueChanged(int)), this,
 	    SLOT(drawTrackViewBackBuffer()));
          
@@ -108,8 +109,7 @@ namespace Gui {
 	    SLOT(resetProjectSize()));
 	 connect(m_ruler, SIGNAL(sliderValueMoved(int, int)),
 	    m_trackViewArea, SLOT(invalidatePartialBackBuffer(int, int)));
-/*	 connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), m_ruler,
-         SLOT(repaint()));*/
+
 	 connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), this,
                  SLOT(slotSliderMoved(int, int)));
          
@@ -263,7 +263,7 @@ pixels, the left-most pixel is returned. */
     }
 
     void KTimeLine::drawCurrentTrack(int track, int offset) {
-	if (track = -1) {
+	if (track == -1) {
 	    drawTrackViewBackBuffer();
 	}
 	else if (offset > 0) drawTrackViewBackBuffer(2 * (track - offset), 2 * track + 1);
