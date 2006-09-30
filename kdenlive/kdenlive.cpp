@@ -923,8 +923,10 @@ namespace Gui {
 	connect(getDocument(), SIGNAL(trackListChanged()), this,
 	    SLOT(slotSyncTimeLineWithDocument()));
 	
+        /*connect(getDocument(), SIGNAL(clipChanged(DocClipRef *)),
+	    m_timeline, SLOT(drawTrackViewBackBuffer()));*/
         connect(getDocument(), SIGNAL(clipChanged(DocClipRef *)),
-	    m_timeline, SLOT(drawTrackViewBackBuffer()));
+	    this, SLOT(refreshClipTrack(DocClipRef *)));
         
 	connect(getDocument(),
 	    SIGNAL(documentLengthChanged(const GenTime &)), m_timeline,
@@ -2530,6 +2532,10 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	const GenTime & time) {
 	slotSetClipMonitorSource(clip);
 	m_clipMonitor->editPanel()->seek(time);
+    }
+
+    void KdenliveApp::refreshClipTrack(DocClipRef * clip) {
+	m_timeline->drawCurrentTrack(clip->trackNum());
     }
 
 

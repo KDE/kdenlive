@@ -262,7 +262,7 @@ bool TrackPanelClipSlipFunction::dragMoved(Gui::KTrackPanel * panel,
 	    }
 	}
 
-	m_timeline->trackView()->repaint();
+	m_timeline->trackView()->update();
     } else if (EffectDrag::canDecode(event)) {
 	if (mouseApplies(pos)) {
 	    event->accept();

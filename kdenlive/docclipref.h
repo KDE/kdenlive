@@ -326,7 +326,8 @@ class DocClipRef:public QObject {
 	void refreshAudioThumbnail();
 	void setSpeed(double speed);
 	double speed() const;
-        
+	void refreshCurrentTrack();
+
   private slots:
         /** Fetch the thumbnail for the clip start */
         void fetchStartThumbnail();

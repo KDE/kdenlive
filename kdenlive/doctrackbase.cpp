@@ -687,7 +687,7 @@ bool DocTrackBase::matchesXML(const QDomElement & element) const
 void DocTrackBase::notifyClipChanged(DocClipRef * clip)
 {
     emit clipChanged(clip);
-    checkTrackLength();
+    //checkTrackLength();
 }
 
 void DocTrackBase::checkTrackLength()

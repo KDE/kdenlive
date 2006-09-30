@@ -112,7 +112,13 @@ void DocClipRef::refreshAudioThumbnail()
 
 void DocClipRef::updateAudioThumbnail(QMap<int,QMap<int,QByteArray> >)
 {
-    if (m_parentTrack) QTimer::singleShot(200,m_parentTrack, SLOT(refreshLayout()));
+    if (m_parentTrack) QTimer::singleShot(200, this, SLOT(refreshCurrentTrack()));
+//m_parentTrack, SLOT(refreshLayout()));
+}
+
+void DocClipRef::refreshCurrentTrack()
+{
+    m_parentTrack->notifyClipChanged(this);
 }
 
 bool DocClipRef::hasVariableThumbnails()
@@ -317,7 +323,7 @@ void DocClipRef::updateThumbnail(int frame, QPixmap newpix)
         m_endthumbnail = newpix;
     else if (m_cropStart.frames(KdenliveSettings::defaultfps()) == frame) m_thumbnail = newpix;
     else return;
-    if (m_parentTrack) m_parentTrack->refreshLayout();
+    if (m_parentTrack) m_parentTrack->notifyClipChanged(this);
 }
 
 
@@ -766,7 +772,7 @@ void DocClipRef::setSpeed(double speed)
     m_speed = speed;
     if (cropStartTime() + cropDuration() > duration()) 
 	setCropDuration(duration() - cropStartTime());
-    else if (m_parentTrack) m_parentTrack->refreshLayout();
+    else if (m_parentTrack) m_parentTrack->notifyClipChanged(this);
 }
 
 QDomDocument DocClipRef::generateSceneList()
@@ -1394,7 +1400,7 @@ const QPixmap & DocClipRef::getAudioImage(int /*width*/, int /*height*/,
 void DocClipRef::addTransition(Transition *transition)
 {
     m_transitionStack.append(transition);
-    if (m_parentTrack) m_parentTrack->refreshLayout();
+    if (m_parentTrack) m_parentTrack->notifyClipChanged(this);
 }
 
 void DocClipRef::deleteTransition(QDomElement transitionXml)
@@ -1408,7 +1414,7 @@ void DocClipRef::deleteTransition(QDomElement transitionXml)
         }
         ++itt;
     }
-    if (m_parentTrack) m_parentTrack->refreshLayout();
+    if (m_parentTrack) m_parentTrack->notifyClipChanged(this);
 }
 
 
@@ -1428,7 +1434,7 @@ void DocClipRef::deleteTransition(const GenTime &time)
         ++itt;
     }
     kdDebug()<<"//////  RELAYOUT"<<endl;
-    if (m_parentTrack) m_parentTrack->refreshLayout();
+    if (m_parentTrack) m_parentTrack->notifyClipChanged(this);
 }
 
 Transition *DocClipRef::transitionAt(const GenTime &time)
@@ -1446,7 +1452,7 @@ Transition *DocClipRef::transitionAt(const GenTime &time)
 void DocClipRef::deleteTransitions()
 {
     m_transitionStack.clear();
-    if (m_parentTrack) m_parentTrack->refreshLayout();
+    if (m_parentTrack) m_parentTrack->notifyClipChanged(this);
 }
 
 bool DocClipRef::hasTransition(DocClipRef *clip)
@@ -1470,19 +1476,19 @@ TransitionStack DocClipRef::clipTransitions()
 void DocClipRef::resizeTransitionStart(uint ix, GenTime time)
 {
     m_transitionStack.at(ix)->resizeTransitionStart(time);
-    if (m_parentTrack) m_parentTrack->refreshLayout();
+    if (m_parentTrack) m_parentTrack->notifyClipChanged(this);
 }
 
 void DocClipRef::resizeTransitionEnd(uint ix, GenTime time)
 {
     m_transitionStack.at(ix)->resizeTransitionEnd(time);
-    if (m_parentTrack) m_parentTrack->refreshLayout();
+    if (m_parentTrack) m_parentTrack->notifyClipChanged(this);
 }
 
 void DocClipRef::moveTransition(uint ix, GenTime time)
 {
     m_transitionStack.at(ix)->moveTransition(time);
-    if (m_parentTrack) m_parentTrack->refreshLayout();
+    if (m_parentTrack) m_parentTrack->notifyClipChanged(this);
 }
 
 int DocClipRef::getAudioPart(double from, double length,int channel){
