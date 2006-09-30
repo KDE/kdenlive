@@ -1183,8 +1183,8 @@ QValueVector < GenTime > DocClipRef::snapMarkersOnTrack() const
     markers.reserve(m_snapMarkers.count());
 
     for (uint count = 0; count < m_snapMarkers.count(); ++count) {
-	markers.append(m_snapMarkers[count].time() + trackStart() -
-	    cropStartTime());
+	GenTime t = m_snapMarkers[count].time();
+	if (t < cropStartTime() + cropDuration() && t > cropStartTime()) markers.append(t + trackStart() - cropStartTime());
     }
 
     return markers;
