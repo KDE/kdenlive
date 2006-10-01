@@ -231,7 +231,7 @@ bool TransitionDialog::transitionDirection()
     bool result = true;
     if (activePageIndex() == 0) result = transitCrossfade->invertTransition->isChecked();
     else if (activePageIndex() == 1) result = transitWipe->invertTransition->isChecked();
-    else if (activePageIndex() == 3) result = transitAudiofade->invertTransition->isChecked();
+    //else if (activePageIndex() == 3) result = transitAudiofade->invertTransition->isChecked();
     //if (activePageIndex() == 2) result = transitPip->invertTransition->isChecked();
     return result;
 }
