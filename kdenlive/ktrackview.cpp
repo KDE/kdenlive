@@ -81,6 +81,8 @@ namespace Gui {
     void KTrackView::resizeEvent(QResizeEvent * event) {
         m_bufferDrawList.setFullRange(0, width());
 	m_backBuffer.resize(event->size().width(), event->size().height());
+	m_startTrack = 0;
+	m_endTrack = -1;
 	drawBackBuffer();
     }
 
