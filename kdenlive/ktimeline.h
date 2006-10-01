@@ -235,7 +235,7 @@ namespace Command {
 	repaint itself. */
 	void drawPartialTrackViewBackBuffer(int start, int end, int startTrack = 0, int endTrack = -1);
 	/** Udate only the track which contains selected clip */
-	void drawCurrentTrack(int track, int offset = 0);
+	void drawCurrentTrack(int track, int offset = 0, GenTime start = GenTime(0), GenTime end = GenTime(0));
 	/** Sets a new time scale for the timeline. This in turn calls the correct kruler funtion and
 	updates the display. */
 	void setTimeScale(double scale);

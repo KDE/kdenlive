@@ -262,12 +262,19 @@ pixels, the left-most pixel is returned. */
 	m_trackViewArea->invalidatePartialBackBuffer(start, end, startTrack, endTrack);
     }
 
-    void KTimeLine::drawCurrentTrack(int track, int offset) {
+    void KTimeLine::drawCurrentTrack(int track, int offset, GenTime start, GenTime end) {
 	if (track == -1) {
 	    drawTrackViewBackBuffer();
 	}
-	else if (offset > 0) drawTrackViewBackBuffer(2 * (track - offset), 2 * track + 1);
-	else drawTrackViewBackBuffer(2 * track, 2 * (track - offset) + 1);
+	else {
+	    if (start != GenTime(0) && end != GenTime(0)) {
+	    	if (offset > 0) drawPartialTrackViewBackBuffer(start.frames(m_framesPerSecond), end.frames(m_framesPerSecond), 2 * (track - offset), 2 * track + 1);
+	    	else drawPartialTrackViewBackBuffer(start.frames(m_framesPerSecond), end.frames(m_framesPerSecond), 2 * track, 2 * (track - offset) + 1);
+	    } else {
+	    	if (offset > 0) drawTrackViewBackBuffer(2 * (track - offset), 2 * track + 1);
+	    	else drawTrackViewBackBuffer(2 * track, 2 * (track - offset) + 1);
+	    }
+	}
     }
 
 /** Returns m_trackList
