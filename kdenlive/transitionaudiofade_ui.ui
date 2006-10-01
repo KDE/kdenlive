@@ -1,0 +1,50 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>transitionAudiofade_UI</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>transitionAudiofade_UI</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>146</width>
+            <height>51</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Form1</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QCheckBox" row="0" column="0">
+            <property name="name">
+                <cstring>invertTransition</cstring>
+            </property>
+            <property name="text">
+                <string>Invert direction</string>
+            </property>
+        </widget>
+        <spacer row="1" column="0">
+            <property name="name">
+                <cstring>spacer1</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>13</width>
+                    <height>109</height>
+                </size>
+            </property>
+        </spacer>
+    </grid>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

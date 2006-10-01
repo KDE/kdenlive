@@ -36,9 +36,14 @@ namespace Command {
     }
 
 // static
-    KAddTransitionCommand *KAddTransitionCommand::removeTransition( DocClipRef * clip, GenTime time) {
-        Transition *transit = clip->transitionAt(time);
-	if (transit) return new KAddTransitionCommand(clip, transit, false);
+    KAddTransitionCommand *KAddTransitionCommand::appendTransition( DocClipRef * a_clip, DocClipRef * b_clip) {
+        Transition *transit = new Transition(a_clip, b_clip);
+	if (transit) return new KAddTransitionCommand(a_clip, transit, true);
+    }
+
+// static
+    KAddTransitionCommand *KAddTransitionCommand::removeTransition( DocClipRef * clip, Transition *transit) {
+	return new KAddTransitionCommand(clip, transit, false);
     }
 
 // static
@@ -89,6 +94,7 @@ namespace Command {
     }
 
     void KAddTransitionCommand::deleteTransition() {
+	
 	m_clip->deleteTransition(m_transition);
     }
 

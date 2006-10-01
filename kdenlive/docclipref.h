@@ -179,6 +179,7 @@ class DocClipRef:public QObject {
     
         /** Return the position of the track in MLT's playlist*/
     int playlistTrackNum() const;
+    int playlistNextTrackNum() const;
     
 	/** Returns the end of the clip on the track. A convenience function, equivalent
 	to trackStart() + cropDuration() */
@@ -313,7 +314,6 @@ class DocClipRef:public QObject {
         bool hasVariableThumbnails();
         
         bool hasTransition(DocClipRef *clip);
-        void deleteTransition(const GenTime &time);
         void deleteTransitions();
         void addTransition(Transition *transition);
 	void deleteTransition(QDomElement transitionXml);
@@ -321,7 +321,7 @@ class DocClipRef:public QObject {
         void resizeTransitionStart(uint ix, GenTime time);
         void resizeTransitionEnd(uint ix, GenTime time);
         void moveTransition(uint ix, GenTime time);
-        QDomDocument generateXMLTransition(int trackPosition);
+        QDomDocument generateXMLTransition(bool hideVideo, bool hideAudio);
 	void updateAudioThumbnail(QMap<int,QMap<int,QByteArray> > data);
 	void refreshAudioThumbnail();
 	void setSpeed(double speed);

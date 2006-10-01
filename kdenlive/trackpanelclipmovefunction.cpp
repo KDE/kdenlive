@@ -99,14 +99,6 @@ bool TrackPanelClipMoveFunction::mousePressed(Gui::KTrackPanel * panel,
 			addCommand(Command::KSelectClipCommand::
 			toggleSelectClipAt(m_document, *track, mouseTime),
 			true);
-		} else if (event->state() & Qt::ShiftButton) {
-                    // Shift clicking on a clip creates or deletes a transition with the other selected clip
-                    m_app->addCommand(Command::KSelectClipCommand::selectClipAt(m_document, *track, mouseTime), true);
-                    m_app->switchTransition();
-                    m_app->addCommand(Command::KSelectClipCommand::selectNone(m_document), true);
-                    m_app->addCommand(Command::KSelectClipCommand::selectClipAt(m_document, *track, mouseTime), true);
-			//addCommand(Command::KSelectClipCommand::
-			//selectClipAt(m_document, *track, mouseTime), true);
 		}
 		else {
 		    if (!track->clipSelected(m_clipUnderMouse)) {
@@ -326,10 +318,9 @@ bool TrackPanelClipMoveFunction::dragLeft(Gui::KTrackPanel * panel,
 	}
     }
 
-    //m_timeline->drawTrackViewBackBuffer();
-
+    m_timeline->drawTrackViewBackBuffer();
     m_timeline->stopScrollTimer();
-    
+
     return true;
 }
 
@@ -396,6 +387,7 @@ bool TrackPanelClipMoveFunction::dragDropped(Gui::KTrackPanel * panel,
 	    delete effect;
 	}
     }
+    m_timeline->drawTrackViewBackBuffer();
     return true;
 }
 

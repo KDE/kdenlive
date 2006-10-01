@@ -35,10 +35,20 @@ class DocClipRef;
 
 class Transition {
   public:
+
+    enum TRANSITIONTYPE {
+	/** TRANSITIONTYPE: between 0-99: video trans, 100-199: video+audio trans, 200-299: audio trans */
+	LUMA_TRANSITION = 0,
+	COMPOSITE_TRANSITION = 1,
+	PIP_TRANSITION= 2,
+	MIX_TRANSITION = 200
+    };
+    
+
     Transition(const DocClipRef * clipa, const DocClipRef * clipb);
     Transition(const DocClipRef * clipa);
     Transition(const DocClipRef * clipa, const GenTime &time);
-    Transition(const DocClipRef * clipa, const QString & type, const GenTime &startTime, const GenTime &endTime, bool inverted);
+    Transition(const DocClipRef * clipa, const TRANSITIONTYPE & type, const GenTime &startTime, const GenTime &endTime, bool inverted);
     Transition(const DocClipRef * clip, QDomElement transitionElement);
     ~Transition();
 
@@ -47,17 +57,22 @@ class Transition {
     
     GenTime transitionStartTime();
     GenTime transitionEndTime();
+    /** Return the track number of transition in the document*/
+    int transitionDocumentTrack();
+    /** Return the track number of transition in the playlist*/
     int transitionStartTrack();
     int transitionEndTrack();
     Transition *clone();
     bool hasClip(const DocClipRef * clip);
+    bool belongsToClip(const DocClipRef * clip);
     void resizeTransitionEnd(GenTime time);
     void resizeTransitionStart(GenTime time);
     void moveTransition(GenTime time);
     bool invertTransition();
-    QString transitionType();
+    TRANSITIONTYPE transitionType();
+    QString transitionTag();
     QString transitionName();
-    void setTransitionType(QString newType);
+    void setTransitionType(TRANSITIONTYPE newType);
     const QMap < QString, QString > transitionParameters();
     void setTransitionParameters(const QMap < QString, QString > parameters);
     void setTransitionDirection(bool inv);
@@ -71,7 +86,7 @@ class Transition {
     QMap < QString, QString > m_transitionParameters;
 
     /** The name of the transition used by mlt (composite, luma,...)*/
-    QString m_transitionType;
+    TRANSITIONTYPE m_transitionType;
 
     /** The name of the transition to be displayed to user */
     QString m_transitionName;

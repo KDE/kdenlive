@@ -83,7 +83,6 @@ namespace Command {
 		kdDebug()<<"///////// WARNING, TRYING TO DELETE DEAD CLIP AT "<<m_findTime.frames(25)<<" ON TRACK: "<<m_track<<endl;
 		return;
 	}
-	//clip->deleteTransitions();
 	track->removeClip(clip);
         clip->referencedClip()->removeReference();
         m_project->slotClipReferenceChanged();

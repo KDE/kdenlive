@@ -48,6 +48,9 @@ namespace Gui {
     transitWipe = new transitionWipe_UI(addPage(i18n("Wipe"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_wiper", KIcon::Small, 15)));
 
     transitPip = new transitionPipWidget(app, 240,192,addPage(i18n("PIP"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_pip", KIcon::Small, 15)));
+
+    /*transitAudiofade = new transitionAudiofade_UI(addPage(i18n("Audio Fade"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_down", KIcon::Small, 15)));*/
+
     setEnabled(false);
     adjustSize();
 }
@@ -58,6 +61,12 @@ TransitionDialog::~TransitionDialog()
     delete transitCrossfade;
     delete transitWipe;
     delete transitPip;
+}
+
+bool TransitionDialog::isOnTrack(int ix)
+{
+    if (m_transition && m_transition->transitionDocumentTrack() == ix) return true;
+    return false;
 }
 
 void TransitionDialog::setTransition(Transition *transition)
@@ -116,10 +125,18 @@ bool TransitionDialog::isActiveTransition(Transition *transition)
 	return false;
 }
 
+bool TransitionDialog::belongsToClip(DocClipRef *clip)
+{
+	if (m_transition && m_transition->belongsToClip(clip)) return true;
+	return false;
+}
+
+
 void TransitionDialog::applyChanges()
 {
 	if (m_transition) {
 		if (m_transition == 0) return;
+		kdDebug()<<"* * * * * TRANS: "<<m_transition->transitionName() <<endl;
 		m_transition->setTransitionType(selectedTransition());
         	m_transition->setTransitionParameters(transitionParameters());
 		m_transition->setTransitionDirection(transitionDirection());
@@ -133,25 +150,47 @@ void TransitionDialog::applyChanges()
         }
 }
 
-void TransitionDialog::setActivePage(const QString &pageName)
+void TransitionDialog::setActivePage(const Transition::TRANSITIONTYPE &pageName)
 {
-    if (pageName == "composite") showPage(1);
-    else if (pageName == "pip") showPage(2);
-    else showPage(0);
+    switch (pageName) {
+    case Transition::COMPOSITE_TRANSITION:
+	showPage(1);
+	break;
+    case Transition::PIP_TRANSITION:
+	showPage(2);
+	break;
+    case Transition::MIX_TRANSITION:
+	showPage(3);
+	break;
+    default:
+	showPage(0);
+	break;
+    }
 }
 
-QString TransitionDialog::selectedTransition() 
+Transition::TRANSITIONTYPE TransitionDialog::selectedTransition() 
 {
-    QString pageName = "luma";
-    if (activePageIndex() == 1) pageName = "composite";
-    else if (activePageIndex() == 2) pageName = "pip";
-    return pageName;
+    switch (activePageIndex()) {
+	case 1: 
+	return Transition::COMPOSITE_TRANSITION;
+	break;
+	case 2: 
+	return Transition::PIP_TRANSITION;
+	break;
+	case 3: 
+	return Transition::MIX_TRANSITION;
+	break;
+	default: 
+	return Transition::LUMA_TRANSITION;
+	break;	
+    }
 }
 
 void TransitionDialog::setTransitionDirection(bool direc)
 {
     transitCrossfade->invertTransition->setChecked(direc);
-    transitWipe->invertTransition->setChecked(direc);
+    //transitAudiofade->invertTransition->setChecked(direc);
+
 }
 
 void TransitionDialog::setTransitionParameters(const QMap < QString, QString > parameters)
@@ -191,7 +230,8 @@ bool TransitionDialog::transitionDirection()
 {
     bool result = true;
     if (activePageIndex() == 0) result = transitCrossfade->invertTransition->isChecked();
-    if (activePageIndex() == 1) result = transitWipe->invertTransition->isChecked();
+    else if (activePageIndex() == 1) result = transitWipe->invertTransition->isChecked();
+    else if (activePageIndex() == 3) result = transitAudiofade->invertTransition->isChecked();
     //if (activePageIndex() == 2) result = transitPip->invertTransition->isChecked();
     return result;
 }
@@ -222,6 +262,12 @@ const QMap < QString, QString > TransitionDialog::transitionParameters()
     {
       paramList["geometry"] = transitPip->parameters();
       paramList["progressive"] = "1";
+    }
+    else if (activePageIndex() == 3) // audio mix
+    {
+      paramList["start"] = "0";
+      paramList["end"] = "1";
+      paramList["combine"] = "1";
     }
     
     return paramList;

@@ -131,14 +131,14 @@ class DocClipProject:public DocClipBase {
     public slots:
 	/** Check a clip does not exceed its maximum length */
     void fixClipDuration(KURL url, GenTime length);
-    
-    
-    /** Delete the selected clip's transitions */
-    void switchTransition(const GenTime &time);
-    
+
     /** Return the position of a track in the MLT playlist*/
     int playlistTrackNum(int ix) const;
-    
+    /** Return the position of the next video track in the MLT playlist*/
+    int playlistNextVideoTrack(int ix) const;
+
+    /** Get the clip located on track at time */
+    DocClipRef *getClipAt(int track, GenTime time);
 
     private slots:
 	/** Check that the project length is correct. */
@@ -165,7 +165,6 @@ class DocClipProject:public DocClipBase {
     void deletedClipTransition();
     /** This signal is emmitted when a clip was added/removed so that we update its reference number in the project list view */
     void clipReferenceChanged();
-    
     
   private:
 	/** Blocks all track signals if block==true, or unblocks them otherwise. Use when you want

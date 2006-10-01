@@ -1636,6 +1636,7 @@ namespace Gui {
 	if (KMessageBox::warningContinueCancel(this, i18n("Remove track %1 ?\nThis will remove all clips on that track.").arg(ix),i18n("Delete Track")) != KMessageBox::Continue) return;
 	//kdDebug()<<"+++++++++++++++++++++  ASK TRACK DELETION: "<<ix<<endl;
 	addCommand(Command::KAddRefClipCommand::deleteAllTrackClips(getDocument(), ix));
+	if (m_transitionPanel->isOnTrack(ix)) m_transitionPanel->setTransition(0); 
 	getDocument()->deleteTrack(ix);
     }
 
@@ -2237,6 +2238,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 			new Command::KAddRefClipCommand(m_doc->
 			effectDescriptions(), m_doc->clipManager(),
 			&(m_doc->projectClip()), itt.current(), false);
+			if (m_transitionPanel->belongsToClip(itt.current())) m_transitionPanel->setTransition(0);
 		    macroCommand->addCommand(command);
 		    ++itt;
 		}
@@ -2431,8 +2433,14 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
     void KdenliveApp::slotDeleteSelected() {
 	slotStatusMsg(i18n("Deleting Selected Clips"));
-
 	m_effectStackDialog->slotSetEffectStack(0);
+	DocClipRefList list = getDocument()->listSelected();
+	QPtrListIterator < DocClipRef > itt(list);
+	while (itt.current()) {
+		if (m_transitionPanel->belongsToClip(itt.current())) m_transitionPanel->setTransition(0);
+	        ++itt;
+	}
+
 	addCommand(Command::KAddRefClipCommand::
 	    deleteSelectedClips(getDocument()), true);
 	getDocument()->activateSceneListGeneration(true);
@@ -2810,7 +2818,11 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
         GenTime mouseTime;
 	QPoint position = mousePosition();
         mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(position).x());
-	addCommand(Command::KAddTransitionCommand::appendTransition(getDocument()->projectClip().selectedClip(), mouseTime), true);
+	int b_track = getDocument()->projectClip().selectedClip()->trackNum() + 1;
+	DocClipRef *b_clip = getDocument()->projectClip().getClipAt(b_track, mouseTime);
+	if (b_clip)
+	    addCommand(Command::KAddTransitionCommand::appendTransition(getDocument()->projectClip().selectedClip(), b_clip), true);
+	else addCommand(Command::KAddTransitionCommand::appendTransition(getDocument()->projectClip().selectedClip(), mouseTime), true);
 	getDocument()->indirectlyModified();
     }
     
@@ -2822,15 +2834,15 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	GenTime mouseTime;
 	QPoint position = mousePosition();
 	mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(position).x());
-	addCommand(Command::KAddTransitionCommand::removeTransition(getDocument()->projectClip().selectedClip(), mouseTime), true);
-	getDocument()->indirectlyModified();
+	Transition *transit = getDocument()->projectClip().selectedClip()->transitionAt(mouseTime);
+	if (transit) {
+	    if (m_transitionPanel->isActiveTransition(transit)) m_transitionPanel->setTransition(0); 
+	    addCommand(Command::KAddTransitionCommand::removeTransition(getDocument()->projectClip().selectedClip(), transit), true);
+	    getDocument()->indirectlyModified();
+	}
     }
 
-    void KdenliveApp::switchTransition() {
-        GenTime mouseTime;
-        mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(QCursor::pos()).x());
-        getDocument()->projectClip().switchTransition(mouseTime);
-    }
+
 
 /** At least one track within the project have been added or removed.
 *

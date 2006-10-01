@@ -510,6 +510,12 @@ int DocClipRef::playlistTrackNum() const
     return m_parentTrack->projectClip()->playlistTrackNum(m_trackNum);
 }
 
+/** Returns the track number in MLT's playlist */
+int DocClipRef::playlistNextTrackNum() const
+{
+    return m_parentTrack->projectClip()->playlistNextVideoTrack(m_trackNum);
+}
+
 /** Returns the end of the clip on the track. A convenience function, equivalent
 to trackStart() + cropDuration() */
 GenTime DocClipRef::trackEnd() const
@@ -780,11 +786,11 @@ QDomDocument DocClipRef::generateSceneList()
     return m_clip->generateSceneList();
 }
 
-QDomDocument DocClipRef::generateXMLTransition(int trackPosition)
+QDomDocument DocClipRef::generateXMLTransition(bool hideVideo, bool hideAudio)
 {
     QDomDocument transitionList;
 
-    if (clipType() == DocClipBase::TEXT && m_clip->toDocClipTextFile()->isTransparent()) {
+    if (!hideVideo && clipType() == DocClipBase::TEXT && m_clip->toDocClipTextFile()->isTransparent()) {
         QDomElement transition = transitionList.createElement("transition");
         transition.setAttribute("in", trackStart().frames(framesPerSecond()));
         transition.setAttribute("out", trackEnd().frames(framesPerSecond()));
@@ -793,13 +799,12 @@ QDomDocument DocClipRef::generateXMLTransition(int trackPosition)
         //transition.setAttribute("distort", "1");
         //transition.setAttribute("always_active", "1");
         transition.setAttribute("progressive","1");
-        // TODO: we should find a better way to get the previous video track index
-        transition.setAttribute("a_track", QString::number(trackPosition - 1));
+        transition.setAttribute("a_track", QString::number( playlistNextTrackNum()));
         // Set b_track to the current clip's track index (+1 because we add a black track at pos 0)
-        transition.setAttribute("b_track", QString::number(trackPosition));
+        transition.setAttribute("b_track", QString::number(playlistTrackNum()));
         transitionList.appendChild(transition);
     }
-    else if ((clipType() == DocClipBase::IMAGE || clipType() == DocClipBase::SLIDESHOW) && m_clip->toDocClipAVFile()->isTransparent()) {
+    else if (!hideVideo && (clipType() == DocClipBase::IMAGE || clipType() == DocClipBase::SLIDESHOW) && m_clip->toDocClipAVFile()->isTransparent()) {
         QDomElement transition = transitionList.createElement("transition");
         transition.setAttribute("in", trackStart().frames(framesPerSecond()));
         transition.setAttribute("out", trackEnd().frames(framesPerSecond()));
@@ -808,48 +813,54 @@ QDomDocument DocClipRef::generateXMLTransition(int trackPosition)
         transition.setAttribute("fill", "1");
         //transition.setAttribute("distort", "1");
         transition.setAttribute("progressive","1");
-        // TODO: we should find a better way to get the previous video track index
-        transition.setAttribute("a_track", QString::number(trackPosition - 1));
+        transition.setAttribute("a_track", QString::number(playlistNextTrackNum()));
         // Set b_track to the current clip's track index (+1 because we add a black track at pos 0)
-        transition.setAttribute("b_track", QString::number(trackPosition));
+        transition.setAttribute("b_track", QString::number(playlistTrackNum()));
         transitionList.appendChild(transition);
     }
  
     TransitionStack::iterator itt = m_transitionStack.begin(); 
     while (itt) {
-        QDomElement transition = transitionList.createElement("transition");
-        transition.setAttribute("in", QString::number((*itt)->transitionStartTime().frames(framesPerSecond())));
-        transition.setAttribute("out", QString::number((*itt)->transitionEndTime().frames(framesPerSecond())));
-        if ((*itt)->transitionType() == "pip") transition.setAttribute("mlt_service", "composite");
-        else transition.setAttribute("mlt_service", (*itt)->transitionType());
-        transition.setAttribute("fill", "1");
-        //transition.setAttribute("distort", "1");
+	bool block = false;
+	uint type = (*itt)->transitionType();
+	if ((type < 100) &&  m_parentTrack->clipType() == "Sound")
+	    block = true;
+	if (hideVideo && type < 200) block = true;
+	if (hideAudio && type > 99) block = true;
+	if (!block) {
+            QDomElement transition = transitionList.createElement("transition");
+            transition.setAttribute("in", QString::number((*itt)->transitionStartTime().frames(framesPerSecond())));
+            transition.setAttribute("out", QString::number((*itt)->transitionEndTime().frames(framesPerSecond())));
+            if ((*itt)->transitionType() == Transition::PIP_TRANSITION) transition.setAttribute("mlt_service", "composite");
+            else transition.setAttribute("mlt_service", (*itt)->transitionTag());
+            transition.setAttribute("fill", "1");
+            //transition.setAttribute("distort", "1");
    
-        typedef QMap<QString, QString> ParamMap;
-        ParamMap params;
-        params = (*itt)->transitionParameters();
-        ParamMap::Iterator it;
-        for ( it = params.begin(); it != params.end(); ++it ) {
-            transition.setAttribute(it.key(), it.data());
-        }
+            typedef QMap<QString, QString> ParamMap;
+            ParamMap params;
+            params = (*itt)->transitionParameters();
+            ParamMap::Iterator it;
+            for ( it = params.begin(); it != params.end(); ++it ) {
+            	transition.setAttribute(it.key(), it.data());
+            }
 
-        if ((*itt)->invertTransition()) {
-            transition.setAttribute("b_track", QString::number((*itt)->transitionStartTrack()));
-            transition.setAttribute("a_track", QString::number((*itt)->transitionEndTrack()));
-            //transition.setAttribute("b_track", QString::number(trackPosition));
-            //transition.setAttribute("a_track", QString::number(trackPosition - 1));
-        }
-        else {
-            transition.setAttribute("a_track", QString::number((*itt)->transitionStartTrack()));
-            transition.setAttribute("b_track", QString::number((*itt)->transitionEndTrack()));
-            //transition.setAttribute("b_track", QString::number(trackPosition - 1));
-            //transition.setAttribute("a_track", QString::number(trackPosition));
-        }
-        transition.setAttribute("reverse", "1");
-        transitionList.appendChild(transition);
+	    if ((*itt)->transitionType() == Transition::LUMA_TRANSITION || (*itt)->transitionType() == Transition::MIX_TRANSITION) {
+                transition.setAttribute("b_track", QString::number((*itt)->transitionStartTrack()));
+                transition.setAttribute("a_track", QString::number((*itt)->transitionEndTrack()));
+	        if ((*itt)->invertTransition()) transition.setAttribute("reverse", "1");
+	    }
+	    else if ((*itt)->invertTransition()) {
+                transition.setAttribute("b_track", QString::number((*itt)->transitionStartTrack()));
+                transition.setAttribute("a_track", QString::number((*itt)->transitionEndTrack()));
+            }
+            else {
+                transition.setAttribute("a_track", QString::number((*itt)->transitionStartTrack()));
+                transition.setAttribute("b_track", QString::number((*itt)->transitionEndTrack()));
+            }
+            transitionList.appendChild(transition);
+	}
         ++itt;
     }
-    
     return transitionList;
 }
 
@@ -1406,36 +1417,23 @@ void DocClipRef::addTransition(Transition *transition)
 void DocClipRef::deleteTransition(QDomElement transitionXml)
 {
     if (m_transitionStack.isEmpty()) return;
-    TransitionStack::iterator itt = m_transitionStack.begin();
+    for ( uint i = 0; i < m_transitionStack.count(); ++i ) {
+	Transition *t = m_transitionStack.at(i); 
+        if ( t && t->toXML().attribute("start") == transitionXml.attribute("start") && t->toXML().attribute("end") == transitionXml.attribute("end")) { 
+	m_transitionStack.remove(i);
+	}
+    }
+    /*TransitionStack::iterator itt = m_transitionStack.begin();
     while (itt) {
-        if ((*itt)->toXML().attribute("start") == transitionXml.attribute("start") && (*itt)->toXML().attribute("end") == transitionXml.attribute("end")) { 
-            m_transitionStack.remove(*itt);
+        if ((*itt)->toXML().attribute("start") == transitionXml.attribute("start") && (*itt)->toXML().attribute("end") == transitionXml.attribute("end")) {
+            if (!m_transitionStack.remove(*itt)) kdDebug()<<"*+*+*+*+*+*+* ERROR REMOVE *+*+*"<<endl;
             break;
         }
         ++itt;
-    }
+    */
     if (m_parentTrack) m_parentTrack->notifyClipChanged(this);
 }
 
-
-void DocClipRef::deleteTransition(const GenTime &time)
-{
-    if (m_transitionStack.isEmpty()) return;
-    TransitionStack::iterator itt = m_transitionStack.begin();
-    while (itt) {
-        if (time < trackStart() || time == GenTime(0.0) || time > trackEnd()) {
-            m_transitionStack.remove(*itt);
-            break;
-        }
-        else if ((*itt)->transitionStartTime()<=time && (*itt)->transitionEndTime()>=time) {
-            m_transitionStack.remove(*itt);
-            break;
-        }
-        ++itt;
-    }
-    kdDebug()<<"//////  RELAYOUT"<<endl;
-    if (m_parentTrack) m_parentTrack->notifyClipChanged(this);
-}
 
 Transition *DocClipRef::transitionAt(const GenTime &time)
 {

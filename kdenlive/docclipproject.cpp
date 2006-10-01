@@ -303,10 +303,33 @@ void DocClipProject::fixClipDuration(KURL url, GenTime length)
 
 int DocClipProject::playlistTrackNum(int ix) const
 {
-    int result = 1;
+    int result = 0;
+    int audioTracks = 0;
+    bool isAudioTrack = false;
+    QPtrListIterator < DocTrackBase > trackItt(m_tracks);
+    while (ix>0) {
+	if (trackItt.current()->clipType() != "Sound") audioTracks ++; 
+        ++trackItt;
+	if (!trackItt) return 0; 
+        ix--;
+    }
+    if (trackItt.current()->clipType() == "Sound") isAudioTrack = true;
+    while (trackItt) {
+        if  (trackItt.current()->clipType() != "Sound") result++;
+	else if (isAudioTrack) audioTracks ++; ;
+        ++trackItt;
+    }
+    if (isAudioTrack) result += audioTracks;
+    return result;
+}
+
+int DocClipProject::playlistNextVideoTrack(int ix) const
+{
+    int result = 0;
     QPtrListIterator < DocTrackBase > trackItt(m_tracks);
     while (ix>-1) {
         ++trackItt;
+	if (!trackItt) return 0;
         ix--;
     }
     while (trackItt) {
@@ -365,6 +388,7 @@ QDomDocument DocClipProject::generateSceneList() const
     trackItt.toLast();
     while (trackItt.current()) {
 	bool isBlind = trackItt.current()->isBlind();
+	bool isMute = trackItt.current()->isMute();
 	DocTrackClipIterator itt(*(trackItt.current()));
 	QDomElement playlist = doc.createElement("playlist");
 	playlist.setAttribute("id",
@@ -393,20 +417,9 @@ QDomDocument DocClipProject::generateSceneList() const
 	    }
             // Insert xml describing clip
             playlist.appendChild(itt.current()->generateXMLClip().firstChild());
-            
-            // Find the position of the track in MLT's playlist
-            trackCounter = trackItt;
-            int trackPosition = 1;
-            ++trackCounter;
-            while (trackCounter) {
-                if  (trackCounter.current()->clipType() != "Sound")
-                    trackPosition++;
-                ++trackCounter;
-            }
-                    
+
             // Append clip's transitions for video tracks
-            if  (trackItt.current()->clipType() == "Video" && !isBlind)
-	    clipTransitions.appendChild(itt.current()->generateXMLTransition(trackPosition));
+	    clipTransitions.appendChild(itt.current()->generateXMLTransition(isBlind, isMute));
             
 	    timestart = (int)itt.current()->trackEnd().frames(framesPerSecond());
 	    children++;
@@ -436,18 +449,14 @@ QDomDocument DocClipProject::generateSceneList() const
             transition.setAttribute("a_track", QString::number(1));
 	    transition.setAttribute("b_track", QString::number(i));
 	    transition.setAttribute("mlt_service", "mix");
-            
-            // use MLT's new audio mix, requires recent cvs (>25/02/06)
             transition.setAttribute("combine", "1");
-	    /*transition.setAttribute("start", "0.5");
-            transition.setAttribute("end", "0.5");*/
 	    tractor.appendChild(transition);
 	}
 
 
     doc.documentElement().appendChild(tractor);
-       // kdDebug() << doc.toString() << endl;
-       // kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
+        //kdDebug() << doc.toString() << endl;
+        //kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
     return doc;
 }
 
@@ -640,6 +649,11 @@ QDomDocument DocClipProject::sceneToXML(const GenTime & startTime, const GenTime
     return doc;
 }
 
+DocClipRef *DocClipProject::getClipAt(int track, GenTime time)
+{
+    return m_tracks.at(track)->getClipAt(time);
+}
+
 int DocClipProject::hasSelectedClips()
 {
     int result = 0;
@@ -652,40 +666,6 @@ int DocClipProject::hasSelectedClips()
 }
 
 
-
-void DocClipProject::switchTransition(const GenTime &time)
-{
-    DocClipRef *aResult = 0;
-    DocClipRef *bResult = 0;
-    DocTrackBase *srcTrack = 0;
-    uint ix = 0;
-
-    for (uint track = 0; track < numTracks(); track++) {
-        srcTrack = m_tracks.at(track);
-        ix++;
-        if (srcTrack->hasSelectedClips() > 0) {
-            aResult = srcTrack->firstClip(true).current();
-            break;
-        }
-    }
-    
-    for (uint track = ix; track < numTracks(); track++) {
-        srcTrack = m_tracks.at(track);
-        if (srcTrack->hasSelectedClips() > 0) {
-            bResult = srcTrack->firstClip(true).current();
-            break;
-        }
-    }
-    if (!aResult || !bResult) return;
-    
-    if (bResult->hasTransition(aResult)) bResult->deleteTransition(time);
-    else {
-        Transition *transit = new Transition(aResult,bResult);
-        aResult->addTransition(transit);
-    }
-
-    emit documentChanged(this);
-}
 
 
 DocClipRef *DocClipProject::selectedClip()

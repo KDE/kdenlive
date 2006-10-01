@@ -36,7 +36,7 @@ Transition::Transition(const DocClipRef * clipa, const DocClipRef * clipb)
     m_invertTransition = false;
     m_singleClip = true;
     m_secondClip = NULL;
-    m_transitionType = "luma";
+    m_transitionType = LUMA_TRANSITION;
     m_transitionName = i18n("Crossfade");
     m_transitionWipeDirection = "right";
 
@@ -100,7 +100,7 @@ Transition::Transition(const DocClipRef * clipa)
     m_invertTransition = false;
     m_singleClip = true;
     m_secondClip = NULL;
-    m_transitionType = "luma";
+    m_transitionType = LUMA_TRANSITION;
     m_transitionName = i18n("Crossfade");
     m_transitionWipeDirection = "right";
 
@@ -120,7 +120,7 @@ Transition::Transition(const DocClipRef * clipa, const GenTime &time)
     m_invertTransition = false;
     m_singleClip = true;
     m_secondClip = NULL;
-    m_transitionType = "luma";
+    m_transitionType = LUMA_TRANSITION;
     m_transitionName = i18n("Crossfade");
     m_transitionWipeDirection = "right";
     
@@ -141,14 +141,15 @@ Transition::Transition(const DocClipRef * clipa, const GenTime &time)
 }
 
 /* create an "simple" transition (type 2) */
-Transition::Transition(const DocClipRef * clipa, const QString & type, const GenTime &startTime, const GenTime &endTime, bool inverted)
+Transition::Transition(const DocClipRef * clipa, const TRANSITIONTYPE & type, const GenTime &startTime, const GenTime &endTime, bool inverted)
 {
     m_invertTransition = inverted;
     m_singleClip = true;
     m_secondClip = NULL;
     m_transitionType = type;
-    if (m_transitionType == "composite") m_transitionName = i18n("Wipe");
-    else if (m_transitionType == "pip")	m_transitionName = i18n("Pip");
+    if (m_transitionType == COMPOSITE_TRANSITION) m_transitionName = i18n("Wipe");
+    else if (m_transitionType == PIP_TRANSITION) m_transitionName = i18n("Pip");
+    else if (m_transitionType == MIX_TRANSITION) m_transitionName = i18n("Audio Fade");
     else m_transitionName = i18n("Crossfade");
     m_transitionWipeDirection = "right";
 
@@ -187,7 +188,11 @@ Transition::Transition(const DocClipRef * clip, QDomElement transitionElement)
 	m_transitionStart = m_transitionStart - clip->trackStart();
 
         m_invertTransition = transitionElement.attribute("inverted", "0").toInt();
-	m_transitionType = transitionElement.attribute("type", QString::null);
+	uint transType = transitionElement.attribute("type", "0").toInt();
+	if (transType == LUMA_TRANSITION) m_transitionType = LUMA_TRANSITION;
+	else if (transType == COMPOSITE_TRANSITION) m_transitionType = COMPOSITE_TRANSITION; 
+	else if (transType == PIP_TRANSITION) m_transitionType = PIP_TRANSITION;
+	else if (transType == MIX_TRANSITION) m_transitionType = MIX_TRANSITION;
 
 	// load transition parameters
         typedef QMap<QString, QString> ParamMap;
@@ -204,17 +209,33 @@ Transition::~Transition()
 {
 }
 
-void Transition::setTransitionType(QString newType)
+void Transition::setTransitionType(TRANSITIONTYPE newType)
 {
     m_transitionType = newType;
-    if (m_transitionType == "composite") m_transitionName = i18n("Wipe");
-    else if (m_transitionType == "pip")	m_transitionName = i18n("Pip");
+    if (m_transitionType == COMPOSITE_TRANSITION) m_transitionName = i18n("Wipe");
+    else if (m_transitionType == PIP_TRANSITION) m_transitionName = i18n("Pip");
+    else if (m_transitionType == MIX_TRANSITION) m_transitionName = i18n("Audio Fade");
     else m_transitionName = i18n("Crossfade");
 }
 
-QString Transition::transitionType()
+Transition::TRANSITIONTYPE Transition::transitionType()
 {
     return m_transitionType;
+}
+
+QString Transition::transitionTag()
+{
+    switch (m_transitionType) {
+	case COMPOSITE_TRANSITION:
+	    return "composite";
+	case PIP_TRANSITION:
+	    return "composite";
+	case MIX_TRANSITION:
+	    return "mix";
+	default:
+	    return "luma";
+
+    }
 }
 
 QString Transition::transitionName()
@@ -248,11 +269,11 @@ void Transition::setTransitionWipeDirection(QString direction)
 
 QPixmap Transition::transitionPixmap()
 {
-    if (m_transitionType == "luma") {
+    if (m_transitionType == LUMA_TRANSITION) {
 	if (invertTransition()) return KGlobal::iconLoader()->loadIcon("kdenlive_trans_down", KIcon::Small, 15);
 	else return KGlobal::iconLoader()->loadIcon("kdenlive_trans_up", KIcon::Small, 15);
     }
-    else if (m_transitionType == "composite") {
+    else if (m_transitionType == COMPOSITE_TRANSITION) {
         if (m_transitionWipeDirection == "right") return KGlobal::iconLoader()->loadIcon("kdenlive_trans_wiper", KIcon::Small, 15);
 	else if (m_transitionWipeDirection == "left") return KGlobal::iconLoader()->loadIcon("kdenlive_trans_wipel", KIcon::Small, 15);
 	else if (m_transitionWipeDirection == "down") return KGlobal::iconLoader()->loadIcon("kdenlive_trans_wiped", KIcon::Small, 15);
@@ -266,6 +287,10 @@ void Transition::setTransitionDirection(bool inv)
     m_invertTransition = inv;
 }
 
+int Transition::transitionDocumentTrack()
+{
+    return m_referenceClip->trackNum();
+}
 
 int Transition::transitionStartTrack()
 {
@@ -279,7 +304,8 @@ int Transition::transitionEndTrack()
     // because we don't want the audio track, but should find a better way to get the track number.
     //else if (transitionStartTrack()>1) return m_referenceClip->trackNum()-2; 
     //else 
-    return transitionStartTrack()-1;
+    return m_referenceClip->playlistNextTrackNum();
+    //return transitionStartTrack()-1;
 }
 
 GenTime Transition::transitionStartTime()
@@ -345,6 +371,12 @@ void Transition::moveTransition(GenTime time)
 bool Transition::hasClip(const DocClipRef * clip)
 {
     if (clip == m_secondClip) return true;
+    return false;
+}
+
+bool Transition::belongsToClip(const DocClipRef * clip)
+{
+    if (clip == m_referenceClip) return true;
     return false;
 }
 

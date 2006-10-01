@@ -28,6 +28,7 @@
 
 #include "transition.h"
 #include "transitioncrossfade_ui.h"
+#include "transitionaudiofade_ui.h"
 #include "transitionwipe_ui.h"
 #include "transitionpipwidget.h"
 
@@ -50,14 +51,16 @@ namespace Gui {
               TransitionDialog(KdenliveApp * app, QWidget * parent = 0, const char *name = 0);
 	 virtual ~ TransitionDialog();
 
-    QString selectedTransition();
+    Transition::TRANSITIONTYPE selectedTransition();
     bool transitionDirection();
     const QMap < QString, QString > transitionParameters();
-    void setActivePage(const QString &pageName);
+    void setActivePage(const Transition::TRANSITIONTYPE &pageName);
     void setTransitionDirection(bool direc);
     void setTransitionParameters(const QMap < QString, QString > parameters);
     void setTransition(Transition *transition);
     bool isActiveTransition(Transition *transition);
+    bool belongsToClip(DocClipRef *clip);
+    bool isOnTrack(int ix);
 
     private slots:
 	void applyChanges();
@@ -66,6 +69,7 @@ namespace Gui {
 
       private:
 	transitionCrossfade_UI *transitCrossfade;
+	transitionAudiofade_UI *transitAudiofade;
         transitionWipe_UI *transitWipe;
 	transitionPipWidget *transitPip;
 	Transition *m_transition;
