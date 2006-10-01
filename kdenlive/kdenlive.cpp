@@ -896,8 +896,8 @@ namespace Gui {
         connect(getDocument(), SIGNAL(timelineClipUpdated()), m_timeline,
                 SLOT(drawTrackViewBackBuffer()));
 
-        connect(getDocument(), SIGNAL(refreshCurrentClipTrack(int, int)), m_timeline,
-                SLOT(drawCurrentTrack(int, int)));
+        connect(getDocument(), SIGNAL(refreshCurrentClipTrack(int, int, GenTime, GenTime)), m_timeline,
+                SLOT(drawCurrentTrack(int, int, GenTime, GenTime)));
 
 	connect(getDocument(), SIGNAL(clipChanged(DocClipRef *)),
 	    m_projectList, SLOT(slot_clipChanged(DocClipRef *)));

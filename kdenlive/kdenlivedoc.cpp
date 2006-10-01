@@ -218,13 +218,28 @@ void KdenliveDoc::setModified(bool state)
 is not possible. */
 bool KdenliveDoc::moveSelectedClips(GenTime startOffset, int trackOffset)
 {
-    bool result =
-	m_projectClip->moveSelectedClips(startOffset, trackOffset);
+    int clipNumber = hasSelectedClips();
+    GenTime start, end;
+    DocClipRef * clip;
+    if (clipNumber == 1) {
+	clip = selectedClip();
+	if (startOffset < GenTime(0)) {
+	    start = clip->trackStart() + startOffset;
+	    end = clip->trackEnd();
+	}
+	else {
+	    start = clip->trackStart();
+	    end = clip->trackEnd() + startOffset;
+	}
+    }
+    bool result = m_projectClip->moveSelectedClips(startOffset, trackOffset);
 
     if (result) {
 	hasBeenModified();
-        int currTrack = selectedClip()->trackNum();
-	emit refreshCurrentClipTrack(currTrack, trackOffset);
+	if (clipNumber > 1) emit timelineClipUpdated();
+	else {
+	    emit refreshCurrentClipTrack(clip->trackNum(), trackOffset, start, end);
+	}
     }
     return result;
 }

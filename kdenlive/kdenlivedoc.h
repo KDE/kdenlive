@@ -264,7 +264,7 @@ class KdenliveDoc:public QObject {
     void clipListUpdated();
     /** This is signal is emitted whenever a clip thumbnail has changed, so timeline needs to be updated*/
     void timelineClipUpdated();
-    void refreshCurrentClipTrack(int, int);
+    void refreshCurrentClipTrack(int, int, GenTime, GenTime);
 	/** Emitted when the modified state of the document changes. */
     void modified(bool);
 	/** Emitted when a particular clip has changed in someway. E.g, it has recieved it's duration. */
