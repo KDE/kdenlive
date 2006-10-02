@@ -22,7 +22,6 @@
 #include "kaddeffectcommand.h"
 #include "kdenlive.h"
 #include "effectdrag.h"
-//#include "effectlistviewitem.h"
 
 namespace Gui {
 
