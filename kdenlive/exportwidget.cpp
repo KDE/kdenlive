@@ -157,11 +157,9 @@ void exportWidget::initEncoders()
 {
     fileExportName->setText("untitled.dv");
     fileExportFolder->setURL(KdenliveSettings::currentdefaultfolder());
-    encoders->insertItem("dv");
-    encodersList["dv"] << "extension=dv"<<"bypass=true";
-
-    encoders->insertItem("theora");
-    encodersList["theora"] << "extension=ogg"<<"bypass=true";
+    /*encoders->insertItem("dv");
+    EncodersMap[i18n("Raw dv")] = "dv";
+    encodersList["dv"] << "extension=dv"<<"bypass=true";*/
 
     //container->setEnabled(false);
 
@@ -169,36 +167,45 @@ void exportWidget::initEncoders()
     // Find all profiles and add them to the list
     
     QStringList profilesList = KGlobal::dirs()->KStandardDirs::findAllResources("data", "kdenlive/profiles/*.profile");
+    QStringList encodersNameList;
+
     for ( QStringList::Iterator it = profilesList.begin(); it != profilesList.end(); ++it ) {
         //create list of encoders and associate extensions
         QString fileName = KURL(*it).fileName().section(".",0,0);
-        parseFileForParameters(fileName);
-        encoders->insertItem(fileName);
+	QString res = parseFileForParameters(fileName);
+	if (!res.isEmpty()) encodersNameList<<res;
     }
-    
+    encodersNameList.sort();
+    encoders->insertStringList(encodersNameList);
     slotAdjustWidgets(0);
 }
 
-void exportWidget::parseFileForParameters(const QString & fName)
+QString exportWidget::parseFileForParameters(const QString & fName)
 {
+    QString result = QString::null;
     QString fullName = locate("data", "kdenlive/profiles/"+fName+".profile");
     QFile file(fullName);
     QString line;
     if ( file.open( IO_ReadOnly ) ) {
         QTextStream stream( &file );
-        //int i = 1;
         while ( !stream.atEnd() ) {
             line = stream.readLine(); // line of text excluding '\n'
+	    if (line.startsWith("#NAME: ")) {
+		QString encoderName = line.section(" ",1);
+		result = encoderName;
+		EncodersMap[encoderName] = fName;
+	    }
             if (line.startsWith("## ")) encodersList[fName].append(line.section(" ",1));
 	    else if (line.startsWith("### ")) encodersFixedList[fName].append(line.section(" ",1));
         }
         file.close();
     }
+    return result;
 }
 
 QString exportWidget::profileParameter(const QString & profile, const QString &param)
 {
-    QStringList params = encodersList[profile];
+    QStringList params = encodersList[EncodersMap[profile]];
     for ( QStringList::Iterator it = params.begin(); it != params.end(); ++it ) {
         if ((*it).startsWith(param)) return (*it).section("=",1);
     }
@@ -333,13 +340,6 @@ void exportWidget::slotAdjustWidgets(int pos)
         vquality->hide();
         check_vquality->hide();
     }
-        
-    if (pos==0) {
-        container->setEnabled(false);
-    }
-    else {
-        container->setEnabled(true);
-    }
 }
 
 void exportWidget::stopExport()
@@ -392,19 +392,18 @@ void exportWidget::startExport()
             if (!audioBitrate->currentText().isEmpty() && audioBitrate->isEnabled()) params.append("audio_bit_rate="+audioBitrate->currentText());
             if (!frequency->currentText().isEmpty() && frequency->isEnabled()) params.append("frequency="+frequency->currentText());
 
-	    QStringList fixedParams = encodersFixedList[encoders->currentText()];
+	    QStringList fixedParams = encodersFixedList[EncodersMap[encoders->currentText()]];
 	    params += fixedParams;
-	    kdDebug()<<"-- PARAMS: "<<params.join(";")<<endl; 
+	    //kdDebug()<<"-- PARAMS: "<<params.join(";")<<endl; 
 	    doExport(fileExportFolder->url()+"/"+fileExportName->text(), params);
             //emit exportTimeLine(fileExportFolder->url()+"/"+fileExportName->text(), encoders->currentText(), startExportTime, endExportTime, params);
         }
         else {
-            // Libdv export
-	    if (encoders->currentText() == "theora") 
+            // Theora export
+	    if (EncodersMap[encoders->currentText()] == "theora") 
 		doExport(fileExportFolder->url()+"/"+fileExportName->text()+".dv", QStringList(), true);
-	    	//emit exportTimeLine(fileExportFolder->url()+"/"+fileExportName->text() + ".dv", "dv", startExportTime, endExportTime, "");
+	    // libdv export
             else doExport(fileExportFolder->url()+"/"+fileExportName->text(), QStringList(), true);
-		//emit exportTimeLine(fileExportFolder->url()+"/"+fileExportName->text(), encoders->currentText(), startExportTime, endExportTime, "");
         }
         tabWidget->page(0)->setEnabled(false);
     }
@@ -437,11 +436,12 @@ void exportWidget::doExport(QString file, QStringList params, bool isDv)
         QTextStream stream( m_tmpFile->file() );
         stream << m_screen->sceneList().toString() << "\n";
         m_tmpFile->file()->close();
-
+    //kdDebug()<<m_screen->sceneList().toString()<<endl;
     m_exportProcess = new KProcess;
     *m_exportProcess << "inigo";
     *m_exportProcess << m_tmpFile->name();
     *m_exportProcess << "real_time=0";
+    *m_exportProcess << "progressive=1";
     *m_exportProcess << QString("in=%1").arg(startExportTime.frames(KdenliveSettings::defaultfps()));
     *m_exportProcess << QString("out=%1").arg(endExportTime.frames(KdenliveSettings::defaultfps()));
     *m_exportProcess << "-consumer";
@@ -524,7 +524,7 @@ void exportWidget::endExport(KProcess *)
     m_tmpFile->unlink();
     delete m_tmpFile;
     m_tmpFile = 0;
-    if (encoders->currentText() == "theora") twoPassEncoding = true; 
+    if (EncodersMap[encoders->currentText()] == "theora") twoPassEncoding = true; 
 
     if (!m_exportProcess->normalExit()) {
 	KMessageBox::sorry(this, i18n("The export terminated unexpectedly.\nOutput file will probably be corrupted..."));
@@ -537,7 +537,7 @@ void exportWidget::endExport(KProcess *)
     delete m_exportProcess;
     m_exportProcess = 0;
 
-    if (encoders->currentText() == "theora") {
+    if (EncodersMap[encoders->currentText()] == "theora") {
 	QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(0, 10007));
 	exportFileToTheora(KURL(fileExportFolder->url()+"/"+fileExportName->text() + ".dv").path(), vquality->currentText().toInt(), aquality->currentText().toInt(), videoSize->currentText());
     }

@@ -1,5 +1,5 @@
 # Kdenlive profile file. Lines beginning with ##
-
+#NAME: Mpeg
 ## extension=mpg
 ## video_bit_rate=200000,600000,1200000 600000
 ## audio_bit_rate=32000,64000 32000

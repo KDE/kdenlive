@@ -49,6 +49,7 @@ private:
         GenTime startExportTime, endExportTime;
         bool m_isRunning;
         typedef QMap<QString, QStringList> ParamMap;
+        QMap<QString, QString> EncodersMap;
         ParamMap encodersList;
 	ParamMap encodersFixedList;
 	int m_progress;
@@ -72,7 +73,7 @@ private slots:
 	void slotAdjustWidgets(int pos);
         void initEncoders();
         void initDvConnection();
-        void parseFileForParameters(const QString & fName);
+        QString parseFileForParameters(const QString & fName);
         QString profileParameter(const QString & profile, const QString &param);
 	void doExport(QString file, QStringList params,  bool isDv = false);
 	void endExport(KProcess *);
