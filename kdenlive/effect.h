@@ -41,7 +41,10 @@ class Effect {
 
     const QString & name() const {
 	return m_name;
-    } void addParameter(const QString & name);
+    } 
+    void addParameter(const QString & name);
+    void setEnabled(bool isOn);
+    bool isEnabled();
 
 	/** Produce a clone of this effect. */
     Effect *clone();
@@ -68,6 +71,7 @@ class Effect {
     QString m_name;
     QString m_paramFile;
     QPtrList < EffectParameter > m_paramList;
+    bool m_enabled;
 };
 
 #endif

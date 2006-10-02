@@ -903,6 +903,7 @@ QDomDocument DocClipRef::generateXMLClip()
     if (hasEffect())
 	while (effectAt(i) != NULL) {
 	    Effect *effect = effectAt(i);
+	    if (effect->isEnabled()) {
 	    uint parameterNum = 0;
 	   // bool hasParameters = false;
 
@@ -1093,6 +1094,7 @@ QDomDocument DocClipRef::generateXMLClip()
 		    }
 		}
 		parameterNum++;
+	    }
 	    }
 	    i++;
 	}

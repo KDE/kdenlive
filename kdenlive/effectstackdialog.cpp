@@ -66,12 +66,15 @@ namespace Gui {
 		    KIcon::Toolbar)));
 	 m_deleteButton->setIconSet(QIconSet(loader.loadIcon("editdelete",
 		    KIcon::Toolbar)));
+	 m_switchButton->setIconSet(QIconSet(loader.loadIcon("button_ok",
+		    KIcon::Toolbar)));
 
 	 QToolTip::add(m_upButton, i18n("Move effect up"));
 	 QToolTip::add(m_downButton, i18n("Move effect down"));
 	 QToolTip::add(m_resetButton,
 	    i18n("Reset all parameters to default values"));
 	 QToolTip::add(m_deleteButton, i18n("Remove effect"));
+	QToolTip::add(m_switchButton, i18n("Enable/disable effect"));
 
 	// HACK - We are setting app and doc here because we cannot pass app and doc directly via the auto-generated UI file. This
 	// needs to be fixed...
@@ -86,6 +89,8 @@ namespace Gui {
 
 	 connect(m_upButton, SIGNAL(clicked()), m_effectList,
 	    SLOT(slotMoveEffectUp()));
+	connect(m_switchButton, SIGNAL(clicked()), this,
+	    SLOT(slotSwitchEffect()));
 	 connect(m_downButton, SIGNAL(clicked()), m_effectList,
 	    SLOT(slotMoveEffectDown()));
 	 connect(m_resetButton, SIGNAL(clicked()), this,
@@ -118,6 +123,7 @@ namespace Gui {
 	m_downButton->setEnabled(false);
 	m_resetButton->setEnabled(false);
 	m_deleteButton->setEnabled(false);
+	m_switchButton->setEnabled(false);
     }
 
     void EffectStackDialog::enableButtons()
@@ -126,6 +132,7 @@ namespace Gui {
 	m_downButton->setEnabled(true);
 	m_resetButton->setEnabled(true);
 	m_deleteButton->setEnabled(true);
+	m_switchButton->setEnabled(true);
     }
 
     void EffectStackDialog::cleanWidgets()
@@ -394,6 +401,16 @@ namespace Gui {
 	// remove all previous params
 	cleanWidgets();
 	m_effectList->slotDeleteEffect();
+    }
+
+    void EffectStackDialog::slotSwitchEffect() {
+	Effect *effect =
+	    m_effectList->clip()->effectAt(m_effectList->
+	    selectedEffectIndex());
+	if (!effect) return;
+	effect->setEnabled(!effect->isEnabled());
+	m_effectList->checkCurrentItem(effect->isEnabled());
+	emit generateSceneList();
     }
 
     void EffectStackDialog::resetParameters() {

@@ -47,7 +47,7 @@
                 <string></string>
             </property>
         </widget>
-        <spacer row="4" column="0">
+        <spacer row="5" column="0">
             <property name="name">
                 <cstring>spacer1</cstring>
             </property>
@@ -92,7 +92,21 @@
                 <string></string>
             </property>
         </widget>
-        <widget class="Gui::EffectStackListView" row="0" column="1" rowspan="5" colspan="1">
+	<widget class="KPushButton" row="4" column="0">
+		<property name="name">
+			<cstring>m_switchButton</cstring>
+		</property>
+		<property name="maximumSize">
+			<size>
+				<width>25</width>
+				<height>32767</height>
+			</size>
+		</property>
+		<property name="text">
+			<string></string>
+		</property>
+        </widget>
+        <widget class="Gui::EffectStackListView" row="0" column="1" rowspan="6" colspan="1">
             <property name="name">
                 <cstring>m_effectList</cstring>
             </property>
@@ -105,7 +119,7 @@
                 </sizepolicy>
             </property>
         </widget>
-        <widget class="QTabWidget" row="0" column="2" rowspan="5" colspan="1">
+        <widget class="QTabWidget" row="0" column="2" rowspan="6" colspan="1">
             <property name="name">
                 <cstring>tabWidget2</cstring>
             </property>

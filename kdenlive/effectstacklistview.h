@@ -38,6 +38,7 @@ A list view that displays an effect stack, and allows the relevant drag/drop ope
 	~EffectStackListView();
 
 	void updateEffectStack();
+	void checkCurrentItem(bool isOn);
 
 	/** Setup the effect stack dialog to display the given clip */
 	void setEffectStack(DocClipRef * clip);

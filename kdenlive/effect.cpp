@@ -34,7 +34,7 @@
 
 
 Effect::Effect(const EffectDesc & desc, const QString & name):m_desc(desc),
-m_name(name)
+m_name(name), m_enabled(true)
 {
 	if (m_desc.tag().startsWith("ladspa", false)) { 
 		//ladspa filter, needs a unique temp file for xml input file
@@ -50,6 +50,16 @@ Effect::~Effect()
  	}
 }
 
+void Effect::setEnabled(bool isOn)
+{
+	m_enabled = isOn;
+}
+
+bool Effect::isEnabled()
+{
+	return m_enabled;
+}
+
 QDomDocument Effect::toXML()
 {
     QDomDocument doc;
@@ -58,6 +68,7 @@ QDomDocument Effect::toXML()
 
     effect.setAttribute("name", name());
     effect.setAttribute("type", m_desc.name());
+    effect.setAttribute("enabled", isEnabled());
     if (!m_paramFile.isEmpty()) effect.setAttribute("tempfile", m_paramFile);
 
     for (uint i = 0; i < m_desc.numParameters(); i++) {
@@ -149,7 +160,7 @@ Effect *Effect::createEffect(const EffectDesc & desc,
 		<< desc.name() << ", type == " << type << endl;
 	}
 	result = new Effect(desc, name);
-
+	result->setEnabled(effect.attribute("enabled", "1").toInt());
 	QDomNode node = effect.firstChild();
 	uint index = 0;
 	EffectParamDescFactory m_effectDescParamFactory;

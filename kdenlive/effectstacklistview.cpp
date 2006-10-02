@@ -22,16 +22,19 @@
 #include "kaddeffectcommand.h"
 #include "kdenlive.h"
 #include "effectdrag.h"
+//#include "effectlistviewitem.h"
 
 namespace Gui {
 
     EffectStackListView::EffectStackListView(QWidget * parent,
 	const char *name):KListView(parent, name), m_app(NULL),
 	m_document(NULL) {
+	addColumn(QString::null);
 	addColumn(i18n("Effect Stack"));
 	setSorting(-1);
-	setColumnWidthMode(0, Maximum);
+	setColumnWidthMode(1, Maximum);
 	setAcceptDrops(true);
+	setAllColumnsShowFocus(true);
 	setFullWidth(true);
 	connect(this, SIGNAL(selectionChanged(QListViewItem *)), this,
 	    SLOT(selectedEffect(QListViewItem *)));
@@ -46,6 +49,10 @@ namespace Gui {
 	m_document = document;
     }
 
+    void EffectStackListView::checkCurrentItem(bool isOn) {
+	if (isOn) currentItem()->setText(0, QString::null);
+	else currentItem()->setText(0, "x");
+    }
 
     EffectStackListView::~EffectStackListView() {
     }
@@ -60,7 +67,10 @@ namespace Gui {
 	    for (EffectStack::const_iterator itt =
 		m_clip->effectStack().begin();
 		itt != m_clip->effectStack().end(); ++itt) {
-		QListViewItem *item = new QListViewItem(this, lastItem, (*itt)->name());
+		KListViewItem *item;
+		if ((*itt)->isEnabled())
+		item = new KListViewItem(this, lastItem, QString::null, (*itt)->name());
+		else item = new KListViewItem(this, lastItem, "x", (*itt)->name());
 		if (ix == selected) setSelected(item, true);
 		ix++; 
 		lastItem = item;
