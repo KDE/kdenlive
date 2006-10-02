@@ -44,6 +44,10 @@ namespace Gui {
 	bool selected) {
 	if (!clip->hasEffect())
 	    return;
+	m_effect = clip->selectedEffect();
+	if (!m_effect || !m_effect->isEnabled()) {
+	    return;
+	}
 	int sx = (int)startX;	
 	int ex = (int)endX;
 	//ex -= sx;
@@ -60,12 +64,6 @@ namespace Gui {
 	int sy = rect.y() + ey;
 
 	int effectIndex = 0;
-	m_effect = clip->selectedEffect();
-
-	if (!m_effect) {
-	    kdDebug() << "////// ERROR, EFFECT NOT FOUND" << endl;
-	    return;
-	}
 	
 	if (m_effect->parameter(effectIndex)) {
 	    painter.setClipRect(sx - 2, rect.y(), ex - sx + 4, rect.height());

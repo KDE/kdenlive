@@ -277,6 +277,20 @@ pixels, the left-most pixel is returned. */
 	}
     }
 
+    void KTimeLine::drawPartialTrack(int track, GenTime start, GenTime end)
+    {
+	if (track == -1) {
+	    drawTrackViewBackBuffer();
+	}
+	else {
+	    if (start != GenTime(0) && end != GenTime(0)) {
+	    	 drawPartialTrackViewBackBuffer(start.frames(m_framesPerSecond), end.frames(m_framesPerSecond), 2 * track, 2 * track + 1);
+	    } else {
+	    	drawTrackViewBackBuffer(2 * track, 2 * track + 1);
+	    }
+	}
+    }
+
 /** Returns m_trackList
 
 Warning - this method is a bit of a hack, not good OO practice, and should be removed at some point. */

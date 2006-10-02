@@ -328,7 +328,7 @@ namespace Gui {
 	tabWidget2->setTabEnabled(tabWidget2->page(1), m_hasKeyFrames);
 	m_container->adjustSize();
 	m_container->show();
-	emit redrawTrack(clip->trackNum());
+	emit redrawTrack(clip->trackNum(), clip->trackStart(), clip->trackEnd());
     }
 
     void EffectStackDialog::parameterChanged() {
@@ -404,21 +404,22 @@ namespace Gui {
     }
 
     void EffectStackDialog::slotSwitchEffect() {
-	Effect *effect =
-	    m_effectList->clip()->effectAt(m_effectList->
+	DocClipRef *clip = m_effectList->clip();
+	Effect *effect = clip->effectAt(m_effectList->
 	    selectedEffectIndex());
 	if (!effect) return;
 	effect->setEnabled(!effect->isEnabled());
 	m_effectList->checkCurrentItem(effect->isEnabled());
 	emit generateSceneList();
+	emit redrawTrack(clip->trackNum(), clip->trackStart(), clip->trackEnd());
     }
 
     void EffectStackDialog::resetParameters() {
 	m_blockUpdate = true;
 	uint parameterNum = 0;
 	spinIndex->setValue(0);
-	Effect *effect =
-	    m_effectList->clip()->effectAt(m_effectList->
+	DocClipRef *clip = m_effectList->clip();
+	Effect *effect = clip->effectAt(m_effectList->
 	    selectedEffectIndex());
 	while (effect->parameter(parameterNum)) {
 	    m_effecttype = effect->effectDescription().parameter(parameterNum)->type();
@@ -477,7 +478,8 @@ namespace Gui {
 	    parameterNum++;
 	}
 	m_blockUpdate = false;
-	emit redrawTrack(m_effectList->clip()->trackNum());
+	emit redrawTrack(clip->trackNum(), clip->trackStart(), clip->trackEnd());
+	
 	parameterChanged();
     }
 
@@ -507,8 +509,8 @@ namespace Gui {
 	uint parameterNum = 0;
 	uint previousTime, nextTime, currentTime;
 	uint currentValue;
-
-	Effect *effect = m_effectList->clip()->effectAt(m_effectList->selectedEffectIndex());
+	DocClipRef *clip = m_effectList->clip();
+	Effect *effect = clip->effectAt(m_effectList->selectedEffectIndex());
         if (!effect->parameter(parameterNum)) return;
 	effect->parameter(parameterNum)->setSelectedKeyFrame(ix);
 
@@ -549,7 +551,7 @@ namespace Gui {
 
 	currentTime = (uint)(
 	    effect->parameter(parameterNum)->keyframe(ix)->time() *
-			m_effectList->clip()->cropDuration().frames(KdenliveSettings::defaultfps()));
+			clip->cropDuration().frames(KdenliveSettings::defaultfps()));
 
 	// Find the previous keyframe position to make sure the current keyframe cannot be moved before the previous one
 	if (ix == 0)
@@ -558,16 +560,16 @@ namespace Gui {
 		previousTime = (uint)(
 		effect->parameter(parameterNum)->keyframe(ix -
 		1)->time() *
-		m_effectList->clip()->cropDuration().frames(KdenliveSettings::defaultfps()) + 1);
+		clip->cropDuration().frames(KdenliveSettings::defaultfps()) + 1);
 
 	// Find the next keyframe position to make sure the current keyframe cannot be moved after the next one
 	if (ix == effect->parameter(parameterNum)->numKeyFrames() - 1)
-		nextTime = (uint)(m_effectList->clip()->cropDuration().frames(KdenliveSettings::defaultfps()));
+		nextTime = (uint)(clip->cropDuration().frames(KdenliveSettings::defaultfps()));
 	else
 		nextTime =(uint)(
 		effect->parameter(parameterNum)->keyframe(ix +
 		1)->time() *
-		m_effectList->clip()->cropDuration().frames(KdenliveSettings::defaultfps()) - 1);
+		clip->cropDuration().frames(KdenliveSettings::defaultfps()) - 1);
 
 	spinPosition->setMinValue(previousTime);
 	spinPosition->setMaxValue(nextTime);
@@ -575,18 +577,19 @@ namespace Gui {
 	sliderPosition->setMaxValue(nextTime);
 	spinPosition->setValue(currentTime);
 	m_blockUpdate = false;
-	emit redrawTrack(m_effectList->clip()->trackNum());
+	emit redrawTrack(clip->trackNum(), clip->trackStart(), clip->trackEnd());
     }
 
 
     void EffectStackDialog::changeKeyFramePosition(int newTime) {
 	uint parameterNum = 0;
 	double currentTime;
+	DocClipRef *clip = m_effectList->clip();
 
 	currentTime =
-	    newTime / m_effectList->clip()->cropDuration().frames(KdenliveSettings::defaultfps());
+	    newTime / clip->cropDuration().frames(KdenliveSettings::defaultfps());
 	Effect *effect =
-	    m_effectList->clip()->effectAt(m_effectList->
+	    clip->effectAt(m_effectList->
 	    selectedEffectIndex());
 
 	int ix = effect->parameter(parameterNum)->selectedKeyFrame();
@@ -594,7 +597,7 @@ namespace Gui {
 	    setTime(currentTime);
 
 	if (!m_blockUpdate) {
-	    emit redrawTrack(m_effectList->clip()->trackNum());
+	    	emit redrawTrack(clip->trackNum(), clip->trackStart(), clip->trackEnd());
 	    emit generateSceneList();
 	}
     }
@@ -603,8 +606,8 @@ namespace Gui {
     void EffectStackDialog::changeKeyFrameValue(int newValue) {
 	uint parameterNum = 0;
 	//double currentTime;
-
-	Effect *effect = m_effectList->clip()->effectAt(m_effectList->selectedEffectIndex());
+	DocClipRef *clip = m_effectList->clip();
+	Effect *effect = clip->effectAt(m_effectList->selectedEffectIndex());
         if (!effect->parameter(parameterNum)) return;
 	int ix = effect->parameter(parameterNum)->selectedKeyFrame();
 	m_effecttype = effect->effectDescription().parameter(parameterNum)->type();
@@ -634,7 +637,7 @@ namespace Gui {
 	}
 
 	if (!m_blockUpdate) {
-	    emit redrawTrack(m_effectList->clip()->trackNum());
+	    emit redrawTrack(clip->trackNum(), clip->trackStart(), clip->trackEnd());
 	    emit generateSceneList();
 	    m_app->focusTimelineWidget();
 	}
@@ -647,7 +650,7 @@ namespace Gui {
 	disableButtons();
 	tabWidget2->setTabEnabled(tabWidget2->page(1), false);
 	m_effectList->setEffectStack(clip);
-	if (clip) emit redrawTrack(clip->trackNum());
+	if (clip) emit redrawTrack(clip->trackNum(), clip->trackStart(), clip->trackEnd());
     }
 
 }				// namespace Gui

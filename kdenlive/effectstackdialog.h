@@ -50,7 +50,7 @@ Implementation of the EffectStackDialog
 	 signals:
 	/** Emitted when an effect parameter has been modified. */
 	void generateSceneList();
-	void redrawTrack(int);
+	void redrawTrack(int, GenTime, GenTime);
 
 	public slots:
 	/** Setup the effect stack dialog to display the given clip */

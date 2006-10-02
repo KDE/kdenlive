@@ -884,8 +884,8 @@ namespace Gui {
 		    Effect *)), m_effectParamDialog,
         SLOT(slotSetEffect(DocClipRef *, Effect *)));*/
 
-	connect(m_effectStackDialog, SIGNAL(redrawTrack(int)), m_timeline,
-	    SLOT(drawCurrentTrack(int)));
+	connect(m_effectStackDialog, SIGNAL(redrawTrack(int, GenTime, GenTime)), m_timeline,
+	    SLOT(drawPartialTrack(int, GenTime, GenTime)));
         
         connect(&(getDocument()->projectClip()), SIGNAL(clipReferenceChanged()), this,
                 SLOT(clipReferenceChanged()));
@@ -1035,8 +1035,6 @@ namespace Gui {
         connect(transitionResizeFunction, SIGNAL(transitionChanged(bool)),
                 getDocument(), SLOT(activateSceneListGeneration(bool)));
 
-/*	connect(keyFrameFunction, SIGNAL(redrawTrack()), m_timeline,
-        SLOT(drawTrackViewBackBuffer()));*/
 	connect(keyFrameFunction, SIGNAL(redrawTrack()),
 	    m_effectStackDialog, SLOT(updateKeyFrames()));
 
