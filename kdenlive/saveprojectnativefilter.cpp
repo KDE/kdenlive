@@ -49,6 +49,7 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
     docinfos.setAttribute("projectfolder", KdenliveSettings::currentdefaultfolder());
     docinfos.setAttribute("projectheight", QString::number(KdenliveSettings::defaultheight()));
     docinfos.setAttribute("projectwidth", QString::number(KdenliveSettings::defaultwidth()));
+    docinfos.setAttribute("timeline_position", document->renderer()->seekPosition().frames(KdenliveSettings::defaultfps()));
     docinfos.setAttribute("projectfps", QString::number(KdenliveSettings::defaultfps()));
     docinfos.setAttribute("projectratio", QString::number(KdenliveSettings::aspectratio()));
     docinfos.setAttribute("projectguides", document->guidesStringList());

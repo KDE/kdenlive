@@ -47,6 +47,7 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
     bool trackListLoaded = false;
     GenTime inPoint(0.0);
     GenTime outPoint(3.0);
+    int currentPos = 0;
     
     QDomDocument doc;
     doc.setContent(&file, false);
@@ -80,6 +81,7 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 		KdenliveSettings::setDefaultwidth(e.attribute("projectwidth","720").toInt());
 		KdenliveSettings::setDefaultfps(e.attribute("projectfps","25.0").toDouble());
 		KdenliveSettings::setAspectratio(e.attribute("projectratio","1.09259").toDouble());
+		currentPos = e.attribute("timeline_position","0").toInt();
 		inPoint = GenTime(e.attribute("inpoint","0").toInt(), KdenliveSettings::defaultfps());
 		outPoint = GenTime(e.attribute("outpoint","100").toInt(), KdenliveSettings::defaultfps());
 		document->application()->insertGuides(e.attribute("projectguides", QString::null), e.attribute("projectguidescomments", QString::null));
@@ -115,6 +117,7 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 
     document->application()->setInpointPosition(inPoint);
     document->application()->setOutpointPosition(outPoint);
+    document->renderer()->seek(GenTime(currentPos, KdenliveSettings::defaultfps()));
     return true;
 }
 
