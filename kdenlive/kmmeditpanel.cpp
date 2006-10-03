@@ -369,6 +369,7 @@ namespace Gui {
 
     void KMMEditPanel::updateButtons() {
 	KIconLoader loader;
+	stopButton->setDown(false);
 	if (isPlaying()) {
 	    forwardButton->setDown(isForwarding());
 	    rewindButton->setDown(isRewinding());
