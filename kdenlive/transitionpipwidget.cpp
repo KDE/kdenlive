@@ -259,7 +259,7 @@ transitionPipWidget::transitionPipWidget(KdenliveApp * app, int width, int heigh
         
         connect(radio_start, SIGNAL(stateChanged(int)), this, SLOT(changeKeyFrame(int)));
         m_transitionParameters[0]="0:0:100:0";
-        m_transitionParameters[1]="50:0:100:0";
+        m_transitionParameters[1]="0:0:100:0";
         changeKeyFrame(0);
 }
 
