@@ -29,7 +29,7 @@
 #include "transition.h"
 #include "transitioncrossfade_ui.h"
 #include "transitionaudiofade_ui.h"
-#include "transitionwipe_ui.h"
+#include "transitionwipewidget.h"
 #include "transitionpipwidget.h"
 
 
@@ -70,7 +70,7 @@ namespace Gui {
       private:
 	transitionCrossfade_UI *transitCrossfade;
 	transitionAudiofade_UI *transitAudiofade;
-        transitionWipe_UI *transitWipe;
+        transitionWipeWidget *transitWipe;
 	transitionPipWidget *transitPip;
 	Transition *m_transition;
 
