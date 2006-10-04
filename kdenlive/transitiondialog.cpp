@@ -89,14 +89,6 @@ void TransitionDialog::connectTransition()
 {
    connect(this, SIGNAL( aboutToShowPage ( QWidget * )), this, SLOT(applyChanges()));
    connect(transitWipe, SIGNAL(applyChanges ()), this, SLOT(applyChanges()));
-/*   connect(transitWipe->transpEnd, SIGNAL(sliderReleased ()), this, SLOT(applyChanges()));
-   connect(transitWipe->transitionDown, SIGNAL(released()), this, SLOT(applyChanges()));
-   connect(transitWipe->transitionUp, SIGNAL(released()), this, SLOT(applyChanges()));
-   connect(transitWipe->transitionRight, SIGNAL(released()), this, SLOT(applyChanges()));
-   connect(transitWipe->transitionLeft, SIGNAL(released()), this, SLOT(applyChanges()));
-   connect(transitWipe->invertTransition, SIGNAL(released()), this, SLOT(applyChanges()));
-   connect(transitWipe->rescaleImages, SIGNAL(released()), this, SLOT(applyChanges()));*/
-   
    connect(transitCrossfade->invertTransition, SIGNAL(released()), this, SLOT(applyChanges()));
    
    connect(transitPip, SIGNAL(transitionChanged()), this, SLOT(applyChanges()));
@@ -107,15 +99,6 @@ void TransitionDialog::disconnectTransition()
     disconnect(this, SIGNAL( aboutToShowPage ( QWidget * )), this, SLOT(applyChanges()));
 
     disconnect(transitWipe, SIGNAL(applyChanges ()), this, SLOT(applyChanges()));
-    /*disconnect(transitWipe->transpStart, SIGNAL(sliderReleased ()), this, SLOT(applyChanges()));
-    disconnect(transitWipe->transpEnd, SIGNAL(sliderReleased ()), this, SLOT(applyChanges()));
-    disconnect(transitWipe->transitionDown, SIGNAL(released()), this, SLOT(applyChanges()));
-    disconnect(transitWipe->transitionUp, SIGNAL(released()), this, SLOT(applyChanges()));
-    disconnect(transitWipe->transitionRight, SIGNAL(released()), this, SLOT(applyChanges()));
-    disconnect(transitWipe->transitionLeft, SIGNAL(released()), this, SLOT(applyChanges()));
-    disconnect(transitWipe->invertTransition, SIGNAL(released()), this, SLOT(applyChanges()));
-    disconnect(transitWipe->rescaleImages, SIGNAL(released()), this, SLOT(applyChanges()));
-    */
     disconnect(transitCrossfade->invertTransition, SIGNAL(released()), this, SLOT(applyChanges()));
 
     disconnect(transitPip, SIGNAL(transitionChanged()), this, SLOT(applyChanges()));
@@ -142,12 +125,6 @@ void TransitionDialog::applyChanges()
 		m_transition->setTransitionType(selectedTransition());
         	m_transition->setTransitionParameters(transitionParameters());
 		m_transition->setTransitionDirection(transitionDirection());
-		if (activePageIndex() == 1) {
-		    /*if (transitWipe->transitionDown->isOn()) m_transition->setTransitionWipeDirection("down");
-		    else if (transitWipe->transitionUp->isOn()) m_transition->setTransitionWipeDirection("up");
-		    else if (transitWipe->transitionRight->isOn()) m_transition->setTransitionWipeDirection("right");
-		    else m_transition->setTransitionWipeDirection("left");*/
-		}
 		emit transitionChanged(true);
         }
 }
@@ -198,34 +175,10 @@ void TransitionDialog::setTransitionDirection(bool direc)
 void TransitionDialog::setTransitionParameters(const QMap < QString, QString > parameters)
 {
     if (activePageIndex() == 1) {
-        // parse the "geometry" argument of MLT's composite transition
         transitWipe->rescaleImages->setChecked(parameters["distort"].toInt());
 	transitWipe->setParameters(parameters["geometry"]);
-        /*QString geom = parameters["geometry"];
-        QString geom2 = geom.left(geom.find(";"));
-        
-        if (geom2.right(4).contains(":",FALSE)!=0) { // Start transparency setting
-            int pos = geom2.findRev(":");
-            QString last = geom2.right(geom2.length() - pos -1);
-            transitWipe->transpStart->setValue(100 - last.toInt());
-        }
-        
-        if (geom.right(4).contains(":",FALSE)!=0) { // Ending transparency setting
-            int pos = geom.findRev(":");
-            QString last = geom.right(geom.length() - pos -1);
-            transitWipe->transpEnd->setValue(100 - last.toInt());
-            geom.truncate(pos);
-        }
-        // Which way does it go ?
-        if (geom.endsWith("0%,100%:100%x100%")) transitWipe->transitionDown->setOn(true);
-        else if (geom.endsWith("0%,-100%:100%x100%")) transitWipe->transitionUp->setOn(true);
-        else if (geom.endsWith("-100%,0%:100%x100%")) transitWipe->transitionLeft->setOn(true);
-        else if (geom.endsWith("100%,0%:100%x100%")) transitWipe->transitionRight->setOn(true);
-	*/
     }
     else if (activePageIndex() == 2) {
-        // parse the "geometry" argument of MLT's composite transition
-        //transitWipe->rescaleImages->setChecked(parameters["distort"].toInt());
         transitPip->setParameters(parameters["geometry"]);
         }
 }
@@ -248,20 +201,6 @@ const QMap < QString, QString > TransitionDialog::transitionParameters()
     if (activePageIndex() == 1) // wipe
     {
 	return transitWipe->parameters();
-        /*QString startTransparency = QString::null;
-        QString endTransparency = QString::null;
-        int transp1 = transitWipe->transpStart->value();
-        int transp2 = transitWipe->transpEnd->value();
-        if (transp1 > 0) startTransparency = ":" + QString::number(100 - transp1);
-        if (transp2 > 0) endTransparency = ":" + QString::number(100 - transp2);
-        if (transitWipe->transitionDown->isOn()) paramList["geometry"] = "0=0%,0%:100%x100%" + startTransparency + ";-1=0%,100%:100%x100%" + endTransparency;
-        else if (transitWipe->transitionUp->isOn()) paramList["geometry"] = "0=0%,0%:100%x100%" + startTransparency + ";-1=0%,-100%:100%x100%" + endTransparency;
-        //else if (transitWipe->transitionRight->isOn()) paramList["geometry"] = "0=0%,0%:100%x100%" + startTransparency + ";-1=100%,0%:100%x100%" + endTransparency;
-        else if (transitWipe->transitionRight->isOn()) paramList["geometry"] = "0=0,0:100%x100%" + startTransparency + ";-1=100%,0:100%x100%" + endTransparency;
-        else if (transitWipe->transitionLeft->isOn()) paramList["geometry"] = "0=0%,0%:100%x100%" + startTransparency + ";-1=-100%,0%:100%x100%" + endTransparency;
-        paramList["progressive"] = "1";
-        if (transitWipe->rescaleImages->isChecked()) paramList["distort"] = "1";*/
-        
     }
     else if (activePageIndex() == 2) // pip
     {

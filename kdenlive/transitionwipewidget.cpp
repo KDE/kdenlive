@@ -132,38 +132,44 @@ QMap < QString, QString > transitionWipeWidget::parameters()
 void transitionWipeWidget::setParameters(QString geom)
 {
 	QString geom2 = geom.left(geom.find(";"));
+	geom = geom.section(";",1,1);
+	kdDebug()<<"++ RESULT 0: "<<geom<<endl;
         
         if (geom2.right(4).contains(":",FALSE)!=0) { // Start transparency setting
             int pos = geom2.findRev(":");
             QString last = geom2.right(geom2.length() - pos -1);
             m_startTransparency = last.toInt();
         }
-        
+        kdDebug()<<"++ RESULT 1: "<<geom<<endl;
+
         if (geom.right(4).contains(":",FALSE)!=0) { // Ending transparency setting
             int pos = geom.findRev(":");
             QString last = geom.right(geom.length() - pos -1);
             m_endTransparency = last.toInt();
+	    geom.truncate(pos);
         }
+	kdDebug()<<"++ RESULT 2: "<<geom<<endl;
 
-	if (geom.startsWith("0=0%,0%")) startTransition = CENTER_TRANSITION;
-	else if (geom.startsWith("0=-100%,0%")) startTransition = LEFT_TRANSITION;
-	else if (geom.startsWith("0=100%,0%")) startTransition = RIGHT_TRANSITION;
-	else if (geom.startsWith("0=-100%,-100%")) startTransition = TOPLEFT_TRANSITION;
-	else if (geom.startsWith("0=-100%,100%")) startTransition = BOTTOMLEFT_TRANSITION;
-	else if (geom.startsWith("0=100%,-100%")) startTransition = TOPRIGHT_TRANSITION;
-	else if (geom.startsWith("0=100%,100%")) startTransition = BOTTOMRIGHT_TRANSITION;
-	else if (geom.startsWith("0=0%,-100%")) startTransition = TOP_TRANSITION;
-	else if (geom.startsWith("0=0%,100%")) startTransition = BOTTOM_TRANSITION;
+
+	if (geom2.startsWith("0=0%,0%")) startTransition = CENTER_TRANSITION;
+	else if (geom2.startsWith("0=-100%,0%")) startTransition = LEFT_TRANSITION;
+	else if (geom2.startsWith("0=100%,0%")) startTransition = RIGHT_TRANSITION;
+	else if (geom2.startsWith("0=-100%,-100%")) startTransition = TOPLEFT_TRANSITION;
+	else if (geom2.startsWith("0=-100%,100%")) startTransition = BOTTOMLEFT_TRANSITION;
+	else if (geom2.startsWith("0=100%,-100%")) startTransition = TOPRIGHT_TRANSITION;
+	else if (geom2.startsWith("0=100%,100%")) startTransition = BOTTOMRIGHT_TRANSITION;
+	else if (geom2.startsWith("0=0%,-100%")) startTransition = TOP_TRANSITION;
+	else if (geom2.startsWith("0=0%,100%")) startTransition = BOTTOM_TRANSITION;
 
 	if (geom.endsWith("=0%,0%:100%x100%")) endTransition = CENTER_TRANSITION;
-	else if (geom.startsWith("=-100%,0%:100%x100%")) endTransition = LEFT_TRANSITION;
-	else if (geom.startsWith("=100%,0%:100%x100%")) endTransition = RIGHT_TRANSITION;
-	else if (geom.startsWith("=-100%,-100%:100%x100%")) endTransition = TOPLEFT_TRANSITION;
-	else if (geom.startsWith("=-100%,100%:100%x100%")) endTransition = BOTTOMLEFT_TRANSITION;
-	else if (geom.startsWith("=100%,-100%:100%x100%")) endTransition = TOPRIGHT_TRANSITION;
-	else if (geom.startsWith("=100%,100%:100%x100%")) endTransition = BOTTOMRIGHT_TRANSITION;
-	else if (geom.startsWith("=0%,-100%:100%x100%")) endTransition = TOP_TRANSITION;
-	else if (geom.startsWith("=0%,100%:100%x100%")) endTransition = BOTTOM_TRANSITION;
+	else if (geom.endsWith("=-100%,0%:100%x100%")) endTransition = LEFT_TRANSITION;
+	else if (geom.endsWith("=100%,0%:100%x100%")) endTransition = RIGHT_TRANSITION;
+	else if (geom.endsWith("=-100%,-100%:100%x100%")) endTransition = TOPLEFT_TRANSITION;
+	else if (geom.endsWith("=-100%,100%:100%x100%")) endTransition = BOTTOMLEFT_TRANSITION;
+	else if (geom.endsWith("=100%,-100%:100%x100%")) endTransition = TOPRIGHT_TRANSITION;
+	else if (geom.endsWith("=100%,100%:100%x100%")) endTransition = BOTTOMRIGHT_TRANSITION;
+	else if (geom.endsWith("=0%,-100%:100%x100%")) endTransition = TOP_TRANSITION;
+	else if (geom.endsWith("=0%,100%:100%x100%")) endTransition = BOTTOM_TRANSITION;
 	updateButtons();
 }
 

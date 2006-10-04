@@ -850,12 +850,12 @@ QDomDocument DocClipRef::generateXMLTransition(bool hideVideo, bool hideAudio)
 	        if ((*itt)->invertTransition()) transition.setAttribute("reverse", "1");
 	    }
 	    else if ((*itt)->invertTransition()) {
-                transition.setAttribute("b_track", QString::number((*itt)->transitionStartTrack()));
-                transition.setAttribute("a_track", QString::number((*itt)->transitionEndTrack()));
-            }
-            else {
                 transition.setAttribute("a_track", QString::number((*itt)->transitionStartTrack()));
                 transition.setAttribute("b_track", QString::number((*itt)->transitionEndTrack()));
+            }
+            else {
+                transition.setAttribute("b_track", QString::number((*itt)->transitionStartTrack()));
+                transition.setAttribute("a_track", QString::number((*itt)->transitionEndTrack()));
             }
             transitionList.appendChild(transition);
 	}
