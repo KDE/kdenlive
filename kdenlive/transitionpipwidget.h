@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifndef TRANSITIONPIPWIDGET_H
+#define TRANSITIONPIPWIDGET_H
+
 #include <qcanvas.h>
 #include <qpoint.h>
 #include <qdom.h>
@@ -24,9 +27,6 @@
 
 
 #include "transitionpip_ui.h"
-
-#ifndef TRANSITIONPIPWIDGET_H
-#define TRANSITIONPIPWIDGET_H
 
 namespace Gui {
     class KdenliveApp;
