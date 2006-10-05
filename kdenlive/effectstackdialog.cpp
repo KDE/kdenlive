@@ -326,6 +326,8 @@ namespace Gui {
 	}
 
 	tabWidget2->setTabEnabled(tabWidget2->page(1), m_hasKeyFrames);
+	if (m_hasKeyFrames) tabWidget2->setCurrentPage(1);
+	else tabWidget2->setCurrentPage(0);
 	m_container->adjustSize();
 	m_container->show();
 	emit redrawTrack(clip->trackNum(), clip->trackStart(), clip->trackEnd());
