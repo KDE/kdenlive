@@ -53,7 +53,7 @@ namespace Gui {
     QLabel *lab = new QLabel(i18n("Perform transition with: "), this);
     trackPolicy = new KComboBox(this);
     trackPolicy->insertItem(i18n("Automatic - Use next video track"));
-    trackPolicy->insertItem(i18n("Black - Use black video track"));
+    trackPolicy->insertItem(i18n("Background track (black)"));
 
     int trackNb = app->getDocument()->trackList().count();
     uint ix = 1;

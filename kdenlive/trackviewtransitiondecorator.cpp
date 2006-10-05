@@ -90,16 +90,15 @@ namespace Gui {
 	    int trackNum = (*itt)->transitionTrack();
 	    if (trackNum > 0) {
 		QString txt;
-		if (trackNum == 1) txt = i18n("> Black");
+		if (trackNum == 1) txt = i18n("> Background");
 		else txt = QString("> %1").arg(trackNum - 1);
 	        QFont orig = painter.font();
 	        QFont ft = orig;
 	        ft.setPixelSize(10);
 	        painter.setFont(ft);
 	        int textWidth = painter.fontMetrics().width( txt );
-	    //painter.fillRect((int) start + 2, rect.y() + 2, textWidth + 8, 11, QBrush(Qt::black));
 	        painter.setPen(Qt::darkRed);
-	        painter.drawText((int) start + 20, rect.y() + 2, textWidth + 8, 11, Qt::AlignCenter | Qt::AlignHCenter, txt);
+	        painter.drawText((int) start + 20, rect.y(), textWidth + 8, rect.height(), Qt::AlignCenter | Qt::AlignHCenter, txt);
 	        painter.setFont(orig);	
 	        painter.setPen(Qt::black);
 	    }
