@@ -810,7 +810,7 @@ QDomDocument DocClipRef::generateXMLTransition(bool hideVideo, bool hideAudio)
     {
         QDomElement transition = transitionList.createElement("transition");
         transition.setAttribute("in", trackStart().frames(framesPerSecond()));
-        transition.setAttribute("out", trackEnd().frames(framesPerSecond()));
+        transition.setAttribute("out", trackEnd().frames(framesPerSecond()) - 1);
         transition.setAttribute("mlt_service", "composite");
         transition.setAttribute("fill", "1");
         transition.setAttribute("progressive","1");
@@ -830,7 +830,7 @@ QDomDocument DocClipRef::generateXMLTransition(bool hideVideo, bool hideAudio)
 	if (!block) {
             QDomElement transition = transitionList.createElement("transition");
             transition.setAttribute("in", QString::number((*itt)->transitionStartTime().frames(framesPerSecond())));
-            transition.setAttribute("out", QString::number((*itt)->transitionEndTime().frames(framesPerSecond())));
+            transition.setAttribute("out", QString::number((*itt)->transitionEndTime().frames(framesPerSecond()) - 1));
 
             if ((*itt)->transitionType() == Transition::PIP_TRANSITION) transition.setAttribute("mlt_service", "composite");
             else transition.setAttribute("mlt_service", (*itt)->transitionTag());
