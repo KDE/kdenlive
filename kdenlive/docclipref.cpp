@@ -795,32 +795,26 @@ QDomDocument DocClipRef::generateSceneList()
 QDomDocument DocClipRef::generateXMLTransition(bool hideVideo, bool hideAudio)
 {
     QDomDocument transitionList;
+    DocClipBase::CLIPTYPE ct = clipType();
+    bool transparentBackgroundClip = false;
 
-    if (!hideVideo && clipType() == DocClipBase::TEXT && m_clip->toDocClipTextFile()->isTransparent()) {
+    if (!hideVideo) {
+	if (ct == DocClipBase::TEXT && m_clip->toDocClipTextFile()->isTransparent()) 
+	transparentBackgroundClip = true;
+    else if ((ct == DocClipBase::IMAGE || ct == DocClipBase::SLIDESHOW) && m_clip->toDocClipAVFile()->isTransparent()) 
+	transparentBackgroundClip = true;
+    }
+
+    // Add transition to create transparent bg effect for image/text clips
+    if (transparentBackgroundClip && m_transitionStack.count() == 0)
+    {
         QDomElement transition = transitionList.createElement("transition");
         transition.setAttribute("in", trackStart().frames(framesPerSecond()));
         transition.setAttribute("out", trackEnd().frames(framesPerSecond()));
         transition.setAttribute("mlt_service", "composite");
         transition.setAttribute("fill", "1");
-        //transition.setAttribute("distort", "1");
-        //transition.setAttribute("always_active", "1");
         transition.setAttribute("progressive","1");
         transition.setAttribute("a_track", QString::number( playlistNextTrackNum()));
-        // Set b_track to the current clip's track index (+1 because we add a black track at pos 0)
-        transition.setAttribute("b_track", QString::number(playlistTrackNum()));
-        transitionList.appendChild(transition);
-    }
-    else if (!hideVideo && (clipType() == DocClipBase::IMAGE || clipType() == DocClipBase::SLIDESHOW) && m_clip->toDocClipAVFile()->isTransparent()) {
-        QDomElement transition = transitionList.createElement("transition");
-        transition.setAttribute("in", trackStart().frames(framesPerSecond()));
-        transition.setAttribute("out", trackEnd().frames(framesPerSecond()));
-        transition.setAttribute("mlt_service", "composite");
-        //transition.setAttribute("always_active", "1");
-        transition.setAttribute("fill", "1");
-        //transition.setAttribute("distort", "1");
-        transition.setAttribute("progressive","1");
-        transition.setAttribute("a_track", QString::number(playlistNextTrackNum()));
-        // Set b_track to the current clip's track index (+1 because we add a black track at pos 0)
         transition.setAttribute("b_track", QString::number(playlistTrackNum()));
         transitionList.appendChild(transition);
     }
@@ -837,11 +831,13 @@ QDomDocument DocClipRef::generateXMLTransition(bool hideVideo, bool hideAudio)
             QDomElement transition = transitionList.createElement("transition");
             transition.setAttribute("in", QString::number((*itt)->transitionStartTime().frames(framesPerSecond())));
             transition.setAttribute("out", QString::number((*itt)->transitionEndTime().frames(framesPerSecond())));
+
             if ((*itt)->transitionType() == Transition::PIP_TRANSITION) transition.setAttribute("mlt_service", "composite");
             else transition.setAttribute("mlt_service", (*itt)->transitionTag());
             transition.setAttribute("fill", "1");
             //transition.setAttribute("distort", "1");
-   
+
+	    // Parse transition attributes
             typedef QMap<QString, QString> ParamMap;
             ParamMap params;
             params = (*itt)->transitionParameters();
@@ -849,6 +845,16 @@ QDomDocument DocClipRef::generateXMLTransition(bool hideVideo, bool hideAudio)
             for ( it = params.begin(); it != params.end(); ++it ) {
             	transition.setAttribute(it.key(), it.data());
             }
+
+	    /* The crossfade LUMA transition does not work on images/texts with transp. 
+	       background, so we replace it with a composite transition */
+	    if (transparentBackgroundClip && (*itt)->transitionType() == Transition::LUMA_TRANSITION) {
+		transition.setAttribute("mlt_service", "composite");
+		QString geom;
+		if (!(*itt)->invertTransition()) geom = "0=0,0:100%x100%:0;-1=0,0:100%x100%:100";
+		else geom = "0=0,0:100%x100%:100;-1=0,0:100%x100%:0";
+		transition.setAttribute("geometry", geom);
+	    }
 
 	    if ((*itt)->transitionType() == Transition::LUMA_TRANSITION || (*itt)->transitionType() == Transition::MIX_TRANSITION) {
                 transition.setAttribute("b_track", QString::number((*itt)->transitionStartTrack()));
