@@ -60,12 +60,12 @@ Transition::Transition(const DocClipRef * clipa, const DocClipRef * clipb)
 	GenTime endb = m_secondClip->trackEnd();
         GenTime enda = m_referenceClip->trackEnd();
 	GenTime transitionDuration;
-	if (starta > startb && starta < endb) {
+	if (starta >= startb && starta <= endb) {
 		m_transitionStart = GenTime(0.0);
         	if (endb < enda) m_transitionDuration = endb - starta;
 		else m_transitionDuration = enda - starta;
 	}
-	else if (startb > starta && startb < enda){
+	else if (startb >= starta && startb <= enda){
 		m_transitionStart = startb - starta;
 		if (endb > enda) m_transitionDuration = enda - startb;
 		else m_transitionDuration = endb - startb;

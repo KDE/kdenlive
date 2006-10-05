@@ -85,19 +85,24 @@ namespace Gui {
 	painter.setClipRect(start, rect.y(), end, rect.height());
 	
 	 
-	    /*
-		// Draw transition name
-	    QString txt = (*itt)->transitionName().upper();
-	    QFont orig = painter.font();
-	    QFont ft = orig;
-	    ft.setPixelSize(7);
-	    painter.setFont(ft);
-	    int textWidth = painter.fontMetrics().width( txt );
+	    
+		// Draw transition track number if different than automatic
+	    int trackNum = (*itt)->transitionTrack();
+	    if (trackNum > 0) {
+		QString txt;
+		if (trackNum == 1) txt = i18n("> Black");
+		else txt = QString("> %1").arg(trackNum - 1);
+	        QFont orig = painter.font();
+	        QFont ft = orig;
+	        ft.setPixelSize(10);
+	        painter.setFont(ft);
+	        int textWidth = painter.fontMetrics().width( txt );
 	    //painter.fillRect((int) start + 2, rect.y() + 2, textWidth + 8, 11, QBrush(Qt::black));
-	    painter.setPen(Qt::darkRed);
-	    painter.drawText((int) start + 2, rect.y() + 2, textWidth + 8, 11, Qt::AlignCenter | Qt::AlignHCenter, txt);
-	    painter.setFont(orig);	
-	    painter.setPen(Qt::black);*/
+	        painter.setPen(Qt::darkRed);
+	        painter.drawText((int) start + 20, rect.y() + 2, textWidth + 8, 11, Qt::AlignCenter | Qt::AlignHCenter, txt);
+	        painter.setFont(orig);	
+	        painter.setPen(Qt::black);
+	    }
 
 	    // draw transition icon
 	    painter.drawPixmap((int) start + 3, rect.y() + (rect.height() - 15 ) / 2, (*itt)->transitionPixmap());
