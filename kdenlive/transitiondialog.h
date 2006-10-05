@@ -25,6 +25,7 @@
 #include <qtabwidget.h>
 
 #include <kjanuswidget.h>
+#include <kcombobox.h>
 
 #include "transition.h"
 #include "transitioncrossfade_ui.h"
@@ -46,7 +47,7 @@ namespace Gui {
   *@author Jason Wood
   */
 
-    class TransitionDialog:public KJanusWidget { //QTabWidget {
+    class TransitionDialog:public QWidget { //QTabWidget {
       Q_OBJECT public:
               TransitionDialog(KdenliveApp * app, QWidget * parent = 0, const char *name = 0);
 	 virtual ~ TransitionDialog();
@@ -74,6 +75,8 @@ namespace Gui {
         transitionWipeWidget *transitWipe;
 	transitionPipWidget *transitPip;
 	Transition *m_transition;
+	KJanusWidget *propertiesDialog;
+	KComboBox *trackPolicy;
 
     signals:
 	void transitionChanged(bool);

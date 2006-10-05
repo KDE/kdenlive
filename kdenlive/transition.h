@@ -76,6 +76,8 @@ class Transition {
     const QMap < QString, QString > transitionParameters();
     void setTransitionParameters(const QMap < QString, QString > parameters);
     void setTransitionDirection(bool inv);
+    int transitionTrack();
+    void setTransitionTrack(int track);
     QPixmap transitionPixmap();
 
   private:
@@ -103,6 +105,8 @@ class Transition {
     
     /** The 2nd clip to which the transition is attached */
     const DocClipRef *m_secondClip;
+
+    int m_transitionTrack;
 };
 
 #endif

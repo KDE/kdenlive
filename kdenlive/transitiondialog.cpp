@@ -21,6 +21,7 @@
 #include <qhbox.h>
 #include <qlistbox.h>
 #include <qlayout.h>
+#include <qgrid.h>
 #include <qslider.h>
 #include <qcheckbox.h>
 #include <qradiobutton.h>
@@ -30,6 +31,8 @@
 #include <klocale.h>
 #include <kdebug.h>
 
+#include "kdenlive.h"
+#include "kdenlivedoc.h"
 #include "transition.h"
 #include "docclipref.h"
 #include "transitiondialog.h"
@@ -38,20 +41,38 @@
 namespace Gui {
 
     TransitionDialog::TransitionDialog(KdenliveApp * app, QWidget * parent,
-                                       const char *name): KJanusWidget(parent, name, IconList), m_transition(0)
+                                       const char *name): QWidget(parent, name), m_transition(0)
 {
-    //QTabWidget
     QFont dialogFont = font();
     dialogFont.setPointSize(dialogFont.pointSize() - 1);
     setFont(dialogFont);
-    transitCrossfade = new transitionCrossfade_UI(addPage(i18n("Crossfade"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_down", KIcon::Small, 15)));
 
-    transitWipe = new transitionWipeWidget(addPage(i18n("Wipe"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_wiper", KIcon::Small, 15)));
+    QGridLayout *m_container = new QGridLayout(this, 2, 2);
+    m_container->setMargin(5);
 
-    transitPip = new transitionPipWidget(app, 240,192,addPage(i18n("PIP"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_pip", KIcon::Small, 15)));
+    QLabel *lab = new QLabel(i18n("Perform transition with: "), this);
+    trackPolicy = new KComboBox(this);
+    trackPolicy->insertItem(i18n("Automatic - Use next video track"));
+    trackPolicy->insertItem(i18n("Black - Use black video track"));
+
+    int trackNb = app->getDocument()->trackList().count();
+    uint ix = 1;
+    while (trackNb > 0) {
+	trackPolicy->insertItem(i18n("Track %1").arg(ix));
+	trackNb--;
+	ix++;
+    }
+    propertiesDialog = new KJanusWidget(this, name, KJanusWidget::IconList);
+    transitCrossfade = new transitionCrossfade_UI(propertiesDialog->addPage(i18n("Crossfade"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_down", KIcon::Small, 15)));
+
+    transitWipe = new transitionWipeWidget(propertiesDialog->addPage(i18n("Wipe"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_wiper", KIcon::Small, 15)));
+
+    transitPip = new transitionPipWidget(app, 240,192, propertiesDialog->addPage(i18n("PIP"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_pip", KIcon::Small, 15)));
 
     /*transitAudiofade = new transitionAudiofade_UI(addPage(i18n("Audio Fade"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_down", KIcon::Small, 15)));*/
-
+    m_container->addWidget(lab, 0, 0);
+    m_container->addWidget(trackPolicy, 0, 1);
+    m_container->addMultiCellWidget(propertiesDialog, 1, 1, 0, 1);
     setEnabled(false);
     adjustSize();
 }
@@ -62,6 +83,7 @@ TransitionDialog::~TransitionDialog()
     delete transitCrossfade;
     delete transitWipe;
     delete transitPip;
+    delete propertiesDialog;
 }
 
 bool TransitionDialog::isOnTrack(int ix)
@@ -94,26 +116,27 @@ void TransitionDialog::setTransition(Transition *transition)
 	setActivePage(transition->transitionType());
         setTransitionDirection(transition->invertTransition());
         setTransitionParameters(transition->transitionParameters());
+	trackPolicy->setCurrentItem(m_transition->transitionTrack());
         connectTransition();
 }
 
 
 void TransitionDialog::connectTransition()
 {
-   connect(this, SIGNAL( aboutToShowPage ( QWidget * )), this, SLOT(applyChanges()));
+   connect(propertiesDialog, SIGNAL( aboutToShowPage ( QWidget * )), this, SLOT(applyChanges()));
    connect(transitWipe, SIGNAL(applyChanges ()), this, SLOT(applyChanges()));
    connect(transitCrossfade->invertTransition, SIGNAL(released()), this, SLOT(applyChanges()));
-   
+   connect(trackPolicy, SIGNAL(activated(int)), this, SLOT(applyChanges()));
    connect(transitPip, SIGNAL(transitionChanged()), this, SLOT(applyChanges()));
 }
 
 void TransitionDialog::disconnectTransition()
 {
-    disconnect(this, SIGNAL( aboutToShowPage ( QWidget * )), this, SLOT(applyChanges()));
+    disconnect(propertiesDialog, SIGNAL( aboutToShowPage ( QWidget * )), this, SLOT(applyChanges()));
 
     disconnect(transitWipe, SIGNAL(applyChanges ()), this, SLOT(applyChanges()));
     disconnect(transitCrossfade->invertTransition, SIGNAL(released()), this, SLOT(applyChanges()));
-
+    disconnect(trackPolicy, SIGNAL(activated(int)), this, SLOT(applyChanges()));
     disconnect(transitPip, SIGNAL(transitionChanged()), this, SLOT(applyChanges()));
 }
 
@@ -138,6 +161,7 @@ void TransitionDialog::applyChanges()
 		m_transition->setTransitionType(selectedTransition());
         	m_transition->setTransitionParameters(transitionParameters());
 		m_transition->setTransitionDirection(transitionDirection());
+		m_transition->setTransitionTrack(trackPolicy->currentItem());
 		emit transitionChanged(true);
         }
 }
@@ -146,23 +170,23 @@ void TransitionDialog::setActivePage(const Transition::TRANSITIONTYPE &pageName)
 {
     switch (pageName) {
     case Transition::COMPOSITE_TRANSITION:
-	showPage(1);
+	propertiesDialog->showPage(1);
 	break;
     case Transition::PIP_TRANSITION:
-	showPage(2);
+	propertiesDialog->showPage(2);
 	break;
     case Transition::MIX_TRANSITION:
-	showPage(3);
+	propertiesDialog->showPage(3);
 	break;
     default:
-	showPage(0);
+	propertiesDialog->showPage(0);
 	break;
     }
 }
 
 Transition::TRANSITIONTYPE TransitionDialog::selectedTransition() 
 {
-    switch (activePageIndex()) {
+    switch (propertiesDialog->activePageIndex()) {
 	case 1: 
 	return Transition::COMPOSITE_TRANSITION;
 	break;
@@ -187,11 +211,11 @@ void TransitionDialog::setTransitionDirection(bool direc)
 
 void TransitionDialog::setTransitionParameters(const QMap < QString, QString > parameters)
 {
-    if (activePageIndex() == 1) {
+    if (propertiesDialog->activePageIndex() == 1) {
         transitWipe->rescaleImages->setChecked(parameters["distort"].toInt());
 	transitWipe->setParameters(parameters["geometry"]);
     }
-    else if (activePageIndex() == 2) {
+    else if (propertiesDialog->activePageIndex() == 2) {
         transitPip->setParameters(parameters["geometry"]);
         }
 }
@@ -199,8 +223,8 @@ void TransitionDialog::setTransitionParameters(const QMap < QString, QString > p
 bool TransitionDialog::transitionDirection()
 {
     bool result = false;
-    if (activePageIndex() == 0) result = transitCrossfade->invertTransition->isChecked();
-    else if (activePageIndex() == 1) result = transitWipe->invertTransition->isChecked();
+    if (propertiesDialog->activePageIndex() == 0) result = transitCrossfade->invertTransition->isChecked();
+    else if (propertiesDialog->activePageIndex() == 1) result = transitWipe->invertTransition->isChecked();
     //else if (activePageIndex() == 3) result = transitAudiofade->invertTransition->isChecked();
     //if (activePageIndex() == 2) result = transitPip->invertTransition->isChecked();
     return result;
@@ -210,17 +234,17 @@ bool TransitionDialog::transitionDirection()
 const QMap < QString, QString > TransitionDialog::transitionParameters() 
 {
     QMap < QString, QString > paramList;
-    if (activePageIndex() == 0) return paramList; // crossfade
-    if (activePageIndex() == 1) // wipe
+    if (propertiesDialog->activePageIndex() == 0) return paramList; // crossfade
+    if (propertiesDialog->activePageIndex() == 1) // wipe
     {
 	return transitWipe->parameters();
     }
-    else if (activePageIndex() == 2) // pip
+    else if (propertiesDialog->activePageIndex() == 2) // pip
     {
       paramList["geometry"] = transitPip->parameters();
       paramList["progressive"] = "1";
     }
-    else if (activePageIndex() == 3) // audio mix
+    else if (propertiesDialog->activePageIndex() == 3) // audio mix
     {
       paramList["start"] = "0";
       paramList["end"] = "1";

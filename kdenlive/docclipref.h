@@ -180,6 +180,7 @@ class DocClipRef:public QObject {
         /** Return the position of the track in MLT's playlist*/
     int playlistTrackNum() const;
     int playlistNextTrackNum() const;
+    int playlistOtherTrackNum(int num) const;
     
 	/** Returns the end of the clip on the track. A convenience function, equivalent
 	to trackStart() + cropDuration() */

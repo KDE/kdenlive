@@ -35,6 +35,7 @@ Transition::Transition(const DocClipRef * clipa, const DocClipRef * clipb)
 {
     m_invertTransition = false;
     m_singleClip = true;
+    m_transitionTrack = 0;
     m_secondClip = NULL;
     m_transitionType = LUMA_TRANSITION;
     m_transitionName = i18n("Crossfade");
@@ -98,6 +99,7 @@ Transition::Transition(const DocClipRef * clipa)
 {
     m_invertTransition = false;
     m_singleClip = true;
+    m_transitionTrack = 0;
     m_secondClip = NULL;
     m_transitionType = LUMA_TRANSITION;
     m_transitionName = i18n("Crossfade");
@@ -117,6 +119,7 @@ Transition::Transition(const DocClipRef * clipa, const GenTime &time)
 {
     m_invertTransition = false;
     m_singleClip = true;
+    m_transitionTrack = 0;
     m_secondClip = NULL;
     m_transitionType = LUMA_TRANSITION;
     m_transitionName = i18n("Crossfade");
@@ -142,6 +145,7 @@ Transition::Transition(const DocClipRef * clipa, const TRANSITIONTYPE & type, co
 {
     m_invertTransition = inverted;
     m_singleClip = true;
+    m_transitionTrack = 0;
     m_secondClip = NULL;
     m_transitionType = type;
     if (m_transitionType == COMPOSITE_TRANSITION) m_transitionName = i18n("Wipe");
@@ -180,7 +184,7 @@ Transition::Transition(const DocClipRef * clip, QDomElement transitionElement)
         m_secondClip = NULL;
 	m_transitionStart = GenTime (transitionElement.attribute("start", QString::null).toInt(),KdenliveSettings::defaultfps());
 	m_transitionDuration = GenTime(transitionElement.attribute("end", QString::null).toInt(),KdenliveSettings::defaultfps()) - m_transitionStart;
-
+	m_transitionTrack = transitionElement.attribute("transition_track", "0").toInt();
 	m_transitionStart = m_transitionStart - clip->trackStart();
 
         m_invertTransition = transitionElement.attribute("inverted", "0").toInt();
@@ -270,6 +274,16 @@ QPixmap Transition::transitionPixmap()
     else return KGlobal::iconLoader()->loadIcon("kdenlive_trans_pip", KIcon::Small, 15);
 }
 
+int Transition::transitionTrack()
+{
+    return m_transitionTrack;
+}
+
+void Transition::setTransitionTrack(int track)
+{
+    m_transitionTrack = track;
+}
+
 void Transition::setTransitionDirection(bool inv)
 {
     m_invertTransition = inv;
@@ -288,12 +302,9 @@ int Transition::transitionStartTrack()
 int Transition::transitionEndTrack()
 {
     if (!m_singleClip) return m_secondClip->playlistTrackNum();
-    // #Warning: Should point to the previous video track. Currently we substract by 2 
-    // because we don't want the audio track, but should find a better way to get the track number.
-    //else if (transitionStartTrack()>1) return m_referenceClip->trackNum()-2; 
-    //else 
-    return m_referenceClip->playlistNextTrackNum();
-    //return transitionStartTrack()-1;
+    if (m_transitionTrack == 0) return m_referenceClip->playlistNextTrackNum();
+    else if (m_transitionTrack == 1) return 0;
+    else return m_referenceClip->playlistOtherTrackNum(m_transitionTrack - 1);
 }
 
 GenTime Transition::transitionStartTime()
@@ -373,7 +384,8 @@ Transition *Transition::clone()
     if (m_singleClip || m_secondClip == 0)
         return new Transition::Transition(m_referenceClip);
     else
-        return new Transition::Transition(m_referenceClip, m_secondClip);
+        //return new Transition::Transition(m_referenceClip, m_secondClip);
+	return new Transition::Transition(m_referenceClip, this->toXML());
 }
 
 QDomElement Transition::toXML()
@@ -382,6 +394,7 @@ QDomElement Transition::toXML()
     QDomElement effect = doc.createElement("transition");
     effect.setAttribute("type", transitionType());
     effect.setAttribute("inverted", invertTransition());
+    effect.setAttribute("transition_track", m_transitionTrack);
     effect.setAttribute("start", transitionStartTime().frames(KdenliveSettings::defaultfps()));
     effect.setAttribute("end", transitionEndTime().frames(KdenliveSettings::defaultfps()));
     if (m_secondClip) {

@@ -516,6 +516,12 @@ int DocClipRef::playlistNextTrackNum() const
     return m_parentTrack->projectClip()->playlistNextVideoTrack(m_trackNum);
 }
 
+/** Returns the track number in MLT's playlist */
+int DocClipRef::playlistOtherTrackNum(int num) const
+{
+    return m_parentTrack->projectClip()->playlistTrackNum(num);
+}
+
 /** Returns the end of the clip on the track. A convenience function, equivalent
 to trackStart() + cropDuration() */
 GenTime DocClipRef::trackEnd() const
