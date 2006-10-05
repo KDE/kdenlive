@@ -1278,6 +1278,7 @@ namespace Gui {
 			}
 		}
 	}
+	QTimer::singleShot(500, m_timeline, SLOT(ensureCursorVisible()));
 	slotStatusMsg(i18n("Ready."));
     }
 
