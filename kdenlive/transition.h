@@ -77,10 +77,9 @@ class Transition {
     void setTransitionParameters(const QMap < QString, QString > parameters);
     void setTransitionDirection(bool inv);
     QPixmap transitionPixmap();
-    void setTransitionWipeDirection(QString direction);
-    
+
   private:
-    
+
     GenTime m_transitionStart;
     GenTime m_transitionDuration;
     QMap < QString, QString > m_transitionParameters;
@@ -104,8 +103,6 @@ class Transition {
     
     /** The 2nd clip to which the transition is attached */
     const DocClipRef *m_secondClip;
-
-    QString m_transitionWipeDirection;
 };
 
 #endif

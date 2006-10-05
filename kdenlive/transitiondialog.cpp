@@ -23,6 +23,7 @@
 #include <qlayout.h>
 #include <qslider.h>
 #include <qcheckbox.h>
+#include <qradiobutton.h>
 
 #include <kpushbutton.h>
 #include <kiconloader.h>
@@ -69,11 +70,23 @@ bool TransitionDialog::isOnTrack(int ix)
     return false;
 }
 
+void TransitionDialog::resetTransitionDialog()
+{
+    transitCrossfade->invertTransition->setChecked(false);
+    transitWipe->resetTransition();
+    transitPip->slider_transparency->setValue(0);
+    transitPip->slider_size->setValue(100);
+    transitPip->slider_x->setValue(0);
+    transitPip->slider_y->setValue(0);
+    transitPip->radio_start->setChecked(true);
+}
+
 void TransitionDialog::setTransition(Transition *transition)
 {
         disconnectTransition();
 	m_transition = transition;
         if (transition == 0) {
+	    resetTransitionDialog();
             setEnabled(false);
             return;
         }
@@ -185,7 +198,7 @@ void TransitionDialog::setTransitionParameters(const QMap < QString, QString > p
 
 bool TransitionDialog::transitionDirection()
 {
-    bool result = true;
+    bool result = false;
     if (activePageIndex() == 0) result = transitCrossfade->invertTransition->isChecked();
     else if (activePageIndex() == 1) result = transitWipe->invertTransition->isChecked();
     //else if (activePageIndex() == 3) result = transitAudiofade->invertTransition->isChecked();

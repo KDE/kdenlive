@@ -66,6 +66,7 @@ namespace Gui {
 	void applyChanges();
         void connectTransition();
         void disconnectTransition();
+	void resetTransitionDialog();
 
       private:
 	transitionCrossfade_UI *transitCrossfade;

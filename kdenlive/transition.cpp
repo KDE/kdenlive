@@ -38,7 +38,6 @@ Transition::Transition(const DocClipRef * clipa, const DocClipRef * clipb)
     m_secondClip = NULL;
     m_transitionType = LUMA_TRANSITION;
     m_transitionName = i18n("Crossfade");
-    m_transitionWipeDirection = "right";
 
     if (clipb) {
         // Transition is an automatic transition between 2 clips
@@ -102,7 +101,6 @@ Transition::Transition(const DocClipRef * clipa)
     m_secondClip = NULL;
     m_transitionType = LUMA_TRANSITION;
     m_transitionName = i18n("Crossfade");
-    m_transitionWipeDirection = "right";
 
         m_referenceClip = clipa;
         m_transitionStart = GenTime(0.0);
@@ -122,7 +120,6 @@ Transition::Transition(const DocClipRef * clipa, const GenTime &time)
     m_secondClip = NULL;
     m_transitionType = LUMA_TRANSITION;
     m_transitionName = i18n("Crossfade");
-    m_transitionWipeDirection = "right";
     
     // Default duration = 2.5 seconds
     GenTime defaultTransitionDuration = GenTime(2.5);
@@ -151,7 +148,6 @@ Transition::Transition(const DocClipRef * clipa, const TRANSITIONTYPE & type, co
     else if (m_transitionType == PIP_TRANSITION) m_transitionName = i18n("Pip");
     else if (m_transitionType == MIX_TRANSITION) m_transitionName = i18n("Audio Fade");
     else m_transitionName = i18n("Crossfade");
-    m_transitionWipeDirection = "right";
 
 
     GenTime duration = endTime - startTime;
@@ -262,11 +258,6 @@ bool Transition::invertTransition()
     return m_invertTransition;
 }
 
-void Transition::setTransitionWipeDirection(QString direction)
-{
-    m_transitionWipeDirection = direction;
-}
-
 QPixmap Transition::transitionPixmap()
 {
     if (m_transitionType == LUMA_TRANSITION) {
@@ -274,10 +265,7 @@ QPixmap Transition::transitionPixmap()
 	else return KGlobal::iconLoader()->loadIcon("kdenlive_trans_up", KIcon::Small, 15);
     }
     else if (m_transitionType == COMPOSITE_TRANSITION) {
-        if (m_transitionWipeDirection == "right") return KGlobal::iconLoader()->loadIcon("kdenlive_trans_wiper", KIcon::Small, 15);
-	else if (m_transitionWipeDirection == "left") return KGlobal::iconLoader()->loadIcon("kdenlive_trans_wipel", KIcon::Small, 15);
-	else if (m_transitionWipeDirection == "down") return KGlobal::iconLoader()->loadIcon("kdenlive_trans_wiped", KIcon::Small, 15);
-	else return KGlobal::iconLoader()->loadIcon("kdenlive_trans_wipeu", KIcon::Small, 15);
+         return KGlobal::iconLoader()->loadIcon("kdenlive_trans_wiper", KIcon::Small, 15);
     }
     else return KGlobal::iconLoader()->loadIcon("kdenlive_trans_pip", KIcon::Small, 15);
 }

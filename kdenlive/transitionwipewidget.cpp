@@ -93,7 +93,7 @@ QMap < QString, QString > transitionWipeWidget::parameters()
 	geom += "0%,100%";
 	break;
     }
-    geom += ":100%x100%:" + QString::number(m_startTransparency) + ";-1=";
+    geom += ":100%x100%:" + QString::number(100 - m_startTransparency) + ";-1=";
     switch (endTransition) {
 	case CENTER_TRANSITION:
 	geom += "0%,0%";
@@ -123,7 +123,7 @@ QMap < QString, QString > transitionWipeWidget::parameters()
 	geom += "0%,100%";
 	break;
     }
-    geom += ":100%x100%:" + QString::number(m_endTransparency);
+    geom += ":100%x100%:" + QString::number(100 - m_endTransparency);
     paramList["geometry"] = geom;
     paramList["progressive"] = "1";
     return paramList;
@@ -138,14 +138,14 @@ void transitionWipeWidget::setParameters(QString geom)
         if (geom2.right(4).contains(":",FALSE)!=0) { // Start transparency setting
             int pos = geom2.findRev(":");
             QString last = geom2.right(geom2.length() - pos -1);
-            m_startTransparency = last.toInt();
+            m_startTransparency = 100 - last.toInt();
         }
         kdDebug()<<"++ RESULT 1: "<<geom<<endl;
 
         if (geom.right(4).contains(":",FALSE)!=0) { // Ending transparency setting
             int pos = geom.findRev(":");
             QString last = geom.right(geom.length() - pos -1);
-            m_endTransparency = last.toInt();
+            m_endTransparency = 100 - last.toInt();
 	    geom.truncate(pos);
         }
 	kdDebug()<<"++ RESULT 2: "<<geom<<endl;
@@ -173,10 +173,22 @@ void transitionWipeWidget::setParameters(QString geom)
 	updateButtons();
 }
 
+void transitionWipeWidget::resetTransition()
+{
+    invertTransition->setChecked(false);
+    key_start->setChecked(true);
+    transitionC->setOn(true);
+    slider_transparency->setValue(0);
+    startTransition = CENTER_TRANSITION;
+    endTransition = CENTER_TRANSITION;
+    m_startTransparency = 0;
+    m_endTransparency = 0;
+}
+
 void transitionWipeWidget::updateTransparency(int transp)
 {
-    if (key_start->isChecked()) m_startTransparency = 100 - transp;
-    else m_endTransparency = 100 - transp;
+    if (key_start->isChecked()) m_startTransparency = transp;
+    else m_endTransparency = transp;
     emit applyChanges();
 }
 
@@ -203,11 +215,11 @@ void transitionWipeWidget::updateButtons()
     TRANSITIONWIPETYPE trans;
     if (key_start->isChecked()) {
 	trans = startTransition;
-	slider_transparency->setValue(100 - m_startTransparency);
+	slider_transparency->setValue(m_startTransparency);
     }
     else {
 	trans = endTransition;
-	slider_transparency->setValue(100 -m_endTransparency);
+	slider_transparency->setValue(m_endTransparency);
     }
 
     switch (trans) {

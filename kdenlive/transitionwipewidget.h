@@ -58,6 +58,7 @@ private slots:
 public slots:
         QMap < QString, QString > parameters();
         void setParameters(QString geom);
+	void resetTransition();
 
 signals:
         void applyChanges();
