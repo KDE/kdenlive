@@ -290,15 +290,20 @@ namespace Gui {
 	fitToWidth =
 	    KStdAction::fitToWidth(this, SLOT(slotFitToWidth()),
 	    actionCollection());
+	fitToWidth->setStatusText(i18n("Zoom to fit all project in window"));
 
-	(void) KStdAction::zoomIn(this, SLOT(slotZoomIn()),
+	KAction *zoomIn = KStdAction::zoomIn(this, SLOT(slotZoomIn()),
 	    actionCollection());
-	(void) KStdAction::zoomOut(this, SLOT(slotZoomOut()),
+	zoomIn->setStatusText(i18n("Zoom timeline"));
+
+	KAction *zoomOut = KStdAction::zoomOut(this, SLOT(slotZoomOut()),
 	    actionCollection());
-        
-        (void) new KAction(i18n("Restore Last Zoom"), 0, this,
+	zoomOut->setStatusText(i18n("Zoom out timeline"));
+
+        KAction *zoomRestore = new KAction(i18n("Restore Last Zoom"), 0, this,
         SLOT(slotRestoreZoom()), actionCollection(),
         "restore_zoom");
+	zoomRestore->setStatusText(i18n("Restore previous zoom state"));
 
 	timelineMoveTool =
 	    new KRadioAction(i18n("Move/Resize Tool"), "moveresize.png",
