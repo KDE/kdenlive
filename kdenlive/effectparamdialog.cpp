@@ -89,9 +89,7 @@ namespace Gui {
 	m_timeline->clearTrackList();
 
 	assert(m_desc);
-	kdDebug() << "FOUND: " << m_desc->
-	    numParameters() << " PARAMETERS FOR EFFECT: " << m_effect->
-	    name() << endl;
+	//kdDebug() << "FOUND: " << m_desc->numParameters() << " PARAMETERS FOR EFFECT: " << m_effect-> name() << endl;
 
 	for (uint count = 0; count < m_desc->numParameters(); ++count) {
 	    EffectParamDesc *paramDesc = m_desc->parameter(count);
