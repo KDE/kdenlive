@@ -89,7 +89,7 @@ namespace Gui {
 	// Display effect names
 	if (clip->hasEffect()) {
 	    QStringList effectNames = clip->clipEffectNames();
-	    QString selectedTxt = clip->selectedEffect()->name();
+	    QString selectedTxt = clip->selectedEffect()->name().upper();
 	    QFont orig = painter.font();
 	    QFont ft = orig;
 	    ft.setPixelSize(7);

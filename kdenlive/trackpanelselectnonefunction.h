@@ -19,8 +19,10 @@
 
 #include <trackpanelfunction.h>
 
+
 namespace Gui {
     class KTimeLine;
+
 }
 /**
 This function does nothing except call a "Select None" on the document. It is generally used as the last of a tracks functions, in order to clear the selection if no clip is there.
@@ -71,7 +73,8 @@ This function does nothing except call a "Select None" on the document. It is ge
   private:
      Gui::KdenliveApp * m_app;
      Gui::KTimeLine * m_timeline;
-    KdenliveDoc *m_doc;
+     KdenliveDoc *m_doc;
+     double m_fps;
 };
 
 #endif

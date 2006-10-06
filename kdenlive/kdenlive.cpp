@@ -2339,6 +2339,14 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	}
     }
 
+    void KdenliveApp::slotSeekTo(GenTime time) {
+	if (m_monitorManager.hasActiveMonitor()) {
+	    m_monitorManager.activeMonitor()->editPanel()->
+		seek(time);
+	    //m_timeline->ensureCursorVisible();
+	}
+    }
+
     void KdenliveApp::slotNextFrame() {
 	slotStatusMsg(i18n("Seeking Forwards one frame"));
 	if (m_monitorManager.hasActiveMonitor()) {

@@ -16,10 +16,11 @@
  ***************************************************************************/
 #include "trackpanelselectnonefunction.h"
 
+#include "kdenlivedoc.h"
 #include "kselectclipcommand.h"
 
 TrackPanelSelectNoneFunction::TrackPanelSelectNoneFunction(Gui::KdenliveApp * app, Gui::KTimeLine * timeline, KdenliveDoc * doc):
-TrackPanelFunction(), m_app(app), m_timeline(timeline), m_doc(doc)
+TrackPanelFunction(), m_app(app), m_timeline(timeline), m_doc(doc), m_fps(doc->framesPerSecond())
 {
 }
 
@@ -46,6 +47,7 @@ QCursor TrackPanelSelectNoneFunction::getMouseCursor(Gui::KTrackPanel *
 bool TrackPanelSelectNoneFunction::mousePressed(Gui::KTrackPanel * panel,
     QMouseEvent * event)
 {
+    m_app->slotSeekTo( GenTime(m_timeline->mapLocalToValue(event->x()), m_fps));
     return true;
 }
 
@@ -67,5 +69,6 @@ bool TrackPanelSelectNoneFunction::mouseReleased(Gui::KTrackPanel * panel,
 bool TrackPanelSelectNoneFunction::mouseMoved(Gui::KTrackPanel * panel,
     QMouseEvent * event)
 {
+    m_app->slotSeekTo( GenTime(m_timeline->mapLocalToValue(event->x()), m_fps));
     return true;
 }

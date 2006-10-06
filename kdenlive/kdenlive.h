@@ -289,6 +289,8 @@ namespace Gui {
         void slotNextSecond();
         /** Move the active monitor backwards one second */
         void slotLastSecond();
+        /** Move the active monitor to selected time */
+	void slotSeekTo(GenTime time);
 	/** Move to start / end of project */
 	void slotGotoStart();
 	void slotGotoEnd();
