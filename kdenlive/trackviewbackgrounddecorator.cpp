@@ -49,9 +49,10 @@ namespace Gui {
 	ex -= sx;
 
         QColor col = selected ? m_selected : m_unselected;
-
+	painter.setClipRect(rect);
 	// draw outline box
 	painter.fillRect(sx, rect.y(), ex, rect.height(), col);
+	painter.setClipping(false);
 
     }
 

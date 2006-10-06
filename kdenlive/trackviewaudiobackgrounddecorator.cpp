@@ -80,7 +80,8 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX,
 	if (channels==0)
 			channels=1;
 
-	painter.setClipRect(sx, y, ex - sx, h);
+	//painter.setClipRect(sx, y, ex - sx, h);
+	painter.setClipRect(rect);
 	if (!m_shift) {
 	    // Audio track
 	    painter.fillRect(sx, y, ex - sx, h, col);

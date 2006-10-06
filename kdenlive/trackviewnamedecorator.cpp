@@ -52,7 +52,7 @@ namespace Gui {
 	    ex = rect.x() + rect.width();
 	}
 
-	painter.setClipRect(sx, rect.y(), clipWidth , rect.height());
+	painter.setClipRect(sx, rect.y(), ex - sx , rect.height());
 	QString txt = clip->name();
 	if (clip->speed() != 1.0) txt.append(" (" + QString::number((int)(clip->speed() * 100)) + "%)");
 	// draw video name text
