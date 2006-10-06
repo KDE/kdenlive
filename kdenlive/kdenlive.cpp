@@ -339,9 +339,11 @@ namespace Gui {
 	    0, this, SLOT(slotTimelineSnapToMarker()), actionCollection(),
 	    "timeline_snap_marker");
 
-	(void) new KAction(i18n("Go To Start"), KStdAccel::home(), this, SLOT(slotGotoStart()), actionCollection(), "timeline_go_start");
+	KAction *gotoStart = new KAction(i18n("Go To Start"), KStdAccel::home(), this, SLOT(slotGotoStart()), actionCollection(), "timeline_go_start");
+	gotoStart->setStatusText(i18n("Move current position to zero"));
 
-	(void) new KAction(i18n("Go To End"), KStdAccel::end(), this, SLOT(slotGotoEnd()), actionCollection(), "timeline_go_end");
+	KAction *gotoEnd = new KAction(i18n("Go To End"), KStdAccel::end(), this, SLOT(slotGotoEnd()), actionCollection(), "timeline_go_end");
+	gotoEnd->setStatusText(i18n("Move current position the end of the project"));
 
 	projectAddClips =
 	    new KAction(i18n("Add Clips"), "addclips.png", 0, this,
@@ -434,18 +436,22 @@ namespace Gui {
                 new KAction(i18n("Forward one second"),
                             KShortcut(Qt::CTRL | Qt::Key_Right), this, SLOT(slotNextSecond()),
                             actionCollection(), "forward_second");
+	actionNextSecond->setStatusText(i18n("Move current position forward by one second"));
         actionLastSecond =
                 new KAction(i18n("Back one second"), KShortcut(Qt::CTRL | Qt::Key_Left),
                             this, SLOT(slotLastSecond()), actionCollection(),
                             "backward_second");
+	actionLastSecond->setStatusText(i18n("Move current position backwards by one second"));
 
-        (void) new KAction(i18n("Forward to next snap point"),
+        KAction *nextSnap = new KAction(i18n("Forward to next snap point"),
                             KShortcut(Qt::ALT | Qt::Key_Right), this, SLOT(slotNextSnap()),
                             actionCollection(), "forward_snap");
+	nextSnap->setStatusText(i18n("Move current position to the next snap point"));
 
-        (void) new KAction(i18n("Rewind to previous snap point"),
+        KAction *prevSnap = new KAction(i18n("Rewind to previous snap point"),
                             KShortcut(Qt::ALT | Qt::Key_Left), this, SLOT(slotPreviousSnap()),
                             actionCollection(), "backward_snap");
+	prevSnap->setStatusText(i18n("Move current position to the previous snap point"));
 
 	actionSetInpoint =
 	    new KAction(i18n("Set inpoint"), KShortcut(Qt::Key_I), this,
@@ -543,7 +549,7 @@ namespace Gui {
         KAction *addTrack = new KAction(i18n("Add Track"), 0, this,
         SLOT(slotAddTrack()), actionCollection(),
         "timeline_add_track");
-	addTrack->setStatusText(i18n("Delete a track"));
+	addTrack->setStatusText(i18n("Add a track"));
 
 	KAction *deleteTrack = new KAction(i18n("Delete Track"), 0, this,
         SLOT(slotDeleteTrack()), actionCollection(),
