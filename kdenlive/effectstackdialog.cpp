@@ -69,6 +69,8 @@ namespace Gui {
 	 m_switchButton->setIconSet(QIconSet(loader.loadIcon("button_ok",
 		    KIcon::Toolbar)));
 
+	m_switchButton->setToggleButton(true);
+
 	 QToolTip::add(m_upButton, i18n("Move effect up"));
 	 QToolTip::add(m_downButton, i18n("Move effect down"));
 	 QToolTip::add(m_resetButton,
@@ -153,6 +155,7 @@ namespace Gui {
     void EffectStackDialog::addParameters(DocClipRef * clip, Effect * effect) {
 	// Rebuild the effect parameters dialog
 	kdDebug()<<"++++++++++++  REBUILD PARAMETER DIALOG FOR CLIP: "<<clip->name()<<endl;
+	m_switchButton->setOn(!effect->isEnabled());
 	uint parameterNum = 0;
 	m_hasKeyFrames = false;
         if (!effect->parameter(parameterNum)) {
@@ -411,6 +414,7 @@ namespace Gui {
 	    selectedEffectIndex());
 	if (!effect) return;
 	effect->setEnabled(!effect->isEnabled());
+	m_switchButton->setOn(!effect->isEnabled());
 	m_effectList->checkCurrentItem(effect->isEnabled());
 	emit generateSceneList();
 	emit redrawTrack(clip->trackNum(), clip->trackStart(), clip->trackEnd());
@@ -652,7 +656,10 @@ namespace Gui {
 	disableButtons();
 	tabWidget2->setTabEnabled(tabWidget2->page(1), false);
 	m_effectList->setEffectStack(clip);
-	if (clip) emit redrawTrack(clip->trackNum(), clip->trackStart(), clip->trackEnd());
+	if (!clip) return;
+	Effect *effect = clip->effectAt(m_effectList->selectedEffectIndex());
+	if (effect) m_switchButton->setOn(!effect->isEnabled());
+	emit redrawTrack(clip->trackNum(), clip->trackStart(), clip->trackEnd());
     }
 
 }				// namespace Gui

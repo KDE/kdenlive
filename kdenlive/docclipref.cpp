@@ -832,7 +832,7 @@ QDomDocument DocClipRef::generateXMLTransition(bool hideVideo, bool hideAudio)
             transition.setAttribute("in", QString::number((*itt)->transitionStartTime().frames(framesPerSecond())));
             transition.setAttribute("out", QString::number((*itt)->transitionEndTime().frames(framesPerSecond()) - 1));
 
-            if ((*itt)->transitionType() == Transition::PIP_TRANSITION) transition.setAttribute("mlt_service", "composite");
+            if (type == Transition::PIP_TRANSITION) transition.setAttribute("mlt_service", "composite");
             else transition.setAttribute("mlt_service", (*itt)->transitionTag());
             transition.setAttribute("fill", "1");
             //transition.setAttribute("distort", "1");
@@ -848,7 +848,7 @@ QDomDocument DocClipRef::generateXMLTransition(bool hideVideo, bool hideAudio)
 
 	    /* The crossfade LUMA transition does not work on images/texts with transp. 
 	       background, so we replace it with a composite transition */
-	    if (transparentBackgroundClip && (*itt)->transitionType() == Transition::LUMA_TRANSITION) {
+	    if (transparentBackgroundClip && type == Transition::LUMA_TRANSITION) {
 		transition.setAttribute("mlt_service", "composite");
 		QString geom;
 		if (!(*itt)->invertTransition()) geom = "0=0,0:100%x100%:0;-1=0,0:100%x100%:100";
@@ -856,7 +856,7 @@ QDomDocument DocClipRef::generateXMLTransition(bool hideVideo, bool hideAudio)
 		transition.setAttribute("geometry", geom);
 	    }
 
-	    if ((*itt)->transitionType() == Transition::LUMA_TRANSITION || (*itt)->transitionType() == Transition::MIX_TRANSITION) {
+	    if (type == Transition::LUMA_TRANSITION || type == Transition::MIX_TRANSITION) {
                 transition.setAttribute("b_track", QString::number((*itt)->transitionStartTrack()));
                 transition.setAttribute("a_track", QString::number((*itt)->transitionEndTrack()));
 	        if ((*itt)->invertTransition()) transition.setAttribute("reverse", "1");
