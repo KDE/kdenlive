@@ -281,6 +281,8 @@ namespace Gui {
         void slotToggleForwards();
 		/** Play backwards (fast) */
         void slotToggleBackwards();
+		/** Loop selected zone */
+	void slotLoopPlay();
 	/** Move the active monitor next snap point */
 	void slotNextSnap();
 	/** Move the active monitor previous snap point */
@@ -411,18 +413,18 @@ namespace Gui {
 	void hideTimelineMenu();
 	QPoint mousePosition();
 
-	void deleteTrack();
-	void addTrack();
+	void slotDeleteTrack();
+	void slotAddTrack();
         
-	void deleteGuide();
-	void addGuide();
-	void editGuide();
+	void slotDeleteGuide();
+	void slotAddGuide();
+	void slotEditGuide();
 
         /** Add a transition between the 2 selected clips */
-        void addTransition();
+        void slotAddTransition();
         
         /** Delete the selected clip's transition */
-        void deleteTransition();
+        void slotDeleteTransition();
         void slotSplashTimeout();
         void slotExportCurrentFrame();
 	void slotViewSelectedClip();

@@ -109,10 +109,10 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
 	void setSliderValue(int id, int value);
 	/** Return the list of all timeline guides */
 	QValueList < int > timelineGuides();
-	void deleteGuide();
+	void slotDeleteGuide();
 	void clearGuides();
-	void editGuide(QString comment);
-	void addGuide(int time, QString comment);
+	void slotEditGuide(QString comment);
+	void slotAddGuide(int time, QString comment);
 	QStringList timelineRulerComments();
 	int currentGuideIndex();
 	int guidePosition(int ix);

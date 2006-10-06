@@ -239,8 +239,16 @@ namespace Gui {
     }
 
     void KdenliveApp::initActions() {
+
 	setStandardToolBarMenuEnabled(true);
 	createStandardStatusBarAction();
+
+	actionCollection()->setHighlightingEnabled(true);
+ 	connect(actionCollection(), SIGNAL( actionStatusText( const QString & ) ),
+           this, SLOT( slotStatusMsg( const QString & ) ) );
+ 	connect(actionCollection(), SIGNAL( clearStatusText() ),
+           statusBar(), SLOT( clear() ) );
+
 	fileNew =
 	    KStdAction::openNew(this, SLOT(slotFileNew()),
 	    actionCollection());
@@ -326,9 +334,6 @@ namespace Gui {
 	    0, this, SLOT(slotTimelineSnapToMarker()), actionCollection(),
 	    "timeline_snap_marker");
 
-	(void) new KAction(i18n("Play/Pause"), KShortcut(Qt::Key_K), this,
-	    SLOT(slotPlay()), actionCollection(), "play_clip");
-
 	(void) new KAction(i18n("Go To Start"), KStdAccel::home(), this, SLOT(slotGotoStart()), actionCollection(), "timeline_go_start");
 
 	(void) new KAction(i18n("Go To End"), KStdAccel::end(), this, SLOT(slotGotoEnd()), actionCollection(), "timeline_go_end");
@@ -387,20 +392,29 @@ namespace Gui {
 	actionTogglePlay =
 	    new KAction(i18n("Start/Stop"), KShortcut(Qt::Key_Space), this,
 	    SLOT(slotTogglePlay()), actionCollection(), "toggle_play");
+
 	actionTogglePlaySelected =
 	    new KAction(i18n("Play Selection"),
 	    KShortcut(Qt::Key_Space | Qt::CTRL), this,
 	    SLOT(slotTogglePlaySelected()), actionCollection(),
 	    "toggle_play_selection");
+	actionTogglePlaySelected->setStatusText(i18n("Play selected zone"));
 
-	(void) new KAction(i18n("Play/Pause"), KShortcut(Qt::Key_K), this,
+	KAction *playPause = new KAction(i18n("Play/Pause"), KShortcut(Qt::Key_K), this,
 	    SLOT(slotPlay()), actionCollection(), "play_clip");
+	playPause->setStatusText(i18n("Play or pause"));
 
-	(void) new KAction(i18n("Forward"), KShortcut(Qt::Key_L), this,
+	KAction *playFwd = new KAction(i18n("Play forward"), KShortcut(Qt::Key_L), this,
 	    SLOT(slotToggleForwards()), actionCollection(), "toggle_forwards");
+	playFwd->setStatusText(i18n("Fast forwards playing (press several times for faster playing)"));
 
-	(void) new KAction(i18n("Backward"), KShortcut(Qt::Key_J), this,
+	KAction *playBack = new KAction(i18n("Play backward"), KShortcut(Qt::Key_J), this,
 	    SLOT(slotToggleBackwards()), actionCollection(), "toggle_backwards");
+	playBack->setStatusText(i18n("Fast backwards playing (press several times for faster playing)"));
+
+	KAction *playLoop = new KAction(i18n("Loop selected zone"), 0, this,
+	    SLOT(slotLoopPlay()), actionCollection(), "play_loop");
+	playLoop->setStatusText(i18n("Play selected zone in loop"));
 
 
 	actionNextFrame =
@@ -412,7 +426,7 @@ namespace Gui {
 	    this, SLOT(slotLastFrame()), actionCollection(),
 	    "backward_frame");
         actionNextSecond =
-                new KAction(i18n("Forward 1 second"),
+                new KAction(i18n("Forward one second"),
                             KShortcut(Qt::CTRL | Qt::Key_Right), this, SLOT(slotNextSecond()),
                             actionCollection(), "forward_second");
         actionLastSecond =
@@ -426,7 +440,7 @@ namespace Gui {
 
         (void) new KAction(i18n("Rewind to previous snap point"),
                             KShortcut(Qt::ALT | Qt::Key_Left), this, SLOT(slotPreviousSnap()),
-                            actionCollection(), "rewind_snap");
+                            actionCollection(), "backward_snap");
 
 	actionSetInpoint =
 	    new KAction(i18n("Set inpoint"), KShortcut(Qt::Key_I), this,
@@ -496,46 +510,55 @@ namespace Gui {
 	    SLOT(slotRazorSelectedClips()), actionCollection(),
 	    "razor_selected_clips");
 
-	(void) new KAction(i18n("Create Folder"), "folder_new.png", 0, this,
+	KAction *addFolder = new KAction(i18n("Create Folder"), "folder_new.png", 0, this,
 	    SLOT(slotProjectAddFolder()), actionCollection(),
 	    "create_folder");
+	addFolder->setStatusText(i18n("Add a folder in project list"));
 
-	(void) new KAction(i18n("Rename Folder"), 0, this,
+	KAction *renameFolder = new KAction(i18n("Rename Folder"), 0, this,
 	    SLOT(slotProjectRenameFolder()), actionCollection(),
 	    "rename_folder");
+	renameFolder->setStatusText(i18n("Rename a folder in project list"));
 
-	(void) new KAction(i18n("Delete Folder"), "editdelete.png", 0, this,
+	KAction *deleteFolder = new KAction(i18n("Delete Folder"), "editdelete.png", 0, this,
 	    SLOT(slotProjectDeleteFolder()), actionCollection(),
 	    "delete_folder");
+	deleteFolder->setStatusText(i18n("Delete a folder from project list"));
 
-
-        (void) new KAction(i18n("Add Transition"), 0, this,
-        SLOT(addTransition()), actionCollection(),
+        KAction *addTransition = new KAction(i18n("Add Transition"), 0, this,
+        SLOT(slotAddTransition()), actionCollection(),
         "add_transition");
-        
-        (void) new KAction(i18n("Delete Transition"), 0, this,
-        SLOT(deleteTransition()), actionCollection(),
+	addTransition->setStatusText(i18n("Add a transition to selected clip"));
+
+        KAction *deleteTransition = new KAction(i18n("Delete Transition"), 0, this,
+        SLOT(slotDeleteTransition()), actionCollection(),
         "del_transition");
+	deleteTransition->setStatusText(i18n("Delete transition of selected clip"));
 
-        (void) new KAction(i18n("Add Track"), 0, this,
-        SLOT(addTrack()), actionCollection(),
+        KAction *addTrack = new KAction(i18n("Add Track"), 0, this,
+        SLOT(slotAddTrack()), actionCollection(),
         "timeline_add_track");
+	addTrack->setStatusText(i18n("Delete a track"));
 
-	(void) new KAction(i18n("Delete Track"), 0, this,
-        SLOT(deleteTrack()), actionCollection(),
+	KAction *deleteTrack = new KAction(i18n("Delete Track"), 0, this,
+        SLOT(slotDeleteTrack()), actionCollection(),
         "timeline_delete_track");
+	deleteTrack->setStatusText(i18n("Delete a track"));
 
-        (void) new KAction(i18n("Add Guide"), 0, this,
-        SLOT(addGuide()), actionCollection(),
+	KAction *addGuide = new KAction(i18n("Add Guide"), 0, this,
+        SLOT(slotAddGuide()), actionCollection(),
         "timeline_add_guide");
+	addGuide->setStatusText(i18n("Add a guide at timeline cursor position"));
 
-	(void) new KAction(i18n("Delete Guide"), 0, this,
-        SLOT(deleteGuide()), actionCollection(),
+	KAction *deleteGuide = new KAction(i18n("Delete Guide"), 0, this,
+        SLOT(slotDeleteGuide()), actionCollection(),
         "timeline_delete_guide");
+	deleteGuide->setStatusText(i18n("Delete the guide under timeline cursor"));
 
-	(void) new KAction(i18n("Edit Guide"), 0, this,
-        SLOT(editGuide()), actionCollection(),
+	KAction *editGuide = new KAction(i18n("Edit Guide"), 0, this,
+        SLOT(slotEditGuide()), actionCollection(),
         "timeline_edit_guide");
+	editGuide->setStatusText(i18n("Edit the guide under timeline cursor"));
 
         showClipMonitor = new KToggleAction(i18n("Clip Monitor"), 0, this,
 	    SLOT(slotToggleClipMonitor()), actionCollection(),
@@ -571,27 +594,30 @@ namespace Gui {
         (void) new KAction(i18n("Focus Project List"), 0, this,
 	    SLOT(slotFocusProjectList()), actionCollection(),
 	    "focus_project_list");
+
         (void) new KAction(i18n("Focus Transitions"), 0, this,
         SLOT(slotFocusTransitions()), actionCollection(),
         "focus_transitions");
 
-
-        (void) new KAction(i18n("Edit Clip"), 0, this,
+        KAction *editClip = new KAction(i18n("Edit Clip"), 0, this,
         SLOT(slotProjectEditClip()), actionCollection(),
         "edit_clip");
+	editClip->setStatusText(i18n("Edit the parent clip to change properties"));
         
-        (void) new KAction(i18n("Edit Parent Clip"), 0, this,
+        KAction *editParentClip = new KAction(i18n("Edit Parent Clip"), 0, this,
         SLOT(slotProjectEditParentClip()), actionCollection(),
         "project_edit_clip");
+	editParentClip->setStatusText(i18n("Edit the parent clip to change properties"));
         
-        (void) new KAction(i18n("Export Current Frame"), 0, this,
+        KAction *exportCurrentFrame = new KAction(i18n("Export Current Frame"), 0, this,
         SLOT(slotExportCurrentFrame()), actionCollection(),
         "export_current_frame");
+	exportCurrentFrame->setStatusText(i18n("Save current frame as image file"));
 
-        (void) new KAction(i18n("View Selected Clip"), 0, this,
+        KAction *viewSelectedClip = new KAction(i18n("View Selected Clip"), 0, this,
         SLOT(slotViewSelectedClip()), actionCollection(),
         "view_selected_clip");
-        
+        viewSelectedClip->setStatusText(i18n("Open selected clip in the clip monitor"));
         
 
 	timelineMoveTool->setExclusiveGroup("timeline_tools");
@@ -613,19 +639,19 @@ namespace Gui {
 	    ("Cuts the selected section and puts it to the clipboard"));
 	editCopy->
 	    setStatusText(i18n
-	    ("Copies the selected section to the clipboard"));
+	    ("Copies the selected clip to the clipboard"));
 	editPaste->
 	    setStatusText(i18n
 	    ("Pastes the clipboard contents to actual position"));
 	timelineMoveTool->
-	    setStatusText(i18n("Moves and resizes the document"));
+	    setStatusText(i18n("Moves and resizes clips"));
 	timelineRazorTool->
 	    setStatusText(i18n("Chops clips into two pieces"));
 	timelineSpacerTool->
 	    setStatusText(i18n("Shifts all clips to the right of mouse"));
 	timelineMarkerTool->
 	    setStatusText(i18n
-	    ("Place snap marks on clips and the timeline to aid accurate positioning of clips"));
+	    ("Place commented snap marks on clips (Ctrl + click to remove a marker)"));
 	timelineRollTool->
 	    setStatusText(i18n
 	    ("Move edit point between two selected clips"));
@@ -666,10 +692,10 @@ namespace Gui {
 	    ("Toggle a snap marker at the current monitor position"));
 	actionClearAllSnapMarkers->
 	    setStatusText(i18n
-	    ("Toggle a snap marker at the current monitor position"));
+	    ("Remove all snap markers from project"));
 	actionClearSnapMarkersFromSelected->
 	    setStatusText(i18n
-	    ("Toggle a snap marker at the current monitor position"));
+	    ("Remove snap markers from selected clips"));
 
 	renderExportTimeline->
 	    setStatusText(i18n("Render the timeline to a file"));
@@ -690,6 +716,7 @@ namespace Gui {
 	timelineSnapToBorder->setChecked(true);
 	timelineSnapToFrame->setChecked(true);
 	timelineSnapToMarker->setChecked(true);
+
     }
 
 
@@ -1136,7 +1163,8 @@ namespace Gui {
             // Show progress of an audio thumb
 	    int val = ((ProgressEvent *)e)->value();
 	    if (val == -1) {
-		m_statusBarProgress->setTotalSteps(m_statusBarProgress->totalSteps() + 100);		slotStatusMsg(i18n("Generating audio thumb"));
+		m_statusBarProgress->setTotalSteps(m_statusBarProgress->totalSteps() + 100);
+		slotStatusMsg(i18n("Generating audio thumb"));
 		m_statusBarProgress->show();
 	    }
 	    else {
@@ -1619,21 +1647,32 @@ namespace Gui {
 	}
     }
 
-    void KdenliveApp::deleteTrack()
+    void KdenliveApp::slotDeleteTrack()
     {
 	QPoint position = mousePosition();
-	int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(position).y())->documentTrackIndex();
+	int ix = 0;
+	KTrackPanel *panel = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(position).y());
+	if (!panel) {
+	    bool ok;
+	    ix = KInputDialog::getInteger(i18n("Delete Track"), i18n("Enter track number"), 0, 0, getDocument()->trackList().count() - 1, 1, 10, &ok);
+	    if (!ok) return;
+	}
+	else {
+	    ix = panel->documentTrackIndex();
+	}
 	if (KMessageBox::warningContinueCancel(this, i18n("Remove track %1 ?\nThis will remove all clips on that track.").arg(ix),i18n("Delete Track")) != KMessageBox::Continue) return;
 	//kdDebug()<<"+++++++++++++++++++++  ASK TRACK DELETION: "<<ix<<endl;
 	addCommand(Command::KAddRefClipCommand::deleteAllTrackClips(getDocument(), ix));
 	if (m_transitionPanel->isOnTrack(ix)) m_transitionPanel->setTransition(0); 
-	getDocument()->deleteTrack(ix);
+	getDocument()->slotDeleteTrack(ix);
     }
 
-    void KdenliveApp::addTrack()
+    void KdenliveApp::slotAddTrack()
     {
 	QPoint position = mousePosition();
-	int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(position).y())->documentTrackIndex();
+	int ix = 0;
+	KTrackPanel *panel = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(position).y());
+ 	if (panel) ix = panel->documentTrackIndex();
 	addTrackDialog_UI *addTrack = new addTrackDialog_UI(this);
 	addTrack->setCaption(i18n("Add Track"));
 	addTrack->trackNumber->setValue(ix);
@@ -1646,15 +1685,15 @@ namespace Gui {
 	}
     }
 
-    void KdenliveApp::deleteGuide()
+    void KdenliveApp::slotDeleteGuide()
     {
-	m_timeline->deleteGuide();
+	m_timeline->slotDeleteGuide();
 	if (m_exportWidget) m_exportWidget->updateGuides();
     }
 
-    void KdenliveApp::addGuide()
+    void KdenliveApp::slotAddGuide()
     {
-	m_timeline->addGuide();
+	m_timeline->slotAddGuide();
 	if (m_exportWidget) m_exportWidget->updateGuides();
     }	
 
@@ -1669,9 +1708,9 @@ namespace Gui {
     }
 
 
-    void KdenliveApp::editGuide()
+    void KdenliveApp::slotEditGuide()
     {
-	m_timeline->editGuide();
+	m_timeline->slotEditGuide();
 	if (m_exportWidget) m_exportWidget->updateGuides();
     }
 
@@ -1759,7 +1798,7 @@ namespace Gui {
     void KdenliveApp::slotStatusMsg(const QString & text) {
 	///////////////////////////////////////////////////////////////////
 	// change status message permanently
-	statusBar()->clear();
+	//statusBar()->clear();
 	statusBar()->changeItem(text, ID_STATUS_MSG);
     }
 
@@ -2330,6 +2369,14 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	}
     }
 
+    void KdenliveApp::slotLoopPlay() {
+	slotStatusMsg(i18n("Play Loop"));
+	if (m_monitorManager.hasActiveMonitor()) {
+	    m_monitorManager.activeMonitor()->editPanel()->loopSelected();
+	}
+    }
+
+
     void KdenliveApp::slotSeekTo(GenTime time) {
 	if (m_monitorManager.hasActiveMonitor()) {
 	    m_monitorManager.activeMonitor()->editPanel()->
@@ -2804,7 +2851,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     }
 
 
-    void KdenliveApp::addTransition() {
+    void KdenliveApp::slotAddTransition() {
         if (getDocument()->projectClip().hasSelectedClips() == 0) {
             KMessageBox::sorry(this, i18n("Please select a clip to apply transition"));
             return;
@@ -2820,7 +2867,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	getDocument()->indirectlyModified();
     }
     
-    void KdenliveApp::deleteTransition() {
+    void KdenliveApp::slotDeleteTransition() {
         if (getDocument()->projectClip().hasSelectedClips() == 0) {
             KMessageBox::sorry(this, i18n("Please select a clip to delete transition"));
             return;

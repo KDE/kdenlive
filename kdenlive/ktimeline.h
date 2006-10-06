@@ -259,10 +259,10 @@ namespace Command {
 	void slotScrollRight();
 	void slotScrollUp();
 	void slotScrollDown();
-	void deleteGuide();
-	void addGuide();
+	void slotDeleteGuide();
+	void slotAddGuide();
 	void insertSilentGuide(int frame, QString comment);
-	void editGuide();
+	void slotEditGuide();
         GenTime guideTime(int ix);
 
 	/** Set the number of frames per second */

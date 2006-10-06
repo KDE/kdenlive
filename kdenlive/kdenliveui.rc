@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kdenlive" version="7">
+<kpartgui name="kdenlive" version="11">
 <MenuBar>
   <Menu name="file">
         <Action name="export_current_frame"/>
@@ -31,22 +31,44 @@
 	<Action name="timeline_spacer_tool"/>
 	<Action name="timeline_marker_tool"/>
 	<Action name="timeline_roll_tool"/>
-	<Separator lineSeperator="true"/>	
-	<Action name="timeline_go_start"/>
-	<Action name="timeline_go_end"/>
+	<Separator lineSeperator="true"/>
+	<Menu name="goto"><text>Go To</text>
+		<Action name="timeline_go_start"/>
+		<Action name="timeline_go_end"/>
+		<Action name="forward_snap"/>
+		<Action name="backward_snap"/>
+		<Action name="forward_second"/>
+		<Action name="backward_second"/>
+		<Action name="forward_frame"/>
+		<Action name="backward_frame"/>
+	</Menu>
 	<Separator lineSeperator="true"/>	
 	<Action name="timeline_add_guide"/>
 	<Action name="timeline_edit_guide"/>
 	<Action name="timeline_delete_guide"/>
+	<Separator lineSeperator="true"/>	
+	<Action name="timeline_add_track"/>	
+	<Action name="timeline_delete_track"/>
 	<Separator lineSeperator="true"/>
 	<Action name="timeline_snap_frame"/>
 	<Action name="timeline_snap_border"/>
 	<Action name="timeline_snap_marker"/>
   </Menu>
-  <Menu name="Render"><text>&amp;Render</text>
+  
+  <Menu name="Monitor"><text>Monitor</text>
+	  <Action name="toggle_play"/>
+	  <Action name="toggle_play_selection"/>
+	  <Action name="play_loop"/>
+	  <Action name="play_clip"/>
+	  <Action name="toggle_forwards"/>
+	  <Action name="toggle_backwards"/>
+  </Menu>  
+  
+  <Menu name="Render"><text>Render</text>
   	<Action name="render_export_timeline"/>
   </Menu>
-  <Menu name="Layout"><text>&amp;Layout</text>
+  
+  <Menu name="Layout"><text>Layout</text>
   	<Action name="load_layout_1"/>
   	<Action name="load_layout_2"/>
   	<Action name="load_layout_3"/>
@@ -57,7 +79,7 @@
   	<Action name="save_layout_3"/>
   	<Action name="save_layout_4"/>
   </Menu>
-  <Menu name="Windows"><text>&amp;Windows</text>
+  <Menu name="Windows"><text>Windows</text>
 	  <Action name="toggle_clip_monitor"/>
 	  <Action name="toggle_workspace_monitor"/>
 	  <Action name="toggle_effect_list"/>

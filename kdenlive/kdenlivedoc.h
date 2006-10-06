@@ -223,7 +223,7 @@ class KdenliveDoc:public QObject {
     void addSoundTrack(int ix = -1);
 	/** Adds an empty video track to the project */
     void addVideoTrack(int ix = -1);
-    void deleteTrack(int ix);
+    void slotDeleteTrack(int ix);
 	/** Called when an error occurs whilst retrieving a file's properties. */
     void AVFilePropertiesError(const QString & path,
 	const QString & errmsg);

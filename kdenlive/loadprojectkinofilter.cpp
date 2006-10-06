@@ -48,7 +48,7 @@ bool LoadProjectKinoFilter::load(QFile & file, KdenliveDoc * document)
     QDomElement documentElement = doc.documentElement();
 
     DocClipProject *project = new DocClipProject(document->projectClip().framesPerSecond(), document->projectClip().videoWidth(), document->projectClip().videoHeight());
-    project->addTrack(new DocTrackVideo(project));
+    project->slotAddTrack(new DocTrackVideo(project));
 
     GenTime currentTrackTime = GenTime(0);
 

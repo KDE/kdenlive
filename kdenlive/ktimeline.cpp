@@ -630,7 +630,7 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
 	return GenTime(pos, m_framesPerSecond);
     }
 
-    void KTimeLine::addGuide() {
+    void KTimeLine::slotAddGuide() {
 	AddMarker_UI dlg;
 	Timecode tcode;
 	dlg.setCaption(i18n("Add Guide"));
@@ -639,21 +639,21 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
 	if (dlg.exec() == QDialog::Accepted) {
 	    QString dur = dlg.marker_position->text();
             int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * m_framesPerSecond + dur.section(":",3,3).toInt());
-	    m_ruler->addGuide(frames, dlg.marker_comment->text());
+	    m_ruler->slotAddGuide(frames, dlg.marker_comment->text());
 	    trackView()->invalidatePartialBackBuffer(frames - 7, frames + 7);
 	}
     }
 
-    void KTimeLine::deleteGuide() {
-	m_ruler->deleteGuide();
+    void KTimeLine::slotDeleteGuide() {
+	m_ruler->slotDeleteGuide();
 	trackView()->invalidatePartialBackBuffer(m_ruler->getSliderValue(0) - 2, m_ruler->getSliderValue(0) + 2);
     }
 
     void KTimeLine::insertSilentGuide(int frame, QString comment) {
-        m_ruler->addGuide(frame, comment);
+        m_ruler->slotAddGuide(frame, comment);
     }
 
-    void KTimeLine::editGuide() {
+    void KTimeLine::slotEditGuide() {
 	int ix = m_ruler->currentGuideIndex();
 	if (ix == -1) {
 	    kdDebug()<<" NO GUIDE FOUND UNDER TIMELINE POSITON"<<endl;
@@ -672,11 +672,11 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
             int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * m_framesPerSecond + dur.section(":",3,3).toInt());
 	    if (frames == m_ruler->getSliderValue(0)) {
 		// only comment has changed
-		m_ruler->editGuide(comment);
+		m_ruler->slotEditGuide(comment);
 	    }
 	    else {
-		m_ruler->deleteGuide();
-		m_ruler->addGuide(frames, dlg.marker_comment->text());
+		m_ruler->slotDeleteGuide();
+		m_ruler->slotAddGuide(frames, dlg.marker_comment->text());
 	    	trackView()->invalidatePartialBackBuffer(pos - 2, pos + 2);
 		trackView()->invalidatePartialBackBuffer(frames - 2, frames + 2);
 	    }

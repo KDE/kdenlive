@@ -158,19 +158,19 @@ double KdenliveDoc::framesPerSecond() const
 /** Adds an empty video track to the project */
 void KdenliveDoc::addVideoTrack(int ix)
 {
-    m_projectClip->addTrack(new DocTrackVideo(m_projectClip), ix);
+    m_projectClip->slotAddTrack(new DocTrackVideo(m_projectClip), ix);
 }
 
 /** Adds a sound track to the project */
 void KdenliveDoc::addSoundTrack(int ix)
 {
-    m_projectClip->addTrack(new DocTrackSound(m_projectClip), ix);
+    m_projectClip->slotAddTrack(new DocTrackSound(m_projectClip), ix);
 }
 
 /** Remove a track from the project */
-void KdenliveDoc::deleteTrack(int ix)
+void KdenliveDoc::slotDeleteTrack(int ix)
 {
-    m_projectClip->deleteTrack(ix);
+    m_projectClip->slotDeleteTrack(ix);
 }
 
 /** Returns the number of tracks in this project */

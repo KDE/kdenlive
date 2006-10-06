@@ -73,7 +73,7 @@ double DocClipProject::framesPerSecond() const
 }
 
 /** Adds a track to the project */
-void DocClipProject::addTrack(DocTrackBase * track, int ix)
+void DocClipProject::slotAddTrack(DocTrackBase * track, int ix)
 {
     if (ix != -1) {
 	// If we insert a track in th middle of a project, adjust the parent track for all clips below
@@ -97,7 +97,7 @@ void DocClipProject::addTrack(DocTrackBase * track, int ix)
     emit trackListChanged();
 }
 
-void DocClipProject::deleteTrack(int ix)
+void DocClipProject::slotDeleteTrack(int ix)
 {
     
     // If we delete a track in the middle of a project, adjust the parent track for all clips below

@@ -980,7 +980,7 @@ namespace Gui {
 	return m_guides;
     }
 
-   void KRuler::addGuide(int time, QString comment) {
+   void KRuler::slotAddGuide(int time, QString comment) {
 	uint ct = 0;
         QValueList < int >::Iterator it = m_guides.begin();
         for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
@@ -1004,7 +1004,7 @@ namespace Gui {
 	}
     }
 
-    void KRuler::deleteGuide() {
+    void KRuler::slotDeleteGuide() {
 	int localTime = (int) mapValueToLocal(getSliderValue(0));
 	uint ct = 0;
         QValueList < int >::Iterator it = m_guides.begin();
@@ -1032,7 +1032,7 @@ namespace Gui {
 	invalidateBackBuffer();
     }
 
-    void KRuler::editGuide(QString comment) {
+    void KRuler::slotEditGuide(QString comment) {
 	int localTime = (int) mapValueToLocal(getSliderValue(0));
 	uint ct = 0;
         QValueList < int >::Iterator it = m_guides.begin();

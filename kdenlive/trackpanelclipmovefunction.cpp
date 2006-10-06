@@ -527,6 +527,5 @@ KMacroCommand *TrackPanelClipMoveFunction::createAddClipsCommand()
 	    ++itt;
 	}
     }
-
     return macroCommand;
 }
