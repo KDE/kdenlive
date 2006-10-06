@@ -172,9 +172,7 @@ namespace Gui {
 	// remove all previous params
 	cleanWidgets();
 
-	//QVBox *container = new QVBox(m_parameter, "container");
-
-	m_container = new QGrid(2, Qt::Horizontal, m_parameter, "container");
+	m_container = new QGrid(3, Qt::Horizontal, m_parameter, "container");
 	m_container->setSpacing(5);
 	m_container->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum));
 
@@ -192,15 +190,23 @@ namespace Gui {
 		  (void) new QLabel(effect->effectDescription().parameter(parameterNum)->description(), m_container);
 		  QString widgetName = QString("param");
 		  widgetName.append(QString::number(parameterNum));
+		  QSlider *sliderParam = new QSlider(Qt::Horizontal, m_container);
+		  sliderParam->setRange(minValue, maxValue);
 		  QSpinBox *spinParam = new QSpinBox(m_container, widgetName.ascii());
 		  spinParam->setMaxValue(maxValue);
 		  spinParam->setMinValue(minValue);
+		connect(sliderParam, SIGNAL(valueChanged(int)), spinParam,
+		    SLOT(setValue(int)));
+		connect(spinParam, SIGNAL(valueChanged(int)), sliderParam,
+		    SLOT(setValue(int)));
 		  spinParam->setValue(effect->effectDescription().parameter(parameterNum)->value().toInt());
 		  connect(spinParam, SIGNAL(valueChanged(int)), this, SLOT(parameterChanged()));
                 }
 	    }
             else if (m_effecttype == "bool") {
 		  (void) new QLabel(effect->effectDescription().parameter(parameterNum)->description(), m_container);
+		  //#HACK: Grid has 3 columns, so insert empty widget in the middle when line only has 2 widgets
+		  (void) new QWidget(m_container);
 		  QString widgetName = QString("param");
 		  widgetName.append(QString::number(parameterNum));
 		  QCheckBox *checkParam = new QCheckBox(m_container, widgetName.ascii());
@@ -218,6 +224,8 @@ namespace Gui {
 		  // build combobox
 
 		  (void) new QLabel(effect->effectDescription().parameter(parameterNum)->description(), m_container);
+		  //#HACK: Grid has 3 columns, so insert empty widget in the middle when line only has 2 widgets 
+		  (void) new QWidget(m_container);
 		  QString widgetName = QString("param");
 		  widgetName.append(QString::number(parameterNum));
 		  KComboBox *comboParam = new KComboBox(m_container, widgetName.ascii());
