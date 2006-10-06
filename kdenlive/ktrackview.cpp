@@ -132,11 +132,8 @@ namespace Gui {
             ++itt;
         }
         m_bufferDrawList.clear();
-        
-	/*if (m_bufferInvalid) {
-	    drawBackBuffer();
-	    m_bufferInvalid = false;
-        }*/
+	m_startTrack = -1;
+	m_endTrack = -1;
 
         QPainter painter(this);
 	painter.drawPixmap(event->rect().x(), event->rect().y(),
@@ -280,16 +277,28 @@ namespace Gui {
 
 /** Invalidate the back buffer, alerting the trackview that it should redraw itself. */
     void KTrackView::invalidateBackBuffer(int startTrack, int endTrack) {
-	m_startTrack = startTrack;
-	m_endTrack = endTrack;
+	if (m_startTrack == -1) {
+	    m_startTrack = startTrack;
+	    m_endTrack = endTrack;
+	}
+	else {
+	    m_startTrack= startTrack < m_startTrack ? startTrack : m_startTrack;
+	    m_endTrack= endTrack > m_endTrack ? endTrack : m_endTrack;
+	}
         m_bufferDrawList.addRange(0, width());
 	m_bufferInvalid = true;
 	update();
     }
 
 void KTrackView::invalidatePartialBackBuffer(int pos1, int pos2, int startTrack, int endTrack) {
-   m_startTrack = startTrack;
-   m_endTrack = endTrack;
+    if (m_startTrack == -1) {
+	m_startTrack = startTrack;
+	m_endTrack = endTrack;
+    }
+    else {
+	m_startTrack= startTrack < m_startTrack ? startTrack : m_startTrack;
+	m_endTrack= endTrack > m_endTrack ? endTrack : m_endTrack;
+    }
    pos1 = (int) m_timeline.mapValueToLocal(pos1);
    pos2 = (int) m_timeline.mapValueToLocal(pos2);
    if (pos1 < pos2) {

@@ -1231,7 +1231,6 @@ void DocClipRef::addSnapMarker(const GenTime & time, QString comment, bool notif
     } else {
 	CommentedTime t(time, comment);
 	m_snapMarkers.insert(it, t);
-
 	if (notify) m_parentTrack->notifyClipChanged(this);
     }
 

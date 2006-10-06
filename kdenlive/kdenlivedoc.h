@@ -252,7 +252,7 @@ class KdenliveDoc:public QObject {
 	/** Generates a list of all different clips in mlt's xml format*/
     void generateProducersList();
 	/** Emitted when a particular clip has changed in someway. E.g, it has recieved it's duration. */
-    void clipChanged(DocClipBase * file);
+    void slotClipChanged(DocClipBase * file);
 	/** Emitted when a particular clip has been modified. */
     void fixClipDuration(DocClipBase * file);
 
@@ -275,7 +275,8 @@ class KdenliveDoc:public QObject {
     void documentChanged();
 	/** Also emitted when the document has changed in some way, fires off the project clip with it */
     void documentChanged(DocClipBase *);
-
+	/** Emitted when a clip was added /removed in timeline and reference number needs update*/
+    void clipReferenceChanged();
 	/** Emitted whenever a clip gets selected. */
     void signalClipSelected(DocClipRef *);
     void signalOpenClip(DocClipRef *);

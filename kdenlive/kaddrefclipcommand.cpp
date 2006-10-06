@@ -66,7 +66,7 @@ namespace Command {
 	DocClipRef *clip =
 	    DocClipRef::createClip(m_effectList, m_clipManager,
 	    m_xmlClip.documentElement());
-        //if (clip->hasVariableThumbnails()) clip->generateThumbnails();
+
         clip->referencedClip()->addReference();
 	m_project->track(clip->trackNum())->addClip(clip, true);
         m_project->slotClipReferenceChanged();

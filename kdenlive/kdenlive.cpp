@@ -887,7 +887,7 @@ namespace Gui {
 	connect(m_effectStackDialog, SIGNAL(redrawTrack(int, GenTime, GenTime)), m_timeline,
 	    SLOT(drawPartialTrack(int, GenTime, GenTime)));
         
-        connect(&(getDocument()->projectClip()), SIGNAL(clipReferenceChanged()), this,
+        connect(getDocument(), SIGNAL(clipReferenceChanged()), this,
                 SLOT(clipReferenceChanged()));
 
 	connect(getDocument(), SIGNAL(clipListUpdated()), m_projectList,
@@ -923,8 +923,6 @@ namespace Gui {
 	connect(getDocument(), SIGNAL(trackListChanged()), this,
 	    SLOT(slotSyncTimeLineWithDocument()));
 	
-        /*connect(getDocument(), SIGNAL(clipChanged(DocClipRef *)),
-	    m_timeline, SLOT(drawTrackViewBackBuffer()));*/
         connect(getDocument(), SIGNAL(clipChanged(DocClipRef *)),
 	    this, SLOT(refreshClipTrack(DocClipRef *)));
         
@@ -936,8 +934,6 @@ namespace Gui {
 	    SLOT(activateClipMonitor()));
 	connect(m_projectList, SIGNAL(clipSelected(DocClipRef *)), this,
 	    SLOT(slotSetClipMonitorSource(DocClipRef *)));
-	/*connect(m_projectList, SIGNAL(clipSelected(DocClipRef *)), this,
-	    SLOT(slotProjectClipProperties(DocClipRef *)));*/
 
 	connect(m_projectList, SIGNAL(dragDropOccured(QDropEvent *, QListViewItem *)), this,
 	    SLOT(slot_insertClips(QDropEvent *, QListViewItem *)));
@@ -972,11 +968,6 @@ namespace Gui {
 
 	connect(m_timeline, SIGNAL(rulerRightButtonPressed()), this,
 	    SLOT(slotDisplayRulerContextMenu()));
-
-	/*connect(m_effectListDialog,
-	    SIGNAL(effectSelected(const EffectDesc &)),
-	    m_effectParamDialog,
-        SLOT(slotSetEffectDescription(const EffectDesc &)));*/
 
 	m_timeline->trackView()->clearFunctions();
 
@@ -2454,7 +2445,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     }
     
     void KdenliveApp::clipReferenceChanged() {
-        m_projectList->updateReference();
+        m_projectList->refresh();
     }
 
 /** Returns the render manager. */
@@ -2702,7 +2693,6 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	populateClearSnapMarkers(macroCommand, clip, true);
 
 	addCommand(macroCommand, true);
-
 	slotStatusMsg(i18n("Ready."));
     }
 
@@ -2730,17 +2720,15 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		itt(clip.track(track)->firstClip(selectedClips));
 
 	    while (itt.current()) {
-		QValueVector < GenTime > times =
-		    itt.current()->snapMarkers();
-
-		for (QValueVector < GenTime >::iterator timeItt =
-		    times.begin(); timeItt != times.end(); ++timeItt) {
+	    QValueVector < CommentedTime > markers = itt.current()->commentedSnapMarkers();
+		QValueVector < CommentedTime >::iterator markerItt = markers.begin();
+		while (markerItt != markers.end()) {
 		    Command::KAddMarkerCommand * command =
 			new Command::KAddMarkerCommand(*getDocument(),
-			itt.current(), *timeItt, false);
+			itt.current(), (*markerItt).time(), (*markerItt).comment(), false);
 		    macroCommand->addCommand(command);
+		    ++markerItt;
 		}
-
 		++itt;
 	    }
 	}
@@ -2881,6 +2869,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
 
 	while (trackItt.current()) {
+	    disconnect(trackItt.current(), SIGNAL(redrawSection(int, GenTime, GenTime)), m_timeline,
+	    SLOT(drawPartialTrack(int, GenTime, GenTime)));
 	    disconnect(trackItt.current(), SIGNAL(clipLayoutChanged(int)),
 		m_timeline, SLOT(drawCurrentTrack(int)));
 	    disconnect(trackItt.current(), SIGNAL(clipSelectionChanged()),
@@ -2912,7 +2902,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    } else {
 		kdWarning() << "Sync failed" << endl;
 	    }
-
+	    connect(trackItt.current(), SIGNAL(redrawSection(int, GenTime, GenTime)), m_timeline,
+	    SLOT(drawPartialTrack(int, GenTime, GenTime)));
             connect(trackItt.current(), SIGNAL(clipLayoutChanged(int)),
                     m_timeline, SLOT(drawCurrentTrack(int)));
             connect(trackItt.current(), SIGNAL(clipSelectionChanged()),

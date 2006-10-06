@@ -56,7 +56,7 @@ m_clipHierarch(0), m_render(app->renderManager()->findRenderer("Document")), m_c
     connect(this, SIGNAL(trackListChanged()), this, SLOT(hasBeenModified()));
 
     connect(&m_clipManager, SIGNAL(clipListUpdated()), this, SLOT(generateProducersList()));
-    connect(&m_clipManager, SIGNAL(clipChanged(DocClipBase *)), this, SLOT(clipChanged(DocClipBase *)));
+    connect(&m_clipManager, SIGNAL(clipChanged(DocClipBase *)), this, SLOT(slotClipChanged(DocClipBase *)));
     connect(&m_clipManager, SIGNAL(updateClipThumbnails(DocClipBase *)), this, SLOT(slotUpdateClipThumbnails(DocClipBase *)));
     connect(&m_clipManager, SIGNAL(fixClipDuration(DocClipBase *)), this, SLOT(fixClipDuration(DocClipBase *)));
 
@@ -296,8 +296,6 @@ void KdenliveDoc::connectProjectClip()
 	SIGNAL(signalClipSelected(DocClipRef *)));
     connect(m_projectClip, SIGNAL(signalOpenClip(DocClipRef *)), this,
 	SIGNAL(signalOpenClip(DocClipRef *)));
-    connect(m_projectClip, SIGNAL(clipChanged(DocClipRef *)), this,
-	SIGNAL(clipChanged(DocClipRef *)));
     connect(m_projectClip, SIGNAL(effectStackChanged(DocClipRef *)), this,
 	SIGNAL(effectStackChanged(DocClipRef *)));
     connect(m_projectClip, SIGNAL(projectLengthChanged(const GenTime &)),
@@ -307,6 +305,9 @@ void KdenliveDoc::connectProjectClip()
     
     connect(m_projectClip, SIGNAL(deletedClipTransition()),
             this, SLOT(slotDeleteClipTransition()));
+
+    connect(m_projectClip, SIGNAL(clipReferenceChanged()),
+            this, SIGNAL(clipReferenceChanged()));
 
 // Commented out following line, causes multiple unnecessary refreshes - jbm, 26/12/05 
     connect(m_projectClip, SIGNAL(clipLayoutChanged()), this, SLOT(hasBeenModified()));
@@ -490,7 +491,7 @@ void KdenliveDoc::fixClipDuration(DocClipBase * file)
 }
 
 
-void KdenliveDoc::clipChanged(DocClipBase * file)
+void KdenliveDoc::slotClipChanged(DocClipBase * file)
 {
     DocumentBaseNode *node = findClipNode(file->name());
     if (node) {
@@ -588,6 +589,7 @@ QValueVector < GenTime > KdenliveDoc::getSnapTimes(bool includeClipEnds,
 		if (includeClipEnds) {
 		    list.append(clipItt.current()->trackStart());
 		    list.append(clipItt.current()->trackEnd());
+		    
 		}
 
 		if (includeSnapMarkers) {

@@ -84,7 +84,7 @@ bool DocTrackBase::addClip(DocClipRef * clip, bool selected)
 	    m_unselectedClipList.inSort(clip);
 	}
 	clip->setParentTrack(this, m_project->trackIndex(this));
-	emit clipLayoutChanged(clip->trackNum());
+	emit redrawSection(clip->trackNum(), clip->trackStart(), clip->trackEnd());
 	result = true;
     }
 
@@ -227,7 +227,7 @@ bool DocTrackBase::removeClip(DocClipRef * clip)
     }
 
     if (result) {
-	emit clipLayoutChanged(clip->trackNum());
+	emit redrawSection(clip->trackNum(), clip->trackStart(), clip->trackEnd());
 	checkTrackLength();
     }
 
@@ -263,7 +263,7 @@ void DocTrackBase::clipMoved(DocClipRef * clip)
 
     list->take(pos);
     list->inSort(clip);
-    emit clipLayoutChanged(clip->trackNum());
+    emit redrawSection(clip->trackNum(), clip->trackStart(), clip->trackEnd());
     checkTrackLength();
 }
 
@@ -686,7 +686,7 @@ bool DocTrackBase::matchesXML(const QDomElement & element) const
 
 void DocTrackBase::notifyClipChanged(DocClipRef * clip)
 {
-    emit clipChanged(clip);
+    emit redrawSection(clip->trackNum(), clip->trackStart(), clip->trackEnd());
     //checkTrackLength();
 }
 
@@ -733,7 +733,7 @@ void DocTrackBase::addEffectToClip(const GenTime & position,
 
 	clip->addEffect(effectIndex, effect);
 	emit effectStackChanged(clip);
-	emit clipLayoutChanged(clip->trackNum());
+	emit redrawSection(clip->trackNum(), clip->trackStart(), clip->trackEnd());
     } else {
 	kdError() <<
 	    "DocTrackBase::addEffectToClip() - cannot find clip at position "
@@ -748,7 +748,6 @@ void DocTrackBase::deleteEffectFromClip(const GenTime & position,
     if (clip) {
 	clip->deleteEffect(effectIndex);
 	emit effectStackChanged(clip);
-	//emit clipLayoutChanged(clip->trackNum());
     } else {
 	kdError() <<
 	    "DocTrackBase::deleteEffectFromClip() - cannot find clip at position "

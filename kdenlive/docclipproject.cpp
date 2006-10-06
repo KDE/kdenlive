@@ -130,8 +130,6 @@ void DocClipProject::connectTrack(DocTrackBase * track)
 	SIGNAL(signalClipSelected(DocClipRef *)));
     connect(track, SIGNAL(signalOpenClip(DocClipRef *)), this,
 	SIGNAL(signalOpenClip(DocClipRef *)));
-    connect(track, SIGNAL(clipChanged(DocClipRef *)), this,
-	SIGNAL(clipChanged(DocClipRef *)));
     connect(track, SIGNAL(trackLengthChanged(const GenTime &)), this,
 	SLOT(slotCheckProjectLength()));
     connect(track, SIGNAL(effectStackChanged(DocClipRef *)), this,
@@ -661,12 +659,8 @@ int DocClipProject::hasSelectedClips()
     for (uint count = 0; count < numTracks(); ++count) {
 	result += m_tracks.at(count)->hasSelectedClips();
     }
-
     return result;
 }
-
-
-
 
 DocClipRef *DocClipProject::selectedClip()
 {

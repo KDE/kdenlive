@@ -182,12 +182,13 @@ For internal use only, when the class Knows Better (TM) */
 	/** Emitted whenever a clip becomes selected. */
     void signalClipSelected(DocClipRef *);
     void signalOpenClip(DocClipRef *);
-	/** Emitted whenever a clip changes in some way, for example, gains or loses snapMarkers. */
-    void clipChanged(DocClipRef *);
 	/** Emitted if the length of the track changes. */
     void trackLengthChanged(const GenTime &);
 	/** Emitted when the specified clips effectStack changes. */
     void effectStackChanged(DocClipRef *);
+	/** Emitted when a clip needs to be repainted */
+    void redrawSection(int, GenTime, GenTime);
+
   protected:			// Protected attributes
 	/** Contains a list of all of the unselected clips within this track. */
      DocClipRefList m_unselectedClipList;

@@ -166,8 +166,13 @@ namespace Gui {
     void ProjectList::slot_clipChanged(DocClipRef * ) {
         slot_clipChanged();
     }
+
+    void ProjectList::refresh() {
+	m_listView->triggerUpdate();
+    }
         
     void ProjectList::slot_clipChanged() {
+	kdDebug()<<"+ + + reftresh PROJECT CLIP LIST"<<endl;
 	slot_UpdateList();
 	m_listView->triggerUpdate();
     }
@@ -248,15 +253,6 @@ namespace Gui {
 	}*/
     }
     
-    void ProjectList::updateReference() {
-        const AVListViewItem *avitem =
-                (AVListViewItem *) m_listView->currentItem();
-        if (!avitem)
-            return;
-        if (avitem->clip()) {
-//            text_usage->setText(QString::number(avitem->clip()->numReferences()));
-        }
-    }
 
     DocClipRef *ProjectList::currentSelection() {
 	const AVListViewItem *avitem =

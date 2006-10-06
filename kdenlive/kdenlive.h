@@ -382,7 +382,6 @@ namespace Gui {
 	/** Returns the timeline's out point */
 	GenTime outpointPosition() const;
 	void setOutpointPosition(const GenTime out);
-
 	void focusTimelineWidget();
 
 	/** Returns the effect list. */

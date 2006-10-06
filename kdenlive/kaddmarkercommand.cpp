@@ -71,7 +71,7 @@ namespace Command {
 	if (track) {
 	    DocClipRef *clip = track->getClipAt(m_trackTime);
 	    if (clip) {
-		clip->addSnapMarker(m_clipTime, m_comment);
+		clip->addSnapMarker(m_clipTime, m_comment, true);
 	    } else {
 		kdError() <<
 		    "Trying to add marker; no clip exists at this point on the track!"
@@ -87,7 +87,6 @@ namespace Command {
 
     void KAddMarkerCommand::deleteMarker() {
 	DocTrackBase *track = m_document.projectClip().track(m_track);
-
 	if (track) {
 	    DocClipRef *clip = track->getClipAt(m_trackTime);
 	    if (clip) {
