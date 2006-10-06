@@ -328,6 +328,7 @@ class DocClipRef:public QObject {
 	void setSpeed(double speed);
 	double speed() const;
 	void refreshCurrentTrack();
+	QValueVector < GenTime > transitionSnaps();
 
   private slots:
         /** Fetch the thumbnail for the clip start */

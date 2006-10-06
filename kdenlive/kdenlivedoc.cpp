@@ -589,7 +589,10 @@ QValueVector < GenTime > KdenliveDoc::getSnapTimes(bool includeClipEnds,
 		if (includeClipEnds) {
 		    list.append(clipItt.current()->trackStart());
 		    list.append(clipItt.current()->trackEnd());
-		    
+		    QValueVector < GenTime >::iterator it;
+		    QValueVector < GenTime > transList = clipItt.current()->transitionSnaps();
+		    for( it = transList.begin(); it != transList.end(); ++it )
+            		list.append(*it);
 		}
 
 		if (includeSnapMarkers) {
@@ -611,6 +614,10 @@ QValueVector < GenTime > KdenliveDoc::getSnapTimes(bool includeClipEnds,
 		if (includeClipEnds) {
 		    list.append(clipItt.current()->trackStart());
 		    list.append(clipItt.current()->trackEnd());
+		    QValueVector < GenTime >::iterator it;
+		    QValueVector < GenTime > transList = clipItt.current()->transitionSnaps();
+		    for( it = transList.begin(); it != transList.end(); ++it )
+            		list.append(*it);
 		}
 
 		if (includeSnapMarkers) {

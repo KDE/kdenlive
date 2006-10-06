@@ -1252,6 +1252,18 @@ void DocClipRef::editSnapMarker(const GenTime & time, QString comment)
 
 }
 
+QValueVector < GenTime > DocClipRef::transitionSnaps()
+{
+    QValueVector < GenTime > tranList;
+    TransitionStack::iterator itt = m_transitionStack.begin();
+    while (itt) {
+        tranList.append((*itt)->transitionStartTime());
+	tranList.append((*itt)->transitionEndTime());
+        ++itt;
+    }
+    return tranList;
+}
+
 void DocClipRef::deleteSnapMarker(const GenTime & time)
 {
     QValueVector < CommentedTime >::Iterator itt = m_snapMarkers.begin();
@@ -1436,14 +1448,7 @@ void DocClipRef::deleteTransition(QDomElement transitionXml)
 	m_transitionStack.remove(i);
 	}
     }
-    /*TransitionStack::iterator itt = m_transitionStack.begin();
-    while (itt) {
-        if ((*itt)->toXML().attribute("start") == transitionXml.attribute("start") && (*itt)->toXML().attribute("end") == transitionXml.attribute("end")) {
-            if (!m_transitionStack.remove(*itt)) kdDebug()<<"*+*+*+*+*+*+* ERROR REMOVE *+*+*"<<endl;
-            break;
-        }
-        ++itt;
-    */
+
     if (m_parentTrack) m_parentTrack->notifyClipChanged(this);
 }
 
