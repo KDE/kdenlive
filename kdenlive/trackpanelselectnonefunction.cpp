@@ -70,5 +70,6 @@ bool TrackPanelSelectNoneFunction::mouseMoved(Gui::KTrackPanel * panel,
     QMouseEvent * event)
 {
     m_app->slotSeekTo( GenTime(m_timeline->mapLocalToValue(event->x()), m_fps));
+    m_timeline->checkScrolling(event->pos());
     return true;
 }
