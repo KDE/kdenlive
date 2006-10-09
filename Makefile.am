@@ -1,6 +1,6 @@
 ####### kdevelop will overwrite this part!!! (begin)##########
 
-SUBDIRS = kdenlive po doc icons graphics profiles
+SUBDIRS = kdenlive po doc icons graphics profiles pgm
 
 EXTRA_DIST = kdenlive.kdevprj admin AUTHORS COPYING ChangeLog INSTALL README TODO kdenlive.lsm kdenlive.spec 
 
