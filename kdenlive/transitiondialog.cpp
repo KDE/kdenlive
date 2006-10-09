@@ -152,6 +152,7 @@ void TransitionDialog::connectTransition()
    connect(transitPip, SIGNAL(transitionChanged()), this, SLOT(applyChanges()));
    connect(transitLumaFile->spin_soft, SIGNAL(valueChanged(int)), this, SLOT(applyChanges()));
    connect(transitLumaFile->lumaView, SIGNAL(selectionChanged ()), this, SLOT(applyChanges()));
+   connect(transitLumaFile->invertTransition, SIGNAL(released()), this, SLOT(applyChanges()));
 }
 
 void TransitionDialog::disconnectTransition()
@@ -164,6 +165,7 @@ void TransitionDialog::disconnectTransition()
     disconnect(transitPip, SIGNAL(transitionChanged()), this, SLOT(applyChanges()));
     disconnect(transitLumaFile->spin_soft, SIGNAL(valueChanged(int)), this, SLOT(applyChanges()));
     disconnect(transitLumaFile->lumaView, SIGNAL(selectionChanged ()), this, SLOT(applyChanges()));
+    disconnect(transitLumaFile->invertTransition, SIGNAL(released()), this, SLOT(applyChanges()));
 }
 
 bool TransitionDialog::isActiveTransition(Transition *transition)
@@ -235,7 +237,12 @@ Transition::TRANSITIONTYPE TransitionDialog::selectedTransition()
 
 void TransitionDialog::setTransitionDirection(bool direc)
 {
-    transitCrossfade->invertTransition->setChecked(direc);
+    if (propertiesDialog->activePageIndex() == 0)
+	transitCrossfade->invertTransition->setChecked(direc);
+    else if (propertiesDialog->activePageIndex() == 1)
+	transitWipe->invertTransition->setChecked(direc);
+    else if (propertiesDialog->activePageIndex() == 3)
+	transitLumaFile->invertTransition->setChecked(direc);
     //transitAudiofade->invertTransition->setChecked(direc);
 
 }
