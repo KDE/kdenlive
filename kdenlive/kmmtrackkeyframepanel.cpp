@@ -64,7 +64,7 @@ namespace Gui {
          addFunctionDecorator("move", "transitionresize");
          addFunctionDecorator("move", "transitionmove");
 	//addFunctionDecorator("move", "move");
-	//addFunctionDecorator("move", "selectnone");
+	addFunctionDecorator("move", "selectnone");
 	//addFunctionDecorator("razor", "razor");
 	 addFunctionDecorator("spacer", "spacer");
 	 addFunctionDecorator("marker", "marker");
