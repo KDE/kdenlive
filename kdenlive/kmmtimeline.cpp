@@ -64,7 +64,7 @@ namespace Gui {
 	   double duration = projectLength().frames(framesPerSecond());
 	   if (duration < 1.0)
 	       duration = 1.0;
-	   double scale = (double) viewWidth() / duration;
+	   double scale = (double) (viewWidth() - 20) / duration;
            m_rulerToolWidget->setScale(scale);
            setTimeScale(scale);
            placeScrollBar(0);
