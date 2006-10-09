@@ -64,6 +64,7 @@ class DocClipProject:public DocClipBase {
     bool moveSelectedClips(GenTime startOffset, int trackOffset);
     const DocTrackBaseList & trackList() const;
     void slotClipReferenceChanged();
+    void requestProjectClose();
 
 	/** Generates the tracklist for this clip from the xml fragment passed in.*/
     void generateTracksFromXML(const EffectDescriptionList & effectList,

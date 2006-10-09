@@ -42,6 +42,18 @@ DocClipProject::~DocClipProject()
 {
 }
 
+void DocClipProject::requestProjectClose()
+{
+    DocClipRefList list;
+
+    DocTrackBase *srcTrack;
+    for (uint track = 0; track < numTracks(); ++track) {
+	srcTrack = m_tracks.at(track);
+	srcTrack->deleteClips(true);
+	srcTrack->deleteClips(false);
+    }
+}
+
 const GenTime & DocClipProject::duration() const
 {
     return m_projectLength;

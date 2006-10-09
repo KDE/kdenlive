@@ -69,8 +69,10 @@ m_clipHierarch(0), m_render(app->renderManager()->findRenderer("Document")), m_c
 
 KdenliveDoc::~KdenliveDoc()
 {
-    if (m_projectClip)
+    if (m_projectClip) {
+	m_projectClip->requestProjectClose();
 	delete m_projectClip;
+    }
 }
 
 void KdenliveDoc::setProjectNtsc(bool isNtsc)
