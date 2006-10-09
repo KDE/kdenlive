@@ -23,6 +23,38 @@
 #include <qtimer.h>
 #include <qvaluelist.h>
 
+class KTimelineGuide {
+	public:
+	    KTimelineGuide(int time = 0, QString comment = QString::null, int chapterNum = -1) {
+		m_time = time;
+		m_comment = comment;
+		m_chapterNum = chapterNum;
+	    }
+	    ~KTimelineGuide(){};
+	    int guidePosition() {
+		return m_time;
+	    }
+	    QString guideComment() {
+		return m_comment;
+	    }
+	    int chapterNum() {
+		return m_chapterNum;
+	    }
+	    void setComment(QString comment) {
+		m_comment = comment;
+	    }
+	    void setTime(int time) {
+		m_time = time;
+	    }
+	    void setChapterNum(int num) {
+		m_chapterNum = num;
+	    }
+	private:
+	    int m_time;
+	    QString m_comment;
+	    int m_chapterNum;
+};
+
 
 namespace Gui {
 
@@ -111,11 +143,12 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
 	QValueList < int > timelineGuides();
 	void slotDeleteGuide();
 	void clearGuides();
-	void slotEditGuide(QString comment);
-	void slotAddGuide(int time, QString comment);
+	void slotEditGuide(QString comment, int chapter);
+	void slotAddGuide(int time, QString comment, int chapterNum = -1);
 	QStringList timelineRulerComments();
 	int currentGuideIndex();
 	int guidePosition(int ix);
+	int guideChapter(int ix);
 	QString guideComment(int ix);
 
     signals:		// Signals
@@ -188,8 +221,7 @@ is under the mouse. */
 	bool m_scrollRight;
 
 	/** The list of timeline guides */
-	QValueList < int > m_guides;
-	QStringList guideComments;
+	QValueList < KTimelineGuide > m_guides;
 	QPixmap m_markerPixmap;
 
     private:			// private methods

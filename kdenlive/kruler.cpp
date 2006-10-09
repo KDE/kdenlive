@@ -20,6 +20,7 @@
 #include <qtextstream.h>
 #include <qvaluelist.h>
 
+
 #include <iostream>
 #include <cmath>
 
@@ -458,13 +459,13 @@ namespace Gui {
 
     void KRuler::tip(const QPoint &pos, QRect &rect, QString &tipText) {
 
-        QValueList < int >::Iterator itt = m_guides.begin();
+        QValueList < KTimelineGuide >::Iterator itt = m_guides.begin();
 	uint ct = 0;
         for ( itt = m_guides.begin(); itt != m_guides.end(); ++itt ) {
-	    int value = (int) mapValueToLocal(*itt);
+	    int value = (int) mapValueToLocal((*itt).guidePosition());
 	    if (abs (pos.x() - value) < 7 ) { 
 		rect.setRect( value -7, y(), 15, height());
-		tipText = guideComments[ct];
+		tipText = (*itt).guideComment();
 		break;
 	    }
 	    ct++;
@@ -604,12 +605,12 @@ namespace Gui {
 	QValueList < KRulerPrivateSlider >::Iterator it;
 
 	if (id == 1 || id == 2) { // snap to guides
-	    QValueList < int >::Iterator itt = m_guides.begin();
+	    QValueList < KTimelineGuide >::Iterator itt = m_guides.begin();
             for ( itt = m_guides.begin(); itt != m_guides.end(); ++itt ) {
-	        int pos = (int) mapValueToLocal(*itt);
+	        int pos = (int) mapValueToLocal((*itt).guidePosition());
 		int sliderpos = (int) mapValueToLocal(actValue);
 	        if (abs(pos - sliderpos) < 10) {
-		    actValue = *itt;
+		    actValue = (*itt).guidePosition();
 		    break;
 		}
 	    }
@@ -926,11 +927,29 @@ namespace Gui {
 	// draw guide markers
 	//
 
-        QValueList < int >::Iterator itt = m_guides.begin();
+        QValueList < KTimelineGuide >::Iterator itt = m_guides.begin();
         for ( itt = m_guides.begin(); itt != m_guides.end(); ++itt ) {
-	    value = (int) mapValueToLocal(*itt);
-	    if (value +7 >= sx && value -7 <= ex) 
-		painter.drawPixmap(value - 7, height() - 18, m_markerPixmap);
+	    value = (int) mapValueToLocal((*itt).guidePosition());
+	    int chap = (*itt).chapterNum();
+	    int offset = 7;
+	    if (chap > -1) offset = 20;
+	    if (value + offset >= sx && value - offset <= ex) {
+		if ((*itt).chapterNum() == -1)
+		    painter.drawPixmap(value - 7, height() - 20, m_markerPixmap);
+		else {
+		    QString txt;
+		    if (chap == 1000) txt = ">";
+		    else txt = QString::number(chap);
+	    	    QRect textBound = painter.boundingRect(value - 20, height() -16, 40, 16, AlignCenter | AlignVCenter, txt);
+
+		    painter.setBrush(QColor(253,120,40));
+		    painter.drawRect(textBound.x() - 2, textBound.y(), textBound.width() + 4, textBound.height());
+
+		    painter.setPen(Qt::white);
+		    painter.drawText(value - 20, height() -16, 40, 16, AlignCenter | AlignVCenter, txt);
+		    painter.setPen(Qt::black);
+		}
+	    }
 	}
 
 	//
@@ -977,50 +996,46 @@ namespace Gui {
     }
 
    QValueList < int > KRuler::timelineGuides() {
-	return m_guides;
+	QValueList < int > guideTimes;
+ 	QValueList < KTimelineGuide >::Iterator itt = m_guides.begin();
+        for ( itt = m_guides.begin(); itt != m_guides.end(); ++itt ) {
+		guideTimes.append((*itt).guidePosition());
+	}
+	return guideTimes;
     }
 
-   void KRuler::slotAddGuide(int time, QString comment) {
+   void KRuler::slotAddGuide(int time, QString comment, int chapterNum) {
 	uint ct = 0;
-        QValueList < int >::Iterator it = m_guides.begin();
+        QValueList < KTimelineGuide >::Iterator it = m_guides.begin();
         for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
-	    if ((*it) >= time)
+	    if ((*it).guidePosition() >= time)
 	    	break;
 	    ct++;
         }
 
-    	if ((it != m_guides.end()) && ((*it) == time)) {
+    	if ((it != m_guides.end()) && ((*it).guidePosition() == time)) {
 	kdError() <<
 	    "trying to add Guide that already exists, this will cause inconsistancies with undo/redo"
 	    << endl;
     	} else {
-	    m_guides.insert(it, time);
-	    QStringList::Iterator itt = guideComments.begin();
-	    for (uint ix = 0; ix < ct; ix++) {
-		++itt;
-	    }
-	    guideComments.insert(itt, comment);
-	    invalidateBackBuffer(mapValueToLocal(time) - 7, mapValueToLocal(time) + 7);
+	    m_guides.insert(it, KTimelineGuide(time, comment, chapterNum));
+	    invalidateBackBuffer(mapValueToLocal(time) - 20, mapValueToLocal(time) + 20);
 	}
     }
 
     void KRuler::slotDeleteGuide() {
 	int localTime = (int) mapValueToLocal(getSliderValue(0));
 	uint ct = 0;
-        QValueList < int >::Iterator it = m_guides.begin();
+        QValueList < KTimelineGuide >::Iterator it = m_guides.begin();
         for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
-	    if (abs(mapValueToLocal(*it) - localTime) < 10)
+	    if (abs(mapValueToLocal((*it).guidePosition()) - localTime) < 10)
 	    	break;
 	    ct++;
         }
     	if (it != m_guides.end()) {
 	    m_guides.erase(it);
-	    QStringList::Iterator itt = guideComments.begin();
-	    for (uint ix = 0; ix < ct; ix++) {
-		++itt;
-	    }
-	    guideComments.erase(itt);
-	    invalidateBackBuffer(mapValueToLocal(*it) - 7, mapValueToLocal(*it) + 7);
+	    int pos = (*it).guidePosition();
+	    invalidateBackBuffer(mapValueToLocal(pos) - 20, mapValueToLocal(pos) + 20);
     	} else {
 	    kdError()<<"CANNOT find guide to delete"<<endl;
 	}
@@ -1028,33 +1043,41 @@ namespace Gui {
 
     void KRuler::clearGuides() {
         m_guides.clear();
-        guideComments.clear();
 	invalidateBackBuffer();
     }
 
-    void KRuler::slotEditGuide(QString comment) {
+    void KRuler::slotEditGuide(QString comment, int chapter) {
 	int localTime = (int) mapValueToLocal(getSliderValue(0));
 	uint ct = 0;
-        QValueList < int >::Iterator it = m_guides.begin();
+        QValueList < KTimelineGuide >::Iterator it = m_guides.begin();
         for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
-	    if (abs(mapValueToLocal(*it) - localTime) < 10)
+	    if (abs(mapValueToLocal((*it).guidePosition()) - localTime) < 10)
 	    	break;
 	    ct++;
         }
-    	if (it != m_guides.end())
-	    guideComments[ct] = comment;
+    	if (it != m_guides.end()) {
+	    (*it).setComment(comment);
+	    (*it).setChapterNum(chapter);
+	    int pos = (*it).guidePosition();
+	    invalidateBackBuffer(mapValueToLocal(pos) - 20, mapValueToLocal(pos) + 20);
+	}
     }
 
     QStringList KRuler::timelineRulerComments() {
-	return guideComments;
+	QStringList list;
+	QValueList < KTimelineGuide >::Iterator it = m_guides.begin();
+        for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
+	    list<<(*it).guideComment();
+        }
+	return list;
     }
 
     int KRuler::currentGuideIndex() {
 	int localTime = (int) mapValueToLocal(getSliderValue(0));
 	uint ct = 0;
-        QValueList < int >::Iterator it = m_guides.begin();
+        QValueList < KTimelineGuide >::Iterator it = m_guides.begin();
         for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
-	    if (abs(mapValueToLocal(*it) - localTime) < 10)
+	    if (abs(mapValueToLocal((*it).guidePosition()) - localTime) < 10)
 	    	break;
 	    ct++;
         }
@@ -1063,12 +1086,17 @@ namespace Gui {
     }
 
     QString KRuler::guideComment(int ix) {
-	if (ix != -1) return guideComments[ix];
+	if (ix != -1) return m_guides[ix].guideComment();
 	return QString::null;
     }
 
     int KRuler::guidePosition(int ix) {
-	if (ix != -1) return m_guides[ix];
+	if (ix != -1) return m_guides[ix].guidePosition();
+	return 0;
+    }
+
+    int KRuler::guideChapter(int ix) {
+	if (ix != -1) return m_guides[ix].chapterNum();
 	return 0;
     }
 

@@ -8,12 +8,12 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>294</width>
-            <height>117</height>
+            <width>258</width>
+            <height>197</height>
         </rect>
     </property>
     <property name="caption">
-        <string></string>
+        <string>AddMarker_UI</string>
     </property>
     <property name="sizeGripEnabled">
         <bool>false</bool>
@@ -22,7 +22,39 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QLayoutWidget" row="3" column="0" rowspan="1" colspan="2">
+        <widget class="KRestrictedLine" row="0" column="1">
+            <property name="name">
+                <cstring>marker_position</cstring>
+            </property>
+            <property name="text">
+                <string>:::</string>
+            </property>
+            <property name="inputMask">
+                <string>99:99:99:99; </string>
+            </property>
+        </widget>
+        <widget class="QLineEdit" row="1" column="1">
+            <property name="name">
+                <cstring>marker_comment</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="1" column="0">
+            <property name="name">
+                <cstring>label_duration_2</cstring>
+            </property>
+            <property name="text">
+                <string>Comment</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="0" column="0">
+            <property name="name">
+                <cstring>label_duration</cstring>
+            </property>
+            <property name="text">
+                <string>Position</string>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget" row="4" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>Layout1</cstring>
             </property>
@@ -86,39 +118,7 @@
                 </widget>
             </hbox>
         </widget>
-        <widget class="KRestrictedLine" row="0" column="1">
-            <property name="name">
-                <cstring>marker_position</cstring>
-            </property>
-            <property name="text">
-                <string>:::</string>
-            </property>
-            <property name="inputMask">
-                <string>99:99:99:99; </string>
-            </property>
-        </widget>
-        <widget class="QLineEdit" row="1" column="1">
-            <property name="name">
-                <cstring>marker_comment</cstring>
-            </property>
-        </widget>
-        <widget class="QLabel" row="1" column="0">
-            <property name="name">
-                <cstring>label_duration_2</cstring>
-            </property>
-            <property name="text">
-                <string>Comment</string>
-            </property>
-        </widget>
-        <widget class="QLabel" row="0" column="0">
-            <property name="name">
-                <cstring>label_duration</cstring>
-            </property>
-            <property name="text">
-                <string>Position</string>
-            </property>
-        </widget>
-        <spacer row="2" column="1">
+        <spacer row="3" column="1">
             <property name="name">
                 <cstring>spacer6</cstring>
             </property>
@@ -130,15 +130,56 @@
             </property>
             <property name="sizeHint">
                 <size>
-                    <width>12</width>
-                    <height>31</height>
+                    <width>20</width>
+                    <height>70</height>
                 </size>
             </property>
         </spacer>
+        <widget class="QButtonGroup" row="2" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>buttonGroup1</cstring>
+            </property>
+            <property name="title">
+                <string>DVD</string>
+            </property>
+            <property name="exclusive">
+                <bool>true</bool>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QCheckBox" row="1" column="0">
+                    <property name="name">
+                        <cstring>chapter_end</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>true</bool>
+                    </property>
+                    <property name="text">
+                        <string>Mark end of chapter</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="0" column="0">
+                    <property name="name">
+                        <cstring>chapter_start</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>true</bool>
+                    </property>
+                    <property name="text">
+                        <string>Mark start of chapter</string>
+                    </property>
+                </widget>
+                <widget class="QSpinBox" row="0" column="1">
+                    <property name="name">
+                        <cstring>chapter_num</cstring>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
     </grid>
 </widget>
-<customwidgets>
-</customwidgets>
 <connections>
     <connection>
         <sender>buttonOk</sender>
