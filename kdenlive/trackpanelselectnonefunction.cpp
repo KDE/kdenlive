@@ -47,6 +47,7 @@ QCursor TrackPanelSelectNoneFunction::getMouseCursor(Gui::KTrackPanel *
 bool TrackPanelSelectNoneFunction::mousePressed(Gui::KTrackPanel * panel,
     QMouseEvent * event)
 {
+    m_app->activateWorkspaceMonitor();
     m_app->slotSeekTo( GenTime(m_timeline->mapLocalToValue(event->x()), m_fps));
     return true;
 }
