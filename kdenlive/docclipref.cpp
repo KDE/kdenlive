@@ -856,7 +856,7 @@ QDomDocument DocClipRef::generateXMLTransition(bool hideVideo, bool hideAudio)
 		transition.setAttribute("geometry", geom);
 	    }
 
-	    if (type == Transition::LUMA_TRANSITION || type == Transition::MIX_TRANSITION) {
+	    if (type == Transition::LUMA_TRANSITION || type == Transition::MIX_TRANSITION || type == Transition::LUMAFILE_TRANSITION) {
                 transition.setAttribute("b_track", QString::number((*itt)->transitionStartTrack()));
                 transition.setAttribute("a_track", QString::number((*itt)->transitionEndTrack()));
 	        if ((*itt)->invertTransition()) transition.setAttribute("reverse", "1");

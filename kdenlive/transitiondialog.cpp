@@ -74,6 +74,7 @@ namespace Gui {
     transitPip = new transitionPipWidget(app, 240,192, propertiesDialog->addPage(i18n("PIP"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_pip", KIcon::Small, 15)));
 
     transitLumaFile = new transitionLumaFile_UI(propertiesDialog->addPage(i18n("Wipe"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_wiper", KIcon::Small, 15)));
+    transitLumaFile->lumaView->showToolTips();
 
     connect(transitLumaFile->slider_soft ,SIGNAL(valueChanged(int)), transitLumaFile->spin_soft, SLOT(setValue(int)));
     connect(transitLumaFile->spin_soft ,SIGNAL(valueChanged(int)), transitLumaFile->slider_soft, SLOT(setValue(int))); 
@@ -101,7 +102,9 @@ void TransitionDialog::initLumaFiles()
     QStringList iconList = KGlobal::dirs()->KStandardDirs::findAllResources("data", "kdenlive/pgm/*.png");
 
     for ( QStringList::Iterator it = iconList.begin(); it != iconList.end(); ++it ) {
-	(void) new QIconViewItem( transitLumaFile->lumaView, KURL(*it).fileName(), QPixmap( (*it) ) );
+	QString itemName = KURL(*it).fileName();
+	itemName = itemName.left(itemName.length() - 4);
+	(void) new QIconViewItem( transitLumaFile->lumaView, itemName, QPixmap( (*it) ) );
     }
 }
 
@@ -180,7 +183,6 @@ void TransitionDialog::applyChanges()
 {
 	if (m_transition) {
 		if (m_transition == 0) return;
-		kdDebug()<<"* * * * * TRANS: "<<m_transition->transitionName() <<endl;
 		m_transition->setTransitionType(selectedTransition());
         	m_transition->setTransitionParameters(transitionParameters());
 		m_transition->setTransitionDirection(transitionDirection());
@@ -249,6 +251,10 @@ void TransitionDialog::setTransitionParameters(const QMap < QString, QString > p
         }
     else if (propertiesDialog->activePageIndex() == 3) {
 	transitLumaFile->slider_soft->setValue(parameters["softness"].toDouble() * 100.0);
+	QString fileName = KURL(parameters["resource"]).filename();
+	fileName = fileName.left(fileName.length() - 4);
+	QIconViewItem *it = transitLumaFile->lumaView->findItem(fileName);
+	if (it) transitLumaFile->lumaView->setSelected(it, true);
 	}
 }
 
@@ -281,9 +287,8 @@ const QMap < QString, QString > TransitionDialog::transitionParameters()
     {
       QString fname;
       if (transitLumaFile->lumaView->currentItem())
-          fname = locate("data", "kdenlive/pgm/" + transitLumaFile->lumaView->currentItem()->text());
-      else fname = locate("data", "kdenlive/pgm/" + transitLumaFile->lumaView->firstItem()->text());
-      fname = fname.left(fname.length() - 3) + "pgm";
+          fname = locate("data", "kdenlive/pgm/" + transitLumaFile->lumaView->currentItem()->text() + ".pgm");
+      else fname = locate("data", "kdenlive/pgm/" + transitLumaFile->lumaView->firstItem()->text() + ".pgm");
       paramList["resource"] = fname;
       paramList["softness"] = QString::number(((double) transitLumaFile->spin_soft->value()) / 100.0);
     }
