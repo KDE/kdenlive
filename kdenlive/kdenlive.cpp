@@ -782,7 +782,7 @@ namespace Gui {
 	//setCaption(m_doc->URL().fileName(), false);
 
 	m_timelineWidget =
-	    createDockWidget(i18n("TimeLine"), QPixmap(), 0,
+	    createDockWidget("TimeLine", QPixmap(), 0,
 	    i18n("TimeLine"));
 	m_timeline = new KMMTimeLine(NULL, m_timelineWidget);
 	m_timelineWidget->setWidget(m_timeline);
