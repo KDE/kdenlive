@@ -30,6 +30,7 @@
 #include "transition.h"
 #include "transitioncrossfade_ui.h"
 #include "transitionaudiofade_ui.h"
+#include "transitionlumafile_ui.h"
 #include "transitionwipewidget.h"
 #include "transitionpipwidget.h"
 
@@ -68,9 +69,11 @@ namespace Gui {
         void connectTransition();
         void disconnectTransition();
 	void resetTransitionDialog();
+	void initLumaFiles();
 
       private:
 	transitionCrossfade_UI *transitCrossfade;
+	transitionLumaFile_UI *transitLumaFile;
 	transitionAudiofade_UI *transitAudiofade;
         transitionWipeWidget *transitWipe;
 	transitionPipWidget *transitPip;

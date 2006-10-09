@@ -23,13 +23,17 @@
 #include <qlayout.h>
 #include <qgrid.h>
 #include <qslider.h>
+#include <qspinbox.h>
 #include <qcheckbox.h>
 #include <qradiobutton.h>
 
 #include <kpushbutton.h>
 #include <kiconloader.h>
+#include <kiconview.h>
 #include <klocale.h>
 #include <kdebug.h>
+#include <kglobal.h>
+#include <kstandarddirs.h>
 
 #include "kdenlive.h"
 #include "kdenlivedoc.h"
@@ -65,11 +69,17 @@ namespace Gui {
     propertiesDialog = new KJanusWidget(this, name, KJanusWidget::IconList);
     transitCrossfade = new transitionCrossfade_UI(propertiesDialog->addPage(i18n("Crossfade"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_down", KIcon::Small, 15)));
 
-    transitWipe = new transitionWipeWidget(propertiesDialog->addPage(i18n("Wipe"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_wiper", KIcon::Small, 15)));
+    transitWipe = new transitionWipeWidget(propertiesDialog->addPage(i18n("Push"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_wiper", KIcon::Small, 15)));
 
     transitPip = new transitionPipWidget(app, 240,192, propertiesDialog->addPage(i18n("PIP"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_pip", KIcon::Small, 15)));
 
+    transitLumaFile = new transitionLumaFile_UI(propertiesDialog->addPage(i18n("Wipe"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_wiper", KIcon::Small, 15)));
+
+    connect(transitLumaFile->slider_soft ,SIGNAL(valueChanged(int)), transitLumaFile->spin_soft, SLOT(setValue(int)));
+    connect(transitLumaFile->spin_soft ,SIGNAL(valueChanged(int)), transitLumaFile->slider_soft, SLOT(setValue(int))); 
+
     /*transitAudiofade = new transitionAudiofade_UI(addPage(i18n("Audio Fade"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_down", KIcon::Small, 15)));*/
+    initLumaFiles();
     m_container->addWidget(lab, 0, 0);
     m_container->addWidget(trackPolicy, 0, 1);
     m_container->addMultiCellWidget(propertiesDialog, 1, 1, 0, 1);
@@ -84,6 +94,15 @@ TransitionDialog::~TransitionDialog()
     delete transitWipe;
     delete transitPip;
     delete propertiesDialog;
+}
+
+void TransitionDialog::initLumaFiles()
+{
+    QStringList iconList = KGlobal::dirs()->KStandardDirs::findAllResources("data", "kdenlive/pgm/*.png");
+
+    for ( QStringList::Iterator it = iconList.begin(); it != iconList.end(); ++it ) {
+	(void) new QIconViewItem( transitLumaFile->lumaView, KURL(*it).fileName(), QPixmap( (*it) ) );
+    }
 }
 
 bool TransitionDialog::isOnTrack(int ix)
@@ -128,6 +147,8 @@ void TransitionDialog::connectTransition()
    connect(transitCrossfade->invertTransition, SIGNAL(released()), this, SLOT(applyChanges()));
    connect(trackPolicy, SIGNAL(activated(int)), this, SLOT(applyChanges()));
    connect(transitPip, SIGNAL(transitionChanged()), this, SLOT(applyChanges()));
+   connect(transitLumaFile->spin_soft, SIGNAL(valueChanged(int)), this, SLOT(applyChanges()));
+   connect(transitLumaFile->lumaView, SIGNAL(selectionChanged ()), this, SLOT(applyChanges()));
 }
 
 void TransitionDialog::disconnectTransition()
@@ -138,6 +159,8 @@ void TransitionDialog::disconnectTransition()
     disconnect(transitCrossfade->invertTransition, SIGNAL(released()), this, SLOT(applyChanges()));
     disconnect(trackPolicy, SIGNAL(activated(int)), this, SLOT(applyChanges()));
     disconnect(transitPip, SIGNAL(transitionChanged()), this, SLOT(applyChanges()));
+    disconnect(transitLumaFile->spin_soft, SIGNAL(valueChanged(int)), this, SLOT(applyChanges()));
+    disconnect(transitLumaFile->lumaView, SIGNAL(selectionChanged ()), this, SLOT(applyChanges()));
 }
 
 bool TransitionDialog::isActiveTransition(Transition *transition)
@@ -175,8 +198,11 @@ void TransitionDialog::setActivePage(const Transition::TRANSITIONTYPE &pageName)
     case Transition::PIP_TRANSITION:
 	propertiesDialog->showPage(2);
 	break;
-    case Transition::MIX_TRANSITION:
+    case Transition::LUMAFILE_TRANSITION:
 	propertiesDialog->showPage(3);
+	break;
+    case Transition::MIX_TRANSITION:
+	propertiesDialog->showPage(4);
 	break;
     default:
 	propertiesDialog->showPage(0);
@@ -194,6 +220,9 @@ Transition::TRANSITIONTYPE TransitionDialog::selectedTransition()
 	return Transition::PIP_TRANSITION;
 	break;
 	case 3: 
+	return Transition::LUMAFILE_TRANSITION;
+	break;
+	case 4: 
 	return Transition::MIX_TRANSITION;
 	break;
 	default: 
@@ -218,6 +247,9 @@ void TransitionDialog::setTransitionParameters(const QMap < QString, QString > p
     else if (propertiesDialog->activePageIndex() == 2) {
         transitPip->setParameters(parameters["geometry"]);
         }
+    else if (propertiesDialog->activePageIndex() == 3) {
+	transitLumaFile->slider_soft->setValue(parameters["softness"].toDouble() * 100.0);
+	}
 }
 
 bool TransitionDialog::transitionDirection()
@@ -225,6 +257,7 @@ bool TransitionDialog::transitionDirection()
     bool result = false;
     if (propertiesDialog->activePageIndex() == 0) result = transitCrossfade->invertTransition->isChecked();
     else if (propertiesDialog->activePageIndex() == 1) result = transitWipe->invertTransition->isChecked();
+    else if (propertiesDialog->activePageIndex() == 3) result = transitLumaFile->invertTransition->isChecked();
     //else if (activePageIndex() == 3) result = transitAudiofade->invertTransition->isChecked();
     //if (activePageIndex() == 2) result = transitPip->invertTransition->isChecked();
     return result;
@@ -244,7 +277,17 @@ const QMap < QString, QString > TransitionDialog::transitionParameters()
       paramList["geometry"] = transitPip->parameters();
       paramList["progressive"] = "1";
     }
-    else if (propertiesDialog->activePageIndex() == 3) // audio mix
+    else if (propertiesDialog->activePageIndex() == 3) // luma file
+    {
+      QString fname;
+      if (transitLumaFile->lumaView->currentItem())
+          fname = locate("data", "kdenlive/pgm/" + transitLumaFile->lumaView->currentItem()->text());
+      else fname = locate("data", "kdenlive/pgm/" + transitLumaFile->lumaView->firstItem()->text());
+      fname = fname.left(fname.length() - 3) + "pgm";
+      paramList["resource"] = fname;
+      paramList["softness"] = QString::number(((double) transitLumaFile->spin_soft->value()) / 100.0);
+    }
+    else if (propertiesDialog->activePageIndex() == 4) // audio mix
     {
       paramList["start"] = "0";
       paramList["end"] = "1";

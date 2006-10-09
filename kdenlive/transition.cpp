@@ -148,8 +148,9 @@ Transition::Transition(const DocClipRef * clipa, const TRANSITIONTYPE & type, co
     m_transitionTrack = 0;
     m_secondClip = NULL;
     m_transitionType = type;
-    if (m_transitionType == COMPOSITE_TRANSITION) m_transitionName = i18n("Wipe");
+    if (m_transitionType == COMPOSITE_TRANSITION) m_transitionName = i18n("Push");
     else if (m_transitionType == PIP_TRANSITION) m_transitionName = i18n("Pip");
+    else if (m_transitionType == LUMAFILE_TRANSITION) m_transitionName = i18n("Wipe");
     else if (m_transitionType == MIX_TRANSITION) m_transitionName = i18n("Audio Fade");
     else m_transitionName = i18n("Crossfade");
 
@@ -192,6 +193,7 @@ Transition::Transition(const DocClipRef * clip, QDomElement transitionElement)
 	if (transType == LUMA_TRANSITION) m_transitionType = LUMA_TRANSITION;
 	else if (transType == COMPOSITE_TRANSITION) m_transitionType = COMPOSITE_TRANSITION; 
 	else if (transType == PIP_TRANSITION) m_transitionType = PIP_TRANSITION;
+	else if (transType == LUMAFILE_TRANSITION) m_transitionType = LUMAFILE_TRANSITION;
 	else if (transType == MIX_TRANSITION) m_transitionType = MIX_TRANSITION;
 
 	// load transition parameters
@@ -212,8 +214,9 @@ Transition::~Transition()
 void Transition::setTransitionType(TRANSITIONTYPE newType)
 {
     m_transitionType = newType;
-    if (m_transitionType == COMPOSITE_TRANSITION) m_transitionName = i18n("Wipe");
+    if (m_transitionType == COMPOSITE_TRANSITION) m_transitionName = i18n("Push");
     else if (m_transitionType == PIP_TRANSITION) m_transitionName = i18n("Pip");
+    else if (m_transitionType == LUMAFILE_TRANSITION) m_transitionName = i18n("Wipe");
     else if (m_transitionType == MIX_TRANSITION) m_transitionName = i18n("Audio Fade");
     else m_transitionName = i18n("Crossfade");
 }
