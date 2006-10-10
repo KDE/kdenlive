@@ -99,12 +99,17 @@ TransitionDialog::~TransitionDialog()
 
 void TransitionDialog::initLumaFiles()
 {
-    QStringList iconList = KGlobal::dirs()->KStandardDirs::findAllResources("data", "kdenlive/pgm/*.png");
+    QStringList iconList = KGlobal::dirs()->KStandardDirs::findAllResources("data", "kdenlive/pgm/*.pgm");
 
     for ( QStringList::Iterator it = iconList.begin(); it != iconList.end(); ++it ) {
 	QString itemName = KURL(*it).fileName();
+	QImage im(*it);
+	im = im.smoothScale(30,26);
+	QPixmap pix(32,28);
+	pix.fill(Qt::black);
+	bitBlt(&pix, 1, 1, &im, 0, 0, 30, 26);
 	itemName = itemName.left(itemName.length() - 4);
-	(void) new QIconViewItem( transitLumaFile->lumaView, itemName, QPixmap( (*it) ) );
+	(void) new QIconViewItem( transitLumaFile->lumaView, itemName, pix );
     }
 }
 
