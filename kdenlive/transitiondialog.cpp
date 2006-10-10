@@ -75,6 +75,8 @@ namespace Gui {
 
     transitLumaFile = new transitionLumaFile_UI(propertiesDialog->addPage(i18n("Wipe"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_wiper", KIcon::Small, 15)));
     transitLumaFile->lumaView->showToolTips();
+    transitLumaFile->lumaView->setGridX(60);
+    transitLumaFile->lumaView->setGridY(40);
 
     connect(transitLumaFile->slider_soft ,SIGNAL(valueChanged(int)), transitLumaFile->spin_soft, SLOT(setValue(int)));
     connect(transitLumaFile->spin_soft ,SIGNAL(valueChanged(int)), transitLumaFile->slider_soft, SLOT(setValue(int))); 
@@ -266,7 +268,10 @@ void TransitionDialog::setTransitionParameters(const QMap < QString, QString > p
 	QString fileName = KURL(parameters["resource"]).filename();
 	fileName = fileName.left(fileName.length() - 4);
 	QIconViewItem *it = transitLumaFile->lumaView->findItem(fileName);
-	if (it) transitLumaFile->lumaView->setSelected(it, true);
+	if (it) {
+	    transitLumaFile->lumaView->setSelected(it, true);
+	    transitLumaFile->lumaView->ensureItemVisible(it);
+	}
 	}
 }
 
