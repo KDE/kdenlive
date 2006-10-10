@@ -179,6 +179,9 @@
                     <property name="text">
                         <string>Start of chapter</string>
                     </property>
+                    <property name="checked">
+                        <bool>true</bool>
+                    </property>
                 </widget>
                 <widget class="QSpinBox" row="0" column="1">
                     <property name="name">
