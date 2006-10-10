@@ -20,6 +20,7 @@
 #include <qtextstream.h>
 #include <qvaluelist.h>
 
+#include <klocale.h>
 
 #include <iostream>
 #include <cmath>
@@ -1067,7 +1068,15 @@ namespace Gui {
 	QStringList list;
 	QValueList < KTimelineGuide >::Iterator it = m_guides.begin();
         for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
-	    list<<(*it).guideComment();
+	    if ((*it).chapterNum() == -1) list<<(*it).guideComment();
+	    else {
+		kdDebug()<<" + + + GUIDE: ("<<(*it).guideComment()<<") "<<(*it).chapterNum()<<endl;
+		if ((*it).guideComment() == QString::null) {
+		if ((*it).chapterNum() == 1000) list<<i18n("Chapter End");
+	    	else list<<i18n("Chapter %1").arg((*it).chapterNum());
+	    }
+	    else list<<(*it).guideComment();
+	    }
         }
 	return list;
     }
