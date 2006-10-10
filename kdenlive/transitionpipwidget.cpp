@@ -256,6 +256,12 @@ transitionPipWidget::transitionPipWidget(KdenliveApp * app, int width, int heigh
         connect(canview, SIGNAL(positionRect(int, int)), this, SLOT(adjustSliders(int, int)));
         connect(spin_size, SIGNAL(valueChanged(int)), this, SLOT(adjustSize(int)));
         connect(spin_transparency, SIGNAL(valueChanged(int)), this, SLOT(adjustTransparency(int)));
+
+        connect(slider_soft, SIGNAL(valueChanged(int)), spin_soft, SLOT(setValue(int)));
+        connect(spin_soft, SIGNAL(valueChanged(int)), slider_soft, SLOT(setValue(int)));
+        connect(spin_soft, SIGNAL(valueChanged(int)), this, SIGNAL(transitionChanged()));
+	connect(luma_file, SIGNAL(activated(int)), this, SIGNAL(transitionChanged()));
+
         
         connect(radio_start, SIGNAL(stateChanged(int)), this, SLOT(changeKeyFrame(int)));
         m_transitionParameters[0]="0:0:100:0";

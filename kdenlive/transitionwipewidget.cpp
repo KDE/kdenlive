@@ -19,10 +19,12 @@
 #include <qspinbox.h>
 #include <qcheckbox.h>
 #include <qradiobutton.h>
+#include <qgroupbox.h>
 
 #include <kpushbutton.h>
+#include <kcombobox.h>
 #include <kdebug.h>
-
+#include <kstandarddirs.h>
 #include <klocale.h>
 
 #include "transitionwipewidget.h"
@@ -54,6 +56,11 @@ transitionWipeWidget::transitionWipeWidget(QWidget* parent, const char* name, WF
         connect(spin_transparency, SIGNAL(valueChanged(int)), slider_transparency, SLOT(setValue(int)));
 	connect(spin_transparency, SIGNAL(valueChanged(int)), this, SLOT(updateTransparency(int)));
         connect(key_start, SIGNAL(stateChanged(int)), this, SLOT(updateButtons()));
+
+        connect(spin_soft, SIGNAL(valueChanged(int)), slider_soft, SLOT(setValue(int)));
+	connect(slider_soft, SIGNAL(valueChanged(int)), spin_soft, SLOT(setValue(int)));
+	connect(spin_soft, SIGNAL(valueChanged(int)), this, SIGNAL(applyChanges()));
+	connect(luma_file, SIGNAL(activated(int)), this, SIGNAL(applyChanges()));
 }
 
 
@@ -126,6 +133,14 @@ QMap < QString, QString > transitionWipeWidget::parameters()
     geom += ":100%x100%:" + QString::number(100 - m_endTransparency);
     paramList["geometry"] = geom;
     paramList["progressive"] = "1";
+
+    if (use_luma->isChecked()) {
+	QString fname = luma_file->currentText();
+	fname = locate("data", "kdenlive/pgm/" + fname + ".pgm");
+	paramList["luma"] = fname;
+	paramList["softness"] = QString::number(((double) spin_soft->value()) / 100.0);
+    }
+
     return paramList;
 }
 

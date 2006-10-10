@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>279</width>
-            <height>229</height>
+            <width>311</width>
+            <height>237</height>
         </rect>
     </property>
     <property name="caption">
@@ -19,9 +19,84 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QButtonGroup" row="1" column="0" rowspan="1" colspan="5">
+        <widget class="QButtonGroup" row="0" column="0" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>buttonGroup3</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>Panel</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Plain</enum>
+            </property>
+            <property name="lineWidth">
+                <number>0</number>
+            </property>
+            <property name="title">
+                <string></string>
+            </property>
+            <property name="flat">
+                <bool>true</bool>
+            </property>
+            <property name="exclusive">
+                <bool>true</bool>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <widget class="QRadioButton" row="0" column="0">
+                    <property name="name">
+                        <cstring>key_start</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Start</string>
+                    </property>
+                    <property name="checked">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="0" column="1">
+                    <property name="name">
+                        <cstring>key_end</cstring>
+                    </property>
+                    <property name="text">
+                        <string>End</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <spacer row="0" column="3" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>spacer8</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>144</width>
+                    <height>16</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QButtonGroup" row="1" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>buttonGroup2</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>1</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
             </property>
             <property name="frameShadow">
                 <enum>Plain</enum>
@@ -238,7 +313,48 @@
                 </widget>
             </grid>
         </widget>
-        <spacer row="4" column="0">
+        <spacer row="1" column="4">
+            <property name="name">
+                <cstring>spacer7</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>31</width>
+                    <height>12</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QSlider" row="3" column="0">
+            <property name="name">
+                <cstring>slider_transparency</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+        </widget>
+        <widget class="QLabel" row="2" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>textLabel1_2</cstring>
+            </property>
+            <property name="text">
+                <string>Transparency</string>
+            </property>
+        </widget>
+        <widget class="QSpinBox" row="3" column="1">
+            <property name="name">
+                <cstring>spin_transparency</cstring>
+            </property>
+            <property name="maxValue">
+                <number>100</number>
+            </property>
+        </widget>
+        <spacer row="4" column="1">
             <property name="name">
                 <cstring>spacer1</cstring>
             </property>
@@ -255,15 +371,69 @@
                 </size>
             </property>
         </spacer>
-        <widget class="QCheckBox" row="3" column="2" rowspan="1" colspan="3">
+        <widget class="QGroupBox" row="1" column="2" rowspan="1" colspan="2">
             <property name="name">
-                <cstring>rescaleImages</cstring>
+                <cstring>use_luma</cstring>
             </property>
-            <property name="text">
-                <string>Rescale images</string>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>1</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
             </property>
+            <property name="title">
+                <string>Use luma file</string>
+            </property>
+            <property name="checkable">
+                <bool>true</bool>
+            </property>
+            <property name="checked">
+                <bool>false</bool>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QSpinBox" row="1" column="2">
+                    <property name="name">
+                        <cstring>spin_soft</cstring>
+                    </property>
+                    <property name="maxValue">
+                        <number>100</number>
+                    </property>
+                </widget>
+                <widget class="QSlider" row="1" column="1">
+                    <property name="name">
+                        <cstring>slider_soft</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="1" column="0">
+                    <property name="name">
+                        <cstring>textLabel1_2_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Softness</string>
+                    </property>
+                </widget>
+                <widget class="KComboBox" row="0" column="0" rowspan="1" colspan="3">
+                    <property name="name">
+                        <cstring>luma_file</cstring>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>0</width>
+                            <height>35</height>
+                        </size>
+                    </property>
+                </widget>
+            </grid>
         </widget>
-        <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="2">
+        <widget class="QCheckBox" row="2" column="2" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>invertTransition</cstring>
             </property>
@@ -271,97 +441,14 @@
                 <string>Invert direction</string>
             </property>
         </widget>
-        <widget class="QLabel" row="2" column="0">
+        <widget class="QCheckBox" row="3" column="2" rowspan="1" colspan="2">
             <property name="name">
-                <cstring>textLabel1_2</cstring>
+                <cstring>rescaleImages</cstring>
             </property>
             <property name="text">
-                <string>Transparency</string>
+                <string>Rescale images</string>
             </property>
         </widget>
-        <widget class="QSlider" row="2" column="1" rowspan="1" colspan="3">
-            <property name="name">
-                <cstring>slider_transparency</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-        </widget>
-        <widget class="QSpinBox" row="2" column="4">
-            <property name="name">
-                <cstring>spin_transparency</cstring>
-            </property>
-            <property name="maxValue">
-                <number>100</number>
-            </property>
-        </widget>
-        <widget class="QButtonGroup" row="0" column="0" rowspan="1" colspan="3">
-            <property name="name">
-                <cstring>buttonGroup3</cstring>
-            </property>
-            <property name="frameShape">
-                <enum>Panel</enum>
-            </property>
-            <property name="frameShadow">
-                <enum>Plain</enum>
-            </property>
-            <property name="lineWidth">
-                <number>0</number>
-            </property>
-            <property name="title">
-                <string></string>
-            </property>
-            <property name="flat">
-                <bool>true</bool>
-            </property>
-            <property name="exclusive">
-                <bool>true</bool>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <property name="margin">
-                    <number>0</number>
-                </property>
-                <widget class="QRadioButton" row="0" column="0">
-                    <property name="name">
-                        <cstring>key_start</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Start</string>
-                    </property>
-                    <property name="checked">
-                        <bool>true</bool>
-                    </property>
-                </widget>
-                <widget class="QRadioButton" row="0" column="1">
-                    <property name="name">
-                        <cstring>key_end</cstring>
-                    </property>
-                    <property name="text">
-                        <string>End</string>
-                    </property>
-                </widget>
-            </grid>
-        </widget>
-        <spacer row="0" column="3" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>spacer8</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>55</width>
-                    <height>12</height>
-                </size>
-            </property>
-        </spacer>
     </grid>
 </widget>
 <customwidgets>
@@ -377,5 +464,6 @@
     <includehint>kpushbutton.h</includehint>
     <includehint>kpushbutton.h</includehint>
     <includehint>kpushbutton.h</includehint>
+    <includehint>kcombobox.h</includehint>
 </includehints>
 </UI>

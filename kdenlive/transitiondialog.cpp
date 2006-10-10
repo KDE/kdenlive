@@ -50,7 +50,6 @@ namespace Gui {
     QFont dialogFont = font();
     dialogFont.setPointSize(dialogFont.pointSize() - 1);
     setFont(dialogFont);
-
     QGridLayout *m_container = new QGridLayout(this, 2, 2);
     m_container->setMargin(5);
 
@@ -67,13 +66,13 @@ namespace Gui {
 	ix++;
     }
     propertiesDialog = new KJanusWidget(this, name, KJanusWidget::IconList);
-    transitCrossfade = new transitionCrossfade_UI(propertiesDialog->addPage(i18n("Crossfade"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_down", KIcon::Small, 15)));
+    transitCrossfade = new transitionCrossfade_UI(propertiesDialog->addVBoxPage(i18n("Crossfade"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_down", KIcon::Small, 15)));
 
-    transitWipe = new transitionWipeWidget(propertiesDialog->addPage(i18n("Push"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_wiper", KIcon::Small, 15)));
+    transitWipe = new transitionWipeWidget(propertiesDialog->addVBoxPage(i18n("Push"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_wiper", KIcon::Small, 15)));
 
-    transitPip = new transitionPipWidget(app, 240,192, propertiesDialog->addPage(i18n("PIP"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_pip", KIcon::Small, 15)));
+    transitPip = new transitionPipWidget(app, 240,192, propertiesDialog->addVBoxPage(i18n("PIP"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_pip", KIcon::Small, 15)));
 
-    transitLumaFile = new transitionLumaFile_UI(propertiesDialog->addPage(i18n("Wipe"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_wiper", KIcon::Small, 15)));
+    transitLumaFile = new transitionLumaFile_UI(propertiesDialog->addVBoxPage(i18n("Wipe"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_wiper", KIcon::Small, 15)));
     transitLumaFile->lumaView->showToolTips();
     transitLumaFile->lumaView->setGridX(60);
     transitLumaFile->lumaView->setGridY(40);
@@ -112,6 +111,8 @@ void TransitionDialog::initLumaFiles()
 	bitBlt(&pix, 1, 1, &im, 0, 0, 30, 26);
 	itemName = itemName.left(itemName.length() - 4);
 	(void) new QIconViewItem( transitLumaFile->lumaView, itemName, pix );
+	transitWipe->luma_file->insertItem(pix, itemName);
+	transitPip->luma_file->insertItem(pix, itemName);
     }
 }
 
@@ -154,9 +155,11 @@ void TransitionDialog::connectTransition()
 {
    connect(propertiesDialog, SIGNAL( aboutToShowPage ( QWidget * )), this, SLOT(applyChanges()));
    connect(transitWipe, SIGNAL(applyChanges ()), this, SLOT(applyChanges()));
+   connect(transitWipe->use_luma, SIGNAL(toggled(bool)), this, SLOT(applyChanges()));
    connect(transitCrossfade->invertTransition, SIGNAL(released()), this, SLOT(applyChanges()));
    connect(trackPolicy, SIGNAL(activated(int)), this, SLOT(applyChanges()));
    connect(transitPip, SIGNAL(transitionChanged()), this, SLOT(applyChanges()));
+   connect(transitPip->use_luma, SIGNAL(toggled(bool)), this, SLOT(applyChanges()));
    connect(transitLumaFile->spin_soft, SIGNAL(valueChanged(int)), this, SLOT(applyChanges()));
    connect(transitLumaFile->lumaView, SIGNAL(selectionChanged ()), this, SLOT(applyChanges()));
    connect(transitLumaFile->invertTransition, SIGNAL(released()), this, SLOT(applyChanges()));
@@ -167,12 +170,15 @@ void TransitionDialog::disconnectTransition()
     disconnect(propertiesDialog, SIGNAL( aboutToShowPage ( QWidget * )), this, SLOT(applyChanges()));
 
     disconnect(transitWipe, SIGNAL(applyChanges ()), this, SLOT(applyChanges()));
+    disconnect(transitWipe->use_luma, SIGNAL(toggled(bool)), this, SLOT(applyChanges()));
     disconnect(transitCrossfade->invertTransition, SIGNAL(released()), this, SLOT(applyChanges()));
     disconnect(trackPolicy, SIGNAL(activated(int)), this, SLOT(applyChanges()));
     disconnect(transitPip, SIGNAL(transitionChanged()), this, SLOT(applyChanges()));
+    disconnect(transitPip->use_luma, SIGNAL(toggled(bool)), this, SLOT(applyChanges()));
     disconnect(transitLumaFile->spin_soft, SIGNAL(valueChanged(int)), this, SLOT(applyChanges()));
     disconnect(transitLumaFile->lumaView, SIGNAL(selectionChanged ()), this, SLOT(applyChanges()));
     disconnect(transitLumaFile->invertTransition, SIGNAL(released()), this, SLOT(applyChanges()));
+    
 }
 
 bool TransitionDialog::isActiveTransition(Transition *transition)
@@ -259,9 +265,25 @@ void TransitionDialog::setTransitionParameters(const QMap < QString, QString > p
     if (propertiesDialog->activePageIndex() == 1) {
         transitWipe->rescaleImages->setChecked(parameters["distort"].toInt());
 	transitWipe->setParameters(parameters["geometry"]);
+	QString fname = parameters["luma"];
+	if (!fname.isEmpty()) {
+	    transitWipe->use_luma->setChecked(true);
+	    fname = KURL(fname).filename();
+	    fname = fname.left(fname.length() - 4);
+	    transitWipe->luma_file->setCurrentText(fname);
+	    transitWipe->spin_soft->setValue(parameters["softness"].toDouble() * 100.0);
+	}
     }
     else if (propertiesDialog->activePageIndex() == 2) {
         transitPip->setParameters(parameters["geometry"]);
+	QString fname = parameters["luma"];
+	if (!fname.isEmpty()) {
+	    transitPip->use_luma->setChecked(true);
+	    fname = KURL(fname).filename();
+	    fname = fname.left(fname.length() - 4);
+	    transitPip->luma_file->setCurrentText(fname);
+	    transitPip->spin_soft->setValue(parameters["softness"].toDouble() * 100.0);
+	}
         }
     else if (propertiesDialog->activePageIndex() == 3) {
 	transitLumaFile->slider_soft->setValue(parameters["softness"].toDouble() * 100.0);
@@ -299,6 +321,12 @@ const QMap < QString, QString > TransitionDialog::transitionParameters()
     {
       paramList["geometry"] = transitPip->parameters();
       paramList["progressive"] = "1";
+      if (transitPip->use_luma->isChecked()) {
+	QString fname = transitPip->luma_file->currentText();
+	fname = locate("data", "kdenlive/pgm/" + fname + ".pgm");
+	paramList["luma"] = fname;
+	paramList["softness"] = QString::number(((double) transitPip->spin_soft->value()) / 100.0);
+      }
     }
     else if (propertiesDialog->activePageIndex() == 3) // luma file
     {
