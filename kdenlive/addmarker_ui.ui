@@ -137,13 +137,22 @@
         </spacer>
         <widget class="QButtonGroup" row="2" column="0" rowspan="1" colspan="2">
             <property name="name">
-                <cstring>buttonGroup1</cstring>
+                <cstring>dvd_marker</cstring>
             </property>
             <property name="title">
-                <string>DVD</string>
+                <string>DVD Marker</string>
+            </property>
+            <property name="checkable">
+                <bool>true</bool>
+            </property>
+            <property name="checked">
+                <bool>false</bool>
             </property>
             <property name="exclusive">
                 <bool>true</bool>
+            </property>
+            <property name="radioButtonExclusive">
+                <bool>false</bool>
             </property>
             <grid>
                 <property name="name">
@@ -157,7 +166,7 @@
                         <bool>true</bool>
                     </property>
                     <property name="text">
-                        <string>Mark end of chapter</string>
+                        <string>End of chapter</string>
                     </property>
                 </widget>
                 <widget class="QCheckBox" row="0" column="0">
@@ -168,12 +177,15 @@
                         <bool>true</bool>
                     </property>
                     <property name="text">
-                        <string>Mark start of chapter</string>
+                        <string>Start of chapter</string>
                     </property>
                 </widget>
                 <widget class="QSpinBox" row="0" column="1">
                     <property name="name">
                         <cstring>chapter_num</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>true</bool>
                     </property>
                 </widget>
             </grid>

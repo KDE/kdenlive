@@ -21,12 +21,9 @@
 #include <iostream>
 #include <assert.h>
 
-#include <klocale.h>
-#include <kinputdialog.h>
-#include <krestrictedline.h>
-
 #include <qscrollbar.h>
 #include <qscrollview.h>
+#include <qbuttongroup.h>
 #include <qhbox.h>
 #include <qlabel.h>
 #include <qcheckbox.h>
@@ -34,6 +31,9 @@
 #include <qrect.h>
 #include <qpainter.h>
 
+#include <klocale.h>
+#include <kinputdialog.h>
+#include <krestrictedline.h>
 #include <kdebug.h>
 
 #include "krulertimemodel.h"
@@ -642,8 +642,10 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
 	    QString dur = dlg.marker_position->text();
             int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * m_framesPerSecond + dur.section(":",3,3).toInt());
 	    int chapter = -1;
-	    if (dlg.chapter_start->isChecked()) chapter = dlg.chapter_num->value();
-	    if (dlg.chapter_end->isChecked()) chapter = 1000;
+	    if (dlg.dvd_marker->isChecked()) {
+	        if (dlg.chapter_start->isChecked()) chapter = dlg.chapter_num->value();
+	        else if (dlg.chapter_end->isChecked()) chapter = 1000;
+	    }
 	    m_ruler->slotAddGuide(frames, dlg.marker_comment->text(), chapter);
 	    trackView()->invalidatePartialBackBuffer(frames - 7, frames + 7);
 	}
@@ -673,18 +675,23 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
 	dlg.marker_position->setText(tcode.getTimecode(position, m_framesPerSecond));
 	dlg.marker_comment->setText(comment);
 	int chap = m_ruler->guideChapter(ix);
-	if (chap == 1000)
+	if (chap > -1) {
+	    dlg.dvd_marker->setChecked(true);
+	    if (chap == 1000)
 		dlg.chapter_end->setChecked(true);
-	else if (chap > -1) {
+	    else {
 		dlg.chapter_start->setChecked(true);
 		dlg.chapter_num->setValue(chap);
+	    }
 	}
 	if (dlg.exec() == QDialog::Accepted) {
 	    QString dur = dlg.marker_position->text();
             int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * m_framesPerSecond + dur.section(":",3,3).toInt());
     	    int chapter = -1;
-	    if (dlg.chapter_start->isChecked()) chapter = dlg.chapter_num->value();
-	    if (dlg.chapter_end->isChecked()) chapter = 1000;
+	    if (dlg.dvd_marker->isChecked()) {
+	        if (dlg.chapter_start->isChecked()) chapter = dlg.chapter_num->value();
+	        else if (dlg.chapter_end->isChecked()) chapter = 1000;
+	    }
 
 	    if (frames == m_ruler->getSliderValue(0)) {
 		// only comment has changed
