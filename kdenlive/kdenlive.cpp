@@ -1320,6 +1320,14 @@ namespace Gui {
 	m_timeline->setInpointTimeline(in);
     }
 
+    QDomDocument KdenliveApp::xmlGuides() {
+	return m_timeline->xmlGuides();
+    }
+
+    void KdenliveApp::guidesFromXml(QDomElement doc) {
+	m_timeline->guidesFromXml(doc);
+    }
+
     QValueList <int> KdenliveApp::timelineGuides() const {
 	return m_timeline->timelineGuides();
     }

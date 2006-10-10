@@ -619,6 +619,14 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
 	    (int) floor(outpoint.frames(m_framesPerSecond)));
     }
 
+    QDomDocument KTimeLine::xmlGuides() {
+	return m_ruler->xmlGuides();
+    }
+
+    void KTimeLine::guidesFromXml(QDomElement doc) {
+	m_ruler->guidesFromXml(doc);
+    }
+
     QValueList < int > KTimeLine::timelineGuides() {
 	return m_ruler->timelineGuides();
     }

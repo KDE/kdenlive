@@ -52,13 +52,12 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
     docinfos.setAttribute("timeline_position", document->renderer()->seekPosition().frames(KdenliveSettings::defaultfps()));
     docinfos.setAttribute("projectfps", QString::number(KdenliveSettings::defaultfps()));
     docinfos.setAttribute("projectratio", QString::number(KdenliveSettings::aspectratio()));
-    docinfos.setAttribute("projectguides", document->guidesStringList());
-    docinfos.setAttribute("projectguidescomments", document->application()->timelineGuidesComments());
 
     docinfos.setAttribute("inpoint",  QString::number(document->application()->inpointPosition().frames(KdenliveSettings::defaultfps())));
     docinfos.setAttribute("outpoint", QString::number(document->application()->outpointPosition().frames(KdenliveSettings::defaultfps())));
 
     elem.appendChild(docinfos);
+    elem.appendChild(document->application()->xmlGuides());
 
     QDomElement avfilelist = doc.createElement("avfilelist");
     DocumentBaseNode *node = document->clipHierarch();

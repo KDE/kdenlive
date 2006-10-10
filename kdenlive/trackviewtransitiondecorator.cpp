@@ -64,7 +64,10 @@ namespace Gui {
         if (m_transitions.isEmpty()) return;
 
         TransitionStack::iterator itt = m_transitions.begin();
-
+	QFont orig = painter.font();
+	QFont ft = orig;
+	ft.setPixelSize(10);
+	painter.setFont(ft);
 
         while (itt) {
 	/*if (!transition) {
@@ -92,14 +95,9 @@ namespace Gui {
 		QString txt;
 		if (trackNum == 1) txt = i18n("> Background");
 		else txt = QString("> %1").arg(trackNum - 1);
-	        QFont orig = painter.font();
-	        QFont ft = orig;
-	        ft.setPixelSize(10);
-	        painter.setFont(ft);
 	        int textWidth = painter.fontMetrics().width( txt );
 	        painter.setPen(Qt::darkRed);
 	        painter.drawText((int) start + 20, rect.y(), textWidth + 8, rect.height(), Qt::AlignCenter | Qt::AlignHCenter, txt);
-	        painter.setFont(orig);	
 	        painter.setPen(Qt::black);
 	    }
 
@@ -120,7 +118,7 @@ namespace Gui {
         painter.drawLine(p1,p2);*/
         ++itt;
     }
-    
+    painter.setFont(orig);
 
         }
 

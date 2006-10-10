@@ -20,6 +20,7 @@
 
 #include <qvaluelist.h>
 #include <qvbox.h>
+#include <qdom.h>
 #include <qtimer.h>
 
 #include "gentime.h"
@@ -173,6 +174,8 @@ namespace Command {
 	/** Return the list of all timeline guides */
 	QValueList < int > timelineGuides();
 	QStringList timelineRulerComments();
+	QDomDocument xmlGuides();
+	void guidesFromXml(QDomElement doc);
 
     protected:
 	/** @returns the ruler tool widget. */

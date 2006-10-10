@@ -393,6 +393,8 @@ namespace Gui {
 	QString timelineGuidesComments() const;
 	void insertGuides(QString guides, QString comments);
         void refreshClipTrack(DocClipRef * clip);
+	QDomDocument xmlGuides();
+	void guidesFromXml(QDomElement doc);
 
       private slots: 
         void slotToggleClipMonitor();

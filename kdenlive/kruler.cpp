@@ -927,6 +927,10 @@ namespace Gui {
 	//
 	// draw guide markers
 	//
+	QFont orig = painter.font();
+	QFont ft = orig;
+	ft.setPixelSize(11);
+	painter.setFont(ft);
 
         QValueList < KTimelineGuide >::Iterator itt = m_guides.begin();
         for ( itt = m_guides.begin(); itt != m_guides.end(); ++itt ) {
@@ -947,12 +951,13 @@ namespace Gui {
 		    painter.drawRect(textBound.x() - 2, textBound.y(), textBound.width() + 4, textBound.height());
 
 		    painter.setPen(Qt::white);
+		    
 		    painter.drawText(value - 20, height() -16, 40, 16, AlignCenter | AlignVCenter, txt);
 		    painter.setPen(Qt::black);
 		}
 	    }
 	}
-
+	painter.setFont(orig);
 	//
 	// draw sliders
 	//
@@ -1070,15 +1075,42 @@ namespace Gui {
         for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
 	    if ((*it).chapterNum() == -1) list<<(*it).guideComment();
 	    else {
-		kdDebug()<<" + + + GUIDE: ("<<(*it).guideComment()<<") "<<(*it).chapterNum()<<endl;
-		if ((*it).guideComment() == QString::null) {
-		if ((*it).chapterNum() == 1000) list<<i18n("Chapter End");
-	    	else list<<i18n("Chapter %1").arg((*it).chapterNum());
-	    }
-	    else list<<(*it).guideComment();
+		if ((*it).guideComment().isEmpty()) {
+		    if ((*it).chapterNum() == 1000) list<<i18n("Chapter End");
+	    	    else list<<i18n("Chapter %1").arg((*it).chapterNum());
+	        }
+	        else list<<(*it).guideComment();
 	    }
         }
 	return list;
+    }
+
+    QDomDocument KRuler::xmlGuides() {
+        QDomDocument doc;
+	QDomElement list = doc.createElement("guides");
+	QValueList < KTimelineGuide >::Iterator it = m_guides.begin();
+        for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
+	    QDomElement guide = doc.createElement("guide");
+	    guide.setAttribute("position", (*it).guidePosition());
+	    guide.setAttribute("comment", (*it).guideComment());
+	    guide.setAttribute("chapter", QString::number((*it).chapterNum()));
+	    list.appendChild(guide);
+        }
+	doc.appendChild(list);
+	return doc;
+    }
+
+    void KRuler::guidesFromXml(QDomElement xml) {
+	QDomNode node = xml.firstChild();
+	while (!node.isNull()) {
+	    QDomElement element = node.toElement();
+	    if (!element.isNull()) {
+	    	if (element.tagName() == "guide") {
+		slotAddGuide(element.attribute("position").toInt(), element.attribute("comment"), element.attribute("chapter").toInt());
+	        }
+	    }
+	node = node.nextSibling();
+	}
     }
 
     int KRuler::currentGuideIndex() {

@@ -18,6 +18,7 @@
 #ifndef KRULER_H
 #define KRULER_H
 
+#include <qdom.h>
 #include <qwidget.h>
 #include <qpixmap.h>
 #include <qtimer.h>
@@ -150,6 +151,8 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
 	int guidePosition(int ix);
 	int guideChapter(int ix);
 	QString guideComment(int ix);
+	QDomDocument xmlGuides();
+	void guidesFromXml(QDomElement xml);
 
     signals:		// Signals
 	/** This signal is emitted when the ruler is resized. */
