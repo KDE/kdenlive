@@ -104,6 +104,8 @@
 #include "createslideshowclip.h"
 #include "createimageclip_ui.h"
 #include "kaddtransitioncommand.h"
+#include "exportdvddialog.h"
+
 
 #include "trackpanelclipmovefunction.h"
 #include "trackpanelrazorfunction.h"
@@ -391,6 +393,11 @@ namespace Gui {
 	    new KAction(i18n("&Export Timeline"), "exportvideo.png", 0,
 	    this, SLOT(slotRenderExportTimeline()), actionCollection(),
 	    "render_export_timeline");
+
+	KAction *renderDvd = new KAction(i18n("Generate DVD files"), "dvd.png", 0, this,
+	    SLOT(slotRenderDvd()), actionCollection(), "render_dvd");
+	zoomIn->setStatusText(i18n("Generate necessary files to create a DVD"));
+
 	configureProject =
 	    new KAction(i18n("&Configure Project"), "configureproject.png",
 	    0, this, SLOT(slotConfigureProject()), actionCollection(),
@@ -1909,6 +1916,11 @@ namespace Gui {
 	slotStatusMsg(i18n("Ready."));
     }
 
+    void KdenliveApp::slotRenderDvd() {
+	ExportDvdDialog dlg(&getDocument()->projectClip());
+	dlg.fillStructure(xmlGuides());
+	dlg.exec();
+    }
 
     void KdenliveApp::slotOptionsPreferences() {
 	slotStatusMsg(i18n("Editing Preferences"));

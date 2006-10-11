@@ -66,6 +66,7 @@
   
   <Menu name="Render"><text>Render</text>
   	<Action name="render_export_timeline"/>
+	<Action name="render_dvd"/>
   </Menu>
   
   <Menu name="Layout"><text>Layout</text>

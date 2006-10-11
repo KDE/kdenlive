@@ -239,6 +239,7 @@ namespace Gui {
 	void slotTimelineRollTool();
 		/** Called when the user activates the "Export Timeline" action */
 	void slotRenderExportTimeline();
+	void slotRenderDvd();
 		/** Called when the user activates the "Configure Project" action */
 	void slotConfigureProject();
 		/** Called when the user activates the "Preferences" action */
