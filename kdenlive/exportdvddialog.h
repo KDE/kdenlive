@@ -46,6 +46,7 @@ class ExportDvdDialog:public ExportDvd_UI {
 	void generateDvdXml();
 
     private:			// Private attributes
+	GenTime timeFromString(QString timeString);
 	DocClipProject *m_project;
 	double m_fps;
 };

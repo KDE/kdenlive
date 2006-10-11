@@ -1011,12 +1011,14 @@ namespace Gui {
     }
 
    void KRuler::slotAddGuide(int time, QString comment, int chapterNum) {
-	uint ct = 0;
+
+	int chapterCount = 0;
         QValueList < KTimelineGuide >::Iterator it = m_guides.begin();
         for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
 	    if ((*it).guidePosition() >= time)
 	    	break;
-	    ct++;
+	    else 
+	    if ((*it).chapterNum() > -1 && (*it).chapterNum() < 1000) chapterCount++;
         }
 
     	if ((it != m_guides.end()) && ((*it).guidePosition() == time)) {
@@ -1024,14 +1026,25 @@ namespace Gui {
 	    "trying to add Guide that already exists, this will cause inconsistancies with undo/redo"
 	    << endl;
     	} else {
-	    m_guides.insert(it, KTimelineGuide(time, comment, chapterNum));
-	    invalidateBackBuffer(mapValueToLocal(time) - 20, mapValueToLocal(time) + 20);
+	    if (chapterNum == -1 || chapterNum == 1000) chapterCount = chapterNum;
+	    m_guides.insert(it, KTimelineGuide(time, comment, chapterCount));
+	    if (chapterNum == 0) {
+	        while (it != m_guides.end()) {
+		    int cn = (*it).chapterNum();
+	            if (cn > -1 && cn < 1000) (*it).setChapterNum(cn+1);
+		    it++;
+	    	}
+		invalidateBackBuffer();
+	    }
+	    else invalidateBackBuffer(mapValueToLocal(time) - 20, mapValueToLocal(time) + 20);
+	    
 	}
     }
 
     void KRuler::slotDeleteGuide() {
 	int localTime = (int) mapValueToLocal(getSliderValue(0));
 	uint ct = 0;
+	bool isChapter = false;
         QValueList < KTimelineGuide >::Iterator it = m_guides.begin();
         for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
 	    if (abs(mapValueToLocal((*it).guidePosition()) - localTime) < 10)
@@ -1039,9 +1052,24 @@ namespace Gui {
 	    ct++;
         }
     	if (it != m_guides.end()) {
-	    m_guides.erase(it);
+	    if ((*it).chapterNum() != -1 && (*it).chapterNum() != 1000) isChapter = true;
 	    int pos = (*it).guidePosition();
-	    invalidateBackBuffer(mapValueToLocal(pos) - 20, mapValueToLocal(pos) + 20);
+	    QValueList < KTimelineGuide >::Iterator toBeRemoved = it;
+	    
+	    // *it = m_guides[ct];
+	    if (isChapter) {
+		while (it != m_guides.end()) {
+		    int cn = (*it).chapterNum();
+	            if (cn > -1 && cn < 1000) (*it).setChapterNum(cn-1);
+		    it++;
+	    	}
+		m_guides.erase(toBeRemoved);
+		invalidateBackBuffer();
+	    }
+	    else {
+		m_guides.erase(toBeRemoved);
+		invalidateBackBuffer(mapValueToLocal(pos) - 20, mapValueToLocal(pos) + 20);
+	    }
     	} else {
 	    kdError()<<"CANNOT find guide to delete"<<endl;
 	}

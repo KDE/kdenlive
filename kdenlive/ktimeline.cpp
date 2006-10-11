@@ -651,7 +651,7 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
             int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * m_framesPerSecond + dur.section(":",3,3).toInt());
 	    int chapter = -1;
 	    if (dlg.dvd_marker->isChecked()) {
-	        if (dlg.chapter_start->isChecked()) chapter = dlg.chapter_num->value();
+	        if (dlg.chapter_start->isChecked()) chapter = 0;
 	        else if (dlg.chapter_end->isChecked()) chapter = 1000;
 	    }
 	    m_ruler->slotAddGuide(frames, dlg.marker_comment->text(), chapter);
@@ -689,7 +689,6 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
 		dlg.chapter_end->setChecked(true);
 	    else {
 		dlg.chapter_start->setChecked(true);
-		dlg.chapter_num->setValue(chap);
 	    }
 	}
 	if (dlg.exec() == QDialog::Accepted) {
@@ -697,7 +696,7 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
             int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * m_framesPerSecond + dur.section(":",3,3).toInt());
     	    int chapter = -1;
 	    if (dlg.dvd_marker->isChecked()) {
-	        if (dlg.chapter_start->isChecked()) chapter = dlg.chapter_num->value();
+	        if (dlg.chapter_start->isChecked()) chapter = 0;
 	        else if (dlg.chapter_end->isChecked()) chapter = 1000;
 	    }
 

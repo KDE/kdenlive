@@ -16,12 +16,14 @@
  ***************************************************************************/
 
 #include <qlayout.h>
+#include <qlabel.h>
 #include <qobjectlist.h>
 
 #include <klocale.h>
 #include <kdebug.h>
 #include <klistview.h>
 #include <kurlrequester.h>
+#include <kmessagebox.h>
 #include <kio/netaccess.h>
 
 #include "timecode.h"
@@ -48,7 +50,6 @@ ExportDvdDialog::~ExportDvdDialog()
 void ExportDvdDialog::fillStructure(QDomDocument xml) {
     QDomElement docElem = xml.documentElement();
     QDomNode node = docElem.firstChild();
-    bool chapterOpen = false;
     int currentStart = 0;
     int currentChapter = 0;
     Timecode tc;
@@ -59,54 +60,82 @@ void ExportDvdDialog::fillStructure(QDomDocument xml) {
 	    if (element.tagName() == "guide" && element.attribute("chapter").toInt() != -1) {
 		int position = element.attribute("position").toInt();
 		int chapter = element.attribute("chapter").toInt();
-		if (!chapterOpen) {
-		    currentStart = position;
-		    currentChapter = chapter;
-		    chapterOpen = true;
+		QString st = tc.getTimecode(GenTime(position, m_fps), m_fps);
+		if (chapter_list->childCount() != 0) chapter_list->lastItem()->setText(2, st);
+		if (chapter == 1000) {
+		    if (chapter_list->childCount() == 0)
+			(void) new KListViewItem(chapter_list, i18n("Chapter %1").arg(currentChapter), "00:00:00:00", st);
+		    break;
 		}
-		else {
-		    if (chapter == 1000) chapterOpen = false;
-		    QString st = tc.getTimecode(GenTime(currentStart, m_fps), m_fps);
-		    QString en = tc.getTimecode(GenTime(position, m_fps), m_fps);
-		    (void) new KListViewItem(chapter_list, i18n("Chapter %1").arg(currentChapter), st, en);
-		}
+		(void) new KListViewItem(chapter_list, i18n("Chapter %1").arg(currentChapter), st);
+	        currentChapter++;
 	    }
 	}
 	node = node.nextSibling();
     }
+
+    if (chapter_list->childCount() == 0) {
+	KMessageBox::information(this, i18n("You didn't define any DVD chapters (markers). The complete timeline will be exported as a single chapter"));
+	(void) new KListViewItem(chapter_list, i18n("Chapter 0"), "00:00:00:00", tc.getTimecode(m_project->duration(), m_fps));
+    }
+
+    if (chapter_list->lastItem()->text(2).isEmpty()) {
+	// User didn't set the DVD end, use last frame of project
+	QString st = tc.getTimecode(m_project->duration(), m_fps);
+	chapter_list->lastItem()->setText(2, st);
+    }
+    // Calculate dvd duration
+    QString startF = chapter_list->firstChild()->text(1);
+    QString endF = chapter_list->lastItem()->text(2);
+    GenTime startFrame = timeFromString(startF);
+    GenTime endFrame = timeFromString(endF);
+    total_duration->setText(tc.getTimecode(endFrame - startFrame, m_fps));
 }
 
 void ExportDvdDialog::generateDvdXml() {
-	QString chapterTimes = "00:00:00.00";
-        QListViewItem * myChild = chapter_list->firstChild();
-        while( myChild ) {
-            chapterTimes += "," + myChild->text(1).replace(8,1,".");
+    Timecode tc;
+    QString chapterTimes;
+    if (chapter_list->childCount() > 1) {
+	chapterTimes = "00:00:00.00";
+	
+	QListViewItem * myChild = chapter_list->firstChild();
+	GenTime offset = timeFromString(myChild->text(1));
+	myChild = myChild->nextSibling();
+	while( myChild ) {
+	    QString ct = tc.getTimecode(timeFromString(myChild->text(1)) - offset, m_fps);
+            chapterTimes += "," + ct.replace(8,1,".");
             myChild = myChild->nextSibling();
-        }
-	QDomDocument doc;
-	QDomElement main = doc.createElement("dvdauthor");
-	main.appendChild(doc.createElement("vmgm"));
-	QDomElement titleset = doc.createElement("titleset");
-	main.appendChild(titleset);
-	QDomElement titles = doc.createElement("titles");
-	titleset.appendChild(titles);
-	QDomElement pgc = doc.createElement("pgc");
-	titles.appendChild(pgc);
-	QDomElement vob = doc.createElement("vob");
-	vob.setAttribute("file", render_file->url());
-	vob.setAttribute("chapters", chapterTimes);
-	pgc.appendChild(vob);
-	doc.appendChild(main);
+    	}
+    }
+    QDomDocument doc;
+    QDomElement main = doc.createElement("dvdauthor");
+    main.appendChild(doc.createElement("vmgm"));
+    QDomElement titleset = doc.createElement("titleset");
+    main.appendChild(titleset);
+    QDomElement titles = doc.createElement("titles");
+    titleset.appendChild(titles);
+    QDomElement pgc = doc.createElement("pgc");
+    titles.appendChild(pgc);
+    QDomElement vob = doc.createElement("vob");
+    vob.setAttribute("file", render_file->url());
+    if (!chapterTimes.isEmpty()) vob.setAttribute("chapters", chapterTimes);
+    pgc.appendChild(vob);
+    doc.appendChild(main);
 
-	QFile *file = new QFile();
-        file->setName(xml_file->url());
-        file->open(IO_WriteOnly);
-        QTextStream stream( file );
-        stream.setEncoding (QTextStream::UnicodeUTF8);
-        stream << doc.toString();
-        file->close();
-	//kdDebug()<<"- - - - - - -"<<endl;
-	//kdDebug()<<doc.toString()<<endl;
+    QFile *file = new QFile();
+    file->setName(xml_file->url());
+    file->open(IO_WriteOnly);
+    QTextStream stream( file );
+    stream.setEncoding (QTextStream::UnicodeUTF8);
+    stream << doc.toString();
+    file->close();
+    //kdDebug()<<"- - - - - - -"<<endl;
+    //kdDebug()<<doc.toString()<<endl;
+}
+
+GenTime ExportDvdDialog::timeFromString(QString timeString) {
+    int frames = (int) ((timeString.section(":",0,0).toInt()*3600 + timeString.section(":",1,1).toInt()*60 + timeString.section(":",2,2).toInt()) * m_fps + timeString.section(":",3,3).toInt());
+    return GenTime(frames, m_fps);
 }
 
 } // End Gui

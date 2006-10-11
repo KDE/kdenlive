@@ -166,7 +166,7 @@
                         <bool>true</bool>
                     </property>
                     <property name="text">
-                        <string>End of chapter</string>
+                        <string>End of Dvd</string>
                     </property>
                 </widget>
                 <widget class="QCheckBox" row="0" column="0">
@@ -177,17 +177,9 @@
                         <bool>true</bool>
                     </property>
                     <property name="text">
-                        <string>Start of chapter</string>
+                        <string>New chapter</string>
                     </property>
                     <property name="checked">
-                        <bool>true</bool>
-                    </property>
-                </widget>
-                <widget class="QSpinBox" row="0" column="1">
-                    <property name="name">
-                        <cstring>chapter_num</cstring>
-                    </property>
-                    <property name="enabled">
                         <bool>true</bool>
                     </property>
                 </widget>
