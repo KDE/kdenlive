@@ -40,7 +40,9 @@ ExportDvdDialog::ExportDvdDialog(DocClipProject *proj, QWidget * parent, const c
 	KIO::NetAccess::mkdir(KURL(KdenliveSettings::currentdefaultfolder() + "/dvd/"), this);
     m_fps = m_project->framesPerSecond();
     xml_file = KdenliveSettings::currentdefaultfolder() + "/dvdauthor.xml";
+
     render_file->fileDialog()->setURL(KURL(KdenliveSettings::currentdefaultfolder()));
+    render_file->fileDialog()->setFilter("video/mpeg");
     chapter_list->setItemsRenameable(true);
     chapter_list->setRenameable(0, false);
     chapter_list->setRenameable(3, true);
