@@ -39,7 +39,11 @@ ExportDvdDialog::ExportDvdDialog(DocClipProject *proj, QWidget * parent, const c
     m_fps = m_project->framesPerSecond();
     xml_file->setURL(KdenliveSettings::currentdefaultfolder() + "/dvd/dvdauthor.xml" );
     render_file->setURL(KdenliveSettings::currentdefaultfolder() + "/dvd/movie.vob" );
-
+    chapter_list->setItemsRenameable(true);
+    chapter_list->setRenameable(0, false);
+    chapter_list->setRenameable(3, true);
+    chapter_list->setColumnWidthMode(2, QListView::Manual);
+    chapter_list->setColumnWidth(2, 0);
     connect(buttonOk, SIGNAL(clicked()), this, SLOT(generateDvdXml()));
 }
 
@@ -67,7 +71,7 @@ void ExportDvdDialog::fillStructure(QDomDocument xml) {
 			(void) new KListViewItem(chapter_list, i18n("Chapter %1").arg(currentChapter), "00:00:00:00", st);
 		    break;
 		}
-		(void) new KListViewItem(chapter_list, i18n("Chapter %1").arg(currentChapter), st);
+		(void) new KListViewItem(chapter_list, i18n("Chapter %1").arg(currentChapter), st, QString::null, element.attribute("comment"));
 	        currentChapter++;
 	    }
 	}

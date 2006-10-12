@@ -61,6 +61,17 @@
                     <bool>true</bool>
                 </property>
                 <property name="resizable">
+                    <bool>false</bool>
+                </property>
+            </column>
+            <column>
+                <property name="text">
+                    <string>Title</string>
+                </property>
+                <property name="clickable">
+                    <bool>true</bool>
+                </property>
+                <property name="resizable">
                     <bool>true</bool>
                 </property>
             </column>
