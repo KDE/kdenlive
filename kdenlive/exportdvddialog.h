@@ -23,6 +23,7 @@
 
 #include <kdialogbase.h>
 #include <kurl.h>
+#include <kprocess.h>
 
 #include "docclipproject.h"
 #include "exportdvd_ui.h"
@@ -44,11 +45,15 @@ class ExportDvdDialog:public ExportDvd_UI {
 
     private slots:
 	void generateDvdXml();
+	void previewDvd();
+	void burnDvd();
 
     private:			// Private attributes
 	GenTime timeFromString(QString timeString);
 	DocClipProject *m_project;
 	double m_fps;
+	KProcess *m_exportProcess;
+	QString xml_file;
 };
 
 }				// namespace Gui

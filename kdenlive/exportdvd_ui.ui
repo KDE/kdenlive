@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>274</width>
-            <height>353</height>
+            <width>299</width>
+            <height>377</height>
         </rect>
     </property>
     <property name="caption">
@@ -22,7 +22,7 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QLabel" row="0" column="0" rowspan="1" colspan="3">
+        <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>textLabel1</cstring>
             </property>
@@ -30,7 +30,23 @@
                 <string>DVD Structure</string>
             </property>
         </widget>
-        <widget class="KListView" row="1" column="0" rowspan="1" colspan="4">
+        <widget class="QLabel" row="2" column="0">
+            <property name="name">
+                <cstring>textLabel2</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>1</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string>Total duration:</string>
+            </property>
+        </widget>
+        <widget class="KListView" row="1" column="0" rowspan="1" colspan="3">
             <column>
                 <property name="text">
                     <string>Chapter</string>
@@ -88,17 +104,20 @@
                 <bool>true</bool>
             </property>
         </widget>
-        <widget class="KURLRequester" row="4" column="0" rowspan="1" colspan="4">
+        <widget class="QLabel" row="2" column="1" rowspan="1" colspan="2">
             <property name="name">
-                <cstring>xml_file</cstring>
-            </property>
-        </widget>
-        <widget class="QPushButton" row="6" column="2">
-            <property name="name">
-                <cstring>buttonOk</cstring>
+                <cstring>total_duration</cstring>
             </property>
             <property name="text">
-                <string>&amp;OK</string>
+                <string></string>
+            </property>
+        </widget>
+        <widget class="QPushButton" row="4" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>button_generate</cstring>
+            </property>
+            <property name="text">
+                <string>Generate DVD</string>
             </property>
             <property name="accel">
                 <string></string>
@@ -110,12 +129,12 @@
                 <bool>true</bool>
             </property>
         </widget>
-        <widget class="QPushButton" row="6" column="3">
+        <widget class="QPushButton" row="5" column="0" rowspan="1" colspan="2">
             <property name="name">
-                <cstring>buttonCancel</cstring>
+                <cstring>button_preview</cstring>
             </property>
             <property name="text">
-                <string>&amp;Cancel</string>
+                <string>Preview</string>
             </property>
             <property name="accel">
                 <string></string>
@@ -123,110 +142,59 @@
             <property name="autoDefault">
                 <bool>true</bool>
             </property>
-        </widget>
-        <widget class="QLabel" row="3" column="0" rowspan="1" colspan="3">
-            <property name="name">
-                <cstring>textLabel1_2</cstring>
-            </property>
-            <property name="text">
-                <string>Save Dvdauthor XML file as:</string>
-            </property>
-        </widget>
-        <spacer row="6" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>Horizontal Spacing2</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>59</width>
-                    <height>20</height>
-                </size>
-            </property>
-        </spacer>
-        <widget class="QButtonGroup" row="5" column="0" rowspan="1" colspan="4">
-            <property name="name">
-                <cstring>buttonGroup3</cstring>
-            </property>
-            <property name="title">
-                <string>Movie video file</string>
-            </property>
-            <property name="exclusive">
+            <property name="default">
                 <bool>true</bool>
             </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QRadioButton" row="0" column="0">
-                    <property name="name">
-                        <cstring>video_render</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Render to File</string>
-                    </property>
-                    <property name="checked">
-                        <bool>true</bool>
-                    </property>
-                </widget>
-                <widget class="KURLRequester" row="0" column="1">
-                    <property name="name">
-                        <cstring>render_file</cstring>
-                    </property>
-                </widget>
-                <widget class="QRadioButton" row="1" column="0">
-                    <property name="name">
-                        <cstring>video_existing</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Existing file</string>
-                    </property>
-                </widget>
-                <widget class="KURLRequester" row="1" column="1">
-                    <property name="name">
-                        <cstring>existing_file</cstring>
-                    </property>
-                </widget>
-            </grid>
         </widget>
-        <widget class="QLabel" row="2" column="1" rowspan="1" colspan="3">
+        <widget class="QPushButton" row="6" column="0" rowspan="1" colspan="2">
             <property name="name">
-                <cstring>total_duration</cstring>
+                <cstring>button_burn</cstring>
             </property>
             <property name="text">
+                <string>Burn</string>
+            </property>
+            <property name="accel">
                 <string></string>
             </property>
-        </widget>
-        <widget class="QLabel" row="2" column="0">
-            <property name="name">
-                <cstring>textLabel2</cstring>
+            <property name="autoDefault">
+                <bool>true</bool>
             </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>1</hsizetype>
-                    <vsizetype>5</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
+            <property name="default">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="QPushButton" row="6" column="2">
+            <property name="name">
+                <cstring>buttonCancel</cstring>
             </property>
             <property name="text">
-                <string>Total duration:</string>
+                <string>&amp;Close</string>
+            </property>
+            <property name="accel">
+                <string>Alt+C</string>
+            </property>
+            <property name="autoDefault">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="QLabel" row="3" column="0">
+            <property name="name">
+                <cstring>textLabel1_2_2</cstring>
+            </property>
+            <property name="text">
+                <string>Movie file</string>
+            </property>
+        </widget>
+        <widget class="KURLRequester" row="3" column="1" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>render_file</cstring>
             </property>
         </widget>
     </grid>
 </widget>
+<customwidgets>
+</customwidgets>
 <connections>
-    <connection>
-        <sender>buttonOk</sender>
-        <signal>clicked()</signal>
-        <receiver>ExportDvd_UI</receiver>
-        <slot>accept()</slot>
-    </connection>
     <connection>
         <sender>buttonCancel</sender>
         <signal>clicked()</signal>
@@ -237,12 +205,6 @@
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klistview.h</includehint>
-    <includehint>kurlrequester.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kurlrequester.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>kpushbutton.h</includehint>
     <includehint>kurlrequester.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>

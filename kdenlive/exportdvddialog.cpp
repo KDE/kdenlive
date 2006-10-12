@@ -26,6 +26,7 @@
 #include <kmessagebox.h>
 #include <kio/netaccess.h>
 
+
 #include "timecode.h"
 #include "kdenlivesettings.h"
 #include "exportdvddialog.h"
@@ -37,14 +38,16 @@ ExportDvdDialog::ExportDvdDialog(DocClipProject *proj, QWidget * parent, const c
     if (!KIO::NetAccess::exists(KURL(KdenliveSettings::currentdefaultfolder() + "/dvd/"), false, this))
 	KIO::NetAccess::mkdir(KURL(KdenliveSettings::currentdefaultfolder() + "/dvd/"), this);
     m_fps = m_project->framesPerSecond();
-    xml_file->setURL(KdenliveSettings::currentdefaultfolder() + "/dvd/dvdauthor.xml" );
-    render_file->setURL(KdenliveSettings::currentdefaultfolder() + "/dvd/movie.vob" );
+    xml_file = KdenliveSettings::currentdefaultfolder() + "/dvdauthor.xml";
+    //render_file->setURL(KdenliveSettings::currentdefaultfolder() + "/movie.vob" );
     chapter_list->setItemsRenameable(true);
     chapter_list->setRenameable(0, false);
     chapter_list->setRenameable(3, true);
     chapter_list->setColumnWidthMode(2, QListView::Manual);
     chapter_list->setColumnWidth(2, 0);
-    connect(buttonOk, SIGNAL(clicked()), this, SLOT(generateDvdXml()));
+    connect(button_generate, SIGNAL(clicked()), this, SLOT(generateDvdXml()));
+    connect(button_preview, SIGNAL(clicked()), this, SLOT(previewDvd()));
+    connect(button_burn, SIGNAL(clicked()), this, SLOT(burnDvd()));
 }
 
 ExportDvdDialog::~ExportDvdDialog()
@@ -96,7 +99,39 @@ void ExportDvdDialog::fillStructure(QDomDocument xml) {
     total_duration->setText(tc.getTimecode(endFrame - startFrame, m_fps));
 }
 
+void ExportDvdDialog::burnDvd() {
+    if (!KIO::NetAccess::exists(KURL(KdenliveSettings::currentdefaultfolder() + "/dvd/VIDEO_TS/"), false, this)) {
+	KMessageBox::sorry(this, i18n("You need to generate the DVD structure before burning."));
+	return;
+    }
+    KProcess *previewProcess = new KProcess;
+    *previewProcess << "k3b";
+    *previewProcess << "--videodvd";
+    *previewProcess << KdenliveSettings::currentdefaultfolder() + "/dvd/VIDEO_TS";
+    *previewProcess << KdenliveSettings::currentdefaultfolder() + "/dvd/AUDIO_TS";
+/*    QApplication::connect(m_exportProcess, SIGNAL(processExited(KProcess *)), this, SLOT(endExport(KProcess *)));
+    QApplication::connect(m_exportProcess, SIGNAL(receivedStderr (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));*/
+    previewProcess->start();
+}
+
+void ExportDvdDialog::previewDvd() {
+    if (!KIO::NetAccess::exists(KURL(KdenliveSettings::currentdefaultfolder() + "/dvd/VIDEO_TS/"), false, this)) {
+	KMessageBox::sorry(this, i18n("You need to generate the DVD structure before previewing."));
+	return;
+    }
+    KProcess *previewProcess = new KProcess;
+    *previewProcess << "xine";
+    *previewProcess << "dvd:/" + KdenliveSettings::currentdefaultfolder() + "/dvd/";
+/*    QApplication::connect(m_exportProcess, SIGNAL(processExited(KProcess *)), this, SLOT(endExport(KProcess *)));
+    QApplication::connect(m_exportProcess, SIGNAL(receivedStderr (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));*/
+    previewProcess->start();
+}
+
 void ExportDvdDialog::generateDvdXml() {
+    if (render_file->url().isEmpty()) {
+	KMessageBox::sorry(this, i18n("You didn't select the video file for the DVD.\n Please choose one before starting any operation."));
+	return;
+    }
     Timecode tc;
     QString chapterTimes;
     if (chapter_list->childCount() > 1) {
@@ -127,12 +162,26 @@ void ExportDvdDialog::generateDvdXml() {
     doc.appendChild(main);
 
     QFile *file = new QFile();
-    file->setName(xml_file->url());
+    file->setName(xml_file);
     file->open(IO_WriteOnly);
     QTextStream stream( file );
     stream.setEncoding (QTextStream::UnicodeUTF8);
     stream << doc.toString();
     file->close();
+
+    m_exportProcess = new KProcess;
+    *m_exportProcess << "dvdauthor";
+    *m_exportProcess << "-o";
+    *m_exportProcess << KdenliveSettings::currentdefaultfolder() + "/dvd/";
+    *m_exportProcess << "-x";
+    *m_exportProcess << xml_file;
+
+/*    QApplication::connect(m_exportProcess, SIGNAL(processExited(KProcess *)), this, SLOT(endExport(KProcess *)));
+    QApplication::connect(m_exportProcess, SIGNAL(receivedStderr (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));*/
+    m_exportProcess->start(KProcess::NotifyOnExit, KProcess::AllOutput);
+    
+
+
     //kdDebug()<<"- - - - - - -"<<endl;
     //kdDebug()<<doc.toString()<<endl;
 }
