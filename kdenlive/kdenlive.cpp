@@ -104,7 +104,6 @@
 #include "createslideshowclip.h"
 #include "createimageclip_ui.h"
 #include "kaddtransitioncommand.h"
-#include "exportdvddialog.h"
 
 
 #include "trackpanelclipmovefunction.h"
@@ -1899,7 +1898,7 @@ namespace Gui {
     }
 
 /** Called when the user activates the "Export Timeline" action */
-    void KdenliveApp::slotRenderExportTimeline() {
+    void KdenliveApp::slotRenderExportTimeline(bool show) {
 	slotStatusMsg(i18n("Exporting Timeline..."));
 	    if (!m_exportWidget) { 
             m_exportWidget=new exportWidget(m_workspaceMonitor->screen(), m_timeline, this,"exporter");
@@ -1908,8 +1907,10 @@ namespace Gui {
             connect(m_workspaceMonitor->screen(),SIGNAL(exportOver()),m_exportWidget,SLOT(endExport()));
             connect(m_exportWidget,SIGNAL(exportToFirewire(QString, int, GenTime, GenTime)),m_workspaceMonitor->screen(),SLOT(exportToFirewire(QString, int, GenTime, GenTime)));
 	    }
-	    if (m_exportWidget->isVisible()) m_exportWidget->hide();
-	    else m_exportWidget->show();
+	    if (show) {
+	        if (m_exportWidget->isVisible()) m_exportWidget->hide();
+	        else m_exportWidget->show();
+	    }
         
         //delete m_exportWidget;
         //m_exportWidget = 0;
@@ -1917,9 +1918,10 @@ namespace Gui {
     }
 
     void KdenliveApp::slotRenderDvd() {
-	ExportDvdDialog dlg(&getDocument()->projectClip());
-	dlg.fillStructure(xmlGuides());
-	dlg.exec();
+	if (!m_exportWidget) slotRenderExportTimeline(false);
+	if (!m_exportDvd) m_exportDvd = new ExportDvdDialog(&getDocument()->projectClip(), m_exportWidget);
+	m_exportDvd->fillStructure(xmlGuides());
+	m_exportDvd->exec();
     }
 
     void KdenliveApp::slotOptionsPreferences() {

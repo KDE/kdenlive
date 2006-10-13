@@ -81,16 +81,19 @@ private slots:
 	void endConvert(KProcess *);
 	void receivedConvertStderr(KProcess *, char *buffer, int buflen);
 	void slotAdjustGuides(int ix);
+	void endDvdExport(KProcess *);
 
 public slots:
 	void endExport();
 	void reportProgress(GenTime progress);
 	void updateGuides();
+	void generateDvdFile(QString file, GenTime start, GenTime end);
 
 signals:
     /*void exportTimeLine(QString, QString, GenTime, GenTime, QStringList);
     void stopTimeLineExport();*/
     void exportToFirewire(QString, int, GenTime, GenTime);
+    void dvdExportOver(bool);
 	
 };
 #endif

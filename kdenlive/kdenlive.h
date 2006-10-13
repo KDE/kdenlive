@@ -43,6 +43,7 @@
 #include "kdenlivesplash.h"
 #include "initeffects.h"
 #include "effectdescriptionlist.h"
+#include "exportdvddialog.h"
 
 // forward declaration of the Kdenlive classes
 class DocClipProject;
@@ -238,7 +239,7 @@ namespace Gui {
 		/** Called when the roll tool is selected  -reh */
 	void slotTimelineRollTool();
 		/** Called when the user activates the "Export Timeline" action */
-	void slotRenderExportTimeline();
+	void slotRenderExportTimeline(bool show = true);
 	void slotRenderDvd();
 		/** Called when the user activates the "Configure Project" action */
 	void slotConfigureProject();
@@ -572,6 +573,7 @@ namespace Gui {
 	KDockWidget *m_dockTransition;
         
         exportWidget *m_exportWidget;
+	ExportDvdDialog *m_exportDvd;
 
 	ProjectFormatManager m_projectFormatManager;
 

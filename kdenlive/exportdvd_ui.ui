@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>299</width>
-            <height>377</height>
+            <width>341</width>
+            <height>325</height>
         </rect>
     </property>
     <property name="caption">
@@ -22,14 +22,6 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>textLabel1</cstring>
-            </property>
-            <property name="text">
-                <string>DVD Structure</string>
-            </property>
-        </widget>
         <widget class="QLabel" row="2" column="0">
             <property name="name">
                 <cstring>textLabel2</cstring>
@@ -46,7 +38,7 @@
                 <string>Total duration:</string>
             </property>
         </widget>
-        <widget class="KListView" row="1" column="0" rowspan="1" colspan="3">
+        <widget class="KListView" row="1" column="0" rowspan="1" colspan="4">
             <column>
                 <property name="text">
                     <string>Chapter</string>
@@ -104,13 +96,133 @@
                 <bool>true</bool>
             </property>
         </widget>
-        <widget class="QLabel" row="2" column="1" rowspan="1" colspan="2">
+        <widget class="QLabel" row="2" column="1" rowspan="1" colspan="3">
             <property name="name">
                 <cstring>total_duration</cstring>
             </property>
             <property name="text">
                 <string></string>
             </property>
+        </widget>
+        <widget class="QPushButton" row="5" column="1">
+            <property name="name">
+                <cstring>button_burn</cstring>
+            </property>
+            <property name="text">
+                <string>Burn</string>
+            </property>
+            <property name="accel">
+                <string></string>
+            </property>
+            <property name="autoDefault">
+                <bool>true</bool>
+            </property>
+            <property name="default">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="QPushButton" row="5" column="3">
+            <property name="name">
+                <cstring>buttonCancel</cstring>
+            </property>
+            <property name="text">
+                <string>&amp;Close</string>
+            </property>
+            <property name="accel">
+                <string>Alt+C</string>
+            </property>
+            <property name="autoDefault">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <spacer row="5" column="2">
+            <property name="name">
+                <cstring>spacer1</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>74</width>
+                    <height>16</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QPushButton" row="5" column="0">
+            <property name="name">
+                <cstring>button_preview</cstring>
+            </property>
+            <property name="text">
+                <string>Preview</string>
+            </property>
+            <property name="accel">
+                <string></string>
+            </property>
+            <property name="autoDefault">
+                <bool>true</bool>
+            </property>
+            <property name="default">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="QButtonGroup" row="3" column="0" rowspan="1" colspan="4">
+            <property name="name">
+                <cstring>buttonGroup1</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Plain</enum>
+            </property>
+            <property name="lineWidth">
+                <number>0</number>
+            </property>
+            <property name="title">
+                <string></string>
+            </property>
+            <property name="flat">
+                <bool>true</bool>
+            </property>
+            <property name="exclusive">
+                <bool>true</bool>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <widget class="QRadioButton" row="0" column="0">
+                    <property name="name">
+                        <cstring>use_existing</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Use existing video file</string>
+                    </property>
+                </widget>
+                <widget class="KURLRequester" row="0" column="1">
+                    <property name="name">
+                        <cstring>render_file</cstring>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="1" column="0">
+                    <property name="name">
+                        <cstring>render_now</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Render file now</string>
+                    </property>
+                    <property name="checked">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+            </grid>
         </widget>
         <widget class="QPushButton" row="4" column="0" rowspan="1" colspan="2">
             <property name="name">
@@ -129,65 +241,17 @@
                 <bool>true</bool>
             </property>
         </widget>
-        <widget class="QPushButton" row="5" column="0" rowspan="1" colspan="2">
+        <widget class="QLabel" row="0" column="0">
             <property name="name">
-                <cstring>button_preview</cstring>
+                <cstring>textLabel1</cstring>
             </property>
             <property name="text">
-                <string>Preview</string>
-            </property>
-            <property name="accel">
-                <string></string>
-            </property>
-            <property name="autoDefault">
-                <bool>true</bool>
-            </property>
-            <property name="default">
-                <bool>true</bool>
+                <string>DVD Folder</string>
             </property>
         </widget>
-        <widget class="QPushButton" row="6" column="0" rowspan="1" colspan="2">
+        <widget class="KURLRequester" row="0" column="1" rowspan="1" colspan="3">
             <property name="name">
-                <cstring>button_burn</cstring>
-            </property>
-            <property name="text">
-                <string>Burn</string>
-            </property>
-            <property name="accel">
-                <string></string>
-            </property>
-            <property name="autoDefault">
-                <bool>true</bool>
-            </property>
-            <property name="default">
-                <bool>true</bool>
-            </property>
-        </widget>
-        <widget class="QPushButton" row="6" column="2">
-            <property name="name">
-                <cstring>buttonCancel</cstring>
-            </property>
-            <property name="text">
-                <string>&amp;Close</string>
-            </property>
-            <property name="accel">
-                <string>Alt+C</string>
-            </property>
-            <property name="autoDefault">
-                <bool>true</bool>
-            </property>
-        </widget>
-        <widget class="QLabel" row="3" column="0">
-            <property name="name">
-                <cstring>textLabel1_2_2</cstring>
-            </property>
-            <property name="text">
-                <string>Movie file</string>
-            </property>
-        </widget>
-        <widget class="KURLRequester" row="3" column="1" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>render_file</cstring>
+                <cstring>dvd_folder</cstring>
             </property>
         </widget>
     </grid>
@@ -205,6 +269,9 @@
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klistview.h</includehint>
+    <includehint>kurlrequester.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kpushbutton.h</includehint>
     <includehint>kurlrequester.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>

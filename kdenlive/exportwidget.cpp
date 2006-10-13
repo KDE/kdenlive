@@ -421,6 +421,44 @@ void exportWidget::startExport()
     }
 }
 
+void exportWidget::generateDvdFile(QString file, GenTime start, GenTime end)
+{
+    m_isRunning = true;
+    tabWidget->page(0)->setEnabled(false);
+    startExportTime = start;
+    endExportTime = end;
+    m_duration = endExportTime - startExportTime;
+    if (m_tmpFile) delete m_tmpFile;
+    m_tmpFile = new KTempFile( QString::null, ".westley");
+    m_progress = 0;
+    if (m_exportProcess) {
+    	m_exportProcess->kill();
+    	delete m_exportProcess;
+    }
+    QTextStream stream( m_tmpFile->file() );
+    stream << m_screen->sceneList().toString() << "\n";
+    m_tmpFile->file()->close();
+    m_exportProcess = new KProcess;
+    *m_exportProcess << "inigo";
+    *m_exportProcess << m_tmpFile->name();
+    *m_exportProcess << "real_time=0";
+    *m_exportProcess << "progressive=1";
+    *m_exportProcess << QString("in=%1").arg(start.frames(KdenliveSettings::defaultfps()));
+    *m_exportProcess << QString("out=%1").arg(end.frames(KdenliveSettings::defaultfps()));
+    *m_exportProcess << "-consumer";
+    *m_exportProcess << QString("avformat:%1").arg(file);
+
+    QStringList fixedParams;
+    if (KdenliveSettings::defaultfps() == 25) fixedParams = encodersFixedList[EncodersMap["Pal dvd"]];
+    else fixedParams = encodersFixedList[EncodersMap["Ntsc dvd"]];
+    *m_exportProcess << fixedParams;
+
+    connect(m_exportProcess, SIGNAL(processExited(KProcess *)), this, SLOT(endDvdExport(KProcess *)));
+    connect(m_exportProcess, SIGNAL(receivedStderr (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));
+    m_exportProcess->start(KProcess::NotifyOnExit, KProcess::AllOutput);
+
+}
+
 void exportWidget::doExport(QString file, QStringList params, bool isDv)
 {
     if (m_tmpFile) delete m_tmpFile;
@@ -433,9 +471,9 @@ void exportWidget::doExport(QString file, QStringList params, bool isDv)
     kdDebug()<<"++++++  PREPARE TO WRITE TO: "<<m_tmpFile->name()<<endl;
     //QFile file = tmp.file();
     //if ( tmp.file()->open( IO_WriteOnly ) ) {
-        QTextStream stream( m_tmpFile->file() );
-        stream << m_screen->sceneList().toString() << "\n";
-        m_tmpFile->file()->close();
+    QTextStream stream( m_tmpFile->file() );
+    stream << m_screen->sceneList().toString() << "\n";
+    m_tmpFile->file()->close();
     //kdDebug()<<m_screen->sceneList().toString()<<endl;
     m_exportProcess = new KProcess;
     *m_exportProcess << "inigo";
@@ -451,8 +489,8 @@ void exportWidget::doExport(QString file, QStringList params, bool isDv)
     }
     else *m_exportProcess << QString("avformat:%1").arg(file);
     *m_exportProcess << params;
-    QApplication::connect(m_exportProcess, SIGNAL(processExited(KProcess *)), this, SLOT(endExport(KProcess *)));
-    QApplication::connect(m_exportProcess, SIGNAL(receivedStderr (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));
+    connect(m_exportProcess, SIGNAL(processExited(KProcess *)), this, SLOT(endExport(KProcess *)));
+    connect(m_exportProcess, SIGNAL(receivedStderr (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));
     switch (export_priority->currentItem()) {
 	case 0:
 	    m_exportProcess->setPriority(19);
@@ -553,6 +591,29 @@ void exportWidget::endExport(KProcess *)
     }
 }
 
+
+void exportWidget::endDvdExport(KProcess *)
+{
+    kdDebug()<<"* * * * * * * * *DVD FINISHED"<<endl;
+    bool finishedOK = true;
+    m_tmpFile->unlink();
+    delete m_tmpFile;
+    m_tmpFile = 0;
+
+    if (!m_exportProcess->normalExit()) {
+	//KMessageBox::sorry(this, i18n("The export terminated unexpectedly.\nOutput file will probably be corrupted..."));
+	emit dvdExportOver(false);
+	return;
+    }
+    delete m_exportProcess;
+    m_exportProcess = 0;
+    m_isRunning = false;
+    QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(0, 10007));
+    tabWidget->page(0)->setEnabled(true);
+    emit dvdExportOver(true);
+}
+
+
 void exportWidget::endConvert(KProcess *)
 {
     bool finishedOK = true;
@@ -615,8 +676,8 @@ void exportWidget::exportFileToTheora(QString srcFileName, int video, int audio,
     *m_convertProcess << "-o";
     *m_convertProcess << dstFileName;
 
-    QApplication::connect(m_convertProcess, SIGNAL(processExited(KProcess *)), this, SLOT(endConvert(KProcess *)));
-    QApplication::connect(m_convertProcess, SIGNAL(receivedStderr (KProcess *, char *, int )), this, SLOT(receivedConvertStderr(KProcess *, char *, int)));
+    connect(m_convertProcess, SIGNAL(processExited(KProcess *)), this, SLOT(endConvert(KProcess *)));
+    connect(m_convertProcess, SIGNAL(receivedStderr (KProcess *, char *, int )), this, SLOT(receivedConvertStderr(KProcess *, char *, int)));
     m_convertProcess->start(KProcess::NotifyOnExit, KProcess::AllOutput);
 }
 
