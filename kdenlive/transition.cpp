@@ -43,16 +43,21 @@ Transition::Transition(const DocClipRef * clipa, const DocClipRef * clipb)
     if (clipb) {
         // Transition is an automatic transition between 2 clips
         m_singleClip = true;
-        if (clipa->trackNum()>clipb->trackNum()) {
+       /* if (clipa->trackNum()>clipb->trackNum()) {
             m_referenceClip = clipb;
             m_secondClip = clipa;
         }
         else {
             m_referenceClip = clipa;
             m_secondClip = clipb;
-        }
+        }*/
+
+	m_referenceClip = clipa;
+	m_secondClip = clipb;
     
         if (m_referenceClip->trackStart() < m_secondClip->trackStart())
+		m_invertTransition = true;
+	else if (m_referenceClip->trackStart() == m_secondClip->trackStart() && m_referenceClip->trackEnd() < m_secondClip->trackEnd())
 		m_invertTransition = true;
 
 	GenTime startb = m_secondClip->trackStart();
