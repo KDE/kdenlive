@@ -2073,7 +2073,7 @@ namespace Gui {
 	slotStatusMsg(i18n("Adding Clips"));
 
 	// Make a reasonable filter for video / audio files.
-	QString filter = "application/flv application/vnd.rn-realmedia video/x-dv video/x-msvideo video/mpeg audio/x-mp3 audio/x-wav application/ogg";
+	QString filter = "application/flv application/vnd.rn-realmedia video/x-dv video/x-msvideo video/mpeg audio/x-mp3 audio/x-wav application/ogg *.m2t";
 	KURL::List urlList =
 	    KFileDialog::getOpenURLs(m_fileDialogPath.path(), filter, this,
         i18n("Open File..."));
