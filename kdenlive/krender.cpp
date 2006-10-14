@@ -412,7 +412,7 @@ double KRender::consumerRatio()
 
 void KRender::restoreProducer()
 {
-    if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
+    if (m_mltConsumer && !m_mltConsumer->is_stopped()) m_mltConsumer->stop();
     if (m_mltTextProducer) delete m_mltTextProducer;
     m_mltTextProducer = 0;
     m_mltConsumer->purge();
@@ -425,7 +425,7 @@ void KRender::restoreProducer()
 
 void KRender::setTitlePreview(QString tmpFileName)
 {
-    if (!m_mltConsumer->is_stopped()) {
+    if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
         m_mltConsumer->stop();
     }
     m_mltConsumer->purge();
@@ -561,6 +561,7 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
 	//kdDebug()<<"++SEEK POS: "<<pos.frames(25)<<endl;
     	if (!resetPosition) seek(pos);
 	m_mltProducer->set_speed(0.0);
+	m_fps = m_mltProducer->get_fps();
 
     	if (m_mltConsumer) 
     	{
@@ -613,7 +614,7 @@ void KRender::play(double speed, const GenTime & startTime)
     if (!m_mltProducer)
 	return;
     m_mltProducer->set_speed(speed);
-    m_mltProducer->seek((int) (startTime.frames(m_mltProducer->get_fps())));
+    m_mltProducer->seek((int) (startTime.frames(m_fps)));
     refresh();
 }
 
@@ -622,8 +623,8 @@ void KRender::play(double speed, const GenTime & startTime,
 {
     if (!m_mltProducer)
 	return;
-    m_mltProducer->set("out", stopTime.frames(m_mltProducer->get_fps()));
-    m_mltProducer->seek((int) (startTime.frames(m_mltProducer->get_fps())));
+    m_mltProducer->set("out", stopTime.frames(m_fps));
+    m_mltProducer->seek((int) (startTime.frames(m_fps)));
     m_mltProducer->set_speed(speed);
     refresh();
 }
@@ -640,7 +641,7 @@ void KRender::sendSeekCommand(GenTime time)
 {
     if (!m_mltProducer)
 	return;
-    m_mltProducer->seek((int) (time.frames(m_mltProducer->get_fps())));
+    m_mltProducer->seek((int) (time.frames(m_fps)));
     refresh();
     //m_seekPosition = time;
 }
@@ -702,7 +703,7 @@ double KRender::playSpeed()
 
 const GenTime & KRender::seekPosition() const
 {
-    if (m_mltProducer) return GenTime((int) m_mltProducer->position(), m_mltProducer->get_fps());
+    if (m_mltProducer) return GenTime((int) m_mltProducer->position(), m_fps);
     return GenTime(0);
 }
 
@@ -717,7 +718,7 @@ void KRender::emitFrameNumber(const GenTime & time, int eventType)
 {
     //m_seekPosition = time;
     if (m_mltProducer) {
-        QApplication::postEvent(m_app, new PositionChangeEvent(GenTime(m_mltProducer->position(), m_mltProducer->get_fps()), eventType));
+        QApplication::postEvent(m_app, new PositionChangeEvent(GenTime(m_mltProducer->position(), m_fps), eventType));
     }
 }
 
@@ -967,7 +968,7 @@ void KRender::exportTimeline(const QString &url, const QString &format, GenTime 
     m_fileRenderer->listen("consumer-frame-show", this, (mlt_listener) file_consumer_frame_show);
     m_fileRenderer->listen("consumer-stopped", this, (mlt_listener) file_consumer_stopped);
     
-    m_mltFileProducer = new Mlt::Producer(m_mltProducer->cut((int) exportStart.frames(m_mltProducer->get_fps()), (int) exportEnd.frames(m_mltProducer->get_fps())));
+    m_mltFileProducer = new Mlt::Producer(m_mltProducer->cut((int) exportStart.frames(m_fps), (int) exportEnd.frames(m_fps)));
     
     if (!frequency.isEmpty()) {
         Mlt::Filter m_convert("resample");

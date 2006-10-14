@@ -75,9 +75,9 @@ KdenliveDoc::~KdenliveDoc()
     }
 }
 
-void KdenliveDoc::setProjectNtsc(bool isNtsc)
+void KdenliveDoc::setProjectFormat(VIDEOFORMAT vFormat)
 {
-    m_app->setProjectNtsc(isNtsc);
+    m_app->setProjectFormat(vFormat);
 }
 
 void KdenliveDoc::setURL(const KURL & url)

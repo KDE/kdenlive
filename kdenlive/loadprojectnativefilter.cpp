@@ -72,12 +72,18 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 		// create tmp folder if doesn't exist
 		KIO::NetAccess::mkdir(KURL(KdenliveSettings::currenttmpfolder()), 0, -1);
 		KdenliveSettings::setDefaultheight(e.attribute("projectheight","576").toInt());
+
+		int vFormat = e.attribute("projectvideoformat","0").toInt();
+		document->setProjectFormat((VIDEOFORMAT) vFormat);
+		/*switch (vFormat) {
+			case NTSC_VIDEO:
 		if (KdenliveSettings::defaultheight() == 480) {
-			document->setProjectNtsc(true);
+			document->setProjectFormat(NTSC_VIDEO);
 		}
-		else {
-			document->setProjectNtsc(false);
+		else if (KdenliveSettings::defaultheight() == 1080) {
+			document->setProjectFormat(HDV_VIDEO);
 		}
+		else document->setProjectFormat(PAL_VIDEO);*/
 		KdenliveSettings::setDefaultwidth(e.attribute("projectwidth","720").toInt());
 		KdenliveSettings::setDefaultfps(e.attribute("projectfps","25.0").toDouble());
 		KdenliveSettings::setAspectratio(e.attribute("projectratio","1.09259").toDouble());

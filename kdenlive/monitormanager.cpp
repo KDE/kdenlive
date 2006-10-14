@@ -36,8 +36,7 @@ namespace Gui {
 /** Creates a new monitor and returns it. */
     KMMMonitor *MonitorManager::createMonitor(KdenliveDoc * document,
 	QWidget * parent, const char *name) {
-	KMMMonitor *monitor =
-	    new KMMMonitor(m_app, document, parent, name);
+	KMMMonitor *monitor = new KMMMonitor(m_app, document, parent, name);
 	m_monitors.append(monitor);
 	activateMonitor(monitor);
 	connect(monitor, SIGNAL(monitorClicked(KMonitor *)), this,
@@ -57,18 +56,19 @@ namespace Gui {
 
 /** Cause the specified monitor to become active. */
     void MonitorManager::activateMonitor(KMonitor * monitor) {
-
+	kdDebug()<<"+ + ACTIVATE MONITOR 1"<<endl;
 	if (monitor == activeMonitor())
 	    return;
 	if (m_active) {
 	    m_active->slotSetInactive();
 	}
-
+	kdDebug()<<"+ + ACTIVATE MONITOR 2"<<endl;
 	m_active = monitor;
 
 	if (m_active) {
 	    m_active->slotSetActive();
 	}
+	kdDebug()<<"+ + ACTIVATE MONITOR 3"<<endl;
     }
 
 /** Returns the active monitor, or 0 if there isn't one.*/

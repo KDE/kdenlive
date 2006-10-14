@@ -8,7 +8,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>364</width>
+            <width>370</width>
             <height>276</height>
         </rect>
     </property>
@@ -144,16 +144,6 @@
                         </property>
                     </widget>
                     <widget class="KComboBox" row="4" column="1" rowspan="1" colspan="4">
-                        <item>
-                            <property name="text">
-                                <string>PAL (720x576, 25fps)</string>
-                            </property>
-                        </item>
-                        <item>
-                            <property name="text">
-                                <string>NTSC (720x480, 30fps)</string>
-                            </property>
-                        </item>
                         <property name="name">
                             <cstring>video_format</cstring>
                         </property>

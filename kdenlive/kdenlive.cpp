@@ -121,17 +121,21 @@
 
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
-#define ID_CURTIME_MSG 3
+#define ID_TIMELINE_MSG 3
+#define ID_CURTIME_MSG 4
 
 namespace Gui {
 
     KdenliveApp::KdenliveApp(bool newDoc, QWidget *parent,
 	const char *name):KDockMainWindow(parent, name), m_monitorManager(this),
-    m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_renderManager(NULL), m_doc(NULL), m_effectStackDialog(NULL), m_clipMonitor(NULL), m_projectList(NULL), m_effectListDialog(NULL), isNtscProject(false), m_timelinePopupMenu(NULL), m_rulerPopupMenu(NULL) {
+    m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_renderManager(NULL), m_doc(NULL), m_effectStackDialog(NULL), m_clipMonitor(NULL), m_projectList(NULL), m_effectListDialog(NULL), m_projectFormat(PAL_VIDEO), m_timelinePopupMenu(NULL), m_rulerPopupMenu(NULL), m_exportDvd(NULL) {
 	config = kapp->config();
 	QString newProjectName;
 	int audioTracks = 2;
 	int videoTracks = 3;
+
+	initStatusBar();
+
 	if (!KdenliveSettings::openlast() && !newDoc) {
 		slotNewProject(&newProjectName, &m_selectedFile, &videoTracks, &audioTracks);
 	}
@@ -145,12 +149,10 @@ namespace Gui {
             QTimer::singleShot(10*1000, this, SLOT(slotSplashTimeout()));
         }
 
-
 	// renderer options
 	m_renderManager = new KRenderManager(this);
 
 	// call inits to invoke all other construction parts
-	initStatusBar();
 	m_commandHistory = new KCommandHistory(actionCollection(), true);
 	initActions();
 
@@ -178,10 +180,7 @@ namespace Gui {
         else if (!m_selectedFile.isEmpty()) openSelectedFile();
 	else if (!newDoc) {
 	    initView();
-	    QString projectType;
-	    if (isNtscProject) projectType = i18n("NTSC");
-	    else projectType = i18n("PAL");
-	    setCaption(newProjectName + ".kdenlive" + " - " + projectType, false);
+	    setCaption(newProjectName + ".kdenlive" + " - " + easyName(m_projectFormat), false);
 	    m_doc->setURL(KURL(KdenliveSettings::currentdefaultfolder() + "/" + newProjectName + ".kdenlive"));
 	    if (KdenliveSettings::showsplash()) slotSplashTimeout();
 	}
@@ -760,6 +759,8 @@ namespace Gui {
 
 	statusBar()->insertItem(i18n("Move/Resize mode"), ID_EDITMODE_MSG,
 	    0, true);
+	statusBar()->insertItem(QString::null, ID_TIMELINE_MSG,
+	    0, true);
 	statusBar()->insertItem(i18n("Current Time : ") + "00:00:00.00",
 	    ID_CURTIME_MSG, 0, true);
     }
@@ -843,8 +844,12 @@ namespace Gui {
 	// create the main widget here that is managed by KTMainWindow's view-region and
 	// connect the widget to your document to display document contents.
 	kdDebug()<<"****************  INIT DOCUMENT VIEW ***************"<<endl;
-
+	if (m_exportDvd) delete m_exportDvd;
+	if (m_exportWidget) delete m_exportWidget;
 	if (m_projectList) delete m_projectList;
+	m_exportDvd = 0;
+	m_exportWidget = 0;
+	m_projectList = 0;
 	m_projectList = new ProjectList(this, getDocument(), m_dockProjectList);
 	m_dockProjectList->setWidget(m_projectList);
 	m_projectList->slot_UpdateList();
@@ -858,7 +863,6 @@ namespace Gui {
 	m_dockEffectList->setWidget(m_effectListDialog);
 	m_effectListDialog->show();
 	m_dockEffectList->update();
-
 	if (m_effectStackDialog) delete m_effectStackDialog;
 	m_effectStackDialog =
 	    new EffectStackDialog(this, getDocument(), m_dockEffectStack,
@@ -870,6 +874,7 @@ namespace Gui {
 
 	m_monitorManager.deleteMonitors();
 
+
 	if (m_workspaceMonitor) delete m_workspaceMonitor;
 	m_workspaceMonitor = m_monitorManager.createMonitor(getDocument(), m_dockWorkspaceMonitor, "Document");
 
@@ -878,7 +883,6 @@ namespace Gui {
         m_workspaceMonitor->editPanel()->showLcd(KdenliveSettings::showlcd());
 	m_workspaceMonitor->show();
 	m_dockWorkspaceMonitor->update();
-
 
 	if (m_clipMonitor) delete m_clipMonitor;
 	m_clipMonitor =
@@ -1118,9 +1122,6 @@ namespace Gui {
                 getDocument(), SLOT(activateSceneListGeneration(bool)));
 
 
-
-
-
 	m_timeline->trackView()->registerFunction("selectnone",
 	    new TrackPanelSelectNoneFunction(this, m_timeline,
 		getDocument()));
@@ -1130,7 +1131,6 @@ namespace Gui {
 	m_timeline->setSnapToBorder(snapToBorderEnabled());
 	m_timeline->setSnapToMarker(snapToMarkersEnabled());
 	m_timeline->setEditMode("move");
-
 	slotSyncTimeLineWithDocument();
 
 	m_timeline->slotSetFramesPerSecond(KdenliveSettings::defaultfps());
@@ -1285,10 +1285,7 @@ namespace Gui {
             requestDocumentClose(url);
 	    initView();
 	    m_projectFormatManager.openDocument(url, m_doc);
-	    QString projectType;
-	    if (isNtscProject) projectType = i18n("NTSC");
-	    else projectType = i18n("PAL");
-	    setCaption(url.fileName() + " - " + projectType, false);
+	    setCaption(url.fileName() + " - " + easyName(m_projectFormat), false);
 	    fileOpenRecent->addURL(m_doc->URL());
 	}
 	else {
@@ -1317,6 +1314,23 @@ namespace Gui {
 	QTimer::singleShot(500, m_timeline, SLOT(ensureCursorVisible()));
 	slotStatusMsg(i18n("Ready."));
     }
+
+    QString KdenliveApp::easyName(VIDEOFORMAT format) {
+	switch (format) {
+	    case HDV1080PAL_VIDEO:
+		return i18n("HDV 1080");
+	    case HDV720PAL_VIDEO:
+		return i18n("HDV 720");
+	    case NTSC_VIDEO:
+		return i18n("NTSC");
+	    default:
+		return i18n("PAL");
+	    }
+    }
+
+   uint KdenliveApp::projectVideoFormat() {
+	return (uint) m_projectFormat;
+   }
 
     GenTime KdenliveApp::inpointPosition() const {
 	return m_timeline->inpointPosition();
@@ -1419,20 +1433,14 @@ namespace Gui {
 		initView();
 		m_projectFormatManager.openDocument(_url, m_doc);
 		m_doc->setModified(true);
-		QString projectType;
-		if (isNtscProject) projectType = i18n("NTSC");
-	    	else projectType = i18n("PAL");
-	    	setCaption(url.fileName() + " - " + projectType, true);
+	    	setCaption(url.fileName() + " - " + easyName(m_projectFormat), true);
 		QFile::remove(tempname);
 	    }
 	} else {
 	    if (!filename.isEmpty()) {
 		initView();
 		m_projectFormatManager.openDocument(url, m_doc);
-		QString projectType;
-		if (isNtscProject) projectType = i18n("NTSC");
-	    	else projectType = i18n("PAL");
-	    	setCaption(url.fileName() + " - " + projectType, false);
+	    	setCaption(url.fileName() + " - " + easyName(m_projectFormat), false);
 	    }
 	}
     }
@@ -1490,10 +1498,29 @@ namespace Gui {
 	return true;
     }
 
-    void KdenliveApp::setProjectNtsc(bool isNtsc) {
-	if (isNtsc) putenv ("MLT_NORMALISATION=NTSC");
-	else putenv ("MLT_NORMALISATION=PAL");
-	isNtscProject = isNtsc;
+    void KdenliveApp::setProjectFormat(VIDEOFORMAT vFormat) {
+	    kdDebug()<< "SWITCHING VIDEO FORMAT: "<<endl;
+	    switch (vFormat) {
+	    case HDV1080PAL_VIDEO:
+		// Not implemented in MLT yet
+		putenv ("MLT_NORMALISATION=HDV1080PAL");
+		statusBar()->changeItem(i18n("HDV 1440x1080 25fps"), ID_TIMELINE_MSG);
+		break;
+	    case HDV720PAL_VIDEO:
+		// Not implemented in MLT yet
+		putenv ("MLT_NORMALISATION=HDV720PAL");
+		statusBar()->changeItem(i18n("HDV 1280x720 25fps"), ID_TIMELINE_MSG);
+		break;
+	    case NTSC_VIDEO:
+		putenv ("MLT_NORMALISATION=NTSC");
+		statusBar()->changeItem(i18n("NTSC 720x480 30fps"), ID_TIMELINE_MSG);
+		break;
+	    default:
+		putenv ("MLT_NORMALISATION=PAL");
+		statusBar()->changeItem(i18n("PAL 720x576 25fps"), ID_TIMELINE_MSG);
+		break;
+	    }
+	m_projectFormat = vFormat;
     }
 
 /////////////////////////////////////////////////////////////////////
@@ -1518,10 +1545,7 @@ namespace Gui {
 		requestDocumentClose();
 		initView();
 	    	m_doc->newDocument(videoTracks, audioTracks);
-		QString projectType;
-		if (isNtscProject) projectType = i18n("NTSC");
-	    	else projectType = i18n("PAL");
-	    	setCaption(newProjectName + ".kdenlive" + " - " + projectType, false);
+	    	setCaption(newProjectName + ".kdenlive" + " - " + easyName(m_projectFormat), false);
 	    	m_doc->setURL(KURL(KdenliveSettings::currentdefaultfolder() + "/" + newProjectName + ".kdenlive"));
 	    }
 	}
@@ -1542,6 +1566,13 @@ namespace Gui {
 		}
 		newProject *newProjectDialog = new newProject(KdenliveSettings::defaultfolder(), recentFiles, this, "new_project");
 		newProjectDialog->setCaption(i18n("Kdenlive - New Project"));
+		// Insert available video formats:
+		newProjectDialog->video_format->insertItem(i18n("PAL (720x576, 25fps)"));
+		newProjectDialog->video_format->insertItem(i18n("NTSC (720x480, 30fps)"));
+		// HDV not implemented in MLT yet...
+		// newProjectDialog->video_format->insertItem(i18n("HDV-1080 (1440x1080, 25fps)"));
+		// newProjectDialog->video_format->insertItem(i18n("HDV-720 (1280x720, 25fps)"));
+
 		if (newProjectDialog->exec() == QDialog::Rejected) exit(1);
 		else {
 			if (newProjectDialog->isNewFile()) {
@@ -1553,16 +1584,31 @@ namespace Gui {
 					KdenliveSettings::setDefaultheight(576);
 					KdenliveSettings::setDefaultfps(25.0);
 					KdenliveSettings::setAspectratio(1.09259);
-					setProjectNtsc(false);
+					setProjectFormat(PAL_VIDEO);
 				}
-				else {
+				else if (newProjectDialog->video_format->currentItem() == 1){
 					// NTSC project
 					KdenliveSettings::setDefaultheight(480);
 					KdenliveSettings::setDefaultfps(30.0);
 					KdenliveSettings::setAspectratio(0.909);
-					setProjectNtsc(true);
+					setProjectFormat(NTSC_VIDEO);
 				}
-
+				else if (newProjectDialog->video_format->currentItem() == 2){
+					// HDV project
+					KdenliveSettings::setDefaultheight(1080);
+					KdenliveSettings::setDefaultwidth(1440);
+					KdenliveSettings::setDefaultfps(25.0);
+					KdenliveSettings::setAspectratio(1.333);
+					setProjectFormat(HDV1080PAL_VIDEO);
+				}
+				else if (newProjectDialog->video_format->currentItem() == 3){
+					// HDV project
+					KdenliveSettings::setDefaultheight(720);
+					KdenliveSettings::setDefaultwidth(1280);
+					KdenliveSettings::setDefaultfps(25.0);
+					KdenliveSettings::setAspectratio(1.333);
+					setProjectFormat(HDV720PAL_VIDEO);
+				}
 				*audioTracks = newProjectDialog->audioTracks->value();
 				*videoTracks = newProjectDialog->videoTracks->value();
 			}
@@ -1598,18 +1644,36 @@ namespace Gui {
     if (!new_url.isEmpty()) {
 	QFile myFile(new_url.path());
 	if (myFile.open(IO_ReadOnly)) {
-		QTextStream stream( &myFile );
-		QString fileToText = stream.read();
-		if (fileToText.find("projectheight=\"480\"") != -1) {
-			kdDebug()<<"--------   KDENLIVE OPENING NTSC FILE ----------------"<<endl;
-			setProjectNtsc(true);
+		bool foundFormat = false;
+		QDomDocument doc;
+		doc.setContent(&myFile, false);
+		QDomElement documentElement = doc.documentElement();
+    		if (documentElement.tagName() != "kdenlivedoc") {
+			kdWarning() <<
+	    		"KdenliveDoc::loadFromXML() document element has unknown tagName : "
+	    		<< documentElement.tagName() << endl;
+    		}
+
+    		QDomNode n = documentElement.firstChild();
+
+    		while (!n.isNull()) {
+			QDomElement e = n.toElement();
+			if (!e.isNull()) {
+	    		    if (e.tagName() == "properties") {
+				int vFormat = e.attribute("projectvideoformat","0").toInt();
+				setProjectFormat((VIDEOFORMAT) vFormat);
+				foundFormat = true;
+				break;
+			    }
+			}
+			n = n.nextSibling();
 		}
-		else setProjectNtsc(false);
+		if (!foundFormat) setProjectFormat(PAL_VIDEO);
 	myFile.close();
 	}
+	else setProjectFormat(PAL_VIDEO);
     }
-    if (isNtscProject) putenv ("MLT_NORMALISATION=NTSC");
-    else putenv ("MLT_NORMALISATION=PAL");
+
     if (m_effectStackDialog) m_effectStackDialog->slotSetEffectStack(0);
     m_monitorManager.resetMonitors();
     initDocument(3,2);
@@ -1766,10 +1830,7 @@ namespace Gui {
 	    if (m_projectFormatManager.saveDocument(url, m_doc)) {
 	    fileOpenRecent->addURL(url);
 
-	    QString projectType;
-	    if (isNtscProject) projectType = i18n("NTSC");
-	    else projectType = i18n("PAL");
-            setCaption(url.fileName() + " - " + projectType, m_doc->isModified());
+            setCaption(url.fileName() + " - " + easyName(m_projectFormat), m_doc->isModified());
 	    m_doc->setURL(url);
 	    }
 	    m_fileDialogPath = url;
@@ -1834,11 +1895,8 @@ namespace Gui {
 	} else {
 	    fileSave->setEnabled(false);
 	}
-	QString projectType;
-	if (isNtscProject) projectType = i18n("NTSC");
-	else projectType = i18n("PAL");
 
-	setCaption(m_doc->URL().filename() + " - " + projectType, modified);
+	setCaption(m_doc->URL().filename() + " - " + easyName(m_projectFormat), modified);
     }
 
     void KdenliveApp::slotTimelineSnapToBorder() {

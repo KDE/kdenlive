@@ -35,6 +35,7 @@
 #include "krender.h"
 #include "rangelist.h"
 #include "clipmanager.h"
+#include "definitions.h"
 
 // forward declaration of the Kdenlive classes
 namespace Gui {
@@ -59,6 +60,7 @@ class DocumentBaseNode;
 
 class KdenliveDoc:public QObject {
   Q_OBJECT public:
+
 	/** Constructor for the fileclass of the application */
           KdenliveDoc(double fps, int width, int height, Gui::KdenliveApp * app, QWidget * parent,
 	const char *name = 0);
@@ -175,7 +177,7 @@ class KdenliveDoc:public QObject {
         /** Updates all clipthumbnails in the document */
     void updateTracksThumbnails();
 
-    void setProjectNtsc(bool isNtsc);
+    void setProjectFormat(VIDEOFORMAT vFormat);
     
     
   private:
