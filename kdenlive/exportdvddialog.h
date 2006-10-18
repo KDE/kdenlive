@@ -46,11 +46,14 @@ class ExportDvdDialog:public ExportDvd_UI {
 
     private slots:
 	void generateDvdXml();
+	void generateMenuXml();
 	void previewDvd();
 	void burnDvd();
 	void endExport(KProcess *);
 	void checkFolder();
 	void slotFinishExport(bool isOk);
+	void slotNextPage();
+	void movieMenuDone(KProcess *);
 
     private:			// Private attributes
 	GenTime timeFromString(QString timeString);
@@ -59,6 +62,7 @@ class ExportDvdDialog:public ExportDvd_UI {
 	KProcess *m_exportProcess;
 	QString xml_file;
 	exportWidget *m_render_widget;
+	QString m_movie_file;
 };
 
 }				// namespace Gui

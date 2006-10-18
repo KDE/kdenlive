@@ -20,8 +20,10 @@
 #include <qcursor.h>
 #include <qobjectlist.h>
 #include <qradiobutton.h>
+#include <qspinbox.h>
 
 #include <klocale.h>
+#include <kcolorbutton.h>
 #include <kdebug.h>
 #include <klistview.h>
 #include <kurlrequester.h>
@@ -42,6 +44,10 @@ ExportDvdDialog::ExportDvdDialog(DocClipProject *proj, exportWidget *render_widg
     m_fps = m_project->framesPerSecond();
     xml_file = KdenliveSettings::currentdefaultfolder() + "/dvdauthor.xml";
     setCaption(i18n("Create DVD"));
+    setTitle(page(0), i18n("Rendering"));
+    setTitle(page(1), i18n("Menu"));
+    setTitle(page(3), i18n("Burning"));
+
     render_file->fileDialog()->setURL(KURL(KdenliveSettings::currentdefaultfolder()));
     render_file->fileDialog()->setFilter("video/mpeg");
     chapter_list->setItemsRenameable(true);
@@ -51,6 +57,7 @@ ExportDvdDialog::ExportDvdDialog(DocClipProject *proj, exportWidget *render_widg
     chapter_list->setColumnWidth(2, 0);
     connect(dvd_folder, SIGNAL(  textChanged (const QString &)), this, SLOT(checkFolder()));
     connect(button_generate, SIGNAL(clicked()), this, SLOT(generateDvdXml()));
+    connect(nextButton(), SIGNAL(clicked()), this, SLOT(slotNextPage()));
     connect(button_preview, SIGNAL(clicked()), this, SLOT(previewDvd()));
     connect(button_burn, SIGNAL(clicked()), this, SLOT(burnDvd()));
     connect(render_widget, SIGNAL(dvdExportOver(bool)), this, SLOT(slotFinishExport(bool)));
@@ -65,13 +72,36 @@ ExportDvdDialog::~ExportDvdDialog()
     }
 }
 
+
+void ExportDvdDialog::slotNextPage() {
+    if (indexOf(currentPage()) == 1) {
+    
+    if (render_now->isChecked()) {
+	KURL moviePath = KURLRequesterDlg::getURL(KdenliveSettings::currentdefaultfolder() + "/movie.mpg", this, i18n("Enter name for rendered movie file"));
+	if (moviePath.isEmpty()) return;
+	m_movie_file = moviePath.path();
+	setEnabled(false);
+	m_render_widget->generateDvdFile(m_movie_file , timeFromString(chapter_list->firstChild()->text(1)), timeFromString(chapter_list->lastItem()->text(2)));
+    }
+    else m_movie_file = render_file->url();
+    }
+    else if (indexOf(currentPage()) == 2) {
+	generateMenuXml();
+    }
+
+
+
+}
+
 void ExportDvdDialog::slotFinishExport(bool isOk) {
     checkFolder();
     if (!isOk) {
 	KMessageBox::sorry(this, i18n("The export terminated unexpectedly.\nOutput file will probably be corrupted..."));
 	return;
     }
-    m_exportProcess->start(KProcess::NotifyOnExit, KProcess::AllOutput);
+    render_file->setURL(m_movie_file);
+    use_existing->setChecked(true);
+    setEnabled(true);
 }
 
 void ExportDvdDialog::checkFolder() {
@@ -165,22 +195,12 @@ void ExportDvdDialog::generateDvdXml() {
 	KMessageBox::sorry(this, i18n("You didn't select the video file for the DVD.\n Please choose one before starting any operation."));
 	return;
     }
-    
-	
-    QString movie_file;    
-    if (render_now->isChecked()) {
-	KURL moviePath = KURLRequesterDlg::getURL(KdenliveSettings::currentdefaultfolder() + "/movie.mpg", this, i18n("Enter name for rendered movie file"));
-	if (moviePath.isEmpty()) return;
-	movie_file = moviePath.path();
-	m_render_widget->generateDvdFile(movie_file , timeFromString(chapter_list->firstChild()->text(1)), timeFromString(chapter_list->lastItem()->text(2)));
-    }
-    else movie_file = render_file->url();
-    button_generate->setEnabled(false);
+    //button_generate->setEnabled(false);
 
     Timecode tc;
     QString chapterTimes;
     if (chapter_list->childCount() > 1) {
-	chapterTimes = "00:00:00.00";
+	chapterTimes = "0";
 	
 	QListViewItem * myChild = chapter_list->firstChild();
 	GenTime offset = timeFromString(myChild->text(1));
@@ -201,8 +221,9 @@ void ExportDvdDialog::generateDvdXml() {
     QDomElement pgc = doc.createElement("pgc");
     titles.appendChild(pgc);
     QDomElement vob = doc.createElement("vob");
-    vob.setAttribute("file", movie_file);
+    vob.setAttribute("file", m_movie_file);
     if (!chapterTimes.isEmpty()) vob.setAttribute("chapters", chapterTimes);
+    if (chapter_pause->value() > 0) vob.setAttribute("pause", chapter_pause->value());
     pgc.appendChild(vob);
     doc.appendChild(main);
 
@@ -222,17 +243,59 @@ void ExportDvdDialog::generateDvdXml() {
     *m_exportProcess << xml_file;
 
     connect(m_exportProcess, SIGNAL(processExited(KProcess *)), this, SLOT(endExport(KProcess *)));
-    if (!render_now->isChecked()) slotFinishExport(true);
+    m_exportProcess->start(KProcess::NotifyOnExit, KProcess::AllOutput);
+    //if (!render_now->isChecked()) slotFinishExport(true);
     //QApplication::connect(m_exportProcess, SIGNAL(receivedStderr (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));
     //kdDebug()<<"- - - - - - -"<<endl;
     //kdDebug()<<doc.toString()<<endl;
+}
+
+
+void ExportDvdDialog::generateMenuXml() {
+    if (create_menu->isChecked()) {
+	if (color_background->isChecked()) {
+	    QString color = bg_color->color().name();
+	    //kdDebug()<<"+ + + EXPORT DVD: "<<color<<endl;
+	    color = "colour=\"" + color.replace(0, 1, "0x") + "ff\"";
+	    KProcess *p = new KProcess();
+	    *p<<"inigo";
+	    *p<<"colour";
+	    *p<<color.ascii();
+	    *p<<"in=0";
+	    *p<<"out=100";
+	    *p<<"-consumer";
+	    *p<<"avformat:" + KdenliveSettings::currentdefaultfolder() + "/tmp/menu.vob";
+	    *p<<"vcodec=mpeg2video";
+	    *p<<"acodec=ac3";
+	    *p<<"format=dvd";
+	    *p<<"frame_size=720x576";
+	    *p<<"frame_rate=25";
+	    *p<<"gop_size=15";
+	    *p<<"video_bit_rate=6000000";
+	    *p<<"video_rc_max_rate=9000000";
+	    *p<<"video_rc_min_rate=0";
+	    *p<<"video_rc_buffer_size=1835008";
+	    *p<<"mux_packet_size=2048";
+	    *p<<"mux_rate=10080000";
+	    *p<<"audio_bit_rate=448000";
+	    *p<<"audio_sample_rate=48000";
+	    connect(p, SIGNAL(processExited(KProcess *)), this, SLOT(movieMenuDone(KProcess *)));
+	    setCursor(QCursor(Qt::WaitCursor));
+	    p->start();
+	}
+    }
+}
+
+void ExportDvdDialog::movieMenuDone(KProcess *)
+{
+    setCursor(QCursor(Qt::ArrowCursor));
 }
 
 void ExportDvdDialog::endExport(KProcess *)
 {
     bool finishedOK = true;
     checkFolder();
-    button_generate->setEnabled(true);
+//    button_generate->setEnabled(true);
     setCursor(QCursor(Qt::ArrowCursor));
     if (!m_exportProcess->normalExit()) {
 	KMessageBox::sorry(this, i18n("The creation of DVD structure failed."));
