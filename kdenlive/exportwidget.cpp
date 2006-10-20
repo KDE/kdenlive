@@ -440,7 +440,7 @@ void exportWidget::generateDvdFile(QString file, GenTime start, GenTime end)
     m_exportProcess = new KProcess;
     if (m_format == PAL_VIDEO) m_exportProcess->setEnvironment("MLT_NORMALISATION", "PAL");
     else if (m_format == NTSC_VIDEO) m_exportProcess->setEnvironment("MLT_NORMALISATION", "NTSC");
-    *m_exportProcess << "inigo";
+    *m_exportProcess << "kdenlive_renderer";
     *m_exportProcess << m_tmpFile->name();
     *m_exportProcess << "real_time=0";
     *m_exportProcess << "progressive=1";
@@ -479,7 +479,7 @@ void exportWidget::doExport(QString file, QStringList params, bool isDv)
     m_exportProcess = new KProcess;
     if (m_format == PAL_VIDEO) m_exportProcess->setEnvironment("MLT_NORMALISATION", "PAL");
     else if (m_format == NTSC_VIDEO) m_exportProcess->setEnvironment("MLT_NORMALISATION", "NTSC");
-    *m_exportProcess << "inigo";
+    *m_exportProcess << "kdenlive_renderer";
     *m_exportProcess << m_tmpFile->name();
     *m_exportProcess << "real_time=0";
 //    *m_exportProcess << "progressive=1";
