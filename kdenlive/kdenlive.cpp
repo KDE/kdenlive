@@ -1505,6 +1505,7 @@ namespace Gui {
 		// Not implemented in MLT yet
 		putenv ("MLT_NORMALISATION=HDV1080PAL");
 		statusBar()->changeItem(i18n("HDV 1440x1080 25fps"), ID_TIMELINE_MSG);
+		
 		break;
 	    case HDV720PAL_VIDEO:
 		// Not implemented in MLT yet
@@ -1589,7 +1590,7 @@ namespace Gui {
 				else if (newProjectDialog->video_format->currentItem() == 1){
 					// NTSC project
 					KdenliveSettings::setDefaultheight(480);
-					KdenliveSettings::setDefaultfps(30.0);
+					KdenliveSettings::setDefaultfps(30000.0 / 1001.0);
 					KdenliveSettings::setAspectratio(0.909);
 					setProjectFormat(NTSC_VIDEO);
 				}
@@ -1959,7 +1960,7 @@ namespace Gui {
     void KdenliveApp::slotRenderExportTimeline(bool show) {
 	slotStatusMsg(i18n("Exporting Timeline..."));
 	    if (!m_exportWidget) { 
-            m_exportWidget=new exportWidget(m_workspaceMonitor->screen(), m_timeline, this,"exporter");
+            m_exportWidget=new exportWidget(m_workspaceMonitor->screen(), m_timeline, m_projectFormat, this,"exporter");
             connect(m_exportWidget,SIGNAL(exportTimeLine(QString, QString, GenTime, GenTime, QStringList)),m_workspaceMonitor->screen(),SLOT(exportTimeline(QString, QString, GenTime, GenTime, QStringList)));
             connect(m_exportWidget,SIGNAL(stopTimeLineExport()),m_workspaceMonitor->screen(),SLOT(stopTimeLineExport()));
             connect(m_workspaceMonitor->screen(),SIGNAL(exportOver()),m_exportWidget,SLOT(endExport()));

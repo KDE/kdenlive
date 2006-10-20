@@ -43,17 +43,16 @@
 #include <kio/netaccess.h>
 
 #include "kdenlive.h"
-#include "gentime.h"
 #include "exportwidget.h"
 #include "kdenlivesettings.h"
 
-exportWidget::exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, QWidget* parent, const char* name): exportBaseWidget_UI(parent,name), m_duration(0), m_exportProcess(NULL), m_convertProcess(NULL), m_screen(screen), m_timeline(timeline), m_tmpFile(NULL)
+exportWidget::exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, VIDEOFORMAT format, QWidget* parent, const char* name): exportBaseWidget_UI(parent,name), m_duration(0), m_exportProcess(NULL), m_convertProcess(NULL), m_screen(screen), m_timeline(timeline), m_tmpFile(NULL), m_format(format)
 {
 /*    m_node = -1;
     m_port = -1;
     m_guid = 0;
     m_avc = 0;*/
-    
+
     initEncoders();
     m_isRunning = false;
     fileExportFolder->setMode(KFile::Directory);
@@ -439,6 +438,8 @@ void exportWidget::generateDvdFile(QString file, GenTime start, GenTime end)
     stream << m_screen->sceneList().toString() << "\n";
     m_tmpFile->file()->close();
     m_exportProcess = new KProcess;
+    if (m_format == PAL_VIDEO) m_exportProcess->setEnvironment("MLT_NORMALISATION", "PAL");
+    else if (m_format == NTSC_VIDEO) m_exportProcess->setEnvironment("MLT_NORMALISATION", "NTSC");
     *m_exportProcess << "inigo";
     *m_exportProcess << m_tmpFile->name();
     *m_exportProcess << "real_time=0";
@@ -447,7 +448,7 @@ void exportWidget::generateDvdFile(QString file, GenTime start, GenTime end)
     *m_exportProcess << QString("out=%1").arg(end.frames(KdenliveSettings::defaultfps()));
     *m_exportProcess << "-consumer";
     *m_exportProcess << QString("avformat:%1").arg(file);
-
+    *m_exportProcess << "real_time=0";
     QStringList fixedParams;
     if (KdenliveSettings::defaultfps() == 25) fixedParams = encodersFixedList[EncodersMap["Pal dvd"]];
     else fixedParams = encodersFixedList[EncodersMap["Ntsc dvd"]];
@@ -476,10 +477,12 @@ void exportWidget::doExport(QString file, QStringList params, bool isDv)
     m_tmpFile->file()->close();
     //kdDebug()<<m_screen->sceneList().toString()<<endl;
     m_exportProcess = new KProcess;
+    if (m_format == PAL_VIDEO) m_exportProcess->setEnvironment("MLT_NORMALISATION", "PAL");
+    else if (m_format == NTSC_VIDEO) m_exportProcess->setEnvironment("MLT_NORMALISATION", "NTSC");
     *m_exportProcess << "inigo";
     *m_exportProcess << m_tmpFile->name();
     *m_exportProcess << "real_time=0";
-    *m_exportProcess << "progressive=1";
+//    *m_exportProcess << "progressive=1";
     *m_exportProcess << QString("in=%1").arg(startExportTime.frames(KdenliveSettings::defaultfps()));
     *m_exportProcess << QString("out=%1").arg(endExportTime.frames(KdenliveSettings::defaultfps()));
     *m_exportProcess << "-consumer";
@@ -489,8 +492,10 @@ void exportWidget::doExport(QString file, QStringList params, bool isDv)
     }
     else *m_exportProcess << QString("avformat:%1").arg(file);
     *m_exportProcess << params;
+    *m_exportProcess << "real_time=0";
     connect(m_exportProcess, SIGNAL(processExited(KProcess *)), this, SLOT(endExport(KProcess *)));
     connect(m_exportProcess, SIGNAL(receivedStderr (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));
+
     switch (export_priority->currentItem()) {
 	case 0:
 	    m_exportProcess->setPriority(19);
@@ -514,15 +519,17 @@ void exportWidget::doExport(QString file, QStringList params, bool isDv)
 	    m_exportProcess->setPriority(-19);
 	    break;
     }
-    m_exportProcess->start(KProcess::NotifyOnExit, KProcess::AllOutput);
+    m_exportProcess->start(KProcess::NotifyOnExit, KProcess::Stderr);
     //tmp.setAutoDelete(true);
 }
 
-void exportWidget::receivedStderr(KProcess *, char *buffer, int )
+void exportWidget::receivedStderr(KProcess *, char *buffer, int len)
 {
-	QString result = QString(buffer);
+	QCString res(buffer, len);
+	QString result = res;
 	result = result.simplifyWhiteSpace();
 	result = result.section(" ", -1);
+	kdDebug()<<"+ + + + EXPORT: "<<result<<endl;
 	int progress = result.toInt();
 	if (progress > 0 && progress > m_progress) {
 		m_progress = progress;

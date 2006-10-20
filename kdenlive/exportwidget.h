@@ -32,6 +32,7 @@
 
 
 #include "gentime.h"
+#include "definitions.h"
 #include "ktimeline.h"
 #include "kmmscreen.h"
 #include "exportbasewidget_ui.h"
@@ -40,7 +41,7 @@ class exportWidget : public exportBaseWidget_UI
 {
         Q_OBJECT
 public:
-    exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, QWidget* parent=0, const char* name=0);
+    exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, VIDEOFORMAT format, QWidget* parent=0, const char* name=0);
         virtual ~exportWidget();
 
 private:
@@ -59,7 +60,8 @@ private:
 	Gui::KTimeLine *m_timeline;
 	KTempFile *m_tmpFile;
 	QStringList m_guidesList;
-        
+	VIDEOFORMAT m_format;
+
         /** AVC stuff 
         int m_port;
         int m_node;
