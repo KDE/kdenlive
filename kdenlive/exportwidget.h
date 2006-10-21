@@ -94,6 +94,12 @@ private slots:
 	void slotCheckSelection();
 	QString slotCommandForItem(QStringList list, QListViewItem *item);
 	QString slotEncoderCommand(QStringList list, QString arg1, QString arg2 = QString::null, QString arg3 = QString::null);
+	void slotEditEncoder(QString name, QString param, QString ext);
+	void slotEditEncoder();
+	void slotAddEncoder();
+	void slotDeleteEncoder();
+	void slotSaveCustomEncoders();
+	void slotLoadCustomEncoders();
 
 public slots:
 	void endExport();

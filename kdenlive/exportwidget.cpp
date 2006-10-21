@@ -47,6 +47,7 @@
 
 #include "kdenlive.h"
 #include "exportwidget.h"
+#include "editencoder_ui.h"
 #include "kdenlivesettings.h"
 
 #define PAL 1
@@ -71,7 +72,7 @@ exportWidget::exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, VID
     updateGuides();
 
     // custom templates not implemented yet
-    encoders->page(3)->setEnabled(false);
+    //encoders->page(3)->setEnabled(false);
     
 #ifdef ENABLE_FIREWIRE
     tabWidget->page(1)->setEnabled(true);
@@ -86,6 +87,8 @@ exportWidget::exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, VID
     export_priority->insertStringList(priority);
     export_priority->setCurrentText(i18n("Normal"));
 
+    slotLoadCustomEncoders();
+
     connect(exportButton,SIGNAL(clicked()),this,SLOT(startExport()));
 
     connect(guide_start, SIGNAL(activated(int)),this,SLOT(slotAdjustGuides(int)));
@@ -96,11 +99,140 @@ exportWidget::exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, VID
     connect(audio_encoders, SIGNAL(selectionChanged ()), this, SLOT(slotCheckSelection()));
     connect(custom_encoders, SIGNAL(selectionChanged ()), this, SLOT(slotCheckSelection()));
     connect(encoders, SIGNAL(currentChanged ( QWidget * )), this, SLOT(slotCheckSelection()));
+    connect(button_new, SIGNAL( clicked() ), this, SLOT( slotAddEncoder()));
+    connect(button_edit, SIGNAL( clicked() ), this, SLOT( slotEditEncoder()));
+    connect(button_delete, SIGNAL( clicked() ), this, SLOT( slotDeleteEncoder()));
+    connect(custom_encoders, SIGNAL( doubleClicked ( QListViewItem *, const QPoint &, int ) ), this, SLOT( slotEditEncoder()));
 }
 
 exportWidget::~exportWidget()
-{}
+{
+    slotSaveCustomEncoders();
+}
 
+
+void exportWidget::slotSaveCustomEncoders()
+{
+    QString txt;
+    QStringList::Iterator it;
+    for ( it = CustomEncoders.begin(); it != CustomEncoders.end(); ++it ) {
+	txt+= (*it) + "\n";
+    }
+
+    QString exportFile = locateLocal("data", "kdenlive/profiles/custom.profile");
+    QFile file(exportFile);
+    file.open(IO_WriteOnly);
+    QTextStream stream( &file );
+    stream.setEncoding (QTextStream::UnicodeUTF8);
+    stream << txt;
+    file.close();
+}
+
+void exportWidget::slotLoadCustomEncoders()
+{
+    QString exportFile = locateLocal("data", "kdenlive/profiles/custom.profile");
+
+    QFile myFile(exportFile);
+    if (myFile.open(IO_ReadOnly)) {
+	QTextStream stream( &myFile );
+	stream.setEncoding (QTextStream::UnicodeUTF8);
+	QString line = stream.readLine();
+	while (!line.isEmpty()) {
+	    CustomEncoders<<line;
+	    (void) new QListViewItem(custom_encoders, line.section(":", 2, 2));
+	    line = stream.readLine();
+	}
+	myFile.close();
+    }
+}
+
+
+void exportWidget::slotEditEncoder()
+{
+    if (!custom_encoders->currentItem()) return;
+    EditEncoder_UI dlg(this, "edit_encode");
+    QString enc_name = custom_encoders->currentItem()->text(0);
+    dlg.encoder_name->setText(enc_name);
+    QString param;
+    QString ext;
+    QStringList::Iterator it;
+    for ( it = CustomEncoders.begin(); it != CustomEncoders.end(); ++it ) {
+	if ((*it).section(":", 2, 2) == enc_name) {
+		param = (*it).section(":", 9);
+		ext = (*it).section(":", 8, 8);
+		break;
+	}
+    }
+    dlg.encoder_param->setText(param);
+    dlg.encoder_ext->setText(ext);
+    if (dlg.exec() == QDialog::Accepted) {
+	CustomEncoders.erase(it);
+	delete custom_encoders->currentItem();
+	(void) new QListViewItem(custom_encoders, dlg.encoder_name->text());
+	CustomEncoders<<"0:Custom:" + dlg.encoder_name->text() + "::::avformat::" + dlg.encoder_ext->text() + ":" + dlg.encoder_param->text().simplifyWhiteSpace();
+    }
+}
+
+void exportWidget::slotEditEncoder(QString name, QString param, QString ext)
+{
+    bool found = false;
+    EditEncoder_UI dlg(this, "edit_encode");
+    dlg.encoder_name->setText(name);
+    dlg.encoder_param->setText(param);
+    dlg.encoder_ext->setText(ext);
+    if (dlg.exec() == QDialog::Accepted) {
+	for ( QStringList::Iterator it = CustomEncoders.begin(); it != CustomEncoders.end(); ++it ) {
+	    if ((*it).section(":", 2, 2) == dlg.encoder_name->text()) {
+		KMessageBox::sorry(this, i18n("An encoder named %1 already exists, please choose another name.").arg(dlg.encoder_name->text()));
+	    	slotEditEncoder(dlg.encoder_name->text(), dlg.encoder_param->text(), dlg.encoder_ext->text());
+	    	found = true;
+		break;
+	    }
+	}
+	if (!found) {
+	    (void) new QListViewItem(custom_encoders, dlg.encoder_name->text());
+	    CustomEncoders<<"0:Custom:" + dlg.encoder_name->text() + "::::avformat::" + dlg.encoder_ext->text() + ":" + dlg.encoder_param->text().simplifyWhiteSpace();
+	}
+    }
+}
+
+void exportWidget::slotDeleteEncoder()
+{
+    if (!custom_encoders->currentItem()) return;
+    QString enc_name = custom_encoders->currentItem()->text(0);
+    QStringList::Iterator it;
+    for ( it = CustomEncoders.begin(); it != CustomEncoders.end(); ++it ) {
+	if ((*it).section(":", 2, 2) == enc_name) {
+		break;
+	}
+    }
+    if (it == CustomEncoders.end()) {
+	kdDebug()<<"ITEM Not found in list"<<endl;
+	return;
+    }
+    CustomEncoders.erase(it);
+    delete custom_encoders->currentItem();
+}
+
+void exportWidget::slotAddEncoder()
+{
+    bool found = false;
+    EditEncoder_UI dlg(this, "new_encode");
+    if (dlg.exec() == QDialog::Accepted) {
+	for ( QStringList::Iterator it = CustomEncoders.begin(); it != CustomEncoders.end(); ++it ) {
+	    if ((*it).section(":", 2, 2) == dlg.encoder_name->text()) {
+		KMessageBox::sorry(this, i18n("An encoder named %1 already exists, please choose another name.").arg(dlg.encoder_name->text()));
+	    	slotEditEncoder(dlg.encoder_name->text(), dlg.encoder_param->text(), dlg.encoder_ext->text());
+	    	found = true;
+		break;
+	    }
+	}
+	if (!found && !dlg.encoder_name->text().stripWhiteSpace().simplifyWhiteSpace().isEmpty()) {
+	    (void) new QListViewItem(custom_encoders, dlg.encoder_name->text());
+	    CustomEncoders<<"0:Custom:" + dlg.encoder_name->text() + "::::avformat::" + dlg.encoder_ext->text() + ":" + dlg.encoder_param->text().simplifyWhiteSpace();
+	}
+    }
+}
 
 QString exportWidget::slotCommandForItem(QStringList list, QListViewItem *item)
 {
@@ -209,7 +341,12 @@ void exportWidget::slotCheckSelection()
 	    exportButton->setEnabled(false);
 	    encoder_command->setText(QString::null);
 	}
-	else exportButton->setEnabled(true);
+	else {
+	    exportButton->setEnabled(true);
+	    QString encoderCommand = slotCommandForItem(CustomEncoders, custom_encoders->currentItem());
+    	    fileExportName->setText(currentName+"." + encoderCommand.section(":", 8, 8));
+	    encoder_command->setText(encoderCommand.section(":",9));
+	}
     }
 }
 
