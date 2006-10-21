@@ -1,14 +1,4 @@
-####### kdevelop will overwrite this part!!! (begin)##########
-
-SUBDIRS = kdenlive po doc icons graphics profiles pgm renderer
-
-EXTRA_DIST = kdenlive.kdevprj admin AUTHORS COPYING ChangeLog INSTALL README TODO kdenlive.lsm kdenlive.spec 
-
-####### kdevelop will overwrite this part!!! (end)############
-# not a GNU package. You can remove this line, if 
-# have all needed files, that a GNU package needs
-AUTOMAKE_OPTIONS = foreign 
-POFILES=AUTO
+SUBDIRS = $(TOPSUBDIRS)
 
 $(top_srcdir)/configure.in: configure.in.in $(top_srcdir)/subdirs
 	cd $(top_srcdir) && $(MAKE) -f admin/Makefile.common configure.in ;
@@ -21,16 +11,12 @@ $(top_srcdir)/acinclude.m4: $(top_srcdir)/admin/acinclude.m4.in $(top_srcdir)/ad
 
 MAINTAINERCLEANFILES = subdirs configure.in acinclude.m4 configure.files 
 
-# Create kdenlive.pot file
-# messages: 
-#	$(XGETTEXT) kdenlive/*.cpp -L C++    -o po/kdenlive.pot
-#	$(XGETTEXT) kdenlive/*.ui  -L C++ -j -o po/kdenlive.pot
-
-# Update .po language files
 package-messages:
+	cd $(top_srcdir) && $(MAKE) -f admin/Makefile.common package-messages
 	$(MAKE) -C po merge
-	
+
+EXTRA_DIST = admin %{LICENSEFILE} configure.in.in
+
 dist-hook:
 	cd $(top_distdir) && perl admin/am_edit -padmin
 	cd $(top_distdir) && $(MAKE) -f admin/Makefile.common subdirs
-
