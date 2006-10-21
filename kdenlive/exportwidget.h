@@ -22,6 +22,7 @@
 
 #include <qdom.h>
 #include <qlayout.h>
+#include <qgrid.h>
 
 #include <kprocess.h>
 #include <ktempfile.h>
@@ -51,6 +52,7 @@ private:
         bool m_isRunning;
         typedef QMap<QString, QStringList> ParamMap;
         QMap<QString, QString> EncodersMap;
+	QMap<QString, QString> profileList;
         ParamMap encodersList;
 	ParamMap encodersFixedList;
 	int m_progress;
@@ -60,7 +62,15 @@ private:
 	Gui::KTimeLine *m_timeline;
 	KTempFile *m_tmpFile;
 	QStringList m_guidesList;
+	QGrid *m_container;
 	VIDEOFORMAT m_format;
+	QString m_createdFile;
+	QString encoder_norm;
+
+	QStringList HQEncoders;
+	QStringList MedEncoders;
+	QStringList AudioEncoders;
+	QStringList CustomEncoders;
 
         /** AVC stuff 
         int m_port;
@@ -72,11 +82,8 @@ private slots:
 	void startExport();
         void stopExport();
 	void exportFileToTheora(QString srcFileName, int audio =1, int video =5, QString size = QString());
-	void slotAdjustWidgets(int pos);
         void initEncoders();
         void initDvConnection();
-        QString parseFileForParameters(const QString & fName);
-        QString profileParameter(const QString & profile, const QString &param);
 	void doExport(QString file, QStringList params,  bool isDv = false);
 	void endExport(KProcess *);
 	void receivedStderr(KProcess *, char *buffer, int buflen);
@@ -84,6 +91,9 @@ private slots:
 	void receivedConvertStderr(KProcess *, char *buffer, int buflen);
 	void slotAdjustGuides(int ix);
 	void endDvdExport(KProcess *);
+	void slotCheckSelection();
+	QString slotCommandForItem(QStringList list, QListViewItem *item);
+	QString slotEncoderCommand(QStringList list, QString arg1, QString arg2 = QString::null, QString arg3 = QString::null);
 
 public slots:
 	void endExport();

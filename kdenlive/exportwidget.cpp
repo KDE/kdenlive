@@ -23,11 +23,14 @@
 #include <qapplication.h>
 #include <qcheckbox.h>
 #include <qlabel.h>
+#include <qtabwidget.h>
 
 #include <kurlrequester.h>
 #include <kcombobox.h>
 #include <kprogress.h>
 #include <klocale.h>
+#include <klistbox.h>
+#include <klistview.h>
 #include <krun.h>
 #include <kservice.h>
 #include <kuserprofile.h>
@@ -46,7 +49,15 @@
 #include "exportwidget.h"
 #include "kdenlivesettings.h"
 
+#define PAL 1
+#define NTSC 2
+#define HDV1080PAL 10
+#define HDV720PAL 11
+#define CUSTOMFORMAT 20
+
+
 exportWidget::exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, VIDEOFORMAT format, QWidget* parent, const char* name): exportBaseWidget_UI(parent,name), m_duration(0), m_exportProcess(NULL), m_convertProcess(NULL), m_screen(screen), m_timeline(timeline), m_tmpFile(NULL), m_format(format)
+
 {
 /*    m_node = -1;
     m_port = -1;
@@ -58,6 +69,9 @@ exportWidget::exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, VID
     fileExportFolder->setMode(KFile::Directory);
     fileExportFolder->fileDialog()->setOperationMode(KFileDialog::Saving);
     updateGuides();
+
+    // custom templates not implemented yet
+    encoders->page(3)->setEnabled(false);
     
 #ifdef ENABLE_FIREWIRE
     tabWidget->page(1)->setEnabled(true);
@@ -68,25 +82,136 @@ exportWidget::exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, VID
     initDvConnection();
 
     QStringList priority;
-    priority<<i18n("Lowest")<<i18n("Low")<<i18n("Lower");
-    priority<<i18n("Normal")<<i18n("High")<<i18n("Higher")<<i18n("Highest");
+    priority<<i18n("Low")<<i18n("Normal")<<i18n("High");
     export_priority->insertStringList(priority);
     export_priority->setCurrentText(i18n("Normal"));
 
-    connect(check_size, SIGNAL(toggled(bool)), videoSize, SLOT(setEnabled(bool)));
-    connect(check_vbitrate, SIGNAL(toggled(bool)), videoBitrate, SLOT(setEnabled(bool)));
-    connect(check_fps, SIGNAL(toggled(bool)), fps, SLOT(setEnabled(bool)));
-    connect(check_abitrate, SIGNAL(toggled(bool)), audioBitrate, SLOT(setEnabled(bool)));
-    connect(check_freq, SIGNAL(toggled(bool)), frequency, SLOT(setEnabled(bool)));
-//    connect(check_fps, SIGNAL(toggled(bool)), fps, SLOT(setEnabled(bool)));
     connect(exportButton,SIGNAL(clicked()),this,SLOT(startExport()));
-    connect(encoders,SIGNAL(activated(int)),this,SLOT(slotAdjustWidgets(int)));
+
     connect(guide_start, SIGNAL(activated(int)),this,SLOT(slotAdjustGuides(int)));
     connect(export_guide, SIGNAL(toggled(bool)), guide_box, SLOT(setEnabled(bool)));
+
+    connect(hq_encoders, SIGNAL(selectionChanged ()), this, SLOT(slotCheckSelection()));
+    connect(med_encoders, SIGNAL(selectionChanged ()), this, SLOT(slotCheckSelection()));
+    connect(audio_encoders, SIGNAL(selectionChanged ()), this, SLOT(slotCheckSelection()));
+    connect(custom_encoders, SIGNAL(selectionChanged ()), this, SLOT(slotCheckSelection()));
+    connect(encoders, SIGNAL(currentChanged ( QWidget * )), this, SLOT(slotCheckSelection()));
 }
 
 exportWidget::~exportWidget()
 {}
+
+
+QString exportWidget::slotCommandForItem(QStringList list, QListViewItem *item)
+{
+    QString itemText;
+    QString itemParent;
+    QString itemParent2;
+
+    itemText = item->text(0);
+    if (item->parent()) {
+	itemParent = item->parent()->text(0);
+    	if (item->parent()->parent()) itemParent2 = item->parent()->parent()->text(0);
+    }
+    if (!itemParent2.isEmpty()) return slotEncoderCommand(list, itemParent2, itemParent, itemText);
+    else if (!itemParent.isEmpty()) return slotEncoderCommand(list, itemParent, itemText);
+    else return slotEncoderCommand(list, itemText);
+}
+
+QString exportWidget::slotEncoderCommand(QStringList list, QString arg1, QString arg2, QString arg3)
+{
+    for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it ) {
+	if ((*it).section(":", 2, 2) == arg1) {
+	    if (arg2.isEmpty()) {
+		return (*it);
+		break;
+	    }
+	    if ((*it).section(":", 3, 3) == arg2) {
+	        if (arg3.isEmpty()) {
+		    return (*it);
+		    break;
+	    	}
+	        if ((*it).section(":", 4, 4) == arg3) {
+		    return (*it);
+		    break;
+	        }
+	    }
+	}
+    }
+    return QString::null;
+}
+void exportWidget::slotCheckSelection()
+{
+    QString currentName=fileExportName->text();
+    if (currentName.isEmpty()) currentName = "untitled.dv";
+    int i = currentName.findRev(".");
+    if (i!=-1) currentName = currentName.left(i);
+
+
+    if (encoders->currentPageIndex() == 0) {
+	if (hq_encoders->childCount() == 0) {
+	    exportButton->setEnabled(false);
+	    return;
+	}
+	if (hq_encoders->currentItem()->childCount() > 0) {
+	    exportButton->setEnabled(false);
+	    encoder_command->setText(QString::null);
+	}
+	else {
+	    exportButton->setEnabled(true);
+	    QString encoderCommand = slotCommandForItem(HQEncoders, hq_encoders->currentItem());
+    	    fileExportName->setText(currentName+"." + encoderCommand.section(":", 8, 8));
+	    encoder_command->setText(encoderCommand.section(":",9));
+	    encoder_norm = encoderCommand.section(":",7,7);
+	}
+    }
+    else if (encoders->currentPageIndex() == 1) {
+	if (med_encoders->childCount() == 0) {
+	    exportButton->setEnabled(false);
+	    return;
+	}
+	if (med_encoders->currentItem()->childCount() > 0) {
+	    exportButton->setEnabled(false);
+	    encoder_command->setText(QString::null);
+	}
+	else {
+	    exportButton->setEnabled(true);
+	    QString encoderCommand = slotCommandForItem(MedEncoders, med_encoders->currentItem());
+    	    fileExportName->setText(currentName+"." + encoderCommand.section(":", 8, 8));
+	    encoder_command->setText(encoderCommand.section(":",9));
+	    encoder_norm = encoderCommand.section(":",7,7);
+	}
+    }
+    else if (encoders->currentPageIndex() == 2) {
+	if (audio_encoders->childCount() == 0) {
+	    exportButton->setEnabled(false);
+	    return;
+	}
+	if (audio_encoders->currentItem()->childCount() > 0) {
+	    exportButton->setEnabled(false);
+	    encoder_command->setText(QString::null);
+	}
+	else {
+	    exportButton->setEnabled(true);
+	    QString encoderCommand = slotCommandForItem(AudioEncoders, audio_encoders->currentItem());
+    	    fileExportName->setText(currentName+"." + encoderCommand.section(":", 8, 8));
+	    encoder_command->setText(encoderCommand.section(":",9));
+	    encoder_norm = encoderCommand.section(":",7,7);
+
+	}
+    }
+    else if (encoders->currentPageIndex() == 3) {
+	if (custom_encoders->childCount() == 0) {
+	    exportButton->setEnabled(false);
+	    return;
+	}
+	if (custom_encoders->currentItem()->childCount() > 0) {
+	    exportButton->setEnabled(false);
+	    encoder_command->setText(QString::null);
+	}
+	else exportButton->setEnabled(true);
+    }
+}
 
 void exportWidget::updateGuides()
 {
@@ -156,190 +281,84 @@ void exportWidget::initEncoders()
 {
     fileExportName->setText("untitled.dv");
     fileExportFolder->setURL(KdenliveSettings::currentdefaultfolder());
-    /*encoders->insertItem("dv");
-    EncodersMap[i18n("Raw dv")] = "dv";
-    encodersList["dv"] << "extension=dv"<<"bypass=true";*/
-
-    //container->setEnabled(false);
-
 
     // Find all profiles and add them to the list
-    
-    QStringList profilesList = KGlobal::dirs()->KStandardDirs::findAllResources("data", "kdenlive/profiles/*.profile");
-    QStringList encodersNameList;
 
-    for ( QStringList::Iterator it = profilesList.begin(); it != profilesList.end(); ++it ) {
-        //create list of encoders and associate extensions
-        QString fileName = KURL(*it).fileName().section(".",0,0);
-	QString res = parseFileForParameters(fileName);
-	if (!res.isEmpty()) encodersNameList<<res;
-    }
-    encodersNameList.sort();
-    encoders->insertStringList(encodersNameList);
-    slotAdjustWidgets(0);
-}
-
-QString exportWidget::parseFileForParameters(const QString & fName)
-{
-    QString result = QString::null;
-    QString fullName = locate("data", "kdenlive/profiles/"+fName+".profile");
-    QFile file(fullName);
+    QString exportFile = locate("data", "kdenlive/profiles/exports.profile");
+    QFile file(exportFile);
     QString line;
     if ( file.open( IO_ReadOnly ) ) {
         QTextStream stream( &file );
         while ( !stream.atEnd() ) {
             line = stream.readLine(); // line of text excluding '\n'
-	    if (line.startsWith("#NAME: ")) {
-		QString encoderName = line.section(" ",1);
-		result = encoderName;
-		EncodersMap[encoderName] = fName;
+	    if (!line.startsWith("#")) {
+		if (line.section(":",1,1) == "HQ") {
+			QString name = line.section(":",2,2);
+			HQEncoders<<line;
+			QListViewItem *item =  hq_encoders->findItem(name, 0);
+			if (!item) item = new KListViewItem(hq_encoders, name);
+			QListViewItem *child = item->firstChild();
+			if (!child) child = new KListViewItem(item, line.section(":",3,3));
+			else {
+			    bool found = false;
+			    while (child) {
+				if (child->text(0) == line.section(":",3,3)) {
+					found = true;
+					break;
+				}
+				child = child->nextSibling();
+			    }
+			    if (!found) child = new KListViewItem(item, line.section(":",3,3));
+			}
+			if (!line.section(":",4,4).isEmpty()) (void) new KListViewItem(child, line.section(":",4,4));
+		}
+		else if (line.section(":",1,1) == "MED") {
+			MedEncoders<<line;
+			QString name = line.section(":",2,2);
+			QListViewItem *item =  med_encoders->findItem(name, 0);
+			if (!item) item = new KListViewItem(med_encoders, name);
+			QListViewItem *child = item->firstChild();
+			if (!child) child = new KListViewItem(item, line.section(":",3,3));
+			else {
+			    bool found = false;
+			    while (child) {
+				if (child->text(0) == line.section(":",3,3)) {
+					found = true;
+					break;
+				}
+				child = child->nextSibling();
+			    }
+			    if (!found) child = new KListViewItem(item, line.section(":",3,3));
+			}
+			if (!line.section(":",4,4).isEmpty()) (void) new KListViewItem(child, line.section(":",4,4));
+		}
+		else if (line.section(":",1,1) == "AUDIO") {
+			AudioEncoders<<line;
+			QString name = line.section(":",2,2);
+			QListViewItem *item =  audio_encoders->findItem(name, 0);
+			if (!item) item = new KListViewItem(audio_encoders, name);
+			QListViewItem *child = item->firstChild();
+			if (!child) child = new KListViewItem(item, line.section(":",3,3));
+			else {
+			    bool found = false;
+			    while (child) {
+				if (child->text(0) == line.section(":",3,3)) {
+					found = true;
+					break;
+				}
+				child = child->nextSibling();
+			    }
+			    if (!found) child = new KListViewItem(item, line.section(":",3,3));
+			}
+			if (!line.section(":",4,4).isEmpty()) (void) new KListViewItem(child, line.section(":",4,4));
+		}
+
 	    }
-            if (line.startsWith("## ")) encodersList[fName].append(line.section(" ",1));
-	    else if (line.startsWith("### ")) encodersFixedList[fName].append(line.section(" ",1));
-        }
-        file.close();
+	}
     }
-    return result;
+
 }
 
-QString exportWidget::profileParameter(const QString & profile, const QString &param)
-{
-    QStringList params = encodersList[EncodersMap[profile]];
-    for ( QStringList::Iterator it = params.begin(); it != params.end(); ++it ) {
-        if ((*it).startsWith(param)) return (*it).section("=",1);
-    }
-    return QString::null;
-}
-
-void exportWidget::slotAdjustWidgets(int pos)
-{
-    if (!fileExportName->text().isEmpty()) {
-        QString currentName=fileExportName->text();
-        int i = currentName.findRev(".");
-        if (i!=-1) currentName = currentName.left(i);
-        QString extension = profileParameter(encoders->currentText(), "extension");
-        fileExportName->setText(currentName+"." + extension);
-                //encodersList[encoders->currentText()]);
-    }
-    
-    videoBitrate->clear();
-    audioBitrate->clear();
-    frequency->clear();
-    videoSize->clear();
-    
-    // display all profile parameters
-    if (profileParameter(encoders->currentText(), "video_bit_rate").isEmpty()) {
-        check_vbitrate->setEnabled(false);
-        check_vbitrate->setChecked(false);
-        check_vbitrate->hide();
-        videoBitrate->hide();
-    }
-    else {
-        check_vbitrate->setEnabled(true);
-        check_vbitrate->setChecked(false);
-        QStringList params = QStringList::split(",",profileParameter(encoders->currentText(), "video_bit_rate").section(" ",0,0));
-        videoBitrate->insertStringList(params);
-        videoBitrate->setCurrentText(profileParameter(encoders->currentText(), "video_bit_rate").section(" ",1,1));
-        check_vbitrate->show();
-        videoBitrate->show();
-    }
-    
-    if (profileParameter(encoders->currentText(), "frame_rate_num").isEmpty()) {
-        check_fps->setEnabled(false);
-        check_fps->setChecked(false);
-        check_fps->hide();
-        fps->hide();
-    }
-    else {
-        check_fps->setEnabled(true);
-        check_fps->setChecked(false);
-        QStringList params = QStringList::split(",",profileParameter(encoders->currentText(), "frame_rate_num").section(" ",0,0));
-        fps->insertStringList(params);
-        fps->setCurrentText(profileParameter(encoders->currentText(), "frame_rate_num").section(" ",1,1));
-        check_fps->show();
-        fps->show();
-    }
-    
-    if (profileParameter(encoders->currentText(), "audio_bit_rate").isEmpty()) {
-        check_abitrate->setEnabled(false);
-        check_abitrate->setChecked(false);
-        check_abitrate->hide();
-        audioBitrate->hide();
-    }
-    else {
-        check_abitrate->setEnabled(true);
-        check_abitrate->setChecked(false);
-        QStringList params = QStringList::split(",",profileParameter(encoders->currentText(), "audio_bit_rate").section(" ",0,0));
-        audioBitrate->insertStringList(params);
-        audioBitrate->setCurrentText(profileParameter(encoders->currentText(), "audio_bit_rate").section(" ",1,1));
-        check_abitrate->show();
-        audioBitrate->show();
-    }
-    
-    if (profileParameter(encoders->currentText(), "frequency").isEmpty()) {
-        check_freq->setEnabled(false);
-        check_freq->setChecked(false);
-        check_freq->hide();
-        frequency->hide();
-    }
-    else {
-        check_freq->setEnabled(true);
-        check_freq->setChecked(false);
-        QStringList params = QStringList::split(",",profileParameter(encoders->currentText(), "frequency").section(" ",0,0));
-        frequency->insertStringList(params);
-        frequency->setCurrentText(profileParameter(encoders->currentText(), "frequency").section(" ",1,1));
-        check_freq->show();
-        frequency->show();
-    }
-    
-    if (profileParameter(encoders->currentText(), "size").isEmpty()) {
-        check_size->setEnabled(false);
-        check_size->setChecked(false);
-        check_size->hide();
-        videoSize->hide();
-    }
-    else {
-        check_size->setEnabled(true);
-        check_size->setChecked(false);
-        QStringList params = QStringList::split(",",profileParameter(encoders->currentText(), "size").section(" ",0,0));
-        videoSize->insertStringList(params);
-        videoSize->setCurrentText(profileParameter(encoders->currentText(), "size").section(" ",1,1));
-        check_size->show();
-        videoSize->show();
-    }
-
-    if (!profileParameter(encoders->currentText(), "aquality").isEmpty()) {
-    	check_aquality->setEnabled(true);
-	aquality->setEnabled(true);
-	QStringList params = QStringList::split(",",profileParameter(encoders->currentText(), "aquality").section(" ",0,0));
-        aquality->insertStringList(params);
-        aquality->setCurrentText(profileParameter(encoders->currentText(), "aquality").section(" ",1,1));
-        aquality->show();
-        check_aquality->show();
-    }
-    else {
-	check_aquality->setEnabled(false);
-	check_aquality->setChecked(false);
-        aquality->hide();
-        check_aquality->hide();
-    }
-
-    if (!profileParameter(encoders->currentText(), "vquality").isEmpty()) {
-    	check_vquality->setEnabled(true);
-	vquality->setEnabled(true);
-	QStringList params = QStringList::split(",",profileParameter(encoders->currentText(), "vquality").section(" ",0,0));
-        vquality->insertStringList(params);
-        vquality->setCurrentText(profileParameter(encoders->currentText(), "vquality").section(" ",1,1));
-        vquality->show();
-        check_vquality->show();
-    }
-    else {
-	check_vquality->setEnabled(false);
-	check_vquality->setChecked(false);
-        vquality->hide();
-        check_vquality->hide();
-    }
-}
 
 void exportWidget::stopExport()
 {
@@ -382,20 +401,25 @@ void exportWidget::startExport()
         m_duration = endExportTime - startExportTime;
         exportButton->setText(i18n("Stop"));
         m_isRunning = true;
-        if (profileParameter(encoders->currentText(), "bypass") != "true") {
+	QString paramLine;
+	if (encoders->currentPageIndex() == 0) paramLine = slotCommandForItem(HQEncoders, hq_encoders->currentItem());
+	else if (encoders->currentPageIndex() == 1) paramLine = slotCommandForItem(MedEncoders, med_encoders->currentItem());
+	if (encoders->currentPageIndex() == 2) paramLine = slotCommandForItem(AudioEncoders, audio_encoders->currentItem());
+	paramLine = paramLine.stripWhiteSpace();
+	paramLine = paramLine.simplifyWhiteSpace();
+	m_createdFile = fileExportFolder->url()+"/"+fileExportName->text();
+
+	if (paramLine.section(":", 6, 6) == "libdv") doExport(fileExportFolder->url()+"/"+fileExportName->text(), QStringList(), true);
+	else {
+	    doExport(fileExportFolder->url()+"/"+fileExportName->text(), QStringList::split(" ", paramLine.section(":", 9)));
+	} 
+
+/*        if (profileParameter(encoders->currentText(), "bypass") != "true") {
             // AVformat (FFmpeg) export, build parameters
             QStringList params;
-            if (!videoSize->currentText().isEmpty() && videoSize->isEnabled()) params.append("size="+videoSize->currentText());
-            if (!videoBitrate->currentText().isEmpty() && videoBitrate->isEnabled()) params.append("video_bit_rate="+videoBitrate->currentText());
-            if (!fps->currentText().isEmpty() && fps->isEnabled()) params.append("frame_rate_num="+fps->currentText());
-            if (!audioBitrate->currentText().isEmpty() && audioBitrate->isEnabled()) params.append("audio_bit_rate="+audioBitrate->currentText());
-            if (!frequency->currentText().isEmpty() && frequency->isEnabled()) params.append("frequency="+frequency->currentText());
-
 	    QStringList fixedParams = encodersFixedList[EncodersMap[encoders->currentText()]];
 	    params += fixedParams;
-	    //kdDebug()<<"-- PARAMS: "<<params.join(";")<<endl; 
 	    doExport(fileExportFolder->url()+"/"+fileExportName->text(), params);
-            //emit exportTimeLine(fileExportFolder->url()+"/"+fileExportName->text(), encoders->currentText(), startExportTime, endExportTime, params);
         }
         else {
             // Theora export
@@ -404,7 +428,7 @@ void exportWidget::startExport()
 	    // libdv export
             else doExport(fileExportFolder->url()+"/"+fileExportName->text(), QStringList(), true);
         }
-        tabWidget->page(0)->setEnabled(false);
+        tabWidget->page(0)->setEnabled(false);*/
     }
     else if (tabWidget->currentPageIndex () == 2) { // Firewire export
         kdDebug()<<"++++++++++++++ FIREWIRE EXPORT"<<endl;
@@ -477,9 +501,12 @@ void exportWidget::doExport(QString file, QStringList params, bool isDv)
     m_tmpFile->file()->close();
     //kdDebug()<<m_screen->sceneList().toString()<<endl;
     m_exportProcess = new KProcess;
-    if (m_format == PAL_VIDEO) m_exportProcess->setEnvironment("MLT_NORMALISATION", "PAL");
+
+    if (!encoder_norm.isEmpty()) m_exportProcess->setEnvironment("MLT_NORMALISATION", encoder_norm);
+    else if (m_format == PAL_VIDEO) m_exportProcess->setEnvironment("MLT_NORMALISATION", "PAL");
     else if (m_format == NTSC_VIDEO) m_exportProcess->setEnvironment("MLT_NORMALISATION", "NTSC");
     *m_exportProcess << "kdenlive_renderer";
+
     *m_exportProcess << m_tmpFile->name();
     *m_exportProcess << "real_time=0";
 //    *m_exportProcess << "progressive=1";
@@ -498,25 +525,13 @@ void exportWidget::doExport(QString file, QStringList params, bool isDv)
 
     switch (export_priority->currentItem()) {
 	case 0:
-	    m_exportProcess->setPriority(19);
+	    m_exportProcess->setPriority(15);
 	    break;
 	case 1:
-	    m_exportProcess->setPriority(10);
-	    break;
-	case 2:
-	    m_exportProcess->setPriority(5);
-	    break;
-	case 3:
 	    m_exportProcess->setPriority(0);
 	    break;
-	case 4:
-	    m_exportProcess->setPriority(-5);
-	    break;
-	case 5:
-	    m_exportProcess->setPriority(-10);
-	    break;
-	case 6:
-	    m_exportProcess->setPriority(-19);
+	case 2:
+	    m_exportProcess->setPriority(-15);
 	    break;
     }
     m_exportProcess->start(KProcess::NotifyOnExit, KProcess::Stderr);
@@ -529,7 +544,6 @@ void exportWidget::receivedStderr(KProcess *, char *buffer, int len)
 	QString result = res;
 	result = result.simplifyWhiteSpace();
 	result = result.section(" ", -1);
-	kdDebug()<<"+ + + + EXPORT: "<<result<<endl;
 	int progress = result.toInt();
 	if (progress > 0 && progress > m_progress) {
 		m_progress = progress;
@@ -569,7 +583,7 @@ void exportWidget::endExport(KProcess *)
     m_tmpFile->unlink();
     delete m_tmpFile;
     m_tmpFile = 0;
-    if (EncodersMap[encoders->currentText()] == "theora") twoPassEncoding = true; 
+    //if (EncodersMap[encoders->currentText()] == "theora") twoPassEncoding = true; 
 
     if (!m_exportProcess->normalExit()) {
 	KMessageBox::sorry(this, i18n("The export terminated unexpectedly.\nOutput file will probably be corrupted..."));
@@ -577,25 +591,23 @@ void exportWidget::endExport(KProcess *)
     }
     else if (!twoPassEncoding) {
 	QPixmap px(KGlobal::iconLoader()->loadIcon("kdenlive", KIcon::Toolbar));
-	KPassivePopup::message( "Kdenlive", i18n("Export of %1 is finished").arg(fileExportName->text()), px, (QWidget*) parent() );
+	KPassivePopup::message( "Kdenlive", i18n("Export of %1 is finished").arg(m_createdFile), px, (QWidget*) parent() );
     }
     delete m_exportProcess;
     m_exportProcess = 0;
 
-    if (EncodersMap[encoders->currentText()] == "theora") {
+    /*if (EncodersMap[encoders->currentText()] == "theora") {
 	QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(0, 10007));
-	exportFileToTheora(KURL(fileExportFolder->url()+"/"+fileExportName->text() + ".dv").path(), vquality->currentText().toInt(), aquality->currentText().toInt(), videoSize->currentText());
-    }
-    else {
+	//exportFileToTheora(KURL(fileExportFolder->url()+"/"+fileExportName->text() + ".dv").path(), vquality->currentText().toInt(), aquality->currentText().toInt(), videoSize->currentText());
+    }*/
 	exportButton->setText(i18n("Export"));
     	m_isRunning = false;
 	QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(0, 10007));
     	//processProgress->setProgress(0);
     	tabWidget->page(0)->setEnabled(true);
     	if (autoPlay->isChecked() && finishedOK) {
-	        (void) new KRun(KURL(fileExportFolder->url()+"/"+fileExportName->text()));
+	        (void) new KRun(KURL(m_createdFile));
     	}
-    }
 }
 
 
@@ -646,10 +658,10 @@ void exportWidget::endExport()
 {
     exportButton->setText(i18n("Export"));
     m_isRunning = false;
-    if (encoders->currentText() == "theora") {
-	exportFileToTheora(KURL(fileExportFolder->url()+"/"+fileExportName->text() + ".dv").path(), vquality->currentText().toInt(), aquality->currentText().toInt(), videoSize->currentText());
+/*    if (encoders->currentText() == "theora") {
+//	exportFileToTheora(KURL(fileExportFolder->url()+"/"+fileExportName->text() + ".dv").path(), vquality->currentText().toInt(), aquality->currentText().toInt(), videoSize->currentText());
     }
-    else {
+    else */{
     	//processProgress->setProgress(0);
     	tabWidget->page(0)->setEnabled(true);
     	if (autoPlay->isChecked ()) {

@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>297</width>
-            <height>521</height>
+            <width>336</width>
+            <height>443</height>
         </rect>
     </property>
     <property name="minimumSize">
@@ -28,127 +28,22 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="2">
+        <widget class="QLabel" row="1" column="0">
             <property name="name">
-                <cstring>export_selected</cstring>
+                <cstring>textLabel1_6</cstring>
             </property>
             <property name="text">
-                <string>Export selected zone only</string>
+                <string>Export:</string>
             </property>
         </widget>
-        <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>export_guide</cstring>
-            </property>
-            <property name="text">
-                <string>Export guide zone</string>
-            </property>
-        </widget>
-        <widget class="QGroupBox" row="3" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>guide_box</cstring>
-            </property>
-            <property name="enabled">
-                <bool>false</bool>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>5</hsizetype>
-                    <vsizetype>1</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-            <property name="frameShape">
-                <enum>NoFrame</enum>
-            </property>
-            <property name="frameShadow">
-                <enum>Plain</enum>
-            </property>
-            <property name="lineWidth">
-                <number>0</number>
-            </property>
-            <property name="title">
-                <string></string>
-            </property>
-            <property name="flat">
-                <bool>true</bool>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <property name="margin">
-                    <number>0</number>
-                </property>
-                <widget class="QLabel" row="0" column="2">
-                    <property name="name">
-                        <cstring>textLabel1_3_2</cstring>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>4</hsizetype>
-                            <vsizetype>5</vsizetype>
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                    <property name="text">
-                        <string>to</string>
-                    </property>
-                </widget>
-                <widget class="KComboBox" row="0" column="1">
-                    <property name="name">
-                        <cstring>guide_start</cstring>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>5</hsizetype>
-                            <vsizetype>0</vsizetype>
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="0" column="0">
-                    <property name="name">
-                        <cstring>textLabel1_3</cstring>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>4</hsizetype>
-                            <vsizetype>5</vsizetype>
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                    <property name="text">
-                        <string>From</string>
-                    </property>
-                </widget>
-                <widget class="KComboBox" row="0" column="3">
-                    <property name="name">
-                        <cstring>guide_end</cstring>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>5</hsizetype>
-                            <vsizetype>0</vsizetype>
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                </widget>
-            </grid>
-        </widget>
-        <widget class="QTabWidget" row="0" column="0" rowspan="1" colspan="2">
+        <widget class="QTabWidget" row="0" column="0" rowspan="1" colspan="3">
             <property name="name">
                 <cstring>tabWidget</cstring>
             </property>
             <property name="sizePolicy">
                 <sizepolicy>
                     <hsizetype>7</hsizetype>
-                    <vsizetype>1</vsizetype>
+                    <vsizetype>5</vsizetype>
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                 </sizepolicy>
@@ -164,20 +59,78 @@
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <widget class="QLabel" row="2" column="0">
+                    <widget class="QLabel" row="1" column="0">
                         <property name="name">
-                            <cstring>textLabel1</cstring>
+                            <cstring>textLabel1_2</cstring>
                         </property>
                         <property name="text">
-                            <string>Format:</string>
+                            <string>Filename:</string>
                         </property>
                     </widget>
-                    <widget class="KComboBox" row="2" column="1" rowspan="1" colspan="2">
+                    <widget class="QLabel" row="0" column="0">
                         <property name="name">
-                            <cstring>encoders</cstring>
+                            <cstring>textLabel1_2_2</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>5</hsizetype>
+                                <vsizetype>4</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="text">
+                            <string>Export Folder:</string>
                         </property>
                     </widget>
-                    <spacer row="2" column="3">
+                    <widget class="KURLRequester" row="0" column="1" rowspan="1" colspan="4">
+                        <property name="name">
+                            <cstring>fileExportFolder</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>5</hsizetype>
+                                <vsizetype>4</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                    </widget>
+                    <widget class="KLineEdit" row="1" column="1" rowspan="1" colspan="4">
+                        <property name="name">
+                            <cstring>fileExportName</cstring>
+                        </property>
+                    </widget>
+                    <widget class="KComboBox" row="4" column="4">
+                        <property name="name">
+                            <cstring>export_priority</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>5</hsizetype>
+                                <vsizetype>0</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="4" column="3">
+                        <property name="name">
+                            <cstring>textLabel1_5</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Export Priority</string>
+                        </property>
+                    </widget>
+                    <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="2">
+                        <property name="name">
+                            <cstring>autoPlay</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Play video after export</string>
+                        </property>
+                    </widget>
+                    <spacer row="4" column="2">
                         <property name="name">
                             <cstring>spacer5_2</cstring>
                         </property>
@@ -189,202 +142,225 @@
                         </property>
                         <property name="sizeHint">
                             <size>
-                                <width>224</width>
+                                <width>20</width>
                                 <height>16</height>
                             </size>
                         </property>
                     </spacer>
-                    <widget class="QLabel" row="1" column="0" rowspan="1" colspan="2">
+                    <widget class="QTabWidget" row="2" column="0" rowspan="1" colspan="5">
                         <property name="name">
-                            <cstring>textLabel1_2</cstring>
+                            <cstring>encoders</cstring>
                         </property>
-                        <property name="text">
-                            <string>Filename:</string>
-                        </property>
+                        <widget class="QWidget">
+                            <property name="name">
+                                <cstring>tab</cstring>
+                            </property>
+                            <attribute name="title">
+                                <string>High Quality</string>
+                            </attribute>
+                            <grid>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <widget class="KListView" row="0" column="0">
+                                    <column>
+                                        <property name="text">
+                                            <string>Format</string>
+                                        </property>
+                                        <property name="clickable">
+                                            <bool>true</bool>
+                                        </property>
+                                        <property name="resizable">
+                                            <bool>false</bool>
+                                        </property>
+                                    </column>
+                                    <property name="name">
+                                        <cstring>hq_encoders</cstring>
+                                    </property>
+                                    <property name="rootIsDecorated">
+                                        <bool>true</bool>
+                                    </property>
+                                    <property name="fullWidth">
+                                        <bool>true</bool>
+                                    </property>
+                                    <property name="itemsMovable">
+                                        <bool>false</bool>
+                                    </property>
+                                </widget>
+                            </grid>
+                        </widget>
+                        <widget class="QWidget">
+                            <property name="name">
+                                <cstring>tab</cstring>
+                            </property>
+                            <attribute name="title">
+                                <string>Medium</string>
+                            </attribute>
+                            <grid>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <widget class="KListView" row="0" column="0">
+                                    <column>
+                                        <property name="text">
+                                            <string>Format</string>
+                                        </property>
+                                        <property name="clickable">
+                                            <bool>true</bool>
+                                        </property>
+                                        <property name="resizable">
+                                            <bool>false</bool>
+                                        </property>
+                                    </column>
+                                    <property name="name">
+                                        <cstring>med_encoders</cstring>
+                                    </property>
+                                    <property name="rootIsDecorated">
+                                        <bool>true</bool>
+                                    </property>
+                                    <property name="fullWidth">
+                                        <bool>true</bool>
+                                    </property>
+                                    <property name="itemsMovable">
+                                        <bool>false</bool>
+                                    </property>
+                                </widget>
+                            </grid>
+                        </widget>
+                        <widget class="QWidget">
+                            <property name="name">
+                                <cstring>TabPage</cstring>
+                            </property>
+                            <attribute name="title">
+                                <string>Audio</string>
+                            </attribute>
+                            <grid>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <widget class="KListView" row="0" column="0">
+                                    <column>
+                                        <property name="text">
+                                            <string>Format</string>
+                                        </property>
+                                        <property name="clickable">
+                                            <bool>true</bool>
+                                        </property>
+                                        <property name="resizable">
+                                            <bool>false</bool>
+                                        </property>
+                                    </column>
+                                    <property name="name">
+                                        <cstring>audio_encoders</cstring>
+                                    </property>
+                                    <property name="rootIsDecorated">
+                                        <bool>true</bool>
+                                    </property>
+                                    <property name="fullWidth">
+                                        <bool>true</bool>
+                                    </property>
+                                    <property name="itemsMovable">
+                                        <bool>false</bool>
+                                    </property>
+                                </widget>
+                            </grid>
+                        </widget>
+                        <widget class="QWidget">
+                            <property name="name">
+                                <cstring>TabPage</cstring>
+                            </property>
+                            <attribute name="title">
+                                <string>Custom</string>
+                            </attribute>
+                            <grid>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <widget class="KListView" row="0" column="0" rowspan="4" colspan="1">
+                                    <column>
+                                        <property name="text">
+                                            <string>Format</string>
+                                        </property>
+                                        <property name="clickable">
+                                            <bool>true</bool>
+                                        </property>
+                                        <property name="resizable">
+                                            <bool>false</bool>
+                                        </property>
+                                    </column>
+                                    <property name="name">
+                                        <cstring>custom_encoders</cstring>
+                                    </property>
+                                    <property name="rootIsDecorated">
+                                        <bool>true</bool>
+                                    </property>
+                                    <property name="fullWidth">
+                                        <bool>true</bool>
+                                    </property>
+                                    <property name="itemsMovable">
+                                        <bool>false</bool>
+                                    </property>
+                                </widget>
+                                <widget class="KPushButton" row="3" column="1">
+                                    <property name="name">
+                                        <cstring>button_delete</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Delete</string>
+                                    </property>
+                                </widget>
+                                <widget class="KPushButton" row="2" column="1">
+                                    <property name="name">
+                                        <cstring>button_edit</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Edit</string>
+                                    </property>
+                                </widget>
+                                <widget class="KPushButton" row="1" column="1">
+                                    <property name="name">
+                                        <cstring>button_new</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>New</string>
+                                    </property>
+                                </widget>
+                                <spacer row="0" column="1">
+                                    <property name="name">
+                                        <cstring>spacer6</cstring>
+                                    </property>
+                                    <property name="orientation">
+                                        <enum>Vertical</enum>
+                                    </property>
+                                    <property name="sizeType">
+                                        <enum>Expanding</enum>
+                                    </property>
+                                    <property name="sizeHint">
+                                        <size>
+                                            <width>16</width>
+                                            <height>183</height>
+                                        </size>
+                                    </property>
+                                </spacer>
+                            </grid>
+                        </widget>
                     </widget>
-                    <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
+                    <widget class="KLineEdit" row="3" column="0" rowspan="1" colspan="5">
                         <property name="name">
-                            <cstring>textLabel1_2_2</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Export Folder:</string>
-                        </property>
-                    </widget>
-                    <widget class="KURLRequester" row="0" column="2" rowspan="1" colspan="2">
-                        <property name="name">
-                            <cstring>fileExportFolder</cstring>
-                        </property>
-                    </widget>
-                    <widget class="KLineEdit" row="1" column="2" rowspan="1" colspan="2">
-                        <property name="name">
-                            <cstring>fileExportName</cstring>
-                        </property>
-                    </widget>
-                    <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="4">
-                        <property name="name">
-                            <cstring>autoPlay</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Play video after export</string>
-                        </property>
-                    </widget>
-                    <widget class="QFrame" row="3" column="0" rowspan="1" colspan="4">
-                        <property name="name">
-                            <cstring>container</cstring>
-                        </property>
-                        <property name="enabled">
-                            <bool>true</bool>
-                        </property>
-                        <property name="sizePolicy">
-                            <sizepolicy>
-                                <hsizetype>5</hsizetype>
-                                <vsizetype>1</vsizetype>
-                                <horstretch>0</horstretch>
-                                <verstretch>0</verstretch>
-                            </sizepolicy>
+                            <cstring>encoder_command</cstring>
                         </property>
                         <property name="frameShape">
-                            <enum>NoFrame</enum>
+                            <enum>Panel</enum>
                         </property>
                         <property name="frameShadow">
                             <enum>Plain</enum>
                         </property>
-                        <grid>
-                            <property name="name">
-                                <cstring>unnamed</cstring>
-                            </property>
-                            <property name="margin">
-                                <number>0</number>
-                            </property>
-                            <widget class="QComboBox" row="0" column="1">
-                                <property name="name">
-                                    <cstring>videoSize</cstring>
-                                </property>
-                                <property name="enabled">
-                                    <bool>false</bool>
-                                </property>
-                            </widget>
-                            <widget class="QCheckBox" row="0" column="0">
-                                <property name="name">
-                                    <cstring>check_size</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Resize</string>
-                                </property>
-                            </widget>
-                            <widget class="QCheckBox" row="3" column="0">
-                                <property name="name">
-                                    <cstring>check_abitrate</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Audio Bitrate</string>
-                                </property>
-                            </widget>
-                            <widget class="QComboBox" row="3" column="1">
-                                <property name="name">
-                                    <cstring>audioBitrate</cstring>
-                                </property>
-                                <property name="enabled">
-                                    <bool>false</bool>
-                                </property>
-                            </widget>
-                            <widget class="QCheckBox" row="1" column="0">
-                                <property name="name">
-                                    <cstring>check_vbitrate</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Video Bitrate</string>
-                                </property>
-                            </widget>
-                            <widget class="QComboBox" row="1" column="1">
-                                <property name="name">
-                                    <cstring>videoBitrate</cstring>
-                                </property>
-                                <property name="enabled">
-                                    <bool>false</bool>
-                                </property>
-                            </widget>
-                            <widget class="QCheckBox" row="2" column="0">
-                                <property name="name">
-                                    <cstring>check_fps</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Frame Rate</string>
-                                </property>
-                            </widget>
-                            <widget class="QComboBox" row="2" column="1">
-                                <property name="name">
-                                    <cstring>fps</cstring>
-                                </property>
-                                <property name="enabled">
-                                    <bool>false</bool>
-                                </property>
-                            </widget>
-                            <widget class="QComboBox" row="4" column="1">
-                                <property name="name">
-                                    <cstring>frequency</cstring>
-                                </property>
-                                <property name="enabled">
-                                    <bool>false</bool>
-                                </property>
-                            </widget>
-                            <widget class="QCheckBox" row="4" column="0">
-                                <property name="name">
-                                    <cstring>check_freq</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Audio Freq.</string>
-                                </property>
-                            </widget>
-                            <widget class="QComboBox" row="5" column="1">
-                                <property name="name">
-                                    <cstring>vquality</cstring>
-                                </property>
-                                <property name="enabled">
-                                    <bool>false</bool>
-                                </property>
-                            </widget>
-                            <widget class="QComboBox" row="6" column="1">
-                                <property name="name">
-                                    <cstring>aquality</cstring>
-                                </property>
-                                <property name="enabled">
-                                    <bool>false</bool>
-                                </property>
-                            </widget>
-                            <widget class="QCheckBox" row="6" column="0">
-                                <property name="name">
-                                    <cstring>check_aquality</cstring>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>5</hsizetype>
-                                        <vsizetype>1</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                                <property name="text">
-                                    <string>Audio Quality</string>
-                                </property>
-                            </widget>
-                            <widget class="QCheckBox" row="5" column="0">
-                                <property name="name">
-                                    <cstring>check_vquality</cstring>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>5</hsizetype>
-                                        <vsizetype>1</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                                <property name="text">
-                                    <string>Video Quality</string>
-                                </property>
-                            </widget>
-                        </grid>
+                        <property name="lineWidth">
+                            <number>1</number>
+                        </property>
+                        <property name="readOnly">
+                            <bool>true</bool>
+                        </property>
                     </widget>
                 </grid>
             </widget>
@@ -532,7 +508,7 @@
                 </grid>
             </widget>
         </widget>
-        <widget class="QLayoutWidget" row="5" column="0" rowspan="1" colspan="2">
+        <widget class="QLayoutWidget" row="3" column="0" rowspan="1" colspan="3">
             <property name="name">
                 <cstring>layout2</cstring>
             </property>
@@ -587,29 +563,168 @@
                 </widget>
             </hbox>
         </widget>
-        <widget class="QLabel" row="4" column="0">
+        <widget class="QGroupBox" row="2" column="0" rowspan="1" colspan="3">
             <property name="name">
-                <cstring>textLabel1_5</cstring>
+                <cstring>guide_box</cstring>
             </property>
-            <property name="text">
-                <string>Export Priority</string>
-            </property>
-        </widget>
-        <widget class="KComboBox" row="4" column="1">
-            <property name="name">
-                <cstring>export_priority</cstring>
+            <property name="enabled">
+                <bool>false</bool>
             </property>
             <property name="sizePolicy">
                 <sizepolicy>
                     <hsizetype>5</hsizetype>
-                    <vsizetype>0</vsizetype>
+                    <vsizetype>4</vsizetype>
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                 </sizepolicy>
             </property>
+            <property name="frameShape">
+                <enum>NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Plain</enum>
+            </property>
+            <property name="lineWidth">
+                <number>0</number>
+            </property>
+            <property name="title">
+                <string></string>
+            </property>
+            <property name="flat">
+                <bool>true</bool>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <widget class="QLabel" row="0" column="2">
+                    <property name="name">
+                        <cstring>textLabel1_3_2</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>4</hsizetype>
+                            <vsizetype>5</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="text">
+                        <string>to</string>
+                    </property>
+                </widget>
+                <widget class="KComboBox" row="0" column="1">
+                    <property name="name">
+                        <cstring>guide_start</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>5</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="0" column="0">
+                    <property name="name">
+                        <cstring>textLabel1_3</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>4</hsizetype>
+                            <vsizetype>5</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="text">
+                        <string>From</string>
+                    </property>
+                </widget>
+                <widget class="KComboBox" row="0" column="3">
+                    <property name="name">
+                        <cstring>guide_end</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>5</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                </widget>
+            </grid>
         </widget>
+        <widget class="QButtonGroup" row="1" column="1">
+            <property name="name">
+                <cstring>buttonGroup2</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Plain</enum>
+            </property>
+            <property name="lineWidth">
+                <number>0</number>
+            </property>
+            <property name="title">
+                <string></string>
+            </property>
+            <property name="exclusive">
+                <bool>true</bool>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <widget class="QCheckBox" row="0" column="1">
+                    <property name="name">
+                        <cstring>export_guide</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Guide zone</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="0" column="0">
+                    <property name="name">
+                        <cstring>export_selected</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Selected zone</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <spacer row="1" column="2">
+            <property name="name">
+                <cstring>spacer4</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>30</width>
+                    <height>16</height>
+                </size>
+            </property>
+        </spacer>
     </grid>
 </widget>
+<customwidgets>
+</customwidgets>
 <connections>
     <connection>
         <sender>closeButton</sender>
@@ -620,16 +735,23 @@
 </connections>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>kcombobox.h</includehint>
-    <includehint>kcombobox.h</includehint>
-    <includehint>kcombobox.h</includehint>
     <includehint>kurlrequester.h</includehint>
     <includehint>klineedit.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>klistview.h</includehint>
+    <includehint>klistview.h</includehint>
+    <includehint>klistview.h</includehint>
+    <includehint>klistview.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
     <includehint>kpushbutton.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kurlrequester.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>
+    <includehint>kcombobox.h</includehint>
     <includehint>kcombobox.h</includehint>
 </includehints>
 </UI>
