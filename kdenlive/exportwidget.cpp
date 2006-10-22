@@ -272,6 +272,8 @@ QString exportWidget::slotEncoderCommand(QStringList list, QString arg1, QString
     }
     return QString::null;
 }
+
+
 void exportWidget::slotCheckSelection()
 {
     QString currentName=fileExportName->text();
@@ -581,8 +583,9 @@ void exportWidget::startExport()
     }
 }
 
-void exportWidget::generateDvdFile(QString file, GenTime start, GenTime end)
+void exportWidget::generateDvdFile(QString file, GenTime start, GenTime end, VIDEOFORMAT format)
 {
+    QStringList encoderParams;
     m_isRunning = true;
     tabWidget->page(0)->setEnabled(false);
     startExportTime = start;
@@ -599,8 +602,15 @@ void exportWidget::generateDvdFile(QString file, GenTime start, GenTime end)
     stream << m_screen->sceneList().toString() << "\n";
     m_tmpFile->file()->close();
     m_exportProcess = new KProcess;
-    if (m_format == PAL_VIDEO) m_exportProcess->setEnvironment("MLT_NORMALISATION", "PAL");
-    else if (m_format == NTSC_VIDEO) m_exportProcess->setEnvironment("MLT_NORMALISATION", "NTSC");
+    if (format == PAL_VIDEO) {
+	m_exportProcess->setEnvironment("MLT_NORMALISATION", "PAL");
+	encoderParams = QStringList::split(" ",slotEncoderCommand(HQEncoders, "DVD", "PAL").section(":",9));
+    }
+    else if (format == NTSC_VIDEO) {
+	m_exportProcess->setEnvironment("MLT_NORMALISATION", "NTSC");
+	encoderParams = QStringList::split(" ",slotEncoderCommand(HQEncoders, "DVD", "NTSC").section(":",9));
+    }
+    kdDebug()<<" + + DVD EXPORT, PARAMS: "<<encoderParams<<endl;
     *m_exportProcess << "kdenlive_renderer";
     *m_exportProcess << m_tmpFile->name();
     *m_exportProcess << "real_time=0";
@@ -610,10 +620,7 @@ void exportWidget::generateDvdFile(QString file, GenTime start, GenTime end)
     *m_exportProcess << "-consumer";
     *m_exportProcess << QString("avformat:%1").arg(file);
     *m_exportProcess << "real_time=0";
-    QStringList fixedParams;
-    if (KdenliveSettings::defaultfps() == 25) fixedParams = encodersFixedList[EncodersMap["Pal dvd"]];
-    else fixedParams = encodersFixedList[EncodersMap["Ntsc dvd"]];
-    *m_exportProcess << fixedParams;
+    *m_exportProcess << encoderParams;
 
     connect(m_exportProcess, SIGNAL(processExited(KProcess *)), this, SLOT(endDvdExport(KProcess *)));
     connect(m_exportProcess, SIGNAL(receivedStderr (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));

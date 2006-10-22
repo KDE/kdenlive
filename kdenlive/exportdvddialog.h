@@ -28,6 +28,7 @@
 #include "docclipproject.h"
 #include "exportdvd_ui.h"
 #include "exportwidget.h"
+#include "definitions.h"
 
 namespace Gui {
 
@@ -38,15 +39,15 @@ namespace Gui {
 
 class ExportDvdDialog:public ExportDvd_UI {
   Q_OBJECT public:
-    ExportDvdDialog(DocClipProject *proj, exportWidget *render_widget, QWidget * parent = 0, const char *name = 0);
-    ~ExportDvdDialog();
+    ExportDvdDialog(DocClipProject *proj, exportWidget *render_widget, VIDEOFORMAT format, QWidget * parent = 0, const char *name = 0);
+    virtual ~ExportDvdDialog();
 
     public slots:		// Public slots
 	void fillStructure(QDomDocument xml);
 
     private slots:
 	void generateDvdXml();
-	void generateMenuXml();
+	void generateMenuMovie();
 	void previewDvd();
 	void burnDvd();
 	void endExport(KProcess *);
@@ -54,6 +55,17 @@ class ExportDvdDialog:public ExportDvd_UI {
 	void slotFinishExport(bool isOk);
 	void slotNextPage();
 	void movieMenuDone(KProcess *);
+	void spuMenuDone(KProcess *);
+	void generateMenuImages();
+	void generateMenuPreview();
+	void refreshPreview();
+	void slotCheckRendered();
+	void slotCheckMenuImage();
+	void slotCheckMenuMovie();
+	void generateImage(QString imageName, QString buttonText, QColor color);
+	void generateTranspImage(QString imageName, QString buttonText, QColor color);
+	void slotSetStandard(int std);
+	void openWithQDvdauthor();
 
     private:			// Private attributes
 	GenTime timeFromString(QString timeString);
@@ -61,8 +73,11 @@ class ExportDvdDialog:public ExportDvd_UI {
 	double m_fps;
 	KProcess *m_exportProcess;
 	QString xml_file;
+	QString spuxml_file;
 	exportWidget *m_render_widget;
 	QString m_movie_file;
+	QString m_menu_movie_file;
+	VIDEOFORMAT m_format;
 };
 
 }				// namespace Gui

@@ -1571,8 +1571,8 @@ namespace Gui {
 		newProjectDialog->video_format->insertItem(i18n("PAL (720x576, 25fps)"));
 		newProjectDialog->video_format->insertItem(i18n("NTSC (720x480, 30fps)"));
 		// HDV not implemented in MLT yet...
-		// newProjectDialog->video_format->insertItem(i18n("HDV-1080 (1440x1080, 25fps)"));
-		// newProjectDialog->video_format->insertItem(i18n("HDV-720 (1280x720, 25fps)"));
+		//newProjectDialog->video_format->insertItem(i18n("HDV-1080 (1440x1080, 25fps)"));
+		//newProjectDialog->video_format->insertItem(i18n("HDV-720 (1280x720, 25fps)"));
 
 		if (newProjectDialog->exec() == QDialog::Rejected) exit(1);
 		else {
@@ -1978,7 +1978,7 @@ namespace Gui {
 
     void KdenliveApp::slotRenderDvd() {
 	if (!m_exportWidget) slotRenderExportTimeline(false);
-	if (!m_exportDvd) m_exportDvd = new ExportDvdDialog(&getDocument()->projectClip(), m_exportWidget);
+	if (!m_exportDvd) m_exportDvd = new ExportDvdDialog(&getDocument()->projectClip(), m_exportWidget, m_projectFormat);
 	m_exportDvd->fillStructure(xmlGuides());
 	m_exportDvd->exec();
     }

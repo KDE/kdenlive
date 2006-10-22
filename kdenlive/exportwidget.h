@@ -50,11 +50,7 @@ private:
         GenTime m_duration;
         GenTime startExportTime, endExportTime;
         bool m_isRunning;
-        typedef QMap<QString, QStringList> ParamMap;
-        QMap<QString, QString> EncodersMap;
-	QMap<QString, QString> profileList;
-        ParamMap encodersList;
-	ParamMap encodersFixedList;
+
 	int m_progress;
 	KProcess *m_exportProcess;
 	KProcess *m_convertProcess;
@@ -105,7 +101,7 @@ public slots:
 	void endExport();
 	void reportProgress(GenTime progress);
 	void updateGuides();
-	void generateDvdFile(QString file, GenTime start, GenTime end);
+	void generateDvdFile(QString file, GenTime start, GenTime end, VIDEOFORMAT format);
 
 signals:
     /*void exportTimeLine(QString, QString, GenTime, GenTime, QStringList);

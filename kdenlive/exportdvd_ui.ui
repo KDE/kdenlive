@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>494</width>
-            <height>361</height>
+            <width>428</width>
+            <height>533</height>
         </rect>
     </property>
     <property name="caption">
@@ -26,7 +26,7 @@
             <property name="name">
                 <cstring>unnamed</cstring>
             </property>
-            <widget class="KURLRequester" row="0" column="1">
+            <widget class="KURLRequester" row="0" column="1" rowspan="1" colspan="3">
                 <property name="name">
                     <cstring>dvd_folder</cstring>
                 </property>
@@ -39,31 +39,65 @@
                     <string>DVD Folder</string>
                 </property>
             </widget>
-            <widget class="QLabel" row="2" column="0">
+            <widget class="QButtonGroup" row="3" column="0" rowspan="1" colspan="4">
                 <property name="name">
-                    <cstring>textLabel2</cstring>
+                    <cstring>buttonGroup1</cstring>
                 </property>
-                <property name="sizePolicy">
-                    <sizepolicy>
-                        <hsizetype>1</hsizetype>
-                        <vsizetype>5</vsizetype>
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                    </sizepolicy>
+                <property name="frameShape">
+                    <enum>NoFrame</enum>
                 </property>
-                <property name="text">
-                    <string>Total duration:</string>
+                <property name="frameShadow">
+                    <enum>Plain</enum>
                 </property>
-            </widget>
-            <widget class="QLabel" row="2" column="1">
-                <property name="name">
-                    <cstring>total_duration</cstring>
+                <property name="lineWidth">
+                    <number>0</number>
                 </property>
-                <property name="text">
+                <property name="title">
                     <string></string>
                 </property>
+                <property name="flat">
+                    <bool>true</bool>
+                </property>
+                <property name="exclusive">
+                    <bool>true</bool>
+                </property>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <property name="margin">
+                        <number>0</number>
+                    </property>
+                    <widget class="QRadioButton" row="0" column="0">
+                        <property name="name">
+                            <cstring>use_existing</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Use existing video file</string>
+                        </property>
+                    </widget>
+                    <widget class="KURLRequester" row="0" column="1">
+                        <property name="name">
+                            <cstring>render_file</cstring>
+                        </property>
+                        <property name="filter">
+                            <string>*.vob | DVD Movie file</string>
+                        </property>
+                    </widget>
+                    <widget class="QRadioButton" row="1" column="0">
+                        <property name="name">
+                            <cstring>render_now</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Render file now</string>
+                        </property>
+                        <property name="checked">
+                            <bool>true</bool>
+                        </property>
+                    </widget>
+                </grid>
             </widget>
-            <widget class="KListView" row="1" column="0" rowspan="1" colspan="2">
+            <widget class="KListView" row="1" column="0" rowspan="1" colspan="4">
                 <column>
                     <property name="text">
                         <string>Chapter</string>
@@ -121,60 +155,42 @@
                     <bool>true</bool>
                 </property>
             </widget>
-            <widget class="QButtonGroup" row="3" column="0" rowspan="1" colspan="2">
+            <widget class="QLabel" row="2" column="3">
                 <property name="name">
-                    <cstring>buttonGroup1</cstring>
+                    <cstring>total_duration</cstring>
                 </property>
-                <property name="frameShape">
-                    <enum>NoFrame</enum>
-                </property>
-                <property name="frameShadow">
-                    <enum>Plain</enum>
-                </property>
-                <property name="lineWidth">
-                    <number>0</number>
-                </property>
-                <property name="title">
+                <property name="text">
                     <string></string>
                 </property>
-                <property name="flat">
-                    <bool>true</bool>
+            </widget>
+            <widget class="QLabel" row="2" column="2">
+                <property name="name">
+                    <cstring>textLabel2</cstring>
                 </property>
-                <property name="exclusive">
-                    <bool>true</bool>
+                <property name="sizePolicy">
+                    <sizepolicy>
+                        <hsizetype>1</hsizetype>
+                        <vsizetype>5</vsizetype>
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                    </sizepolicy>
                 </property>
-                <grid>
-                    <property name="name">
-                        <cstring>unnamed</cstring>
-                    </property>
-                    <property name="margin">
-                        <number>0</number>
-                    </property>
-                    <widget class="QRadioButton" row="0" column="0">
-                        <property name="name">
-                            <cstring>use_existing</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Use existing video file</string>
-                        </property>
-                    </widget>
-                    <widget class="KURLRequester" row="0" column="1">
-                        <property name="name">
-                            <cstring>render_file</cstring>
-                        </property>
-                    </widget>
-                    <widget class="QRadioButton" row="1" column="0">
-                        <property name="name">
-                            <cstring>render_now</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Render file now</string>
-                        </property>
-                        <property name="checked">
-                            <bool>true</bool>
-                        </property>
-                    </widget>
-                </grid>
+                <property name="text">
+                    <string>Duration:</string>
+                </property>
+            </widget>
+            <widget class="QLabel" row="2" column="0">
+                <property name="name">
+                    <cstring>textLabel1_2</cstring>
+                </property>
+                <property name="text">
+                    <string>DVD Format</string>
+                </property>
+            </widget>
+            <widget class="KComboBox" row="2" column="1">
+                <property name="name">
+                    <cstring>dvd_standard</cstring>
+                </property>
             </widget>
         </grid>
     </widget>
@@ -189,20 +205,7 @@
             <property name="name">
                 <cstring>unnamed</cstring>
             </property>
-            <widget class="QSpinBox" row="1" column="3">
-                <property name="name">
-                    <cstring>chapter_pause</cstring>
-                </property>
-            </widget>
-            <widget class="QLabel" row="1" column="0" rowspan="1" colspan="3">
-                <property name="name">
-                    <cstring>textLabel4</cstring>
-                </property>
-                <property name="text">
-                    <string>Pause between chapters (seconds)</string>
-                </property>
-            </widget>
-            <spacer row="1" column="4">
+            <spacer row="1" column="2">
                 <property name="name">
                     <cstring>spacer1</cstring>
                 </property>
@@ -219,7 +222,20 @@
                     </size>
                 </property>
             </spacer>
-            <widget class="QGroupBox" row="0" column="0" rowspan="1" colspan="5">
+            <widget class="QSpinBox" row="1" column="1">
+                <property name="name">
+                    <cstring>chapter_pause</cstring>
+                </property>
+            </widget>
+            <widget class="QLabel" row="1" column="0">
+                <property name="name">
+                    <cstring>textLabel4</cstring>
+                </property>
+                <property name="text">
+                    <string>Pause between chapters (seconds)</string>
+                </property>
+            </widget>
+            <widget class="QGroupBox" row="0" column="0" rowspan="1" colspan="3">
                 <property name="name">
                     <cstring>create_menu</cstring>
                 </property>
@@ -236,76 +252,7 @@
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <widget class="KColorButton" row="4" column="2">
-                        <property name="name">
-                            <cstring>kColorButton1_2</cstring>
-                        </property>
-                        <property name="sizePolicy">
-                            <sizepolicy>
-                                <hsizetype>0</hsizetype>
-                                <vsizetype>0</vsizetype>
-                                <horstretch>0</horstretch>
-                                <verstretch>0</verstretch>
-                            </sizepolicy>
-                        </property>
-                        <property name="paletteBackgroundColor">
-                            <color>
-                                <red>170</red>
-                                <green>170</green>
-                                <blue>255</blue>
-                            </color>
-                        </property>
-                        <property name="text">
-                            <string></string>
-                        </property>
-                        <property name="toolTip" stdset="0">
-                            <string>Highlighted Text Color</string>
-                        </property>
-                    </widget>
-                    <widget class="KColorButton" row="4" column="3">
-                        <property name="name">
-                            <cstring>kColorButton1_3</cstring>
-                        </property>
-                        <property name="sizePolicy">
-                            <sizepolicy>
-                                <hsizetype>0</hsizetype>
-                                <vsizetype>0</vsizetype>
-                                <horstretch>0</horstretch>
-                                <verstretch>0</verstretch>
-                            </sizepolicy>
-                        </property>
-                        <property name="paletteBackgroundColor">
-                            <color>
-                                <red>255</red>
-                                <green>85</green>
-                                <blue>0</blue>
-                            </color>
-                        </property>
-                        <property name="text">
-                            <string></string>
-                        </property>
-                        <property name="toolTip" stdset="0">
-                            <string>Activated Text Color</string>
-                        </property>
-                    </widget>
-                    <widget class="QFrame" row="0" column="1" rowspan="4" colspan="3">
-                        <property name="name">
-                            <cstring>frame_preview</cstring>
-                        </property>
-                        <property name="minimumSize">
-                            <size>
-                                <width>200</width>
-                                <height>160</height>
-                            </size>
-                        </property>
-                        <property name="frameShape">
-                            <enum>Box</enum>
-                        </property>
-                        <property name="frameShadow">
-                            <enum>Plain</enum>
-                        </property>
-                    </widget>
-                    <spacer row="5" column="3">
+                    <spacer row="0" column="0">
                         <property name="name">
                             <cstring>spacer17</cstring>
                         </property>
@@ -318,142 +265,311 @@
                         <property name="sizeHint">
                             <size>
                                 <width>20</width>
-                                <height>51</height>
+                                <height>66</height>
                             </size>
                         </property>
                     </spacer>
-                    <widget class="KLineEdit" row="3" column="0">
+                    <widget class="QTabWidget" row="1" column="0" rowspan="1" colspan="2">
                         <property name="name">
-                            <cstring>kLineEdit3</cstring>
+                            <cstring>tabWidget2</cstring>
                         </property>
-                        <property name="text">
-                            <string></string>
-                        </property>
+                        <widget class="QWidget">
+                            <property name="name">
+                                <cstring>tab</cstring>
+                            </property>
+                            <attribute name="title">
+                                <string>Background</string>
+                            </attribute>
+                            <grid>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <widget class="QButtonGroup" row="0" column="0">
+                                    <property name="name">
+                                        <cstring>buttonGroup4</cstring>
+                                    </property>
+                                    <property name="frameShape">
+                                        <enum>NoFrame</enum>
+                                    </property>
+                                    <property name="frameShadow">
+                                        <enum>Plain</enum>
+                                    </property>
+                                    <property name="lineWidth">
+                                        <number>0</number>
+                                    </property>
+                                    <property name="title">
+                                        <string></string>
+                                    </property>
+                                    <property name="exclusive">
+                                        <bool>true</bool>
+                                    </property>
+                                    <grid>
+                                        <property name="name">
+                                            <cstring>unnamed</cstring>
+                                        </property>
+                                        <property name="margin">
+                                            <number>0</number>
+                                        </property>
+                                        <widget class="QRadioButton" row="0" column="0" rowspan="1" colspan="2">
+                                            <property name="name">
+                                                <cstring>color_background</cstring>
+                                            </property>
+                                            <property name="text">
+                                                <string>Plain color</string>
+                                            </property>
+                                            <property name="checked">
+                                                <bool>true</bool>
+                                            </property>
+                                        </widget>
+                                        <widget class="KColorButton" row="0" column="2">
+                                            <property name="name">
+                                                <cstring>bg_color</cstring>
+                                            </property>
+                                            <property name="sizePolicy">
+                                                <sizepolicy>
+                                                    <hsizetype>0</hsizetype>
+                                                    <vsizetype>0</vsizetype>
+                                                    <horstretch>0</horstretch>
+                                                    <verstretch>0</verstretch>
+                                                </sizepolicy>
+                                            </property>
+                                            <property name="text">
+                                                <string></string>
+                                            </property>
+                                            <property name="color">
+                                                <color>
+                                                    <red>0</red>
+                                                    <green>0</green>
+                                                    <blue>0</blue>
+                                                </color>
+                                            </property>
+                                            <property name="toolTip" stdset="0">
+                                                <string>Text Color</string>
+                                            </property>
+                                        </widget>
+                                        <widget class="QRadioButton" row="1" column="0">
+                                            <property name="name">
+                                                <cstring>image_background</cstring>
+                                            </property>
+                                            <property name="text">
+                                                <string>Image</string>
+                                            </property>
+                                        </widget>
+                                        <widget class="QRadioButton" row="2" column="0">
+                                            <property name="name">
+                                                <cstring>movie_background</cstring>
+                                            </property>
+                                            <property name="text">
+                                                <string>Movie</string>
+                                            </property>
+                                        </widget>
+                                        <widget class="KURLRequester" row="2" column="1" rowspan="1" colspan="2">
+                                            <property name="name">
+                                                <cstring>menu_movie</cstring>
+                                            </property>
+                                            <property name="filter">
+                                                <string>*.vob | DVD Movie file</string>
+                                            </property>
+                                        </widget>
+                                        <widget class="KURLRequester" row="1" column="1" rowspan="1" colspan="2">
+                                            <property name="name">
+                                                <cstring>menu_image</cstring>
+                                            </property>
+                                            <property name="filter">
+                                                <string>image/gif image/x-bmp image/png image/jpeg</string>
+                                            </property>
+                                        </widget>
+                                    </grid>
+                                </widget>
+                            </grid>
+                        </widget>
+                        <widget class="QWidget">
+                            <property name="name">
+                                <cstring>tab</cstring>
+                            </property>
+                            <attribute name="title">
+                                <string>Buttons</string>
+                            </attribute>
+                            <grid>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="3">
+                                    <property name="name">
+                                        <cstring>checkBox11</cstring>
+                                    </property>
+                                    <property name="enabled">
+                                        <bool>false</bool>
+                                    </property>
+                                    <property name="text">
+                                        <string>Generate entries for chapters</string>
+                                    </property>
+                                </widget>
+                                <widget class="QLabel" row="0" column="0">
+                                    <property name="name">
+                                        <cstring>textLabel2_2_2</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Colors</string>
+                                    </property>
+                                </widget>
+                                <widget class="QLabel" row="1" column="0">
+                                    <property name="name">
+                                        <cstring>textLabel2_2</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Font</string>
+                                    </property>
+                                </widget>
+                                <widget class="QLabel" row="2" column="0">
+                                    <property name="name">
+                                        <cstring>textLabel6</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Text</string>
+                                    </property>
+                                </widget>
+                                <widget class="KLineEdit" row="2" column="1" rowspan="1" colspan="4">
+                                    <property name="name">
+                                        <cstring>play_text</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Play Movie</string>
+                                    </property>
+                                </widget>
+                                <widget class="QSpinBox" row="1" column="4">
+                                    <property name="name">
+                                        <cstring>font_size</cstring>
+                                    </property>
+                                    <property name="maxValue">
+                                        <number>600</number>
+                                    </property>
+                                    <property name="minValue">
+                                        <number>9</number>
+                                    </property>
+                                    <property name="value">
+                                        <number>25</number>
+                                    </property>
+                                </widget>
+                                <widget class="KFontCombo" row="1" column="1" rowspan="1" colspan="3">
+                                    <property name="name">
+                                        <cstring>font_combo</cstring>
+                                    </property>
+                                </widget>
+                                <spacer row="0" column="4">
+                                    <property name="name">
+                                        <cstring>spacer3</cstring>
+                                    </property>
+                                    <property name="orientation">
+                                        <enum>Horizontal</enum>
+                                    </property>
+                                    <property name="sizeType">
+                                        <enum>Expanding</enum>
+                                    </property>
+                                    <property name="sizeHint">
+                                        <size>
+                                            <width>60</width>
+                                            <height>16</height>
+                                        </size>
+                                    </property>
+                                </spacer>
+                                <widget class="KColorButton" row="0" column="1">
+                                    <property name="name">
+                                        <cstring>normal_color</cstring>
+                                    </property>
+                                    <property name="sizePolicy">
+                                        <sizepolicy>
+                                            <hsizetype>0</hsizetype>
+                                            <vsizetype>0</vsizetype>
+                                            <horstretch>0</horstretch>
+                                            <verstretch>0</verstretch>
+                                        </sizepolicy>
+                                    </property>
+                                    <property name="text">
+                                        <string></string>
+                                    </property>
+                                    <property name="color">
+                                        <color>
+                                            <red>255</red>
+                                            <green>255</green>
+                                            <blue>255</blue>
+                                        </color>
+                                    </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>Text Color</string>
+                                    </property>
+                                </widget>
+                                <widget class="KColorButton" row="0" column="2">
+                                    <property name="name">
+                                        <cstring>select_color</cstring>
+                                    </property>
+                                    <property name="sizePolicy">
+                                        <sizepolicy>
+                                            <hsizetype>0</hsizetype>
+                                            <vsizetype>0</vsizetype>
+                                            <horstretch>0</horstretch>
+                                            <verstretch>0</verstretch>
+                                        </sizepolicy>
+                                    </property>
+                                    <property name="text">
+                                        <string></string>
+                                    </property>
+                                    <property name="color">
+                                        <color>
+                                            <red>170</red>
+                                            <green>170</green>
+                                            <blue>255</blue>
+                                        </color>
+                                    </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>Highlighted Text Color</string>
+                                    </property>
+                                </widget>
+                                <widget class="KColorButton" row="0" column="3">
+                                    <property name="name">
+                                        <cstring>active_color</cstring>
+                                    </property>
+                                    <property name="sizePolicy">
+                                        <sizepolicy>
+                                            <hsizetype>0</hsizetype>
+                                            <vsizetype>0</vsizetype>
+                                            <horstretch>0</horstretch>
+                                            <verstretch>0</verstretch>
+                                        </sizepolicy>
+                                    </property>
+                                    <property name="text">
+                                        <string></string>
+                                    </property>
+                                    <property name="color">
+                                        <color>
+                                            <red>255</red>
+                                            <green>85</green>
+                                            <blue>0</blue>
+                                        </color>
+                                    </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>Activated Text Color</string>
+                                    </property>
+                                </widget>
+                            </grid>
+                        </widget>
                     </widget>
-                    <widget class="QCheckBox" row="4" column="0">
+                    <widget class="QLabel" row="0" column="1">
                         <property name="name">
-                            <cstring>checkBox11</cstring>
+                            <cstring>preview_pixmap</cstring>
                         </property>
-                        <property name="text">
-                            <string>Generate entries for chapters</string>
-                        </property>
-                    </widget>
-                    <widget class="QLabel" row="2" column="0">
-                        <property name="name">
-                            <cstring>textLabel6</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Title</string>
-                        </property>
-                    </widget>
-                    <widget class="QLabel" row="0" column="0">
-                        <property name="name">
-                            <cstring>textLabel5</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Background</string>
-                        </property>
-                    </widget>
-                    <widget class="KColorButton" row="4" column="1">
-                        <property name="name">
-                            <cstring>kColorButton1</cstring>
-                        </property>
-                        <property name="sizePolicy">
-                            <sizepolicy>
-                                <hsizetype>0</hsizetype>
-                                <vsizetype>0</vsizetype>
-                                <horstretch>0</horstretch>
-                                <verstretch>0</verstretch>
-                            </sizepolicy>
-                        </property>
-                        <property name="paletteBackgroundColor">
-                            <color>
-                                <red>255</red>
-                                <green>255</green>
-                                <blue>255</blue>
-                            </color>
-                        </property>
-                        <property name="text">
-                            <string></string>
-                        </property>
-                        <property name="toolTip" stdset="0">
-                            <string>Text Color</string>
-                        </property>
-                    </widget>
-                    <widget class="QButtonGroup" row="1" column="0">
-                        <property name="name">
-                            <cstring>buttonGroup4</cstring>
-                        </property>
-                        <property name="frameShadow">
-                            <enum>Plain</enum>
+                        <property name="frameShape">
+                            <enum>Panel</enum>
                         </property>
                         <property name="lineWidth">
-                            <number>0</number>
+                            <number>1</number>
                         </property>
-                        <property name="title">
+                        <property name="text">
                             <string></string>
                         </property>
-                        <property name="exclusive">
+                        <property name="scaledContents">
                             <bool>true</bool>
                         </property>
-                        <grid>
-                            <property name="name">
-                                <cstring>unnamed</cstring>
-                            </property>
-                            <property name="margin">
-                                <number>0</number>
-                            </property>
-                            <widget class="KURLRequester" row="2" column="0" rowspan="1" colspan="2">
-                                <property name="name">
-                                    <cstring>kURLRequester7</cstring>
-                                </property>
-                            </widget>
-                            <widget class="QRadioButton" row="1" column="0" rowspan="1" colspan="2">
-                                <property name="name">
-                                    <cstring>movie_background</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Image / movie</string>
-                                </property>
-                            </widget>
-                            <widget class="QRadioButton" row="0" column="0">
-                                <property name="name">
-                                    <cstring>color_background</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Plain color</string>
-                                </property>
-                                <property name="checked">
-                                    <bool>true</bool>
-                                </property>
-                            </widget>
-                            <widget class="KColorButton" row="0" column="1">
-                                <property name="name">
-                                    <cstring>bg_color</cstring>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy>
-                                        <hsizetype>0</hsizetype>
-                                        <vsizetype>0</vsizetype>
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                                <property name="paletteBackgroundColor">
-                                    <color>
-                                        <red>0</red>
-                                        <green>0</green>
-                                        <blue>0</blue>
-                                    </color>
-                                </property>
-                                <property name="text">
-                                    <string></string>
-                                </property>
-                                <property name="toolTip" stdset="0">
-                                    <string>Text Color</string>
-                                </property>
-                            </widget>
-                        </grid>
                     </widget>
                 </grid>
             </widget>
@@ -470,7 +586,7 @@
             <property name="name">
                 <cstring>unnamed</cstring>
             </property>
-            <widget class="QPushButton" row="0" column="0">
+            <widget class="QPushButton" row="0" column="0" rowspan="1" colspan="2">
                 <property name="name">
                     <cstring>button_generate</cstring>
                 </property>
@@ -487,7 +603,7 @@
                     <bool>true</bool>
                 </property>
             </widget>
-            <widget class="QPushButton" row="0" column="1">
+            <widget class="QPushButton" row="1" column="0">
                 <property name="name">
                     <cstring>button_preview</cstring>
                 </property>
@@ -504,7 +620,7 @@
                     <bool>true</bool>
                 </property>
             </widget>
-            <widget class="QPushButton" row="0" column="2">
+            <widget class="QPushButton" row="1" column="1">
                 <property name="name">
                     <cstring>button_burn</cstring>
                 </property>
@@ -521,7 +637,7 @@
                     <bool>true</bool>
                 </property>
             </widget>
-            <widget class="QPushButton" row="0" column="3">
+            <widget class="QPushButton" row="1" column="2">
                 <property name="name">
                     <cstring>button_qdvd</cstring>
                 </property>
@@ -538,25 +654,50 @@
                     <bool>true</bool>
                 </property>
             </widget>
+            <spacer row="2" column="0">
+                <property name="name">
+                    <cstring>spacer4</cstring>
+                </property>
+                <property name="orientation">
+                    <enum>Vertical</enum>
+                </property>
+                <property name="sizeType">
+                    <enum>Expanding</enum>
+                </property>
+                <property name="sizeHint">
+                    <size>
+                        <width>13</width>
+                        <height>49</height>
+                    </size>
+                </property>
+            </spacer>
         </grid>
     </widget>
 </widget>
+<customwidgets>
+</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>kurlrequester.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>
+    <includehint>kurlrequester.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kpushbutton.h</includehint>
     <includehint>klistview.h</includehint>
-    <includehint>kurlrequester.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kcolorbutton.h</includehint>
-    <includehint>kcolorbutton.h</includehint>
-    <includehint>klineedit.h</includehint>
+    <includehint>kcombobox.h</includehint>
     <includehint>kcolorbutton.h</includehint>
     <includehint>kurlrequester.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>
+    <includehint>kurlrequester.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kfontcombo.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kcolorbutton.h</includehint>
+    <includehint>kcolorbutton.h</includehint>
     <includehint>kcolorbutton.h</includehint>
 </includehints>
 </UI>
