@@ -391,15 +391,16 @@ void ExportDvdDialog::generateMenuMovie() {
 	    gop = "18";
 	}
 
+	m_menu_movie_file = KdenliveSettings::currentdefaultfolder() + "/tmp/menu.vob";
+	KProcess *p = new KProcess;
+	if (m_format == PAL_VIDEO) p->setEnvironment("MLT_NORMALISATION", "PAL");
+    	else if (m_format == NTSC_VIDEO) p->setEnvironment("MLT_NORMALISATION", "NTSC");
+	*p<<"kdenlive_renderer";
+
 	if (color_background->isChecked()) {
 	    QString color = bg_color->color().name();
-	    m_menu_movie_file = KdenliveSettings::currentdefaultfolder() + "/tmp/menu.vob";
 	    //kdDebug()<<"+ + + EXPORT DVD: "<<color<<endl;
 	    color = "colour=\"" + color.replace(0, 1, "0x") + "ff\"";
-	    KProcess *p = new KProcess();
-	    if (m_format == PAL_VIDEO) p->setEnvironment("MLT_NORMALISATION", "PAL");
-    	    else if (m_format == NTSC_VIDEO) p->setEnvironment("MLT_NORMALISATION", "NTSC");
-	    *p<<"kdenlive_renderer";
 	    *p<<"colour";
 	    *p<<color.ascii();
 	    *p<<"in=0";
@@ -416,33 +417,10 @@ void ExportDvdDialog::generateMenuMovie() {
 	    *p<<"b_track=1";
 	    *p<<"in=0";
 	    *p<<"out=50";
-	    *p<<"-consumer";
-	    *p<<"avformat:" + m_menu_movie_file;
-	    *p<<"vcodec=mpeg2video";
-	    *p<<"acodec=ac3";
-	    *p<<"format=dvd";
-	    *p<<"frame_size=" + size;
-	    *p<<"frame_rate=" + fps;
-	    *p<<"gop_size=" + gop;
-	    *p<<"video_bit_rate=6000000";
-	    *p<<"video_rc_max_rate=9000000";
-	    *p<<"video_rc_min_rate=0";
-	    *p<<"video_rc_buffer_size=1835008";
-	    *p<<"mux_packet_size=2048";
-	    *p<<"mux_rate=10080000";
-	    *p<<"audio_bit_rate=448000";
-	    *p<<"audio_sample_rate=48000";
-	    connect(p, SIGNAL(processExited(KProcess *)), this, SLOT(movieMenuDone(KProcess *)));
-	    setCursor(QCursor(Qt::WaitCursor));
-	    p->start();
+
 	}
 	else if (image_background->isChecked()) {
-	    m_menu_movie_file = KdenliveSettings::currentdefaultfolder() + "/tmp/menu.vob";
 	    //kdDebug()<<"+ + + EXPORT DVD: "<<color<<endl;
-	    KProcess *p = new KProcess();
-	    if (m_format == PAL_VIDEO) p->setEnvironment("MLT_NORMALISATION", "PAL");
-    	    else if (m_format == NTSC_VIDEO) p->setEnvironment("MLT_NORMALISATION", "NTSC");
-	    *p<<"kdenlive_renderer";
 	    *p<<menu_image->url();
 	    *p<<"in=0";
 	    *p<<"out=50";
@@ -458,6 +436,26 @@ void ExportDvdDialog::generateMenuMovie() {
 	    *p<<"b_track=1";
 	    *p<<"in=0";
 	    *p<<"out=50";
+	}
+	else {
+	    *p<<menu_movie->url();
+	    *p<<"in=0";
+	    *p<<"out=100";
+	    *p<<"-track";
+	    *p<<KdenliveSettings::currentdefaultfolder() + "/tmp/menu.png";
+	    *p<<"aspect_ratio=" + aspect_ratio;
+	    *p<<"in=0";
+	    // TODO: Calculate movie duration
+	    *p<<"out=100";
+	    *p<<"-transition";
+	    *p<<"composite";
+	    *p<<"progressive=1";
+	    *p<<"a_track=0";
+	    *p<<"b_track=1";
+	    *p<<"in=0";
+	    *p<<"out=100";
+	}
+
 	    *p<<"-consumer";
 	    *p<<"avformat:" + m_menu_movie_file;
 	    *p<<"vcodec=mpeg2video";
@@ -477,11 +475,6 @@ void ExportDvdDialog::generateMenuMovie() {
 	    connect(p, SIGNAL(processExited(KProcess *)), this, SLOT(movieMenuDone(KProcess *)));
 	    setCursor(QCursor(Qt::WaitCursor));
 	    p->start();
-	}
-	else {
-	    m_menu_movie_file = menu_movie->url();
-	    generateMenuImages();
-	}
     }
 }
 
