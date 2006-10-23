@@ -273,6 +273,9 @@
                         <property name="name">
                             <cstring>tabWidget2</cstring>
                         </property>
+                        <property name="enabled">
+                            <bool>true</bool>
+                        </property>
                         <widget class="QWidget">
                             <property name="name">
                                 <cstring>tab</cstring>
@@ -553,6 +556,52 @@
                                 </widget>
                             </grid>
                         </widget>
+                        <widget class="QWidget">
+                            <property name="name">
+                                <cstring>TabPage</cstring>
+                            </property>
+                            <attribute name="title">
+                                <string>Intro</string>
+                            </attribute>
+                            <grid>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <widget class="QCheckBox" row="0" column="0">
+                                    <property name="name">
+                                        <cstring>intro_movie</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Intro movie</string>
+                                    </property>
+                                </widget>
+                                <spacer row="2" column="0">
+                                    <property name="name">
+                                        <cstring>spacer6</cstring>
+                                    </property>
+                                    <property name="orientation">
+                                        <enum>Vertical</enum>
+                                    </property>
+                                    <property name="sizeType">
+                                        <enum>Expanding</enum>
+                                    </property>
+                                    <property name="sizeHint">
+                                        <size>
+                                            <width>13</width>
+                                            <height>31</height>
+                                        </size>
+                                    </property>
+                                </spacer>
+                                <widget class="KURLRequester" row="1" column="0">
+                                    <property name="name">
+                                        <cstring>intro_url</cstring>
+                                    </property>
+                                    <property name="filter">
+                                        <string>*.vob | DVD Movie file</string>
+                                    </property>
+                                </widget>
+                            </grid>
+                        </widget>
                     </widget>
                     <widget class="QLabel" row="0" column="1">
                         <property name="name">
@@ -580,7 +629,7 @@
             <cstring>WizardPage</cstring>
         </property>
         <attribute name="title">
-            <string>WizardPage</string>
+            <string>DVD Creation</string>
         </attribute>
         <grid>
             <property name="name">
@@ -764,6 +813,8 @@
         </grid>
     </widget>
 </widget>
+<customwidgets>
+</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>kurlrequester.h</includehint>
@@ -787,5 +838,8 @@
     <includehint>kcolorbutton.h</includehint>
     <includehint>kcolorbutton.h</includehint>
     <includehint>kcolorbutton.h</includehint>
+    <includehint>kurlrequester.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kpushbutton.h</includehint>
 </includehints>
 </UI>

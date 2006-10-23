@@ -20,6 +20,7 @@
 #include <qcursor.h>
 #include <qobjectlist.h>
 #include <qradiobutton.h>
+#include <qcheckbox.h>
 #include <qspinbox.h>
 #include <qpixmap.h>
 #include <qimage.h>
@@ -319,11 +320,32 @@ void ExportDvdDialog::generateDvdXml() {
     QDomDocument doc;
     QDomElement main = doc.createElement("dvdauthor");
     QDomElement vmgm = doc.createElement("vmgm");
+    main.appendChild(vmgm);
+
+    if (intro_movie->isChecked()) {
+	QDomElement menus = doc.createElement("menus");
+	vmgm.appendChild(menus);
+	QDomElement pgc = doc.createElement("pgc");
+	menus.appendChild(pgc);
+	QDomElement menuvob = doc.createElement("vob");	
+	menuvob.setAttribute("file", intro_url->url());
+	pgc.appendChild(menuvob);
+
+	QDomElement post = doc.createElement("post");
+ 	QDomText t2 = doc.createTextNode( "jump titleset 1 menu;" );
+    	post.appendChild( t2 );
+	pgc.appendChild( post );
+    }
+
+    QDomElement titleset = doc.createElement("titleset");
+    main.appendChild(titleset);
+
     if (create_menu->isChecked()) {
 	// add spumux file
 	QDomElement menus = doc.createElement("menus");	
-	vmgm.appendChild(menus);
-	QDomElement pgc = doc.createElement("pgc");	
+	titleset.appendChild(menus);
+	QDomElement pgc = doc.createElement("pgc");
+	pgc.setAttribute("entry", "root");
 	menus.appendChild(pgc);
 
 	QDomElement playButton = doc.createElement("button");
@@ -333,12 +355,18 @@ void ExportDvdDialog::generateDvdXml() {
 
 	QDomElement menuvob = doc.createElement("vob");	
 	menuvob.setAttribute("file", KdenliveSettings::currentdefaultfolder() + "/tmp/menu_final.vob");
-	menuvob.setAttribute("pause", "inf");
 	pgc.appendChild(menuvob);
+
+	if (movie_background->isChecked()) {
+	    // Menu with movie background, let's loop the movie
+	    QDomElement post = doc.createElement("post");
+ 	    QDomText t2 = doc.createTextNode( "jump menu 1;" );
+    	    post.appendChild( t2 );
+	    pgc.appendChild( post );
+	}
+	//menuvob.setAttribute("pause", "inf");
     }
-    main.appendChild(vmgm);
-    QDomElement titleset = doc.createElement("titleset");
-    main.appendChild(titleset);
+
     QDomElement titles = doc.createElement("titles");
     titleset.appendChild(titles);
     QDomElement pgc = doc.createElement("pgc");
@@ -351,7 +379,7 @@ void ExportDvdDialog::generateDvdXml() {
     }
     pgc.appendChild(vob);
     QDomElement post = doc.createElement("post");
-    QDomText t = doc.createTextNode( "call vmgm menu;" );
+    QDomText t = doc.createTextNode( "call menu;" );
     post.appendChild( t );
     pgc.appendChild(post);
     doc.appendChild(main);
