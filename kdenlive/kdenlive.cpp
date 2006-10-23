@@ -174,6 +174,10 @@ namespace Gui {
 
 	fileSaveAs->setEnabled(true);
 
+	m_autoSaveTimer = new QTimer(this);
+	connect(m_autoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
+	if (KdenliveSettings::autosave())
+	    m_autoSaveTimer->start(KdenliveSettings::autosavetime() * 60000, false);
         
 	// Reopen last project if user asked it
 	if (KdenliveSettings::openlast()) openLastFile();
@@ -221,6 +225,13 @@ namespace Gui {
     const EffectDescriptionList & KdenliveApp::effectList() const
     {
 	return m_effectList;
+    }
+
+    void KdenliveApp::slotAutoSave()
+    {
+	if (!m_doc->isModified()) return;
+	slotFileSave();
+	
     }
 
     void KdenliveApp::openSelectedFile()
@@ -1809,6 +1820,9 @@ namespace Gui {
 	if (m_doc->URL().fileName() == i18n("Untitled")) slotFileSaveAs();
 	else {
 		slotStatusMsg(i18n("Saving file..."));
+		if (KIO::NetAccess::exists(m_doc->URL(), true, this)) {
+		    KIO::NetAccess::copy(m_doc->URL(), KURL(m_doc->URL().path() + "~"), this);
+		}
 		m_projectFormatManager.saveDocument(m_doc->URL(), m_doc);
 		slotStatusMsg(i18n("Ready."));
 		fileOpenRecent->addURL(m_doc->URL());
@@ -1985,13 +1999,16 @@ namespace Gui {
 
     void KdenliveApp::slotOptionsPreferences() {
 	slotStatusMsg(i18n("Editing Preferences"));
-
+	m_autoSaveTimer->stop();
 	KdenliveSetupDlg *dialog =
 	    new KdenliveSetupDlg(this, this, "setupdlg");
 	connect(dialog, SIGNAL(settingsChanged()), this,
 	    SLOT(updateConfiguration()));
 	dialog->exec();
 	delete dialog;
+
+	if (KdenliveSettings::autosave())
+	    m_autoSaveTimer->start(KdenliveSettings::autosavetime() * 60000, false);
 
 	slotStatusMsg(i18n("Ready."));
     }

@@ -428,6 +428,8 @@ namespace Gui {
 	void slotAddGuide();
 	void slotEditGuide();
 
+	void slotAutoSave();
+
         /** Add a transition between the 2 selected clips */
         void slotAddTransition();
         
@@ -578,6 +580,8 @@ namespace Gui {
         exportWidget *m_exportWidget;
 	ExportDvdDialog *m_exportDvd;
 
+	QTimer *m_autoSaveTimer;
+
 	/** tells whether the project is PAL, NTSC or HDV; */
 	VIDEOFORMAT m_projectFormat;
 
@@ -585,8 +589,8 @@ namespace Gui {
 
 		/** Generates commands to clears all snap markers in clips directly referenced in the project clip. The commands are added to
 		// the macroCommand. selectedClips determines whether this uses selectedClips or unselectedClips */
-	void populateClearSnapMarkers(KMacroCommand * macroCommand,
-	    DocClipProject & clip, bool selectedClips);
+	void populateClearSnapMarkers(KMacroCommand * macroCommand, DocClipProject & clip, bool selectedClips);
+
 
     };
 
