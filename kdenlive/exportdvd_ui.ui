@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>428</width>
-            <height>533</height>
+            <height>404</height>
         </rect>
     </property>
     <property name="caption">
@@ -586,41 +586,7 @@
             <property name="name">
                 <cstring>unnamed</cstring>
             </property>
-            <widget class="QPushButton" row="0" column="0" rowspan="1" colspan="2">
-                <property name="name">
-                    <cstring>button_generate</cstring>
-                </property>
-                <property name="text">
-                    <string>Generate DVD</string>
-                </property>
-                <property name="accel">
-                    <string></string>
-                </property>
-                <property name="autoDefault">
-                    <bool>true</bool>
-                </property>
-                <property name="default">
-                    <bool>true</bool>
-                </property>
-            </widget>
-            <widget class="QPushButton" row="1" column="0">
-                <property name="name">
-                    <cstring>button_preview</cstring>
-                </property>
-                <property name="text">
-                    <string>Preview</string>
-                </property>
-                <property name="accel">
-                    <string></string>
-                </property>
-                <property name="autoDefault">
-                    <bool>true</bool>
-                </property>
-                <property name="default">
-                    <bool>true</bool>
-                </property>
-            </widget>
-            <widget class="QPushButton" row="1" column="1">
+            <widget class="QPushButton" row="5" column="0" rowspan="1" colspan="2">
                 <property name="name">
                     <cstring>button_burn</cstring>
                 </property>
@@ -637,7 +603,24 @@
                     <bool>true</bool>
                 </property>
             </widget>
-            <widget class="QPushButton" row="1" column="2">
+            <widget class="QPushButton" row="5" column="2">
+                <property name="name">
+                    <cstring>button_preview</cstring>
+                </property>
+                <property name="text">
+                    <string>Preview</string>
+                </property>
+                <property name="accel">
+                    <string></string>
+                </property>
+                <property name="autoDefault">
+                    <bool>true</bool>
+                </property>
+                <property name="default">
+                    <bool>true</bool>
+                </property>
+            </widget>
+            <widget class="QPushButton" row="5" column="3">
                 <property name="name">
                     <cstring>button_qdvd</cstring>
                 </property>
@@ -654,7 +637,24 @@
                     <bool>true</bool>
                 </property>
             </widget>
-            <spacer row="2" column="0">
+            <widget class="QPushButton" row="4" column="3">
+                <property name="name">
+                    <cstring>button_generate</cstring>
+                </property>
+                <property name="text">
+                    <string>Generate DVD</string>
+                </property>
+                <property name="accel">
+                    <string></string>
+                </property>
+                <property name="autoDefault">
+                    <bool>true</bool>
+                </property>
+                <property name="default">
+                    <bool>true</bool>
+                </property>
+            </widget>
+            <spacer row="3" column="3">
                 <property name="name">
                     <cstring>spacer4</cstring>
                 </property>
@@ -666,16 +666,104 @@
                 </property>
                 <property name="sizeHint">
                     <size>
-                        <width>13</width>
-                        <height>49</height>
+                        <width>20</width>
+                        <height>130</height>
                     </size>
                 </property>
             </spacer>
+            <widget class="QLabel" row="2" column="0">
+                <property name="name">
+                    <cstring>dvd_ok</cstring>
+                </property>
+                <property name="frameShape">
+                    <enum>NoFrame</enum>
+                </property>
+                <property name="frameShadow">
+                    <enum>Plain</enum>
+                </property>
+                <property name="text">
+                    <string></string>
+                </property>
+            </widget>
+            <widget class="QLabel" row="2" column="1" rowspan="1" colspan="3">
+                <property name="name">
+                    <cstring>textLabel9_3</cstring>
+                </property>
+                <property name="sizePolicy">
+                    <sizepolicy>
+                        <hsizetype>3</hsizetype>
+                        <vsizetype>5</vsizetype>
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                    </sizepolicy>
+                </property>
+                <property name="text">
+                    <string>Generating DVD structure</string>
+                </property>
+            </widget>
+            <widget class="QLabel" row="1" column="1" rowspan="1" colspan="3">
+                <property name="name">
+                    <cstring>textLabel9_2</cstring>
+                </property>
+                <property name="sizePolicy">
+                    <sizepolicy>
+                        <hsizetype>3</hsizetype>
+                        <vsizetype>5</vsizetype>
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                    </sizepolicy>
+                </property>
+                <property name="text">
+                    <string>Generating menu</string>
+                </property>
+            </widget>
+            <widget class="QLabel" row="1" column="0">
+                <property name="name">
+                    <cstring>menu_ok</cstring>
+                </property>
+                <property name="frameShape">
+                    <enum>NoFrame</enum>
+                </property>
+                <property name="frameShadow">
+                    <enum>Plain</enum>
+                </property>
+                <property name="text">
+                    <string></string>
+                </property>
+            </widget>
+            <widget class="QLabel" row="0" column="0">
+                <property name="name">
+                    <cstring>main_ok</cstring>
+                </property>
+                <property name="frameShape">
+                    <enum>NoFrame</enum>
+                </property>
+                <property name="frameShadow">
+                    <enum>Plain</enum>
+                </property>
+                <property name="text">
+                    <string></string>
+                </property>
+            </widget>
+            <widget class="QLabel" row="0" column="1" rowspan="1" colspan="3">
+                <property name="name">
+                    <cstring>textLabel9</cstring>
+                </property>
+                <property name="sizePolicy">
+                    <sizepolicy>
+                        <hsizetype>3</hsizetype>
+                        <vsizetype>5</vsizetype>
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                    </sizepolicy>
+                </property>
+                <property name="text">
+                    <string>Generating main movie</string>
+                </property>
+            </widget>
         </grid>
     </widget>
 </widget>
-<customwidgets>
-</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>kurlrequester.h</includehint>

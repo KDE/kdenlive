@@ -66,6 +66,7 @@ class ExportDvdDialog:public ExportDvd_UI {
 	void generateTranspImage(QString imageName, QString buttonText, QColor color);
 	void slotSetStandard(int std);
 	void openWithQDvdauthor();
+	void generateDvd();
 
     private:			// Private attributes
 	GenTime timeFromString(QString timeString);
