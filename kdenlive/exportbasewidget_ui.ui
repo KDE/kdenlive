@@ -8,7 +8,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>406</width>
+            <width>427</width>
             <height>591</height>
         </rect>
     </property>
@@ -28,7 +28,7 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QLayoutWidget" row="3" column="0" rowspan="1" colspan="3">
+        <widget class="QLayoutWidget" row="3" column="0" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>layout2</cstring>
             </property>
@@ -83,7 +83,7 @@
                 </widget>
             </hbox>
         </widget>
-        <widget class="QGroupBox" row="2" column="0" rowspan="1" colspan="3">
+        <widget class="QGroupBox" row="2" column="0" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>guide_box</cstring>
             </property>
@@ -180,50 +180,6 @@
                 </widget>
             </grid>
         </widget>
-        <widget class="QButtonGroup" row="1" column="1">
-            <property name="name">
-                <cstring>buttonGroup2</cstring>
-            </property>
-            <property name="frameShape">
-                <enum>NoFrame</enum>
-            </property>
-            <property name="frameShadow">
-                <enum>Plain</enum>
-            </property>
-            <property name="lineWidth">
-                <number>0</number>
-            </property>
-            <property name="title">
-                <string></string>
-            </property>
-            <property name="exclusive">
-                <bool>true</bool>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <property name="margin">
-                    <number>0</number>
-                </property>
-                <widget class="QCheckBox" row="0" column="1">
-                    <property name="name">
-                        <cstring>export_guide</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Guide zone</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox" row="0" column="0">
-                    <property name="name">
-                        <cstring>export_selected</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Selected zone</string>
-                    </property>
-                </widget>
-            </grid>
-        </widget>
         <widget class="QLabel" row="1" column="0">
             <property name="name">
                 <cstring>textLabel1_6</cstring>
@@ -232,24 +188,7 @@
                 <string>Export:</string>
             </property>
         </widget>
-        <spacer row="1" column="2">
-            <property name="name">
-                <cstring>spacer4</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>30</width>
-                    <height>16</height>
-                </size>
-            </property>
-        </spacer>
-        <widget class="QTabWidget" row="0" column="0" rowspan="1" colspan="3">
+        <widget class="QTabWidget" row="0" column="0" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>tabWidget</cstring>
             </property>
@@ -686,6 +625,39 @@
                     </widget>
                 </grid>
             </widget>
+        </widget>
+        <spacer row="1" column="3">
+            <property name="name">
+                <cstring>spacer4</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>60</width>
+                    <height>16</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QCheckBox" row="1" column="1">
+            <property name="name">
+                <cstring>export_selected</cstring>
+            </property>
+            <property name="text">
+                <string>Selected zone</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="1" column="2">
+            <property name="name">
+                <cstring>export_guide</cstring>
+            </property>
+            <property name="text">
+                <string>Guide zone</string>
+            </property>
         </widget>
     </grid>
 </widget>

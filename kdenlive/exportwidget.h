@@ -96,6 +96,8 @@ private slots:
 	void slotDeleteEncoder();
 	void slotSaveCustomEncoders();
 	void slotLoadCustomEncoders();
+	void slotSelectedZone(bool isOn);
+	void slotGuideZone(bool isOn);
 
 public slots:
 	void endExport();

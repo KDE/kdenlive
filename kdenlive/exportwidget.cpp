@@ -93,6 +93,8 @@ exportWidget::exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, VID
 
     connect(guide_start, SIGNAL(activated(int)),this,SLOT(slotAdjustGuides(int)));
     connect(export_guide, SIGNAL(toggled(bool)), guide_box, SLOT(setEnabled(bool)));
+    connect(export_guide, SIGNAL(toggled(bool)), this, SLOT(slotGuideZone(bool)));
+    connect(export_selected, SIGNAL(toggled(bool)), this, SLOT(slotSelectedZone(bool)));
 
     connect(hq_encoders, SIGNAL(selectionChanged ()), this, SLOT(slotCheckSelection()));
     connect(med_encoders, SIGNAL(selectionChanged ()), this, SLOT(slotCheckSelection()));
@@ -110,6 +112,16 @@ exportWidget::~exportWidget()
     slotSaveCustomEncoders();
 }
 
+
+void exportWidget::slotGuideZone(bool isOn)
+{
+    if (isOn) export_selected->setChecked(false);
+}
+
+void exportWidget::slotSelectedZone(bool isOn)
+{
+    if (isOn) export_guide->setChecked(false);
+}
 
 void exportWidget::slotSaveCustomEncoders()
 {
@@ -541,9 +553,20 @@ void exportWidget::startExport()
         exportButton->setText(i18n("Stop"));
         m_isRunning = true;
 	QString paramLine;
-	if (encoders->currentPageIndex() == 0) paramLine = slotCommandForItem(HQEncoders, hq_encoders->currentItem());
-	else if (encoders->currentPageIndex() == 1) paramLine = slotCommandForItem(MedEncoders, med_encoders->currentItem());
-	if (encoders->currentPageIndex() == 2) paramLine = slotCommandForItem(AudioEncoders, audio_encoders->currentItem());
+	switch (encoders->currentPageIndex()) {
+	case 0:
+		paramLine = slotCommandForItem(HQEncoders, hq_encoders->currentItem());
+		break;
+	case 1: 
+		paramLine = slotCommandForItem(MedEncoders, med_encoders->currentItem());
+		break;
+	case 2: 
+		paramLine = slotCommandForItem(AudioEncoders, audio_encoders->currentItem());
+		break;
+	case 3:
+		paramLine = slotCommandForItem(CustomEncoders, custom_encoders->currentItem());
+		break;
+	}
 	paramLine = paramLine.stripWhiteSpace();
 	paramLine = paramLine.simplifyWhiteSpace();
 	m_createdFile = fileExportFolder->url()+"/"+fileExportName->text();
