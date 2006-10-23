@@ -55,7 +55,7 @@ namespace Gui {
 	timeCode->setSegmentStyle(QLCDNumber::Flat);
 	timeCode->setPaletteBackgroundColor(Qt::black);
 	timeCode->setPaletteForegroundColor(Qt::green);
-
+	timeCode->setNumDigits(11);
 	tcode.setFormat(Timecode::HH_MM_SS_FF);
 
 	KIconLoader loader;
