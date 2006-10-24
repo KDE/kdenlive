@@ -173,7 +173,7 @@ class ClipManager:public QObject {
     void AVImageArrived(const KURL &, int, const QPixmap &);
     void AVImageArrived(int id, const QPixmap &);
 	/** returns an mlt list of producers for all the clips */
-    QDomDocument producersList();
+    QDomDocumentFragment producersList();
     
     
   private:

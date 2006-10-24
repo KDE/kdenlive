@@ -792,9 +792,12 @@ QDomDocument DocClipRef::generateSceneList()
     return m_clip->generateSceneList();
 }
 
-QDomDocument DocClipRef::generateXMLTransition(bool hideVideo, bool hideAudio)
+QDomDocumentFragment DocClipRef::generateXMLTransition(bool hideVideo, bool hideAudio)
 {
     QDomDocument transitionList;
+    QDomDocumentFragment list = transitionList.createDocumentFragment();
+
+    transitionList.appendChild(list);
     DocClipBase::CLIPTYPE ct = clipType();
     bool transparentBackgroundClip = false;
 
@@ -816,7 +819,7 @@ QDomDocument DocClipRef::generateXMLTransition(bool hideVideo, bool hideAudio)
         transition.setAttribute("progressive","1");
         transition.setAttribute("a_track", QString::number( playlistNextTrackNum()));
         transition.setAttribute("b_track", QString::number(playlistTrackNum()));
-        transitionList.appendChild(transition);
+        list.appendChild(transition);
     }
  
     TransitionStack::iterator itt = m_transitionStack.begin(); 
@@ -869,11 +872,11 @@ QDomDocument DocClipRef::generateXMLTransition(bool hideVideo, bool hideAudio)
                 transition.setAttribute("b_track", QString::number((*itt)->transitionStartTrack()));
                 transition.setAttribute("a_track", QString::number((*itt)->transitionEndTrack()));
             }
-            transitionList.appendChild(transition);
+            list.appendChild(transition);
 	}
         ++itt;
     }
-    return transitionList;
+    return list;
 }
 
 QDomDocument DocClipRef::generateXMLClip()

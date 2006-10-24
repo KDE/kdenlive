@@ -322,7 +322,7 @@ class DocClipRef:public QObject {
         void resizeTransitionStart(uint ix, GenTime time);
         void resizeTransitionEnd(uint ix, GenTime time);
         void moveTransition(uint ix, GenTime time);
-        QDomDocument generateXMLTransition(bool hideVideo, bool hideAudio);
+        QDomDocumentFragment generateXMLTransition(bool hideVideo, bool hideAudio);
 	void updateAudioThumbnail(QMap<int,QMap<int,QByteArray> > data);
 	void refreshAudioThumbnail();
 	void setSpeed(double speed);

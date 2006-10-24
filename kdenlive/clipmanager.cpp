@@ -523,16 +523,17 @@ DocClipBase *ClipManager::findClipById(uint id)
     return result;
 }
 
-QDomDocument ClipManager::producersList()
+QDomDocumentFragment ClipManager::producersList()
 {
     QDomDocument sceneList;
+    QDomDocumentFragment list = sceneList.createDocumentFragment();
+    sceneList.appendChild(list);
 
     QPtrListIterator < DocClipBase > itt(m_clipList);
-    
     QDomElement producer = sceneList.createElement("producer");
     producer.setAttribute("id", "black");
     producer.setAttribute("mlt_service", "colour");
-    sceneList.appendChild(producer);
+    list.appendChild(producer);
     
     while (itt.current()) {
         if (itt.current()->isDocClipAVFile())
@@ -551,7 +552,7 @@ QDomDocument ClipManager::producersList()
 		    avClip->fileURL().path());
 		producer.setAttribute("hide", "audio");
 		if (avClip->clipTtl()!=0) producer.setAttribute("ttl", QString::number(avClip->clipTtl()));
-		sceneList.appendChild(producer);
+		list.appendChild(producer);
 	    }
 
 	    else if (avClip->clipType() == DocClipBase::COLOR) {
@@ -562,7 +563,7 @@ QDomDocument ClipManager::producersList()
 		producer.setAttribute("mlt_service", "colour");
 		producer.setAttribute("hide", "audio");
 		producer.setAttribute("colour", avClip->color());
-		sceneList.appendChild(producer);
+		list.appendChild(producer);
 	    }
 
 	    else if (avClip->clipType() == DocClipBase::AUDIO) {
@@ -573,7 +574,7 @@ QDomDocument ClipManager::producersList()
 		producer.setAttribute("resource",
 		    avClip->fileURL().path());
 		producer.setAttribute("hide", "video");
-		sceneList.appendChild(producer);
+		list.appendChild(producer);
 	    } else if (avClip->clipType() == DocClipBase::VIDEO) {
 		QDomElement producer = sceneList.createElement("producer");
 		producer.setAttribute("id",
@@ -582,7 +583,7 @@ QDomDocument ClipManager::producersList()
 		producer.setAttribute("resource",
 		    avClip->fileURL().path());
 		producer.setAttribute("hide", "audio");
-		sceneList.appendChild(producer);
+		list.appendChild(producer);
 	    }
 
 	    else {
@@ -592,7 +593,7 @@ QDomDocument ClipManager::producersList()
 		    QString::number(avClip->getId()));
 		producer.setAttribute("resource",
 		    avClip->fileURL().path());
-		sceneList.appendChild(producer);
+		list.appendChild(producer);
 	    }
 
 	    /*
@@ -624,7 +625,7 @@ QDomDocument ClipManager::producersList()
                 producer.setAttribute("aspect_ratio", QString::number(m_render->consumerRatio()));
                 producer.setAttribute("resource", avClip->fileURL().path());
                 producer.setAttribute("hide", "audio");
-                sceneList.appendChild(producer);
+                list.appendChild(producer);
                 
             /*QDomElement producer = sceneList.createElement("producer");
             producer.setAttribute("id", QString("producer") + QString::number(avClip->getId()));
@@ -636,7 +637,7 @@ QDomDocument ClipManager::producersList()
         }
 	++itt;
     }
-    return sceneList;
+    return list;
 }
 
 DocClipBase *ClipManager::findClip(const KURL & file)

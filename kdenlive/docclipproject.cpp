@@ -34,7 +34,7 @@
 DocClipProject::DocClipProject(double framesPerSecond, int width, int height):DocClipBase(),
 m_framesPerSecond(framesPerSecond), m_videowidth(width), m_videoheight(height)
 {
-    producersList = QDomDocument();
+    producersList = QDomDocumentFragment();
     m_tracks.setAutoDelete(true);
 }
 
@@ -362,14 +362,15 @@ QDomDocument DocClipProject::generateSceneList() const
     QDomElement westley = doc.createElement("westley");
     doc.appendChild(westley);
 
-    QDomElement clipTransitions = doc.createElement("clipTransitions");
+    QDomDocumentFragment clipTransitions = doc.createDocumentFragment();
     
     /* import the list of all producer clips */
-    westley.appendChild(producersList);
+    westley.appendChild(doc.importNode(producersList, true));
+
     QDomElement tractor = doc.createElement("tractor");
     QDomElement multitrack = doc.createElement("multitrack");
-    QDomDocument audiotrack;
-    
+
+    QDomDocumentFragment audiotrack = doc.createDocumentFragment();
 
     QPtrListIterator < DocTrackBase > trackItt(m_tracks);
     QPtrListIterator < DocTrackBase > trackCounter(m_tracks);
@@ -429,8 +430,8 @@ QDomDocument DocClipProject::generateSceneList() const
             playlist.appendChild(itt.current()->generateXMLClip().firstChild());
 
             // Append clip's transitions for video tracks
-	    clipTransitions.appendChild(itt.current()->generateXMLTransition(isBlind, isMute));
-            
+            clipTransitions.appendChild(doc.importNode(itt.current()->generateXMLTransition(isBlind, isMute), true));
+
 	    timestart = (int)itt.current()->trackEnd().frames(framesPerSecond());
 	    children++;
 	    ++itt;
@@ -442,7 +443,6 @@ QDomDocument DocClipProject::generateSceneList() const
     }
     // add audio tracks to the multitrack
     multitrack.appendChild(audiotrack);
-    
     tractor.appendChild(multitrack);
     
         // Add all transitions
@@ -464,7 +464,7 @@ QDomDocument DocClipProject::generateSceneList() const
 	}
 
 
-    doc.documentElement().appendChild(tractor);
+    westley.appendChild(tractor);
         //kdDebug() << doc.toString() << endl;
         //kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
     return doc;

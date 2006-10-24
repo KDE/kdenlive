@@ -126,7 +126,7 @@ class DocClipProject:public DocClipBase {
 	bool canAddClipsToTracks(DocClipRefList & clips, int track,
 	const GenTime & clipOffset) const;
 	/** Holds a westley list of all different clips in the document */
-    QDomDocument producersList;
+    QDomDocumentFragment producersList;
     
 
     public slots:
