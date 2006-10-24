@@ -37,7 +37,7 @@
 
 18:MED:Mpeg:720x576:Low::avformat::mpeg:format=mpeg video_rc_min_rate=0 video_bit_rate=6000000 audio_bit_rate=64000 frequency=32000 size=720x576
 19:MED:Mpeg:720x576:Medium::avformat::mpeg:format=mpeg video_rc_min_rate=0 video_bit_rate=9000000 audio_bit_rate=128000 frequency=44100 size=720x576
-20:MED:Mpeg:720x576:High::avformat::mpeg:format=mpeg video_rc_min_rate=0 video_bit_rate=120000000 audio_bit_rate=384000 frequency=48000 size=720x576
+20:MED:Mpeg:720x576:High::avformat::mpeg:format=mpeg video_rc_min_rate=0 video_bit_rate=12000000 audio_bit_rate=384000 frequency=48000 size=720x576
 
 ###MPEG4
 
@@ -59,7 +59,7 @@
 
 33:MED:Mpeg4:720x576:Low::avformat::mpeg:format=avi video_rc_min_rate=0 video_bit_rate=3000000 audio_bit_rate=64000 frequency=32000 size=720x576 vcodec=mpeg4 mbd=2 trell=1 v4mv=1
 34:MED:Mpeg4:720x576:Medium::avformat::mpeg:format=avi video_rc_min_rate=0 video_bit_rate=6000000 audio_bit_rate=128000 frequency=44100 size=720x576 vcodec=mpeg4 mbd=2 trell=1 v4mv=1
-35:MED:Mpeg4:720x576:High::avformat::mpeg:format=avi video_rc_min_rate=0 video_bit_rate=80000000 audio_bit_rate=384000 frequency=48000 size=720x576 vcodec=mpeg4 mbd=2 trell=1 v4mv=1
+35:MED:Mpeg4:720x576:High::avformat::mpeg:format=avi video_rc_min_rate=0 video_bit_rate=8000000 audio_bit_rate=384000 frequency=48000 size=720x576 vcodec=mpeg4 mbd=2 trell=1 v4mv=1
 
 ### FLV
 
@@ -81,7 +81,7 @@
 
 48:MED:Flash:720x576:Low::avformat::flv:format=flv acodec=mp3 video_rc_min_rate=0 video_bit_rate=6000000 audio_bit_rate=32000 frequency=22050 size=720x576
 49:MED:Flash:720x576:Medium::avformat::flv:format=flv acodec=mp3 video_rc_min_rate=0 video_bit_rate=9000000 audio_bit_rate=64000 frequency=22050 size=720x576
-50:MED:Flash:720x576:High::avformat::flv:format=flv acodec=mp3 video_rc_min_rate=0 video_bit_rate=120000000 audio_bit_rate=128000 frequency=22050 size=720x576
+50:MED:Flash:720x576:High::avformat::flv:format=flv acodec=mp3 video_rc_min_rate=0 video_bit_rate=12000000 audio_bit_rate=128000 frequency=22050 size=720x576
 
 ### QUICKTIME
 
@@ -121,7 +121,7 @@
 
 75:MED:Real Video:720x576:Low::avformat::rm:format=rv10 video_rc_min_rate=0 video_bit_rate=6000000 audio_bit_rate=64000 frequency=32000 size=720x576 gop_size=8
 76:MED:Real Video:720x576:Medium::avformat::rm:format=rv10 video_rc_min_rate=0 video_bit_rate=9000000 audio_bit_rate=128000 frequency=44100 size=720x576 gop_size=8
-77:MED:Real Video:720x576:High::avformat::rm:format=rv10 video_rc_min_rate=0 video_bit_rate=120000000 audio_bit_rate=384000 frequency=48000 size=720x576 gop_size=8
+77:MED:Real Video:720x576:High::avformat::rm:format=rv10 video_rc_min_rate=0 video_bit_rate=12000000 audio_bit_rate=384000 frequency=48000 size=720x576 gop_size=8
 
 
 #### AUDIO
