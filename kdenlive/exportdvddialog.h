@@ -67,6 +67,7 @@ class ExportDvdDialog:public ExportDvd_UI {
 	void slotSetStandard(int std);
 	void openWithQDvdauthor();
 	void generateDvd();
+	void dvdFailed();
 
     private:			// Private attributes
 	GenTime timeFromString(QString timeString);

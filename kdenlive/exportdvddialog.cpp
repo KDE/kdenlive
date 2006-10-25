@@ -40,6 +40,7 @@
 #include <kio/netaccess.h>
 #include <kurlrequesterdlg.h> 
 #include <kstandarddirs.h>
+#include <knotifyclient.h>
 
 
 #include "timecode.h"
@@ -542,9 +543,7 @@ void ExportDvdDialog::movieMenuDone(KProcess *p)
     else {
 	delete p;
 	menu_ok->setPixmap(KGlobal::iconLoader()->loadIcon("button_cancel", KIcon::Toolbar));
-    	button_generate->setEnabled(true);
-	KMessageBox::sorry(this, i18n("Could not create the menu background video, DVD cannot be created with a menu."));
-    	setCursor(QCursor(Qt::ArrowCursor));
+	dvdFailed();
     }
 }
 
@@ -552,10 +551,8 @@ void ExportDvdDialog::spuMenuDone(KProcess *p)
 {
     if (!p->normalExit()) {
 	menu_ok->setPixmap(KGlobal::iconLoader()->loadIcon("button_cancel", KIcon::Toolbar));
-    	button_generate->setEnabled(true);
-	KMessageBox::sorry(this, i18n("Could not create the final menu, DVD cannot be created..."));
-    	setCursor(QCursor(Qt::ArrowCursor));
 	delete p;
+	dvdFailed();
 	return;
     }
     menu_ok->setPixmap(KGlobal::iconLoader()->loadIcon("button_ok", KIcon::Toolbar));
@@ -732,14 +729,23 @@ void ExportDvdDialog::endExport(KProcess *)
     setCursor(QCursor(Qt::ArrowCursor));
     if (!m_exportProcess->normalExit()) {
 	dvd_ok->setPixmap(KGlobal::iconLoader()->loadIcon("button_cancel", KIcon::Toolbar));
-	KMessageBox::sorry(this, i18n("The creation of DVD structure failed."));
+	dvdFailed();
 	return;
     }
     dvd_ok->setPixmap(KGlobal::iconLoader()->loadIcon("button_ok", KIcon::Toolbar));
+    KNotifyClient::event(winId(), "DvdOk", i18n("The creation of DVD structure is finished."));
     delete m_exportProcess;
     m_exportProcess = 0;
 }
 
+void ExportDvdDialog::dvdFailed()
+{
+    setCursor(QCursor(Qt::ArrowCursor));
+    KNotifyClient::event(winId(), "DvdError", i18n("The creation of DVD structure failed."));
+    //KMessageBox::sorry(this, );
+    button_generate->setEnabled(true);
+    
+}
 
 GenTime ExportDvdDialog::timeFromString(QString timeString) {
     int frames = (int) ((timeString.section(":",0,0).toInt()*3600 + timeString.section(":",1,1).toInt()*60 + timeString.section(":",2,2).toInt()) * m_fps + timeString.section(":",3,3).toInt());

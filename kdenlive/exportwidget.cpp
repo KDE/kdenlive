@@ -42,8 +42,8 @@
 #include <klineedit.h>
 #include <kfiledialog.h>
 #include <kiconloader.h>
-#include <kpassivepopup.h>
 #include <kio/netaccess.h>
+#include <knotifyclient.h>
 
 #include "kdenlive.h"
 #include "exportwidget.h"
@@ -753,12 +753,13 @@ void exportWidget::endExport(KProcess *)
     //if (EncodersMap[encoders->currentText()] == "theora") twoPassEncoding = true; 
 
     if (!m_exportProcess->normalExit()) {
-	KMessageBox::sorry(this, i18n("The export terminated unexpectedly.\nOutput file will probably be corrupted..."));
+	KNotifyClient::event(winId(), "RenderError", i18n("The export terminated unexpectedly.\nOutput file will probably be corrupted..."));
 	finishedOK = false;
     }
     else if (!twoPassEncoding) {
 	QPixmap px(KGlobal::iconLoader()->loadIcon("kdenlive", KIcon::Toolbar));
-	KPassivePopup::message( "Kdenlive", i18n("Export of %1 is finished").arg(m_createdFile), px, (QWidget*) parent() );
+	KNotifyClient::event(winId(), "RenderOk", i18n("Export of %1 is finished").arg(m_createdFile));
+	
     }
     delete m_exportProcess;
     m_exportProcess = 0;

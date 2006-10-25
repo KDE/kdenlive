@@ -357,6 +357,7 @@ namespace Gui {
 
 		/** Configure keys */
 	void slotConfKeys();
+	void slotConfNotifications();
 		/** Configure the toolbar */
 	void slotConfToolbars();
 
@@ -477,7 +478,6 @@ namespace Gui {
 	KAction *projectDeleteClips;
 	KAction *projectClean;
 	KAction *projectClipProperties;
-	KAction *keyBindings;
 	KAction *configureToolbars;
 	KAction *fitToWidth;
 

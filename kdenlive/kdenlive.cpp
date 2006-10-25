@@ -40,6 +40,7 @@
 #include <kfiledialog.h>
 #include <kiconloader.h>
 #include <kkeydialog.h>
+#include <knotifydialog.h>
 #include <klocale.h>
 #include <kmenubar.h>
 #include <kmessagebox.h>
@@ -292,8 +293,9 @@ namespace Gui {
 	optionsPreferences =
 	    KStdAction::preferences(this, SLOT(slotOptionsPreferences()),
 	    actionCollection());
-	keyBindings =
-	    KStdAction::keyBindings(this, SLOT(slotConfKeys()),
+	KStdAction::keyBindings(this, SLOT(slotConfKeys()),
+	    actionCollection());
+	KStdAction::configureNotifications(this, SLOT(slotConfNotifications()),
 	    actionCollection());
 	configureToolbars =
 	    KStdAction::configureToolbars(this, SLOT(slotConfToolbars()),
@@ -2717,6 +2719,10 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
     void KdenliveApp::slotConfKeys() {
 	KKeyDialog::configure(actionCollection(), this, true);
+    }
+
+    void KdenliveApp::slotConfNotifications() {
+	KNotifyDialog::configure(this, "notify_dialog");
     }
 
     void KdenliveApp::slotConfToolbars() {
