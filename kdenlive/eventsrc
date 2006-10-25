@@ -1,0 +1,23 @@
+[!Global!]
+IconName=kdenlive
+Name=Kdenlive
+
+[RenderError]
+Name=Rendering Error
+Comment=Rendering to file failed
+default.presentation=2
+
+[RenderOk]
+Name=Rendering Finished
+Comment=Rendering to file successfull
+default.presentation=16
+
+[DvdError]
+Name=Dvd Creation Error
+Comment=DVD export failed
+default.presentation=2
+
+[DvdOk]
+Name=Dvd Creation Finished
+Comment=Dvd export successfull
+default.presentation=16
