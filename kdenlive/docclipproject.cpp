@@ -91,7 +91,7 @@ void DocClipProject::slotAddTrack(DocTrackBase * track, int ix)
 	// If we insert a track in th middle of a project, adjust the parent track for all clips below
     	QPtrListIterator < DocTrackBase > itt(m_tracks);
 
-    	if (ix >= m_tracks.count())
+    	if (ix > m_tracks.count())
 		ix = m_tracks.count();
     	else itt += ix;
     	while (itt) {
