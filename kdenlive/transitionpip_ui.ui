@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>423</width>
-            <height>243</height>
+            <width>425</width>
+            <height>245</height>
         </rect>
     </property>
     <property name="caption">
@@ -19,7 +19,7 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QSpinBox" row="3" column="4">
+        <widget class="QSpinBox" row="3" column="3">
             <property name="name">
                 <cstring>spin_x</cstring>
             </property>
@@ -30,7 +30,7 @@
                 <number>-100</number>
             </property>
         </widget>
-        <widget class="QSlider" row="2" column="2" rowspan="1" colspan="2">
+        <widget class="QSlider" row="2" column="1" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>slider_size</cstring>
             </property>
@@ -44,7 +44,7 @@
                 <enum>Horizontal</enum>
             </property>
         </widget>
-        <widget class="QSpinBox" row="4" column="4">
+        <widget class="QSpinBox" row="4" column="3">
             <property name="name">
                 <cstring>spin_y</cstring>
             </property>
@@ -55,12 +55,12 @@
                 <number>-100</number>
             </property>
         </widget>
-        <widget class="QSpinBox" row="1" column="4">
+        <widget class="QSpinBox" row="1" column="3">
             <property name="name">
                 <cstring>spin_transparency</cstring>
             </property>
         </widget>
-        <widget class="QLabel" row="4" column="0" rowspan="1" colspan="2">
+        <widget class="QLabel" row="4" column="0">
             <property name="name">
                 <cstring>textLabel1_4</cstring>
             </property>
@@ -68,7 +68,7 @@
                 <string>Vert. position</string>
             </property>
         </widget>
-        <widget class="QLabel" row="2" column="0" rowspan="1" colspan="2">
+        <widget class="QLabel" row="2" column="0">
             <property name="name">
                 <cstring>textLabel1</cstring>
             </property>
@@ -76,7 +76,7 @@
                 <string>Size</string>
             </property>
         </widget>
-        <widget class="QSpinBox" row="2" column="4">
+        <widget class="QSpinBox" row="2" column="3">
             <property name="name">
                 <cstring>spin_size</cstring>
             </property>
@@ -87,7 +87,7 @@
                 <number>100</number>
             </property>
         </widget>
-        <widget class="QLabel" row="1" column="0" rowspan="1" colspan="2">
+        <widget class="QLabel" row="1" column="0">
             <property name="name">
                 <cstring>textLabel1_2</cstring>
             </property>
@@ -95,7 +95,7 @@
                 <string>Transparency</string>
             </property>
         </widget>
-        <widget class="QLabel" row="3" column="0" rowspan="1" colspan="2">
+        <widget class="QLabel" row="3" column="0">
             <property name="name">
                 <cstring>textLabel1_3</cstring>
             </property>
@@ -103,7 +103,7 @@
                 <string>Horiz. position</string>
             </property>
         </widget>
-        <widget class="QSlider" row="1" column="2" rowspan="1" colspan="2">
+        <widget class="QSlider" row="1" column="1" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>slider_transparency</cstring>
             </property>
@@ -114,7 +114,7 @@
                 <enum>Horizontal</enum>
             </property>
         </widget>
-        <widget class="QSlider" row="3" column="2" rowspan="1" colspan="2">
+        <widget class="QSlider" row="3" column="1" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>slider_x</cstring>
             </property>
@@ -128,7 +128,7 @@
                 <enum>Horizontal</enum>
             </property>
         </widget>
-        <widget class="QSlider" row="4" column="2" rowspan="1" colspan="2">
+        <widget class="QSlider" row="4" column="1" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>slider_y</cstring>
             </property>
@@ -142,7 +142,7 @@
                 <enum>Horizontal</enum>
             </property>
         </widget>
-        <spacer row="0" column="3" rowspan="1" colspan="2">
+        <spacer row="0" column="2" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>spacer3</cstring>
             </property>
@@ -159,32 +159,7 @@
                 </size>
             </property>
         </spacer>
-        <widget class="QRadioButton" row="0" column="1" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>radio_end</cstring>
-            </property>
-            <property name="text">
-                <string>E&amp;nd</string>
-            </property>
-            <property name="accel">
-                <string>Alt+N</string>
-            </property>
-        </widget>
-        <widget class="QRadioButton" row="0" column="0">
-            <property name="name">
-                <cstring>radio_start</cstring>
-            </property>
-            <property name="text">
-                <string>St&amp;art</string>
-            </property>
-            <property name="accel">
-                <string>Alt+A</string>
-            </property>
-            <property name="checked">
-                <bool>true</bool>
-            </property>
-        </widget>
-        <widget class="QFrame" row="0" column="5" rowspan="5" colspan="1">
+        <widget class="QFrame" row="0" column="4" rowspan="5" colspan="1">
             <property name="name">
                 <cstring>frame_preview</cstring>
             </property>
@@ -201,7 +176,7 @@
                 <enum>Plain</enum>
             </property>
         </widget>
-        <widget class="QGroupBox" row="5" column="0" rowspan="1" colspan="6">
+        <widget class="QGroupBox" row="5" column="0" rowspan="1" colspan="5">
             <property name="name">
                 <cstring>use_luma</cstring>
             </property>
@@ -290,7 +265,7 @@
                 </spacer>
             </grid>
         </widget>
-        <spacer row="6" column="3">
+        <spacer row="6" column="2">
             <property name="name">
                 <cstring>spacer2</cstring>
             </property>
@@ -303,10 +278,63 @@
             <property name="sizeHint">
                 <size>
                     <width>20</width>
-                    <height>16</height>
+                    <height>54</height>
                 </size>
             </property>
         </spacer>
+        <widget class="QButtonGroup" row="0" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>buttonGroup3</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Plain</enum>
+            </property>
+            <property name="lineWidth">
+                <number>0</number>
+            </property>
+            <property name="title">
+                <string></string>
+            </property>
+            <property name="exclusive">
+                <bool>true</bool>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <widget class="QRadioButton" row="0" column="0">
+                    <property name="name">
+                        <cstring>radio_start</cstring>
+                    </property>
+                    <property name="text">
+                        <string>St&amp;art</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+A</string>
+                    </property>
+                    <property name="checked">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="0" column="1">
+                    <property name="name">
+                        <cstring>radio_end</cstring>
+                    </property>
+                    <property name="text">
+                        <string>E&amp;nd</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+N</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
     </grid>
 </widget>
 <customwidgets>
