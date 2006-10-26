@@ -26,6 +26,7 @@
 #include <qimage.h>
 #include <qpainter.h>
 #include <qbitmap.h>
+#include <qtextedit.h>
 
 #include <klocale.h>
 #include <kiconloader.h>
@@ -59,7 +60,10 @@ ExportDvdDialog::ExportDvdDialog(DocClipProject *proj, exportWidget *render_widg
     setCaption(i18n("Create DVD"));
     setTitle(page(0), i18n("Rendering"));
     setTitle(page(1), i18n("Menu"));
-    setTitle(page(3), i18n("Burning"));
+    setTitle(page(2), i18n("Burning"));
+    setFinishEnabled (page(2), false);
+    finishButton ()->hide();
+
 
     dvd_standard->insertItem(i18n("PAL"));
     dvd_standard->insertItem(i18n("NTSC"));
@@ -143,6 +147,7 @@ void ExportDvdDialog::generateDvd() {
     menu_ok->setPixmap(QPixmap());
     dvd_ok->setPixmap(QPixmap());
     button_generate->setEnabled(false);
+    dvd_info->setText(i18n("You can now close this dialog and keep on working on your project while the DVD is being created."));
     if (render_now->isChecked()) {
 	    main_ok->setPixmap(KGlobal::iconLoader()->loadIcon("1rightarrow", KIcon::Toolbar));
 	    m_render_widget->generateDvdFile(m_movie_file , timeFromString(chapter_list->firstChild()->text(1)), timeFromString(chapter_list->lastItem()->text(2)), m_format);
@@ -216,7 +221,7 @@ void ExportDvdDialog::fillStructure(QDomDocument xml) {
     }
 
     if (chapter_list->childCount() == 0) {
-	KMessageBox::information(this, i18n("You didn't define any DVD chapters (markers). The complete timeline will be exported as a single chapter"));
+	//KMessageBox::information(this, i18n("You didn't define any DVD chapters (markers). The complete timeline will be exported as a single chapter"));
 	(void) new KListViewItem(chapter_list, i18n("Chapter 0"), "00:00:00:00", tc.getTimecode(m_project->duration(), m_fps));
     }
 
@@ -275,8 +280,10 @@ void ExportDvdDialog::openWithQDvdauthor() {
     *previewProcess << "qdvdauthor";
     *previewProcess << "-d";
     *previewProcess << xml_file;
-    *previewProcess << "-s";
-    *previewProcess << spuxml_file;
+    if (create_menu->isChecked()) {
+	*previewProcess << "-s";
+	*previewProcess << spuxml_file;
+    }
     previewProcess->start();
     previewProcess->detach();
     delete previewProcess;
@@ -285,8 +292,11 @@ void ExportDvdDialog::openWithQDvdauthor() {
 void ExportDvdDialog::generateDvdXml() {
     dvd_ok->setPixmap(KGlobal::iconLoader()->loadIcon("1rightarrow", KIcon::Toolbar));
     if (KIO::NetAccess::exists(KURL(dvd_folder->url() + "/VIDEO_TS/"), false, this)) {
-	if (KMessageBox::questionYesNo(this, i18n("The specified dvd folder already exists.\nOverwite it ?")) != KMessageBox::Yes)
+	if (KMessageBox::questionYesNo(this, i18n("The specified dvd folder already exists.\nOverwite it ?")) != KMessageBox::Yes) {
+	    dvd_ok->setPixmap(KGlobal::iconLoader()->loadIcon("button_cancel", KIcon::Toolbar));
+	    dvdFailed();
 	    return;
+	}
 	KIO::NetAccess::del(KURL(dvd_folder->url()));
     }
     button_preview->setEnabled(false);
@@ -402,8 +412,14 @@ void ExportDvdDialog::generateDvdXml() {
     *m_exportProcess << "-x";
     *m_exportProcess << xml_file;
 
+    m_processlog += "\n\nDVDAuthor output\n\n";
+
     connect(m_exportProcess, SIGNAL(processExited(KProcess *)), this, SLOT(endExport(KProcess *)));
+    connect(m_exportProcess, SIGNAL(receivedStderr (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));
+    connect(m_exportProcess, SIGNAL(receivedStdout (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));
+
     m_exportProcess->start(KProcess::NotifyOnExit, KProcess::AllOutput);
+    
     //if (!render_now->isChecked()) slotFinishExport(true);
     //QApplication::connect(m_exportProcess, SIGNAL(receivedStderr (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));
     //kdDebug()<<"- - - - - - -"<<endl;
@@ -624,7 +640,7 @@ void ExportDvdDialog::generateMenuImages()
     file->close();
 	
     //spumux menu.xml <menu_temp.vob> menufinal.mpg
-
+    m_processlog = QString("SPUMUX OUTPUT:\n\n");
     KProcess *p = new KProcess();
     p->setUseShell(true);
     *p<<"spumux";
@@ -634,9 +650,18 @@ void ExportDvdDialog::generateMenuImages()
     *p<<">";
     *p<<QString(KdenliveSettings::currentdefaultfolder() + "/tmp/menu_final.vob");
     connect(p, SIGNAL(processExited(KProcess *)), this, SLOT(spuMenuDone(KProcess *)));
-    p->start();
+    connect(p, SIGNAL(receivedStderr (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));
+    connect(p, SIGNAL(receivedStdout (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));
+    p->start(KProcess::NotifyOnExit, KProcess::AllOutput);
 }
 
+
+void ExportDvdDialog::receivedStderr(KProcess *, char *buffer, int len)
+{
+	QCString res(buffer, len);
+	m_processlog += res;
+	if (show_log->isChecked()) dvd_info->setText(m_processlog);
+}
 
 void ExportDvdDialog::generateImage(QString imageName, QString buttonText, QColor color)
 {

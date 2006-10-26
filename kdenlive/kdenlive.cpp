@@ -405,9 +405,9 @@ namespace Gui {
 	    this, SLOT(slotRenderExportTimeline()), actionCollection(),
 	    "render_export_timeline");
 
-	KAction *renderDvd = new KAction(i18n("Generate DVD files"), "dvd.png", 0, this,
+	KAction *renderDvd = new KAction(i18n("Generate DVD files"), "dvd_unmount.png", 0, this,
 	    SLOT(slotRenderDvd()), actionCollection(), "render_dvd");
-	zoomIn->setStatusText(i18n("Generate necessary files to create a DVD"));
+	renderDvd->setStatusText(i18n("Generate necessary files to create a DVD"));
 
 	configureProject =
 	    new KAction(i18n("&Configure Project"), "configureproject.png",
@@ -1792,12 +1792,14 @@ namespace Gui {
     {
 	m_timeline->slotDeleteGuide();
 	if (m_exportWidget) m_exportWidget->updateGuides();
+	if (m_exportDvd) m_exportDvd->fillStructure(xmlGuides());
     }
 
     void KdenliveApp::slotAddGuide()
     {
 	m_timeline->slotAddGuide();
 	if (m_exportWidget) m_exportWidget->updateGuides();
+	if (m_exportDvd) m_exportDvd->fillStructure(xmlGuides());
     }	
 
     void KdenliveApp::insertGuides(QString guides, QString comments)
@@ -1815,6 +1817,7 @@ namespace Gui {
     {
 	m_timeline->slotEditGuide();
 	if (m_exportWidget) m_exportWidget->updateGuides();
+	if (m_exportDvd) m_exportDvd->fillStructure(xmlGuides());
     }
 
 
@@ -1994,9 +1997,9 @@ namespace Gui {
 
     void KdenliveApp::slotRenderDvd() {
 	if (!m_exportWidget) slotRenderExportTimeline(false);
-	if (!m_exportDvd) m_exportDvd = new ExportDvdDialog(&getDocument()->projectClip(), m_exportWidget, m_projectFormat);
+	if (!m_exportDvd) m_exportDvd = new ExportDvdDialog(&getDocument()->projectClip(), m_exportWidget, m_projectFormat, this, "dvd");
 	m_exportDvd->fillStructure(xmlGuides());
-	m_exportDvd->exec();
+	m_exportDvd->show();
     }
 
     void KdenliveApp::slotOptionsPreferences() {

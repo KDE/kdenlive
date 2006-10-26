@@ -68,6 +68,7 @@ class ExportDvdDialog:public ExportDvd_UI {
 	void openWithQDvdauthor();
 	void generateDvd();
 	void dvdFailed();
+	void receivedStderr(KProcess *, char *buffer, int len);
 
     private:			// Private attributes
 	GenTime timeFromString(QString timeString);
@@ -79,6 +80,7 @@ class ExportDvdDialog:public ExportDvd_UI {
 	exportWidget *m_render_widget;
 	QString m_movie_file;
 	QString m_menu_movie_file;
+	QString m_processlog;
 	VIDEOFORMAT m_format;
 };
 
