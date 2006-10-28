@@ -30,22 +30,26 @@ static mlt_consumer create_consumer( char *id, mlt_producer producer )
 static void transport( mlt_producer producer, mlt_consumer consumer )
 {
 	mlt_properties properties = MLT_PRODUCER_PROPERTIES( producer );
-	int silent = mlt_properties_get_int( MLT_CONSUMER_PROPERTIES( consumer ), "silent" );
-	struct timespec tm = { 0, 40000 };
+	int stats = mlt_properties_get_int( MLT_CONSUMER_PROPERTIES( consumer ), "stats_on" );
+	int pos = 0;
+	int currentPos = 0;
+	/*struct timespec tm { 0, 40000 };*/
 
 	if ( mlt_properties_get_int( properties, "done" ) == 0 && !mlt_consumer_is_stopped( consumer ) )
 	{
 		while( mlt_properties_get_int( properties, "done" ) == 0 && !mlt_consumer_is_stopped( consumer ) )
 		{
-			if ( !silent && mlt_properties_get_int( properties, "stats_off" ) == 0 ) {
-				fprintf( stderr, "Current Position: %10d\n", (int)mlt_producer_position( producer ) );
+			if ( stats != 0 ) {
+				currentPos = (int)mlt_producer_position( producer );
+				if (currentPos > pos) {
+					fprintf( stderr, "Current Position: %10d\n", currentPos);
+					pos = currentPos;
+				}
 			}
-			if ( silent )
-				nanosleep( &tm, NULL );
+/*			if ( !silent )
+				nanosleep( &tm, NULL );*/
 		}
-
-		if ( !silent )
-			fprintf( stderr, "\n" );
+		fprintf( stderr, "\n" );
 	}
 }
 
@@ -58,12 +62,12 @@ int main( int argc, char **argv )
 	char *name = NULL;
 	struct sched_param scp;
 
-	/* Use realtime scheduling if possible */
-	/*memset( &scp, '\0', sizeof( scp ) );
+	/* Use realtime scheduling if possible 
+	memset( &scp, '\0', sizeof( scp ) );
 	scp.sched_priority = sched_get_priority_max( SCHED_FIFO ) - 1;
-#ifndef __DARWIN__
+	#ifndef __DARWIN__
 	sched_setscheduler( 0, SCHED_FIFO, &scp );
-#endif*/
+	#endif*/
 
 	/* Construct the factory */
 	mlt_factory_init( NULL );
@@ -78,6 +82,7 @@ int main( int argc, char **argv )
 				store = fopen( name, "w" );
 		}
 	}
+
 
 	/* Get inigo producer */
 	if ( argc > 1 )
