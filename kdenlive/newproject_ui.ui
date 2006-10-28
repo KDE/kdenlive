@@ -13,7 +13,7 @@
         </rect>
     </property>
     <property name="caption">
-        <string>newProject_UI</string>
+        <string></string>
     </property>
     <property name="sizeGripEnabled">
         <bool>false</bool>

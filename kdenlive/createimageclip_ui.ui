@@ -8,12 +8,12 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>412</width>
+            <width>432</width>
             <height>115</height>
         </rect>
     </property>
     <property name="caption">
-        <string>createImageClip_UI</string>
+        <string></string>
     </property>
     <grid>
         <property name="name">

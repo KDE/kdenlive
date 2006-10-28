@@ -12,9 +12,6 @@
             <height>245</height>
         </rect>
     </property>
-    <property name="caption">
-        <string>transitionPip_UI</string>
-    </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
@@ -315,9 +312,6 @@
                     <property name="text">
                         <string>St&amp;art</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+A</string>
-                    </property>
                     <property name="checked">
                         <bool>true</bool>
                     </property>
@@ -328,9 +322,6 @@
                     </property>
                     <property name="text">
                         <string>E&amp;nd</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+N</string>
                     </property>
                 </widget>
             </grid>

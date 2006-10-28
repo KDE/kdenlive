@@ -19,7 +19,7 @@
         </size>
     </property>
     <property name="caption">
-        <string>Export</string>
+        <string></string>
     </property>
     <property name="sizeGripEnabled">
         <bool>false</bool>

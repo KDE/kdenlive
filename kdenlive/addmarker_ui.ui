@@ -9,11 +9,11 @@
             <x>0</x>
             <y>0</y>
             <width>258</width>
-            <height>197</height>
+            <height>208</height>
         </rect>
     </property>
     <property name="caption">
-        <string>AddMarker_UI</string>
+        <string></string>
     </property>
     <property name="sizeGripEnabled">
         <bool>false</bool>
@@ -163,7 +163,7 @@
                         <cstring>chapter_end</cstring>
                     </property>
                     <property name="enabled">
-                        <bool>true</bool>
+                        <bool>false</bool>
                     </property>
                     <property name="text">
                         <string>End of Dvd</string>
@@ -174,7 +174,7 @@
                         <cstring>chapter_start</cstring>
                     </property>
                     <property name="enabled">
-                        <bool>true</bool>
+                        <bool>false</bool>
                     </property>
                     <property name="text">
                         <string>New chapter</string>
@@ -187,6 +187,8 @@
         </widget>
     </grid>
 </widget>
+<customwidgets>
+</customwidgets>
 <connections>
     <connection>
         <sender>buttonOk</sender>

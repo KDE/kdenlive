@@ -8,12 +8,12 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>294</width>
+            <width>299</width>
             <height>235</height>
         </rect>
     </property>
     <property name="caption">
-        <string>configTimeline</string>
+        <string></string>
     </property>
     <grid>
         <property name="name">

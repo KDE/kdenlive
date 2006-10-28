@@ -12,9 +12,6 @@
             <height>414</height>
         </rect>
     </property>
-    <property name="caption">
-        <string>Form2</string>
-    </property>
     <widget class="QWidget">
         <property name="name">
             <cstring>WizardPage</cstring>

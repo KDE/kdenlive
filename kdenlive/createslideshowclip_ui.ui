@@ -8,12 +8,12 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>409</width>
+            <width>450</width>
             <height>349</height>
         </rect>
     </property>
     <property name="caption">
-        <string>createSlideshowClip_UI</string>
+        <string></string>
     </property>
     <grid>
         <property name="name">
@@ -161,6 +161,8 @@
         </widget>
     </grid>
 </widget>
+<customwidgets>
+</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klineedit.h</includehint>
