@@ -11,6 +11,10 @@ $(top_srcdir)/acinclude.m4: $(top_srcdir)/admin/acinclude.m4.in $(top_srcdir)/ad
 
 MAINTAINERCLEANFILES = subdirs configure.in acinclude.m4 configure.files 
 
+messages:
+	$(XGETTEXT) kdenlive/*.cpp -L C++    -o po/kdenlive.pot
+	$(XGETTEXT) kdenlive/*.ui  -L C++ -j -o po/kdenlive.pot
+
 package-messages:
 	cd $(top_srcdir) && $(MAKE) -f admin/Makefile.common package-messages
 	$(MAKE) -C po merge
