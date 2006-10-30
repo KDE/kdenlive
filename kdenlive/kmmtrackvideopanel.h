@@ -48,6 +48,7 @@ namespace Gui {
 	    DocTrackVideo * docTrack,
 	    bool isCollapsed, QWidget * parent = 0, const char *name = 0);
 	~KMMTrackVideoPanel();
+	virtual void setSelected(bool isSelected);
 
 	private slots:
             void resizeTrack();

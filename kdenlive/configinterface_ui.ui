@@ -9,11 +9,8 @@
             <x>0</x>
             <y>0</y>
             <width>404</width>
-            <height>138</height>
+            <height>165</height>
         </rect>
-    </property>
-    <property name="caption">
-        <string></string>
     </property>
     <grid>
         <property name="name">
@@ -62,7 +59,7 @@
                 <string>Autosave project every</string>
             </property>
         </widget>
-        <spacer row="4" column="0">
+        <spacer row="5" column="0">
             <property name="name">
                 <cstring>spacer2</cstring>
             </property>
@@ -75,11 +72,19 @@
             <property name="sizeHint">
                 <size>
                     <width>16</width>
-                    <height>60</height>
+                    <height>48</height>
                 </size>
             </property>
         </spacer>
-        <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="2">
+        <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>kcfg_horizontalmouse</cstring>
+            </property>
+            <property name="text">
+                <string>Mouse wheel moves horizontally (Alt for vertical scroll)</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="3">
             <property name="name">
                 <cstring>kcfg_showsplash</cstring>
             </property>
@@ -89,10 +94,10 @@
         </widget>
         <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="3">
             <property name="name">
-                <cstring>kcfg_horizontalmouse</cstring>
+                <cstring>kcfg_keyboardNavigation</cstring>
             </property>
             <property name="text">
-                <string>Mouse wheel moves horizontally (Alt for vertical scroll)</string>
+                <string>Use keyboard navigation in timeline</string>
             </property>
         </widget>
     </grid>

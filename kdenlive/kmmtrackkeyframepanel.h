@@ -41,6 +41,7 @@ namespace Gui {
 	    bool isCollapsed,
 	    TRACKTYPE type, QWidget * parent = 0, const char *name = 0);
 	 virtual ~ KMMTrackKeyFramePanel();
+	virtual void setSelected(bool isSelected);
 
 	public slots:void resizeTrack();
       private:

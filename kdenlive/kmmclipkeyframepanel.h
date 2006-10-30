@@ -42,6 +42,7 @@ A track panel that displays the keyframe of a single parameter from a single cli
 	    int effectIndex,
 	    const QString & effectParam,
 	    QWidget * parent = 0, const char *name = 0);
+	    virtual void setSelected(bool isSelected);
 
 	~KMMClipKeyFramePanel();
       private:

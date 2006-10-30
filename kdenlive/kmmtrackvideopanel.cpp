@@ -84,6 +84,14 @@ namespace Gui {
     KMMTrackVideoPanel::~KMMTrackVideoPanel() {
     }
 
+    //virtual
+    void KMMTrackVideoPanel::setSelected(bool isSelected)
+    {
+	if (isSelected) m_trackHeader.setPaletteBackgroundColor(KdenliveSettings::videoclipcolor());
+	else m_trackHeader.setPaletteBackgroundColor(QColor(170, 170, 170));
+	repaint();
+    }
+
     void KMMTrackVideoPanel::muteTrack()
     {
         m_mute = !m_mute;

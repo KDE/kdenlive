@@ -60,6 +60,8 @@ namespace Gui {
 	DocClipRef *getClipAt(int pos);
 	int getLocalValue(GenTime time);
 
+        virtual void setSelected(bool isSelected) = 0;
+
       protected:		// Protected methods
 	 KdenliveDoc * document() {
 	    return m_document;

@@ -57,6 +57,7 @@
 #include <kmdcodec.h>
 #include <kfileitem.h>
 #include <kinputdialog.h>
+#include <kpassivepopup.h>
 
 // application specific includes
 // p.s., get the idea this class is kind, central to everything?
@@ -1299,11 +1300,13 @@ namespace Gui {
     }
 
     void KdenliveApp::slotSelectPreviousTrack() {
-	m_timeline->selectPreviousTrack();
+	if (KdenliveSettings::keyboardNavigation()) m_timeline->selectPreviousTrack();
+	else KPassivePopup::message(i18n("Enable Keyboard Navigation in Kdenlive Settings if you want to use this feature"), this);
     }
 
     void KdenliveApp::slotSelectNextTrack() {
-	m_timeline->selectNextTrack();
+	if (KdenliveSettings::keyboardNavigation()) m_timeline->selectNextTrack();
+	else KPassivePopup::message(i18n("Enable Keyboard Navigation in Kdenlive Settings if you want to use this feature"), this);
     }
 
     void KdenliveApp::openDocumentFile(const KURL & url) {
@@ -1770,14 +1773,17 @@ namespace Gui {
     {
 	QPoint position = mousePosition();
 	int ix = 0;
-	KTrackPanel *panel = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(position).y());
-	if (!panel) {
-	    bool ok;
-	    ix = KInputDialog::getInteger(i18n("Delete Track"), i18n("Enter track number"), 0, 0, getDocument()->trackList().count() - 1, 1, 10, &ok);
-	    if (!ok) return;
-	}
+	if (KdenliveSettings::keyboardNavigation()) ix = m_timeline->selectedTrack();
 	else {
-	    ix = panel->documentTrackIndex();
+	    KTrackPanel *panel = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(position).y());
+	    if (!panel) {
+	    	bool ok;
+	    	ix = KInputDialog::getInteger(i18n("Delete Track"), i18n("Enter track number"), 0, 0, getDocument()->trackList().count() - 1, 1, 10, &ok);
+	    	if (!ok) return;
+	    }
+	    else {
+	    	ix = panel->documentTrackIndex();
+	    }
 	}
 	if (KMessageBox::warningContinueCancel(this, i18n("Remove track %1 ?\nThis will remove all clips on that track.").arg(ix),i18n("Delete Track")) != KMessageBox::Continue) return;
 	//kdDebug()<<"+++++++++++++++++++++  ASK TRACK DELETION: "<<ix<<endl;
@@ -1790,8 +1796,11 @@ namespace Gui {
     {
 	QPoint position = mousePosition();
 	int ix = 0;
-	KTrackPanel *panel = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(position).y());
- 	if (panel) ix = panel->documentTrackIndex();
+	if (KdenliveSettings::keyboardNavigation()) ix = m_timeline->selectedTrack();
+	else {
+	    KTrackPanel *panel = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(position).y());
+ 	    if (panel) ix = panel->documentTrackIndex();
+	}
 	addTrackDialog_UI *addTrack = new addTrackDialog_UI(this);
 	addTrack->setCaption(i18n("Add Track"));
 	addTrack->trackNumber->setValue(ix);

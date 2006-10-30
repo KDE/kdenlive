@@ -98,4 +98,9 @@ namespace Gui {
     KMMTrackKeyFramePanel::~KMMTrackKeyFramePanel() {
     }
 
+    //virtual
+    void KMMTrackKeyFramePanel::setSelected(bool isSelected)
+    {
+    }
+
 }				// namespace Gui

@@ -48,6 +48,7 @@ Abstract baseclass for track panels. Provides the interface that a track panel m
          
          /** Holds the track state (collapsed or not) */
         bool trackIsCollapsed;
+        virtual void setSelected(bool isSelected) = 0;
 
     /** Returns true if this track panel has a document track index. */
 	virtual bool hasDocumentTrackIndex() const;

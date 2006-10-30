@@ -43,7 +43,14 @@ namespace Gui {
 		document, QColor(200, 200, 200)));
 	addViewDecorator(new TrackViewDoubleKeyFrameDecorator(timeline,
 		document));
-    } KMMClipKeyFramePanel::~KMMClipKeyFramePanel() {
+    } 
+
+    KMMClipKeyFramePanel::~KMMClipKeyFramePanel() {
+    }
+
+    //virtual
+    void KMMClipKeyFramePanel::setSelected(bool isSelected)
+    {
     }
 
 }				// namespace Gui

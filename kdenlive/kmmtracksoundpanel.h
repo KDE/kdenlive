@@ -49,6 +49,8 @@ the main sound widget in different ways.
 	    bool isCollapsed, QWidget * parent = 0, const char *name = 0);
 	~KMMTrackSoundPanel();
 
+	virtual void setSelected(bool isSelected);
+
 	private slots:
         void resizeTrack();
 	void decorateTrack();

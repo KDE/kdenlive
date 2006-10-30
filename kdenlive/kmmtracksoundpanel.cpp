@@ -72,6 +72,14 @@ namespace Gui {
     KMMTrackSoundPanel::~KMMTrackSoundPanel() {
     }
 
+    // virtual
+    void KMMTrackSoundPanel::setSelected(bool isSelected)
+    {
+	if (isSelected) m_trackHeader.setPaletteBackgroundColor(KdenliveSettings::audioclipcolor());
+	else m_trackHeader.setPaletteBackgroundColor(QColor(170, 170, 170));
+	repaint();
+    }
+
     void KMMTrackSoundPanel::muteTrack()
     {
         m_mute = !m_mute;
