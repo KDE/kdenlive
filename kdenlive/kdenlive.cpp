@@ -628,6 +628,15 @@ namespace Gui {
         SLOT(slotFocusTransitions()), actionCollection(),
         "focus_transitions");
 
+        (void) new KAction(i18n("Select Next Track"), KShortcut(Qt::Key_Down), this,
+        SLOT(slotSelectNextTrack()), actionCollection(),
+        "next_track");
+
+        (void) new KAction(i18n("Select Previous Track"), KShortcut(Qt::Key_Up), this,
+        SLOT(slotSelectPreviousTrack()), actionCollection(),
+        "prev_track");
+
+
         KAction *editClip = new KAction(i18n("Edit Clip"), 0, this,
         SLOT(slotProjectEditClip()), actionCollection(),
         "edit_clip");
@@ -1289,6 +1298,13 @@ namespace Gui {
 	m_dockTransition->setFocus();
     }
 
+    void KdenliveApp::slotSelectPreviousTrack() {
+	m_timeline->selectPreviousTrack();
+    }
+
+    void KdenliveApp::slotSelectNextTrack() {
+	m_timeline->selectNextTrack();
+    }
 
     void KdenliveApp::openDocumentFile(const KURL & url) {
 	if (!saveModified()) {

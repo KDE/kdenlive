@@ -10,6 +10,9 @@
 	<Action name="razor_selected_clips"/>
 	<Action name="razor_all_clips"/>
 	<Separator lineSeperator="true"/>
+	<Action name="next_track"/>
+	<Action name="prev_track"/>
+	<Separator lineSeperator="true"/>	
 	<Action name="clear_all_snap_markers"/>
 	<Action name="clear_snap_markers_from_selected"/>
   </Menu>

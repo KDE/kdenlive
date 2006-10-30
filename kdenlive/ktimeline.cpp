@@ -60,7 +60,7 @@ namespace Gui {
 	QWidget * scrollToolWidget, QWidget * parent,
 	const char *name):QVBox(parent, name), m_scrollTimer(this,
 	"scroll timer"), m_scrollingRight(true), m_framesPerSecond(KdenliveSettings::defaultfps()),
-	m_editMode("undefined"), m_panelWidth(140) {
+	m_editMode("undefined"), m_panelWidth(140), m_selectedTrack(0) {
 	m_rulerBox = new QHBox(this, "ruler box");
         m_trackScroll = new QScrollView(this, "track view", WPaintClever);
 	m_scrollBox = new QHBox(this, "scroll box");
@@ -228,12 +228,6 @@ namespace Gui {
 	    newWidth = 0;
 	m_trackViewArea->resize(newWidth, height);
 
-	int viewWidth = m_trackScroll->visibleWidth() - m_panelWidth;
-	if (viewWidth < 1)
-	    viewWidth = 1;
-
-	QPixmap pixmap(viewWidth, height);
-
 	m_trackScroll->resizeContents(m_trackScroll->visibleWidth(),
 	    height);
     }
@@ -318,6 +312,24 @@ the display. The scale is the size of one frame.*/
     
     double KTimeLine::timeScale() {
         return m_ruler->valueScale();
+    }
+
+    int KTimeLine::selectedTrack() {
+	return m_selectedTrack;
+    }
+
+    void KTimeLine::selectPreviousTrack() {
+	m_selectedTrack--;
+	int max = trackList().count() / 2 - 1;
+	if ( m_selectedTrack < 0 ) m_selectedTrack = max;
+	drawTrackViewBackBuffer(0, trackList().count() - 1);
+    }
+
+    void KTimeLine::selectNextTrack() {
+	m_selectedTrack++;
+	int max = trackList().count() / 2 - 1;
+	if ( m_selectedTrack > max) m_selectedTrack = 0;
+	drawTrackViewBackBuffer(0, trackList().count() - 1);
     }
 
 /** Calculates the size of the project, and sets up the timeline to accomodate it. */

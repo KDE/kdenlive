@@ -168,7 +168,8 @@ namespace Gui {
 	    if (panel->trackType() == KEYFRAMETRACK) // white background on transition track
 		painter.fillRect(rect, palette().active().light());
 	    else {
-		painter.fillRect(rect, palette().active().background());
+		if (panel->documentTrackIndex() == m_timeline.selectedTrack()) painter.fillRect(rect, palette().active().highlight());
+		else painter.fillRect(rect, palette().active().background());
 		painter.setPen(QColor(Qt::gray));
 		painter.drawLine(0, y, width(), y); // gray line between the tracks
 		painter.setPen(QColor(Qt::black));
@@ -226,7 +227,8 @@ namespace Gui {
 	    if (panel->trackType() == KEYFRAMETRACK) // white background on transition track
 		painter.fillRect(rect, palette().active().light());
 	    else {
-		painter.fillRect(rect, palette().active().background());
+		if (panel->documentTrackIndex() == m_timeline.selectedTrack()) painter.fillRect(rect, palette().active().highlight());
+		else painter.fillRect(rect, palette().active().background());
 		painter.setPen(QColor(Qt::gray));
 		painter.drawLine(sx, y, ex, y); // gray line between the tracks
 		painter.setPen(QColor(Qt::black));

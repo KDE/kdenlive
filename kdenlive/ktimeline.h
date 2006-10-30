@@ -83,6 +83,9 @@ namespace Command {
 	the currently seeked frame. */
 	GenTime seekPosition() const;
 	int localSeekPosition() const;
+	int selectedTrack();
+	void selectNextTrack();
+	void selectPreviousTrack();
 
 	//Returns the inpoint/outpoing position of the timeline
 	GenTime inpointPosition() const;
@@ -225,6 +228,7 @@ namespace Command {
 
 	/** The width of the panels at the left hand side of the timeline. */
 	int m_panelWidth;
+	int m_selectedTrack;
 
 	/** difference between midpoint and inpoint/outpoint when inpoint or outpoint moved */
 	GenTime m_midPoint;
