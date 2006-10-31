@@ -12,9 +12,6 @@
             <height>208</height>
         </rect>
     </property>
-    <property name="caption">
-        <string></string>
-    </property>
     <property name="sizeGripEnabled">
         <bool>false</bool>
     </property>
@@ -163,7 +160,7 @@
                         <cstring>chapter_end</cstring>
                     </property>
                     <property name="enabled">
-                        <bool>false</bool>
+                        <bool>true</bool>
                     </property>
                     <property name="text">
                         <string>End of Dvd</string>
@@ -174,7 +171,7 @@
                         <cstring>chapter_start</cstring>
                     </property>
                     <property name="enabled">
-                        <bool>false</bool>
+                        <bool>true</bool>
                     </property>
                     <property name="text">
                         <string>New chapter</string>
