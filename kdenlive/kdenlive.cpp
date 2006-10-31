@@ -1300,12 +1300,18 @@ namespace Gui {
     }
 
     void KdenliveApp::slotSelectPreviousTrack() {
-	if (KdenliveSettings::keyboardNavigation()) m_timeline->selectPreviousTrack();
+	if (KdenliveSettings::keyboardNavigation()) {
+	    m_timeline->selectPreviousTrack();
+	    selectClipUnderCursor();
+	}
 	else KPassivePopup::message(i18n("Enable Keyboard Navigation in Kdenlive Settings if you want to use this feature"), this);
     }
 
     void KdenliveApp::slotSelectNextTrack() {
-	if (KdenliveSettings::keyboardNavigation()) m_timeline->selectNextTrack();
+	if (KdenliveSettings::keyboardNavigation()) {
+	    m_timeline->selectNextTrack();
+	    selectClipUnderCursor();
+	}
 	else KPassivePopup::message(i18n("Enable Keyboard Navigation in Kdenlive Settings if you want to use this feature"), this);
     }
 
@@ -2562,6 +2568,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		seekPosition() + GenTime(1,
 		    getDocument()->framesPerSecond()));
 	    m_timeline->ensureCursorVisible();
+	    if (KdenliveSettings::keyboardNavigation()) selectClipUnderCursor();
 	}
     }
 
@@ -2573,6 +2580,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		seekPosition() - GenTime(1,
 		    getDocument()->framesPerSecond()));
 	    m_timeline->ensureCursorVisible();
+	    if (KdenliveSettings::keyboardNavigation()) selectClipUnderCursor();
 	}
     }
     
@@ -2582,6 +2590,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                     seek(m_doc->toSnapTime(m_monitorManager.activeMonitor()->screen()->
                     seekPosition()));
 	    m_timeline->ensureCursorVisible();
+	    if (KdenliveSettings::keyboardNavigation()) selectClipUnderCursor();
         }
     }
 
@@ -2591,6 +2600,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                     seek(m_doc->toSnapTime(m_monitorManager.activeMonitor()->screen()->
                     seekPosition(), false));
 	    m_timeline->ensureCursorVisible();
+	    if (KdenliveSettings::keyboardNavigation()) selectClipUnderCursor();
         }
     }
 
@@ -2601,6 +2611,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                     seekPosition() + GenTime((int) getDocument()->framesPerSecond(),
             getDocument()->framesPerSecond()));
 	    m_timeline->ensureCursorVisible();
+	    if (KdenliveSettings::keyboardNavigation()) selectClipUnderCursor();
         }
     }
 
@@ -2611,6 +2622,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                     seekPosition() - GenTime((int) getDocument()->framesPerSecond(),
             getDocument()->framesPerSecond()));
 	    m_timeline->ensureCursorVisible();
+	    if (KdenliveSettings::keyboardNavigation()) selectClipUnderCursor();
         }
     }
 
@@ -2618,6 +2630,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
         if (m_monitorManager.hasActiveMonitor()) {
             m_monitorManager.activeMonitor()->editPanel()->seek(GenTime(0.0));
 	    m_timeline->ensureCursorVisible();
+	    if (KdenliveSettings::keyboardNavigation()) selectClipUnderCursor();
 	}
     }
 
@@ -2625,6 +2638,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
         if (m_monitorManager.hasActiveMonitor()) {
             m_monitorManager.activeMonitor()->editPanel()->seek(m_doc->projectClip().duration());
 	    m_timeline->ensureCursorVisible();
+	    if (KdenliveSettings::keyboardNavigation()) selectClipUnderCursor();
 	}
     }
 
@@ -2662,6 +2676,17 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     
     void KdenliveApp::clipReferenceChanged() {
         m_projectList->refresh();
+    }
+
+
+    void KdenliveApp::selectClipUnderCursor() {
+	// select clip under cursor
+	DocTrackBase *track = getDocument()->track(m_timeline->selectedTrack());
+	if (!track) return;
+	DocClipRef *clip = track->getClipAt(getDocument()->renderer()->seekPosition());
+	if (clip && clip == getDocument()->projectClip().selectedClip()) return;
+        addCommand(Command::KSelectClipCommand::selectNone(getDocument()), true);
+	if (clip) track->selectClip(clip, true);
     }
 
 /** Returns the render manager. */

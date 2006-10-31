@@ -446,6 +446,7 @@ namespace Gui {
 
 	void slotNewProject(QString *newProjectName, KURL *fileUrl, int *videoTracks, int *audioTracks);
 	QString easyName(VIDEOFORMAT format);
+	void selectClipUnderCursor();
 
       private:
 		/** the configuration object of the application */
