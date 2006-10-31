@@ -214,6 +214,8 @@ QDomDocument DocClipTextFile::generateSceneList() const
     producer.setAttribute("id", QString("producer0"));
 //    producer.setAttribute("mlt_service", "pixbuf");
     producer.setAttribute("resource", fileURL().path());
+    double ratio = ((double) KdenliveSettings::defaultwidth()/KdenliveSettings::defaultheight())/((double)clipWidth()/clipHeight()) * KdenliveSettings::aspectratio();
+    producer.setAttribute("aspect_ratio", QString::number(ratio));
     westley.appendChild(producer);
     QDomElement playlist = sceneList.createElement("playlist");
     playlist.setAttribute("in", "0");
