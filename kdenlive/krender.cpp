@@ -186,7 +186,8 @@ void KRender::createVideoXWindow(bool , WId winid)
     //m_mltConsumer->listen("consumer-stopped", this, (mlt_listener) consumer_stopped);
 
     //only as is saw, if we want to lock something with the sdl lock
-    
+    if (!KdenliveSettings::videoprofile().isEmpty()) 
+	m_mltConsumer->set("profile", KdenliveSettings::videoprofile());
     m_mltConsumer->set("app_locked", 1);
     m_mltConsumer->set("app_lock", (void *) &my_lock, 0);
 
@@ -297,7 +298,6 @@ QPixmap KRender::getVideoThumbnail(KURL url, int frame, int width, int height)
 void KRender::getImage(KURL url, int frame, int width, int height)
 {
     Mlt::Producer m_producer(decodedString(url.path()));
-
     Mlt::Filter m_convert("avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
     m_producer.attach(m_convert);
@@ -319,10 +319,7 @@ void KRender::getImage(KURL url, int frame, int width, int height)
 
 	delete m_frame;
 	if (!m_image.isNull())
-	    //m_pixmap = m_image.smoothScale(width, height);
 	    bitBlt(&m_pixmap, 1, 1, &m_image, 0, 0, width - 2, height - 2);
-
-	//m_pixmap.convertFromImage( m_image );
 	emit replyGetImage(url, frame, m_pixmap, width, height);
     }
 }
@@ -903,6 +900,8 @@ void KRender::exportCurrentFrame(KURL url) {
     
     m_fileRenderer=new Mlt::Consumer("avformat");
     m_fileRenderer->set ("target",decodedString(url.path()));
+    if (!KdenliveSettings::videoprofile().isEmpty()) 
+	m_fileRenderer->set("profile", KdenliveSettings::videoprofile());
     m_fileRenderer->set ("real_time","0");
     m_fileRenderer->set ("progressive","1");
     m_fileRenderer->set ("vcodec","png");
@@ -973,7 +972,6 @@ void KRender::exportTimeline(const QString &url, const QString &format, GenTime 
     if (!frequency.isEmpty()) {
         Mlt::Filter m_convert("resample");
         m_convert.set("frequency", frequency.ascii());
-        kdDebug()<<"++++  SETTING FREQUENCY: "<<frequency<<endl;
         m_mltFileProducer->attach(m_convert);
     }
     

@@ -1531,28 +1531,30 @@ namespace Gui {
     }
 
     void KdenliveApp::setProjectFormat(VIDEOFORMAT vFormat) {
-	    kdDebug()<< "SWITCHING VIDEO FORMAT: "<<endl;
+	    QString text;
 	    switch (vFormat) {
 	    case HDV1080PAL_VIDEO:
 		// Not implemented in MLT yet
 		putenv ("MLT_NORMALISATION=HDV1080PAL");
-		statusBar()->changeItem(i18n("HDV 1440x1080 25fps"), ID_TIMELINE_MSG);
+		text = i18n("HDV 1440x1080 25fps");
 		
 		break;
 	    case HDV720PAL_VIDEO:
 		// Not implemented in MLT yet
 		putenv ("MLT_NORMALISATION=HDV720PAL");
-		statusBar()->changeItem(i18n("HDV 1280x720 25fps"), ID_TIMELINE_MSG);
+		text = i18n("HDV 1280x720 25fps");
 		break;
 	    case NTSC_VIDEO:
 		putenv ("MLT_NORMALISATION=NTSC");
-		statusBar()->changeItem(i18n("NTSC 720x480 30fps"), ID_TIMELINE_MSG);
+		text = i18n("NTSC 720x480 30fps");
 		break;
 	    default:
 		putenv ("MLT_NORMALISATION=PAL");
-		statusBar()->changeItem(i18n("PAL 720x576 25fps"), ID_TIMELINE_MSG);
+		text = i18n("PAL 720x576 25fps");
 		break;
 	    }
+	if (KdenliveSettings::videoprofile() == "dv_wide") text.append(i18n(" [16:9]"));
+	statusBar()->changeItem(text, ID_TIMELINE_MSG);
 	m_projectFormat = vFormat;
     }
 
@@ -1601,7 +1603,10 @@ namespace Gui {
 		newProjectDialog->setCaption(i18n("Kdenlive - New Project"));
 		// Insert available video formats:
 		newProjectDialog->video_format->insertItem(i18n("PAL (720x576, 25fps)"));
+		newProjectDialog->video_format->insertItem(i18n("PAL 16:9 (720x576, 25fps)"));
 		newProjectDialog->video_format->insertItem(i18n("NTSC (720x480, 30fps)"));
+		newProjectDialog->video_format->insertItem(i18n("NTSC 16:9 (720x480, 30fps)"));
+		
 		// HDV not implemented in MLT yet...
 		//newProjectDialog->video_format->insertItem(i18n("HDV-1080 (1440x1080, 25fps)"));
 		//newProjectDialog->video_format->insertItem(i18n("HDV-720 (1280x720, 25fps)"));
@@ -1616,17 +1621,35 @@ namespace Gui {
 					// PAL project
 					KdenliveSettings::setDefaultheight(576);
 					KdenliveSettings::setDefaultfps(25.0);
-					KdenliveSettings::setAspectratio(1.09259);
+					KdenliveSettings::setAspectratio(59.0 / 54.0);
+					KdenliveSettings::setVideoprofile(QString::null);
 					setProjectFormat(PAL_VIDEO);
 				}
-				else if (newProjectDialog->video_format->currentItem() == 1){
+				else if (newProjectDialog->video_format->currentItem() == 1) {
+					// PAL WIDE project
+					KdenliveSettings::setDefaultheight(576);
+					KdenliveSettings::setDefaultfps(25.0);
+					KdenliveSettings::setAspectratio(118.0 / 81.0);
+					KdenliveSettings::setVideoprofile("dv_wide");
+					setProjectFormat(PAL_VIDEO);
+				}
+				else if (newProjectDialog->video_format->currentItem() == 2){
 					// NTSC project
 					KdenliveSettings::setDefaultheight(480);
 					KdenliveSettings::setDefaultfps(30000.0 / 1001.0);
-					KdenliveSettings::setAspectratio(0.909);
+					KdenliveSettings::setAspectratio(10.0 / 11.0);
+					KdenliveSettings::setVideoprofile(QString::null);
 					setProjectFormat(NTSC_VIDEO);
 				}
-				else if (newProjectDialog->video_format->currentItem() == 2){
+				else if (newProjectDialog->video_format->currentItem() == 3){
+					// NTSC WIDE project
+					KdenliveSettings::setDefaultheight(480);
+					KdenliveSettings::setDefaultfps(30000.0 / 1001.0);
+					KdenliveSettings::setAspectratio(40.0 / 33.0);
+					KdenliveSettings::setVideoprofile("dv_wide");
+					setProjectFormat(NTSC_VIDEO);
+				}
+				else if (newProjectDialog->video_format->currentItem() == 4){
 					// HDV project
 					KdenliveSettings::setDefaultheight(1080);
 					KdenliveSettings::setDefaultwidth(1440);
@@ -1634,7 +1657,7 @@ namespace Gui {
 					KdenliveSettings::setAspectratio(1.333);
 					setProjectFormat(HDV1080PAL_VIDEO);
 				}
-				else if (newProjectDialog->video_format->currentItem() == 3){
+				else if (newProjectDialog->video_format->currentItem() == 5){
 					// HDV project
 					KdenliveSettings::setDefaultheight(720);
 					KdenliveSettings::setDefaultwidth(1280);
@@ -1694,6 +1717,7 @@ namespace Gui {
 			if (!e.isNull()) {
 	    		    if (e.tagName() == "properties") {
 				int vFormat = e.attribute("projectvideoformat","0").toInt();
+				KdenliveSettings::setVideoprofile(e.attribute("videoprofile",QString::null));
 				setProjectFormat((VIDEOFORMAT) vFormat);
 				foundFormat = true;
 				break;
@@ -1701,10 +1725,16 @@ namespace Gui {
 			}
 			n = n.nextSibling();
 		}
-		if (!foundFormat) setProjectFormat(PAL_VIDEO);
-	myFile.close();
+		if (!foundFormat) {
+			setProjectFormat(PAL_VIDEO);
+			KdenliveSettings::setVideoprofile(QString::null);
+		}
+		myFile.close();
 	}
-	else setProjectFormat(PAL_VIDEO);
+	else {
+		setProjectFormat(PAL_VIDEO);
+		KdenliveSettings::setVideoprofile(QString::null);
+	}
     }
 
     if (m_effectStackDialog) m_effectStackDialog->slotSetEffectStack(0);

@@ -71,22 +71,14 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 
 		// create tmp folder if doesn't exist
 		KIO::NetAccess::mkdir(KURL(KdenliveSettings::currenttmpfolder()), 0, -1);
-		KdenliveSettings::setDefaultheight(e.attribute("projectheight","576").toInt());
-
 		int vFormat = e.attribute("projectvideoformat","0").toInt();
 		document->setProjectFormat((VIDEOFORMAT) vFormat);
-		/*switch (vFormat) {
-			case NTSC_VIDEO:
-		if (KdenliveSettings::defaultheight() == 480) {
-			document->setProjectFormat(NTSC_VIDEO);
-		}
-		else if (KdenliveSettings::defaultheight() == 1080) {
-			document->setProjectFormat(HDV_VIDEO);
-		}
-		else document->setProjectFormat(PAL_VIDEO);*/
+
+		KdenliveSettings::setDefaultheight(e.attribute("projectheight","576").toInt());
 		KdenliveSettings::setDefaultwidth(e.attribute("projectwidth","720").toInt());
 		KdenliveSettings::setDefaultfps(e.attribute("projectfps","25.0").toDouble());
-		KdenliveSettings::setAspectratio(e.attribute("projectratio","1.09259").toDouble());
+		KdenliveSettings::setAspectratio(e.attribute("projectratio",QString::number(59.0 / 54.0)).toDouble());
+
 		currentPos = e.attribute("timeline_position","0").toInt();
 		inPoint = GenTime(e.attribute("inpoint","0").toInt(), KdenliveSettings::defaultfps());
 		outPoint = GenTime(e.attribute("outpoint","100").toInt(), KdenliveSettings::defaultfps());
@@ -95,7 +87,7 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 		document->application()->setOutpointPosition(GenTime(e.attribute("outpoint","100").toInt(), KdenliveSettings::defaultfps()));*/
 	    }
 	    else if (e.tagName() == "guides") {
-			    document->application()->guidesFromXml( e );
+		document->application()->guidesFromXml( e );
 	    }
 	    else if ((e.tagName() == "AVFileList")
 		|| (e.tagName() == "avfilelist")) {

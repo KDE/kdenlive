@@ -446,14 +446,16 @@ void ExportDvdDialog::generateMenuMovie() {
 	QString fps;
 	QString gop;
 	if (m_format == NTSC_VIDEO) {
-	    aspect_ratio = QString::number(10.0/11.0);
+	    if (KdenliveSettings::videoprofile() == "dv_wide") aspect_ratio = QString::number(40.0 / 33.0);
+	    else aspect_ratio = QString::number(10.0 / 11.0);
 	    size = "720x480";
-	    fps = QString::number(30000.0/1001.0);
+	    fps = QString::number(30000.0 / 1001.0);
 	    gop = "18";
 
 	}
 	else {
-	    aspect_ratio = QString::number(59.0/54.0);
+	    if (KdenliveSettings::videoprofile() == "dv_wide") aspect_ratio = QString::number(118.0 / 81.0);
+	    else aspect_ratio = QString::number(59.0/54.0);
 	    size = "720x576";
 	    fps = "25";
 	    gop = "18";

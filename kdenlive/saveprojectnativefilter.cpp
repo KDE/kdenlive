@@ -43,7 +43,12 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
 {
     QDomDocument doc;
 
-    QDomElement elem = doc.createElement("kdenlivedoc");
+    // include a copy of the MLT playlist so that the project can be played in inigo
+
+    /*QDomElement west = doc.createElement("westley");
+    doc.appendChild(west);*/
+
+    QDomElement elem = doc.createElement("westley");
     doc.appendChild(elem);
     QDomElement docinfos = doc.createElement("properties");
     docinfos.setAttribute("projectfolder", KdenliveSettings::currentdefaultfolder());
@@ -53,6 +58,7 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
     docinfos.setAttribute("projectfps", QString::number(KdenliveSettings::defaultfps()));
     docinfos.setAttribute("projectratio", QString::number(KdenliveSettings::aspectratio()));
     docinfos.setAttribute("projectvideoformat", QString::number(document->application()->projectVideoFormat()));
+    docinfos.setAttribute("videoprofile", KdenliveSettings::videoprofile());
 
     docinfos.setAttribute("inpoint",  QString::number(document->application()->inpointPosition().frames(KdenliveSettings::defaultfps())));
     docinfos.setAttribute("outpoint", QString::number(document->application()->outpointPosition().frames(KdenliveSettings::defaultfps())));
@@ -87,7 +93,6 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
         }
 
 	avfilelist.appendChild(folderItem);
-
 	    //kdError() << "no support for saving group nodes yet!" << endl;
 	}
 	++itt;
@@ -95,8 +100,22 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
 
 
     elem.appendChild(avfilelist);
-
     elem.appendChild(doc.importNode(document->projectClip().toXML().documentElement(), true));
+
+    QDomNode playlist = doc.importNode(document->projectClip().generateSceneList().documentElement(), true);
+    elem.appendChild(playlist);
+
+/*
+    for( QDomNode n = playlist.firstChild(); !n.isNull(); n = n.nextSibling() )
+    {
+	
+	kdDebug()<<"+ + + appending playlist chlid"<<endl;
+	elem.appendChild(n);
+    }
+  */  
+
+    //west.appendChild(document->projectClip().generateSceneList().documentElement());
+    //west.appendChild(doc.importNode(document->projectClip().generateSceneList().documentElement(), true));
 
     QString save = doc.toString();
     file.writeBlock(save.utf8(), save.length());

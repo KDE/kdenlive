@@ -96,6 +96,11 @@
       <label>Aspect ratio.</label>
       <default>1.09259</default>
     </entry>
+
+    <entry name="videoprofile" type="String">
+      <label>Normal or 16:9 profile.</label>
+      <default></default>
+    </entry>
     </group>
     
     <group name="Misc">

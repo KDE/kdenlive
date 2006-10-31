@@ -644,6 +644,8 @@ void exportWidget::generateDvdFile(QString file, GenTime start, GenTime end, VID
     *m_exportProcess << QString("avformat:%1").arg(file);
     *m_exportProcess << "real_time=0";
     *m_exportProcess << "stats_on=1";
+    if (!KdenliveSettings::videoprofile().isEmpty()) 
+	*m_exportProcess<<"profile=" + KdenliveSettings::videoprofile();
     *m_exportProcess << encoderParams;
 
     connect(m_exportProcess, SIGNAL(processExited(KProcess *)), this, SLOT(endDvdExport(KProcess *)));
@@ -689,6 +691,8 @@ void exportWidget::doExport(QString file, QStringList params, bool isDv)
     *m_exportProcess << params;
     *m_exportProcess << "real_time=0";
     *m_exportProcess << "stats_on=1";
+    if (!KdenliveSettings::videoprofile().isEmpty()) 
+	*m_exportProcess<<"profile=" + KdenliveSettings::videoprofile();
     connect(m_exportProcess, SIGNAL(processExited(KProcess *)), this, SLOT(endExport(KProcess *)));
     connect(m_exportProcess, SIGNAL(receivedStderr (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));
 
