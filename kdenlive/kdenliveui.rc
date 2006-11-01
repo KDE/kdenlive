@@ -9,6 +9,8 @@
   	<Action name="delete_selected_clips"/>
 	<Action name="razor_selected_clips"/>
 	<Action name="razor_all_clips"/>
+	<Action name="resize_start"/>
+	<Action name="resize_end"/>
 	<Separator lineSeperator="true"/>
 	<Action name="next_track"/>
 	<Action name="prev_track"/>

@@ -443,6 +443,8 @@ namespace Gui {
 	void openSelectedFile();
 	void slotSelectPreviousTrack();
 	void slotSelectNextTrack();
+	void slotResizeClipStart();
+	void slotResizeClipEnd();
 
 	void slotNewProject(QString *newProjectName, KURL *fileUrl, int *videoTracks, int *audioTracks);
 	QString easyName(VIDEOFORMAT format);

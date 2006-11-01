@@ -629,6 +629,14 @@ namespace Gui {
         SLOT(slotFocusTransitions()), actionCollection(),
         "focus_transitions");
 
+        (void) new KAction(i18n("Resize Clip Start To Current Time"), KShortcut(Qt::SHIFT | Qt::Key_Left), this,
+        SLOT(slotResizeClipStart()), actionCollection(),
+        "resize_start");
+
+        (void) new KAction(i18n("Resize Clip End To Current Time"), KShortcut(Qt::SHIFT | Qt::Key_Right), this,
+        SLOT(slotResizeClipEnd()), actionCollection(),
+        "resize_end");
+
         (void) new KAction(i18n("Select Next Track"), KShortcut(Qt::Key_Down), this,
         SLOT(slotSelectNextTrack()), actionCollection(),
         "next_track");
@@ -1305,6 +1313,19 @@ namespace Gui {
 	    selectClipUnderCursor();
 	}
 	else KPassivePopup::message(i18n("Enable Keyboard Navigation in Kdenlive Settings if you want to use this feature"), this);
+    }
+
+
+    void KdenliveApp::slotResizeClipStart() {
+	DocClipRef *clip = getDocument()->projectClip().selectedClip();
+	if (!clip) return;
+	clip->parentTrack()->resizeClipTrackStart(clip, getDocument()->renderer()->seekPosition());
+    }
+
+    void KdenliveApp::slotResizeClipEnd() {
+	DocClipRef *clip = getDocument()->projectClip().selectedClip();
+	if (!clip) return;
+	clip->parentTrack()->resizeClipTrackEnd(clip, getDocument()->renderer()->seekPosition());
     }
 
     void KdenliveApp::slotSelectNextTrack() {
@@ -2684,9 +2705,10 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	DocTrackBase *track = getDocument()->track(m_timeline->selectedTrack());
 	if (!track) return;
 	DocClipRef *clip = track->getClipAt(getDocument()->renderer()->seekPosition());
-	if (clip && clip == getDocument()->projectClip().selectedClip()) return;
+	if (!clip) return;
+	if (clip == getDocument()->projectClip().selectedClip()) return;
         addCommand(Command::KSelectClipCommand::selectNone(getDocument()), true);
-	if (clip) track->selectClip(clip, true);
+	track->selectClip(clip, true);
     }
 
 /** Returns the render manager. */
