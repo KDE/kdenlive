@@ -1697,6 +1697,17 @@ namespace Gui {
 			projectFormat = KdenliveSettings::defaultprojectformat();
 			audioNum = 2;
 			videoNum = 3;
+			if (!KIO::NetAccess::exists(KURL(KdenliveSettings::defaultfolder()), false, this)) KIO::NetAccess::mkdir(KURL(KdenliveSettings::defaultfolder()), this);
+			
+			if (!KIO::NetAccess::exists(KURL(projectFolder), false, this)) {
+			    KIO::NetAccess::mkdir(KURL(projectFolder), this);
+			    KIO::NetAccess::mkdir(KURL(projectFolder + "/tmp/"), this);
+			    if (!KIO::NetAccess::exists(KURL(projectFolder), false, this)) {
+				KMessageBox::sorry(this, i18n("Unable to create a temporary folder in your home directory, Kdenlive will exit now."));
+				exit(1);
+			    }
+			}
+
 		}
 		
 		if (!finished) {
