@@ -10,6 +10,16 @@
       <default>false</default>
     </entry>
 
+    <entry name="openblank" type="Bool">
+      <label>Open blank project on startup.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="alwaysask" type="Bool">
+      <label>Ask user to choose project at startup.</label>
+      <default>true</default>
+    </entry>
+
     <entry name="autosave" type="Bool">
       <label>Autosave project.</label>
       <default>false</default>
@@ -79,6 +89,13 @@
   </group>
   
    <group name="Default Project">
+    <entry name="defaultprojectformat" type="Int">
+      <label>Default video project template</label>
+      <default></default>
+    </entry>
+    </group>
+
+   <group name="Unmanaged Settings">
     <entry name="defaultwidth" type="Int">
       <label>Width of the project's video image.</label>
       <default>720</default>

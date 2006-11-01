@@ -136,6 +136,7 @@ namespace Gui {
 	bool saveModified();
 	int getTimeScaleSliderText() const;
  	void setProjectFormat(VIDEOFORMAT vFormat);
+	QStringList videoProjectFormats;
         
       protected:
 		/** save general Options like all bar positions and status as well as the geometry and the recent file list to the configuration
@@ -449,7 +450,7 @@ namespace Gui {
 	void slotMoveClipUp();
 	void slotMoveClipDown();
 
-	void slotNewProject(QString *newProjectName, KURL *fileUrl, int *videoTracks, int *audioTracks);
+	void slotNewProject(QString *newProjectName, KURL *fileUrl, int *videoTracks, int *audioTracks, bool byPass = false);
 	QString easyName(VIDEOFORMAT format);
 	void selectClipUnderCursor();
 

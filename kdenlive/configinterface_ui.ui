@@ -8,23 +8,18 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>404</width>
-            <height>165</height>
+            <width>383</width>
+            <height>239</height>
         </rect>
+    </property>
+    <property name="caption">
+        <string>configInterface</string>
     </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="3">
-            <property name="name">
-                <cstring>kcfg_openlast</cstring>
-            </property>
-            <property name="text">
-                <string>Open last project on startup</string>
-            </property>
-        </widget>
-        <widget class="QLabel" row="1" column="2">
+        <widget class="QLabel" row="0" column="2">
             <property name="name">
                 <cstring>textLabel1_2</cstring>
             </property>
@@ -32,7 +27,7 @@
                 <string>minutes</string>
             </property>
         </widget>
-        <widget class="QSpinBox" row="1" column="1">
+        <widget class="QSpinBox" row="0" column="1">
             <property name="name">
                 <cstring>kcfg_autosavetime</cstring>
             </property>
@@ -51,12 +46,36 @@
                 <number>10</number>
             </property>
         </widget>
-        <widget class="QCheckBox" row="1" column="0">
+        <widget class="QCheckBox" row="0" column="0">
             <property name="name">
                 <cstring>kcfg_autosave</cstring>
             </property>
             <property name="text">
                 <string>Autosave project every</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>kcfg_horizontalmouse</cstring>
+            </property>
+            <property name="text">
+                <string>Mouse wheel moves horizontally (Alt for vertical scroll)</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>kcfg_showsplash</cstring>
+            </property>
+            <property name="text">
+                <string>Show splash screen</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>kcfg_keyboardNavigation</cstring>
+            </property>
+            <property name="text">
+                <string>Use keyboard navigation in timeline</string>
             </property>
         </widget>
         <spacer row="5" column="0">
@@ -71,34 +90,53 @@
             </property>
             <property name="sizeHint">
                 <size>
-                    <width>16</width>
-                    <height>48</height>
+                    <width>20</width>
+                    <height>20</height>
                 </size>
             </property>
         </spacer>
-        <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="3">
+        <widget class="QButtonGroup" row="4" column="0" rowspan="1" colspan="3">
             <property name="name">
-                <cstring>kcfg_horizontalmouse</cstring>
+                <cstring>buttonGroup1</cstring>
             </property>
-            <property name="text">
-                <string>Mouse wheel moves horizontally (Alt for vertical scroll)</string>
+            <property name="title">
+                <string>Startup options</string>
             </property>
-        </widget>
-        <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="3">
-            <property name="name">
-                <cstring>kcfg_showsplash</cstring>
+            <property name="exclusive">
+                <bool>true</bool>
             </property>
-            <property name="text">
-                <string>Show splash screen</string>
-            </property>
-        </widget>
-        <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="3">
-            <property name="name">
-                <cstring>kcfg_keyboardNavigation</cstring>
-            </property>
-            <property name="text">
-                <string>Use keyboard navigation in timeline</string>
-            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QRadioButton" row="0" column="0">
+                    <property name="name">
+                        <cstring>kcfg_openlast</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Open last project</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="1" column="0">
+                    <property name="name">
+                        <cstring>kcfg_openblank</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Open blank project</string>
+                    </property>
+                    <property name="checked">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="2" column="0">
+                    <property name="name">
+                        <cstring>kcfg_alwaysask</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Always ask</string>
+                    </property>
+                </widget>
+            </grid>
         </widget>
     </grid>
 </widget>

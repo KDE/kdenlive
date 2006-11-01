@@ -43,7 +43,7 @@ namespace Gui {
 	
 	page3->kcfg_defaultfolder->setMode(KFile::Directory);
 	page4->kcfg_titlerfont->enableColumn( KFontChooser::StyleList, false);
-
+	page5->kcfg_defaultprojectformat->insertStringList(app->videoProjectFormats);
 	addPage(page1, i18n("Interface"), "looknfeel");
 	addPage(page2, i18n("Timeline"), "view_details");
         addPage(page3, i18n("Misc"), "run");

@@ -13,52 +13,13 @@
         </rect>
     </property>
     <property name="caption">
-        <string></string>
+        <string>configProject</string>
     </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QLayoutWidget" row="0" column="1">
-            <property name="name">
-                <cstring>layout6</cstring>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>textLabel2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Frames Per Second</string>
-                    </property>
-                </widget>
-                <widget class="KDoubleNumInput">
-                    <property name="name">
-                        <cstring>kcfg_defaultfps</cstring>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
-        <widget class="KPushButton" row="3" column="0">
-            <property name="name">
-                <cstring>addButton</cstring>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>1</hsizetype>
-                    <vsizetype>4</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-            <property name="text">
-                <string>Add Template</string>
-            </property>
-        </widget>
-        <widget class="QGroupBox" row="2" column="1" rowspan="3" colspan="1">
+        <widget class="QGroupBox" row="2" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>groupBox2</cstring>
             </property>
@@ -120,36 +81,7 @@ Drop frame timecode only affects the way that frames are numbered, no frames are
                 </widget>
             </vbox>
         </widget>
-        <widget class="KPushButton" row="4" column="0">
-            <property name="name">
-                <cstring>deleteButton</cstring>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>1</hsizetype>
-                    <vsizetype>4</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-            <property name="text">
-                <string>Delete Template</string>
-            </property>
-        </widget>
-        <widget class="KListBox" row="0" column="0" rowspan="3" colspan="1">
-            <property name="name">
-                <cstring>templatesList</cstring>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>1</hsizetype>
-                    <vsizetype>3</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-        </widget>
-        <widget class="QGroupBox" row="1" column="1">
+        <widget class="QGroupBox" row="1" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>groupBox4</cstring>
             </property>
@@ -196,20 +128,27 @@ Drop frame timecode only affects the way that frames are numbered, no frames are
                 </widget>
             </grid>
         </widget>
+        <widget class="KComboBox" row="0" column="1">
+            <property name="name">
+                <cstring>kcfg_defaultprojectformat</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="0" column="0">
+            <property name="name">
+                <cstring>textLabel1</cstring>
+            </property>
+            <property name="text">
+                <string>Default Project Format</string>
+            </property>
+        </widget>
     </grid>
 </widget>
-<customwidgets>
-</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>klistbox.h</includehint>
     <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
+    <includehint>kcombobox.h</includehint>
 </includehints>
 </UI>

@@ -136,13 +136,18 @@ namespace Gui {
 	int audioTracks = 2;
 	int videoTracks = 3;
 
+	videoProjectFormats << i18n("PAL (720x576, 25fps)") << i18n("PAL 16:9 (720x576, 25fps)");
+	videoProjectFormats << i18n("NTSC (720x480, 30fps)") << i18n("NTSC 16:9 (720x480, 30fps)");
+
 	initStatusBar();
 
-	if (!KdenliveSettings::openlast() && !newDoc) {
+	if (!KdenliveSettings::openlast() && !KdenliveSettings::openblank() && !newDoc) {
 		slotNewProject(&newProjectName, &m_selectedFile, &videoTracks, &audioTracks);
 	}
+	else if (KdenliveSettings::openblank() && !newDoc) {
+		slotNewProject(&newProjectName, &m_selectedFile, &videoTracks, &audioTracks, true);
+	}
 
-	
         QPixmap pixmap(locate("appdata", "graphics/kdenlive-splash.png"));
 
         if (KdenliveSettings::showsplash()) {
@@ -183,6 +188,9 @@ namespace Gui {
         
 	// Reopen last project if user asked it
 	if (KdenliveSettings::openlast()) openLastFile();
+	else if (KdenliveSettings::openblank()) {
+
+	}
         else if (!m_selectedFile.isEmpty()) openSelectedFile();
 	else if (!newDoc) {
 	    initView();
@@ -1647,90 +1655,107 @@ namespace Gui {
     }
 
 
-	void KdenliveApp::slotNewProject(QString *newProjectName, KURL *fileUrl, int *videoTracks, int *audioTracks) {
+	void KdenliveApp::slotNewProject(QString *newProjectName, KURL *fileUrl, int *videoTracks, int *audioTracks, bool byPass) {
     		int i = 1;
+		bool finished = false;
 		QStringList recentFiles;
+		QString projectFolder;
+		int projectFormat, videoNum, audioNum;
 		config->setGroup("RecentFiles");
-		QString Lastproject = config->readPathEntry("File1");
-		while (!Lastproject.isEmpty()) {
+		if (!byPass) {
+		    QString Lastproject = config->readPathEntry("File1");
+		    while (!Lastproject.isEmpty()) {
 			recentFiles<<Lastproject;
 			i++;
 			Lastproject = config->readPathEntry("File" + QString::number(i));
-		}
-		newProject *newProjectDialog = new newProject(KdenliveSettings::defaultfolder(), recentFiles, this, "new_project");
-		newProjectDialog->setCaption(i18n("Kdenlive - New Project"));
-		// Insert available video formats:
-		newProjectDialog->video_format->insertItem(i18n("PAL (720x576, 25fps)"));
-		newProjectDialog->video_format->insertItem(i18n("PAL 16:9 (720x576, 25fps)"));
-		newProjectDialog->video_format->insertItem(i18n("NTSC (720x480, 30fps)"));
-		newProjectDialog->video_format->insertItem(i18n("NTSC 16:9 (720x480, 30fps)"));
-		
-		// HDV not implemented in MLT yet...
-		//newProjectDialog->video_format->insertItem(i18n("HDV-1080 (1440x1080, 25fps)"));
-		//newProjectDialog->video_format->insertItem(i18n("HDV-720 (1280x720, 25fps)"));
+		    }
+		    newProject *newProjectDialog = new newProject(KdenliveSettings::defaultfolder(), recentFiles, this, "new_project");
+		    newProjectDialog->setCaption(i18n("Kdenlive - New Project"));
+		    // Insert available video formats:
+		    newProjectDialog->video_format->insertStringList(videoProjectFormats);
 
-		if (newProjectDialog->exec() == QDialog::Rejected) exit(1);
+		    // HDV not implemented in MLT yet...
+		    //newProjectDialog->video_format->insertItem(i18n("HDV-1080 (1440x1080, 25fps)"));
+		    //newProjectDialog->video_format->insertItem(i18n("HDV-720 (1280x720, 25fps)"));
+
+		    if (newProjectDialog->exec() == QDialog::Rejected) exit(1);
+		    if (!newProjectDialog->isNewFile()) {
+			*fileUrl = newProjectDialog->selectedFile();
+			finished = true;
+		    }
+		    else {
+			*newProjectName = newProjectDialog->projectName->text();
+			projectFolder = newProjectDialog->projectFolderPath();
+			projectFormat = newProjectDialog->video_format->currentItem();
+			audioNum = newProjectDialog->audioTracks->value();
+			videoNum = newProjectDialog->videoTracks->value();
+		    }
+		    delete newProjectDialog;
+		}
 		else {
-			if (newProjectDialog->isNewFile()) {
-				*newProjectName = newProjectDialog->projectName->text();
-				KdenliveSettings::setCurrentdefaultfolder(newProjectDialog->projectFolderPath());
-				KdenliveSettings::setCurrenttmpfolder(KdenliveSettings::currentdefaultfolder() + "/tmp/");
-				if (newProjectDialog->video_format->currentItem() == 0) {
+			*newProjectName = i18n("Untitled");
+			projectFolder = KdenliveSettings::defaultfolder() + "/" + i18n("Untitled");
+			projectFormat = KdenliveSettings::defaultprojectformat();
+			audioNum = 2;
+			videoNum = 3;
+		}
+		
+		if (!finished) {
+			KdenliveSettings::setCurrentdefaultfolder(projectFolder);
+			KdenliveSettings::setCurrenttmpfolder(projectFolder + "/tmp/");
+			switch (projectFormat) {
+				case 0:
 					// PAL project
 					KdenliveSettings::setDefaultheight(576);
 					KdenliveSettings::setDefaultfps(25.0);
 					KdenliveSettings::setAspectratio(59.0 / 54.0);
 					KdenliveSettings::setVideoprofile(QString::null);
 					setProjectFormat(PAL_VIDEO);
-				}
-				else if (newProjectDialog->video_format->currentItem() == 1) {
+					break;
+				case 1:
 					// PAL WIDE project
 					KdenliveSettings::setDefaultheight(576);
 					KdenliveSettings::setDefaultfps(25.0);
 					KdenliveSettings::setAspectratio(118.0 / 81.0);
 					KdenliveSettings::setVideoprofile("dv_wide");
 					setProjectFormat(PAL_VIDEO);
-				}
-				else if (newProjectDialog->video_format->currentItem() == 2){
+					break;
+				case 2:
 					// NTSC project
 					KdenliveSettings::setDefaultheight(480);
 					KdenliveSettings::setDefaultfps(30000.0 / 1001.0);
 					KdenliveSettings::setAspectratio(10.0 / 11.0);
 					KdenliveSettings::setVideoprofile(QString::null);
 					setProjectFormat(NTSC_VIDEO);
-				}
-				else if (newProjectDialog->video_format->currentItem() == 3){
+					break;
+				case 3:
 					// NTSC WIDE project
 					KdenliveSettings::setDefaultheight(480);
 					KdenliveSettings::setDefaultfps(30000.0 / 1001.0);
 					KdenliveSettings::setAspectratio(40.0 / 33.0);
 					KdenliveSettings::setVideoprofile("dv_wide");
 					setProjectFormat(NTSC_VIDEO);
-				}
-				else if (newProjectDialog->video_format->currentItem() == 4){
+					break;
+				case 4:
 					// HDV project
 					KdenliveSettings::setDefaultheight(1080);
 					KdenliveSettings::setDefaultwidth(1440);
 					KdenliveSettings::setDefaultfps(25.0);
 					KdenliveSettings::setAspectratio(1.333);
 					setProjectFormat(HDV1080PAL_VIDEO);
-				}
-				else if (newProjectDialog->video_format->currentItem() == 5){
+					break;
+				case 5:
 					// HDV project
 					KdenliveSettings::setDefaultheight(720);
 					KdenliveSettings::setDefaultwidth(1280);
 					KdenliveSettings::setDefaultfps(25.0);
 					KdenliveSettings::setAspectratio(1.333);
 					setProjectFormat(HDV720PAL_VIDEO);
-				}
-				*audioTracks = newProjectDialog->audioTracks->value();
-				*videoTracks = newProjectDialog->videoTracks->value();
+					break;
 			}
-			else {
-				*fileUrl = newProjectDialog->selectedFile();
+			*audioTracks = audioNum;
+			*videoTracks = videoNum;
 			}
-		}
-		delete newProjectDialog;
 	}
 
 
