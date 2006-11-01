@@ -91,7 +91,7 @@
    <group name="Default Project">
     <entry name="defaultprojectformat" type="Int">
       <label>Default video project template</label>
-      <default></default>
+      <default>0</default>
     </entry>
     </group>
 

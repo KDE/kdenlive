@@ -139,6 +139,10 @@ namespace Gui {
 	videoProjectFormats << i18n("PAL (720x576, 25fps)") << i18n("PAL 16:9 (720x576, 25fps)");
 	videoProjectFormats << i18n("NTSC (720x480, 30fps)") << i18n("NTSC 16:9 (720x480, 30fps)");
 
+	// HDV not implemented in MLT yet...
+	//newProjectDialog->video_format->insertItem(i18n("HDV-1080 (1440x1080, 25fps)"));
+	//newProjectDialog->video_format->insertItem(i18n("HDV-720 (1280x720, 25fps)"));
+
 	initStatusBar();
 
 	if (!KdenliveSettings::openlast() && !KdenliveSettings::openblank() && !newDoc) {
@@ -188,11 +192,8 @@ namespace Gui {
         
 	// Reopen last project if user asked it
 	if (KdenliveSettings::openlast()) openLastFile();
-	else if (KdenliveSettings::openblank()) {
-
-	}
         else if (!m_selectedFile.isEmpty()) openSelectedFile();
-	else if (!newDoc) {
+	else if (!newDoc || KdenliveSettings::openblank()) {
 	    initView();
 	    setCaption(newProjectName + ".kdenlive" + " - " + easyName(m_projectFormat), false);
 	    m_doc->setURL(KURL(KdenliveSettings::currentdefaultfolder() + "/" + newProjectName + ".kdenlive"));
@@ -1656,14 +1657,16 @@ namespace Gui {
 
 
 	void KdenliveApp::slotNewProject(QString *newProjectName, KURL *fileUrl, int *videoTracks, int *audioTracks, bool byPass) {
-    		int i = 1;
 		bool finished = false;
-		QStringList recentFiles;
 		QString projectFolder;
 		int projectFormat, videoNum, audioNum;
-		config->setGroup("RecentFiles");
+
 		if (!byPass) {
+		    // Prepare the New Project Dialog
+		    QStringList recentFiles;
+		    config->setGroup("RecentFiles");
 		    QString Lastproject = config->readPathEntry("File1");
+		    uint i = 1;
 		    while (!Lastproject.isEmpty()) {
 			recentFiles<<Lastproject;
 			i++;
@@ -1673,12 +1676,8 @@ namespace Gui {
 		    newProjectDialog->setCaption(i18n("Kdenlive - New Project"));
 		    // Insert available video formats:
 		    newProjectDialog->video_format->insertStringList(videoProjectFormats);
-
-		    // HDV not implemented in MLT yet...
-		    //newProjectDialog->video_format->insertItem(i18n("HDV-1080 (1440x1080, 25fps)"));
-		    //newProjectDialog->video_format->insertItem(i18n("HDV-720 (1280x720, 25fps)"));
-
 		    if (newProjectDialog->exec() == QDialog::Rejected) exit(1);
+
 		    if (!newProjectDialog->isNewFile()) {
 			*fileUrl = newProjectDialog->selectedFile();
 			finished = true;
@@ -1694,7 +1693,7 @@ namespace Gui {
 		}
 		else {
 			*newProjectName = i18n("Untitled");
-			projectFolder = KdenliveSettings::defaultfolder() + "/" + i18n("Untitled");
+			projectFolder = KdenliveSettings::defaultfolder() + "/" + i18n("Untitled") + "/";
 			projectFormat = KdenliveSettings::defaultprojectformat();
 			audioNum = 2;
 			videoNum = 3;
@@ -1787,7 +1786,8 @@ namespace Gui {
 		QDomDocument doc;
 		doc.setContent(&myFile, false);
 		QDomElement documentElement = doc.documentElement();
-    		if (documentElement.tagName() != "kdenlivedoc") {
+    		while (!documentElement.isNull() && documentElement.tagName() != "kdenlivedoc") {
+			documentElement = documentElement.firstChild().toElement();
 			kdWarning() <<
 	    		"KdenliveDoc::loadFromXML() document element has unknown tagName : "
 	    		<< documentElement.tagName() << endl;
@@ -1800,7 +1800,7 @@ namespace Gui {
 			if (!e.isNull()) {
 	    		    if (e.tagName() == "properties") {
 				int vFormat = e.attribute("projectvideoformat","0").toInt();
-				KdenliveSettings::setVideoprofile(e.attribute("videoprofile",QString::null));
+				KdenliveSettings::setVideoprofile(e.attribute("videoprofile", QString::null));
 				setProjectFormat((VIDEOFORMAT) vFormat);
 				foundFormat = true;
 				break;
@@ -1960,7 +1960,7 @@ namespace Gui {
 
 
     void KdenliveApp::slotFileSave() {
-	if (m_doc->URL().fileName() == i18n("Untitled")) slotFileSaveAs();
+	if (m_doc->URL().fileName() == i18n("Untitled") + ".kdenlive") slotFileSaveAs();
 	else {
 		slotStatusMsg(i18n("Saving file..."));
 		if (KIO::NetAccess::exists(m_doc->URL(), true, this)) {
