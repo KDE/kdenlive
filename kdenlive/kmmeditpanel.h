@@ -89,6 +89,7 @@ namespace Gui {
   bool m_playSelected;
   bool m_loop;
   bool m_showLcd;
+  GenTime m_startPlayPosition;
 
    // True if we are playing, false otherwise.
 	bool isPlaying() const {

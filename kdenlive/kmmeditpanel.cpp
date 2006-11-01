@@ -36,7 +36,7 @@ namespace Gui {
 
     KMMEditPanel::KMMEditPanel(KdenliveDoc * document, QWidget * parent,
 	const char *name, WFlags fl):KMMEditPanel_UI(parent, name, fl),
-    m_playSpeed(0.0), m_playSelected(false), m_showLcd(true), m_loop(false) {
+    m_playSpeed(0.0), m_playSelected(false), m_showLcd(true), m_loop(false), m_startPlayPosition(0) {
 	m_document = document;
 
 	m_ruler->setRulerModel(new KRulerTimeModel());
@@ -331,6 +331,7 @@ namespace Gui {
 	    setPlaying(false);
 	    return;
 	}
+	if (m_pauseMode == false) m_startPlayPosition = point();
         m_playSpeed = 1.0;
 	setPlaying(true);
     }
@@ -340,7 +341,7 @@ namespace Gui {
 	m_pauseMode = false;
 	m_loop = false;
 	m_playSpeed = 0.0;
-	emit playStopped(inpoint());
+	emit playStopped(m_startPlayPosition);
     }
 
     void KMMEditPanel::setPlaying(bool play) {

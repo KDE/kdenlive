@@ -594,6 +594,7 @@ void KRender::stop(const GenTime & startTime)
 {
     if (m_mltProducer) {
 	m_mltProducer->set_speed(0.0);
+	m_mltProducer->seek(startTime.frames(m_fps));
     }
 //refresh();
 }
