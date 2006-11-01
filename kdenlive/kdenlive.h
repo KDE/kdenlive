@@ -445,6 +445,9 @@ namespace Gui {
 	void slotSelectNextTrack();
 	void slotResizeClipStart();
 	void slotResizeClipEnd();
+	void slotMoveClipToCurrentTime();
+	void slotMoveClipUp();
+	void slotMoveClipDown();
 
 	void slotNewProject(QString *newProjectName, KURL *fileUrl, int *videoTracks, int *audioTracks);
 	QString easyName(VIDEOFORMAT format);

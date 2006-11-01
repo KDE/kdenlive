@@ -629,6 +629,18 @@ namespace Gui {
         SLOT(slotFocusTransitions()), actionCollection(),
         "focus_transitions");
 
+        (void) new KAction(i18n("Move Clip To Current Time"), KShortcut(Qt::SHIFT | Qt::Key_Return), this,
+        SLOT(slotMoveClipToCurrentTime()), actionCollection(),
+        "move_current");
+
+        (void) new KAction(i18n("Move Clip Up"), KShortcut(Qt::SHIFT | Qt::Key_Up), this,
+        SLOT(slotMoveClipUp()), actionCollection(),
+        "move_up");
+
+        (void) new KAction(i18n("Move Clip Down"), KShortcut(Qt::SHIFT | Qt::Key_Down), this,
+        SLOT(slotMoveClipDown()), actionCollection(),
+        "move_down");
+
         (void) new KAction(i18n("Resize Clip Start To Current Time"), KShortcut(Qt::SHIFT | Qt::Key_Left), this,
         SLOT(slotResizeClipStart()), actionCollection(),
         "resize_start");
@@ -1315,6 +1327,25 @@ namespace Gui {
 	else KPassivePopup::message(i18n("Enable Keyboard Navigation in Kdenlive Settings if you want to use this feature"), this);
     }
 
+
+    void KdenliveApp::slotMoveClipToCurrentTime() {
+	DocClipRef *clip = getDocument()->projectClip().selectedClip();
+	if (!clip) return;
+	GenTime offset = getDocument()->renderer()->seekPosition() - clip->trackStart();
+	getDocument()->moveSelectedClips(offset, 0);
+    }
+
+    void KdenliveApp::slotMoveClipDown() {
+	DocClipRef *clip = getDocument()->projectClip().selectedClip();
+	if (!clip) return;
+	getDocument()->moveSelectedClips(GenTime(0.0), 1);
+    }
+
+    void KdenliveApp::slotMoveClipUp() {
+	DocClipRef *clip = getDocument()->projectClip().selectedClip();
+	if (!clip) return;
+	getDocument()->moveSelectedClips(GenTime(0.0), -1);
+    }
 
     void KdenliveApp::slotResizeClipStart() {
 	DocClipRef *clip = getDocument()->projectClip().selectedClip();

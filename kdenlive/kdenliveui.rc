@@ -11,6 +11,9 @@
 	<Action name="razor_all_clips"/>
 	<Action name="resize_start"/>
 	<Action name="resize_end"/>
+	<Action name="move_current"/>
+	<Action name="move_up"/>
+	<Action name="move_down"/>
 	<Separator lineSeperator="true"/>
 	<Action name="next_track"/>
 	<Action name="prev_track"/>
