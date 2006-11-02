@@ -363,7 +363,9 @@ DocClipBase *ClipManager::insertTextClip(
     QPixmap result(50, 40);
     result.fill(Qt::black);
     if (!QFile(url.path()).exists() || pix.isNull()) {
-        titleWidget *txtWidget=new titleWidget(0 ,10,10);
+	int width = KdenliveSettings::defaultwidth();
+	if (KdenliveSettings::videoprofile() == "dv_wide") width = width * 4 / 3;
+        titleWidget *txtWidget=new titleWidget(0 ,width,KdenliveSettings::defaultheight());
         txtWidget->setXml(xml);
         txtWidget->createImage(url);
         pix = txtWidget->thumbnail(48, 38);
