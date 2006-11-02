@@ -349,7 +349,7 @@ DocClipBase *ClipManager::insertXMLTextClip(QDomDocument node)
 	    QImage im(clip->fileURL().path());
 	    pix = im.smoothScale(48,38);
     }
-    bitBlt(&result, 1, 1, &pix, 0, 0, 48, 38);
+    copyBlt(&result, 1, 1, &pix, 0, 0, 48, 38);
     clip->setThumbnail(result);
     m_clipCounter++;
     emit clipListUpdated();
@@ -369,7 +369,7 @@ DocClipBase *ClipManager::insertTextClip(
         txtWidget->setXml(xml);
         txtWidget->createImage(url);
         pix = txtWidget->thumbnail(48, 38);
-    	bitBlt(&result, 1, 1, &pix, 0, 0, 48, 38);
+    	copyBlt(&result, 1, 1, &pix, 0, 0, 48, 38);
         delete txtWidget;
     }
 
@@ -406,7 +406,7 @@ void ClipManager::editTextClip(DocClipRef * clip, const GenTime & duration, cons
         result.fill(Qt::black);
         QImage im(url.path());
 	QPixmap pix = im.smoothScale(48,38);
-	bitBlt(&result, 1, 1, &pix, 0, 0, 48, 38);
+	copyBlt(&result, 1, 1, &pix, 0, 0, 48, 38);
 	clip->referencedClip()->setThumbnail(result);
 //        m_render->getImage(url, 50, 40);
         if (clip->numReferences() > 0) emit updateClipThumbnails(clip->referencedClip());
