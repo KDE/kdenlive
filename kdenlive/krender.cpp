@@ -56,6 +56,7 @@
 static QMutex mutex (true);
 
 int m_refCount = 0;
+double m_fps;
 
 namespace {
 
@@ -82,7 +83,7 @@ m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProduce
     connect( refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()) );
     m_parsing = false;
     m_seekPosition = GenTime(0);
-
+    isPlaying = false;
     m_fileFormats.setAutoDelete(true);
     m_codeclist.setAutoDelete(true);
 
@@ -141,8 +142,7 @@ void KRender::closeMlt()
 static void consumer_frame_show(mlt_consumer, KRender * self, mlt_frame frame_ptr)
 {
     mlt_position framePosition = mlt_frame_get_position(frame_ptr);
-    self->emitFrameNumber(GenTime(framePosition, KdenliveSettings::defaultfps()), 10000);
-    
+    self->emitFrameNumber(GenTime(framePosition, m_fps), 10000);
     // detect if the producer has finished playing. Is there a better way to do it ?
     if (mlt_properties_get_double( MLT_FRAME_PROPERTIES( frame_ptr ), "_speed" ) == 0)
         self->emitConsumerStopped();
@@ -365,7 +365,7 @@ void KRender::getImage(int id, QString color, int width, int height)
     pixmap.fill(QColor(color));
     QPixmap result(width, height);
     result.fill(Qt::black);
-    bitBlt(&result, 1, 1, &pixmap, 0, 0, width - 2, height - 2);
+    copyBlt(&result, 1, 1, &pixmap, 0, 0, width - 2, height - 2);
     emit replyGetImage(id, result, width, height);
 
 }
@@ -395,7 +395,7 @@ void KRender::getImage(KURL url, int width, int height)
     pixmap = im.smoothScale(width-2, height-2);
     QPixmap result(width, height);
     result.fill(Qt::black);
-    bitBlt(&result, 1, 1, &pixmap, 0, 0, width - 2, height - 2);
+    copyBlt(&result, 1, 1, &pixmap, 0, 0, width - 2, height - 2);
     emit replyGetImage(url, 1, result, width, height);
 }
 
@@ -580,6 +580,7 @@ void KRender::start()
 
 void KRender::stop()
 {
+    isPlaying = false;
     if (m_mltProducer) {
 	m_mltProducer->set_speed(0.0);
     }
@@ -603,6 +604,8 @@ void KRender::play(double speed)
     if (!m_mltProducer)
 	return;
     m_mltProducer->set_speed(speed);
+    if (speed != 0.0) isPlaying = true;
+    else isPlaying = false;
     refresh();
 }
 
@@ -612,6 +615,8 @@ void KRender::play(double speed, const GenTime & startTime)
 	return;
     m_mltProducer->set_speed(speed);
     m_mltProducer->seek((int) (startTime.frames(m_fps)));
+    if (speed != 0.0) isPlaying = true;
+    else isPlaying = false;
     refresh();
 }
 
@@ -623,6 +628,8 @@ void KRender::play(double speed, const GenTime & startTime,
     m_mltProducer->set("out", stopTime.frames(m_fps));
     m_mltProducer->seek((int) (startTime.frames(m_fps)));
     m_mltProducer->set_speed(speed);
+    if (speed != 0.0) isPlaying = true;
+    else isPlaying = false;
     refresh();
 }
 
@@ -713,10 +720,11 @@ const QString & KRender::rendererName() const
 
 void KRender::emitFrameNumber(const GenTime & time, int eventType)
 {
-    //m_seekPosition = time;
-    if (m_mltProducer) {
-        QApplication::postEvent(m_app, new PositionChangeEvent(GenTime(m_mltProducer->position(), m_fps), eventType));
-    }
+        if (isPlaying) QApplication::postEvent(m_app, new PositionChangeEvent(time, eventType));
+	else if (m_mltProducer) {
+		double pos = m_mltProducer->position();
+		QApplication::postEvent(m_app, new PositionChangeEvent(GenTime(pos, m_fps), eventType));
+	}
 }
 
 void KRender::emitFileFrameNumber(const GenTime & time, int eventType)
@@ -728,6 +736,7 @@ void KRender::emitFileFrameNumber(const GenTime & time, int eventType)
 
 void KRender::emitConsumerStopped()
 {
+    isPlaying = false;
     //kdDebug()<<"+++++++++++  SDL CONSUMER STOPPING ++++++++++++++++++"<<endl;
     // This is used to know when the playing stopped
     if (m_mltProducer) m_mltProducer->set("out", m_mltProducer->get_length() - 1);

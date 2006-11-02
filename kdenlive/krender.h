@@ -61,6 +61,7 @@ namespace Mlt {
     class Producer;
 };
 
+
 struct StackValue {
     QString element;
 	/** A function pointer to the relevant method that should parse tagOpen events */
@@ -183,12 +184,11 @@ class KRender:public QObject {
      Mlt::Producer * m_mltFileProducer;
      Gui::KdenliveApp *m_app;
      Mlt::Producer *m_mltTextProducer;
-    double m_fps;
      
      QTimer *refreshTimer;
      bool m_isRendering;
      QString m_renderingFormat;
-     
+     bool isPlaying;
      int exportDuration, firstExportFrame, lastExportFrame;
 
 
