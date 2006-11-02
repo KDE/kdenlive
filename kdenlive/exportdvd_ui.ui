@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>428</width>
-            <height>414</height>
+            <height>368</height>
         </rect>
     </property>
     <widget class="QWidget">
@@ -703,23 +703,7 @@
                     <string></string>
                 </property>
             </widget>
-            <widget class="QLabel" row="0" column="1" rowspan="1" colspan="4">
-                <property name="name">
-                    <cstring>textLabel9</cstring>
-                </property>
-                <property name="sizePolicy">
-                    <sizepolicy>
-                        <hsizetype>3</hsizetype>
-                        <vsizetype>5</vsizetype>
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                    </sizepolicy>
-                </property>
-                <property name="text">
-                    <string>Generating main movie</string>
-                </property>
-            </widget>
-            <widget class="QPushButton" row="7" column="2">
+            <widget class="QPushButton" row="8" column="2">
                 <property name="name">
                     <cstring>button_preview</cstring>
                 </property>
@@ -736,7 +720,7 @@
                     <bool>true</bool>
                 </property>
             </widget>
-            <widget class="QPushButton" row="6" column="3" rowspan="1" colspan="2">
+            <widget class="QPushButton" row="7" column="3" rowspan="1" colspan="2">
                 <property name="name">
                     <cstring>button_generate</cstring>
                 </property>
@@ -753,7 +737,7 @@
                     <bool>true</bool>
                 </property>
             </widget>
-            <widget class="QPushButton" row="7" column="3" rowspan="1" colspan="2">
+            <widget class="QPushButton" row="8" column="3" rowspan="1" colspan="2">
                 <property name="name">
                     <cstring>button_qdvd</cstring>
                 </property>
@@ -770,7 +754,7 @@
                     <bool>true</bool>
                 </property>
             </widget>
-            <widget class="QPushButton" row="7" column="0" rowspan="1" colspan="2">
+            <widget class="QPushButton" row="8" column="0" rowspan="1" colspan="2">
                 <property name="name">
                     <cstring>button_burn</cstring>
                 </property>
@@ -787,7 +771,7 @@
                     <bool>true</bool>
                 </property>
             </widget>
-            <spacer row="5" column="4">
+            <spacer row="6" column="4">
                 <property name="name">
                     <cstring>spacer7</cstring>
                 </property>
@@ -804,7 +788,48 @@
                     </size>
                 </property>
             </spacer>
-            <widget class="QTextEdit" row="4" column="0" rowspan="1" colspan="5">
+            <spacer row="3" column="3">
+                <property name="name">
+                    <cstring>spacer8</cstring>
+                </property>
+                <property name="orientation">
+                    <enum>Vertical</enum>
+                </property>
+                <property name="sizeType">
+                    <enum>Expanding</enum>
+                </property>
+                <property name="sizeHint">
+                    <size>
+                        <width>16</width>
+                        <height>16</height>
+                    </size>
+                </property>
+            </spacer>
+            <widget class="QCheckBox" row="6" column="0" rowspan="1" colspan="4">
+                <property name="name">
+                    <cstring>show_log</cstring>
+                </property>
+                <property name="text">
+                    <string>Show process output</string>
+                </property>
+            </widget>
+            <widget class="QLabel" row="0" column="1" rowspan="1" colspan="4">
+                <property name="name">
+                    <cstring>textLabel9</cstring>
+                </property>
+                <property name="sizePolicy">
+                    <sizepolicy>
+                        <hsizetype>3</hsizetype>
+                        <vsizetype>5</vsizetype>
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                    </sizepolicy>
+                </property>
+                <property name="text">
+                    <string>Generating main movie</string>
+                </property>
+            </widget>
+            <widget class="QTextEdit" row="5" column="0" rowspan="1" colspan="5">
                 <property name="name">
                     <cstring>dvd_info</cstring>
                 </property>
@@ -829,29 +854,9 @@
                     <bool>true</bool>
                 </property>
             </widget>
-            <spacer row="3" column="3">
+            <widget class="KProgress" row="4" column="0" rowspan="1" colspan="5">
                 <property name="name">
-                    <cstring>spacer8</cstring>
-                </property>
-                <property name="orientation">
-                    <enum>Vertical</enum>
-                </property>
-                <property name="sizeType">
-                    <enum>Expanding</enum>
-                </property>
-                <property name="sizeHint">
-                    <size>
-                        <width>16</width>
-                        <height>16</height>
-                    </size>
-                </property>
-            </spacer>
-            <widget class="QCheckBox" row="5" column="0" rowspan="1" colspan="4">
-                <property name="name">
-                    <cstring>show_log</cstring>
-                </property>
-                <property name="text">
-                    <string>Show process output</string>
+                    <cstring>dvd_size</cstring>
                 </property>
             </widget>
         </grid>
@@ -885,5 +890,6 @@
     <includehint>kurlrequester.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>
+    <includehint>kprogress.h</includehint>
 </includehints>
 </UI>
