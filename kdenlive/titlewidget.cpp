@@ -60,7 +60,7 @@ FigureEditor::FigureEditor(
 {
         //Create temp file that will be used for preview in the Mlt monitor
 	if (!tmpUrl.isEmpty()) tmpFileName = tmpUrl.path();
-	else tmpFileName = KTempFile(KdenliveSettings::currentdefaultfolder(),".png").name();
+	else tmpFileName = KTempFile(KdenliveSettings::currenttmpfolder(),".png").name();
         selection = 0;
         moving = 0;
         numItems = 0;
@@ -68,6 +68,7 @@ FigureEditor::FigureEditor(
         selectedItem = 0;
         operationMode = CursorMode;
         m_isDrawing = false;
+	m_transparent = false;
 
         // Enable focus to grab keyboard events
         setFocusPolicy(QWidget::StrongFocus);
@@ -78,7 +79,7 @@ FigureEditor::FigureEditor(
         viewport()->setMouseTracking(true);
 
         // Draw rectangle showing safety margins for the text
-        QCanvasRectangle *marginRect = new QCanvasRectangle(QRect(horizontalMarginSize,verticalMarginSize,KdenliveSettings::defaultwidth()-(2*horizontalMarginSize),KdenliveSettings::defaultheight()-(2*verticalMarginSize)),canvas());
+        QCanvasRectangle *marginRect = new QCanvasRectangle(QRect(horizontalMarginSize,verticalMarginSize,canvas()->width()-(2*horizontalMarginSize),canvas()->height()-(2*verticalMarginSize)),canvas());
         marginRect->setZ(-100);
         marginRect->setPen(QPen(QColor(255,255,255)));
         marginRect->show();
@@ -96,11 +97,16 @@ FigureEditor::~FigureEditor()
 }
 
 
+void FigureEditor::setTransparency ( bool isOn )
+{
+    m_transparent = isOn;
+}
+
 void FigureEditor::resizeEvent ( QResizeEvent * e)
 {
         //TODO make canvas keep a fixed ratio when resizing
         QWMatrix wm;
-        wm.scale(((double) width()-10)/((double) KdenliveSettings::defaultwidth()),((double) height()-10)/((double) KdenliveSettings::defaultheight()));
+        wm.scale(((double) width()-10)/((double) canvas()->width()),((double) height()-10)/((double) canvas()->height()));
         setWorldMatrix (wm);
 }
 
@@ -474,6 +480,11 @@ void FigureEditor::exportContent()
 {
         QPixmap im = drawContent();
         // Save resulting pixmap in a file for mlt
+	if (KdenliveSettings::videoprofile() == "dv_wide") {
+    	    QImage  src = im.convertToImage();
+    	    QImage  dest = src.smoothScale( KdenliveSettings::defaultwidth(),KdenliveSettings::defaultheight());
+    	    im.convertFromImage( dest );
+	}
         im.save(tmpFileName,"PNG");
         emit showPreview(tmpFileName);
 }
@@ -482,6 +493,11 @@ void FigureEditor::exportContent(KURL url)
 {
     QPixmap im = drawContent();
         // Save resulting pixmap in a file for mlt
+    if (KdenliveSettings::videoprofile() == "dv_wide") {
+        QImage  src = im.convertToImage();
+        QImage  dest = src.smoothScale( KdenliveSettings::defaultwidth(),KdenliveSettings::defaultheight());
+        im.convertFromImage( dest );
+    }
     im.save(url.path(),"PNG");
 }
 
@@ -489,6 +505,11 @@ void FigureEditor::saveImage()
 {
     QPixmap im = drawContent();
         // Save resulting pixmap in a file for mlt
+    if (KdenliveSettings::videoprofile() == "dv_wide") {
+        QImage  src = im.convertToImage();
+        QImage  dest = src.smoothScale( KdenliveSettings::defaultwidth(),KdenliveSettings::defaultheight());
+        im.convertFromImage( dest );
+    }
     im.save(tmpFileName,"PNG");
 }
 
@@ -498,16 +519,18 @@ QPixmap FigureEditor::drawContent()
         // All items are then drawed on the pixmap. To get transparency, it is required to
         // draw again all items on the alpha mask.
 
-    QPixmap im(KdenliveSettings::defaultwidth(),KdenliveSettings::defaultheight());
+    QPixmap im(canvas()->width(), canvas()->height());
     QPainter p;
 
         // Fill pixmap with color0, which sould be transparent but looks in fact to be black...
-    im.fill(color0);
-
+    if (m_transparent) {
+	im.fill(color0);
         // Create transparency mask
-    im.setMask(im.createHeuristicMask());
-
+        im.setMask(im.createHeuristicMask());
         // Select all items
+    }
+    else im.fill(black);
+
     QCanvasItemList list=canvas()->collisions(canvas()->rect());
 
         // Parse items in revers order to draw them on the pixmap
@@ -524,12 +547,14 @@ QPixmap FigureEditor::drawContent()
                 p.drawText(((QCanvasText*)(*it))->boundingRect(),Qt::AlignAuto,((QCanvasText*)(*it))->text());
                 p.end();
 
+		if (m_transparent) {
                                 // Draw again on transparency mask
-                p.begin(im.mask());
-                p.setPen(((QCanvasText*)(*it))->color());
-                p.setFont(((QCanvasText*)(*it))->font());
-                p.drawText(((QCanvasText*)(*it))->boundingRect(),Qt::AlignAuto,((QCanvasText*)(*it))->text());
-                p.end();
+                    p.begin(im.mask());
+                    p.setPen(((QCanvasText*)(*it))->color());
+                    p.setFont(((QCanvasText*)(*it))->font());
+                    p.drawText(((QCanvasText*)(*it))->boundingRect(),Qt::AlignAuto,((QCanvasText*)(*it))->text());
+                    p.end();
+		}
             }
 
             if ((*it)->rtti ()==5 && (*it)->z()>=0 && (*it)->z()<1000) // rectangle item but don't draw the safe margins rectangle
@@ -540,12 +565,14 @@ QPixmap FigureEditor::drawContent()
 					 p.drawRect((int)((*it)->x()),(int)((*it)->y()),((QCanvasRectangle*)(*it))->width(),((QCanvasRectangle*)(*it))->height());
                 p.end();
 
+    		if (m_transparent) {
                                 // Draw again on transparency mask
-                p.begin(im.mask());
-                p.setPen(QPen(color1,((QCanvasPolygonalItem*)(*it))->pen().width()));
-                p.setBrush(QBrush(color1));
-					 p.drawRect((int)((*it)->x()),(int)((*it)->y()),((QCanvasRectangle*)(*it))->width(),((QCanvasRectangle*)(*it))->height());
-                p.end();
+                    p.begin(im.mask());
+                    p.setPen(QPen(color1,((QCanvasPolygonalItem*)(*it))->pen().width()));
+                    p.setBrush(QBrush(color1));
+		    p.drawRect((int)((*it)->x()),(int)((*it)->y()),((QCanvasRectangle*)(*it))->width(),((QCanvasRectangle*)(*it))->height());
+                    p.end();
+		}
             }
         }
     }
@@ -634,7 +661,7 @@ titleWidget::titleWidget(Gui::KMMScreen *screen, int width, int height, KURL tmp
 	fontFace->setCurrentFont(defFont.family());
 	fontSize->setValue(defFont.pointSize());
 	fontColor->setColor(KdenliveSettings::titlercolor());
-        canvas=new QCanvas(KdenliveSettings::defaultwidth(),KdenliveSettings::defaultheight());
+        canvas=new QCanvas(width, height); //KdenliveSettings::defaultwidth(),KdenliveSettings::defaultheight());
         canview = new FigureEditor(*canvas, frame, tmpUrl);
 	if (screen) {
 	    int pos = screen->seekPosition().frames(KdenliveSettings::defaultfps()) * 100 / screen->getLength();
@@ -684,8 +711,9 @@ titleWidget::titleWidget(Gui::KMMScreen *screen, int width, int height, KURL tmp
 titleWidget::~titleWidget()
 {}
 
-void titleWidget::transparencyToggled(bool)
+void titleWidget::transparencyToggled(bool isOn)
 {
+    canview->setTransparency(isOn);
     doPreview(timelineSlider->value());
 }
 
@@ -824,7 +852,7 @@ void titleWidget::seekToPos(const QString &)
 	QString dur = timelineposition->text();
 	int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt());
 	if (transparentTitle->isOn())
-        canview->canvas()->setBackgroundPixmap(m_screen->extractFrame(frames, KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight()));
+        canview->canvas()->setBackgroundPixmap(m_screen->extractFrame(frames, canvas->width(), canvas->height()));
 	else canview->canvas()->setBackgroundPixmap(QPixmap());
 }
 

@@ -43,6 +43,7 @@ public:
         uint numItems;
         KTempFile *tmp;
 	QString tmpFileName;
+	bool m_transparent;
 
 protected:
         void contentsMousePressEvent(QMouseEvent*);
@@ -76,6 +77,7 @@ public slots:
         void saveImage();
         QDomDocument toXml();
         void setXml(const QDomDocument &xml);
+	void setTransparency(bool isOn);
 
 private slots:
         void startResize(QPoint p);
@@ -110,7 +112,7 @@ private slots:
         void adjustWidgets(QCanvasText* i);
         void adjustWidgets(QCanvasRectangle* i);
         void adjustButtons();
-	void transparencyToggled(bool);
+	void transparencyToggled(bool isOn);
 	void seekToPos(const QString &);
 
 public slots:
