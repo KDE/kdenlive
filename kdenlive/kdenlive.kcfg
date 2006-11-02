@@ -93,6 +93,17 @@
       <label>Default video project template</label>
       <default>0</default>
     </entry>
+
+    <entry name="videotracks" type="Int">
+      <label>Number of video tracks in a blank project.</label>
+      <default>3</default>
+    </entry>
+
+    <entry name="audiotracks" type="Int">
+      <label>Number of audio tracks in a blank project.</label>
+      <default>2</default>
+    </entry>
+
     </group>
 
    <group name="Unmanaged Settings">

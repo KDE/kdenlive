@@ -133,9 +133,6 @@ namespace Gui {
     m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_renderManager(NULL), m_doc(NULL), m_effectStackDialog(NULL), m_clipMonitor(NULL), m_projectList(NULL), m_effectListDialog(NULL), m_projectFormat(PAL_VIDEO), m_timelinePopupMenu(NULL), m_rulerPopupMenu(NULL), m_exportDvd(NULL) {
 	config = kapp->config();
 	QString newProjectName;
-	int audioTracks = 2;
-	int videoTracks = 3;
-
 	videoProjectFormats << i18n("PAL (720x576, 25fps)") << i18n("PAL 16:9 (720x576, 25fps)");
 	videoProjectFormats << i18n("NTSC (720x480, 30fps)") << i18n("NTSC 16:9 (720x480, 30fps)");
 
@@ -144,6 +141,9 @@ namespace Gui {
 	//newProjectDialog->video_format->insertItem(i18n("HDV-720 (1280x720, 25fps)"));
 
 	initStatusBar();
+
+	int audioTracks = KdenliveSettings::audiotracks();
+	int videoTracks = KdenliveSettings::videotracks();
 
 	if (!KdenliveSettings::openlast() && !KdenliveSettings::openblank() && !newDoc) {
 		slotNewProject(&newProjectName, &m_selectedFile, &videoTracks, &audioTracks);
@@ -1676,6 +1676,9 @@ namespace Gui {
 		    newProjectDialog->setCaption(i18n("Kdenlive - New Project"));
 		    // Insert available video formats:
 		    newProjectDialog->video_format->insertStringList(videoProjectFormats);
+		    newProjectDialog->audioTracks->setValue(*audioTracks);
+		    newProjectDialog->videoTracks->setValue(*videoTracks);
+
 		    if (newProjectDialog->exec() == QDialog::Rejected) exit(1);
 
 		    if (!newProjectDialog->isNewFile()) {
@@ -1695,8 +1698,8 @@ namespace Gui {
 			*newProjectName = i18n("Untitled");
 			projectFolder = KdenliveSettings::defaultfolder() + "/" + i18n("Untitled") + "/";
 			projectFormat = KdenliveSettings::defaultprojectformat();
-			audioNum = 2;
-			videoNum = 3;
+			audioNum = *audioTracks;
+			videoNum = *videoTracks;
 			if (!KIO::NetAccess::exists(KURL(KdenliveSettings::defaultfolder()), false, this)) KIO::NetAccess::mkdir(KURL(KdenliveSettings::defaultfolder()), this);
 			
 			if (!KIO::NetAccess::exists(KURL(projectFolder), false, this)) {
@@ -1833,7 +1836,7 @@ namespace Gui {
 
     if (m_effectStackDialog) m_effectStackDialog->slotSetEffectStack(0);
     m_monitorManager.resetMonitors();
-    initDocument(3,2);
+    initDocument(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
     }
 
     void KdenliveApp::slotEditCopy()

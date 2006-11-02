@@ -42,7 +42,7 @@
 #include <kurlrequesterdlg.h> 
 #include <kstandarddirs.h>
 #include <knotifyclient.h>
-
+#include <kprogress.h>
 
 #include "timecode.h"
 #include "kdenlivesettings.h"
@@ -63,7 +63,8 @@ ExportDvdDialog::ExportDvdDialog(DocClipProject *proj, exportWidget *render_widg
     setTitle(page(2), i18n("Burning"));
     setFinishEnabled (page(2), false);
     finishButton ()->hide();
-
+    dvd_size->setTotalSteps(4700);
+    dvd_size->setFormat("%v M");
 
     dvd_standard->insertItem(i18n("PAL"));
     dvd_standard->insertItem(i18n("NTSC"));
@@ -152,7 +153,13 @@ void ExportDvdDialog::generateDvd() {
 	    main_ok->setPixmap(KGlobal::iconLoader()->loadIcon("1rightarrow", KIcon::Toolbar));
 	    m_render_widget->generateDvdFile(m_movie_file , timeFromString(chapter_list->firstChild()->text(1)), timeFromString(chapter_list->lastItem()->text(2)), m_format);
     }
-    else generateMenuMovie();
+    else {
+	uint dvdsize = 0;
+        QFileInfo movieInfo(render_file->url());
+        dvdsize = movieInfo.size();
+        dvd_size->setProgress(dvdsize / 1024000);
+	generateMenuMovie();
+    }
 }
 
 
@@ -182,6 +189,11 @@ void ExportDvdDialog::slotFinishExport(bool isOk) {
     main_ok->setPixmap(KGlobal::iconLoader()->loadIcon("button_ok", KIcon::Toolbar));
     render_file->setURL(m_movie_file);
     use_existing->setChecked(true);
+    uint dvdsize = 0;
+    QFileInfo movieInfo(render_file->url());
+    dvdsize = movieInfo.size();
+    dvd_size->setProgress(dvdsize / 1024000);
+    generateMenuMovie();
     //setEnabled(true);
     generateMenuMovie();
 }
@@ -312,6 +324,7 @@ void ExportDvdDialog::generateDvdXml() {
     }
     //button_generate->setEnabled(false);
 
+
     Timecode tc;
     QString chapterTimes;
     if (chapter_list->childCount() > 1) {
@@ -365,7 +378,7 @@ void ExportDvdDialog::generateDvdXml() {
 	pgc.appendChild(playButton);
 
 	QDomElement menuvob = doc.createElement("vob");	
-	menuvob.setAttribute("file", KdenliveSettings::currentdefaultfolder() + "/tmp/menu_final.vob");
+	menuvob.setAttribute("file", KdenliveSettings::currenttmpfolder() + "menu_final.vob");
 	pgc.appendChild(menuvob);
 
 	if (movie_background->isChecked()) {
@@ -431,7 +444,13 @@ void ExportDvdDialog::generateMenuMovie() {
     menu_ok->setPixmap(KGlobal::iconLoader()->loadIcon("1rightarrow", KIcon::Toolbar));
     if (create_menu->isChecked()) {
 
-    	if (KStandardDirs::findExe("convert") == QString::null) {
+    if (intro_movie->isChecked()) {
+	QFileInfo introInfo(intro_url->url());
+	uint dvdsize = introInfo.size();
+	dvd_size->setProgress(dvd_size->progress() + dvdsize / 1024000);
+    }
+
+    if (KStandardDirs::findExe("convert") == QString::null) {
 	    KMessageBox::sorry(this, i18n("You need the program \"convert\" which is included in ImageMagick to create DVD menus. Install ImageMagick if you want to make a DVD with menu"));
 	    showPage(page(1));
 	    create_menu->setChecked(false);
@@ -461,7 +480,7 @@ void ExportDvdDialog::generateMenuMovie() {
 	    gop = "18";
 	}
 
-	m_menu_movie_file = KdenliveSettings::currentdefaultfolder() + "/tmp/menu.vob";
+	m_menu_movie_file = KdenliveSettings::currenttmpfolder() + "menu.vob";
 	KProcess *p = new KProcess;
 	if (m_format == PAL_VIDEO) p->setEnvironment("MLT_NORMALISATION", "PAL");
     	else if (m_format == NTSC_VIDEO) p->setEnvironment("MLT_NORMALISATION", "NTSC");
@@ -476,7 +495,7 @@ void ExportDvdDialog::generateMenuMovie() {
 	    *p<<"in=0";
 	    *p<<"out=50";
 	    *p<<"-track";
-	    *p<<KdenliveSettings::currentdefaultfolder() + "/tmp/menu.png";
+	    *p<<KdenliveSettings::currenttmpfolder() + "menu.png";
 	    *p<<"aspect_ratio=" + aspect_ratio;
 	    *p<<"in=0";
 	    *p<<"out=50";
@@ -495,7 +514,7 @@ void ExportDvdDialog::generateMenuMovie() {
 	    *p<<"in=0";
 	    *p<<"out=50";
 	    *p<<"-track";
-	    *p<<KdenliveSettings::currentdefaultfolder() + "/tmp/menu.png";
+	    *p<<KdenliveSettings::currenttmpfolder() + "menu.png";
 	    *p<<"aspect_ratio=" + aspect_ratio;
 	    *p<<"in=0";
 	    *p<<"out=50";
@@ -512,7 +531,7 @@ void ExportDvdDialog::generateMenuMovie() {
 	    *p<<"in=0";
 	    *p<<"out=100";
 	    *p<<"-track";
-	    *p<<KdenliveSettings::currentdefaultfolder() + "/tmp/menu.png";
+	    *p<<KdenliveSettings::currenttmpfolder() + "menu.png";
 	    *p<<"aspect_ratio=" + aspect_ratio;
 	    *p<<"in=0";
 	    // TODO: Calculate movie duration
@@ -555,6 +574,9 @@ void ExportDvdDialog::generateMenuMovie() {
 void ExportDvdDialog::movieMenuDone(KProcess *p)
 {
     if (p->normalExit()) {
+	QFileInfo menuInfo(KdenliveSettings::currenttmpfolder() + "menu_final.vob");
+	uint dvdsize = menuInfo.size();
+	dvd_size->setProgress(dvd_size->progress() + dvdsize / 1024000);
 	generateMenuImages();
 	delete p;
     }
@@ -604,7 +626,6 @@ void ExportDvdDialog::generateMenuPreview()
 	p.drawText(0, 0, width, height, Qt::AlignHCenter | Qt::AlignVCenter,play_text->text());
 	p.flush();
 	p.end();
-	//pix.save(KdenliveSettings::currentdefaultfolder() + "/tmp/menu.png", "PNG");
 	QImage im = pix.convertToImage();
 	preview_pixmap->setPixmap(im.smoothScale(preview_pixmap->width() - 2, preview_pixmap->height() - 2));
 }
@@ -626,8 +647,8 @@ void ExportDvdDialog::generateMenuImages()
     spu.setAttribute("force", "yes");
     spu.setAttribute("transparent", "000000");
     //spu.setAttribute("image", KdenliveSettings::currentdefaultfolder() + "/tmp/menu.png");
-    spu.setAttribute("highlight", KdenliveSettings::currentdefaultfolder() + "/tmp/highlight.png");
-    spu.setAttribute("select", KdenliveSettings::currentdefaultfolder() + "/tmp/select.png");
+    spu.setAttribute("highlight", KdenliveSettings::currenttmpfolder() + "highlight.png");
+    spu.setAttribute("select", KdenliveSettings::currenttmpfolder() + "select.png");
     spu.setAttribute("autooutline", "infer");
     spu.setAttribute("outlinewidth", "20");
     spu.setAttribute("autoorder", "rows");
@@ -650,7 +671,7 @@ void ExportDvdDialog::generateMenuImages()
     *p<<"<";
     *p<<m_menu_movie_file;
     *p<<">";
-    *p<<QString(KdenliveSettings::currentdefaultfolder() + "/tmp/menu_final.vob");
+    *p<<QString(KdenliveSettings::currenttmpfolder() + "menu_final.vob");
     connect(p, SIGNAL(processExited(KProcess *)), this, SLOT(spuMenuDone(KProcess *)));
     connect(p, SIGNAL(receivedStderr (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));
     connect(p, SIGNAL(receivedStdout (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));
@@ -701,13 +722,13 @@ void ExportDvdDialog::generateImage(QString imageName, QString buttonText, QColo
  	im = pix.convertToImage();
 	im.setNumColors(1);
 	//im.convertDepth(1);
-	im.save(KdenliveSettings::currentdefaultfolder() + "/tmp/tmp_" + imageName, "PNG");
+	im.save(KdenliveSettings::currenttmpfolder() + "tmp_" + imageName, "PNG");
 	KProcess conv;
     	conv<<"convert";
-    	conv<<KdenliveSettings::currentdefaultfolder() + "/tmp/tmp_" + imageName;
+    	conv<<KdenliveSettings::currenttmpfolder() + "tmp_" + imageName;
 	conv<<"-colors";
 	conv<<"2";
-	conv<<KdenliveSettings::currentdefaultfolder() + "/tmp/" + imageName;
+	conv<<KdenliveSettings::currenttmpfolder() + imageName;
 	conv.start(KProcess::Block);
 }
 
@@ -745,7 +766,7 @@ void ExportDvdDialog::generateTranspImage(QString imageName, QString buttonText,
 
 	QImage im;
  	im = pix.convertToImage();
-	im.save(KdenliveSettings::currentdefaultfolder() + "/tmp/" + imageName, "PNG");
+	im.save(KdenliveSettings::currenttmpfolder() + imageName, "PNG");
 }
 
 void ExportDvdDialog::endExport(KProcess *)
