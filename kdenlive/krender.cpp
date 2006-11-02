@@ -222,7 +222,10 @@ char *KRender::decodedString(QString str)
 QPixmap KRender::extractFrame(int frame, int width, int height)
 {
     QPixmap pix(width, height);
-
+    if (!m_mltProducer) {
+	pix.fill(black);
+	return pix;
+    }
     Mlt::Producer * mlt_producer = new Mlt::Producer(m_mltProducer->get_producer());
     mlt_producer->seek(frame);
     Mlt::Filter m_convert("avcolour_space");
@@ -239,7 +242,8 @@ QPixmap KRender::extractFrame(int frame, int width, int height)
 	delete m_frame;
 	
 	if (!m_image.isNull())
-	    bitBlt(&pix, 1, 1, &m_image, 0, 0, width, height);
+	    //pix = m_image.smoothScale(width, height);
+	    bitBlt(&pix, 0, 0, &m_image, 0, 0, width, height);
     }
     delete mlt_producer;
     return pix;
@@ -308,15 +312,10 @@ void KRender::getImage(KURL url, int frame, int width, int height)
     if (m_frame) {
 	m_frame->set("rescale", "nearest");
 	uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, width - 2, height - 2, 1);
-        
-	//m_producer.set("thumb", m_thumb, width * height * 4, mlt_pool_release);
-        //m_frame->set("image", m_thumb, 0, NULL, NULL);
-
+	
 	QPixmap m_pixmap(width, height);
 	m_pixmap.fill(Qt::black);
-	QImage m_image(m_thumb, width - 2, height - 2, 32, 0, 0,
-	    QImage::IgnoreEndian);
-
+	QImage m_image(m_thumb, width, height, 32, 0, 0, QImage::IgnoreEndian);
 	delete m_frame;
 	if (!m_image.isNull())
 	    bitBlt(&m_pixmap, 1, 1, &m_image, 0, 0, width - 2, height - 2);
