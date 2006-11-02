@@ -1900,7 +1900,7 @@ namespace Gui {
     {
 	QPoint position = mousePosition();
 	int ix = 0;
-	if (KdenliveSettings::keyboardNavigation()) ix = m_timeline->selectedTrack();
+	if (KdenliveSettings::keyboardNavigation() && m_timeline->selectedTrack() != -1) ix = m_timeline->selectedTrack();
 	else {
 	    KTrackPanel *panel = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(position).y());
 	    if (!panel) {
@@ -1923,7 +1923,7 @@ namespace Gui {
     {
 	QPoint position = mousePosition();
 	int ix = 0;
-	if (KdenliveSettings::keyboardNavigation()) ix = m_timeline->selectedTrack();
+	if (KdenliveSettings::keyboardNavigation() && m_timeline->selectedTrack() != -1) ix = m_timeline->selectedTrack();
 	else {
 	    KTrackPanel *panel = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(position).y());
  	    if (panel) ix = panel->documentTrackIndex();
