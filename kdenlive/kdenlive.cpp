@@ -1222,6 +1222,8 @@ namespace Gui {
         }
         else if( e->type() == 10002) {
             // Timeline playing stopped
+	    PositionChangeEvent *ev = (PositionChangeEvent *)e;
+            m_monitorManager.activeMonitor()->screen()->positionChanged(ev->position());
             m_workspaceMonitor->screen()->slotPlayingStopped();
         }
         else if( e->type() == 10003) {

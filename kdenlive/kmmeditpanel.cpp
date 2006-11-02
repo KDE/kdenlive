@@ -253,6 +253,7 @@ namespace Gui {
     
     void KMMEditPanel::togglePlay() {
 	m_playSelected = false;
+	m_loop = false;
 	if (isPlaying()) {
 	    setPlaying(false);
 	} else {
@@ -362,7 +363,7 @@ namespace Gui {
 	} else {
 	    if (m_pauseMode == true) {
 		emit playSpeedChanged(playSpeed, point());
-	    } else
+	    } else 
 		emit playSpeedChanged(playSpeed);
         }
 	updateButtons();

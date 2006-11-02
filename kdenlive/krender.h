@@ -188,7 +188,6 @@ class KRender:public QObject {
      QTimer *refreshTimer;
      bool m_isRendering;
      QString m_renderingFormat;
-     bool isPlaying;
      int exportDuration, firstExportFrame, lastExportFrame;
 
 
