@@ -453,6 +453,9 @@ namespace Gui {
 	void slotNewProject(QString *newProjectName, KURL *fileUrl, int *videoTracks, int *audioTracks, bool byPass = false);
 	QString easyName(VIDEOFORMAT format);
 	void selectClipUnderCursor();
+	void slotAddAudioEffect(int ix);
+	void slotAddVideoEffect(int ix);
+
 
       private:
 		/** the configuration object of the application */
@@ -537,6 +540,8 @@ namespace Gui {
 	KAction *configureProject;
 	QPopupMenu *m_timelinePopupMenu;
 	QPopupMenu *m_rulerPopupMenu;
+	QPopupMenu *videoEffectsMenu;
+	QPopupMenu *audioEffectsMenu;
 
         KdenliveSplash *splash;
 
@@ -600,7 +605,6 @@ namespace Gui {
 		/** Generates commands to clears all snap markers in clips directly referenced in the project clip. The commands are added to
 		// the macroCommand. selectedClips determines whether this uses selectedClips or unselectedClips */
 	void populateClearSnapMarkers(KMacroCommand * macroCommand, DocClipProject & clip, bool selectedClips);
-
 
     };
 

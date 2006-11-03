@@ -77,6 +77,7 @@
 #include "clippropertiesdialog.h"
 #include "exportdialog.h"
 #include "kaddclipcommand.h"
+#include "kaddeffectcommand.h"
 #include "kaddavfilecommand.h"
 #include "kaddmarkercommand.h"
 #include "kaddrefclipcommand.h"
@@ -171,6 +172,26 @@ namespace Gui {
 
 	initEffects::initializeEffects( &m_effectList );
 
+	// init effects menu
+	audioEffectsMenu = new QPopupMenu;
+	videoEffectsMenu = new QPopupMenu;
+	QPtrListIterator < EffectDesc > itt(m_effectList);
+	while (itt.current()) {
+	    if (itt.current()->type() == "video") {
+		videoEffectsMenu->insertItem( itt.current()->name() );
+	    }
+	    else audioEffectsMenu->insertItem( itt.current()->name() );
+	    ++itt;
+	}
+
+	((QPopupMenu *) factory()->container("timeline_clip_context", this))->insertItem(i18n("Video Effects"), videoEffectsMenu);
+	((QPopupMenu *) factory()->container("timeline_clip_context", this))->insertItem(i18n("Audio Effects"), audioEffectsMenu);
+
+	connect(audioEffectsMenu, SIGNAL(activated(int)), this, SLOT(slotAddAudioEffect(int)));
+
+	connect(videoEffectsMenu, SIGNAL(activated(int)), this, SLOT(slotAddVideoEffect(int)));
+	
+
 	initDocument(videoTracks, audioTracks);
 
 	initWidgets();
@@ -236,6 +257,28 @@ namespace Gui {
     const EffectDescriptionList & KdenliveApp::effectList() const
     {
 	return m_effectList;
+    }
+
+    void KdenliveApp::slotAddVideoEffect(int ix)
+    {
+	DocClipRef *clip = getDocument()->projectClip().selectedClip();
+	if (!clip) return;
+	QString effectName = videoEffectsMenu->text(ix);
+	Effect *effect = effectList().effectDescription(effectName)->createEffect(effectName);
+	addCommand(Command::KAddEffectCommand::insertEffect(getDocument(), clip, clip->numEffects(), effect));
+	m_effectStackDialog->slotSetEffectStack(clip);
+	getDocument()->activateSceneListGeneration(true);
+    }
+
+    void KdenliveApp::slotAddAudioEffect(int ix)
+    {
+	DocClipRef *clip = getDocument()->projectClip().selectedClip();
+	if (!clip) return;
+	QString effectName = audioEffectsMenu->text(ix);
+	Effect *effect = effectList().effectDescription(effectName)->createEffect(effectName);
+	addCommand(Command::KAddEffectCommand::insertEffect(getDocument(), clip, clip->numEffects(), effect));
+	m_effectStackDialog->slotSetEffectStack(clip);
+	getDocument()->activateSceneListGeneration(true);
     }
 
     void KdenliveApp::slotAutoSave()
@@ -917,8 +960,7 @@ namespace Gui {
 
 	if (m_effectListDialog) delete m_effectListDialog;
 	m_effectListDialog =
-	    new EffectListDialog(getDocument()->renderer()->effectList(),
-	    m_timelineWidget, "effect list");
+	    new EffectListDialog(effectList(), m_timelineWidget, "effect list");
 	m_dockEffectList->setWidget(m_effectListDialog);
 	m_effectListDialog->show();
 	m_dockEffectList->update();
@@ -1851,7 +1893,7 @@ namespace Gui {
 	slotStatusMsg(i18n("Copying clip %1.").arg(getDocument()->projectClip().selectedClip()->name()));
 	editPaste->setEnabled(true);
 	if (m_copiedClip) delete m_copiedClip; 
-	m_copiedClip = getDocument()->projectClip().selectedClip()->clone(getDocument()->effectDescriptions(), getDocument()->clipManager());
+	m_copiedClip = getDocument()->projectClip().selectedClip()->clone(effectList(), getDocument()->clipManager());
 	slotStatusMsg(i18n("Ready."));
     }
 
@@ -1864,7 +1906,7 @@ namespace Gui {
 	slotStatusMsg(i18n("Cutting clip %1.").arg(getDocument()->projectClip().selectedClip()->name()));
 	editPaste->setEnabled(true);
 	if (m_copiedClip) delete m_copiedClip;
-	m_copiedClip = getDocument()->projectClip().selectedClip()->clone(getDocument()->effectDescriptions(), getDocument()->clipManager());
+	m_copiedClip = getDocument()->projectClip().selectedClip()->clone(effectList(), getDocument()->clipManager());
 	slotDeleteSelected();
 	slotStatusMsg(i18n("Ready."));
     }
@@ -1881,7 +1923,7 @@ namespace Gui {
 
 	GenTime insertTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(position).x());
 
-	DocClipRef *m_pastedClip = m_copiedClip->clone(getDocument()->effectDescriptions(), getDocument()->clipManager());
+	DocClipRef *m_pastedClip = m_copiedClip->clone(effectList(), getDocument()->clipManager());
 
 	DocClipRefList selectedClip;
 	selectedClip.append(m_pastedClip);
@@ -2534,8 +2576,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
 		while (itt.current()) {
 		    Command::KAddRefClipCommand * command =
-			new Command::KAddRefClipCommand(m_doc->
-			effectDescriptions(), m_doc->clipManager(),
+			new Command::KAddRefClipCommand(effectList(), m_doc->clipManager(),
 			&(m_doc->projectClip()), itt.current(), false);
 			if (m_transitionPanel->belongsToClip(itt.current())) m_transitionPanel->setTransition(0);
 		    macroCommand->addCommand(command);
@@ -2928,7 +2969,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
     void KdenliveApp::slot_moveClips(QDropEvent * event, QListViewItem * parent) {
 	DocClipRefList clips =
-	    ClipDrag::decode(getDocument()->effectDescriptions(),
+	    ClipDrag::decode(effectList(),
 	    getDocument()->clipManager(), event);
 
 	clips.setAutoDelete(true);
@@ -2968,7 +3009,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    return;
 	}
 	DocClipRefList clips =
-	    ClipDrag::decode(getDocument()->effectDescriptions(),
+	    ClipDrag::decode(effectList(),
 	    getDocument()->clipManager(), event);
 
 	clips.setAutoDelete(true);
@@ -3106,7 +3147,6 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	DocTrackBase *track = getDocument()->track(ix);
 	GenTime mouseTime;
 	mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(QCursor::pos()).x());
-
 	DocClipRef *clip = track->getClipAt(mouseTime);
 	if (clip) {
           // select clip under mouse
