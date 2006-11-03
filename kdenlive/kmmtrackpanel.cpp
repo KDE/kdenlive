@@ -43,6 +43,7 @@ namespace Gui {
 
     void KMMTrackPanel::contextMenuEvent( QContextMenuEvent *e) {
 	timeline()->slotHeaderRightButtonPressed();
+	timeline()->selectTrack(documentTrackIndex());
 	e->accept();
     }
 

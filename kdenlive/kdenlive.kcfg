@@ -35,11 +35,6 @@
       <default>true</default>
     </entry>
 
-    <entry name="keyboardNavigation" type="Bool">
-      <label>Enable advanced keyboard navigation.</label>
-      <default>false</default>
-    </entry>
-
     <entry name="horizontalmouse" type="Bool">
       <label>Mouse Wheel moves timeline horizontally.</label>
       <default>true</default>

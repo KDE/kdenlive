@@ -60,7 +60,7 @@ namespace Gui {
 	QWidget * scrollToolWidget, QWidget * parent,
 	const char *name):QVBox(parent, name), m_scrollTimer(this,
 	"scroll timer"), m_scrollingRight(true), m_framesPerSecond(KdenliveSettings::defaultfps()),
-	m_editMode("undefined"), m_panelWidth(140), m_selectedTrack(-1) {
+	m_editMode("undefined"), m_panelWidth(140), m_selectedTrack(0) {
 	m_rulerBox = new QHBox(this, "ruler box");
         m_trackScroll = new QScrollView(this, "track view", WPaintClever);
 	m_scrollBox = new QHBox(this, "scroll box");
@@ -348,6 +348,23 @@ the display. The scale is the size of one frame.*/
 			m_trackScroll->ensureVisible ( localSeekPosition(), panel->y() - 2000);
 			isSelected = true;
 		}
+		panel->setSelected(isSelected);
+		panel = m_trackList.next();
+	}
+    }
+
+    void KTimeLine::selectTrack(int ix) {
+	int prev_track = m_selectedTrack;
+	m_selectedTrack = ix;
+	drawTrackViewBackBuffer(0, trackList().count() - 1);
+	/*if (prev_track < ix) drawTrackViewBackBuffer(prev_track, ix - prev_track);
+	else drawTrackViewBackBuffer(ix, prev_track - ix);*/
+
+	KTrackPanel *panel = m_trackList.first();
+	while (panel) {
+		bool isSelected = false;
+		if (panel->documentTrackIndex() == m_selectedTrack)
+			isSelected = true;
 		panel->setSelected(isSelected);
 		panel = m_trackList.next();
 	}

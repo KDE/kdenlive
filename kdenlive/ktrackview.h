@@ -79,7 +79,7 @@ namespace Gui {
 	const QString & editMode, QMouseEvent * event);
 	int m_startTrack;
 	int m_endTrack;
-
+	QColor m_selectedColor;
 	QPixmap m_backBuffer;
 	 KTimeLine & m_timeline;
 	/** True if the back buffer needs to be redrawn. */

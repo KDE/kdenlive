@@ -86,6 +86,7 @@ namespace Command {
 	int selectedTrack();
 	void selectNextTrack();
 	void selectPreviousTrack();
+        void selectTrack(int ix);
 
 	//Returns the inpoint/outpoing position of the timeline
 	GenTime inpointPosition() const;

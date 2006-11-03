@@ -44,6 +44,7 @@ namespace Gui {
 	m_bufferInvalid = false;
 	m_startTrack = 0;
 	m_endTrack = -1;
+	m_selectedColor = palette().active().background().dark(115);
 	setAcceptDrops(true);
 	trackview_tips = new DynamicToolTip(this);
     } 
@@ -168,7 +169,7 @@ namespace Gui {
 	    if (panel->trackType() == KEYFRAMETRACK) // white background on transition track
 		painter.fillRect(rect, palette().active().light());
 	    else {
-		if (panel->documentTrackIndex() == m_timeline.selectedTrack()) painter.fillRect(rect, palette().active().highlight());
+		if (panel->documentTrackIndex() == m_timeline.selectedTrack()) painter.fillRect(rect, m_selectedColor);
 		else painter.fillRect(rect, palette().active().background());
 		painter.setPen(QColor(Qt::gray));
 		painter.drawLine(0, y, width(), y); // gray line between the tracks
@@ -227,7 +228,7 @@ namespace Gui {
 	    if (panel->trackType() == KEYFRAMETRACK) // white background on transition track
 		painter.fillRect(rect, palette().active().light());
 	    else {
-		if (panel->documentTrackIndex() == m_timeline.selectedTrack()) painter.fillRect(rect, palette().active().highlight());
+		if (panel->documentTrackIndex() == m_timeline.selectedTrack()) painter.fillRect(rect, m_selectedColor);
 		else painter.fillRect(rect, palette().active().background());
 		painter.setPen(QColor(Qt::gray));
 		painter.drawLine(sx, y, ex, y); // gray line between the tracks

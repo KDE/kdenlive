@@ -14,6 +14,8 @@
 	<Action name="move_current"/>
 	<Action name="move_up"/>
 	<Action name="move_down"/>
+	<Action name="select_current"/>	
+	<Action name="clip_auto_select"/>	
 	<Separator lineSeperator="true"/>
 	<Action name="next_track"/>
 	<Action name="prev_track"/>

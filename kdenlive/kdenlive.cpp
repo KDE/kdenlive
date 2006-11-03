@@ -666,6 +666,13 @@ namespace Gui {
         SLOT(slotSelectPreviousTrack()), actionCollection(),
         "prev_track");
 
+        (void) new KAction(i18n("Select Clip Under Cursor"), 0, this,
+        SLOT(selectClipUnderCursor()), actionCollection(),
+        "select_current");
+
+	clipAutoSelect = new KToggleAction(i18n("Clip Auto Selection"), 0, 0,
+	    this, SLOT(slotTimelineSnapToFrame()), actionCollection(),
+	    "clip_auto_select");
 
         KAction *editClip = new KAction(i18n("Edit Clip"), 0, this,
         SLOT(slotProjectEditClip()), actionCollection(),
@@ -1331,11 +1338,8 @@ namespace Gui {
     }
 
     void KdenliveApp::slotSelectPreviousTrack() {
-	if (KdenliveSettings::keyboardNavigation()) {
-	    m_timeline->selectPreviousTrack();
-	    selectClipUnderCursor();
-	}
-	else KPassivePopup::message(i18n("Enable Keyboard Navigation in Kdenlive Settings if you want to use this feature"), this);
+	m_timeline->selectPreviousTrack();
+	if (clipAutoSelect->isChecked()) selectClipUnderCursor();
     }
 
 
@@ -1371,11 +1375,8 @@ namespace Gui {
     }
 
     void KdenliveApp::slotSelectNextTrack() {
-	if (KdenliveSettings::keyboardNavigation()) {
-	    m_timeline->selectNextTrack();
-	    selectClipUnderCursor();
-	}
-	else KPassivePopup::message(i18n("Enable Keyboard Navigation in Kdenlive Settings if you want to use this feature"), this);
+	m_timeline->selectNextTrack();
+	if (clipAutoSelect->isChecked()) selectClipUnderCursor();
     }
 
     void KdenliveApp::openDocumentFile(const KURL & url) {
@@ -1901,9 +1902,8 @@ namespace Gui {
     void KdenliveApp::slotDeleteTrack()
     {
 	QPoint position = mousePosition();
-	int ix = 0;
-	if (KdenliveSettings::keyboardNavigation() && m_timeline->selectedTrack() != -1) ix = m_timeline->selectedTrack();
-	else {
+	int ix = m_timeline->selectedTrack();
+	/*else {
 	    KTrackPanel *panel = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(position).y());
 	    if (!panel) {
 	    	bool ok;
@@ -1913,7 +1913,7 @@ namespace Gui {
 	    else {
 	    	ix = panel->documentTrackIndex();
 	    }
-	}
+	}*/
 	if (KMessageBox::warningContinueCancel(this, i18n("Remove track %1 ?\nThis will remove all clips on that track.").arg(ix),i18n("Delete Track")) != KMessageBox::Continue) return;
 	//kdDebug()<<"+++++++++++++++++++++  ASK TRACK DELETION: "<<ix<<endl;
 	addCommand(Command::KAddRefClipCommand::deleteAllTrackClips(getDocument(), ix));
@@ -1924,12 +1924,11 @@ namespace Gui {
     void KdenliveApp::slotAddTrack()
     {
 	QPoint position = mousePosition();
-	int ix = 0;
-	if (KdenliveSettings::keyboardNavigation() && m_timeline->selectedTrack() != -1) ix = m_timeline->selectedTrack();
-	else {
+	int ix = m_timeline->selectedTrack();
+	/*else {
 	    KTrackPanel *panel = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(position).y());
  	    if (panel) ix = panel->documentTrackIndex();
-	}
+	}*/
 	addTrackDialog_UI *addTrack = new addTrackDialog_UI(this);
 	addTrack->setCaption(i18n("Add Track"));
 	addTrack->trackNumber->setValue(ix);
@@ -2665,7 +2664,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		seekPosition() + GenTime(1,
 		    getDocument()->framesPerSecond()));
 	    m_timeline->ensureCursorVisible();
-	    if (KdenliveSettings::keyboardNavigation()) selectClipUnderCursor();
+	    if (clipAutoSelect->isChecked()) selectClipUnderCursor();
 	}
     }
 
@@ -2677,7 +2676,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		seekPosition() - GenTime(1,
 		    getDocument()->framesPerSecond()));
 	    m_timeline->ensureCursorVisible();
-	    if (KdenliveSettings::keyboardNavigation()) selectClipUnderCursor();
+	    if (clipAutoSelect->isChecked()) selectClipUnderCursor();
 	}
     }
     
@@ -2687,7 +2686,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                     seek(m_doc->toSnapTime(m_monitorManager.activeMonitor()->screen()->
                     seekPosition()));
 	    m_timeline->ensureCursorVisible();
-	    if (KdenliveSettings::keyboardNavigation()) selectClipUnderCursor();
+	    if (clipAutoSelect->isChecked()) selectClipUnderCursor();
         }
     }
 
@@ -2697,7 +2696,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                     seek(m_doc->toSnapTime(m_monitorManager.activeMonitor()->screen()->
                     seekPosition(), false));
 	    m_timeline->ensureCursorVisible();
-	    if (KdenliveSettings::keyboardNavigation()) selectClipUnderCursor();
+	    if (clipAutoSelect->isChecked()) selectClipUnderCursor();
         }
     }
 
@@ -2708,7 +2707,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                     seekPosition() + GenTime((int) getDocument()->framesPerSecond(),
             getDocument()->framesPerSecond()));
 	    m_timeline->ensureCursorVisible();
-	    if (KdenliveSettings::keyboardNavigation()) selectClipUnderCursor();
+	    if (clipAutoSelect->isChecked()) selectClipUnderCursor();
         }
     }
 
@@ -2719,7 +2718,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                     seekPosition() - GenTime((int) getDocument()->framesPerSecond(),
             getDocument()->framesPerSecond()));
 	    m_timeline->ensureCursorVisible();
-	    if (KdenliveSettings::keyboardNavigation()) selectClipUnderCursor();
+	    if (clipAutoSelect->isChecked()) selectClipUnderCursor();
         }
     }
 
@@ -2727,7 +2726,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
         if (m_monitorManager.hasActiveMonitor()) {
             m_monitorManager.activeMonitor()->editPanel()->seek(GenTime(0.0));
 	    m_timeline->ensureCursorVisible();
-	    if (KdenliveSettings::keyboardNavigation()) selectClipUnderCursor();
+	    if (clipAutoSelect->isChecked()) selectClipUnderCursor();
 	}
     }
 
@@ -2735,7 +2734,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
         if (m_monitorManager.hasActiveMonitor()) {
             m_monitorManager.activeMonitor()->editPanel()->seek(m_doc->projectClip().duration());
 	    m_timeline->ensureCursorVisible();
-	    if (KdenliveSettings::keyboardNavigation()) selectClipUnderCursor();
+	    if (clipAutoSelect->isChecked()) selectClipUnderCursor();
 	}
     }
 
@@ -3103,9 +3102,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     }
 
     void KdenliveApp::slotDisplayTimeLineContextMenu() {
-
 	int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(QCursor::pos()).y())->documentTrackIndex();
-
 	DocTrackBase *track = getDocument()->track(ix);
 	GenTime mouseTime;
 	mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(QCursor::pos()).x());

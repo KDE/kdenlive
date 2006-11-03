@@ -67,14 +67,6 @@
                 <string>Show splash screen</string>
             </property>
         </widget>
-        <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="3">
-            <property name="name">
-                <cstring>kcfg_keyboardNavigation</cstring>
-            </property>
-            <property name="text">
-                <string>Use keyboard navigation in timeline</string>
-            </property>
-        </widget>
         <spacer row="5" column="0">
             <property name="name">
                 <cstring>spacer2</cstring>

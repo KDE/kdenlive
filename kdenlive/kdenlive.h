@@ -521,6 +521,7 @@ namespace Gui {
 	KToggleAction *timelineSnapToFrame;
 	KToggleAction *timelineSnapToBorder;
 	KToggleAction *timelineSnapToMarker;
+	KToggleAction *clipAutoSelect;
         
         KToggleAction *showClipMonitor;
         KToggleAction *showWorkspaceMonitor;
