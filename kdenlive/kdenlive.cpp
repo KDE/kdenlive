@@ -2820,8 +2820,10 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	DocClipRef *clip = track->getClipAt(getDocument()->renderer()->seekPosition());
 	if (!clip) return;
 	if (clip == getDocument()->projectClip().selectedClip()) return;
-        addCommand(Command::KSelectClipCommand::selectNone(getDocument()), true);
-	track->selectClip(clip, true);
+	KMacroCommand *macroCommand = new KMacroCommand(i18n("Select Clip"));
+	macroCommand->addCommand(Command::KSelectClipCommand::selectNone(getDocument()));
+	macroCommand->addCommand(new Command::KSelectClipCommand(getDocument(), clip, true));
+	addCommand(macroCommand, true);
     }
 
 /** Returns the render manager. */
@@ -3147,9 +3149,12 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	DocClipRef *clip = track->getClipAt(mouseTime);
 	if (clip) {
           // select clip under mouse
-          addCommand(Command::KSelectClipCommand::selectNone(getDocument()), true);
-          addCommand(Command::KSelectClipCommand::selectClipAt(getDocument(), *track, mouseTime),        true);
-          //track->selectClip(clip, true);
+	  if (clip != getDocument()->projectClip().selectedClip()) {
+	  	KMacroCommand *macroCommand = new KMacroCommand(i18n("Select Clip"));
+	  	macroCommand->addCommand(Command::KSelectClipCommand::selectNone(getDocument()));
+	  	macroCommand->addCommand(new Command::KSelectClipCommand(getDocument(), clip, true));
+	  	addCommand(macroCommand, true);
+	  }
           m_timelinePopupMenu = (QPopupMenu *) factory()->container("timeline_clip_context", this);
 	}
 	else m_timelinePopupMenu = (QPopupMenu *) factory()->container("timeline_context", this);
