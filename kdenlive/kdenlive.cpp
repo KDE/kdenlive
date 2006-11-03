@@ -173,8 +173,8 @@ namespace Gui {
 	initEffects::initializeEffects( &m_effectList );
 
 	// init effects menu
-	audioEffectsMenu = new QPopupMenu;
-	videoEffectsMenu = new QPopupMenu;
+	audioEffectsMenu = ((QPopupMenu *) factory()->container("audio_effect", this));
+	videoEffectsMenu = ((QPopupMenu *) factory()->container("video_effect", this));
 	QPtrListIterator < EffectDesc > itt(m_effectList);
 	while (itt.current()) {
 	    if (itt.current()->type() == "video") {
@@ -184,13 +184,8 @@ namespace Gui {
 	    ++itt;
 	}
 
-	((QPopupMenu *) factory()->container("timeline_clip_context", this))->insertItem(i18n("Video Effects"), videoEffectsMenu);
-	((QPopupMenu *) factory()->container("timeline_clip_context", this))->insertItem(i18n("Audio Effects"), audioEffectsMenu);
-
 	connect(audioEffectsMenu, SIGNAL(activated(int)), this, SLOT(slotAddAudioEffect(int)));
-
 	connect(videoEffectsMenu, SIGNAL(activated(int)), this, SLOT(slotAddVideoEffect(int)));
-	
 
 	initDocument(videoTracks, audioTracks);
 
@@ -267,6 +262,7 @@ namespace Gui {
 	Effect *effect = effectList().effectDescription(effectName)->createEffect(effectName);
 	addCommand(Command::KAddEffectCommand::insertEffect(getDocument(), clip, clip->numEffects(), effect));
 	m_effectStackDialog->slotSetEffectStack(clip);
+	makeDockVisible(m_dockEffectStack);
 	getDocument()->activateSceneListGeneration(true);
     }
 
@@ -278,6 +274,7 @@ namespace Gui {
 	Effect *effect = effectList().effectDescription(effectName)->createEffect(effectName);
 	addCommand(Command::KAddEffectCommand::insertEffect(getDocument(), clip, clip->numEffects(), effect));
 	m_effectStackDialog->slotSetEffectStack(clip);
+	makeDockVisible(m_dockEffectStack);
 	getDocument()->activateSceneListGeneration(true);
     }
 

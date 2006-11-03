@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kdenlive" version="11">
+<kpartgui name="kdenlive" version="12">
 <MenuBar>
   <Menu name="file">
         <Action name="export_current_frame"/>
@@ -211,29 +211,16 @@
   <Action name="add_transition"/>
   <Action name="del_transition"/>
   <Separator lineSeparator="true"/>
+  <Menu name="video_effect"><text>Add Video Effect</text>
+  </Menu>
+  <Menu name="audio_effect"><text>Add Audio Effect</text>
+  </Menu>
+  <Separator lineSeparator="true"/>
   <Action name="edit_copy"/>
   <Action name="edit_cut"/>
-  <Separator lineSeparator="true"/>
-  <Menu name="tools"><text>Tools</text>
-    <Action name="timeline_move_tool"/>
-    <Action name="timeline_razor_tool"/>
-    <Action name="timeline_spacer_tool"/>
-    <Action name="timeline_marker_tool"/>
-    <Action name="timeline_roll_tool"/>
-  </Menu>
-  <Menu name="snap"><text>Snap To</text>
-    <Action name="timeline_snap_frame"/>
-    <Action name="timeline_snap_border"/>
-    <Action name="timeline_snap_marker"/>
-  </Menu>
-  <Separator lineSeparator="true"/>
-  <Action name="razor_selected_clips"/>
-  <Action name="razor_all_clips"/>
-  <Separator lineSeparator="true"/>
-  <Action name="clear_all_snap_markers"/>
-  <Action name="clear_snap_markers_from_selected"/>
-  <Separator lineSeparator="true"/>
   <Action name="delete_selected_clips"/>
+  <Action name="razor_selected_clips"/>
+  <Action name="clear_snap_markers_from_selected"/>
   <Separator lineSeparator="true"/>
   <Action name="project_edit_clip"/>
 </Menu>
