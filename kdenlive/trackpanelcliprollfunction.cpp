@@ -127,42 +127,24 @@ bool TrackPanelClipRollFunction::mousePressed(Gui::KTrackPanel * panel,
 		    m_resizeState = End;
 		}
 
-		m_app->
-		    addCommand(Command::KSelectClipCommand::
-		    selectNone(m_document), true);
+		KMacroCommand *macroCommand = new KMacroCommand(i18n("Select Clip"));
+		macroCommand->addCommand(Command::KSelectClipCommand::selectNone(m_document));
 		//select both clips simultaneously
+
 		GenTime beforeTime(1, m_document->framesPerSecond());
 		if (m_resizeState == Start) {
-		    m_app->
-			addCommand(Command::KSelectClipCommand::
-			selectClipAt(m_document, *track,
-			    (m_clipUnderMouse->trackStart() +
-				beforeTime)));
+	  	    macroCommand->addCommand(Command::KSelectClipCommand::selectClipAt(m_document, *track, m_clipUnderMouse->trackStart() + beforeTime));
+	  	    macroCommand->addCommand(Command::KSelectClipCommand::selectClipAt(m_document, *track, m_clipUnderMouse->trackStart() - beforeTime));
 
-
-		    m_app->
-			addCommand(Command::KSelectClipCommand::
-			selectClipAt(m_document, *track,
-			    (m_clipUnderMouse->trackStart() -
-				beforeTime)));
-		    m_clipBeforeMouse =
-			track->getClipAt(GenTime(m_clipUnderMouse->
-			    trackStart() - beforeTime));
+		    m_clipBeforeMouse = track->getClipAt(GenTime(m_clipUnderMouse->trackStart() - beforeTime));
 		}
 		if (m_resizeState == End) {
-		    m_app->
-			addCommand(Command::KSelectClipCommand::
-			selectClipAt(m_document, *track,
-			    (m_clipUnderMouse->trackEnd() + beforeTime)));
-		    m_clipAfterMouse =
-			track->getClipAt(GenTime(m_clipUnderMouse->
-			    trackEnd() + beforeTime));
+	  	    macroCommand->addCommand(Command::KSelectClipCommand::selectClipAt(m_document, *track, m_clipUnderMouse->trackEnd() + beforeTime));
+	  	    macroCommand->addCommand(Command::KSelectClipCommand::selectClipAt(m_document, *track, m_clipUnderMouse->trackEnd() - beforeTime));
+		    m_clipAfterMouse = track->getClipAt(GenTime(m_clipUnderMouse->trackEnd() + beforeTime));
 
-		    m_app->
-			addCommand(Command::KSelectClipCommand::
-			selectClipAt(m_document, *track,
-			    (m_clipUnderMouse->trackEnd() - beforeTime)));
 		}
+		m_app->addCommand(macroCommand, true);
 		m_snapToGrid.clearSnapList();
 		if (m_timeline->snapToSeekTime())
 		    m_snapToGrid.addToSnapList(m_timeline->seekPosition());
@@ -213,12 +195,9 @@ bool TrackPanelClipRollFunction::mouseReleased(Gui::KTrackPanel * panel,
 {
     bool result = false;
 
-    if (m_clipBeforeMouse) {
-	m_rollCommand->setEndSize(*m_clipUnderMouse, *m_clipBeforeMouse);
-    }
-    if (m_clipAfterMouse) {
-	m_rollCommand->setEndSize(*m_clipUnderMouse, *m_clipAfterMouse);
-    }
+    if (m_resizeState == Start) m_rollCommand->setEndSize(*m_clipUnderMouse, *m_clipBeforeMouse);
+    else m_rollCommand->setEndSize(*m_clipUnderMouse, *m_clipAfterMouse);
+
     m_app->addCommand(m_rollCommand, false);
     m_document->indirectlyModified();
     m_rollCommand = 0;

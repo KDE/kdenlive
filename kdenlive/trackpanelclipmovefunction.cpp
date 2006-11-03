@@ -102,8 +102,10 @@ bool TrackPanelClipMoveFunction::mousePressed(Gui::KTrackPanel * panel,
 		}
 		else {
 		    if (!track->clipSelected(m_clipUnderMouse)) {
-		        m_app->addCommand(Command::KSelectClipCommand::selectNone(m_document), true);
-                        m_app->addCommand(Command::KSelectClipCommand::selectClipAt(m_document, *track, mouseTime), true);
+	  	        KMacroCommand *macroCommand = new KMacroCommand(i18n("Select Clip"));
+	  	        macroCommand->addCommand(Command::KSelectClipCommand::selectNone(m_document));
+	  	        macroCommand->addCommand(new Command::KSelectClipCommand(m_document, m_clipUnderMouse, true));
+	  	        m_app->addCommand(macroCommand, true);
 		    }
 		}
 		result = true;
@@ -158,13 +160,10 @@ bool TrackPanelClipMoveFunction::mouseMoved(Gui::KTrackPanel * panel,
 				selectClipAt(m_document, *track,
 				    mouseTime), true);
 			} else {
-			    m_app->
-				addCommand(Command::KSelectClipCommand::
-				selectNone(m_document), true);
-			    m_app->
-				addCommand(Command::KSelectClipCommand::
-				selectClipAt(m_document, *track,
-				    mouseTime), true);
+	  	    	    KMacroCommand *macroCommand = new KMacroCommand(i18n("Select Clip"));
+	  	    	    macroCommand->addCommand(Command::KSelectClipCommand::selectNone(m_document));
+	  	    	    macroCommand->addCommand(new Command::KSelectClipCommand(m_document, m_clipUnderMouse, true));
+	  	    	    m_app->addCommand(macroCommand, true);
 			}
 		    }
 		    m_dragging = true;

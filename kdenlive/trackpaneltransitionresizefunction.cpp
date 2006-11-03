@@ -135,15 +135,11 @@ bool TrackPanelTransitionResizeFunction::mousePressed(Gui::KTrackPanel * panel,
                 m_selectedTransition = ix;
                 if (m_resizeState == None ) return false;
                 //m_selectedTransition = (*itt)->clone();
-                        m_app->
-		    addCommand(Command::KSelectClipCommand::
-                                selectNone(m_document), true);
 
-                        m_app->
-		    addCommand(Command::KSelectClipCommand::
-                                selectClipAt(m_document, *track,
-                                             (m_clipUnderMouse->trackStart() +
-                                                     m_clipUnderMouse->trackEnd()) / 2.0));
+   	  	    KMacroCommand *macroCommand = new KMacroCommand(i18n("Select Clip"));
+	  	    macroCommand->addCommand(Command::KSelectClipCommand::selectNone(m_document));
+	  	    macroCommand->addCommand(new Command::KSelectClipCommand(m_document, m_clipUnderMouse, true));
+	  	    m_app->addCommand(macroCommand, true);
 
                         m_snapToGrid.clearSnapList();
                         if (m_timeline->snapToSeekTime())
@@ -191,20 +187,6 @@ bool TrackPanelTransitionResizeFunction::mouseReleased(Gui::KTrackPanel * panel,
     m_dragStarted = false;
     m_selectedTransition = 0;
     emit transitionChanged(true);
-    // Select the keyframe
-    /*
-    Effect *effect = m_clipUnderMouse->selectedEffect();
-    uint effectIndex = 0;
-    effect->parameter(effectIndex)->
-	setSelectedKeyFrame(m_selectedKeyframe);
-    */
-    //emit redrawTrack();
-
-/*	m_resizeCommand->setEndSize(*m_clipUnderMouse);
-	m_app->addCommand(m_resizeCommand, false);
-	m_document->indirectlyModified();
-	m_resizeCommand = 0;*/
-
     result = true;
     return result;
 }

@@ -105,9 +105,10 @@ bool TrackPanelClipResizeFunction::mousePressed(Gui::KTrackPanel * panel,
 		    m_resizeState = End;
 		}
 		if (!track->clipSelected(m_clipUnderMouse)) {
-		    m_app->addCommand(Command::KSelectClipCommand::selectNone(m_document), true);
-
-		    m_app->addCommand(Command::KSelectClipCommand::selectClipAt(m_document, *track, (m_clipUnderMouse->trackStart() + m_clipUnderMouse->trackEnd()) / 2.0));
+	  	    KMacroCommand *macroCommand = new KMacroCommand(i18n("Select Clip"));
+	  	    macroCommand->addCommand(Command::KSelectClipCommand::selectNone(m_document));
+	  	    macroCommand->addCommand(new Command::KSelectClipCommand(m_document, m_clipUnderMouse, true));
+	  	    m_app->addCommand(macroCommand, true);
 		}
 
 		m_snapToGrid.clearSnapList();

@@ -195,19 +195,6 @@ bool TrackPanelTransitionMoveFunction::mouseReleased(Gui::KTrackPanel * panel,
     m_selectedTransition = 0;
     m_dragging = false;
     emit transitionChanged(true);
-    // Select the keyframe
-    /*
-    Effect *effect = m_clipUnderMouse->selectedEffect();
-    uint effectIndex = 0;
-    effect->parameter(effectIndex)->
-	setSelectedKeyFrame(m_selectedKeyframe);
-    */
-    //emit redrawTrack();
-
-/*	m_resizeCommand->setEndSize(*m_clipUnderMouse);
-	m_app->addCommand(m_resizeCommand, false);
-	m_document->indirectlyModified();
-	m_resizeCommand = 0;*/
 
     result = true;
     return result;
