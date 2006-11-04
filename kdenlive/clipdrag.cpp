@@ -119,7 +119,7 @@ DocClipRefList ClipDrag::decode(const EffectDescriptionList & effectList,
 	    QDomElement element = node.toElement();
 
 	    if (!element.isNull()) {
-		if (element.tagName() == "clip") {
+		if (element.tagName() == "kdenliveclip") {
 		    DocClipRef *ref =
 			DocClipRef::createClip(effectList, clipManager,
 			element);

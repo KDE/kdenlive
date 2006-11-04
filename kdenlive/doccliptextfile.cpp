@@ -66,7 +66,7 @@ m_framesPerSecond(0), m_alphaTransparency(false)
 DocClipTextFile::DocClipTextFile(QDomDocument node):DocClipBase(),m_clipType(TEXT), m_duration(0.0),  m_durationKnown(false), m_framesPerSecond(0), m_alphaTransparency(false)
 {
 QDomElement element = node.documentElement(); 
- if (element.tagName() != "clip") {
+ if (element.tagName() != "kdenliveclip") {
 	kdWarning() <<
 	    "DocClipRef::createClip() element has unknown tagName : " <<
 	    element.tagName() << endl;
@@ -93,7 +93,8 @@ QDomElement element = node.documentElement();
 		setName(e.attribute("name", QString::null));
 		setDescription(e.attribute("description", QString::null));
 		QDomDocument xml;
-                xml.setContent(e.attribute("textxml", QString::null));
+		xml.appendChild(e.firstChild());
+                //xml.setContent(e.attribute("textxml", QString::null));
 		setTextClipXml( xml);
 	    }
 	}
@@ -196,6 +197,11 @@ uint DocClipTextFile::clipWidth() const
     return KdenliveSettings::defaultwidth();
 }
 
+double DocClipTextFile::aspectRatio() const
+{
+    double ratio = ((double) KdenliveSettings::defaultwidth()/KdenliveSettings::defaultheight())/((double)clipWidth()/clipHeight()) * KdenliveSettings::aspectratio();
+    return ratio;
+}
 
 // virtual
 QDomDocument DocClipTextFile::sceneToXML(const GenTime & startTime,
@@ -204,24 +210,23 @@ QDomDocument DocClipTextFile::sceneToXML(const GenTime & startTime,
 }
 
 // virtual
-QDomDocument DocClipTextFile::generateSceneList() const
+QDomDocument DocClipTextFile::generateSceneList(bool) const
 {
     QDomDocument sceneList;
     QDomElement westley = sceneList.createElement("westley");
     sceneList.appendChild(westley);
 
     QDomElement producer = sceneList.createElement("producer");
-    producer.setAttribute("id", QString("producer0"));
+    producer.setAttribute("id", 0);
 //    producer.setAttribute("mlt_service", "pixbuf");
     producer.setAttribute("resource", fileURL().path());
-    double ratio = ((double) KdenliveSettings::defaultwidth()/KdenliveSettings::defaultheight())/((double)clipWidth()/clipHeight()) * KdenliveSettings::aspectratio();
-    producer.setAttribute("aspect_ratio", QString::number(ratio));
+    producer.setAttribute("aspect_ratio", QString::number(aspectRatio()));
     westley.appendChild(producer);
     QDomElement playlist = sceneList.createElement("playlist");
     playlist.setAttribute("in", "0");
     playlist.setAttribute("out", QString::number(duration().frames(KdenliveSettings::defaultfps())));
     QDomElement entry = sceneList.createElement("entry");
-    entry.setAttribute("producer", QString("producer0"));
+    entry.setAttribute("producer", 0);
     playlist.appendChild(entry);
     westley.appendChild(playlist);
     /*
@@ -281,22 +286,24 @@ QDomDocument DocClipTextFile::toXML() const
     while (!node.isNull()) {
 	QDomElement element = node.toElement();
 	if (!element.isNull()) {
-	    if (element.tagName() == "clip") {
+	    if (element.tagName() == "kdenliveclip") {
 		QDomElement avfile = doc.createElement("avfile");
 		avfile.setAttribute("url", m_url.path());
 		avfile.setAttribute("type", m_clipType);
                 avfile.setAttribute("id", getId());
+		avfile.setAttribute("duration", m_duration.frames(KdenliveSettings::defaultfps()));
+		avfile.setAttribute("durationknown", m_durationKnown );
                 avfile.setAttribute("filesize", m_filesize);
 		avfile.setAttribute("transparency", m_alphaTransparency);
-		avfile.setAttribute("durationknown", m_durationKnown );
 		avfile.setAttribute("color", m_color);
-		avfile.setAttribute("duration", m_duration.frames(KdenliveSettings::defaultfps()));
 		avfile.setAttribute("description", description());
 		avfile.setAttribute("name", name());
-		avfile.setAttribute("textxml", m_xml.toString());
+		//avfile.setAttribute("textxml", m_xml.toString());
 		avfile.setAttribute("width", m_width);
 		avfile.setAttribute("height", m_height);
+		avfile.appendChild(avfile.ownerDocument().importNode(m_xml.documentElement(), true));
 		element.appendChild(avfile);
+		
 		return doc;
 	    }
 	}
@@ -315,7 +322,7 @@ bool DocClipTextFile::matchesXML(const QDomElement & element) const
 {
     bool result = false;
 
-    if (element.tagName() == "clip") {
+    if (element.tagName() == "kdenliveclip") {
 	bool found = false;
 	QDomNode n = element.firstChild();
 	while (!n.isNull()) {

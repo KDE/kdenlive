@@ -53,7 +53,7 @@ generateFromXML(const EffectDescriptionList & effectList,
     while (!n.isNull()) {
 	QDomElement e = n.toElement();
 	if (!e.isNull()) {
-	    if (e.tagName() == "track") {
+	    if (e.tagName() == "kdenlivetrack") {
 		DocTrackBase *track =
 		    DocTrackBase::createTrack(effectList, clipManager,
 		    project, e);
@@ -96,7 +96,7 @@ bool DocTrackBaseList::matchesXML(const QDomElement & element) const
     bool result = false;
 
     if (element.tagName() == "DocTrackBaseList") {
-	QDomNodeList nodeList = element.elementsByTagName("track");
+	QDomNodeList nodeList = element.elementsByTagName("kdenlivetrack");
 
 	if (nodeList.length() == count()) {
 	    result = true;

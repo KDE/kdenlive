@@ -48,7 +48,7 @@ class DocClipTextFile:public DocClipBase {
      DocClipTextFile(const KURL & url);
     ~DocClipTextFile();
     QString fileName();
-
+    double aspectRatio() const;
 
 	/** Returns the filesize of the underlying avfile. */
     virtual uint fileSize() const;
@@ -91,7 +91,7 @@ class DocClipTextFile:public DocClipBase {
     virtual void populateSceneTimes(QValueVector < GenTime >
 	&toPopulate) const;
 
-    virtual QDomDocument generateSceneList() const;
+    virtual QDomDocument generateSceneList(bool addProducers = true) const;
 
     // Returns an XML document that describes part of the current scene.
     virtual QDomDocument sceneToXML(const GenTime & startTime,
@@ -115,8 +115,16 @@ class DocClipTextFile:public DocClipBase {
     virtual DocClipTextFile *toDocClipTextFile() {
 	return this;
   }
+
+    virtual DocClipVirtual *toDocClipVirtual() {
+	return 0;
+  }
   
   virtual bool isDocClipAVFile() const {
+      return false;
+  } 
+
+  virtual bool isDocClipVirtual() const {
       return false;
   } 
     

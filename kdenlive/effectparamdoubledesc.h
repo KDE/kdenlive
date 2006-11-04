@@ -56,6 +56,7 @@ class EffectParamDoubleDesc:public EffectParamDesc {
   private:
     double m_min;
     double m_max;
+    double m_factor;
     QString m_starttag;
     QString m_endtag;
     QString m_list;

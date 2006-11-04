@@ -455,7 +455,8 @@ namespace Gui {
 	void selectClipUnderCursor();
 	void slotAddAudioEffect(int ix);
 	void slotAddVideoEffect(int ix);
-
+	void slotSaveZone();
+	void slotVirtualZone();
 
       private:
 		/** the configuration object of the application */

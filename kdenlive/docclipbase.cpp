@@ -70,9 +70,7 @@ QDomDocument DocClipBase::toXML() const
 {
     QDomDocument doc;
 
-    QDomElement clip = doc.createElement("clip");
-    clip.setAttribute("name", name());
-
+    QDomElement clip = doc.createElement("kdenliveclip");
     QDomText text = doc.createTextNode(description());
     clip.appendChild(text);
 
@@ -92,7 +90,7 @@ createClip(const EffectDescriptionList & effectList,
     QDomNode node = element;
     node.normalize();
 
-    if (element.tagName() != "clip") {
+    if (element.tagName() != "kdenliveclip") {
 	kdWarning() <<
 	    "DocClipBase::createClip() element has unknown tagName : " <<
 	    element.tagName() << endl;
@@ -107,11 +105,10 @@ createClip(const EffectDescriptionList & effectList,
 	    QString tagName = e.tagName();
 	    if (e.tagName() == "avfile") {
 		clip = DocClipAVFile::createClip(e);
-	    } else if (e.tagName() == "project") {
-		clip =
-		    DocClipProject::createClip(effectList, clipManager, e);
+	    } else if (e.tagName() == "DocTrackBaseList") {
+		clip = DocClipProject::createClip(effectList, clipManager, e);
 	    } else if (e.tagName() == "position") {
-		trackNum = e.attribute("track", "-1").toInt();
+		trackNum = e.attribute("kdenlivetrack", "-1").toInt();
 	    }
 	} else {
 	    QDomText text = n.toText();
@@ -135,7 +132,7 @@ createClip(const EffectDescriptionList & effectList,
 
 
 
-QDomDocument DocClipBase::generateSceneList() const
+QDomDocument DocClipBase::generateSceneList(bool) const
 {
 }
 

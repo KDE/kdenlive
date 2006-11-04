@@ -137,23 +137,26 @@ QString AVListViewItem::getInfo() const
 	if (m_node) clipNode = m_node->asClipNode();
 	if (clipNode) {
 	    DocClipRef *clip = clipNode->clipRef();
-		if (clip->clipType() == DocClipBase::AV)
+	    DocClipBase::CLIPTYPE fileType = clip->clipType();
+		if (fileType == DocClipBase::AV)
 		    text = "<b>"+i18n("Video Clip")+"</b><br>";
-		else if (clip->clipType() == DocClipBase::VIDEO)
+		else if (fileType == DocClipBase::VIDEO)
 		    text = "<b>"+i18n("Mute Video Clip")+"</b><br>";
-		else if (clip->clipType() == DocClipBase::AUDIO)
+		else if (fileType == DocClipBase::AUDIO)
 		    text = "<b>"+i18n("Audio Clip")+"</b><br>";
-	    	else if (clip->clipType() == DocClipBase::COLOR)
+	    	else if (fileType == DocClipBase::COLOR)
 		    text = "<b>"+i18n("Color Clip")+"</b><br>";
-	    	else if (clip->clipType() == DocClipBase::IMAGE)
+	    	else if (fileType == DocClipBase::VIRTUAL)
+		    text = "<b>"+i18n("Virtual Clip")+"</b><br>";
+	    	else if (fileType == DocClipBase::IMAGE)
 		    text = "<b>"+i18n("Image Clip")+"</b><br>";
-		else if (clip->clipType() == DocClipBase::SLIDESHOW)
+		else if (fileType == DocClipBase::SLIDESHOW)
 		    text = "<b>"+i18n("Slideshow Clip")+"</b><br>";
-            	else if (clip->clipType() == DocClipBase::TEXT)
+            	else if (fileType == DocClipBase::TEXT)
                     text = "<b>"+i18n("Text Clip")+"</b><br>";
 
-	    if (clip->clipType() != DocClipBase::TEXT && clip->clipType() != DocClipBase::COLOR) {
-		    text.append(i18n("Path: %1").arg(clip->fileURL().directory())+"<br>");
+	    if (fileType != DocClipBase::TEXT && fileType != DocClipBase::COLOR && fileType != DocClipBase::VIRTUAL) {
+		text.append(i18n("Path: %1").arg(clip->fileURL().directory())+"<br>");
 	    	long fileSize = clip->fileSize();
 	    	long tenth;
 	    	text.append(i18n("File Size: "));

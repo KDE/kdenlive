@@ -76,6 +76,10 @@ class ClipManager:public QObject {
     DocClipBase *insertClip(const KURL & file, int clipId = -1);
     QDomDocument buildClip(const KURL & file, int clipId = -1);
 
+	/** Insert a virtual clip */
+    QDomDocument buildVirtualClip(const GenTime & start, const GenTime & end, const QString & name, const QString & description, const KURL url, int clipId = -1);
+    DocClipBase *insertXMLVirtualClip(QDomDocument node);
+
 	/** Insert a color clip */
     DocClipBase *insertColorClip(const QString & color,
 	const GenTime & duration, const QString & name,
@@ -153,7 +157,6 @@ class ClipManager:public QObject {
     void generateFromXML(KRender * render, const QDomElement & e);
     QDomDocument toXML(const QString & element);
 
-    
     signals:
 	/** This is signal is emitted whenever the clipList changes, either through the addition 
 	 * or removal of a clip, or when an clip changes. */
@@ -174,7 +177,10 @@ class ClipManager:public QObject {
     void AVImageArrived(int id, const QPixmap &);
 	/** returns an mlt list of producers for all the clips */
     QDomDocumentFragment producersList();
-    
+    QDomDocumentFragment virtualProducersList();
+    DocClipBaseList managerClipList() {
+	return m_clipList;
+    }
     
   private:
 	/** Finds the avclip that uses the given url. */

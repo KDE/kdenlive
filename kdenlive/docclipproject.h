@@ -71,8 +71,8 @@ class DocClipProject:public DocClipBase {
 	ClipManager & clipManager, const QDomElement & e);
 
 
-    virtual QDomDocument generateSceneList() const;
-
+    virtual QDomDocument generateSceneList(bool addProducers = true) const;
+    QDomDocument generatePartialSceneList(GenTime start, GenTime end) const;
 	/** If this is a project clip, return true. Overidden, always true from here. */
     virtual bool isProjectClip() const {
 	return true;
@@ -127,6 +127,7 @@ class DocClipProject:public DocClipBase {
 	const GenTime & clipOffset) const;
 	/** Holds a westley list of all different clips in the document */
     QDomDocumentFragment producersList;
+    QDomDocumentFragment virtualProducersList;
     
 
     public slots:
@@ -144,7 +145,6 @@ class DocClipProject:public DocClipBase {
     private slots:
 	/** Check that the project length is correct. */
     void slotCheckProjectLength();
-    
     
     signals:
 	/** This signal is emitted whenever tracks are added to or removed from the project. */

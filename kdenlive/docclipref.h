@@ -210,6 +210,9 @@ class DocClipRef:public QObject {
 	/** Returns a scene list generated from this clip. */
     QDomDocument generateSceneList();
     QDomDocument generateXMLClip();
+    QDomDocument generateOffsetXMLClip(GenTime start, GenTime end);
+    QDomDocumentFragment generateOffsetXMLTransition(bool hideVideo, bool hideAudio, GenTime start, GenTime end);
+
 	/** Returns true if this clip is a project clip, false otherwise. Overridden in DocClipProject,
 	 * where it returns true. */
     bool isProjectClip() {

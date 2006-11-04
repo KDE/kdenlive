@@ -101,7 +101,7 @@ m_framesPerSecond(0), m_color(QString::null), m_clipType(NONE), m_alphaTranspare
 DocClipAVFile::DocClipAVFile(QDomDocument node):DocClipBase()
 {
 QDomElement element = node.documentElement(); 
- if (element.tagName() != "clip") {
+ if (element.tagName() != "kdenliveclip") {
 	kdWarning() <<
 	    "DocClipRef::createClip() element has unknown tagName : " <<
 	    element.tagName() << endl;
@@ -321,6 +321,12 @@ void DocClipAVFile::getAudioThumbs()
     thumbCreator->getAudioThumbs(fileURL(), m_channels, 0, lengthInFrames,AUDIO_FRAME_WIDTH);
 }
 
+double DocClipAVFile::aspectRatio() const
+{
+    double ratio = ((double) KdenliveSettings::defaultwidth()/KdenliveSettings::defaultheight())/((double)clipWidth()/clipHeight()) * KdenliveSettings::aspectratio();
+    return ratio;
+}
+
 /*
 // virtual
 QDomDocument DocClipAVFile::generateSceneList() const
@@ -354,27 +360,24 @@ QDomDocument DocClipAVFile::sceneToXML(const GenTime & startTime,
 }
 
 // virtual
-QDomDocument DocClipAVFile::generateSceneList() const
+QDomDocument DocClipAVFile::generateSceneList(bool) const
 {
     QDomDocument sceneList;
 
     if (clipType() == IMAGE || clipType() == SLIDESHOW ) {
 	QDomElement westley = sceneList.createElement("westley");
 	sceneList.appendChild(westley);
-        
-        
        	QDomElement producer = sceneList.createElement("producer");
-        producer.setAttribute("id", QString("producer0"));
+        producer.setAttribute("id", 0);
         producer.setAttribute("resource", fileURL().path());
-        double ratio = ((double) KdenliveSettings::defaultwidth()/KdenliveSettings::defaultheight())/((double)clipWidth()/clipHeight()) * KdenliveSettings::aspectratio();
-        producer.setAttribute("aspect_ratio", QString::number(ratio));
+        producer.setAttribute("aspect_ratio", QString::number(aspectRatio()));
         westley.appendChild(producer);
         QDomElement playlist = sceneList.createElement("playlist");
         playlist.setAttribute("in", "0");
         playlist.setAttribute("out",
         QString::number(duration().frames(KdenliveSettings::defaultfps())));
         QDomElement entry = sceneList.createElement("entry");
-        entry.setAttribute("producer", QString("producer0"));
+        entry.setAttribute("producer", 0);
         playlist.appendChild(entry);
         westley.appendChild(playlist);
     }
@@ -384,7 +387,7 @@ QDomDocument DocClipAVFile::generateSceneList() const
 	sceneList.appendChild(westley);
 
 	QDomElement producer = sceneList.createElement("producer");
-	producer.setAttribute("id", QString("producer0"));
+	producer.setAttribute("id", 0);
 	producer.setAttribute("mlt_service", "colour");
 	producer.setAttribute("colour", color());
 	westley.appendChild(producer);
@@ -393,7 +396,7 @@ QDomDocument DocClipAVFile::generateSceneList() const
 	playlist.setAttribute("out",
 	    QString::number(duration().frames(KdenliveSettings::defaultfps())));
 	QDomElement entry = sceneList.createElement("entry");
-	entry.setAttribute("producer", QString("producer0"));
+	entry.setAttribute("producer", 0);
 	playlist.appendChild(entry);
 	westley.appendChild(playlist);
     }
@@ -401,20 +404,12 @@ QDomDocument DocClipAVFile::generateSceneList() const
 
     else {
 	QDomElement producer = sceneList.createElement("producer");
-	producer.setAttribute("id",
-	    QString("producer") + QString::number(getId()));
+	producer.setAttribute("id", getId());
 	producer.setAttribute("resource", fileURL().path());
 	sceneList.appendChild(producer);
     }
 
-    //kdDebug()<<"START AV: "<<startTime.frames(25)<<endl;
-    //kdDebug()<<"STOP AV: "<<endTime.frames(25)<<endl;
-    //producer.setAttribute("in", QString::number(startTime.frames(25)));
-    //producer.setAttribute("out", QString::number(endTime.frames(25)));
-
-
-
-//      kdDebug()<<"++++++++++++CLIP SCENE:\n"<<sceneList.toString()<<endl;
+    //kdDebug()<<"++++++++++++CLIP SCENE:\n"<<sceneList.toString()<<endl;
 
 
     return sceneList;
@@ -454,20 +449,20 @@ QDomDocument DocClipAVFile::toXML() const
     while (!node.isNull()) {
 	QDomElement element = node.toElement();
 	if (!element.isNull()) {
-	    if (element.tagName() == "clip") {
+	    if (element.tagName() == "kdenliveclip") {
 		QDomElement avfile = doc.createElement("avfile");
 		avfile.setAttribute("url", fileURL().url());
 		avfile.setAttribute("type", m_clipType);
                 avfile.setAttribute("id", getId());
+		avfile.setAttribute("durationknown", m_durationKnown );
+		avfile.setAttribute("duration", m_duration.frames(KdenliveSettings::defaultfps()));
                 avfile.setAttribute("filesize", m_filesize);
 		avfile.setAttribute("transparency", m_alphaTransparency);
 		avfile.setAttribute("crossfade", m_hasCrossfade);
 		avfile.setAttribute("ttl", m_ttl);
 		avfile.setAttribute("channels", m_channels);
 		avfile.setAttribute("frequency", m_frequency);
-		avfile.setAttribute("durationknown", m_durationKnown );
 		avfile.setAttribute("color", m_color);
-		avfile.setAttribute("duration", m_duration.frames(KdenliveSettings::defaultfps()));
 		avfile.setAttribute("description", description());
 		avfile.setAttribute("name", name());
 		avfile.setAttribute("width", m_width);
@@ -492,7 +487,7 @@ bool DocClipAVFile::matchesXML(const QDomElement & element) const
 {
     bool result = false;
 
-    if (element.tagName() == "clip") {
+    if (element.tagName() == "kdenliveclip") {
 	bool found = false;
 	QDomNode n = element.firstChild();
 	while (!n.isNull()) {

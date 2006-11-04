@@ -53,7 +53,7 @@ QDomDocument DocSubClip::toXML()
     while (!node.isNull()) {
 	QDomElement element = node.toElement();
 	if (!element.isNull()) {
-	    if (element.tagName() == "clip") {
+	    if (element.tagName() == "kdenliveclip") {
 		QDomElement avfile = doc.createElement("avfile");
 		avfile.setAttribute("url", fileURL().url());
 		element.appendChild(avfile);
@@ -97,7 +97,7 @@ double DocSubClip::framesPerSecond() const
 
 
 // virtual
-QDomDocument DocSubClip::generateSceneList()
+QDomDocument DocSubClip::generateSceneList(bool)
 {
     static QString str_inpoint = "inpoint";
     static QString str_outpoint = "outpoint";

@@ -43,7 +43,6 @@ LoadProjectNativeFilter::~LoadProjectNativeFilter()
 // virtual
 bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 {
-    bool avListLoaded = false;
     bool trackListLoaded = false;
     GenTime inPoint(0.0);
     GenTime outPoint(3.0);
@@ -54,13 +53,13 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 
     QDomElement documentElement = doc.documentElement();
 
-    if (documentElement.tagName() != "kdenlivedoc") {
+    if (documentElement.tagName() != "westley") {
 	kdWarning() <<
 	    "KdenliveDoc::loadFromXML() document element has unknown tagName : "
 	    << documentElement.tagName() << endl;
     }
-
-    QDomNode n = documentElement.firstChild();
+    QDomNode kdenlivedoc = documentElement.elementsByTagName("kdenlivedoc").item(0);
+    QDomNode n = kdenlivedoc.firstChild();
 
     while (!n.isNull()) {
 	QDomElement e = n.toElement();
@@ -89,17 +88,8 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 	    else if (e.tagName() == "guides") {
 		document->application()->guidesFromXml( e );
 	    }
-	    else if ((e.tagName() == "AVFileList")
-		|| (e.tagName() == "avfilelist")) {
-		if (!avListLoaded) {
-		    avListLoaded = true;
-		    loadAVFileList(e, document);
-		} else {
-		    kdWarning() <<
-			"Second AVFileList discovered, skipping..." <<
-			endl;
-		}
-	    } else if (e.tagName() == "clip") {
+	    else if (e.tagName() == "producer") addToDocument(i18n("Clips"), e, document);
+	    else if (e.tagName() == "kdenliveclip") {
 		if (!trackListLoaded) {
 		    trackListLoaded = true;
 		    loadTrackList(e, document);
@@ -171,10 +161,9 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
 {
     DocumentBaseNode *parentNode = document->findClipNode(parent);
     DocumentBaseNode *thisNode = 0;
-    kdDebug()<<"*********  INSERT: "<<parent<<endl;
 
     if (parentNode) {
-	if ((clip.tagName() == "AVFile") || (clip.tagName() == "avfile")) {
+	if ((clip.tagName() == "producer") && clip.attribute("id", QString::null) != "black") {
 	    uint clipType;
 	    clipType = clip.attribute("type", "").toInt();
 	    DocClipBase *baseClip=0;
@@ -182,12 +171,12 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
 	    if (clipType < 4)	//  AUDIO OR VIDEO CLIP
 		baseClip =
 		    document->clipManager().insertClip(clip.
-                        attribute("url", ""), clip.attribute("id", "-1").toInt());
+                        attribute("resource", ""), clip.attribute("id", "-1").toInt());
 
 	    else if (clipType == DocClipBase::COLOR)	//   COLOR CLIP
 		baseClip =
 		    document->clipManager().insertColorClip(clip.
-		    attribute("color", ""),
+		    attribute("colour", ""),
 		    GenTime(clip.attribute("duration", "").toInt(), 25),
 		    clip.attribute("name", ""),
                     clip.attribute("description", ""), clip.attribute("id", "-1").toInt());
@@ -195,13 +184,13 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
 	    else if (clipType == DocClipBase::IMAGE)	//   IMAGE CLIP
 		baseClip =
 		    document->clipManager().insertImageClip(clip.
-		    attribute("url", ""), GenTime(clip.attribute("duration", "").toInt(), 25),
+		    attribute("resource", ""), GenTime(clip.attribute("duration", "").toInt(), 25),
                     clip.attribute("description", ""), clip.attribute("transparency", "").toInt(), clip.attribute("id", "-1").toInt());
 
 	    else if (clipType == DocClipBase::SLIDESHOW)	//   SLIDESHOW CLIP
 		baseClip =
 		    document->clipManager().insertSlideshowClip(clip.
-		    attribute("url", ""), "", clip.attribute("ttl", "0").toInt(), clip.attribute("crossfade","").toInt(),
+		    attribute("resource", ""), "", clip.attribute("ttl", "0").toInt(), clip.attribute("crossfade","").toInt(),
 		    GenTime(clip.attribute("duration", "").toInt(), 25),
                     clip.attribute("description", ""), clip.attribute("transparency","").toInt(), clip.attribute("id", "-1").toInt());
 
@@ -209,10 +198,10 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
             {
                 QDomDocument xml;
                 QPixmap pm = QPixmap();
-                xml.setContent(clip.attribute("xml", ""));
+                xml.appendChild(clip.firstChild());
                 baseClip =
                         document->clipManager().insertTextClip(GenTime(clip.attribute("duration", "").toInt(), KdenliveSettings::defaultfps()), clip.attribute("name", ""),
-                clip.attribute("description", ""),xml, clip.attribute("url", ""), pm, clip.attribute("transparency", "").toInt(), clip.attribute("id", "-1").toInt());
+                clip.attribute("description", ""), xml, clip.attribute("resource", ""), pm, clip.attribute("transparency", "").toInt(), clip.attribute("id", "-1").toInt());
             }
 
 	    if (baseClip) {

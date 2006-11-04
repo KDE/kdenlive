@@ -498,7 +498,7 @@ DocTrackBase *DocTrackBase::
 createTrack(const EffectDescriptionList & descList,
     ClipManager & clipManager, DocClipProject * project, QDomElement elem)
 {
-    if (elem.tagName() != "track") {
+    if (elem.tagName() != "kdenlivetrack") {
 	kdError() <<
 	    "Cannot create track from QDomElement - has wrong tag name : "
 	    << elem.tagName() << endl;
@@ -524,7 +524,7 @@ createTrack(const EffectDescriptionList & descList,
     while (!n.isNull()) {
 	QDomElement e = n.toElement();
 	if (!e.isNull()) {
-	    if (e.tagName() == "clip") {
+	    if (e.tagName() == "kdenliveclip") {
 		DocClipRef *clip =
 		    DocClipRef::createClip(descList, clipManager, e);
 		if (clip) {
@@ -647,7 +647,7 @@ QDomDocument DocTrackBase::toXML()
 {
     QDomDocument doc;
 
-    doc.appendChild(doc.createElement("track"));
+    doc.appendChild(doc.createElement("kdenlivetrack"));
     doc.documentElement().setAttribute("cliptype", clipType());
 
     DocTrackClipIterator itt(*this);
@@ -665,9 +665,9 @@ bool DocTrackBase::matchesXML(const QDomElement & element) const
 {
     bool result = false;
 
-    if (element.tagName() == "track") {
+    if (element.tagName() == "kdenlivetrack") {
 	if (element.attribute("cliptype") == clipType()) {
-	    QDomNodeList nodeList = element.elementsByTagName("clip");
+	    QDomNodeList nodeList = element.elementsByTagName("kdenliveclip");
 
 	    if (nodeList.length() == numClips()) {
 		result = true;

@@ -98,6 +98,17 @@ namespace Gui {
 	    clipChoice->clipAudio->setText("-");
             clipChoice->clipFilesize->setText(formattedSize(refClip->fileSize()));
 	}
+        else if (m_clipType == DocClipBase::VIRTUAL) {
+            clipChoice->label_color->hide();
+            clipChoice->button_color->hide();
+            clipChoice->label_name->hide();
+            clipChoice->edit_name->hide();
+	    clipChoice->clipType->setText(i18n("Virtual Clip"));
+            clipChoice->clipSize->setText(QString::number(refClip->clipWidth())+"x"+QString::number(refClip->clipHeight()));
+	    clipChoice->clipFps->setText("-");
+	    clipChoice->clipAudio->setText("-");
+            clipChoice->clipFilesize->setText("-");
+	}
 	else if (m_clipType == DocClipBase::SLIDESHOW) {
 	    clipChoice->transparent_bg->setChecked(clip->toDocClipAVFile()->isTransparent());
 	    clipChoice->crossfade->setChecked(clip->toDocClipAVFile()->hasCrossfade());

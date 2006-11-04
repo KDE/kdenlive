@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kdenlive" version="12">
+<kpartgui name="kdenlive" version="13">
 <MenuBar>
   <Menu name="file">
         <Action name="export_current_frame"/>
@@ -56,6 +56,9 @@
 	<Action name="timeline_add_guide"/>
 	<Action name="timeline_edit_guide"/>
 	<Action name="timeline_delete_guide"/>
+	<Separator lineSeperator="true"/>	
+	<Action name="save_zone"/>
+	<Action name="virtual_zone"/>
 	<Separator lineSeperator="true"/>	
 	<Action name="timeline_add_track"/>	
 	<Action name="timeline_delete_track"/>
@@ -163,6 +166,8 @@
 		<Action name="timeline_add_guide"/>
 		<Action name="timeline_edit_guide"/>
 		<Action name="timeline_delete_guide"/>
+		<Action name="save_zone"/>
+		<Action name="virtual_zone"/>
 </Menu>
 
 <Menu name="timeline_header_context">

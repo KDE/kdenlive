@@ -231,10 +231,10 @@ void ScreenPreview::contentsMouseMoveEvent(QMouseEvent* e)
 transitionPipWidget::transitionPipWidget(KdenliveApp * app, int width, int height, QWidget* parent, const char* name, WFlags fl ):
         transitionPip_UI(parent,name), m_silent(false), m_app(app)
 {
-        frame_preview->setMinimumWidth(width);
+        /*frame_preview->setMinimumWidth(width);
 	frame_preview->setMaximumWidth(width);
         frame_preview->setMinimumHeight(height);
-	frame_preview->setMaximumHeight(height);
+	frame_preview->setMaximumHeight(height);*/
         canvas=new QCanvas(imageWidth,imageHeight);
         canview = new ScreenPreview(*canvas,frame_preview);
         canview->initRectangle(imageWidth/2-frameWidth/2,imageHeight/2-frameHeight/2,frameWidth,frameHeight);

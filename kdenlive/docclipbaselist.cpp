@@ -93,7 +93,7 @@ generateFromXML(const EffectDescriptionList & effectList,
 	while (!n.isNull()) {
 	    QDomElement e = n.toElement();
 	    if (!e.isNull()) {
-		if (e.tagName() == "clip") {
+		if (e.tagName() == "kdenliveclip") {
 		    DocClipBase *clip =
 			DocClipBase::createClip(effectList, clipManager,
 			e);

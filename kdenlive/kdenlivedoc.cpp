@@ -42,6 +42,7 @@
 #include "documentclipnode.h"
 #include "documentgroupnode.h"
 #include "documentbasenode.h"
+#include "docclipvirtual.h"
 
 KdenliveDoc::KdenliveDoc(double fps, int width, int height, Gui::KdenliveApp * app, QWidget * parent, const char *name):
 QObject(parent, name),
@@ -251,6 +252,7 @@ bool KdenliveDoc::moveSelectedClips(GenTime startOffset, int trackOffset)
 QDomDocument KdenliveDoc::generateSceneList()
 {
     if (m_projectClip) {
+	refreshVirtualClips();
         m_domSceneList = m_projectClip->generateSceneList();
     } else {
 	kdWarning() <<
@@ -259,10 +261,31 @@ QDomDocument KdenliveDoc::generateSceneList()
     return m_domSceneList;
 }
 
+
+void KdenliveDoc::refreshVirtualClips()
+{
+   DocClipBaseList list = clipManager().managerClipList();
+   QPtrListIterator < DocClipBase > itt(list);
+    while (itt.current()) {
+	if (itt.current()->isDocClipVirtual()) {
+	    DocClipVirtual *vclip = itt.current()->toDocClipVirtual();
+	    if (vclip) {
+	        QString part = m_projectClip->generatePartialSceneList(vclip->virtualStartTime(), vclip->virtualEndTime()).toString();
+	        QFile file(vclip->fileURL().path());
+	        file.open( IO_WriteOnly );
+    	        file.writeBlock(part.utf8(), part.length());
+	        file.close();
+	    }
+	} 
+	++itt;
+    }
+}
+
 /** Creates a list of producers */
 void KdenliveDoc::generateProducersList()
 {
     m_projectClip->producersList = m_clipManager.producersList();
+    m_projectClip->virtualProducersList = m_clipManager.virtualProducersList();
 }
 
 
@@ -270,6 +293,7 @@ void KdenliveDoc::generateProducersList()
 void KdenliveDoc::hasBeenModified(bool mod)
 {
     if (m_sceneListGeneration) {
+	refreshVirtualClips();
         if (m_projectClip->producersList.isNull()) generateProducersList();
 	emit documentChanged(m_projectClip);
     }

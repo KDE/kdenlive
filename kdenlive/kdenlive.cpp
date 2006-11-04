@@ -107,7 +107,7 @@
 #include "createslideshowclip.h"
 #include "createimageclip_ui.h"
 #include "kaddtransitioncommand.h"
-
+#include "docclipvirtual.h"
 
 #include "trackpanelclipmovefunction.h"
 #include "trackpanelrazorfunction.h"
@@ -623,6 +623,16 @@ namespace Gui {
         SLOT(slotDeleteTrack()), actionCollection(),
         "timeline_delete_track");
 	deleteTrack->setStatusText(i18n("Delete a track"));
+
+	KAction *saveZone = new KAction(i18n("Save Selected Zone"), 0, this,
+        SLOT(slotSaveZone()), actionCollection(),
+        "save_zone");
+	saveZone->setStatusText(i18n("Save selected zone as playlist for future use"));
+
+	KAction *virtualZone = new KAction(i18n("Create Virtual Clip"), 0, this,
+        SLOT(slotVirtualZone()), actionCollection(),
+        "virtual_zone");
+	saveZone->setStatusText(i18n("Create virtual clip from selected zone"));
 
 	KAction *addGuide = new KAction(i18n("Add Guide"), 0, this,
         SLOT(slotAddGuide()), actionCollection(),
@@ -1980,6 +1990,35 @@ namespace Gui {
 	}
     }
 
+
+    void KdenliveApp::slotSaveZone()
+    {
+        QCheckBox * addToProject = new QCheckBox(i18n("Add new clip to project"),this);
+        KFileDialog *fd = new KFileDialog(m_fileDialogPath.path(), "application/vnd.westley.scenelist", this, "save_westley", true,addToProject);
+        fd->setOperationMode(KFileDialog::Saving);
+        fd->setMode(KFile::File);
+        if (fd->exec() == QDialog::Accepted) {
+		QDomDocument partial = getDocument()->projectClip().generatePartialSceneList(m_timeline->inpointPosition(), m_timeline->outpointPosition());
+		QFile file(fd->selectedURL().path());
+		file.open( IO_WriteOnly );
+		QString save = partial.toString();
+    		file.writeBlock(save.utf8(), save.length());
+		file.close();
+		if (addToProject->isChecked()) addCommand(new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), fd->selectedURL().path(), true));
+	}
+	delete addToProject;
+	delete fd;
+    }
+
+    void KdenliveApp::slotVirtualZone()
+    {
+	KTempFile tmp( KdenliveSettings::currenttmpfolder(), ".westley");
+	QTextStream stream( tmp.file() );
+    	stream << getDocument()->projectClip().generatePartialSceneList(m_timeline->inpointPosition(), m_timeline->outpointPosition()).toString() << "\n";
+    	tmp.close();
+	addCommand(new Command::KAddClipCommand(*getDocument(), m_projectList->m_listView->parentName(), KURL(tmp.name()), m_timeline->inpointPosition(), m_timeline->outpointPosition(), QString::null, true));
+    }
+
     void KdenliveApp::slotDeleteGuide()
     {
 	m_timeline->slotDeleteGuide();
@@ -2030,10 +2069,7 @@ namespace Gui {
 	slotStatusMsg(i18n("Saving file with a new filename..."));
 
 	KURL url = KFileDialog::getSaveURL(m_fileDialogPath.path(),
-	    m_projectFormatManager.saveMimeTypes(),
-	    /* i18n( "*.kdenlive|Kdenlive Project Files (*.kdenlive)" ), */
-	    this,
-	    i18n("Save as..."));
+	    m_projectFormatManager.saveMimeTypes(), this, i18n("Save as..."));
 
 	if (!url.isEmpty()) {
 	    if (url.path().find(".") == -1) {
@@ -2288,7 +2324,7 @@ namespace Gui {
 	slotStatusMsg(i18n("Adding Clips"));
 
 	// Make a reasonable filter for video / audio files.
-	QString filter = "application/flv application/vnd.rn-realmedia video/x-dv video/x-msvideo video/mpeg video/x-ms-wmv audio/x-mp3 audio/x-wav application/ogg *.m2t";
+	QString filter = "application/vnd.kde.kdenlive application/vnd.westley.scenelist application/flv application/vnd.rn-realmedia video/x-dv video/x-msvideo video/mpeg video/x-ms-wmv audio/x-mp3 audio/x-wav application/ogg *.m2t";
 	KURL::List urlList =
 	    KFileDialog::getOpenURLs(m_fileDialogPath.path(), filter, this,
         i18n("Open File..."));
@@ -2443,6 +2479,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                     addCommand(command, true);
                 }
             }
+	    delete addToProject;
             delete fd;
         }
         else KMessageBox::sorry(this, i18n("Please activate a monitor if you want to save a frame"));
@@ -3126,7 +3163,6 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     void KdenliveApp::slotDisplayRulerContextMenu() {
 	m_rulerPopupMenu = (QPopupMenu *) factory()->container("ruler_context", this);
 	QStringList guides = m_timeline->timelineRulerComments();
-	m_rulerPopupMenu->removeItemAt(3);
 	if (!guides.isEmpty()) {
 	    QPopupMenu *gotoGuide = new QPopupMenu;
 	    uint ct = 100;

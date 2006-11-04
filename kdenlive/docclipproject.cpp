@@ -34,7 +34,6 @@
 DocClipProject::DocClipProject(double framesPerSecond, int width, int height):DocClipBase(),
 m_framesPerSecond(framesPerSecond), m_videowidth(width), m_videoheight(height)
 {
-    producersList = QDomDocumentFragment();
     m_tracks.setAutoDelete(true);
 }
 
@@ -349,7 +348,7 @@ int DocClipProject::playlistNextVideoTrack(int ix) const
     return result;
 }
 
-QDomDocument DocClipProject::generateSceneList() const
+QDomDocument DocClipProject::generateSceneList(bool addProducers) const
 {
     kdDebug()<<"+++++++++++  Generating scenelist start...  ++++++++++++++++++"<<endl;
     QDomDocument doc;
@@ -365,7 +364,10 @@ QDomDocument DocClipProject::generateSceneList() const
     QDomDocumentFragment clipTransitions = doc.createDocumentFragment();
     
     /* import the list of all producer clips */
-    westley.appendChild(doc.importNode(producersList, true));
+    if (addProducers) {
+	westley.appendChild(doc.importNode(producersList, true));
+	westley.appendChild(doc.importNode(virtualProducersList, true));
+    }
 
     QDomElement tractor = doc.createElement("tractor");
     QDomElement multitrack = doc.createElement("multitrack");
@@ -426,6 +428,7 @@ QDomDocument DocClipProject::generateSceneList() const
 			frames(framesPerSecond()) - timestart));
 		playlist.appendChild(blank);
 	    }
+
             // Insert xml describing clip
             playlist.appendChild(itt.current()->generateXMLClip().firstChild());
 
@@ -463,86 +466,134 @@ QDomDocument DocClipProject::generateSceneList() const
 	    tractor.appendChild(transition);
 	}
 
-
     westley.appendChild(tractor);
-        //kdDebug() << doc.toString() << endl;
-        //kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
+        // kdDebug() << doc.toString() << endl;
+        // kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
     return doc;
 }
 
 
 
-
-
-/*
-QDomDocument DocClipProject::generateSceneList() const
+QDomDocument DocClipProject::generatePartialSceneList(GenTime start, GenTime end) const
 {
-kdDebug()<<"GENERATING PROJECT CLIP SCENE"<<endl;
-QDomDocument doc;
-	QDomElement elem=doc.createElement("westley");
-	doc.appendChild(elem);
-	QDomElement elem1=doc.createElement("producer");
-	elem1.setAttribute("id","resource0");
-	elem.appendChild(elem1);
-	QDomElement elem2=doc.createElement("property");
-	elem2.setAttribute("name","resource");
-	elem1.appendChild(elem2);
-	QDomText elem3=doc.createTextNode("/home/one/Desktop/dvgrab-001.dv");
-	elem2.appendChild(elem3);
+    QDomDocument doc;
+    int tracknb = 0;
+    uint tracksCounter = 0;
+    if (duration().frames(framesPerSecond()) == 0) return QDomDocument();
 
+    QString projectLastFrame = QString::number((end - start).frames(framesPerSecond()) - 1);
 
+    QDomElement westley = doc.createElement("westley");
+    doc.appendChild(westley);
 
-	static QString str_inpoint="inpoint";
-	static QString str_outpoint="outpoint";
-	static QString str_file="file";
+    QDomDocumentFragment clipTransitions = doc.createDocumentFragment();
 
-	QDomDocument sceneList;
-	sceneList.appendChild(sceneList.createElement("scenelist"));
+    westley.appendChild(doc.importNode(producersList, true));
 
-	QValueVector<GenTime> unsortedTimes;
-        populateSceneTimes(unsortedTimes);
+    QDomElement tractor = doc.createElement("tractor");
+    QDomElement multitrack = doc.createElement("multitrack");
 
-	// sort times and remove duplicates.
-	qHeapSort(unsortedTimes);
-	QValueVector<GenTime> times;
+    QDomDocumentFragment audiotrack = doc.createDocumentFragment();
 
-	// Will reserve much more than we need, but should speed up the process somewhat...
-	times.reserve(unsortedTimes.size());
+    QPtrListIterator < DocTrackBase > trackItt(m_tracks);
+    QPtrListIterator < DocTrackBase > trackCounter(m_tracks);
+    
+    // Add black clip as first track, so that empty spaces appear black 
+    // (looks like color producer cannot be longer than 15000 frames, so hack around it... 
+    QDomElement playlist = doc.createElement("playlist");
+    int dur = (end - start).frames(framesPerSecond()) - 1;
 
-	QValueVector<GenTime>::Iterator itt = unsortedTimes.begin();
-	while(itt != unsortedTimes.end()) {
-		if((times.isEmpty()) || ((*itt) != times.last())) {
-			times.append(*itt);
-		}
-		++itt;
+    // black background	 track
+    while (dur > 14000) {
+        QDomElement blank = doc.createElement("entry");
+        blank.setAttribute("in", "0");
+        blank.setAttribute("out", QString::number(13999));
+        blank.setAttribute("producer", "black");
+        playlist.appendChild(blank);
+	dur = dur - 14000;
+    }
+    QDomElement blank = doc.createElement("entry");
+    blank.setAttribute("in", "0");
+    blank.setAttribute("out", QString::number(dur));
+    blank.setAttribute("producer", "black");
+    playlist.appendChild(blank);
+    multitrack.appendChild(playlist);
+
+    // parse the tracks in reverse order so that the upper tracks appear in front of the lower ones
+    trackItt.toLast();
+    while (trackItt.current()) {
+	bool isBlind = trackItt.current()->isBlind();
+	bool isMute = trackItt.current()->isMute();
+	DocTrackClipIterator itt(*(trackItt.current()));
+	QDomElement playlist = doc.createElement("playlist");
+	playlist.setAttribute("id",
+	    QString("playlist") + QString::number(tracknb++));
+	if (trackItt.current()->clipType() == "Sound") playlist.setAttribute("hide", "video");
+        else if (isBlind) playlist.setAttribute("hide", "video");
+
+	int children = 0;
+	int timestart = start.frames(framesPerSecond());
+        bool hideTrack = false;
+        if (trackItt.current()->isMute()) 
+        {
+            if (isBlind || trackItt.current()->clipType() == "Sound") hideTrack = true;
+            else playlist.setAttribute("hide", "audio");
+        }
+        
+        if (!hideTrack)
+        while (itt.current() && itt.current()->trackStart() < end && itt.current()->trackEnd() > start) {
+	    if (itt.current()->trackStart().frames(framesPerSecond()) -
+		timestart > 0.01) {
+		QDomElement blank = doc.createElement("blank");
+		blank.setAttribute("length",
+		    QString::number(itt.current()->trackStart().
+			frames(framesPerSecond()) - timestart));
+		playlist.appendChild(blank);
+	    }
+            // Insert xml describing clip
+            playlist.appendChild(itt.current()->generateOffsetXMLClip(start, end).firstChild());
+
+            // Append clip's transitions for video tracks
+            clipTransitions.appendChild(doc.importNode(itt.current()->generateOffsetXMLTransition(isBlind, isMute, start, end), true));
+
+	    timestart = (int)(itt.current()->trackEnd() - start).frames(framesPerSecond());
+	    children++;
+	    ++itt;
+	}
+	    tracksCounter++;
+            if (trackItt.current()->clipType() == "Sound") audiotrack.appendChild(playlist);
+            else multitrack.appendChild(playlist);
+	--trackItt;
+    }
+    // add audio tracks to the multitrack
+    multitrack.appendChild(audiotrack);
+    tractor.appendChild(multitrack);
+    
+        // Add all transitions
+        
+    tractor.appendChild(clipTransitions);
+        
+    /* transition: mix all used audio tracks */
+    
+    if (tracksCounter > 1)
+        for (uint i = 2; i <tracksCounter +1 ; i++) {
+	    QDomElement transition = doc.createElement("transition");
+	    transition.setAttribute("in", "0");
+            transition.setAttribute("out", projectLastFrame);
+            transition.setAttribute("a_track", QString::number(1));
+	    transition.setAttribute("b_track", QString::number(i));
+	    transition.setAttribute("mlt_service", "mix");
+            transition.setAttribute("combine", "1");
+	    tractor.appendChild(transition);
 	}
 
-	QValueVector<GenTime>::Iterator sceneItt = times.begin();
 
-	while( (sceneItt != times.end()) && (sceneItt+1 != times.end()) ) {
-		QDomElement scene = sceneList.createElement("par");
-
-		QDomDocument clipDoc = sceneToXML(*sceneItt, *(sceneItt+1));
-		QDomElement sceneClip;
-
-		if(clipDoc.documentElement().isNull()) {
-			sceneClip = sceneList.createElement("img");
-			sceneClip.setAttribute("rgbcolor", "#000000");
-			sceneClip.setAttribute("dur", QString::number((*(sceneItt+1) - *sceneItt).seconds(), 'f', 10));
-			scene.appendChild(sceneClip);
-		} else {
-			sceneClip = sceneList.importNode(clipDoc.documentElement(), true).toElement();
-			scene.appendChild(sceneClip);
-		}
-
-		sceneList.documentElement().appendChild(scene);
-
-		++sceneItt;
-	}
-
-	return sceneList;
+    westley.appendChild(tractor);
+        // kdDebug() << doc.toString() << endl;
+        //kdDebug()<<"+++++++++++  Generating PARTIAL scenelist end...  ++++++++++++++++++"<<endl;
+    return doc;
 }
-*/
+
 
 void DocClipProject::
 generateTracksFromXML(const EffectDescriptionList & effectList,
@@ -564,8 +615,10 @@ DocClipProject *DocClipProject::
 createClip(const EffectDescriptionList & effectList,
     ClipManager & clipManager, const QDomElement element)
 {
-    DocClipProject *project = 0;
-
+    DocClipProject *project = new DocClipProject(KdenliveSettings::defaultfps(), KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight());
+    project->generateTracksFromXML(effectList, clipManager, element);
+    
+/*
     if (element.tagName() == "project") {
 	KURL url(element.attribute("url"));
 	double framesPerSecond = element.attribute("fps", QString::number(KdenliveSettings::defaultfps())).toDouble();
@@ -588,7 +641,7 @@ createClip(const EffectDescriptionList & effectList,
     } else {
 	kdWarning() << "DocClipProject::createClip failed to generate clip"
 	    << endl;
-    }
+    }*/
 
     return project;
 }
@@ -738,16 +791,9 @@ QDomDocument DocClipProject::toXML()
     while (!node.isNull()) {
 	QDomElement element = node.toElement();
 	if (!element.isNull()) {
-	    if (element.tagName() == "clip") {
-		QDomElement project = doc.createElement("project");
-		project.setAttribute("fps",
-		    QString::number(m_framesPerSecond, 'f', 10));
-                project.setAttribute("videowidth", videoWidth());
-                project.setAttribute("videoheight", videoHeight());
-		element.appendChild(project);
-		project.appendChild(doc.importNode(m_tracks.toXML().
+	    if (element.tagName() == "kdenliveclip") {
+		element.appendChild(doc.importNode(m_tracks.toXML().
 			documentElement(), true));
-
 		return doc;
 	    }
 	}
@@ -764,7 +810,7 @@ bool DocClipProject::matchesXML(const QDomElement & element) const
 {
     bool result = false;
 
-    if (element.tagName() == "clip") {
+    if (element.tagName() == "kdenliveclip") {
 	QDomNodeList nodeList = element.elementsByTagName("project");
 	if (nodeList.length() > 0) {
 	    if (nodeList.length() > 1) {

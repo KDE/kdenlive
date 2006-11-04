@@ -100,6 +100,7 @@ namespace Gui {
     }
 
     ProjectList::~ProjectList() {
+ 	m_listView->clear();
     }
     
     /** An item was double clicked */

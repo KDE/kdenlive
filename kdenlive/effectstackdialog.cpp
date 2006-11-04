@@ -243,8 +243,10 @@ namespace Gui {
 		    numKeyFrames() - 1);
 		int ix =
 		    effect->parameter(parameterNum)->selectedKeyFrame();
-		uint maxVal = 100;
-		uint minVal = 0;
+		uint maxVal = effect->effectDescription().parameter(parameterNum)->
+		    max();
+		uint minVal = effect->effectDescription().parameter(parameterNum)->
+		    min();
 		uint currVal =(uint)
 		    effect->parameter(parameterNum)->keyframe(ix)->
 		    toDoubleKeyFrame()->value();

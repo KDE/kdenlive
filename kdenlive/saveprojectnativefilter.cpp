@@ -43,13 +43,10 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
 {
     QDomDocument doc;
 
-    // include a copy of the MLT playlist so that the project can be played in inigo
-
-    /*QDomElement west = doc.createElement("westley");
-    doc.appendChild(west);*/
-
-    QDomElement elem = doc.createElement("westley");
-    doc.appendChild(elem);
+    QDomElement westley = doc.createElement("westley");
+    doc.appendChild(westley);
+    QDomElement elem = doc.createElement("kdenlivedoc");
+    westley.appendChild(elem);
     QDomElement docinfos = doc.createElement("properties");
     docinfos.setAttribute("projectfolder", KdenliveSettings::currentdefaultfolder());
     docinfos.setAttribute("projectheight", QString::number(KdenliveSettings::defaultheight()));
@@ -64,16 +61,23 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
     docinfos.setAttribute("outpoint", QString::number(document->application()->outpointPosition().frames(KdenliveSettings::defaultfps())));
 
     elem.appendChild(docinfos);
-    elem.appendChild(document->application()->xmlGuides());
+    elem.appendChild(doc.importNode(document->application()->xmlGuides().documentElement(), true));
 
-    QDomElement avfilelist = doc.createElement("avfilelist");
+    QDomDocumentFragment avfilelist = doc.createDocumentFragment();
     DocumentBaseNode *node = document->clipHierarch();
     QPtrListIterator < DocumentBaseNode > itt(node->children());
+
+    // Black producer for background color
+    QDomElement black = doc.createElement("producer");
+    black.setAttribute("id", "black");
+    black.setAttribute("mlt_service", "colour");
+    black.setAttribute("colour", "black");
+    avfilelist.appendChild(black);
 
     while (itt.current()) {
 	DocumentClipNode *clipNode = itt.current()->asClipNode();
 	if (clipNode) {
-	    QDomElement avfile = doc.createElement("avfile");
+	    QDomElement avfile = doc.createElement("producer");
 	    if (clipNode->clipRef()->name() != "")
 		avfilelist.appendChild(processedNode(clipNode, avfile));
 	} else {
@@ -85,7 +89,7 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
     	    while (itt.current()) {
 		DocumentClipNode *clipNode = itt.current()->asClipNode();
 		if (clipNode) {
-			QDomElement avfile = doc.createElement("avfile");
+			QDomElement avfile = doc.createElement("producer");
 	        	if (clipNode->clipRef()->name() != "")
 			folderItem.appendChild(processedNode(clipNode, avfile));
 		} 
@@ -98,24 +102,19 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
 	++itt;
     }
 
-
     elem.appendChild(avfilelist);
-    elem.appendChild(doc.importNode(document->projectClip().toXML().documentElement(), true));
 
-    QDomNode playlist = doc.importNode(document->projectClip().generateSceneList().documentElement(), true);
-    elem.appendChild(playlist);
 
-/*
-    for( QDomNode n = playlist.firstChild(); !n.isNull(); n = n.nextSibling() )
-    {
-	
-	kdDebug()<<"+ + + appending playlist chlid"<<endl;
-	elem.appendChild(n);
+    // Append Kdenlive's track list
+    QDomDocument trackList = document->projectClip().toXML();
+    if (!trackList.isNull()) elem.appendChild(doc.importNode(trackList.documentElement(), true));
+
+    // include a copy of the MLT playlist so that the project file can be played directly
+    QDomDocument westleyList = document->projectClip().generateSceneList(false);
+    if (!westleyList.isNull()) {
+	QDomNode playlist = doc.importNode(westleyList.documentElement(), true);
+    	westley.appendChild(playlist);
     }
-  */  
-
-    //west.appendChild(document->projectClip().generateSceneList().documentElement());
-    //west.appendChild(doc.importNode(document->projectClip().generateSceneList().documentElement(), true));
 
     QString save = doc.toString();
     file.writeBlock(save.utf8(), save.length());
@@ -125,17 +124,20 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
 
 QDomElement SaveProjectNativeFilter::processedNode(DocumentClipNode *clipNode, QDomElement avfile)
 {
-	avfile.setAttribute("url", clipNode->clipRef()->fileURL().path());
+
 	DocClipBase::CLIPTYPE clipType;
 	clipType = clipNode->clipRef()->clipType();
 	avfile.setAttribute("type", clipType);
-            
-            avfile.setAttribute("id", clipNode->clipRef()->referencedClip()->getId());
+        avfile.setAttribute("id", clipNode->clipRef()->referencedClip()->getId());
+	if (clipType != DocClipBase::COLOR) 
+	    avfile.setAttribute("resource", clipNode->clipRef()->fileURL().path());
 
 	    if (clipType == DocClipBase::IMAGE) {
 		avfile.setAttribute("duration",
 		    QString::number(clipNode->clipRef()->duration().
 			frames(KdenliveSettings::defaultfps())));
+		avfile.setAttribute("hide", "audio");
+		avfile.setAttribute("aspect_ratio", QString::number(clipNode->clipRef()->referencedClip()->toDocClipAVFile()->aspectRatio()));
                 avfile.setAttribute("transparency",clipNode->clipRef()->referencedClip()->toDocClipAVFile()->isTransparent());
             }
 	    else if (clipType == DocClipBase::SLIDESHOW) {
@@ -145,11 +147,15 @@ QDomElement SaveProjectNativeFilter::processedNode(DocumentClipNode *clipNode, Q
 		avfile.setAttribute("ttl",
 		    QString::number(clipNode->clipRef()->referencedClip()->toDocClipAVFile()->clipTtl()));
                 avfile.setAttribute("transparency",clipNode->clipRef()->referencedClip()->toDocClipAVFile()->isTransparent());
+		avfile.setAttribute("hide", "audio");
+		avfile.setAttribute("aspect_ratio", QString::number(clipNode->clipRef()->referencedClip()->toDocClipAVFile()->aspectRatio()));
 		avfile.setAttribute("crossfade",clipNode->clipRef()->referencedClip()->toDocClipAVFile()->hasCrossfade());
             }
             else if (clipType == DocClipBase::COLOR) {
 		avfile.setAttribute("name", clipNode->clipRef()->name());
-		avfile.setAttribute("color",
+		avfile.setAttribute("mlt_service", "colour");
+		avfile.setAttribute("hide", "audio");
+		avfile.setAttribute("colour",
 		    clipNode->clipRef()->referencedClip()->
 		    toDocClipAVFile()->color());
 		avfile.setAttribute("duration",
@@ -162,11 +168,18 @@ QDomElement SaveProjectNativeFilter::processedNode(DocumentClipNode *clipNode, Q
                                             frames(KdenliveSettings::defaultfps())));
                 avfile.setAttribute("name", clipNode->clipRef()->name());
                 avfile.setAttribute("transparency",clipNode->clipRef()->referencedClip()->toDocClipTextFile()->isTransparent());
-                avfile.setAttribute("xml",
-                                    clipNode->clipRef()->referencedClip()->toDocClipTextFile()->textClipXml().toString());
+		avfile.setAttribute("hide", "audio");
+		avfile.setAttribute("aspect_ratio", QString::number(clipNode->clipRef()->referencedClip()->toDocClipTextFile()->aspectRatio()));
+
+		QDomDocument clipText = clipNode->clipRef()->referencedClip()->toDocClipTextFile()->textClipXml();
+		avfile.appendChild(avfile.ownerDocument().importNode(clipText.documentElement(), true));
             }
-	    QDomText description = avfile.ownerDocument().createTextNode(clipNode->clipRef()->description());
-	    avfile.appendChild(description);
+
+	    QString desc = clipNode->clipRef()->description();
+	    if (!desc.isEmpty()) {
+	    	QDomText description =  avfile.ownerDocument().createTextNode(desc);
+	    	avfile.appendChild(description);
+	    }
 
 	    return avfile;
 }

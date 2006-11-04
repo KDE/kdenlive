@@ -216,6 +216,9 @@ class KdenliveDoc:public QObject {
     /** When loading a new project, update the project list clip's reference (how much time each clip is used in timeline*/
     void updateReferences();
 
+    /** Regenerate virtual clips */
+    void refreshVirtualClips();
+
     /** Folder where all temp files/previews will be stored*/
     KURL m_projectFolder;
 
@@ -273,8 +276,6 @@ class KdenliveDoc:public QObject {
     void clipChanged(DocClipRef * file);
 	/** Emitted when a particular clip has been deleted.*/
     void nodeDeleted(DocumentBaseNode *);
-	/** emitted when the document has changed in some way. */
-    void documentChanged();
 	/** Also emitted when the document has changed in some way, fires off the project clip with it */
     void documentChanged(DocClipBase *);
 	/** Emitted when a clip was added /removed in timeline and reference number needs update*/

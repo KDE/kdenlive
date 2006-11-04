@@ -36,15 +36,21 @@ SaveProjectScenelistFilter::~SaveProjectScenelistFilter()
 
 bool SaveProjectScenelistFilter::save(QFile & file, KdenliveDoc * document)
 {
-    QDomDocument doc = document->projectClip().generateSceneList();
+    QDomDocument doc;
+ 
+    // include a copy of the MLT playlist so that the project file can be played directly
+    QDomDocument westleyList = document->projectClip().generateSceneList(true);
+    QDomNode playlist = doc.importNode(westleyList.documentElement(), true);
+    doc.appendChild(playlist);
+    
     QString save = doc.toString();
-    file.writeBlock(save.ascii(), save.length());
+    file.writeBlock(save.utf8(), save.length());
     return true;
 }
 
 QStringList SaveProjectScenelistFilter::handledFormats() const
 {
     QStringList list;
-    list.append("application/vnd.kde.kdenlive.scenelist");
+    list.append("application/vnd.westley.scenelist");
     return list;
 }

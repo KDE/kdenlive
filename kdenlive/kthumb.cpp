@@ -45,6 +45,14 @@
 #include "kthumb.h"
 #include "kdenlive.h"
 
+
+
+
+#define _S(a)           (a)>255 ? 255 : (a)<0 ? 0 : (a)
+#define _R(y,u,v) (0x2568*(y)                          + 0x3343*(u)) /0x2000
+#define _G(y,u,v) (0x2568*(y) - 0x0c92*(v) - 0x1a1e*(u)) /0x2000
+#define _B(y,u,v) (0x2568*(y) + 0x40cf*(v))                                          /0x2000
+
 KThumb::KThumb(QObject * parent, const char *name):QObject(parent,
     name), m_workingOnAudio(false)
 {
@@ -59,9 +67,9 @@ void KThumb::getImage(KURL url, int frame, int width, int height)
 {
     if (url.isEmpty()) return;
     QPixmap image(width, height);
-    image.fill(Qt::black);
 
     Mlt::Producer m_producer(KRender::decodedString(url.path()));
+    image.fill(Qt::black);
 
     if (m_producer.is_blank()) {
 	emit thumbReady(frame, image);
@@ -78,20 +86,14 @@ void KThumb::getImage(KURL url, int frame, int width, int height)
     if (m_frame) {
 	m_frame->set("rescale", "nearest");
 	uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, orig_width, orig_height, 1);
-	m_producer.set("thumb", m_thumb, orig_width * orig_height * 4,
-	    mlt_pool_release);
-	m_frame->set("image", m_thumb, 0, NULL, NULL);
-
-	QImage m_image(m_thumb, orig_width, orig_height, 32, 0, 0, QImage::IgnoreEndian);
-
+	QImage m_image(m_thumb, orig_width, orig_height, 32, 0, 0, QImage::LittleEndian);
 	delete m_frame;
 	if (!m_image.isNull())
 	    bitBlt(&image, 1, 1, &m_image, 0, 0, orig_width, orig_height);
-	else
-	    image.fill(Qt::black);
     }
     emit thumbReady(frame, image);
 }
+
 
 void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLength, int arrayWidth){
 	QMap <int, QMap <int, QByteArray> > storeIn;
@@ -102,7 +104,7 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
 	int m_frequency = 48000;
 	int m_channels = channel; 
 	KMD5 context ((KFileItem(url,"text/plain", S_IFREG).timeString() + url.fileName()).ascii());
-	QString thumbname = KdenliveSettings::currentdefaultfolder() + "/" + context.hexDigest().data() + ".thumb";
+	QString thumbname = KdenliveSettings::currenttmpfolder() + context.hexDigest().data() + ".thumb";
 	kdDebug()<<"+++++++++ THUMB GET READY FOR: "<<thumbname<<endl;
 	QFile f(thumbname);
 	if (f.open( IO_ReadOnly )) {

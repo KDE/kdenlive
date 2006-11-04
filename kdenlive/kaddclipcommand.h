@@ -68,7 +68,12 @@ namespace Command {
                          const GenTime & duration,
                          const QString & name, const QString & description, const QDomDocument &xml,  KURL url, QPixmap &pix, bool alphaTransparency,
                          bool create = true);
-	
+
+
+	/** Add Virtual clip */
+    	KAddClipCommand(KdenliveDoc & document, const QString & parent, const KURL & url,
+			const GenTime & start, const GenTime & end, const QString & description,
+			bool create);
          
          /** Construct an image clip */
 	 KAddClipCommand(KdenliveDoc & document, const QString & parent, const KURL & url,
@@ -102,6 +107,7 @@ namespace Command {
 	/** An xml representation of the clip */
 	QDomDocument m_xmlClip;
 	bool m_isTextClip;
+	bool m_isVirtualClip;
 
       private:			// Private methods
 	/** Deletes the clip */

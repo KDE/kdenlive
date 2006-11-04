@@ -36,6 +36,7 @@ class ClipManager;
 class DocTrackBase;
 class DocClipAVFile;
 class DocClipTextFile;
+class DocClipVirtual;
 class EffectDescriptionList;
 
 class DocClipBase:public QObject {
@@ -45,7 +46,7 @@ class DocClipBase:public QObject {
 	 *   done here. If a new clip type is added then it should be possible to combine it with both audio
 	 *   and video. */
     enum CLIPTYPE { NONE = 0, AUDIO = 1, VIDEO = 2, AV = 3, COLOR =
-	    4, IMAGE = 5, TEXT = 6, SLIDESHOW = 7};
+	    4, IMAGE = 5, TEXT = 6, SLIDESHOW = 7, VIRTUAL = 8};
 
      DocClipBase();
      virtual ~ DocClipBase();
@@ -91,12 +92,20 @@ class DocClipBase:public QObject {
     virtual DocClipAVFile *toDocClipAVFile() {
 	return 0;
     }
+
+    virtual DocClipTextFile *toDocClipTextFile() {
+        return 0;
+    }
     
     virtual bool isDocClipTextFile() const {
         return false;
+    }
+
+    virtual bool isDocClipVirtual() const {
+        return false;
     } 
     
-    virtual DocClipTextFile *toDocClipTextFile() {
+    virtual DocClipVirtual *toDocClipVirtual() {
         return 0;
     }
     
@@ -115,7 +124,7 @@ class DocClipBase:public QObject {
 	const GenTime & endTime) const = 0;
 	/** returns a QString containing all of the XML data required to recreate this clip. */
     virtual QDomDocument toXML() const;
-    virtual QDomDocument generateSceneList() const;
+    virtual QDomDocument generateSceneList(bool addProducers = true) const;
 
 	/** Returns true if the xml passed matches the values in this clip */
     virtual bool matchesXML(const QDomElement & element) const = 0;

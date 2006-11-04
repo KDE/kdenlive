@@ -31,6 +31,7 @@
 #include <docclipbase.h>
 #include <docclipavfile.h>
 #include <doccliptextfile.h>
+#include <docclipvirtual.h>
 #include <krendermanager.h>
 #include <kaddclipcommand.h>
 #include <titlewidget.h>
@@ -304,6 +305,17 @@ QDomDocument ClipManager::buildTextClip(const GenTime & duration, const QString 
     return resultxml;
 }
 
+QDomDocument ClipManager::buildVirtualClip(const GenTime & start, const GenTime & end, const QString & name, const QString & description, const KURL url, int clipId)
+{
+    DocClipBase *clip;
+    if (clipId == -1) clip = new DocClipVirtual( url, name, description, start, end, m_clipCounter++);
+    else {
+        clip = new DocClipVirtual(url, name, description, start, end, clipId);
+    }
+    QDomDocument resultxml = clip->toXML();
+    delete clip;
+    return resultxml;
+}
 
 DocClipBase *ClipManager::insertXMLClip(QDomDocument node)
 {
@@ -351,6 +363,17 @@ DocClipBase *ClipManager::insertXMLTextClip(QDomDocument node)
     }
     copyBlt(&result, 1, 1, &pix, 0, 0, 48, 38);
     clip->setThumbnail(result);
+    m_clipCounter++;
+    emit clipListUpdated();
+    return clip;
+}
+
+DocClipBase *ClipManager::insertXMLVirtualClip(QDomDocument node)
+{
+    DocClipBase *clip;
+    clip = new DocClipVirtual(node);
+    m_clipList.append(clip);
+    emit getFileProperties(clip->fileURL());
     m_clipCounter++;
     emit clipListUpdated();
     return clip;
@@ -545,9 +568,7 @@ QDomDocumentFragment ClipManager::producersList()
 
 	    if (avClip->clipType() == DocClipBase::IMAGE || avClip->clipType() == DocClipBase::SLIDESHOW) {
 		QDomElement producer = sceneList.createElement("producer");
-		producer.setAttribute("id",
-		    QString("producer") +
-		    QString::number(avClip->getId()));
+		producer.setAttribute("id", avClip->getId());
                 double ratio = ((double) KdenliveSettings::defaultwidth()/KdenliveSettings::defaultheight())/((double)avClip->clipWidth()/avClip->clipHeight()) * m_render->consumerRatio();
                 producer.setAttribute("aspect_ratio", QString::number(ratio));
 		producer.setAttribute("resource",
@@ -559,9 +580,7 @@ QDomDocumentFragment ClipManager::producersList()
 
 	    else if (avClip->clipType() == DocClipBase::COLOR) {
 		QDomElement producer = sceneList.createElement("producer");
-		producer.setAttribute("id",
-		    QString("producer") +
-		    QString::number(avClip->getId()));
+		producer.setAttribute("id", avClip->getId());
 		producer.setAttribute("mlt_service", "colour");
 		producer.setAttribute("hide", "audio");
 		producer.setAttribute("colour", avClip->color());
@@ -570,18 +589,14 @@ QDomDocumentFragment ClipManager::producersList()
 
 	    else if (avClip->clipType() == DocClipBase::AUDIO) {
 		QDomElement producer = sceneList.createElement("producer");
-		producer.setAttribute("id",
-		    QString("producer") +
-		    QString::number(avClip->getId()));
+		producer.setAttribute("id", avClip->getId());
 		producer.setAttribute("resource",
 		    avClip->fileURL().path());
 		producer.setAttribute("hide", "video");
 		list.appendChild(producer);
 	    } else if (avClip->clipType() == DocClipBase::VIDEO) {
 		QDomElement producer = sceneList.createElement("producer");
-		producer.setAttribute("id",
-		    QString("producer") +
-		    QString::number(avClip->getId()));
+		producer.setAttribute("id", avClip->getId());
 		producer.setAttribute("resource",
 		    avClip->fileURL().path());
 		producer.setAttribute("hide", "audio");
@@ -590,30 +605,11 @@ QDomDocumentFragment ClipManager::producersList()
 
 	    else {
 		QDomElement producer = sceneList.createElement("producer");
-		producer.setAttribute("id",
-		    QString("producer") +
-		    QString::number(avClip->getId()));
+		producer.setAttribute("id", avClip->getId());
 		producer.setAttribute("resource",
 		    avClip->fileURL().path());
 		list.appendChild(producer);
 	    }
-
-	    /*
-
-	       if (avClip->clipType() == DocClipBase::AV )
-	       {
-	       QDomElement producer = sceneList.createElement("producer");
-	       producer.setAttribute("id", QString("video_producer") + QString::number(avClip->getId()) );
-	       producer.setAttribute("audio_index", QString::number(-1));
-	       producer.setAttribute("resource", avClip->fileURL().path());
-	       sceneList.appendChild(producer);
-
-	       QDomElement producer2 = sceneList.createElement("producer");
-	       producer2.setAttribute("id", QString("audio_producer") + QString::number(avClip->getId()) );
-	       producer2.setAttribute("video_index", QString::number(-1));
-	       producer2.setAttribute("resource", avClip->fileURL().path());
-	       sceneList.appendChild(producer2);
-	       } */
 	}
         }
         else if (itt.current()->isDocClipTextFile())
@@ -628,19 +624,36 @@ QDomDocumentFragment ClipManager::producersList()
                 producer.setAttribute("resource", avClip->fileURL().path());
                 producer.setAttribute("hide", "audio");
                 list.appendChild(producer);
-                
-            /*QDomElement producer = sceneList.createElement("producer");
-            producer.setAttribute("id", QString("producer") + QString::number(avClip->getId()));
-            producer.setAttribute("resource","pango");
-            producer.setAttribute("bgcolour", "0x000000ff");
-            producer.setAttribute("markup", avClip->description());
-                sceneList.appendChild(producer);*/
             }
         }
 	++itt;
     }
     return list;
 }
+
+QDomDocumentFragment ClipManager::virtualProducersList()
+{
+    QDomDocument sceneList;
+    QDomDocumentFragment list = sceneList.createDocumentFragment();
+    sceneList.appendChild(list);
+
+    QPtrListIterator < DocClipBase > itt(m_clipList);
+    while (itt.current()) {
+	if (itt.current()->isDocClipVirtual()) {
+		DocClipVirtual *avClip = itt.current()->toDocClipVirtual();
+		if (avClip) {
+		    QDomElement producer = sceneList.createElement("producer");
+		    producer.setAttribute("id", avClip->getId());
+		    producer.setAttribute("mlt_service", "westley");
+		    producer.setAttribute("resource", avClip->fileURL().path());
+		    list.appendChild(producer);
+		}
+	}
+	++itt;
+    }
+    return list;
+}
+
 
 DocClipBase *ClipManager::findClip(const KURL & file)
 {
@@ -709,9 +722,8 @@ DocClipAVFile *ClipManager::findAVFile(const KURL & url)
 
     while (itt.current()) {
 	DocClipBase *clip = itt.current();
-        DocClipAVFile *avClip;
 	if (clip->isDocClipAVFile()) {
-	    avClip = clip->toDocClipAVFile();
+	    DocClipAVFile *avClip = clip->toDocClipAVFile();
             if (avClip && avClip->fileURL().path() == url.path()) {
 		file = avClip;
 		break;
@@ -719,7 +731,6 @@ DocClipAVFile *ClipManager::findAVFile(const KURL & url)
 	}
 	++itt;
     }
-
     return file;
 }
 

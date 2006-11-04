@@ -153,9 +153,10 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 
     xmlAttr.append("type", QString::null, QString::null, "double");
     xmlAttr.append("name", QString::null, QString::null, "Intensity");
-    xmlAttr.append("max", QString::null, QString::null, "3");
+    xmlAttr.append("max", QString::null, QString::null, "300");
     xmlAttr.append("min", QString::null, QString::null, "0");
-    xmlAttr.append("default", QString::null, QString::null, "1");
+    xmlAttr.append("default", QString::null, QString::null, "100");
+    xmlAttr.append("factor", QString::null, QString::null, "100");
     bright->addParameter(effectDescParamFactory.createParameter(xmlAttr));
     effectList->append(bright);
 
@@ -165,9 +166,10 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
     xmlAttr.append("type", QString::null, QString::null, "double");
     xmlAttr.append("name", QString::null, QString::null, "gain");
     xmlAttr.append("starttag", QString::null, QString::null, "gain");
-    xmlAttr.append("max", QString::null, QString::null, "3");
+    xmlAttr.append("max", QString::null, QString::null, "300");
     xmlAttr.append("min", QString::null, QString::null, "0");
-    xmlAttr.append("default", QString::null, QString::null, "1");
+    xmlAttr.append("default", QString::null, QString::null, "100");
+    xmlAttr.append("factor", QString::null, QString::null, "100");
     volume->addParameter(effectDescParamFactory.createParameter(xmlAttr));
     effectList->append(volume);
     
@@ -408,14 +410,14 @@ void initEffects::ladspaEffectFile(const QString & fname, int ladspaId, QStringL
 	return;
     }
 
-	QFile f( QString( KdenliveSettings::currenttmpfolder() + "/" + fname).ascii() );
+	QFile f( QString( KdenliveSettings::currenttmpfolder() + fname).ascii() );
     	if ( f.open( IO_WriteOnly ) ) 
 	{
         	QTextStream stream( &f );
 		stream << filterString;
 		f.close();
     	}
-    	else kdDebug()<<"++++++++++  ERROR CANNOT WRITE TO: "<<KdenliveSettings::currenttmpfolder() + "/" + fname<<endl;
+    	else kdDebug()<<"++++++++++  ERROR CANNOT WRITE TO: "<<KdenliveSettings::currenttmpfolder() +  fname<<endl;
 }
 
 char* initEffects::ladspaPitchEffectString(QStringList params)

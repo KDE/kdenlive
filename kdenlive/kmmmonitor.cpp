@@ -249,7 +249,6 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
     void KMMMonitor::slotSetClip(DocClipBase * clip) {
         
         activateMonitor();
-
 	if (!clip) {
 	    kdError() << "Null clip passed, not setting monitor." << endl;
 	    return;
@@ -272,7 +271,6 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 
     void KMMMonitor::doCommonSetClip(bool resetCropPosition) {
 	QDomDocument scenelist = m_clip->generateSceneList();
-
 	setSceneList(scenelist, false);
 	m_screen->setClipLength((int) m_clip->duration().
 	    frames(m_document->framesPerSecond()));

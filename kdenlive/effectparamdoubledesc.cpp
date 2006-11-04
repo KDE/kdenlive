@@ -33,7 +33,10 @@ EffectParamDoubleDesc(const QXmlAttributes & attributes)
     m_max = attributes.value("max").toDouble();
     m_starttag = attributes.value("starttag");
     m_endtag = attributes.value("endtag");
+    m_factor = attributes.value("factor").toDouble();
     m_list = attributes.value("paramlist");
+
+    if (m_factor == 0.0) m_factor = 1.0;
 
     if (m_starttag == "")
 	m_starttag = "start";
@@ -78,19 +81,17 @@ const QString EffectParamDoubleDesc::endTag() const
 // virtual
 EffectKeyFrame *EffectParamDoubleDesc::createKeyFrame(double time)
 {
-    // Internally, the keyframe values are in a range from 0 to 100.
-    return new EffectDoubleKeyFrame(time, defaultValue().toInt() * 100 / m_max);
+    return new EffectDoubleKeyFrame(time, defaultValue().toInt());
 }
 
 // virtual
 EffectKeyFrame *EffectParamDoubleDesc::createKeyFrame(double time,
     double value)
 {
-    // Internally, the keyframe values are in a range from 0 to 100.
-    if (value > 100)
-	value = 100;
-    if (value < 0)
-	value = 0;
+    if (value > m_max)
+	value = m_max;
+    if (value < m_min)
+	value = m_min;
     return new EffectDoubleKeyFrame(time, value);
 }
 

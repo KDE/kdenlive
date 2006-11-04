@@ -21,7 +21,6 @@
 #include "kdenlivedoc.h"
 #include "docclipbase.h"
 #include "clipmanager.h"
-#include "docclipproject.h"
 #include "docclipavfile.h"
 #include "documentbasenode.h"
 #include "documentclipnode.h"
@@ -84,8 +83,7 @@ namespace Command {
 
 /** Construct an AddClipCommand that will add or delete a clip */
   KAddClipCommand::KAddClipCommand(KdenliveDoc & document, const QString & name, DocClipBase * clip, DocumentBaseNode * parent, bool create):
-    m_document(document),
-	m_name(name), m_parent(parent->name()), m_create(create), m_id(clip->getId()) {
+    m_document(document), m_name(name), m_parent(parent->name()), m_create(create), m_id(clip->getId()), m_isTextClip(false), m_isVirtualClip(false) {
 	if (!m_parent) {
 	    kdWarning() <<
 		"Error - all clips created with kaddclipcommand should have a parent!"
@@ -97,7 +95,7 @@ namespace Command {
 	} else {
 	    m_xmlClip = clip->toXML();
 	    if (clip->clipType() == DocClipBase::TEXT) m_isTextClip = true;
-	    else m_isTextClip = false;
+	    else if (clip->clipType() == DocClipBase::VIRTUAL) m_isVirtualClip = true;
 	}
     }
 
@@ -106,7 +104,7 @@ namespace Command {
 	const QString & color, const GenTime & duration,
 	const QString & name, const QString & description,
 	bool create):m_document(document), m_name("Color Clip"),
-	m_parent(parent), m_create(create), m_isTextClip(false) {
+	m_parent(parent), m_create(create), m_isTextClip(false), m_isVirtualClip(false) {
 	if (!m_parent) {
 	    kdWarning() <<
 		"Error - all clips created with kaddclipcommand should have a parent!"
@@ -121,7 +119,7 @@ namespace Command {
                                      const GenTime & duration,
                                      const QString & name, const QString & description, const QDomDocument &xml,  KURL url, QPixmap &pix, bool alphaTransparency,
                                      bool create):m_document(document), m_name("Text Clip"),
-    m_parent(parent), m_create(create), m_isTextClip(true) {
+    m_parent(parent), m_create(create), m_isTextClip(true), m_isVirtualClip(false) {
         if (!m_parent) {
             kdWarning() <<
                     "Error - all clips created with kaddclipcommand should have a parent!"
@@ -145,7 +143,7 @@ namespace Command {
     KAddClipCommand::KAddClipCommand(KdenliveDoc & document, const QString & parent,
 	const KURL & url, const GenTime & duration, const QString & description, bool alphaTransparency,
 	bool create):m_document(document), m_name(url.filename()),
-	m_parent(parent), m_create(create), m_isTextClip(false) {
+	m_parent(parent), m_create(create), m_isTextClip(false), m_isVirtualClip(false) {
 
 	if (!m_parent) {
 	    kdWarning() <<
@@ -158,12 +156,27 @@ namespace Command {
     }
 
 
+/** Add Virtual clip */
+    KAddClipCommand::KAddClipCommand(KdenliveDoc & document, const QString & parent,
+	const KURL & url, const GenTime & start, const GenTime & end, const QString & description,
+	bool create):m_document(document), m_name(i18n("Virtual Clip")),
+	m_parent(parent), m_create(create), m_isTextClip(false), m_isVirtualClip(true) {
+
+	if (!m_parent) {
+	    kdWarning() <<
+		"Error - all clips created with kaddclipcommand should have a parent!"
+		<< endl;
+	}
+        m_xmlClip = document.clipManager().buildVirtualClip(start, end, m_name, description, url);
+	m_id = -1;
+    }
+
 /** Add Slideshow clip */
     KAddClipCommand::KAddClipCommand(KdenliveDoc & document, const QString & parent,
 	const KURL & url, const QString & extension, const int &ttl, bool crossfade,
         const GenTime & duration, const QString & description, bool alphaTransparency,
 	bool create):m_document(document), m_name(url.filename()),
-	m_parent(parent), m_create(create), m_isTextClip(false) {
+	m_parent(parent), m_create(create), m_isTextClip(false), m_isVirtualClip(false) {
 
 	if (!m_parent) {
 	    kdWarning() <<
@@ -178,7 +191,7 @@ namespace Command {
     KAddClipCommand::KAddClipCommand(KdenliveDoc & document, const QString & parent,
 	const KURL & url, bool create):m_document(document),
 	m_name(url.filename()), m_parent(parent),
-        m_create(create), m_isTextClip(false), m_id(-1) {
+        m_create(create), m_isTextClip(false), m_isVirtualClip(false), m_id(-1) {
 	if (!m_parent) {
 	    kdWarning() <<
 		"Error - all clips created with kaddclipcommand should have a parent!"
@@ -229,7 +242,9 @@ namespace Command {
 		<< endl;
 	} else {
 	    DocClipBase *clip;
-	    if (m_isTextClip) 
+	    if (m_isVirtualClip) 
+		clip = m_document.clipManager().insertXMLVirtualClip(m_xmlClip);
+	    else if (m_isTextClip) 
 		clip = m_document.clipManager().insertXMLTextClip(m_xmlClip);
 	    else clip = m_document.clipManager().insertXMLClip(m_xmlClip);
 	    m_id = clip->getId();

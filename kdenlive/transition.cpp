@@ -399,7 +399,7 @@ Transition *Transition::clone()
 QDomElement Transition::toXML()
 {
     QDomDocument doc;
-    QDomElement effect = doc.createElement("transition");
+    QDomElement effect = doc.createElement("ktransition");
     effect.setAttribute("type", transitionType());
     effect.setAttribute("inverted", invertTransition());
     effect.setAttribute("transition_track", m_transitionTrack);

@@ -1,8 +1,8 @@
 [Desktop Entry]
 Type=MimeType
-MimeType=application/vnd.kde.kdenlive.scenelist
-Icon=kdenlive
-Patterns=*.veml;
-DefaultApp=kdenlive
-Comment=Kdenlive VEML Scenelist File
+MimeType=application/vnd.westley.scenelist
+Icon=
+Patterns=*.westley;
+DefaultApp=inigo
+Comment=MLT Westley Playlist
 
