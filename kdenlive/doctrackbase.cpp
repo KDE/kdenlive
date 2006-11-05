@@ -619,7 +619,6 @@ DocClipRefList DocTrackBase::referencedClips(DocClipBase * clip) const
     while (itt.current()) {
 	if (itt.current()->referencesClip(clip)) {
 	    list.append(itt.current());
-	    break;
 	}
 	++itt;
     }
