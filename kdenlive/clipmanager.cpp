@@ -636,8 +636,7 @@ QDomDocumentFragment ClipManager::producersList()
             if (avClip)
             {
                 QDomElement producer = sceneList.createElement("producer");
-                producer.setAttribute("id",
-                                      QString("producer") + QString::number(avClip->getId()));
+                producer.setAttribute("id", avClip->getId());
                 producer.setAttribute("aspect_ratio", QString::number(m_render->consumerRatio()));
                 producer.setAttribute("resource", avClip->fileURL().path());
                 producer.setAttribute("hide", "audio");
