@@ -2641,10 +2641,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		int id = clip->getId();
 		m_monitorManager.clearClip(clip);
 
-		DocClipRefList list =
-		    m_doc->referencedClips(m_projectList->
-		    currentSelection()->referencedClip());
-
+		DocClipRefList list = m_doc->referencedClips(clip);
 		QPtrListIterator < DocClipRef > itt(list);
 
 		while (itt.current()) {

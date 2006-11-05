@@ -146,7 +146,6 @@ class KdenliveDoc:public QObject {
 	DocumentBaseNode *findClipNode(const QString & name) const;
 
 	/** Delete the named documentBaseNode */
-    void deleteClipNode(const QString & name);
     void deleteGroupNode(const QString & name);
     void deleteClipNodeById(const int & id);
     DocumentBaseNode *findClipNodeById(const int & id);
@@ -229,9 +228,7 @@ class KdenliveDoc:public QObject {
 	/** Adds an empty video track to the project */
     void addVideoTrack(int ix = -1);
     void slotDeleteTrack(int ix);
-	/** Called when an error occurs whilst retrieving a file's properties. */
-    void AVFilePropertiesError(const QString & path,
-	const QString & errmsg);
+
     // HACK HACK - we need a way to prevent the document from spewing hundreds of scenelist
     // generation requests - this is it.
     void activateSceneListGeneration(bool active = false);

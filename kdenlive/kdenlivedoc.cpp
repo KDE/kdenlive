@@ -416,34 +416,6 @@ void KdenliveDoc::deleteGroupNode(const QString & name)
     }
 }
 
-void KdenliveDoc::deleteClipNode(const QString & name)
-{
-    DocumentBaseNode *node = findClipNode(name);
-
-    if (node) {
-	if (!node->hasChildren()) {
-	    if ((node->asClipNode() == NULL)
-		|| (!m_projectClip->referencesClip(node->asClipNode()->
-			clipRef()->referencedClip()))) {
-		node->parent()->removeChild(node);
-		emit nodeDeleted(node);
-		delete node;
-	    } else {
-		kdError() <<
-		    "Trying to delete clip that has references in the document - "
-		    <<
-		    "must delete references first. Silently ignoring delete request"
-		    << endl;
-	    }
-	} else {
-	    kdError() <<
-		"cannot delete DocumentBaseNode if it has children" <<
-		endl;
-	}
-    } else {
-	kdError() << "Cannot delete node, cannot find clip" << endl;
-    }
-}
 
 DocumentBaseNode * KdenliveDoc::findClipNodeById(const int & id)
 {
@@ -483,17 +455,6 @@ void KdenliveDoc::deleteClipNodeById(const int & id)
 DocumentBaseNode *KdenliveDoc::findClipNode(const QString & name) const
 {
     return m_clipHierarch->findClipNode(name);
-}
-
-void KdenliveDoc::AVFilePropertiesError(const QString & path,
-    const QString & errmsg)
-{
-    DocClipBase *file = m_clipManager.findClip(KURL(path));
-
-    Gui::KdenliveApp * win = (Gui::KdenliveApp *) parent();
-    KMessageBox::sorry(win, errmsg, path);
-
-    deleteClipNode(file->name());
 }
 
 void KdenliveDoc::addClipNode(const QString & parent,
