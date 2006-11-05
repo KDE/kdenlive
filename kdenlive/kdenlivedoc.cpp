@@ -266,6 +266,7 @@ void KdenliveDoc::refreshVirtualClips()
 {
    DocClipBaseList list = clipManager().managerClipList();
    QPtrListIterator < DocClipBase > itt(list);
+   if (m_projectClip->producersList.isNull()) generateProducersList();
     while (itt.current()) {
 	if (itt.current()->isDocClipVirtual()) {
 	    DocClipVirtual *vclip = itt.current()->toDocClipVirtual();

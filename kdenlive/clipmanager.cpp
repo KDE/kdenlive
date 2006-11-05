@@ -379,6 +379,24 @@ DocClipBase *ClipManager::insertXMLVirtualClip(QDomDocument node)
     return clip;
 }
 
+DocClipBase *ClipManager::insertVirtualClip(const QString & name,
+    const QString & description, const GenTime & start, const GenTime & end, const KURL url, int clipId)
+{
+    QPixmap result(50, 40);
+    result.fill(Qt::black);
+
+    DocClipBase *clip;
+    if (clipId == -1) clip = new DocClipVirtual( url, name, description, start, end, m_clipCounter++);
+    else {
+        clip = new DocClipVirtual( url, name, description, start, end, clipId);
+        if (clipId>=(int) m_clipCounter) m_clipCounter = clipId+1;
+    }
+    clip->setThumbnail(result);
+    m_clipList.append(clip);
+    emit clipListUpdated();
+    return clip;
+}
+
 DocClipBase *ClipManager::insertTextClip(
     const GenTime & duration, const QString & name,
     const QString & description, const QDomDocument &xml, const KURL url, QPixmap &pix, bool alphaTransparency, int clipId)
@@ -654,6 +672,21 @@ QDomDocumentFragment ClipManager::virtualProducersList()
     return list;
 }
 
+QValueList < QPoint > ClipManager::virtualZones()
+{
+QValueList < QPoint > list;
+    QPtrListIterator < DocClipBase > itt(m_clipList);
+    while (itt.current()) {
+	if (itt.current()->isDocClipVirtual()) {
+		DocClipVirtual *avClip = itt.current()->toDocClipVirtual();
+		if (avClip) {
+		    list.append(QPoint(avClip->virtualStartTime().frames(KdenliveSettings::defaultfps()), avClip->virtualEndTime().frames(KdenliveSettings::defaultfps())));
+		}
+	}
+	++itt;
+    }
+    return list;
+}
 
 DocClipBase *ClipManager::findClip(const KURL & file)
 {

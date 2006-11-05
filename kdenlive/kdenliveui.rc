@@ -140,7 +140,38 @@
 		<Action name="project_add_slideshow_clip"/>
 		<Action name="project_add_text_clip"/>
 	</Menu>
+	<Action name="project_delete_clip"/>
+        <Action name="edit_clip"/>
+        <Separator lineSeparator="true"/>
+        <Action name="project_clean"/>
+</Menu>
+
+<Menu name="projectlist_context_text">
+	<Action name="create_folder"/>
+	<Action name="project_add_clip"/>
+	<Menu name="create_clips"><text>Create Clip</text>
+		<Action name="project_add_color_clip"/>
+		<Action name="project_add_image_clip"/>
+		<Action name="project_add_slideshow_clip"/>
+		<Action name="project_add_text_clip"/>
+	</Menu>
 	<Action name="project_duplicate_text_clip"/>
+	<Action name="project_delete_clip"/>
+        <Action name="edit_clip"/>
+        <Separator lineSeparator="true"/>
+        <Action name="project_clean"/>
+</Menu>
+
+<Menu name="projectlist_context_virtual">
+	<Action name="create_folder"/>
+	<Action name="project_add_clip"/>
+	<Menu name="create_clips"><text>Create Clip</text>
+		<Action name="project_add_color_clip"/>
+		<Action name="project_add_image_clip"/>
+		<Action name="project_add_slideshow_clip"/>
+		<Action name="project_add_text_clip"/>
+	</Menu>
+	<Action name="show_virtual_zone"/>
 	<Action name="project_delete_clip"/>
         <Action name="edit_clip"/>
         <Separator lineSeparator="true"/>

@@ -27,6 +27,7 @@
 #include "docclipproject.h"
 #include "docclipavfile.h"
 #include "doccliptextfile.h"
+#include "docclipvirtual.h"
 
 SaveProjectNativeFilter::SaveProjectNativeFilter()
 :  SaveProjectFilter()
@@ -163,16 +164,26 @@ QDomElement SaveProjectNativeFilter::processedNode(DocumentClipNode *clipNode, Q
 			frames(KdenliveSettings::defaultfps())));
 	    }
             else if (clipType == DocClipBase::TEXT) {
+		DocClipTextFile *tclip = clipNode->clipRef()->referencedClip()->toDocClipTextFile();
                 avfile.setAttribute("duration",
                                     QString::number(clipNode->clipRef()->duration().
                                             frames(KdenliveSettings::defaultfps())));
                 avfile.setAttribute("name", clipNode->clipRef()->name());
-                avfile.setAttribute("transparency",clipNode->clipRef()->referencedClip()->toDocClipTextFile()->isTransparent());
+                avfile.setAttribute("transparency", tclip->isTransparent());
 		avfile.setAttribute("hide", "audio");
-		avfile.setAttribute("aspect_ratio", QString::number(clipNode->clipRef()->referencedClip()->toDocClipTextFile()->aspectRatio()));
+		avfile.setAttribute("aspect_ratio", QString::number( tclip->aspectRatio()));
 
-		QDomDocument clipText = clipNode->clipRef()->referencedClip()->toDocClipTextFile()->textClipXml();
+		QDomDocument clipText = tclip->textClipXml();
 		avfile.appendChild(avfile.ownerDocument().importNode(clipText.documentElement(), true));
+            }
+            else if (clipType == DocClipBase::VIRTUAL) {
+		DocClipVirtual *vclip = clipNode->clipRef()->referencedClip()->toDocClipVirtual();
+                avfile.setAttribute("duration",
+                                    QString::number(clipNode->clipRef()->duration().
+                                            frames(KdenliveSettings::defaultfps())));
+                avfile.setAttribute("name", clipNode->clipRef()->name());
+		avfile.setAttribute("virtualstart", vclip->virtualStartTime().frames(KdenliveSettings::defaultfps()));
+		avfile.setAttribute("virtualend", vclip->virtualEndTime().frames(KdenliveSettings::defaultfps()));
             }
 
 	    QString desc = clipNode->clipRef()->description();

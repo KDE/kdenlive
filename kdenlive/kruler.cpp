@@ -833,6 +833,16 @@ namespace Gui {
 	    painter.fillRect(endRuler, 0, ex - endRuler, height(),
 		palette().active().background());
 	}
+
+        // Red background for virtual zones
+	QValueList < QPoint >::Iterator vit;
+	QBrush zoneBrush(QColor(253,85,83));
+	zoneBrush.setStyle(Qt::Dense4Pattern);
+        for ( vit = m_vzones.begin(); vit != m_vzones.end(); ++vit ) {
+	    int vstart = (int) mapValueToLocal((*vit).x());
+	    int vend = (int) mapValueToLocal((*vit).y()) - vstart;
+	    painter.fillRect(vstart, 1, vend, (int) height()/2, zoneBrush);
+	}
         
         int selectedStart = 0;
         int selectedEnd = 0;
@@ -850,7 +860,7 @@ namespace Gui {
             }
         }
         
-        if (selectedStart < selectedEnd)  
+        if (selectedStart < selectedEnd)
             painter.fillRect(selectedStart, (int) height()/2, selectedEnd - selectedStart, (int) height()/2, QBrush(QColor(253,255,143)));
 
 	painter.setPen(palette().active().foreground());
@@ -932,7 +942,7 @@ namespace Gui {
 	ft.setPixelSize(11);
 	painter.setFont(ft);
 
-        QValueList < KTimelineGuide >::Iterator itt = m_guides.begin();
+        QValueList < KTimelineGuide >::Iterator itt;
         for ( itt = m_guides.begin(); itt != m_guides.end(); ++itt ) {
 	    value = (int) mapValueToLocal((*itt).guidePosition());
 	    int chap = (*itt).chapterNum();
@@ -1095,6 +1105,10 @@ namespace Gui {
 	    int pos = (*it).guidePosition();
 	    invalidateBackBuffer(mapValueToLocal(pos) - 20, mapValueToLocal(pos) + 20);
 	}
+    }
+
+    void KRuler::slotSetVZone(QValueList < QPoint > zones) {
+	m_vzones = zones;
     }
 
     QStringList KRuler::timelineRulerComments() {

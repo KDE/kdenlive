@@ -632,7 +632,12 @@ namespace Gui {
 	KAction *virtualZone = new KAction(i18n("Create Virtual Clip"), 0, this,
         SLOT(slotVirtualZone()), actionCollection(),
         "virtual_zone");
-	saveZone->setStatusText(i18n("Create virtual clip from selected zone"));
+	virtualZone->setStatusText(i18n("Create virtual clip from selected zone"));
+
+	KAction *showVirtualZone = new KAction(i18n("Go To Virtual Zone"), 0, this,
+        SLOT(slotShowVirtualZone()), actionCollection(),
+        "show_virtual_zone");
+	showVirtualZone->setStatusText(i18n("Go to selected clip's virtual zone"));
 
 	KAction *addGuide = new KAction(i18n("Add Guide"), 0, this,
         SLOT(slotAddGuide()), actionCollection(),
@@ -1438,6 +1443,7 @@ namespace Gui {
 	    m_projectFormatManager.openDocument(url, m_doc);
 	    setCaption(url.fileName() + " - " + easyName(m_projectFormat), false);
 	    fileOpenRecent->addURL(m_doc->URL());
+	    m_timeline->slotSetVZone(getDocument()->clipManager().virtualZones());
 	}
 	else {
 	    KMessageBox::sorry(this, i18n("Cannot read file: %1").arg(url.path()));
@@ -2012,11 +2018,21 @@ namespace Gui {
 
     void KdenliveApp::slotVirtualZone()
     {
+	bool ok;
+	QString clipName = KInputDialog::getText(i18n("Create Virtual Clip"), i18n("New clip name"), i18n("Virtual Clip"), &ok);
+	if (!ok) return;
 	KTempFile tmp( KdenliveSettings::currenttmpfolder(), ".westley");
 	QTextStream stream( tmp.file() );
     	stream << getDocument()->projectClip().generatePartialSceneList(m_timeline->inpointPosition(), m_timeline->outpointPosition()).toString() << "\n";
     	tmp.close();
-	addCommand(new Command::KAddClipCommand(*getDocument(), m_projectList->m_listView->parentName(), KURL(tmp.name()), m_timeline->inpointPosition(), m_timeline->outpointPosition(), QString::null, true));
+	addCommand(new Command::KAddClipCommand(*getDocument(), m_projectList->m_listView->parentName(), clipName, KURL(tmp.name()), m_timeline->inpointPosition(), m_timeline->outpointPosition(), QString::null, true));
+	m_timeline->slotSetVZone(getDocument()->clipManager().virtualZones());
+    }
+
+    void KdenliveApp::slotShowVirtualZone()
+    {
+	DocClipVirtual *clip = static_cast<AVListViewItem*>(m_projectList->m_listView->currentItem())->clip()->referencedClip()->toDocClipVirtual();
+	if (clip) m_timeline->seek(clip->virtualStartTime());
     }
 
     void KdenliveApp::slotDeleteGuide()
@@ -2637,6 +2653,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    }
 	}
 	else if (confirm) slotProjectDeleteFolder();
+	m_timeline->slotSetVZone(getDocument()->clipManager().virtualZones());
 	slotStatusMsg(i18n("Ready."));
     }
 

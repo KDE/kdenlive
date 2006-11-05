@@ -21,6 +21,7 @@
 #include <qdom.h>
 #include <qwidget.h>
 #include <qpixmap.h>
+#include <qpoint.h>
 #include <qtimer.h>
 #include <qvaluelist.h>
 
@@ -153,6 +154,7 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
 	QString guideComment(int ix);
 	QDomDocument xmlGuides();
 	void guidesFromXml(QDomElement xml);
+	void slotSetVZone(QValueList < QPoint > zones);
 
     signals:		// Signals
 	/** This signal is emitted when the ruler is resized. */
@@ -225,6 +227,8 @@ is under the mouse. */
 
 	/** The list of timeline guides */
 	QValueList < KTimelineGuide > m_guides;
+	/** The list of virtual zones */
+	QValueList < QPoint > m_vzones;
 	QPixmap m_markerPixmap;
 
     private:			// private methods

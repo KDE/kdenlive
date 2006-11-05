@@ -457,6 +457,7 @@ namespace Gui {
 	void slotAddVideoEffect(int ix);
 	void slotSaveZone();
 	void slotVirtualZone();
+	void slotShowVirtualZone();
 
       private:
 		/** the configuration object of the application */

@@ -203,6 +203,11 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
                         document->clipManager().insertTextClip(GenTime(clip.attribute("duration", "").toInt(), KdenliveSettings::defaultfps()), clip.attribute("name", ""),
                 clip.attribute("description", ""), xml, clip.attribute("resource", ""), pm, clip.attribute("transparency", "").toInt(), clip.attribute("id", "-1").toInt());
             }
+            else if (clipType == DocClipBase::VIRTUAL)	//   VIRTUAL CLIP
+            {
+                baseClip =
+                        document->clipManager().insertVirtualClip(clip.attribute("name", ""), clip.attribute("description", ""), GenTime(clip.attribute("virtualstart", "").toInt(), KdenliveSettings::defaultfps()), GenTime(clip.attribute("virtualend", "").toInt(), KdenliveSettings::defaultfps()), clip.attribute("resource", ""), clip.attribute("id", "-1").toInt());
+            }
 
 	    if (baseClip) {
 	    	DocumentClipNode *clipNode = new DocumentClipNode(parentNode, baseClip);

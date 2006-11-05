@@ -109,7 +109,7 @@ namespace Command {
 		found++;
 		++itt;
 	    }
-	    kdDebug()<<" -----------  FOUND: "<<found<<" selected clips on track: "<<count<<endl;
+	    //kdDebug()<<" -----------  FOUND: "<<found<<" selected clips on track: "<<count<<endl;
 	}
 
 	return macroCommand;

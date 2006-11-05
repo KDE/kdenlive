@@ -269,6 +269,7 @@ namespace Command {
 	void slotScrollDown();
 	void slotDeleteGuide();
 	void slotAddGuide();
+	void slotSetVZone(QValueList < QPoint > zones);
 	void insertSilentGuide(int frame, QString comment);
 	void slotEditGuide();
         GenTime guideTime(int ix);

@@ -71,9 +71,8 @@ namespace Command {
 
 
 	/** Add Virtual clip */
-    	KAddClipCommand(KdenliveDoc & document, const QString & parent, const KURL & url,
-			const GenTime & start, const GenTime & end, const QString & description,
-			bool create);
+    	KAddClipCommand(KdenliveDoc & document, const QString & parent, const QString & name,
+			const KURL & url, const GenTime & start, const GenTime & end, const QString & description, bool create);
          
          /** Construct an image clip */
 	 KAddClipCommand(KdenliveDoc & document, const QString & parent, const KURL & url,

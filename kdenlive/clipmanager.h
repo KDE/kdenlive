@@ -78,7 +78,12 @@ class ClipManager:public QObject {
 
 	/** Insert a virtual clip */
     QDomDocument buildVirtualClip(const GenTime & start, const GenTime & end, const QString & name, const QString & description, const KURL url, int clipId = -1);
+
+    DocClipBase *insertVirtualClip(const QString & name,
+    const QString & description, const GenTime & start, const GenTime & end, const KURL url, int clipId = -1);
+
     DocClipBase *insertXMLVirtualClip(QDomDocument node);
+
 
 	/** Insert a color clip */
     DocClipBase *insertColorClip(const QString & color,
@@ -156,6 +161,7 @@ class ClipManager:public QObject {
 
     void generateFromXML(KRender * render, const QDomElement & e);
     QDomDocument toXML(const QString & element);
+    QValueList < QPoint > virtualZones();
 
     signals:
 	/** This is signal is emitted whenever the clipList changes, either through the addition 

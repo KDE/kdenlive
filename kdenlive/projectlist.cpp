@@ -117,7 +117,19 @@ namespace Gui {
 	if (!listViewItem) menu = (QPopupMenu *) m_app->factory()->container("projectlist_context", m_app);
 	else if (!static_cast<AVListViewItem*>(listViewItem)->clip())
 	    menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_folder", m_app);
-	else menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_clip", m_app);
+	else {
+	    switch (static_cast<AVListViewItem*>(listViewItem)->clip()->clipType()) {
+		case DocClipBase::VIRTUAL:
+		    menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_virtual", m_app);
+		break;
+		case DocClipBase::TEXT:
+		    menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_text", m_app);
+		break;
+		default:
+	            menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_clip", m_app);
+		break;
+	    }
+	}
 	if (menu) {
 	    menu->popup(QCursor::pos());
 	}

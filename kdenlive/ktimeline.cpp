@@ -692,6 +692,11 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
 	return GenTime(pos, m_framesPerSecond);
     }
 
+    void KTimeLine::slotSetVZone(QValueList < QPoint > zones) {
+	m_ruler->slotSetVZone(zones);
+	m_ruler->invalidateBackBuffer();
+    }
+
     void KTimeLine::slotAddGuide() {
 	AddMarker_UI dlg;
 	Timecode tcode;

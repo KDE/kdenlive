@@ -157,9 +157,9 @@ namespace Command {
 
 
 /** Add Virtual clip */
-    KAddClipCommand::KAddClipCommand(KdenliveDoc & document, const QString & parent,
+    KAddClipCommand::KAddClipCommand(KdenliveDoc & document, const QString & parent, const QString & name,
 	const KURL & url, const GenTime & start, const GenTime & end, const QString & description,
-	bool create):m_document(document), m_name(i18n("Virtual Clip")),
+	bool create):m_document(document), m_name(name),
 	m_parent(parent), m_create(create), m_isTextClip(false), m_isVirtualClip(true) {
 
 	if (!m_parent) {
