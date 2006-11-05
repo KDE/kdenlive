@@ -455,9 +455,18 @@ namespace Gui {
 	void selectClipUnderCursor();
 	void slotAddAudioEffect(int ix);
 	void slotAddVideoEffect(int ix);
+
+	/** Save the selected zone as Westley playlist */
 	void slotSaveZone();
+
+	/** Create a virtual clip */
 	void slotVirtualZone();
+
+	/** Seek to virtual clip zone */
 	void slotShowVirtualZone();
+
+	/** Open selected audio file in external editor */
+	void slotExternalAudio();
 
       private:
 		/** the configuration object of the application */

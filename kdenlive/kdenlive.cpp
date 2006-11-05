@@ -624,6 +624,11 @@ namespace Gui {
         "timeline_delete_track");
 	deleteTrack->setStatusText(i18n("Delete a track"));
 
+	KAction *externalAudio = new KAction(i18n("Open File In External Editor"), 0, this,
+        SLOT(slotExternalAudio()), actionCollection(),
+        "external_audio");
+	externalAudio->setStatusText(i18n("Open the audio file in an external audio editor"));
+
 	KAction *saveZone = new KAction(i18n("Save Selected Zone"), 0, this,
         SLOT(slotSaveZone()), actionCollection(),
         "save_zone");
@@ -1996,6 +2001,22 @@ namespace Gui {
 	}
     }
 
+
+    void KdenliveApp::slotExternalAudio()
+    {
+	// TODO: listen to process exit, then rebuild audio thumbnail
+	QString externalEditor = KdenliveSettings::externalaudioeditor().stripWhiteSpace();
+	if (externalEditor.isEmpty()) {
+	    KMessageBox::sorry(this, i18n("You didn't define any external audio editor.\nPlease go to Kdenlive settings -> Misc to define it."));
+	    return;
+	}
+	KProcess *p = new KProcess();
+    	*p<<externalEditor;
+    	*p<<static_cast<AVListViewItem*>(m_projectList->m_listView->currentItem())->clip()->fileURL().path();
+	p->start();
+    	p->detach();
+    	delete p;
+    }
 
     void KdenliveApp::slotSaveZone()
     {

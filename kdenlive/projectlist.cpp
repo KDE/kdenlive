@@ -125,6 +125,9 @@ namespace Gui {
 		case DocClipBase::TEXT:
 		    menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_text", m_app);
 		break;
+		case DocClipBase::AUDIO:
+		    menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_audio", m_app);
+		break;
 		default:
 	            menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_clip", m_app);
 		break;

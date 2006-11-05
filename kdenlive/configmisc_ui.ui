@@ -9,11 +9,8 @@
             <x>0</x>
             <y>0</y>
             <width>325</width>
-            <height>166</height>
+            <height>217</height>
         </rect>
-    </property>
-    <property name="caption">
-        <string></string>
     </property>
     <grid>
         <property name="name">
@@ -87,7 +84,15 @@
                 <string>Show LCD screen under monitors</string>
             </property>
         </widget>
-        <spacer row="5" column="1">
+        <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>textLabel1</cstring>
+            </property>
+            <property name="text">
+                <string>Default folder to store previews &amp; thumbnails</string>
+            </property>
+        </widget>
+        <spacer row="7" column="1">
             <property name="name">
                 <cstring>spacer2</cstring>
             </property>
@@ -100,16 +105,21 @@
             <property name="sizeHint">
                 <size>
                     <width>16</width>
-                    <height>24</height>
+                    <height>42</height>
                 </size>
             </property>
         </spacer>
-        <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
+        <widget class="KLineEdit" row="6" column="0" rowspan="1" colspan="2">
             <property name="name">
-                <cstring>textLabel1</cstring>
+                <cstring>kcfg_externalaudioeditor</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="5" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>textLabel1_2</cstring>
             </property>
             <property name="text">
-                <string>Default folder to store previews &amp; thumbnails</string>
+                <string>External audio editor</string>
             </property>
         </widget>
     </grid>
@@ -123,5 +133,6 @@
     <includehint>kurlrequester.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>
+    <includehint>klineedit.h</includehint>
 </includehints>
 </UI>

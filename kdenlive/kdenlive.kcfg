@@ -147,6 +147,7 @@
       <label>Default duration for new text clips.</label>
       <default>00:00:10:00</default>
     </entry>
+
     <entry name="colorclipduration" type="String">
       <label>Default duration for new color clips.</label>
       <default>00:00:10:00</default>
@@ -154,8 +155,14 @@
     
       <entry name="showlcd" type="Bool">
       <label>Display LCD screen under monitors.</label>
-      <default>true</default>
+      <default>false</default>
     </entry>
+
+    <entry name="externalaudioeditor" type="String">
+      <label>Executable name for external audio editor.</label>
+      <default></default>
+    </entry>
+
     </group>
 
   <group name="Titler">
