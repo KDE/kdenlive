@@ -2368,13 +2368,15 @@ namespace Gui {
 
 	KURL::List::Iterator it;
 	KURL url;
-
 	
 	KMacroCommand *macroCommand = new KMacroCommand(i18n("Add Clips"));
 	for (it = urlList.begin(); it != urlList.end(); it++) {
 	    url = (*it);
 	    if (!url.isEmpty()) {
-		if (getDocument()->clipManager().findClip(url)) KMessageBox::sorry(this, i18n("The clip %1 is already present in this project").arg(url.filename()));
+		if (m_doc->URL() == url) {
+			KMessageBox::sorry(this, i18n("You cannot include the current Kdenlive document in itself."));
+		}
+		else if (getDocument()->clipManager().findClip(url)) KMessageBox::sorry(this, i18n("The clip %1 is already present in this project").arg(url.filename()));
 		else { 
 			Command::KAddClipCommand * command;
 			command = new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), url, true);
