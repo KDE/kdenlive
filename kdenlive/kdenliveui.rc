@@ -215,6 +215,8 @@
 		<Action name="timeline_delete_guide"/>
 		<Action name="save_zone"/>
 		<Action name="virtual_zone"/>
+  		<Menu name="go_to"><text>Go To</text>
+  		</Menu>		
 </Menu>
 
 <Menu name="timeline_header_context">

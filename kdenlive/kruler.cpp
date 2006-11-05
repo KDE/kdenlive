@@ -1119,8 +1119,14 @@ namespace Gui {
     QStringList KRuler::timelineRulerComments() {
 	QStringList list;
 	QValueList < KTimelineGuide >::Iterator it = m_guides.begin();
+	int ix = 0;
         for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
-	    if ((*it).chapterNum() == -1) list<<(*it).guideComment();
+	    if ((*it).chapterNum() == -1) {
+		QString cmt = (*it).guideComment();
+		if (!cmt.isEmpty()) list<<cmt;
+		else list<<i18n("Guide %1").arg(ix);
+		ix++;
+	    }
 	    else {
 		if ((*it).guideComment().isEmpty()) {
 		    if ((*it).chapterNum() == 1000) list<<i18n("Chapter End");

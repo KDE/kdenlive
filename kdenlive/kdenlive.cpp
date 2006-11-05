@@ -3200,20 +3200,20 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     }
 
     void KdenliveApp::slotDisplayRulerContextMenu() {
-	m_rulerPopupMenu = (QPopupMenu *) factory()->container("ruler_context", this);
+	m_rulerPopupMenu = (QPopupMenu *) factory()->container("go_to", this);
 	QStringList guides = m_timeline->timelineRulerComments();
+
+	m_rulerPopupMenu->clear();
 	if (!guides.isEmpty()) {
-	    QPopupMenu *gotoGuide = new QPopupMenu;
 	    uint ct = 100;
 	    for ( QStringList::Iterator it = guides.begin(); it != guides.end(); ++it ) {
-		gotoGuide->insertItem(*it, ct);
+		m_rulerPopupMenu->insertItem(*it, ct);
 		ct++;
 	    }
-	    connect(gotoGuide, SIGNAL(activated(int)), m_timeline, SLOT(gotoGuide(int)));
-	    m_rulerPopupMenu->insertItem(i18n("Go To"), gotoGuide);
+	    connect(m_rulerPopupMenu, SIGNAL(activated(int)), m_timeline, SLOT(gotoGuide(int)));
 	}
         // display menu
-        m_rulerPopupMenu->popup(QCursor::pos());
+        ((QPopupMenu *) factory()->container("ruler_context", this))->popup(QCursor::pos());
     }
 
     void KdenliveApp::slotDisplayTimeLineContextMenu() {
