@@ -53,6 +53,8 @@ class DocClipProject:public DocClipBase {
     /** Returns the type of this clip */
     const DocClipBase::CLIPTYPE & clipType() const;
 
+    virtual void removeTmpFile() const {}
+
 	/** Adds a track to the project */
     void slotAddTrack(DocTrackBase * track, int ix = -1);
     void slotDeleteTrack(int ix);

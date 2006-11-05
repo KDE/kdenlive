@@ -2633,12 +2633,13 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		    ++itt;
 		}
 
-		// remove thumbnail file
+		// remove audio thumbnail file
 		if (clip->clipType() == DocClipBase::AUDIO  || clip->clipType() == DocClipBase::VIDEO) {
 		KMD5 context ((KFileItem(clip->fileURL(),"text/plain", S_IFREG).timeString() + clip->fileURL().fileName()).ascii());
 		KIO::NetAccess::del(KURL(KdenliveSettings::currentdefaultfolder() + "/" + context.hexDigest().data() + ".thumb"), this);
 		}
 
+		clip->removeTmpFile();
 
 		DocumentBaseNode *node = m_doc->findClipNodeById(id);
 		if (!node) kdDebug()<<"++++++  CANNOT FIND NODE: "<<id<<endl;

@@ -25,7 +25,7 @@
 
 #include <kdebug.h>
 #include <klocale.h>
-
+#include <kio/netaccess.h>
 
 #include "clipmanager.h"
 #include "kdenlivesettings.h"
@@ -105,6 +105,11 @@ QDomElement element = node.documentElement();
 
 DocClipTextFile::~DocClipTextFile()
 {
+}
+
+void DocClipTextFile::removeTmpFile() const
+{
+    KIO::NetAccess::del(m_url);
 }
 
 const GenTime & DocClipTextFile::duration() const

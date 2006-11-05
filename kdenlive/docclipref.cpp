@@ -125,9 +125,7 @@ void DocClipRef::refreshCurrentTrack()
 bool DocClipRef::hasVariableThumbnails()
 {
     DocClipBase::CLIPTYPE t = m_clip->clipType();
-    // TODO add virtual clips to the list, but currently it crashes because of mlt or FFMPEg
-    //   && t != DocClipBase::VIRTUAL
-    if (( t != DocClipBase::VIDEO && t != DocClipBase::AV) || !KdenliveSettings::videothumbnails())
+    if (( t != DocClipBase::VIDEO && t != DocClipBase::AV && t != DocClipBase::VIRTUAL) || !KdenliveSettings::videothumbnails())
         return false;
     return true;
 }
@@ -135,7 +133,7 @@ bool DocClipRef::hasVariableThumbnails()
 void DocClipRef::generateThumbnails()
 {
     DocClipBase::CLIPTYPE t = m_clip->clipType();
-    if (t == DocClipBase::VIDEO || t == DocClipBase::AV) {
+    if (t == DocClipBase::VIDEO || t == DocClipBase::AV || t == DocClipBase::VIRTUAL) {
         fetchStartThumbnail();
         fetchEndThumbnail();
 	return;
@@ -147,11 +145,7 @@ void DocClipRef::generateThumbnails()
     QPixmap result(width, height);
     result.fill(Qt::black);
 
-    if (m_clip->clipType() == DocClipBase::VIRTUAL) {
-        m_endthumbnail = result;
-        m_thumbnail = result;
-    }
-    else if (m_clip->clipType() == DocClipBase::COLOR) {
+    if (m_clip->clipType() == DocClipBase::COLOR) {
         QPixmap p(width - 2, height - 2);
         QString col = m_clip->toDocClipAVFile()->color();
         col = col.replace(0, 2, "#");
@@ -841,7 +835,6 @@ QDomDocumentFragment DocClipRef::generateXMLTransition(bool hideVideo, bool hide
             QDomElement transition = transitionList.createElement("transition");
             transition.setAttribute("in", QString::number((*itt)->transitionStartTime().frames(framesPerSecond())));
             transition.setAttribute("out", QString::number((*itt)->transitionEndTime().frames(framesPerSecond()) - 1));
-
             if (type == Transition::PIP_TRANSITION) transition.setAttribute("mlt_service", "composite");
             else transition.setAttribute("mlt_service", (*itt)->transitionTag());
             transition.setAttribute("fill", "1");

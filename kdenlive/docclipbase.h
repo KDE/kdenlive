@@ -72,8 +72,12 @@ class DocClipBase:public QObject {
     
 	/** returns the duration of this clip */
     virtual const GenTime & duration() const = 0;
+
+	/** returns clip type (audio, text, image,...) */
     virtual const DocClipBase::CLIPTYPE & clipType() const = 0;
-    
+
+	/** remove tmp file if the clip has one (for example text clips) */
+    virtual void removeTmpFile() const = 0;
 
 	/** Returns a url to a file describing this clip. Exactly what this url is,
 	whether it is temporary or not, and whether it provokes a render will

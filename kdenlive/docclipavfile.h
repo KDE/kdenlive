@@ -87,6 +87,8 @@ class DocClipAVFile:public DocClipBase {
 	/** Returns the type of this clip */
     const DocClipBase::CLIPTYPE & clipType() const;
 
+    virtual void removeTmpFile() const {}
+
     QDomDocument toXML() const;
 	/** Returns the url of the AVFile this clip contains */
     const KURL & fileURL() const;
