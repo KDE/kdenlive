@@ -254,7 +254,10 @@ is under the mouse. */
 	void mouseReleaseEvent(QMouseEvent * event);
   /** This method is called when the mouse is pressed */
 	void mousePressEvent(QMouseEvent * event);
-        
+
+        void mouseDoubleClickEvent(QMouseEvent * event);
+
+
         void wheelEvent( QWheelEvent * e );
   /** Handles window resize events. */
 	void resizeEvent(QResizeEvent * event);

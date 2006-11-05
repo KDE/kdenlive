@@ -734,6 +734,11 @@ namespace Gui {
 	}
     }
 
+    void KRuler::mouseDoubleClickEvent(QMouseEvent * event) {
+		activateSlider(3);
+		setSliderValue(3, (int) floor(mapLocalToValue((int) event->x()) + 0.5));
+    }
+
     void KRuler::mouseReleaseEvent(QMouseEvent * event) {
 	if (event->button() == QMouseEvent::LeftButton) {
 	    if (d->m_oldValue != -1) {
