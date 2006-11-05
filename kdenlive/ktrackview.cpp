@@ -280,9 +280,9 @@ namespace Gui {
 
 /** Invalidate the back buffer, alerting the trackview that it should redraw itself. */
     void KTrackView::invalidateBackBuffer(int startTrack, int endTrack) {
-	if (m_startTrack == -1) {
-	    m_startTrack = startTrack;
-	    m_endTrack = endTrack;
+	if (m_endTrack == -1) {
+	    m_startTrack = 0;
+	    m_endTrack = m_timeline.trackList().count() - 1;
 	}
 	else {
 	    m_startTrack= startTrack < m_startTrack ? startTrack : m_startTrack;

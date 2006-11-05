@@ -624,7 +624,7 @@ namespace Gui {
         "timeline_delete_track");
 	deleteTrack->setStatusText(i18n("Delete a track"));
 
-	KAction *externalAudio = new KAction(i18n("Open File In External Editor"), 0, this,
+	KAction *externalAudio = new KAction(i18n("Open Clip In External Editor"), 0, this,
         SLOT(slotExternalAudio()), actionCollection(),
         "external_audio");
 	externalAudio->setStatusText(i18n("Open the audio file in an external audio editor"));
