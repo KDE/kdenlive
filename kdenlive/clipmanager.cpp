@@ -817,7 +817,6 @@ void ClipManager::removeClip(int clipId)
 	if (m_clipList.find(clip)!=-1) {
 		/*disconnect(clip->toDocClipAVFile()->thumbCreator, SIGNAL(audioThumbReady(QMap<int,QMap<int,QByteArray> >)), clip->toDocClipAVFile(), SLOT(updateAudioThumbnail(QMap<int,QMap<int,QByteArray> >)));*/
 		m_clipList.remove();
-		m_clipCounter--;
 	}
     }
     else kdDebug()<<"++++  CLIP NOT FOUND!"<<endl;

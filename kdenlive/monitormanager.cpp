@@ -100,7 +100,7 @@ namespace Gui {
 
 	    while (itt.current()) {
 		if (itt.current()->clip()) {
-		    if (itt.current()->clip()->referencesClip(clip)) {
+		    if (itt.current()->clip()->referencedClip() == clip) {
 			itt.current()->slotClearClip();
 		    }
 		}
