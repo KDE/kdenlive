@@ -74,7 +74,7 @@ class DocClipProject:public DocClipBase {
 
 
     virtual QDomDocument generateSceneList(bool addProducers = true) const;
-    QDomDocument generatePartialSceneList(GenTime start, GenTime end) const;
+    QDomDocument generatePartialSceneList(GenTime start, GenTime end, int prodId) const;
 	/** If this is a project clip, return true. Overidden, always true from here. */
     virtual bool isProjectClip() const {
 	return true;

@@ -2024,7 +2024,7 @@ namespace Gui {
         fd->setOperationMode(KFileDialog::Saving);
         fd->setMode(KFile::File);
         if (fd->exec() == QDialog::Accepted) {
-		QDomDocument partial = getDocument()->projectClip().generatePartialSceneList(m_timeline->inpointPosition(), m_timeline->outpointPosition());
+		QDomDocument partial = getDocument()->projectClip().generatePartialSceneList(m_timeline->inpointPosition(), m_timeline->outpointPosition(), -1);
 		QFile file(fd->selectedURL().path());
 		file.open( IO_WriteOnly );
 		QString save = partial.toString();
@@ -2043,7 +2043,7 @@ namespace Gui {
 	if (!ok) return;
 	KTempFile tmp( KdenliveSettings::currenttmpfolder(), ".westley");
 	QTextStream stream( tmp.file() );
-    	stream << getDocument()->projectClip().generatePartialSceneList(m_timeline->inpointPosition(), m_timeline->outpointPosition()).toString() << "\n";
+    	stream << getDocument()->projectClip().generatePartialSceneList(m_timeline->inpointPosition(), m_timeline->outpointPosition(), -1).toString() << "\n";
     	tmp.close();
 	addCommand(new Command::KAddClipCommand(*getDocument(), m_projectList->m_listView->parentName(), clipName, KURL(tmp.name()), m_timeline->inpointPosition(), m_timeline->outpointPosition(), QString::null, true));
     }

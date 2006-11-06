@@ -271,7 +271,7 @@ void KdenliveDoc::refreshVirtualClips()
 	if (itt.current()->isDocClipVirtual()) {
 	    DocClipVirtual *vclip = itt.current()->toDocClipVirtual();
 	    if (vclip) {
-	        QString part = m_projectClip->generatePartialSceneList(vclip->virtualStartTime(), vclip->virtualEndTime()).toString();
+	        QString part = m_projectClip->generatePartialSceneList(vclip->virtualStartTime(), vclip->virtualEndTime(), vclip->getId()).toString();
 	        QFile file(vclip->fileURL().path());
 	        file.open( IO_WriteOnly );
     	        file.writeBlock(part.utf8(), part.length());

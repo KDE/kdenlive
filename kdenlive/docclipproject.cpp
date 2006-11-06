@@ -472,8 +472,9 @@ QDomDocument DocClipProject::generateSceneList(bool addProducers) const
 
 
 
-QDomDocument DocClipProject::generatePartialSceneList(GenTime start, GenTime end) const
+QDomDocument DocClipProject::generatePartialSceneList(GenTime start, GenTime end, int prodId) const
 {
+    QValueList <int> usedProducersList;
     QDomDocument doc;
     int tracknb = 0;
     uint tracksCounter = 0;
@@ -485,8 +486,11 @@ QDomDocument DocClipProject::generatePartialSceneList(GenTime start, GenTime end
     doc.appendChild(westley);
 
     QDomDocumentFragment clipTransitions = doc.createDocumentFragment();
-
-    westley.appendChild(doc.importNode(producersList, true));
+    QDomElement blackprod = doc.createElement("producer");
+    blackprod.setAttribute("id", "black");
+    blackprod.setAttribute("mlt_service", "colour");
+    blackprod.setAttribute("colour", "black");
+    westley.appendChild(blackprod);
 
     QDomElement tractor = doc.createElement("tractor");
     QDomElement multitrack = doc.createElement("multitrack");
@@ -540,6 +544,8 @@ QDomDocument DocClipProject::generatePartialSceneList(GenTime start, GenTime end
         if (!hideTrack)
         while (itt.current()) {
  	    if (itt.current()->trackStart() < end && itt.current()->trackEnd() > start) {
+		if (usedProducersList.findIndex(itt.current()->referencedClip()->getId()) == -1)
+		    usedProducersList.append(itt.current()->referencedClip()->getId());
 	        if (itt.current()->trackStart().frames(framesPerSecond()) - timestart > 0.01) {
 		    QDomElement blank = doc.createElement("blank");
 		    blank.setAttribute("length", QString::number(itt.current()->trackStart().frames(framesPerSecond()) - timestart));
@@ -581,6 +587,33 @@ QDomDocument DocClipProject::generatePartialSceneList(GenTime start, GenTime end
 	    transition.setAttribute("mlt_service", "mix");
             transition.setAttribute("combine", "1");
 	    tractor.appendChild(transition);
+	}
+
+
+    // Add used producers only
+    QDomDocumentFragment nprods = producersList;
+    QDomNode node = nprods.firstChild();
+	while (!node.isNull()) {
+	    QDomElement e = node.toElement();
+	    if (!e.isNull()) {
+		int ix = e.attribute("id", "-1").toInt();
+		if (usedProducersList.findIndex(ix) != -1)
+		    westley.appendChild(doc.importNode(e, true));
+	    }
+	    node = node.nextSibling();
+	}
+
+    QDomDocumentFragment vprods = virtualProducersList;
+    node = vprods.firstChild();
+	while (!node.isNull()) {
+	    QDomElement e = node.toElement();
+	    if (!e.isNull()) {
+		int ix = e.attribute("id", "-1").toInt();
+		// Don't allow embedding of producer in itself
+		if (ix != prodId && usedProducersList.findIndex(ix) != -1)
+		    westley.appendChild(doc.importNode(e, true));
+	    }
+	    node = node.nextSibling();
 	}
 
 
