@@ -409,7 +409,6 @@ QDomDocument DocClipProject::generateSceneList(bool addProducers) const
 	if (trackItt.current()->clipType() == "Sound") playlist.setAttribute("hide", "video");
         else if (isBlind) playlist.setAttribute("hide", "video");
 
-	int children = 0;
 	int timestart = 0;
         bool hideTrack = false;
         if (trackItt.current()->isMute()) 
@@ -436,7 +435,6 @@ QDomDocument DocClipProject::generateSceneList(bool addProducers) const
             clipTransitions.appendChild(doc.importNode(itt.current()->generateXMLTransition(isBlind, isMute), true));
 
 	    timestart = (int)itt.current()->trackEnd().frames(framesPerSecond());
-	    children++;
 	    ++itt;
 	}
 	    tracksCounter++;
@@ -531,7 +529,6 @@ QDomDocument DocClipProject::generatePartialSceneList(GenTime start, GenTime end
 	if (trackItt.current()->clipType() == "Sound") playlist.setAttribute("hide", "video");
         else if (isBlind) playlist.setAttribute("hide", "video");
 
-	int children = 0;
 	int timestart = start.frames(framesPerSecond());
         bool hideTrack = false;
         if (trackItt.current()->isMute()) 
@@ -541,24 +538,23 @@ QDomDocument DocClipProject::generatePartialSceneList(GenTime start, GenTime end
         }
         
         if (!hideTrack)
-        while (itt.current() && itt.current()->trackStart() < end && itt.current()->trackEnd() > start) {
-	    if (itt.current()->trackStart().frames(framesPerSecond()) -
-		timestart > 0.01) {
-		QDomElement blank = doc.createElement("blank");
-		blank.setAttribute("length",
-		    QString::number(itt.current()->trackStart().
-			frames(framesPerSecond()) - timestart));
-		playlist.appendChild(blank);
+        while (itt.current()) {
+ 	    if (itt.current()->trackStart() < end && itt.current()->trackEnd() > start) {
+	        if (itt.current()->trackStart().frames(framesPerSecond()) - timestart > 0.01) {
+		    QDomElement blank = doc.createElement("blank");
+		    blank.setAttribute("length", QString::number(itt.current()->trackStart().frames(framesPerSecond()) - timestart));
+		    playlist.appendChild(blank);
+	        }
+                // Insert xml describing clip
+                playlist.appendChild(itt.current()->generateOffsetXMLClip(start, end).firstChild());
+
+                // Append clip's transitions for video tracks
+                clipTransitions.appendChild(doc.importNode(itt.current()->generateOffsetXMLTransition(isBlind, isMute, start, end), true));
+
+	        timestart = (int)(itt.current()->trackEnd() - start).frames(framesPerSecond());
 	    }
-            // Insert xml describing clip
-            playlist.appendChild(itt.current()->generateOffsetXMLClip(start, end).firstChild());
-
-            // Append clip's transitions for video tracks
-            clipTransitions.appendChild(doc.importNode(itt.current()->generateOffsetXMLTransition(isBlind, isMute, start, end), true));
-
-	    timestart = (int)(itt.current()->trackEnd() - start).frames(framesPerSecond());
-	    children++;
 	    ++itt;
+	
 	}
 	    tracksCounter++;
             if (trackItt.current()->clipType() == "Sound") audiotrack.appendChild(playlist);
