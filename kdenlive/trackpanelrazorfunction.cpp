@@ -95,7 +95,6 @@ bool TrackPanelRazorFunction::mousePressed(Gui::KTrackPanel * panel,
 			true);
 		}
                 emit sceneListChanged(true);
-		m_timeline->drawTrackViewBackBuffer();
 		return true;
 	    }
 	}

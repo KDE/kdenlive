@@ -1448,7 +1448,6 @@ namespace Gui {
 	    m_projectFormatManager.openDocument(url, m_doc);
 	    setCaption(url.fileName() + " - " + easyName(m_projectFormat), false);
 	    fileOpenRecent->addURL(m_doc->URL());
-	    //m_timeline->slotSetVZone(getDocument()->clipManager().virtualZones());
 	}
 	else {
 	    KMessageBox::sorry(this, i18n("Cannot read file: %1").arg(url.path()));
@@ -2047,7 +2046,6 @@ namespace Gui {
     	stream << getDocument()->projectClip().generatePartialSceneList(m_timeline->inpointPosition(), m_timeline->outpointPosition()).toString() << "\n";
     	tmp.close();
 	addCommand(new Command::KAddClipCommand(*getDocument(), m_projectList->m_listView->parentName(), clipName, KURL(tmp.name()), m_timeline->inpointPosition(), m_timeline->outpointPosition(), QString::null, true));
-	//m_timeline->slotSetVZone(getDocument()->clipManager().virtualZones());
     }
 
     void KdenliveApp::slotShowVirtualZone()
@@ -3380,12 +3378,14 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	addCommand(Command::DocumentMacroCommands::
 	    razorAllClipsAt(getDocument(), m_timeline->seekPosition()),
 	    true);
+	getDocument()->activateSceneListGeneration(true);
     }
 
     void KdenliveApp::slotRazorSelectedClips() {
 	addCommand(Command::DocumentMacroCommands::
 	    razorSelectedClipsAt(getDocument(),
 		m_timeline->seekPosition()), true);
+	getDocument()->activateSceneListGeneration(true);
     }
 
 }				// namespace Gui
