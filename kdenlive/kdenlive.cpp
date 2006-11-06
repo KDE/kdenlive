@@ -2778,11 +2778,16 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	DocTrackBase *track = getDocument()->track( ix);
 	while (track) {
 	    if (track->clipType() == "Sound") {
-		
 		if (getDocument()->projectClip().canAddClipsToTracks(list, ix, clip->trackStart())) {
+		// create a copy of original clip
 		DocClipRef *clip2 = clip->clone(effectList(), getDocument()->clipManager());
-		getDocument()->track(ix)->addClip(clip2, true);
-		//getDocument()->addClipsToTracks(clip2, ix, clip->trackStart(), true);
+
+		// remove all effects & transitions
+		EffectStack emptyEffect;
+		clip2->setEffectStack(emptyEffect);
+		clip2->deleteTransitions();
+		// Insert it in timeline
+		getDocument()->track(ix)->addClip(clip2, false);
 		found = true;
 		break;
 	        }
