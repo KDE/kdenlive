@@ -425,6 +425,7 @@ DocumentBaseNode * KdenliveDoc::findClipNodeById(const int & id)
 
 void KdenliveDoc::deleteClipNodeById(const int & id)
 {
+    clipManager().removeClip(id);
     DocumentBaseNode *node = m_clipHierarch->findClipNodeById(id);
 
     if (node) {
@@ -450,6 +451,7 @@ void KdenliveDoc::deleteClipNodeById(const int & id)
     } else {
 	kdError() << "Cannot delete node, cannot find clip" << endl;
     }
+    m_app->refreshVirtualZone();
 }
 
 DocumentBaseNode *KdenliveDoc::findClipNode(const QString & name) const
@@ -471,6 +473,7 @@ void KdenliveDoc::addClipNode(const QString & parent,
 	    << endl;
 	kdWarning() << "causes memory leak!!!" << endl;
     }
+    m_app->refreshVirtualZone();
 }
 
 void KdenliveDoc::fixClipDuration(DocClipBase * file)

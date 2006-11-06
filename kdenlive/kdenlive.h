@@ -403,6 +403,7 @@ namespace Gui {
 	QDomDocument xmlGuides();
 	void guidesFromXml(QDomElement doc);
 	uint projectVideoFormat();
+	void refreshVirtualZone();
 
       private slots: 
         void slotToggleClipMonitor();

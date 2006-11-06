@@ -1448,7 +1448,7 @@ namespace Gui {
 	    m_projectFormatManager.openDocument(url, m_doc);
 	    setCaption(url.fileName() + " - " + easyName(m_projectFormat), false);
 	    fileOpenRecent->addURL(m_doc->URL());
-	    m_timeline->slotSetVZone(getDocument()->clipManager().virtualZones());
+	    //m_timeline->slotSetVZone(getDocument()->clipManager().virtualZones());
 	}
 	else {
 	    KMessageBox::sorry(this, i18n("Cannot read file: %1").arg(url.path()));
@@ -2047,13 +2047,18 @@ namespace Gui {
     	stream << getDocument()->projectClip().generatePartialSceneList(m_timeline->inpointPosition(), m_timeline->outpointPosition()).toString() << "\n";
     	tmp.close();
 	addCommand(new Command::KAddClipCommand(*getDocument(), m_projectList->m_listView->parentName(), clipName, KURL(tmp.name()), m_timeline->inpointPosition(), m_timeline->outpointPosition(), QString::null, true));
-	m_timeline->slotSetVZone(getDocument()->clipManager().virtualZones());
+	//m_timeline->slotSetVZone(getDocument()->clipManager().virtualZones());
     }
 
     void KdenliveApp::slotShowVirtualZone()
     {
 	DocClipVirtual *clip = static_cast<AVListViewItem*>(m_projectList->m_listView->currentItem())->clip()->referencedClip()->toDocClipVirtual();
 	if (clip) m_timeline->seek(clip->virtualStartTime());
+    }
+
+    void KdenliveApp::refreshVirtualZone()
+    {
+	m_timeline->slotSetVZone(getDocument()->clipManager().virtualZones());
     }
 
     void KdenliveApp::slotDeleteGuide()
@@ -2674,7 +2679,6 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    }
 	}
 	else if (confirm) slotProjectDeleteFolder();
-	m_timeline->slotSetVZone(getDocument()->clipManager().virtualZones());
 	slotStatusMsg(i18n("Ready."));
     }
 

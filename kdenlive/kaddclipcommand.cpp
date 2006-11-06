@@ -267,7 +267,6 @@ namespace Command {
 		"Could not find parent in document, cannot delete document base node"
 		<< endl;
 	} else {
-	    m_document.clipManager().removeClip(m_id);
 	    m_document.deleteClipNodeById(m_id);
 	}
     }
