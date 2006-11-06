@@ -432,6 +432,7 @@ namespace Gui {
 	void slotEditGuide();
 
 	void slotAutoSave();
+        void slotSplitAudio();
 
         /** Add a transition between the 2 selected clips */
         void slotAddTransition();

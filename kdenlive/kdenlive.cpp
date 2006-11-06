@@ -491,6 +491,11 @@ namespace Gui {
 	    SLOT(slotLoopPlay()), actionCollection(), "play_loop");
 	playLoop->setStatusText(i18n("Play selected zone in loop"));
 
+	KAction *splitAudio = new KAction(i18n("Split Audio From Selected Clip"), 0, this,
+	    SLOT(slotSplitAudio()), actionCollection(), "split_audio");
+	splitAudio->setStatusText(i18n("Split Audio From Selected Clip"));
+
+
 
 	actionNextFrame =
 	    new KAction(i18n("Forward one frame"),
@@ -2762,6 +2767,37 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	}
     }
 
+    void KdenliveApp::slotSplitAudio() {
+	DocClipRef *clip = getDocument()->projectClip().selectedClip();
+	if (!clip || clip->audioChannels() == 0) return;
+
+	int ix = clip->trackNum() + 1;
+	DocClipRefList list;
+	list.append(clip);
+	bool found = false;
+	DocTrackBase *track = getDocument()->track( ix);
+	while (track) {
+	    if (track->clipType() == "Sound") {
+		
+		if (getDocument()->projectClip().canAddClipsToTracks(list, ix, clip->trackStart())) {
+		DocClipRef *clip2 = clip->clone(effectList(), getDocument()->clipManager());
+		getDocument()->track(ix)->addClip(clip2, true);
+		//getDocument()->addClipsToTracks(clip2, ix, clip->trackStart(), true);
+		found = true;
+		break;
+	        }
+	    }
+	    ix++;
+	    track = getDocument()->track( ix);
+	}
+	if (!found) {
+	    KMessageBox::sorry(this, i18n("Cannot find track to insert audio clip."));
+	    return;
+	}
+	QString effectName = i18n("Mute");
+	Effect *effect = effectList().effectDescription(effectName)->createEffect(effectName);
+	addCommand(Command::KAddEffectCommand::insertEffect(getDocument(), clip, clip->numEffects(), effect));
+    }
 
     void KdenliveApp::slotSeekTo(GenTime time) {
 	if (m_monitorManager.hasActiveMonitor()) {

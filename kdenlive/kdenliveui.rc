@@ -269,6 +269,7 @@
   </Menu>
   <Menu name="audio_effect"><text>Add Audio Effect</text>
   </Menu>
+  <Action name="split_audio"/>
   <Separator lineSeparator="true"/>
   <Action name="edit_copy"/>
   <Action name="edit_cut"/>
