@@ -470,6 +470,8 @@ namespace Gui {
 	/** Open selected audio file in external editor */
 	void slotExternalAudio();
 
+	void slotFullScreen();
+
       private:
 		/** the configuration object of the application */
 	 KConfig * config;
@@ -495,6 +497,7 @@ namespace Gui {
 	KAction *editCut;
 	KAction *editCopy;
 	KAction *editPaste;
+	KAction *fullScreen;
 	KAction *optionsPreferences;
 	KAction *projectAddClips;
 	KAction *projectAddColorClip;

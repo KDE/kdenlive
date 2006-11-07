@@ -340,6 +340,12 @@ namespace Gui {
 	editPaste = KStdAction::paste(this, SLOT(slotEditPaste()),
 	    actionCollection());
 
+	editPaste = KStdAction::paste(this, SLOT(slotEditPaste()),
+	    actionCollection());
+
+	fullScreen = KStdAction::fullScreen(this, SLOT(slotFullScreen()),
+	    actionCollection(), this);
+
 	optionsPreferences =
 	    KStdAction::preferences(this, SLOT(slotOptionsPreferences()),
 	    actionCollection());
@@ -1961,6 +1967,11 @@ namespace Gui {
 	else {
 		slotStatusMsg(i18n("Cannot past clip %1 on track %2 at %3").arg(m_pastedClip->name()).arg(ix).arg(Timecode::getEasyTimecode(insertTime, m_doc->framesPerSecond())));
 	}
+    }
+
+    void KdenliveApp::slotFullScreen()
+    {
+	this->setWindowState(this->windowState() ^ WindowFullScreen);
     }
 
     void KdenliveApp::slotDeleteTrack()
