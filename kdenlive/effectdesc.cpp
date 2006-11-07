@@ -47,7 +47,7 @@ const QString & EffectDesc::tag() const
     return m_tag;
 }
 
-/** Returns the tag for this effect. */
+/** Returns the type for this effect (audio or video). */
 const QString & EffectDesc::type() const
 {
     return m_type;

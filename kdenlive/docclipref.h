@@ -302,6 +302,8 @@ class DocClipRef:public QObject {
 
     Transition *transitionAt(const GenTime &time);
 
+    void clearVideoEffects();
+
     QPixmap thumbnail(bool end = false);
     int thumbnailWidth();
     QTimer *startTimer;

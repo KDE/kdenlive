@@ -1730,6 +1730,17 @@ bool DocClipRef::hasEffect()
     return false;
 }
 
+void DocClipRef::clearVideoEffects()
+{
+	for (int count = 0; count < m_effectStack.count(); ++count)
+	{
+	    if (m_effectStack.at(count)->effectDescription().type() == "video") {
+		    m_effectStack.remove(count);
+		    count--;
+	    }
+	}
+}
+
 Effect *DocClipRef::effectAt(uint index) const
 {
     EffectStack::iterator itt = m_effectStack.begin();

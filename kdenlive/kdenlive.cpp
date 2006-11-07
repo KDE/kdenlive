@@ -2776,15 +2776,16 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	list.append(clip);
 	bool found = false;
 	DocTrackBase *track = getDocument()->track( ix);
+	DocClipRef *clip2;
 	while (track) {
 	    if (track->clipType() == "Sound") {
 		if (getDocument()->projectClip().canAddClipsToTracks(list, ix, clip->trackStart())) {
 		// create a copy of original clip
-		DocClipRef *clip2 = clip->clone(effectList(), getDocument()->clipManager());
+		clip2 = clip->clone(effectList(), getDocument()->clipManager());
 
 		// remove all effects & transitions
 		EffectStack emptyEffect;
-		clip2->setEffectStack(emptyEffect);
+		clip2->clearVideoEffects();
 		clip2->deleteTransitions();
 		// Insert it in timeline
 		getDocument()->track(ix)->addClip(clip2, false);
@@ -2800,8 +2801,11 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    return;
 	}
 	QString effectName = i18n("Mute");
-	Effect *effect = effectList().effectDescription(effectName)->createEffect(effectName);
-	addCommand(Command::KAddEffectCommand::insertEffect(getDocument(), clip, clip->numEffects(), effect));
+	if (clip->clipEffectNames().findIndex(effectName.upper()) == -1) {
+	    Effect *effect = effectList().effectDescription(effectName)->createEffect(effectName);
+	    addCommand(Command::KAddEffectCommand::insertEffect(getDocument(), clip, clip->numEffects(), effect));
+	}
+	else clip2->deleteEffect(clip2->clipEffectNames().findIndex(effectName.upper()));
     }
 
     void KdenliveApp::slotSeekTo(GenTime time) {
