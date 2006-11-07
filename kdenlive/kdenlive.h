@@ -468,7 +468,7 @@ namespace Gui {
 	void slotShowVirtualZone();
 
 	/** Open selected audio file in external editor */
-	void slotExternalAudio();
+	void slotExternalEditor();
 
 	void slotFullScreen();
 

@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>325</width>
-            <height>217</height>
+            <height>270</height>
         </rect>
     </property>
     <grid>
@@ -92,7 +92,7 @@
                 <string>Default folder to store previews &amp; thumbnails</string>
             </property>
         </widget>
-        <spacer row="7" column="1">
+        <spacer row="9" column="1">
             <property name="name">
                 <cstring>spacer2</cstring>
             </property>
@@ -105,7 +105,7 @@
             <property name="sizeHint">
                 <size>
                     <width>16</width>
-                    <height>42</height>
+                    <height>30</height>
                 </size>
             </property>
         </spacer>
@@ -122,6 +122,19 @@
                 <string>External audio editor</string>
             </property>
         </widget>
+        <widget class="QLabel" row="7" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>textLabel1_2_2</cstring>
+            </property>
+            <property name="text">
+                <string>External image editor</string>
+            </property>
+        </widget>
+        <widget class="KLineEdit" row="8" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>kcfg_externalimageeditor</cstring>
+            </property>
+        </widget>
     </grid>
 </widget>
 <customwidgets>
@@ -133,6 +146,7 @@
     <includehint>kurlrequester.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>
+    <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>
 </includehints>
 </UI>

@@ -163,6 +163,10 @@
       <default></default>
     </entry>
 
+    <entry name="externalimageeditor" type="String">
+      <label>Executable name for external image editor.</label>
+      <default></default>
+    </entry>
     </group>
 
   <group name="Titler">

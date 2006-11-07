@@ -636,9 +636,9 @@ namespace Gui {
 	deleteTrack->setStatusText(i18n("Delete a track"));
 
 	KAction *externalAudio = new KAction(i18n("Open Clip In External Editor"), 0, this,
-        SLOT(slotExternalAudio()), actionCollection(),
+        SLOT(slotExternalEditor()), actionCollection(),
         "external_audio");
-	externalAudio->setStatusText(i18n("Open the audio file in an external audio editor"));
+	externalAudio->setStatusText(i18n("Open the clip in an external editor"));
 
 	KAction *saveZone = new KAction(i18n("Save Selected Zone"), 0, this,
         SLOT(slotSaveZone()), actionCollection(),
@@ -2017,17 +2017,25 @@ namespace Gui {
     }
 
 
-    void KdenliveApp::slotExternalAudio()
+    void KdenliveApp::slotExternalEditor()
     {
+	DocClipRef *clip = static_cast<AVListViewItem*>(m_projectList->m_listView->currentItem())->clip();
+	QString externalEditor;
+	if (clip->clipType() == DocClipBase::AUDIO) {
+		externalEditor = KdenliveSettings::externalaudioeditor().stripWhiteSpace();	
+	}
+	else if (clip->clipType() == DocClipBase::IMAGE) {
+		externalEditor = KdenliveSettings::externalimageeditor().stripWhiteSpace();	
+	}
+	else return;
 	// TODO: listen to process exit, then rebuild audio thumbnail
-	QString externalEditor = KdenliveSettings::externalaudioeditor().stripWhiteSpace();
 	if (externalEditor.isEmpty()) {
-	    KMessageBox::sorry(this, i18n("You didn't define any external audio editor.\nPlease go to Kdenlive settings -> Misc to define it."));
+	    KMessageBox::sorry(this, i18n("You didn't define any external editor for that kind of clip.\nPlease go to Kdenlive settings -> Misc to define it."));
 	    return;
 	}
 	KProcess *p = new KProcess();
     	*p<<externalEditor;
-    	*p<<static_cast<AVListViewItem*>(m_projectList->m_listView->currentItem())->clip()->fileURL().path();
+    	*p<<clip->fileURL().path();
 	p->start();
     	p->detach();
     	delete p;
