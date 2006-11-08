@@ -214,6 +214,7 @@
 		<Action name="timeline_edit_guide"/>
 		<Action name="timeline_delete_guide"/>
 		<Action name="save_zone"/>
+		<Action name="render_zone"/>
 		<Action name="virtual_zone"/>
   		<Menu name="go_to"><text>Go To</text>
   		</Menu>		

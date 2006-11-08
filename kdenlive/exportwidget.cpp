@@ -57,7 +57,7 @@
 #define CUSTOMFORMAT 20
 
 
-exportWidget::exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, VIDEOFORMAT format, QWidget* parent, const char* name): exportBaseWidget_UI(parent,name), m_duration(0), m_exportProcess(NULL), m_convertProcess(NULL), m_screen(screen), m_timeline(timeline), m_tmpFile(NULL), m_format(format)
+exportWidget::exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, VIDEOFORMAT format, QWidget* parent, const char* name): exportBaseWidget_UI(parent,name), m_duration(0), m_exportProcess(NULL), m_convertProcess(NULL), m_screen(screen), m_timeline(timeline), m_tmpFile(NULL), m_format(format), m_emitSignal(false)
 
 {
 /*    m_node = -1;
@@ -529,7 +529,6 @@ void exportWidget::startExport()
             KMessageBox::sorry(this, i18n("Please enter a file name"));
             return;
         }
-        //processProgress->setProgress(0);
         if (m_isRunning) {
             stopExport();
             return;
@@ -604,6 +603,19 @@ void exportWidget::startExport()
             emit exportToFirewire(fw_URL->url(), firewireport->value(), startExportTime, endExportTime);
         }
     }
+}
+
+void exportWidget::renderSelectedZone(const QString &url)
+{
+    if (m_isRunning) {
+	if (KMessageBox::questionYesNo(this, i18n("There is another file render currently running, cancel it ?")) != KMessageBox::Yes) return;
+        stopExport();
+    }
+    m_createdFile = url;
+    startExportTime = m_timeline->inpointPosition();
+    endExportTime = m_timeline->outpointPosition();
+    doExport(url, QStringList(), true);
+    m_emitSignal = true;
 }
 
 void exportWidget::generateDvdFile(QString file, GenTime start, GenTime end, VIDEOFORMAT format)
@@ -767,6 +779,7 @@ void exportWidget::endExport(KProcess *)
 	KNotifyClient::event(winId(), "RenderOk", i18n("Export of %1 is finished").arg(m_createdFile));
 	
     }
+    if (m_emitSignal) emit addFileToProject(m_createdFile);
     delete m_exportProcess;
     m_exportProcess = 0;
 

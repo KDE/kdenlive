@@ -645,6 +645,11 @@ namespace Gui {
         "save_zone");
 	saveZone->setStatusText(i18n("Save selected zone as playlist for future use"));
 
+	KAction *renderZone = new KAction(i18n("Render Selected Zone"), 0, this,
+        SLOT(slotRenderZone()), actionCollection(),
+        "render_zone");
+	renderZone->setStatusText(i18n("Render selected zone for future use"));
+
 	KAction *virtualZone = new KAction(i18n("Create Virtual Clip"), 0, this,
         SLOT(slotVirtualZone()), actionCollection(),
         "virtual_zone");
@@ -2041,6 +2046,20 @@ namespace Gui {
     	delete p;
     }
 
+    void KdenliveApp::slotRenderZone()
+    {
+        QCheckBox * addToProject = new QCheckBox(i18n("Add new clip to project"),this);
+        KFileDialog *fd = new KFileDialog(m_fileDialogPath.path(), "*.dv", this, "save_render", true,addToProject);
+        fd->setOperationMode(KFileDialog::Saving);
+        fd->setMode(KFile::File);
+        if (fd->exec() == QDialog::Accepted) {
+		if (!m_exportWidget) slotRenderExportTimeline(false);
+		m_exportWidget->renderSelectedZone(fd->selectedURL().path());
+	}
+	delete addToProject;
+	delete fd;
+    }
+
     void KdenliveApp::slotSaveZone()
     {
         QCheckBox * addToProject = new QCheckBox(i18n("Add new clip to project"),this);
@@ -2276,16 +2295,20 @@ namespace Gui {
             connect(m_exportWidget,SIGNAL(stopTimeLineExport()),m_workspaceMonitor->screen(),SLOT(stopTimeLineExport()));
             connect(m_workspaceMonitor->screen(),SIGNAL(exportOver()),m_exportWidget,SLOT(endExport()));
             connect(m_exportWidget,SIGNAL(exportToFirewire(QString, int, GenTime, GenTime)),m_workspaceMonitor->screen(),SLOT(exportToFirewire(QString, int, GenTime, GenTime)));
+	    connect(m_exportWidget,SIGNAL(addFileToProject(const QString &)),this,SLOT(slotAddFileToProject(const QString &)));
 	    }
 	    if (show) {
 	        if (m_exportWidget->isVisible()) m_exportWidget->hide();
 	        else m_exportWidget->show();
 	    }
-        
-        //delete m_exportWidget;
-        //m_exportWidget = 0;
-	slotStatusMsg(i18n("Ready."));
+        slotStatusMsg(i18n("Ready."));
     }
+
+
+void KdenliveApp::slotAddFileToProject(const QString &url) {
+    addCommand(new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), url, true));
+}
+
 
     void KdenliveApp::slotRenderDvd() {
 	if (!m_exportWidget) slotRenderExportTimeline(false);

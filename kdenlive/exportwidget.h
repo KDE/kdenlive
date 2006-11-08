@@ -62,6 +62,7 @@ private:
 	VIDEOFORMAT m_format;
 	QString m_createdFile;
 	QString encoder_norm;
+	bool m_emitSignal;
 
 	QStringList HQEncoders;
 	QStringList MedEncoders;
@@ -104,12 +105,14 @@ public slots:
 	void reportProgress(GenTime progress);
 	void updateGuides();
 	void generateDvdFile(QString file, GenTime start, GenTime end, VIDEOFORMAT format);
+	void renderSelectedZone(const QString &url);
 
 signals:
     /*void exportTimeLine(QString, QString, GenTime, GenTime, QStringList);
     void stopTimeLineExport();*/
     void exportToFirewire(QString, int, GenTime, GenTime);
     void dvdExportOver(bool);
+    void addFileToProject(const QString &);
 	
 };
 #endif

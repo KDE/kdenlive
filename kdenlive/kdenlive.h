@@ -471,6 +471,8 @@ namespace Gui {
 	void slotExternalEditor();
 
 	void slotFullScreen();
+	void slotAddFileToProject(const QString &url);
+	void slotRenderZone();
 
       private:
 		/** the configuration object of the application */
