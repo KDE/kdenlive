@@ -913,11 +913,12 @@ namespace Gui {
 	view = new QWidget(this);
         m_menuPosition = QPoint();
 	KDockWidget *mainDock =
-	    createDockWidget("Application", QPixmap(), this,
-	    i18n("Application"));
+	    createDockWidget("Kdenlive", QPixmap(), this,
+	    i18n("Kdenlive"));
 	mainDock->setWidget(view);
 	mainDock->setDockSite(KDockWidget::DockFullSite);
         mainDock->setEnableDocking(KDockWidget::DockNone);
+	mainDock->setToolTipString(i18n("Kdenlive"));
         //mainDock->setFocusPolicy(QWidget::WheelFocus); //QWidget::TabFocus
 	setCentralWidget(mainDock);
 	setMainDockWidget(mainDock);
@@ -931,6 +932,7 @@ namespace Gui {
 	m_timelineWidget->setDockSite(KDockWidget::DockFullSite);
 	m_timelineWidget->setDockSite(KDockWidget::DockCorner);
 	m_timelineWidget->manualDock(mainDock, KDockWidget::DockBottom);
+	m_timelineWidget->setToolTipString(i18n("TimeLine"));
 
 	m_dockProjectList = createDockWidget("Project List", QPixmap(), 0, i18n("Project List"));
 	QWhatsThis::add(m_dockProjectList,
@@ -939,32 +941,37 @@ namespace Gui {
 		"In order to add sequences to the current video project, use the drag and drop."));
 	m_dockProjectList->setDockSite(KDockWidget::DockFullSite);
 	m_dockProjectList->manualDock(mainDock, KDockWidget::DockLeft);
+	m_dockProjectList->setToolTipString(i18n("Project List"));
 
 	m_dockTransition = createDockWidget("transition", QPixmap(), 0, i18n("Transition"));
 	m_transitionPanel = new TransitionDialog(this, m_dockTransition);
 	m_dockTransition->setWidget(m_transitionPanel);
 	m_dockTransition->setDockSite(KDockWidget::DockFullSite);
 	m_dockTransition->manualDock(m_dockProjectList, KDockWidget::DockCenter);
+	m_dockTransition->setToolTipString(i18n("Transition"));
 	
 	m_dockEffectList = createDockWidget("Effect List", QPixmap(), 0, i18n("Effect List"));
 	QToolTip::add(m_dockEffectList,
 	    i18n("Current effects usable with the renderer"));
 	m_dockEffectList->setDockSite(KDockWidget::DockFullSite);
-	m_dockEffectList->manualDock(m_dockProjectList,
-	    KDockWidget::DockCenter);
+	m_dockEffectList->manualDock(m_dockProjectList, KDockWidget::DockCenter);
+	m_dockEffectList->setToolTipString(i18n("Effect List"));
+
 	m_dockEffectStack = createDockWidget("Effect Stack", QPixmap(), 0, i18n("Effect Stack"));
 	m_dockEffectStack->setDockSite(KDockWidget::DockFullSite);
-	m_dockEffectStack->manualDock(m_dockProjectList,
-	    KDockWidget::DockCenter);
+	m_dockEffectStack->manualDock(m_dockProjectList, KDockWidget::DockCenter);
+	m_dockEffectStack->setToolTipString(i18n("Effect Stack"));
 
 	m_dockWorkspaceMonitor = createDockWidget("Workspace Monitor", QPixmap(), 0, i18n("Workspace Monitor"));
 
 	m_dockWorkspaceMonitor->setDockSite(KDockWidget::DockFullSite);
 	m_dockWorkspaceMonitor->manualDock(mainDock, KDockWidget::DockRight);
+	m_dockWorkspaceMonitor->setToolTipString(i18n("Workspace Monitor"));
 
 	m_dockClipMonitor = createDockWidget("Clip Monitor", QPixmap(), 0, i18n("Clip Monitor"));
 	m_dockClipMonitor->setDockSite(KDockWidget::DockFullSite);
 	m_dockClipMonitor->manualDock( m_dockWorkspaceMonitor, KDockWidget::DockCenter );
+	m_dockClipMonitor->setToolTipString(i18n("Clip Monitor"));
 
 	setBackgroundMode(PaletteBase);
 	makeDockInvisible(mainDock);
