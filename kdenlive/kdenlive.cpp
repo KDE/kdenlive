@@ -515,12 +515,12 @@ namespace Gui {
                 new KAction(i18n("Forward one second"),
                             KShortcut(Qt::CTRL | Qt::Key_Right), this, SLOT(slotNextSecond()),
                             actionCollection(), "forward_second");
-	actionNextSecond->setStatusText(i18n("Move current position forward by one second"));
+	actionNextSecond->setStatusText(i18n("Move current position forward one second"));
         actionLastSecond =
                 new KAction(i18n("Back one second"), KShortcut(Qt::CTRL | Qt::Key_Left),
                             this, SLOT(slotLastSecond()), actionCollection(),
                             "backward_second");
-	actionLastSecond->setStatusText(i18n("Move current position backwards by one second"));
+	actionLastSecond->setStatusText(i18n("Move current position backwards one second"));
 
         KAction *nextSnap = new KAction(i18n("Forward to next snap point"),
                             KShortcut(Qt::ALT | Qt::Key_Right), this, SLOT(slotNextSnap()),
@@ -603,22 +603,22 @@ namespace Gui {
 	KAction *addFolder = new KAction(i18n("Create Folder"), "folder_new.png", 0, this,
 	    SLOT(slotProjectAddFolder()), actionCollection(),
 	    "create_folder");
-	addFolder->setStatusText(i18n("Add a folder in project list"));
+	addFolder->setStatusText(i18n("Add folder in project list"));
 
 	KAction *renameFolder = new KAction(i18n("Rename Folder"), 0, this,
 	    SLOT(slotProjectRenameFolder()), actionCollection(),
 	    "rename_folder");
-	renameFolder->setStatusText(i18n("Rename a folder in project list"));
+	renameFolder->setStatusText(i18n("Rename folder in project list"));
 
 	KAction *deleteFolder = new KAction(i18n("Delete Folder"), "editdelete.png", 0, this,
 	    SLOT(slotProjectDeleteFolder()), actionCollection(),
 	    "delete_folder");
-	deleteFolder->setStatusText(i18n("Delete a folder from project list"));
+	deleteFolder->setStatusText(i18n("Delete folder from project list"));
 
         KAction *addTransition = new KAction(i18n("Add Transition"), 0, this,
         SLOT(slotAddTransition()), actionCollection(),
         "add_transition");
-	addTransition->setStatusText(i18n("Add a transition to selected clip"));
+	addTransition->setStatusText(i18n("Add transition to selected clip"));
 
         KAction *deleteTransition = new KAction(i18n("Delete Transition"), 0, this,
         SLOT(slotDeleteTransition()), actionCollection(),
@@ -628,12 +628,12 @@ namespace Gui {
         KAction *addTrack = new KAction(i18n("Add Track"), 0, this,
         SLOT(slotAddTrack()), actionCollection(),
         "timeline_add_track");
-	addTrack->setStatusText(i18n("Add a track"));
+	addTrack->setStatusText(i18n("Add Track"));
 
 	KAction *deleteTrack = new KAction(i18n("Delete Track"), 0, this,
         SLOT(slotDeleteTrack()), actionCollection(),
         "timeline_delete_track");
-	deleteTrack->setStatusText(i18n("Delete a track"));
+	deleteTrack->setStatusText(i18n("Delete Track"));
 
 	KAction *externalAudio = new KAction(i18n("Open Clip In External Editor"), 0, this,
         SLOT(slotExternalEditor()), actionCollection(),
@@ -663,17 +663,17 @@ namespace Gui {
 	KAction *addGuide = new KAction(i18n("Add Guide"), 0, this,
         SLOT(slotAddGuide()), actionCollection(),
         "timeline_add_guide");
-	addGuide->setStatusText(i18n("Add a guide at timeline cursor position"));
+	addGuide->setStatusText(i18n("Add guide at cursor position"));
 
 	KAction *deleteGuide = new KAction(i18n("Delete Guide"), 0, this,
         SLOT(slotDeleteGuide()), actionCollection(),
         "timeline_delete_guide");
-	deleteGuide->setStatusText(i18n("Delete the guide under timeline cursor"));
+	deleteGuide->setStatusText(i18n("Delete guide at cursor position"));
 
 	KAction *editGuide = new KAction(i18n("Edit Guide"), 0, this,
         SLOT(slotEditGuide()), actionCollection(),
         "timeline_edit_guide");
-	editGuide->setStatusText(i18n("Edit the guide under timeline cursor"));
+	editGuide->setStatusText(i18n("Edit guide at cursor position"));
 
         showClipMonitor = new KToggleAction(i18n("Clip Monitor"), 0, this,
 	    SLOT(slotToggleClipMonitor()), actionCollection(),
@@ -784,22 +784,22 @@ namespace Gui {
 	fileSaveAs->setStatusText(i18n("Saves the actual document as..."));
 	//  fileClose->setStatusText(i18n("Closes the actual document"));
 	//  filePrint ->setStatusText(i18n("Prints out the actual document"));
-	fileQuit->setStatusText(i18n("Quits the application"));
+	fileQuit->setStatusText(i18n("Exit application"));
 	editCut->
 	    setStatusText(i18n
-	    ("Cuts the selected section and puts it to the clipboard"));
+	    ("Cut and move selected zone to clipboard"));
 	editCopy->
 	    setStatusText(i18n
-	    ("Copies the selected clip to the clipboard"));
+	    ("Copy clip to clipboard"));
 	editPaste->
 	    setStatusText(i18n
-	    ("Pastes the clipboard contents to actual position"));
+	    ("Paste clipboard contents to actual position"));
 	timelineMoveTool->
-	    setStatusText(i18n("Moves and resizes clips"));
+	    setStatusText(i18n("Move and resize clips"));
 	timelineRazorTool->
-	    setStatusText(i18n("Chops clips into two pieces"));
+	    setStatusText(i18n("Chop clips into two pieces"));
 	timelineSpacerTool->
-	    setStatusText(i18n("Shifts all clips to the right of mouse"));
+	    setStatusText(i18n("Shift all clips to the right of mouse"));
 	timelineMarkerTool->
 	    setStatusText(i18n
 	    ("Place commented snap marks on clips (Ctrl + click to remove a marker)"));
@@ -807,13 +807,13 @@ namespace Gui {
 	    setStatusText(i18n
 	    ("Move edit point between two selected clips"));
 	timelineSnapToFrame->
-	    setStatusText(i18n("Clips will align to the nearest frame"));
+	    setStatusText(i18n("Align clips on the nearest frame"));
 	timelineSnapToBorder->
 	    setStatusText(i18n
-	    ("Clips will align with the borders of other clips"));
+	    ("Align clips on the borders of other clips"));
 	timelineSnapToMarker->
 	    setStatusText(i18n
-	    ("Clips will align with user-defined snap markers"));
+	    ("Align clips with user-defined snap markers"));
 	projectAddClips->setStatusText(i18n("Add clips to the project"));
 	projectDeleteClips->
 	    setStatusText(i18n("Remove clips from the project"));
@@ -826,15 +826,15 @@ namespace Gui {
 	    ("Start or stop playback of inpoint/outpoint selection"));
 	actionNextFrame->
 	    setStatusText(i18n
-	    ("Move the current position forwards by one frame"));
+	    ("Move forwards one frame"));
 	actionLastFrame->
 	    setStatusText(i18n
-	    ("Move the current position backwards by one frame"));
+	    ("Move backwards one frame"));
 	actionSetInpoint->
-	    setStatusText(i18n("Set the inpoint to the current position"));
+	    setStatusText(i18n("Set inpoint to the current position"));
 	actionSetOutpoint->
 	    setStatusText(i18n
-	    ("Set the outpoint to the current position"));
+	    ("Set outpoint to the current position"));
 	actionDeleteSelected->
 	    setStatusText(i18n("Delete currently selected clips"));
 
