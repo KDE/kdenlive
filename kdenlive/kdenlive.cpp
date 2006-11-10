@@ -461,7 +461,7 @@ namespace Gui {
 	    this, SLOT(slotRenderExportTimeline()), actionCollection(),
 	    "render_export_timeline");
 
-	KAction *renderDvd = new KAction(i18n("Generate DVD files"), "dvd_unmount.png", 0, this,
+	KAction *renderDvd = new KAction(i18n("Export to DVD"), "dvd_unmount.png", 0, this,
 	    SLOT(slotRenderDvd()), actionCollection(), "render_dvd");
 	renderDvd->setStatusText(i18n("Generate necessary files to create a DVD"));
 
