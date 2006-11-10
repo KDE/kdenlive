@@ -316,7 +316,7 @@
                                 <cstring>tab</cstring>
                             </property>
                             <attribute name="title">
-                                <string>Medium</string>
+                                <string>Medium Quality</string>
                             </attribute>
                             <grid>
                                 <property name="name">
