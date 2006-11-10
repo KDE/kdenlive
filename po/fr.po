@@ -2,13 +2,12 @@
 # Gilles CAULIER <caulier.gilles@free.fr>, 2003, 2004.
 # Jean-Michel Pouré <jmpoure@free.fr>, 2006
 # Sébastien Heckmann <heckmann.svt@ifrance.com>, 2006
-
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-09 11:59+0100\n"
-"PO-Revision-Date: 2006-11-10 10:14+0100\n"
+"PO-Revision-Date: 2006-11-10 15:41+0100\n"
 "Last-Translator: Jean-Michel Pouré <jmpoure@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -68,7 +67,7 @@ msgstr "Piste audio"
 
 #: kdenlive/addtrackdialog_ui.cpp:121
 msgid "Above"
-msgstr ""
+msgstr "En dessous"
 
 #: kdenlive/addtrackdialog_ui.cpp:122
 msgid "Under"
@@ -186,7 +185,7 @@ msgstr "Mono"
 #: kdenlive/avlistviewitem.cpp:185
 #: kdenlive/clipproperties.cpp:156
 msgid "Stereo"
-msgstr ""
+msgstr "Stéréo"
 
 #: kdenlive/avlistviewitem.cpp:188
 #: kdenlive/clipproperties.cpp:159
@@ -305,7 +304,8 @@ msgstr ""
 msgid ""
 "Cannot open file %1\n"
 "Do you want to search for the file or remove it from the project ?"
-msgstr ""
+msgstr "Impossible de trouver le fichier %1\n"
+"Désirez vous le chercher ou le supprimer du projet ?"
 
 #: kdenlive/clipmanager.cpp:69
 #: kdenlive/clipmanager.cpp:102
@@ -402,7 +402,7 @@ msgstr "Taille du fichier :"
 #: kdenlive/clipproperties_ui.cpp:2483
 #: kdenlive/createslideshowclip_ui.cpp:121
 msgid "Image type"
-msgstr ""
+msgstr "Type d'image"
 
 #: kdenlive/clipproperties_ui.cpp:2485
 #: kdenlive/createimageclip_ui.cpp:97
@@ -452,7 +452,7 @@ msgstr "Taille de trame, (tps):"
 
 #: kdenlive/clippropertiesdialog.cpp:45
 msgid "Length (hh:mm:ss):"
-msgstr ""
+msgstr "Durée (hh:mm:ss) :"
 
 #: kdenlive/clippropertiesdialog.cpp:46
 msgid "System:"
@@ -460,7 +460,7 @@ msgstr ""
 
 #: kdenlive/clippropertiesdialog.cpp:47
 msgid "Decompressor:"
-msgstr ""
+msgstr "Décompression :"
 
 #: kdenlive/clippropertiesdialog.cpp:62
 msgid "Audio Stream"
@@ -468,11 +468,11 @@ msgstr "Flux audio"
 
 #: kdenlive/clippropertiesdialog.cpp:70
 msgid "Sampling Rate:"
-msgstr ""
+msgstr "Taux d'échantillonnage "
 
 #: kdenlive/clippropertiesdialog.cpp:71
 msgid "Channels:"
-msgstr ""
+msgstr "Canaux :"
 
 #: kdenlive/clippropertiesdialog.cpp:72
 msgid "Format:"
@@ -702,7 +702,7 @@ msgstr ""
 
 #: kdenlive/createslideshowclip.cpp:40
 msgid "Create Slideshow"
-msgstr ""
+msgstr "Créer un slideshow"
 
 #: kdenlive/createslideshowclip.cpp:124
 msgid "Found %1 images in selected folder"
@@ -718,11 +718,11 @@ msgstr "Durée totale"
 
 #: kdenlive/createslideshowclip_ui.cpp:130
 msgid "No images in slideshow"
-msgstr ""
+msgstr "Aucune image dans le slideshow"
 
 #: kdenlive/docclipavfile.cpp:79
 msgid "Slideshow"
-msgstr ""
+msgstr "Slideshow"
 
 #: kdenlive/documentmacrocommands.cpp:40
 msgid "Razor all tracks"
@@ -738,7 +738,7 @@ msgstr "Scinder le clip"
 
 #: kdenlive/editencoder_ui.cpp:108
 msgid "Custom Encoding Options"
-msgstr ""
+msgstr "Options personnalisées d'encodage"
 
 #: kdenlive/editencoder_ui.cpp:114
 msgid "Parameters (libavformat)"
@@ -923,7 +923,7 @@ msgstr "Dossier DVD"
 
 #: kdenlive/exportdvd_ui.cpp:372
 msgid "Use existing video file"
-msgstr ""
+msgstr "Utiliser un fichier vidéo existant"
 
 #: kdenlive/exportdvd_ui.cpp:373
 #: kdenlive/exportdvd_ui.cpp:391
@@ -979,7 +979,7 @@ msgstr "Fond"
 
 #: kdenlive/exportdvd_ui.cpp:394
 msgid "Generate entries for chapters"
-msgstr ""
+msgstr "Générer des entrées pour les chapitres"
 
 #: kdenlive/exportdvd_ui.cpp:395
 msgid "Colors"
@@ -999,7 +999,7 @@ msgstr ""
 
 #: kdenlive/exportdvd_ui.cpp:404
 msgid "Activated Text Color"
-msgstr ""
+msgstr "Activer la coloration du texte"
 
 #: kdenlive/exportdvd_ui.cpp:405
 msgid "Buttons"
@@ -1056,7 +1056,7 @@ msgstr "Création de DVD"
 
 #: kdenlive/exportdvddialog.cpp:55
 msgid "Cannot find the program \"dvdauthor\" on your system. Install it if you want to be able to create a DVD"
-msgstr ""
+msgstr "Impossible de trouver le logiciel \"dvdauthor\". Installez le si vous désirez créer un DVD."
 
 #: kdenlive/exportdvddialog.cpp:60
 msgid "Create DVD"
@@ -1082,7 +1082,7 @@ msgstr ""
 
 #: kdenlive/exportdvddialog.cpp:174
 msgid "Enter name for rendered movie file"
-msgstr ""
+msgstr "Saisir un nom de fichier pour effectuer un rendu de votre vidéo"
 
 #: kdenlive/exportdvddialog.cpp:184
 #: kdenlive/exportwidget.cpp:774
@@ -1104,19 +1104,19 @@ msgstr "Chapitre 0"
 
 #: kdenlive/exportdvddialog.cpp:255
 msgid "You need the program \"K3b\" to burn your DVD. Please install it if you want to use this feature."
-msgstr ""
+msgstr "Vous avez besoin du logiciel \"k3b\" pour graver votre DVD. Installez le si vous désirez utiliser cette fonction"
 
 #: kdenlive/exportdvddialog.cpp:259
 msgid "You need to generate the DVD structure before burning."
-msgstr ""
+msgstr "Vous avez besoin de générer la structure du DVD si vous désirez le graver."
 
 #: kdenlive/exportdvddialog.cpp:274
 msgid "You need the program \"xine\" to preview your DVD. Please install it if you want to use this feature."
-msgstr ""
+msgstr "Vous avez besoin du logiciel \"xine\" pour lire votre DVD. Installez-le si vous désirez utiliser cette fonction."
 
 #: kdenlive/exportdvddialog.cpp:288
 msgid "You need the program \"QDvdAuthor\" to preview your DVD. Please install it if you want to use this feature."
-msgstr ""
+msgstr "Vous avez besoin du logiciel \"qDvdAuthor\" pour lire votre DVD. Installez-le si vous désirez utiliser cette fonction."
 
 #: kdenlive/exportdvddialog.cpp:307
 msgid ""
@@ -1167,13 +1167,14 @@ msgstr ""
 #: kdenlive/exportwidget.cpp:529
 #: kdenlive/exportwidget.cpp:600
 msgid "Please enter a file name"
-msgstr ""
+msgstr "Saisir un nom de fichier"
 
 #: kdenlive/exportwidget.cpp:538
 msgid ""
 "File already exists.\n"
 "Do you want to overwrite it ?"
-msgstr ""
+msgstr "Le fichier existe déjà.\n"
+"Désirez vous le remplacer ?"
 
 #: kdenlive/exportwidget.cpp:611
 msgid "There is another file render currently running, cancel it ?"
@@ -1205,7 +1206,7 @@ msgstr "Sépia"
 
 #: kdenlive/initeffects.cpp:96
 msgid "Chrominance V"
-msgstr ""
+msgstr "Chrominance V"
 
 #: kdenlive/initeffects.cpp:104
 msgid "Charcoal"
@@ -1401,7 +1402,7 @@ msgstr "Précédent zoom"
 
 #: kdenlive/kdenlive.cpp:375
 msgid "Restore previous zoom state"
-msgstr ""
+msgstr "Restaurer le niveau de zoom précédent"
 
 #: kdenlive/kdenlive.cpp:378
 msgid "Move/Resize Tool"
@@ -1490,7 +1491,7 @@ msgstr "Générer les fichiers du DVD"
 
 #: kdenlive/kdenlive.cpp:466
 msgid "Generate necessary files to create a DVD"
-msgstr ""
+msgstr "Générer les fichiers nécessaires à la création d'un DVD"
 
 #: kdenlive/kdenlive.cpp:469
 msgid "&Configure Project"
@@ -1659,7 +1660,7 @@ msgstr "Créer un dossier"
 
 #: kdenlive/kdenlive.cpp:606
 msgid "Add a folder in project list"
-msgstr ""
+msgstr "Ajouter un dossier dans le projet"
 
 #: kdenlive/kdenlive.cpp:608
 #: kdenlive/kdenlive.cpp:2359
@@ -1668,7 +1669,7 @@ msgstr "Renommer le dossier"
 
 #: kdenlive/kdenlive.cpp:611
 msgid "Rename a folder in project list"
-msgstr ""
+msgstr "Renommer un dossier du projet"
 
 #: kdenlive/kdenlive.cpp:613
 msgid "Delete Folder"
@@ -1676,7 +1677,7 @@ msgstr "Supprimer un dossier"
 
 #: kdenlive/kdenlive.cpp:616
 msgid "Delete a folder from project list"
-msgstr ""
+msgstr "Effacer le dossier du projet"
 
 #: kdenlive/kdenlive.cpp:618
 msgid "Add Transition"
@@ -1734,7 +1735,7 @@ msgstr "Faire le rendu de la zone sélectionnée"
 
 #: kdenlive/kdenlive.cpp:651
 msgid "Render selected zone for future use"
-msgstr ""
+msgstr "Effectuer un rendu de la zone sélectionnée pour une utilisation ultérieure"
 
 #: kdenlive/kdenlive.cpp:653
 #: kdenlive/kdenlive.cpp:2085
@@ -1743,15 +1744,15 @@ msgstr "Créer un clip virtuel"
 
 #: kdenlive/kdenlive.cpp:656
 msgid "Create virtual clip from selected zone"
-msgstr ""
+msgstr "Créer un clip virtuel à partir de la zone sélectionnée"
 
 #: kdenlive/kdenlive.cpp:658
 msgid "Go To Virtual Zone"
-msgstr ""
+msgstr "Aller dans la zone virtuelle"
 
 #: kdenlive/kdenlive.cpp:661
 msgid "Go to selected clip's virtual zone"
-msgstr ""
+msgstr "Aller dans la zone virtuelle du clip sélectionné"
 
 #: kdenlive/kdenlive.cpp:663
 #: kdenlive/ktimeline.cpp:703
@@ -1920,7 +1921,7 @@ msgstr "Quitter l'application"
 
 #: kdenlive/kdenlive.cpp:790
 msgid "Cuts the selected section and puts it to the clipboard"
-msgstr "Couper la section sélectionnée et la mettre dans le presse-papiers"
+msgstr "Couper la section sélectionnée et la déplacer dans le presse-papiers"
 
 #: kdenlive/kdenlive.cpp:793
 #, fuzzy
@@ -2109,7 +2110,7 @@ msgstr "Exportation vers un fichier"
 #: kdenlive/kdenlive.cpp:1469
 #, c-format
 msgid "Cannot read file: %1"
-msgstr ""
+msgstr "Ne peut pas lire le fichier : %1"
 
 #: kdenlive/kdenlive.cpp:1475
 msgid ""
@@ -2169,7 +2170,7 @@ msgstr "Kdenlive -Nouveau projet"
 
 #: kdenlive/kdenlive.cpp:1787
 msgid "Unable to create a temporary folder in your home directory, Kdenlive will exit now."
-msgstr ""
+msgstr "Impossible de créer un dossier temporaire dans votre dossier home. Kdenlive va se fermer."
 
 #: kdenlive/kdenlive.cpp:1854
 msgid "Opening file..."
@@ -2491,7 +2492,7 @@ msgstr ""
 
 #: kdenlive/kmmeditpanel_ui.cpp:417
 msgid "Move to start of clip"
-msgstr ""
+msgstr "Se déplacer au début du clip"
 
 #: kdenlive/kmmeditpanel_ui.cpp:419
 msgid "Rewind clip"
@@ -2913,16 +2914,16 @@ msgstr ""
 
 #: kdenlive/transitionpip_ui.cpp:192
 msgid "Vert. position"
-msgstr ""
+msgstr "Position Vert."
 
 #: kdenlive/transitionpip_ui.cpp:194
 #: kdenlive/transitionwipe_ui.cpp:233
 msgid "Transparency"
-msgstr ""
+msgstr "Transparence"
 
 #: kdenlive/transitionpip_ui.cpp:195
 msgid "Horiz. position"
-msgstr ""
+msgstr "Position Horiz."
 
 #: kdenlive/transitionpip_ui.cpp:196
 #: kdenlive/transitionwipe_ui.cpp:234
