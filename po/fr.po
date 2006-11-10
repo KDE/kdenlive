@@ -7,12 +7,12 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-10 21:24+0100\n"
-"PO-Revision-Date: 2006-11-10 21:18+0100\n"
+"PO-Revision-Date: 2006-11-10 21:35+0100\n"
 "Last-Translator: Jean-Michel Pouré <jmpoure@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: kdenlive/addmarker_ui.cpp:124 kdenlive/changeclipspeed_ui.cpp:119
 #: kdenlive/clipproperties_ui.cpp:2489 kdenlive/configmisc_ui.cpp:101
@@ -121,7 +121,7 @@ msgstr "Clip image"
 
 #: kdenlive/avlistviewitem.cpp:154 kdenlive/clipproperties.cpp:122
 msgid "Slideshow Clip"
-msgstr ""
+msgstr "Clip diaporama"
 
 #: kdenlive/avlistviewitem.cpp:156 kdenlive/kdenlive.cpp:2535
 msgid "Text Clip"
@@ -459,7 +459,7 @@ msgstr ""
 
 #: kdenlive/configinterface_ui.cpp:105
 msgid "Show splash screen"
-msgstr ""
+msgstr "Montrer l'écran de démarrage"
 
 #: kdenlive/configinterface_ui.cpp:106
 msgid "Startup options"
@@ -636,7 +636,7 @@ msgstr ""
 
 #: kdenlive/createslideshowclip.cpp:40
 msgid "Create Slideshow"
-msgstr "Créer un slideshow"
+msgstr "Créer un diaporama"
 
 #: kdenlive/createslideshowclip.cpp:124
 msgid "Found %1 images in selected folder"
@@ -676,7 +676,7 @@ msgstr "Options personnalisées d'encodage"
 
 #: kdenlive/editencoder_ui.cpp:114
 msgid "Parameters (libavformat)"
-msgstr ""
+msgstr "Paramètres (libavformat)"
 
 #: kdenlive/editencoder_ui.cpp:115
 msgid "Extension"
@@ -712,7 +712,7 @@ msgstr "Déplacer l'effet vers le haut"
 
 #: kdenlive/effectstackdialog.cpp:75
 msgid "Move effect down"
-msgstr ""
+msgstr "Déplacer l'effet vers le bas"
 
 #: kdenlive/effectstackdialog.cpp:77
 msgid "Reset all parameters to default values"
@@ -779,9 +779,8 @@ msgid "High Quality"
 msgstr "Haute qualité"
 
 #: kdenlive/exportbasewidget_ui.cpp:320
-#, fuzzy
 msgid "Medium Quality"
-msgstr "Haute qualité"
+msgstr "Qualité moyenne"
 
 #: kdenlive/exportbasewidget_ui.cpp:326
 msgid "New"
@@ -1383,7 +1382,7 @@ msgstr "Ajouter des clips"
 
 #: kdenlive/kdenlive.cpp:423 kdenlive/kdenlive.cpp:2456
 msgid "Create Color Clip"
-msgstr ""
+msgstr "Créer clip couleur"
 
 #: kdenlive/kdenlive.cpp:428 kdenlive/kdenlive.cpp:2483
 msgid "Create Image Clip"
@@ -1391,11 +1390,11 @@ msgstr "Créer un clip image"
 
 #: kdenlive/kdenlive.cpp:432
 msgid "Create Slideshow Clip"
-msgstr ""
+msgstr "Créer un clip diaporama"
 
 #: kdenlive/kdenlive.cpp:437
 msgid "Create Text Clip"
-msgstr "Créer un clip de texte"
+msgstr "Créer un clip texte"
 
 #: kdenlive/kdenlive.cpp:441
 msgid "Duplicate Text Clip"
@@ -1406,9 +1405,8 @@ msgid "&Export Timeline"
 msgstr "&Exporter le montage vidéo"
 
 #: kdenlive/kdenlive.cpp:464
-#, fuzzy
 msgid "Export to DVD"
-msgstr "Exportation vers un fichier"
+msgstr "Exporter vers un DVD"
 
 #: kdenlive/kdenlive.cpp:466
 msgid "Generate necessary files to create a DVD"
@@ -1844,7 +1842,6 @@ msgid "Paste clipboard contents to actual position"
 msgstr "Coller le contenu du presse-papiers à la position courante"
 
 #: kdenlive/kdenlive.cpp:798
-#, fuzzy
 msgid "Move and resize clips"
 msgstr "Déplacer et redimensionner les clips"
 
@@ -2102,7 +2099,7 @@ msgstr "Impossible de sélectionner un clip"
 
 #: kdenlive/kdenlive.cpp:1933
 msgid "Copying clip %1."
-msgstr ""
+msgstr "Copie du clip %1."
 
 #: kdenlive/kdenlive.cpp:1946
 msgid "Cutting clip %1."
@@ -2114,7 +2111,7 @@ msgstr "Le presse-papier ne contient aucun clip"
 
 #: kdenlive/kdenlive.cpp:1960
 msgid "Pasting clip %1."
-msgstr ""
+msgstr "Collage du clip %1."
 
 #: kdenlive/kdenlive.cpp:1980
 msgid "Cannot past clip %1 on track %2 at %3"
@@ -2391,7 +2388,7 @@ msgstr ""
 
 #: kdenlive/kmmeditpanel_ui.cpp:417
 msgid "Move to start of clip"
-msgstr "Se déplacer au début du clip"
+msgstr "Aller au début du clip"
 
 #: kdenlive/kmmeditpanel_ui.cpp:419
 msgid "Rewind clip"
@@ -2419,7 +2416,7 @@ msgstr "Avance rapide dans le clip"
 
 #: kdenlive/kmmeditpanel_ui.cpp:431
 msgid "Move to end of clip"
-msgstr ""
+msgstr "Aller à la fin du clip"
 
 #: kdenlive/kmmeditpanel_ui.cpp:433
 msgid "Set Inpoint"
@@ -2431,7 +2428,7 @@ msgstr "Définir un point de sortie"
 
 #: kdenlive/kmmeditpanel_ui.cpp:437
 msgid "Play Section between inpoint and outpoint"
-msgstr ""
+msgstr "Lire la sélection entre les points d'entrée et de sortie"
 
 #: kdenlive/kmmeditpanel_ui.cpp:439
 msgid "Loop Section between inpoint and outpoint"
@@ -2611,7 +2608,7 @@ msgstr "fichier à ouvrir"
 
 #: kdenlive/main.cpp:53
 msgid "Kdenlive original author"
-msgstr ""
+msgstr "Auteur original de Kdenlive"
 
 #: kdenlive/main.cpp:58
 msgid "Piave renderer author"
@@ -2895,7 +2892,7 @@ msgstr "Direction de l'inversion"
 
 #: kdenlive/transitiondialog.cpp:56
 msgid "Perform transition with: "
-msgstr ""
+msgstr "Faire une transition avec :"
 
 #: kdenlive/transitiondialog.cpp:58
 msgid "Automatic - Use next video track"
