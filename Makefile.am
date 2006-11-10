@@ -11,7 +11,8 @@ $(top_srcdir)/acinclude.m4: $(top_srcdir)/admin/acinclude.m4.in $(top_srcdir)/ad
 
 MAINTAINERCLEANFILES = subdirs configure.in acinclude.m4 configure.files 
 
-messages:
+messages: rc.cpp
+	$(EXTRACTRC) kdenlive/*.rc >> kdenlive/rc.cpp
 	$(XGETTEXT) kdenlive/*.cpp -L C++    -o po/kdenlive.pot
 	$(XGETTEXT) kdenlive/*.ui  -L C++ -j -o po/kdenlive.pot
 
