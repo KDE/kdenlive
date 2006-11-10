@@ -849,16 +849,16 @@ namespace Gui {
 	    ("Remove snap markers from selected clips"));
 
 	renderExportTimeline->
-	    setStatusText(i18n("Render the timeline to a file"));
+	    setStatusText(i18n("Render timeline to a file"));
 	configureProject->
-	    setStatusText(i18n("Configure the format for this project"));
+	    setStatusText(i18n("Configure project"));
 
 	timelineRazorAllClips->
 	    setStatusText(i18n
-	    ("Razor all clips on the timeline at the current seek position"));
+	    ("Razor all clips on timeline at the current cursor position"));
 	timelineRazorSelectedClips->
 	    setStatusText(i18n
-	    ("Razor all selected clips on the timeline at the current seek position"));
+	    ("Razor selected clips on timeline at the current cursor position"));
 
 	// use the absolute path to your kdenliveui.rc file for testing purpose in createGUI();
 	createGUI("kdenliveui.rc");
@@ -2686,7 +2686,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    DocClipBase *clip = refClip->referencedClip();
 	    if (!confirm || KMessageBox::warningContinueCancel(this,
 		    i18n
-		    ("This will remove all clips on the timeline that are currently using this clip. Are you sure you want to do this?"))
+		    ("This will remove all clips on timeline that are currently using this clip. Are you sure you want to do this?"))
 		== KMessageBox::Continue) {
 		// Create a macro command that will delete all clips from the timeline involving this
 		// avfile. Then, delete it.
@@ -2739,7 +2739,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	slotStatusMsg(i18n("Cleaning Project"));
 
 	if (KMessageBox::warningContinueCancel(this,
-		i18n("Clean Project removes files from the project that are unused.\
+		i18n("Clean Project removes unused files.\
 	              Are you sure you want to do this?")) ==
 	    KMessageBox::Continue) {
 
