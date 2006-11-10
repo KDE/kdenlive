@@ -6,13 +6,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-10 18:29+0100\n"
-"PO-Revision-Date: 2006-11-10 20:53+0100\n"
+"POT-Creation-Date: 2006-11-10 21:24+0100\n"
+"PO-Revision-Date: 2006-11-10 21:18+0100\n"
 "Last-Translator: Jean-Michel Pouré <jmpoure@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
 
 #: kdenlive/addmarker_ui.cpp:124 kdenlive/changeclipspeed_ui.cpp:119
 #: kdenlive/clipproperties_ui.cpp:2489 kdenlive/configmisc_ui.cpp:101
@@ -779,8 +779,9 @@ msgid "High Quality"
 msgstr "Haute qualité"
 
 #: kdenlive/exportbasewidget_ui.cpp:320
-msgid "Medium"
-msgstr "Moyen"
+#, fuzzy
+msgid "Medium Quality"
+msgstr "Haute qualité"
 
 #: kdenlive/exportbasewidget_ui.cpp:326
 msgid "New"
@@ -1278,7 +1279,7 @@ msgstr "Supprimer une marque"
 #: kdenlive/kdenlive.cpp:447 kdenlive/trackpanelclipmovefunction.cpp:512
 #: kdenlive/trackpanelclipslipfunction.cpp:519
 msgid "Delete Clips"
-msgstr "Supprimer des clips"
+msgstr "Supprimer les clips"
 
 #: kdenlive/kaddtransitioncommand.cpp:73
 msgid "Add transition"
@@ -1405,8 +1406,9 @@ msgid "&Export Timeline"
 msgstr "&Exporter le montage vidéo"
 
 #: kdenlive/kdenlive.cpp:464
-msgid "Generate DVD files"
-msgstr "Générer les fichiers du DVD"
+#, fuzzy
+msgid "Export to DVD"
+msgstr "Exportation vers un fichier"
 
 #: kdenlive/kdenlive.cpp:466
 msgid "Generate necessary files to create a DVD"
@@ -1885,7 +1887,7 @@ msgstr "Ajouter des clips au projet"
 
 #: kdenlive/kdenlive.cpp:819
 msgid "Remove clips from the project"
-msgstr "Supprimer des clips du projet"
+msgstr "Supprimer les clips du projet"
 
 #: kdenlive/kdenlive.cpp:821
 msgid "Remove unused clips from the project"
@@ -2240,7 +2242,7 @@ msgstr "Modification des clips"
 
 #: kdenlive/kdenlive.cpp:2682
 msgid "Removing Clips"
-msgstr "Supprimer des clips"
+msgstr "Suppression des clips"
 
 #: kdenlive/kdenlive.cpp:2689
 #, fuzzy
@@ -2310,7 +2312,7 @@ msgstr "Paramétrage du point de sortie"
 
 #: kdenlive/kdenlive.cpp:2967
 msgid "Deleting Selected Clips"
-msgstr "Suppression des plans vidéo sélectionnés"
+msgstr "Suppression des clips sélectionnés"
 
 #: kdenlive/kdenlive.cpp:2994 kdenlive/kdenlive.cpp:3323
 #: kdenlive/trackpanelclipmovefunction.cpp:105
@@ -2694,44 +2696,46 @@ msgstr ""
 "vérifier votre configuration."
 
 #. i18n: file kdenlive/kdenliveui.rc line 30
-#: kdenlive/rc.cpp:3
+#: kdenlive/rc.cpp:3 kdenlive/rc.cpp:72
 #, no-c-format
 msgid "&Project"
 msgstr "&Projet"
 
 #. i18n: file kdenlive/kdenliveui.rc line 38
-#: kdenlive/rc.cpp:6
+#: kdenlive/rc.cpp:6 kdenlive/rc.cpp:75
 #, no-c-format
 msgid "&Timeline"
 msgstr "Mon&tage"
 
 #. i18n: file kdenlive/kdenliveui.rc line 45
 #. i18n: file kdenlive/kdenliveui.rc line 219
-#: kdenlive/rc.cpp:9 kdenlive/rc.cpp:42
+#. i18n: file kdenlive/kdenliveui.rc line 45
+#. i18n: file kdenlive/kdenliveui.rc line 219
+#: kdenlive/rc.cpp:9 kdenlive/rc.cpp:42 kdenlive/rc.cpp:78 kdenlive/rc.cpp:111
 #, no-c-format
 msgid "Go To"
 msgstr "Navigation"
 
 #. i18n: file kdenlive/kdenliveui.rc line 71
-#: kdenlive/rc.cpp:12
+#: kdenlive/rc.cpp:12 kdenlive/rc.cpp:81
 #, no-c-format
 msgid "Monitor"
 msgstr "Moniteur"
 
 #. i18n: file kdenlive/kdenliveui.rc line 80
-#: kdenlive/rc.cpp:15
+#: kdenlive/rc.cpp:15 kdenlive/rc.cpp:84
 #, no-c-format
 msgid "Render"
 msgstr "Rendu"
 
 #. i18n: file kdenlive/kdenliveui.rc line 85
-#: kdenlive/rc.cpp:18
+#: kdenlive/rc.cpp:18 kdenlive/rc.cpp:87
 #, no-c-format
 msgid "Layout"
 msgstr "Environnement"
 
 #. i18n: file kdenlive/kdenliveui.rc line 96
-#: kdenlive/rc.cpp:21
+#: kdenlive/rc.cpp:21 kdenlive/rc.cpp:90
 #, no-c-format
 msgid "Windows"
 msgstr "Fenêtres"
@@ -2742,52 +2746,66 @@ msgstr "Fenêtres"
 #. i18n: file kdenlive/kdenliveui.rc line 168
 #. i18n: file kdenlive/kdenliveui.rc line 184
 #. i18n: file kdenlive/kdenliveui.rc line 201
+#. i18n: file kdenlive/kdenliveui.rc line 124
+#. i18n: file kdenlive/kdenliveui.rc line 137
+#. i18n: file kdenlive/kdenliveui.rc line 152
+#. i18n: file kdenlive/kdenliveui.rc line 168
+#. i18n: file kdenlive/kdenliveui.rc line 184
+#. i18n: file kdenlive/kdenliveui.rc line 201
 #: kdenlive/rc.cpp:24 kdenlive/rc.cpp:27 kdenlive/rc.cpp:30 kdenlive/rc.cpp:33
-#: kdenlive/rc.cpp:36 kdenlive/rc.cpp:39
+#: kdenlive/rc.cpp:36 kdenlive/rc.cpp:39 kdenlive/rc.cpp:93 kdenlive/rc.cpp:96
+#: kdenlive/rc.cpp:99 kdenlive/rc.cpp:102 kdenlive/rc.cpp:105
+#: kdenlive/rc.cpp:108
 #, no-c-format
 msgid "Create Clip"
 msgstr "Créer un clip"
 
 #. i18n: file kdenlive/kdenliveui.rc line 224
 #. i18n: file kdenlive/kdenliveui.rc line 245
-#: kdenlive/rc.cpp:45 kdenlive/rc.cpp:54
+#. i18n: file kdenlive/kdenliveui.rc line 224
+#. i18n: file kdenlive/kdenliveui.rc line 245
+#: kdenlive/rc.cpp:45 kdenlive/rc.cpp:54 kdenlive/rc.cpp:114
+#: kdenlive/rc.cpp:123
 #, no-c-format
 msgid "Tools"
 msgstr "Outils"
 
 #. i18n: file kdenlive/kdenliveui.rc line 231
 #. i18n: file kdenlive/kdenliveui.rc line 252
-#: kdenlive/rc.cpp:48 kdenlive/rc.cpp:57
+#. i18n: file kdenlive/kdenliveui.rc line 231
+#. i18n: file kdenlive/kdenliveui.rc line 252
+#: kdenlive/rc.cpp:48 kdenlive/rc.cpp:57 kdenlive/rc.cpp:117
+#: kdenlive/rc.cpp:126
 #, fuzzy, no-c-format
 msgid "Snap To"
 msgstr "Aligner sur les trames"
 
 #. i18n: file kdenlive/kdenliveui.rc line 236
-#: kdenlive/rc.cpp:51
+#: kdenlive/rc.cpp:51 kdenlive/rc.cpp:120
 #, no-c-format
 msgid "Tracks"
 msgstr "Pistes"
 
 #. i18n: file kdenlive/kdenliveui.rc line 269
-#: kdenlive/rc.cpp:60
+#: kdenlive/rc.cpp:60 kdenlive/rc.cpp:129
 #, no-c-format
 msgid "Add Video Effect"
 msgstr "Ajouter un effet vidéo"
 
 #. i18n: file kdenlive/kdenliveui.rc line 271
-#: kdenlive/rc.cpp:63
+#: kdenlive/rc.cpp:63 kdenlive/rc.cpp:132
 #, no-c-format
 msgid "Add Audio Effect"
 msgstr "Ajouter un effet audio"
 
 #. i18n: file kdenlive/kdenliveui.rc line 290
-#: kdenlive/rc.cpp:66
+#: kdenlive/rc.cpp:66 kdenlive/rc.cpp:135
 #, no-c-format
 msgid "Timeline Toolbar"
 msgstr "Outils du montage"
 
 #. i18n: file kdenlive/kdenliveui.rc line 305
-#: kdenlive/rc.cpp:69
+#: kdenlive/rc.cpp:69 kdenlive/rc.cpp:138
 #, no-c-format
 msgid "Layout Toolbar"
 msgstr "Outils des fenêtres"
@@ -2923,6 +2941,12 @@ msgstr "Fi&n"
 #: kdenlive/transitionwipe_ui.cpp:237
 msgid "Rescale images"
 msgstr "Mettre à l'échelle les images"
+
+#~ msgid "Medium"
+#~ msgstr "Moyen"
+
+#~ msgid "Generate DVD files"
+#~ msgstr "Générer les fichiers du DVD"
 
 #~ msgid "Add a track"
 #~ msgstr "Ajouter une piste"
