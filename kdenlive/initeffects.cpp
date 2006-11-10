@@ -40,15 +40,14 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
     // Build effects. Retrieve the list of MLT's available effects first.
 
     QString inigoPath = KStandardDirs::findExe("inigo");
-    inigoPath = inigoPath.section('/', 0, -3) + "/share/mlt/modules";
+    inigoPath = inigoPath.section('/', 0, -3);
 
     KGlobal::dirs()->addResourceType("mlt_data", "share/mlt/modules");
     KGlobal::dirs()->addResourceDir("mlt_data", "/usr/share/mlt/modules");
     KGlobal::dirs()->addResourceDir("mlt_data", "/usr/local/share/mlt/modules");
-    KGlobal::dirs()->addResourceDir("mlt_data", inigoPath);
-
+    KGlobal::dirs()->addResourceDir("mlt_data", inigoPath + "/share/mlt/modules");
     QString datFile = locate("mlt_data", "filters.dat");
-    
+
     QStringList filtersList;
 
     QFile file( datFile );
@@ -62,6 +61,13 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
         file.close();
     }
 
+
+    KGlobal::dirs()->addResourceType("ladspa_plugin", "lib/ladspa");
+    KGlobal::dirs()->addResourceDir("ladspa_plugin", "/usr/lib/ladspa");
+    KGlobal::dirs()->addResourceDir("ladspa_plugin", "/usr/local/lib/ladspa");
+    KGlobal::dirs()->addResourceDir("ladspa_plugin", "/opt/lib/ladspa");
+    KGlobal::dirs()->addResourceDir("ladspa_plugin", "/opt/local/lib/ladspa");
+    KGlobal::dirs()->addResourceDir("ladspa_plugin", inigoPath + "/lib/ladspa");
 
     /**
 
@@ -303,6 +309,8 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
     }
 
     if (filtersList.findIndex("ladspa") != -1) {
+
+	if (!locate("ladspa_plugin", "am_pitchshift_1433.so").isEmpty()) {
 	// Pitch shifter
 	EffectDesc *pitch = new EffectDesc(i18n("Pitch Shift"), "ladspa1433", "audio");
 	xmlAttr.clear();
@@ -315,7 +323,9 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 	xmlAttr.append("factor", QString::null, QString::null, "100");
 	pitch->addParameter(effectDescParamFactory.createParameter(xmlAttr));
 	effectList->append(pitch);
+	}
 
+	if (!locate("ladspa_plugin", "gverb_1216.so").isEmpty()) {
 	// Reverb
 	EffectDesc *reverb = new EffectDesc(i18n("Room reverb"), "ladspa1216", "audio");
 	xmlAttr.clear();
@@ -346,7 +356,9 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 	reverb->addParameter(effectDescParamFactory.createParameter(xmlAttr));
 	xmlAttr.clear();
 	effectList->append(reverb);
+	}
 
+	if (!locate("ladspa_plugin", "plate_1423.so").isEmpty()) {
 	// Reverb 2
 	EffectDesc *reverb2 = new EffectDesc(i18n("Reverb"), "ladspa1423", "audio");
 	xmlAttr.clear();
@@ -369,7 +381,9 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 	reverb2->addParameter(effectDescParamFactory.createParameter(xmlAttr));
 	xmlAttr.clear();
 	effectList->append(reverb2);
+	}
 
+	if (!locate("ladspa_plugin", "dj_eq_1901.so").isEmpty()) {
 	// Equalizer
 	EffectDesc *equ = new EffectDesc(i18n("Equalizer"), "ladspa1901", "audio");
 	xmlAttr.clear();
@@ -398,6 +412,7 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 	equ->addParameter(effectDescParamFactory.createParameter(xmlAttr));
 	xmlAttr.clear();
 	effectList->append(equ);
+	}
     }
 }
 
