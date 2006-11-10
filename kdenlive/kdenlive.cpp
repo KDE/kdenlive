@@ -2453,7 +2453,7 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 /**  Create a new color clip (color, text or image) */
     void KdenliveApp::slotProjectAddColorClip() {
 	slotStatusMsg(i18n("Adding Clips"));
-        KDialogBase *dia = new KDialogBase(  KDialogBase::Swallow, i18n("Create New Color Clip"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "create_clip", true);
+        KDialogBase *dia = new KDialogBase(  KDialogBase::Swallow, i18n("Create Color Clip"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "create_clip", true);
 	createColorClip_UI *clipChoice = new createColorClip_UI(dia);
 	clipChoice->edit_name->setText(i18n("Color Clip"));
         clipChoice->edit_duration->setText(KdenliveSettings::colorclipduration());
@@ -2480,7 +2480,7 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 
     void KdenliveApp::slotProjectAddImageClip() {
 	slotStatusMsg(i18n("Adding Clips"));
-        KDialogBase *dia = new KDialogBase(  KDialogBase::Swallow, i18n("Create New Image Clip"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "create_clip", true);
+        KDialogBase *dia = new KDialogBase(  KDialogBase::Swallow, i18n("Create Image Clip"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "create_clip", true);
         createImageClip_UI *clipChoice = new createImageClip_UI(dia);
 	clipChoice->imageExtension->hide();
 	dia->setMainWidget(clipChoice);
