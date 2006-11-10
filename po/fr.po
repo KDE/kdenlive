@@ -1,6 +1,8 @@
 # translation of fr.po to Français
 # Gilles CAULIER <caulier.gilles@free.fr>, 2003, 2004.
 # Jean-Michel Pouré <jmpoure@free.fr>, 2006
+# Sébastien Heckmann <heckmann.svt@ifrance.com>, 2006
+
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
