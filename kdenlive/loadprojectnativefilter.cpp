@@ -82,13 +82,11 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 		inPoint = GenTime(e.attribute("inpoint","0").toInt(), KdenliveSettings::defaultfps());
 		outPoint = GenTime(e.attribute("outpoint","100").toInt(), KdenliveSettings::defaultfps());
 
-		/*document->application()->setInpointPosition(GenTime(e.attribute("inpoint","0").toInt(), KdenliveSettings::defaultfps())); 
-		document->application()->setOutpointPosition(GenTime(e.attribute("outpoint","100").toInt(), KdenliveSettings::defaultfps()));*/
 	    }
 	    else if (e.tagName() == "guides") {
 		document->application()->guidesFromXml( e );
 	    }
-	    else if (e.tagName() == "producer") addToDocument(i18n("Clips"), e, document);
+	    else if (e.tagName() == "producer" || e.tagName() == "folder") addToDocument(i18n("Clips"), e, document);
 	    else if (e.tagName() == "kdenliveclip") {
 		if (!trackListLoaded) {
 		    trackListLoaded = true;
