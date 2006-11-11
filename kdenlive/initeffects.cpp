@@ -258,40 +258,45 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 	effectList->append(mirror);
     }
 
-    // Slowmotion
-    /* disable until MLT gets patched
-    EffectDesc *slowmo = new EffectDesc(i18n("Speed"), "framebuffer", "video");
-    xmlAttr.clear();
-    xmlAttr.append("type", QString::null, QString::null, "constant");
-    xmlAttr.append("name", QString::null, QString::null, "_speed");
-    xmlAttr.append("description", QString::null, QString::null,
-	i18n("Start Speed"));
-    xmlAttr.append("max", QString::null, QString::null, "300");
-    xmlAttr.append("min", QString::null, QString::null, "1");
-    xmlAttr.append("default", QString::null, QString::null, "100");
-    xmlAttr.append("factor", QString::null, QString::null, "100");
-    slowmo->addParameter(effectDescParamFactory.createParameter(xmlAttr));*/
-    /*xmlAttr.clear();  // MLT is not ready yet for variable speed
-    xmlAttr.append("type", QString::null, QString::null, "constant");
-    xmlAttr.append("name", QString::null, QString::null, "_speed_end");
-    xmlAttr.append("description", QString::null, QString::null,
-	i18n("End Speed"));
-    xmlAttr.append("max", QString::null, QString::null, "300");
-    xmlAttr.append("min", QString::null, QString::null, "1");
-    xmlAttr.append("default", QString::null, QString::null, "100");
-    xmlAttr.append("factor", QString::null, QString::null, "100");
-    slowmo->addParameter(effectDescParamFactory.createParameter(xmlAttr));*/
-    /*xmlAttr.clear();
-    xmlAttr.append("type", QString::null, QString::null, "constant");
-    xmlAttr.append("name", QString::null, QString::null, "strobe");
-    xmlAttr.append("description", QString::null, QString::null,
-	i18n("Stroboscope"));
-    xmlAttr.append("max", QString::null, QString::null, "100");
-    xmlAttr.append("min", QString::null, QString::null, "0");
-    xmlAttr.append("default", QString::null, QString::null, "0");
-    slowmo->addParameter(effectDescParamFactory.createParameter(xmlAttr));
-    effectList->append(slowmo);*/
 
+    if (filtersList.findIndex("framebuffer") != -1) {
+        // Slowmotion
+	EffectDesc *slowmo = new EffectDesc(i18n("Speed"), "framebuffer", "video");
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "_speed");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Start Speed"));
+	xmlAttr.append("max", QString::null, QString::null, "300");
+	xmlAttr.append("min", QString::null, QString::null, "1");
+	xmlAttr.append("default", QString::null, QString::null, "100");
+	xmlAttr.append("factor", QString::null, QString::null, "100");
+	slowmo->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "_speed_end");
+	xmlAttr.append("description", QString::null, QString::null, i18n("End Speed"));
+	xmlAttr.append("max", QString::null, QString::null, "300");
+	xmlAttr.append("min", QString::null, QString::null, "1");
+	xmlAttr.append("default", QString::null, QString::null, "100");
+	xmlAttr.append("factor", QString::null, QString::null, "100");
+	slowmo->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "strobe");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Stroboscope"));
+	xmlAttr.append("max", QString::null, QString::null, "100");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("default", QString::null, QString::null, "0");
+	slowmo->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "bool");
+	xmlAttr.append("name", QString::null, QString::null, "reverse");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Reverse Playing"));
+	xmlAttr.append("default", QString::null, QString::null, "0");
+	slowmo->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	effectList->append(slowmo);
+    }
 
     if (filtersList.findIndex("gamma") != -1) {
 	// Gamma
@@ -309,6 +314,82 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
     }
 
     if (filtersList.findIndex("ladspa") != -1) {
+
+	if (!locate("ladspa_plugin", "declip_1195.so").isEmpty()) {
+	// Declipper
+	EffectDesc *declip = new EffectDesc(i18n("Declipper"), "ladspa1195", "audio");
+	effectList->append(declip);
+	}
+
+	if (!locate("ladspa_plugin", "karaoke_1409.so").isEmpty()) {
+	// Karaoke
+	EffectDesc *karaoke = new EffectDesc(i18n("Karaoke"), "ladspa1409", "audio");
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "volume");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Vocal Volume (db)"));
+	xmlAttr.append("max", QString::null, QString::null, "0");
+	xmlAttr.append("min", QString::null, QString::null, "-70");
+	xmlAttr.append("default", QString::null, QString::null, "0");
+	xmlAttr.append("factor", QString::null, QString::null, "1");
+	karaoke->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	effectList->append(karaoke);
+	}
+
+	if (!locate("ladspa_plugin", "vynil_1905.so").isEmpty()) {
+	// Vinyl
+	EffectDesc *vinyl = new EffectDesc(i18n("Vinyl"), "ladspa1905", "audio");
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "year");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Year"));
+	xmlAttr.append("max", QString::null, QString::null, "1990");
+	xmlAttr.append("min", QString::null, QString::null, "1900");
+	xmlAttr.append("default", QString::null, QString::null, "1990");
+	xmlAttr.append("factor", QString::null, QString::null, "1");
+	vinyl->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "rpm");
+	xmlAttr.append("description", QString::null, QString::null, i18n("RPM"));
+	xmlAttr.append("max", QString::null, QString::null, "78");
+	xmlAttr.append("min", QString::null, QString::null, "33");
+	xmlAttr.append("default", QString::null, QString::null, "33");
+	xmlAttr.append("factor", QString::null, QString::null, "1");
+	vinyl->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "warping");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Surface warping"));
+	xmlAttr.append("max", QString::null, QString::null, "100");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("default", QString::null, QString::null, "0");
+	xmlAttr.append("factor", QString::null, QString::null, "100");
+	vinyl->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "crackle");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Crackle"));
+	xmlAttr.append("max", QString::null, QString::null, "100");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("default", QString::null, QString::null, "0");
+	xmlAttr.append("factor", QString::null, QString::null, "100");
+	vinyl->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "wear");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Wear"));
+	xmlAttr.append("max", QString::null, QString::null, "100");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("default", QString::null, QString::null, "0");
+	xmlAttr.append("factor", QString::null, QString::null, "100");
+	vinyl->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	effectList->append(vinyl);
+	}
 
 	if (!locate("ladspa_plugin", "am_pitchshift_1433.so").isEmpty()) {
 	// Pitch shifter
@@ -437,17 +518,32 @@ char* initEffects::ladspaEffectString(int ladspaId, QStringList params)
 void initEffects::ladspaEffectFile(const QString & fname, int ladspaId, QStringList params)
 {
     char *filterString;
-    if (ladspaId == 1433 ) //Pitch
+    switch (ladspaId) {
+    case 1409: //Karaoke
+	filterString = ladspaKaraokeEffectString(params);
+	break;
+    case 1433: //Pitch
 	filterString = ladspaPitchEffectString(params);
-    else if (ladspaId == 1216 ) //Room Reverb
+	break;
+    case 1905: //Vinyl
+	filterString = ladspaVinylEffectString(params);
+	break;
+    case 1216 : //Room Reverb
 	filterString = ladspaRoomReverbEffectString(params);
-    else if (ladspaId == 1423 ) //Reverb
+	break;
+    case 1423: //Reverb
 	filterString = ladspaReverbEffectString(params);
-    else if (ladspaId == 1901 ) //Reverb
+	break;
+    case 1195: //Declipper
+	filterString = ladspaDeclipEffectString(params);
+	break;
+    case 1901:  //Reverb
 	filterString = ladspaEqualizerEffectString(params);
-    else {
+	break;
+    default: 
 	kdDebug()<<"++++++++++  ASKING FOR UNKNOWN LADSPA EFFECT: "<<ladspaId<<endl;
 	return;
+	break;
     }
 
 	QFile f( QString( KdenliveSettings::currenttmpfolder() + fname).ascii() );
@@ -458,6 +554,23 @@ void initEffects::ladspaEffectFile(const QString & fname, int ladspaId, QStringL
 		f.close();
     	}
     	else kdDebug()<<"++++++++++  ERROR CANNOT WRITE TO: "<<KdenliveSettings::currenttmpfolder() +  fname<<endl;
+}
+
+
+char* initEffects::ladspaDeclipEffectString(QStringList)
+{
+	return KRender::decodedString( QString("<?xml version=\"1.0\"?><!DOCTYPE jackrack SYSTEM \"http://purge.bash.sh/~rah/jack_rack_1.2.dtd\"><jackrack><channels>2</channels><samplerate>48000</samplerate><plugin><id>1195</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><lockall>true</lockall></plugin></jackrack>"));
+}
+
+
+char* initEffects::ladspaVinylEffectString(QStringList params)
+{
+	return KRender::decodedString( QString("<?xml version=\"1.0\"?><!DOCTYPE jackrack SYSTEM \"http://purge.bash.sh/~rah/jack_rack_1.2.dtd\"><jackrack><channels>2</channels><samplerate>48000</samplerate><plugin><id>1905</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><controlrow><value>%1</value></controlrow><controlrow><value>%2</value></controlrow><controlrow><value>%3</value></controlrow><controlrow><value>%4</value></controlrow><controlrow><value>%5</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[1]).arg(params[2]).arg(params[3]).arg(params[4]));
+}
+
+char* initEffects::ladspaKaraokeEffectString(QStringList params)
+{
+	return KRender::decodedString( QString("<?xml version=\"1.0\"?><!DOCTYPE jackrack SYSTEM \"http://purge.bash.sh/~rah/jack_rack_1.2.dtd\"><jackrack><channels>2</channels><samplerate>48000</samplerate><plugin><id>1409</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><controlrow><value>%1</value></controlrow></plugin></jackrack>").arg(params[0]));
 }
 
 char* initEffects::ladspaPitchEffectString(QStringList params)
