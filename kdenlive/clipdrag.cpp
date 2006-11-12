@@ -136,13 +136,14 @@ DocClipRefList ClipDrag::decode(const EffectDescriptionList & effectList,
 	KURL::List list;
 	KURL::List::Iterator it;
 	KURLDrag::decode(e, list);
-
 	for (it = list.begin(); it != list.end(); ++it) {
 	    DocClipBase *file = clipManager.findClip(*it);
 	    if (!file) {
 		file = clipManager.addTemporaryClip(*it);
-	        DocClipRef *refFile = new DocClipRef(file);
-	        cliplist.append(refFile);
+	        if (file) {
+		    DocClipRef *refFile = new DocClipRef(file);
+	            cliplist.append(refFile);
+		}
 	    }
 	    else KMessageBox::sorry(0, i18n("The clip %1 is already present in this project").arg((*it).filename()));
 	}

@@ -484,7 +484,7 @@ void KdenliveDoc::fixClipDuration(DocClipBase * file)
 
 void KdenliveDoc::slotClipChanged(DocClipBase * file)
 {
-    DocumentBaseNode *node = findClipNode(file->name());
+    DocumentBaseNode *node = findClipNodeById(file->getId());
     if (node) {
 	DocumentClipNode *clipNode = node->asClipNode();
 	if (clipNode) {

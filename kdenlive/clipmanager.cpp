@@ -691,7 +691,6 @@ DocClipBase *ClipManager::findClip(const KURL & file)
 {
     DocClipBase *result = 0;
     DocClipAVFile *avClip;
-
     QPtrListIterator < DocClipBase > itt(m_clipList);
     while (itt.current()) {
 	if (itt.current()->fileURL().path() == file.path()) {
@@ -700,7 +699,6 @@ DocClipBase *ClipManager::findClip(const KURL & file)
 	} 
 	++itt;
     }
-
     return result;
 }
 
@@ -837,8 +835,11 @@ DocClipBase *ClipManager::addTemporaryClip(const QDomElement & clip)
 
 DocClipBase *ClipManager::addTemporaryClip(const KURL & file)
 {
-#warning - to be written.
-    return insertClip(file);
+    if (!m_render->isValid(file)) {
+	    KMessageBox::sorry(0, i18n("The file %1 is not a valid video file for kdenlive...").arg(file.filename()));
+	    return 0;
+    }
+    return new DocClipAVFile(file.fileName(), file, m_clipCounter++);
 }
 
 void ClipManager::AVImageArrived(int id, const QPixmap & pixmap)
