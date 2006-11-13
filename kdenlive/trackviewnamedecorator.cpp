@@ -96,7 +96,7 @@ namespace Gui {
 	    painter.setFont(ft);
 	    int offset = 2;
     	    for ( QStringList::Iterator it = effectNames.begin(); it != effectNames.end(); ++it ) {
-        	QString txt = *it;
+        	QString txt = (*it).upper();
 	    	int textWidth = painter.fontMetrics().width( txt );
 		if (txt == selectedTxt)
 	    		painter.fillRect((int) startX + offset, rect.y() + 2, textWidth + 8, 11, QBrush(Qt::black));

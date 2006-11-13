@@ -2873,11 +2873,11 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    return;
 	}
 	QString effectName = i18n("Mute");
-	if (clip->clipEffectNames().findIndex(effectName.upper()) == -1) {
+	if (clip->clipEffectNames().findIndex(effectName) == -1) {
 	    Effect *effect = effectList().effectDescription(effectName)->createEffect(effectName);
 	    addCommand(Command::KAddEffectCommand::insertEffect(getDocument(), clip, clip->numEffects(), effect));
 	}
-	else clip2->deleteEffect(clip2->clipEffectNames().findIndex(effectName.upper()));
+	else clip2->deleteEffect(clip2->clipEffectNames().findIndex(effectName));
     }
 
     void KdenliveApp::slotSeekTo(GenTime time) {

@@ -713,7 +713,7 @@ QStringList DocClipRef::clipEffectNames()
     if (!m_effectStack.isEmpty()) {
 	EffectStack::iterator itt = m_effectStack.begin();
 	while (itt != m_effectStack.end()) {
-	    if ((*itt)->isEnabled()) effectNames<<(*itt)->name().upper();
+	    if ((*itt)->isEnabled()) effectNames<<(*itt)->name();
 	    ++itt;
 	}
     }
