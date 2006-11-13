@@ -318,6 +318,9 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 	if (!locate("ladspa_plugin", "declip_1195.so").isEmpty()) {
 	// Declipper
 	EffectDesc *declip = new EffectDesc(i18n("Declipper"), "ladspa1195", "audio");
+	xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "fixed");
+        declip->addParameter(effectDescParamFactory.createParameter(xmlAttr));
 	effectList->append(declip);
 	}
 

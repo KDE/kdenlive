@@ -59,7 +59,8 @@ namespace Gui {
 	private slots:
 	/** an effect has been selected in the dialog */
 	void slotEffectSelected(QListViewItem * item);
-	 signals: void effectSelected(const EffectDesc &);
+	 signals: 
+	void effectSelected(const QString &);
     };
 
 }				// namespace Gui

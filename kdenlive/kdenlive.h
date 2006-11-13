@@ -457,6 +457,8 @@ namespace Gui {
 	void selectClipUnderCursor();
 	void slotAddAudioEffect(int ix);
 	void slotAddVideoEffect(int ix);
+	void slotAddEffect(const QString & effectName);
+        void slotRemoveEffect(int ix);
 
 	/** Save the selected zone as Westley playlist */
 	void slotSaveZone();
@@ -560,6 +562,7 @@ namespace Gui {
 	QPopupMenu *m_rulerPopupMenu;
 	QPopupMenu *videoEffectsMenu;
 	QPopupMenu *audioEffectsMenu;
+	QPopupMenu *removeEffectsMenu;
 
         KdenliveSplash *splash;
 

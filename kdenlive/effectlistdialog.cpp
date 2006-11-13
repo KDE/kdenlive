@@ -36,7 +36,7 @@ namespace Gui {
 	setDragEnabled(true);
 	setFullWidth(true);
 
-	connect(this, SIGNAL(executed(QListViewItem *)), this,
+	connect(this, SIGNAL(doubleClicked(QListViewItem *, const QPoint &, int)), this,
 	    SLOT(slotEffectSelected(QListViewItem *)));
     } 
     
@@ -66,13 +66,7 @@ namespace Gui {
     }
 
     void EffectListDialog::slotEffectSelected(QListViewItem * item) {
-	QPtrListIterator < EffectDesc > itt(m_effectList);
-	while (itt.current()) {
-	    if (itt.current()->name() == item->text(0)) {
-		// emit effectSelected(*itt.current());
-	    }
-	    ++itt;
-	}
+	emit effectSelected(item->text(0));
     }
 
 /** returns a drag object which is used for drag operations. */

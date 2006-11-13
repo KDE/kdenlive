@@ -175,6 +175,7 @@ namespace Gui {
 	// init effects menu
 	audioEffectsMenu = ((QPopupMenu *) factory()->container("audio_effect", this));
 	videoEffectsMenu = ((QPopupMenu *) factory()->container("video_effect", this));
+	removeEffectsMenu = ((QPopupMenu *) factory()->container("remove_effect", this));
 	QPtrListIterator < EffectDesc > itt(m_effectList);
 	while (itt.current()) {
 	    if (itt.current()->type() == "video") {
@@ -186,6 +187,7 @@ namespace Gui {
 
 	connect(audioEffectsMenu, SIGNAL(activated(int)), this, SLOT(slotAddAudioEffect(int)));
 	connect(videoEffectsMenu, SIGNAL(activated(int)), this, SLOT(slotAddVideoEffect(int)));
+	connect(removeEffectsMenu, SIGNAL(activated(int)), this, SLOT(slotRemoveEffect(int)));
 
 	initDocument(videoTracks, audioTracks);
 
@@ -252,6 +254,28 @@ namespace Gui {
     const EffectDescriptionList & KdenliveApp::effectList() const
     {
 	return m_effectList;
+    }
+
+    void KdenliveApp::slotAddEffect(const QString & effectName)
+    {
+	DocClipRef *clip = getDocument()->projectClip().selectedClip();
+	if (!clip) return;
+	Effect *effect = effectList().effectDescription(effectName)->createEffect(effectName);
+	addCommand(Command::KAddEffectCommand::insertEffect(getDocument(), clip, clip->numEffects(), effect));
+	m_effectStackDialog->slotSetEffectStack(clip);
+	makeDockVisible(m_dockEffectStack);
+	getDocument()->activateSceneListGeneration(true);
+    }
+
+    void KdenliveApp::slotRemoveEffect(int ix)
+    {
+	kdDebug()<<"*********** REMOVING EFFECT AT: "<<ix<<endl;
+	
+	DocClipRef *clip = getDocument()->projectClip().selectedClip();
+	if (!clip) return;
+	kdDebug()<<"*********** LIST: "<<clip->clipEffectNames()<<endl;
+	addCommand(Command::KAddEffectCommand::removeEffect(getDocument(), clip, ix));
+	getDocument()->activateSceneListGeneration(true);
     }
 
     void KdenliveApp::slotAddVideoEffect(int ix)
@@ -1069,9 +1093,8 @@ namespace Gui {
 	connect(m_effectStackDialog, SIGNAL(generateSceneList()),
 	    getDocument(), SLOT(hasBeenModified()));
 
-	/*connect(m_effectStackDialog, SIGNAL(effectSelected(DocClipRef *,
-		    Effect *)), m_effectParamDialog,
-        SLOT(slotSetEffect(DocClipRef *, Effect *)));*/
+	connect(m_effectListDialog, SIGNAL(effectSelected(const QString &)), this,
+        SLOT(slotAddEffect(const QString &)));
 
 	connect(m_effectStackDialog, SIGNAL(redrawTrack(int, GenTime, GenTime)), m_timeline,
 	    SLOT(drawPartialTrack(int, GenTime, GenTime)));
@@ -2485,7 +2508,7 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	clipChoice->imageExtension->hide();
 	dia->setMainWidget(clipChoice);
 	// Filter for the image producer
-	QString filter = "image/gif image/jpeg image/png image/x-bmp";
+	QString filter = "image/gif image/jpeg image/png image/x-bmp image/svg+xml";
 	clipChoice->url_image->setFilter(filter);
         clipChoice->edit_duration->setText(KdenliveSettings::colorclipduration());
 	dia->adjustSize();
@@ -3324,6 +3347,13 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	  	macroCommand->addCommand(Command::KSelectClipCommand::selectNone(getDocument()));
 	  	macroCommand->addCommand(new Command::KSelectClipCommand(getDocument(), clip, true));
 	  	addCommand(macroCommand, true);
+	  }
+	  removeEffectsMenu->clear();
+	  QStringList clipEffects = clip->clipEffectNames();
+	  uint ix = 0;
+	  for (QStringList::Iterator it = clipEffects.begin(); it != clipEffects.end(); ++it) {
+	      removeEffectsMenu->insertItem(*it, ix);
+	      ix++;
 	  }
           m_timelinePopupMenu = (QPopupMenu *) factory()->container("timeline_clip_context", this);
 	}

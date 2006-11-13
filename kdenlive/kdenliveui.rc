@@ -270,6 +270,8 @@
   </Menu>
   <Menu name="audio_effect"><text>Add Audio Effect</text>
   </Menu>
+  <Menu name="remove_effect"><text>Delete Effect</text>
+  </Menu>
   <Action name="split_audio"/>
   <Separator lineSeparator="true"/>
   <Action name="edit_copy"/>
