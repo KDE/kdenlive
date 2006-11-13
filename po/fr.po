@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-10 21:24+0100\n"
-"PO-Revision-Date: 2006-11-10 21:35+0100\n"
+"PO-Revision-Date: 2006-11-13 18:25+0100\n"
 "Last-Translator: Jean-Michel Pouré <jmpoure@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -99,7 +99,7 @@ msgstr "Clip vidéo"
 
 #: kdenlive/avlistviewitem.cpp:144
 msgid "Mute Video Clip"
-msgstr "Atténuer le son du clip vidéo"
+msgstr "Rendre le clip vidéo muet"
 
 #: kdenlive/avlistviewitem.cpp:146 kdenlive/clipproperties.cpp:166
 msgid "Audio Clip"
@@ -205,7 +205,7 @@ msgstr "vidéo"
 
 #: kdenlive/avlistviewitem.cpp:253
 msgid "mute video"
-msgstr "Atténuer le son de la vidéo"
+msgstr "Rendre la vidéo muette"
 
 #: kdenlive/avlistviewitem.cpp:255
 msgid "audio"
@@ -1170,7 +1170,7 @@ msgstr "Volume"
 
 #: kdenlive/initeffects.cpp:215 kdenlive/kdenlive.cpp:2852
 msgid "Mute"
-msgstr "Atténuation"
+msgstr "Muet"
 
 #: kdenlive/initeffects.cpp:228
 msgid "Obscure"
@@ -1382,7 +1382,7 @@ msgstr "Ajouter des clips"
 
 #: kdenlive/kdenlive.cpp:423 kdenlive/kdenlive.cpp:2456
 msgid "Create Color Clip"
-msgstr "Créer clip couleur"
+msgstr "Créer un clip couleur"
 
 #: kdenlive/kdenlive.cpp:428 kdenlive/kdenlive.cpp:2483
 msgid "Create Image Clip"
