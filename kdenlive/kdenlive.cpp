@@ -619,7 +619,7 @@ namespace Gui {
 	    SLOT(slotRazorAllClips()), actionCollection(),
 	    "razor_all_clips");
 	timelineRazorSelectedClips =
-	    new KAction(i18n("Razor Selected Clip"),
+	    new KAction(i18n("Razor Clip"),
 	    KShortcut(Qt::Key_W | Qt::SHIFT), this,
 	    SLOT(slotRazorSelectedClips()), actionCollection(),
 	    "razor_selected_clips");
@@ -789,10 +789,10 @@ namespace Gui {
         "export_current_frame");
 	exportCurrentFrame->setStatusText(i18n("Save current frame as image file"));
 
-        KAction *viewSelectedClip = new KAction(i18n("View Selected Clip"), 0, this,
+        KAction *viewSelectedClip = new KAction(i18n("Play Clip"), 0, this,
         SLOT(slotViewSelectedClip()), actionCollection(),
         "view_selected_clip");
-        viewSelectedClip->setStatusText(i18n("Play selected clip in the clip monitor"));
+        viewSelectedClip->setStatusText(i18n("Play clip in clip monitor"));
         
 
 	timelineMoveTool->setExclusiveGroup("timeline_tools");
@@ -882,7 +882,7 @@ namespace Gui {
 	    ("Razor all clips at cursor position"));
 	timelineRazorSelectedClips->
 	    setStatusText(i18n
-	    ("Razor selected clip at cursor position"));
+	    ("Razor clip at cursor position"));
 
 	// use the absolute path to your kdenliveui.rc file for testing purpose in createGUI();
 	createGUI("kdenliveui.rc");
