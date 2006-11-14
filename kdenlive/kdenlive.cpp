@@ -619,7 +619,7 @@ namespace Gui {
 	    SLOT(slotRazorAllClips()), actionCollection(),
 	    "razor_all_clips");
 	timelineRazorSelectedClips =
-	    new KAction(i18n("Razor Selected Clips"),
+	    new KAction(i18n("Razor Selected Clip"),
 	    KShortcut(Qt::Key_W | Qt::SHIFT), this,
 	    SLOT(slotRazorSelectedClips()), actionCollection(),
 	    "razor_selected_clips");
@@ -627,47 +627,47 @@ namespace Gui {
 	KAction *addFolder = new KAction(i18n("Create Folder"), "folder_new.png", 0, this,
 	    SLOT(slotProjectAddFolder()), actionCollection(),
 	    "create_folder");
-	addFolder->setStatusText(i18n("Adding folder"));
+	addFolder->setStatusText(i18n("Add folder"));
 
 	KAction *renameFolder = new KAction(i18n("Rename Folder"), 0, this,
 	    SLOT(slotProjectRenameFolder()), actionCollection(),
 	    "rename_folder");
-	renameFolder->setStatusText(i18n("Renaming folder"));
+	renameFolder->setStatusText(i18n("Rename folder"));
 
 	KAction *deleteFolder = new KAction(i18n("Delete Folder"), "editdelete.png", 0, this,
 	    SLOT(slotProjectDeleteFolder()), actionCollection(),
 	    "delete_folder");
-	deleteFolder->setStatusText(i18n("Deleting folder from project"));
+	deleteFolder->setStatusText(i18n("Delete folder"));
 
         KAction *addTransition = new KAction(i18n("Add Transition"), 0, this,
         SLOT(slotAddTransition()), actionCollection(),
         "add_transition");
-	addTransition->setStatusText(i18n("Adding transition to selected clip"));
+	addTransition->setStatusText(i18n("Add transition to selected clip"));
 
         KAction *deleteTransition = new KAction(i18n("Delete Transition"), 0, this,
         SLOT(slotDeleteTransition()), actionCollection(),
         "del_transition");
-	deleteTransition->setStatusText(i18n("Deleting transition from selected clip"));
+	deleteTransition->setStatusText(i18n("Delete transition from selected clip"));
 
         KAction *addTrack = new KAction(i18n("Add Track"), 0, this,
         SLOT(slotAddTrack()), actionCollection(),
         "timeline_add_track");
-	addTrack->setStatusText(i18n("Adding track"));
+	addTrack->setStatusText(i18n("Add track"));
 
 	KAction *deleteTrack = new KAction(i18n("Delete Track"), 0, this,
         SLOT(slotDeleteTrack()), actionCollection(),
         "timeline_delete_track");
-	deleteTrack->setStatusText(i18n("Deleting track"));
+	deleteTrack->setStatusText(i18n("Delete track"));
 
 	KAction *externalAudio = new KAction(i18n("Open Clip In External Editor"), 0, this,
         SLOT(slotExternalEditor()), actionCollection(),
         "external_audio");
-	externalAudio->setStatusText(i18n("Opening clip in an external editor"));
+	externalAudio->setStatusText(i18n("Open clip in an external editor"));
 
 	KAction *saveZone = new KAction(i18n("Save Selected Zone"), 0, this,
         SLOT(slotSaveZone()), actionCollection(),
         "save_zone");
-	saveZone->setStatusText(i18n("Saving selected zone as playlist for future use"));
+	saveZone->setStatusText(i18n("Save selected zone as playlist for future use"));
 
 	KAction *renderZone = new KAction(i18n("Render Selected Zone"), 0, this,
         SLOT(slotRenderZone()), actionCollection(),
@@ -687,17 +687,17 @@ namespace Gui {
 	KAction *addGuide = new KAction(i18n("Add Guide"), 0, this,
         SLOT(slotAddGuide()), actionCollection(),
         "timeline_add_guide");
-	addGuide->setStatusText(i18n("Adding guide at cursor position"));
+	addGuide->setStatusText(i18n("Add guide at cursor position"));
 
 	KAction *deleteGuide = new KAction(i18n("Delete Guide"), 0, this,
         SLOT(slotDeleteGuide()), actionCollection(),
         "timeline_delete_guide");
-	deleteGuide->setStatusText(i18n("Deleting guide at cursor position"));
+	deleteGuide->setStatusText(i18n("Delete guide at cursor position"));
 
 	KAction *editGuide = new KAction(i18n("Edit Guide"), 0, this,
         SLOT(slotEditGuide()), actionCollection(),
         "timeline_edit_guide");
-	editGuide->setStatusText(i18n("Editing guide at cursor position"));
+	editGuide->setStatusText(i18n("Edit guide at cursor position"));
 
         showClipMonitor = new KToggleAction(i18n("Clip Monitor"), 0, this,
 	    SLOT(slotToggleClipMonitor()), actionCollection(),
@@ -777,12 +777,12 @@ namespace Gui {
         KAction *editClip = new KAction(i18n("Edit Clip Properties"), 0, this,
         SLOT(slotProjectEditClip()), actionCollection(),
         "edit_clip");
-	editClip->setStatusText(i18n("Editing Clip Properties"));
+	editClip->setStatusText(i18n("Edit Clip Properties"));
         
         KAction *editParentClip = new KAction(i18n("Clip properties"), 0, this,
         SLOT(slotProjectEditParentClip()), actionCollection(),
         "project_edit_clip");
-	editParentClip->setStatusText(i18n("Editing clip properties"));
+	editParentClip->setStatusText(i18n("Edit clip properties"));
         
         KAction *exportCurrentFrame = new KAction(i18n("Export Current Frame"), 0, this,
         SLOT(slotExportCurrentFrame()), actionCollection(),
@@ -792,7 +792,7 @@ namespace Gui {
         KAction *viewSelectedClip = new KAction(i18n("View Selected Clip"), 0, this,
         SLOT(slotViewSelectedClip()), actionCollection(),
         "view_selected_clip");
-        viewSelectedClip->setStatusText(i18n("Playing selected clip in the clip monitor"));
+        viewSelectedClip->setStatusText(i18n("Play selected clip in the clip monitor"));
         
 
 	timelineMoveTool->setExclusiveGroup("timeline_tools");
@@ -801,11 +801,11 @@ namespace Gui {
 	timelineMarkerTool->setExclusiveGroup("timeline_tools");
 	timelineRollTool->setExclusiveGroup("timeline_tools");
 
-	fileNew->setStatusText(i18n("Creating a new document"));
-	fileOpen->setStatusText(i18n("Opening an existing document"));
-	fileOpenRecent->setStatusText(i18n("Opens a recent file"));
-	fileSave->setStatusText(i18n("Saves document"));
-	fileSaveAs->setStatusText(i18n("Saves document as..."));
+	fileNew->setStatusText(i18n("Create a new document"));
+	fileOpen->setStatusText(i18n("Open an existing document"));
+	fileOpenRecent->setStatusText(i18n("Open a recent file"));
+	fileSave->setStatusText(i18n("Save document"));
+	fileSaveAs->setStatusText(i18n("Save document as..."));
 	//  fileClose->setStatusText(i18n("Closes the actual document"));
 	//  filePrint ->setStatusText(i18n("Prints out the actual document"));
 	fileQuit->setStatusText(i18n("Exit application"));
@@ -860,7 +860,7 @@ namespace Gui {
 	    setStatusText(i18n
 	    ("Set outpoint"));
 	actionDeleteSelected->
-	    setStatusText(i18n("Deleting clip"));
+	    setStatusText(i18n("Delete clip"));
 
 	actionToggleSnapMarker->
 	    setStatusText(i18n
@@ -879,10 +879,10 @@ namespace Gui {
 
 	timelineRazorAllClips->
 	    setStatusText(i18n
-	    ("Razor all clips on timeline at the current cursor position"));
+	    ("Razor all clips at cursor position"));
 	timelineRazorSelectedClips->
 	    setStatusText(i18n
-	    ("Razor selected clips on timeline at the current cursor position"));
+	    ("Razor selected clip at cursor position"));
 
 	// use the absolute path to your kdenliveui.rc file for testing purpose in createGUI();
 	createGUI("kdenliveui.rc");
@@ -1032,7 +1032,7 @@ namespace Gui {
 	m_effectStackDialog =
 	    new EffectStackDialog(this, getDocument(), m_dockEffectStack,
 	    "effect stack");
-//      QToolTip::add( m_dockEffectStack, i18n( "All effects on the currently selected clip." ) );
+//      QToolTip::add( m_dockEffectStack, i18n( "All effects on selected clip." ) );
 	m_dockEffectStack->setWidget(m_effectStackDialog);
 	m_effectStackDialog->show();
 	m_dockEffectStack->update();
