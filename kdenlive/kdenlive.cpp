@@ -806,8 +806,8 @@ namespace Gui {
 	fileOpenRecent->setStatusText(i18n("Open a recent file"));
 	fileSave->setStatusText(i18n("Save document"));
 	fileSaveAs->setStatusText(i18n("Save document as..."));
-	//  fileClose->setStatusText(i18n("Closes the actual document"));
-	//  filePrint ->setStatusText(i18n("Prints out the actual document"));
+	//  fileClose->setStatusText(i18n("Close document"));
+	//  filePrint ->setStatusText(i18n("Print document"));
 	fileQuit->setStatusText(i18n("Exit application"));
 	editCut->
 	    setStatusText(i18n
@@ -817,7 +817,7 @@ namespace Gui {
 	    ("Copy clip to clipboard"));
 	editPaste->
 	    setStatusText(i18n
-	    ("Paste clipboard contents to actual position"));
+	    ("Paste clipboard contents to cursor position"));
 	timelineMoveTool->
 	    setStatusText(i18n("Move and resize clips"));
 	timelineRazorTool->
@@ -826,18 +826,18 @@ namespace Gui {
 	    setStatusText(i18n("Shift all clips to the right of mouse"));
 	timelineMarkerTool->
 	    setStatusText(i18n
-	    ("Insert commented snap marks on clips (Ctrl + click to remove a marker)"));
+	    ("Insert commented snap markers on clips (Ctrl + click to remove a marker)"));
 	timelineRollTool->
 	    setStatusText(i18n
 	    ("Move edit point between two selected clips"));
 	timelineSnapToFrame->
-	    setStatusText(i18n("Align clips on the nearest frame"));
+	    setStatusText(i18n("Align clips on nearest frame"));
 	timelineSnapToBorder->
 	    setStatusText(i18n
-	    ("Align clips on the borders of other clips"));
+	    ("Align clips on nearest clip borders"));
 	timelineSnapToMarker->
 	    setStatusText(i18n
-	    ("Align clips with user-defined snap markers"));
+	    ("Align clips on snap markers"));
 	projectAddClips->setStatusText(i18n("Add clips"));
 	projectDeleteClips->
 	    setStatusText(i18n("Remove clip"));
