@@ -52,7 +52,7 @@ namespace Command {
     KCommand *DocumentMacroCommands::razorSelectedClipsAt(KdenliveDoc *
 	document, const GenTime & time) {
 	KMacroCommand *command =
-	    new KMacroCommand(i18n("Razor selected Clips"));
+	    new KMacroCommand(i18n("Razor selected Clip"));
 
 	for (uint count = 0; count < document->numTracks(); ++count) {
 	    DocTrackBase *track = document->track(count);
