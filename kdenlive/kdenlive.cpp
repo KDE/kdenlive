@@ -738,7 +738,7 @@ namespace Gui {
         SLOT(slotFocusTransitions()), actionCollection(),
         "focus_transitions");
 
-        (void) new KAction(i18n("Move Clip To Current Time"), KShortcut(Qt::SHIFT | Qt::Key_Return), this,
+        (void) new KAction(i18n("Move Clip To Cursor"), KShortcut(Qt::SHIFT | Qt::Key_Return), this,
         SLOT(slotMoveClipToCurrentTime()), actionCollection(),
         "move_current");
 
