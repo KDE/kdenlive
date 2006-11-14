@@ -7,12 +7,12 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-14 11:08+0100\n"
-"PO-Revision-Date: 2006-11-13 18:25+0100\n"
+"PO-Revision-Date: 2006-11-14 11:48+0100\n"
 "Last-Translator: Jean-Michel Pouré <jmpoure@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: kdenlive/addmarker_ui.cpp:124 kdenlive/changeclipspeed_ui.cpp:119
 #: kdenlive/clipproperties_ui.cpp:2489 kdenlive/configmisc_ui.cpp:101
@@ -584,7 +584,7 @@ msgstr "Ajouter un modèle"
 
 #: kdenlive/configureproject_ui.cpp:150
 msgid "Delete Template"
-msgstr "Supprimer un modèle"
+msgstr "Supprimer le modèle"
 
 #: kdenlive/configureproject_ui.cpp:151
 msgid "Frames Per Second"
@@ -721,7 +721,7 @@ msgstr ""
 
 #: kdenlive/effectstackdialog.cpp:78
 msgid "Remove effect"
-msgstr "Supprimer un effet"
+msgstr "Supprimer l'effet"
 
 #: kdenlive/effectstackdialog.cpp:79
 msgid "Enable/disable effect"
@@ -1311,7 +1311,7 @@ msgstr "Ajouter un clip"
 #: kdenlive/kdenlive.cpp:471 kdenlive/kdenlive.cpp:566
 #: kdenlive/kdenlive.cpp:2717 kdenlive/projectlist.cpp:74
 msgid "Delete Clip"
-msgstr "Supprimer un clip"
+msgstr "Supprimer le clip"
 
 #: kdenlive/kaddeffectcommand.cpp:55
 msgid "Move Effect"
@@ -1323,7 +1323,7 @@ msgstr "Ajouter un effet"
 
 #: kdenlive/kaddeffectcommand.cpp:85
 msgid "Delete effect"
-msgstr "Supprimer un effet"
+msgstr "Supprimer l'effet"
 
 #: kdenlive/kaddmarkercommand.cpp:44
 msgid "Add Snap Marker"
@@ -1331,7 +1331,7 @@ msgstr "Ajouter un repère"
 
 #: kdenlive/kaddmarkercommand.cpp:46
 msgid "Delete Snap Marker"
-msgstr "Supprimer une marque"
+msgstr "Supprimer le repère"
 
 #: kdenlive/kaddrefclipcommand.cpp:96 kdenlive/kaddrefclipcommand.cpp:120
 #: kdenlive/trackpanelclipmovefunction.cpp:512
@@ -1345,7 +1345,7 @@ msgstr "Ajouter une transition"
 
 #: kdenlive/kaddtransitioncommand.cpp:73
 msgid "Delete transition"
-msgstr "Supprimer une transition"
+msgstr "Supprimer la transition"
 
 #: kdenlive/kdenlive.cpp:137
 msgid "PAL (720x576, 25fps)"
@@ -1653,7 +1653,7 @@ msgstr "Renommer le dossier"
 
 #: kdenlive/kdenlive.cpp:637
 msgid "Delete Folder"
-msgstr "Supprimer un dossier"
+msgstr "Supprimer le dossier"
 
 #: kdenlive/kdenlive.cpp:640
 #, fuzzy
@@ -1671,7 +1671,7 @@ msgstr "Ajouter une transition au clip sélectionné"
 
 #: kdenlive/kdenlive.cpp:647
 msgid "Delete Transition"
-msgstr "Supprimer une transition"
+msgstr "Supprimer la transition"
 
 #: kdenlive/kdenlive.cpp:650
 #, fuzzy
@@ -1689,7 +1689,7 @@ msgstr "Ajouter une piste"
 
 #: kdenlive/kdenlive.cpp:657 kdenlive/kdenlive.cpp:2027
 msgid "Delete Track"
-msgstr "Supprimer une piste"
+msgstr "Supprimer la piste"
 
 #: kdenlive/kdenlive.cpp:660
 #, fuzzy
@@ -1751,7 +1751,7 @@ msgstr "Supprimer une transition"
 
 #: kdenlive/kdenlive.cpp:692
 msgid "Delete Guide"
-msgstr "Supprimer un guide"
+msgstr "Supprimer le guide"
 
 #: kdenlive/kdenlive.cpp:695
 #, fuzzy
@@ -1774,9 +1774,8 @@ msgstr "Moniteur de clip"
 
 #: kdenlive/kdenlive.cpp:705 kdenlive/kdenlive.cpp:989
 #: kdenlive/kdenlive.cpp:993
-#, fuzzy
 msgid "Timeline Monitor"
-msgstr "Outils du montage"
+msgstr "Moniteur de montage"
 
 #: kdenlive/kdenlive.cpp:708 kdenlive/kdenlive.cpp:977
 #: kdenlive/kdenlive.cpp:982
