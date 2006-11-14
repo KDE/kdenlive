@@ -69,7 +69,7 @@ namespace Gui {
 	button_edit->setIconSet(QIconSet(loader.loadIcon("edit",
 		    KIcon::Toolbar)));
 
-	QToolTip::add(button_edit, i18n("Edit Clip"));
+	QToolTip::add(button_edit, i18n("Edit Clip Properties"));
 	QToolTip::add(button_add, i18n("Add Clip"));
 	QToolTip::add(button_delete, i18n("Delete Clip"));
 
@@ -250,17 +250,17 @@ namespace Gui {
 
 	    // display clip type
 	    if (avitem->clip()->clipType() == DocClipBase::AV)
-		text = i18n("video");
+		text = i18n("Video");
 	    else if (avitem->clip()->clipType() == DocClipBase::VIDEO)
-		text = i18n("mute video");
+		text = i18n("Mute video");
 	    else if (avitem->clip()->clipType() == DocClipBase::AUDIO)
-		text = i18n("audio");
+		text = i18n("Audio");
 	    else if (avitem->clip()->clipType() == DocClipBase::COLOR)
-		text = i18n("color clip");
+		text = i18n("Color clip");
 	    else if (avitem->clip()->clipType() == DocClipBase::IMAGE)
-		text = i18n("image clip");
+		text = i18n("Image clip");
             else if (avitem->clip()->clipType() == DocClipBase::TEXT)
-                text = i18n("text clip");
+                text = i18n("Text clip");
 	    text_type->setText(text);
 
 	} else {
