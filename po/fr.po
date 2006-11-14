@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-14 11:08+0100\n"
-"PO-Revision-Date: 2006-11-14 11:48+0100\n"
+"PO-Revision-Date: 2006-11-14 12:14+0100\n"
 "Last-Translator: Jean-Michel Pouré <jmpoure@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1191,9 +1191,8 @@ msgid "Start Speed"
 msgstr "Démarrer / Arrêter la lecture"
 
 #: kdenlive/initeffects.cpp:278
-#, fuzzy
 msgid "End Speed"
-msgstr "Vitesse"
+msgstr "Vitesse à la fin"
 
 #: kdenlive/initeffects.cpp:287
 msgid "Stroboscope"
@@ -1213,9 +1212,8 @@ msgid "Declipper"
 msgstr "DocClipBase"
 
 #: kdenlive/initeffects.cpp:329
-#, fuzzy
 msgid "Karaoke"
-msgstr "Repère"
+msgstr "Karaoké"
 
 #: kdenlive/initeffects.cpp:333
 msgid "Vocal Volume (db)"
@@ -1422,7 +1420,7 @@ msgstr "Aligner sur le repère"
 
 #: kdenlive/kdenlive.cpp:435
 msgid "Go To Beginning"
-msgstr ""
+msgstr "Aller au début"
 
 #: kdenlive/kdenlive.cpp:436
 #, fuzzy
@@ -1434,9 +1432,8 @@ msgid "Go To End"
 msgstr "Aller à la fin"
 
 #: kdenlive/kdenlive.cpp:439
-#, fuzzy
 msgid "End of project"
-msgstr "Purger le projet"
+msgstr "Fin de projet"
 
 #: kdenlive/kdenlive.cpp:442 kdenlive/kdenlive.cpp:2452
 #: kdenlive/kdenlive.cpp:3220
@@ -1472,9 +1469,8 @@ msgid "Export to DVD"
 msgstr "Exporter vers un DVD"
 
 #: kdenlive/kdenlive.cpp:490
-#, fuzzy
 msgid "Generating DVD files"
-msgstr "Générer les fichiers du DVD"
+msgstr "Création des fichiers DVD"
 
 #: kdenlive/kdenlive.cpp:493
 msgid "&Configure Project"
@@ -1489,7 +1485,6 @@ msgid "Play Selection"
 msgstr "Lire la sélection"
 
 #: kdenlive/kdenlive.cpp:506
-#, fuzzy
 msgid "Play selection"
 msgstr "Lire la sélection"
 
@@ -1638,9 +1633,8 @@ msgid "Create Folder"
 msgstr "Créer un dossier"
 
 #: kdenlive/kdenlive.cpp:630
-#, fuzzy
 msgid "Adding folder"
-msgstr "Dossier image"
+msgstr "Ajout d'un dossier"
 
 #: kdenlive/kdenlive.cpp:632 kdenlive/kdenlive.cpp:2389
 msgid "Rename Folder"
@@ -1683,18 +1677,16 @@ msgid "Add Track"
 msgstr "Ajouter une piste"
 
 #: kdenlive/kdenlive.cpp:655
-#, fuzzy
 msgid "Adding track"
-msgstr "Ajouter une piste"
+msgstr "Ajout d'une piste"
 
 #: kdenlive/kdenlive.cpp:657 kdenlive/kdenlive.cpp:2027
 msgid "Delete Track"
 msgstr "Supprimer la piste"
 
 #: kdenlive/kdenlive.cpp:660
-#, fuzzy
 msgid "Deleting track"
-msgstr "Supprimer une piste"
+msgstr "Suppression d'une piste"
 
 #: kdenlive/kdenlive.cpp:662
 msgid "Open Clip In External Editor"
@@ -1853,17 +1845,14 @@ msgid "Clip Auto Selection"
 msgstr "Sélection automatique du clip"
 
 #: kdenlive/kdenlive.cpp:777 kdenlive/projectlist.cpp:72
-#, fuzzy
 msgid "Edit Clip Properties"
-msgstr "Propriétés du clip"
+msgstr "Modifier les propriétés du clip"
 
 #: kdenlive/kdenlive.cpp:780
-#, fuzzy
 msgid "Editing Clip Properties"
-msgstr "Propriétés du clip"
+msgstr "Modifications des propriétés du clip"
 
 #: kdenlive/kdenlive.cpp:782
-#, fuzzy
 msgid "Clip properties"
 msgstr "Propriétés du clip"
 
@@ -1895,9 +1884,8 @@ msgid "Creating a new document"
 msgstr "Créer un nouveau projet..."
 
 #: kdenlive/kdenlive.cpp:805
-#, fuzzy
 msgid "Opening an existing document"
-msgstr "Ouvrir un projet existant"
+msgstr "Ouverture d'un document existant"
 
 #: kdenlive/kdenlive.cpp:806
 #, fuzzy
@@ -1937,9 +1925,8 @@ msgid "Move and resize clips"
 msgstr "Déplacer et redimensionner les clips"
 
 #: kdenlive/kdenlive.cpp:824
-#, fuzzy
 msgid "Split Clip"
-msgstr "Sélectionner un clip"
+msgstr "Scinder le clip"
 
 #: kdenlive/kdenlive.cpp:826
 #, fuzzy
@@ -1970,19 +1957,16 @@ msgid "Align clips with user-defined snap markers"
 msgstr "Les clips seront alignés sur les repères définis par l'utilisateur"
 
 #: kdenlive/kdenlive.cpp:841
-#, fuzzy
 msgid "Add clips"
 msgstr "Ajouter des clips"
 
 #: kdenlive/kdenlive.cpp:843
-#, fuzzy
 msgid "Remove clip"
-msgstr "Redimenssionner le plan vidéo"
+msgstr "Supprimer le clip"
 
 #: kdenlive/kdenlive.cpp:845
-#, fuzzy
 msgid "Remove unused clips"
-msgstr "Supprimer les clips inutilisés du projet"
+msgstr "Supprimer les clips inutilisés"
 
 #: kdenlive/kdenlive.cpp:847
 msgid "Start or stop playback"
@@ -2009,9 +1993,8 @@ msgid "Set outpoint"
 msgstr "Ajouter un point de sortie"
 
 #: kdenlive/kdenlive.cpp:863
-#, fuzzy
 msgid "Deleting clip"
-msgstr "Supprimer un clip"
+msgstr "Suppression du clip"
 
 #: kdenlive/kdenlive.cpp:867
 msgid "Toggle a snap marker at the current monitor position"
@@ -2915,9 +2898,9 @@ msgstr "Outils des fenêtres"
 
 #. i18n: file kdenlive/kdenliveui.rc line 273
 #: kdenlive/rc.cpp:204
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Delete Effect"
-msgstr "Supprimer un effet"
+msgstr "Supprimer l'effet"
 
 #: kdenlive/timecode.cpp:74
 msgid "hour"
@@ -2963,7 +2946,7 @@ msgstr "Envoyer vers le fond"
 
 #: kdenlive/trackpanelmarkerfunction.cpp:97
 msgid "Edit Marker"
-msgstr "Définir le repère"
+msgstr "Editer le repère"
 
 #: kdenlive/trackpanelmarkerfunction.cpp:97
 #: kdenlive/trackpanelmarkerfunction.cpp:108
