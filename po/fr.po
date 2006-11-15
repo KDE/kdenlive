@@ -12,7 +12,7 @@ msgstr ""
 "Language-Team: Française <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
 
 #: kdenlive/addmarker_ui.cpp:124 kdenlive/changeclipspeed_ui.cpp:119
 #: kdenlive/clipproperties_ui.cpp:2489 kdenlive/configmisc_ui.cpp:101
@@ -281,7 +281,7 @@ msgstr "Chercher fichier"
 #: kdenlive/clipmanager.cpp:206 kdenlive/clipmanager.cpp:240
 #: kdenlive/clipmanager.cpp:839
 msgid "The file %1 is not a valid video file for kdenlive..."
-msgstr ""
+msgstr "Le format du fichier %1 n 'est pas supporté par Kdenlive ..."
 
 #: kdenlive/clipmanager.cpp:217 kdenlive/clipmanager.cpp:250
 msgid " [%1 images]"
@@ -424,11 +424,11 @@ msgstr ""
 
 #: kdenlive/clippropertiesdialog.cpp:93
 msgid "%1x%2, %3 fps"
-msgstr ""
+msgstr "%1x%2, %3 fps"
 
 #: kdenlive/clippropertiesdialog.cpp:96
 msgid "Unknown size, %1 fps"
-msgstr ""
+msgstr "Taille inconnue, %1 fps"
 
 #: kdenlive/clippropertiesdialog.cpp:124
 msgid "0Hz"
@@ -452,7 +452,7 @@ msgstr "minutes"
 
 #: kdenlive/configinterface_ui.cpp:103
 msgid "Autosave project every"
-msgstr ""
+msgstr "Enregistrer automatiquement le projet chaque"
 
 #: kdenlive/configinterface_ui.cpp:104
 msgid "Mouse wheel moves horizontally (Alt for vertical scroll)"
@@ -641,7 +641,7 @@ msgstr "Créer un diaporama"
 
 #: kdenlive/createslideshowclip.cpp:124
 msgid "Found %1 images in selected folder"
-msgstr ""
+msgstr "%1 images trouvées dans le répertoire sélectionné"
 
 #: kdenlive/createslideshowclip_ui.cpp:118
 msgid "Image folder"
@@ -717,7 +717,7 @@ msgstr "Déplacer l'effet vers le bas"
 
 #: kdenlive/effectstackdialog.cpp:77
 msgid "Reset all parameters to default values"
-msgstr ""
+msgstr "Réinitialiser aux valeurs par défaut"
 
 #: kdenlive/effectstackdialog.cpp:78
 msgid "Remove effect"
@@ -852,7 +852,7 @@ msgstr "Utiliser un fichier vidéo existant"
 #: kdenlive/exportdvd_ui.cpp:373 kdenlive/exportdvd_ui.cpp:391
 #: kdenlive/exportdvd_ui.cpp:407
 msgid "*.vob | DVD Movie file"
-msgstr ""
+msgstr "*.vob | fichier DVD"
 
 #: kdenlive/exportdvd_ui.cpp:374
 msgid "Render file now"
@@ -868,7 +868,7 @@ msgstr "Rendu"
 
 #: kdenlive/exportdvd_ui.cpp:383
 msgid "Pause between chapters (seconds)"
-msgstr ""
+msgstr "Pause entre deux chapitres (en secondes)"
 
 #: kdenlive/exportdvd_ui.cpp:384
 msgid "Create Menu"
@@ -916,7 +916,7 @@ msgstr "Lire le film"
 
 #: kdenlive/exportdvd_ui.cpp:402
 msgid "Highlighted Text Color"
-msgstr ""
+msgstr "Texte surligné en couleur"
 
 #: kdenlive/exportdvd_ui.cpp:404
 msgid "Activated Text Color"
@@ -968,7 +968,7 @@ msgstr ""
 
 #: kdenlive/exportdvd_ui.cpp:425
 msgid "Generating main movie"
-msgstr ""
+msgstr "Générer la vidéo principale"
 
 #: kdenlive/exportdvd_ui.cpp:426
 msgid "DVD Creation"
@@ -1002,7 +1002,7 @@ msgstr "NTSC"
 msgid ""
 "You can now close this dialog and keep on working on your project while the "
 "DVD is being created."
-msgstr ""
+msgstr "Vous pouvez désormais fermer cette boîte de dialogue et travailler sur votre projet le temps que le DVD se créé."
 
 #: kdenlive/exportdvddialog.cpp:174
 msgid "Enter name for rendered movie file"
@@ -1056,27 +1056,29 @@ msgstr ""
 msgid ""
 "The specified dvd folder already exists.\n"
 "Overwite it ?"
-msgstr ""
+msgstr "Le dossier du DVD que vous avez choisi existe déjà.\n"
+"Désirez vous le remplacer ?"
 
 #: kdenlive/exportdvddialog.cpp:320
 msgid ""
 "You didn't select the video file for the DVD.\n"
 " Please choose one before starting any operation."
-msgstr ""
+msgstr "Vous n'avez pas sélectionné le fichier vidéo du DVD.\n"
+"Veuillez en choisir un."
 
 #: kdenlive/exportdvddialog.cpp:454
 msgid ""
 "You need the program \"convert\" which is included in ImageMagick to create "
 "DVD menus. Install ImageMagick if you want to make a DVD with menu"
-msgstr ""
+msgstr "Vous avez besoin du logiciel \"convert\" qui se trouve dans ImageMagick, pour créer les menus du DVD. Installer ImageMagick permet de créer les menus à votre DVD."
 
 #: kdenlive/exportdvddialog.cpp:784
 msgid "The creation of DVD structure is finished."
-msgstr ""
+msgstr "La création de la structure du DVD est terminée."
 
 #: kdenlive/exportdvddialog.cpp:792
 msgid "The creation of DVD structure failed."
-msgstr ""
+msgstr "La création de la structure du DVD a échoué."
 
 #: kdenlive/exportwidget.cpp:86
 msgid "Low"
@@ -1096,7 +1098,7 @@ msgstr ""
 
 #: kdenlive/exportwidget.cpp:426
 msgid "Firewire support not enabled. Please install the required libraries..."
-msgstr ""
+msgstr "Le port Firewire n'est pas actif. Veuillez installer les librairies nécessaires à son fonctionnement."
 
 #: kdenlive/exportwidget.cpp:529 kdenlive/exportwidget.cpp:600
 msgid "Please enter a file name"
@@ -1112,7 +1114,7 @@ msgstr ""
 
 #: kdenlive/exportwidget.cpp:611
 msgid "There is another file render currently running, cancel it ?"
-msgstr ""
+msgstr "Un fichier est déjà en cours de rendu, souhaitez-vous le stopper ?"
 
 #: kdenlive/exportwidget.cpp:779
 msgid "Export of %1 is finished"
@@ -1216,11 +1218,11 @@ msgstr "Karaoké"
 
 #: kdenlive/initeffects.cpp:333
 msgid "Vocal Volume (db)"
-msgstr ""
+msgstr "Volume des voix (db)"
 
 #: kdenlive/initeffects.cpp:344
 msgid "Vinyl"
-msgstr ""
+msgstr "Vinyl"
 
 #: kdenlive/initeffects.cpp:348
 msgid "Year"
@@ -1241,7 +1243,7 @@ msgstr "piste"
 
 #: kdenlive/initeffects.cpp:388
 msgid "Wear"
-msgstr ""
+msgstr "Habillage"
 
 #: kdenlive/initeffects.cpp:399
 msgid "Pitch Shift"
@@ -1799,11 +1801,11 @@ msgstr "Déplacer le clip vers le bas"
 
 #: kdenlive/kdenlive.cpp:753
 msgid "Resize Clip Start To Current Time"
-msgstr ""
+msgstr "Déplacer le début de clip au curseur"
 
 #: kdenlive/kdenlive.cpp:757
 msgid "Resize Clip End To Current Time"
-msgstr ""
+msgstr "Déplacer la fin de clip au curseur"
 
 #: kdenlive/kdenlive.cpp:761
 msgid "Select Next Track"
@@ -2160,7 +2162,8 @@ msgstr "Impossible de coller le clip %1 sur les pistes %2 à la position %3"
 msgid ""
 "Remove track %1 ?\n"
 "This will remove all clips on that track."
-msgstr ""
+msgstr "Effacer la piste %1 ?\n"
+"L'ensemble des clips de cette piste vont être effacés."
 
 #: kdenlive/kdenlive.cpp:2068
 msgid ""
@@ -2235,14 +2238,15 @@ msgstr "Saisir un nouveau nom de dossier :"
 
 #: kdenlive/kdenlive.cpp:2395 kdenlive/kdenlive.cpp:2427
 msgid "Folder %1 already exists\n"
-msgstr ""
+msgstr "Le répertoire %1 existe déjà\n"
 
 #: kdenlive/kdenlive.cpp:2408
 msgid ""
 "Deleting this folder will remove all reference to its clips in your "
 "project.\n"
 "Delete this folder ?"
-msgstr ""
+msgstr "Effacer ce dossier va supprimer l'ensemble des références aux clips de votre projet.\n"
+"Effacer ce dossier ?"
 
 #: kdenlive/kdenlive.cpp:2421
 msgid "New Folder"
@@ -2328,7 +2332,7 @@ msgstr "Lire en boucle"
 
 #: kdenlive/kdenlive.cpp:2872
 msgid "Cannot find track to insert audio clip."
-msgstr ""
+msgstr "Impossible d'insérer un clip audio, car aucune piste n'est disponible."
 
 #: kdenlive/kdenlive.cpp:2892
 msgid "Seeking Forwards one frame"
@@ -2379,11 +2383,11 @@ msgstr "Effacer les repères sélectionnés"
 
 #: kdenlive/kdenlive.cpp:3391
 msgid "Please select a clip to apply transition"
-msgstr ""
+msgstr "Veuillez sélectionner un clip pour appliquer une transition"
 
 #: kdenlive/kdenlive.cpp:3407
 msgid "Please select a clip to delete transition"
-msgstr ""
+msgstr "Veuillez sélectionner un clip pour effacer la transition"
 
 #: kdenlive/kdenlivesetupdlg.cpp:47
 msgid "Interface"
@@ -2467,7 +2471,7 @@ msgstr "Lire la sélection entre les points d'entrée et de sortie"
 
 #: kdenlive/kmmeditpanel_ui.cpp:439
 msgid "Loop Section between inpoint and outpoint"
-msgstr ""
+msgstr "Lire la partie située entre les points d'entrée et de sortie."
 
 #: kdenlive/kmmeditpanel_ui.cpp:441
 msgid "Move to previous marker"
@@ -2563,7 +2567,8 @@ msgid ""
 "NO firewire access on that port\n"
 "Make sure you have loaded the raw1394 module and that you have write access "
 "on /dev/raw1394..."
-msgstr ""
+msgstr "Pas d'accès au Firewire sur ce port. \n"
+"Vérifiez que vous avez installé le module raw1394 et que vous avez les droits d'accès sur : /dev/raw1394..."
 
 #: kdenlive/krender.cpp:874
 msgid "NO DV device found"
@@ -2573,17 +2578,19 @@ msgstr "Impossible de trouver la connexion DV"
 msgid ""
 "Transmission of dv file is finished.\n"
 "%1 frames were dropped during transfer."
-msgstr ""
+msgstr "La transmission du fichier DV est terminée.\n"
+"% images ont été supprimées pendant le transfert."
 
 #: kdenlive/krender.cpp:879
 msgid "Transmission of dv file finished successfully."
-msgstr ""
+msgstr "La transmission du fichier DV est terminée avec succès."
 
 #: kdenlive/krender.cpp:881
 msgid ""
 "Firewire is not enabled on your system.\n"
 " Please install Libiec61883 and recompile Kdenlive"
-msgstr ""
+msgstr "Le port Firewire n'est pas actif sur votre système.\n"
+"Veuillez installer Libiec61883 et recompiler Kdenlive"
 
 #: kdenlive/kresizecommand.cpp:44
 msgid "Resize clip"
@@ -3250,7 +3257,7 @@ msgstr "Ajouter un repère"
 
 #: kdenlive/trackviewtransitiondecorator.cpp:96
 msgid "> Background"
-msgstr ""
+msgstr "> fond"
 
 #: kdenlive/transition.cpp:156 kdenlive/transition.cpp:222
 #: kdenlive/transitiondialog.cpp:71
@@ -3286,7 +3293,7 @@ msgstr "Automatique - Utiliser la prochaine piste vidéo"
 
 #: kdenlive/transitiondialog.cpp:59
 msgid "Background track (black)"
-msgstr ""
+msgstr "Piste de l'arrière plan (noir)"
 
 #: kdenlive/transitiondialog.cpp:73
 msgid "PIP"
