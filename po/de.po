@@ -3499,8 +3499,8 @@ msgstr "Ende"
 msgid "Rescale images"
 msgstr "Bilder skalieren"
 
-#~ msgid "Project format:"
-#~ msgstr "Projekt-Format:"
-
 #~ msgid "Project List"
 #~ msgstr "Projekt-Liste"
+
+#~ msgid "Project format:"
+#~ msgstr "Projekt-Format:"
