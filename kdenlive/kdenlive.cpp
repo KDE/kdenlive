@@ -711,7 +711,7 @@ namespace Gui {
         showEffectStack = new KToggleAction(i18n("Effect Stack"), 0, this,
 	    SLOT(slotToggleEffectStack()), actionCollection(),
 	    "toggle_effect_stack");
-        showProjectList = new KToggleAction(i18n("Project List"), 0, this,
+        showProjectList = new KToggleAction(i18n("Project Tree"), 0, this,
 	    SLOT(slotToggleProjectList()), actionCollection(),
 	    "toggle_project_list");
         showTransitions = new KToggleAction(i18n("Transitions"), 0, this,
@@ -730,7 +730,7 @@ namespace Gui {
         (void) new KAction(i18n("Focus Effect Stack"), 0, this,
 	    SLOT(slotFocusEffectStack()), actionCollection(),
 	    "focus_effect_stack");
-        (void) new KAction(i18n("Focus Project List"), 0, this,
+        (void) new KAction(i18n("Focus Project Tree"), 0, this,
 	    SLOT(slotFocusProjectList()), actionCollection(),
 	    "focus_project_list");
 
@@ -958,14 +958,14 @@ namespace Gui {
 	m_timelineWidget->manualDock(mainDock, KDockWidget::DockBottom);
 	m_timelineWidget->setToolTipString(i18n("TimeLine"));
 
-	m_dockProjectList = createDockWidget("Project List", QPixmap(), 0, i18n("Project List"));
+	m_dockProjectList = createDockWidget("Project List", QPixmap(), 0, i18n("Project Tree"));
 	QWhatsThis::add(m_dockProjectList,
 	    i18n("Video files usable in your project. "
 		"Add or remove files with the contextual menu. "
 		"In order to add sequences to the current video project, use the drag and drop."));
 	m_dockProjectList->setDockSite(KDockWidget::DockFullSite);
 	m_dockProjectList->manualDock(mainDock, KDockWidget::DockLeft);
-	m_dockProjectList->setToolTipString(i18n("Project List"));
+	m_dockProjectList->setToolTipString(i18n("Project Tree"));
 
 	m_dockTransition = createDockWidget("transition", QPixmap(), 0, i18n("Transition"));
 	m_transitionPanel = new TransitionDialog(this, m_dockTransition);

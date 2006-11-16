@@ -140,7 +140,7 @@
                             <cstring>textLabel1_4</cstring>
                         </property>
                         <property name="text">
-                            <string>Project format:</string>
+                            <string>Video format:</string>
                         </property>
                     </widget>
                     <widget class="KComboBox" row="4" column="1" rowspan="1" colspan="4">
