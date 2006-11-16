@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-16 13:25+0100\n"
-"PO-Revision-Date: 2006-11-16 13:26+0100\n"
+"PO-Revision-Date: 2006-11-16 13:32+0100\n"
 "Last-Translator: Jean-Michel Pouré <jmpoure@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -456,11 +456,11 @@ msgstr "Enregistrer automatiquement le projet chaque"
 
 #: kdenlive/configinterface_ui.cpp:104
 msgid "Mouse wheel moves horizontally (Alt for vertical scroll)"
-msgstr ""
+msgstr "Défilement horizontal à l'aide de la roue de la souris (Alt pour un défilement vertical)"
 
 #: kdenlive/configinterface_ui.cpp:105
 msgid "Show splash screen"
-msgstr "Montrer l'écran de démarrage"
+msgstr "Afficher l'écran de démarrage"
 
 #: kdenlive/configinterface_ui.cpp:106
 msgid "Startup options"
@@ -488,7 +488,7 @@ msgstr "Durée par défaut des clips couleur/image"
 
 #: kdenlive/configmisc_ui.cpp:107
 msgid "Show LCD screen under monitors"
-msgstr "Monter un écran LCD sous les moniteurs"
+msgstr "Afficher un écran LCD sous les moniteurs"
 
 #: kdenlive/configmisc_ui.cpp:108
 msgid "Default folder to store previews & thumbnails"
@@ -964,7 +964,7 @@ msgstr "Graver"
 
 #: kdenlive/exportdvd_ui.cpp:424
 msgid "Show process output"
-msgstr "Montrer le résultat du process"
+msgstr "Afficher le résultat du process"
 
 #: kdenlive/exportdvd_ui.cpp:425
 msgid "Generating main movie"
