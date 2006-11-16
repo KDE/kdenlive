@@ -7,12 +7,12 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-14 15:57+0100\n"
-"PO-Revision-Date: 2006-11-14 16:02+0100\n"
+"PO-Revision-Date: 2006-11-16 09:39+0100\n"
 "Last-Translator: Jean-Michel Pouré <jmpoure@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: kdenlive/addmarker_ui.cpp:124 kdenlive/changeclipspeed_ui.cpp:119
 #: kdenlive/clipproperties_ui.cpp:2489 kdenlive/configmisc_ui.cpp:101
@@ -568,7 +568,7 @@ msgstr "Pistes vidéo"
 
 #: kdenlive/configtimeline_ui.cpp:135
 msgid "Auto scroll while playing"
-msgstr ""
+msgstr "Défilement automatique durant la lecture"
 
 #: kdenlive/configtitler_ui.cpp:65
 msgid "Default Color"
@@ -797,7 +797,7 @@ msgstr "Montage courant"
 
 #: kdenlive/exportbasewidget_ui.cpp:332
 msgid "Adapter:"
-msgstr ""
+msgstr "Adaptateur :"
 
 #: kdenlive/exportbasewidget_ui.cpp:334
 msgid "Refresh"
@@ -964,7 +964,7 @@ msgstr "Graver"
 
 #: kdenlive/exportdvd_ui.cpp:424
 msgid "Show process output"
-msgstr ""
+msgstr "Montrer le résultat du process"
 
 #: kdenlive/exportdvd_ui.cpp:425
 msgid "Generating main movie"
@@ -1002,7 +1002,9 @@ msgstr "NTSC"
 msgid ""
 "You can now close this dialog and keep on working on your project while the "
 "DVD is being created."
-msgstr "Vous pouvez désormais fermer cette boîte de dialogue et travailler sur votre projet le temps que le DVD se créé."
+msgstr ""
+"Vous pouvez désormais fermer cette boîte de dialogue et travailler sur votre "
+"projet le temps que le DVD se créé."
 
 #: kdenlive/exportdvddialog.cpp:174
 msgid "Enter name for rendered movie file"
@@ -1056,21 +1058,26 @@ msgstr ""
 msgid ""
 "The specified dvd folder already exists.\n"
 "Overwite it ?"
-msgstr "Le dossier du DVD que vous avez choisi existe déjà.\n"
+msgstr ""
+"Le dossier du DVD que vous avez choisi existe déjà.\n"
 "Désirez vous le remplacer ?"
 
 #: kdenlive/exportdvddialog.cpp:320
 msgid ""
 "You didn't select the video file for the DVD.\n"
 " Please choose one before starting any operation."
-msgstr "Vous n'avez pas sélectionné le fichier vidéo du DVD.\n"
+msgstr ""
+"Vous n'avez pas sélectionné le fichier vidéo du DVD.\n"
 "Veuillez en choisir un."
 
 #: kdenlive/exportdvddialog.cpp:454
 msgid ""
 "You need the program \"convert\" which is included in ImageMagick to create "
 "DVD menus. Install ImageMagick if you want to make a DVD with menu"
-msgstr "Vous avez besoin du logiciel \"convert\" qui se trouve dans ImageMagick, pour créer les menus du DVD. Installer ImageMagick permet de créer les menus à votre DVD."
+msgstr ""
+"Vous avez besoin du logiciel \"convert\" qui se trouve dans ImageMagick, "
+"pour créer les menus du DVD. Installer ImageMagick permet de créer les menus "
+"à votre DVD."
 
 #: kdenlive/exportdvddialog.cpp:784
 msgid "The creation of DVD structure is finished."
@@ -1094,11 +1101,13 @@ msgstr "Elevé"
 
 #: kdenlive/exportwidget.cpp:198 kdenlive/exportwidget.cpp:236
 msgid "An encoder named %1 already exists, please choose another name."
-msgstr ""
+msgstr "Un encodeur nommé %1 existe déjà, veuillez choisir un autre nom."
 
 #: kdenlive/exportwidget.cpp:426
 msgid "Firewire support not enabled. Please install the required libraries..."
-msgstr "Le port Firewire n'est pas actif. Veuillez installer les librairies nécessaires à son fonctionnement."
+msgstr ""
+"Le port Firewire n'est pas actif. Veuillez installer les librairies "
+"nécessaires à son fonctionnement."
 
 #: kdenlive/exportwidget.cpp:529 kdenlive/exportwidget.cpp:600
 msgid "Please enter a file name"
@@ -1149,11 +1158,11 @@ msgstr "Solarisation"
 
 #: kdenlive/initeffects.cpp:147
 msgid "Horizontal scatter"
-msgstr ""
+msgstr "Diffusion horizontale"
 
 #: kdenlive/initeffects.cpp:155
 msgid "Vertical scatter"
-msgstr ""
+msgstr "Diffusion verticale"
 
 #: kdenlive/initeffects.cpp:163
 msgid "Scale"
@@ -1197,20 +1206,19 @@ msgstr "Vitesse à la fin"
 
 #: kdenlive/initeffects.cpp:287
 msgid "Stroboscope"
-msgstr ""
+msgstr "Stroboscope"
 
 #: kdenlive/initeffects.cpp:295
 msgid "Reverse Playing"
-msgstr ""
+msgstr "Jouer à l'envers"
 
 #: kdenlive/initeffects.cpp:303 kdenlive/initeffects.cpp:307
 msgid "Gamma"
 msgstr "Gamma"
 
 #: kdenlive/initeffects.cpp:320
-#, fuzzy
 msgid "Declipper"
-msgstr "DocClipBase"
+msgstr "Elimination des surcharges"
 
 #: kdenlive/initeffects.cpp:329
 msgid "Karaoke"
@@ -1237,9 +1245,8 @@ msgid "Surface warping"
 msgstr ""
 
 #: kdenlive/initeffects.cpp:378
-#, fuzzy
 msgid "Crackle"
-msgstr "piste"
+msgstr "Crépitement"
 
 #: kdenlive/initeffects.cpp:388
 msgid "Wear"
@@ -1247,7 +1254,7 @@ msgstr "Habillage"
 
 #: kdenlive/initeffects.cpp:399
 msgid "Pitch Shift"
-msgstr ""
+msgstr "Modification durée"
 
 #: kdenlive/initeffects.cpp:403
 msgid "Shift"
@@ -1255,27 +1262,27 @@ msgstr "Shift"
 
 #: kdenlive/initeffects.cpp:414
 msgid "Room reverb"
-msgstr ""
+msgstr "Echo de type pièce"
 
 #: kdenlive/initeffects.cpp:418
 msgid "Room size (m)"
-msgstr ""
+msgstr "Taille de la pièce (m)"
 
 #: kdenlive/initeffects.cpp:426
 msgid "Delay (s/10)"
-msgstr ""
+msgstr "Délai (s/10)"
 
 #: kdenlive/initeffects.cpp:435 kdenlive/initeffects.cpp:460
 msgid "Damping"
-msgstr ""
+msgstr "Amortissement"
 
 #: kdenlive/initeffects.cpp:447
 msgid "Reverb"
-msgstr "Réverbération"
+msgstr "Echo"
 
 #: kdenlive/initeffects.cpp:451
 msgid "Reverb time"
-msgstr ""
+msgstr "Durée écho"
 
 #: kdenlive/initeffects.cpp:472
 msgid "Equalizer"
@@ -1364,7 +1371,7 @@ msgstr "NTSC 16:9 (720x480, 30tps)"
 
 #: kdenlive/kdenlive.cpp:386
 msgid "Zoom to display the whole project"
-msgstr "Zoom pour afficher l'ensemble du projet"
+msgstr "Zoomer sur l'ensemble du projet"
 
 #: kdenlive/kdenlive.cpp:390
 msgid "Zoom in"
@@ -1376,12 +1383,11 @@ msgstr "Zoom arrière"
 
 #: kdenlive/kdenlive.cpp:396
 msgid "Restore Last Zoom Level"
-msgstr "Revenir au précédent niveau de zoom"
+msgstr "Revenir au précédent facteur de zoom"
 
 #: kdenlive/kdenlive.cpp:399
-#, fuzzy
 msgid "Restoring previous zoom level"
-msgstr "Restaurer le niveau de zoom précédent"
+msgstr "Revenir au précédent facteur de zoom"
 
 #: kdenlive/kdenlive.cpp:402
 msgid "Move/Resize Tool"
@@ -1735,9 +1741,8 @@ msgid "Edit Guide"
 msgstr "Modifier un guide"
 
 #: kdenlive/kdenlive.cpp:700
-#, fuzzy
 msgid "Edit guide at cursor position"
-msgstr "Supprimer une transition"
+msgstr "Editer le guide à la position du curseur"
 
 #: kdenlive/kdenlive.cpp:702 kdenlive/kdenlive.cpp:995
 #: kdenlive/kdenlive.cpp:998
@@ -1885,9 +1890,8 @@ msgid "Copy clip to clipboard"
 msgstr "Copier le clip dans le presse-papiers"
 
 #: kdenlive/kdenlive.cpp:820
-#, fuzzy
 msgid "Paste clipboard contents to cursor position"
-msgstr "Coller le contenu du presse-papiers à la position courante"
+msgstr "Coller le contenu du presse-papiers à la position du curseur"
 
 #: kdenlive/kdenlive.cpp:822
 msgid "Move and resize clips"
@@ -1898,9 +1902,8 @@ msgid "Split Clip"
 msgstr "Scinder le clip"
 
 #: kdenlive/kdenlive.cpp:826
-#, fuzzy
 msgid "Shift all clips to the right of mouse"
-msgstr "Déplacer les clips à droite de la souris"
+msgstr "Déplacer tous les clips à droite de la souris"
 
 #: kdenlive/kdenlive.cpp:829
 msgid ""
@@ -2042,11 +2045,8 @@ msgid "Transition"
 msgstr "Transition"
 
 #: kdenlive/kdenlive.cpp:979
-#, fuzzy
 msgid "Current effects usable with the renderer"
-msgstr ""
-"Cette fenêtre affiche tous les effets utilisables avec le programme de rendu "
-"vidéo"
+msgstr "Effets utilisables par le moteur de rendu"
 
 #: kdenlive/kdenlive.cpp:1350 kdenlive/kdenlive.cpp:1354
 msgid "Generating audio thumb"
@@ -2162,7 +2162,8 @@ msgstr "Impossible de coller le clip %1 sur les pistes %2 à la position %3"
 msgid ""
 "Remove track %1 ?\n"
 "This will remove all clips on that track."
-msgstr "Effacer la piste %1 ?\n"
+msgstr ""
+"Effacer la piste %1 ?\n"
 "L'ensemble des clips de cette piste vont être effacés."
 
 #: kdenlive/kdenlive.cpp:2068
@@ -2245,7 +2246,9 @@ msgid ""
 "Deleting this folder will remove all reference to its clips in your "
 "project.\n"
 "Delete this folder ?"
-msgstr "Effacer ce dossier va supprimer l'ensemble des références aux clips de votre projet.\n"
+msgstr ""
+"Effacer ce dossier va supprimer l'ensemble des références aux clips de votre "
+"projet.\n"
 "Effacer ce dossier ?"
 
 #: kdenlive/kdenlive.cpp:2421
@@ -2266,7 +2269,7 @@ msgstr "Ajouter des plans"
 
 #: kdenlive/kdenlive.cpp:2457
 msgid "You cannot include the current Kdenlive document in itself."
-msgstr ""
+msgstr "Il est impossible d'incorporer un document Kdenlive dans lui-même."
 
 #: kdenlive/kdenlive.cpp:2585
 msgid "Add image to project"
@@ -2285,7 +2288,6 @@ msgid "Removing Clips"
 msgstr "Suppression des clips"
 
 #: kdenlive/kdenlive.cpp:2712
-#, fuzzy
 msgid ""
 "This will remove all clips on timeline that are currently using this clip. "
 "Are you sure you want to do this?"
@@ -2298,12 +2300,11 @@ msgid "Cleaning Project"
 msgstr "Purger le projet"
 
 #: kdenlive/kdenlive.cpp:2765
-#, fuzzy
 msgid ""
 "Clean Project removes unused files.\t              Are you sure you want to "
 "do this?"
 msgstr ""
-"Cette action supprime les fichiers du projet qui ne sont pas utilisés.\n"
+"Nettoyer le projet supprime les fichiers non-utilisés.\n"
 "Voulez vous vraiment continuer ?"
 
 #: kdenlive/kdenlive.cpp:2795
@@ -2431,7 +2432,7 @@ msgstr "Moteur de rendu connecté"
 
 #: kdenlive/kmmeditpanel.cpp:207
 msgid "Renderer not connected"
-msgstr ""
+msgstr "Moteur de rendu non-connecté"
 
 #: kdenlive/kmmeditpanel_ui.cpp:417
 msgid "Move to start of clip"
@@ -2567,8 +2568,10 @@ msgid ""
 "NO firewire access on that port\n"
 "Make sure you have loaded the raw1394 module and that you have write access "
 "on /dev/raw1394..."
-msgstr "Pas d'accès au Firewire sur ce port. \n"
-"Vérifiez que vous avez installé le module raw1394 et que vous avez les droits d'accès sur : /dev/raw1394..."
+msgstr ""
+"Pas d'accès au Firewire sur ce port. \n"
+"Vérifiez que vous avez installé le module raw1394 et que vous avez les "
+"droits d'accès sur : /dev/raw1394..."
 
 #: kdenlive/krender.cpp:874
 msgid "NO DV device found"
@@ -2578,7 +2581,8 @@ msgstr "Impossible de trouver la connexion DV"
 msgid ""
 "Transmission of dv file is finished.\n"
 "%1 frames were dropped during transfer."
-msgstr "La transmission du fichier DV est terminée.\n"
+msgstr ""
+"La transmission du fichier DV est terminée.\n"
 "% images ont été supprimées pendant le transfert."
 
 #: kdenlive/krender.cpp:879
@@ -2589,7 +2593,8 @@ msgstr "La transmission du fichier DV est terminée avec succès."
 msgid ""
 "Firewire is not enabled on your system.\n"
 " Please install Libiec61883 and recompile Kdenlive"
-msgstr "Le port Firewire n'est pas actif sur votre système.\n"
+msgstr ""
+"Le port Firewire n'est pas actif sur votre système.\n"
 "Veuillez installer Libiec61883 et recompiler Kdenlive"
 
 #: kdenlive/kresizecommand.cpp:44
@@ -2665,7 +2670,7 @@ msgstr ""
 
 #: kdenlive/main.cpp:69
 msgid "Artist, Kdenlive logo, splashscreen and application icon"
-msgstr ""
+msgstr "Création artistique, logo Kdenlive, écran de lancement et icône d'application"
 
 #: kdenlive/main.cpp:72 kdenlive/main.cpp:80
 msgid "Kdenlive programmer"
@@ -2673,11 +2678,11 @@ msgstr "Développement informatique de Kdenlive"
 
 #: kdenlive/main.cpp:75
 msgid "Kdenlive programmer, Trackdecorators"
-msgstr ""
+msgstr "Programmation Kdenlive, décoration des pistes"
 
 #: kdenlive/main.cpp:78
 msgid "Kdenlive programmer, MLT porting, Effects, Transitions"
-msgstr ""
+msgstr "Programmation de Kdenlive, portage MLT, effets, transitions"
 
 #: kdenlive/newproject.cpp:79
 msgid "*.kdenlive|Kdenlive Project Files (*.kdenlive)"
@@ -2726,13 +2731,12 @@ msgid "Ok"
 msgstr "Ok"
 
 #: kdenlive/projectformatmanager.cpp:103
-#, fuzzy
 msgid ""
 "Could not save file %1.\n"
 "Please check your permissions"
 msgstr ""
-"Le programme effectuant le rendu vidéo n'est pas disponible. Veuillez "
-"vérifier votre configuration."
+"Impossible de sauvegarder le fichier %1.\n"
+"Veuillez vérifier vos permissions."
 
 #. i18n: file kdenlive/kdenliveui.rc line 30
 #: kdenlive/rc.cpp:3 kdenlive/rc.cpp:72 kdenlive/rc.cpp:141
@@ -3302,7 +3306,7 @@ msgstr "PIP"
 #: kdenlive/transitionlumafile_ui.cpp:76 kdenlive/transitionpip_ui.cpp:197
 #: kdenlive/transitionwipe_ui.cpp:235
 msgid "Softness"
-msgstr ""
+msgstr "Douceur"
 
 #: kdenlive/transitionpip_ui.cpp:192
 msgid "Vert. position"
