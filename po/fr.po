@@ -12,7 +12,7 @@ msgstr ""
 "Language-Team: Française <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
 
 #: kdenlive/addmarker_ui.cpp:124 kdenlive/changeclipspeed_ui.cpp:119
 #: kdenlive/clipproperties_ui.cpp:2489 kdenlive/configmisc_ui.cpp:101
@@ -456,7 +456,9 @@ msgstr "Enregistrer automatiquement le projet chaque"
 
 #: kdenlive/configinterface_ui.cpp:104
 msgid "Mouse wheel moves horizontally (Alt for vertical scroll)"
-msgstr "Défilement horizontal à l'aide de la roue de la souris (Alt pour un défilement vertical)"
+msgstr ""
+"Défilement horizontal à l'aide de la roue de la souris (Alt pour un "
+"défilement vertical)"
 
 #: kdenlive/configinterface_ui.cpp:105
 msgid "Show splash screen"
@@ -492,7 +494,9 @@ msgstr "Afficher un écran LCD sous les moniteurs"
 
 #: kdenlive/configmisc_ui.cpp:108
 msgid "Default folder to store previews & thumbnails"
-msgstr "Dossier par défaut de stockage des fichiers de prévisualisation et des vignettes"
+msgstr ""
+"Dossier par défaut de stockage des fichiers de prévisualisation et des "
+"vignettes"
 
 #: kdenlive/configmisc_ui.cpp:109
 msgid "External audio editor"
