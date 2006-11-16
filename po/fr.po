@@ -7,12 +7,12 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-16 13:14+0100\n"
-"PO-Revision-Date: 2006-11-16 13:04+0100\n"
+"PO-Revision-Date: 2006-11-16 13:16+0100\n"
 "Last-Translator: Jean-Michel Pouré <jmpoure@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: kdenlive/addmarker_ui.cpp:124 kdenlive/changeclipspeed_ui.cpp:119
 #: kdenlive/clipproperties_ui.cpp:2489 kdenlive/configmisc_ui.cpp:101
@@ -1408,9 +1408,8 @@ msgid "Marker Tool"
 msgstr "Outil de repérage"
 
 #: kdenlive/kdenlive.cpp:418
-#, fuzzy
 msgid "Roll Tool"
-msgstr "Outil de découpage"
+msgstr "Outil de frontière"
 
 #: kdenlive/kdenlive.cpp:423
 msgid "Snap To Frames"
@@ -1763,9 +1762,8 @@ msgstr "Effets disponibles"
 
 #: kdenlive/kdenlive.cpp:714 kdenlive/kdenlive.cpp:961
 #: kdenlive/kdenlive.cpp:968
-#, fuzzy
 msgid "Project Tree"
-msgstr "Nom du projet"
+msgstr "Arborescence du projet"
 
 #: kdenlive/kdenlive.cpp:717
 msgid "Transitions"
@@ -1788,9 +1786,8 @@ msgid "Focus Effect Stack"
 msgstr "Afficher les effets sélectionnés"
 
 #: kdenlive/kdenlive.cpp:733
-#, fuzzy
 msgid "Focus Project Tree"
-msgstr "Afficher le projet"
+msgstr "Afficher l'arborescence du projet"
 
 #: kdenlive/kdenlive.cpp:737
 msgid "Focus Transitions"
@@ -2227,9 +2224,8 @@ msgid "Marker tool"
 msgstr "Outil de repérage"
 
 #: kdenlive/kdenlive.cpp:2315
-#, fuzzy
 msgid "Roll tool"
-msgstr "Outil de découpage"
+msgstr "Outil de frontière"
 
 #: kdenlive/kdenlive.cpp:2321
 msgid "Exporting Timeline..."
@@ -2608,9 +2604,8 @@ msgid "Resize clip"
 msgstr "Redimensionner le clip"
 
 #: kdenlive/krollcommand.cpp:54
-#, fuzzy
 msgid "Roll clips"
-msgstr "Découper tous les plans vidéo"
+msgstr "Déplacer la frontière entre des clips"
 
 #: kdenlive/kruler.cpp:1127
 msgid "Guide %1"
