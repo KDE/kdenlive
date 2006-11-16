@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-14 15:57+0100\n"
-"PO-Revision-Date: 2006-11-16 09:39+0100\n"
+"PO-Revision-Date: 2006-11-16 13:04+0100\n"
 "Last-Translator: Jean-Michel Pouré <jmpoure@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -488,7 +488,7 @@ msgstr "Durée par défaut des clips couleur/image"
 
 #: kdenlive/configmisc_ui.cpp:107
 msgid "Show LCD screen under monitors"
-msgstr ""
+msgstr "Monter un écran LCD sous les moniteurs"
 
 #: kdenlive/configmisc_ui.cpp:108
 msgid "Default folder to store previews & thumbnails"
@@ -1015,6 +1015,8 @@ msgid ""
 "The export terminated unexpectedly.\n"
 "Output file will probably be corrupted..."
 msgstr ""
+"L'exportation s'est arrêtée se manière impromptue.\n"
+"Le fichier de sortie est probablement inutilisable ..."
 
 #: kdenlive/exportdvddialog.cpp:225 kdenlive/exportdvddialog.cpp:228
 #: kdenlive/kruler.cpp:1133
@@ -1242,7 +1244,7 @@ msgstr "RPM"
 
 #: kdenlive/initeffects.cpp:368
 msgid "Surface warping"
-msgstr ""
+msgstr "Déformation de surface"
 
 #: kdenlive/initeffects.cpp:378
 msgid "Crackle"
@@ -1505,7 +1507,7 @@ msgstr "Avance rapide"
 
 #: kdenlive/kdenlive.cpp:514
 msgid "Fast forwards playing (click several times for faster playing)"
-msgstr ""
+msgstr "Lecture accélérée en avant (cliquer pour augmenter la vitesse)"
 
 #: kdenlive/kdenlive.cpp:516
 msgid "Play backward"
@@ -1513,7 +1515,7 @@ msgstr "Retour rapide"
 
 #: kdenlive/kdenlive.cpp:518
 msgid "Fast backwards playing (click several times for faster playing)"
-msgstr ""
+msgstr "Lecture accélérée en arrière (cliquer pour augmenter la vitesse)"
 
 #: kdenlive/kdenlive.cpp:520
 msgid "Loop selected zone"
@@ -1806,11 +1808,11 @@ msgstr "Déplacer le clip vers le bas"
 
 #: kdenlive/kdenlive.cpp:753
 msgid "Resize Clip Start To Current Time"
-msgstr "Déplacer le début de clip au curseur"
+msgstr "Redimensionner le début de clip sur le curseur"
 
 #: kdenlive/kdenlive.cpp:757
 msgid "Resize Clip End To Current Time"
-msgstr "Déplacer la fin de clip au curseur"
+msgstr "Redimensionner la fin de clip sur le curseur"
 
 #: kdenlive/kdenlive.cpp:761
 msgid "Select Next Track"
@@ -1909,10 +1911,11 @@ msgstr "Déplacer tous les clips à droite de la souris"
 msgid ""
 "Insert commented snap markers on clips (Ctrl + click to remove a marker)"
 msgstr ""
+"Insérer des repères commentés dans les clips (Ctrl + clic pour supprimer un repère)"
 
 #: kdenlive/kdenlive.cpp:832
 msgid "Move edit point between two selected clips"
-msgstr ""
+msgstr "Déplacer le point d'édition entre deux clips sélectionnés"
 
 #: kdenlive/kdenlive.cpp:834
 msgid "Align clips on nearest frame"
@@ -2599,7 +2602,7 @@ msgstr ""
 
 #: kdenlive/kresizecommand.cpp:44
 msgid "Resize clip"
-msgstr "Redimenssionner le plan vidéo"
+msgstr "Redimensionner le clip"
 
 #: kdenlive/krollcommand.cpp:54
 #, fuzzy
@@ -2670,7 +2673,8 @@ msgstr ""
 
 #: kdenlive/main.cpp:69
 msgid "Artist, Kdenlive logo, splashscreen and application icon"
-msgstr "Création artistique, logo Kdenlive, écran de lancement et icône d'application"
+msgstr ""
+"Création artistique, logo Kdenlive, écran de lancement et icône d'application"
 
 #: kdenlive/main.cpp:72 kdenlive/main.cpp:80
 msgid "Kdenlive programmer"
@@ -2693,6 +2697,8 @@ msgid ""
 "Unable to access the selected folder.\n"
 "Please chose another project folder."
 msgstr ""
+"Impossible d'accéder au dossier sélectionné.\n"
+"Veuillez choisir un autre dossier."
 
 #: kdenlive/newproject_ui.cpp:147
 msgid "Project folder (to store previews and thumbnails):"
