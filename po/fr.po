@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-16 13:25+0100\n"
-"PO-Revision-Date: 2006-11-16 13:32+0100\n"
+"PO-Revision-Date: 2006-11-16 13:36+0100\n"
 "Last-Translator: Jean-Michel Pouré <jmpoure@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -492,7 +492,7 @@ msgstr "Afficher un écran LCD sous les moniteurs"
 
 #: kdenlive/configmisc_ui.cpp:108
 msgid "Default folder to store previews & thumbnails"
-msgstr ""
+msgstr "Dossier par défaut de stockage des fichiers de prévisualisation et des vignettes"
 
 #: kdenlive/configmisc_ui.cpp:109
 msgid "External audio editor"
@@ -2406,7 +2406,7 @@ msgstr "Divers"
 
 #: kdenlive/kdenlivesetupdlg.cpp:50 kdenlive/titlebasewidget_ui.cpp:153
 msgid "Titler"
-msgstr "Tirage"
+msgstr "Titrage"
 
 #: kdenlive/kdenlivesetupdlg.cpp:51
 msgid "Default Project"
