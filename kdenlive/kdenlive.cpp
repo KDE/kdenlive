@@ -1345,22 +1345,27 @@ namespace Gui {
 	else if( e->type() == 10005) {
             // Show progress of an audio thumb
 	    int val = ((ProgressEvent *)e)->value();
-	    if (val == -1) {
-		m_statusBarProgress->setTotalSteps(m_statusBarProgress->totalSteps() + 100);
+	    switch (val) {
+	    case -1:
+		// init new thumb creation
+		m_statusBarProgress->setTotalSteps(100);
 		slotStatusMsg(i18n("Generating audio thumb"));
 		m_statusBarProgress->show();
-	    }
-	    else {
+		break;
+	    case 0:
+		// thumb just finished
+		slotStatusMsg(i18n("Ready."));
+		m_statusBarProgress->setTotalSteps(0);
+		m_statusBarProgress->setProgress(0);
+		m_statusBarProgress->hide();
+		getDocument()->refreshAudioThumbnails();
+		break;
+	    default:
+		// progressing...
 		slotStatusMsg(i18n("Generating audio thumb"));
 		m_statusBarProgress->show();
-		if (m_statusBarProgress->progress() + val == m_statusBarProgress->totalSteps()) {
-			slotStatusMsg(i18n("Ready."));
-			val = 0;
-			m_statusBarProgress->setTotalSteps(0);
-			m_statusBarProgress->setProgress(0);
-			m_statusBarProgress->hide();
-	    	}
-	    	m_statusBarProgress->setProgress(m_statusBarProgress->progress() + val);
+	    	m_statusBarProgress->setProgress(val);
+		break;
 	    }
         }
 	else if( e->type() == 10006) {

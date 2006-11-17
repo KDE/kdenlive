@@ -20,6 +20,9 @@
 
 #include <qobject.h>
 #include <qpixmap.h>
+#include <qfile.h>
+#include <qthread.h>
+
 #include <kurl.h>
 
 
@@ -39,6 +42,22 @@ namespace Mlt {
 };
 
 
+    class MyThread : public QThread {
+
+    public:
+        virtual void run();
+	void init(KURL url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth);
+    private:
+	QFile f;
+	KURL m_url;
+	double m_frame;
+	double m_frameLength;
+	int m_frequency;
+	int m_channels;
+	int m_arrayWidth;
+    };
+
+
 class KThumb:public QObject {
   Q_OBJECT public:
 
@@ -50,7 +69,7 @@ public slots:
 	void getImage(KURL url, int frame, int width, int height);
 	void getAudioThumbs(KURL url, int channel, double frame, double frameLength, int arrayWidth); //, QMap<int,QMap<int,QByteArray> >&);
 private:
-	bool m_workingOnAudio;
+	MyThread thumbProducer;
 
 signals:
 	void thumbReady(int frame, QPixmap pm);
