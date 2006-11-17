@@ -7,12 +7,12 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-16 13:25+0100\n"
-"PO-Revision-Date: 2006-11-16 13:36+0100\n"
+"PO-Revision-Date: 2006-11-17 10:02+0100\n"
 "Last-Translator: Jean-Michel Pouré <jmpoure@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: kdenlive/addmarker_ui.cpp:124 kdenlive/changeclipspeed_ui.cpp:119
 #: kdenlive/clipproperties_ui.cpp:2489 kdenlive/configmisc_ui.cpp:101
@@ -420,7 +420,7 @@ msgstr "Format :"
 
 #: kdenlive/clippropertiesdialog.cpp:73
 msgid "Bits per Sample:"
-msgstr ""
+msgstr "Bits par échantillon :"
 
 #: kdenlive/clippropertiesdialog.cpp:93
 msgid "%1x%2, %3 fps"
@@ -757,7 +757,7 @@ msgstr "Format"
 
 #: kdenlive/exportbasewidget_ui.cpp:310
 msgid "to"
-msgstr ""
+msgstr "jusqu'à"
 
 #: kdenlive/exportbasewidget_ui.cpp:311
 msgid "From"
@@ -896,7 +896,7 @@ msgstr "Film"
 
 #: kdenlive/exportdvd_ui.cpp:392
 msgid "image/gif image/x-bmp image/png image/jpeg"
-msgstr ""
+msgstr "image/gif image/x-bmp image/png image/jpeg"
 
 #: kdenlive/exportdvd_ui.cpp:393
 msgid "Background"
@@ -983,8 +983,7 @@ msgid ""
 "Cannot find the program \"dvdauthor\" on your system. Install it if you want "
 "to be able to create a DVD"
 msgstr ""
-"Impossible de trouver le logiciel \"dvdauthor\". Installez le si vous "
-"désirez créer un DVD."
+"Impossible de trouver le logiciel \"dvdauthor\" sur l'ordinateur. il est nécessaire d'installer ce logiciel pour créer un DVD."
 
 #: kdenlive/exportdvddialog.cpp:60
 msgid "Create DVD"
@@ -1019,7 +1018,7 @@ msgid ""
 "The export terminated unexpectedly.\n"
 "Output file will probably be corrupted..."
 msgstr ""
-"L'exportation s'est arrêtée se manière impromptue.\n"
+"L'exportation s'est arrêtée se manière imprévue.\n"
 "Le fichier de sortie est probablement inutilisable ..."
 
 #: kdenlive/exportdvddialog.cpp:225 kdenlive/exportdvddialog.cpp:228
@@ -1140,6 +1139,8 @@ msgid ""
 "The conversion terminated unexpectedly.\n"
 "Output file will probably be corrupted..."
 msgstr ""
+"La conversion s'est arrêtée de manière inattendue.\n"
+"Le fichier de sortie est probablement inutilisable ..."
 
 #: kdenlive/initeffects.cpp:103
 msgid "Greyscale"
@@ -2065,7 +2066,7 @@ msgstr "Exportation vers un fichier"
 
 #: kdenlive/kdenlive.cpp:1499
 msgid "Cannot read file: %1"
-msgstr "Ne peut pas lire le fichier : %1"
+msgstr "Impossible de lire le fichier : %1"
 
 #: kdenlive/kdenlive.cpp:1505
 msgid ""
@@ -2074,6 +2075,10 @@ msgid ""
 "Do you want to create the folder ?\n"
 " Answering no will disable audio thumbnails"
 msgstr ""
+"Impossible d'écrire dans le dossier temporaire :\n"
+"%1\n"
+"Souhaitez-vous créer le dossier ?\n"
+"En cas de réponse négative, les vignettes seront désactivées"
 
 #: kdenlive/kdenlive.cpp:1515
 msgid "Unable to create the project folder. Audio thumbnails will be disabled."
@@ -2178,6 +2183,8 @@ msgid ""
 "You didn't define any external editor for that kind of clip.\n"
 "Please go to Kdenlive settings -> Misc to define it."
 msgstr ""
+"Vous n'avez pas défini d'éditeur externe pour ce type de clip.\n"
+"Veuillez sélectionner Configuration -> Configuration de Kdenlive pour choisir un éditeur."
 
 #: kdenlive/kdenlive.cpp:2081 kdenlive/kdenlive.cpp:2095
 msgid "Add new clip to project"
@@ -2283,7 +2290,7 @@ msgstr "Ajouter une image au projet"
 
 #: kdenlive/kdenlive.cpp:2604
 msgid "Please activate a monitor if you want to save a frame"
-msgstr ""
+msgstr "Pour enregistrer une trame, vous devez d'abord activer un moniteur."
 
 #: kdenlive/kdenlive.cpp:2642
 msgid "Editing Clips"
