@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-16 13:25+0100\n"
-"PO-Revision-Date: 2006-11-17 10:02+0100\n"
+"PO-Revision-Date: 2006-11-17 10:08+0100\n"
 "Last-Translator: Jean-Michel Pouré <jmpoure@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -661,7 +661,7 @@ msgstr "Aucune image dans le slideshow"
 
 #: kdenlive/docclipavfile.cpp:79
 msgid "Slideshow"
-msgstr "Slideshow"
+msgstr "Diaporama"
 
 #: kdenlive/documentmacrocommands.cpp:40
 msgid "Razor all tracks"
@@ -1217,7 +1217,7 @@ msgstr "Stroboscope"
 
 #: kdenlive/initeffects.cpp:295
 msgid "Reverse Playing"
-msgstr "Jouer à l'envers"
+msgstr "Lire à l'envers"
 
 #: kdenlive/initeffects.cpp:303 kdenlive/initeffects.cpp:307
 msgid "Gamma"
@@ -1511,7 +1511,7 @@ msgstr "Avance rapide"
 
 #: kdenlive/kdenlive.cpp:514
 msgid "Fast forwards playing (click several times for faster playing)"
-msgstr "Lecture accélérée en avant (cliquer pour augmenter la vitesse)"
+msgstr "Lecture avance rapide (cliquer pour augmenter la vitesse)"
 
 #: kdenlive/kdenlive.cpp:516
 msgid "Play backward"
@@ -1519,7 +1519,7 @@ msgstr "Retour rapide"
 
 #: kdenlive/kdenlive.cpp:518
 msgid "Fast backwards playing (click several times for faster playing)"
-msgstr "Lecture accélérée en arrière (cliquer pour augmenter la vitesse)"
+msgstr "Lecture retour rapide (cliquer pour augmenter la vitesse)"
 
 #: kdenlive/kdenlive.cpp:520
 msgid "Loop selected zone"
@@ -1832,7 +1832,7 @@ msgstr "Sélectionner le clip sous le curseur"
 
 #: kdenlive/kdenlive.cpp:773
 msgid "Clip Auto Selection"
-msgstr "Sélection automatique du clip"
+msgstr "Sélectionner automatiquement les clips"
 
 #: kdenlive/kdenlive.cpp:777 kdenlive/kdenlive.cpp:780
 #: kdenlive/projectlist.cpp:72
