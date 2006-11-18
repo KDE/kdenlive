@@ -48,8 +48,8 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX,
 	double endX, QPainter & painter, DocClipRef * clip, QRect & rect,
 	bool selected) {
 	if (!clip->referencedClip() || clip->audioChannels() == 0 || clip->speed() != 1.0) return;
-	int sx = (int)startX;	// (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
-	int ex = (int)endX;		//(int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
+	int sx = (int)startX;
+	int ex = (int)endX;
 
 	if (sx < rect.x()) {
 	    sx = rect.x();
@@ -80,8 +80,7 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX,
 	if (channels==0)
 			channels=1;
 
-	//painter.setClipRect(sx, y, ex - sx, h);
-	painter.setClipRect(rect);
+	painter.setClipRect(sx, y, ex - sx, h);
 	if (!m_shift) {
 	    // Audio track
 	    painter.fillRect(sx, y, ex - sx, h, col);
@@ -91,13 +90,20 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX,
 	    int newx1 = sx;
 	    int newx2 = ex;
 	    int clipw = clip->thumbnailWidth();
-	    if (newx1 < startX + clipw) newx1 = startX + clipw;
-	    if (newx2 > endX - clipw) newx2 = endX - clipw;
-	    // draw rect between thumbnails
+	    if (clipw > endX - startX) clipw = endX - startX;
+	    if (newx1 < startX + clipw) {
+		// draw semi transparent pixmap over thumbnails to lighten them
+		painter.drawPixmap(startX, y, m_overlayPixmap, 0, 0, clipw, h);
+		newx1 = startX + clipw;
+	    }
+
+	    if (newx2 > endX - clipw) {
+		// draw semi transparent pixmap over thumbnails to lighten them
+		painter.drawPixmap(endX - clipw, y, m_overlayPixmap, 0, 0, clipw, h);
+	        newx2 = endX - clipw;
+	    }
+            // draw rect between thumbnails
 	    if (newx2 > newx1) painter.fillRect(newx1, y, newx2 - newx1, h, col);
-	    // draw semi transparent pixmap over thumbnails to lighten them
-	    if (newx1 > clipw) painter.drawPixmap(startX, y, m_overlayPixmap, 0, 0, clipw, h);
-	    if (endX - newx2 > clipw) painter.drawPixmap(endX - clipw, y, m_overlayPixmap, 0, 0, clipw, h);
 	}
 	painter.setPen(col.dark(160));
 	double timeDiff = clip->cropStartTime().frames(document()->framesPerSecond()) - clip->trackStart().frames(document()->framesPerSecond());
