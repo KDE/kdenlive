@@ -45,8 +45,8 @@ class initEffects
 	static char* ladspaRoomReverbEffectString(QStringList params);
 	static char* ladspaEqualizerEffectString(QStringList params);
 	static char* ladspaDeclipEffectString(QStringList);
-	static char* ladspaKaraokeEffectString(QStringList params);
 	static char* ladspaVinylEffectString(QStringList params);
+	static char* ladspaVocoderEffectString(QStringList params);
 };
 
     

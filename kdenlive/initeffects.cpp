@@ -61,6 +61,21 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
         file.close();
     }
 
+    // Build effects. check producers first.
+    datFile = locate("mlt_data", "producers.dat");
+    QStringList producersList;
+
+    file.setName( datFile );
+    if ( file.open( IO_ReadOnly ) ) {
+        QTextStream stream( &file );
+        QString line;
+        while ( !stream.atEnd() ) {
+            line = stream.readLine(); // line of text excluding '\n'
+            producersList<<line.section(QRegExp("\\s+"), 0, 0);
+        }
+        file.close();
+    }
+
 
     KGlobal::dirs()->addResourceType("ladspa_plugin", "lib/ladspa");
     KGlobal::dirs()->addResourceDir("ladspa_plugin", "/usr/lib/ladspa");
@@ -259,7 +274,7 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
     }
 
 
-    if (filtersList.findIndex("framebuffer") != -1) {
+    if (producersList.findIndex("framebuffer") != -1) {
         // Slowmotion
 	EffectDesc *slowmo = new EffectDesc(i18n("Speed"), "framebuffer", "video");
 	xmlAttr.clear();
@@ -322,21 +337,6 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
         xmlAttr.append("type", QString::null, QString::null, "fixed");
         declip->addParameter(effectDescParamFactory.createParameter(xmlAttr));
 	effectList->append(declip);
-	}
-
-	if (!locate("ladspa_plugin", "karaoke_1409.so").isEmpty()) {
-	// Karaoke
-	EffectDesc *karaoke = new EffectDesc(i18n("Karaoke"), "ladspa1409", "audio");
-	xmlAttr.clear();
-	xmlAttr.append("type", QString::null, QString::null, "constant");
-	xmlAttr.append("name", QString::null, QString::null, "volume");
-	xmlAttr.append("description", QString::null, QString::null, i18n("Vocal Volume (db)"));
-	xmlAttr.append("max", QString::null, QString::null, "0");
-	xmlAttr.append("min", QString::null, QString::null, "-70");
-	xmlAttr.append("default", QString::null, QString::null, "0");
-	xmlAttr.append("factor", QString::null, QString::null, "1");
-	karaoke->addParameter(effectDescParamFactory.createParameter(xmlAttr));
-	effectList->append(karaoke);
 	}
 
 	if (!locate("ladspa_plugin", "vynil_1905.so").isEmpty()) {
@@ -408,6 +408,53 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 	pitch->addParameter(effectDescParamFactory.createParameter(xmlAttr));
 	effectList->append(pitch);
 	}
+
+	/* Disabled, crashes 
+	if (!locate("ladspa_plugin", "vocoder.so").isEmpty()) {
+	// Vocoder
+	EffectDesc *vocoder = new EffectDesc(i18n("Vocoder"), "ladspa1441", "audio");
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "band1");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Band 1 (150-465)"));
+	xmlAttr.append("max", QString::null, QString::null, "100");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("default", QString::null, QString::null, "0");
+	xmlAttr.append("factor", QString::null, QString::null, "100");
+	vocoder->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "band2");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Band 2 (600-1k1)"));
+	xmlAttr.append("max", QString::null, QString::null, "100");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("default", QString::null, QString::null, "0");
+	xmlAttr.append("factor", QString::null, QString::null, "100");
+	vocoder->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "band3");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Band 3 (1k3-2k5)"));
+	xmlAttr.append("max", QString::null, QString::null, "100");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("default", QString::null, QString::null, "0");
+	xmlAttr.append("factor", QString::null, QString::null, "100");
+	vocoder->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "band4");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Band 4 (3k1-5k8)"));
+	xmlAttr.append("max", QString::null, QString::null, "100");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("default", QString::null, QString::null, "0");
+	xmlAttr.append("factor", QString::null, QString::null, "100");
+	vocoder->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	effectList->append(vocoder);
+	}
+	*/
 
 	if (!locate("ladspa_plugin", "gverb_1216.so").isEmpty()) {
 	// Reverb
@@ -522,8 +569,8 @@ void initEffects::ladspaEffectFile(const QString & fname, int ladspaId, QStringL
 {
     char *filterString;
     switch (ladspaId) {
-    case 1409: //Karaoke
-	filterString = ladspaKaraokeEffectString(params);
+    case 1441: //Vocoder
+	filterString = ladspaVocoderEffectString(params);
 	break;
     case 1433: //Pitch
 	filterString = ladspaPitchEffectString(params);
@@ -568,14 +615,14 @@ char* initEffects::ladspaDeclipEffectString(QStringList)
 }
 
 
+char* initEffects::ladspaVocoderEffectString(QStringList params)
+{
+	return KRender::decodedString( QString(jackString + "1441</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><lockall>true</lockall><controlrow><lock>true</lock><value>0.000000</value><value>0.000000</value></controlrow><controlrow><lock>true</lock><value>%1</value><value>%1</value></controlrow><controlrow><lock>true</lock><value>%1</value><value>%1</value></controlrow><controlrow><lock>true</lock><value>%1</value><value>%1</value></controlrow><controlrow><lock>true</lock><value>%1</value><value>%1</value></controlrow><controlrow><lock>true</lock><value>%2</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>%2</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>%2</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>%2</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>%3</value><value>%3</value></controlrow><controlrow><lock>true</lock><value>%3</value><value>%3</value></controlrow><controlrow><lock>true</lock><value>%3</value><value>%3</value></controlrow><controlrow><lock>true</lock><value>%3</value><value>%3</value></controlrow><controlrow><lock>true</lock><value>%4</value><value>%4</value></controlrow><controlrow><lock>true</lock><value>%4</value><value>%4</value></controlrow><controlrow><lock>true</lock><value>%4</value><value>%4</value></controlrow><controlrow><lock>true</lock><value>%4</value><value>%4</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[1]).arg(params[2]).arg(params[3]));
+}
+
 char* initEffects::ladspaVinylEffectString(QStringList params)
 {
 	return KRender::decodedString( QString(jackString + "1905</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><controlrow><value>%1</value></controlrow><controlrow><value>%2</value></controlrow><controlrow><value>%3</value></controlrow><controlrow><value>%4</value></controlrow><controlrow><value>%5</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[1]).arg(params[2]).arg(params[3]).arg(params[4]));
-}
-
-char* initEffects::ladspaKaraokeEffectString(QStringList params)
-{
-	return KRender::decodedString( QString(jackString + "1409</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><controlrow><value>%1</value></controlrow></plugin></jackrack>").arg(params[0]));
 }
 
 char* initEffects::ladspaPitchEffectString(QStringList params)
