@@ -614,6 +614,7 @@ void exportWidget::renderSelectedZone(const QString &url)
     m_createdFile = url;
     startExportTime = m_timeline->inpointPosition();
     endExportTime = m_timeline->outpointPosition();
+    m_duration = endExportTime - startExportTime;
     doExport(url, QStringList(), true);
     m_emitSignal = true;
 }
