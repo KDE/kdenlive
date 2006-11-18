@@ -369,10 +369,6 @@ namespace Gui {
 		else {
 		    effect->effectDescription().parameter(parameterNum)->
 			setValue(QString::number(sbox->value()));
-
-	    	    if (effect->effectDescription().tag() == "framebuffer" && parameterNum == 0) {
-	    		m_effectList->clip()->setSpeed( (double) sbox->value() / 100.0);
-		    }
 		}
 	    }
 	    else if (m_effecttype == "bool") {
@@ -405,6 +401,9 @@ namespace Gui {
 	    }		
 	    parameterNum++;
 	}
+	if (effect->effectDescription().tag() == "framebuffer")
+	    m_effectList->clip()->setSpeed(effect->effectDescription().parameter(0)->value().toDouble() / 100.0, effect->effectDescription().parameter(1)->value().toDouble() / 100.0);
+
 	if (!m_blockUpdate) {
 	    emit generateSceneList();
  	    m_app->focusTimelineWidget();

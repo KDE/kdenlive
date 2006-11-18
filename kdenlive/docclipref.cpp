@@ -45,7 +45,7 @@ startTimer(0),
 endTimer(0),
 m_trackStart(0.0),
 m_cropStart(0.0),
-m_trackEnd(0.0), m_parentTrack(0),  m_trackNum(-1), m_clip(clip),  m_speed(1.0)
+m_trackEnd(0.0), m_parentTrack(0),  m_trackNum(-1), m_clip(clip),  m_speed(1.0),  m_endspeed(1.0)
 {
     if (!clip) {
 	kdError() <<
@@ -101,10 +101,10 @@ void DocClipRef::refreshAudioThumbnail()
 {
 	if (m_clip->clipType() != DocClipBase::AV && m_clip->clipType() != DocClipBase::AUDIO) return;
 	if (KdenliveSettings::audiothumbnails()) {
-		//double lengthInFrames=m_clip->duration().frames(m_clip->framesPerSecond());
 		if (!m_clip->audioThumbCreated) m_clip->toDocClipAVFile()->getAudioThumbs();
 	}
 	else {
+		if (!m_clip->audioThumbCreated) m_clip->toDocClipAVFile()->stopAudioThumbs();
 		m_clip->audioThumbCreated = false;
 		referencedClip()->audioFrameChache.clear();
 		kdDebug()<<"**********  FREED MEM FOR: "<<name()<<", COUNT: "<<referencedClip()->audioFrameChache.count ()<<endl;
@@ -763,9 +763,9 @@ bool DocClipRef::matchesXML(const QDomElement & element) const
 
 const GenTime & DocClipRef::duration() const
 {
-    if (m_speed == 1.0) return m_clip->duration();
+    if (m_speed == 1.0 && m_endspeed == 1.0) return m_clip->duration();
     else {
-	int frameCount = (int)(m_clip->duration().frames(framesPerSecond()) / m_speed);
+	int frameCount = (int)(m_clip->duration().frames(framesPerSecond()) * 2 / (m_speed + m_endspeed));
 	return GenTime(frameCount, framesPerSecond());
     }
 }
@@ -777,12 +777,13 @@ bool DocClipRef::durationKnown() const
 
 double DocClipRef::speed() const
 {
-    return m_speed;
+    return (m_speed + m_endspeed) / 2;
 }
 
-void DocClipRef::setSpeed(double speed)
+void DocClipRef::setSpeed(double speed, double endspeed)
 {
     m_speed = speed;
+    m_endspeed = endspeed;
     if (cropStartTime() + cropDuration() > duration()) 
 	setCropDuration(duration() - cropStartTime());
     else if (m_parentTrack) m_parentTrack->notifyClipChanged(this);
@@ -1182,7 +1183,7 @@ QDomDocument DocClipRef::generateXMLClip()
     				entry.setTagName("producer");
     				entry.setAttribute("mlt_service","framebuffer");
     				entry.setAttribute("id","slowmotion"+ QString::number(m_clip->getId()));
-				QString slowmo = fileURL().path() + ":" + QString::number(effect->effectDescription().parameter(0)->value().toDouble() / effect->effectDescription().parameter(0)->factor());
+				QString slowmo = fileURL().path() + ":" + QString::number(effect->effectDescription().parameter(0)->value().toDouble() / effect->effectDescription().parameter(0)->factor()) + ":" + QString::number(effect->effectDescription().parameter(1)->value().toDouble() / effect->effectDescription().parameter(1)->factor());
     				entry.setAttribute("resource", slowmo.ascii());
     				entry.removeAttribute("producer");
 				while (effect->parameter(parameterNum)) {
@@ -1419,7 +1420,7 @@ QDomDocument DocClipRef::generateOffsetXMLClip(GenTime start, GenTime end)
     				entry.setTagName("producer");
     				entry.setAttribute("mlt_service","framebuffer");
     				entry.setAttribute("id","slowmotion"+ QString::number(m_clip->getId()));
-				QString slowmo = fileURL().path() + ":" + QString::number(effect->effectDescription().parameter(0)->value().toDouble() / effect->effectDescription().parameter(0)->factor());
+				QString slowmo = fileURL().path() + ":" + QString::number(effect->effectDescription().parameter(0)->value().toDouble() / effect->effectDescription().parameter(0)->factor()) + ":" + QString::number(effect->effectDescription().parameter(1)->value().toDouble() / effect->effectDescription().parameter(1)->factor());
     				entry.setAttribute("resource", slowmo.ascii());
     				entry.removeAttribute("producer");
 				while (effect->parameter(parameterNum)) {

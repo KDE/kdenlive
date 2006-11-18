@@ -160,8 +160,8 @@ class DocClipAVFile:public DocClipBase {
 
     public slots:
 	void getAudioThumbs();
+	void stopAudioThumbs();
 
-    
     private:
 
 	/** The duration of this file. */

@@ -47,6 +47,8 @@ namespace Mlt {
     public:
         virtual void run();
 	void init(KURL url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth);
+	bool stop_me;
+
     private:
 	QFile f;
 	KURL m_url;
@@ -67,9 +69,12 @@ class KThumb:public QObject {
 
 public slots:
 	void getImage(KURL url, int frame, int width, int height);
-	void getAudioThumbs(KURL url, int channel, double frame, double frameLength, int arrayWidth); //, QMap<int,QMap<int,QByteArray> >&);
+	void stopAudioThumbs();
+	void getAudioThumbs(KURL url, int channel, double frame, double frameLength, int arrayWidth);
+
 private:
 	MyThread thumbProducer;
+	KURL m_url;
 
 signals:
 	void thumbReady(int frame, QPixmap pm);

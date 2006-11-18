@@ -48,6 +48,7 @@
 
     void MyThread::init(KURL url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth)
     {
+	stop_me = false;
 	f.setName(target);
 	m_url = url;
 	m_frame = frame;
@@ -75,7 +76,7 @@
 		int last_val = 0;
 		int val = 0;
 		for (int z=(int) m_frame;z<(int) (m_frame+m_frameLength) && m_producer.is_valid();z++){
-
+			if (stop_me) break;
 			val=(int)((z-m_frame)/(m_frame+m_frameLength)*100.0);
 			if (last_val!=val){
 				QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(val, 10005));
@@ -106,8 +107,8 @@
 					delete mlt_frame;
 		}
 		f.close();
+		if (stop_me) f.remove();
 		QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(0, 10005));
-        
     }
 
 
@@ -117,7 +118,7 @@
 #define _B(y,u,v) (0x2568*(y) + 0x40cf*(v))                                          /0x2000
 
 KThumb::KThumb(QObject * parent, const char *name):QObject(parent,
-    name)
+    name), m_url(0)
 {
 }
 
@@ -158,6 +159,11 @@ void KThumb::getImage(KURL url, int frame, int width, int height)
     emit thumbReady(frame, image);
 }
 
+void KThumb::stopAudioThumbs()
+{
+	if (thumbProducer.running ()) thumbProducer.stop_me = true;
+}
+
 
 void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLength, int arrayWidth){
 	QMap <int, QMap <int, QByteArray> > storeIn;
@@ -167,17 +173,17 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
        //FIXME: Hardcoded!!! 
 	int m_frequency = 48000;
 	int m_channels = channel; 
-	KMD5 context ((KFileItem(url,"text/plain", S_IFREG).timeString() + url.fileName()).ascii());
+	m_url = url;
+	KMD5 context ((KFileItem(m_url,"text/plain", S_IFREG).timeString() + m_url.fileName()).ascii());
 	QString thumbname = KdenliveSettings::currenttmpfolder() + context.hexDigest().data() + ".thumb";
 	QFile f(thumbname);
 	if (f.open( IO_ReadOnly )) {
 		QByteArray channelarray = f.readAll();
 		f.close();
 		if (channelarray.size() != arrayWidth*(frame+frameLength)*m_channels) {
-			kdDebug()<<"--- BROKEN THUMB FOR: "<<url.filename()<<" ---------------------- "<<endl;
+			kdDebug()<<"--- BROKEN THUMB FOR: "<<m_url.filename()<<" ---------------------- "<<endl;
 			f.remove();
 			return;
-
 		}
 		
 		for (int z=(int) frame;z<(int) (frame+frameLength);z++) {
@@ -192,7 +198,8 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
 	}
 	else {
 		if (thumbProducer.running()) return;
-		thumbProducer.init(url, thumbname, frame, frameLength, m_frequency, m_channels, arrayWidth);
+		kdDebug()<<"--- START THUMB FOR: "<<m_url.filename()<<", "<<thumbname<<endl;
+		thumbProducer.init(m_url, thumbname, frame, frameLength, m_frequency, m_channels, arrayWidth);
 		thumbProducer.start(QThread::LowestPriority );
 	}
 }
