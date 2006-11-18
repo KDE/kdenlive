@@ -107,8 +107,11 @@
 					delete mlt_frame;
 		}
 		f.close();
-		if (stop_me) f.remove();
-		QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(0, 10005));
+		if (stop_me) {
+		    f.remove();
+		    QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1, 10005));
+		}
+		else QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(0, 10005));
     }
 
 
@@ -165,6 +168,14 @@ void KThumb::stopAudioThumbs()
 }
 
 
+void KThumb::removeAudioThumb()
+{
+	if (m_thumbFile.isEmpty()) return;
+	stopAudioThumbs();
+	QFile f(m_thumbFile);
+	f.remove();
+}
+
 void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLength, int arrayWidth){
 	QMap <int, QMap <int, QByteArray> > storeIn;
 
@@ -172,11 +183,15 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
 	
        //FIXME: Hardcoded!!! 
 	int m_frequency = 48000;
-	int m_channels = channel; 
-	m_url = url;
-	KMD5 context ((KFileItem(m_url,"text/plain", S_IFREG).timeString() + m_url.fileName()).ascii());
-	QString thumbname = KdenliveSettings::currenttmpfolder() + context.hexDigest().data() + ".thumb";
-	QFile f(thumbname);
+	int m_channels = channel;
+	if (m_url != url) {
+		m_url = url;
+		KMD5 context ((KFileItem(m_url,"text/plain", S_IFREG).timeString() + m_url.fileName()).ascii());
+		m_thumbFile = KdenliveSettings::currenttmpfolder() + context.hexDigest().data() + ".thumb";
+	}
+	kdDebug()<<"--- LOOKING FOR THUMB: "<<m_thumbFile<<endl;
+
+	QFile f(m_thumbFile);
 	if (f.open( IO_ReadOnly )) {
 		QByteArray channelarray = f.readAll();
 		f.close();
@@ -198,8 +213,7 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
 	}
 	else {
 		if (thumbProducer.running()) return;
-		kdDebug()<<"--- START THUMB FOR: "<<m_url.filename()<<", "<<thumbname<<endl;
-		thumbProducer.init(m_url, thumbname, frame, frameLength, m_frequency, m_channels, arrayWidth);
+		thumbProducer.init(m_url, m_thumbFile, frame, frameLength, m_frequency, m_channels, arrayWidth);
 		thumbProducer.start(QThread::LowestPriority );
 	}
 }

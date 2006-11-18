@@ -175,6 +175,11 @@ DocClipAVFile::~DocClipAVFile()
 {
 }
 
+void DocClipAVFile::removeTmpFile() const
+{
+    if (thumbCreator) thumbCreator->removeAudioThumb();
+}
+
 bool DocClipAVFile::isTransparent()
 {
     return m_alphaTransparency;

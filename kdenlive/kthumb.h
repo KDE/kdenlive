@@ -70,11 +70,13 @@ class KThumb:public QObject {
 public slots:
 	void getImage(KURL url, int frame, int width, int height);
 	void stopAudioThumbs();
+	void removeAudioThumb();
 	void getAudioThumbs(KURL url, int channel, double frame, double frameLength, int arrayWidth);
 
 private:
 	MyThread thumbProducer;
 	KURL m_url;
+	QString m_thumbFile;
 
 signals:
 	void thumbReady(int frame, QPixmap pm);

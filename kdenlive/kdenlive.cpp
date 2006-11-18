@@ -1347,10 +1347,10 @@ namespace Gui {
 	    int val = ((ProgressEvent *)e)->value();
 	    switch (val) {
 	    case -1:
-		// init new thumb creation
+		// reset new thumb creation
 		m_statusBarProgress->setTotalSteps(100);
-		slotStatusMsg(i18n("Generating audio thumb"));
-		m_statusBarProgress->show();
+		slotStatusMsg(i18n("Ready."));
+		m_statusBarProgress->hide();
 		break;
 	    case 0:
 		// thumb just finished
@@ -2738,12 +2738,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		    ++itt;
 		}
 
-		// remove audio thumbnail file
-		if (clip->clipType() == DocClipBase::AUDIO  || clip->clipType() == DocClipBase::VIDEO) {
-		KMD5 context ((KFileItem(clip->fileURL(),"text/plain", S_IFREG).timeString() + clip->fileURL().fileName()).ascii());
-		KIO::NetAccess::del(KURL(KdenliveSettings::currentdefaultfolder() + "/" + context.hexDigest().data() + ".thumb"), this);
-		}
-
+		// remove audio thumbnail and tmp files
 		clip->removeTmpFile();
 
 		DocumentBaseNode *node = m_doc->findClipNodeById(id);
@@ -3498,7 +3493,9 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
 	    ++trackItt;
 	}
+	kdDebug()<<" +  ++ + ++ ++ PREPARE VID THUMB"<<endl;
         if (KdenliveSettings::videothumbnails()) getDocument()->updateTracksThumbnails();
+	kdDebug()<<" +  ++ + ++ ++ PREPARE AUDIO THUMB"<<endl;
 	getDocument()->refreshAudioThumbnails();
 	//m_timeline->resizeTracks();
     }

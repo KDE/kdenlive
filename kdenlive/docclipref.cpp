@@ -71,12 +71,6 @@ m_trackEnd(0.0), m_parentTrack(0),  m_trackNum(-1), m_clip(clip),  m_speed(1.0),
         	m_endthumbnail = m_thumbnail;
 	}
 	connect(clip->thumbCreator, SIGNAL(audioThumbReady(QMap<int,QMap<int,QByteArray> >)), this, SLOT(updateAudioThumbnail(QMap<int,QMap<int,QByteArray> >)));
-	/*connect(this,
-		SIGNAL(getAudioThumbnails(KURL, int,double,double,int)), //,QMap<int,QMap<int,QByteArray> >&)),
-		clip->thumbCreator,
-		SLOT(getAudioThumbs(KURL, int,double,double,int))); //,QMap<int,QMap<int,QByteArray> >&)));
-	double lengthInFrames=m_clip->duration().frames(m_clip->framesPerSecond());
-	if (KdenliveSettings::audiothumbnails()) emit getAudioThumbnails(fileURL(), 0, 0, lengthInFrames,AUDIO_FRAME_WIDTH);*/ //referencedClip()->audioFrameChache
     }
 }
 
@@ -113,8 +107,8 @@ void DocClipRef::refreshAudioThumbnail()
 
 void DocClipRef::updateAudioThumbnail(QMap<int,QMap<int,QByteArray> >)
 {
+    m_clip->audioThumbCreated = true;
     if (m_parentTrack) QTimer::singleShot(200, this, SLOT(refreshCurrentTrack()));
-//m_parentTrack, SLOT(refreshLayout()));
 }
 
 void DocClipRef::refreshCurrentTrack()
