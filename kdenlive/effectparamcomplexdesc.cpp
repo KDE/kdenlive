@@ -56,6 +56,11 @@ const uint EffectParamComplexDesc::complexParamNum() const
 }
 
 //Virtual
+void EffectParamComplexDesc::setMax(int max)
+{
+}
+
+//Virtual
 double EffectParamComplexDesc::max(uint ix) const
 {
     return m_maxs[ix].toDouble();

@@ -65,6 +65,7 @@ A description of an effect parameter
 
     virtual double max(uint ix = 0) const = 0;
     virtual double min(uint ix = 0) const = 0;
+    virtual void setMax(int max) = 0;
 
     virtual const QString endTag() const = 0;
     virtual const QString startTag() const = 0;

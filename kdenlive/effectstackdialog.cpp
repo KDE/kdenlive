@@ -138,12 +138,7 @@ namespace Gui {
     }
 
     void EffectStackDialog::cleanWidgets()
-    {/*
-	if (m_parameter->child("container", "QGrid"))
-	    delete m_parameter->child("container", "QGrid");
-	
-	if (k_container->child("container2", "QWidget")) 
-	    delete k_container->child("container2", "QWidget");*/
+    {
 	if (m_container) delete m_container;
 	if (m_frame) delete m_frame;
 	m_container = 0;
@@ -175,6 +170,10 @@ namespace Gui {
 	m_container = new QGrid(3, Qt::Horizontal, m_parameter, "container");
 	m_container->setSpacing(5);
 	m_container->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum));
+
+	if (effect->effectDescription().name() == i18n("Freeze")) {
+		effect->effectDescription().parameter(0)->setMax(clip->duration().frames(KdenliveSettings::defaultfps()));
+	}
 
 	while (effect->parameter(parameterNum)) {
 	    m_effecttype = effect->effectDescription().parameter(parameterNum)->type();
@@ -401,8 +400,10 @@ namespace Gui {
 	    }		
 	    parameterNum++;
 	}
-	if (effect->effectDescription().tag() == "framebuffer")
-	    m_effectList->clip()->setSpeed(effect->effectDescription().parameter(0)->value().toDouble() / 100.0, effect->effectDescription().parameter(1)->value().toDouble() / 100.0);
+	if (effect->effectDescription().tag() == "framebuffer") {
+	    if (effect->effectDescription().name() == i18n("Speed")) m_effectList->clip()->setSpeed(effect->effectDescription().parameter(0)->value().toDouble() / 100.0, effect->effectDescription().parameter(1)->value().toDouble() / 100.0);
+
+	}
 
 	if (!m_blockUpdate) {
 	    emit generateSceneList();

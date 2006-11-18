@@ -47,6 +47,8 @@ class EffectParamDoubleDesc:public EffectParamDesc {
 	KdenliveDoc * document,
 	DocClipRef * clip, QWidget * parent = 0, const char *name = 0);
 
+	/** change default max value, used when value depends on clip properties*/
+    virtual void setMax(int max);
     virtual double max(uint ix = 0) const;
     virtual double min(uint ix = 0) const;
     virtual const QString endTag() const;

@@ -53,6 +53,8 @@ class EffectParamComplexDesc:public EffectParamDesc {
     virtual const QString startTag() const;
     virtual const QString list() const;
 
+	/** change default max value, used when value depends on clip properties*/
+    virtual void setMax(int max);
     virtual double max(uint ix = 0) const;
     virtual double min(uint ix = 0) const;
     virtual const double &defaultValue(uint ix = 0) const;

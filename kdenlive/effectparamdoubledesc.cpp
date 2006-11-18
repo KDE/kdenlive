@@ -34,9 +34,8 @@ EffectParamDoubleDesc(const QXmlAttributes & attributes)
     m_starttag = attributes.value("starttag");
     m_endtag = attributes.value("endtag");
     m_factor = attributes.value("factor").toDouble();
-    m_list = attributes.value("paramlist");
-
     if (m_factor == 0.0) m_factor = 1.0;
+    m_list = attributes.value("paramlist");
 
     if (m_starttag == "")
 	m_starttag = "start";
@@ -46,6 +45,12 @@ EffectParamDoubleDesc(const QXmlAttributes & attributes)
 
 EffectParamDoubleDesc::~EffectParamDoubleDesc()
 {
+}
+
+//Virtual
+void EffectParamDoubleDesc::setMax(int max)
+{
+    m_max = max;
 }
 
 //Virtual

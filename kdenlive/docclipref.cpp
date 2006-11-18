@@ -1173,12 +1173,16 @@ QDomDocument DocClipRef::generateXMLClip()
 			}
                         entry.appendChild(clipFilter);
 		    }
-		    else {  //slowmotion effect, use special producer
+		    else {  //slowmotion or freeze effect, use special producer
     				entry.setTagName("producer");
     				entry.setAttribute("mlt_service","framebuffer");
     				entry.setAttribute("id","slowmotion"+ QString::number(m_clip->getId()));
-				QString slowmo = fileURL().path() + ":" + QString::number(effect->effectDescription().parameter(0)->value().toDouble() / effect->effectDescription().parameter(0)->factor()) + ":" + QString::number(effect->effectDescription().parameter(1)->value().toDouble() / effect->effectDescription().parameter(1)->factor());
-    				entry.setAttribute("resource", slowmo.ascii());
+				QString fileName;
+				if (effect->effectDescription().name() == i18n("Speed")) {
+				    fileName = fileURL().path() + ":" + QString::number(effect->effectDescription().parameter(0)->value().toDouble() / effect->effectDescription().parameter(0)->factor()) + ":" + QString::number(effect->effectDescription().parameter(1)->value().toDouble() / effect->effectDescription().parameter(1)->factor());
+				}
+				else fileName = fileURL().path();
+    				entry.setAttribute("resource", fileName.ascii());
     				entry.removeAttribute("producer");
 				while (effect->parameter(parameterNum)) {
 					entry.setAttribute(effect->effectDescription().parameter(parameterNum)->name(), QString::number(effect->effectDescription().parameter(parameterNum)->value().toDouble() / effect->effectDescription().parameter(parameterNum)->factor()));
@@ -1410,12 +1414,16 @@ QDomDocument DocClipRef::generateOffsetXMLClip(GenTime start, GenTime end)
 			}
                         entry.appendChild(clipFilter);
 		    }
-		    else {  //slowmotion effect, use special producer
+		    else {  //slowmotion or freeze effect, use special producer
     				entry.setTagName("producer");
     				entry.setAttribute("mlt_service","framebuffer");
     				entry.setAttribute("id","slowmotion"+ QString::number(m_clip->getId()));
-				QString slowmo = fileURL().path() + ":" + QString::number(effect->effectDescription().parameter(0)->value().toDouble() / effect->effectDescription().parameter(0)->factor()) + ":" + QString::number(effect->effectDescription().parameter(1)->value().toDouble() / effect->effectDescription().parameter(1)->factor());
-    				entry.setAttribute("resource", slowmo.ascii());
+				QString fileName;
+				if (effect->effectDescription().name() == i18n("Speed")) {
+				    fileName = fileURL().path() + ":" + QString::number(effect->effectDescription().parameter(0)->value().toDouble() / effect->effectDescription().parameter(0)->factor()) + ":" + QString::number(effect->effectDescription().parameter(1)->value().toDouble() / effect->effectDescription().parameter(1)->factor());
+				}
+				else fileName = fileURL().path();
+    				entry.setAttribute("resource", fileName.ascii());
     				entry.removeAttribute("producer");
 				while (effect->parameter(parameterNum)) {
 					entry.setAttribute(effect->effectDescription().parameter(parameterNum)->name(), QString::number(effect->effectDescription().parameter(parameterNum)->value().toDouble() / effect->effectDescription().parameter(parameterNum)->factor()));

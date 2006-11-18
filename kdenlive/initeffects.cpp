@@ -301,8 +301,8 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 	xmlAttr.append("name", QString::null, QString::null, "strobe");
 	xmlAttr.append("description", QString::null, QString::null, i18n("Stroboscope"));
 	xmlAttr.append("max", QString::null, QString::null, "100");
-	xmlAttr.append("min", QString::null, QString::null, "0");
-	xmlAttr.append("default", QString::null, QString::null, "0");
+	xmlAttr.append("min", QString::null, QString::null, "1");
+	xmlAttr.append("default", QString::null, QString::null, "1");
 	slowmo->addParameter(effectDescParamFactory.createParameter(xmlAttr));
 	xmlAttr.clear();
 	xmlAttr.append("type", QString::null, QString::null, "bool");
@@ -311,6 +311,34 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 	xmlAttr.append("default", QString::null, QString::null, "0");
 	slowmo->addParameter(effectDescParamFactory.createParameter(xmlAttr));
 	effectList->append(slowmo);
+
+
+        // Freeze
+	EffectDesc *freeze = new EffectDesc(i18n("Freeze"), "framebuffer", "video");
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "freeze");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Freeze at"));
+	xmlAttr.append("max", QString::null, QString::null, "300");
+	xmlAttr.append("min", QString::null, QString::null, "1");
+	xmlAttr.append("default", QString::null, QString::null, "1");
+	freeze->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "bool");
+	xmlAttr.append("name", QString::null, QString::null, "freeze_before");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Freeze Before"));
+	xmlAttr.append("default", QString::null, QString::null, "0");
+	freeze->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "bool");
+	xmlAttr.append("name", QString::null, QString::null, "freeze_after");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Freeze After"));
+	xmlAttr.append("default", QString::null, QString::null, "0");
+	freeze->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+
+	effectList->append(freeze);
     }
 
     if (filtersList.findIndex("gamma") != -1) {
