@@ -1831,7 +1831,7 @@ namespace Gui {
 			KdenliveSettings::setCurrentdefaultfolder(projectFolder);
 
 			// create a temp folder for previews & thumbnails in KDE's tmp resource dir
-			KdenliveSettings::setCurrenttmpfolder(locateLocal("tmp", "kdenlive/" + getDocument()->URL().fileName() + "/", true));
+			KdenliveSettings::setCurrenttmpfolder(locateLocal("tmp", "kdenlive/" + *newProjectName + "/", true));
 			switch (projectFormat) {
 				case 0:
 					// PAL project

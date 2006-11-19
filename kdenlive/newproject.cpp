@@ -57,9 +57,9 @@ namespace Gui {
     {
 	if (projectName->text().isEmpty()) buttonOk->setEnabled(false);
 	else if (!projectFolder->url().isEmpty()) buttonOk->setEnabled(true);
-	QString folderUrl = projectFolder->url();
+	/*QString folderUrl = projectFolder->url();
 	folderUrl = folderUrl.left(folderUrl.findRev("/", -1) + 1);
-	projectFolder->setURL(folderUrl + projectName->text());
+	projectFolder->setURL(folderUrl + projectName->text());*/
     }
 
     void newProject::checkFolderName()
@@ -87,7 +87,7 @@ namespace Gui {
     {
 	if (tabWidget->currentPageIndex() == 0) {
 		m_isNewFile = true;
-		if (!KIO::NetAccess::exists(KURL(KdenliveSettings::defaultfolder()), false, this)) {
+		/*if (!KIO::NetAccess::exists(KURL(KdenliveSettings::defaultfolder()), false, this)) {
 			KIO::NetAccess::mkdir(KURL(KdenliveSettings::defaultfolder()), this);
 		}
 		if (!KIO::NetAccess::exists(KURL(projectFolder->url()), false, this)) {
@@ -97,7 +97,7 @@ namespace Gui {
 				KMessageBox::sorry(this, i18n("Unable to access the selected folder.\nPlease chose another project folder."));
 				return;
 			}
-		}
+		}*/
 		accept();
 	}
 	else {
