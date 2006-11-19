@@ -150,7 +150,7 @@ namespace Command {
 		"Error - all clips created with kaddclipcommand should have a parent!"
 		<< endl;
 	}
-        m_xmlClip = document.clipManager().buildImageClip(url, duration, description, alphaTransparency);
+        m_xmlClip = document.clipManager().buildImageClip((KURL&) url, duration, description, alphaTransparency);
 	m_id = -1;
 
     }
@@ -197,7 +197,7 @@ namespace Command {
 		"Error - all clips created with kaddclipcommand should have a parent!"
 		<< endl;
 	}
-        m_xmlClip = document.clipManager().buildClip(url);
+        m_xmlClip = document.clipManager().buildClip((KURL &)url);
     }
 
     KAddClipCommand::~KAddClipCommand() {

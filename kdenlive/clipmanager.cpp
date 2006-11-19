@@ -63,16 +63,27 @@ ClipManager::~ClipManager()
 {
 }
 
-DocClipBase *ClipManager::insertClip(const KURL & file, int clipId)
+KURL ClipManager::checkFileUrl(KURL url)
+{
+	if (!m_relocateUrl.isEmpty()) {
+	    KURL testUrl = KURL(m_relocateUrl + url.fileName());
+	    if (KIO::NetAccess::exists(testUrl, true, 0)) return testUrl;
+	}
+	if (KMessageBox::questionYesNo(0, i18n("Cannot open file %1\nDo you want to search for the file or remove it from the project ?").arg(url.path()), i18n("Missing File"), i18n("Find File"), i18n("Remove")) == KMessageBox::Yes) {
+	    url = KFileDialog::getOpenURL(url.path());
+	    m_relocateUrl = url.directory();
+	    return url;
+	}
+	return KURL();
+}
+
+DocClipBase *ClipManager::insertClip(KURL file, int clipId)
 {
     if (!KIO::NetAccess::exists(file, true, 0)) {
-	if (KMessageBox::questionYesNo(0, i18n("Cannot open file %1\nDo you want to search for the file or remove it from the project ?").arg(file.path()), i18n("Missing File"), i18n("Find File"), i18n("Remove")) == KMessageBox::Yes) {
-	KURL url = KFileDialog::getOpenURL(file.path());
-	if (!url.isEmpty()) return insertClip(url, clipId);
-	else return 0;
-	}
-	else return 0;
+	file = checkFileUrl(file);
+	if (file.isEmpty()) return 0;
     }
+
     DocClipBase *clip = findClip(file);
     if (!clip) {
 	if (!m_render->isValid(file)) {
@@ -96,16 +107,13 @@ DocClipBase *ClipManager::insertClip(const KURL & file, int clipId)
     return 0;
 }
 
-QDomDocument ClipManager::buildClip(const KURL & file, int clipId)
+QDomDocument ClipManager::buildClip(KURL & file, int clipId)
 {
     if (!KIO::NetAccess::exists(file, true, 0)) {
-	if (KMessageBox::questionYesNo(0, i18n("Cannot open file %1\nDo you want to search for the file or remove it from the project ?").arg(file.path()), i18n("Missing File"), i18n("Find File"), i18n("Remove")) == KMessageBox::Yes) {
-	KURL url = KFileDialog::getOpenURL(file.path());
-	if (!url.isEmpty()) return buildClip(url, clipId);
-	else return QDomDocument();
-	}
-	else return QDomDocument();
+	file = checkFileUrl(file);
+	if (file.isEmpty()) return QDomDocument();
     }
+
     DocClipBase *clip = findClip(file);
     if (clip) return clip->toXML();
 
@@ -127,16 +135,12 @@ QDomDocument ClipManager::buildClip(const KURL & file, int clipId)
 }
 
 
-DocClipBase *ClipManager::insertImageClip(const KURL & file,
+DocClipBase *ClipManager::insertImageClip(KURL file,
     const GenTime & duration, const QString & description, bool alphaTransparency, int clipId)
 {
     if (!KIO::NetAccess::exists(file, true, 0)) {
-	if (KMessageBox::questionYesNo(0, i18n("Cannot open file %1\nDo you want to search for the file or remove it from the project ?").arg(file.path()), i18n("Missing File"), i18n("Find File"), i18n("Remove")) == KMessageBox::Yes) {
-	KURL url = KFileDialog::getOpenURL(file.path());
-	if (!url.isEmpty()) return insertImageClip(url, duration, description, alphaTransparency, clipId);
-	else return 0;
-	}
-	else return 0;
+	file = checkFileUrl(file);
+	if (file.isEmpty()) return 0;
     }
     DocClipBase *clip = findClip(file);
     if (!clip) {
@@ -162,17 +166,14 @@ DocClipBase *ClipManager::insertImageClip(const KURL & file,
     return 0;
 }
 
-QDomDocument ClipManager::buildImageClip(const KURL & file,
+QDomDocument ClipManager::buildImageClip(KURL & file,
     const GenTime & duration, const QString & description, bool alphaTransparency, int clipId)
 {
     if (!KIO::NetAccess::exists(file, true, 0)) {
-	if (KMessageBox::questionYesNo(0, i18n("Cannot open file %1\nDo you want to search for the file or remove it from the project ?").arg(file.path()), i18n("Missing File"), i18n("Find File"), i18n("Remove")) == KMessageBox::Yes) {
-	KURL url = KFileDialog::getOpenURL(file.path());
-	if (!url.isEmpty()) return buildImageClip(url, duration, description, alphaTransparency, clipId);
-	else return QDomDocument();
-	}
-	else return QDomDocument();
+	file = checkFileUrl(file);
+	if (file.isEmpty()) return QDomDocument();
     }
+
     DocClipBase *clip = findClip(file);
     if (clip) return clip->toXML();
 	if (!m_render->isValid(file)) {

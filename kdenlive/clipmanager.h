@@ -73,8 +73,8 @@ class ClipManager:public QObject {
 
 	/** Insert an AVFile with the given url. If the file is already in the file list, return 
 	 * that instead. */
-    DocClipBase *insertClip(const KURL & file, int clipId = -1);
-    QDomDocument buildClip(const KURL & file, int clipId = -1);
+    DocClipBase *insertClip(KURL file, int clipId = -1);
+    QDomDocument buildClip(KURL & file, int clipId = -1);
 
 	/** Insert a virtual clip */
     QDomDocument buildVirtualClip(const GenTime & start, const GenTime & end, const QString & name, const QString & description, const KURL url, int clipId = -1);
@@ -126,10 +126,10 @@ class ClipManager:public QObject {
     void editClip(DocClipRef * clip, const KURL & file, const QString & description);
 
 	/** Insert an image clip */
-    DocClipBase *insertImageClip(const KURL & file,
+    DocClipBase *insertImageClip(KURL file,
         const GenTime & duration, const QString & description, bool alphaTransparency, int clipId = -1);
 
-    QDomDocument buildImageClip(const KURL & file,
+    QDomDocument buildImageClip(KURL & file,
     const GenTime & duration, const QString & description, bool alphaTransparency, int clipId = -1);
 
 	/** Insert a slideshow clip */
@@ -189,6 +189,10 @@ class ClipManager:public QObject {
     }
     
   private:
+
+	/** Check for missing a file */
+    KURL checkFileUrl(KURL url);
+
 	/** Finds the avclip that uses the given url. */
     DocClipAVFile * findAVFile(const KURL & url);
 	/** A list of DocClipBase Files. There is one for each clip in the project. This is used to store
@@ -206,6 +210,10 @@ class ClipManager:public QObject {
 	/** incremental counter that gives a unique id to each clip added in the project. 
 	This id is then used to play the clip with mlt */
     uint m_clipCounter;
+
+	/** When opening a document, if a file is not found, ask user for new path. We store the path so that
+	if there are other missing files, we look in that location too */
+    QString m_relocateUrl;
 };
 
 #endif				// CLIPMANAGER_H

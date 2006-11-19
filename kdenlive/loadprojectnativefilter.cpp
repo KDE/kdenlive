@@ -168,8 +168,8 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
 
 	    if (clipType < 4)	//  AUDIO OR VIDEO CLIP
 		baseClip =
-		    document->clipManager().insertClip(clip.
-                        attribute("resource", ""), clip.attribute("id", "-1").toInt());
+		    document->clipManager().insertClip(KURL(clip.
+                        attribute("resource", "")), clip.attribute("id", "-1").toInt());
 
 	    else if (clipType == DocClipBase::COLOR)	//   COLOR CLIP
 		baseClip =
