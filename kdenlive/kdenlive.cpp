@@ -801,11 +801,11 @@ namespace Gui {
 	timelineMarkerTool->setExclusiveGroup("timeline_tools");
 	timelineRollTool->setExclusiveGroup("timeline_tools");
 
-	fileNew->setStatusText(i18n("Create a new document"));
+	fileNew->setStatusText(i18n("Create a new project"));
 	fileOpen->setStatusText(i18n("Open an existing document"));
 	fileOpenRecent->setStatusText(i18n("Open a recent file"));
-	fileSave->setStatusText(i18n("Save document"));
-	fileSaveAs->setStatusText(i18n("Save document as..."));
+	fileSave->setStatusText(i18n("Save project"));
+	fileSaveAs->setStatusText(i18n("Save project as..."));
 	//  fileClose->setStatusText(i18n("Close document"));
 	//  filePrint ->setStatusText(i18n("Print document"));
 	fileQuit->setStatusText(i18n("Exit application"));
@@ -1743,7 +1743,7 @@ namespace Gui {
 /////////////////////////////////////////////////////////////////////
 
     void KdenliveApp::slotFileNew() {
-	slotStatusMsg(i18n("Creating new document..."));
+	slotStatusMsg(i18n("Creating new project..."));
 
 	if (!saveModified()) {
 	    // here saving wasn't successful
