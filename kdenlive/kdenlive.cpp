@@ -1506,7 +1506,7 @@ namespace Gui {
 	    return;
 	}
 
-	if (!KIO::NetAccess::exists(KURL(KdenliveSettings::currentdefaultfolder()), false, this)) {
+/*	if (!KIO::NetAccess::exists(KURL(KdenliveSettings::currenttmpfolder()), false, this)) {
 		if (KMessageBox::questionYesNo(this, i18n("Cannot write to the temporary folder:\n%1\nDo you want to create the folder ?\n Answering no will disable audio thumbnails").arg(KdenliveSettings::currentdefaultfolder())) ==  KMessageBox::No) {
 			KdenliveSettings::setAudiothumbnails(false);
 		}
@@ -1523,6 +1523,7 @@ namespace Gui {
 			}
 		}
 	}
+	*/
 	QTimer::singleShot(500, m_timeline, SLOT(ensureCursorVisible()));
 	slotStatusMsg(i18n("Ready."));
     }
@@ -1828,7 +1829,9 @@ namespace Gui {
 		
 		if (!finished) {
 			KdenliveSettings::setCurrentdefaultfolder(projectFolder);
-			KdenliveSettings::setCurrenttmpfolder(projectFolder + "/tmp/");
+
+			// create a temp folder for previews & thumbnails in KDE's tmp resource dir
+			KdenliveSettings::setCurrenttmpfolder(locateLocal("tmp", "kdenlive/" + getDocument()->URL().fileName() + "/", true));
 			switch (projectFormat) {
 				case 0:
 					// PAL project
@@ -3156,7 +3159,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
         configDialog.setValues(m_doc->framesPerSecond(), m_doc->projectClip().videoWidth(), m_doc->projectClip().videoHeight(), KdenliveSettings::currentdefaultfolder());
 	if (QDialog::Accepted == configDialog.exec()) {
 	KdenliveSettings::setCurrentdefaultfolder(configDialog.projectFolder().url());
-	KdenliveSettings::setCurrenttmpfolder(KdenliveSettings::currentdefaultfolder() + "/tmp/");
+	//KdenliveSettings::setCurrenttmpfolder(KdenliveSettings::currentdefaultfolder() + "/tmp/");
 	}
     }
 

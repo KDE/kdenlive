@@ -20,6 +20,7 @@
 
 #include <kdebug.h>
 #include <klocale.h>
+#include <kstandarddirs.h>
 #include <kurl.h>
 #include <kio/netaccess.h>
 
@@ -66,10 +67,16 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 	if (!e.isNull()) {
 	    if (e.tagName() == "properties") {
 		KdenliveSettings::setCurrentdefaultfolder(e.attribute("projectfolder",""));
-		KdenliveSettings::setCurrenttmpfolder(KdenliveSettings::currentdefaultfolder() + "/tmp/");
+		// create a temp folder for previews & thumbnails in KDE's tmp resource dir
+		KdenliveSettings::setCurrenttmpfolder(locateLocal("tmp", "kdenlive/" + KURL(file.name()).fileName() + "/", true));
 
+
+		/*
+		KdenliveSettings::setCurrenttmpfolder(KdenliveSettings::currentdefaultfolder() + "/tmp/");
 		// create tmp folder if doesn't exist
 		KIO::NetAccess::mkdir(KURL(KdenliveSettings::currenttmpfolder()), 0, -1);
+		*/
+
 		int vFormat = e.attribute("projectvideoformat","0").toInt();
 		document->setProjectFormat((VIDEOFORMAT) vFormat);
 

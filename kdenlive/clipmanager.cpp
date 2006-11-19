@@ -404,7 +404,7 @@ DocClipBase *ClipManager::insertTextClip(
 {
     QPixmap result(50, 40);
     result.fill(Qt::black);
-    if (!QFile(url.path()).exists() || pix.isNull()) {
+    if (!QFile(url.path()).exists()) {
 	int width = KdenliveSettings::defaultwidth();
 	if (KdenliveSettings::videoprofile() == "dv_wide") width = width * 4 / 3;
         titleWidget *txtWidget=new titleWidget(0 ,width,KdenliveSettings::defaultheight());
@@ -413,6 +413,11 @@ DocClipBase *ClipManager::insertTextClip(
         pix = txtWidget->thumbnail(48, 38);
     	copyBlt(&result, 1, 1, &pix, 0, 0, 48, 38);
         delete txtWidget;
+    }
+    if (pix.isNull()) {
+	QImage im(url.path());
+	QPixmap pixmap = im.smoothScale(48, 38);
+    	copyBlt(&result, 1, 1, &pixmap, 0, 0, 48, 38);
     }
 
     DocClipBase *clip;

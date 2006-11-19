@@ -129,7 +129,7 @@
     <group name="Misc">
     <entry name="defaultfolder" type="String">
       <label>Default folder for new projects (used to store the project file, thumbnails and previews).</label>
-      <default>~/kdenlive/</default>
+      <default>~</default>
     </entry>
 
     <entry name="currentdefaultfolder" type="String">
