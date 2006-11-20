@@ -424,7 +424,7 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 
 	if (!locate("ladspa_plugin", "am_pitchshift_1433.so").isEmpty()) {
 	// Pitch shifter
-	EffectDesc *pitch = new EffectDesc(i18n("Pitch Shift"), "ladspa1433", "audio");
+	EffectDesc *pitch = new EffectDesc(i18n("Pitch Shift"), "ladspa1433", "audio", true);
 	xmlAttr.clear();
 	xmlAttr.append("type", QString::null, QString::null, "constant");
 	xmlAttr.append("name", QString::null, QString::null, "pitch");
@@ -436,53 +436,6 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 	pitch->addParameter(effectDescParamFactory.createParameter(xmlAttr));
 	effectList->append(pitch);
 	}
-
-	/* Disabled, crashes 
-	if (!locate("ladspa_plugin", "vocoder.so").isEmpty()) {
-	// Vocoder
-	EffectDesc *vocoder = new EffectDesc(i18n("Vocoder"), "ladspa1441", "audio");
-	xmlAttr.clear();
-	xmlAttr.append("type", QString::null, QString::null, "constant");
-	xmlAttr.append("name", QString::null, QString::null, "band1");
-	xmlAttr.append("description", QString::null, QString::null, i18n("Band 1 (150-465)"));
-	xmlAttr.append("max", QString::null, QString::null, "100");
-	xmlAttr.append("min", QString::null, QString::null, "0");
-	xmlAttr.append("default", QString::null, QString::null, "0");
-	xmlAttr.append("factor", QString::null, QString::null, "100");
-	vocoder->addParameter(effectDescParamFactory.createParameter(xmlAttr));
-
-	xmlAttr.clear();
-	xmlAttr.append("type", QString::null, QString::null, "constant");
-	xmlAttr.append("name", QString::null, QString::null, "band2");
-	xmlAttr.append("description", QString::null, QString::null, i18n("Band 2 (600-1k1)"));
-	xmlAttr.append("max", QString::null, QString::null, "100");
-	xmlAttr.append("min", QString::null, QString::null, "0");
-	xmlAttr.append("default", QString::null, QString::null, "0");
-	xmlAttr.append("factor", QString::null, QString::null, "100");
-	vocoder->addParameter(effectDescParamFactory.createParameter(xmlAttr));
-
-	xmlAttr.clear();
-	xmlAttr.append("type", QString::null, QString::null, "constant");
-	xmlAttr.append("name", QString::null, QString::null, "band3");
-	xmlAttr.append("description", QString::null, QString::null, i18n("Band 3 (1k3-2k5)"));
-	xmlAttr.append("max", QString::null, QString::null, "100");
-	xmlAttr.append("min", QString::null, QString::null, "0");
-	xmlAttr.append("default", QString::null, QString::null, "0");
-	xmlAttr.append("factor", QString::null, QString::null, "100");
-	vocoder->addParameter(effectDescParamFactory.createParameter(xmlAttr));
-
-	xmlAttr.clear();
-	xmlAttr.append("type", QString::null, QString::null, "constant");
-	xmlAttr.append("name", QString::null, QString::null, "band4");
-	xmlAttr.append("description", QString::null, QString::null, i18n("Band 4 (3k1-5k8)"));
-	xmlAttr.append("max", QString::null, QString::null, "100");
-	xmlAttr.append("min", QString::null, QString::null, "0");
-	xmlAttr.append("default", QString::null, QString::null, "0");
-	xmlAttr.append("factor", QString::null, QString::null, "100");
-	vocoder->addParameter(effectDescParamFactory.createParameter(xmlAttr));
-	effectList->append(vocoder);
-	}
-	*/
 
 	if (!locate("ladspa_plugin", "gverb_1216.so").isEmpty()) {
 	// Reverb
@@ -608,7 +561,7 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 
 	if (!locate("ladspa_plugin", "pitch_scale_1193.so").isEmpty()) {
 	// Pitch scaler
-	EffectDesc *scaler = new EffectDesc(i18n("Pitch Scaler"), "ladspa1193", "audio");
+	EffectDesc *scaler = new EffectDesc(i18n("Pitch Scaler"), "ladspa1193", "audio", true);
 	xmlAttr.clear();
 	xmlAttr.append("type", QString::null, QString::null, "constant");
 	xmlAttr.append("name", QString::null, QString::null, "coef");
@@ -623,7 +576,7 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 
 	if (!locate("ladspa_plugin", "rate_shifter_1417.so").isEmpty()) {
 	// Pitch scaler
-	EffectDesc *scaler = new EffectDesc(i18n("Rate Scaler"), "ladspa1417", "audio");
+	EffectDesc *scaler = new EffectDesc(i18n("Rate Scaler"), "ladspa1417", "audio", true);
 	xmlAttr.clear();
 	xmlAttr.append("type", QString::null, QString::null, "constant");
 	xmlAttr.append("name", QString::null, QString::null, "rate");
@@ -780,7 +733,7 @@ char* initEffects::ladspaRoomReverbEffectString(QStringList params)
 
 char* initEffects::ladspaReverbEffectString(QStringList params)
 {
-	return KRender::decodedString( QString(jackString + "1423</id><enabled>true</enabled>  <wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked>    <wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values>    <lockall>true</lockall><controlrow><lock>true</lock><value>%1</value>      <value>%2</value></controlrow><controlrow><lock>true</lock><value>%3</value><value>%4</value></controlrow><controlrow><lock>true</lock><value>0.250000</value><value>0.250000</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[0]).arg(params[1]).arg(params[1]));
+	return KRender::decodedString( QString(jackString + "1423</id><enabled>true</enabled>  <wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked>    <wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values>    <lockall>true</lockall><controlrow><lock>true</lock><value>%1</value>      <value>%1</value></controlrow><controlrow><lock>true</lock><value>%2</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>0.250000</value><value>0.250000</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[1]));
 }
 
 char* initEffects::ladspaEqualizerEffectString(QStringList params)

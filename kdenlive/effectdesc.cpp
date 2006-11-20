@@ -23,8 +23,8 @@
 #include "effect.h"
 #include "effectparamdesc.h"
 
-EffectDesc::EffectDesc(const QString & name, const QString & tag, const QString & type):
-m_name(name), m_tag(tag), m_type(type)
+EffectDesc::EffectDesc(const QString & name, const QString & tag, const QString & type, bool mono):
+m_name(name), m_tag(tag), m_type(type), m_mono(mono)
 {
     m_params.setAutoDelete(true);
 
@@ -51,6 +51,12 @@ const QString & EffectDesc::tag() const
 const QString & EffectDesc::type() const
 {
     return m_type;
+}
+
+/** Is this effect an auido mono effect. */
+bool EffectDesc::isMono() const
+{
+    return m_mono;
 }
 
 /** Adds an input to this description. An input might be a video stream, and audio stream, or it may require both. */

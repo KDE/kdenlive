@@ -998,6 +998,10 @@ QDomDocument DocClipRef::generateXMLClip()
     // As a starting point, let's consider effects don't have more than one keyframable parameter.
     // All other parameters are supposed to be "constant", ie a value which can be adjusted by 
     // the user but remains the same during all the clip's duration.
+
+    QDomElement monoFilter = sceneList.createElement("filter");
+    monoFilter.setAttribute("mlt_service", "channelcopy");
+
     uint i = 0;
     if (hasEffect())
 	while (effectAt(i) != NULL) {
@@ -1033,6 +1037,10 @@ QDomDocument DocClipRef::generateXMLClip()
 			}
 //			clipFilter.setAttribute("data", initEffects::ladspaEffectString(ladspaid, params ));
 		    	entry.appendChild(clipFilter);
+			if (effect->effectDescription().isMono()) {
+			    // Audio Mono clip. Duplicate audio channel
+			    entry.appendChild(monoFilter);
+			}
 
 		// end of LADSPA FILTER
 
@@ -1239,6 +1247,10 @@ QDomDocument DocClipRef::generateOffsetXMLClip(GenTime start, GenTime end)
     // As a starting point, let's consider effects don't have more than one keyframable parameter.
     // All other parameters are supposed to be "constant", ie a value which can be adjusted by 
     // the user but remains the same during all the clip's duration.
+
+    QDomElement monoFilter = sceneList.createElement("filter");
+    monoFilter.setAttribute("mlt_service", "channelcopy");
+
     uint i = 0;
     if (hasEffect())
 	while (effectAt(i) != NULL) {
@@ -1274,6 +1286,7 @@ QDomDocument DocClipRef::generateOffsetXMLClip(GenTime start, GenTime end)
 			}
 //			clipFilter.setAttribute("data", initEffects::ladspaEffectString(ladspaid, params ));
 		    	entry.appendChild(clipFilter);
+			if (effect->effectDescription().isMono()) entry.appendChild(monoFilter);
 
 		// end of LADSPA FILTER
 

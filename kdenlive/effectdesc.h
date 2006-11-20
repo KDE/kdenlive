@@ -31,7 +31,7 @@ class EffectParamDesc;
 
 class EffectDesc {
   public:
-    EffectDesc(const QString & name, const QString & tag, const QString & type);
+    EffectDesc(const QString & name, const QString & tag, const QString & type, bool mono = false);
     ~EffectDesc();
 
 	/** Returns the name of this effect. */
@@ -41,6 +41,7 @@ class EffectDesc {
 	/** Returns the type of this effect (audio/video). */
     const QString & type() const;
 
+    bool isMono() const;
 
 	/** Adds an input to this description. An input might be a video stream, and audio stream, or it may require both. */
     void addInput(const QString & name, bool video, bool audio);
@@ -63,9 +64,11 @@ class EffectDesc {
     QString m_tag;
 	/** The type of this effect (is it audio or video) */
     QString m_type;
+    bool m_mono;
 
      QPtrVector < EffectParamDesc > m_params;
      QPtrList < Effect > m_presets;
+
 
 	/** find and return the preset effect with the given name. */
     Effect *findPreset(const QString & name);
