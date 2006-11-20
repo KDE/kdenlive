@@ -7,12 +7,12 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-20 21:52+0100\n"
-"PO-Revision-Date: 2006-11-20 21:14+0100\n"
+"PO-Revision-Date: 2006-11-20 22:35+0100\n"
 "Last-Translator: Jean-Michel Pouré <jmpoure@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: kdenlive/addmarker_ui.cpp:124 kdenlive/changeclipspeed_ui.cpp:119
 #: kdenlive/clipproperties_ui.cpp:2489 kdenlive/configmisc_ui.cpp:117
@@ -1368,7 +1368,7 @@ msgstr ""
 
 #: kdenlive/initeffects.cpp:646
 msgid "Rate (Hz)"
-msgstr "Echantillonnage (Hz)"
+msgstr "Fréquence (Hz)"
 
 #: kdenlive/initeffects.cpp:654
 msgid "Depth"
@@ -1943,9 +1943,8 @@ msgid "Create a new project"
 msgstr "Créer un nouveau projet"
 
 #: kdenlive/kdenlive.cpp:810
-#, fuzzy
 msgid "Open a project"
-msgstr "Ouvrir le précédent projet"
+msgstr "Ouvrir un projet"
 
 #: kdenlive/kdenlive.cpp:811
 msgid "Open a recent file"
