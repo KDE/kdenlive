@@ -724,11 +724,11 @@ void initEffects::ladspaEffectFile(const QString & fname, int ladspaId, QStringL
     case 1913: // Limiter
 	filterString = ladspaLimiterEffectString(params);
 	break;
-    case 1193: // Pitch Scaler
-	filterString = ladspaDelayEffectString(params);
+    case 1193: // Pitch Shifter
+	filterString = ladspaPitchShifterEffectString(params);
 	break;
-    case 1417: // Rate Shifter
-	filterString = ladspaRateEffectString(params);
+    case 1417: // Rate Scaler
+	filterString = ladspaRateScalerEffectString(params);
 	break;
     case 1217: // Phaser
 	filterString = ladspaPhaserEffectString(params);
@@ -770,12 +770,12 @@ char* initEffects::ladspaVinylEffectString(QStringList params)
 
 char* initEffects::ladspaPitchEffectString(QStringList params)
 {
-	return KRender::decodedString( QString(jackString + "1433</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.0</value><value>1.0</value></wet_dry_values><lockall>true</lockall><controlrow><lock>true</lock><value>%1</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>4.000000</value><value>4.000000</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[0]));
+	return KRender::decodedString( QString(jackString + "1433</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.0</value><value>1.0</value></wet_dry_values><lockall>true</lockall><controlrow><lock>true</lock><value>%1</value><value>%1</value></controlrow><controlrow><lock>true</lock><value>4.000000</value><value>4.000000</value></controlrow></plugin></jackrack>").arg(params[0]));
 }
 
 char* initEffects::ladspaRoomReverbEffectString(QStringList params)
 {
-	return KRender::decodedString( QString(jackString + "1216</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><lockall>true</lockall><controlrow><lock>true</lock><value>%1</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>%3</value><value>%4</value></controlrow><controlrow><lock>true</lock><value>%5</value><value>%6</value></controlrow><controlrow><lock>true</lock><value>0.750000</value><value>0.750000</value></controlrow><controlrow><lock>true</lock><value>-70.000000</value><value>-70.000000</value></controlrow><controlrow><lock>true</lock><value>0.000000</value><value>0.000000</value></controlrow><controlrow><lock>true</lock><value>-17.500000</value><value>-17.500000</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[0]).arg(params[1]).arg(params[1]).arg(params[2]).arg(params[2]));
+	return KRender::decodedString( QString(jackString + "1216</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><lockall>true</lockall><controlrow><lock>true</lock><value>%1</value><value>%1</value></controlrow><controlrow><lock>true</lock><value>%2</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>%3</value><value>%3</value></controlrow><controlrow><lock>true</lock><value>0.750000</value><value>0.750000</value></controlrow><controlrow><lock>true</lock><value>-70.000000</value><value>-70.000000</value></controlrow><controlrow><lock>true</lock><value>0.000000</value><value>0.000000</value></controlrow><controlrow><lock>true</lock><value>-17.500000</value><value>-17.500000</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[1]).arg(params[2]));
 }
 
 char* initEffects::ladspaReverbEffectString(QStringList params)
@@ -800,7 +800,6 @@ char* initEffects::ladspaPitchShifterEffectString(QStringList params)
 
 char* initEffects::ladspaRateScalerEffectString(QStringList params)
 {
-	kdDebug()<<"*** DELAY: "<<params<<endl;
 	return KRender::decodedString( QString(jackString + "1417</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><lockall>true</lockall><controlrow><lock>true</lock><value>%1</value><value>%1</value></controlrow></plugin></jackrack>").arg(params[0]));
 }
 
