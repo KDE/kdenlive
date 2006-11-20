@@ -409,7 +409,7 @@ DocClipBase *ClipManager::insertTextClip(
 	if (KdenliveSettings::videoprofile() == "dv_wide") width = width * 4 / 3;
         titleWidget *txtWidget=new titleWidget(0 ,width,KdenliveSettings::defaultheight());
         txtWidget->setXml(xml);
-        txtWidget->createImage(url);
+        txtWidget->createImage(NULL);
         pix = txtWidget->thumbnail(48, 38);
     	copyBlt(&result, 1, 1, &pix, 0, 0, 48, 38);
         delete txtWidget;

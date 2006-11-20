@@ -55,12 +55,15 @@ class Effect {
 
     const EffectDesc & effectDescription() const {
 	return m_desc;
-    } EffectParameter *parameter(const uint ix);
+    } 
+
+   EffectParameter *parameter(const uint ix);
 
 	/** Creates a new keyframe at specified time and returns the new key's index */
     uint addKeyFrame(const uint ix, double time);
     uint addKeyFrame(const uint ix, double time, double value);
     void addKeyFrame(const uint ix, double time, QStringList values);
+    void setTempFile(QString tmpFile);
 
     QString tempFileName() {
 	return m_paramFile;

@@ -38,7 +38,7 @@ m_name(name), m_enabled(true)
 {
 	if (m_desc.tag().startsWith("ladspa", false)) { 
 		//ladspa filter, needs a unique temp file for xml input file
-		m_paramFile = QString::number(time(0)) + QString::number(rand()) + ".rack";
+		m_paramFile = KdenliveSettings::currenttmpfolder() + QString::number(time(0)) + QString::number(rand()) + ".rack";
 	}
 }
 
@@ -58,6 +58,11 @@ void Effect::setEnabled(bool isOn)
 bool Effect::isEnabled()
 {
 	return m_enabled;
+}
+
+void Effect::setTempFile(QString tmpFile)
+{
+	m_paramFile = tmpFile;
 }
 
 QDomDocument Effect::toXML()
@@ -153,7 +158,7 @@ Effect *Effect::createEffect(const EffectDesc & desc,
     if (effect.tagName() == "effect") {
 	QString name = effect.attribute("name", "");
 	QString type = effect.attribute("type", "");
-
+	QString tmpFile = effect.attribute("tempfile", "");
 	if (type != desc.name()) {
 	    kdError() <<
 		"Effect::createEffect() failed integrity check - desc.name() == "
@@ -161,6 +166,8 @@ Effect *Effect::createEffect(const EffectDesc & desc,
 	}
 	result = new Effect(desc, name);
 	result->setEnabled(effect.attribute("enabled", "1").toInt());
+	if (!tmpFile.isEmpty() && QFile(tmpFile).exists()) result->setTempFile(tmpFile);
+
 	QDomNode node = effect.firstChild();
 	uint index = 0;
 	EffectParamDescFactory m_effectDescParamFactory;

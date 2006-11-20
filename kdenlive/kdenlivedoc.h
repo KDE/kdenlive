@@ -88,6 +88,10 @@ class KdenliveDoc:public QObject {
 	/** sets the URL of the document */
     void setURL(const KURL & url);
 
+    const QString & projectName() const;
+	/** sets the URL of the document */
+    void setProjectName(const QString & name);
+
 	/** Returns true if at least one clip in the project is selected. */
     int hasSelectedClips() const;
 
@@ -187,6 +191,7 @@ class KdenliveDoc:public QObject {
 	/** the modified flag of the current document */
     bool m_modified;
     KURL m_doc_url;
+    QString m_doc_name;
 
 /** HACK HACK - generate scenelist if true, don't if false) */
     bool m_sceneListGeneration;

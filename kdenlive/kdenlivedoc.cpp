@@ -84,11 +84,22 @@ void KdenliveDoc::setProjectFormat(VIDEOFORMAT vFormat)
 void KdenliveDoc::setURL(const KURL & url)
 {
     m_doc_url = url;
+    m_doc_name = url.fileName();
 }
 
 const KURL & KdenliveDoc::URL() const
 {
     return m_doc_url;
+}
+
+void KdenliveDoc::setProjectName(const QString & name)
+{
+    m_doc_name = name;
+}
+
+const QString & KdenliveDoc::projectName() const
+{
+    return m_doc_name;
 }
 
 void KdenliveDoc::closeDocument()
@@ -114,7 +125,7 @@ bool KdenliveDoc::newDocument(int videoTracks, int audioTracks)
     for (; audioTracks>0; audioTracks--)
     	addSoundTrack();
 
-    m_doc_url.setFileName(i18n("Untitled"));
+    m_doc_name = i18n("Untitled");
 
     emit trackListChanged();
     setModified(false);

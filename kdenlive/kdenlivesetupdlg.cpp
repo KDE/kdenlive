@@ -41,7 +41,7 @@ namespace Gui {
         page4 = new configTitler();
         page5 = new configProject();
 	
-	page3->kcfg_defaultfolder->setMode(KFile::Directory);
+	page3->kcfg_defaulttmpfolder->setMode(KFile::Directory);
 	page4->kcfg_titlerfont->enableColumn( KFontChooser::StyleList, false);
 	page5->kcfg_defaultprojectformat->insertStringList(app->videoProjectFormats);
 	addPage(page1, i18n("Interface"), "looknfeel");

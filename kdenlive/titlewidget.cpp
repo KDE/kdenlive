@@ -476,19 +476,6 @@ void FigureEditor::contentsMouseMoveEvent(QMouseEvent* e)
 }
 
 
-void FigureEditor::exportContent()
-{
-        QPixmap im = drawContent();
-        // Save resulting pixmap in a file for mlt
-	if (KdenliveSettings::videoprofile() == "dv_wide") {
-    	    QImage  src = im.convertToImage();
-    	    QImage  dest = src.smoothScale( KdenliveSettings::defaultwidth(),KdenliveSettings::defaultheight());
-    	    im.convertFromImage( dest );
-	}
-        im.save(tmpFileName,"PNG");
-        emit showPreview(tmpFileName);
-}
-
 void FigureEditor::exportContent(KURL url)
 {
     QPixmap im = drawContent();
@@ -498,7 +485,8 @@ void FigureEditor::exportContent(KURL url)
         QImage  dest = src.smoothScale( KdenliveSettings::defaultwidth(),KdenliveSettings::defaultheight());
         im.convertFromImage( dest );
     }
-    im.save(url.path(),"PNG");
+    if (!url.isEmpty()) im.save(url.path(),"PNG");
+    else im.save(tmpFileName,"PNG");
 }
 
 void FigureEditor::saveImage()

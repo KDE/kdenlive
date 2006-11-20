@@ -60,15 +60,13 @@ signals:
         void addRect(QRect,int);
         void selectedCanvasItem(QCanvasText *);
         void selectedCanvasItem(QCanvasRectangle *);
-        void showPreview(QString);
         void adjustButtons();
 
 public slots:
         void changeTextSize(int newSize);
         void changeTextFace(const QString & newFace);
         void changeColor(const QColor & newColor);
-        void exportContent();
-        void exportContent(KURL url);
+        void exportContent(KURL url = NULL);
         void selectRectangle(QCanvasItem *txt);
         void deleteItem(QCanvasItem *i);
         void itemUp();

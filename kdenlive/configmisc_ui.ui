@@ -8,43 +8,15 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>325</width>
-            <height>270</height>
+            <width>314</width>
+            <height>293</height>
         </rect>
     </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <spacer row="2" column="2">
-            <property name="name">
-                <cstring>spacer5</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>16</width>
-                    <height>16</height>
-                </size>
-            </property>
-        </spacer>
-        <widget class="KRestrictedLine" row="3" column="1">
-            <property name="name">
-                <cstring>kcfg_colorclipduration</cstring>
-            </property>
-            <property name="text">
-                <string>:::</string>
-            </property>
-            <property name="inputMask">
-                <string>99:99:99:99; </string>
-            </property>
-        </widget>
-        <widget class="KRestrictedLine" row="2" column="1">
+        <widget class="KRestrictedLine" row="1" column="1">
             <property name="name">
                 <cstring>kcfg_textclipduration</cstring>
             </property>
@@ -55,20 +27,15 @@
                 <string>99:99:99:99; </string>
             </property>
         </widget>
-        <widget class="QLabel" row="2" column="0">
+        <widget class="QLabel" row="6" column="0" rowspan="1" colspan="2">
             <property name="name">
-                <cstring>textLabel4</cstring>
+                <cstring>textLabel1_2_2</cstring>
             </property>
             <property name="text">
-                <string>Default text clip duration</string>
+                <string>External image editor</string>
             </property>
         </widget>
-        <widget class="KURLRequester" row="1" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>kcfg_defaultfolder</cstring>
-            </property>
-        </widget>
-        <widget class="QLabel" row="3" column="0">
+        <widget class="QLabel" row="2" column="0">
             <property name="name">
                 <cstring>textLabel4_2</cstring>
             </property>
@@ -76,7 +43,15 @@
                 <string>Default color/image clip duration</string>
             </property>
         </widget>
-        <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="2">
+        <widget class="QLabel" row="4" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>textLabel1_2</cstring>
+            </property>
+            <property name="text">
+                <string>External audio editor</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>kcfg_showlcd</cstring>
             </property>
@@ -84,15 +59,36 @@
                 <string>Show LCD screen under monitors</string>
             </property>
         </widget>
-        <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
+        <widget class="KRestrictedLine" row="2" column="1">
             <property name="name">
-                <cstring>textLabel1</cstring>
+                <cstring>kcfg_colorclipduration</cstring>
             </property>
             <property name="text">
-                <string>Default folder to store previews &amp; thumbnails</string>
+                <string>:::</string>
+            </property>
+            <property name="inputMask">
+                <string>99:99:99:99; </string>
             </property>
         </widget>
-        <spacer row="9" column="1">
+        <widget class="KLineEdit" row="5" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>kcfg_externalaudioeditor</cstring>
+            </property>
+        </widget>
+        <widget class="KLineEdit" row="7" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>kcfg_externalimageeditor</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="1" column="0">
+            <property name="name">
+                <cstring>textLabel4</cstring>
+            </property>
+            <property name="text">
+                <string>Default text clip duration</string>
+            </property>
+        </widget>
+        <spacer row="8" column="1">
             <property name="name">
                 <cstring>spacer2</cstring>
             </property>
@@ -104,49 +100,61 @@
             </property>
             <property name="sizeHint">
                 <size>
-                    <width>16</width>
-                    <height>30</height>
+                    <width>20</width>
+                    <height>20</height>
                 </size>
             </property>
         </spacer>
-        <widget class="KLineEdit" row="6" column="0" rowspan="1" colspan="2">
+        <widget class="QButtonGroup" row="0" column="0" rowspan="1" colspan="3">
             <property name="name">
-                <cstring>kcfg_externalaudioeditor</cstring>
+                <cstring>buttonGroup1</cstring>
             </property>
-        </widget>
-        <widget class="QLabel" row="5" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>textLabel1_2</cstring>
+            <property name="title">
+                <string>Folder for temporary files</string>
             </property>
-            <property name="text">
-                <string>External audio editor</string>
+            <property name="exclusive">
+                <bool>true</bool>
             </property>
-        </widget>
-        <widget class="QLabel" row="7" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>textLabel1_2_2</cstring>
-            </property>
-            <property name="text">
-                <string>External image editor</string>
-            </property>
-        </widget>
-        <widget class="KLineEdit" row="8" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>kcfg_externalimageeditor</cstring>
-            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QRadioButton" row="0" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>system_tmp</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Use system temporary folder</string>
+                    </property>
+                    <property name="checked">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="1" column="0">
+                    <property name="name">
+                        <cstring>kcfg_userdefinedtmp</cstring>
+                    </property>
+                    <property name="text">
+                        <string>User defined folder</string>
+                    </property>
+                </widget>
+                <widget class="KURLRequester" row="1" column="1">
+                    <property name="name">
+                        <cstring>kcfg_defaulttmpfolder</cstring>
+                    </property>
+                </widget>
+            </grid>
         </widget>
     </grid>
 </widget>
-<customwidgets>
-</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>krestrictedline.h</includehint>
     <includehint>krestrictedline.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
     <includehint>kurlrequester.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>klineedit.h</includehint>
 </includehints>
 </UI>

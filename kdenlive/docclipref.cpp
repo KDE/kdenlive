@@ -1029,7 +1029,7 @@ QDomDocument DocClipRef::generateXMLClip()
 			QString effectFile = effect->tempFileName();
 			if (!effectFile.isEmpty()) {
 			    initEffects::ladspaEffectFile( effectFile, ladspaid, params );
-			    clipFilter.setAttribute("src", KdenliveSettings::currenttmpfolder() + effectFile );
+			    clipFilter.setAttribute("src", effectFile );
 			}
 //			clipFilter.setAttribute("data", initEffects::ladspaEffectString(ladspaid, params ));
 		    	entry.appendChild(clipFilter);
@@ -1270,7 +1270,7 @@ QDomDocument DocClipRef::generateOffsetXMLClip(GenTime start, GenTime end)
 			QString effectFile = effect->tempFileName();
 			if (!effectFile.isEmpty()) {
 			    initEffects::ladspaEffectFile( effectFile, ladspaid, params );
-			    clipFilter.setAttribute("src", KdenliveSettings::currenttmpfolder() + effectFile );
+			    clipFilter.setAttribute("src", effectFile );
 			}
 //			clipFilter.setAttribute("data", initEffects::ladspaEffectString(ladspaid, params ));
 		    	entry.appendChild(clipFilter);

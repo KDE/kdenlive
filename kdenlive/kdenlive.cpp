@@ -214,7 +214,7 @@ namespace Gui {
 	else if (!newDoc || KdenliveSettings::openblank()) {
 	    initView();
 	    setCaption(newProjectName + ".kdenlive" + " - " + easyName(m_projectFormat), false);
-	    m_doc->setURL(KURL(KdenliveSettings::currentdefaultfolder() + "/" + newProjectName + ".kdenlive"));
+	    m_doc->setProjectName( newProjectName + ".kdenlive");
 	    if (KdenliveSettings::showsplash()) slotSplashTimeout();
 	}
 
@@ -1762,7 +1762,7 @@ namespace Gui {
 		initView();
 	    	m_doc->newDocument(videoTracks, audioTracks);
 	    	setCaption(newProjectName + ".kdenlive" + " - " + easyName(m_projectFormat), false);
-	    	m_doc->setURL(KURL(KdenliveSettings::currentdefaultfolder() + "/" + newProjectName + ".kdenlive"));
+	    	m_doc->setProjectName( newProjectName + ".kdenlive");
 	    }
 	}
 
@@ -1786,7 +1786,7 @@ namespace Gui {
 			i++;
 			Lastproject = config->readPathEntry("File" + QString::number(i));
 		    }
-		    newProject *newProjectDialog = new newProject(KdenliveSettings::defaultfolder(), recentFiles, this, "new_project");
+		    newProject *newProjectDialog = new newProject(QDir::homeDirPath(), recentFiles, this, "new_project");
 		    newProjectDialog->setCaption(i18n("Kdenlive - New Project"));
 		    // Insert available video formats:
 		    newProjectDialog->video_format->insertStringList(videoProjectFormats);
@@ -1810,28 +1810,21 @@ namespace Gui {
 		}
 		else {
 			*newProjectName = i18n("Untitled");
-			projectFolder = KdenliveSettings::defaultfolder() + "/" + i18n("Untitled") + "/";
+			projectFolder = QDir::homeDirPath();
 			projectFormat = KdenliveSettings::defaultprojectformat();
 			audioNum = *audioTracks;
 			videoNum = *videoTracks;
-			if (!KIO::NetAccess::exists(KURL(KdenliveSettings::defaultfolder()), false, this)) KIO::NetAccess::mkdir(KURL(KdenliveSettings::defaultfolder()), this);
-			
-			if (!KIO::NetAccess::exists(KURL(projectFolder), false, this)) {
-			    KIO::NetAccess::mkdir(KURL(projectFolder), this);
-			    KIO::NetAccess::mkdir(KURL(projectFolder + "/tmp/"), this);
-			    if (!KIO::NetAccess::exists(KURL(projectFolder), false, this)) {
-				KMessageBox::sorry(this, i18n("Unable to create a temporary folder in your home directory, Kdenlive will exit now."));
-				exit(1);
-			    }
-			}
-
 		}
 		
 		if (!finished) {
 			KdenliveSettings::setCurrentdefaultfolder(projectFolder);
 
 			// create a temp folder for previews & thumbnails in KDE's tmp resource dir
-			KdenliveSettings::setCurrenttmpfolder(locateLocal("tmp", "kdenlive/" + *newProjectName + "/", true));
+			KdenliveSettings::setCurrenttmpfolder(locateLocal("tmp", "kdenlive/" + *newProjectName + ".kdenlive/", true));
+
+			if (!KIO::NetAccess::exists(KdenliveSettings::currenttmpfolder(), false, this)) {
+				KMessageBox::sorry(this, i18n("Unable to create a folder for temporary files.\nKdenlive will not work properly unless you choose a folder for temporary files with write access in Kdenlive Settings dialog."));
+			}
 			switch (projectFormat) {
 				case 0:
 					// PAL project
@@ -2174,7 +2167,7 @@ namespace Gui {
 
 
     void KdenliveApp::slotFileSave() {
-	if (m_doc->URL().fileName() == i18n("Untitled") + ".kdenlive") slotFileSaveAs();
+	if (m_doc->URL().isEmpty()) slotFileSaveAs();
 	else {
 		slotStatusMsg(i18n("Saving file..."));
 		if (KIO::NetAccess::exists(m_doc->URL(), true, this)) {
@@ -2193,9 +2186,9 @@ namespace Gui {
 	    m_projectFormatManager.saveMimeTypes(), this, i18n("Save as..."));
 
 	if (!url.isEmpty()) {
-	    if (url.path().find(".") == -1) {
+	    if (!url.path().endsWith(".kdenlive"))
 		url.setFileName(url.filename() + ".kdenlive");
-	    }
+
 	    if (m_projectFormatManager.saveDocument(url, m_doc)) {
 	    fileOpenRecent->addURL(url);
 
@@ -2265,7 +2258,7 @@ namespace Gui {
 	    fileSave->setEnabled(false);
 	}
 
-	setCaption(m_doc->URL().filename() + " - " + easyName(m_projectFormat), modified);
+	setCaption(m_doc->projectName() + " - " + easyName(m_projectFormat), modified);
     }
 
     void KdenliveApp::slotTimelineSnapToBorder() {
@@ -2562,7 +2555,6 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	if (KdenliveSettings::videoprofile() == "dv_wide") width = width * 4 / 3;
         activateWorkspaceMonitor();
         titleWidget *txtWidget=new titleWidget(m_workspaceMonitor->screen(), width, m_doc->projectClip().videoHeight(), NULL, this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
-        //connect(txtWidget->canview,SIGNAL(showPreview(QString)),m_workspaceMonitor->screen(),SLOT(setTitlePreview(QString)));
         txtWidget->titleName->setText(i18n("Text Clip"));
         txtWidget->edit_duration->setText(KdenliveSettings::textclipduration());
         if (txtWidget->exec() == QDialog::Accepted) {
@@ -2657,7 +2649,6 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		int width = m_doc->projectClip().videoWidth();
 		if (KdenliveSettings::videoprofile() == "dv_wide") width = width * 4 / 3;
                 titleWidget *txtWidget=new titleWidget(m_workspaceMonitor->screen(), width, m_doc->projectClip().videoHeight(), clip->fileURL(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
-                /*connect(txtWidget->canview,SIGNAL(showPreview(QString)),m_workspaceMonitor->screen(),SLOT(setTitlePreview(QString)));*/
                 Timecode tcode;
                 txtWidget->edit_duration->setText(tcode.getTimecode(refClip->duration(), KdenliveSettings::defaultfps()));
 

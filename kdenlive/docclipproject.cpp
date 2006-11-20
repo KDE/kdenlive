@@ -465,8 +465,8 @@ QDomDocument DocClipProject::generateSceneList(bool addProducers) const
 	}
 
     westley.appendChild(tractor);
-        // kdDebug() << doc.toString() << endl;
-        // kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
+         //kdDebug() << doc.toString() << endl;
+         //kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
     return doc;
 }
 

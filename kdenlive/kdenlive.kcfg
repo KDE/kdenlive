@@ -12,12 +12,12 @@
 
     <entry name="openblank" type="Bool">
       <label>Open blank project on startup.</label>
-      <default>false</default>
+      <default>true</default>
     </entry>
 
     <entry name="alwaysask" type="Bool">
       <label>Ask user to choose project at startup.</label>
-      <default>true</default>
+      <default>false</default>
     </entry>
 
     <entry name="autosave" type="Bool">
@@ -127,9 +127,15 @@
     </group>
     
     <group name="Misc">
-    <entry name="defaultfolder" type="String">
-      <label>Default folder for new projects (used to store the project file, thumbnails and previews).</label>
-      <default>~</default>
+
+    <entry name="userdefinedtmp" type="Bool">
+      <label>User defined temporary folder.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="defaulttmpfolder" type="String">
+      <label>Default folder for temporary files (to store thumbnails and previews).</label>
+      <default></default>
     </entry>
 
     <entry name="currentdefaultfolder" type="String">

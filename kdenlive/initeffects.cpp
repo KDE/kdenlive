@@ -624,7 +624,7 @@ void initEffects::ladspaEffectFile(const QString & fname, int ladspaId, QStringL
 	break;
     }
 
-	QFile f( QString( KdenliveSettings::currenttmpfolder() + fname).ascii() );
+	QFile f( fname.ascii() );
     	if ( f.open( IO_WriteOnly ) ) 
 	{
         	QTextStream stream( &f );
