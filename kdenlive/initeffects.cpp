@@ -572,6 +572,110 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 	xmlAttr.clear();
 	effectList->append(equ);
 	}
+
+
+	if (!locate("ladspa_plugin", "fast_lookahead_limiter_1913.so").isEmpty()) {
+	// Limiter
+	EffectDesc *limiter = new EffectDesc(i18n("Limiter"), "ladspa1913", "audio");
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "gain");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Input Gain (db)"));
+	xmlAttr.append("max", QString::null, QString::null, "20");
+	xmlAttr.append("min", QString::null, QString::null, "-20");
+	xmlAttr.append("default", QString::null, QString::null, "0");
+	limiter->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "limit");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Limit (db)"));
+	xmlAttr.append("max", QString::null, QString::null, "0");
+	xmlAttr.append("min", QString::null, QString::null, "-20");
+	xmlAttr.append("default", QString::null, QString::null, "0");
+	limiter->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "release");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Release time (s)"));
+	xmlAttr.append("max", QString::null, QString::null, "200");
+	xmlAttr.append("min", QString::null, QString::null, "1");
+	xmlAttr.append("default", QString::null, QString::null, "50");
+	xmlAttr.append("factor", QString::null, QString::null, "100");
+	limiter->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	xmlAttr.clear();
+	effectList->append(limiter);
+	}
+
+	if (!locate("ladspa_plugin", "comb_1887.so").isEmpty()) {
+	// Limiter
+	EffectDesc *limiter = new EffectDesc(i18n("Delay"), "ladspa1887", "audio");
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "delay");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Max delay (s)"));
+	xmlAttr.append("max", QString::null, QString::null, "100");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("default", QString::null, QString::null, "0");
+	limiter->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "time");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Delay time (s)"));
+	xmlAttr.append("max", QString::null, QString::null, "100");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("default", QString::null, QString::null, "0");
+	limiter->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "decay");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Decay time (s)"));
+	xmlAttr.append("max", QString::null, QString::null, "100");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("default", QString::null, QString::null, "0");
+	limiter->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	xmlAttr.clear();
+	effectList->append(limiter);
+	}
+
+	if (!locate("ladspa_plugin", "phasers_1217.so").isEmpty()) {
+	// Phaser
+	EffectDesc *limiter = new EffectDesc(i18n("Phaser"), "ladspa1217", "audio");
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "delay");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Rate (Hz)"));
+	xmlAttr.append("max", QString::null, QString::null, "100");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("default", QString::null, QString::null, "0");
+	limiter->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "time");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Depth"));
+	xmlAttr.append("max", QString::null, QString::null, "100");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("default", QString::null, QString::null, "0");
+	limiter->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "decay");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Feedback"));
+	xmlAttr.append("max", QString::null, QString::null, "100");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("default", QString::null, QString::null, "0");
+	limiter->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "decay");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Spread"));
+	xmlAttr.append("max", QString::null, QString::null, "100");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("default", QString::null, QString::null, "0");
+	limiter->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	xmlAttr.clear();
+	effectList->append(limiter);
+	}
+
     }
 }
 
@@ -597,9 +701,6 @@ void initEffects::ladspaEffectFile(const QString & fname, int ladspaId, QStringL
 {
     char *filterString;
     switch (ladspaId) {
-    case 1441: //Vocoder
-	filterString = ladspaVocoderEffectString(params);
-	break;
     case 1433: //Pitch
 	filterString = ladspaPitchEffectString(params);
 	break;
@@ -617,6 +718,12 @@ void initEffects::ladspaEffectFile(const QString & fname, int ladspaId, QStringL
 	break;
     case 1901:  //Reverb
 	filterString = ladspaEqualizerEffectString(params);
+	break;
+    case 1913:
+	filterString = ladspaLimiterEffectString(params);
+	break;
+    case 1887:
+	filterString = ladspaDelayEffectString(params);
 	break;
     default: 
 	kdDebug()<<"++++++++++  ASKING FOR UNKNOWN LADSPA EFFECT: "<<ladspaId<<endl;
@@ -642,11 +749,11 @@ char* initEffects::ladspaDeclipEffectString(QStringList)
 	return KRender::decodedString( QString(jackString + "1195</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><lockall>true</lockall></plugin></jackrack>"));
 }
 
-
+/*
 char* initEffects::ladspaVocoderEffectString(QStringList params)
 {
 	return KRender::decodedString( QString(jackString + "1441</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><lockall>true</lockall><controlrow><lock>true</lock><value>0.000000</value><value>0.000000</value></controlrow><controlrow><lock>true</lock><value>%1</value><value>%1</value></controlrow><controlrow><lock>true</lock><value>%1</value><value>%1</value></controlrow><controlrow><lock>true</lock><value>%1</value><value>%1</value></controlrow><controlrow><lock>true</lock><value>%1</value><value>%1</value></controlrow><controlrow><lock>true</lock><value>%2</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>%2</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>%2</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>%2</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>%3</value><value>%3</value></controlrow><controlrow><lock>true</lock><value>%3</value><value>%3</value></controlrow><controlrow><lock>true</lock><value>%3</value><value>%3</value></controlrow><controlrow><lock>true</lock><value>%3</value><value>%3</value></controlrow><controlrow><lock>true</lock><value>%4</value><value>%4</value></controlrow><controlrow><lock>true</lock><value>%4</value><value>%4</value></controlrow><controlrow><lock>true</lock><value>%4</value><value>%4</value></controlrow><controlrow><lock>true</lock><value>%4</value><value>%4</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[1]).arg(params[2]).arg(params[3]));
-}
+}*/
 
 char* initEffects::ladspaVinylEffectString(QStringList params)
 {
@@ -672,5 +779,21 @@ char* initEffects::ladspaEqualizerEffectString(QStringList params)
 {
 	return KRender::decodedString( QString(jackString + "1901</id><enabled>true</enabled>    <wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked>    <wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><controlrow><value>%1</value></controlrow><controlrow><value>%2</value></controlrow>    <controlrow><value>%3</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[1]).arg(params[2]));
 }
+
+char* initEffects::ladspaLimiterEffectString(QStringList params)
+{
+	return KRender::decodedString( QString(jackString + "1913</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><controlrow><value>%1</value></controlrow><controlrow><value>%2</value></controlrow><controlrow><value>%3</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[1]).arg(params[2]));
+}
+
+char* initEffects::ladspaDelayEffectString(QStringList params)
+{
+	return KRender::decodedString( QString(jackString + "1887</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><lockall>true</lockall><controlrow><lock>true</lock><value>%1</value><value>%1</value></controlrow><controlrow><lock>true</lock><value>%2</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>%3</value><value>%3</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[1]).arg(params[2]));
+}
+
+char* initEffects::ladspaPhaserEffectString(QStringList params)
+{
+	return KRender::decodedString( QString(jackString + "1219</id><enabled>true</enabled><wet_dry_enabled>false</wet_dry_enabled><wet_dry_locked>true</wet_dry_locked><wet_dry_values><value>1.000000</value><value>1.000000</value></wet_dry_values><lockall>true</lockall><controlrow><lock>true</lock><value>%1</value><value>%1</value></controlrow><controlrow><lock>true</lock><value>%2</value><value>%2</value></controlrow><controlrow><lock>true</lock><value>%3</value><value>%3</value></controlrow><controlrow><lock>true</lock><value>%4</value><value>%4</value></controlrow><controlrow><lock>true</lock><value>%5</value><value>%5</value></controlrow></plugin></jackrack>").arg(params[0]).arg(params[1]).arg(params[2]).arg(params[3]).arg(params[4]));
+}
+
 
 
