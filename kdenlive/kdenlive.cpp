@@ -2198,6 +2198,9 @@ namespace Gui {
 	    if (!url.path().endsWith(".kdenlive"))
 		url.setFileName(url.filename() + ".kdenlive");
 
+	    if (KIO::NetAccess::exists(url, true, this)) {
+            	if (KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it ?")) ==  KMessageBox::No) return;
+	    }
 	    if (m_projectFormatManager.saveDocument(url, m_doc)) {
 	    fileOpenRecent->addURL(url);
 
