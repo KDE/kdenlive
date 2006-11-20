@@ -7,12 +7,12 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-19 09:42+0100\n"
-"PO-Revision-Date: 2006-11-19 09:43+0100\n"
+"PO-Revision-Date: 2006-11-20 11:44+0100\n"
 "Last-Translator: Jean-Michel Pouré <jmpoure@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: kdenlive/addmarker_ui.cpp:124 kdenlive/changeclipspeed_ui.cpp:119
 #: kdenlive/clipproperties_ui.cpp:2489 kdenlive/configmisc_ui.cpp:101
@@ -530,7 +530,7 @@ msgstr "Secondes"
 
 #: kdenlive/configproject_ui.cpp:102 kdenlive/configureproject_ui.cpp:141
 msgid "Use Drop Frame timecode"
-msgstr "Utiliser le code horaire des images supprimées"
+msgstr "Utiliser un horodatage affichant les trames supprimées"
 
 #: kdenlive/configproject_ui.cpp:104 kdenlive/configureproject_ui.cpp:143
 msgid ""
@@ -542,7 +542,9 @@ msgid ""
 "\n"
 "Drop frame timecode only affects the way that frames are numbered, no frames "
 "are dropped from the video edit."
-msgstr ""
+msgstr "Horodatage prenant en compte la suppression de trames (spécifique au format NTSC). Cet horodatage prend en compte la fréquence NTSC de 29,97 trames par secondes, en \"supprimant\" 2 trames par minute, à l'exception de la dixième minute. Sans cet ajustement, l'horodatage serait progressivement désynchronisé par rapport au film.\n"
+"\n"
+"L'horodatage·suppression·de·trames affecte uniquement la manière dont les trames sont numérotées, aucune trame n'est réellement supprimée durant le montage numérique."
 
 #: kdenlive/configproject_ui.cpp:107
 msgid "Video format"
