@@ -495,8 +495,13 @@ namespace Gui {
 	    "configure_project");
 
 	actionTogglePlay =
-	    new KAction(i18n("Start/Stop"), KShortcut(Qt::Key_Space), this,
-	    SLOT(slotTogglePlay()), actionCollection(), "toggle_play");
+	    new KAction(i18n("Play/Pause"), KShortcut(Qt::Key_Space), this,
+	    SLOT(slotPlay()), actionCollection(), "toggle_play");
+
+	actionStopPlay =
+	    new KAction(i18n("Stop"), 0, this,
+	    SLOT(slotStop()), actionCollection(), "stop_clip");
+	actionStopPlay->setStatusText(i18n("Stop playing"));
 
 	actionTogglePlaySelected =
 	    new KAction(i18n("Play Selection"),
@@ -2789,18 +2794,18 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 */
 
 
-    void KdenliveApp::slotTogglePlay() {
-	slotStatusMsg(i18n("Starting/stopping playback"));
+    void KdenliveApp::slotPlay() {
+	slotStatusMsg(i18n("Play / Pause"));
 	if (m_monitorManager.hasActiveMonitor()) {
-	    m_monitorManager.activeMonitor()->editPanel()->togglePlay();
+	    m_monitorManager.activeMonitor()->editPanel()->play();
 	}
 	slotStatusMsg(i18n("Ready."));
     }
 
-    void KdenliveApp::slotPlay() {
-	slotStatusMsg(i18n("Play at normal speed"));
+    void KdenliveApp::slotStop() {
+	slotStatusMsg(i18n("Stop"));
 	if (m_monitorManager.hasActiveMonitor()) {
-	    m_monitorManager.activeMonitor()->editPanel()->play();
+	    m_monitorManager.activeMonitor()->editPanel()->stop();
 	}
 	slotStatusMsg(i18n("Ready."));
     }

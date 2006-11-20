@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kdenlive" version="13">
+<kpartgui name="kdenlive" version="14">
 <MenuBar>
   <Menu name="file">
         <Action name="export_current_frame"/>
@@ -69,12 +69,12 @@
   </Menu>
   
   <Menu name="Monitor"><text>Monitor</text>
-	  <Action name="toggle_play"/>
 	  <Action name="toggle_play_selection"/>
 	  <Action name="play_loop"/>
 	  <Action name="play_clip"/>
 	  <Action name="toggle_forwards"/>
 	  <Action name="toggle_backwards"/>
+	  <Action name="stop_clip"/>
   </Menu>  
   
   <Menu name="Render"><text>Render</text>

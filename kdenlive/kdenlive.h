@@ -275,8 +275,8 @@ namespace Gui {
 	//sets properties for selected clip without showing dialog
 	//void slotProjectClipProperties(DocClipRef * clip);
 		/** Toggle between play/stop in the active monitor */
-	void slotTogglePlay();
 	void slotPlay();
+	void slotStop();
 		/** Toggle between play/stop in the active monitor */
 	void slotTogglePlaySelected();
 		/** Move the active monitor forward one frame */
@@ -514,6 +514,7 @@ namespace Gui {
 	KAction *fitToWidth;
 
 	KAction *actionTogglePlay;
+	KAction *actionStopPlay;
 	KAction *actionTogglePlaySelected;
 	KAction *actionNextFrame;
 	KAction *actionLastFrame;
