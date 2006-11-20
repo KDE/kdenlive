@@ -807,7 +807,7 @@ namespace Gui {
 	timelineRollTool->setExclusiveGroup("timeline_tools");
 
 	fileNew->setStatusText(i18n("Create a new project"));
-	fileOpen->setStatusText(i18n("Open an existing document"));
+	fileOpen->setStatusText(i18n("Open a project"));
 	fileOpenRecent->setStatusText(i18n("Open a recent file"));
 	fileSave->setStatusText(i18n("Save project"));
 	fileSaveAs->setStatusText(i18n("Save project as..."));
