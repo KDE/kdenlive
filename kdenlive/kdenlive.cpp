@@ -1820,7 +1820,11 @@ namespace Gui {
 			KdenliveSettings::setCurrentdefaultfolder(projectFolder);
 
 			// create a temp folder for previews & thumbnails in KDE's tmp resource dir
-			KdenliveSettings::setCurrenttmpfolder(locateLocal("tmp", "kdenlive/" + *newProjectName + ".kdenlive/", true));
+			if (KdenliveSettings::userdefinedtmp()) {
+			    KdenliveSettings::setCurrenttmpfolder( KdenliveSettings::defaulttmpfolder() + "/kdenlive/" + *newProjectName + ".kdenlive/");
+			    KIO::NetAccess::mkdir(KURL(KdenliveSettings::currenttmpfolder()), 0, -1);
+			}
+			else KdenliveSettings::setCurrenttmpfolder(locateLocal("tmp", "kdenlive/" + *newProjectName + ".kdenlive/", true));
 
 			if (!KIO::NetAccess::exists(KdenliveSettings::currenttmpfolder(), false, this)) {
 				KMessageBox::sorry(this, i18n("Unable to create a folder for temporary files.\nKdenlive will not work properly unless you choose a folder for temporary files with write access in Kdenlive Settings dialog."));
