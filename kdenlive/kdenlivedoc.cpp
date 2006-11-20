@@ -261,7 +261,7 @@ bool KdenliveDoc::moveSelectedClips(GenTime startOffset, int trackOffset)
 
 /** Emits position of the cursor relative to current clip, used to get current frame number */
     void KdenliveDoc::emitCurrentClipPosition() {
-	int pos = 0;
+	int pos = 1;
 	DocClipRef *clip = m_projectClip->selectedClip();
 	if (clip) {
 	    pos = (renderer()->seekPosition() - clip->trackStart() + clip->cropStartTime()).frames(framesPerSecond());

@@ -378,6 +378,7 @@ bool TrackPanelClipMoveFunction::dragDropped(Gui::KTrackPanel * panel,
 		    addCommand(Command::KAddEffectCommand::
 		    appendEffect(m_document, clipUnderMouse, effect),
 		    true);
+		    if (effect->name() == i18n("Freeze")) m_app->getDocument()->emitCurrentClipPosition();
 	    } else {
 		kdWarning() <<
 		    "EffectDrag::decode did not return an effect, ignoring drag drop..."

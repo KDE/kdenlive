@@ -264,7 +264,8 @@ namespace Gui {
 	addCommand(Command::KAddEffectCommand::insertEffect(getDocument(), clip, clip->numEffects(), effect));
 	m_effectStackDialog->slotSetEffectStack(clip);
 	makeDockVisible(m_dockEffectStack);
-	getDocument()->activateSceneListGeneration(true);
+	if (effectName == i18n("Freeze")) getDocument()->emitCurrentClipPosition();
+	else getDocument()->activateSceneListGeneration(true);
     }
 
     void KdenliveApp::slotRemoveEffect(int ix)
@@ -287,7 +288,8 @@ namespace Gui {
 	addCommand(Command::KAddEffectCommand::insertEffect(getDocument(), clip, clip->numEffects(), effect));
 	m_effectStackDialog->slotSetEffectStack(clip);
 	makeDockVisible(m_dockEffectStack);
-	getDocument()->activateSceneListGeneration(true);
+	if (effectName == i18n("Freeze")) getDocument()->emitCurrentClipPosition();
+	else getDocument()->activateSceneListGeneration(true);
     }
 
     void KdenliveApp::slotAddAudioEffect(int ix)
@@ -2294,6 +2296,7 @@ namespace Gui {
     bool KdenliveApp::snapToMarkersEnabled() const {
 	return timelineSnapToMarker->isChecked();
     }
+
 /** Adds a command to the command history, execute it if execute is true. */
 	void KdenliveApp::addCommand(KCommand * command, bool execute) {
 	m_commandHistory->addCommand(command, execute);
