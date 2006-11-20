@@ -179,7 +179,7 @@ Effect *Effect::createEffect(const EffectDesc & desc,
 		    result->addParameter(e.attribute("name", ""));
 		    QDomNode keyNode = e.firstChild();
 		    QString paramType = e.attribute("type", "");
-		    if (paramType == "constant" || paramType == "list" || paramType == "bool")
+		    if (paramType == "constant" || paramType == "list" || paramType == "bool" || paramType == "position")
 			result->effectDescription().parameter(index)->setValue(e.attribute("value", "0"));
 		    while (!keyNode.isNull()) {
 			QDomElement k = keyNode.toElement();

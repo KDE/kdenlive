@@ -258,6 +258,17 @@ bool KdenliveDoc::moveSelectedClips(GenTime startOffset, int trackOffset)
     return result;
 }
 
+
+/** Emits position of the cursor relative to current clip, used to get current frame number */
+    void KdenliveDoc::emitCurrentClipPosition() {
+	int pos = 0;
+	DocClipRef *clip = m_projectClip->selectedClip();
+	if (clip) {
+	    pos = (renderer()->seekPosition() - clip->trackStart() + clip->cropStartTime()).frames(framesPerSecond());
+	}
+	emit currentClipPosition(pos);
+    }
+
 /** Returns a scene list generated from the current document. */
 
 QDomDocument KdenliveDoc::generateSceneList()

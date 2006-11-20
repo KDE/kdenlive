@@ -249,6 +249,8 @@ class KdenliveDoc:public QObject {
 	/** return a string list of timeline guides to save them*/
     QString guidesStringList();
 
+    void emitCurrentClipPosition();
+
     Gui::KdenliveApp *application() {
     return m_app;
     }
@@ -289,6 +291,8 @@ class KdenliveDoc:public QObject {
     void documentLengthChanged(const GenTime &);
 	/** Emitted when the effect stack of a clip changes. */
     void effectStackChanged(DocClipRef *);
+	/** Emitted when an effect needs to know relative position in a clip. */
+    void currentClipPosition(int);
 };
 
 #endif				// KDENLIVEDOC_H

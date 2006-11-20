@@ -46,6 +46,7 @@
 #include "effectdoublekeyframe.h"
 #include "effectcomplexkeyframe.h"
 #include "kdenlivesettings.h"
+#include "kdenlivedoc.h"
 
 namespace Gui {
 
@@ -171,10 +172,6 @@ namespace Gui {
 	m_container->setSpacing(5);
 	m_container->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum));
 
-	if (effect->effectDescription().name() == i18n("Freeze")) {
-		effect->effectDescription().parameter(0)->setMax(clip->duration().frames(KdenliveSettings::defaultfps()));
-	}
-
 	while (effect->parameter(parameterNum)) {
 	    m_effecttype = effect->effectDescription().parameter(parameterNum)->type();
 	    // for each constant parameter, build a QSpinBox with its value
@@ -199,6 +196,23 @@ namespace Gui {
 		connect(spinParam, SIGNAL(valueChanged(int)), sliderParam,
 		    SLOT(setValue(int)));
 		  spinParam->setValue(effect->effectDescription().parameter(parameterNum)->value().toInt());
+		  connect(spinParam, SIGNAL(valueChanged(int)), this, SLOT(parameterChanged()));
+                }
+	    }
+	    else if (m_effecttype == "position") {
+		int maxValue = clip->cropDuration().frames(KdenliveSettings::defaultfps());
+		int minValue = clip->cropStartTime().frames(KdenliveSettings::defaultfps());
+		if (minValue == 0) minValue = 1; // Currently, MLT does not support freeze at frame 0.
+                if (maxValue != minValue) {
+		  (void) new QLabel(effect->effectDescription().parameter(parameterNum)->description(), m_container);
+		  QString widgetName = QString("param");
+		  widgetName.append(QString::number(parameterNum));
+		  QPushButton *buttonParam = new QPushButton(i18n("Get Current Frame"), m_container);
+		  QSpinBox *spinParam = new QSpinBox(m_container, widgetName.ascii());
+		  spinParam->setMaxValue(maxValue);
+		  spinParam->setMinValue(minValue);
+		  connect(m_app->getDocument(), SIGNAL(currentClipPosition(int)), spinParam, SLOT(setValue(int)));
+		  connect(buttonParam, SIGNAL(clicked()), m_app->getDocument(), SLOT(emitCurrentClipPosition()));
 		  connect(spinParam, SIGNAL(valueChanged(int)), this, SLOT(parameterChanged()));
                 }
 	    }
@@ -356,7 +370,7 @@ namespace Gui {
 	    m_effecttype = effect->effectDescription().parameter(parameterNum)->type();
 	    QString widgetName = QString("param");
 	    widgetName.append(QString::number(parameterNum));
-	    if (m_effecttype == "constant") {
+	    if (m_effecttype == "constant" || m_effecttype == "position") {
 		QSpinBox *sbox =
 		    dynamic_cast <
 		    QSpinBox * >(m_parameter->child(widgetName.ascii(),
@@ -452,7 +466,8 @@ namespace Gui {
 		effect->addKeyFrame(0, 0.0);
 		effect->addKeyFrame(0, 1.0);
 	    } else if (effect->effectDescription().
-		parameter(parameterNum)->type() == "constant") {
+		parameter(parameterNum)->type() == "constant" || effect->effectDescription().
+		parameter(parameterNum)->type() == "position") {
 		QSpinBox *sbox =
 		    dynamic_cast <
 		    QSpinBox * >(m_parameter->child(widgetName.ascii(),

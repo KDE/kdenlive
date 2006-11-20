@@ -316,12 +316,12 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
         // Freeze
 	EffectDesc *freeze = new EffectDesc(i18n("Freeze"), "framebuffer", "video");
 	xmlAttr.clear();
-	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("type", QString::null, QString::null, "position");
 	xmlAttr.append("name", QString::null, QString::null, "freeze");
 	xmlAttr.append("description", QString::null, QString::null, i18n("Freeze at"));
 	xmlAttr.append("max", QString::null, QString::null, "300");
-	xmlAttr.append("min", QString::null, QString::null, "1");
-	xmlAttr.append("default", QString::null, QString::null, "1");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("default", QString::null, QString::null, "0");
 	freeze->addParameter(effectDescParamFactory.createParameter(xmlAttr));
 
 	xmlAttr.clear();
