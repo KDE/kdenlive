@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-21 09:24+0100\n"
-"PO-Revision-Date: 2006-11-21 09:34+0100\n"
+"PO-Revision-Date: 2006-11-21 09:48+0100\n"
 "Last-Translator: Jean-Michel Pouré <jmpoure@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -379,7 +379,7 @@ msgstr "Fond d'écran transparent"
 #: kdenlive/transition.cpp:130 kdenlive/transition.cpp:160
 #: kdenlive/transition.cpp:226 kdenlive/transitiondialog.cpp:69
 msgid "Crossfade"
-msgstr "Crossfade"
+msgstr "Fondu-enchaîné"
 
 #: kdenlive/clippropertiesdialog.cpp:35
 msgid "Video Stream"
