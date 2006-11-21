@@ -1828,10 +1828,10 @@ namespace Gui {
 
 			// create a temp folder for previews & thumbnails in KDE's tmp resource dir
 			if (KdenliveSettings::userdefinedtmp()) {
-			    KdenliveSettings::setCurrenttmpfolder( KdenliveSettings::defaulttmpfolder() + "/kdenlive/" + *newProjectName + ".kdenlive/");
+			    KdenliveSettings::setCurrenttmpfolder( KdenliveSettings::defaulttmpfolder() + "/kdenlive/");
 			    KIO::NetAccess::mkdir(KURL(KdenliveSettings::currenttmpfolder()), 0, -1);
 			}
-			else KdenliveSettings::setCurrenttmpfolder(locateLocal("tmp", "kdenlive/" + *newProjectName + ".kdenlive/", true));
+			else KdenliveSettings::setCurrenttmpfolder(locateLocal("tmp", "kdenlive/", true));
 
 			if (!KIO::NetAccess::exists(KdenliveSettings::currenttmpfolder(), false, this)) {
 				KMessageBox::sorry(this, i18n("Unable to create a folder for temporary files.\nKdenlive will not work properly unless you choose a folder for temporary files with write access in Kdenlive Settings dialog."));
@@ -3165,7 +3165,6 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
         configDialog.setValues(m_doc->framesPerSecond(), m_doc->projectClip().videoWidth(), m_doc->projectClip().videoHeight(), KdenliveSettings::currentdefaultfolder());
 	if (QDialog::Accepted == configDialog.exec()) {
 	KdenliveSettings::setCurrentdefaultfolder(configDialog.projectFolder().url());
-	//KdenliveSettings::setCurrenttmpfolder(KdenliveSettings::currentdefaultfolder() + "/tmp/");
 	}
     }
 

@@ -70,10 +70,10 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 		// create a temp folder for previews & thumbnails in KDE's tmp resource dir
 
 		if (KdenliveSettings::userdefinedtmp()) {
-			    KdenliveSettings::setCurrenttmpfolder( KdenliveSettings::defaulttmpfolder() + "/kdenlive/" + file.name() + "/");
+			    KdenliveSettings::setCurrenttmpfolder( KdenliveSettings::defaulttmpfolder() + "/kdenlive/" );
 			    KIO::NetAccess::mkdir(KURL(KdenliveSettings::currenttmpfolder()), 0, -1);
 		}
-		else KdenliveSettings::setCurrenttmpfolder(locateLocal("tmp", "kdenlive/" + KURL(file.name()).fileName() + "/", true));
+		else KdenliveSettings::setCurrenttmpfolder(locateLocal("tmp", "kdenlive/", true));
 
 		int vFormat = e.attribute("projectvideoformat","0").toInt();
 		document->setProjectFormat((VIDEOFORMAT) vFormat);
