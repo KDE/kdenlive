@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-21 11:25+0100\n"
-"PO-Revision-Date: 2006-11-20 23:14+0100\n"
+"PO-Revision-Date: 2006-11-21 19:59+0100\n"
 "Last-Translator: Felix Hammer <f.hammer@web.de>\n"
 "Language-Team: german\n"
 "MIME-Version: 1.0\n"
@@ -457,8 +457,7 @@ msgstr "Projekt automatisch speichern alle"
 
 #: kdenlive/configinterface_ui.cpp:104
 msgid "Mouse wheel moves horizontally (Alt for vertical scroll)"
-msgstr ""
-"Mausrad scrollt horizontal (Bitte \"Alt\" drücken um vertikal zu scrollen)"
+msgstr "Mausrad scrollt horizontal (Bitte \"Alt\" drücken um vertikal zu scrollen)"
 
 #: kdenlive/configinterface_ui.cpp:105
 msgid "Show splash screen"
@@ -745,9 +744,8 @@ msgid "Enable/disable effect"
 msgstr "Effekt aktivieren/deaktivieren"
 
 #: kdenlive/effectstackdialog.cpp:210
-#, fuzzy
 msgid "Get Current Frame"
-msgstr "Aktuellen Frame exportieren"
+msgstr "Hole aktuellen Frame"
 
 #: kdenlive/effectstackdialog_ui.cpp:161
 msgid "Parameters"
@@ -1206,7 +1204,7 @@ msgstr "Helligkeit"
 
 #: kdenlive/initeffects.cpp:207
 msgid "Intensity"
-msgstr ""
+msgstr "Intensität"
 
 #: kdenlive/initeffects.cpp:218
 msgid "Volume"
@@ -1214,7 +1212,7 @@ msgstr "Lautstärke"
 
 #: kdenlive/initeffects.cpp:222
 msgid "Gain"
-msgstr ""
+msgstr "Verstärkung"
 
 #: kdenlive/initeffects.cpp:232 kdenlive/kdenlive.cpp:2884
 msgid "Mute"
@@ -1226,15 +1224,15 @@ msgstr "Obscure"
 
 #: kdenlive/initeffects.cpp:249
 msgid "X"
-msgstr ""
+msgstr "X"
 
 #: kdenlive/initeffects.cpp:249
 msgid "Y"
-msgstr ""
+msgstr "Y"
 
 #: kdenlive/initeffects.cpp:249
 msgid "Averaging"
-msgstr ""
+msgstr "Mittelwert"
 
 #: kdenlive/initeffects.cpp:259
 msgid "Mirror"
@@ -1363,7 +1361,7 @@ msgstr "Limiter"
 
 #: kdenlive/initeffects.cpp:538
 msgid "Input Gain (db)"
-msgstr "Input Gain (db)"
+msgstr "Eingangsverstärkung (db)"
 
 #: kdenlive/initeffects.cpp:546
 msgid "Limit (db)"
@@ -1374,23 +1372,20 @@ msgid "Release time (s)"
 msgstr "Release time (s)"
 
 #: kdenlive/initeffects.cpp:566
-#, fuzzy
 msgid "Pitch Scaler"
-msgstr "Pitch Shift"
+msgstr "Pitch Scaler"
 
 #: kdenlive/initeffects.cpp:570
 msgid "Co-efficient"
-msgstr ""
+msgstr "Co-efficient"
 
 #: kdenlive/initeffects.cpp:581
-#, fuzzy
 msgid "Rate Scaler"
-msgstr "Skalieren"
+msgstr "Rate Scaler"
 
 #: kdenlive/initeffects.cpp:585
-#, fuzzy
 msgid "Rate"
-msgstr "Rate (Hz)"
+msgstr "Rate"
 
 #: kdenlive/initeffects.cpp:596
 msgid "Phaser"
@@ -1616,8 +1611,7 @@ msgstr "Vorwärts abspielen"
 
 #: kdenlive/kdenlive.cpp:521
 msgid "Fast forwards playing (click several times for faster playing)"
-msgstr ""
-"Schnelle Vorwärts-Wiedergabe (mehrmals drücken um Geschwindigkeit zu erhöhen)"
+msgstr "Schnelle Vorwärts-Wiedergabe (mehrmals drücken um Geschwindigkeit zu erhöhen)"
 
 #: kdenlive/kdenlive.cpp:523
 msgid "Play backward"
@@ -2019,8 +2013,7 @@ msgid "Shift all clips to the right of mouse"
 msgstr "Verschiebt alle Clips auf die rechte Seite der Maus"
 
 #: kdenlive/kdenlive.cpp:836
-msgid ""
-"Insert commented snap markers on clips (Ctrl + click to remove a marker)"
+msgid "Insert commented snap markers on clips (Ctrl + click to remove a marker)"
 msgstr ""
 "Kommentierte Ausrichtungs-Markierungen in die Clips einfügen(\"Strg + klick"
 "\" um die Markierungen zu löschen)"
@@ -2374,8 +2367,7 @@ msgstr "Clips hinzufügen"
 
 #: kdenlive/kdenlive.cpp:2473
 msgid "You cannot include the current Kdenlive document in itself."
-msgstr ""
-"Sie können das aktuelle Kdenlive-Dokument nicht in sich selber einbinden."
+msgstr "Sie können das aktuelle Kdenlive-Dokument nicht in sich selber einbinden."
 
 #: kdenlive/kdenlive.cpp:2600
 msgid "Add image to project"
@@ -2763,10 +2755,8 @@ msgid "Piave renderer author"
 msgstr "Piave Renderer Autor und Betreuer"
 
 #: kdenlive/main.cpp:64
-msgid ""
-"Piave and Kdenlive internationalization, French translations, splashscreen"
-msgstr ""
-"Piave und Kdenlive Internationalisierung, französische Übersetzung, Startbild"
+msgid "Piave and Kdenlive internationalization, French translations, splashscreen"
+msgstr "Piave und Kdenlive Internationalisierung, französische Übersetzung, Startbild"
 
 #: kdenlive/main.cpp:69
 msgid "Artist, Kdenlive logo, splashscreen and application icon"
@@ -2828,8 +2818,7 @@ msgstr "Ok"
 msgid ""
 "Could not save file %1.\n"
 "Please check your permissions"
-msgstr ""
-"Kann Datei %1 nicht speichern. Bitte überprüfen Sie Ihre Zugriffsrechte"
+msgstr "Kann Datei %1 nicht speichern. Bitte überprüfen Sie Ihre Zugriffsrechte"
 
 #. i18n: file kdenlive/kdenliveui.rc line 30
 #: kdenlive/rc.cpp:3 kdenlive/rc.cpp:72 kdenlive/rc.cpp:141
@@ -3849,14 +3838,3 @@ msgstr "Ende"
 msgid "Rescale images"
 msgstr "Bilder skalieren"
 
-#~ msgid "Delay"
-#~ msgstr "Verzögerung"
-
-#~ msgid "Max delay (s)"
-#~ msgstr "Max. Verzögerung (s)"
-
-#~ msgid "Delay time (s)"
-#~ msgstr "Verzögerungszeit (s)"
-
-#~ msgid "Decay time (s)"
-#~ msgstr "Dämpfungszeit (s)"
