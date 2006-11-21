@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-21 09:24+0100\n"
-"PO-Revision-Date: 2006-11-21 09:51+0100\n"
+"PO-Revision-Date: 2006-11-21 09:53+0100\n"
 "Last-Translator: Jean-Michel Pouré <jmpoure@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3741,7 +3741,7 @@ msgstr "Faire une transition avec :"
 
 #: kdenlive/transitiondialog.cpp:58
 msgid "Automatic - Use next video track"
-msgstr "Automatique - Utiliser la prochaine piste vidéo"
+msgstr "Automatique - Utiliser la piste vidéo suivante"
 
 #: kdenlive/transitiondialog.cpp:59
 msgid "Background track (black)"
