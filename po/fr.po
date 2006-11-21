@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-21 09:24+0100\n"
-"PO-Revision-Date: 2006-11-21 09:53+0100\n"
+"PO-Revision-Date: 2006-11-21 10:09+0100\n"
 "Last-Translator: Jean-Michel Pouré <jmpoure@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1293,7 +1293,7 @@ msgstr "Modification fréquence"
 
 #: kdenlive/initeffects.cpp:431
 msgid "Shift"
-msgstr "Shift"
+msgstr "Modulation"
 
 #: kdenlive/initeffects.cpp:442
 msgid "Room reverb"
@@ -1317,7 +1317,7 @@ msgstr "Echo"
 
 #: kdenlive/initeffects.cpp:479
 msgid "Reverb time"
-msgstr "Durée écho"
+msgstr "Durée de l'écho"
 
 #: kdenlive/initeffects.cpp:500
 msgid "Equalizer"
