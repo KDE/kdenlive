@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-21 11:25+0100\n"
-"PO-Revision-Date: 2006-11-15 13:04+0100\n"
+"PO-Revision-Date: 2006-11-20 23:14+0100\n"
 "Last-Translator: Felix Hammer <f.hammer@web.de>\n"
 "Language-Team: german\n"
 "MIME-Version: 1.0\n"
@@ -502,16 +502,15 @@ msgstr "Standard Text-Clip Dauer"
 
 #: kdenlive/configmisc_ui.cpp:126
 msgid "Folder for temporary files"
-msgstr ""
+msgstr "Verzeichnis für temporäre Dateien"
 
 #: kdenlive/configmisc_ui.cpp:127
 msgid "Use system temporary folder"
-msgstr ""
+msgstr "Benutze Systemverzeichnis für temporäre Dateien"
 
 #: kdenlive/configmisc_ui.cpp:128
-#, fuzzy
 msgid "User defined folder"
-msgstr "Verzeichnis umbenennen"
+msgstr "Benutze angegebenes Verzeichnis"
 
 #: kdenlive/configproject_ui.cpp:96 kdenlive/configureproject_ui.cpp:135
 msgid "Timecode"
@@ -1264,19 +1263,19 @@ msgstr "Rückwärts spielen"
 #: kdenlive/initeffects.cpp:319 kdenlive/kdenlive.cpp:267
 #: kdenlive/kdenlive.cpp:291 kdenlive/trackpanelclipmovefunction.cpp:381
 msgid "Freeze"
-msgstr ""
+msgstr "Einfrieren"
 
 #: kdenlive/initeffects.cpp:323
 msgid "Freeze at"
-msgstr ""
+msgstr "Einfrieren bei"
 
 #: kdenlive/initeffects.cpp:332
 msgid "Freeze Before"
-msgstr ""
+msgstr "Einfrieren vor"
 
 #: kdenlive/initeffects.cpp:339
 msgid "Freeze After"
-msgstr ""
+msgstr "Einfrieren nach"
 
 #: kdenlive/initeffects.cpp:348 kdenlive/initeffects.cpp:352
 msgid "Gamma"
@@ -1359,22 +1358,20 @@ msgid "Hi gain"
 msgstr "Hohe Verstärkung"
 
 #: kdenlive/initeffects.cpp:534
-#, fuzzy
 msgid "Limiter"
-msgstr "Titel"
+msgstr "Limiter"
 
 #: kdenlive/initeffects.cpp:538
 msgid "Input Gain (db)"
-msgstr ""
+msgstr "Input Gain (db)"
 
 #: kdenlive/initeffects.cpp:546
 msgid "Limit (db)"
-msgstr ""
+msgstr "Limit (db)"
 
 #: kdenlive/initeffects.cpp:554
-#, fuzzy
 msgid "Release time (s)"
-msgstr "Bilder skalieren"
+msgstr "Release time (s)"
 
 #: kdenlive/initeffects.cpp:566
 #, fuzzy
@@ -1391,30 +1388,29 @@ msgid "Rate Scaler"
 msgstr "Skalieren"
 
 #: kdenlive/initeffects.cpp:585
+#, fuzzy
 msgid "Rate"
-msgstr ""
+msgstr "Rate (Hz)"
 
 #: kdenlive/initeffects.cpp:596
-#, fuzzy
 msgid "Phaser"
-msgstr "Kapitel"
+msgstr "Phaser"
 
 #: kdenlive/initeffects.cpp:600
 msgid "Rate (Hz)"
-msgstr ""
+msgstr "Rate (Hz)"
 
 #: kdenlive/initeffects.cpp:608
 msgid "Depth"
-msgstr ""
+msgstr "Depth"
 
 #: kdenlive/initeffects.cpp:617
 msgid "Feedback"
-msgstr ""
+msgstr "Feedback"
 
 #: kdenlive/initeffects.cpp:626
-#, fuzzy
 msgid "Spread"
-msgstr "Geschwindigkeit"
+msgstr "Ausbreitung"
 
 #: kdenlive/kaddclipcommand.cpp:35 kdenlive/kdenlive.cpp:477
 msgid "Clean Project"
@@ -1599,9 +1595,8 @@ msgid "Play/Pause"
 msgstr "Play/Pause"
 
 #: kdenlive/kdenlive.cpp:506
-#, fuzzy
 msgid "Stop playing"
-msgstr "Clip stoppen"
+msgstr "Wiedergabe anhalten"
 
 #: kdenlive/kdenlive.cpp:509
 msgid "Play Selection"
@@ -1879,9 +1874,8 @@ msgstr "Effekt-Liste"
 
 #: kdenlive/kdenlive.cpp:721 kdenlive/kdenlive.cpp:968
 #: kdenlive/kdenlive.cpp:975
-#, fuzzy
 msgid "Project Tree"
-msgstr "Projekt-Name:"
+msgstr "Projekt-Liste"
 
 #: kdenlive/kdenlive.cpp:724
 msgid "Transitions"
@@ -1904,7 +1898,6 @@ msgid "Focus Effect Stack"
 msgstr "Effekt-Magazin anzeigen"
 
 #: kdenlive/kdenlive.cpp:740
-#, fuzzy
 msgid "Focus Project Tree"
 msgstr "Projekt-Liste anzeigen"
 
@@ -1978,28 +1971,24 @@ msgid "Play clip in clip monitor"
 msgstr "Spiele Clip im Clip-Monitor"
 
 #: kdenlive/kdenlive.cpp:811
-#, fuzzy
 msgid "Create a new project"
-msgstr "Neues Dokument erstellen"
+msgstr "Neues Projekt erstellen"
 
 #: kdenlive/kdenlive.cpp:812
-#, fuzzy
 msgid "Open a project"
-msgstr "Letztes Projekt beim Start öffnen"
+msgstr "Projekt öffnen"
 
 #: kdenlive/kdenlive.cpp:813
 msgid "Open a recent file"
 msgstr "Zuletzt benutzte Datei öffnen"
 
 #: kdenlive/kdenlive.cpp:814
-#, fuzzy
 msgid "Save project"
-msgstr "Projekt erstellen"
+msgstr "Projekt speichern"
 
 #: kdenlive/kdenlive.cpp:815
-#, fuzzy
 msgid "Save project as..."
-msgstr "Dokument speichern als ..."
+msgstr "Projekt speichern unter ..."
 
 #: kdenlive/kdenlive.cpp:818
 msgid "Exit application"
@@ -2223,9 +2212,8 @@ msgid " [16:9]"
 msgstr " [16:9]"
 
 #: kdenlive/kdenlive.cpp:1754
-#, fuzzy
 msgid "Creating new project..."
-msgstr "Neues Dokument erstellen ..."
+msgstr "Neues Projekt erstellen ..."
 
 #: kdenlive/kdenlive.cpp:1797
 msgid "Kdenlive - New Project"
@@ -2237,6 +2225,9 @@ msgid ""
 "Kdenlive will not work properly unless you choose a folder for temporary "
 "files with write access in Kdenlive Settings dialog."
 msgstr ""
+"Kann kein Verzeichnis für temporäre Dateien erstellen.\n"
+"Kdenlive wird nicht richtig arbeiten, solange sie keine Verzeichnis für "
+"temporäre Dateien mit Schreibzugriff im Einstellungsdialog angeben haben."
 
 #: kdenlive/kdenlive.cpp:1896
 msgid "Opening file..."
@@ -2423,9 +2414,8 @@ msgstr ""
 "\t             Sind Sie sicher dass sie das Projekt aufräumen wollen?"
 
 #: kdenlive/kdenlive.cpp:2804
-#, fuzzy
 msgid "Play / Pause"
-msgstr "Play/Pause"
+msgstr "Wiedergabe / Pause"
 
 #: kdenlive/kdenlive.cpp:2821
 msgid "Starting/stopping playback of inpoint/outpoint section"
@@ -2799,9 +2789,8 @@ msgid "*.kdenlive|Kdenlive Project Files (*.kdenlive)"
 msgstr "*.kdenlive|Kdenlive Project Dateien (*.kdenlive)"
 
 #: kdenlive/newproject_ui.cpp:146
-#, fuzzy
 msgid "Default project folder (to store rendered files):"
-msgstr "Projektverzeichnis (um Vorschau und Mini-Bilder abzulegen)"
+msgstr "Projektverzeichnis (um gerenderte Dateien abzulegen)"
 
 #: kdenlive/newproject_ui.cpp:147
 msgid "Project name:"
@@ -2809,16 +2798,15 @@ msgstr "Projekt-Name:"
 
 #: kdenlive/newproject_ui.cpp:148
 msgid "Audio tracks:"
-msgstr "Audio-Spuren"
+msgstr "Audio-Spuren:"
 
 #: kdenlive/newproject_ui.cpp:149
 msgid "Video tracks:"
-msgstr "Video-Spuren"
+msgstr "Video-Spuren:"
 
 #: kdenlive/newproject_ui.cpp:150
-#, fuzzy
 msgid "Video format:"
-msgstr "Video-Format"
+msgstr "Video-Format:"
 
 #: kdenlive/newproject_ui.cpp:151
 msgid "New File"
@@ -3861,74 +3849,14 @@ msgstr "Ende"
 msgid "Rescale images"
 msgstr "Bilder skalieren"
 
-#, fuzzy
+#~ msgid "Delay"
+#~ msgstr "Verzögerung"
+
 #~ msgid "Max delay (s)"
-#~ msgstr "Verzögerung (s/10)"
+#~ msgstr "Max. Verzögerung (s)"
 
-#, fuzzy
 #~ msgid "Delay time (s)"
-#~ msgstr "Verzögerung (s/10)"
+#~ msgstr "Verzögerungszeit (s)"
 
-#, fuzzy
 #~ msgid "Decay time (s)"
-#~ msgstr "Verzögerung (s/10)"
-
-#~ msgid "Open an existing document"
-#~ msgstr "Vorhandenes Dokument öffnen"
-
-#~ msgid "Default folder to store previews & thumbnails"
-#~ msgstr "Standardverzeichnis für Vorschau und Mini-Bilder"
-
-#~ msgid "Start/Stop"
-#~ msgstr "Start/Stop"
-
-#~ msgid ""
-#~ "Unable to create a temporary folder in your home directory, Kdenlive will "
-#~ "exit now."
-#~ msgstr ""
-#~ "Kann keinen temporären Ordner in Ihrem Home-Verzeichnis erstellen. "
-#~ "Kdenlive wird jetzt beendet."
-
-#~ msgid "Starting/stopping playback"
-#~ msgstr "Wiedergabe starten/stoppen"
-
-#~ msgid "Play at normal speed"
-#~ msgstr "Wiedergabe mit normaler Geschwindigkeit"
-
-#~ msgid ""
-#~ "Cannot write to the temporary folder:\n"
-#~ "%1\n"
-#~ "Do you want to create the folder ?\n"
-#~ " Answering no will disable audio thumbnails"
-#~ msgstr ""
-#~ "Kann nicht in das temporäre Verzeichnis schreiben: \n"
-#~ "Wollen Sie das Verzeichnis erstellen?\n"
-#~ "Anwort \"Nein\" wird Audio Mini-Bilder deaktivieren"
-
-#~ msgid ""
-#~ "Unable to create the project folder. Audio thumbnails will be disabled."
-#~ msgstr ""
-#~ "Projektverzeichnis kann nicht erstellt werden. Audio Mini-Bilder werden "
-#~ "deaktiviert"
-
-#~ msgid ""
-#~ "Unable to access the selected folder.\n"
-#~ "Please chose another project folder."
-#~ msgstr ""
-#~ "Kann auf das ausgewählte Verzeichnis nicht zugreifen.\n"
-#~ "Bitte wählen Sie ein anderes Projektverzeichnis"
-
-#~ msgid "Save document"
-#~ msgstr "Dokument speichern"
-
-#~ msgid "Karaoke"
-#~ msgstr "Karaoke"
-
-#~ msgid "Vocal Volume (db)"
-#~ msgstr "Vokal-Lautsärke (db)"
-
-#~ msgid "Project List"
-#~ msgstr "Projekt-Liste"
-
-#~ msgid "Project format:"
-#~ msgstr "Projekt-Format:"
+#~ msgstr "Dämpfungszeit (s)"
