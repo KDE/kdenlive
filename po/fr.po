@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-21 09:24+0100\n"
-"PO-Revision-Date: 2006-11-21 09:48+0100\n"
+"PO-Revision-Date: 2006-11-21 09:51+0100\n"
 "Last-Translator: Jean-Michel Pouré <jmpoure@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3713,7 +3713,7 @@ msgstr "> fond"
 #: kdenlive/transition.cpp:156 kdenlive/transition.cpp:222
 #: kdenlive/transitiondialog.cpp:71
 msgid "Push"
-msgstr "Push"
+msgstr "Déplacement"
 
 #: kdenlive/transition.cpp:157 kdenlive/transition.cpp:223
 msgid "Pip"
@@ -3723,7 +3723,7 @@ msgstr "Incrustation"
 #: kdenlive/transition.cpp:158 kdenlive/transition.cpp:224
 #: kdenlive/transitiondialog.cpp:75
 msgid "Wipe"
-msgstr "Wipe"
+msgstr "Balayage"
 
 #: kdenlive/transition.cpp:159 kdenlive/transition.cpp:225
 msgid "Audio Fade"
