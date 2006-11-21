@@ -1343,7 +1343,7 @@ namespace Gui {
             // Timeline playing stopped
 	    PositionChangeEvent *ev = (PositionChangeEvent *)e;
             m_monitorManager.activeMonitor()->screen()->positionChanged(ev->position());
-            m_workspaceMonitor->screen()->slotPlayingStopped();
+            m_monitorManager.activeMonitor()->screen()->slotPlayingStopped();
         }
         else if( e->type() == 10003) {
             // export is over
