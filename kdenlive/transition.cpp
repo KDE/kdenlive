@@ -373,6 +373,7 @@ void Transition::moveTransition(GenTime time)
     else if ( m_transitionStart + time > m_referenceClip->cropDuration() - m_transitionDuration)
         m_transitionStart = m_referenceClip->cropDuration() - m_transitionDuration;
     else m_transitionStart = m_transitionStart + time;
+    if (m_transitionStart < GenTime(0.0)) m_transitionStart = GenTime(0.0);
 }
 
 bool Transition::hasClip(const DocClipRef * clip)
