@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-21 11:25+0100\n"
-"PO-Revision-Date: 2006-11-18 19:14+0100\n"
+"PO-Revision-Date: 2006-11-21 16:35+0100\n"
 "Last-Translator: Carlos Dávila\n"
 "Language-Team: español <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -502,16 +502,15 @@ msgstr "Duración de clip de texto por defecto"
 
 #: kdenlive/configmisc_ui.cpp:126
 msgid "Folder for temporary files"
-msgstr ""
+msgstr "Carpeta para archivos temporales"
 
 #: kdenlive/configmisc_ui.cpp:127
 msgid "Use system temporary folder"
-msgstr ""
+msgstr "Usar carpeta temporal del sistema"
 
 #: kdenlive/configmisc_ui.cpp:128
-#, fuzzy
 msgid "User defined folder"
-msgstr "Cambiar nombre de la carpeta"
+msgstr "Carpeta definida por el usuario"
 
 #: kdenlive/configproject_ui.cpp:96 kdenlive/configureproject_ui.cpp:135
 msgid "Timecode"
@@ -748,9 +747,8 @@ msgid "Enable/disable effect"
 msgstr "Activar/Desactivar efecto"
 
 #: kdenlive/effectstackdialog.cpp:210
-#, fuzzy
 msgid "Get Current Frame"
-msgstr "Exportar el fotograma actual"
+msgstr "Obtener el fotograma actual"
 
 #: kdenlive/effectstackdialog_ui.cpp:161
 msgid "Parameters"
@@ -1205,7 +1203,7 @@ msgstr "Brillo"
 
 #: kdenlive/initeffects.cpp:207
 msgid "Intensity"
-msgstr ""
+msgstr "Intensidad"
 
 #: kdenlive/initeffects.cpp:218
 msgid "Volume"
@@ -1213,7 +1211,7 @@ msgstr "Volumen"
 
 #: kdenlive/initeffects.cpp:222
 msgid "Gain"
-msgstr ""
+msgstr "Ganancia"
 
 #: kdenlive/initeffects.cpp:232 kdenlive/kdenlive.cpp:2884
 msgid "Mute"
@@ -1225,15 +1223,15 @@ msgstr "Oscurecer"
 
 #: kdenlive/initeffects.cpp:249
 msgid "X"
-msgstr ""
+msgstr "X"
 
 #: kdenlive/initeffects.cpp:249
 msgid "Y"
-msgstr ""
+msgstr "Y"
 
 #: kdenlive/initeffects.cpp:249
 msgid "Averaging"
-msgstr ""
+msgstr "Promediando"
 
 #: kdenlive/initeffects.cpp:259
 msgid "Mirror"
@@ -1357,62 +1355,56 @@ msgid "Hi gain"
 msgstr "Ganancia de altos"
 
 #: kdenlive/initeffects.cpp:534
-#, fuzzy
 msgid "Limiter"
-msgstr "Titulador"
+msgstr "LimitadorTitulador"
 
 #: kdenlive/initeffects.cpp:538
 msgid "Input Gain (db)"
-msgstr ""
+msgstr "Ganancia de entrada (db)"
 
 #: kdenlive/initeffects.cpp:546
 msgid "Limit (db)"
-msgstr ""
+msgstr "Límite (db)"
 
 #: kdenlive/initeffects.cpp:554
-#, fuzzy
 msgid "Release time (s)"
-msgstr "Rescalar imágenes"
+msgstr "Tiempo de liberación (s)"
 
 #: kdenlive/initeffects.cpp:566
-#, fuzzy
 msgid "Pitch Scaler"
-msgstr "Bloqueo de modificación"
+msgstr "Escalador de tono"
 
 #: kdenlive/initeffects.cpp:570
 msgid "Co-efficient"
-msgstr ""
+msgstr "Coeficiente"
 
 #: kdenlive/initeffects.cpp:581
-#, fuzzy
 msgid "Rate Scaler"
-msgstr "Escalar"
+msgstr ""
 
 #: kdenlive/initeffects.cpp:585
 msgid "Rate"
 msgstr ""
 
 #: kdenlive/initeffects.cpp:596
-#, fuzzy
 msgid "Phaser"
-msgstr "Capítulo"
+msgstr ""
 
 #: kdenlive/initeffects.cpp:600
 msgid "Rate (Hz)"
-msgstr ""
+msgstr "Pasa (Hz)"
 
 #: kdenlive/initeffects.cpp:608
 msgid "Depth"
-msgstr ""
+msgstr "Profundidad"
 
 #: kdenlive/initeffects.cpp:617
 msgid "Feedback"
-msgstr ""
+msgstr "Retroalimentación"
 
 #: kdenlive/initeffects.cpp:626
-#, fuzzy
 msgid "Spread"
-msgstr "Velocidad"
+msgstr "Extender"
 
 #: kdenlive/kaddclipcommand.cpp:35 kdenlive/kdenlive.cpp:477
 msgid "Clean Project"
@@ -1597,9 +1589,8 @@ msgid "Play/Pause"
 msgstr "Reproducir/Pausa"
 
 #: kdenlive/kdenlive.cpp:506
-#, fuzzy
 msgid "Stop playing"
-msgstr "Parar clip"
+msgstr "Parar reproducción"
 
 #: kdenlive/kdenlive.cpp:509
 msgid "Play Selection"
@@ -1976,28 +1967,24 @@ msgid "Play clip in clip monitor"
 msgstr "Reproducir el clip en el monitor de clip"
 
 #: kdenlive/kdenlive.cpp:811
-#, fuzzy
 msgid "Create a new project"
-msgstr "Crear un archivo nuevo"
+msgstr "Crear un proyecto nuevo "
 
 #: kdenlive/kdenlive.cpp:812
-#, fuzzy
 msgid "Open a project"
-msgstr "Abrir último proyecto"
+msgstr "Abrir un proyecto"
 
 #: kdenlive/kdenlive.cpp:813
 msgid "Open a recent file"
 msgstr "Abrir un archivo reciente"
 
 #: kdenlive/kdenlive.cpp:814
-#, fuzzy
 msgid "Save project"
-msgstr "Limpiar proyecto"
+msgstr "Guardarr proyecto"
 
 #: kdenlive/kdenlive.cpp:815
-#, fuzzy
 msgid "Save project as..."
-msgstr "Guardar documento como..."
+msgstr "Guardar proyecto como..."
 
 #: kdenlive/kdenlive.cpp:818
 msgid "Exit application"
@@ -2223,9 +2210,8 @@ msgid " [16:9]"
 msgstr " [16:9]"
 
 #: kdenlive/kdenlive.cpp:1754
-#, fuzzy
 msgid "Creating new project..."
-msgstr "Creando documento nuevo..."
+msgstr "Creando proyecto nuevo..."
 
 #: kdenlive/kdenlive.cpp:1797
 msgid "Kdenlive - New Project"
@@ -2237,6 +2223,10 @@ msgid ""
 "Kdenlive will not work properly unless you choose a folder for temporary "
 "files with write access in Kdenlive Settings dialog."
 msgstr ""
+"Imposible crear una carpeta para archivos temporales.\n"
+"Kdenlive no funcionará correctamente si no eliges una carpeta para archivos "
+"temporales con permiso de escritura en el diálogo de configuración de "
+"Kdenlive."
 
 #: kdenlive/kdenlive.cpp:1896
 msgid "Opening file..."
@@ -2423,9 +2413,8 @@ msgstr ""
 "¿Estás seguro de que quieres hacerlo?"
 
 #: kdenlive/kdenlive.cpp:2804
-#, fuzzy
 msgid "Play / Pause"
-msgstr "Reproducir/Pausa"
+msgstr "Reproducir / Pausa"
 
 #: kdenlive/kdenlive.cpp:2821
 msgid "Starting/stopping playback of inpoint/outpoint section"
@@ -2804,9 +2793,8 @@ msgid "*.kdenlive|Kdenlive Project Files (*.kdenlive)"
 msgstr "*.kdenlive|Archivos de proyecto de Kdenlive (*.kdenlive)"
 
 #: kdenlive/newproject_ui.cpp:146
-#, fuzzy
 msgid "Default project folder (to store rendered files):"
-msgstr "Carpeta del proyecto (para guardar vistas previas y miniaturas):"
+msgstr "Carpeta por defecto del proyecto (para guardar archivos renderizados):"
 
 #: kdenlive/newproject_ui.cpp:147
 msgid "Project name:"
@@ -3865,64 +3853,3 @@ msgstr "Fi&n"
 #: kdenlive/transitionwipe_ui.cpp:237
 msgid "Rescale images"
 msgstr "Rescalar imágenes"
-
-#, fuzzy
-#~ msgid "Max delay (s)"
-#~ msgstr "Retraso (s/10)"
-
-#, fuzzy
-#~ msgid "Delay time (s)"
-#~ msgstr "Retraso (s/10)"
-
-#, fuzzy
-#~ msgid "Decay time (s)"
-#~ msgstr "Retraso (s/10)"
-
-#~ msgid "Open an existing document"
-#~ msgstr "Abrir un documento existente"
-
-#~ msgid "Default folder to store previews & thumbnails"
-#~ msgstr "Carpeta por defecto para guardar vistas previas y miniaturas"
-
-#~ msgid "Start/Stop"
-#~ msgstr "Empezar/Parar"
-
-#~ msgid ""
-#~ "Unable to create a temporary folder in your home directory, Kdenlive will "
-#~ "exit now."
-#~ msgstr ""
-#~ "No se puede crear una carpeta temporal en tu directorio personal. "
-#~ "Kdenlive finalizará ahora."
-
-#~ msgid "Starting/stopping playback"
-#~ msgstr "Iniciando/Parando la reproducción"
-
-#~ msgid "Play at normal speed"
-#~ msgstr "Reproducir a velocidad normal"
-
-#~ msgid ""
-#~ "Cannot write to the temporary folder:\n"
-#~ "%1\n"
-#~ "Do you want to create the folder ?\n"
-#~ " Answering no will disable audio thumbnails"
-#~ msgstr ""
-#~ "No se puede escribir en la carpeta temporal:\n"
-#~ "%1\n"
-#~ "¿Quieres crear la carpeta?\n"
-#~ " Responder no deshabilitará las miniaturas de audio"
-
-#~ msgid ""
-#~ "Unable to create the project folder. Audio thumbnails will be disabled."
-#~ msgstr ""
-#~ "No se pudo crear la carpeta del proyecto. Las miniaturas de audio estarán "
-#~ "deshabilitadas."
-
-#~ msgid ""
-#~ "Unable to access the selected folder.\n"
-#~ "Please chose another project folder."
-#~ msgstr ""
-#~ "Imposible acceder a la carpeta seleccionada.\n"
-#~ "Por favor, elige otra carpeta para el proyecto."
-
-#~ msgid "Save document"
-#~ msgstr "Guardar documento"
