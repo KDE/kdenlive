@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-21 09:24+0100\n"
-"PO-Revision-Date: 2006-11-21 10:12+0100\n"
+"PO-Revision-Date: 2006-11-21 10:15+0100\n"
 "Last-Translator: Jean-Michel Pouré <jmpoure@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1353,11 +1353,11 @@ msgstr "Délai de propagation (sec)"
 
 #: kdenlive/initeffects.cpp:564
 msgid "Pitch Scaler"
-msgstr "Vitesse lecture"
+msgstr "Harmonisation"
 
 #: kdenlive/initeffects.cpp:568
 msgid "Co-efficient"
-msgstr "Coefficient"
+msgstr "Facteur de mise à l'échelle"
 
 #: kdenlive/initeffects.cpp:579
 msgid "Rate Scaler"
