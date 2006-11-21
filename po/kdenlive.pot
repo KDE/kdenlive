@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-21 09:24+0100\n"
+"POT-Creation-Date: 2006-11-21 11:25+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -243,7 +243,7 @@ msgstr ""
 
 #: kdenlive/changeclipspeed_ui.cpp:111 kdenlive/docclipref.cpp:1189
 #: kdenlive/docclipref.cpp:1435 kdenlive/effectstackdialog.cpp:418
-#: kdenlive/initeffects.cpp:279
+#: kdenlive/initeffects.cpp:281
 msgid "Speed"
 msgstr ""
 
@@ -1128,7 +1128,7 @@ msgid "Greyscale"
 msgstr ""
 
 #: kdenlive/initeffects.cpp:126 kdenlive/initeffects.cpp:194
-#: kdenlive/initeffects.cpp:269
+#: kdenlive/initeffects.cpp:271
 msgid "Invert"
 msgstr ""
 
@@ -1164,188 +1164,208 @@ msgstr ""
 msgid "Brightness"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:217
+#: kdenlive/initeffects.cpp:207
+msgid "Intensity"
+msgstr ""
+
+#: kdenlive/initeffects.cpp:218
 msgid "Volume"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:230 kdenlive/kdenlive.cpp:2884
+#: kdenlive/initeffects.cpp:222
+msgid "Gain"
+msgstr ""
+
+#: kdenlive/initeffects.cpp:232 kdenlive/kdenlive.cpp:2884
 msgid "Mute"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:243
+#: kdenlive/initeffects.cpp:245
 msgid "Obscure"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:257
+#: kdenlive/initeffects.cpp:249
+msgid "X"
+msgstr ""
+
+#: kdenlive/initeffects.cpp:249
+msgid "Y"
+msgstr ""
+
+#: kdenlive/initeffects.cpp:249
+msgid "Averaging"
+msgstr ""
+
+#: kdenlive/initeffects.cpp:259
 msgid "Mirror"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:264
+#: kdenlive/initeffects.cpp:266
 msgid "Mirroring direction"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:283
+#: kdenlive/initeffects.cpp:285
 msgid "Start Speed"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:293
+#: kdenlive/initeffects.cpp:295
 msgid "End Speed"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:302
+#: kdenlive/initeffects.cpp:304
 msgid "Stroboscope"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:310
+#: kdenlive/initeffects.cpp:312
 msgid "Reverse Playing"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:317 kdenlive/kdenlive.cpp:267
+#: kdenlive/initeffects.cpp:319 kdenlive/kdenlive.cpp:267
 #: kdenlive/kdenlive.cpp:291 kdenlive/trackpanelclipmovefunction.cpp:381
 msgid "Freeze"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:321
+#: kdenlive/initeffects.cpp:323
 msgid "Freeze at"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:330
+#: kdenlive/initeffects.cpp:332
 msgid "Freeze Before"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:337
+#: kdenlive/initeffects.cpp:339
 msgid "Freeze After"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:346 kdenlive/initeffects.cpp:350
+#: kdenlive/initeffects.cpp:348 kdenlive/initeffects.cpp:352
 msgid "Gamma"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:363
+#: kdenlive/initeffects.cpp:365
 msgid "Declipper"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:372
+#: kdenlive/initeffects.cpp:374
 msgid "Vinyl"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:376
+#: kdenlive/initeffects.cpp:378
 msgid "Year"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:386
+#: kdenlive/initeffects.cpp:388
 msgid "RPM"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:396
+#: kdenlive/initeffects.cpp:398
 msgid "Surface warping"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:406
+#: kdenlive/initeffects.cpp:408
 msgid "Crackle"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:416
+#: kdenlive/initeffects.cpp:418
 msgid "Wear"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:427
+#: kdenlive/initeffects.cpp:429
 msgid "Pitch Shift"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:431
+#: kdenlive/initeffects.cpp:433
 msgid "Shift"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:442
+#: kdenlive/initeffects.cpp:444
 msgid "Room reverb"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:446
+#: kdenlive/initeffects.cpp:448
 msgid "Room size (m)"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:454
+#: kdenlive/initeffects.cpp:456
 msgid "Delay (s/10)"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:463 kdenlive/initeffects.cpp:488
+#: kdenlive/initeffects.cpp:465 kdenlive/initeffects.cpp:490
 msgid "Damping"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:475
+#: kdenlive/initeffects.cpp:477
 msgid "Reverb"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:479
+#: kdenlive/initeffects.cpp:481
 msgid "Reverb time"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:500
+#: kdenlive/initeffects.cpp:502
 msgid "Equalizer"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:504
+#: kdenlive/initeffects.cpp:506
 msgid "Lo gain"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:512
+#: kdenlive/initeffects.cpp:514
 msgid "Mid gain"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:520
+#: kdenlive/initeffects.cpp:522
 msgid "Hi gain"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:532
+#: kdenlive/initeffects.cpp:534
 msgid "Limiter"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:536
+#: kdenlive/initeffects.cpp:538
 msgid "Input Gain (db)"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:544
+#: kdenlive/initeffects.cpp:546
 msgid "Limit (db)"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:552
+#: kdenlive/initeffects.cpp:554
 msgid "Release time (s)"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:564
+#: kdenlive/initeffects.cpp:566
 msgid "Pitch Scaler"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:568
+#: kdenlive/initeffects.cpp:570
 msgid "Co-efficient"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:579
+#: kdenlive/initeffects.cpp:581
 msgid "Rate Scaler"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:583
+#: kdenlive/initeffects.cpp:585
 msgid "Rate"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:594
+#: kdenlive/initeffects.cpp:596
 msgid "Phaser"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:598
+#: kdenlive/initeffects.cpp:600
 msgid "Rate (Hz)"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:606
+#: kdenlive/initeffects.cpp:608
 msgid "Depth"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:615
+#: kdenlive/initeffects.cpp:617
 msgid "Feedback"
 msgstr ""
 
-#: kdenlive/initeffects.cpp:624
+#: kdenlive/initeffects.cpp:626
 msgid "Spread"
 msgstr ""
 
@@ -2740,7 +2760,8 @@ msgstr ""
 #: kdenlive/rc.cpp:1941 kdenlive/rc.cpp:2013 kdenlive/rc.cpp:2085
 #: kdenlive/rc.cpp:2157 kdenlive/rc.cpp:2229 kdenlive/rc.cpp:2301
 #: kdenlive/rc.cpp:2373 kdenlive/rc.cpp:2445 kdenlive/rc.cpp:2517
-#: kdenlive/rc.cpp:2589 kdenlive/rc.cpp:2661
+#: kdenlive/rc.cpp:2589 kdenlive/rc.cpp:2661 kdenlive/rc.cpp:2733
+#: kdenlive/rc.cpp:2805
 #, no-c-format
 msgid "&Project"
 msgstr ""
@@ -2758,11 +2779,16 @@ msgstr ""
 #: kdenlive/rc.cpp:1944 kdenlive/rc.cpp:2016 kdenlive/rc.cpp:2088
 #: kdenlive/rc.cpp:2160 kdenlive/rc.cpp:2232 kdenlive/rc.cpp:2304
 #: kdenlive/rc.cpp:2376 kdenlive/rc.cpp:2448 kdenlive/rc.cpp:2520
-#: kdenlive/rc.cpp:2592 kdenlive/rc.cpp:2664
+#: kdenlive/rc.cpp:2592 kdenlive/rc.cpp:2664 kdenlive/rc.cpp:2736
+#: kdenlive/rc.cpp:2808
 #, no-c-format
 msgid "&Timeline"
 msgstr ""
 
+#. i18n: file kdenlive/kdenliveui.rc line 45
+#. i18n: file kdenlive/kdenliveui.rc line 219
+#. i18n: file kdenlive/kdenliveui.rc line 45
+#. i18n: file kdenlive/kdenliveui.rc line 219
 #. i18n: file kdenlive/kdenliveui.rc line 45
 #. i18n: file kdenlive/kdenliveui.rc line 219
 #. i18n: file kdenlive/kdenliveui.rc line 45
@@ -2864,6 +2890,8 @@ msgstr ""
 #: kdenlive/rc.cpp:2412 kdenlive/rc.cpp:2451 kdenlive/rc.cpp:2484
 #: kdenlive/rc.cpp:2523 kdenlive/rc.cpp:2556 kdenlive/rc.cpp:2595
 #: kdenlive/rc.cpp:2628 kdenlive/rc.cpp:2667 kdenlive/rc.cpp:2700
+#: kdenlive/rc.cpp:2739 kdenlive/rc.cpp:2772 kdenlive/rc.cpp:2811
+#: kdenlive/rc.cpp:2844
 #, no-c-format
 msgid "Go To"
 msgstr ""
@@ -2881,7 +2909,8 @@ msgstr ""
 #: kdenlive/rc.cpp:1950 kdenlive/rc.cpp:2022 kdenlive/rc.cpp:2094
 #: kdenlive/rc.cpp:2166 kdenlive/rc.cpp:2238 kdenlive/rc.cpp:2310
 #: kdenlive/rc.cpp:2382 kdenlive/rc.cpp:2454 kdenlive/rc.cpp:2526
-#: kdenlive/rc.cpp:2598 kdenlive/rc.cpp:2670
+#: kdenlive/rc.cpp:2598 kdenlive/rc.cpp:2670 kdenlive/rc.cpp:2742
+#: kdenlive/rc.cpp:2814
 #, no-c-format
 msgid "Monitor"
 msgstr ""
@@ -2899,7 +2928,8 @@ msgstr ""
 #: kdenlive/rc.cpp:1953 kdenlive/rc.cpp:2025 kdenlive/rc.cpp:2097
 #: kdenlive/rc.cpp:2169 kdenlive/rc.cpp:2241 kdenlive/rc.cpp:2313
 #: kdenlive/rc.cpp:2385 kdenlive/rc.cpp:2457 kdenlive/rc.cpp:2529
-#: kdenlive/rc.cpp:2601 kdenlive/rc.cpp:2673
+#: kdenlive/rc.cpp:2601 kdenlive/rc.cpp:2673 kdenlive/rc.cpp:2745
+#: kdenlive/rc.cpp:2817
 #, no-c-format
 msgid "Render"
 msgstr ""
@@ -2917,7 +2947,8 @@ msgstr ""
 #: kdenlive/rc.cpp:1956 kdenlive/rc.cpp:2028 kdenlive/rc.cpp:2100
 #: kdenlive/rc.cpp:2172 kdenlive/rc.cpp:2244 kdenlive/rc.cpp:2316
 #: kdenlive/rc.cpp:2388 kdenlive/rc.cpp:2460 kdenlive/rc.cpp:2532
-#: kdenlive/rc.cpp:2604 kdenlive/rc.cpp:2676
+#: kdenlive/rc.cpp:2604 kdenlive/rc.cpp:2676 kdenlive/rc.cpp:2748
+#: kdenlive/rc.cpp:2820
 #, no-c-format
 msgid "Layout"
 msgstr ""
@@ -2935,11 +2966,24 @@ msgstr ""
 #: kdenlive/rc.cpp:1959 kdenlive/rc.cpp:2031 kdenlive/rc.cpp:2103
 #: kdenlive/rc.cpp:2175 kdenlive/rc.cpp:2247 kdenlive/rc.cpp:2319
 #: kdenlive/rc.cpp:2391 kdenlive/rc.cpp:2463 kdenlive/rc.cpp:2535
-#: kdenlive/rc.cpp:2607 kdenlive/rc.cpp:2679
+#: kdenlive/rc.cpp:2607 kdenlive/rc.cpp:2679 kdenlive/rc.cpp:2751
+#: kdenlive/rc.cpp:2823
 #, no-c-format
 msgid "Windows"
 msgstr ""
 
+#. i18n: file kdenlive/kdenliveui.rc line 124
+#. i18n: file kdenlive/kdenliveui.rc line 137
+#. i18n: file kdenlive/kdenliveui.rc line 152
+#. i18n: file kdenlive/kdenliveui.rc line 168
+#. i18n: file kdenlive/kdenliveui.rc line 184
+#. i18n: file kdenlive/kdenliveui.rc line 201
+#. i18n: file kdenlive/kdenliveui.rc line 124
+#. i18n: file kdenlive/kdenliveui.rc line 137
+#. i18n: file kdenlive/kdenliveui.rc line 152
+#. i18n: file kdenlive/kdenliveui.rc line 168
+#. i18n: file kdenlive/kdenliveui.rc line 184
+#. i18n: file kdenlive/kdenliveui.rc line 201
 #. i18n: file kdenlive/kdenliveui.rc line 124
 #. i18n: file kdenlive/kdenliveui.rc line 137
 #. i18n: file kdenlive/kdenliveui.rc line 152
@@ -3243,11 +3287,19 @@ msgstr ""
 #: kdenlive/rc.cpp:2616 kdenlive/rc.cpp:2619 kdenlive/rc.cpp:2622
 #: kdenlive/rc.cpp:2625 kdenlive/rc.cpp:2682 kdenlive/rc.cpp:2685
 #: kdenlive/rc.cpp:2688 kdenlive/rc.cpp:2691 kdenlive/rc.cpp:2694
-#: kdenlive/rc.cpp:2697
+#: kdenlive/rc.cpp:2697 kdenlive/rc.cpp:2754 kdenlive/rc.cpp:2757
+#: kdenlive/rc.cpp:2760 kdenlive/rc.cpp:2763 kdenlive/rc.cpp:2766
+#: kdenlive/rc.cpp:2769 kdenlive/rc.cpp:2826 kdenlive/rc.cpp:2829
+#: kdenlive/rc.cpp:2832 kdenlive/rc.cpp:2835 kdenlive/rc.cpp:2838
+#: kdenlive/rc.cpp:2841
 #, no-c-format
 msgid "Create Clip"
 msgstr ""
 
+#. i18n: file kdenlive/kdenliveui.rc line 224
+#. i18n: file kdenlive/kdenliveui.rc line 245
+#. i18n: file kdenlive/kdenliveui.rc line 224
+#. i18n: file kdenlive/kdenliveui.rc line 245
 #. i18n: file kdenlive/kdenliveui.rc line 224
 #. i18n: file kdenlive/kdenliveui.rc line 245
 #. i18n: file kdenlive/kdenliveui.rc line 224
@@ -3349,11 +3401,16 @@ msgstr ""
 #: kdenlive/rc.cpp:2415 kdenlive/rc.cpp:2424 kdenlive/rc.cpp:2487
 #: kdenlive/rc.cpp:2496 kdenlive/rc.cpp:2559 kdenlive/rc.cpp:2568
 #: kdenlive/rc.cpp:2631 kdenlive/rc.cpp:2640 kdenlive/rc.cpp:2703
-#: kdenlive/rc.cpp:2712
+#: kdenlive/rc.cpp:2712 kdenlive/rc.cpp:2775 kdenlive/rc.cpp:2784
+#: kdenlive/rc.cpp:2847 kdenlive/rc.cpp:2856
 #, no-c-format
 msgid "Tools"
 msgstr ""
 
+#. i18n: file kdenlive/kdenliveui.rc line 231
+#. i18n: file kdenlive/kdenliveui.rc line 252
+#. i18n: file kdenlive/kdenliveui.rc line 231
+#. i18n: file kdenlive/kdenliveui.rc line 252
 #. i18n: file kdenlive/kdenliveui.rc line 231
 #. i18n: file kdenlive/kdenliveui.rc line 252
 #. i18n: file kdenlive/kdenliveui.rc line 231
@@ -3455,7 +3512,8 @@ msgstr ""
 #: kdenlive/rc.cpp:2418 kdenlive/rc.cpp:2427 kdenlive/rc.cpp:2490
 #: kdenlive/rc.cpp:2499 kdenlive/rc.cpp:2562 kdenlive/rc.cpp:2571
 #: kdenlive/rc.cpp:2634 kdenlive/rc.cpp:2643 kdenlive/rc.cpp:2706
-#: kdenlive/rc.cpp:2715
+#: kdenlive/rc.cpp:2715 kdenlive/rc.cpp:2778 kdenlive/rc.cpp:2787
+#: kdenlive/rc.cpp:2850 kdenlive/rc.cpp:2859
 #, no-c-format
 msgid "Snap To"
 msgstr ""
@@ -3473,7 +3531,8 @@ msgstr ""
 #: kdenlive/rc.cpp:1989 kdenlive/rc.cpp:2061 kdenlive/rc.cpp:2133
 #: kdenlive/rc.cpp:2205 kdenlive/rc.cpp:2277 kdenlive/rc.cpp:2349
 #: kdenlive/rc.cpp:2421 kdenlive/rc.cpp:2493 kdenlive/rc.cpp:2565
-#: kdenlive/rc.cpp:2637 kdenlive/rc.cpp:2709
+#: kdenlive/rc.cpp:2637 kdenlive/rc.cpp:2709 kdenlive/rc.cpp:2781
+#: kdenlive/rc.cpp:2853
 #, no-c-format
 msgid "Tracks"
 msgstr ""
@@ -3491,7 +3550,8 @@ msgstr ""
 #: kdenlive/rc.cpp:1998 kdenlive/rc.cpp:2070 kdenlive/rc.cpp:2142
 #: kdenlive/rc.cpp:2214 kdenlive/rc.cpp:2286 kdenlive/rc.cpp:2358
 #: kdenlive/rc.cpp:2430 kdenlive/rc.cpp:2502 kdenlive/rc.cpp:2574
-#: kdenlive/rc.cpp:2646 kdenlive/rc.cpp:2718
+#: kdenlive/rc.cpp:2646 kdenlive/rc.cpp:2718 kdenlive/rc.cpp:2790
+#: kdenlive/rc.cpp:2862
 #, no-c-format
 msgid "Add Video Effect"
 msgstr ""
@@ -3509,7 +3569,8 @@ msgstr ""
 #: kdenlive/rc.cpp:2001 kdenlive/rc.cpp:2073 kdenlive/rc.cpp:2145
 #: kdenlive/rc.cpp:2217 kdenlive/rc.cpp:2289 kdenlive/rc.cpp:2361
 #: kdenlive/rc.cpp:2433 kdenlive/rc.cpp:2505 kdenlive/rc.cpp:2577
-#: kdenlive/rc.cpp:2649 kdenlive/rc.cpp:2721
+#: kdenlive/rc.cpp:2649 kdenlive/rc.cpp:2721 kdenlive/rc.cpp:2793
+#: kdenlive/rc.cpp:2865
 #, no-c-format
 msgid "Add Audio Effect"
 msgstr ""
@@ -3528,7 +3589,8 @@ msgstr ""
 #: kdenlive/rc.cpp:2007 kdenlive/rc.cpp:2079 kdenlive/rc.cpp:2151
 #: kdenlive/rc.cpp:2223 kdenlive/rc.cpp:2295 kdenlive/rc.cpp:2367
 #: kdenlive/rc.cpp:2439 kdenlive/rc.cpp:2511 kdenlive/rc.cpp:2583
-#: kdenlive/rc.cpp:2655 kdenlive/rc.cpp:2727
+#: kdenlive/rc.cpp:2655 kdenlive/rc.cpp:2727 kdenlive/rc.cpp:2799
+#: kdenlive/rc.cpp:2871
 #, no-c-format
 msgid "Timeline Toolbar"
 msgstr ""
@@ -3547,7 +3609,8 @@ msgstr ""
 #: kdenlive/rc.cpp:2010 kdenlive/rc.cpp:2082 kdenlive/rc.cpp:2154
 #: kdenlive/rc.cpp:2226 kdenlive/rc.cpp:2298 kdenlive/rc.cpp:2370
 #: kdenlive/rc.cpp:2442 kdenlive/rc.cpp:2514 kdenlive/rc.cpp:2586
-#: kdenlive/rc.cpp:2658 kdenlive/rc.cpp:2730
+#: kdenlive/rc.cpp:2658 kdenlive/rc.cpp:2730 kdenlive/rc.cpp:2802
+#: kdenlive/rc.cpp:2874
 #, no-c-format
 msgid "Layout Toolbar"
 msgstr ""
@@ -3565,6 +3628,7 @@ msgstr ""
 #: kdenlive/rc.cpp:2148 kdenlive/rc.cpp:2220 kdenlive/rc.cpp:2292
 #: kdenlive/rc.cpp:2364 kdenlive/rc.cpp:2436 kdenlive/rc.cpp:2508
 #: kdenlive/rc.cpp:2580 kdenlive/rc.cpp:2652 kdenlive/rc.cpp:2724
+#: kdenlive/rc.cpp:2796 kdenlive/rc.cpp:2868
 #, no-c-format
 msgid "Delete Effect"
 msgstr ""
