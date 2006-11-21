@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-21 09:24+0100\n"
-"PO-Revision-Date: 2006-11-21 10:09+0100\n"
+"PO-Revision-Date: 2006-11-21 10:12+0100\n"
 "Last-Translator: Jean-Michel Pouré <jmpoure@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1289,7 +1289,7 @@ msgstr "Habillage"
 
 #: kdenlive/initeffects.cpp:427
 msgid "Pitch Shift"
-msgstr "Modification fréquence"
+msgstr "Modulation"
 
 #: kdenlive/initeffects.cpp:431
 msgid "Shift"
@@ -1353,7 +1353,7 @@ msgstr "Délai de propagation (sec)"
 
 #: kdenlive/initeffects.cpp:564
 msgid "Pitch Scaler"
-msgstr "Modification vitesse lecture"
+msgstr "Vitesse lecture"
 
 #: kdenlive/initeffects.cpp:568
 msgid "Co-efficient"
