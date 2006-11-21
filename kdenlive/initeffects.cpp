@@ -203,7 +203,8 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 	xmlAttr.clear();
 
 	xmlAttr.append("type", QString::null, QString::null, "double");
-	xmlAttr.append("name", QString::null, QString::null, "Intensity");
+	xmlAttr.append("name", QString::null, QString::null, "intensity");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Intensity"));
 	xmlAttr.append("max", QString::null, QString::null, "300");
 	xmlAttr.append("min", QString::null, QString::null, "0");
 	xmlAttr.append("default", QString::null, QString::null, "100");
@@ -218,6 +219,7 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 	xmlAttr.clear();
 	xmlAttr.append("type", QString::null, QString::null, "double");
 	xmlAttr.append("name", QString::null, QString::null, "gain");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Gain"));
 	xmlAttr.append("starttag", QString::null, QString::null, "gain");
 	xmlAttr.append("max", QString::null, QString::null, "300");
 	xmlAttr.append("min", QString::null, QString::null, "0");
@@ -244,7 +246,7 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 
 	xmlAttr.clear();
 	xmlAttr.append("type", QString::null, QString::null, "complex");
-	xmlAttr.append("name", QString::null, QString::null, "X;Y;Width;Height;Averaging");
+	xmlAttr.append("name", QString::null, QString::null, i18n("X") + ";" + i18n("Y") + ";" + i18n("Width") + ";" + i18n("Height") + ";" + i18n("Averaging"));
 	xmlAttr.append("min", QString::null, QString::null, "0;0;0;0;3");
 	xmlAttr.append("max", QString::null, QString::null, QString::number(KdenliveSettings::defaultwidth()) + ";" + QString::number(KdenliveSettings::defaultheight()) + ";1000;1000;100");
 	xmlAttr.append("default", QString::null, QString::null, QString::number((int) KdenliveSettings::defaultwidth() / 2) + ";" + QString::number((int) KdenliveSettings::defaultheight() / 2) + ";100;100;20");
