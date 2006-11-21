@@ -121,7 +121,7 @@ namespace Gui {
 	 connect(playButton, SIGNAL(pressed()), this, SLOT(play()));
 	 connect(playButton, SIGNAL(released()), this, SLOT(updateButtons()));
          
-         connect(playSectionButton, SIGNAL(pressed()), this, SLOT(playSelected()));
+         connect(playSectionButton, SIGNAL(pressed()), this, SLOT(togglePlaySelected()));
 	 connect(playSectionButton, SIGNAL(released()), this, SLOT(updateButtons()));
 
          connect(loopSection, SIGNAL(pressed()), this, SLOT(loopSelected()));
@@ -251,17 +251,8 @@ namespace Gui {
 	    m_document->framesPerSecond());
     } 
     
-    void KMMEditPanel::togglePlay() {
-	m_playSelected = false;
-	m_loop = false;
-	if (isPlaying()) {
-	    setPlaying(false);
-	} else {
-	    setPlaying(true);
-	}
-    }
-
     void KMMEditPanel::togglePlaySelected() {
+	m_loop = false;
 	m_playSelected = true;
 	if (isPlaying()) {
 	    setPlaying(false);
@@ -305,17 +296,9 @@ namespace Gui {
         updateButtons();
     }
 
-    void KMMEditPanel::playSelected() {
-	m_playSelected = true;
-	if (isPlaying()) {
-	    setPlaying(false);
-	} else {
-	    setPlaying(true);
-	}
-    }
-
     void KMMEditPanel::loopSelected() {
 	m_playSelected = true;
+	m_pauseMode = false;
 	m_loop = true;
 
 	if (isPlaying()) {
@@ -323,6 +306,7 @@ namespace Gui {
 	} else {
 	    setPlaying(true);
 	}
+	//updateButtons();
     }
 
     void KMMEditPanel::play() {
@@ -372,6 +356,13 @@ namespace Gui {
     void KMMEditPanel::updateButtons() {
 	KIconLoader loader;
 	stopButton->setDown(false);
+	if (m_loop) { 
+	    if (!loopSection->isOn()) loopSection->toggle();
+	    if (!playButton->isOn()) playButton->toggle();
+	    playButton->setPixmap(loader.loadIcon("kdenlive_pause",
+                                  KIcon::Small, buttonSize));
+	    return;
+	}
 	if (isPlaying()) {
 	    forwardButton->setDown(isForwarding());
 	    rewindButton->setDown(isRewinding());
@@ -392,13 +383,9 @@ namespace Gui {
                                   KIcon::Small, buttonSize));
 
 	} else {
-	    if (playButton->isOn()) {
-		playButton->toggle();
-	    }
-	    if (playSectionButton->isOn()) {
-		playSectionButton->toggle();
-	    }
-
+	    if (playButton->isOn()) playButton->toggle();
+	    if (playSectionButton->isOn()) playSectionButton->toggle();
+	    if (loopSection->isOn()) loopSection->toggle();
 	    playButton->setPixmap(loader.loadIcon("kdenlive_play",
                                   KIcon::Small, buttonSize));
 	}

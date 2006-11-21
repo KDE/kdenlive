@@ -121,7 +121,6 @@ namespace Gui {
   /** Called when the "play" button is pressed */
 	void play();
   /** Called when the "play selected" button is pressed */
-	void playSelected();
 	void loopSelected();
   /** Sets the current seek position to the one specified */
 	void seek(const GenTime & time);
@@ -137,8 +136,6 @@ namespace Gui {
 	void setOutpoint(const GenTime & outpoint);
   /** Sets the inpoint position to the current seek position */
 	void setInpoint(const GenTime & inpoint);
-  /** Toggles whether or not we are currently "playing" */
-	void togglePlay();
   /** Toggles whether or not we are currently "playing" the inpoint/outpoint selection*/
 	void togglePlaySelected();
 	void toggleForward();
