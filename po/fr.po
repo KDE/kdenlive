@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-21 09:24+0100\n"
-"PO-Revision-Date: 2006-11-21 10:15+0100\n"
+"PO-Revision-Date: 2006-11-21 10:19+0100\n"
 "Last-Translator: Jean-Michel Pouré <jmpoure@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1361,7 +1361,7 @@ msgstr "Facteur de mise à l'échelle"
 
 #: kdenlive/initeffects.cpp:579
 msgid "Rate Scaler"
-msgstr "Rééchantillonnage fréquence"
+msgstr "Rééchantillonnage"
 
 #: kdenlive/initeffects.cpp:583
 msgid "Rate"
