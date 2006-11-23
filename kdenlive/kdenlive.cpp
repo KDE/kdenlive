@@ -1004,6 +1004,10 @@ namespace Gui {
 	m_dockClipMonitor->manualDock( m_dockWorkspaceMonitor, KDockWidget::DockCenter );
 	m_dockClipMonitor->setToolTipString(i18n("Clip Monitor"));
 
+	m_dockCaptureMonitor = createDockWidget( "Capture Monitor", QPixmap(), 0, i18n( "Capture Monitor" ) );
+	m_dockCaptureMonitor->setDockSite( KDockWidget::DockFullSite );
+	m_dockCaptureMonitor->manualDock( m_dockWorkspaceMonitor, KDockWidget::DockCenter );
+
 	setBackgroundMode(PaletteBase);
 	makeDockInvisible(mainDock);
 	readDockConfig(config, "Default Layout");
@@ -1065,12 +1069,9 @@ namespace Gui {
 	m_clipMonitor->show();
 	m_dockClipMonitor->update();
 
-	m_dockCaptureMonitor = createDockWidget( "Capture Monitor", QPixmap(), 0, i18n( "Capture Monitor" ) );
+        if (m_captureMonitor) delete m_captureMonitor;
 	m_captureMonitor = m_monitorManager.createCaptureMonitor( getDocument(), m_dockCaptureMonitor, "Capture Monitor" );
 	m_dockCaptureMonitor->setWidget( m_captureMonitor );
-	m_dockCaptureMonitor->setDockSite( KDockWidget::DockFullSite );
-	m_dockCaptureMonitor->manualDock( m_dockWorkspaceMonitor, KDockWidget::DockCenter );
-//	m_captureMonitor->editPanel()->showLcd(KdenliveSettings::showlcd());
 	m_captureMonitor->show();
 	m_dockCaptureMonitor->update();
 
