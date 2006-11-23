@@ -63,6 +63,8 @@ namespace Gui {
 	connect(forwardButton, SIGNAL(pressed()), this, SIGNAL(forwardDevice()));
 	 connect(recButton, SIGNAL(pressed()), this, SIGNAL(recDevice()));
 	 connect(playButton, SIGNAL(pressed()), this, SIGNAL(playDevice()));
+	connect(pauseButton, SIGNAL(pressed()), this, SIGNAL(pauseDevice()));
+
 	 connect(playButton, SIGNAL(released()), this, SLOT(updateButtons()));
          
 	 connect(stopButton, SIGNAL(pressed()), this, SIGNAL(stopDevice()));

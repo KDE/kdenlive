@@ -51,6 +51,7 @@ namespace Gui {
 	 signals:		// Signals
 
 	void playDevice();
+	void pauseDevice();
 	void stopDevice();
 	void stepRewindDevice();
 	void rewindDevice();

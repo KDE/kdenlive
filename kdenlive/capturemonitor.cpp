@@ -51,6 +51,7 @@ namespace Gui {
 	connect(m_recPanel, SIGNAL(activateMonitor()), this,  SLOT(activateMonitor()));
 	connect(m_recPanel, SIGNAL(stopDevice()), this, SLOT(slotStop()));
 	connect(m_recPanel, SIGNAL(playDevice()), this, SLOT(slotPlay()));
+	connect(m_recPanel, SIGNAL(pauseDevice()), this, SLOT(slotPause()));
 	connect(m_recPanel, SIGNAL(recDevice()), this, SLOT(slotRec()));
 	connect(m_recPanel, SIGNAL(forwardDevice()), this, SLOT(slotFastForward()));
 	connect(m_recPanel, SIGNAL(stepForwardDevice()), this, SLOT(slotForward()));
@@ -128,12 +129,13 @@ void CaptureMonitor::displayCapturedFiles()
         more = dir.entryList( QDir::Files );
         for ( it = more.begin() ; it != more.end() ; ++it ){
 		QPixmap p = m_app->getDocument()->renderer()->getVideoThumbnail(KURL(m_tmpFolder + (*it)), 1, 60, 40);
-		//QPixmap p = QImage(selectedFolder() + "/" + (*it)).smoothScale(50, 40);
-		QCheckListItem *item = new QCheckListItem(lv, QString::null, QCheckListItem::CheckBox);
-		item->setPixmap(0, p);
-		item->setText(1, (*it));
-		item->setText(2, (*it));
-		((QCheckListItem*)item)->setOn(true);
+		if (!p.isNull()) {
+		    QCheckListItem *item = new QCheckListItem(lv, QString::null, QCheckListItem::CheckBox);
+		    item->setPixmap(0, p);
+		    item->setText(1, (*it));
+		    item->setText(2, (*it));
+		    ((QCheckListItem*)item)->setOn(true);
+		}
 	    }
 	lv->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	dia->setMainWidget(lv);
@@ -192,6 +194,11 @@ void CaptureMonitor::displayCapturedFiles()
         connect(captureProcess, SIGNAL(processExited(KProcess *)), this, SLOT(slotStop(KProcess *)));
 	m_recPanel->rendererConnected();
 	hasCapturedFiles = false;
+    }
+
+    void CaptureMonitor::slotPause() {
+	if (!captureProcess) slotInit();
+	captureProcess->writeStdin("\e", 2);
     }
 
     void CaptureMonitor::slotPlay() {

@@ -243,9 +243,12 @@ QPixmap KRender::extractFrame(int frame, int width, int height)
 	QImage m_image(m_thumb, width, height, 32, 0, 0, QImage::IgnoreEndian);
 	delete m_frame;
 	
-	if (!m_image.isNull())
+	if (!m_image.isNull()) {
 	    //pix = m_image.smoothScale(width, height);
+	    /*kdDebug()<<" + + +EXTRACT FRAME: "<<m_image.width()<<", "<<m_image.height()<<endl;
+	    kdDebug()<<" + + +EXTRACT FRAME TO: "<<width<<", "<<height<<endl;*/
 	    bitBlt(&pix, 0, 0, &m_image, 0, 0, width, height);
+	}
     }
     delete mlt_producer;
     return pix;
@@ -279,6 +282,9 @@ QPixmap KRender::getVideoThumbnail(KURL url, int frame, int width, int height)
 {
     QPixmap pixmap(width, height);
     Mlt::Producer m_producer(decodedString(url.path()));
+    if (m_producer.is_blank()) {
+	return 0;
+    }
     Mlt::Filter m_convert("avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
     m_producer.attach(m_convert);

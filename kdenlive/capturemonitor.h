@@ -59,6 +59,7 @@ A capture monitor, that allows you to capture video from various devices, as sup
 	void slotFastForward();
 	void slotStop(KProcess *p = 0);
 	void slotPlay();
+	void slotPause();
 	void slotForward();
 	void slotSetActive();
 	void slotClickMonitor();
