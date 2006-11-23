@@ -28,7 +28,6 @@
 
 
 class KRender;
-class QXEmbed;
 
 namespace Gui {
     class KdenliveApp;
@@ -55,18 +54,14 @@ protected:
 	void mousePressEvent(QMouseEvent * e);
 	void wheelEvent(QWheelEvent * e);
 	void mouseMoveEvent(QMouseEvent * e);
-  void paintEvent ( QPaintEvent * );
-private:			// Private attributes
-  KRender * m_render;
-	KdenliveApp *m_app;
+	void paintEvent ( QPaintEvent * );
 
-	//QXEmbed *m_embed;
+private:			// Private attributes
+	KRender * m_render;
+	KdenliveApp *m_app;
 	GenTime m_clipLength;
-  QString m_name;
-private slots:
-   /** The renderer is ready, so we open
-   a video window, etc. here. */
-	void rendererReady();
+	QString m_name;
+	
 
 public slots:
 	/** Embeds the specified window. */

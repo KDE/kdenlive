@@ -1065,12 +1065,14 @@ namespace Gui {
 	m_clipMonitor->show();
 	m_dockClipMonitor->update();
 
-//	m_dockCaptureMonitor = createDockWidget( "Capture Monitor", QPixmap(), 0, i18n( "Capture Monitor" ) );
-//	m_captureMonitor = m_monitorManager.createCaptureMonitor( getDocument(), m_dockCaptureMonitor, "Capture Monitor" );
-//	m_dockCaptureMonitor->setWidget( m_captureMonitor );
-//	m_dockCaptureMonitor->setDockSite( KDockWidget::DockFullSite );
-//	m_dockCaptureMonitor->manualDock( m_dockWorkspaceMonitor, KDockWidget::DockCenter );
-//	m_dockCaptureMonitor->editPanel()->showLcd(KdenliveSettings::showlcd());
+	m_dockCaptureMonitor = createDockWidget( "Capture Monitor", QPixmap(), 0, i18n( "Capture Monitor" ) );
+	m_captureMonitor = m_monitorManager.createCaptureMonitor( getDocument(), m_dockCaptureMonitor, "Capture Monitor" );
+	m_dockCaptureMonitor->setWidget( m_captureMonitor );
+	m_dockCaptureMonitor->setDockSite( KDockWidget::DockFullSite );
+	m_dockCaptureMonitor->manualDock( m_dockWorkspaceMonitor, KDockWidget::DockCenter );
+//	m_captureMonitor->editPanel()->showLcd(KdenliveSettings::showlcd());
+	m_captureMonitor->show();
+	m_dockCaptureMonitor->update();
 
 	connect(m_workspaceMonitor,
 	    SIGNAL(seekPositionChanged(const GenTime &)), m_timeline,
@@ -2115,10 +2117,16 @@ namespace Gui {
 		QString save = partial.toString();
     		file.writeBlock(save.utf8(), save.length());
 		file.close();
-		if (addToProject->isChecked()) addCommand(new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), fd->selectedURL().path(), true));
+		if (addToProject->isChecked()) insertClipFromUrl(fd->selectedURL().path());
 	}
 	delete addToProject;
 	delete fd;
+    }
+
+
+    void KdenliveApp::insertClipFromUrl(QString path)
+    {
+	addCommand(new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), path, true));
     }
 
     void KdenliveApp::slotVirtualZone()
@@ -2643,7 +2651,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    else clipName.append("#2");
 	 
 
-	    KTempFile tmp(KdenliveSettings::currentdefaultfolder(),".png");
+	    KTempFile tmp(KdenliveSettings::currenttmpfolder(),".png");
 	    QPixmap thumb = clip->thumbnail();
             KCommand *command =
                     new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), refClip->duration(), clip->name(), QString::null, clip->toDocClipTextFile()->textClipXml() , KURL(tmp.name()), thumb, clip->toDocClipTextFile()->isTransparent(), true);

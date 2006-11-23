@@ -404,6 +404,7 @@ namespace Gui {
 	void guidesFromXml(QDomElement doc);
 	uint projectVideoFormat();
 	void refreshVirtualZone();
+	void insertClipFromUrl(QString path);
 
       private slots: 
         void slotToggleClipMonitor();

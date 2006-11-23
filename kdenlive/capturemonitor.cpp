@@ -20,7 +20,11 @@
 
 #include <kled.h>
 #include <klocale.h>
-#include <kmmscreen.h>
+#include <kio/netaccess.h>
+#include <kstandarddirs.h>
+
+#include <kdenlivedoc.h>
+#include <kmmrecpanel.h>
 #include <kurlrequester.h>
 #include <klistview.h>
 #include <kiconloader.h>
@@ -28,67 +32,34 @@
 namespace Gui {
 
     CaptureMonitor::CaptureMonitor(KdenliveApp * app, QWidget * parent,
-	const char *name)
-    :KMonitor(parent, name), m_mainLayout(new QHBox(this, "capLayout")),
-	m_saveLayout(new QVBox(m_mainLayout, "saveLayout")),
-	m_saveBrowser(new KURLRequester(m_saveLayout, "saveUrl")),
-	m_playListView(new KListView(m_saveLayout, "playlistView")),
-	m_rightLayout(new QVBox(m_mainLayout, "rightLayout")),
-	m_screen(new KMMScreen(app, m_rightLayout, name)),
-	m_buttonLayout(new QHBox(m_rightLayout, "buttonLayout")),
-	m_rewindButton(new QToolButton(m_buttonLayout, "rewind")),
-	m_reverseButton(new QToolButton(m_buttonLayout, "reverse")),
-	m_reverseSlowButton(new QToolButton(m_buttonLayout,
-	    "reverseSlow")), m_stopButton(new QToolButton(m_buttonLayout,
-	    "stop")), m_playSlowButton(new QToolButton(m_buttonLayout,
-	    "playSlow")), m_playButton(new QToolButton(m_buttonLayout,
-	    "play")), m_forwardButton(new QToolButton(m_buttonLayout,
-	    "forward")), m_recordButton(new QToolButton(m_buttonLayout,
-	    "record")), m_renderStatus(new KLed(m_buttonLayout, name))
+	const char *name):KMonitor(parent, name),
+	m_app(app), m_screenHolder(new QVBox(this,name)), m_screen(new QWidget(m_screenHolder, name)),
+	m_recPanel(new KMMRecPanel(app->getDocument(), this, name)), captureProcess(0), hasCapturedFiles(false), m_tmpFolder(0)
     {
-	m_playListView->addColumn(i18n("Name"));
-	m_playListView->addColumn(i18n("Inpoint"));
-	m_playListView->addColumn(i18n("Outpoint"));
 
-	KIconLoader loader;
+	m_screen->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
+	m_screen->setBackgroundMode(Qt::PaletteDark);
 
-	 m_renderStatus->off();
+	if (KStandardDirs::findExe("dvgrab") == QString::null ||KStandardDirs::findExe("ffplay") == QString::null) {
+		m_recPanel->setEnabled(false);
+		QLabel *lb = new QLabel(i18n("<b>The programs dvgrab or ffplay are missing</b>.<br>Firewire capture will be disabled until you install them."), m_screenHolder);
+		lb->setPaletteBackgroundColor(Qt::red);
+		lb->setMargin(5);
+		lb->show();
+	}
 
-	 m_rewindButton->setPixmap(loader.loadIcon("player_rew",
-		KIcon::Toolbar));
-	 m_reverseButton->setPixmap(loader.loadIcon("", KIcon::Toolbar));
-	 m_reverseSlowButton->setPixmap(loader.loadIcon("",
-		KIcon::Toolbar));
-	 m_stopButton->setPixmap(loader.loadIcon("player_stop",
-		KIcon::Toolbar));
-	 m_playSlowButton->setPixmap(loader.loadIcon("", KIcon::Toolbar));
-	 m_playButton->setPixmap(loader.loadIcon("player_play",
-		KIcon::Toolbar));
-	 m_forwardButton->setPixmap(loader.loadIcon("player_fwd",
-		KIcon::Toolbar));
-	 m_recordButton->setPixmap(loader.loadIcon("record",
-		KIcon::Toolbar));
+	connect(m_recPanel, SIGNAL(activateMonitor()), this,  SLOT(activateMonitor()));
+	connect(m_recPanel, SIGNAL(stopDevice()), this, SLOT(slotStop()));
+	connect(m_recPanel, SIGNAL(playDevice()), this, SLOT(slotPlay()));
+	connect(m_recPanel, SIGNAL(recDevice()), this, SLOT(slotRec()));
+	connect(m_recPanel, SIGNAL(forwardDevice()), this, SLOT(slotFastForward()));
+	connect(m_recPanel, SIGNAL(stepForwardDevice()), this, SLOT(slotForward()));
+	connect(m_recPanel, SIGNAL(rewindDevice()), this, SLOT(slotRewind()));
+	connect(m_recPanel, SIGNAL(stepRewindDevice()), this, SLOT(slotReverse()));
+    } 
 
-	 connect(m_screen, SIGNAL(rendererConnected()), this,
-	    SLOT(slotSetupScreen()));
-	 connect(m_screen, SIGNAL(rendererConnected()), m_renderStatus,
-	    SLOT(on()));
-	 connect(m_screen, SIGNAL(rendererDisconnected()), m_renderStatus,
-	    SLOT(off()));
-
-	 connect(m_rewindButton, SIGNAL(clicked()), this,
-	    SLOT(slotRewind()));
-	 connect(m_reverseButton, SIGNAL(clicked()), this,
-	    SLOT(slotReverse()));
-	 connect(m_reverseSlowButton, SIGNAL(clicked()), this,
-	    SLOT(slotReverseSlow()));
-	 connect(m_stopButton, SIGNAL(clicked()), this, SLOT(slotStop()));
-	 connect(m_playSlowButton, SIGNAL(clicked()), this,
-	    SLOT(slotPlaySlow()));
-	 connect(m_playButton, SIGNAL(clicked()), this, SLOT(slotPlay()));
-	 connect(m_forwardButton, SIGNAL(clicked()), this,
-	    SLOT(slotForward()));
-    } CaptureMonitor::~CaptureMonitor() {
+    CaptureMonitor::~CaptureMonitor() {
+	if (captureProcess) delete captureProcess;
     }
     
     void CaptureMonitor::exportCurrentFrame(KURL url) const {
@@ -97,16 +68,28 @@ namespace Gui {
 
     KMMEditPanel *CaptureMonitor::editPanel() const {
 	// TODO FIXME
-	return NULL;
+	return 0;
     } 
     
     KMMScreen *CaptureMonitor::screen() const {
 	// TODO FIXME
-	return NULL;
+	return 0;
     } 
+
+    void CaptureMonitor::slotClickMonitor() {
+	emit monitorClicked(this);
+    }
+
+    void CaptureMonitor::activateMonitor() {
+	m_app->activateMonitor(this);
+    }
+
+    void CaptureMonitor::slotSetActive() {
+        m_recPanel->rendererConnected();
+    }
     
     DocClipRef *CaptureMonitor::clip() const {
-	return NULL;
+	return 0;
     } 
     
     void CaptureMonitor::slotSetupScreen() {
@@ -114,31 +97,129 @@ namespace Gui {
     }
 
     void CaptureMonitor::slotRewind() {
-	m_screen->play(-2.0);
+	if (!captureProcess) slotInit();
+	captureProcess->writeStdin("a", 1);
     }
 
     void CaptureMonitor::slotReverse() {
-	m_screen->play(-1.0);
+	if (!captureProcess) slotInit();
+	captureProcess->writeStdin("j", 1);
     }
 
-    void CaptureMonitor::slotReverseSlow() {
-	m_screen->play(-0.5);
+
+void CaptureMonitor::displayCapturedFiles()
+{
+	KDialogBase *dia = new KDialogBase(  KDialogBase::Swallow, i18n("Captured Clips"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "captured_clips", true);
+
+	KListView *lv = new KListView(dia);
+	lv->addColumn(i18n("Add"));
+	lv->addColumn("original_name",0);
+	lv->addColumn(i18n("Clip Name"));
+	lv->setItemsRenameable(true);
+	lv->setResizeMode(QListView::LastColumn);
+	lv->setRenameable(2, true);
+	lv->setRenameable(0, false);
+	lv->setAllColumnsShowFocus(true);
+
+	QStringList more;
+    	QStringList::Iterator it;
+
+        QDir dir( KURL(m_tmpFolder).path() );
+        more = dir.entryList( QDir::Files );
+        for ( it = more.begin() ; it != more.end() ; ++it ){
+		QPixmap p = m_app->getDocument()->renderer()->getVideoThumbnail(KURL(m_tmpFolder + (*it)), 1, 60, 40);
+		//QPixmap p = QImage(selectedFolder() + "/" + (*it)).smoothScale(50, 40);
+		QCheckListItem *item = new QCheckListItem(lv, QString::null, QCheckListItem::CheckBox);
+		item->setPixmap(0, p);
+		item->setText(1, (*it));
+		item->setText(2, (*it));
+		((QCheckListItem*)item)->setOn(true);
+	    }
+	lv->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+	dia->setMainWidget(lv);
+	dia->setMinimumSize(400, 240);
+	dia->adjustSize();
+	if (dia->exec() == QDialog::Accepted) {
+
+	QListViewItemIterator it( lv );
+    	for ( ; it.current(); ++it )
+            if ( ( (QCheckListItem*)it.current() )->isOn() ) {
+		// move selected files to our project folder
+                QString source = m_tmpFolder + it.current()->text( 1 );
+		QString dest = KdenliveSettings::currentdefaultfolder() + "/" + it.current()->text( 2 );
+		KIO::NetAccess::move(KURL(source), KURL(dest), this);
+		m_app->insertClipFromUrl(dest);
+	    }
+	}
+	KIO::NetAccess::del(m_tmpFolder, this);
+	m_tmpFolder = QString::null;
+
+}
+
+    void CaptureMonitor::slotStop(KProcess *p) {
+	if (captureProcess) {
+
+        if (m_screen) {
+	    delete m_screen;
+	    m_screen = new QWidget(m_screenHolder, name());
+	    m_screen->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
+	    m_screen->setBackgroundMode(Qt::PaletteDark);
+	    m_screen->show();
+	}
+	    captureProcess->writeStdin("q", 1);
+	    if (captureProcess) delete captureProcess;
+	    captureProcess = 0;
+	}
+	m_recPanel->rendererDisconnected();
+	if (hasCapturedFiles) displayCapturedFiles();
     }
 
-    void CaptureMonitor::slotStop() {
-	m_screen->play(0.0);
-    }
-
-    void CaptureMonitor::slotPlaySlow() {
-	m_screen->play(0.5);
+    void CaptureMonitor::slotInit() {
+	if (captureProcess) slotStop();
+	captureProcess = new KProcess();
+	if (!m_tmpFolder.isEmpty()) KIO::NetAccess::del(m_tmpFolder, this);
+	m_tmpFolder = locateLocal("tmp", "dvcapture/", true);
+	captureProcess->setWorkingDirectory(m_tmpFolder);
+        captureProcess->setUseShell(true);
+        captureProcess->setEnvironment("SDL_WINDOWID", QString::number(m_screen->winId()));
+        *captureProcess<<"dvgrab";
+        *captureProcess<<"--format"<<"raw"<<"-i"<<"capture"<<"-";
+        *captureProcess<<"|"<<"ffplay"<<"-f"<<"dv"<<"-x"<<QString::number(m_screen->width())<<"-y"<<QString::number(m_screen->height())<<"-";
+	captureProcess->start(KProcess::NotifyOnExit, KProcess::Stdin);
+        connect(captureProcess, SIGNAL(processExited(KProcess *)), this, SLOT(slotStop(KProcess *)));
+	m_recPanel->rendererConnected();
+	hasCapturedFiles = false;
     }
 
     void CaptureMonitor::slotPlay() {
-	m_screen->play(1.0);
+	if (!captureProcess) slotInit();
+	captureProcess->writeStdin(" ", 1);
+
+	/*if (captureProcess) return;
+	captureProcess = new KProcess();
+        captureProcess->setUseShell(true);
+        captureProcess->setEnvironment("SDL_WINDOWID", QString::number(m_screen->captureId()));
+        *captureProcess<<"dvgrab";
+        *captureProcess<<"--format"<<"raw"<<"-"; //<<"testme-";
+        *captureProcess<<"|"<<"ffplay"<<"-f"<<"dv"<<"-";
+	captureProcess->start();*/
     }
 
+    void CaptureMonitor::slotRec() {
+	if (!captureProcess) slotInit();
+	captureProcess->writeStdin("c\n", 3);
+	hasCapturedFiles = true;
+    }
+
+
     void CaptureMonitor::slotForward() {
-	m_screen->play(2.0);
+	if (!captureProcess) slotInit();
+	captureProcess->writeStdin("l", 1);
+    }
+
+    void CaptureMonitor::slotFastForward() {
+	if (!captureProcess) slotInit();
+	captureProcess->writeStdin("z", 1);
     }
 
 }

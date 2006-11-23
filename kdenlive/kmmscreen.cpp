@@ -20,7 +20,6 @@
 #include <iostream>
 #include <kdebug.h>
 #include <klocale.h>
-#include <qxembed.h>
 
 #include "krender.h"
 #include "krendermanager.h"
@@ -33,20 +32,20 @@ namespace Gui {
 	const char *name):QVBox(parent, name),
         m_render(app->renderManager()->findRenderer(name)), m_app(app),
         m_clipLength(0), m_name(name)
-	//m_embed(new QXEmbed(this, name)),
     {
-	//m_embed->setBackgroundMode(Qt::PaletteDark);
+	//
 
 	//connect(m_render, SIGNAL(replyCreateVideoXWindow(WId)), this, SLOT(embedWindow(WId)));
 	/*connect(m_render, SIGNAL(positionChanged(const GenTime &)), this,
         SIGNAL(seekPositionChanged(const GenTime &)));*/
         /*connect(m_app, SIGNAL(positionChanged(const GenTime &)), this,
         SIGNAL(seekPositionChanged(const GenTime &)));*/
+
 	 connect(m_render, SIGNAL(playing(double)), this,
 	    SIGNAL(playSpeedChanged(double)));
 	 connect(m_render, SIGNAL(stopped()), this,
 	    SLOT(slotRendererStopped()));
-	rendererReady();
+	m_render->createVideoXWindow(false, winId());
     } 
     
     KMMScreen::~KMMScreen() {
@@ -55,12 +54,6 @@ namespace Gui {
 	// if(m_render) delete m_render;
     }
 
-/** The renderer is ready, so we open a video window, etc. here. */
-    void KMMScreen::rendererReady() {
-	//QWidget *q=new QWidget(this);
-	m_render->createVideoXWindow(false, winId());
-    }
-    
     void KMMScreen::paintEvent ( QPaintEvent * ) {
         m_render->askForRefresh();
     }
