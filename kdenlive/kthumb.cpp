@@ -214,6 +214,6 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
 	else {
 		if (thumbProducer.running()) return;
 		thumbProducer.init(m_url, m_thumbFile, frame, frameLength, m_frequency, m_channels, arrayWidth);
-		thumbProducer.start(QThread::LowestPriority );
+		thumbProducer.start(QThread::NormalPriority );
 	}
 }
