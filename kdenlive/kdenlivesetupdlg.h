@@ -25,6 +25,7 @@
 #include "configproject_ui.h"
 #include "configmisc_ui.h"
 #include "configtitler_ui.h"
+#include "configcapture_ui.h"
 
 
 namespace Gui {
@@ -46,6 +47,7 @@ namespace Gui {
         configMisc *page3;
         configProject *page5;
         configTitler *page4;
+        configCapture *page6;
     };
 
 }				// namespace Gui

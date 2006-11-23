@@ -185,4 +185,17 @@
 	<default code="true">QColor(255, 255, 255)</default>
     </entry>
   </group>
+
+  <group name="Capture">
+      <entry name="autosplit" type="Bool">
+      <label>Automatically split capture file on new scene detection.</label>
+      <default>true</default>
+    </entry>
+
+      <entry name="timestamp" type="Bool">
+      <label>Put recording time info in captured file name.</label>
+      <default>false</default>
+    </entry>
+  </group>
+
 </kcfg>

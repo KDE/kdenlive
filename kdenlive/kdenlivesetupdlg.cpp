@@ -40,6 +40,7 @@ namespace Gui {
         page3 = new configMisc();
         page4 = new configTitler();
         page5 = new configProject();
+        page6 = new configCapture();
 	
 	page3->kcfg_defaulttmpfolder->setMode(KFile::Directory);
 	page4->kcfg_titlerfont->enableColumn( KFontChooser::StyleList, false);
@@ -49,6 +50,7 @@ namespace Gui {
         addPage(page3, i18n("Misc"), "run");
         addPage(page4, i18n("Titler"), "text");
         addPage(page5, i18n("Default Project"), "filenew");
+        addPage(page6, i18n("Capture"), "capture");
     } 
     
     KdenliveSetupDlg::~KdenliveSetupDlg() {}

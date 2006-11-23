@@ -183,7 +183,10 @@ void CaptureMonitor::displayCapturedFiles()
         captureProcess->setUseShell(true);
         captureProcess->setEnvironment("SDL_WINDOWID", QString::number(m_screen->winId()));
         *captureProcess<<"dvgrab";
-        *captureProcess<<"--format"<<"raw"<<"-i"<<"capture"<<"-";
+        *captureProcess<<"--format"<<"raw";
+	if (KdenliveSettings::autosplit()) *captureProcess<<"--autosplit";
+	if (KdenliveSettings::timestamp()) *captureProcess<<"--timestamp";
+	*captureProcess<<"-i"<<"capture"<<"-";
         *captureProcess<<"|"<<"ffplay"<<"-f"<<"dv"<<"-x"<<QString::number(m_screen->width())<<"-y"<<QString::number(m_screen->height())<<"-";
 	captureProcess->start(KProcess::NotifyOnExit, KProcess::Stdin);
         connect(captureProcess, SIGNAL(processExited(KProcess *)), this, SLOT(slotStop(KProcess *)));

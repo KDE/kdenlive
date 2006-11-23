@@ -1,0 +1,55 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>configCapture</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>configCapture</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>335</width>
+            <height>112</height>
+        </rect>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <spacer row="2" column="0">
+            <property name="name">
+                <cstring>spacer2</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>16</width>
+                    <height>186</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QCheckBox" row="0" column="0">
+            <property name="name">
+                <cstring>kcfg_autosplit</cstring>
+            </property>
+            <property name="text">
+                <string>Automatic scene detection</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="1" column="0">
+            <property name="name">
+                <cstring>kcfg_timestamp</cstring>
+            </property>
+            <property name="text">
+                <string>Put recording time info in captured file name</string>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>
