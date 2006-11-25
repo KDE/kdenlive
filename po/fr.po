@@ -7,12 +7,12 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-25 01:32+0100\n"
-"PO-Revision-Date: 2006-11-21 11:26+0100\n"
+"PO-Revision-Date: 2006-11-25 15:48+0100\n"
 "Last-Translator: Jean-Michel Pouré <jmpoure@free.fr>\n"
 "Language-Team: Française <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: kdenlive/addmarker_ui.cpp:124 kdenlive/changeclipspeed_ui.cpp:119
 #: kdenlive/clipproperties_ui.cpp:2489 kdenlive/configmisc_ui.cpp:117
@@ -236,14 +236,12 @@ msgid ""
 msgstr ""
 
 #: kdenlive/capturemonitor.cpp:113
-#, fuzzy
 msgid "Captured Clips"
-msgstr "Créer un clip"
+msgstr "Clips capturés"
 
 #: kdenlive/capturemonitor.cpp:118
-#, fuzzy
 msgid "Clip Name"
-msgstr "Gestionnaire de plan vidéo"
+msgstr "Nom de clip"
 
 #: kdenlive/changeclipspeed_ui.cpp:111 kdenlive/docclipref.cpp:1189
 #: kdenlive/docclipref.cpp:1435 kdenlive/effectstackdialog.cpp:418
@@ -451,9 +449,8 @@ msgid "%1 bit"
 msgstr "%1 bit"
 
 #: kdenlive/configcapture_ui.cpp:59
-#, fuzzy
 msgid "Automatic scene detection"
-msgstr "Automatique - Utiliser la piste vidéo suivante"
+msgstr "Séparation automatique des scènes"
 
 #: kdenlive/configcapture_ui.cpp:60
 msgid "Put recording time info in captured file name"
@@ -2176,9 +2173,8 @@ msgid "Current effects usable with the renderer"
 msgstr "Effets utilisables par le moteur de rendu"
 
 #: kdenlive/kdenlive.cpp:1007
-#, fuzzy
 msgid "Capture Monitor"
-msgstr "Moniteur de clip"
+msgstr "Moniteur de capture"
 
 #: kdenlive/kdenlive.cpp:1375
 msgid "Generating audio thumb"
@@ -2536,9 +2532,8 @@ msgid "Default Project"
 msgstr "Projet par défaut"
 
 #: kdenlive/kdenlivesetupdlg.cpp:53
-#, fuzzy
 msgid "Capture"
-msgstr "Chapitre"
+msgstr "Capture"
 
 #: kdenlive/kdenlivesplash.cpp:23
 msgid "Version 0.4 cvs"
@@ -2621,38 +2616,32 @@ msgid "Marker"
 msgstr "Repère"
 
 #: kdenlive/kmmrecpanel_ui.cpp:243
-#, fuzzy
 msgid "KMMEditPanel_UI"
-msgstr "KMMEditPanel"
+msgstr "KMMEditPanel_UI"
 
 #: kdenlive/kmmrecpanel_ui.cpp:245
-#, fuzzy
 msgid "Record"
-msgstr "Secondes"
+msgstr "Enregistrement"
 
 #: kdenlive/kmmrecpanel_ui.cpp:247
 msgid "Rec Pause"
-msgstr ""
+msgstr "Pause Enr."
 
 #: kdenlive/kmmrecpanel_ui.cpp:251
-#, fuzzy
 msgid "Live Rewind"
-msgstr "Retour rapide"
+msgstr "Lecture en retour rapide"
 
 #: kdenlive/kmmrecpanel_ui.cpp:255
-#, fuzzy
 msgid "Play"
-msgstr "Délai"
+msgstr "Lecture"
 
 #: kdenlive/kmmrecpanel_ui.cpp:257
-#, fuzzy
 msgid "Live Forward"
-msgstr "Avance ra&pide"
+msgstr "Lecture en avance rapide"
 
 #: kdenlive/kmmrecpanel_ui.cpp:259
-#, fuzzy
 msgid "Forward"
-msgstr "Avance rapide dans le clip"
+msgstr "Avance"
 
 #: kdenlive/kmmrulerpanel.cpp:48
 msgid "1 Frame"
