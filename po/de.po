@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-25 01:32+0100\n"
-"PO-Revision-Date: 2006-11-21 19:59+0100\n"
+"PO-Revision-Date: 2006-11-25 09:34+0100\n"
 "Last-Translator: Felix Hammer <f.hammer@web.de>\n"
 "Language-Team: german\n"
 "MIME-Version: 1.0\n"
@@ -235,17 +235,15 @@ msgstr "Mini-Bilder"
 msgid ""
 "<b>The programs dvgrab or ffplay are missing</b>.<br>Firewire capture will "
 "be disabled until you install them."
-msgstr ""
+msgstr "<b>Das Programm dvgrab oder ffplay fehlt</b>.<br>Firewire-Capture wird solange deaktiviert bleiben bis sie das Programm installieren."
 
 #: kdenlive/capturemonitor.cpp:113
-#, fuzzy
 msgid "Captured Clips"
-msgstr "Clip erstellen"
+msgstr "Aufgenommene Clips"
 
 #: kdenlive/capturemonitor.cpp:118
-#, fuzzy
 msgid "Clip Name"
-msgstr "Name für neuen Clip"
+msgstr "Clip-Name"
 
 #: kdenlive/changeclipspeed_ui.cpp:111 kdenlive/docclipref.cpp:1189
 #: kdenlive/docclipref.cpp:1435 kdenlive/effectstackdialog.cpp:418
@@ -453,13 +451,12 @@ msgid "%1 bit"
 msgstr "%1 bit"
 
 #: kdenlive/configcapture_ui.cpp:59
-#, fuzzy
 msgid "Automatic scene detection"
-msgstr "Automatisch nächste Videospur benutzen"
+msgstr "Automatische Szenen-Erkennung"
 
 #: kdenlive/configcapture_ui.cpp:60
 msgid "Put recording time info in captured file name"
-msgstr ""
+msgstr "Aufnahmezeit in den Dateinamen einfügen"
 
 #: kdenlive/configinterface_ui.cpp:102
 msgid "minutes"
@@ -471,8 +468,7 @@ msgstr "Projekt automatisch speichern alle"
 
 #: kdenlive/configinterface_ui.cpp:104
 msgid "Mouse wheel moves horizontally (Alt for vertical scroll)"
-msgstr ""
-"Mausrad scrollt horizontal (Bitte \"Alt\" drücken um vertikal zu scrollen)"
+msgstr "Mausrad scrollt horizontal (Bitte \"Alt\" drücken um vertikal zu scrollen)"
 
 #: kdenlive/configinterface_ui.cpp:105
 msgid "Show splash screen"
@@ -1631,8 +1627,7 @@ msgstr "Vorwärts abspielen"
 
 #: kdenlive/kdenlive.cpp:521
 msgid "Fast forwards playing (click several times for faster playing)"
-msgstr ""
-"Schnelle Vorwärts-Wiedergabe (mehrmals drücken um Geschwindigkeit zu erhöhen)"
+msgstr "Schnelle Vorwärts-Wiedergabe (mehrmals drücken um Geschwindigkeit zu erhöhen)"
 
 #: kdenlive/kdenlive.cpp:523
 msgid "Play backward"
@@ -2034,8 +2029,7 @@ msgid "Shift all clips to the right of mouse"
 msgstr "Verschiebt alle Clips auf die rechte Seite der Maus"
 
 #: kdenlive/kdenlive.cpp:836
-msgid ""
-"Insert commented snap markers on clips (Ctrl + click to remove a marker)"
+msgid "Insert commented snap markers on clips (Ctrl + click to remove a marker)"
 msgstr ""
 "Kommentierte Ausrichtungs-Markierungen in die Clips einfügen(\"Strg + klick"
 "\" um die Markierungen zu löschen)"
@@ -2179,9 +2173,8 @@ msgid "Current effects usable with the renderer"
 msgstr "Aktuelle mit dem Renderer verwendbaren Effekte"
 
 #: kdenlive/kdenlive.cpp:1007
-#, fuzzy
 msgid "Capture Monitor"
-msgstr "Clip-Monitor"
+msgstr "Aufnahme-Monitor"
 
 #: kdenlive/kdenlive.cpp:1375
 msgid "Generating audio thumb"
@@ -2398,8 +2391,7 @@ msgstr "Clips hinzufügen"
 
 #: kdenlive/kdenlive.cpp:2482
 msgid "You cannot include the current Kdenlive document in itself."
-msgstr ""
-"Sie können das aktuelle Kdenlive-Dokument nicht in sich selber einbinden."
+msgstr "Sie können das aktuelle Kdenlive-Dokument nicht in sich selber einbinden."
 
 #: kdenlive/kdenlive.cpp:2609
 msgid "Add image to project"
@@ -2537,9 +2529,8 @@ msgid "Default Project"
 msgstr "Standard Projekt"
 
 #: kdenlive/kdenlivesetupdlg.cpp:53
-#, fuzzy
 msgid "Capture"
-msgstr "Kapitel"
+msgstr "Aufnahme"
 
 #: kdenlive/kdenlivesplash.cpp:23
 msgid "Version 0.4 cvs"
@@ -2623,35 +2614,31 @@ msgstr "Markierungen"
 
 #: kdenlive/kmmrecpanel_ui.cpp:243
 msgid "KMMEditPanel_UI"
-msgstr ""
+msgstr "KMMEditPanel_UI"
 
 #: kdenlive/kmmrecpanel_ui.cpp:245
-#, fuzzy
 msgid "Record"
-msgstr "Sekunden"
+msgstr "Aufnehmen"
 
 #: kdenlive/kmmrecpanel_ui.cpp:247
 msgid "Rec Pause"
-msgstr ""
+msgstr "Aufnahme-Pause"
 
 #: kdenlive/kmmrecpanel_ui.cpp:251
 msgid "Live Rewind"
-msgstr ""
+msgstr "Sichtbar zurückspulen"
 
 #: kdenlive/kmmrecpanel_ui.cpp:255
-#, fuzzy
 msgid "Play"
-msgstr "Clip abspielen"
+msgstr "Wiedergabe"
 
 #: kdenlive/kmmrecpanel_ui.cpp:257
-#, fuzzy
 msgid "Live Forward"
-msgstr "Schnell vorwärts abspielen"
+msgstr "Sichtbar vorspulen"
 
 #: kdenlive/kmmrecpanel_ui.cpp:259
-#, fuzzy
 msgid "Forward"
-msgstr "Clip vorwärts"
+msgstr "Vorwärts"
 
 #: kdenlive/kmmrulerpanel.cpp:48
 msgid "1 Frame"
@@ -2826,10 +2813,8 @@ msgid "Piave renderer author"
 msgstr "Piave Renderer Autor und Betreuer"
 
 #: kdenlive/main.cpp:64
-msgid ""
-"Piave and Kdenlive internationalization, French translations, splashscreen"
-msgstr ""
-"Piave und Kdenlive Internationalisierung, französische Übersetzung, Startbild"
+msgid "Piave and Kdenlive internationalization, French translations, splashscreen"
+msgstr "Piave und Kdenlive Internationalisierung, französische Übersetzung, Startbild"
 
 #: kdenlive/main.cpp:69
 msgid "Artist, Kdenlive logo, splashscreen and application icon"
@@ -2891,8 +2876,7 @@ msgstr "Ok"
 msgid ""
 "Could not save file %1.\n"
 "Please check your permissions"
-msgstr ""
-"Kann Datei %1 nicht speichern. Bitte überprüfen Sie Ihre Zugriffsrechte"
+msgstr "Kann Datei %1 nicht speichern. Bitte überprüfen Sie Ihre Zugriffsrechte"
 
 #. i18n: file kdenlive/kdenliveui.rc line 30
 #: kdenlive/rc.cpp:3
@@ -3123,8 +3107,3 @@ msgstr "Ende"
 msgid "Rescale images"
 msgstr "Bilder skalieren"
 
-#~ msgid "Inpoint"
-#~ msgstr "Startpunkt"
-
-#~ msgid "Outpoint"
-#~ msgstr "Endpunkt"
