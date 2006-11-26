@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-25 01:32+0100\n"
-"PO-Revision-Date: 2006-11-21 16:35+0100\n"
+"PO-Revision-Date: 2006-11-25 18:16+0100\n"
 "Last-Translator: Carlos Dávila\n"
 "Language-Team: español <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -235,17 +235,15 @@ msgstr "Miniatura"
 msgid ""
 "<b>The programs dvgrab or ffplay are missing</b>.<br>Firewire capture will "
 "be disabled until you install them."
-msgstr ""
+msgstr "<b>No se encuentran los programas dvgrab o ffplay</b>.<br>La captura de Firewire estará deshabilitada hasta que los instales."
 
 #: kdenlive/capturemonitor.cpp:113
-#, fuzzy
 msgid "Captured Clips"
-msgstr "Crear clip"
+msgstr "Clips capturados"
 
 #: kdenlive/capturemonitor.cpp:118
-#, fuzzy
 msgid "Clip Name"
-msgstr "Nombre del nuevo clip"
+msgstr "Nombre del clip"
 
 #: kdenlive/changeclipspeed_ui.cpp:111 kdenlive/docclipref.cpp:1189
 #: kdenlive/docclipref.cpp:1435 kdenlive/effectstackdialog.cpp:418
@@ -453,13 +451,12 @@ msgid "%1 bit"
 msgstr "%1 bit"
 
 #: kdenlive/configcapture_ui.cpp:59
-#, fuzzy
 msgid "Automatic scene detection"
-msgstr "Automático - Usar siguiente pista de vídeo"
+msgstr "Detección de escena automática"
 
 #: kdenlive/configcapture_ui.cpp:60
 msgid "Put recording time info in captured file name"
-msgstr ""
+msgstr "Poner información del momento de grabación en el nombre del archivo capturado"
 
 #: kdenlive/configinterface_ui.cpp:102
 msgid "minutes"
@@ -471,8 +468,7 @@ msgstr "Autoguardar proyecto cada"
 
 #: kdenlive/configinterface_ui.cpp:104
 msgid "Mouse wheel moves horizontally (Alt for vertical scroll)"
-msgstr ""
-"La rueda del ratón mueve horizontalmente (Alt para desplazamiento vertical)"
+msgstr "La rueda del ratón mueve horizontalmente (Alt para desplazamiento vertical)"
 
 #: kdenlive/configinterface_ui.cpp:105
 msgid "Show splash screen"
@@ -1403,7 +1399,7 @@ msgstr ""
 
 #: kdenlive/initeffects.cpp:585
 msgid "Rate"
-msgstr ""
+msgstr "Frecuencia"
 
 #: kdenlive/initeffects.cpp:596
 msgid "Phaser"
@@ -1411,7 +1407,7 @@ msgstr ""
 
 #: kdenlive/initeffects.cpp:600
 msgid "Rate (Hz)"
-msgstr "Pasa (Hz)"
+msgstr "Frecuencia (Hz)"
 
 #: kdenlive/initeffects.cpp:608
 msgid "Depth"
@@ -1821,8 +1817,7 @@ msgstr "Guardar la zona seleccionada"
 
 #: kdenlive/kdenlive.cpp:677
 msgid "Save selected zone as playlist for future use"
-msgstr ""
-"Guardar la zona seleccionada como una lista de reproducción para uso futuro"
+msgstr "Guardar la zona seleccionada como una lista de reproducción para uso futuro"
 
 #: kdenlive/kdenlive.cpp:679
 msgid "Render Selected Zone"
@@ -2034,8 +2029,7 @@ msgid "Shift all clips to the right of mouse"
 msgstr "Mover todos los clips a la derecha del ratón"
 
 #: kdenlive/kdenlive.cpp:836
-msgid ""
-"Insert commented snap markers on clips (Ctrl + click to remove a marker)"
+msgid "Insert commented snap markers on clips (Ctrl + click to remove a marker)"
 msgstr ""
 "Insertar marcadores de fijación comentados en los clips (Ctrl + clic para "
 "eliminar un marcador)"
@@ -2181,9 +2175,8 @@ msgid "Current effects usable with the renderer"
 msgstr "Efectos actuales utilizables con el renderizador"
 
 #: kdenlive/kdenlive.cpp:1007
-#, fuzzy
 msgid "Capture Monitor"
-msgstr "Monitor de Clip"
+msgstr "Monitor de captura"
 
 #: kdenlive/kdenlive.cpp:1375
 msgid "Generating audio thumb"
@@ -2542,9 +2535,8 @@ msgid "Default Project"
 msgstr "Proyecto por defecto"
 
 #: kdenlive/kdenlivesetupdlg.cpp:53
-#, fuzzy
 msgid "Capture"
-msgstr "Capítulo"
+msgstr "Capturar"
 
 #: kdenlive/kdenlivesplash.cpp:23
 msgid "Version 0.4 cvs"
@@ -2631,32 +2623,28 @@ msgid "KMMEditPanel_UI"
 msgstr ""
 
 #: kdenlive/kmmrecpanel_ui.cpp:245
-#, fuzzy
 msgid "Record"
-msgstr "Segundos"
+msgstr "Grabar"
 
 #: kdenlive/kmmrecpanel_ui.cpp:247
 msgid "Rec Pause"
-msgstr ""
+msgstr "Pausa de grabación"
 
 #: kdenlive/kmmrecpanel_ui.cpp:251
 msgid "Live Rewind"
-msgstr ""
+msgstr "Reproducir hacia atrás rápido"
 
 #: kdenlive/kmmrecpanel_ui.cpp:255
-#, fuzzy
 msgid "Play"
-msgstr "Reproducir clip"
+msgstr "Reproducir"
 
 #: kdenlive/kmmrecpanel_ui.cpp:257
-#, fuzzy
 msgid "Live Forward"
-msgstr "Reproduciendo hacia delante"
+msgstr "Reproducir hacia delante rápido"
 
 #: kdenlive/kmmrecpanel_ui.cpp:259
-#, fuzzy
 msgid "Forward"
-msgstr "Avanzar clip"
+msgstr "Avanzar"
 
 #: kdenlive/kmmrulerpanel.cpp:48
 msgid "1 Frame"
@@ -2831,8 +2819,7 @@ msgid "Piave renderer author"
 msgstr "Autor del renderizador de Piave"
 
 #: kdenlive/main.cpp:64
-msgid ""
-"Piave and Kdenlive internationalization, French translations, splashscreen"
+msgid "Piave and Kdenlive internationalization, French translations, splashscreen"
 msgstr ""
 "Internacionalización de Piave y Kdenlive, traducción francesa, pantalla de "
 "presentación"
@@ -3071,7 +3058,7 @@ msgstr ""
 #: kdenlive/transition.cpp:158 kdenlive/transition.cpp:224
 #: kdenlive/transitiondialog.cpp:75
 msgid "Wipe"
-msgstr ""
+msgstr "Barrido"
 
 #: kdenlive/transition.cpp:159 kdenlive/transition.cpp:225
 msgid "Audio Fade"
@@ -3132,8 +3119,3 @@ msgstr "Fi&n"
 msgid "Rescale images"
 msgstr "Rescalar imágenes"
 
-#~ msgid "Inpoint"
-#~ msgstr "Punto de entrada"
-
-#~ msgid "Outpoint"
-#~ msgstr "Punto de salida"
