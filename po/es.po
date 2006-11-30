@@ -456,7 +456,8 @@ msgstr "Detección de escena automática"
 
 #: kdenlive/configcapture_ui.cpp:60
 msgid "Put recording time info in captured file name"
-msgstr "Poner información del momento de grabación en el nombre del archivo capturado"
+msgstr ""
+"Poner información del momento de grabación en el nombre del archivo capturado"
 
 #: kdenlive/configinterface_ui.cpp:102
 msgid "minutes"
@@ -468,7 +469,8 @@ msgstr "Autoguardar proyecto cada"
 
 #: kdenlive/configinterface_ui.cpp:104
 msgid "Mouse wheel moves horizontally (Alt for vertical scroll)"
-msgstr "La rueda del ratón mueve horizontalmente (Alt para desplazamiento vertical)"
+msgstr ""
+"La rueda del ratón mueve horizontalmente (Alt para desplazamiento vertical)"
 
 #: kdenlive/configinterface_ui.cpp:105
 msgid "Show splash screen"
@@ -1816,7 +1818,8 @@ msgstr "Guardar la zona seleccionada"
 
 #: kdenlive/kdenlive.cpp:677
 msgid "Save selected zone as playlist for future use"
-msgstr "Guardar la zona seleccionada como una lista de reproducción para uso futuro"
+msgstr ""
+"Guardar la zona seleccionada como una lista de reproducción para uso futuro"
 
 #: kdenlive/kdenlive.cpp:679
 msgid "Render Selected Zone"
@@ -2028,7 +2031,8 @@ msgid "Shift all clips to the right of mouse"
 msgstr "Mover todos los clips a la derecha del ratón"
 
 #: kdenlive/kdenlive.cpp:836
-msgid "Insert commented snap markers on clips (Ctrl + click to remove a marker)"
+msgid ""
+"Insert commented snap markers on clips (Ctrl + click to remove a marker)"
 msgstr ""
 "Insertar marcadores de fijación comentados en los clips (Ctrl + clic para "
 "eliminar un marcador)"
@@ -2812,7 +2816,8 @@ msgid "Piave renderer author"
 msgstr "Autor del renderizador de Piave"
 
 #: kdenlive/main.cpp:64
-msgid "Piave and Kdenlive internationalization, French translations, splashscreen"
+msgid ""
+"Piave and Kdenlive internationalization, French translations, splashscreen"
 msgstr ""
 "Internacionalización de Piave y Kdenlive, traducción francesa, pantalla de "
 "presentación"
@@ -4020,4 +4025,3 @@ msgstr "Fi&n"
 #: kdenlive/transitionwipe_ui.cpp:237
 msgid "Rescale images"
 msgstr "Rescalar imágenes"
-
