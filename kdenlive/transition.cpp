@@ -31,14 +31,14 @@
 */
 
 /* create an "automatic duration" transition */
-Transition::Transition(const DocClipRef * clipa, const DocClipRef * clipb)
+Transition::Transition(const DocClipRef * clipa, const DocClipRef * clipb, const QString &type)
 {
     m_invertTransition = false;
     m_singleClip = true;
     m_transitionTrack = 0;
     m_secondClip = NULL;
-    m_transitionType = LUMA_TRANSITION;
-    m_transitionName = i18n("Crossfade");
+    m_transitionType = getTransitionForName(type);
+    m_transitionName = getTransitionName(m_transitionType);
 
     if (clipb) {
         // Transition is an automatic transition between 2 clips
@@ -107,7 +107,7 @@ Transition::Transition(const DocClipRef * clipa)
     m_transitionTrack = 0;
     m_secondClip = NULL;
     m_transitionType = LUMA_TRANSITION;
-    m_transitionName = i18n("Crossfade");
+    m_transitionName = getTransitionName(m_transitionType);
 
         m_referenceClip = clipa;
         m_transitionStart = GenTime(0.0);
@@ -120,14 +120,14 @@ Transition::Transition(const DocClipRef * clipa)
 }
 
 /* create an "simple" transition (type 2) around a given time*/
-Transition::Transition(const DocClipRef * clipa, const GenTime &time)
+Transition::Transition(const DocClipRef * clipa, const GenTime &time, const QString &type)
 {
     m_invertTransition = false;
     m_singleClip = true;
     m_transitionTrack = 0;
     m_secondClip = NULL;
-    m_transitionType = LUMA_TRANSITION;
-    m_transitionName = i18n("Crossfade");
+    m_transitionType = getTransitionForName(type);
+    m_transitionName = getTransitionName(m_transitionType);
     
     // Default duration = 2.5 seconds
     GenTime defaultTransitionDuration = GenTime(2.5);
@@ -153,12 +153,7 @@ Transition::Transition(const DocClipRef * clipa, const TRANSITIONTYPE & type, co
     m_transitionTrack = 0;
     m_secondClip = NULL;
     m_transitionType = type;
-    if (m_transitionType == COMPOSITE_TRANSITION) m_transitionName = i18n("Push");
-    else if (m_transitionType == PIP_TRANSITION) m_transitionName = i18n("Pip");
-    else if (m_transitionType == LUMAFILE_TRANSITION) m_transitionName = i18n("Wipe");
-    else if (m_transitionType == MIX_TRANSITION) m_transitionName = i18n("Audio Fade");
-    else m_transitionName = i18n("Crossfade");
-
+    m_transitionName = getTransitionName(m_transitionType);
 
     GenTime duration = endTime - startTime;
     
@@ -219,11 +214,7 @@ Transition::~Transition()
 void Transition::setTransitionType(TRANSITIONTYPE newType)
 {
     m_transitionType = newType;
-    if (m_transitionType == COMPOSITE_TRANSITION) m_transitionName = i18n("Push");
-    else if (m_transitionType == PIP_TRANSITION) m_transitionName = i18n("Pip");
-    else if (m_transitionType == LUMAFILE_TRANSITION) m_transitionName = i18n("Wipe");
-    else if (m_transitionType == MIX_TRANSITION) m_transitionName = i18n("Audio Fade");
-    else m_transitionName = i18n("Crossfade");
+    m_transitionName = getTransitionName(m_transitionType);
 }
 
 Transition::TRANSITIONTYPE Transition::transitionType()
@@ -245,6 +236,24 @@ QString Transition::transitionTag()
 
     }
 }
+
+QString Transition::getTransitionName(const TRANSITIONTYPE & type)
+{
+    if (type == COMPOSITE_TRANSITION) return i18n("Push");
+    else if (type == PIP_TRANSITION) return i18n("Pip");
+    else if (type == LUMAFILE_TRANSITION) return i18n("Wipe");
+    else if (type == MIX_TRANSITION) return i18n("Audio Fade");
+    return i18n("Crossfade");
+}
+
+Transition::TRANSITIONTYPE Transition::getTransitionForName(const QString & type)
+{
+    if (type == i18n("Push")) return COMPOSITE_TRANSITION;
+    else if (type == i18n("Pip")) return PIP_TRANSITION;
+    else if (type == i18n("Wipe")) return LUMAFILE_TRANSITION;
+    return LUMA_TRANSITION;
+}
+
 
 QString Transition::transitionName()
 {

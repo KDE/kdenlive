@@ -167,7 +167,7 @@ namespace Gui {
             }
             else { // Video clip
             	QPixmap pix = document->renderer()->getVideoThumbnail(refClip->fileURL().path(), 0, 120, 96);
-            	clipChoice->preview_pixmap->setPixmap(pix);
+            	if (!pix.isNull()) clipChoice->preview_pixmap->setPixmap(pix);
             	clipChoice->clipType->setText(i18n("Video Clip"));
             	clipChoice->clipSize->setText(QString::number(refClip->clipWidth())+"x"+QString::number(refClip->clipHeight()));
             }
@@ -242,7 +242,7 @@ namespace Gui {
 	else if (m_clipType == DocClipBase::IMAGE || m_clipType == DocClipBase::SLIDESHOW)
 	    pix = m_document->renderer()->getImageThumbnail(path, 120, 96);
 	else return;
-        clipChoice->preview_pixmap->setPixmap(pix);
+        if (!pix.isNull()) clipChoice->preview_pixmap->setPixmap(pix);
     }
 
     QString ClipProperties::color()

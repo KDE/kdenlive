@@ -58,6 +58,7 @@ namespace Gui {
     trackPolicy->insertItem(i18n("Automatic - Use next video track"));
     trackPolicy->insertItem(i18n("Background track (black)"));
 
+    m_videoFormat = app->projectVideoFormat();
     int trackNb = app->getDocument()->trackList().count();
     uint ix = 1;
     while (trackNb > 0) {
@@ -100,7 +101,34 @@ TransitionDialog::~TransitionDialog()
 
 void TransitionDialog::initLumaFiles()
 {
-    QStringList iconList = KGlobal::dirs()->KStandardDirs::findAllResources("data", "kdenlive/pgm/*.pgm");
+    QString inigoPath = KStandardDirs::findExe("inigo");
+    inigoPath = inigoPath.section('/', 0, -3);
+
+    if (m_videoFormat == 0) {
+	// PAL format
+	m_lumaType = "lumasPAL";
+	KGlobal::dirs()->addResourceType(m_lumaType, "");
+	QStringList kdenliveLumas = KGlobal::dirs()->findDirs("data", "kdenlive/pgm/PAL");
+	while (!kdenliveLumas.isEmpty()) {
+	    KGlobal::dirs()->addResourceDir(m_lumaType, kdenliveLumas.first());
+	    kdenliveLumas.pop_front();
+	}
+        KGlobal::dirs()->addResourceDir(m_lumaType, inigoPath + "/share/mlt/modules/lumas/PAL");
+    }
+    else if (m_videoFormat == 1) {
+	// NTSC format
+	m_lumaType = "lumasNTSC";
+	KGlobal::dirs()->addResourceType(m_lumaType, "");
+
+	QStringList kdenliveLumas = KGlobal::dirs()->findDirs("data", "kdenlive/pgm/NTSC");
+	while (!kdenliveLumas.isEmpty()) {
+	    KGlobal::dirs()->addResourceDir(m_lumaType, kdenliveLumas.first());
+	    kdenliveLumas.pop_front();
+	}
+        KGlobal::dirs()->addResourceDir(m_lumaType, inigoPath + "/share/mlt/modules/lumas/NTSC");
+    }
+
+    QStringList iconList = KGlobal::dirs()->KStandardDirs::findAllResources(m_lumaType, "*.pgm");
 
     for ( QStringList::Iterator it = iconList.begin(); it != iconList.end(); ++it ) {
 	QString itemName = KURL(*it).fileName();
@@ -323,7 +351,7 @@ const QMap < QString, QString > TransitionDialog::transitionParameters()
       paramList["progressive"] = "1";
       if (transitPip->use_luma->isChecked()) {
 	QString fname = transitPip->luma_file->currentText();
-	fname = locate("data", "kdenlive/pgm/" + fname + ".pgm");
+	fname = locate(m_lumaType, fname + ".pgm");
 	paramList["luma"] = fname;
 	paramList["softness"] = QString::number(((double) transitPip->spin_soft->value()) / 100.0);
       }
@@ -332,8 +360,8 @@ const QMap < QString, QString > TransitionDialog::transitionParameters()
     {
       QString fname;
       if (transitLumaFile->lumaView->currentItem())
-          fname = locate("data", "kdenlive/pgm/" + transitLumaFile->lumaView->currentItem()->text() + ".pgm");
-      else fname = locate("data", "kdenlive/pgm/" + transitLumaFile->lumaView->firstItem()->text() + ".pgm");
+          fname = locate(m_lumaType, transitLumaFile->lumaView->currentItem()->text() + ".pgm");
+      else fname = locate(m_lumaType, transitLumaFile->lumaView->firstItem()->text() + ".pgm");
       paramList["resource"] = fname;
       paramList["softness"] = QString::number(((double) transitLumaFile->spin_soft->value()) / 100.0);
     }

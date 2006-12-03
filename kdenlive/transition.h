@@ -46,9 +46,9 @@ class Transition {
     };
     
 
-    Transition(const DocClipRef * clipa, const DocClipRef * clipb);
+    Transition(const DocClipRef * clipa, const DocClipRef * clipb, const QString &type);
     Transition(const DocClipRef * clipa);
-    Transition(const DocClipRef * clipa, const GenTime &time);
+    Transition(const DocClipRef * clipa, const GenTime &time, const QString & type);
     Transition(const DocClipRef * clipa, const TRANSITIONTYPE & type, const GenTime &startTime, const GenTime &endTime, bool inverted);
     Transition(const DocClipRef * clip, QDomElement transitionElement);
     ~Transition();
@@ -106,8 +106,13 @@ class Transition {
     
     /** The 2nd clip to which the transition is attached */
     const DocClipRef *m_secondClip;
-
     int m_transitionTrack;
+
+    /** Return the display name for a transition type */
+    QString getTransitionName(const TRANSITIONTYPE & type);
+
+    /** Return the transition type for a given name */
+    TRANSITIONTYPE getTransitionForName(const QString & type);
 };
 
 #endif

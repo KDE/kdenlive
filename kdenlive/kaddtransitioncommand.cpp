@@ -30,14 +30,14 @@
 namespace Command {
 
 // static
-    KAddTransitionCommand *KAddTransitionCommand::appendTransition( DocClipRef * clip, GenTime time) {
-        Transition *transit = new Transition(clip, time);
+    KAddTransitionCommand *KAddTransitionCommand::appendTransition( DocClipRef * clip, GenTime time, const QString & type) {
+        Transition *transit = new Transition(clip, time, type);
 	if (transit) return new KAddTransitionCommand(clip, transit, true);
     }
 
 // static
-    KAddTransitionCommand *KAddTransitionCommand::appendTransition( DocClipRef * a_clip, DocClipRef * b_clip) {
-        Transition *transit = new Transition(a_clip, b_clip);
+    KAddTransitionCommand *KAddTransitionCommand::appendTransition( DocClipRef * a_clip, DocClipRef * b_clip, const QString & type) {
+        Transition *transit = new Transition(a_clip, b_clip, type);
 	if (transit) return new KAddTransitionCommand(a_clip, transit, true);
     }
 

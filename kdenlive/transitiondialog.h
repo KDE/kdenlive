@@ -71,7 +71,8 @@ namespace Gui {
 	void resetTransitionDialog();
 	void initLumaFiles();
 
-      private:
+    private:
+	int m_videoFormat;
 	transitionCrossfade_UI *transitCrossfade;
 	transitionLumaFile_UI *transitLumaFile;
 	transitionAudiofade_UI *transitAudiofade;
@@ -80,6 +81,7 @@ namespace Gui {
 	Transition *m_transition;
 	KJanusWidget *propertiesDialog;
 	KComboBox *trackPolicy;
+	QString m_lumaType;
 
     signals:
 	void transitionChanged(bool);

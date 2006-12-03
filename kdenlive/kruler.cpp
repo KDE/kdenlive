@@ -1118,7 +1118,7 @@ namespace Gui {
 
     QStringList KRuler::timelineRulerComments() {
 	QStringList list;
-	QValueList < KTimelineGuide >::Iterator it = m_guides.begin();
+	QValueList < KTimelineGuide >::Iterator it;
 	int ix = 0;
         for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
 	    if ((*it).chapterNum() == -1) {

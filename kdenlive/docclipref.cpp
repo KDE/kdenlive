@@ -805,17 +805,46 @@ QDomDocumentFragment DocClipRef::generateXMLTransition(bool hideVideo, bool hide
     }
 
     // Add transition to create transparent bg effect for image/text clips
-    if (transparentBackgroundClip && m_transitionStack.count() == 0)
+    if (transparentBackgroundClip)
     {
-        QDomElement transition = transitionList.createElement("transition");
-        transition.setAttribute("in", trackStart().frames(framesPerSecond()));
-        transition.setAttribute("out", trackEnd().frames(framesPerSecond()) - 1);
-        transition.setAttribute("mlt_service", "composite");
-        transition.setAttribute("fill", "1");
-        transition.setAttribute("progressive","1");
-        transition.setAttribute("a_track", QString::number( playlistNextTrackNum()));
-        transition.setAttribute("b_track", QString::number(playlistTrackNum()));
-        list.appendChild(transition);
+	int transitionNumber = m_transitionStack.count();
+	QValueList < QPoint > blanklist;
+	blanklist.append(QPoint(trackStart().frames(framesPerSecond()), trackEnd().frames(framesPerSecond()) - 1));
+	while (transitionNumber > 0) {
+	    // Parse all clip transitions and build a list of times without transitions
+	    QValueList < QPoint >::Iterator it;
+	    Transition *t = m_transitionStack.at(transitionNumber - 1);
+	    int transStart = t->transitionStartTime().frames(framesPerSecond());
+	    int transEnd = t->transitionEndTime().frames(framesPerSecond()) - 1;
+	    for ( it = blanklist.begin(); it != blanklist.end(); ++it ) {
+		int currentStart = (*it).x();
+		int currentEnd = (*it).y();
+		if (transStart <= currentEnd && transEnd >= currentStart) {
+		    
+		    if (currentStart != transStart) {
+			(*it) = QPoint(currentStart, transStart);
+			if (transEnd != currentEnd) blanklist.append(QPoint(transEnd, currentEnd));
+		    }
+		    else (*it) = QPoint(transEnd, currentEnd);
+		    break;
+		}
+	    }
+	    transitionNumber--;
+	}
+
+	// Insert "transparent" composite transition in places where the clip has no transition
+	QValueList < QPoint >::Iterator it;
+ 	for ( it = blanklist.begin(); it != blanklist.end(); ++it ) {
+            QDomElement transition = transitionList.createElement("transition");
+            transition.setAttribute("in", (*it).x());
+            transition.setAttribute("out", (*it).y());
+            transition.setAttribute("mlt_service", "composite");
+            transition.setAttribute("fill", "1");
+            transition.setAttribute("progressive","1");
+            transition.setAttribute("a_track", QString::number( playlistNextTrackNum()));
+            transition.setAttribute("b_track", QString::number(playlistTrackNum()));
+            list.appendChild(transition);
+	}
     }
  
     TransitionStack::iterator itt = m_transitionStack.begin(); 
@@ -1793,7 +1822,7 @@ void DocClipRef::deleteTransition(QDomElement transitionXml)
 {
     if (m_transitionStack.isEmpty()) return;
     for ( uint i = 0; i < m_transitionStack.count(); ++i ) {
-	Transition *t = m_transitionStack.at(i); 
+	Transition *t = m_transitionStack.at(i);
         if ( t && t->toXML().attribute("start") == transitionXml.attribute("start") && t->toXML().attribute("end") == transitionXml.attribute("end")) { 
 	m_transitionStack.remove(i);
 	}

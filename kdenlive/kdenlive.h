@@ -436,7 +436,7 @@ namespace Gui {
         void slotSplitAudio();
 
         /** Add a transition between the 2 selected clips */
-        void slotAddTransition();
+        void slotAddTransition(int ix = 0);
         
         /** Delete the selected clip's transition */
         void slotDeleteTransition();
@@ -565,6 +565,7 @@ namespace Gui {
 	QPopupMenu *videoEffectsMenu;
 	QPopupMenu *audioEffectsMenu;
 	QPopupMenu *removeEffectsMenu;
+	QPopupMenu *transitionsMenu;
 
         KdenliveSplash *splash;
 

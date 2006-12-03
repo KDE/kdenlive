@@ -36,8 +36,8 @@ Command to add effects to clips.
     class KAddTransitionCommand:public KCommand {
       public:
 	/** Returns an AddEffectCommand that will append the effect to the end of the effect list.*/
-	static KAddTransitionCommand *appendTransition(DocClipRef * clip, GenTime time);
-	static KAddTransitionCommand *appendTransition( DocClipRef * a_clip, DocClipRef * b_clip);
+	static KAddTransitionCommand *appendTransition(DocClipRef * clip, GenTime time, const QString & type);
+	static KAddTransitionCommand *appendTransition( DocClipRef * a_clip, DocClipRef * b_clip, const QString & type);
 	static KAddTransitionCommand *removeTransition(DocClipRef * clip, Transition *transit);
 
 	/** Constructs a command to move the specified effect to a new place in the effect list.

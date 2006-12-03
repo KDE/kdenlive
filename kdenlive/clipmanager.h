@@ -129,7 +129,7 @@ class ClipManager:public QObject {
     DocClipBase *insertImageClip(KURL file,
         const GenTime & duration, const QString & description, bool alphaTransparency, int clipId = -1);
 
-    QDomDocument buildImageClip(KURL & file,
+    QDomDocument buildImageClip(KURL file,
     const GenTime & duration, const QString & description, bool alphaTransparency, int clipId = -1);
 
 	/** Insert a slideshow clip */

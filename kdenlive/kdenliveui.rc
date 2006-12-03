@@ -263,7 +263,8 @@
 </Menu>
 
 <Menu name="timeline_clip_context">
-  <Action name="add_transition"/>
+  <Menu name="add_transition_menu"><text>Add Transition</text>
+  </Menu>
   <Action name="del_transition"/>
   <Separator lineSeparator="true"/>
   <Menu name="video_effect"><text>Add Video Effect</text>

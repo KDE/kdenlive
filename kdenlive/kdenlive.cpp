@@ -172,7 +172,14 @@ namespace Gui {
 
 	initEffects::initializeEffects( &m_effectList );
 
-	// init effects menu
+	// init transitions & effects menu
+	transitionsMenu = ((QPopupMenu *) factory()->container("add_transition_menu", this));
+	transitionsMenu->insertItem(i18n("Crossfade"));
+	transitionsMenu->insertItem(i18n("Push"));
+	transitionsMenu->insertItem(i18n("Pip"));
+	transitionsMenu->insertItem(i18n("Wipe"));
+	connect(transitionsMenu, SIGNAL(activated(int)), this, SLOT(slotAddTransition(int)));
+
 	audioEffectsMenu = ((QPopupMenu *) factory()->container("audio_effect", this));
 	videoEffectsMenu = ((QPopupMenu *) factory()->container("video_effect", this));
 	removeEffectsMenu = ((QPopupMenu *) factory()->container("remove_effect", this));
@@ -646,11 +653,6 @@ namespace Gui {
 	    "delete_folder");
 	deleteFolder->setStatusText(i18n("Delete folder"));
 
-        KAction *addTransition = new KAction(i18n("Add Transition"), 0, this,
-        SLOT(slotAddTransition()), actionCollection(),
-        "add_transition");
-	addTransition->setStatusText(i18n("Add transition to selected clip"));
-
         KAction *deleteTransition = new KAction(i18n("Delete Transition"), 0, this,
         SLOT(slotDeleteTransition()), actionCollection(),
         "del_transition");
@@ -975,8 +977,6 @@ namespace Gui {
 	m_dockProjectList->setToolTipString(i18n("Project Tree"));
 
 	m_dockTransition = createDockWidget("transition", QPixmap(), 0, i18n("Transition"));
-	m_transitionPanel = new TransitionDialog(this, m_dockTransition);
-	m_dockTransition->setWidget(m_transitionPanel);
 	m_dockTransition->setDockSite(KDockWidget::DockFullSite);
 	m_dockTransition->manualDock(m_dockProjectList, KDockWidget::DockCenter);
 	m_dockTransition->setToolTipString(i18n("Transition"));
@@ -1021,6 +1021,12 @@ namespace Gui {
 	// create the main widget here that is managed by KTMainWindow's view-region and
 	// connect the widget to your document to display document contents.
 	kdDebug()<<"****************  INIT DOCUMENT VIEW ***************"<<endl;
+
+	if (m_transitionPanel) delete m_transitionPanel;
+	m_transitionPanel = new TransitionDialog(this, m_dockTransition);
+	m_dockTransition->setWidget(m_transitionPanel);
+	m_transitionPanel->show();
+
 	if (m_exportDvd) delete m_exportDvd;
 	if (m_exportWidget) delete m_exportWidget;
 	if (m_projectList) delete m_projectList;
@@ -2612,7 +2618,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
             fd->setMode(KFile::File);
             if (fd->exec() == QDialog::Accepted) {
                 m_monitorManager.activeMonitor()->exportCurrentFrame(fd->selectedURL());
-                //KMacroCommand *macroCommand = new KMacroCommand(i18n("Add Clips"));
+
                 if (addToProject->isChecked()) {
                     QString dur = KdenliveSettings::colorclipduration();
                     int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt());
@@ -3403,19 +3409,20 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     }
 
 
-    void KdenliveApp::slotAddTransition() {
+    void KdenliveApp::slotAddTransition(int ix) {
         if (getDocument()->projectClip().hasSelectedClips() == 0) {
             KMessageBox::sorry(this, i18n("Please select a clip to apply transition"));
             return;
         }
+	QString transitionName = transitionsMenu->text(ix);
         GenTime mouseTime;
 	QPoint position = mousePosition();
         mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(position).x());
 	int b_track = getDocument()->projectClip().selectedClip()->trackNum() + 1;
 	DocClipRef *b_clip = getDocument()->projectClip().getClipAt(b_track, mouseTime);
 	if (b_clip)
-	    addCommand(Command::KAddTransitionCommand::appendTransition(getDocument()->projectClip().selectedClip(), b_clip), true);
-	else addCommand(Command::KAddTransitionCommand::appendTransition(getDocument()->projectClip().selectedClip(), mouseTime), true);
+	    addCommand(Command::KAddTransitionCommand::appendTransition(getDocument()->projectClip().selectedClip(), b_clip, transitionName), true);
+	else addCommand(Command::KAddTransitionCommand::appendTransition(getDocument()->projectClip().selectedClip(), mouseTime, transitionName), true);
 	getDocument()->indirectlyModified();
     }
     

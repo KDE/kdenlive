@@ -166,9 +166,10 @@ DocClipBase *ClipManager::insertImageClip(KURL file,
     return 0;
 }
 
-QDomDocument ClipManager::buildImageClip(KURL & file,
+QDomDocument ClipManager::buildImageClip(KURL file,
     const GenTime & duration, const QString & description, bool alphaTransparency, int clipId)
 {
+
     if (!KIO::NetAccess::exists(file, true, 0)) {
 	file = checkFileUrl(file);
 	if (file.isEmpty()) return QDomDocument();
@@ -679,7 +680,7 @@ QDomDocumentFragment ClipManager::virtualProducersList()
 
 QValueList < QPoint > ClipManager::virtualZones()
 {
-QValueList < QPoint > list;
+    QValueList < QPoint > list;
     QPtrListIterator < DocClipBase > itt(m_clipList);
     while (itt.current()) {
 	if (itt.current()->isDocClipVirtual()) {

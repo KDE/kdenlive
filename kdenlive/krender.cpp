@@ -228,29 +228,25 @@ QPixmap KRender::extractFrame(int frame, int width, int height)
 	pix.fill(black);
 	return pix;
     }
-    Mlt::Producer * mlt_producer = new Mlt::Producer(m_mltProducer->get_producer());
-    mlt_producer->seek(frame);
+    Mlt::Producer mlt_producer(m_mltProducer->get_producer());
+    mlt_producer.seek(frame);
     Mlt::Filter m_convert("avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
-    mlt_producer->attach(m_convert);
+    mlt_producer.attach(m_convert);
     pix.fill(Qt::black);
 
-    Mlt::Frame *m_frame = mlt_producer->get_frame();
+    Mlt::Frame *m_frame = mlt_producer.get_frame();
 
     if (m_frame) {
 	m_frame->set("rescale", "nearest");
 	uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, width, height, 1);
-	QImage m_image(m_thumb, width, height, 32, 0, 0, QImage::IgnoreEndian);
+	QImage m_image(m_thumb, width, height, 32, 0, 0, QImage::LittleEndian);
 	delete m_frame;
 	
 	if (!m_image.isNull()) {
-	    //pix = m_image.smoothScale(width, height);
-	    /*kdDebug()<<" + + +EXTRACT FRAME: "<<m_image.width()<<", "<<m_image.height()<<endl;
-	    kdDebug()<<" + + +EXTRACT FRAME TO: "<<width<<", "<<height<<endl;*/
 	    bitBlt(&pix, 0, 0, &m_image, 0, 0, width, height);
 	}
     }
-    delete mlt_producer;
     return pix;
 }
 
@@ -310,6 +306,9 @@ QPixmap KRender::getVideoThumbnail(KURL url, int frame, int width, int height)
 void KRender::getImage(KURL url, int frame, int width, int height)
 {
     Mlt::Producer m_producer(decodedString(url.path()));
+    if (m_producer.is_blank()) {
+	return;
+    }
     Mlt::Filter m_convert("avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
     m_producer.attach(m_convert);
@@ -492,7 +491,9 @@ void KRender::getFileProperties(KURL url)
         uint height = 40;
 	Mlt::Producer producer(decodedString(url.path()));
 //	Mlt::Producer producer(const_cast < char *>(url.path().ascii()));
-
+    	if (producer.is_blank()) {
+	    return;
+    	}
 	m_filePropertyMap.clear();
 	m_filePropertyMap["filename"] = url.path();
 	m_filePropertyMap["duration"] = QString::number(producer.get_length());
