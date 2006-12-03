@@ -2,8 +2,8 @@
                           KMMRecPanelimplementation.h  -  description
                              -------------------
     begin                : Mon Apr 8 2002
-    copyright            : (C) 2002 by Jason Wood
-    email                : jasonwood@blueyonder.co.uk
+    copyright            : (C) 2006 by Jean-Baptiste Mardelle
+    email                : jbm@ader.ch
  ***************************************************************************/
 
 /***************************************************************************
@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #ifndef KMMRECPANELIMPLEMENTATION_H
-#define KMMERECPANELIMPLEMENTATION_H
+#define KMMRECPANELIMPLEMENTATION_H
 
 #include "kmmrecpanel_ui.h"
 
@@ -27,8 +27,8 @@ class KdenliveDoc;
 
 namespace Gui {
 
-/**Implementation for the edit panel
-  *@author Jason Wood
+/**Implementation for the capture panel
+  *@author Jean-Baptiste Mardelle
   */
 
     class KMMRecPanel:public KMMRecPanel_UI {
