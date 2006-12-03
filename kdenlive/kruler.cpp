@@ -34,11 +34,6 @@
 #include "krulersliderbase.h"
 #include "krulermodel.h"
 
-namespace {
-    uint g_scrollTimerDelay = 50;
-    uint g_scrollThreshold = 50;
-}
-
 namespace Gui {
 
     class KRulerPrivateSliderDiamond:public KRulerSliderBase {

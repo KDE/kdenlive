@@ -25,6 +25,11 @@
 #include <qtimer.h>
 #include <qvaluelist.h>
 
+namespace {
+    uint g_scrollTimerDelay = 50;
+    uint g_scrollThreshold = 50;
+}
+
 class KTimelineGuide {
 	public:
 	    KTimelineGuide(int time = 0, QString comment = QString::null, int chapterNum = -1) {

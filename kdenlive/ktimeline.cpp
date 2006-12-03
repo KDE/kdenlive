@@ -47,11 +47,6 @@
 #include "timecode.h"
 
 
-namespace {
-    uint g_scrollTimerDelay = 50;
-    uint g_scrollThreshold = 50;
-}
-
 namespace Gui {
 
     uint KTimeLine::snapTolerance = 10;
