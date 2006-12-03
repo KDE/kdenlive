@@ -96,9 +96,6 @@
                     <property name="pixmap">
                         <pixmap>image1</pixmap>
                     </property>
-                    <property name="toggleButton">
-                        <bool>true</bool>
-                    </property>
                     <property name="flat">
                         <bool>true</bool>
                     </property>
