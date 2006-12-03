@@ -20,9 +20,6 @@
             <verstretch>0</verstretch>
         </sizepolicy>
     </property>
-    <property name="caption">
-        <string></string>
-    </property>
     <property name="layoutMargin" stdset="0">
     </property>
     <property name="layoutSpacing" stdset="0">
@@ -70,6 +67,9 @@
                     </property>
                     <property name="pixmap">
                         <pixmap>image0</pixmap>
+                    </property>
+                    <property name="toggleButton">
+                        <bool>true</bool>
                     </property>
                     <property name="flat">
                         <bool>true</bool>
@@ -282,6 +282,8 @@
         </widget>
     </grid>
 </widget>
+<customwidgets>
+</customwidgets>
 <images>
     <image name="image0">
         <data format="PNG" length="124">89504e470d0a1a0a0000000d494844520000000e0000000d080600000099dc5f7f000000434944415428916360a03760c426b84b4cec3f32dfedd52b0c751802e89a706946e1e0d2844d339c414813ba662662146303646ba4dc8f8434e30d555c9ab1c523fd010034d01c0c952ac5b70000000049454e44ae426082</data>

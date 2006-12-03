@@ -77,7 +77,15 @@ namespace Gui {
     
     KMMRecPanel::~KMMRecPanel() {}
 
+    void KMMRecPanel::setRecording()
+    {
+	if (!recButton->isOn()) recButton->toggle();
+    }
 
+    void KMMRecPanel::unsetRecording()
+    {
+	if (recButton->isOn()) recButton->toggle();
+    }
     
     void KMMRecPanel::showLcd(bool show) {
         m_showLcd = show;

@@ -36,7 +36,7 @@ namespace Gui {
 	m_app(app), m_screenHolder(new QVBox(this,name)), m_screen(new QWidget(m_screenHolder, name)),
 	m_recPanel(new KMMRecPanel(app->getDocument(), this, name)), captureProcess(0), hasCapturedFiles(false), m_tmpFolder(0)
     {
-
+	m_fileNumber = 0;
 	m_screen->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
 	m_screen->setBackgroundMode(Qt::PaletteDark);
 
@@ -174,6 +174,7 @@ void CaptureMonitor::displayCapturedFiles()
 	}
 	m_recPanel->rendererDisconnected();
 	if (hasCapturedFiles) displayCapturedFiles();
+	m_recPanel->unsetRecording();
     }
 
     void CaptureMonitor::slotInit() {
@@ -199,6 +200,7 @@ void CaptureMonitor::displayCapturedFiles()
     void CaptureMonitor::slotPause() {
 	if (!captureProcess) slotInit();
 	captureProcess->writeStdin("\e", 2);
+	m_recPanel->unsetRecording();
     }
 
     void CaptureMonitor::slotPlay() {
@@ -216,11 +218,19 @@ void CaptureMonitor::displayCapturedFiles()
     }
 
     void CaptureMonitor::slotRec() {
+        QDir dir( KURL(m_tmpFolder).path() );
+        m_fileNumber = dir.entryList( QDir::Files ).count();
 	if (!captureProcess) slotInit();
 	captureProcess->writeStdin("c\n", 3);
 	hasCapturedFiles = true;
+	QTimer::singleShot( 1500, this, SLOT(checkCapture()) );
     }
 
+    void CaptureMonitor::checkCapture() {
+	QDir dir( KURL(m_tmpFolder).path() );
+        int fileNumber = dir.entryList( QDir::Files ).count();
+	if (fileNumber > m_fileNumber) m_recPanel->setRecording();
+    }
 
     void CaptureMonitor::slotForward() {
 	if (!captureProcess) slotInit();

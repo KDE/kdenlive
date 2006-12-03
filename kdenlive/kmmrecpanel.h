@@ -158,6 +158,9 @@ namespace Gui {
 	void setSnapMarker(bool markerHere);
         
         void showLcd(bool show);
+
+	void setRecording();
+	void unsetRecording();
     };
 
 }				// namespace Gui
