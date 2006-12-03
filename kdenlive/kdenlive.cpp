@@ -131,7 +131,7 @@ namespace Gui {
 
     KdenliveApp::KdenliveApp(bool newDoc, QWidget *parent,
 	const char *name):KDockMainWindow(parent, name), m_monitorManager(this),
-    m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_renderManager(NULL), m_doc(NULL), m_effectStackDialog(NULL), m_clipMonitor(NULL), m_projectList(NULL), m_effectListDialog(NULL), m_projectFormat(PAL_VIDEO), m_timelinePopupMenu(NULL), m_rulerPopupMenu(NULL), m_exportDvd(NULL) {
+    m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_renderManager(NULL), m_doc(NULL), m_effectStackDialog(NULL), m_clipMonitor(NULL), m_projectList(NULL), m_effectListDialog(NULL), m_projectFormat(PAL_VIDEO), m_timelinePopupMenu(NULL), m_rulerPopupMenu(NULL), m_exportDvd(NULL), m_transitionPanel(NULL) {
 	config = kapp->config();
 	QString newProjectName;
 	videoProjectFormats << i18n("PAL (720x576, 25fps)") << i18n("PAL 16:9 (720x576, 25fps)");
