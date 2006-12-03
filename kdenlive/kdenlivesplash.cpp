@@ -20,7 +20,7 @@
 KdenliveSplash::KdenliveSplash(const QPixmap & pixmap, WFlags f):KSplashScreen(pixmap,
     f)
 {
-    message(i18n("Version 0.4 cvs"), AlignLeft, white);
+    message(i18n("Version 0.4"), AlignLeft, white);
 }
 
 KdenliveSplash::~KdenliveSplash()
