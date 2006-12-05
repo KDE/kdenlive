@@ -1,3 +1,4 @@
+# translation of es.po to español
 # translation of es.po to
 # Gerard Lledó Vives <gellevi@inf.upv.es>, 2004.
 # Carlos Dávila Martín <cdavilam@tiscali.es>, 2006.
@@ -9,9 +10,9 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-12-03 16:35+0100\n"
-"PO-Revision-Date: 2006-12-03 16:40+0100\n"
-"Last-Translator: jb <jb@ader.ch>\n"
-"Language-Team:  <en@li.org>\n"
+"PO-Revision-Date: 2006-12-06 00:01+0100\n"
+"Last-Translator: Carlos Dávila\n"
+"Language-Team: español <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1329,7 +1330,7 @@ msgstr "Bloqueo de modificación"
 
 #: kdenlive/initeffects.cpp:433
 msgid "Shift"
-msgstr "Modificación"
+msgstr "Mayúsculas"
 
 #: kdenlive/initeffects.cpp:444
 msgid "Room reverb"
@@ -1440,7 +1441,7 @@ msgstr "Añadir Clip"
 #: kdenlive/kdenlive.cpp:480 kdenlive/kdenlive.cpp:580
 #: kdenlive/kdenlive.cpp:2746 kdenlive/projectlist.cpp:74
 msgid "Delete Clip"
-msgstr "Eliminar Clip"
+msgstr "Eliminar clip"
 
 #: kdenlive/kaddeffectcommand.cpp:55
 msgid "Move Effect"
@@ -1602,7 +1603,7 @@ msgstr "Duplicar clip de texto"
 
 #: kdenlive/kdenlive.cpp:493
 msgid "&Export Timeline"
-msgstr "&Exportar linea de tiempo"
+msgstr "&Exportar línea de tiempo"
 
 #: kdenlive/kdenlive.cpp:497
 msgid "Export to DVD"
@@ -1879,7 +1880,7 @@ msgstr "Editar guía de la posición del cursor"
 #: kdenlive/kdenlive.cpp:711 kdenlive/kdenlive.cpp:1002
 #: kdenlive/kdenlive.cpp:1005
 msgid "Clip Monitor"
-msgstr "Monitor de Clip"
+msgstr "Monitor de clip"
 
 #: kdenlive/kdenlive.cpp:714 kdenlive/kdenlive.cpp:996
 #: kdenlive/kdenlive.cpp:1000
@@ -1910,15 +1911,15 @@ msgstr "Enfocar monitor de la línea de tiempo"
 
 #: kdenlive/kdenlive.cpp:736
 msgid "Focus Effect List"
-msgstr "Enfocar la lista de efectos"
+msgstr "Enfocar lista de efectos"
 
 #: kdenlive/kdenlive.cpp:739
 msgid "Focus Effect Stack"
-msgstr "Enfocar la pila de efectos"
+msgstr "Enfocar pila de efectos"
 
 #: kdenlive/kdenlive.cpp:742
 msgid "Focus Project Tree"
-msgstr "Enfocar el árbol del proyecto"
+msgstr "Enfocar árbol del proyecto"
 
 #: kdenlive/kdenlive.cpp:746
 msgid "Focus Transitions"
@@ -2115,7 +2116,7 @@ msgstr "Eliminar los marcadores de fijación de los clips seleccionados"
 
 #: kdenlive/kdenlive.cpp:885
 msgid "Render timeline to a file"
-msgstr "Renderizar la linea de tiempo a un archivo"
+msgstr "Renderizar la línea de tiempo a un archivo"
 
 #: kdenlive/kdenlive.cpp:887
 msgid "Configure project"
@@ -2163,7 +2164,7 @@ msgstr "Kdenlive"
 
 #: kdenlive/kdenlive.cpp:962 kdenlive/kdenlive.cpp:968
 msgid "TimeLine"
-msgstr "Linea de tiempo"
+msgstr "Línea de tiempo"
 
 #: kdenlive/kdenlive.cpp:972
 msgid ""
@@ -2362,7 +2363,7 @@ msgstr "Herramienta enrollar"
 
 #: kdenlive/kdenlive.cpp:2352
 msgid "Exporting Timeline..."
-msgstr "Exportando la linea de tiempo..."
+msgstr "Exportando la línea de tiempo..."
 
 #: kdenlive/kdenlive.cpp:2382
 msgid "Editing Preferences"
@@ -2427,7 +2428,7 @@ msgid ""
 "This will remove all clips on timeline that are currently using this clip. "
 "Are you sure you want to do this?"
 msgstr ""
-"Esto eliminará todos los clips de la linea de tiempo que están usando "
+"Esto eliminará todos los clips de la línea de tiempo que están usando "
 "actualmente este clip. ¿Estás seguro de que quieres hacerlo?"
 
 #: kdenlive/kdenlive.cpp:2786
@@ -2529,7 +2530,7 @@ msgstr "Interfaz"
 
 #: kdenlive/kdenlivesetupdlg.cpp:49
 msgid "Timeline"
-msgstr "Linea de tiempo"
+msgstr "Línea de tiempo"
 
 #: kdenlive/kdenlivesetupdlg.cpp:50
 msgid "Misc"
@@ -2577,11 +2578,11 @@ msgstr "Mover al comienzo del clip"
 
 #: kdenlive/kmmeditpanel_ui.cpp:419 kdenlive/kmmrecpanel_ui.cpp:249
 msgid "Rewind clip"
-msgstr "Rebobinar clip"
+msgstr "Retroceder clip"
 
 #: kdenlive/kmmeditpanel_ui.cpp:421
 msgid "Rewind 1 frame"
-msgstr "Rebobinar un fotograma"
+msgstr "Retroceder un fotograma"
 
 #: kdenlive/kmmeditpanel_ui.cpp:423
 msgid "Stop clip"
@@ -2907,7 +2908,7 @@ msgstr "&Proyecto"
 #: kdenlive/rc.cpp:222 kdenlive/rc.cpp:294
 #, no-c-format
 msgid "&Timeline"
-msgstr "Linea de &tiempo"
+msgstr "Línea de &tiempo"
 
 #. i18n: file kdenlive/kdenliveui.rc line 45
 #: kdenlive/rc.cpp:9 kdenlive/rc.cpp:42 kdenlive/rc.cpp:81 kdenlive/rc.cpp:114
@@ -3011,7 +3012,7 @@ msgstr "Borrar efecto"
 #: kdenlive/rc.cpp:285 kdenlive/rc.cpp:360
 #, no-c-format
 msgid "Timeline Toolbar"
-msgstr "Barra de herramienstas Linea de tiempo"
+msgstr "Barra de herramientas Línea de tiempo"
 
 #. i18n: file kdenlive/kdenliveui.rc line 307
 #: kdenlive/rc.cpp:72 kdenlive/rc.cpp:144 kdenlive/rc.cpp:216
