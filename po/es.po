@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-12-03 16:35+0100\n"
-"PO-Revision-Date: 2006-12-06 00:01+0100\n"
+"PO-Revision-Date: 2006-12-06 23:57+0100\n"
 "Last-Translator: Carlos Dávila\n"
 "Language-Team: español <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -547,7 +547,7 @@ msgstr "Segundos"
 
 #: kdenlive/configproject_ui.cpp:102 kdenlive/configureproject_ui.cpp:141
 msgid "Use Drop Frame timecode"
-msgstr "Usar código de tiempo Quitar fotograma"
+msgstr "Usar código de tiempo quitar fotograma"
 
 #: kdenlive/configproject_ui.cpp:104 kdenlive/configureproject_ui.cpp:143
 msgid ""
@@ -576,7 +576,7 @@ msgstr "Formato de vídeo"
 
 #: kdenlive/configproject_ui.cpp:108
 msgid "Video tracks"
-msgstr "Pistas de Vídeo"
+msgstr "Pistas de vídeo"
 
 #: kdenlive/configproject_ui.cpp:109
 msgid "Audio tracks"
@@ -596,7 +596,7 @@ msgstr "Miniaturas"
 
 #: kdenlive/configtimeline_ui.cpp:130
 msgid "Video Tracks"
-msgstr "Pistas de Vídeo"
+msgstr "Pistas de vídeo"
 
 #: kdenlive/configtimeline_ui.cpp:135
 msgid "Auto scroll while playing"
@@ -632,7 +632,7 @@ msgstr "Configurar proyecto"
 
 #: kdenlive/configureprojectdialog.cpp:50
 msgid "Add Preset"
-msgstr "Añadir Preselección"
+msgstr "Añadir preselección"
 
 #: kdenlive/configureprojectdialog.cpp:52
 msgid "Delete Preset"
@@ -2004,7 +2004,7 @@ msgstr "Abrir un archivo reciente"
 
 #: kdenlive/kdenlive.cpp:816
 msgid "Save project"
-msgstr "Guardarr proyecto"
+msgstr "Guardar proyecto"
 
 #: kdenlive/kdenlive.cpp:817
 msgid "Save project as..."
