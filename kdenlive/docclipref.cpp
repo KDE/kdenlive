@@ -279,7 +279,7 @@ void DocClipRef::moveCropStartTime(const GenTime & time)
 
 const GenTime & DocClipRef::cropStartTime() const
 {
-    return m_cropStart;
+    return adjustTimeToSpeed(m_cropStart);
 }
 
 
@@ -311,7 +311,7 @@ void DocClipRef::setTrackEnd(const GenTime & time)
 
 GenTime DocClipRef::cropDuration() const
 {
-    return m_trackEnd - m_trackStart;
+    return trackEnd() - trackStart();
 }
 
 void DocClipRef::updateThumbnail(int frame, QPixmap newpix)
@@ -523,7 +523,7 @@ int DocClipRef::playlistOtherTrackNum(int num) const
 to trackStart() + cropDuration() */
 GenTime DocClipRef::trackEnd() const
 {
-    return m_trackEnd;
+    return adjustTimeToSpeed(m_trackEnd - m_trackStart + m_cropStart) + m_trackStart;
 }
 
 /** Returns the parentTrack of this clip. */
@@ -1572,6 +1572,7 @@ void DocClipRef::setSnapMarkers(QValueVector < CommentedTime > markers)
 
 GenTime DocClipRef::adjustTimeToSpeed(GenTime t) const
 {
+	if (m_speed == 1.0 && m_endspeed == 1.0) return t;
 	int pos = t.frames(m_clip->framesPerSecond());
 	double actual_speed = m_speed + ((double) pos) / (double)duration().frames(m_clip->framesPerSecond()) * (m_endspeed - m_speed);
 
@@ -1588,7 +1589,7 @@ QValueVector < GenTime > DocClipRef::snapMarkersOnTrack() const
 
     for (uint count = 0; count < m_snapMarkers.count(); ++count) {
 	GenTime t = m_snapMarkers[count].time();
-	if (m_speed != 1.0 || m_endspeed != 1.0) t = adjustTimeToSpeed(t);
+	t = adjustTimeToSpeed(t);
 	if (t < cropStartTime() + cropDuration() && t > cropStartTime()) markers.append(t + trackStart() - cropStartTime());
     }
 
