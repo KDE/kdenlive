@@ -1570,6 +1570,17 @@ void DocClipRef::setSnapMarkers(QValueVector < CommentedTime > markers)
        }*/
 }
 
+GenTime DocClipRef::adjustTimeToSpeed(GenTime t) const
+{
+	int pos = t.frames(m_clip->framesPerSecond());
+	double actual_speed = m_speed + ((double) pos) / (double)duration().frames(m_clip->framesPerSecond()) * (m_endspeed - m_speed);
+
+	double actual_position = (double) pos / actual_speed;
+	return GenTime(actual_position, m_clip->framesPerSecond());
+
+	// TODO: markers not adjusted when clip is played reverse
+}
+
 QValueVector < GenTime > DocClipRef::snapMarkersOnTrack() const
 {
     QValueVector < GenTime > markers;
@@ -1577,6 +1588,7 @@ QValueVector < GenTime > DocClipRef::snapMarkersOnTrack() const
 
     for (uint count = 0; count < m_snapMarkers.count(); ++count) {
 	GenTime t = m_snapMarkers[count].time();
+	if (m_speed != 1.0 || m_endspeed != 1.0) t = adjustTimeToSpeed(t);
 	if (t < cropStartTime() + cropDuration() && t > cropStartTime()) markers.append(t + trackStart() - cropStartTime());
     }
 

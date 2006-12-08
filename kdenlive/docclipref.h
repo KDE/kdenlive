@@ -340,6 +340,7 @@ class DocClipRef:public QObject {
         void fetchStartThumbnail();
         /** Fetch the thumbnail for the clip end */
         void fetchEndThumbnail();
+	GenTime adjustTimeToSpeed(GenTime t) const;
 
   private:			// Private attributes
     void setSnapMarkers(QValueVector < CommentedTime > markers);
