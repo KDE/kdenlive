@@ -589,8 +589,7 @@ QDomDocumentFragment ClipManager::producersList()
         if (itt.current()->isDocClipAVFile())
         {
         DocClipAVFile *avClip = itt.current()->toDocClipAVFile();
-        if (avClip) {
-
+        if (avClip && avClip->numReferences() > 0) {
 	    if (avClip->clipType() == DocClipBase::IMAGE || avClip->clipType() == DocClipBase::SLIDESHOW) {
 		QDomElement producer = sceneList.createElement("producer");
 		producer.setAttribute("id", avClip->getId());
@@ -627,7 +626,6 @@ QDomDocumentFragment ClipManager::producersList()
 		producer.setAttribute("hide", "audio");
 		list.appendChild(producer);
 	    }
-
 	    else {
 		QDomElement producer = sceneList.createElement("producer");
 		producer.setAttribute("id", avClip->getId());

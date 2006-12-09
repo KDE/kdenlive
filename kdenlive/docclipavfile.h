@@ -65,9 +65,6 @@ class DocClipAVFile:public DocClipBase {
 	/** Returns the filesize of the underlying avfile. */
     virtual uint fileSize() const;
 
-	/** Returns the number of references to the underlying avfile. */
-    uint numReferences() const;
-
 
 	/** Returns the duration of the file */
     const GenTime & duration() const;

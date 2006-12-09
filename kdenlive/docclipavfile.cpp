@@ -437,12 +437,6 @@ uint DocClipAVFile::fileSize() const
     return m_filesize;
 }
 
-uint DocClipAVFile::numReferences() const
-{
-#warning TODO - write this funtion.
-}
-
-
 // virtual
 bool DocClipAVFile::referencesClip(DocClipBase * clip) const
 {
