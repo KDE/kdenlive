@@ -254,12 +254,12 @@ class KdenliveDoc:public QObject {
     Gui::KdenliveApp *application() {
     return m_app;
     }
+	/** Generates a list of all different clips in mlt's xml format*/
+    void generateProducersList();
 
     private slots:		// Private slots
 	/** Called when the document is modifed in some way. */
     void hasBeenModified(bool mod = true);
-	/** Generates a list of all different clips in mlt's xml format*/
-    void generateProducersList();
 	/** Emitted when a particular clip has changed in someway. E.g, it has recieved it's duration. */
     void slotClipChanged(DocClipBase * file);
 	/** Emitted when a particular clip has been modified. */

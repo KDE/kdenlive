@@ -522,12 +522,12 @@ KMacroCommand *TrackPanelClipMoveFunction::createAddClipsCommand()
 	while (itt.current()) {
 	    Command::KAddRefClipCommand * command =
 		new Command::KAddRefClipCommand(m_document->
-		effectDescriptions(), m_document->clipManager(),
-		&m_document->projectClip(), itt.current(), true);
+		effectDescriptions(), *m_document, itt.current(), true);
 	    macroCommand->addCommand(command);
             (*itt)->referencedClip()->addReference();
 	    ++itt;
 	}
+	m_document->generateProducersList();
     }
     return macroCommand;
 }

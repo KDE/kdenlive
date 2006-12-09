@@ -698,6 +698,16 @@ namespace Gui {
         "timeline_add_guide");
 	addGuide->setStatusText(i18n("Add guide at cursor position"));
 
+	KAction *addMarker = new KAction(i18n("Add Marker"), 0, this,
+        SLOT(addMarkerUnderCursor()), actionCollection(),
+        "add_marker");
+	addMarker->setStatusText(i18n("Add marker at cursor position"));
+
+	KAction *deleteMarker = new KAction(i18n("Delete Marker"), 0, this,
+        SLOT(deleteMarkerUnderCursor()), actionCollection(),
+        "delete_marker");
+	deleteMarker->setStatusText(i18n("Delete marker at cursor position"));
+
 	KAction *deleteGuide = new KAction(i18n("Delete Guide"), 0, this,
         SLOT(slotDeleteGuide()), actionCollection(),
         "timeline_delete_guide");
@@ -2756,7 +2766,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		    QPtrListIterator < DocClipRef > itt(list);
 
 		    while (itt.current()) {
-		        Command::KAddRefClipCommand * command = new Command::KAddRefClipCommand(effectList(), m_doc->clipManager(), &(m_doc->projectClip()), itt.current(), false);
+		        Command::KAddRefClipCommand * command = new Command::KAddRefClipCommand(effectList(), *m_doc, itt.current(), false);
 			if (m_transitionPanel->belongsToClip(itt.current())) 	m_transitionPanel->setTransition(0);
 		        macroCommand->addCommand(command);
 		        ++itt;
@@ -3306,6 +3316,29 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	addCommand(macroCommand, true);
 
 	slotStatusMsg(i18n("Ready."));
+    }
+
+
+    void KdenliveApp::addMarkerUnderCursor()
+    {
+		bool ok;
+		DocClipRef *clipUnderMouse = getDocument()->projectClip().selectedClip();
+		GenTime cursorTime = getDocument()->renderer()->seekPosition();
+		if (cursorTime < clipUnderMouse->trackStart() || cursorTime > clipUnderMouse->trackEnd()) return;
+		QString comment = KInputDialog::getText(i18n("Add Marker"), i18n("Marker comment: "), i18n("Marker"), &ok);
+		if (ok) {
+		    Command::KAddMarkerCommand * command = new Command::KAddMarkerCommand(*getDocument(), clipUnderMouse, cursorTime - clipUnderMouse->trackStart() + clipUnderMouse->cropStartTime(), comment, true);
+		    addCommand(command);
+		}
+    }
+
+    void KdenliveApp::deleteMarkerUnderCursor()
+    {
+		DocClipRef *clipUnderMouse = getDocument()->projectClip().selectedClip();
+		GenTime cursorTime = getDocument()->renderer()->seekPosition();
+		if (cursorTime < clipUnderMouse->trackStart() || cursorTime > clipUnderMouse->trackEnd()) return;
+	    	Command::KAddMarkerCommand * command = new Command::KAddMarkerCommand(*getDocument(), clipUnderMouse, cursorTime - clipUnderMouse->trackStart() + clipUnderMouse->cropStartTime(), QString::null, false);
+		addCommand(command);
     }
 
     void KdenliveApp::populateClearSnapMarkers(KMacroCommand *

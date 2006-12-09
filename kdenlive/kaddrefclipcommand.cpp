@@ -27,12 +27,11 @@ namespace Command {
 
     KAddRefClipCommand::
 	KAddRefClipCommand(const EffectDescriptionList & effectList,
-	ClipManager & clipManager, DocClipProject * project,
-	DocClipRef * clip, bool create):m_clipManager(clipManager),
+	KdenliveDoc & document, DocClipRef * clip, bool create):m_document(document),
 	m_effectList(effectList), m_create(create),
 	m_xmlClip(clip->toXML()),
 	m_findTime(clip->trackStart() + (clip->cropDuration() / 2.0)),
-	m_track(clip->trackNum()), m_project(project) {
+	m_track(clip->trackNum()) {
     } 
     
     KAddRefClipCommand::~KAddRefClipCommand() {
@@ -64,16 +63,17 @@ namespace Command {
 
     void KAddRefClipCommand::addClip() {
 	DocClipRef *clip =
-	    DocClipRef::createClip(m_effectList, m_clipManager,
+	    DocClipRef::createClip(m_effectList, m_document.clipManager(),
 	    m_xmlClip.documentElement());
 
         clip->referencedClip()->addReference();
-	m_project->track(clip->trackNum())->addClip(clip, true);
-        m_project->slotClipReferenceChanged();
+	if (clip->referencedClip()->numReferences() == 1) m_document.generateProducersList();
+	m_document.projectClip().track(clip->trackNum())->addClip(clip, true);
+        m_document.projectClip().slotClipReferenceChanged();
     }
 
     void KAddRefClipCommand::deleteClip() {
-	DocTrackBase *track = m_project->track(m_track);
+	DocTrackBase *track = m_document.projectClip().track(m_track);
 	if (!track) {
 		kdDebug()<<"///////// WARNING, TRYING TO DELETE CLIP ON DEAD TRACK "<<m_track<<endl;
 		return;
@@ -85,7 +85,8 @@ namespace Command {
 	}
 	track->removeClip(clip);
         clip->referencedClip()->removeReference();
-        m_project->slotClipReferenceChanged();
+	if (clip->referencedClip()->numReferences() == 0) m_document.generateProducersList();
+        m_document.projectClip().slotClipReferenceChanged();
 	delete clip;
     }
 
@@ -103,8 +104,7 @@ namespace Command {
 	    while (itt.current()) {
 		Command::KAddRefClipCommand * command =
 		    new Command::KAddRefClipCommand(document->
-		    effectDescriptions(), document->clipManager(),
-		    &document->projectClip(), itt.current(), false);
+		    effectDescriptions(), *document, itt.current(), false);
 		macroCommand->addCommand(command);
 		found++;
 		++itt;
@@ -125,8 +125,7 @@ namespace Command {
 	    while (itt.current()) {
 		Command::KAddRefClipCommand * command =
 		    new Command::KAddRefClipCommand(document->
-		    effectDescriptions(), document->clipManager(),
-		    &document->projectClip(), itt.current(), false);
+		    effectDescriptions(), *document, itt.current(), false);
 		macroCommand->addCommand(command);
 		++itt;
 	    }
@@ -135,8 +134,7 @@ namespace Command {
 	    while (itt.current()) {
 		Command::KAddRefClipCommand * command =
 		    new Command::KAddRefClipCommand(document->
-		    effectDescriptions(), document->clipManager(),
-		    &document->projectClip(), itt.current(), false);
+		    effectDescriptions(), *document, itt.current(), false);
 		macroCommand->addCommand(command);
 		++itt;
 	    }

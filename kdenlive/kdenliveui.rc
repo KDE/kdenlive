@@ -277,7 +277,10 @@
   </Menu>
   <Menu name="remove_effect"><text>Delete Effect</text>
   </Menu>
-  <Action name="split_audio"/>
+  <Menu name="marker_menu"><text>Marker</text>
+      <Action name="add_marker"/>
+      <Action name="delete_marker"/>
+  </Menu>
   <Separator lineSeparator="true"/>
   <Action name="edit_copy"/>
   <Action name="edit_cut"/>

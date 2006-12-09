@@ -1,5 +1,5 @@
 /***************************************************************************
-0                          kaddclipcommand.h  -  description
+                           kaddclipcommand.h  -  description
                              -------------------
     begin                : Fri Dec 13 2002
     copyright            : (C) 2002 by Jason Wood
@@ -45,9 +45,7 @@ namespace Command {
 	static KMacroCommand *deleteAllTrackClips(KdenliveDoc *document, int ix);
 	/** Construct an AddClipCommand that will delete a clip */
 	 KAddRefClipCommand(const EffectDescriptionList & effectList,
-	    ClipManager & clipManager,
-	    DocClipProject * project,
-	    DocClipRef * clip, bool create = true);
+	    KdenliveDoc & document, DocClipRef * clip, bool create = true);
 
 	~KAddRefClipCommand();
 	/** Unexecute the command */
@@ -58,7 +56,8 @@ namespace Command {
 	QString name() const;
 
       private:			// Private attributes
-	 ClipManager & m_clipManager;
+
+	 KdenliveDoc & m_document;
 	const EffectDescriptionList & m_effectList;
 	/** If true, then executing the command will create a clip, and
 		unexecuting the command will delete a clip. Otherwise, it will be the
@@ -70,8 +69,6 @@ namespace Command {
 	GenTime m_findTime;
 	/** The track that the clip to be deleted is on. */
 	int m_track;
-	/** The project this command acts upon. */
-	DocClipProject *m_project;
 
 	/** Deletes the clip */
 	void deleteClip();

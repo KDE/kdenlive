@@ -476,6 +476,8 @@ namespace Gui {
 	void slotFullScreen();
 	void slotAddFileToProject(const QString &url);
 	void slotRenderZone();
+	void addMarkerUnderCursor();
+	void deleteMarkerUnderCursor();
 
       private:
 		/** the configuration object of the application */

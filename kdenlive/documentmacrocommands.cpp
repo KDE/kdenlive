@@ -115,8 +115,7 @@ namespace Command {
 
 		command->
 		    addCommand(new Command::KAddRefClipCommand(document->
-			effectDescriptions(), document->clipManager(),
-			&document->projectClip(), clone, true));
+			effectDescriptions(), *document, clone, true));
 
 		delete clone;
 	    } else {
