@@ -57,7 +57,7 @@ namespace Gui {
 	    QWidget * parent = 0, const char *name = 0);
 	~ProjectList();
 	/** Returns the currently selected clip in the project list. */
-	DocClipRef *currentSelection();
+	DocClipRefList currentSelection();
         
       private:			// Private methods
 	/** Holds the document that this projectlist makes use of. */

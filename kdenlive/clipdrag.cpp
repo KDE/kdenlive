@@ -47,7 +47,7 @@ ClipDrag::ClipDrag(DocClipRefList & clips, QWidget * dragSource,
     name)
 {
     m_xml = clips.toXML("cliplist").toString();
-//    kdWarning() << "XML is " << m_xml << endl;
+    kdWarning() << "XML is " << m_xml << endl;
 }
 
 ClipDrag::~ClipDrag()
@@ -102,11 +102,13 @@ DocClipRefList ClipDrag::decode(const EffectDescriptionList & effectList,
 	QDomElement elem = qdomdoc.documentElement();
 	QDomNode node;
 
-	/*kdDebug() << "DRAG INSIDE-----------------------------------------"
+	/*
+	kdDebug() << "DRAG INSIDE-----------------------------------------"
 	    << endl;
 	kdDebug() << qdomdoc.toString() << endl;
 	kdDebug() << "DRAG INSIDE-----------------------------------------"
-	    << endl;*/
+	    << endl;
+	*/
 
 	// are we handling a single clip, or a clip list? Not sure if both cases will
 	// occur, but just in case, we check for it.
@@ -133,6 +135,7 @@ DocClipRefList ClipDrag::decode(const EffectDescriptionList & effectList,
 	    node = node.nextSibling();
 	}
     } else {
+
 	KURL::List list;
 	KURL::List::Iterator it;
 	KURLDrag::decode(e, list);
@@ -148,7 +151,6 @@ DocClipRefList ClipDrag::decode(const EffectDescriptionList & effectList,
 	    else KMessageBox::sorry(0, i18n("The clip %1 is already present in this project").arg((*it).filename()));
 	}
     }
-
     return cliplist;
 }
 

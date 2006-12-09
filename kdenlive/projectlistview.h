@@ -47,6 +47,7 @@ class ProjectListView:public KListView {
     void setDocument(KdenliveDoc * doc);
     QString popupText();
     void setPopupText(QString txt);
+    DocClipRefList selectedItemsList() const;
     QString parentName();
 
   signals:			// Signals

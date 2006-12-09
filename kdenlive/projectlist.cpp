@@ -273,13 +273,8 @@ namespace Gui {
     }
     
 
-    DocClipRef *ProjectList::currentSelection() {
-	const AVListViewItem *avitem =
-	    static_cast < AVListViewItem * >(m_listView->selectedItem());
-	if (avitem) {
-	    return avitem->clip();
-	}
-	return 0;
+    DocClipRefList ProjectList::currentSelection() {
+	return m_listView->selectedItemsList();
     }
     
     void ProjectList::selectClip(DocClipBase *clip) {

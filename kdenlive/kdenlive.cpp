@@ -2644,7 +2644,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     
     /* Duplicate text clip */
     void KdenliveApp::slotProjectDuplicateTextClip() {
-	DocClipRef *refClip = m_projectList->currentSelection();
+	DocClipRef *refClip = m_projectList->currentSelection().first();
 	if (refClip) {
 	    DocClipBase *clip = refClip->referencedClip();
             
@@ -2670,7 +2670,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     /* Edit existing clip */
     void KdenliveApp::slotProjectEditClip() {
 	slotStatusMsg(i18n("Editing Clips"));
-	DocClipRef *refClip = m_projectList->currentSelection();
+	DocClipRef *refClip = m_projectList->currentSelection().first();
 	if (refClip) {
 	    DocClipBase *clip = refClip->referencedClip();
             
@@ -2733,44 +2733,43 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     void KdenliveApp::slotProjectDeleteClips(bool confirm) {
 	slotStatusMsg(i18n("Removing Clips"));
 
-	DocClipRef *refClip = m_projectList->currentSelection();
-	if (refClip) {
-	    DocClipBase *clip = refClip->referencedClip();
+	DocClipRefList refClipList = m_projectList->currentSelection();
+	if (refClipList.count() > 0) {
 	    if (!confirm || KMessageBox::warningContinueCancel(this,
 		    i18n
-		    ("This will remove all clips on timeline that are currently using this clip. Are you sure you want to do this?"))
+		    ("This will remove all clips on timeline that are currently using the selected clips. Are you sure you want to do this?"))
 		== KMessageBox::Continue) {
-		// Create a macro command that will delete all clips from the timeline involving this
-		// avfile. Then, delete it.
-		KMacroCommand *macroCommand =
-		    new KMacroCommand(i18n("Delete Clip"));
+	        DocClipRef *refClip;
 
-		// NOTE - we clear the monitors of the clip here - this does _not_ go into the macro
-		// command.
-		int id = clip->getId();
-		m_monitorManager.clearClip(clip);
+	        // Create a macro command that will delete all clips from the timeline involving this avfile. Then, delete it.
+		KMacroCommand *macroCommand = new KMacroCommand(i18n("Delete Clip"));
 
-		DocClipRefList list = m_doc->referencedClips(clip);
-		QPtrListIterator < DocClipRef > itt(list);
+	    	for (refClip = refClipList.first(); refClip; refClip = refClipList.next()) {
+	    	    DocClipBase *clip = refClip->referencedClip();
+	    
 
-		while (itt.current()) {
-		    Command::KAddRefClipCommand * command =
-			new Command::KAddRefClipCommand(effectList(), m_doc->clipManager(),
-			&(m_doc->projectClip()), itt.current(), false);
-			if (m_transitionPanel->belongsToClip(itt.current())) m_transitionPanel->setTransition(0);
-		    macroCommand->addCommand(command);
-		    ++itt;
+		    // NOTE - we clear the monitors of the clip here - this does _not_ go into the macro command.
+		    int id = clip->getId();
+		    m_monitorManager.clearClip(clip);
+
+		    DocClipRefList list = m_doc->referencedClips(clip);
+		    QPtrListIterator < DocClipRef > itt(list);
+
+		    while (itt.current()) {
+		        Command::KAddRefClipCommand * command = new Command::KAddRefClipCommand(effectList(), m_doc->clipManager(), &(m_doc->projectClip()), itt.current(), false);
+			if (m_transitionPanel->belongsToClip(itt.current())) 	m_transitionPanel->setTransition(0);
+		        macroCommand->addCommand(command);
+		        ++itt;
+		    }
+
+		    // remove audio thumbnail and tmp files
+		    clip->removeTmpFile();
+
+		    DocumentBaseNode *node = m_doc->findClipNodeById(id);
+		    if (!node) kdDebug()<<"++++++  CANNOT FIND NODE: "<<id<<endl;
+		    macroCommand->addCommand(new Command::KAddClipCommand(*m_doc, node->name(), clip, node->parent(), false));
 		}
-
-		// remove audio thumbnail and tmp files
-		clip->removeTmpFile();
-
-		DocumentBaseNode *node = m_doc->findClipNodeById(id);
-		if (!node) kdDebug()<<"++++++  CANNOT FIND NODE: "<<id<<endl;
-		macroCommand->addCommand(new Command::KAddClipCommand(*m_doc,
-			node->name(), clip, node->parent(), false));
 		addCommand(macroCommand, true);
-
 		if (confirm) {
 		    getDocument()->activateSceneListGeneration(true);
 		}

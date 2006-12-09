@@ -48,6 +48,7 @@ KListView(parent, name)
     setDefaultRenameAction(Accept);
     setAllColumnsShowFocus(true);
     setRootIsDecorated(true);
+    setSelectionMode(QListView::Extended);
     setSorting(1);
     QToolTip::remove(this);
     new ListViewToolTip(this);
@@ -88,21 +89,29 @@ void ProjectListView::setPopupText(QString txt)
 	m_popuptext = txt;
 }
 
+DocClipRefList ProjectListView::selectedItemsList() const
+{
+    QPtrList< QListViewItem > selectedItems;
+    selectedItems = KListView::selectedItems(true);
+    DocClipRefList selectedList;
+    QListViewItem *item;
+    for ( item = selectedItems.first(); item; item = selectedItems.next() ) {
+	AVListViewItem *avItem = (AVListViewItem *) item;
+	if (avItem && avItem->clip()) selectedList.append(avItem->clip());
+    }
+    return selectedList;
+}
+
 /** returns a drag object which is used for drag operations. */
 QDragObject *ProjectListView::dragObject()
 {
-    AVListViewItem *item = (AVListViewItem *) selectedItem();
-
-    if (!item->clip())
-	return false;
-
-    emit dragStarted(item);
+    DocClipRefList list = selectedItemsList();
 
     if (m_doc == 0) {
 	kdError() << "m_doc undefined" << endl;
 	return 0;
     }
-    return new ClipDrag(item->clip(), parentWidget(), "drag object");
+    return new ClipDrag(list, parentWidget(), "drag object");
 }
 
 bool ProjectListView::acceptDrag(QDropEvent * event) const

@@ -447,12 +447,14 @@ void TrackPanelClipMoveFunction::addClipsToTracks(DocClipRefList & clips,
 
 	if (moveToTrack == -1) {
 	    moveToTrack = track;
+	    itt.current()->moveTrackStart(itt.current()->trackStart() + startOffset);
+	    startOffset += itt.current()->cropDuration();
 	} else {
 	    moveToTrack += trackOffset;
+	    itt.current()->moveTrackStart(itt.current()->trackStart() + startOffset);
 	}
 
-	itt.current()->moveTrackStart(itt.current()->trackStart() +
-	    startOffset);
+
 
 	if ((moveToTrack >= 0) && (moveToTrack < (int)m_document->numTracks())) {
 	    m_document->track(moveToTrack)->addClip(itt.current(),

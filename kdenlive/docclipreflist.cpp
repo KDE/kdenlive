@@ -61,7 +61,7 @@ QDomDocument DocClipRefList::toXML(const QString & element)
 
     QPtrListIterator < DocClipRef > itt(*this);
 
-    doc.appendChild(doc.createElement("element"));
+    doc.appendChild(doc.createElement(element));
 
     while (itt.current() != 0) {
 	QDomDocument clipDoc = itt.current()->toXML();
