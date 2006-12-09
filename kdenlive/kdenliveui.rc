@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kdenlive" version="14">
+<kpartgui name="kdenlive" version="15">
 <MenuBar>
   <Menu name="file">
         <Action name="export_current_frame"/>
@@ -29,6 +29,10 @@
   
   <Menu name="project"><text>&amp;Project</text>
 	<Action name="project_add_clip"/>
+	<Action name="project_add_color_clip"/>
+	<Action name="project_add_image_clip"/>
+	<Action name="project_add_slideshow_clip"/>
+	<Action name="project_add_text_clip"/>
 	<Action name="project_delete_clip"/>
 	<Action name="project_clean"/>
         <Action name="edit_clip"/>
