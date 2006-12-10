@@ -463,6 +463,7 @@ namespace Gui {
 
 	/** Save the selected zone as Westley playlist */
 	void slotSaveZone();
+	void slotSaveSubClip();
 
 	/** Create a virtual clip */
 	void slotVirtualZone();

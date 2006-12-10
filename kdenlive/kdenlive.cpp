@@ -678,6 +678,12 @@ namespace Gui {
         "save_zone");
 	saveZone->setStatusText(i18n("Save selected zone as playlist for future use"));
 
+	KAction *saveSubClip = new KAction(i18n("Save Subclip"), 0, this,
+        SLOT(slotSaveSubClip()), actionCollection(),
+        "save_subclip");
+	saveSubClip->setStatusText(i18n("Save selected clip as playlist for future use"));
+
+
 	KAction *renderZone = new KAction(i18n("Render Selected Zone"), 0, this,
         SLOT(slotRenderZone()), actionCollection(),
         "render_zone");
@@ -2132,6 +2138,27 @@ namespace Gui {
 		QFile file(fd->selectedURL().path());
 		file.open( IO_WriteOnly );
 		QString save = partial.toString();
+    		file.writeBlock(save.utf8(), save.length());
+		file.close();
+		if (addToProject->isChecked()) insertClipFromUrl(fd->selectedURL().path());
+	}
+	delete addToProject;
+	delete fd;
+    }
+
+    void KdenliveApp::slotSaveSubClip()
+    {
+        QCheckBox * addToProject = new QCheckBox(i18n("Add new clip to project"),this);
+	addToProject->setChecked(true);
+        KFileDialog *fd = new KFileDialog(m_fileDialogPath.path(), "application/vnd.westley.scenelist", this, "save_westley", true,addToProject);
+        fd->setOperationMode(KFileDialog::Saving);
+        fd->setMode(KFile::File);
+        if (fd->exec() == QDialog::Accepted) {
+		DocClipRef *clipUnderMouse = getDocument()->projectClip().selectedClip();
+		QDomDocument partial = clipUnderMouse->generateXMLClip();
+		QFile file(fd->selectedURL().path());
+		file.open( IO_WriteOnly );
+		QString save = "<westley><producer id=\"" + QString::number(clipUnderMouse->referencedClip()->getId()) + "\" resource=\"" + clipUnderMouse->fileURL().path() + "\" /><playlist>"+partial.toString()+"</playlist></westley>";
     		file.writeBlock(save.utf8(), save.length());
 		file.close();
 		if (addToProject->isChecked()) insertClipFromUrl(fd->selectedURL().path());
