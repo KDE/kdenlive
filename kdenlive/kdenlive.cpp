@@ -138,8 +138,8 @@ namespace Gui {
 	videoProjectFormats << i18n("NTSC (720x480, 30fps)") << i18n("NTSC 16:9 (720x480, 30fps)");
 
 	// HDV not implemented in MLT yet...
-	//newProjectDialog->video_format->insertItem(i18n("HDV-1080 (1440x1080, 25fps)"));
-	//newProjectDialog->video_format->insertItem(i18n("HDV-720 (1280x720, 25fps)"));
+	// videoProjectFormats << i18n("HDV-1080 (1440x1080, 25fps)");
+	// videoProjectFormats << i18n("HDV-720 (1280x720, 25fps)");
 
 	initStatusBar();
 

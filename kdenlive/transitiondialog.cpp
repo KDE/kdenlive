@@ -127,6 +127,30 @@ void TransitionDialog::initLumaFiles()
 	}
         KGlobal::dirs()->addResourceDir(m_lumaType, inigoPath + "/share/mlt/modules/lumas/NTSC");
     }
+    else if (m_videoFormat == 2 || m_videoFormat == 3) {
+	// HDV 1080
+	m_lumaType = "lumasHDV1080";
+	KGlobal::dirs()->addResourceType(m_lumaType, "");
+
+	QStringList kdenliveLumas = KGlobal::dirs()->findDirs("data", "kdenlive/pgm/HDV1080");
+	while (!kdenliveLumas.isEmpty()) {
+	    KGlobal::dirs()->addResourceDir(m_lumaType, kdenliveLumas.first());
+	    kdenliveLumas.pop_front();
+	}
+        KGlobal::dirs()->addResourceDir(m_lumaType, inigoPath + "/share/mlt/modules/lumas/HDV1080");
+    }
+    else if (m_videoFormat == 4 || m_videoFormat == 5) {
+	// HDV 1080
+	m_lumaType = "lumasHDV720";
+	KGlobal::dirs()->addResourceType(m_lumaType, "");
+
+	QStringList kdenliveLumas = KGlobal::dirs()->findDirs("data", "kdenlive/pgm/HDV720");
+	while (!kdenliveLumas.isEmpty()) {
+	    KGlobal::dirs()->addResourceDir(m_lumaType, kdenliveLumas.first());
+	    kdenliveLumas.pop_front();
+	}
+        KGlobal::dirs()->addResourceDir(m_lumaType, inigoPath + "/share/mlt/modules/lumas/HDV720");
+    }
 
     QStringList iconList = KGlobal::dirs()->KStandardDirs::findAllResources(m_lumaType, "*.pgm");
 
