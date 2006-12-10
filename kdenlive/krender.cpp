@@ -490,10 +490,11 @@ void KRender::getFileProperties(KURL url)
         uint width = 50;
         uint height = 40;
 	Mlt::Producer producer(decodedString(url.path()));
-//	Mlt::Producer producer(const_cast < char *>(url.path().ascii()));
     	if (producer.is_blank()) {
 	    return;
     	}
+
+	mlt_properties properties = MLT_PRODUCER_PROPERTIES( producer.get_producer() );
 	m_filePropertyMap.clear();
 	m_filePropertyMap["filename"] = url.path();
 	m_filePropertyMap["duration"] = QString::number(producer.get_length());
@@ -515,6 +516,15 @@ void KRender::getFileProperties(KURL url)
 		QString::number(frame->get_int("frequency"));
 	    m_filePropertyMap["channels"] =
 		QString::number(frame->get_int("channels"));
+
+	    // metadata
+	    QStringList metadata_tags;
+	    metadata_tags<<"album"<<"description"<<"copyright"<<"title"<<"author"<<"artist"<<"tracknumber"<<"comment";
+
+	    for ( QStringList::Iterator it = metadata_tags.begin(); it != metadata_tags.end(); ++it ) {
+	        m_filePropertyMap[*it] = mlt_properties_get(properties, *it);
+	    }
+
 	    if (frame->get_int("test_image") == 0) {
 		if (frame->get_int("test_audio") == 0)
 		    m_filePropertyMap["type"] = "av";

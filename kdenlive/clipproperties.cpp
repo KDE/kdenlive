@@ -138,6 +138,8 @@ namespace Gui {
             clipChoice->clipFilesize->setText(formattedSize(refClip->fileSize()));
         }
         else {
+		clipChoice->meta_text->setText(clip->toDocClipAVFile()->formattedMetaData());
+
             	clipChoice->transparent_bg->hide();
             	clipChoice->label_color->hide();
             	clipChoice->button_color->hide();

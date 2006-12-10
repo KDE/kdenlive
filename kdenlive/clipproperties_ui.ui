@@ -8,12 +8,9 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>279</width>
-            <height>439</height>
+            <width>286</width>
+            <height>471</height>
         </rect>
-    </property>
-    <property name="caption">
-        <string></string>
     </property>
     <grid>
         <property name="name">
@@ -177,7 +174,7 @@
                 <string></string>
             </property>
         </widget>
-        <widget class="QLabel" row="0" column="0" rowspan="4" colspan="3">
+        <widget class="QLabel" row="0" column="0" rowspan="4" colspan="2">
             <property name="name">
                 <cstring>preview_pixmap</cstring>
             </property>
@@ -255,19 +252,6 @@
             </property>
             <property name="text">
                 <string>Frames per Image</string>
-            </property>
-        </widget>
-        <widget class="QLabel" row="13" column="0" rowspan="1" colspan="6">
-            <property name="name">
-                <cstring>textLabel1_2_3_3</cstring>
-            </property>
-            <property name="text">
-                <string>Description:</string>
-            </property>
-        </widget>
-        <widget class="QTextEdit" row="14" column="0" rowspan="1" colspan="6">
-            <property name="name">
-                <cstring>edit_description</cstring>
             </property>
         </widget>
         <widget class="Line" row="12" column="0" rowspan="1" colspan="6">
@@ -367,6 +351,70 @@
             <property name="text">
                 <string>Crossfade</string>
             </property>
+        </widget>
+        <widget class="QTabWidget" row="13" column="0" rowspan="1" colspan="6">
+            <property name="name">
+                <cstring>tabWidget2</cstring>
+            </property>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>tab</cstring>
+                </property>
+                <attribute name="title">
+                    <string>Description</string>
+                </attribute>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <property name="margin">
+                        <number>0</number>
+                    </property>
+                    <widget class="QTextEdit" row="0" column="0">
+                        <property name="name">
+                            <cstring>edit_description</cstring>
+                        </property>
+                    </widget>
+                </grid>
+            </widget>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>tab</cstring>
+                </property>
+                <attribute name="title">
+                    <string>Metadata</string>
+                </attribute>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <widget class="QLabel" row="0" column="0">
+                        <property name="name">
+                            <cstring>meta_text</cstring>
+                        </property>
+                        <property name="text">
+                            <string></string>
+                        </property>
+                    </widget>
+                    <spacer row="1" column="0">
+                        <property name="name">
+                            <cstring>spacer3</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>12</width>
+                                <height>19</height>
+                            </size>
+                        </property>
+                    </spacer>
+                </grid>
+            </widget>
         </widget>
     </grid>
 </widget>

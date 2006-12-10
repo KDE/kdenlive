@@ -522,6 +522,16 @@ bool DocClipAVFile::matchesXML(const QDomElement & element) const
     return result;
 }
 
+QString DocClipAVFile::formattedMetaData() 
+{
+	QString result;
+	QMap<QString, QString>::Iterator it;
+        for ( it = m_metadata.begin(); it != m_metadata.end(); ++it ) {
+                    result+="<b>" + it.key() + "</b>: " + it.data() + "<br>";
+        }
+	return result;
+}
+
 
 /** Calculates properties for this file that will be useful for the rest of the program. */
 void DocClipAVFile::calculateFileProperties(const QMap < QString,
@@ -596,6 +606,22 @@ void DocClipAVFile::calculateFileProperties(const QMap < QString,
 	} else {
 	    m_frequency = 0;
 	}
+
+	// metadata
+	QStringList metadata_tags;
+	metadata_tags<<"album"<<"description"<<"copyright"<<"title"<<"author"<<"artist"<<"tracknumber"<<"comment";
+
+	for ( QStringList::Iterator it = metadata_tags.begin(); it != metadata_tags.end(); ++it ) {
+	    QString value = attributes[*it];
+	    if (!value.isEmpty()) m_metadata[*it] = value;
+	}
+
+	if (m_metadata.contains("description")) {
+	    setDescription (m_metadata["description"]);
+	}
+	else if (m_metadata.contains("comment")) {
+	    setDescription (m_metadata["comment"]);
+	} 
 
     } else {
 		/** If the file is not local, then no file properties are currently returned */

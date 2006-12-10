@@ -58,8 +58,7 @@ class DocClipAVFile:public DocClipBase {
 	/** Calculates properties for the file, including the size of the file, the duration of the file,
 	 * the file format, etc.
 	 **/
-    void calculateFileProperties(const QMap < QString,
-	QString > &attributes);
+    void calculateFileProperties(const QMap < QString, QString > &attributes);
     double aspectRatio() const;
 
 	/** Returns the filesize of the underlying avfile. */
@@ -158,6 +157,7 @@ class DocClipAVFile:public DocClipBase {
     public slots:
 	void getAudioThumbs();
 	void stopAudioThumbs();
+	QString formattedMetaData();
 
     private:
 
@@ -182,6 +182,9 @@ class DocClipAVFile:public DocClipBase {
     bool m_alphaTransparency;
     /** Should we crossfade between images (only for slideshows) */
     bool m_hasCrossfade;
+
+    /** Holds file metadata (comment, copyright, author,...) */
+    QMap < QString, QString > m_metadata;
 
     //extended video file properties -reh
     uint m_height;
