@@ -199,7 +199,7 @@ namespace Gui {
 		/** save a document */
 	void slotFileSave();
 		/** save a document by a new filename*/
-	void slotFileSaveAs();
+	void slotFileSaveAs(QString suggestedName = QString::null);
 		/** asks for saving if the file is modified, then closes the actual file and window*/
 	void slotFileClose();
                 /** Reopen the last project file*/

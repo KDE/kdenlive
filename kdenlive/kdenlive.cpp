@@ -1706,8 +1706,8 @@ namespace Gui {
 
 	    switch (want_save) {
 	    case KMessageBox::Yes:
-		if (m_doc->URL().fileName() == i18n("Untitled")) {
-		    slotFileSaveAs();
+		if (m_doc->URL().isEmpty()) {
+		    slotFileSaveAs(m_doc->projectName());
 		} else {
 		    m_projectFormatManager.saveDocument(m_doc->URL(), m_doc);
 		};
@@ -2230,7 +2230,7 @@ namespace Gui {
 
 
     void KdenliveApp::slotFileSave() {
-	if (m_doc->URL().isEmpty()) slotFileSaveAs();
+	if (m_doc->URL().isEmpty()) slotFileSaveAs(m_doc->projectName());
 	else {
 		slotStatusMsg(i18n("Saving file..."));
 		if (KIO::NetAccess::exists(m_doc->URL(), true, this)) {
@@ -2242,10 +2242,10 @@ namespace Gui {
 	}
     }
 
-    void KdenliveApp::slotFileSaveAs() {
+    void KdenliveApp::slotFileSaveAs(QString suggestedName) {
 	slotStatusMsg(i18n("Saving file with a new filename..."));
 
-	KURL url = KFileDialog::getSaveURL(m_fileDialogPath.path(),
+	KURL url = KFileDialog::getSaveURL(m_fileDialogPath.path() + "/" + suggestedName,
 	    m_projectFormatManager.saveMimeTypes(), this, i18n("Save as..."));
 
 	if (!url.isEmpty()) {
