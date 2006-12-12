@@ -1919,18 +1919,8 @@ namespace Gui {
 
     void KdenliveApp::slotFileOpen() {
 	slotStatusMsg(i18n("Opening file..."));
-
-	if (!saveModified()) {
-	    // here saving wasn't successful
-
-	} else {
-	    KURL url = KFileDialog::getOpenURL(m_fileDialogPath.path(),
-		m_projectFormatManager.loadMimeTypes(),
-		this,
-		i18n("Open File..."));
-                //requestDocumentClose(url);
-	    if (!url.isEmpty()) openDocumentFile(url);
-	}
+	KURL url = KFileDialog::getOpenURL(m_fileDialogPath.path(), m_projectFormatManager.loadMimeTypes(), this, i18n("Open File..."));
+	if (!url.isEmpty()) openDocumentFile(url);
 	slotStatusMsg(i18n("Ready."));
     }
     
