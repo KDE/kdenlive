@@ -18,16 +18,12 @@
 #ifndef KRENDER_H
 #define KRENDER_H
 
-#include <qobject.h>
-#include <qsocket.h>
 #include <qdom.h>
 #include <qstring.h>
 #include <qmap.h>
-#include <qthread.h>
 #include <qptrlist.h>
 #include <qvaluestack.h>
 
-#include <kprocess.h>
 #include <kurl.h>
 
 #ifdef ENABLE_FIREWIRE
@@ -134,12 +130,9 @@ class KRender:public QObject {
 	specified sceneList - set with setSceneList() - to the document
 	name specified. */
     void render(const KURL & url);
-	/** Returns a list of all available file formats in this renderer. */
-    QPtrList < AVFileFormatDesc > &fileFormats();
+
 	/** Returns the effect list. */
     const EffectDescriptionList & effectList() const;
-	/** Returns the renderer version. */
-    QString version();
 	/** Returns the description of this renderer */
     QString description();
 
@@ -157,11 +150,7 @@ class KRender:public QObject {
     void emitFileFrameNumber(const GenTime & time, int eventType);
     void emitConsumerStopped();
     void emitFileConsumerStopped();
-    
-    
-    /** render timeline to a file */
-    void exportTimeline(const QString &url, const QString &format, GenTime exportStart, GenTime exportEnd, QStringList params);
-    void stopExport();
+
     
     /** Gives the aspect ratio of the consumer */
     double consumerRatio();
@@ -170,7 +159,7 @@ class KRender:public QObject {
     void askForRefresh();
     
     /** Save current producer frame as image */
-    void exportCurrentFrame(KURL url);
+    void exportCurrentFrame(KURL url, bool notify);
 
     /** returns the current scenelist */
     QDomDocument sceneList();
@@ -186,53 +175,19 @@ class KRender:public QObject {
      Mlt::Producer *m_mltTextProducer;
      
      QTimer *refreshTimer;
-     bool m_isRendering;
      QString m_renderingFormat;
+     KURL m_exportedFile;
      int exportDuration, firstExportFrame, lastExportFrame;
 
 
-	/** If true, we are currently parsing some data. Otherwise, we are not. */
-    bool m_parsing;
-	/** If we have started our own renderer, this is it's process */
-    KProcess m_process;
 	/** Holds the scenelist to be sent, if pending. */
     QDomDocument m_sceneList;
-	/** Holds the buffered communication from the socket, ready for processing. */
-    QString m_buffer;
 	/** The name of this renderer - useful to identify the renderes by what they do - e.g. background rendering, workspace monitor, etc... */
     QString m_name;
-	/** Holds a description of all available file formats. */
-     QPtrList < AVFileFormatDesc > m_fileFormats;
-	/** The parse stack for start/end element events. */
-     QValueStack < StackValue > m_parseStack;
-	/** Holds a buffer of characters, as returned by the parser */
-    QString m_characterBuffer;
-	/** Holds the file format during construction. Keep an eye out for potential memory leaks and
-	 null pointer exceptions. */
-    AVFileFormatDesc *m_fileFormat;
-	/** Holds a codec list description during constructuion. Keep an eye out for potential memory leaks
-	and null pointer exceptions. */
-    AVFormatDescCodecList *m_desccodeclist;
-	/** Holds a codec description during constructuion. Keep an eye out for potential memory leaks
-	and null pointer exceptions. */
-    AVFormatDescCodec *m_codec;
 
-	/** Holds a list of all available codecs. */
-     QPtrList < AVFormatDescCodec > m_codeclist;
-
-	/** The renderer version number. */
-    QString m_version;
-	/** Holds the authors of this renderer. */
-     QMap < QString, QString > m_authors;
 	/** A human-readable description of this renderer. */
     QString m_description;
-	/** Holds the filename of the current getFileProperties message when processing an error */
-    QString m_filePropertiesFileName;
-	/** Holds the last error message discovered */
-    QString m_errorMessage;
 
-	/**The current seek position */
-    GenTime m_seekPosition;
 
 	/** A bit hackish, well, a lot haackish really. File properties exist across a number of xml tags,
 	 * so we have to collect them together before emmitting them. We do that with this value here. */
@@ -240,8 +195,6 @@ class KRender:public QObject {
 	/** The actually seek command, private so people can't avoid the buffering of multiple seek commands. */
     void sendSeekCommand(GenTime time);
 
-	/** Sets the renderer version for this renderer. */
-    void setVersion(QString version);
 	/** Sets the description of this renderer to desc. */
     void setDescription(const QString & description);
     void openMlt();

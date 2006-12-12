@@ -46,7 +46,7 @@ A capture monitor, that allows you to capture video from various devices, as sup
 
 	~CaptureMonitor();
 
-        virtual void exportCurrentFrame(KURL url) const;
+        virtual void exportCurrentFrame(KURL url, bool notify) const;
 	virtual KMMEditPanel *editPanel() const;
 	virtual KMMScreen *screen() const;
 	virtual DocClipRef *clip() const;

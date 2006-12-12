@@ -74,17 +74,12 @@ namespace {
 
 }				// annonymous namespace
 
-KRender::KRender(const QString & rendererName, Gui::KdenliveApp *parent, const char *name):QObject(parent, name), m_name(rendererName), m_app(parent), m_fileFormat(0),
-m_desccodeclist(0), m_codec(0), m_isRendering(false), m_renderingFormat(0),
+KRender::KRender(const QString & rendererName, Gui::KdenliveApp *parent, const char *name):QObject(parent, name), m_name(rendererName), m_app(parent), m_renderingFormat(0),
 m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProducer(NULL), m_mltTextProducer(NULL)
 {
     openMlt();
     refreshTimer = new QTimer( this );
     connect( refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()) );
-    m_parsing = false;
-    m_seekPosition = GenTime(0);
-    m_fileFormats.setAutoDelete(true);
-    m_codeclist.setAutoDelete(true);
 
 
     //      Does it do anything usefull? I mean, KRenderThread doesn't do anything useful at the moment
@@ -100,13 +95,6 @@ KRender::~KRender()
 {
     closeMlt();
     //killTimers();
-}
-
-
-/** Returns a list of all available file formats in this renderer. */
-QPtrList < AVFileFormatDesc > &KRender::fileFormats()
-{
-    return m_fileFormats;
 }
 
 
@@ -662,7 +650,6 @@ void KRender::sendSeekCommand(GenTime time)
 	return;
     m_mltProducer->seek((int) (time.frames(m_fps)));
     refresh();
-    //m_seekPosition = time;
 }
 
 void KRender::askForRefresh()
@@ -689,17 +676,6 @@ const EffectDescriptionList & KRender::effectList() const
     return m_app->effectList();
 }
 
-/** Sets the renderer version for this renderer. */
-void KRender::setVersion(QString version)
-{
-    m_version = version;
-}
-
-/** Returns the renderer version. */
-QString KRender::version()
-{
-    return m_version;
-}
 
 /** Sets the description of this renderer to desc. */
 void KRender::setDescription(const QString & description)
@@ -758,23 +734,19 @@ void KRender::emitConsumerStopped()
 
 void KRender::emitFileConsumerStopped()
 {
-    //kdDebug()<<"+++++++++++  FILE CONSUMER STOPPING ++++++++++++++++++"<<endl;
-
-    if (m_fileRenderer && m_isRendering) {
-        //mlt_properties_set_int( MLT_PRODUCER_PROPERTIES( m_fileRenderer->get_consumer() ), "done", 1 );
-        if (!m_fileRenderer->is_stopped()) m_fileRenderer->stop();
-        //if (m_renderingFormat == "dv") delete m_fileRenderer;
-        //m_mltProducer->set_speed(0.0);
-        m_isRendering = false;
+    if (m_fileRenderer) {
+        delete m_fileRenderer;
+        m_fileRenderer = NULL;
+    }
+    if (m_mltFileProducer) {
+        delete m_mltFileProducer;
+        m_mltFileProducer = NULL;
+    }
 
         // This is used when exporting to a file so that we know when the export is finished
-        QApplication::postEvent(m_app, new QCustomEvent(10003));
+    if (!m_exportedFile.isEmpty()) {
+	QApplication::postEvent(m_app, new UrlEvent(m_exportedFile, 10003));
     }
-    
-/*    if (m_mltConsumer->is_stopped()) {
-        m_mltConsumer->start();
-    refresh();
-}*/
 }
 
 /*                           FILE RENDERING STUFF                     */
@@ -900,26 +872,20 @@ KMessageBox::sorry(0, i18n("Firewire is not enabled on your system.\n Please ins
 }
 
 
-void KRender::stopExport()
-{
-    if (m_fileRenderer && !m_fileRenderer->is_stopped()) {
-        m_mltFileProducer->set_speed(0.0);
-    }
-}
-
-void KRender::exportCurrentFrame(KURL url) {
+void KRender::exportCurrentFrame(KURL url, bool notify) {
     m_mltProducer->set_speed(0.0);
 
     QString frequency;
     if (m_fileRenderer) {
         delete m_fileRenderer;
-        m_fileRenderer = 0;
+        m_fileRenderer = NULL;
     }
     if (m_mltFileProducer) {
         delete m_mltFileProducer;
-        m_mltFileProducer = 0;
+        m_mltFileProducer = NULL;
     }
-    
+    if (notify) m_exportedFile = url;
+    else m_exportedFile = QString::null;
     m_fileRenderer=new Mlt::Consumer("avformat");
     m_fileRenderer->set ("target",decodedString(url.path()));
     if (!KdenliveSettings::videoprofile().isEmpty()) 
@@ -930,7 +896,9 @@ void KRender::exportCurrentFrame(KURL url) {
     m_fileRenderer->set ("format","rawvideo");
     m_fileRenderer->set ("vframes","1");
     m_fileRenderer->set ("terminate_on_pause", 1);
-    
+
+    m_fileRenderer->listen("consumer-stopped", this, (mlt_listener) file_consumer_stopped);
+
     m_mltFileProducer = new Mlt::Producer(m_mltProducer->cut((int) m_mltProducer->position(), (int) m_mltProducer->position()));
     
     m_fileRenderer->connect(*m_mltFileProducer);
@@ -938,68 +906,4 @@ void KRender::exportCurrentFrame(KURL url) {
     m_fileRenderer->start();
 }
 
-void KRender::exportTimeline(const QString &url, const QString &format, GenTime exportStart, GenTime exportEnd, QStringList params)
-{
-    /*if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();*/
-    m_mltProducer->set_speed(0.0);
-    m_renderingFormat = format;
-    QString frequency;
-    if (m_fileRenderer) {
-        delete m_fileRenderer;
-        m_fileRenderer = 0;
-    }
-    if (m_mltFileProducer) {
-        delete m_mltFileProducer;
-        m_mltFileProducer = 0;
-    }
-    if (format == "dv") m_fileRenderer=new Mlt::Consumer("libdv");
-    else if (format != "westley") {
-        m_fileRenderer=new Mlt::Consumer("avformat");
-        // Find corresponding profile file
-        QString profile = locate("data", "kdenlive/profiles/"+format+".profile");
-        Mlt::Properties m_fileProperties(decodedString(profile));
-        mlt_properties_inherit(MLT_CONSUMER_PROPERTIES(m_fileRenderer->get_consumer()), m_fileProperties.get_properties());
-        
-        for ( QStringList::Iterator it = params.begin(); it != params.end(); ++it ) {
-            QString p = (*it).section("=",0,0);
-            QString v = (*it).section("=",1);
-//            if (p == "frequency") frequency = v;
-//            kdDebug()<<"+++ encoding parameters: "<<p<<" = "<<v<<endl;
-            m_fileRenderer->set(p.ascii(), v.ascii());
-        }
-    
-    }
-    else {
-        QFile *file = new QFile();
-        file->setName(url);
-        file->open(IO_WriteOnly);
-        QTextStream stream( file );
-        stream.setEncoding (QTextStream::UnicodeUTF8);
-        stream << m_sceneList.toString();
-        file->close();
-        emitFileConsumerStopped();
-        return;
-    }
-    
-    m_fileRenderer->set ("target",decodedString(url));
-    m_fileRenderer->set ("real_time","0");
-    m_fileRenderer->set ("progressive","1");
-    m_fileRenderer->set ("terminate_on_pause", 1);
-    
-    m_fileRenderer->listen("consumer-frame-show", this, (mlt_listener) file_consumer_frame_show);
-    m_fileRenderer->listen("consumer-stopped", this, (mlt_listener) file_consumer_stopped);
-    
-    m_mltFileProducer = new Mlt::Producer(m_mltProducer->cut((int) exportStart.frames(m_fps), (int) exportEnd.frames(m_fps)));
-    
-    if (!frequency.isEmpty()) {
-        Mlt::Filter m_convert("resample");
-        m_convert.set("frequency", frequency.ascii());
-        m_mltFileProducer->attach(m_convert);
-    }
-    
-    m_isRendering = true;
-    m_fileRenderer->connect(*m_mltFileProducer);
-    m_mltFileProducer->set_speed(1.0);
-    m_fileRenderer->start();
 
-}

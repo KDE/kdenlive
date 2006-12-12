@@ -61,8 +61,7 @@ Dialog for configuring the project. This configuration dialog is used for both p
 */
 class ConfigureProjectDialog:public KDialogBase {
   Q_OBJECT public:
-    ConfigureProjectDialog(QPtrList < AVFileFormatDesc > &formatList,
-	QWidget * parent = 0, const char *name = 0, WFlags f = 0);
+    ConfigureProjectDialog(QWidget * parent = 0, const char *name = 0, WFlags f = 0);
 
     ~ConfigureProjectDialog();
     public slots:		// Public slots

@@ -63,7 +63,7 @@ namespace Gui {
 	if (captureProcess) delete captureProcess;
     }
     
-    void CaptureMonitor::exportCurrentFrame(KURL url) const {
+    void CaptureMonitor::exportCurrentFrame(KURL url, bool notify) const {
 	// TODO FIXME
     } 
 

@@ -186,8 +186,8 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	}
     }
     
-    void KMMMonitor::exportCurrentFrame(KURL url) const {
-        m_screen->exportCurrentFrame(url);
+    void KMMMonitor::exportCurrentFrame(KURL url, bool notify) const {
+        m_screen->exportCurrentFrame(url, notify);
     }
 
     const GenTime & KMMMonitor::seekPosition() const {

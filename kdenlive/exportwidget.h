@@ -108,8 +108,6 @@ public slots:
 	void renderSelectedZone(const QString &url);
 
 signals:
-    /*void exportTimeLine(QString, QString, GenTime, GenTime, QStringList);
-    void stopTimeLineExport();*/
     void exportToFirewire(QString, int, GenTime, GenTime);
     void dvdExportOver(bool);
     void addFileToProject(const QString &);

@@ -58,8 +58,8 @@ namespace Gui {
         m_render->askForRefresh();
     }
     
-    void KMMScreen::exportCurrentFrame(KURL url) {
-        m_render->exportCurrentFrame(url);
+    void KMMScreen::exportCurrentFrame(KURL url, bool notify) {
+        m_render->exportCurrentFrame(url, notify);
     }
 
     QPixmap KMMScreen::extractFrame(int frame, int width, int height) {
@@ -98,30 +98,15 @@ namespace Gui {
 	const GenTime & endTime) {
 	m_render->play(speed, startTime, endTime);
     }
-    
-    /** Render project to file */
-    void KMMScreen::exportTimeline(QString url, QString format, GenTime startTime, GenTime endTime, QStringList params)
-    {
-        m_render->exportTimeline(url, format, startTime, endTime, params);
-    }
-    
+
+
     /** Render project to firewire */
     void KMMScreen::exportToFirewire(QString url, int port, GenTime startTime, GenTime endTime)
     {
         m_render->exportFileToFirewire(url, port, startTime, endTime);
     }
     
-    /** Stop file rendering */
-    void KMMScreen::stopTimeLineExport()
-    {
-        m_render->stopExport();
-    }
 
-    void KMMScreen::slotExportStopped()
-    {
-        emit exportOver();
-    }
-    
     void KMMScreen::slotPlayingStopped()
     {
         emit playingStopped();

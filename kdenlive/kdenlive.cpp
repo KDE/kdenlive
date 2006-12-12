@@ -1371,8 +1371,9 @@ namespace Gui {
             m_monitorManager.activeMonitor()->screen()->slotPlayingStopped();
         }
         else if( e->type() == 10003) {
-            // export is over
-            m_workspaceMonitor->screen()->slotExportStopped();
+            // Image export is over, add it to project
+	    UrlEvent *ev = (UrlEvent *)e;
+            slotProjectAddImageClip(ev->url());
         }
 	else if( e->type() == 10005) {
             // Show progress of an audio thumb
@@ -1711,11 +1712,6 @@ namespace Gui {
 		} else {
 		    m_projectFormatManager.saveDocument(m_doc->URL(), m_doc);
 		};
-		/*if (m_clipMonitor)
-		    m_clipMonitor->slotClearClip();
-		if (m_workspaceMonitor)
-		    m_workspaceMonitor->slotClearClip();
-		m_doc->deleteContents();*/
 
 		completed = true;
 		break;
@@ -2379,8 +2375,6 @@ namespace Gui {
 	slotStatusMsg(i18n("Exporting Timeline..."));
 	    if (!m_exportWidget) { 
             m_exportWidget=new exportWidget(m_workspaceMonitor->screen(), m_timeline, m_projectFormat, this,"exporter");
-            connect(m_exportWidget,SIGNAL(exportTimeLine(QString, QString, GenTime, GenTime, QStringList)),m_workspaceMonitor->screen(),SLOT(exportTimeline(QString, QString, GenTime, GenTime, QStringList)));
-            connect(m_exportWidget,SIGNAL(stopTimeLineExport()),m_workspaceMonitor->screen(),SLOT(stopTimeLineExport()));
             connect(m_workspaceMonitor->screen(),SIGNAL(exportOver()),m_exportWidget,SLOT(endExport()));
             connect(m_exportWidget,SIGNAL(exportToFirewire(QString, int, GenTime, GenTime)),m_workspaceMonitor->screen(),SLOT(exportToFirewire(QString, int, GenTime, GenTime)));
 	    connect(m_exportWidget,SIGNAL(addFileToProject(const QString &)),this,SLOT(slotAddFileToProject(const QString &)));
@@ -2559,29 +2553,49 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	slotStatusMsg(i18n("Ready."));
     }
 
-    void KdenliveApp::slotProjectAddImageClip() {
+    void KdenliveApp::slotProjectAddImageClip(KURL imageUrl) {
 	slotStatusMsg(i18n("Adding Clips"));
-        KDialogBase *dia = new KDialogBase(  KDialogBase::Swallow, i18n("Create Image Clip"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "create_clip", true);
-        createImageClip_UI *clipChoice = new createImageClip_UI(dia);
-	clipChoice->imageExtension->hide();
-	dia->setMainWidget(clipChoice);
-	// Filter for the image producer
-	QString filter = "image/gif image/jpeg image/png image/x-bmp image/svg+xml";
-	clipChoice->url_image->setFilter(filter);
-        clipChoice->edit_duration->setText(KdenliveSettings::colorclipduration());
-	dia->adjustSize();
-	if (dia->exec() == QDialog::Accepted) {
-	    QString url = clipChoice->url_image->url();
+	KDialogBase *dia;
+	KURL fileUrl;
+	QString description = QString::null;
+	bool isTransparent = false;
+
+	int frames;
+	if (imageUrl.isEmpty()) {
+            dia = new KDialogBase(  KDialogBase::Swallow, i18n("Create Image Clip"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "create_clip", true);
+            createImageClip_UI *clipChoice = new createImageClip_UI(dia);
+	    clipChoice->imageExtension->hide();
+	    dia->setMainWidget(clipChoice);
+	    // Filter for the image producer
+	    QString filter = "image/gif image/jpeg image/png image/x-bmp image/svg+xml";
+	    clipChoice->url_image->setFilter(filter);
+            clipChoice->edit_duration->setText(KdenliveSettings::colorclipduration());
+	    dia->adjustSize();
+	    if (dia->exec() == QDialog::Accepted) {
+	        fileUrl = KURL(clipChoice->url_image->url());
             
-            QString dur = clipChoice->edit_duration->text();
-            int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt());
-            
-            GenTime duration(frames , KdenliveSettings::defaultfps());
-	    KCommand *command =
-		new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), KURL(url), duration, clipChoice->edit_description->text(), clipChoice->transparentBg->isChecked(), true);
-	    addCommand(command, true);
+                QString dur = clipChoice->edit_duration->text();
+                frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt());
+		description = clipChoice->edit_description->text();
+		isTransparent = clipChoice->transparentBg->isChecked();
+		slotStatusMsg(i18n("Ready."));
+		delete dia;
+	    }
+	    else {
+		delete dia;
+		slotStatusMsg(i18n("Ready."));
+		return;
+	    }
 	}
-	delete dia;
+	else {
+	    fileUrl = imageUrl;
+	    QString dur = KdenliveSettings::colorclipduration();
+	    frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt());
+	}
+            
+        GenTime duration(frames , KdenliveSettings::defaultfps());
+	KCommand *command = new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), fileUrl, duration, description, isTransparent, true);
+	addCommand(command, true);
 	slotStatusMsg(i18n("Ready."));
     }
 
@@ -2640,20 +2654,12 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
         if (m_monitorManager.hasActiveMonitor()) {
             QString filter = "image/png";
             QCheckBox * addToProject = new QCheckBox(i18n("Add image to project"),this);
+	    addToProject->setChecked(true);
             KFileDialog *fd = new KFileDialog(m_fileDialogPath.path(), filter, this, "save_frame", true,addToProject);
             fd->setOperationMode(KFileDialog::Saving);
             fd->setMode(KFile::File);
             if (fd->exec() == QDialog::Accepted) {
-                m_monitorManager.activeMonitor()->exportCurrentFrame(fd->selectedURL());
-
-                if (addToProject->isChecked()) {
-                    QString dur = KdenliveSettings::colorclipduration();
-                    int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt());
-                    GenTime duration(frames , KdenliveSettings::defaultfps());
-                    KCommand *command =
-                            new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), fd->selectedURL(), duration, QString::null, false, true);
-                    addCommand(command, true);
-                }
+                m_monitorManager.activeMonitor()->exportCurrentFrame(fd->selectedURL(), addToProject->isChecked());
             }
 	    delete addToProject;
             delete fd;
@@ -3201,8 +3207,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     }
 
     void KdenliveApp::slotConfigureProject() {
-	ConfigureProjectDialog configDialog(getDocument()->renderer()->
-	    fileFormats(), this, "configure project dialog");
+	ConfigureProjectDialog configDialog(this, "configure project dialog");
         configDialog.setValues(m_doc->framesPerSecond(), m_doc->projectClip().videoWidth(), m_doc->projectClip().videoHeight(), KdenliveSettings::currentdefaultfolder());
 	if (QDialog::Accepted == configDialog.exec()) {
 	KdenliveSettings::setCurrentdefaultfolder(configDialog.projectFolder().url());

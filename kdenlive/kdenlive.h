@@ -68,7 +68,6 @@ class PositionChangeEvent : public QCustomEvent
         GenTime m_pos;
 };
 
-
 class ProgressEvent : public QCustomEvent
 {
     public:
@@ -79,6 +78,15 @@ class ProgressEvent : public QCustomEvent
         int m_val;
 };
 
+class UrlEvent : public QCustomEvent
+{
+    public:
+        UrlEvent( KURL url, int eventType  )
+    : QCustomEvent( eventType ), m_url( url ) {};
+        KURL url() const { return m_url; };
+    private:
+        KURL m_url;
+};
 
 namespace Gui {
 
@@ -260,7 +268,7 @@ namespace Gui {
 		/** Add clips to the project */
 	void slotProjectAddClips();
 	void slotProjectAddColorClip();
-	void slotProjectAddImageClip();
+	void slotProjectAddImageClip(KURL imageUrl = NULL);
 	void slotProjectAddSlideshowClip();
 	void slotProjectAddTextClip();
 	void slotProjectDuplicateTextClip();

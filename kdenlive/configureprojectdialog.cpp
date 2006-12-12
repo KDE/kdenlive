@@ -33,8 +33,7 @@
 #include "configureproject.h"
 #include "exportconfig.h"
 
-ConfigureProjectDialog::ConfigureProjectDialog(QPtrList <
-    AVFileFormatDesc > &formatList, QWidget * parent, const char *name,
+ConfigureProjectDialog::ConfigureProjectDialog(QWidget * parent, const char *name,
     WFlags f):KDialogBase(Plain, i18n("Configure Project"),
     Help | Default | Ok | Apply | Cancel, Ok, parent, name)
 {
@@ -58,14 +57,14 @@ ConfigureProjectDialog::ConfigureProjectDialog(QPtrList <
 	i18n("Setup the project"),
 	KGlobal::instance()->iconLoader()->loadIcon("piave",
 	    KIcon::NoGroup, KIcon::SizeMedium));
-    QFrame *m_exportPage = m_tabArea->addVBoxPage(i18n("Default Export"),
+    /*QFrame *m_exportPage = m_tabArea->addVBoxPage(i18n("Default Export"),
 	i18n("Configure the default export setting"),
 	KGlobal::instance()->iconLoader()->loadIcon("piave",
-	    KIcon::NoGroup, KIcon::SizeMedium));
+	    KIcon::NoGroup, KIcon::SizeMedium));*/
 
     m_config = new ConfigureProject(m_configPage, "configure page");
     m_config->m_projectFolder->setMode(KFile::Directory);
-    m_export = new ExportConfig(formatList, m_exportPage, "export page");
+    //m_export = new ExportConfig(m_exportPage, "export page");
 
     loadTemplates();
     

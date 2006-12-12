@@ -91,13 +91,10 @@ public slots:
 	int getLength();
   	void setTitlePreview(QString tmpFileName);
   	void restoreProducer();
-   	/** Render project to file */
-  	void exportTimeline(QString url, QString format, GenTime startTime, GenTime endTime, QStringList params);
-  	void stopTimeLineExport();
-  	void slotExportStopped();
+
   	void slotPlayingStopped();
   	void exportToFirewire(QString url, int port, GenTime startTime, GenTime endTime);
-  	void exportCurrentFrame(KURL url);
+  	void exportCurrentFrame(KURL url, bool notify);
 
 	/** return current scenelist */
 	QDomDocument sceneList();

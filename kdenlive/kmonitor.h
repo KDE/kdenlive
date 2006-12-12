@@ -38,7 +38,7 @@ ABC class for the various monitor types that exist in Kdenlive
 
 	~KMonitor();
 
-        virtual void exportCurrentFrame(KURL url) const;
+        virtual void exportCurrentFrame(KURL url, bool notify) const;
 	virtual KMMEditPanel *editPanel() const = 0;
 	virtual KMMScreen *screen() const = 0;
 	virtual DocClipRef *clip() const = 0;

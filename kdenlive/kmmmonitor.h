@@ -63,7 +63,7 @@ namespace Gui {
 	virtual KMMEditPanel *editPanel() const;
 	virtual KMMScreen *screen() const;
         /** Save current frame as picture file */
-        virtual void exportCurrentFrame(KURL url) const;
+        virtual void exportCurrentFrame(KURL url, bool notify) const;
 
 
       protected:
