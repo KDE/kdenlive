@@ -359,6 +359,7 @@ namespace Gui {
 		/** Makes sure that the workspace monitor is activated. This means that the clip monitor should
 		 have focus, and if enabled, that the clip monitor should have the xv view. */
 	void activateWorkspaceMonitor();
+	void activateCaptureMonitor();
 
 	void activateMonitor(KMonitor * monitor);
 		/** Selects a clip into the clip monitor and seeks to the given time. */
@@ -417,6 +418,7 @@ namespace Gui {
       private slots: 
         void slotToggleClipMonitor();
 	void slotToggleWorkspaceMonitor();
+	void slotToggleCaptureMonitor();
 	void slotToggleEffectList();
 	void slotToggleEffectStack();
 	void slotToggleProjectList();
@@ -425,6 +427,7 @@ namespace Gui {
 
 	void slotFocusClipMonitor();
 	void slotFocusWorkspaceMonitor();
+	void slotFocusCaptureMonitor();
 	void slotFocusEffectList();
 	void slotFocusEffectStack();
 	void slotFocusProjectList();
@@ -561,6 +564,7 @@ namespace Gui {
         
         KToggleAction *showClipMonitor;
         KToggleAction *showWorkspaceMonitor;
+        KToggleAction *showCaptureMonitor;
         KToggleAction *showTransitions;
         KToggleAction *showEffectList;
         KToggleAction *showEffectStack;

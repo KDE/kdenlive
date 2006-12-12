@@ -730,6 +730,9 @@ namespace Gui {
 	showWorkspaceMonitor = new KToggleAction(i18n("Timeline Monitor"), 0, this,
 	    SLOT(slotToggleWorkspaceMonitor()), actionCollection(),
 	    "toggle_workspace_monitor");
+	showCaptureMonitor = new KToggleAction(i18n("Capture Monitor"), 0, this,
+	    SLOT(slotToggleCaptureMonitor()), actionCollection(),
+	    "toggle_capture_monitor");
         showEffectList = new KToggleAction(i18n("Effect List"), 0, this,
 	    SLOT(slotToggleEffectList()), actionCollection(),
 	    "toggle_effect_list");
@@ -749,6 +752,9 @@ namespace Gui {
 	(void) new KAction(i18n("Focus Timeline Monitor"), 0, this,
 	    SLOT(slotFocusWorkspaceMonitor()), actionCollection(),
 	    "focus_workspace_monitor");
+	(void) new KAction(i18n("Focus Capture Monitor"), 0, this,
+	    SLOT(slotFocusCaptureMonitor()), actionCollection(),
+	    "focus_capture_monitor");
         (void) new KAction(i18n("Focus Effect List"), 0, this,
 	    SLOT(slotFocusEffectList()), actionCollection(),
 	    "focus_effect_list");
@@ -1434,6 +1440,10 @@ namespace Gui {
 	m_dockWorkspaceMonitor->changeHideShowState();
     }
 
+    void KdenliveApp::slotToggleCaptureMonitor() {
+	m_dockCaptureMonitor->changeHideShowState();
+    }
+
     void KdenliveApp::slotToggleEffectList() {
 	m_dockEffectList->changeHideShowState();
     }
@@ -1457,6 +1467,11 @@ namespace Gui {
 
     void KdenliveApp::slotFocusWorkspaceMonitor() {
 	activateWorkspaceMonitor();
+	//m_dockWorkspaceMonitor->makeDockVisible();
+    }
+
+    void KdenliveApp::slotFocusCaptureMonitor() {
+	activateCaptureMonitor();
 	//m_dockWorkspaceMonitor->makeDockVisible();
     }
 
@@ -3158,6 +3173,11 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     void KdenliveApp::activateWorkspaceMonitor() {
 	m_dockWorkspaceMonitor->makeDockVisible();
 	m_monitorManager.activateMonitor(m_workspaceMonitor);
+    }
+
+    void KdenliveApp::activateCaptureMonitor() {
+	m_dockCaptureMonitor->makeDockVisible();
+	m_monitorManager.activateMonitor(m_captureMonitor);
     }
 
 /** Selects a clip into the clip monitor and seeks to the given time. */
