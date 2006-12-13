@@ -279,7 +279,8 @@ void DocClipRef::moveCropStartTime(const GenTime & time)
 
 const GenTime & DocClipRef::cropStartTime() const
 {
-    return adjustTimeToSpeed(m_cropStart);
+    return m_cropStart;
+    //return adjustTimeToSpeed(m_cropStart);
 }
 
 
@@ -523,7 +524,8 @@ int DocClipRef::playlistOtherTrackNum(int num) const
 to trackStart() + cropDuration() */
 GenTime DocClipRef::trackEnd() const
 {
-    return adjustTimeToSpeed(m_trackEnd - m_trackStart + m_cropStart) + m_trackStart;
+    return m_trackEnd;
+    //return adjustTimeToSpeed(m_trackEnd - m_trackStart + m_cropStart) - cropStartTime() + m_trackStart;
 }
 
 /** Returns the parentTrack of this clip. */
@@ -1573,11 +1575,11 @@ void DocClipRef::setSnapMarkers(QValueVector < CommentedTime > markers)
 GenTime DocClipRef::adjustTimeToSpeed(GenTime t) const
 {
 	if (m_speed == 1.0 && m_endspeed == 1.0) return t;
-	int pos = t.frames(m_clip->framesPerSecond());
-	double actual_speed = m_speed + ((double) pos) / (double)duration().frames(m_clip->framesPerSecond()) * (m_endspeed - m_speed);
+	int pos = (t - m_cropStart).frames(m_clip->framesPerSecond());
+	double actual_speed = m_speed + ((double) pos) / (double)((m_trackEnd - m_trackStart).frames(m_clip->framesPerSecond())) * (m_endspeed - m_speed);
 
-	double actual_position = (double) pos / actual_speed;
-	return GenTime(actual_position, m_clip->framesPerSecond());
+	int actual_position = floor((double) pos / actual_speed);
+	return GenTime(actual_position, m_clip->framesPerSecond()) + cropStartTime();
 
 	// TODO: markers not adjusted when clip is played reverse
 }
@@ -1589,8 +1591,10 @@ QValueVector < GenTime > DocClipRef::snapMarkersOnTrack() const
 
     for (uint count = 0; count < m_snapMarkers.count(); ++count) {
 	GenTime t = m_snapMarkers[count].time();
-	t = adjustTimeToSpeed(t);
-	if (t < cropStartTime() + cropDuration() && t > cropStartTime()) markers.append(t + trackStart() - cropStartTime());
+	if (t > m_cropStart && t < m_trackEnd - m_trackStart + m_cropStart) {
+	    t = adjustTimeToSpeed(t);
+	    if (t < cropStartTime() + cropDuration() && t > cropStartTime()) markers.append(t + trackStart() - cropStartTime());
+	}
     }
 
     return markers;
