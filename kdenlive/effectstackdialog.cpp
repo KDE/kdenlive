@@ -440,6 +440,11 @@ namespace Gui {
 	effect->setEnabled(!effect->isEnabled());
 	m_switchButton->setOn(!effect->isEnabled());
 	m_effectList->checkCurrentItem(effect->isEnabled());
+	if (effect->name() == i18n("Speed")) {
+	    // If we disable speed effect, reset clip speed to normal
+	    if (!effect->isEnabled()) clip->setSpeed( 1.0, 1.0);
+	    else clip->setSpeed(effect->effectDescription().parameter(0)->value().toDouble() / 100.0, effect->effectDescription().parameter(1)->value().toDouble() / 100.0);
+	}
 	emit generateSceneList();
 	emit redrawTrack(clip->trackNum(), clip->trackStart(), clip->trackEnd());
     }

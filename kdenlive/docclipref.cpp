@@ -1771,6 +1771,12 @@ void DocClipRef::addEffect(uint index, Effect * effect)
 void DocClipRef::deleteEffect(uint index)
 {
     m_effectStack.remove(index);
+    if (m_speed != 1.0 || m_endspeed != 1.0) {
+	// Check if speed effect was removed. if it was, reset speed to normal
+	if (clipEffectNames().findIndex(i18n("Speed")) == -1) {
+	    setSpeed(1.0, 1.0);
+	}
+    }
 }
 
 
