@@ -212,3 +212,132 @@ void DocClipBase::updateAudioThumbnail(QMap<int,QMap<int,QByteArray> > data)
     audioFrameChache = data;
     audioThumbCreated = true;
 }
+
+QValueVector < GenTime > DocClipBase::snapMarkers() const
+{
+    QValueVector < GenTime > markers;
+    markers.reserve(m_snapMarkers.count());
+
+    for (uint count = 0; count < m_snapMarkers.count(); ++count) {
+	markers.append(m_snapMarkers[count].time());
+    }
+
+    return markers;
+}
+
+QValueVector < CommentedTime > DocClipBase::commentedSnapMarkers() const
+{
+    return m_snapMarkers;
+}
+
+void DocClipBase::setSnapMarkers(QValueVector < CommentedTime > markers)
+{
+    m_snapMarkers = markers;
+}
+
+void DocClipBase::addSnapMarker(const GenTime & time, QString comment)
+{
+    QValueVector < CommentedTime >::Iterator it = m_snapMarkers.begin();
+    for ( it = m_snapMarkers.begin(); it != m_snapMarkers.end(); ++it ) {
+	if ((*it).time() >= time)
+	    break;
+    }
+
+    if ((it != m_snapMarkers.end()) && ((*it).time() == time)) {
+	kdError() <<
+	    "trying to add Snap Marker that already exists, this will cause inconsistancies with undo/redo"
+	    << endl;
+    } else {
+	CommentedTime t(time, comment);
+	m_snapMarkers.insert(it, t);
+    }
+
+}
+
+void DocClipBase::editSnapMarker(const GenTime & time, QString comment)
+{
+    QValueVector < CommentedTime >::Iterator it = m_snapMarkers.begin();
+    for ( it = m_snapMarkers.begin(); it != m_snapMarkers.end(); ++it ) {
+	if ((*it).time() == time)
+	    break;
+    }
+    if (it != m_snapMarkers.end()) {
+	(*it).setComment(comment);
+    } else {
+	kdError() <<
+	    "trying to edit Snap Marker that does not already exists"  << endl;
+    }
+}
+
+bool DocClipBase::deleteSnapMarker(const GenTime & time)
+{
+    QValueVector < CommentedTime >::Iterator itt = m_snapMarkers.begin();
+
+    while (itt != m_snapMarkers.end()) {
+	if ((*itt).time() == time)
+	    break;
+	++itt;
+    }
+
+    if ((itt != m_snapMarkers.end()) && ((*itt).time() == time)) {
+	m_snapMarkers.erase(itt);
+	return true;
+    } else return false;
+}
+
+
+bool DocClipBase::hasSnapMarkers(const GenTime & time)
+{
+    QValueVector < CommentedTime >::Iterator itt = m_snapMarkers.begin();
+
+    while (itt != m_snapMarkers.end()) {
+	if ((*itt).time() == time)
+	    return true;
+	++itt;
+    }
+
+    return false;
+}
+
+GenTime DocClipBase::findPreviousSnapMarker(const GenTime & time)
+{
+    QValueVector < CommentedTime >::Iterator itt = m_snapMarkers.begin();
+
+    while (itt != m_snapMarkers.end()) {
+	if ((*itt).time() >= time)
+	    break;
+	++itt;
+    }
+
+    if (itt != m_snapMarkers.begin()) {
+	--itt;
+	return (*itt).time();
+    } else {
+	return GenTime(0);
+    }
+}
+
+GenTime DocClipBase::findNextSnapMarker(const GenTime & time)
+{
+    QValueVector < CommentedTime >::Iterator itt = m_snapMarkers.begin();
+
+    while (itt != m_snapMarkers.end()) {
+	if (time <= (*itt).time())
+	    break;
+	++itt;
+    }
+
+    if (itt != m_snapMarkers.end()) {
+	if ((*itt).time() == time) {
+	    ++itt;
+	}
+	if (itt != m_snapMarkers.end()) {
+	    return (*itt).time();
+	} else {
+	    return GenTime(duration());
+	}
+    } else {
+	return GenTime(duration());
+    }
+}
+

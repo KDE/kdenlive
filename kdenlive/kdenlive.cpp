@@ -3383,6 +3383,15 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		addCommand(command);
     }
 
+    void KdenliveApp::toggleMarkerUnderCursor()
+    {
+		DocClipRef *clipUnderMouse = getDocument()->projectClip().selectedClip();
+		GenTime cursorTime = getDocument()->renderer()->seekPosition();
+		if (cursorTime < clipUnderMouse->trackStart() || cursorTime > clipUnderMouse->trackEnd()) return;
+		if (clipUnderMouse->hasSnapMarker(cursorTime)) deleteMarkerUnderCursor();
+		else addMarkerUnderCursor();
+    }
+
     void KdenliveApp::populateClearSnapMarkers(KMacroCommand *
 	macroCommand, DocClipProject & clip, bool selectedClips) {
 	// Hmmm, I wonder if this should scan *into* project clips?For the moment I will leave it as scanning only those cliprefs in the outermost

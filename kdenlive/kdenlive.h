@@ -414,6 +414,7 @@ namespace Gui {
 	uint projectVideoFormat();
 	void refreshVirtualZone();
 	void insertClipFromUrl(QString path);
+	void toggleMarkerUnderCursor();
 
       private slots: 
         void slotToggleClipMonitor();

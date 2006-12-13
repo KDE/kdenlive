@@ -95,22 +95,6 @@ struct AudioIdentifier {
 };
 
 
-class CommentedTime
-    {
-    public:
-        CommentedTime(): t(GenTime(0)) {}
-        CommentedTime( const GenTime time, QString comment)
-            : t( time ), c( comment )
-        { }
-
-        QString comment()   const          { return (c.isEmpty() ? i18n("Marker") : c);}
-        GenTime time() const          { return t; }
-        void    setComment( QString comm) { c = comm; }
-    private:
-        GenTime t;
-        QString c;
-    };
-
 
 class DocClipRef:public QObject {
   Q_OBJECT public:
@@ -241,10 +225,8 @@ class DocClipRef:public QObject {
 	return m_clip;
     }
 
-	/** Returns a vector containing the snap marker in clip time */
-    QValueVector < GenTime > snapMarkers()const;
-
 	/** Returns a vector containing the snap marker, in track time rather than clip time. */
+    QValueVector < GenTime > snapMarkers() const;
     QValueVector < GenTime > snapMarkersOnTrack()const;
     QValueVector < CommentedTime > commentedSnapMarkers()const;
     QValueVector < CommentedTime > commentedTrackSnapMarkers()const;
@@ -365,9 +347,6 @@ class DocClipRef:public QObject {
 
 	/** The clip to which this clip refers. */
     DocClipBase *m_clip;
-
-	/** A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
-    QValueVector < CommentedTime > m_snapMarkers;
 
 	/** A list of effects that operate on this and only this clip. */
     EffectStack m_effectStack;

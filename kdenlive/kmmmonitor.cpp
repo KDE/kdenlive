@@ -378,14 +378,14 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	if (m_referredClip) {
 	    m_editPanel->seek(m_referredClip->
 		findPreviousSnapMarker(seekPosition()));
-	}
+	} else m_app->slotPreviousSnap();
     }
 
     void KMMMonitor::slotNextSnapMarker() {
 	if (m_referredClip) {
 	    m_editPanel->seek(m_referredClip->
 		findNextSnapMarker(seekPosition()));
-	}
+	} else m_app->slotNextSnap();
     }
 
     void KMMMonitor::updateEditPanel(const GenTime & time) {
@@ -418,7 +418,7 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	    }
 
 	    m_app->addCommand(command, true);
-	}
+	} else m_app->toggleMarkerUnderCursor();
 
 	updateEditPanel(seekPosition());
     }

@@ -28,6 +28,7 @@
 #include <qpixmap.h>
 
 #include <kurl.h>
+#include <klocale.h>
 
 #include "gentime.h"
 #include "kthumb.h"
@@ -38,6 +39,23 @@ class DocClipAVFile;
 class DocClipTextFile;
 class DocClipVirtual;
 class EffectDescriptionList;
+
+class CommentedTime
+    {
+    public:
+        CommentedTime(): t(GenTime(0)) {}
+        CommentedTime( const GenTime time, QString comment)
+            : t( time ), c( comment )
+        { }
+
+        QString comment()   const          { return (c.isEmpty() ? i18n("Marker") : c);}
+        GenTime time() const          { return t; }
+        void    setComment( QString comm) { c = comm; }
+    private:
+        GenTime t;
+        QString c;
+    };
+
 
 class DocClipBase:public QObject {
   Q_OBJECT public:
@@ -165,8 +183,6 @@ class DocClipBase:public QObject {
     /** format is frame -> channel ->bytes */
     QMap<int,QMap<int,QByteArray> > audioFrameChache;
 
-  public slots:
-	void updateAudioThumbnail(QMap<int,QMap<int,QByteArray> > data);
 
   private:			// Private attributes
 	/** The name of this clip */
@@ -177,12 +193,27 @@ class DocClipBase:public QObject {
 	 * that exist. */
     uint m_refcount;
 
+	/** A list of snap markers; these markers are added to a clips snap-to points, and are displayed as necessary. */
+    QValueVector < CommentedTime > m_snapMarkers;
+
+
 	/** A thumbnail for this clip */
     QPixmap m_thumbnail;
     
     /** a unique numeric id */
     uint m_id;
 
+  public slots:
+	void updateAudioThumbnail(QMap<int,QMap<int,QByteArray> > data);
+	QValueVector < CommentedTime > commentedSnapMarkers() const;
+	void setSnapMarkers(QValueVector < CommentedTime > markers);
+	GenTime findNextSnapMarker(const GenTime & time);
+	GenTime findPreviousSnapMarker(const GenTime & time);
+	bool hasSnapMarkers(const GenTime & time);
+	bool deleteSnapMarker(const GenTime & time);
+	void editSnapMarker(const GenTime & time, QString comment);
+	void addSnapMarker(const GenTime & time, QString comment);
+	QValueVector < GenTime > snapMarkers() const;
 };
 
 #endif
