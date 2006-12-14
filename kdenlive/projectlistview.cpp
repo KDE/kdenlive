@@ -68,11 +68,11 @@ QString ProjectListView::parentName()
 	QString parentNode;
 	if (!currentItem()) parentNode = m_doc->clipHierarch()->name();
 	else if (!static_cast<AVListViewItem *>(currentItem())->clip()) {
-	    currentItem()->setOpen(true);
+	    //currentItem()->setOpen(true);
 	    parentNode = currentItem()->text(1);
 	}
 	else if (currentItem()->parent()) {
-	    currentItem()->parent()->setOpen(true);
+	    //currentItem()->parent()->setOpen(true);
 	    parentNode = currentItem()->parent()->text(1);
 	}
 	else parentNode = m_doc->clipHierarch()->name();
@@ -100,6 +100,57 @@ DocClipRefList ProjectListView::selectedItemsList() const
 	if (avItem && avItem->clip()) selectedList.append(avItem->clip());
     }
     return selectedList;
+}
+
+QStringList ProjectListView::selectedItemsIds() const
+{
+    QStringList result;
+    QPtrList< QListViewItem > selectedItems;
+    selectedItems = KListView::selectedItems(true);
+    DocClipRefList selectedList;
+    QListViewItem *item;
+    for ( item = selectedItems.first(); item; item = selectedItems.next() ) {
+	AVListViewItem *avItem = (AVListViewItem *) item;
+	if (avItem && avItem->clip()) result.append(QString::number(avItem->clip()->referencedClip()->getId()));
+    }
+    return result;
+}
+
+void ProjectListView::selectItemsFromIds(QStringList idList)
+{
+    clearSelection();
+    QListViewItem *lastItem = NULL;
+    QListViewItem *itemItt = firstChild();
+    while (itemItt) {
+	AVListViewItem *avItem = (AVListViewItem *) itemItt;
+	if (avItem && avItem->clip() && idList.findIndex(QString::number(avItem->clip()->referencedClip()->getId())) != -1) {
+	    itemItt->setSelected(true);
+	    lastItem = itemItt;
+	}
+	if (itemItt->childCount() > 0) {
+	    QListViewItem *subitemItt = itemItt->firstChild();
+	    while (subitemItt) {
+		AVListViewItem *avItem = (AVListViewItem *) subitemItt;
+		if (avItem && avItem->clip() && idList.findIndex(QString::number(avItem->clip()->referencedClip()->getId())) != -1) {
+	    	    subitemItt->setSelected(true);
+		    lastItem = subitemItt;
+		}
+		subitemItt = subitemItt->nextSibling();
+	    }
+	}
+	itemItt = itemItt->nextSibling();
+    }
+    if (lastItem) {
+	// if last item is in an opened folder , focus it
+	if (lastItem->depth() == 0) ensureItemVisible(lastItem);
+	else if (lastItem->parent()->isOpen()) ensureItemVisible(lastItem);
+	else {
+	    clearSelection();
+	    lastItem->parent()->setSelected(true);
+	    setCurrentItem(lastItem->parent());
+	    ensureItemVisible(lastItem->parent());
+	}
+    }
 }
 
 /** returns a drag object which is used for drag operations. */

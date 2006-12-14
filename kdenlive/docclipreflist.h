@@ -45,6 +45,8 @@ class DocClipRefList:public QPtrList < DocClipRef > {
 
 	/** Appends list to the end of the current onw. */
     void appendList(const DocClipRefList & list);
+
+    void clear();
   private:			// Private attributes
 	/** The "master clip" of this list. The master clip is special only in that it is mentioned
 	seperately to every other clip in the clip list; it also appears in the clip list. It is

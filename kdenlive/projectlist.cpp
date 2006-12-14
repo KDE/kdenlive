@@ -141,6 +141,13 @@ namespace Gui {
 	}
     }
 
+    void ProjectList::selectItem(int id)
+    {
+	QStringList ids;
+	ids.append(QString::number(id));
+	m_listView->selectItemsFromIds(ids);
+    }
+
 /** Get a fresh copy of files from KdenliveDoc and display them. */
     void ProjectList::slot_UpdateList() {
 	QStringList openFolders;
@@ -152,6 +159,7 @@ namespace Gui {
 	    }
             ++it;
         }
+	QStringList selectedItems = m_listView->selectedItemsIds();
 
 	m_listView->clear();
 	DocumentBaseNode *node = m_document->clipHierarch();
@@ -172,12 +180,7 @@ namespace Gui {
             		++it;
         	}
 	}
-
-	/*if (node) {
-	    AVListViewItem *item =
-		new AVListViewItem(m_document, m_listView, node);
-	    item->setOpen(true);
-	}*/
+	m_listView->selectItemsFromIds(selectedItems);
     }
 
 /** The clip specified has changed - update the display.
@@ -191,7 +194,6 @@ namespace Gui {
     }
         
     void ProjectList::slot_clipChanged() {
-	kdDebug()<<"+ + + reftresh PROJECT CLIP LIST"<<endl;
 	slot_UpdateList();
 	m_listView->triggerUpdate();
     }

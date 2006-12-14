@@ -49,6 +49,8 @@ class ProjectListView:public KListView {
     void setPopupText(QString txt);
     DocClipRefList selectedItemsList() const;
     QString parentName();
+    void selectItemsFromIds(QStringList idList);
+    QStringList selectedItemsIds() const;
 
   signals:			// Signals
 	/** This signal is called whenever clips are drag'n'dropped onto the project list view. */

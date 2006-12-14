@@ -256,6 +256,7 @@ class KdenliveDoc:public QObject {
     }
 	/** Generates a list of all different clips in mlt's xml format*/
     void generateProducersList();
+    void slotSelectProjectItem(int id);
 
     private slots:		// Private slots
 	/** Called when the document is modifed in some way. */
@@ -293,6 +294,7 @@ class KdenliveDoc:public QObject {
     void effectStackChanged(DocClipRef *);
 	/** Emitted when an effect needs to know relative position in a clip. */
     void currentClipPosition(int);
+    void selectProjectItem(int);
 };
 
 #endif				// KDENLIVEDOC_H

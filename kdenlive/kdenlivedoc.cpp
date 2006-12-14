@@ -283,6 +283,12 @@ QDomDocument KdenliveDoc::generateSceneList()
     return m_domSceneList;
 }
 
+void KdenliveDoc::slotSelectProjectItem(int id)
+{
+    kdDebug()<<"++++++++++++  DOC SELECT NEW ITEM: "<<id<<endl;
+    emit selectProjectItem(id);
+}
+
 
 void KdenliveDoc::refreshVirtualClips()
 {

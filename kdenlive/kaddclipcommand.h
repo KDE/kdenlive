@@ -31,7 +31,6 @@ class DocClipRef;
 class DocClipBase;
 class KdenliveDoc;
 class DocumentBaseNode;
-class ProjectList;
 
 /**Adds a clip to the document
   *@author Jason Wood

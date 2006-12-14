@@ -84,6 +84,7 @@ namespace Gui {
 	/** updates the list when an item changed */
 	void updateListItem();
         void selectClip(DocClipBase *clip);
+        void selectItem(int id);
         
       signals:		// Signals
 	/** this signal is called when a number of clips have been dropped onto the project list view. */

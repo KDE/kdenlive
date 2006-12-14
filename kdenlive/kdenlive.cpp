@@ -1059,6 +1059,8 @@ namespace Gui {
 	m_dockProjectList->setWidget(m_projectList);
 	m_projectList->slot_UpdateList();
 	m_projectList->show();
+	connect(m_doc, SIGNAL(selectProjectItem(int)), m_projectList, SLOT(selectItem(int)));
+
 	m_dockProjectList->update();
 
 	if (m_effectListDialog) delete m_effectListDialog;
@@ -2151,7 +2153,8 @@ namespace Gui {
     {
         QCheckBox * addToProject = new QCheckBox(i18n("Add new clip to project"),this);
 	addToProject->setChecked(true);
-        KFileDialog *fd = new KFileDialog(m_fileDialogPath.path(), "application/vnd.westley.scenelist", this, "save_westley", true,addToProject);
+        KFileDialog *fd = new KFileDialog(m_fileDialogPath.path(), "application/vnd.westley.scenelist", this, "save_westley", true, addToProject);
+	fd->setCaption(i18n("Save Subclip"));
         fd->setOperationMode(KFileDialog::Saving);
         fd->setMode(KFile::File);
         if (fd->exec() == QDialog::Accepted) {
@@ -3257,14 +3260,14 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
 	// reparent the item
 	while (itt.current()) {
-		DocumentBaseNode *node = m_doc->findClipNode(itt.current()->name());
-		if (node->hasParent() && node->parent()->name() != parentNode->name()) {
-			DocumentBaseNode *oldParentNode = node->parent();
-			oldParentNode->removeChild(node);
-			node->reParent(parentNode);
-			parentNode->addChild(node);
-		}
-	        ++itt;
+	    DocumentBaseNode *node = m_doc->findClipNode(itt.current()->name());
+	    if (node->hasParent() && node->parent()->name() != parentNode->name()) {
+		DocumentBaseNode *oldParentNode = node->parent();
+		oldParentNode->removeChild(node);
+		node->reParent(parentNode);
+		parentNode->addChild(node);
+	    }
+        ++itt;
 	}
 	m_projectList->slot_UpdateList();
     }

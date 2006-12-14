@@ -99,3 +99,9 @@ void DocClipRefList::appendList(const DocClipRefList & list)
 	++itt;
     }
 }
+
+void DocClipRefList::clear()
+{
+    m_masterClip = 0;
+    QGList::clear();
+}

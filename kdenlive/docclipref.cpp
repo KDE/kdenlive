@@ -354,7 +354,7 @@ createClip(const EffectDescriptionList & effectList,
     kdWarning() << "Creating Clip : " << element.ownerDocument().
     toString() << endl;*/
 
-    int trackNum = 0;
+    int trackNum = -1;
 
     QDomNode node = element;
     node.normalize();

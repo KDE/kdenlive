@@ -25,10 +25,9 @@
 #include "documentbasenode.h"
 #include "documentclipnode.h"
 #include "documentgroupnode.h"
-#include "projectlist.h"
+
 
 namespace Command {
-
 
     KCommand *KAddClipCommand::clearProject(KdenliveDoc & document) {
 	KMacroCommand *macroCommand =
@@ -248,12 +247,12 @@ namespace Command {
 		clip = m_document.clipManager().insertXMLTextClip(m_xmlClip);
 	    else clip = m_document.clipManager().insertXMLClip(m_xmlClip);
 	    m_id = clip->getId();
-	    //DocClipBase *clip = m_document.clipManager().insertClip(m_xmlClip.documentElement());
 	    if (!clip) {
 		m_document.addClipNode(m_parent, new DocumentGroupNode(node, m_name));
 	    } else {
 		m_document.addClipNode(m_parent, new DocumentClipNode(node, clip));
 	    }
+	    m_document.slotSelectProjectItem(m_id);
 	}
     }
 
