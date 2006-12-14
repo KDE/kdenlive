@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-12-14 09:18+0100\n"
-"PO-Revision-Date: 2006-12-14 09:24+0100\n"
+"PO-Revision-Date: 2006-12-14 09:52+0100\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2654,7 +2654,7 @@ msgstr "Aller au prochain repère"
 
 #: kdenlive/kmmrecpanel_ui.cpp:244
 msgid "Record"
-msgstr "Enregistrement"
+msgstr "Enregistrer"
 
 #: kdenlive/kmmrecpanel_ui.cpp:246
 msgid "End Rec"
