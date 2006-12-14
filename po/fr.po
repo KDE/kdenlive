@@ -8,12 +8,12 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-12-14 09:18+0100\n"
-"PO-Revision-Date: 2006-12-14 09:16+0100\n"
+"PO-Revision-Date: 2006-12-14 09:24+0100\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: kdenlive/addmarker_ui.cpp:124 kdenlive/changeclipspeed_ui.cpp:119
 #: kdenlive/clipproperties_ui.cpp:2503 kdenlive/configmisc_ui.cpp:117
@@ -385,7 +385,7 @@ msgstr "Fondu-enchaîné"
 
 #: kdenlive/clipproperties_ui.cpp:2509
 msgid "Metadata"
-msgstr ""
+msgstr "Métadonnées"
 
 #: kdenlive/clippropertiesdialog.cpp:35
 msgid "Video Stream"
@@ -1819,14 +1819,12 @@ msgid "Save selected zone as playlist for future use"
 msgstr "Sauver la zone sélectionnée pour une utilisation ultérieure"
 
 #: kdenlive/kdenlive.cpp:681
-#, fuzzy
 msgid "Save Subclip"
-msgstr "Supprimer le clip"
+msgstr "Sauvegarder le sous-clip"
 
 #: kdenlive/kdenlive.cpp:684
-#, fuzzy
 msgid "Save selected clip as playlist for future use"
-msgstr "Sauver la zone sélectionnée pour une utilisation ultérieure"
+msgstr "Sauver le clip sélectionné pour une utilisation ultérieure"
 
 #: kdenlive/kdenlive.cpp:687
 msgid "Render Selected Zone"
@@ -1867,19 +1865,16 @@ msgid "Add Marker"
 msgstr "Ajouter un repère"
 
 #: kdenlive/kdenlive.cpp:710
-#, fuzzy
 msgid "Add marker at cursor position"
-msgstr "Ajouter un guide à la position du curseur"
+msgstr "Ajouter un repère à la position du curseur"
 
 #: kdenlive/kdenlive.cpp:712
-#, fuzzy
 msgid "Delete Marker"
 msgstr "Supprimer le repère"
 
 #: kdenlive/kdenlive.cpp:715
-#, fuzzy
 msgid "Delete marker at cursor position"
-msgstr "Supprimer le guide à la position du curseur"
+msgstr "Supprimer le repère à la position du curseur"
 
 #: kdenlive/kdenlive.cpp:717
 msgid "Delete Guide"
@@ -1934,9 +1929,8 @@ msgid "Focus Timeline Monitor"
 msgstr "Afficher le moniteur de clip"
 
 #: kdenlive/kdenlive.cpp:755
-#, fuzzy
 msgid "Focus Capture Monitor"
-msgstr "Moniteur de capture"
+msgstr "Afficher le moniteur de capture"
 
 #: kdenlive/kdenlive.cpp:758
 msgid "Focus Effect List"
@@ -2447,12 +2441,11 @@ msgid "Removing Clips"
 msgstr "Suppression des clips"
 
 #: kdenlive/kdenlive.cpp:2788
-#, fuzzy
 msgid ""
 "This will remove all clips on timeline that are currently using the selected "
 "clips. Are you sure you want to do this?"
 msgstr ""
-"Cette action supprime tous les clips du montage utilisant ce clip.\n"
+"Cette action supprime tous les clips du montage utilisant les clips sélectionnés.\n"
 "Voulez-vous vraiment continuer ?"
 
 #: kdenlive/kdenlive.cpp:2833
