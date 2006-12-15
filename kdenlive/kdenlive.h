@@ -491,6 +491,7 @@ namespace Gui {
 	void slotRenderZone();
 	void addMarkerUnderCursor();
 	void deleteMarkerUnderCursor();
+        void editMarkerUnderCursor();
 
       private:
 		/** the configuration object of the application */

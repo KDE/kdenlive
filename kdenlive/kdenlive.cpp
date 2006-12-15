@@ -107,6 +107,8 @@
 #include "createslideshowclip.h"
 #include "createimageclip_ui.h"
 #include "kaddtransitioncommand.h"
+#include "kaddmarkercommand.h"
+#include "keditmarkercommand.h"
 #include "docclipvirtual.h"
 
 #include "trackpanelclipmovefunction.h"
@@ -708,6 +710,11 @@ namespace Gui {
         SLOT(addMarkerUnderCursor()), actionCollection(),
         "add_marker");
 	addMarker->setStatusText(i18n("Add marker at cursor position"));
+
+	KAction *editMarker = new KAction(i18n("Edit Marker"), 0, this,
+        SLOT(editMarkerUnderCursor()), actionCollection(),
+        "edit_marker");
+	editMarker->setStatusText(i18n("Edit marker at cursor position"));
 
 	KAction *deleteMarker = new KAction(i18n("Delete Marker"), 0, this,
         SLOT(deleteMarkerUnderCursor()), actionCollection(),
@@ -3364,6 +3371,21 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     }
 
 
+    void KdenliveApp::editMarkerUnderCursor()
+    {
+	DocClipRef *clipUnderMouse = getDocument()->projectClip().selectedClip();
+	GenTime cursorTime = getDocument()->renderer()->seekPosition() - clipUnderMouse->trackStart() + clipUnderMouse->cropStartTime();
+	GenTime markerTime = clipUnderMouse->hasSnapMarker(cursorTime);
+	if (markerTime == GenTime(0.0)) return;
+	if (cursorTime < clipUnderMouse->trackStart() || cursorTime > clipUnderMouse->trackEnd()) return;
+	bool ok;
+	QString comment = KInputDialog::getText(i18n("Edit Marker"), i18n("Marker comment: "), clipUnderMouse->markerComment(cursorTime), &ok);
+	if (ok) {
+	    Command::KEditMarkerCommand * command = new Command::KEditMarkerCommand(*getDocument(), clipUnderMouse, cursorTime, comment, true);
+	    addCommand(command);
+	}
+    }
+
     void KdenliveApp::addMarkerUnderCursor()
     {
 		bool ok;
@@ -3391,7 +3413,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		DocClipRef *clipUnderMouse = getDocument()->projectClip().selectedClip();
 		GenTime cursorTime = getDocument()->renderer()->seekPosition();
 		if (cursorTime < clipUnderMouse->trackStart() || cursorTime > clipUnderMouse->trackEnd()) return;
-		if (clipUnderMouse->hasSnapMarker(cursorTime)) deleteMarkerUnderCursor();
+		if (clipUnderMouse->hasSnapMarker(cursorTime) != GenTime(0.0)) deleteMarkerUnderCursor();
 		else addMarkerUnderCursor();
     }
 

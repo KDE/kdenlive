@@ -286,17 +286,17 @@ bool DocClipBase::deleteSnapMarker(const GenTime & time)
 }
 
 
-bool DocClipBase::hasSnapMarkers(const GenTime & time)
+GenTime DocClipBase::hasSnapMarkers(const GenTime & time)
 {
     QValueVector < CommentedTime >::Iterator itt = m_snapMarkers.begin();
 
     while (itt != m_snapMarkers.end()) {
 	if ((*itt).time() == time)
-	    return true;
+	    return time;
 	++itt;
     }
 
-    return false;
+    return GenTime(0.0);
 }
 
 GenTime DocClipBase::findPreviousSnapMarker(const GenTime & time)
@@ -341,3 +341,14 @@ GenTime DocClipBase::findNextSnapMarker(const GenTime & time)
     }
 }
 
+QString DocClipBase::markerComment(GenTime t)
+{
+    QValueVector < CommentedTime >::Iterator itt = m_snapMarkers.begin();
+
+    while (itt != m_snapMarkers.end()) {
+	if ((*itt).time() == t)
+	    return (*itt).comment();
+	++itt;
+    }
+    return QString::null;
+}

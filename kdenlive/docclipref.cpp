@@ -1631,7 +1631,7 @@ void DocClipRef::deleteSnapMarker(const GenTime & time)
     else kdError() << "Could not delete marker at time " << time.seconds() << " - it doesn't exist!" << endl;
 }
 
-bool DocClipRef::hasSnapMarker(const GenTime & time)
+GenTime DocClipRef::hasSnapMarker(const GenTime & time)
 {
     return m_clip->hasSnapMarkers(time);
 }
@@ -1659,6 +1659,11 @@ GenTime DocClipRef::trackMiddleTime() const
 QValueVector < GenTime > DocClipRef::snapMarkers() const
 {
     return m_clip->snapMarkers();
+}
+
+QString DocClipRef::markerComment(GenTime t) const
+{
+    return m_clip->markerComment(t);
 }
 
 QValueVector < CommentedTime > DocClipRef::commentedSnapMarkers() const

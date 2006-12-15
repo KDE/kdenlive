@@ -239,8 +239,10 @@ class DocClipRef:public QObject {
 	/** Deletes a snap marker at the given clip time (as opposed to track time) */
     void deleteSnapMarker(const GenTime & time);
 
+	/** Returns the comment for a given marker time */
+    QString markerComment(GenTime t) const;
 	/** Returns true if this clip has a snap marker at the specified clip time */
-    bool hasSnapMarker(const GenTime & time);
+    GenTime hasSnapMarker(const GenTime & time);
 
 	/** Finds and returns the time of the snap marker directly before time. If there isn't one, returns 0. */
     GenTime findPreviousSnapMarker(const GenTime & time);

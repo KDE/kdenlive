@@ -390,8 +390,7 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 
     void KMMMonitor::updateEditPanel(const GenTime & time) {
 	if (m_referredClip) {
-	    m_editPanel->setSnapMarker(m_referredClip->
-		hasSnapMarker(time));
+	    m_editPanel->setSnapMarker(m_referredClip->hasSnapMarker(time) != GenTime(0.0));
 	}
     }
 
@@ -407,7 +406,7 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	if (m_referredClip) {
 	    Command::KAddMarkerCommand * command;
 
-	    if (m_referredClip->hasSnapMarker(seekPosition())) {
+	    if (m_referredClip->hasSnapMarker(seekPosition()) != GenTime(0.0)) {
 		command =
 		    new Command::KAddMarkerCommand(*m_document,
 		    m_referredClip, seekPosition(), QString::null, false);
