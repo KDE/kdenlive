@@ -2165,6 +2165,9 @@ namespace Gui {
         fd->setOperationMode(KFileDialog::Saving);
         fd->setMode(KFile::File);
         if (fd->exec() == QDialog::Accepted) {
+	    	if (KIO::NetAccess::exists(fd->selectedURL(), false, this)) {
+            	    if (KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it ?")) ==  KMessageBox::No) return;
+	    	}
 		DocClipRef *clipUnderMouse = getDocument()->projectClip().selectedClip();
 		QDomDocument partial = clipUnderMouse->generateXMLClip();
 		QFile file(fd->selectedURL().path());
