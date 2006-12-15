@@ -193,6 +193,20 @@ QDomElement SaveProjectNativeFilter::processedNode(DocumentClipNode *clipNode, Q
 	    	avfile.appendChild(description);
 	    }
 
+	    QValueVector < CommentedTime > originalMarkers = clipNode->clipRef()->commentedSnapMarkers();
+    	    if (originalMarkers.count() > 0) {
+        	QDomElement markers = avfile.ownerDocument().createElement("markers");
+        	for (uint count = 0; count < originalMarkers.count(); ++count) {
+	    	    QDomElement marker = avfile.ownerDocument().createElement("marker");
+	    	    marker.setAttribute("time", QString::number(originalMarkers[count].time().seconds(), 'f', 10));
+	    	    marker.setAttribute("comment", originalMarkers[count].comment());
+	    	    markers.appendChild(marker);
+    	        }
+    	        avfile.appendChild(markers);
+    	    }
+
+
+
 	    return avfile;
 }
 

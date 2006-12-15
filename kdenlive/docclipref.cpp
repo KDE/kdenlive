@@ -54,6 +54,7 @@ m_trackEnd(0.0), m_parentTrack(0),  m_trackNum(-1), m_clip(clip),  m_speed(1.0),
     }
 
     DocClipBase::CLIPTYPE t = m_clip->clipType();
+
     // If clip is a video, resizing it should update the thumbnails
     if (t == DocClipBase::VIDEO || t == DocClipBase::AV || t == DocClipBase::VIRTUAL) {
 	m_thumbnail = QPixmap();
@@ -347,8 +348,8 @@ createClip(const EffectDescriptionList & effectList,
     GenTime trackEnd;
     QString description;
     double speed = 1.0;
-    QValueVector < CommentedTime > markers;
     EffectStack effectStack;
+    QValueVector < CommentedTime > markers;
 
     /*kdWarning() << "================================" << endl;
     kdWarning() << "Creating Clip : " << element.ownerDocument().
@@ -394,22 +395,7 @@ createClip(const EffectDescriptionList & effectList,
 		trackEnd =
 		    GenTime(e.attribute("trackend", "-1").toDouble());
 		speed = e.attribute("speed", "1.0").toDouble();
-	    } else if (e.tagName() == "markers") {
-		QDomNode markerNode = e.firstChild();
-		while (!markerNode.isNull()) {
-		    QDomElement markerElement = markerNode.toElement();
-		    if (!markerElement.isNull()) {
-			if (markerElement.tagName() == "marker") {
-			    markers.append(CommentedTime(GenTime(markerElement.
-				    attribute("time", "0").toDouble()),markerElement.attribute("comment", "")));
-			} else {
-			    kdWarning() << "Unknown tag " << markerElement.
-				tagName() << endl;
-			}
-		    }
-		    markerNode = markerNode.nextSibling();
-		}
-	    } else if (e.tagName() == "effects") {
+	    }  else if (e.tagName() == "effects") {
 		//kdWarning() << "Found effects tag" << endl;
 		QDomNode effectNode = e.firstChild();
 		while (!effectNode.isNull()) {
@@ -440,7 +426,22 @@ createClip(const EffectDescriptionList & effectList,
                 t = e;
                 //kdWarning() << "Found transition tag" << endl;
 
-            }
+            } else if (e.tagName() == "markers") {
+		QDomNode markerNode = e.firstChild();
+		while (!markerNode.isNull()) {
+		    QDomElement markerElement = markerNode.toElement();
+		    if (!markerElement.isNull()) {
+			if (markerElement.tagName() == "marker") {
+			    markers.append(CommentedTime(GenTime(markerElement.
+				    attribute("time", "0").toDouble()),markerElement.attribute("comment", "")));
+			} else {
+			    kdWarning() << "Unknown tag " << markerElement.
+				tagName() << endl;
+			}
+		    }
+		    markerNode = markerNode.nextSibling();
+		}
+	    }
             else {
 //               kdWarning() << "DocClipRef::createClip() unknown tag : " << e.tagName() << endl;
 	    }
@@ -456,6 +457,7 @@ createClip(const EffectDescriptionList & effectList,
 	// setup DocClipRef specifics of the clip.
 	clip->setTrackStart(trackStart);
 	clip->setCropStartTime(cropStart);
+	if (clip->snapMarkers().count() == 0) clip->setSnapMarkers(markers);
 	clip->setSpeed(speed);
 	if (trackEnd.seconds() != -1) {
 	    clip->setTrackEnd(trackEnd);
@@ -463,7 +465,6 @@ createClip(const EffectDescriptionList & effectList,
             clip->setTrackEnd(trackStart + cropDuration - GenTime(1, clip->framesPerSecond()));
 	}
 	clip->setParentTrack(0, trackNum);
-	clip->setSnapMarkers(markers);
 	//clip->setDescription(description);
 	clip->setEffectStack(effectStack);
         
@@ -688,17 +689,6 @@ QDomDocument DocClipRef::toXML() const
 
         clip.appendChild(trans);
     }
-
-    QDomElement markers = doc.createElement("markers");
-    QValueVector < CommentedTime > originalMarkers = commentedSnapMarkers();
-    for (uint count = 0; count < originalMarkers.count(); ++count) {
-	QDomElement marker = doc.createElement("marker");
-	marker.setAttribute("time",
-	    QString::number(originalMarkers[count].time().seconds(), 'f', 10));
-	marker.setAttribute("comment", originalMarkers[count].comment());
-	markers.appendChild(marker);
-    }
-    clip.appendChild(markers);
     doc.appendChild(clip);
 
     return doc;

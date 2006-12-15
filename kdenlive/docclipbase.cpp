@@ -73,7 +73,6 @@ QDomDocument DocClipBase::toXML() const
     QDomElement clip = doc.createElement("kdenliveclip");
     QDomText text = doc.createTextNode(description());
     clip.appendChild(text);
-
     doc.appendChild(clip);
 
     return doc;

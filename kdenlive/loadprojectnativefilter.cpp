@@ -164,6 +164,7 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
 {
     DocumentBaseNode *parentNode = document->findClipNode(parent);
     DocumentBaseNode *thisNode = 0;
+    QValueVector < CommentedTime > markers;
 
     if (parentNode) {
 	if ((clip.tagName() == "producer") && clip.attribute("id", QString::null) != "black") {
@@ -213,13 +214,35 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
             }
 
 	    if (baseClip) {
+		QDomNode n = clip.firstChild();
+    		while (!n.isNull()) {
+		    QDomElement e = n.toElement();
+		    if (!e.isNull()) {
+		    	if (e.tagName() == "markers") {
+			    QDomNode markerNode = e.firstChild();
+			    while (!markerNode.isNull()) {
+		    	        QDomElement markerElement = markerNode.toElement();
+		    	        if (!markerElement.isNull()) {
+			 	    if (markerElement.tagName() == "marker") {
+			    	    	markers.append(CommentedTime(GenTime(markerElement.attribute("time","0").toDouble()),markerElement.attribute("comment", "")));
+				    } else {
+			    	    	kdWarning() << "Unknown tag " << markerElement.tagName() << endl;
+				    }
+		                }
+		    	        markerNode = markerNode.nextSibling();
+			    }
+	    	    	}
+		    }
+		    n = n.nextSibling();
+	    	}
+
+		baseClip->setSnapMarkers(markers);
 	    	DocumentClipNode *clipNode = new DocumentClipNode(parentNode, baseClip);
 	    	thisNode = clipNode;
-
+		
 	    	QString desc;
 	    	// find description, if one exists.
-	    	QDomNode n = clip.firstChild();
-
+	    	n = clip.firstChild();
 	    	while (!n.isNull()) {
 			QDomText t = n.toText();
 			if (!t.isNull()) {
