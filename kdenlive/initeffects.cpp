@@ -238,6 +238,17 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 	xmlAttr.append("default", QString::null, QString::null, "0");
 	mute->addParameter(effectDescParamFactory.createParameter(xmlAttr));
 	effectList->append(mute);
+
+	// Audio normalise
+	EffectDesc *normalise = new EffectDesc(i18n("Normalise"), "volume", "audio");
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "constant");
+	xmlAttr.append("name", QString::null, QString::null, "gain");
+	xmlAttr.append("max", QString::null, QString::null, "0");
+	xmlAttr.append("min", QString::null, QString::null, "0");
+	xmlAttr.append("default", QString::null, QString::null, "normalise");
+	normalise->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	effectList->append(normalise);
     }
 
     if (filtersList.findIndex("obscure") != -1) {
