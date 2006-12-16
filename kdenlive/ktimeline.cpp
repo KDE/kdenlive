@@ -259,9 +259,11 @@ pixels, the left-most pixel is returned. */
 	}
 	else {
 	    if (start != GenTime(0) && end != GenTime(0)) {
-	    	if (offset > 0) drawPartialTrackViewBackBuffer(start.frames(m_framesPerSecond), end.frames(m_framesPerSecond), 2 * (track - offset), 2 * track + 1);
+		if (offset == 0) drawPartialTrackViewBackBuffer(start.frames(m_framesPerSecond), end.frames(m_framesPerSecond), 2 * track, 2 * track);
+	    	else if (offset > 0) drawPartialTrackViewBackBuffer(start.frames(m_framesPerSecond), end.frames(m_framesPerSecond), 2 * (track - offset), 2 * track + 1);
 	    	else drawPartialTrackViewBackBuffer(start.frames(m_framesPerSecond), end.frames(m_framesPerSecond), 2 * track, 2 * (track - offset) + 1);
 	    } else {
+		if (offset == 0) drawTrackViewBackBuffer(2 * track, 2 * track);
 	    	if (offset > 0) drawTrackViewBackBuffer(2 * (track - offset), 2 * track + 1);
 	    	else drawTrackViewBackBuffer(2 * track, 2 * (track - offset) + 1);
 	    }
@@ -371,9 +373,6 @@ the display. The scale is the size of one frame.*/
         int frames = (int) size.frames( m_framesPerSecond);
 	m_scrollBar->setRange(0, (int) (frames * m_ruler->valueScale()) + m_scrollBar->width());
 	m_ruler->setRange(0, frames);
-
-	if (previous_duration < frames) drawPartialTrackViewBackBuffer(previous_duration, frames, 0, m_trackList.count() -1);
-	else drawPartialTrackViewBackBuffer(frames, previous_duration, 0, m_trackList.count() -1);
 	emit projectLengthChanged(frames);
     }
 

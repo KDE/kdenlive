@@ -415,6 +415,7 @@ namespace Gui {
 	void refreshVirtualZone();
 	void insertClipFromUrl(QString path);
 	void toggleMarkerUnderCursor();
+	void slotShowAllMarkers();
 
       private slots: 
         void slotToggleClipMonitor();
@@ -563,6 +564,7 @@ namespace Gui {
 	KToggleAction *timelineSnapToBorder;
 	KToggleAction *timelineSnapToMarker;
 	KToggleAction *clipAutoSelect;
+	KToggleAction *showAllMarkers;
         
         KToggleAction *showClipMonitor;
         KToggleAction *showWorkspaceMonitor;

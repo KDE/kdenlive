@@ -443,6 +443,12 @@ namespace Gui {
 	    0, this, SLOT(slotTimelineSnapToMarker()), actionCollection(),
 	    "timeline_snap_marker");
 
+
+	showAllMarkers =
+	    new KToggleAction(i18n("Show all markers"), 0, 0,
+	    this, SLOT(slotShowAllMarkers()), actionCollection(),
+	    "show_markers");
+
 	KAction *gotoStart = new KAction(i18n("Go To Beginning"), KStdAccel::home(), this, SLOT(slotGotoStart()), actionCollection(), "timeline_go_start");
 	gotoStart->setStatusText(i18n("Beginning of project"));
 
@@ -2361,6 +2367,12 @@ namespace Gui {
     }
     bool KdenliveApp::snapToMarkersEnabled() const {
 	return timelineSnapToMarker->isChecked();
+    }
+
+    void KdenliveApp::slotShowAllMarkers() {
+	getDocument()->setShowAllMarkers(showAllMarkers->isChecked());
+	m_timeline->trackView()->setShowAllMarkers(showAllMarkers->isChecked());
+	m_timeline->drawTrackViewBackBuffer();
     }
 
 /** Adds a command to the command history, execute it if execute is true. */

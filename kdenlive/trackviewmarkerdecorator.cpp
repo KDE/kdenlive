@@ -53,19 +53,20 @@ namespace Gui {
 	    ex = rect.x() + rect.width();
 	}
 	ex -= sx;
+	bool showMarkers = document()->showAllMarkers();
+	if (!showMarkers)
+	    painter.setClipRect(sx, rect.y(), ex, rect.height());
 
-	painter.setClipRect(sx, rect.y(), ex, rect.height());
+	QValueVector < CommentedTime > markers = clip->commentedTrackSnapMarkers();
 
-	QValueVector < GenTime > markers = clip->snapMarkersOnTrack();
-
-	QValueVector < GenTime >::iterator itt = markers.begin();
+	QValueVector < CommentedTime >::iterator itt = markers.begin();
 
 	while (itt != markers.end()) {
 	    int x =
-		(int) timeline()->mapValueToLocal((*itt).
+		(int) timeline()->mapValueToLocal(((*itt).time()).
 		frames(document()->framesPerSecond()));
 
-	    if ((x >= sx - 7) && (x <= sx + ex + 7)) {
+	    if (((x >= sx - 7) && (x <= sx + ex + 7))  || showMarkers) {
 		QPen currentPen = painter.pen();
 		QBrush currentBrush = painter.brush();
 
@@ -75,10 +76,16 @@ namespace Gui {
 
 		painter.drawPixmap(x - 7, rect.y() + rect.height() / 2  - 7, m_markerPixmap);
 
-		/*painter.setPen(Qt::black);
-		painter.drawEllipse(x - (rect.height() / 4),
-		    rect.y() + (rect.height() / 4),
-		    rect.height() / 2, rect.height() / 2);*/
+		if (showMarkers) {
+		    QString txt = (*itt).comment();
+		
+		    QRect textBound = painter.boundingRect(0, 0, rect.width(), rect.height(), Qt::AlignLeft, txt);
+
+		    painter.setBrush(Qt::yellow);
+		    painter.setPen(Qt::black);
+		    painter.drawRect(x, rect.y(), textBound.width() + 5, textBound.height());
+	            painter.drawText(x, rect.y(), textBound.width() + 5, textBound.height(), Qt::AlignCenter, txt);
+		}
 
 		painter.setPen(currentPen);
 		painter.setBrush(currentBrush);

@@ -49,6 +49,7 @@ QObject(parent, name),
 m_projectClip(new DocClipProject(fps, width, height)),
 m_modified(false),
 m_sceneListGeneration(true),
+m_showAllMarkers(false),
 m_clipHierarch(0), m_render(app->renderManager()->findRenderer("Document")), m_clipManager(m_render), m_app(app) //, m_clipManager(*app->renderManager())
 {
     //m_render = m_app->renderManager()->createRenderer("Document");
@@ -770,6 +771,17 @@ void KdenliveDoc::updateTracksThumbnails()
     }
 }
 
+
+bool KdenliveDoc::showAllMarkers() const
+{
+    return m_showAllMarkers;
+}
+
+void KdenliveDoc::setShowAllMarkers(bool show)
+{
+    m_showAllMarkers = show;
+    
+}
 
 DocClipRefList KdenliveDoc::listSelected() const
 {

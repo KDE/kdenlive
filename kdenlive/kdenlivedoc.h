@@ -192,6 +192,7 @@ class KdenliveDoc:public QObject {
     bool m_modified;
     KURL m_doc_url;
     QString m_doc_name;
+    bool m_showAllMarkers;
 
 /** HACK HACK - generate scenelist if true, don't if false) */
     bool m_sceneListGeneration;
@@ -233,6 +234,8 @@ class KdenliveDoc:public QObject {
 	/** Adds an empty video track to the project */
     void addVideoTrack(int ix = -1);
     void slotDeleteTrack(int ix);
+    void setShowAllMarkers(bool show);
+    bool showAllMarkers() const;
 
     // HACK HACK - we need a way to prevent the document from spewing hundreds of scenelist
     // generation requests - this is it.

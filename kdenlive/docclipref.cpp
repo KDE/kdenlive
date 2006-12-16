@@ -1668,7 +1668,9 @@ QValueVector < CommentedTime > DocClipRef::commentedTrackSnapMarkers() const
     markers.reserve(originalMarkers.count());
 
     for (uint count = 0; count < originalMarkers.count(); ++count) {
-	markers.append(CommentedTime(originalMarkers[count].time() + trackStart() -
+	GenTime t = originalMarkers[count].time();
+	if (t > m_cropStart && t < m_trackEnd - m_trackStart + m_cropStart)
+	markers.append(CommentedTime(t + trackStart() -
 	    cropStartTime(), originalMarkers[count].comment()));
     }
 

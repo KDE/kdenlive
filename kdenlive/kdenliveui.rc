@@ -25,6 +25,8 @@
   </Menu>
   <Menu name="view">
       <Action name="restore_zoom"/>
+      <Separator lineSeparator="true"/>
+      <Action name="show_markers"/>
   </Menu>
   
   <Menu name="project"><text>&amp;Project</text>

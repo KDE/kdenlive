@@ -85,6 +85,7 @@ namespace Gui {
 	/** True if the back buffer needs to be redrawn. */
 	bool m_bufferInvalid;
 	int m_trackBaseNum;
+	bool m_showMarkers;
 	KTrackPanel *m_panelUnderMouse;
 
 	/** The current function that is in operation*/
@@ -105,7 +106,9 @@ namespace Gui {
 	/** Invalidate the back buffer, alerting the trackview that it should redraw itself. */
 	void invalidateBackBuffer(int startTrack = 0, int endTrack = -1);
         void invalidatePartialBackBuffer(int pos1, int pos2, int startTrack = 0, int endTrack = -1);
-        
+        void setShowAllMarkers(bool show);
+        bool showAllMarkers();
+
     signals: 
         void rightButtonPressed();
         void changeZoom(bool);

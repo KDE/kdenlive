@@ -37,7 +37,7 @@ namespace Gui {
     KTrackView::KTrackView(KTimeLine & timeLine, QWidget * parent,
 	const char *name):QWidget(parent, name), m_timeline(timeLine),
 	m_trackBaseNum(-1), m_panelUnderMouse(0), m_function(0),
-	m_dragFunction(0) {
+	m_dragFunction(0), m_showMarkers(false) {
 	// we draw everything ourselves, no need to draw background.
 	setBackgroundMode(Qt::NoBackground);
 	setMouseTracking(true);
@@ -51,6 +51,16 @@ namespace Gui {
 
     KTrackView::~KTrackView() {
 	delete trackview_tips;
+    }
+
+    void KTrackView::setShowAllMarkers(bool show)
+    {
+	m_showMarkers = show;
+    }
+
+    bool KTrackView::showAllMarkers()
+    {
+	return m_showMarkers;
     }
 
     void KTrackView::tip(const QPoint &pos, QRect &rect, QString &tipText) {
@@ -294,6 +304,10 @@ namespace Gui {
     }
 
 void KTrackView::invalidatePartialBackBuffer(int pos1, int pos2, int startTrack, int endTrack) {
+    if (m_showMarkers) {
+	invalidateBackBuffer( startTrack, endTrack);
+	return;
+    }
     if (m_startTrack == -1) {
 	m_startTrack = startTrack;
 	m_endTrack = endTrack;
