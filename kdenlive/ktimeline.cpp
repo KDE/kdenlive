@@ -259,12 +259,10 @@ pixels, the left-most pixel is returned. */
 	}
 	else {
 	    if (start != GenTime(0) && end != GenTime(0)) {
-		if (offset == 0) drawPartialTrackViewBackBuffer(start.frames(m_framesPerSecond), end.frames(m_framesPerSecond), 2 * track, 2 * track);
-	    	else if (offset > 0) drawPartialTrackViewBackBuffer(start.frames(m_framesPerSecond), end.frames(m_framesPerSecond), 2 * (track - offset), 2 * track + 1);
+		if (offset >= 0) drawPartialTrackViewBackBuffer(start.frames(m_framesPerSecond), end.frames(m_framesPerSecond), 2 * (track - offset), 2 * track + 1);
 	    	else drawPartialTrackViewBackBuffer(start.frames(m_framesPerSecond), end.frames(m_framesPerSecond), 2 * track, 2 * (track - offset) + 1);
 	    } else {
-		if (offset == 0) drawTrackViewBackBuffer(2 * track, 2 * track);
-	    	if (offset > 0) drawTrackViewBackBuffer(2 * (track - offset), 2 * track + 1);
+		if (offset >= 0) drawTrackViewBackBuffer(2 * (track - offset), 2 * track + 1);
 	    	else drawTrackViewBackBuffer(2 * track, 2 * (track - offset) + 1);
 	    }
 	}
