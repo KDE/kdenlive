@@ -532,10 +532,22 @@ void KdenliveDoc::refreshAudioThumbnails()
 {
     if (!m_clipHierarch) return;
     QPtrListIterator < DocumentBaseNode > itt(m_clipHierarch->children());
+    DocumentClipNode *clipNode;
     while (itt.current()) {
-	DocumentClipNode *clipNode = itt.current()->asClipNode();
+	 clipNode = itt.current()->asClipNode();
 	if (clipNode) {
 	    clipNode->clipRef()->refreshAudioThumbnail();
+	}
+	else {
+	    // parse folders
+	    QPtrListIterator < DocumentBaseNode > subitt(itt.current()->children());
+	    while (subitt.current()) {
+		clipNode = subitt.current()->asClipNode();
+		if (clipNode) {
+	    	    clipNode->clipRef()->refreshAudioThumbnail();
+		}
+	    ++subitt;
+	    }
 	}
 	++itt;
     }
