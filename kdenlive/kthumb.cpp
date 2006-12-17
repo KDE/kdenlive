@@ -70,6 +70,13 @@
 		
 
 		Mlt::Producer m_producer(KRender::decodedString(m_url.path()));
+
+		if (KdenliveSettings::normaliseaudiothumbs()) {
+    		    Mlt::Filter m_convert("volume");
+    		    m_convert.set("gain", "normalise");
+    		    m_producer.attach(m_convert);
+		}
+
 		if (qApp->mainWidget()) 
 		    QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1, 10005));
 
@@ -78,7 +85,7 @@
 		for (int z=(int) m_frame;z<(int) (m_frame+m_frameLength) && m_producer.is_valid();z++){
 			if (stop_me) break;
 			val=(int)((z-m_frame)/(m_frame+m_frameLength)*100.0);
-			if (last_val!=val){
+			if (last_val!=val & val > 1){
 				QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(val, 10005));
 				last_val=val;
 			}

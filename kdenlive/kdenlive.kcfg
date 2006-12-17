@@ -64,6 +64,16 @@
       <default>false</default>
     </entry>
 
+    <entry name="limitedaudiothumbs" type="Bool">
+      <label>disable audio thumbs for large clips when zooming out.</label>
+      <default>true</default>
+    </entry>
+
+    <entry name="normaliseaudiothumbs" type="Bool">
+      <label>Normalise audio volume for thumbail creation.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="videoclipcolor" type="Color">
 	<label>Color of the clips on video track</label>
 	<whatsthis>Color of the video clips inserted in timeline</whatsthis>

@@ -8,23 +8,20 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>299</width>
-            <height>235</height>
+            <width>407</width>
+            <height>291</height>
         </rect>
-    </property>
-    <property name="caption">
-        <string></string>
     </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <spacer row="0" column="1">
+        <spacer row="3" column="0">
             <property name="name">
-                <cstring>spacer5</cstring>
+                <cstring>spacer2</cstring>
             </property>
             <property name="orientation">
-                <enum>Horizontal</enum>
+                <enum>Vertical</enum>
             </property>
             <property name="sizeType">
                 <enum>Expanding</enum>
@@ -32,76 +29,10 @@
             <property name="sizeHint">
                 <size>
                     <width>16</width>
-                    <height>16</height>
+                    <height>48</height>
                 </size>
             </property>
         </spacer>
-        <widget class="QGroupBox" row="1" column="0">
-            <property name="name">
-                <cstring>groupBox3_2</cstring>
-            </property>
-            <property name="title">
-                <string>Audio Tracks</string>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel" row="0" column="0">
-                    <property name="name">
-                        <cstring>textLabel1_2</cstring>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>0</hsizetype>
-                            <vsizetype>5</vsizetype>
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                    <property name="text">
-                        <string>Size:</string>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="0" column="2">
-                    <property name="name">
-                        <cstring>textLabel1_3_2</cstring>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>0</hsizetype>
-                            <vsizetype>5</vsizetype>
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                    <property name="text">
-                        <string>Clip color:</string>
-                    </property>
-                </widget>
-                <widget class="KColorButton" row="0" column="3">
-                    <property name="name">
-                        <cstring>kcfg_audioclipcolor</cstring>
-                    </property>
-                    <property name="text">
-                        <string></string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="2">
-                    <property name="name">
-                        <cstring>kcfg_audiothumbnails</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Thumbnails</string>
-                    </property>
-                </widget>
-                <widget class="QSpinBox" row="0" column="1">
-                    <property name="name">
-                        <cstring>kcfg_audiotracksize</cstring>
-                    </property>
-                </widget>
-            </grid>
-        </widget>
         <widget class="QGroupBox" row="0" column="0">
             <property name="name">
                 <cstring>groupBox3</cstring>
@@ -166,25 +97,25 @@
                         <cstring>kcfg_videotracksize</cstring>
                     </property>
                 </widget>
+                <spacer row="0" column="4">
+                    <property name="name">
+                        <cstring>spacer5_2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>114</width>
+                            <height>16</height>
+                        </size>
+                    </property>
+                </spacer>
             </grid>
         </widget>
-        <spacer row="3" column="0">
-            <property name="name">
-                <cstring>spacer2</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Vertical</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>16</width>
-                    <height>24</height>
-                </size>
-            </property>
-        </spacer>
         <widget class="QCheckBox" row="2" column="0">
             <property name="name">
                 <cstring>kcfg_autoscroll</cstring>
@@ -192,6 +123,105 @@
             <property name="text">
                 <string>Auto scroll while playing</string>
             </property>
+        </widget>
+        <widget class="QGroupBox" row="1" column="0">
+            <property name="name">
+                <cstring>groupBox3_2</cstring>
+            </property>
+            <property name="title">
+                <string>Audio Tracks</string>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel" row="0" column="0">
+                    <property name="name">
+                        <cstring>textLabel1_2</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>5</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="text">
+                        <string>Size:</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="5">
+                    <property name="name">
+                        <cstring>kcfg_audiothumbnails</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Thumbnails</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="5">
+                    <property name="name">
+                        <cstring>kcfg_limitedaudiothumbs</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Disable thumbnails for large clips on low zoom level</string>
+                    </property>
+                </widget>
+                <widget class="QSpinBox" row="0" column="1">
+                    <property name="name">
+                        <cstring>kcfg_audiotracksize</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="0" column="2">
+                    <property name="name">
+                        <cstring>textLabel1_3_2</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>5</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="text">
+                        <string>Clip color:</string>
+                    </property>
+                </widget>
+                <widget class="KColorButton" row="0" column="3">
+                    <property name="name">
+                        <cstring>kcfg_audioclipcolor</cstring>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                </widget>
+                <spacer row="0" column="4">
+                    <property name="name">
+                        <cstring>spacer5</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>114</width>
+                            <height>16</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="5">
+                    <property name="name">
+                        <cstring>kcfg_normaliseaudiothumbs</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Normalise volume for thumbnail creation</string>
+                    </property>
+                </widget>
+            </grid>
         </widget>
     </grid>
 </widget>

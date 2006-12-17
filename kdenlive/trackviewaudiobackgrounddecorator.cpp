@@ -68,11 +68,13 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX,
 
 	QColor col = selected ? m_selected : m_unselected;
 	//double aspect = 4.0 / 3.0;
-	int width = 30;
+	int width = ex - sx;
 	
-	double FramesInOnePixel =
-			width/(timeline()->mapValueToLocal(1) -
-			timeline()->mapValueToLocal(0));
+	double FramesInOnePixel = (timeline()->mapValueToLocal(1) - timeline()->mapValueToLocal(0));
+
+	if (KdenliveSettings::limitedaudiothumbs() && FramesInOnePixel < 0.1 && ((endX - startX) / FramesInOnePixel  > 4000)) return;
+
+	FramesInOnePixel = width / FramesInOnePixel;
 
 	double i = sx;
 
@@ -121,8 +123,7 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX,
 		int deltaHeight = h / channels;
 		double RealFrame = timeline()->mapLocalToValue(i);
 		for (int countChannel = 0; countChannel < channels;countChannel++) {
-		{
-			//kdDebug() << "fromnull=" << RealFrame<< endl;
+		{	
 			QByteArray a=clip->getAudioThumbs(countChannel,
 					RealFrame + timeDiff,
 					FramesInOnePixel, width);
