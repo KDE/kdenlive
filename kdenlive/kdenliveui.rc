@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kdenlive" version="16">
+<kpartgui name="kdenlive" version="17">
 <MenuBar>
   <Menu name="file">
         <Action name="export_current_frame"/>
@@ -150,6 +150,7 @@
 	</Menu>
 	<Action name="project_delete_clip"/>
         <Action name="edit_clip"/>
+	<Action name="project_extract_audio"/>
         <Separator lineSeparator="true"/>
         <Action name="project_clean"/>
 </Menu>
@@ -285,13 +286,16 @@
       <Action name="add_marker"/>
       <Action name="edit_marker"/>
       <Action name="delete_marker"/>
+      <Action name="clear_snap_markers_from_selected"/>
   </Menu>
   <Separator lineSeparator="true"/>
   <Action name="edit_copy"/>
   <Action name="edit_cut"/>
   <Action name="delete_selected_clips"/>
   <Action name="razor_selected_clips"/>
-  <Action name="clear_snap_markers_from_selected"/>
+  <Separator lineSeparator="true"/>
+  <Action name="split_audio"/>
+  <Action name="extract_audio"/>
   <Action name="save_subclip"/>
   <Separator lineSeparator="true"/>
   <Action name="project_edit_clip"/>

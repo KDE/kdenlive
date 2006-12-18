@@ -619,6 +619,17 @@ void exportWidget::renderSelectedZone(const QString &url)
     m_emitSignal = true;
 }
 
+void exportWidget::renderSelectedClipAudio(const QString &source, const QString &dest)
+{
+    if (m_isRunning) {
+	if (KMessageBox::questionYesNo(this, i18n("There is another file render currently running, cancel it ?")) != KMessageBox::Yes) return;
+        stopExport();
+    }
+    m_createdFile = dest;
+    doAudioExport(source, dest);
+    m_emitSignal = true;
+}
+
 void exportWidget::generateDvdFile(QString file, GenTime start, GenTime end, VIDEOFORMAT format)
 {
     QStringList encoderParams;
@@ -677,12 +688,9 @@ void exportWidget::doExport(QString file, QStringList params, bool isDv)
     	delete m_exportProcess;
     }
     kdDebug()<<"++++++  PREPARE TO WRITE TO: "<<m_tmpFile->name()<<endl;
-    //QFile file = tmp.file();
-    //if ( tmp.file()->open( IO_WriteOnly ) ) {
     QTextStream stream( m_tmpFile->file() );
     stream << m_screen->sceneList().toString() << "\n";
     m_tmpFile->file()->close();
-    //kdDebug()<<m_screen->sceneList().toString()<<endl;
     m_exportProcess = new KProcess;
 
     if (!encoder_norm.isEmpty()) m_exportProcess->setEnvironment("MLT_NORMALISATION", encoder_norm);
@@ -721,7 +729,51 @@ void exportWidget::doExport(QString file, QStringList params, bool isDv)
 	    break;
     }
     m_exportProcess->start(KProcess::NotifyOnExit, KProcess::Stderr);
-    //tmp.setAutoDelete(true);
+}
+
+void exportWidget::doAudioExport(QString src, QString dest)
+{
+    if (m_tmpFile) delete m_tmpFile;
+    m_tmpFile = new KTempFile( QString::null, ".westley");
+    QTextStream stream( m_tmpFile->file() );
+    stream << src << "\n";
+    m_tmpFile->file()->close();
+
+    m_progress = 0;
+    if (m_exportProcess) {
+    	m_exportProcess->kill();
+    	delete m_exportProcess;
+    }
+
+    m_exportProcess = new KProcess;
+
+    if (!encoder_norm.isEmpty()) m_exportProcess->setEnvironment("MLT_NORMALISATION", encoder_norm);
+    else if (m_format == PAL_VIDEO) m_exportProcess->setEnvironment("MLT_NORMALISATION", "PAL");
+    else if (m_format == NTSC_VIDEO) m_exportProcess->setEnvironment("MLT_NORMALISATION", "NTSC");
+    *m_exportProcess << "kdenlive_renderer";
+
+    *m_exportProcess << m_tmpFile->name();
+    *m_exportProcess << "real_time=0";
+    *m_exportProcess << "-consumer";
+    *m_exportProcess << QString("avformat:%1").arg(dest);
+    *m_exportProcess << "format=wav" << "frequency=48000";
+    *m_exportProcess << "real_time=0";
+    *m_exportProcess << "stats_on=1";
+    connect(m_exportProcess, SIGNAL(processExited(KProcess *)), this, SLOT(endExport(KProcess *)));
+    connect(m_exportProcess, SIGNAL(receivedStderr (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));
+
+    switch (export_priority->currentItem()) {
+	case 0:
+	    m_exportProcess->setPriority(15);
+	    break;
+	case 1:
+	    m_exportProcess->setPriority(0);
+	    break;
+	case 2:
+	    m_exportProcess->setPriority(-15);
+	    break;
+    }
+    m_exportProcess->start(KProcess::NotifyOnExit, KProcess::Stderr);
 }
 
 void exportWidget::receivedStderr(KProcess *, char *buffer, int len)
@@ -766,9 +818,11 @@ void exportWidget::endExport(KProcess *)
 {
     bool finishedOK = true;
     bool twoPassEncoding = false;
-    m_tmpFile->unlink();
-    delete m_tmpFile;
-    m_tmpFile = 0;
+    if (m_tmpFile) {
+        m_tmpFile->unlink();
+        delete m_tmpFile;
+        m_tmpFile = 0;
+    }
     //if (EncodersMap[encoders->currentText()] == "theora") twoPassEncoding = true; 
 
     if (!m_exportProcess->normalExit()) {

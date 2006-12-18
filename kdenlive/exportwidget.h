@@ -82,6 +82,7 @@ private slots:
         void initEncoders();
         void initDvConnection();
 	void doExport(QString file, QStringList params,  bool isDv = false);
+	void doAudioExport(QString src, QString dest);
 	void endExport(KProcess *);
 	void receivedStderr(KProcess *, char *buffer, int buflen);
 	void endConvert(KProcess *);
@@ -106,6 +107,7 @@ public slots:
 	void updateGuides();
 	void generateDvdFile(QString file, GenTime start, GenTime end, VIDEOFORMAT format);
 	void renderSelectedZone(const QString &url);
+	void renderSelectedClipAudio(const QString &source, const QString &dest);
 
 signals:
     void exportToFirewire(QString, int, GenTime, GenTime);

@@ -547,7 +547,13 @@ namespace Gui {
 	    SLOT(slotSplitAudio()), actionCollection(), "split_audio");
 	splitAudio->setStatusText(i18n("Split Audio From Selected Clip"));
 
+	KAction *extractAudio = new KAction(i18n("Extract Clip Audio"), 0, this,
+	    SLOT(slotExtractAudio()), actionCollection(), "extract_audio");
+	extractAudio->setStatusText(i18n("Extract Audio From Selected Clip"));
 
+	KAction *projectExtractAudio = new KAction(i18n("Extract Clip Audio"), 0, this,
+	    SLOT(slotProjectExtractAudio()), actionCollection(), "project_extract_audio");
+	projectExtractAudio->setStatusText(i18n("Extract Audio From Clip"));
 
 	actionNextFrame =
 	    new KAction(i18n("Forward one frame"),
@@ -1539,12 +1545,14 @@ namespace Gui {
 	DocClipRef *clip = getDocument()->projectClip().selectedClip();
 	if (!clip) return;
 	clip->parentTrack()->resizeClipTrackStart(clip, getDocument()->renderer()->seekPosition());
+	getDocument()->indirectlyModified();
     }
 
     void KdenliveApp::slotResizeClipEnd() {
 	DocClipRef *clip = getDocument()->projectClip().selectedClip();
 	if (!clip) return;
 	clip->parentTrack()->resizeClipTrackEnd(clip, getDocument()->renderer()->seekPosition());
+	getDocument()->indirectlyModified();
     }
 
     void KdenliveApp::slotSelectNextTrack() {
@@ -2974,6 +2982,38 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    addCommand(Command::KAddEffectCommand::insertEffect(getDocument(), clip, clip->numEffects(), effect));
 	}
 	else clip2->deleteEffect(clip2->clipEffectNames().findIndex(effectName));
+    }
+
+    void KdenliveApp::slotExtractAudio() {
+	DocClipRef *clip = getDocument()->projectClip().selectedClip();
+	if (!clip || clip->audioChannels() == 0) return;
+	slotExtractClipAudio(clip);
+    }
+
+    void KdenliveApp::slotProjectExtractAudio() {
+	DocClipRef *clip = static_cast<AVListViewItem*>(m_projectList->m_listView->currentItem())->clip();
+	if (!clip || clip->audioChannels() == 0) return;
+	slotExtractClipAudio(clip);
+    }
+
+    void KdenliveApp::slotExtractClipAudio(DocClipRef *clip) {
+	QCheckBox * addToProject = new QCheckBox(i18n("Add new audio clip to project"),this);
+	addToProject->setChecked(true);
+        KFileDialog *fd = new KFileDialog(m_fileDialogPath.path(), "audio/x-wav", this, "save_audio", true, addToProject);
+	fd->setCaption(i18n("Save Audio Track"));
+        fd->setOperationMode(KFileDialog::Saving);
+        fd->setMode(KFile::File);
+        if (fd->exec() == QDialog::Accepted) {
+	    	if (KIO::NetAccess::exists(fd->selectedURL(), false, this)) {
+            	    if (KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it ?")) ==  KMessageBox::No) return;
+	    	}
+
+		QDomDocument partial = clip->generateXMLClip();
+		QString save = "<westley><producer id=\"" + QString::number(clip->referencedClip()->getId()) + "\" resource=\"" + clip->fileURL().path() + "\" /><playlist>"+partial.toString()+"</playlist></westley>";
+
+		if (!m_exportWidget) slotRenderExportTimeline(false);
+		m_exportWidget->renderSelectedClipAudio(save, fd->selectedURL().path());
+	}
     }
 
     void KdenliveApp::slotSeekTo(GenTime time) {

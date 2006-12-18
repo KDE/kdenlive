@@ -447,6 +447,9 @@ namespace Gui {
 
 	void slotAutoSave();
         void slotSplitAudio();
+	void slotExtractAudio();
+	void slotProjectExtractAudio();
+	void slotExtractClipAudio(DocClipRef *clip);
 
         /** Add a transition between the 2 selected clips */
         void slotAddTransition(int ix = 0);
