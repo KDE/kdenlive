@@ -2198,7 +2198,7 @@ namespace Gui {
 
     void KdenliveApp::insertClipFromUrl(QString path)
     {
-	addCommand(new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), path, true));
+	addCommand(new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), KURL(path), true));
     }
 
     void KdenliveApp::slotVirtualZone()
@@ -2436,7 +2436,7 @@ namespace Gui {
 
 
 void KdenliveApp::slotAddFileToProject(const QString &url) {
-    addCommand(new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), url, true));
+    addCommand(new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), KURL(url), true));
 }
 
 
