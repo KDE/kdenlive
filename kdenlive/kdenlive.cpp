@@ -141,8 +141,8 @@ namespace Gui {
 	videoProjectFormats << i18n("NTSC (720x480, 30fps)") << i18n("NTSC 16:9 (720x480, 30fps)");
 
 	// HDV not implemented in MLT yet...
-	// videoProjectFormats << i18n("HDV-1080 (1440x1080, 25fps)");
-	// videoProjectFormats << i18n("HDV-720 (1280x720, 25fps)");
+	videoProjectFormats << i18n("HDV-1080 (1440x1080, 25fps)");
+	videoProjectFormats << i18n("HDV-720 (1280x720, 25fps)");
 
 	initStatusBar();
 
@@ -584,6 +584,11 @@ namespace Gui {
                             KShortcut(Qt::ALT | Qt::Key_Left), this, SLOT(slotPreviousSnap()),
                             actionCollection(), "backward_snap");
 	prevSnap->setStatusText(i18n("Move cursor to previous snap point"));
+
+        KAction *removeSpace = new KAction(i18n("Remove empty space"),
+                            0, this, SLOT(slotRemoveSpace()),
+                            actionCollection(), "delete_space");
+	removeSpace->setStatusText(i18n("Remove space between two clips"));
 
 	actionSetInpoint =
 	    new KAction(i18n("Set Inpoint"), KShortcut(Qt::Key_I), this,
@@ -3113,6 +3118,36 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	}
     }
 
+    void KdenliveApp::slotRemoveSpace() {
+	int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(mousePosition()).y())->documentTrackIndex();
+	DocTrackBase *track = getDocument()->track(ix);
+	if (!track) return;
+	GenTime mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(mousePosition()).x());
+	// calculate length of empty space between the 2 clips
+	GenTime space = track->spaceLength(mouseTime);
+
+	if (space == GenTime(0.0)) return;
+
+	KMacroCommand *selectMacroCommand = new KMacroCommand(i18n("Select Clips"));
+    	selectMacroCommand->addCommand(Command::KSelectClipCommand::selectNone(getDocument()));
+	selectMacroCommand->addCommand(Command::KSelectClipCommand::selectLaterClips(getDocument(), mouseTime, true));
+	addCommand(selectMacroCommand, true);
+	
+
+	KMacroCommand *macroCommand = new KMacroCommand(i18n("Move Clips"));
+	DocClipRef *masterClip = getDocument()->selectedClip();
+	if (!masterClip) {
+	    delete macroCommand;
+	    return;
+	}
+	Command::KMoveClipsCommand *moveClipsCommand = new Command::KMoveClipsCommand(getDocument(), masterClip);
+	getDocument()->moveSelectedClips(space, 0);
+	moveClipsCommand->setEndLocation(masterClip);
+	macroCommand->addCommand(moveClipsCommand);
+	macroCommand->addCommand(Command::KSelectClipCommand::selectNone(getDocument()));
+	addCommand(macroCommand, true);
+    }
+
     void KdenliveApp::slotSetInpoint() {
 	slotStatusMsg(i18n("Setting Inpoint"));
 	if (m_monitorManager.hasActiveMonitor()) {
@@ -3550,7 +3585,10 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	  }
           m_timelinePopupMenu = (QPopupMenu *) factory()->container("timeline_clip_context", this);
 	}
-	else m_timelinePopupMenu = (QPopupMenu *) factory()->container("timeline_context", this);
+	else {
+	    m_timeline->selectTrack(ix);
+	    m_timelinePopupMenu = (QPopupMenu *) factory()->container("timeline_context", this);
+	}
 
 	if (m_timelinePopupMenu) {
             // store the mouse click position

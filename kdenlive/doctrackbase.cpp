@@ -178,6 +178,42 @@ DocClipRef *DocTrackBase::getClipAt(const GenTime & value) const
     return 0;
 }
 
+GenTime DocTrackBase::spaceLength(const GenTime & value) const
+{
+    QPtrListIterator < DocClipRef > u_itt(m_unselectedClipList);
+    DocClipRef *file;
+    GenTime previousTime = GenTime(0.0);
+    GenTime nextTime = GenTime(0.0);
+    bool foundNext = false;
+
+    while ((file = u_itt.current())) {
+	if (file->trackEnd() <= value) {
+	    previousTime = file->trackEnd();
+	}
+	else if (file->trackStart() > value) {
+	    nextTime = file->trackStart();
+	    foundNext = true;
+	    break;
+	}
+	++u_itt;
+    }
+
+    QPtrListIterator < DocClipRef > s_itt(m_selectedClipList);
+    while ((file = s_itt.current())) {
+	if (file->trackEnd() > previousTime && file->trackEnd() <= value) {
+	    previousTime = file->trackEnd();
+	}
+	else if (!foundNext || (file->trackStart() > value && file->trackStart() < nextTime)) {
+	    nextTime = file->trackStart();
+	    break;
+	}
+	++s_itt;
+    }
+
+    if (previousTime >= nextTime) return GenTime(0.0);
+    else return (GenTime(0.0) - (nextTime - previousTime));
+}
+
 bool DocTrackBase::canAddClips(DocClipRefList clipList)
 {
     QPtrListIterator < DocClipRef > itt(clipList);

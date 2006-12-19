@@ -314,6 +314,8 @@ namespace Gui {
 	void slotSetInpoint();
 		/** Set the outpoint of the active monitor to the current seek position */
 	void slotSetOutpoint();
+		/** Remove empty space between 2 clips */
+	void slotRemoveSpace();
 		/** Delete the selected clips */
 	void slotDeleteSelected();
 		/** Sets the clip monitor source to be the given clip. */

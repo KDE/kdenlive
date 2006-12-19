@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kdenlive" version="17">
+<kpartgui name="kdenlive" version="18">
 <MenuBar>
   <Menu name="file">
         <Action name="export_current_frame"/>
@@ -16,6 +16,8 @@
 	<Action name="move_down"/>
 	<Action name="select_current"/>	
 	<Action name="clip_auto_select"/>	
+	<Separator lineSeperator="true"/>
+	<Action name="delete_space"/>
 	<Separator lineSeperator="true"/>
 	<Action name="next_track"/>
 	<Action name="prev_track"/>
@@ -264,6 +266,7 @@
 		<Action name="timeline_snap_marker"/>
 	</Menu>
 	<Separator lineSeparator="true"/>
+	<Action name="delete_space"/>
 	<Action name="razor_all_clips"/>
 	<Separator lineSeparator="true"/>
         <Action name="export_current_frame"/>

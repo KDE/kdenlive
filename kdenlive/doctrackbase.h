@@ -154,6 +154,7 @@ class DocTrackBase:public QObject {
     void mute(bool muted);
     bool isBlind();
     void blind(bool blinded);
+    GenTime spaceLength(const GenTime & value) const;
 
   public slots:
         /** Redraw the tracks view */
