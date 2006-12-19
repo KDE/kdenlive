@@ -113,6 +113,7 @@ bool TrackPanelSpacerFunction::mouseReleased(Gui::KTrackPanel * panel,
     if (m_moveClipsCommand) {
 	m_moveClipsCommand->setEndLocation(m_masterClip);
 	m_app->addCommand(m_moveClipsCommand, false);
+	m_app->addCommand(Command::KSelectClipCommand::selectNone(m_doc), true);
 	m_moveClipsCommand = 0;
     }
 
