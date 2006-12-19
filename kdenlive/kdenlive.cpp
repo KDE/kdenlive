@@ -94,6 +94,7 @@
 #include "kmmtracksoundpanel.h"
 #include "kmmtrackvideopanel.h"
 #include "kselectclipcommand.h"
+#include "kresizecommand.h"
 #include "kprogress.h"
 #include "krendermanager.h"
 #include "krulertimemodel.h"
@@ -1544,14 +1545,20 @@ namespace Gui {
     void KdenliveApp::slotResizeClipStart() {
 	DocClipRef *clip = getDocument()->projectClip().selectedClip();
 	if (!clip) return;
+	Command::KResizeCommand *resizeCommand = new Command::KResizeCommand(getDocument(), *clip);
 	clip->parentTrack()->resizeClipTrackStart(clip, getDocument()->renderer()->seekPosition());
+    	resizeCommand->setEndSize(*clip);
+    	addCommand(resizeCommand, true);
 	getDocument()->indirectlyModified();
     }
 
     void KdenliveApp::slotResizeClipEnd() {
 	DocClipRef *clip = getDocument()->projectClip().selectedClip();
 	if (!clip) return;
+	Command::KResizeCommand *resizeCommand = new Command::KResizeCommand(getDocument(), *clip);
 	clip->parentTrack()->resizeClipTrackEnd(clip, getDocument()->renderer()->seekPosition());
+    	resizeCommand->setEndSize(*clip);
+    	addCommand(resizeCommand, true);
 	getDocument()->indirectlyModified();
     }
 
