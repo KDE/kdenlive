@@ -106,6 +106,33 @@ namespace Command {
 	return command;
     }
 
+// static
+    KCommand *KSelectClipCommand::selectTrackLaterClips(KdenliveDoc * document, int ix, GenTime time, bool include) {
+	KMacroCommand *command = new KMacroCommand(i18n("Selection"));
+
+	bool select;
+
+	QPtrListIterator < DocTrackBase > trackItt(document->trackList());
+	while (trackItt.current()) {
+	    if (document->trackIndex(trackItt.current()) == ix) {
+	        DocTrackClipIterator clipItt(*(trackItt.current()));
+	    	while (clipItt.current() != 0) {
+		    if (include) {
+		    	select = clipItt.current()->trackEnd() > time;
+		    } else {
+		    	select = clipItt.current()->trackStart() > time;
+		    }
+		    Command::KSelectClipCommand * clipComm = new Command::KSelectClipCommand(document, clipItt.current(), select);
+		    command->addCommand(clipComm);
+		    ++clipItt;
+	    	}
+	    }
+	    ++trackItt;
+	}
+
+	return command;
+    }
+
     KCommand *KSelectClipCommand::selectClipAt(KdenliveDoc * document,
 	const DocTrackBase & track, const GenTime & value) {
 	Command::KSelectClipCommand * command = 0;

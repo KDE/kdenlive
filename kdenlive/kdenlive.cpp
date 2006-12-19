@@ -873,7 +873,7 @@ namespace Gui {
 	timelineRazorTool->
 	    setStatusText(i18n("Split Clip"));
 	timelineSpacerTool->
-	    setStatusText(i18n("Shift all clips to the right of mouse"));
+	    setStatusText(i18n("Shift all clips to the right of mouse. Ctrl + click to move only clips on current track."));
 	timelineMarkerTool->
 	    setStatusText(i18n
 	    ("Insert commented snap markers on clips (Ctrl + click to remove a marker)"));

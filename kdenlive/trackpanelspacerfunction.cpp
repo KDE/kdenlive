@@ -54,15 +54,26 @@ bool TrackPanelSpacerFunction::mousePressed(Gui::KTrackPanel * panel,
     GenTime roundedMouseTime = m_timeline->timeUnderMouse(event->x());
     m_clipUnderMouse = 0;
 
+    KMacroCommand *macroCommand = new KMacroCommand(i18n("Move Clips"));
+    macroCommand->addCommand(Command::KSelectClipCommand::selectNone(m_doc));
+
     if (event->state() & ShiftButton) {
-	m_app->
+	macroCommand->
 	    addCommand(Command::KSelectClipCommand::selectLaterClips(m_doc,
-		mouseTime, false), true);
-    } else {
-	m_app->
-	    addCommand(Command::KSelectClipCommand::selectLaterClips(m_doc,
-		mouseTime, true), true);
+		mouseTime, false));
+    } else if (event->state() & ControlButton) {
+	if (panel->hasDocumentTrackIndex()) {
+		macroCommand->    addCommand(Command::KSelectClipCommand::selectTrackLaterClips(m_doc, panel->documentTrackIndex(),
+		mouseTime, false));
+	}
+	else return false;
     }
+    else {
+	macroCommand->
+	    addCommand(Command::KSelectClipCommand::selectLaterClips(m_doc,
+		mouseTime, true));
+    }
+    m_app->addCommand(macroCommand, true);
 
     if (m_doc->hasSelectedClips() > 0) {
 	m_masterClip = m_doc->selectedClip();
