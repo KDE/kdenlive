@@ -47,6 +47,7 @@ namespace Mlt {
     public:
         virtual void run();
 	void init(KURL url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth);
+	bool isWorking();
 	bool stop_me;
 
     private:
@@ -57,6 +58,7 @@ namespace Mlt {
 	int m_frequency;
 	int m_channels;
 	int m_arrayWidth;
+	bool m_isWorking;
     };
 
 

@@ -49,6 +49,7 @@
     void MyThread::init(KURL url, QString target, double frame, double frameLength, int frequency, int channels, int arrayWidth)
     {
 	stop_me = false;
+	m_isWorking = false;
 	f.setName(target);
 	m_url = url;
 	m_frame = frame;
@@ -59,6 +60,11 @@
 
     }
 
+    bool MyThread::isWorking()
+    {
+	return m_isWorking;
+    }
+
     void MyThread::run()
     {
 		if (!f.open( IO_WriteOnly )) {
@@ -67,7 +73,7 @@
 			KdenliveSettings::setAudiothumbnails(false);
 			return;
 		}
-		
+		m_isWorking = true;
 
 		Mlt::Producer m_producer(KRender::decodedString(m_url.path()));
 
@@ -114,6 +120,7 @@
 					delete mlt_frame;
 		}
 		f.close();
+		m_isWorking = false;
 		if (stop_me) {
 		    f.remove();
 		    QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1, 10005));
@@ -185,8 +192,7 @@ void KThumb::removeAudioThumb()
 
 void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLength, int arrayWidth){
 	QMap <int, QMap <int, QByteArray> > storeIn;
-
-	if (thumbProducer.running() || channel == 0) return;
+	if (thumbProducer.isWorking() || channel == 0) return;
 	
        //FIXME: Hardcoded!!! 
 	int m_frequency = 48000;
@@ -196,7 +202,6 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
 		KMD5 context ((KFileItem(m_url,"text/plain", S_IFREG).timeString() + m_url.fileName()).ascii());
 		m_thumbFile = KdenliveSettings::currenttmpfolder() + context.hexDigest().data() + ".thumb";
 	}
-	kdDebug()<<"--- LOOKING FOR THUMB: "<<m_thumbFile<<endl;
 
 	QFile f(m_thumbFile);
 	if (f.open( IO_ReadOnly )) {
