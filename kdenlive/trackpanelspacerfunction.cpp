@@ -132,8 +132,9 @@ bool TrackPanelSpacerFunction::mouseMoved(Gui::KTrackPanel * panel,
 	GenTime startOffset =
 	    mouseTime - m_clipOffset - m_masterClip->trackStart();
 	m_doc->moveSelectedClips(startOffset, 0);
-	m_timeline->drawTrackViewBackBuffer();
+	//m_timeline->drawTrackViewBackBuffer();
+	return true;
     }
 
-    return true;
+    return false;
 }
