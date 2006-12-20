@@ -133,6 +133,7 @@ bool TrackPanelClipMoveFunction::mouseDoubleClicked(Gui::KTrackPanel * panel, QM
 bool TrackPanelClipMoveFunction::mouseReleased(Gui::KTrackPanel * panel,
     QMouseEvent * event)
 {
+    m_timeline->stopScrollTimer();
     return true;
 }
 
@@ -355,8 +356,6 @@ bool TrackPanelClipMoveFunction::dragDropped(Gui::KTrackPanel * panel,
 	    m_moveClipsCommand = 0;	// KdenliveApp is now managing this command, we do not need to delete it.
 	    m_document->activateSceneListGeneration(true);
 	}
-
-	m_timeline->stopScrollTimer();
     } else if (EffectDrag::canDecode(event)) {
 	DocClipRef *clipUnderMouse = 0;
 	Gui::KTrackPanel * panel =

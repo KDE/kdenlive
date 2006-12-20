@@ -781,7 +781,7 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
 
     void KTimeLine::finishMultiSelection(QPoint start, QPoint end) {
 	trackView()->drawSelection(QPoint(), QPoint());
-	//trackView()->invalidateBackBuffer();
+	trackView()->invalidateBackBuffer();
     }
 
 
