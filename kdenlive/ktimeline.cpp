@@ -774,4 +774,15 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
 	trackView()->invalidateBackBuffer();
     }
 
+    void KTimeLine::drawSelection(QPoint start, QPoint end) {
+	trackView()->drawSelection(start, end);
+	trackView()->invalidateBackBuffer();
+    }
+
+    void KTimeLine::finishMultiSelection(QPoint start, QPoint end) {
+	trackView()->drawSelection(QPoint(), QPoint());
+	//trackView()->invalidateBackBuffer();
+    }
+
+
 }				// namespace Gui

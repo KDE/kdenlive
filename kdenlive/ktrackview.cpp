@@ -25,6 +25,7 @@
 
 #include <kdebug.h>
 #include <kmessagebox.h>
+#include <kstandarddirs.h>
 
 #include "ktrackview.h"
 #include "ktimeline.h"
@@ -37,7 +38,7 @@ namespace Gui {
     KTrackView::KTrackView(KTimeLine & timeLine, QWidget * parent,
 	const char *name):QWidget(parent, name), m_timeline(timeLine),
 	m_trackBaseNum(-1), m_panelUnderMouse(0), m_function(0),
-	m_dragFunction(0), m_showMarkers(false) {
+	m_dragFunction(0), m_showMarkers(false), m_selectionStart(QPoint()), m_selectionEnd(QPoint()) {
 	// we draw everything ourselves, no need to draw background.
 	setBackgroundMode(Qt::NoBackground);
 	setMouseTracking(true);
@@ -47,6 +48,7 @@ namespace Gui {
 	m_selectedColor = palette().active().background().dark(115);
 	setAcceptDrops(true);
 	trackview_tips = new DynamicToolTip(this);
+	m_darkenPixmap = QPixmap (locate("appdata", "graphics/darken.png"));
     } 
 
     KTrackView::~KTrackView() {
@@ -202,6 +204,16 @@ namespace Gui {
 	    painter.drawLine(guidePosition, 0, guidePosition, height());
 	    painter.setPen(QColor(Qt::black));
 	}
+
+	if (m_selectionEnd != QPoint())
+	{
+	    painter.setPen(QColor(Qt::red));
+	    QRect rect(m_timeline.mapValueToLocal(m_selectionStart.x()), m_selectionStart.y(), m_timeline.mapValueToLocal(m_selectionEnd.x()) - m_timeline.mapValueToLocal(m_selectionStart.x()), m_selectionEnd.y() - m_selectionStart.y());
+	    rect = rect.normalize();
+	    painter.drawTiledPixmap(rect.left(), rect.top(), rect.width(), rect.height(), m_darkenPixmap);
+	    painter.drawRect(rect.x(), rect.y(), rect.width(), rect.height());
+	    painter.setPen(QColor(Qt::black));
+	}
         }
 
 	// draw the vertical time marker
@@ -216,7 +228,7 @@ namespace Gui {
         int ex = end + 4;
 	KTrackPanel *panel = m_timeline.trackList().first();
 	if (!panel) return;
-	//painter.setClipRect(sx, 0, ex - sx, height());
+	// painter.setClipRect(sx, 0, ex - sx, height());
 	int ix = 0;
 	while (m_startTrack > 0 && panel != 0) {
 	    panel = m_timeline.trackList().next();
@@ -262,6 +274,16 @@ namespace Gui {
 	    painter.setPen(QColor(Qt::black));
 	}
         }
+
+	if (m_selectionEnd != QPoint())
+	{
+	    painter.setPen(QColor(Qt::red));
+	    QRect rect(m_timeline.mapValueToLocal(m_selectionStart.x()), m_selectionStart.y(), m_timeline.mapValueToLocal(m_selectionEnd.x()) - m_timeline.mapValueToLocal(m_selectionStart.x()), m_selectionEnd.y() - m_selectionStart.y());
+	    rect = rect.normalize();
+	    painter.drawTiledPixmap(rect.left(), rect.top(), rect.width(), rect.height(), m_darkenPixmap);
+	    painter.drawRect(rect.x(), rect.y(), rect.width(), rect.height());
+	    painter.setPen(QColor(Qt::black));
+	}
 
 	// draw the vertical time marker
 	int value = m_timeline.mapValueToLocal(m_timeline.localSeekPosition());
@@ -329,6 +351,11 @@ void KTrackView::invalidatePartialBackBuffer(int pos1, int pos2, int startTrack,
        update(pos2 - 2, -1, pos1 - pos2 + 4, height() + 1);
    }
 }
+
+    void KTrackView::drawSelection(QPoint start, QPoint end) {
+	m_selectionStart = start;
+	m_selectionEnd = end;
+    }
 
     void KTrackView::registerFunction(const QString & name,
 	TrackPanelFunction * function) {

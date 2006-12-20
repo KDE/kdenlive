@@ -75,6 +75,8 @@ This function does nothing except call a "Select None" on the document. It is ge
      Gui::KTimeLine * m_timeline;
      KdenliveDoc *m_doc;
      double m_fps;
+     bool m_multiselect;
+     QPoint m_multiselectStart;
 };
 
 #endif

@@ -44,6 +44,8 @@ namespace Command {
 
 	static KCommand *selectTrackLaterClips(KdenliveDoc * document, int ix, GenTime time, bool include);
 
+    	static KCommand *selectRectangleClips(KdenliveDoc * document, int startTrack, int endTrack, GenTime startTime,  GenTime endTime, bool include);
+
 	/** Selects the clip on the given track at the given value. */
 	static KCommand *selectClipAt(KdenliveDoc * document,
 	    const DocTrackBase & track, const GenTime & value);

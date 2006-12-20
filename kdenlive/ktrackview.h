@@ -67,6 +67,7 @@ namespace Gui {
 	void clearFunctions();
 	void setDragFunction(const QString & name);
 	void tip(const QPoint &pos, QRect &rect, QString &tipText);
+	void drawSelection(QPoint start, QPoint end);
         
       protected:
           void wheelEvent( QWheelEvent * e );
@@ -87,6 +88,9 @@ namespace Gui {
 	int m_trackBaseNum;
 	bool m_showMarkers;
 	KTrackPanel *m_panelUnderMouse;
+	QPoint m_selectionStart;
+	QPoint m_selectionEnd;
+	QPixmap m_darkenPixmap;
 
 	/** The current function that is in operation*/
 	TrackPanelFunction *m_function;

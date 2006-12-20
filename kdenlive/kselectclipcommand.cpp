@@ -133,6 +133,29 @@ namespace Command {
 	return command;
     }
 
+// static
+    KCommand *KSelectClipCommand::selectRectangleClips(KdenliveDoc * document, int startTrack, int endTrack, GenTime startTime,  GenTime endTime, bool include) {
+	KMacroCommand *command = new KMacroCommand(i18n("Selection"));
+	bool select;
+
+	QPtrListIterator < DocTrackBase > trackItt(document->trackList());
+	while (trackItt.current()) {
+	    if (document->trackIndex(trackItt.current()) >= startTrack && document->trackIndex(trackItt.current()) <= endTrack) {
+	        DocTrackClipIterator clipItt(*(trackItt.current()));
+	    	while (clipItt.current() != 0) {
+		    select = false;
+		    if ((clipItt.current()->trackEnd() > startTime && clipItt.current()->trackStart() < startTime) || (clipItt.current()->trackEnd() > endTime && clipItt.current()->trackStart() < endTime) || (clipItt.current()->trackStart() > startTime && clipItt.current()->trackEnd() < endTime)) select = true;
+		    Command::KSelectClipCommand * clipComm = new Command::KSelectClipCommand(document, clipItt.current(), select);
+		    command->addCommand(clipComm);
+		    ++clipItt;
+	    	}
+	    }
+	    ++trackItt;
+	}
+
+	return command;
+    }
+
     KCommand *KSelectClipCommand::selectClipAt(KdenliveDoc * document,
 	const DocTrackBase & track, const GenTime & value) {
 	Command::KSelectClipCommand * command = 0;

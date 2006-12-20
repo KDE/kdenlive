@@ -87,6 +87,8 @@ namespace Command {
 	void selectNextTrack();
 	void selectPreviousTrack();
         void selectTrack(int ix);
+	void drawSelection(QPoint start, QPoint end);
+        void finishMultiSelection(QPoint start, QPoint end);
 
 	//Returns the inpoint/outpoing position of the timeline
 	GenTime inpointPosition() const;
