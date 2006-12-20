@@ -387,6 +387,7 @@ bool TrackPanelClipMoveFunction::dragDropped(Gui::KTrackPanel * panel,
 	    delete effect;
 	}
     }
+    m_timeline->stopScrollTimer();
     m_timeline->drawTrackViewBackBuffer();
     return true;
 }
@@ -394,11 +395,12 @@ bool TrackPanelClipMoveFunction::dragDropped(Gui::KTrackPanel * panel,
 bool TrackPanelClipMoveFunction::moveSelectedClips(int newTrack,
     GenTime start)
 {
+    if (!m_masterClip) return false;
     int trackOffset =
 	m_document->trackIndex(m_document->findTrack(m_masterClip));
     GenTime startOffset;
 
-    if ((!m_masterClip) || (trackOffset == -1)) {
+    if (trackOffset == -1) {
 	kdError() <<
 	    "Trying to move selected clips, master clip is not set." <<
 	    endl;

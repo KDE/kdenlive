@@ -81,6 +81,7 @@ bool TrackPanelSelectNoneFunction::mouseReleased(Gui::KTrackPanel * panel,
     else m_app->addCommand(Command::KSelectClipCommand::selectNone(m_doc),
 	true);
     m_multiselect = false;
+    m_timeline->stopScrollTimer();
     return true;
 }
 

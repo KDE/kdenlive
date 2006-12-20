@@ -609,7 +609,7 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
 	    m_scrollingRight = false;
       } else if (m_trackViewArea->width() - pos.x() < (int) scrollThreshold()) {
 	    if (!m_scrollTimer.isActive()) {
-		m_scrollTimer.start(g_scrollTimerDelay, false);
+		m_scrollTimer.start(scrollTimerDelay(), false);
 	    }
 	    m_scrollingRight = true;
 	} else {
