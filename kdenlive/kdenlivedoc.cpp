@@ -446,7 +446,13 @@ void KdenliveDoc::deleteGroupNode(const QString & name)
 }
 
 
-DocumentBaseNode * KdenliveDoc::findClipNodeById(const int & id)
+DocClipRef * KdenliveDoc::findClipById(const int & id) const
+{
+    return m_clipHierarch->findClipNodeById(id)->asClipNode()->clipRef();
+
+}
+
+DocumentBaseNode * KdenliveDoc::findClipNodeById(const int & id) const
 {
     return m_clipHierarch->findClipNodeById(id);
 

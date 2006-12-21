@@ -207,8 +207,8 @@ class DocClipBase:public QObject {
 	void updateAudioThumbnail(QMap<int,QMap<int,QByteArray> > data);
 	QValueVector < CommentedTime > commentedSnapMarkers() const;
 	void setSnapMarkers(QValueVector < CommentedTime > markers);
-	GenTime findNextSnapMarker(const GenTime & time);
-	GenTime findPreviousSnapMarker(const GenTime & time);
+	GenTime findNextSnapMarker(const GenTime & currTime);
+	GenTime findPreviousSnapMarker(const GenTime & currTime);
 	GenTime hasSnapMarkers(const GenTime & time);
 	bool deleteSnapMarker(const GenTime & time);
 	void editSnapMarker(const GenTime & time, QString comment);

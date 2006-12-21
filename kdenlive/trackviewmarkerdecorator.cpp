@@ -32,7 +32,8 @@ namespace Gui {
     TrackViewMarkerDecorator::TrackViewMarkerDecorator(KTimeLine *
 	timeline, KdenliveDoc * doc, QWidget *parent):DocTrackDecorator(timeline, doc), m_parent(parent) 
     {
-	m_markerPixmap = KGlobal::iconLoader()->loadIcon("kdenlive_marker", KIcon::Small, 15);
+	m_markerUpPixmap = KGlobal::iconLoader()->loadIcon("kdenlive_markup", KIcon::Small, 9);
+	m_markerDownPixmap = KGlobal::iconLoader()->loadIcon("kdenlive_markdown", KIcon::Small, 9);
     } 
 
     TrackViewMarkerDecorator::~TrackViewMarkerDecorator() {
@@ -70,21 +71,23 @@ namespace Gui {
 		QPen currentPen = painter.pen();
 		QBrush currentBrush = painter.brush();
 
-		painter.setPen(QColor(255, 0, 0));
-		painter.setBrush(QColor(255, 0, 0));
-		painter.drawLine(x, rect.y(), x, rect.y() + rect.height());
+		painter.setPen(Qt::black);
+		//painter.drawLine(x, rect.y() + 6, x, rect.y() + rect.height() - 6);
 
-		painter.drawPixmap(x - 7, rect.y() + rect.height() / 2  - 7, m_markerPixmap);
+		painter.drawPixmap(x - 4, rect.y() + 1, m_markerUpPixmap);
+		painter.drawPixmap(x - 4, rect.y() + rect.height() - 6, m_markerDownPixmap);
 
 		if (showMarkers) {
+		    // Display all markers on timeline
 		    QString txt = (*itt).comment();
 		
 		    QRect textBound = painter.boundingRect(0, 0, rect.width(), rect.height(), Qt::AlignLeft, txt);
 
 		    painter.setBrush(Qt::yellow);
+		    //painter.setPen(QPen(Qt::black, 0, Qt::DotLine));
+		    painter.drawRect(x, rect.y() + 7, textBound.width() + 5, textBound.height());
 		    painter.setPen(Qt::black);
-		    painter.drawRect(x, rect.y(), textBound.width() + 5, textBound.height());
-	            painter.drawText(x, rect.y(), textBound.width() + 5, textBound.height(), Qt::AlignCenter, txt);
+	            painter.drawText(x, rect.y() + 7, textBound.width() + 5, textBound.height(), Qt::AlignCenter, txt);
 		}
 
 		painter.setPen(currentPen);

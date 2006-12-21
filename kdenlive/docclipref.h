@@ -244,12 +244,6 @@ class DocClipRef:public QObject {
 	/** Returns true if this clip has a snap marker at the specified clip time */
     GenTime hasSnapMarker(const GenTime & time);
 
-	/** Finds and returns the time of the snap marker directly before time. If there isn't one, returns 0. */
-    GenTime findPreviousSnapMarker(const GenTime & time);
-
-	/** Finds and returns the time of the snap marker directly after time. If there isn't one, returns the duration of the clip. */
-    GenTime findNextSnapMarker(const GenTime & time);
-
 	/** Adds an effect to the effect stack at the specified marker position. */
     void addEffect(uint index, Effect * effect);
 

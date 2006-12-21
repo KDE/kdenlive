@@ -3493,6 +3493,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		if (ok) {
 		    Command::KAddMarkerCommand * command = new Command::KAddMarkerCommand(*getDocument(), clipUnderMouse, cursorTime - clipUnderMouse->trackStart() + clipUnderMouse->cropStartTime(), comment, true);
 		    addCommand(command);
+		    m_timeline->drawTrackViewBackBuffer();
 		}
     }
 
@@ -3503,6 +3504,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		if (cursorTime < clipUnderMouse->trackStart() || cursorTime > clipUnderMouse->trackEnd()) return;
 	    	Command::KAddMarkerCommand * command = new Command::KAddMarkerCommand(*getDocument(), clipUnderMouse, cursorTime - clipUnderMouse->trackStart() + clipUnderMouse->cropStartTime(), QString::null, false);
 		addCommand(command);
+		m_timeline->drawTrackViewBackBuffer();
     }
 
     void KdenliveApp::toggleMarkerUnderCursor()

@@ -34,8 +34,10 @@ namespace Command {
 	m_document(document),
 	m_create(create),
 	m_clipTime(clipTime), m_comment(comment), 
-	m_trackTime(clip->trackMiddleTime()), m_track(clip->trackNum()) {
-    } KAddMarkerCommand::~KAddMarkerCommand() {
+	m_id(clip->referencedClip()->getId()) {
+    } 
+
+    KAddMarkerCommand::~KAddMarkerCommand() {
     }
 
 /** Returns the name of this command */
@@ -66,41 +68,20 @@ namespace Command {
     }
 
     void KAddMarkerCommand::addMarker() {
-	DocTrackBase *track = m_document.projectClip().track(m_track);
-
-	if (track) {
-	    DocClipRef *clip = track->getClipAt(m_trackTime);
-	    if (clip) {
-		clip->addSnapMarker(m_clipTime, m_comment, true);
-	    } else {
-		kdError() <<
-		    "Trying to add marker; no clip exists at this point on the track!"
-		    << endl;
-	    }
-
+	DocClipRef *clip = m_document.findClipById(m_id);
+	if (clip) {
+	    clip->addSnapMarker(m_clipTime, m_comment, true);
 	} else {
-	    kdError() <<
-		"KAddMarkerCommand : trying to add marker, specified track "
-		<< m_track << " does not exist in the project!" << endl;
+	    kdError() <<"Trying to add marker; no clip exists at this point on the track!"<< endl;
 	}
     }
 
     void KAddMarkerCommand::deleteMarker() {
-	DocTrackBase *track = m_document.projectClip().track(m_track);
-	if (track) {
-	    DocClipRef *clip = track->getClipAt(m_trackTime);
-	    if (clip) {
-		clip->deleteSnapMarker(m_clipTime);
-	    } else {
-		kdError() <<
-		    "Trying to delete marker; no clip exists at this point on the track!"
-		    << endl;
-	    }
-
+	DocClipRef *clip = m_document.findClipById(m_id);
+	if (clip) {
+	    clip->deleteSnapMarker(m_clipTime);
 	} else {
-	    kdError() <<
-		"KAddMarkerCommand : trying to delete marker, specified track "
-		<< m_track << " does not exist in the project!" << endl;
+	    kdError() <<"Trying to delete marker; no clip exists at this point on the track!"<< endl;
 	}
     }
 

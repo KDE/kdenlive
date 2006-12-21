@@ -255,7 +255,7 @@ void DocClipBase::addSnapMarker(const GenTime & time, QString comment)
 
 void DocClipBase::editSnapMarker(const GenTime & time, QString comment)
 {
-    QValueVector < CommentedTime >::Iterator it = m_snapMarkers.begin();
+    QValueVector < CommentedTime >::Iterator it;
     for ( it = m_snapMarkers.begin(); it != m_snapMarkers.end(); ++it ) {
 	if ((*it).time() == time)
 	    break;
@@ -298,46 +298,28 @@ GenTime DocClipBase::hasSnapMarkers(const GenTime & time)
     return GenTime(0.0);
 }
 
-GenTime DocClipBase::findPreviousSnapMarker(const GenTime & time)
+GenTime DocClipBase::findPreviousSnapMarker(const GenTime & currTime)
 {
-    QValueVector < CommentedTime >::Iterator itt = m_snapMarkers.begin();
-
-    while (itt != m_snapMarkers.end()) {
-	if ((*itt).time() >= time)
+    int it;
+    for ( it = 0; it < m_snapMarkers.count(); it++ ) {
+	if (m_snapMarkers[it].time() >= currTime)
 	    break;
-	++itt;
     }
-
-    if (itt != m_snapMarkers.begin()) {
-	--itt;
-	return (*itt).time();
-    } else {
-	return GenTime(0);
-    }
+    if (it == 0) return GenTime();
+    else if (it == m_snapMarkers.count() - 1 && m_snapMarkers[it].time() < currTime)
+	return m_snapMarkers[it].time();
+    else return m_snapMarkers[it-1].time();
 }
 
-GenTime DocClipBase::findNextSnapMarker(const GenTime & time)
+GenTime DocClipBase::findNextSnapMarker(const GenTime & currTime)
 {
-    QValueVector < CommentedTime >::Iterator itt = m_snapMarkers.begin();
-
-    while (itt != m_snapMarkers.end()) {
-	if (time <= (*itt).time())
+    int it;
+    for ( it = 0; it < m_snapMarkers.count(); it++ ) {
+	if (m_snapMarkers[it].time() > currTime)
 	    break;
-	++itt;
     }
-
-    if (itt != m_snapMarkers.end()) {
-	if ((*itt).time() == time) {
-	    ++itt;
-	}
-	if (itt != m_snapMarkers.end()) {
-	    return (*itt).time();
-	} else {
-	    return GenTime(duration());
-	}
-    } else {
-	return GenTime(duration());
-    }
+    if (it < m_snapMarkers.count() && m_snapMarkers[it].time() > currTime) return m_snapMarkers[it].time();
+    return duration();
 }
 
 QString DocClipBase::markerComment(GenTime t)

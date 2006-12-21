@@ -40,7 +40,8 @@ A TrackViewDecorator that displays snap markers on a clip.
 	    bool selected);
 
     private:
-	QPixmap m_markerPixmap;
+	QPixmap m_markerUpPixmap;
+	QPixmap m_markerDownPixmap;
 	QWidget *m_parent;
     };
 

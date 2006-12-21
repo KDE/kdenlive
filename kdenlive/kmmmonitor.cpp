@@ -18,6 +18,7 @@
 #include "kmmmonitor.h"
 
 #include <kdebug.h>
+#include <kinputdialog.h>
 
 #include <qcolor.h>
 #include <qcursor.h>
@@ -376,15 +377,13 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 
     void KMMMonitor::slotPreviousSnapMarker() {
 	if (m_referredClip) {
-	    m_editPanel->seek(m_referredClip->
-		findPreviousSnapMarker(seekPosition()));
+	    m_editPanel->seek(m_referredClip->referencedClip()->findPreviousSnapMarker(seekPosition()));
 	} else m_app->slotPreviousSnap();
     }
 
     void KMMMonitor::slotNextSnapMarker() {
 	if (m_referredClip) {
-	    m_editPanel->seek(m_referredClip->
-		findNextSnapMarker(seekPosition()));
+	    m_editPanel->seek(m_referredClip->referencedClip()->findNextSnapMarker(seekPosition()));
 	} else m_app->slotNextSnap();
     }
 
@@ -411,14 +410,17 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 		    new Command::KAddMarkerCommand(*m_document,
 		    m_referredClip, seekPosition(), QString::null, false);
 	    } else {
-		command =
-		    new Command::KAddMarkerCommand(*m_document,
-		    m_referredClip, seekPosition(), i18n("Marker"), true);
+		bool ok;
+		QString comment = KInputDialog::getText(i18n("Add Marker"), i18n("Marker comment: "), i18n("Marker"), &ok);
+		if (ok) {
+		    command = new Command::KAddMarkerCommand(*m_document, m_referredClip, seekPosition(), comment, true);
+		}
+		else return;
 	    }
 
 	    m_app->addCommand(command, true);
 	} else m_app->toggleMarkerUnderCursor();
-
+	
 	updateEditPanel(seekPosition());
     }
 

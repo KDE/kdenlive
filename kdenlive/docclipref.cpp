@@ -1595,7 +1595,7 @@ QValueVector < GenTime > DocClipRef::snapMarkersOnTrack() const
 void DocClipRef::addSnapMarker(const GenTime & time, QString comment, bool notify)
 {
     m_clip->addSnapMarker(time, comment);
-    if (notify) m_parentTrack->notifyClipChanged(this);
+    //if (notify) m_parentTrack->notifyClipChanged(this);
 }
 
 void DocClipRef::editSnapMarker(const GenTime & time, QString comment)
@@ -1617,8 +1617,8 @@ QValueVector < GenTime > DocClipRef::transitionSnaps()
 
 void DocClipRef::deleteSnapMarker(const GenTime & time)
 {
-    if (m_clip->deleteSnapMarker(time)) m_parentTrack->notifyClipChanged(this);
-    else kdError() << "Could not delete marker at time " << time.seconds() << " - it doesn't exist!" << endl;
+    if (!m_clip->deleteSnapMarker(time)) //m_parentTrack->notifyClipChanged(this);
+    kdError() << "Could not delete marker at time " << time.seconds() << " - it doesn't exist!" << endl;
 }
 
 GenTime DocClipRef::hasSnapMarker(const GenTime & time)
@@ -1629,16 +1629,6 @@ GenTime DocClipRef::hasSnapMarker(const GenTime & time)
 void DocClipRef::setCropDuration(const GenTime & time)
 {
     setTrackEnd(trackStart() + time);
-}
-
-GenTime DocClipRef::findPreviousSnapMarker(const GenTime & time)
-{
-    return m_clip->findPreviousSnapMarker(time);
-}
-
-GenTime DocClipRef::findNextSnapMarker(const GenTime & time)
-{
-    return m_clip->findNextSnapMarker(time);
 }
 
 GenTime DocClipRef::trackMiddleTime() const

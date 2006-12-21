@@ -51,11 +51,8 @@ namespace Command {
 	/** The time (in clip time) that the marker should be placed at. */
 	GenTime m_clipTime;
 
-	/** A time on the track where the clip in question exists. */
-	GenTime m_trackTime;
-
-	/** The track on which the marker is to be placed. */
-	int m_track;
+	/** The id of the clip on which the marker is to be placed. */
+	int m_id;
 
 	/** Adds the marker that this command is supposed to add. */
 	void addMarker();
