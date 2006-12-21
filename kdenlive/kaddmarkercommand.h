@@ -22,7 +22,6 @@
 #include "gentime.h"
 
 class KdenliveDoc;
-class DocClipRef;
 
 
 namespace Command {
@@ -32,7 +31,7 @@ namespace Command {
 */
     class KAddMarkerCommand:public KCommand {
       public:
-	KAddMarkerCommand(KdenliveDoc & document, DocClipRef * clip,
+	KAddMarkerCommand(KdenliveDoc & document, int clipId,
 	    const GenTime & clipTime, QString comment, bool create = true);
 
 	~KAddMarkerCommand();

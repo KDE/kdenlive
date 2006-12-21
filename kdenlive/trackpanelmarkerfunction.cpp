@@ -89,7 +89,7 @@ bool TrackPanelMarkerFunction::mouseReleased(Gui::KTrackPanel * panel,
 		    if (fabs(x - event->x()) < 10) {
 			if (event->state() & Qt::ControlButton) {
 			    // Pressing CTRL removes current marker
-			    Command::KAddMarkerCommand * command = new Command::KAddMarkerCommand(*m_document, clipUnderMouse, (*itt).time(), (*itt).comment(), false);
+			    Command::KAddMarkerCommand * command = new Command::KAddMarkerCommand(*m_document, clipUnderMouse->referencedClip()->getId(), (*itt).time(), (*itt).comment(), false);
 		    	    m_app->addCommand(command);
 			    return true;
 			}
@@ -107,7 +107,7 @@ bool TrackPanelMarkerFunction::mouseReleased(Gui::KTrackPanel * panel,
 		bool ok;
 		QString comment = KInputDialog::getText(i18n("Add Marker"), i18n("Marker comment: "), i18n("Marker"), &ok);
 		if (ok) {
-		    Command::KAddMarkerCommand * command = new Command::KAddMarkerCommand(*m_document, clipUnderMouse, mouseTime - clipUnderMouse->trackStart() + clipUnderMouse->cropStartTime(), comment, true);
+		    Command::KAddMarkerCommand * command = new Command::KAddMarkerCommand(*m_document, clipUnderMouse->referencedClip()->getId(), mouseTime - clipUnderMouse->trackStart() + clipUnderMouse->cropStartTime(), comment, true);
 		    m_app->addCommand(command);
 		}
 	    }

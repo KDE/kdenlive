@@ -404,16 +404,16 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
     void KMMMonitor::slotToggleSnapMarker() {
 	if (m_referredClip) {
 	    Command::KAddMarkerCommand * command;
-
-	    if (m_referredClip->hasSnapMarker(seekPosition()) != GenTime(0.0)) {
+	    GenTime currentTime = seekPosition();
+	    if (m_referredClip->hasSnapMarker(currentTime) != GenTime(0.0)) {
 		command =
 		    new Command::KAddMarkerCommand(*m_document,
-		    m_referredClip, seekPosition(), QString::null, false);
+		    m_referredClip->referencedClip()->getId(), currentTime, QString::null, false);
 	    } else {
 		bool ok;
 		QString comment = KInputDialog::getText(i18n("Add Marker"), i18n("Marker comment: "), i18n("Marker"), &ok);
 		if (ok) {
-		    command = new Command::KAddMarkerCommand(*m_document, m_referredClip, seekPosition(), comment, true);
+		    command = new Command::KAddMarkerCommand(*m_document, m_referredClip->referencedClip()->getId(), currentTime, comment, true);
 		}
 		else return;
 	    }

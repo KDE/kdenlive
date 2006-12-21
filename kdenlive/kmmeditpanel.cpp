@@ -134,9 +134,6 @@ namespace Gui {
 	 connect(previousMarkerButton, SIGNAL(clicked()), this,
 	    SIGNAL(previousSnapMarkerClicked()));
 
-	void nextMarkerClicked();
-	void previousMarkerClicked();
-
 	 connect(stopButton, SIGNAL(pressed()), this, SLOT(stop()));
 	 connect(stopButton, SIGNAL(pressed()), this,
 	    SLOT(updateButtons()));

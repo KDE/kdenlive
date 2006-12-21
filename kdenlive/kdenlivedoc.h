@@ -130,6 +130,7 @@ class KdenliveDoc:public QObject {
     void renderDocument(const KURL & url);
 	/** Returns renderer associated with this document. */
     KRender *renderer() const;
+    void redrawTimeLine();
 
 	/** returns the duration of the project. */
     const GenTime & projectDuration() const;
@@ -153,7 +154,7 @@ class KdenliveDoc:public QObject {
     void deleteGroupNode(const QString & name);
     void deleteClipNodeById(const int & id);
     DocumentBaseNode *findClipNodeById(const int & id) const;
-    DocClipRef * findClipById(const int & id) const;
+    DocClipBase * findClipById(const int & id);
 
 	/** Add the given base node to the named parent */
     void addClipNode(const QString & parent, DocumentBaseNode * newNode);

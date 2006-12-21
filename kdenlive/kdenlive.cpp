@@ -3491,9 +3491,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		if (cursorTime < clipUnderMouse->trackStart() || cursorTime > clipUnderMouse->trackEnd()) return;
 		QString comment = KInputDialog::getText(i18n("Add Marker"), i18n("Marker comment: "), i18n("Marker"), &ok);
 		if (ok) {
-		    Command::KAddMarkerCommand * command = new Command::KAddMarkerCommand(*getDocument(), clipUnderMouse, cursorTime - clipUnderMouse->trackStart() + clipUnderMouse->cropStartTime(), comment, true);
+		    Command::KAddMarkerCommand * command = new Command::KAddMarkerCommand(*getDocument(), clipUnderMouse->referencedClip()->getId(), cursorTime - clipUnderMouse->trackStart() + clipUnderMouse->cropStartTime(), comment, true);
 		    addCommand(command);
-		    m_timeline->drawTrackViewBackBuffer();
 		}
     }
 
@@ -3502,9 +3501,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		DocClipRef *clipUnderMouse = getDocument()->projectClip().selectedClip();
 		GenTime cursorTime = getDocument()->renderer()->seekPosition();
 		if (cursorTime < clipUnderMouse->trackStart() || cursorTime > clipUnderMouse->trackEnd()) return;
-	    	Command::KAddMarkerCommand * command = new Command::KAddMarkerCommand(*getDocument(), clipUnderMouse, cursorTime - clipUnderMouse->trackStart() + clipUnderMouse->cropStartTime(), QString::null, false);
+	    	Command::KAddMarkerCommand * command = new Command::KAddMarkerCommand(*getDocument(), clipUnderMouse->referencedClip()->getId(), cursorTime - clipUnderMouse->trackStart() + clipUnderMouse->cropStartTime(), QString::null, false);
 		addCommand(command);
-		m_timeline->drawTrackViewBackBuffer();
     }
 
     void KdenliveApp::toggleMarkerUnderCursor()
@@ -3531,7 +3529,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		while (markerItt != markers.end()) {
 		    Command::KAddMarkerCommand * command =
 			new Command::KAddMarkerCommand(*getDocument(),
-			itt.current(), (*markerItt).time(), (*markerItt).comment(), false);
+			itt.current()->referencedClip()->getId(), (*markerItt).time(), (*markerItt).comment(), false);
 		    macroCommand->addCommand(command);
 		    ++markerItt;
 		}

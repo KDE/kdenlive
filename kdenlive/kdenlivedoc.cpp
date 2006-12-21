@@ -344,6 +344,11 @@ KRender *KdenliveDoc::renderer() const
     return m_render;
 }
 
+void KdenliveDoc::redrawTimeLine()
+{
+    emit timelineClipUpdated();
+}
+
 void KdenliveDoc::connectProjectClip()
 {
     connect(m_projectClip, SIGNAL(trackListChanged()), this,
@@ -446,10 +451,9 @@ void KdenliveDoc::deleteGroupNode(const QString & name)
 }
 
 
-DocClipRef * KdenliveDoc::findClipById(const int & id) const
+DocClipBase * KdenliveDoc::findClipById(const int & id)
 {
-    return m_clipHierarch->findClipNodeById(id)->asClipNode()->clipRef();
-
+    return clipManager().findClipById(id);
 }
 
 DocumentBaseNode * KdenliveDoc::findClipNodeById(const int & id) const

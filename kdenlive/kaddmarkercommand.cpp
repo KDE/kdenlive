@@ -28,13 +28,13 @@
 namespace Command {
 
     KAddMarkerCommand::KAddMarkerCommand(KdenliveDoc & document,
-	DocClipRef * clip,
+	int clipId,
 	const GenTime & clipTime, QString comment,
 	bool create):KCommand(),
 	m_document(document),
 	m_create(create),
 	m_clipTime(clipTime), m_comment(comment), 
-	m_id(clip->referencedClip()->getId()) {
+	m_id(clipId) {
     } 
 
     KAddMarkerCommand::~KAddMarkerCommand() {
@@ -68,18 +68,20 @@ namespace Command {
     }
 
     void KAddMarkerCommand::addMarker() {
-	DocClipRef *clip = m_document.findClipById(m_id);
+	DocClipBase *clip = m_document.findClipById(m_id);
 	if (clip) {
-	    clip->addSnapMarker(m_clipTime, m_comment, true);
+	    clip->addSnapMarker(m_clipTime, m_comment);
+	    m_document.redrawTimeLine();
 	} else {
 	    kdError() <<"Trying to add marker; no clip exists at this point on the track!"<< endl;
 	}
     }
 
     void KAddMarkerCommand::deleteMarker() {
-	DocClipRef *clip = m_document.findClipById(m_id);
+	DocClipBase *clip = m_document.findClipById(m_id);
 	if (clip) {
 	    clip->deleteSnapMarker(m_clipTime);
+	    m_document.redrawTimeLine();
 	} else {
 	    kdError() <<"Trying to delete marker; no clip exists at this point on the track!"<< endl;
 	}
