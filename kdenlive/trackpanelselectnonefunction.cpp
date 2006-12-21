@@ -70,6 +70,7 @@ bool TrackPanelSelectNoneFunction::mouseReleased(Gui::KTrackPanel * panel,
 {
     if (m_multiselect) {
 	QPoint end = QPoint(m_timeline->mapLocalToValue(event->x()), event->y());
+	if (end.y() < 1) end.setY(1);
 	m_timeline->finishMultiSelection(m_multiselectStart, end);
 	QRect rect(m_multiselectStart.x(), m_multiselectStart.y(), end.x() - m_multiselectStart.x(), end.y() - m_multiselectStart.y());
 	rect = rect.normalize();
