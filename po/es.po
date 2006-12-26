@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-12-25 22:49+0100\n"
-"PO-Revision-Date: 2006-12-15 21:11+0100\n"
+"PO-Revision-Date: 2006-12-26 17:44+0100\n"
 "Last-Translator: Carlos Dávila\n"
 "Language-Team: español <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -459,8 +459,7 @@ msgstr "Detección de escena automática"
 
 #: kdenlive/configcapture_ui.cpp:60
 msgid "Put recording time info in captured file name"
-msgstr ""
-"Poner información del momento de grabación en el nombre del archivo capturado"
+msgstr "Poner información del momento de grabación en el nombre del archivo capturado"
 
 #: kdenlive/configinterface_ui.cpp:102
 msgid "minutes"
@@ -472,8 +471,7 @@ msgstr "Autoguardar proyecto cada"
 
 #: kdenlive/configinterface_ui.cpp:104
 msgid "Mouse wheel moves horizontally (Alt for vertical scroll)"
-msgstr ""
-"La rueda del ratón mueve horizontalmente (Alt para desplazamiento vertical)"
+msgstr "La rueda del ratón mueve horizontalmente (Alt para desplazamiento vertical)"
 
 #: kdenlive/configinterface_ui.cpp:105
 msgid "Show splash screen"
@@ -606,11 +604,11 @@ msgstr "Pistas de audio"
 
 #: kdenlive/configtimeline_ui.cpp:143
 msgid "Disable thumbnails for large clips on low zoom level"
-msgstr ""
+msgstr "Deshabilitar miniaturas para clips largos a bajo nivel de zoom"
 
 #: kdenlive/configtimeline_ui.cpp:146
 msgid "Normalise volume for thumbnail creation"
-msgstr ""
+msgstr "Normalizar volumen para la creación de miniaturas"
 
 #: kdenlive/configtitler_ui.cpp:65
 msgid "Default Color"
@@ -1238,9 +1236,8 @@ msgid "Mute"
 msgstr "Silenciar"
 
 #: kdenlive/initeffects.cpp:243
-#, fuzzy
 msgid "Normalise"
-msgstr "Normal"
+msgstr "Normalizar"
 
 #: kdenlive/initeffects.cpp:256
 msgid "Obscure"
@@ -1501,14 +1498,12 @@ msgid "NTSC 16:9 (720x480, 30fps)"
 msgstr "NTSC 16:9 (720x480, 30fps)"
 
 #: kdenlive/kdenlive.cpp:144
-#, fuzzy
 msgid "HDV-1080 (1440x1080, 25fps)"
-msgstr "HDV 1440x1080 25fps"
+msgstr "HDV-1080 (1440x1080, 25fps)"
 
 #: kdenlive/kdenlive.cpp:145
-#, fuzzy
 msgid "HDV-720 (1280x720, 25fps)"
-msgstr "HDV 1280x720 25fps"
+msgstr "HDV-720 (1280x720, 25fps)"
 
 #: kdenlive/kdenlive.cpp:181 kdenlive/transition.cpp:242
 #: kdenlive/transition.cpp:251 kdenlive/transitiondialog.cpp:72
@@ -1578,9 +1573,8 @@ msgid "Snap To Marker"
 msgstr "Fijar al marcador"
 
 #: kdenlive/kdenlive.cpp:449
-#, fuzzy
 msgid "Show all markers"
-msgstr "Limpiar todos los marcadores de fijación"
+msgstr "Mostrar todos los marcadores"
 
 #: kdenlive/kdenlive.cpp:453
 msgid "Go To Beginning"
@@ -1693,17 +1687,15 @@ msgstr "Separar el audio del clip seleccionado"
 
 #: kdenlive/kdenlive.cpp:551 kdenlive/kdenlive.cpp:555
 msgid "Extract Clip Audio"
-msgstr ""
+msgstr "Extraer audio del clip"
 
 #: kdenlive/kdenlive.cpp:553
-#, fuzzy
 msgid "Extract Audio From Selected Clip"
-msgstr "Separar el audio del clip seleccionado"
+msgstr "Extraer audio del clip seleccionado"
 
 #: kdenlive/kdenlive.cpp:557
-#, fuzzy
 msgid "Extract Audio From Clip"
-msgstr "Separar el audio del clip seleccionado"
+msgstr "Extraer audio del clip"
 
 #: kdenlive/kdenlive.cpp:560
 msgid "Forward one frame"
@@ -1747,12 +1739,11 @@ msgstr "Mover el cursor al punto de fijación anterior"
 
 #: kdenlive/kdenlive.cpp:588
 msgid "Remove empty space"
-msgstr ""
+msgstr "Eliminar espacio vacío"
 
 #: kdenlive/kdenlive.cpp:591
-#, fuzzy
 msgid "Remove space between two clips"
-msgstr "Mover el punto de edición entre dos clips seleccionados"
+msgstr "Eliminar espacio entre dos clips"
 
 #: kdenlive/kdenlive.cpp:594 kdenlive/kmmeditpanel_ui.cpp:433
 msgid "Set Inpoint"
@@ -1872,8 +1863,7 @@ msgstr "Guardar la zona seleccionada"
 
 #: kdenlive/kdenlive.cpp:699
 msgid "Save selected zone as playlist for future use"
-msgstr ""
-"Guardar la zona seleccionada como una lista de reproducción para uso futuro"
+msgstr "Guardar la zona seleccionada como una lista de reproducción para uso futuro"
 
 #: kdenlive/kdenlive.cpp:701 kdenlive/kdenlive.cpp:2190
 msgid "Save Subclip"
@@ -1930,9 +1920,8 @@ msgid "Edit Marker"
 msgstr "Editar marcador"
 
 #: kdenlive/kdenlive.cpp:735
-#, fuzzy
 msgid "Edit marker at cursor position"
-msgstr "Añadir marcador en la posición del cursor"
+msgstr "Editarr marcador en la posición del cursor"
 
 #: kdenlive/kdenlive.cpp:737
 msgid "Delete Marker"
@@ -2127,11 +2116,10 @@ msgstr "Dividir clip"
 msgid ""
 "Shift all clips to the right of mouse. Ctrl + click to move only clips on "
 "current track."
-msgstr ""
+msgstr "Mover todos los clips a la derecha del ratón. Ctrl+clic para mover sólo los clips de la pista actual."
 
 #: kdenlive/kdenlive.cpp:885
-msgid ""
-"Insert commented snap markers on clips (Ctrl + click to remove a marker)"
+msgid "Insert commented snap markers on clips (Ctrl + click to remove a marker)"
 msgstr ""
 "Insertar marcadores de fijación comentados en los clips (Ctrl + clic para "
 "eliminar un marcador)"
@@ -2556,14 +2544,12 @@ msgid "Cannot find track to insert audio clip."
 msgstr "No se puede encontrar una pista para insertar el clip de audio."
 
 #: kdenlive/kdenlive.cpp:3012
-#, fuzzy
 msgid "Add new audio clip to project"
-msgstr "Añadir nuevo clip al proyecto"
+msgstr "Añadir nuevo clip de audio al proyecto"
 
 #: kdenlive/kdenlive.cpp:3015
-#, fuzzy
 msgid "Save Audio Track"
-msgstr "Pista de Audio"
+msgstr "Guardar pista de audio"
 
 #: kdenlive/kdenlive.cpp:3040
 msgid "Seeking Forwards one frame"
@@ -2574,9 +2560,8 @@ msgid "Seeking Backwards one frame"
 msgstr "Retrocediendo un fotograma"
 
 #: kdenlive/kdenlive.cpp:3131
-#, fuzzy
 msgid "Select Clips"
-msgstr "Seleccionar clip"
+msgstr "Seleccionar clips"
 
 #: kdenlive/kdenlive.cpp:3137 kdenlive/kmoveclipscommand.cpp:44
 #: kdenlive/trackpanelspacerfunction.cpp:57
@@ -2938,8 +2923,7 @@ msgid "Piave renderer author"
 msgstr "Autor del renderizador de Piave"
 
 #: kdenlive/main.cpp:64
-msgid ""
-"Piave and Kdenlive internationalization, French translations, splashscreen"
+msgid "Piave and Kdenlive internationalization, French translations, splashscreen"
 msgstr ""
 "Internacionalización de Piave y Kdenlive, traducción francesa, pantalla de "
 "presentación"
@@ -4278,5 +4262,3 @@ msgstr "Fi&n"
 msgid "Rescale images"
 msgstr "Rescalar imágenes"
 
-#~ msgid "Shift all clips to the right of mouse"
-#~ msgstr "Mover todos los clips a la derecha del ratón"
