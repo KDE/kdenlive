@@ -89,6 +89,7 @@ void KRender::openMlt()
 
 void KRender::closeMlt()
 {
+    m_mltTractor->block();
     delete refreshTimer;
     if (m_fileRenderer) delete m_fileRenderer;
     if (m_mltFileProducer) delete m_mltFileProducer;
@@ -583,13 +584,15 @@ void KRender::start()
 
 void KRender::stop()
 {
-    if (m_mltProducer) {
-	m_mltProducer->set_speed(0.0);
-	m_mltProducer->set("out", m_mltProducer->get_length() - 1);
-    }
+    m_mltTractor->block();
 
     if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
 	m_mltConsumer->stop();
+    }
+
+    if (m_mltProducer) {
+	m_mltProducer->set_speed(0.0);
+	m_mltProducer->set("out", m_mltProducer->get_length() - 1);
     }
 }
 

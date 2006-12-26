@@ -303,10 +303,10 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	    m_clip = 0;
 	}
 	m_screen->setClipLength(0);
+	m_screen->stopRenderer();
 	m_editPanel->setClipLength(0);
 	m_editPanel->setInpoint(GenTime(0));
 	m_editPanel->setOutpoint(GenTime(0));
-
         m_editPanel->seek(GenTime(0));
     }
 
