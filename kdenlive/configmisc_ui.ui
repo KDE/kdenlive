@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>314</width>
-            <height>293</height>
+            <width>289</width>
+            <height>319</height>
         </rect>
     </property>
     <grid>
@@ -27,36 +27,12 @@
                 <string>99:99:99:99; </string>
             </property>
         </widget>
-        <widget class="QLabel" row="6" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>textLabel1_2_2</cstring>
-            </property>
-            <property name="text">
-                <string>External image editor</string>
-            </property>
-        </widget>
         <widget class="QLabel" row="2" column="0">
             <property name="name">
                 <cstring>textLabel4_2</cstring>
             </property>
             <property name="text">
                 <string>Default color/image clip duration</string>
-            </property>
-        </widget>
-        <widget class="QLabel" row="4" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>textLabel1_2</cstring>
-            </property>
-            <property name="text">
-                <string>External audio editor</string>
-            </property>
-        </widget>
-        <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>kcfg_showlcd</cstring>
-            </property>
-            <property name="text">
-                <string>Show LCD screen under monitors</string>
             </property>
         </widget>
         <widget class="KRestrictedLine" row="2" column="1">
@@ -70,16 +46,6 @@
                 <string>99:99:99:99; </string>
             </property>
         </widget>
-        <widget class="KLineEdit" row="5" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>kcfg_externalaudioeditor</cstring>
-            </property>
-        </widget>
-        <widget class="KLineEdit" row="7" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>kcfg_externalimageeditor</cstring>
-            </property>
-        </widget>
         <widget class="QLabel" row="1" column="0">
             <property name="name">
                 <cstring>textLabel4</cstring>
@@ -88,24 +54,7 @@
                 <string>Default text clip duration</string>
             </property>
         </widget>
-        <spacer row="8" column="1">
-            <property name="name">
-                <cstring>spacer2</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Vertical</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>20</width>
-                    <height>20</height>
-                </size>
-            </property>
-        </spacer>
-        <widget class="QButtonGroup" row="0" column="0" rowspan="1" colspan="3">
+        <widget class="QButtonGroup" row="0" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>buttonGroup1</cstring>
             </property>
@@ -145,16 +94,75 @@
                 </widget>
             </grid>
         </widget>
+        <widget class="KLineEdit" row="8" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>kcfg_externalimageeditor</cstring>
+            </property>
+        </widget>
+        <spacer row="9" column="1">
+            <property name="name">
+                <cstring>spacer2</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>16</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QLabel" row="7" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>textLabel1_2_2</cstring>
+            </property>
+            <property name="text">
+                <string>External image editor</string>
+            </property>
+        </widget>
+        <widget class="KLineEdit" row="6" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>kcfg_externalaudioeditor</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="5" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>textLabel1_2</cstring>
+            </property>
+            <property name="text">
+                <string>External audio editor</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>kcfg_showlcd</cstring>
+            </property>
+            <property name="text">
+                <string>Show LCD screen under monitors</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>kcfg_osdtimecode</cstring>
+            </property>
+            <property name="text">
+                <string>On screen timecode display</string>
+            </property>
+        </widget>
     </grid>
 </widget>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>krestrictedline.h</includehint>
     <includehint>krestrictedline.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>klineedit.h</includehint>
     <includehint>kurlrequester.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
 </includehints>
 </UI>

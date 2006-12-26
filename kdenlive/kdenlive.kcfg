@@ -174,6 +174,11 @@
       <default>false</default>
     </entry>
 
+      <entry name="osdtimecode" type="Bool">
+      <label>Display Timecode on the video image.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="externalaudioeditor" type="String">
       <label>Executable name for external audio editor.</label>
       <default></default>

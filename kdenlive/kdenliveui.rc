@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kdenlive" version="18">
+<kpartgui name="kdenlive" version="19">
 <MenuBar>
   <Menu name="file">
         <Action name="export_current_frame"/>
@@ -305,8 +305,10 @@
 </Menu>
 
 <Menu name="monitor_context">
-	<Action name="project_add_clip"/>
+	<Action name="forward_snap"/>
+	<Action name="backward_snap"/>
 	<Action name="toggle_snap_marker"/>
+	<Action name="toggle_osd"/>
 </Menu>
 
 <ToolBar name="timeline toolbar" fullWidth="false" newline="false">

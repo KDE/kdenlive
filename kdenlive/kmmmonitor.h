@@ -124,6 +124,7 @@ namespace Gui {
 	void slotStartDrag();
 
 	void activateMonitor();
+	void refreshClip();
 
 	/** The specified clip has changed, if the monitor uses this clip it will update it's
 	representation, otherwise it will ignore the method. */

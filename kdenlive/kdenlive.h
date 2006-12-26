@@ -418,6 +418,7 @@ namespace Gui {
 	void insertClipFromUrl(QString path);
 	void toggleMarkerUnderCursor();
 	void slotShowAllMarkers();
+        void slotOnScreenDisplay();
 
       private slots: 
         void slotToggleClipMonitor();
@@ -570,6 +571,7 @@ namespace Gui {
 	KToggleAction *timelineSnapToMarker;
 	KToggleAction *clipAutoSelect;
 	KToggleAction *showAllMarkers;
+	KToggleAction *onScreenDisplay;
         
         KToggleAction *showClipMonitor;
         KToggleAction *showWorkspaceMonitor;

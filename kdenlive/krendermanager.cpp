@@ -24,7 +24,6 @@ KRenderManager::KRenderManager(Gui::KdenliveApp *parent):
 QObject(), m_app(parent)
 {
     m_renderList.setAutoDelete(true);
-    m_refCount = 0;
 }
 
 KRenderManager::~KRenderManager()

@@ -444,6 +444,10 @@ namespace Gui {
 	    0, this, SLOT(slotTimelineSnapToMarker()), actionCollection(),
 	    "timeline_snap_marker");
 
+	onScreenDisplay =
+	    new KToggleAction(i18n("Display On Screen Infos"), "osd.png", 0,
+	    this, SLOT(slotOnScreenDisplay()), actionCollection(),
+	    "toggle_osd");
 
 	showAllMarkers =
 	    new KToggleAction(i18n("Show all markers"), 0, 0,
@@ -947,7 +951,7 @@ namespace Gui {
 	timelineSnapToBorder->setChecked(true);
 	timelineSnapToFrame->setChecked(true);
 	timelineSnapToMarker->setChecked(true);
-
+	onScreenDisplay->setChecked(KdenliveSettings::osdtimecode());
     }
 
 
@@ -2393,6 +2397,12 @@ namespace Gui {
 	getDocument()->setShowAllMarkers(showAllMarkers->isChecked());
 	m_timeline->trackView()->setShowAllMarkers(showAllMarkers->isChecked());
 	m_timeline->drawTrackViewBackBuffer();
+    }
+
+    void KdenliveApp::slotOnScreenDisplay() {
+	KdenliveSettings::setOsdtimecode(onScreenDisplay->isChecked());
+	m_clipMonitor->refreshClip();
+	getDocument()->activateSceneListGeneration( true );
     }
 
 /** Adds a command to the command history, execute it if execute is true. */

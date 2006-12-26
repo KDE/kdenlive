@@ -54,33 +54,15 @@
 #include "initeffects.h"
 
 static QMutex mutex (true);
-
-int m_refCount = 0;
 double m_fps;
 
-namespace {
-
-    class KRenderThread:public QThread {
-      protected:
-	virtual void run() {
-	    while (true) {
-	    };
-	}
-      private:
-
-    };
-
-    static KRenderThread *s_renderThread = NULL;
-
-}				// annonymous namespace
-
 KRender::KRender(const QString & rendererName, Gui::KdenliveApp *parent, const char *name):QObject(parent, name), m_name(rendererName), m_app(parent), m_renderingFormat(0),
-m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProducer(NULL), m_mltTextProducer(NULL)
+m_mltTractor(NULL), m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProducer(NULL), m_mltTextProducer(NULL)
 {
     openMlt();
     refreshTimer = new QTimer( this );
     connect( refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()) );
-
+    m_osdProfile = locate("data", "kdenlive/profiles/metadata.properties");
 
     //      Does it do anything usefull? I mean, KRenderThread doesn't do anything useful at the moment
     //      (except being cpu hungry :)
@@ -100,16 +82,13 @@ KRender::~KRender()
 
 void KRender::openMlt()
 {
-    m_refCount++;
-    if (m_refCount == 1) {
-	if (Mlt::Factory::init() != 0) kdWarning()<<"Error initializing MLT, Crash will follow"<<endl;
+	if (Mlt::Factory::init(NULL) != 0) kdWarning()<<"Error initializing MLT, Crash will follow"<<endl;
 	else kdDebug() << "Mlt inited" << endl;
-    }
+	m_mltTractor = new Mlt::Tractor::Tractor();
 }
 
 void KRender::closeMlt()
 {
-    m_refCount--;
     delete refreshTimer;
     if (m_fileRenderer) delete m_fileRenderer;
     if (m_mltFileProducer) delete m_mltFileProducer;
@@ -117,11 +96,6 @@ void KRender::closeMlt()
         delete m_mltConsumer;
     if (m_mltProducer);
     delete m_mltProducer;
-    
-    if (m_refCount == 0) {
-	//m_mltMiracle->wait_for_shutdown();
-	//delete(m_mltMiracle);
-    }
 }
 
  
@@ -186,11 +160,13 @@ void KRender::createVideoXWindow(bool , WId winid)
 
     m_mltConsumer->set("resize", 1);
     m_mltConsumer->set("rescale", "nearest");
+
     //m_mltConsumer->set("audio_driver","dsp");
     m_mltConsumer->set("progressive", 1);
     m_mltConsumer->set("audio_buffer", 1024);
     m_mltConsumer->set("frequency", 44100);
     m_mltConsumer->set("buffer", 1);
+
 }
 
 /** Wraps the VEML command of the same name; Seeks the renderer clip to the given time. */
@@ -550,22 +526,42 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
 {
     GenTime pos = seekPosition();
     m_sceneList = list;
- 
+
+    m_mltTractor->block();
+
     if (m_mltProducer != NULL) {
 	delete m_mltProducer;
 	m_mltProducer = NULL;
 	emit stopped();
     }
- 
-    m_mltProducer = new Mlt::Producer("westley-xml", decodedString(list.toString()));
-    if (!m_mltProducer->is_valid()) 
+
+    Mlt::Playlist track;
+    m_mltTractor->set_track( track, 0 );
+    Mlt::Producer clip("westley-xml", decodedString(list.toString()));
+
+    if (!clip.is_valid()) 
 	kdWarning()<<" ++++ WARNING, UNABLE TO CREATE MLT PRODUCER"<<endl;
     else {
-	//kdDebug()<<"++SEEK POS: "<<pos.frames(25)<<endl;
+
+	m_mltProducer = m_mltTractor->track( 0 );
+        Mlt::Playlist firsttrack( *m_mltProducer );
+        firsttrack.append(clip);
+
+	if (KdenliveSettings::osdtimecode()) {
+		// Attach filter for on screen display of timecode
+		mlt_properties properties = MLT_PRODUCER_PROPERTIES(firsttrack.current()->get_producer());
+		mlt_properties_set_int( properties, "meta.attr.timecode", 1);
+		mlt_properties_set( properties, "meta.attr.timecode.markup", "#tc#");
+
+    		Mlt::Filter m_convert("data_show");
+    		m_convert.set("resource", m_osdProfile);
+    		if (m_mltProducer->attach(m_convert) == 1) kdDebug()<<"////// error attaching filter"<<endl;
+	}
+
     	if (!resetPosition) seek(pos);
 	m_mltProducer->set_speed(0.0);
 	m_fps = m_mltProducer->get_fps();
-
+        m_mltTractor->unblock();
     	if (m_mltConsumer) 
     	{
 	    m_mltConsumer->start();

@@ -52,8 +52,11 @@ class EffectParamDesc;
 class QPixmap;
 
 namespace Mlt {
-    //class Miracle;
     class Consumer;
+    class Playlist;
+    class Tractor;
+    class Field;
+    class Multitrack;
     class Producer;
 };
 
@@ -67,8 +70,6 @@ struct StackValue {
      bool(KRender::*funcEndElement) (const QString & localName,
 	const QString & qName);
 };
-
-extern int m_refCount;
 
 class KRender:public QObject {
   Q_OBJECT public:
@@ -166,19 +167,22 @@ class KRender:public QObject {
 
  
   private:			// Private attributes & methods
-     //Mlt::Miracle * m_mltMiracle;
+     
+     Mlt::Tractor * m_mltTractor;
      Mlt::Consumer * m_mltConsumer;
      Mlt::Producer * m_mltProducer;
      Mlt::Consumer *m_fileRenderer;
      Mlt::Producer * m_mltFileProducer;
      Gui::KdenliveApp *m_app;
      Mlt::Producer *m_mltTextProducer;
+
+	/** Holds the path to on screen display profile */
+     QString m_osdProfile;
      
      QTimer *refreshTimer;
      QString m_renderingFormat;
      KURL m_exportedFile;
      int exportDuration, firstExportFrame, lastExportFrame;
-
 
 	/** Holds the scenelist to be sent, if pending. */
     QDomDocument m_sceneList;

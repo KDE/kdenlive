@@ -221,6 +221,10 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	emit monitorClicked(this);
     }
 
+    void KMMMonitor::refreshClip() {
+	    if (m_clip) doCommonSetClip(false);
+    }
+
     void KMMMonitor::slotSetClip(DocClipRef * clip) {
 	if (!clip) {
 	    kdError() << "Null clip passed, not setting monitor." << endl;
@@ -248,7 +252,6 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
     }
 
     void KMMMonitor::slotSetClip(DocClipBase * clip) {
-        
         activateMonitor();
 	if (!clip) {
 	    kdError() << "Null clip passed, not setting monitor." << endl;
