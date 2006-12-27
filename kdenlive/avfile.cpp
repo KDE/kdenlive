@@ -31,7 +31,7 @@ AVFile::AVFile(const QString & name, const KURL & url):m_framesPerSecond(0)
 
     m_referers.setAutoDelete(false);
 
-    calculateFileProperties(QMap < QString, QString > ());
+    calculateFileProperties(QMap < QString, QString > (), NULL);
 }
 
 AVFile::~AVFile()

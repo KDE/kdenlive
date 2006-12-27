@@ -46,8 +46,10 @@ ClipManager::ClipManager(KRender *render, QWidget * parent, const char *name) //
     m_render = render;
 
     connect(m_render, SIGNAL(replyGetFileProperties(const QMap < QString,
+		QString > &, const QMap < QString,
 		QString > &)), this,
-	SLOT(AVFilePropertiesArrived(const QMap < QString, QString > &)));
+	SLOT(AVFilePropertiesArrived(const QMap < QString, QString > &, const QMap < QString,
+		QString > &)));
 
     connect(m_render, SIGNAL(replyGetImage(const KURL &, int,
 		const QPixmap &, int, int)), this,
@@ -771,7 +773,8 @@ DocClipAVFile *ClipManager::findAVFile(const KURL & url)
 
 
 void ClipManager::AVFilePropertiesArrived(const QMap < QString,
-    QString > &properties)
+    QString > &properties, const QMap < QString,
+    QString > &metadata)
 {
     if (!properties.contains("filename")) {
 	kdError() << "File properties returned with no file name attached"
@@ -786,7 +789,7 @@ void ClipManager::AVFilePropertiesArrived(const QMap < QString,
 	return;
     }
 
-    file->calculateFileProperties(properties);
+    file->calculateFileProperties(properties, metadata);
     if ((file->clipType() == DocClipBase::AV || file->clipType() == DocClipBase::AUDIO) && file->thumbCreator) {
 	connect(file->thumbCreator, SIGNAL(audioThumbReady(QMap<int,QMap<int,QByteArray> >)), file, SLOT(updateAudioThumbnail(QMap<int,QMap<int,QByteArray> >)));
 	if (KdenliveSettings::audiothumbnails()) 

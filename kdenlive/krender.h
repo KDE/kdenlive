@@ -192,10 +192,6 @@ class KRender:public QObject {
 	/** A human-readable description of this renderer. */
     QString m_description;
 
-
-	/** A bit hackish, well, a lot haackish really. File properties exist across a number of xml tags,
-	 * so we have to collect them together before emmitting them. We do that with this value here. */
-     QMap < QString, QString > m_filePropertyMap;
 	/** The actually seek command, private so people can't avoid the buffering of multiple seek commands. */
     void sendSeekCommand(GenTime time);
 
@@ -218,7 +214,7 @@ class KRender:public QObject {
 	/** This signal is emitted once a reply to createVideoXWidow() has been recieved. */
     void replyCreateVideoXWindow(WId);
 	/** emitted when the renderer recieves a reply to a getFileProperties request. */
-    void replyGetFileProperties(const QMap < QString, QString > &);
+    void replyGetFileProperties(const QMap < QString, QString > &, const QMap < QString, QString > &);
 
 	/** emitted when the renderer recieves a reply to a getImage request. */
     void replyGetImage(const KURL &, int, const QPixmap &, int, int);

@@ -178,7 +178,8 @@ class ClipManager:public QObject {
 	/** This slot occurs when the File properties for an AV File have been returned by the renderer.
 	The relevant AVFile can then be updated to the correct status. */
     void AVFilePropertiesArrived(const QMap < QString,
-	QString > &properties);
+	QString > &properties, const QMap < QString,
+    QString > &metadata);
     void AVImageArrived(const KURL &, int, const QPixmap &);
     void AVImageArrived(int id, const QPixmap &);
 	/** returns an mlt list of producers for all the clips */

@@ -535,7 +535,8 @@ QString DocClipAVFile::formattedMetaData()
 
 /** Calculates properties for this file that will be useful for the rest of the program. */
 void DocClipAVFile::calculateFileProperties(const QMap < QString,
-    QString > &attributes)
+    QString > &attributes, const QMap < QString,
+    QString > &metadata)
 {
     if (m_url.isLocalFile()) {
 	QFileInfo fileInfo(m_url.path());
@@ -607,14 +608,7 @@ void DocClipAVFile::calculateFileProperties(const QMap < QString,
 	    m_frequency = 0;
 	}
 
-	// metadata
-	QStringList metadata_tags;
-	metadata_tags<<"album"<<"description"<<"copyright"<<"title"<<"author"<<"artist"<<"tracknumber"<<"comment";
-
-	for ( QStringList::Iterator it = metadata_tags.begin(); it != metadata_tags.end(); ++it ) {
-	    QString value = attributes[*it];
-	    if (!value.isEmpty()) m_metadata[*it] = value;
-	}
+	m_metadata = metadata;
 
 	if (m_metadata.contains("description")) {
 	    setDescription (m_metadata["description"]);

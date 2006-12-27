@@ -58,7 +58,7 @@ class DocClipAVFile:public DocClipBase {
 	/** Calculates properties for the file, including the size of the file, the duration of the file,
 	 * the file format, etc.
 	 **/
-    void calculateFileProperties(const QMap < QString, QString > &attributes);
+    void calculateFileProperties(const QMap < QString, QString > &attributes, const QMap < QString, QString > &metadata);
     double aspectRatio() const;
 
 	/** Returns the filesize of the underlying avfile. */

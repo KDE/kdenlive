@@ -460,9 +460,12 @@ void KRender::getFileProperties(KURL url)
     	}
 
 	mlt_properties properties = MLT_PRODUCER_PROPERTIES( producer.get_producer() );
-	m_filePropertyMap.clear();
-	m_filePropertyMap["filename"] = url.path();
-	m_filePropertyMap["duration"] = QString::number(producer.get_length());
+
+	QMap < QString, QString > filePropertyMap;
+        QMap < QString, QString > metadataPropertyMap;
+
+	filePropertyMap["filename"] = url.path();
+	filePropertyMap["duration"] = QString::number(producer.get_length());
         
         Mlt::Filter m_convert("avcolour_space");
         m_convert.set("forced", mlt_image_rgb24a);
@@ -471,49 +474,52 @@ void KRender::getFileProperties(KURL url)
 	Mlt::Frame * frame = producer.get_frame();
 
 	if (frame->is_valid()) {
-	    m_filePropertyMap["fps"] =
+	    filePropertyMap["fps"] =
 		QString::number(frame->get_double("fps"));
-	    m_filePropertyMap["width"] =
+	    filePropertyMap["width"] =
 		QString::number(frame->get_int("width"));
-	    m_filePropertyMap["height"] =
+	    filePropertyMap["height"] =
 		QString::number(frame->get_int("height"));
-	    m_filePropertyMap["frequency"] =
+	    filePropertyMap["frequency"] =
 		QString::number(frame->get_int("frequency"));
-	    m_filePropertyMap["channels"] =
+	    filePropertyMap["channels"] =
 		QString::number(frame->get_int("channels"));
 
 	    // metadata
-	    QStringList metadata_tags;
-	    metadata_tags<<"album"<<"description"<<"copyright"<<"title"<<"author"<<"artist"<<"tracknumber"<<"comment";
 
-	    for ( QStringList::Iterator it = metadata_tags.begin(); it != metadata_tags.end(); ++it ) {
-	        m_filePropertyMap[*it] = mlt_properties_get(properties, *it);
+	    mlt_properties metadata = mlt_properties_new( );
+	    mlt_properties_pass( metadata, properties, "meta.attr." );
+	    int count = mlt_properties_count( metadata );
+	    for ( int i = 0; i < count; i ++ )
+	    {
+		QString name = mlt_properties_get_name( metadata, i );
+		QString value = mlt_properties_get_value( metadata, i );
+		if (name.endsWith("markup") && !value.isEmpty())
+			metadataPropertyMap[ name.section(".", 0, -2) ] = value;
 	    }
 
 	    if (frame->get_int("test_image") == 0) {
 		if (frame->get_int("test_audio") == 0)
-		    m_filePropertyMap["type"] = "av";
+		    filePropertyMap["type"] = "av";
 		else
-		    m_filePropertyMap["type"] = "video";
-                
+		    filePropertyMap["type"] = "video";
+
                 // Generate thumbnail for this frame
                 uchar *m_thumb = frame->fetch_image(mlt_image_rgb24a, width - 2, height - 2, 1);
                 QPixmap pixmap(width, height);
 		pixmap.fill(Qt::black);
-                QImage m_image(m_thumb, width - 2, height - 2, 32, 0, 0,                            QImage::IgnoreEndian);
+                QImage m_image(m_thumb, width - 2, height - 2, 32, 0, 0, QImage::IgnoreEndian);
                 if (!m_image.isNull())
 		    bitBlt(&pixmap, 1, 1, &m_image, 0, 0, width - 2, height - 2);
-                    //pixmap = m_image.smoothScale(width, height);
-                    
+
                 emit replyGetImage(url, 0, pixmap, width, height);
-                
 	    } else if (frame->get_int("test_audio") == 0) {
                 QPixmap pixmap(locate("appdata", "graphics/music.png"));
                 emit replyGetImage(url, 0, pixmap, width, height);
-		m_filePropertyMap["type"] = "audio";
+		filePropertyMap["type"] = "audio";
             }
 	}
-	emit replyGetFileProperties(m_filePropertyMap);
+	emit replyGetFileProperties(filePropertyMap, metadataPropertyMap);
 	delete frame;
 }
 
