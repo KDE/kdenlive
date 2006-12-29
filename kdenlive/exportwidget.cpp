@@ -661,6 +661,7 @@ void exportWidget::generateDvdFile(QString file, GenTime start, GenTime end, VID
     *m_exportProcess << "kdenlive_renderer";
     *m_exportProcess << m_tmpFile->name();
     *m_exportProcess << "real_time=0";
+    *m_exportProcess << "resize=hyper";
     *m_exportProcess << "progressive=1";
     *m_exportProcess << QString("in=%1").arg(start.frames(KdenliveSettings::defaultfps()));
     *m_exportProcess << QString("out=%1").arg(end.frames(KdenliveSettings::defaultfps()));
@@ -700,6 +701,7 @@ void exportWidget::doExport(QString file, QStringList params, bool isDv)
 
     *m_exportProcess << m_tmpFile->name();
     *m_exportProcess << "real_time=0";
+    *m_exportProcess << "resize=hyper";
 //    *m_exportProcess << "progressive=1";
     *m_exportProcess << QString("in=%1").arg(startExportTime.frames(KdenliveSettings::defaultfps()));
     *m_exportProcess << QString("out=%1").arg(endExportTime.frames(KdenliveSettings::defaultfps()));
