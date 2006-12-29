@@ -85,6 +85,12 @@ namespace Gui {
 	m_render->stop();
     }
 
+
+    void KMMScreen::resetRenderer() {
+	m_render->clear();
+    }
+
+
 /** Set the play speed of the screen */
     void KMMScreen::play(double speed) {
 	m_render->play(speed);

@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kdenlive" version="19">
+<kpartgui name="kdenlive" version="21">
 <MenuBar>
   <Menu name="file">
         <Action name="export_current_frame"/>
@@ -83,6 +83,12 @@
 	  <Action name="toggle_forwards"/>
 	  <Action name="toggle_backwards"/>
 	  <Action name="stop_clip"/>
+	  <Separator lineSeperator="true"/>
+	  <Menu name="preview_quality"><text>Preview Quality</text>
+		  <Action name="low_quality"/>
+		  <Action name="medium_quality"/>
+		  <Action name="best_quality"/>
+	</Menu>
   </Menu>  
   
   <Menu name="Render"><text>Render</text>
@@ -309,6 +315,11 @@
 	<Action name="backward_snap"/>
 	<Action name="toggle_snap_marker"/>
 	<Action name="toggle_osd"/>
+	<Menu name="preview_quality"><text>Preview Quality</text>
+		<Action name="low_quality"/>
+		<Action name="medium_quality"/>
+		<Action name="best_quality"/>
+	</Menu>
 </Menu>
 
 <ToolBar name="timeline toolbar" fullWidth="false" newline="false">

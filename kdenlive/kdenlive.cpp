@@ -134,7 +134,7 @@ namespace Gui {
 
     KdenliveApp::KdenliveApp(bool newDoc, QWidget *parent,
 	const char *name):KDockMainWindow(parent, name), m_monitorManager(this),
-    m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_renderManager(NULL), m_doc(NULL), m_effectStackDialog(NULL), m_clipMonitor(NULL), m_projectList(NULL), m_effectListDialog(NULL), m_projectFormat(PAL_VIDEO), m_timelinePopupMenu(NULL), m_rulerPopupMenu(NULL), m_exportDvd(NULL), m_transitionPanel(NULL) {
+    m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_renderManager(NULL), m_doc(NULL), m_effectStackDialog(NULL), m_clipMonitor(NULL), m_projectList(NULL), m_effectListDialog(NULL), m_projectFormat(PAL_VIDEO), m_timelinePopupMenu(NULL), m_rulerPopupMenu(NULL), m_exportDvd(NULL), m_transitionPanel(NULL), resizeFunction(NULL), rollFunction(NULL) {
 	config = kapp->config();
 	QString newProjectName;
 	videoProjectFormats << i18n("PAL (720x576, 25fps)") << i18n("PAL 16:9 (720x576, 25fps)");
@@ -445,9 +445,32 @@ namespace Gui {
 	    "timeline_snap_marker");
 
 	onScreenDisplay =
-	    new KToggleAction(i18n("Display On Screen Infos"), "osd.png", 0,
+	    new KToggleAction(i18n("Display On Screen Infos"), 0, 0,
 	    this, SLOT(slotOnScreenDisplay()), actionCollection(),
 	    "toggle_osd");
+
+	previewLowQuality =
+	    new KToggleAction(i18n("Low Quality"), 0, 0,
+	    this, SLOT(slotAdjustPreviewQuality()), actionCollection(),
+	    "low_quality");
+
+	previewMidQuality =
+	    new KToggleAction(i18n("Medium Quality"), 0, 0,
+	    this, SLOT(slotAdjustPreviewQuality()), actionCollection(),
+	    "medium_quality");
+
+	previewBestQuality =
+	    new KToggleAction(i18n("Best Quality"), 0, 0,
+	    this, SLOT(slotAdjustPreviewQuality()), actionCollection(),
+	    "best_quality");
+
+	previewLowQuality->setExclusiveGroup("previewQuality");
+	previewMidQuality->setExclusiveGroup("previewQuality");
+	previewBestQuality->setExclusiveGroup("previewQuality");
+
+	if (KdenliveSettings::previewquality() == "none") previewLowQuality->setChecked(true);
+	else if (KdenliveSettings::previewquality() == "nearest") previewMidQuality->setChecked(true);
+	else previewBestQuality->setChecked(true);
 
 	showAllMarkers =
 	    new KToggleAction(i18n("Show all markers"), 0, 0,
@@ -1067,6 +1090,30 @@ namespace Gui {
     }
 
 
+    void KdenliveApp::connectMonitors() {
+
+	if (m_workspaceMonitor) {
+	    connect(m_timeline, SIGNAL(seekPositionChanged(const GenTime &)), m_workspaceMonitor->editPanel(), SLOT(seek(const GenTime &)));
+	    connect(m_timeline, SIGNAL(inpointPositionChanged(const GenTime &)), m_workspaceMonitor->editPanel(), SLOT(setInpoint(const GenTime &)));
+	    connect(m_timeline, SIGNAL(outpointPositionChanged(const GenTime &)), m_workspaceMonitor->editPanel(), SLOT(setOutpoint(const GenTime &)));
+	connect(m_workspaceMonitor, SIGNAL(seekPositionChanged(const GenTime &)), m_timeline, SLOT(seek(const GenTime &)));
+	connect( m_workspaceMonitor, SIGNAL( seekPositionChanged( const GenTime & ) ), this, SLOT( slotUpdateCurrentTime( const GenTime & ) ) );
+	connect(m_workspaceMonitor, SIGNAL(inpointPositionChanged(const GenTime &)), m_timeline,SLOT(setInpointTimeline(const GenTime &)));
+	connect(m_workspaceMonitor,SIGNAL(outpointPositionChanged(const GenTime &)), m_timeline, SLOT(setOutpointTimeline(const GenTime &)));
+	connect(getDocument(), SIGNAL(documentChanged(DocClipBase *)), m_workspaceMonitor, SLOT(slotSetClip(DocClipBase *)));
+	}
+
+	connect(resizeFunction,
+	    SIGNAL(signalClipCropStartChanged(DocClipRef *)),
+	    m_clipMonitor, SLOT(slotClipCropStartChanged(DocClipRef *)));
+	connect(resizeFunction,
+	    SIGNAL(signalClipCropEndChanged(DocClipRef *)), m_clipMonitor,
+	    SLOT(slotClipCropEndChanged(DocClipRef *)));
+	connect(rollFunction,
+	    SIGNAL(signalClipCropEndChanged(DocClipRef *)), m_clipMonitor,
+	    SLOT(slotClipCropEndChanged(DocClipRef *)));
+    }
+
     void KdenliveApp::initView() {
 	////////////////////////////////////////////////////////////////////
 	// create the main widget here that is managed by KTMainWindow's view-region and
@@ -1134,20 +1181,8 @@ namespace Gui {
 	m_captureMonitor->show();
 	m_dockCaptureMonitor->update();
 
-	connect(m_workspaceMonitor,
-	    SIGNAL(seekPositionChanged(const GenTime &)), m_timeline,
-	    SLOT(seek(const GenTime &)));
 
-	
-	connect( m_workspaceMonitor, SIGNAL( seekPositionChanged( const GenTime & ) ), this, SLOT( slotUpdateCurrentTime( const GenTime & ) ) );
-	//connect editpanel sliders with timeline sliders -reh
-	connect(m_workspaceMonitor,
-	    SIGNAL(inpointPositionChanged(const GenTime &)), m_timeline,
-	    SLOT(setInpointTimeline(const GenTime &)));
-	connect(m_workspaceMonitor,
-	    SIGNAL(outpointPositionChanged(const GenTime &)), m_timeline,
-	    SLOT(setOutpointTimeline(const GenTime &)));
-
+	connectMonitors();
 /*	
 	Don't display timeline clip in timeline monitor on single click
 	connect(getDocument(), SIGNAL(signalClipSelected(DocClipRef *)),
@@ -1186,10 +1221,6 @@ namespace Gui {
 	connect(getDocument(), SIGNAL(nodeDeleted(DocumentBaseNode *)),
 	    m_projectList, SLOT(slot_nodeDeleted(DocumentBaseNode *)));
 
-	connect(getDocument(), SIGNAL(documentChanged(DocClipBase *)),
-	    m_workspaceMonitor, SLOT(slotSetClip(DocClipBase *)));
-
-
 	connect(getDocument()->renderer(),
 	    SIGNAL(effectListChanged(const QPtrList < EffectDesc > &)),
 	    m_effectListDialog,
@@ -1221,23 +1252,6 @@ namespace Gui {
         
         connect(m_projectList, SIGNAL(editItem()), this, SLOT(slotProjectEditClip()));
 
-	if (m_workspaceMonitor) {
-	    connect(m_timeline,
-		SIGNAL(seekPositionChanged(const GenTime &)),
-		m_workspaceMonitor->editPanel(),
-		SLOT(seek(const GenTime &)));
-	    //connect timeline sliders with editpanel sliders -reh
-	    connect(m_timeline,
-		SIGNAL(inpointPositionChanged(const GenTime &)),
-		m_workspaceMonitor->editPanel(),
-		SLOT(setInpoint(const GenTime &)));
-	    connect(m_timeline,
-		SIGNAL(outpointPositionChanged(const GenTime &)),
-		m_workspaceMonitor->editPanel(),
-		SLOT(setOutpoint(const GenTime &)));
-	}
-
-
 	connect(m_timeline, SIGNAL(seekPositionChanged(const GenTime &)),
         this, SLOT(activateWorkspaceMonitor()));
         
@@ -1255,7 +1269,9 @@ namespace Gui {
 	m_timeline->trackView()->registerFunction("move",
 	    new TrackPanelClipMoveFunction(this, m_timeline,
 		getDocument()));
-	TrackPanelClipResizeFunction *resizeFunction =
+
+	if (resizeFunction) delete resizeFunction;
+	resizeFunction =
 	    new TrackPanelClipResizeFunction(this, m_timeline,
 	    getDocument());
 	m_timeline->trackView()->registerFunction("resize",
@@ -1279,7 +1295,8 @@ namespace Gui {
         m_timeline->trackView()->registerFunction("transitionmove",
         transitionMoveFunction);
 
-	TrackPanelClipRollFunction *rollFunction =
+	if (rollFunction) delete rollFunction;
+	rollFunction =
 	    new TrackPanelClipRollFunction(this, m_timeline,
 	    getDocument());
 
@@ -1317,13 +1334,6 @@ namespace Gui {
 	    SIGNAL(signalClipCropEndChanged(DocClipRef *)), this,
 	    SLOT(slotSetClipMonitorSource(DocClipRef *)));
 
-	connect(resizeFunction,
-	    SIGNAL(signalClipCropStartChanged(DocClipRef *)),
-	    m_clipMonitor, SLOT(slotClipCropStartChanged(DocClipRef *)));
-	connect(resizeFunction,
-	    SIGNAL(signalClipCropEndChanged(DocClipRef *)), m_clipMonitor,
-	    SLOT(slotClipCropEndChanged(DocClipRef *)));
-
 	/*connect(rollFunction,
 	    SIGNAL(signalClipCropStartChanged(DocClipRef *)), this,
 	    SLOT(slotSetClipMonitorSource(DocClipRef *)));*/
@@ -1334,9 +1344,7 @@ namespace Gui {
 	/*connect(rollFunction,
 	    SIGNAL(signalClipCropStartChanged(DocClipRef *)),
 	    m_clipMonitor, SLOT(slotClipCropStartChanged(DocClipRef *)));*/
-	connect(rollFunction,
-	    SIGNAL(signalClipCropEndChanged(DocClipRef *)), m_clipMonitor,
-	    SLOT(slotClipCropEndChanged(DocClipRef *)));
+
 
 	m_timeline->trackView()->registerFunction("marker",
 	    new TrackPanelMarkerFunction(this, m_timeline, getDocument()));
@@ -2402,6 +2410,33 @@ namespace Gui {
     void KdenliveApp::slotOnScreenDisplay() {
 	KdenliveSettings::setOsdtimecode(onScreenDisplay->isChecked());
 	m_clipMonitor->refreshClip();
+	getDocument()->activateSceneListGeneration( true );
+    }
+
+    void KdenliveApp::slotAdjustPreviewQuality() {
+	if (previewLowQuality->isChecked()) KdenliveSettings::setPreviewquality("nearest");
+	else if (previewMidQuality->isChecked()) KdenliveSettings::setPreviewquality("bilinear");
+	else KdenliveSettings::setPreviewquality("hyper");
+	m_monitorManager.resetMonitors();
+	m_monitorManager.deleteMonitors();
+	if (m_workspaceMonitor) delete m_workspaceMonitor;
+	m_workspaceMonitor = m_monitorManager.createMonitor(getDocument(), m_dockWorkspaceMonitor, "Document");
+
+	m_workspaceMonitor->setNoSeek(true);
+	m_dockWorkspaceMonitor->setWidget(m_workspaceMonitor);
+        m_workspaceMonitor->editPanel()->showLcd(KdenliveSettings::showlcd());
+	m_workspaceMonitor->show();
+	m_dockWorkspaceMonitor->update();
+
+	if (m_clipMonitor) delete m_clipMonitor;
+	m_clipMonitor =
+	    m_monitorManager.createMonitor(getDocument(),
+	    m_dockClipMonitor, "Clip Monitor");
+	m_dockClipMonitor->setWidget(m_clipMonitor);
+	m_clipMonitor->editPanel()->showLcd(KdenliveSettings::showlcd());
+	m_clipMonitor->show();
+	m_dockClipMonitor->update();
+	connectMonitors();
 	getDocument()->activateSceneListGeneration( true );
     }
 

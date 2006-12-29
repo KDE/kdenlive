@@ -73,7 +73,7 @@ public slots:
 	/** Start renderer's consumer */
 	void startRenderer();
 	void stopRenderer();
-        
+	void resetRenderer();
         void positionChanged(GenTime t);
 	QPixmap extractFrame(int frame, int width, int height);
 	/** Set the play speed of the screen */

@@ -37,6 +37,8 @@
 #include "projectformatmanager.h"
 #include "kdenlivesettings.h"
 
+
+
 #include "exportwidget.h"
 #include "transitiondialog.h"
 #include "transition.h"
@@ -57,6 +59,8 @@ class KMacroCommand;
 class AVFile;
 class DocClipBase;
 class DocClipRef;
+class TrackPanelClipRollFunction;
+class TrackPanelClipResizeFunction;
 
 class PositionChangeEvent : public QCustomEvent
 {
@@ -419,6 +423,7 @@ namespace Gui {
 	void toggleMarkerUnderCursor();
 	void slotShowAllMarkers();
         void slotOnScreenDisplay();
+	void slotAdjustPreviewQuality();
 
       private slots: 
         void slotToggleClipMonitor();
@@ -572,6 +577,9 @@ namespace Gui {
 	KToggleAction *clipAutoSelect;
 	KToggleAction *showAllMarkers;
 	KToggleAction *onScreenDisplay;
+	KToggleAction *previewLowQuality;
+	KToggleAction *previewMidQuality;
+	KToggleAction *previewBestQuality;
         
         KToggleAction *showClipMonitor;
         KToggleAction *showWorkspaceMonitor;
@@ -597,6 +605,8 @@ namespace Gui {
 
 	DocClipRef *m_copiedClip;
 
+	TrackPanelClipRollFunction *rollFunction;
+	TrackPanelClipResizeFunction *resizeFunction;
 
 
 		/** The progress widget on the status bar, used by various long-winded methods. */
@@ -655,7 +665,7 @@ namespace Gui {
 		/** Generates commands to clears all snap markers in clips directly referenced in the project clip. The commands are added to
 		// the macroCommand. selectedClips determines whether this uses selectedClips or unselectedClips */
 	void populateClearSnapMarkers(KMacroCommand * macroCommand, DocClipProject & clip, bool selectedClips);
-
+	void connectMonitors();
     };
 
 }				// namespace Gui

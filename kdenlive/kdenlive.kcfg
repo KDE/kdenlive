@@ -179,6 +179,11 @@
       <default>false</default>
     </entry>
 
+    <entry name="previewquality" type="String">
+      <label>Quality of image resize in video preview</label>
+      <default>bilinear</default>
+    </entry>
+
     <entry name="externalaudioeditor" type="String">
       <label>Executable name for external audio editor.</label>
       <default></default>
