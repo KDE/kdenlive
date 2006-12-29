@@ -57,7 +57,7 @@ static QMutex mutex (true);
 double m_fps;
 
 KRender::KRender(const QString & rendererName, Gui::KdenliveApp *parent, const char *name):QObject(parent, name), m_name(rendererName), m_app(parent), m_renderingFormat(0),
-m_mltTractor(NULL), m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProducer(NULL), m_mltTextProducer(NULL)
+m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProducer(NULL), m_mltTextProducer(NULL)
 {
     openMlt();
     refreshTimer = new QTimer( this );
@@ -84,12 +84,10 @@ void KRender::openMlt()
 {
 	if (Mlt::Factory::init(NULL) != 0) kdWarning()<<"Error initializing MLT, Crash will follow"<<endl;
 	else kdDebug() << "Mlt inited" << endl;
-	m_mltTractor = new Mlt::Tractor::Tractor();
 }
 
 void KRender::closeMlt()
 {
-    m_mltTractor->block();
     delete refreshTimer;
     if (m_fileRenderer) delete m_fileRenderer;
     if (m_mltFileProducer) delete m_mltFileProducer;
@@ -146,27 +144,30 @@ replyCreateVideoXWindow() once the renderer has replied. */
 void KRender::createVideoXWindow(bool , WId winid)
 {
     m_mltConsumer = new Mlt::Consumer("sdl_preview");
-    if (!m_mltConsumer->is_valid()) kdError()<<"Sorry, cannot create MLT consumer, check your MLT install"<<endl;
+    if (!m_mltConsumer->is_valid()) {
+	KMessageBox::error(m_app, i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install.\n Exiting now..."));
+	kdError()<<"Sorry, cannot create MLT consumer, check your MLT install you miss SDL libraries support in MLT"<<endl;
+	exit(1);
+    }
     m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
     //m_mltConsumer->listen("consumer-stopped", this, (mlt_listener) consumer_stopped);
 
     //only as is saw, if we want to lock something with the sdl lock
     if (!KdenliveSettings::videoprofile().isEmpty()) 
 	m_mltConsumer->set("profile", KdenliveSettings::videoprofile());
-    m_mltConsumer->set("app_locked", 1);
+    /*m_mltConsumer->set("app_locked", 1);
     m_mltConsumer->set("app_lock", (void *) &my_lock, 0);
-
-    m_mltConsumer->set("app_unlock", (void *) &my_unlock, 0);
+    m_mltConsumer->set("app_unlock", (void *) &my_unlock, 0);*/
     m_mltConsumer->set("window_id", (int) winid);
 
     m_mltConsumer->set("resize", 1);
-    m_mltConsumer->set("rescale", "nearest");
+    m_mltConsumer->set("rescale", KdenliveSettings::previewquality());
 
     //m_mltConsumer->set("audio_driver","dsp");
     m_mltConsumer->set("progressive", 1);
     m_mltConsumer->set("audio_buffer", 1024);
     m_mltConsumer->set("frequency", 44100);
-    m_mltConsumer->set("buffer", 1);
+    //m_mltConsumer->set("buffer", 1);
 
 }
 
@@ -531,51 +532,46 @@ QDomDocument KRender::sceneList()
 /** Create the producer from the Westley QDomDocument */
 void KRender::setSceneList(QDomDocument list, bool resetPosition)
 {
-    GenTime pos = seekPosition();
+    double pos = 0;
     m_sceneList = list;
-
-    m_mltTractor->block();
+    m_mltConsumer->stop();
 
     if (m_mltProducer != NULL) {
+	pos = m_mltProducer->position();
 	delete m_mltProducer;
 	m_mltProducer = NULL;
 	emit stopped();
     }
 
     Mlt::Playlist track;
-    m_mltTractor->set_track( track, 0 );
     Mlt::Producer clip("westley-xml", decodedString(list.toString()));
 
     if (!clip.is_valid()) 
 	kdWarning()<<" ++++ WARNING, UNABLE TO CREATE MLT PRODUCER"<<endl;
     else {
-
-	m_mltProducer = m_mltTractor->track( 0 );
-        Mlt::Playlist firsttrack( *m_mltProducer );
-        firsttrack.append(clip);
+        track.append(clip);
+	m_mltProducer = track.current();
 
 	if (KdenliveSettings::osdtimecode()) {
 		// Attach filter for on screen display of timecode
-		mlt_properties properties = MLT_PRODUCER_PROPERTIES(firsttrack.current()->get_producer());
+		mlt_properties properties = MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer());
 		mlt_properties_set_int( properties, "meta.attr.timecode", 1);
-		mlt_properties_set( properties, "meta.attr.timecode.markup", "#tc#");
+		mlt_properties_set( properties, "meta.attr.timecode.markup", "[#tc#]");
 
     		Mlt::Filter m_convert("data_show");
     		m_convert.set("resource", m_osdProfile);
     		if (m_mltProducer->attach(m_convert) == 1) kdDebug()<<"////// error attaching filter"<<endl;
 	}
 
-    	if (!resetPosition) seek(pos);
-	m_mltProducer->set_speed(0.0);
+    	if (!resetPosition) m_mltProducer->seek(pos);
+	
 	m_fps = m_mltProducer->get_fps();
-        m_mltTractor->unblock();
-    	if (m_mltConsumer) 
-    	{
-	    m_mltConsumer->start();
-	    m_mltConsumer->connect(*m_mltProducer);
-	    refresh();
-    	}
-    	else kdDebug()<<"++++++++ WARNING, SET SCENE LIST BUT CONSUMER NOT READY"<<endl;
+	m_mltProducer->optimise();
+
+    	//track.set_speed(0);
+	m_mltConsumer->connect(*m_mltProducer);
+	m_mltConsumer->start();
+	refresh();
     }
 }
 
@@ -588,10 +584,22 @@ void KRender::start()
     }
 }
 
+void KRender::clear()
+{
+    if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
+	m_mltConsumer->stop();
+    }
+
+    if (m_mltProducer) {
+	m_mltProducer->set_speed(0.0);
+	delete m_mltProducer;
+	m_mltProducer = NULL;
+	emit stopped();
+    }
+}
+
 void KRender::stop()
 {
-    m_mltTractor->block();
-
     if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
 	m_mltConsumer->stop();
     }
@@ -610,6 +618,7 @@ void KRender::stop(const GenTime & startTime)
     }
 //refresh();
 }
+
 
 void KRender::play(double speed)
 {

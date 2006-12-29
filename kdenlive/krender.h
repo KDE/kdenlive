@@ -167,8 +167,7 @@ class KRender:public QObject {
 
  
   private:			// Private attributes & methods
-     
-     Mlt::Tractor * m_mltTractor;
+
      Mlt::Consumer * m_mltConsumer;
      Mlt::Producer * m_mltProducer;
      Mlt::Consumer *m_fileRenderer;
@@ -209,7 +208,6 @@ class KRender:public QObject {
 	/** refresh monitor display */
         void refresh();
 
-
      signals:			// Signals
 	/** This signal is emitted once a reply to createVideoXWidow() has been recieved. */
     void replyCreateVideoXWindow(WId);
@@ -243,6 +241,7 @@ class KRender:public QObject {
     void start();
 	/** Stop Consumer */
     void stop();
+    void clear();
     int getLength();
 	/** If the file is readable by mlt, return true, otherwise false */
     bool isValid(KURL url);
