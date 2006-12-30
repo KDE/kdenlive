@@ -1182,7 +1182,7 @@ namespace Gui {
 	m_dockCaptureMonitor->update();
 
 
-	connectMonitors();
+	kdDebug()<<"****************  INIT DOCUMENT VIEW 1***************"<<endl;	
 /*	
 	Don't display timeline clip in timeline monitor on single click
 	connect(getDocument(), SIGNAL(signalClipSelected(DocClipRef *)),
@@ -1264,13 +1264,13 @@ namespace Gui {
 	connect(m_timeline, SIGNAL(rulerRightButtonPressed()), this,
 	    SLOT(slotDisplayRulerContextMenu()));
 
+
 	m_timeline->trackView()->clearFunctions();
 
 	m_timeline->trackView()->registerFunction("move",
 	    new TrackPanelClipMoveFunction(this, m_timeline,
 		getDocument()));
 
-	if (resizeFunction) delete resizeFunction;
 	resizeFunction =
 	    new TrackPanelClipResizeFunction(this, m_timeline,
 	    getDocument());
@@ -1295,10 +1295,7 @@ namespace Gui {
         m_timeline->trackView()->registerFunction("transitionmove",
         transitionMoveFunction);
 
-	if (rollFunction) delete rollFunction;
-	rollFunction =
-	    new TrackPanelClipRollFunction(this, m_timeline,
-	    getDocument());
+	rollFunction = new TrackPanelClipRollFunction(this, m_timeline, getDocument());
 
 	//register roll function -reh
 	m_timeline->trackView()->registerFunction("roll", rollFunction);
@@ -1345,7 +1342,6 @@ namespace Gui {
 	    SIGNAL(signalClipCropStartChanged(DocClipRef *)),
 	    m_clipMonitor, SLOT(slotClipCropStartChanged(DocClipRef *)));*/
 
-
 	m_timeline->trackView()->registerFunction("marker",
 	    new TrackPanelMarkerFunction(this, m_timeline, getDocument()));
 	m_timeline->trackView()->registerFunction("spacer",
@@ -1372,6 +1368,8 @@ namespace Gui {
 	m_timeline->setSnapToBorder(snapToBorderEnabled());
 	m_timeline->setSnapToMarker(snapToMarkersEnabled());
 	m_timeline->setEditMode("move");
+
+	connectMonitors();
 	slotSyncTimeLineWithDocument();
 
 	m_timeline->slotSetFramesPerSecond(KdenliveSettings::defaultfps());
