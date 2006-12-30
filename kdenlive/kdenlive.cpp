@@ -2596,7 +2596,7 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	slotStatusMsg(i18n("Adding Clips"));
 
 	// Make a reasonable filter for video / audio files.
-	QString filter = "application/vnd.kde.kdenlive application/vnd.westley.scenelist application/flv application/vnd.rn-realmedia video/x-dv video/x-msvideo video/mpeg video/x-ms-wmv audio/x-mp3 audio/x-wav application/ogg *.m2t";
+	QString filter = "application/vnd.kde.kdenlive application/vnd.westley.scenelist application/flv application/vnd.rn-realmedia video/x-dv video/x-msvideo video/mpeg video/x-ms-wmv audio/x-mp3 audio/x-wav application/ogg *.m2t video/mp4 video/quicktime";
 	KURL::List urlList =
 	    KFileDialog::getOpenURLs(m_fileDialogPath.path(), filter, this,
         i18n("Open File..."));
@@ -2754,7 +2754,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
     
     void KdenliveApp::slotExportCurrentFrame() {
-        if (m_monitorManager.hasActiveMonitor()) {
+        if (m_monitorManager.hasActiveMonitor() && m_monitorManager.activeMonitor()->clip()) {
             QString filter = "image/png";
             QCheckBox * addToProject = new QCheckBox(i18n("Add image to project"),this);
 	    addToProject->setChecked(true);
