@@ -3551,10 +3551,12 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     void KdenliveApp::toggleMarkerUnderCursor()
     {
 		DocClipRef *clipUnderMouse = getDocument()->projectClip().selectedClip();
-		GenTime cursorTime = getDocument()->renderer()->seekPosition();
-		if (cursorTime < clipUnderMouse->trackStart() || cursorTime > clipUnderMouse->trackEnd()) return;
-		if (clipUnderMouse->hasSnapMarker(cursorTime) != GenTime(0.0)) deleteMarkerUnderCursor();
-		else addMarkerUnderCursor();
+		if (clipUnderMouse) {
+			GenTime cursorTime = getDocument()->renderer()->seekPosition();
+			if (cursorTime < clipUnderMouse->trackStart() || cursorTime > clipUnderMouse->trackEnd()) return;
+			if (clipUnderMouse->hasSnapMarker(cursorTime) != GenTime(0.0)) deleteMarkerUnderCursor();
+			else addMarkerUnderCursor();
+		}
     }
 
     void KdenliveApp::populateClearSnapMarkers(KMacroCommand *
