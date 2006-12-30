@@ -887,6 +887,10 @@ KMessageBox::sorry(0, i18n("Firewire is not enabled on your system.\n Please ins
 
 
 void KRender::exportCurrentFrame(KURL url, bool notify) {
+    if (!m_mltProducer) {
+	KMessageBox::sorry(m_app, i18n("There is no clip, cannot extract frame."));
+	return;
+    }
     m_mltProducer->set_speed(0.0);
 
     QString frequency;
