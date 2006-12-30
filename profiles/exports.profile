@@ -41,25 +41,25 @@
 
 ###MPEG4
 
-21:MED:Mpeg4:160x120:Low::avformat::mpeg:format=avi video_rc_min_rate=0 video_bit_rate=100000 audio_bit_rate=32000 frequency=22050 size=160x120 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
-22:MED:Mpeg4:160x120:Medium::avformat::mpeg:format=avi video_rc_min_rate=0 video_bit_rate=300000 audio_bit_rate=64000 frequency=22050 size=160x120 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
-23:MED:Mpeg4:160x120:High::avformat::mpeg:format=avi video_rc_min_rate=0 video_bit_rate=600000 audio_bit_rate=128000 frequency=32000 size=160x120 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
+21:MED:Mpeg4:160x120:Low::avformat::avi:format=avi video_rc_min_rate=0 video_bit_rate=100000 audio_bit_rate=32000 frequency=22050 size=160x120 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
+22:MED:Mpeg4:160x120:Medium::avformat::avi:format=avi video_rc_min_rate=0 video_bit_rate=300000 audio_bit_rate=64000 frequency=22050 size=160x120 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
+23:MED:Mpeg4:160x120:High::avformat::avi:format=avi video_rc_min_rate=0 video_bit_rate=600000 audio_bit_rate=128000 frequency=32000 size=160x120 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
 
-24:MED:Mpeg4:240x180:Low::avformat::mpeg:format=avi video_rc_min_rate=0 video_bit_rate=400000 audio_bit_rate=32000 frequency=22050 size=240x180 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
-25:MED:Mpeg4:240x180:Medium::avformat::mpeg:format=avi video_rc_min_rate=0 video_bit_rate=700000 audio_bit_rate=64000 frequency=32000 size=240x180 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
-26:MED:Mpeg4:240x180:High::avformat::mpeg:format=avi video_rc_min_rate=0 video_bit_rate=900000 audio_bit_rate=128000 frequency=44100 size=240x180 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
+24:MED:Mpeg4:240x180:Low::avformat::avi:format=avi video_rc_min_rate=0 video_bit_rate=400000 audio_bit_rate=32000 frequency=22050 size=240x180 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
+25:MED:Mpeg4:240x180:Medium::avformat::avi:format=avi video_rc_min_rate=0 video_bit_rate=700000 audio_bit_rate=64000 frequency=32000 size=240x180 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
+26:MED:Mpeg4:240x180:High::avformat::avi:format=avi video_rc_min_rate=0 video_bit_rate=900000 audio_bit_rate=128000 frequency=44100 size=240x180 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
 
-27:MED:Mpeg4:320x200:Low::avformat::mpeg:format=avi video_rc_min_rate=0 video_bit_rate=600000 audio_bit_rate=32000 frequency=22050 size=320x200 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
-28:MED:Mpeg4:320x200:Medium::avformat::mpeg:format=avi video_rc_min_rate=0 video_bit_rate=1000000 audio_bit_rate=64000 frequency=32000 size=320x200 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
-29:MED:Mpeg4:320x200:High::avformat::mpeg:format=avi video_rc_min_rate=0 video_bit_rate=1200000 audio_bit_rate=128000 frequency=44100 size=320x200 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
+27:MED:Mpeg4:320x200:Low::avformat::avi:format=avi video_rc_min_rate=0 video_bit_rate=600000 audio_bit_rate=32000 frequency=22050 size=320x200 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
+28:MED:Mpeg4:320x200:Medium::avformat::avi:format=avi video_rc_min_rate=0 video_bit_rate=1000000 audio_bit_rate=64000 frequency=32000 size=320x200 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
+29:MED:Mpeg4:320x200:High::avformat::avi:format=avi video_rc_min_rate=0 video_bit_rate=1200000 audio_bit_rate=128000 frequency=44100 size=320x200 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
 
-30:MED:Mpeg4:640x480:Low::avformat::mpeg:format=avi video_rc_min_rate=0 video_bit_rate=800000 audio_bit_rate=32000 frequency=22050 size=640x480 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
-31:MED:Mpeg4:640x480:Medium::avformat::mpeg:format=avi video_rc_min_rate=0 video_bit_rate=3000000 audio_bit_rate=64000 frequency=32000 size=640x480 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
-32:MED:Mpeg4:640x480:High::avformat::mpeg:format=avi video_rc_min_rate=0 video_bit_rate=6000000 audio_bit_rate=128000 frequency=44100 size=640x480 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
+30:MED:Mpeg4:640x480:Low::avformat::avi:format=avi video_rc_min_rate=0 video_bit_rate=800000 audio_bit_rate=32000 frequency=22050 size=640x480 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
+31:MED:Mpeg4:640x480:Medium::avformat::avi:format=avi video_rc_min_rate=0 video_bit_rate=3000000 audio_bit_rate=64000 frequency=32000 size=640x480 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
+32:MED:Mpeg4:640x480:High::avformat::avi:format=avi video_rc_min_rate=0 video_bit_rate=6000000 audio_bit_rate=128000 frequency=44100 size=640x480 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
 
-33:MED:Mpeg4:720x576:Low::avformat::mpeg:format=avi video_rc_min_rate=0 video_bit_rate=3000000 audio_bit_rate=64000 frequency=32000 size=720x576 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
-34:MED:Mpeg4:720x576:Medium::avformat::mpeg:format=avi video_rc_min_rate=0 video_bit_rate=6000000 audio_bit_rate=128000 frequency=44100 size=720x576 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
-35:MED:Mpeg4:720x576:High::avformat::mpeg:format=avi video_rc_min_rate=0 video_bit_rate=8000000 audio_bit_rate=384000 frequency=48000 size=720x576 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
+33:MED:Mpeg4:720x576:Low::avformat::avi:format=avi video_rc_min_rate=0 video_bit_rate=3000000 audio_bit_rate=64000 frequency=32000 size=720x576 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
+34:MED:Mpeg4:720x576:Medium::avformat::avi:format=avi video_rc_min_rate=0 video_bit_rate=6000000 audio_bit_rate=128000 frequency=44100 size=720x576 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
+35:MED:Mpeg4:720x576:High::avformat::avi:format=avi video_rc_min_rate=0 video_bit_rate=8000000 audio_bit_rate=384000 frequency=48000 size=720x576 vcodec=mpeg4 mbd=2 trell=1 v4mv=1 progressive=1
 
 ### FLV
 
