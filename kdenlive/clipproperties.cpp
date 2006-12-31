@@ -165,6 +165,7 @@ namespace Gui {
 	    }
 	    else clipChoice->clipAudio->setText(i18n("None"));
 	    if (m_clipType == DocClipBase::AUDIO) {
+		clipChoice->preview_pixmap->pixmap()->fill(Qt::black);
             	clipChoice->clipType->setText(i18n("Audio Clip"));
             }
             else { // Video clip
