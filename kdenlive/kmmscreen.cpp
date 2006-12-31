@@ -169,8 +169,14 @@ namespace Gui {
 	    emit mouseRightClicked();
 	}
 	else if (e->button() == LeftButton) {
-	    if (playSpeed() == 0.0) play(1.0);
-	    else play(0.0);
+	    if (playSpeed() == 0.0) {
+		play(1.0);
+		emit playSpeedChanged(1.0);
+	    }
+	    else {
+		play(0.0);
+		emit playSpeedChanged(0.0);
+	    }
 	}
     }
 
@@ -192,6 +198,7 @@ namespace Gui {
 	if (newSeek > m_clipLength)
 	    newSeek = m_clipLength;
 	play(0.0);
+	emit playSpeedChanged(0.0);
 	seek(newSeek);
     }
 

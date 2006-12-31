@@ -54,7 +54,6 @@
 #include "initeffects.h"
 
 static QMutex mutex (true);
-double m_fps;
 
 KRender::KRender(const QString & rendererName, Gui::KdenliveApp *parent, const char *name):QObject(parent, name), m_name(rendererName), m_app(parent), m_renderingFormat(0),
 m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProducer(NULL), m_mltTextProducer(NULL)
@@ -105,8 +104,7 @@ static void consumer_frame_show(mlt_consumer, KRender * self, mlt_frame frame_pt
     if (mlt_properties_get_double( MLT_FRAME_PROPERTIES( frame_ptr ), "_speed" ) == 0)
         self->emitConsumerStopped();
     else {
-	mlt_position framePosition = mlt_frame_get_position(frame_ptr);
-	self->emitFrameNumber(GenTime(framePosition, m_fps), 10000);
+	self->emitFrameNumber(mlt_frame_get_position(frame_ptr), 10000);
     }
 }
 
@@ -626,6 +624,7 @@ void KRender::play(double speed)
 	return;
     m_mltProducer->set("out", m_mltProducer->get_length() - 1);
     m_mltProducer->set_speed(speed);
+    if (speed == 0.0) m_mltProducer->seek(m_framePosition + 1);
     refresh();
 }
 
@@ -723,9 +722,10 @@ const QString & KRender::rendererName() const
 }
 
 
-void KRender::emitFrameNumber(const GenTime & time, int eventType)
+void KRender::emitFrameNumber(double position, int eventType)
 {
-        QApplication::postEvent(m_app, new PositionChangeEvent(time, eventType));
+	m_framePosition = position;
+        QApplication::postEvent(m_app, new PositionChangeEvent( GenTime(position, m_fps), eventType));
 }
 
 void KRender::emitFileFrameNumber(const GenTime & time, int eventType)

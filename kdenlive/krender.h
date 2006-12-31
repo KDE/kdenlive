@@ -147,7 +147,7 @@ class KRender:public QObject {
 	/** Returns the current seek position of the renderer. */
     const GenTime & seekPosition() const;
 
-    void emitFrameNumber(const GenTime & time, int eventType);
+    void emitFrameNumber(double position, int eventType);
     void emitFileFrameNumber(const GenTime & time, int eventType);
     void emitConsumerStopped();
     void emitFileConsumerStopped();
@@ -174,6 +174,8 @@ class KRender:public QObject {
      Mlt::Producer * m_mltFileProducer;
      Gui::KdenliveApp *m_app;
      Mlt::Producer *m_mltTextProducer;
+     double m_framePosition;
+     double m_fps;
 
 	/** Holds the path to on screen display profile */
      QString m_osdProfile;
