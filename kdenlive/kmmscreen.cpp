@@ -197,8 +197,10 @@ namespace Gui {
 	    newSeek = GenTime(0);
 	if (newSeek > m_clipLength)
 	    newSeek = m_clipLength;
-	play(0.0);
-	emit playSpeedChanged(0.0);
+	if (playSpeed() != 0.0) {
+	    play(0.0);
+	    emit playSpeedChanged(0.0);
+	}
 	seek(newSeek);
     }
 
