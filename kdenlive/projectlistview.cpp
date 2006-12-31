@@ -142,7 +142,10 @@ void ProjectListView::selectItemsFromIds(QStringList idList)
     }
     if (lastItem) {
 	// if last item is in an opened folder , focus it
-	if (lastItem->depth() == 0) ensureItemVisible(lastItem);
+	if (lastItem->depth() == 0) {
+	    ensureItemVisible(lastItem);	
+	    setCurrentItem(lastItem);
+	}
 	else if (lastItem->parent()->isOpen()) ensureItemVisible(lastItem);
 	else {
 	    clearSelection();

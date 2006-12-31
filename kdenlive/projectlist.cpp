@@ -146,6 +146,7 @@ namespace Gui {
 	QStringList ids;
 	ids.append(QString::number(id));
 	m_listView->selectItemsFromIds(ids);
+	updateListItem();
     }
 
 /** Get a fresh copy of files from KdenliveDoc and display them. */
