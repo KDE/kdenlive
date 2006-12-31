@@ -184,9 +184,9 @@ namespace Gui {
 
 //virtual
     void KMMScreen::wheelEvent(QWheelEvent * e) {
-	GenTime newSeek =
-	    seekPosition() - GenTime(e->delta() / 120,
-	    m_app->getDocument()->framesPerSecond());
+	int factor = 1;
+	if (( e->state() & ControlButton) == ControlButton) factor = m_app->getDocument()->framesPerSecond();
+	GenTime newSeek = seekPosition() - GenTime(e->delta() / 120 * factor, m_app->getDocument()->framesPerSecond());
 	if (newSeek < GenTime())
 	    newSeek = GenTime(0);
 	if (newSeek > m_clipLength)
