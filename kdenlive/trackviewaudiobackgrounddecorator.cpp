@@ -72,7 +72,10 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX,
 	
 	double FramesInOnePixel = (timeline()->mapValueToLocal(1) - timeline()->mapValueToLocal(0));
 
-	if (KdenliveSettings::limitedaudiothumbs() && FramesInOnePixel < 0.1 && ((endX - startX) / FramesInOnePixel  > 4000)) return;
+	if (KdenliveSettings::limitedaudiothumbs() && FramesInOnePixel < 0.1 && ((endX - startX) / FramesInOnePixel  > 4000)) {
+	    if (!m_shift) painter.fillRect(sx, y, ex - sx, h, col);
+	    return;
+	}
 
 	FramesInOnePixel = width / FramesInOnePixel;
 
@@ -80,7 +83,7 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX,
 
 	int channels =clip->audioChannels();
 	if (channels==0)
-			channels=1;
+	    channels=1;
 
 	painter.setClipRect(sx, y, ex - sx, h);
 	if (!m_shift) {
