@@ -168,6 +168,10 @@ namespace Gui {
 	if (e->button() == RightButton) {
 	    emit mouseRightClicked();
 	}
+	else if (e->button() == LeftButton) {
+	    if (playSpeed() == 0.0) play(1.0);
+	    else play(0.0);
+	}
     }
 
     void KMMScreen::mouseMoveEvent(QMouseEvent * e) {
@@ -187,6 +191,7 @@ namespace Gui {
 	    newSeek = GenTime(0);
 	if (newSeek > m_clipLength)
 	    newSeek = m_clipLength;
+	play(0.0);
 	seek(newSeek);
     }
 
