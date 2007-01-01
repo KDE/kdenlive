@@ -55,8 +55,7 @@ namespace Mlt {
     class Consumer;
     class Playlist;
     class Tractor;
-    class Field;
-    class Multitrack;
+    class Frame;
     class Producer;
 };
 
@@ -94,9 +93,8 @@ class KRender:public QObject {
 
 	/** Return thumbnail for color clip */
     void getImage(int id, QString color, int width, int height);
-    
-    /** Return thumbnail for text clip */
-    void getImage(int id, QString txt, uint size, int width, int height);
+
+    QPixmap frameThumbnail(Mlt::Frame *frame, int width, int height, bool border = false);
     
     /** Return thumbnail for image clip */
     void getImage(KURL url, int width, int height);
@@ -119,7 +117,7 @@ class KRender:public QObject {
 	/** stop playing */
     void stop(const GenTime & startTime);
 
-    QPixmap extractFrame(int percent, int width, int height);
+    QPixmap extractFrame(int frame_position, int width, int height);
 	/** Wraps the VEML command of the same name. Tells the renderer to
 	play the current scene at the speed specified, relative to normal
 	playback. e.g. 1.0 is normal speed, 0.0 is paused, -1.0 means play

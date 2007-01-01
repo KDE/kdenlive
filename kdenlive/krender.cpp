@@ -185,7 +185,32 @@ char *KRender::decodedString(QString str)
     return t;
 }
 
-QPixmap KRender::extractFrame(int frame, int width, int height)
+QPixmap KRender::frameThumbnail(Mlt::Frame *frame, int width, int height, bool border)
+{
+    QPixmap pix(width, height);
+
+    mlt_image_format format = mlt_image_rgb24a;
+    if (border) {
+	width = width -2;
+	height = height -2;
+    }
+    uint8_t *thumb = frame->get_image(format, width, height);
+    QImage image(thumb, width, height, 32, NULL, 0, QImage::IgnoreEndian);
+    image.setAlphaBuffer( true );
+    if (!image.isNull()) {
+	if (!border) bitBlt(&pix, 0, 0, &image, 0, 0, width, height);
+	else {
+		pix.fill(black);
+		bitBlt(&pix, 1, 1, &image, 0, 0, width, height);
+	}
+    }
+    else pix.fill(black);
+
+    return pix;
+}
+
+
+QPixmap KRender::extractFrame(int frame_position, int width, int height)
 {
     QPixmap pix(width, height);
     if (!m_mltProducer) {
@@ -193,24 +218,20 @@ QPixmap KRender::extractFrame(int frame, int width, int height)
 	return pix;
     }
     Mlt::Producer mlt_producer(m_mltProducer->get_producer());
-    mlt_producer.seek(frame);
+    mlt_producer.seek(frame_position);
     Mlt::Filter m_convert("avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
     mlt_producer.attach(m_convert);
     pix.fill(Qt::black);
 
-    Mlt::Frame *m_frame = mlt_producer.get_frame();
+    Mlt::Frame *frame = mlt_producer.get_frame();
 
-    if (m_frame) {
-	m_frame->set("rescale", "nearest");
-	uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, width, height, 1);
-	QImage m_image(m_thumb, width, height, 32, 0, 0, QImage::LittleEndian);
-	delete m_frame;
-	
-	if (!m_image.isNull()) {
-	    bitBlt(&pix, 0, 0, &m_image, 0, 0, width, height);
-	}
+    if (frame) {
+	pix = frameThumbnail(frame, width, height);
+	delete frame;
     }
+    else pix.fill(black);
+
     return pix;
 }
 
@@ -238,9 +259,9 @@ QPixmap KRender::getImageThumbnail(KURL url, int width, int height)
     return pixmap;
 }
 
-QPixmap KRender::getVideoThumbnail(KURL url, int frame, int width, int height)
+QPixmap KRender::getVideoThumbnail(KURL url, int frame_position, int width, int height)
 {
-    QPixmap pixmap(width, height);
+    QPixmap pix(width, height);
     Mlt::Producer m_producer(decodedString(url.path()));
     if (m_producer.is_blank()) {
 	return 0;
@@ -248,26 +269,20 @@ QPixmap KRender::getVideoThumbnail(KURL url, int frame, int width, int height)
     Mlt::Filter m_convert("avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
     m_producer.attach(m_convert);
-    m_producer.seek(frame);
-    Mlt::Frame * m_frame = m_producer.get_frame();
+    m_producer.seek(frame_position);
+    Mlt::Frame * frame = m_producer.get_frame();
 
-    if (m_frame) {
-	m_frame->set("rescale", "nearest");
-	uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, width, height, 1);
-
-        // what's the use of this ? I don't think we need it - commented out by jbm 
-	//m_producer.set("thumb", m_thumb, width * height * 4, mlt_pool_release);
-        //m_frame->set("image", m_thumb, 0, NULL, NULL);
-	QImage m_image(m_thumb, width, height, 32, 0, 0, QImage::IgnoreEndian);
-	delete m_frame;
-	if (!m_image.isNull())
-	    bitBlt(&pixmap, 0, 0, &m_image, 0, 0, width, height);
+    if (frame) {
+	pix = frameThumbnail(frame, width, height);
+	delete frame;
     }
-    return pixmap;
+    else pix.fill(black);
+
+    return pix;
 }
 
 
-void KRender::getImage(KURL url, int frame, int width, int height)
+void KRender::getImage(KURL url, int frame_position, int width, int height)
 {
     Mlt::Producer m_producer(decodedString(url.path()));
     if (m_producer.is_blank()) {
@@ -276,55 +291,15 @@ void KRender::getImage(KURL url, int frame, int width, int height)
     Mlt::Filter m_convert("avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
     m_producer.attach(m_convert);
-    m_producer.seek(frame);
+    m_producer.seek(frame_position);
 
-    Mlt::Frame * m_frame = m_producer.get_frame();
+    Mlt::Frame * frame = m_producer.get_frame();
 
-    if (m_frame) {
-	m_frame->set("rescale", "nearest");
-	uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, width - 2, height - 2, 1);
-	
-	QPixmap m_pixmap(width, height);
-	m_pixmap.fill(Qt::black);
-	QImage m_image(m_thumb, width, height, 32, 0, 0, QImage::IgnoreEndian);
-	delete m_frame;
-	if (!m_image.isNull())
-	    bitBlt(&m_pixmap, 1, 1, &m_image, 0, 0, width - 2, height - 2);
-	emit replyGetImage(url, frame, m_pixmap, width, height);
+    if (frame) {
+	QPixmap pix = frameThumbnail(frame, width, height, true);
+	delete frame;
+	emit replyGetImage(url, frame_position, pix, width, height);
     }
-}
-
-/* Create thumbnail for text clip */
-void KRender::getImage(int id, QString txt, uint size, int width, int height)
-{
-    Mlt::Producer m_producer("pango");
-    m_producer.set("markup", decodedString(txt));
-    Mlt::Filter m_convert("avcolour_space");
-    m_convert.set("forced", mlt_image_rgb24a);
-    m_producer.attach(m_convert);
-    m_producer.seek(1);
-    Mlt::Frame * m_frame = m_producer.get_frame();
-
-    if (m_frame) {
-        m_frame->set("rescale", "nearest");
-
-        uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, width - 2, height - 2, 1);
-        
-        //m_producer.set("thumb", m_thumb, width * height * 4, mlt_pool_release);
-        //m_frame->set("image", m_thumb, 0, NULL, NULL);
-
-        QPixmap m_pixmap(width, height);
-	m_pixmap.fill(Qt::black);
-
-        QImage m_image(m_thumb, width - 2, height - 2, 32, 0, 0,                       QImage::IgnoreEndian);
-
-        delete m_frame;
-        if (!m_image.isNull())
-	    bitBlt(&m_pixmap, 1, 1, &m_image, 0, 0, width - 2, height - 2);
-
-        emit replyGetImage(id, m_pixmap, width, height);
-    }
-
 }
 
 /* Create thumbnail for color */
@@ -451,8 +426,8 @@ bool KRender::isValid(KURL url)
 
 void KRender::getFileProperties(KURL url)
 {
-        uint width = 50;
-        uint height = 40;
+        int width = 50;
+        int height = 40;
 	Mlt::Producer producer(decodedString(url.path()));
     	if (producer.is_blank()) {
 	    return;
@@ -504,14 +479,9 @@ void KRender::getFileProperties(KURL url)
 		    filePropertyMap["type"] = "video";
 
                 // Generate thumbnail for this frame
-                uchar *m_thumb = frame->fetch_image(mlt_image_rgb24a, width - 2, height - 2, 1);
-                QPixmap pixmap(width, height);
-		pixmap.fill(Qt::black);
-                QImage m_image(m_thumb, width - 2, height - 2, 32, 0, 0, QImage::IgnoreEndian);
-                if (!m_image.isNull())
-		    bitBlt(&pixmap, 1, 1, &m_image, 0, 0, width - 2, height - 2);
-
+		QPixmap pixmap = frameThumbnail(frame, width, height, true);
                 emit replyGetImage(url, 0, pixmap, width, height);
+
 	    } else if (frame->get_int("test_audio") == 0) {
                 QPixmap pixmap(locate("appdata", "graphics/music.png"));
                 emit replyGetImage(url, 0, pixmap, width, height);
@@ -554,10 +524,11 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
 		// Attach filter for on screen display of timecode
 		mlt_properties properties = MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer());
 		mlt_properties_set_int( properties, "meta.attr.timecode", 1);
-		mlt_properties_set( properties, "meta.attr.timecode.markup", "[#tc#]");
+		mlt_properties_set( properties, "meta.attr.timecode.markup", "#tc#");
 
     		Mlt::Filter m_convert("data_show");
     		m_convert.set("resource", m_osdProfile);
+		m_convert.set("dynamic", "1");
     		if (m_mltProducer->attach(m_convert) == 1) kdDebug()<<"////// error attaching filter"<<endl;
 	}
 
