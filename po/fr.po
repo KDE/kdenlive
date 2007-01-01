@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-01 17:56+0100\n"
-"PO-Revision-Date: 2007-01-01 17:58+0100\n"
+"PO-Revision-Date: 2007-01-01 18:05+0100\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -457,7 +457,7 @@ msgstr "Séparer automatiquement les scènes"
 
 #: kdenlive/configcapture_ui.cpp:60
 msgid "Put recording time info in captured file name"
-msgstr "Inclure la date dans le nom du fichier capturé"
+msgstr "Incorporer la date d'enregistrement dans le nom du fichier capturé"
 
 #: kdenlive/configinterface_ui.cpp:102
 msgid "minutes"
@@ -1588,7 +1588,7 @@ msgstr "Faible qualité"
 
 #: kdenlive/kdenlive.cpp:463
 msgid "Best Quality"
-msgstr "Très haute qualité"
+msgstr "Meilleure qualité"
 
 #: kdenlive/kdenlive.cpp:476
 msgid "Show all markers"
