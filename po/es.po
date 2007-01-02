@@ -1,8 +1,9 @@
 # translation of es.po to español
-# translation of es.po to
 # Gerard Lledó Vives <gellevi@inf.upv.es>, 2004.
-# Carlos Dávila Martín <cdavilam@tiscali.es>, 2006.
+# Carlos Dávila Martín <carluti@users.sourceforge.net>, 2006.
 # jb <jb@ader.ch>, 2006.
+# Carlos Dávila <carluti@users.sourceforge.net>, 2007.
+# translation of es.po to
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 msgid ""
@@ -10,8 +11,8 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-02 17:23+0100\n"
-"PO-Revision-Date: 2006-12-26 17:44+0100\n"
-"Last-Translator: Carlos Dávila\n"
+"PO-Revision-Date: 2007-01-02 23:20+0100\n"
+"Last-Translator: Carlos Dávila <carluti@users.sourceforge.net>\n"
 "Language-Team: español <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -459,8 +460,7 @@ msgstr "Detección de escena automática"
 
 #: kdenlive/configcapture_ui.cpp:60
 msgid "Put recording time info in captured file name"
-msgstr ""
-"Poner información del momento de grabación en el nombre del archivo capturado"
+msgstr "Poner información del momento de grabación en el nombre del archivo capturado"
 
 #: kdenlive/configinterface_ui.cpp:102
 msgid "minutes"
@@ -472,8 +472,7 @@ msgstr "Autoguardar proyecto cada"
 
 #: kdenlive/configinterface_ui.cpp:104
 msgid "Mouse wheel moves horizontally (Alt for vertical scroll)"
-msgstr ""
-"La rueda del ratón mueve horizontalmente (Alt para desplazamiento vertical)"
+msgstr "La rueda del ratón mueve horizontalmente (Alt para desplazamiento vertical)"
 
 #: kdenlive/configinterface_ui.cpp:105
 msgid "Show splash screen"
@@ -529,7 +528,7 @@ msgstr "Mostrar pantalla LCD bajo monitores"
 
 #: kdenlive/configmisc_ui.cpp:133
 msgid "On screen timecode display"
-msgstr ""
+msgstr "Visualización del código de tiempo en pantalla"
 
 #: kdenlive/configproject_ui.cpp:96 kdenlive/configureproject_ui.cpp:135
 msgid "Timecode"
@@ -610,7 +609,7 @@ msgstr "Pistas de audio"
 
 #: kdenlive/configtimeline_ui.cpp:143
 msgid "Disable thumbnails for large clips on low zoom level"
-msgstr "Deshabilitar miniaturas para clips largos a bajo nivel de zoom"
+msgstr "Deshabilitar miniaturas para clips largos a bajo nivel de zum"
 
 #: kdenlive/configtimeline_ui.cpp:146
 msgid "Normalise volume for thumbnail creation"
@@ -1527,34 +1526,32 @@ msgid "Wipe"
 msgstr "Barrido"
 
 #: kdenlive/kdenlive.cpp:380
-#, fuzzy
 msgid "Paste Effects"
-msgstr "Borrar efecto"
+msgstr "Efectos de pegado"
 
 #: kdenlive/kdenlive.cpp:385
-#, fuzzy
 msgid "Paste Transitions"
-msgstr "Transiciones"
+msgstr "Transiciones de pegado"
 
 #: kdenlive/kdenlive.cpp:405
 msgid "Zoom to display the whole project"
-msgstr "Ajustar zoom para ver todo el proyecto"
+msgstr "Ajustar zum para ver todo el proyecto"
 
 #: kdenlive/kdenlive.cpp:409
 msgid "Zoom in"
-msgstr "Acercar zoom"
+msgstr "Acercar zum"
 
 #: kdenlive/kdenlive.cpp:413
 msgid "Zoom out"
-msgstr "Alejar zoom"
+msgstr "Alejar zum"
 
 #: kdenlive/kdenlive.cpp:415
 msgid "Restore Last Zoom Level"
-msgstr "Restaurar último nivel de zoom"
+msgstr "Restaurar último nivel de zum"
 
 #: kdenlive/kdenlive.cpp:418
 msgid "Restoring previous zoom level"
-msgstr "Restaurando el nivel de zoom anterior"
+msgstr "Restaurando el nivel de zum anterior"
 
 #: kdenlive/kdenlive.cpp:421
 msgid "Move/Resize Tool"
@@ -1590,17 +1587,15 @@ msgstr "Fijar al marcador"
 
 #: kdenlive/kdenlive.cpp:455
 msgid "Display On Screen Infos"
-msgstr ""
+msgstr "Mostrar informaciones en pantalla"
 
 #: kdenlive/kdenlive.cpp:460
-#, fuzzy
 msgid "Low Quality"
-msgstr "Alta calidad"
+msgstr "Calidad baja"
 
 #: kdenlive/kdenlive.cpp:470
-#, fuzzy
 msgid "Best Quality"
-msgstr "Calidad media"
+msgstr "Mejor calidad"
 
 #: kdenlive/kdenlive.cpp:483
 msgid "Show all markers"
@@ -1857,11 +1852,11 @@ msgstr "Eliminar carpeta"
 
 #: kdenlive/kdenlive.cpp:710
 msgid "Delete Transition"
-msgstr "Eliminar transición"
+msgstr "Borrar transición"
 
 #: kdenlive/kdenlive.cpp:713
 msgid "Delete transition from selected clip"
-msgstr "Eliminar transición del clip seleccionado"
+msgstr "Borrar transición del clip seleccionado"
 
 #: kdenlive/kdenlive.cpp:715 kdenlive/kdenlive.cpp:2180
 msgid "Add Track"
@@ -1893,8 +1888,7 @@ msgstr "Guardar la zona seleccionada"
 
 #: kdenlive/kdenlive.cpp:733
 msgid "Save selected zone as playlist for future use"
-msgstr ""
-"Guardar la zona seleccionada como una lista de reproducción para uso futuro"
+msgstr "Guardar la zona seleccionada como una lista de reproducción para uso futuro"
 
 #: kdenlive/kdenlive.cpp:735 kdenlive/kdenlive.cpp:2254
 msgid "Save Subclip"
@@ -2152,8 +2146,7 @@ msgstr ""
 "clips de la pista actual."
 
 #: kdenlive/kdenlive.cpp:919
-msgid ""
-"Insert commented snap markers on clips (Ctrl + click to remove a marker)"
+msgid "Insert commented snap markers on clips (Ctrl + click to remove a marker)"
 msgstr ""
 "Insertar marcadores de fijación comentados en los clips (Ctrl + clic para "
 "eliminar un marcador)"
@@ -2267,7 +2260,7 @@ msgstr "Listo."
 
 #: kdenlive/kdenlive.cpp:1009
 msgid "Move/Resize mode"
-msgstr "Modo Movimiento/Cambio de Tamaño"
+msgstr "Modo Movimiento/Cambio de tamaño"
 
 #: kdenlive/kdenlive.cpp:1013 kdenlive/kdenlive.cpp:2589
 msgid "Current Time : "
@@ -2293,7 +2286,7 @@ msgstr ""
 
 #: kdenlive/kdenlive.cpp:1060 kdenlive/kdenlive.cpp:1063
 msgid "Transition"
-msgstr "Transiciones"
+msgstr "Transición"
 
 #: kdenlive/kdenlive.cpp:1067
 msgid "Current effects usable with the renderer"
@@ -2393,24 +2386,20 @@ msgid "No clip in clipboard"
 msgstr "Ningún clip en el portapapeles"
 
 #: kdenlive/kdenlive.cpp:2075
-#, fuzzy
 msgid "Pasting clip %1 effects."
-msgstr "Pegando clip %1."
+msgstr "Pegando efectos del clip %1."
 
 #: kdenlive/kdenlive.cpp:2077
-#, fuzzy
 msgid "Copy Effects"
-msgstr "Mover efecto"
+msgstr "Efectos de copia"
 
 #: kdenlive/kdenlive.cpp:2096
-#, fuzzy
 msgid "Pasting clip %1 transitions."
-msgstr "Pegando clip %1."
+msgstr "Pegando transiciones del clip %1."
 
 #: kdenlive/kdenlive.cpp:2099
-#, fuzzy
 msgid "Copy Transitions"
-msgstr "Transiciones"
+msgstr "Transiciones de copia"
 
 #: kdenlive/kdenlive.cpp:2120
 msgid "Pasting clip %1."
@@ -2883,6 +2872,9 @@ msgid ""
 "There is something wrong with your Kdenlive install.\n"
 " Exiting now..."
 msgstr ""
+"No se pudo crear la ventana de previsualización de vídeo.\n"
+"Hay algo incorrecto en la instalación de Kdenlive.\n"
+"Saliendo..."
 
 #: kdenlive/krender.cpp:833
 msgid "Cannot open file: "
@@ -2924,7 +2916,7 @@ msgstr ""
 
 #: kdenlive/krender.cpp:862
 msgid "There is no clip, cannot extract frame."
-msgstr ""
+msgstr "No hay ningún clip, no se puede extraer el fotograma."
 
 #: kdenlive/kresizecommand.cpp:44
 msgid "Resize clip"
@@ -2991,8 +2983,7 @@ msgid "Piave renderer author"
 msgstr "Autor del renderizador de Piave"
 
 #: kdenlive/main.cpp:64
-msgid ""
-"Piave and Kdenlive internationalization, French translations, splashscreen"
+msgid "Piave and Kdenlive internationalization, French translations, splashscreen"
 msgstr ""
 "Internacionalización de Piave y Kdenlive, traducción francesa, pantalla de "
 "presentación"
@@ -4323,9 +4314,9 @@ msgstr "Añadir transición"
 #. i18n: file kdenlive/kdenliveui.rc line 325
 #: kdenlive/rc.cpp:3936 kdenlive/rc.cpp:3999 kdenlive/rc.cpp:4020
 #: kdenlive/rc.cpp:4086
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Preview Quality"
-msgstr "Calidad media"
+msgstr "Calidad de previsualización"
 
 #: kdenlive/timecode.cpp:74
 msgid "hour"
@@ -4431,3 +4422,4 @@ msgstr "Fi&n"
 #: kdenlive/transitionwipe_ui.cpp:237
 msgid "Rescale images"
 msgstr "Rescalar imágenes"
+
