@@ -232,6 +232,10 @@ namespace Gui {
 		/** paste the clipboard into the document
 		 */
 	void slotEditPaste();
+
+	void slotPasteTransitions();
+	void slotPasteEffects();
+
 		/** changes the statusbar contents for the standard label permanently, used to indicate current actions.
 		 * @param text the text that is displayed in the statusbar
 		 */
@@ -591,6 +595,9 @@ namespace Gui {
 
 	KAction *timelineRazorAllClips;
 	KAction *timelineRazorSelectedClips;
+
+	KAction *actionPasteEffects;
+	KAction *actionPasteTransitions;
 
 	KAction *renderExportTimeline;
 	KAction *configureProject;

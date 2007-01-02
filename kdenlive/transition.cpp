@@ -172,21 +172,16 @@ Transition::Transition(const DocClipRef * clipa, const TRANSITIONTYPE & type, co
 }
 
 // create a transition from XML
-Transition::Transition(const DocClipRef * clip, QDomElement transitionElement)
+Transition::Transition(const DocClipRef * clip, QDomElement transitionElement, GenTime offset)
 {
-	//QDomNode node = transitionXml.firstChild();
-	//QDomElement transitionElement = transitionXml.toElement(); //node.toElement();
-
-	//kdDebug()<<"+++++"<<transitionXml.toString()<<endl;
-
-
+	if (offset == GenTime()) offset = clip->trackStart();
 	m_referenceClip = clip;
 	m_singleClip = true;
         m_secondClip = NULL;
 	m_transitionStart = GenTime (transitionElement.attribute("start", QString::null).toInt(),KdenliveSettings::defaultfps());
 	m_transitionDuration = GenTime(transitionElement.attribute("end", QString::null).toInt(),KdenliveSettings::defaultfps()) - m_transitionStart;
 	m_transitionTrack = transitionElement.attribute("transition_track", "0").toInt();
-	m_transitionStart = m_transitionStart - clip->trackStart();
+	m_transitionStart = m_transitionStart - offset;
 
         m_invertTransition = transitionElement.attribute("inverted", "0").toInt();
 	uint transType = transitionElement.attribute("type", "0").toInt();
@@ -205,6 +200,10 @@ Transition::Transition(const DocClipRef * clip, QDomElement transitionElement)
             params[paramElement.tagName()] = paramElement.attribute("value", QString::null);
         }
         if (!params.isEmpty()) setTransitionParameters(params);
+	
+	// Check if transition is valid (not outside of clip)
+	if (m_transitionStart > clip->cropDuration()) 
+		m_transitionDuration = GenTime();
 }
 
 Transition::~Transition()
@@ -404,6 +403,16 @@ Transition *Transition::clone()
     else
         //return new Transition::Transition(m_referenceClip, m_secondClip);
 	return new Transition::Transition(m_referenceClip, this->toXML());
+}
+
+Transition *Transition::reparent(const DocClipRef * clip)
+{
+    return new Transition::Transition(clip, this->toXML(), m_referenceClip->trackStart());
+}
+
+bool Transition::isValid()
+{
+    return (m_transitionDuration != GenTime());
 }
 
 QDomElement Transition::toXML()

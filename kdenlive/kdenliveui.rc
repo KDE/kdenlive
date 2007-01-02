@@ -300,6 +300,10 @@
   <Separator lineSeparator="true"/>
   <Action name="edit_copy"/>
   <Action name="edit_cut"/>
+  <Menu name="special_paste"><text>Paste</text>
+	  <Action name="paste_effects"/>
+	  <Action name="paste_transitions"/>
+  </Menu>
   <Action name="delete_selected_clips"/>
   <Action name="razor_selected_clips"/>
   <Separator lineSeparator="true"/>

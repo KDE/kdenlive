@@ -50,7 +50,7 @@ class Transition {
     Transition(const DocClipRef * clipa);
     Transition(const DocClipRef * clipa, const GenTime &time, const QString & type);
     Transition(const DocClipRef * clipa, const TRANSITIONTYPE & type, const GenTime &startTime, const GenTime &endTime, bool inverted);
-    Transition(const DocClipRef * clip, QDomElement transitionElement);
+    Transition(const DocClipRef * clip, QDomElement transitionElement, GenTime offset = GenTime());
     ~Transition();
 
     /** Returns an XML representation of this transition. */
@@ -80,6 +80,8 @@ class Transition {
     int transitionTrack();
     void setTransitionTrack(int track);
     QPixmap transitionPixmap();
+    Transition *reparent(const DocClipRef * clip);
+    bool isValid();
 
   private:
 

@@ -376,8 +376,15 @@ namespace Gui {
 	editPaste = KStdAction::paste(this, SLOT(slotEditPaste()),
 	    actionCollection());
 
-	editPaste = KStdAction::paste(this, SLOT(slotEditPaste()),
-	    actionCollection());
+	actionPasteEffects =
+	    new KAction(i18n("Paste Effects"),
+	    0, this, SLOT(slotPasteEffects()),
+	    actionCollection(), "paste_effects");
+
+	actionPasteTransitions =
+	    new KAction(i18n("Paste Transitions"),
+	    0, this, SLOT(slotPasteTransitions()),
+	    actionCollection(), "paste_transitions");
 
 	fullScreen = KStdAction::fullScreen(this, SLOT(slotFullScreen()),
 	    actionCollection(), this);
@@ -2055,6 +2062,53 @@ namespace Gui {
 	m_copiedClip = getDocument()->projectClip().selectedClip()->clone(effectList(), getDocument()->clipManager());
 	slotDeleteSelected();
 	slotStatusMsg(i18n("Ready."));
+    }
+
+    void KdenliveApp::slotPasteEffects()
+    {
+	if (!m_copiedClip) {
+            KMessageBox::sorry(this, i18n("No clip in clipboard"));
+            return;
+        }
+	DocClipRef *clipUnderMouse = getDocument()->projectClip().selectedClip();
+	if (!clipUnderMouse) return;
+	slotStatusMsg(i18n("Pasting clip %1 effects.").arg(m_copiedClip->name()));
+	EffectStack effectStack = m_copiedClip->effectStack();
+	KMacroCommand *macroCommand = new KMacroCommand(i18n("Copy Effects"));
+
+	EffectStack::iterator itt = effectStack.begin();
+	while (itt != effectStack.end()) {
+		macroCommand->addCommand(Command::KAddEffectCommand::insertEffect(getDocument(), clipUnderMouse, clipUnderMouse->numEffects(), *itt));	
+	    ++itt;
+	}
+	addCommand(macroCommand, true);
+	getDocument()->activateSceneListGeneration(true);
+    }
+
+    void KdenliveApp::slotPasteTransitions()
+    {
+	if (!m_copiedClip) {
+            KMessageBox::sorry(this, i18n("No clip in clipboard"));
+            return;
+        }
+	DocClipRef *clipUnderMouse = getDocument()->projectClip().selectedClip();
+	if (!clipUnderMouse) return;
+	slotStatusMsg(i18n("Pasting clip %1 transitions.").arg(m_copiedClip->name()));
+	TransitionStack transitionStack = m_copiedClip->clipTransitions();
+
+	KMacroCommand *macroCommand = new KMacroCommand(i18n("Copy Transitions"));
+	kdDebug()<<"/// COPYING "<<transitionStack.count()<<" TRANSIIONS----"<<endl;
+	TransitionStack::iterator itt = transitionStack.begin();
+	while (itt != transitionStack.end()) {
+		Transition *tr = (*itt)->reparent(clipUnderMouse);
+		if (tr->isValid()) 
+			macroCommand->addCommand(Command::KAddTransitionCommand::appendTransition(clipUnderMouse, tr));
+		else delete tr;
+	    ++itt;
+	}
+	addCommand(macroCommand, true);
+	getDocument()->activateSceneListGeneration(true);
+	
     }
 
     void KdenliveApp::slotEditPaste()

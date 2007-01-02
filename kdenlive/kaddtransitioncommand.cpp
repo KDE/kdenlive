@@ -42,6 +42,11 @@ namespace Command {
     }
 
 // static
+    KAddTransitionCommand *KAddTransitionCommand::appendTransition( DocClipRef * clip, Transition *transit) {
+	return new KAddTransitionCommand(clip, transit, true);
+    }
+
+// static
     KAddTransitionCommand *KAddTransitionCommand::removeTransition( DocClipRef * clip, Transition *transit) {
 	return new KAddTransitionCommand(clip, transit, false);
     }
