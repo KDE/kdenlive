@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-02 17:23+0100\n"
-"PO-Revision-Date: 2007-01-02 17:34+0100\n"
+"PO-Revision-Date: 2007-01-02 17:40+0100\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -507,11 +507,11 @@ msgstr "Dossier des fichiers temporaires"
 
 #: kdenlive/configmisc_ui.cpp:128
 msgid "Use system temporary folder"
-msgstr "Utiliser le dossier sytème pour stocker les fichiers temporaires"
+msgstr "Utiliser le dossier temporaire du système"
 
 #: kdenlive/configmisc_ui.cpp:129
 msgid "User defined folder"
-msgstr "Laisser l'utilisateur choisir le dossier"
+msgstr "Utiliser le dossier suivant"
 
 #: kdenlive/configmisc_ui.cpp:130
 msgid "External image editor"
