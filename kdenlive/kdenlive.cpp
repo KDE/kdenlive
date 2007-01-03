@@ -712,6 +712,11 @@ namespace Gui {
         "del_transition");
 	deleteTransition->setStatusText(i18n("Delete transition from selected clip"));
 
+        KAction *editTransition = new KAction(i18n("Edit Transition"), 0, this,
+        SLOT(slotEditCurrentTransition()), actionCollection(),
+        "edit_transition");
+	editTransition->setStatusText(i18n("Edit transition from selected clip"));
+
         KAction *addTrack = new KAction(i18n("Add Track"), 0, this,
         SLOT(slotAddTrack()), actionCollection(),
         "timeline_add_track");
@@ -2083,6 +2088,7 @@ namespace Gui {
 	}
 	addCommand(macroCommand, true);
 	getDocument()->activateSceneListGeneration(true);
+	slotStatusMsg(i18n("Ready."));
     }
 
     void KdenliveApp::slotPasteTransitions()
@@ -2097,7 +2103,6 @@ namespace Gui {
 	TransitionStack transitionStack = m_copiedClip->clipTransitions();
 
 	KMacroCommand *macroCommand = new KMacroCommand(i18n("Copy Transitions"));
-	kdDebug()<<"/// COPYING "<<transitionStack.count()<<" TRANSIIONS----"<<endl;
 	TransitionStack::iterator itt = transitionStack.begin();
 	while (itt != transitionStack.end()) {
 		Transition *tr = (*itt)->reparent(clipUnderMouse);
@@ -2108,7 +2113,7 @@ namespace Gui {
 	}
 	addCommand(macroCommand, true);
 	getDocument()->activateSceneListGeneration(true);
-	
+	slotStatusMsg(i18n("Ready."));
     }
 
     void KdenliveApp::slotEditPaste()
@@ -3749,6 +3754,22 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	}
     }
 
+
+    void KdenliveApp::slotEditCurrentTransition() {
+        if (getDocument()->projectClip().hasSelectedClips() == 0) {
+            KMessageBox::sorry(this, i18n("Please select a clip to edit transition"));
+            return;
+        }
+	GenTime mouseTime;
+	QPoint position = mousePosition();
+	mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(position).x());
+	Transition *transit = getDocument()->projectClip().selectedClip()->transitionAt(mouseTime);
+	if (transit) {
+	    m_dockTransition->makeDockVisible();
+	    m_transitionPanel->setTransition(transit);
+            m_timeline->drawTrackViewBackBuffer();
+	}
+    }
 
 
 /** At least one track within the project have been added or removed.

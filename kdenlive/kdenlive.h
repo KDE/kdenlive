@@ -468,6 +468,7 @@ namespace Gui {
         
         /** Delete the selected clip's transition */
         void slotDeleteTransition();
+        void slotEditCurrentTransition();
         void slotSplashTimeout();
         void slotExportCurrentFrame();
 	void slotViewSelectedClip();
