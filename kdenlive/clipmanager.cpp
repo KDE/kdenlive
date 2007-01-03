@@ -20,6 +20,7 @@
 
 #include <qfile.h>
 #include <qimage.h>
+#include <qcheckbox.h>
 
 // include files for KDE
 #include <klocale.h>
@@ -35,7 +36,6 @@
 #include <krendermanager.h>
 #include <kaddclipcommand.h>
 #include <titlewidget.h>
-
 
 ClipManager::ClipManager(KRender *render, QWidget * parent, const char *name) //Manager & renderManager
 {
@@ -355,9 +355,11 @@ DocClipBase *ClipManager::insertXMLTextClip(QDomDocument node)
     QPixmap pix(48,38);
     result.fill(Qt::black);
     if (!QFile(clip->fileURL().path()).exists()) {
-            titleWidget *txtWidget=new titleWidget(0,10,10);
+            titleWidget *txtWidget=new titleWidget(NULL,10,10);
             txtWidget->setXml(clip->toDocClipTextFile()->textClipXml());
-            txtWidget->createImage(clip->toDocClipTextFile()->fileURL());
+	    KTempFile tmp(KdenliveSettings::currenttmpfolder(),".png");
+	    txtWidget->transparentTitle->setChecked(clip->toDocClipTextFile()->isTransparent());
+            txtWidget->createImage(KURL(tmp.name()));
 	    pix = txtWidget->thumbnail(48, 38);
             delete txtWidget;
     }
@@ -410,10 +412,11 @@ DocClipBase *ClipManager::insertTextClip(
     if (!QFile(url.path()).exists()) {
 	int width = KdenliveSettings::defaultwidth();
 	if (KdenliveSettings::videoprofile() == "dv_wide") width = width * 4 / 3;
-        titleWidget *txtWidget=new titleWidget(0 ,width,KdenliveSettings::defaultheight());
+        titleWidget *txtWidget=new titleWidget(NULL ,width,KdenliveSettings::defaultheight());
         txtWidget->setXml(xml);
 	KTempFile tmp(KdenliveSettings::currenttmpfolder(),".png");
 	url = KURL(tmp.name());
+	txtWidget->transparentTitle->setChecked(alphaTransparency);
         txtWidget->createImage(url);
         pix = txtWidget->thumbnail(48, 38);
     	copyBlt(&result, 1, 1, &pix, 0, 0, 48, 38);

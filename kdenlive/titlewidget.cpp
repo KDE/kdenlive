@@ -645,6 +645,7 @@ titleWidget::titleWidget(Gui::KMMScreen *screen, int width, int height, KURL tmp
         frame->setMinimumWidth(width);
         frame->setMinimumHeight(height);
 	QFont defFont = KdenliveSettings::titlerfont();
+	m_screen = screen;
 
 	fontFace->setCurrentFont(defFont.family());
 	fontSize->setValue(defFont.pointSize());
@@ -655,7 +656,6 @@ titleWidget::titleWidget(Gui::KMMScreen *screen, int width, int height, KURL tmp
 	    int pos = screen->seekPosition().frames(KdenliveSettings::defaultfps()) * 100 / screen->getLength();
 	    timelineSlider->setValue(pos);
 	//canview->canvas()->setBackgroundPixmap(screen->extractFrame(pos, KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight()));
-	    m_screen = screen;
 	}
 	
         // Put icons on buttons
@@ -830,6 +830,7 @@ void titleWidget::adjustWidgets(QCanvasRectangle* i)
 void titleWidget::doPreview(int pos)
 {
         // Prepare for mlt preview
+	if (!m_screen) return;
 	int position = m_screen->getLength() * pos / 100;
 	Timecode tcode;
 	timelineposition->setText(tcode.getTimecode(GenTime(position, KdenliveSettings::defaultfps()), KdenliveSettings::defaultfps()));
