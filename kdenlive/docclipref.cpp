@@ -792,9 +792,9 @@ QDomDocumentFragment DocClipRef::generateXMLTransition(bool hideVideo, bool hide
 
     if (!hideVideo) {
 	if (ct == DocClipBase::TEXT && m_clip->toDocClipTextFile()->isTransparent()) 
-	transparentBackgroundClip = true;
-    else if ((ct == DocClipBase::IMAGE || ct == DocClipBase::SLIDESHOW) && m_clip->toDocClipAVFile()->isTransparent()) 
-	transparentBackgroundClip = true;
+	    transparentBackgroundClip = true;
+	else if ((ct == DocClipBase::IMAGE || ct == DocClipBase::SLIDESHOW) && m_clip->toDocClipAVFile()->isTransparent()) 
+	    transparentBackgroundClip = true;
     }
 
     // Add transition to create transparent bg effect for image/text clips
