@@ -96,7 +96,7 @@ class ClipManager:public QObject {
 
     /** Insert a text clip */
     DocClipBase *insertTextClip( const GenTime & duration, const QString & name,
-                                 const QString & description, const QDomDocument &xml, const KURL url, QPixmap &pix, bool alphaTransparency, int clipId = -1);
+                                 const QString & description, const QDomDocument &xml, KURL url, QPixmap &pix, bool alphaTransparency, int clipId = -1);
     QDomDocument buildTextClip( const GenTime & duration, const QString & name,
                                  const QString & description, const QDomDocument &xml, const KURL url, QPixmap &pix, bool alphaTransparency, int clipId = -1);
 

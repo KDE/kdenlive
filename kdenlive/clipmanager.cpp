@@ -403,7 +403,7 @@ DocClipBase *ClipManager::insertVirtualClip(const QString & name,
 
 DocClipBase *ClipManager::insertTextClip(
     const GenTime & duration, const QString & name,
-    const QString & description, const QDomDocument &xml, const KURL url, QPixmap &pix, bool alphaTransparency, int clipId)
+    const QString & description, const QDomDocument &xml, KURL url, QPixmap &pix, bool alphaTransparency, int clipId)
 {
     QPixmap result(50, 40);
     result.fill(Qt::black);
@@ -412,6 +412,8 @@ DocClipBase *ClipManager::insertTextClip(
 	if (KdenliveSettings::videoprofile() == "dv_wide") width = width * 4 / 3;
         titleWidget *txtWidget=new titleWidget(0 ,width,KdenliveSettings::defaultheight());
         txtWidget->setXml(xml);
+	KTempFile tmp(KdenliveSettings::currenttmpfolder(),".png");
+	url = KURL(tmp.name());
         txtWidget->createImage(url);
         pix = txtWidget->thumbnail(48, 38);
     	copyBlt(&result, 1, 1, &pix, 0, 0, 48, 38);
