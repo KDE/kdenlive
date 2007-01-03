@@ -75,7 +75,6 @@
 #include "effectparamdialog.h"
 #include "effectstackdialog.h"
 #include "clippropertiesdialog.h"
-#include "exportdialog.h"
 #include "kaddclipcommand.h"
 #include "kaddeffectcommand.h"
 #include "kaddavfilecommand.h"
