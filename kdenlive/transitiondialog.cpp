@@ -315,6 +315,7 @@ void TransitionDialog::setTransitionDirection(bool direc)
 void TransitionDialog::setTransitionParameters(const QMap < QString, QString > parameters)
 {
     if (propertiesDialog->activePageIndex() == 1) {
+	// Push transition
         transitWipe->rescaleImages->setChecked(parameters["distort"].toInt());
 	transitWipe->setParameters(parameters["geometry"]);
 	QString fname = parameters["luma"];
@@ -327,6 +328,7 @@ void TransitionDialog::setTransitionParameters(const QMap < QString, QString > p
 	}
     }
     else if (propertiesDialog->activePageIndex() == 2) {
+	// Pip transition
         transitPip->setParameters(parameters["geometry"]);
 	QString fname = parameters["luma"];
 	if (!fname.isEmpty()) {
@@ -338,6 +340,7 @@ void TransitionDialog::setTransitionParameters(const QMap < QString, QString > p
 	}
         }
     else if (propertiesDialog->activePageIndex() == 3) {
+	// Luma transition
 	transitLumaFile->slider_soft->setValue(parameters["softness"].toDouble() * 100.0);
 	QString fileName = KURL(parameters["resource"]).filename();
 	fileName = fileName.left(fileName.length() - 4);

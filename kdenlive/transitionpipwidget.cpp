@@ -266,7 +266,7 @@ transitionPipWidget::transitionPipWidget(KdenliveApp * app, int width, int heigh
         connect(radio_start, SIGNAL(stateChanged(int)), this, SLOT(changeKeyFrame(int)));
         m_transitionParameters[0]="0:0:100:0";
         m_transitionParameters[1]="0:0:100:0";
-        changeKeyFrame(0);
+        changeKeyFrame(radio_start->isChecked());
 }
 
 
@@ -280,7 +280,7 @@ transitionPipWidget::~transitionPipWidget()
 void transitionPipWidget::changeKeyFrame(int isOn)
 {
     int x, y, size, transp, ix;
-    if (isOn == QButton::On) ix = 0;
+    if (isOn) ix = 0;
     else ix = 1;
     x = m_transitionParameters[ix].section(":",0,0).toInt();
     y = m_transitionParameters[ix].section(":",1,1).toInt();
@@ -383,7 +383,7 @@ void transitionPipWidget::setParameters(QString params)
     
     m_transitionParameters[0]=x1+":"+y1+":"+size1+":"+transp1;
     m_transitionParameters[1]=x2+":"+y2+":"+size2+":"+transp2;
-    changeKeyFrame(QButton::On);
+    changeKeyFrame(radio_start->isChecked());
 
 }
 
