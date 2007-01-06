@@ -520,6 +520,9 @@ namespace Gui {
 		 */
 	KdenliveDoc *m_doc;
 
+	/** Used to calculate rendering time */
+	time_t m_renderStartTime;
+
 	/** Holds a list of all available effects. */
 	EffectDescriptionList m_effectList;
 

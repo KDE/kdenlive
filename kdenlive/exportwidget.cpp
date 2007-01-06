@@ -640,7 +640,7 @@ void exportWidget::generateDvdFile(QString file, GenTime start, GenTime end, VID
     m_duration = endExportTime - startExportTime;
     if (m_tmpFile) delete m_tmpFile;
     m_tmpFile = new KTempFile( QString::null, ".westley");
-    m_progress = 0;
+    m_progress = -1;
     if (m_exportProcess) {
     	m_exportProcess->kill();
     	delete m_exportProcess;
@@ -685,7 +685,7 @@ void exportWidget::doExport(QString file, QStringList params, bool isDv)
 {
     if (m_tmpFile) delete m_tmpFile;
     m_tmpFile = new KTempFile( QString::null, ".westley");
-    m_progress = 0;
+    m_progress = -1;
     if (m_exportProcess) {
     	m_exportProcess->kill();
     	delete m_exportProcess;
@@ -745,7 +745,7 @@ void exportWidget::doAudioExport(QString src, QString dest)
     stream << src << "\n";
     m_tmpFile->file()->close();
 
-    m_progress = 0;
+    m_progress = -1;
     if (m_exportProcess) {
     	m_exportProcess->kill();
     	delete m_exportProcess;
@@ -790,10 +790,10 @@ void exportWidget::receivedStderr(KProcess *, char *buffer, int len)
 	QString result = res;
 	result = result.simplifyWhiteSpace();
 	result = result.section(" ", -1);
-	int progress = result.toInt();
-	if (progress > 0 && progress > m_progress) {
+	int progress = (int) (100.0 * result.toInt() / m_duration.frames(KdenliveSettings::defaultfps()));
+	if (progress > m_progress) {
 		m_progress = progress;
-		QApplication::postEvent(qApp->mainWidget(), new ProgressEvent((int) (100.0 * progress / m_duration.frames(KdenliveSettings::defaultfps())), 10007));
+		QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(progress, 10007));
 	}
 }
 
@@ -810,7 +810,7 @@ void exportWidget::receivedConvertStderr(KProcess *, char *buffer, int )
 	int progress = hours * 3600 * defaultfps + minutes * 60 * defaultfps + seconds * defaultfps + milliseconds * defaultfps / 100;
 	//kdDebug()<<"++ THEORA: "<<result<<", FRAMES: "<<progress<<", DURATION: "<<m_duration.frames(KdenliveSettings::defaultfps())<<endl;
 
-	if (progress > 0 && progress > m_progress) {
+	if (progress > m_progress) {
 		m_progress = progress;
 		QApplication::postEvent(qApp->mainWidget(), new ProgressEvent((int) (100.0 * progress / m_duration.frames(KdenliveSettings::defaultfps())), 10007));
 	}
@@ -852,7 +852,7 @@ void exportWidget::endExport(KProcess *)
     }*/
 	exportButton->setText(i18n("Export"));
     	m_isRunning = false;
-	QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(0, 10007));
+	QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1, 10007));
     	//processProgress->setProgress(0);
     	tabWidget->page(0)->setEnabled(true);
     	if (autoPlay->isChecked() && finishedOK) {
@@ -877,7 +877,7 @@ void exportWidget::endDvdExport(KProcess *)
     delete m_exportProcess;
     m_exportProcess = 0;
     m_isRunning = false;
-    QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(0, 10007));
+    QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1, 10007));
     tabWidget->page(0)->setEnabled(true);
     emit dvdExportOver(true);
 }
@@ -895,7 +895,7 @@ void exportWidget::endConvert(KProcess *)
     exportButton->setText(i18n("Export"));
     KIO::NetAccess::del(KURL(fileExportFolder->url()+"/"+fileExportName->text() + ".dv"), this);
     m_isRunning = false;
-    QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(0, 10007));
+    QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1, 10007));
     //processProgress->setProgress(0);
     tabWidget->page(0)->setEnabled(true);
     if (autoPlay->isChecked() && finishedOK) {
@@ -926,7 +926,7 @@ void exportWidget::exportFileToTheora(QString srcFileName, int video, int audio,
     	m_convertProcess->kill();
     	delete m_convertProcess;
     }
-    m_progress = 0;
+    m_progress = -1;
     QString dstFileName = srcFileName.left(srcFileName.findRev("."));
 
     m_convertProcess = new KProcess;

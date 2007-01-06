@@ -1462,12 +1462,27 @@ namespace Gui {
 	else if( e->type() == 10007) {
             // Show progress of an export process
 	    int val = ((ProgressEvent *)e)->value();
-	    if (val == 0) {
+	    if (val < 0) {
 		slotStatusMsg(i18n("Ready."));
 		m_statusBarExportProgress->hide();
 	    }
 	    else {
-		slotStatusMsg(i18n("Exporting to File"));
+		if ( val == 0 ) {
+			time( &m_renderStartTime );
+			slotStatusMsg(i18n("Exporting to File"));
+		}
+		else {
+			// estimate remaining time
+			time_t currentTime;
+			time (&currentTime);
+			double seconds = difftime(currentTime, m_renderStartTime);
+			seconds = seconds / val * (100 - val);
+			int minutes = (int) seconds / 60;
+    			seconds = (int) seconds % 60;
+    			int hours = minutes / 60;
+    			minutes = minutes % 60;
+			slotStatusMsg(i18n("Export will finish in %1h%2m%3s").arg(QString::number(hours).rightJustify(2, '0', FALSE)).arg(QString::number(minutes).rightJustify(2, '0', FALSE)).arg(QString::number(seconds).rightJustify(2, '0', FALSE)));
+		}
 		m_statusBarExportProgress->show();
 	    }
 	    m_statusBarExportProgress->setProgress(val);
