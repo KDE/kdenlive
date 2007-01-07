@@ -852,7 +852,15 @@ DocClipBase *ClipManager::addTemporaryClip(const KURL & file)
 	    KMessageBox::sorry(0, i18n("The file %1 is not a valid video file for kdenlive...").arg(file.filename()));
 	    return 0;
     }
-    return new DocClipAVFile(file.fileName(), file, m_clipCounter++);
+
+    // check if dropped file is an image
+    KMimeType::Ptr type = KMimeType::findByURL(file);
+    if (type->name().startsWith("image/")) {
+	QString dur = KdenliveSettings::colorclipduration();
+	int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt());
+	return new DocClipAVFile(file, GenTime(frames , KdenliveSettings::defaultfps()), false, m_clipCounter++);
+    }
+    else return new DocClipAVFile(file.fileName(), file, m_clipCounter++);
 }
 
 void ClipManager::AVImageArrived(int id, const QPixmap & pixmap)
