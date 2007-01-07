@@ -27,9 +27,10 @@ namespace Gui {
 	TRACKTYPE trackType,
 	QWidget * parent,
 	const char *name):QHBox(parent, name),
+	trackIsCollapsed(false),
 	m_timeline(timeline),
 	m_placer(placer),
-	m_trackType(trackType), trackIsCollapsed(false) {
+	m_trackType(trackType) {
 	assert(timeline);
 	assert(placer);
     } 

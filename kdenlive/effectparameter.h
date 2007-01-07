@@ -47,7 +47,7 @@ class EffectParameter {
 
     uint addKeyFrame(EffectKeyFrame * effectKeyFrame);
 
-    EffectKeyFrame *deleteKeyFrame(int ix);
+    void deleteKeyFrame(int ix);
 
     /* @returns a keyframe at the given time. If the keyframe already exists,
      * it is returned. If it does not exist, a keyframe is created via interpolation.

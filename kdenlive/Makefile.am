@@ -39,11 +39,11 @@ kdenlive_SOURCES = avfileformatdesc.cpp avfileformatwidget.cpp avfilelist.cpp \
 	documentmacrocommands.cpp saveprojectscenelistfilter.cpp trackpanelfunctionfactory.cpp \
 	trackpanelselectnonefunction.cpp effectkeyframe.cpp effectdoublekeyframe.cpp effectparamdesc.cpp \
 	effectparamdoubledesc.cpp effectparameter.cpp effectparamdescfactory.cpp doctrackdecorator.cpp \
-	ktrackpanel.cpp ktrackclippanel.cpp trackviewdoublekeyframedecorator.cpp \
-	effectstack.cpp effectstackdialog_ui.ui effectstackdialog.cpp effectdrag.cpp \
-	kaddeffectcommand.cpp effectdescriptionlist.cpp effectstacklistview.cpp \
-	trackpanelclipslipfunction.cpp ktrackplacer.cpp kplacer.cpp kclipplacer.cpp kmmclipkeyframepanel.cpp \
-	trackpanelcliprollfunction.cpp krollcommand.cpp dynamicToolTip.cpp kmonitor.cpp capturemonitor.cpp \
+	ktrackpanel.cpp trackviewdoublekeyframedecorator.cpp effectstack.cpp \
+	effectstackdialog_ui.ui effectstackdialog.cpp effectdrag.cpp kaddeffectcommand.cpp \
+	effectdescriptionlist.cpp effectstacklistview.cpp trackpanelclipslipfunction.cpp ktrackplacer.cpp \
+	kplacer.cpp kclipplacer.cpp kmmclipkeyframepanel.cpp trackpanelcliprollfunction.cpp \
+	krollcommand.cpp dynamicToolTip.cpp kmonitor.cpp capturemonitor.cpp \
 	configinterface_ui.ui configtimeline_ui.ui kdenlivesettings.kcfgc trackheader_ui.ui \
 	projectview_ui.ui createcolorclip_ui.ui loadprogress_ui.ui createimageclip_ui.ui \
 	keditclipcommand.cpp keditclipcommand.h trackpanelkeyframefunction.cpp \
@@ -117,11 +117,11 @@ noinst_HEADERS = configureproject.h configureprojectdialog.h exportconfig.h \
 	documentmacrocommands.h trackpanelfunctionfactory.h trackpanelselectnonefunction.h \
 	effectkeyframe.h effectdoublekeyframe.h effectparamdesc.h effectparamdoubledesc.h \
 	effectparameter.h effectparamdescfactory.h doctrackdecorator.h ktrackpanel.h \
-	ktrackclippanel.h trackviewdoublekeyframedecorator.h trackviewaudiobackgrounddecorator.h \
-	effectstack.h effectstackdialog.h effectdrag.h kaddeffectcommand.h \
-	effectdescriptionlist.h effectstacklistview.h saveprojectscenelistfilter.h ktrackplacer.h \
-	kplacer.h kclipplacer.h kmmclipkeyframepanel.h trackpanelcliprollfunction.h \
-	krollcommand.h dynamicToolTip.h kmonitor.h capturemonitor.h newproject.h definitions.h
+	trackviewdoublekeyframedecorator.h trackviewaudiobackgrounddecorator.h effectstack.h effectstackdialog.h \
+	effectdrag.h kaddeffectcommand.h effectdescriptionlist.h effectstacklistview.h \
+	saveprojectscenelistfilter.h ktrackplacer.h kplacer.h kclipplacer.h kmmclipkeyframepanel.h \
+	trackpanelcliprollfunction.h krollcommand.h dynamicToolTip.h kmonitor.h capturemonitor.h \
+	newproject.h definitions.h
 
 
 

@@ -69,7 +69,7 @@ EffectKeyFrame *EffectParameter::keyframe(int ix) const
     return itt.current();
 }
 
-EffectKeyFrame *EffectParameter::deleteKeyFrame(int ix)
+void EffectParameter::deleteKeyFrame(int ix)
 {
     kdDebug() << "EFFET++++++ remove item: " << ix << endl;
     m_keyFrames.remove(ix);

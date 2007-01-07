@@ -265,7 +265,7 @@ is under the mouse. */
 
         void wheelEvent( QWheelEvent * e );
   /** Handles window resize events. */
-	void resizeEvent(QResizeEvent * event);
+	void resizeEvent(QResizeEvent *);
   /** Sets the minimum value allowed by the ruler. If a slider is below this value at any point, it will be incremented so that it is at this value. If the part of the ruler which displays values less than this value is visible, it will be displayed in a different color to show that it is out of range. */
 	void setMinValue(int value);
   /** Sets the range of values used in the ruler. Sliders will always have a value between these two ranges, and any visible area of the ruler outside of this range will be shown in a different color to respect this. */

@@ -45,9 +45,10 @@ Abstract baseclass for track panels. Provides the interface that a track panel m
 	    TRACKTYPE trackType, QWidget * parent, const char *name);
 
 	 virtual ~ KTrackPanel();
-         
+
          /** Holds the track state (collapsed or not) */
         bool trackIsCollapsed;
+
         virtual void setSelected(bool isSelected) = 0;
 
     /** Returns true if this track panel has a document track index. */
@@ -105,7 +106,6 @@ Abstract baseclass for track panels. Provides the interface that a track panel m
 
 	/** Defines the track type (audio, video,...) */
 	TRACKTYPE m_trackType;
-
 
 	public slots:
 	/** Returns the type of track (audio, video,...)*/

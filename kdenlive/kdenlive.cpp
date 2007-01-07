@@ -2910,7 +2910,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                     GenTime duration(frames , KdenliveSettings::defaultfps());
                     QPixmap thumb = txtWidget->thumbnail(50, 40);
                     QDomDocument xml = txtWidget->toXml();
-                    KCommand *command = new Command::KEditClipCommand(*m_doc, refClip, duration,                           txtWidget->titleName->text(),QString::null, xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked());
+                    Command::KEditClipCommand(*m_doc, refClip, duration, txtWidget->titleName->text(),QString::null, xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked());
 
 		    if (refClip->numReferences() > 0) getDocument()->activateSceneListGeneration(true);
             	}
@@ -2920,23 +2920,20 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                 ClipProperties *dia = new ClipProperties(refClip, getDocument()); 
                 if (dia->exec() == QDialog::Accepted) {
                     if (refClip->clipType() == DocClipBase::COLOR) {
-                        KCommand *command =
-                                new Command::KEditClipCommand(*m_doc, refClip, dia->color(),
+                        Command::KEditClipCommand(*m_doc, refClip, dia->color(),
                                 dia->duration(), dia->name(), dia->description());
                     }
                     else if (refClip->clipType() == DocClipBase::IMAGE) {
 			QString url = dia->url();
-                        KCommand *command =
-                                new Command::KEditClipCommand(*m_doc, refClip, url, dia->duration(), dia->description(), dia->transparency());
+                        Command::KEditClipCommand(*m_doc, refClip, url, dia->duration(), dia->description(), dia->transparency());
 		    }
 		    else if (refClip->clipType() == DocClipBase::SLIDESHOW) {
 			QString url = dia->url() + "/.all." + dia->extension();
-                        KCommand *command =
-                                new Command::KEditClipCommand(*m_doc, refClip, url, "",dia->ttl(), dia->crossfading(), 
+                        Command::KEditClipCommand(*m_doc, refClip, url, "",dia->ttl(), dia->crossfading(), 
                                 dia->duration(), dia->description(), dia->transparency());
                     }
                     else { // Video clip
-                        KCommand *command = new Command::KEditClipCommand(*m_doc, refClip, dia->url(),dia->description());
+                        Command::KEditClipCommand(*m_doc, refClip, dia->url(),dia->description());
                     }
 		if (refClip->numReferences() > 0) getDocument()->activateSceneListGeneration(true);
                 }

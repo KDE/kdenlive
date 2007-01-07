@@ -31,45 +31,41 @@ TrackPanelSelectNoneFunction::~TrackPanelSelectNoneFunction()
 }
 
 // virtual
-bool TrackPanelSelectNoneFunction::mouseApplies(Gui::KTrackPanel * panel,
-    QMouseEvent * event) const
+bool TrackPanelSelectNoneFunction::mouseApplies(Gui::KTrackPanel *, QMouseEvent *) const
 {
     return true;
 }
 
 // virtual
-QCursor TrackPanelSelectNoneFunction::getMouseCursor(Gui::KTrackPanel *
-    panel, QMouseEvent * event)
+QCursor TrackPanelSelectNoneFunction::getMouseCursor(Gui::KTrackPanel *, QMouseEvent *)
 {
     return QCursor(Qt::ArrowCursor);
 }
 
 // virtual
-bool TrackPanelSelectNoneFunction::mousePressed(Gui::KTrackPanel * panel,
-    QMouseEvent * event)
+bool TrackPanelSelectNoneFunction::mousePressed(Gui::KTrackPanel *, QMouseEvent * event)
 {
     if (event->state() & Qt::ShiftButton) {
 	m_multiselect = true;
-	m_multiselectStart = QPoint(m_timeline->mapLocalToValue(event->x()), event->y());
+	m_multiselectStart = QPoint((int) m_timeline->mapLocalToValue(event->x()), event->y());
     }
     else {
 	m_app->activateWorkspaceMonitor();
-	m_app->slotSeekTo( GenTime(m_timeline->mapLocalToValue(event->x()), m_fps));
+	m_app->slotSeekTo( GenTime((int) m_timeline->mapLocalToValue(event->x()), m_fps));
     }
     return true;
 }
 
-bool TrackPanelSelectNoneFunction::mouseDoubleClicked(Gui::KTrackPanel * panel, QMouseEvent * event)
+bool TrackPanelSelectNoneFunction::mouseDoubleClicked(Gui::KTrackPanel *, QMouseEvent *)
 {
     return true;
 }
 
 // virtual
-bool TrackPanelSelectNoneFunction::mouseReleased(Gui::KTrackPanel * panel,
-    QMouseEvent * event)
+bool TrackPanelSelectNoneFunction::mouseReleased(Gui::KTrackPanel *, QMouseEvent * event)
 {
     if (m_multiselect) {
-	QPoint end = QPoint(m_timeline->mapLocalToValue(event->x()), event->y());
+	QPoint end = QPoint((int) m_timeline->mapLocalToValue(event->x()), event->y());
 	if (end.y() < 1) end.setY(1);
 	m_timeline->finishMultiSelection(m_multiselectStart, end);
 	QRect rect(m_multiselectStart.x(), m_multiselectStart.y(), end.x() - m_multiselectStart.x(), end.y() - m_multiselectStart.y());
@@ -87,8 +83,7 @@ bool TrackPanelSelectNoneFunction::mouseReleased(Gui::KTrackPanel * panel,
 }
 
 // virtual
-bool TrackPanelSelectNoneFunction::mouseMoved(Gui::KTrackPanel * panel,
-    QMouseEvent * event)
+bool TrackPanelSelectNoneFunction::mouseMoved(Gui::KTrackPanel *, QMouseEvent * event)
 {
     if (m_multiselect)
     {

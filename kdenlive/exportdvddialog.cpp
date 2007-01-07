@@ -408,8 +408,7 @@ void ExportDvdDialog::generateDvdXml() {
     pgc.appendChild(post);
     doc.appendChild(main);
 
-    QFile *file = new QFile();
-    file->setName(xml_file);
+    QFile *file = new QFile(xml_file);
     file->open(IO_WriteOnly);
     QTextStream stream( file );
     stream.setEncoding (QTextStream::UnicodeUTF8);
@@ -654,8 +653,7 @@ void ExportDvdDialog::generateMenuImages()
     spu.setAttribute("autoorder", "rows");
     doc.appendChild(main);
 
-    QFile *file = new QFile();
-    file->setName(spuxml_file);
+    QFile *file = new QFile(spuxml_file);
     file->open(IO_WriteOnly);
     QTextStream textStream( file );
     textStream.setEncoding (QTextStream::UnicodeUTF8);

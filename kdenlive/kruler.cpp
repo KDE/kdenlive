@@ -556,7 +556,7 @@ namespace Gui {
 	invalidateBackBuffer(0, width());
     }
 
-    void KRuler::resizeEvent(QResizeEvent * event) {
+    void KRuler::resizeEvent(QResizeEvent * ) {
 	m_backBuffer.resize(width(), height());
 	d->m_bufferDrawList.setFullRange(0, width());
 
@@ -1046,7 +1046,7 @@ namespace Gui {
 	    	}
 		invalidateBackBuffer();
 	    }
-	    else invalidateBackBuffer(mapValueToLocal(time) - 20, mapValueToLocal(time) + 20);
+	    else invalidateBackBuffer((int) mapValueToLocal(time) - 20, (int) mapValueToLocal(time) + 20);
 	    
 	}
     }
@@ -1057,7 +1057,7 @@ namespace Gui {
 	bool isChapter = false;
         QValueList < KTimelineGuide >::Iterator it = m_guides.begin();
         for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
-	    if (abs(mapValueToLocal((*it).guidePosition()) - localTime) < 10)
+	    if (abs((int) mapValueToLocal((*it).guidePosition()) - localTime) < 10)
 	    	break;
 	    ct++;
         }
@@ -1078,7 +1078,7 @@ namespace Gui {
 	    }
 	    else {
 		m_guides.erase(toBeRemoved);
-		invalidateBackBuffer(mapValueToLocal(pos) - 20, mapValueToLocal(pos) + 20);
+		invalidateBackBuffer((int) mapValueToLocal(pos) - 20, (int) mapValueToLocal(pos) + 20);
 	    }
     	} else {
 	    kdError()<<"CANNOT find guide to delete"<<endl;
@@ -1095,7 +1095,7 @@ namespace Gui {
 	uint ct = 0;
         QValueList < KTimelineGuide >::Iterator it = m_guides.begin();
         for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
-	    if (abs(mapValueToLocal((*it).guidePosition()) - localTime) < 10)
+	    if (abs((int) mapValueToLocal((*it).guidePosition()) - localTime) < 10)
 	    	break;
 	    ct++;
         }
@@ -1103,7 +1103,7 @@ namespace Gui {
 	    (*it).setComment(comment);
 	    (*it).setChapterNum(chapter);
 	    int pos = (*it).guidePosition();
-	    invalidateBackBuffer(mapValueToLocal(pos) - 20, mapValueToLocal(pos) + 20);
+	    invalidateBackBuffer((int) mapValueToLocal(pos) - 20, (int) mapValueToLocal(pos) + 20);
 	}
     }
 
@@ -1166,7 +1166,7 @@ namespace Gui {
 	uint ct = 0;
         QValueList < KTimelineGuide >::Iterator it = m_guides.begin();
         for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
-	    if (abs(mapValueToLocal((*it).guidePosition()) - localTime) < 10)
+	    if (abs((int) mapValueToLocal((*it).guidePosition()) - localTime) < 10)
 	    	break;
 	    ct++;
         }
