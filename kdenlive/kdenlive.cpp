@@ -1778,8 +1778,15 @@ namespace Gui {
     }
 
     bool KdenliveApp::queryClose() {
-	saveOptions();
-	return saveModified();
+	bool doClose = true;
+	if (m_exportWidget && m_exportWidget->isRunning()) {
+	    if (KMessageBox::questionYesNo(this, i18n("An export process is currently running.\nClosing Kdenlive will terminate the export.\nClose anyways ?")) ==  KMessageBox::No) doClose = false;
+	}
+	if (doClose) {
+	    saveOptions();
+	    return saveModified();
+	}
+	return false;
     }
 
     bool KdenliveApp::saveModified() {

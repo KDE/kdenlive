@@ -904,6 +904,11 @@ void exportWidget::endConvert(KProcess *)
 
 }
 
+bool exportWidget::isRunning()
+{
+    return m_isRunning;
+}
+
 void exportWidget::endExport()
 {
     exportButton->setText(i18n("Export"));

@@ -45,6 +45,8 @@ public:
     exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, VIDEOFORMAT format, QWidget* parent=0, const char* name=0);
         virtual ~exportWidget();
 
+    bool isRunning();
+
 private:
         QHBoxLayout* flayout;
         GenTime m_duration;
