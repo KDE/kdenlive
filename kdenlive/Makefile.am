@@ -58,12 +58,12 @@ kdenlive_SOURCES = avfileformatdesc.cpp avfileformatwidget.cpp avfilelist.cpp \
 	clipproperties.cpp clipproperties.h transitionpip_ui.ui transitionpipwidget.cpp \
 	exportbasewidget_ui.ui exportwidget.cpp exportwidget.h configmisc_ui.ui newproject_ui.ui \
 	newproject.cpp createslideshowclip_ui.ui createslideshowclip.cpp createslideshowclip.h \
-	changeclipspeed.cpp changeclipspeed.h changeclipspeed_ui.ui initeffects.h initeffects.cpp \
-	keditmarkercommand.cpp keditmarkercommand.h addmarker_ui.ui kaddtransitioncommand.cpp \
-	kaddtransitioncommand.h configtitler_ui.ui transitionaudiofade_ui.ui exportdvd_ui.ui \
-	exportdvddialog.cpp exportdvddialog.h transitionwipewidget.cpp transitionwipewidget.h \
-	transitionlumafile_ui.ui definitions.h editencoder_ui.ui docclipvirtual.cpp docclipvirtual.h \
-	kmmrecpanel_ui.ui kmmrecpanel.cpp kmmrecpanel.h configcapture_ui.ui
+	initeffects.h initeffects.cpp keditmarkercommand.cpp keditmarkercommand.h \
+	addmarker_ui.ui kaddtransitioncommand.cpp kaddtransitioncommand.h configtitler_ui.ui \
+	transitionaudiofade_ui.ui exportdvd_ui.ui exportdvddialog.cpp exportdvddialog.h \
+	transitionwipewidget.cpp transitionwipewidget.h transitionlumafile_ui.ui definitions.h \
+	editencoder_ui.ui docclipvirtual.cpp docclipvirtual.h kmmrecpanel_ui.ui kmmrecpanel.cpp \
+	kmmrecpanel.h configcapture_ui.ui
 
 kdenlive_LDADD   =  $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) \
 		    $(LIBSOCKET) $(LIB_FIREWIRE)
