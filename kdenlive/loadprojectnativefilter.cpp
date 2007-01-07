@@ -54,7 +54,7 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 
     QDomElement documentElement = doc.documentElement();
 
-    if (documentElement.tagName() != "westley") {
+    if (documentElement.tagName() != "kdenlivedoc") {
 	kdWarning() <<
 	    "KdenliveDoc::loadFromXML() document element has unknown tagName : "
 	    << documentElement.tagName() << endl;

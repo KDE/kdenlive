@@ -102,21 +102,19 @@ bool TrackPanelRazorFunction::mousePressed(Gui::KTrackPanel * panel,
     return true;
 }
 
-bool TrackPanelRazorFunction::mouseDoubleClicked(Gui::KTrackPanel * panel, QMouseEvent * event)
+bool TrackPanelRazorFunction::mouseDoubleClicked(Gui::KTrackPanel *, QMouseEvent *)
 {
     return true;
 }
 
-bool TrackPanelRazorFunction::mouseReleased(Gui::KTrackPanel * panel,
-    QMouseEvent * event)
+bool TrackPanelRazorFunction::mouseReleased(Gui::KTrackPanel *, QMouseEvent * event)
 {
     GenTime mouseTime = m_timeline->timeUnderMouse(event->x());
     m_clipUnderMouse = 0;
     return true;
 }
 
-bool TrackPanelRazorFunction::mouseMoved(Gui::KTrackPanel * panel,
-    QMouseEvent * event)
+bool TrackPanelRazorFunction::mouseMoved(Gui::KTrackPanel *, QMouseEvent *)
 {
     return true;
 }

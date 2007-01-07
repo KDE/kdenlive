@@ -87,8 +87,8 @@ namespace Gui {
   Timecode tcode;
   int buttonSize;
   bool m_playSelected;
-  bool m_loop;
   bool m_showLcd;
+  bool m_loop;
   GenTime m_startPlayPosition;
 
    // True if we are playing, false otherwise.

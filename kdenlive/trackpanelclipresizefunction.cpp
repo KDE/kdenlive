@@ -73,8 +73,7 @@ bool TrackPanelClipResizeFunction::mouseApplies(Gui::KTrackPanel * panel,
     return result;
 }
 
-QCursor TrackPanelClipResizeFunction::getMouseCursor(Gui::KTrackPanel *
-    panel, QMouseEvent * event)
+QCursor TrackPanelClipResizeFunction::getMouseCursor(Gui::KTrackPanel *, QMouseEvent *)
 {
     return QCursor(Qt::SizeHorCursor);
 }
@@ -145,13 +144,12 @@ bool TrackPanelClipResizeFunction::mousePressed(Gui::KTrackPanel * panel,
     return result;
 }
 
-bool TrackPanelClipResizeFunction::mouseDoubleClicked(Gui::KTrackPanel * panel, QMouseEvent * event)
+bool TrackPanelClipResizeFunction::mouseDoubleClicked(Gui::KTrackPanel *, QMouseEvent *)
 {
     return true;
 }
 
-bool TrackPanelClipResizeFunction::mouseReleased(Gui::KTrackPanel * panel,
-    QMouseEvent * event)
+bool TrackPanelClipResizeFunction::mouseReleased(Gui::KTrackPanel *, QMouseEvent *)
 {
     bool result = false;
     m_resizeCommand->setEndSize(*m_clipUnderMouse);

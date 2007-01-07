@@ -47,7 +47,7 @@ TrackPanelClipMoveFunction::~TrackPanelClipMoveFunction()
 {
 }
 
-bool TrackPanelClipMoveFunction::mouseApplies(Gui::KTrackPanel * panel,
+bool TrackPanelClipMoveFunction::mouseApplies(Gui::KTrackPanel *,
     QMouseEvent * event) const
 {
     return mouseApplies(event->pos());
@@ -74,8 +74,7 @@ bool TrackPanelClipMoveFunction::mouseApplies(const QPoint & pos) const
     return clipUnderMouse;
 }
 
-QCursor TrackPanelClipMoveFunction::getMouseCursor(Gui::KTrackPanel *
-    panel, QMouseEvent * event)
+QCursor TrackPanelClipMoveFunction::getMouseCursor(Gui::KTrackPanel *, QMouseEvent * event)
 {
     return QCursor(Qt::SizeAllCursor);
 }
@@ -116,7 +115,7 @@ bool TrackPanelClipMoveFunction::mousePressed(Gui::KTrackPanel * panel,
     return result;
 }
 
-bool TrackPanelClipMoveFunction::mouseDoubleClicked(Gui::KTrackPanel * panel, QMouseEvent * event)
+bool TrackPanelClipMoveFunction::mouseDoubleClicked(Gui::KTrackPanel * panel, QMouseEvent *)
 {
 	if (panel->hasDocumentTrackIndex()) {
 		DocTrackBase *track =
@@ -130,8 +129,7 @@ bool TrackPanelClipMoveFunction::mouseDoubleClicked(Gui::KTrackPanel * panel, QM
 	return false; ///FIXME is that right ?
 }
 
-bool TrackPanelClipMoveFunction::mouseReleased(Gui::KTrackPanel * panel,
-    QMouseEvent * event)
+bool TrackPanelClipMoveFunction::mouseReleased(Gui::KTrackPanel *, QMouseEvent *)
 {
     m_timeline->stopScrollTimer();
     return true;
@@ -222,8 +220,7 @@ bool TrackPanelClipMoveFunction::dragEntered(Gui::KTrackPanel * panel,
 }
 
 // virtual
-bool TrackPanelClipMoveFunction::dragMoved(Gui::KTrackPanel * panel,
-    QDragMoveEvent * event)
+bool TrackPanelClipMoveFunction::dragMoved(Gui::KTrackPanel *, QDragMoveEvent * event)
 {
     QPoint pos = event->pos();
     if (ClipDrag::canDecode(event)) {
@@ -271,8 +268,7 @@ int TrackPanelClipMoveFunction::trackUnderPoint(const QPoint & pos)
 }
 
 // virtual
-bool TrackPanelClipMoveFunction::dragLeft(Gui::KTrackPanel * panel,
-    QDragLeaveEvent * event)
+bool TrackPanelClipMoveFunction::dragLeft(Gui::KTrackPanel *, QDragLeaveEvent *)
 {
     m_dragging = false;
     if (!m_selection.isEmpty()) {

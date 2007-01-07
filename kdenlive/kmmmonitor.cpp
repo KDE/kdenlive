@@ -42,7 +42,7 @@ namespace Gui {
 	m_app(app), m_document(document), m_screenHolder(new QVBox(this,
 	    name)), m_screen(new KMMScreen(app, m_screenHolder, name)),
 	m_editPanel(new KMMEditPanel(document, this, name)),
-	m_noSeek(false), m_clip(0), m_referredClip(0) {
+	m_noSeek(false), m_clip(NULL), m_referredClip(NULL) {
 	connect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)),
 	    this, SIGNAL(seekPositionChanged(const GenTime &)));
 	 connect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)),

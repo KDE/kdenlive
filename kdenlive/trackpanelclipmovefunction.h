@@ -51,14 +51,13 @@ derived classes allow different behaviours to be added to panels as required.
 	Returns true if the specified position should cause this function to activate,
 	otherwise returns false.
 	*/
-    virtual bool mouseApplies(Gui::KTrackPanel * panel,
+    virtual bool mouseApplies(Gui::KTrackPanel *,
 	QMouseEvent * event) const;
 
 	/**
 	Returns a relevant mouse cursor for the given mouse position
 	*/
-    virtual QCursor getMouseCursor(Gui::KTrackPanel * panel,
-	QMouseEvent * event);
+    virtual QCursor getMouseCursor(Gui::KTrackPanel *, QMouseEvent * event);
 
 	/**
 	A mouse button has been pressed. Returns true if we want to handle this event
@@ -68,14 +67,13 @@ derived classes allow different behaviours to be added to panels as required.
 
 	/**
 	Processes Mouse double click.*/
-    virtual bool mouseDoubleClicked(Gui::KTrackPanel * panel, QMouseEvent * event);
+    virtual bool mouseDoubleClicked(Gui::KTrackPanel * panel, QMouseEvent *);
 
 	/**
 	Mouse Release Events in the track view area. Returns true if we have finished
 	an operation now.
 	*/
-    virtual bool mouseReleased(Gui::KTrackPanel * panel,
-	QMouseEvent * event);
+    virtual bool mouseReleased(Gui::KTrackPanel *, QMouseEvent *);
 
 	/**
 	Processes Mouse Move events in the track view area. Returns true if we are
@@ -87,8 +85,8 @@ derived classes allow different behaviours to be added to panels as required.
 	*/
 
     virtual bool dragEntered(Gui::KTrackPanel * panel, QDragEnterEvent *);
-    virtual bool dragMoved(Gui::KTrackPanel * panel, QDragMoveEvent *);
-    virtual bool dragLeft(Gui::KTrackPanel * panel, QDragLeaveEvent *);
+    virtual bool dragMoved(Gui::KTrackPanel *, QDragMoveEvent *);
+    virtual bool dragLeft(Gui::KTrackPanel *, QDragLeaveEvent *);
     virtual bool dragDropped(Gui::KTrackPanel * panel, QDropEvent *);
 
   private:

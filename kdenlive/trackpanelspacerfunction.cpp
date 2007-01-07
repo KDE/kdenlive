@@ -34,14 +34,12 @@ TrackPanelSpacerFunction::~TrackPanelSpacerFunction()
 {
 }
 
-bool TrackPanelSpacerFunction::mouseApplies(Gui::KTrackPanel * panel,
-    QMouseEvent * event) const
+bool TrackPanelSpacerFunction::mouseApplies(Gui::KTrackPanel *, QMouseEvent *) const
 {
     return true;
 }
 
-QCursor TrackPanelSpacerFunction::getMouseCursor(Gui::KTrackPanel * panel,
-    QMouseEvent * event)
+QCursor TrackPanelSpacerFunction::getMouseCursor(Gui::KTrackPanel *, QMouseEvent *)
 {
     return QCursor(Qt::SizeHorCursor);
 }
@@ -102,13 +100,12 @@ bool TrackPanelSpacerFunction::mousePressed(Gui::KTrackPanel * panel,
     return true;
 }
 
-bool TrackPanelSpacerFunction::mouseDoubleClicked(Gui::KTrackPanel * panel, QMouseEvent * event)
+bool TrackPanelSpacerFunction::mouseDoubleClicked(Gui::KTrackPanel *, QMouseEvent *)
 {
     return true;
 }
 
-bool TrackPanelSpacerFunction::mouseReleased(Gui::KTrackPanel * panel,
-    QMouseEvent * event)
+bool TrackPanelSpacerFunction::mouseReleased(Gui::KTrackPanel *, QMouseEvent *)
 {
     if (m_moveClipsCommand) {
 	m_moveClipsCommand->setEndLocation(m_masterClip);
@@ -120,8 +117,7 @@ bool TrackPanelSpacerFunction::mouseReleased(Gui::KTrackPanel * panel,
     return true;
 }
 
-bool TrackPanelSpacerFunction::mouseMoved(Gui::KTrackPanel * panel,
-    QMouseEvent * event)
+bool TrackPanelSpacerFunction::mouseMoved(Gui::KTrackPanel *, QMouseEvent * event)
 {
     GenTime mouseTime =
 	m_timeline->timeUnderMouse(event->x()) - m_clipOffset;
