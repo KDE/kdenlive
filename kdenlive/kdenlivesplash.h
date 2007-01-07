@@ -2,7 +2,7 @@
                           kdenlivesplash  -  description
                              -------------------
     begin                : Qui Out 14 2004
-    copyright            : (C) 2004 by Lúcio Flávio Corrêa
+    copyright            : (C) 2004 by Lcio Flï¿½io Corrï¿½
     email                : lucio.correa@uol.com.br
  ***************************************************************************/
 
@@ -22,11 +22,11 @@
 class QPixmap;
 
 /**
-@author Lúcio Flávio Corrêa
+@author Lcio Flï¿½io Corrï¿½
 */
 class KdenliveSplash:public KSplashScreen {
   public:
-    KdenliveSplash(const QPixmap & pixmap, WFlags f = 0);
+    KdenliveSplash(const QPixmap & pixmap);
     ~KdenliveSplash();
 };
 

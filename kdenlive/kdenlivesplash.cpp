@@ -17,10 +17,9 @@
 #include <klocale.h>
 #include "kdenlivesplash.h"
 
-KdenliveSplash::KdenliveSplash(const QPixmap & pixmap, WFlags f):KSplashScreen(pixmap,
-    f)
+KdenliveSplash::KdenliveSplash(const QPixmap & pixmap):KSplashScreen(pixmap, WStyle_StaysOnTop)
 {
-    message(i18n("Version 0.4"), AlignLeft, white);
+    message(i18n("Version 0.5svn"), AlignLeft, white);
 }
 
 KdenliveSplash::~KdenliveSplash()
