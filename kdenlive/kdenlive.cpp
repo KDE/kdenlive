@@ -3460,7 +3460,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	ConfigureProjectDialog configDialog(this, "configure project dialog");
         configDialog.setValues(m_doc->framesPerSecond(), m_doc->projectClip().videoWidth(), m_doc->projectClip().videoHeight(), KdenliveSettings::currentdefaultfolder());
 	if (QDialog::Accepted == configDialog.exec()) {
-	KdenliveSettings::setCurrentdefaultfolder(configDialog.projectFolder().url());
+	KdenliveSettings::setCurrentdefaultfolder(configDialog.projectFolder().path());
 	}
     }
 
