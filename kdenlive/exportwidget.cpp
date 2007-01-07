@@ -575,6 +575,9 @@ void exportWidget::startExport()
 	    doExport(fileExportFolder->url()+"/"+fileExportName->text(), QStringList::split(" ", paramLine.section(":", 9)));
 	} 
 
+	// Hide dialog when export starts
+	hide();
+
 /*        if (profileParameter(encoders->currentText(), "bypass") != "true") {
             // AVformat (FFmpeg) export, build parameters
             QStringList params;
