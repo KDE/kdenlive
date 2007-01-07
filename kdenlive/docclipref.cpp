@@ -802,13 +802,13 @@ QDomDocumentFragment DocClipRef::generateXMLTransition(bool hideVideo, bool hide
     {
 	int transitionNumber = m_transitionStack.count();
 	QValueList < QPoint > blanklist;
-	blanklist.append(QPoint(trackStart().frames(framesPerSecond()), trackEnd().frames(framesPerSecond()) - 1));
+	blanklist.append(QPoint((int) trackStart().frames(framesPerSecond()), (int) trackEnd().frames(framesPerSecond()) - 1));
 	while (transitionNumber > 0) {
 	    // Parse all clip transitions and build a list of times without transitions
 	    QValueList < QPoint >::Iterator it;
 	    Transition *t = m_transitionStack.at(transitionNumber - 1);
-	    int transStart = t->transitionStartTime().frames(framesPerSecond());
-	    int transEnd = t->transitionEndTime().frames(framesPerSecond()) - 1;
+	    int transStart = (int) t->transitionStartTime().frames(framesPerSecond());
+	    int transEnd = (int) t->transitionEndTime().frames(framesPerSecond()) - 1;
 	    for ( it = blanklist.begin(); it != blanklist.end(); ++it ) {
 		int currentStart = (*it).x();
 		int currentEnd = (*it).y();
@@ -1566,10 +1566,10 @@ void DocClipRef::setSnapMarkers(QValueVector < CommentedTime > markers)
 GenTime DocClipRef::adjustTimeToSpeed(GenTime t) const
 {
 	if (m_speed == 1.0 && m_endspeed == 1.0) return t;
-	int pos = (t - m_cropStart).frames(m_clip->framesPerSecond());
+	int pos = (int) (t - m_cropStart).frames(m_clip->framesPerSecond());
 	double actual_speed = m_speed + ((double) pos) / (double)((m_trackEnd - m_trackStart).frames(m_clip->framesPerSecond())) * (m_endspeed - m_speed);
 
-	int actual_position = floor((double) pos / actual_speed);
+	int actual_position = (int) floor((double) pos / actual_speed);
 	return GenTime(actual_position, m_clip->framesPerSecond()) + cropStartTime();
 
 	// TODO: markers not adjusted when clip is played reverse
@@ -1706,7 +1706,7 @@ bool DocClipRef::hasEffect()
 
 void DocClipRef::clearVideoEffects()
 {
-	for (int count = 0; count < m_effectStack.count(); ++count)
+	for (uint count = 0; count < m_effectStack.count(); ++count)
 	{
 	    if (m_effectStack.at(count)->effectDescription().type() == "video") {
 		    m_effectStack.remove(count);

@@ -82,7 +82,7 @@ namespace Command {
 
 /** Construct an AddClipCommand that will add or delete a clip */
   KAddClipCommand::KAddClipCommand(KdenliveDoc & document, const QString & name, DocClipBase * clip, DocumentBaseNode * parent, bool create):
-    m_document(document), m_name(name), m_parent(parent->name()), m_create(create), m_id(clip->getId()), m_isTextClip(false), m_isVirtualClip(false) {
+    m_document(document), m_name(name), m_parent(parent->name()), m_create(create), m_isTextClip(false), m_isVirtualClip(false) {
 	if (!m_parent) {
 	    kdWarning() <<
 		"Error - all clips created with kaddclipcommand should have a parent!"
@@ -92,6 +92,7 @@ namespace Command {
 	    m_create = false;
 	    kdWarning() << "Error - Invalid clip" << endl;
 	} else {
+	    m_id = clip->getId();
 	    m_xmlClip = clip->toXML();
 	    if (clip->clipType() == DocClipBase::TEXT) m_isTextClip = true;
 	    else if (clip->clipType() == DocClipBase::VIRTUAL) m_isVirtualClip = true;

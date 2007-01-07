@@ -133,7 +133,7 @@ namespace Gui {
 
     KdenliveApp::KdenliveApp(bool newDoc, QWidget *parent,
 	const char *name):KDockMainWindow(parent, name), m_monitorManager(this),
-    m_workspaceMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_renderManager(NULL), m_doc(NULL), m_effectStackDialog(NULL), m_clipMonitor(NULL), m_projectList(NULL), m_effectListDialog(NULL), m_projectFormat(PAL_VIDEO), m_timelinePopupMenu(NULL), m_rulerPopupMenu(NULL), m_exportDvd(NULL), m_transitionPanel(NULL), resizeFunction(NULL), rollFunction(NULL) {
+    m_workspaceMonitor(NULL), m_clipMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_renderManager(NULL), m_doc(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_projectList(NULL), m_effectStackDialog(NULL), m_effectListDialog(NULL), m_projectFormat(PAL_VIDEO), m_timelinePopupMenu(NULL), m_rulerPopupMenu(NULL), m_exportDvd(NULL), m_transitionPanel(NULL), m_resizeFunction(NULL), m_rollFunction(NULL) {
 	config = kapp->config();
 	QString newProjectName;
 	videoProjectFormats << i18n("PAL (720x576, 25fps)") << i18n("PAL 16:9 (720x576, 25fps)");
@@ -224,7 +224,7 @@ namespace Gui {
 	    initView();
 	    setCaption(newProjectName + ".kdenlive" + " - " + easyName(m_projectFormat), false);
 	    m_doc->setProjectName( newProjectName + ".kdenlive");
-	    if (KdenliveSettings::showsplash()) slotSplashTimeout();
+	    if (KdenliveSettings::showsplash()) QTimer::singleShot(1000, this, SLOT(slotSplashTimeout()));
 	}
 
 	connect(manager(), SIGNAL(change()), this, SLOT(slotUpdateLayoutState()));
@@ -323,7 +323,7 @@ namespace Gui {
     void KdenliveApp::openSelectedFile()
     {
         openDocumentFile(m_selectedFile);
-        slotSplashTimeout();
+        QTimer::singleShot(1000, this, SLOT(slotSplashTimeout()));
     }
 
     void KdenliveApp::openLastFile()
@@ -332,7 +332,7 @@ namespace Gui {
         QString Lastproject = config->readPathEntry("File1");
         if (!Lastproject.isEmpty())
             openDocumentFile(KURL(Lastproject));
-        slotSplashTimeout();
+        QTimer::singleShot(1000, this, SLOT(slotSplashTimeout()));
     }
 
     void KdenliveApp::initActions() {
@@ -1114,13 +1114,13 @@ namespace Gui {
 	connect(getDocument(), SIGNAL(documentChanged(DocClipBase *)), m_workspaceMonitor, SLOT(slotSetClip(DocClipBase *)));
 	}
 
-	connect(resizeFunction,
+	connect(m_resizeFunction,
 	    SIGNAL(signalClipCropStartChanged(DocClipRef *)),
 	    m_clipMonitor, SLOT(slotClipCropStartChanged(DocClipRef *)));
-	connect(resizeFunction,
+	connect(m_resizeFunction,
 	    SIGNAL(signalClipCropEndChanged(DocClipRef *)), m_clipMonitor,
 	    SLOT(slotClipCropEndChanged(DocClipRef *)));
-	connect(rollFunction,
+	connect(m_rollFunction,
 	    SIGNAL(signalClipCropEndChanged(DocClipRef *)), m_clipMonitor,
 	    SLOT(slotClipCropEndChanged(DocClipRef *)));
     }
@@ -1282,11 +1282,11 @@ namespace Gui {
 	    new TrackPanelClipMoveFunction(this, m_timeline,
 		getDocument()));
 
-	resizeFunction =
+	m_resizeFunction =
 	    new TrackPanelClipResizeFunction(this, m_timeline,
 	    getDocument());
 	m_timeline->trackView()->registerFunction("resize",
-	    resizeFunction);
+	    m_resizeFunction);
 
 	TrackPanelKeyFrameFunction *keyFrameFunction =
 	    new TrackPanelKeyFrameFunction(this, m_timeline,
@@ -1306,10 +1306,10 @@ namespace Gui {
         m_timeline->trackView()->registerFunction("transitionmove",
         transitionMoveFunction);
 
-	rollFunction = new TrackPanelClipRollFunction(this, m_timeline, getDocument());
+	m_rollFunction = new TrackPanelClipRollFunction(this, m_timeline, getDocument());
 
 	//register roll function -reh
-	m_timeline->trackView()->registerFunction("roll", rollFunction);
+	m_timeline->trackView()->registerFunction("roll", m_rollFunction);
 
 
 	// connects for clip/timeline monitor activation (i.e. making sure they are visible when needed)
@@ -1335,17 +1335,17 @@ namespace Gui {
 	connect(keyFrameFunction, SIGNAL(redrawTrack()),
 	    m_effectStackDialog, SLOT(updateKeyFrames()));
 
-	connect(resizeFunction,
+	connect(m_resizeFunction,
 	    SIGNAL(signalClipCropStartChanged(DocClipRef *)), this,
 	    SLOT(slotSetClipMonitorSource(DocClipRef *)));
-	connect(resizeFunction,
+	connect(m_resizeFunction,
 	    SIGNAL(signalClipCropEndChanged(DocClipRef *)), this,
 	    SLOT(slotSetClipMonitorSource(DocClipRef *)));
 
 	/*connect(rollFunction,
 	    SIGNAL(signalClipCropStartChanged(DocClipRef *)), this,
 	    SLOT(slotSetClipMonitorSource(DocClipRef *)));*/
-	connect(rollFunction,
+	connect(m_rollFunction,
 	    SIGNAL(signalClipCropEndChanged(DocClipRef *)), this,
 	    SLOT(slotSetClipMonitorSource(DocClipRef *)));
 
@@ -1894,7 +1894,9 @@ namespace Gui {
 	void KdenliveApp::slotNewProject(QString *newProjectName, KURL *fileUrl, int *videoTracks, int *audioTracks, bool byPass) {
 		bool finished = false;
 		QString projectFolder;
-		int projectFormat, videoNum, audioNum;
+		int projectFormat = 0;
+		int videoNum = 0;
+		int audioNum = 0;
 
 		if (!byPass) {
 		    // Prepare the New Project Dialog
@@ -2344,7 +2346,7 @@ namespace Gui {
     {
 	QStringList guidesList = QStringList::split(";", guides);
 	QStringList commentsList = QStringList::split(";", comments);
-	int i = 0;
+	uint i = 0;
 	for (; i < guidesList.count(); i++) {
 	    m_timeline->insertSilentGuide((*(guidesList.at(i))).toInt(), *(commentsList.at(i)));
 	}

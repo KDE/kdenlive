@@ -515,10 +515,6 @@ namespace Gui {
 	 KConfig * config;
 		/** The "view" is the base widget for the entire application. */
 	QWidget *view;
-		/** doc represents your actual document and is created only once. It keeps
-		 * information such as filename and does the serialization of your files.
-		 */
-	KdenliveDoc *m_doc;
 
 	/** Used to calculate rendering time */
 	time_t m_renderStartTime;
@@ -605,20 +601,8 @@ namespace Gui {
 
 	KAction *renderExportTimeline;
 	KAction *configureProject;
-	QPopupMenu *m_timelinePopupMenu;
-	QPopupMenu *m_rulerPopupMenu;
-	QPopupMenu *videoEffectsMenu;
-	QPopupMenu *audioEffectsMenu;
-	QPopupMenu *removeEffectsMenu;
-	QPopupMenu *transitionsMenu;
 
         KdenliveSplash *splash;
-
-	DocClipRef *m_copiedClip;
-
-	TrackPanelClipRollFunction *rollFunction;
-	TrackPanelClipResizeFunction *resizeFunction;
-
 
 		/** The progress widget on the status bar, used by various long-winded methods. */
 	KProgress *m_statusBarProgress;
@@ -627,49 +611,65 @@ namespace Gui {
 		/** Holds the undo/redo command history */
 	KCommandHistory *m_commandHistory;
 
-		/** Application view setup */
-	ProjectList *m_projectList;
-	EffectListDialog *m_effectListDialog;
-	//EffectParamDialog *m_effectParamDialog;
-	EffectStackDialog *m_effectStackDialog;
-	ClipPropertiesDialog *m_clipPropertyDialog;
-	TransitionDialog *m_transitionPanel;
-	KDockWidget *clipWidget;
-	KDockWidget *m_timelineWidget;
-
-	/** The monitor manager that manages the life of the various monitors.*/
-	MonitorManager m_monitorManager;
-
-	KRenderManager *m_renderManager;
-	KMMMonitor *m_workspaceMonitor;
-	KMMMonitor *m_clipMonitor;
-	CaptureMonitor *m_captureMonitor;
-	/** Stores a copy of the last file dialog path used by kdenlive. */
-	KURL m_fileDialogPath;
-	KMMTimeLine *m_timeline;
-
-	/** Url to open after Kdenlive is initialised*/
-	KURL m_selectedFile;
-        
-        /** Stores the context menu position */
-        QPoint m_menuPosition;
-
 	// KDockWidgets for the docking interface to work correctly.
 	KDockWidget *m_dockClipMonitor;
 	KDockWidget *m_dockWorkspaceMonitor;
 	KDockWidget *m_dockCaptureMonitor;
+
+	/** The monitor manager that manages the life of the various monitors.*/
+	MonitorManager m_monitorManager;
+	KMMMonitor *m_workspaceMonitor;
+	KMMMonitor *m_clipMonitor;
+	CaptureMonitor *m_captureMonitor;
+        exportWidget *m_exportWidget;
+	KRenderManager *m_renderManager;
+		/** doc represents your actual document and is created only once. It keeps
+		 * information such as filename and does the serialization of your files.
+		 */
+	KdenliveDoc *m_doc;
+
+	/** Url to open after Kdenlive is initialised*/
+	KURL m_selectedFile;
+	DocClipRef *m_copiedClip;
+	/** Application view setup */
+	ProjectList *m_projectList;
+
+	EffectStackDialog *m_effectStackDialog;
+	EffectListDialog *m_effectListDialog;
+	//EffectParamDialog *m_effectParamDialog;
+	ClipPropertiesDialog *m_clipPropertyDialog;
+	KDockWidget *clipWidget;
+	KDockWidget *m_timelineWidget;
+
+	/** tells whether the project is PAL, NTSC or HDV; */
+	VIDEOFORMAT m_projectFormat;
+
+	QPopupMenu *m_timelinePopupMenu;
+	QPopupMenu *m_rulerPopupMenu;
+	QPopupMenu *videoEffectsMenu;
+	QPopupMenu *audioEffectsMenu;
+	QPopupMenu *removeEffectsMenu;
+	QPopupMenu *transitionsMenu;
+
+	ExportDvdDialog *m_exportDvd;
+	TransitionDialog *m_transitionPanel;
+	TrackPanelClipResizeFunction *m_resizeFunction;
+	TrackPanelClipRollFunction *m_rollFunction;
+
+	/** Stores a copy of the last file dialog path used by kdenlive. */
+	KURL m_fileDialogPath;
+	KMMTimeLine *m_timeline;
+        
+        /** Stores the context menu position */
+        QPoint m_menuPosition;
+
 	KDockWidget *m_dockEffectList;
 	KDockWidget *m_dockProjectList;
 	KDockWidget *m_dockEffectStack;
 	KDockWidget *m_dockTransition;
         
-        exportWidget *m_exportWidget;
-	ExportDvdDialog *m_exportDvd;
 
 	QTimer *m_autoSaveTimer;
-
-	/** tells whether the project is PAL, NTSC or HDV; */
-	VIDEOFORMAT m_projectFormat;
 
 	ProjectFormatManager m_projectFormatManager;
 

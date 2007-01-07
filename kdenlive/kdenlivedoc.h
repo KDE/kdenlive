@@ -194,10 +194,11 @@ class KdenliveDoc:public QObject {
     bool m_modified;
     KURL m_doc_url;
     QString m_doc_name;
-    bool m_showAllMarkers;
 
 /** HACK HACK - generate scenelist if true, don't if false) */
     bool m_sceneListGeneration;
+
+    bool m_showAllMarkers;
 
 	/** The clip hierarchy for this project. Clips can be put into groups. */
     DocumentBaseNode *m_clipHierarch;

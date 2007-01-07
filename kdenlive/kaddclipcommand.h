@@ -95,7 +95,6 @@ namespace Command {
 	 KdenliveDoc & m_document;
 	/** The name of the clip. */
 	QString m_name;
-	int m_id;
 	/** The name of it's parent. */
 	QString m_parent;
 	/** If true, then executing the command will create a clip, and
@@ -106,6 +105,7 @@ namespace Command {
 	QDomDocument m_xmlClip;
 	bool m_isTextClip;
 	bool m_isVirtualClip;
+	int m_id;
 
       private:			// Private methods
 	/** Deletes the clip */

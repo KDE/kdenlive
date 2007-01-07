@@ -235,7 +235,7 @@ bool KdenliveDoc::moveSelectedClips(GenTime startOffset, int trackOffset)
 {
     int clipNumber = hasSelectedClips();
     GenTime start, end;
-    DocClipRef * clip;
+    DocClipRef * clip = NULL;
     if (clipNumber == 1) {
 	clip = selectedClip();
 	if (startOffset < GenTime(0)) {
@@ -265,7 +265,7 @@ bool KdenliveDoc::moveSelectedClips(GenTime startOffset, int trackOffset)
 	int pos = 1;
 	DocClipRef *clip = m_projectClip->selectedClip();
 	if (clip) {
-	    pos = (renderer()->seekPosition() - clip->trackStart() + clip->cropStartTime()).frames(framesPerSecond());
+	    pos = (int) (renderer()->seekPosition() - clip->trackStart() + clip->cropStartTime()).frames(framesPerSecond());
 	}
 	emit currentClipPosition(pos);
     }
