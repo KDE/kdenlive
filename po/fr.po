@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-08 12:54+0100\n"
-"PO-Revision-Date: 2007-01-08 12:55+0100\n"
+"PO-Revision-Date: 2007-01-08 13:11+0100\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1485,19 +1485,19 @@ msgstr "Supprimer la transition"
 
 #: kdenlive/kdenlive.cpp:139
 msgid "PAL (720x576, 25fps)"
-msgstr "PAL (720x576, 25tps)"
+msgstr "PAL (720x576, 25 tps)"
 
 #: kdenlive/kdenlive.cpp:139
 msgid "PAL 16:9 (720x576, 25fps)"
-msgstr "PAL 16:9 (720x576, 25tps)"
+msgstr "PAL 16:9 (720x576, 25 tps)"
 
 #: kdenlive/kdenlive.cpp:140
 msgid "NTSC (720x480, 30fps)"
-msgstr "NTSC (720x480, 30tps)"
+msgstr "NTSC (720x480, 30 tps)"
 
 #: kdenlive/kdenlive.cpp:140
 msgid "NTSC 16:9 (720x480, 30fps)"
-msgstr "NTSC 16:9 (720x480, 30tps)"
+msgstr "NTSC 16:9 (720x480, 30 tps)"
 
 #: kdenlive/kdenlive.cpp:143
 msgid "HDV-1080 (1440x1080, 25fps)"
@@ -2344,11 +2344,11 @@ msgstr "HDV 1280x720 25tps"
 
 #: kdenlive/kdenlive.cpp:1851
 msgid "NTSC 720x480 30fps"
-msgstr "NTSC 720x480 30tps"
+msgstr "NTSC 720x480 30 tps"
 
 #: kdenlive/kdenlive.cpp:1855
 msgid "PAL 720x576 25fps"
-msgstr "PAL 720x576 25tps"
+msgstr "PAL 720x576 25 tps"
 
 #: kdenlive/kdenlive.cpp:1858
 msgid " [16:9]"
