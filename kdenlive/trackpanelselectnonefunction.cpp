@@ -45,7 +45,7 @@ QCursor TrackPanelSelectNoneFunction::getMouseCursor(Gui::KTrackPanel *, QMouseE
 // virtual
 bool TrackPanelSelectNoneFunction::mousePressed(Gui::KTrackPanel *, QMouseEvent * event)
 {
-    if (event->state() & Qt::ShiftButton) {
+    if (event->state() & Qt::ShiftButton || m_timeline->editMode() == "select") {
 	m_multiselect = true;
 	m_multiselectStart = QPoint((int) m_timeline->mapLocalToValue(event->x()), event->y());
     }

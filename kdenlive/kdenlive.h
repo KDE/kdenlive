@@ -258,6 +258,8 @@ namespace Gui {
 	void slotTimelineMarkerTool();
 		/** Called when the roll tool is selected  -reh */
 	void slotTimelineRollTool();
+		/** Called when the select tool is selected  -reh */
+	void slotTimelineSelectTool();
 		/** Called when the user activates the "Export Timeline" action */
 	void slotRenderExportTimeline(bool show = true);
 	void slotRenderDvd();
@@ -574,6 +576,7 @@ namespace Gui {
 	KRadioAction *timelineSpacerTool;
 	KRadioAction *timelineMarkerTool;
 	KRadioAction *timelineRollTool;
+	KRadioAction *timelineSelectTool;
 
 	KToggleAction *timelineSnapToFrame;
 	KToggleAction *timelineSnapToBorder;

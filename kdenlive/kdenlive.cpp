@@ -437,6 +437,11 @@ namespace Gui {
 	    KShortcut(Qt::Key_R), this, SLOT(slotTimelineRollTool()),
 	    actionCollection(), "timeline_roll_tool");
 
+	timelineSelectTool =
+	    new KRadioAction(i18n("Multiselect Tool"), "selecttool.png",
+	    KShortcut(Qt::Key_S), this, SLOT(slotTimelineSelectTool()),
+	    actionCollection(), "timeline_select_tool");
+
 	timelineSnapToFrame =
 	    new KToggleAction(i18n("Snap To Frames"), "snaptoframe.png", 0,
 	    this, SLOT(slotTimelineSnapToFrame()), actionCollection(),
@@ -894,6 +899,7 @@ namespace Gui {
 	timelineSpacerTool->setExclusiveGroup("timeline_tools");
 	timelineMarkerTool->setExclusiveGroup("timeline_tools");
 	timelineRollTool->setExclusiveGroup("timeline_tools");
+	timelineSelectTool->setExclusiveGroup("timeline_tools");
 
 	fileNew->setStatusText(i18n("Create a new project"));
 	fileOpen->setStatusText(i18n("Open a project"));
@@ -924,6 +930,9 @@ namespace Gui {
 	timelineRollTool->
 	    setStatusText(i18n
 	    ("Move edit point between two selected clips"));
+	timelineSelectTool->
+	    setStatusText(i18n
+	    ("Select multiple clips"));
 	timelineSnapToFrame->
 	    setStatusText(i18n("Align clips on nearest frame"));
 	timelineSnapToBorder->
@@ -2553,6 +2562,12 @@ namespace Gui {
     void KdenliveApp::slotTimelineRollTool() {
 	statusBar()->changeItem(i18n("Roll tool"), ID_EDITMODE_MSG);
 	m_timeline->setEditMode("roll");
+    }
+
+/** Called when the roll tool action is selected */
+    void KdenliveApp::slotTimelineSelectTool() {
+	statusBar()->changeItem(i18n("Multiselect tool"), ID_EDITMODE_MSG);
+	m_timeline->setEditMode("select");
     }
 
 /** Called when the user activates the "Export Timeline" action */

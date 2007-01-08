@@ -49,6 +49,7 @@
 	<Action name="timeline_spacer_tool"/>
 	<Action name="timeline_marker_tool"/>
 	<Action name="timeline_roll_tool"/>
+	<Action name="timeline_select_tool"/>
 	<Separator lineSeperator="true"/>
 	<Menu name="goto"><text>Go To</text>
 		<Action name="timeline_go_start"/>
@@ -244,6 +245,7 @@
 		<Action name="timeline_spacer_tool"/>
 		<Action name="timeline_marker_tool"/>
 		<Action name="timeline_roll_tool"/>
+		<Action name="timeline_select_tool"/>
 	</Menu>
 	<Menu name="snap"><text>Snap To</text>
 		<Action name="timeline_snap_frame"/>
@@ -265,6 +267,7 @@
 		<Action name="timeline_spacer_tool"/>
 		<Action name="timeline_marker_tool"/>
 		<Action name="timeline_roll_tool"/>
+		<Action name="timeline_select_tool"/>
 	</Menu>
 	<Menu name="snap"><text>Snap To</text>
 		<Action name="timeline_snap_frame"/>
@@ -339,6 +342,7 @@
 	<Action name="timeline_spacer_tool"/>
 	<Action name="timeline_marker_tool"/>
 	<Action name="timeline_roll_tool"/>
+	<Action name="timeline_select_tool"/>
 	<Separator lineSeperator="true"/>
 	<Action name="timeline_snap_frame"/>
 	<Action name="timeline_snap_border"/>

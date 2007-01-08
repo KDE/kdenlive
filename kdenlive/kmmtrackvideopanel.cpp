@@ -77,6 +77,8 @@ namespace Gui {
 	addFunctionDecorator("spacer", "spacer");
 	addFunctionDecorator("marker", "marker");
 	addFunctionDecorator("roll", "roll");
+	addFunctionDecorator("select", "move");
+	addFunctionDecorator("select", "selectnone");
 
 	decorateTrack();
     } 
