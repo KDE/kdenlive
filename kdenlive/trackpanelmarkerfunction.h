@@ -55,6 +55,8 @@ namespace Gui {
      Gui::KdenliveApp * m_app;
      Gui::KTimeLine * m_timeline;
     KdenliveDoc *m_document;
+  signals:
+    void lookingAtClip(DocClipRef *, const GenTime &);
 };
 
 #endif

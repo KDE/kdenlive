@@ -133,7 +133,7 @@ namespace Gui {
 
     KdenliveApp::KdenliveApp(bool newDoc, QWidget *parent,
 	const char *name):KDockMainWindow(parent, name), m_monitorManager(this),
-    m_workspaceMonitor(NULL), m_clipMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_renderManager(NULL), m_doc(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_projectList(NULL), m_effectStackDialog(NULL), m_effectListDialog(NULL), m_projectFormat(PAL_VIDEO), m_timelinePopupMenu(NULL), m_rulerPopupMenu(NULL), m_exportDvd(NULL), m_transitionPanel(NULL), m_resizeFunction(NULL), m_rollFunction(NULL) {
+    m_workspaceMonitor(NULL), m_clipMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_renderManager(NULL), m_doc(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_projectList(NULL), m_effectStackDialog(NULL), m_effectListDialog(NULL), m_projectFormat(PAL_VIDEO), m_timelinePopupMenu(NULL), m_rulerPopupMenu(NULL), m_exportDvd(NULL), m_transitionPanel(NULL), m_resizeFunction(NULL), m_rollFunction(NULL), m_markerFunction(NULL) {
 	config = kapp->config();
 	QString newProjectName;
 	videoProjectFormats << i18n("PAL (720x576, 25fps)") << i18n("PAL 16:9 (720x576, 25fps)");
@@ -1362,8 +1362,13 @@ namespace Gui {
 	    SIGNAL(signalClipCropStartChanged(DocClipRef *)),
 	    m_clipMonitor, SLOT(slotClipCropStartChanged(DocClipRef *)));*/
 
-	m_timeline->trackView()->registerFunction("marker",
-	    new TrackPanelMarkerFunction(this, m_timeline, getDocument()));
+	m_markerFunction = new TrackPanelMarkerFunction(this, m_timeline, getDocument());
+
+	m_timeline->trackView()->registerFunction("marker", m_markerFunction);
+	
+	connect(m_markerFunction, SIGNAL(lookingAtClip(DocClipRef *, const GenTime &)), this,
+	    SLOT(slotLookAtClip(DocClipRef *, const GenTime &)));
+
 	m_timeline->trackView()->registerFunction("spacer",
 	    new TrackPanelSpacerFunction(this, m_timeline, getDocument()));
 

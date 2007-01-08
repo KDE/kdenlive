@@ -61,6 +61,7 @@ class DocClipBase;
 class DocClipRef;
 class TrackPanelClipRollFunction;
 class TrackPanelClipResizeFunction;
+class TrackPanelMarkerFunction;
 
 class PositionChangeEvent : public QCustomEvent
 {
@@ -658,6 +659,7 @@ namespace Gui {
 	TransitionDialog *m_transitionPanel;
 	TrackPanelClipResizeFunction *m_resizeFunction;
 	TrackPanelClipRollFunction *m_rollFunction;
+	TrackPanelMarkerFunction *m_markerFunction;
 
 	/** Stores a copy of the last file dialog path used by kdenlive. */
 	KURL m_fileDialogPath;

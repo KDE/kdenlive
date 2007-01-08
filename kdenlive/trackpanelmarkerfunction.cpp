@@ -120,6 +120,19 @@ bool TrackPanelMarkerFunction::mouseReleased(Gui::KTrackPanel * panel,
 QCursor TrackPanelMarkerFunction::getMouseCursor(Gui::KTrackPanel * panel,
     QMouseEvent * event)
 {
+    if (panel->hasDocumentTrackIndex()) {
+	DocTrackBase *track =
+	    m_document->track(panel->documentTrackIndex());
+	if (track && track->clipType() == "Video") {
+		GenTime mouseTime((int)(m_timeline->mapLocalToValue(event->x())), m_document->framesPerSecond());
+	        DocClipRef *clipUnderMouse = track->getClipAt(mouseTime);
+	    if (clipUnderMouse) {
+		emit lookingAtClip(clipUnderMouse,
+		    mouseTime - clipUnderMouse->trackStart() +
+		    clipUnderMouse->cropStartTime());
+	    }
+	}
+    }
     return QCursor(Qt::PointingHandCursor);
 }
 
