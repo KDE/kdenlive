@@ -2678,7 +2678,7 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	slotStatusMsg(i18n("Adding Clips"));
 
 	// Make a reasonable filter for video / audio files.
-	QString filter = "application/vnd.kde.kdenlive application/vnd.westley.scenelist application/flv application/vnd.rn-realmedia video/x-dv video/x-msvideo video/mpeg video/x-ms-wmv audio/x-mp3 audio/x-wav application/ogg *.m2t video/mp4 video/quicktime";
+	QString filter = "application/vnd.kde.kdenlive application/vnd.westley.scenelist application/flv application/vnd.rn-realmedia video/x-dv video/x-msvideo video/mpeg video/x-ms-wmv audio/x-mp3 audio/x-wav application/ogg *.m2t video/mp4 video/quicktime image/gif image/jpeg image/png image/x-bmp image/svg+xml";
 	KURL::List urlList =
 	    KFileDialog::getOpenURLs(m_fileDialogPath.path(), filter, this,
         i18n("Open File..."));

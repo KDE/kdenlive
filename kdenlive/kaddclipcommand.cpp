@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <kdebug.h>
+#include <kmimetype.h>
 
 #include "kaddclipcommand.h"
 #include "kdenlivedoc.h"
@@ -197,7 +198,15 @@ namespace Command {
 		"Error - all clips created with kaddclipcommand should have a parent!"
 		<< endl;
 	}
-        m_xmlClip = document.clipManager().buildClip((KURL &)url);
+	// Check for image clips
+	KMimeType::Ptr type = KMimeType::findByURL(url);
+    	if (type->name().startsWith("image/")) {
+	    QString dur = KdenliveSettings::colorclipduration();
+	    int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt());
+
+	    m_xmlClip = document.clipManager().buildImageClip( url, GenTime( frames, KdenliveSettings::defaultfps()), QString::null, false);
+	}
+	else m_xmlClip = document.clipManager().buildClip((KURL &)url);
     }
 
     KAddClipCommand::~KAddClipCommand() {
