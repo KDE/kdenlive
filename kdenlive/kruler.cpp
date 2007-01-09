@@ -927,7 +927,7 @@ namespace Gui {
 	pixelIncrement = m_xValueSize * m_textEvery;
 	QFont orig = painter.font();
 	QFont ft = orig;
-	ft.setPixelSize(9);
+	ft.setPointSize(orig.pointSize() - 1);
 	painter.setFont(ft);
 	while (value <=
 	    ((m_leftMostPixel + ex) / m_xValueSize) + m_textEvery) {
@@ -940,8 +940,6 @@ namespace Gui {
 	//
 	// draw guide markers
 	//
-	ft.setPixelSize(11);
-	painter.setFont(ft);
 
         QValueList < KTimelineGuide >::Iterator itt;
         for ( itt = m_guides.begin(); itt != m_guides.end(); ++itt ) {
