@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>133</width>
-            <height>33</height>
+            <width>124</width>
+            <height>24</height>
         </rect>
     </property>
     <grid>
@@ -17,10 +17,10 @@
             <cstring>unnamed</cstring>
         </property>
         <property name="margin">
-            <number>2</number>
+            <number>0</number>
         </property>
         <property name="spacing">
-            <number>6</number>
+            <number>2</number>
         </property>
         <widget class="QSlider" row="0" column="1">
             <property name="name">
@@ -33,6 +33,12 @@
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                 </sizepolicy>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>32767</width>
+                    <height>22</height>
+                </size>
             </property>
             <property name="focusPolicy">
                 <enum>StrongFocus</enum>
@@ -50,7 +56,7 @@
                 <enum>Horizontal</enum>
             </property>
             <property name="tickmarks">
-                <enum>Above</enum>
+                <enum>NoMarks</enum>
             </property>
             <property name="tickInterval">
                 <number>10</number>
@@ -65,8 +71,8 @@
             </property>
             <property name="maximumSize">
                 <size>
-                    <width>25</width>
-                    <height>32767</height>
+                    <width>22</width>
+                    <height>22</height>
                 </size>
             </property>
             <property name="text">
@@ -78,8 +84,6 @@
         </widget>
     </grid>
 </widget>
-<customwidgets>
-</customwidgets>
 <includes>
     <include location="global" impldecl="in implementation">kcombobox.h</include>
 </includes>

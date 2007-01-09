@@ -55,7 +55,7 @@ namespace Gui {
 	QWidget * scrollToolWidget, QWidget * parent,
 	const char *name):QVBox(parent, name), m_scrollTimer(this,
 	"scroll timer"), m_scrollingRight(true), m_framesPerSecond(KdenliveSettings::defaultfps()),
-	m_editMode("undefined"), m_panelWidth(140), m_selectedTrack(0) {
+	m_editMode("undefined"), m_panelWidth(120), m_selectedTrack(0) {
 	m_rulerBox = new QHBox(this, "ruler box");
         m_trackScroll = new QScrollView(this, "track view", WPaintClever);
 	m_scrollBox = new QHBox(this, "scroll box");
@@ -81,7 +81,7 @@ namespace Gui {
 	    m_scrollToolWidget = new QLabel(i18n("Scroll"), 0, "Scroll");
 	m_scrollToolWidget->reparent(m_scrollBox, QPoint(0, 0));
 	m_scrollBar =
-	    new QScrollBar(-100, 5000, 50, 500, 0, QScrollBar::Horizontal,
+	    new QScrollBar(-100, 5000, 40, 500, 0, QScrollBar::Horizontal,
 	    m_scrollBox, "horizontal ScrollBar");
 
 	m_trackViewArea = new KTrackView(*this, m_trackScroll, "trackview_area");
@@ -90,7 +90,7 @@ namespace Gui {
 	m_trackScroll->setHScrollBarMode(QScrollView::AlwaysOff);
         m_trackScroll->setDragAutoScroll(true);
 
-	setPanelWidth(140);
+	setPanelWidth(120);
 
 	m_ruler->setValueScale(1.0);
 
@@ -644,8 +644,8 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
     void KTimeLine::setPanelWidth(int width) {
 	m_panelWidth = width;
 
-	m_rulerToolWidget->setMinimumWidth(m_panelWidth);
-	m_rulerToolWidget->setMaximumWidth(m_panelWidth);
+	m_rulerToolWidget->setMinimumWidth(m_panelWidth + 2);
+	m_rulerToolWidget->setMaximumWidth(m_panelWidth + 2);
 
 	m_scrollToolWidget->setMinimumWidth(m_panelWidth);
 	m_scrollToolWidget->setMaximumWidth(m_panelWidth);

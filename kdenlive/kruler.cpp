@@ -395,7 +395,7 @@ namespace Gui {
 
     KRuler::KRuler(int min, int max, double scale, KRulerModel * model,
 	QWidget * parent, const char *name):QWidget(parent, name),
-	m_sizeHint(500, 32), m_backBuffer(500, 32), m_leftMostPixel(0),
+	m_sizeHint(500, 22), m_backBuffer(500, 22), m_leftMostPixel(0),
 	m_rulerModel(0), d(new KRulerPrivate()), m_minValue(min),
 	m_maxValue(max), m_scrollTimer(this, "scroll timer") {
 	setRulerModel(model);
@@ -406,8 +406,8 @@ namespace Gui {
     }
 
     KRuler::KRuler(KRulerModel * model, QWidget * parent,
-	const char *name):QWidget(parent, name), m_sizeHint(500, 32),
-	m_backBuffer(500, 32), m_leftMostPixel(0), m_rulerModel(0),
+	const char *name):QWidget(parent, name), m_sizeHint(500, 22),
+	m_backBuffer(500, 22), m_leftMostPixel(0), m_rulerModel(0),
 	d(new KRulerPrivate()), m_minValue(0), m_maxValue(100),
 	m_scrollTimer(this, "scroll timer") {
 	setRulerModel(model);
@@ -418,7 +418,7 @@ namespace Gui {
     }
 
     KRuler::KRuler(QWidget * parent, const char *name):QWidget(parent,
-	name), m_sizeHint(500, 32), m_backBuffer(500, 32),
+	name), m_sizeHint(500, 22), m_backBuffer(500, 22),
 	m_leftMostPixel(0), m_rulerModel(0), d(new KRulerPrivate()),
 	m_minValue(0), m_maxValue(0), m_scrollTimer(this, "scroll timer") {
 	setRulerModel(0);
@@ -433,7 +433,7 @@ namespace Gui {
 	m_markerPixmap = KGlobal::iconLoader()->loadIcon("kdenlive_guide", KIcon::Small, 15);
 	setMinimumHeight(16);
 	setMinimumWidth(32);
-	setMaximumHeight(32);
+	setMaximumHeight(22);
 	setMouseTracking(true);
 
 	setSizePolicy(QSizePolicy(QSizePolicy::Expanding,
@@ -483,19 +483,19 @@ namespace Gui {
     }
 
     inline void KRuler::drawSmallTick(QPainter & painter, int pixel) {
-	int lineHeight = height() / 8;
-	if (lineHeight == 0)
-	    lineHeight = 1;
-	painter.drawLine(pixel, 0, pixel, lineHeight);
+	int lineHeight = height() / 5;
+	if (lineHeight <2)
+	    lineHeight = 2;
+	//painter.drawLine(pixel, 0, pixel, lineHeight);
 	painter.drawLine(pixel, height() - lineHeight, pixel, height());
     }
 
     inline void KRuler::drawBigTick(QPainter & painter, int pixel) {
-	int lineHeight = height() / 4;
-	if (lineHeight < 2)
-	    lineHeight = 2;
+	int lineHeight = height() / 3;
+	if (lineHeight < 4)
+	    lineHeight = 4;
 
-	painter.drawLine(pixel, 0, pixel, lineHeight);
+	//painter.drawLine(pixel, 0, pixel, lineHeight);
 	painter.drawLine(pixel, height() - lineHeight, pixel, height());
     }
 
@@ -925,10 +925,13 @@ namespace Gui {
 	value -= value % m_textEvery;
 	pixel = (value * m_xValueSize) - m_leftMostPixel;
 	pixelIncrement = m_xValueSize * m_textEvery;
-
+	QFont orig = painter.font();
+	QFont ft = orig;
+	ft.setPixelSize(9);
+	painter.setFont(ft);
 	while (value <=
 	    ((m_leftMostPixel + ex) / m_xValueSize) + m_textEvery) {
-	    painter.drawText((int) pixel - 50, 0, 100, height(),
+	    painter.drawText((int) pixel - 50, 0, 100, height() * 3 / 4,
 		AlignCenter, m_rulerModel->mapValueToText(value));
 	    value += m_textEvery;
 	    pixel += pixelIncrement;
@@ -937,8 +940,6 @@ namespace Gui {
 	//
 	// draw guide markers
 	//
-	QFont orig = painter.font();
-	QFont ft = orig;
 	ft.setPixelSize(11);
 	painter.setFont(ft);
 

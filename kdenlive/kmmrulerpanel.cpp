@@ -61,7 +61,7 @@ namespace Gui {
             menu->insertItem(i18n("8 Minutes"),13,13);
             menu->setCheckable(true);
             connect(menu, SIGNAL(activated(int)), this, SLOT(comboScaleChange(int)));
-            zoomButton->setIconSet(QIconSet(loader.loadIcon("viewmag", KIcon::Toolbar)));
+            zoomButton->setIconSet(QIconSet(loader.loadIcon("viewmag", KIcon::Small)));
             zoomButton->setPopup(menu);
 
 
