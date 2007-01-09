@@ -212,13 +212,13 @@ namespace Gui {
 	void drawHorizontalSlider(QPainter & painter, int x, int height) {
 	    QPointArray points(4);
 
-	    points.setPoint(0, x - 4, height - 3);
-	    points.setPoint(1, x - 4, (height / 2) + 3);
-	    points.setPoint(2, x + 4, (height / 2) + 3);
-	    points.setPoint(3, x + 4, height - 3);
+	    points.setPoint(0, x - 4, height - 2);
+	    points.setPoint(1, x - 4, (height / 2) + 1);
+	    points.setPoint(2, x + 4, (height / 2)  + 1);
+	    points.setPoint(3, x + 4, height - 2);
 	    painter.drawPolygon(points);
-	    painter.drawLine(QPoint(x, height - 3), QPoint(x,
-		    (height / 2) + 6));
+	    painter.drawLine(QPoint(x, height - 2), QPoint(x,
+		    (height / 2) + 4));
 	}
 
 	bool underMouse(int x, int y, int midx, int height) const {
@@ -226,9 +226,9 @@ namespace Gui {
 		return false;
 	    if (x > midx + 4)
 		return false;
-	    if (y > height - 3)
+	    if (y > height - 2)
 		return false;
-	    if (y < (height / 2) + 3)
+	    if (y < (height / 2) + 1)
 		return false;
 	    return true;
 	} 
