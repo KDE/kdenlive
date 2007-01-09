@@ -52,7 +52,7 @@ KListView(parent, name)
     setSorting(1);
     QToolTip::remove(this);
     new ListViewToolTip(this);
-
+    setFrameStyle (QFrame::NoFrame);
     connect(this, SIGNAL(dropped(QDropEvent *, QListViewItem *,
 		QListViewItem *)), this, SLOT(dragDropped(QDropEvent *,
 		QListViewItem *, QListViewItem *)));

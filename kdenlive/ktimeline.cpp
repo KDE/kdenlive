@@ -86,7 +86,7 @@ namespace Gui {
 
 	m_trackViewArea = new KTrackView(*this, m_trackScroll, "trackview_area");
 	m_trackScroll->enableClipper(TRUE);
-	//m_trackScroll->setVScrollBarMode(QScrollView::AlwaysOn);
+	m_trackScroll->setFrameStyle (QFrame::NoFrame);
 	m_trackScroll->setHScrollBarMode(QScrollView::AlwaysOff);
         m_trackScroll->setDragAutoScroll(true);
 

@@ -35,7 +35,7 @@ namespace Gui {
 
 	setDragEnabled(true);
 	setFullWidth(true);
-
+	setFrameStyle (QFrame::NoFrame);
 	connect(this, SIGNAL(doubleClicked(QListViewItem *, const QPoint &, int)), this,
 	    SLOT(slotEffectSelected(QListViewItem *)));
     } 
