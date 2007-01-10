@@ -149,10 +149,10 @@ namespace Gui {
 	int videoTracks = KdenliveSettings::videotracks();
 
 	if (!KdenliveSettings::openlast() && !KdenliveSettings::openblank() && !newDoc) {
-		slotNewProject(&newProjectName, &m_selectedFile, &videoTracks, &audioTracks);
+		slotNewProject(&newProjectName, &m_selectedFile, &videoTracks, &audioTracks, false, true);
 	}
 	else if (KdenliveSettings::openblank() && !newDoc) {
-		slotNewProject(&newProjectName, &m_selectedFile, &videoTracks, &audioTracks, true);
+		slotNewProject(&newProjectName, &m_selectedFile, &videoTracks, &audioTracks, true, true);
 	}
 
         QPixmap pixmap(locate("appdata", "graphics/kdenlive-splash.png"));
@@ -1046,6 +1046,7 @@ namespace Gui {
 	mainDock->setDockSite(KDockWidget::DockFullSite);
         mainDock->setEnableDocking(KDockWidget::DockNone);
 	mainDock->setToolTipString(i18n("Kdenlive"));
+	
         //mainDock->setFocusPolicy(QWidget::WheelFocus); //QWidget::TabFocus
 	setCentralWidget(mainDock);
 	setMainDockWidget(mainDock);
@@ -1105,8 +1106,6 @@ namespace Gui {
 	setBackgroundMode(PaletteBase);
 	makeDockInvisible(mainDock);
 	readDockConfig(config, "Default Layout");
-
-
     }
 
 
@@ -1888,7 +1887,8 @@ namespace Gui {
 	    int audioTracks = 2;
 	    QString newProjectName;
 	    m_selectedFile = NULL;
-	    slotNewProject(&newProjectName, &m_selectedFile, &videoTracks, &audioTracks);
+	    if (!slotNewProject(&newProjectName, &m_selectedFile, &videoTracks, &audioTracks))
+		return;
             if (!m_selectedFile.isEmpty()) {
 	    	openSelectedFile();
 	    }
@@ -1905,7 +1905,7 @@ namespace Gui {
     }
 
 
-	void KdenliveApp::slotNewProject(QString *newProjectName, KURL *fileUrl, int *videoTracks, int *audioTracks, bool byPass) {
+	bool KdenliveApp::slotNewProject(QString *newProjectName, KURL *fileUrl, int *videoTracks, int *audioTracks, bool byPass, bool exitMode) {
 		bool finished = false;
 		QString projectFolder;
 		int projectFormat = 0;
@@ -1929,8 +1929,11 @@ namespace Gui {
 		    newProjectDialog->video_format->insertStringList(videoProjectFormats);
 		    newProjectDialog->audioTracks->setValue(*audioTracks);
 		    newProjectDialog->videoTracks->setValue(*videoTracks);
-
-		    if (newProjectDialog->exec() == QDialog::Rejected) exit(1);
+		    if (!exitMode) newProjectDialog->buttonQuit->setText(i18n("Cancel"));
+		    if (newProjectDialog->exec() == QDialog::Rejected) {
+			if (exitMode) exit(1);
+			return false;
+		    }
 
 		    if (!newProjectDialog->isNewFile()) {
 			*fileUrl = newProjectDialog->selectedFile();
@@ -2019,6 +2022,7 @@ namespace Gui {
 			*audioTracks = audioNum;
 			*videoTracks = videoNum;
 			}
+		return true;
 	}
 
 

@@ -485,7 +485,7 @@ namespace Gui {
 	void slotMoveClipUp();
 	void slotMoveClipDown();
 
-	void slotNewProject(QString *newProjectName, KURL *fileUrl, int *videoTracks, int *audioTracks, bool byPass = false);
+	bool slotNewProject(QString *newProjectName, KURL *fileUrl, int *videoTracks, int *audioTracks, bool byPass = false, bool exitMode = false);
 	QString easyName(VIDEOFORMAT format);
 	void selectClipUnderCursor();
 	void slotAddAudioEffect(int ix);
