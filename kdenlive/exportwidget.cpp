@@ -64,7 +64,7 @@ exportWidget::exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, VID
     m_port = -1;
     m_guid = 0;
     m_avc = 0;*/
-
+    setCaption(i18n("Render Timeline"));
     initEncoders();
     m_isRunning = false;
     fileExportFolder->setMode(KFile::Directory);
