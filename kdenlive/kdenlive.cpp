@@ -3639,8 +3639,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	DocClipRef *clipUnderMouse = getDocument()->projectClip().selectedClip();
 	GenTime cursorTime = getDocument()->renderer()->seekPosition() - clipUnderMouse->trackStart() + clipUnderMouse->cropStartTime();
 	GenTime markerTime = clipUnderMouse->hasSnapMarker(cursorTime);
-	if (markerTime == GenTime(0.0)) return;
-	if (cursorTime < clipUnderMouse->trackStart() || cursorTime > clipUnderMouse->trackEnd()) return;
+	if (markerTime <= GenTime(0.0)) return;
+	if (cursorTime > clipUnderMouse->cropDuration()) return;
 	bool ok;
 	QString comment = KInputDialog::getText(i18n("Edit Marker"), i18n("Marker comment: "), clipUnderMouse->markerComment(cursorTime), &ok);
 	if (ok) {
