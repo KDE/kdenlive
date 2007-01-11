@@ -135,6 +135,7 @@ class DocTrackBase:public QObject {
 
 	/** Called by the clip in question to alert doctrackbase that the clip has changed. */
     void notifyClipChanged(DocClipRef * clip);
+    void notifyTrackChanged(DocClipRef * clip);
 
 	/** Checks to see if the track length has changed since it was last calculated, and if it has, emit a
 	"track length changed" signal. */

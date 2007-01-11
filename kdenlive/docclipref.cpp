@@ -348,6 +348,7 @@ createClip(const EffectDescriptionList & effectList,
     GenTime trackEnd;
     QString description;
     double speed = 1.0;
+    double endspeed = 1.0;
     EffectStack effectStack;
     QValueVector < CommentedTime > markers;
 
@@ -395,6 +396,7 @@ createClip(const EffectDescriptionList & effectList,
 		trackEnd =
 		    GenTime(e.attribute("trackend", "-1").toDouble());
 		speed = e.attribute("speed", "1.0").toDouble();
+		endspeed = e.attribute("end_speed", "1.0").toDouble();
 	    }  else if (e.tagName() == "effects") {
 		//kdWarning() << "Found effects tag" << endl;
 		QDomNode effectNode = e.firstChild();
@@ -458,7 +460,7 @@ createClip(const EffectDescriptionList & effectList,
 	clip->setTrackStart(trackStart);
 	clip->setCropStartTime(cropStart);
 	if (clip->snapMarkers().count() == 0) clip->setSnapMarkers(markers);
-	clip->setSpeed(speed);
+	clip->setSpeed(speed, endspeed);
 	if (trackEnd.seconds() != -1) {
 	    clip->setTrackEnd(trackEnd);
 	} else {
@@ -658,8 +660,8 @@ QDomDocument DocClipRef::toXML() const
 	QString::number(cropDuration().seconds(), 'f', 10));
     position.setAttribute("trackend", QString::number(trackEnd().seconds(),
 	    'f', 10));
-    position.setAttribute("speed",
-	QString::number(speed(), 'f'));
+    position.setAttribute("speed", QString::number(m_speed, 'f'));
+    position.setAttribute("end_speed", QString::number(m_endspeed, 'f'));
 
     clip.appendChild(position);
 
@@ -750,11 +752,12 @@ bool DocClipRef::matchesXML(const QDomElement & element) const
 
 const GenTime & DocClipRef::duration() const
 {
-    if (m_speed == 1.0 && m_endspeed == 1.0) return m_clip->duration();
+    return m_clip->duration();
+    /*if (m_speed == 1.0 && m_endspeed == 1.0) return m_clip->duration();
     else {
 	int frameCount = (int)(m_clip->duration().frames(framesPerSecond()) * 2 / (m_speed + m_endspeed));
 	return GenTime(frameCount, framesPerSecond());
-    }
+    }*/
 }
 
 bool DocClipRef::durationKnown() const
@@ -767,13 +770,34 @@ double DocClipRef::speed() const
     return (m_speed + m_endspeed) / 2;
 }
 
-void DocClipRef::setSpeed(double speed, double endspeed)
+void DocClipRef::setSpeed(double startspeed, double endspeed)
 {
-    m_speed = speed;
+    if (!m_parentTrack) return;
+    double origDuration = (double)((m_trackEnd.frames(framesPerSecond()) - m_trackStart.frames(framesPerSecond()))) * speed();
+
+    double newDuration = origDuration * 2.0 / (startspeed + endspeed);
+    if (trackEnd() != m_parentTrack->trackLength()) {
+	// The clip is not the last one on track, check available space
+        GenTime availableSpace = GenTime(0) - m_parentTrack->spaceLength(trackEnd() + GenTime(1, framesPerSecond()));
+        if (GenTime(newDuration, framesPerSecond()) - cropDuration() > availableSpace) {
+	    kdDebug()<<"// Cannot change speed, it would overlap another clip."<<endl;
+	    if (!m_effectStack.isEmpty()) {
+		EffectStack::iterator itt = m_effectStack.begin();
+		while (itt != m_effectStack.end()) {
+	    		if ((*itt)->name() == i18n("Speed")) {
+			    (*itt)->effectDescription().parameter(0)->setValue(QString::number((int) (m_speed * 100)));
+			    (*itt)->effectDescription().parameter(1)->setValue(QString::number((int) (m_endspeed * 100)));
+			}
+	    		++itt;
+		}
+            }
+	    return;
+	}
+    }
+    m_speed = startspeed;
     m_endspeed = endspeed;
-    if (cropStartTime() + cropDuration() > duration()) 
-	setCropDuration(duration() - cropStartTime());
-    else if (m_parentTrack) m_parentTrack->notifyClipChanged(this);
+    m_trackEnd = m_trackStart + GenTime(newDuration, framesPerSecond());
+    if (m_parentTrack) m_parentTrack->notifyTrackChanged(this);
 }
 
 QDomDocument DocClipRef::generateSceneList()

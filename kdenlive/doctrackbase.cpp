@@ -744,6 +744,12 @@ void DocTrackBase::notifyClipChanged(DocClipRef * clip)
     //checkTrackLength();
 }
 
+void DocTrackBase::notifyTrackChanged(DocClipRef * clip)
+{
+    emit redrawSection(clip->trackNum(), GenTime(0), GenTime(0));
+    checkTrackLength();
+}
+
 void DocTrackBase::checkTrackLength()
 {
     GenTime slength;

@@ -308,7 +308,7 @@ class DocClipRef:public QObject {
         QDomDocumentFragment generateXMLTransition(bool hideVideo, bool hideAudio);
 	void updateAudioThumbnail(QMap<int,QMap<int,QByteArray> > data);
 	void refreshAudioThumbnail();
-	void setSpeed(double speed, double endspeed = 1.0);
+	void setSpeed(double startspeed, double endspeed);
 	double speed() const;
 	void refreshCurrentTrack();
 	QValueVector < GenTime > transitionSnaps();
