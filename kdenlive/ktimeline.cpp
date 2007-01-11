@@ -644,8 +644,8 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
     void KTimeLine::setPanelWidth(int width) {
 	m_panelWidth = width;
 
-	m_rulerToolWidget->setMinimumWidth(m_panelWidth + 2);
-	m_rulerToolWidget->setMaximumWidth(m_panelWidth + 2);
+	m_rulerToolWidget->setMinimumWidth(m_panelWidth);
+	m_rulerToolWidget->setMaximumWidth(m_panelWidth);
 
 	m_scrollToolWidget->setMinimumWidth(m_panelWidth);
 	m_scrollToolWidget->setMaximumWidth(m_panelWidth);
