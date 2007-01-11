@@ -509,6 +509,7 @@ namespace Gui {
 	void slotFullScreen();
 	void slotAddFileToProject(const QString &url);
 	void slotRenderZone();
+        void slotRenderAudioZone();
 	void addMarkerUnderCursor();
 	void deleteMarkerUnderCursor();
         void editMarkerUnderCursor();

@@ -83,7 +83,7 @@ private slots:
 	void exportFileToTheora(QString srcFileName, int audio =1, int video =5, QString size = QString());
         void initEncoders();
         void initDvConnection();
-	void doExport(QString file, QStringList params,  bool isDv = false);
+	void doExport(QString file, QStringList params,  bool isDv = false, bool audioOnly = false);
 	void doAudioExport(QString src, QString dest);
 	void endExport(KProcess *);
 	void receivedStderr(KProcess *, char *buffer, int buflen);
@@ -108,7 +108,7 @@ public slots:
 	void reportProgress(GenTime progress);
 	void updateGuides();
 	void generateDvdFile(QString file, GenTime start, GenTime end, VIDEOFORMAT format);
-	void renderSelectedZone(const QString &url);
+	void renderSelectedZone(const QString &url, bool audioOnly = false);
 	void renderSelectedClipAudio(const QString &source, const QString &dest);
 
 signals:

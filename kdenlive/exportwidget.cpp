@@ -608,7 +608,7 @@ void exportWidget::startExport()
     }
 }
 
-void exportWidget::renderSelectedZone(const QString &url)
+void exportWidget::renderSelectedZone(const QString &url, bool audioOnly)
 {
     if (m_isRunning) {
 	if (KMessageBox::questionYesNo(this, i18n("There is another file render currently running, cancel it ?")) != KMessageBox::Yes) return;
@@ -618,7 +618,7 @@ void exportWidget::renderSelectedZone(const QString &url)
     startExportTime = m_timeline->inpointPosition();
     endExportTime = m_timeline->outpointPosition();
     m_duration = endExportTime - startExportTime;
-    doExport(url, QStringList(), true);
+    doExport(url, QStringList(), true, audioOnly);
     m_emitSignal = true;
 }
 
@@ -684,7 +684,7 @@ void exportWidget::generateDvdFile(QString file, GenTime start, GenTime end, VID
 
 }
 
-void exportWidget::doExport(QString file, QStringList params, bool isDv)
+void exportWidget::doExport(QString file, QStringList params, bool isDv, bool audioOnly)
 {
     if (m_tmpFile) delete m_tmpFile;
     m_tmpFile = new KTempFile( QString::null, ".westley");
@@ -711,12 +711,14 @@ void exportWidget::doExport(QString file, QStringList params, bool isDv)
     *m_exportProcess << QString("in=%1").arg(startExportTime.frames(KdenliveSettings::defaultfps()));
     *m_exportProcess << QString("out=%1").arg(endExportTime.frames(KdenliveSettings::defaultfps()));
     *m_exportProcess << "-consumer";
-    if (isDv) {
+    /*if (isDv && !) {
 	*m_exportProcess << QString("libdv:%1").arg(file);
 	*m_exportProcess << "terminate_on_pause=1";
     }
-    else *m_exportProcess << QString("avformat:%1").arg(file);
-    *m_exportProcess << params;
+    else */
+    *m_exportProcess << QString("avformat:%1").arg(file);
+    if (audioOnly) *m_exportProcess <<"format=wav"<<"frequency=48000";
+    else *m_exportProcess << params;
     *m_exportProcess << "real_time=0";
     *m_exportProcess << "stats_on=1";
     // workaround until MLT's default qscale value is fixed

@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kdenlive" version="22">
+<kpartgui name="kdenlive" version="23">
 <MenuBar>
   <Menu name="file">
         <Action name="export_current_frame"/>
@@ -233,6 +233,7 @@
 		<Action name="timeline_delete_guide"/>
 		<Action name="save_zone"/>
 		<Action name="render_zone"/>
+		<Action name="render_audio_zone"/>
 		<Action name="virtual_zone"/>
   		<Menu name="go_to"><text>Go To</text>
   		</Menu>		

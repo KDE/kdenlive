@@ -309,6 +309,11 @@ int DocTrackBase::hasSelectedClips()
     return (m_selectedClipList.count());
 }
 
+DocClipRefList DocTrackBase::selectedClips()
+{
+     return m_selectedClipList;
+}
+
 QPtrListIterator < DocClipRef > DocTrackBase::firstClip(bool selected) const
 {
     return QPtrListIterator < DocClipRef >

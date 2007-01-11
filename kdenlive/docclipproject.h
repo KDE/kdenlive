@@ -103,6 +103,8 @@ class DocClipProject:public DocClipBase {
 	 * choice. */
     DocClipRef *selectedClip();
 
+    DocClipRefList selectedClipList();
+
 	/** Returns true if this clip refers to the clip passed in. A clip refers to another clip if
 	 * it uses it as part of it's own composition. */
     virtual bool referencesClip(DocClipBase * clip) const;

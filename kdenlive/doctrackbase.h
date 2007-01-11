@@ -149,6 +149,9 @@ class DocTrackBase:public QObject {
     
         /** Return a pointer to the project */
     DocClipProject * projectClip();
+
+	/** Return the list of selected clips */
+    DocClipRefList selectedClips();
     
     bool isMute();
     void mute(bool muted);

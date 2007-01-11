@@ -267,11 +267,20 @@ namespace Gui {
 
     void KdenliveApp::slotAddEffect(const QString & effectName)
     {
-	DocClipRef *clip = getDocument()->projectClip().selectedClip();
-	if (!clip) return;
+	DocClipRefList list = getDocument()->projectClip().selectedClipList();
+
+	if (list.isEmpty()) return;
 	Effect *effect = effectList().effectDescription(effectName)->createEffect(effectName);
-	addCommand(Command::KAddEffectCommand::insertEffect(getDocument(), clip, clip->numEffects(), effect));
-	m_effectStackDialog->slotSetEffectStack(clip);
+
+	KMacroCommand *macroCommand = new KMacroCommand(i18n("Add Effect"));
+	DocClipRef *refClip;
+
+    	for (refClip = list.first(); refClip; refClip = list.next()) {
+		macroCommand->addCommand(Command::KAddEffectCommand::insertEffect(getDocument(), refClip, refClip->numEffects(), effect));	
+	}
+	addCommand(macroCommand, true);
+
+	m_effectStackDialog->slotSetEffectStack(refClip);
 	makeDockVisible(m_dockEffectStack);
 	if (effectName == i18n("Freeze")) getDocument()->emitCurrentClipPosition();
 	else getDocument()->activateSceneListGeneration(true);
@@ -279,38 +288,30 @@ namespace Gui {
 
     void KdenliveApp::slotRemoveEffect(int ix)
     {
-	kdDebug()<<"*********** REMOVING EFFECT AT: "<<ix<<endl;
-	
+	DocClipRefList list = getDocument()->projectClip().selectedClipList();
+
+	if (list.isEmpty()) return;
 	DocClipRef *clip = getDocument()->projectClip().selectedClip();
-	if (!clip) return;
-	kdDebug()<<"*********** LIST: "<<clip->clipEffectNames()<<endl;
-	addCommand(Command::KAddEffectCommand::removeEffect(getDocument(), clip, ix));
+	QString effectName = clip->clipEffectNames()[ix];
+	KMacroCommand *macroCommand = new KMacroCommand(i18n("Remove Effect"));
+	DocClipRef *refClip;
+
+    	for (refClip = list.first(); refClip; refClip = list.next()) {
+		int effectIndex = refClip->clipEffectNames().findIndex(effectName);
+		if (effectIndex != -1) macroCommand->addCommand(Command::KAddEffectCommand::removeEffect(getDocument(), refClip, effectIndex));	
+	}
+	addCommand(macroCommand, true);
 	getDocument()->activateSceneListGeneration(true);
     }
 
     void KdenliveApp::slotAddVideoEffect(int ix)
     {
-	DocClipRef *clip = getDocument()->projectClip().selectedClip();
-	if (!clip) return;
-	QString effectName = videoEffectsMenu->text(ix);
-	Effect *effect = effectList().effectDescription(effectName)->createEffect(effectName);
-	addCommand(Command::KAddEffectCommand::insertEffect(getDocument(), clip, clip->numEffects(), effect));
-	m_effectStackDialog->slotSetEffectStack(clip);
-	makeDockVisible(m_dockEffectStack);
-	if (effectName == i18n("Freeze")) getDocument()->emitCurrentClipPosition();
-	else getDocument()->activateSceneListGeneration(true);
+	slotAddEffect(videoEffectsMenu->text(ix));
     }
 
     void KdenliveApp::slotAddAudioEffect(int ix)
     {
-	DocClipRef *clip = getDocument()->projectClip().selectedClip();
-	if (!clip) return;
-	QString effectName = audioEffectsMenu->text(ix);
-	Effect *effect = effectList().effectDescription(effectName)->createEffect(effectName);
-	addCommand(Command::KAddEffectCommand::insertEffect(getDocument(), clip, clip->numEffects(), effect));
-	m_effectStackDialog->slotSetEffectStack(clip);
-	makeDockVisible(m_dockEffectStack);
-	getDocument()->activateSceneListGeneration(true);
+	slotAddEffect(audioEffectsMenu->text(ix));
     }
 
     void KdenliveApp::slotAutoSave()
@@ -751,6 +752,11 @@ namespace Gui {
         SLOT(slotRenderZone()), actionCollection(),
         "render_zone");
 	renderZone->setStatusText(i18n("Render selected zone for future use"));
+
+	KAction *renderAudioZone = new KAction(i18n("Render Selected Zone Audio"), 0, this,
+        SLOT(slotRenderAudioZone()), actionCollection(),
+        "render_audio_zone");
+	renderAudioZone->setStatusText(i18n("Render selected zone audio for future use"));
 
 	KAction *virtualZone = new KAction(i18n("Create Virtual Clip"), 0, this,
         SLOT(slotVirtualZone()), actionCollection(),
@@ -2273,6 +2279,20 @@ namespace Gui {
 	delete fd;
     }
 
+    void KdenliveApp::slotRenderAudioZone()
+    {
+        QCheckBox * addToProject = new QCheckBox(i18n("Add new clip to project"),this);
+        KFileDialog *fd = new KFileDialog(m_fileDialogPath.path(), "*.wav", this, "save_render", true,addToProject);
+        fd->setOperationMode(KFileDialog::Saving);
+        fd->setMode(KFile::File);
+        if (fd->exec() == QDialog::Accepted) {
+		if (!m_exportWidget) slotRenderExportTimeline(false);
+		m_exportWidget->renderSelectedZone(fd->selectedURL().path(), true);
+	}
+	delete addToProject;
+	delete fd;
+    }
+
     void KdenliveApp::slotSaveZone()
     {
         QCheckBox * addToProject = new QCheckBox(i18n("Add new clip to project"),this);
@@ -3718,7 +3738,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	DocClipRef *clip = track->getClipAt(mouseTime);
 	if (clip) {
           // select clip under mouse
-	  if (clip != getDocument()->projectClip().selectedClip()) {
+	  if (!getDocument()->projectClip().clipSelected(clip)) {
 	  	KMacroCommand *macroCommand = new KMacroCommand(i18n("Select Clip"));
 	  	macroCommand->addCommand(Command::KSelectClipCommand::selectNone(getDocument()));
 	  	macroCommand->addCommand(new Command::KSelectClipCommand(getDocument(), clip, true));

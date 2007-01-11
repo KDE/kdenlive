@@ -796,15 +796,23 @@ bool DocClipProject::referencesClip(DocClipBase * clip) const
     return result;
 }
 
+DocClipRefList DocClipProject::selectedClipList()
+{
+    DocClipRefList list;
+    QPtrListIterator < DocTrackBase > trackItt(m_tracks);
+    while (trackItt.current()) {
+	list.appendList(trackItt.current()->selectedClips());
+            ++trackItt;
+        }
+    return list;
+}
+
 DocClipRefList DocClipProject::referencedClips(DocClipBase * clip)
 {
     DocClipRefList list;
-
-
     DocTrackBase *srcTrack;
     for (uint track = 0; track < numTracks(); ++track) {
 	srcTrack = m_tracks.at(track);
-
 	list.appendList(srcTrack->referencedClips(clip));
     }
 
