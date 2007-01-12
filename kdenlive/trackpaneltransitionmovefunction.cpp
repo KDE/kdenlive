@@ -105,12 +105,18 @@ bool TrackPanelTransitionMoveFunction::mouseDoubleClicked(Gui::KTrackPanel * pan
                 TransitionStack::iterator itt = m_transitions.begin();
                 //  Loop through the clip's transitions
                 while (itt) {
-						 uint dx1 = (uint)m_timeline->mapValueToLocal((*itt)->transitionStartTime().frames(m_document->framesPerSecond()));
-						 uint dx2 = (uint)m_timeline->mapValueToLocal((*itt)->transitionEndTime().frames(m_document->framesPerSecond()));
+			uint dx1 = (uint)m_timeline->mapValueToLocal((*itt)->transitionStartTime().frames(m_document->framesPerSecond()));
+			uint dx2 = (uint)m_timeline->mapValueToLocal((*itt)->transitionEndTime().frames(m_document->framesPerSecond()));
 
-						 if ((event->x() > (int)(dx1+s_resizeTolerance)) && (event->x()+s_resizeTolerance< dx2)) {
-                        emit editTransition(*itt);
-                        break;
+			if ((event->x() > (int)(dx1+s_resizeTolerance)) && (event->x()+s_resizeTolerance< dx2)) {
+ 				if (!track->clipSelected(clip)) {
+	  	        		KMacroCommand *macroCommand = new KMacroCommand(i18n("Select Clip"));
+	  	        		macroCommand->addCommand(Command::KSelectClipCommand::selectNone(m_document));
+	  	        		macroCommand->addCommand(new Command::KSelectClipCommand(m_document, clip, true));
+	  	        		m_app->addCommand(macroCommand, true);
+		    		}
+                        	emit editTransition(*itt);
+                        	break;
                     }
                     ++itt;
                 }
