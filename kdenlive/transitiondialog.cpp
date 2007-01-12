@@ -164,6 +164,7 @@ void TransitionDialog::initLumaFiles()
 	itemName = itemName.left(itemName.length() - 4);
 	(void) new QIconViewItem( transitLumaFile->lumaView, itemName, pix );
 	transitWipe->luma_file->insertItem(pix, itemName);
+	transitWipe->setFormat(m_lumaType);
 	transitPip->luma_file->insertItem(pix, itemName);
     }
 }
@@ -377,8 +378,7 @@ const QMap < QString, QString > TransitionDialog::transitionParameters()
       paramList["geometry"] = transitPip->parameters();
       paramList["progressive"] = "1";
       if (transitPip->use_luma->isChecked()) {
-	QString fname = transitPip->luma_file->currentText();
-	fname = locate(m_lumaType, fname + ".pgm");
+	QString fname = locate(m_lumaType, transitPip->luma_file->currentText() + ".pgm");
 	paramList["luma"] = fname;
 	paramList["softness"] = QString::number(((double) transitPip->spin_soft->value()) / 100.0);
       }

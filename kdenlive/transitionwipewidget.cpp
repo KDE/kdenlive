@@ -38,6 +38,7 @@ transitionWipeWidget::transitionWipeWidget(QWidget* parent, const char* name, WF
 	endTransition = CENTER_TRANSITION;
 	m_startTransparency = 0;
 	m_endTransparency = 0;
+	m_lumaType = QString::null;
 
 
 	connect(transitionU, SIGNAL(clicked()), this, SLOT(updateTransition()));
@@ -136,12 +137,17 @@ QMap < QString, QString > transitionWipeWidget::parameters()
 
     if (use_luma->isChecked()) {
 	QString fname = luma_file->currentText();
-	fname = locate("data", "kdenlive/pgm/" + fname + ".pgm");
+	fname = locate(m_lumaType, fname + ".pgm");
 	paramList["luma"] = fname;
 	paramList["softness"] = QString::number(((double) spin_soft->value()) / 100.0);
     }
 
     return paramList;
+}
+
+void transitionWipeWidget::setFormat(QString format)
+{
+	m_lumaType = format;
 }
 
 void transitionWipeWidget::setParameters(QString geom)
