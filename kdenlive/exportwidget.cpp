@@ -549,8 +549,6 @@ void exportWidget::startExport()
             endExportTime = m_timeline->projectLength();
         }
         m_duration = endExportTime - startExportTime;
-        exportButton->setText(i18n("Stop"));
-        m_isRunning = true;
 	QString paramLine;
 	switch (encoders->currentPageIndex()) {
 	case 0:
@@ -637,7 +635,7 @@ void exportWidget::generateDvdFile(QString file, GenTime start, GenTime end, VID
 {
     QStringList encoderParams;
     m_isRunning = true;
-    tabWidget->page(0)->setEnabled(false);
+    tabWidget->setEnabled(false);
     startExportTime = start;
     endExportTime = end;
     m_duration = endExportTime - startExportTime;
@@ -693,6 +691,9 @@ void exportWidget::doExport(QString file, QStringList params, bool isDv, bool au
     	m_exportProcess->kill();
     	delete m_exportProcess;
     }
+    tabWidget->setEnabled(false);
+    m_isRunning = true;
+    exportButton->setText(i18n("Stop"));
     kdDebug()<<"++++++  PREPARE TO WRITE TO: "<<m_tmpFile->name()<<endl;
     QTextStream stream( m_tmpFile->file() );
     stream << m_screen->sceneList().toString() << "\n";
@@ -756,6 +757,9 @@ void exportWidget::doAudioExport(QString src, QString dest)
     	delete m_exportProcess;
     }
 
+    tabWidget->setEnabled(false);
+    m_isRunning = true;
+    exportButton->setText(i18n("Stop"));
     m_exportProcess = new KProcess;
 
     if (!encoder_norm.isEmpty()) m_exportProcess->setEnvironment("MLT_NORMALISATION", encoder_norm);
@@ -856,6 +860,7 @@ void exportWidget::endExport(KProcess *)
 	//exportFileToTheora(KURL(fileExportFolder->url()+"/"+fileExportName->text() + ".dv").path(), vquality->currentText().toInt(), aquality->currentText().toInt(), videoSize->currentText());
     }*/
 	exportButton->setText(i18n("Export"));
+	tabWidget->setEnabled(true);
     	m_isRunning = false;
 	QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1, 10007));
     	//processProgress->setProgress(0);
@@ -881,6 +886,7 @@ void exportWidget::endDvdExport(KProcess *)
     }
     delete m_exportProcess;
     m_exportProcess = 0;
+    tabWidget->setEnabled(true);
     m_isRunning = false;
     QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1, 10007));
     tabWidget->page(0)->setEnabled(true);
@@ -899,6 +905,7 @@ void exportWidget::endConvert(KProcess *)
     m_convertProcess = 0;
     exportButton->setText(i18n("Export"));
     KIO::NetAccess::del(KURL(fileExportFolder->url()+"/"+fileExportName->text() + ".dv"), this);
+    tabWidget->setEnabled(true);
     m_isRunning = false;
     QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1, 10007));
     //processProgress->setProgress(0);
@@ -918,6 +925,7 @@ void exportWidget::endExport()
 {
     exportButton->setText(i18n("Export"));
     m_isRunning = false;
+    tabWidget->setEnabled(true);
 /*    if (encoders->currentText() == "theora") {
 //	exportFileToTheora(KURL(fileExportFolder->url()+"/"+fileExportName->text() + ".dv").path(), vquality->currentText().toInt(), aquality->currentText().toInt(), videoSize->currentText());
     }
