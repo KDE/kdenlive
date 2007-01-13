@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-13 08:56+0100\n"
-"PO-Revision-Date: 2007-01-02 23:20+0100\n"
+"PO-Revision-Date: 2007-01-14 00:48+0100\n"
 "Last-Translator: Carlos Dávila <carluti@users.sourceforge.net>\n"
 "Language-Team: español <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -460,8 +460,7 @@ msgstr "Detección de escena automática"
 
 #: kdenlive/configcapture_ui.cpp:60
 msgid "Put recording time info in captured file name"
-msgstr ""
-"Poner información del momento de grabación en el nombre del archivo capturado"
+msgstr "Poner información del momento de grabación en el nombre del archivo capturado"
 
 #: kdenlive/configinterface_ui.cpp:102
 msgid "minutes"
@@ -473,8 +472,7 @@ msgstr "Autoguardar proyecto cada"
 
 #: kdenlive/configinterface_ui.cpp:104
 msgid "Mouse wheel moves horizontally (Alt for vertical scroll)"
-msgstr ""
-"La rueda del ratón mueve horizontalmente (Alt para desplazamiento vertical)"
+msgstr "La rueda del ratón mueve horizontalmente (Alt para desplazamiento vertical)"
 
 #: kdenlive/configinterface_ui.cpp:105
 msgid "Show splash screen"
@@ -1131,9 +1129,8 @@ msgid "The creation of DVD structure failed."
 msgstr "La creación de la estructura del DVD falló."
 
 #: kdenlive/exportwidget.cpp:67
-#, fuzzy
 msgid "Render Timeline"
-msgstr "Línea de tiempo actual"
+msgstr "Línea de tiempo de renderizador"
 
 #: kdenlive/exportwidget.cpp:86
 msgid "Low"
@@ -1529,12 +1526,10 @@ msgid "Wipe"
 msgstr "Barrido"
 
 #: kdenlive/kdenlive.cpp:275
-#, fuzzy
 msgid "Add Effect"
 msgstr "Añadir efecto"
 
 #: kdenlive/kdenlive.cpp:296
-#, fuzzy
 msgid "Remove Effect"
 msgstr "Eliminar efecto"
 
@@ -1588,7 +1583,7 @@ msgstr "Herramienta enrollar"
 
 #: kdenlive/kdenlive.cpp:442
 msgid "Multiselect Tool"
-msgstr ""
+msgstr "Herramienta multiselección"
 
 #: kdenlive/kdenlive.cpp:447
 msgid "Snap To Frames"
@@ -1876,14 +1871,12 @@ msgid "Delete transition from selected clip"
 msgstr "Borrar transición del clip seleccionado"
 
 #: kdenlive/kdenlive.cpp:720
-#, fuzzy
 msgid "Edit Transition"
-msgstr "Añadir transición"
+msgstr "Editar transición"
 
 #: kdenlive/kdenlive.cpp:723
-#, fuzzy
 msgid "Edit transition from selected clip"
-msgstr "Borrar transición del clip seleccionado"
+msgstr "Editar transición del clip seleccionado"
 
 #: kdenlive/kdenlive.cpp:725 kdenlive/kdenlive.cpp:2232
 msgid "Add Track"
@@ -1915,8 +1908,7 @@ msgstr "Guardar la zona seleccionada"
 
 #: kdenlive/kdenlive.cpp:743
 msgid "Save selected zone as playlist for future use"
-msgstr ""
-"Guardar la zona seleccionada como una lista de reproducción para uso futuro"
+msgstr "Guardar la zona seleccionada como una lista de reproducción para uso futuro"
 
 #: kdenlive/kdenlive.cpp:745 kdenlive/kdenlive.cpp:2320
 msgid "Save Subclip"
@@ -1935,14 +1927,12 @@ msgid "Render selected zone for future use"
 msgstr "Renderizar la zona seleccionada para uso futuro"
 
 #: kdenlive/kdenlive.cpp:756
-#, fuzzy
 msgid "Render Selected Zone Audio"
-msgstr "Renderizar la zona seleccionada"
+msgstr "Renderizar audio de la zona seleccionada"
 
 #: kdenlive/kdenlive.cpp:759
-#, fuzzy
 msgid "Render selected zone audio for future use"
-msgstr "Renderizar la zona seleccionada para uso futuro"
+msgstr "Renderizar audio de la zona seleccionada para uso futuro"
 
 #: kdenlive/kdenlive.cpp:761 kdenlive/kdenlive.cpp:2349
 msgid "Create Virtual Clip"
@@ -2184,8 +2174,7 @@ msgstr ""
 "clips de la pista actual."
 
 #: kdenlive/kdenlive.cpp:935
-msgid ""
-"Insert commented snap markers on clips (Ctrl + click to remove a marker)"
+msgid "Insert commented snap markers on clips (Ctrl + click to remove a marker)"
 msgstr ""
 "Insertar marcadores de fijación comentados en los clips (Ctrl + clic para "
 "eliminar un marcador)"
@@ -2195,9 +2184,8 @@ msgid "Move edit point between two selected clips"
 msgstr "Mover el punto de edición entre dos clips seleccionados"
 
 #: kdenlive/kdenlive.cpp:941
-#, fuzzy
 msgid "Select multiple clips"
-msgstr "Seleccionar clips"
+msgstr "Seleccionar múltiples clips"
 
 #: kdenlive/kdenlive.cpp:943
 msgid "Align clips on nearest frame"
@@ -2351,7 +2339,7 @@ msgstr "Exportando a archivo"
 
 #: kdenlive/kdenlive.cpp:1503
 msgid "Export will finish in %1h%2m%3s"
-msgstr ""
+msgstr "La exportación finalizará en %1h%2m%3s"
 
 #: kdenlive/kdenlive.cpp:1642
 msgid "Cannot read file: %1"
@@ -2371,6 +2359,9 @@ msgid ""
 "Closing Kdenlive will terminate the export.\n"
 "Close anyways ?"
 msgstr ""
+"Actualmente se está ejecutando un proceso de exportación.\n"
+"Cerrar Kdenlive terminará la exportación.\n"
+"¿Cerrar de todas formas?"
 
 #: kdenlive/kdenlive.cpp:1816
 msgid ""
@@ -2541,7 +2532,7 @@ msgstr "Herramienta enrollar"
 
 #: kdenlive/kdenlive.cpp:2598
 msgid "Multiselect tool"
-msgstr ""
+msgstr "Herramienta multiselección"
 
 #: kdenlive/kdenlive.cpp:2604
 msgid "Exporting Timeline..."
@@ -2746,9 +2737,8 @@ msgid "Please select a clip to delete transition"
 msgstr "Por favor, selecciona un clip al que borrar la transición"
 
 #: kdenlive/kdenlive.cpp:3824
-#, fuzzy
 msgid "Please select a clip to edit transition"
-msgstr "Por favor, selecciona un clip al que borrar la transición"
+msgstr "Por favor, seleccione un clip al que editar la transición"
 
 #: kdenlive/kdenlivesetupdlg.cpp:48
 msgid "Interface"
@@ -2775,9 +2765,8 @@ msgid "Capture"
 msgstr "Capturar"
 
 #: kdenlive/kdenlivesplash.cpp:22
-#, fuzzy
 msgid "Version 0.5svn"
-msgstr "Versión 0.4"
+msgstr "Versión 0.5svn"
 
 #: kdenlive/keditclipcommand.cpp:127
 msgid "Edit Clip"
@@ -3057,8 +3046,7 @@ msgid "Piave renderer author"
 msgstr "Autor del renderizador de Piave"
 
 #: kdenlive/main.cpp:64
-msgid ""
-"Piave and Kdenlive internationalization, French translations, splashscreen"
+msgid "Piave and Kdenlive internationalization, French translations, splashscreen"
 msgstr ""
 "Internacionalización de Piave y Kdenlive, traducción francesa, pantalla de "
 "presentación"
@@ -4583,5 +4571,3 @@ msgstr "Fi&n"
 msgid "Rescale images"
 msgstr "Rescalar imágenes"
 
-#~ msgid "Render Dialog"
-#~ msgstr "Dialogo del Renderizado"
