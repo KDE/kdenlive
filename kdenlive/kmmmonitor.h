@@ -102,7 +102,9 @@ namespace Gui {
 	/** Set the monitors scenelist to the one specified. */
 	void setSceneList(const QDomDocument & scenelist,
 	    bool resetPosition = true);
-
+	void slotSetVolume(double volume) const;
+	/** Refresh display (check if on screen display should be on or off */
+	void refreshDisplay() const;
 	/** This slot is called when the screen changes position. */
 	void screenPositionChanged(const GenTime & time);
 	/** Sets this monitor to be the active monitor. It's colour changes to show it is active. */

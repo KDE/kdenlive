@@ -18,15 +18,19 @@
 
 #include <cmath>
 
-#include <kled.h>
 #include <qlcdnumber.h>
+#include "qpushbutton.h"
+#include "qtooltip.h"
+#include "qslider.h"
+#include "qcursor.h"
+
+#include <kled.h>
 #include <kdebug.h>
+#include <kdatetbl.h>
+#include "kiconloader.h"
 
 #include "kmmeditpanel.h"
 
-#include "kiconloader.h"
-#include "qpushbutton.h"
-#include "qtooltip.h"
 
 #include "kfixedruler.h"
 #include "krulertimemodel.h"
@@ -36,7 +40,7 @@ namespace Gui {
 
     KMMEditPanel::KMMEditPanel(KdenliveDoc * document, QWidget * parent,
 	const char *name, WFlags fl):KMMEditPanel_UI(parent, name, fl),
-    m_playSpeed(0.0), m_playSelected(false), m_showLcd(true), m_loop(false), m_startPlayPosition(0) {
+    m_playSpeed(0.0), m_playSelected(false), m_showLcd(true), m_loop(false), m_startPlayPosition(0), m_volume(1.0) {
 	m_document = document;
 
 	m_ruler->setRulerModel(new KRulerTimeModel());
@@ -134,12 +138,35 @@ namespace Gui {
 	 connect(previousMarkerButton, SIGNAL(clicked()), this,
 	    SIGNAL(previousSnapMarkerClicked()));
 
+	 connect(volumeButton, SIGNAL(pressed()), this, SLOT(slotShowVolumeControl()));
+
 	 connect(stopButton, SIGNAL(pressed()), this, SLOT(stop()));
 	 connect(stopButton, SIGNAL(pressed()), this,
 	    SLOT(updateButtons()));
     } 
     
     KMMEditPanel::~KMMEditPanel() {}
+
+
+    void KMMEditPanel::slotShowVolumeControl() {
+	   KPopupFrame *volumeControl = new KPopupFrame(this);
+	   volumeControl->setFrameStyle(QFrame::Box | QFrame::Plain);
+	   volumeControl->setMargin(3);
+	   volumeControl->setLineWidth(1);
+	   QSlider *volumeSlider = new QSlider(volumeControl);
+	   volumeSlider->setOrientation(Qt::Horizontal);
+	   volumeSlider->setValue(m_volume * 100);
+	   volumeControl->setMainWidget(volumeSlider);
+	   connect(volumeSlider, SIGNAL(valueChanged(int)), this, SLOT(slotEmitVolume(int)));
+	   volumeControl->exec(QCursor::pos());
+	   delete volumeSlider;
+	   delete volumeControl;
+    }
+
+    void KMMEditPanel::slotEmitVolume(int volume) {
+	   m_volume = ((double) volume) / 100.0;
+	   emit setVolume( m_volume );
+    }
 
 /** Sets the length of the clip that we are viewing. */
     void KMMEditPanel::setClipLength(int frames) {

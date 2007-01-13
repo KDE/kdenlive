@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>172</width>
-            <height>63</height>
+            <width>259</width>
+            <height>56</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -19,9 +19,6 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
         </sizepolicy>
-    </property>
-    <property name="caption">
-        <string></string>
     </property>
     <property name="layoutMargin" stdset="0">
     </property>
@@ -280,12 +277,29 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
+                    <property name="shape">
+                        <enum>Rectangular</enum>
+                    </property>
+                    <property name="look">
+                        <enum>Flat</enum>
+                    </property>
                 </widget>
             </hbox>
         </widget>
+        <widget class="QLCDNumber" row="2" column="0">
+            <property name="name">
+                <cstring>timeCode</cstring>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>32767</width>
+                    <height>20</height>
+                </size>
+            </property>
+        </widget>
         <widget class="QLayoutWidget" row="2" column="0">
             <property name="name">
-                <cstring>layout5</cstring>
+                <cstring>layout4</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -301,10 +315,16 @@
                     <property name="sizePolicy">
                         <sizepolicy>
                             <hsizetype>1</hsizetype>
-                            <vsizetype>4</vsizetype>
+                            <vsizetype>0</vsizetype>
                             <horstretch>0</horstretch>
                             <verstretch>0</verstretch>
                         </sizepolicy>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>32767</width>
+                            <height>15</height>
+                        </size>
                     </property>
                     <property name="text">
                         <string></string>
@@ -331,6 +351,12 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>32767</width>
+                            <height>15</height>
+                        </size>
+                    </property>
                     <property name="text">
                         <string></string>
                     </property>
@@ -351,15 +377,16 @@
                     <property name="sizePolicy">
                         <sizepolicy>
                             <hsizetype>1</hsizetype>
-                            <vsizetype>1</vsizetype>
+                            <vsizetype>4</vsizetype>
                             <horstretch>0</horstretch>
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
-                    <property name="font">
-                        <font>
-                            <pointsize>8</pointsize>
-                        </font>
+                    <property name="maximumSize">
+                        <size>
+                            <width>32767</width>
+                            <height>15</height>
+                        </size>
                     </property>
                     <property name="text">
                         <string></string>
@@ -377,22 +404,23 @@
                         <string>Play Section between inpoint and outpoint</string>
                     </property>
                 </widget>
-<widget class="QPushButton">
+                <widget class="QPushButton">
                     <property name="name">
                         <cstring>loopSection</cstring>
                     </property>
                     <property name="sizePolicy">
                         <sizepolicy>
                             <hsizetype>1</hsizetype>
-                            <vsizetype>1</vsizetype>
+                            <vsizetype>4</vsizetype>
                             <horstretch>0</horstretch>
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
-                    <property name="font">
-                        <font>
-                            <pointsize>8</pointsize>
-                        </font>
+                    <property name="maximumSize">
+                        <size>
+                            <width>32767</width>
+                            <height>15</height>
+                        </size>
                     </property>
                     <property name="text">
                         <string></string>
@@ -414,6 +442,12 @@
                     <property name="name">
                         <cstring>previousMarkerButton</cstring>
                     </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>32767</width>
+                            <height>15</height>
+                        </size>
+                    </property>
                     <property name="text">
                         <string></string>
                     </property>
@@ -434,15 +468,16 @@
                     <property name="sizePolicy">
                         <sizepolicy>
                             <hsizetype>1</hsizetype>
-                            <vsizetype>1</vsizetype>
+                            <vsizetype>4</vsizetype>
                             <horstretch>0</horstretch>
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
-                    <property name="font">
-                        <font>
-                            <pointsize>8</pointsize>
-                        </font>
+                    <property name="maximumSize">
+                        <size>
+                            <width>32767</width>
+                            <height>15</height>
+                        </size>
                     </property>
                     <property name="text">
                         <string></string>
@@ -461,6 +496,35 @@
                     <property name="name">
                         <cstring>nextMarkerButton</cstring>
                     </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>32767</width>
+                            <height>15</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="pixmap">
+                        <pixmap>image14</pixmap>
+                    </property>
+                    <property name="flat">
+                        <bool>true</bool>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Move to next marker</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>volumeButton</cstring>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>32767</width>
+                            <height>15</height>
+                        </size>
+                    </property>
                     <property name="text">
                         <string></string>
                     </property>
@@ -475,11 +539,6 @@
                     </property>
                 </widget>
             </hbox>
-        </widget>
-        <widget class="QLCDNumber" row="3" column="0">
-            <property name="name">
-                <cstring>timeCode</cstring>
-            </property>
         </widget>
     </grid>
 </widget>
@@ -550,7 +609,7 @@
 </images>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-	<includehint>kfixedruler.h</includehint>
-	<includehint>kled.h</includehint>
+    <includehint>kfixedruler.h</includehint>
+    <includehint>kled.h</includehint>
 </includehints>
 </UI>

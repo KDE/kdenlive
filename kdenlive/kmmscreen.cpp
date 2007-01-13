@@ -66,6 +66,13 @@ namespace Gui {
         return m_render->extractFrame(frame, width, height);
     }
 
+    void KMMScreen::setVolume(double volume) const {
+	m_render->setVolume( volume );
+    }
+
+    void KMMScreen::refreshDisplay() const {
+	m_render->refreshDisplay();
+    }
 
 /** Seeks to the specified time */
     void KMMScreen::seek(const GenTime & time) {
@@ -168,7 +175,12 @@ namespace Gui {
 	if (e->button() == RightButton) {
 	    emit mouseRightClicked();
 	}
-	else if (e->button() == LeftButton) {
+    }
+
+    // virtual 
+    void KMMScreen::mouseReleaseEvent(QMouseEvent * e) {
+
+	if (e->button() == LeftButton) {
 	    if (playSpeed() == 0.0) {
 		play(1.0);
 		emit playSpeedChanged(1.0);

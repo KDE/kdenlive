@@ -48,6 +48,8 @@ namespace Gui {
 	 connect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)),
 	    this, SLOT(updateEditPanel(const GenTime &)));
 	 connect(m_editPanel,
+	    SIGNAL(setVolume(double)), this, SLOT(slotSetVolume(double)));
+	 connect(m_editPanel,
 	    SIGNAL(inpointPositionChanged(const GenTime &)), this,
 	    SIGNAL(inpointPositionChanged(const GenTime &)));
 	 connect(m_editPanel,
@@ -194,6 +196,10 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
     const GenTime & KMMMonitor::seekPosition() const {
 	return m_screen->seekPosition();
     } 
+
+    void KMMMonitor::slotSetVolume(double volume) const {
+	m_screen->setVolume( volume );
+    }
     
     void KMMMonitor::activateMonitor() {
 	m_app->activateMonitor(this);
@@ -223,6 +229,10 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 
     void KMMMonitor::refreshClip() {
 	    if (m_clip) doCommonSetClip(false);
+    }
+
+    void KMMMonitor::refreshDisplay() const {
+	    m_screen->refreshDisplay();
     }
 
     void KMMMonitor::slotSetClip(DocClipRef * clip) {

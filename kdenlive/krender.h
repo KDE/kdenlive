@@ -57,6 +57,7 @@ namespace Mlt {
     class Tractor;
     class Frame;
     class Producer;
+    class Filter;
 };
 
 
@@ -116,6 +117,7 @@ class KRender:public QObject {
     void play(double speed);
 	/** stop playing */
     void stop(const GenTime & startTime);
+    void setVolume(double volume);
 
     QPixmap extractFrame(int frame_position, int width, int height);
 	/** Wraps the VEML command of the same name. Tells the renderer to
@@ -160,6 +162,9 @@ class KRender:public QObject {
     /** Save current producer frame as image */
     void exportCurrentFrame(KURL url, bool notify);
 
+    /** Turn on or off on screen display */
+    void refreshDisplay();
+
     /** returns the current scenelist */
     QDomDocument sceneList();
 
@@ -172,6 +177,7 @@ class KRender:public QObject {
      Mlt::Producer * m_mltFileProducer;
      Gui::KdenliveApp *m_app;
      Mlt::Producer *m_mltTextProducer;
+     Mlt::Filter *m_osdInfo;
      double m_framePosition;
      double m_fps;
 
@@ -179,6 +185,7 @@ class KRender:public QObject {
      QString m_osdProfile;
      
      QTimer *refreshTimer;
+     QTimer *osdTimer;
      QString m_renderingFormat;
      KURL m_exportedFile;
      int exportDuration, firstExportFrame, lastExportFrame;
@@ -207,6 +214,7 @@ class KRender:public QObject {
     private slots:		// Private slots
 	/** refresh monitor display */
         void refresh();
+	void slotOsdTimeout();
 
      signals:			// Signals
 	/** This signal is emitted once a reply to createVideoXWidow() has been recieved. */

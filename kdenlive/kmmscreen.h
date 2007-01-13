@@ -52,6 +52,7 @@ public:
 	void setClipLength(int frames);
 protected:
 	void mousePressEvent(QMouseEvent * e);
+	void mouseReleaseEvent(QMouseEvent * e);
 	void wheelEvent(QWheelEvent * e);
 	void mouseMoveEvent(QMouseEvent * e);
 	void paintEvent ( QPaintEvent * );
@@ -75,6 +76,13 @@ public slots:
 	void stopRenderer();
 	void resetRenderer();
         void positionChanged(GenTime t);
+
+	/** Set MLT SDL consumer volume */
+        void setVolume(double volume) const;
+
+	/** Refresh display (check if on screen display should be on or off */
+	void refreshDisplay() const;
+
 	QPixmap extractFrame(int frame, int width, int height);
 	/** Set the play speed of the screen */
 	void play(double speed);

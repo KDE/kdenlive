@@ -50,6 +50,9 @@ namespace Gui {
 	void rulerValueChanged(int ID, int value);
   /** Make sure that the edit buttons are in the correct state;have the correct image displayed */
 	void updateButtons();
+	void slotShowVolumeControl();
+	void slotEmitVolume(int volume);
+
 	 signals:		// Signals
   /** Emitted when stop button pressed */
 	void playStopped(const GenTime & startTime);
@@ -74,8 +77,9 @@ namespace Gui {
 
 /** Creates or destroys a snap marker at the current time. */
 	void toggleSnapMarker();
-
 	void activateMonitor();
+/** Change MLT consumer volume */
+	void setVolume(double);
 
       private:			// Private attributes
   /** The document associated with this edit panel */
@@ -89,7 +93,9 @@ namespace Gui {
   bool m_playSelected;
   bool m_showLcd;
   bool m_loop;
+  bool m_pauseMode;
   GenTime m_startPlayPosition;
+  double m_volume;
 
    // True if we are playing, false otherwise.
 	bool isPlaying() const {
@@ -105,8 +111,6 @@ namespace Gui {
 
 	// True if we are only playing the section of the file between inpoint and outpoint.
 
-
-	bool m_pauseMode;
     public slots:		// Public slots
   /** Seeks to the end of the ruler */
 	void seekEnd();

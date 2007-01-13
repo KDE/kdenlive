@@ -61,7 +61,13 @@ m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProduce
     openMlt();
     refreshTimer = new QTimer( this );
     connect( refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()) );
+
+    osdTimer = new QTimer( this );
+    connect( osdTimer, SIGNAL(timeout()), this, SLOT(slotOsdTimeout()) );
+
     m_osdProfile = locate("data", "kdenlive/profiles/metadata.properties");
+    m_osdInfo = new Mlt::Filter("data_show");
+    m_osdInfo->set("resource", m_osdProfile);
 
     //      Does it do anything usefull? I mean, KRenderThread doesn't do anything useful at the moment
     //      (except being cpu hungry :)
@@ -87,6 +93,7 @@ void KRender::openMlt()
 
 void KRender::closeMlt()
 {
+    delete osdTimer;
     delete refreshTimer;
     if (m_fileRenderer) delete m_fileRenderer;
     if (m_mltFileProducer) delete m_mltFileProducer;
@@ -157,6 +164,8 @@ void KRender::createVideoXWindow(bool , WId winid)
     m_mltConsumer->set("app_lock", (void *) &my_lock, 0);
     m_mltConsumer->set("app_unlock", (void *) &my_unlock, 0);*/
     m_mltConsumer->set("window_id", (int) winid);
+
+    mlt_properties properties = MLT_SERVICE_PROPERTIES(m_mltConsumer->get_service());
 
     m_mltConsumer->set("resize", 1);
     m_mltConsumer->set("rescale", KdenliveSettings::previewquality());
@@ -525,11 +534,10 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
 		mlt_properties properties = MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer());
 		mlt_properties_set_int( properties, "meta.attr.timecode", 1);
 		mlt_properties_set( properties, "meta.attr.timecode.markup", "#tc#");
-
-    		Mlt::Filter m_convert("data_show");
-    		m_convert.set("resource", m_osdProfile);
-		m_convert.set("dynamic", "1");
-    		if (m_mltProducer->attach(m_convert) == 1) kdDebug()<<"////// error attaching filter"<<endl;
+		m_osdInfo->set("dynamic", "1");
+    		if (m_mltProducer->attach(*m_osdInfo) == 1) kdDebug()<<"////// error attaching filter"<<endl;
+	} else {
+		m_osdInfo->set("dynamic", "0");
 	}
 
     	if (!resetPosition) m_mltProducer->seek(pos);
@@ -544,6 +552,48 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
     }
 }
 
+void KRender::refreshDisplay() {
+	if (!m_mltProducer) return;
+	mlt_properties properties = MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer());
+	if (KdenliveSettings::osdtimecode()) {
+	    mlt_properties_set_int( properties, "meta.attr.timecode", 1);
+	    m_osdInfo->set("dynamic", "1");
+	    m_mltProducer->attach(*m_osdInfo);
+	}
+	else {
+	    mlt_properties_set_int( properties, "meta.attr.timecode", 0);
+	    m_mltProducer->detach(*m_osdInfo);
+	    m_osdInfo->set("dynamic", "0");
+	}
+}
+
+void KRender::setVolume(double volume)
+{
+    if (!m_mltConsumer || !m_mltProducer) return;
+    m_mltConsumer->stop();
+    osdTimer->stop();
+    mlt_properties_set_double( MLT_CONSUMER_PROPERTIES(m_mltConsumer->get_consumer()), "volume", volume );
+
+    // Attach filter for on screen display of timecode
+    mlt_properties properties = MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer());
+    mlt_properties_set_int( properties, "meta.attr.volume", 1);
+    mlt_properties_set( properties, "meta.attr.volume.markup", i18n("Volume: ") + QString::number(volume * 100));
+
+    if (!KdenliveSettings::osdtimecode()) {
+	m_mltProducer->detach(*m_osdInfo);
+    	if (m_mltProducer->attach(*m_osdInfo) == 1) kdDebug()<<"////// error attaching filter"<<endl;
+    }
+    osdTimer->start(2500, TRUE);
+    m_mltConsumer->start();
+}
+
+void KRender::slotOsdTimeout()
+{
+    mlt_properties properties = MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer());
+    mlt_properties_set_int(properties, "meta.attr.volume", 0);
+    mlt_properties_set(properties, "meta.attr.volume.markup", NULL);
+    if (!KdenliveSettings::osdtimecode()) m_mltProducer->detach(*m_osdInfo);
+}
 
 void KRender::start()
 {

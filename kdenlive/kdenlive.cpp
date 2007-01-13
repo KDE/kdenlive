@@ -2527,8 +2527,8 @@ namespace Gui {
 
     void KdenliveApp::slotOnScreenDisplay() {
 	KdenliveSettings::setOsdtimecode(onScreenDisplay->isChecked());
-	m_clipMonitor->refreshClip();
-	getDocument()->activateSceneListGeneration( true );
+	m_clipMonitor->refreshDisplay();
+	m_workspaceMonitor->refreshDisplay();
     }
 
     void KdenliveApp::slotAdjustPreviewQuality() {
