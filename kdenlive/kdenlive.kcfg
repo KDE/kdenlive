@@ -101,7 +101,7 @@
 
     <entry name="videotracks" type="Int">
       <label>Number of video tracks in a blank project.</label>
-      <default>3</default>
+      <default>2</default>
     </entry>
 
     <entry name="audiotracks" type="Int">

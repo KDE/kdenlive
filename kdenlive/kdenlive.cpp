@@ -224,6 +224,7 @@ namespace Gui {
 	    initView();
 	    setCaption(newProjectName + ".kdenlive" + " - " + easyName(m_projectFormat), false);
 	    m_doc->setProjectName( newProjectName + ".kdenlive");
+	    m_dockProjectList->makeDockVisible();
 	    if (KdenliveSettings::showsplash()) QTimer::singleShot(500, this, SLOT(slotSplashTimeout()));
 	}
 
