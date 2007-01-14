@@ -84,7 +84,7 @@ namespace Gui {
 	    new QScrollBar(-100, 5000, 40, 500, 0, QScrollBar::Horizontal,
 	    m_scrollBox, "horizontal ScrollBar");
 
-	m_trackViewArea = new KTrackView(*this, m_trackScroll, "trackview_area");
+	m_trackViewArea = new KTrackView(*this, m_framesPerSecond, m_trackScroll, "trackview_area");
 	m_trackScroll->enableClipper(TRUE);
 	m_trackScroll->setFrameStyle (QFrame::NoFrame);
 	m_trackScroll->setHScrollBarMode(QScrollView::AlwaysOff);

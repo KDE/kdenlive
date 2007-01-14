@@ -28,6 +28,7 @@
 #include <kstandarddirs.h>
 
 #include "ktrackview.h"
+#include "timecode.h"
 #include "ktimeline.h"
 #include "kmmtrackpanel.h"
 #include "kselectclipcommand.h"
@@ -35,10 +36,10 @@
 
 namespace Gui {
 
-    KTrackView::KTrackView(KTimeLine & timeLine, QWidget * parent,
+    KTrackView::KTrackView(KTimeLine & timeLine, double fps, QWidget * parent,
 	const char *name):QWidget(parent, name), m_timeline(timeLine),
 	m_trackBaseNum(-1), m_panelUnderMouse(0), m_function(0),
-	m_dragFunction(0), m_showMarkers(false), m_selectionStart(QPoint()), m_selectionEnd(QPoint()) {
+	m_dragFunction(0), m_showMarkers(false), m_selectionStart(QPoint()), m_selectionEnd(QPoint()), m_fps(fps) {
 	// we draw everything ourselves, no need to draw background.
 	setBackgroundMode(Qt::NoBackground);
 	setMouseTracking(true);
@@ -79,7 +80,7 @@ namespace Gui {
 	while (itt != markers.end()) {
 	    int x = m_panel->getLocalValue((*itt).time());
 	    if ( fabs(x - pos.x()) < 5) {
-	    	rect.setRect(x -7, revativeOffset + trackHeight/2 - 10, 15, 20);
+	    	rect.setRect(x -7, revativeOffset + trackHeight/4, 15, trackHeight*3/4);
 		tipText = (*itt).comment();
 		return;
 	    }
@@ -89,6 +90,8 @@ namespace Gui {
 	rect.setRect(m_panel->getLocalValue(underMouse->trackStart()), revativeOffset, abs(m_panel->getLocalValue(underMouse->duration()) - m_panel->getLocalValue(GenTime(0))), 20);
 	tipText = underMouse->description();
 	if (tipText.isEmpty()) tipText = underMouse->name();
+	Timecode timecode;
+	tipText.append("\n" + timecode.getTimecode(underMouse->cropStartTime(), m_fps) + " - " + timecode.getTimecode(underMouse->cropStartTime() + underMouse->cropDuration(), m_fps));
     }
 
     void KTrackView::resizeEvent(QResizeEvent * event) {

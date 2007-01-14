@@ -32,7 +32,6 @@ namespace Gui {
 
     class KTimeLine;
     class KTrackPanel;
-    class KdenliveApp;
 
 /**Timeline track view area.
   *@author Jason Wood
@@ -40,7 +39,7 @@ namespace Gui {
 
     class KTrackView:public QWidget {
       Q_OBJECT public:
-	KTrackView(KTimeLine & timeLine, QWidget * parent =
+	KTrackView(KTimeLine & timeLine, double fps, QWidget * parent =
 	    0, const char *name = 0);
 	~KTrackView();
 	void resizeEvent(QResizeEvent * event);
@@ -101,10 +100,8 @@ namespace Gui {
 	/** Factory containing the various decorating functions that can be applied to different tracks */
 	TrackPanelFunctionFactory m_factory;
 	GenTime currentSeekPos;
-
-	KdenliveApp *m_app;
-
 	DynamicToolTip *trackview_tips;
+	double m_fps;
 
     public slots:		// Public slots
 	/** Invalidate the back buffer, alerting the trackview that it should redraw itself. */

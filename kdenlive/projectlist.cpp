@@ -281,7 +281,7 @@ namespace Gui {
     }
     
     void ProjectList::selectClip(DocClipBase *clip) {
-        
+        m_listView->clearSelection();
         QListViewItemIterator it( m_listView );
         while ( it.current() ) {
             const AVListViewItem *avitem = static_cast < AVListViewItem * >(*it);
