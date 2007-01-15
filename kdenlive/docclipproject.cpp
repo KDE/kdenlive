@@ -352,6 +352,7 @@ QDomDocument DocClipProject::generateSceneList(bool addProducers) const
 {
     kdDebug()<<"+++++++++++  Generating scenelist start...  ++++++++++++++++++"<<endl;
     QDomDocument doc;
+    QStringList videoTracks;
     int tracknb = 0;
     uint tracksCounter = 0;
     if (duration().frames(framesPerSecond()) == 0) return QDomDocument();
@@ -437,9 +438,12 @@ QDomDocument DocClipProject::generateSceneList(bool addProducers) const
 	    timestart = (int)itt.current()->trackEnd().frames(framesPerSecond());
 	    ++itt;
 	}
-	    tracksCounter++;
-            if (trackItt.current()->clipType() == "Sound") audiotrack.appendChild(playlist);
-            else multitrack.appendChild(playlist);
+        if (trackItt.current()->clipType() == "Sound") audiotrack.appendChild(playlist);
+        else {
+	    multitrack.appendChild(playlist);	
+	    videoTracks.append(QString::number(tracksCounter));
+	}
+	tracksCounter++;
 	--trackItt;
     }
     // add audio tracks to the multitrack
@@ -464,9 +468,37 @@ QDomDocument DocClipProject::generateSceneList(bool addProducers) const
 	    tractor.appendChild(transition);
 	}
 
+    if (KdenliveSettings::multitrackview())
+    for (uint i = 0; i <4 && i < videoTracks.count(); i++) {
+	    QDomElement transition = doc.createElement("transition");
+	    transition.setAttribute("in", "0");
+            transition.setAttribute("out", projectLastFrame);
+	    QString geom;
+	    switch (i) {
+	        case 0:
+		    geom = "0,0:50%x50%";
+		    break;
+	        case 1:
+		    geom = "50%,0:50%x50%";
+		    break;
+	        case 2:
+		    geom = "0,50%:50%x50%";
+		    break;
+	        case 3:
+		    geom = "50%,50%:50%x50%";
+		    break;
+	    }
+	    transition.setAttribute("geometry", geom);
+	    transition.setAttribute("distort", "1");
+            transition.setAttribute("a_track", "0");
+	    transition.setAttribute("b_track", QString::number(playlistTrackNum(tracksCounter - 1 - videoTracks[i].toInt())));
+	    transition.setAttribute("mlt_service", "composite");
+	    tractor.appendChild(transition);
+    }
+
     westley.appendChild(tractor);
-         //kdDebug() << doc.toString() << endl;
-         //kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
+         // kdDebug() << doc.toString() << endl;
+         // kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
     return doc;
 }
 

@@ -461,6 +461,11 @@ namespace Gui {
 	    this, SLOT(slotOnScreenDisplay()), actionCollection(),
 	    "toggle_osd");
 
+	multiTrackView =
+	    new KToggleAction(i18n("Multi Track View"), 0, 0,
+	    this, SLOT(slotMultiTrackView()), actionCollection(),
+	    "multi_cam");
+
 	previewLowQuality =
 	    new KToggleAction(i18n("Low Quality"), 0, 0,
 	    this, SLOT(slotAdjustPreviewQuality()), actionCollection(),
@@ -2524,6 +2529,11 @@ namespace Gui {
 	KdenliveSettings::setOsdtimecode(onScreenDisplay->isChecked());
 	m_clipMonitor->refreshDisplay();
 	m_workspaceMonitor->refreshDisplay();
+    }
+
+    void KdenliveApp::slotMultiTrackView() {
+	KdenliveSettings::setMultitrackview(multiTrackView->isChecked());
+	getDocument()->indirectlyModified();
     }
 
     void KdenliveApp::slotAdjustPreviewQuality() {

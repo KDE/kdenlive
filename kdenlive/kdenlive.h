@@ -428,6 +428,7 @@ namespace Gui {
 	void toggleMarkerUnderCursor();
 	void slotShowAllMarkers();
         void slotOnScreenDisplay();
+        void slotMultiTrackView();
 	void slotAdjustPreviewQuality();
 
       private slots: 
@@ -584,6 +585,7 @@ namespace Gui {
 	KToggleAction *clipAutoSelect;
 	KToggleAction *showAllMarkers;
 	KToggleAction *onScreenDisplay;
+	KToggleAction *multiTrackView;
 	KToggleAction *previewLowQuality;
 	KToggleAction *previewMidQuality;
 	KToggleAction *previewBestQuality;
