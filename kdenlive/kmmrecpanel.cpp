@@ -36,7 +36,7 @@ namespace Gui {
 
     KMMRecPanel::KMMRecPanel(KdenliveDoc * document, QWidget * parent,
 	const char *name, WFlags fl):KMMRecPanel_UI(parent, name, fl),
-    m_playSpeed(0.0), m_playSelected(false), m_showLcd(true) {
+    m_playSpeed(0.0), m_playSelected(false) {
 	m_document = document;
 
 
@@ -86,12 +86,6 @@ namespace Gui {
     {
 	if (recButton->isOn()) recButton->toggle();
     }
-    
-    void KMMRecPanel::showLcd(bool show) {
-        m_showLcd = show;
-        if (!m_showLcd) timeCode->hide();
-        else timeCode->show();
-    }
 
 /** A slider on the ruler has changed value */
     void KMMRecPanel::rulerValueChanged(int ID, int value) {
@@ -99,8 +93,8 @@ namespace Gui {
 	case 0:
 	    emit seekPositionChanged(GenTime(value,
 		    m_document->framesPerSecond()));
-            if (m_showLcd) timeCode->display(tcode.getTimecode(GenTime(value,
-			m_document->framesPerSecond()), m_document->framesPerSecond()));
+/*            if (m_showLcd) timeCode->display(tcode.getTimecode(GenTime(value,
+			m_document->framesPerSecond()), m_document->framesPerSecond()));*/
 	    break;
 	case 1:
 	    emit inpointPositionChanged(GenTime(value,

@@ -52,7 +52,8 @@ namespace Gui {
 	void updateButtons();
 	void slotShowVolumeControl();
 	void slotEmitVolume(int volume);
-
+  /** Seek to position given by timecode widget */
+	void slotSeekToPos(const QString &pos);
 	 signals:		// Signals
   /** Emitted when stop button pressed */
 	void playStopped(const GenTime & startTime);
@@ -91,7 +92,6 @@ namespace Gui {
   Timecode tcode;
   int buttonSize;
   bool m_playSelected;
-  bool m_showLcd;
   bool m_loop;
   bool m_pauseMode;
   GenTime m_startPlayPosition;
@@ -151,8 +151,6 @@ namespace Gui {
         void screenPlayStopped();
   /**  set whether the edit panel displays that there is a snap marker at the current seek time or not */
 	void setSnapMarker(bool markerHere);
-        
-        void showLcd(bool show);
     };
 
 }				// namespace Gui

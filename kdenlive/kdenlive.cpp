@@ -127,7 +127,6 @@
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
 #define ID_TIMELINE_MSG 3
-#define ID_CURTIME_MSG 4
 
 namespace Gui {
 
@@ -1030,8 +1029,6 @@ namespace Gui {
 	    0, true);
 	statusBar()->insertItem(QString::null, ID_TIMELINE_MSG,
 	    0, true);
-	statusBar()->insertItem(i18n("Current Time : ") + "00:00:00.00",
-	    ID_CURTIME_MSG, 0, true);
     }
 
     void KdenliveApp::initDocument(int vtracks, int atracks) {
@@ -1122,11 +1119,10 @@ namespace Gui {
 	    connect(m_timeline, SIGNAL(seekPositionChanged(const GenTime &)), m_workspaceMonitor->editPanel(), SLOT(seek(const GenTime &)));
 	    connect(m_timeline, SIGNAL(inpointPositionChanged(const GenTime &)), m_workspaceMonitor->editPanel(), SLOT(setInpoint(const GenTime &)));
 	    connect(m_timeline, SIGNAL(outpointPositionChanged(const GenTime &)), m_workspaceMonitor->editPanel(), SLOT(setOutpoint(const GenTime &)));
-	connect(m_workspaceMonitor, SIGNAL(seekPositionChanged(const GenTime &)), m_timeline, SLOT(seek(const GenTime &)));
-	connect( m_workspaceMonitor, SIGNAL( seekPositionChanged( const GenTime & ) ), this, SLOT( slotUpdateCurrentTime( const GenTime & ) ) );
-	connect(m_workspaceMonitor, SIGNAL(inpointPositionChanged(const GenTime &)), m_timeline,SLOT(setInpointTimeline(const GenTime &)));
-	connect(m_workspaceMonitor,SIGNAL(outpointPositionChanged(const GenTime &)), m_timeline, SLOT(setOutpointTimeline(const GenTime &)));
-	connect(getDocument(), SIGNAL(documentChanged(DocClipBase *)), m_workspaceMonitor, SLOT(slotSetClip(DocClipBase *)));
+	    connect(m_workspaceMonitor, SIGNAL(seekPositionChanged(const GenTime &)), m_timeline, SLOT(seek(const GenTime &)));
+	    connect(m_workspaceMonitor, SIGNAL(inpointPositionChanged(const GenTime &)), m_timeline,SLOT(setInpointTimeline(const GenTime &)));
+	    connect(m_workspaceMonitor,SIGNAL(outpointPositionChanged(const GenTime &)), m_timeline, SLOT(setOutpointTimeline(const GenTime &)));
+	    connect(getDocument(), SIGNAL(documentChanged(DocClipBase *)), m_workspaceMonitor, SLOT(slotSetClip(DocClipBase *)));
 	}
 
 	connect(m_resizeFunction,
@@ -1188,7 +1184,6 @@ namespace Gui {
 
 	m_workspaceMonitor->setNoSeek(true);
 	m_dockWorkspaceMonitor->setWidget(m_workspaceMonitor);
-        m_workspaceMonitor->editPanel()->showLcd(KdenliveSettings::showlcd());
 	m_workspaceMonitor->show();
 	m_dockWorkspaceMonitor->update();
 
@@ -1197,7 +1192,6 @@ namespace Gui {
 	    m_monitorManager.createMonitor(getDocument(),
 	    m_dockClipMonitor, "Clip Monitor");
 	m_dockClipMonitor->setWidget(m_clipMonitor);
-	m_clipMonitor->editPanel()->showLcd(KdenliveSettings::showlcd());
 	m_clipMonitor->show();
 	m_dockClipMonitor->update();
 
@@ -2543,7 +2537,6 @@ namespace Gui {
 
 	m_workspaceMonitor->setNoSeek(true);
 	m_dockWorkspaceMonitor->setWidget(m_workspaceMonitor);
-        m_workspaceMonitor->editPanel()->showLcd(KdenliveSettings::showlcd());
 	m_workspaceMonitor->show();
 	m_dockWorkspaceMonitor->update();
 
@@ -2552,7 +2545,6 @@ namespace Gui {
 	    m_monitorManager.createMonitor(getDocument(),
 	    m_dockClipMonitor, "Clip Monitor");
 	m_dockClipMonitor->setWidget(m_clipMonitor);
-	m_clipMonitor->editPanel()->showLcd(KdenliveSettings::showlcd());
 	m_clipMonitor->show();
 	m_dockClipMonitor->update();
 	connectMonitors();
@@ -2649,20 +2641,7 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 /** Updates widgets according to the new preferences. */
     void KdenliveApp::updateConfiguration() {
 // redraw timeline in case size or colors changed.
-        m_clipMonitor->editPanel()->showLcd(KdenliveSettings::showlcd());
-        m_workspaceMonitor->editPanel()->showLcd(KdenliveSettings::showlcd());
 	slotSyncTimeLineWithDocument();
-    }
-
-
-/** Updates the current time in the status bar. */
-    void KdenliveApp::slotUpdateCurrentTime(const GenTime & time) {
-#warning The following line is broken - since frames per second is rounded to the nearest int, krulerTimeModel
-#warning would never map the correct value to text if the frames per second is wrong.
-	statusBar()->changeItem(i18n("Current Time : ") +
-	    KRulerTimeModel::mapValueToText((int) floor(time.frames(m_doc->
-			framesPerSecond()) + 0.5), m_doc->framesPerSecond()),
-	    ID_CURTIME_MSG);
     }
 
 
@@ -2767,11 +2746,7 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	if (dia->exec() == QDialog::Accepted) {
 	    QString color = clipChoice->button_color->color().name();
 	    color = color.replace(0, 1, "0x") + "ff";
-            
-            QString dur = clipChoice->edit_duration->text();
-            int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt());
-            
-            GenTime duration(frames , KdenliveSettings::defaultfps());
+            GenTime duration = getDocument()->getTimecodePosition(clipChoice->edit_duration->text());
             
 	    KCommand *command =
 		new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), color, duration,
@@ -2789,6 +2764,7 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	KURL fileUrl;
 	QString description = QString::null;
 	bool isTransparent = false;
+	GenTime duration;
 
 	int frames;
 	if (imageUrl.isEmpty()) {
@@ -2803,9 +2779,7 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	    dia->adjustSize();
 	    if (dia->exec() == QDialog::Accepted) {
 	        fileUrl = KURL(clipChoice->url_image->url());
-            
-                QString dur = clipChoice->edit_duration->text();
-                frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt());
+		duration = getDocument()->getTimecodePosition(clipChoice->edit_duration->text());
 		description = clipChoice->edit_description->text();
 		isTransparent = clipChoice->transparentBg->isChecked();
 		slotStatusMsg(i18n("Ready."));
@@ -2819,11 +2793,9 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	}
 	else {
 	    fileUrl = imageUrl;
-	    QString dur = KdenliveSettings::colorclipduration();
-	    frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt());
+	    duration = getDocument()->getTimecodePosition(KdenliveSettings::colorclipduration());
 	}
-            
-        GenTime duration(frames , KdenliveSettings::defaultfps());
+
 	KCommand *command = new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), fileUrl, duration, description, isTransparent, true);
 	addCommand(command, true);
 	slotStatusMsg(i18n("Ready."));
@@ -2859,10 +2831,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
         txtWidget->titleName->setText(i18n("Text Clip"));
         txtWidget->edit_duration->setText(KdenliveSettings::textclipduration());
         if (txtWidget->exec() == QDialog::Accepted) {
-            QString dur = txtWidget->edit_duration->text();
-            int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt());
-            
-            GenTime duration(frames , KdenliveSettings::defaultfps());
+	    GenTime duration = getDocument()->getTimecodePosition(txtWidget->edit_duration->text());
             QPixmap thumb = txtWidget->thumbnail(50, 40);
             QDomDocument xml = txtWidget->toXml();
             
@@ -2949,10 +2918,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                 txtWidget->titleName->setText(clip->name());
                 txtWidget->transparentTitle->setChecked(clip->toDocClipTextFile()->isTransparent());
                 if (txtWidget->exec() == QDialog::Accepted) {
-                    QString dur = txtWidget->edit_duration->text();
-                    int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt());
-            
-                    GenTime duration(frames , KdenliveSettings::defaultfps());
+		    GenTime duration = getDocument()->getTimecodePosition(txtWidget->edit_duration->text());
                     QPixmap thumb = txtWidget->thumbnail(50, 40);
                     QDomDocument xml = txtWidget->toXml();
                     Command::KEditClipCommand(*m_doc, refClip, duration, txtWidget->titleName->text(),QString::null, xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked());

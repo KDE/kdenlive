@@ -169,11 +169,6 @@
       <default>00:00:10:00</default>
     </entry>
     
-      <entry name="showlcd" type="Bool">
-      <label>Display LCD screen under monitors.</label>
-      <default>false</default>
-    </entry>
-
       <entry name="osdtimecode" type="Bool">
       <label>Display Timecode on the video image.</label>
       <default>false</default>

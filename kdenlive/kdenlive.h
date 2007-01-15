@@ -270,8 +270,6 @@ namespace Gui {
 	void slotOptionsPreferences();
 		/** Update kdenlive to reflect preference changes */
 	void updateConfiguration();
-		/** Updates the current time in the status bar. */
-	void slotUpdateCurrentTime(const GenTime & time);
 		/** Cleans the project of unwanted clips */
 	void slotProjectClean();
 		/** Remove clips from the project */

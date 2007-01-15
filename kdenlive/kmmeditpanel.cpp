@@ -18,7 +18,6 @@
 
 #include <cmath>
 
-#include <qlcdnumber.h>
 #include "qpushbutton.h"
 #include "qtooltip.h"
 #include "qslider.h"
@@ -27,7 +26,8 @@
 #include <kled.h>
 #include <kdebug.h>
 #include <kdatetbl.h>
-#include "kiconloader.h"
+#include <kiconloader.h>
+#include <krestrictedline.h>
 
 #include "kmmeditpanel.h"
 
@@ -40,7 +40,7 @@ namespace Gui {
 
     KMMEditPanel::KMMEditPanel(KdenliveDoc * document, QWidget * parent,
 	const char *name, WFlags fl):KMMEditPanel_UI(parent, name, fl),
-    m_playSpeed(0.0), m_playSelected(false), m_showLcd(true), m_loop(false), m_startPlayPosition(0), m_volume(1.0) {
+    m_playSpeed(0.0), m_playSelected(false), m_loop(false), m_startPlayPosition(0), m_volume(1.0) {
 	m_document = document;
 
 	m_ruler->setRulerModel(new KRulerTimeModel());
@@ -56,10 +56,6 @@ namespace Gui {
 	renderStatus->setColor(QColor(0, 200, 0));
 	renderStatus->setFixedSize(20, 20);
 
-	timeCode->setSegmentStyle(QLCDNumber::Flat);
-	timeCode->setPaletteBackgroundColor(Qt::black);
-	timeCode->setPaletteForegroundColor(Qt::green);
-	timeCode->setNumDigits(11);
 	tcode.setFormat(Timecode::HH_MM_SS_FF);
 
 	KIconLoader loader;
@@ -138,6 +134,9 @@ namespace Gui {
 	 connect(previousMarkerButton, SIGNAL(clicked()), this,
 	    SIGNAL(previousSnapMarkerClicked()));
 
+	 connect(edit_timecode, SIGNAL(returnPressed(const QString &)), this,
+	    SLOT(slotSeekToPos(const QString &)));
+
 	 connect(volumeButton, SIGNAL(pressed()), this, SLOT(slotShowVolumeControl()));
 
 	 connect(stopButton, SIGNAL(pressed()), this, SLOT(stop()));
@@ -147,6 +146,11 @@ namespace Gui {
     
     KMMEditPanel::~KMMEditPanel() {}
 
+    void KMMEditPanel::slotSeekToPos(const QString &pos) {
+	GenTime duration = m_document->getTimecodePosition(pos);
+	seek( duration );
+	edit_timecode->clearFocus();
+    }
 
     void KMMEditPanel::slotShowVolumeControl() {
 	   KPopupFrame *volumeControl = new KPopupFrame(this);
@@ -173,19 +177,13 @@ namespace Gui {
 	m_ruler->setMaxValue(frames);
     }
     
-    void KMMEditPanel::showLcd(bool show) {
-        m_showLcd = show;
-        if (!m_showLcd) timeCode->hide();
-        else timeCode->show();
-    }
-
 /** A slider on the ruler has changed value */
     void KMMEditPanel::rulerValueChanged(int ID, int value) {
 	switch (ID) {
 	case 0:
 	    emit seekPositionChanged(GenTime(value,
 		    m_document->framesPerSecond()));
-            if (m_showLcd) timeCode->display(tcode.getTimecode(GenTime(value,
+            edit_timecode->setText(tcode.getTimecode(GenTime(value,
 			m_document->framesPerSecond()), m_document->framesPerSecond()));
 	    break;
 	case 1:

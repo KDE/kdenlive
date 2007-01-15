@@ -77,6 +77,12 @@ KdenliveDoc::~KdenliveDoc()
     }
 }
 
+GenTime KdenliveDoc::getTimecodePosition(const QString &pos)
+{
+            int frames = (int) ((pos.section(":",0,0).toInt()*3600 + pos.section(":",1,1).toInt()*60 + pos.section(":",2,2).toInt()) * framesPerSecond() + pos.section(":",3,3).toInt());
+            return GenTime(frames , framesPerSecond());
+}
+
 void KdenliveDoc::setProjectFormat(VIDEOFORMAT vFormat)
 {
     m_app->setProjectFormat(vFormat);

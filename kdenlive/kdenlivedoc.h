@@ -183,7 +183,9 @@ class KdenliveDoc:public QObject {
     void updateTracksThumbnails();
 
     void setProjectFormat(VIDEOFORMAT vFormat);
-    
+
+	/** Return A time in GenTime format from a timecode string like 00:01:23:04 */
+    GenTime getTimecodePosition(const QString &);
     
   private:
 	/** The base clip for this document. This must be a project clip, as it lists the tracks within

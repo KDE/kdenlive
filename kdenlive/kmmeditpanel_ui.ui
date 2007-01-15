@@ -8,17 +8,9 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>259</width>
-            <height>56</height>
+            <width>277</width>
+            <height>40</height>
         </rect>
-    </property>
-    <property name="sizePolicy">
-        <sizepolicy>
-            <hsizetype>5</hsizetype>
-            <vsizetype>5</vsizetype>
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-        </sizepolicy>
     </property>
     <property name="layoutMargin" stdset="0">
     </property>
@@ -55,11 +47,14 @@
         </widget>
         <widget class="QLayoutWidget" row="1" column="0">
             <property name="name">
-                <cstring>layout4</cstring>
+                <cstring>layout5</cstring>
             </property>
             <hbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
                 </property>
                 <property name="spacing">
                     <number>1</number>
@@ -286,24 +281,16 @@
                 </widget>
             </hbox>
         </widget>
-        <widget class="QLCDNumber" row="2" column="0">
-            <property name="name">
-                <cstring>timeCode</cstring>
-            </property>
-            <property name="maximumSize">
-                <size>
-                    <width>32767</width>
-                    <height>20</height>
-                </size>
-            </property>
-        </widget>
         <widget class="QLayoutWidget" row="2" column="0">
             <property name="name">
-                <cstring>layout4</cstring>
+                <cstring>layout6</cstring>
             </property>
             <hbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
                 </property>
                 <property name="spacing">
                     <number>1</number>
@@ -529,13 +516,59 @@
                         <string></string>
                     </property>
                     <property name="pixmap">
-                        <pixmap>image14</pixmap>
+                        <pixmap>image15</pixmap>
                     </property>
                     <property name="flat">
                         <bool>true</bool>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>Move to next marker</string>
+                        <string>Monitor volume</string>
+                    </property>
+                </widget>
+                <widget class="KRestrictedLine">
+                    <property name="name">
+                        <cstring>edit_timecode</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>4</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>32767</width>
+                            <height>17</height>
+                        </size>
+                    </property>
+                    <property name="focusPolicy">
+                        <enum>ClickFocus</enum>
+                    </property>
+                    <property name="frameShape">
+                        <enum>Box</enum>
+                    </property>
+                    <property name="frameShadow">
+                        <enum>Plain</enum>
+                    </property>
+                    <property name="lineWidth">
+                        <number>1</number>
+                    </property>
+                    <property name="maxLength">
+                        <number>11</number>
+                    </property>
+                    <property name="alignment">
+                        <set>AlignRight</set>
+                    </property>
+                    <property name="dragEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="inputMask">
+                        <string>99:99:99:99; </string>
+                    </property>
+                    <property name="urlDropsEnabled" stdset="0">
+                        <bool>false</bool>
                     </property>
                 </widget>
             </hbox>
@@ -606,10 +639,14 @@
     <image name="image14">
         <data format="PNG" length="131">89504e470d0a1a0a0000000d494844520000000e0000000d080600000099dc5f7f0000004a494441542891ad92310e00200803c1ffff1957694a15e22d98c6a30e9a7d203a97d75446f15966229303b34a3ce52099b96851b86ac4c52953a2c34ce7eaa9ac29c11aaf12d2fa3963367a3c0c0d06cf3db30000000049454e44ae426082</data>
     </image>
+    <image name="image15">
+        <data format="PNG" length="119">89504e470d0a1a0a0000000d494844520000000e0000000e08060000001f482dd10000003e4944415428916360184ce03f1463054c7834e105d83462d38421c6842649c826b83c2ea7120454d1c808c5f8002306030d20fb15ab1a5c4e2564f35002007bd7090c2567fd1c0000000049454e44ae426082</data>
+    </image>
 </images>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>kfixedruler.h</includehint>
     <includehint>kled.h</includehint>
+    <includehint>kfixedruler.h</includehint>
+    <includehint>krestrictedline.h</includehint>
 </includehints>
 </UI>

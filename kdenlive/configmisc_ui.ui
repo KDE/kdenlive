@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>289</width>
-            <height>319</height>
+            <height>291</height>
         </rect>
     </property>
     <grid>
@@ -137,14 +137,6 @@
                 <string>External audio editor</string>
             </property>
         </widget>
-        <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>kcfg_showlcd</cstring>
-            </property>
-            <property name="text">
-                <string>Show LCD screen under monitors</string>
-            </property>
-        </widget>
         <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>kcfg_osdtimecode</cstring>
@@ -155,6 +147,8 @@
         </widget>
     </grid>
 </widget>
+<customwidgets>
+</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>krestrictedline.h</includehint>

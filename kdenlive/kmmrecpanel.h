@@ -97,7 +97,6 @@ namespace Gui {
   int buttonSize;
   bool m_playSelected;
   bool m_loop;
-  bool m_showLcd;
   GenTime m_startPlayPosition;
 
    // True if we are playing, false otherwise.
@@ -156,9 +155,6 @@ namespace Gui {
         void screenPlayStopped();
   /**  set whether the edit panel displays that there is a snap marker at the current seek time or not */
 	void setSnapMarker(bool markerHere);
-        
-        void showLcd(bool show);
-
 	void setRecording();
 	void unsetRecording();
     };
