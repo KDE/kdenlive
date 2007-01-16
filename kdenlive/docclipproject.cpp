@@ -589,7 +589,7 @@ QDomDocument DocClipProject::generatePartialSceneList(GenTime start, GenTime end
                 // Append clip's transitions for video tracks
                 clipTransitions.appendChild(doc.importNode(itt.current()->generateOffsetXMLTransition(isBlind, isMute, start, end), true));
 
-	        timestart = (int)(itt.current()->trackEnd() - start).frames(framesPerSecond());
+	        timestart = (int)(itt.current()->trackEnd()).frames(framesPerSecond());
 	    }
 	    ++itt;
 	
@@ -651,7 +651,7 @@ QDomDocument DocClipProject::generatePartialSceneList(GenTime start, GenTime end
 
     westley.appendChild(tractor);
         // kdDebug() << doc.toString() << endl;
-        //kdDebug()<<"+++++++++++  Generating PARTIAL scenelist end...  ++++++++++++++++++"<<endl;
+        // kdDebug()<<"+++++++++++  Generating PARTIAL scenelist end...  ++++++++++++++++++"<<endl;
     return doc;
 }
 
