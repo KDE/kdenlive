@@ -1049,7 +1049,7 @@ QDomDocument DocClipRef::generateXMLClip()
     monoFilter.setAttribute("mlt_service", "channelcopy");
 
     uint i = 0;
-    if (hasEffect())
+    if (hasEffect() && KdenliveSettings::showeffects())
 	while (effectAt(i) != NULL) {
 	    Effect *effect = effectAt(i);
 	    if (effect->isEnabled()) {

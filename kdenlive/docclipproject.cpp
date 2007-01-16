@@ -433,7 +433,7 @@ QDomDocument DocClipProject::generateSceneList(bool addProducers) const
             playlist.appendChild(itt.current()->generateXMLClip().firstChild());
 
             // Append clip's transitions for video tracks
-            clipTransitions.appendChild(doc.importNode(itt.current()->generateXMLTransition(isBlind, isMute), true));
+            if (KdenliveSettings::showtransitions()) clipTransitions.appendChild(doc.importNode(itt.current()->generateXMLTransition(isBlind, isMute), true));
 
 	    timestart = (int)itt.current()->trackEnd().frames(framesPerSecond());
 	    ++itt;
@@ -452,7 +452,7 @@ QDomDocument DocClipProject::generateSceneList(bool addProducers) const
     
         // Add all transitions
         
-    tractor.appendChild(clipTransitions);
+    if (KdenliveSettings::showtransitions()) tractor.appendChild(clipTransitions);
         
     /* transition: mix all used audio tracks */
     

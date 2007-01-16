@@ -1015,7 +1015,7 @@ namespace Gui {
 	// TODO: add your own items you need for displaying current application status.
 
 	statusBar()->insertItem(i18n("Ready."), ID_STATUS_MSG);
-
+	
 	m_statusBarProgress = new KProgress(statusBar());
 	m_statusBarProgress->setMaximumWidth(100);
 	m_statusBarProgress->setTotalSteps(0);
@@ -1029,6 +1029,21 @@ namespace Gui {
 	//m_statusBarExportProgress->setTextEnabled(false);
 	statusBar()->addWidget(m_statusBarExportProgress);
 	m_statusBarExportProgress->hide();
+	
+	KPushButton *effectsButton = new KPushButton(i18n("Effects"), this);
+	connect(effectsButton, SIGNAL(clicked()), this, SLOT(slotDisableEffects()));
+	effectsButton->setToggleButton(true);
+	effectsButton->setFlat(true);
+	statusBar()->addWidget(effectsButton);
+
+	KPushButton *transitionsButton = new KPushButton(i18n("Transitions"), this);
+	connect(transitionsButton, SIGNAL(clicked()), this, SLOT(slotDisableTransitions()));
+	effectsButton->setToggleButton(true);
+	effectsButton->setFlat(true);
+	statusBar()->addWidget(transitionsButton);
+
+	KdenliveSettings::setShoweffects(true);
+	KdenliveSettings::setShowtransitions(true);
 
 	statusBar()->insertItem(i18n("Move/Resize mode"), ID_EDITMODE_MSG,
 	    0, true);
@@ -1044,6 +1059,16 @@ namespace Gui {
 	connect(m_doc, SIGNAL(modified(bool)), this, SLOT(documentModified(bool)));
     }
 
+
+    void KdenliveApp::slotDisableEffects() {
+	KdenliveSettings::setShoweffects(!KdenliveSettings::showeffects());
+	getDocument()->indirectlyModified();	
+    }
+
+    void KdenliveApp::slotDisableTransitions() {
+	KdenliveSettings::setShowtransitions(!KdenliveSettings::showtransitions());
+	getDocument()->indirectlyModified();	
+    }
 
     void KdenliveApp::initWidgets() {
 	view = new QWidget(this);

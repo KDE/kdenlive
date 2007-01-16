@@ -134,6 +134,16 @@
       <label>Normal or 16:9 profile.</label>
       <default></default>
     </entry>
+
+    <entry name="showeffects" type="Bool">
+      <label>Show effects in timeline.</label>
+      <default>true</default>
+    </entry>
+
+    <entry name="showtransitions" type="Bool">
+      <label>Show transitions in timeline.</label>
+      <default>true</default>
+    </entry>
     </group>
     
     <group name="Misc">

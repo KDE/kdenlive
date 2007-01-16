@@ -512,6 +512,10 @@ namespace Gui {
 	void addMarkerUnderCursor();
 	void deleteMarkerUnderCursor();
         void editMarkerUnderCursor();
+	/** Hide / show effects in timeline */
+	void slotDisableEffects();
+	/** Hide / show transitions in timeline */
+	void slotDisableTransitions();
 
       private:
 		/** the configuration object of the application */
