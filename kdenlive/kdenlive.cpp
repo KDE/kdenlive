@@ -1029,17 +1029,29 @@ namespace Gui {
 	//m_statusBarExportProgress->setTextEnabled(false);
 	statusBar()->addWidget(m_statusBarExportProgress);
 	m_statusBarExportProgress->hide();
-	
-	KPushButton *effectsButton = new KPushButton(i18n("Effects"), this);
+
+	KIconLoader loader;
+	QIconSet eff;
+	eff.setPixmap(loader.loadIcon("kdenlive_effects", KIcon::Small, 16), QIconSet::Small, QIconSet::Normal, QIconSet::Off);
+	eff.setPixmap(loader.loadIcon("kdenlive_effectsoff", KIcon::Small, 16), QIconSet::Small, QIconSet::Normal, QIconSet::On);
+	KPushButton *effectsButton = new KPushButton(eff, QString::null, this);
+	QToolTip::add( effectsButton, i18n( "Show Effects" ) );
 	connect(effectsButton, SIGNAL(clicked()), this, SLOT(slotDisableEffects()));
 	effectsButton->setToggleButton(true);
+	effectsButton->setMaximumSize(QSize(18, 18));
 	effectsButton->setFlat(true);
 	statusBar()->addWidget(effectsButton);
 
-	KPushButton *transitionsButton = new KPushButton(i18n("Transitions"), this);
+
+	QIconSet tra;
+	tra.setPixmap(loader.loadIcon("kdenlive_transitions", KIcon::Small, 16), QIconSet::Small, QIconSet::Normal, QIconSet::Off);
+	tra.setPixmap(loader.loadIcon("kdenlive_transitionsoff", KIcon::Small, 16), QIconSet::Small, QIconSet::Normal, QIconSet::On);
+	KPushButton *transitionsButton = new KPushButton(tra, QString::null, this);
+	QToolTip::add( transitionsButton, i18n( "Show Transitions" ) );
 	connect(transitionsButton, SIGNAL(clicked()), this, SLOT(slotDisableTransitions()));
-	effectsButton->setToggleButton(true);
-	effectsButton->setFlat(true);
+	transitionsButton->setToggleButton(true);
+	transitionsButton->setFlat(true);
+	transitionsButton->setMaximumSize(QSize(18, 18));
 	statusBar()->addWidget(transitionsButton);
 
 	KdenliveSettings::setShoweffects(true);
