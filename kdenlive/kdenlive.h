@@ -516,6 +516,8 @@ namespace Gui {
 	void slotDisableEffects();
 	/** Hide / show transitions in timeline */
 	void slotDisableTransitions();
+	void slotDisableThumbnails();
+	void slotDisableAudioThumbnails();
 
       private:
 		/** the configuration object of the application */
@@ -610,7 +612,8 @@ namespace Gui {
 
 	KAction *renderExportTimeline;
 	KAction *configureProject;
-
+	KPushButton *thumbsButton;
+	KPushButton *audioThumbsButton;
         KdenliveSplash *splash;
 
 		/** The progress widget on the status bar, used by various long-winded methods. */

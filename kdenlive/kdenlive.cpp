@@ -1042,17 +1042,37 @@ namespace Gui {
 	effectsButton->setFlat(true);
 	statusBar()->addWidget(effectsButton);
 
-
-	QIconSet tra;
-	tra.setPixmap(loader.loadIcon("kdenlive_transitions", KIcon::Small, 16), QIconSet::Small, QIconSet::Normal, QIconSet::Off);
-	tra.setPixmap(loader.loadIcon("kdenlive_transitionsoff", KIcon::Small, 16), QIconSet::Small, QIconSet::Normal, QIconSet::On);
-	KPushButton *transitionsButton = new KPushButton(tra, QString::null, this);
+	eff.setPixmap(loader.loadIcon("kdenlive_transitions", KIcon::Small, 16), QIconSet::Small, QIconSet::Normal, QIconSet::Off);
+	eff.setPixmap(loader.loadIcon("kdenlive_transitionsoff", KIcon::Small, 16), QIconSet::Small, QIconSet::Normal, QIconSet::On);
+	KPushButton *transitionsButton = new KPushButton(eff, QString::null, this);
 	QToolTip::add( transitionsButton, i18n( "Show Transitions" ) );
 	connect(transitionsButton, SIGNAL(clicked()), this, SLOT(slotDisableTransitions()));
 	transitionsButton->setToggleButton(true);
 	transitionsButton->setFlat(true);
 	transitionsButton->setMaximumSize(QSize(18, 18));
 	statusBar()->addWidget(transitionsButton);
+
+	eff.setPixmap(loader.loadIcon("kdenlive_thumbs", KIcon::Small, 16), QIconSet::Small, QIconSet::Normal, QIconSet::Off);
+	eff.setPixmap(loader.loadIcon("kdenlive_thumbsoff", KIcon::Small, 16), QIconSet::Small, QIconSet::Normal, QIconSet::On);
+	thumbsButton = new KPushButton(eff, QString::null, this);
+	QToolTip::add( thumbsButton, i18n( "Show Thumbnails" ) );
+	connect(thumbsButton, SIGNAL(clicked()), this, SLOT(slotDisableThumbnails()));
+	thumbsButton->setToggleButton(true);
+	thumbsButton->setFlat(true);
+	thumbsButton->setOn(!KdenliveSettings::videothumbnails());
+	thumbsButton->setMaximumSize(QSize(18, 18));
+	statusBar()->addWidget(thumbsButton);
+
+	eff.setPixmap(loader.loadIcon("kdenlive_audiothumbs", KIcon::Small, 16), QIconSet::Small, QIconSet::Normal, QIconSet::Off);
+	eff.setPixmap(loader.loadIcon("kdenlive_audiothumbsoff", KIcon::Small, 16), QIconSet::Small, QIconSet::Normal, QIconSet::On);
+	audioThumbsButton = new KPushButton(eff, QString::null, this);
+	QToolTip::add( audioThumbsButton, i18n( "Show Audio Thumbnails" ) );
+	connect(audioThumbsButton, SIGNAL(clicked()), this, SLOT(slotDisableAudioThumbnails()));
+	audioThumbsButton->setToggleButton(true);
+	audioThumbsButton->setFlat(true);
+	audioThumbsButton->setOn(!KdenliveSettings::audiothumbnails());
+	audioThumbsButton->setMaximumSize(QSize(18, 18));
+	statusBar()->addWidget(audioThumbsButton);
 
 	KdenliveSettings::setShoweffects(true);
 	KdenliveSettings::setShowtransitions(true);
@@ -1074,12 +1094,22 @@ namespace Gui {
 
     void KdenliveApp::slotDisableEffects() {
 	KdenliveSettings::setShoweffects(!KdenliveSettings::showeffects());
-	getDocument()->indirectlyModified();	
+	getDocument()->indirectlyModified();
     }
 
     void KdenliveApp::slotDisableTransitions() {
 	KdenliveSettings::setShowtransitions(!KdenliveSettings::showtransitions());
-	getDocument()->indirectlyModified();	
+	getDocument()->indirectlyModified();
+    }
+
+    void KdenliveApp::slotDisableThumbnails() {
+	KdenliveSettings::setVideothumbnails(!KdenliveSettings::videothumbnails());
+	updateConfiguration();
+    }
+
+    void KdenliveApp::slotDisableAudioThumbnails() {
+	KdenliveSettings::setAudiothumbnails(!KdenliveSettings::audiothumbnails());
+	updateConfiguration();
     }
 
     void KdenliveApp::initWidgets() {
@@ -2688,6 +2718,8 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 /** Updates widgets according to the new preferences. */
     void KdenliveApp::updateConfiguration() {
 // redraw timeline in case size or colors changed.
+	thumbsButton->setOn(!KdenliveSettings::videothumbnails());
+	audioThumbsButton->setOn(!KdenliveSettings::audiothumbnails());
 	slotSyncTimeLineWithDocument();
     }
 
