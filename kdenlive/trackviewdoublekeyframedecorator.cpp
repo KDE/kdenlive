@@ -78,7 +78,8 @@ namespace Gui {
 
 		    painter.setPen(Qt::red);
 		    int selectedKeyFrame = m_effect->parameter(effectIndex)->selectedKeyFrame();
-		    double factor = m_effect->effectDescription().parameter(effectIndex)->factor() / 100.0 * m_effect->effectDescription().parameter(effectIndex)->max();
+		    double factor = m_effect->effectDescription().parameter(effectIndex)->max();
+
 		    for (int i = 0; i < (int)count - 1; i++) {
 			int dx1 =(int)( startX +  m_effect->parameter(effectIndex)->keyframe(i)->time() * clipWidth);
 			int dy1 =(int)( sy - ey * m_effect->parameter(effectIndex)->keyframe(i)->toDoubleKeyFrame()->value() / factor);

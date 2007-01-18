@@ -78,7 +78,7 @@ bool TrackPanelKeyFrameFunction::mouseApplies(Gui::KTrackPanel * panel,
                         return true;
                     
 		    uint count = effect->parameter(effectIndex)->numKeyFrames();
-		    double factor = effect->effectDescription().parameter(effectIndex)->factor() / 100.0 * effect->effectDescription().parameter(effectIndex)->max();
+		    double factor = effect->effectDescription().parameter(effectIndex)->max();
 		    for (uint i = 0; i < count; i++) {
 			uint dx1 =
 			    effect->parameter(effectIndex)->keyframe(i)->
