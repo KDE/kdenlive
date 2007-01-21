@@ -136,7 +136,7 @@ bool TrackPanelKeyFrameFunction::mousePressed(Gui::KTrackPanel * panel,
 		if (effect->parameter(0)) {
 		    m_offset = panel->y() - 2000;
 		    uint count = effect->parameter(effectIndex)->numKeyFrames();
-		    double factor = effect->effectDescription().parameter(effectIndex)->factor() / 100.0 * effect->effectDescription().parameter(effectIndex)->max();
+		    double factor =  effect->effectDescription().parameter(effectIndex)->max();
 		    for (uint i = 0; i < count; i++) {
 			uint dx1 =(uint)( effect->parameter(effectIndex)->keyframe(i)-> time() *m_clipUnderMouse->cropDuration().frames(m_document->framesPerSecond()));
 
@@ -156,12 +156,9 @@ bool TrackPanelKeyFrameFunction::mousePressed(Gui::KTrackPanel * panel,
 			    return true;
 			}
 		    }
-		    double dx =
-			(m_timeline->mapLocalToValue(event->x()) -
+		    double dx = (m_timeline->mapLocalToValue(event->x()) -
 			m_clipUnderMouse->trackStart().frames(m_document->
-			    framesPerSecond())) /
-			m_clipUnderMouse->cropDuration().
-			frames(m_document->framesPerSecond());
+			    framesPerSecond())) / m_clipUnderMouse->cropDuration().frames(m_document->framesPerSecond());
 		    m_refresh = true;
 		    if (effect->effectDescription().parameter(effectIndex)->                           type() == "double")
 		    m_selectedKeyframe =
@@ -256,9 +253,9 @@ bool TrackPanelKeyFrameFunction::mouseMoved(Gui::KTrackPanel * panel,
 		    //double dy2 =  (panel->height() - (event->y()-m_selectedKeyframeValue)) / panel->height();
 
 		    if (effect->effectDescription().parameter(effectIndex)->type() == "double") {
-			effect->parameter(effectIndex)->keyframe(m_selectedKeyframe)->   toDoubleKeyFrame()->setValue(dy1 * effect->effectDescription().parameter(effectIndex)->max() / 100);
+			effect->parameter(effectIndex)->keyframe(m_selectedKeyframe)->   toDoubleKeyFrame()->setValue(dy1 * effect->effectDescription().parameter(effectIndex)->max() / 100.0);
 			if (m_selectedKeyframe > 0 && m_selectedKeyframe < effect->parameter(effectIndex)->numKeyFrames() - 1) {
-				double currentTime = (m_timeline->mapLocalToValue(event->x()) - m_clipUnderMouse->trackStart().frames(m_document->framesPerSecond())) /m_clipUnderMouse->cropDuration().frames(m_document->framesPerSecond());
+				double currentTime = (m_timeline->mapLocalToValue(event->x()) - m_clipUnderMouse->trackStart().frames(m_document->framesPerSecond())) /  m_clipUnderMouse->cropDuration().frames(m_document->framesPerSecond());
 				double prevTime = effect->parameter(effectIndex)->keyframe(m_selectedKeyframe - 1)->time();
 				double nextTime = effect->parameter(effectIndex)->keyframe(m_selectedKeyframe + 1)->time();
 				if (currentTime > prevTime && currentTime < nextTime)

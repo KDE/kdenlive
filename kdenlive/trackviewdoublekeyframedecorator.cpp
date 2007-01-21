@@ -79,31 +79,36 @@ namespace Gui {
 		    painter.setPen(Qt::red);
 		    int selectedKeyFrame = m_effect->parameter(effectIndex)->selectedKeyFrame();
 		    double factor = m_effect->effectDescription().parameter(effectIndex)->max();
-
-		    for (int i = 0; i < (int)count - 1; i++) {
-			int dx1 =(int)( startX +  m_effect->parameter(effectIndex)->keyframe(i)->time() * clipWidth);
-			int dy1 =(int)( sy - ey * m_effect->parameter(effectIndex)->keyframe(i)->toDoubleKeyFrame()->value() / factor);
-			int dx2 =(int)( startX + m_effect->parameter(effectIndex)->keyframe(i + 1)->time() * clipWidth);
-			int dy2 =(int)( sy - ey * m_effect->parameter(effectIndex)->keyframe(i + 1)->toDoubleKeyFrame()->value() / factor);
+		    uint i;
+		    int dx1, dx2, dy1, dy2;
+		    for (i = 0; i < (int)count - 1; i++) {
+			dx1 =(int)( startX +  m_effect->parameter(effectIndex)->keyframe(i)->time() * clipWidth);
+			dy1 =(int)( sy - ey * m_effect->parameter(effectIndex)->keyframe(i)->toDoubleKeyFrame()->value() / factor);
+			dx2 =(int)( startX + m_effect->parameter(effectIndex)->keyframe(i + 1)->time() * clipWidth);
+			dy2 =(int)( sy - ey * m_effect->parameter(effectIndex)->keyframe(i + 1)->toDoubleKeyFrame()->value() / factor);
 
 			// #HACK: if x coordinates go beyond max int values, the drawLine method
 			// gives strange results, so limit it for the moment...
 			if (dx1 < -32700) dx1 = -32700;
 			if (dx2 > 32700) dx2 = 32700;
 			if (dx1 <= ex) {
-			    if (dx2 > ex && dx1 > ex ) break; 
-			    if (i == selectedKeyFrame)
-			    	brush = QBrush(Qt::blue);
-			    else
-			    	brush = QBrush(Qt::red);
-			    painter.fillRect(dx1 - 3, dy1 - 3, 6, 6, brush);
-			    if (i + 1 == selectedKeyFrame)
-			    	brush = QBrush(Qt::blue);
-			    else
-			    	brush = QBrush(Qt::red);
-			    painter.fillRect(dx2 - 3, dy2 - 3, 6, 6, brush);
+			    if (dx2 > ex && dx1 > ex ) break;
+			    if (selected) {
+			        if (i == selectedKeyFrame)
+			    	    brush = QBrush(Qt::blue);
+			    	else
+			    	    brush = QBrush(Qt::red);
+			    	painter.fillRect(dx1 - 3, dy1 - 3, 6, 6, brush);
+			    }
 			    painter.drawLine(dx1, dy1, dx2, dy2);
 			}
+		    }
+		    if (selected && i > 0) {
+			if (i == selectedKeyFrame)
+			    brush = QBrush(Qt::blue);
+			else
+			    brush = QBrush(Qt::red);
+			painter.fillRect(dx2 - 3, dy2 - 3, 6, 6, brush);
 		    }
 		}
 		painter.setPen(Qt::black);

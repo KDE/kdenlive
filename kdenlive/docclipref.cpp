@@ -1052,6 +1052,7 @@ QDomDocument DocClipRef::generateXMLClip()
     if (hasEffect() && KdenliveSettings::showeffects())
 	while (effectAt(i) != NULL) {
 	    Effect *effect = effectAt(i);
+	    
 	    if (effect->isEnabled()) {
 	    uint parameterNum = 0;
 	   // bool hasParameters = false;
@@ -1143,8 +1144,7 @@ QDomDocument DocClipRef::generateXMLClip()
 		    }
 		}
 
-		else if (effect->effectDescription().
-		    parameter(parameterNum)->type() == "double") {
+		else if (effect->effectDescription().parameter(parameterNum)->type() == "double") {
 		    // Effect has one parameter with keyframes
 		    QString startTag, endTag;
 		    keyFrameNum =
@@ -1159,9 +1159,10 @@ QDomDocument DocClipRef::generateXMLClip()
 		    double factor = effect->effectDescription().parameter(parameterNum)->factor();
 
 		    if (keyFrameNum > 1) {
+			QDomElement clipFilter;
 			for (uint count = 0; count < keyFrameNum - 1;
 			    count++) {
-                                QDomElement clipFilter =
+                                clipFilter =
 				sceneList.createElement("filter");
 			    clipFilter.setAttribute("mlt_service",
 				effect->effectDescription().tag());
@@ -1189,16 +1190,15 @@ QDomDocument DocClipRef::generateXMLClip()
 				    parameter(parameterNum)->
 				    keyframe(count +
 					1)->toDoubleKeyFrame()->value() / factor));
-
-			    // Add the other constant parameters if any
-			    uint parameterNumBis = parameterNum;
-			       while (effect->parameter(parameterNumBis)) {
-			       clipFilter.setAttribute(effect->effectDescription().parameter(parameterNumBis)->name(), QString::number( effect->effectDescription().parameter(parameterNumBis)->value().toDouble() / effect->effectDescription().parameter(parameterNumBis)->factor()));
-			       parameterNumBis++;
-			       }
-			    parameterNum = parameterNumBis;
 			    entry.appendChild(clipFilter);
 			}
+			// Add the other constant parameters if any
+			uint parameterNumBis = parameterNum + 1;
+			while (effect->parameter(parameterNumBis)) {
+			    clipFilter.setAttribute(effect->effectDescription().parameter(parameterNumBis)->name(), QString::number( effect->effectDescription().parameter(parameterNumBis)->value().toDouble() / effect->effectDescription().parameter(parameterNumBis)->factor()));
+			    parameterNumBis++;
+			}
+			parameterNum = parameterNumBis;
 		    }
                     }
                 else {	// Effect has only constant parameters
