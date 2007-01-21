@@ -28,15 +28,19 @@ namespace Gui {
     EffectStackListView::EffectStackListView(QWidget * parent,
 	const char *name):KListView(parent, name), m_app(NULL),
 	m_document(NULL) {
-	addColumn(QString::null);
+	//addColumn(QString::null);
 	addColumn(i18n("Effect Stack"));
 	setSorting(-1);
-	setColumnWidthMode(1, Maximum);
+	setColumnWidthMode(0, Maximum);
 	setAcceptDrops(true);
 	setAllColumnsShowFocus(true);
 	setFullWidth(true);
 	connect(this, SIGNAL(selectionChanged(QListViewItem *)), this,
 	    SLOT(selectedEffect(QListViewItem *)));
+
+	connect(this, SIGNAL(clicked(QListViewItem *)), this,
+	    SLOT(slotCheckItem(QListViewItem *)));
+
 
 	connect(this, SIGNAL(dropped(QDropEvent *, QListViewItem *,
 		    QListViewItem *)), this, SLOT(dragDropped(QDropEvent *,
@@ -49,8 +53,9 @@ namespace Gui {
     }
 
     void EffectStackListView::checkCurrentItem(bool isOn) {
-	if (isOn) currentItem()->setText(0, QString::null);
-	else currentItem()->setText(0, "x");
+	//QCheckListItem* (currentItem())->setOn(isOn);
+	/*if (isOn) currentItem()->setText(0, QString::null);
+	else currentItem()->setText(0, "x");*/
     }
 
     EffectStackListView::~EffectStackListView() {
@@ -66,10 +71,8 @@ namespace Gui {
 	    for (EffectStack::const_iterator itt =
 		m_clip->effectStack().begin();
 		itt != m_clip->effectStack().end(); ++itt) {
-		KListViewItem *item;
-		if ((*itt)->isEnabled())
-		item = new KListViewItem(this, lastItem, QString::null, (*itt)->name());
-		else item = new KListViewItem(this, lastItem, "x", (*itt)->name());
+		QCheckListItem *item = new QCheckListItem (this, lastItem, (*itt)->name(), QCheckListItem::CheckBox);
+		item->setOn((*itt)->isEnabled());
 		if (ix == selected) setSelected(item, true);
 		ix++; 
 		lastItem = item;
@@ -78,6 +81,17 @@ namespace Gui {
 	/*if (firstChild())
 	    setSelected(itemAt(m_clip->selectedEffectIndex()), true);*/
 	triggerUpdate();
+    }
+
+    void EffectStackListView::slotCheckItem(QListViewItem *item)
+    {
+	if (!item) return;
+	bool isEnabled = m_clip->effectStack()[selectedEffectIndex()]->isEnabled();
+	if (( (QCheckListItem*)item )->isOn() != isEnabled) {
+		// effect was disabled or enabled
+		m_clip->effectStack()[selectedEffectIndex()]->setEnabled(!isEnabled);
+		emit effectToggled();
+	}
     }
 
     void EffectStackListView::setEffectStack(DocClipRef * clip) {

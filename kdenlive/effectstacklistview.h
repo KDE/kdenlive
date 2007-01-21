@@ -45,6 +45,7 @@ A list view that displays an effect stack, and allows the relevant drag/drop ope
 
 	/** HACK - this method should be removed and app and doc should be set via the constructor. */
 	void setAppAndDoc(KdenliveApp * app, KdenliveDoc * document);
+
 	public slots:
 	/** Moves the currently selected effect one place up the effect stack. If no effect is selected, or if the selected effect is already first in the
 	 * list, then nothing will happen. */
@@ -62,6 +63,8 @@ A list view that displays an effect stack, and allows the relevant drag/drop ope
 	 signals:
 	/** Emitted when a new effect has been selected in the effect stack. */
 	void effectSelected(DocClipRef *, Effect *);
+	void effectToggled();
+
       protected:
 	/** Returns true if we can accept the drag. An effectstacklistview can accept EffectDrag events. When an event is
 	dropped onto the effectstack it should issue a command to insert the effect at the correct point in the list. */
@@ -73,7 +76,7 @@ A list view that displays an effect stack, and allows the relevant drag/drop ope
 	/** Called when a drag operation has dropped onto the effect stack list. */
 	void dragDropped(QDropEvent * e, QListViewItem * parent,
 	    QListViewItem * after);
-
+	void slotCheckItem(QListViewItem *item);
 
       private:
 

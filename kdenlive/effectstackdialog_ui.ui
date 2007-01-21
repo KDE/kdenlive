@@ -16,7 +16,7 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="KPushButton" row="1" column="0">
+        <widget class="KPushButton" row="0" column="0">
             <property name="name">
                 <cstring>m_upButton</cstring>
             </property>
@@ -30,7 +30,7 @@
                 <string></string>
             </property>
         </widget>
-        <widget class="KPushButton" row="2" column="0">
+        <widget class="KPushButton" row="1" column="0">
             <property name="name">
                 <cstring>m_downButton</cstring>
             </property>
@@ -61,7 +61,7 @@
                 </size>
             </property>
         </spacer>
-        <widget class="KPushButton" row="3" column="0">
+        <widget class="KPushButton" row="2" column="0">
             <property name="name">
                 <cstring>m_resetButton</cstring>
             </property>
@@ -75,7 +75,7 @@
                 <string></string>
             </property>
         </widget>
-        <widget class="KPushButton" row="4" column="0">
+        <widget class="KPushButton" row="3" column="0">
             <property name="name">
                 <cstring>m_deleteButton</cstring>
             </property>
@@ -88,20 +88,6 @@
             <property name="text">
                 <string></string>
             </property>
-        </widget>
-	<widget class="KPushButton" row="0" column="0">
-		<property name="name">
-			<cstring>m_switchButton</cstring>
-		</property>
-		<property name="maximumSize">
-			<size>
-				<width>25</width>
-				<height>32767</height>
-			</size>
-		</property>
-		<property name="text">
-			<string></string>
-		</property>
         </widget>
         <widget class="Gui::EffectStackListView" row="0" column="1" rowspan="6" colspan="1">
             <property name="name">

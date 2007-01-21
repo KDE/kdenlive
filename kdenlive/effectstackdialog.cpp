@@ -67,17 +67,12 @@ namespace Gui {
 		    KIcon::Toolbar)));
 	 m_deleteButton->setIconSet(QIconSet(loader.loadIcon("editdelete",
 		    KIcon::Toolbar)));
-	 m_switchButton->setIconSet(QIconSet(loader.loadIcon("button_ok",
-		    KIcon::Toolbar)));
-
-	m_switchButton->setToggleButton(true);
 
 	 QToolTip::add(m_upButton, i18n("Move effect up"));
 	 QToolTip::add(m_downButton, i18n("Move effect down"));
 	 QToolTip::add(m_resetButton,
 	    i18n("Reset all parameters to default values"));
 	 QToolTip::add(m_deleteButton, i18n("Remove effect"));
-	QToolTip::add(m_switchButton, i18n("Enable/disable effect"));
 
 	// HACK - We are setting app and doc here because we cannot pass app and doc directly via the auto-generated UI file. This
 	// needs to be fixed...
@@ -92,8 +87,6 @@ namespace Gui {
 
 	 connect(m_upButton, SIGNAL(clicked()), m_effectList,
 	    SLOT(slotMoveEffectUp()));
-	connect(m_switchButton, SIGNAL(clicked()), this,
-	    SLOT(slotSwitchEffect()));
 	 connect(m_downButton, SIGNAL(clicked()), m_effectList,
 	    SLOT(slotMoveEffectDown()));
 	 connect(m_resetButton, SIGNAL(clicked()), this,
@@ -105,6 +98,7 @@ namespace Gui {
 	 connect(m_effectList, SIGNAL(effectSelected(DocClipRef *,
 		    Effect *)), this, SLOT(addParameters(DocClipRef *,
 		    Effect *)));
+	 connect(m_effectList, SIGNAL(effectToggled()), this, SLOT(slotSwitchEffect()));
 
 	 connect(sliderPosition, SIGNAL(valueChanged(int)), spinPosition,
 	    SLOT(setValue(int)));
@@ -126,7 +120,6 @@ namespace Gui {
 	m_downButton->setEnabled(false);
 	m_resetButton->setEnabled(false);
 	m_deleteButton->setEnabled(false);
-	m_switchButton->setEnabled(false);
     }
 
     void EffectStackDialog::enableButtons()
@@ -135,7 +128,6 @@ namespace Gui {
 	m_downButton->setEnabled(true);
 	m_resetButton->setEnabled(true);
 	m_deleteButton->setEnabled(true);
-	m_switchButton->setEnabled(true);
     }
 
     void EffectStackDialog::cleanWidgets()
@@ -151,7 +143,6 @@ namespace Gui {
     void EffectStackDialog::addParameters(DocClipRef * clip, Effect * effect) {
 	// Rebuild the effect parameters dialog
 	kdDebug()<<"++++++++++++  REBUILD PARAMETER DIALOG FOR CLIP: "<<clip->name()<<endl;
-	m_switchButton->setOn(!effect->isEnabled());
 	uint parameterNum = 0;
 	m_hasKeyFrames = false;
         if (!effect->parameter(parameterNum)) {
@@ -437,9 +428,6 @@ namespace Gui {
 	Effect *effect = clip->effectAt(m_effectList->
 	    selectedEffectIndex());
 	if (!effect) return;
-	effect->setEnabled(!effect->isEnabled());
-	m_switchButton->setOn(!effect->isEnabled());
-	m_effectList->checkCurrentItem(effect->isEnabled());
 	if (effect->name() == i18n("Speed")) {
 	    // If we disable speed effect, reset clip speed to normal
 	    if (!effect->isEnabled()) clip->setSpeed( 1.0, 1.0);
@@ -688,7 +676,6 @@ namespace Gui {
 	m_effectList->setEffectStack(clip);
 	if (!clip) return;
 	Effect *effect = clip->effectAt(m_effectList->selectedEffectIndex());
-	if (effect) m_switchButton->setOn(!effect->isEnabled());
 	emit redrawTrack(clip->trackNum(), clip->trackStart(), clip->trackEnd());
     }
 
