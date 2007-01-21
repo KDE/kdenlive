@@ -493,6 +493,9 @@ namespace Gui {
 	    this, SLOT(slotShowAllMarkers()), actionCollection(),
 	    "show_markers");
 
+	KAction *defineThumb = new KAction(i18n("Define Clip Thumbnail"), 0, this, SLOT(slotDefineClipThumb()), actionCollection(), "define_thumb");
+	defineThumb->setStatusText(i18n("Define thumbnail for the current clip"));
+
 	KAction *gotoStart = new KAction(i18n("Go To Beginning"), KStdAccel::home(), this, SLOT(slotGotoStart()), actionCollection(), "timeline_go_start");
 	gotoStart->setStatusText(i18n("Beginning of project"));
 
@@ -1259,9 +1262,7 @@ namespace Gui {
 	m_dockWorkspaceMonitor->update();
 
 	if (m_clipMonitor) delete m_clipMonitor;
-	m_clipMonitor =
-	    m_monitorManager.createMonitor(getDocument(),
-	    m_dockClipMonitor, "Clip Monitor");
+	m_clipMonitor = m_monitorManager.createMonitor(getDocument(),m_dockClipMonitor, "ClipMonitor");
 	m_dockClipMonitor->setWidget(m_clipMonitor);
 	m_clipMonitor->show();
 	m_dockClipMonitor->update();
@@ -2617,9 +2618,7 @@ namespace Gui {
 	m_dockWorkspaceMonitor->update();
 
 	if (m_clipMonitor) delete m_clipMonitor;
-	m_clipMonitor =
-	    m_monitorManager.createMonitor(getDocument(),
-	    m_dockClipMonitor, "Clip Monitor");
+	m_clipMonitor = m_monitorManager.createMonitor(getDocument(), m_dockClipMonitor, "ClipMonitor");
 	m_dockClipMonitor->setWidget(m_clipMonitor);
 	m_clipMonitor->show();
 	m_dockClipMonitor->update();
@@ -3357,6 +3356,13 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	macroCommand->addCommand(moveClipsCommand);
 	macroCommand->addCommand(Command::KSelectClipCommand::selectNone(getDocument()));
 	addCommand(macroCommand, true);
+    }
+
+    void KdenliveApp::slotDefineClipThumb() {
+	if (!m_projectList->m_listView->currentItem()) return;
+	DocClipRef *clip = static_cast<AVListViewItem*>(m_projectList->m_listView->currentItem())->clip();
+	clip->referencedClip()->setProjectThumbFrame(m_clipMonitor->editPanel()->point().frames(getDocument()->framesPerSecond()) );
+	getDocument()->renderer()->getImage(clip->fileURL(), clip->referencedClip()->getProjectThumbFrame(), 50, 40);
     }
 
     void KdenliveApp::slotSetInpoint() {

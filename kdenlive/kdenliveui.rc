@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kdenlive" version="24">
+<kpartgui name="kdenlive" version="25">
 <MenuBar>
   <Menu name="file">
         <Action name="export_current_frame"/>
@@ -329,6 +329,22 @@
 	<Action name="toggle_snap_marker"/>
 	<Action name="toggle_osd"/>
 	<Action name="multi_cam"/>
+	<Separator lineSeperator="true"/>
+	<Action name="export_current_frame"/>
+	<Separator lineSeperator="true"/>
+	<Menu name="preview_quality"><text>Preview Quality</text>
+		<Action name="low_quality"/>
+		<Action name="medium_quality"/>
+		<Action name="best_quality"/>
+	</Menu>
+</Menu>
+
+<Menu name="monitor_clip_context">
+	<Action name="forward_snap"/>
+	<Action name="backward_snap"/>
+	<Action name="toggle_snap_marker"/>
+	<Action name="toggle_osd"/>
+	<Action name="define_thumb"/>
 	<Separator lineSeperator="true"/>
 	<Action name="export_current_frame"/>
 	<Separator lineSeperator="true"/>

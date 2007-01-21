@@ -101,7 +101,7 @@ generateFromXML(const EffectDescriptionList & effectList,
 		    if (clip) {
 			append(clip);
 			if (clip->isDocClipAVFile()) {
-			    render->getFileProperties(clip->fileURL());
+			    render->getFileProperties(clip->fileURL(), clip->getProjectThumbFrame());
 			}
 		    }
 		} else {

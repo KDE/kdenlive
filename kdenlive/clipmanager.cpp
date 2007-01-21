@@ -58,7 +58,7 @@ ClipManager::ClipManager(KRender *render, QWidget * parent, const char *name) //
     connect(m_render, SIGNAL(replyGetImage(int, const QPixmap &, int,
 		int)), this, SLOT(AVImageArrived(int, const QPixmap &)));
     
-    connect(this, SIGNAL(getFileProperties(KURL)), m_render, SLOT(getFileProperties(KURL)));
+    connect(this, SIGNAL(getFileProperties(KURL, uint)), m_render, SLOT(getFileProperties(KURL, uint)));
 }
 
 ClipManager::~ClipManager()
@@ -79,7 +79,7 @@ KURL ClipManager::checkFileUrl(KURL url)
 	return KURL();
 }
 
-DocClipBase *ClipManager::insertClip(KURL file, int clipId)
+DocClipBase *ClipManager::insertClip(KURL file, int thumbnailFrame, int clipId)
 {
     if (!KIO::NetAccess::exists(file, true, 0)) {
 	file = checkFileUrl(file);
@@ -101,8 +101,9 @@ DocClipBase *ClipManager::insertClip(KURL file, int clipId)
             clip = new DocClipAVFile(file.fileName(), file, clipId);
             if (clipId>= (int) m_clipCounter) m_clipCounter = clipId+1;
         }
+	clip->setProjectThumbFrame(thumbnailFrame);
 	m_clipList.append(clip);
-        emit getFileProperties(file);
+        emit getFileProperties(file, thumbnailFrame);
 	emit clipListUpdated();
 	return clip;
     }
@@ -337,7 +338,7 @@ DocClipBase *ClipManager::insertXMLClip(QDomDocument node)
 	m_render->getImage(clip->fileURL(), 50, 40);
 	break;
     default:
-	emit getFileProperties(clip->fileURL());
+	emit getFileProperties(clip->fileURL(), clip->getProjectThumbFrame());
 	//m_render->getImage(clip->fileURL(), 1, 50, 40);//
 	break;
     }
@@ -379,14 +380,14 @@ DocClipBase *ClipManager::insertXMLVirtualClip(QDomDocument node)
     DocClipBase *clip;
     clip = new DocClipVirtual(node);
     m_clipList.append(clip);
-    emit getFileProperties(clip->fileURL());
+    emit getFileProperties(clip->fileURL(), clip->getProjectThumbFrame());
     m_clipCounter++;
     emit clipListUpdated();
     return clip;
 }
 
 DocClipBase *ClipManager::insertVirtualClip(const QString & name,
-    const QString & description, const GenTime & start, const GenTime & end, const KURL url, int clipId)
+    const QString & description, const GenTime & start, const GenTime & end, const KURL url, int thumbnailFrame, int clipId)
 {
     QPixmap result(50, 40);
     result.fill(Qt::black);
@@ -539,7 +540,7 @@ void ClipManager::editClip(DocClipRef * clip, const KURL & file, const QString &
         clip->setDescription(description);
         if (avClip->fileURL() != file) {
             avClip->setFileURL(file);
-            emit getFileProperties(file);
+            emit getFileProperties(file, clip->referencedClip()->getProjectThumbFrame());
             if (clip->numReferences() > 0)  {
                 emit fixClipDuration(clip->referencedClip());
                 emit updateClipThumbnails(clip->referencedClip());
@@ -738,7 +739,7 @@ DocClipBase *ClipManager::insertXMLClip(const QDomElement & clip)
             DocClipBase *result = new DocClipAVFile(tmp->name(), tmp->fileURL(), clipId);
             if (clipId>= (int) m_clipCounter) m_clipCounter = clipId+1;
 	m_clipList.append(result);
-        emit getFileProperties(tmp->fileURL());
+        emit getFileProperties(tmp->fileURL(), tmp->getProjectThumbFrame());
 	emit clipListUpdated();
 	} else {
 	    kdError() <<

@@ -25,7 +25,7 @@
 #include "clipmanager.h"
 
 DocClipBase::DocClipBase():
-m_description(""), m_refcount(0), audioThumbCreated(false)
+m_description(""), m_refcount(0), m_projectThumbFrame(0), audioThumbCreated(false)
 {
     thumbCreator = 0;
 }
@@ -53,6 +53,16 @@ uint DocClipBase::getId() const
 void DocClipBase::setId( const uint &newId)
 {
     m_id = newId;
+}
+
+void DocClipBase::setProjectThumbFrame( const uint &ix)
+{
+    m_projectThumbFrame = ix;
+}
+
+uint DocClipBase::getProjectThumbFrame() const
+{
+    return m_projectThumbFrame;
 }
 
 void DocClipBase::setDescription(const QString & description)

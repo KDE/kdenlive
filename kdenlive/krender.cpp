@@ -173,7 +173,7 @@ void KRender::createVideoXWindow(bool , WId winid)
     //m_mltConsumer->set("audio_driver","dsp");
     m_mltConsumer->set("progressive", 1);
     m_mltConsumer->set("audio_buffer", 1024);
-    m_mltConsumer->set("frequency", 44100);
+    m_mltConsumer->set("frequency", 48000);
     //m_mltConsumer->set("buffer", 1);
 
 }
@@ -433,7 +433,7 @@ bool KRender::isValid(KURL url)
 }
 
 
-void KRender::getFileProperties(KURL url)
+void KRender::getFileProperties(KURL url, uint framenb)
 {
         int width = 50;
         int height = 40;
@@ -441,7 +441,7 @@ void KRender::getFileProperties(KURL url)
     	if (producer.is_blank()) {
 	    return;
     	}
-
+	producer.seek( framenb );
 	mlt_properties properties = MLT_PRODUCER_PROPERTIES( producer.get_producer() );
 
 	QMap < QString, QString > filePropertyMap;

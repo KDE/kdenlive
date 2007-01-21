@@ -202,6 +202,7 @@ class DocClipBase:public QObject {
     
     /** a unique numeric id */
     uint m_id;
+    uint m_projectThumbFrame;
 
   public slots:
 	void updateAudioThumbnail(QMap<int,QMap<int,QByteArray> > data);
@@ -215,6 +216,8 @@ class DocClipBase:public QObject {
 	void addSnapMarker(const GenTime & time, QString comment);
 	QValueVector < GenTime > snapMarkers() const;
 	QString markerComment(GenTime t);
+	void setProjectThumbFrame( const uint &ix);
+	uint getProjectThumbFrame() const;
 };
 
 #endif

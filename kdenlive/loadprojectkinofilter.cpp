@@ -92,7 +92,7 @@ GenTime LoadProjectKinoFilter::loadSeq(const GenTime & currentTrackTime,
 	    if (e.tagName() == "video") {
 		DocClipBase *file =
 		    document->clipManager().insertClip(KURL(e.
-			attribute("src", "")));
+			attribute("src", "")), 0);
 		DocumentClipNode *clipNode =
 		    new DocumentClipNode(document->clipHierarch(), file);
 		document->addClipNode(document->clipHierarch()->name(),

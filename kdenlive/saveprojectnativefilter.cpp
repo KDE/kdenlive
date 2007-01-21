@@ -185,7 +185,11 @@ QDomElement SaveProjectNativeFilter::processedNode(DocumentClipNode *clipNode, Q
                 avfile.setAttribute("name", clipNode->clipRef()->name());
 		avfile.setAttribute("virtualstart", vclip->virtualStartTime().frames(KdenliveSettings::defaultfps()));
 		avfile.setAttribute("virtualend", vclip->virtualEndTime().frames(KdenliveSettings::defaultfps()));
+		avfile.setAttribute("frame_thumbnail", QString::number(clipNode->clipRef()->referencedClip()->getProjectThumbFrame()));
             }
+	    else {
+		avfile.setAttribute("frame_thumbnail", QString::number(clipNode->clipRef()->referencedClip()->getProjectThumbFrame()));
+	    }
 
 	    QString desc = clipNode->clipRef()->description();
 	    if (!desc.isEmpty()) {

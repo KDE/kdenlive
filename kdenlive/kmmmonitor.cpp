@@ -376,9 +376,9 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
     }
 
     void KMMMonitor::popupContextMenu() {
-	QPopupMenu *menu =
-	    (QPopupMenu *) m_app->factory()->container("monitor_context",
-	    m_app);
+	QPopupMenu *menu = NULL;
+	if (QString(name()) == "ClipMonitor") menu = (QPopupMenu *) m_app->factory()->container("monitor_clip_context", m_app);
+	else menu = (QPopupMenu *) m_app->factory()->container("monitor_context", m_app);
 	if (menu) {
 	    menu->popup(QCursor::pos());
 	}

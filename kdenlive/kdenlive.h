@@ -518,6 +518,8 @@ namespace Gui {
 	void slotDisableTransitions();
 	void slotDisableThumbnails();
 	void slotDisableAudioThumbnails();
+	/** Define thumbnail for current clip */
+	void slotDefineClipThumb();
 
       private:
 		/** the configuration object of the application */

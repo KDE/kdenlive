@@ -73,14 +73,14 @@ class ClipManager:public QObject {
 
 	/** Insert an AVFile with the given url. If the file is already in the file list, return 
 	 * that instead. */
-    DocClipBase *insertClip(KURL file, int clipId = -1);
+    DocClipBase *insertClip(KURL file, int thumbnailFrame, int clipId = -1);
     QDomDocument buildClip(KURL & file, int clipId = -1);
 
 	/** Insert a virtual clip */
     QDomDocument buildVirtualClip(const GenTime & start, const GenTime & end, const QString & name, const QString & description, const KURL url, int clipId = -1);
 
     DocClipBase *insertVirtualClip(const QString & name,
-    const QString & description, const GenTime & start, const GenTime & end, const KURL url, int clipId = -1);
+    const QString & description, const GenTime & start, const GenTime & end, const KURL url, int thumbnailFrame, int clipId = -1);
 
     DocClipBase *insertXMLVirtualClip(QDomDocument node);
 
@@ -171,7 +171,7 @@ class ClipManager:public QObject {
     void clipChanged(DocClipBase * file);
 
     void fixClipDuration(DocClipBase *);
-    void getFileProperties(KURL);
+    void getFileProperties(KURL, uint);
     void updateClipThumbnails(DocClipBase *);
 
     public slots:

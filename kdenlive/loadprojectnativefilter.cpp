@@ -173,10 +173,11 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
 	    DocClipBase *baseClip=0;
 
 	    if (clipType < 4)	//  AUDIO OR VIDEO CLIP
+	    {
 		baseClip =
 		    document->clipManager().insertClip(KURL(clip.
-                        attribute("resource", "")), clip.attribute("id", "-1").toInt());
-
+                        attribute("resource", "")), clip.attribute("frame_thumbnail", "0").toInt(), clip.attribute("id", "-1").toInt());
+	    }
 	    else if (clipType == DocClipBase::COLOR)	//   COLOR CLIP
 		baseClip =
 		    document->clipManager().insertColorClip(clip.
@@ -210,7 +211,7 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
             else if (clipType == DocClipBase::VIRTUAL)	//   VIRTUAL CLIP
             {
                 baseClip =
-                        document->clipManager().insertVirtualClip(clip.attribute("name", ""), clip.attribute("description", ""), GenTime(clip.attribute("virtualstart", "").toInt(), KdenliveSettings::defaultfps()), GenTime(clip.attribute("virtualend", "").toInt(), KdenliveSettings::defaultfps()), clip.attribute("resource", ""), clip.attribute("id", "-1").toInt());
+                        document->clipManager().insertVirtualClip(clip.attribute("name", ""), clip.attribute("description", ""), GenTime(clip.attribute("virtualstart", "").toInt(), KdenliveSettings::defaultfps()), GenTime(clip.attribute("virtualend", "").toInt(), KdenliveSettings::defaultfps()), clip.attribute("resource", ""), clip.attribute("frame_thumbnail", "0").toInt(), clip.attribute("id", "-1").toInt());
             }
 
 	    if (baseClip) {
