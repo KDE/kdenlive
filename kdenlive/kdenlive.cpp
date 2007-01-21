@@ -269,9 +269,8 @@ namespace Gui {
     {
 	DocClipRefList list = getDocument()->projectClip().selectedClipList();
 
-	if (list.isEmpty()) return;
+	if (list.isEmpty() || !effectList().effectDescription(effectName)) return;
 	Effect *effect = effectList().effectDescription(effectName)->createEffect(effectName);
-
 	KMacroCommand *macroCommand = new KMacroCommand(i18n("Add Effect"));
 	DocClipRef *refClip;
 
