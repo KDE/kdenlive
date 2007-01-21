@@ -1191,11 +1191,12 @@ QDomDocument DocClipRef::generateXMLClip()
 					1)->toDoubleKeyFrame()->value() / factor));
 
 			    // Add the other constant parameters if any
-			    /*uint parameterNumBis = parameterNum;
+			    uint parameterNumBis = parameterNum;
 			       while (effect->parameter(parameterNumBis)) {
-			       transition.setAttribute(effect->effectDescription().parameter(parameterNumBis)->name(),QString::number(effect->effectDescription().parameter(parameterNumBis)->value()));
+			       clipFilter.setAttribute(effect->effectDescription().parameter(parameterNumBis)->name(), QString::number( effect->effectDescription().parameter(parameterNumBis)->value().toDouble() / effect->effectDescription().parameter(parameterNumBis)->factor()));
 			       parameterNumBis++;
-			       } */
+			       }
+			    parameterNum = parameterNumBis;
 			    entry.appendChild(clipFilter);
 			}
 		    }

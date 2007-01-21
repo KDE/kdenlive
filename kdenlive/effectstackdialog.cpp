@@ -265,7 +265,7 @@ namespace Gui {
 		    toDoubleKeyFrame()->value();
 		QLabel *label =
 		    new QLabel(effect->effectDescription().
-		    parameter(parameterNum)->name(), m_frame);
+		    parameter(parameterNum)->description(), m_frame);
 		QSlider *sliderParam = new QSlider(Qt::Horizontal, m_frame);
 		sliderParam->setRange(minVal, maxVal);
 		QSpinBox *spinParam = new QSpinBox(m_frame, "value");

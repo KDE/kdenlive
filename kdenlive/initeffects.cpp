@@ -213,6 +213,52 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 	effectList->append(bright);
     }
 
+    if (filtersList.findIndex("boxblur") != -1) {
+        // box blur
+        EffectDesc *blur = new EffectDesc(i18n("Box Blur"), "boxblur", "video");
+        xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "double");
+        xmlAttr.append("name", QString::null, QString::null, "blur");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Blur factor"));
+        xmlAttr.append("max", QString::null, QString::null, "100");
+        xmlAttr.append("min", QString::null, QString::null, "0");
+        xmlAttr.append("default", QString::null, QString::null, "5");
+        blur->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+        xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "constant");
+        xmlAttr.append("name", QString::null, QString::null, "hori");
+        xmlAttr.append("description", QString::null, QString::null, "Horizontal multiplicator");
+        xmlAttr.append("max", QString::null, QString::null, "50");
+        xmlAttr.append("min", QString::null, QString::null, "1");
+        xmlAttr.append("default", QString::null, QString::null, "1");
+        blur->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+        xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "constant");
+        xmlAttr.append("name", QString::null, QString::null, "vert");
+        xmlAttr.append("description", QString::null, QString::null, "Vertical multiplicator");
+        xmlAttr.append("max", QString::null, QString::null, "50");
+        xmlAttr.append("min", QString::null, QString::null, "1");
+        xmlAttr.append("default", QString::null, QString::null, "1");
+        blur->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+        effectList->append(blur );
+    }
+
+    if (filtersList.findIndex("wave") != -1) {
+        // wave
+        EffectDesc *wave = new EffectDesc(i18n("Wave"), "wave", "video");
+        xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "double");
+        xmlAttr.append("name", QString::null, QString::null, "start");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Amplitude"));
+        xmlAttr.append("max", QString::null, QString::null, "100");
+        xmlAttr.append("min", QString::null, QString::null, "0");
+        xmlAttr.append("default", QString::null, QString::null, "5");
+	xmlAttr.append("factor", QString::null, QString::null, "1");
+        wave->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+        effectList->append(wave );
+    }
+
+
     if (filtersList.findIndex("volume") != -1) {
         // Audio volume
 	EffectDesc *volume = new EffectDesc(i18n("Volume"), "volume", "audio");
