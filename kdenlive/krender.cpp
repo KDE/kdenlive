@@ -118,12 +118,6 @@ static void consumer_frame_show(mlt_consumer, KRender * self, mlt_frame frame_pt
     }
 }
 
-static void file_consumer_frame_show(mlt_consumer, KRender * self, mlt_frame frame_ptr)
-{
-    mlt_position framePosition = mlt_frame_get_position(frame_ptr);
-    self->emitFileFrameNumber(GenTime(framePosition, KdenliveSettings::defaultfps()), 10001);
-}
-
 static void consumer_stopped(mlt_consumer, KRender * self, mlt_frame frame_ptr)
 {
     mlt_position framePosition = mlt_frame_get_position(frame_ptr);
@@ -496,7 +490,7 @@ void KRender::getFileProperties(KURL url, uint framenb)
 	    for ( int i = 0; i < count; i ++ )
 	    {
 		QString name = mlt_properties_get_name( metadata, i );
-		QString value = mlt_properties_get_value( metadata, i );
+		QString value = QString::fromUtf8(mlt_properties_get_value( metadata, i ));
 		if (name.endsWith("markup") && !value.isEmpty())
 			metadataPropertyMap[ name.section(".", 0, -2) ] = value;
 	    }

@@ -48,7 +48,9 @@
 #include "kdenlive.h"
 #include "exportwidget.h"
 #include "editencoder_ui.h"
+#include "editmetadata_ui.h"
 #include "kdenlivesettings.h"
+#include "krender.h"
 
 #define PAL 1
 #define NTSC 2
@@ -57,7 +59,7 @@
 #define CUSTOMFORMAT 20
 
 
-exportWidget::exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, VIDEOFORMAT format, QWidget* parent, const char* name): exportBaseWidget_UI(parent,name), m_duration(0), m_exportProcess(NULL), m_convertProcess(NULL), m_screen(screen), m_timeline(timeline), m_tmpFile(NULL), m_format(format), m_emitSignal(false)
+exportWidget::exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, VIDEOFORMAT format, QWidget* parent, const char* name): exportBaseWidget_UI(parent,name), m_duration(0), m_exportProcess(NULL), m_convertProcess(NULL), m_screen(screen), m_timeline(timeline), m_tmpFile(NULL), m_format(format), m_emitSignal(false), m_meta_year(0), m_meta_track(0)
 
 {
 /*    m_node = -1;
@@ -74,12 +76,6 @@ exportWidget::exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, VID
     // custom templates not implemented yet
     //encoders->page(3)->setEnabled(false);
     
-#ifdef ENABLE_FIREWIRE
-    tabWidget->page(1)->setEnabled(true);
-#else
-    tabWidget->page(1)->setEnabled(false);
-#endif
-
     initDvConnection();
 
     QStringList priority;
@@ -104,6 +100,7 @@ exportWidget::exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, VID
     connect(button_new, SIGNAL( clicked() ), this, SLOT( slotAddEncoder()));
     connect(button_edit, SIGNAL( clicked() ), this, SLOT( slotEditEncoder()));
     connect(button_delete, SIGNAL( clicked() ), this, SLOT( slotDeleteEncoder()));
+    connect(button_metadata, SIGNAL( clicked() ), this, SLOT( slotEditMetaData()));
     connect(custom_encoders, SIGNAL( doubleClicked ( QListViewItem *, const QPoint &, int ) ), this, SLOT( slotEditEncoder()));
 }
 
@@ -112,6 +109,71 @@ exportWidget::~exportWidget()
     slotSaveCustomEncoders();
 }
 
+void exportWidget::setMetaData(QStringList metaValues)
+{
+	if (metaValues.count() != 7) {
+	    kdDebug()<<"///////  BAD METADATA INPUT ///////"<<endl;
+	    return;
+	}
+	m_meta_author = metaValues[0];
+	m_meta_title = metaValues[1];
+	m_meta_comment = metaValues[2];
+	m_meta_copyright = metaValues[3];
+	m_meta_album = metaValues[4];
+	m_meta_track = metaValues[5].toInt();
+	m_meta_year = metaValues[6].toInt();
+}
+
+const QStringList exportWidget::getMetaData()
+{
+	QStringList result;
+	result<<m_meta_author;
+	result<<m_meta_title;
+	result<<m_meta_comment;
+	result<<m_meta_copyright;
+	result<<m_meta_album;
+	result<<QString::number(m_meta_track);
+	result<<QString::number(m_meta_year);
+	return result;
+}
+
+void exportWidget::slotEditMetaData()
+{
+    editMetadata_UI *editMeta = new editMetadata_UI(this);
+    editMeta->meta_author->setText(m_meta_author);
+    editMeta->meta_title->setText(m_meta_title);
+    editMeta->meta_comment->setText(m_meta_comment);
+    editMeta->meta_copyright->setText(m_meta_copyright);
+    editMeta->meta_album->setText(m_meta_album);
+    editMeta->meta_track->setValue(m_meta_track);
+    editMeta->meta_year->setText(QString::number(m_meta_year));
+    if (editMeta->exec() == QDialog::Accepted ) {
+	m_meta_author = editMeta->meta_author->text();
+	m_meta_title = editMeta->meta_title->text();
+	m_meta_comment = editMeta->meta_comment->text();
+	m_meta_album = editMeta->meta_album->text();
+	m_meta_copyright = editMeta->meta_copyright->text();
+	m_meta_track = editMeta->meta_track->value();
+	m_meta_year = editMeta->meta_year->text().toInt();
+	QStringList newMetadata = getMetaData();
+	emit metadataChanged( newMetadata );
+    }
+    delete editMeta;
+}
+
+
+QStringList exportWidget::metadataString()
+{
+    QStringList result;
+    if (!m_meta_author.isEmpty()) result << KRender::decodedString(QString( "meta.attr.author.markup=" + m_meta_author));
+    if (!m_meta_title.isEmpty()) result << KRender::decodedString(QString( "meta.attr.title.markup=" + m_meta_title));
+    if (!m_meta_comment.isEmpty()) result << QString( "meta.attr.comment.markup=" + m_meta_comment);
+    if (!m_meta_copyright.isEmpty()) result << KRender::decodedString(QString( "meta.attr.copyright.markup=" + m_meta_copyright));
+    if (!m_meta_album.isEmpty()) result << KRender::decodedString(QString( "meta.attr.album.markup=" + m_meta_album));
+    if (m_meta_year != 0) result << QString( "meta.attr.year.markup=" + QString::number(m_meta_year));
+    if (m_meta_track != 0) result << QString( "meta.attr.track.markup=" + QString::number(m_meta_track));
+    return result;
+}
 
 void exportWidget::slotGuideZone(bool isOn)
 {
@@ -395,36 +457,7 @@ void exportWidget::slotAdjustGuides(int ix)
 
 void exportWidget::initDvConnection()
 {
-#ifdef ENABLE_FIREWIRE
 
-    
-    /*m_node = discoverAVC( &m_port, m_guid );
-
-    if ( m_node == -1 ) {
-        tabWidget->page(2)->setEnabled(false);
-        firewire_status->setText(i18n("No Firewire device detected"));
-        return;
-}*/
-    tabWidget->page(1)->setEnabled(true);
-    
-    /*
-    if ( m_port != -1 )
-    {
-        AVC::CheckConsistency( m_port, m_node );
-        m_avc = new AVC( m_port );
-        if ( ! m_avc ) {
-            firewire_status->setText(i18n("failed to initialize AV/C on port %1").arg(m_port));
-            return;
-    }
-        
-        firewire_status->setText(i18n("Found device on port %1").arg(m_port));
-        firewireport->setValue(m_port);
-    }
-    else firewire_status->setText(i18n("Cannot communicate on port %1").arg(m_port));
-    */
-#else
-    firewire_status->setText(i18n("Firewire support not enabled. Please install the required libraries..."));
-#endif
 }
 
 
@@ -524,7 +557,6 @@ void exportWidget::stopExport()
 
 void exportWidget::startExport()
 {
-    if (tabWidget->currentPageIndex () == 0) { // export to file
         if (fileExportName->text().isEmpty()) {
             KMessageBox::sorry(this, i18n("Please enter a file name"));
             return;
@@ -575,35 +607,6 @@ void exportWidget::startExport()
 
 	// Hide dialog when export starts
 	hide();
-
-/*        if (profileParameter(encoders->currentText(), "bypass") != "true") {
-            // AVformat (FFmpeg) export, build parameters
-            QStringList params;
-	    QStringList fixedParams = encodersFixedList[EncodersMap[encoders->currentText()]];
-	    params += fixedParams;
-	    doExport(fileExportFolder->url()+"/"+fileExportName->text(), params);
-        }
-        else {
-            // Theora export
-	    if (EncodersMap[encoders->currentText()] == "theora") 
-		doExport(fileExportFolder->url()+"/"+fileExportName->text()+".dv", QStringList(), true);
-	    // libdv export
-            else doExport(fileExportFolder->url()+"/"+fileExportName->text(), QStringList(), true);
-        }
-        tabWidget->page(0)->setEnabled(false);*/
-    }
-    else if (tabWidget->currentPageIndex () == 2) { // Firewire export
-        kdDebug()<<"++++++++++++++ FIREWIRE EXPORT"<<endl;
-        if ( fw_timelinebutton->isChecked()) { // export timeline
-        }
-        else { // export existing file
-            if (fw_URL->url().isEmpty()) {
-                KMessageBox::sorry(this, i18n("Please enter a file name"));
-                return;
-            }
-            emit exportToFirewire(fw_URL->url(), firewireport->value(), startExportTime, endExportTime);
-        }
-    }
 }
 
 void exportWidget::renderSelectedZone(const QString &url, bool audioOnly)
@@ -635,7 +638,6 @@ void exportWidget::generateDvdFile(QString file, GenTime start, GenTime end, VID
 {
     QStringList encoderParams;
     m_isRunning = true;
-    tabWidget->setEnabled(false);
     startExportTime = start;
     endExportTime = end;
     m_duration = endExportTime - startExportTime;
@@ -691,7 +693,6 @@ void exportWidget::doExport(QString file, QStringList params, bool isDv, bool au
     	m_exportProcess->kill();
     	delete m_exportProcess;
     }
-    tabWidget->setEnabled(false);
     m_isRunning = true;
     exportButton->setText(i18n("Stop"));
     kdDebug()<<"++++++  PREPARE TO WRITE TO: "<<m_tmpFile->name()<<endl;
@@ -720,6 +721,7 @@ void exportWidget::doExport(QString file, QStringList params, bool isDv, bool au
     *m_exportProcess << QString("avformat:%1").arg(file);
     if (audioOnly) *m_exportProcess <<"format=wav"<<"frequency=48000";
     else *m_exportProcess << params;
+    if (addMetadata->isChecked()) *m_exportProcess << metadataString();
     *m_exportProcess << "real_time=0";
     *m_exportProcess << "stats_on=1";
     // workaround until MLT's default qscale value is fixed
@@ -757,7 +759,6 @@ void exportWidget::doAudioExport(QString src, QString dest)
     	delete m_exportProcess;
     }
 
-    tabWidget->setEnabled(false);
     m_isRunning = true;
     exportButton->setText(i18n("Stop"));
     m_exportProcess = new KProcess;
@@ -825,12 +826,6 @@ void exportWidget::receivedConvertStderr(KProcess *, char *buffer, int )
 	}
 }
 
-void exportWidget::reportProgress(GenTime progress)
-{
-    int prog = (int)((100 * progress.frames(KdenliveSettings::defaultfps()))/m_duration.frames(KdenliveSettings::defaultfps()));
-    //processProgress->setProgress(prog);
-}
-
 void exportWidget::endExport(KProcess *)
 {
     bool finishedOK = true;
@@ -860,11 +855,9 @@ void exportWidget::endExport(KProcess *)
 	//exportFileToTheora(KURL(fileExportFolder->url()+"/"+fileExportName->text() + ".dv").path(), vquality->currentText().toInt(), aquality->currentText().toInt(), videoSize->currentText());
     }*/
 	exportButton->setText(i18n("Export"));
-	tabWidget->setEnabled(true);
     	m_isRunning = false;
 	QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1, 10007));
     	//processProgress->setProgress(0);
-    	tabWidget->page(0)->setEnabled(true);
     	if (autoPlay->isChecked() && finishedOK) {
 	        (void) new KRun(KURL(m_createdFile));
     	}
@@ -886,10 +879,8 @@ void exportWidget::endDvdExport(KProcess *)
     }
     delete m_exportProcess;
     m_exportProcess = 0;
-    tabWidget->setEnabled(true);
     m_isRunning = false;
     QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1, 10007));
-    tabWidget->page(0)->setEnabled(true);
     emit dvdExportOver(true);
 }
 
@@ -905,11 +896,9 @@ void exportWidget::endConvert(KProcess *)
     m_convertProcess = 0;
     exportButton->setText(i18n("Export"));
     KIO::NetAccess::del(KURL(fileExportFolder->url()+"/"+fileExportName->text() + ".dv"), this);
-    tabWidget->setEnabled(true);
     m_isRunning = false;
     QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1, 10007));
     //processProgress->setProgress(0);
-    tabWidget->page(0)->setEnabled(true);
     if (autoPlay->isChecked() && finishedOK) {
 	(void) new KRun(KURL(fileExportFolder->url()+"/"+fileExportName->text()));
     }
@@ -925,13 +914,11 @@ void exportWidget::endExport()
 {
     exportButton->setText(i18n("Export"));
     m_isRunning = false;
-    tabWidget->setEnabled(true);
 /*    if (encoders->currentText() == "theora") {
 //	exportFileToTheora(KURL(fileExportFolder->url()+"/"+fileExportName->text() + ".dv").path(), vquality->currentText().toInt(), aquality->currentText().toInt(), videoSize->currentText());
     }
     else */{
     	//processProgress->setProgress(0);
-    	tabWidget->page(0)->setEnabled(true);
     	if (autoPlay->isChecked ()) {
 	        //KRun *run=new KRun(KURL(fileExportFolder->url()+"/"+fileExportName->text()));
     	}

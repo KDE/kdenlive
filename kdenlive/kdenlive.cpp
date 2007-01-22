@@ -1500,10 +1500,6 @@ namespace Gui {
             m_monitorManager.activeMonitor()->screen()->positionChanged(ev->position());
 	    if (KdenliveSettings::autoscroll() && m_workspaceMonitor->screen()->playSpeed() > 0) m_timeline->autoScroll();
         }
-        else if( e->type() == 10001) {
-            // The export process progressed
-            if (m_exportWidget) m_exportWidget->reportProgress(((PositionChangeEvent *)e)->position());
-        }
         else if( e->type() == 10002) {
             // Timeline playing stopped
 	    PositionChangeEvent *ev = (PositionChangeEvent *)e;
@@ -1702,6 +1698,8 @@ namespace Gui {
             requestDocumentClose(url);
 	    initView();
 	    m_projectFormatManager.openDocument(url, m_doc);
+	    if (!m_exportWidget) slotRenderExportTimeline(false);
+	    m_exportWidget->setMetaData(getDocument()->metadata());
 	    setCaption(url.fileName() + " - " + easyName(m_projectFormat), false);
 	    fileOpenRecent->addURL(m_doc->URL());
 	}
@@ -2672,9 +2670,11 @@ namespace Gui {
 	slotStatusMsg(i18n("Exporting Timeline..."));
 	    if (!m_exportWidget) { 
             m_exportWidget=new exportWidget(m_workspaceMonitor->screen(), m_timeline, m_projectFormat, this,"exporter");
+	    m_exportWidget->setMetaData(getDocument()->metadata());
             connect(m_workspaceMonitor->screen(),SIGNAL(exportOver()),m_exportWidget,SLOT(endExport()));
             connect(m_exportWidget,SIGNAL(exportToFirewire(QString, int, GenTime, GenTime)),m_workspaceMonitor->screen(),SLOT(exportToFirewire(QString, int, GenTime, GenTime)));
 	    connect(m_exportWidget,SIGNAL(addFileToProject(const QString &)),this,SLOT(slotAddFileToProject(const QString &)));
+	    connect(m_exportWidget,SIGNAL(metadataChanged(const QStringList)), this, SLOT(slotSetDocumentMetadata(const QStringList)));
 	    }
 	    if (show) {
 	        if (m_exportWidget->isVisible()) m_exportWidget->hide();
@@ -2682,6 +2682,12 @@ namespace Gui {
 	    }
         slotStatusMsg(i18n("Ready."));
     }
+
+
+void KdenliveApp::slotSetDocumentMetadata(const QStringList list)
+{
+    getDocument()->slotSetMetadata(list);
+}
 
 
 void KdenliveApp::slotAddFileToProject(const QString &url) {

@@ -58,6 +58,7 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
     docinfos.setAttribute("projectratio", QString::number(KdenliveSettings::aspectratio()));
     docinfos.setAttribute("projectvideoformat", QString::number(document->application()->projectVideoFormat()));
     docinfos.setAttribute("videoprofile", KdenliveSettings::videoprofile());
+    docinfos.setAttribute("metadata", document->metadata().join("#"));
 
     docinfos.setAttribute("inpoint",  QString::number(document->application()->inpointPosition().frames(KdenliveSettings::defaultfps())));
     docinfos.setAttribute("outpoint", QString::number(document->application()->outpointPosition().frames(KdenliveSettings::defaultfps())));

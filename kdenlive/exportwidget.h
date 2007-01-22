@@ -25,6 +25,8 @@
 #include <qgrid.h>
 
 #include <kprocess.h>
+#include <ktextedit.h>
+#include <krestrictedline.h>
 #include <ktempfile.h>
 
 #ifdef ENABLE_FIREWIRE
@@ -46,6 +48,7 @@ public:
         virtual ~exportWidget();
 
     bool isRunning();
+    const QStringList getMetaData();
 
 private:
         QHBoxLayout* flayout;
@@ -71,6 +74,14 @@ private:
 	QStringList AudioEncoders;
 	QStringList CustomEncoders;
 
+	QString m_meta_author;
+	QString m_meta_title;
+	QString m_meta_comment;
+	QString m_meta_copyright;
+	QString m_meta_album;
+	uint m_meta_track;
+	uint m_meta_year;
+
         /** AVC stuff 
         int m_port;
         int m_node;
@@ -80,6 +91,7 @@ private:
 private slots:
 	void startExport();
         void stopExport();
+        void slotEditMetaData();
 	void exportFileToTheora(QString srcFileName, int audio =1, int video =5, QString size = QString());
         void initEncoders();
         void initDvConnection();
@@ -102,19 +114,20 @@ private slots:
 	void slotLoadCustomEncoders();
 	void slotSelectedZone(bool isOn);
 	void slotGuideZone(bool isOn);
+	QStringList metadataString();
 
 public slots:
 	void endExport();
-	void reportProgress(GenTime progress);
 	void updateGuides();
 	void generateDvdFile(QString file, GenTime start, GenTime end, VIDEOFORMAT format);
 	void renderSelectedZone(const QString &url, bool audioOnly = false);
 	void renderSelectedClipAudio(const QString &source, const QString &dest);
+	void setMetaData(QStringList metaValues);
 
 signals:
     void exportToFirewire(QString, int, GenTime, GenTime);
     void dvdExportOver(bool);
     void addFileToProject(const QString &);
-	
+    void metadataChanged(const QStringList);	
 };
 #endif

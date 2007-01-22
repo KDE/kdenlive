@@ -50,7 +50,7 @@ m_projectClip(new DocClipProject(fps, width, height)),
 m_modified(false),
 m_sceneListGeneration(true),
 m_showAllMarkers(false),
-m_clipHierarch(0), m_render(app->renderManager()->findRenderer("Document")), m_clipManager(m_render), m_app(app) //, m_clipManager(*app->renderManager())
+m_clipHierarch(0), m_render(app->renderManager()->findRenderer("Document")), m_clipManager(m_render), m_app(app), m_metadata(NULL)
 {
     //m_render = m_app->renderManager()->createRenderer("Document");
     //m_clipManager = new ClipManager(m_render)
@@ -97,6 +97,16 @@ void KdenliveDoc::setURL(const KURL & url)
 const KURL & KdenliveDoc::URL() const
 {
     return m_doc_url;
+}
+
+QStringList KdenliveDoc::metadata() const
+{
+    return m_metadata;
+}
+
+void KdenliveDoc::slotSetMetadata(const QStringList list)
+{
+    m_metadata = list;
 }
 
 void KdenliveDoc::setProjectName(const QString & name)

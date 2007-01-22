@@ -432,6 +432,7 @@ namespace Gui {
 	void slotAdjustPreviewQuality();
 
       private slots: 
+	void slotSetDocumentMetadata(const QStringList list);
         void slotToggleClipMonitor();
 	void slotToggleWorkspaceMonitor();
 	void slotToggleCaptureMonitor();

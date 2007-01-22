@@ -85,6 +85,8 @@ class KdenliveDoc:public QObject {
     void closeDocument();
 	/** returns the KURL of the document */
     const KURL & URL() const;
+	/** Returns metadata value for this document */
+    QStringList metadata() const;
 	/** sets the URL of the document */
     void setURL(const KURL & url);
 
@@ -231,7 +233,8 @@ class KdenliveDoc:public QObject {
 
     /** Folder where all temp files/previews will be stored*/
     KURL m_projectFolder;
-
+    /** Holds metadata (author, title, comment, copyright, album, track, year) for this project */
+    QStringList m_metadata;
     
     public slots:
 	/** Adds a sound track to the project */
@@ -241,6 +244,8 @@ class KdenliveDoc:public QObject {
     void slotDeleteTrack(int ix);
     void setShowAllMarkers(bool show);
     bool showAllMarkers() const;
+	/** Set metadata value for this document */
+    void slotSetMetadata(const QStringList list);
 
     // HACK HACK - we need a way to prevent the document from spewing hundreds of scenelist
     // generation requests - this is it.

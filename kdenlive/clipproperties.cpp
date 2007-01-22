@@ -141,7 +141,6 @@ namespace Gui {
         }
         else {
 		clipChoice->meta_text->setText(avclip->formattedMetaData());
-
             	clipChoice->transparent_bg->hide();
             	clipChoice->label_color->hide();
             	clipChoice->button_color->hide();
@@ -169,7 +168,6 @@ namespace Gui {
 	    }
 	    else clipChoice->clipAudio->setText(i18n("None"));
 	    if (m_clipType == DocClipBase::AUDIO) {
-		clipChoice->preview_pixmap->pixmap()->fill(Qt::black);
             	clipChoice->clipType->setText(i18n("Audio Clip"));
             }
             else { // Video clip

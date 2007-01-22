@@ -78,6 +78,9 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 		int vFormat = e.attribute("projectvideoformat","0").toInt();
 		document->setProjectFormat((VIDEOFORMAT) vFormat);
 
+		QStringList meta = QStringList::split("#", e.attribute("metadata", QString::null), true);
+		if (!meta.isEmpty()) document->slotSetMetadata( meta );
+
 		KdenliveSettings::setDefaultheight(e.attribute("projectheight","576").toInt());
 		KdenliveSettings::setDefaultwidth(e.attribute("projectwidth","720").toInt());
 		KdenliveSettings::setDefaultfps(e.attribute("projectfps","25.0").toDouble());
