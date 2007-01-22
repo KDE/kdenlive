@@ -219,6 +219,7 @@ class DocClipRef:public QObject {
     bool hasFileSize() const;
 	/** Returns the filesize, or 0 if there is no appropriate filesize. */
     uint fileSize() const;
+    QString formattedFileSize() const;
 
 	/** TBD - figure out a way to make this unnecessary. */
     DocClipBase *referencedClip() {

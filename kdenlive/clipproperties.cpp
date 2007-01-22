@@ -53,12 +53,14 @@ namespace Gui {
         clipChoice->edit_duration->setText(tcode.getTimecode(refClip->duration(), KdenliveSettings::defaultfps()));
         m_document = document;
 
-        clipChoice->preview_pixmap->pixmap()->resize(120, 96);
+        //clipChoice->preview_pixmap->pixmap()->resize(120, 96);
         connect(clipChoice->button_color, SIGNAL(changed(const QColor &)), this, SLOT(updateColor(const QColor &)));
 
         clipChoice->edit_url->setURL(refClip->fileURL().path());
         DocClipBase *clip = refClip->referencedClip();
 	m_clipType = refClip->clipType();
+
+	DocClipAVFile * avclip = refClip->referencedClip()->toDocClipAVFile();
 
 	// slideshow stuff
 	if (m_clipType != DocClipBase::SLIDESHOW) {
@@ -70,7 +72,7 @@ namespace Gui {
 	}
 
         if (m_clipType == DocClipBase::COLOR) {
-            QString color = dynamic_cast < DocClipAVFile * >(clip)->color();
+            QString color = avclip->color();
             color = color.replace(0, 2, "#");
             color = color.left(7);
             clipChoice->preview_pixmap->pixmap()->fill(color);
@@ -85,8 +87,8 @@ namespace Gui {
             clipChoice->clipFilesize->setText("-");
         }
         else if (m_clipType == DocClipBase::IMAGE) {
-            clipChoice->transparent_bg->setChecked(clip->toDocClipAVFile()->isTransparent());
-	    QPixmap pix = document->renderer()->getImageThumbnail(refClip->fileURL().path(), 120, 96);
+            clipChoice->transparent_bg->setChecked(avclip->isTransparent());
+	    QPixmap pix = document->renderer()->getImageThumbnail(refClip->fileURL().path(), clipChoice->preview_pixmap->width(), clipChoice->preview_pixmap->height());
 	    clipChoice->preview_pixmap->setPixmap(pix);
             clipChoice->label_color->hide();
             clipChoice->button_color->hide();
@@ -96,7 +98,7 @@ namespace Gui {
             clipChoice->clipSize->setText(QString::number(refClip->clipWidth())+"x"+QString::number(refClip->clipHeight()));
 	    clipChoice->clipFps->setText("-");
 	    clipChoice->clipAudio->setText("-");
-            clipChoice->clipFilesize->setText(formattedSize(refClip->fileSize()));
+            clipChoice->clipFilesize->setText(refClip->formattedFileSize());
 	}
         else if (m_clipType == DocClipBase::VIRTUAL) {
             clipChoice->label_color->hide();
@@ -110,17 +112,17 @@ namespace Gui {
             clipChoice->clipFilesize->setText("-");
 	}
 	else if (m_clipType == DocClipBase::SLIDESHOW) {
-	    clipChoice->transparent_bg->setChecked(clip->toDocClipAVFile()->isTransparent());
-	    clipChoice->crossfade->setChecked(clip->toDocClipAVFile()->hasCrossfade());
+	    clipChoice->transparent_bg->setChecked(avclip->isTransparent());
+	    clipChoice->crossfade->setChecked(avclip->hasCrossfade());
 
-	    QPixmap pix = document->renderer()->getImageThumbnail(refClip->fileURL().path(), 120, 96);
+	    QPixmap pix = document->renderer()->getImageThumbnail(refClip->fileURL().path(), clipChoice->preview_pixmap->width(), clipChoice->preview_pixmap->height());
 	    clipChoice->preview_pixmap->setPixmap(pix);
             clipChoice->label_color->hide();
             clipChoice->button_color->hide();
             clipChoice->label_name->hide();
             clipChoice->edit_name->hide();
 	    clipChoice->clipType->setText(i18n("Slideshow Clip"));
-	    clipChoice->image_ttl->setValue(refClip->referencedClip()->toDocClipAVFile()->clipTtl());
+	    clipChoice->image_ttl->setValue(avclip->clipTtl());
 	    clipChoice->label_file->setText(i18n("Folder:"));
 	    clipChoice->imageType->setCurrentItem(refClip->fileURL().filename().left(3));
 	    clipChoice->edit_url->fileDialog()->setMode(KFile::Directory);
@@ -135,10 +137,10 @@ namespace Gui {
 	
             clipChoice->clipFps->setText("-");
 	    clipChoice->clipAudio->setText("-");
-            clipChoice->clipFilesize->setText(formattedSize(refClip->fileSize()));
+            clipChoice->clipFilesize->setText(refClip->formattedFileSize());
         }
         else {
-		clipChoice->meta_text->setText(clip->toDocClipAVFile()->formattedMetaData());
+		clipChoice->meta_text->setText(avclip->formattedMetaData());
 
             	clipChoice->transparent_bg->hide();
             	clipChoice->label_color->hide();
@@ -146,8 +148,10 @@ namespace Gui {
             	clipChoice->label_name->hide();
             	clipChoice->edit_name->hide();
 		clipChoice->clipFps->setText(QString::number(refClip->framesPerSecond()));
+		clipChoice->clipVCodec->setText(avclip->videoCodec());
+		clipChoice->clipACodec->setText(avclip->audioCodec());
             	clipChoice->edit_duration->setReadOnly(true);
-            	clipChoice->clipFilesize->setText(formattedSize(refClip->fileSize()));
+            	clipChoice->clipFilesize->setText(refClip->formattedFileSize());
 	    if (refClip->clipType() != DocClipBase::VIDEO) { // Clip is not a mute video
 		QString soundChannels;
 		switch (clip->toDocClipAVFile()->audioChannels()) {
@@ -158,10 +162,10 @@ namespace Gui {
 			soundChannels = i18n("Stereo");
 			break;
 	    	    default:
-			soundChannels = i18n("%1 Channels").arg(clip->toDocClipAVFile()->audioChannels());
+			soundChannels = i18n("%1 Channels").arg(avclip->audioChannels());
 			break;
 		}
-		clipChoice->clipAudio->setText(i18n("%1Hz %2").arg(clip->toDocClipAVFile()->audioFrequency()).arg(soundChannels));
+		clipChoice->clipAudio->setText(i18n("%1Hz %2").arg(avclip->audioFrequency()).arg(soundChannels));
 	    }
 	    else clipChoice->clipAudio->setText(i18n("None"));
 	    if (m_clipType == DocClipBase::AUDIO) {
@@ -169,7 +173,7 @@ namespace Gui {
             	clipChoice->clipType->setText(i18n("Audio Clip"));
             }
             else { // Video clip
-            	QPixmap pix = document->renderer()->getVideoThumbnail(refClip->fileURL().path(), 0, 120, 96);
+            	QPixmap pix = document->renderer()->getVideoThumbnail(refClip->fileURL().path(), clip->getProjectThumbFrame(), clipChoice->preview_pixmap->width(), clipChoice->preview_pixmap->height());
             	if (!pix.isNull()) clipChoice->preview_pixmap->setPixmap(pix);
             	clipChoice->clipType->setText(i18n("Video Clip"));
             	clipChoice->clipSize->setText(QString::number(refClip->clipWidth())+"x"+QString::number(refClip->clipHeight()));
@@ -213,37 +217,13 @@ namespace Gui {
 	else enableButtonOK(true);
     }
 
-    QString ClipProperties::formattedSize(uint fileSize)
-    {
-        long tenth;
-        QString text;
-        if (fileSize < 1024) {
-            text = QString::number(fileSize) + i18n(" byte(s)");
-        } else {
-            fileSize = (int) floor((fileSize / 1024.0) + 0.5);
-
-            if (fileSize < 1024) {
-                text = QString::number(fileSize) + i18n(" Kb");
-            } else {
-                fileSize = (int) floor((fileSize / 102.4) + 0.5);
-
-                tenth = fileSize % 10;
-                fileSize /= 10;
-
-                text = QString::number(fileSize) + "." +
-                        QString::number(tenth) + i18n(" Mb");
-            }
-        }
-        return text;
-    }
-    
     void ClipProperties::updateThumb(const QString &path)
     {
 	QPixmap pix;
 	if (m_clipType == DocClipBase::VIDEO) 
-	    pix = m_document->renderer()->getVideoThumbnail(path, 0, 120, 96);
+	    pix = m_document->renderer()->getVideoThumbnail(path, 0, clipChoice->preview_pixmap->width(), clipChoice->preview_pixmap->height());
 	else if (m_clipType == DocClipBase::IMAGE || m_clipType == DocClipBase::SLIDESHOW)
-	    pix = m_document->renderer()->getImageThumbnail(path, 120, 96);
+	    pix = m_document->renderer()->getImageThumbnail(path, clipChoice->preview_pixmap->width(), clipChoice->preview_pixmap->height());
 	else return;
         if (!pix.isNull()) clipChoice->preview_pixmap->setPixmap(pix);
     }

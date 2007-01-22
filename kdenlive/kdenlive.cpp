@@ -3025,6 +3025,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                     }
 		if (refClip->numReferences() > 0) getDocument()->activateSceneListGeneration(true);
                 }
+		delete dia;
             }
 	}
 	slotStatusMsg(i18n("Ready."));

@@ -1513,6 +1513,37 @@ uint DocClipRef::fileSize() const
     return m_clip->fileSize();
 }
 
+QString DocClipRef::formattedFileSize() const
+{
+
+	uint fileSize = m_clip->fileSize();
+        long tenth;
+        QString text;
+        if (fileSize < 1024) {
+            text = QString::number(fileSize) + i18n(" byte(s)");
+        } else {
+            fileSize = (int) floor((fileSize / 1024.0) + 0.5);
+
+            if (fileSize < 1024) {
+                text = QString::number(fileSize) + i18n(" Kb");
+            } else {
+                fileSize = (int) floor((fileSize / 102.4) + 0.5);
+		if (fileSize < 1024) {
+                    tenth = fileSize % 10;
+                    fileSize /= 10;
+                    text = QString::number(fileSize) + "." + QString::number(tenth) + i18n(" Mb");
+		}
+		else {
+		    fileSize = (int) floor((fileSize / 1024.0) + 0.5);
+                    tenth = fileSize % 10;
+                    fileSize /= 10;
+                    text = QString::number(fileSize) + "." + QString::number(tenth) + i18n(" Gb");
+		}
+            }
+        }
+        return text;
+}
+
 void DocClipRef::populateSceneTimes(QValueVector < GenTime > &toPopulate)
 {
     QValueVector < GenTime > sceneTimes;

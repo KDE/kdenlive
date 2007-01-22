@@ -62,7 +62,6 @@ namespace Gui {
 
       private slots:
         void updateColor(const QColor &c);
-        QString formattedSize(uint fileSize);
         void updateThumb(const QString &path);
 	void updateList();
 	void updateDuration();

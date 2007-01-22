@@ -64,6 +64,8 @@ class DocClipAVFile:public DocClipBase {
 	/** Returns the filesize of the underlying avfile. */
     virtual uint fileSize() const;
 
+    QString videoCodec() const;
+    QString audioCodec() const;
 
 	/** Returns the duration of the file */
     const GenTime & duration() const;
@@ -197,6 +199,8 @@ class DocClipAVFile:public DocClipBase {
     uint m_bitspersample;
     uint m_frequency;
     int m_ttl;
+    QString m_videoCodec;
+    QString m_audioCodec;
 };
 
 #endif

@@ -24,6 +24,9 @@
 
 #include <iostream>
 
+// ffmpeg Header files
+#include <ffmpeg/avformat.h>
+
 #include <mlt++/Mlt.h>
 
 #include <qcolor.h>
@@ -273,20 +276,19 @@ QPixmap KRender::getVideoThumbnail(KURL url, int frame_position, int width, int 
     QPixmap pix(width, height);
     Mlt::Producer m_producer(decodedString(url.path()));
     if (m_producer.is_blank()) {
-	return 0;
+	pix.fill(black);
+	return pix;
     }
+
     Mlt::Filter m_convert("avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
     m_producer.attach(m_convert);
     m_producer.seek(frame_position);
     Mlt::Frame * frame = m_producer.get_frame();
-
     if (frame) {
-	pix = frameThumbnail(frame, width, height);
+	pix = frameThumbnail(frame, width, height, true);
 	delete frame;
     }
-    else pix.fill(black);
-
     return pix;
 }
 
@@ -467,6 +469,24 @@ void KRender::getFileProperties(KURL url, uint framenb)
 		QString::number(frame->get_int("frequency"));
 	    filePropertyMap["channels"] =
 		QString::number(frame->get_int("channels"));
+
+	// Retrieve audio / video codec name
+
+	// Fetch the video_context
+	AVFormatContext *context = (AVFormatContext *) mlt_properties_get_data( properties, "video_context", NULL );
+	if (context != NULL) {
+		// Get the video_index
+		int index = mlt_properties_get_int( properties, "video_index" );
+		filePropertyMap["videocodec"] = context->streams[ index ]->codec->codec->name;
+	}
+	context = (AVFormatContext *) mlt_properties_get_data( properties, "audio_context", NULL );
+	if (context != NULL) {
+		// Get the video_index
+		int index = mlt_properties_get_int( properties, "audio_index" );
+		filePropertyMap["audiocodec"] = context->streams[ index ]->codec->codec->name;
+	}
+
+
 
 	    // metadata
 
