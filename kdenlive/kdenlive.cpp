@@ -279,7 +279,7 @@ namespace Gui {
 	}
 	addCommand(macroCommand, true);
 
-	m_effectStackDialog->slotSetEffectStack(refClip);
+	m_effectStackDialog->slotSetEffectStack(list.last());
 	makeDockVisible(m_dockEffectStack);
 	if (effectName == i18n("Freeze")) getDocument()->emitCurrentClipPosition();
 	else getDocument()->activateSceneListGeneration(true);
