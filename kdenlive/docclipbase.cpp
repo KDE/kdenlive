@@ -141,7 +141,7 @@ createClip(const EffectDescriptionList & effectList,
 
 
 
-QDomDocument DocClipBase::generateSceneList(bool) const
+QDomDocument DocClipBase::generateSceneList(bool, bool) const
 {
 }
 

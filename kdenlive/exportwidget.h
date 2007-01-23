@@ -37,14 +37,17 @@
 #include "gentime.h"
 #include "definitions.h"
 #include "ktimeline.h"
-#include "kmmscreen.h"
 #include "exportbasewidget_ui.h"
+
+namespace Gui {
+    class KdenliveApp;
+}
 
 class exportWidget : public exportBaseWidget_UI
 {
         Q_OBJECT
 public:
-    exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, VIDEOFORMAT format, QWidget* parent=0, const char* name=0);
+    exportWidget(Gui::KdenliveApp *app, Gui::KTimeLine *timeline, VIDEOFORMAT format, QWidget* parent=0, const char* name=0);
         virtual ~exportWidget();
 
     bool isRunning();
@@ -59,7 +62,7 @@ private:
 	int m_progress;
 	KProcess *m_exportProcess;
 	KProcess *m_convertProcess;
-	Gui::KMMScreen *m_screen;
+	Gui::KdenliveApp *m_app;
 	Gui::KTimeLine *m_timeline;
 	KTempFile *m_tmpFile;
 	QStringList m_guidesList;

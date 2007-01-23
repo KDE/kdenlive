@@ -146,7 +146,7 @@ class DocClipBase:public QObject {
 	const GenTime & endTime) const = 0;
 	/** returns a QString containing all of the XML data required to recreate this clip. */
     virtual QDomDocument toXML() const;
-    virtual QDomDocument generateSceneList(bool addProducers = true) const;
+    virtual QDomDocument generateSceneList(bool addProducers = true, bool rendering = false) const;
 
 	/** Returns true if the xml passed matches the values in this clip */
     virtual bool matchesXML(const QDomElement & element) const = 0;

@@ -800,7 +800,7 @@ void DocClipRef::setSpeed(double startspeed, double endspeed)
     if (m_parentTrack) m_parentTrack->notifyTrackChanged(this);
 }
 
-QDomDocument DocClipRef::generateSceneList()
+QDomDocument DocClipRef::generateSceneList(bool, bool)
 {
     return m_clip->generateSceneList();
 }
@@ -1009,7 +1009,7 @@ QDomDocumentFragment DocClipRef::generateOffsetXMLTransition(bool hideVideo, boo
 }
 
 
-QDomDocument DocClipRef::generateXMLClip()
+QDomDocument DocClipRef::generateXMLClip(bool rendering)
 {
     if (m_cropStart == m_trackEnd)
 	return QDomDocument();
@@ -1049,7 +1049,7 @@ QDomDocument DocClipRef::generateXMLClip()
     monoFilter.setAttribute("mlt_service", "channelcopy");
 
     uint i = 0;
-    if (hasEffect() && KdenliveSettings::showeffects())
+    if (hasEffect() && (KdenliveSettings::showeffects() || rendering))
 	while (effectAt(i) != NULL) {
 	    Effect *effect = effectAt(i);
 	    

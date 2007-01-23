@@ -46,6 +46,7 @@
 #include <knotifyclient.h>
 
 #include "kdenlive.h"
+#include "kdenlivedoc.h"
 #include "exportwidget.h"
 #include "editencoder_ui.h"
 #include "editmetadata_ui.h"
@@ -59,7 +60,7 @@
 #define CUSTOMFORMAT 20
 
 
-exportWidget::exportWidget(Gui::KMMScreen *screen, Gui::KTimeLine *timeline, VIDEOFORMAT format, QWidget* parent, const char* name): exportBaseWidget_UI(parent,name), m_duration(0), m_exportProcess(NULL), m_convertProcess(NULL), m_screen(screen), m_timeline(timeline), m_tmpFile(NULL), m_format(format), m_emitSignal(false), m_meta_year(0), m_meta_track(0)
+exportWidget::exportWidget(Gui::KdenliveApp *app, Gui::KTimeLine *timeline, VIDEOFORMAT format, QWidget* parent, const char* name): exportBaseWidget_UI(parent,name), m_duration(0), m_exportProcess(NULL), m_convertProcess(NULL), m_app(app), m_timeline(timeline), m_tmpFile(NULL), m_format(format), m_emitSignal(false), m_meta_year(0), m_meta_track(0)
 
 {
 /*    m_node = -1;
@@ -649,7 +650,7 @@ void exportWidget::generateDvdFile(QString file, GenTime start, GenTime end, VID
     	delete m_exportProcess;
     }
     QTextStream stream( m_tmpFile->file() );
-    stream << m_screen->sceneList().toString() << "\n";
+    stream << m_app->getDocument()->projectClip().generateSceneList(true, true).toString() << "\n";
     m_tmpFile->file()->close();
     m_exportProcess = new KProcess;
     if (format == PAL_VIDEO) {
@@ -697,7 +698,7 @@ void exportWidget::doExport(QString file, QStringList params, bool isDv, bool au
     exportButton->setText(i18n("Stop"));
     kdDebug()<<"++++++  PREPARE TO WRITE TO: "<<m_tmpFile->name()<<endl;
     QTextStream stream( m_tmpFile->file() );
-    stream << m_screen->sceneList().toString() << "\n";
+    stream << m_app->getDocument()->projectClip().generateSceneList(true, true).toString() << "\n";
     m_tmpFile->file()->close();
     m_exportProcess = new KProcess;
 

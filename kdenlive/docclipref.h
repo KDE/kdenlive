@@ -192,8 +192,8 @@ class DocClipRef:public QObject {
     uint audioBits() const;
     uint audioFrequency() const;
 	/** Returns a scene list generated from this clip. */
-    QDomDocument generateSceneList();
-    QDomDocument generateXMLClip();
+    QDomDocument generateSceneList(bool addProducers = true, bool rendering = false);
+    QDomDocument generateXMLClip(bool rendering = false);
     QDomDocument generateOffsetXMLClip(GenTime start, GenTime end);
     QDomDocumentFragment generateOffsetXMLTransition(bool hideVideo, bool hideAudio, GenTime start, GenTime end);
 

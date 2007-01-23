@@ -2669,7 +2669,7 @@ namespace Gui {
     void KdenliveApp::slotRenderExportTimeline(bool show) {
 	slotStatusMsg(i18n("Exporting Timeline..."));
 	    if (!m_exportWidget) { 
-            m_exportWidget=new exportWidget(m_workspaceMonitor->screen(), m_timeline, m_projectFormat, this,"exporter");
+            m_exportWidget=new exportWidget(this, m_timeline, m_projectFormat, this,"exporter");
 	    m_exportWidget->setMetaData(getDocument()->metadata());
             connect(m_workspaceMonitor->screen(),SIGNAL(exportOver()),m_exportWidget,SLOT(endExport()));
             connect(m_exportWidget,SIGNAL(exportToFirewire(QString, int, GenTime, GenTime)),m_workspaceMonitor->screen(),SLOT(exportToFirewire(QString, int, GenTime, GenTime)));

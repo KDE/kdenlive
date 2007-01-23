@@ -136,7 +136,7 @@ QDomDocument DocClipVirtual::sceneToXML(const GenTime & startTime,
 }
 
 // virtual
-QDomDocument DocClipVirtual::generateSceneList(bool) const
+QDomDocument DocClipVirtual::generateSceneList(bool, bool) const
 {
 
     QDomDocument sceneList;

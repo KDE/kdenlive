@@ -372,7 +372,7 @@ QDomDocument DocClipAVFile::sceneToXML(const GenTime & startTime,
 }
 
 // virtual
-QDomDocument DocClipAVFile::generateSceneList(bool) const
+QDomDocument DocClipAVFile::generateSceneList(bool, bool) const
 {
     QDomDocument sceneList;
 

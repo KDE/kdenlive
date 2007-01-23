@@ -215,7 +215,7 @@ QDomDocument DocClipTextFile::sceneToXML(const GenTime & startTime,
 }
 
 // virtual
-QDomDocument DocClipTextFile::generateSceneList(bool) const
+QDomDocument DocClipTextFile::generateSceneList(bool, bool) const
 {
     QDomDocument sceneList;
     QDomElement westley = sceneList.createElement("westley");

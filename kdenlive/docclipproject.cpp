@@ -348,7 +348,7 @@ int DocClipProject::playlistNextVideoTrack(int ix) const
     return result;
 }
 
-QDomDocument DocClipProject::generateSceneList(bool addProducers) const
+QDomDocument DocClipProject::generateSceneList(bool addProducers, bool rendering) const
 {
     kdDebug()<<"+++++++++++  Generating scenelist start...  ++++++++++++++++++"<<endl;
     QDomDocument doc;
@@ -430,10 +430,10 @@ QDomDocument DocClipProject::generateSceneList(bool addProducers) const
 	    }
 
             // Insert xml describing clip
-            playlist.appendChild(itt.current()->generateXMLClip().firstChild());
+            playlist.appendChild(itt.current()->generateXMLClip(true).firstChild());
 
             // Append clip's transitions for video tracks
-            if (KdenliveSettings::showtransitions()) clipTransitions.appendChild(doc.importNode(itt.current()->generateXMLTransition(isBlind, isMute), true));
+            if (KdenliveSettings::showtransitions() || rendering) clipTransitions.appendChild(doc.importNode(itt.current()->generateXMLTransition(isBlind, isMute), true));
 
 	    timestart = (int)itt.current()->trackEnd().frames(framesPerSecond());
 	    ++itt;
@@ -452,7 +452,7 @@ QDomDocument DocClipProject::generateSceneList(bool addProducers) const
     
         // Add all transitions
         
-    if (KdenliveSettings::showtransitions()) tractor.appendChild(clipTransitions);
+    if (KdenliveSettings::showtransitions() || rendering) tractor.appendChild(clipTransitions);
         
     /* transition: mix all used audio tracks */
     
@@ -468,7 +468,7 @@ QDomDocument DocClipProject::generateSceneList(bool addProducers) const
 	    tractor.appendChild(transition);
 	}
 
-    if (KdenliveSettings::multitrackview())
+    if (KdenliveSettings::multitrackview() && !rendering)
     for (uint i = 0; i <4 && i < videoTracks.count(); i++) {
 	    QDomElement transition = doc.createElement("transition");
 	    transition.setAttribute("in", "0");
@@ -497,8 +497,8 @@ QDomDocument DocClipProject::generateSceneList(bool addProducers) const
     }
 
     westley.appendChild(tractor);
-         // kdDebug() << doc.toString() << endl;
-         // kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
+        // kdDebug() << doc.toString() << endl;
+        // kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
     return doc;
 }
 

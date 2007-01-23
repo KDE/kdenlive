@@ -93,7 +93,7 @@ class DocClipTextFile:public DocClipBase {
     virtual void populateSceneTimes(QValueVector < GenTime >
 	&toPopulate) const;
 
-    virtual QDomDocument generateSceneList(bool addProducers = true) const;
+    virtual QDomDocument generateSceneList(bool addProducers = true, bool rendering = false) const;
 
     // Returns an XML document that describes part of the current scene.
     virtual QDomDocument sceneToXML(const GenTime & startTime,
