@@ -547,7 +547,7 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
 		// Attach filter for on screen display of timecode
 		mlt_properties properties = MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer());
 		mlt_properties_set_int( properties, "meta.attr.timecode", 1);
-		mlt_properties_set( properties, "meta.attr.timecode.markup", "#tc#");
+		mlt_properties_set( properties, "meta.attr.timecode.markup", "\\#timecode\\#");
 		m_osdInfo->set("dynamic", "1");
     		if (m_mltProducer->attach(*m_osdInfo) == 1) kdDebug()<<"////// error attaching filter"<<endl;
 	} else {
@@ -571,11 +571,13 @@ void KRender::refreshDisplay() {
 	mlt_properties properties = MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer());
 	if (KdenliveSettings::osdtimecode()) {
 	    mlt_properties_set_int( properties, "meta.attr.timecode", 1);
+	    mlt_properties_set( properties, "meta.attr.timecode.markup", "\\#timecode\\#");
 	    m_osdInfo->set("dynamic", "1");
 	    m_mltProducer->attach(*m_osdInfo);
 	}
 	else {
 	    mlt_properties_set_int( properties, "meta.attr.timecode", 0);
+	    mlt_properties_set( properties, "meta.attr.timecode.markup", QString::null);
 	    m_mltProducer->detach(*m_osdInfo);
 	    m_osdInfo->set("dynamic", "0");
 	}
