@@ -22,12 +22,14 @@
 #include <klocale.h>
 #include <kio/netaccess.h>
 #include <kstandarddirs.h>
-
-#include <kdenlivedoc.h>
-#include <kmmrecpanel.h>
+#include <klineeditdlg.h>
 #include <kurlrequester.h>
 #include <klistview.h>
 #include <kiconloader.h>
+
+#include "kdenlivedoc.h"
+#include "kmmrecpanel.h"
+
 
 namespace Gui {
 
@@ -112,7 +114,8 @@ void CaptureMonitor::displayCapturedFiles()
 {
 	if (m_tmpFolder.isEmpty()) return;
 	KDialogBase *dia = new KDialogBase(  KDialogBase::Swallow, i18n("Captured Clips"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "captured_clips", true);
-
+	dia->setButtonOKText (i18n("Process captured files"));
+	dia->setButtonCancelText (i18n("Continue capture..."));
 	KListView *lv = new KListView(dia);
 	lv->addColumn(i18n("Add"));
 	lv->addColumn("original_name",0);
@@ -143,20 +146,26 @@ void CaptureMonitor::displayCapturedFiles()
 	dia->setMinimumSize(400, 240);
 	dia->adjustSize();
 	if (dia->exec() == QDialog::Accepted) {
-
-	QListViewItemIterator it( lv );
-    	for ( ; it.current(); ++it )
-            if ( ( (QCheckListItem*)it.current() )->isOn() ) {
-		// move selected files to our project folder
-                QString source = m_tmpFolder + it.current()->text( 1 );
-		QString dest = KdenliveSettings::currentdefaultfolder() + "/" + it.current()->text( 2 );
-		KIO::NetAccess::move(KURL(source), KURL(dest), this);
-		m_app->insertClipFromUrl(dest);
-	    }
+	    QListViewItemIterator it( lv );
+    	    for ( ; it.current(); ++it )
+                if ( ( (QCheckListItem*)it.current() )->isOn() ) {
+		    bool ok = true;
+		    // move selected files to our project folder
+                    QString source = m_tmpFolder + it.current()->text( 1 );
+		    QString dest = KdenliveSettings::currentdefaultfolder() + "/" + it.current()->text( 2 );
+		    while (KIO::NetAccess::exists(KURL(dest), true, this) && ok) {
+			dest = KLineEditDlg::getText(i18n("File exists"), i18n("File already exists, enter a new name"), dest, &ok);
+		    }
+		    if (ok) {
+			KIO::NetAccess::move(KURL(source), KURL(dest), this);
+		        m_app->insertClipFromUrl(dest);
+		    }
+	        }
+	    KIO::NetAccess::del(m_tmpFolder, this);
+	    m_tmpFolder = QString::null;
+	    hasCapturedFiles = false;
 	}
-	KIO::NetAccess::del(m_tmpFolder, this);
-	m_tmpFolder = QString::null;
-
+	delete dia;
 }
 
     void CaptureMonitor::slotStop(KProcess *p) {
@@ -181,7 +190,7 @@ void CaptureMonitor::displayCapturedFiles()
     void CaptureMonitor::slotInit() {
 	if (captureProcess) slotStop();
 	captureProcess = new KProcess();
-	if (!m_tmpFolder.isEmpty()) KIO::NetAccess::del(m_tmpFolder, this);
+	//if (!m_tmpFolder.isEmpty()) KIO::NetAccess::del(m_tmpFolder, this);
 	m_tmpFolder = locateLocal("tmp", "dvcapture/", true);
 	captureProcess->setWorkingDirectory(m_tmpFolder);
         captureProcess->setUseShell(true);
@@ -195,7 +204,6 @@ void CaptureMonitor::displayCapturedFiles()
 	captureProcess->start(KProcess::NotifyOnExit, KProcess::Stdin);
         connect(captureProcess, SIGNAL(processExited(KProcess *)), this, SLOT(slotStop(KProcess *)));
 	m_recPanel->rendererConnected();
-	hasCapturedFiles = false;
     }
 
     void CaptureMonitor::slotPause() {
