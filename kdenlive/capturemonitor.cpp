@@ -34,7 +34,7 @@ namespace Gui {
     CaptureMonitor::CaptureMonitor(KdenliveApp * app, QWidget * parent,
 	const char *name):KMonitor(parent, name),
 	m_app(app), m_screenHolder(new QVBox(this,name)), m_screen(new QWidget(m_screenHolder, name)),
-	m_recPanel(new KMMRecPanel(app->getDocument(), this, name)), captureProcess(0), hasCapturedFiles(false), m_tmpFolder(0)
+	m_recPanel(new KMMRecPanel(app->getDocument(), this, name)), captureProcess(0), hasCapturedFiles(false), m_tmpFolder(QString::null)
     {
 	m_fileNumber = 0;
 	m_screen->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
@@ -110,6 +110,7 @@ namespace Gui {
 
 void CaptureMonitor::displayCapturedFiles()
 {
+	if (m_tmpFolder.isEmpty()) return;
 	KDialogBase *dia = new KDialogBase(  KDialogBase::Swallow, i18n("Captured Clips"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "captured_clips", true);
 
 	KListView *lv = new KListView(dia);
