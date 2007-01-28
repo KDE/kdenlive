@@ -70,7 +70,7 @@ m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProduce
 
     m_osdProfile = locate("data", "kdenlive/profiles/metadata.properties");
     m_osdInfo = new Mlt::Filter("data_show");
-    m_osdInfo->set("resource", m_osdProfile);
+    m_osdInfo->set("resource", decodedString(m_osdProfile));
 
     //      Does it do anything usefull? I mean, KRenderThread doesn't do anything useful at the moment
     //      (except being cpu hungry :)
@@ -547,7 +547,7 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
 		// Attach filter for on screen display of timecode
 		delete m_osdInfo;
     		m_osdInfo = new Mlt::Filter("data_show");
-    		m_osdInfo->set("resource", m_osdProfile);
+    		m_osdInfo->set("resource", decodedString(m_osdProfile));
 		mlt_properties properties = MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer());
 		mlt_properties_set_int( properties, "meta.attr.timecode", 1);
 		mlt_properties_set( properties, "meta.attr.timecode.markup", "\\#timecode\\#");
