@@ -70,12 +70,13 @@ namespace Gui {
             clipChoice->image_type_label->hide();
             clipChoice->imageType->hide();
 	}
-
         if (m_clipType == DocClipBase::COLOR) {
             QString color = avclip->color();
             color = color.replace(0, 2, "#");
             color = color.left(7);
-            clipChoice->preview_pixmap->pixmap()->fill(color);
+	    QPixmap pix(clipChoice->preview_pixmap->width(), clipChoice->preview_pixmap->height());
+	    pix.fill(color);
+            clipChoice->preview_pixmap->setPixmap(pix);
             clipChoice->button_color->setColor(color);
             clipChoice->transparent_bg->hide();
             clipChoice->label_file->hide();
