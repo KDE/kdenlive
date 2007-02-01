@@ -11,9 +11,9 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-02-01 12:42+0100\n"
-"PO-Revision-Date: 2007-01-14 00:48+0100\n"
+"PO-Revision-Date: 2007-02-01 19:15+0100\n"
 "Last-Translator: Carlos Dávila <carluti@users.sourceforge.net>\n"
-"Language-Team: español <es@li.org>\n"
+"Language-Team: español <grass-es@grass.itc.it>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -233,11 +233,11 @@ msgstr "Clips capturados"
 
 #: kdenlive/capturemonitor.cpp:117
 msgid "Process captured files"
-msgstr ""
+msgstr "Procesar archivos capturados"
 
 #: kdenlive/capturemonitor.cpp:118
 msgid "Continue capture..."
-msgstr ""
+msgstr "Continuar captura..."
 
 #: kdenlive/capturemonitor.cpp:122
 msgid "Clip Name"
@@ -245,12 +245,11 @@ msgstr "Nombre del clip"
 
 #: kdenlive/capturemonitor.cpp:157
 msgid "File exists"
-msgstr ""
+msgstr "El archivo existe"
 
 #: kdenlive/capturemonitor.cpp:157
-#, fuzzy
 msgid "File already exists, enter a new name"
-msgstr "Por favor, introduce un nombre de archivo"
+msgstr "El archivo ya existe, introduzca un nuevo nombre"
 
 #: kdenlive/changeclipspeed_ui.cpp:111 kdenlive/docclipref.cpp:787
 #: kdenlive/docclipref.cpp:1236 kdenlive/docclipref.cpp:1482
@@ -386,18 +385,16 @@ msgid "Audio:"
 msgstr "Audio:"
 
 #: kdenlive/clipproperties_ui.cpp:272
-#, fuzzy
 msgid "Video codec:"
-msgstr "Pistas de vídeo:"
+msgstr "Códec de vídeo:"
 
 #: kdenlive/clipproperties_ui.cpp:274
 msgid "Fps:"
 msgstr "FPS:"
 
 #: kdenlive/clipproperties_ui.cpp:276
-#, fuzzy
 msgid "Audio codec:"
-msgstr "Desvanecimiento de audio"
+msgstr "Códec de audio:"
 
 #: kdenlive/clipproperties_ui.cpp:278
 msgid "Type:"
@@ -473,8 +470,7 @@ msgstr "Detección de escena automática"
 
 #: kdenlive/configcapture_ui.cpp:60
 msgid "Put recording time info in captured file name"
-msgstr ""
-"Poner información del momento de grabación en el nombre del archivo capturado"
+msgstr "Poner información del momento de grabación en el nombre del archivo capturado"
 
 #: kdenlive/configinterface_ui.cpp:102
 msgid "minutes"
@@ -486,8 +482,7 @@ msgstr "Autoguardar proyecto cada"
 
 #: kdenlive/configinterface_ui.cpp:104
 msgid "Mouse wheel moves horizontally (Alt for vertical scroll)"
-msgstr ""
-"La rueda del ratón mueve horizontalmente (Alt para desplazamiento vertical)"
+msgstr "La rueda del ratón mueve horizontalmente (Alt para desplazamiento vertical)"
 
 #: kdenlive/configinterface_ui.cpp:105
 msgid "Show splash screen"
@@ -724,9 +719,8 @@ msgid " Mb"
 msgstr " Mb"
 
 #: kdenlive/docclipref.cpp:1540
-#, fuzzy
 msgid " Gb"
-msgstr " Kb"
+msgstr " Gb"
 
 #: kdenlive/documentmacrocommands.cpp:40
 msgid "Razor all tracks"
@@ -757,27 +751,24 @@ msgid "Year"
 msgstr "Año"
 
 #: kdenlive/editmetadata_ui.cpp:143
-#, fuzzy
 msgid "9999; "
-msgstr "99:99:99:99; "
+msgstr "9999; "
 
 #: kdenlive/editmetadata_ui.cpp:144
 msgid "Album"
-msgstr ""
+msgstr "Álbum"
 
 #: kdenlive/editmetadata_ui.cpp:145
 msgid "Copyright"
-msgstr ""
+msgstr "Copyright"
 
 #: kdenlive/editmetadata_ui.cpp:147
-#, fuzzy
 msgid "Track"
-msgstr "Pistas"
+msgstr "Pista"
 
 #: kdenlive/editmetadata_ui.cpp:148
-#, fuzzy
 msgid "Author"
-msgstr "hora"
+msgstr "Autor"
 
 #: kdenlive/editmetadata_ui.cpp:149 kdenlive/exportdvd_ui.cpp:93
 #: kdenlive/exportdvd_ui.cpp:378
@@ -893,9 +884,8 @@ msgid "From"
 msgstr "Desde"
 
 #: kdenlive/exportbasewidget_ui.cpp:280
-#, fuzzy
 msgid "Add metadata"
-msgstr "Metadatos"
+msgstr "Añadir metadatos"
 
 #: kdenlive/exportbasewidget_ui.cpp:282
 msgid "Play video after export"
@@ -1256,21 +1246,20 @@ msgid "Intensity"
 msgstr "Intensidad"
 
 #: kdenlive/initeffects.cpp:218
-#, fuzzy
 msgid "Box Blur"
-msgstr "Grabar"
+msgstr ""
 
 #: kdenlive/initeffects.cpp:222
 msgid "Blur factor"
-msgstr ""
+msgstr "Factor de empañado"
 
 #: kdenlive/initeffects.cpp:248
 msgid "Wave"
-msgstr ""
+msgstr "Onda"
 
 #: kdenlive/initeffects.cpp:252
 msgid "Amplitude"
-msgstr ""
+msgstr "Amplitud"
 
 #: kdenlive/initeffects.cpp:264
 msgid "Volume"
@@ -1643,7 +1632,7 @@ msgstr "Mostrar informaciones en pantalla"
 
 #: kdenlive/kdenlive.cpp:464
 msgid "Multi Track View"
-msgstr ""
+msgstr "Vista multipista"
 
 #: kdenlive/kdenlive.cpp:469
 msgid "Low Quality"
@@ -1658,13 +1647,12 @@ msgid "Show all markers"
 msgstr "Mostrar todos los marcadores"
 
 #: kdenlive/kdenlive.cpp:496
-#, fuzzy
 msgid "Define Clip Thumbnail"
-msgstr "Miniatura"
+msgstr "Definir miniatura de clip"
 
 #: kdenlive/kdenlive.cpp:497
 msgid "Define thumbnail for the current clip"
-msgstr ""
+msgstr "Definir miniatura para el clip actual"
 
 #: kdenlive/kdenlive.cpp:499
 msgid "Go To Beginning"
@@ -1961,8 +1949,7 @@ msgstr "Guardar la zona seleccionada"
 
 #: kdenlive/kdenlive.cpp:750
 msgid "Save selected zone as playlist for future use"
-msgstr ""
-"Guardar la zona seleccionada como una lista de reproducción para uso futuro"
+msgstr "Guardar la zona seleccionada como una lista de reproducción para uso futuro"
 
 #: kdenlive/kdenlive.cpp:752 kdenlive/kdenlive.cpp:2385
 msgid "Save Subclip"
@@ -2228,8 +2215,7 @@ msgstr ""
 "clips de la pista actual."
 
 #: kdenlive/kdenlive.cpp:942
-msgid ""
-"Insert commented snap markers on clips (Ctrl + click to remove a marker)"
+msgid "Insert commented snap markers on clips (Ctrl + click to remove a marker)"
 msgstr ""
 "Insertar marcadores de fijación comentados en los clips (Ctrl + clic para "
 "eliminar un marcador)"
@@ -2347,24 +2333,20 @@ msgid "Ready."
 msgstr "Listo."
 
 #: kdenlive/kdenlive.cpp:1040
-#, fuzzy
 msgid "Show Effects"
-msgstr "Efectos de copia"
+msgstr "Mostrar efectos"
 
 #: kdenlive/kdenlive.cpp:1050
-#, fuzzy
 msgid "Show Transitions"
 msgstr "Transiciones"
 
 #: kdenlive/kdenlive.cpp:1060
-#, fuzzy
 msgid "Show Thumbnails"
-msgstr "Miniaturas"
+msgstr "Mostrar miniaturas"
 
 #: kdenlive/kdenlive.cpp:1071
-#, fuzzy
 msgid "Show Audio Thumbnails"
-msgstr "Miniaturas"
+msgstr "Mostrar miniaturas de audio"
 
 #: kdenlive/kdenlive.cpp:1082
 msgid "Move/Resize mode"
@@ -2915,9 +2897,8 @@ msgid "Move to next marker"
 msgstr "Mover al siguiente marcador"
 
 #: kdenlive/kmmeditpanel_ui.cpp:475
-#, fuzzy
 msgid "Monitor volume"
-msgstr "Monitor"
+msgstr "Volumen de monitor"
 
 #: kdenlive/kmmrecpanel_ui.cpp:244
 msgid "Record"
@@ -3019,9 +3000,8 @@ msgstr ""
 "Saliendo..."
 
 #: kdenlive/krender.cpp:598
-#, fuzzy
 msgid "Volume: "
-msgstr "Volumen"
+msgstr "Volumen: "
 
 #: kdenlive/krender.cpp:901
 msgid "Cannot open file: "
@@ -3130,8 +3110,7 @@ msgid "Piave renderer author"
 msgstr "Autor del renderizador de Piave"
 
 #: kdenlive/main.cpp:64
-msgid ""
-"Piave and Kdenlive internationalization, French translations, splashscreen"
+msgid "Piave and Kdenlive internationalization, French translations, splashscreen"
 msgstr ""
 "Internacionalización de Piave y Kdenlive, traducción francesa, pantalla de "
 "presentación"
@@ -4695,35 +4674,3 @@ msgstr "Fi&n"
 msgid "Rescale images"
 msgstr "Rescalar imágenes"
 
-#~ msgid "Show LCD screen under monitors"
-#~ msgstr "Mostrar pantalla LCD bajo monitores"
-
-#~ msgid "Enable/disable effect"
-#~ msgstr "Activar/Desactivar efecto"
-
-#~ msgid "Source"
-#~ msgstr "Origen"
-
-#~ msgid "Current Timeline"
-#~ msgstr "Línea de tiempo actual"
-
-#~ msgid "Adapter:"
-#~ msgstr "Adaptador:"
-
-#~ msgid "Refresh"
-#~ msgstr "Refrescar"
-
-#~ msgid "Firewire status:"
-#~ msgstr "Estado del firewire:"
-
-#~ msgid "Firewire"
-#~ msgstr "Firewire"
-
-#~ msgid ""
-#~ "Firewire support not enabled. Please install the required libraries..."
-#~ msgstr ""
-#~ "Soporte para firewire no habilitado. Por favor, instala las bibliotecas "
-#~ "requeridas..."
-
-#~ msgid "Current Time : "
-#~ msgstr "Tiempo actual : "
