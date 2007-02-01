@@ -23,7 +23,7 @@
 #include <kurlrequester.h>
 #include <kcolorbutton.h>
 #include <kfontdialog.h>
-
+#include <kstandarddirs.h>
 
 
 #include "kdenlivesetupdlg.h"
@@ -62,11 +62,34 @@ namespace Gui {
     void KdenliveSetupDlg::initAudioDevices()
     {
 	page3->audio_device->insertItem(i18n("Default"));
-	KProcIO *readProcess=new KProcIO();
-	*readProcess << "aplay"<<"-l";
-	connect(readProcess, SIGNAL(processExited(KProcess *)), this, SLOT(slotAudioSetupFinished(KProcess *)));
-	connect(readProcess, SIGNAL(readReady(KProcIO *)) ,this, SLOT(slotReadAudioDevices(KProcIO *)));
-	if (!readProcess->start(KProcess::NotifyOnExit, true)) kdDebug()<<"/// UNABLE TO PARSE AUDIO DEVICES"<<endl;
+	m_audio_devices<<"0;default";
+	if (KStandardDirs::findExe("aplay") != QString::null) {
+	    KProcIO *readProcess=new KProcIO();
+	    *readProcess << "aplay"<<"-l";
+	    connect(readProcess, SIGNAL(processExited(KProcess *)), this, SLOT(slotAudioSetupFinished(KProcess *)));
+	    connect(readProcess, SIGNAL(readReady(KProcIO *)) ,this, SLOT(slotReadAudioDevices(KProcIO *)));
+	    if (!readProcess->start(KProcess::NotifyOnExit, true)) kdDebug()<<"/// UNABLE TO PARSE AUDIO DEVICES"<<endl;
+	}
+	else {
+	    // If aplay is not installed on the system, parse the /proc/asound/pcm file
+	    QFile file("/proc/asound/pcm");
+	    if ( file.open( IO_ReadOnly ) ) {
+        	QTextStream stream( &file );
+        	QString line;
+        	int i = 1;
+        	while ( !stream.atEnd() ) {
+            	    line = stream.readLine();
+		    if (line.find("playback") != -1) {
+		        QString deviceId = line.section(":", 0, 0);
+		        m_audio_devices<<QString::number(i) + ";plughw:" + QString::number(deviceId.section("-", 0, 0).toInt()) + "," + QString::number(deviceId.section("-", 1, 1).toInt());
+		        page3->audio_device->insertItem(line.section(":", 1, 1));
+		        i++;
+		    }
+		}
+		page3->audio_device->setCurrentItem(KdenliveSettings::audiodevice().section(";",0,0).toInt());
+                file.close();
+    	    }
+	}
     }
 
 
@@ -74,7 +97,6 @@ namespace Gui {
     {
 	QString data;
 	int i = 1;
-	m_audio_devices<<"0;default";
   	while (p->readln(data, true) != -1) {
 	    if (data.startsWith("card")) {
 		QString card = data.section(":", 0, 0).section(" ", -1);
