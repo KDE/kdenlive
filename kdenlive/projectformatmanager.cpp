@@ -51,6 +51,31 @@ ProjectFormatManager::~ProjectFormatManager()
 {
 }
 
+bool ProjectFormatManager::mergeDocument(const KURL & url,
+    KdenliveDoc * document)
+{
+    if (url.isEmpty())
+	return false;
+
+    KMimeType::Ptr format = KMimeType::findByURL(url);
+
+    LoadProjectFilter *filter = findLoadFormat(format->name());
+    if (filter) {
+	QString tmpfile;
+	if (KIO::NetAccess::download(url, tmpfile, 0)) {
+	    QFile file(tmpfile);
+	    if (file.open(IO_ReadOnly)) {
+		filter->merge(file, document);
+	    }
+	    KIO::NetAccess::removeTempFile(tmpfile);
+	    //document->initSceneListGeneration();
+	    QTimer::singleShot(200, document, SLOT(initSceneListGeneration()));
+	    return true;
+	}
+    }
+
+    return false;
+}
 
 bool ProjectFormatManager::openDocument(const KURL & url,
     KdenliveDoc * document)

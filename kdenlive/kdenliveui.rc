@@ -1,8 +1,10 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kdenlive" version="25">
+<kpartgui name="kdenlive" version="26">
 <MenuBar>
   <Menu name="file">
-        <Action name="export_current_frame"/>
+	<Action name="merge_project"/>
+	<Separator lineSeperator="true"/>
+	<Action name="export_current_frame"/>
   </Menu>
   <Menu name="edit">
 	<Action name="view_selected_clip"/>

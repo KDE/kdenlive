@@ -8,15 +8,15 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>289</width>
-            <height>291</height>
+            <width>252</width>
+            <height>319</height>
         </rect>
     </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="KRestrictedLine" row="1" column="1">
+        <widget class="KRestrictedLine" row="1" column="2">
             <property name="name">
                 <cstring>kcfg_textclipduration</cstring>
             </property>
@@ -27,7 +27,7 @@
                 <string>99:99:99:99; </string>
             </property>
         </widget>
-        <widget class="QLabel" row="2" column="0">
+        <widget class="QLabel" row="2" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>textLabel4_2</cstring>
             </property>
@@ -35,7 +35,7 @@
                 <string>Default color/image clip duration</string>
             </property>
         </widget>
-        <widget class="KRestrictedLine" row="2" column="1">
+        <widget class="KRestrictedLine" row="2" column="2">
             <property name="name">
                 <cstring>kcfg_colorclipduration</cstring>
             </property>
@@ -46,7 +46,7 @@
                 <string>99:99:99:99; </string>
             </property>
         </widget>
-        <widget class="QLabel" row="1" column="0">
+        <widget class="QLabel" row="1" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>textLabel4</cstring>
             </property>
@@ -54,7 +54,7 @@
                 <string>Default text clip duration</string>
             </property>
         </widget>
-        <widget class="QButtonGroup" row="0" column="0" rowspan="1" colspan="2">
+        <widget class="QButtonGroup" row="0" column="0" rowspan="1" colspan="3">
             <property name="name">
                 <cstring>buttonGroup1</cstring>
             </property>
@@ -94,12 +94,41 @@
                 </widget>
             </grid>
         </widget>
-        <widget class="KLineEdit" row="8" column="0" rowspan="1" colspan="2">
+        <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>kcfg_osdtimecode</cstring>
+            </property>
+            <property name="text">
+                <string>On screen timecode display</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="5" column="0" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>textLabel1_2</cstring>
+            </property>
+            <property name="text">
+                <string>External audio editor</string>
+            </property>
+        </widget>
+        <widget class="KLineEdit" row="6" column="0" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>kcfg_externalaudioeditor</cstring>
+            </property>
+        </widget>
+        <widget class="KLineEdit" row="8" column="0" rowspan="1" colspan="3">
             <property name="name">
                 <cstring>kcfg_externalimageeditor</cstring>
             </property>
         </widget>
-        <spacer row="9" column="1">
+        <widget class="QLabel" row="7" column="0" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>textLabel1_2_2</cstring>
+            </property>
+            <property name="text">
+                <string>External image editor</string>
+            </property>
+        </widget>
+        <spacer row="9" column="2">
             <property name="name">
                 <cstring>spacer2</cstring>
             </property>
@@ -116,33 +145,17 @@
                 </size>
             </property>
         </spacer>
-        <widget class="QLabel" row="7" column="0" rowspan="1" colspan="2">
+        <widget class="QLabel" row="4" column="0">
             <property name="name">
-                <cstring>textLabel1_2_2</cstring>
+                <cstring>textLabel1</cstring>
             </property>
             <property name="text">
-                <string>External image editor</string>
+                <string>Audio device:</string>
             </property>
         </widget>
-        <widget class="KLineEdit" row="6" column="0" rowspan="1" colspan="2">
+        <widget class="KComboBox" row="4" column="1" rowspan="1" colspan="2">
             <property name="name">
-                <cstring>kcfg_externalaudioeditor</cstring>
-            </property>
-        </widget>
-        <widget class="QLabel" row="5" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>textLabel1_2</cstring>
-            </property>
-            <property name="text">
-                <string>External audio editor</string>
-            </property>
-        </widget>
-        <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>kcfg_osdtimecode</cstring>
-            </property>
-            <property name="text">
-                <string>On screen timecode display</string>
+                <cstring>audio_device</cstring>
             </property>
         </widget>
     </grid>
@@ -158,5 +171,6 @@
     <includehint>kpushbutton.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>
+    <includehint>kcombobox.h</includehint>
 </includehints>
 </UI>

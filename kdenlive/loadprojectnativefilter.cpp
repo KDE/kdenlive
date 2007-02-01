@@ -117,6 +117,51 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
     return true;
 }
 
+
+// virtual
+bool LoadProjectNativeFilter::merge(QFile & file, KdenliveDoc * document, bool insertTimeLine, GenTime insertTime)
+{
+    int currentPos = 0;
+    bool trackListLoaded = false;
+    QDomDocument doc;
+    doc.setContent(&file, false);
+
+    QDomElement documentElement = doc.documentElement();
+
+    if (documentElement.tagName() != "kdenlivedoc") {
+	kdWarning() <<
+	    "KdenliveDoc::loadFromXML() document element has unknown tagName : "
+	    << documentElement.tagName() << endl;
+    }
+    QDomNode kdenlivedoc = documentElement.elementsByTagName("kdenlivedoc").item(0);
+    QDomNode n = kdenlivedoc.firstChild();
+
+    while (!n.isNull()) {
+	QDomElement e = n.toElement();
+	if (!e.isNull()) {
+	    if (e.tagName() == "guides") {
+		//document->application()->guidesFromXml( e );
+	    }
+	    else if (e.tagName() == "producer" || e.tagName() == "folder") addToDocument(i18n("Clips"), e, document);
+	    else if (insertTimeLine && e.tagName() == "kdenliveclip") {
+		if (!trackListLoaded) {
+		    trackListLoaded = true;
+		    loadTrackList(e, document, insertTime);
+		} else {
+		    kdWarning() <<
+			"Second timeline discovered, skipping..." << endl;
+		}
+	    } else {
+		kdWarning() << "Unknown tag " << e.
+		    tagName() << ", skipping..." << endl;
+	    }
+	}
+	n = n.nextSibling();
+    }
+
+    return true;
+}
+
 // virtual
 QStringList LoadProjectNativeFilter::handledFormats() const
 {
@@ -140,7 +185,7 @@ void LoadProjectNativeFilter::loadAVFileList(QDomElement & element,
 }
 
 void LoadProjectNativeFilter::loadTrackList(QDomElement & element,
-    KdenliveDoc * document)
+    KdenliveDoc * document, GenTime insertTime)
 {
     DocClipBase *clip =
 	DocClipBase::createClip(document->effectDescriptions(),

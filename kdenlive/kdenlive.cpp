@@ -240,6 +240,7 @@ namespace Gui {
     
     
     KdenliveApp::~KdenliveApp() {
+	KdenliveSettings::writeConfig();
         if (splash) delete splash;
         if (m_renderManager) delete m_renderManager;
         delete m_transitionPanel;
@@ -900,6 +901,10 @@ namespace Gui {
         SLOT(slotExportCurrentFrame()), actionCollection(),
         "export_current_frame");
 	exportCurrentFrame->setStatusText(i18n("Save current frame as image file"));
+
+        KAction *mergeProject = new KAction(i18n("Merge Project..."), 0, this,
+        SLOT(slotMergeProject()), actionCollection(),"merge_project");
+	mergeProject->setStatusText(i18n("Merge current project with another one"));
 
         KAction *viewSelectedClip = new KAction(i18n("Play Clip"), 0, this,
         SLOT(slotViewSelectedClip()), actionCollection(),
@@ -2097,6 +2102,36 @@ namespace Gui {
 	}
 
 
+    void KdenliveApp::slotMergeProject() {
+	slotStatusMsg(i18n("Select project file"));
+	KDialogBase *dia = new KDialogBase(  KDialogBase::Swallow, i18n("Merge project"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "merge", true);
+	QWidget *page = new QWidget( dia );
+   	dia->setMainWidget(page);
+	QGridLayout *grid = new QGridLayout(page, 2, 2);
+	grid->setSpacing(5);
+	QLabel *lab = new QLabel(i18n("Project file: "), page);	
+	grid->addWidget(lab, 0, 0);
+	KURLRequester *urlreq = new KURLRequester(page);
+	urlreq->setFilter("application/vnd.kde.kdenlive");
+	grid->addWidget(urlreq, 0, 1);
+	//grid->addMultiCellWidget(urlreq, 0, 0, 0, 1);
+
+	QLabel *lab2 = new QLabel(i18n("Timeline clips: "), page);	
+	grid->addWidget(lab2, 1, 0);
+	KComboBox *timeline_choice = new KComboBox(page);
+	timeline_choice->insertItem(i18n("Ignore"));
+	timeline_choice->insertItem(i18n("Insert at current cursor position"));
+	timeline_choice->insertItem(i18n("Insert at the beginning"));
+	timeline_choice->insertItem(i18n("Insert at the end"));
+	grid->addWidget(timeline_choice, 1, 1);
+	dia->adjustSize();
+	if (dia->exec() == QDialog::Accepted) {
+	    m_projectFormatManager.mergeDocument( KURL(urlreq->url()), m_doc);
+	}
+	delete dia;
+	slotStatusMsg(i18n("Ready."));
+    }
+
     void KdenliveApp::slotFileOpen() {
 	slotStatusMsg(i18n("Opening file..."));
 	KURL url = KFileDialog::getOpenURL(m_fileDialogPath.path(), m_projectFormatManager.loadMimeTypes(), this, i18n("Open File..."));
@@ -2709,7 +2744,12 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	    new KdenliveSetupDlg(this, this, "setupdlg");
 	connect(dialog, SIGNAL(settingsChanged()), this,
 	    SLOT(updateConfiguration()));
-	dialog->exec();
+	if (dialog->exec() == QDialog::Accepted) {
+	    if (dialog->selectedAudioDevice() != KdenliveSettings::audiodevice()) {
+	        KdenliveSettings::setAudiodevice(dialog->selectedAudioDevice());
+		KMessageBox::sorry(this, i18n("Please restart Kdenlive to apply your changes\nto the audio device"));
+	    }
+	}
 	delete dialog;
 
 	if (KdenliveSettings::autosave())

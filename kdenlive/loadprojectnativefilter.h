@@ -34,9 +34,10 @@ class LoadProjectNativeFilter:public LoadProjectFilter {
 
     QStringList handledFormats() const;
     virtual bool load(QFile & file, KdenliveDoc * document);
+    virtual bool merge(QFile & file, KdenliveDoc * document, bool insertTimeLine = false, GenTime insertTime = GenTime());
   private:
     void loadAVFileList(QDomElement & element, KdenliveDoc * document);
-    void loadTrackList(QDomElement & element, KdenliveDoc * document);
+    void loadTrackList(QDomElement & element, KdenliveDoc * document, GenTime insertTime = GenTime());
     void addToDocument(const QString & parent, QDomElement & clip,
 	KdenliveDoc * document);
 };

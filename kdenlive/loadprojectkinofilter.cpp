@@ -39,6 +39,10 @@ LoadProjectKinoFilter::~LoadProjectKinoFilter()
 }
 
 
+bool LoadProjectKinoFilter::merge(QFile & file, KdenliveDoc * document, bool insertTimeLine, GenTime insertTime)
+{
+}
+
 bool LoadProjectKinoFilter::load(QFile & file, KdenliveDoc * document)
 {
     bool success = false;

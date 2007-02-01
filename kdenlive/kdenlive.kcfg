@@ -144,6 +144,11 @@
       <label>Show transitions in timeline.</label>
       <default>true</default>
     </entry>
+
+    <entry name="audiodevice" type="String">
+      <label>Audio device used for sound output.</label>
+      <default>0;default</default>
+    </entry>
     </group>
     
     <group name="Misc">

@@ -59,7 +59,7 @@
 static QMutex mutex (true);
 
 KRender::KRender(const QString & rendererName, Gui::KdenliveApp *parent, const char *name):QObject(parent, name), m_name(rendererName), m_app(parent), m_renderingFormat(0),
-m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProducer(NULL), m_mltTextProducer(NULL)
+m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProducer(NULL), m_mltTextProducer(NULL), m_sceneList(QDomDocument())
 {
     openMlt();
     refreshTimer = new QTimer( this );
@@ -168,6 +168,9 @@ void KRender::createVideoXWindow(bool , WId winid)
     m_mltConsumer->set("rescale", KdenliveSettings::previewquality());
 
     //m_mltConsumer->set("audio_driver","dsp");
+    QString aDevice = KdenliveSettings::audiodevice();
+    m_mltConsumer->set("audio_driver","alsa");
+    m_mltConsumer->set("audio_device", aDevice.section(";", 1).ascii());
     m_mltConsumer->set("progressive", 1);
     m_mltConsumer->set("audio_buffer", 1024);
     m_mltConsumer->set("frequency", 48000);
@@ -525,7 +528,7 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
 {
     double pos = 0;
     m_sceneList = list;
-    m_mltConsumer->stop();
+    if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
 
     if (m_mltProducer != NULL) {
 	pos = m_mltProducer->position();
@@ -569,6 +572,8 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
     }
 }
 
+
+
 void KRender::refreshDisplay() {
 	if (!m_mltProducer) return;
 	mlt_properties properties = MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer());
@@ -588,7 +593,7 @@ void KRender::refreshDisplay() {
 void KRender::setVolume(double volume)
 {
     if (!m_mltConsumer || !m_mltProducer) return;
-    m_mltConsumer->stop();
+    stop();
     osdTimer->stop();
     mlt_properties_set_double( MLT_CONSUMER_PROPERTIES(m_mltConsumer->get_consumer()), "volume", volume );
 
@@ -602,7 +607,7 @@ void KRender::setVolume(double volume)
     	if (m_mltProducer->attach(*m_osdInfo) == 1) kdDebug()<<"////// error attaching filter"<<endl;
     }
     osdTimer->start(2500, TRUE);
-    m_mltConsumer->start();
+    start();
 }
 
 void KRender::slotOsdTimeout()

@@ -19,7 +19,9 @@
 #define KDENLIVESETUPDLG_H
 
 #include <qwidget.h>
+#include <kprocio.h>
 #include <kconfigdialog.h>
+
 #include "configinterface_ui.h"
 #include "configtimeline_ui.h"
 #include "configproject_ui.h"
@@ -42,13 +44,23 @@ namespace Gui {
 	    0, const char *name = 0);
 	~KdenliveSetupDlg();
 
+	QString selectedAudioDevice();
 	configInterface *page1;
 	configTimeline *page2;
         configMisc *page3;
         configProject *page5;
         configTitler *page4;
         configCapture *page6;
+
+    private:
+	QStringList m_audio_devices;
+	void initAudioDevices();
+
+    private slots:
+	void slotReadAudioDevices(KProcIO *p);
+	void slotAudioSetupFinished(KProcess *);
     };
+
 
 }				// namespace Gui
 #endif

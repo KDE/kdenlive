@@ -40,6 +40,8 @@ class ProjectFormatManager {
 
 	/** loads the document by filename and format and emits the updateViews() signal */
     bool openDocument(const KURL & url, KdenliveDoc * document);
+	/** merge the document with currently open document */
+    bool mergeDocument(const KURL & url, KdenliveDoc * document);
 	/** saves the document under filename and format.*/
     bool saveDocument(const KURL & url, KdenliveDoc * document);
 

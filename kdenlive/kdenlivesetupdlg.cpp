@@ -25,6 +25,7 @@
 #include <kfontdialog.h>
 
 
+
 #include "kdenlivesetupdlg.h"
 #include "kdenlive.h"
 #include "kdenlivesettings.h"
@@ -51,9 +52,49 @@ namespace Gui {
         addPage(page4, i18n("Titler"), "text");
         addPage(page5, i18n("Default Project"), "filenew");
         addPage(page6, i18n("Capture"), "capture");
+	
+	initAudioDevices();
+
     } 
     
     KdenliveSetupDlg::~KdenliveSetupDlg() {}
 
+    void KdenliveSetupDlg::initAudioDevices()
+    {
+	page3->audio_device->insertItem(i18n("Default"));
+	KProcIO *readProcess=new KProcIO();
+	*readProcess << "aplay"<<"-l";
+	connect(readProcess, SIGNAL(processExited(KProcess *)), this, SLOT(slotAudioSetupFinished(KProcess *)));
+	connect(readProcess, SIGNAL(readReady(KProcIO *)) ,this, SLOT(slotReadAudioDevices(KProcIO *)));
+	if (!readProcess->start(KProcess::NotifyOnExit, true)) kdDebug()<<"/// UNABLE TO PARSE AUDIO DEVICES"<<endl;
+    }
+
+
+    void KdenliveSetupDlg::slotReadAudioDevices(KProcIO *p)
+    {
+	QString data;
+	int i = 1;
+	m_audio_devices<<"0;default";
+  	while (p->readln(data, true) != -1) {
+	    if (data.startsWith("card")) {
+		QString card = data.section(":", 0, 0).section(" ", -1);
+		QString device = data.section(":", 1, 1).section(" ", -1);
+		m_audio_devices<<QString::number(i) + ";plughw:" + card + "," + device;
+		page3->audio_device->insertItem(data.section(":", -1));
+		i++;
+	    }
+	}
+    }
+
+    void KdenliveSetupDlg::slotAudioSetupFinished(KProcess *)
+    {
+	page3->audio_device->setCurrentItem(KdenliveSettings::audiodevice().section(";",0,0).toInt());
+    }
+
+    QString KdenliveSetupDlg::selectedAudioDevice()
+    {
+	uint i = page3->audio_device->currentItem();
+	return m_audio_devices[i];
+    }
 
 }				// namespace Gui

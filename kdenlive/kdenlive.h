@@ -521,6 +521,7 @@ namespace Gui {
 	void slotDisableAudioThumbnails();
 	/** Define thumbnail for current clip */
 	void slotDefineClipThumb();
+	void slotMergeProject();
 
       private:
 		/** the configuration object of the application */

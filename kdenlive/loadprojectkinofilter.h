@@ -37,6 +37,7 @@ class LoadProjectKinoFilter:public LoadProjectFilter {
     ~LoadProjectKinoFilter();
 
     virtual bool load(QFile & file, KdenliveDoc * document);
+    virtual bool merge(QFile & file, KdenliveDoc * document, bool insertTimeLine = false, GenTime insertTime = GenTime());
     virtual QStringList handledFormats() const;
   private:
      GenTime loadSeq(const GenTime & currentTrackTime,

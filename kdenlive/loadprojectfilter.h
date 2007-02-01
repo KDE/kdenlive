@@ -19,9 +19,10 @@
 
 #include <qstringlist.h>
 
+#include "gentime.h"
+
 class QFile;
 class KdenliveDoc;
-
 /**
 Base class for loading projects into kdenlive
 
@@ -43,6 +44,7 @@ class LoadProjectFilter {
 	 * passed in. Returns true on success.
 	 **/
     virtual bool load(QFile & file, KdenliveDoc * document) = 0;
+    virtual bool merge(QFile & file, KdenliveDoc * document, bool insertTimeLine = false, GenTime insertTime = GenTime()) = 0;
 };
 
 #endif
