@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <kdebug.h>
+#include <math.h>
 
 #include "krulertimemodel.h"
 #include "kdenlivesettings.h"
@@ -125,7 +126,7 @@ namespace Gui {
 
 /** Sets the number of frames per second for this ruler model. */
     void KRulerTimeModel::setNumFrames(double frames) {
-	m_numFrames = frames;
+	m_numFrames = floor(frames + 0.5);
     }
 
     double KRulerTimeModel::numFrames() const {
