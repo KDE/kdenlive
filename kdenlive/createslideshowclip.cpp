@@ -76,8 +76,12 @@ namespace Gui {
 
     GenTime createSlideshowClip::duration()
     {
+	double fps = KdenliveSettings::defaultfps();
+	Timecode tcode;
+	if (fps == 30000.0 / 1001.0 ) tcode.setFormat(30, true);
+        else tcode.setFormat(fps);
         QString d = clipChoice->edit_duration->text();
-        int frames = (d.section(":",0,0).toInt()*3600 + d.section(":",1,1).toInt()*60 + d.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + d.section(":",3,3).toInt();
+        int frames = tcode.getFrameNumber(d, fps);
         return GenTime(frames , KdenliveSettings::defaultfps());
     }
 
@@ -98,8 +102,11 @@ namespace Gui {
 
     void createSlideshowClip::updateDuration()
     {
+	double fps = KdenliveSettings::defaultfps();
 	Timecode tcode;
-        clipChoice->edit_duration->setText(tcode.getTimecode(GenTime(m_imageCount * ttl(), KdenliveSettings::defaultfps()), KdenliveSettings::defaultfps()));
+	if (fps == 30000.0 / 1001.0 ) tcode.setFormat(30, true);
+        else tcode.setFormat(fps);
+        clipChoice->edit_duration->setText(tcode.getTimecode(GenTime(m_imageCount * ttl(), fps), fps));
     }
 
     void createSlideshowClip::updateList()

@@ -34,14 +34,21 @@ class Timecode {
 	25, bool dropFrame = false);
 
 	/** Set the current timecode format; this is the output format for this timecode. */
-    void setFormat(Formats format) {
+    void setFormat(int framesPerSecond, bool dropFrame = false, Formats format = HH_MM_SS_FF) {
+	m_displayedFramesPerSecond = framesPerSecond;
+	m_dropFrame = dropFrame;
 	m_format = format;
-    } Formats format() const {
+    } 
+
+    Formats format() const {
 	return m_format;
-    } ~Timecode();
+    } 
+
+    ~Timecode();
 
 	/** Returns the timecode for a given time */
     QString getTimecode(const GenTime & time, double fps) const;
+    int getFrameNumber(const QString duration, double fps) const;
     static QString getEasyTimecode(const GenTime & time, const double &fps);
   private:
     Formats m_format;

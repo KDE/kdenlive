@@ -692,12 +692,14 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
     void KTimeLine::slotAddGuide() {
 	AddMarker_UI dlg;
 	Timecode tcode;
+	if (m_framesPerSecond == 30000.0 / 1001.0 ) tcode.setFormat(30, true);
+        else tcode.setFormat(m_framesPerSecond);
 	dlg.setCaption(i18n("Add Guide"));
 	GenTime pos = GenTime(m_ruler->getSliderValue(0), m_framesPerSecond);
 	dlg.marker_position->setText(tcode.getTimecode(pos, m_framesPerSecond));
 	if (dlg.exec() == QDialog::Accepted) {
 	    QString dur = dlg.marker_position->text();
-            int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * m_framesPerSecond + dur.section(":",3,3).toInt());
+            int frames = tcode.getFrameNumber(dur, m_framesPerSecond);
 	    int chapter = -1;
 	    if (dlg.dvd_marker->isChecked()) {
 	        if (dlg.chapter_start->isChecked()) chapter = 0;
@@ -728,6 +730,8 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
 	AddMarker_UI dlg;
 	dlg.setCaption(i18n("Edit Guide"));
 	Timecode tcode;
+	if (m_framesPerSecond == 30000.0 / 1001.0 ) tcode.setFormat(30, true);
+        else tcode.setFormat(m_framesPerSecond);
 	GenTime position = GenTime(pos, m_framesPerSecond);
 	dlg.marker_position->setText(tcode.getTimecode(position, m_framesPerSecond));
 	dlg.marker_comment->setText(comment);
@@ -742,7 +746,7 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
 	}
 	if (dlg.exec() == QDialog::Accepted) {
 	    QString dur = dlg.marker_position->text();
-            int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * m_framesPerSecond + dur.section(":",3,3).toInt());
+            int frames = tcode.getFrameNumber(dur, m_framesPerSecond);
     	    int chapter = -1;
 	    if (dlg.dvd_marker->isChecked()) {
 	        if (dlg.chapter_start->isChecked()) chapter = 0;

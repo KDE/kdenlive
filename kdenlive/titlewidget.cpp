@@ -832,14 +832,21 @@ void titleWidget::doPreview(int pos)
         // Prepare for mlt preview
 	if (!m_screen) return;
 	int position = m_screen->getLength() * pos / 100;
+	double fps = KdenliveSettings::defaultfps();
 	Timecode tcode;
-	timelineposition->setText(tcode.getTimecode(GenTime(position, KdenliveSettings::defaultfps()), KdenliveSettings::defaultfps()));
+	if (fps == 30000.0 / 1001.0 ) tcode.setFormat(30, true);
+        else tcode.setFormat(fps);
+	timelineposition->setText(tcode.getTimecode(GenTime(position, fps), fps));
 }
 
 void titleWidget::seekToPos(const QString &)
 {
+	double fps = KdenliveSettings::defaultfps();
+	Timecode tcode;
+	if (fps == 30000.0 / 1001.0 ) tcode.setFormat(30, true);
+        else tcode.setFormat(fps);
 	QString dur = timelineposition->text();
-	int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt());
+	int frames = tcode.getFrameNumber(dur, fps);
 	if (transparentTitle->isOn())
         canview->canvas()->setBackgroundPixmap(m_screen->extractFrame(frames, canvas->width(), canvas->height()));
 	else canview->canvas()->setBackgroundPixmap(QPixmap());

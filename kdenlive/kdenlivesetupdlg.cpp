@@ -61,6 +61,7 @@ namespace Gui {
 
     void KdenliveSetupDlg::initAudioDevices()
     {
+	// Fill the list of audio playback devices
 	page3->audio_device->insertItem(i18n("Default"));
 	m_audio_devices<<"0;default";
 	if (KStandardDirs::findExe("aplay") != QString::null) {

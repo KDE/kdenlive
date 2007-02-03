@@ -54,7 +54,8 @@ m_clipHierarch(0), m_render(app->renderManager()->findRenderer("Document")), m_c
 {
     //m_render = m_app->renderManager()->createRenderer("Document");
     //m_clipManager = new ClipManager(m_render)
-
+    if (fps == 30000.0 / 1001.0 ) m_timecode.setFormat(30, true);
+    else m_timecode.setFormat(fps);
     connect(this, SIGNAL(trackListChanged()), this, SLOT(hasBeenModified()));
 
     connect(&m_clipManager, SIGNAL(clipListUpdated()), this, SLOT(generateProducersList()));
@@ -77,10 +78,15 @@ KdenliveDoc::~KdenliveDoc()
     }
 }
 
+Timecode KdenliveDoc::timeCode()
+{
+    return m_timecode;
+}
+
 GenTime KdenliveDoc::getTimecodePosition(const QString &pos)
 {
-            int frames = (int) ((pos.section(":",0,0).toInt()*3600 + pos.section(":",1,1).toInt()*60 + pos.section(":",2,2).toInt()) * framesPerSecond() + pos.section(":",3,3).toInt());
-            return GenTime(frames , framesPerSecond());
+    int frames = m_timecode.getFrameNumber(pos, framesPerSecond());
+    return GenTime(frames , framesPerSecond());
 }
 
 void KdenliveDoc::setProjectFormat(VIDEOFORMAT vFormat)

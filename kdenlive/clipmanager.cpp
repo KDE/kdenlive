@@ -35,7 +35,8 @@
 #include <docclipvirtual.h>
 #include <krendermanager.h>
 #include <kaddclipcommand.h>
-#include <titlewidget.h>
+#include "titlewidget.h"
+#include "timecode.h"
 
 ClipManager::ClipManager(KRender *render, QWidget * parent, const char *name) //Manager & renderManager
 {
@@ -858,7 +859,10 @@ DocClipBase *ClipManager::addTemporaryClip(const KURL & file)
     KMimeType::Ptr type = KMimeType::findByURL(file);
     if (type->name().startsWith("image/")) {
 	QString dur = KdenliveSettings::colorclipduration();
-	int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt());
+    	Timecode tc;
+    	if (KdenliveSettings::defaultfps() == 30000.0 / 1001.0 ) tc.setFormat(30, true);
+    	else tc.setFormat(KdenliveSettings::defaultfps());
+    	int frames = tc.getFrameNumber(dur, KdenliveSettings::defaultfps());
 	return new DocClipAVFile(file, GenTime(frames , KdenliveSettings::defaultfps()), false, m_clipCounter++);
     }
     else return new DocClipAVFile(file.fileName(), file, m_clipCounter++);

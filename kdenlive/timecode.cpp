@@ -29,6 +29,38 @@ Timecode::~Timecode()
 {
 }
 
+int Timecode::getFrameNumber(const QString duration, double fps) const
+{
+    if (m_dropFrame) {
+	// calculate how many frames need to be dropped every minute.
+	int frames;
+    	int toDrop = (int) floor (600.0 * (m_displayedFramesPerSecond - fps)  + 0.5);
+
+    	int perMinute = toDrop / 9;
+    	int tenthMinute = toDrop % 9;
+
+    	// calculate how many frames are in a normal minute, and how many are in a tenth minute.
+    	int normalMinuteFrames = (m_displayedFramesPerSecond * 60) - perMinute;
+    	int tenthMinuteFrames = (m_displayedFramesPerSecond * 60) - tenthMinute;;
+
+    	// Number of actual frames in a 10 minute interval :
+    	int tenMinutes = (normalMinuteFrames * 9) + tenthMinuteFrames;
+	frames = 6 * duration.section(":",0,0).toInt() * tenMinutes;
+	int minutes = duration.section(":",1,1).toInt();
+	frames += ((int) minutes / 10) * tenMinutes;
+	int mins = minutes % 10;
+	if (mins > 0) {
+	    frames += tenthMinuteFrames;
+	    mins--;
+	    if (mins > 0) frames += mins * normalMinuteFrames;
+	}
+	if (minutes % 10 > 0) frames -= perMinute;
+	frames += duration.section(":",2,2).toInt() * m_displayedFramesPerSecond + duration.section(":",3,3).toInt();
+	return frames;	
+    }
+    return (int) ((duration.section(":",0,0).toInt()*3600.0 + duration.section(":",1,1).toInt()*60.0 + duration.section(":",2,2).toInt()) * fps + duration.section(":",3,3).toInt());
+}
+
 QString Timecode::getTimecode(const GenTime & time, double fps) const
 {
     switch (m_format) {
@@ -57,8 +89,8 @@ QString Timecode::getEasyTimecode(const GenTime & time, const double &fps)
 {
     
     // Returns the timecode in an easily read display, like 3 min. 5 sec.
-	int frames = (int)time.frames(fps);
-    int seconds = frames / (int) fps;
+    int frames = (int)time.frames(fps);
+    int seconds = frames / (int) floor(fps + 0.5);
     frames = frames % ((int) fps);
 
     int minutes = seconds / 60;
@@ -129,7 +161,7 @@ QString Timecode::getTimecodeHH_MM_SS_FF(const GenTime & time, double fps) const
 
 QString Timecode::getTimecodeHH_MM_SS_HH(const GenTime & time) const
 {
-	int hundredths = (int)(time.seconds() * 100);
+    int hundredths = (int)(time.seconds() * 100);
     int seconds = hundredths / 100;
     hundredths = hundredths % 100;
     int minutes = seconds / 60;
@@ -164,19 +196,17 @@ QString Timecode::getTimecodeDropFrame(const GenTime & time, double fps) const
 {
     // Calculate the timecode using dropframes to remove the difference in fps. Note that this algorithm should work
     // for NTSC times, but is untested for any others - it is in no way an "official" algorithm, unless it's by fluke.
-
-	int frames = (int)time.frames(fps);
+    int frames = (int)time.frames(fps);
 
     // calculate how many frames need to be dropped every minute.
-	int toDrop = (int)((m_displayedFramesPerSecond - fps) * 600);
+    int toDrop = (int) floor (600.0 * (m_displayedFramesPerSecond - fps)  + 0.5);
 
     int perMinute = toDrop / 9;
     int tenthMinute = toDrop % 9;
 
     // calculate how many frames are in a normal minute, and how many are in a tenth minute.
     int normalMinuteFrames = (m_displayedFramesPerSecond * 60) - perMinute;
-    int tenthMinuteFrames =
-	(m_displayedFramesPerSecond * 60) - tenthMinute;;
+    int tenthMinuteFrames = (m_displayedFramesPerSecond * 60) - tenthMinute;;
 
     // Number of actual frames in a 10 minute interval :
     int tenMinutes = (normalMinuteFrames * 9) + tenthMinuteFrames;
@@ -191,21 +221,15 @@ QString Timecode::getTimecodeDropFrame(const GenTime & time, double fps) const
 
     int numMinutes;
 
-    frames += tenthMinute;
-
     if (frames < tenthMinuteFrames) {
-
 	// tenth minute logic applies.
 	numMinutes = 0;
     } else {
 	// normal minute logic applies.
 	numMinutes = 1 + (frames - tenthMinuteFrames) / normalMinuteFrames;
-
 	frames = (frames - tenthMinuteFrames) % normalMinuteFrames;
+	frames +=  tenthMinute + perMinute;
     }
-
-    frames += tenthMinute + (perMinute * numMinutes);
-
     // We now have HH:MM:??:??
 
     int seconds = frames / m_displayedFramesPerSecond;
@@ -216,7 +240,6 @@ QString Timecode::getTimecodeDropFrame(const GenTime & time, double fps) const
     // THANK FUCK FOR THAT.
 
     QString text;
-
     text.append(QString::number(hours).rightJustify(2, '0', FALSE));
     text.append(":");
     text.append(QString::number(tenMinuteIntervals));

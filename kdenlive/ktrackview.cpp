@@ -91,6 +91,8 @@ namespace Gui {
 	tipText = underMouse->description();
 	if (tipText.isEmpty()) tipText = underMouse->name();
 	Timecode timecode;
+    	if (m_fps == 30000.0 / 1001.0 ) timecode.setFormat(30, true);
+    	else timecode.setFormat(m_fps);
 	tipText.append("\n" + timecode.getTimecode(underMouse->cropStartTime(), m_fps) + " - " + timecode.getTimecode(underMouse->cropStartTime() + underMouse->cropDuration(), m_fps));
     }
 

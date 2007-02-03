@@ -89,7 +89,6 @@ namespace Gui {
   
  // Set or stop playback.
   void setPlaying(bool play);
-  Timecode tcode;
   int buttonSize;
   bool m_playSelected;
   bool m_loop;

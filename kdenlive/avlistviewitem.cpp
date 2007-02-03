@@ -194,10 +194,10 @@ QString AVListViewItem::text(int column) const
 	if (clipNode) {
 	    DocClipRef *clip = clipNode->clipRef();
 	    if (clip->durationKnown()) {
-		Timecode timecode;
+		/*Timecode timecode;
 		timecode.setFormat(Timecode::Frames);
 
-                text = timecode.getTimecode(clip->duration(), KdenliveSettings::defaultfps());
+                text = timecode.getTimecode(clip->duration(), KdenliveSettings::defaultfps());*/
 	    } else {
 		text = i18n("unknown");
 	    }

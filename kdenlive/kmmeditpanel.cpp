@@ -56,8 +56,6 @@ namespace Gui {
 	renderStatus->setColor(QColor(0, 200, 0));
 	renderStatus->setFixedSize(20, 20);
 
-	tcode.setFormat(Timecode::HH_MM_SS_FF);
-
 	KIconLoader loader;
 
 
@@ -183,7 +181,7 @@ namespace Gui {
 	case 0:
 	    emit seekPositionChanged(GenTime(value,
 		    m_document->framesPerSecond()));
-            edit_timecode->setText(tcode.getTimecode(GenTime(value,
+            edit_timecode->setText(m_document->timeCode().getTimecode(GenTime(value,
 			m_document->framesPerSecond()), m_document->framesPerSecond()));
 	    break;
 	case 1:

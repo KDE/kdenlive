@@ -3034,8 +3034,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		int width = m_doc->projectClip().videoWidth();
 		if (KdenliveSettings::videoprofile() == "dv_wide") width = width * 4 / 3;
                 titleWidget *txtWidget=new titleWidget(m_workspaceMonitor->screen(), width, m_doc->projectClip().videoHeight(), clip->fileURL(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
-                Timecode tcode;
-                txtWidget->edit_duration->setText(tcode.getTimecode(refClip->duration(), KdenliveSettings::defaultfps()));
+                
+                txtWidget->edit_duration->setText(getDocument()->timeCode().getTimecode(refClip->duration(), KdenliveSettings::defaultfps()));
 
                 txtWidget->setXml(clip->toDocClipTextFile()->textClipXml());
                 txtWidget->titleName->setText(clip->name());

@@ -202,9 +202,9 @@ namespace Command {
 	KMimeType::Ptr type = KMimeType::findByURL(url);
     	if (type->name().startsWith("image/")) {
 	    QString dur = KdenliveSettings::colorclipduration();
-	    int frames = (int) ((dur.section(":",0,0).toInt()*3600 + dur.section(":",1,1).toInt()*60 + dur.section(":",2,2).toInt()) * KdenliveSettings::defaultfps() + dur.section(":",3,3).toInt());
+	    GenTime pos = document.getTimecodePosition(dur);
 
-	    m_xmlClip = document.clipManager().buildImageClip( url, GenTime( frames, KdenliveSettings::defaultfps()), QString::null, false);
+	    m_xmlClip = document.clipManager().buildImageClip( url, pos, QString::null, false);
 	}
 	else m_xmlClip = document.clipManager().buildClip((KURL &)url);
     }

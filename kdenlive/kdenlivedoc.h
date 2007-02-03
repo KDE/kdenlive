@@ -36,6 +36,7 @@
 #include "rangelist.h"
 #include "clipmanager.h"
 #include "definitions.h"
+#include "timecode.h"
 
 // forward declaration of the Kdenlive classes
 namespace Gui {
@@ -188,11 +189,14 @@ class KdenliveDoc:public QObject {
 
 	/** Return A time in GenTime format from a timecode string like 00:01:23:04 */
     GenTime getTimecodePosition(const QString &);
+
+    Timecode timeCode();
     
   private:
 	/** The base clip for this document. This must be a project clip, as it lists the tracks within
 	 * the project, etc. */
     DocClipProject * m_projectClip;
+    Timecode m_timecode;
 
 	/** the modified flag of the current document */
     bool m_modified;

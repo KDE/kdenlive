@@ -64,14 +64,16 @@ namespace Gui {
 
     QString KRulerTimeModel::mapValueToText(const int value) const {
 	return KRulerTimeModel::mapValueToText(value, m_numFrames);
-    } int KRulerTimeModel::getTickDisplayInterval(const int tick) const {
+    } 
+
+    int KRulerTimeModel::getTickDisplayInterval(const int tick) const {
 	int seconds = tick;
 
 	if (seconds > 3600 * numFrames()) {
-    int hour = (tick / (3600 * (int) numFrames())) + 1;
-    seconds = hour * 3600 * (int) numFrames();
-  } else if (seconds > 60 * (int) numFrames()) {
-    int minute = (tick / (60 * (int) numFrames())) + 1;
+    	    int hour = (tick / (3600 * (int) numFrames())) + 1;
+    	    seconds = hour * 3600 * (int) numFrames();
+  	} else if (seconds > 60 * (int) numFrames()) {
+    	    int minute = (tick / (60 * (int) numFrames())) + 1;
 	    if (minute > 30) {
 		minute = 60;
 	    } else if (minute > 20) {
@@ -85,9 +87,9 @@ namespace Gui {
 	    } else if (minute > 1) {
 		minute = 5;
 	    }
-      seconds = minute * 60 * (int) numFrames();
-  } else if (seconds >= (int) numFrames()) {
-    seconds /= (int) numFrames();
+	    seconds = minute * 60 * (int) numFrames();
+  	} else if (seconds >= (int) numFrames()) {
+    	    seconds /= (int) numFrames();
 	    seconds++;
 
 	    if (seconds > 30) {
@@ -104,11 +106,11 @@ namespace Gui {
 		seconds = 5;
 	    }
 
-      seconds *= (int) numFrames();
+	    seconds *= (int) numFrames();
 	} else {
 	    int count;
 	    for (count = 1; count < numFrames(); count++) {
-#warning - will not calculate correct intervals for none-integer frame rates.
+		#warning - will not calculate correct intervals for none-integer frame rates.
 		if ((int) numFrames() % count != 0)
 		    continue;
 		if (count >= seconds)

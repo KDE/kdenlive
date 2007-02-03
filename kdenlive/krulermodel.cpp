@@ -55,13 +55,15 @@ namespace Gui {
 	return m_minimumSmallTickSeperation;
     }
 /** Returns the minimum number of pixels that must exist between two large ticks. */
-	int KRulerModel::minimumLargeTickSeparation() const {
+    int KRulerModel::minimumLargeTickSeparation() const {
 	return m_minimumLargeTickSeperation;
     }
 /** returns the minimum number of pixels which must exist between any two pieces of displayed text. */
-	int KRulerModel::minimumTextSeparation() const {
+    int KRulerModel::minimumTextSeparation() const {
 	return m_minimumDisplayTickSeperation;
-    } int KRulerModel::getTickDisplayInterval(const int tick) const {
+    } 
+
+    int KRulerModel::getTickDisplayInterval(const int tick) const {
 	int seconds = tick;
 
 	if (seconds > 60) {

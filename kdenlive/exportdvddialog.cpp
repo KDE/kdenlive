@@ -211,7 +211,8 @@ void ExportDvdDialog::fillStructure(QDomDocument xml) {
     int currentChapter = 0;
     chapter_list->clear();
     Timecode tc;
-
+    if (m_fps == 30000.0 / 1001.0 ) tc.setFormat(30, true);
+    else tc.setFormat(m_fps);
     while (!node.isNull()) {
 	QDomElement element = node.toElement();
 	if (!element.isNull()) {
@@ -326,6 +327,8 @@ void ExportDvdDialog::generateDvdXml() {
 
 
     Timecode tc;
+    if (m_fps == 30000.0 / 1001.0 ) tc.setFormat(30, true);
+    else tc.setFormat(m_fps);
     QString chapterTimes;
     if (chapter_list->childCount() > 1) {
 	chapterTimes = "0";
@@ -794,7 +797,10 @@ void ExportDvdDialog::dvdFailed()
 }
 
 GenTime ExportDvdDialog::timeFromString(QString timeString) {
-    int frames = (int) ((timeString.section(":",0,0).toInt()*3600 + timeString.section(":",1,1).toInt()*60 + timeString.section(":",2,2).toInt()) * m_fps + timeString.section(":",3,3).toInt());
+    Timecode tc;
+    if (m_fps == 30000.0 / 1001.0 ) tc.setFormat(30, true);
+    else tc.setFormat(m_fps);
+    int frames = tc.getFrameNumber(timeString, m_fps);
     return GenTime(frames, m_fps);
 }
 
