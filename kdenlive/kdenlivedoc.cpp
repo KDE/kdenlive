@@ -83,6 +83,11 @@ Timecode KdenliveDoc::timeCode()
     return m_timecode;
 }
 
+void KdenliveDoc::ensureCursorVisible()
+{
+    m_app->ensureCursorVisible();
+}
+
 GenTime KdenliveDoc::getTimecodePosition(const QString &pos)
 {
     int frames = m_timecode.getFrameNumber(pos, framesPerSecond());

@@ -189,7 +189,7 @@ class KdenliveDoc:public QObject {
 
 	/** Return A time in GenTime format from a timecode string like 00:01:23:04 */
     GenTime getTimecodePosition(const QString &);
-
+    void ensureCursorVisible();
     Timecode timeCode();
     
   private:

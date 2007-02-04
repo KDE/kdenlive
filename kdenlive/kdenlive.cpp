@@ -3375,6 +3375,10 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	}
     }
 
+    void KdenliveApp::ensureCursorVisible() {
+        m_timeline->ensureCursorVisible();
+    }
+
     void KdenliveApp::slotRemoveSpace() {
 	int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(mousePosition()).y())->documentTrackIndex();
 	DocTrackBase *track = getDocument()->track(ix);

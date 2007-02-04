@@ -140,6 +140,7 @@ namespace Gui {
 	 connect(stopButton, SIGNAL(pressed()), this, SLOT(stop()));
 	 connect(stopButton, SIGNAL(pressed()), this,
 	    SLOT(updateButtons()));
+	kdDebug()<<"/// EDIT PANEL NAME: "<<name<<endl;
     } 
     
     KMMEditPanel::~KMMEditPanel() {}
@@ -148,6 +149,7 @@ namespace Gui {
 	GenTime duration = m_document->getTimecodePosition(pos);
 	seek( duration );
 	edit_timecode->clearFocus();
+	if (QString(name()) == "Document") m_document->ensureCursorVisible();
     }
 
     void KMMEditPanel::slotShowVolumeControl() {
