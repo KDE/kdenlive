@@ -179,16 +179,8 @@ namespace Gui {
 
     // virtual 
     void KMMScreen::mouseReleaseEvent(QMouseEvent * e) {
-
 	if (e->button() == LeftButton) {
-	    if (playSpeed() == 0.0) {
-		play(1.0);
-		emit playSpeedChanged(1.0);
-	    }
-	    else {
-		play(0.0);
-		emit playSpeedChanged(0.0);
-	    }
+		m_app->slotPlay();
 	}
     }
 
