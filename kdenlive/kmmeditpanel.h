@@ -44,7 +44,9 @@ namespace Gui {
 	GenTime inpoint() const;
 	/** Returns the outpoint time for the current clip. */
 	GenTime outpoint() const;
-
+	int playSpeed() const {
+	    return (int) m_playSpeed;
+	};
 	private slots:		// Private slots
   /** A slider on the ruler has changed value */
 	void rulerValueChanged(int ID, int value);
@@ -107,7 +109,6 @@ namespace Gui {
 	bool isRewinding() const {
 	    return m_playSpeed < -1.0;
 	};
-
 	// True if we are only playing the section of the file between inpoint and outpoint.
 
     public slots:		// Public slots

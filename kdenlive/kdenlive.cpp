@@ -3192,16 +3192,16 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
 
     void KdenliveApp::slotToggleForwards() {
-	slotStatusMsg(i18n("Playing Forwards"));
 	if (m_monitorManager.hasActiveMonitor()) {
 	    m_monitorManager.activeMonitor()->editPanel()->toggleForward();
+	    slotStatusMsg(i18n("Playing Forwards (%1x)").arg(QString::number(m_monitorManager.activeMonitor()->editPanel()->playSpeed())));
 	}
     }
 
     void KdenliveApp::slotToggleBackwards() {
-	slotStatusMsg(i18n("Playing Backwards"));
 	if (m_monitorManager.hasActiveMonitor()) {
 	    m_monitorManager.activeMonitor()->editPanel()->toggleRewind();
+	    slotStatusMsg(i18n("Playing Backwards (%1x)").arg(QString::number(m_monitorManager.activeMonitor()->editPanel()->playSpeed())));
 	}
     }
 
