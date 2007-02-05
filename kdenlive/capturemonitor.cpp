@@ -26,6 +26,7 @@
 #include <kurlrequester.h>
 #include <klistview.h>
 #include <kiconloader.h>
+#include <kmessagebox.h>
 
 #include "kdenlivedoc.h"
 #include "kmmrecpanel.h"
@@ -168,9 +169,20 @@ void CaptureMonitor::displayCapturedFiles()
 	delete dia;
 }
 
-    void CaptureMonitor::slotStop(KProcess *p) {
-	if (captureProcess) {
+    void CaptureMonitor::slotProcessStopped(KProcess *) {
+	KMessageBox::detailedSorry(this, i18n("The capture stopped, see details for more info."), m_errorLog);
+	slotStop();
+    }
 
+    void CaptureMonitor::receivedStderr(KProcess *, char *buffer, int len)
+    {
+	QCString res(buffer, len);
+	m_errorLog.append(res + "\n");
+    }
+
+    void CaptureMonitor::slotStop() {
+	if (captureProcess) {
+	 //if (!captureProcess->normalExit()) 
         if (m_screen) {
 	    delete m_screen;
 	    m_screen = new QWidget(m_screenHolder, name());
@@ -189,6 +201,7 @@ void CaptureMonitor::displayCapturedFiles()
 
     void CaptureMonitor::slotInit() {
 	if (captureProcess) slotStop();
+	m_errorLog = QString::null;
 	captureProcess = new KProcess();
 	//if (!m_tmpFolder.isEmpty()) KIO::NetAccess::del(m_tmpFolder, this);
 	m_tmpFolder = locateLocal("tmp", "dvcapture/", true);
@@ -201,8 +214,9 @@ void CaptureMonitor::displayCapturedFiles()
 	if (KdenliveSettings::timestamp()) *captureProcess<<"--timestamp";
 	*captureProcess<<"-i"<<"capture"<<"-";
         *captureProcess<<"|"<<"ffplay"<<"-f"<<"dv"<<"-x"<<QString::number(m_screen->width())<<"-y"<<QString::number(m_screen->height())<<"-";
-	captureProcess->start(KProcess::NotifyOnExit, KProcess::Stdin);
-        connect(captureProcess, SIGNAL(processExited(KProcess *)), this, SLOT(slotStop(KProcess *)));
+        connect(captureProcess, SIGNAL(processExited(KProcess *)), this, SLOT(slotProcessStopped(KProcess *)));
+    	connect(captureProcess, SIGNAL(receivedStderr (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));
+	captureProcess->start(KProcess::NotifyOnExit, KProcess::Communication(KProcess::Stdin | KProcess::Stderr));
 	m_recPanel->rendererConnected();
     }
 

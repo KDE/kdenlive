@@ -57,7 +57,7 @@ A capture monitor, that allows you to capture video from various devices, as sup
 	void slotRewind();
 	void slotReverse();
 	void slotFastForward();
-	void slotStop(KProcess *p = 0);
+	void slotStop();
 	void slotPlay();
 	void slotPause();
 	void slotForward();
@@ -69,6 +69,8 @@ A capture monitor, that allows you to capture video from various devices, as sup
 	void slotInit();
 	void displayCapturedFiles();
 	void checkCapture();
+	void slotProcessStopped(KProcess *);
+	void receivedStderr(KProcess *, char *buffer, int len);
 
       private:
 
@@ -82,6 +84,7 @@ A capture monitor, that allows you to capture video from various devices, as sup
 	bool hasCapturedFiles;
 	QString m_tmpFolder;
 	int m_fileNumber;
+	QString m_errorLog;
     };
 
 }
