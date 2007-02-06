@@ -125,6 +125,7 @@ namespace Gui {
     }
 
 /** Sets the number of frames per second for this ruler model. */
+    // virtual
     void KRulerTimeModel::setNumFrames(double frames) {
 	m_numFrames = floor(frames + 0.5);
     }

@@ -1707,6 +1707,7 @@ namespace Gui {
 	    m_exportWidget->setMetaData(getDocument()->metadata());
 	    setCaption(url.fileName() + " - " + easyName(m_projectFormat), false);
 	    fileOpenRecent->addURL(m_doc->URL());
+	    m_timeline->slotSetFramesPerSecond(KdenliveSettings::defaultfps());
 	}
 	else {
 	    KMessageBox::sorry(this, i18n("Cannot read file: %1").arg(url.path()));
@@ -1974,6 +1975,7 @@ namespace Gui {
 	    	m_doc->newDocument(videoTracks, audioTracks);
 	    	setCaption(newProjectName + ".kdenlive" + " - " + easyName(m_projectFormat), false);
 	    	m_doc->setProjectName( newProjectName + ".kdenlive");
+		m_timeline->slotSetFramesPerSecond(KdenliveSettings::defaultfps());
 	    }
 	}
 
@@ -3035,7 +3037,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		if (KdenliveSettings::videoprofile() == "dv_wide") width = width * 4 / 3;
                 titleWidget *txtWidget=new titleWidget(m_workspaceMonitor->screen(), width, m_doc->projectClip().videoHeight(), clip->fileURL(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
                 
-                txtWidget->edit_duration->setText(getDocument()->timeCode().getTimecode(refClip->duration(), KdenliveSettings::defaultfps()));
+                txtWidget->edit_duration->setText(getDocument()->timeCode().getTimecode(refClip->duration(), getDocument()->framesPerSecond()));
 
                 txtWidget->setXml(clip->toDocClipTextFile()->textClipXml());
                 txtWidget->titleName->setText(clip->name());

@@ -116,4 +116,8 @@ namespace Gui {
 	m_minimumDisplayTickSeperation = pixels;
     }
 
+    void KRulerModel::setNumFrames(double frames)
+    {
+    }
+
 }				// namespace Gui

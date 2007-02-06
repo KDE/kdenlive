@@ -623,6 +623,8 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
 
     void KTimeLine::slotSetFramesPerSecond(double fps) {
 	m_framesPerSecond = fps;
+	m_ruler->setNumFrames(fps);
+	m_trackViewArea->setFrameRate(fps);
     }
 
     void KTimeLine::setSnapToFrame(bool snapToFrame) {

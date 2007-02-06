@@ -179,7 +179,7 @@ void KdenliveDoc::deleteContents()
 
     m_clipManager.clear();
 
-    setProjectClip(new DocClipProject(KdenliveSettings::defaultfps(), KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight()));
+    setProjectClip(new DocClipProject(framesPerSecond(), KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight()));
 
     emit clipListUpdated();
 }

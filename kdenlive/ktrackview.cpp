@@ -56,6 +56,11 @@ namespace Gui {
 	delete trackview_tips;
     }
 
+    void KTrackView::setFrameRate(bool fps)
+    {
+	m_fps = fps;
+    }
+
     void KTrackView::setShowAllMarkers(bool show)
     {
 	m_showMarkers = show;

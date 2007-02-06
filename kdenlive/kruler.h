@@ -127,6 +127,7 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
 	int maxValue() const;
   /** Returns the minimum value that a slider can be set to on this ruler. */
 	int minValue() const;
+ 	void setNumFrames(double fps);
   /** Changes the ruler model for this ruler. The old ruler model is deleted if it exists. If null is passed to this method, a default model is created. */
 	void setRulerModel(KRulerModel * model);
   /** Returns the valueScale of this ruler*/

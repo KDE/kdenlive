@@ -680,6 +680,11 @@ namespace Gui {
 	return d->m_activeID;
     }
 
+    void KRuler::setNumFrames(double fps) {
+	m_rulerModel->setNumFrames(fps);
+	update();
+    }
+
     void KRuler::setMinValue(int value) {
 	m_minValue = value;
 	setSlidersToRange();

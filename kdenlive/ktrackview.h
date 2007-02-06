@@ -67,7 +67,8 @@ namespace Gui {
 	void setDragFunction(const QString & name);
 	void tip(const QPoint &pos, QRect &rect, QString &tipText);
 	void drawSelection(QPoint start, QPoint end);
-        
+	void setFrameRate(bool fps);
+
       protected:
           void wheelEvent( QWheelEvent * e );
 
