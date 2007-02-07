@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-02-01 12:42+0100\n"
-"PO-Revision-Date: 2007-02-01 19:15+0100\n"
+"PO-Revision-Date: 2007-02-07 23:26+0100\n"
 "Last-Translator: Carlos Dávila <carluti@users.sourceforge.net>\n"
 "Language-Team: español <grass-es@grass.itc.it>\n"
 "MIME-Version: 1.0\n"
@@ -1547,7 +1547,7 @@ msgstr "Pulsar"
 #: kdenlive/kdenlive.cpp:180 kdenlive/transition.cpp:242
 #: kdenlive/transition.cpp:251
 msgid "Pip"
-msgstr ""
+msgstr "Imagen en imagen"
 
 #: kdenlive/kdenlive.cpp:181 kdenlive/transition.cpp:243
 #: kdenlive/transition.cpp:252 kdenlive/transitiondialog.cpp:76
@@ -4639,7 +4639,7 @@ msgstr "Pista de fondo (negro)"
 
 #: kdenlive/transitiondialog.cpp:74
 msgid "PIP"
-msgstr ""
+msgstr "Imagen en imagen"
 
 #: kdenlive/transitionlumafile_ui.cpp:76 kdenlive/transitionpip_ui.cpp:197
 #: kdenlive/transitionwipe_ui.cpp:235
