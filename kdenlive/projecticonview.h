@@ -15,30 +15,30 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef PROJECTLISTVIEW_H
-#define PROJECTLISTVIEW_H
+#ifndef PROJECTICONVIEW_H
+#define PROJECTICONVIEW_H
 
 
 #include <qtooltip.h>
 #include <qheader.h>
 
-#include <klistview.h>
+#include <kiconview.h>
 
-#include "avlistviewitem.h"
+#include "aviconviewitem.h"
 #include "docclipbase.h"
 #include "kdenlivedoc.h"
 
 
 /**
-	* ProjectListView contains a derived class from KListView which sets up the correct column headers
+	* ProjectIconView contains a derived class from KListView which sets up the correct column headers
 	* for the view, etc.
   *@author Jason Wood
   */
 
-class ProjectListView:public KListView {
+class ProjectIconView:public KIconView {
   Q_OBJECT public:
-    ProjectListView(QWidget * parent = 0, const char *name = 0);
-    ~ProjectListView();
+    ProjectIconView(QWidget * parent = 0, const char *name = 0);
+    ~ProjectIconView();
 	/** returns a drag object which is used for drag operations. */
     QDragObject *dragObject();
     QString m_popuptext;
@@ -50,60 +50,52 @@ class ProjectListView:public KListView {
     QString parentName();
     void selectItemsFromIds(QStringList idList);
     QStringList selectedItemsIds() const;
+    DocClipRef *selectedItem() const;
 
   signals:			// Signals
 	/** This signal is called whenever clips are drag'n'dropped onto the project list view. */
-    void dragDropOccured(QDropEvent * e, QListViewItem * parent);
+    void dragDropOccured(QDropEvent * e, QIconViewItem * parent);
 	/** This signal is called whenever a drag'n'drop is started */
-    void dragStarted(QListViewItem * i);
+    void dragStarted(QIconViewItem * i);
 
   protected:
 		/** returns true if the drop event is compatable with the project list */
      bool acceptDrag(QDropEvent * event) const;
     private slots:		// Private slots
 	/** This slot function should be called whenever a drag has been dropped onto the class. */
-    void dragDropped(QDropEvent * e, QListViewItem * parent,
-	QListViewItem * after);
+    void dragDropped(QDropEvent * e, const QValueList<QIconDragItem>&);
   private:			// Private attributes
 	/** The document that keeps this list up-to-date. */
      KdenliveDoc * m_doc;
 };
 
 
-class ListViewToolTip : public QToolTip
+class IconViewToolTip : public QToolTip
 {
 public:
-    ListViewToolTip( QListView* parent );
+    IconViewToolTip( QIconView* parent );
 protected:
     void maybeTip( const QPoint& p );
 private:
-    QListView* listView;
+    QIconView* iconView;
 };
-inline ListViewToolTip::ListViewToolTip( QListView* parent )
-    : QToolTip( parent->viewport() ), listView( parent ) {}
-inline void ListViewToolTip::maybeTip( const QPoint& p ) {
-    if ( !listView )
+inline IconViewToolTip::IconViewToolTip( QIconView* parent )
+    : QToolTip( parent->viewport() ), iconView( parent ) {}
+
+inline void IconViewToolTip::maybeTip( const QPoint& p ) {
+    if ( !iconView )
         return;
-    const AVListViewItem* item = static_cast<AVListViewItem *>(listView->itemAt( p ));
+    QIconViewItem *iconItem = iconView->findItem( p );
+    const AVIconViewItem* item = static_cast<AVIconViewItem *>(iconItem);
     if ( !item )
         return;
-    const QRect itemRect = listView->itemRect( item );
+    const QRect itemRect = iconItem->rect();
     if ( !itemRect.isValid() )
         return;
-    const int col = listView->header()->sectionAt( p.x() );
-    if ( col == -1 )
-        return;
-    const QRect headerRect = listView->header()->sectionRect( col );
-    if ( !headerRect.isValid() )
-        return;
-  const QRect cellRect( headerRect.left(), itemRect.top(),
-                         headerRect.width(), itemRect.height() );
   QString tipStr;
-  if( col == 2 )
-       tipStr = item->text(2);
-  else tipStr = item->getInfo();
+  tipStr = item->getInfo();
 
-  tip( cellRect, tipStr );
+  tip( itemRect, tipStr );
 };
 
 

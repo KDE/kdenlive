@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>438</width>
-            <height>311</height>
+            <width>325</width>
+            <height>188</height>
         </rect>
     </property>
     <grid>
@@ -22,14 +22,50 @@
         <property name="spacing">
             <number>0</number>
         </property>
-        <widget class="QLayoutWidget" row="0" column="2">
+        <widget class="QFrame" row="2" column="0" rowspan="1" colspan="2">
             <property name="name">
-                <cstring>layout3</cstring>
+                <cstring>view_frame</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>3</hsizetype>
+                    <vsizetype>3</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="frameShape">
+                <enum>NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Plain</enum>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget" row="0" column="1">
+            <property name="name">
+                <cstring>layout2</cstring>
             </property>
             <hbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>button_view</cstring>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>25</width>
+                            <height>32767</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="flat">
+                        <bool>true</bool>
+                    </property>
+                </widget>
                 <widget class="KPushButton">
                     <property name="name">
                         <cstring>button_add</cstring>
@@ -83,7 +119,7 @@
                 </widget>
             </hbox>
         </widget>
-        <widget class="QFrame" row="0" column="0">
+        <widget class="QFrame" row="0" column="0" rowspan="2" colspan="1">
             <property name="name">
                 <cstring>lv_frame</cstring>
             </property>
@@ -102,66 +138,15 @@
                 <enum>Plain</enum>
             </property>
         </widget>
-        <widget class="ProjectListView" row="1" column="0" rowspan="1" colspan="3">
-            <property name="name">
-                <cstring>m_listView</cstring>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>7</hsizetype>
-                    <vsizetype>5</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-        </widget>
-        <widget class="QFrame" row="0" column="1">
-            <property name="name">
-                <cstring>frame7</cstring>
-            </property>
-            <property name="minimumSize">
-                <size>
-                    <width>7</width>
-                    <height>0</height>
-                </size>
-            </property>
-            <property name="frameShape">
-                <enum>NoFrame</enum>
-            </property>
-            <property name="frameShadow">
-                <enum>Plain</enum>
-            </property>
-        </widget>
     </grid>
 </widget>
 <customwidgets>
-    <customwidget>
-        <class>ProjectListView</class>
-        <header location="global">projectlistview.h</header>
-        <sizehint>
-            <width>-1</width>
-            <height>-1</height>
-        </sizehint>
-        <container>0</container>
-        <sizepolicy>
-            <hordata>5</hordata>
-            <verdata>5</verdata>
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-        </sizepolicy>
-        <pixmap>image0</pixmap>
-    </customwidget>
 </customwidgets>
-<images>
-    <image name="image0">
-        <data format="PNG" length="1110">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b0000041d49444154388d8d95c18b1c4514c67fbb29e5b54ea05b26da1d36b08d09a6c508138cb8c13d647141163de49043bca9f1628eb9294810f24f88c15b728b07617358888785d980427290b4a8d00b19a8821da8228cf42316ac87eed9247ac95c9aeaeef9eaabdffb5ebf85f178ccfcf7f5b79fec07a7280a08a008f25ceb7c29e5da573716e65a0be3f198ef6f5ededff9b9e1b34faf90882092a1ea21428b9220ffbf46054055b19386ba6970ae6665b5e0d2c5eb0b066067bbe1f21757c88f5504eff0c192189081303a5582b16854fccce2fe041f00cdd0a8103b874556405476b62d972ec2c2b90ff3fd8df5cb946549d80b34aea15ccaa94625450e2d0e558b460b7371a734b5e027251a155545678ab62d7eea90b4c504078908c107acb354cb251b1f8f08b1c18631aabbb4d18211404804f22545863561d2f060fb34aa8a18d0086204e72c46a32292e1a796f278c1da7a859d8da9a737506db04d0a24103d8949480b214d3bbee952a05c1d536f9d2684160c744f048311543d459eb1b65ee1754cedae13a64abd5d6127053c9d0281f22d4f75c6a2118a5c09272d7ab740638bf4ef2dd2174032d0d8d04c6fe19c32bedd8bc65e342aa3f785e2784bfd6bc1bd9db24b05505616a4edd67d5a8c1801a03a9962754c504bf34b8986acfb9be91cac7d54315a15541b36b134f74bd2dc53940115a5381e087bc25c6f71be831a8baa234cc1ee3eeb74ed83116beb2b8849d108a3730e8ce27e2bfb82419a7b407ac7c222fd0e6280a8078ce64e47ef54ac9d5be9aaae0162e0de568a44a18d3df90845d919c4f01463406340a44f40efb43a99b371618488e2670d1a2d7ee6f1d3be39342104e937ed85fb86599c33e9ee0be9a004946259d8b858909880d59aa00daa0d3280b5f39e34074c4b3a5434029a76a9e9f5cc0163b5c80024158a1cfc4cb1d3061d5834066cb0a403c008599a70f6bc27b8d03106ea3ae91987278c5b143b015547224ab5e24185cd9b81665273e7b6e7cecd82ddbf8098002de94049737bc09828cf3036f31c3735c8b0e98eb704672f348c7f7c93cd1fb2ae905119ff54e0dff3542b0e9dd983dcea2cc5eea6cf303e74ec687af5c41b6fa38f5e203c7ec8e1238ef85831a214afef21060ea781ec68247b65c6916353cc8b73d1ae79354606af2a930709aa118da1636c274dd7e3774b884a79aa6b5711a538d33cf9c01c1c9b83bc6a1f55c91ccb23b05b1deb43a7decdaffefd2862f61366aa8449c69e33642f012f2bb208fa98eeda1f3346f076c8eeef19475e9be115423364f78f84105a8643d34d90cfbfdcd8cf872589a45dc7f54cf3134a36f4e495c23f9da8db15bccb708d4014f2ca512cb5d4f7c13e84300d5cff6eb39b202bab053bdb9674f0648609427d0f8402ddeac30f4fcd3ced3efc3b422d406c09b340bedc1571e1bfc3d44dc281634c5fe5e758e7395cfbe6d6c130fd17d92372d277c159b70000000049454e44ae426082</data>
-    </image>
-</images>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>kpushbutton.h</includehint>
     <includehint>kpushbutton.h</includehint>
     <includehint>kpushbutton.h</includehint>
-    <includehint>projectlistview.h</includehint>
+    <includehint>kpushbutton.h</includehint>
 </includehints>
 </UI>

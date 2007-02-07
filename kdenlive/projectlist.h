@@ -26,8 +26,10 @@
 
 #include <kurl.h>
 #include <klistviewsearchline.h>
+#include <kiconviewsearchline.h>
 
-#include <projectlistview.h>
+#include "projectlistview.h"
+#include "projecticonview.h"
 #include "projectview_ui.h"
 
 class DocClipRef;
@@ -53,26 +55,36 @@ namespace Gui {
 
     class ProjectList:public ProjectList_UI {
       Q_OBJECT public:
-	ProjectList(KdenliveApp * app, KdenliveDoc * document,
-	    QWidget * parent = 0, const char *name = 0);
+	ProjectList(KdenliveApp * app, KdenliveDoc * document, bool iconView, QWidget * parent = 0, const char *name = 0);
 	~ProjectList();
 	/** Returns the currently selected clip in the project list. */
 	DocClipRefList currentSelection();
-        
+	void focusView();
+	DocClipRef* currentClip();
+        QString parentName();
+	QString currentItemName();
+	void setListView();
+	void setIconView();
+
       private:			// Private methods
 	/** Holds the document that this projectlist makes use of. */
 	 KdenliveDoc * m_document;
 	/** Holds a pointer to the application. FIXME: Is this necessary? */
 	KdenliveApp *m_app;
+	ProjectListView *m_listView;
+	ProjectIconView *m_iconView;
 	QPopupMenu *contextcreateMenu();
         columnToolTip * colToolTip;
 	KListViewSearchLineWidget *lv_search;
-
+	KIconViewSearchLine *iv_search;
+	bool m_isIconView;
 
       public slots:		// Public slots
 	/** No descriptions */
 	void rightButtonPressed(QListViewItem * listViewItem,
 	    const QPoint & pos, int column);
+        void rightButtonPressed(QIconViewItem * iconViewItem,
+	const QPoint & pos);
 	/** Get a fresh copy of files and clips from KdenliveDoc and display them. */
 	void slot_UpdateList();
 	/** The clip specified has changed - update the display. */
@@ -98,6 +110,8 @@ namespace Gui {
 	    //void projectListSelectionChanged(QListViewItem *item);
          /** an item was double clicked */
          void editRequested( QListViewItem *, const QPoint &, int col);
+	void setupListView();
+	void setupIconView();
     };
 
 }				// namespace Gui

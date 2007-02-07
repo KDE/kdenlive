@@ -152,6 +152,11 @@
 	<Action name="project_clean"/>
 </Menu>
 
+<Menu name="projectlist_type">
+	<Action name="project_list_view"/>
+	<Action name="project_icon_view"/>
+</Menu>
+
 <Menu name="projectlist_context_clip">
 	<Action name="create_folder"/>
 	<Action name="project_add_clip"/>

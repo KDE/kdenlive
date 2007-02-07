@@ -417,6 +417,12 @@ namespace Gui {
         "restore_zoom");
 	zoomRestore->setStatusText(i18n("Restoring previous zoom level"));
 
+	(void) new KAction(i18n("List View"), "view_detailed.png",0, this,
+        SLOT(slotProjectListView()), actionCollection(), "project_list_view");
+
+	(void) new KAction(i18n("Icon View"), "view_icon.png", 0, this,
+        SLOT(slotProjectIconView()), actionCollection(), "project_icon_view");
+
 	timelineMoveTool =
 	    new KRadioAction(i18n("Move/Resize Tool"), "moveresize.png",
 	    KShortcut(Qt::Key_Q), this, SLOT(slotTimelineMoveTool()),
@@ -1232,7 +1238,7 @@ namespace Gui {
 	m_exportDvd = 0;
 	m_exportWidget = 0;
 	m_projectList = 0;
-	m_projectList = new ProjectList(this, getDocument(), m_dockProjectList);
+	m_projectList = new ProjectList(this, getDocument(), false, m_dockProjectList);
 	m_dockProjectList->setWidget(m_projectList);
 	m_projectList->slot_UpdateList();
 	m_projectList->show();
@@ -1637,7 +1643,7 @@ namespace Gui {
 
     void KdenliveApp::slotFocusProjectList() {
 	m_dockProjectList->makeDockVisible();
-	m_projectList->m_listView->setFocus();
+	m_projectList->focusView();
     }
     
     void KdenliveApp::slotFocusTransitions() {
@@ -2345,7 +2351,7 @@ namespace Gui {
 
     void KdenliveApp::slotExternalEditor()
     {
-	DocClipRef *clip = static_cast<AVListViewItem*>(m_projectList->m_listView->currentItem())->clip();
+	DocClipRef *clip = m_projectList->currentClip();
 	QString externalEditor;
 	if (clip->clipType() == DocClipBase::AUDIO) {
 		externalEditor = KdenliveSettings::externalaudioeditor().stripWhiteSpace();	
@@ -2442,7 +2448,7 @@ namespace Gui {
 
     void KdenliveApp::insertClipFromUrl(QString path)
     {
-	addCommand(new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), KURL(path), true));
+	addCommand(new Command::KAddClipCommand(*m_doc, m_projectList->parentName(), KURL(path), true));
     }
 
     void KdenliveApp::slotVirtualZone()
@@ -2454,12 +2460,12 @@ namespace Gui {
 	QTextStream stream( tmp.file() );
     	stream << getDocument()->projectClip().generatePartialSceneList(m_timeline->inpointPosition(), m_timeline->outpointPosition(), -1).toString() << "\n";
     	tmp.close();
-	addCommand(new Command::KAddClipCommand(*getDocument(), m_projectList->m_listView->parentName(), clipName, KURL(tmp.name()), m_timeline->inpointPosition(), m_timeline->outpointPosition(), QString::null, true));
+	addCommand(new Command::KAddClipCommand(*getDocument(), m_projectList->parentName(), clipName, KURL(tmp.name()), m_timeline->inpointPosition(), m_timeline->outpointPosition(), QString::null, true));
     }
 
     void KdenliveApp::slotShowVirtualZone()
     {
-	DocClipVirtual *clip = static_cast<AVListViewItem*>(m_projectList->m_listView->currentItem())->clip()->referencedClip()->toDocClipVirtual();
+	DocClipVirtual *clip = m_projectList->currentClip()->referencedClip()->toDocClipVirtual();
 	if (clip) m_timeline->seek(clip->virtualStartTime());
     }
 
@@ -2728,7 +2734,7 @@ void KdenliveApp::slotSetDocumentMetadata(const QStringList list)
 
 
 void KdenliveApp::slotAddFileToProject(const QString &url) {
-    addCommand(new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), KURL(url), true));
+    addCommand(new Command::KAddClipCommand(*m_doc, m_projectList->parentName(), KURL(url), true));
 }
 
 
@@ -2771,28 +2777,30 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 
 
     void KdenliveApp::slotProjectRenameFolder(QString message) {
-	if (!m_projectList->m_listView->currentItem() || static_cast<AVListViewItem *>(m_projectList->m_listView->currentItem())->clip()) return;
-	QString folderName = KInputDialog::getText(i18n("Rename Folder"), message + i18n("Enter new folder name: "), m_projectList->m_listView->currentItem()->text(1));
+	if (m_projectList->currentClip()) return;
+	QString currentFolderName = m_projectList->currentItemName();
+	QString folderName = KInputDialog::getText(i18n("Rename Folder"), message + i18n("Enter new folder name: "), currentFolderName);
 	if (folderName.isEmpty()) return;
 	// check folder name doesn't exist
-        QListViewItemIterator it( m_projectList->m_listView );
+        /*QListViewItemIterator it( m_projectList->m_listView );
         while ( it.current() ) {
             if (it.current()->text(1) == folderName && (!static_cast<AVListViewItem *>(it.current())->clip())) {
 		slotProjectRenameFolder(i18n("Folder %1 already exists\n").arg(folderName));
 		return;
 	    }
             ++it;
-        }
+        }*/
 
-	DocumentGroupNode *folder = getDocument()->findClipNode(m_projectList->m_listView->currentItem()->text(1))->asGroupNode();
+	DocumentGroupNode *folder = getDocument()->findClipNode(currentFolderName)->asGroupNode();
 	folder->rename(folderName);
     }
 
     void KdenliveApp::slotProjectDeleteFolder() {
-	if (!m_projectList->m_listView->currentItem() || static_cast<AVListViewItem *>(m_projectList->m_listView->currentItem())->clip()) return;
-	if (m_projectList->m_listView->currentItem()->childCount()>0)
+	if (m_projectList->currentClip()) return;
+	/*if (m_projectList->hasChildren())
 	if (KMessageBox::questionYesNo(this, i18n("Deleting this folder will remove all reference to its clips in your project.\nDelete this folder ?")) ==  KMessageBox::No) return;
-	QString folderName = m_projectList->m_listView->currentItem()->text(1);
+	QString folderName = m_projectList-currentItemName();
+	
 	QListViewItem * myChild = m_projectList->m_listView->currentItem();
         while( myChild->firstChild() ) {
             m_projectList->m_listView->setCurrentItem( myChild->firstChild() );
@@ -2800,21 +2808,21 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	    myChild = m_projectList->m_listView->findItem(folderName, 1, Qt::CaseSensitive);
         }
 	getDocument()->deleteGroupNode(folderName);
-	getDocument()->activateSceneListGeneration(true);
+	getDocument()->activateSceneListGeneration(true);*/
     }
 
     void KdenliveApp::slotProjectAddFolder(QString message) {
 	QString folderName = KInputDialog::getText(i18n("New Folder"), message + i18n("Enter new folder name: "));
 	if (folderName.isEmpty()) return;
 	// check folder name doesn't exist
-        QListViewItemIterator it( m_projectList->m_listView );
+        /*QListViewItemIterator it( m_projectList->m_listView );
         while ( it.current() ) {
             if (it.current()->text(1) == folderName && (!static_cast<AVListViewItem *>(it.current())->clip())) {
 		slotProjectAddFolder(i18n("Folder %1 already exists\n").arg(folderName));
 		return;
 	    }
             ++it;
-        }
+        }*/
 
 	DocumentGroupNode *nFolder = new DocumentGroupNode(0, folderName);
 	//AVListViewItem *item = new AVListViewItem(getDocument(), m_projectList->m_listView->firstChild(), nFolder);
@@ -2845,7 +2853,7 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 		else if (getDocument()->clipManager().findClip(url)) KMessageBox::sorry(this, i18n("The clip %1 is already present in this project").arg(url.filename()));
 		else { 
 			Command::KAddClipCommand * command;
-			command = new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), url, true);
+			command = new Command::KAddClipCommand(*m_doc, m_projectList->parentName(), url, true);
 			macroCommand->addCommand(command);
 		}
 		m_fileDialogPath = url;
@@ -2874,7 +2882,7 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
             GenTime duration = getDocument()->getTimecodePosition(clipChoice->edit_duration->text());
             
 	    KCommand *command =
-		new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), color, duration,
+		new Command::KAddClipCommand(*m_doc, m_projectList->parentName(), color, duration,
 		clipChoice->edit_name->text(),
 		clipChoice->edit_description->text(), true);
 	    addCommand(command, true);
@@ -2921,7 +2929,7 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	    duration = getDocument()->getTimecodePosition(KdenliveSettings::colorclipduration());
 	}
 
-	KCommand *command = new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), fileUrl, duration, description, isTransparent, true);
+	KCommand *command = new Command::KAddClipCommand(*m_doc, m_projectList->parentName(), fileUrl, duration, description, isTransparent, true);
 	addCommand(command, true);
 	slotStatusMsg(i18n("Ready."));
     }
@@ -2938,7 +2946,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    int ttl = slideDialog->ttl();
 
 	    KCommand *command =
-		new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), KURL(url), extension, ttl, slideDialog->hasCrossfade(), slideDialog->duration(), slideDialog->description(), slideDialog->isTransparent(), true);
+		new Command::KAddClipCommand(*m_doc, m_projectList->parentName(), KURL(url), extension, ttl, slideDialog->hasCrossfade(), slideDialog->duration(), slideDialog->description(), slideDialog->isTransparent(), true);
 	    addCommand(command, true);
 	}
 	delete slideDialog;
@@ -2961,7 +2969,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
             QDomDocument xml = txtWidget->toXml();
             
             KCommand *command =
-                    new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), duration, txtWidget->titleName->text(),QString::null, xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked(), true);
+                    new Command::KAddClipCommand(*m_doc, m_projectList->parentName(), duration, txtWidget->titleName->text(),QString::null, xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked(), true);
             addCommand(command, true);
         }
         m_workspaceMonitor->screen()->restoreProducer();
@@ -3018,7 +3026,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    KTempFile tmp(KdenliveSettings::currenttmpfolder(),".png");
 	    QPixmap thumb = clip->thumbnail();
             KCommand *command =
-                    new Command::KAddClipCommand(*m_doc, m_projectList->m_listView->parentName(), refClip->duration(), clip->name(), QString::null, clip->toDocClipTextFile()->textClipXml() , KURL(tmp.name()), thumb, clip->toDocClipTextFile()->isTransparent(), true);
+                    new Command::KAddClipCommand(*m_doc, m_projectList->parentName(), refClip->duration(), clip->name(), QString::null, clip->toDocClipTextFile()->textClipXml() , KURL(tmp.name()), thumb, clip->toDocClipTextFile()->isTransparent(), true);
             addCommand(command, true);
 	}
 	slotStatusMsg(i18n("Ready."));
@@ -3262,7 +3270,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     }
 
     void KdenliveApp::slotProjectExtractAudio() {
-	DocClipRef *clip = static_cast<AVListViewItem*>(m_projectList->m_listView->currentItem())->clip();
+	DocClipRef *clip = m_projectList->currentClip();
 	if (!clip || clip->audioChannels() == 0) return;
 	slotExtractClipAudio(clip);
     }
@@ -3412,9 +3420,9 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     }
 
     void KdenliveApp::slotDefineClipThumb() {
-	if (!m_projectList->m_listView->currentItem()) return;
-	DocClipRef *clip = static_cast<AVListViewItem*>(m_projectList->m_listView->currentItem())->clip();
-	clip->referencedClip()->setProjectThumbFrame(m_clipMonitor->editPanel()->point().frames(getDocument()->framesPerSecond()) );
+	DocClipRef *clip = m_projectList->currentClip();
+	if (!clip) return;
+ 	clip->referencedClip()->setProjectThumbFrame(m_clipMonitor->editPanel()->point().frames(getDocument()->framesPerSecond()) );
 	getDocument()->renderer()->getImage(clip->fileURL(), clip->referencedClip()->getProjectThumbFrame(), 50, 40);
     }
 
@@ -3699,6 +3707,13 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
         m_timeline->fitToWidth(true);
     }
 
+    void KdenliveApp::slotProjectListView() {
+	m_projectList->setListView();
+    }
+
+    void KdenliveApp::slotProjectIconView() {
+	m_projectList->setIconView();
+    }
 
     void KdenliveApp::slotToggleSnapMarker() {
 	slotStatusMsg(i18n("Toggling snap marker"));

@@ -460,6 +460,9 @@ namespace Gui {
 	void slotAddGuide();
 	void slotEditGuide();
 
+	void slotProjectListView();
+	void slotProjectIconView();
+
 	void slotAutoSave();
         void slotSplitAudio();
 	void slotExtractAudio();

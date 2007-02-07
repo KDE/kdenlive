@@ -44,24 +44,30 @@
 
 namespace Gui {
 
-    ProjectList::ProjectList(KdenliveApp * app, KdenliveDoc * document,
-	QWidget * parent, const char *name):ProjectList_UI(parent, name),
-	m_document(document), m_app(app) {
+    ProjectList::ProjectList(KdenliveApp * app, KdenliveDoc * document, bool iconView, QWidget * parent, const char *name):ProjectList_UI(parent, name),
+	m_document(document), m_app(app), m_isIconView(iconView) {
 	if (!document) {
 	    kdError() <<
 		"ProjectList created with no document - expect a crash shortly"
 		<< endl;
 	}
-	QBoxLayout * l = new QHBoxLayout( lv_frame );
-        l->setAutoAdd( TRUE );
-	lv_search = new KListViewSearchLineWidget(m_listView, lv_frame, "search_line");
-	m_listView->setDocument(document);
+	QBoxLayout * viewLayout = new QHBoxLayout( view_frame );
+        viewLayout->setAutoAdd( TRUE );
+	QBoxLayout * searchLayout = new QHBoxLayout( lv_frame );
+        searchLayout->setAutoAdd( TRUE );
+	if (!m_isIconView) setupListView();
+	else setupIconView();
 
 	QPopupMenu *menu = contextcreateMenu();
 	button_add->setPopup(menu);
 
+	QPopupMenu *menu2 = (QPopupMenu *) m_app->factory()->container("projectlist_type", m_app);
+	button_view->setPopup(menu2);
+
 	/* clip shortcut buttons */
 	KIconLoader loader;
+	button_view->setIconSet(QIconSet(loader.loadIcon("view_choose",
+		    KIcon::Toolbar)));
 	button_delete->setIconSet(QIconSet(loader.loadIcon("editdelete",
 		    KIcon::Toolbar)));
 	button_add->setIconSet(QIconSet(loader.loadIcon("filenew",
@@ -69,6 +75,7 @@ namespace Gui {
 	button_edit->setIconSet(QIconSet(loader.loadIcon("edit",
 		    KIcon::Toolbar)));
 
+	QToolTip::add(button_view, i18n("Select View Type"));
 	QToolTip::add(button_edit, i18n("Edit Clip Properties"));
 	QToolTip::add(button_add, i18n("Add Clip"));
 	QToolTip::add(button_delete, i18n("Delete Clip"));
@@ -77,10 +84,21 @@ namespace Gui {
 	    SLOT(slotProjectDeleteClips()));
 	connect(button_edit, SIGNAL(clicked()), app,
 	    SLOT(slotProjectEditClip()));
+    }
 
+    ProjectList::~ProjectList() {
+	if (!m_isIconView) m_listView->clear();
+	else m_iconView->clear();
+    }
+
+    void ProjectList::setupListView() {
+	m_listView = new ProjectListView(view_frame);
+	lv_search = new KListViewSearchLineWidget(m_listView, lv_frame, "search_line");
+	m_listView->setDocument(m_document);
+	m_listView->show();
+	lv_search->show();
 	//add header tooltips -reh
 	colToolTip = new columnToolTip(m_listView->header());
-
 	connect(m_listView, SIGNAL(dragDropOccured(QDropEvent *, QListViewItem *)), this,
 	    SIGNAL(dragDropOccured(QDropEvent *, QListViewItem * )));
 
@@ -88,19 +106,57 @@ namespace Gui {
 		    const QPoint &, int)), this,
 	    SLOT(rightButtonPressed(QListViewItem *, const QPoint &,
 		    int)));
-        
         connect(m_listView, SIGNAL(doubleClicked( QListViewItem *, const QPoint &, int )), this, SLOT(editRequested( QListViewItem *, const QPoint &, int )));
-
-	//connect(m_listView, SIGNAL(executed(QListViewItem *)), this, SLOT(projectListSelectionChanged(QListViewItem *)));
-
 	connect(m_listView, SIGNAL(selectionChanged()), this,
 	    SLOT(updateListItem()));
-
-	//connect(m_listView, SIGNAL(dragStarted(QListViewItem *)), this, SLOT(projectListSelectionChanged(QListViewItem *)));
     }
 
-    ProjectList::~ProjectList() {
- 	m_listView->clear();
+    void ProjectList::setupIconView() {
+	m_iconView = new ProjectIconView(view_frame);
+	iv_search = new KIconViewSearchLine(lv_frame, m_iconView, "search_line");
+	m_iconView->setDocument(m_document);
+	m_iconView->show();
+	iv_search->show();
+	connect(m_iconView, SIGNAL(selectionChanged()), this, SLOT(updateListItem()));
+	connect(m_iconView, SIGNAL(rightButtonPressed(QIconViewItem *, const QPoint &)), this, SLOT(rightButtonPressed(QIconViewItem *, const QPoint &)));
+    }
+
+    void ProjectList::setListView() {
+	if (!m_isIconView) return;
+	delete m_iconView;
+	delete iv_search;
+	setupListView();
+	m_isIconView = false;
+	slot_UpdateList();
+    }
+
+    void ProjectList::setIconView() {
+	if (m_isIconView) return;
+	delete m_listView;
+	delete lv_search;
+	setupIconView();
+	m_isIconView = true;
+	slot_UpdateList();
+    }
+
+    void ProjectList::focusView() {
+	if (!m_isIconView) m_listView->setFocus();
+	else m_iconView->setFocus();
+    }
+
+    DocClipRef* ProjectList::currentClip() {
+	if (!m_isIconView) return (static_cast<AVListViewItem*>(m_listView->currentItem()))->clip();
+	else return (static_cast<AVIconViewItem*>(m_iconView->currentItem()))->clip();
+    }
+
+    QString ProjectList::parentName() {
+	if (!m_isIconView) return m_listView->parentName();
+	else return m_iconView->parentName();
+    }
+
+    QString ProjectList::currentItemName() {
+	if (!m_isIconView)  return m_listView->currentItem()->text(1);
+	else return m_iconView->currentItem()->text();
     }
     
     /** An item was double clicked */
@@ -141,11 +197,42 @@ namespace Gui {
 	}
     }
 
+    void ProjectList::rightButtonPressed(QIconViewItem * iconViewItem,
+	const QPoint & pos) {
+	QPopupMenu *menu;
+	if (!iconViewItem) menu = (QPopupMenu *) m_app->factory()->container("projectlist_context", m_app);
+	else if (!static_cast<AVIconViewItem*>(iconViewItem)->clip())
+	    menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_folder", m_app);
+	else {
+	    switch (static_cast<AVIconViewItem*>(iconViewItem)->clip()->clipType()) {
+		case DocClipBase::VIRTUAL:
+		    menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_virtual", m_app);
+		break;
+		case DocClipBase::TEXT:
+		    menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_text", m_app);
+		break;
+		case DocClipBase::AUDIO:
+		    menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_audio", m_app);
+		break;
+		case DocClipBase::IMAGE:
+		    menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_audio", m_app);
+		break;
+		default:
+	            menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_clip", m_app);
+		break;
+	    }
+	}
+	if (menu) {
+	    menu->popup(QCursor::pos());
+	}
+    }
+
     void ProjectList::selectItem(int id)
     {
 	QStringList ids;
 	ids.append(QString::number(id));
-	m_listView->selectItemsFromIds(ids);
+	if (!m_isIconView) m_listView->selectItemsFromIds(ids);
+	else m_iconView->selectItemsFromIds(ids);
 	updateListItem();
     }
 
@@ -153,25 +240,26 @@ namespace Gui {
     void ProjectList::slot_UpdateList() {
 	QStringList openFolders;
 	// Check which folders are open
-        QListViewItemIterator it( m_listView );
-        while ( it.current() ) {
-            if (it.current()->isOpen()) {
-	    openFolders.append(it.current()->text(1));
-	    }
-            ++it;
-        }
-	QStringList selectedItems = m_listView->selectedItemsIds();
+	if (!m_isIconView) {
+            QListViewItemIterator it( m_listView );
+            while ( it.current() ) {
+                if (it.current()->isOpen()) {
+	        openFolders.append(it.current()->text(1));
+	        }
+                ++it;
+            }
+	    QStringList selectedItems = m_listView->selectedItemsIds();
 
-	m_listView->clear();
-	DocumentBaseNode *node = m_document->clipHierarch();
-	if (node) {
+	    m_listView->clear();
+	    DocumentBaseNode *node = m_document->clipHierarch();
+	    if (node) {
 		QPtrListIterator < DocumentBaseNode > child(node->children());
     		while (child.current()) {
 			if (child.current())
 				new AVListViewItem(m_document, m_listView, child.current());
 			++child;
     		}
-	}
+	    }
 
 	if (!openFolders.isEmpty()) {
 		QListViewItemIterator it( m_listView );
@@ -182,6 +270,19 @@ namespace Gui {
         	}
 	}
 	m_listView->selectItemsFromIds(selectedItems);
+	}
+	else {
+	    m_iconView->clear();
+	    DocumentBaseNode *node = m_document->clipHierarch();
+	    if (node) {
+		QPtrListIterator < DocumentBaseNode > child(node->children());
+    		while (child.current()) {
+			if (child.current())
+				new AVIconViewItem(m_document, m_iconView, child.current());
+			++child;
+    		}
+	    }
+	}
     }
 
 /** The clip specified has changed - update the display.
@@ -191,96 +292,43 @@ namespace Gui {
     }
 
     void ProjectList::refresh() {
-	m_listView->triggerUpdate();
+	if (!m_isIconView) m_listView->triggerUpdate();
+	else m_iconView->update();
     }
         
     void ProjectList::slot_clipChanged() {
 	slot_UpdateList();
-	m_listView->triggerUpdate();
+	if (!m_isIconView) m_listView->triggerUpdate();
+	else m_iconView->update();
     }
 
     void ProjectList::slot_nodeDeleted(DocumentBaseNode * node) {
 	slot_UpdateList();
-	m_listView->triggerUpdate();
+	if (!m_isIconView) m_listView->triggerUpdate();
+	else m_iconView->update();
     }
 
 /** Called when the project list changes. */
-//void ProjectList::projectListSelectionChanged(QListViewItem *item)
     void ProjectList::updateListItem() {
-	const AVListViewItem *avitem = (AVListViewItem *) m_listView->currentItem();
-	if (!avitem) return;
-	if (avitem->clip()) emit clipSelected(avitem->clip());
-/*	    // display duration
-	    Timecode timecode;
-
-	    text_duration->setText(timecode.getTimecode(avitem->clip()->
-                    duration(), KdenliveSettings::defaultfps()));
-
-
-	    // display file size
-	    QString text;
-	    long fileSize = avitem->clip()->fileSize();
-	    long tenth;
-	    if (fileSize < 1024) {
-		text = QString::number(fileSize) + i18n(" byte(s)");
-	    } else {
-		fileSize = (int) floor((fileSize / 1024.0) + 0.5);
-
-		if (fileSize < 1024) {
-		    text = QString::number(fileSize) + i18n(" Kb");
-		} 
-                else {
-		    fileSize = (int) floor((fileSize / 102.4) + 0.5);
-                    if (fileSize < 10000) {
-		      tenth = fileSize % 10;
-		      fileSize /= 10;
-		      text = QString::number(fileSize) + "." + QString::number(tenth) + i18n(" Mb");
-                    }
-                    else {
-                        fileSize = (int) floor((fileSize / 1000) + 0.5);
-                        tenth = fileSize % 10;
-                        fileSize /= 10;
-                        text = QString::number(fileSize) + "." + QString::number(tenth) + i18n(" Gb");
-                        
-                    }
-		}
-	    }
-	    text_size->setText(text);
-	    
-	    // display usage
-	    text_usage->setText(QString::number(avitem->clip()->
-		    numReferences()));
-
-	    // display clip type
-	    if (avitem->clip()->clipType() == DocClipBase::AV)
-		text = i18n("Video");
-	    else if (avitem->clip()->clipType() == DocClipBase::VIDEO)
-		text = i18n("Mute video");
-	    else if (avitem->clip()->clipType() == DocClipBase::AUDIO)
-		text = i18n("Audio");
-	    else if (avitem->clip()->clipType() == DocClipBase::COLOR)
-		text = i18n("Color clip");
-	    else if (avitem->clip()->clipType() == DocClipBase::IMAGE)
-		text = i18n("Image clip");
-            else if (avitem->clip()->clipType() == DocClipBase::TEXT)
-                text = i18n("Text clip");
-	    text_type->setText(text);
-
-	} else {
-	    // no clip selected, diplay blank infos
-	    text_type->setText(QString::null);
-	    text_duration->setText(QString::null);
-	    text_size->setText(QString::null);
-	    text_usage->setText(QString::null);
-	}*/
+	if (!m_isIconView) {
+	    const AVListViewItem * avitem = (AVListViewItem *) m_listView->currentItem();
+	    if (!avitem) return;
+	    if (avitem->clip()) emit clipSelected(avitem->clip());
+	}
+	else {
+	    DocClipRef *clip = m_iconView->selectedItem();
+	    if (clip) emit clipSelected(clip);
+	}
     }
     
 
     DocClipRefList ProjectList::currentSelection() {
-	return m_listView->selectedItemsList();
+	if (!m_isIconView) return m_listView->selectedItemsList();
+	return m_iconView->selectedItemsList();
     }
     
     void ProjectList::selectClip(DocClipBase *clip) {
+	if (!m_isIconView) {
         m_listView->clearSelection();
         QListViewItemIterator it( m_listView );
         while ( it.current() ) {
@@ -292,6 +340,19 @@ namespace Gui {
             }
             ++it;
         }
+	}
+	else {
+	    m_iconView->clearSelection();
+	    for ( QIconViewItem *item = m_iconView->firstItem(); item; item = item->nextItem() )
+	    {
+            	const AVIconViewItem *avitem = static_cast < AVIconViewItem * >(item);
+            	if (avitem && avitem->clip() && avitem->clip()->referencedClip() == clip) {
+                    m_iconView->setSelected(item, true);
+                    m_iconView->ensureItemVisible(item);
+                    break;
+            	}
+            }
+	}
     }
 
 
