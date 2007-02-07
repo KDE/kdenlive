@@ -38,6 +38,8 @@ class AVIconViewItem:public KIconViewItem {
     ~AVIconViewItem();
     DocClipRef *clip() const;
     QString getInfo() const;
+    virtual QString text() const;
+    virtual QPixmap *pixmap() const;
 
 
   private:

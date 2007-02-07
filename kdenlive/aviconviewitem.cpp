@@ -44,17 +44,6 @@ m_iconView(parent->iconView()), m_node(node), m_doc(doc)
 	    "Creating AVIconViewItem with no DocumentBaseNode defined!!!"
 	    << endl;
     }
-    DocumentClipNode *clipNode = m_node->asClipNode();
-    if (clipNode) {
-	DocClipRef *clip = clipNode->clipRef();
-	setText(clip->name());
-	DocClipBase *baseClip = clip->referencedClip();
-	setPixmap(baseClip->thumbnail());
-    }
-    else {
-	setPixmap(QPixmap(KGlobal::iconLoader()->loadIcon("folder", KIcon::Toolbar)));
-	setText("-Folder");
-    }
     doCommonCtor();
 }
 
@@ -90,6 +79,26 @@ AVIconViewItem::~AVIconViewItem()
 {
 }
 
+QString AVIconViewItem::text() const
+{
+    return m_node->name();
+}
+
+
+QPixmap *AVIconViewItem::pixmap() const
+{
+    const QPixmap *pixmap = 0;
+
+    DocumentClipNode *clipNode = m_node->asClipNode();
+    if (clipNode) {
+	DocClipRef *clip = clipNode->clipRef();
+	DocClipBase *baseClip = clip->referencedClip();
+	return new QPixmap(baseClip->thumbnail());
+    }
+    else {
+	return new QPixmap(KGlobal::iconLoader()->loadIcon("folder", KIcon::Toolbar));
+    }
+}
 
 QString AVIconViewItem::clipDuration() const {
 	QString text;

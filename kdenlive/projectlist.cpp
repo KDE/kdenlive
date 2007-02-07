@@ -107,8 +107,7 @@ namespace Gui {
 	    SLOT(rightButtonPressed(QListViewItem *, const QPoint &,
 		    int)));
         connect(m_listView, SIGNAL(doubleClicked( QListViewItem *, const QPoint &, int )), this, SLOT(editRequested( QListViewItem *, const QPoint &, int )));
-	connect(m_listView, SIGNAL(selectionChanged()), this,
-	    SLOT(updateListItem()));
+	connect(m_listView, SIGNAL(selectionChanged()), this, SLOT(updateListItem()));
     }
 
     void ProjectList::setupIconView() {
@@ -279,6 +278,7 @@ namespace Gui {
 	m_listView->selectItemsFromIds(selectedItems);
 	}
 	else {
+	    QStringList selectedItems = m_iconView->selectedItemsIds();
 	    m_iconView->clear();
 	    DocumentBaseNode *node = m_document->clipHierarch();
 	    if (node) {
@@ -289,6 +289,7 @@ namespace Gui {
 			++child;
     		}
 	    }
+	m_iconView->selectItemsFromIds(selectedItems);
 	}
     }
 
