@@ -147,7 +147,7 @@ namespace Gui {
 
     DocClipRef* ProjectList::currentClip() {
 	if (!m_isIconView) return (static_cast<AVListViewItem*>(m_listView->currentItem()))->clip();
-	else return (static_cast<AVIconViewItem*>(m_iconView->currentItem()))->clip();
+	else return m_iconView->selectedItem();
     }
 
     QString ProjectList::parentName() {
