@@ -110,6 +110,7 @@ namespace Gui {
 	    //void projectListSelectionChanged(QListViewItem *item);
          /** an item was double clicked */
          void editRequested( QListViewItem *, const QPoint &, int col);
+	void editRequested( QIconViewItem *);
 	void setupListView();
 	void setupIconView();
     };

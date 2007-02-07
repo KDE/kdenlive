@@ -119,6 +119,7 @@ namespace Gui {
 	iv_search->show();
 	connect(m_iconView, SIGNAL(selectionChanged()), this, SLOT(updateListItem()));
 	connect(m_iconView, SIGNAL(rightButtonPressed(QIconViewItem *, const QPoint &)), this, SLOT(rightButtonPressed(QIconViewItem *, const QPoint &)));
+	connect(m_iconView, SIGNAL(doubleClicked( QIconViewItem *)), this, SLOT(editRequested( QIconViewItem *)));
     }
 
     void ProjectList::setListView() {
@@ -164,6 +165,12 @@ namespace Gui {
     {
         // only react if the click is not in column 2 (because col 2 is the editable description
         if (col!=2) emit editItem();
+    }
+
+    /** An item was double clicked */
+    void ProjectList::editRequested( QIconViewItem *)
+    {
+        emit editItem();
     }
 
 /** No descriptions */
