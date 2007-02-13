@@ -116,6 +116,7 @@ static void consumer_frame_show(mlt_consumer, KRender * self, mlt_frame frame_pt
     else {
 	self->emitFrameNumber(mlt_frame_get_position(frame_ptr), 10000);
     }
+
 }
 
 static void consumer_stopped(mlt_consumer, KRender * self, mlt_frame frame_ptr)
@@ -593,9 +594,8 @@ void KRender::refreshDisplay() {
 void KRender::setVolume(double volume)
 {
     if (!m_mltConsumer || !m_mltProducer) return;
-    stop();
     osdTimer->stop();
-    mlt_properties_set_double( MLT_CONSUMER_PROPERTIES(m_mltConsumer->get_consumer()), "volume", volume );
+    mlt_properties_set_double( MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer()), "meta.volume", volume );
 
     // Attach filter for on screen display of timecode
     mlt_properties properties = MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer());
@@ -607,7 +607,6 @@ void KRender::setVolume(double volume)
     	if (m_mltProducer->attach(*m_osdInfo) == 1) kdDebug()<<"////// error attaching filter"<<endl;
     }
     osdTimer->start(2500, TRUE);
-    start();
 }
 
 void KRender::slotOsdTimeout()
