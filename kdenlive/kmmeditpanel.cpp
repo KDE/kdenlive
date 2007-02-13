@@ -157,10 +157,11 @@ namespace Gui {
 	   volumeControl->setFrameStyle(QFrame::Box | QFrame::Plain);
 	   volumeControl->setMargin(3);
 	   volumeControl->setLineWidth(1);
-	   QSlider *volumeSlider = new QSlider(volumeControl);
-	   volumeSlider->setOrientation(Qt::Horizontal);
-	   volumeSlider->setValue(m_volume * 100);
+	   QSlider *volumeSlider = new QSlider(Qt::Vertical, volumeControl);
+	   volumeSlider->setValue(100 - (int) (m_volume * 100));
 	   volumeControl->setMainWidget(volumeSlider);
+	   volumeControl->setMinimumHeight(90);
+	   volumeControl->setMaximumWidth(25);
 	   connect(volumeSlider, SIGNAL(valueChanged(int)), this, SLOT(slotEmitVolume(int)));
 	   volumeControl->exec(QCursor::pos());
 	   delete volumeSlider;
@@ -168,7 +169,7 @@ namespace Gui {
     }
 
     void KMMEditPanel::slotEmitVolume(int volume) {
-	   m_volume = ((double) volume) / 100.0;
+	   m_volume = ((double) 100 - volume) / 100.0;
 	   emit setVolume( m_volume );
     }
 
