@@ -640,6 +640,7 @@ void KRender::setVolume(double volume)
 	m_mltProducer->detach(*m_osdInfo);
     	if (m_mltProducer->attach(*m_osdInfo) == 1) kdDebug()<<"////// error attaching filter"<<endl;
     }
+    refresh();
     osdTimer->start(2500, TRUE);
 }
 
@@ -649,6 +650,7 @@ void KRender::slotOsdTimeout()
     mlt_properties_set_int(properties, "meta.attr.volume", 0);
     mlt_properties_set(properties, "meta.attr.volume.markup", NULL);
     if (!KdenliveSettings::osdtimecode()) m_mltProducer->detach(*m_osdInfo);
+    refresh();
 }
 
 void KRender::start()
