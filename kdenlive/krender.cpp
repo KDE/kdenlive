@@ -170,7 +170,8 @@ void KRender::createVideoXWindow(bool , WId winid)
 
     //m_mltConsumer->set("audio_driver","dsp");
     QString aDevice = KdenliveSettings::audiodevice();
-    m_mltConsumer->set("audio_driver","alsa");
+    m_mltConsumer->set("video_driver",KdenliveSettings::videodriver());
+    m_mltConsumer->set("audio_driver",KdenliveSettings::audiodriver());
     m_mltConsumer->set("audio_device", aDevice.section(";", 1).ascii());
     m_mltConsumer->set("progressive", 1);
     m_mltConsumer->set("audio_buffer", 1024);
