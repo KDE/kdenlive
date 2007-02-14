@@ -197,7 +197,7 @@ class KRender:public QObject {
 
 	/** A human-readable description of this renderer. */
     QString m_description;
-
+    int m_winid;
 	/** The actually seek command, private so people can't avoid the buffering of multiple seek commands. */
     void sendSeekCommand(GenTime time);
 
@@ -215,6 +215,7 @@ class KRender:public QObject {
 	/** refresh monitor display */
         void refresh();
 	void slotOsdTimeout();
+	void restartConsumer();
 
      signals:			// Signals
 	/** This signal is emitted once a reply to createVideoXWidow() has been recieved. */

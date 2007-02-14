@@ -59,7 +59,7 @@
 static QMutex mutex (true);
 
 KRender::KRender(const QString & rendererName, Gui::KdenliveApp *parent, const char *name):QObject(parent, name), m_name(rendererName), m_app(parent), m_renderingFormat(0),
-m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProducer(NULL), m_mltTextProducer(NULL), m_sceneList(QDomDocument())
+m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProducer(NULL), m_mltTextProducer(NULL), m_sceneList(QDomDocument()), m_winid(-1)
 {
     openMlt();
     refreshTimer = new QTimer( this );
@@ -146,8 +146,9 @@ replyCreateVideoXWindow() once the renderer has replied. */
 
 void KRender::createVideoXWindow(bool , WId winid)
 {
+    m_winid = (int) winid;
     m_mltConsumer = new Mlt::Consumer("sdl_preview");
-    if (!m_mltConsumer->is_valid()) {
+    if (!m_mltConsumer || !m_mltConsumer->is_valid()) {
 	KMessageBox::error(m_app, i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install.\n Exiting now..."));
 	kdError()<<"Sorry, cannot create MLT consumer, check your MLT install you miss SDL libraries support in MLT"<<endl;
 	exit(1);
@@ -161,7 +162,7 @@ void KRender::createVideoXWindow(bool , WId winid)
     /*m_mltConsumer->set("app_locked", 1);
     m_mltConsumer->set("app_lock", (void *) &my_lock, 0);
     m_mltConsumer->set("app_unlock", (void *) &my_unlock, 0);*/
-    m_mltConsumer->set("window_id", (int) winid);
+    m_mltConsumer->set("window_id", m_winid);
 
     mlt_properties properties = MLT_SERVICE_PROPERTIES(m_mltConsumer->get_service());
 
@@ -178,6 +179,13 @@ void KRender::createVideoXWindow(bool , WId winid)
     m_mltConsumer->set("frequency", 48000);
     //m_mltConsumer->set("buffer", 1);
 
+}
+
+
+void KRender::restartConsumer()
+{
+    kdDebug()<<"// RESTARTING SDL CONSUMER"<<endl;
+    if (m_winid != -1) createVideoXWindow(true, m_winid);
 }
 
 /** Wraps the VEML command of the same name; Seeks the renderer clip to the given time. */
@@ -364,20 +372,33 @@ double KRender::consumerRatio()
 
 void KRender::restoreProducer()
 {
-    if (m_mltConsumer && !m_mltConsumer->is_stopped()) m_mltConsumer->stop();
+    if (!m_mltConsumer) {
+	restartConsumer();
+	return;
+    }
+    if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
     if (m_mltTextProducer) delete m_mltTextProducer;
     m_mltTextProducer = 0;
     m_mltConsumer->purge();
     if(m_mltProducer == NULL) return;
     m_mltProducer->set_speed(0.0);
-    m_mltConsumer->start();
-    m_mltConsumer->connect(*m_mltProducer);
-    refresh();
+    if (m_mltConsumer->start() == -1) {
+	KMessageBox::error(m_app, i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
+	m_mltConsumer = NULL;
+    }
+    else {
+        m_mltConsumer->connect(*m_mltProducer);
+        refresh();
+    }
 }
 
 void KRender::setTitlePreview(QString tmpFileName)
 {
-    if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
+    if (!m_mltConsumer) {
+	restartConsumer();
+	return;
+    }
+    if (!m_mltConsumer->is_stopped()) {
         m_mltConsumer->stop();
     }
     m_mltConsumer->purge();
@@ -413,9 +434,14 @@ void KRender::setTitlePreview(QString tmpFileName)
     tracks.seek(pos);
     m_mltTextProducer->seek(pos);
     tracks.set_speed(0.0);
-    m_mltConsumer->connect(tracks);
-    m_mltConsumer->start();
-    refresh();
+    if (m_mltConsumer->start() == -1) {
+	KMessageBox::error(m_app, i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
+	m_mltConsumer = NULL;
+    }
+    else {
+	m_mltConsumer->connect(tracks);
+	refresh();
+    }
 }
 
 int KRender::getLength()
@@ -530,7 +556,7 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
 {
     double pos = 0;
     m_sceneList = list;
-    if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
+    if (m_mltConsumer && !m_mltConsumer->is_stopped()) m_mltConsumer->stop();
 
     if (m_mltProducer != NULL) {
 	pos = m_mltProducer->position();
@@ -568,9 +594,19 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
 	m_mltProducer->optimise();
 
     	//track.set_speed(0);
-	m_mltConsumer->connect(*m_mltProducer);
-	m_mltConsumer->start();
-	refresh();
+        if (!m_mltConsumer) {
+	    restartConsumer();
+        }
+	else {
+            if (m_mltConsumer->start() == -1) {
+	    	KMessageBox::error(m_app, i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
+	    	m_mltConsumer = NULL;
+	    }
+	    else {
+		m_mltConsumer->connect(*m_mltProducer);
+		refresh();
+	    }
+	}
     }
 }
 
@@ -620,9 +656,17 @@ void KRender::slotOsdTimeout()
 
 void KRender::start()
 {
-    if (m_mltConsumer && m_mltConsumer->is_stopped()) {
-	m_mltConsumer->start();
-        refresh();
+    if (!m_mltConsumer) {
+	restartConsumer();
+	return;
+    }
+    if (m_mltConsumer->is_stopped()) {
+	if (m_mltConsumer->start() == -1) {
+	    KMessageBox::error(m_app, i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
+	    m_mltConsumer = NULL;
+	    return;
+	}
+    	else refresh();
     }
 }
 
