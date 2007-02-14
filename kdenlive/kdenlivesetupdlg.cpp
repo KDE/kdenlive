@@ -70,7 +70,7 @@ namespace Gui {
 	page7->audio_driver->insertItem("esd "+ i18n("(Esound daemon)"));
 	page7->audio_driver->insertItem("artsc "+ i18n("(ARTS daemon)"));
 
-	if (KdenliveSettings::audiodriver() == "asla") page7->audio_driver->setCurrentItem(1);
+	if (KdenliveSettings::audiodriver() == "alsa") page7->audio_driver->setCurrentItem(1);
 	if (KdenliveSettings::audiodriver() == "dma") page7->audio_driver->setCurrentItem(2);
 	if (KdenliveSettings::audiodriver() == "esd") page7->audio_driver->setCurrentItem(3);
 	if (KdenliveSettings::audiodriver() == "artsc") page7->audio_driver->setCurrentItem(4);

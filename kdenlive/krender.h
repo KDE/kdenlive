@@ -170,12 +170,14 @@ class KRender:public QObject {
 
  
   private:			// Private attributes & methods
-
+	/** The name of this renderer - useful to identify the renderes by what they do - e.g. background rendering, workspace monitor, etc... */
+     QString m_name;
+     Gui::KdenliveApp *m_app;
+     QString m_renderingFormat;
      Mlt::Consumer * m_mltConsumer;
      Mlt::Producer * m_mltProducer;
      Mlt::Consumer *m_fileRenderer;
      Mlt::Producer * m_mltFileProducer;
-     Gui::KdenliveApp *m_app;
      Mlt::Producer *m_mltTextProducer;
      Mlt::Filter *m_osdInfo;
      double m_framePosition;
@@ -186,14 +188,11 @@ class KRender:public QObject {
      
      QTimer *refreshTimer;
      QTimer *osdTimer;
-     QString m_renderingFormat;
      KURL m_exportedFile;
      int exportDuration, firstExportFrame, lastExportFrame;
 
 	/** Holds the scenelist to be sent, if pending. */
     QDomDocument m_sceneList;
-	/** The name of this renderer - useful to identify the renderes by what they do - e.g. background rendering, workspace monitor, etc... */
-    QString m_name;
 
 	/** A human-readable description of this renderer. */
     QString m_description;

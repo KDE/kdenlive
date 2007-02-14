@@ -119,9 +119,8 @@ static void consumer_frame_show(mlt_consumer, KRender * self, mlt_frame frame_pt
 
 }
 
-static void consumer_stopped(mlt_consumer, KRender * self, mlt_frame frame_ptr)
+static void consumer_stopped(mlt_consumer, KRender * self, mlt_frame )
 {
-    mlt_position framePosition = mlt_frame_get_position(frame_ptr);
     self->emitConsumerStopped();
 }
 
@@ -163,8 +162,6 @@ void KRender::createVideoXWindow(bool , WId winid)
     m_mltConsumer->set("app_lock", (void *) &my_lock, 0);
     m_mltConsumer->set("app_unlock", (void *) &my_unlock, 0);*/
     m_mltConsumer->set("window_id", m_winid);
-
-    mlt_properties properties = MLT_SERVICE_PROPERTIES(m_mltConsumer->get_service());
 
     m_mltConsumer->set("resize", 1);
     m_mltConsumer->set("rescale", KdenliveSettings::previewquality());
@@ -588,7 +585,7 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
 		m_osdInfo->set("dynamic", "0");
 	}
 
-    	if (!resetPosition) m_mltProducer->seek(pos);
+    	if (!resetPosition) m_mltProducer->seek((int) pos);
 	
 	m_fps = m_mltProducer->get_fps();
 	m_mltProducer->optimise();
@@ -700,7 +697,7 @@ void KRender::stop(const GenTime & startTime)
 {
     if (m_mltProducer) {
 	m_mltProducer->set_speed(0.0);
-	m_mltProducer->seek(startTime.frames(m_fps));
+	m_mltProducer->seek((int) startTime.frames(m_fps));
     }
 //refresh();
 }
@@ -712,7 +709,7 @@ void KRender::play(double speed)
 	return;
     m_mltProducer->set("out", m_mltProducer->get_length() - 1);
     m_mltProducer->set_speed(speed);
-    if (speed == 0.0) m_mltProducer->seek(m_framePosition + 1);
+    if (speed == 0.0) m_mltProducer->seek((int) m_framePosition + 1);
     refresh();
 }
 
@@ -800,7 +797,7 @@ double KRender::playSpeed()
 const GenTime & KRender::seekPosition() const
 {
     if (m_mltProducer) return GenTime((int) m_mltProducer->position(), m_fps);
-    return GenTime(0);
+    else return GenTime();
 }
 
 
@@ -813,10 +810,10 @@ const QString & KRender::rendererName() const
 void KRender::emitFrameNumber(double position, int eventType)
 {
 	m_framePosition = position;
-        QApplication::postEvent(m_app, new PositionChangeEvent( GenTime(position, m_fps), eventType));
+        QApplication::postEvent(m_app, new PositionChangeEvent( GenTime((int) position, m_fps), eventType));
 }
 
-void KRender::emitFileFrameNumber(const GenTime & time, int eventType)
+void KRender::emitFileFrameNumber(const GenTime & , int eventType)
 {
     if (m_fileRenderer) {
         QApplication::postEvent(m_app, new PositionChangeEvent(GenTime(m_mltFileProducer->position(), m_mltFileProducer->get_fps()), eventType));
@@ -829,7 +826,7 @@ void KRender::emitConsumerStopped()
     // This is used to know when the playing stopped
     if (m_mltProducer) {
 	double pos = m_mltProducer->position();
-        QApplication::postEvent(m_app, new PositionChangeEvent(GenTime(pos, m_fps), 10002));
+        QApplication::postEvent(m_app, new PositionChangeEvent(GenTime((int) pos, m_fps), 10002));
 	//new QCustomEvent(10002));
     }
 }
