@@ -28,7 +28,7 @@
 #include "configmisc_ui.h"
 #include "configtitler_ui.h"
 #include "configcapture_ui.h"
-
+#include "confighard_ui.h"
 
 namespace Gui {
     class KdenliveApp;
@@ -44,13 +44,16 @@ namespace Gui {
 	    0, const char *name = 0);
 	~KdenliveSetupDlg();
 
-	QString selectedAudioDevice();
 	configInterface *page1;
 	configTimeline *page2;
         configMisc *page3;
         configProject *page5;
         configTitler *page4;
         configCapture *page6;
+        configHard *page7;
+	QString selectedAudioDevice();
+	QString selectedAudioDriver();
+	QString selectedVideoDriver();
 
     private:
 	QStringList m_audio_devices;

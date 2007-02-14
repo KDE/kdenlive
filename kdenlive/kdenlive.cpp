@@ -655,15 +655,15 @@ namespace Gui {
 	    actionCollection(), "delete_selected_clips");
 
 	actionToggleSnapMarker =
-	    new KAction(i18n("Toggle Snap Marker"),
+	    new KAction(i18n("Toggle Marker"),
 	    KShortcut(Qt::Key_Period), this, SLOT(slotToggleSnapMarker()),
 	    actionCollection(), "toggle_snap_marker");
 	actionClearAllSnapMarkers =
-	    new KAction(i18n("Clear All Snap Markers"), KShortcut(), this,
+	    new KAction(i18n("Clear All Markers"), KShortcut(), this,
 	    SLOT(slotClearAllSnapMarkers()), actionCollection(),
 	    "clear_all_snap_markers");
 	actionClearSnapMarkersFromSelected =
-	    new KAction(i18n("Clear Snap Markers From Selected"),
+	    new KAction(i18n("Clear Markers From Selected"),
 	    KShortcut(), this, SLOT(slotClearSnapMarkersFromSelected()),
 	    actionCollection(), "clear_snap_markers_from_selected");
 
@@ -2753,9 +2753,21 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	connect(dialog, SIGNAL(settingsChanged()), this,
 	    SLOT(updateConfiguration()));
 	if (dialog->exec() == QDialog::Accepted) {
+	    bool notify = false;
 	    if (dialog->selectedAudioDevice() != KdenliveSettings::audiodevice()) {
 	        KdenliveSettings::setAudiodevice(dialog->selectedAudioDevice());
-		KMessageBox::sorry(this, i18n("Please restart Kdenlive to apply your changes\nto the audio device"));
+		notify = true;
+	    }
+	    if (dialog->selectedAudioDriver() != KdenliveSettings::audiodriver()) {
+		KdenliveSettings::setAudiodriver(dialog->selectedAudioDriver());
+		notify = true;
+	    }
+	    if (dialog->selectedVideoDriver() != KdenliveSettings::videodriver()) {
+		KdenliveSettings::setVideodriver(dialog->selectedVideoDriver());
+		notify = true;
+	    }
+	    if (notify) {
+		KMessageBox::sorry(this, i18n("Please restart Kdenlive to apply your changes\nto the audio/video system"));
 	    }
 	}
 	delete dialog;

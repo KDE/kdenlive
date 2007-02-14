@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>252</width>
-            <height>319</height>
+            <width>259</width>
+            <height>297</height>
         </rect>
     </property>
     <grid>
@@ -145,19 +145,6 @@
                 </size>
             </property>
         </spacer>
-        <widget class="QLabel" row="4" column="0">
-            <property name="name">
-                <cstring>textLabel1</cstring>
-            </property>
-            <property name="text">
-                <string>Audio device:</string>
-            </property>
-        </widget>
-        <widget class="KComboBox" row="4" column="1" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>audio_device</cstring>
-            </property>
-        </widget>
     </grid>
 </widget>
 <customwidgets>
@@ -171,6 +158,5 @@
     <includehint>kpushbutton.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>
-    <includehint>kcombobox.h</includehint>
 </includehints>
 </UI>

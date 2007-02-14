@@ -714,11 +714,11 @@ void exportWidget::doExport(QString file, QStringList params, bool isDv, bool au
     *m_exportProcess << QString("in=%1").arg(startExportTime.frames(KdenliveSettings::defaultfps()));
     *m_exportProcess << QString("out=%1").arg(endExportTime.frames(KdenliveSettings::defaultfps()));
     *m_exportProcess << "-consumer";
-    /*if (isDv && !) {
+    if (isDv) {
 	*m_exportProcess << QString("libdv:%1").arg(file);
 	*m_exportProcess << "terminate_on_pause=1";
     }
-    else */
+    else
     *m_exportProcess << QString("avformat:%1").arg(file);
     if (audioOnly) *m_exportProcess <<"format=wav"<<"frequency=48000";
     else *m_exportProcess << params;
