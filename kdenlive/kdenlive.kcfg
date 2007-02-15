@@ -152,12 +152,12 @@
 
     <entry name="audiodriver" type="String">
       <label>Audio driver used for sound output.</label>
-      <default>dsp</default>
+      <default></default>
     </entry>
 
     <entry name="videodriver" type="String">
       <label>Video driver used for output.</label>
-      <default>x11</default>
+      <default></default>
     </entry>
 
     </group>

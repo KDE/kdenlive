@@ -64,18 +64,21 @@ namespace Gui {
     void KdenliveSetupDlg::initAudioDevices()
     {
 	// Fill audio drivers
-	page7->audio_driver->insertItem("dsp " + i18n("(Default)"));
+	page7->audio_driver->insertItem(i18n("Automatic"));
+	page7->audio_driver->insertItem("dsp " + i18n("(OSS)"));
 	page7->audio_driver->insertItem("alsa " + i18n("(ALSA)"));
-	page7->audio_driver->insertItem("dma " + i18n("(OSS)"));
+	page7->audio_driver->insertItem("dma " + i18n("(OSS with DMA access)"));
 	page7->audio_driver->insertItem("esd "+ i18n("(Esound daemon)"));
 	page7->audio_driver->insertItem("artsc "+ i18n("(ARTS daemon)"));
 
-	if (KdenliveSettings::audiodriver() == "alsa") page7->audio_driver->setCurrentItem(1);
-	if (KdenliveSettings::audiodriver() == "dma") page7->audio_driver->setCurrentItem(2);
-	if (KdenliveSettings::audiodriver() == "esd") page7->audio_driver->setCurrentItem(3);
-	if (KdenliveSettings::audiodriver() == "artsc") page7->audio_driver->setCurrentItem(4);
-
+	if (!KdenliveSettings::audiodriver().isEmpty())
+	    for (uint i = 1;i < page7->audio_driver->count(); i++) {
+		if (page7->audio_driver->text(i).section(" ", 0, 0) == KdenliveSettings::audiodriver())
+		page7->audio_driver->setCurrentItem(i);
+	    }
+ 
 	// Fill video drivers
+	page7->video_driver->insertItem(i18n("Automatic"));
 	page7->video_driver->insertItem("x11 " + i18n("(Default)"));
 	page7->video_driver->insertItem("dga " + i18n("(XFREE86 DGA 2.0)"));
 	page7->video_driver->insertItem("nanox " + i18n("()"));
@@ -85,13 +88,11 @@ namespace Gui {
 	page7->video_driver->insertItem("ggi " + i18n("(General graphics interface)"));
 	page7->video_driver->insertItem("aalib " + i18n("(Ascii art library)"));
 
-	if (KdenliveSettings::videodriver() == "dga") page7->video_driver->setCurrentItem(1);
-	if (KdenliveSettings::videodriver() == "nanox") page7->video_driver->setCurrentItem(2);
-	if (KdenliveSettings::videodriver() == "fbcon") page7->video_driver->setCurrentItem(3);
-	if (KdenliveSettings::videodriver() == "directfb") page7->video_driver->setCurrentItem(4);
-	if (KdenliveSettings::videodriver() == "svgalib") page7->video_driver->setCurrentItem(5);
-	if (KdenliveSettings::videodriver() == "ggi") page7->video_driver->setCurrentItem(6);
-	if (KdenliveSettings::videodriver() == "aalib") page7->video_driver->setCurrentItem(7);
+	if (!KdenliveSettings::videodriver().isEmpty())
+	    for (uint i = 1;i < page7->video_driver->count(); i++) {
+		if (page7->video_driver->text(i).section(" ", 0, 0) == KdenliveSettings::videodriver())
+		page7->video_driver->setCurrentItem(i);
+	    }
 
 	// Fill the list of audio playback devices
 	page7->audio_device->insertItem(i18n("Default"));
@@ -154,11 +155,13 @@ namespace Gui {
 
     QString KdenliveSetupDlg::selectedAudioDriver()
     {
+	if (page7->audio_driver->currentItem() == 0) return QString::null;
 	return page7->audio_driver->currentText().section(" ", 0, 0);
     }
 
     QString KdenliveSetupDlg::selectedVideoDriver()
     {
+	if (page7->video_driver->currentItem() == 0) return QString::null;
 	return page7->video_driver->currentText().section(" ", 0, 0);
     }
 
