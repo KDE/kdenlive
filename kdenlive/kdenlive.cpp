@@ -2150,6 +2150,7 @@ namespace Gui {
     void KdenliveApp::requestDocumentClose(KURL new_url)
     {
     m_timeline->clearGuides();
+    m_commandHistory->clear();
     // Check if new file is an NTSC or PAL doc and set environnement variables accordingly
     if (!new_url.isEmpty()) {
 	QFile myFile(new_url.path());
