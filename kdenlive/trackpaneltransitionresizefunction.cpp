@@ -177,7 +177,7 @@ bool TrackPanelTransitionResizeFunction::mousePressed(Gui::KTrackPanel * panel,
 
 bool TrackPanelTransitionResizeFunction::mouseDoubleClicked(Gui::KTrackPanel * panel, QMouseEvent * event)
 {
-    return true;
+    return false;
 }
 
 bool TrackPanelTransitionResizeFunction::mouseReleased(Gui::KTrackPanel * panel,

@@ -115,12 +115,15 @@ bool TrackPanelClipMoveFunction::mousePressed(Gui::KTrackPanel * panel,
     return result;
 }
 
-bool TrackPanelClipMoveFunction::mouseDoubleClicked(Gui::KTrackPanel * panel, QMouseEvent *)
+bool TrackPanelClipMoveFunction::mouseDoubleClicked(Gui::KTrackPanel * panel, QMouseEvent *event)
 {
 	if (panel->hasDocumentTrackIndex()) {
 		DocTrackBase *track =
 		    m_document->track(panel->documentTrackIndex());
 		if (track) {
+			GenTime mouseTime((int)(m_timeline->mapLocalToValue(event->x())),
+		m_document->framesPerSecond());
+			m_clipUnderMouse = track->getClipAt(mouseTime);
 	    		if (m_clipUnderMouse) {
 				track->openClip(m_clipUnderMouse);
 			}

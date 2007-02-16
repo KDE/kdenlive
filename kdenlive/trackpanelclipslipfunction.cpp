@@ -115,7 +115,7 @@ bool TrackPanelClipSlipFunction::mousePressed(Gui::KTrackPanel * panel,
 
 bool TrackPanelClipSlipFunction::mouseDoubleClicked(Gui::KTrackPanel * panel, QMouseEvent * event)
 {
-    return true;
+    return false;
 }
 
 bool TrackPanelClipSlipFunction::mouseReleased(Gui::KTrackPanel * panel,

@@ -102,7 +102,7 @@ bool TrackPanelSpacerFunction::mousePressed(Gui::KTrackPanel * panel,
 
 bool TrackPanelSpacerFunction::mouseDoubleClicked(Gui::KTrackPanel *, QMouseEvent *)
 {
-    return true;
+    return false;
 }
 
 bool TrackPanelSpacerFunction::mouseReleased(Gui::KTrackPanel *, QMouseEvent *)

@@ -65,7 +65,7 @@ bool TrackPanelMarkerFunction::mousePressed(Gui::KTrackPanel * panel,
 
 bool TrackPanelMarkerFunction::mouseDoubleClicked(Gui::KTrackPanel * panel, QMouseEvent * event)
 {
-    return true;
+    return false;
 }
 
 bool TrackPanelMarkerFunction::mouseReleased(Gui::KTrackPanel * panel,

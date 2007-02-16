@@ -187,12 +187,13 @@ bool TrackPanelClipRollFunction::mousePressed(Gui::KTrackPanel * panel,
 
 bool TrackPanelClipRollFunction::mouseDoubleClicked(Gui::KTrackPanel * panel, QMouseEvent * event)
 {
-    return true;
+    return false;
 }
 
 bool TrackPanelClipRollFunction::mouseReleased(Gui::KTrackPanel * panel,
     QMouseEvent * event)
 {
+    if (!m_rollCommand) return false;
     bool result = false;
 
     if (m_resizeState == Start) m_rollCommand->setEndSize(*m_clipUnderMouse, *m_clipBeforeMouse);

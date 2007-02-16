@@ -104,7 +104,7 @@ bool TrackPanelRazorFunction::mousePressed(Gui::KTrackPanel * panel,
 
 bool TrackPanelRazorFunction::mouseDoubleClicked(Gui::KTrackPanel *, QMouseEvent *)
 {
-    return true;
+    return false;
 }
 
 bool TrackPanelRazorFunction::mouseReleased(Gui::KTrackPanel *, QMouseEvent * event)
