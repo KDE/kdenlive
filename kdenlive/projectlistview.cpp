@@ -121,6 +121,11 @@ void ProjectListView::selectItemsFromIds(QStringList idList)
     clearSelection();
     QListViewItem *lastItem = NULL;
     QListViewItem *itemItt = firstChild();
+    if (idList.isEmpty()) {
+	if (itemItt) itemItt->setSelected(true);
+	emit selectionChanged();
+	return;
+    }
     while (itemItt) {
 	AVListViewItem *avItem = (AVListViewItem *) itemItt;
 	if (avItem && avItem->clip() && idList.findIndex(QString::number(avItem->clip()->referencedClip()->getId())) != -1) {
@@ -154,6 +159,8 @@ void ProjectListView::selectItemsFromIds(QStringList idList)
 	    ensureItemVisible(lastItem->parent());
 	}
     }
+    else firstChild()->setSelected(true);
+    emit selectionChanged();
 }
 
 /** returns a drag object which is used for drag operations. */

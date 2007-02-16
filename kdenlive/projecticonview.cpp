@@ -151,7 +151,7 @@ DocClipRef *ProjectIconView::selectedItem() const
 	if (item->isSelected()) break;
     }
     AVIconViewItem *avItem = (AVIconViewItem *) item;
-    if (avItem) return avItem->clip();
+    return avItem->clip();
 }
 
 /** returns a drag object which is used for drag operations. */
