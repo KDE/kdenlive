@@ -159,7 +159,7 @@ void ProjectListView::selectItemsFromIds(QStringList idList)
 	    ensureItemVisible(lastItem->parent());
 	}
     }
-    else firstChild()->setSelected(true);
+    else if (firstChild()) firstChild()->setSelected(true);
     emit selectionChanged();
 }
 
