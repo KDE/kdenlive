@@ -468,7 +468,8 @@ void DocTrackBase::resizeClipTrackEnd(DocClipRef * clip, GenTime newEnd)
 
     GenTime cropDuration = newEnd - clip->trackStart();
 
-    if (cropDuration > clip->duration() - clip->cropStartTime()) {
+    // If clip is a video, audio or slideshow, make sure user cannot make it bigger than possible
+    if (cropDuration > clip->duration() - clip->cropStartTime() && clip->clipType() != DocClipBase::TEXT && clip->clipType() != DocClipBase::IMAGE && clip->clipType() != DocClipBase::COLOR) {
 	kdWarning() <<
 	    "clip new crop end greater than duration, trimming..." << endl;
 	newEnd =
