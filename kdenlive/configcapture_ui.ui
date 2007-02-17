@@ -8,15 +8,15 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>335</width>
-            <height>112</height>
+            <width>319</width>
+            <height>103</height>
         </rect>
     </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <spacer row="2" column="0">
+        <spacer row="3" column="1">
             <property name="name">
                 <cstring>spacer2</cstring>
             </property>
@@ -28,12 +28,12 @@
             </property>
             <property name="sizeHint">
                 <size>
-                    <width>16</width>
-                    <height>186</height>
+                    <width>20</width>
+                    <height>120</height>
                 </size>
             </property>
         </spacer>
-        <widget class="QCheckBox" row="0" column="0">
+        <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>kcfg_autosplit</cstring>
             </property>
@@ -41,7 +41,7 @@
                 <string>Automatic scene detection</string>
             </property>
         </widget>
-        <widget class="QCheckBox" row="1" column="0">
+        <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>kcfg_timestamp</cstring>
             </property>
@@ -49,7 +49,48 @@
                 <string>Put recording time info in captured file name</string>
             </property>
         </widget>
+        <widget class="QLabel" row="2" column="0">
+            <property name="name">
+                <cstring>textLabel1</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>4</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string>DV capture format:</string>
+            </property>
+        </widget>
+        <widget class="KComboBox" row="2" column="1">
+            <item>
+                <property name="text">
+                    <string>DV Type 1 AVI</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>DV Type 2 AVI</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>Raw DV</string>
+                </property>
+            </item>
+            <property name="name">
+                <cstring>kcfg_captureformat</cstring>
+            </property>
+        </widget>
     </grid>
 </widget>
+<customwidgets>
+</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>kcombobox.h</includehint>
+</includehints>
 </UI>

@@ -2761,11 +2761,11 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	        KdenliveSettings::setAudiodevice(dialog->selectedAudioDevice());
 		notify = true;
 	    }
-	    if (dialog->selectedAudioDriver() != KdenliveSettings::audiodriver()) {
+	    if (dialog->selectedAudioDriver() != KdenliveSettings::audiodriver() && !(dialog->selectedAudioDriver().isEmpty() && KdenliveSettings::audiodriver().isEmpty())) {
 		KdenliveSettings::setAudiodriver(dialog->selectedAudioDriver());
 		notify = true;
 	    }
-	    if (dialog->selectedVideoDriver() != KdenliveSettings::videodriver()) {
+	    if (dialog->selectedVideoDriver() != KdenliveSettings::videodriver() && !(dialog->selectedVideoDriver().isEmpty() && KdenliveSettings::videodriver().isEmpty())) {
 		KdenliveSettings::setVideodriver(dialog->selectedVideoDriver());
 		notify = true;
 	    }

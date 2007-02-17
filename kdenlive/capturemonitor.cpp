@@ -208,8 +208,20 @@ void CaptureMonitor::displayCapturedFiles()
 	captureProcess->setWorkingDirectory(m_tmpFolder);
         captureProcess->setUseShell(true);
         captureProcess->setEnvironment("SDL_WINDOWID", QString::number(m_screen->winId()));
-        *captureProcess<<"dvgrab";
-        *captureProcess<<"--format"<<"raw";
+	*captureProcess<<"dvgrab";
+
+	switch (KdenliveSettings::captureformat()){
+	    case 0:
+ 		*captureProcess<<"--format"<<"dv1";
+		break;
+	    case 1:
+ 		*captureProcess<<"--format"<<"dv2";
+		break;
+	    default:
+        	*captureProcess<<"--format"<<"raw";
+		break;
+	}
+
 	if (KdenliveSettings::autosplit()) *captureProcess<<"--autosplit";
 	if (KdenliveSettings::timestamp()) *captureProcess<<"--timestamp";
 	*captureProcess<<"-i"<<"capture"<<"-";

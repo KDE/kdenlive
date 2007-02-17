@@ -242,6 +242,11 @@
       <label>Put recording time info in captured file name.</label>
       <default>false</default>
     </entry>
+
+    <entry name="captureformat" type="Int">
+      <label>DVgrab capture format.</label>
+      <default>1</default>
+    </entry>
   </group>
 
 </kcfg>

@@ -156,13 +156,13 @@ namespace Gui {
     QString KdenliveSetupDlg::selectedAudioDriver()
     {
 	if (page7->audio_driver->currentItem() == 0) return QString::null;
-	return page7->audio_driver->currentText().section(" ", 0, 0);
+	else return page7->audio_driver->currentText().section(" ", 0, 0);
     }
 
     QString KdenliveSetupDlg::selectedVideoDriver()
     {
 	if (page7->video_driver->currentItem() == 0) return QString::null;
-	return page7->video_driver->currentText().section(" ", 0, 0);
+	else return page7->video_driver->currentText().section(" ", 0, 0);
     }
 
 }				// namespace Gui
