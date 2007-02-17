@@ -10,61 +10,61 @@ if ENABLE_FIREWIRE
 LIB_FIREWIRE = -liec61883
 endif
 
-kdenlive_SOURCES = avfileformatdesc.cpp avfileformatwidget.cpp avfilelist.cpp \
-	avformatdescbase.cpp avformatdescbool.cpp avformatdesccodec.cpp avformatdesccodeclist.cpp \
-	avformatdesccontainer.cpp avformatdesclist.cpp avformatwidgetbase.cpp avformatwidgetbool.cpp \
-	avformatwidgetcodec.cpp avformatwidgetcodeclist.cpp avformatwidgetcontainer.cpp \
-	avformatwidgetlist.cpp avlistviewitem.cpp clipdrag.cpp clippropertiesdialog.cpp \
+kdenlive_SOURCES = addmarker_ui.ui addtrackdialog_ui.ui avfileformatdesc.cpp \
+	avfileformatwidget.cpp avfilelist.cpp avformatdescbase.cpp avformatdescbool.cpp \
+	avformatdesccodec.cpp avformatdesccodeclist.cpp avformatdesccontainer.cpp \
+	avformatdesclist.cpp avformatwidgetbase.cpp avformatwidgetbool.cpp avformatwidgetcodec.cpp \
+	avformatwidgetcodeclist.cpp avformatwidgetcontainer.cpp avformatwidgetlist.cpp aviconviewitem.cpp \
+	aviconviewitem.h avlistviewitem.cpp capturemonitor.cpp clipdrag.cpp clipmanager.cpp \
+	clipproperties.cpp clipproperties.h clipproperties_ui.ui clippropertiesdialog.cpp \
+	configcapture_ui.ui confighard_ui.ui configinterface_ui.ui configmisc_ui.ui \
+	configproject_ui.ui configtimeline_ui.ui configtitler_ui.ui configureproject.cpp \
+	configureproject_ui.ui configureprojectdialog.cpp createcolorclip_ui.ui createimageclip_ui.ui \
+	createslideshowclip.cpp createslideshowclip.h createslideshowclip_ui.ui definitions.h \
 	displayaudiodesc.cpp displayvideodesc.cpp docclipavfile.cpp docclipbase.cpp \
-	docclipbaselist.cpp docclipproject.cpp doctrackbase.cpp doctrackbaselist.cpp \
-	doctrackclipiterator.cpp doctracksound.cpp doctrackvideo.cpp effect.cpp effectdesc.cpp \
-	effectlistdialog.cpp effectparamdialog.cpp gentime.cpp kaddclipcommand.cpp kdenlive.cpp \
-	kdenlivedoc.cpp kdenlivesetupdlg.cpp kdenlivesplash.cpp kfixedruler.cpp \
-	kmmeditpanel.cpp kmmmonitor.cpp kmmrulerpanel.cpp kmmscreen.cpp \
-	kmmtrackkeyframepanel.cpp kmmtrackpanel.cpp kmmtracksoundpanel.cpp kmmtrackvideopanel.cpp \
-	kmoveclipscommand.cpp krender.cpp krendermanager.cpp kresizecommand.cpp kruler.cpp \
-	krulermodel.cpp krulersliderbase.cpp krulertimemodel.cpp kscalableruler.cpp \
-	kselectclipcommand.cpp main.cpp monitormanager.cpp projectlist.cpp projectlistview.cpp \
-	rangelist.cpp snaptogrid.cpp trackpanelclipmovefunction.cpp \
-	trackpanelclipresizefunction.cpp trackpanelfunction.cpp trackpanelrazorfunction.cpp \
-	trackpanelspacerfunction.cpp addtrackdialog_ui.ui kmmeditpanel_ui.ui kmmrulerpanel_ui.ui \
-	docclipref.cpp docclipreflist.cpp clipmanager.cpp documentclipnode.cpp \
-	documentgroupnode.cpp documentbasenode.cpp docsubclip.cpp kaddrefclipcommand.cpp \
-	configureproject_ui.ui configureproject.cpp configureprojectdialog.cpp exportconfig.cpp \
-	trackpanelmarkerfunction.cpp trackviewdecorator.cpp trackviewbackgrounddecorator.cpp \
-	trackviewvideobackgrounddecorator.cpp trackviewaudiobackgrounddecorator.cpp trackviewnamedecorator.cpp \
-	trackviewmarkerdecorator.cpp kaddmarkercommand.cpp saveprojectfilter.cpp saveprojectnativefilter.cpp \
-	loadprojectfilter.cpp loadprojectnativefilter.cpp projectformatmanager.cpp \
-	loadprojectkinofilter.cpp timecode.cpp ktimeline.cpp kmmtimeline.cpp ktrackview.cpp \
-	documentmacrocommands.cpp saveprojectscenelistfilter.cpp trackpanelfunctionfactory.cpp \
-	trackpanelselectnonefunction.cpp effectkeyframe.cpp effectdoublekeyframe.cpp effectparamdesc.cpp \
-	effectparamdoubledesc.cpp effectparameter.cpp effectparamdescfactory.cpp doctrackdecorator.cpp \
-	ktrackpanel.cpp trackviewdoublekeyframedecorator.cpp effectstack.cpp \
-	effectstackdialog_ui.ui effectstackdialog.cpp effectdrag.cpp kaddeffectcommand.cpp \
-	effectdescriptionlist.cpp effectstacklistview.cpp trackpanelclipslipfunction.cpp ktrackplacer.cpp \
-	kplacer.cpp kclipplacer.cpp kmmclipkeyframepanel.cpp trackpanelcliprollfunction.cpp \
-	krollcommand.cpp dynamicToolTip.cpp kmonitor.cpp capturemonitor.cpp \
-	configinterface_ui.ui configtimeline_ui.ui kdenlivesettings.kcfgc trackheader_ui.ui \
-	projectview_ui.ui createcolorclip_ui.ui loadprogress_ui.ui createimageclip_ui.ui \
-	keditclipcommand.cpp keditclipcommand.h trackpanelkeyframefunction.cpp \
-	trackpanelkeyframefunction.h effectparamcomplexdesc.cpp effectparamcomplexdesc.h \
-	effectcomplexkeyframe.cpp effectcomplexkeyframe.h transition.cpp transition.h transitionstack.cpp \
-	transitionstack.h trackviewtransitiondecorator.cpp trackviewtransitiondecorator.h \
-	doccliptextfile.cpp doccliptextfile.h titlebasewidget_ui.ui titlewidget.cpp titlewidget.h \
-	kthumb.cpp kthumb.h trackpaneltransitionmovefunction.cpp \
-	trackpaneltransitionmovefunction.h trackpaneltransitionresizefunction.cpp \
-	trackpaneltransitionresizefunction.h transitiondialog.cpp transitiondialog.h transitioncrossfade_ui.ui \
-	transitionwipe_ui.ui configproject_ui.ui flatbutton.cpp flatbutton.h clipproperties_ui.ui \
-	clipproperties.cpp clipproperties.h transitionpip_ui.ui transitionpipwidget.cpp \
-	exportbasewidget_ui.ui exportwidget.cpp exportwidget.h configmisc_ui.ui newproject_ui.ui \
-	newproject.cpp createslideshowclip_ui.ui createslideshowclip.cpp createslideshowclip.h \
-	initeffects.h initeffects.cpp keditmarkercommand.cpp keditmarkercommand.h \
-	addmarker_ui.ui kaddtransitioncommand.cpp kaddtransitioncommand.h configtitler_ui.ui \
-	transitionaudiofade_ui.ui exportdvd_ui.ui exportdvddialog.cpp exportdvddialog.h \
-	transitionwipewidget.cpp transitionwipewidget.h transitionlumafile_ui.ui definitions.h \
-	editencoder_ui.ui docclipvirtual.cpp docclipvirtual.h kmmrecpanel_ui.ui kmmrecpanel.cpp \
-	kmmrecpanel.h configcapture_ui.ui editmetadata_ui.ui projecticonview.cpp \
-	projecticonview.h aviconviewitem.cpp aviconviewitem.h confighard_ui.ui
+	docclipbaselist.cpp docclipproject.cpp docclipref.cpp docclipreflist.cpp \
+	doccliptextfile.cpp doccliptextfile.h docclipvirtual.cpp docclipvirtual.h docsubclip.cpp \
+	doctrackbase.cpp doctrackbaselist.cpp doctrackclipiterator.cpp doctrackdecorator.cpp \
+	doctracksound.cpp doctrackvideo.cpp documentbasenode.cpp documentclipnode.cpp \
+	documentgroupnode.cpp documentmacrocommands.cpp dynamicToolTip.cpp editencoder_ui.ui \
+	editmetadata_ui.ui effect.cpp effectcomplexkeyframe.cpp effectcomplexkeyframe.h \
+	effectdesc.cpp effectdescriptionlist.cpp effectdoublekeyframe.cpp effectdrag.cpp \
+	effectkeyframe.cpp effectlistdialog.cpp effectparamcomplexdesc.cpp \
+	effectparamcomplexdesc.h effectparamdesc.cpp effectparamdescfactory.cpp effectparamdialog.cpp \
+	effectparamdoubledesc.cpp effectparameter.cpp effectstack.cpp effectstackdialog.cpp \
+	effectstackdialog_ui.ui effectstacklistview.cpp exportbasewidget_ui.ui exportconfig.cpp \
+	exportdvd_ui.ui exportdvddialog.cpp exportdvddialog.h exportwidget.cpp exportwidget.h \
+	firstrun_ui.ui flatbutton.cpp flatbutton.h gentime.cpp initeffects.cpp initeffects.h \
+	kaddclipcommand.cpp kaddeffectcommand.cpp kaddmarkercommand.cpp kaddrefclipcommand.cpp \
+	kaddtransitioncommand.cpp kaddtransitioncommand.h kclipplacer.cpp kdenlive.cpp kdenlivedoc.cpp \
+	kdenlivesettings.kcfgc kdenlivesetupdlg.cpp kdenlivesplash.cpp keditclipcommand.cpp \
+	keditclipcommand.h keditmarkercommand.cpp keditmarkercommand.h kfixedruler.cpp \
+	kmmclipkeyframepanel.cpp kmmeditpanel.cpp kmmeditpanel_ui.ui kmmmonitor.cpp kmmrecpanel.cpp \
+	kmmrecpanel.h kmmrecpanel_ui.ui kmmrulerpanel.cpp kmmrulerpanel_ui.ui kmmscreen.cpp \
+	kmmtimeline.cpp kmmtrackkeyframepanel.cpp kmmtrackpanel.cpp kmmtracksoundpanel.cpp \
+	kmmtrackvideopanel.cpp kmonitor.cpp kmoveclipscommand.cpp kplacer.cpp krender.cpp \
+	krendermanager.cpp kresizecommand.cpp krollcommand.cpp kruler.cpp krulermodel.cpp \
+	krulersliderbase.cpp krulertimemodel.cpp kscalableruler.cpp kselectclipcommand.cpp \
+	kthumb.cpp kthumb.h ktimeline.cpp ktrackpanel.cpp ktrackplacer.cpp ktrackview.cpp \
+	loadprogress_ui.ui loadprojectfilter.cpp loadprojectkinofilter.cpp \
+	loadprojectnativefilter.cpp main.cpp monitormanager.cpp newproject.cpp newproject_ui.ui \
+	projectformatmanager.cpp projecticonview.cpp projecticonview.h projectlist.cpp \
+	projectlistview.cpp projectview_ui.ui rangelist.cpp saveprojectfilter.cpp \
+	saveprojectnativefilter.cpp saveprojectscenelistfilter.cpp snaptogrid.cpp timecode.cpp \
+	titlebasewidget_ui.ui titlewidget.cpp titlewidget.h trackheader_ui.ui \
+	trackpanelclipmovefunction.cpp trackpanelclipresizefunction.cpp trackpanelcliprollfunction.cpp \
+	trackpanelclipslipfunction.cpp trackpanelfunction.cpp trackpanelfunctionfactory.cpp \
+	trackpanelkeyframefunction.cpp trackpanelkeyframefunction.h trackpanelmarkerfunction.cpp \
+	trackpanelrazorfunction.cpp trackpanelselectnonefunction.cpp trackpanelspacerfunction.cpp \
+	trackpaneltransitionmovefunction.cpp trackpaneltransitionmovefunction.h \
+	trackpaneltransitionresizefunction.cpp trackpaneltransitionresizefunction.h \
+	trackviewaudiobackgrounddecorator.cpp trackviewbackgrounddecorator.cpp trackviewdecorator.cpp \
+	trackviewdoublekeyframedecorator.cpp trackviewmarkerdecorator.cpp trackviewnamedecorator.cpp \
+	trackviewtransitiondecorator.cpp trackviewtransitiondecorator.h trackviewvideobackgrounddecorator.cpp \
+	transition.cpp transition.h transitionaudiofade_ui.ui transitioncrossfade_ui.ui \
+	transitiondialog.cpp transitiondialog.h transitionlumafile_ui.ui transitionpip_ui.ui \
+	transitionpipwidget.cpp transitionstack.cpp transitionstack.h transitionwipe_ui.ui \
+	transitionwipewidget.cpp transitionwipewidget.h
 
 kdenlive_LDADD   =  $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) \
 		    $(LIBSOCKET) $(LIB_FIREWIRE)

@@ -110,6 +110,7 @@
 #include "kaddmarkercommand.h"
 #include "keditmarkercommand.h"
 #include "docclipvirtual.h"
+#include "firstrun_ui.h"
 
 #include "trackpanelclipmovefunction.h"
 #include "trackpanelrazorfunction.h"
@@ -134,13 +135,42 @@ namespace Gui {
 	const char *name):KDockMainWindow(parent, name), m_monitorManager(this),
     m_workspaceMonitor(NULL), m_clipMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_renderManager(NULL), m_doc(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_projectList(NULL), m_effectStackDialog(NULL), m_effectListDialog(NULL), m_projectFormat(PAL_VIDEO), m_timelinePopupMenu(NULL), m_rulerPopupMenu(NULL), m_exportDvd(NULL), m_transitionPanel(NULL), m_resizeFunction(NULL), m_rollFunction(NULL), m_markerFunction(NULL) {
 	config = kapp->config();
+
 	QString newProjectName;
 	videoProjectFormats << i18n("PAL (720x576, 25fps)") << i18n("PAL 16:9 (720x576, 25fps)");
 	videoProjectFormats << i18n("NTSC (720x480, 30fps)") << i18n("NTSC 16:9 (720x480, 30fps)");
 
+
+	config->setGroup("General Options");
+	if (!config->readBoolEntry("FirstRun")) {
+	    // This is the first run of Kdenlive, ask user some basic things
+	    firstRun_UI *dia = new firstRun_UI(this);
+	    dia->video_format->insertStringList(videoProjectFormats);
+	    dia->exec();
+	    KdenliveSettings::setDefaultprojectformat(dia->video_format->currentItem());
+	    if (dia->openlast->isChecked()) {
+		KdenliveSettings::setOpenlast(true);
+		KdenliveSettings::setOpenblank(false);
+		KdenliveSettings::setAlwaysask(false);
+	    }
+	    else if (dia->openblank->isChecked()) {
+		KdenliveSettings::setOpenlast(false);
+		KdenliveSettings::setOpenblank(true);
+		KdenliveSettings::setAlwaysask(false);
+	    }
+	    else {
+		KdenliveSettings::setOpenlast(false);
+		KdenliveSettings::setOpenblank(false);
+		KdenliveSettings::setAlwaysask(true);
+	    }
+	    delete dia;
+	    config->setGroup("General Options");
+	    config->writeEntry("FirstRun", true);
+	}
+
 	// HDV not implemented in MLT yet...
-	videoProjectFormats << i18n("HDV-1080 (1440x1080, 25fps)");
-	videoProjectFormats << i18n("HDV-720 (1280x720, 25fps)");
+	// videoProjectFormats << i18n("HDV-1080 (1440x1080, 25fps)");
+	// videoProjectFormats << i18n("HDV-720 (1280x720, 25fps)");
 
 	initStatusBar();
 
