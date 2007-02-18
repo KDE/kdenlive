@@ -1,8 +1,9 @@
-# translation of es.po to español
+# translation of es.po to Español
 # Gerard Lledó Vives <gellevi@inf.upv.es>, 2004.
 # Carlos Dávila Martín <carluti@users.sourceforge.net>, 2006.
 # jb <jb@ader.ch>, 2006.
 # Carlos Dávila <carluti@users.sourceforge.net>, 2007.
+# Carlos Davila <carluti@users.sourceforge.net>, 2007.
 # translation of es.po to
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
@@ -11,13 +12,14 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-02-01 12:42+0100\n"
-"PO-Revision-Date: 2007-02-07 23:26+0100\n"
-"Last-Translator: Carlos Dávila <carluti@users.sourceforge.net>\n"
-"Language-Team: español <grass-es@grass.itc.it>\n"
+"PO-Revision-Date: 2007-02-18 23:24+0100\n"
+"Last-Translator: Carlos Davila <carluti@users.sourceforge.net>\n"
+"Language-Team: Español <grass-es@grass.itc.it>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #: kdenlive/addmarker_ui.cpp:124 kdenlive/changeclipspeed_ui.cpp:119
 #: kdenlive/clipproperties_ui.cpp:265 kdenlive/configmisc_ui.cpp:117
@@ -1004,11 +1006,11 @@ msgstr "Menú"
 
 #: kdenlive/exportdvd_ui.cpp:412
 msgid "Generating DVD structure"
-msgstr "Generando estructura de DVD"
+msgstr "Generando la estructura del DVD"
 
 #: kdenlive/exportdvd_ui.cpp:413
 msgid "Generating menu"
-msgstr "Generando menú"
+msgstr "Generando el menú"
 
 #: kdenlive/exportdvd_ui.cpp:416
 msgid "Preview"
@@ -1032,7 +1034,7 @@ msgstr "Mostrar salida del proceso"
 
 #: kdenlive/exportdvd_ui.cpp:425
 msgid "Generating main movie"
-msgstr "Generando película principal"
+msgstr "Generando la película principal"
 
 #: kdenlive/exportdvd_ui.cpp:426
 msgid "DVD Creation"
@@ -1067,7 +1069,7 @@ msgid ""
 "You can now close this dialog and keep on working on your project while the "
 "DVD is being created."
 msgstr ""
-"Ahora puedes cerrar este diálogo u continuar trabajando en tu proyecto "
+"Ahora puedes cerrar este diálogo y continuar trabajando en tu proyecto "
 "mientas se crea el DVD."
 
 #: kdenlive/exportdvddialog.cpp:174
@@ -1080,7 +1082,7 @@ msgid ""
 "Output file will probably be corrupted..."
 msgstr ""
 "La exportación terminó inesperadamente.\n"
-"El archivo de salida probablemente estará corrupto..."
+"El archivo de salida probablemente estará corrupto."
 
 #: kdenlive/exportdvddialog.cpp:225 kdenlive/exportdvddialog.cpp:228
 #: kdenlive/kruler.cpp:1127
@@ -1436,7 +1438,7 @@ msgstr "Coeficiente"
 
 #: kdenlive/initeffects.cpp:638
 msgid "Rate Scaler"
-msgstr ""
+msgstr "Escalador de frecuencia"
 
 #: kdenlive/initeffects.cpp:642
 msgid "Rate"
