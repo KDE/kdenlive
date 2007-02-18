@@ -928,10 +928,15 @@ namespace Gui {
         "edit_clip");
 	editClip->setStatusText(i18n("Edit Clip Properties"));
         
-        KAction *editParentClip = new KAction(i18n("Clip properties"), 0, this,
+        KAction *editParentClip = new KAction(i18n("Clip Properties"), 0, this,
         SLOT(slotProjectEditParentClip()), actionCollection(),
         "project_edit_clip");
 	editParentClip->setStatusText(i18n("Edit clip properties"));
+
+        KAction *setClipDuration = new KAction(i18n("Edit Duration"), 0, this,
+        SLOT(slotSetClipDuration()), actionCollection(),
+        "clip_set_duration");
+	setClipDuration->setStatusText(i18n("Set current clip duration"));
         
         KAction *exportCurrentFrame = new KAction(i18n("Export Current Frame"), 0, this,
         SLOT(slotExportCurrentFrame()), actionCollection(),
@@ -3050,6 +3055,26 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     void KdenliveApp::slotProjectEditParentClip() {
         m_projectList->selectClip(getDocument()->projectClip().selectedClip()->referencedClip());
         slotProjectEditClip();
+    }
+
+    void KdenliveApp::slotSetClipDuration() {
+	DocClipRef *clip = getDocument()->projectClip().selectedClip();
+	GenTime duration = clip->cropDuration();
+	bool ok;
+	QString currentDuration = getDocument()->timeCode().getTimecode(duration, getDocument()->framesPerSecond());
+	KDialogBase *dia = new KDialogBase(  KDialogBase::Swallow, i18n("Change Clip Duration"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "edit_duration", true);
+	QHBox *page = new QHBox(dia);
+	QLabel *lab = new QLabel(i18n("Enter new duration: "), page);
+	KRestrictedLine *ed = new KRestrictedLine(page);
+   	dia->setMainWidget(page);
+	ed->setInputMask("99:99:99:99; ");
+	ed->setText(currentDuration);
+	ed->setMinimumWidth(200);
+	if (dia->exec() == QDialog::Accepted) {
+	    GenTime newDuration = getDocument()->getTimecodePosition(ed->text());
+	    clip->parentTrack()->resizeClipTrackEnd(clip, newDuration + clip->trackStart());
+	}
+	delete dia;
     }
     
     /* Duplicate text clip */

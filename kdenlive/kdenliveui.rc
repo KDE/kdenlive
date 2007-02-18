@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kdenlive" version="26">
+<kpartgui name="kdenlive" version="27">
 <MenuBar>
   <Menu name="file">
 	<Action name="merge_project"/>
@@ -327,6 +327,7 @@
   <Action name="extract_audio"/>
   <Action name="save_subclip"/>
   <Separator lineSeparator="true"/>
+  <Action name="clip_set_duration"/>
   <Action name="project_edit_clip"/>
 </Menu>
 
