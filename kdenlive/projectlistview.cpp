@@ -29,7 +29,7 @@ ProjectListView::ProjectListView(QWidget * parent, const char *name):
 KListView(parent, name)
 {
     m_doc = 0;
-    m_popuptext = "";
+    m_popuptext = QString::null;
 
     addColumn(i18n("Thumbnail"));
     addColumn(i18n("Filename"));
@@ -196,4 +196,15 @@ void ProjectListView::dragDropped(QDropEvent * e, QListViewItem * parent,
 void ProjectListView::setDocument(KdenliveDoc * doc)
 {
     m_doc = doc;
+}
+
+void ProjectListView::contentsMouseDoubleClickEvent( QMouseEvent * e )
+{
+    QListViewItem *item = itemAt(e->pos());
+    if (item) {
+	int col = item ? header()->mapToLogical( header()->cellAt( e->x() ) ) : -1;
+	emit doubleClicked(item, e->pos(), col);
+    }
+    else emit addClipRequest();
+    e->accept();
 }

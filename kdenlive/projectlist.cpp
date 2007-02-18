@@ -91,6 +91,11 @@ namespace Gui {
 	else m_iconView->clear();
     }
 
+    void ProjectList::addClipRequest()
+    {
+	m_app->slotProjectAddClips();
+    }
+
     void ProjectList::setupListView() {
 	m_listView = new ProjectListView(view_frame);
 	lv_search = new KListViewSearchLineWidget(m_listView, lv_frame, "search_line");
@@ -108,6 +113,7 @@ namespace Gui {
 		    int)));
         connect(m_listView, SIGNAL(doubleClicked( QListViewItem *, const QPoint &, int )), this, SLOT(editRequested( QListViewItem *, const QPoint &, int )));
 	connect(m_listView, SIGNAL(selectionChanged()), this, SLOT(updateListItem()));
+	connect(m_listView, SIGNAL(addClipRequest()), this, SLOT(addClipRequest()));
     }
 
     void ProjectList::setupIconView() {
@@ -162,7 +168,8 @@ namespace Gui {
     /** An item was double clicked */
     void ProjectList::editRequested( QListViewItem *, const QPoint &, int col)
     {
-        // only react if the click is not in column 2 (because col 2 is the editable description
+	kdDebug()<<"/////// DBL CLK"<<endl;
+	// only react if the click is not in column 2 (because col 2 is the editable description
         if (col!=2) emit editItem();
     }
 

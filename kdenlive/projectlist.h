@@ -66,6 +66,8 @@ namespace Gui {
 	void setListView();
 	void setIconView();
 
+
+
       private:			// Private methods
 	/** Holds the document that this projectlist makes use of. */
 	 KdenliveDoc * m_document;
@@ -109,10 +111,11 @@ namespace Gui {
 	/** Called when the project list changes. */
 	    //void projectListSelectionChanged(QListViewItem *item);
          /** an item was double clicked */
-         void editRequested( QListViewItem *, const QPoint &, int col);
+        void editRequested( QListViewItem *i, const QPoint &, int col);
 	void editRequested( QIconViewItem *);
 	void setupListView();
 	void setupIconView();
+	void addClipRequest();
     };
 
 }				// namespace Gui

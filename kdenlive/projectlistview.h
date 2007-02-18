@@ -56,11 +56,14 @@ class ProjectListView:public KListView {
     void dragDropOccured(QDropEvent * e, QListViewItem * parent);
 	/** This signal is called whenever a drag'n'drop is started */
     void dragStarted(QListViewItem * i);
+    void addClipRequest();
 
   protected:
 		/** returns true if the drop event is compatable with the project list */
      bool acceptDrag(QDropEvent * event) const;
-    private slots:		// Private slots
+     virtual void contentsMouseDoubleClickEvent( QMouseEvent * e );
+
+  private slots:		// Private slots
 	/** This slot function should be called whenever a drag has been dropped onto the class. */
     void dragDropped(QDropEvent * e, QListViewItem * parent,
 	QListViewItem * after);
