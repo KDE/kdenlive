@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-02-01 12:42+0100\n"
-"PO-Revision-Date: 2007-02-18 23:24+0100\n"
+"PO-Revision-Date: 2007-02-18 23:39+0100\n"
 "Last-Translator: Carlos Davila <carluti@users.sourceforge.net>\n"
 "Language-Team: Español <grass-es@grass.itc.it>\n"
 "MIME-Version: 1.0\n"
@@ -900,7 +900,7 @@ msgstr "Capítulo"
 #: kdenlive/exportdvd_ui.cpp:90 kdenlive/exportdvd_ui.cpp:376
 #: kdenlive/transitionwipe_ui.cpp:221
 msgid "Start"
-msgstr "Empezar"
+msgstr "Inicio"
 
 #: kdenlive/exportdvd_ui.cpp:91 kdenlive/exportdvd_ui.cpp:377
 #: kdenlive/transitionwipe_ui.cpp:222
@@ -4674,5 +4674,5 @@ msgstr "Fi&n"
 
 #: kdenlive/transitionwipe_ui.cpp:237
 msgid "Rescale images"
-msgstr "Rescalar imágenes"
+msgstr "Reescalar imágenes"
 
