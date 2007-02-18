@@ -2001,8 +2001,8 @@ namespace Gui {
 	if (!saveModified()) {
 	    // here saving wasn't successful
 	} else {
-	    int videoTracks = 3;
-	    int audioTracks = 2;
+	    int videoTracks = KdenliveSettings::videotracks();
+	    int audioTracks = KdenliveSettings::audiotracks();
 	    QString newProjectName;
 	    m_selectedFile = NULL;
 	    if (!slotNewProject(&newProjectName, &m_selectedFile, &videoTracks, &audioTracks))
