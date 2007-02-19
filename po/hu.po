@@ -1606,7 +1606,7 @@ msgstr "Jelölőhöz igazítás"
 
 #: kdenlive/kdenlive.cpp:459
 msgid "Display On Screen Infos"
-msgstr ""
+msgstr "Képernyő információk (OSD) megjelenítése"
 
 #: kdenlive/kdenlive.cpp:464
 msgid "Multi Track View"
@@ -1630,7 +1630,7 @@ msgstr "Gyorsnézeti kép"
 
 #: kdenlive/kdenlive.cpp:497
 msgid "Define thumbnail for the current clip"
-msgstr ""
+msgstr "Gyorsnézeti kép beállítása"
 
 #: kdenlive/kdenlive.cpp:499
 msgid "Go To Beginning"
