@@ -137,7 +137,7 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
         xmlAttr.clear();
         xmlAttr.append("type", QString::null, QString::null, "constant");
         xmlAttr.append("name", QString::null, QString::null, "u");
-        xmlAttr.append("description", QString::null, QString::null, "Chrominance U");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Chrominance U"));
         xmlAttr.append("max", QString::null, QString::null, "255");
         xmlAttr.append("min", QString::null, QString::null, "0");
         xmlAttr.append("default", QString::null, QString::null, "75");
@@ -227,7 +227,7 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
         xmlAttr.clear();
         xmlAttr.append("type", QString::null, QString::null, "constant");
         xmlAttr.append("name", QString::null, QString::null, "hori");
-        xmlAttr.append("description", QString::null, QString::null, "Horizontal multiplicator");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Horizontal multiplicator"));
         xmlAttr.append("max", QString::null, QString::null, "50");
         xmlAttr.append("min", QString::null, QString::null, "1");
         xmlAttr.append("default", QString::null, QString::null, "1");
@@ -235,7 +235,7 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
         xmlAttr.clear();
         xmlAttr.append("type", QString::null, QString::null, "constant");
         xmlAttr.append("name", QString::null, QString::null, "vert");
-        xmlAttr.append("description", QString::null, QString::null, "Vertical multiplicator");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Vertical multiplicator"));
         xmlAttr.append("max", QString::null, QString::null, "50");
         xmlAttr.append("min", QString::null, QString::null, "1");
         xmlAttr.append("default", QString::null, QString::null, "1");
@@ -254,6 +254,24 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
         xmlAttr.append("min", QString::null, QString::null, "0");
         xmlAttr.append("default", QString::null, QString::null, "5");
 	xmlAttr.append("factor", QString::null, QString::null, "1");
+        wave->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+
+        xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "constant");
+        xmlAttr.append("name", QString::null, QString::null, "deformX");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Horizontal factor"));
+        xmlAttr.append("max", QString::null, QString::null, "100");
+        xmlAttr.append("min", QString::null, QString::null, "0");
+        xmlAttr.append("default", QString::null, QString::null, "1");
+        wave->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+
+        xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "constant");
+        xmlAttr.append("name", QString::null, QString::null, "deformY");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Vertical factor"));
+        xmlAttr.append("max", QString::null, QString::null, "100");
+        xmlAttr.append("min", QString::null, QString::null, "0");
+        xmlAttr.append("default", QString::null, QString::null, "1");
         wave->addParameter(effectDescParamFactory.createParameter(xmlAttr));
         effectList->append(wave );
     }
