@@ -169,11 +169,19 @@ void ExportDvdDialog::slotNextPage() {
         if (use_existing->isChecked()) {
 	    main_ok->setPixmap(KGlobal::iconLoader()->loadIcon("button_ok", KIcon::Toolbar));
 	    m_movie_file = render_file->url();
+	    movie_path->setText(m_movie_file);
 	}
         else if (render_now->isChecked()) {
-	    KURL moviePath = KURLRequesterDlg::getURL(KdenliveSettings::currentdefaultfolder() + "/movie.vob", this, i18n("Enter name for rendered movie file"));
-	    if (moviePath.isEmpty()) return;
+	    KURLRequesterDlg *getUrl = new KURLRequesterDlg(KdenliveSettings::currentdefaultfolder() + "/movie.vob", i18n("Enter name for rendered movie file"), this, "dvd_file");
+	    getUrl->exec();
+	    KURL moviePath = getUrl->selectedURL ();
+	    //KURL moviePath = KURLRequesterDlg::getURL(KdenliveSettings::currentdefaultfolder() + "/movie.vob", i18n("Enter name for rendered movie file"), this, "dvd_file");
+	    if (moviePath.isEmpty()) {
+		showPage(page(0));
+		return;
+	    }
 	    m_movie_file = moviePath.path();
+	    movie_path->setText(m_movie_file);
         }
     }
 }
