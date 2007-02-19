@@ -1071,6 +1071,17 @@ namespace Gui {
 	statusBar()->addWidget(m_statusBarProgress);
 	m_statusBarProgress->hide();
 
+	// Stop export button
+	KIconLoader loader;
+	QIconSet eff;
+	m_stopExportButton = new KPushButton(loader.loadIcon("stop", KIcon::Small, 16), QString::null, this);
+	QToolTip::add( m_stopExportButton, i18n( "Stop Export" ) );
+	connect(m_stopExportButton, SIGNAL(clicked()), this, SLOT(slotStopExport()));
+	m_stopExportButton->setMaximumSize(QSize(18, 18));
+	m_stopExportButton->setFlat(true);
+	statusBar()->addWidget(m_stopExportButton);
+	m_stopExportButton->hide();
+
 	m_statusBarExportProgress = new KProgress(statusBar());
 	m_statusBarExportProgress->setMaximumWidth(100);
 	m_statusBarExportProgress->setTotalSteps(100);
@@ -1078,8 +1089,6 @@ namespace Gui {
 	statusBar()->addWidget(m_statusBarExportProgress);
 	m_statusBarExportProgress->hide();
 
-	KIconLoader loader;
-	QIconSet eff;
 	eff.setPixmap(loader.loadIcon("kdenlive_effects", KIcon::Small, 16), QIconSet::Small, QIconSet::Normal, QIconSet::Off);
 	eff.setPixmap(loader.loadIcon("kdenlive_effectsoff", KIcon::Small, 16), QIconSet::Small, QIconSet::Normal, QIconSet::On);
 	KPushButton *effectsButton = new KPushButton(eff, QString::null, this);
@@ -1129,6 +1138,10 @@ namespace Gui {
 	    0, true);
 	statusBar()->insertItem(QString::null, ID_TIMELINE_MSG,
 	    0, true);
+    }
+
+    void KdenliveApp::slotStopExport() {
+	if (m_exportWidget && KMessageBox::questionYesNo(this, i18n("Abort export ?")) == KMessageBox::Yes) m_exportWidget->stopExport();
     }
 
     void KdenliveApp::initDocument(int vtracks, int atracks) {
@@ -1593,6 +1606,7 @@ namespace Gui {
 	    if (val < 0) {
 		slotStatusMsg(i18n("Ready."));
 		m_statusBarExportProgress->hide();
+		m_stopExportButton->hide();
 	    }
 	    else {
 		if ( val == 0 ) {
@@ -1612,6 +1626,7 @@ namespace Gui {
 			slotStatusMsg(i18n("Export will finish in %1h%2m%3s").arg(QString::number(hours).rightJustify(2, '0', FALSE)).arg(QString::number(minutes).rightJustify(2, '0', FALSE)).arg(QString::number(seconds).rightJustify(2, '0', FALSE)));
 		}
 		m_statusBarExportProgress->show();
+		m_stopExportButton->show();
 	    }
 	    m_statusBarExportProgress->setProgress(val);
 	    }

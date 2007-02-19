@@ -93,7 +93,6 @@ private:
 
 private slots:
 	void startExport();
-        void stopExport();
         void slotEditMetaData();
 	void exportFileToTheora(QString srcFileName, int audio =1, int video =5, QString size = QString());
         void initEncoders();
@@ -120,6 +119,7 @@ private slots:
 	QStringList metadataString();
 
 public slots:
+        void stopExport();
 	void endExport();
 	void updateGuides();
 	void generateDvdFile(QString file, GenTime start, GenTime end, VIDEOFORMAT format);

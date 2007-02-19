@@ -488,6 +488,7 @@ namespace Gui {
 	void slotMoveClipToCurrentTime();
 	void slotMoveClipUp();
 	void slotMoveClipDown();
+	void slotStopExport();
 
 	bool slotNewProject(QString *newProjectName, KURL *fileUrl, int *videoTracks, int *audioTracks, bool byPass = false, bool exitMode = false);
 	QString easyName(VIDEOFORMAT format);
@@ -627,6 +628,7 @@ namespace Gui {
 		/** The progress widget on the status bar, used by various long-winded methods. */
 	KProgress *m_statusBarProgress;
 	KProgress *m_statusBarExportProgress;
+	KPushButton *m_stopExportButton;
 
 		/** Holds the undo/redo command history */
 	KCommandHistory *m_commandHistory;
