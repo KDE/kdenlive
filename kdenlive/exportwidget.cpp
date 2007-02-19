@@ -727,6 +727,9 @@ void exportWidget::doExport(QString file, QStringList params, bool isDv, bool au
     *m_exportProcess << "stats_on=1";
     // workaround until MLT's default qscale value is fixed
     *m_exportProcess << "qscale=1";
+    *m_exportProcess << "aspect_ratio=16:9";
+    *m_exportProcess << "frame_aspect_ratio=16:9";
+    *m_exportProcess << "aspect=16:9";
     if (!KdenliveSettings::videoprofile().isEmpty()) 
 	*m_exportProcess<<"profile=" + KdenliveSettings::videoprofile();
     connect(m_exportProcess, SIGNAL(processExited(KProcess *)), this, SLOT(endExport(KProcess *)));
@@ -876,13 +879,12 @@ void exportWidget::endDvdExport(KProcess *)
     if (!m_exportProcess->normalExit()) {
 	//KMessageBox::sorry(this, i18n("The export terminated unexpectedly.\nOutput file will probably be corrupted..."));
 	emit dvdExportOver(false);
-	return;
     }
+    else emit dvdExportOver(true);
     delete m_exportProcess;
     m_exportProcess = 0;
     m_isRunning = false;
     QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1, 10007));
-    emit dvdExportOver(true);
 }
 
 
