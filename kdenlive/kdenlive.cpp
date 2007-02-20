@@ -2504,6 +2504,10 @@ namespace Gui {
 
     void KdenliveApp::slotVirtualZone()
     {
+	if ((m_timeline->outpointPosition() - m_timeline->inpointPosition()).frames(KdenliveSettings::defaultfps()) < 10) {
+	    KMessageBox::sorry(this, i18n("The selected timeline zone is smaller than 10 frames.\nPlease select a zone with the timeline selection tool before creating a virtual clip.\n(Double click in the timeline ruler to bring the selection zone to current time)"));
+	    return;
+	}
 	bool ok;
 	QString clipName = KInputDialog::getText(i18n("Create Virtual Clip"), i18n("New clip name"), i18n("Virtual Clip"), &ok);
 	if (!ok) return;
