@@ -1239,6 +1239,7 @@ namespace Gui {
 	m_dockCaptureMonitor = createDockWidget( "Capture Monitor", QPixmap(), 0, i18n( "Capture Monitor" ) );
 	m_dockCaptureMonitor->setDockSite( KDockWidget::DockFullSite );
 	m_dockCaptureMonitor->manualDock( m_dockWorkspaceMonitor, KDockWidget::DockCenter );
+	m_dockCaptureMonitor->setToolTipString(i18n("Capture Monitor"));
 
 	setBackgroundMode(PaletteBase);
 	makeDockInvisible(mainDock);
