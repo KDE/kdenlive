@@ -12,9 +12,6 @@
             <height>114</height>
         </rect>
     </property>
-    <property name="caption">
-        <string></string>
-    </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
@@ -25,6 +22,13 @@
             </property>
             <property name="text">
                 <string></string>
+            </property>
+            <property name="color">
+                <color>
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>0</blue>
+                </color>
             </property>
         </widget>
         <widget class="QLabel" row="0" column="3">
