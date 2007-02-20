@@ -738,7 +738,7 @@ void titleWidget::rectMode()
 void titleWidget::addText(QPoint p)
 {
 
-        QString txt=KInputDialog::getMultiLineText("Enter your text",QString::null, QString::null,0,this);
+        QString txt=KInputDialog::getMultiLineText(i18n("Enter your text"),QString::null, QString::null,0,this);
         if (txt!=QString::null) {
                 // Create new text item
                 QCanvasText* i = new QCanvasText(canvas);
