@@ -17,8 +17,11 @@ messages: rc.cpp
 	$(XGETTEXT) kdenlive/*.ui  -L C++ -j -o po/kdenlive.pot
 
 package-messages:
+	
 	cd $(top_srcdir) && $(MAKE) -f admin/Makefile.common package-messages
-	$(MAKE) -C po merge
+
+package-merge:
+	cd $(top_srcdir) && $(MAKE) -f admin/Makefile.common package-merge POFILES=po/*.po PACKAGE=po/kdenlive
 
 EXTRA_DIST = admin %{LICENSEFILE} configure.in.in
 
