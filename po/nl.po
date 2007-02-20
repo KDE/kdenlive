@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive 0.5\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-02-20 17:43+0100\n"
+"PO-Revision-Date: 2007-02-20 21:06+0100\n"
 "Last-Translator: Harry van der Wolf <harryvanderwolf@xs4all.nl>\n"
 "Language-Team: kdenlive\n"
 "MIME-Version: 1.0\n"
@@ -536,9 +536,8 @@ msgid "Put recording time info in captured file name"
 msgstr "Sla opname tijd info op in opgenomen bestands naam"
 
 #: kdenlive/configcapture_ui.cpp:72
-#, fuzzy
 msgid "DV capture format:"
-msgstr "Video formaat:"
+msgstr "DV capture formaat:"
 
 #: kdenlive/configcapture_ui.cpp:74
 msgid "DV Type 1 AVI"
@@ -553,19 +552,16 @@ msgid "Raw DV"
 msgstr "Raw DV"
 
 #: kdenlive/confighard_ui.cpp:78
-#, fuzzy
 msgid "Audio device:"
-msgstr "Audio codec:"
+msgstr "Audio apparaat:"
 
 #: kdenlive/confighard_ui.cpp:79
-#, fuzzy
 msgid "Audio driver:"
-msgstr "Audio codec:"
+msgstr "Audio driver:"
 
 #: kdenlive/confighard_ui.cpp:80
-#, fuzzy
 msgid "Video driver:"
-msgstr "Video codec:"
+msgstr "Video driver:"
 
 #: kdenlive/configinterface_ui.cpp:102
 msgid "minutes"
@@ -940,7 +936,7 @@ msgstr "Sleutel frames"
 #: kdenlive/kdenlive.cpp:1223
 #: kdenlive/kdenlive.cpp:1226
 msgid "Effect Stack"
-msgstr "Effect reeks"
+msgstr "Effect Stapel"
 
 #: kdenlive/exportbasewidget_ui.cpp:81
 #: kdenlive/exportbasewidget_ui.cpp:94
@@ -1312,9 +1308,8 @@ msgstr ""
 "Dit is de eerste keer dat u Kdenlive start. Configureer s.v.p. uw voorkeurs instellingen. Deze kunnen alter altijd gewijzigd worden via het Instellingen scherm."
 
 #: kdenlive/firstrun_ui.cpp:117
-#, fuzzy
 msgid "Default video format:"
-msgstr "Video formaat:"
+msgstr "Standaard video formaat:"
 
 #: kdenlive/initeffects.cpp:118
 msgid "Greyscale"
@@ -1331,9 +1326,8 @@ msgid "Sepia"
 msgstr "Sepia"
 
 #: kdenlive/initeffects.cpp:140
-#, fuzzy
 msgid "Chrominance U"
-msgstr "Verchroming V"
+msgstr "Verchroming U"
 
 #: kdenlive/initeffects.cpp:148
 msgid "Chrominance V"
@@ -1376,14 +1370,12 @@ msgid "Blur factor"
 msgstr "Vervlakking factor"
 
 #: kdenlive/initeffects.cpp:230
-#, fuzzy
 msgid "Horizontal multiplicator"
-msgstr "Horizontale verstrooing"
+msgstr "Horizontale multiplicator"
 
 #: kdenlive/initeffects.cpp:238
-#, fuzzy
 msgid "Vertical multiplicator"
-msgstr "Vertikale verstrooing"
+msgstr "Verticale multiplicator"
 
 #: kdenlive/initeffects.cpp:248
 msgid "Wave"
@@ -1394,14 +1386,12 @@ msgid "Amplitude"
 msgstr "Amplitude"
 
 #: kdenlive/initeffects.cpp:262
-#, fuzzy
 msgid "Horizontal factor"
-msgstr "Horizontale verstrooing"
+msgstr "Horizontale factor"
 
 #: kdenlive/initeffects.cpp:271
-#, fuzzy
 msgid "Vertical factor"
-msgstr "Vertikale verstrooing"
+msgstr "Verticale factor"
 
 #: kdenlive/initeffects.cpp:282
 msgid "Volume"
@@ -1993,19 +1983,16 @@ msgid "Set Outpoint"
 msgstr "Instellen Eindpunt"
 
 #: kdenlive/kdenlive.cpp:688
-#, fuzzy
 msgid "Toggle Marker"
-msgstr "Wissel uitlijn markering"
+msgstr "Wissel Markering"
 
 #: kdenlive/kdenlive.cpp:692
-#, fuzzy
 msgid "Clear All Markers"
-msgstr "Verwijder Alle Uitlijn Markeringen"
+msgstr "Verwijder Alle Markeringen"
 
 #: kdenlive/kdenlive.cpp:696
-#, fuzzy
 msgid "Clear Markers From Selected"
-msgstr "Verwijder Alle Uitlijn Markeringen Van Geselecteerde"
+msgstr "Verwijder Markeringen Van Geselecteerde"
 
 #: kdenlive/kdenlive.cpp:701
 msgid "Load Layout &1"
@@ -2323,14 +2310,12 @@ msgid "Edit clip properties"
 msgstr "Bewerk clip eigenschappen"
 
 #: kdenlive/kdenlive.cpp:936
-#, fuzzy
 msgid "Edit Duration"
-msgstr "Bewerk Overgang"
+msgstr "Bewerk Tijdsduur"
 
 #: kdenlive/kdenlive.cpp:939
-#, fuzzy
 msgid "Set current clip duration"
-msgstr "Standaard tekst clip tijdsduur"
+msgstr "Stel huidige clip tijdsduur in"
 
 #: kdenlive/kdenlive.cpp:941
 msgid "Export Current Frame"
@@ -2341,9 +2326,8 @@ msgid "Save current frame as image file"
 msgstr "Opslaan huidige frame als afbeelding bestand"
 
 #: kdenlive/kdenlive.cpp:946
-#, fuzzy
 msgid "Merge Project..."
-msgstr "Maken van nieuw project..."
+msgstr "Samenvoegen Project..."
 
 #: kdenlive/kdenlive.cpp:948
 msgid "Merge current project with another one"
@@ -2540,9 +2524,8 @@ msgid "Ready."
 msgstr "Klaar."
 
 #: kdenlive/kdenlive.cpp:1078
-#, fuzzy
 msgid "Stop Export"
-msgstr "Export:"
+msgstr "Stop Export"
 
 #: kdenlive/kdenlive.cpp:1095
 msgid "Show Effects"
@@ -2681,24 +2664,20 @@ msgstr ""
 "Kdenlive kan niet goed werken voordat u een map voor tijdelijke bestanden hebt gekozen met schrijf toegang via Kdenlive instellingen menu."
 
 #: kdenlive/kdenlive.cpp:2164
-#, fuzzy
 msgid "Select project file"
-msgstr "Selecteer Voorwerpen"
+msgstr "Selecteer project bestand"
 
 #: kdenlive/kdenlive.cpp:2165
-#, fuzzy
 msgid "Merge project"
-msgstr "Opslaan project"
+msgstr "Samenvoegen project"
 
 #: kdenlive/kdenlive.cpp:2170
-#, fuzzy
 msgid "Project file: "
-msgstr "Project map"
+msgstr "Project bestand:"
 
 #: kdenlive/kdenlive.cpp:2177
-#, fuzzy
 msgid "Timeline clips: "
-msgstr "Tijdlijn"
+msgstr "Tijdlijn clips:"
 
 #: kdenlive/kdenlive.cpp:2180
 msgid "Ignore"
@@ -2899,14 +2878,12 @@ msgid "Please activate a monitor if you want to save a frame"
 msgstr "Activeer s.v.p. een monitor als u een frame wilt opslaan"
 
 #: kdenlive/kdenlive.cpp:3080
-#, fuzzy
 msgid "Change Clip Duration"
-msgstr "Standaard tekst clip tijdsduur"
+msgstr "Wijzig Clip Tijdsduur"
 
 #: kdenlive/kdenlive.cpp:3082
-#, fuzzy
 msgid "Enter new duration: "
-msgstr "Geef nieuwe man naam:"
+msgstr "Geef nieuwe tijdsduur:"
 
 #: kdenlive/kdenlive.cpp:3122
 msgid "Editing Clips"
@@ -2937,14 +2914,14 @@ msgid "Starting/stopping playback of inpoint/outpoint section"
 msgstr "Starten/Stoppen afspelen van startpunt/eindpunt selectie"
 
 #: kdenlive/kdenlive.cpp:3292
-#, fuzzy, c-format
+#, c-format
 msgid "Playing Forwards (%1x)"
-msgstr "Voorwaarts Afspelen"
+msgstr "Voorwaarts Afspelen (%1x)"
 
 #: kdenlive/kdenlive.cpp:3299
-#, fuzzy, c-format
+#, c-format
 msgid "Playing Backwards (%1x)"
-msgstr "Achterwaarsts Afspelen"
+msgstr "Achterwaarts Afspelen (%1x)"
 
 #: kdenlive/kdenlive.cpp:3304
 msgid "Play Loop"
@@ -3125,9 +3102,8 @@ msgid "(ARTS daemon)"
 msgstr "(ARTS daemon)"
 
 #: kdenlive/kdenlivesetupdlg.cpp:82
-#, fuzzy
 msgid "(Default)"
-msgstr "Standaard Kleur"
+msgstr "(Standaard)"
 
 #: kdenlive/kdenlivesetupdlg.cpp:83
 msgid "(XFREE86 DGA 2.0)"
@@ -3344,14 +3320,12 @@ msgstr ""
 #: kdenlive/krender.cpp:435
 #: kdenlive/krender.cpp:599
 #: kdenlive/krender.cpp:664
-#, fuzzy
 msgid ""
 "Could not create the video preview window.\n"
 "There is something wrong with your Kdenlive install or your driver settings, please fix it."
 msgstr ""
 "Kan video vooruitblik venster niet maken.\n"
-"Er is iets mis met uw Kdenlive installatie.\n"
-"Afsluiten..."
+"Er is iets mis met uw Kdenlive installatie of uw driver instellingen.Corrigeer dit s.v.p."
 
 #: kdenlive/krender.cpp:637
 msgid "Volume: "
@@ -3549,9 +3523,8 @@ msgstr ""
 "Controleer s.v.p. uw rechten."
 
 #: kdenlive/projectlist.cpp:78
-#, fuzzy
 msgid "Select View Type"
-msgstr "Selecteer Clip"
+msgstr "Selecteer Beeld Type"
 
 #. i18n: file kdenlive/kdenliveui.rc line 30
 #. i18n: file kdenlive/kdenliveui.rc line 34
