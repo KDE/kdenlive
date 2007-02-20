@@ -4612,13 +4612,17 @@ msgstr "Lista nézet"
 msgid "Toggle Marker"
 msgstr "Jelölő hozzáadása"
 
-#: kdenlive/kdenlive.cpp:946
+#: kdenlive/kdenlive.cpp:936
 msgid "Edit Duration"
 msgstr "Időtartam szerkesztése"
 
 #: kdenlive/kdenlive.cpp:946
 msgid "Merge Project..."
-msgstr "Projekt beillesztése..."
+msgstr "Projekt összefésülése..."
+
+#: kdenlive/kdenlive.cpp:948
+msgid "Merge current project with another one"
+msgstr "Aktuális projekt összefésülése egy másikkal"
 
 #: kdenlive/kdenlive.cpp:692
 msgid "Clear All Markers"
