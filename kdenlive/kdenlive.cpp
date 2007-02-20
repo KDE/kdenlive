@@ -3086,8 +3086,11 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	ed->setText(currentDuration);
 	ed->setMinimumWidth(200);
 	if (dia->exec() == QDialog::Accepted) {
+	    Command::KResizeCommand *resizeCommand = new Command::KResizeCommand(getDocument(), *clip);
 	    GenTime newDuration = getDocument()->getTimecodePosition(ed->text());
 	    clip->parentTrack()->resizeClipTrackEnd(clip, newDuration + clip->trackStart());
+    	    resizeCommand->setEndSize(*clip);
+	    addCommand(resizeCommand, true);
 	}
 	delete dia;
     }
