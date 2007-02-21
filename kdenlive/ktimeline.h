@@ -304,8 +304,6 @@ namespace Command {
         void slotMoveBackward(bool fast);
         
     signals:		// Signals
-	/** emitted when the length of the project has changed. */
-	void projectLengthChanged(int);
 	/** Emitted when the seek position on the timeline changes. */
 	void seekPositionChanged(const GenTime &);
 	//Emitted when the inpoint changes

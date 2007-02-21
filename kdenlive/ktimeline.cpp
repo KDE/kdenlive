@@ -367,11 +367,11 @@ the display. The scale is the size of one frame.*/
 
 /** Calculates the size of the project, and sets up the timeline to accomodate it. */
     void KTimeLine::slotSetProjectLength(const GenTime & size) {
-	int previous_duration = m_ruler->maxValue();
+	//int previous_duration = m_ruler->maxValue();
         int frames = (int) size.frames( m_framesPerSecond);
 	m_scrollBar->setRange(0, (int) (frames * m_ruler->valueScale()) + m_scrollBar->width());
 	m_ruler->setRange(0, frames);
-	emit projectLengthChanged(frames);
+	m_ruler->invalidateBackBuffer();
     }
 
     void KTimeLine::resetProjectSize() {
