@@ -25,6 +25,8 @@
 #include <qtimer.h>
 #include <qvaluelist.h>
 
+#include "gentime.h"
+
 namespace {
     uint g_scrollTimerDelay = 50;
     uint g_scrollThreshold = 50;
@@ -149,12 +151,12 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
 	void setSliderValue(int id, int value);
 	/** Return the list of all timeline guides */
 	QValueList < int > timelineGuides();
-	void slotDeleteGuide();
+	void slotDeleteGuide(double currentpos = 0);
 	void clearGuides();
-	void slotEditGuide(QString comment, int chapter);
+	void slotEditGuide(int localTime, QString comment, int chapter);
 	void slotAddGuide(int time, QString comment, int chapterNum = -1);
 	QStringList timelineRulerComments();
-	int currentGuideIndex();
+	int currentGuideIndex(double currentpos = 0);
 	int guidePosition(int ix);
 	int guideChapter(int ix);
 	QString guideComment(int ix);

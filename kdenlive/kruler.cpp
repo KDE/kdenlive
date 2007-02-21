@@ -1055,8 +1055,10 @@ namespace Gui {
 	}
     }
 
-    void KRuler::slotDeleteGuide() {
-	int localTime = (int) mapValueToLocal(getSliderValue(0));
+    void KRuler::slotDeleteGuide(double currentpos) {
+	int localTime;
+	if (currentpos == 0) localTime = (int) mapValueToLocal(getSliderValue(0));
+	else localTime = (int) mapValueToLocal(currentpos);
 	uint ct = 0;
 	bool isChapter = false;
         QValueList < KTimelineGuide >::Iterator it = m_guides.begin();
@@ -1094,12 +1096,11 @@ namespace Gui {
 	invalidateBackBuffer();
     }
 
-    void KRuler::slotEditGuide(QString comment, int chapter) {
-	int localTime = (int) mapValueToLocal(getSliderValue(0));
+    void KRuler::slotEditGuide(int localTime, QString comment, int chapter) {
 	uint ct = 0;
         QValueList < KTimelineGuide >::Iterator it = m_guides.begin();
         for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {
-	    if (abs((int) mapValueToLocal((*it).guidePosition()) - localTime) < 10)
+	    if (abs((int) mapValueToLocal((*it).guidePosition() - localTime)) < 10)
 	    	break;
 	    ct++;
         }
@@ -1165,8 +1166,10 @@ namespace Gui {
 	}
     }
 
-    int KRuler::currentGuideIndex() {
-	int localTime = (int) mapValueToLocal(getSliderValue(0));
+    int KRuler::currentGuideIndex(double currentpos) {
+	int localTime;
+	if (currentpos == 0) localTime = (int) mapValueToLocal(getSliderValue(0));
+	else localTime = (int) mapValueToLocal(currentpos);
 	uint ct = 0;
         QValueList < KTimelineGuide >::Iterator it = m_guides.begin();
         for ( it = m_guides.begin(); it != m_guides.end(); ++it ) {

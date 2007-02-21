@@ -712,8 +712,8 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
 	}
     }
 
-    void KTimeLine::slotDeleteGuide() {
-	m_ruler->slotDeleteGuide();
+    void KTimeLine::slotDeleteGuide(double currentPos) {
+	m_ruler->slotDeleteGuide(currentPos);
 	trackView()->invalidatePartialBackBuffer(m_ruler->getSliderValue(0) - 2, m_ruler->getSliderValue(0) + 2);
     }
 
@@ -721,8 +721,8 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
         m_ruler->slotAddGuide(frame, comment);
     }
 
-    void KTimeLine::slotEditGuide() {
-	int ix = m_ruler->currentGuideIndex();
+    void KTimeLine::slotEditGuide(double currentPos) {
+	int ix = m_ruler->currentGuideIndex(currentPos);
 	if (ix == -1) {
 	    kdDebug()<<" NO GUIDE FOUND UNDER TIMELINE POSITON"<<endl;
 	    return;
@@ -754,13 +754,12 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
 	        if (dlg.chapter_start->isChecked()) chapter = 0;
 	        else if (dlg.chapter_end->isChecked()) chapter = 1000;
 	    }
-
-	    if (frames == m_ruler->getSliderValue(0)) {
+	    if (frames == pos) {
 		// only comment has changed
-		m_ruler->slotEditGuide(comment, chapter);
+		m_ruler->slotEditGuide(pos, dlg.marker_comment->text(), chapter);
 	    }
 	    else {
-		m_ruler->slotDeleteGuide();
+		m_ruler->slotDeleteGuide(pos);
 		m_ruler->slotAddGuide(frames, dlg.marker_comment->text(), chapter);
 	    	trackView()->invalidatePartialBackBuffer(pos - 2, pos + 2);
 		trackView()->invalidatePartialBackBuffer(frames - 2, frames + 2);

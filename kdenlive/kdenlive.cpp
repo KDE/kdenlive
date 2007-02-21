@@ -2532,9 +2532,14 @@ namespace Gui {
 
     void KdenliveApp::slotDeleteGuide()
     {
-	m_timeline->slotDeleteGuide();
+	if (!m_menuPosition.isNull()) {
+		GenTime mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(mousePosition()).x());
+		m_timeline->slotDeleteGuide(mouseTime.frames(KdenliveSettings::defaultfps()));
+	}
+	else m_timeline->slotDeleteGuide();
 	if (m_exportWidget) m_exportWidget->updateGuides();
 	if (m_exportDvd) m_exportDvd->fillStructure(xmlGuides());
+	m_timeline->drawTrackViewBackBuffer();	
 	documentModified(true);
     }
 
@@ -2559,7 +2564,11 @@ namespace Gui {
 
     void KdenliveApp::slotEditGuide()
     {
-	m_timeline->slotEditGuide();
+	if (!m_menuPosition.isNull()) {
+		GenTime mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(mousePosition()).x());
+		m_timeline->slotEditGuide(mouseTime.frames(KdenliveSettings::defaultfps()));
+	}
+	else m_timeline->slotEditGuide();
 	if (m_exportWidget) m_exportWidget->updateGuides();
 	if (m_exportDvd) m_exportDvd->fillStructure(xmlGuides());
 	documentModified(true);
@@ -3944,6 +3953,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	}
         // display menu
         ((QPopupMenu *) factory()->container("ruler_context", this))->popup(QCursor::pos());
+	connect(m_rulerPopupMenu, SIGNAL(aboutToHide()), this, SLOT(hideTimelineMenu()));
+	m_menuPosition = QCursor::pos();
     }
 
     void KdenliveApp::slotDisplayTimeLineContextMenu() {
