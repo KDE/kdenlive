@@ -727,9 +727,6 @@ void exportWidget::doExport(QString file, QStringList params, bool isDv, bool au
     *m_exportProcess << "stats_on=1";
     // workaround until MLT's default qscale value is fixed
     *m_exportProcess << "qscale=1";
-    *m_exportProcess << "aspect_ratio=16:9";
-    *m_exportProcess << "frame_aspect_ratio=16:9";
-    *m_exportProcess << "aspect=16:9";
     if (!KdenliveSettings::videoprofile().isEmpty()) 
 	*m_exportProcess<<"profile=" + KdenliveSettings::videoprofile();
     connect(m_exportProcess, SIGNAL(processExited(KProcess *)), this, SLOT(endExport(KProcess *)));
