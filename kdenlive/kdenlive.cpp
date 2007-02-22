@@ -3197,46 +3197,45 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
 	DocClipRefList refClipList = m_projectList->currentSelection();
 	if (refClipList.count() > 0) {
-	    if (!confirm || KMessageBox::warningContinueCancel(this,
-		    i18n
-		    ("This will remove all clips on timeline that are currently using the selected clips. Are you sure you want to do this?"))
-		== KMessageBox::Continue) {
-	        DocClipRef *refClip;
-
-	        // Create a macro command that will delete all clips from the timeline involving this avfile. Then, delete it.
-		KMacroCommand *macroCommand = new KMacroCommand(i18n("Delete Clip"));
-
-	    	for (refClip = refClipList.first(); refClip; refClip = refClipList.next()) {
-	    	    DocClipBase *clip = refClip->referencedClip();
-	    
-
-		    // NOTE - we clear the monitors of the clip here - this does _not_ go into the macro command.
-		    int id = clip->getId();
-		    m_monitorManager.clearClip(clip);
-
-		    DocClipRefList list = m_doc->referencedClips(clip);
-		    QPtrListIterator < DocClipRef > itt(list);
-
-		    while (itt.current()) {
-		        Command::KAddRefClipCommand * command = new Command::KAddRefClipCommand(effectList(), *m_doc, itt.current(), false);
-			if (m_transitionPanel->belongsToClip(itt.current())) 	m_transitionPanel->setTransition(0);
-		        macroCommand->addCommand(command);
-		        ++itt;
+	    if (confirm) {
+		if (refClipList.count() > 1 || refClipList.first()->referencedClip()->numReferences() > 0)
+		    if (KMessageBox::warningContinueCancel(this, i18n("This will remove all clips on timeline that are currently using the selected clips. Are you sure you want to do this?")) != KMessageBox::Continue)
+		    {
+			slotStatusMsg(i18n("Ready."));
+			return;
 		    }
-
-		    // remove audio thumbnail and tmp files
-		    clip->removeTmpFile();
-
-		    DocumentBaseNode *node = m_doc->findClipNodeById(id);
-		    if (!node) kdDebug()<<"++++++  CANNOT FIND NODE: "<<id<<endl;
-		    macroCommand->addCommand(new Command::KAddClipCommand(*m_doc, node->name(), clip, node->parent(), false));
-		}
-		addCommand(macroCommand, true);
-		if (confirm) {
-		    getDocument()->activateSceneListGeneration(true);
-		}
-
 	    }
+	    DocClipRef *refClip;
+
+	    // Create a macro command that will delete all clips from the timeline involving this avfile. Then, delete it.
+	    KMacroCommand *macroCommand = new KMacroCommand(i18n("Delete Clip"));
+
+	    for (refClip = refClipList.first(); refClip; refClip = refClipList.next()) {
+	    	DocClipBase *clip = refClip->referencedClip();
+
+		// NOTE - we clear the monitors of the clip here - this does _not_ go into the macro command.
+		int id = clip->getId();
+		m_monitorManager.clearClip(clip);
+
+		DocClipRefList list = m_doc->referencedClips(clip);
+		QPtrListIterator < DocClipRef > itt(list);
+
+		while (itt.current()) {
+		    Command::KAddRefClipCommand * command = new Command::KAddRefClipCommand(effectList(), *m_doc, itt.current(), false);
+		    if (m_transitionPanel->belongsToClip(itt.current())) m_transitionPanel->setTransition(0);
+		    macroCommand->addCommand(command);
+		    ++itt;
+		}
+
+		// remove audio thumbnail and tmp files
+		clip->removeTmpFile();
+
+		DocumentBaseNode *node = m_doc->findClipNodeById(id);
+		if (!node) kdDebug()<<"++++++  CANNOT FIND NODE: "<<id<<endl;
+		macroCommand->addCommand(new Command::KAddClipCommand(*m_doc, node->name(), clip, node->parent(), false));
+	    }
+	    addCommand(macroCommand, true);
+	    if (confirm) getDocument()->activateSceneListGeneration(true);
 	}
 	else if (confirm) slotProjectDeleteFolder();
 	slotStatusMsg(i18n("Ready."));
