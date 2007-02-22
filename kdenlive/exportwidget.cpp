@@ -600,14 +600,34 @@ void exportWidget::startExport()
 	paramLine = paramLine.stripWhiteSpace();
 	paramLine = paramLine.simplifyWhiteSpace();
 	m_createdFile = fileExportFolder->url()+"/"+fileExportName->text();
-
-	if (paramLine.section(":", 6, 6) == "libdv") doExport(fileExportFolder->url()+"/"+fileExportName->text(), QStringList(), true);
+	if (paramLine.section(":", 6, 6) == "libdv") doExport(fileExportFolder->url()+"/"+fileExportName->text(), 0, QStringList(), true);
 	else {
-	    doExport(fileExportFolder->url()+"/"+fileExportName->text(), QStringList::split(" ", paramLine.section(":", 9)));
+	    double ratio = getCurrentAspect();
+	    doExport(fileExportFolder->url()+"/"+fileExportName->text(), ratio, QStringList::split(" ", paramLine.section(":", 9)));
 	} 
 
 	// Hide dialog when export starts
 	hide();
+}
+
+double exportWidget::getCurrentAspect()
+{
+	QString size;
+	int width, height;
+	double aspect = 0;
+	switch (encoders->currentPageIndex()) {
+	case 0:
+		break;
+	case 1: 
+		size = med_encoders->currentItem()->parent()->text(0);
+		width = size.section("x", 0, 0).toInt();
+		height = size.section("x", 1, 1).toInt();
+		aspect = 4.0/3.0*height/width;
+		break;
+	default: 
+		break;
+	}
+	return aspect;
 }
 
 void exportWidget::renderSelectedZone(const QString &url, bool audioOnly)
@@ -620,7 +640,7 @@ void exportWidget::renderSelectedZone(const QString &url, bool audioOnly)
     startExportTime = m_timeline->inpointPosition();
     endExportTime = m_timeline->outpointPosition();
     m_duration = endExportTime - startExportTime;
-    doExport(url, QStringList(), true, audioOnly);
+    doExport(url, 0, QStringList(), true, audioOnly);
     m_emitSignal = true;
 }
 
@@ -685,7 +705,7 @@ void exportWidget::generateDvdFile(QString file, GenTime start, GenTime end, VID
 
 }
 
-void exportWidget::doExport(QString file, QStringList params, bool isDv, bool audioOnly)
+void exportWidget::doExport(QString file, double ratio, QStringList params, bool isDv, bool audioOnly)
 {
     if (m_tmpFile) delete m_tmpFile;
     m_tmpFile = new KTempFile( QString::null, ".westley");
@@ -721,13 +741,16 @@ void exportWidget::doExport(QString file, QStringList params, bool isDv, bool au
     else
     *m_exportProcess << QString("avformat:%1").arg(file);
     if (audioOnly) *m_exportProcess <<"format=wav"<<"frequency=48000";
-    else *m_exportProcess << params;
+    else { 
+	*m_exportProcess << params;
+        if (ratio != 0) *m_exportProcess << QString("aspect_ratio=") + QString::number(ratio);
+    }
     if (addMetadata->isChecked()) *m_exportProcess << metadataString();
     *m_exportProcess << "real_time=0";
     *m_exportProcess << "stats_on=1";
     // workaround until MLT's default qscale value is fixed
     *m_exportProcess << "qscale=1";
-    if (!KdenliveSettings::videoprofile().isEmpty()) 
+    if (isDv && !KdenliveSettings::videoprofile().isEmpty()) 
 	*m_exportProcess<<"profile=" + KdenliveSettings::videoprofile();
     connect(m_exportProcess, SIGNAL(processExited(KProcess *)), this, SLOT(endExport(KProcess *)));
     connect(m_exportProcess, SIGNAL(receivedStderr (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));
