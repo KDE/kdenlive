@@ -341,6 +341,8 @@ namespace Gui {
 	}
 	if (m_pauseMode == false) m_startPlayPosition = point();
         m_playSpeed = 1.0;
+	// In clip monitor, pressing play at the end of the clip will start it again
+	if ((QString(name()) == "ClipMonitor") && m_ruler->getSliderValue(0) == m_ruler->maxValue() - 1) seekBeginning();
 	setPlaying(true);
     }
 
@@ -354,6 +356,7 @@ namespace Gui {
 
     void KMMEditPanel::setPlaying(bool play) {
 	double playSpeed;
+	kdDebug()<<"/// SETPLAYING"<<endl;
 	if (play && m_playSpeed == 0.0) m_playSpeed = 1.0;
 	m_pauseMode = !play;
 	if (play) {
