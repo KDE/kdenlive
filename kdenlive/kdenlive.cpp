@@ -2247,6 +2247,7 @@ namespace Gui {
     if (m_effectStackDialog) m_effectStackDialog->slotSetEffectStack(0);
     m_monitorManager.resetMonitors();
     initDocument(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
+    refreshVirtualZone();
     }
 
     void KdenliveApp::slotEditCopy()
