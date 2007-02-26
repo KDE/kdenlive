@@ -58,6 +58,7 @@
 #include <kfileitem.h>
 #include <kinputdialog.h>
 #include <kpassivepopup.h>
+#include <kprogress.h>
 
 // application specific includes
 // p.s., get the idea this class is kind, central to everything?
@@ -94,7 +95,6 @@
 #include "kmmtrackvideopanel.h"
 #include "kselectclipcommand.h"
 #include "kresizecommand.h"
-#include "kprogress.h"
 #include "krendermanager.h"
 #include "krulertimemodel.h"
 #include "projectlist.h"
@@ -133,7 +133,7 @@ namespace Gui {
 
     KdenliveApp::KdenliveApp(bool newDoc, QWidget *parent,
 	const char *name):KDockMainWindow(parent, name), m_monitorManager(this),
-    m_workspaceMonitor(NULL), m_clipMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_renderManager(NULL), m_doc(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_projectList(NULL), m_effectStackDialog(NULL), m_effectListDialog(NULL), m_projectFormat(PAL_VIDEO), m_timelinePopupMenu(NULL), m_rulerPopupMenu(NULL), m_exportDvd(NULL), m_transitionPanel(NULL), m_resizeFunction(NULL), m_rollFunction(NULL), m_markerFunction(NULL) {
+    m_workspaceMonitor(NULL), m_clipMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_renderManager(NULL), m_doc(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_projectList(NULL), m_effectStackDialog(NULL), m_effectListDialog(NULL), m_projectFormat(PAL_VIDEO), m_timelinePopupMenu(NULL), m_rulerPopupMenu(NULL), m_exportDvd(NULL), m_transitionPanel(NULL), m_resizeFunction(NULL), m_rollFunction(NULL), m_markerFunction(NULL),m_newLumaDialog(NULL) {
 	config = kapp->config();
 
 	QString newProjectName;
@@ -166,6 +166,12 @@ namespace Gui {
 	    delete dia;
 	    config->setGroup("General Options");
 	    config->writeEntry("FirstRun", true);
+	}
+	config->setGroup("KNewStuff");
+	QString str = config->readEntry("ProvidersUrl");
+	if (str.isEmpty()) {
+	    //config->writeEntry("ProvidersUrl", "");
+	    config->sync();
 	}
 
 	// HDV not implemented in MLT yet...
@@ -273,6 +279,7 @@ namespace Gui {
 	KdenliveSettings::writeConfig();
         if (splash) delete splash;
         if (m_renderManager) delete m_renderManager;
+	if (m_newLumaDialog) delete m_newLumaDialog;
         delete m_transitionPanel;
         delete m_effectStackDialog;
         delete m_projectList;
@@ -672,6 +679,11 @@ namespace Gui {
                             0, this, SLOT(slotRemoveSpace()),
                             actionCollection(), "delete_space");
 	removeSpace->setStatusText(i18n("Remove space between two clips"));
+
+        KAction *getNewLuma = new KAction(i18n("Get new luma transition"),
+                            "network.png", 0, this, SLOT(slotGetNewLuma()),
+                            actionCollection(), "get_luma");
+	getNewLuma->setStatusText(i18n("Download new Luma file transition"));
 
 	actionSetInpoint =
 	    new KAction(i18n("Set Inpoint"), KShortcut(Qt::Key_I), this,
@@ -3195,7 +3207,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 /** Remove clips from the project */
     void KdenliveApp::slotProjectDeleteClips(bool confirm) {
 	slotStatusMsg(i18n("Removing Clips"));
-
+	
 	DocClipRefList refClipList = m_projectList->currentSelection();
 	if (refClipList.count() > 0) {
 	    if (confirm) {
@@ -3647,6 +3659,13 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	writeDockConfig(config, "Layout 4");
     }
 
+
+    void KdenliveApp::slotGetNewLuma()
+    {
+	if (m_newLumaDialog) delete m_newLumaDialog;
+	m_newLumaDialog = new newLumaStuff("kdenlive/luma");
+	m_newLumaDialog->download();
+    }
 
     void KdenliveApp::activateClipMonitor() {
 	m_dockClipMonitor->makeDockVisible();

@@ -48,15 +48,15 @@ kdenlive_SOURCES = addmarker_ui.ui addtrackdialog_ui.ui avfileformatdesc.cpp \
 	kthumb.cpp kthumb.h ktimeline.cpp ktrackpanel.cpp ktrackplacer.cpp ktrackview.cpp \
 	loadprogress_ui.ui loadprojectfilter.cpp loadprojectkinofilter.cpp \
 	loadprojectnativefilter.cpp main.cpp monitormanager.cpp newproject.cpp newproject_ui.ui \
-	projectformatmanager.cpp projecticonview.cpp projecticonview.h projectlist.cpp \
-	projectlistview.cpp projectview_ui.ui rangelist.cpp saveprojectfilter.cpp \
-	saveprojectnativefilter.cpp saveprojectscenelistfilter.cpp snaptogrid.cpp timecode.cpp \
-	titlebasewidget_ui.ui titlewidget.cpp titlewidget.h trackheader_ui.ui \
-	trackpanelclipmovefunction.cpp trackpanelclipresizefunction.cpp trackpanelcliprollfunction.cpp \
-	trackpanelclipslipfunction.cpp trackpanelfunction.cpp trackpanelfunctionfactory.cpp \
-	trackpanelkeyframefunction.cpp trackpanelkeyframefunction.h trackpanelmarkerfunction.cpp \
-	trackpanelrazorfunction.cpp trackpanelselectnonefunction.cpp trackpanelspacerfunction.cpp \
-	trackpaneltransitionmovefunction.cpp trackpaneltransitionmovefunction.h \
+	newstuff.cpp newstuff.h projectformatmanager.cpp projecticonview.cpp \
+	projecticonview.h projectlist.cpp projectlistview.cpp projectview_ui.ui rangelist.cpp \
+	saveprojectfilter.cpp saveprojectnativefilter.cpp saveprojectscenelistfilter.cpp \
+	snaptogrid.cpp timecode.cpp titlebasewidget_ui.ui titlewidget.cpp titlewidget.h \
+	trackheader_ui.ui trackpanelclipmovefunction.cpp trackpanelclipresizefunction.cpp \
+	trackpanelcliprollfunction.cpp trackpanelclipslipfunction.cpp trackpanelfunction.cpp \
+	trackpanelfunctionfactory.cpp trackpanelkeyframefunction.cpp trackpanelkeyframefunction.h \
+	trackpanelmarkerfunction.cpp trackpanelrazorfunction.cpp trackpanelselectnonefunction.cpp \
+	trackpanelspacerfunction.cpp trackpaneltransitionmovefunction.cpp trackpaneltransitionmovefunction.h \
 	trackpaneltransitionresizefunction.cpp trackpaneltransitionresizefunction.h \
 	trackviewaudiobackgrounddecorator.cpp trackviewbackgrounddecorator.cpp trackviewdecorator.cpp \
 	trackviewdoublekeyframedecorator.cpp trackviewmarkerdecorator.cpp trackviewnamedecorator.cpp \
@@ -67,7 +67,7 @@ kdenlive_SOURCES = addmarker_ui.ui addtrackdialog_ui.ui avfileformatdesc.cpp \
 	transitionwipewidget.cpp transitionwipewidget.h
 
 kdenlive_LDADD   =  $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) \
-		    $(LIBSOCKET) $(LIB_FIREWIRE)
+		    $(LIBSOCKET) $(LIB_FIREWIRE) $(LIB_KNEWSTUFF)
 
 
 EXTRA_DIST = $(mime_DATA) main.cpp kdenlive.cpp kdenlive.h kdenlivedoc.cpp kdenlivedoc.h kdenliveui.rc eventsrc kdenlive.desktop avlistviewitem.cpp doctrackbase.cpp doctracksound.cpp doctrackvideo.cpp kmmmonitor.cpp kmmscreen.cpp kmmtimeline.cpp projectlist.cpp avlistviewitem.h doctrackbase.h doctracksound.h doctrackvideo.h kmmmonitor.h kmmscreen.h kmmtimeline.h projectlist.h clipdrag.cpp clipdrag.h kmmtrackvideopanel.cpp kmmtrackvideopanel.h kmmtracksoundpanel.cpp kmmtracksoundpanel.h docclipavfile.cpp docclipavfile.h docclipbase.cpp docclipbase.h docclipproject.cpp docclipproject.h projectlistview.cpp projectlistview.h kruler.cpp kruler.h kfixedruler.cpp kfixedruler.h krulermodel.cpp krulermodel.h kscalableruler.cpp kscalableruler.h krulersliderbase.cpp krulersliderbase.h krulertimemodel.cpp krulertimemodel.h kmmtrackpanel.cpp kmmtrackpanel.h kmmtimelinetrackview.cpp kmmtimelinetrackview.h docclipbaselist.cpp docclipbaselist.h kmmeditpanel_ui.ui loadprogress_ui.ui kmmeditpanel.cpp kmmeditpanel.h kmmrulerpanel.cpp kmmrulerpanel.h kmmrulerpanel_ui.ui gentime.cpp gentime.h avfilelist.cpp avfilelist.h doctrackbaselist.cpp doctrackbaselist.h krender.cpp krender.h doctrackclipiterator.cpp doctrackclipiterator.h kmmtrackkeyframepanel.cpp kmmtrackkeyframepanel.h rangelist.cpp rangelist.h kmoveclipscommand.cpp kmoveclipscommand.h kselectclipcommand.cpp kselectclipcommand.h kaddclipcommand.cpp kaddclipcommand.h kresizecommand.cpp kresizecommand.h kdenlivesetupdlg.cpp kdenlivesetupdlg.h krendermanager.cpp krendermanager.h avfileformatdesc.cpp avfileformatdesc.h avformatdescbase.cpp avformatdescbase.h avformatdescbool.cpp avformatdescbool.h avformatdesclist.cpp avformatdesclist.h avformatwidgetbase.cpp avformatwidgetbase.h avformatwidgetbool.cpp avformatwidgetbool.h avformatwidgetlist.cpp avformatwidgetlist.h avformatdesccontainer.cpp avformatdesccontainer.h avformatwidgetcontainer.cpp avformatwidgetcontainer.h avfileformatwidget.cpp avfileformatwidget.h avformatdesccodeclist.cpp avformatdesccodeclist.h avformatwidgetcodeclist.cpp avformatwidgetcodeclist.h avformatdesccodec.cpp avformatdesccodec.h avformatwidgetcodec.cpp avformatwidgetcodec.h effectlistdialog.cpp effectlistdialog.h effectparamdialog.cpp effectparamdialog.h effectdesc.cpp effectdesc.h displayvideodesc.cpp displayvideodesc.h displayaudiodesc.cpp displayaudiodesc.h effect.cpp effect.h clippropertiesdialog.cpp clippropertiesdialog.h kdenlivesplash.cpp kdenlivesplash.h monitormanager.cpp monitormanager.h docclipref.cpp docclipref.h docclipreflist.cpp docclipreflist.h clipmanager.cpp clipmanager.h documentbasenode.cpp documentbasenode.h documentclipnode.cpp documentclipnode.h documentgroupnode.cpp documentgroupnode.h docsubclip.h docsubclip.cpp trackpanelclipslipfunction.cpp trackpanelclipslipfunction.h

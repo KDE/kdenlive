@@ -47,6 +47,7 @@
 #include "effectdescriptionlist.h"
 #include "exportdvddialog.h"
 #include "definitions.h"
+#include "newstuff.h"
 
 // forward declaration of the Kdenlive classes
 class DocClipProject;
@@ -433,6 +434,7 @@ namespace Gui {
 	void slotAdjustPreviewQuality();
 
       private slots: 
+	void slotGetNewLuma();
 	void slotSetDocumentMetadata(const QStringList list);
         void slotToggleClipMonitor();
 	void slotToggleWorkspaceMonitor();
@@ -690,7 +692,7 @@ namespace Gui {
 	KDockWidget *m_dockProjectList;
 	KDockWidget *m_dockEffectStack;
 	KDockWidget *m_dockTransition;
-        
+        newLumaStuff *m_newLumaDialog;
 
 	QTimer *m_autoSaveTimer;
 
