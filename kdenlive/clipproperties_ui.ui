@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>311</width>
-            <height>549</height>
+            <height>547</height>
         </rect>
     </property>
     <grid>
@@ -19,14 +19,6 @@
         <property name="margin">
             <number>0</number>
         </property>
-        <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="3">
-            <property name="name">
-                <cstring>transparent_bg</cstring>
-            </property>
-            <property name="text">
-                <string>Transparent &amp;background</string>
-            </property>
-        </widget>
         <widget class="KColorButton" row="3" column="1" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>button_color</cstring>
@@ -391,58 +383,6 @@
                 </widget>
             </hbox>
         </widget>
-        <widget class="KComboBox" row="7" column="2">
-            <item>
-                <property name="text">
-                    <string>png</string>
-                </property>
-            </item>
-            <item>
-                <property name="text">
-                    <string>jpg</string>
-                </property>
-            </item>
-            <item>
-                <property name="text">
-                    <string>gif</string>
-                </property>
-            </item>
-            <item>
-                <property name="text">
-                    <string>bmp</string>
-                </property>
-            </item>
-            <property name="name">
-                <cstring>imageType</cstring>
-            </property>
-        </widget>
-        <widget class="QLabel" row="6" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>ttl_label</cstring>
-            </property>
-            <property name="text">
-                <string>Frames per Image</string>
-            </property>
-        </widget>
-        <widget class="KRestrictedLine" row="8" column="2">
-            <property name="name">
-                <cstring>edit_duration</cstring>
-            </property>
-            <property name="text">
-                <string>:::</string>
-            </property>
-            <property name="inputMask">
-                <string>99:99:99:99; </string>
-            </property>
-        </widget>
-        <widget class="QLabel" row="9" column="2">
-            <property name="name">
-                <cstring>clipFilesize</cstring>
-            </property>
-            <property name="text">
-                <string></string>
-            </property>
-        </widget>
         <widget class="QTabWidget" row="11" column="0" rowspan="1" colspan="3">
             <property name="name">
                 <cstring>tabWidget2</cstring>
@@ -507,7 +447,21 @@
                 </grid>
             </widget>
         </widget>
-        <widget class="QSpinBox" row="6" column="2">
+        <widget class="Line" row="10" column="0" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>line2</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>HLine</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Sunken</enum>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+        </widget>
+        <widget class="QSpinBox" row="5" column="2">
             <property name="name">
                 <cstring>image_ttl</cstring>
             </property>
@@ -523,13 +477,46 @@
         </widget>
         <widget class="QLabel" row="8" column="0" rowspan="1" colspan="2">
             <property name="name">
+                <cstring>label_fsize</cstring>
+            </property>
+            <property name="text">
+                <string>File size:</string>
+            </property>
+        </widget>
+        <widget class="KComboBox" row="6" column="2">
+            <item>
+                <property name="text">
+                    <string>png</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>jpg</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>gif</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>bmp</string>
+                </property>
+            </item>
+            <property name="name">
+                <cstring>imageType</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="7" column="0" rowspan="1" colspan="2">
+            <property name="name">
                 <cstring>label_duration</cstring>
             </property>
             <property name="text">
                 <string>Duration:</string>
             </property>
         </widget>
-        <widget class="QLabel" row="7" column="0" rowspan="1" colspan="2">
+        <widget class="QLabel" row="6" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>image_type_label</cstring>
             </property>
@@ -537,29 +524,34 @@
                 <string>Image type</string>
             </property>
         </widget>
-        <widget class="Line" row="10" column="0" rowspan="1" colspan="3">
+        <widget class="KRestrictedLine" row="7" column="2">
             <property name="name">
-                <cstring>line2</cstring>
-            </property>
-            <property name="frameShape">
-                <enum>HLine</enum>
-            </property>
-            <property name="frameShadow">
-                <enum>Sunken</enum>
-            </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-        </widget>
-        <widget class="QLabel" row="9" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>label_fsize</cstring>
+                <cstring>edit_duration</cstring>
             </property>
             <property name="text">
-                <string>File size:</string>
+                <string>:::</string>
+            </property>
+            <property name="inputMask">
+                <string>99:99:99:99; </string>
             </property>
         </widget>
-        <widget class="QGroupBox" row="5" column="0" rowspan="1" colspan="3">
+        <widget class="QLabel" row="5" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>ttl_label</cstring>
+            </property>
+            <property name="text">
+                <string>Frames per Image</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="8" column="2">
+            <property name="name">
+                <cstring>clipFilesize</cstring>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+        </widget>
+        <widget class="QGroupBox" row="9" column="0" rowspan="1" colspan="3">
             <property name="name">
                 <cstring>crossfade</cstring>
             </property>
@@ -579,82 +571,66 @@
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QButtonGroup" row="0" column="0">
+                <widget class="QCheckBox" row="1" column="0">
                     <property name="name">
-                        <cstring>buttonGroup1</cstring>
+                        <cstring>luma_selected</cstring>
                     </property>
-                    <property name="frameShape">
-                        <enum>NoFrame</enum>
+                    <property name="text">
+                        <string>Use Luma</string>
                     </property>
-                    <property name="frameShadow">
-                        <enum>Plain</enum>
+                </widget>
+                <widget class="QSlider" row="1" column="4">
+                    <property name="name">
+                        <cstring>luma_softness</cstring>
                     </property>
-                    <property name="title">
-                        <string></string>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
                     </property>
-                    <property name="exclusive">
-                        <bool>true</bool>
+                </widget>
+                <widget class="QLabel" row="1" column="3">
+                    <property name="name">
+                        <cstring>textLabel1_2</cstring>
                     </property>
-                    <grid>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <property name="margin">
-                            <number>0</number>
-                        </property>
-                        <widget class="QRadioButton" row="0" column="0">
-                            <property name="name">
-                                <cstring>luma_none</cstring>
-                            </property>
-                            <property name="text">
-                                <string>No Luma</string>
-                            </property>
-                            <property name="checked">
-                                <bool>true</bool>
-                            </property>
-                        </widget>
-                        <widget class="QLayoutWidget" row="1" column="0">
-                            <property name="name">
-                                <cstring>layout12</cstring>
-                            </property>
-                            <hbox>
-                                <property name="name">
-                                    <cstring>unnamed</cstring>
-                                </property>
-                                <widget class="QRadioButton">
-                                    <property name="name">
-                                        <cstring>luma_selected</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Use Luma</string>
-                                    </property>
-                                </widget>
-                                <widget class="KComboBox">
-                                    <property name="name">
-                                        <cstring>luma_list</cstring>
-                                    </property>
-                                </widget>
-                                <widget class="QLabel">
-                                    <property name="name">
-                                        <cstring>textLabel1_2</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Softness</string>
-                                    </property>
-                                </widget>
-                                <widget class="QSlider">
-                                    <property name="name">
-                                        <cstring>luma_softness</cstring>
-                                    </property>
-                                    <property name="orientation">
-                                        <enum>Horizontal</enum>
-                                    </property>
-                                </widget>
-                            </hbox>
-                        </widget>
-                    </grid>
+                    <property name="text">
+                        <string>Softness</string>
+                    </property>
+                </widget>
+                <widget class="KComboBox" row="1" column="1" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>luma_list</cstring>
+                    </property>
+                </widget>
+                <widget class="QSpinBox" row="0" column="2">
+                    <property name="name">
+                        <cstring>transition_ttl</cstring>
+                    </property>
+                    <property name="maxValue">
+                        <number>500</number>
+                    </property>
+                    <property name="minValue">
+                        <number>1</number>
+                    </property>
+                    <property name="value">
+                        <number>10</number>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>textLabel2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Transition duration</string>
+                    </property>
                 </widget>
             </grid>
+        </widget>
+        <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>transparent_bg</cstring>
+            </property>
+            <property name="text">
+                <string>Transparent &amp;background</string>
+            </property>
         </widget>
     </grid>
 </widget>

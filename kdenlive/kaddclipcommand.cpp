@@ -174,7 +174,7 @@ namespace Command {
 
 /** Add Slideshow clip */
     KAddClipCommand::KAddClipCommand(KdenliveDoc & document, const QString & parent,
-	const KURL & url, const QString & extension, const int &ttl, bool crossfade, QString lumaFile, double lumasoftness, const GenTime & duration, const QString & description, bool alphaTransparency, bool create):m_document(document), m_name(url.filename()),
+	const KURL & url, const QString & extension, const int &ttl, bool crossfade, QString lumaFile, double lumasoftness, uint lumaduration, const GenTime & duration, const QString & description, bool alphaTransparency, bool create):m_document(document), m_name(url.filename()),
 	m_parent(parent), m_create(create), m_isTextClip(false), m_isVirtualClip(false) {
 
 	if (!m_parent) {
@@ -182,7 +182,7 @@ namespace Command {
 		"Error - all clips created with kaddclipcommand should have a parent!"
 		<< endl;
 	}
-        m_xmlClip = document.clipManager().buildSlideshowClip(url, extension, ttl, crossfade, lumaFile, lumasoftness, duration, description, alphaTransparency);
+        m_xmlClip = document.clipManager().buildSlideshowClip(url, extension, ttl, crossfade, lumaFile, lumasoftness, lumaduration, duration, description, alphaTransparency);
 	m_id = -1;
     }
 

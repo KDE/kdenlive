@@ -42,7 +42,7 @@ class DocClipAVFile:public DocClipBase {
 
     /**  slideshow clip  */
      DocClipAVFile(const KURL & url, const QString & extension,
-                   const int &ttl, const GenTime & duration, bool alphaTransparency, bool crossfade, const QString &lumaFile, double lumasoftness, uint id);
+                   const int &ttl, const GenTime & duration, bool alphaTransparency, bool crossfade, const QString &lumaFile, double lumasoftness, uint lumaduration, uint id);
 
     /* color clip */
      DocClipAVFile(const QString & color, const GenTime & duration,
@@ -105,7 +105,9 @@ class DocClipAVFile:public DocClipBase {
     const QString & lumaFile() const;
     void setLumaSoftness(const double & softness);
     const double & lumaSoftness() const;
-    
+    void setLumaDuration(const uint & duration);
+    const uint &lumaDuration() const;
+
     virtual bool durationKnown() const;
     virtual double framesPerSecond() const;
     //returns clip video properties -reh
@@ -206,6 +208,7 @@ class DocClipAVFile:public DocClipBase {
 	/** The name of luma file transition for slideshows */
     QString m_luma;
     double m_lumasoftness;
+    uint m_lumaduration;
     QString m_videoCodec;
     QString m_audioCodec;
 };

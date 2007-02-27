@@ -62,6 +62,7 @@ namespace Gui {
 	void insertLuma(const QPixmap &pix, const QString &txt);
 	void preselectLuma();
 	double lumaSoftness() const;
+	int lumaDuration() const;
 	QString lumaFile() const;
 
       private slots:

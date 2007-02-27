@@ -119,7 +119,7 @@ class ClipManager:public QObject {
 
 	/** Edit a slideshow clip */
     void editSlideshowClip(DocClipRef * clip, const KURL & file,
-	const QString & extension, const int &ttl, bool crossfade, const QString & lumaFile, double lumaSoftness, const GenTime & duration, const QString & description, bool alphaTransparency);
+	const QString & extension, const int &ttl, bool crossfade, const QString & lumaFile, double lumaSoftness, uint lumaduration, const GenTime & duration, const QString & description, bool alphaTransparency);
 
 	/** Edit an a/v clip */
     void editClip(DocClipRef * clip, const KURL & file, const QString & description);
@@ -133,9 +133,9 @@ class ClipManager:public QObject {
 
 	/** Insert a slideshow clip */
     DocClipBase *insertSlideshowClip(const KURL & file,
-	const QString & extension, const int &ttl, bool crossfade, const QString &lumaFile, double lumasoftness, const GenTime & duration, const QString & description, bool alphaTransparency, int clipId = -1);
+	const QString & extension, const int &ttl, bool crossfade, const QString &lumaFile, double lumasoftness, uint lumaduration, const GenTime & duration, const QString & description, bool alphaTransparency, int clipId = -1);
     QDomDocument buildSlideshowClip(const KURL & file,
-	const QString & extension, const int &ttl, bool crossfade, const QString &lumaFile, double lumasoftness, const GenTime & duration, const QString & description, bool alphaTransparency, int clipId = -1);
+	const QString & extension, const int &ttl, bool crossfade, const QString &lumaFile, double lumasoftness, uint lumaduration, const GenTime & duration, const QString & description, bool alphaTransparency, int clipId = -1);
 
 	/** Insert a specific clip */
     DocClipBase *insertClip(const QDomElement & clip);

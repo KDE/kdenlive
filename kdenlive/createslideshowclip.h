@@ -39,18 +39,19 @@ namespace Gui {
         createSlideshowClip(QWidget * parent = 0, const char *name = 0);
         virtual ~createSlideshowClip();
 
-	QString selectedFolder();
-	QString selectedExtension();
-	int ttl();
-	QString description();
-	bool isTransparent();
-	bool hasCrossfade();
-	int imageCount();
-	GenTime duration();
+	QString selectedFolder() const;
+	QString selectedExtension() const;
+	int ttl() const;
+	QString description() const;
+	bool isTransparent() const;
+	bool hasCrossfade() const;
+	int imageCount() const;
+	GenTime duration() const;
 	void insertLuma(const QPixmap &pix, const QString &txt);
-	bool useLuma();
-	QString currentLuma();
+	bool useLuma() const;
+	QString currentLuma() const;
 	double softness() const;
+	int lumaDuration() const;
 
       private:
 	createSlideshowClip_UI *clipChoice;

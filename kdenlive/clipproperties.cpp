@@ -130,6 +130,7 @@ namespace Gui {
             clipChoice->edit_name->hide();
 	    clipChoice->clipType->setText(i18n("Slideshow Clip"));
 	    clipChoice->image_ttl->setValue(avclip->clipTtl());
+	    clipChoice->transition_ttl->setValue(avclip->lumaDuration());
 	    clipChoice->label_file->setText(i18n("Folder:"));
 	    clipChoice->imageType->setCurrentItem(refClip->fileURL().filename().left(3));
 	    clipChoice->edit_url->fileDialog()->setMode(KFile::Directory);
@@ -304,6 +305,11 @@ namespace Gui {
     double ClipProperties::lumaSoftness() const
     {
         return clipChoice->luma_softness->value() / 100.0;
+    }
+
+    int ClipProperties::lumaDuration() const
+    {
+        return clipChoice->transition_ttl->value();
     }
     
 

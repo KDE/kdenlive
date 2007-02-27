@@ -243,7 +243,7 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
 	    else if (clipType == DocClipBase::SLIDESHOW)	//   SLIDESHOW CLIP
 		baseClip =
 		    document->clipManager().insertSlideshowClip(clip.
-		    attribute("resource", ""), "", clip.attribute("ttl", "0").toInt(), clip.attribute("crossfade","").toInt(), clip.attribute("lumafile",""), clip.attribute("lumasoftness","0").toDouble(),
+		    attribute("resource", ""), "", clip.attribute("ttl", "0").toInt(), clip.attribute("crossfade","").toInt(), clip.attribute("lumafile",""), clip.attribute("lumasoftness","0").toDouble(), clip.attribute("lumaduration","0").toInt(),
 		    GenTime(clip.attribute("duration", "").toInt(), 25),
                     clip.attribute("description", ""), clip.attribute("transparency","").toInt(), clip.attribute("id", "-1").toInt());
 

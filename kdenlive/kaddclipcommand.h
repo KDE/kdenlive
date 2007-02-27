@@ -80,7 +80,7 @@ namespace Command {
 
          /** Construct an slideshow clip */
 	 KAddClipCommand(KdenliveDoc & document, const QString & parent, const KURL & url,
-	    const QString & extension, const int &ttl, bool crossfade, QString lumaFile, double lumaSoftness, const GenTime & duration, const QString & description, bool alphaTransparency,
+	    const QString & extension, const int &ttl, bool crossfade, QString lumaFile, double lumaSoftness, uint lumaduration, const GenTime & duration, const QString & description, bool alphaTransparency,
 	    bool create = true);
 
 	~KAddClipCommand();

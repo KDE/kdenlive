@@ -201,7 +201,7 @@ QDomDocument ClipManager::buildImageClip(KURL file,
 }
 
 DocClipBase *ClipManager::insertSlideshowClip(const KURL & file,
-    const QString & extension, const int &ttl, bool crossfade, const QString &lumaFile, double lumasoftness, const GenTime & duration,
+    const QString & extension, const int &ttl, bool crossfade, const QString &lumaFile, double lumasoftness, uint lumaduration, const GenTime & duration,
     const QString & description, bool alphaTransparency, int clipId)
 {
     DocClipBase *clip = findClip(file);
@@ -214,9 +214,9 @@ DocClipBase *ClipManager::insertSlideshowClip(const KURL & file,
 	    return 0;
 	}
 
-    	if (clipId == -1) clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, crossfade, lumaFile, lumasoftness, m_clipCounter++);
+    	if (clipId == -1) clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, crossfade, lumaFile, lumasoftness, lumaduration, m_clipCounter++);
     	else {
-        	clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, crossfade, lumaFile, lumasoftness, clipId);
+        	clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, crossfade, lumaFile, lumasoftness, lumaduration, clipId);
           if (clipId>= (int) m_clipCounter) m_clipCounter = clipId+1;
     	}
 	int imageCount = (int) duration.frames(KdenliveSettings::defaultfps()) / ttl;
@@ -235,7 +235,7 @@ DocClipBase *ClipManager::insertSlideshowClip(const KURL & file,
 
 
 QDomDocument ClipManager::buildSlideshowClip(const KURL & file,
-    const QString & extension, const int &ttl, bool crossfade, const QString &lumaFile, double lumasoftness, const GenTime & duration,
+    const QString & extension, const int &ttl, bool crossfade, const QString &lumaFile, double lumasoftness, uint lumaduration, const GenTime & duration,
     const QString & description, bool alphaTransparency, int clipId)
 {
     DocClipBase *clip = findClip(file);
@@ -248,9 +248,9 @@ QDomDocument ClipManager::buildSlideshowClip(const KURL & file,
 	    return QDomDocument();
 	}
 
-    	if (clipId == -1) clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, crossfade, lumaFile, lumasoftness, m_clipCounter++);
+    	if (clipId == -1) clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, crossfade, lumaFile, lumasoftness, lumaduration, m_clipCounter++);
     	else {
-        	clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, crossfade, lumaFile, lumasoftness, clipId);
+        	clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, crossfade, lumaFile, lumasoftness, lumaduration, clipId);
     	}
 	int imageCount = (int) duration.frames(KdenliveSettings::defaultfps()) / ttl;
 	clip->setName(clip->name() + i18n(" [%1 images]").arg(QString::number(imageCount)));
@@ -515,7 +515,7 @@ void ClipManager::editImageClip(DocClipRef * clip, const KURL & file,
 }
 
 void ClipManager::editSlideshowClip(DocClipRef * clip, const KURL & file,
-    const QString & extension, const int &ttl, bool crossfade, const QString & lumaFile, double lumaSoftness, const GenTime & duration, const QString & description, bool alphaTransparency)
+    const QString & extension, const int &ttl, bool crossfade, const QString & lumaFile, double lumaSoftness, uint lumaduration, const GenTime & duration, const QString & description, bool alphaTransparency)
 {
     clip->setDescription(description);
     clip->setCropDuration(duration);
@@ -523,6 +523,7 @@ void ClipManager::editSlideshowClip(DocClipRef * clip, const KURL & file,
     clip->referencedClip()->toDocClipAVFile()->setCrossfade(crossfade);
     clip->referencedClip()->toDocClipAVFile()->setLumaFile(lumaFile);
     clip->referencedClip()->toDocClipAVFile()->setLumaSoftness(lumaSoftness);
+    clip->referencedClip()->toDocClipAVFile()->setLumaDuration(lumaduration);
     DocClipAVFile *avClip =
 	dynamic_cast < DocClipAVFile * >(clip->referencedClip());
     if (avClip) {

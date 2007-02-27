@@ -3043,7 +3043,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    double lumasoftness = slideDialog->softness();
 	    if (slideDialog->useLuma()) lumaFile = m_transitionPanel->getLumaFilePath(slideDialog->currentLuma());
 	    KCommand *command =
-		new Command::KAddClipCommand(*m_doc, m_projectList->parentName(), KURL(url), extension, ttl, slideDialog->hasCrossfade(), lumaFile, lumasoftness, slideDialog->duration(), slideDialog->description(), slideDialog->isTransparent(), true);
+		new Command::KAddClipCommand(*m_doc, m_projectList->parentName(), KURL(url), extension, ttl, slideDialog->hasCrossfade(), lumaFile, lumasoftness, slideDialog->lumaDuration(), slideDialog->duration(), slideDialog->description(), slideDialog->isTransparent(), true);
 	    addCommand(command, true);
 	}
 	delete slideDialog;
@@ -3200,7 +3200,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		    else if (refClip->clipType() == DocClipBase::SLIDESHOW) {
 			QString lumaFile = m_transitionPanel->getLumaFilePath(dia->lumaFile());
 			QString url = dia->url() + "/.all." + dia->extension();
-                        Command::KEditClipCommand(*m_doc, refClip, url, "",dia->ttl(), dia->crossfading(), lumaFile, dia->lumaSoftness(), dia->duration(), dia->description(), dia->transparency());
+                        Command::KEditClipCommand(*m_doc, refClip, url, "",dia->ttl(), dia->crossfading(), lumaFile, dia->lumaSoftness(), dia->lumaDuration(), dia->duration(), dia->description(), dia->transparency());
                     }
                     else { // Video clip
                         Command::KEditClipCommand(*m_doc, refClip, dia->url(),dia->description());

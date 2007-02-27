@@ -55,22 +55,22 @@ namespace Gui {
     createSlideshowClip::~createSlideshowClip()
     {}
 
-    QString createSlideshowClip::selectedFolder()
+    QString createSlideshowClip::selectedFolder() const
     {
 	return clipChoice->url_image->url();
     }
 
-    QString createSlideshowClip::selectedExtension()
+    QString createSlideshowClip::selectedExtension() const
     {
 	return clipChoice->imageType->currentText();
     }
 
-    QString createSlideshowClip::currentLuma()
+    QString createSlideshowClip::currentLuma() const
     {
 	return clipChoice->luma_list->currentText();
     }
 
-    bool createSlideshowClip::useLuma()
+    bool createSlideshowClip::useLuma() const
     {
 	return clipChoice->luma_selected->isChecked();
     }
@@ -85,17 +85,22 @@ namespace Gui {
 	return clipChoice->luma_softness->value() /100.0;
     }
 
-    int createSlideshowClip::ttl()
+    int createSlideshowClip::ttl() const
     {
 	return clipChoice->image_ttl->value();
     }
 
-    int createSlideshowClip::imageCount()
+    int createSlideshowClip::imageCount() const
     {
 	return m_imageCount;
     }
 
-    GenTime createSlideshowClip::duration()
+    int createSlideshowClip::lumaDuration() const
+    {
+	return clipChoice->transition_ttl->value();
+    }
+
+    GenTime createSlideshowClip::duration() const
     {
 	double fps = KdenliveSettings::defaultfps();
 	Timecode tcode;
@@ -106,17 +111,17 @@ namespace Gui {
         return GenTime(frames , KdenliveSettings::defaultfps());
     }
 
-    QString createSlideshowClip::description()
+    QString createSlideshowClip::description() const
     {
 	return clipChoice->edit_description->text();
     }
 
-    bool createSlideshowClip::isTransparent()
+    bool createSlideshowClip::isTransparent() const
     {
 	return clipChoice->transparentBg->isChecked();
     }
 
-    bool createSlideshowClip::hasCrossfade()
+    bool createSlideshowClip::hasCrossfade() const
     {
 	return clipChoice->crossfade->isChecked();
     }
