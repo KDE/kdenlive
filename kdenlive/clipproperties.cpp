@@ -26,6 +26,7 @@
 #include <qtextedit.h>
 #include <qcolor.h>
 #include <qtoolbutton.h>
+#include <qradiobutton.h>
 #include <qspinbox.h>
 
 #include <kpushbutton.h>
@@ -114,7 +115,12 @@ namespace Gui {
 	else if (m_clipType == DocClipBase::SLIDESHOW) {
 	    clipChoice->transparent_bg->setChecked(avclip->isTransparent());
 	    clipChoice->crossfade->setChecked(avclip->hasCrossfade());
-
+	    m_luma = avclip->lumaFile();
+	    if (m_luma != QString::null) {
+		clipChoice->luma_selected->setChecked(true);
+		m_luma = KURL(m_luma).filename();
+		m_luma.truncate(m_luma.length() - 4);
+	    }
 	    QPixmap pix = document->renderer()->getImageThumbnail(refClip->fileURL().path(), clipChoice->preview_pixmap->width(), clipChoice->preview_pixmap->height());
 	    clipChoice->preview_pixmap->setPixmap(pix);
             clipChoice->label_color->hide();
@@ -185,6 +191,16 @@ namespace Gui {
 
     ClipProperties::~ClipProperties() 
     {
+    }
+
+    void ClipProperties::insertLuma(const QPixmap &pix, const QString &txt)
+    {
+	clipChoice->luma_list->insertItem(pix, txt);
+    }
+
+    void ClipProperties::preselectLuma()
+    {
+	clipChoice->luma_list->setCurrentText(m_luma);
     }
 
     void ClipProperties::updateDuration()

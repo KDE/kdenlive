@@ -174,9 +174,7 @@ namespace Command {
 
 /** Add Slideshow clip */
     KAddClipCommand::KAddClipCommand(KdenliveDoc & document, const QString & parent,
-	const KURL & url, const QString & extension, const int &ttl, bool crossfade, QString lumaFile,
-        const GenTime & duration, const QString & description, bool alphaTransparency,
-	bool create):m_document(document), m_name(url.filename()),
+	const KURL & url, const QString & extension, const int &ttl, bool crossfade, QString lumaFile, const GenTime & duration, const QString & description, bool alphaTransparency, bool create):m_document(document), m_name(url.filename()),
 	m_parent(parent), m_create(create), m_isTextClip(false), m_isVirtualClip(false) {
 
 	if (!m_parent) {

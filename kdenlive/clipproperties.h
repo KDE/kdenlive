@@ -59,6 +59,8 @@ namespace Gui {
 	bool crossfading();
 	int ttl();
 	QString extension();
+	void insertLuma(const QPixmap &pix, const QString &txt);
+	void preselectLuma();
 
       private slots:
         void updateColor(const QColor &c);
@@ -73,6 +75,7 @@ namespace Gui {
         clipProperties_UI *clipChoice;
         KdenliveDoc *m_document;
 	DocClipBase::CLIPTYPE m_clipType;
+	QString m_luma;
     };
 
 }				// namespace Gui

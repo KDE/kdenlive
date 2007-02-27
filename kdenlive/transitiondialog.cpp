@@ -34,13 +34,13 @@
 #include <kdebug.h>
 #include <kglobal.h>
 #include <kstandarddirs.h>
+// #include <knewstuff/downloaddialog.h>
 
 #include "kdenlive.h"
 #include "kdenlivedoc.h"
 #include "transition.h"
 #include "docclipref.h"
 #include "transitiondialog.h"
-
 
 namespace Gui {
 
@@ -50,8 +50,11 @@ namespace Gui {
     QFont dialogFont = font();
     dialogFont.setPointSize(dialogFont.pointSize() - 1);
     setFont(dialogFont);
-    QGridLayout *m_container = new QGridLayout(this, 2, 2);
+    QGridLayout *m_container = new QGridLayout(this, 2, 3);
     m_container->setMargin(5);
+
+    KPushButton *getNew = new KPushButton(i18n("Get new transition"), this);
+
 
     QLabel *lab = new QLabel(i18n("Perform transition with: "), this);
     trackPolicy = new KComboBox(this);
@@ -79,13 +82,14 @@ namespace Gui {
     transitLumaFile->lumaView->setGridY(40);
 
     connect(transitLumaFile->slider_soft ,SIGNAL(valueChanged(int)), transitLumaFile->spin_soft, SLOT(setValue(int)));
-    connect(transitLumaFile->spin_soft ,SIGNAL(valueChanged(int)), transitLumaFile->slider_soft, SLOT(setValue(int))); 
+    connect(transitLumaFile->spin_soft ,SIGNAL(valueChanged(int)), transitLumaFile->slider_soft, SLOT(setValue(int)));
 
     /*transitAudiofade = new transitionAudiofade_UI(addPage(i18n("Audio Fade"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_down", KIcon::Small, 15)));*/
     initLumaFiles();
     m_container->addWidget(lab, 0, 0);
     m_container->addWidget(trackPolicy, 0, 1);
-    m_container->addMultiCellWidget(propertiesDialog, 1, 1, 0, 1);
+    m_container->addWidget(getNew, 0, 2);
+    m_container->addMultiCellWidget(propertiesDialog, 1, 1, 0, 2);
     setEnabled(false);
     adjustSize();
 }

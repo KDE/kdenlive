@@ -3180,7 +3180,13 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                 m_workspaceMonitor->screen()->restoreProducer();
             }
             else {
-                ClipProperties *dia = new ClipProperties(refClip, getDocument()); 
+                ClipProperties *dia = new ClipProperties(refClip, getDocument());
+		if (refClip->clipType() == DocClipBase::SLIDESHOW) {
+		        for ( int n=0; n<m_transitionPanel->transitWipe->luma_file->count(); n++ )
+            		dia->insertLuma( *m_transitionPanel->transitWipe->luma_file->pixmap(n), m_transitionPanel->transitWipe->luma_file->text( n ));
+			dia->preselectLuma();
+		}
+
                 if (dia->exec() == QDialog::Accepted) {
                     if (refClip->clipType() == DocClipBase::COLOR) {
                         Command::KEditClipCommand(*m_doc, refClip, dia->color(),
@@ -3192,8 +3198,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		    }
 		    else if (refClip->clipType() == DocClipBase::SLIDESHOW) {
 			QString url = dia->url() + "/.all." + dia->extension();
-                        Command::KEditClipCommand(*m_doc, refClip, url, "",dia->ttl(), dia->crossfading(), 
-                                dia->duration(), dia->description(), dia->transparency());
+                        Command::KEditClipCommand(*m_doc, refClip, url, "",dia->ttl(), dia->crossfading(), dia->duration(), dia->description(), dia->transparency());
                     }
                     else { // Video clip
                         Command::KEditClipCommand(*m_doc, refClip, dia->url(),dia->description());

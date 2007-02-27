@@ -123,6 +123,7 @@ QDomElement element = node.documentElement();
 		m_alphaTransparency = e.attribute("transparency", "0").toInt();
 		m_hasCrossfade = e.attribute("crossfade", "0").toInt();
 		m_ttl = e.attribute("ttl", "0").toInt();
+		m_luma = e.attribute("luma", QString::null);
 		m_width = e.attribute("width", "0").toInt();
 		m_height = e.attribute("height", "0").toInt();
 		m_channels = e.attribute("channels", "0").toInt();
@@ -486,6 +487,7 @@ QDomDocument DocClipAVFile::toXML() const
 		avfile.setAttribute("transparency", m_alphaTransparency);
 		avfile.setAttribute("crossfade", m_hasCrossfade);
 		avfile.setAttribute("ttl", m_ttl);
+		avfile.setAttribute("luma", m_luma);
 		avfile.setAttribute("channels", m_channels);
 		avfile.setAttribute("frequency", m_frequency);
 		avfile.setAttribute("color", m_color);
