@@ -170,7 +170,7 @@ namespace Gui {
 	config->setGroup("KNewStuff");
 	QString str = config->readEntry("ProvidersUrl");
 	if (str.isEmpty()) {
-	    //config->writeEntry("ProvidersUrl", "");
+	    config->writeEntry("ProvidersUrl", "http://download.kde.org/khotnewstuff/kdenlive-providers.xml");
 	    config->sync();
 	}
 
@@ -3031,14 +3031,18 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	slotStatusMsg(i18n("Adding Clips"));
 
         createSlideshowClip *slideDialog = new createSlideshowClip(this, "slide");
+        for ( int n=0; n<m_transitionPanel->transitWipe->luma_file->count(); n++ )
+            slideDialog->insertLuma( *m_transitionPanel->transitWipe->luma_file->pixmap(n), m_transitionPanel->transitWipe->luma_file->text( n ));
+
+
 	if (slideDialog->exec() == QDialog::Accepted) {
 	    QString extension = slideDialog->selectedExtension();
 	    QString url = slideDialog->selectedFolder() + "/.all." + extension;
-	    
 	    int ttl = slideDialog->ttl();
-
+	    QString lumaFile = QString::null;
+	    if (slideDialog->useLuma()) lumaFile = m_transitionPanel->getLumaFilePath(slideDialog->currentLuma());
 	    KCommand *command =
-		new Command::KAddClipCommand(*m_doc, m_projectList->parentName(), KURL(url), extension, ttl, slideDialog->hasCrossfade(), slideDialog->duration(), slideDialog->description(), slideDialog->isTransparent(), true);
+		new Command::KAddClipCommand(*m_doc, m_projectList->parentName(), KURL(url), extension, ttl, slideDialog->hasCrossfade(), lumaFile, slideDialog->duration(), slideDialog->description(), slideDialog->isTransparent(), true);
 	    addCommand(command, true);
 	}
 	delete slideDialog;
@@ -3663,7 +3667,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     void KdenliveApp::slotGetNewLuma()
     {
 	if (m_newLumaDialog) delete m_newLumaDialog;
-	m_newLumaDialog = new newLumaStuff("kdenlive/luma");
+	m_newLumaDialog = new newLumaStuff("kdenlive/luma", m_transitionPanel);
 	m_newLumaDialog->download();
     }
 

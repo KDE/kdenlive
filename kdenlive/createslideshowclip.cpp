@@ -23,6 +23,7 @@
 #include <qlabel.h>
 #include <qpixmap.h>
 #include <qimage.h>
+#include <qradiobutton.h>
 
 #include <kcombobox.h>
 #include <kurlrequester.h>
@@ -63,6 +64,20 @@ namespace Gui {
 	return clipChoice->imageType->currentText();
     }
 
+    QString createSlideshowClip::currentLuma()
+    {
+	return clipChoice->luma_list->currentText();
+    }
+
+    bool createSlideshowClip::useLuma()
+    {
+	return clipChoice->luma_selected->isChecked();
+    }
+
+    void createSlideshowClip::insertLuma(const QPixmap &pix, const QString &txt)
+    {
+	clipChoice->luma_list->insertItem(pix, txt);
+    }
 
     int createSlideshowClip::ttl()
     {

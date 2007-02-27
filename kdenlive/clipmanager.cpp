@@ -201,7 +201,7 @@ QDomDocument ClipManager::buildImageClip(KURL file,
 }
 
 DocClipBase *ClipManager::insertSlideshowClip(const KURL & file,
-    const QString & extension, const int &ttl, bool crossfade, const GenTime & duration,
+    const QString & extension, const int &ttl, bool crossfade, const QString &lumaFile, const GenTime & duration,
     const QString & description, bool alphaTransparency, int clipId)
 {
     DocClipBase *clip = findClip(file);
@@ -214,9 +214,9 @@ DocClipBase *ClipManager::insertSlideshowClip(const KURL & file,
 	    return 0;
 	}
 
-    	if (clipId == -1) clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, crossfade, m_clipCounter++);
+    	if (clipId == -1) clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, crossfade, lumaFile,  m_clipCounter++);
     	else {
-        	clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, crossfade, clipId);
+        	clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, crossfade, lumaFile, clipId);
           if (clipId>= (int) m_clipCounter) m_clipCounter = clipId+1;
     	}
 	int imageCount = (int) duration.frames(KdenliveSettings::defaultfps()) / ttl;
@@ -235,11 +235,11 @@ DocClipBase *ClipManager::insertSlideshowClip(const KURL & file,
 
 
 QDomDocument ClipManager::buildSlideshowClip(const KURL & file,
-    const QString & extension, const int &ttl, bool crossfade, const GenTime & duration,
+    const QString & extension, const int &ttl, bool crossfade, const QString &lumaFile, const GenTime & duration,
     const QString & description, bool alphaTransparency, int clipId)
 {
     DocClipBase *clip = findClip(file);
-    
+    if (!clip) {
 	if (!m_render->isValid(file)) {
 	    KMessageBox::sorry(0,
 		i18n
@@ -248,16 +248,18 @@ QDomDocument ClipManager::buildSlideshowClip(const KURL & file,
 	    return QDomDocument();
 	}
 
-    	if (clipId == -1) clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, crossfade, m_clipCounter++);
+    	if (clipId == -1) clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, crossfade, lumaFile,  m_clipCounter++);
     	else {
-        	clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, crossfade, clipId);
+        	clip = new DocClipAVFile(file, extension, ttl, duration, alphaTransparency, crossfade, lumaFile, clipId);
     	}
 	int imageCount = (int) duration.frames(KdenliveSettings::defaultfps()) / ttl;
-	clip->setName(clip->name() + i18n(" [%1 images]").arg(QString::number(imageCount)));	
+	clip->setName(clip->name() + i18n(" [%1 images]").arg(QString::number(imageCount)));
     	clip->setDescription(description);
 	QDomDocument xml = clip->toXML();
 	delete clip;
 	return xml;
+    }
+    return QDomDocument();
 }
 
 
@@ -607,7 +609,11 @@ QDomDocumentFragment ClipManager::producersList()
 		producer.setAttribute("resource",
 		    avClip->fileURL().path());
 		producer.setAttribute("hide", "audio");
-		if (avClip->clipTtl()!=0) producer.setAttribute("ttl", QString::number(avClip->clipTtl()));
+		if (avClip->clipType() == DocClipBase::SLIDESHOW) {
+		//if (avClip->clipTtl()!=0) 
+			producer.setAttribute("ttl", QString::number(avClip->clipTtl()));
+			producer.setAttribute("file", avClip->lumaFile());
+		}
 		list.appendChild(producer);
 	    }
 

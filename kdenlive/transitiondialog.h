@@ -53,6 +53,7 @@ namespace Gui {
               TransitionDialog(KdenliveApp * app, QWidget * parent = 0, const char *name = 0);
 	 virtual ~ TransitionDialog();
 
+    transitionWipeWidget *transitWipe;
     Transition::TRANSITIONTYPE selectedTransition();
     bool transitionDirection();
     const QMap < QString, QString > transitionParameters();
@@ -63,6 +64,8 @@ namespace Gui {
     bool isActiveTransition(Transition *transition);
     bool belongsToClip(DocClipRef *clip);
     bool isOnTrack(int ix);
+    QString getLumaFilePath(QString fileName);
+    void refreshLumas();
 
     private slots:
 	void applyChanges();
@@ -76,7 +79,6 @@ namespace Gui {
 	transitionCrossfade_UI *transitCrossfade;
 	transitionLumaFile_UI *transitLumaFile;
 	transitionAudiofade_UI *transitAudiofade;
-        transitionWipeWidget *transitWipe;
 	transitionPipWidget *transitPip;
 	Transition *m_transition;
 	KJanusWidget *propertiesDialog;

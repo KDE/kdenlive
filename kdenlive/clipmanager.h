@@ -134,10 +134,10 @@ class ClipManager:public QObject {
 
 	/** Insert a slideshow clip */
     DocClipBase *insertSlideshowClip(const KURL & file,
-	const QString & extension, const int &ttl, bool crossfade,
+	const QString & extension, const int &ttl, bool crossfade, const QString &lumaFile,
         const GenTime & duration, const QString & description, bool alphaTransparency, int clipId = -1);
     QDomDocument buildSlideshowClip(const KURL & file,
-	const QString & extension, const int &ttl, bool crossfade,
+	const QString & extension, const int &ttl, bool crossfade, const QString &lumaFile,
         const GenTime & duration, const QString & description, bool alphaTransparency, int clipId = -1);
 
 	/** Insert a specific clip */

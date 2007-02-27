@@ -99,6 +99,14 @@ TransitionDialog::~TransitionDialog()
     delete propertiesDialog;
 }
 
+void TransitionDialog::refreshLumas()
+{
+    transitWipe->luma_file->clear();
+    transitPip->luma_file->clear();
+    transitLumaFile->lumaView->clear();
+    initLumaFiles();
+}
+
 void TransitionDialog::initLumaFiles()
 {
     QString inigoPath = KStandardDirs::findExe("inigo");
@@ -364,6 +372,10 @@ bool TransitionDialog::transitionDirection()
     return result;
 }
 
+QString TransitionDialog::getLumaFilePath(QString fileName)
+{
+	return locate(m_lumaType, fileName + ".pgm");
+}
         
 const QMap < QString, QString > TransitionDialog::transitionParameters() 
 {

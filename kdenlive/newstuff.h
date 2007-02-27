@@ -19,7 +19,9 @@
 #define NewStuff_H
 
 #include <knewstuff/downloaddialog.h>
-#include <knewstuff/knewstuffsecure.h>
+#include <knewstuff/knewstuff.h>
+
+#include "transitiondialog.h"
 
 namespace Gui {
 
@@ -27,14 +29,17 @@ namespace Gui {
   *@author Jason Wood
   */
 
-    class newLumaStuff:public KNewStuffSecure
+    class newLumaStuff:public KNewStuff
     {
-	Q_OBJECT;
 	public:
-	    newLumaStuff(const QString &type, QWidget *parentWidget = 0):KNewStuffSecure(type, parentWidget){};
+	    newLumaStuff(const QString &type, TransitionDialog *transDlg, QWidget *parentWidget = 0):KNewStuff(type, parentWidget), m_transDlg(transDlg){};
 	    ~newLumaStuff() {};
 	private:
-	    virtual void installResource();
+	    TransitionDialog *m_transDlg;
+	    QString m_originalName;
+	    virtual bool install(const QString &fileName);
+	    virtual bool createUploadFile (const QString &fileName);
+	    virtual QString downloadDestination( KNS::Entry *entry );
     };
 
 }				// namespace Gui

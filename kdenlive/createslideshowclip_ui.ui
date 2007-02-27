@@ -8,12 +8,9 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>450</width>
-            <height>349</height>
+            <width>420</width>
+            <height>340</height>
         </rect>
-    </property>
-    <property name="caption">
-        <string></string>
     </property>
     <grid>
         <property name="name">
@@ -25,19 +22,6 @@
             </property>
             <property name="text">
                 <string>Image folder</string>
-            </property>
-        </widget>
-        <widget class="KLineEdit" row="5" column="1" rowspan="1" colspan="4">
-            <property name="name">
-                <cstring>edit_description</cstring>
-            </property>
-        </widget>
-        <widget class="QLabel" row="5" column="0">
-            <property name="name">
-                <cstring>textLabel1_2</cstring>
-            </property>
-            <property name="text">
-                <string>Description</string>
             </property>
         </widget>
         <widget class="QLabel" row="1" column="0" rowspan="1" colspan="2">
@@ -130,14 +114,6 @@
                 <string>Total duration</string>
             </property>
         </widget>
-        <widget class="QLabel" row="3" column="0" rowspan="1" colspan="3">
-            <property name="name">
-                <cstring>scanResult</cstring>
-            </property>
-            <property name="text">
-                <string>No images in slideshow</string>
-            </property>
-        </widget>
         <widget class="QCheckBox" row="1" column="3" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>transparentBg</cstring>
@@ -146,18 +122,112 @@
                 <string>Transparent background</string>
             </property>
         </widget>
-        <widget class="QCheckBox" row="3" column="3" rowspan="1" colspan="2">
+        <widget class="KLineEdit" row="6" column="1" rowspan="1" colspan="4">
             <property name="name">
-                <cstring>crossfade</cstring>
-            </property>
-            <property name="text">
-                <string>Crossfade</string>
+                <cstring>edit_description</cstring>
             </property>
         </widget>
-        <widget class="KListBox" row="4" column="0" rowspan="1" colspan="5">
+        <widget class="QLabel" row="6" column="0">
+            <property name="name">
+                <cstring>textLabel1_2</cstring>
+            </property>
+            <property name="text">
+                <string>Description</string>
+            </property>
+        </widget>
+        <widget class="KListBox" row="5" column="0" rowspan="1" colspan="5">
             <property name="name">
                 <cstring>imageList</cstring>
             </property>
+        </widget>
+        <widget class="QLabel" row="4" column="0" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>scanResult</cstring>
+            </property>
+            <property name="text">
+                <string>No images in slideshow</string>
+            </property>
+        </widget>
+        <widget class="QGroupBox" row="3" column="0" rowspan="1" colspan="5">
+            <property name="name">
+                <cstring>crossfade</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>Box</enum>
+            </property>
+            <property name="title">
+                <string>Crossfade</string>
+            </property>
+            <property name="checkable">
+                <bool>true</bool>
+            </property>
+            <property name="checked">
+                <bool>false</bool>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QButtonGroup" row="0" column="0">
+                    <property name="name">
+                        <cstring>buttonGroup1</cstring>
+                    </property>
+                    <property name="frameShape">
+                        <enum>NoFrame</enum>
+                    </property>
+                    <property name="frameShadow">
+                        <enum>Plain</enum>
+                    </property>
+                    <property name="title">
+                        <string></string>
+                    </property>
+                    <property name="exclusive">
+                        <bool>true</bool>
+                    </property>
+                    <grid>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>0</number>
+                        </property>
+                        <widget class="QRadioButton" row="0" column="0">
+                            <property name="name">
+                                <cstring>luma_none</cstring>
+                            </property>
+                            <property name="text">
+                                <string>No Luma</string>
+                            </property>
+                            <property name="checked">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                        <widget class="QLayoutWidget" row="1" column="0">
+                            <property name="name">
+                                <cstring>layout1</cstring>
+                            </property>
+                            <hbox>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <widget class="QRadioButton">
+                                    <property name="name">
+                                        <cstring>luma_selected</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Use Luma</string>
+                                    </property>
+                                </widget>
+                                <widget class="KComboBox">
+                                    <property name="name">
+                                        <cstring>luma_list</cstring>
+                                    </property>
+                                </widget>
+                            </hbox>
+                        </widget>
+                    </grid>
+                </widget>
+            </grid>
         </widget>
     </grid>
 </widget>
@@ -165,12 +235,13 @@
 </customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>klineedit.h</includehint>
     <includehint>kurlrequester.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>
     <includehint>krestrictedline.h</includehint>
     <includehint>kcombobox.h</includehint>
+    <includehint>klineedit.h</includehint>
     <includehint>klistbox.h</includehint>
+    <includehint>kcombobox.h</includehint>
 </includehints>
 </UI>

@@ -1029,6 +1029,7 @@ QDomDocument DocClipRef::generateXMLClip(bool rendering)
 	sceneList.createElement("filter");
         clipFilter.setAttribute("mlt_service", "luma");
 	clipFilter.setAttribute("period", QString::number(m_clip->toDocClipAVFile()->clipTtl() - 1));
+	clipFilter.setAttribute("file", m_clip->toDocClipAVFile()->lumaFile());
 	entry.appendChild(clipFilter);
     }
 
@@ -1276,6 +1277,7 @@ QDomDocument DocClipRef::generateOffsetXMLClip(GenTime start, GenTime end)
 	sceneList.createElement("filter");
         clipFilter.setAttribute("mlt_service", "luma");
 	clipFilter.setAttribute("period", QString::number(m_clip->toDocClipAVFile()->clipTtl() - 1));
+	clipFilter.setAttribute("file", m_clip->toDocClipAVFile()->lumaFile());
 	entry.appendChild(clipFilter);
     }
 

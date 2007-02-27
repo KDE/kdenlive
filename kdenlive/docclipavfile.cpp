@@ -72,8 +72,8 @@ m_framesPerSecond(KdenliveSettings::defaultfps()), m_color(QString::null), m_cli
 
 /*  Slideshow clip */
 DocClipAVFile::DocClipAVFile(const KURL & url, const QString & extension,
-    const int &ttl, const GenTime & duration, bool alphaTransparency, bool crossfade, uint id):DocClipBase(),
-m_duration(duration), m_url(url), m_durationKnown(true), m_hasCrossfade(crossfade),
+    const int &ttl, const GenTime & duration, bool alphaTransparency, bool crossfade, const QString &lumaFile, uint id):DocClipBase(),
+m_duration(duration), m_url(url), m_durationKnown(true), m_hasCrossfade(crossfade), m_luma(lumaFile), 
 m_framesPerSecond(KdenliveSettings::defaultfps()), m_color(QString::null), m_clipType(SLIDESHOW), m_alphaTransparency(alphaTransparency), m_channels(0), m_frequency(0), m_ttl(ttl), m_videoCodec(NULL), m_audioCodec(NULL)
 {
     setName(i18n("Slideshow"));
@@ -289,6 +289,16 @@ int DocClipAVFile::clipTtl() const
 void DocClipAVFile::setClipTtl(const int &ttl)
 {
     m_ttl = ttl;
+}
+
+void DocClipAVFile::setLumaFile(const QString & luma)
+{
+    m_luma = luma;
+}
+
+const QString & DocClipAVFile::lumaFile() const
+{
+    return m_luma;
 }
 
 QString DocClipAVFile::avDecompressor()

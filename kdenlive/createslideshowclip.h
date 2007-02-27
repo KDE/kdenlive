@@ -47,6 +47,9 @@ namespace Gui {
 	bool hasCrossfade();
 	int imageCount();
 	GenTime duration();
+	void insertLuma(const QPixmap &pix, const QString &txt);
+	bool useLuma();
+	QString currentLuma();
 
       private:
 	createSlideshowClip_UI *clipChoice;
