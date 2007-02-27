@@ -3198,8 +3198,9 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                         Command::KEditClipCommand(*m_doc, refClip, url, dia->duration(), dia->description(), dia->transparency());
 		    }
 		    else if (refClip->clipType() == DocClipBase::SLIDESHOW) {
+			QString lumaFile = m_transitionPanel->getLumaFilePath(dia->lumaFile());
 			QString url = dia->url() + "/.all." + dia->extension();
-                        Command::KEditClipCommand(*m_doc, refClip, url, "",dia->ttl(), dia->crossfading(), dia->lumaFile(), dia->lumaSoftness(), dia->duration(), dia->description(), dia->transparency());
+                        Command::KEditClipCommand(*m_doc, refClip, url, "",dia->ttl(), dia->crossfading(), lumaFile, dia->lumaSoftness(), dia->duration(), dia->description(), dia->transparency());
                     }
                     else { // Video clip
                         Command::KEditClipCommand(*m_doc, refClip, dia->url(),dia->description());

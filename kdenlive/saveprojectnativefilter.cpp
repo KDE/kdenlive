@@ -150,6 +150,7 @@ QDomElement SaveProjectNativeFilter::processedNode(DocumentClipNode *clipNode, Q
 		avfile.setAttribute("ttl",
 		    QString::number(clipNode->clipRef()->referencedClip()->toDocClipAVFile()->clipTtl()));
 		avfile.setAttribute("lumafile", clipNode->clipRef()->referencedClip()->toDocClipAVFile()->lumaFile());
+		avfile.setAttribute("lumasoftness", QString::number(clipNode->clipRef()->referencedClip()->toDocClipAVFile()->lumaSoftness()));
                 avfile.setAttribute("transparency",clipNode->clipRef()->referencedClip()->toDocClipAVFile()->isTransparent());
 		avfile.setAttribute("hide", "audio");
 		avfile.setAttribute("aspect_ratio", QString::number(clipNode->clipRef()->referencedClip()->toDocClipAVFile()->aspectRatio()));
