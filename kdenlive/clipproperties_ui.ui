@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>311</width>
-            <height>547</height>
+            <height>549</height>
         </rect>
     </property>
     <grid>
@@ -615,7 +615,7 @@
                         </widget>
                         <widget class="QLayoutWidget" row="1" column="0">
                             <property name="name">
-                                <cstring>layout1_2</cstring>
+                                <cstring>layout12</cstring>
                             </property>
                             <hbox>
                                 <property name="name">
@@ -632,6 +632,22 @@
                                 <widget class="KComboBox">
                                     <property name="name">
                                         <cstring>luma_list</cstring>
+                                    </property>
+                                </widget>
+                                <widget class="QLabel">
+                                    <property name="name">
+                                        <cstring>textLabel1_2</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Softness</string>
+                                    </property>
+                                </widget>
+                                <widget class="QSlider">
+                                    <property name="name">
+                                        <cstring>luma_softness</cstring>
+                                    </property>
+                                    <property name="orientation">
+                                        <enum>Horizontal</enum>
                                     </property>
                                 </widget>
                             </hbox>

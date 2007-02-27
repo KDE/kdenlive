@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>420</width>
-            <height>340</height>
+            <height>320</height>
         </rect>
     </property>
     <grid>
@@ -191,20 +191,9 @@
                         <property name="margin">
                             <number>0</number>
                         </property>
-                        <widget class="QRadioButton" row="0" column="0">
-                            <property name="name">
-                                <cstring>luma_none</cstring>
-                            </property>
-                            <property name="text">
-                                <string>No Luma</string>
-                            </property>
-                            <property name="checked">
-                                <bool>true</bool>
-                            </property>
-                        </widget>
                         <widget class="QLayoutWidget" row="1" column="0">
                             <property name="name">
-                                <cstring>layout1</cstring>
+                                <cstring>layout12</cstring>
                             </property>
                             <hbox>
                                 <property name="name">
@@ -223,7 +212,34 @@
                                         <cstring>luma_list</cstring>
                                     </property>
                                 </widget>
+                                <widget class="QLabel">
+                                    <property name="name">
+                                        <cstring>textLabel1</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Softness</string>
+                                    </property>
+                                </widget>
+                                <widget class="QSlider">
+                                    <property name="name">
+                                        <cstring>luma_softness</cstring>
+                                    </property>
+                                    <property name="orientation">
+                                        <enum>Horizontal</enum>
+                                    </property>
+                                </widget>
                             </hbox>
+                        </widget>
+                        <widget class="QRadioButton" row="0" column="0">
+                            <property name="name">
+                                <cstring>luma_none</cstring>
+                            </property>
+                            <property name="text">
+                                <string>No Luma</string>
+                            </property>
+                            <property name="checked">
+                                <bool>true</bool>
+                            </property>
                         </widget>
                     </grid>
                 </widget>

@@ -72,8 +72,8 @@ m_framesPerSecond(KdenliveSettings::defaultfps()), m_color(QString::null), m_cli
 
 /*  Slideshow clip */
 DocClipAVFile::DocClipAVFile(const KURL & url, const QString & extension,
-    const int &ttl, const GenTime & duration, bool alphaTransparency, bool crossfade, const QString &lumaFile, uint id):DocClipBase(),
-m_duration(duration), m_url(url), m_durationKnown(true), m_hasCrossfade(crossfade), m_luma(lumaFile), 
+    const int &ttl, const GenTime & duration, bool alphaTransparency, bool crossfade, const QString &lumaFile, double lumasoftness, uint id):DocClipBase(),
+m_duration(duration), m_url(url), m_durationKnown(true), m_hasCrossfade(crossfade), m_luma(lumaFile), m_lumasoftness(lumasoftness),
 m_framesPerSecond(KdenliveSettings::defaultfps()), m_color(QString::null), m_clipType(SLIDESHOW), m_alphaTransparency(alphaTransparency), m_channels(0), m_frequency(0), m_ttl(ttl), m_videoCodec(NULL), m_audioCodec(NULL)
 {
     setName(i18n("Slideshow"));
@@ -124,6 +124,7 @@ QDomElement element = node.documentElement();
 		m_hasCrossfade = e.attribute("crossfade", "0").toInt();
 		m_ttl = e.attribute("ttl", "0").toInt();
 		m_luma = e.attribute("lumafile", QString::null);
+		m_lumasoftness = e.attribute("lumasoftness", "0").toDouble();
 		m_width = e.attribute("width", "0").toInt();
 		m_height = e.attribute("height", "0").toInt();
 		m_channels = e.attribute("channels", "0").toInt();
@@ -302,6 +303,16 @@ const QString & DocClipAVFile::lumaFile() const
     return m_luma;
 }
 
+void DocClipAVFile::setLumaSoftness(const double & softness)
+{
+    m_lumasoftness = softness;
+}
+
+const double & DocClipAVFile::lumaSoftness() const
+{
+    return m_lumasoftness;
+}
+
 QString DocClipAVFile::avDecompressor()
 {
     return m_decompressor;
@@ -407,6 +418,7 @@ QDomDocument DocClipAVFile::generateSceneList(bool, bool) const
         	clipFilter.setAttribute("mlt_service", "luma");
 		clipFilter.setAttribute("period", QString::number(clipTtl() - 1));
 		clipFilter.setAttribute("resource", lumaFile());
+		clipFilter.setAttribute("luma.softness", QString::number(lumaSoftness()));
 		entry.appendChild(clipFilter);
     		}
         playlist.appendChild(entry);
@@ -496,6 +508,7 @@ QDomDocument DocClipAVFile::toXML() const
 		avfile.setAttribute("crossfade", m_hasCrossfade);
 		avfile.setAttribute("ttl", m_ttl);
 		avfile.setAttribute("lumafile", m_luma);
+		avfile.setAttribute("lumasoftness", m_lumasoftness);
 		avfile.setAttribute("channels", m_channels);
 		avfile.setAttribute("frequency", m_frequency);
 		avfile.setAttribute("color", m_color);

@@ -1030,6 +1030,7 @@ QDomDocument DocClipRef::generateXMLClip(bool rendering)
         clipFilter.setAttribute("mlt_service", "luma");
 	clipFilter.setAttribute("period", QString::number(m_clip->toDocClipAVFile()->clipTtl() - 1));
 	clipFilter.setAttribute("resource", m_clip->toDocClipAVFile()->lumaFile());
+	clipFilter.setAttribute("luma.softness", QString::number(m_clip->toDocClipAVFile()->lumaSoftness()));
 	entry.appendChild(clipFilter);
     }
 
@@ -1278,6 +1279,7 @@ QDomDocument DocClipRef::generateOffsetXMLClip(GenTime start, GenTime end)
         clipFilter.setAttribute("mlt_service", "luma");
 	clipFilter.setAttribute("period", QString::number(m_clip->toDocClipAVFile()->clipTtl() - 1));
 	clipFilter.setAttribute("resource", m_clip->toDocClipAVFile()->lumaFile());
+	clipFilter.setAttribute("luma.softness", QString::number(m_clip->toDocClipAVFile()->lumaSoftness()));
 	entry.appendChild(clipFilter);
     }
 

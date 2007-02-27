@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <qlistbox.h>
+#include <qslider.h>
 #include <qspinbox.h>
 #include <qcheckbox.h>
 #include <qstringlist.h>
@@ -77,6 +78,11 @@ namespace Gui {
     void createSlideshowClip::insertLuma(const QPixmap &pix, const QString &txt)
     {
 	clipChoice->luma_list->insertItem(pix, txt);
+    }
+
+    double createSlideshowClip::softness() const
+    {
+	return clipChoice->luma_softness->value() /100.0;
     }
 
     int createSlideshowClip::ttl()

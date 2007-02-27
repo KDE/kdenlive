@@ -120,6 +120,7 @@ namespace Gui {
 		clipChoice->luma_selected->setChecked(true);
 		m_luma = KURL(m_luma).filename();
 		m_luma.truncate(m_luma.length() - 4);
+		clipChoice->luma_softness->setValue(avclip->lumaSoftness() * 100.0);
 	    }
 	    QPixmap pix = document->renderer()->getImageThumbnail(refClip->fileURL().path(), clipChoice->preview_pixmap->width(), clipChoice->preview_pixmap->height());
 	    clipChoice->preview_pixmap->setPixmap(pix);
@@ -293,6 +294,16 @@ namespace Gui {
     bool ClipProperties::crossfading()
     {
         return clipChoice->crossfade->isChecked(); 
+    }
+
+    QString ClipProperties::lumaFile() const
+    {
+        return clipChoice->luma_list->currentText();
+    }
+
+    double ClipProperties::lumaSoftness() const
+    {
+        return clipChoice->luma_softness->value() / 100.0;
     }
     
 

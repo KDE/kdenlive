@@ -50,6 +50,7 @@ namespace Gui {
 	void insertLuma(const QPixmap &pix, const QString &txt);
 	bool useLuma();
 	QString currentLuma();
+	double softness() const;
 
       private:
 	createSlideshowClip_UI *clipChoice;

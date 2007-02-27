@@ -52,8 +52,7 @@ namespace Command {
          
 	/** Edit a slideshow clip */
 	 KEditClipCommand(KdenliveDoc & document, DocClipRef * clip,
-	    const KURL & url, const QString & extension, const int &ttl, bool crossfade,
-            const GenTime & duration, const QString & description, bool alphaTransparency);
+	    const KURL & url, const QString & extension, const int &ttl, bool crossfade, const QString & lumaFile, double lumaSoftness, const GenTime & duration, const QString & description, bool alphaTransparency);
 
          /** Edit an text clip */
          KEditClipCommand(KdenliveDoc & document, DocClipRef * clip, const GenTime & duration,
