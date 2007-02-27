@@ -609,11 +609,6 @@ QDomDocumentFragment ClipManager::producersList()
 		producer.setAttribute("resource",
 		    avClip->fileURL().path());
 		producer.setAttribute("hide", "audio");
-		if (avClip->clipType() == DocClipBase::SLIDESHOW) {
-		//if (avClip->clipTtl()!=0) 
-			producer.setAttribute("ttl", QString::number(avClip->clipTtl()));
-			producer.setAttribute("file", avClip->lumaFile());
-		}
 		list.appendChild(producer);
 	    }
 

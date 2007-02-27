@@ -98,7 +98,7 @@ class DocClipAVFile:public DocClipBase {
     void setAlpha(bool transp);
     void setCrossfade( bool cross);
     bool isTransparent();
-    bool hasCrossfade();
+    bool hasCrossfade() const;
     int clipTtl() const;
     void setClipTtl(const int &ttl);
     void setLumaFile(const QString & luma);

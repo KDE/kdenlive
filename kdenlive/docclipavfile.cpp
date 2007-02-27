@@ -123,7 +123,7 @@ QDomElement element = node.documentElement();
 		m_alphaTransparency = e.attribute("transparency", "0").toInt();
 		m_hasCrossfade = e.attribute("crossfade", "0").toInt();
 		m_ttl = e.attribute("ttl", "0").toInt();
-		m_luma = e.attribute("luma", QString::null);
+		m_luma = e.attribute("lumafile", QString::null);
 		m_width = e.attribute("width", "0").toInt();
 		m_height = e.attribute("height", "0").toInt();
 		m_channels = e.attribute("channels", "0").toInt();
@@ -188,7 +188,7 @@ bool DocClipAVFile::isTransparent()
     return m_alphaTransparency;
 }
 
-bool DocClipAVFile::hasCrossfade()
+bool DocClipAVFile::hasCrossfade() const
 {
     return m_hasCrossfade;
 }
@@ -401,6 +401,14 @@ QDomDocument DocClipAVFile::generateSceneList(bool, bool) const
         QString::number(duration().frames(KdenliveSettings::defaultfps())));
         QDomElement entry = sceneList.createElement("entry");
         entry.setAttribute("producer", 0);
+    	if (hasCrossfade()) {
+    		QDomElement clipFilter =
+		sceneList.createElement("filter");
+        	clipFilter.setAttribute("mlt_service", "luma");
+		clipFilter.setAttribute("period", QString::number(clipTtl() - 1));
+		clipFilter.setAttribute("resource", lumaFile());
+		entry.appendChild(clipFilter);
+    		}
         playlist.appendChild(entry);
         westley.appendChild(playlist);
     }
@@ -487,7 +495,7 @@ QDomDocument DocClipAVFile::toXML() const
 		avfile.setAttribute("transparency", m_alphaTransparency);
 		avfile.setAttribute("crossfade", m_hasCrossfade);
 		avfile.setAttribute("ttl", m_ttl);
-		avfile.setAttribute("luma", m_luma);
+		avfile.setAttribute("lumafile", m_luma);
 		avfile.setAttribute("channels", m_channels);
 		avfile.setAttribute("frequency", m_frequency);
 		avfile.setAttribute("color", m_color);
