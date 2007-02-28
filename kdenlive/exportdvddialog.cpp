@@ -88,6 +88,8 @@ ExportDvdDialog::ExportDvdDialog(DocClipProject *proj, exportWidget *render_widg
     connect(button_burn, SIGNAL(clicked()), this, SLOT(burnDvd()));
     connect(button_qdvd, SIGNAL(clicked()), this, SLOT(openWithQDvdauthor()));
 
+    connect(use_existing, SIGNAL(toggled (bool)), this, SLOT(slotUpdateNextButton(bool)));
+
     connect(render_widget, SIGNAL(dvdExportOver(bool)), this, SLOT(slotFinishExport(bool)));
     connect(create_menu, SIGNAL(toggled ( bool )), this, SLOT( refreshPreview()));
     connect(color_background, SIGNAL(toggled ( bool )), this, SLOT( refreshPreview()));
@@ -101,7 +103,6 @@ ExportDvdDialog::ExportDvdDialog(DocClipProject *proj, exportWidget *render_widg
     connect(menu_movie, SIGNAL(urlSelected( const QString & )), this, SLOT(slotCheckMenuMovie()));
     connect(play_text, SIGNAL(textChanged ( const QString & )), this, SLOT(generateMenuPreview()));
     preview_pixmap->setScaledContents(true);
-
     checkFolder();
 }
 
@@ -111,6 +112,12 @@ ExportDvdDialog::~ExportDvdDialog()
 	m_exportProcess->kill();
 	delete m_exportProcess;
     }
+}
+
+void ExportDvdDialog::slotUpdateNextButton(bool isOn)
+{
+    if (isOn && render_file->url().isEmpty()) nextButton()->setEnabled(false);
+    else nextButton()->setEnabled(true);
 }
 
 void ExportDvdDialog::slotSetStandard(int std)
@@ -413,10 +420,12 @@ void ExportDvdDialog::generateDvdXml() {
     	if (chapter_pause->value() > 0) vob.setAttribute("pause", chapter_pause->value());
     }
     pgc.appendChild(vob);
-    QDomElement post = doc.createElement("post");
-    QDomText t = doc.createTextNode( "call menu;" );
-    post.appendChild( t );
-    pgc.appendChild(post);
+    if (create_menu->isChecked()) {
+        QDomElement post = doc.createElement("post");
+        QDomText t = doc.createTextNode( "call menu;" );
+        post.appendChild( t );
+        pgc.appendChild(post);
+    }
     doc.appendChild(main);
 
     QFile *file = new QFile(xml_file);
