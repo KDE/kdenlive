@@ -415,7 +415,7 @@ QDomDocument DocClipAVFile::generateSceneList(bool, bool) const
        	QDomElement producer = sceneList.createElement("producer");
         producer.setAttribute("id", 0);
         producer.setAttribute("resource", fileURL().path());
-        producer.setAttribute("aspect_ratio", QString::number(aspectRatio()));
+        if (KdenliveSettings::distortimages()) producer.setAttribute("aspect_ratio", QString::number(aspectRatio()));
         westley.appendChild(producer);
         QDomElement playlist = sceneList.createElement("playlist");
         playlist.setAttribute("in", "0");

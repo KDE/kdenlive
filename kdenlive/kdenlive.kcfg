@@ -194,8 +194,13 @@
       <label>Default duration for new color clips.</label>
       <default>00:00:10:00</default>
     </entry>
-    
-      <entry name="osdtimecode" type="Bool">
+
+    <entry name="distortimages" type="Bool">
+      <label>Distort images to fill screen.</label>
+      <default>true</default>
+    </entry>
+
+    <entry name="osdtimecode" type="Bool">
       <label>Display Timecode on the video image.</label>
       <default>false</default>
     </entry>

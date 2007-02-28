@@ -8,15 +8,15 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>259</width>
-            <height>297</height>
+            <width>303</width>
+            <height>317</height>
         </rect>
     </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="KRestrictedLine" row="1" column="2">
+        <widget class="KRestrictedLine" row="1" column="1">
             <property name="name">
                 <cstring>kcfg_textclipduration</cstring>
             </property>
@@ -27,7 +27,7 @@
                 <string>99:99:99:99; </string>
             </property>
         </widget>
-        <widget class="QLabel" row="2" column="0" rowspan="1" colspan="2">
+        <widget class="QLabel" row="2" column="0">
             <property name="name">
                 <cstring>textLabel4_2</cstring>
             </property>
@@ -35,7 +35,7 @@
                 <string>Default color/image clip duration</string>
             </property>
         </widget>
-        <widget class="KRestrictedLine" row="2" column="2">
+        <widget class="KRestrictedLine" row="2" column="1">
             <property name="name">
                 <cstring>kcfg_colorclipduration</cstring>
             </property>
@@ -46,7 +46,7 @@
                 <string>99:99:99:99; </string>
             </property>
         </widget>
-        <widget class="QLabel" row="1" column="0" rowspan="1" colspan="2">
+        <widget class="QLabel" row="1" column="0">
             <property name="name">
                 <cstring>textLabel4</cstring>
             </property>
@@ -54,7 +54,7 @@
                 <string>Default text clip duration</string>
             </property>
         </widget>
-        <widget class="QButtonGroup" row="0" column="0" rowspan="1" colspan="3">
+        <widget class="QButtonGroup" row="0" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>buttonGroup1</cstring>
             </property>
@@ -94,15 +94,7 @@
                 </widget>
             </grid>
         </widget>
-        <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="3">
-            <property name="name">
-                <cstring>kcfg_osdtimecode</cstring>
-            </property>
-            <property name="text">
-                <string>On screen timecode display</string>
-            </property>
-        </widget>
-        <widget class="QLabel" row="5" column="0" rowspan="1" colspan="3">
+        <widget class="QLabel" row="5" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>textLabel1_2</cstring>
             </property>
@@ -110,17 +102,12 @@
                 <string>External audio editor</string>
             </property>
         </widget>
-        <widget class="KLineEdit" row="6" column="0" rowspan="1" colspan="3">
-            <property name="name">
-                <cstring>kcfg_externalaudioeditor</cstring>
-            </property>
-        </widget>
-        <widget class="KLineEdit" row="8" column="0" rowspan="1" colspan="3">
+        <widget class="KLineEdit" row="8" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>kcfg_externalimageeditor</cstring>
             </property>
         </widget>
-        <widget class="QLabel" row="7" column="0" rowspan="1" colspan="3">
+        <widget class="QLabel" row="7" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>textLabel1_2_2</cstring>
             </property>
@@ -128,7 +115,12 @@
                 <string>External image editor</string>
             </property>
         </widget>
-        <spacer row="9" column="2">
+        <widget class="KLineEdit" row="6" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>kcfg_externalaudioeditor</cstring>
+            </property>
+        </widget>
+        <spacer row="9" column="1">
             <property name="name">
                 <cstring>spacer2</cstring>
             </property>
@@ -145,6 +137,22 @@
                 </size>
             </property>
         </spacer>
+        <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>kcfg_osdtimecode</cstring>
+            </property>
+            <property name="text">
+                <string>On screen timecode display</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>kcfg_distortimages</cstring>
+            </property>
+            <property name="text">
+                <string>Distort Images (non proportionnal scaling)</string>
+            </property>
+        </widget>
     </grid>
 </widget>
 <customwidgets>
