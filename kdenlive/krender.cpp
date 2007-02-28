@@ -22,10 +22,18 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifndef INT64_C
+#define INT64_C(c) (c##LL)
+#define UINT64_C(c) (c##ULL)
+#endif
+
+extern "C" {
+#include <ffmpeg/avformat.h>
+}
+
 #include <iostream>
 
 // ffmpeg Header files
-#include <ffmpeg/avformat.h>
 
 #include <mlt++/Mlt.h>
 
@@ -48,11 +56,7 @@
 #include <kstandarddirs.h>
 
 #include "krender.h"
-#include "avformatdescbool.h"
-#include "avformatdesclist.h"
-#include "avformatdesccontainer.h"
-#include "avformatdesccodeclist.h"
-#include "avformatdesccodec.h"
+
 #include "effectparamdesc.h"
 #include "initeffects.h"
 
@@ -565,7 +569,7 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
     Mlt::Playlist track;
     Mlt::Producer clip("westley-xml", decodedString(list.toString()));
 
-    if (!clip.is_valid()) 
+    if (!clip.is_valid())
 	kdWarning()<<" ++++ WARNING, UNABLE TO CREATE MLT PRODUCER"<<endl;
     else {
         track.append(clip);
