@@ -50,11 +50,8 @@ namespace Gui {
     QFont dialogFont = font();
     dialogFont.setPointSize(dialogFont.pointSize() - 1);
     setFont(dialogFont);
-    QGridLayout *m_container = new QGridLayout(this, 2, 3);
+    QGridLayout *m_container = new QGridLayout(this, 2, 2);
     m_container->setMargin(5);
-
-    KPushButton *getNew = new KPushButton(i18n("Get new transition"), this);
-
 
     QLabel *lab = new QLabel(i18n("Perform transition with: "), this);
     trackPolicy = new KComboBox(this);
@@ -88,8 +85,7 @@ namespace Gui {
     initLumaFiles();
     m_container->addWidget(lab, 0, 0);
     m_container->addWidget(trackPolicy, 0, 1);
-    m_container->addWidget(getNew, 0, 2);
-    m_container->addMultiCellWidget(propertiesDialog, 1, 1, 0, 2);
+    m_container->addMultiCellWidget(propertiesDialog, 1, 1, 0, 1);
     setEnabled(false);
     adjustSize();
 }
