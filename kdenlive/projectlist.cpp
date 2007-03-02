@@ -145,6 +145,34 @@ namespace Gui {
 	slot_UpdateList();
     }
 
+    void ProjectList::focusView() {
+	if (!m_isIconView) m_listView->setFocus();
+	else m_iconView->setFocus();
+    }
+
+    bool ProjectList::isListView() {
+	return !m_isIconView;
+    }
+
+    bool ProjectList::hasChildren() {
+	// TODO: implement folder functionnality in icon view
+	if (m_isIconView) return true;
+	return m_listView->currentItem()->childCount() > 0;
+    }
+
+    QStringList ProjectList::currentItemChildrenIds() {
+	// TODO: implement folder functionnality in icon view
+	QStringList list;
+	if (m_isIconView) return list;
+	QString folderName = currentItemName();
+	QListViewItem * myChild = m_listView->currentItem()->firstChild();
+        while( myChild ) {
+	    list.append(QString::number((static_cast<AVListViewItem*>(myChild))->clip()->referencedClip()->getId()));
+	    myChild = myChild->nextSibling();
+        }
+	return list;
+    }
+
     DocClipRef* ProjectList::currentClip() {
 	if (!m_isIconView) {
 	    if (!m_listView->currentItem()) return NULL;

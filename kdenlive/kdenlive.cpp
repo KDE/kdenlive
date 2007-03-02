@@ -2888,19 +2888,21 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
     }
 
     void KdenliveApp::slotProjectDeleteFolder() {
-	if (m_projectList->currentClip()) return;
-	/*if (m_projectList->hasChildren())
+	//TODO: implement icon view folder deletion
+	if (m_projectList->currentClip() || !m_projectList->isListView()) return;
+	if (m_projectList->hasChildren())
 	if (KMessageBox::questionYesNo(this, i18n("Deleting this folder will remove all reference to its clips in your project.\nDelete this folder ?")) ==  KMessageBox::No) return;
-	QString folderName = m_projectList-currentItemName();
-	
+	QString folderName = m_projectList->currentItemName();
+	QStringList folderItems = m_projectList->currentItemChildrenIds();
+	/*
 	QListViewItem * myChild = m_projectList->m_listView->currentItem();
         while( myChild->firstChild() ) {
             m_projectList->m_listView->setCurrentItem( myChild->firstChild() );
 	    slotProjectDeleteClips(false);
 	    myChild = m_projectList->m_listView->findItem(folderName, 1, Qt::CaseSensitive);
-        }
-	getDocument()->deleteGroupNode(folderName);
-	getDocument()->activateSceneListGeneration(true);*/
+        }*/
+	slotProjectDeleteClips(folderItems);
+	getDocument()->deleteGroupNode(folderName);	getDocument()->activateSceneListGeneration(true);
     }
 
     void KdenliveApp::slotProjectAddFolder(QString message) {
@@ -3264,6 +3266,45 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	else if (confirm) slotProjectDeleteFolder();
 	slotStatusMsg(i18n("Ready."));
     }
+
+
+/** Remove clips from the project */
+    void KdenliveApp::slotProjectDeleteClips(QStringList list) {
+	slotStatusMsg(i18n("Removing Clips"));
+	
+	DocClipRef *refClip;
+	// Create a macro command that will delete all clips from the timeline involving this avfile. Then, delete it.
+	KMacroCommand *macroCommand = new KMacroCommand(i18n("Delete Clip"));
+	for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it ) {
+	    int id = (*it).toInt();
+	    DocClipBase *clip = getDocument()->clipManager().findClipById(id);
+
+	    // NOTE - we clear the monitors of the clip here - this does _not_ go into the macro command.
+		
+	    m_monitorManager.clearClip(clip);
+
+	    DocClipRefList list = m_doc->referencedClips(clip);
+	    QPtrListIterator < DocClipRef > itt(list);
+
+	    while (itt.current()) {
+		    Command::KAddRefClipCommand * command = new Command::KAddRefClipCommand(effectList(), *m_doc, itt.current(), false);
+		    if (m_transitionPanel->belongsToClip(itt.current())) m_transitionPanel->setTransition(0);
+		    macroCommand->addCommand(command);
+		    ++itt;
+	    }
+
+	    // remove audio thumbnail and tmp files
+	    clip->removeTmpFile();
+
+	    DocumentBaseNode *node = m_doc->findClipNodeById(id);
+	    if (!node) kdDebug()<<"++++++  CANNOT FIND NODE: "<<id<<endl;
+	    macroCommand->addCommand(new Command::KAddClipCommand(*m_doc, node->name(), clip, node->parent(), false));
+	}
+	addCommand(macroCommand, true);
+	getDocument()->activateSceneListGeneration(true);
+	slotStatusMsg(i18n("Ready."));
+    }
+
 
 /** Cleans the project of unwanted clips */
     void KdenliveApp::slotProjectClean() {

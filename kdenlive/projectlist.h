@@ -64,6 +64,10 @@ namespace Gui {
 	QString currentItemName();
 	void setListView();
 	void setIconView();
+	bool isListView();
+	void focusView();
+	bool hasChildren();
+	QStringList currentItemChildrenIds();
 
       private:			// Private methods
 	/** Holds the document that this projectlist makes use of. */

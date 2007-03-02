@@ -275,6 +275,7 @@ namespace Gui {
 	void slotProjectClean();
 		/** Remove clips from the project */
 	void slotProjectDeleteClips(bool confirm = true);
+	void slotProjectDeleteClips(QStringList list);
 		/** Add clips to the project */
 	void slotProjectAddClips();
 	void slotProjectAddColorClip();
