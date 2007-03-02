@@ -416,6 +416,7 @@ QDomDocument DocClipAVFile::generateSceneList(bool, bool) const
         producer.setAttribute("id", 0);
         producer.setAttribute("resource", fileURL().path());
         if (KdenliveSettings::distortimages()) producer.setAttribute("aspect_ratio", QString::number(aspectRatio()));
+	
         westley.appendChild(producer);
         QDomElement playlist = sceneList.createElement("playlist");
         playlist.setAttribute("in", "0");
@@ -423,7 +424,10 @@ QDomDocument DocClipAVFile::generateSceneList(bool, bool) const
         QString::number(duration().frames(KdenliveSettings::defaultfps())));
         QDomElement entry = sceneList.createElement("entry");
         entry.setAttribute("producer", 0);
-    	if (hasCrossfade()) {
+
+	if (clipType() == SLIDESHOW) {
+	    producer.setAttribute("ttl", clipTtl());
+    	    if (hasCrossfade()) {
     		QDomElement clipFilter =
 		sceneList.createElement("filter");
         	clipFilter.setAttribute("mlt_service", "luma");
@@ -433,6 +437,7 @@ QDomDocument DocClipAVFile::generateSceneList(bool, bool) const
 		clipFilter.setAttribute("luma.out", QString::number(lumaDuration()));
 		entry.appendChild(clipFilter);
     		}
+	}
         playlist.appendChild(entry);
         westley.appendChild(playlist);
     }

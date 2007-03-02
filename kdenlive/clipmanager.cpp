@@ -609,8 +609,8 @@ QDomDocumentFragment ClipManager::producersList()
 		producer.setAttribute("id", avClip->getId());
                 double ratio = ((double) KdenliveSettings::defaultwidth()/KdenliveSettings::defaultheight())/((double)avClip->clipWidth()/avClip->clipHeight()) * m_render->consumerRatio();
                 if (KdenliveSettings::distortimages()) producer.setAttribute("aspect_ratio", QString::number(ratio));
-		producer.setAttribute("resource",
-		    avClip->fileURL().path());
+		producer.setAttribute("resource", avClip->fileURL().path());
+		producer.setAttribute("ttl", avClip->clipTtl());
 		producer.setAttribute("hide", "audio");
 		list.appendChild(producer);
 	    }
