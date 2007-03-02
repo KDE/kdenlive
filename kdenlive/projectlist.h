@@ -59,14 +59,11 @@ namespace Gui {
 	~ProjectList();
 	/** Returns the currently selected clip in the project list. */
 	DocClipRefList currentSelection();
-	void focusView();
 	DocClipRef* currentClip();
         QString parentName();
 	QString currentItemName();
 	void setListView();
 	void setIconView();
-
-
 
       private:			// Private methods
 	/** Holds the document that this projectlist makes use of. */

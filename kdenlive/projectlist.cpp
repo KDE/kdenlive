@@ -145,13 +145,11 @@ namespace Gui {
 	slot_UpdateList();
     }
 
-    void ProjectList::focusView() {
-	if (!m_isIconView) m_listView->setFocus();
-	else m_iconView->setFocus();
-    }
-
     DocClipRef* ProjectList::currentClip() {
-	if (!m_isIconView) return (static_cast<AVListViewItem*>(m_listView->currentItem()))->clip();
+	if (!m_isIconView) {
+	    if (!m_listView->currentItem()) return NULL;
+	    return (static_cast<AVListViewItem*>(m_listView->currentItem()))->clip();
+	}
 	else return m_iconView->selectedItem();
     }
 
@@ -168,7 +166,6 @@ namespace Gui {
     /** An item was double clicked */
     void ProjectList::editRequested( QListViewItem *, const QPoint &, int col)
     {
-	kdDebug()<<"/////// DBL CLK"<<endl;
 	// only react if the click is not in column 2 (because col 2 is the editable description
         if (col!=2) emit editItem();
     }
