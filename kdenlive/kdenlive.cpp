@@ -133,7 +133,7 @@ namespace Gui {
 
     KdenliveApp::KdenliveApp(bool newDoc, QWidget *parent,
 	const char *name):KDockMainWindow(parent, name), m_monitorManager(this),
-    m_workspaceMonitor(NULL), m_clipMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_renderManager(NULL), m_doc(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_projectList(NULL), m_effectStackDialog(NULL), m_effectListDialog(NULL), m_projectFormat(PAL_VIDEO), m_timelinePopupMenu(NULL), m_rulerPopupMenu(NULL), m_exportDvd(NULL), m_transitionPanel(NULL), m_resizeFunction(NULL), m_rollFunction(NULL), m_markerFunction(NULL),m_newLumaDialog(NULL) {
+    m_workspaceMonitor(NULL), m_clipMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_renderManager(NULL), m_doc(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_projectList(NULL), m_effectStackDialog(NULL), m_effectListDialog(NULL), m_projectFormat(PAL_VIDEO), m_timelinePopupMenu(NULL), m_rulerPopupMenu(NULL), m_exportDvd(NULL), m_transitionPanel(NULL), m_resizeFunction(NULL), m_rollFunction(NULL), m_markerFunction(NULL),m_newLumaDialog(NULL), m_externalMonitor(0) {
 	config = kapp->config();
 
 	QString newProjectName;
@@ -197,6 +197,8 @@ namespace Gui {
             splash->show();
             QTimer::singleShot(10*1000, this, SLOT(slotSplashTimeout()));
         }
+
+	if (KdenliveSettings::useexternalmonitor()) createExternalMonitor();
 
 	// renderer options
 	m_renderManager = new KRenderManager(this);
@@ -262,7 +264,6 @@ namespace Gui {
 	    m_dockProjectList->makeDockVisible();
 	    if (KdenliveSettings::showsplash()) QTimer::singleShot(500, this, SLOT(slotSplashTimeout()));
 	}
-
 	connect(manager(), SIGNAL(change()), this, SLOT(slotUpdateLayoutState()));
 	setAutoSaveSettings();
     }
@@ -2673,6 +2674,19 @@ namespace Gui {
 	// change status message permanently
 	//statusBar()->clear();
 	statusBar()->changeItem(text, ID_STATUS_MSG);
+    }
+
+
+    void KdenliveApp::createExternalMonitor() {
+	QVBox *screen = new QVBox( QApplication::desktop()->screen( KdenliveSettings::externalmonitor() ) );
+    	screen->showFullScreen();
+    	//screen->resize(QSize(400,400));
+    	m_externalMonitor = (int) screen->winId();
+    	screen->show();
+    }
+
+    int KdenliveApp::externalMonitor() {
+	return m_externalMonitor;
     }
 
 /** Alerts the App to when the document has been modified. */

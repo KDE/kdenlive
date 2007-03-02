@@ -8,15 +8,15 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>300</width>
-            <height>134</height>
+            <width>343</width>
+            <height>135</height>
         </rect>
     </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <spacer row="3" column="1">
+        <spacer row="4" column="1">
             <property name="name">
                 <cstring>spacer2</cstring>
             </property>
@@ -29,7 +29,7 @@
             <property name="sizeHint">
                 <size>
                     <width>21</width>
-                    <height>20</height>
+                    <height>80</height>
                 </size>
             </property>
         </spacer>
@@ -41,7 +41,7 @@
                 <string>Audio device:</string>
             </property>
         </widget>
-        <widget class="KComboBox" row="2" column="1">
+        <widget class="KComboBox" row="2" column="1" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>audio_device</cstring>
             </property>
@@ -62,7 +62,7 @@
                 <string>Audio driver:</string>
             </property>
         </widget>
-        <widget class="KComboBox" row="1" column="1">
+        <widget class="KComboBox" row="1" column="1" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>audio_driver</cstring>
             </property>
@@ -83,9 +83,25 @@
                 <string>Video driver:</string>
             </property>
         </widget>
-        <widget class="KComboBox" row="0" column="1">
+        <widget class="KComboBox" row="0" column="1" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>video_driver</cstring>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>kcfg_useexternalmonitor</cstring>
+            </property>
+            <property name="text">
+                <string>Use secondary monitor for video output</string>
+            </property>
+        </widget>
+        <widget class="QSpinBox" row="3" column="2">
+            <property name="name">
+                <cstring>kcfg_externalmonitor</cstring>
+            </property>
+            <property name="minValue">
+                <number>1</number>
             </property>
         </widget>
     </grid>

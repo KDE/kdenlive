@@ -76,6 +76,7 @@ m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProduce
     m_osdInfo = new Mlt::Filter("data_show");
     m_osdInfo->set("resource", decodedString(m_osdProfile));
 
+   
     //      Does it do anything usefull? I mean, KRenderThread doesn't do anything useful at the moment
     //      (except being cpu hungry :)
 
@@ -149,7 +150,6 @@ replyCreateVideoXWindow() once the renderer has replied. */
 
 void KRender::createVideoXWindow(bool , WId winid)
 {
-    m_winid = (int) winid;
     m_mltConsumer = new Mlt::Consumer("sdl_preview");
     if (!m_mltConsumer || !m_mltConsumer->is_valid()) {
 	KMessageBox::error(m_app, i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install.\n Exiting now..."));
@@ -165,11 +165,17 @@ void KRender::createVideoXWindow(bool , WId winid)
     /*m_mltConsumer->set("app_locked", 1);
     m_mltConsumer->set("app_lock", (void *) &my_lock, 0);
     m_mltConsumer->set("app_unlock", (void *) &my_unlock, 0);*/
+    if (KdenliveSettings::useexternalmonitor()) {
+	m_winid = m_app->externalMonitor();
+	m_mltConsumer->set("output_display", QString(":0." + QString::number(KdenliveSettings::externalmonitor())).ascii());
+    }
+    else m_winid = (int) winid;
     m_mltConsumer->set("window_id", m_winid);
-
+    
     m_mltConsumer->set("resize", 1);
     m_mltConsumer->set("rescale", KdenliveSettings::previewquality());
 
+    m_mltConsumer->set("terminate_on_pause", 1);
     //m_mltConsumer->set("audio_driver","dsp");
     QString aDevice = KdenliveSettings::audiodevice();
     if (!KdenliveSettings::videodriver().isEmpty()) m_mltConsumer->set("video_driver", KdenliveSettings::videodriver());

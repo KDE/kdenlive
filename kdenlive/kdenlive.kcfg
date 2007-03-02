@@ -254,4 +254,16 @@
     </entry>
   </group>
 
+  <group name="Hardware">
+      <entry name="useexternalmonitor" type="Bool">
+      <label>Use external monitor for video output.</label>
+      <default>false</default>
+    </entry>
+
+      <entry name="externalmonitor" type="Int">
+      <label>Monitor number.</label>
+      <default>1</default>
+    </entry>
+  </group>
+
 </kcfg>

@@ -152,6 +152,8 @@ namespace Gui {
  	void setProjectFormat(VIDEOFORMAT vFormat);
 	QStringList videoProjectFormats;
         void ensureCursorVisible();
+	int externalMonitor();
+
       protected:
 		/** save general Options like all bar positions and status as well as the geometry and the recent file list to the configuration
 		 * file
@@ -703,6 +705,8 @@ namespace Gui {
 		// the macroCommand. selectedClips determines whether this uses selectedClips or unselectedClips */
 	void populateClearSnapMarkers(KMacroCommand * macroCommand, DocClipProject & clip, bool selectedClips);
 	void connectMonitors();
+	int m_externalMonitor;
+	void createExternalMonitor();
     };
 
 }				// namespace Gui
