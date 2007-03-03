@@ -212,7 +212,7 @@
 
     <entry name="previewquality" type="String">
       <label>Quality of image resize in video preview</label>
-      <default>bilinear</default>
+      <default>nearest</default>
     </entry>
 
     <entry name="externalaudioeditor" type="String">
