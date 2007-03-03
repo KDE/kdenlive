@@ -1621,6 +1621,7 @@ namespace Gui {
 		slotStatusMsg(i18n("Ready."));
 		m_statusBarExportProgress->hide();
 		m_stopExportButton->hide();
+		setCaption(m_doc->projectName() + " - " + easyName(m_projectFormat), false);
 	    }
 	    else {
 		if ( val == 0 ) {
@@ -1641,9 +1642,10 @@ namespace Gui {
 		}
 		m_statusBarExportProgress->show();
 		m_stopExportButton->show();
+		setCaption(QString::number(val) + "% - " + m_doc->projectName() + " - " + easyName(m_projectFormat), false);
 	    }
 	    m_statusBarExportProgress->setProgress(val);
-	    }
+	}
     }
 
     void KdenliveApp::slotEditTransition(Transition *transition) {
