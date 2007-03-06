@@ -2042,6 +2042,7 @@ namespace Gui {
 	    KdenliveSettings::setVideoprofile("dv_wide");
 	else KdenliveSettings::setVideoprofile(QString::null);
 	putenv (m_projectTemplates.values()[ix].normalisation());
+	kdDebug()<<"// open FORMAT: "<<projectFormat<<", IX: "<<ix<<endl;
 	statusBar()->changeItem(m_projectTemplates.keys()[ix], ID_TIMELINE_MSG);
     }
 
@@ -2273,9 +2274,11 @@ namespace Gui {
 			QDomElement e = n.toElement();
 			if (!e.isNull()) {
 	    		    if (e.tagName() == "properties") {
-				int vFormat = e.attribute("projectvideoformat","0").toInt();
-				KdenliveSettings::setVideoprofile(e.attribute("videoprofile", QString::null));
-				setProjectFormat(vFormat);
+				VIDEOFORMAT vFormat = (VIDEOFORMAT) e.attribute("projectvideoformat","0").toInt();
+				QString isWide = e.attribute("videoprofile", QString::null);
+				if (vFormat == PAL_VIDEO && isWide == QString("dv_wide")) vFormat = PAL_WIDE;
+				else if (vFormat == NTSC_VIDEO && isWide == QString("dv_wide")) vFormat = NTSC_WIDE;
+				setProjectFormat((int) vFormat);
 				foundFormat = true;
 				break;
 			    }

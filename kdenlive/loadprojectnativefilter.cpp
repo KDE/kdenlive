@@ -75,9 +75,6 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 		}
 		else KdenliveSettings::setCurrenttmpfolder(locateLocal("tmp", "kdenlive/", true));
 
-		int vFormat = e.attribute("projectvideoformat","0").toInt();
-		document->setProjectFormat((VIDEOFORMAT) vFormat);
-
 		QStringList meta = QStringList::split("#", e.attribute("metadata", QString::null), true);
 		if (!meta.isEmpty()) document->slotSetMetadata( meta );
 
