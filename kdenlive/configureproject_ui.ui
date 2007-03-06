@@ -1,6 +1,6 @@
 <!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>ConfigureProjectPanel_UI</class>
-<widget class="QWidget">
+<widget class="QDialog">
     <property name="name">
         <cstring>ConfigureProjectPanel_UI</cstring>
     </property>
@@ -8,18 +8,147 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>381</width>
-            <height>270</height>
+            <width>293</width>
+            <height>306</height>
         </rect>
     </property>
     <property name="caption">
         <string></string>
     </property>
+    <property name="sizeGripEnabled">
+        <bool>false</bool>
+    </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QGroupBox" row="3" column="2" rowspan="3" colspan="1">
+        <widget class="QLabel" row="4" column="0">
+            <property name="name">
+                <cstring>textLabel5</cstring>
+            </property>
+            <property name="text">
+                <string>Height</string>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget" row="7" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>Layout1</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>buttonHelp</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Help</string>
+                    </property>
+                    <property name="accel">
+                        <string>F1</string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>Horizontal Spacing2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>buttonOk</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;OK</string>
+                    </property>
+                    <property name="accel">
+                        <string></string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                    <property name="default">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>buttonCancel</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Cancel</string>
+                    </property>
+                    <property name="accel">
+                        <string></string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QLabel" row="5" column="0">
+            <property name="name">
+                <cstring>textLabel5_2</cstring>
+            </property>
+            <property name="text">
+                <string>Aspect Ratio</string>
+            </property>
+        </widget>
+        <widget class="KLineEdit" row="4" column="1">
+            <property name="name">
+                <cstring>frameheight</cstring>
+            </property>
+            <property name="readOnly">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="QLabel" row="3" column="0">
+            <property name="name">
+                <cstring>textLabel4</cstring>
+            </property>
+            <property name="text">
+                <string>Width</string>
+            </property>
+        </widget>
+        <widget class="KLineEdit" row="5" column="1">
+            <property name="name">
+                <cstring>aspectratio</cstring>
+            </property>
+            <property name="readOnly">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="KLineEdit" row="2" column="1">
+            <property name="name">
+                <cstring>framespersecond</cstring>
+            </property>
+            <property name="readOnly">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="QGroupBox" row="6" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>groupBox2</cstring>
             </property>
@@ -81,124 +210,33 @@ Drop frame timecode only affects the way that frames are numbered, no frames are
                 </widget>
             </vbox>
         </widget>
-        <widget class="QGroupBox" row="2" column="2">
+        <widget class="KLineEdit" row="3" column="1">
             <property name="name">
-                <cstring>groupBox4</cstring>
+                <cstring>framewidth</cstring>
             </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>3</hsizetype>
-                    <vsizetype>5</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
+            <property name="readOnly">
+                <bool>true</bool>
             </property>
-            <property name="title">
-                <string>Aspect Ratio</string>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel" row="1" column="0">
-                    <property name="name">
-                        <cstring>textLabel5</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Height</string>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="0" column="0">
-                    <property name="name">
-                        <cstring>textLabel4</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Width</string>
-                    </property>
-                </widget>
-                <widget class="KIntNumInput" row="0" column="1">
-                    <property name="name">
-                        <cstring>m_widthInput</cstring>
-                    </property>
-                </widget>
-                <widget class="KIntNumInput" row="1" column="1">
-                    <property name="name">
-                        <cstring>m_heightInput</cstring>
-                    </property>
-                </widget>
-            </grid>
         </widget>
-        <widget class="KPushButton" row="4" column="0" rowspan="1" colspan="2">
+        <widget class="QLabel" row="2" column="0">
             <property name="name">
-                <cstring>addButton</cstring>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>1</hsizetype>
-                    <vsizetype>4</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
+                <cstring>textLabel2</cstring>
             </property>
             <property name="text">
-                <string>Add Template</string>
+                <string>Frames Per Second</string>
             </property>
         </widget>
-        <widget class="KPushButton" row="5" column="0" rowspan="1" colspan="2">
+        <widget class="QLabel" row="1" column="0">
             <property name="name">
-                <cstring>deleteButton</cstring>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>1</hsizetype>
-                    <vsizetype>4</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
+                <cstring>textLabel2_2</cstring>
             </property>
             <property name="text">
-                <string>Delete Template</string>
+                <string>Video Format</string>
             </property>
         </widget>
-        <widget class="KListBox" row="1" column="0" rowspan="3" colspan="2">
+        <widget class="KURLRequester" row="0" column="1">
             <property name="name">
-                <cstring>templatesList</cstring>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>1</hsizetype>
-                    <vsizetype>3</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-        </widget>
-        <widget class="QLayoutWidget" row="1" column="2">
-            <property name="name">
-                <cstring>layout6</cstring>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>textLabel2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Frames Per Second</string>
-                    </property>
-                </widget>
-                <widget class="KDoubleNumInput">
-                    <property name="name">
-                        <cstring>m_framespersecond</cstring>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
-        <widget class="KURLRequester" row="0" column="1" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>m_projectFolder</cstring>
+                <cstring>projectFolder</cstring>
             </property>
             <property name="sizePolicy">
                 <sizepolicy>
@@ -225,21 +263,35 @@ Drop frame timecode only affects the way that frames are numbered, no frames are
                 <string>Project folder</string>
             </property>
         </widget>
+        <widget class="QComboBox" row="1" column="1">
+            <property name="name">
+                <cstring>templatesList</cstring>
+            </property>
+        </widget>
     </grid>
 </widget>
 <customwidgets>
 </customwidgets>
+<connections>
+    <connection>
+        <sender>buttonOk</sender>
+        <signal>clicked()</signal>
+        <receiver>ConfigureProjectPanel_UI</receiver>
+        <slot>accept()</slot>
+    </connection>
+    <connection>
+        <sender>buttonCancel</sender>
+        <signal>clicked()</signal>
+        <receiver>ConfigureProjectPanel_UI</receiver>
+        <slot>reject()</slot>
+    </connection>
+</connections>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>klistbox.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
     <includehint>kurlrequester.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>

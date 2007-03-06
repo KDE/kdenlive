@@ -20,7 +20,9 @@
 #include <kdialogbase.h>
 #include <kurl.h>
 
-#include "avfileformatdesc.h"
+// #include "avfileformatdesc.h"
+#include "kdenlive.h"
+#include "configureproject_ui.h"
 
 class QSplitter;
 class QVBox;
@@ -59,9 +61,9 @@ Dialog for configuring the project. This configuration dialog is used for both p
 
 @author Jason Wood
 */
-class ConfigureProjectDialog:public KDialogBase {
+class ConfigureProjectDialog:public ConfigureProjectPanel_UI {
   Q_OBJECT public:
-    ConfigureProjectDialog(QWidget * parent = 0, const char *name = 0, WFlags f = 0);
+    ConfigureProjectDialog(Gui::KdenliveApp * = 0, const char *name = 0, WFlags f = 0);
 
     ~ConfigureProjectDialog();
     public slots:		// Public slots
@@ -74,12 +76,12 @@ class ConfigureProjectDialog:public KDialogBase {
   /** Called when the ok button is clicked. */
     void slotOk();
 
-    KURL projectFolder();
     void loadTemplates();
     void updateDisplay();
     void loadSettings(const QString & name);
     void setValues(const double &fps, const int &width, const int &height, KURL folder);
-            
+    QString selectedFolder();
+
   private:
      QSplitter * m_hSplitter;
     QVBox *m_presetVBox;
@@ -87,12 +89,11 @@ class ConfigureProjectDialog:public KDialogBase {
     KPushButton *m_addButton;
     KPushButton *m_deleteButton;
 
+    Gui::KdenliveApp *m_app;
     KJanusWidget *m_tabArea;
 
     ExportConfig *m_export;
     ConfigureProject *m_config;
-    
-    QPtrList <ProjectTemplate> projectList;
 };
 
 #endif

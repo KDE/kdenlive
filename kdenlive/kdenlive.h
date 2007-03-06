@@ -149,10 +149,12 @@ namespace Gui {
 		 * can proceed. i.e., the document has been saved or discarded. */
 	bool saveModified();
 	int getTimeScaleSliderText() const;
- 	void setProjectFormat(VIDEOFORMAT vFormat);
-	QStringList videoProjectFormats;
+ 	void setProjectFormat(uint projectFormat);
         void ensureCursorVisible();
 	int externalMonitor();
+	QStringList videoProjectFormats();
+	QString defaultProjectFormatName();
+	VIDEOFORMAT projectFormatFromName(QString formatName);
 
       protected:
 		/** save general Options like all bar positions and status as well as the geometry and the recent file list to the configuration
@@ -629,6 +631,7 @@ namespace Gui {
 	KPushButton *thumbsButton;
 	KPushButton *audioThumbsButton;
         KdenliveSplash *splash;
+	QMap<QString, formatTemplate> m_projectTemplates;
 
 		/** The progress widget on the status bar, used by various long-winded methods. */
 	KProgress *m_statusBarProgress;

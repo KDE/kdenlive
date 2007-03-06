@@ -137,17 +137,21 @@ namespace Gui {
 	config = kapp->config();
 
 	QString newProjectName;
-	videoProjectFormats << i18n("PAL (720x576, 25fps)") << i18n("PAL 16:9 (720x576, 25fps)");
-	videoProjectFormats << i18n("NTSC (720x480, 30fps)") << i18n("NTSC 16:9 (720x480, 30fps)");
 
+	m_projectTemplates[i18n("PAL (720x576, 25fps)")] = formatTemplate(720, 576, 25.0, 59.0 / 54.0, "MLT_NORMALISATION=PAL", PAL_VIDEO);
+	m_projectTemplates[i18n("PAL 16:9 (720x576, 25fps)")] = formatTemplate(720, 576, 25.0, 118.0 / 81.0, "MLT_NORMALISATION=PAL", PAL_WIDE);
+
+	m_projectTemplates[i18n("NTSC (720x480, 30fps)")] = formatTemplate(720, 480, 30000.0 / 1001.0, 10.0 / 11.0, "MLT_NORMALISATION=NTSC", NTSC_VIDEO);
+	m_projectTemplates[i18n("NTSC 16:9 (720x480, 30fps)")] = formatTemplate(720, 480, 30000.0 / 1001.0, 40.0 / 33.0, "MLT_NORMALISATION=NTSC", NTSC_WIDE);
 
 	config->setGroup("General Options");
 	if (!config->readBoolEntry("FirstRun")) {
 	    // This is the first run of Kdenlive, ask user some basic things
 	    firstRun_UI *dia = new firstRun_UI(this);
-	    dia->video_format->insertStringList(videoProjectFormats);
+
+	    dia->video_format->insertStringList(videoProjectFormats());
 	    dia->exec();
-	    KdenliveSettings::setDefaultprojectformat(dia->video_format->currentItem());
+	    KdenliveSettings::setDefaultprojectformat(projectFormatFromName(dia->video_format->currentText()));
 	    if (dia->openlast->isChecked()) {
 		KdenliveSettings::setOpenlast(true);
 		KdenliveSettings::setOpenblank(false);
@@ -267,8 +271,36 @@ namespace Gui {
 	connect(manager(), SIGNAL(change()), this, SLOT(slotUpdateLayoutState()));
 	setAutoSaveSettings();
     }
-    
-    
+
+
+    QStringList KdenliveApp::videoProjectFormats()
+    {
+	QStringList list;
+    	QMap<QString, formatTemplate>::Iterator it;
+    	for ( it = m_projectTemplates.begin(); it != m_projectTemplates.end(); ++it ) {
+	    list.append(it.key());
+    	}
+	return list;
+    }
+
+    QString KdenliveApp::defaultProjectFormatName()
+    {
+    	QMap<QString, formatTemplate>::Iterator it;
+    	for ( it = m_projectTemplates.begin(); it != m_projectTemplates.end(); ++it ) {
+	    if ((int) it.data().videoFormat() == KdenliveSettings::defaultprojectformat()) break;
+    	}
+	return it.key();
+    }
+
+    VIDEOFORMAT KdenliveApp::projectFormatFromName(QString formatName)
+    {
+    	QMap<QString, formatTemplate>::Iterator it;
+    	for ( it = m_projectTemplates.begin(); it != m_projectTemplates.end(); ++it ) {
+	    if (it.key() == formatName) break;
+    	}
+	return it.data().videoFormat();
+    }
+
     void KdenliveApp::slotSplashTimeout()
     {
         delete splash;
@@ -1994,32 +2026,23 @@ namespace Gui {
 	return true;
     }
 
-    void KdenliveApp::setProjectFormat(VIDEOFORMAT vFormat) {
-	    QString text;
-	    switch (vFormat) {
-	    case HDV1080PAL_VIDEO:
-		// Not implemented in MLT yet
-		putenv ("MLT_NORMALISATION=HDV1080PAL");
-		text = i18n("HDV 1440x1080 25fps");
-		
-		break;
-	    case HDV720PAL_VIDEO:
-		// Not implemented in MLT yet
-		putenv ("MLT_NORMALISATION=HDV720PAL");
-		text = i18n("HDV 1280x720 25fps");
-		break;
-	    case NTSC_VIDEO:
-		putenv ("MLT_NORMALISATION=NTSC");
-		text = i18n("NTSC 720x480 30fps");
-		break;
-	    default:
-		putenv ("MLT_NORMALISATION=PAL");
-		text = i18n("PAL 720x576 25fps");
+    void KdenliveApp::setProjectFormat(uint projectFormat) {
+	uint ix = 0;
+	QMap<QString, formatTemplate>::Iterator it;
+    	for ( it = m_projectTemplates.begin(); it != m_projectTemplates.end(); ++it ) {
+	    if ((int) it.data().videoFormat() == projectFormat) {
 		break;
 	    }
-	if (KdenliveSettings::videoprofile() == "dv_wide") text.append(i18n(" [16:9]"));
-	statusBar()->changeItem(text, ID_TIMELINE_MSG);
-	m_projectFormat = vFormat;
+	    ix++;
+    	}	
+	KdenliveSettings::setDefaultheight(m_projectTemplates.values()[ix].height());
+	KdenliveSettings::setDefaultfps(m_projectTemplates.values()[ix].fps());
+	KdenliveSettings::setAspectratio(m_projectTemplates.values()[ix].aspect());
+	if (m_projectTemplates.values()[ix].videoFormat() == PAL_WIDE || m_projectTemplates.values()[ix].videoFormat() == NTSC_WIDE)
+	    KdenliveSettings::setVideoprofile("dv_wide");
+	else KdenliveSettings::setVideoprofile(QString::null);
+	putenv (m_projectTemplates.values()[ix].normalisation());
+	statusBar()->changeItem(m_projectTemplates.keys()[ix], ID_TIMELINE_MSG);
     }
 
 /////////////////////////////////////////////////////////////////////
@@ -2076,7 +2099,9 @@ namespace Gui {
 		    newProject *newProjectDialog = new newProject(QDir::homeDirPath(), recentFiles, this, "new_project");
 		    newProjectDialog->setCaption(i18n("Kdenlive - New Project"));
 		    // Insert available video formats:
-		    newProjectDialog->video_format->insertStringList(videoProjectFormats);
+
+		    newProjectDialog->video_format->insertStringList(videoProjectFormats());
+		    newProjectDialog->video_format->setCurrentText(defaultProjectFormatName());
 		    newProjectDialog->audioTracks->setValue(*audioTracks);
 		    newProjectDialog->videoTracks->setValue(*videoTracks);
 		    if (!exitMode) newProjectDialog->buttonQuit->setText(i18n("Cancel"));
@@ -2092,7 +2117,14 @@ namespace Gui {
 		    else {
 			*newProjectName = newProjectDialog->projectName->text();
 			projectFolder = newProjectDialog->projectFolderPath();
-			projectFormat = newProjectDialog->video_format->currentItem();
+			QString formatName = newProjectDialog->video_format->currentText();
+    			QMap<QString, formatTemplate>::Iterator it;
+    			for ( it = m_projectTemplates.begin(); it != m_projectTemplates.end(); ++it ) {
+	    			if (it.key() == formatName) {
+					projectFormat = (int) it.data().videoFormat();
+					break;
+				}
+    			}
 			audioNum = newProjectDialog->audioTracks->value();
 			videoNum = newProjectDialog->videoTracks->value();
 		    }
@@ -2119,11 +2151,14 @@ namespace Gui {
 			if (!KIO::NetAccess::exists(KdenliveSettings::currenttmpfolder(), false, this)) {
 				KMessageBox::sorry(this, i18n("Unable to create a folder for temporary files.\nKdenlive will not work properly unless you choose a folder for temporary files with write access in Kdenlive Settings dialog."));
 			}
+
+			setProjectFormat(projectFormat);
+/*
 			switch (projectFormat) {
 				case 0:
 					// PAL project
-					KdenliveSettings::setDefaultheight(576);
-					KdenliveSettings::setDefaultfps(25.0);
+					KdenliveSettings::setDefaultheight(m_projectTemplates.values()[0].width());
+					KdenliveSettings::setDefaultfps(m_projectTemplates.values()[0].width());
 					KdenliveSettings::setAspectratio(59.0 / 54.0);
 					KdenliveSettings::setVideoprofile(QString::null);
 					setProjectFormat(PAL_VIDEO);
@@ -2168,7 +2203,7 @@ namespace Gui {
 					KdenliveSettings::setAspectratio(1.333);
 					setProjectFormat(HDV720PAL_VIDEO);
 					break;
-			}
+			}*/
 			*audioTracks = audioNum;
 			*videoTracks = videoNum;
 			}
@@ -2240,7 +2275,7 @@ namespace Gui {
 	    		    if (e.tagName() == "properties") {
 				int vFormat = e.attribute("projectvideoformat","0").toInt();
 				KdenliveSettings::setVideoprofile(e.attribute("videoprofile", QString::null));
-				setProjectFormat((VIDEOFORMAT) vFormat);
+				setProjectFormat(vFormat);
 				foundFormat = true;
 				break;
 			    }
@@ -2248,14 +2283,12 @@ namespace Gui {
 			n = n.nextSibling();
 		}
 		if (!foundFormat) {
-			setProjectFormat(PAL_VIDEO);
-			KdenliveSettings::setVideoprofile(QString::null);
+			setProjectFormat(0);
 		}
 		myFile.close();
 	}
 	else {
-		setProjectFormat(PAL_VIDEO);
-		KdenliveSettings::setVideoprofile(QString::null);
+		setProjectFormat(0);
 	}
     }
 
@@ -2849,6 +2882,7 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	connect(dialog, SIGNAL(settingsChanged()), this,
 	    SLOT(updateConfiguration()));
 	if (dialog->exec() == QDialog::Accepted) {
+	    KdenliveSettings::setDefaultprojectformat((int) projectFormatFromName(dialog->page5->defaultprojectformat->currentText()));
 	    bool notify = false;
 	    if (dialog->selectedAudioDevice() != KdenliveSettings::audiodevice()) {
 	        KdenliveSettings::setAudiodevice(dialog->selectedAudioDevice());
@@ -3802,9 +3836,11 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
     void KdenliveApp::slotConfigureProject() {
 	ConfigureProjectDialog configDialog(this, "configure project dialog");
-        configDialog.setValues(m_doc->framesPerSecond(), m_doc->projectClip().videoWidth(), m_doc->projectClip().videoHeight(), KdenliveSettings::currentdefaultfolder());
-	if (QDialog::Accepted == configDialog.exec()) {
-	KdenliveSettings::setCurrentdefaultfolder(configDialog.projectFolder().path());
+	//configDialog.projectFolder->setTemplates(m_projectTemplates);
+	
+/*        configDialog.setValues(m_doc->framesPerSecond(), m_doc->projectClip().videoWidth(), m_doc->projectClip().videoHeight(), KdenliveSettings::currentdefaultfolder());*/
+	if (configDialog.exec() == QDialog::Accepted ) {
+	KdenliveSettings::setCurrentdefaultfolder(configDialog.selectedFolder());
 	}
     }
 

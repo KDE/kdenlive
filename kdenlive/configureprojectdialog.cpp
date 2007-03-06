@@ -22,6 +22,7 @@
 #include <qlayout.h>
 
 #include <kiconloader.h>
+#include <klineedit.h>
 #include <kjanuswidget.h>
 #include <kurlrequester.h>
 #include <klistbox.h>
@@ -33,42 +34,12 @@
 #include "configureproject.h"
 #include "exportconfig.h"
 
-ConfigureProjectDialog::ConfigureProjectDialog(QWidget * parent, const char *name,
-    WFlags f):KDialogBase(Plain, i18n("Configure Project"),
-    Help | Default | Ok | Apply | Cancel, Ok, parent, name)
+ConfigureProjectDialog::ConfigureProjectDialog(Gui::KdenliveApp * parent, const char *name, WFlags f):ConfigureProjectPanel_UI(parent, name), m_app(parent)
 {
-    QHBoxLayout *topLayout = new QHBoxLayout(plainPage(), 0, 6);
-
-    m_hSplitter =
-	new QSplitter(Horizontal, plainPage(), "horizontal splitter");
-    topLayout->addWidget(m_hSplitter);
-
-    m_presetVBox = new QVBox(m_hSplitter, "preset vbox");
-
-    m_presetList = new KListBox(m_presetVBox, "preset list");
-    m_addButton = new KPushButton(i18n("Add Preset"), m_presetVBox, "add");
-    m_deleteButton =
-	new KPushButton(i18n("Delete Preset"), m_presetVBox, "delete");
-
-    m_tabArea = new KJanusWidget(m_hSplitter, "tabbed area", Tabbed);
-
-    QFrame *m_configPage =
-	m_tabArea->addVBoxPage(i18n("Project Configuration"),
-	i18n("Setup the project"),
-	KGlobal::instance()->iconLoader()->loadIcon("piave",
-	    KIcon::NoGroup, KIcon::SizeMedium));
-    /*QFrame *m_exportPage = m_tabArea->addVBoxPage(i18n("Default Export"),
-	i18n("Configure the default export setting"),
-	KGlobal::instance()->iconLoader()->loadIcon("piave",
-	    KIcon::NoGroup, KIcon::SizeMedium));*/
-
-    m_config = new ConfigureProject(m_configPage, "configure page");
-    m_config->m_projectFolder->setMode(KFile::Directory);
-    //m_export = new ExportConfig(m_exportPage, "export page");
 
     loadTemplates();
     
-    connect ( m_presetList, SIGNAL(highlighted( const QString & )), this, SLOT(loadSettings(const QString & )));
+/*    connect ( m_config->templatesList, SIGNAL(highlighted( const QString & )), this, SLOT(loadSettings(const QString & )));*/
 }
 
 
@@ -78,46 +49,50 @@ ConfigureProjectDialog::~ConfigureProjectDialog()
 
 void ConfigureProjectDialog::loadTemplates()
 {
-    projectList.setAutoDelete(true);
+     templatesList->clear();
+     templatesList->insertStringList(m_app->videoProjectFormats());
+     projectFolder->setURL(KdenliveSettings::currentdefaultfolder());
+
+    /*projectList.setAutoDelete(true);
     ProjectTemplate *pal = new ProjectTemplate("PAL", 25.0, 720, 576);
     projectList.append(pal);
     ProjectTemplate *ntsc = new ProjectTemplate("NTSC", 30.0, 720, 480);
-    projectList.append(ntsc);
+    projectList.append(ntsc);*/
     updateDisplay();
+}
+
+QString ConfigureProjectDialog::selectedFolder()
+{
+    return projectFolder->url();
 }
 
 void ConfigureProjectDialog::updateDisplay()
 {
-    ProjectTemplate *project;
+    /*ProjectTemplate *project;
     for ( project = projectList.first(); project; project = projectList.next() ){
         m_presetList->insertItem(project->name());
-    }
+    }*/
 }
 
 void ConfigureProjectDialog::setValues(const double &fps, const int &width, const int &height, KURL folder)
 {
-            m_config->m_framespersecond->setValue(fps);
-            m_config->m_widthInput->setValue(width);
-            m_config->m_heightInput->setValue(height);
-	    m_config->m_projectFolder->setURL(folder.url());
-}
-
-KURL ConfigureProjectDialog::projectFolder()
-{
-	return m_config->m_projectFolder->url();
+    framespersecond->setText(QString::number(fps));
+    framewidth->setText(QString::number(width));
+    frameheight->setText(QString::number(height));
+    projectFolder->setURL(folder.url());
 }
 
 void ConfigureProjectDialog::loadSettings(const QString & name)
 {
-    ProjectTemplate *project;
+/*    ProjectTemplate *project;
     for ( project = projectList.first(); project; project = projectList.next() ){
         if (project->name() == name) {
-            m_config->m_framespersecond->setValue(project->fps());
-            m_config->m_widthInput->setValue(project->width());
-            m_config->m_heightInput->setValue(project->height());
+            m_config->framespersecond->setText(QString::number(project->fps()));
+            m_config->framewidth->setText(QString::number(project->width()));
+            m_config->frameheight->setText(QString::number(project->height()));
             break;
         }
-    }
+    }*/
 }
 
 /** Occurs when the apply button is clicked. */

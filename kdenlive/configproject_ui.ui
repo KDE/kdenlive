@@ -12,13 +12,16 @@
             <height>205</height>
         </rect>
     </property>
+    <property name="caption">
+        <string>configProject</string>
+    </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
         <widget class="KComboBox" row="0" column="1" rowspan="1" colspan="2">
             <property name="name">
-                <cstring>kcfg_defaultprojectformat</cstring>
+                <cstring>defaultprojectformat</cstring>
             </property>
         </widget>
         <spacer row="4" column="2">

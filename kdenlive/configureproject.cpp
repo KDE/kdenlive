@@ -28,6 +28,7 @@ ConfigureProject::~ConfigureProject()
 {
 }
 
+
 /*$SPECIALIZATION$*/
 
 

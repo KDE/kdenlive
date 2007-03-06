@@ -94,10 +94,6 @@
   </group>
   
    <group name="Default Project">
-    <entry name="defaultprojectformat" type="Int">
-      <label>Default video project template</label>
-      <default>0</default>
-    </entry>
 
     <entry name="videotracks" type="Int">
       <label>Number of video tracks in a blank project.</label>
@@ -112,6 +108,12 @@
     </group>
 
    <group name="Unmanaged Settings">
+
+    <entry name="defaultprojectformat" type="Int">
+      <label>Default video project template</label>
+      <default>0</default>
+    </entry>
+
     <entry name="defaultwidth" type="Int">
       <label>Width of the project's video image.</label>
       <default>720</default>
