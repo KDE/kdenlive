@@ -30,32 +30,34 @@
 
 namespace Gui {
 	class KdenliveApp;
+
 /**Displays the a dialog to create a slideshow clip
   *@author Jean-Baptiste Mardelle
   */
 
     class createSlideshowClip:public KDialogBase {
       Q_OBJECT public:
-        createSlideshowClip(QWidget * parent = 0, const char *name = 0);
+        createSlideshowClip(KdenliveApp * parent = 0, const char *name = 0);
         virtual ~createSlideshowClip();
 
 	QString selectedFolder() const;
 	QString selectedExtension() const;
-	int ttl() const;
+	QString ttl() const;
 	QString description() const;
 	bool isTransparent() const;
 	bool hasCrossfade() const;
 	int imageCount() const;
-	GenTime duration() const;
+	QString duration() const;
 	void insertLuma(const QPixmap &pix, const QString &txt);
 	bool useLuma() const;
 	QString currentLuma() const;
 	double softness() const;
-	int lumaDuration() const;
+	QString lumaDuration() const;
 
       private:
 	createSlideshowClip_UI *clipChoice;
 	int m_imageCount;
+	KdenliveApp *m_app;
 
       private slots:
 	void updateList();

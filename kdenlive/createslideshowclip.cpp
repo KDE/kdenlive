@@ -35,21 +35,24 @@
 #include "timecode.h"
 #include "kdenlivesettings.h"
 #include "createslideshowclip.h"
-
+#include "kdenlivedoc.h"
 
 namespace Gui {
 
-    createSlideshowClip::createSlideshowClip(QWidget * parent, const char *name):  KDialogBase (KDialogBase::Swallow, 0, parent,name, true, i18n("Create Slideshow"), KDialogBase::Ok | KDialogBase::Cancel) {
+    createSlideshowClip::createSlideshowClip(KdenliveApp * parent, const char *name):  KDialogBase (KDialogBase::Swallow, 0, parent,name, true, i18n("Create Slideshow"), KDialogBase::Ok | KDialogBase::Cancel), m_app(parent), m_imageCount(0) {
 
 	clipChoice = new createSlideshowClip_UI(this);
 	clipChoice->url_image->setMode(KFile::Directory);
 	setMainWidget(clipChoice);
 	clipChoice->adjustSize();
 	clipChoice->show();
+	// default slideshow duration
+	clipChoice->image_ttl->setText("00:00:02:00");
+	clipChoice->transition_ttl->setText("00:00:00:10");
 	enableButtonOK(false);
 	connect(clipChoice->url_image, SIGNAL(textChanged (const QString &)), this, SLOT(updateList()));
 	connect(clipChoice->imageType, SIGNAL(activated (int)), this, SLOT(updateList()));
-	connect(clipChoice->image_ttl, SIGNAL(valueChanged(int)), this, SLOT(updateDuration()));
+	connect(clipChoice->image_ttl, SIGNAL(textChanged(const QString &)), this, SLOT(updateDuration()));
     }
 
     createSlideshowClip::~createSlideshowClip()
@@ -85,9 +88,9 @@ namespace Gui {
 	return clipChoice->luma_softness->value() /100.0;
     }
 
-    int createSlideshowClip::ttl() const
+    QString createSlideshowClip::ttl() const
     {
-	return clipChoice->image_ttl->value();
+	return clipChoice->image_ttl->text();
     }
 
     int createSlideshowClip::imageCount() const
@@ -95,20 +98,14 @@ namespace Gui {
 	return m_imageCount;
     }
 
-    int createSlideshowClip::lumaDuration() const
+    QString createSlideshowClip::lumaDuration() const
     {
-	return clipChoice->transition_ttl->value();
+	return clipChoice->transition_ttl->text();
     }
 
-    GenTime createSlideshowClip::duration() const
+    QString createSlideshowClip::duration() const
     {
-	double fps = KdenliveSettings::defaultfps();
-	Timecode tcode;
-	if (fps == 30000.0 / 1001.0 ) tcode.setFormat(30, true);
-        else tcode.setFormat(fps);
-        QString d = clipChoice->edit_duration->text();
-        int frames = tcode.getFrameNumber(d, fps);
-        return GenTime(frames , KdenliveSettings::defaultfps());
+	return clipChoice->edit_duration->text();
     }
 
     QString createSlideshowClip::description() const
@@ -129,10 +126,8 @@ namespace Gui {
     void createSlideshowClip::updateDuration()
     {
 	double fps = KdenliveSettings::defaultfps();
-	Timecode tcode;
-	if (fps == 30000.0 / 1001.0 ) tcode.setFormat(30, true);
-        else tcode.setFormat(fps);
-        clipChoice->edit_duration->setText(tcode.getTimecode(GenTime(m_imageCount * ttl(), fps), fps));
+	int dur = m_app->getDocument()->getTimecodePosition(ttl()).frames(fps) * m_imageCount;
+        clipChoice->edit_duration->setText(m_app->getDocument()->timeCode().getTimecode(GenTime(dur, fps), fps));
     }
 
     void createSlideshowClip::updateList()

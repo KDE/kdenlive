@@ -129,15 +129,16 @@ namespace Gui {
             clipChoice->label_name->hide();
             clipChoice->edit_name->hide();
 	    clipChoice->clipType->setText(i18n("Slideshow Clip"));
-	    clipChoice->image_ttl->setValue(avclip->clipTtl());
-	    clipChoice->transition_ttl->setValue(avclip->lumaDuration());
+	    clipChoice->image_ttl->setText(document->timeCode().getTimecode(GenTime(avclip->clipTtl(), KdenliveSettings::defaultfps()), KdenliveSettings::defaultfps()));
+	    clipChoice->transition_ttl->setText(document->timeCode().getTimecode(GenTime(avclip->lumaDuration(), KdenliveSettings::defaultfps()), KdenliveSettings::defaultfps()));
+
 	    clipChoice->label_file->setText(i18n("Folder:"));
 	    clipChoice->imageType->setCurrentItem(refClip->fileURL().filename().left(3));
 	    clipChoice->edit_url->fileDialog()->setMode(KFile::Directory);
 	    clipChoice->edit_url->setURL(refClip->fileURL().directory());
 	    clipChoice->imageType->setCurrentText(refClip->fileURL().path().section(".", -1));
 	    connect(clipChoice->imageType, SIGNAL(activated (int)), this, SLOT(updateList()));
-	    connect(clipChoice->image_ttl, SIGNAL(valueChanged (int)), this, SLOT(updateDuration()));
+	    connect(clipChoice->image_ttl, SIGNAL(textChanged (const QString &)), this, SLOT(updateDuration()));
 
 	    clipChoice->edit_duration->setReadOnly(true);
 	    updateList();
@@ -257,7 +258,7 @@ namespace Gui {
 
     int ClipProperties::ttl()
     {
-        return clipChoice->image_ttl->value();
+        return  m_document->getTimecodePosition(clipChoice->image_ttl->text()).frames(KdenliveSettings::defaultfps());
     }
 
     QString ClipProperties::extension()
@@ -309,7 +310,7 @@ namespace Gui {
 
     int ClipProperties::lumaDuration() const
     {
-        return clipChoice->transition_ttl->value();
+	return  m_document->getTimecodePosition(clipChoice->transition_ttl->text()).frames(KdenliveSettings::defaultfps());
     }
     
 

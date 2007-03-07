@@ -3089,16 +3089,18 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
         for ( int n=0; n<m_transitionPanel->transitWipe->luma_file->count(); n++ )
             slideDialog->insertLuma( *m_transitionPanel->transitWipe->luma_file->pixmap(n), m_transitionPanel->transitWipe->luma_file->text( n ));
 
-
 	if (slideDialog->exec() == QDialog::Accepted) {
 	    QString extension = slideDialog->selectedExtension();
 	    QString url = slideDialog->selectedFolder() + "/.all." + extension;
-	    int ttl = slideDialog->ttl();
 	    QString lumaFile = QString::null;
 	    double lumasoftness = slideDialog->softness();
+	    GenTime duration = getDocument()->getTimecodePosition(slideDialog->duration());
+	    int ttl = getDocument()->getTimecodePosition(slideDialog->ttl()).frames(getDocument()->framesPerSecond());
+
+	    int lumaduration = getDocument()->getTimecodePosition(slideDialog->lumaDuration()).frames(getDocument()->framesPerSecond());
 	    if (slideDialog->useLuma()) lumaFile = m_transitionPanel->getLumaFilePath(slideDialog->currentLuma());
 	    KCommand *command =
-		new Command::KAddClipCommand(*m_doc, m_projectList->parentName(), KURL(url), extension, ttl, slideDialog->hasCrossfade(), lumaFile, lumasoftness, slideDialog->lumaDuration(), slideDialog->duration(), slideDialog->description(), slideDialog->isTransparent(), true);
+		new Command::KAddClipCommand(*m_doc, m_projectList->parentName(), KURL(url), extension, ttl, slideDialog->hasCrossfade(), lumaFile, lumasoftness, lumaduration, duration, slideDialog->description(), slideDialog->isTransparent(), true);
 	    addCommand(command, true);
 	}
 	delete slideDialog;
