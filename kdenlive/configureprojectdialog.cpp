@@ -30,10 +30,6 @@
 #include <kpushbutton.h>
 #include <knuminput.h>
 
-
-#include "configureproject.h"
-#include "exportconfig.h"
-
 ConfigureProjectDialog::ConfigureProjectDialog(Gui::KdenliveApp * parent, const char *name, WFlags f):ConfigureProjectPanel_UI(parent, name), m_app(parent)
 {
 

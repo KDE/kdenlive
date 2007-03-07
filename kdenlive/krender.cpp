@@ -176,7 +176,6 @@ void KRender::createVideoXWindow(bool , WId winid)
     m_mltConsumer->set("rescale", KdenliveSettings::previewquality());
 
     m_mltConsumer->set("terminate_on_pause", 1);
-    //m_mltConsumer->set("audio_driver","dsp");
     QString aDevice = KdenliveSettings::audiodevice();
     if (!KdenliveSettings::videodriver().isEmpty()) m_mltConsumer->set("video_driver", KdenliveSettings::videodriver());
     if (!KdenliveSettings::audiodriver().isEmpty()) m_mltConsumer->set("audio_driver", KdenliveSettings::audiodriver());

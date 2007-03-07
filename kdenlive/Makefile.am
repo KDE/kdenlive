@@ -10,15 +10,11 @@ if ENABLE_FIREWIRE
 LIB_FIREWIRE = -liec61883
 endif
 
-kdenlive_SOURCES = addmarker_ui.ui addtrackdialog_ui.ui avfileformatdesc.cpp \
-	avfileformatwidget.cpp avfilelist.cpp avformatdescbase.cpp avformatdescbool.cpp \
-	avformatdesccodec.cpp avformatdesccodeclist.cpp avformatdesccontainer.cpp \
-	avformatdesclist.cpp avformatwidgetbase.cpp avformatwidgetbool.cpp avformatwidgetcodec.cpp \
-	avformatwidgetcodeclist.cpp avformatwidgetcontainer.cpp avformatwidgetlist.cpp aviconviewitem.cpp \
-	aviconviewitem.h avlistviewitem.cpp capturemonitor.cpp clipdrag.cpp clipmanager.cpp \
-	clipproperties.cpp clipproperties.h clipproperties_ui.ui clippropertiesdialog.cpp \
-	configcapture_ui.ui confighard_ui.ui configinterface_ui.ui configmisc_ui.ui \
-	configproject_ui.ui configtimeline_ui.ui configtitler_ui.ui configureproject.cpp \
+kdenlive_SOURCES = addmarker_ui.ui addtrackdialog_ui.ui avfilelist.cpp \
+	aviconviewitem.cpp aviconviewitem.h avlistviewitem.cpp capturemonitor.cpp clipdrag.cpp \
+	clipmanager.cpp clipproperties.cpp clipproperties.h clipproperties_ui.ui \
+	clippropertiesdialog.cpp configcapture_ui.ui confighard_ui.ui configinterface_ui.ui \
+	configmisc_ui.ui configproject_ui.ui configtimeline_ui.ui configtitler_ui.ui \
 	configureproject_ui.ui configureprojectdialog.cpp createcolorclip_ui.ui createimageclip_ui.ui \
 	createslideshowclip.cpp createslideshowclip.h createslideshowclip_ui.ui definitions.h \
 	displayaudiodesc.cpp displayvideodesc.cpp docclipavfile.cpp docclipbase.cpp \
@@ -32,9 +28,9 @@ kdenlive_SOURCES = addmarker_ui.ui addtrackdialog_ui.ui avfileformatdesc.cpp \
 	effectkeyframe.cpp effectlistdialog.cpp effectparamcomplexdesc.cpp \
 	effectparamcomplexdesc.h effectparamdesc.cpp effectparamdescfactory.cpp effectparamdialog.cpp \
 	effectparamdoubledesc.cpp effectparameter.cpp effectstack.cpp effectstackdialog.cpp \
-	effectstackdialog_ui.ui effectstacklistview.cpp exportbasewidget_ui.ui exportconfig.cpp \
-	exportdvd_ui.ui exportdvddialog.cpp exportdvddialog.h exportwidget.cpp exportwidget.h \
-	firstrun_ui.ui flatbutton.cpp flatbutton.h gentime.cpp initeffects.cpp initeffects.h \
+	effectstackdialog_ui.ui effectstacklistview.cpp exportbasewidget_ui.ui exportdvd_ui.ui \
+	exportdvddialog.cpp exportdvddialog.h exportwidget.cpp exportwidget.h firstrun_ui.ui \
+	flatbutton.cpp flatbutton.h gentime.cpp initeffects.cpp initeffects.h \
 	kaddclipcommand.cpp kaddeffectcommand.cpp kaddmarkercommand.cpp kaddrefclipcommand.cpp \
 	kaddtransitioncommand.cpp kaddtransitioncommand.h kclipplacer.cpp kdenlive.cpp kdenlivedoc.cpp \
 	kdenlivesettings.kcfgc kdenlivesetupdlg.cpp kdenlivesplash.cpp keditclipcommand.cpp \
@@ -110,10 +106,10 @@ kdenlive_LDFLAGS = $(all_libraries) $(KDE_RPATH) $(LIBMLT_LIBS) -lmlt++
 rcdir = $(kde_datadir)/kdenlive
 rc_DATA = kdenliveui.rc eventsrc
 
-noinst_HEADERS = configureproject.h configureprojectdialog.h exportconfig.h \
-	trackpanelmarkerfunction.h trackviewdecorator.h trackviewbackgrounddecorator.h \
-	trackviewnamedecorator.h trackviewmarkerdecorator.h kaddmarkercommand.h saveprojectfilter.h \
-	saveprojectnativefilter.h loadprojectfilter.h loadprojectnativefilter.h projectformatmanager.h \
+noinst_HEADERS = configureprojectdialog.h trackpanelmarkerfunction.h \
+	trackviewdecorator.h trackviewbackgrounddecorator.h trackviewnamedecorator.h \
+	trackviewmarkerdecorator.h kaddmarkercommand.h saveprojectfilter.h saveprojectnativefilter.h \
+	loadprojectfilter.h loadprojectnativefilter.h projectformatmanager.h \
 	loadprojectkinofilter.h timecode.h ktimeline.h kmmtimeline.h ktrackview.h \
 	documentmacrocommands.h trackpanelfunctionfactory.h trackpanelselectnonefunction.h \
 	effectkeyframe.h effectdoublekeyframe.h effectparamdesc.h effectparamdoubledesc.h \

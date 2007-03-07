@@ -31,8 +31,6 @@
 #endif
 
 #include "gentime.h"
-#include "avfileformatdesc.h"
-#include "avformatdesccodec.h"
 #include "docclipref.h"
 #include "effectdesc.h"
 #include "effectparamdescfactory.h"
@@ -236,8 +234,6 @@ class KRender:public QObject {
     void renderFinished();
 	/** Emitted when the current seek position has been changed by the renderer. */
 //    void positionChanged(const GenTime &);
-	/** Emitted when file formats are updated. */
-    void signalFileFormatsUpdated(const QPtrList < AVFileFormatDesc > &);
 	/** No descriptions */
     void effectListChanged(const QPtrList < EffectDesc > &);
 	/** Emitted when an error occurs within this renderer. */
