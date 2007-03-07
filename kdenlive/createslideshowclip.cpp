@@ -43,6 +43,7 @@ namespace Gui {
 
 	clipChoice = new createSlideshowClip_UI(this);
 	clipChoice->url_image->setMode(KFile::Directory);
+	clipChoice->url_image->setURL(KdenliveSettings::currentdefaultfolder());
 	setMainWidget(clipChoice);
 	clipChoice->adjustSize();
 	clipChoice->show();
@@ -53,6 +54,8 @@ namespace Gui {
 	connect(clipChoice->url_image, SIGNAL(textChanged (const QString &)), this, SLOT(updateList()));
 	connect(clipChoice->imageType, SIGNAL(activated (int)), this, SLOT(updateList()));
 	connect(clipChoice->image_ttl, SIGNAL(textChanged(const QString &)), this, SLOT(updateDuration()));
+	updateList();
+	updateDuration();
     }
 
     createSlideshowClip::~createSlideshowClip()
