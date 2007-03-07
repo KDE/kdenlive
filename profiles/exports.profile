@@ -105,6 +105,24 @@
 :MED:Quicktime:704x576:Medium::avformat::mov:format=mov video_rc_min_rate=0 video_bit_rate=5000000 audio_bit_rate=32000 frequency=22050 size=704x576 vcodec=svq1 acodec=ac3 progressive=1
 :MED:Quicktime:704x576:High::avformat::mov:format=mov video_rc_min_rate=0 video_bit_rate=7000000 audio_bit_rate=64000 frequency=22050 size=704x576 vcodec=svq1 acodec=ac3 progressive=1
 
+### XVID
+
+:MED:XVid:160x120:Low::avformat::avi:video_rc_min_rate=0 video_bit_rate=200000 audio_bit_rate=8000 frequency=22050 size=160x120 vcodec=xvid acodec=ac3 progressive=1
+:MED:XVid:160x120:Medium::avformat::avi:video_rc_min_rate=0 video_bit_rate=600000 audio_bit_rate=16000 frequency=22050 size=160x120 vcodec=xvid acodec=ac3 progressive=1
+:MED:XVid:160x120:High::avformat::avi:video_rc_min_rate=0 video_bit_rate=800000 audio_bit_rate=32000 frequency=22050 size=160x120 vcodec=xvid acodec=ac3 progressive=1
+
+:MED:XVid:240x180:Low::avformat::avi:video_rc_min_rate=0 video_bit_rate=600000 audio_bit_rate=8000 frequency=22050 size=240x180 vcodec=xvid acodec=ac3 progressive=1
+:MED:XVid:240x180:Medium::avformat::avi:video_rc_min_rate=0 video_bit_rate=800000 audio_bit_rate=16000 frequency=22050 size=240x180 vcodec=xvid acodec=ac3 progressive=1
+:MED:XVid:240x180:High::avformat::avi:video_rc_min_rate=0 video_bit_rate=1000000 audio_bit_rate=32000 frequency=22050 size=240x180 vcodec=xvid acodec=ac3 progressive=1
+
+:MED:XVid:320x200:Low::avformat::avi:video_rc_min_rate=0 video_bit_rate=800000 audio_bit_rate=8000 frequency=22050 size=320x200 vcodec=xvid acodec=ac3 progressive=1
+:MED:XVid:320x200:Medium::avformat::avi:video_rc_min_rate=0 video_bit_rate=1000000 audio_bit_rate=16000 frequency=22050 size=320x200 vcodec=xvid acodec=ac3 progressive=1
+:MED:XVid:320x200:High::avformat::avi:video_rc_min_rate=0 video_bit_rate=1200000 audio_bit_rate=32000 frequency=22050 size=320x200 vcodec=xvid acodec=ac3 progressive=1
+
+:MED:XVid:720x576:Low::avformat::avi:video_rc_min_rate=0 video_bit_rate=3000000 audio_bit_rate=16000 frequency=22050 size=720x576 vcodec=xvid acodec=ac3 progressive=1
+:MED:XVid:720x576:Medium::avformat::avi:video_rc_min_rate=0 video_bit_rate=5000000 audio_bit_rate=32000 frequency=22050 size=720x576 vcodec=xvid acodec=ac3 progressive=1
+:MED:XVid:720x576:High::avformat::avi:video_rc_min_rate=0 video_bit_rate=7000000 audio_bit_rate=64000 frequency=22050 size=720x576 vcodec=xvid acodec=ac3 progressive=1
+
 ### REALVIDEO
 
 :MED:Real Video:160x120:Low::avformat::rm:format=rv10 video_rc_min_rate=0 video_bit_rate=100000 audio_bit_rate=16000 frequency=11025 size=160x120 gop_size=8 progressive=1
