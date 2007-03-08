@@ -161,7 +161,6 @@ void TransitionDialog::initLumaFiles()
     }
 
     QStringList iconList = KGlobal::dirs()->KStandardDirs::findAllResources(m_lumaType, "*.pgm");
-
     for ( QStringList::Iterator it = iconList.begin(); it != iconList.end(); ++it ) {
 	QString itemName = KURL(*it).fileName();
 	QImage im(*it);
@@ -175,6 +174,15 @@ void TransitionDialog::initLumaFiles()
 	transitWipe->setFormat(m_lumaType);
 	transitPip->luma_file->insertItem(pix, itemName);
     }
+}
+
+QMap <QString, QPixmap> TransitionDialog::lumaPreviews()
+{
+	QMap <QString, QPixmap> lumas;
+	for ( int n=0; n<transitWipe->luma_file->count(); n++ )
+            lumas[transitWipe->luma_file->text( n )] = *transitWipe->luma_file->pixmap(n);
+
+	return lumas;
 }
 
 bool TransitionDialog::isOnTrack(int ix)

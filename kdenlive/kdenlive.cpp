@@ -2042,7 +2042,6 @@ namespace Gui {
 	    KdenliveSettings::setVideoprofile("dv_wide");
 	else KdenliveSettings::setVideoprofile(QString::null);
 	putenv (m_projectTemplates.values()[ix].normalisation());
-	kdDebug()<<"// open FORMAT: "<<projectFormat<<", IX: "<<ix<<endl;
 	statusBar()->changeItem(m_projectTemplates.keys()[ix], ID_TIMELINE_MSG);
     }
 
@@ -3086,8 +3085,11 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	slotStatusMsg(i18n("Adding Clips"));
 
         createSlideshowClip *slideDialog = new createSlideshowClip(this, "slide");
-        for ( int n=0; n<m_transitionPanel->transitWipe->luma_file->count(); n++ )
-            slideDialog->insertLuma( *m_transitionPanel->transitWipe->luma_file->pixmap(n), m_transitionPanel->transitWipe->luma_file->text( n ));
+	QMap <QString, QPixmap> previews = m_transitionPanel->lumaPreviews();
+    	QMap<QString, QPixmap>::Iterator it;
+	for ( it = previews.begin(); it != previews.end(); ++it ) {
+		if (it.key() != NULL) slideDialog->insertLuma(it.data(), it.key());
+	}
 
 	if (slideDialog->exec() == QDialog::Accepted) {
 	    QString extension = slideDialog->selectedExtension();
@@ -3240,8 +3242,11 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
             else {
                 ClipProperties *dia = new ClipProperties(refClip, getDocument());
 		if (refClip->clipType() == DocClipBase::SLIDESHOW) {
-		        for ( int n=0; n<m_transitionPanel->transitWipe->luma_file->count(); n++ )
-            		dia->insertLuma( *m_transitionPanel->transitWipe->luma_file->pixmap(n), m_transitionPanel->transitWipe->luma_file->text( n ));
+			QMap <QString, QPixmap> previews = m_transitionPanel->lumaPreviews();
+		    	QMap<QString, QPixmap>::Iterator it;
+    			for ( it = previews.begin(); it != previews.end(); ++it ) {
+				if (it.key() != NULL) dia->insertLuma(it.data(), it.key());
+    			}
 			dia->preselectLuma();
 		}
 
@@ -4004,7 +4009,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		bool ok;
 		DocClipRef *clipUnderMouse = getDocument()->projectClip().selectedClip();
 		GenTime cursorTime = getDocument()->renderer()->seekPosition();
-		if (cursorTime < clipUnderMouse->trackStart() || cursorTime > clipUnderMouse->trackEnd()) return;
+		if ((cursorTime < clipUnderMouse->trackStart()) || (cursorTime > clipUnderMouse->trackEnd())) return;
 		QString comment = KInputDialog::getText(i18n("Add Marker"), i18n("Marker comment: "), i18n("Marker"), &ok);
 		if (ok) {
 		    Command::KAddMarkerCommand * command = new Command::KAddMarkerCommand(*getDocument(), clipUnderMouse->referencedClip()->getId(), cursorTime - clipUnderMouse->trackStart() + clipUnderMouse->cropStartTime(), comment, true);
@@ -4017,7 +4022,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     {
 		DocClipRef *clipUnderMouse = getDocument()->projectClip().selectedClip();
 		GenTime cursorTime = getDocument()->renderer()->seekPosition();
-		if (cursorTime < clipUnderMouse->trackStart() || cursorTime > clipUnderMouse->trackEnd()) return;
+		if ((cursorTime < clipUnderMouse->trackStart()) || (cursorTime > clipUnderMouse->trackEnd())) return;
 	    	Command::KAddMarkerCommand * command = new Command::KAddMarkerCommand(*getDocument(), clipUnderMouse->referencedClip()->getId(), cursorTime - clipUnderMouse->trackStart() + clipUnderMouse->cropStartTime(), QString::null, false);
 		addCommand(command);
 		documentModified(true);
@@ -4028,7 +4033,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		DocClipRef *clipUnderMouse = getDocument()->projectClip().selectedClip();
 		if (clipUnderMouse) {
 			GenTime cursorTime = getDocument()->renderer()->seekPosition();
-			if (cursorTime < clipUnderMouse->trackStart() || cursorTime > clipUnderMouse->trackEnd()) return;
+			if ((cursorTime < clipUnderMouse->trackStart()) || (cursorTime > clipUnderMouse->trackEnd())) return;
 			if (clipUnderMouse->hasSnapMarker(cursorTime) != GenTime(0.0)) deleteMarkerUnderCursor();
 			else addMarkerUnderCursor();
 			documentModified(true);

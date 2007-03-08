@@ -143,7 +143,6 @@ namespace Gui {
 	    clipChoice->edit_duration->setReadOnly(true);
 	    updateList();
 	    clipChoice->edit_url->setEnabled(false); // disable folder change for the moment
-	
             clipChoice->clipFps->setText("-");
 	    clipChoice->clipAudio->setText("-");
             clipChoice->clipFilesize->setText(refClip->formattedFileSize());
@@ -189,6 +188,8 @@ namespace Gui {
 
 	connect(clipChoice->edit_url, SIGNAL(textChanged(const QString &)), this, SLOT(updateThumb(const QString &)));
         setMainWidget(clipChoice);
+	clipChoice->adjustSize();
+	adjustSize();
         clipChoice->show();
     }
 
@@ -203,7 +204,7 @@ namespace Gui {
 
     void ClipProperties::preselectLuma()
     {
-	clipChoice->luma_list->setCurrentText(m_luma);
+	if (!m_luma.isEmpty()) clipChoice->luma_list->setCurrentText(m_luma);
     }
 
     void ClipProperties::updateDuration()
