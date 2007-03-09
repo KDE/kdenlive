@@ -12,9 +12,6 @@
             <height>288</height>
         </rect>
     </property>
-    <property name="caption">
-        <string></string>
-    </property>
     <property name="sizeGripEnabled">
         <bool>false</bool>
     </property>
@@ -208,6 +205,17 @@
         <slot>reject()</slot>
     </connection>
 </connections>
+<tabstops>
+    <tabstop>meta_title</tabstop>
+    <tabstop>meta_author</tabstop>
+    <tabstop>meta_comment</tabstop>
+    <tabstop>meta_album</tabstop>
+    <tabstop>meta_track</tabstop>
+    <tabstop>meta_year</tabstop>
+    <tabstop>meta_copyright</tabstop>
+    <tabstop>buttonOk</tabstop>
+    <tabstop>buttonCancel</tabstop>
+</tabstops>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>krestrictedline.h</includehint>

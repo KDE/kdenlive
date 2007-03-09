@@ -61,6 +61,7 @@ void ConfigureProjectDialog::slotEditMetadata()
 	metaValues << QString::number(editMeta->meta_track->value());
 	metaValues << editMeta->meta_year->text();
 	m_app->getDocument()->slotSetMetadata(metaValues);
+	m_app->documentModified(true);
     }
     delete editMeta;
 }
