@@ -197,6 +197,14 @@ double KdenliveDoc::framesPerSecond() const
     }
 }
 
+/** Returns the number of frames per second. */
+void KdenliveDoc::setFramesPerSecond(double fps)
+{
+    if (m_projectClip) {
+	m_projectClip->setFramesPerSecond(fps);
+    }
+}
+
 /** Adds an empty video track to the project */
 void KdenliveDoc::addVideoTrack(int ix)
 {

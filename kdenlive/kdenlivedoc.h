@@ -191,6 +191,7 @@ class KdenliveDoc:public QObject {
     GenTime getTimecodePosition(const QString &);
     void ensureCursorVisible();
     Timecode timeCode();
+    void setFramesPerSecond(double fps);
     
   private:
 	/** The base clip for this document. This must be a project clip, as it lists the tracks within

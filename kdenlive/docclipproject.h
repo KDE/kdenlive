@@ -132,7 +132,7 @@ class DocClipProject:public DocClipBase {
 	/** Holds a westley list of all different clips in the document */
     QDomDocumentFragment producersList;
     QDomDocumentFragment virtualProducersList;
-    
+    void setFramesPerSecond(double fps);
 
     public slots:
 	/** Check a clip does not exceed its maximum length */

@@ -83,6 +83,11 @@ double DocClipProject::framesPerSecond() const
     return m_framesPerSecond;
 }
 
+void DocClipProject::setFramesPerSecond(double fps)
+{
+    m_framesPerSecond = fps;
+}
+
 /** Adds a track to the project */
 void DocClipProject::slotAddTrack(DocTrackBase * track, int ix)
 {

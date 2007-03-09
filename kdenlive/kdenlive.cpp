@@ -3277,7 +3277,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                     else { // Video clip
                         Command::KEditClipCommand(*m_doc, refClip, dia->url(),dia->description());
                     }
-		if (refClip->numReferences() > 0) getDocument()->activateSceneListGeneration(true);
+		if (refClip->numReferences() > 0)     getDocument()->activateSceneListGeneration(true);
                 }
 		delete dia;
             }
@@ -3868,6 +3868,9 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     {
 	// switch current video project to new format
 	setProjectFormat((int) projectFormatFromName(newFormat));
+	getDocument()->setFramesPerSecond(KdenliveSettings::defaultfps());
+	m_timeline->slotSetFramesPerSecond(KdenliveSettings::defaultfps());
+	getDocument()->activateSceneListGeneration(true);
     }
 
     void KdenliveApp::slot_moveClips(QDropEvent * event, QListViewItem * parent) {

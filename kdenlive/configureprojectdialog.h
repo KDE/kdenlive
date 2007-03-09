@@ -64,23 +64,15 @@ Dialog for configuring the project. This configuration dialog is used for both p
 class ConfigureProjectDialog:public ConfigureProjectPanel_UI {
   Q_OBJECT public:
     ConfigureProjectDialog(Gui::KdenliveApp * = 0, const char *name = 0, WFlags f = 0);
+    ~ConfigureProjectDialog();
 
     QString selectedFormat();
     QString selectedFolder();
-
-    ~ConfigureProjectDialog();
-    public slots:		// Public slots
-  /** Occurs when the apply button is clicked. */
-    void slotApply();
-  /** Called when the "Default" button is pressed. */
-    void slotDefault();
-  /** Called when the cancel button is clicked. */
-    void slotCancel();
-  /** Called when the ok button is clicked. */
-    void slotOk();
     void loadTemplates();
-    void updateDisplay();
 
+    public slots:		// Public slots
+    void updateDisplay();
+    void slotEditMetadata();
 
   private:
     Gui::KdenliveApp *m_app;
