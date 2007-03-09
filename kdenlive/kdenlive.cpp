@@ -283,13 +283,23 @@ namespace Gui {
 	return list;
     }
 
-    QString KdenliveApp::defaultProjectFormatName()
+    QString KdenliveApp::projectFormatName(int format)
     {
     	QMap<QString, formatTemplate>::Iterator it;
     	for ( it = m_projectTemplates.begin(); it != m_projectTemplates.end(); ++it ) {
-	    if ((int) it.data().videoFormat() == KdenliveSettings::defaultprojectformat()) break;
+	    if ((int) it.data().videoFormat() == format) break;
     	}
 	return it.key();
+    }
+
+
+    formatTemplate KdenliveApp::projectFormatParameters(int format)
+    {
+    	QMap<QString, formatTemplate>::Iterator it;
+    	for ( it = m_projectTemplates.begin(); it != m_projectTemplates.end(); ++it ) {
+	    if ((int) it.data().videoFormat() == format) break;
+    	}
+	return it.data();
     }
 
     VIDEOFORMAT KdenliveApp::projectFormatFromName(QString formatName)
@@ -2101,7 +2111,7 @@ namespace Gui {
 		    // Insert available video formats:
 
 		    newProjectDialog->video_format->insertStringList(videoProjectFormats());
-		    newProjectDialog->video_format->setCurrentText(defaultProjectFormatName());
+		    newProjectDialog->video_format->setCurrentText(projectFormatName(KdenliveSettings::defaultprojectformat()));
 		    newProjectDialog->audioTracks->setValue(*audioTracks);
 		    newProjectDialog->videoTracks->setValue(*videoTracks);
 		    if (!exitMode) newProjectDialog->buttonQuit->setText(i18n("Cancel"));
@@ -3846,12 +3856,18 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
     void KdenliveApp::slotConfigureProject() {
 	ConfigureProjectDialog configDialog(this, "configure project dialog");
-	//configDialog.projectFolder->setTemplates(m_projectTemplates);
-	
-/*        configDialog.setValues(m_doc->framesPerSecond(), m_doc->projectClip().videoWidth(), m_doc->projectClip().videoHeight(), KdenliveSettings::currentdefaultfolder());*/
 	if (configDialog.exec() == QDialog::Accepted ) {
-	KdenliveSettings::setCurrentdefaultfolder(configDialog.selectedFolder());
+	    KdenliveSettings::setCurrentdefaultfolder(configDialog.selectedFolder());
+	    QString newFormat = configDialog.selectedFormat();
+	    if (newFormat != projectFormatName(projectVideoFormat()))
+	    	switchProjectToFormat(newFormat);
 	}
+    }
+
+    void KdenliveApp::switchProjectToFormat(QString newFormat)
+    {
+	// switch current video project to new format
+	setProjectFormat((int) projectFormatFromName(newFormat));
     }
 
     void KdenliveApp::slot_moveClips(QDropEvent * event, QListViewItem * parent) {

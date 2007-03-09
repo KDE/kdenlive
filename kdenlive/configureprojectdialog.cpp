@@ -34,8 +34,7 @@ ConfigureProjectDialog::ConfigureProjectDialog(Gui::KdenliveApp * parent, const 
 {
 
     loadTemplates();
-    
-/*    connect ( m_config->templatesList, SIGNAL(highlighted( const QString & )), this, SLOT(loadSettings(const QString & )));*/
+    connect ( templatesList, SIGNAL(activated( int )), this, SLOT(updateDisplay()));
 }
 
 
@@ -45,15 +44,10 @@ ConfigureProjectDialog::~ConfigureProjectDialog()
 
 void ConfigureProjectDialog::loadTemplates()
 {
-     templatesList->clear();
-     templatesList->insertStringList(m_app->videoProjectFormats());
-     projectFolder->setURL(KdenliveSettings::currentdefaultfolder());
-
-    /*projectList.setAutoDelete(true);
-    ProjectTemplate *pal = new ProjectTemplate("PAL", 25.0, 720, 576);
-    projectList.append(pal);
-    ProjectTemplate *ntsc = new ProjectTemplate("NTSC", 30.0, 720, 480);
-    projectList.append(ntsc);*/
+    templatesList->clear();
+    templatesList->insertStringList(m_app->videoProjectFormats());
+    projectFolder->setURL(KdenliveSettings::currentdefaultfolder());
+    templatesList->setCurrentText(m_app->projectFormatName(m_app->projectVideoFormat()));
     updateDisplay();
 }
 
@@ -62,33 +56,19 @@ QString ConfigureProjectDialog::selectedFolder()
     return projectFolder->url();
 }
 
+QString ConfigureProjectDialog::selectedFormat()
+{
+    return templatesList->currentText();
+}
+
 void ConfigureProjectDialog::updateDisplay()
 {
-    /*ProjectTemplate *project;
-    for ( project = projectList.first(); project; project = projectList.next() ){
-        m_presetList->insertItem(project->name());
-    }*/
-}
+    formatTemplate params = m_app->projectFormatParameters((int) m_app->projectFormatFromName(templatesList->currentText()));
 
-void ConfigureProjectDialog::setValues(const double &fps, const int &width, const int &height, KURL folder)
-{
-    framespersecond->setText(QString::number(fps));
-    framewidth->setText(QString::number(width));
-    frameheight->setText(QString::number(height));
-    projectFolder->setURL(folder.url());
-}
-
-void ConfigureProjectDialog::loadSettings(const QString & name)
-{
-/*    ProjectTemplate *project;
-    for ( project = projectList.first(); project; project = projectList.next() ){
-        if (project->name() == name) {
-            m_config->framespersecond->setText(QString::number(project->fps()));
-            m_config->framewidth->setText(QString::number(project->width()));
-            m_config->frameheight->setText(QString::number(project->height()));
-            break;
-        }
-    }*/
+    framespersecond->setText(QString::number(params.fps()));
+    framewidth->setText(QString::number(params.width()));
+    frameheight->setText(QString::number(params.height()));
+    aspectratio->setText(QString::number(params.aspect()));
 }
 
 /** Occurs when the apply button is clicked. */

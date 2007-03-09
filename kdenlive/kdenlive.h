@@ -153,7 +153,8 @@ namespace Gui {
         void ensureCursorVisible();
 	int externalMonitor();
 	QStringList videoProjectFormats();
-	QString defaultProjectFormatName();
+	QString projectFormatName(int format);
+	formatTemplate projectFormatParameters(int format);
 	VIDEOFORMAT projectFormatFromName(QString formatName);
 
       protected:
@@ -710,6 +711,7 @@ namespace Gui {
 	void connectMonitors();
 	int m_externalMonitor;
 	void createExternalMonitor();
+	void switchProjectToFormat(QString newFormat);
     };
 
 }				// namespace Gui

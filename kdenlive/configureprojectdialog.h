@@ -65,6 +65,9 @@ class ConfigureProjectDialog:public ConfigureProjectPanel_UI {
   Q_OBJECT public:
     ConfigureProjectDialog(Gui::KdenliveApp * = 0, const char *name = 0, WFlags f = 0);
 
+    QString selectedFormat();
+    QString selectedFolder();
+
     ~ConfigureProjectDialog();
     public slots:		// Public slots
   /** Occurs when the apply button is clicked. */
@@ -75,24 +78,12 @@ class ConfigureProjectDialog:public ConfigureProjectPanel_UI {
     void slotCancel();
   /** Called when the ok button is clicked. */
     void slotOk();
-
     void loadTemplates();
     void updateDisplay();
-    void loadSettings(const QString & name);
-    void setValues(const double &fps, const int &width, const int &height, KURL folder);
-    QString selectedFolder();
+
 
   private:
-     QSplitter * m_hSplitter;
-    QVBox *m_presetVBox;
-    KListBox *m_presetList;
-    KPushButton *m_addButton;
-    KPushButton *m_deleteButton;
-
     Gui::KdenliveApp *m_app;
-    KJanusWidget *m_tabArea;
-
-    ExportConfig *m_export;
     ConfigureProject *m_config;
 };
 
