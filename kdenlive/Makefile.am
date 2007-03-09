@@ -95,7 +95,7 @@ xdg_apps_DATA = kdenlive.desktop
 # kde_designerdir     Where Qt Designer plugins should go to (new in KDE 3).
 
 # set the include path for X, qt and KDE
-INCLUDES= $(all_includes) $(LIBMLT_CFLAGS) @LIBIEC61883_CFLAGS@
+INCLUDES= $(all_includes) $(LIBMLT_CFLAGS) @LIBIEC61883_CFLAGS@ -D__STDC_CONSTANT_MACROS
 
 kde_kcfg_DATA = kdenlive.kcfg
 METASOURCES = AUTO
