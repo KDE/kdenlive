@@ -25,7 +25,7 @@ class DocClipBase;
 class DocClipBaseList;
 class DocClipRefList;
 class DocClipRef;
-class EffectDescriptionList;
+class KdenliveDoc;
 
 /**Allows the dragging of clips within and outside of the application.
   *@author Jason Wood
@@ -45,8 +45,7 @@ class ClipDrag:public KURLDrag {
 	/** Returns true if the mime type is decodable, false otherwise. */
     static bool canDecode(const QMimeSource * mime, bool onlyExternal = false);
 	/** Attempts to decode the mimetype e as a clip. Returns a clip, or returns null */
-    static DocClipRefList decode(const EffectDescriptionList & effectList,
-	ClipManager & clipManager, const QMimeSource * e);
+    static DocClipRefList decode(KdenliveDoc *doc, const QMimeSource * e);
   protected:
 	/** Reimplemented for internal reasons; the API is not affected.  */
      QByteArray encodedData(const char *mime) const;

@@ -81,8 +81,7 @@ void DocClipBaseList::setMasterClip(DocClipBase * clip)
 }
 
 void DocClipBaseList::
-generateFromXML(const EffectDescriptionList & effectList,
-    ClipManager & clipManager, KRender * render, QDomElement elem)
+generateFromXML(KRender *render, QDomElement elem)
 {
     if (elem.tagName() != "ClipList") {
 	kdWarning() << "ClipList cannot be generated - wrong tag : " <<
@@ -95,12 +94,12 @@ generateFromXML(const EffectDescriptionList & effectList,
 	    if (!e.isNull()) {
 		if (e.tagName() == "kdenliveclip") {
 		    DocClipBase *clip =
-			DocClipBase::createClip(effectList, clipManager,
-			e);
+			DocClipBase::createClip(render->getDocument(), e);
 
 		    if (clip) {
 			append(clip);
 			if (clip->isDocClipAVFile()) {
+			    kdDebug()<<"// / / / / CLIP LIST GET PROPS /////"<<endl;
 			    render->getFileProperties(clip->fileURL(), clip->getProjectThumbFrame());
 			}
 		    }

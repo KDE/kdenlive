@@ -581,6 +581,7 @@ void KdenliveDoc::refreshAudioThumbnails()
     while (itt.current()) {
 	 clipNode = itt.current()->asClipNode();
 	if (clipNode) {
+	    kdDebug()<<"// REFRESHING AUDIO THUMB for: "<<clipNode->clipRef()->name()<<endl;
 	    clipNode->clipRef()->refreshAudioThumbnail();
 	}
 	else {
@@ -811,17 +812,19 @@ GenTime KdenliveDoc::toSnapTime(GenTime currTime, bool forward, bool includeSnap
 void KdenliveDoc::updateTracksThumbnails()
 {
     QPtrListIterator < DocTrackBase > trackItt(trackList());
-
+    int ix = 2;
     while (trackItt.current()) {
         QPtrListIterator < DocClipRef > clipItt(trackItt.current()->firstClip(true));
         while (clipItt.current()) {
-            (*clipItt)->generateThumbnails();
+            (*clipItt)->generateThumbnails(ix);
+	    ix++;
             ++clipItt;
         }
         
         QPtrListIterator < DocClipRef > clipItt2(trackItt.current()->firstClip(false));
         while (clipItt2.current()) {
-            (*clipItt2)->generateThumbnails();
+            (*clipItt2)->generateThumbnails(ix);
+	    ix++;
             ++clipItt2;
         }
         ++trackItt;

@@ -165,6 +165,7 @@ class KRender:public QObject {
 
     /** returns the current scenelist */
     QDomDocument sceneList();
+    KdenliveDoc *getDocument() const;
 
  
   private:			// Private attributes & methods

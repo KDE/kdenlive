@@ -176,6 +176,53 @@ void KThumb::getImage(KURL url, int frame, int width, int height)
     emit thumbReady(frame, image);
 }
 
+void KThumb::getThumbs(KURL url, int startframe, int endframe, int width, int height)
+{
+    if (url.isEmpty()) return;
+    QPixmap image(width, height);
+
+    Mlt::Producer m_producer(KRender::decodedString(url.path()));
+    image.fill(Qt::black);
+
+    if (m_producer.is_blank()) {
+	emit thumbReady(startframe, image);
+	emit thumbReady(endframe, image);
+	return;
+    }
+    Mlt::Filter m_convert("avcolour_space");
+    m_convert.set("forced", mlt_image_rgb24a);
+    m_producer.attach(m_convert);
+    m_producer.seek(startframe);
+    uint orig_width = width - 2;
+    uint orig_height = height - 2;
+    Mlt::Frame * m_frame = m_producer.get_frame();
+
+    if (m_frame) {
+	m_frame->set("rescale", "nearest");
+	uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, orig_width, orig_height, 1);
+	QImage m_image(m_thumb, orig_width, orig_height, 32, 0, 0, QImage::LittleEndian);
+	delete m_frame;
+	if (!m_image.isNull())
+	    bitBlt(&image, 1, 1, &m_image, 0, 0, orig_width, orig_height);
+    }
+    emit thumbReady(startframe, image);
+    image.fill(Qt::black);
+    m_producer.seek(endframe);
+    m_frame = m_producer.get_frame();
+
+    if (m_frame) {
+	m_frame->set("rescale", "nearest");
+	uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, orig_width, orig_height, 1);
+	QImage m_image(m_thumb, orig_width, orig_height, 32, 0, 0, QImage::LittleEndian);
+	delete m_frame;
+	if (!m_image.isNull())
+	    bitBlt(&image, 1, 1, &m_image, 0, 0, orig_width, orig_height);
+    }
+    emit thumbReady(endframe, image);
+
+
+}
+
 void KThumb::stopAudioThumbs()
 {
 	if (thumbProducer.running ()) thumbProducer.stop_me = true;
@@ -191,9 +238,11 @@ void KThumb::removeAudioThumb()
 }
 
 void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLength, int arrayWidth){
+	if ((thumbProducer.running () && thumbProducer.isWorking()) || channel == 0) {
+	    return;
+	}
+
 	QMap <int, QMap <int, QByteArray> > storeIn;
-	if (thumbProducer.isWorking() || channel == 0) return;
-	
        //FIXME: Hardcoded!!! 
 	int m_frequency = 48000;
 	int m_channels = channel;
@@ -202,7 +251,6 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
 		KMD5 context ((KFileItem(m_url,"text/plain", S_IFREG).timeString() + m_url.fileName()).ascii());
 		m_thumbFile = KdenliveSettings::currenttmpfolder() + context.hexDigest().data() + ".thumb";
 	}
-
 	QFile f(m_thumbFile);
 	if (f.open( IO_ReadOnly )) {
 		QByteArray channelarray = f.readAll();

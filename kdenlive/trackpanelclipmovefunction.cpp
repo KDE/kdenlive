@@ -192,8 +192,7 @@ bool TrackPanelClipMoveFunction::dragEntered(Gui::KTrackPanel * panel,
     } else if (ClipDrag::canDecode(event)) {
 	m_document->activateSceneListGeneration(false);
 	m_selection =
-	    ClipDrag::decode(m_document->effectDescriptions(),
-	    m_document->clipManager(), event);
+	    ClipDrag::decode(m_document, event);
 
 
 	if (!m_selection.isEmpty()) {

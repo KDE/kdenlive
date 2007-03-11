@@ -138,7 +138,7 @@ class ClipManager:public QObject {
 	const QString & extension, const int &ttl, bool crossfade, const QString &lumaFile, double lumasoftness, uint lumaduration, const GenTime & duration, const QString & description, bool alphaTransparency, int clipId = -1);
 
 	/** Insert a specific clip */
-    DocClipBase *insertClip(const QDomElement & clip);
+    DocClipBase *insertClip(const QDomElement & clip, int clipId = -1);
     DocClipBase *insertXMLClip(const QDomElement & clip);
 
 	/** Adds a temporary clip. This is a clip that does not "exist" in the project, but of which

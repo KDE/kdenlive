@@ -355,7 +355,7 @@ int DocClipProject::playlistNextVideoTrack(int ix) const
 
 QDomDocument DocClipProject::generateSceneList(bool addProducers, bool rendering) const
 {
-    kdDebug()<<"+++++++++++  Generating scenelist start...  ++++++++++++++++++"<<endl;
+    //kdDebug()<<"+++++++++++  Generating scenelist start...  ++++++++++++++++++"<<endl;
     QDomDocument doc;
     QStringList videoTracks;
     int tracknb = 0;
@@ -502,8 +502,8 @@ QDomDocument DocClipProject::generateSceneList(bool addProducers, bool rendering
     }
 
     westley.appendChild(tractor);
-        // kdDebug() << doc.toString() << endl;
-        // kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
+         //kdDebug() << doc.toString() << endl;
+         //kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
     return doc;
 }
 
@@ -662,11 +662,9 @@ QDomDocument DocClipProject::generatePartialSceneList(GenTime start, GenTime end
 
 
 void DocClipProject::
-generateTracksFromXML(const EffectDescriptionList & effectList,
-    ClipManager & clipManager, const QDomElement & e)
+generateTracksFromXML(KdenliveDoc *doc, const QDomElement & e)
 {
-    m_tracks.generateFromXML(effectList, clipManager, this, e);
-
+    m_tracks.generateFromXML(doc, this, e);
     DocTrackBaseListIterator itt(m_tracks);
     while (itt.current() != 0) {
 	connectTrack(itt.current());
@@ -678,11 +676,10 @@ generateTracksFromXML(const EffectDescriptionList & effectList,
 
 //static
 DocClipProject *DocClipProject::
-createClip(const EffectDescriptionList & effectList,
-    ClipManager & clipManager, const QDomElement element)
+createClip(KdenliveDoc *doc, const QDomElement element)
 {
     DocClipProject *project = new DocClipProject(KdenliveSettings::defaultfps(), KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight());
-    project->generateTracksFromXML(effectList, clipManager, element);
+    project->generateTracksFromXML(doc, element);
     
 /*
     if (element.tagName() == "project") {

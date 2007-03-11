@@ -36,9 +36,11 @@
 DocClipAVFile::DocClipAVFile(const QString & name, const KURL & url,
     uint id):DocClipBase(), m_duration(0.0), m_url(url),
 m_durationKnown(false), m_framesPerSecond(0), m_color(QString::null),
-m_clipType(NONE), m_alphaTransparency(false), m_channels(0), m_frequency(0), m_ttl(0), m_hasCrossfade(false)
+m_clipType(NONE), m_alphaTransparency(false), m_channels(0), m_frequency(0), m_ttl(0), m_hasCrossfade(false), m_audioTimer(0)
 {
     thumbCreator = new KThumb();
+    m_audioTimer = new QTimer( this );
+    connect(m_audioTimer, SIGNAL(timeout()), this, SLOT(getAudioThumbs()));
     setName(name);
     setId(id);
 }
@@ -46,7 +48,7 @@ m_clipType(NONE), m_alphaTransparency(false), m_channels(0), m_frequency(0), m_t
 /* color clip */
 DocClipAVFile::DocClipAVFile(const QString & color, const GenTime & duration, uint id):DocClipBase(),  m_duration(duration),
 m_url(QString::null), m_hasCrossfade(false), m_durationKnown(true),m_framesPerSecond(KdenliveSettings::defaultfps()),
-m_color(color), m_clipType(COLOR), m_filesize(0), m_alphaTransparency(false),  m_channels(0),m_frequency(0), m_ttl(0), m_videoCodec(NULL), m_audioCodec(NULL)
+m_color(color), m_clipType(COLOR), m_filesize(0), m_alphaTransparency(false),  m_channels(0),m_frequency(0), m_ttl(0), m_videoCodec(NULL), m_audioCodec(NULL), m_audioTimer(0)
 {
     setName(i18n("Color Clip"));
     m_width = KdenliveSettings::defaultwidth();
@@ -57,7 +59,7 @@ m_color(color), m_clipType(COLOR), m_filesize(0), m_alphaTransparency(false),  m
 /*  Image clip */
 DocClipAVFile::DocClipAVFile(const KURL & url, const GenTime & duration, bool alphaTransparency, uint id):DocClipBase(),
 m_duration(duration), m_hasCrossfade(false), m_url(url), m_durationKnown(true),
-m_framesPerSecond(KdenliveSettings::defaultfps()), m_color(QString::null), m_clipType(IMAGE), m_alphaTransparency(alphaTransparency), m_channels(0), m_frequency(0), m_ttl(0), m_videoCodec(NULL), m_audioCodec(NULL)
+m_framesPerSecond(KdenliveSettings::defaultfps()), m_color(QString::null), m_clipType(IMAGE), m_alphaTransparency(alphaTransparency), m_channels(0), m_frequency(0), m_ttl(0), m_videoCodec(NULL), m_audioCodec(NULL), m_audioTimer(0)
 {
     setName(url.fileName());
     setId(id);
@@ -74,7 +76,7 @@ m_framesPerSecond(KdenliveSettings::defaultfps()), m_color(QString::null), m_cli
 DocClipAVFile::DocClipAVFile(const KURL & url, const QString & extension,
     const int &ttl, const GenTime & duration, bool alphaTransparency, bool crossfade, const QString &lumaFile, double lumasoftness, uint lumaduration, uint id):DocClipBase(),
 m_duration(duration), m_url(url), m_durationKnown(true), m_hasCrossfade(crossfade), m_luma(lumaFile), m_lumasoftness(lumasoftness), m_lumaduration(lumaduration),
-m_framesPerSecond(KdenliveSettings::defaultfps()), m_color(QString::null), m_clipType(SLIDESHOW), m_alphaTransparency(alphaTransparency), m_channels(0), m_frequency(0), m_ttl(ttl), m_videoCodec(NULL), m_audioCodec(NULL)
+m_framesPerSecond(KdenliveSettings::defaultfps()), m_color(QString::null), m_clipType(SLIDESHOW), m_alphaTransparency(alphaTransparency), m_channels(0), m_frequency(0), m_ttl(ttl), m_videoCodec(NULL), m_audioCodec(NULL), m_audioTimer(0)
 {
     setName(i18n("Slideshow"));
     setId(id);
@@ -91,10 +93,12 @@ DocClipAVFile::DocClipAVFile(const KURL & url):DocClipBase(),
 m_duration(0.0),
 m_url(url), m_hasCrossfade(false), 
 m_durationKnown(false), 
-m_framesPerSecond(0), m_color(QString::null), m_clipType(NONE), m_alphaTransparency(false),m_channels(0), m_frequency(0),  m_ttl(0), m_videoCodec(NULL), m_audioCodec(NULL)
+m_framesPerSecond(0), m_color(QString::null), m_clipType(NONE), m_alphaTransparency(false),m_channels(0), m_frequency(0),  m_ttl(0), m_videoCodec(NULL), m_audioCodec(NULL), m_audioTimer(0)
 {
     setName(url.fileName());
     thumbCreator = new KThumb();
+    m_audioTimer = new QTimer( this );
+    connect(m_audioTimer, SIGNAL(timeout()), this, SLOT(getAudioThumbs()));
     // #TODO: What about the id of these clips ?
 }
 
@@ -137,14 +141,18 @@ QDomElement element = node.documentElement();
 		m_duration = GenTime(e.attribute("duration", "0").toInt(), KdenliveSettings::defaultfps());
 		setName(e.attribute("name", QString::null));
 		setDescription(e.attribute("description", QString::null));
-
+		m_audioTimer = 0;
 		switch (clipType) {
 			case DocClipBase::NONE:
 			thumbCreator = new KThumb();
+			m_audioTimer = new QTimer( this );
+			connect(m_audioTimer, SIGNAL(timeout()), this, SLOT(getAudioThumbs()));
 			m_clipType = DocClipBase::NONE;
 			break;
 			case DocClipBase::AUDIO:
 			thumbCreator = new KThumb();
+			m_audioTimer = new QTimer( this );
+			connect(m_audioTimer, SIGNAL(timeout()), this, SLOT(getAudioThumbs()));
 			m_clipType = DocClipBase::AUDIO;
 			break;
 			case DocClipBase::VIDEO:
@@ -153,6 +161,8 @@ QDomElement element = node.documentElement();
 			break;
 			case DocClipBase::AV:
 			thumbCreator = new KThumb();
+			m_audioTimer = new QTimer( this );
+			connect(m_audioTimer, SIGNAL(timeout()), this, SLOT(getAudioThumbs()));
 			m_clipType = DocClipBase::AV;
 			break;
 			case DocClipBase::COLOR:
@@ -183,6 +193,11 @@ DocClipAVFile::~DocClipAVFile()
 void DocClipAVFile::removeTmpFile() const
 {
     if (thumbCreator) thumbCreator->removeAudioThumb();
+}
+
+void DocClipAVFile::prepareThumbs() const
+{
+    if (m_audioTimer) m_audioTimer->start(1000, true);
 }
 
 bool DocClipAVFile::isTransparent()
@@ -431,10 +446,10 @@ QDomDocument DocClipAVFile::generateSceneList(bool, bool) const
     		QDomElement clipFilter =
 		sceneList.createElement("filter");
         	clipFilter.setAttribute("mlt_service", "luma");
-		clipFilter.setAttribute("period", QString::number(clipTtl() - 1));
+		clipFilter.setAttribute("period", QString::number(clipTtl()));
 		clipFilter.setAttribute("resource", lumaFile());
 		clipFilter.setAttribute("luma.softness", QString::number(lumaSoftness()));
-		clipFilter.setAttribute("luma.out", QString::number(lumaDuration()));
+		//clipFilter.setAttribute("luma.out", QString::number(lumaDuration()));
 		entry.appendChild(clipFilter);
     		}
 	}

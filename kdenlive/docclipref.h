@@ -153,8 +153,7 @@ class DocClipRef:public QObject {
     const KURL & fileURL() const;
 
 	/** Reads in the element structure and creates a clip out of it.*/
-    static DocClipRef *createClip(const EffectDescriptionList & effectList,
-	ClipManager & clipManager, const QDomElement & element);
+    static DocClipRef *createClip(KdenliveDoc *doc, const QDomElement & element);
 	/** Sets the parent track for this clip. */
     void setParentTrack(DocTrackBase * track, const int trackNum);
 	/** Returns the track number. This is a hint as to which track the clip is on, or
@@ -174,7 +173,7 @@ class DocClipRef:public QObject {
 	/** Move the clips so that it's trackStart coincides with the time specified. */
     void moveTrackStart(const GenTime & time);
 	/** Returns an identical but seperate (i.e. "deep") copy of this clip. */
-    DocClipRef *clone(const EffectDescriptionList & effectList, ClipManager & clipManager);
+    DocClipRef *clone(KdenliveDoc *doc);
 	/** Returns true if the clip duration is known, false otherwise. */
     bool durationKnown() const;
     // Returns the number of frames per second that this clip should play at.
@@ -276,9 +275,6 @@ class DocClipRef:public QObject {
     bool hasEffect();
 	/** Returns a list of the clip effects names */
     QStringList clipEffectNames();
-
-    void disconnectThumbCreator();
-
     Transition *transitionAt(const GenTime &time);
 
     void clearVideoEffects();
@@ -293,7 +289,7 @@ class DocClipRef:public QObject {
         void updateThumbnail(int frame, QPixmap newpix);
         
         /** generate start and end thumbnails for the clip */
-        void generateThumbnails();
+        void generateThumbnails(int delay = 0);
         
         /** If a clip is a video, its thumbnails should be adjusted when resizing the clip. */ 
         bool hasVariableThumbnails();
@@ -317,6 +313,7 @@ class DocClipRef:public QObject {
   private slots:
         /** Fetch the thumbnail for the clip start */
         void fetchStartThumbnail();
+        void fetchThumbnails();
         /** Fetch the thumbnail for the clip end */
         void fetchEndThumbnail();
 	GenTime adjustTimeToSpeed(GenTime t) const;
@@ -357,6 +354,7 @@ class DocClipRef:public QObject {
 	/** Clip speed, used for slowmotion */
     double m_speed;
     double m_endspeed;
+    QTimer *thumbTimer;
     
 signals:
     void getClipThumbnail(KURL, int, int, int);

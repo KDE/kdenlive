@@ -47,6 +47,7 @@ class DocTrackBase:public QObject {
 	* This method calls canAddClip() to determine whether or not the clip can be added to this
 	* particular track. */
     bool addClip(DocClipRef * clip, bool selected);
+    bool loadClip(DocClipRef * clip);
 	/** Returns the clip type as a string. This is a bit of a hack to give the
 	* KMMTimeLine a way to determine which class it should associate
 	*	with each type of clip. */
@@ -111,8 +112,7 @@ class DocTrackBase:public QObject {
     bool matchesXML(const QDomElement & element) const;
 	/** Creates a track from the given xml document. Returns the track, or 0 if it
 	 * could not be created. */
-    static DocTrackBase *createTrack(const EffectDescriptionList &
-	descList, ClipManager & clipManager, DocClipProject * project,
+    static DocTrackBase *createTrack(KdenliveDoc *doc, DocClipProject * project,
 	QDomElement elem);
 	/** Alerts the track that it's trackIndex within the document has
 	changed. The track should update the clips on it with the new

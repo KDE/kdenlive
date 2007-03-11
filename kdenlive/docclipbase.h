@@ -39,6 +39,7 @@ class DocClipAVFile;
 class DocClipTextFile;
 class DocClipVirtual;
 class EffectDescriptionList;
+class KdenliveDoc;
 
 class CommentedTime
     {
@@ -176,9 +177,7 @@ class DocClipBase:public QObject {
 	/** Returns the thumbnail used by this clip */
     const QPixmap & thumbnail() const;
 
-    static DocClipBase *createClip(const EffectDescriptionList &
-	effectList, ClipManager & clipManager,
-	const QDomElement & element);
+    static DocClipBase *createClip(KdenliveDoc *doc, const QDomElement & element);
     /** Cache for every audio Frame with 10 Bytes */
     /** format is frame -> channel ->bytes */
     QMap<int,QMap<int,QByteArray> > audioFrameChache;
@@ -203,6 +202,7 @@ class DocClipBase:public QObject {
     /** a unique numeric id */
     uint m_id;
     uint m_projectThumbFrame;
+    void setAudioThumbCreated(bool isDone);
 
   public slots:
 	void updateAudioThumbnail(QMap<int,QMap<int,QByteArray> > data);

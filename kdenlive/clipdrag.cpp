@@ -21,7 +21,8 @@
 #include "clipdrag.h"
 #include "docclipavfile.h"
 #include "docclipreflist.h"
-#include "clipmanager.h"
+#include "kdenlivedoc.h"
+
 
 #include <iostream>
 
@@ -88,8 +89,7 @@ bool ClipDrag::canDecode(const QMimeSource * mime, bool onlyExternal)
     return KURLDrag::canDecode(mime);
 }
 
-DocClipRefList ClipDrag::decode(const EffectDescriptionList & effectList,
-    ClipManager & clipManager, const QMimeSource * e)
+DocClipRefList ClipDrag::decode(KdenliveDoc *doc, const QMimeSource * e)
 {
     DocClipRefList cliplist;
 
@@ -123,8 +123,7 @@ DocClipRefList ClipDrag::decode(const EffectDescriptionList & effectList,
 	    if (!element.isNull()) {
 		if (element.tagName() == "kdenliveclip") {
 		    DocClipRef *ref =
-			DocClipRef::createClip(effectList, clipManager,
-			element);
+			DocClipRef::createClip(doc, element);
 		    cliplist.append(ref);
 
 		    if (element.attribute("master", "false") == "true") {
@@ -140,9 +139,9 @@ DocClipRefList ClipDrag::decode(const EffectDescriptionList & effectList,
 	KURL::List::Iterator it;
 	KURLDrag::decode(e, list);
 	for (it = list.begin(); it != list.end(); ++it) {
-	    DocClipBase *file = clipManager.findClip(*it);
+	    DocClipBase *file = doc->clipManager().findClip(*it);
 	    if (!file) {
-		file = clipManager.addTemporaryClip(*it);
+		file = doc->clipManager().addTemporaryClip(*it);
 	        if (file) {
 		    DocClipRef *refFile = new DocClipRef(file);
 	            cliplist.append(refFile);

@@ -89,16 +89,13 @@ QDomDocument DocClipBase::toXML() const
 }
 
 DocClipBase *DocClipBase::
-createClip(const EffectDescriptionList & effectList,
-    ClipManager & clipManager, const QDomElement & element)
+createClip(KdenliveDoc *doc, const QDomElement & element)
 {
     DocClipBase *clip = 0;
     QString description;
-    int trackNum = 0;
-
     QDomNode node = element;
     node.normalize();
-
+    clip->setAudioThumbCreated(false);
     if (element.tagName() != "kdenliveclip") {
 	kdWarning() <<
 	    "DocClipBase::createClip() element has unknown tagName : " <<
@@ -115,9 +112,7 @@ createClip(const EffectDescriptionList & effectList,
 	    if (e.tagName() == "avfile") {
 		clip = DocClipAVFile::createClip(e);
 	    } else if (e.tagName() == "DocTrackBaseList") {
-		clip = DocClipProject::createClip(effectList, clipManager, e);
-	    } else if (e.tagName() == "position") {
-		trackNum = e.attribute("kdenlivetrack", "-1").toInt();
+		clip = DocClipProject::createClip(doc, e);
 	    }
 	} else {
 	    QDomText text = n.toText();
@@ -139,6 +134,10 @@ createClip(const EffectDescriptionList & effectList,
     return clip;
 }
 
+void DocClipBase::setAudioThumbCreated(bool isDone)
+{
+    audioThumbCreated = isDone;
+}
 
 
 QDomDocument DocClipBase::generateSceneList(bool, bool) const

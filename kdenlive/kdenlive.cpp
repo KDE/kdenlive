@@ -1816,12 +1816,16 @@ namespace Gui {
 	    kdWarning() << "Opening url " << url.path() << endl;
             requestDocumentClose(url);
 	    initView();
+    	    QTime t;
+    	    t.start();
 	    m_projectFormatManager.openDocument(url, m_doc);
 	    if (!m_exportWidget) slotRenderExportTimeline(false);
 	    m_exportWidget->setMetaData(getDocument()->metadata());
 	    setCaption(url.fileName() + " - " + easyName(m_projectFormat), false);
 	    fileOpenRecent->addURL(m_doc->URL());
 	    m_timeline->slotSetFramesPerSecond(KdenliveSettings::defaultfps());
+
+	    kdDebug()<<" + + +  Loading Time : "<<t.elapsed()<<"ms"<<endl;
 	}
 	else {
 	    KMessageBox::sorry(this, i18n("Cannot read file: %1").arg(url.path()));
@@ -2319,7 +2323,7 @@ namespace Gui {
 	slotStatusMsg(i18n("Copying clip %1.").arg(getDocument()->projectClip().selectedClip()->name()));
 	editPaste->setEnabled(true);
 	if (m_copiedClip) delete m_copiedClip; 
-	m_copiedClip = getDocument()->projectClip().selectedClip()->clone(effectList(), getDocument()->clipManager());
+	m_copiedClip = getDocument()->projectClip().selectedClip()->clone(getDocument());
 	slotStatusMsg(i18n("Ready."));
     }
 
@@ -2332,7 +2336,7 @@ namespace Gui {
 	slotStatusMsg(i18n("Cutting clip %1.").arg(getDocument()->projectClip().selectedClip()->name()));
 	editPaste->setEnabled(true);
 	if (m_copiedClip) delete m_copiedClip;
-	m_copiedClip = getDocument()->projectClip().selectedClip()->clone(effectList(), getDocument()->clipManager());
+	m_copiedClip = getDocument()->projectClip().selectedClip()->clone(getDocument());
 	slotDeleteSelected();
 	slotStatusMsg(i18n("Ready."));
     }
@@ -2396,7 +2400,7 @@ namespace Gui {
 
 	GenTime insertTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(position).x());
 
-	DocClipRef *m_pastedClip = m_copiedClip->clone(effectList(), getDocument()->clipManager());
+	DocClipRef *m_pastedClip = m_copiedClip->clone(getDocument());
 
 	DocClipRefList selectedClip;
 	selectedClip.append(m_pastedClip);
@@ -3472,7 +3476,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    if (track->clipType() == "Sound") {
 		if (getDocument()->projectClip().canAddClipsToTracks(list, ix, clip->trackStart())) {
 		// create a copy of original clip
-		clip2 = clip->clone(effectList(), getDocument()->clipManager());
+		clip2 = clip->clone(getDocument());
 
 		// remove all effects & transitions
 		EffectStack emptyEffect;
@@ -3875,8 +3879,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
     void KdenliveApp::slot_moveClips(QDropEvent * event, QListViewItem * parent) {
 	DocClipRefList clips =
-	    ClipDrag::decode(effectList(),
-	    getDocument()->clipManager(), event);
+	    ClipDrag::decode(getDocument(), event);
 
 	clips.setAutoDelete(true);
 	QPtrListIterator < DocClipRef > itt(clips);
@@ -3915,8 +3918,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    return;
 	}
 	DocClipRefList clips =
-	    ClipDrag::decode(effectList(),
-	    getDocument()->clipManager(), event);
+	    ClipDrag::decode(getDocument(), event);
 
 	clips.setAutoDelete(true);
 
@@ -4289,7 +4291,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    ++trackItt;
 	}
 	kdDebug()<<" +  ++ + ++ ++ PREPARE VID THUMB"<<endl;
-        if (KdenliveSettings::videothumbnails()) getDocument()->updateTracksThumbnails();
+        if (KdenliveSettings::videothumbnails()) QTimer::singleShot(500, getDocument(), SLOT(updateTracksThumbnails()));
 	kdDebug()<<" +  ++ + ++ ++ PREPARE AUDIO THUMB"<<endl;
 	getDocument()->refreshAudioThumbnails();
 	//m_timeline->resizeTracks();

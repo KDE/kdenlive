@@ -781,6 +781,12 @@ const EffectDescriptionList & KRender::effectList() const
 }
 
 
+/** Returns the effect list. */
+KdenliveDoc *KRender::getDocument() const
+{
+    return m_app->getDocument();
+}
+
 /** Sets the description of this renderer to desc. */
 void KRender::setDescription(const QString & description)
 {

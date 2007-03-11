@@ -69,8 +69,7 @@ class DocClipProject:public DocClipBase {
     void requestProjectClose();
 
 	/** Generates the tracklist for this clip from the xml fragment passed in.*/
-    void generateTracksFromXML(const EffectDescriptionList & effectList,
-	ClipManager & clipManager, const QDomElement & e);
+    void generateTracksFromXML(KdenliveDoc *doc, const QDomElement & e);
 
 
     virtual QDomDocument generateSceneList(bool addProducers = true, bool rendering = false) const;
@@ -82,9 +81,7 @@ class DocClipProject:public DocClipBase {
 	/** Creates a clip from the passed QDomElement. This only pertains to those details
 	 *  specific to DocClipProject. This clip should only be created via the clip manager,
 	 *  or possibly KdenliveDoc when creating it's project clip..*/
-	static DocClipProject *createClip(const
-	EffectDescriptionList & effectList,
-	ClipManager & clipManager, const QDomElement element);
+	static DocClipProject *createClip(KdenliveDoc *doc, const QDomElement element);
     // Appends scene times for this clip to the passed vector.
     virtual void populateSceneTimes(QValueVector < GenTime >
 	&toPopulate) const;

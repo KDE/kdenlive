@@ -248,8 +248,7 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	}
 	// create a copy of the clip.
 	m_clip =
-	    clip->clone(m_document->effectDescriptions(),
-	    m_document->clipManager());
+	    clip->clone(m_document);
 
 	if (!m_clip) {
 	    kdError() <<

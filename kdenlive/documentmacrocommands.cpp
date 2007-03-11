@@ -82,7 +82,7 @@ namespace Command {
 
 	    command = new KMacroCommand(i18n("Razor clip"));
 
-	    DocClipRef *clone = clip->clone(document->effectDescriptions(), document->clipManager());
+	    DocClipRef *clone = clip->clone(document);
 
 	    clone->moveCropStartTime(clip->cropStartTime() + (time - clip->trackStart()));
 	    clone->setTrackStart(time);

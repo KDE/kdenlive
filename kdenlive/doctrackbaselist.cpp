@@ -37,8 +37,7 @@ DocTrackBaseList::~DocTrackBaseList()
 
 /** Generates the track list, based upon the XML list provided in elem. */
 void DocTrackBaseList::
-generateFromXML(const EffectDescriptionList & effectList,
-    ClipManager & clipManager, DocClipProject * project,
+generateFromXML(KdenliveDoc *doc, DocClipProject * project,
     const QDomElement & elem)
 {
     if (elem.tagName() != "DocTrackBaseList") {
@@ -55,8 +54,7 @@ generateFromXML(const EffectDescriptionList & effectList,
 	if (!e.isNull()) {
 	    if (e.tagName() == "kdenlivetrack") {
 		DocTrackBase *track =
-		    DocTrackBase::createTrack(effectList, clipManager,
-		    project, e);
+		    DocTrackBase::createTrack(doc, project, e);
 		if (track == 0) {
 		    kdError() << "Track not created" << endl;
 		} else {

@@ -43,8 +43,7 @@ class DocTrackBaseList:public QPtrList < DocTrackBase > {
     bool matchesXML(const QDomElement & element) const;
 
 	/** Generates the track list, based upon the XML list provided in elem. */
-    void generateFromXML(const EffectDescriptionList & effectList,
-	ClipManager & clipManager, DocClipProject * project,
+    void generateFromXML(KdenliveDoc *doc, DocClipProject * project,
 	const QDomElement & elem);
 };
 

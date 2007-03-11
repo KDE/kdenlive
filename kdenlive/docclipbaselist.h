@@ -44,8 +44,7 @@ class DocClipBaseList:public QPtrList < DocClipBase > {
     DocClipBase *masterClip() const;
 
 	/** Populates this clip list with the clips passed in via elem. */
-    void generateFromXML(const EffectDescriptionList & effectList,
-	ClipManager & clipManager, KRender * render, QDomElement elem);
+    void generateFromXML(KRender * render, QDomElement elem);
   private:			// Private attributes
 	/** The "master clip" of this list. The master clip is special only in that it is mentioned
 	seperately to every other clip in the clip list; it also appears in the clip list. It is

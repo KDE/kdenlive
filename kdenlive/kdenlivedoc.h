@@ -182,9 +182,6 @@ class KdenliveDoc:public QObject {
 	/** Return the list of tracks that make up this document. */
     const DocTrackBaseList & trackList() const;
     
-        /** Updates all clipthumbnails in the document */
-    void updateTracksThumbnails();
-
     void setProjectFormat(VIDEOFORMAT vFormat);
 
 	/** Return A time in GenTime format from a timecode string like 00:01:23:04 */
@@ -251,7 +248,8 @@ class KdenliveDoc:public QObject {
     bool showAllMarkers() const;
 	/** Set metadata value for this document */
     void slotSetMetadata(const QStringList list);
-
+        /** Updates all clipthumbnails in the document */
+    void updateTracksThumbnails();
     // HACK HACK - we need a way to prevent the document from spewing hundreds of scenelist
     // generation requests - this is it.
     void activateSceneListGeneration(bool active = false);

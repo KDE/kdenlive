@@ -44,6 +44,8 @@ LoadProjectNativeFilter::~LoadProjectNativeFilter()
 // virtual
 bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 {
+
+    kdDebug()<<"///////////////// * * * *  START OPENING PROJECT  * * ** * * *"<<endl;
     bool trackListLoaded = false;
     GenTime inPoint(0.0);
     GenTime outPoint(3.0);
@@ -54,7 +56,7 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 
     QDomElement documentElement = doc.documentElement();
 
-    if (documentElement.tagName() != "kdenlivedoc") {
+    if (documentElement.tagName() != "westley") {
 	kdWarning() <<
 	    "KdenliveDoc::loadFromXML() document element has unknown tagName : "
 	    << documentElement.tagName() << endl;
@@ -63,6 +65,7 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
     QDomNode n = kdenlivedoc.firstChild();
 
     while (!n.isNull()) {
+	kdDebug()<<"+++++++++   reading child  ++++++++++++"<<endl;
 	QDomElement e = n.toElement();
 	if (!e.isNull()) {
 	    if (e.tagName() == "properties") {
@@ -91,11 +94,16 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 	    else if (e.tagName() == "guides") {
 		document->application()->guidesFromXml( e );
 	    }
-	    else if (e.tagName() == "producer" || e.tagName() == "folder") addToDocument(i18n("Clips"), e, document);
+	    else if (e.tagName() == "producer" || e.tagName() == "folder") {
+		kdDebug()<<"///////////////// * * * *  LOADING CLIP"<<endl;
+		addToDocument(i18n("Clips"), e, document);
+	    }
 	    else if (e.tagName() == "kdenliveclip") {
 		if (!trackListLoaded) {
+		kdDebug()<<"///////////////// * * * *  LOADING TRACKLIST"<<endl;
 		    trackListLoaded = true;
 		    loadTrackList(e, document);
+		kdDebug()<<"///////////////// * * * *  LOADING TRACKLIST .. DONE"<<endl;
 		} else {
 		    kdWarning() <<
 			"Second timeline discovered, skipping..." << endl;
@@ -111,6 +119,7 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
     document->application()->setInpointPosition(inPoint);
     document->application()->setOutpointPosition(outPoint);
     document->renderer()->seek(GenTime(currentPos, KdenliveSettings::defaultfps()));
+    kdDebug()<<"///////////////// * * * *  LOADING FINISHED"<<endl;
     return true;
 }
 
@@ -184,14 +193,16 @@ void LoadProjectNativeFilter::loadAVFileList(QDomElement & element,
 void LoadProjectNativeFilter::loadTrackList(QDomElement & element,
     KdenliveDoc * document, GenTime insertTime)
 {
+    kdDebug()<<"///////////START CREATE CLIP"<<endl;
     DocClipBase *clip =
-	DocClipBase::createClip(document->effectDescriptions(),
-	document->clipManager(), element);
-
+	DocClipBase::createClip(document, element);
+    kdDebug()<<"///////////START CREATE CLIP.. DONE"<<endl;
     if (clip) {
 	if (clip->isProjectClip()) {
+	    kdDebug()<<"///////////SET AS PC"<<endl;
 	    document->setProjectClip(dynamic_cast <
 		DocClipProject * >(clip));
+	    kdDebug()<<"///////////SET AS PC ... DONE"<<endl;
 	} else {
 	    delete clip;
 	    kdError() <<

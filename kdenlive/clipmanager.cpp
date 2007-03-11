@@ -720,11 +720,12 @@ DocClipBase *ClipManager::findClip(const KURL & file)
     return result;
 }
 
-DocClipBase *ClipManager::insertClip(const QDomElement & clip)
+DocClipBase *ClipManager::insertClip(const QDomElement & clip, int clipId)
 {
-    DocClipBase *result = findClip(clip);
+    DocClipBase *result = NULL;
+    if (clipId != -1) result = findClipById(clipId);
     if (!result) {
-	result = DocClipBase::createClip(m_render->effectList(), *this, clip);
+	result = DocClipBase::createClip(m_render->getDocument(), clip);
 	if (result) {
 	    m_clipList.append(result);
 	} else {
@@ -738,7 +739,7 @@ DocClipBase *ClipManager::insertClip(const QDomElement & clip)
 
 DocClipBase *ClipManager::insertXMLClip(const QDomElement & clip)
 {
-    DocClipBase *tmp = DocClipBase::createClip(m_render->effectList(), *this, clip);
+    DocClipBase *tmp = DocClipBase::createClip(m_render->getDocument(), clip);
     if (tmp) {
 	    int clipId = tmp->getId();
             DocClipBase *result = new DocClipAVFile(tmp->name(), tmp->fileURL(), clipId);
@@ -799,12 +800,10 @@ void ClipManager::AVFilePropertiesArrived(const QMap < QString,
 	    << endl;
 	return;
     }
-
     file->calculateFileProperties(properties, metadata);
     if ((file->clipType() == DocClipBase::AV || file->clipType() == DocClipBase::AUDIO) && file->thumbCreator) {
 	connect(file->thumbCreator, SIGNAL(audioThumbReady(QMap<int,QMap<int,QByteArray> >)), file, SLOT(updateAudioThumbnail(QMap<int,QMap<int,QByteArray> >)));
-	if (KdenliveSettings::audiothumbnails()) 
-		QTimer::singleShot(1000, file, SLOT(getAudioThumbs()));
+	if (KdenliveSettings::audiothumbnails()) file->prepareThumbs();
     }
     emit clipChanged(file);
 }
@@ -812,7 +811,7 @@ void ClipManager::AVFilePropertiesArrived(const QMap < QString,
 
 void ClipManager::generateFromXML(KRender * render, const QDomElement & e)
 {
-    m_clipList.generateFromXML(render->effectList(), *this, render, e);
+    m_clipList.generateFromXML(render, e);
 }
 
 QDomDocument ClipManager::toXML(const QString & element)

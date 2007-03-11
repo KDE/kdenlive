@@ -19,6 +19,7 @@
 #define DOCCLIPAVFILE_H
 
 #include <qstring.h>
+#include <qtimer.h>
 
 #include "gentime.h"
 #include "docclipbase.h"
@@ -139,33 +140,37 @@ class DocClipAVFile:public DocClipBase {
 	return true;
     }
 	/** returns true if the xml passed matches the values in the clip */
-	virtual bool matchesXML(const QDomElement & element) const;
+    virtual bool matchesXML(const QDomElement & element) const;
 
     virtual bool isDocClipAVFile() const {
 	return true;
-    } virtual DocClipAVFile *toDocClipAVFile() {
+    }
+
+    virtual DocClipAVFile *toDocClipAVFile() {
 	return this;
-  } 
-  virtual bool isDocClipTextFile() const {
-      return false;
-  } 
+    } 
 
-  virtual bool isDocClipVirtual() const {
+    virtual bool isDocClipTextFile() const {
       return false;
-  } 
-    
-  virtual DocClipTextFile *toDocClipTextFile() {
-      return 0;
-  }
+    } 
 
-  virtual DocClipVirtual *toDocClipVirtual() {
+    virtual bool isDocClipVirtual() const {
+      return false;
+    }
+
+    virtual DocClipTextFile *toDocClipTextFile() {
       return 0;
-  }
+    }
+
+    virtual DocClipVirtual *toDocClipVirtual() {
+      return 0;
+    }
 
     public slots:
 	void getAudioThumbs();
 	void stopAudioThumbs();
 	QString formattedMetaData();
+	void prepareThumbs() const;
 
     private:
 
@@ -211,6 +216,7 @@ class DocClipAVFile:public DocClipBase {
     uint m_lumaduration;
     QString m_videoCodec;
     QString m_audioCodec;
+    QTimer *m_audioTimer;
 };
 
 #endif

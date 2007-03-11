@@ -63,7 +63,7 @@ namespace Command {
 
     void KAddRefClipCommand::addClip() {
 	DocClipRef *clip =
-	    DocClipRef::createClip(m_effectList, m_document.clipManager(),
+	    DocClipRef::createClip(&m_document,
 	    m_xmlClip.documentElement());
 
         clip->referencedClip()->addReference();

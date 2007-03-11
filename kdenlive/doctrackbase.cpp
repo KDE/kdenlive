@@ -94,6 +94,16 @@ bool DocTrackBase::addClip(DocClipRef * clip, bool selected)
     return result;
 }
 
+bool DocTrackBase::loadClip(DocClipRef * clip)
+{
+    if (canAddClip(clip)) {
+	m_unselectedClipList.inSort(clip);
+        clip->setParentTrack(this, m_project->trackIndex(this));
+	return true;
+    }
+    return false;
+}
+
 QPtrListIterator < DocClipRef > DocTrackBase::firstClip(GenTime startValue,
     GenTime endValue, bool selected)
 {
@@ -514,9 +524,6 @@ void DocTrackBase::resizeClipTrackEnd(DocClipRef * clip, GenTime newEnd)
     clip->setTrackEnd(newEnd);
 
     emit redrawSection(clip->trackNum(), clip->trackStart(), repaintEnd);
-
-
-
     // request for new end clip thumbnail
     if (clip->hasVariableThumbnails()) clip->endTimer->start( 180 , TRUE);
     checkTrackLength();
@@ -537,8 +544,7 @@ unsigned int DocTrackBase::numClips() const
 
 /** Creates a track from the given xml document. Returns the track, or 0 if it could not be created. */
 DocTrackBase *DocTrackBase::
-createTrack(const EffectDescriptionList & descList,
-    ClipManager & clipManager, DocClipProject * project, QDomElement elem)
+createTrack(KdenliveDoc *doc, DocClipProject * project, QDomElement elem)
 {
     if (elem.tagName() != "kdenlivetrack") {
 	kdError() <<
@@ -568,9 +574,9 @@ createTrack(const EffectDescriptionList & descList,
 	if (!e.isNull()) {
 	    if (e.tagName() == "kdenliveclip") {
 		DocClipRef *clip =
-		    DocClipRef::createClip(descList, clipManager, e);
+		    DocClipRef::createClip(doc, e);
 		if (clip) {
-		    track->addClip(clip, false);
+		    track->loadClip(clip);
 		} else {
 		    kdWarning() <<
 			"Clip generation failed, skipping clip..." << endl;
@@ -583,7 +589,7 @@ createTrack(const EffectDescriptionList & descList,
 
 	n = n.nextSibling();
     }
-
+    track->checkTrackLength();
     return track;
 }
 

@@ -43,6 +43,7 @@
 DocClipRef::DocClipRef(DocClipBase * clip):
 startTimer(0),
 endTimer(0),
+thumbTimer(0),
 m_trackStart(0.0),
 m_cropStart(0.0),
 m_trackEnd(0.0), m_parentTrack(0),  m_trackNum(-1), m_clip(clip),  m_speed(1.0),  m_endspeed(1.0)
@@ -61,10 +62,12 @@ m_trackEnd(0.0), m_parentTrack(0),  m_trackNum(-1), m_clip(clip),  m_speed(1.0),
         m_endthumbnail = QPixmap();
         startTimer = new QTimer( this );
         endTimer = new QTimer( this );
+        thumbTimer = new QTimer( this );
         connect(clip->thumbCreator, SIGNAL(thumbReady(int, QPixmap)),this,SLOT(updateThumbnail(int, QPixmap)));
         connect(this, SIGNAL(getClipThumbnail(KURL, int, int, int)), clip->thumbCreator, SLOT(getImage(KURL, int, int, int)));
         connect( startTimer, SIGNAL(timeout()), this, SLOT(fetchStartThumbnail()));
         connect( endTimer, SIGNAL(timeout()), this, SLOT(fetchEndThumbnail()));
+        connect( thumbTimer, SIGNAL(timeout()), this, SLOT(fetchThumbnails()));
     }
     if (t == DocClipBase::AUDIO || t == DocClipBase::AV) {
 	if (t != DocClipBase::AV){
@@ -77,19 +80,9 @@ m_trackEnd(0.0), m_parentTrack(0),  m_trackNum(-1), m_clip(clip),  m_speed(1.0),
 
 DocClipRef::~DocClipRef()
 {
-    
+    delete thumbTimer;
     delete startTimer;
     delete endTimer;
-    //disconnectThumbCreator();
-}
-
-void DocClipRef::disconnectThumbCreator()
-{
-    if (m_clip && m_clip->thumbCreator) {
-	disconnect(m_clip->thumbCreator, SIGNAL(audioThumbReady(QMap<int,QMap<int,QByteArray> >)), this, SLOT(updateAudioThumbnail(QMap<int,QMap<int,QByteArray> >)));
-	disconnect(this, SIGNAL(getClipThumbnail(KURL, int, int, int)), m_clip->thumbCreator, SLOT(getImage(KURL, int, int, int)));
-	disconnect(m_clip->thumbCreator, SIGNAL(thumbReady(int, QPixmap)),this,SLOT(updateThumbnail(int, QPixmap)));
-    }
 }
 
 void DocClipRef::refreshAudioThumbnail()
@@ -125,12 +118,11 @@ bool DocClipRef::hasVariableThumbnails()
     return true;
 }
 
-void DocClipRef::generateThumbnails()
+void DocClipRef::generateThumbnails(int delay)
 {
     DocClipBase::CLIPTYPE t = m_clip->clipType();
     if (t == DocClipBase::VIDEO || t == DocClipBase::AV || t == DocClipBase::VIRTUAL) {
-        fetchStartThumbnail();
-        fetchEndThumbnail();
+	thumbTimer->start(200 * delay, true);
 	return;
     }
 
@@ -227,6 +219,15 @@ void DocClipRef::fetchStartThumbnail()
 	uint height = (uint)(KdenliveSettings::videotracksize());
 	uint width = (uint)(height * 1.25);
 	emit getClipThumbnail(fileURL(), (int)m_cropStart.frames(KdenliveSettings::defaultfps()), width, height);
+}
+
+void DocClipRef::fetchThumbnails()
+{
+	if (!m_thumbnail.isNull() && !m_endthumbnail.isNull()) return;
+	uint height = (uint)(KdenliveSettings::videotracksize());
+	uint width = (uint)(height * 1.25);
+	int startFrame = (int)m_cropStart.frames(KdenliveSettings::defaultfps());
+	m_clip->thumbCreator->getThumbs(fileURL(), startFrame, (int) ( startFrame + cropDuration().frames(KdenliveSettings::defaultfps()) - 1), width, height);
 }
 
 void DocClipRef::fetchEndThumbnail()
@@ -337,9 +338,11 @@ int DocClipRef::thumbnailWidth()
     return m_thumbnail.width();
 }
 
+
+
+
 DocClipRef *DocClipRef::
-createClip(const EffectDescriptionList & effectList,
-    ClipManager & clipManager, const QDomElement & element)
+createClip(KdenliveDoc *doc, const QDomElement & element)
 {
     DocClipRef *clip = 0;
     GenTime trackStart;
@@ -367,11 +370,7 @@ createClip(const EffectDescriptionList & effectList,
 	    element.tagName() << endl;
 	return 0;
     }
-
-    DocClipBase *baseClip = clipManager.insertClip(element);
-    if (baseClip) {
-	clip = new DocClipRef(baseClip);
-    }
+    int clipId = -1;
 
     QDomElement t;
 
@@ -382,6 +381,7 @@ createClip(const EffectDescriptionList & effectList,
 	if (!e.isNull()) {
 	    //kdWarning() << "DocClipRef::createClip() tag = " << e.tagName() << endl;
 	    if (e.tagName() == "avfile") {
+		clipId = e.attribute("id", "-1").toInt();
 		// Do nothing, this is handled via the clipmanage insertClip method above.
 	    } else if (e.tagName() == "project") {
 		// Do nothing, this is handled via the clipmanage insertClip method above.
@@ -406,16 +406,8 @@ createClip(const EffectDescriptionList & effectList,
 		    if (!effectElement.isNull()) {
 			//kdWarning() << "has tag name " << effectElement.tagName() << endl;
 			if (effectElement.tagName() == "effect") {
-			    EffectDesc *desc =
-				effectList.effectDescription(effectElement.
-				attribute("type", QString::null));
-			    if (desc) {
 				//kdWarning() << "Appending effect " <<desc->name() << endl;
-				effectStack.append(Effect::createEffect(*desc, effectElement));
-			    } else {
-				kdWarning() << "Unknown effect " <<
-				    effectElement.attribute("type", QString::null) << endl;
-			    }
+				effectStack.append(doc->createEffect( effectElement));
 			} else {
 			    kdWarning() << "Unknown tag " << effectElement.
 				tagName() << endl;
@@ -451,6 +443,12 @@ createClip(const EffectDescriptionList & effectList,
 
 	n = n.nextSibling();
     }
+
+    DocClipBase *baseClip = doc->clipManager().insertClip(element, clipId);
+    if (baseClip) {
+	clip = new DocClipRef(baseClip);
+    }
+
 
     if (clip == 0) {
 	kdWarning() << "DocClipRef::createClip() unable to create clip" <<
@@ -544,10 +542,9 @@ void DocClipRef::moveTrackStart(const GenTime & time)
     m_trackStart = time;
 }
 
-DocClipRef *DocClipRef::clone(const EffectDescriptionList & effectList,
-    ClipManager & clipManager)
+DocClipRef *DocClipRef::clone(KdenliveDoc *doc)
 {
-    return createClip(effectList, clipManager, toXML().documentElement());
+    return createClip(doc, toXML().documentElement());
 }
 
 bool DocClipRef::referencesClip(DocClipBase * clip) const
@@ -1028,10 +1025,10 @@ QDomDocument DocClipRef::generateXMLClip(bool rendering)
     	QDomElement clipFilter =
 	sceneList.createElement("filter");
         clipFilter.setAttribute("mlt_service", "luma");
-	clipFilter.setAttribute("period", QString::number(m_clip->toDocClipAVFile()->clipTtl() - 1));
+	clipFilter.setAttribute("period", QString::number(m_clip->toDocClipAVFile()->clipTtl()));
 	clipFilter.setAttribute("resource", m_clip->toDocClipAVFile()->lumaFile());
 	clipFilter.setAttribute("luma.softness", QString::number(m_clip->toDocClipAVFile()->lumaSoftness()));
-	clipFilter.setAttribute("luma.out", QString::number(m_clip->toDocClipAVFile()->lumaDuration()));
+	//clipFilter.setAttribute("luma.out", QString::number(m_clip->toDocClipAVFile()->lumaDuration()));
 	entry.appendChild(clipFilter);
     }
 
@@ -1278,10 +1275,10 @@ QDomDocument DocClipRef::generateOffsetXMLClip(GenTime start, GenTime end)
     	QDomElement clipFilter =
 	sceneList.createElement("filter");
         clipFilter.setAttribute("mlt_service", "luma");
-	clipFilter.setAttribute("period", QString::number(m_clip->toDocClipAVFile()->clipTtl() - 1));
+	clipFilter.setAttribute("period", QString::number(m_clip->toDocClipAVFile()->clipTtl()));
 	clipFilter.setAttribute("resource", m_clip->toDocClipAVFile()->lumaFile());
 	clipFilter.setAttribute("luma.softness", QString::number(m_clip->toDocClipAVFile()->lumaSoftness()));
-	clipFilter.setAttribute("luma.out", QString::number(m_clip->toDocClipAVFile()->lumaDuration()));
+	//clipFilter.setAttribute("luma.out", QString::number(m_clip->toDocClipAVFile()->lumaDuration()));
 	entry.appendChild(clipFilter);
     }
 
