@@ -95,7 +95,6 @@ createClip(KdenliveDoc *doc, const QDomElement & element)
     QString description;
     QDomNode node = element;
     node.normalize();
-    clip->setAudioThumbCreated(false);
     if (element.tagName() != "kdenliveclip") {
 	kdWarning() <<
 	    "DocClipBase::createClip() element has unknown tagName : " <<
@@ -131,6 +130,7 @@ createClip(KdenliveDoc *doc, const QDomElement & element)
 	// setup DocClipBase specifics of the clip.
 	clip->setDescription(description);
     }
+    clip->setAudioThumbCreated(false);
     return clip;
 }
 
