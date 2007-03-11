@@ -581,7 +581,6 @@ void KdenliveDoc::refreshAudioThumbnails()
     while (itt.current()) {
 	 clipNode = itt.current()->asClipNode();
 	if (clipNode) {
-	    kdDebug()<<"// REFRESHING AUDIO THUMB for: "<<clipNode->clipRef()->name()<<endl;
 	    clipNode->clipRef()->refreshAudioThumbnail();
 	}
 	else {

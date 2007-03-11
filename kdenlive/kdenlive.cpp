@@ -4293,7 +4293,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	kdDebug()<<" +  ++ + ++ ++ PREPARE VID THUMB"<<endl;
         if (KdenliveSettings::videothumbnails()) QTimer::singleShot(500, getDocument(), SLOT(updateTracksThumbnails()));
 	kdDebug()<<" +  ++ + ++ ++ PREPARE AUDIO THUMB"<<endl;
-	getDocument()->refreshAudioThumbnails();
+	QTimer::singleShot(1000, getDocument(), SLOT(refreshAudioThumbnails()));
 	//m_timeline->resizeTracks();
     }
 

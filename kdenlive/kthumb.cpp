@@ -95,7 +95,6 @@
 				QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(val, 10005));
 				last_val=val;
 			}
-			
 				m_producer.seek( z );
 				Mlt::Frame *mlt_frame = m_producer.get_frame();
 				if ( mlt_frame->is_valid() )
@@ -274,6 +273,6 @@ void KThumb::getAudioThumbs(KURL url, int channel, double frame, double frameLen
 	else {
 		if (thumbProducer.running()) return;
 		thumbProducer.init(m_url, m_thumbFile, frame, frameLength, m_frequency, m_channels, arrayWidth);
-		thumbProducer.start(QThread::NormalPriority );
+		thumbProducer.start(QThread::LowestPriority );
 	}
 }
