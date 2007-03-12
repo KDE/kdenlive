@@ -828,6 +828,7 @@ void KdenliveDoc::updateTracksThumbnails()
         }
         ++trackItt;
     }
+    emit timelineClipUpdated();
 }
 
 
