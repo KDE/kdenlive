@@ -45,7 +45,7 @@ namespace Gui {
 	    SIGNAL(playSpeedChanged(double)));
 	 connect(m_render, SIGNAL(stopped()), this,
 	    SLOT(slotRendererStopped()));
-	m_render->createVideoXWindow(false, winId());
+	m_render->createVideoXWindow(false, winId(), app->externalMonitor());
     } 
     
     KMMScreen::~KMMScreen() {

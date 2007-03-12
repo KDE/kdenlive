@@ -57,7 +57,7 @@ class KRenderManager;
 class ClipManager:public QObject {
   Q_OBJECT public:
 	/** Constructor for the fileclass of the application */
-          ClipManager(KRender *render, QWidget * parent =
+          ClipManager(KRender *render, KdenliveDoc *doc, QWidget * parent =
 	0, const char *name = 0);
 	/** Destructor for the fileclass of the application */
     ~ClipManager();
@@ -156,7 +156,7 @@ class ClipManager:public QObject {
 	/** Remove all clips from the clip manager. */
     void clear();
 
-    void generateFromXML(KRender * render, const QDomElement & e);
+    void generateFromXML(KdenliveDoc *doc, const QDomElement & e);
     QDomDocument toXML(const QString & element);
     QValueList < QPoint > virtualZones();
 
@@ -205,6 +205,7 @@ class ClipManager:public QObject {
 	getting the file properties of the various AVFiles. */
     KRender *m_render;
 
+    KdenliveDoc *m_doc;
 	/** incremental counter that gives a unique id to each clip added in the project. 
 	This id is then used to play the clip with mlt */
     uint m_clipCounter;

@@ -37,7 +37,7 @@ namespace Gui {
       Q_OBJECT public:
 	TrackViewAudioBackgroundDecorator(KTimeLine * timeline,
 	    KdenliveDoc * doc,
-	    const QColor & unselected, bool shift = false);
+	    const QColor & unselected, bool limitedThumbs, bool shift = false);
 
 	 virtual ~ TrackViewAudioBackgroundDecorator();
 
@@ -51,6 +51,7 @@ namespace Gui {
 	int, int, int, QPainter &);*/
       private:
 	bool m_shift;
+	bool m_limitedAudioThumbs;
 	QColor m_selected;
 	QColor m_unselected;
 	QPainter *m_painter;

@@ -23,17 +23,14 @@
 #include <qheader.h>
 
 #include <klocale.h>
-#include <kdenlivedoc.h>
 #include <kdebug.h>
 #include <kiconloader.h>
 
-#include <math.h>
-
-#include <documentbasenode.h>
-#include <documentclipnode.h>
-#include <timecode.h>
-
-#include <iostream>
+#include "kdenlivedoc.h"
+#include "documentbasenode.h"
+#include "documentclipnode.h"
+#include "timecode.h"
+#include "kdenlivesettings.h"
 
 AVListViewItem::AVListViewItem(KdenliveDoc * doc, QListViewItem * parent, DocumentBaseNode * node):
 KListViewItem(parent),

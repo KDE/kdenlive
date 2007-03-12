@@ -23,17 +23,14 @@
 #include <qheader.h>
 
 #include <klocale.h>
-#include <kdenlivedoc.h>
 #include <kdebug.h>
 #include <kiconloader.h>
 
-#include <math.h>
-
-#include <documentbasenode.h>
-#include <documentclipnode.h>
-#include <timecode.h>
-
-#include <iostream>
+#include "kdenlivedoc.h"
+#include "documentbasenode.h"
+#include "documentclipnode.h"
+#include "timecode.h"
+#include "kdenlivesettings.h"
 
 AVIconViewItem::AVIconViewItem(KdenliveDoc * doc, QIconViewItem * parent, DocumentBaseNode * node):
 KIconViewItem(parent->iconView(), parent),
@@ -87,8 +84,6 @@ QString AVIconViewItem::text() const
 
 QPixmap *AVIconViewItem::pixmap() const
 {
-    const QPixmap *pixmap = 0;
-
     DocumentClipNode *clipNode = m_node->asClipNode();
     if (clipNode) {
 	DocClipRef *clip = clipNode->clipRef();
@@ -110,7 +105,7 @@ QString AVIconViewItem::clipDuration() const {
 	    if (usage > 0) {
 	    	text.append(", [" + QString::number(usage) + "]");
 	    }
-	    }
+	}
 	return text;
 }
 

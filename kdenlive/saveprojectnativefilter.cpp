@@ -28,6 +28,7 @@
 #include "docclipavfile.h"
 #include "doccliptextfile.h"
 #include "docclipvirtual.h"
+#include "kdenlive.h"
 
 SaveProjectNativeFilter::SaveProjectNativeFilter()
 :  SaveProjectFilter()

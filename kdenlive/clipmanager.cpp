@@ -38,12 +38,12 @@
 #include "titlewidget.h"
 #include "timecode.h"
 
-ClipManager::ClipManager(KRender *render, QWidget * parent, const char *name) //Manager & renderManager
+ClipManager::ClipManager(KRender *render, KdenliveDoc *doc, QWidget * parent, const char *name)
 {
     m_clipList.setAutoDelete(true);
     m_temporaryClipList.setAutoDelete(true);
     m_clipCounter = 0;
-
+    m_doc = doc;
     m_render = render;
 
     connect(m_render, SIGNAL(replyGetFileProperties(const QMap < QString,
@@ -725,7 +725,7 @@ DocClipBase *ClipManager::insertClip(const QDomElement & clip, int clipId)
     DocClipBase *result = NULL;
     if (clipId != -1) result = findClipById(clipId);
     if (!result) {
-	result = DocClipBase::createClip(m_render->getDocument(), clip);
+	result = DocClipBase::createClip(m_doc, clip);
 	if (result) {
 	    m_clipList.append(result);
 	} else {
@@ -739,7 +739,7 @@ DocClipBase *ClipManager::insertClip(const QDomElement & clip, int clipId)
 
 DocClipBase *ClipManager::insertXMLClip(const QDomElement & clip)
 {
-    DocClipBase *tmp = DocClipBase::createClip(m_render->getDocument(), clip);
+    DocClipBase *tmp = DocClipBase::createClip(m_doc, clip);
     if (tmp) {
 	    int clipId = tmp->getId();
             DocClipBase *result = new DocClipAVFile(tmp->name(), tmp->fileURL(), clipId);
@@ -809,9 +809,9 @@ void ClipManager::AVFilePropertiesArrived(const QMap < QString,
 }
 
 
-void ClipManager::generateFromXML(KRender * render, const QDomElement & e)
+void ClipManager::generateFromXML(KdenliveDoc *doc, const QDomElement & e)
 {
-    m_clipList.generateFromXML(render, e);
+    m_clipList.generateFromXML(doc, e);
 }
 
 QDomDocument ClipManager::toXML(const QString & element)

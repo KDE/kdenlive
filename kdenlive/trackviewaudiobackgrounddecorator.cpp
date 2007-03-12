@@ -21,19 +21,18 @@
 
 #include <klocale.h>
 #include <kiconloader.h>
+#include <kstandarddirs.h>
 
 #include "docclipref.h"
 #include "gentime.h"
 #include "kdenlivedoc.h"
 #include "ktimeline.h"
 
-//only for testing please remove if video get drawn
-#include <kstandarddirs.h>
 namespace Gui {
     TrackViewAudioBackgroundDecorator::
 	TrackViewAudioBackgroundDecorator(KTimeLine * timeline,
-	KdenliveDoc * doc, const QColor & unselected, bool shift):DocTrackDecorator(timeline,
-	doc),m_shift(shift), m_unselected(unselected)
+	KdenliveDoc * doc, const QColor & unselected, bool limitedThumbs, bool shift):DocTrackDecorator(timeline,
+	doc),m_shift(shift), m_unselected(unselected), m_limitedAudioThumbs(limitedThumbs)
 {
 	m_selected = m_unselected.light(140);
 	m_overlayPixmap = QPixmap (locate("appdata", "graphics/lighten.png"));
@@ -72,7 +71,7 @@ void TrackViewAudioBackgroundDecorator::paintClip(double startX,
 	
 	double FramesInOnePixel = (timeline()->mapValueToLocal(1) - timeline()->mapValueToLocal(0));
 
-	if (KdenliveSettings::limitedaudiothumbs() && FramesInOnePixel < 0.1 && ((endX - startX) / FramesInOnePixel  > 4000)) {
+	if (m_limitedAudioThumbs && FramesInOnePixel < 0.1 && ((endX - startX) / FramesInOnePixel  > 4000)) {
 	    if (!m_shift) painter.fillRect(sx, y, ex - sx, h, col);
 	    return;
 	}

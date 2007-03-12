@@ -30,6 +30,7 @@
 #include "documentclipnode.h"
 #include "documentgroupnode.h"
 #include "kdenlivedoc.h"
+#include "kdenlive.h"
 
 LoadProjectNativeFilter::LoadProjectNativeFilter()
 :  LoadProjectFilter()

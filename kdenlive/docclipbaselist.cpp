@@ -15,12 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "docclipbaselist.h"
+#include <kdebug.h>
 
+
+#include "docclipbaselist.h"
 #include "krender.h"
 #include "docclipavfile.h"
+#include "kdenlivedoc.h"
 
-#include <kdebug.h>
 
 DocClipBaseList::DocClipBaseList():
 QPtrList < DocClipBase > ()
@@ -81,7 +83,7 @@ void DocClipBaseList::setMasterClip(DocClipBase * clip)
 }
 
 void DocClipBaseList::
-generateFromXML(KRender *render, QDomElement elem)
+generateFromXML(KdenliveDoc *doc, QDomElement elem)
 {
     if (elem.tagName() != "ClipList") {
 	kdWarning() << "ClipList cannot be generated - wrong tag : " <<
@@ -94,13 +96,13 @@ generateFromXML(KRender *render, QDomElement elem)
 	    if (!e.isNull()) {
 		if (e.tagName() == "kdenliveclip") {
 		    DocClipBase *clip =
-			DocClipBase::createClip(render->getDocument(), e);
+			DocClipBase::createClip(doc, e);
 
 		    if (clip) {
 			append(clip);
 			if (clip->isDocClipAVFile()) {
 			    kdDebug()<<"// / / / / CLIP LIST GET PROPS /////"<<endl;
-			    render->getFileProperties(clip->fileURL(), clip->getProjectThumbFrame());
+			    doc->renderer()->getFileProperties(clip->fileURL(), clip->getProjectThumbFrame());
 			}
 		    }
 		} else {

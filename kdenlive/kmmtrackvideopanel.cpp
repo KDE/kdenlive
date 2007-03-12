@@ -140,7 +140,7 @@ namespace Gui {
 	if (KdenliveSettings::audiothumbnails() && !trackIsCollapsed)
 	    addViewDecorator(new
 		TrackViewAudioBackgroundDecorator(timeline(), document(),
-		    KdenliveSettings::audioclipcolor(), true));
+		    KdenliveSettings::audioclipcolor(), KdenliveSettings::limitedaudiothumbs(), true));
 
 	//addViewDecorator(new TrackViewAudioBackgroundDecorator(timeline, doc, QColor(64, 128, 64), QColor(128, 255, 128),audioDecoratorSize));
 

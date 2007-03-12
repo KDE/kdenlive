@@ -35,6 +35,7 @@
 #include "timecode.h"
 #include "kdenlivesettings.h"
 #include "createslideshowclip.h"
+#include "kdenlive.h"
 #include "kdenlivedoc.h"
 
 namespace Gui {

@@ -37,7 +37,7 @@
 #include "effectcomplexkeyframe.h"
 #include "kdenlivedoc.h"
 #include "kdenlivesettings.h"
-#include <stdlib.h>
+#include "initeffects.h"
 
 #define AUDIO_FRAME_WIDTH 20
 DocClipRef::DocClipRef(DocClipBase * clip):

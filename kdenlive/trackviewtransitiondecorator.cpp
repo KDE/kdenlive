@@ -24,6 +24,7 @@
 #include "docclipproject.h"
 #include "gentime.h"
 #include "kdenlivedoc.h"
+#include "kdenlive.h"
 
 namespace Gui {
 

@@ -34,7 +34,6 @@
 #include "docclipref.h"
 #include "effectdesc.h"
 #include "effectparamdescfactory.h"
-#include "kdenlive.h"
 
 /**KRender encapsulates the client side of the interface to a renderer.
 From Kdenlive's point of view, you treat the KRender object as the
@@ -76,14 +75,14 @@ class KRender:public QObject {
 	APP_NOEXIST
     };
 
-     KRender(const QString & rendererName, Gui::KdenliveApp *parent = 0, const char *name = 0);
+     KRender(const QString & rendererName, QWidget *parent = 0, const char *name = 0);
     ~KRender();
 
 	/** Wraps the VEML command of the same name; requests that the renderer
 	should create a video window. If show is true, then the window should be
 	displayed, otherwise it should be hidden. KRender will emit the signal
 	replyCreateVideoXWindow() once the renderer has replied. */
-    void createVideoXWindow(bool show, WId winid);
+    void createVideoXWindow(bool show, WId winid, WId externalMonitor);
 	/** Seeks the renderer clip to the given time. */
     void seek(GenTime time);
     
@@ -130,8 +129,6 @@ class KRender:public QObject {
 	name specified. */
     void render(const KURL & url);
 
-	/** Returns the effect list. */
-    const EffectDescriptionList & effectList() const;
 	/** Returns the description of this renderer */
     QString description();
 
@@ -152,8 +149,8 @@ class KRender:public QObject {
 
     
     /** Gives the aspect ratio of the consumer */
-    double consumerRatio();
-    
+    double consumerRatio() const;
+
     /** Gives the aspect ratio of the consumer */
     void askForRefresh();
     
@@ -162,16 +159,13 @@ class KRender:public QObject {
 
     /** Turn on or off on screen display */
     void refreshDisplay();
-
     /** returns the current scenelist */
-    QDomDocument sceneList();
-    KdenliveDoc *getDocument() const;
+    QDomDocument sceneList() const;
 
  
   private:			// Private attributes & methods
 	/** The name of this renderer - useful to identify the renderes by what they do - e.g. background rendering, workspace monitor, etc... */
      QString m_name;
-     Gui::KdenliveApp *m_app;
      QString m_renderingFormat;
      Mlt::Consumer * m_mltConsumer;
      Mlt::Producer * m_mltProducer;
@@ -196,6 +190,7 @@ class KRender:public QObject {
 	/** A human-readable description of this renderer. */
     QString m_description;
     int m_winid;
+    int m_externalwinid;
 	/** The actually seek command, private so people can't avoid the buffering of multiple seek commands. */
     void sendSeekCommand(GenTime time);
 

@@ -49,6 +49,7 @@ extern "C" {
 #include <kmessagebox.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
+#include <kdenlive.h>
 
 #include "krender.h"
 
@@ -57,7 +58,7 @@ extern "C" {
 
 static QMutex mutex (true);
 
-KRender::KRender(const QString & rendererName, Gui::KdenliveApp *parent, const char *name):QObject(parent, name), m_name(rendererName), m_app(parent), m_renderingFormat(0),
+KRender::KRender(const QString & rendererName, QWidget *parent, const char *name):QObject(parent, name), m_name(rendererName), m_renderingFormat(0),
 m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProducer(NULL), m_mltTextProducer(NULL), m_sceneList(QDomDocument()), m_winid(-1)
 {
     openMlt();
@@ -143,11 +144,11 @@ should create a video window. If show is true, then the window should be
 displayed, otherwise it should be hidden. KRender will emit the signal
 replyCreateVideoXWindow() once the renderer has replied. */
 
-void KRender::createVideoXWindow(bool , WId winid)
+void KRender::createVideoXWindow(bool , WId winid, WId externalMonitor)
 {
     m_mltConsumer = new Mlt::Consumer("sdl_preview");
     if (!m_mltConsumer || !m_mltConsumer->is_valid()) {
-	KMessageBox::error(m_app, i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install.\n Exiting now..."));
+	KMessageBox::error(qApp->mainWidget(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install.\n Exiting now..."));
 	kdError()<<"Sorry, cannot create MLT consumer, check your MLT install you miss SDL libraries support in MLT"<<endl;
 	exit(1);
     }
@@ -160,13 +161,14 @@ void KRender::createVideoXWindow(bool , WId winid)
     /*m_mltConsumer->set("app_locked", 1);
     m_mltConsumer->set("app_lock", (void *) &my_lock, 0);
     m_mltConsumer->set("app_unlock", (void *) &my_unlock, 0);*/
+    m_externalwinid = (int) externalMonitor;
+    m_winid = (int) winid;
     if (KdenliveSettings::useexternalmonitor()) {
-	m_winid = m_app->externalMonitor();
 	m_mltConsumer->set("output_display", QString(":0." + QString::number(KdenliveSettings::externalmonitor())).ascii());
+	m_mltConsumer->set("window_id", m_externalwinid);
     }
-    else m_winid = (int) winid;
-    m_mltConsumer->set("window_id", m_winid);
-    
+    else m_mltConsumer->set("window_id", m_winid);
+
     m_mltConsumer->set("resize", 1);
     m_mltConsumer->set("rescale", KdenliveSettings::previewquality());
 
@@ -186,7 +188,7 @@ void KRender::createVideoXWindow(bool , WId winid)
 void KRender::restartConsumer()
 {
     kdDebug()<<"// RESTARTING SDL CONSUMER"<<endl;
-    if (m_winid != -1) createVideoXWindow(true, m_winid);
+    if (m_winid != -1) createVideoXWindow(true, m_winid, m_externalwinid);
 }
 
 /** Wraps the VEML command of the same name; Seeks the renderer clip to the given time. */
@@ -365,7 +367,7 @@ void KRender::getImage(KURL url, int width, int height)
 }
 
 
-double KRender::consumerRatio()
+double KRender::consumerRatio() const
 {
     if (!m_mltConsumer) return 1.0;
     return (m_mltConsumer->get_double("aspect_ratio_num")/m_mltConsumer->get_double("aspect_ratio_den"));
@@ -384,7 +386,7 @@ void KRender::restoreProducer()
     if(m_mltProducer == NULL) return;
     m_mltProducer->set_speed(0.0);
     if (m_mltConsumer->start() == -1) {
-	KMessageBox::error(m_app, i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
+	KMessageBox::error(qApp->mainWidget(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
 	m_mltConsumer = NULL;
     }
     else {
@@ -436,7 +438,7 @@ void KRender::setTitlePreview(QString tmpFileName)
     m_mltTextProducer->seek(pos);
     tracks.set_speed(0.0);
     if (m_mltConsumer->start() == -1) {
-	KMessageBox::error(m_app, i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
+	KMessageBox::error(qApp->mainWidget(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
 	m_mltConsumer = NULL;
     }
     else {
@@ -547,7 +549,7 @@ void KRender::getFileProperties(KURL url, uint framenb)
 	delete frame;
 }
 
-QDomDocument KRender::sceneList()
+QDomDocument KRender::sceneList() const
 {
     return m_sceneList;
 }
@@ -600,7 +602,7 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
         }
 	else {
             if (m_mltConsumer->start() == -1) {
-	    	KMessageBox::error(m_app, i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
+	    	KMessageBox::error(qApp->mainWidget(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
 	    	m_mltConsumer = NULL;
 	    }
 	    else {
@@ -665,7 +667,7 @@ void KRender::start()
     }
     if (m_mltConsumer->is_stopped()) {
 	if (m_mltConsumer->start() == -1) {
-	    KMessageBox::error(m_app, i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
+	    KMessageBox::error(qApp->mainWidget(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
 	    m_mltConsumer = NULL;
 	    return;
 	}
@@ -773,20 +775,6 @@ void KRender::refresh()
     }
 }
 
-
-/** Returns the effect list. */
-const EffectDescriptionList & KRender::effectList() const
-{
-    return m_app->effectList();
-}
-
-
-/** Returns the effect list. */
-KdenliveDoc *KRender::getDocument() const
-{
-    return m_app->getDocument();
-}
-
 /** Sets the description of this renderer to desc. */
 void KRender::setDescription(const QString & description)
 {
@@ -822,13 +810,13 @@ const QString & KRender::rendererName() const
 void KRender::emitFrameNumber(double position, int eventType)
 {
 	m_framePosition = position;
-        QApplication::postEvent(m_app, new PositionChangeEvent( GenTime((int) position, m_fps), eventType));
+        QApplication::postEvent(qApp->mainWidget(), new PositionChangeEvent( GenTime((int) position, m_fps), eventType));
 }
 
 void KRender::emitFileFrameNumber(const GenTime & , int eventType)
 {
     if (m_fileRenderer) {
-        QApplication::postEvent(m_app, new PositionChangeEvent(GenTime(m_mltFileProducer->position(), m_mltFileProducer->get_fps()), eventType));
+        QApplication::postEvent(qApp->mainWidget(), new PositionChangeEvent(GenTime(m_mltFileProducer->position(), m_mltFileProducer->get_fps()), eventType));
     }
 }
 
@@ -838,7 +826,7 @@ void KRender::emitConsumerStopped()
     // This is used to know when the playing stopped
     if (m_mltProducer) {
 	double pos = m_mltProducer->position();
-        QApplication::postEvent(m_app, new PositionChangeEvent(GenTime((int) pos, m_fps), 10002));
+        QApplication::postEvent(qApp->mainWidget(), new PositionChangeEvent(GenTime((int) pos, m_fps), 10002));
 	//new QCustomEvent(10002));
     }
 }
@@ -856,7 +844,7 @@ void KRender::emitFileConsumerStopped()
 
         // This is used when exporting to a file so that we know when the export is finished
     if (!m_exportedFile.isEmpty()) {
-	QApplication::postEvent(m_app, new UrlEvent(m_exportedFile, 10003));
+	QApplication::postEvent(qApp->mainWidget(), new UrlEvent(m_exportedFile, 10003));
     }
 }
 
@@ -927,7 +915,7 @@ void KRender::dv_transmit( raw1394handle_t handle, FILE *f, int channel)
 		if (((int)(readCount * 100 / fileSize )) != fileProgress) {
 			fileProgress = readCount * 100 / fileSize;
 	    		//kdDebug()<<"++ FRAME READ2: "<<fileProgress<<endl;
-	    		QApplication::postEvent(m_app, new ProgressEvent(fileProgress, 10006));
+	    		QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(fileProgress, 10006));
 			qApp->processEvents();
 		}
 	    }
@@ -974,7 +962,7 @@ void KRender::exportFileToFirewire(QString srcFileName, int port, GenTime startT
     else KMessageBox::sorry(0,i18n("NO DV device found"));
     fclose (f);
     raw1394_destroy_handle (handle);
-    QApplication::postEvent(m_app, new QCustomEvent(10003));
+    QApplication::postEvent(qApp->mainWidget(), new QCustomEvent(10003));
     if (droppedFrames > 0) KMessageBox::sorry(0, i18n("Transmission of dv file is finished.\n%1 frames were dropped during transfer.").arg(droppedFrames));
     else KMessageBox::information(0, i18n("Transmission of dv file finished successfully."));
 #else
@@ -985,7 +973,7 @@ KMessageBox::sorry(0, i18n("Firewire is not enabled on your system.\n Please ins
 
 void KRender::exportCurrentFrame(KURL url, bool notify) {
     if (!m_mltProducer) {
-	KMessageBox::sorry(m_app, i18n("There is no clip, cannot extract frame."));
+	KMessageBox::sorry(qApp->mainWidget(), i18n("There is no clip, cannot extract frame."));
 	return;
     }
     m_mltProducer->set_speed(0.0);

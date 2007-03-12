@@ -26,7 +26,7 @@
 #include "documentbasenode.h"
 #include "documentclipnode.h"
 #include "documentgroupnode.h"
-
+#include "kdenlivesettings.h"
 
 namespace Command {
 

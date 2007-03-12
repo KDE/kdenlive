@@ -41,6 +41,7 @@
 #include "docclipref.h"
 #include "docclipavfile.h"
 #include "clipproperties.h"
+#include "kdenlivesettings.h"
 
 
 namespace Gui {
