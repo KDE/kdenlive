@@ -189,6 +189,8 @@ int KRender::resetRendererProfile(char * profile)
 {
     if (!m_mltConsumer) return 0;
     m_mltConsumer->set("profile", profile);
+    m_fps = KdenliveSettings::defaultfps();
+    m_mltConsumer->set("fps", m_fps);
     mlt_properties properties = MLT_CONSUMER_PROPERTIES( m_mltConsumer->get_consumer() );
     int result = mlt_consumer_profile( properties, profile );
     refresh();
