@@ -61,41 +61,9 @@ namespace Gui {
 
         // get the usual font height in pixel
         buttonSize = startButton->fontInfo().pixelSize ();
-        
-	 /*startButton->setIconSet(QIconSet(loader.loadIcon("player_start",
-                                 KIcon::Small, buttonSize)));
-	 rewindButton->setIconSet(QIconSet(loader.loadIcon("player_rew",
-                                  KIcon::Small, buttonSize)));
-	 stopButton->setIconSet(QIconSet(loader.loadIcon("player_stop",
-                                KIcon::Small, buttonSize)));
-         playButton->setPixmap(loader.loadIcon("player_play",
-                               KIcon::Small, buttonSize));
-	 forwardButton->setIconSet(QIconSet(loader.loadIcon("player_fwd",
-                                   KIcon::Small, buttonSize)));
-	 endButton->setIconSet(QIconSet(loader.loadIcon("player_end",
-                               KIcon::Small, buttonSize)));
-	 inpointButton->setIconSet(QIconSet(loader.loadIcon("start",
-                                   KIcon::Small, buttonSize)));
-	 outpointButton->setIconSet(QIconSet(loader.loadIcon("finish",
-                                    KIcon::Small, buttonSize)));
-
-	 previousMarkerButton->setIconSet(QIconSet(loader.
-		loadIcon("1leftarrow", KIcon::Small)));
-	 nextMarkerButton->setIconSet(QIconSet(loader.
-		loadIcon("1rightarrow", KIcon::Small)));
-         
-         startButton->setFlat(true);
-         rewindButton->setFlat(true);
-         stopButton->setFlat(true);
-         playButton->setFlat(true);
-         forwardButton->setFlat(true);
-         endButton->setFlat(true);
-         inpointButton->setFlat(true);
-         outpointButton->setFlat(true);
-         previousMarkerButton->setFlat(true);
-         nextMarkerButton->setFlat(true);
-         setMarkerButton->setFlat(true);
-         playSectionButton->setFlat(true);*/
+	volumeButton->setToggleButton( false );
+	rew1Button->setToggleButton( false );
+	fwd1Button->setToggleButton( false );
 
 	 connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), this,
 	    SLOT(rulerValueChanged(int, int)));
@@ -135,12 +103,11 @@ namespace Gui {
 	 connect(edit_timecode, SIGNAL(returnPressed(const QString &)), this,
 	    SLOT(slotSeekToPos(const QString &)));
 
-	 connect(volumeButton, SIGNAL(pressed()), this, SLOT(slotShowVolumeControl()));
+	 connect(volumeButton, SIGNAL(clicked()), this, SLOT(slotShowVolumeControl()));
 
 	 connect(stopButton, SIGNAL(pressed()), this, SLOT(stop()));
 	 connect(stopButton, SIGNAL(pressed()), this,
 	    SLOT(updateButtons()));
-	kdDebug()<<"/// EDIT PANEL NAME: "<<name<<endl;
     } 
     
     KMMEditPanel::~KMMEditPanel() {}
@@ -409,6 +376,8 @@ namespace Gui {
                                   KIcon::Small, buttonSize));
 
 	} else {
+	    forwardButton->setDown(false);
+	    rewindButton->setDown(false);
 	    if (playButton->isOn()) playButton->toggle();
 	    if (playSectionButton->isOn()) playSectionButton->toggle();
 	    if (loopSection->isOn()) loopSection->toggle();
