@@ -161,7 +161,7 @@ class KRender:public QObject {
     void refreshDisplay();
     /** returns the current scenelist */
     QDomDocument sceneList() const;
-
+    int resetRendererProfile(char * profile);
  
   private:			// Private attributes & methods
 	/** The name of this renderer - useful to identify the renderes by what they do - e.g. background rendering, workspace monitor, etc... */

@@ -2048,14 +2048,20 @@ namespace Gui {
 		break;
 	    }
 	    ix++;
-    	}	
+    	}
+	m_projectFormat = (VIDEOFORMAT) projectFormat;
 	KdenliveSettings::setDefaultheight(m_projectTemplates.values()[ix].height());
 	KdenliveSettings::setDefaultfps(m_projectTemplates.values()[ix].fps());
 	KdenliveSettings::setAspectratio(m_projectTemplates.values()[ix].aspect());
 	if (m_projectTemplates.values()[ix].videoFormat() == PAL_WIDE || m_projectTemplates.values()[ix].videoFormat() == NTSC_WIDE)
 	    KdenliveSettings::setVideoprofile("dv_wide");
-	else KdenliveSettings::setVideoprofile(QString::null);
+	else KdenliveSettings::setVideoprofile("dv");
 	putenv (m_projectTemplates.values()[ix].normalisation());
+
+	if (getDocument() && getDocument()->renderer())
+	    getDocument()->renderer()->resetRendererProfile((char*) KdenliveSettings::videoprofile().ascii());
+	if (m_renderManager && m_renderManager->findRenderer("ClipMonitor"))
+	    m_renderManager->findRenderer("ClipMonitor")->resetRendererProfile((char*) KdenliveSettings::videoprofile().ascii());
 	statusBar()->changeItem(m_projectTemplates.keys()[ix], ID_TIMELINE_MSG);
     }
 
@@ -2167,57 +2173,6 @@ namespace Gui {
 			}
 
 			setProjectFormat(projectFormat);
-/*
-			switch (projectFormat) {
-				case 0:
-					// PAL project
-					KdenliveSettings::setDefaultheight(m_projectTemplates.values()[0].width());
-					KdenliveSettings::setDefaultfps(m_projectTemplates.values()[0].width());
-					KdenliveSettings::setAspectratio(59.0 / 54.0);
-					KdenliveSettings::setVideoprofile(QString::null);
-					setProjectFormat(PAL_VIDEO);
-					break;
-				case 1:
-					// PAL WIDE project
-					KdenliveSettings::setDefaultheight(576);
-					KdenliveSettings::setDefaultfps(25.0);
-					KdenliveSettings::setAspectratio(118.0 / 81.0);
-					KdenliveSettings::setVideoprofile("dv_wide");
-					setProjectFormat(PAL_VIDEO);
-					break;
-				case 2:
-					// NTSC project
-					KdenliveSettings::setDefaultheight(480);
-					KdenliveSettings::setDefaultfps(30000.0 / 1001.0);
-					KdenliveSettings::setAspectratio(10.0 / 11.0);
-					KdenliveSettings::setVideoprofile(QString::null);
-					setProjectFormat(NTSC_VIDEO);
-					break;
-				case 3:
-					// NTSC WIDE project
-					KdenliveSettings::setDefaultheight(480);
-					KdenliveSettings::setDefaultfps(30000.0 / 1001.0);
-					KdenliveSettings::setAspectratio(40.0 / 33.0);
-					KdenliveSettings::setVideoprofile("dv_wide");
-					setProjectFormat(NTSC_VIDEO);
-					break;
-				case 4:
-					// HDV project
-					KdenliveSettings::setDefaultheight(1080);
-					KdenliveSettings::setDefaultwidth(1440);
-					KdenliveSettings::setDefaultfps(25.0);
-					KdenliveSettings::setAspectratio(1.333);
-					setProjectFormat(HDV1080PAL_VIDEO);
-					break;
-				case 5:
-					// HDV project
-					KdenliveSettings::setDefaultheight(720);
-					KdenliveSettings::setDefaultwidth(1280);
-					KdenliveSettings::setDefaultfps(25.0);
-					KdenliveSettings::setAspectratio(1.333);
-					setProjectFormat(HDV720PAL_VIDEO);
-					break;
-			}*/
 			*audioTracks = audioNum;
 			*videoTracks = videoNum;
 			}
@@ -2288,7 +2243,7 @@ namespace Gui {
 			if (!e.isNull()) {
 	    		    if (e.tagName() == "properties") {
 				VIDEOFORMAT vFormat = (VIDEOFORMAT) e.attribute("projectvideoformat","0").toInt();
-				QString isWide = e.attribute("videoprofile", QString::null);
+				QString isWide = e.attribute("videoprofile", "dv");
 				if (vFormat == PAL_VIDEO && isWide == QString("dv_wide")) vFormat = PAL_WIDE;
 				else if (vFormat == NTSC_VIDEO && isWide == QString("dv_wide")) vFormat = NTSC_WIDE;
 				setProjectFormat((int) vFormat);

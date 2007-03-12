@@ -185,6 +185,16 @@ void KRender::createVideoXWindow(bool , WId winid, WId externalMonitor)
 }
 
 
+int KRender::resetRendererProfile(char * profile)
+{
+    if (!m_mltConsumer) return 0;
+    m_mltConsumer->set("profile", profile);
+    mlt_properties properties = MLT_CONSUMER_PROPERTIES( m_mltConsumer->get_consumer() );
+    int result = mlt_consumer_profile( properties, profile );
+    refresh();
+    return result;
+}
+
 void KRender::restartConsumer()
 {
     kdDebug()<<"// RESTARTING SDL CONSUMER"<<endl;

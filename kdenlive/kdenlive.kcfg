@@ -134,7 +134,7 @@
 
     <entry name="videoprofile" type="String">
       <label>Normal or 16:9 profile.</label>
-      <default></default>
+      <default>dv</default>
     </entry>
 
     <entry name="showeffects" type="Bool">
