@@ -292,7 +292,7 @@ class DocClipRef:public QObject {
         void updateThumbnail(int frame, QPixmap newpix);
         
         /** generate start and end thumbnails for the clip */
-        void generateThumbnails(int delay = 0);
+        void generateThumbnails();
         
         /** If a clip is a video, its thumbnails should be adjusted when resizing the clip. */ 
         bool hasVariableThumbnails();
@@ -355,7 +355,6 @@ class DocClipRef:public QObject {
 	/** Clip speed, used for slowmotion */
     double m_speed;
     double m_endspeed;
-    QTimer *thumbTimer;
     QTimer *startTimer;
     QTimer *endTimer;
     

@@ -1659,8 +1659,29 @@ namespace Gui {
 	    }
         }
 	else if( e->type() == 10006) {
-            // The export process progressed
-            //if (m_exportWidget) m_exportWidget->reportProgress(((ProgressEvent *)e)->value());
+            // Show progress of video thumbs
+	    int val = ((ProgressEvent *)e)->value();
+	    switch (val) {
+	    case -1:
+		// reset new thumb creation
+		m_statusBarProgress->setTotalSteps(100);
+		slotStatusMsg(i18n("Ready."));
+		m_statusBarProgress->hide();
+		break;
+	    case 0:
+		// thumb just finished
+		slotStatusMsg(i18n("Ready."));
+		m_statusBarProgress->setTotalSteps(0);
+		m_statusBarProgress->setProgress(0);
+		m_statusBarProgress->hide();
+		break;
+	    default:
+		// progressing...
+		slotStatusMsg(i18n("Generating video thumbnails"));
+		m_statusBarProgress->show();
+	    	m_statusBarProgress->setProgress(val);
+		break;
+	    }
         }
 	else if( e->type() == 10007) {
             // Show progress of an export process
@@ -4254,9 +4275,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
 	    ++trackItt;
 	}
-	kdDebug()<<" +  ++ + ++ ++ PREPARE VID THUMB"<<endl;
-        if (KdenliveSettings::videothumbnails()) QTimer::singleShot(500, getDocument(), SLOT(updateTracksThumbnails()));
-	kdDebug()<<" +  ++ + ++ ++ PREPARE AUDIO THUMB"<<endl;
+        if (KdenliveSettings::videothumbnails()) getDocument()->updateTracksThumbnails();
 	QTimer::singleShot(1000, getDocument(), SLOT(refreshAudioThumbnails()));
 	//m_timeline->resizeTracks();
     }

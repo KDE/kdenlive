@@ -69,11 +69,11 @@ ClipManager::~ClipManager()
 KURL ClipManager::checkFileUrl(KURL url)
 {
 	if (!m_relocateUrl.isEmpty()) {
-	    KURL testUrl = KURL(m_relocateUrl + url.fileName());
+	    KURL testUrl = KURL(m_relocateUrl + "/" + url.fileName());
 	    if (KIO::NetAccess::exists(testUrl, true, 0)) return testUrl;
 	}
 	if (KMessageBox::questionYesNo(0, i18n("Cannot open file %1\nDo you want to search for the file or remove it from the project ?").arg(url.path()), i18n("Missing File"), i18n("Find File"), i18n("Remove")) == KMessageBox::Yes) {
-	    url = KFileDialog::getOpenURL(url.path());
+	    url = KURL(KFileDialog::getExistingDirectory(url.path()) + "/" + url.fileName());
 	    m_relocateUrl = url.directory();
 	    return url;
 	}

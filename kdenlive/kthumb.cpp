@@ -160,17 +160,14 @@ void KThumb::getImage(KURL url, int frame, int width, int height)
     m_convert.set("forced", mlt_image_rgb24a);
     m_producer.attach(m_convert);
     m_producer.seek(frame);
-    uint orig_width = width - 2;
-    uint orig_height = height - 2;
     Mlt::Frame * m_frame = m_producer.get_frame();
-
+    mlt_image_format format = mlt_image_rgb24a;
+    width = width - 2;
+    height = height - 2;
     if (m_frame) {
-	m_frame->set("rescale", "nearest");
-	uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, orig_width, orig_height, 1);
-	QImage m_image(m_thumb, orig_width, orig_height, 32, 0, 0, QImage::LittleEndian);
-	delete m_frame;
-	if (!m_image.isNull())
-	    bitBlt(&image, 1, 1, &m_image, 0, 0, orig_width, orig_height);
+    	uint8_t *thumb = m_frame->get_image(format, width, height);
+    	QImage tmpimage(thumb, width, height, 32, NULL, 0, QImage::IgnoreEndian);
+    	if (!tmpimage.isNull()) bitBlt(&image, 1, 1, &tmpimage, 0, 0, width + 2, height + 2);
     }
     emit thumbReady(frame, image);
 }
@@ -192,34 +189,29 @@ void KThumb::getThumbs(KURL url, int startframe, int endframe, int width, int he
     m_convert.set("forced", mlt_image_rgb24a);
     m_producer.attach(m_convert);
     m_producer.seek(startframe);
-    uint orig_width = width - 2;
-    uint orig_height = height - 2;
     Mlt::Frame * m_frame = m_producer.get_frame();
+    mlt_image_format format = mlt_image_rgb24a;
+    width = width - 2;
+    height = height - 2;
 
     if (m_frame) {
-	m_frame->set("rescale", "nearest");
-	uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, orig_width, orig_height, 1);
-	QImage m_image(m_thumb, orig_width, orig_height, 32, 0, 0, QImage::LittleEndian);
+    	uint8_t *thumb = m_frame->get_image(format, width, height);
+    	QImage tmpimage(thumb, width, height, 32, NULL, 0, QImage::IgnoreEndian);
 	delete m_frame;
-	if (!m_image.isNull())
-	    bitBlt(&image, 1, 1, &m_image, 0, 0, orig_width, orig_height);
+    	if (!tmpimage.isNull()) bitBlt(&image, 1, 1, &tmpimage, 0, 0, width - 2, height - 2);
     }
     emit thumbReady(startframe, image);
+
     image.fill(Qt::black);
     m_producer.seek(endframe);
     m_frame = m_producer.get_frame();
 
     if (m_frame) {
-	m_frame->set("rescale", "nearest");
-	uchar *m_thumb = m_frame->fetch_image(mlt_image_rgb24a, orig_width, orig_height, 1);
-	QImage m_image(m_thumb, orig_width, orig_height, 32, 0, 0, QImage::LittleEndian);
-	delete m_frame;
-	if (!m_image.isNull())
-	    bitBlt(&image, 1, 1, &m_image, 0, 0, orig_width, orig_height);
+    	uint8_t *thumb = m_frame->get_image(format, width, height);
+    	QImage tmpimage(thumb, width, height, 32, NULL, 0, QImage::IgnoreEndian);
+    	if (!tmpimage.isNull()) bitBlt(&image, 1, 1, &tmpimage, 0, 0, width - 2, height - 2);
     }
     emit thumbReady(endframe, image);
-
-
 }
 
 void KThumb::stopAudioThumbs()

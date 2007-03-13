@@ -814,24 +814,38 @@ GenTime KdenliveDoc::toSnapTime(GenTime currTime, bool forward, bool includeSnap
 
 void KdenliveDoc::updateTracksThumbnails()
 {
+    
     QPtrListIterator < DocTrackBase > trackItt(trackList());
-    int ix = 2;
+    QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1, 10006));
+    int clipTotal = 0;
+
+    while (trackItt.current()) {
+        clipTotal += trackItt.current()->firstClip(false).count();
+	clipTotal += trackItt.current()->firstClip(true).count();
+	++trackItt;
+    }
+    trackItt.toFirst();
+
+    int ix = 0;
     while (trackItt.current()) {
         QPtrListIterator < DocClipRef > clipItt(trackItt.current()->firstClip(true));
         while (clipItt.current()) {
-            (*clipItt)->generateThumbnails(ix);
-	    ix++;
+            (*clipItt)->generateThumbnails();
             ++clipItt;
+	    ix++;
         }
         
         QPtrListIterator < DocClipRef > clipItt2(trackItt.current()->firstClip(false));
         while (clipItt2.current()) {
-            (*clipItt2)->generateThumbnails(ix);
-	    ix++;
+            (*clipItt2)->generateThumbnails();
+	    QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(ix * 100 / clipTotal, 10006));
+	    qApp->processEvents();
             ++clipItt2;
+	    ix++;
         }
         ++trackItt;
     }
+    QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(0, 10006));
     emit timelineClipUpdated();
 }
 

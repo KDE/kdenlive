@@ -43,7 +43,6 @@
 DocClipRef::DocClipRef(DocClipBase * clip):
 startTimer(0),
 endTimer(0),
-thumbTimer(0),
 m_trackStart(0.0),
 m_cropStart(0.0),
 m_trackEnd(0.0), m_parentTrack(0),  m_trackNum(-1), m_clip(clip),  m_speed(1.0),  m_endspeed(1.0)
@@ -62,12 +61,10 @@ m_trackEnd(0.0), m_parentTrack(0),  m_trackNum(-1), m_clip(clip),  m_speed(1.0),
         m_endthumbnail = QPixmap();
         startTimer = new QTimer( this );
         endTimer = new QTimer( this );
-        thumbTimer = new QTimer( this );
         connect(clip->thumbCreator, SIGNAL(thumbReady(int, QPixmap)),this,SLOT(updateThumbnail(int, QPixmap)));
         connect(this, SIGNAL(getClipThumbnail(KURL, int, int, int)), clip->thumbCreator, SLOT(getImage(KURL, int, int, int)));
         connect( startTimer, SIGNAL(timeout()), this, SLOT(doFetchStartThumbnail()));
         connect( endTimer, SIGNAL(timeout()), this, SLOT(doFetchEndThumbnail()));
-        connect( thumbTimer, SIGNAL(timeout()), this, SLOT(fetchThumbnails()));
     }
     if (t == DocClipBase::AUDIO || t == DocClipBase::AV) {
 	if (t != DocClipBase::AV){
@@ -80,7 +77,6 @@ m_trackEnd(0.0), m_parentTrack(0),  m_trackNum(-1), m_clip(clip),  m_speed(1.0),
 
 DocClipRef::~DocClipRef()
 {
-    delete thumbTimer;
     delete startTimer;
     delete endTimer;
 }
@@ -118,11 +114,11 @@ bool DocClipRef::hasVariableThumbnails()
     return true;
 }
 
-void DocClipRef::generateThumbnails(int delay)
+void DocClipRef::generateThumbnails()
 {
     DocClipBase::CLIPTYPE t = m_clip->clipType();
     if (t == DocClipBase::VIDEO || t == DocClipBase::AV || t == DocClipBase::VIRTUAL) {
-	thumbTimer->start(200 * delay, true);
+	fetchThumbnails();
 	return;
     }
 
@@ -221,6 +217,7 @@ void DocClipRef::fetchStartThumbnail()
 
 void DocClipRef::doFetchStartThumbnail()
 {
+	kdDebug()<<"////// / / / /GENERATE START THUMBS"<<endl;
 	uint height = (uint)(KdenliveSettings::videotracksize());
 	uint width = (uint)(height * 1.25);
 	emit getClipThumbnail(fileURL(), (int)m_cropStart.frames(KdenliveSettings::defaultfps()), width, height);
@@ -242,6 +239,7 @@ void DocClipRef::fetchEndThumbnail()
 
 void DocClipRef::doFetchEndThumbnail()
 {
+	kdDebug()<<"////// / / / /GENERATE END THUMBS FOR: "<<name()<<endl;
 	uint height = (uint)(KdenliveSettings::videotracksize());
 	uint width = (uint)(height * 1.25);
 	emit getClipThumbnail(fileURL(),(int) ( m_cropStart.frames(KdenliveSettings::defaultfps())+cropDuration().frames(KdenliveSettings::defaultfps()) - 1), width, height);

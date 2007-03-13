@@ -39,6 +39,7 @@ namespace Mlt {
     class Miracle;
     class Consumer;
     class Producer;
+    class Frame;
 };
 
 
