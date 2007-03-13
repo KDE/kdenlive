@@ -2914,6 +2914,8 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	thumbsButton->setOn(!KdenliveSettings::videothumbnails());
 	audioThumbsButton->setOn(!KdenliveSettings::audiothumbnails());
 	slotSyncTimeLineWithDocument();
+        if (KdenliveSettings::videothumbnails()) getDocument()->updateTracksThumbnails();
+	QTimer::singleShot(1000, getDocument(), SLOT(refreshAudioThumbnails()));
     }
 
 
@@ -4275,8 +4277,6 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
 	    ++trackItt;
 	}
-        if (KdenliveSettings::videothumbnails()) getDocument()->updateTracksThumbnails();
-	QTimer::singleShot(1000, getDocument(), SLOT(refreshAudioThumbnails()));
 	//m_timeline->resizeTracks();
     }
 

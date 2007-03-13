@@ -217,7 +217,6 @@ void DocClipRef::fetchStartThumbnail()
 
 void DocClipRef::doFetchStartThumbnail()
 {
-	kdDebug()<<"////// / / / /GENERATE START THUMBS"<<endl;
 	uint height = (uint)(KdenliveSettings::videotracksize());
 	uint width = (uint)(height * 1.25);
 	emit getClipThumbnail(fileURL(), (int)m_cropStart.frames(KdenliveSettings::defaultfps()), width, height);
@@ -239,7 +238,6 @@ void DocClipRef::fetchEndThumbnail()
 
 void DocClipRef::doFetchEndThumbnail()
 {
-	kdDebug()<<"////// / / / /GENERATE END THUMBS FOR: "<<name()<<endl;
 	uint height = (uint)(KdenliveSettings::videotracksize());
 	uint width = (uint)(height * 1.25);
 	emit getClipThumbnail(fileURL(),(int) ( m_cropStart.frames(KdenliveSettings::defaultfps())+cropDuration().frames(KdenliveSettings::defaultfps()) - 1), width, height);

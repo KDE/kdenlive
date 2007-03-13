@@ -612,6 +612,9 @@ void KdenliveDoc::setProjectClip(DocClipProject * projectClip)
     updateReferences();
     emit trackListChanged();
     emit documentLengthChanged(projectDuration());
+
+    if (KdenliveSettings::videothumbnails()) updateTracksThumbnails();
+    QTimer::singleShot(1000, this, SLOT(refreshAudioThumbnails()));
     connectProjectClip();
     setModified(false);
 }
