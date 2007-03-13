@@ -1679,6 +1679,7 @@ namespace Gui {
 		// progressing...
 		slotStatusMsg(i18n("Generating video thumbnails"));
 		m_statusBarProgress->show();
+		m_statusBarProgress->setTotalSteps(100);
 	    	m_statusBarProgress->setProgress(val);
 		break;
 	    }
