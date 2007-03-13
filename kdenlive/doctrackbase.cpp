@@ -462,7 +462,7 @@ void DocTrackBase::resizeClipTrackStart(DocClipRef * clip,
 
     emit redrawSection(clip->trackNum(), repaintStart, clip->trackEnd());
     // request for new start clip thumbnail
-    if (KdenliveSettings::videothumbnails() && clip->hasVariableThumbnails()) clip->startTimer->start( 180 , TRUE);
+    if (KdenliveSettings::videothumbnails() && clip->hasVariableThumbnails()) clip->fetchStartThumbnail();
     // Just in case : although resizeClipTrackStart should never cause the length of a track to change.
     checkTrackLength();
 }
@@ -525,7 +525,7 @@ void DocTrackBase::resizeClipTrackEnd(DocClipRef * clip, GenTime newEnd)
 
     emit redrawSection(clip->trackNum(), clip->trackStart(), repaintEnd);
     // request for new end clip thumbnail
-    if (clip->hasVariableThumbnails()) clip->endTimer->start( 180 , TRUE);
+    if (clip->hasVariableThumbnails()) clip->fetchEndThumbnail();
     checkTrackLength();
 }
 

@@ -189,7 +189,8 @@ class KdenliveDoc:public QObject {
     void ensureCursorVisible();
     Timecode timeCode();
     void setFramesPerSecond(double fps);
-    
+    void redrawTimelineSection(int track, GenTime start, GenTime end);
+
   private:
 	/** The base clip for this document. This must be a project clip, as it lists the tracks within
 	 * the project, etc. */

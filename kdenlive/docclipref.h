@@ -272,17 +272,20 @@ class DocClipRef:public QObject {
 	double numFrames, int channel);
 
 	/** Returns true if effects are applied on the clip */
-    bool hasEffect();
+    bool hasEffect() const;
 	/** Returns a list of the clip effects names */
-    QStringList clipEffectNames();
+    QStringList clipEffectNames() const;
     Transition *transitionAt(const GenTime &time);
+        /** Fetch the thumbnail for the clip start */
+    void fetchStartThumbnail();
+        /** Fetch the thumbnail for the clip end */
+    void fetchEndThumbnail();
 
     void clearVideoEffects();
 
-    QPixmap thumbnail(bool end = false);
-    int thumbnailWidth();
-    QTimer *startTimer;
-    QTimer *endTimer;
+    QPixmap thumbnail(bool end = false) const;
+    int thumbnailWidth() const;
+
     
   public slots:
 	QByteArray getAudioThumbs(int channel,double frame, double frameLength, int arrayWidth);
@@ -311,11 +314,9 @@ class DocClipRef:public QObject {
 	QValueVector < GenTime > transitionSnaps();
 
   private slots:
-        /** Fetch the thumbnail for the clip start */
-        void fetchStartThumbnail();
-        void fetchThumbnails();
-        /** Fetch the thumbnail for the clip end */
-        void fetchEndThumbnail();
+	void doFetchStartThumbnail();
+	void doFetchEndThumbnail();
+	void fetchThumbnails();
 	GenTime adjustTimeToSpeed(GenTime t) const;
 
   private:			// Private attributes
@@ -355,6 +356,8 @@ class DocClipRef:public QObject {
     double m_speed;
     double m_endspeed;
     QTimer *thumbTimer;
+    QTimer *startTimer;
+    QTimer *endTimer;
     
 signals:
     void getClipThumbnail(KURL, int, int, int);

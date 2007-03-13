@@ -65,8 +65,8 @@ m_trackEnd(0.0), m_parentTrack(0),  m_trackNum(-1), m_clip(clip),  m_speed(1.0),
         thumbTimer = new QTimer( this );
         connect(clip->thumbCreator, SIGNAL(thumbReady(int, QPixmap)),this,SLOT(updateThumbnail(int, QPixmap)));
         connect(this, SIGNAL(getClipThumbnail(KURL, int, int, int)), clip->thumbCreator, SLOT(getImage(KURL, int, int, int)));
-        connect( startTimer, SIGNAL(timeout()), this, SLOT(fetchStartThumbnail()));
-        connect( endTimer, SIGNAL(timeout()), this, SLOT(fetchEndThumbnail()));
+        connect( startTimer, SIGNAL(timeout()), this, SLOT(doFetchStartThumbnail()));
+        connect( endTimer, SIGNAL(timeout()), this, SLOT(doFetchEndThumbnail()));
         connect( thumbTimer, SIGNAL(timeout()), this, SLOT(fetchThumbnails()));
     }
     if (t == DocClipBase::AUDIO || t == DocClipBase::AV) {
@@ -216,6 +216,11 @@ void DocClipRef::setDescription(const QString & description)
 
 void DocClipRef::fetchStartThumbnail()
 {
+	startTimer->start( 180 , TRUE);
+}
+
+void DocClipRef::doFetchStartThumbnail()
+{
 	uint height = (uint)(KdenliveSettings::videotracksize());
 	uint width = (uint)(height * 1.25);
 	emit getClipThumbnail(fileURL(), (int)m_cropStart.frames(KdenliveSettings::defaultfps()), width, height);
@@ -231,6 +236,11 @@ void DocClipRef::fetchThumbnails()
 }
 
 void DocClipRef::fetchEndThumbnail()
+{
+	endTimer->start( 180 , TRUE);
+}
+
+void DocClipRef::doFetchEndThumbnail()
 {
 	uint height = (uint)(KdenliveSettings::videotracksize());
 	uint width = (uint)(height * 1.25);
@@ -327,13 +337,13 @@ void DocClipRef::updateThumbnail(int frame, QPixmap newpix)
 }
 
 
-QPixmap DocClipRef::thumbnail(bool end)
+QPixmap DocClipRef::thumbnail(bool end) const
 {
     if (end) return m_endthumbnail;
     return m_thumbnail;
 }
 
-int DocClipRef::thumbnailWidth()
+int DocClipRef::thumbnailWidth() const
 {
     return m_thumbnail.width();
 }
@@ -693,7 +703,7 @@ QDomDocument DocClipRef::toXML() const
     return doc;
 }
 
-QStringList DocClipRef::clipEffectNames()
+QStringList DocClipRef::clipEffectNames() const
 {
     QStringList effectNames;
     if (!m_effectStack.isEmpty()) {
@@ -1756,7 +1766,7 @@ Effect *DocClipRef::selectedEffect()
     return m_effectStack.selectedItem();
 }
 
-bool DocClipRef::hasEffect()
+bool DocClipRef::hasEffect() const
 {
     if (m_effectStack.count() > 0)
 	return true;

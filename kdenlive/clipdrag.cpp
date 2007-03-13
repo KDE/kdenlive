@@ -48,7 +48,7 @@ ClipDrag::ClipDrag(DocClipRefList & clips, QWidget * dragSource,
     name)
 {
     m_xml = clips.toXML("cliplist").toString();
-    kdWarning() << "XML is " << m_xml << endl;
+    //kdWarning() << "XML is " << m_xml << endl;
 }
 
 ClipDrag::~ClipDrag()

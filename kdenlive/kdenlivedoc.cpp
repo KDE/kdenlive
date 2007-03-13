@@ -384,6 +384,10 @@ void KdenliveDoc::redrawTimeLine()
     emit timelineClipUpdated();
 }
 
+void KdenliveDoc::redrawTimelineSection(int track, GenTime start, GenTime end) {
+    emit refreshCurrentClipTrack(track, 0, start, end);
+}
+
 void KdenliveDoc::connectProjectClip()
 {
     connect(m_projectClip, SIGNAL(trackListChanged()), this,

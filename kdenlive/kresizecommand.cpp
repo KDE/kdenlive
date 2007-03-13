@@ -30,7 +30,9 @@ namespace Command {
 	m_end_trackEnd = m_start_trackEnd = clip.trackEnd();
 	m_end_trackStart = m_start_trackStart = clip.trackStart();
 	m_end_cropStart = m_start_cropStart = clip.cropStartTime();
-    } KResizeCommand::~KResizeCommand() {
+    } 
+
+    KResizeCommand::~KResizeCommand() {
     }
 
     void KResizeCommand::setEndSize(DocClipRef & clip) {
@@ -43,7 +45,9 @@ namespace Command {
     QString KResizeCommand::name() const {
 	return i18n("Resize clip");
     }
-/** Executes this command */ void KResizeCommand::execute() {
+
+/** Executes this command */ 
+    void KResizeCommand::execute() {
 	DocClipRef *clip =
 	    m_doc->track(m_trackNum)->getClipAt((m_start_trackStart +
 		m_start_trackEnd) / 2.0);
@@ -52,10 +56,23 @@ namespace Command {
 		"ResizeCommand execute failed - cannot find clip!!!" <<
 		endl;
 	} else {
-	    clip->setTrackStart(m_end_trackStart);
-	    clip->setCropStartTime(m_end_cropStart);
-	    clip->setTrackEnd(m_end_trackEnd);
-            if (clip->hasVariableThumbnails()) clip->generateThumbnails();
+	    if (m_end_trackStart == clip->cropStartTime()) {
+		// resizing clip end
+	        clip->setTrackStart(m_end_trackStart);
+	        clip->setCropStartTime(m_end_cropStart);
+		clip->setTrackEnd(m_end_trackEnd);
+		if (clip->hasVariableThumbnails()) clip->fetchEndThumbnail();
+		m_doc->redrawTimelineSection(clip->trackNum(), m_start_trackEnd, m_end_trackEnd);
+	    }
+	    else {
+		// resizing clip start
+	        clip->setTrackStart(m_end_trackStart);
+	        clip->setCropStartTime(m_end_cropStart);
+		clip->setTrackEnd(m_end_trackEnd);
+		if (clip->hasVariableThumbnails()) clip->fetchStartThumbnail();
+		m_doc->redrawTimelineSection(clip->trackNum(), m_start_trackStart, m_end_trackStart);
+	    }
+	    
 	}
 	m_doc->indirectlyModified();
     }
@@ -70,9 +87,22 @@ namespace Command {
 		"ResizeCommand unexecute failed - cannot find clip!!!" <<
 		endl;
 	} else {
-	    clip->setTrackStart(m_start_trackStart);
-	    clip->setCropStartTime(m_start_cropStart);
-	    clip->setTrackEnd(m_start_trackEnd);
+	    if (m_start_trackStart == clip->cropStartTime()) {
+		// resizing clip end
+	    	clip->setTrackStart(m_start_trackStart);
+	    	clip->setCropStartTime(m_start_cropStart);
+	    	clip->setTrackEnd(m_start_trackEnd);
+	    	if (clip->hasVariableThumbnails()) clip->fetchEndThumbnail();
+		m_doc->redrawTimelineSection(clip->trackNum(), m_start_trackEnd, m_end_trackEnd);
+	    }
+	    else {
+		// resizing clip start
+	    	clip->setTrackStart(m_start_trackStart);
+	    	clip->setCropStartTime(m_start_cropStart);
+	    	clip->setTrackEnd(m_start_trackEnd);
+	    	if (clip->hasVariableThumbnails()) clip->fetchStartThumbnail();
+		m_doc->redrawTimelineSection(clip->trackNum(), m_start_trackStart, m_end_trackStart);
+	    }
 	}
 	m_doc->indirectlyModified();
     }
