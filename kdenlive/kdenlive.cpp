@@ -1615,11 +1615,17 @@ namespace Gui {
             m_monitorManager.activeMonitor()->screen()->positionChanged(ev->position());
 	    if (KdenliveSettings::autoscroll() && m_workspaceMonitor->screen()->playSpeed() > 0) m_timeline->autoScroll();
         }
+        else if( e->type() == 10001) {
+            // Timeline playing stopped
+	    PositionChangeEvent *ev = (PositionChangeEvent *)e;
+            m_clipMonitor->screen()->positionChanged(ev->position());
+            m_clipMonitor->screen()->slotPlayingStopped();
+        }
         else if( e->type() == 10002) {
             // Timeline playing stopped
 	    PositionChangeEvent *ev = (PositionChangeEvent *)e;
-            m_monitorManager.activeMonitor()->screen()->positionChanged(ev->position());
-            m_monitorManager.activeMonitor()->screen()->slotPlayingStopped();
+            m_workspaceMonitor->screen()->positionChanged(ev->position());
+            m_workspaceMonitor->screen()->slotPlayingStopped();
         }
         else if( e->type() == 10003) {
             // Image export is over, add it to project
@@ -3749,6 +3755,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     }
 
     void KdenliveApp::activateClipMonitor() {
+	if (!m_clipMonitor) return;
 	m_dockClipMonitor->makeDockVisible();
 	m_monitorManager.activateMonitor(m_clipMonitor);
     }
@@ -3758,6 +3765,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     }
 
     void KdenliveApp::activateWorkspaceMonitor() {
+	if (!m_workspaceMonitor) return;
 	m_dockWorkspaceMonitor->makeDockVisible();
 	m_monitorManager.activateMonitor(m_workspaceMonitor);
     }

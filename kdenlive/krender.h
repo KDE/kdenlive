@@ -175,6 +175,7 @@ class KRender:public QObject {
      Mlt::Filter *m_osdInfo;
      double m_framePosition;
      double m_fps;
+     uint m_monitorId;
 
 	/** Holds the path to on screen display profile */
      QString m_osdProfile;

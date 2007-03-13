@@ -64,7 +64,8 @@ m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProduce
     openMlt();
     refreshTimer = new QTimer( this );
     connect( refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()) );
-
+    if (rendererName == "Document") m_monitorId = 10002;
+    else m_monitorId = 10001;
     osdTimer = new QTimer( this );
     connect( osdTimer, SIGNAL(timeout()), this, SLOT(slotOsdTimeout()) );
 
@@ -569,6 +570,7 @@ QDomDocument KRender::sceneList() const
 /** Create the producer from the Westley QDomDocument */
 void KRender::setSceneList(QDomDocument list, bool resetPosition)
 {
+    kdDebug()<<"//// / // RENDER SET SCENE LIST  /////"<<endl;
     double pos = 0;
     m_sceneList = list;
     if (m_mltConsumer && !m_mltConsumer->is_stopped()) m_mltConsumer->stop();
@@ -588,6 +590,8 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
     else {
         track.append(clip);
 	m_mltProducer = track.current();
+	m_mltProducer->optimise();
+    	if (!resetPosition) m_mltProducer->seek((int) pos);
 
 	if (KdenliveSettings::osdtimecode()) {
 		// Attach filter for on screen display of timecode
@@ -603,10 +607,7 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
 		m_osdInfo->set("dynamic", "0");
 	}
 
-    	if (!resetPosition) m_mltProducer->seek((int) pos);
-	
 	m_fps = m_mltProducer->get_fps();
-	m_mltProducer->optimise();
 
     	//track.set_speed(0);
         if (!m_mltConsumer) {
@@ -838,7 +839,7 @@ void KRender::emitConsumerStopped()
     // This is used to know when the playing stopped
     if (m_mltProducer) {
 	double pos = m_mltProducer->position();
-        QApplication::postEvent(qApp->mainWidget(), new PositionChangeEvent(GenTime((int) pos, m_fps), 10002));
+        QApplication::postEvent(qApp->mainWidget(), new PositionChangeEvent(GenTime((int) pos, m_fps), m_monitorId));
 	//new QCustomEvent(10002));
     }
 }
