@@ -225,7 +225,7 @@ void DocClipRef::doFetchStartThumbnail()
 
 void DocClipRef::fetchThumbnails()
 {
-	if (!m_thumbnail.isNull() && !m_endthumbnail.isNull()) return;
+	if (!m_thumbnail.isNull() && !m_endthumbnail.isNull() && m_thumbnail.height() == KdenliveSettings::videotracksize()) return;
 	uint height = (uint)(KdenliveSettings::videotracksize());
 	uint width = (uint)(height * 1.25);
 	int startFrame = (int)m_cropStart.frames(KdenliveSettings::defaultfps());
