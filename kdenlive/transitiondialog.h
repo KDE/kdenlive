@@ -66,6 +66,7 @@ namespace Gui {
     QString getLumaFilePath(QString fileName);
     void refreshLumas();
     QMap <QString, QPixmap> lumaPreviews();
+    void setVideoFormat(uint format);
 
     private slots:
 	void applyChanges();

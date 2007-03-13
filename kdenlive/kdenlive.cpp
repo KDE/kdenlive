@@ -2056,6 +2056,7 @@ namespace Gui {
 	    ix++;
     	}
 	m_projectFormat = (VIDEOFORMAT) projectFormat;
+	if (m_transitionPanel) m_transitionPanel->setVideoFormat(m_projectFormat);
 	KdenliveSettings::setDefaultheight(m_projectTemplates.values()[ix].height());
 	KdenliveSettings::setDefaultfps(m_projectTemplates.values()[ix].fps());
 	KdenliveSettings::setAspectratio(m_projectTemplates.values()[ix].aspect());
