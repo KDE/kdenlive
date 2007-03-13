@@ -56,12 +56,13 @@ namespace Command {
 		"ResizeCommand execute failed - cannot find clip!!!" <<
 		endl;
 	} else {
-	    if (m_end_trackStart == clip->cropStartTime()) {
+	    if (m_end_trackStart == clip->trackStart()) {
 		// resizing clip end
 	        clip->setTrackStart(m_end_trackStart);
 	        clip->setCropStartTime(m_end_cropStart);
 		clip->setTrackEnd(m_end_trackEnd);
 		if (clip->hasVariableThumbnails()) clip->fetchEndThumbnail();
+		kdDebug()<<"// RESIZE, fetch end thumbnail"<<endl;
 		m_doc->redrawTimelineSection(clip->trackNum(), m_start_trackEnd, m_end_trackEnd);
 	    }
 	    else {
@@ -70,6 +71,7 @@ namespace Command {
 	        clip->setCropStartTime(m_end_cropStart);
 		clip->setTrackEnd(m_end_trackEnd);
 		if (clip->hasVariableThumbnails()) clip->fetchStartThumbnail();
+		kdDebug()<<"// RESIZE, fetch start thumbnail"<<endl;
 		m_doc->redrawTimelineSection(clip->trackNum(), m_start_trackStart, m_end_trackStart);
 	    }
 	    
@@ -87,7 +89,7 @@ namespace Command {
 		"ResizeCommand unexecute failed - cannot find clip!!!" <<
 		endl;
 	} else {
-	    if (m_start_trackStart == clip->cropStartTime()) {
+	    if (m_start_trackStart == clip->trackStart()) {
 		// resizing clip end
 	    	clip->setTrackStart(m_start_trackStart);
 	    	clip->setCropStartTime(m_start_cropStart);
