@@ -15,11 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qdir.h>
+
 #include <kdebug.h>
 #include <kio/netaccess.h>
 #include <kstandarddirs.h>
 #include <kapplication.h>
 #include <knewstuff/entry.h>
+#include <ktar.h>
+#include <karchive.h>
+#include <ktempdir.h>
 
 #include "newstuff.h"
 
@@ -30,22 +35,55 @@ namespace Gui {
 //virtual 
 bool newLumaStuff::install(const QString &fileName)
 {
+	bool result = false;
 	kdDebug()<<"//// GOT: "<<fileName<<endl;
 	QPixmap pix(fileName);
-	if (!pix.isNull()) {
+	if (pix.isNull()) {
+	    // maybe it is a tar.gz file, try uncompressing
+	    KTar archive(fileName, "application/x-gzip");
+	    archive.open(IO_ReadOnly);
+	    KTempDir tmpDirectory;
+	    const KArchiveDirectory *directory = archive.directory();
+
+	    if (directory) {
+		// extract data to tmp directory
+	    	directory->copyTo(tmpDirectory.name());
+		// pars files
+ 		QDir dir( tmpDirectory.name() );
+
+		QStringList more;
+    		QStringList::Iterator it;
+        	more = dir.entryList( QDir::Files );
+        	for ( it = more.begin() ; it != more.end() ; ++it ){
+		    //kdDebug()<<"//  NEW STUFF, reading: "<< KURL(dir.path() + "/" + (*it)).fileName()<<endl;
+		    QPixmap p(dir.path() + "/" + (*it));
+		    if (!p.isNull()) {
+	    		if (p.width() == 720) {
+				if (p.height() == 576) 
+					KIO::NetAccess::move(KURL(dir.path() + "/" + (*it)), KURL(locateLocal("data", "kdenlive/pgm/PAL/") + (*it)), parentWidget());
+			}
+			else if (p.height() == 480) KIO::NetAccess::move(KURL(dir.path() + "/" + (*it)), KURL(locateLocal("data", "kdenlive/pgm/NTSC/") + (*it)), parentWidget());
+		    }
+		}
+		m_transDlg->refreshLumas();
+		tmpDirectory.unlink();
+		result = true;
+	    }
+	}
+	else {
 	    if (pix.width() == 720) {
 		if (pix.height() == 576 && KIO::NetAccess::move(KURL(fileName), KURL(locateLocal("data", "kdenlive/pgm/PAL/") + m_originalName), parentWidget())) {
 			m_transDlg->refreshLumas();
-			return true;
+			result = true;
 		}
 		else if (pix.height() == 480 && KIO::NetAccess::move(KURL(fileName), KURL(locateLocal("data", "kdenlive/pgm/NTSC/") + m_originalName), parentWidget())) {
 			m_transDlg->refreshLumas();
-			return true;
+			result = true;
 		}
 	    }
 	}
 	KIO::NetAccess::del(KURL(fileName, 0));
-	return false;
+	return result;
 }
 
 
