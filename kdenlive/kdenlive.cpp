@@ -2072,7 +2072,7 @@ namespace Gui {
 	uint ix = 0;
 	QMap<QString, formatTemplate>::Iterator it;
     	for ( it = m_projectTemplates.begin(); it != m_projectTemplates.end(); ++it ) {
-	    if ((int) it.data().videoFormat() == projectFormat) {
+	    if ((uint) it.data().videoFormat() == projectFormat) {
 		break;
 	    }
 	    ix++;
@@ -3045,7 +3045,6 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	bool isTransparent = false;
 	GenTime duration;
 
-	int frames;
 	if (imageUrl.isEmpty()) {
             dia = new KDialogBase(  KDialogBase::Swallow, i18n("Create Image Clip"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "create_clip", true);
             createImageClip_UI *clipChoice = new createImageClip_UI(dia);
@@ -3097,9 +3096,9 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    QString lumaFile = QString::null;
 	    double lumasoftness = slideDialog->softness();
 	    GenTime duration = getDocument()->getTimecodePosition(slideDialog->duration());
-	    int ttl = getDocument()->getTimecodePosition(slideDialog->ttl()).frames(getDocument()->framesPerSecond());
+	    int ttl = (int) getDocument()->getTimecodePosition(slideDialog->ttl()).frames(getDocument()->framesPerSecond());
 
-	    int lumaduration = getDocument()->getTimecodePosition(slideDialog->lumaDuration()).frames(getDocument()->framesPerSecond());
+	    int lumaduration = (int) getDocument()->getTimecodePosition(slideDialog->lumaDuration()).frames(getDocument()->framesPerSecond());
 	    if (slideDialog->useLuma()) lumaFile = m_transitionPanel->getLumaFilePath(slideDialog->currentLuma());
 	    KCommand *command =
 		new Command::KAddClipCommand(*m_doc, m_projectList->parentName(), KURL(url), extension, ttl, slideDialog->hasCrossfade(), lumaFile, lumasoftness, lumaduration, duration, slideDialog->description(), slideDialog->isTransparent(), true);
@@ -3648,7 +3647,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     void KdenliveApp::slotDefineClipThumb() {
 	DocClipRef *clip = m_projectList->currentClip();
 	if (!clip) return;
- 	clip->referencedClip()->setProjectThumbFrame(m_clipMonitor->editPanel()->point().frames(getDocument()->framesPerSecond()) );
+ 	clip->referencedClip()->setProjectThumbFrame((int) m_clipMonitor->editPanel()->point().frames(getDocument()->framesPerSecond()) );
 	getDocument()->renderer()->getImage(clip->fileURL(), clip->referencedClip()->getProjectThumbFrame(), 50, 40);
     }
 
