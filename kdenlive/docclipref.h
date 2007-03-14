@@ -312,10 +312,10 @@ class DocClipRef:public QObject {
 	double speed() const;
 	void refreshCurrentTrack();
 	QValueVector < GenTime > transitionSnaps();
-
-  private slots:
 	void doFetchStartThumbnail();
 	void doFetchEndThumbnail();
+
+  private slots:
 	void fetchThumbnails();
 	GenTime adjustTimeToSpeed(GenTime t) const;
 

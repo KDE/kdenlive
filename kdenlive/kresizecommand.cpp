@@ -61,8 +61,7 @@ namespace Command {
 	        clip->setTrackStart(m_end_trackStart);
 	        clip->setCropStartTime(m_end_cropStart);
 		clip->setTrackEnd(m_end_trackEnd);
-		if (clip->hasVariableThumbnails()) clip->fetchEndThumbnail();
-		kdDebug()<<"// RESIZE, fetch end thumbnail"<<endl;
+		if (clip->hasVariableThumbnails()) clip->doFetchEndThumbnail();
 		m_doc->redrawTimelineSection(clip->trackNum(), m_start_trackEnd, m_end_trackEnd);
 	    }
 	    else {
@@ -70,8 +69,7 @@ namespace Command {
 	        clip->setTrackStart(m_end_trackStart);
 	        clip->setCropStartTime(m_end_cropStart);
 		clip->setTrackEnd(m_end_trackEnd);
-		if (clip->hasVariableThumbnails()) clip->fetchStartThumbnail();
-		kdDebug()<<"// RESIZE, fetch start thumbnail"<<endl;
+		if (clip->hasVariableThumbnails()) clip->doFetchStartThumbnail();
 		m_doc->redrawTimelineSection(clip->trackNum(), m_start_trackStart, m_end_trackStart);
 	    }
 	    
@@ -94,7 +92,7 @@ namespace Command {
 	    	clip->setTrackStart(m_start_trackStart);
 	    	clip->setCropStartTime(m_start_cropStart);
 	    	clip->setTrackEnd(m_start_trackEnd);
-	    	if (clip->hasVariableThumbnails()) clip->fetchEndThumbnail();
+	    	if (clip->hasVariableThumbnails()) clip->doFetchEndThumbnail();
 		m_doc->redrawTimelineSection(clip->trackNum(), m_start_trackEnd, m_end_trackEnd);
 	    }
 	    else {
@@ -102,7 +100,7 @@ namespace Command {
 	    	clip->setTrackStart(m_start_trackStart);
 	    	clip->setCropStartTime(m_start_cropStart);
 	    	clip->setTrackEnd(m_start_trackEnd);
-	    	if (clip->hasVariableThumbnails()) clip->fetchStartThumbnail();
+	    	if (clip->hasVariableThumbnails()) clip->doFetchStartThumbnail();
 		m_doc->redrawTimelineSection(clip->trackNum(), m_start_trackStart, m_end_trackStart);
 	    }
 	}
