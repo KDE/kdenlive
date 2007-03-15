@@ -52,6 +52,8 @@ public:
 
     bool isRunning();
     const QStringList getMetaData();
+    void resetValues();
+    void setMetaData(QStringList metaValues);
 
 private:
         QHBoxLayout* flayout;
@@ -126,7 +128,6 @@ public slots:
 	void generateDvdFile(QString file, GenTime start, GenTime end, VIDEOFORMAT format);
 	void renderSelectedZone(const QString &url, bool audioOnly = false);
 	void renderSelectedClipAudio(const QString &source, const QString &dest);
-	void setMetaData(QStringList metaValues);
 
 signals:
     void exportToFirewire(QString, int, GenTime, GenTime);

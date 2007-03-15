@@ -1337,11 +1337,10 @@ namespace Gui {
 	m_transitionPanel->show();
 
 	if (m_exportDvd) delete m_exportDvd;
-	if (m_exportWidget) delete m_exportWidget;
-	if (m_projectList) delete m_projectList;
 	m_exportDvd = 0;
-	m_exportWidget = 0;
+	if (m_projectList) delete m_projectList;
 	m_projectList = 0;
+
 	m_projectList = new ProjectList(this, getDocument(), false, m_dockProjectList);
 	m_dockProjectList->setWidget(m_projectList);
 	m_projectList->slot_UpdateList();
@@ -1852,7 +1851,7 @@ namespace Gui {
 	    setCaption(url.fileName() + " - " + easyName(m_projectFormat), false);
 	    fileOpenRecent->addURL(m_doc->URL());
 	    m_timeline->slotSetFramesPerSecond(KdenliveSettings::defaultfps());
-
+	    if (m_exportWidget) m_exportWidget->resetValues();
 	    kdDebug()<<" + + +  Loading Time : "<<t.elapsed()<<"ms"<<endl;
 	}
 	else {
@@ -2120,6 +2119,7 @@ namespace Gui {
 	    	setCaption(newProjectName + ".kdenlive" + " - " + easyName(m_projectFormat), false);
 	    	m_doc->setProjectName( newProjectName + ".kdenlive");
 		m_timeline->slotSetFramesPerSecond(KdenliveSettings::defaultfps());
+		if (m_exportWidget) m_exportWidget->resetValues();
 	    }
 	}
 

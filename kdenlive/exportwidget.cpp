@@ -125,6 +125,20 @@ void exportWidget::setMetaData(QStringList metaValues)
 	m_meta_year = metaValues[6].toInt();
 }
 
+void exportWidget::resetValues()
+{
+	m_meta_author = QString::null;
+	m_meta_title = QString::null;
+	m_meta_comment = QString::null;
+	m_meta_copyright = QString::null;
+	m_meta_album = QString::null;
+	m_meta_track = 0;
+	m_meta_year = 0;
+	updateGuides();
+	fileExportName->setText("untitled.dv");
+	fileExportFolder->setURL(KdenliveSettings::currentdefaultfolder());
+}
+
 const QStringList exportWidget::getMetaData()
 {
 	QStringList result;
