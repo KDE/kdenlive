@@ -164,11 +164,12 @@ void KThumb::getImage(KURL url, int frame, int width, int height)
     mlt_image_format format = mlt_image_rgb24a;
     width = width - 2;
     height = height - 2;
-    if (m_frame) {
+    if (m_frame && m_frame->is_valid()) {
     	uint8_t *thumb = m_frame->get_image(format, width, height);
     	QImage tmpimage(thumb, width, height, 32, NULL, 0, QImage::IgnoreEndian);
     	if (!tmpimage.isNull()) bitBlt(&image, 1, 1, &tmpimage, 0, 0, width + 2, height + 2);
     }
+    if (m_frame) delete m_frame;
     emit thumbReady(frame, image);
 }
 
@@ -194,23 +195,24 @@ void KThumb::getThumbs(KURL url, int startframe, int endframe, int width, int he
     width = width - 2;
     height = height - 2;
 
-    if (m_frame) {
+    if (m_frame && m_frame->is_valid()) {
     	uint8_t *thumb = m_frame->get_image(format, width, height);
     	QImage tmpimage(thumb, width, height, 32, NULL, 0, QImage::IgnoreEndian);
-	delete m_frame;
     	if (!tmpimage.isNull()) bitBlt(&image, 1, 1, &tmpimage, 0, 0, width - 2, height - 2);
     }
+    if (m_frame) delete m_frame;
     emit thumbReady(startframe, image);
 
     image.fill(Qt::black);
     m_producer.seek(endframe);
     m_frame = m_producer.get_frame();
 
-    if (m_frame) {
+    if (m_frame && m_frame->is_valid()) {
     	uint8_t *thumb = m_frame->get_image(format, width, height);
     	QImage tmpimage(thumb, width, height, 32, NULL, 0, QImage::IgnoreEndian);
     	if (!tmpimage.isNull()) bitBlt(&image, 1, 1, &tmpimage, 0, 0, width - 2, height - 2);
     }
+    if (m_frame) delete m_frame;
     emit thumbReady(endframe, image);
 }
 
