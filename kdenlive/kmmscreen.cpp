@@ -23,29 +23,27 @@
 
 #include "krender.h"
 #include "krendermanager.h"
-#include "kdenlive.h"
-#include "kdenlivedoc.h"
+#include "kmmmonitor.h"
 
 namespace Gui {
 
-    KMMScreen::KMMScreen(KdenliveApp * app, QWidget * parent,
-	const char *name):QVBox(parent, name),
-        m_render(app->renderManager()->findRenderer(name)), m_app(app),
+    KMMScreen::KMMScreen(KMMMonitor * monitor, QWidget * parent,
+	const char *name):QVBox(parent, name), m_monitor(monitor),
         m_clipLength(0), m_name(name)
     {
 	//
-
+	m_render = m_monitor->findRenderer(name);
 	//connect(m_render, SIGNAL(replyCreateVideoXWindow(WId)), this, SLOT(embedWindow(WId)));
 	/*connect(m_render, SIGNAL(positionChanged(const GenTime &)), this,
         SIGNAL(seekPositionChanged(const GenTime &)));*/
         /*connect(m_app, SIGNAL(positionChanged(const GenTime &)), this,
         SIGNAL(seekPositionChanged(const GenTime &)));*/
 
-	 connect(m_render, SIGNAL(playing(double)), this,
-	    SIGNAL(playSpeedChanged(double)));
+	 connect(m_render, SIGNAL(playing(double)), m_monitor,
+	    SLOT(slotPlaySpeedChanged(double)));
 	 connect(m_render, SIGNAL(stopped()), this,
 	    SLOT(slotRendererStopped()));
-	m_render->createVideoXWindow(false, winId(), app->externalMonitor());
+	m_render->createVideoXWindow(false, winId(), m_monitor->externalMonitor());
     } 
     
     KMMScreen::~KMMScreen() {
@@ -118,13 +116,8 @@ namespace Gui {
     {
         m_render->exportFileToFirewire(url, port, startTime, endTime);
     }
-    
 
-    void KMMScreen::slotPlayingStopped()
-    {
-        emit playingStopped();
-    }
-    
+
     /** return current scenelist */
     QDomDocument KMMScreen::sceneList()
     {
@@ -164,23 +157,19 @@ namespace Gui {
     const GenTime & KMMScreen::seekPosition() const {
 	return m_render->seekPosition();
     }
-    
-    void KMMScreen::positionChanged(GenTime t) {
-        emit seekPositionChanged(t);
-    }
 
     // virtual 
     void KMMScreen::mousePressEvent(QMouseEvent * e) {
-	emit mouseClicked();
+	m_monitor->clickMonitor();
 	if (e->button() == RightButton) {
-	    emit mouseRightClicked();
+	    m_monitor->rightClickMonitor();
 	}
     }
 
     // virtual 
     void KMMScreen::mouseReleaseEvent(QMouseEvent * e) {
 	if (e->button() == LeftButton) {
-		m_app->slotPlay();
+		m_monitor->editPanel()->play();
 	}
     }
 
@@ -188,15 +177,16 @@ namespace Gui {
 	if ((e->state() & LeftButton) || (e->state() & RightButton)
 	    || (e->state() & MidButton)) {
             // TODO: Allow dragging from workspace monitor to create a new clip from a timeline section
-            if (m_name != "Document") emit mouseDragged();
+            if (m_name != "Document") m_monitor->startDrag();
 	}
     }
 
 //virtual
     void KMMScreen::wheelEvent(QWheelEvent * e) {
 	double factor = 1.0;
-	if (( e->state() & ControlButton) == ControlButton) factor = m_app->getDocument()->framesPerSecond();
-	GenTime newSeek = seekPosition() - GenTime((int) e->delta() / 120 * factor, m_app->getDocument()->framesPerSecond());
+	double fps = KdenliveSettings::defaultfps();
+	if (( e->state() & ControlButton) == ControlButton) factor = fps;
+	GenTime newSeek = seekPosition() - GenTime((int) e->delta() / 120 * factor, fps);
 	if (newSeek < GenTime())
 	    newSeek = GenTime(0);
 	if (newSeek > m_clipLength)
@@ -208,9 +198,8 @@ namespace Gui {
 	seek(newSeek);
     }
 
-    void KMMScreen::setClipLength(int frames) {
-	m_clipLength =
-	    GenTime(frames, m_app->getDocument()->framesPerSecond());
+    void KMMScreen::setClipLength(GenTime duration) {
+	m_clipLength = duration;
     }
 
 }				// namespace Gui

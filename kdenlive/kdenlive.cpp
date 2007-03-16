@@ -1611,20 +1611,25 @@ namespace Gui {
         if( e->type() == 10000) {
             // The timeline playing position changed...
             PositionChangeEvent *ev = (PositionChangeEvent *)e;
-            m_monitorManager.activeMonitor()->screen()->positionChanged(ev->position());
+            m_workspaceMonitor->screenPositionChanged(ev->position());
 	    if (KdenliveSettings::autoscroll() && m_workspaceMonitor->screen()->playSpeed() > 0) m_timeline->autoScroll();
         }
         else if( e->type() == 10001) {
-            // Timeline playing stopped
-	    PositionChangeEvent *ev = (PositionChangeEvent *)e;
-            m_clipMonitor->screen()->positionChanged(ev->position());
-            m_clipMonitor->screen()->slotPlayingStopped();
+            // The timeline playing position changed...
+            PositionChangeEvent *ev = (PositionChangeEvent *)e;
+            m_clipMonitor->screenPositionChanged(ev->position());
         }
-        else if( e->type() == 10002) {
+        else if( e->type() == 10101) {
             // Timeline playing stopped
 	    PositionChangeEvent *ev = (PositionChangeEvent *)e;
-            m_workspaceMonitor->screen()->positionChanged(ev->position());
-            m_workspaceMonitor->screen()->slotPlayingStopped();
+            m_clipMonitor->screenPositionChanged(ev->position());
+            m_clipMonitor->playingStopped();
+        }
+        else if( e->type() == 10100) {
+            // Timeline playing stopped
+	    PositionChangeEvent *ev = (PositionChangeEvent *)e;
+            m_workspaceMonitor->screenPositionChanged(ev->position());
+            m_workspaceMonitor->playingStopped();
         }
         else if( e->type() == 10003) {
             // Image export is over, add it to project

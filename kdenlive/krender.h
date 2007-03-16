@@ -142,7 +142,7 @@ class KRender:public QObject {
 	/** Returns the current seek position of the renderer. */
     const GenTime & seekPosition() const;
 
-    void emitFrameNumber(double position, int eventType);
+    void emitFrameNumber(double position);
     void emitFileFrameNumber(const GenTime & time, int eventType);
     void emitConsumerStopped();
     void emitFileConsumerStopped();

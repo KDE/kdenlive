@@ -26,11 +26,10 @@
 
 #include "gentime.h"
 
-
 class KRender;
 
 namespace Gui {
-    class KdenliveApp;
+    class KMMMonitor;
 
 /**KMMScreen acts as a wrapper for the window provided by the cutter.
 	It requests a video window from the cutter, and embeds it within
@@ -41,7 +40,7 @@ namespace Gui {
     class KMMScreen:public QVBox {
       Q_OBJECT
 public:
-	KMMScreen(KdenliveApp * app, QWidget * parent =
+	KMMScreen(KMMMonitor *monitor, QWidget * parent =
 	    0, const char *name = 0);
 	~KMMScreen();
 	/** Returns the current play speed */
@@ -49,7 +48,7 @@ public:
 
 	/** Returns the current seek position */
 	const GenTime & seekPosition() const;
-	void setClipLength(int frames);
+	void setClipLength(GenTime duration);
 protected:
 	void mousePressEvent(QMouseEvent * e);
 	void mouseReleaseEvent(QMouseEvent * e);
@@ -58,8 +57,8 @@ protected:
 	void paintEvent ( QPaintEvent * );
 
 private:			// Private attributes
+	KMMMonitor *m_monitor;
 	KRender * m_render;
-	KdenliveApp *m_app;
 	GenTime m_clipLength;
 	QString m_name;
 	
@@ -75,7 +74,6 @@ public slots:
 	void startRenderer();
 	void stopRenderer();
 	void resetRenderer();
-        void positionChanged(GenTime t);
 
 	/** Set MLT SDL consumer volume */
         void setVolume(double volume) const;
@@ -100,7 +98,6 @@ public slots:
   	void setTitlePreview(QString tmpFileName);
   	void restoreProducer();
 
-  	void slotPlayingStopped();
   	void exportToFirewire(QString url, int port, GenTime startTime, GenTime endTime);
   	void exportCurrentFrame(KURL url, bool notify);
 
@@ -118,8 +115,7 @@ signals:
 	void mouseRightClicked();
 	/** Emitted when a drag has started to occur over the screen. */
 	void mouseDragged();
-  void exportOver();
-  void playingStopped();
+  	void exportOver();
     };
 }
 #endif

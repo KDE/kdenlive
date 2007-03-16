@@ -26,6 +26,7 @@
 class KdenliveDoc;
 
 namespace Gui {
+    class KMMMonitor;
 
 /**Implementation for the edit panel
   *@author Jason Wood
@@ -33,8 +34,7 @@ namespace Gui {
 
     class KMMEditPanel:public KMMEditPanel_UI {
       Q_OBJECT public:
-	KMMEditPanel(KdenliveDoc * document, QWidget * parent =
-	    0, const char *name = 0, WFlags fl = 0);
+	KMMEditPanel(KdenliveDoc * document, KMMMonitor *parent, const char *name = 0, WFlags fl = 0);
 	~KMMEditPanel();
 	/** Sets the length of the clip that we are viewing. */
 	void setClipLength(int frames);
@@ -57,20 +57,12 @@ namespace Gui {
   /** Seek to position given by timecode widget */
 	void slotSeekToPos(const QString &pos);
 	 signals:		// Signals
-  /** Emitted when stop button pressed */
-	void playStopped(const GenTime & startTime);
   /** Emitted when the seek position has changed */
 	void seekPositionChanged(const GenTime &);
   /** Emitted when the outpoint position has changed */
 	void outpointPositionChanged(const GenTime &);
   /** Emitted when the inpoint position has changed */
 	void inpointPositionChanged(const GenTime &);
-  /** Emitted by the EditPanel when the playSpeed should change. */
-	void playSpeedChanged(double, const GenTime &);
-  /** Emitted by the EditPanel when the playSpeed should change. */
-	void playSpeedChanged(double);
-  /** Emitted by the EditPanel when the playSpeed should change. */
-	void playSpeedChanged(double, const GenTime &, const GenTime &);
 
   /** Emitted when the nextSnapMarker button has been clicked */
 	void nextSnapMarkerClicked();
@@ -80,25 +72,24 @@ namespace Gui {
 
 /** Creates or destroys a snap marker at the current time. */
 	void toggleSnapMarker();
-	void activateMonitor();
 /** Change MLT consumer volume */
 	void setVolume(double);
 
-      private:			// Private attributes
-  /** The document associated with this edit panel */
-	 KdenliveDoc * m_document;
-  double m_playSpeed;
+    private:			// Private attributes
+	KMMMonitor *m_monitor;
+	KdenliveDoc * m_document;
+  	double m_playSpeed;
   
- // Set or stop playback.
-  void setPlaying(bool play);
-  int buttonSize;
-  bool m_playSelected;
-  bool m_loop;
-  bool m_pauseMode;
-  GenTime m_startPlayPosition;
-  double m_volume;
+ 	// Set or stop playback.
+  	void setPlaying(bool play);
+  	int buttonSize;
+  	bool m_playSelected;
+  	bool m_loop;
+  	bool m_pauseMode;
+  	GenTime m_startPlayPosition;
+  	double m_volume;
 
-   // True if we are playing, false otherwise.
+   	// True if we are playing, false otherwise.
 	bool isPlaying() const {
 	    if (m_pauseMode) return false;
 	    return m_playSpeed != 0.0;

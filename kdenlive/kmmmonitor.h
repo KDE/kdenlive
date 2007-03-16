@@ -57,6 +57,18 @@ namespace Gui {
 
 	/** See m_noSeek property for details. */
 	void setNoSeek(bool noSeek);
+	int externalMonitor();
+	void playingStopped();
+	/** Starts a drag operation, using the currently selected clip and the specified in
+	 *  and out points for it. */
+	void startDrag();
+	/** Causes the monitor to act as if a right mouse click has happened on it. */
+	void rightClickMonitor();
+	/** Causes the monitor to act as if a mouse click has happened on it. */
+	void clickMonitor();
+	/** This slot is called when the screen changes position. */
+	void screenPositionChanged(const GenTime & time);
+	KRender *findRenderer(const char *name);
 
 	virtual DocClipRef *clip() const;
 
@@ -105,25 +117,16 @@ namespace Gui {
 	void slotSetVolume(double volume) const;
 	/** Refresh display (check if on screen display should be on or off */
 	void refreshDisplay() const;
-	/** This slot is called when the screen changes position. */
-	void screenPositionChanged(const GenTime & time);
 	/** Sets this monitor to be the active monitor. It's colour changes to show it is active. */
 	void slotSetActive();
 	/** Sets this monitor to be an inactive monitor. It's colour changes to show it is inactive. */
 	void slotSetInactive();
-	/** Causes the monitor to act as if a mouse click has happened on it. */
-	void slotClickMonitor();
-	/** Causes the monitor to act as if a right mouse click has happened on it. */
-	void slotRightClickMonitor();
 	/** Sets the displayed clip in the timeline. */
 	void slotSetClip(DocClipBase * clip);
 	/** Sets the displayed clip in the timeline. */
 	void slotSetClip(DocClipRef * clip);
 	/** Clears the displayed clip on the timeline */
 	void slotClearClip();
-	/** Starts a drag operation, using the currently selected clip and the specified in
-	 *  and out points for it. */
-	void slotStartDrag();
 
 	void activateMonitor();
 	void refreshClip();
@@ -146,6 +149,8 @@ namespace Gui {
 
 	/** go to the next snap marker from the current seek position */
 	void slotNextSnapMarker();
+
+	void slotPlaySpeedChanged(double speed);
 
 	 signals:		// Signals
 	/** Emitted when the monitor's current position has changed. */

@@ -1,4 +1,3 @@
-#include <klocale.h>
 /***************************************************************************
                          kmmeditpanelimplementation.cpp  -  description
                             -------------------
@@ -28,21 +27,21 @@
 #include <kdatetbl.h>
 #include <kiconloader.h>
 #include <krestrictedline.h>
+#include <klocale.h>
 
 #include "kmmeditpanel.h"
-
-
 #include "kfixedruler.h"
 #include "krulertimemodel.h"
 #include "kdenlivedoc.h"
+#include "kmmmonitor.h"
 
 namespace Gui {
 
-    KMMEditPanel::KMMEditPanel(KdenliveDoc * document, QWidget * parent,
-	const char *name, WFlags fl):KMMEditPanel_UI(parent, name, fl),
+    KMMEditPanel::KMMEditPanel(KdenliveDoc * document, KMMMonitor * monitor,
+	const char *name, WFlags fl):KMMEditPanel_UI((QWidget*) monitor, name, fl),
     m_playSpeed(0.0), m_playSelected(false), m_loop(false), m_startPlayPosition(0), m_volume(1.0) {
 	m_document = document;
-
+	m_monitor = monitor;
 	m_ruler->setRulerModel(new KRulerTimeModel());
 	m_ruler->setRange(0, 0);
 	m_ruler->setMargin(40);
@@ -318,12 +317,11 @@ namespace Gui {
 	m_pauseMode = false;
 	m_loop = false;
 	m_playSpeed = 0.0;
-	emit playStopped(m_startPlayPosition);
+	m_monitor->screen()->playStopped(m_startPlayPosition);
     }
 
     void KMMEditPanel::setPlaying(bool play) {
 	double playSpeed;
-	kdDebug()<<"/// SETPLAYING"<<endl;
 	if (play && m_playSpeed == 0.0) m_playSpeed = 1.0;
 	m_pauseMode = !play;
 	if (play) {
@@ -333,15 +331,15 @@ namespace Gui {
 		playSpeed = 0.0;
 	}
 
-	emit activateMonitor();
+	m_monitor->activateMonitor();
 
 	if (m_playSelected) {
-            emit playSpeedChanged(playSpeed, inpoint(), outpoint());
+	    m_monitor->screen()->play(playSpeed, inpoint(), outpoint());
 	} else {
 	    if (m_pauseMode == true) {
-		emit playSpeedChanged(playSpeed, point());
+		m_monitor->screen()->play(playSpeed, point());
 	    } else 
-		emit playSpeedChanged(playSpeed);
+		m_monitor->screen()->play(playSpeed);
         }
 	updateButtons();
     }

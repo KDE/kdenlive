@@ -30,7 +30,7 @@
 #include "docclipavfile.h"
 #include "avfile.h"
 #include "clipdrag.h"
-
+#include "krendermanager.h"
 #include "kaddmarkercommand.h"
 
 #include <algorithm>
@@ -39,10 +39,10 @@ namespace Gui {
 
     KMMMonitor::KMMMonitor(KdenliveApp * app, KdenliveDoc * document,
 	QWidget * parent, const char *name):KMonitor(parent, name),
-	m_app(app), m_document(document), m_screenHolder(new QVBox(this,
-	    name)), m_screen(new KMMScreen(app, m_screenHolder, name)),
-	m_editPanel(new KMMEditPanel(document, this, name)),
+	m_app(app), m_document(document), m_screen(new KMMScreen(this, m_screenHolder, name)), m_screenHolder(new QVBox(this,
+	    name)), m_editPanel(new KMMEditPanel(document, this, name)),
 	m_noSeek(false), m_clip(NULL), m_referredClip(NULL) {
+
 	connect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)),
 	    this, SIGNAL(seekPositionChanged(const GenTime &)));
 	 connect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)),
@@ -62,9 +62,6 @@ namespace Gui {
 	    this, SLOT(slotNextSnapMarker()));
 	 connect(m_editPanel, SIGNAL(previousSnapMarkerClicked()),
 	    this, SLOT(slotPreviousSnapMarker()));
-
-	 connect(m_editPanel, SIGNAL(activateMonitor()), this,
-	    SLOT(activateMonitor()));
 
 	 m_screenHolder->setMargin(3);
 	 m_screenHolder->setPaletteBackgroundColor(QColor(0, 0, 0));
@@ -113,66 +110,26 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	disconnect(m_editPanel,
 	    SIGNAL(seekPositionChanged(const GenTime &)), m_screen,
 	    SLOT(seek(const GenTime &)));
-	disconnect(m_editPanel, SIGNAL(playSpeedChanged(double)), m_screen,
-	    SLOT(play(double)));
-	disconnect(m_editPanel, SIGNAL(playSpeedChanged(double,
-		    const GenTime &)), m_screen, SLOT(play(double,
-		    const GenTime &)));
-	disconnect(m_editPanel, SIGNAL(playSpeedChanged(double,
-		    const GenTime &, const GenTime &)), m_screen,
-	    SLOT(play(double, const GenTime &, const GenTime &)));
-
-/*	disconnect(m_screen, SIGNAL(rendererConnected()), m_editPanel,
-	    SLOT(rendererConnected()));
-	disconnect(m_screen, SIGNAL(rendererDisconnected()), m_editPanel,
-        SLOT(rendererDisconnected()));*/
-	disconnect(m_screen, SIGNAL(seekPositionChanged(const GenTime &)),
-	    this, SLOT(screenPositionChanged(const GenTime &)));
-	disconnect(m_screen, SIGNAL(playSpeedChanged(double)), m_editPanel,
-	    SLOT(screenPlaySpeedChanged(double)));
-	disconnect(m_screen, SIGNAL(mouseClicked()), this,
-	    SLOT(slotClickMonitor()));
-	disconnect(m_screen, SIGNAL(mouseRightClicked()), this,
-	    SLOT(slotRightClickMonitor()));
-	disconnect(m_screen, SIGNAL(mouseDragged()), this,
-	    SLOT(slotStartDrag()));
-        disconnect(m_screen, SIGNAL(exportOver()), m_editPanel,
-                SLOT(screenPlayStopped()));
     }
 
     void KMMMonitor::connectScreen() {
 	connect(m_editPanel, SIGNAL(seekPositionChanged(const GenTime &)),
 	    m_screen, SLOT(seek(const GenTime &)));
+    }
 
-	connect(m_editPanel, SIGNAL(playStopped(const GenTime &)),
-	    m_screen, SLOT(playStopped(const GenTime &)));
+    void KMMMonitor::slotPlaySpeedChanged(double speed)
+    {
+	m_editPanel->screenPlaySpeedChanged(speed);
+    }
 
-	connect(m_editPanel, SIGNAL(playSpeedChanged(double)), m_screen,
-	    SLOT(play(double)));
-	connect(m_editPanel, SIGNAL(playSpeedChanged(double,
-		    const GenTime &)), m_screen, SLOT(play(double,
-		    const GenTime &)));
-	connect(m_editPanel, SIGNAL(playSpeedChanged(double,
-		    const GenTime &, const GenTime &)), m_screen,
-	    SLOT(play(double, const GenTime &, const GenTime &)));
+    int KMMMonitor::externalMonitor()
+    {
+	return m_app->externalMonitor();
+    }
 
-/*	connect(m_screen, SIGNAL(rendererConnected()), m_editPanel,
-	    SLOT(rendererConnected()));
-        
-	connect(m_screen, SIGNAL(rendererDisconnected()), m_editPanel,
-        SLOT(rendererDisconnected()));*/
-
-	connect(m_screen, SIGNAL(seekPositionChanged(const GenTime &)), this, SLOT(screenPositionChanged(const GenTime &)));
-
-	connect(m_screen, SIGNAL(playSpeedChanged(double)), m_editPanel,
-	    SLOT(screenPlaySpeedChanged(double)));
-	connect(m_screen, SIGNAL(mouseClicked()), this,
-	    SLOT(slotClickMonitor()));
-	connect(m_screen, SIGNAL(mouseRightClicked()), this,
-	    SLOT(slotRightClickMonitor()));
-	connect(m_screen, SIGNAL(mouseDragged()), this,
-	    SLOT(slotStartDrag()));
-        connect(m_screen, SIGNAL(playingStopped()), m_editPanel, SLOT(screenPlayStopped()));
+    void KMMMonitor::playingStopped()
+    {
+	m_editPanel->screenPlayStopped();
     }
 
     void KMMMonitor::setSceneList(const QDomDocument & scenelist,
@@ -205,6 +162,10 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	m_app->activateMonitor(this);
     }
 
+    KRender *KMMMonitor::findRenderer(const char *name) {
+	return m_app->renderManager()->findRenderer(name);
+    }
+
     void KMMMonitor::slotSetActive() {
         m_editPanel->rendererConnected();
 	//m_screenHolder->setPaletteBackgroundColor(QColor(16, 32, 71));
@@ -223,7 +184,7 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	    popupContextMenu();
     }
 
-    void KMMMonitor::slotClickMonitor() {
+    void KMMMonitor::clickMonitor() {
 	emit monitorClicked(this);
     }
 
@@ -261,11 +222,11 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
     }
 
     void KMMMonitor::slotSetClip(DocClipBase * clip) {
-        activateMonitor();
 	if (!clip) {
 	    kdError() << "Null clip passed, not setting monitor." << endl;
 	    return;
 	}
+        activateMonitor();
 	m_referredClip = 0;
 	if (m_clip) {
 	    delete m_clip;
@@ -285,8 +246,7 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
     void KMMMonitor::doCommonSetClip(bool resetCropPosition) {
 	QDomDocument scenelist = m_clip->generateSceneList();
 	setSceneList(scenelist, false);
-	m_screen->setClipLength((int) m_clip->duration().
-	    frames(m_document->framesPerSecond()));
+	m_screen->setClipLength(m_clip->duration());
 	m_editPanel->setClipLength((int) m_clip->duration().
 	    frames(m_document->framesPerSecond()));
 
@@ -311,7 +271,7 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	    delete m_clip;
 	    m_clip = 0;
 	}
-	m_screen->setClipLength(0);
+	m_screen->setClipLength(GenTime());
 	m_screen->resetRenderer();
 	m_editPanel->setClipLength(0);
 	m_editPanel->setInpoint(GenTime(0));
@@ -319,7 +279,7 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
         m_editPanel->seek(GenTime(0));
     }
 
-    void KMMMonitor::slotStartDrag() {
+    void KMMMonitor::startDrag() {
 	if (!m_clip) {
 	    kdWarning() << "KMMMonitor cannot start drag - m_clip is null!"
 		<< endl;
@@ -383,7 +343,7 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	}
     }
 
-    void KMMMonitor::slotRightClickMonitor() {
+    void KMMMonitor::rightClickMonitor() {
 	popupContextMenu();
     }
 

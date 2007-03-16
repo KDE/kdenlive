@@ -64,7 +64,7 @@ m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProduce
     openMlt();
     refreshTimer = new QTimer( this );
     connect( refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()) );
-    if (rendererName == "Document") m_monitorId = 10002;
+    if (rendererName == "Document") m_monitorId = 10000;
     else m_monitorId = 10001;
     osdTimer = new QTimer( this );
     connect( osdTimer, SIGNAL(timeout()), this, SLOT(slotOsdTimeout()) );
@@ -116,7 +116,7 @@ static void consumer_frame_show(mlt_consumer, KRender * self, mlt_frame frame_pt
     if (mlt_properties_get_double( MLT_FRAME_PROPERTIES( frame_ptr ), "_speed" ) == 0)
         self->emitConsumerStopped();
     else {
-	self->emitFrameNumber(mlt_frame_get_position(frame_ptr), 10000);
+	self->emitFrameNumber(mlt_frame_get_position(frame_ptr));
     }
 
 }
@@ -706,6 +706,7 @@ void KRender::clear()
 
 void KRender::stop()
 {
+	kdDebug()<<"///// + + + + PLAY STOPPED ++ + +"<<endl;
     if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
 	m_mltConsumer->stop();
     }
@@ -732,7 +733,8 @@ void KRender::play(double speed)
 	return;
     m_mltProducer->set("out", m_mltProducer->get_length() - 1);
     m_mltProducer->set_speed(speed);
-    if (speed == 0.0) m_mltProducer->seek((int) m_framePosition + 1);
+    if (speed == 0.0)
+	m_mltProducer->seek((int) m_framePosition + 1);
     refresh();
 }
 
@@ -822,10 +824,10 @@ const QString & KRender::rendererName() const
 }
 
 
-void KRender::emitFrameNumber(double position, int eventType)
+void KRender::emitFrameNumber(double position)
 {
 	m_framePosition = position;
-        QApplication::postEvent(qApp->mainWidget(), new PositionChangeEvent( GenTime((int) position, m_fps), eventType));
+        QApplication::postEvent(qApp->mainWidget(), new PositionChangeEvent( GenTime((int) position, m_fps), m_monitorId));
 }
 
 void KRender::emitFileFrameNumber(const GenTime & , int eventType)
@@ -841,7 +843,7 @@ void KRender::emitConsumerStopped()
     // This is used to know when the playing stopped
     if (m_mltProducer) {
 	double pos = m_mltProducer->position();
-        QApplication::postEvent(qApp->mainWidget(), new PositionChangeEvent(GenTime((int) pos, m_fps), m_monitorId));
+        QApplication::postEvent(qApp->mainWidget(), new PositionChangeEvent(GenTime((int) pos, m_fps), m_monitorId + 100));
 	//new QCustomEvent(10002));
     }
 }
