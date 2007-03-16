@@ -54,13 +54,11 @@ namespace Gui {
 
 /** Cause the specified monitor to become active. */
     void MonitorManager::activateMonitor(KMonitor * monitor) {
-	if (monitor == activeMonitor())
-	    return;
 	if (m_active) {
+	    if (monitor == m_active) return;
 	    m_active->slotSetInactive();
 	}
 	m_active = monitor;
-
 	if (m_active) {
 	    m_active->slotSetActive();
 	}
