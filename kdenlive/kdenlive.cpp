@@ -3714,8 +3714,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 /** Sets the clip monitor source to be the given clip. */
     void KdenliveApp::slotSetClipMonitorSource(DocClipRef * clip) {
         if (clip) {
-           activateClipMonitor();
 	   m_clipMonitor->slotSetClip(clip);
+	   activateClipMonitor();
         }
         else activateWorkspaceMonitor();
     }
@@ -3726,8 +3726,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
             GenTime value = getDocument()->renderer()->seekPosition();
             GenTime trackStart = clip->trackStart();
             GenTime trackEnd = clip->trackEnd();
-            activateClipMonitor();
             m_clipMonitor->slotSetClip(clip);
+            activateClipMonitor();
             if (value > trackStart && value < trackEnd) {
                 m_clipMonitor->editPanel()->seek(clip->cropStartTime() + value - trackStart);
             }
@@ -3785,8 +3785,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
     void KdenliveApp::activateClipMonitor() {
 	if (!m_clipMonitor) return;
-	m_dockClipMonitor->makeDockVisible();
 	m_monitorManager.activateMonitor(m_clipMonitor);
+	m_dockClipMonitor->makeDockVisible();
     }
 
     void KdenliveApp::activateMonitor(KMonitor * monitor) {
@@ -3795,8 +3795,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
     void KdenliveApp::activateWorkspaceMonitor() {
 	if (!m_workspaceMonitor) return;
-	m_dockWorkspaceMonitor->makeDockVisible();
 	m_monitorManager.activateMonitor(m_workspaceMonitor);
+	m_dockWorkspaceMonitor->makeDockVisible();
     }
 
     void KdenliveApp::activateCaptureMonitor() {

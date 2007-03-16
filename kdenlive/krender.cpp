@@ -200,7 +200,6 @@ int KRender::resetRendererProfile(char * profile)
 
 void KRender::restartConsumer()
 {
-    kdDebug()<<"// RESTARTING SDL CONSUMER"<<endl;
     if (m_winid != -1) createVideoXWindow(true, m_winid, m_externalwinid);
 }
 
@@ -686,7 +685,9 @@ void KRender::start()
 	    m_mltConsumer = NULL;
 	    return;
 	}
-    	else refresh();
+    	else {
+		//refresh();
+	}
     }
 }
 
@@ -706,7 +707,6 @@ void KRender::clear()
 
 void KRender::stop()
 {
-	kdDebug()<<"///// + + + + PLAY STOPPED ++ + +"<<endl;
     if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
 	m_mltConsumer->stop();
     }
@@ -723,7 +723,6 @@ void KRender::stop(const GenTime & startTime)
 	m_mltProducer->set_speed(0.0);
 	m_mltProducer->seek((int) startTime.frames(m_fps));
     }
-//refresh();
 }
 
 
@@ -779,7 +778,6 @@ void KRender::askForRefresh()
 {
     // Use a Timer so that we don't refresh too much
     refreshTimer->start(200, TRUE);
-//    kdDebug()<<"++++++++  START REFRESH ++++++"<<endl;
 }
 
 void KRender::refresh()
@@ -839,7 +837,6 @@ void KRender::emitFileFrameNumber(const GenTime & , int eventType)
 
 void KRender::emitConsumerStopped()
 {
-    //kdDebug()<<"+++++++++++  SDL CONSUMER STOPPING ++++++++++++++++++"<<endl;
     // This is used to know when the playing stopped
     if (m_mltProducer) {
 	double pos = m_mltProducer->position();
