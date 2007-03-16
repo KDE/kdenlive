@@ -571,9 +571,10 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
 {
     double pos = 0;
     m_sceneList = list;
-    if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
+	m_mltConsumer->set("refresh", 0);
+    /*if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
 	m_mltConsumer->stop();
-    }
+    }*/
 
     if (m_mltProducer != NULL) {
 	m_mltProducer->set_speed(0.0);
