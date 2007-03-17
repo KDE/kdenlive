@@ -208,8 +208,7 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	    m_clip = 0;
 	}
 	// create a copy of the clip.
-	m_clip =
-	    clip->clone(m_document);
+	m_clip = clip->clone(m_document);
 
 	if (!m_clip) {
 	    kdError() <<
@@ -255,11 +254,8 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	   m_editPanel->setInpoint(m_clip->cropStartTime());
 	   m_editPanel->setOutpoint(m_clip->cropStartTime() + m_clip->cropDuration());
         }
-
-	if ((!m_noSeek) ||
-	    (seekPosition() < m_clip->cropStartTime()) ||
-	    (seekPosition() >
-		m_clip->cropStartTime() + m_clip->duration())) {
+	if ((!m_noSeek) || (seekPosition() < m_clip->cropStartTime()) ||
+	    (seekPosition() > m_clip->cropStartTime() + m_clip->duration())) {
 	    m_screen->seek(m_clip->cropStartTime());
 	}
     }
