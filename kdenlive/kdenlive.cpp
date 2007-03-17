@@ -3714,8 +3714,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 /** Sets the clip monitor source to be the given clip. */
     void KdenliveApp::slotSetClipMonitorSource(DocClipRef * clip) {
         if (clip) {
-	   m_clipMonitor->slotSetClip(clip);
 	   activateClipMonitor();
+	   m_clipMonitor->slotSetClip(clip);
         }
         else activateWorkspaceMonitor();
     }
