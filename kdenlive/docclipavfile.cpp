@@ -188,6 +188,7 @@ QDomElement element = node.documentElement();
 
 DocClipAVFile::~DocClipAVFile()
 {
+    if (m_audioTimer) delete m_audioTimer;
 }
 
 void DocClipAVFile::removeTmpFile() const
