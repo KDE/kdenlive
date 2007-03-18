@@ -33,6 +33,7 @@
 #include "transitionlumafile_ui.h"
 #include "transitionwipewidget.h"
 #include "transitionpipwidget.h"
+#include "definitions.h"
 
 
 class QVBox;
@@ -66,7 +67,7 @@ namespace Gui {
     QString getLumaFilePath(QString fileName);
     void refreshLumas();
     QMap <QString, QPixmap> lumaPreviews();
-    void setVideoFormat(uint format);
+    void setVideoFormat(VIDEOFORMAT format);
 
     private slots:
 	void applyChanges();
@@ -76,7 +77,7 @@ namespace Gui {
 	void initLumaFiles();
 
     private:
-	int m_videoFormat;
+	VIDEOFORMAT m_videoFormat;
 	transitionCrossfade_UI *transitCrossfade;
 	transitionLumaFile_UI *transitLumaFile;
 	transitionAudiofade_UI *transitAudiofade;

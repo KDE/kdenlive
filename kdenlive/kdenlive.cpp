@@ -283,7 +283,7 @@ namespace Gui {
 	return list;
     }
 
-    QString KdenliveApp::projectFormatName(int format)
+    QString KdenliveApp::projectFormatName(uint format)
     {
     	QMap<QString, formatTemplate>::Iterator it;
     	for ( it = m_projectTemplates.begin(); it != m_projectTemplates.end(); ++it ) {
@@ -1903,8 +1903,8 @@ namespace Gui {
 	    }
     }
 
-   uint KdenliveApp::projectVideoFormat() {
-	return (uint) m_projectFormat;
+   VIDEOFORMAT KdenliveApp::projectVideoFormat() {
+	return m_projectFormat;
    }
 
     GenTime KdenliveApp::inpointPosition() const {
@@ -2085,7 +2085,6 @@ namespace Gui {
 	    ix++;
     	}
 	m_projectFormat = (VIDEOFORMAT) projectFormat;
-	if (m_transitionPanel) m_transitionPanel->setVideoFormat(m_projectFormat);
 	KdenliveSettings::setDefaultheight(m_projectTemplates.values()[ix].height());
 	KdenliveSettings::setDefaultfps(m_projectTemplates.values()[ix].fps());
 	KdenliveSettings::setAspectratio(m_projectTemplates.values()[ix].aspect());
@@ -2093,7 +2092,8 @@ namespace Gui {
 	    KdenliveSettings::setVideoprofile("dv_wide");
 	else KdenliveSettings::setVideoprofile("dv");
 	putenv (m_projectTemplates.values()[ix].normalisation());
-
+	if (m_transitionPanel) m_transitionPanel->setVideoFormat(m_projectFormat);
+	if (m_exportWidget) m_exportWidget->setVideoFormat(m_projectFormat);
 	if (getDocument() && getDocument()->renderer())
 	    getDocument()->renderer()->resetRendererProfile((char*) KdenliveSettings::videoprofile().ascii());
 	if (m_renderManager && m_renderManager->findRenderer("ClipMonitor"))
@@ -2997,7 +2997,7 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	slotStatusMsg(i18n("Adding Clips"));
 
 	// Make a reasonable filter for video / audio files.
-	QString filter = "application/vnd.kde.kdenlive application/vnd.westley.scenelist application/flv application/vnd.rn-realmedia video/x-dv video/x-msvideo video/mpeg video/x-ms-wmv audio/x-mp3 audio/x-wav application/ogg *.m2t video/mp4 video/quicktime image/gif image/jpeg image/png image/x-bmp image/svg+xml";
+	QString filter = "application/vnd.kde.kdenlive application/vnd.westley.scenelist application/flv application/vnd.rn-realmedia video/x-dv video/x-msvideo video/mpeg video/x-ms-wmv audio/x-mp3 audio/x-wav application/ogg *.m2t *.dv video/mp4 video/quicktime image/gif image/jpeg image/png image/x-bmp image/svg+xml";
 	KURL::List urlList =
 	    KFileDialog::getOpenURLs(m_fileDialogPath.path(), filter, this,
         i18n("Open File..."));
@@ -3866,7 +3866,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	if (configDialog.exec() == QDialog::Accepted ) {
 	    KdenliveSettings::setCurrentdefaultfolder(configDialog.selectedFolder());
 	    QString newFormat = configDialog.selectedFormat();
-	    if (newFormat != projectFormatName(projectVideoFormat()))
+	    if (newFormat != projectFormatName((uint) projectVideoFormat()))
 	    	switchProjectToFormat(newFormat);
 	}
     }
@@ -4091,7 +4091,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     void KdenliveApp::slotDisplayTrackHeaderContextMenu() {
 	m_timelinePopupMenu = (QPopupMenu *) factory()->container("timeline_header_context", this);
 	m_menuPosition = QCursor::pos();
-	connect(m_timelinePopupMenu, SIGNAL(aboutToHide()), this, SLOT(hideTimelineMenu()));
+	connect(m_timelinePopupMenu, SIGNAL(aboutToHide()), this, SLOT(slotHideTimelineMenu()));
 	m_timelinePopupMenu->popup(QCursor::pos());
     }
 
@@ -4110,7 +4110,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	}
         // display menu
         ((QPopupMenu *) factory()->container("ruler_context", this))->popup(QCursor::pos());
-	connect(m_rulerPopupMenu, SIGNAL(aboutToHide()), this, SLOT(hideTimelineMenu()));
+	connect(m_rulerPopupMenu, SIGNAL(aboutToHide()), this, SLOT(slotHideTimelineMenu()));
 	m_menuPosition = QCursor::pos();
     }
 
@@ -4145,7 +4145,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	if (m_timelinePopupMenu) {
             // store the mouse click position
             m_menuPosition = QCursor::pos();
-	    connect(m_timelinePopupMenu, SIGNAL(aboutToHide()), this, SLOT(hideTimelineMenu()));
+	    connect(m_timelinePopupMenu, SIGNAL(aboutToHide()), this, SLOT(slotHideTimelineMenu()));
             // display menu
 	    m_timelinePopupMenu->popup(QCursor::pos());
 	}
@@ -4156,7 +4156,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	m_menuPosition = QPoint();
     }
 
-    void KdenliveApp::hideTimelineMenu() {
+    void KdenliveApp::slotHideTimelineMenu() {
 	// #hack: wait until the menu closes and its action is called, the reset the menu position.
 	QTimer::singleShot(500, this, SLOT(resetTimelineMenuPosition()));
     }

@@ -71,7 +71,7 @@ void ConfigureProjectDialog::loadTemplates()
     templatesList->clear();
     templatesList->insertStringList(m_app->videoProjectFormats());
     projectFolder->setURL(KdenliveSettings::currentdefaultfolder());
-    templatesList->setCurrentText(m_app->projectFormatName(m_app->projectVideoFormat()));
+    templatesList->setCurrentText(m_app->projectFormatName((uint) m_app->projectVideoFormat()));
     updateDisplay();
 }
 

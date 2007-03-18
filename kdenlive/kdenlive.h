@@ -153,7 +153,7 @@ namespace Gui {
         void ensureCursorVisible();
 	int externalMonitor();
 	QStringList videoProjectFormats();
-	QString projectFormatName(int format);
+	QString projectFormatName(uint format);
 	formatTemplate projectFormatParameters(int format);
 	VIDEOFORMAT projectFormatFromName(QString formatName);
 
@@ -426,7 +426,7 @@ namespace Gui {
         void refreshClipTrack(DocClipRef * clip);
 	QDomDocument xmlGuides();
 	void guidesFromXml(QDomElement doc);
-	uint projectVideoFormat();
+	VIDEOFORMAT projectVideoFormat();
 	void refreshVirtualZone();
 	void insertClipFromUrl(QString path);
 	void toggleMarkerUnderCursor();
@@ -446,7 +446,7 @@ namespace Gui {
 	void slotToggleProjectList();
         void slotToggleTransitions();
 	void slotUpdateLayoutState();
-
+	void slotHideTimelineMenu();
 	void slotFocusClipMonitor();
 	void slotFocusWorkspaceMonitor();
 	void slotFocusCaptureMonitor();
@@ -713,7 +713,6 @@ namespace Gui {
 	void createExternalMonitor();
 	void switchProjectToFormat(QString newFormat);
 	void resetTimelineMenuPosition();
-	void hideTimelineMenu();
 	QPoint mousePosition();
     };
 

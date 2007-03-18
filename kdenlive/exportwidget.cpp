@@ -110,6 +110,12 @@ exportWidget::~exportWidget()
     slotSaveCustomEncoders();
 }
 
+void exportWidget::setVideoFormat(VIDEOFORMAT format)
+{
+    m_format = format;
+    initEncoders();
+}
+
 void exportWidget::setMetaData(QStringList metaValues)
 {
 	if (metaValues.count() != 7) {
@@ -344,8 +350,14 @@ QString exportWidget::slotEncoderCommand(QStringList list, QString arg1, QString
     for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it ) {
 	if ((*it).section(":", 2, 2) == arg1) {
 	    if (arg2.isEmpty()) {
-		return (*it);
-		break;
+		if ((*it).section(":", 7, 7).isEmpty()) {
+			return (*it);
+			break;
+		}
+		else if (((*it).section(":", 7, 7) == "PAL" && (m_format == PAL_VIDEO || m_format == PAL_WIDE)) || ((*it).section(":", 7, 7) == "NTSC" && (m_format == NTSC_VIDEO || m_format == NTSC_WIDE))) {
+			return (*it);
+			break;
+		}
 	    }
 	    if ((*it).section(":", 3, 3) == arg2) {
 	        if (arg3.isEmpty()) {
@@ -486,17 +498,25 @@ void exportWidget::initEncoders()
     QString exportFile = locate("data", "kdenlive/profiles/exports.profile");
     QFile file(exportFile);
     QString line;
+    hq_encoders->clear();
+    med_encoders->clear();
+    audio_encoders->clear();
+    HQEncoders.clear();
+    MedEncoders.clear();
+    AudioEncoders.clear();
+
     if ( file.open( IO_ReadOnly ) ) {
         QTextStream stream( &file );
         while ( !stream.atEnd() ) {
             line = stream.readLine(); // line of text excluding '\n'
 	    if (!line.startsWith("#")) {
 		if (line.section(":",1,1) == "HQ") {
+		    if ((line.section(":",7,7) == "PAL" && KdenliveSettings::defaultheight() == 576) || (line.section(":",7,7) == "NTSC" && KdenliveSettings::defaultheight() == 480)) {
 			QString name = line.section(":",2,2);
 			HQEncoders<<line;
 			QListViewItem *item =  hq_encoders->findItem(name, 0);
 			if (!item) item = new KListViewItem(hq_encoders, name);
-			QListViewItem *child = item->firstChild();
+			/*QListViewItem *child = item->firstChild();
 			if (!child) child = new KListViewItem(item, line.section(":",3,3));
 			else {
 			    bool found = false;
@@ -508,8 +528,10 @@ void exportWidget::initEncoders()
 				child = child->nextSibling();
 			    }
 			    if (!found) child = new KListViewItem(item, line.section(":",3,3));
-			}
+			}		
 			if (!line.section(":",4,4).isEmpty()) (void) new KListViewItem(child, line.section(":",4,4));
+			*/
+		    }
 		}
 		else if (line.section(":",1,1) == "MED") {
 			MedEncoders<<line;

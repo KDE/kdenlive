@@ -99,7 +99,7 @@ TransitionDialog::~TransitionDialog()
     delete propertiesDialog;
 }
 
-void TransitionDialog::setVideoFormat(uint format)
+void TransitionDialog::setVideoFormat(VIDEOFORMAT format)
 {
     m_videoFormat = format;
     refreshLumas();
@@ -118,7 +118,7 @@ void TransitionDialog::initLumaFiles()
     QString inigoPath = KStandardDirs::findExe("inigo");
     inigoPath = inigoPath.section('/', 0, -3);
 
-    if ((VIDEOFORMAT) m_videoFormat == PAL_VIDEO || (VIDEOFORMAT) m_videoFormat == PAL_WIDE) {
+    if (m_videoFormat == PAL_VIDEO || m_videoFormat == PAL_WIDE) {
 	// PAL format
 	m_lumaType = "lumasPAL";
 	KGlobal::dirs()->addResourceType(m_lumaType, "");
@@ -129,7 +129,7 @@ void TransitionDialog::initLumaFiles()
 	}
         KGlobal::dirs()->addResourceDir(m_lumaType, inigoPath + "/share/mlt/modules/lumas/PAL");
     }
-    else if ((VIDEOFORMAT) m_videoFormat == NTSC_VIDEO || (VIDEOFORMAT) m_videoFormat == NTSC_WIDE) {
+    else if (m_videoFormat == NTSC_VIDEO || m_videoFormat == NTSC_WIDE) {
 	// NTSC format
 	m_lumaType = "lumasNTSC";
 	KGlobal::dirs()->addResourceType(m_lumaType, "");
@@ -141,7 +141,7 @@ void TransitionDialog::initLumaFiles()
 	}
         KGlobal::dirs()->addResourceDir(m_lumaType, inigoPath + "/share/mlt/modules/lumas/NTSC");
     }
-    else if ((VIDEOFORMAT) m_videoFormat == HDV1080PAL_VIDEO) {
+    else if (m_videoFormat == HDV1080PAL_VIDEO) {
 	// TODO, separate PAL AND NTSC HDV 1080
 	m_lumaType = "lumasHDV1080";
 	KGlobal::dirs()->addResourceType(m_lumaType, "");
@@ -153,7 +153,7 @@ void TransitionDialog::initLumaFiles()
 	}
         KGlobal::dirs()->addResourceDir(m_lumaType, inigoPath + "/share/mlt/modules/lumas/HDV1080");
     }
-    else if ((VIDEOFORMAT) m_videoFormat == HDV720PAL_VIDEO) {
+    else if (m_videoFormat == HDV720PAL_VIDEO) {
 	// TODO, separate PAL AND NTSC HDV 720
 	m_lumaType = "lumasHDV720";
 	KGlobal::dirs()->addResourceType(m_lumaType, "");

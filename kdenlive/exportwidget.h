@@ -54,6 +54,7 @@ public:
     const QStringList getMetaData();
     void resetValues();
     void setMetaData(QStringList metaValues);
+    void setVideoFormat(VIDEOFORMAT format);
 
 private:
         QHBoxLayout* flayout;
