@@ -243,10 +243,6 @@ namespace Gui {
 	void slotPasteTransitions();
 	void slotPasteEffects();
 
-		/** changes the statusbar contents for the standard label permanently, used to indicate current actions.
-		 * @param text the text that is displayed in the statusbar
-		 */
-	void slotStatusMsg(const QString & text);
 		/** Alerts the App to when the document has been modified. */
 	void documentModified(bool modified);
 		/** Called whenever snaptoframe action is toggled. */
@@ -458,9 +454,12 @@ namespace Gui {
 	void slotFocusEffectStack();
 	void slotFocusProjectList();
         void slotFocusTransitions();
-	void resetTimelineMenuPosition();
-	void hideTimelineMenu();
-	QPoint mousePosition();
+
+	/** changes the statusbar contents for the standard label permanently, used to indicate current actions.
+	 * @param text the text that is displayed in the statusbar
+	 */
+	void slotStatusMsg(const QString & text = QString::null);
+	void slotTemporaryStatusMsg(const QString & text = QString::null);
 
 	void slotDeleteTrack();
 	void slotAddTrack();
@@ -702,6 +701,7 @@ namespace Gui {
         newLumaStuff *m_newLumaDialog;
 
 	QTimer *m_autoSaveTimer;
+	QTimer *m_statusBarTimer;
 
 	ProjectFormatManager m_projectFormatManager;
 
@@ -712,6 +712,9 @@ namespace Gui {
 	int m_externalMonitor;
 	void createExternalMonitor();
 	void switchProjectToFormat(QString newFormat);
+	void resetTimelineMenuPosition();
+	void hideTimelineMenu();
+	QPoint mousePosition();
     };
 
 }				// namespace Gui

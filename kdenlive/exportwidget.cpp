@@ -113,7 +113,7 @@ exportWidget::~exportWidget()
 void exportWidget::setMetaData(QStringList metaValues)
 {
 	if (metaValues.count() != 7) {
-	    kdDebug()<<"///////  BAD METADATA INPUT ///////"<<endl;
+	    //kdDebug()<<"///////  BAD METADATA INPUT ///////"<<endl;
 	    return;
 	}
 	m_meta_author = metaValues[0];

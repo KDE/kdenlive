@@ -320,6 +320,7 @@ namespace Gui {
     
     KdenliveApp::~KdenliveApp() {
 	KdenliveSettings::writeConfig();
+	if (m_statusBarTimer) delete m_statusBarTimer;
         if (splash) delete splash;
         if (m_renderManager) delete m_renderManager;
 	if (m_newLumaDialog) delete m_newLumaDialog;
@@ -420,10 +421,10 @@ namespace Gui {
 
 	setStandardToolBarMenuEnabled(true);
 	createStandardStatusBarAction();
-
 	actionCollection()->setHighlightingEnabled(true);
+
  	connect(actionCollection(), SIGNAL( actionStatusText( const QString & ) ),
-           this, SLOT( slotStatusMsg( const QString & ) ) );
+           this, SLOT( slotTemporaryStatusMsg( const QString & ) ) );
  	connect(actionCollection(), SIGNAL( clearStatusText() ),
            statusBar(), SLOT( clear() ) );
 
@@ -482,20 +483,20 @@ namespace Gui {
 	fitToWidth =
 	    KStdAction::fitToWidth(this, SLOT(slotFitToWidth()),
 	    actionCollection());
-	fitToWidth->setStatusText(i18n("Zoom to display the whole project"));
+	fitToWidth->setToolTip(i18n("Zoom to display the whole project"));
 
 	KAction *zoomIn = KStdAction::zoomIn(this, SLOT(slotZoomIn()),
 	    actionCollection());
-	zoomIn->setStatusText(i18n("Zoom in"));
+	zoomIn->setToolTip(i18n("Zoom in"));
 
 	KAction *zoomOut = KStdAction::zoomOut(this, SLOT(slotZoomOut()),
 	    actionCollection());
-	zoomOut->setStatusText(i18n("Zoom out"));
+	zoomOut->setToolTip(i18n("Zoom out"));
 
         KAction *zoomRestore = new KAction(i18n("Restore Last Zoom Level"), 0, this,
         SLOT(slotRestoreZoom()), actionCollection(),
         "restore_zoom");
-	zoomRestore->setStatusText(i18n("Restoring previous zoom level"));
+	zoomRestore->setToolTip(i18n("Restoring previous zoom level"));
 
 	(void) new KAction(i18n("List View"), "view_detailed.png",0, this,
         SLOT(slotProjectListView()), actionCollection(), "project_list_view");
@@ -581,13 +582,13 @@ namespace Gui {
 	    "show_markers");
 
 	KAction *defineThumb = new KAction(i18n("Define Clip Thumbnail"), 0, this, SLOT(slotDefineClipThumb()), actionCollection(), "define_thumb");
-	defineThumb->setStatusText(i18n("Define thumbnail for the current clip"));
+	defineThumb->setToolTip(i18n("Define thumbnail for the current clip"));
 
 	KAction *gotoStart = new KAction(i18n("Go To Beginning"), KStdAccel::home(), this, SLOT(slotGotoStart()), actionCollection(), "timeline_go_start");
-	gotoStart->setStatusText(i18n("Beginning of project"));
+	gotoStart->setToolTip(i18n("Beginning of project"));
 
 	KAction *gotoEnd = new KAction(i18n("Go To End"), KStdAccel::end(), this, SLOT(slotGotoEnd()), actionCollection(), "timeline_go_end");
-	gotoEnd->setStatusText(i18n("End of project"));
+	gotoEnd->setToolTip(i18n("End of project"));
 
 	projectAddClips =
 	    new KAction(i18n("Add Clips"), "addclips.png", 0, this,
@@ -638,7 +639,7 @@ namespace Gui {
 
 	KAction *renderDvd = new KAction(i18n("Export to DVD"), "dvd_unmount.png", 0, this,
 	    SLOT(slotRenderDvd()), actionCollection(), "render_dvd");
-	renderDvd->setStatusText(i18n("Generating DVD files"));
+	renderDvd->setToolTip(i18n("Generating DVD files"));
 
 	configureProject =
 	    new KAction(i18n("&Configure Project"), "configureproject.png",
@@ -652,42 +653,42 @@ namespace Gui {
 	actionStopPlay =
 	    new KAction(i18n("Stop"), 0, this,
 	    SLOT(slotStop()), actionCollection(), "stop_clip");
-	actionStopPlay->setStatusText(i18n("Stop playing"));
+	actionStopPlay->setToolTip(i18n("Stop playing"));
 
 	actionTogglePlaySelected =
 	    new KAction(i18n("Play Selection"),
 	    KShortcut(Qt::Key_Space | Qt::CTRL), this,
 	    SLOT(slotTogglePlaySelected()), actionCollection(),
 	    "toggle_play_selection");
-	actionTogglePlaySelected->setStatusText(i18n("Play selection"));
+	actionTogglePlaySelected->setToolTip(i18n("Play selection"));
 
 	KAction *playPause = new KAction(i18n("Play/Pause"), KShortcut(Qt::Key_K), this,
 	    SLOT(slotPlay()), actionCollection(), "play_clip");
-	playPause->setStatusText(i18n("Play or pause"));
+	playPause->setToolTip(i18n("Play or pause"));
 
 	KAction *playFwd = new KAction(i18n("Play forward"), KShortcut(Qt::Key_L), this,
 	    SLOT(slotToggleForwards()), actionCollection(), "toggle_forwards");
-	playFwd->setStatusText(i18n("Fast forwards playing (click several times for faster playing)"));
+	playFwd->setToolTip(i18n("Fast forwards playing (click several times for faster playing)"));
 
 	KAction *playBack = new KAction(i18n("Play backward"), KShortcut(Qt::Key_J), this,
 	    SLOT(slotToggleBackwards()), actionCollection(), "toggle_backwards");
-	playBack->setStatusText(i18n("Fast backwards playing (click several times for faster playing)"));
+	playBack->setToolTip(i18n("Fast backwards playing (click several times for faster playing)"));
 
 	KAction *playLoop = new KAction(i18n("Loop selected zone"), 0, this,
 	    SLOT(slotLoopPlay()), actionCollection(), "play_loop");
-	playLoop->setStatusText(i18n("Play selected zone in loop"));
+	playLoop->setToolTip(i18n("Play selected zone in loop"));
 
 	KAction *splitAudio = new KAction(i18n("Split Audio From Selected Clip"), 0, this,
 	    SLOT(slotSplitAudio()), actionCollection(), "split_audio");
-	splitAudio->setStatusText(i18n("Split Audio From Selected Clip"));
+	splitAudio->setToolTip(i18n("Split Audio From Selected Clip"));
 
 	KAction *extractAudio = new KAction(i18n("Extract Clip Audio"), 0, this,
 	    SLOT(slotExtractAudio()), actionCollection(), "extract_audio");
-	extractAudio->setStatusText(i18n("Extract Audio From Selected Clip"));
+	extractAudio->setToolTip(i18n("Extract Audio From Selected Clip"));
 
 	KAction *projectExtractAudio = new KAction(i18n("Extract Clip Audio"), 0, this,
 	    SLOT(slotProjectExtractAudio()), actionCollection(), "project_extract_audio");
-	projectExtractAudio->setStatusText(i18n("Extract Audio From Clip"));
+	projectExtractAudio->setToolTip(i18n("Extract Audio From Clip"));
 
 	actionNextFrame =
 	    new KAction(i18n("Forward one frame"),
@@ -701,32 +702,32 @@ namespace Gui {
                 new KAction(i18n("Forward one second"),
                             KShortcut(Qt::CTRL | Qt::Key_Right), this, SLOT(slotNextSecond()),
                             actionCollection(), "forward_second");
-	actionNextSecond->setStatusText(i18n("Move cursor forward one second"));
+	actionNextSecond->setToolTip(i18n("Move cursor forward one second"));
         actionLastSecond =
                 new KAction(i18n("Back one second"), KShortcut(Qt::CTRL | Qt::Key_Left),
                             this, SLOT(slotLastSecond()), actionCollection(),
                             "backward_second");
-	actionLastSecond->setStatusText(i18n("Move cursor backwards one second"));
+	actionLastSecond->setToolTip(i18n("Move cursor backwards one second"));
 
         KAction *nextSnap = new KAction(i18n("Forward to next snap point"),
                             KShortcut(Qt::ALT | Qt::Key_Right), this, SLOT(slotNextSnap()),
                             actionCollection(), "forward_snap");
-	nextSnap->setStatusText(i18n("Move cursor to next snap point"));
+	nextSnap->setToolTip(i18n("Move cursor to next snap point"));
 
         KAction *prevSnap = new KAction(i18n("Rewind to previous snap point"),
                             KShortcut(Qt::ALT | Qt::Key_Left), this, SLOT(slotPreviousSnap()),
                             actionCollection(), "backward_snap");
-	prevSnap->setStatusText(i18n("Move cursor to previous snap point"));
+	prevSnap->setToolTip(i18n("Move cursor to previous snap point"));
 
         KAction *removeSpace = new KAction(i18n("Remove empty space"),
                             0, this, SLOT(slotRemoveSpace()),
                             actionCollection(), "delete_space");
-	removeSpace->setStatusText(i18n("Remove space between two clips"));
+	removeSpace->setToolTip(i18n("Remove space between two clips"));
 
         KAction *getNewLuma = new KAction(i18n("Get new luma transition"),
                             "network.png", 0, this, SLOT(slotGetNewLuma()),
                             actionCollection(), "get_luma");
-	getNewLuma->setStatusText(i18n("Download new Luma file transition"));
+	getNewLuma->setToolTip(i18n("Download new Luma file transition"));
 
 	actionSetInpoint =
 	    new KAction(i18n("Set Inpoint"), KShortcut(Qt::Key_I), this,
@@ -799,103 +800,103 @@ namespace Gui {
 	KAction *addFolder = new KAction(i18n("Create Folder"), "folder_new.png", 0, this,
 	    SLOT(slotProjectAddFolder()), actionCollection(),
 	    "create_folder");
-	addFolder->setStatusText(i18n("Add folder"));
+	addFolder->setToolTip(i18n("Add folder"));
 
 	KAction *renameFolder = new KAction(i18n("Rename Folder"), 0, this,
 	    SLOT(slotProjectRenameFolder()), actionCollection(),
 	    "rename_folder");
-	renameFolder->setStatusText(i18n("Rename folder"));
+	renameFolder->setToolTip(i18n("Rename folder"));
 
 	KAction *deleteFolder = new KAction(i18n("Delete Folder"), "editdelete.png", 0, this,
 	    SLOT(slotProjectDeleteFolder()), actionCollection(),
 	    "delete_folder");
-	deleteFolder->setStatusText(i18n("Delete folder"));
+	deleteFolder->setToolTip(i18n("Delete folder"));
 
         KAction *deleteTransition = new KAction(i18n("Delete Transition"), 0, this,
         SLOT(slotDeleteTransition()), actionCollection(),
         "del_transition");
-	deleteTransition->setStatusText(i18n("Delete transition from selected clip"));
+	deleteTransition->setToolTip(i18n("Delete transition from selected clip"));
 
         KAction *editTransition = new KAction(i18n("Edit Transition"), 0, this,
         SLOT(slotEditCurrentTransition()), actionCollection(),
         "edit_transition");
-	editTransition->setStatusText(i18n("Edit transition from selected clip"));
+	editTransition->setToolTip(i18n("Edit transition from selected clip"));
 
         KAction *addTrack = new KAction(i18n("Add Track"), 0, this,
         SLOT(slotAddTrack()), actionCollection(),
         "timeline_add_track");
-	addTrack->setStatusText(i18n("Add track"));
+	addTrack->setToolTip(i18n("Add track"));
 
 	KAction *deleteTrack = new KAction(i18n("Delete Track"), 0, this,
         SLOT(slotDeleteTrack()), actionCollection(),
         "timeline_delete_track");
-	deleteTrack->setStatusText(i18n("Delete track"));
+	deleteTrack->setToolTip(i18n("Delete track"));
 
 	KAction *externalAudio = new KAction(i18n("Open Clip In External Editor"), 0, this,
         SLOT(slotExternalEditor()), actionCollection(),
         "external_audio");
-	externalAudio->setStatusText(i18n("Open clip in an external editor"));
+	externalAudio->setToolTip(i18n("Open clip in an external editor"));
 
 	KAction *saveZone = new KAction(i18n("Save Selected Zone"), 0, this,
         SLOT(slotSaveZone()), actionCollection(),
         "save_zone");
-	saveZone->setStatusText(i18n("Save selected zone as playlist for future use"));
+	saveZone->setToolTip(i18n("Save selected zone as playlist for future use"));
 
 	KAction *saveSubClip = new KAction(i18n("Save Subclip"), 0, this,
         SLOT(slotSaveSubClip()), actionCollection(),
         "save_subclip");
-	saveSubClip->setStatusText(i18n("Save selected clip as playlist for future use"));
+	saveSubClip->setToolTip(i18n("Save selected clip as playlist for future use"));
 
 
 	KAction *renderZone = new KAction(i18n("Render Selected Zone"), 0, this,
         SLOT(slotRenderZone()), actionCollection(),
         "render_zone");
-	renderZone->setStatusText(i18n("Render selected zone for future use"));
+	renderZone->setToolTip(i18n("Render selected zone for future use"));
 
 	KAction *renderAudioZone = new KAction(i18n("Render Selected Zone Audio"), 0, this,
         SLOT(slotRenderAudioZone()), actionCollection(),
         "render_audio_zone");
-	renderAudioZone->setStatusText(i18n("Render selected zone audio for future use"));
+	renderAudioZone->setToolTip(i18n("Render selected zone audio for future use"));
 
 	KAction *virtualZone = new KAction(i18n("Create Virtual Clip"), 0, this,
         SLOT(slotVirtualZone()), actionCollection(),
         "virtual_zone");
-	virtualZone->setStatusText(i18n("Create virtual clip from selected zone"));
+	virtualZone->setToolTip(i18n("Create virtual clip from selected zone"));
 
 	KAction *showVirtualZone = new KAction(i18n("Go To Virtual Zone"), 0, this,
         SLOT(slotShowVirtualZone()), actionCollection(),
         "show_virtual_zone");
-	showVirtualZone->setStatusText(i18n("Go to selected clip's virtual zone"));
+	showVirtualZone->setToolTip(i18n("Go to selected clip's virtual zone"));
 
 	KAction *addGuide = new KAction(i18n("Add Guide"), 0, this,
         SLOT(slotAddGuide()), actionCollection(),
         "timeline_add_guide");
-	addGuide->setStatusText(i18n("Add guide at cursor position"));
+	addGuide->setToolTip(i18n("Add guide at cursor position"));
 
 	KAction *addMarker = new KAction(i18n("Add Marker"), 0, this,
         SLOT(addMarkerUnderCursor()), actionCollection(),
         "add_marker");
-	addMarker->setStatusText(i18n("Add marker at cursor position"));
+	addMarker->setToolTip(i18n("Add marker at cursor position"));
 
 	KAction *editMarker = new KAction(i18n("Edit Marker"), 0, this,
         SLOT(editMarkerUnderCursor()), actionCollection(),
         "edit_marker");
-	editMarker->setStatusText(i18n("Edit marker at cursor position"));
+	editMarker->setToolTip(i18n("Edit marker at cursor position"));
 
 	KAction *deleteMarker = new KAction(i18n("Delete Marker"), 0, this,
         SLOT(deleteMarkerUnderCursor()), actionCollection(),
         "delete_marker");
-	deleteMarker->setStatusText(i18n("Delete marker at cursor position"));
+	deleteMarker->setToolTip(i18n("Delete marker at cursor position"));
 
 	KAction *deleteGuide = new KAction(i18n("Delete Guide"), 0, this,
         SLOT(slotDeleteGuide()), actionCollection(),
         "timeline_delete_guide");
-	deleteGuide->setStatusText(i18n("Delete guide at cursor position"));
+	deleteGuide->setToolTip(i18n("Delete guide at cursor position"));
 
 	KAction *editGuide = new KAction(i18n("Edit Guide"), 0, this,
         SLOT(slotEditGuide()), actionCollection(),
         "timeline_edit_guide");
-	editGuide->setStatusText(i18n("Edit guide at cursor position"));
+	editGuide->setToolTip(i18n("Edit guide at cursor position"));
 
         showClipMonitor = new KToggleAction(i18n("Clip Monitor"), 0, this,
 	    SLOT(slotToggleClipMonitor()), actionCollection(),
@@ -981,31 +982,31 @@ namespace Gui {
         KAction *editClip = new KAction(i18n("Edit Clip Properties"), 0, this,
         SLOT(slotProjectEditClip()), actionCollection(),
         "edit_clip");
-	editClip->setStatusText(i18n("Edit Clip Properties"));
+	editClip->setToolTip(i18n("Edit Clip Properties"));
         
         KAction *editParentClip = new KAction(i18n("Clip Properties"), 0, this,
         SLOT(slotProjectEditParentClip()), actionCollection(),
         "project_edit_clip");
-	editParentClip->setStatusText(i18n("Edit clip properties"));
+	editParentClip->setToolTip(i18n("Edit clip properties"));
 
         KAction *setClipDuration = new KAction(i18n("Edit Duration"), 0, this,
         SLOT(slotSetClipDuration()), actionCollection(),
         "clip_set_duration");
-	setClipDuration->setStatusText(i18n("Set current clip duration"));
+	setClipDuration->setToolTip(i18n("Set current clip duration"));
         
         KAction *exportCurrentFrame = new KAction(i18n("Export Current Frame"), 0, this,
         SLOT(slotExportCurrentFrame()), actionCollection(),
         "export_current_frame");
-	exportCurrentFrame->setStatusText(i18n("Save current frame as image file"));
+	exportCurrentFrame->setToolTip(i18n("Save current frame as image file"));
 
         KAction *mergeProject = new KAction(i18n("Merge Project..."), 0, this,
         SLOT(slotMergeProject()), actionCollection(),"merge_project");
-	mergeProject->setStatusText(i18n("Merge current project with another one"));
+	mergeProject->setToolTip(i18n("Merge current project with another one"));
 
         KAction *viewSelectedClip = new KAction(i18n("Play Clip"), 0, this,
         SLOT(slotViewSelectedClip()), actionCollection(),
         "view_selected_clip");
-        viewSelectedClip->setStatusText(i18n("Play clip in clip monitor"));
+        viewSelectedClip->setToolTip(i18n("Play clip in clip monitor"));
         
 
 	timelineMoveTool->setExclusiveGroup("timeline_tools");
@@ -1015,90 +1016,90 @@ namespace Gui {
 	timelineRollTool->setExclusiveGroup("timeline_tools");
 	timelineSelectTool->setExclusiveGroup("timeline_tools");
 
-	fileNew->setStatusText(i18n("Create a new project"));
-	fileOpen->setStatusText(i18n("Open a project"));
-	fileOpenRecent->setStatusText(i18n("Open a recent file"));
-	fileSave->setStatusText(i18n("Save project"));
-	fileSaveAs->setStatusText(i18n("Save project as..."));
-	//  fileClose->setStatusText(i18n("Close document"));
-	//  filePrint ->setStatusText(i18n("Print document"));
-	fileQuit->setStatusText(i18n("Exit application"));
+	fileNew->setToolTip(i18n("Create a new project"));
+	fileOpen->setToolTip(i18n("Open a project"));
+	fileOpenRecent->setToolTip(i18n("Open a recent file"));
+	fileSave->setToolTip(i18n("Save project"));
+	fileSaveAs->setToolTip(i18n("Save project as..."));
+	//  fileClose->setToolTip(i18n("Close document"));
+	//  filePrint ->setToolTip(i18n("Print document"));
+	fileQuit->setToolTip(i18n("Exit application"));
 	editCut->
-	    setStatusText(i18n
+	    setToolTip(i18n
 	    ("Cut and move selected zone to clipboard"));
 	editCopy->
-	    setStatusText(i18n
+	    setToolTip(i18n
 	    ("Copy clip to clipboard"));
 	editPaste->
-	    setStatusText(i18n
+	    setToolTip(i18n
 	    ("Paste clipboard contents to cursor position"));
 	timelineMoveTool->
-	    setStatusText(i18n("Move and resize clips"));
+	    setToolTip(i18n("Move and resize clips"));
 	timelineRazorTool->
-	    setStatusText(i18n("Split Clip"));
+	    setToolTip(i18n("Split Clip"));
 	timelineSpacerTool->
-	    setStatusText(i18n("Shift all clips to the right of mouse. Ctrl + click to move only clips on current track."));
+	    setToolTip(i18n("Shift all clips to the right of mouse. Ctrl + click to move only clips on current track."));
 	timelineMarkerTool->
-	    setStatusText(i18n
+	    setToolTip(i18n
 	    ("Insert commented snap markers on clips (Ctrl + click to remove a marker)"));
 	timelineRollTool->
-	    setStatusText(i18n
+	    setToolTip(i18n
 	    ("Move edit point between two selected clips"));
 	timelineSelectTool->
-	    setStatusText(i18n
+	    setToolTip(i18n
 	    ("Select multiple clips"));
 	timelineSnapToFrame->
-	    setStatusText(i18n("Align clips on nearest frame"));
+	    setToolTip(i18n("Align clips on nearest frame"));
 	timelineSnapToBorder->
-	    setStatusText(i18n
+	    setToolTip(i18n
 	    ("Align clips on nearest clip borders"));
 	timelineSnapToMarker->
-	    setStatusText(i18n
+	    setToolTip(i18n
 	    ("Align clips on snap markers"));
-	projectAddClips->setStatusText(i18n("Add clips"));
+	projectAddClips->setToolTip(i18n("Add clips"));
 	projectDeleteClips->
-	    setStatusText(i18n("Remove clip"));
+	    setToolTip(i18n("Remove clip"));
 	projectClean->
-	    setStatusText(i18n("Remove unused clips"));
-	//projectClipProperties->setStatusText( i18n( "View the properties of the selected clip" ) );
-	actionTogglePlay->setStatusText(i18n("Start or stop playback"));
+	    setToolTip(i18n("Remove unused clips"));
+	//projectClipProperties->setToolTip( i18n( "View the properties of the selected clip" ) );
+	actionTogglePlay->setToolTip(i18n("Start or stop playback"));
 	actionTogglePlay->
-	    setStatusText(i18n
+	    setToolTip(i18n
 	    ("Start or stop playback of inpoint/outpoint selection"));
 	actionNextFrame->
-	    setStatusText(i18n
+	    setToolTip(i18n
 	    ("Move forwards one frame"));
 	actionLastFrame->
-	    setStatusText(i18n
+	    setToolTip(i18n
 	    ("Move backwards one frame"));
 	actionSetInpoint->
-	    setStatusText(i18n("Set inpoint"));
+	    setToolTip(i18n("Set inpoint"));
 	actionSetOutpoint->
-	    setStatusText(i18n
+	    setToolTip(i18n
 	    ("Set outpoint"));
 	actionDeleteSelected->
-	    setStatusText(i18n("Delete clip"));
+	    setToolTip(i18n("Delete clip"));
 
 	actionToggleSnapMarker->
-	    setStatusText(i18n
+	    setToolTip(i18n
 	    ("Toggle a snap marker at the current monitor position"));
 	actionClearAllSnapMarkers->
-	    setStatusText(i18n
+	    setToolTip(i18n
 	    ("Remove all snap markers from project"));
 	actionClearSnapMarkersFromSelected->
-	    setStatusText(i18n
+	    setToolTip(i18n
 	    ("Remove snap markers from selected clips"));
 
 	renderExportTimeline->
-	    setStatusText(i18n("Render timeline to a file"));
+	    setToolTip(i18n("Render timeline to a file"));
 	configureProject->
-	    setStatusText(i18n("Configure project"));
+	    setToolTip(i18n("Configure project"));
 
 	timelineRazorAllClips->
-	    setStatusText(i18n
+	    setToolTip(i18n
 	    ("Razor all clips at cursor position"));
 	timelineRazorSelectedClips->
-	    setStatusText(i18n
+	    setToolTip(i18n
 	    ("Razor clip at cursor position"));
 
 	// use the absolute path to your kdenliveui.rc file for testing purpose in createGUI();
@@ -1125,6 +1126,8 @@ namespace Gui {
 	//m_statusBarProgress->setTextEnabled(false);
 	statusBar()->addWidget(m_statusBarProgress);
 	m_statusBarProgress->hide();
+	m_statusBarTimer = new QTimer(this);
+	connect(m_statusBarTimer, SIGNAL(timeout()), this, SLOT(slotStatusMsg()));
 
 	// Stop export button
 	KIconLoader loader;
@@ -2198,7 +2201,7 @@ namespace Gui {
 			// create a temp folder for previews & thumbnails in KDE's tmp resource dir
 			if (KdenliveSettings::userdefinedtmp()) {
 			    KdenliveSettings::setCurrenttmpfolder( KdenliveSettings::defaulttmpfolder() + "/kdenlive/");
-			    KIO::NetAccess::mkdir(KURL(KdenliveSettings::currenttmpfolder()), 0, -1);
+			    KIO::NetAccess::mkdir(KURL(KdenliveSettings::currenttmpfolder()), this);
 			}
 			else KdenliveSettings::setCurrenttmpfolder(locateLocal("tmp", "kdenlive/", true));
 
@@ -2709,10 +2712,18 @@ namespace Gui {
 	}
     }
 
+    void KdenliveApp::slotTemporaryStatusMsg(const QString & text) {
+	///////////////////////////////////////////////////////////////////
+	// display a status message for 2 seconds
+	if (m_statusBarTimer) m_statusBarTimer->stop();
+	statusBar()->changeItem(text, ID_STATUS_MSG);
+	m_statusBarTimer->start(2000, true);
+    }
+
     void KdenliveApp::slotStatusMsg(const QString & text) {
 	///////////////////////////////////////////////////////////////////
 	// change status message permanently
-	//statusBar()->clear();
+	if (m_statusBarTimer) m_statusBarTimer->stop();
 	statusBar()->changeItem(text, ID_STATUS_MSG);
     }
 
