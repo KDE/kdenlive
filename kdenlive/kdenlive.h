@@ -454,6 +454,7 @@ namespace Gui {
 	void slotFocusEffectStack();
 	void slotFocusProjectList();
         void slotFocusTransitions();
+	void slotResetTimelineMenuPosition();
 
 	/** changes the statusbar contents for the standard label permanently, used to indicate current actions.
 	 * @param text the text that is displayed in the statusbar
@@ -712,7 +713,6 @@ namespace Gui {
 	int m_externalMonitor;
 	void createExternalMonitor();
 	void switchProjectToFormat(QString newFormat);
-	void resetTimelineMenuPosition();
 	QPoint mousePosition();
     };
 

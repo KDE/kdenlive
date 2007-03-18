@@ -74,8 +74,9 @@
 			return;
 		}
 		m_isWorking = true;
-
-		Mlt::Producer m_producer(KRender::decodedString(m_url.path()));
+		char *tmp = KRender::decodedString(m_url.path());
+		Mlt::Producer m_producer(tmp);
+		delete tmp;
 
 		if (KdenliveSettings::normaliseaudiothumbs()) {
     		    Mlt::Filter m_convert("volume");
@@ -148,8 +149,9 @@ void KThumb::getImage(KURL url, int frame, int width, int height)
 {
     if (url.isEmpty()) return;
     QPixmap image(width, height);
-
-    Mlt::Producer m_producer(KRender::decodedString(url.path()));
+    char *tmp = KRender::decodedString(url.path());
+    Mlt::Producer m_producer(tmp);
+    delete tmp;
     image.fill(Qt::black);
 
     if (m_producer.is_blank()) {
@@ -177,8 +179,9 @@ void KThumb::getThumbs(KURL url, int startframe, int endframe, int width, int he
 {
     if (url.isEmpty()) return;
     QPixmap image(width, height);
-
-    Mlt::Producer m_producer(KRender::decodedString(url.path()));
+    char *tmp = KRender::decodedString(url.path());
+    Mlt::Producer m_producer(tmp);
+    delete tmp;
     image.fill(Qt::black);
 
     if (m_producer.is_blank()) {

@@ -777,6 +777,7 @@ void initEffects::ladspaEffectFile(const QString & fname, int ladspaId, QStringL
 		f.close();
     	}
     	else kdDebug()<<"++++++++++  ERROR CANNOT WRITE TO: "<<KdenliveSettings::currenttmpfolder() +  fname<<endl;
+	delete filterString;
 }
 
 QString jackString = "<?xml version=\"1.0\"?><!DOCTYPE jackrack SYSTEM \"http://purge.bash.sh/~rah/jack_rack_1.2.dtd\"><jackrack><channels>2</channels><samplerate>48000</samplerate><plugin><id>";

@@ -186,11 +186,34 @@ void exportWidget::slotEditMetaData()
 QStringList exportWidget::metadataString()
 {
     QStringList result;
-    if (!m_meta_author.isEmpty()) result << KRender::decodedString(QString( "meta.attr.author.markup=" + m_meta_author));
-    if (!m_meta_title.isEmpty()) result << KRender::decodedString(QString( "meta.attr.title.markup=" + m_meta_title));
-    if (!m_meta_comment.isEmpty()) result << QString( "meta.attr.comment.markup=" + m_meta_comment);
-    if (!m_meta_copyright.isEmpty()) result << KRender::decodedString(QString( "meta.attr.copyright.markup=" + m_meta_copyright));
-    if (!m_meta_album.isEmpty()) result << KRender::decodedString(QString( "meta.attr.album.markup=" + m_meta_album));
+    char *tmp;
+    
+    if (!m_meta_author.isEmpty()) {
+	tmp = KRender::decodedString(QString( "meta.attr.author.markup=" + m_meta_author));
+	result << tmp;
+    	delete tmp;
+    }
+    
+    if (!m_meta_title.isEmpty()) {
+	tmp = KRender::decodedString(QString( "meta.attr.title.markup=" + m_meta_title));
+	result << tmp;
+	delete tmp;
+    }
+    if (!m_meta_comment.isEmpty()) {
+	tmp = KRender::decodedString(QString( "meta.attr.comment.markup=" + m_meta_comment));
+	result << tmp;
+	delete tmp;
+    }
+    if (!m_meta_copyright.isEmpty()) {
+	tmp = KRender::decodedString(QString( "meta.attr.copyright.markup=" + m_meta_copyright));
+	result << tmp;
+	delete tmp;
+    }
+    if (!m_meta_album.isEmpty()) {
+	tmp = KRender::decodedString(QString( "meta.attr.album.markup=" + m_meta_album));
+	result << tmp;
+	delete tmp;
+    }
     if (m_meta_year != 0) result << QString( "meta.attr.year.markup=" + QString::number(m_meta_year));
     if (m_meta_track != 0) result << QString( "meta.attr.track.markup=" + QString::number(m_meta_track));
     return result;

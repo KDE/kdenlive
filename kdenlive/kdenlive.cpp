@@ -4152,13 +4152,13 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	else m_menuPosition = QPoint();
     }
 
-    void KdenliveApp::resetTimelineMenuPosition() {
+    void KdenliveApp::slotResetTimelineMenuPosition() {
 	m_menuPosition = QPoint();
     }
 
     void KdenliveApp::slotHideTimelineMenu() {
 	// #hack: wait until the menu closes and its action is called, the reset the menu position.
-	QTimer::singleShot(500, this, SLOT(resetTimelineMenuPosition()));
+	QTimer::singleShot(500, this, SLOT(slotResetTimelineMenuPosition()));
     }
 
     QPoint KdenliveApp::mousePosition() {

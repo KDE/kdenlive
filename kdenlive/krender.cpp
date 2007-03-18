@@ -71,9 +71,9 @@ m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProduce
 
     m_osdProfile = locate("data", "kdenlive/profiles/metadata.properties");
     m_osdInfo = new Mlt::Filter("data_show");
-    m_osdInfo->set("resource", decodedString(m_osdProfile));
-
-   
+    char *tmp = decodedString(m_osdProfile);
+    m_osdInfo->set("resource", tmp);
+    delete tmp;
     //      Does it do anything usefull? I mean, KRenderThread doesn't do anything useful at the moment
     //      (except being cpu hungry :)
 
@@ -158,7 +158,7 @@ void KRender::createVideoXWindow(bool , WId winid, WId externalMonitor)
 
     //only as is saw, if we want to lock something with the sdl lock
     if (!KdenliveSettings::videoprofile().isEmpty()) 
-	m_mltConsumer->set("profile", KdenliveSettings::videoprofile());
+	m_mltConsumer->set("profile", KdenliveSettings::videoprofile().ascii());
     /*m_mltConsumer->set("app_locked", 1);
     m_mltConsumer->set("app_lock", (void *) &my_lock, 0);
     m_mltConsumer->set("app_unlock", (void *) &my_unlock, 0);*/
@@ -171,12 +171,12 @@ void KRender::createVideoXWindow(bool , WId winid, WId externalMonitor)
     else m_mltConsumer->set("window_id", m_winid);
 
     m_mltConsumer->set("resize", 1);
-    m_mltConsumer->set("rescale", KdenliveSettings::previewquality());
+    m_mltConsumer->set("rescale", KdenliveSettings::previewquality().ascii());
 
     m_mltConsumer->set("terminate_on_pause", 1);
     QString aDevice = KdenliveSettings::audiodevice();
-    if (!KdenliveSettings::videodriver().isEmpty()) m_mltConsumer->set("video_driver", KdenliveSettings::videodriver());
-    if (!KdenliveSettings::audiodriver().isEmpty()) m_mltConsumer->set("audio_driver", KdenliveSettings::audiodriver());
+    if (!KdenliveSettings::videodriver().isEmpty()) m_mltConsumer->set("video_driver", KdenliveSettings::videodriver().ascii());
+    if (!KdenliveSettings::audiodriver().isEmpty()) m_mltConsumer->set("audio_driver", KdenliveSettings::audiodriver().ascii());
     m_mltConsumer->set("audio_device", aDevice.section(";", 1).ascii());
     m_mltConsumer->set("progressive", 1);
     m_mltConsumer->set("audio_buffer", 1024);
@@ -239,7 +239,6 @@ QPixmap KRender::frameThumbnail(Mlt::Frame *frame, int width, int height, bool b
 	}
     }
     else pix.fill(black);
-
     return pix;
 }
 
@@ -296,7 +295,9 @@ QPixmap KRender::getImageThumbnail(KURL url, int width, int height)
 QPixmap KRender::getVideoThumbnail(KURL url, int frame_position, int width, int height)
 {
     QPixmap pix(width, height);
-    Mlt::Producer m_producer(decodedString(url.path()));
+    char *tmp = decodedString(url.path());
+    Mlt::Producer m_producer(tmp);
+    delete tmp;
     if (m_producer.is_blank()) {
 	pix.fill(black);
 	return pix;
@@ -317,7 +318,9 @@ QPixmap KRender::getVideoThumbnail(KURL url, int frame_position, int width, int 
 
 void KRender::getImage(KURL url, int frame_position, int width, int height)
 {
-    Mlt::Producer m_producer(decodedString(url.path()));
+    char *tmp = decodedString(url.path());
+    Mlt::Producer m_producer(tmp);
+    delete tmp;
     if (m_producer.is_blank()) {
 	return;
     }
@@ -424,7 +427,9 @@ void KRender::setTitlePreview(QString tmpFileName)
     if(m_mltProducer == NULL) {
         QString ctext2;
         ctext2="<producer><property name=\"mlt_service\">colour</property><property name=\"colour\">black</property></producer>";
-        m_mltTextProducer = new Mlt::Producer("westley-xml",decodedString(ctext2));
+	char *tmp = decodedString(ctext2);
+        m_mltTextProducer = new Mlt::Producer("westley-xml",tmp);
+	delete tmp;
     }
     else {
         pos = m_mltProducer->position();
@@ -433,7 +438,9 @@ void KRender::setTitlePreview(QString tmpFileName)
     // Create second producer with the png image created by the titler
     QString ctext;
     ctext="<producer><property name=\"resource\">"+tmpFileName+"</property></producer>";
-    Mlt::Producer prod2("westley-xml",decodedString(ctext));
+    char *tmp = decodedString(ctext);
+    Mlt::Producer prod2("westley-xml",tmp);
+    delete tmp;
     Mlt::Tractor tracks;
 
 	// Add composite transition for overlaying the 2 tracks
@@ -467,7 +474,9 @@ int KRender::getLength()
 
 bool KRender::isValid(KURL url)
 {
-    Mlt::Producer producer(decodedString(url.path()));
+    char *tmp = decodedString(url.path());
+    Mlt::Producer producer(tmp);
+    delete tmp;
     if (producer.is_blank())
 	return false;
 
@@ -479,7 +488,9 @@ void KRender::getFileProperties(KURL url, uint framenb)
 {
         int width = 50;
         int height = 40;
-	Mlt::Producer producer(decodedString(url.path()));
+	char *tmp = decodedString(url.path());
+	Mlt::Producer producer(tmp);
+	delete tmp;
     	if (producer.is_blank()) {
 	    return;
     	}
@@ -585,7 +596,9 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
     }
 
     Mlt::Playlist track;
-    Mlt::Producer clip("westley-xml", decodedString(list.toString()));
+    char *tmp = decodedString(list.toString());
+    Mlt::Producer clip("westley-xml", tmp);
+    delete tmp;
 
     if (!clip.is_valid())
 	kdWarning()<<" ++++ WARNING, UNABLE TO CREATE MLT PRODUCER"<<endl;
@@ -599,7 +612,9 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
 		// Attach filter for on screen display of timecode
 		delete m_osdInfo;
     		m_osdInfo = new Mlt::Filter("data_show");
-    		m_osdInfo->set("resource", decodedString(m_osdProfile));
+		tmp = decodedString(m_osdProfile);
+    		m_osdInfo->set("resource", tmp);
+		delete tmp;
 		mlt_properties properties = MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer());
 		mlt_properties_set_int( properties, "meta.attr.timecode", 1);
 		mlt_properties_set( properties, "meta.attr.timecode.markup", "\\#timecode\\#");
@@ -1005,9 +1020,11 @@ void KRender::exportCurrentFrame(KURL url, bool notify) {
     if (notify) m_exportedFile = url;
     else m_exportedFile = QString::null;
     m_fileRenderer=new Mlt::Consumer("avformat");
-    m_fileRenderer->set ("target",decodedString(url.path()));
+    char *tmp = decodedString(url.path());
+    m_fileRenderer->set ("target", tmp);
+    delete tmp;
     if (!KdenliveSettings::videoprofile().isEmpty()) 
-	m_fileRenderer->set("profile", KdenliveSettings::videoprofile());
+	m_fileRenderer->set("profile", KdenliveSettings::videoprofile().ascii());
     m_fileRenderer->set ("real_time","0");
     m_fileRenderer->set ("progressive","1");
     m_fileRenderer->set ("vcodec","png");

@@ -86,7 +86,7 @@ namespace Gui {
 	Transition *m_transition;
 	KJanusWidget *propertiesDialog;
 	KComboBox *trackPolicy;
-	QString m_lumaType;
+	char *m_lumaType;
     signals:
 	void transitionChanged(bool);
     };

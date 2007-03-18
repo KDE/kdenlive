@@ -32,14 +32,12 @@
 namespace Gui {
 
 transitionWipeWidget::transitionWipeWidget(QWidget* parent, const char* name, WFlags fl ):
-        transitionWipe_UI(parent,name)
+        transitionWipe_UI(parent,name), m_lumaType("lumasPAL")
 {
 	startTransition = CENTER_TRANSITION;
 	endTransition = CENTER_TRANSITION;
 	m_startTransparency = 0;
 	m_endTransparency = 0;
-	m_lumaType = QString::null;
-
 
 	connect(transitionU, SIGNAL(clicked()), this, SLOT(updateTransition()));
 	connect(transitionUL, SIGNAL(clicked()), this, SLOT(updateTransition()));
@@ -66,7 +64,8 @@ transitionWipeWidget::transitionWipeWidget(QWidget* parent, const char* name, WF
 
 
 transitionWipeWidget::~transitionWipeWidget()
-{}
+{
+}
 
 QMap < QString, QString > transitionWipeWidget::parameters()
 {
@@ -145,7 +144,7 @@ QMap < QString, QString > transitionWipeWidget::parameters()
     return paramList;
 }
 
-void transitionWipeWidget::setFormat(QString format)
+void transitionWipeWidget::setFormat(char *format)
 {
 	m_lumaType = format;
 }

@@ -44,14 +44,14 @@ public:
 	BOTTOMRIGHT_TRANSITION = 8
     };
 
-	void setFormat(QString format);
+	void setFormat(char *format);
 
 private:
 
 	TRANSITIONWIPETYPE startTransition, endTransition;
 	int m_startTransparency;
 	int m_endTransparency;
-	QString m_lumaType;
+	char *m_lumaType;
 
 private slots:
 	void updateButtons();
