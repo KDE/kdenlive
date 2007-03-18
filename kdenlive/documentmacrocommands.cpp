@@ -83,40 +83,28 @@ namespace Command {
 	    command = new KMacroCommand(i18n("Razor clip"));
 
 	    DocClipRef *clone = clip->clone(document);
-
-	    clone->moveCropStartTime(clip->cropStartTime() + (time - clip->trackStart()));
-	    clone->setTrackStart(time);
-
 	    if (clone) {
-	
-	    // Remove original clip's transitions that are after the cut
-	    TransitionStack transitionStack = clip->clipTransitions();
-	    if (!transitionStack.isEmpty()) {
-    		TransitionStack::iterator itt = transitionStack.begin();
-    		while (itt) {
-        	    if ((*itt)->transitionStartTime()>=time) {
-			Command::KAddTransitionCommand * remTransitionCommand =
-		    new Command::KAddTransitionCommand(clip, *itt, false);
-			command->addCommand(remTransitionCommand);
-		    }
-        	++itt;
-    		}
-	    }
+	        clone->moveCropStartTime(clip->cropStartTime() + (time - clip->trackStart()));
+	        clone->setTrackStart(time);	
+	        // Remove original clip's transitions that are after the cut
+	        TransitionStack transitionStack = clip->clipTransitions();
+	        if (!transitionStack.isEmpty()) {
+    		    TransitionStack::iterator itt = transitionStack.begin();
+    		    while (itt) {
+        	        if ((*itt)->transitionStartTime()>=time) {
+			    Command::KAddTransitionCommand * remTransitionCommand = new Command::KAddTransitionCommand(clip, *itt, false);
+			    command->addCommand(remTransitionCommand);
+		        }
+        	        ++itt;
+    		    }
+	     	}
+		command->addCommand(Command::KSelectClipCommand::selectNone(document));
 
-
-		command->
-		addCommand(Command::KSelectClipCommand::
-		selectNone(document));
-
-		Command::KResizeCommand * resizeCommand =
-		    new Command::KResizeCommand(document, *clip);
+		Command::KResizeCommand * resizeCommand = new Command::KResizeCommand(document, *clip);
 		resizeCommand->setEndTrackEnd(time);
 		command->addCommand(resizeCommand);
 
-		command->
-		    addCommand(new Command::KAddRefClipCommand(document->
-			effectDescriptions(), *document, clone, true));
-
+		command->addCommand(new Command::KAddRefClipCommand(document->effectDescriptions(), *document, clone, true));
 		delete clone;
 	    } else {
 		kdError() << "razorClipAt - could not clone clip!!!" <<
