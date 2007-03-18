@@ -204,7 +204,12 @@ void CaptureMonitor::displayCapturedFiles()
 	m_errorLog = QString::null;
 	captureProcess = new KProcess();
 	//if (!m_tmpFolder.isEmpty()) KIO::NetAccess::del(m_tmpFolder, this);
-	m_tmpFolder = locateLocal("tmp", "dvcapture/", true);
+	m_tmpFolder = KdenliveSettings::currenttmpfolder() + "/dvcapture/";
+	KIO::NetAccess::mkdir(KURL(m_tmpFolder), this);
+	if (!KIO::NetAccess::exists(m_tmpFolder, false, this)) {
+		// creation of custom tmp folder failed, default to system tmp resource
+		m_tmpFolder = locateLocal("tmp", "dvcapture/", true);
+	}
 	captureProcess->setWorkingDirectory(m_tmpFolder);
         captureProcess->setUseShell(true);
         captureProcess->setEnvironment("SDL_WINDOWID", QString::number(m_screen->winId()));
