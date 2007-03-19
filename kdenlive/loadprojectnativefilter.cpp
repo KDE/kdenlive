@@ -45,8 +45,6 @@ LoadProjectNativeFilter::~LoadProjectNativeFilter()
 // virtual
 bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 {
-
-    kdDebug()<<"///////////////// * * * *  START OPENING PROJECT  * * ** * * *"<<endl;
     bool trackListLoaded = false;
     GenTime inPoint(0.0);
     GenTime outPoint(3.0);
@@ -65,11 +63,9 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
     QDomNode kdenlivedoc = documentElement.elementsByTagName("kdenlivedoc").item(0);
     double version = kdenlivedoc.toElement().attribute("version", "0").toDouble();
     if (version < 0.5) {
-	kdDebug()<<"///  GET READY OFR UPGRADE..."<<endl;
 	doc = upgradeDocumentFile(doc, document, version);
 	documentElement = doc.documentElement();
 	kdenlivedoc = documentElement.elementsByTagName("kdenlivedoc").item(0);
-	kdDebug()<<"///  DONE..."<<endl;
     }
     QDomNode n = kdenlivedoc.firstChild();
     QDomElement e;
@@ -104,7 +100,6 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 		document->application()->guidesFromXml( e );
 	    }
 	    else if (e.tagName() == "producer" || e.tagName() == "folder") {
-		kdDebug()<<"///////////////// * * * *  LOADING CLIP"<<endl;
 		addToDocument(i18n("Clips"), e, document);
 	    }
 	    else if (e.tagName() == "kdenliveclip") {
