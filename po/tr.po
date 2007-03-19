@@ -1,0 +1,3188 @@
+# translation of tr.po to
+# This file is put in the public domain.
+#
+# Necmettin Begiter <nbegiter@gmx.com.tr>, 2007.
+# Koray Löker <loker@pardus.org.tr>, 2007.
+# Murat Şenel <muratasenel@gmail.com>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: tr\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-11-16 19:51+0100\n"
+"PO-Revision-Date: 2007-01-29 19:41+0200\n"
+"Last-Translator: Murat Şenel <muratasenel@gmail.com>\n"
+"Language-Team:  <tr@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: kdenlive/addmarker_ui.cpp:124 kdenlive/changeclipspeed_ui.cpp:119
+#: kdenlive/clipproperties_ui.cpp:2489 kdenlive/configmisc_ui.cpp:117
+#: kdenlive/configmisc_ui.cpp:123 kdenlive/createcolorclip_ui.cpp:93
+#: kdenlive/createimageclip_ui.cpp:94 kdenlive/createslideshowclip_ui.cpp:122
+#: kdenlive/titlebasewidget_ui.cpp:168 kdenlive/titlebasewidget_ui.cpp:170
+msgid ":::"
+msgstr ":::"
+
+#: kdenlive/addmarker_ui.cpp:125 kdenlive/changeclipspeed_ui.cpp:120
+#: kdenlive/clipproperties_ui.cpp:2490 kdenlive/configmisc_ui.cpp:118
+#: kdenlive/configmisc_ui.cpp:124 kdenlive/createcolorclip_ui.cpp:94
+#: kdenlive/createimageclip_ui.cpp:95 kdenlive/createslideshowclip_ui.cpp:123
+#: kdenlive/titlebasewidget_ui.cpp:169 kdenlive/titlebasewidget_ui.cpp:171
+msgid "99:99:99:99; "
+msgstr "99:99:99:99; "
+
+#: kdenlive/addmarker_ui.cpp:126
+msgid "Comment"
+msgstr "Yorum"
+
+#: kdenlive/addmarker_ui.cpp:127 kdenlive/effectstackdialog_ui.cpp:164
+msgid "Position"
+msgstr "Konum"
+
+#: kdenlive/addmarker_ui.cpp:128 kdenlive/addtrackdialog_ui.cpp:114
+#: kdenlive/changeclipspeed_ui.cpp:113 kdenlive/editencoder_ui.cpp:110
+#: kdenlive/titlebasewidget_ui.cpp:156
+msgid "&OK"
+msgstr "&Tamam"
+
+#: kdenlive/addmarker_ui.cpp:130 kdenlive/addtrackdialog_ui.cpp:116
+#: kdenlive/changeclipspeed_ui.cpp:115 kdenlive/editencoder_ui.cpp:112
+#: kdenlive/titlebasewidget_ui.cpp:158
+msgid "&Cancel"
+msgstr "&İptal"
+
+#: kdenlive/addmarker_ui.cpp:132
+msgid "DVD Marker"
+msgstr "DVD Kalemi"
+
+#: kdenlive/addmarker_ui.cpp:133
+msgid "End of Dvd"
+msgstr "Dvd'nin sonu"
+
+#: kdenlive/addmarker_ui.cpp:134
+msgid "New chapter"
+msgstr "Yeni bölüm"
+
+#: kdenlive/addtrackdialog_ui.cpp:119
+msgid "Audio Track"
+msgstr "Ses parçası"
+
+#: kdenlive/addtrackdialog_ui.cpp:121
+msgid "Above"
+msgstr "Üstünde"
+
+#: kdenlive/addtrackdialog_ui.cpp:122
+msgid "Under"
+msgstr "Altında"
+
+#: kdenlive/addtrackdialog_ui.cpp:123
+msgid "Insert"
+msgstr "Araya ekle"
+
+#: kdenlive/addtrackdialog_ui.cpp:124
+msgid "track"
+msgstr "parça"
+
+#: kdenlive/addtrackdialog_ui.cpp:125
+msgid "Video Track"
+msgstr "Video Parçası"
+
+#: kdenlive/avfileformatwidget.cpp:34 kdenlive/clippropertiesdialog.cpp:43
+#: kdenlive/exportbasewidget_ui.cpp:313
+msgid "Filename:"
+msgstr "Dosya adı:"
+
+#: kdenlive/avfileformatwidget.cpp:37
+msgid "The name of ouput video file"
+msgstr "Üretilecek video dosyasının adı"
+
+#: kdenlive/avformatwidgetcodeclist.cpp:37
+msgid "Codec:"
+msgstr "Kodek:"
+
+#: kdenlive/avformatwidgetcodeclist.cpp:42
+msgid "Select the codec for your output file"
+msgstr "Üretilecek video dosyası için kodek seçin"
+
+#: kdenlive/avlistviewitem.cpp:111 kdenlive/avlistviewitem.cpp:268
+#: kdenlive/createcolorclip_ui.cpp:91 kdenlive/createimageclip_ui.cpp:90
+#: kdenlive/createslideshowclip_ui.cpp:119 kdenlive/projectlistview.cpp:40
+msgid "Description"
+msgstr "Açıklama"
+
+#: kdenlive/avlistviewitem.cpp:142 kdenlive/clipproperties.cpp:171
+msgid "Video Clip"
+msgstr "Video Klibi"
+
+#: kdenlive/avlistviewitem.cpp:144
+msgid "Mute Video Clip"
+msgstr "Sessiz Video Klibi"
+
+#: kdenlive/avlistviewitem.cpp:146 kdenlive/clipproperties.cpp:166
+msgid "Audio Clip"
+msgstr "Ses Klibi"
+
+#: kdenlive/avlistviewitem.cpp:148 kdenlive/clipproperties.cpp:81
+#: kdenlive/docclipavfile.cpp:51 kdenlive/kdenlive.cpp:2512
+msgid "Color Clip"
+msgstr "Renk Klibi"
+
+#: kdenlive/avlistviewitem.cpp:150 kdenlive/clipproperties.cpp:106
+#: kdenlive/kdenlive.cpp:2142
+msgid "Virtual Clip"
+msgstr "Sanal Klip"
+
+#: kdenlive/avlistviewitem.cpp:152 kdenlive/clipproperties.cpp:95
+msgid "Image Clip"
+msgstr "Resim Klibi"
+
+#: kdenlive/avlistviewitem.cpp:154 kdenlive/clipproperties.cpp:122
+msgid "Slideshow Clip"
+msgstr "Sunu Klibi"
+
+#: kdenlive/avlistviewitem.cpp:156 kdenlive/kdenlive.cpp:2588
+msgid "Text Clip"
+msgstr "Metin Klibi"
+
+#: kdenlive/avlistviewitem.cpp:159
+msgid "Path: %1"
+msgstr "Yol: %1"
+
+#: kdenlive/avlistviewitem.cpp:162
+msgid "File Size: "
+msgstr "Dosya Boyutu: "
+
+#: kdenlive/avlistviewitem.cpp:164 kdenlive/avlistviewitem.cpp:228
+#: kdenlive/clipproperties.cpp:218
+msgid " byte(s)"
+msgstr " bayt"
+
+#: kdenlive/avlistviewitem.cpp:168 kdenlive/avlistviewitem.cpp:233
+#: kdenlive/clipproperties.cpp:223
+msgid " Kb"
+msgstr " Kb"
+
+#: kdenlive/avlistviewitem.cpp:174 kdenlive/avlistviewitem.cpp:241
+#: kdenlive/clipproperties.cpp:231
+msgid " Mb"
+msgstr " Mb"
+
+#: kdenlive/avlistviewitem.cpp:182 kdenlive/clipproperties.cpp:153
+msgid "Mono"
+msgstr "Tek kanal"
+
+#: kdenlive/avlistviewitem.cpp:185 kdenlive/clipproperties.cpp:156
+msgid "Stereo"
+msgstr "Çift kanal"
+
+#: kdenlive/avlistviewitem.cpp:188 kdenlive/clipproperties.cpp:159
+msgid "%1 Channels"
+msgstr "%1 Kanal"
+
+#: kdenlive/avlistviewitem.cpp:191
+msgid "Audio: %1Hz %2"
+msgstr "Ses: %1Hz %2"
+
+#: kdenlive/avlistviewitem.cpp:193
+msgid "Usage: %1"
+msgstr "Kullanım: %1"
+
+#: kdenlive/avlistviewitem.cpp:196
+msgid "Folder"
+msgstr "Klasör"
+
+#: kdenlive/avlistviewitem.cpp:197
+msgid "%1 clips"
+msgstr "%1 klip"
+
+#: kdenlive/avlistviewitem.cpp:206 kdenlive/projectlistview.cpp:35
+msgid "Filename"
+msgstr "Dosya adı"
+
+#: kdenlive/avlistviewitem.cpp:208 kdenlive/createcolorclip_ui.cpp:89
+#: kdenlive/createimageclip_ui.cpp:91 kdenlive/titlebasewidget_ui.cpp:165
+msgid "Duration"
+msgstr "Süre"
+
+#: kdenlive/avlistviewitem.cpp:218 kdenlive/clippropertiesdialog.cpp:118
+msgid "unknown"
+msgstr "bilinmiyor"
+
+#: kdenlive/avlistviewitem.cpp:221 kdenlive/transitionpip_ui.cpp:193
+msgid "Size"
+msgstr "Boyut"
+
+#: kdenlive/avlistviewitem.cpp:245
+msgid "Type"
+msgstr "Tür"
+
+#: kdenlive/avlistviewitem.cpp:251
+msgid "video"
+msgstr "video"
+
+#: kdenlive/avlistviewitem.cpp:253
+msgid "mute video"
+msgstr "sessiz video"
+
+#: kdenlive/avlistviewitem.cpp:255
+msgid "audio"
+msgstr "ses"
+
+#: kdenlive/avlistviewitem.cpp:258
+msgid "group"
+msgstr "grup"
+
+#: kdenlive/avlistviewitem.cpp:260
+msgid "n/a"
+msgstr "n/a"
+
+#: kdenlive/avlistviewitem.cpp:262
+msgid "Usage Count"
+msgstr "Kullanım Sayacı"
+
+#: kdenlive/avlistviewitem.cpp:283 kdenlive/projectlistview.cpp:34
+msgid "Thumbnail"
+msgstr "Ön izleme"
+
+#: kdenlive/capturemonitor.cpp:45
+msgid ""
+"<b>The programs dvgrab or ffplay are missing</b>.<br>Firewire capture will "
+"be disabled until you install them."
+msgstr "<b>dvgrab ve ffplay programları bulunamadı</b>.<br>Siz onları yükleyene kadar Firewire'dan aktarma olanağı kullanılmayacak."
+
+#: kdenlive/capturemonitor.cpp:113
+msgid "Captured Clips"
+msgstr "Aktarılmış Klipler"
+
+#: kdenlive/capturemonitor.cpp:116
+msgid "Add"
+msgstr "Ekle"
+
+#: kdenlive/capturemonitor.cpp:118
+msgid "Clip Name"
+msgstr "Klip Adı"
+
+#: kdenlive/changeclipspeed_ui.cpp:111 kdenlive/docclipref.cpp:1218
+#: kdenlive/docclipref.cpp:1464 kdenlive/effectstackdialog.cpp:418
+#: kdenlive/initeffects.cpp:281
+msgid "Speed"
+msgstr "Hız"
+
+#: kdenlive/changeclipspeed_ui.cpp:112 kdenlive/clipproperties_ui.cpp:2482
+#: kdenlive/exportdvd_ui.cpp:380
+msgid "Duration:"
+msgstr "Süre:"
+
+#: kdenlive/changeclipspeed_ui.cpp:117
+msgid "Reset"
+msgstr "Sıfırla"
+
+#: kdenlive/clipdrag.cpp:148 kdenlive/kdenlive.cpp:2490
+msgid "The clip %1 is already present in this project"
+msgstr "%1 klibi zaten bu projede var"
+
+#: kdenlive/clipmanager.cpp:72
+msgid ""
+"Cannot open file %1\n"
+"Do you want to search for the file or remove it from the project ?"
+msgstr "%1 dosyası açılamadı.\nDosyayı aramak mı istersiniz yoksa projeden kaldırmak mı?"
+
+#: kdenlive/clipmanager.cpp:72
+msgid "Missing File"
+msgstr "Kayıp Dosya"
+
+#: kdenlive/clipmanager.cpp:72
+msgid "Find File"
+msgstr "Dosya Bul"
+
+#: kdenlive/clipmanager.cpp:72
+msgid "Remove"
+msgstr "Kaldır"
+
+#: kdenlive/clipmanager.cpp:92 kdenlive/clipmanager.cpp:123
+#: kdenlive/clipmanager.cpp:150 kdenlive/clipmanager.cpp:183
+#: kdenlive/clipmanager.cpp:208 kdenlive/clipmanager.cpp:242
+#: kdenlive/clipmanager.cpp:846
+msgid "The file %1 is not a valid video file for kdenlive..."
+msgstr "%1 dosyası kdenlive için geçerli bir video dosyası değil..."
+
+#: kdenlive/clipmanager.cpp:219 kdenlive/clipmanager.cpp:252
+msgid " [%1 images]"
+msgstr " [%1 resim]"
+
+#: kdenlive/clipproperties.cpp:47
+msgid "Clip Properties"
+msgstr "Klip Özellikleri"
+
+#: kdenlive/clipproperties.cpp:124
+msgid "Folder:"
+msgstr "Klasör:"
+
+#: kdenlive/clipproperties.cpp:162
+msgid "%1Hz %2"
+msgstr "%1Hz %2"
+
+#: kdenlive/clipproperties.cpp:164
+msgid "None"
+msgstr "Hiçbiri"
+
+#: kdenlive/clipproperties.cpp:207
+msgid "Duration (%1 images)"
+msgstr "Süre (%1 resim)"
+
+#: kdenlive/clipproperties_ui.cpp:2466 kdenlive/titlebasewidget_ui.cpp:164
+msgid "Name:"
+msgstr "Ad:"
+
+#: kdenlive/clipproperties_ui.cpp:2467
+msgid "Color:"
+msgstr "Renk:"
+
+#: kdenlive/clipproperties_ui.cpp:2469
+msgid "File:"
+msgstr "Dosya:"
+
+#: kdenlive/clipproperties_ui.cpp:2470
+msgid "Type:"
+msgstr "Tip:"
+
+#: kdenlive/clipproperties_ui.cpp:2473 kdenlive/configtimeline_ui.cpp:126
+#: kdenlive/configtimeline_ui.cpp:131
+msgid "Size:"
+msgstr "Boyut:"
+
+#: kdenlive/clipproperties_ui.cpp:2474
+msgid "Fps:"
+msgstr "Fps:"
+
+#: kdenlive/clipproperties_ui.cpp:2477
+msgid "Audio:"
+msgstr "Ses:"
+
+#: kdenlive/clipproperties_ui.cpp:2478 kdenlive/createslideshowclip_ui.cpp:120
+msgid "Frames per Image"
+msgstr "Resim başına kare"
+
+#: kdenlive/clipproperties_ui.cpp:2479
+msgid "Description:"
+msgstr "Açıklama:"
+
+#: kdenlive/clipproperties_ui.cpp:2480
+msgid "File size:"
+msgstr "Dosya boyutu:"
+
+#: kdenlive/clipproperties_ui.cpp:2483 kdenlive/createslideshowclip_ui.cpp:121
+msgid "Image type"
+msgstr "Resim türü"
+
+#: kdenlive/clipproperties_ui.cpp:2485 kdenlive/createimageclip_ui.cpp:97
+#: kdenlive/createslideshowclip_ui.cpp:125
+msgid "png"
+msgstr "png"
+
+#: kdenlive/clipproperties_ui.cpp:2486 kdenlive/createimageclip_ui.cpp:98
+#: kdenlive/createslideshowclip_ui.cpp:126
+msgid "jpg"
+msgstr "jpg"
+
+#: kdenlive/clipproperties_ui.cpp:2487 kdenlive/createimageclip_ui.cpp:99
+#: kdenlive/createslideshowclip_ui.cpp:127
+msgid "gif"
+msgstr "gif"
+
+#: kdenlive/clipproperties_ui.cpp:2488 kdenlive/createslideshowclip_ui.cpp:128
+msgid "bmp"
+msgstr "bmp"
+
+#: kdenlive/clipproperties_ui.cpp:2491
+msgid "Transparent &background"
+msgstr "Saydam &arkaplan"
+
+#: kdenlive/clipproperties_ui.cpp:2492 kdenlive/createslideshowclip_ui.cpp:132
+#: kdenlive/kdenlive.cpp:177 kdenlive/transition.cpp:246
+#: kdenlive/transitiondialog.cpp:70
+msgid "Crossfade"
+msgstr "Çapraz geçiş"
+
+#: kdenlive/clippropertiesdialog.cpp:35
+msgid "Video Stream"
+msgstr "Video Akışı"
+
+#: kdenlive/clippropertiesdialog.cpp:44
+msgid "Frame size, (fps):"
+msgstr "Kare boyutu, (fps):"
+
+#: kdenlive/clippropertiesdialog.cpp:45
+msgid "Length (hh:mm:ss):"
+msgstr "Uzunluk (SS:dd:ss):"
+
+#: kdenlive/clippropertiesdialog.cpp:46
+msgid "System:"
+msgstr "Sistem:"
+
+#: kdenlive/clippropertiesdialog.cpp:47
+msgid "Decompressor:"
+msgstr "Çözücü:"
+
+#: kdenlive/clippropertiesdialog.cpp:62
+msgid "Audio Stream"
+msgstr "Ses Akışı"
+
+#: kdenlive/clippropertiesdialog.cpp:70
+msgid "Sampling Rate:"
+msgstr "Örnekleme Oranı:"
+
+#: kdenlive/clippropertiesdialog.cpp:71
+msgid "Channels:"
+msgstr "Kanal sayısı:"
+
+#: kdenlive/clippropertiesdialog.cpp:72
+msgid "Format:"
+msgstr "Biçim:"
+
+#: kdenlive/clippropertiesdialog.cpp:73
+msgid "Bits per Sample:"
+msgstr "Örnek başına bit:"
+
+#: kdenlive/clippropertiesdialog.cpp:93
+msgid "%1x%2, %3 fps"
+msgstr "%1x%2, %3 fps"
+
+#: kdenlive/clippropertiesdialog.cpp:96
+msgid "Unknown size, %1 fps"
+msgstr "Bilinmeyen boyut, %1 fps"
+
+#: kdenlive/clippropertiesdialog.cpp:124
+msgid "0Hz"
+msgstr "0Hz"
+
+#: kdenlive/clippropertiesdialog.cpp:127
+msgid "%1 (stereo)"
+msgstr "%1 (çift kanal)"
+
+#: kdenlive/clippropertiesdialog.cpp:131
+msgid "%1 (mono)"
+msgstr "%1 (tek kanal)"
+
+#: kdenlive/clippropertiesdialog.cpp:140
+msgid "%1 bit"
+msgstr "%1 bit"
+
+#: kdenlive/configcapture_ui.cpp:59
+msgid "Automatic scene detection"
+msgstr "Otomatik sahne belirleme"
+
+#: kdenlive/configcapture_ui.cpp:60
+msgid "Put recording time info in captured file name"
+msgstr "Kaydetme zamanı bilgisini yakalanan dosyanın adına ekle"
+
+#: kdenlive/configinterface_ui.cpp:102
+msgid "minutes"
+msgstr "dakika"
+
+#: kdenlive/configinterface_ui.cpp:103
+msgid "Autosave project every"
+msgstr "Projeyi şu aralıkla kaydet"
+
+#: kdenlive/configinterface_ui.cpp:104
+msgid "Mouse wheel moves horizontally (Alt for vertical scroll)"
+msgstr "Fare tekeri yatay hareket eder (Dikey hareket etmesi için Alt tuşunu kullanın)"
+
+#: kdenlive/configinterface_ui.cpp:105
+msgid "Show splash screen"
+msgstr "Açılış ekranını göster"
+
+#: kdenlive/configinterface_ui.cpp:106
+msgid "Startup options"
+msgstr "Başlangıç seçenekleri"
+
+#: kdenlive/configinterface_ui.cpp:107
+msgid "Open last project"
+msgstr "Son projeyi aç"
+
+#: kdenlive/configinterface_ui.cpp:108
+msgid "Open blank project"
+msgstr "Boş proje aç"
+
+#: kdenlive/configinterface_ui.cpp:109
+msgid "Always ask"
+msgstr "Her zaman sor"
+
+#: kdenlive/configmisc_ui.cpp:119
+msgid "External image editor"
+msgstr "Harici resim editörü"
+
+#: kdenlive/configmisc_ui.cpp:120
+msgid "Default color/image clip duration"
+msgstr "Varsayılan renk/resim klibi süresi"
+
+#: kdenlive/configmisc_ui.cpp:121
+msgid "External audio editor"
+msgstr "Harici ses editörü"
+
+#: kdenlive/configmisc_ui.cpp:122
+msgid "Show LCD screen under monitors"
+msgstr "LCD ekranı izleyicilerin altında göster"
+
+#: kdenlive/configmisc_ui.cpp:125
+msgid "Default text clip duration"
+msgstr "Varsayılan metin klibi süresi"
+
+#: kdenlive/configmisc_ui.cpp:126
+msgid "Folder for temporary files"
+msgstr "Geçici dosyaların konacağı klasör"
+
+#: kdenlive/configmisc_ui.cpp:127
+msgid "Use system temporary folder"
+msgstr "Sistem geçici klasörünü kullan"
+
+#: kdenlive/configmisc_ui.cpp:128
+msgid "User defined folder"
+msgstr "Kullanıcı tanımlı klasör"
+
+#: kdenlive/configproject_ui.cpp:96 kdenlive/configureproject_ui.cpp:135
+msgid "Timecode"
+msgstr "Timecode"
+
+#: kdenlive/configproject_ui.cpp:98 kdenlive/configureproject_ui.cpp:137
+msgid "HH:MM:SS:FF"
+msgstr "SS:DD:ss:KK"
+
+#: kdenlive/configproject_ui.cpp:99 kdenlive/configureproject_ui.cpp:138
+msgid "HH:MM:SS.hh"
+msgstr "SS:DD:ss.ss"
+
+#: kdenlive/configproject_ui.cpp:100 kdenlive/configureproject_ui.cpp:139
+msgid "Frames"
+msgstr "Kareler"
+
+#: kdenlive/configproject_ui.cpp:101 kdenlive/configureproject_ui.cpp:140
+msgid "Seconds"
+msgstr "Saniyeler"
+
+#: kdenlive/configproject_ui.cpp:102 kdenlive/configureproject_ui.cpp:141
+msgid "Use Drop Frame timecode"
+msgstr "Atılan Kare zaman kodunu kullan"
+
+#: kdenlive/configproject_ui.cpp:104 kdenlive/configureproject_ui.cpp:143
+msgid ""
+"Specifies that we should display timecodes using a drop frame timecode "
+"(specifically for NTSC). Drop frame timecode compensates for the fact that "
+"NTSC runs at 29.97 frames per second by \"dropping\" two frames a minute, "
+"except for every 10th minute. WIthout this, the timecode will slowly slip "
+"out of sync with the real world time.\n"
+"\n"
+"Drop frame timecode only affects the way that frames are numbered, no frames "
+"are dropped from the video edit."
+msgstr "Kare atma zaman kodunu (timecode) kullanarak zaman kodlarını göstermemiz gerektiğini anlatır (özellikle NTSC içindir). Atılan kare zaman kodu NTSC'nin on dakikada bir hiç kare atmaması, diğer zamanlarda ise dakikada iki kareyi \"atarak\" çalışması gerçeğine dayalıdır. Bu olmadan, zaman kodu yavaş yavaş olması gereken gerçek zamandan uzaklaşarak kayar.\n\nKare atma zaman kodlaması sadece çerçevelerin numaralandırılma şeklini etkiler, videodan kare atılmaz."
+
+#: kdenlive/configproject_ui.cpp:107
+msgid "Video format"
+msgstr "Video biçimi"
+
+#: kdenlive/configproject_ui.cpp:108
+msgid "Video tracks"
+msgstr "Video parçaları"
+
+#: kdenlive/configproject_ui.cpp:109
+msgid "Audio tracks"
+msgstr "Ses parçaları"
+
+#: kdenlive/configtimeline_ui.cpp:125
+msgid "Audio Tracks"
+msgstr "Ses Parçaları"
+
+#: kdenlive/configtimeline_ui.cpp:127 kdenlive/configtimeline_ui.cpp:132
+msgid "Clip color:"
+msgstr "Klip rengi:"
+
+#: kdenlive/configtimeline_ui.cpp:129 kdenlive/configtimeline_ui.cpp:134
+msgid "Thumbnails"
+msgstr "Ön izleme"
+
+#: kdenlive/configtimeline_ui.cpp:130
+msgid "Video Tracks"
+msgstr "Video Parçaları"
+
+#: kdenlive/configtimeline_ui.cpp:135
+msgid "Auto scroll while playing"
+msgstr "Çalarken otomatik kaydır"
+
+#: kdenlive/configtitler_ui.cpp:65
+msgid "Default Color"
+msgstr "Varsayılan Renk"
+
+#: kdenlive/configureproject_ui.cpp:146
+msgid "Aspect Ratio"
+msgstr "Görünüm Oranı"
+
+#: kdenlive/configureproject_ui.cpp:147 kdenlive/initeffects.cpp:249
+msgid "Height"
+msgstr "Yükseklik"
+
+#: kdenlive/configureproject_ui.cpp:148 kdenlive/initeffects.cpp:249
+msgid "Width"
+msgstr "Genişlik"
+
+#: kdenlive/configureproject_ui.cpp:149
+msgid "Add Template"
+msgstr "Şablon Ekle"
+
+#: kdenlive/configureproject_ui.cpp:150
+msgid "Delete Template"
+msgstr "Şablon Sil"
+
+#: kdenlive/configureproject_ui.cpp:151
+msgid "Frames Per Second"
+msgstr "Sayı Başına Kare (fps)"
+
+#: kdenlive/configureproject_ui.cpp:152
+msgid "Project folder"
+msgstr "Proje klasörü"
+
+#: kdenlive/configureprojectdialog.cpp:38
+msgid "Configure Project"
+msgstr "Projeyi Yapılandır"
+
+#: kdenlive/configureprojectdialog.cpp:50
+msgid "Add Preset"
+msgstr "Önayar Ekle"
+
+#: kdenlive/configureprojectdialog.cpp:52
+msgid "Delete Preset"
+msgstr "Önayar Sil"
+
+#: kdenlive/configureprojectdialog.cpp:57
+msgid "Project Configuration"
+msgstr "Proje Yapılandırması"
+
+#: kdenlive/configureprojectdialog.cpp:58
+msgid "Setup the project"
+msgstr "Projeyi ayarlar"
+
+#: kdenlive/configureprojectdialog.cpp:61
+msgid "Default Export"
+msgstr "Varsayılan Dışa Aktarım"
+
+#: kdenlive/configureprojectdialog.cpp:62
+msgid "Configure the default export setting"
+msgstr "Varsayılan dışa aktarım ayarlarını belirle"
+
+#: kdenlive/createcolorclip_ui.cpp:90
+msgid "Color"
+msgstr "Renk"
+
+#: kdenlive/createcolorclip_ui.cpp:92 kdenlive/editencoder_ui.cpp:109
+msgid "Name"
+msgstr "Ad"
+
+#: kdenlive/createimageclip_ui.cpp:92
+msgid "Image file"
+msgstr "Görüntü dosyası"
+
+#: kdenlive/createimageclip_ui.cpp:93 kdenlive/createslideshowclip_ui.cpp:131
+#: kdenlive/titlebasewidget_ui.cpp:166
+msgid "Transparent background"
+msgstr "Saydam arkaplan"
+
+#: kdenlive/createslideshowclip.cpp:40
+msgid "Create Slideshow"
+msgstr "Sunu Yarat"
+
+#: kdenlive/createslideshowclip.cpp:124
+msgid "Found %1 images in selected folder"
+msgstr "Seçili klasörde %1 resim bulundu"
+
+#: kdenlive/createslideshowclip_ui.cpp:118
+msgid "Image folder"
+msgstr "Resim klasörü"
+
+#: kdenlive/createslideshowclip_ui.cpp:129
+msgid "Total duration"
+msgstr "Toplam süre"
+
+#: kdenlive/createslideshowclip_ui.cpp:130
+msgid "No images in slideshow"
+msgstr "Sunuda resim yok"
+
+#: kdenlive/docclipavfile.cpp:79
+msgid "Slideshow"
+msgstr "Sunu"
+
+#: kdenlive/documentmacrocommands.cpp:40
+msgid "Razor all tracks"
+msgstr "Tüm parçaları böl"
+
+#: kdenlive/documentmacrocommands.cpp:55 kdenlive/kdenlive.cpp:636
+msgid "Razor Clip"
+msgstr "Klibi Böl"
+
+#: kdenlive/documentmacrocommands.cpp:83
+msgid "Razor clip"
+msgstr "Klibi böl"
+
+#: kdenlive/editencoder_ui.cpp:108
+msgid "Custom Encoding Options"
+msgstr "Özel Kodlama Seçenekleri"
+
+#: kdenlive/editencoder_ui.cpp:114
+msgid "Parameters (libavformat)"
+msgstr "Parametreler (libavformat)"
+
+#: kdenlive/editencoder_ui.cpp:115
+msgid "Extension"
+msgstr "Uzantı"
+
+#: kdenlive/effectlistdialog.cpp:33
+msgid "Effect"
+msgstr "Efekt"
+
+#: kdenlive/effectlistdialog.cpp:49
+msgid "Video"
+msgstr "Video"
+
+#: kdenlive/effectlistdialog.cpp:50 kdenlive/exportbasewidget_ui.cpp:322
+msgid "Audio"
+msgstr "Ses"
+
+#: kdenlive/effectparamdialog.cpp:51 kdenlive/exportbasewidget_ui.cpp:327
+msgid "Custom"
+msgstr "Özel"
+
+#: kdenlive/effectparamdialog.cpp:67
+msgid "add"
+msgstr "ekle"
+
+#: kdenlive/effectparamdialog.cpp:68
+msgid "delete"
+msgstr "sil"
+
+#: kdenlive/effectstackdialog.cpp:75
+msgid "Move effect up"
+msgstr "Efekti yukarı taşı"
+
+#: kdenlive/effectstackdialog.cpp:76
+msgid "Move effect down"
+msgstr "Efekti aşağı taşı"
+
+#: kdenlive/effectstackdialog.cpp:78
+msgid "Reset all parameters to default values"
+msgstr "Tüm parametreleri varsayılan değerlerine döndür"
+
+#: kdenlive/effectstackdialog.cpp:79
+msgid "Remove effect"
+msgstr "Efekti kaldır"
+
+#: kdenlive/effectstackdialog.cpp:80
+msgid "Enable/disable effect"
+msgstr "Efekti aç/kapat"
+
+#: kdenlive/effectstackdialog.cpp:210
+msgid "Get Current Frame"
+msgstr "Şu Andaki Kareyi Al"
+
+#: kdenlive/effectstackdialog_ui.cpp:161
+msgid "Parameters"
+msgstr "Parametreler"
+
+#: kdenlive/effectstackdialog_ui.cpp:163
+msgid "Index"
+msgstr "İndeks"
+
+#: kdenlive/effectstackdialog_ui.cpp:165
+msgid "Keyframes"
+msgstr "Anahtar kareler"
+
+#: kdenlive/effectstacklistview.cpp:32 kdenlive/kdenlive.cpp:720
+#: kdenlive/kdenlive.cpp:991 kdenlive/kdenlive.cpp:994
+msgid "Effect Stack"
+msgstr "Efekt Yığını"
+
+#: kdenlive/exportbasewidget_ui.cpp:141 kdenlive/exportbasewidget_ui.cpp:154
+#: kdenlive/exportbasewidget_ui.cpp:167 kdenlive/exportbasewidget_ui.cpp:180
+#: kdenlive/exportbasewidget_ui.cpp:317 kdenlive/exportbasewidget_ui.cpp:319
+#: kdenlive/exportbasewidget_ui.cpp:321 kdenlive/exportbasewidget_ui.cpp:323
+msgid "Format"
+msgstr "Biçim"
+
+#: kdenlive/exportbasewidget_ui.cpp:305 kdenlive/exportwidget.cpp:791
+#: kdenlive/exportwidget.cpp:833 kdenlive/exportwidget.cpp:847
+msgid "Export"
+msgstr "Dışarı aktar"
+
+#: kdenlive/exportbasewidget_ui.cpp:307 kdenlive/exportdvddialog.cpp:74
+msgid "Close"
+msgstr "Kapat"
+
+#: kdenlive/exportbasewidget_ui.cpp:310
+msgid "to"
+msgstr "şuna"
+
+#: kdenlive/exportbasewidget_ui.cpp:311
+msgid "From"
+msgstr "Şundan"
+
+#: kdenlive/exportbasewidget_ui.cpp:312
+msgid "Export:"
+msgstr "Dışarı aktar:"
+
+#: kdenlive/exportbasewidget_ui.cpp:314
+msgid "Export Folder:"
+msgstr "Dışarı Aktarım Klasörü:"
+
+#: kdenlive/exportbasewidget_ui.cpp:315
+msgid "Play video after export"
+msgstr "Dışarı aktardıktan sonra videoyu oynat"
+
+#: kdenlive/exportbasewidget_ui.cpp:316
+msgid "Export Priority"
+msgstr "Dışarı Aktarma Önceliği"
+
+#: kdenlive/exportbasewidget_ui.cpp:318
+msgid "High Quality"
+msgstr "Yüksek Kalite"
+
+#: kdenlive/exportbasewidget_ui.cpp:320
+msgid "Medium Quality"
+msgstr "Orta Kalite"
+
+#: kdenlive/exportbasewidget_ui.cpp:324
+msgid "Delete"
+msgstr "Sil"
+
+#: kdenlive/exportbasewidget_ui.cpp:325
+msgid "Edit"
+msgstr "Düzenle"
+
+#: kdenlive/exportbasewidget_ui.cpp:326
+msgid "New"
+msgstr "Yeni"
+
+#: kdenlive/exportbasewidget_ui.cpp:328 kdenlive/exportbasewidget_ui.cpp:331
+msgid "File"
+msgstr "Dosya"
+
+#: kdenlive/exportbasewidget_ui.cpp:329
+msgid "Source"
+msgstr "Kaynak"
+
+#: kdenlive/exportbasewidget_ui.cpp:330
+msgid "Current Timeline"
+msgstr "Şu Andaki Zaman Çizgisi (timeline)"
+
+#: kdenlive/exportbasewidget_ui.cpp:332
+msgid "Adapter:"
+msgstr "Adaptör:"
+
+#: kdenlive/exportbasewidget_ui.cpp:334
+msgid "Refresh"
+msgstr "Tazele"
+
+#: kdenlive/exportbasewidget_ui.cpp:335
+msgid "Firewire status:"
+msgstr "Firewire durumu:"
+
+#: kdenlive/exportbasewidget_ui.cpp:336
+msgid "Firewire"
+msgstr "Firewire"
+
+#: kdenlive/exportbasewidget_ui.cpp:337
+msgid "Selected zone"
+msgstr "Seçili bölge"
+
+#: kdenlive/exportbasewidget_ui.cpp:338
+msgid "Guide zone"
+msgstr "Kılavuz bölge"
+
+#: kdenlive/exportdialog.cpp:31
+msgid "Render Dialog"
+msgstr "Kaplama Diyaloğu"
+
+#: kdenlive/exportdvd_ui.cpp:89 kdenlive/exportdvd_ui.cpp:375
+msgid "Chapter"
+msgstr "Bölüm"
+
+#: kdenlive/exportdvd_ui.cpp:90 kdenlive/exportdvd_ui.cpp:376
+#: kdenlive/transitionwipe_ui.cpp:221
+msgid "Start"
+msgstr "Başlangıç"
+
+#: kdenlive/exportdvd_ui.cpp:91 kdenlive/exportdvd_ui.cpp:377
+#: kdenlive/transitionwipe_ui.cpp:222
+msgid "End"
+msgstr "Son"
+
+#: kdenlive/exportdvd_ui.cpp:93 kdenlive/exportdvd_ui.cpp:378
+msgid "Title"
+msgstr "Başlık"
+
+#: kdenlive/exportdvd_ui.cpp:370
+msgid "DVD Folder"
+msgstr "DVD Klasörü"
+
+#: kdenlive/exportdvd_ui.cpp:372
+msgid "Use existing video file"
+msgstr "Varolan video dosyasını kullan"
+
+#: kdenlive/exportdvd_ui.cpp:373 kdenlive/exportdvd_ui.cpp:391
+#: kdenlive/exportdvd_ui.cpp:407
+msgid "*.vob | DVD Movie file"
+msgstr "*.vob | DVD Video dosyası"
+
+#: kdenlive/exportdvd_ui.cpp:374
+msgid "Render file now"
+msgstr "Dosyayı şimdi göster"
+
+#: kdenlive/exportdvd_ui.cpp:381
+msgid "DVD Format"
+msgstr "DVD Biçimi"
+
+#: kdenlive/exportdvd_ui.cpp:382 kdenlive/exportdvddialog.cpp:61
+msgid "Rendering"
+msgstr "Hazırlıyor (Render)"
+
+#: kdenlive/exportdvd_ui.cpp:383
+msgid "Pause between chapters (seconds)"
+msgstr "Bölüm arasındaki boşluk (saniye)"
+
+#: kdenlive/exportdvd_ui.cpp:384
+msgid "Create Menu"
+msgstr "Menü Yarat"
+
+#: kdenlive/exportdvd_ui.cpp:386
+msgid "Plain color"
+msgstr "Düz renk"
+
+#: kdenlive/exportdvd_ui.cpp:388 kdenlive/exportdvd_ui.cpp:400
+msgid "Text Color"
+msgstr "Metin rengi"
+
+#: kdenlive/exportdvd_ui.cpp:389
+msgid "Image"
+msgstr "Resim"
+
+#: kdenlive/exportdvd_ui.cpp:390
+msgid "Movie"
+msgstr "Film"
+
+#: kdenlive/exportdvd_ui.cpp:392
+msgid "image/gif image/x-bmp image/png image/jpeg"
+msgstr "image/gif image/x-bmp image/png image/jpeg"
+
+#: kdenlive/exportdvd_ui.cpp:393
+msgid "Background"
+msgstr "Arkaplan"
+
+#: kdenlive/exportdvd_ui.cpp:394
+msgid "Generate entries for chapters"
+msgstr "Bölümler için girişler oluştur"
+
+#: kdenlive/exportdvd_ui.cpp:395
+msgid "Colors"
+msgstr "Renkler"
+
+#: kdenlive/exportdvd_ui.cpp:396
+msgid "Font"
+msgstr "Font"
+
+#: kdenlive/exportdvd_ui.cpp:397
+msgid "Text"
+msgstr "Metin"
+
+#: kdenlive/exportdvd_ui.cpp:398
+msgid "Play Movie"
+msgstr "Filmi Oynat"
+
+#: kdenlive/exportdvd_ui.cpp:402
+msgid "Highlighted Text Color"
+msgstr "Vurgulanmış Metin Rengi"
+
+#: kdenlive/exportdvd_ui.cpp:404
+msgid "Activated Text Color"
+msgstr "Aktif Metnin Rengi"
+
+#: kdenlive/exportdvd_ui.cpp:405
+msgid "Buttons"
+msgstr "Düğmeler"
+
+#: kdenlive/exportdvd_ui.cpp:406
+msgid "Intro movie"
+msgstr "Giriş filmi"
+
+#: kdenlive/exportdvd_ui.cpp:408
+msgid "Intro"
+msgstr "Giriş"
+
+#: kdenlive/exportdvd_ui.cpp:410 kdenlive/exportdvddialog.cpp:62
+msgid "Menu"
+msgstr "Menü"
+
+#: kdenlive/exportdvd_ui.cpp:412
+msgid "Generating DVD structure"
+msgstr "DVD yapısı oluşturuluyor"
+
+#: kdenlive/exportdvd_ui.cpp:413
+msgid "Generating menu"
+msgstr "Menü oluşturuluyor"
+
+#: kdenlive/exportdvd_ui.cpp:416
+msgid "Preview"
+msgstr "Önizleme"
+
+#: kdenlive/exportdvd_ui.cpp:418
+msgid "Generate DVD"
+msgstr "DVD'yi oluştur"
+
+#: kdenlive/exportdvd_ui.cpp:420
+msgid "Open in QDvdAuthor"
+msgstr "QDvdAuthor ile Aç"
+
+#: kdenlive/exportdvd_ui.cpp:422
+msgid "Burn"
+msgstr "Yaz"
+
+#: kdenlive/exportdvd_ui.cpp:424
+msgid "Show process output"
+msgstr "İşlem çıktısını göster"
+
+#: kdenlive/exportdvd_ui.cpp:425
+msgid "Generating main movie"
+msgstr "Ana film oluşturuluyor"
+
+#: kdenlive/exportdvd_ui.cpp:426
+msgid "DVD Creation"
+msgstr "DVD Oluşturulması"
+
+#: kdenlive/exportdvddialog.cpp:55
+msgid ""
+"Cannot find the program \"dvdauthor\" on your system. Install it if you want "
+"to be able to create a DVD"
+msgstr "\"dvdauthor\" programı sisteminizde bulunamadı. DVD yaratabilmek istiyorsanız onu yüklemelisiniz"
+
+#: kdenlive/exportdvddialog.cpp:60
+msgid "Create DVD"
+msgstr "DVD Yarat"
+
+#: kdenlive/exportdvddialog.cpp:63
+msgid "Burning"
+msgstr "Yazılıyor"
+
+#: kdenlive/exportdvddialog.cpp:69 kdenlive/kdenlive.cpp:1556
+msgid "PAL"
+msgstr "PAL"
+
+#: kdenlive/exportdvddialog.cpp:70 kdenlive/kdenlive.cpp:1554
+msgid "NTSC"
+msgstr "NTSC"
+
+#: kdenlive/exportdvddialog.cpp:151
+msgid ""
+"You can now close this dialog and keep on working on your project while the "
+"DVD is being created."
+msgstr "Şimdi DVD yaratılırken bu diyaloğu kapatıp projeniz üzerinde çalışmaya devam edebilirsiniz."
+
+#: kdenlive/exportdvddialog.cpp:174
+msgid "Enter name for rendered movie file"
+msgstr "Oluşturulan film dosyasına ad yazın"
+
+#: kdenlive/exportdvddialog.cpp:184 kdenlive/exportwidget.cpp:775
+msgid ""
+"The export terminated unexpectedly.\n"
+"Output file will probably be corrupted..."
+msgstr ""
+"Dışa aktarma beklenmedik şekilde sonlandı. "
+"Oluşturulan dosya büyük ihtimalle bozuk veya eksik olacaktır..."
+
+#: kdenlive/exportdvddialog.cpp:225 kdenlive/exportdvddialog.cpp:228
+#: kdenlive/kruler.cpp:1133
+msgid "Chapter %1"
+msgstr "Bölüm %1"
+
+#: kdenlive/exportdvddialog.cpp:237
+msgid "Chapter 0"
+msgstr "Bölüm 0"
+
+#: kdenlive/exportdvddialog.cpp:255
+msgid ""
+"You need the program \"K3b\" to burn your DVD. Please install it if you want "
+"to use this feature."
+msgstr "DVD'nizi yazmak için \"K3b\" programına ihtiyacınız var. Eğer bu özelliği kullanmak istiyorsanız lütfen onu yükleyin."
+
+#: kdenlive/exportdvddialog.cpp:259
+msgid "You need to generate the DVD structure before burning."
+msgstr "Yazmadan önce DVD yapısını oluşturmalısınız."
+
+#: kdenlive/exportdvddialog.cpp:274
+msgid ""
+"You need the program \"xine\" to preview your DVD. Please install it if you "
+"want to use this feature."
+msgstr "DVD'nizi önizlemek için \"xine\" programına ihtiyacınız var. Eğer bu özelliği kullanmak istiyorsanız onu yüklemelisiniz."
+
+#: kdenlive/exportdvddialog.cpp:288
+msgid ""
+"You need the program \"QDvdAuthor\" to preview your DVD. Please install it "
+"if you want to use this feature."
+msgstr "DVD'nizi önizlemek için \"QDvdAuthor\" programına ihtiyacınız var. Bu özelliği kullanmak istiyorsanız lütfen onu yükleyin."
+
+#: kdenlive/exportdvddialog.cpp:307
+msgid ""
+"The specified dvd folder already exists.\n"
+"Overwite it ?"
+msgstr ""
+"Belirtilen dvd klasörü zaten var. \n"
+"Üzerine yazılsın mı?"
+
+#: kdenlive/exportdvddialog.cpp:320
+msgid ""
+"You didn't select the video file for the DVD.\n"
+" Please choose one before starting any operation."
+msgstr "DVD için video dosyasını seçmediniz.\nLütfen herhangi bir işleme başlamadan önce bir tane seçin."
+
+#: kdenlive/exportdvddialog.cpp:454
+msgid ""
+"You need the program \"convert\" which is included in ImageMagick to create "
+"DVD menus. Install ImageMagick if you want to make a DVD with menu"
+msgstr "DVD menüler yaratmak için ImageMagick programında bulunan \"convert\" programına ihtiyacınız var. Menülü bir DVD hazırlamak istiyorsanız ImageMagick'i yüklemeniz gerekir"
+
+#: kdenlive/exportdvddialog.cpp:784
+msgid "The creation of DVD structure is finished."
+msgstr "DVD yapısının oluşturulması bitti."
+
+#: kdenlive/exportdvddialog.cpp:792
+msgid "The creation of DVD structure failed."
+msgstr "DVD yapısının oluşturulması başarısız oldu."
+
+#: kdenlive/exportwidget.cpp:86
+msgid "Low"
+msgstr "Düşük"
+
+#: kdenlive/exportwidget.cpp:86 kdenlive/exportwidget.cpp:88
+msgid "Normal"
+msgstr "Normal"
+
+#: kdenlive/exportwidget.cpp:86
+msgid "High"
+msgstr "Yüksek"
+
+#: kdenlive/exportwidget.cpp:198 kdenlive/exportwidget.cpp:236
+msgid "An encoder named %1 already exists, please choose another name."
+msgstr "%1 adında bir kodlayacı zaten var, lütfen başka bir isim seçin."
+
+#: kdenlive/exportwidget.cpp:426
+msgid "Firewire support not enabled. Please install the required libraries..."
+msgstr "Firewire desteği açık değil. Lütfen gerekli kütüphaneleri yükleyin..."
+
+#: kdenlive/exportwidget.cpp:529 kdenlive/exportwidget.cpp:600
+msgid "Please enter a file name"
+msgstr "Lütfen bir dosya adı girin"
+
+#: kdenlive/exportwidget.cpp:538 kdenlive/kdenlive.cpp:2219
+msgid ""
+"File already exists.\n"
+"Do you want to overwrite it ?"
+msgstr "Dosya zatenvar.\nÜstüne yazmak istiyor musunuz?"
+
+#: kdenlive/exportwidget.cpp:552 kdenlive/kdenlive.cpp:504
+#: kdenlive/kdenlive.cpp:2821 kdenlive/kmmrecpanel_ui.cpp:253
+msgid "Stop"
+msgstr "Dur"
+
+#: kdenlive/exportwidget.cpp:611
+msgid "There is another file render currently running, cancel it ?"
+msgstr "Şu anda zaten bir dosya hazırlama sürüyor, iptal edilsin mi?"
+
+#: kdenlive/exportwidget.cpp:780
+msgid "Export of %1 is finished"
+msgstr "%1'in dışa aktarılması bitti"
+
+#: kdenlive/exportwidget.cpp:828
+msgid ""
+"The conversion terminated unexpectedly.\n"
+"Output file will probably be corrupted..."
+msgstr "Dönüştürme beklenmedik bir şekilde sonlandı.\nOluşturulan dosya büyük ihtimalle bozuk olacak..."
+
+#: kdenlive/initeffects.cpp:118
+msgid "Greyscale"
+msgstr "Gri tonlama"
+
+#: kdenlive/initeffects.cpp:126 kdenlive/initeffects.cpp:194
+#: kdenlive/initeffects.cpp:271
+msgid "Invert"
+msgstr "Tersine çevir"
+
+#: kdenlive/initeffects.cpp:136
+msgid "Sepia"
+msgstr "Sepya"
+
+#: kdenlive/initeffects.cpp:148
+msgid "Chrominance V"
+msgstr "Renklilik V"
+
+#: kdenlive/initeffects.cpp:158
+msgid "Charcoal"
+msgstr "Karakalem"
+
+#: kdenlive/initeffects.cpp:162
+msgid "Horizontal scatter"
+msgstr "Yatay yay"
+
+#: kdenlive/initeffects.cpp:170
+msgid "Vertical scatter"
+msgstr "Dikey yay"
+
+#: kdenlive/initeffects.cpp:178
+msgid "Scale"
+msgstr "Oranla"
+
+#: kdenlive/initeffects.cpp:186
+msgid "Mix"
+msgstr "Karıştır"
+
+#: kdenlive/initeffects.cpp:202
+msgid "Brightness"
+msgstr "Parlaklık"
+
+#: kdenlive/initeffects.cpp:207
+msgid "Intensity"
+msgstr "Keskinlik"
+
+#: kdenlive/initeffects.cpp:218
+msgid "Volume"
+msgstr "Hacim"
+
+#: kdenlive/initeffects.cpp:222
+msgid "Gain"
+msgstr "Kazanım"
+
+#: kdenlive/initeffects.cpp:232 kdenlive/kdenlive.cpp:2899
+msgid "Mute"
+msgstr "Sesini kıs"
+
+#: kdenlive/initeffects.cpp:245
+msgid "Obscure"
+msgstr "Karart"
+
+#: kdenlive/initeffects.cpp:249
+msgid "X"
+msgstr "X"
+
+#: kdenlive/initeffects.cpp:249
+msgid "Y"
+msgstr "Y"
+
+#: kdenlive/initeffects.cpp:249
+msgid "Averaging"
+msgstr "Ortalama"
+
+#: kdenlive/initeffects.cpp:259
+msgid "Mirror"
+msgstr "Ayna"
+
+#: kdenlive/initeffects.cpp:266
+msgid "Mirroring direction"
+msgstr "Aynalama yönü"
+
+#: kdenlive/initeffects.cpp:285
+msgid "Start Speed"
+msgstr "Başlangıç Hızı"
+
+#: kdenlive/initeffects.cpp:295
+msgid "End Speed"
+msgstr "Son Hız"
+
+#: kdenlive/initeffects.cpp:304
+msgid "Stroboscope"
+msgstr "Işık aygıtı"
+
+#: kdenlive/initeffects.cpp:312
+msgid "Reverse Playing"
+msgstr "Ters Oynatma"
+
+#: kdenlive/initeffects.cpp:319 kdenlive/kdenlive.cpp:274
+#: kdenlive/kdenlive.cpp:298 kdenlive/trackpanelclipmovefunction.cpp:381
+msgid "Freeze"
+msgstr "Dondur"
+
+#: kdenlive/initeffects.cpp:323
+msgid "Freeze at"
+msgstr "Konumda Dondur"
+
+#: kdenlive/initeffects.cpp:332
+msgid "Freeze Before"
+msgstr "Konumdan Önce Dondur"
+
+#: kdenlive/initeffects.cpp:339
+msgid "Freeze After"
+msgstr "Konumdan Sonra Dondur"
+
+#: kdenlive/initeffects.cpp:348 kdenlive/initeffects.cpp:352
+msgid "Gamma"
+msgstr "Gama"
+
+#: kdenlive/initeffects.cpp:365
+msgid "Declipper"
+msgstr "Birleştirici"
+
+#: kdenlive/initeffects.cpp:374
+msgid "Vinyl"
+msgstr "Vinil"
+
+#: kdenlive/initeffects.cpp:378
+msgid "Year"
+msgstr "Yıl"
+
+#: kdenlive/initeffects.cpp:388
+msgid "RPM"
+msgstr "RPM"
+
+#: kdenlive/initeffects.cpp:398
+msgid "Surface warping"
+msgstr "Yüzey eğme"
+
+#: kdenlive/initeffects.cpp:408
+msgid "Crackle"
+msgstr "Çıtırdat"
+
+#: kdenlive/initeffects.cpp:418
+msgid "Wear"
+msgstr "Eskit"
+
+#: kdenlive/initeffects.cpp:429
+msgid "Pitch Shift"
+msgstr "Atım Kaydırma"
+
+#: kdenlive/initeffects.cpp:433
+msgid "Shift"
+msgstr "Kaydırma"
+
+#: kdenlive/initeffects.cpp:444
+msgid "Room reverb"
+msgstr "Oda yankısı"
+
+#: kdenlive/initeffects.cpp:448
+msgid "Room size (m)"
+msgstr "Oda boyutu (m)"
+
+#: kdenlive/initeffects.cpp:456
+msgid "Delay (s/10)"
+msgstr "Gecikme (sn/10)"
+
+#: kdenlive/initeffects.cpp:465 kdenlive/initeffects.cpp:490
+msgid "Damping"
+msgstr "Sönme"
+
+#: kdenlive/initeffects.cpp:477
+msgid "Reverb"
+msgstr "Yankı"
+
+#: kdenlive/initeffects.cpp:481
+msgid "Reverb time"
+msgstr "Yankı süresi"
+
+#: kdenlive/initeffects.cpp:502
+msgid "Equalizer"
+msgstr "Ekolayzer"
+
+#: kdenlive/initeffects.cpp:506
+msgid "Lo gain"
+msgstr "Düşük kazanım"
+
+#: kdenlive/initeffects.cpp:514
+msgid "Mid gain"
+msgstr "Orta kazanım"
+
+#: kdenlive/initeffects.cpp:522
+msgid "Hi gain"
+msgstr "Yüksek kazanım"
+
+#: kdenlive/initeffects.cpp:534
+msgid "Limiter"
+msgstr "Sınırlayıcı"
+
+#: kdenlive/initeffects.cpp:538
+msgid "Input Gain (db)"
+msgstr "Giriş Kazanımı (db)"
+
+#: kdenlive/initeffects.cpp:546
+msgid "Limit (db)"
+msgstr "Sınıf (gb)"
+
+#: kdenlive/initeffects.cpp:554
+msgid "Release time (s)"
+msgstr "Bırakma süresi (s)"
+
+#: kdenlive/initeffects.cpp:566
+msgid "Pitch Scaler"
+msgstr "Perde Gam Ayarlayıcı"
+
+#: kdenlive/initeffects.cpp:570
+msgid "Co-efficient"
+msgstr "Katsayı"
+
+#: kdenlive/initeffects.cpp:581
+msgid "Rate Scaler"
+msgstr "Oran Gam Ayarlayıcı"
+
+#: kdenlive/initeffects.cpp:585
+msgid "Rate"
+msgstr "Oran"
+
+#: kdenlive/initeffects.cpp:596
+msgid "Phaser"
+msgstr "Kaydırıcı"
+
+#: kdenlive/initeffects.cpp:600
+msgid "Rate (Hz)"
+msgstr "Oran (Hz)"
+
+#: kdenlive/initeffects.cpp:608
+msgid "Depth"
+msgstr "Derinlik"
+
+#: kdenlive/initeffects.cpp:617
+msgid "Feedback"
+msgstr "Geri besleme"
+
+#: kdenlive/initeffects.cpp:626
+msgid "Spread"
+msgstr "Yayma"
+
+#: kdenlive/kaddclipcommand.cpp:35 kdenlive/kdenlive.cpp:484
+msgid "Clean Project"
+msgstr "Projeyi Temizle"
+
+#: kdenlive/kaddclipcommand.cpp:47
+msgid "Clean project"
+msgstr "Projeyi temizle"
+
+#: kdenlive/kaddclipcommand.cpp:209 kdenlive/kaddrefclipcommand.cpp:43
+#: kdenlive/projectlist.cpp:73
+msgid "Add Clip"
+msgstr "Klip ekle"
+
+#: kdenlive/kaddclipcommand.cpp:211 kdenlive/kaddrefclipcommand.cpp:45
+#: kdenlive/kdenlive.cpp:480 kdenlive/kdenlive.cpp:580
+#: kdenlive/kdenlive.cpp:2746 kdenlive/projectlist.cpp:74
+msgid "Delete Clip"
+msgstr "Klip sil"
+
+#: kdenlive/kaddeffectcommand.cpp:55
+msgid "Move Effect"
+msgstr "Efekti taşı"
+
+#: kdenlive/kaddeffectcommand.cpp:85
+msgid "Add effect"
+msgstr "Efekt ekle"
+
+#: kdenlive/kaddeffectcommand.cpp:85
+msgid "Delete effect"
+msgstr "Efekti sil"
+
+#: kdenlive/kaddmarkercommand.cpp:44
+msgid "Add Snap Marker"
+msgstr "Tutma İşaretçisi Ekle"
+
+#: kdenlive/kaddmarkercommand.cpp:46
+msgid "Delete Snap Marker"
+msgstr "Tutma İşaretçisi Sil"
+
+#: kdenlive/kaddrefclipcommand.cpp:96 kdenlive/kaddrefclipcommand.cpp:120
+#: kdenlive/trackpanelclipmovefunction.cpp:513
+#: kdenlive/trackpanelclipslipfunction.cpp:519
+msgid "Delete Clips"
+msgstr "Klipleri sil"
+
+#: kdenlive/kaddtransitioncommand.cpp:73
+msgid "Add transition"
+msgstr "Geçiş ekle"
+
+#: kdenlive/kaddtransitioncommand.cpp:73
+msgid "Delete transition"
+msgstr "Geçiş sil"
+
+#: kdenlive/kdenlive.cpp:137
+msgid "PAL (720x576, 25fps)"
+msgstr "PAL (720x576, saniyede 25 kare)"
+
+#: kdenlive/kdenlive.cpp:137
+msgid "PAL 16:9 (720x576, 25fps)"
+msgstr "PAL 16:9 (720x576, saniyede 25 kare)"
+
+#: kdenlive/kdenlive.cpp:138
+msgid "NTSC (720x480, 30fps)"
+msgstr "NTSC (720x480, saniyede 30 kare)"
+
+#: kdenlive/kdenlive.cpp:138
+msgid "NTSC 16:9 (720x480, 30fps)"
+msgstr "NTSC 16:9 (720x480, saniyede 30 kare)"
+
+#: kdenlive/kdenlive.cpp:178 kdenlive/transition.cpp:242
+#: kdenlive/transition.cpp:251 kdenlive/transitiondialog.cpp:72
+msgid "Push"
+msgstr "İtle"
+
+#: kdenlive/kdenlive.cpp:179 kdenlive/transition.cpp:243
+#: kdenlive/transition.cpp:252
+msgid "Pip"
+msgstr "Çıkar"
+
+#: kdenlive/kdenlive.cpp:180 kdenlive/transition.cpp:244
+#: kdenlive/transition.cpp:253 kdenlive/transitiondialog.cpp:76
+msgid "Wipe"
+msgstr "Süpür"
+
+#: kdenlive/kdenlive.cpp:395
+msgid "Zoom to display the whole project"
+msgstr "Mesafeyi tüm projeyi gösterecek şekilde ayarla"
+
+#: kdenlive/kdenlive.cpp:399
+msgid "Zoom in"
+msgstr "Yaklaş"
+
+#: kdenlive/kdenlive.cpp:403
+msgid "Zoom out"
+msgstr "Uzaklaş"
+
+#: kdenlive/kdenlive.cpp:405
+msgid "Restore Last Zoom Level"
+msgstr "Son mercek mesafesine dön"
+
+#: kdenlive/kdenlive.cpp:408
+msgid "Restoring previous zoom level"
+msgstr "Son mercek mesafesine dönüyor"
+
+#: kdenlive/kdenlive.cpp:411
+msgid "Move/Resize Tool"
+msgstr "Taşı/Boyutlandır Aracı"
+
+#: kdenlive/kdenlive.cpp:415
+msgid "Razor Tool"
+msgstr "Bıçak Aracı"
+
+#: kdenlive/kdenlive.cpp:419
+msgid "Spacing Tool"
+msgstr "Espas aracı"
+
+#: kdenlive/kdenlive.cpp:423
+msgid "Marker Tool"
+msgstr "İşaretleme Aracı"
+
+#: kdenlive/kdenlive.cpp:427
+msgid "Roll Tool"
+msgstr "Kaydırma Aracı"
+
+#: kdenlive/kdenlive.cpp:432
+msgid "Snap To Frames"
+msgstr "Karelere Tutun"
+
+#: kdenlive/kdenlive.cpp:436
+msgid "Snap To Border"
+msgstr "Çerçeveye Tutun"
+
+#: kdenlive/kdenlive.cpp:440
+msgid "Snap To Marker"
+msgstr "İşaretçiye Tutun"
+
+#: kdenlive/kdenlive.cpp:444
+msgid "Go To Beginning"
+msgstr "Başa Git"
+
+#: kdenlive/kdenlive.cpp:445
+msgid "Beginning of project"
+msgstr "Projenin başı"
+
+#: kdenlive/kdenlive.cpp:447
+msgid "Go To End"
+msgstr "Sona Git"
+
+#: kdenlive/kdenlive.cpp:448
+msgid "End of project"
+msgstr "Projenin sonu"
+
+#: kdenlive/kdenlive.cpp:451 kdenlive/kdenlive.cpp:2483
+#: kdenlive/kdenlive.cpp:3243
+msgid "Add Clips"
+msgstr "Klipleri Ekle"
+
+#: kdenlive/kdenlive.cpp:456 kdenlive/kdenlive.cpp:2510
+msgid "Create Color Clip"
+msgstr "Renk Klibi Yarat"
+
+#: kdenlive/kdenlive.cpp:461 kdenlive/kdenlive.cpp:2537
+msgid "Create Image Clip"
+msgstr "Resim Klibi Yarat"
+
+#: kdenlive/kdenlive.cpp:465
+msgid "Create Slideshow Clip"
+msgstr "Sunu Klibi Yarat"
+
+#: kdenlive/kdenlive.cpp:470
+msgid "Create Text Clip"
+msgstr "Metin Klibi Yarat"
+
+#: kdenlive/kdenlive.cpp:474
+msgid "Duplicate Text Clip"
+msgstr "Metin Klibini Çoğalt"
+
+#: kdenlive/kdenlive.cpp:493
+msgid "&Export Timeline"
+msgstr "Zamançizgisini &Dışarı Aktar"
+
+#: kdenlive/kdenlive.cpp:497
+msgid "Export to DVD"
+msgstr "DVD'ye Dışarı Aktar"
+
+#: kdenlive/kdenlive.cpp:499
+msgid "Generating DVD files"
+msgstr "DVD dosyaları oluşturuluyor"
+
+#: kdenlive/kdenlive.cpp:502
+msgid "&Configure Project"
+msgstr "Projeyi &Yapılandır"
+
+#: kdenlive/kdenlive.cpp:507 kdenlive/kdenlive.cpp:522
+msgid "Play/Pause"
+msgstr "Oynat/Duraklat"
+
+#: kdenlive/kdenlive.cpp:513
+msgid "Stop playing"
+msgstr "Oynatmayı durdur"
+
+#: kdenlive/kdenlive.cpp:516
+msgid "Play Selection"
+msgstr "Seçimi Oynat"
+
+#: kdenlive/kdenlive.cpp:520
+msgid "Play selection"
+msgstr "Seçimi oynat"
+
+#: kdenlive/kdenlive.cpp:524
+msgid "Play or pause"
+msgstr "Oynat veya durdur"
+
+#: kdenlive/kdenlive.cpp:526
+msgid "Play forward"
+msgstr "İleri doğru oynat"
+
+#: kdenlive/kdenlive.cpp:528
+msgid "Fast forwards playing (click several times for faster playing)"
+msgstr "İleriye doğru hızlı oynatma (daha hızlı oynatmak için birkaç kez tıklayın)"
+
+#: kdenlive/kdenlive.cpp:530
+msgid "Play backward"
+msgstr "Geriye doğru oynat"
+
+#: kdenlive/kdenlive.cpp:532
+msgid "Fast backwards playing (click several times for faster playing)"
+msgstr "Geri doğru hızlı oynatma (daha hızlı oynatmak için birkaç kez tıklayın)"
+
+#: kdenlive/kdenlive.cpp:534
+msgid "Loop selected zone"
+msgstr "Seçili bölgeyi tekrar tekrar oynat"
+
+#: kdenlive/kdenlive.cpp:536
+msgid "Play selected zone in loop"
+msgstr "Seçili bölgeyi döngüde oynat"
+
+#: kdenlive/kdenlive.cpp:538 kdenlive/kdenlive.cpp:540
+msgid "Split Audio From Selected Clip"
+msgstr "Seçili Klipten Sesi Ayır"
+
+#: kdenlive/kdenlive.cpp:545
+msgid "Forward one frame"
+msgstr "Bir kare ileri"
+
+#: kdenlive/kdenlive.cpp:549
+msgid "Back one frame"
+msgstr "Bir kare geri"
+
+#: kdenlive/kdenlive.cpp:553
+msgid "Forward one second"
+msgstr "Bir saniye ileri"
+
+#: kdenlive/kdenlive.cpp:556
+msgid "Move cursor forward one second"
+msgstr "imleci bir saniye ileri götür"
+
+#: kdenlive/kdenlive.cpp:558
+msgid "Back one second"
+msgstr "Bir saniye geri"
+
+#: kdenlive/kdenlive.cpp:561
+msgid "Move cursor backwards one second"
+msgstr "İmleci bir saniye geriye götür"
+
+#: kdenlive/kdenlive.cpp:563
+msgid "Forward to next snap point"
+msgstr "Bir sonraki tutma noktasına git"
+
+#: kdenlive/kdenlive.cpp:566
+msgid "Move cursor to next snap point"
+msgstr "İmleci bir sonraki tutma noktasına taşı"
+
+#: kdenlive/kdenlive.cpp:568
+msgid "Rewind to previous snap point"
+msgstr "Önceki tutma noktasına git"
+
+#: kdenlive/kdenlive.cpp:571
+msgid "Move cursor to previous snap point"
+msgstr "İmleci bir önceki tutma noktasına taşı"
+
+#: kdenlive/kdenlive.cpp:574 kdenlive/kmmeditpanel_ui.cpp:433
+msgid "Set Inpoint"
+msgstr "Giriş noktası belirle"
+
+#: kdenlive/kdenlive.cpp:577 kdenlive/kmmeditpanel_ui.cpp:435
+msgid "Set Outpoint"
+msgstr "Çıkış noktası belirle"
+
+#: kdenlive/kdenlive.cpp:585
+msgid "Toggle Snap Marker"
+msgstr "Tutunma İşaretçisi Aç/Kapat"
+
+#: kdenlive/kdenlive.cpp:589
+msgid "Clear All Snap Markers"
+msgstr "Tüm Tutunma İşaretçilerini Temizle"
+
+#: kdenlive/kdenlive.cpp:593
+msgid "Clear Snap Markers From Selected"
+msgstr "Seçili Olandan Tutunma İşaretçilerini Temizle"
+
+#: kdenlive/kdenlive.cpp:598
+msgid "Load Layout &1"
+msgstr "Mizanpaj &1 yükle"
+
+#: kdenlive/kdenlive.cpp:602
+msgid "Load Layout &2"
+msgstr "Mizanpaj &2 yükle"
+
+#: kdenlive/kdenlive.cpp:606
+msgid "Load Layout &3"
+msgstr "Mizanpaj &3 yükle"
+
+#: kdenlive/kdenlive.cpp:610
+msgid "Load Layout &4"
+msgstr "Mizanpaj &4 yükle"
+
+#: kdenlive/kdenlive.cpp:614
+msgid "Save Layout &1"
+msgstr "Mizanpaj &1 kaydet"
+
+#: kdenlive/kdenlive.cpp:618
+msgid "Save Layout &2"
+msgstr "Mizanpaj &2 kaydet"
+
+#: kdenlive/kdenlive.cpp:622
+msgid "Save Layout &3"
+msgstr "Mizanpaj &3 kaydet"
+
+#: kdenlive/kdenlive.cpp:626
+msgid "Save Layout &4"
+msgstr "Mizanpaj &4 kaydet"
+
+#: kdenlive/kdenlive.cpp:631
+msgid "Razor All Clips"
+msgstr "Tüm Klipleri Traşla"
+
+#: kdenlive/kdenlive.cpp:641
+msgid "Create Folder"
+msgstr "Klasör Oluştur"
+
+#: kdenlive/kdenlive.cpp:644
+msgid "Add folder"
+msgstr "Klasör ekle"
+
+#: kdenlive/kdenlive.cpp:646 kdenlive/kdenlive.cpp:2420
+msgid "Rename Folder"
+msgstr "Klasörü Yeniden İsimlendir"
+
+#: kdenlive/kdenlive.cpp:649
+msgid "Rename folder"
+msgstr "Klasörü yeniden isimlendir"
+
+#: kdenlive/kdenlive.cpp:651
+msgid "Delete Folder"
+msgstr "Klasör sil"
+
+#: kdenlive/kdenlive.cpp:654
+msgid "Delete folder"
+msgstr "Klasör sil"
+
+#: kdenlive/kdenlive.cpp:656
+msgid "Delete Transition"
+msgstr "Geçiş Sil"
+
+#: kdenlive/kdenlive.cpp:659
+msgid "Delete transition from selected clip"
+msgstr "Seçili klipten geçişi sil"
+
+#: kdenlive/kdenlive.cpp:661 kdenlive/kdenlive.cpp:2064
+msgid "Add Track"
+msgstr "İz Ekle"
+
+#: kdenlive/kdenlive.cpp:664
+msgid "Add track"
+msgstr "İz ekle"
+
+#: kdenlive/kdenlive.cpp:666 kdenlive/kdenlive.cpp:2048
+msgid "Delete Track"
+msgstr "İz Sil"
+
+#: kdenlive/kdenlive.cpp:669
+msgid "Delete track"
+msgstr "İz sil"
+
+#: kdenlive/kdenlive.cpp:671
+msgid "Open Clip In External Editor"
+msgstr "Klibi Haricî Düzenleyicide Aç"
+
+#: kdenlive/kdenlive.cpp:674
+msgid "Open clip in an external editor"
+msgstr "Klibi haricî bir düzenleyicide aç"
+
+#: kdenlive/kdenlive.cpp:676
+msgid "Save Selected Zone"
+msgstr "Seçili Bölgeyi Kaydet"
+
+#: kdenlive/kdenlive.cpp:679
+msgid "Save selected zone as playlist for future use"
+msgstr "Seçili bölgeyi daha sonra kullanmak üzere çalma listesi olarak kaydet"
+
+#: kdenlive/kdenlive.cpp:681
+msgid "Render Selected Zone"
+msgstr "Seçili Bölgeyi Hazırla"
+
+#: kdenlive/kdenlive.cpp:684
+msgid "Render selected zone for future use"
+msgstr "Seçili bölgeyi daha sonra kullanmak üzere hazırla"
+
+#: kdenlive/kdenlive.cpp:686 kdenlive/kdenlive.cpp:2142
+msgid "Create Virtual Clip"
+msgstr "Sanal Klib Yarat"
+
+#: kdenlive/kdenlive.cpp:689
+msgid "Create virtual clip from selected zone"
+msgstr "Seçili bölgeden sanal klip hazırla"
+
+#: kdenlive/kdenlive.cpp:691
+msgid "Go To Virtual Zone"
+msgstr "Sanal Bölgeye Git"
+
+#: kdenlive/kdenlive.cpp:694
+msgid "Go to selected clip's virtual zone"
+msgstr "Seçili klibin sanal bölgesine git"
+
+#: kdenlive/kdenlive.cpp:696 kdenlive/ktimeline.cpp:703
+msgid "Add Guide"
+msgstr "Kılavuz Ekle"
+
+#: kdenlive/kdenlive.cpp:699
+msgid "Add guide at cursor position"
+msgstr "İmleç konumunda kılavuz ekle"
+
+#: kdenlive/kdenlive.cpp:701
+msgid "Delete Guide"
+msgstr "Kılavuz Sil"
+
+#: kdenlive/kdenlive.cpp:704
+msgid "Delete guide at cursor position"
+msgstr "İmleç konumundaki kılavuzu sil"
+
+#: kdenlive/kdenlive.cpp:706 kdenlive/ktimeline.cpp:737
+msgid "Edit Guide"
+msgstr "Kılavuzu Düzenle"
+
+#: kdenlive/kdenlive.cpp:709
+msgid "Edit guide at cursor position"
+msgstr "İmleç konumundaki kılavuzu düzenle"
+
+#: kdenlive/kdenlive.cpp:711 kdenlive/kdenlive.cpp:1002
+#: kdenlive/kdenlive.cpp:1005
+msgid "Clip Monitor"
+msgstr "Klip İzleyici"
+
+#: kdenlive/kdenlive.cpp:714 kdenlive/kdenlive.cpp:996
+#: kdenlive/kdenlive.cpp:1000
+msgid "Timeline Monitor"
+msgstr "Zamançizgisi İzleyici"
+
+#: kdenlive/kdenlive.cpp:717 kdenlive/kdenlive.cpp:984
+#: kdenlive/kdenlive.cpp:989
+msgid "Effect List"
+msgstr "Efekt Listesi"
+
+#: kdenlive/kdenlive.cpp:723 kdenlive/kdenlive.cpp:970
+#: kdenlive/kdenlive.cpp:977
+msgid "Project Tree"
+msgstr "Proje Ağacı"
+
+#: kdenlive/kdenlive.cpp:726
+msgid "Transitions"
+msgstr "Geçişler"
+
+#: kdenlive/kdenlive.cpp:730
+msgid "Focus Clip Monitor"
+msgstr "Klip İzleyicisine Odaklan"
+
+#: kdenlive/kdenlive.cpp:733
+msgid "Focus Timeline Monitor"
+msgstr "Zamançizgisi İzleyicisine Odaklan"
+
+#: kdenlive/kdenlive.cpp:736
+msgid "Focus Effect List"
+msgstr "Efekt Listesine Odaklan"
+
+#: kdenlive/kdenlive.cpp:739
+msgid "Focus Effect Stack"
+msgstr "Efekt Yığınına Odaklan"
+
+#: kdenlive/kdenlive.cpp:742
+msgid "Focus Project Tree"
+msgstr "Proje Ağacına Odaklan"
+
+#: kdenlive/kdenlive.cpp:746
+msgid "Focus Transitions"
+msgstr "Geçişlere Odaklan"
+
+#: kdenlive/kdenlive.cpp:750
+msgid "Move Clip To Cursor"
+msgstr "Klibi İmleç Konumuna Taşı"
+
+#: kdenlive/kdenlive.cpp:754
+msgid "Move Clip Up"
+msgstr "Klibi Yukarı Taşı"
+
+#: kdenlive/kdenlive.cpp:758
+msgid "Move Clip Down"
+msgstr "Klibi Aşağı Taşı"
+
+#: kdenlive/kdenlive.cpp:762
+msgid "Resize Clip Start To Current Time"
+msgstr "Klip Başlangıcını Şu Ana Çekerek Klibi Yeniden Boyutlandır"
+
+#: kdenlive/kdenlive.cpp:766
+msgid "Resize Clip End To Current Time"
+msgstr "Klip Sonunu Şu Ana Çekerek Klibi Yeniden Boyutlandır"
+
+#: kdenlive/kdenlive.cpp:770
+msgid "Select Next Track"
+msgstr "Sonraki İzi Seç"
+
+#: kdenlive/kdenlive.cpp:774
+msgid "Select Previous Track"
+msgstr "Önceki İzi Seç"
+
+#: kdenlive/kdenlive.cpp:778
+msgid "Select Clip Under Cursor"
+msgstr "İmlecin Altındaki Klibi Seç"
+
+#: kdenlive/kdenlive.cpp:782
+msgid "Clip Auto Selection"
+msgstr "Klip Otomatik Seçme"
+
+#: kdenlive/kdenlive.cpp:786 kdenlive/kdenlive.cpp:789
+#: kdenlive/projectlist.cpp:72
+msgid "Edit Clip Properties"
+msgstr "Klip Özelliklerini Düzenle"
+
+#: kdenlive/kdenlive.cpp:791
+msgid "Clip properties"
+msgstr "Klip özellikleri"
+
+#: kdenlive/kdenlive.cpp:794
+msgid "Edit clip properties"
+msgstr "Klip özelliklerini düzenle"
+
+#: kdenlive/kdenlive.cpp:796
+msgid "Export Current Frame"
+msgstr "Şu Andaki Kareyi Dışarı Aktar"
+
+#: kdenlive/kdenlive.cpp:799
+msgid "Save current frame as image file"
+msgstr "Şu andaki kareyi resim dosyası olarak kaydet"
+
+#: kdenlive/kdenlive.cpp:801
+msgid "Play Clip"
+msgstr "Klibi Oynat"
+
+#: kdenlive/kdenlive.cpp:804
+msgid "Play clip in clip monitor"
+msgstr "Klibi klib izleyicisinde oynat"
+
+#: kdenlive/kdenlive.cpp:813
+msgid "Create a new project"
+msgstr "Yeni proje yarat"
+
+#: kdenlive/kdenlive.cpp:814
+msgid "Open a project"
+msgstr "Proje aç"
+
+#: kdenlive/kdenlive.cpp:815
+msgid "Open a recent file"
+msgstr "Önceki dosyalardan birini aç"
+
+#: kdenlive/kdenlive.cpp:816
+msgid "Save project"
+msgstr "Projeyi kaydet"
+
+#: kdenlive/kdenlive.cpp:817
+msgid "Save project as..."
+msgstr "Projeyi farklı kaydet..."
+
+#: kdenlive/kdenlive.cpp:820
+msgid "Exit application"
+msgstr "Uygulamadan çık"
+
+#: kdenlive/kdenlive.cpp:823
+msgid "Cut and move selected zone to clipboard"
+msgstr "Seçili bölgeyi kes ve panoya taşı"
+
+#: kdenlive/kdenlive.cpp:826
+msgid "Copy clip to clipboard"
+msgstr "Klibi panoya kopyala"
+
+#: kdenlive/kdenlive.cpp:829
+msgid "Paste clipboard contents to cursor position"
+msgstr "Pano içeriklerini imleç konumuna yapıştır"
+
+#: kdenlive/kdenlive.cpp:831
+msgid "Move and resize clips"
+msgstr "Klipleri taşı ve yeniden boyutlandır"
+
+#: kdenlive/kdenlive.cpp:833
+msgid "Split Clip"
+msgstr "Klibi Böl"
+
+#: kdenlive/kdenlive.cpp:835
+msgid "Shift all clips to the right of mouse"
+msgstr "Tüm klipleri farenin sağına kaydır"
+
+#: kdenlive/kdenlive.cpp:838
+msgid "Insert commented snap markers on clips (Ctrl + click to remove a marker)"
+msgstr "Kliplere yorum eklenmiş tutunma işaretçileri koy (Bir işaretçiyi silmek için Ctrl ile tıklayın)"
+
+#: kdenlive/kdenlive.cpp:841
+msgid "Move edit point between two selected clips"
+msgstr "Düzenleme noktasını seçili iki klip arasına taşı"
+
+#: kdenlive/kdenlive.cpp:843
+msgid "Align clips on nearest frame"
+msgstr "Klipleri en yakın kareye hizala"
+
+#: kdenlive/kdenlive.cpp:846
+msgid "Align clips on nearest clip borders"
+msgstr "Klipleri en yakın klip sınırlarına hizala"
+
+#: kdenlive/kdenlive.cpp:849
+msgid "Align clips on snap markers"
+msgstr "Klipleri tutunma işaretçilerine hizala"
+
+#: kdenlive/kdenlive.cpp:850
+msgid "Add clips"
+msgstr "Klip ekle"
+
+#: kdenlive/kdenlive.cpp:852
+msgid "Remove clip"
+msgstr "Klip sil"
+
+#: kdenlive/kdenlive.cpp:854
+msgid "Remove unused clips"
+msgstr "Kullanılmayan klipleri kaldır"
+
+#: kdenlive/kdenlive.cpp:856
+msgid "Start or stop playback"
+msgstr "Çalmaya başla veya çalmayı durdur"
+
+#: kdenlive/kdenlive.cpp:859
+msgid "Start or stop playback of inpoint/outpoint selection"
+msgstr "Giriş/ çıkış noktaları seçimini çalmaya başla veya çalmayı durdur"
+
+#: kdenlive/kdenlive.cpp:862
+msgid "Move forwards one frame"
+msgstr "Bir kare ileri git"
+
+#: kdenlive/kdenlive.cpp:865
+msgid "Move backwards one frame"
+msgstr "Bir kare geri git"
+
+#: kdenlive/kdenlive.cpp:867
+msgid "Set inpoint"
+msgstr "Giriş noktasını belirle"
+
+#: kdenlive/kdenlive.cpp:870
+msgid "Set outpoint"
+msgstr "Çıkış noktasını belirle"
+
+#: kdenlive/kdenlive.cpp:872
+msgid "Delete clip"
+msgstr "Klip sil"
+
+#: kdenlive/kdenlive.cpp:876
+msgid "Toggle a snap marker at the current monitor position"
+msgstr "Aktif izleme konumunda tutma işaretçisi koy veya işaretçiyi kaldır"
+
+#: kdenlive/kdenlive.cpp:879
+msgid "Remove all snap markers from project"
+msgstr "Projedeki tüm tutma işaretçilerini sil"
+
+#: kdenlive/kdenlive.cpp:882
+msgid "Remove snap markers from selected clips"
+msgstr "Seçili kliplerden tutma işaretçilerini sil"
+
+#: kdenlive/kdenlive.cpp:885
+msgid "Render timeline to a file"
+msgstr "Zaman çizgisini bir dosyaya gönder"
+
+#: kdenlive/kdenlive.cpp:887
+msgid "Configure project"
+msgstr "Projeyi yapılandır"
+
+#: kdenlive/kdenlive.cpp:891
+msgid "Razor all clips at cursor position"
+msgstr "İmleç konumundaki tüm klipleri böl"
+
+#: kdenlive/kdenlive.cpp:894
+msgid "Razor clip at cursor position"
+msgstr "İmleç konumundaki klibi böl"
+
+#: kdenlive/kdenlive.cpp:912 kdenlive/kdenlive.cpp:1368
+#: kdenlive/kdenlive.cpp:1373 kdenlive/kdenlive.cpp:1395
+#: kdenlive/kdenlive.cpp:1544 kdenlive/kdenlive.cpp:1785
+#: kdenlive/kdenlive.cpp:1918 kdenlive/kdenlive.cpp:1981
+#: kdenlive/kdenlive.cpp:1995 kdenlive/kdenlive.cpp:2021
+#: kdenlive/kdenlive.cpp:2203 kdenlive/kdenlive.cpp:2231
+#: kdenlive/kdenlive.cpp:2237 kdenlive/kdenlive.cpp:2254
+#: kdenlive/kdenlive.cpp:2365 kdenlive/kdenlive.cpp:2394
+#: kdenlive/kdenlive.cpp:2503 kdenlive/kdenlive.cpp:2532
+#: kdenlive/kdenlive.cpp:2558 kdenlive/kdenlive.cpp:2577
+#: kdenlive/kdenlive.cpp:2603 kdenlive/kdenlive.cpp:2667
+#: kdenlive/kdenlive.cpp:2727 kdenlive/kdenlive.cpp:2781
+#: kdenlive/kdenlive.cpp:2799 kdenlive/kdenlive.cpp:2823
+#: kdenlive/kdenlive.cpp:2831 kdenlive/kdenlive.cpp:2841
+#: kdenlive/kdenlive.cpp:3002 kdenlive/kdenlive.cpp:3010
+#: kdenlive/kdenlive.cpp:3026 kdenlive/kdenlive.cpp:3280
+#: kdenlive/kdenlive.cpp:3295 kdenlive/kdenlive.cpp:3309
+msgid "Ready."
+msgstr "Hazır."
+
+#: kdenlive/kdenlive.cpp:928
+msgid "Move/Resize mode"
+msgstr "Taşı/ yeniden boyutlandır modu"
+
+#: kdenlive/kdenlive.cpp:932 kdenlive/kdenlive.cpp:2411
+msgid "Current Time : "
+msgstr "Şu andaki zaman: "
+
+#: kdenlive/kdenlive.cpp:950 kdenlive/kdenlive.cpp:954 kdenlive/main.cpp:43
+msgid "Kdenlive"
+msgstr "Kdenlive"
+
+#: kdenlive/kdenlive.cpp:962 kdenlive/kdenlive.cpp:968
+msgid "TimeLine"
+msgstr "ZamanÇizgisi"
+
+#: kdenlive/kdenlive.cpp:972
+msgid ""
+"Video files usable in your project. Add or remove files with the contextual "
+"menu. In order to add sequences to the current video project, use the drag "
+"and drop."
+msgstr "Projenizde kullanılabilir video dosyaları. Bağlam menüsüyle dosya ekleyin veya çıkarın. Şu andaki video projesine sekanslar eklemek için sürüklü-bırak kullanın."
+
+#: kdenlive/kdenlive.cpp:979 kdenlive/kdenlive.cpp:982
+msgid "Transition"
+msgstr "Geçiş"
+
+#: kdenlive/kdenlive.cpp:986
+msgid "Current effects usable with the renderer"
+msgstr "Kaplatıcı ile şu anda kullanılabilecek efektler"
+
+#: kdenlive/kdenlive.cpp:1007
+msgid "Capture Monitor"
+msgstr "Yakalama İzleyicisi"
+
+#: kdenlive/kdenlive.cpp:1381
+msgid "Generating audio thumb"
+msgstr "Ses küçük resmini oluşturuyor"
+
+#: kdenlive/kdenlive.cpp:1399
+msgid "Exporting to File"
+msgstr "Dosyaya (dışarı) aktarıyor"
+
+#: kdenlive/kdenlive.cpp:1520
+msgid "Cannot read file: %1"
+msgstr "Dosya okunamadı: %1"
+
+#: kdenlive/kdenlive.cpp:1550
+msgid "HDV 1080"
+msgstr "HDV 1080"
+
+#: kdenlive/kdenlive.cpp:1552
+msgid "HDV 720"
+msgstr "HDV 720"
+
+#: kdenlive/kdenlive.cpp:1629 kdenlive/kdenlive.cpp:1687
+#: kdenlive/kdenlive.cpp:1822 kdenlive/kdenlivedoc.cpp:128
+msgid "Untitled"
+msgstr "Başlıksız"
+
+#: kdenlive/kdenlive.cpp:1681
+msgid ""
+"The current file has been modified.\n"
+"Do you want to save it?"
+msgstr "Geçerli dosya değiştirildi.\nKaydetmek istiyor musunuz?"
+
+#: kdenlive/kdenlive.cpp:1683
+msgid "Warning"
+msgstr "Uyarı"
+
+#: kdenlive/kdenlive.cpp:1730
+msgid "HDV 1440x1080 25fps"
+msgstr "HDV 1440x1080, saniyede 25 kare"
+
+#: kdenlive/kdenlive.cpp:1742
+msgid "HDV 1280x720 25fps"
+msgstr "HDV 1280x720, saniyede 25 kare"
+
+#: kdenlive/kdenlive.cpp:1746
+msgid "NTSC 720x480 30fps"
+msgstr "NTSC 720x480, saniyede 30 kare"
+
+#: kdenlive/kdenlive.cpp:1750
+msgid "PAL 720x576 25fps"
+msgstr "PAL 720x576, saniyede 25 kare"
+
+#: kdenlive/kdenlive.cpp:1753
+msgid " [16:9]"
+msgstr " [16:9]"
+
+#: kdenlive/kdenlive.cpp:1763
+msgid "Creating new project..."
+msgstr "Yeni proje yaratılıyor..."
+
+#: kdenlive/kdenlive.cpp:1806
+msgid "Kdenlive - New Project"
+msgstr "Kdevlive - Yeni Proje"
+
+#: kdenlive/kdenlive.cpp:1846
+msgid ""
+"Unable to create a folder for temporary files.\n"
+"Kdenlive will not work properly unless you choose a folder for temporary "
+"files with write access in Kdenlive Settings dialog."
+msgstr "Geçici dosyalar için bir klasör oluşturma başarısız.\nKdenlive Ayalar penceresinde geçici dosyalar için yazma erişiminiz olan bir klasör seçmezseniz Kdenlive düzgün çalışmayacaktır."
+
+#: kdenlive/kdenlive.cpp:1905
+msgid "Opening file..."
+msgstr "Dosya açılıyor..."
+
+#: kdenlive/kdenlive.cpp:1914 kdenlive/kdenlive.cpp:2478
+#: kdenlive/newproject.cpp:79
+msgid "Open File..."
+msgstr "Dosya Aç..."
+
+#: kdenlive/kdenlive.cpp:1974 kdenlive/kdenlive.cpp:1987
+msgid "No clip selected"
+msgstr "Klip seçilmedi"
+
+#: kdenlive/kdenlive.cpp:1977
+msgid "Copying clip %1."
+msgstr "Klip %1 kopyalanıyor."
+
+#: kdenlive/kdenlive.cpp:1990
+msgid "Cutting clip %1."
+msgstr "Klip %1 kesiliyor."
+
+#: kdenlive/kdenlive.cpp:2001
+msgid "No clip in clipboard"
+msgstr "Panoda klip yok"
+
+#: kdenlive/kdenlive.cpp:2004
+msgid "Pasting clip %1."
+msgstr "Klip %1 yapıştırılıyor."
+
+#: kdenlive/kdenlive.cpp:2024
+msgid "Cannot past clip %1 on track %2 at %3"
+msgstr "%3'deki %2 izine %1 klibi yapıştırılamıyor"
+
+#: kdenlive/kdenlive.cpp:2048
+msgid ""
+"Remove track %1 ?\n"
+"This will remove all clips on that track."
+msgstr "%1 izi silinsin mi?\nBu o iz içindeki bütün klipleri siler."
+
+#: kdenlive/kdenlive.cpp:2089
+msgid ""
+"You didn't define any external editor for that kind of clip.\n"
+"Please go to Kdenlive settings -> Misc to define it."
+msgstr "Bu tür klipler için herhangi bir haricî düzenleyici belirlemediniz.\nLütfen Kdenlive ayarları -> Genel kısmına gidip düzenleyin."
+
+#: kdenlive/kdenlive.cpp:2102 kdenlive/kdenlive.cpp:2116
+msgid "Add new clip to project"
+msgstr "Projeye yeni klip ekle"
+
+#: kdenlive/kdenlive.cpp:2142
+msgid "New clip name"
+msgstr "Yeni klip adı"
+
+#: kdenlive/kdenlive.cpp:2198
+msgid "Saving file..."
+msgstr "Dosya kaydediliyor..."
+
+#: kdenlive/kdenlive.cpp:2209
+msgid "Saving file with a new filename..."
+msgstr "Dosya yeni bir adla kaydediliyor..."
+
+#: kdenlive/kdenlive.cpp:2212
+msgid "Save as..."
+msgstr "Farklı kaydet..."
+
+#: kdenlive/kdenlive.cpp:2235
+msgid "Closing file..."
+msgstr "Dosya kapatılıyor..."
+
+#: kdenlive/kdenlive.cpp:2241
+msgid "Printing..."
+msgstr "Yazdırılıyor..."
+
+#: kdenlive/kdenlive.cpp:2258
+msgid "Exiting..."
+msgstr "Çıkıyor..."
+
+#: kdenlive/kdenlive.cpp:2322
+msgid "Move/Resize tool"
+msgstr "Taşı/Boyutlandır aracı"
+
+#: kdenlive/kdenlive.cpp:2328
+msgid "Razor tool"
+msgstr "Bıçak aracı"
+
+#: kdenlive/kdenlive.cpp:2334
+msgid "Separate tool"
+msgstr "Ayırma aracı"
+
+#: kdenlive/kdenlive.cpp:2340
+msgid "Marker tool"
+msgstr "İşaretleme aracı"
+
+#: kdenlive/kdenlive.cpp:2346
+msgid "Roll tool"
+msgstr "Yuvarlama aracı"
+
+#: kdenlive/kdenlive.cpp:2352
+msgid "Exporting Timeline..."
+msgstr "Zamançizgisi Dışarı Aktarılıyor..."
+
+#: kdenlive/kdenlive.cpp:2382
+msgid "Editing Preferences"
+msgstr "Tercihler Düzenleniyor"
+
+#: kdenlive/kdenlive.cpp:2420 kdenlive/kdenlive.cpp:2452
+msgid "Enter new folder name: "
+msgstr "Yeni klasör adını yazın: "
+
+#: kdenlive/kdenlive.cpp:2426 kdenlive/kdenlive.cpp:2458
+msgid "Folder %1 already exists\n"
+msgstr "%1 klasörü zaten var\n"
+
+#: kdenlive/kdenlive.cpp:2439
+msgid ""
+"Deleting this folder will remove all reference to its clips in your "
+"project.\n"
+"Delete this folder ?"
+msgstr "Bu klasörü silmek projenizde o klasörün içindeki kliplere olan referanslar ortadan kalkacak.\nBu klasör silinsin mi?"
+
+#: kdenlive/kdenlive.cpp:2452
+msgid "New Folder"
+msgstr "Yeni Klasör"
+
+#: kdenlive/kdenlive.cpp:2467 kdenlive/kdenlivedoc.cpp:109
+#: kdenlive/kdenlivedoc.cpp:120 kdenlive/loadprojectnativefilter.cpp:94
+#: kdenlive/loadprojectnativefilter.cpp:133
+msgid "Clips"
+msgstr "Klipler"
+
+#: kdenlive/kdenlive.cpp:2472 kdenlive/kdenlive.cpp:2509
+#: kdenlive/kdenlive.cpp:2536 kdenlive/kdenlive.cpp:2563
+#: kdenlive/kdenlive.cpp:2583
+msgid "Adding Clips"
+msgstr "Klipler Ekleniyor"
+
+#: kdenlive/kdenlive.cpp:2488
+msgid "You cannot include the current Kdenlive document in itself."
+msgstr "Şu andaki Kdenlive belgesini kendi içine koyamazsınız."
+
+#: kdenlive/kdenlive.cpp:2615
+msgid "Add image to project"
+msgstr "Projeye resim ekle"
+
+#: kdenlive/kdenlive.cpp:2634
+msgid "Please activate a monitor if you want to save a frame"
+msgstr "Eğer bir kareyi kaydetmek istiyorsanız önce bir izleyiciyi aktif hale getirmelisiniz"
+
+#: kdenlive/kdenlive.cpp:2672
+msgid "Editing Clips"
+msgstr "Klipleri Düzenliyor"
+
+#: kdenlive/kdenlive.cpp:2734
+msgid "Removing Clips"
+msgstr "Klipler Kaldırılıyor"
+
+#: kdenlive/kdenlive.cpp:2741
+msgid ""
+"This will remove all clips on timeline that are currently using this clip. "
+"Are you sure you want to do this?"
+msgstr "Bu zamançizgisinde şu anda bu kibi kullanan tüm klipleri kaldıracak. Bunu yapmak istediğinize emin misiniz?"
+
+#: kdenlive/kdenlive.cpp:2786
+msgid "Cleaning Project"
+msgstr "Proje Temizleniyor"
+
+#: kdenlive/kdenlive.cpp:2789
+msgid ""
+"Clean Project removes unused files.\t              Are you sure you want to "
+"do this?"
+msgstr "Projeyi Temizle kullanılmayan dosyaları kaldırır.\n              Bunu yapmak istediğinize emin misiniz?"
+
+#: kdenlive/kdenlive.cpp:2819
+msgid "Play / Pause"
+msgstr "Oynat / Duraklat"
+
+#: kdenlive/kdenlive.cpp:2836
+msgid "Starting/stopping playback of inpoint/outpoint section"
+msgstr "Giriş/çıkış noktaları arasındaki bölümün oynatılmasını başlatmak/durdurmak"
+
+#: kdenlive/kdenlive.cpp:2846
+msgid "Playing Forwards"
+msgstr "İleri Doğru Oynatıyor"
+
+#: kdenlive/kdenlive.cpp:2853
+msgid "Playing Backwards"
+msgstr "Geriye Doğru Oynatıyor"
+
+#: kdenlive/kdenlive.cpp:2860
+msgid "Play Loop"
+msgstr "Sürekli Oynat"
+
+#: kdenlive/kdenlive.cpp:2896
+msgid "Cannot find track to insert audio clip."
+msgstr "Ses klibini eklemek için iz bulunamadı."
+
+#: kdenlive/kdenlive.cpp:2916
+msgid "Seeking Forwards one frame"
+msgstr "İleri doğru bir kare gidiyor"
+
+#: kdenlive/kdenlive.cpp:2928
+msgid "Seeking Backwards one frame"
+msgstr "Geriye doğru bir kare gidiyor"
+
+#: kdenlive/kdenlive.cpp:2998
+msgid "Setting Inpoint"
+msgstr "Giriş noktası ayarlanıyor"
+
+#: kdenlive/kdenlive.cpp:3006
+msgid "Setting outpoint"
+msgstr "Çıkış noktası ayarlanıyor"
+
+#: kdenlive/kdenlive.cpp:3014
+msgid "Deleting Selected Clips"
+msgstr "Seçili Klipleri Siliyor"
+
+#: kdenlive/kdenlive.cpp:3041 kdenlive/kdenlive.cpp:3369
+#: kdenlive/trackpanelclipmovefunction.cpp:105
+#: kdenlive/trackpanelclipmovefunction.cpp:163
+#: kdenlive/trackpanelclipresizefunction.cpp:108
+#: kdenlive/trackpanelcliprollfunction.cpp:130
+#: kdenlive/trackpanelclipslipfunction.cpp:134
+#: kdenlive/trackpanelclipslipfunction.cpp:173
+#: kdenlive/trackpaneltransitionresizefunction.cpp:139
+msgid "Select Clip"
+msgstr "Klip Seç"
+
+#: kdenlive/kdenlive.cpp:3276
+msgid "Toggling snap marker"
+msgstr "Tutma işaretçisini açıyor/kapıyor"
+
+#: kdenlive/kdenlive.cpp:3284 kdenlive/kdenlive.cpp:3299
+msgid "Clearing snap markers"
+msgstr "Tutma işaretçileri temizleniyor"
+
+#: kdenlive/kdenlive.cpp:3287
+msgid "Clear all snap markers"
+msgstr "Tüm tutma işaretçilerini temizle"
+
+#: kdenlive/kdenlive.cpp:3302
+msgid "Clear selected snap markers"
+msgstr "Seçili tutma işaretçilerini temizle"
+
+#: kdenlive/kdenlive.cpp:3414
+msgid "Please select a clip to apply transition"
+msgstr "Lütfen geçiş uygulamak için bir klip seçin"
+
+#: kdenlive/kdenlive.cpp:3431
+msgid "Please select a clip to delete transition"
+msgstr "Geçiş silmek için lütfen bir klip seçin"
+
+#: kdenlive/kdenlivesetupdlg.cpp:48
+msgid "Interface"
+msgstr "Arayüz"
+
+#: kdenlive/kdenlivesetupdlg.cpp:49
+msgid "Timeline"
+msgstr "Zamançizgisi"
+
+#: kdenlive/kdenlivesetupdlg.cpp:50
+msgid "Misc"
+msgstr "Muhtelif"
+
+#: kdenlive/kdenlivesetupdlg.cpp:51 kdenlive/titlebasewidget_ui.cpp:153
+msgid "Titler"
+msgstr "Başlık oluşturucu"
+
+#: kdenlive/kdenlivesetupdlg.cpp:52
+msgid "Default Project"
+msgstr "Varsayılan Proje"
+
+#: kdenlive/kdenlivesetupdlg.cpp:53
+msgid "Capture"
+msgstr "Yakala"
+
+#: kdenlive/kdenlivesplash.cpp:23
+msgid "Version 0.4"
+msgstr "Sürüm 0.4"
+
+#: kdenlive/keditclipcommand.cpp:127
+msgid "Edit Clip"
+msgstr "Klibi Düzenle"
+
+#: kdenlive/keditmarkercommand.cpp:46
+msgid "Edit Snap Marker"
+msgstr "Tutma İşaretçisini Düzenle"
+
+#: kdenlive/keditmarkercommand.cpp:48
+msgid "Undo Edit Snap Marker"
+msgstr "Tutma İşaretçisi Düzenlemesini Geri Al"
+
+#: kdenlive/kmmeditpanel.cpp:202 kdenlive/kmmrecpanel.cpp:132
+msgid "Renderer connected"
+msgstr "Kaplayıcı bağlayıcı"
+
+#: kdenlive/kmmeditpanel.cpp:207 kdenlive/kmmrecpanel.cpp:137
+msgid "Renderer not connected"
+msgstr "Kaplayıcı bağlı değil"
+
+#: kdenlive/kmmeditpanel_ui.cpp:417
+msgid "Move to start of clip"
+msgstr "Klibin başına git"
+
+#: kdenlive/kmmeditpanel_ui.cpp:419 kdenlive/kmmrecpanel_ui.cpp:249
+msgid "Rewind clip"
+msgstr "Klibi başa sar"
+
+#: kdenlive/kmmeditpanel_ui.cpp:421
+msgid "Rewind 1 frame"
+msgstr "Bir kare geri git"
+
+#: kdenlive/kmmeditpanel_ui.cpp:423
+msgid "Stop clip"
+msgstr "Klibi durdur"
+
+#: kdenlive/kmmeditpanel_ui.cpp:425
+msgid "Play clip"
+msgstr "Klibi oynat"
+
+#: kdenlive/kmmeditpanel_ui.cpp:427
+msgid "Forward 1 frame"
+msgstr "Bir kare ileri sar"
+
+#: kdenlive/kmmeditpanel_ui.cpp:429
+msgid "Forward clip"
+msgstr "Klibi ileri sar"
+
+#: kdenlive/kmmeditpanel_ui.cpp:431
+msgid "Move to end of clip"
+msgstr "Klibin sonuna git"
+
+#: kdenlive/kmmeditpanel_ui.cpp:437
+msgid "Play Section between inpoint and outpoint"
+msgstr "Giriş noktasıyla çıkış noktası arasındaki bölümü oynat"
+
+#: kdenlive/kmmeditpanel_ui.cpp:439
+msgid "Loop Section between inpoint and outpoint"
+msgstr "Giriş noktası ile çıkış noktası arasındaki bölümü tekrar tekrar oynat"
+
+#: kdenlive/kmmeditpanel_ui.cpp:441
+msgid "Move to previous marker"
+msgstr "Önceki işarete git"
+
+#: kdenlive/kmmeditpanel_ui.cpp:443
+msgid "Set marker on timeline"
+msgstr "Zamançizgisine işaret koy"
+
+#: kdenlive/kmmeditpanel_ui.cpp:445
+msgid "Move to next marker"
+msgstr "Sonraki işarete git"
+
+#: kdenlive/kmmmonitor.cpp:417 kdenlive/trackpanelmarkerfunction.cpp:108
+msgid "Marker"
+msgstr "İşaretçi"
+
+#: kdenlive/kmmrecpanel_ui.cpp:245
+msgid "Record"
+msgstr "Kaydet"
+
+#: kdenlive/kmmrecpanel_ui.cpp:247
+msgid "End Rec"
+msgstr "Kaydı Durdur"
+
+#: kdenlive/kmmrecpanel_ui.cpp:251
+msgid "Live Rewind"
+msgstr "Canlı Geri Sarma"
+
+#: kdenlive/kmmrecpanel_ui.cpp:255
+msgid "Play"
+msgstr "Oynat"
+
+#: kdenlive/kmmrecpanel_ui.cpp:257
+msgid "Live Forward"
+msgstr "Canlı İleri Sar"
+
+#: kdenlive/kmmrecpanel_ui.cpp:259
+msgid "Forward"
+msgstr "İleri Sar"
+
+#: kdenlive/kmmrulerpanel.cpp:48
+msgid "1 Frame"
+msgstr "1 Kare"
+
+#: kdenlive/kmmrulerpanel.cpp:49
+msgid "2 Frames"
+msgstr "2 Kare"
+
+#: kdenlive/kmmrulerpanel.cpp:50
+msgid "5 Frames"
+msgstr "5 Kare"
+
+#: kdenlive/kmmrulerpanel.cpp:51
+msgid "10 Frames"
+msgstr "10 Kare"
+
+#: kdenlive/kmmrulerpanel.cpp:52
+msgid "1 Second"
+msgstr "1 Saniye"
+
+#: kdenlive/kmmrulerpanel.cpp:53
+msgid "2 Seconds"
+msgstr "2 Saniye"
+
+#: kdenlive/kmmrulerpanel.cpp:54
+msgid "5 Seconds"
+msgstr "5 Saniye"
+
+#: kdenlive/kmmrulerpanel.cpp:55
+msgid "10 Seconds"
+msgstr "10 Saniye"
+
+#: kdenlive/kmmrulerpanel.cpp:56
+msgid "20 Seconds"
+msgstr "20 Saniye"
+
+#: kdenlive/kmmrulerpanel.cpp:57
+msgid "30 Seconds"
+msgstr "30 Saniye"
+
+#: kdenlive/kmmrulerpanel.cpp:58
+msgid "1 Minute"
+msgstr "1 Dakika"
+
+#: kdenlive/kmmrulerpanel.cpp:59
+msgid "2 Minutes"
+msgstr "2 Dakika"
+
+#: kdenlive/kmmrulerpanel.cpp:60
+msgid "4 Minutes"
+msgstr "4 Dakika"
+
+#: kdenlive/kmmrulerpanel.cpp:61
+msgid "8 Minutes"
+msgstr "8 Dakika"
+
+#: kdenlive/kmmrulerpanel_ui.cpp:69
+msgid "Change the timeline view"
+msgstr "Zamançizgisi görüntüsünü değiştir"
+
+#: kdenlive/kmmtracksoundpanel.cpp:51 kdenlive/kmmtrackvideopanel.cpp:62
+#: kdenlive/transitiondialog.cpp:65
+msgid "Track %1"
+msgstr "İz %1"
+
+#: kdenlive/kmoveclipscommand.cpp:44
+msgid "Move Clips"
+msgstr "Klipleri Taşı"
+
+#: kdenlive/krender.cpp:866
+msgid "Cannot open file: "
+msgstr "Dosya açılamadı: "
+
+#: kdenlive/krender.cpp:870
+msgid ""
+"NO firewire access on that port\n"
+"Make sure you have loaded the raw1394 module and that you have write access "
+"on /dev/raw1394..."
+msgstr "O portta firewire iletişimi YOK\nraw1394 modülünün yüklendiğinden ve /dev/raw1394'e yazma erişiminiz olduğundan emin olun..."
+
+#: kdenlive/krender.cpp:881
+msgid "NO DV device found"
+msgstr "DV aygıtı BULUNAMADI"
+
+#: kdenlive/krender.cpp:885
+msgid ""
+"Transmission of dv file is finished.\n"
+"%1 frames were dropped during transfer."
+msgstr "dv dosyasının aktarılması tamamlandı.\nTransfer sırasında %1 kare atıldı."
+
+#: kdenlive/krender.cpp:886
+msgid "Transmission of dv file finished successfully."
+msgstr "dv Dosyasının aktarılması başarıyla tamamlandı."
+
+#: kdenlive/krender.cpp:888
+msgid ""
+"Firewire is not enabled on your system.\n"
+" Please install Libiec61883 and recompile Kdenlive"
+msgstr "Sisteminizde firewire açık değil.\nLibiec61883'ü yükleyip Kdenlive'i yeniden derleyin"
+
+#: kdenlive/kresizecommand.cpp:44
+msgid "Resize clip"
+msgstr "Klibi yeniden boyutlandır"
+
+#: kdenlive/krollcommand.cpp:54
+msgid "Roll clips"
+msgstr "Klipleri kaydır"
+
+#: kdenlive/kruler.cpp:1127
+msgid "Guide %1"
+msgstr "Kılavuz %1"
+
+#: kdenlive/kruler.cpp:1132
+msgid "Chapter End"
+msgstr "Bölüm Sonu"
+
+#: kdenlive/kselectclipcommand.cpp:57 kdenlive/kselectclipcommand.cpp:61
+#: kdenlive/kselectclipcommand.cpp:83
+msgid "Selection"
+msgstr "Seçim"
+
+#: kdenlive/ktimeline.cpp:70
+msgid "Ruler"
+msgstr "Cetvel"
+
+#: kdenlive/ktimeline.cpp:86
+msgid "Scroll"
+msgstr "Kaydır"
+
+#: kdenlive/loadprogress_ui.cpp:56
+msgid "Test"
+msgstr "Test et"
+
+#: kdenlive/main.cpp:28
+msgid ""
+"Kdenlive\n"
+"\n"
+"A non-linear video editor for KDE.\n"
+"\n"
+"Kdenlive is a frontend for the Mlt Framework.\n"
+"You can download the Mlt Framework on this url:\n"
+"http://mlt.sourceforge.net/"
+msgstr ""
+"Kdenlive\n"
+"\n"
+"KDE için Çizgisel olmayan bir video editörü.\n"
+"\n"
+"Kdenlive Mlt çatısı için bir önyüzdür.\n"
+"Mlt çatısını buradan indirebilirsiniz:\n"
+"http://mlt.sourceforge.net/"
+
+#: kdenlive/main.cpp:35
+msgid "file to open"
+msgstr "açılacak dosya"
+
+#: kdenlive/main.cpp:53
+msgid "Kdenlive original author"
+msgstr "Kdenlive asıl yazarı"
+
+#: kdenlive/main.cpp:58
+msgid "Piave renderer author"
+msgstr "Piave kaplayıcısı yazarı"
+
+#: kdenlive/main.cpp:64
+msgid "Piave and Kdenlive internationalization, French translations, splashscreen"
+msgstr "Piave ve Kdenlive uluslararasılaştırması, Fransızca çevirisi, giriş ekranı"
+
+#: kdenlive/main.cpp:69
+msgid "Artist, Kdenlive logo, splashscreen and application icon"
+msgstr "Sanatçı, Kdenlive logosu, giriş ekranı ve uygulama simgesi"
+
+#: kdenlive/main.cpp:72 kdenlive/main.cpp:80
+msgid "Kdenlive programmer"
+msgstr "Kdenlive programcısı"
+
+#: kdenlive/main.cpp:75
+msgid "Kdenlive programmer, Trackdecorators"
+msgstr "Kdenlive programcısı, İz dekoratörleri"
+
+#: kdenlive/main.cpp:78
+msgid "Kdenlive programmer, MLT porting, Effects, Transitions"
+msgstr "Kdenlive programcısı, MLT'nin aktarılması, Efektler, Geçişler"
+
+#: kdenlive/newproject.cpp:79
+msgid "*.kdenlive|Kdenlive Project Files (*.kdenlive)"
+msgstr "*.kdenlive|Kdenlive proje dosyaları (*.kdenlive)"
+
+#: kdenlive/newproject_ui.cpp:146
+msgid "Default project folder (to store rendered files):"
+msgstr "Varsayılan proje klasörü (kaplaması tamamlanan dosyaları kaydetmek için):"
+
+#: kdenlive/newproject_ui.cpp:147
+msgid "Project name:"
+msgstr "Proje adı:"
+
+#: kdenlive/newproject_ui.cpp:148
+msgid "Audio tracks:"
+msgstr "Ses izleri:"
+
+#: kdenlive/newproject_ui.cpp:149
+msgid "Video tracks:"
+msgstr "Video izleri:"
+
+#: kdenlive/newproject_ui.cpp:150
+msgid "Video format:"
+msgstr "Video formatı:"
+
+#: kdenlive/newproject_ui.cpp:151
+msgid "New File"
+msgstr "Yeni Dosya"
+
+#: kdenlive/newproject_ui.cpp:152
+msgid "Recent Files"
+msgstr "Son Dosyalar"
+
+#: kdenlive/newproject_ui.cpp:153
+msgid "Open Existing Project"
+msgstr "Varolan Projeyi Aç"
+
+#: kdenlive/newproject_ui.cpp:155
+msgid "Quit"
+msgstr "Çık"
+
+#: kdenlive/newproject_ui.cpp:157
+msgid "Ok"
+msgstr "Tamam"
+
+#: kdenlive/projectformatmanager.cpp:103
+msgid ""
+"Could not save file %1.\n"
+"Please check your permissions"
+msgstr ""
+"%1 dosyası kaydedilemedi.\n"
+"Lütfen izinlerinizi kontrol edin"
+
+#. i18n: file kdenlive/kdenliveui.rc line 30
+#: kdenlive/rc.cpp:3 kdenlive/rc.cpp:75 kdenlive/rc.cpp:147
+#: kdenlive/rc.cpp:219 kdenlive/rc.cpp:291
+#, no-c-format
+msgid "&Project"
+msgstr "&Proje"
+
+#. i18n: file kdenlive/kdenliveui.rc line 38
+#: kdenlive/rc.cpp:6 kdenlive/rc.cpp:78 kdenlive/rc.cpp:150
+#: kdenlive/rc.cpp:222 kdenlive/rc.cpp:294
+#, no-c-format
+msgid "&Timeline"
+msgstr "&Zamançizgisi"
+
+#. i18n: file kdenlive/kdenliveui.rc line 45
+#. i18n: file kdenlive/kdenliveui.rc line 219
+#. i18n: file kdenlive/kdenliveui.rc line 45
+#. i18n: file kdenlive/kdenliveui.rc line 219
+#. i18n: file kdenlive/kdenliveui.rc line 45
+#. i18n: file kdenlive/kdenliveui.rc line 219
+#: kdenlive/rc.cpp:9 kdenlive/rc.cpp:42 kdenlive/rc.cpp:78 kdenlive/rc.cpp:111
+#: kdenlive/rc.cpp:147 kdenlive/rc.cpp:180
+#: kdenlive/rc.cpp:9 kdenlive/rc.cpp:42 kdenlive/rc.cpp:81 kdenlive/rc.cpp:114
+#: kdenlive/rc.cpp:153 kdenlive/rc.cpp:186 kdenlive/rc.cpp:225
+#: kdenlive/rc.cpp:258 kdenlive/rc.cpp:297 kdenlive/rc.cpp:330
+#, no-c-format
+msgid "Go To"
+msgstr "Git"
+
+#. i18n: file kdenlive/kdenliveui.rc line 71
+#: kdenlive/rc.cpp:12 kdenlive/rc.cpp:84 kdenlive/rc.cpp:156
+#: kdenlive/rc.cpp:228 kdenlive/rc.cpp:300
+#, no-c-format
+msgid "Monitor"
+msgstr "İzleyici"
+
+#. i18n: file kdenlive/kdenliveui.rc line 80
+#: kdenlive/rc.cpp:15 kdenlive/rc.cpp:87 kdenlive/rc.cpp:159
+#: kdenlive/rc.cpp:231 kdenlive/rc.cpp:303
+#, no-c-format
+msgid "Render"
+msgstr "Hazırla"
+
+#. i18n: file kdenlive/kdenliveui.rc line 85
+#: kdenlive/rc.cpp:18 kdenlive/rc.cpp:90 kdenlive/rc.cpp:162
+#: kdenlive/rc.cpp:234 kdenlive/rc.cpp:306
+#, no-c-format
+msgid "Layout"
+msgstr "Mizanpaj"
+
+#. i18n: file kdenlive/kdenliveui.rc line 96
+#: kdenlive/rc.cpp:21 kdenlive/rc.cpp:90 kdenlive/rc.cpp:159
+#: kdenlive/rc.cpp:21 kdenlive/rc.cpp:93 kdenlive/rc.cpp:165
+#: kdenlive/rc.cpp:237 kdenlive/rc.cpp:309
+#, no-c-format
+msgid "Windows"
+msgstr "Windows"
+
+#. i18n: file kdenlive/kdenliveui.rc line 124
+#. i18n: file kdenlive/kdenliveui.rc line 137
+#. i18n: file kdenlive/kdenliveui.rc line 152
+#. i18n: file kdenlive/kdenliveui.rc line 168
+#. i18n: file kdenlive/kdenliveui.rc line 184
+#. i18n: file kdenlive/kdenliveui.rc line 201
+#. i18n: file kdenlive/kdenliveui.rc line 124
+#. i18n: file kdenlive/kdenliveui.rc line 137
+#. i18n: file kdenlive/kdenliveui.rc line 152
+#. i18n: file kdenlive/kdenliveui.rc line 168
+#. i18n: file kdenlive/kdenliveui.rc line 184
+#. i18n: file kdenlive/kdenliveui.rc line 201
+#. i18n: file kdenlive/kdenliveui.rc line 124
+#. i18n: file kdenlive/kdenliveui.rc line 137
+#. i18n: file kdenlive/kdenliveui.rc line 152
+#. i18n: file kdenlive/kdenliveui.rc line 168
+#. i18n: file kdenlive/kdenliveui.rc line 184
+#. i18n: file kdenlive/kdenliveui.rc line 201
+#: kdenlive/rc.cpp:24 kdenlive/rc.cpp:27 kdenlive/rc.cpp:30 kdenlive/rc.cpp:33
+#: kdenlive/rc.cpp:36 kdenlive/rc.cpp:39 kdenlive/rc.cpp:93 kdenlive/rc.cpp:96
+#: kdenlive/rc.cpp:99 kdenlive/rc.cpp:102 kdenlive/rc.cpp:105
+#: kdenlive/rc.cpp:108 kdenlive/rc.cpp:162 kdenlive/rc.cpp:165
+#: kdenlive/rc.cpp:168 kdenlive/rc.cpp:171 kdenlive/rc.cpp:174
+#: kdenlive/rc.cpp:177
+#: kdenlive/rc.cpp:36 kdenlive/rc.cpp:39 kdenlive/rc.cpp:96 kdenlive/rc.cpp:99
+#: kdenlive/rc.cpp:102 kdenlive/rc.cpp:105 kdenlive/rc.cpp:108
+#: kdenlive/rc.cpp:111 kdenlive/rc.cpp:168 kdenlive/rc.cpp:171
+#: kdenlive/rc.cpp:174 kdenlive/rc.cpp:177 kdenlive/rc.cpp:180
+#: kdenlive/rc.cpp:183 kdenlive/rc.cpp:240 kdenlive/rc.cpp:243
+#: kdenlive/rc.cpp:246 kdenlive/rc.cpp:249 kdenlive/rc.cpp:252
+#: kdenlive/rc.cpp:255 kdenlive/rc.cpp:312 kdenlive/rc.cpp:315
+#: kdenlive/rc.cpp:318 kdenlive/rc.cpp:321 kdenlive/rc.cpp:324
+#: kdenlive/rc.cpp:327
+#, no-c-format
+msgid "Create Clip"
+msgstr "Klip Yarat"
+
+#. i18n: file kdenlive/kdenliveui.rc line 224
+#. i18n: file kdenlive/kdenliveui.rc line 245
+#. i18n: file kdenlive/kdenliveui.rc line 224
+#. i18n: file kdenlive/kdenliveui.rc line 245
+#. i18n: file kdenlive/kdenliveui.rc line 224
+#. i18n: file kdenlive/kdenliveui.rc line 245
+#: kdenlive/rc.cpp:45 kdenlive/rc.cpp:54 kdenlive/rc.cpp:114
+#: kdenlive/rc.cpp:123 kdenlive/rc.cpp:183 kdenlive/rc.cpp:192
+#: kdenlive/rc.cpp:45 kdenlive/rc.cpp:54 kdenlive/rc.cpp:117
+#: kdenlive/rc.cpp:126 kdenlive/rc.cpp:189 kdenlive/rc.cpp:198
+#: kdenlive/rc.cpp:261 kdenlive/rc.cpp:270 kdenlive/rc.cpp:333
+#: kdenlive/rc.cpp:342
+#, no-c-format
+msgid "Tools"
+msgstr "Araçlar"
+
+#. i18n: file kdenlive/kdenliveui.rc line 231
+#. i18n: file kdenlive/kdenliveui.rc line 252
+#. i18n: file kdenlive/kdenliveui.rc line 231
+#. i18n: file kdenlive/kdenliveui.rc line 252
+#. i18n: file kdenlive/kdenliveui.rc line 231
+#. i18n: file kdenlive/kdenliveui.rc line 252
+#: kdenlive/rc.cpp:48 kdenlive/rc.cpp:57 kdenlive/rc.cpp:117
+#: kdenlive/rc.cpp:126 kdenlive/rc.cpp:186 kdenlive/rc.cpp:195
+#: kdenlive/rc.cpp:48 kdenlive/rc.cpp:57 kdenlive/rc.cpp:120
+#: kdenlive/rc.cpp:129 kdenlive/rc.cpp:192 kdenlive/rc.cpp:201
+#: kdenlive/rc.cpp:264 kdenlive/rc.cpp:273 kdenlive/rc.cpp:336
+#: kdenlive/rc.cpp:345
+#, no-c-format
+msgid "Snap To"
+msgstr "Tutun"
+
+#. i18n: file kdenlive/kdenliveui.rc line 236
+#: kdenlive/rc.cpp:51 kdenlive/rc.cpp:120 kdenlive/rc.cpp:189
+#: kdenlive/rc.cpp:51 kdenlive/rc.cpp:123 kdenlive/rc.cpp:195
+#: kdenlive/rc.cpp:267 kdenlive/rc.cpp:339
+#, no-c-format
+msgid "Tracks"
+msgstr "İzler"
+
+#. i18n: file kdenlive/kdenliveui.rc line 269
+#: kdenlive/rc.cpp:60 kdenlive/rc.cpp:129 kdenlive/rc.cpp:198
+#: kdenlive/rc.cpp:60 kdenlive/rc.cpp:132 kdenlive/rc.cpp:204
+#: kdenlive/rc.cpp:276 kdenlive/rc.cpp:351
+#, no-c-format
+msgid "Add Video Effect"
+msgstr "Video Efekti Ekle"
+
+#. i18n: file kdenlive/kdenliveui.rc line 271
+#: kdenlive/rc.cpp:63 kdenlive/rc.cpp:132 kdenlive/rc.cpp:201
+#: kdenlive/rc.cpp:63 kdenlive/rc.cpp:135 kdenlive/rc.cpp:207
+#: kdenlive/rc.cpp:279 kdenlive/rc.cpp:354
+#, no-c-format
+msgid "Add Audio Effect"
+msgstr "Ses Efekti Ekle"
+
+#. i18n: file kdenlive/kdenliveui.rc line 290
+#. i18n: file kdenlive/kdenliveui.rc line 273
+#: kdenlive/rc.cpp:66 kdenlive/rc.cpp:138 kdenlive/rc.cpp:210
+#: kdenlive/rc.cpp:282 kdenlive/rc.cpp:357
+#, no-c-format
+msgid "Delete Effect"
+msgstr "Efekti Sil"
+
+#. i18n: file kdenlive/kdenliveui.rc line 292
+#: kdenlive/rc.cpp:66 kdenlive/rc.cpp:135 kdenlive/rc.cpp:207
+#: kdenlive/rc.cpp:69 kdenlive/rc.cpp:141 kdenlive/rc.cpp:213
+#: kdenlive/rc.cpp:285 kdenlive/rc.cpp:360
+#, no-c-format
+msgid "Timeline Toolbar"
+msgstr "Zamançizgisi Araççubuğu"
+
+#. i18n: file kdenlive/kdenliveui.rc line 305
+#. i18n: file kdenlive/kdenliveui.rc line 307
+#: kdenlive/rc.cpp:69 kdenlive/rc.cpp:138 kdenlive/rc.cpp:210
+#: kdenlive/rc.cpp:72 kdenlive/rc.cpp:144 kdenlive/rc.cpp:216
+#: kdenlive/rc.cpp:288 kdenlive/rc.cpp:363
+#, no-c-format
+msgid "Layout Toolbar"
+msgstr "Mizanpaj Araççubuğu"
+
+#. i18n: file kdenlive/kdenliveui.rc line 266
+#: kdenlive/rc.cpp:348
+#, no-c-format
+msgid "Add Transition"
+msgstr "Geçiş Ekle"
+
+#: kdenlive/timecode.cpp:74
+msgid "hour"
+msgstr "saat"
+
+#: kdenlive/timecode.cpp:83
+msgid "min."
+msgstr "dak."
+
+#: kdenlive/timecode.cpp:92
+msgid "sec."
+msgstr "san."
+
+#: kdenlive/timecode.cpp:97
+msgid "frames"
+msgstr "kare"
+
+#: kdenlive/titlebasewidget_ui.cpp:154 kdenlive/titlebasewidget_ui.cpp:155
+#: kdenlive/titlebasewidget_ui.cpp:160 kdenlive/titlebasewidget_ui.cpp:161
+#: kdenlive/titlebasewidget_ui.cpp:162
+msgid "..."
+msgstr "..."
+
+#: kdenlive/titlewidget.cpp:672
+msgid "Add Text"
+msgstr "Metin Ekle"
+
+#: kdenlive/titlewidget.cpp:673
+msgid "Add Rectangle"
+msgstr "Kare Ekle"
+
+#: kdenlive/titlewidget.cpp:674
+msgid "Select Objects"
+msgstr "Nesne Seç"
+
+#: kdenlive/titlewidget.cpp:675
+msgid "Bring to Front"
+msgstr "Öne Getir"
+
+#: kdenlive/titlewidget.cpp:676
+msgid "Send to Background"
+msgstr "Arkaya gönder"
+
+#: kdenlive/trackpanelmarkerfunction.cpp:97
+msgid "Edit Marker"
+msgstr "İşaretçiyi Düzenle"
+
+#: kdenlive/trackpanelmarkerfunction.cpp:97
+#: kdenlive/trackpanelmarkerfunction.cpp:108
+msgid "Marker comment: "
+msgstr "İşaret yorumu: "
+
+#: kdenlive/trackpanelmarkerfunction.cpp:108
+msgid "Add Marker"
+msgstr "İşaretçi Ekle"
+
+#: kdenlive/trackviewtransitiondecorator.cpp:96
+msgid "> Background"
+msgstr "> Zemin"
+
+#: kdenlive/transition.cpp:245
+msgid "Audio Fade"
+msgstr "Ses Geçişi"
+
+#: kdenlive/transitionaudiofade_ui.cpp:55
+#: kdenlive/transitioncrossfade_ui.cpp:55
+#: kdenlive/transitionlumafile_ui.cpp:77 kdenlive/transitionwipe_ui.cpp:236
+msgid "Invert direction"
+msgstr "Yön değiştir"
+
+#: kdenlive/transitiondialog.cpp:56
+msgid "Perform transition with: "
+msgstr "Geçişi şununla yap: "
+
+#: kdenlive/transitiondialog.cpp:58
+msgid "Automatic - Use next video track"
+msgstr "Otomatik - Sonraki video izini kullan"
+
+#: kdenlive/transitiondialog.cpp:59
+msgid "Background track (black)"
+msgstr "Zemin izi (siyah)"
+
+#: kdenlive/transitiondialog.cpp:74
+msgid "PIP"
+msgstr "PIP"
+
+#: kdenlive/transitionlumafile_ui.cpp:76 kdenlive/transitionpip_ui.cpp:197
+#: kdenlive/transitionwipe_ui.cpp:235
+msgid "Softness"
+msgstr "Yumuşaklık"
+
+#: kdenlive/transitionpip_ui.cpp:192
+msgid "Vert. position"
+msgstr "Dikey konum"
+
+#: kdenlive/transitionpip_ui.cpp:194 kdenlive/transitionwipe_ui.cpp:233
+msgid "Transparency"
+msgstr "Saydamlık"
+
+#: kdenlive/transitionpip_ui.cpp:195
+msgid "Horiz. position"
+msgstr "Yatay konum"
+
+#: kdenlive/transitionpip_ui.cpp:196 kdenlive/transitionwipe_ui.cpp:234
+msgid "Use luma file"
+msgstr "luma dosyasını kullan"
+
+#: kdenlive/transitionpip_ui.cpp:199
+msgid "St&art"
+msgstr "B&aşla"
+
+#: kdenlive/transitionpip_ui.cpp:200
+msgid "E&nd"
+msgstr "So&n"
+
+#: kdenlive/transitionwipe_ui.cpp:237
+msgid "Rescale images"
+msgstr "Resimleri yeniden oranla"
+
