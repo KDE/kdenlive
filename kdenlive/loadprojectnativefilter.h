@@ -40,6 +40,7 @@ class LoadProjectNativeFilter:public LoadProjectFilter {
     void loadTrackList(QDomElement & element, KdenliveDoc * document, GenTime insertTime = GenTime());
     void addToDocument(const QString & parent, QDomElement & clip,
 	KdenliveDoc * document);
+    QDomDocument upgradeDocumentFile(QDomDocument kdenlivedoc, KdenliveDoc * document, double version);
 };
 
 #endif

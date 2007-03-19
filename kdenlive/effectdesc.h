@@ -26,12 +26,14 @@
   *@author Jason Wood
   */
 
+enum EFFECTTYPE { VIDEOEFFECT = 0, AUDIOEFFECT = 1};
+
 class Effect;
 class EffectParamDesc;
 
 class EffectDesc {
   public:
-    EffectDesc(const QString & name, const QString & tag, const QString & type, bool mono = false);
+    EffectDesc(const QString & name, const QString stringId, const QString & tag, EFFECTTYPE type, bool mono = false);
     ~EffectDesc();
 
 	/** Returns the name of this effect. */
@@ -39,8 +41,8 @@ class EffectDesc {
 	/** Returns the description of this effect. */
     const QString & tag() const;
 	/** Returns the type of this effect (audio/video). */
-    const QString & type() const;
-
+    EFFECTTYPE type() const;
+    const QString & stringId() const;
     bool isMono() const;
 
 	/** Adds an input to this description. An input might be a video stream, and audio stream, or it may require both. */
@@ -63,7 +65,8 @@ class EffectDesc {
 	/** The description of this effect, text that will be displayed in the effect list */
     QString m_tag;
 	/** The type of this effect (is it audio or video) */
-    QString m_type;
+    EFFECTTYPE m_type;
+    QString m_id;
     bool m_mono;
 
      QPtrVector < EffectParamDesc > m_params;

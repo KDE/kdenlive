@@ -900,7 +900,7 @@ Effect *KdenliveDoc::createEffect(const QDomElement & element) const
 	    << endl;
     }
 
-    EffectDesc *desc = effectDescription(element.attribute("type"));
+    EffectDesc *desc = effectDescription(element.attribute("id"));
     if (desc) {
 	effect = Effect::createEffect(*desc, element);
     } else {
@@ -915,6 +915,11 @@ Effect *KdenliveDoc::createEffect(const QDomElement & element) const
 EffectDesc *KdenliveDoc::effectDescription(const QString & type) const
 {
     return effectDescriptions().effectDescription(type);
+}
+
+const QString KdenliveDoc::getEffectStringId(QString effectName) const
+{
+    return effectDescriptions().stringId(effectName);
 }
 
 void KdenliveDoc::slotDeleteClipTransition()

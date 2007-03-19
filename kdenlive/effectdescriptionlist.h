@@ -34,6 +34,7 @@ class EffectDescriptionList:public QPtrList < EffectDesc > {
     ~EffectDescriptionList();
 
     EffectDesc *effectDescription(const QString & type) const;
+    const QString stringId(QString effectName) const;
 };
 
 #endif

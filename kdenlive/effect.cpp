@@ -33,8 +33,8 @@
 #include "kdenlivesettings.h"
 
 
-Effect::Effect(const EffectDesc & desc, const QString & name):m_desc(desc),
-m_name(name), m_enabled(true)
+Effect::Effect(const EffectDesc & desc, const QString & id):m_desc(desc),
+m_id(id), m_enabled(true)
 {
 	if (m_desc.tag().startsWith("ladspa", false)) { 
 		//ladspa filter, needs a unique temp file for xml input file
@@ -71,8 +71,8 @@ QDomDocument Effect::toXML()
 
     QDomElement effect = doc.createElement("effect");
 
-    effect.setAttribute("name", name());
-    effect.setAttribute("type", m_desc.name());
+    //effect.setAttribute("name", name());
+    effect.setAttribute("id", m_desc.stringId());
     effect.setAttribute("enabled", isEnabled());
     if (!m_paramFile.isEmpty()) effect.setAttribute("tempfile", m_paramFile);
 
@@ -156,15 +156,14 @@ Effect *Effect::createEffect(const EffectDesc & desc,
     Effect *result = 0;
 
     if (effect.tagName() == "effect") {
-	QString name = effect.attribute("name", "");
-	QString type = effect.attribute("type", "");
+	QString id = effect.attribute("id", "");
 	QString tmpFile = effect.attribute("tempfile", "");
-	if (type != desc.name()) {
+/*	if (type != desc.stringId()) {
 	    kdError() <<
 		"Effect::createEffect() failed integrity check - desc.name() == "
 		<< desc.name() << ", type == " << type << endl;
-	}
-	result = new Effect(desc, name);
+	}*/
+	result = new Effect(desc, id);
 	result->setEnabled(effect.attribute("enabled", "1").toInt());
 	if (!tmpFile.isEmpty() && QFile(tmpFile).exists()) result->setTempFile(tmpFile);
 

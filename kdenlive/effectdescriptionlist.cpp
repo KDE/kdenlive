@@ -34,7 +34,7 @@ EffectDesc *EffectDescriptionList::effectDescription(const QString & type) const
     QPtrListIterator < EffectDesc > itt(*this);
 
     while (itt.current()) {
-	if (itt.current()->name() == type) {
+	if (itt.current()->stringId() == type) {
 	    //result = itt.current();
 	    break;
 	}
@@ -42,9 +42,23 @@ EffectDesc *EffectDescriptionList::effectDescription(const QString & type) const
     }
 
     if (itt.current()) {
-	result = new EffectDesc( itt.current()->name(), itt.current()->tag(),itt.current()->type(), itt.current()->isMono());
+	result = new EffectDesc( itt.current()->name(), itt.current()->stringId(), itt.current()->tag(),itt.current()->type(), itt.current()->isMono());
 	   for (uint count = 0; count < itt.current()->numParameters(); ++count)
 		result->addParameter(itt.current()->parameter(count)->clone());
+    }
+    return result;
+}
+
+const QString EffectDescriptionList::stringId(QString effectName) const
+{
+    QPtrListIterator < EffectDesc > itt(*this);
+    QString result;
+    while (itt.current()) {
+	if (itt.current()->name() == effectName) {
+	    result = itt.current()->stringId();
+	    break;
+	}
+	++itt;
     }
     return result;
 }

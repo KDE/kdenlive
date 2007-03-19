@@ -190,6 +190,9 @@ class KdenliveDoc:public QObject {
     Timecode timeCode();
     void setFramesPerSecond(double fps);
     void redrawTimelineSection(int track, GenTime start, GenTime end);
+	/** Return string id for an effect based on it's i18n name (used for converting
+	old project files */
+    const QString getEffectStringId(QString effectName) const;
 
   private:
 	/** The base clip for this document. This must be a project clip, as it lists the tracks within

@@ -228,7 +228,7 @@ namespace Gui {
 	removeEffectsMenu = ((QPopupMenu *) factory()->container("remove_effect", this));
 	QPtrListIterator < EffectDesc > itt(m_effectList);
 	while (itt.current()) {
-	    if (itt.current()->type() == "video") {
+	    if (itt.current()->type() == VIDEOEFFECT) {
 		videoEffectsMenu->insertItem( itt.current()->name() );
 	    }
 	    else audioEffectsMenu->insertItem( itt.current()->name() );
@@ -350,9 +350,9 @@ namespace Gui {
     void KdenliveApp::slotAddEffect(const QString & effectName)
     {
 	DocClipRefList list = getDocument()->projectClip().selectedClipList();
-
-	if (list.isEmpty() || !effectList().effectDescription(effectName)) return;
-	Effect *effect = effectList().effectDescription(effectName)->createEffect(effectName);
+	QString effectId = getDocument()->getEffectStringId(effectName);
+	if (list.isEmpty() || !effectList().effectDescription(effectId)) return;
+	Effect *effect = effectList().effectDescription(effectId)->createEffect(effectId);
 	KMacroCommand *macroCommand = new KMacroCommand(i18n("Add Effect"));
 	DocClipRef *refClip;
 

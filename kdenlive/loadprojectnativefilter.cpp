@@ -63,11 +63,19 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 	    << documentElement.tagName() << endl;
     }
     QDomNode kdenlivedoc = documentElement.elementsByTagName("kdenlivedoc").item(0);
+    double version = kdenlivedoc.toElement().attribute("version", "0").toDouble();
+    if (version < 0.5) {
+	kdDebug()<<"///  GET READY OFR UPGRADE..."<<endl;
+	doc = upgradeDocumentFile(doc, document, version);
+	documentElement = doc.documentElement();
+	kdenlivedoc = documentElement.elementsByTagName("kdenlivedoc").item(0);
+	kdDebug()<<"///  DONE..."<<endl;
+    }
     QDomNode n = kdenlivedoc.firstChild();
+    QDomElement e;
 
     while (!n.isNull()) {
-	kdDebug()<<"+++++++++   reading child  ++++++++++++"<<endl;
-	QDomElement e = n.toElement();
+	e = n.toElement();
 	if (!e.isNull()) {
 	    if (e.tagName() == "properties") {
 		KdenliveSettings::setCurrentdefaultfolder(e.attribute("projectfolder",""));
@@ -101,10 +109,8 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 	    }
 	    else if (e.tagName() == "kdenliveclip") {
 		if (!trackListLoaded) {
-		kdDebug()<<"///////////////// * * * *  LOADING TRACKLIST"<<endl;
 		    trackListLoaded = true;
 		    loadTrackList(e, document);
-		kdDebug()<<"///////////////// * * * *  LOADING TRACKLIST .. DONE"<<endl;
 		} else {
 		    kdWarning() <<
 			"Second timeline discovered, skipping..." << endl;
@@ -120,10 +126,26 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
     document->application()->setInpointPosition(inPoint);
     document->application()->setOutpointPosition(outPoint);
     document->renderer()->seek(GenTime(currentPos, KdenliveSettings::defaultfps()));
-    kdDebug()<<"///////////////// * * * *  LOADING FINISHED"<<endl;
     return true;
 }
 
+
+QDomDocument LoadProjectNativeFilter::upgradeDocumentFile(QDomDocument kdenlivedoc, KdenliveDoc * document, double version)
+{
+    // upgrade from 0.4: replace effects names with locale independant strings
+    if (version < 0.5) {
+	QDomNodeList list = kdenlivedoc.elementsByTagName("effect");
+	uint cnt = list.count();
+	uint ix = 0;
+	while (ix < cnt) {
+	    QDomNode item = list.item(ix);
+	    QDomElement e = item.toElement();
+	    e.setAttribute("id", document->getEffectStringId(e.attribute("name", "")));
+	    ix++;
+	}
+    }
+    return kdenlivedoc;
+}
 
 // virtual
 bool LoadProjectNativeFilter::merge(QFile & file, KdenliveDoc * document, bool insertTimeLine, GenTime insertTime)
@@ -194,16 +216,12 @@ void LoadProjectNativeFilter::loadAVFileList(QDomElement & element,
 void LoadProjectNativeFilter::loadTrackList(QDomElement & element,
     KdenliveDoc * document, GenTime insertTime)
 {
-    kdDebug()<<"///////////START CREATE CLIP"<<endl;
     DocClipBase *clip =
 	DocClipBase::createClip(document, element);
-    kdDebug()<<"///////////START CREATE CLIP.. DONE"<<endl;
     if (clip) {
 	if (clip->isProjectClip()) {
-	    kdDebug()<<"///////////SET AS PC"<<endl;
 	    document->setProjectClip(dynamic_cast <
 		DocClipProject * >(clip));
-	    kdDebug()<<"///////////SET AS PC ... DONE"<<endl;
 	} else {
 	    delete clip;
 	    kdError() <<

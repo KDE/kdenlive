@@ -48,7 +48,7 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
     QDomElement westley = doc.createElement("westley");
     doc.appendChild(westley);
     QDomElement elem = doc.createElement("kdenlivedoc");
-    elem.setAttribute("version", "0.4");
+    elem.setAttribute("version", "0.5");
     westley.appendChild(elem);
     QDomElement docinfos = doc.createElement("properties");
     docinfos.setAttribute("projectfolder", KdenliveSettings::currentdefaultfolder());

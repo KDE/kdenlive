@@ -23,8 +23,8 @@
 #include "effect.h"
 #include "effectparamdesc.h"
 
-EffectDesc::EffectDesc(const QString & name, const QString & tag, const QString & type, bool mono):
-m_name(name), m_tag(tag), m_type(type), m_mono(mono)
+EffectDesc::EffectDesc(const QString & name, const QString stringId, const QString & tag, EFFECTTYPE type, bool mono):
+m_name(name), m_tag(tag), m_type(type), m_id(stringId), m_mono(mono)
 {
     m_params.setAutoDelete(true);
 
@@ -48,9 +48,15 @@ const QString & EffectDesc::tag() const
 }
 
 /** Returns the type for this effect (audio or video). */
-const QString & EffectDesc::type() const
+EFFECTTYPE EffectDesc::type() const
 {
     return m_type;
+}
+
+/** Returns the type for this effect (audio or video). */
+const QString & EffectDesc::stringId() const
+{
+   return m_id;
 }
 
 /** Is this effect an auido mono effect. */
@@ -89,7 +95,7 @@ Effect *EffectDesc::createEffect(const QString & preset)
     if (effectPreset) {
 	returnEffect = effectPreset->clone();
     } else {
-	returnEffect = new Effect(*this, this->name());
+	returnEffect = new Effect(*this, this->stringId());
     }
 
     for (uint count = 0; count < numParameters(); ++count) {
@@ -104,7 +110,7 @@ Effect *EffectDesc::findPreset(const QString & name)
     QPtrListIterator < Effect > itt(m_presets);
 
     while (itt.current()) {
-	if (itt.current()->name() == name)
+	if (itt.current()->effectDescription().name() == name)
 	    return itt.current();
 	++itt;
     }

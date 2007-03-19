@@ -23,6 +23,7 @@
 #include <qptrlist.h>
 #include <qdom.h>
 
+#include "effectdesc.h"
 class EffectDesc;
 class EffectParameter;
 
@@ -32,7 +33,7 @@ class EffectParameter;
 
 class Effect {
   public:
-    Effect(const EffectDesc & desc, const QString & name);
+    Effect(const EffectDesc & desc, const QString & id);
 
     ~Effect();
 
@@ -40,7 +41,7 @@ class Effect {
     QDomDocument toXML();
 
     const QString & name() const {
-	return m_name;
+	return m_desc.name();
     } 
     void addParameter(const QString & name);
     void setEnabled(bool isOn);
@@ -71,7 +72,7 @@ class Effect {
 
   private:
     const EffectDesc & m_desc;
-    QString m_name;
+    QString m_id;
     QString m_paramFile;
     QPtrList < EffectParameter > m_paramList;
     bool m_enabled;

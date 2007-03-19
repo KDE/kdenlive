@@ -379,11 +379,11 @@ createClip(KdenliveDoc *doc, const QDomElement & element)
     int clipId = -1;
 
     QDomElement t;
-
     QDomNode n = element.firstChild();
+    QDomElement e;
 
     while (!n.isNull()) {
-	QDomElement e = n.toElement();
+	e = n.toElement();
 	if (!e.isNull()) {
 	    //kdWarning() << "DocClipRef::createClip() tag = " << e.tagName() << endl;
 	    if (e.tagName() == "avfile") {
