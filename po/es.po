@@ -1,4 +1,4 @@
-# translation of es.po to español
+# translation of es.po to Español
 # Gerard Lledó Vives <gellevi@inf.upv.es>, 2004.
 # Carlos Dávila Martín <carluti@users.sourceforge.net>, 2006.
 # jb <jb@ader.ch>, 2006.
@@ -13,9 +13,9 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-03-18 23:06+0100\n"
-"PO-Revision-Date: 2007-03-18 23:09+0100\n"
-"Last-Translator: Carlos Dávila <cdavilam@sourceforge.net>\n"
-"Language-Team: español <es@li.org>\n"
+"PO-Revision-Date: 2007-03-19 16:31+0100\n"
+"Last-Translator: Carlos Davila <carluti@users.sourceforge.net>\n"
+"Language-Team: Español <grass-es@grass.itc.it>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1186,7 +1186,7 @@ msgstr "La creación de la estructura del DVD falló."
 
 #: kdenlive/exportwidget.cpp:70
 msgid "Render Timeline"
-msgstr "Línea de tiempo de renderizador"
+msgstr "Renderizar la línea de tiempo"
 
 #: kdenlive/exportwidget.cpp:83
 msgid "Low"
