@@ -286,7 +286,8 @@ void exportWidget::slotEditEncoder()
     if (dlg.exec() == QDialog::Accepted) {
 	CustomEncoders.erase(it);
 	delete custom_encoders->currentItem();
-	(void) new QListViewItem(custom_encoders, dlg.encoder_name->text());
+	QListViewItem *item = new QListViewItem(custom_encoders, dlg.encoder_name->text());
+	custom_encoders->setCurrentItem(item);
 	CustomEncoders<<"0:Custom:" + dlg.encoder_name->text() + "::::avformat::" + dlg.encoder_ext->text() + ":" + dlg.encoder_param->text().simplifyWhiteSpace();
     }
 }
