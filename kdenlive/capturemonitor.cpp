@@ -117,7 +117,8 @@ void CaptureMonitor::displayCapturedFiles()
 	KDialogBase *dia = new KDialogBase(  KDialogBase::Swallow, i18n("Captured Clips"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "captured_clips", true);
 	dia->setButtonOKText (i18n("Process captured files"));
 	dia->setButtonCancelText (i18n("Continue capture..."));
-	KListView *lv = new KListView(dia);
+	QVBox *page = new QVBox(dia);
+	KListView *lv = new KListView(page);
 	lv->addColumn(i18n("Add"));
 	lv->addColumn("original_name",0);
 	lv->addColumn(i18n("Clip Name"));
@@ -126,6 +127,12 @@ void CaptureMonitor::displayCapturedFiles()
 	lv->setRenameable(2, true);
 	lv->setRenameable(0, false);
 	lv->setAllColumnsShowFocus(true);
+
+	QHBox *box1 = new QHBox(page);
+	QLabel *lab = new QLabel(i18n("Move selected files to:"), box1);
+	KURLRequester *urlreq = new KURLRequester(box1);
+	urlreq->setMode(KFile::Directory);
+	urlreq->setURL(KdenliveSettings::currentdefaultfolder());
 
 	QStringList more;
     	QStringList::Iterator it;
@@ -143,7 +150,7 @@ void CaptureMonitor::displayCapturedFiles()
 		}
 	    }
 	lv->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	dia->setMainWidget(lv);
+	dia->setMainWidget(page);
 	dia->setMinimumSize(400, 240);
 	dia->adjustSize();
 	if (dia->exec() == QDialog::Accepted) {
@@ -153,7 +160,7 @@ void CaptureMonitor::displayCapturedFiles()
 		    bool ok = true;
 		    // move selected files to our project folder
                     QString source = m_tmpFolder + it.current()->text( 1 );
-		    QString dest = KdenliveSettings::currentdefaultfolder() + "/" + it.current()->text( 2 );
+		    QString dest = urlreq->url() + "/" + it.current()->text( 2 );
 		    while (KIO::NetAccess::exists(KURL(dest), true, this) && ok) {
 			dest = KLineEditDlg::getText(i18n("File exists"), i18n("File already exists, enter a new name"), dest, &ok);
 		    }
@@ -166,6 +173,11 @@ void CaptureMonitor::displayCapturedFiles()
 	    m_tmpFolder = QString::null;
 	    hasCapturedFiles = false;
 	}
+	delete lab;
+	delete urlreq;
+	delete box1;
+	delete lv;
+	delete page;
 	delete dia;
 }
 

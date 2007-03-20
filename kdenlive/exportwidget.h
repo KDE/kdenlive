@@ -85,8 +85,8 @@ private:
 	QString m_meta_comment;
 	QString m_meta_copyright;
 	QString m_meta_album;
-	uint m_meta_track;
 	uint m_meta_year;
+	uint m_meta_track;
 
         /** AVC stuff 
         int m_port;

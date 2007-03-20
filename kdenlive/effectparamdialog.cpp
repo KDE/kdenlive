@@ -73,7 +73,14 @@ namespace Gui {
 
 	 m_presets->setSizePolicy(QSizePolicy::Expanding,
 	    QSizePolicy::Maximum);
-    } EffectParamDialog::~EffectParamDialog() {
+    } 
+
+    EffectParamDialog::~EffectParamDialog() {
+	delete m_presetLayout;
+	delete m_presets;
+	delete m_presetAdd;
+	delete m_presetDelete;
+	delete m_editLayout;
     }
 
     void EffectParamDialog::

@@ -28,7 +28,7 @@
 
 ConfigureProjectDialog::ConfigureProjectDialog(Gui::KdenliveApp * parent, const char *name, WFlags f):ConfigureProjectPanel_UI(parent, name), m_app(parent)
 {
-
+    projectFolder->setMode(KFile::Directory);
     loadTemplates();
     connect ( templatesList, SIGNAL(activated( int )), this, SLOT(updateDisplay()));
     connect( edit_metadata, SIGNAL( clicked()), this, SLOT( slotEditMetadata()));

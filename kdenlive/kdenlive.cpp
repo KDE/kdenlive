@@ -2243,6 +2243,9 @@ namespace Gui {
 	if (dia->exec() == QDialog::Accepted) {
 	    m_projectFormatManager.mergeDocument( KURL(urlreq->url()), m_doc);
 	}
+	delete lab;
+	delete urlreq;
+	delete page;
 	delete dia;
 	slotStatusMsg(i18n("Ready."));
     }
@@ -3198,6 +3201,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     	    resizeCommand->setEndSize(*clip);
 	    addCommand(resizeCommand, true);
 	}
+	delete lab;
+	delete page;
 	delete dia;
     }
     
