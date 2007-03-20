@@ -3873,6 +3873,9 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    QString newFormat = configDialog.selectedFormat();
 	    if (newFormat != projectFormatName((uint) projectVideoFormat()))
 	    	switchProjectToFormat(newFormat);
+	    if (m_monitorManager.hasActiveMonitor())
+	    	m_monitorManager.activeMonitor()->slotSetInactive();
+		m_monitorManager.activeMonitor()->slotSetActive();
 	}
     }
 
