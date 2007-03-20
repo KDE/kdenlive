@@ -3661,8 +3661,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	getDocument()->moveSelectedClips(space, 0);
 	moveClipsCommand->setEndLocation(masterClip);
 	macroCommand->addCommand(moveClipsCommand);
-	macroCommand->addCommand(Command::KSelectClipCommand::selectNone(getDocument()));
-	addCommand(macroCommand, true);
+	addCommand(macroCommand, false);
+	addCommand(Command::KSelectClipCommand::selectNone(getDocument()), true);
     }
 
     void KdenliveApp::slotDefineClipThumb() {
