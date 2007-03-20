@@ -43,6 +43,7 @@
 #include <kstandarddirs.h>
 #include <knotifyclient.h>
 #include <kprogress.h>
+#include <ktempdir.h>
 
 #include "timecode.h"
 #include "kdenlivesettings.h"
@@ -55,8 +56,8 @@ ExportDvdDialog::ExportDvdDialog(DocClipProject *proj, exportWidget *render_widg
     if (KStandardDirs::findExe("dvdauthor") == QString::null) KMessageBox::sorry(this, i18n("Cannot find the program \"dvdauthor\" on your system. Install it if you want to be able to create a DVD"));
     dvd_folder->setURL(KdenliveSettings::currentdefaultfolder() + "/dvd/");
     m_fps = m_project->framesPerSecond();
-    xml_file = KdenliveSettings::currentdefaultfolder() + "/dvdauthor.xml";
-    spuxml_file = KdenliveSettings::currentdefaultfolder() + "/spumux.xml";
+    xml_file = KdenliveSettings::currenttmpfolder() + "/dvdauthor.xml";
+    spuxml_file = KdenliveSettings::currenttmpfolder() + "/spumux.xml";
     setCaption(i18n("Create DVD"));
     setTitle(page(0), i18n("Rendering"));
     setTitle(page(1), i18n("Menu"));
@@ -67,9 +68,13 @@ ExportDvdDialog::ExportDvdDialog(DocClipProject *proj, exportWidget *render_widg
     dvd_size->setFormat("%v M");
 
     dvd_standard->insertItem(i18n("PAL"));
+    dvd_standard->insertItem(i18n("PAL 16:9"));
     dvd_standard->insertItem(i18n("NTSC"));
+    dvd_standard->insertItem(i18n("NTSC 16:9"));
 
-    if (m_format == NTSC_VIDEO) dvd_standard->setCurrentItem(1);
+    if (m_format == PAL_WIDE) dvd_standard->setCurrentItem(1);
+    else if (m_format == NTSC_VIDEO) dvd_standard->setCurrentItem(2);
+    else if (m_format == NTSC_WIDE) dvd_standard->setCurrentItem(3);
 
     cancelButton()->setText(i18n("Close"));
 
@@ -122,8 +127,21 @@ void ExportDvdDialog::slotUpdateNextButton(bool isOn)
 
 void ExportDvdDialog::slotSetStandard(int std)
 {
-    if (std == 0) m_format = PAL_VIDEO;
-    else m_format = NTSC_VIDEO;
+    switch (m_format)
+    {
+	case 1:
+	    m_format = PAL_WIDE;
+	    break;
+	case 2:
+	    m_format = NTSC_VIDEO;
+	    break;
+	case 3:
+	    m_format = NTSC_WIDE;
+	    break;
+	default:
+	    m_format = PAL_VIDEO;
+	    break;
+    }
 }
 
 void ExportDvdDialog::slotCheckMenuMovie()
@@ -179,7 +197,7 @@ void ExportDvdDialog::slotNextPage() {
 	    movie_path->setText(m_movie_file);
 	}
         else if (render_now->isChecked()) {
-	    KURLRequesterDlg *getUrl = new KURLRequesterDlg(KdenliveSettings::currentdefaultfolder() + "/movie.vob", i18n("Enter name for rendered movie file"), this, "dvd_file");
+	    KURLRequesterDlg *getUrl = new KURLRequesterDlg(KdenliveSettings::currenttmpfolder() + "/movie.vob", i18n("Enter name for rendered movie file"), this, "dvd_file");
 	    getUrl->exec();
 	    KURL moviePath = getUrl->selectedURL ();
 	    //KURL moviePath = KURLRequesterDlg::getURL(KdenliveSettings::currentdefaultfolder() + "/movie.vob", i18n("Enter name for rendered movie file"), this, "dvd_file");
@@ -210,7 +228,6 @@ void ExportDvdDialog::slotFinishExport(bool isOk) {
     dvd_size->setProgress(dvdsize / 1024000);
     generateMenuMovie();
     //setEnabled(true);
-    generateMenuMovie();
 }
 
 void ExportDvdDialog::checkFolder() {
@@ -325,7 +342,8 @@ void ExportDvdDialog::generateDvdXml() {
 	    dvdFailed();
 	    return;
 	}
-	KIO::NetAccess::del(KURL(dvd_folder->url()));
+	if (!KIO::NetAccess::del(KURL(dvd_folder->url()), this)) 
+	    kdDebug()<<"/ / / / / CANNOT REMOVE DVD FOLDER"<<endl;
     }
     button_preview->setEnabled(false);
     button_burn->setEnabled(false);
@@ -347,7 +365,6 @@ void ExportDvdDialog::generateDvdXml() {
     QString chapterTimes;
     if (chapter_list->childCount() > 1) {
 	chapterTimes = "0";
-	
 	QListViewItem * myChild = chapter_list->firstChild();
 	GenTime offset = timeFromString(myChild->text(1));
 	myChild = myChild->nextSibling();
@@ -483,7 +500,7 @@ void ExportDvdDialog::generateMenuMovie() {
 	QString size;
 	QString fps;
 	QString gop;
-	if (m_format == NTSC_VIDEO) {
+	if (m_format == NTSC_VIDEO || m_format == NTSC_WIDE) {
 	    if (KdenliveSettings::videoprofile() == "dv_wide") aspect_ratio = QString::number(40.0 / 33.0);
 	    else aspect_ratio = QString::number(10.0 / 11.0);
 	    size = "720x480";
@@ -501,8 +518,8 @@ void ExportDvdDialog::generateMenuMovie() {
 
 	m_menu_movie_file = KdenliveSettings::currenttmpfolder() + "menu.vob";
 	KProcess *p = new KProcess;
-	if (m_format == PAL_VIDEO) p->setEnvironment("MLT_NORMALISATION", "PAL");
-    	else if (m_format == NTSC_VIDEO) p->setEnvironment("MLT_NORMALISATION", "NTSC");
+	if (m_format == PAL_VIDEO || m_format == PAL_WIDE) p->setEnvironment("MLT_NORMALISATION", "PAL");
+    	else if (m_format == NTSC_VIDEO || m_format == NTSC_WIDE) p->setEnvironment("MLT_NORMALISATION", "NTSC");
 	*p<<"kdenlive_renderer";
 
 	if (color_background->isChecked()) {
@@ -626,7 +643,7 @@ void ExportDvdDialog::generateMenuPreview()
 	QPainter p;
 	int width = 720;
 	int height;
-	if (m_format == NTSC_VIDEO) height = 480;
+	if (m_format == NTSC_VIDEO || m_format == NTSC_WIDE) height = 480;
 	else height = 576;
 
 	QPixmap pix(width, height);
@@ -709,7 +726,7 @@ void ExportDvdDialog::generateImage(QString imageName, QString buttonText, QColo
 	QPainter p;
 	int width = 720;
 	int height;
-	if (m_format == NTSC_VIDEO) height = 480;
+	if (m_format == NTSC_VIDEO || m_format == NTSC_WIDE) height = 480;
 	else height = 576;
 
 	QPixmap pix(width, height);
@@ -755,7 +772,7 @@ void ExportDvdDialog::generateTranspImage(QString imageName, QString buttonText,
 	QPainter p;
 	int width = 720;
 	int height;
-	if (m_format == NTSC_VIDEO) height = 480;
+	if (m_format == NTSC_VIDEO || m_format == NTSC_WIDE) height = 480;
 	else height = 576;
 
 	QPixmap pix(width, height);

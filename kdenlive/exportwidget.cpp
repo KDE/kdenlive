@@ -732,20 +732,20 @@ void exportWidget::generateDvdFile(QString file, GenTime start, GenTime end, VID
     stream << m_app->getDocument()->projectClip().generateSceneList(true, true).toString() << "\n";
     m_tmpFile->file()->close();
     m_exportProcess = new KProcess;
-    if (format == PAL_VIDEO) {
+    if (format == PAL_VIDEO || format == PAL_WIDE) {
 	m_exportProcess->setEnvironment("MLT_NORMALISATION", "PAL");
 	encoderParams = QStringList::split(" ",slotEncoderCommand(HQEncoders, "DVD", "PAL").section(":",9));
     }
-    else if (format == NTSC_VIDEO) {
+    else if (format == NTSC_VIDEO || format == NTSC_WIDE) {
 	m_exportProcess->setEnvironment("MLT_NORMALISATION", "NTSC");
 	encoderParams = QStringList::split(" ",slotEncoderCommand(HQEncoders, "DVD", "NTSC").section(":",9));
     }
-    kdDebug()<<" + + DVD EXPORT, PARAMS: "<<encoderParams<<endl;
+    //kdDebug()<<" + + DVD EXPORT, PARAMS: "<<encoderParams<<endl;
     *m_exportProcess << "kdenlive_renderer";
     *m_exportProcess << m_tmpFile->name();
     *m_exportProcess << "real_time=0";
     *m_exportProcess << "resize=hyper";
-    *m_exportProcess << "progressive=1";
+    //*m_exportProcess << "progressive=1";
     *m_exportProcess << QString("in=%1").arg(start.frames(KdenliveSettings::defaultfps()));
     *m_exportProcess << QString("out=%1").arg(end.frames(KdenliveSettings::defaultfps()));
     *m_exportProcess << "-consumer";
@@ -782,8 +782,8 @@ void exportWidget::doExport(QString file, double ratio, QStringList params, bool
     m_exportProcess = new KProcess;
 
     if (!encoder_norm.isEmpty()) m_exportProcess->setEnvironment("MLT_NORMALISATION", encoder_norm);
-    else if (m_format == PAL_VIDEO) m_exportProcess->setEnvironment("MLT_NORMALISATION", "PAL");
-    else if (m_format == NTSC_VIDEO) m_exportProcess->setEnvironment("MLT_NORMALISATION", "NTSC");
+    else if (m_format == PAL_VIDEO || m_format == PAL_WIDE) m_exportProcess->setEnvironment("MLT_NORMALISATION", "PAL");
+    else if (m_format == NTSC_VIDEO || m_format == NTSC_WIDE) m_exportProcess->setEnvironment("MLT_NORMALISATION", "NTSC");
     *m_exportProcess << "kdenlive_renderer";
 
     *m_exportProcess << m_tmpFile->name();
@@ -847,8 +847,8 @@ void exportWidget::doAudioExport(QString src, QString dest)
     m_exportProcess = new KProcess;
 
     if (!encoder_norm.isEmpty()) m_exportProcess->setEnvironment("MLT_NORMALISATION", encoder_norm);
-    else if (m_format == PAL_VIDEO) m_exportProcess->setEnvironment("MLT_NORMALISATION", "PAL");
-    else if (m_format == NTSC_VIDEO) m_exportProcess->setEnvironment("MLT_NORMALISATION", "NTSC");
+    else if (m_format == PAL_VIDEO || m_format == NTSC_WIDE) m_exportProcess->setEnvironment("MLT_NORMALISATION", "PAL");
+    else if (m_format == NTSC_VIDEO || m_format == NTSC_WIDE) m_exportProcess->setEnvironment("MLT_NORMALISATION", "NTSC");
     *m_exportProcess << "kdenlive_renderer";
 
     *m_exportProcess << m_tmpFile->name();
