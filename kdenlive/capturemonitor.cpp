@@ -42,14 +42,7 @@ namespace Gui {
 	m_fileNumber = 0;
 	m_screen->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
 	m_screen->setBackgroundMode(Qt::PaletteDark);
-
-	if (KStandardDirs::findExe("dvgrab") == QString::null ||KStandardDirs::findExe("ffplay") == QString::null) {
-		m_recPanel->setEnabled(false);
-		QLabel *lb = new QLabel(i18n("<b>The programs dvgrab or ffplay are missing</b>.<br>Firewire capture will be disabled until you install them."), m_screenHolder);
-		lb->setPaletteBackgroundColor(Qt::red);
-		lb->setMargin(5);
-		lb->show();
-	}
+	slotCheckCaptureStatus();
 
 	connect(m_recPanel, SIGNAL(activateMonitor()), this,  SLOT(activateMonitor()));
 	connect(m_recPanel, SIGNAL(stopDevice()), this, SLOT(slotStop()));
@@ -65,6 +58,34 @@ namespace Gui {
     CaptureMonitor::~CaptureMonitor() {
 	if (captureProcess) delete captureProcess;
     }
+
+    void CaptureMonitor::slotCheckCaptureStatus() {
+	QObject *label = m_screenHolder->child("warn_message");
+	if (label) delete label;
+	label = m_screenHolder->child("warn_button");
+	if (label) delete label;
+	QString warnMessage;
+	if (KStandardDirs::findExe("dvgrab") == QString::null ||KStandardDirs::findExe("ffplay") == QString::null) {
+		warnMessage = i18n("<b>The programs dvgrab or ffplay are missing</b>.<br>Firewire capture will be disabled until you install them.");
+		m_readyForCapture = false;
+	}
+	else if (!KIO::NetAccess::exists(KURL("/dev/raw1394"), false, this)) {
+		if (!warnMessage.isEmpty()) warnMessage += "<br>";
+		warnMessage += i18n("<b>The raw1394 module is not loaded or you don't have write access on /dev/raw1394. Please check your permissions.");
+		m_readyForCapture = false;
+	}
+	else m_readyForCapture = true;
+	m_recPanel->setEnabled(m_readyForCapture);
+	if (!m_readyForCapture) {
+		QLabel *warningLabel = new QLabel(warnMessage, m_screenHolder, "warn_message");
+		QPushButton *pb = new QPushButton(i18n("Check again"), m_screenHolder, "warn_button");
+		connect(pb, SIGNAL(clicked()), this, SLOT(slotCheckCaptureStatus()));
+		warningLabel->setPaletteBackgroundColor(Qt::red);
+		warningLabel->setMargin(5);
+		warningLabel->show();
+		pb->show();
+	}
+    }
     
     void CaptureMonitor::exportCurrentFrame(KURL url, bool notify) const {
 	// TODO FIXME
@@ -79,10 +100,6 @@ namespace Gui {
 	// TODO FIXME
 	return 0;
     } 
-
-    void CaptureMonitor::slotClickMonitor() {
-	emit monitorClicked(this);
-    }
 
     void CaptureMonitor::activateMonitor() {
 	m_app->activateMonitor(this);
