@@ -77,10 +77,10 @@ namespace Gui {
         }*/
 
         //uint half = rect.height()*2/3;
-            QColor col(252,255,79);
-            if (document()->application()->transitionPanel()->isActiveTransition( *itt)) col.setRgb(255,50,50);
-            uint start = timeline()->mapValueToLocal((*itt)->transitionStartTime().frames(document()->framesPerSecond()));
-            uint end = timeline()->mapValueToLocal((*itt)->transitionEndTime().frames(document()->framesPerSecond()))-start;
+        QColor col(252,255,79);
+        if (document()->application()->transitionPanel()->isActiveTransition( *itt)) col.setRgb(255,50,50);
+        int start = timeline()->mapValueToLocal((*itt)->transitionStartTime().frames(document()->framesPerSecond()));
+        int end = timeline()->mapValueToLocal((*itt)->transitionEndTime().frames(document()->framesPerSecond()))-start;
         //painter.fillRect(start, rect.y(), end, rect.height(), QBrush(col));  //, Qt::Dense5Pattern));
 	QBrush br = painter.brush();
 	painter.setBrush(QBrush(col));
