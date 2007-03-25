@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-03-17 17:26+0100\n"
-"PO-Revision-Date: 2007-03-25 19:03+0300\n"
+"PO-Revision-Date: 2007-03-25 19:53+0300\n"
 "Last-Translator: Murat Şenel <muratasenel@gmail.com>\n"
 "Language-Team:  <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3362,11 +3362,11 @@ msgstr "Kdenlive programcısı, MLT'nin aktarılması, Efektler, Geçişler"
 
 #: kdenlive/main.cpp:82
 msgid "_: NAME OF TRANSLATORS\\nYour names"
-msgstr "Serdar Soytetir"
+msgstr "Necmettin Begiter, Koray Löker, Murat Şenel, Serdar Soytetir"
 
 #: kdenlive/main.cpp:82
 msgid "_: EMAIL OF TRANSLATORS\\nYour emails"
-msgstr "tulliana@gmail.com"
+msgstr "nbegiter@gmx.com.tr, loker@pardus.org.tr, muratasenel@gmail.com, tulliana@gmail.com"
 
 #: kdenlive/newproject.cpp:79
 msgid "*.kdenlive|Kdenlive Project Files (*.kdenlive)"
@@ -3534,7 +3534,7 @@ msgstr "Mizanpaj"
 #: kdenlive/rc.cpp:582 kdenlive/rc.cpp:675
 #, no-c-format
 msgid "Windows"
-msgstr "Windows"
+msgstr "Pencereler"
 
 #. i18n: file kdenlive/kdenliveui.rc line 145
 #. i18n: file kdenlive/kdenliveui.rc line 163
