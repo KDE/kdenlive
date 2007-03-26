@@ -32,7 +32,7 @@ namespace Gui {
 
 	addColumn(i18n("Effect"));
 	setEffectList(effectList);
-
+	setRootIsDecorated(true);
 	setDragEnabled(true);
 	setFullWidth(true);
 	setFrameStyle (QFrame::NoFrame);
@@ -50,7 +50,7 @@ namespace Gui {
 	KListViewItem *audio = new KListViewItem(this, i18n("Audio"));
 	QPtrListIterator < EffectDesc > itt(m_effectList);
 	while (itt.current()) {
-	    if (itt.current()->type() == "video") new KListViewItem(video, itt.current()->name());
+	    if (itt.current()->type() == VIDEOEFFECT) new KListViewItem(video, itt.current()->name());
 	    else new KListViewItem(audio, itt.current()->name());
 	    ++itt;
 	}
