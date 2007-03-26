@@ -227,13 +227,21 @@ namespace Gui {
 	videoEffectsMenu = ((QPopupMenu *) factory()->container("video_effect", this));
 	removeEffectsMenu = ((QPopupMenu *) factory()->container("remove_effect", this));
 	QPtrListIterator < EffectDesc > itt(m_effectList);
+	QStringList videoEffectsList;
+	QStringList audioEffectsList;
 	while (itt.current()) {
 	    if (itt.current()->type() == VIDEOEFFECT) {
-		videoEffectsMenu->insertItem( itt.current()->name() );
+		videoEffectsList.append(itt.current()->name());
 	    }
-	    else audioEffectsMenu->insertItem( itt.current()->name() );
+	    else audioEffectsList.append(itt.current()->name()); 
 	    ++itt;
 	}
+	videoEffectsList.sort();
+	audioEffectsList.sort();
+	for (QStringList::Iterator it = videoEffectsList.begin(); it != videoEffectsList.end(); ++it)
+	videoEffectsMenu->insertItem( *it );
+	for (QStringList::Iterator it = audioEffectsList.begin(); it != audioEffectsList.end(); ++it)
+	audioEffectsMenu->insertItem( *it );
 
 	connect(audioEffectsMenu, SIGNAL(activated(int)), this, SLOT(slotAddAudioEffect(int)));
 	connect(videoEffectsMenu, SIGNAL(activated(int)), this, SLOT(slotAddVideoEffect(int)));
