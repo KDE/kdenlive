@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-03-17 17:26+0100\n"
-"PO-Revision-Date: 2007-03-27 02:03-0300\n"
+"PO-Revision-Date: 2007-03-28 10:28-0300\n"
 "Last-Translator: Fabricio Rocha <rocha_fabricio@yahoo.com.br>\n"
 "Language-Team: Português Brasileiro <pt_br@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1491,7 +1491,7 @@ msgstr "Coeficiente"
 
 #: kdenlive/initeffects.cpp:656
 msgid "Rate Scaler"
-msgstr "Escala de taxa"
+msgstr "Escala de amostragem"
 
 #: kdenlive/initeffects.cpp:660
 #, fuzzy
