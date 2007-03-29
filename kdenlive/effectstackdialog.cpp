@@ -356,7 +356,7 @@ namespace Gui {
 	Effect *effect =
 	    m_effectList->clip()->effectAt(m_effectList->
 	    selectedEffectIndex());
-	
+	if (!effect->isEnabled()) return;
 	while (effect->parameter(parameterNum)) {
 	    m_effecttype = effect->effectDescription().parameter(parameterNum)->type();
 	    QString widgetName = QString("param");
