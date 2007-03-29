@@ -142,9 +142,10 @@ namespace Gui {
 
     void EffectStackDialog::addParameters(DocClipRef * clip, Effect * effect) {
 	// Rebuild the effect parameters dialog
-	kdDebug()<<"++++++++++++  REBUILD PARAMETER DIALOG FOR CLIP: "<<clip->name()<<endl;
+	//kdDebug()<<"++++++++++++  REBUILD PARAMETER DIALOG FOR CLIP: "<<clip->name()<<endl;
 	uint parameterNum = 0;
 	m_hasKeyFrames = false;
+	tabWidget2->setEnabled(effect->isEnabled());
         if (!effect->parameter(parameterNum)) {
 		disableButtons();
 		return;
@@ -356,7 +357,7 @@ namespace Gui {
 	Effect *effect =
 	    m_effectList->clip()->effectAt(m_effectList->
 	    selectedEffectIndex());
-	if (!effect->isEnabled()) return;
+
 	while (effect->parameter(parameterNum)) {
 	    m_effecttype = effect->effectDescription().parameter(parameterNum)->type();
 	    QString widgetName = QString("param");
@@ -428,6 +429,7 @@ namespace Gui {
 	Effect *effect = clip->effectAt(m_effectList->
 	    selectedEffectIndex());
 	if (!effect) return;
+	tabWidget2->setEnabled(effect->isEnabled());
 	if (effect->name() == i18n("Speed")) {
 	    // If we disable speed effect, reset clip speed to normal
 	    if (!effect->isEnabled()) clip->setSpeed( 1.0, 1.0);
