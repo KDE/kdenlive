@@ -460,6 +460,8 @@ namespace Gui {
 		}
 		effect->addKeyFrame(0, 0.0);
 		effect->addKeyFrame(0, 1.0);
+		effect->parameter(parameterNum)->setSelectedKeyFrame(0);
+		updateKeyFrames();
 	    } else if (effect->effectDescription().
 		parameter(parameterNum)->type() == "constant" || effect->effectDescription().
 		parameter(parameterNum)->type() == "position") {
@@ -504,9 +506,8 @@ namespace Gui {
 	    parameterNum++;
 	}
 	m_blockUpdate = false;
-	emit redrawTrack(clip->trackNum(), clip->trackStart(), clip->trackEnd());
-	
 	parameterChanged();
+	emit redrawTrack(clip->trackNum(), clip->trackStart(), clip->trackEnd());
     }
 
 
@@ -518,9 +519,7 @@ namespace Gui {
 	uint numKeyFrames = effect->parameter(parameterNum)->numKeyFrames();
 	if (numKeyFrames == 0 || !m_hasKeyFrames)
 	    return;
-
 	int ix = effect->parameter(parameterNum)->selectedKeyFrame();
-        //if (ix > numKeyFrames -1) ix = numKeyFrames -1;
 	spinIndex->setValue(ix);
 	spinIndex->setMaxValue(numKeyFrames - 1);
 	selectKeyFrame(ix);

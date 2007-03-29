@@ -35,12 +35,13 @@ const int EffectParameter::numKeyFrames() const
 
 void EffectParameter::setSelectedKeyFrame(int ix)
 {
-	if (ix > (int)m_keyFrames.count() -1) ix = m_keyFrames.count() -1;
+    if (ix > (int)m_keyFrames.count() -1) ix = m_keyFrames.count() -1;
     m_selectedKeyFrame = ix;
 }
 
 const int EffectParameter::selectedKeyFrame() const
 {
+    if ((m_selectedKeyFrame < 0) || (m_selectedKeyFrame > m_keyFrames.count() - 1)) return 0;
     return m_selectedKeyFrame;
 }
 
