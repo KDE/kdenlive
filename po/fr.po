@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-03-29 10:55+0200\n"
-"PO-Revision-Date: 2007-03-29 11:35+0200\n"
+"PO-Revision-Date: 2007-03-29 11:52+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1261,9 +1261,8 @@ msgstr ""
 "Le fichier de sortie est probablement inutilisable ..."
 
 #: kdenlive/firstrun_ui.cpp:2796
-#, fuzzy
 msgid "Default video format:"
-msgstr "Format vidéo :"
+msgstr "Format vidéo par défaut :"
 
 #: kdenlive/firstrun_ui.cpp:2801
 msgid ""
@@ -1329,7 +1328,7 @@ msgstr "Graver"
 
 #: kdenlive/initeffects.cpp:222
 msgid "Blur factor"
-msgstr ""
+msgstr "Niveau de flou"
 
 #: kdenlive/initeffects.cpp:230
 msgid "Horizontal multiplicator"
@@ -2182,31 +2181,31 @@ msgstr "Transitions"
 
 #: kdenlive/kdenlive.cpp:931
 msgid "Focus Clip Monitor"
-msgstr "Afficher le moniteur de clip"
+msgstr "Sélectionner le moniteur de clip"
 
 #: kdenlive/kdenlive.cpp:934
 msgid "Focus Timeline Monitor"
-msgstr "Afficher le moniteur de montage"
+msgstr "Sélectionner le moniteur de montage"
 
 #: kdenlive/kdenlive.cpp:937
 msgid "Focus Capture Monitor"
-msgstr "Afficher le moniteur de capture"
+msgstr "Sélectionner le moniteur de capture"
 
 #: kdenlive/kdenlive.cpp:940
 msgid "Focus Effect List"
-msgstr "Afficher les effets disponibles"
+msgstr "Sélectionner les effets disponibles"
 
 #: kdenlive/kdenlive.cpp:943
 msgid "Focus Effect Stack"
-msgstr "Afficher les effets utilisés"
+msgstr "Sélectionner les effets utilisés"
 
 #: kdenlive/kdenlive.cpp:946
 msgid "Focus Project Tree"
-msgstr "Afficher l'arborescence du projet"
+msgstr "Sélectionner l'arborescence du projet"
 
 #: kdenlive/kdenlive.cpp:950
 msgid "Focus Transitions"
-msgstr "Afficher les transitions"
+msgstr "Sélectionner les transitions"
 
 #: kdenlive/kdenlive.cpp:954
 msgid "Move Clip To Cursor"
@@ -2583,9 +2582,8 @@ msgstr ""
 "dialogue de configuration de Kdenlive."
 
 #: kdenlive/kdenlive.cpp:2229
-#, fuzzy
 msgid "Select project file"
-msgstr "Objets sélectionnés"
+msgstr "Sélectionner le fichier projet"
 
 #: kdenlive/kdenlive.cpp:2230
 msgid "Merge project"
@@ -2596,9 +2594,8 @@ msgid "Project file: "
 msgstr "Fichier de projet :"
 
 #: kdenlive/kdenlive.cpp:2242
-#, fuzzy
 msgid "Timeline clips: "
-msgstr "Montage"
+msgstr "Clips du montage"
 
 #: kdenlive/kdenlive.cpp:2245
 msgid "Ignore"
@@ -3027,9 +3024,8 @@ msgid "(ARTS daemon)"
 msgstr "(Système de son ARTS)"
 
 #: kdenlive/kdenlivesetupdlg.cpp:81
-#, fuzzy
 msgid "(Default)"
-msgstr "Couleur par défaut"
+msgstr "(par défaut)"
 
 #: kdenlive/kdenlivesetupdlg.cpp:82
 msgid "(XFREE86 DGA 2.0)"
