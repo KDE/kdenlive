@@ -125,11 +125,13 @@ QDomElement element = node.documentElement();
                 setId(e.attribute("id", "-1").toInt());
                 m_filesize = e.attribute("filesize", "0").toInt();
 		m_alphaTransparency = e.attribute("transparency", "0").toInt();
-		m_hasCrossfade = e.attribute("crossfade", "0").toInt();
-		m_ttl = e.attribute("ttl", "0").toInt();
-		m_luma = e.attribute("lumafile", QString::null);
-		m_lumasoftness = e.attribute("lumasoftness", "0").toDouble();
-		m_lumaduration = e.attribute("lumaduration", "0").toInt();
+		if (m_clipType == DocClipBase::SLIDESHOW) {
+		    m_hasCrossfade = e.attribute("crossfade", "0").toInt();
+		    m_ttl = e.attribute("ttl", "0").toInt();
+		    m_luma = e.attribute("lumafile", QString::null);
+		    m_lumasoftness = e.attribute("lumasoftness", "0").toDouble();
+		    m_lumaduration = e.attribute("lumaduration", "0").toInt();
+		}
 		m_width = e.attribute("width", "0").toInt();
 		m_height = e.attribute("height", "0").toInt();
 		m_channels = e.attribute("channels", "0").toInt();
@@ -137,7 +139,7 @@ QDomElement element = node.documentElement();
 		m_videoCodec = e.attribute("videocodec", QString::null);
 		m_audioCodec = e.attribute("audiocodec", QString::null);
 		m_durationKnown = e.attribute("durationknown", "0" ).toInt();
-		m_color = e.attribute("color", QString::null);
+		if (m_clipType == DocClipBase::COLOR) m_color = e.attribute("color", QString::null);
 		m_duration = GenTime(e.attribute("duration", "0").toInt(), KdenliveSettings::defaultfps());
 		setName(e.attribute("name", QString::null));
 		setDescription(e.attribute("description", QString::null));
@@ -538,14 +540,18 @@ QDomDocument DocClipAVFile::toXML() const
 		avfile.setAttribute("duration", m_duration.frames(KdenliveSettings::defaultfps()));
                 avfile.setAttribute("filesize", m_filesize);
 		avfile.setAttribute("transparency", m_alphaTransparency);
-		avfile.setAttribute("crossfade", m_hasCrossfade);
-		avfile.setAttribute("ttl", m_ttl);
-		avfile.setAttribute("lumafile", m_luma);
-		avfile.setAttribute("lumasoftness", m_lumasoftness);
-		avfile.setAttribute("lumaduration", m_lumaduration);
+
+		if (m_clipType == DocClipBase::SLIDESHOW) {
+		    avfile.setAttribute("crossfade", m_hasCrossfade);
+		    avfile.setAttribute("ttl", m_ttl);
+		    avfile.setAttribute("lumafile", m_luma);
+		    avfile.setAttribute("lumasoftness", m_lumasoftness);
+		    avfile.setAttribute("lumaduration", m_lumaduration);
+		}
+
 		avfile.setAttribute("channels", m_channels);
 		avfile.setAttribute("frequency", m_frequency);
-		avfile.setAttribute("color", m_color);
+		if (m_clipType == DocClipBase::COLOR) avfile.setAttribute("color", m_color);
 		avfile.setAttribute("description", description());
 		avfile.setAttribute("name", name());
 		avfile.setAttribute("width", m_width);
