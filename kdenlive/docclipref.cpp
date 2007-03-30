@@ -45,7 +45,8 @@ startTimer(0),
 endTimer(0),
 m_trackStart(0.0),
 m_cropStart(0.0),
-m_trackEnd(0.0), m_parentTrack(0),  m_trackNum(-1), m_clip(clip),  m_speed(1.0),  m_endspeed(1.0)
+m_trackEnd(0.0), m_parentTrack(0),  m_trackNum(-1),
+m_clip(clip),  m_speed(1.0)
 {
     if (!clip) {
 	kdError() <<
@@ -357,7 +358,6 @@ createClip(KdenliveDoc *doc, const QDomElement & element)
     GenTime trackEnd;
     QString description;
     double speed = 1.0;
-    double endspeed = 1.0;
     EffectStack effectStack;
     QValueVector < CommentedTime > markers;
 
@@ -402,7 +402,6 @@ createClip(KdenliveDoc *doc, const QDomElement & element)
 		trackEnd =
 		    GenTime(e.attribute("trackend", "-1").toDouble());
 		speed = e.attribute("speed", "1.0").toDouble();
-		endspeed = e.attribute("end_speed", "1.0").toDouble();
 	    }  else if (e.tagName() == "effects") {
 		//kdWarning() << "Found effects tag" << endl;
 		QDomNode effectNode = e.firstChild();
@@ -461,10 +460,10 @@ createClip(KdenliveDoc *doc, const QDomElement & element)
 	    endl;
     } else {
 	// setup DocClipRef specifics of the clip.
+	clip->setSpeed(speed);
 	clip->setTrackStart(trackStart);
 	clip->setCropStartTime(cropStart);
 	if (clip->snapMarkers().count() == 0) clip->setSnapMarkers(markers);
-	clip->setSpeed(speed, endspeed);
 	if (trackEnd.seconds() != -1) {
 	    clip->setTrackEnd(trackEnd);
 	} else {
@@ -473,7 +472,6 @@ createClip(KdenliveDoc *doc, const QDomElement & element)
 	clip->setParentTrack(0, trackNum);
 	//clip->setDescription(description);
 	clip->setEffectStack(effectStack);
-        
         // add Transitions
         if (!t.isNull()) {
             QDomNode transitionNode = t.firstChild();
@@ -644,7 +642,6 @@ QDomDocument DocClipRef::toXML() const
 {
     QDomDocument doc = m_clip->toXML();
 
-
     QDomElement clip = doc.documentElement();
 
     if (clip.tagName() != "kdenliveclip") {
@@ -664,7 +661,6 @@ QDomDocument DocClipRef::toXML() const
     position.setAttribute("trackend", QString::number(trackEnd().seconds(),
 	    'f', 10));
     position.setAttribute("speed", QString::number(m_speed, 'f'));
-    position.setAttribute("end_speed", QString::number(m_endspeed, 'f'));
 
     clip.appendChild(position);
 
@@ -770,15 +766,17 @@ bool DocClipRef::durationKnown() const
 
 double DocClipRef::speed() const
 {
-    return (m_speed + m_endspeed) / 2;
+    return m_speed;
 }
 
-void DocClipRef::setSpeed(double startspeed, double endspeed)
+void DocClipRef::setSpeed(double newspeed)
 {
-    if (!m_parentTrack) return;
-    double origDuration = (double)((m_trackEnd.frames(framesPerSecond()) - m_trackStart.frames(framesPerSecond()))) * speed();
-
-    double newDuration = origDuration * 2.0 / (startspeed + endspeed);
+    if (!m_parentTrack) {
+	m_speed = newspeed;
+	return;
+    }
+    double newDuration = (double)((m_trackEnd.frames(framesPerSecond()) - m_trackStart.frames(framesPerSecond())) * m_speed) / (newspeed);
+    //double newDuration = origDuration * 2.0 / (newspeed + endspeed);
     if (trackEnd() != m_parentTrack->trackLength()) {
 	// The clip is not the last one on track, check available space
         GenTime availableSpace = GenTime(0) - m_parentTrack->spaceLength(trackEnd() + GenTime(1, framesPerSecond()));
@@ -789,7 +787,6 @@ void DocClipRef::setSpeed(double startspeed, double endspeed)
 		while (itt != m_effectStack.end()) {
 	    		if ((*itt)->name() == i18n("Speed")) {
 			    (*itt)->effectDescription().parameter(0)->setValue(QString::number((int) (m_speed * 100)));
-			    (*itt)->effectDescription().parameter(1)->setValue(QString::number((int) (m_endspeed * 100)));
 			}
 	    		++itt;
 		}
@@ -797,8 +794,7 @@ void DocClipRef::setSpeed(double startspeed, double endspeed)
 	    return;
 	}
     }
-    m_speed = startspeed;
-    m_endspeed = endspeed;
+    m_speed = newspeed;
     m_trackEnd = m_trackStart + GenTime(newDuration, framesPerSecond());
     if (m_parentTrack) m_parentTrack->notifyTrackChanged(this);
 }
@@ -1240,7 +1236,10 @@ QDomDocument DocClipRef::generateXMLClip(bool rendering)
     				entry.setAttribute("id","slowmotion"+ QString::number(m_clip->getId()));
 				QString fileName;
 				if (effect->effectDescription().name() == i18n("Speed")) {
-				    fileName = fileURL().path() + ":" + QString::number(effect->effectDescription().parameter(0)->value().toDouble() / effect->effectDescription().parameter(0)->factor()) + ":" + QString::number(effect->effectDescription().parameter(1)->value().toDouble() / effect->effectDescription().parameter(1)->factor());
+				    double speed = effect->effectDescription().parameter(0)->value().toDouble() / effect->effectDescription().parameter(0)->factor();
+				    entry.setAttribute("in", QString::number(entry.attribute("in").toInt() / speed));
+				    entry.setAttribute("out", QString::number(entry.attribute("out").toInt() / speed));
+				    fileName = fileURL().path() + ":" + QString::number(speed);
 				}
 				else fileName = fileURL().path();
     				entry.setAttribute("resource", fileName.ascii());
@@ -1489,7 +1488,10 @@ QDomDocument DocClipRef::generateOffsetXMLClip(GenTime start, GenTime end)
     				entry.setAttribute("id","slowmotion"+ QString::number(m_clip->getId()));
 				QString fileName;
 				if (effect->effectDescription().name() == i18n("Speed")) {
-				    fileName = fileURL().path() + ":" + QString::number(effect->effectDescription().parameter(0)->value().toDouble() / effect->effectDescription().parameter(0)->factor()) + ":" + QString::number(effect->effectDescription().parameter(1)->value().toDouble() / effect->effectDescription().parameter(1)->factor());
+				    double speed = effect->effectDescription().parameter(0)->value().toDouble() / effect->effectDescription().parameter(0)->factor();
+				    entry.setAttribute("in", QString::number(entry.attribute("in").toInt() / speed));
+				    entry.setAttribute("out", QString::number(entry.attribute("out").toInt() / speed));
+				    fileName = fileURL().path() + ":" + QString::number(speed);
 				}
 				else fileName = fileURL().path();
     				entry.setAttribute("resource", fileName.ascii());
@@ -1630,9 +1632,9 @@ void DocClipRef::setSnapMarkers(QValueVector < CommentedTime > markers)
 
 GenTime DocClipRef::adjustTimeToSpeed(GenTime t) const
 {
-	if (m_speed == 1.0 && m_endspeed == 1.0) return t;
+	if (m_speed == 1.0) return t;
 	int pos = (int) (t - m_cropStart).frames(m_clip->framesPerSecond());
-	double actual_speed = m_speed + ((double) pos) / (double)((m_trackEnd - m_trackStart).frames(m_clip->framesPerSecond())) * (m_endspeed - m_speed);
+	double actual_speed = m_speed + ((double) pos) / (double)((m_trackEnd - m_trackStart).frames(m_clip->framesPerSecond())) * (m_speed);
 
 	int actual_position = (int) floor((double) pos / actual_speed);
 	return GenTime(actual_position, m_clip->framesPerSecond()) + cropStartTime();
@@ -1742,10 +1744,10 @@ void DocClipRef::addEffect(uint index, Effect * effect)
 void DocClipRef::deleteEffect(uint index)
 {
     m_effectStack.remove(index);
-    if (m_speed != 1.0 || m_endspeed != 1.0) {
+    if (m_speed != 1.0) {
 	// Check if speed effect was removed. if it was, reset speed to normal
 	if (clipEffectNames().findIndex(i18n("Speed")) == -1) {
-	    setSpeed(1.0, 1.0);
+	    setSpeed(1.0);
 	}
     }
 }

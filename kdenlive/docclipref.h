@@ -308,7 +308,7 @@ class DocClipRef:public QObject {
         QDomDocumentFragment generateXMLTransition(bool hideVideo, bool hideAudio);
 	void updateAudioThumbnail(QMap<int,QMap<int,QByteArray> > data);
 	void refreshAudioThumbnail();
-	void setSpeed(double startspeed, double endspeed);
+	void setSpeed(double newspeed);
 	double speed() const;
 	void refreshCurrentTrack();
 	QValueVector < GenTime > transitionSnaps();
@@ -354,7 +354,6 @@ class DocClipRef:public QObject {
     QPixmap m_endthumbnail;
 	/** Clip speed, used for slowmotion */
     double m_speed;
-    double m_endspeed;
     QTimer *startTimer;
     QTimer *endTimer;
     

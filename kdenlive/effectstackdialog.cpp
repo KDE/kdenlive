@@ -407,7 +407,7 @@ namespace Gui {
 	    parameterNum++;
 	}
 	if (effect->effectDescription().tag() == "framebuffer") {
-	    if (effect->effectDescription().name() == i18n("Speed")) m_effectList->clip()->setSpeed(effect->effectDescription().parameter(0)->value().toDouble() / 100.0, effect->effectDescription().parameter(1)->value().toDouble() / 100.0);
+	    if (effect->effectDescription().name() == i18n("Speed")) m_effectList->clip()->setSpeed(effect->effectDescription().parameter(0)->value().toDouble() / 100.0);
 
 	}
 
@@ -432,8 +432,8 @@ namespace Gui {
 	tabWidget2->setEnabled(effect->isEnabled());
 	if (effect->name() == i18n("Speed")) {
 	    // If we disable speed effect, reset clip speed to normal
-	    if (!effect->isEnabled()) clip->setSpeed( 1.0, 1.0);
-	    else clip->setSpeed(effect->effectDescription().parameter(0)->value().toDouble() / 100.0, effect->effectDescription().parameter(1)->value().toDouble() / 100.0);
+	    if (!effect->isEnabled()) clip->setSpeed( 1.0);
+	    else clip->setSpeed(effect->effectDescription().parameter(0)->value().toDouble() / 100.0);
 	}
 	emit generateSceneList();
 	emit redrawTrack(clip->trackNum(), clip->trackStart(), clip->trackEnd());

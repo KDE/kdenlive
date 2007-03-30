@@ -357,22 +357,13 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 	xmlAttr.clear();
 	xmlAttr.append("type", QString::null, QString::null, "constant");
 	xmlAttr.append("name", QString::null, QString::null, "_speed");
-	xmlAttr.append("description", QString::null, QString::null, i18n("Start Speed"));
+	xmlAttr.append("description", QString::null, QString::null, i18n("Speed"));
 	xmlAttr.append("max", QString::null, QString::null, "300");
 	xmlAttr.append("min", QString::null, QString::null, "1");
 	xmlAttr.append("default", QString::null, QString::null, "100");
 	xmlAttr.append("factor", QString::null, QString::null, "100");
 	slowmo->addParameter(effectDescParamFactory.createParameter(xmlAttr));
 
-	xmlAttr.clear();
-	xmlAttr.append("type", QString::null, QString::null, "constant");
-	xmlAttr.append("name", QString::null, QString::null, "_speed_end");
-	xmlAttr.append("description", QString::null, QString::null, i18n("End Speed"));
-	xmlAttr.append("max", QString::null, QString::null, "300");
-	xmlAttr.append("min", QString::null, QString::null, "1");
-	xmlAttr.append("default", QString::null, QString::null, "100");
-	xmlAttr.append("factor", QString::null, QString::null, "100");
-	slowmo->addParameter(effectDescParamFactory.createParameter(xmlAttr));
 	xmlAttr.clear();
 	xmlAttr.append("type", QString::null, QString::null, "constant");
 	xmlAttr.append("name", QString::null, QString::null, "strobe");
