@@ -122,7 +122,6 @@ createClip(KdenliveDoc *doc, const QDomElement & element)
 
 	n = n.nextSibling();
     }
-    kdWarning() << "DocClipBase::createClip() n is null" << endl;
     if (clip == 0) {
 	kdWarning() << "DocClipBase::createClip() unable to create clip" <<
 	    endl;
