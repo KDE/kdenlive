@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-03-29 10:55+0200\n"
-"PO-Revision-Date: 2007-03-29 11:52+0200\n"
+"PO-Revision-Date: 2007-03-31 14:14+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -249,7 +249,7 @@ msgstr "Nom de clip"
 
 #: kdenlive/capturemonitor.cpp:149
 msgid "Move selected files to:"
-msgstr ""
+msgstr "Déplacer les fichiers sélectionnés vers :"
 
 #: kdenlive/capturemonitor.cpp:182
 msgid "File exists"
@@ -413,14 +413,12 @@ msgid "Crossfade"
 msgstr "Fondu-enchaîné"
 
 #: kdenlive/clipproperties_ui.cpp:319 kdenlive/createslideshowclip_ui.cpp:180
-#, fuzzy
 msgid "Use Luma"
-msgstr "Utiliser un fichier luma"
+msgstr "Utiliser un luma"
 
 #: kdenlive/clipproperties_ui.cpp:320 kdenlive/createslideshowclip_ui.cpp:177
-#, fuzzy
 msgid "Transition duration"
-msgstr "Transition"
+msgstr "Durée de la transition"
 
 #: kdenlive/clipproperties_ui.cpp:323 kdenlive/createslideshowclip_ui.cpp:181
 #: kdenlive/transitionlumafile_ui.cpp:76 kdenlive/transitionpip_ui.cpp:197
@@ -1351,9 +1349,8 @@ msgid "Horizontal factor"
 msgstr "Facteur horizontal"
 
 #: kdenlive/initeffects.cpp:271
-#, fuzzy
 msgid "Vertical factor"
-msgstr "Diffusion verticale"
+msgstr "Facteur vertical"
 
 #: kdenlive/initeffects.cpp:282
 msgid "Volume"
@@ -1921,9 +1918,8 @@ msgid "Get new luma transition"
 msgstr "Supprimer la transition"
 
 #: kdenlive/kdenlive.cpp:738
-#, fuzzy
 msgid "Download new Luma file transition"
-msgstr "Supprimer la transition"
+msgstr "Télécharger un nouveau fichier Luma"
 
 #: kdenlive/kdenlive.cpp:741 kdenlive/kmmeditpanel_ui.cpp:461
 msgid "Set Inpoint"
@@ -1934,19 +1930,16 @@ msgid "Set Outpoint"
 msgstr "Définir un point de sortie"
 
 #: kdenlive/kdenlive.cpp:752
-#, fuzzy
 msgid "Toggle Marker"
 msgstr "Basculer le repère"
 
 #: kdenlive/kdenlive.cpp:756
-#, fuzzy
 msgid "Clear All Markers"
 msgstr "Effacer tous les repères"
 
 #: kdenlive/kdenlive.cpp:760
-#, fuzzy
 msgid "Clear Markers From Selected"
-msgstr "Effacer tous les repères dans la sélection"
+msgstr "Effacer tous les repères de la sélection"
 
 #: kdenlive/kdenlive.cpp:765
 msgid "Load Layout &1"
@@ -2074,15 +2067,12 @@ msgstr ""
 "Effectuer un rendu de la zone sélectionnée pour une utilisation ultérieure"
 
 #: kdenlive/kdenlive.cpp:864
-#, fuzzy
 msgid "Render Selected Zone Audio"
-msgstr "Faire le rendu de la zone sélectionnée"
+msgstr "Faire le rendu de la zone audio sélectionnée"
 
 #: kdenlive/kdenlive.cpp:867
-#, fuzzy
 msgid "Render selected zone audio for future use"
-msgstr ""
-"Effectuer un rendu de la zone sélectionnée pour une utilisation ultérieure"
+msgstr "Effectuer un rendu de la zone audio sélectionnée pour une utilisation ultérieure"
 
 #: kdenlive/kdenlive.cpp:869 kdenlive/kdenlive.cpp:2581
 msgid "Create Virtual Clip"
@@ -2522,9 +2512,8 @@ msgid "Generating audio thumb"
 msgstr "Création des miniatures audio"
 
 #: kdenlive/kdenlive.cpp:1695
-#, fuzzy
 msgid "Generating video thumbnails"
-msgstr "Création des miniatures audio"
+msgstr "Création des miniatures vidéo"
 
 #: kdenlive/kdenlive.cpp:1714
 msgid "Exporting to File"
@@ -2602,9 +2591,8 @@ msgid "Ignore"
 msgstr "Ignore"
 
 #: kdenlive/kdenlive.cpp:2246
-#, fuzzy
 msgid "Insert at current cursor position"
-msgstr "Supprimer le repère à la position du curseur"
+msgstr "Insérer à la position actuelle du curseur"
 
 #: kdenlive/kdenlive.cpp:2247
 msgid "Insert at the beginning"
@@ -2809,9 +2797,8 @@ msgid "Change Clip Duration"
 msgstr "Modifier la durée du clip"
 
 #: kdenlive/kdenlive.cpp:3199
-#, fuzzy
 msgid "Enter new duration: "
-msgstr "Saisir un nouveau nom de dossier :"
+msgstr "Saisir une nouvelle durée :"
 
 #: kdenlive/kdenlive.cpp:3244
 msgid "Editing Clips"
@@ -2851,14 +2838,14 @@ msgid "Starting/stopping playback of inpoint/outpoint section"
 msgstr "Démarrer la lecture au point d'entrée et arrêter au point de sortie"
 
 #: kdenlive/kdenlive.cpp:3461
-#, fuzzy, c-format
+#, c-format
 msgid "Playing Forwards (%1x)"
-msgstr "Avance rapide"
+msgstr "Avance rapide (% 1x)"
 
 #: kdenlive/kdenlive.cpp:3468
-#, fuzzy, c-format
+#, c-format
 msgid "Playing Backwards (%1x)"
-msgstr "Retour rapide"
+msgstr "Retour rapide (% 1x)"
 
 #: kdenlive/kdenlive.cpp:3473
 msgid "Play Loop"
@@ -3433,9 +3420,8 @@ msgstr ""
 "Veuillez vérifier vos permissions."
 
 #: kdenlive/projectlist.cpp:78
-#, fuzzy
 msgid "Select View Type"
-msgstr "Sélectionner un clip"
+msgstr "Sélectionner le type d'affichage"
 
 #. i18n: file kdenlive/kdenliveui.rc line 30
 #. i18n: file kdenlive/kdenliveui.rc line 34
