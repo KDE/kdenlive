@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-03-29 10:55+0200\n"
-"PO-Revision-Date: 2007-03-31 14:25+0200\n"
+"PO-Revision-Date: 2007-03-31 14:31+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1269,6 +1269,8 @@ msgid ""
 "This is the first time you run Kdenlive, please define your preferred "
 "settings, they can always be adjusted later from the Settings dialog."
 msgstr ""
+"<b>Bienvenue dans Kdenlive</b><br>\n"
+"Au premier lancement de Kdenlive, veuillez choisir des réglages, qui pourront être modifiés par la suite dans le dialogue de configuration."
 
 #: kdenlive/initeffects.cpp:118
 msgid "Greyscale"
@@ -1284,9 +1286,8 @@ msgid "Sepia"
 msgstr "Sépia"
 
 #: kdenlive/initeffects.cpp:140
-#, fuzzy
 msgid "Chrominance U"
-msgstr "Chrominance V"
+msgstr "Chrominance U"
 
 #: kdenlive/initeffects.cpp:148
 msgid "Chrominance V"
@@ -1740,13 +1741,12 @@ msgid "Show all markers"
 msgstr "Afficher tous les repères"
 
 #: kdenlive/kdenlive.cpp:592
-#, fuzzy
 msgid "Define Clip Thumbnail"
-msgstr "Vignette"
+msgstr "Définir la vignette du clip"
 
 #: kdenlive/kdenlive.cpp:593
 msgid "Define thumbnail for the current clip"
-msgstr ""
+msgstr "Définir la vignette du clip actuel"
 
 #: kdenlive/kdenlive.cpp:595
 msgid "Go To Beginning"
@@ -1914,9 +1914,8 @@ msgid "Remove space between two clips"
 msgstr "Supprimer l'espace entre deux clips"
 
 #: kdenlive/kdenlive.cpp:735
-#, fuzzy
 msgid "Get new luma transition"
-msgstr "Supprimer la transition"
+msgstr "Obtenir de nouvelles transitions luma"
 
 #: kdenlive/kdenlive.cpp:738
 msgid "Download new Luma file transition"
@@ -2248,9 +2247,8 @@ msgid "Edit Duration"
 msgstr "Modifier la durée"
 
 #: kdenlive/kdenlive.cpp:1003
-#, fuzzy
 msgid "Set current clip duration"
-msgstr "Durée par défaut du clip texte"
+msgstr "Définir la durée du clip actuel"
 
 #: kdenlive/kdenlive.cpp:1005
 msgid "Export Current Frame"
@@ -3125,9 +3123,8 @@ msgid "Move to next marker"
 msgstr "Aller au prochain repère"
 
 #: kdenlive/kmmeditpanel_ui.cpp:475
-#, fuzzy
 msgid "Monitor volume"
-msgstr "Moniteur"
+msgstr "Volume du moniteur"
 
 #: kdenlive/kmmrecpanel_ui.cpp:244
 msgid "Record"
