@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-03-29 10:55+0200\n"
-"PO-Revision-Date: 2007-03-31 14:14+0200\n"
+"PO-Revision-Date: 2007-03-31 14:25+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -226,6 +226,7 @@ msgid ""
 "<b>The raw1394 module is not loaded or you don't have write access on /dev/"
 "raw1394. Please check your permissions."
 msgstr ""
+"<b>Le module raw1394 n'est pas chargé dans le noyau ou vous n'avez pas les droits permettant d'écrire dans /dev/raw1394. Veuillez vérifier vos droits d'utilisateur."
 
 #: kdenlive/capturemonitor.cpp:81
 msgid "Check again"
@@ -237,7 +238,7 @@ msgstr "Clips capturés"
 
 #: kdenlive/capturemonitor.cpp:135
 msgid "Process captured files"
-msgstr ""
+msgstr "Traiter les fichiers capturés"
 
 #: kdenlive/capturemonitor.cpp:136
 msgid "Continue capture..."
@@ -261,7 +262,7 @@ msgstr "Le fichier existe déjà, veuillez saisir un autre nom"
 
 #: kdenlive/capturemonitor.cpp:202
 msgid "The capture stopped, see details for more info."
-msgstr ""
+msgstr "Interruption en cours de capture. Pour information, veuillez lire le message :"
 
 #: kdenlive/changeclipspeed_ui.cpp:111 kdenlive/docclipref.cpp:790
 #: kdenlive/docclipref.cpp:1242 kdenlive/docclipref.cpp:1491
@@ -2265,7 +2266,7 @@ msgstr "Fusionner projet ..."
 
 #: kdenlive/kdenlive.cpp:1012
 msgid "Merge current project with another one"
-msgstr ""
+msgstr "Fusionner le projet actuel avec un autre projet"
 
 #: kdenlive/kdenlive.cpp:1014
 msgid "Play Clip"
@@ -2521,7 +2522,7 @@ msgstr "Exportation vers un fichier"
 
 #: kdenlive/kdenlive.cpp:1726
 msgid "Export will finish in %1h%2m%3s"
-msgstr ""
+msgstr "L'exportation prendra fin dans %1h%2m%3s"
 
 #: kdenlive/kdenlive.cpp:1874
 msgid "Cannot read file: %1"
@@ -2541,6 +2542,9 @@ msgid ""
 "Closing Kdenlive will terminate the export.\n"
 "Close anyways ?"
 msgstr ""
+"Un processus d'exportation est en cours.\n"
+"Arrêter Kdenlive mettra fin à l'exportation.\n"
+"Arrêter quand même ?"
 
 #: kdenlive/kdenlive.cpp:2048
 msgid ""
@@ -2748,6 +2752,8 @@ msgid ""
 "Please restart Kdenlive to apply your changes\n"
 "to the audio/video system"
 msgstr ""
+"La configuration audio/vidéo sera activée \n"
+"au prochain redémarrage de Kdenlive."
 
 #: kdenlive/kdenlive.cpp:2953 kdenlive/kdenlive.cpp:2988
 msgid "Enter new folder name: "
@@ -3218,6 +3224,9 @@ msgid ""
 "There is something wrong with your Kdenlive install.\n"
 " Exiting now..."
 msgstr ""
+"Impossible de créer la fenêtre de prévisualisation.\n"
+"L'installation de Kdenlive est probablement défectueuse.\n"
+"Fermeture de Kdenlive en cours..."
 
 #: kdenlive/krender.cpp:404 kdenlive/krender.cpp:460 kdenlive/krender.cpp:635
 #: kdenlive/krender.cpp:700
@@ -3226,6 +3235,8 @@ msgid ""
 "There is something wrong with your Kdenlive install or your driver settings, "
 "please fix it."
 msgstr ""
+"Impossible d'afficher la fenêtre de prévisualisation.\n"
+"Il y a probablement un problème d'installation de Kdenlive ou de configuration des drivers, qu'il est nécessaire de corriger."
 
 #: kdenlive/krender.cpp:673
 msgid "Volume: "
