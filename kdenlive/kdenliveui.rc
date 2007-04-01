@@ -1,9 +1,11 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kdenlive" version="28">
+<kpartgui name="kdenlive" version="29">
 <MenuBar>
   <Menu name="file">
 	<Action name="merge_project"/>
 	<Separator lineSeperator="true"/>
+	<Action name="render_export_timeline"/>
+	<Action name="render_dvd"/>
 	<Action name="export_current_frame"/>
   </Menu>
   
@@ -99,11 +101,6 @@
 		  <Action name="medium_quality"/>
 		  <Action name="best_quality"/>
 	</Menu>
-  </Menu>  
-  
-  <Menu name="Render"><text>Render</text>
-  	<Action name="render_export_timeline"/>
-	<Action name="render_dvd"/>
   </Menu>
   
   <Menu name="Layout"><text>Layout</text>
