@@ -232,7 +232,7 @@ msgid ""
 "be disabled until you install them."
 msgstr ""
 "<b>Das Programm dvgrab oder ffplay fehlt</b>.<br>Firewire-Capture wird "
-"solange deaktiviert bleiben bis sie das Programm installieren."
+"solange deaktiviert bleiben, bis Sie das Programm installieren."
 
 #: kdenlive/capturemonitor.cpp:117
 msgid "Captured Clips"
@@ -260,7 +260,7 @@ msgstr "Datei existiert bereits. Bitte geben Sie einen neuen Dateinamen ein"
 
 #: kdenlive/capturemonitor.cpp:173
 msgid "The capture stopped, see details for more info."
-msgstr "Die Aufnahme wurde angehalten, Lesen Sie die Details für mehr Informationen."
+msgstr "Die Aufnahme wurde angehalten, lesen Sie die Details für mehr Informationen."
 
 #: kdenlive/changeclipspeed_ui.cpp:111 kdenlive/docclipref.cpp:787
 #: kdenlive/docclipref.cpp:1236 kdenlive/docclipref.cpp:1482
@@ -485,7 +485,7 @@ msgstr "Aufnahmezeit in den Dateinamen einfügen"
 
 #: kdenlive/configcapture_ui.cpp:72
 msgid "DV capture format:"
-msgstr "DV Aufnahmeformat:"
+msgstr "DV-Aufnahmeformat:"
 
 #: kdenlive/configcapture_ui.cpp:74
 msgid "DV Type 1 AVI"
@@ -521,7 +521,7 @@ msgstr "Projekt automatisch speichern alle"
 
 #: kdenlive/configinterface_ui.cpp:104
 msgid "Mouse wheel moves horizontally (Alt for vertical scroll)"
-msgstr "Mausrad scrollt horizontal (Bitte \"Alt\" drücken um vertikal zu scrollen)"
+msgstr "Mausrad scrollt horizontal (Bitte \"Alt\" drücken, um vertikal zu scrollen)"
 
 #: kdenlive/configinterface_ui.cpp:105
 msgid "Show splash screen"
@@ -565,7 +565,7 @@ msgstr "Benutze angegebenes Verzeichnis"
 
 #: kdenlive/configmisc_ui.cpp:126
 msgid "On screen timecode display"
-msgstr "Timecode Anzeige auf dem Bildschirm"
+msgstr "Timecode-Anzeige auf dem Bildschirm"
 
 #: kdenlive/configmisc_ui.cpp:127
 msgid "External audio editor"
@@ -610,13 +610,14 @@ msgid ""
 "Drop frame timecode only affects the way that frames are numbered, no frames "
 "are dropped from the video edit."
 msgstr ""
-"Legt fest, dass der Timecode angezeigt wird während der Drop-Frame-Timecode "
-"benutzt wird (besonders für NTSC). Drop-Frame-Timecode compensiert, für den "
-"Fall das NTSC mit 29.97 Frames pro Sekunde arbeitet das Weglassen von zwei "
-"Frames pro Minute außer für jede 10. Minute. Ohne dieses wird der Timecode "
-"langsam von der Echt-Zeit abweichen.\n"
+"Lässt einen Teil der Einzelbilder in der Timecode-Anzeige unberücksichtigt "
+"(speziell bei NTSC). Um auszugleichen, dass NTSC-Video 29,97 statt 30 Bilder "
+"pro Sekunde abspielt, zählt die Anzeige zwei Einzelbilder pro Minute weniger, "
+"mit Ausnahme jeder zehnten Minute. Andernfalls weicht der Timecode zunehmend "
+"von der tatsächlichen Spielzeit ab.\n"
 "\n"
-"Drop-Frame-Timecode arbeitet nur indem Frames nummeriert werden."
+"Diese Option betrifft nur die Zählweise. Es gehen keine Einzelbilder verloren."
+
 
 #: kdenlive/configproject_ui.cpp:107
 msgid "Video format"
@@ -652,7 +653,7 @@ msgstr "Audio-Spuren"
 
 #: kdenlive/configtimeline_ui.cpp:143
 msgid "Disable thumbnails for large clips on low zoom level"
-msgstr "Mini-Bilder für große Clips auf niedrigem Zoom Level abschalten"
+msgstr "Mini-Bilder für große Clips auf niedrigem Zoom-Level abschalten"
 
 #: kdenlive/configtimeline_ui.cpp:146
 msgid "Normalise volume for thumbnail creation"
@@ -1134,34 +1135,34 @@ msgid ""
 "to use this feature."
 msgstr ""
 "Sie benötigen das Programm \"K3b\" um Ihre DVD zu brennen. Bitte "
-"installieren Sie es um dieses Feature zu nutzen."
+"installieren Sie es, um dieses Feature zu nutzen."
 
 #: kdenlive/exportdvddialog.cpp:268
 msgid "You need to generate the DVD structure before burning."
-msgstr "Sie müssen vor dem Brennen die DVD Struktur erstellen."
+msgstr "Sie müssen vor dem Brennen die DVD-Struktur erstellen."
 
 #: kdenlive/exportdvddialog.cpp:283
 msgid ""
 "You need the program \"xine\" to preview your DVD. Please install it if you "
 "want to use this feature."
 msgstr ""
-"Sie benötigen das Programm \"xine\" für die DVD Vorschau. Bitte installieren "
-"Sie es um dieses Feature zu nutzen."
+"Sie benötigen das Programm \"xine\" für die DVD-Vorschau. Bitte installieren "
+"Sie es, um dieses Feature zu nutzen."
 
 #: kdenlive/exportdvddialog.cpp:297
 msgid ""
 "You need the program \"QDvdAuthor\" to preview your DVD. Please install it "
 "if you want to use this feature."
 msgstr ""
-"Sie benötigen das Programm \"QDvdAuthor\" für die DVD Vorschau. Bitte "
-"installieren Sie es um dieses Feature zu nutzen."
+"Sie benötigen das Programm \"QDvdAuthor\" für die DVD-Vorschau. Bitte "
+"installieren Sie es, um dieses Feature zu nutzen."
 
 #: kdenlive/exportdvddialog.cpp:316
 msgid ""
 "The specified dvd folder already exists.\n"
 "Overwite it ?"
 msgstr ""
-"Das angegebene DVD Verzeichnis existiert bereits. Möchten Sie es "
+"Das angegebene DVD-Verzeichnis existiert bereits. Möchten Sie es "
 "überschreiben?"
 
 #: kdenlive/exportdvddialog.cpp:329
@@ -1177,8 +1178,8 @@ msgid ""
 "You need the program \"convert\" which is included in ImageMagick to create "
 "DVD menus. Install ImageMagick if you want to make a DVD with menu"
 msgstr ""
-"Sie benötigen das Programm \"convert\" welches im Paket ImageMagick um DVD "
-"Menüs zu erstellen. Bitte installieren Sie es um dieses Feature zu nutzen."
+"Sie benötigen das Programm \"convert\" aus dem Paket ImageMagick, um DVD- "
+"Menüs zu erstellen. Bitte installieren Sie es, um dieses Feature zu nutzen."
 
 #: kdenlive/exportdvddialog.cpp:793
 msgid "The creation of DVD structure is finished."
@@ -1239,7 +1240,7 @@ msgid ""
 "Output file will probably be corrupted..."
 msgstr ""
 "Die Umwandlung wurde unerwartet beendet.\n"
-"Die Ausgabedatei wird warscheinlich unbrauchbar sein ..."
+"Die Ausgabedatei wird wahrscheinlich unbrauchbar sein ..."
 
 #: kdenlive/firstrun_ui.cpp:115
 msgid ""
@@ -1309,15 +1310,15 @@ msgstr "Box Blur"
 
 #: kdenlive/initeffects.cpp:222
 msgid "Blur factor"
-msgstr "Unschärfe Faktor"
+msgstr "Unschärfefaktor"
 
 #: kdenlive/initeffects.cpp:230
 msgid "Horizontal multiplicator"
-msgstr "Horizontal Multiplicator"
+msgstr "Horizontal-Multiplikator"
 
 #: kdenlive/initeffects.cpp:238
 msgid "Vertical multiplicator"
-msgstr "Vertical Multiplicator"
+msgstr "Vertical-Multiplikator"
 
 #: kdenlive/initeffects.cpp:248
 msgid "Wave"
@@ -1329,11 +1330,11 @@ msgstr "Amplitude"
 
 #: kdenlive/initeffects.cpp:262
 msgid "Horizontal factor"
-msgstr "Horizontal Factor"
+msgstr "Horizontal-Faktor"
 
 #: kdenlive/initeffects.cpp:271
 msgid "Vertical factor"
-msgstr "Vertikal Faktor"
+msgstr "Vertikal-Faktor"
 
 #: kdenlive/initeffects.cpp:282
 msgid "Volume"
@@ -1446,7 +1447,7 @@ msgstr "Shift"
 
 #: kdenlive/initeffects.cpp:519
 msgid "Room reverb"
-msgstr "Raum-Hall"
+msgstr "Raumhall"
 
 #: kdenlive/initeffects.cpp:523
 msgid "Room size (m)"
@@ -1638,7 +1639,7 @@ msgstr "Übergänge einfügen"
 
 #: kdenlive/kdenlive.cpp:435
 msgid "Zoom to display the whole project"
-msgstr "Zoomen um das ganze Projekt anzuzeigen"
+msgstr "Zoomen, um das ganze Projekt anzuzeigen"
 
 #: kdenlive/kdenlive.cpp:439
 msgid "Zoom in"
@@ -1654,7 +1655,7 @@ msgstr "Letzten Zoom wiederherstellen"
 
 #: kdenlive/kdenlive.cpp:448
 msgid "Restoring previous zoom level"
-msgstr "Vorherigen Zoom Status wiederherstellen"
+msgstr "Vorherigen Zoom-Status wiederherstellen"
 
 #: kdenlive/kdenlive.cpp:450
 msgid "List View"
@@ -1702,7 +1703,7 @@ msgstr "An der Markierung ausrichten"
 
 #: kdenlive/kdenlive.cpp:496
 msgid "Display On Screen Infos"
-msgstr "Zeige On Screen Informationen"
+msgstr "Zeige On Screen-Informationen"
 
 #: kdenlive/kdenlive.cpp:501
 msgid "Multi Track View"
@@ -2049,7 +2050,7 @@ msgstr "Audio vom ausgewählten Bereich zum späteren Gebrauch rendern"
 
 #: kdenlive/kdenlive.cpp:805 kdenlive/kdenlive.cpp:2512
 msgid "Create Virtual Clip"
-msgstr "Vituellen Clip erstellen"
+msgstr "Virtuellen Clip erstellen"
 
 #: kdenlive/kdenlive.cpp:808
 msgid "Create virtual clip from selected zone"
@@ -2301,12 +2302,12 @@ msgstr ""
 #: kdenlive/kdenlive.cpp:988
 msgid "Insert commented snap markers on clips (Ctrl + click to remove a marker)"
 msgstr ""
-"Kommentierte Ausrichtungs-Markierungen in die Clips einfügen(\"Strg + klick"
+"Kommentierte Ausrichtungs-Markierungen in die Clips einfügen(\"Strg + click"
 "\" um die Markierungen zu löschen)"
 
 #: kdenlive/kdenlive.cpp:991
 msgid "Move edit point between two selected clips"
-msgstr "Verschiebe Bearbeitungspunkt zwischen zwei ausgewählte Clips"
+msgstr "Verschiebe Bearbeitungspunkt zwischen zwei ausgewählten Clips"
 
 #: kdenlive/kdenlive.cpp:994
 msgid "Select multiple clips"
@@ -2433,7 +2434,7 @@ msgstr "Mini-Bilder zeigen"
 
 #: kdenlive/kdenlive.cpp:1126
 msgid "Show Audio Thumbnails"
-msgstr "Audio Mini-Bilder zeigen"
+msgstr "Audio-Mini-Bilder zeigen"
 
 #: kdenlive/kdenlive.cpp:1137
 msgid "Move/Resize mode"
@@ -2476,7 +2477,7 @@ msgstr "Aktuelle mit dem Renderer verwendbaren Effekte"
 
 #: kdenlive/kdenlive.cpp:1593
 msgid "Generating audio thumb"
-msgstr "Audio Mini-Bilder generieren"
+msgstr "Audio-Mini-Bilder generieren"
 
 #: kdenlive/kdenlive.cpp:1614
 msgid "Exporting to File"
@@ -2505,7 +2506,7 @@ msgid ""
 "Close anyways ?"
 msgstr ""
 "Ein Export-Prozess läuft gerade.\n"
-"Wenn Sie Kdenlive schließen wird der Prozess beendet.\n"
+"Wenn Sie Kdenlive schließen, wird der Prozess beendet.\n"
 "Trotzdem schließen?"
 
 #: kdenlive/kdenlive.cpp:1943
@@ -2552,7 +2553,7 @@ msgid ""
 msgstr ""
 "Kann kein Verzeichnis für temporäre Dateien erstellen.\n"
 "Kdenlive wird nicht richtig arbeiten, solange sie keine Verzeichnis für "
-"temporäre Dateien mit Schreibzugriff im Einstellungsdialog angeben haben."
+"temporäre Dateien mit Schreibzugriff im Einstellungsdialog angegeben haben."
 
 #: kdenlive/kdenlive.cpp:2164
 msgid "Select project file"
@@ -2665,7 +2666,7 @@ msgid ""
 "(Double click in the timeline ruler to bring the selection zone to current "
 "time)"
 msgstr ""
-"Der gewählte Zeitleisten-Bereich ist kleiner als 10 frames.\n"
+"Der gewählte Zeitleisten-Bereich ist kleiner als 10 Frames.\n"
 "Bitte wählen Sie einen Bereich mit dem Zeitleiten-Auswahl Werkzeug bevor Sie einen virtuellen Clip erzeugen.\n"
 "(Doppelklick im Zeitleisten-Lineal bringt den Auswahl-Bereich zur aktuellen Zeit)"
 
@@ -2758,7 +2759,7 @@ msgstr "Clips hinzufügen"
 
 #: kdenlive/kdenlive.cpp:2920
 msgid "You cannot include the current Kdenlive document in itself."
-msgstr "Sie können das aktuelle Kdenlive-Dokument nicht in sich selber einbinden."
+msgstr "Sie können das aktuelle Kdenlive-Dokument nicht in sich selbst einbinden."
 
 #: kdenlive/kdenlive.cpp:3057
 msgid "Add image to project"
@@ -2766,7 +2767,7 @@ msgstr "Bild zum Projekt hinzufügen"
 
 #: kdenlive/kdenlive.cpp:3068
 msgid "Please activate a monitor if you want to save a frame"
-msgstr "Bitte einen Monitor aktivieren wenn Sie ein Frame speichern wollen"
+msgstr "Bitte einen Monitor aktivieren, wenn Sie ein Frame speichern wollen"
 
 #: kdenlive/kdenlive.cpp:3084
 msgid "Change Clip Duration"
@@ -2789,7 +2790,7 @@ msgid ""
 "This will remove all clips on timeline that are currently using the selected "
 "clips. Are you sure you want to do this?"
 msgstr ""
-"Alle Clips auf der Timeline welche diesen Clip benutzen werden gelöscht. "
+"Alle Clips auf der Timeline, welche diesen Clip benutzen, werden gelöscht. "
 "Sind Sie sicher dass Sie dies tun wollen?"
 
 #: kdenlive/kdenlive.cpp:3237
@@ -2802,7 +2803,7 @@ msgid ""
 "do this?"
 msgstr ""
 "\"Projekt aufräumen\" löscht alle unbenutzen Dateien im Projekt."
-"\t             Sind Sie sicher dass sie das Projekt aufräumen wollen?"
+"\t             Sind Sie sicher, dass Sie das Projekt aufräumen wollen?"
 
 #: kdenlive/kdenlive.cpp:3270
 msgid "Play / Pause"
@@ -2810,7 +2811,7 @@ msgstr "Wiedergabe / Pause"
 
 #: kdenlive/kdenlive.cpp:3287
 msgid "Starting/stopping playback of inpoint/outpoint section"
-msgstr "Wiedergabe im Startpunkt/Endpunkt Bereich starten/stoppen"
+msgstr "Wiedergabe im Startpunkt/Endpunkt-Bereich starten/stoppen"
 
 #: kdenlive/kdenlive.cpp:3299
 #, c-format
@@ -2828,7 +2829,7 @@ msgstr "Schleife abspielen"
 
 #: kdenlive/kdenlive.cpp:3347
 msgid "Cannot find track to insert audio clip."
-msgstr "Kann keine Spur finden um Audio-Clip hinzuzufügen"
+msgstr "Kann keine Spur finden, um Audio-Clip hinzuzufügen"
 
 #: kdenlive/kdenlive.cpp:3371
 msgid "Add new audio clip to project"
@@ -2861,7 +2862,7 @@ msgstr "Startpunkt setzen"
 
 #: kdenlive/kdenlive.cpp:3530
 msgid "Setting outpoint"
-msgstr "Endpunktes setzen"
+msgstr "Endpunkt setzen"
 
 #: kdenlive/kdenlive.cpp:3538
 msgid "Deleting Selected Clips"
@@ -2914,15 +2915,15 @@ msgstr "Markierungen"
 
 #: kdenlive/kdenlive.cpp:4005
 msgid "Please select a clip to apply transition"
-msgstr "Bitte wählen Sie einen Clip um einen Übergang hinzuzufügen"
+msgstr "Bitte wählen Sie einen Clip, um einen Übergang hinzuzufügen"
 
 #: kdenlive/kdenlive.cpp:4022
 msgid "Please select a clip to delete transition"
-msgstr "Bitte wählen Sie einen Clip um einen Übergang zu löschen"
+msgstr "Bitte wählen Sie einen Clip, um einen Übergang zu löschen"
 
 #: kdenlive/kdenlive.cpp:4039
 msgid "Please select a clip to edit transition"
-msgstr "Bitte wählen Sie einen Clip um Übergang zu bearbeiten"
+msgstr "Bitte wählen Sie einen Clip, um Übergang zu bearbeiten"
 
 #: kdenlive/kdenlivesetupdlg.cpp:50
 msgid "Interface"
@@ -2966,7 +2967,7 @@ msgstr "(ALSA)"
 
 #: kdenlive/kdenlivesetupdlg.cpp:70
 msgid "(OSS with DMA access)"
-msgstr "(OSS mit DMA Zugriff)"
+msgstr "(OSS mit DMA-Zugriff)"
 
 #: kdenlive/kdenlivesetupdlg.cpp:71
 msgid "(Esound daemon)"
@@ -3074,7 +3075,7 @@ msgstr "Auswahl zwischen Startpunkt und Endpunkt als Schleife abspielen"
 
 #: kdenlive/kmmeditpanel_ui.cpp:469
 msgid "Move to previous marker"
-msgstr "Zur vorherige Markierung gehen"
+msgstr "Zur vorherigen Markierung gehen"
 
 #: kdenlive/kmmeditpanel_ui.cpp:471
 msgid "Set marker on timeline"
@@ -3086,7 +3087,7 @@ msgstr "Gehe zur nächsten Markierung"
 
 #: kdenlive/kmmeditpanel_ui.cpp:475
 msgid "Monitor volume"
-msgstr "Monitor Lautstärke"
+msgstr "Monitor-Lautstärke"
 
 #: kdenlive/kmmrecpanel_ui.cpp:244
 msgid "Record"
@@ -3170,7 +3171,7 @@ msgstr "8 Minuten"
 
 #: kdenlive/kmmrulerpanel_ui.cpp:70
 msgid "Change the timeline view"
-msgstr "Zeitleisten Ansicht ändern"
+msgstr "Zeitleisten-Ansicht ändern"
 
 #: kdenlive/kmmtracksoundpanel.cpp:51 kdenlive/kmmtrackvideopanel.cpp:62
 #: kdenlive/transitiondialog.cpp:65
@@ -3184,7 +3185,7 @@ msgid ""
 " Exiting now..."
 msgstr ""
 "Kann Video-Vorschau Fenster nicht erstellen.\n"
-"Es stimmt etwas mit Ihrer Kdenlive Installation nicht.\n"
+"Es stimmt etwas mit Ihrer Kdenlive-Installation nicht.\n"
 "Beende jetzt ..."
 
 #: kdenlive/krender.cpp:383 kdenlive/krender.cpp:435 kdenlive/krender.cpp:599
@@ -3212,8 +3213,8 @@ msgid ""
 "Make sure you have loaded the raw1394 module and that you have write access "
 "on /dev/raw1394..."
 msgstr ""
-"Kein Firewire Zugriff auf diesem Port\n"
-"Stellen sie sicher dass sie das Modul raw1394 geladen haben und dass sie "
+"Kein Firewire-Zugriff auf diesem Port\n"
+"Stellen Sie sicher, dass Sie das Modul raw1394 geladen haben und dass Sie "
 "Schreibrechte auf /dev/raw1394 besitzen ..."
 
 #: kdenlive/krender.cpp:964
@@ -3290,7 +3291,7 @@ msgid ""
 msgstr ""
 "Kdenlive\n"
 "\n"
-"Ein nicht-linearer Video Editor für KDE.\n"
+"Ein nicht-linearer Video-Editor für KDE.\n"
 "\n"
 "Kdenlive ist ein Frontend für das Mlt Framework\n"
 "Sie können Mlt hier herunterladen:\n"
@@ -3302,31 +3303,31 @@ msgstr "Datei zum Öffnen"
 
 #: kdenlive/main.cpp:53
 msgid "Kdenlive original author"
-msgstr "Kdenlive Original Autor"
+msgstr "Kdenlive Original-Autor"
 
 #: kdenlive/main.cpp:58
 msgid "Piave renderer author"
-msgstr "Piave Renderer Autor und Betreuer"
+msgstr "Piave Renderer-Autor und -Betreuer"
 
 #: kdenlive/main.cpp:64
 msgid "Piave and Kdenlive internationalization, French translations, splashscreen"
-msgstr "Piave und Kdenlive Internationalisierung, französische Übersetzung, Startbild"
+msgstr "Piave- und Kdenlive-Internationalisierung, französische Übersetzung, Startbild"
 
 #: kdenlive/main.cpp:69
 msgid "Artist, Kdenlive logo, splashscreen and application icon"
-msgstr "Künstler, Kdenlive logo, Splash-Screen und Icon"
+msgstr "Künstler, Kdenlive-Logo, Splash-Screen und Icon"
 
 #: kdenlive/main.cpp:72 kdenlive/main.cpp:80
 msgid "Kdenlive programmer"
-msgstr "Kdenlive Programmierer"
+msgstr "Kdenlive-Programmierer"
 
 #: kdenlive/main.cpp:75
 msgid "Kdenlive programmer, Trackdecorators"
-msgstr "Kdenlive Programmierer, Spurdesigner"
+msgstr "Kdenlive-Programmierer, Spurdesigner"
 
 #: kdenlive/main.cpp:78
 msgid "Kdenlive programmer, MLT porting, Effects, Transitions"
-msgstr "Kdenlive Programmierer, MLT Portierung, Effekte, Übergänge"
+msgstr "Kdenlive-Programmierer, MLT-Portierung, Effekte, Übergänge"
 
 #: kdenlive/main.cpp:82
 msgid "_: NAME OF TRANSLATORS\\nYour names"
@@ -3338,7 +3339,7 @@ msgstr "f.hammer@web.de"
 
 #: kdenlive/newproject.cpp:79
 msgid "*.kdenlive|Kdenlive Project Files (*.kdenlive)"
-msgstr "*.kdenlive|Kdenlive Project Dateien (*.kdenlive)"
+msgstr "*.kdenlive|Kdenlive Projekt-Dateien (*.kdenlive)"
 
 #: kdenlive/newproject_ui.cpp:146
 msgid "Default project folder (to store rendered files):"
@@ -3458,7 +3459,7 @@ msgstr "Monitor"
 #: kdenlive/rc.cpp:555 kdenlive/rc.cpp:624 kdenlive/rc.cpp:627
 #, no-c-format
 msgid "Preview Quality"
-msgstr "Vorschau Qualität"
+msgstr "Vorschau-Qualität"
 
 #. i18n: file kdenlive/kdenliveui.rc line 95
 #. i18n: file kdenlive/kdenliveui.rc line 99
@@ -3708,7 +3709,7 @@ msgstr "> Hintergrund"
 
 #: kdenlive/transition.cpp:244
 msgid "Audio Fade"
-msgstr "Audio Ein/Ausblenden"
+msgstr "Audio Ein-/Ausblenden"
 
 #: kdenlive/transitionaudiofade_ui.cpp:55
 #: kdenlive/transitioncrossfade_ui.cpp:55
@@ -3743,7 +3744,7 @@ msgstr "Vert. Position"
 
 #: kdenlive/transitionpip_ui.cpp:194 kdenlive/transitionwipe_ui.cpp:233
 msgid "Transparency"
-msgstr "Tranzparenz"
+msgstr "Transparenz"
 
 #: kdenlive/transitionpip_ui.cpp:195
 msgid "Horiz. position"
@@ -3751,7 +3752,7 @@ msgstr "Horiz. Position"
 
 #: kdenlive/transitionpip_ui.cpp:196 kdenlive/transitionwipe_ui.cpp:234
 msgid "Use luma file"
-msgstr "Benutze luma-Datei"
+msgstr "Benutze Luma-Datei"
 
 #: kdenlive/transitionpip_ui.cpp:199
 msgid "St&art"
@@ -3764,3 +3765,4 @@ msgstr "Ende"
 #: kdenlive/transitionwipe_ui.cpp:237
 msgid "Rescale images"
 msgstr "Bilder skalieren"
+
