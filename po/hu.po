@@ -129,7 +129,7 @@ msgstr "Fájl méret: "
 #: kdenlive/aviconviewitem.cpp:145 kdenlive/avlistviewitem.cpp:163
 #: kdenlive/clipproperties.cpp:167
 msgid "Mono"
-msgstr "Monó "
+msgstr "Monó"
 
 #: kdenlive/aviconviewitem.cpp:148 kdenlive/avlistviewitem.cpp:166
 #: kdenlive/clipproperties.cpp:170
@@ -398,7 +398,7 @@ msgstr "Metaadat"
 #: kdenlive/kdenlive.cpp:220 kdenlive/transition.cpp:245
 #: kdenlive/transitiondialog.cpp:70
 msgid "Crossfade"
-msgstr "Átmenet"
+msgstr "Átolvadás (Crossfade)"
 
 #: kdenlive/clipproperties_ui.cpp:319 kdenlive/createslideshowclip_ui.cpp:180
 msgid "Use Luma"
@@ -1278,7 +1278,7 @@ msgstr "Chrominance V"
 
 #: kdenlive/initeffects.cpp:158
 msgid "Charcoal"
-msgstr "Charcoal"
+msgstr "Szénrajz (Charcoal)"
 
 #: kdenlive/initeffects.cpp:162
 msgid "Horizontal scatter"
@@ -1354,7 +1354,7 @@ msgstr "Normalizálás"
 
 #: kdenlive/initeffects.cpp:320
 msgid "Obscure"
-msgstr "Obscure"
+msgstr "Tompítás (Obscure)"
 
 #: kdenlive/initeffects.cpp:324
 msgid "X"
@@ -1411,7 +1411,7 @@ msgstr "Merevítés utána"
 
 #: kdenlive/initeffects.cpp:423 kdenlive/initeffects.cpp:427
 msgid "Gamma"
-msgstr "Gamma"
+msgstr "Fényesítés"
 
 #: kdenlive/initeffects.cpp:440
 msgid "Declipper"
@@ -1431,27 +1431,27 @@ msgstr "Surface warping"
 
 #: kdenlive/initeffects.cpp:483
 msgid "Crackle"
-msgstr "Crackle"
+msgstr "Ropogás (Crackle)"
 
 #: kdenlive/initeffects.cpp:493
 msgid "Wear"
-msgstr "Wear"
+msgstr "Kopás (Wear)"
 
 #: kdenlive/initeffects.cpp:504
 msgid "Pitch Shift"
-msgstr "Pitch Shift"
+msgstr "Hangmagasság eltolás (Pitch Shift)"
 
 #: kdenlive/initeffects.cpp:508
 msgid "Shift"
-msgstr "Shift"
+msgstr "Eltolás (Shift)"
 
 #: kdenlive/initeffects.cpp:519
 msgid "Room reverb"
-msgstr "Room reverb"
+msgstr "Terem visszhangosítás (Room reverb)"
 
 #: kdenlive/initeffects.cpp:523
 msgid "Room size (m)"
-msgstr "Room size (m)"
+msgstr "Terem méret(m)"
 
 #: kdenlive/initeffects.cpp:531
 msgid "Delay (s/10)"
@@ -1459,15 +1459,15 @@ msgstr "Szünet (s/10)"
 
 #: kdenlive/initeffects.cpp:540 kdenlive/initeffects.cpp:565
 msgid "Damping"
-msgstr "Damping"
+msgstr "Csillapítás (Damping)"
 
 #: kdenlive/initeffects.cpp:552
 msgid "Reverb"
-msgstr "Reverb"
+msgstr "Visszhangosítás (Reverb)"
 
 #: kdenlive/initeffects.cpp:556
 msgid "Reverb time"
-msgstr "Reverb time"
+msgstr "Visszhang idő"
 
 #: kdenlive/initeffects.cpp:577
 msgid "Equalizer"
@@ -1475,15 +1475,15 @@ msgstr "Equalizer"
 
 #: kdenlive/initeffects.cpp:581
 msgid "Lo gain"
-msgstr "Lo gain"
+msgstr "Mély hangkiemelés (Lo gain)"
 
 #: kdenlive/initeffects.cpp:589
 msgid "Mid gain"
-msgstr "Mid gain"
+msgstr "Közepes hangkiemelés (Mid gain)"
 
 #: kdenlive/initeffects.cpp:597
 msgid "Hi gain"
-msgstr "Hi gain"
+msgstr "Magas hangkiemenlés (Hi gain)"
 
 #: kdenlive/initeffects.cpp:609
 msgid "Limiter"
@@ -1491,19 +1491,19 @@ msgstr "Limiter"
 
 #: kdenlive/initeffects.cpp:613
 msgid "Input Gain (db)"
-msgstr "Input Gain (db)"
+msgstr "Bemenő erősítés (db)"
 
 #: kdenlive/initeffects.cpp:621
 msgid "Limit (db)"
-msgstr "Limit (db)"
+msgstr "Határ (db)"
 
 #: kdenlive/initeffects.cpp:629
 msgid "Release time (s)"
-msgstr "Release time (s)"
+msgstr "Elengedési idő (s)"
 
 #: kdenlive/initeffects.cpp:641
 msgid "Pitch Scaler"
-msgstr "Pitch Scaler"
+msgstr "Hangmagasság skálázó"
 
 #: kdenlive/initeffects.cpp:645
 msgid "Co-efficient"
@@ -1511,7 +1511,7 @@ msgstr "Co-efficient"
 
 #: kdenlive/initeffects.cpp:656
 msgid "Rate Scaler"
-msgstr "Rate Scaler"
+msgstr "Rate skálázó"
 
 #: kdenlive/initeffects.cpp:660
 msgid "Rate"
@@ -1519,7 +1519,7 @@ msgstr "Rate"
 
 #: kdenlive/initeffects.cpp:671
 msgid "Phaser"
-msgstr "Phaser"
+msgstr "Fáziseltoló"
 
 #: kdenlive/initeffects.cpp:675
 msgid "Rate (Hz)"
@@ -1535,7 +1535,7 @@ msgstr "Visszajelzés"
 
 #: kdenlive/initeffects.cpp:701
 msgid "Spread"
-msgstr ""
+msgstr "Spread"
 
 #: kdenlive/kaddclipcommand.cpp:35 kdenlive/kdenlive.cpp:635
 msgid "Clean Project"
