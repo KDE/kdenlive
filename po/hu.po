@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-20 20:21+0100\n"
-"PO-Revision-Date: 2007-02-14 19:36+0100\n"
+"POT-Creation-Date: 2007-03-26 15:47+0200\n"
+"PO-Revision-Date: 2007-04-02 20:12+0200\n"
 "Last-Translator: Sándor Zsolt <zsolt.sandor@gmail.com>\n"
 "Language-Team:  <hu@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,24 +16,29 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: kdenlive/addmarker_ui.cpp:124 kdenlive/changeclipspeed_ui.cpp:119
-#: kdenlive/clipproperties_ui.cpp:265 kdenlive/configmisc_ui.cpp:117
-#: kdenlive/configmisc_ui.cpp:120 kdenlive/createcolorclip_ui.cpp:93
-#: kdenlive/createimageclip_ui.cpp:94 kdenlive/createslideshowclip_ui.cpp:122
+#: kdenlive/addmarker_ui.cpp:124 kdenlive/clipproperties_ui.cpp:308
+#: kdenlive/clipproperties_ui.cpp:310 kdenlive/clipproperties_ui.cpp:321
+#: kdenlive/configmisc_ui.cpp:121 kdenlive/configmisc_ui.cpp:124
+#: kdenlive/createcolorclip_ui.cpp:93 kdenlive/createimageclip_ui.cpp:94
+#: kdenlive/createslideshowclip_ui.cpp:171
+#: kdenlive/createslideshowclip_ui.cpp:173
+#: kdenlive/createslideshowclip_ui.cpp:178
 #: kdenlive/titlebasewidget_ui.cpp:168 kdenlive/titlebasewidget_ui.cpp:170
 msgid ":::"
 msgstr ":::"
 
-#: kdenlive/addmarker_ui.cpp:125 kdenlive/changeclipspeed_ui.cpp:120
-#: kdenlive/clipproperties_ui.cpp:266 kdenlive/configmisc_ui.cpp:118
-#: kdenlive/configmisc_ui.cpp:121 kdenlive/createcolorclip_ui.cpp:94
-#: kdenlive/createimageclip_ui.cpp:95 kdenlive/createslideshowclip_ui.cpp:123
-#: kdenlive/kmmeditpanel_ui.cpp:476 kdenlive/titlebasewidget_ui.cpp:169
-#: kdenlive/titlebasewidget_ui.cpp:171
+#: kdenlive/addmarker_ui.cpp:125 kdenlive/clipproperties_ui.cpp:309
+#: kdenlive/clipproperties_ui.cpp:311 kdenlive/clipproperties_ui.cpp:322
+#: kdenlive/configmisc_ui.cpp:122 kdenlive/configmisc_ui.cpp:125
+#: kdenlive/createcolorclip_ui.cpp:94 kdenlive/createimageclip_ui.cpp:95
+#: kdenlive/createslideshowclip_ui.cpp:172
+#: kdenlive/createslideshowclip_ui.cpp:174
+#: kdenlive/createslideshowclip_ui.cpp:179 kdenlive/kmmeditpanel_ui.cpp:476
+#: kdenlive/titlebasewidget_ui.cpp:169 kdenlive/titlebasewidget_ui.cpp:171
 msgid "99:99:99:99; "
 msgstr "99:99:99:99; "
 
-#: kdenlive/addmarker_ui.cpp:126 kdenlive/editmetadata_ui.cpp:146
+#: kdenlive/addmarker_ui.cpp:126 kdenlive/editmetadata_ui.cpp:155
 msgid "Comment"
 msgstr "Megjegyzés"
 
@@ -73,159 +78,142 @@ msgstr "sáv"
 msgid "Video Track"
 msgstr "Videó sáv"
 
-#: kdenlive/avfileformatwidget.cpp:34 kdenlive/clippropertiesdialog.cpp:43
-#: kdenlive/exportbasewidget_ui.cpp:260
-msgid "Filename:"
-msgstr "Fájlnév:"
-
-#: kdenlive/avfileformatwidget.cpp:37
-msgid "The name of ouput video file"
-msgstr "Kiementi videó fájl neve"
-
-#: kdenlive/avformatwidgetcodeclist.cpp:37
-msgid "Codec:"
-msgstr "Kodek:"
-
-#: kdenlive/avformatwidgetcodeclist.cpp:42
-msgid "Select the codec for your output file"
-msgstr "Válaszd ki a kimeneti fájlhoz tartozó kodeket"
-
-#: kdenlive/aviconviewitem.cpp:126 kdenlive/avlistviewitem.cpp:142
-#: kdenlive/clipproperties.cpp:176
+#: kdenlive/aviconviewitem.cpp:121 kdenlive/avlistviewitem.cpp:139
+#: kdenlive/clipproperties.cpp:185
 msgid "Video Clip"
 msgstr "Videó klip"
 
-#: kdenlive/aviconviewitem.cpp:128 kdenlive/avlistviewitem.cpp:144
+#: kdenlive/aviconviewitem.cpp:123 kdenlive/avlistviewitem.cpp:141
 msgid "Mute Video Clip"
 msgstr "Videó klip elnémítása"
 
-#: kdenlive/aviconviewitem.cpp:130 kdenlive/avlistviewitem.cpp:146
-#: kdenlive/clipproperties.cpp:171
+#: kdenlive/aviconviewitem.cpp:125 kdenlive/avlistviewitem.cpp:143
+#: kdenlive/clipproperties.cpp:180
 msgid "Audio Clip"
 msgstr "Hang klip"
 
-#: kdenlive/aviconviewitem.cpp:132 kdenlive/avlistviewitem.cpp:148
-#: kdenlive/clipproperties.cpp:83 kdenlive/docclipavfile.cpp:51
-#: kdenlive/kdenlive.cpp:2944
+#: kdenlive/aviconviewitem.cpp:127 kdenlive/avlistviewitem.cpp:145
+#: kdenlive/clipproperties.cpp:85 kdenlive/docclipavfile.cpp:53
+#: kdenlive/kdenlive.cpp:3048
 msgid "Color Clip"
 msgstr "Szín klip"
 
-#: kdenlive/aviconviewitem.cpp:134 kdenlive/avlistviewitem.cpp:150
-#: kdenlive/clipproperties.cpp:108 kdenlive/kdenlive.cpp:2512
+#: kdenlive/aviconviewitem.cpp:129 kdenlive/avlistviewitem.cpp:147
+#: kdenlive/clipproperties.cpp:110 kdenlive/kdenlive.cpp:2581
 msgid "Virtual Clip"
 msgstr "Virtuális klip"
 
-#: kdenlive/aviconviewitem.cpp:136 kdenlive/avlistviewitem.cpp:152
-#: kdenlive/clipproperties.cpp:97
+#: kdenlive/aviconviewitem.cpp:131 kdenlive/avlistviewitem.cpp:149
+#: kdenlive/clipproperties.cpp:99
 msgid "Image Clip"
 msgstr "Kép klip"
 
-#: kdenlive/aviconviewitem.cpp:138 kdenlive/avlistviewitem.cpp:154
-#: kdenlive/clipproperties.cpp:124
+#: kdenlive/aviconviewitem.cpp:133 kdenlive/avlistviewitem.cpp:151
+#: kdenlive/clipproperties.cpp:132
 msgid "Slideshow Clip"
 msgstr "Diavetítés klip"
 
-#: kdenlive/aviconviewitem.cpp:140 kdenlive/avlistviewitem.cpp:156
-#: kdenlive/kdenlive.cpp:3033
+#: kdenlive/aviconviewitem.cpp:135 kdenlive/avlistviewitem.cpp:153
+#: kdenlive/kdenlive.cpp:3146
 msgid "Text Clip"
 msgstr "Szöveg klip"
 
-#: kdenlive/aviconviewitem.cpp:143 kdenlive/avlistviewitem.cpp:159
+#: kdenlive/aviconviewitem.cpp:138 kdenlive/avlistviewitem.cpp:156
 msgid "Path: %1"
 msgstr "Elérési út: %1"
 
-#: kdenlive/aviconviewitem.cpp:144 kdenlive/avlistviewitem.cpp:160
+#: kdenlive/aviconviewitem.cpp:139 kdenlive/avlistviewitem.cpp:157
 msgid "File Size: "
 msgstr "Fájl méret: "
 
-#: kdenlive/aviconviewitem.cpp:150 kdenlive/avlistviewitem.cpp:166
-#: kdenlive/clipproperties.cpp:158
+#: kdenlive/aviconviewitem.cpp:145 kdenlive/avlistviewitem.cpp:163
+#: kdenlive/clipproperties.cpp:167
 msgid "Mono"
 msgstr "Monó "
 
-#: kdenlive/aviconviewitem.cpp:153 kdenlive/avlistviewitem.cpp:169
-#: kdenlive/clipproperties.cpp:161
+#: kdenlive/aviconviewitem.cpp:148 kdenlive/avlistviewitem.cpp:166
+#: kdenlive/clipproperties.cpp:170
 msgid "Stereo"
 msgstr "Sztereó"
 
-#: kdenlive/aviconviewitem.cpp:156 kdenlive/avlistviewitem.cpp:172
-#: kdenlive/clipproperties.cpp:164
+#: kdenlive/aviconviewitem.cpp:151 kdenlive/avlistviewitem.cpp:169
+#: kdenlive/clipproperties.cpp:173
 msgid "%1 Channels"
 msgstr "%1 Csatornák"
 
-#: kdenlive/aviconviewitem.cpp:159 kdenlive/avlistviewitem.cpp:175
+#: kdenlive/aviconviewitem.cpp:154 kdenlive/avlistviewitem.cpp:172
 msgid "Audio: %1Hz %2"
 msgstr "Hang %1 Hz %2"
 
-#: kdenlive/aviconviewitem.cpp:161 kdenlive/avlistviewitem.cpp:177
+#: kdenlive/aviconviewitem.cpp:156 kdenlive/avlistviewitem.cpp:174
 msgid "Usage: %1"
 msgstr "Használat: %1"
 
-#: kdenlive/aviconviewitem.cpp:164 kdenlive/avlistviewitem.cpp:180
+#: kdenlive/aviconviewitem.cpp:159 kdenlive/avlistviewitem.cpp:177
 msgid "Folder"
 msgstr "Mappa"
 
-#: kdenlive/avlistviewitem.cpp:111 kdenlive/avlistviewitem.cpp:234
-#: kdenlive/clipproperties_ui.cpp:247 kdenlive/createcolorclip_ui.cpp:91
-#: kdenlive/createimageclip_ui.cpp:90 kdenlive/createslideshowclip_ui.cpp:119
+#: kdenlive/avlistviewitem.cpp:108 kdenlive/avlistviewitem.cpp:231
+#: kdenlive/clipproperties_ui.cpp:315 kdenlive/createcolorclip_ui.cpp:91
+#: kdenlive/createimageclip_ui.cpp:90 kdenlive/createslideshowclip_ui.cpp:168
 #: kdenlive/projectlistview.cpp:40
 msgid "Description"
 msgstr "Leírás"
 
-#: kdenlive/avlistviewitem.cpp:181
+#: kdenlive/avlistviewitem.cpp:178
 msgid "%1 clips"
 msgstr "%1 klip"
 
-#: kdenlive/avlistviewitem.cpp:190 kdenlive/projectlistview.cpp:35
+#: kdenlive/avlistviewitem.cpp:187 kdenlive/projectlistview.cpp:35
 msgid "Filename"
 msgstr "Fájlnév"
 
-#: kdenlive/avlistviewitem.cpp:192 kdenlive/createcolorclip_ui.cpp:89
+#: kdenlive/avlistviewitem.cpp:189 kdenlive/createcolorclip_ui.cpp:89
 #: kdenlive/createimageclip_ui.cpp:91 kdenlive/titlebasewidget_ui.cpp:165
 msgid "Duration"
 msgstr "Időtartam"
 
-#: kdenlive/avlistviewitem.cpp:202 kdenlive/clippropertiesdialog.cpp:118
+#: kdenlive/avlistviewitem.cpp:199 kdenlive/clippropertiesdialog.cpp:118
 msgid "unknown"
 msgstr "ismeretlen"
 
-#: kdenlive/avlistviewitem.cpp:205 kdenlive/transitionpip_ui.cpp:193
+#: kdenlive/avlistviewitem.cpp:202 kdenlive/transitionpip_ui.cpp:193
 msgid "Size"
 msgstr "Méret"
 
-#: kdenlive/avlistviewitem.cpp:211
+#: kdenlive/avlistviewitem.cpp:208
 msgid "Type"
 msgstr "Típus"
 
-#: kdenlive/avlistviewitem.cpp:217
+#: kdenlive/avlistviewitem.cpp:214
 msgid "video"
 msgstr "videó"
 
-#: kdenlive/avlistviewitem.cpp:219
+#: kdenlive/avlistviewitem.cpp:216
 msgid "mute video"
 msgstr "videó elnémítása"
 
-#: kdenlive/avlistviewitem.cpp:221
+#: kdenlive/avlistviewitem.cpp:218
 msgid "audio"
 msgstr "hang"
 
-#: kdenlive/avlistviewitem.cpp:224
+#: kdenlive/avlistviewitem.cpp:221
 msgid "group"
 msgstr "csoport"
 
-#: kdenlive/avlistviewitem.cpp:226
+#: kdenlive/avlistviewitem.cpp:223
 msgid "n/a"
 msgstr "nincs megadva"
 
-#: kdenlive/avlistviewitem.cpp:228
+#: kdenlive/avlistviewitem.cpp:225
 msgid "Usage Count"
 msgstr "Használat száma"
 
-#: kdenlive/avlistviewitem.cpp:249 kdenlive/projectlistview.cpp:34
+#: kdenlive/avlistviewitem.cpp:246 kdenlive/projectlistview.cpp:34
 msgid "Thumbnail"
 msgstr "Gyorsnézeti kép"
 
-#: kdenlive/capturemonitor.cpp:48
+#: kdenlive/capturemonitor.cpp:69
 msgid ""
 "<b>The programs dvgrab or ffplay are missing</b>.<br>Firewire capture will "
 "be disabled until you install them."
@@ -233,51 +221,49 @@ msgstr ""
 "<b>A dvgrab vagy az ffplay nincs telepítve</b><br>Firewire felvétel nem fog "
 "működni, amíg nem telepíti a programokat."
 
-#: kdenlive/capturemonitor.cpp:117
+#: kdenlive/capturemonitor.cpp:74
+msgid ""
+"<b>The raw1394 module is not loaded or you don't have write access on /dev/"
+"raw1394. Please check your permissions."
+msgstr "A raw1394 kernel modul nincs betöltve, vagy nincs írási joga a /dev/raw1394 állományhoz. Kérem vizsgálja meg a jogokat."
+
+#: kdenlive/capturemonitor.cpp:81
+msgid "Check again"
+msgstr ""
+
+#: kdenlive/capturemonitor.cpp:134
 msgid "Captured Clips"
 msgstr "Felvett klipek"
 
-#: kdenlive/capturemonitor.cpp:118
+#: kdenlive/capturemonitor.cpp:135
 msgid "Process captured files"
 msgstr "Felvett állományok feldogozása"
 
-#: kdenlive/capturemonitor.cpp:119
+#: kdenlive/capturemonitor.cpp:136
 msgid "Continue capture..."
 msgstr "Felvétel folytatása..."
 
-#: kdenlive/capturemonitor.cpp:123
+#: kdenlive/capturemonitor.cpp:141
 msgid "Clip Name"
 msgstr "Klip név"
 
-#: kdenlive/capturemonitor.cpp:158
+#: kdenlive/capturemonitor.cpp:149
+msgid "Move selected files to:"
+msgstr ""
+
+#: kdenlive/capturemonitor.cpp:182
 msgid "File exists"
 msgstr "Fájl létezik"
 
-#: kdenlive/capturemonitor.cpp:158
+#: kdenlive/capturemonitor.cpp:182
 msgid "File already exists, enter a new name"
 msgstr "A fájl már létezik, válasszon új nevet"
 
-#: kdenlive/capturemonitor.cpp:173
+#: kdenlive/capturemonitor.cpp:202
 msgid "The capture stopped, see details for more info."
 msgstr ""
 
-#: kdenlive/changeclipspeed_ui.cpp:111 kdenlive/docclipref.cpp:787
-#: kdenlive/docclipref.cpp:1236 kdenlive/docclipref.cpp:1482
-#: kdenlive/docclipref.cpp:1738 kdenlive/effectstackdialog.cpp:409
-#: kdenlive/effectstackdialog.cpp:431 kdenlive/initeffects.cpp:356
-msgid "Speed"
-msgstr "Sebesség"
-
-#: kdenlive/changeclipspeed_ui.cpp:112 kdenlive/clipproperties_ui.cpp:262
-#: kdenlive/exportdvd_ui.cpp:384
-msgid "Duration:"
-msgstr "Időtartam:"
-
-#: kdenlive/changeclipspeed_ui.cpp:117
-msgid "Reset"
-msgstr "Alapállapot"
-
-#: kdenlive/clipdrag.cpp:151 kdenlive/kdenlive.cpp:2922
+#: kdenlive/clipdrag.cpp:150 kdenlive/kdenlive.cpp:3026
 msgid "The clip %1 is already present in this project"
 msgstr "A %1 klipet már tartalmazza  a projekt"
 
@@ -300,7 +286,7 @@ msgstr "Fájl keresés"
 #: kdenlive/clipmanager.cpp:95 kdenlive/clipmanager.cpp:127
 #: kdenlive/clipmanager.cpp:154 kdenlive/clipmanager.cpp:187
 #: kdenlive/clipmanager.cpp:212 kdenlive/clipmanager.cpp:246
-#: kdenlive/clipmanager.cpp:854
+#: kdenlive/clipmanager.cpp:857
 msgid "The file %1 is not a valid video file for kdenlive..."
 msgstr "A %1 nem használható a kdenlive-ben..."
 
@@ -308,111 +294,133 @@ msgstr "A %1 nem használható a kdenlive-ben..."
 msgid " [%1 images]"
 msgstr "[%1 képek]"
 
-#: kdenlive/clipproperties.cpp:47 kdenlive/kdenlive.cpp:931
+#: kdenlive/clipproperties.cpp:49 kdenlive/kdenlive.cpp:995
 msgid "Clip Properties"
 msgstr "Kép tulajdonságok"
 
-#: kdenlive/clipproperties.cpp:126
+#: kdenlive/clipproperties.cpp:136
 msgid "Folder:"
 msgstr "Mappa:"
 
-#: kdenlive/clipproperties.cpp:167
+#: kdenlive/clipproperties.cpp:176
 msgid "%1Hz %2"
 msgstr "%1 Hz %2"
 
-#: kdenlive/clipproperties.cpp:169
+#: kdenlive/clipproperties.cpp:178
 msgid "None"
 msgstr "Nincs"
 
-#: kdenlive/clipproperties.cpp:211
+#: kdenlive/clipproperties.cpp:232
 msgid "Duration (%1 images)"
 msgstr "Időtartam (%1 kép)"
 
-#: kdenlive/clipproperties_ui.cpp:249 kdenlive/exportbasewidget_ui.cpp:279
-msgid "Metadata"
-msgstr "Metaadat"
-
-#: kdenlive/clipproperties_ui.cpp:250
-msgid "Transparent &background"
-msgstr "Áttetsző &háttér"
-
-#: kdenlive/clipproperties_ui.cpp:252 kdenlive/createslideshowclip_ui.cpp:132
-#: kdenlive/kdenlive.cpp:208 kdenlive/transition.cpp:245
-#: kdenlive/transitiondialog.cpp:70
-msgid "Crossfade"
-msgstr "Átmenet"
-
-#: kdenlive/clipproperties_ui.cpp:254
+#: kdenlive/clipproperties_ui.cpp:285
 msgid "File:"
 msgstr "Fájl:"
 
-#: kdenlive/clipproperties_ui.cpp:256 kdenlive/createimageclip_ui.cpp:97
-#: kdenlive/createslideshowclip_ui.cpp:125
-msgid "png"
-msgstr "png"
-
-#: kdenlive/clipproperties_ui.cpp:257 kdenlive/createimageclip_ui.cpp:98
-#: kdenlive/createslideshowclip_ui.cpp:126
-msgid "jpg"
-msgstr "jpg"
-
-#: kdenlive/clipproperties_ui.cpp:258 kdenlive/createimageclip_ui.cpp:99
-#: kdenlive/createslideshowclip_ui.cpp:127
-msgid "gif"
-msgstr "gif"
-
-#: kdenlive/clipproperties_ui.cpp:259 kdenlive/createslideshowclip_ui.cpp:128
-msgid "bmp"
-msgstr "bmp"
-
-#: kdenlive/clipproperties_ui.cpp:260 kdenlive/createslideshowclip_ui.cpp:120
-msgid "Frames per Image"
-msgstr "Frame per kép"
-
-#: kdenlive/clipproperties_ui.cpp:261
+#: kdenlive/clipproperties_ui.cpp:286
 msgid "Color:"
 msgstr "Szín:"
 
-#: kdenlive/clipproperties_ui.cpp:263
-msgid "File size:"
-msgstr "Fájl méret:"
-
-#: kdenlive/clipproperties_ui.cpp:264 kdenlive/createslideshowclip_ui.cpp:121
-msgid "Image type"
-msgstr "Kép típus"
-
-#: kdenlive/clipproperties_ui.cpp:267 kdenlive/titlebasewidget_ui.cpp:164
+#: kdenlive/clipproperties_ui.cpp:287 kdenlive/titlebasewidget_ui.cpp:164
 msgid "Name:"
 msgstr "Név:"
 
-#: kdenlive/clipproperties_ui.cpp:268 kdenlive/configtimeline_ui.cpp:135
+#: kdenlive/clipproperties_ui.cpp:288 kdenlive/configtimeline_ui.cpp:135
 #: kdenlive/configtimeline_ui.cpp:141
 msgid "Size:"
 msgstr "Méret:"
 
-#: kdenlive/clipproperties_ui.cpp:270
+#: kdenlive/clipproperties_ui.cpp:290
 msgid "Audio:"
 msgstr "Hang:"
 
-#: kdenlive/clipproperties_ui.cpp:272
+#: kdenlive/clipproperties_ui.cpp:292
 msgid "Video codec:"
 msgstr "Videó kodek:"
 
-#: kdenlive/clipproperties_ui.cpp:274
+#: kdenlive/clipproperties_ui.cpp:294
 msgid "Fps:"
 msgstr "Fps: "
 
-#: kdenlive/clipproperties_ui.cpp:276
+#: kdenlive/clipproperties_ui.cpp:296
 msgid "Audio codec:"
 msgstr "Hang  kodek:"
 
-#: kdenlive/clipproperties_ui.cpp:278
+#: kdenlive/clipproperties_ui.cpp:298
 msgid "Type:"
 msgstr "Típus:"
+
+#: kdenlive/clipproperties_ui.cpp:300
+msgid "File size:"
+msgstr "Fájl méret:"
+
+#: kdenlive/clipproperties_ui.cpp:302 kdenlive/createimageclip_ui.cpp:97
+#: kdenlive/createslideshowclip_ui.cpp:164
+msgid "png"
+msgstr "png"
+
+#: kdenlive/clipproperties_ui.cpp:303 kdenlive/createimageclip_ui.cpp:98
+#: kdenlive/createslideshowclip_ui.cpp:165
+msgid "jpg"
+msgstr "jpg"
+
+#: kdenlive/clipproperties_ui.cpp:304 kdenlive/createimageclip_ui.cpp:99
+#: kdenlive/createslideshowclip_ui.cpp:166
+msgid "gif"
+msgstr "gif"
+
+#: kdenlive/clipproperties_ui.cpp:305 kdenlive/createslideshowclip_ui.cpp:167
+msgid "bmp"
+msgstr "bmp"
+
+#: kdenlive/clipproperties_ui.cpp:306 kdenlive/exportdvd_ui.cpp:384
+msgid "Duration:"
+msgstr "Időtartam:"
+
+#: kdenlive/clipproperties_ui.cpp:307 kdenlive/createslideshowclip_ui.cpp:162
+msgid "Image type"
+msgstr "Kép típus"
+
+#: kdenlive/clipproperties_ui.cpp:312 kdenlive/createslideshowclip_ui.cpp:161
+msgid "Duration per Image"
+msgstr "Képenkénti időtartam"
+
+#: kdenlive/clipproperties_ui.cpp:314
+msgid "Transparent &background"
+msgstr "Áttetsző &háttér"
+
+#: kdenlive/clipproperties_ui.cpp:317 kdenlive/exportbasewidget_ui.cpp:279
+msgid "Metadata"
+msgstr "Metaadat"
+
+#: kdenlive/clipproperties_ui.cpp:318 kdenlive/createslideshowclip_ui.cpp:176
+#: kdenlive/kdenlive.cpp:220 kdenlive/transition.cpp:245
+#: kdenlive/transitiondialog.cpp:70
+msgid "Crossfade"
+msgstr "Átmenet"
+
+#: kdenlive/clipproperties_ui.cpp:319 kdenlive/createslideshowclip_ui.cpp:180
+msgid "Use Luma"
+msgstr "Luma fájl használata"
+
+#: kdenlive/clipproperties_ui.cpp:320 kdenlive/createslideshowclip_ui.cpp:177
+msgid "Transition duration"
+msgstr "Átmenet időtartam"
+
+#: kdenlive/clipproperties_ui.cpp:323 kdenlive/createslideshowclip_ui.cpp:181
+#: kdenlive/transitionlumafile_ui.cpp:76 kdenlive/transitionpip_ui.cpp:197
+#: kdenlive/transitionwipe_ui.cpp:235
+msgid "Softness"
+msgstr "Finomság"
 
 #: kdenlive/clippropertiesdialog.cpp:35
 msgid "Video Stream"
 msgstr "Videó stream"
+
+#: kdenlive/clippropertiesdialog.cpp:43 kdenlive/exportbasewidget_ui.cpp:260
+msgid "Filename:"
+msgstr "Fájlnév:"
 
 #: kdenlive/clippropertiesdialog.cpp:44
 msgid "Frame size, (fps):"
@@ -498,17 +506,21 @@ msgstr "DV Type 2 AVI"
 msgid "Raw DV"
 msgstr "Nyers DV"
 
-#: kdenlive/confighard_ui.cpp:78
+#: kdenlive/confighard_ui.cpp:89
 msgid "Audio device:"
 msgstr "Hang eszköz:"
 
-#: kdenlive/confighard_ui.cpp:79
+#: kdenlive/confighard_ui.cpp:90
 msgid "Audio driver:"
 msgstr "Hang meghajtó:"
 
-#: kdenlive/confighard_ui.cpp:80
+#: kdenlive/confighard_ui.cpp:91
 msgid "Video driver:"
 msgstr "Videó eszköz:"
+
+#: kdenlive/confighard_ui.cpp:92
+msgid "Use secondary monitor for video output"
+msgstr ""
 
 #: kdenlive/configinterface_ui.cpp:102
 msgid "minutes"
@@ -526,79 +538,83 @@ msgstr "Az egérgörgő vízszintesen mozgat (alt+görgő: függőleges mozgatá
 msgid "Show splash screen"
 msgstr "Nyitókép megjelenítése "
 
-#: kdenlive/configinterface_ui.cpp:106 kdenlive/firstrun_ui.cpp:118
+#: kdenlive/configinterface_ui.cpp:106 kdenlive/firstrun_ui.cpp:2797
 msgid "Startup options"
 msgstr "Indulási beállítások"
 
-#: kdenlive/configinterface_ui.cpp:107 kdenlive/firstrun_ui.cpp:119
+#: kdenlive/configinterface_ui.cpp:107 kdenlive/firstrun_ui.cpp:2798
 msgid "Open last project"
 msgstr "Az utolsó projekt betöltése"
 
-#: kdenlive/configinterface_ui.cpp:108 kdenlive/firstrun_ui.cpp:120
+#: kdenlive/configinterface_ui.cpp:108 kdenlive/firstrun_ui.cpp:2799
 msgid "Open blank project"
 msgstr "Új projekt betöltése"
 
-#: kdenlive/configinterface_ui.cpp:109 kdenlive/firstrun_ui.cpp:121
+#: kdenlive/configinterface_ui.cpp:109 kdenlive/firstrun_ui.cpp:2800
 msgid "Always ask"
 msgstr "Mindig megkérdez"
 
-#: kdenlive/configmisc_ui.cpp:119
+#: kdenlive/configmisc_ui.cpp:123
 msgid "Default color/image clip duration"
 msgstr "Alapértelmezett szín/kép klip időtartam"
 
-#: kdenlive/configmisc_ui.cpp:122
+#: kdenlive/configmisc_ui.cpp:126
 msgid "Default text clip duration"
 msgstr "Alapértemezett szöveges klip időtartam"
 
-#: kdenlive/configmisc_ui.cpp:123
+#: kdenlive/configmisc_ui.cpp:127
 msgid "Folder for temporary files"
 msgstr "Ideiglenes fájlok mappája"
 
-#: kdenlive/configmisc_ui.cpp:124
+#: kdenlive/configmisc_ui.cpp:128
 msgid "Use system temporary folder"
 msgstr "Használd a rendszer ideiglenes mappáját"
 
-#: kdenlive/configmisc_ui.cpp:125
+#: kdenlive/configmisc_ui.cpp:129
 msgid "User defined folder"
 msgstr "Felhasználó által megadott mappa"
 
-#: kdenlive/configmisc_ui.cpp:126
-msgid "On screen timecode display"
-msgstr "On screen időkód megjelenítés"
-
-#: kdenlive/configmisc_ui.cpp:127
+#: kdenlive/configmisc_ui.cpp:130
 msgid "External audio editor"
 msgstr "Külső audiószerkesztő"
 
-#: kdenlive/configmisc_ui.cpp:128
+#: kdenlive/configmisc_ui.cpp:131
 msgid "External image editor"
 msgstr "Külső képszerkesztő"
 
-#: kdenlive/configproject_ui.cpp:96 kdenlive/configureproject_ui.cpp:135
+#: kdenlive/configmisc_ui.cpp:132
+msgid "On screen timecode display"
+msgstr "On screen időkód megjelenítés"
+
+#: kdenlive/configmisc_ui.cpp:133
+msgid "Distort Images (non proportionnal scaling)"
+msgstr ""
+
+#: kdenlive/configproject_ui.cpp:96 kdenlive/configureproject_ui.cpp:158
 msgid "Timecode"
 msgstr "Időkód"
 
-#: kdenlive/configproject_ui.cpp:98 kdenlive/configureproject_ui.cpp:137
+#: kdenlive/configproject_ui.cpp:98 kdenlive/configureproject_ui.cpp:160
 msgid "HH:MM:SS:FF"
 msgstr "HH:MM:SS:FF"
 
-#: kdenlive/configproject_ui.cpp:99 kdenlive/configureproject_ui.cpp:138
+#: kdenlive/configproject_ui.cpp:99 kdenlive/configureproject_ui.cpp:161
 msgid "HH:MM:SS.hh"
 msgstr "HH:MM:SS.hh"
 
-#: kdenlive/configproject_ui.cpp:100 kdenlive/configureproject_ui.cpp:139
+#: kdenlive/configproject_ui.cpp:100 kdenlive/configureproject_ui.cpp:162
 msgid "Frames"
 msgstr "Képkockák"
 
-#: kdenlive/configproject_ui.cpp:101 kdenlive/configureproject_ui.cpp:140
+#: kdenlive/configproject_ui.cpp:101 kdenlive/configureproject_ui.cpp:163
 msgid "Seconds"
 msgstr "Másodperc"
 
-#: kdenlive/configproject_ui.cpp:102 kdenlive/configureproject_ui.cpp:141
+#: kdenlive/configproject_ui.cpp:102 kdenlive/configureproject_ui.cpp:164
 msgid "Use Drop Frame timecode"
 msgstr "Drop Frame időkód használata"
 
-#: kdenlive/configproject_ui.cpp:104 kdenlive/configureproject_ui.cpp:143
+#: kdenlive/configproject_ui.cpp:104 kdenlive/configureproject_ui.cpp:166
 msgid ""
 "Specifies that we should display timecodes using a drop frame timecode "
 "(specifically for NTSC). Drop frame timecode compensates for the fact that "
@@ -652,8 +668,7 @@ msgstr "Hangsávok "
 
 #: kdenlive/configtimeline_ui.cpp:143
 msgid "Disable thumbnails for large clips on low zoom level"
-msgstr ""
-"Gyorsnézeti kép letiltása nagyméretű klipekre alacsony nagyítási szint esetén"
+msgstr "Gyorsnézeti kép letiltása nagyméretű klipekre alacsony nagyítási szint esetén"
 
 #: kdenlive/configtimeline_ui.cpp:146
 msgid "Normalise volume for thumbnail creation"
@@ -663,45 +678,25 @@ msgstr "Hangerő normalizálása"
 msgid "Default Color"
 msgstr "Alapértelmezett szín"
 
-#: kdenlive/configureproject_ui.cpp:146
+#: kdenlive/configureproject_ui.cpp:156
 msgid "Aspect Ratio"
 msgstr "Képarány "
 
-#: kdenlive/configureproject_ui.cpp:149
-msgid "Add Template"
-msgstr "Sablon hozzáadása"
-
-#: kdenlive/configureproject_ui.cpp:150
-msgid "Delete Template"
-msgstr "Sablon törlése"
-
-#: kdenlive/configureproject_ui.cpp:151
+#: kdenlive/configureproject_ui.cpp:169
 msgid "Frames Per Second"
 msgstr "Képkocka per Másodperc"
 
-#: kdenlive/configureproject_ui.cpp:152
+#: kdenlive/configureproject_ui.cpp:170
+msgid "Video Format"
+msgstr "Videó formátum"
+
+#: kdenlive/configureproject_ui.cpp:171
 msgid "Project folder"
 msgstr "Projekt mappa"
 
-#: kdenlive/configureprojectdialog.cpp:37
-msgid "Configure Project"
-msgstr "Projekt beállítása"
-
-#: kdenlive/configureprojectdialog.cpp:49
-msgid "Add Preset"
-msgstr "Beállítása mód hozzáadása"
-
-#: kdenlive/configureprojectdialog.cpp:51
-msgid "Delete Preset"
-msgstr "Előre beállított érték törlése"
-
-#: kdenlive/configureprojectdialog.cpp:56
-msgid "Project Configuration"
-msgstr "Projekt beállítás"
-
-#: kdenlive/configureprojectdialog.cpp:57
-msgid "Setup the project"
-msgstr "Projekt beállítása"
+#: kdenlive/configureproject_ui.cpp:172
+msgid "Edit Metadata"
+msgstr "Metaadat szerkesztése"
 
 #: kdenlive/createcolorclip_ui.cpp:90
 msgid "Color"
@@ -715,48 +710,55 @@ msgstr "Név"
 msgid "Image file"
 msgstr "Kép fájl "
 
-#: kdenlive/createimageclip_ui.cpp:93 kdenlive/createslideshowclip_ui.cpp:131
+#: kdenlive/createimageclip_ui.cpp:93 kdenlive/createslideshowclip_ui.cpp:169
 #: kdenlive/titlebasewidget_ui.cpp:166
 msgid "Transparent background"
 msgstr "Áttetsző háttér"
 
-#: kdenlive/createslideshowclip.cpp:40
+#: kdenlive/createslideshowclip.cpp:43
 msgid "Create Slideshow"
 msgstr "Diavetítés létrehozása"
 
-#: kdenlive/createslideshowclip.cpp:131
+#: kdenlive/createslideshowclip.cpp:156
 msgid "Found %1 images in selected folder"
 msgstr "%1 képet találtam a kiválasztott mappában"
 
-#: kdenlive/createslideshowclip_ui.cpp:118
+#: kdenlive/createslideshowclip_ui.cpp:160
 msgid "Image folder"
 msgstr "Kép mappa"
 
-#: kdenlive/createslideshowclip_ui.cpp:129
+#: kdenlive/createslideshowclip_ui.cpp:170
 msgid "Total duration"
 msgstr "Teljes időtartam"
 
-#: kdenlive/createslideshowclip_ui.cpp:130
+#: kdenlive/createslideshowclip_ui.cpp:175
 msgid "No images in slideshow"
 msgstr "A diavetítés nem tartalmaz képet"
 
-#: kdenlive/docclipavfile.cpp:79
+#: kdenlive/docclipavfile.cpp:81
 msgid "Slideshow"
 msgstr "Diavetítés "
 
-#: kdenlive/docclipref.cpp:1523
+#: kdenlive/docclipref.cpp:790 kdenlive/docclipref.cpp:1242
+#: kdenlive/docclipref.cpp:1491 kdenlive/docclipref.cpp:1747
+#: kdenlive/effectstackdialog.cpp:409 kdenlive/effectstackdialog.cpp:431
+#: kdenlive/initeffects.cpp:356
+msgid "Speed"
+msgstr "Sebesség"
+
+#: kdenlive/docclipref.cpp:1532
 msgid " byte(s)"
 msgstr "bájt(ok)"
 
-#: kdenlive/docclipref.cpp:1528
+#: kdenlive/docclipref.cpp:1537
 msgid " Kb"
 msgstr " Kb"
 
-#: kdenlive/docclipref.cpp:1534
+#: kdenlive/docclipref.cpp:1543
 msgid " Mb"
 msgstr " Mb"
 
-#: kdenlive/docclipref.cpp:1540
+#: kdenlive/docclipref.cpp:1549
 msgid " Gb"
 msgstr " Gb"
 
@@ -764,7 +766,7 @@ msgstr " Gb"
 msgid "Razor all tracks"
 msgstr "Összes sáv vágása"
 
-#: kdenlive/documentmacrocommands.cpp:55 kdenlive/kdenlive.cpp:739
+#: kdenlive/documentmacrocommands.cpp:55 kdenlive/kdenlive.cpp:803
 msgid "Razor Clip"
 msgstr "Klip vágása"
 
@@ -784,31 +786,31 @@ msgstr "Paraméterek (libavformat)"
 msgid "Extension"
 msgstr "Kiterjesztés"
 
-#: kdenlive/editmetadata_ui.cpp:142 kdenlive/initeffects.cpp:453
+#: kdenlive/editmetadata_ui.cpp:151 kdenlive/initeffects.cpp:453
 msgid "Year"
 msgstr "Év"
 
-#: kdenlive/editmetadata_ui.cpp:143
+#: kdenlive/editmetadata_ui.cpp:152
 msgid "9999; "
 msgstr "9999; "
 
-#: kdenlive/editmetadata_ui.cpp:144
+#: kdenlive/editmetadata_ui.cpp:153
 msgid "Album"
 msgstr "Album"
 
-#: kdenlive/editmetadata_ui.cpp:145
+#: kdenlive/editmetadata_ui.cpp:154
 msgid "Copyright"
 msgstr "Copyright"
 
-#: kdenlive/editmetadata_ui.cpp:147
+#: kdenlive/editmetadata_ui.cpp:156
 msgid "Track"
 msgstr "Sáv"
 
-#: kdenlive/editmetadata_ui.cpp:148
+#: kdenlive/editmetadata_ui.cpp:157
 msgid "Author"
 msgstr "Szerző"
 
-#: kdenlive/editmetadata_ui.cpp:149 kdenlive/exportdvd_ui.cpp:93
+#: kdenlive/editmetadata_ui.cpp:158 kdenlive/exportdvd_ui.cpp:93
 #: kdenlive/exportdvd_ui.cpp:382
 msgid "Title"
 msgstr "Cím"
@@ -869,8 +871,8 @@ msgstr "Index"
 msgid "Keyframes"
 msgstr "Kulcskockák"
 
-#: kdenlive/effectstacklistview.cpp:32 kdenlive/kdenlive.cpp:857
-#: kdenlive/kdenlive.cpp:1223 kdenlive/kdenlive.cpp:1226
+#: kdenlive/effectstacklistview.cpp:32 kdenlive/kdenlive.cpp:921
+#: kdenlive/kdenlive.cpp:1289 kdenlive/kdenlive.cpp:1292
 msgid "Effect Stack"
 msgstr "Effektus verem"
 
@@ -889,7 +891,7 @@ msgstr "Mappa az exportáláshoz :"
 msgid "High Quality"
 msgstr "Nagyon jó minőség"
 
-#: kdenlive/exportbasewidget_ui.cpp:264 kdenlive/kdenlive.cpp:511
+#: kdenlive/exportbasewidget_ui.cpp:264 kdenlive/kdenlive.cpp:570
 msgid "Medium Quality"
 msgstr "Közepes minőség"
 
@@ -964,7 +966,7 @@ msgstr "Renderelés most"
 msgid "DVD Format"
 msgstr "DVD Formátum"
 
-#: kdenlive/exportdvd_ui.cpp:386 kdenlive/exportdvddialog.cpp:61
+#: kdenlive/exportdvd_ui.cpp:386 kdenlive/exportdvddialog.cpp:62
 msgid "Rendering"
 msgstr "Renderelés"
 
@@ -1036,7 +1038,7 @@ msgstr "Bevezető mozi"
 msgid "Intro"
 msgstr "Bevezető"
 
-#: kdenlive/exportdvd_ui.cpp:414 kdenlive/exportdvddialog.cpp:62
+#: kdenlive/exportdvd_ui.cpp:414 kdenlive/exportdvddialog.cpp:63
 msgid "Menu"
 msgstr "Menü"
 
@@ -1076,30 +1078,37 @@ msgstr "Menü létrehozása"
 msgid "DVD Creation"
 msgstr "DVD Létrehozás"
 
-#: kdenlive/exportdvddialog.cpp:55
+#: kdenlive/exportdvddialog.cpp:56
 msgid ""
 "Cannot find the program \"dvdauthor\" on your system. Install it if you want "
 "to be able to create a DVD"
-msgstr ""
-"Nincs telepítve a  \"dvdauthor\" nevű program. DVD létrehozásához telepítsd."
+msgstr "Nincs telepítve a  \"dvdauthor\" nevű program. DVD létrehozásához telepítsd."
 
-#: kdenlive/exportdvddialog.cpp:60
+#: kdenlive/exportdvddialog.cpp:61
 msgid "Create DVD"
 msgstr "DVD létrehozása"
 
-#: kdenlive/exportdvddialog.cpp:63
+#: kdenlive/exportdvddialog.cpp:64
 msgid "Burning"
 msgstr "Írás"
 
-#: kdenlive/exportdvddialog.cpp:69 kdenlive/kdenlive.cpp:1805
+#: kdenlive/exportdvddialog.cpp:70 kdenlive/kdenlive.cpp:1910
 msgid "PAL"
 msgstr "PAL"
 
-#: kdenlive/exportdvddialog.cpp:70 kdenlive/kdenlive.cpp:1803
+#: kdenlive/exportdvddialog.cpp:71
+msgid "PAL 16:9"
+msgstr "PAL 16:9"
+
+#: kdenlive/exportdvddialog.cpp:72 kdenlive/kdenlive.cpp:1908
 msgid "NTSC"
 msgstr "NTSC "
 
-#: kdenlive/exportdvddialog.cpp:151
+#: kdenlive/exportdvddialog.cpp:73
+msgid "NTSC 16:9"
+msgstr "NTSC 16:9"
+
+#: kdenlive/exportdvddialog.cpp:176
 msgid ""
 "You can now close this dialog and keep on working on your project while the "
 "DVD is being created."
@@ -1107,11 +1116,11 @@ msgstr ""
 "Bezárhatja a dialógusablakot, és folytathatja a munkáját. A DVD készítése "
 "folyamatban van."
 
-#: kdenlive/exportdvddialog.cpp:175
+#: kdenlive/exportdvddialog.cpp:200
 msgid "Enter name for rendered movie file"
 msgstr "Adja meg a renderelt videó fájl nevét"
 
-#: kdenlive/exportdvddialog.cpp:192 kdenlive/exportwidget.cpp:845
+#: kdenlive/exportdvddialog.cpp:217 kdenlive/exportwidget.cpp:925
 msgid ""
 "The export terminated unexpectedly.\n"
 "Output file will probably be corrupted..."
@@ -1119,27 +1128,26 @@ msgstr ""
 "Az exportálás váratlanul megszakadt. \n"
 " A kimeneti fájl valószínűleg sérült..."
 
-#: kdenlive/exportdvddialog.cpp:234 kdenlive/exportdvddialog.cpp:237
-#: kdenlive/kruler.cpp:1132
+#: kdenlive/exportdvddialog.cpp:258 kdenlive/exportdvddialog.cpp:261
+#: kdenlive/kruler.cpp:1133
 msgid "Chapter %1"
 msgstr "Fejezet %1"
 
-#: kdenlive/exportdvddialog.cpp:246
+#: kdenlive/exportdvddialog.cpp:270
 msgid "Chapter 0"
 msgstr "Fejezet 0"
 
-#: kdenlive/exportdvddialog.cpp:264
+#: kdenlive/exportdvddialog.cpp:288
 msgid ""
 "You need the program \"K3b\" to burn your DVD. Please install it if you want "
 "to use this feature."
-msgstr ""
-"Telepítse és állítsa be a \"K3b\" programot ahhoz, hogy DVD-t tudjon írni. "
+msgstr "Telepítse és állítsa be a \"K3b\" programot ahhoz, hogy DVD-t tudjon írni. "
 
-#: kdenlive/exportdvddialog.cpp:268
+#: kdenlive/exportdvddialog.cpp:292
 msgid "You need to generate the DVD structure before burning."
 msgstr "A DVD struktúra létrehozása szükséges a DVD íráshoz."
 
-#: kdenlive/exportdvddialog.cpp:283
+#: kdenlive/exportdvddialog.cpp:307
 msgid ""
 "You need the program \"xine\" to preview your DVD. Please install it if you "
 "want to use this feature."
@@ -1147,7 +1155,7 @@ msgstr ""
 "Telepítse és állítsa be a \"Xine\" programot ahhoz, hogy meg tudja tekinteni "
 "a DVD-t."
 
-#: kdenlive/exportdvddialog.cpp:297
+#: kdenlive/exportdvddialog.cpp:321
 msgid ""
 "You need the program \"QDvdAuthor\" to preview your DVD. Please install it "
 "if you want to use this feature."
@@ -1155,7 +1163,7 @@ msgstr ""
 "Telepítse és állítsa be a \"QDvdAuthor\" programot ahhoz, hogy meg tudja "
 "tekinteni a DVD-t."
 
-#: kdenlive/exportdvddialog.cpp:316
+#: kdenlive/exportdvddialog.cpp:340
 msgid ""
 "The specified dvd folder already exists.\n"
 "Overwite it ?"
@@ -1163,7 +1171,7 @@ msgstr ""
 "A megadott dvd mappa már létezik. \n"
 " Felülírjam?"
 
-#: kdenlive/exportdvddialog.cpp:329
+#: kdenlive/exportdvddialog.cpp:354
 msgid ""
 "You didn't select the video file for the DVD.\n"
 " Please choose one before starting any operation."
@@ -1171,7 +1179,7 @@ msgstr ""
 "Nem választott még ki videó fájlt a DVD-hez. \n"
 " Kérem válasszon egyet."
 
-#: kdenlive/exportdvddialog.cpp:464
+#: kdenlive/exportdvddialog.cpp:490
 msgid ""
 "You need the program \"convert\" which is included in ImageMagick to create "
 "DVD menus. Install ImageMagick if you want to make a DVD with menu"
@@ -1179,11 +1187,11 @@ msgstr ""
 "You need the program \"convert\" which is included in ImageMagick to create "
 "DVD menus. Install ImageMagick if you want to make a DVD with menu"
 
-#: kdenlive/exportdvddialog.cpp:793
+#: kdenlive/exportdvddialog.cpp:819
 msgid "The creation of DVD structure is finished."
 msgstr "DVD struktúra létrehozása befejeződött."
 
-#: kdenlive/exportdvddialog.cpp:801
+#: kdenlive/exportdvddialog.cpp:827
 msgid "The creation of DVD structure failed."
 msgstr "DVD létrehozása sikertelen."
 
@@ -1203,16 +1211,16 @@ msgstr "Normál"
 msgid "High"
 msgstr "Magas"
 
-#: kdenlive/exportwidget.cpp:261 kdenlive/exportwidget.cpp:299
+#: kdenlive/exportwidget.cpp:305 kdenlive/exportwidget.cpp:343
 msgid "An encoder named %1 already exists, please choose another name."
 msgstr "An encoder named %1 already exists, please choose another name."
 
-#: kdenlive/exportwidget.cpp:562
+#: kdenlive/exportwidget.cpp:622
 msgid "Please enter a file name"
 msgstr "Adjon meg egy fájlnevet"
 
-#: kdenlive/exportwidget.cpp:571 kdenlive/kdenlive.cpp:2484
-#: kdenlive/kdenlive.cpp:2592 kdenlive/kdenlive.cpp:3379
+#: kdenlive/exportwidget.cpp:631 kdenlive/kdenlive.cpp:2553
+#: kdenlive/kdenlive.cpp:2670 kdenlive/kdenlive.cpp:3541
 msgid ""
 "File already exists.\n"
 "Do you want to overwrite it ?"
@@ -1220,15 +1228,15 @@ msgstr ""
 "A fájl már létezik. \n"
 " Felülírjam?"
 
-#: kdenlive/exportwidget.cpp:616 kdenlive/exportwidget.cpp:630
+#: kdenlive/exportwidget.cpp:696 kdenlive/exportwidget.cpp:710
 msgid "There is another file render currently running, cancel it ?"
 msgstr "Már fut egy renderelés, megszakítsam?"
 
-#: kdenlive/exportwidget.cpp:850
+#: kdenlive/exportwidget.cpp:930
 msgid "Export of %1 is finished"
 msgstr "A %1 exportálása befejeződött"
 
-#: kdenlive/exportwidget.cpp:895
+#: kdenlive/exportwidget.cpp:975
 msgid ""
 "The conversion terminated unexpectedly.\n"
 "Output file will probably be corrupted..."
@@ -1236,16 +1244,16 @@ msgstr ""
 "A konverzió váratlanul megszakadt \n"
 " A kimeneti fájl valószínűleg sérült..."
 
-#: kdenlive/firstrun_ui.cpp:115
+#: kdenlive/firstrun_ui.cpp:2796
+msgid "Default video format:"
+msgstr "Alapértelemezett videó formátum:"
+
+#: kdenlive/firstrun_ui.cpp:2801
 msgid ""
 "<b>Welcome to Kdenlive</b><br>\n"
 "This is the first time you run Kdenlive, please define your preferred "
 "settings, they can always be adjusted later from the Settings dialog."
 msgstr ""
-
-#: kdenlive/firstrun_ui.cpp:117
-msgid "Default video format:"
-msgstr "Alapértelemezett videó formátum:"
 
 #: kdenlive/initeffects.cpp:118
 msgid "Greyscale"
@@ -1336,7 +1344,7 @@ msgstr "Hangerő"
 msgid "Gain"
 msgstr "Erősítés"
 
-#: kdenlive/initeffects.cpp:296 kdenlive/kdenlive.cpp:3350
+#: kdenlive/initeffects.cpp:296 kdenlive/kdenlive.cpp:3512
 msgid "Mute"
 msgstr "Némítás"
 
@@ -1384,8 +1392,8 @@ msgstr "Stroboszkóp"
 msgid "Reverse Playing"
 msgstr "Lejátszás visszafele"
 
-#: kdenlive/initeffects.cpp:394 kdenlive/kdenlive.cpp:315
-#: kdenlive/trackpanelclipmovefunction.cpp:379
+#: kdenlive/initeffects.cpp:394 kdenlive/kdenlive.cpp:374
+#: kdenlive/trackpanelclipmovefunction.cpp:378
 msgid "Freeze"
 msgstr "Merevítés"
 
@@ -1529,7 +1537,7 @@ msgstr "Visszajelzés"
 msgid "Spread"
 msgstr ""
 
-#: kdenlive/kaddclipcommand.cpp:35 kdenlive/kdenlive.cpp:576
+#: kdenlive/kaddclipcommand.cpp:35 kdenlive/kdenlive.cpp:635
 msgid "Clean Project"
 msgstr "Projekt törlése"
 
@@ -1537,14 +1545,15 @@ msgstr "Projekt törlése"
 msgid "Clean project"
 msgstr "Projekt törlése"
 
-#: kdenlive/kaddclipcommand.cpp:218 kdenlive/kaddrefclipcommand.cpp:42
+#: kdenlive/kaddclipcommand.cpp:216 kdenlive/kaddrefclipcommand.cpp:42
 #: kdenlive/projectlist.cpp:80
 msgid "Add Clip"
 msgstr "Klip hozzáadása"
 
-#: kdenlive/kaddclipcommand.cpp:220 kdenlive/kaddrefclipcommand.cpp:44
-#: kdenlive/kdenlive.cpp:572 kdenlive/kdenlive.cpp:683
-#: kdenlive/kdenlive.cpp:3197 kdenlive/projectlist.cpp:81
+#: kdenlive/kaddclipcommand.cpp:218 kdenlive/kaddrefclipcommand.cpp:44
+#: kdenlive/kdenlive.cpp:631 kdenlive/kdenlive.cpp:747
+#: kdenlive/kdenlive.cpp:3325 kdenlive/kdenlive.cpp:3365
+#: kdenlive/projectlist.cpp:81
 msgid "Delete Clip"
 msgstr "Klip törlése"
 
@@ -1569,8 +1578,8 @@ msgid "Delete Snap Marker"
 msgstr "Jelző törlése"
 
 #: kdenlive/kaddrefclipcommand.cpp:97 kdenlive/kaddrefclipcommand.cpp:120
-#: kdenlive/trackpanelclipmovefunction.cpp:515
-#: kdenlive/trackpanelclipslipfunction.cpp:519
+#: kdenlive/trackpanelclipmovefunction.cpp:514
+#: kdenlive/trackpanelclipslipfunction.cpp:518
 msgid "Delete Clips"
 msgstr "Klipek törlése"
 
@@ -1582,707 +1591,715 @@ msgstr "Átmenet hozzáadása"
 msgid "Delete transition"
 msgstr "Átmenet törlése"
 
-#: kdenlive/kdenlive.cpp:140
+#: kdenlive/kdenlive.cpp:141
 msgid "PAL (720x576, 25fps)"
 msgstr "PAL (720x576, 25fps)"
 
-#: kdenlive/kdenlive.cpp:140
+#: kdenlive/kdenlive.cpp:142
 msgid "PAL 16:9 (720x576, 25fps)"
 msgstr "PAL 16:9 (720x576, 25fps)"
 
-#: kdenlive/kdenlive.cpp:141
+#: kdenlive/kdenlive.cpp:144
 msgid "NTSC (720x480, 30fps)"
 msgstr "NTSC (720x480, 30fps)"
 
-#: kdenlive/kdenlive.cpp:141
+#: kdenlive/kdenlive.cpp:145
 msgid "NTSC 16:9 (720x480, 30fps)"
 msgstr "NTSC 16:9 (720x480, 30fps)"
 
-#: kdenlive/kdenlive.cpp:209 kdenlive/transition.cpp:241
+#: kdenlive/kdenlive.cpp:221 kdenlive/transition.cpp:241
 #: kdenlive/transition.cpp:250 kdenlive/transitiondialog.cpp:72
 msgid "Push"
 msgstr "Push"
 
-#: kdenlive/kdenlive.cpp:210 kdenlive/transition.cpp:242
+#: kdenlive/kdenlive.cpp:222 kdenlive/transition.cpp:242
 #: kdenlive/transition.cpp:251
 msgid "Pip"
 msgstr "Pip"
 
-#: kdenlive/kdenlive.cpp:211 kdenlive/transition.cpp:243
+#: kdenlive/kdenlive.cpp:223 kdenlive/transition.cpp:243
 #: kdenlive/transition.cpp:252 kdenlive/transitiondialog.cpp:76
 msgid "Wipe"
 msgstr "Wipe"
 
-#: kdenlive/kdenlive.cpp:305
+#: kdenlive/kdenlive.cpp:364
 msgid "Add Effect"
 msgstr "Effektus hozzáadása"
 
-#: kdenlive/kdenlive.cpp:326
+#: kdenlive/kdenlive.cpp:385
 msgid "Remove Effect"
 msgstr "Effektus eltávolítása"
 
-#: kdenlive/kdenlive.cpp:410
+#: kdenlive/kdenlive.cpp:469
 msgid "Paste Effects"
 msgstr "Effektus beillesztése"
 
-#: kdenlive/kdenlive.cpp:415
+#: kdenlive/kdenlive.cpp:474
 msgid "Paste Transitions"
 msgstr "Átmenet beillesztése"
 
-#: kdenlive/kdenlive.cpp:435
+#: kdenlive/kdenlive.cpp:494
 msgid "Zoom to display the whole project"
 msgstr "Nagyítás a teljes projekt terjedelmében"
 
-#: kdenlive/kdenlive.cpp:439
+#: kdenlive/kdenlive.cpp:498
 msgid "Zoom in"
 msgstr "Nagyítás"
 
-#: kdenlive/kdenlive.cpp:443
+#: kdenlive/kdenlive.cpp:502
 msgid "Zoom out"
 msgstr "Kicsinyítés"
 
-#: kdenlive/kdenlive.cpp:445
+#: kdenlive/kdenlive.cpp:504
 msgid "Restore Last Zoom Level"
 msgstr "Utolsó nagyítás visszaállítása"
 
-#: kdenlive/kdenlive.cpp:448
+#: kdenlive/kdenlive.cpp:507
 msgid "Restoring previous zoom level"
 msgstr "Előző nagyítás visszaállítása"
 
-#: kdenlive/kdenlive.cpp:450
+#: kdenlive/kdenlive.cpp:509
 msgid "List View"
 msgstr "Lista nézet"
 
-#: kdenlive/kdenlive.cpp:453
+#: kdenlive/kdenlive.cpp:512
 msgid "Icon View"
 msgstr ""
 
-#: kdenlive/kdenlive.cpp:457
+#: kdenlive/kdenlive.cpp:516
 msgid "Move/Resize Tool"
 msgstr "Mozgatás/Átméretezés eszköz"
 
-#: kdenlive/kdenlive.cpp:461
+#: kdenlive/kdenlive.cpp:520
 msgid "Razor Tool"
 msgstr "Vágó eszköz"
 
-#: kdenlive/kdenlive.cpp:465
+#: kdenlive/kdenlive.cpp:524
 msgid "Spacing Tool"
 msgstr "Toló eszköz"
 
-#: kdenlive/kdenlive.cpp:469
+#: kdenlive/kdenlive.cpp:528
 msgid "Marker Tool"
 msgstr "Jelölő eszköz"
 
-#: kdenlive/kdenlive.cpp:473
+#: kdenlive/kdenlive.cpp:532
 msgid "Roll Tool"
 msgstr "Görgető eszköz"
 
-#: kdenlive/kdenlive.cpp:478
+#: kdenlive/kdenlive.cpp:537
 msgid "Multiselect Tool"
 msgstr "Kiválasztó eszköz"
 
-#: kdenlive/kdenlive.cpp:483
+#: kdenlive/kdenlive.cpp:542
 msgid "Snap To Frames"
 msgstr "Képkockához igazítás"
 
-#: kdenlive/kdenlive.cpp:487
+#: kdenlive/kdenlive.cpp:546
 msgid "Snap To Border"
 msgstr "Kerethez igazítás"
 
-#: kdenlive/kdenlive.cpp:491
+#: kdenlive/kdenlive.cpp:550
 msgid "Snap To Marker"
 msgstr "Jelölőhöz igazítás"
 
-#: kdenlive/kdenlive.cpp:496
+#: kdenlive/kdenlive.cpp:555
 msgid "Display On Screen Infos"
 msgstr "Képernyő információk (OSD) megjelenítése"
 
-#: kdenlive/kdenlive.cpp:501
+#: kdenlive/kdenlive.cpp:560
 msgid "Multi Track View"
 msgstr "Többsávos nézet"
 
-#: kdenlive/kdenlive.cpp:506
+#: kdenlive/kdenlive.cpp:565
 msgid "Low Quality"
 msgstr "Alacsony minőség"
 
-#: kdenlive/kdenlive.cpp:516
+#: kdenlive/kdenlive.cpp:575
 msgid "Best Quality"
 msgstr "Legjobb minőség"
 
-#: kdenlive/kdenlive.cpp:529
+#: kdenlive/kdenlive.cpp:588
 msgid "Show all markers"
 msgstr "Összes jelölő megjelenítése"
 
-#: kdenlive/kdenlive.cpp:533
+#: kdenlive/kdenlive.cpp:592
 msgid "Define Clip Thumbnail"
 msgstr "Beállítás gyorsnézeti képként"
 
-#: kdenlive/kdenlive.cpp:534
+#: kdenlive/kdenlive.cpp:593
 msgid "Define thumbnail for the current clip"
 msgstr "Gyorsnézeti kép beállítása"
 
-#: kdenlive/kdenlive.cpp:536
+#: kdenlive/kdenlive.cpp:595
 msgid "Go To Beginning"
 msgstr "Ugrás az elejére"
 
-#: kdenlive/kdenlive.cpp:537
+#: kdenlive/kdenlive.cpp:596
 msgid "Beginning of project"
 msgstr "Projekt kezdete "
 
-#: kdenlive/kdenlive.cpp:539
+#: kdenlive/kdenlive.cpp:598
 msgid "Go To End"
 msgstr "Ugrás a végére"
 
-#: kdenlive/kdenlive.cpp:540
+#: kdenlive/kdenlive.cpp:599
 msgid "End of project"
 msgstr "Projekt vége"
 
-#: kdenlive/kdenlive.cpp:543 kdenlive/kdenlive.cpp:2915
-#: kdenlive/kdenlive.cpp:3771
+#: kdenlive/kdenlive.cpp:602 kdenlive/kdenlive.cpp:3019
+#: kdenlive/kdenlive.cpp:3954
 msgid "Add Clips"
 msgstr "Klip hozzáadása"
 
-#: kdenlive/kdenlive.cpp:548 kdenlive/kdenlive.cpp:2942
+#: kdenlive/kdenlive.cpp:607 kdenlive/kdenlive.cpp:3046
 msgid "Create Color Clip"
 msgstr "Szín létrehozása"
 
-#: kdenlive/kdenlive.cpp:553 kdenlive/kdenlive.cpp:2973
+#: kdenlive/kdenlive.cpp:612 kdenlive/kdenlive.cpp:3076
 msgid "Create Image Clip"
 msgstr "Kép létrehozása"
 
-#: kdenlive/kdenlive.cpp:557
+#: kdenlive/kdenlive.cpp:616
 msgid "Create Slideshow Clip"
 msgstr "Diavetítés létrehozása"
 
-#: kdenlive/kdenlive.cpp:562
+#: kdenlive/kdenlive.cpp:621
 msgid "Create Text Clip"
 msgstr "Szöveg létrehozása"
 
-#: kdenlive/kdenlive.cpp:566
+#: kdenlive/kdenlive.cpp:625
 msgid "Duplicate Text Clip"
 msgstr "Text klip duplikálása"
 
-#: kdenlive/kdenlive.cpp:585
+#: kdenlive/kdenlive.cpp:644
 msgid "&Export Timeline"
 msgstr "Idővonal exportálása"
 
-#: kdenlive/kdenlive.cpp:589
+#: kdenlive/kdenlive.cpp:648
 msgid "Export to DVD"
 msgstr "Exportálás DVD-re"
 
-#: kdenlive/kdenlive.cpp:591
+#: kdenlive/kdenlive.cpp:650
 msgid "Generating DVD files"
 msgstr "DVD fájl generálása"
 
-#: kdenlive/kdenlive.cpp:594
+#: kdenlive/kdenlive.cpp:653
 msgid "&Configure Project"
 msgstr "&Projekt beállítása"
 
-#: kdenlive/kdenlive.cpp:599 kdenlive/kdenlive.cpp:614
+#: kdenlive/kdenlive.cpp:658 kdenlive/kdenlive.cpp:673
 msgid "Play/Pause"
 msgstr "Lejátszás/Szünet"
 
-#: kdenlive/kdenlive.cpp:605
+#: kdenlive/kdenlive.cpp:664
 msgid "Stop playing"
 msgstr "Lejátszás leállítása"
 
-#: kdenlive/kdenlive.cpp:608
+#: kdenlive/kdenlive.cpp:667
 msgid "Play Selection"
 msgstr "Kijelölés lejátszása"
 
-#: kdenlive/kdenlive.cpp:612
+#: kdenlive/kdenlive.cpp:671
 msgid "Play selection"
 msgstr "Kijelölés lejátszása"
 
-#: kdenlive/kdenlive.cpp:616
+#: kdenlive/kdenlive.cpp:675
 msgid "Play or pause"
 msgstr "Lejátszás vagy leállítás"
 
-#: kdenlive/kdenlive.cpp:618
+#: kdenlive/kdenlive.cpp:677
 msgid "Play forward"
 msgstr "Lejátszás előre"
 
-#: kdenlive/kdenlive.cpp:620
+#: kdenlive/kdenlive.cpp:679
 msgid "Fast forwards playing (click several times for faster playing)"
 msgstr "Gyorsított lejátszás (klikkeljen többször a gyorsabb lejátszáshoz)"
 
-#: kdenlive/kdenlive.cpp:622
+#: kdenlive/kdenlive.cpp:681
 msgid "Play backward"
 msgstr "Lejátszás visszafele"
 
-#: kdenlive/kdenlive.cpp:624
+#: kdenlive/kdenlive.cpp:683
 msgid "Fast backwards playing (click several times for faster playing)"
-msgstr ""
-"Gyorsított visszafele lejátszás (klikkeljen többször a gyorsabb lejátszáshoz)"
+msgstr "Gyorsított visszafele lejátszás (klikkeljen többször a gyorsabb lejátszáshoz)"
 
-#: kdenlive/kdenlive.cpp:626
+#: kdenlive/kdenlive.cpp:685
 msgid "Loop selected zone"
 msgstr ""
 
-#: kdenlive/kdenlive.cpp:628
+#: kdenlive/kdenlive.cpp:687
 msgid "Play selected zone in loop"
 msgstr "Lejátszás"
 
-#: kdenlive/kdenlive.cpp:630 kdenlive/kdenlive.cpp:632
+#: kdenlive/kdenlive.cpp:689 kdenlive/kdenlive.cpp:691
 msgid "Split Audio From Selected Clip"
 msgstr "Hangsáv szétvágása a kiválasztott klipből"
 
-#: kdenlive/kdenlive.cpp:634 kdenlive/kdenlive.cpp:638
+#: kdenlive/kdenlive.cpp:693 kdenlive/kdenlive.cpp:697
 msgid "Extract Clip Audio"
 msgstr "Hangklip kimentése"
 
-#: kdenlive/kdenlive.cpp:636
+#: kdenlive/kdenlive.cpp:695
 msgid "Extract Audio From Selected Clip"
 msgstr "Hang kimentése a kiválasztott klipből"
 
-#: kdenlive/kdenlive.cpp:640
+#: kdenlive/kdenlive.cpp:699
 msgid "Extract Audio From Clip"
 msgstr "Hang kimentése a klipből"
 
-#: kdenlive/kdenlive.cpp:643
+#: kdenlive/kdenlive.cpp:702
 msgid "Forward one frame"
 msgstr "Egy képkockát előre"
 
-#: kdenlive/kdenlive.cpp:647
+#: kdenlive/kdenlive.cpp:706
 msgid "Back one frame"
 msgstr "Egy képkockát vissza"
 
-#: kdenlive/kdenlive.cpp:651
+#: kdenlive/kdenlive.cpp:710
 msgid "Forward one second"
 msgstr "Egy másodpercet előre"
 
-#: kdenlive/kdenlive.cpp:654
+#: kdenlive/kdenlive.cpp:713
 msgid "Move cursor forward one second"
 msgstr "Kurzor előre mozgatása egy másodperccel"
 
-#: kdenlive/kdenlive.cpp:656
+#: kdenlive/kdenlive.cpp:715
 msgid "Back one second"
 msgstr "Egy másodpercet vissza"
 
-#: kdenlive/kdenlive.cpp:659
+#: kdenlive/kdenlive.cpp:718
 msgid "Move cursor backwards one second"
 msgstr "Kurzor mozgatása visszafelé egy másodperccel"
 
-#: kdenlive/kdenlive.cpp:661
+#: kdenlive/kdenlive.cpp:720
 msgid "Forward to next snap point"
 msgstr "Előre a következő jelölőig"
 
-#: kdenlive/kdenlive.cpp:664
+#: kdenlive/kdenlive.cpp:723
 msgid "Move cursor to next snap point"
 msgstr "Kurzor mozgatása a következő jelölőhöz"
 
-#: kdenlive/kdenlive.cpp:666
+#: kdenlive/kdenlive.cpp:725
 msgid "Rewind to previous snap point"
 msgstr "Visszatekerés az előző jelölőig"
 
-#: kdenlive/kdenlive.cpp:669
+#: kdenlive/kdenlive.cpp:728
 msgid "Move cursor to previous snap point"
 msgstr "Kurzor mozgatása az előző jelölőhöz"
 
-#: kdenlive/kdenlive.cpp:671
+#: kdenlive/kdenlive.cpp:730
 msgid "Remove empty space"
 msgstr "Üres hely eltávolítása"
 
-#: kdenlive/kdenlive.cpp:674
+#: kdenlive/kdenlive.cpp:733
 msgid "Remove space between two clips"
 msgstr "Tér eltávolítása a két klip közül"
 
-#: kdenlive/kdenlive.cpp:677 kdenlive/kmmeditpanel_ui.cpp:461
+#: kdenlive/kdenlive.cpp:735
+msgid "Get new luma transition"
+msgstr "Új luma átmenet letöltése "
+
+#: kdenlive/kdenlive.cpp:738
+msgid "Download new Luma file transition"
+msgstr "Új luma átmenet letöltése"
+
+#: kdenlive/kdenlive.cpp:741 kdenlive/kmmeditpanel_ui.cpp:461
 msgid "Set Inpoint"
 msgstr "Kezdőpont beállítása"
 
-#: kdenlive/kdenlive.cpp:680 kdenlive/kmmeditpanel_ui.cpp:463
+#: kdenlive/kdenlive.cpp:744 kdenlive/kmmeditpanel_ui.cpp:463
 msgid "Set Outpoint"
 msgstr "Végpont beállítása"
 
-#: kdenlive/kdenlive.cpp:688
+#: kdenlive/kdenlive.cpp:752
 msgid "Toggle Marker"
 msgstr "Jelölő hozzáadása"
 
-#: kdenlive/kdenlive.cpp:692
+#: kdenlive/kdenlive.cpp:756
 msgid "Clear All Markers"
 msgstr "Összes jelölő törlése"
 
-#: kdenlive/kdenlive.cpp:696
+#: kdenlive/kdenlive.cpp:760
 msgid "Clear Markers From Selected"
 msgstr "Kiválasztott jelölők törlése"
 
-#: kdenlive/kdenlive.cpp:701
+#: kdenlive/kdenlive.cpp:765
 msgid "Load Layout &1"
 msgstr "Elrendezés &1 betöltése"
 
-#: kdenlive/kdenlive.cpp:705
+#: kdenlive/kdenlive.cpp:769
 msgid "Load Layout &2"
 msgstr "Elrendezés &2 betöltése"
 
-#: kdenlive/kdenlive.cpp:709
+#: kdenlive/kdenlive.cpp:773
 msgid "Load Layout &3"
 msgstr "Elrendezés &3 betöltése"
 
-#: kdenlive/kdenlive.cpp:713
+#: kdenlive/kdenlive.cpp:777
 msgid "Load Layout &4"
 msgstr "Elrendezés &4 betöltése"
 
-#: kdenlive/kdenlive.cpp:717
+#: kdenlive/kdenlive.cpp:781
 msgid "Save Layout &1"
 msgstr "Elrendezés &1 mentése"
 
-#: kdenlive/kdenlive.cpp:721
+#: kdenlive/kdenlive.cpp:785
 msgid "Save Layout &2"
 msgstr "Elrendezés &2 mentése"
 
-#: kdenlive/kdenlive.cpp:725
+#: kdenlive/kdenlive.cpp:789
 msgid "Save Layout &3"
 msgstr "Elrendezés &3 mentése"
 
-#: kdenlive/kdenlive.cpp:729
+#: kdenlive/kdenlive.cpp:793
 msgid "Save Layout &4"
 msgstr "Elrendezés &4 mentése"
 
-#: kdenlive/kdenlive.cpp:734
+#: kdenlive/kdenlive.cpp:798
 msgid "Razor All Clips"
 msgstr "Összes klip vágása"
 
-#: kdenlive/kdenlive.cpp:744
+#: kdenlive/kdenlive.cpp:808
 msgid "Create Folder"
 msgstr "Mappa létrehozása"
 
-#: kdenlive/kdenlive.cpp:747
+#: kdenlive/kdenlive.cpp:811
 msgid "Add folder"
 msgstr "Mappa hozzáadása"
 
-#: kdenlive/kdenlive.cpp:749 kdenlive/kdenlive.cpp:2851
+#: kdenlive/kdenlive.cpp:813 kdenlive/kdenlive.cpp:2953
 msgid "Rename Folder"
 msgstr "Mappa átnevezése"
 
-#: kdenlive/kdenlive.cpp:752
+#: kdenlive/kdenlive.cpp:816
 msgid "Rename folder"
 msgstr "Mappa átnevezése"
 
-#: kdenlive/kdenlive.cpp:754
+#: kdenlive/kdenlive.cpp:818
 msgid "Delete Folder"
 msgstr "Mappa törlése"
 
-#: kdenlive/kdenlive.cpp:757
+#: kdenlive/kdenlive.cpp:821
 msgid "Delete folder"
 msgstr "Mappa törlése"
 
-#: kdenlive/kdenlive.cpp:759
+#: kdenlive/kdenlive.cpp:823
 msgid "Delete Transition"
 msgstr "Átmenet törlése"
 
-#: kdenlive/kdenlive.cpp:762
+#: kdenlive/kdenlive.cpp:826
 msgid "Delete transition from selected clip"
 msgstr "Átmenet törlése a kiválasztott kliptől"
 
-#: kdenlive/kdenlive.cpp:764
+#: kdenlive/kdenlive.cpp:828
 msgid "Edit Transition"
 msgstr "Átmenet szerkesztése"
 
-#: kdenlive/kdenlive.cpp:767
+#: kdenlive/kdenlive.cpp:831
 msgid "Edit transition from selected clip"
 msgstr ""
 
-#: kdenlive/kdenlive.cpp:769 kdenlive/kdenlive.cpp:2391
+#: kdenlive/kdenlive.cpp:833 kdenlive/kdenlive.cpp:2460
 msgid "Add Track"
 msgstr "Sáv hozzáadása"
 
-#: kdenlive/kdenlive.cpp:772
+#: kdenlive/kdenlive.cpp:836
 msgid "Add track"
 msgstr "Sáv hozzáadása"
 
-#: kdenlive/kdenlive.cpp:774 kdenlive/kdenlive.cpp:2375
+#: kdenlive/kdenlive.cpp:838 kdenlive/kdenlive.cpp:2444
 msgid "Delete Track"
 msgstr "Sáv törlése"
 
-#: kdenlive/kdenlive.cpp:777
+#: kdenlive/kdenlive.cpp:841
 msgid "Delete track"
 msgstr "Sáv törlése"
 
-#: kdenlive/kdenlive.cpp:779
+#: kdenlive/kdenlive.cpp:843
 msgid "Open Clip In External Editor"
 msgstr "Klip megnyitása külső szerkesztőben"
 
-#: kdenlive/kdenlive.cpp:782
+#: kdenlive/kdenlive.cpp:846
 msgid "Open clip in an external editor"
 msgstr "Klip megnyitása külső szerkesztőben"
 
-#: kdenlive/kdenlive.cpp:784
+#: kdenlive/kdenlive.cpp:848
 msgid "Save Selected Zone"
 msgstr "Kiválasztott zóna mentése"
 
-#: kdenlive/kdenlive.cpp:787
+#: kdenlive/kdenlive.cpp:851
 msgid "Save selected zone as playlist for future use"
 msgstr "Kiválasztott zóna mentése lejátszólistaként"
 
-#: kdenlive/kdenlive.cpp:789 kdenlive/kdenlive.cpp:2479
+#: kdenlive/kdenlive.cpp:853 kdenlive/kdenlive.cpp:2548
 msgid "Save Subclip"
 msgstr "Részklip mentése"
 
-#: kdenlive/kdenlive.cpp:792
+#: kdenlive/kdenlive.cpp:856
 msgid "Save selected clip as playlist for future use"
 msgstr "Kiválasztott klip mentése lejátszólistaként"
 
-#: kdenlive/kdenlive.cpp:795
+#: kdenlive/kdenlive.cpp:859
 msgid "Render Selected Zone"
 msgstr "Kiválasztott zóna renderelése"
 
-#: kdenlive/kdenlive.cpp:798
+#: kdenlive/kdenlive.cpp:862
 msgid "Render selected zone for future use"
 msgstr "Renderelés"
 
-#: kdenlive/kdenlive.cpp:800
+#: kdenlive/kdenlive.cpp:864
 msgid "Render Selected Zone Audio"
 msgstr "Kiválasztott zóna hangjának renderelése"
 
-#: kdenlive/kdenlive.cpp:803
+#: kdenlive/kdenlive.cpp:867
 msgid "Render selected zone audio for future use"
 msgstr "Kiválasztott zóna hangjának renderelés későbbi felhasználásra"
 
-#: kdenlive/kdenlive.cpp:805 kdenlive/kdenlive.cpp:2512
+#: kdenlive/kdenlive.cpp:869 kdenlive/kdenlive.cpp:2581
 msgid "Create Virtual Clip"
 msgstr "Virtuális klip létrehozása"
 
-#: kdenlive/kdenlive.cpp:808
+#: kdenlive/kdenlive.cpp:872
 msgid "Create virtual clip from selected zone"
 msgstr "Virtuális klip létrehozása a kiválasztott zónából"
 
-#: kdenlive/kdenlive.cpp:810
+#: kdenlive/kdenlive.cpp:874
 msgid "Go To Virtual Zone"
 msgstr "Ugorj a virtuális zónához"
 
-#: kdenlive/kdenlive.cpp:813
+#: kdenlive/kdenlive.cpp:877
 msgid "Go to selected clip's virtual zone"
 msgstr "Ugorj a kiválasztott klip virtuális zónájához"
 
-#: kdenlive/kdenlive.cpp:815 kdenlive/ktimeline.cpp:699
+#: kdenlive/kdenlive.cpp:879 kdenlive/ktimeline.cpp:699
 msgid "Add Guide"
 msgstr "Segédpont hozzáadása"
 
-#: kdenlive/kdenlive.cpp:818
+#: kdenlive/kdenlive.cpp:882
 msgid "Add guide at cursor position"
 msgstr "Segédpont hozzáadása a kurzor pozícióhoz"
 
-#: kdenlive/kdenlive.cpp:820 kdenlive/kdenlive.cpp:3870
-#: kdenlive/kmmmonitor.cpp:427 kdenlive/trackpanelmarkerfunction.cpp:108
+#: kdenlive/kdenlive.cpp:884 kdenlive/kdenlive.cpp:4053
+#: kdenlive/kmmmonitor.cpp:382 kdenlive/trackpanelmarkerfunction.cpp:108
 msgid "Add Marker"
 msgstr "Jelölő hozzáadása"
 
-#: kdenlive/kdenlive.cpp:823
+#: kdenlive/kdenlive.cpp:887
 msgid "Add marker at cursor position"
 msgstr "Jelölő hozzáadása a kurzor "
 
-#: kdenlive/kdenlive.cpp:825 kdenlive/kdenlive.cpp:3856
+#: kdenlive/kdenlive.cpp:889 kdenlive/kdenlive.cpp:4039
 #: kdenlive/trackpanelmarkerfunction.cpp:97
 msgid "Edit Marker"
 msgstr "Jelölő szerkesztése"
 
-#: kdenlive/kdenlive.cpp:828
+#: kdenlive/kdenlive.cpp:892
 msgid "Edit marker at cursor position"
 msgstr "Jelölő szerkesztése a kurzorpozíciónál"
 
-#: kdenlive/kdenlive.cpp:830
+#: kdenlive/kdenlive.cpp:894
 msgid "Delete Marker"
 msgstr "Jelölő"
 
-#: kdenlive/kdenlive.cpp:833
+#: kdenlive/kdenlive.cpp:897
 msgid "Delete marker at cursor position"
 msgstr "Jelölő törlése a kurzorpozíciónál"
 
-#: kdenlive/kdenlive.cpp:835
+#: kdenlive/kdenlive.cpp:899
 msgid "Delete Guide"
 msgstr "Segédpont törlése"
 
-#: kdenlive/kdenlive.cpp:838
+#: kdenlive/kdenlive.cpp:902
 msgid "Delete guide at cursor position"
 msgstr "A kurzornál található segédpont törlése"
 
-#: kdenlive/kdenlive.cpp:840 kdenlive/ktimeline.cpp:733
+#: kdenlive/kdenlive.cpp:904 kdenlive/ktimeline.cpp:733
 msgid "Edit Guide"
 msgstr "Segédpont szerkesztése"
 
-#: kdenlive/kdenlive.cpp:843
+#: kdenlive/kdenlive.cpp:907
 msgid "Edit guide at cursor position"
 msgstr "A kurzornál található segédpont szerkesztése"
 
-#: kdenlive/kdenlive.cpp:845 kdenlive/kdenlive.cpp:1234
-#: kdenlive/kdenlive.cpp:1237
+#: kdenlive/kdenlive.cpp:909 kdenlive/kdenlive.cpp:1300
+#: kdenlive/kdenlive.cpp:1303
 msgid "Clip Monitor"
 msgstr "Klip Monitor"
 
-#: kdenlive/kdenlive.cpp:848 kdenlive/kdenlive.cpp:1228
-#: kdenlive/kdenlive.cpp:1232
+#: kdenlive/kdenlive.cpp:912 kdenlive/kdenlive.cpp:1294
+#: kdenlive/kdenlive.cpp:1298
 msgid "Timeline Monitor"
 msgstr "Idővonal Monitor"
 
-#: kdenlive/kdenlive.cpp:851 kdenlive/kdenlive.cpp:1239
+#: kdenlive/kdenlive.cpp:915 kdenlive/kdenlive.cpp:1305
+#: kdenlive/kdenlive.cpp:1308
 msgid "Capture Monitor"
 msgstr "Felvétel Monitor"
 
-#: kdenlive/kdenlive.cpp:854 kdenlive/kdenlive.cpp:1216
-#: kdenlive/kdenlive.cpp:1221
+#: kdenlive/kdenlive.cpp:918 kdenlive/kdenlive.cpp:1282
+#: kdenlive/kdenlive.cpp:1287
 msgid "Effect List"
 msgstr "Effektus lista"
 
-#: kdenlive/kdenlive.cpp:860 kdenlive/kdenlive.cpp:1202
-#: kdenlive/kdenlive.cpp:1209
+#: kdenlive/kdenlive.cpp:924 kdenlive/kdenlive.cpp:1268
+#: kdenlive/kdenlive.cpp:1275
 msgid "Project Tree"
 msgstr "Projekt Fastruktúra"
 
-#: kdenlive/kdenlive.cpp:863
+#: kdenlive/kdenlive.cpp:927
 msgid "Transitions"
 msgstr "Átmenetek"
 
-#: kdenlive/kdenlive.cpp:867
+#: kdenlive/kdenlive.cpp:931
 msgid "Focus Clip Monitor"
 msgstr "Klip monitorra fókuszálás"
 
-#: kdenlive/kdenlive.cpp:870
+#: kdenlive/kdenlive.cpp:934
 msgid "Focus Timeline Monitor"
 msgstr "Idővonal monitorra fókuszálás"
 
-#: kdenlive/kdenlive.cpp:873
+#: kdenlive/kdenlive.cpp:937
 msgid "Focus Capture Monitor"
 msgstr "Felvétel monitorra fókuszálás"
 
-#: kdenlive/kdenlive.cpp:876
+#: kdenlive/kdenlive.cpp:940
 msgid "Focus Effect List"
 msgstr "Effektus listára fókuszálás"
 
-#: kdenlive/kdenlive.cpp:879
+#: kdenlive/kdenlive.cpp:943
 msgid "Focus Effect Stack"
 msgstr "Effektus veremre fókuszálás"
 
-#: kdenlive/kdenlive.cpp:882
+#: kdenlive/kdenlive.cpp:946
 msgid "Focus Project Tree"
 msgstr "Projekt fastruktúrára fókuszálás"
 
-#: kdenlive/kdenlive.cpp:886
+#: kdenlive/kdenlive.cpp:950
 msgid "Focus Transitions"
 msgstr "Átmenetre fókuszálás"
 
-#: kdenlive/kdenlive.cpp:890
+#: kdenlive/kdenlive.cpp:954
 msgid "Move Clip To Cursor"
 msgstr "Klip mozgatása a kurzorhoz"
 
-#: kdenlive/kdenlive.cpp:894
+#: kdenlive/kdenlive.cpp:958
 msgid "Move Clip Up"
 msgstr "Klip felfele mozgatása"
 
-#: kdenlive/kdenlive.cpp:898
+#: kdenlive/kdenlive.cpp:962
 msgid "Move Clip Down"
 msgstr "Klip lefele mozgatása"
 
-#: kdenlive/kdenlive.cpp:902
+#: kdenlive/kdenlive.cpp:966
 msgid "Resize Clip Start To Current Time"
 msgstr "Indítás"
 
-#: kdenlive/kdenlive.cpp:906
+#: kdenlive/kdenlive.cpp:970
 msgid "Resize Clip End To Current Time"
 msgstr "Leállítás"
 
-#: kdenlive/kdenlive.cpp:910
+#: kdenlive/kdenlive.cpp:974
 msgid "Select Next Track"
 msgstr "Következő sáv kiválasztása"
 
-#: kdenlive/kdenlive.cpp:914
+#: kdenlive/kdenlive.cpp:978
 msgid "Select Previous Track"
 msgstr "Előző sáv kiválasztása"
 
-#: kdenlive/kdenlive.cpp:918
+#: kdenlive/kdenlive.cpp:982
 msgid "Select Clip Under Cursor"
 msgstr "Kurzor alatti klip kijelölése"
 
-#: kdenlive/kdenlive.cpp:922
+#: kdenlive/kdenlive.cpp:986
 msgid "Clip Auto Selection"
 msgstr "Klip automatikus kijelölése"
 
-#: kdenlive/kdenlive.cpp:926 kdenlive/kdenlive.cpp:929
+#: kdenlive/kdenlive.cpp:990 kdenlive/kdenlive.cpp:993
 #: kdenlive/projectlist.cpp:79
 msgid "Edit Clip Properties"
 msgstr "Klip tulajdonságok szerkesztése"
 
-#: kdenlive/kdenlive.cpp:934
+#: kdenlive/kdenlive.cpp:998
 msgid "Edit clip properties"
 msgstr "Klip tulajdonságok szerkesztése"
 
-#: kdenlive/kdenlive.cpp:936
+#: kdenlive/kdenlive.cpp:1000
 msgid "Edit Duration"
 msgstr "Időtartam szerkesztése"
 
-#: kdenlive/kdenlive.cpp:939
+#: kdenlive/kdenlive.cpp:1003
 msgid "Set current clip duration"
 msgstr "Klip időtartam beállítása"
 
-#: kdenlive/kdenlive.cpp:941
+#: kdenlive/kdenlive.cpp:1005
 msgid "Export Current Frame"
 msgstr "Aktuális képkocka exportálása"
 
-#: kdenlive/kdenlive.cpp:944
+#: kdenlive/kdenlive.cpp:1008
 msgid "Save current frame as image file"
 msgstr "Aktuális képkocka mentése fájlba"
 
-#: kdenlive/kdenlive.cpp:946
+#: kdenlive/kdenlive.cpp:1010
 msgid "Merge Project..."
 msgstr "Projekt összefésülése..."
 
-#: kdenlive/kdenlive.cpp:948
+#: kdenlive/kdenlive.cpp:1012
 msgid "Merge current project with another one"
 msgstr "Aktuális projekt összefésülése egy másikkal"
 
-#: kdenlive/kdenlive.cpp:950
+#: kdenlive/kdenlive.cpp:1014
 msgid "Play Clip"
 msgstr "Klip lejátszás"
 
-#: kdenlive/kdenlive.cpp:953
+#: kdenlive/kdenlive.cpp:1017
 msgid "Play clip in clip monitor"
 msgstr "Klip lejátszása a klip monitoron"
 
-#: kdenlive/kdenlive.cpp:963
+#: kdenlive/kdenlive.cpp:1027
 msgid "Create a new project"
 msgstr "Új projekt létrehozása "
 
-#: kdenlive/kdenlive.cpp:964
+#: kdenlive/kdenlive.cpp:1028
 msgid "Open a project"
 msgstr "Projekt megnyitása"
 
-#: kdenlive/kdenlive.cpp:965
+#: kdenlive/kdenlive.cpp:1029
 msgid "Open a recent file"
 msgstr "Legutóbbi megnyitása"
 
-#: kdenlive/kdenlive.cpp:966
+#: kdenlive/kdenlive.cpp:1030
 msgid "Save project"
 msgstr "Projekt mentése"
 
-#: kdenlive/kdenlive.cpp:967
+#: kdenlive/kdenlive.cpp:1031
 msgid "Save project as..."
 msgstr "Projekt mentése másként ..."
 
-#: kdenlive/kdenlive.cpp:970
+#: kdenlive/kdenlive.cpp:1034
 msgid "Exit application"
 msgstr "Kilépés "
 
-#: kdenlive/kdenlive.cpp:973
+#: kdenlive/kdenlive.cpp:1037
 msgid "Cut and move selected zone to clipboard"
 msgstr "Kiválasztott zóna kivágása és másolása a vágólapra"
 
-#: kdenlive/kdenlive.cpp:976
+#: kdenlive/kdenlive.cpp:1040
 msgid "Copy clip to clipboard"
 msgstr "Klip másolása a vágólapra"
 
-#: kdenlive/kdenlive.cpp:979
+#: kdenlive/kdenlive.cpp:1043
 msgid "Paste clipboard contents to cursor position"
 msgstr "Vágólap tartalmának beillesztése a kurzorhoz"
 
-#: kdenlive/kdenlive.cpp:981
+#: kdenlive/kdenlive.cpp:1045
 msgid "Move and resize clips"
 msgstr "Klip mozgatás és átméretezés"
 
-#: kdenlive/kdenlive.cpp:983
+#: kdenlive/kdenlive.cpp:1047
 msgid "Split Clip"
 msgstr ""
 
-#: kdenlive/kdenlive.cpp:985
+#: kdenlive/kdenlive.cpp:1049
 msgid ""
 "Shift all clips to the right of mouse. Ctrl + click to move only clips on "
 "current track."
@@ -2290,205 +2307,207 @@ msgstr ""
 " Az egér kurzortól jobbra található klipek együttes eltolása. Ctrl + click "
 "lenyomásával csak az aktuális sávban tolja el a klipeket."
 
-#: kdenlive/kdenlive.cpp:988
-msgid ""
-"Insert commented snap markers on clips (Ctrl + click to remove a marker)"
+#: kdenlive/kdenlive.cpp:1052
+msgid "Insert commented snap markers on clips (Ctrl + click to remove a marker)"
 msgstr ""
 "Megjegyzéssel ellátott jelölő beillesztése a klipbe (Ctr + click "
 "lenyomásával eltávolíthatja a jelölőt)"
 
-#: kdenlive/kdenlive.cpp:991
+#: kdenlive/kdenlive.cpp:1055
 msgid "Move edit point between two selected clips"
 msgstr "Szerkesztő pont mozgatása a két kiválasztott klip között"
 
-#: kdenlive/kdenlive.cpp:994
+#: kdenlive/kdenlive.cpp:1058
 msgid "Select multiple clips"
 msgstr "Több klip kijelölése"
 
-#: kdenlive/kdenlive.cpp:996
+#: kdenlive/kdenlive.cpp:1060
 msgid "Align clips on nearest frame"
 msgstr "Klip igazítása a legközelebbi képkockához"
 
-#: kdenlive/kdenlive.cpp:999
+#: kdenlive/kdenlive.cpp:1063
 msgid "Align clips on nearest clip borders"
 msgstr "Klip igazítása a legközelebbi klip határához"
 
-#: kdenlive/kdenlive.cpp:1002
+#: kdenlive/kdenlive.cpp:1066
 msgid "Align clips on snap markers"
 msgstr "Klip igazítása a jelölőkhöz"
 
-#: kdenlive/kdenlive.cpp:1003
+#: kdenlive/kdenlive.cpp:1067
 msgid "Add clips"
 msgstr "Klip hozzáadása"
 
-#: kdenlive/kdenlive.cpp:1005
+#: kdenlive/kdenlive.cpp:1069
 msgid "Remove clip"
 msgstr "Klip eltávolítása"
 
-#: kdenlive/kdenlive.cpp:1007
+#: kdenlive/kdenlive.cpp:1071
 msgid "Remove unused clips"
 msgstr "Nem használt klipek eltávolítása"
 
-#: kdenlive/kdenlive.cpp:1009
+#: kdenlive/kdenlive.cpp:1073
 msgid "Start or stop playback"
 msgstr "Lejátszás elinditása vagy leállítása"
 
-#: kdenlive/kdenlive.cpp:1012
+#: kdenlive/kdenlive.cpp:1076
 msgid "Start or stop playback of inpoint/outpoint selection"
 msgstr "Kezdő és végpont közötti rész lejátszásának indítása/leállítása"
 
-#: kdenlive/kdenlive.cpp:1015
+#: kdenlive/kdenlive.cpp:1079
 msgid "Move forwards one frame"
 msgstr "Egy képkockát előre"
 
-#: kdenlive/kdenlive.cpp:1018
+#: kdenlive/kdenlive.cpp:1082
 msgid "Move backwards one frame"
 msgstr "Egy képkockát vissza"
 
-#: kdenlive/kdenlive.cpp:1020
+#: kdenlive/kdenlive.cpp:1084
 msgid "Set inpoint"
 msgstr "Kezdőpont beállítása"
 
-#: kdenlive/kdenlive.cpp:1023
+#: kdenlive/kdenlive.cpp:1087
 msgid "Set outpoint"
 msgstr "Végpont beállítása"
 
-#: kdenlive/kdenlive.cpp:1025
+#: kdenlive/kdenlive.cpp:1089
 msgid "Delete clip"
 msgstr "Klip törlése "
 
-#: kdenlive/kdenlive.cpp:1029
+#: kdenlive/kdenlive.cpp:1093
 msgid "Toggle a snap marker at the current monitor position"
 msgstr "Jelölő beillesztése az aktuális monitor pozícióhoz"
 
-#: kdenlive/kdenlive.cpp:1032
+#: kdenlive/kdenlive.cpp:1096
 msgid "Remove all snap markers from project"
 msgstr "Az összes jelölő eltávolítása a projektből"
 
-#: kdenlive/kdenlive.cpp:1035
+#: kdenlive/kdenlive.cpp:1099
 msgid "Remove snap markers from selected clips"
 msgstr "Jelölő eltávolítása a kijelölt klipekből"
 
-#: kdenlive/kdenlive.cpp:1038
+#: kdenlive/kdenlive.cpp:1102
 msgid "Render timeline to a file"
 msgstr "Idővonal renderelése fájlba"
 
-#: kdenlive/kdenlive.cpp:1040
+#: kdenlive/kdenlive.cpp:1104
 msgid "Configure project"
 msgstr "Projekt beállítások"
 
-#: kdenlive/kdenlive.cpp:1044
+#: kdenlive/kdenlive.cpp:1108
 msgid "Razor all clips at cursor position"
 msgstr "Összes klip vágása a kurzor pozíciója mentén"
 
-#: kdenlive/kdenlive.cpp:1047
+#: kdenlive/kdenlive.cpp:1111
 msgid "Razor clip at cursor position"
 msgstr "Összes klip vágása a kurzor pozíciója mentén"
 
-#: kdenlive/kdenlive.cpp:1065 kdenlive/kdenlive.cpp:1580
-#: kdenlive/kdenlive.cpp:1585 kdenlive/kdenlive.cpp:1607
-#: kdenlive/kdenlive.cpp:1793 kdenlive/kdenlive.cpp:2038
-#: kdenlive/kdenlive.cpp:2190 kdenlive/kdenlive.cpp:2197
-#: kdenlive/kdenlive.cpp:2261 kdenlive/kdenlive.cpp:2275
-#: kdenlive/kdenlive.cpp:2297 kdenlive/kdenlive.cpp:2322
-#: kdenlive/kdenlive.cpp:2348 kdenlive/kdenlive.cpp:2576
-#: kdenlive/kdenlive.cpp:2604 kdenlive/kdenlive.cpp:2610
-#: kdenlive/kdenlive.cpp:2627 kdenlive/kdenlive.cpp:2783
-#: kdenlive/kdenlive.cpp:2835 kdenlive/kdenlive.cpp:2935
-#: kdenlive/kdenlive.cpp:2960 kdenlive/kdenlive.cpp:2987
-#: kdenlive/kdenlive.cpp:2992 kdenlive/kdenlive.cpp:3003
-#: kdenlive/kdenlive.cpp:3022 kdenlive/kdenlive.cpp:3045
-#: kdenlive/kdenlive.cpp:3124 kdenlive/kdenlive.cpp:3179
-#: kdenlive/kdenlive.cpp:3232 kdenlive/kdenlive.cpp:3250
-#: kdenlive/kdenlive.cpp:3274 kdenlive/kdenlive.cpp:3282
-#: kdenlive/kdenlive.cpp:3292 kdenlive/kdenlive.cpp:3526
-#: kdenlive/kdenlive.cpp:3534 kdenlive/kdenlive.cpp:3550
-#: kdenlive/kdenlive.cpp:3815 kdenlive/kdenlive.cpp:3830
-#: kdenlive/kdenlive.cpp:3844
+#: kdenlive/kdenlive.cpp:1129 kdenlive/kdenlive.cpp:1657
+#: kdenlive/kdenlive.cpp:1662 kdenlive/kdenlive.cpp:1683
+#: kdenlive/kdenlive.cpp:1688 kdenlive/kdenlive.cpp:1706
+#: kdenlive/kdenlive.cpp:1898 kdenlive/kdenlive.cpp:2142
+#: kdenlive/kdenlive.cpp:2258 kdenlive/kdenlive.cpp:2265
+#: kdenlive/kdenlive.cpp:2330 kdenlive/kdenlive.cpp:2344
+#: kdenlive/kdenlive.cpp:2366 kdenlive/kdenlive.cpp:2391
+#: kdenlive/kdenlive.cpp:2417 kdenlive/kdenlive.cpp:2654
+#: kdenlive/kdenlive.cpp:2682 kdenlive/kdenlive.cpp:2688
+#: kdenlive/kdenlive.cpp:2705 kdenlive/kdenlive.cpp:2882
+#: kdenlive/kdenlive.cpp:2935 kdenlive/kdenlive.cpp:3039
+#: kdenlive/kdenlive.cpp:3064 kdenlive/kdenlive.cpp:3090
+#: kdenlive/kdenlive.cpp:3095 kdenlive/kdenlive.cpp:3106
+#: kdenlive/kdenlive.cpp:3135 kdenlive/kdenlive.cpp:3158
+#: kdenlive/kdenlive.cpp:3239 kdenlive/kdenlive.cpp:3303
+#: kdenlive/kdenlive.cpp:3318 kdenlive/kdenlive.cpp:3355
+#: kdenlive/kdenlive.cpp:3393 kdenlive/kdenlive.cpp:3412
+#: kdenlive/kdenlive.cpp:3436 kdenlive/kdenlive.cpp:3444
+#: kdenlive/kdenlive.cpp:3454 kdenlive/kdenlive.cpp:3688
+#: kdenlive/kdenlive.cpp:3696 kdenlive/kdenlive.cpp:3712
+#: kdenlive/kdenlive.cpp:3998 kdenlive/kdenlive.cpp:4013
+#: kdenlive/kdenlive.cpp:4027
 msgid "Ready."
 msgstr "Kész. "
 
-#: kdenlive/kdenlive.cpp:1078
+#: kdenlive/kdenlive.cpp:1144
 msgid "Stop Export"
 msgstr "Exportálás leállítása"
 
-#: kdenlive/kdenlive.cpp:1095
+#: kdenlive/kdenlive.cpp:1161
 msgid "Show Effects"
 msgstr "Effektusok megjelenítése"
 
-#: kdenlive/kdenlive.cpp:1105
+#: kdenlive/kdenlive.cpp:1171
 msgid "Show Transitions"
 msgstr "Átmenetek megjelenítése"
 
-#: kdenlive/kdenlive.cpp:1115
+#: kdenlive/kdenlive.cpp:1181
 msgid "Show Thumbnails"
 msgstr "Gyorsnézeti képek megjelenítése"
 
-#: kdenlive/kdenlive.cpp:1126
+#: kdenlive/kdenlive.cpp:1192
 msgid "Show Audio Thumbnails"
 msgstr "Hang gyorsnézet megjelenítése"
 
-#: kdenlive/kdenlive.cpp:1137
+#: kdenlive/kdenlive.cpp:1203
 msgid "Move/Resize mode"
 msgstr "Mozgatás/átméretezés mód"
 
-#: kdenlive/kdenlive.cpp:1144
+#: kdenlive/kdenlive.cpp:1210
 msgid "Abort export ?"
 msgstr "Megszakítsam az exportálást?"
 
-#: kdenlive/kdenlive.cpp:1181 kdenlive/kdenlive.cpp:1185 kdenlive/main.cpp:43
+#: kdenlive/kdenlive.cpp:1247 kdenlive/kdenlive.cpp:1251 kdenlive/main.cpp:43
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: kdenlive/kdenlive.cpp:1194 kdenlive/kdenlive.cpp:1200
+#: kdenlive/kdenlive.cpp:1260 kdenlive/kdenlive.cpp:1266
 msgid "TimeLine"
 msgstr "Idővonal"
 
-#: kdenlive/kdenlive.cpp:1204
+#: kdenlive/kdenlive.cpp:1270
 msgid ""
 "Video files usable in your project. Add or remove files with the contextual "
 "menu. In order to add sequences to the current video project, use the drag "
 "and drop."
 msgstr ""
 
-#. i18n: file kdenlive/kdenliveui.rc line 290
-#. i18n: file kdenlive/kdenliveui.rc line 299
-#: kdenlive/kdenlive.cpp:1211 kdenlive/kdenlive.cpp:1214 kdenlive/rc.cpp:66
-#: kdenlive/rc.cpp:156 kdenlive/rc.cpp:246 kdenlive/rc.cpp:336
-#: kdenlive/rc.cpp:426 kdenlive/rc.cpp:516 kdenlive/rc.cpp:606
+#. i18n: file kdenlive/kdenliveui.rc line 304
+#: kdenlive/kdenlive.cpp:1277 kdenlive/kdenlive.cpp:1280 kdenlive/rc.cpp:66
 #, no-c-format
 msgid "Transition"
 msgstr "Átmenet"
 
-#: kdenlive/kdenlive.cpp:1218
+#: kdenlive/kdenlive.cpp:1284
 msgid "Current effects usable with the renderer"
 msgstr "Jelenleg használható effektusok"
 
-#: kdenlive/kdenlive.cpp:1593
+#: kdenlive/kdenlive.cpp:1670
 msgid "Generating audio thumb"
 msgstr "Hang-minta előállítása"
 
-#: kdenlive/kdenlive.cpp:1614
+#: kdenlive/kdenlive.cpp:1695
+msgid "Generating video thumbnails"
+msgstr "Videó minta előállítása"
+
+#: kdenlive/kdenlive.cpp:1714
 msgid "Exporting to File"
 msgstr "Exportálás fájlba"
 
-#: kdenlive/kdenlive.cpp:1626
+#: kdenlive/kdenlive.cpp:1726
 msgid "Export will finish in %1h%2m%3s"
 msgstr "Exportálás  befejeződik %1h%2m%3s múlva"
 
-#: kdenlive/kdenlive.cpp:1769
+#: kdenlive/kdenlive.cpp:1874
 msgid "Cannot read file: %1"
 msgstr "Nem tudom olvasni: %1"
 
-#: kdenlive/kdenlive.cpp:1799
+#: kdenlive/kdenlive.cpp:1904
 msgid "HDV 1080"
 msgstr "HDV 1080"
 
-#: kdenlive/kdenlive.cpp:1801
+#: kdenlive/kdenlive.cpp:1906
 msgid "HDV 720"
 msgstr "HDV 720"
 
-#: kdenlive/kdenlive.cpp:1929
+#: kdenlive/kdenlive.cpp:2034
 msgid ""
 "An export process is currently running.\n"
 "Closing Kdenlive will terminate the export.\n"
@@ -2498,7 +2517,7 @@ msgstr ""
 " A Kdenlive bezárása megszakítja a mentés folyamatát.\n"
 " Biztosan bezárjam? "
 
-#: kdenlive/kdenlive.cpp:1943
+#: kdenlive/kdenlive.cpp:2048
 msgid ""
 "The current file has been modified.\n"
 "Do you want to save it?"
@@ -2506,35 +2525,15 @@ msgstr ""
 "Az aktuális fájl tartalma megváltozott.\n"
 "El szeretné menteni? "
 
-#: kdenlive/kdenlive.cpp:1987
-msgid "HDV 1440x1080 25fps"
-msgstr "HDV 1440x1080 25fps"
-
-#: kdenlive/kdenlive.cpp:1993
-msgid "HDV 1280x720 25fps"
-msgstr "HDV 1280x720 25fps"
-
-#: kdenlive/kdenlive.cpp:1997
-msgid "NTSC 720x480 30fps"
-msgstr "NTSC 720x480 30fps"
-
-#: kdenlive/kdenlive.cpp:2001
-msgid "PAL 720x576 25fps"
-msgstr "PAL 720x576 25fps"
-
-#: kdenlive/kdenlive.cpp:2004
-msgid " [16:9]"
-msgstr " [16:9]"
-
-#: kdenlive/kdenlive.cpp:2014
+#: kdenlive/kdenlive.cpp:2117
 msgid "Creating new project..."
 msgstr "Új projekt létrehozása"
 
-#: kdenlive/kdenlive.cpp:2061
+#: kdenlive/kdenlive.cpp:2165
 msgid "Kdenlive - New Project"
 msgstr "Kdenlive - Új Projekt"
 
-#: kdenlive/kdenlive.cpp:2104
+#: kdenlive/kdenlive.cpp:2217
 msgid ""
 "Unable to create a folder for temporary files.\n"
 "Kdenlive will not work properly unless you choose a folder for temporary "
@@ -2545,89 +2544,89 @@ msgstr ""
 "ideiglenes fájlok számára, melyhez írási joga van. Ezt a Kdenlive "
 "Beállítások ablakban teheti meg. "
 
-#: kdenlive/kdenlive.cpp:2164
+#: kdenlive/kdenlive.cpp:2229
 msgid "Select project file"
 msgstr "Projekt fájl kijelölése"
 
-#: kdenlive/kdenlive.cpp:2165
+#: kdenlive/kdenlive.cpp:2230
 msgid "Merge project"
 msgstr "Projekt összefésülése..."
 
-#: kdenlive/kdenlive.cpp:2170
+#: kdenlive/kdenlive.cpp:2235
 msgid "Project file: "
 msgstr "Projekt fájl:"
 
-#: kdenlive/kdenlive.cpp:2177
+#: kdenlive/kdenlive.cpp:2242
 msgid "Timeline clips: "
 msgstr "Idővonal klipek: "
 
-#: kdenlive/kdenlive.cpp:2180
+#: kdenlive/kdenlive.cpp:2245
 msgid "Ignore"
 msgstr "Figyelmen kívül hagy"
 
-#: kdenlive/kdenlive.cpp:2181
+#: kdenlive/kdenlive.cpp:2246
 msgid "Insert at current cursor position"
 msgstr "Beillesztés aktuális kurzorpozícióhoz"
 
-#: kdenlive/kdenlive.cpp:2182
+#: kdenlive/kdenlive.cpp:2247
 msgid "Insert at the beginning"
 msgstr "Beillesztés az elejére"
 
-#: kdenlive/kdenlive.cpp:2183
+#: kdenlive/kdenlive.cpp:2248
 msgid "Insert at the end"
 msgstr "Beillesztés a végére"
 
-#: kdenlive/kdenlive.cpp:2194
+#: kdenlive/kdenlive.cpp:2262
 msgid "Opening file..."
 msgstr "Fájl megnyitása..."
 
-#: kdenlive/kdenlive.cpp:2195 kdenlive/kdenlive.cpp:2910
+#: kdenlive/kdenlive.cpp:2263 kdenlive/kdenlive.cpp:3014
 #: kdenlive/newproject.cpp:79
 msgid "Open File..."
 msgstr "Fájl megnyitása..."
 
-#: kdenlive/kdenlive.cpp:2254 kdenlive/kdenlive.cpp:2267
+#: kdenlive/kdenlive.cpp:2323 kdenlive/kdenlive.cpp:2336
 msgid "No clip selected"
 msgstr "Nincs klip kiválasztva"
 
-#: kdenlive/kdenlive.cpp:2257
+#: kdenlive/kdenlive.cpp:2326
 msgid "Copying clip %1."
 msgstr "%1 klip másolása."
 
-#: kdenlive/kdenlive.cpp:2270
+#: kdenlive/kdenlive.cpp:2339
 msgid "Cutting clip %1."
 msgstr "%1 klip vágása"
 
-#: kdenlive/kdenlive.cpp:2281 kdenlive/kdenlive.cpp:2303
-#: kdenlive/kdenlive.cpp:2328
+#: kdenlive/kdenlive.cpp:2350 kdenlive/kdenlive.cpp:2372
+#: kdenlive/kdenlive.cpp:2397
 msgid "No clip in clipboard"
 msgstr "Nincs klip a vágólapon"
 
-#: kdenlive/kdenlive.cpp:2286
+#: kdenlive/kdenlive.cpp:2355
 msgid "Pasting clip %1 effects."
 msgstr "%1 klip effektusainak beillesztése"
 
-#: kdenlive/kdenlive.cpp:2288
+#: kdenlive/kdenlive.cpp:2357
 msgid "Copy Effects"
 msgstr "Effektusok másolása"
 
-#: kdenlive/kdenlive.cpp:2308
+#: kdenlive/kdenlive.cpp:2377
 msgid "Pasting clip %1 transitions."
 msgstr "%1 klip átmenetinek beillesztése"
 
-#: kdenlive/kdenlive.cpp:2311
+#: kdenlive/kdenlive.cpp:2380
 msgid "Copy Transitions"
 msgstr "Átmenet másolása"
 
-#: kdenlive/kdenlive.cpp:2331
+#: kdenlive/kdenlive.cpp:2400
 msgid "Pasting clip %1."
 msgstr "%1 klip beillesztése"
 
-#: kdenlive/kdenlive.cpp:2351
+#: kdenlive/kdenlive.cpp:2420
 msgid "Cannot past clip %1 on track %2 at %3"
 msgstr "Nem lehet beilleszteni a %1 klipet a %2 sávba %3 helyre"
 
-#: kdenlive/kdenlive.cpp:2375
+#: kdenlive/kdenlive.cpp:2444
 msgid ""
 "Remove track %1 ?\n"
 "This will remove all clips on that track."
@@ -2635,7 +2634,7 @@ msgstr ""
 "Eltávolításam a %1 sávot?\n"
 " A sávon lévő összes klip eltávolításra kerül."
 
-#: kdenlive/kdenlive.cpp:2416
+#: kdenlive/kdenlive.cpp:2485
 msgid ""
 "You didn't define any external editor for that kind of clip.\n"
 "Please go to Kdenlive settings -> Misc to define it."
@@ -2643,12 +2642,12 @@ msgstr ""
 "Nem állított be külső szerkesztőt ehhez a kliphez. \n"
 " A beállításhoz válassza a Kdenlive settings->Misc menüt."
 
-#: kdenlive/kdenlive.cpp:2429 kdenlive/kdenlive.cpp:2443
-#: kdenlive/kdenlive.cpp:2457 kdenlive/kdenlive.cpp:2476
+#: kdenlive/kdenlive.cpp:2498 kdenlive/kdenlive.cpp:2512
+#: kdenlive/kdenlive.cpp:2526 kdenlive/kdenlive.cpp:2545
 msgid "Add new clip to project"
 msgstr "Új klip hozzáadása a projekthez"
 
-#: kdenlive/kdenlive.cpp:2508
+#: kdenlive/kdenlive.cpp:2577
 msgid ""
 "The selected timeline zone is smaller than 10 frames.\n"
 "Please select a zone with the timeline selection tool before creating a "
@@ -2657,122 +2656,129 @@ msgid ""
 "time)"
 msgstr ""
 
-#: kdenlive/kdenlive.cpp:2512
+#: kdenlive/kdenlive.cpp:2581
 msgid "New clip name"
 msgstr "Új klip neve"
 
-#: kdenlive/kdenlive.cpp:2571
+#: kdenlive/kdenlive.cpp:2649
 msgid "Saving file..."
 msgstr "A fájl mentése... "
 
-#: kdenlive/kdenlive.cpp:2582
+#: kdenlive/kdenlive.cpp:2660
 msgid "Saving file with a new filename..."
 msgstr "A fájl mentése más néven... "
 
-#: kdenlive/kdenlive.cpp:2585
+#: kdenlive/kdenlive.cpp:2663
 msgid "Save as..."
 msgstr "Mentés másként ..."
 
-#: kdenlive/kdenlive.cpp:2608
+#: kdenlive/kdenlive.cpp:2686
 msgid "Closing file..."
 msgstr "Fájl bezárása... "
 
-#: kdenlive/kdenlive.cpp:2614
+#: kdenlive/kdenlive.cpp:2692
 msgid "Printing..."
 msgstr "Nyomtatás... "
 
-#: kdenlive/kdenlive.cpp:2631
+#: kdenlive/kdenlive.cpp:2709
 msgid "Exiting..."
 msgstr "Kilépés... "
 
-#: kdenlive/kdenlive.cpp:2734
+#: kdenlive/kdenlive.cpp:2833
 msgid "Move/Resize tool"
 msgstr "Mozgatás/Átméretezés eszköz"
 
-#: kdenlive/kdenlive.cpp:2740
+#: kdenlive/kdenlive.cpp:2839
 msgid "Razor tool"
 msgstr "Vágó eszköz"
 
-#: kdenlive/kdenlive.cpp:2746
+#: kdenlive/kdenlive.cpp:2845
 msgid "Separate tool"
 msgstr "Separate eszköz"
 
-#: kdenlive/kdenlive.cpp:2752
+#: kdenlive/kdenlive.cpp:2851
 msgid "Marker tool"
 msgstr "Jelölő eszköz"
 
-#: kdenlive/kdenlive.cpp:2758
+#: kdenlive/kdenlive.cpp:2857
 msgid "Roll tool"
 msgstr "Görgető eszköz"
 
-#: kdenlive/kdenlive.cpp:2764
+#: kdenlive/kdenlive.cpp:2863
 msgid "Multiselect tool"
 msgstr "Kiválasztó eszköz"
 
-#: kdenlive/kdenlive.cpp:2770
+#: kdenlive/kdenlive.cpp:2869
 msgid "Exporting Timeline..."
 msgstr "Idővonal. exportálása"
 
-#: kdenlive/kdenlive.cpp:2806
+#: kdenlive/kdenlive.cpp:2905
 msgid "Editing Preferences"
 msgstr "Szerkesztési beállítások"
 
-#: kdenlive/kdenlive.cpp:2827
+#: kdenlive/kdenlive.cpp:2927
 msgid ""
 "Please restart Kdenlive to apply your changes\n"
 "to the audio/video system"
 msgstr ""
 
-#: kdenlive/kdenlive.cpp:2851 kdenlive/kdenlive.cpp:2884
+#: kdenlive/kdenlive.cpp:2953 kdenlive/kdenlive.cpp:2988
 msgid "Enter new folder name: "
 msgstr "Új könyvtár neve"
 
-#: kdenlive/kdenlive.cpp:2884
+#: kdenlive/kdenlive.cpp:2973
+msgid ""
+"Deleting this folder will remove all reference to its clips in your "
+"project.\n"
+"Delete this folder ?"
+msgstr ""
+
+#: kdenlive/kdenlive.cpp:2988
 msgid "New Folder"
 msgstr "Új mappa"
 
-#: kdenlive/kdenlive.cpp:2899 kdenlive/kdenlivedoc.cpp:137
-#: kdenlive/kdenlivedoc.cpp:148 kdenlive/loadprojectnativefilter.cpp:97
-#: kdenlive/loadprojectnativefilter.cpp:145
-#: kdenlive/loadprojectnativefilter.cpp:181
+#: kdenlive/kdenlive.cpp:3003 kdenlive/kdenlivedoc.cpp:137
+#: kdenlive/kdenlivedoc.cpp:148 kdenlive/loadprojectnativefilter.cpp:103
+#: kdenlive/loadprojectnativefilter.cpp:169
+#: kdenlive/loadprojectnativefilter.cpp:205
 msgid "Clips"
 msgstr "Klipek"
 
-#: kdenlive/kdenlive.cpp:2904 kdenlive/kdenlive.cpp:2941
-#: kdenlive/kdenlive.cpp:2964 kdenlive/kdenlive.cpp:3008
-#: kdenlive/kdenlive.cpp:3028
+#: kdenlive/kdenlive.cpp:3008 kdenlive/kdenlive.cpp:3045
+#: kdenlive/kdenlive.cpp:3068 kdenlive/kdenlive.cpp:3111
+#: kdenlive/kdenlive.cpp:3141
 msgid "Adding Clips"
 msgstr "Klipek hozzáadása"
 
-#: kdenlive/kdenlive.cpp:2920
+#: kdenlive/kdenlive.cpp:3024
 msgid "You cannot include the current Kdenlive document in itself."
 msgstr "Nem lehet beszúrni az aktuális Kdenlive dokumentumot saját magába."
 
-#: kdenlive/kdenlive.cpp:3057
+#: kdenlive/kdenlive.cpp:3170
 msgid "Add image to project"
 msgstr "Kép hozzáadása a projekthez"
 
-#: kdenlive/kdenlive.cpp:3068
+#: kdenlive/kdenlive.cpp:3181
 msgid "Please activate a monitor if you want to save a frame"
 msgstr "Kérem aktiválja a monitort, ha el akar menteni egy képkockát."
 
-#: kdenlive/kdenlive.cpp:3084
+#: kdenlive/kdenlive.cpp:3197
 msgid "Change Clip Duration"
 msgstr "Klip időtartam módosítása"
 
-#: kdenlive/kdenlive.cpp:3086
+#: kdenlive/kdenlive.cpp:3199
 msgid "Enter new duration: "
 msgstr "Új időtartam: "
 
-#: kdenlive/kdenlive.cpp:3129
+#: kdenlive/kdenlive.cpp:3244
 msgid "Editing Clips"
 msgstr "Klip szerkesztése"
 
-#: kdenlive/kdenlive.cpp:3186
+#: kdenlive/kdenlive.cpp:3310 kdenlive/kdenlive.cpp:3361
 msgid "Removing Clips"
 msgstr "Klipek eltávolítása"
 
-#: kdenlive/kdenlive.cpp:3192
+#: kdenlive/kdenlive.cpp:3316
 msgid ""
 "This will remove all clips on timeline that are currently using the selected "
 "clips. Are you sure you want to do this?"
@@ -2780,79 +2786,80 @@ msgstr ""
 "Ez a művelet eltávolítja az összes klipet azokról az idővonalokról, melyek "
 "használják. Biztos benne?"
 
-#: kdenlive/kdenlive.cpp:3237
+#: kdenlive/kdenlive.cpp:3399
 msgid "Cleaning Project"
 msgstr "Projekt törlése"
 
-#: kdenlive/kdenlive.cpp:3240
+#: kdenlive/kdenlive.cpp:3402
 msgid ""
 "Clean Project removes unused files.\t              Are you sure you want to "
 "do this?"
-msgstr ""
-"A projekt törtlése eltávolítja a nem használt fájlokat. \t Biztos benne?"
+msgstr "A projekt törtlése eltávolítja a nem használt fájlokat. \t Biztos benne?"
 
-#: kdenlive/kdenlive.cpp:3270
+#: kdenlive/kdenlive.cpp:3432
 msgid "Play / Pause"
 msgstr "Lejátszás / Szünet "
 
-#: kdenlive/kdenlive.cpp:3287
+#: kdenlive/kdenlive.cpp:3449
 msgid "Starting/stopping playback of inpoint/outpoint section"
 msgstr "Kezdő és végpont közötti rész lejátszásának indítása/leállítása"
 
-#: kdenlive/kdenlive.cpp:3299
+#: kdenlive/kdenlive.cpp:3461
+#, c-format
 msgid "Playing Forwards (%1x)"
 msgstr "Lejátszás Előre (%1x)"
 
-#: kdenlive/kdenlive.cpp:3306
+#: kdenlive/kdenlive.cpp:3468
+#, c-format
 msgid "Playing Backwards (%1x)"
 msgstr "Lejátszás Visszafelé (%1x)"
 
-#: kdenlive/kdenlive.cpp:3311
+#: kdenlive/kdenlive.cpp:3473
 msgid "Play Loop"
 msgstr "Ismétlődő lejátszás"
 
-#: kdenlive/kdenlive.cpp:3347
+#: kdenlive/kdenlive.cpp:3509
 msgid "Cannot find track to insert audio clip."
 msgstr "Nem találom a sávot, ahova a hang klipet be kellene szúrni. "
 
-#: kdenlive/kdenlive.cpp:3371
+#: kdenlive/kdenlive.cpp:3533
 msgid "Add new audio clip to project"
 msgstr "Új hangklip hozzáadása a projekthez"
 
-#: kdenlive/kdenlive.cpp:3374
+#: kdenlive/kdenlive.cpp:3536
 msgid "Save Audio Track"
 msgstr "Hangsáv mentése"
 
-#: kdenlive/kdenlive.cpp:3399
+#: kdenlive/kdenlive.cpp:3561
 msgid "Seeking Forwards one frame"
 msgstr "Egy képkockát előre"
 
-#: kdenlive/kdenlive.cpp:3411
+#: kdenlive/kdenlive.cpp:3573
 msgid "Seeking Backwards one frame"
 msgstr "Egy képkockát vissza"
 
-#: kdenlive/kdenlive.cpp:3494
+#: kdenlive/kdenlive.cpp:3656
 msgid "Select Clips"
 msgstr "Klipek kijelölése"
 
-#: kdenlive/kdenlive.cpp:3500 kdenlive/kmoveclipscommand.cpp:44
+#: kdenlive/kdenlive.cpp:3662 kdenlive/kmoveclipscommand.cpp:44
 #: kdenlive/trackpanelspacerfunction.cpp:55
 msgid "Move Clips"
 msgstr "Klip mozgatása"
 
-#: kdenlive/kdenlive.cpp:3522
+#: kdenlive/kdenlive.cpp:3684
 msgid "Setting Inpoint"
 msgstr "Kezdőpont beállítása"
 
-#: kdenlive/kdenlive.cpp:3530
+#: kdenlive/kdenlive.cpp:3692
 msgid "Setting outpoint"
 msgstr "Végpont beállítása"
 
-#: kdenlive/kdenlive.cpp:3538
+#: kdenlive/kdenlive.cpp:3700
 msgid "Deleting Selected Clips"
 msgstr "Kijelölt klipek törlése"
 
-#: kdenlive/kdenlive.cpp:3565 kdenlive/kdenlive.cpp:3957
+#: kdenlive/kdenlive.cpp:3727 kdenlive/kdenlive.cpp:4142
 #: kdenlive/trackpanelclipmovefunction.cpp:104
 #: kdenlive/trackpanelclipmovefunction.cpp:165
 #: kdenlive/trackpanelclipresizefunction.cpp:107
@@ -2860,136 +2867,133 @@ msgstr "Kijelölt klipek törlése"
 #: kdenlive/trackpanelclipslipfunction.cpp:134
 #: kdenlive/trackpanelclipslipfunction.cpp:173
 #: kdenlive/trackpanelselectnonefunction.cpp:73
-#: kdenlive/trackpaneltransitionmovefunction.cpp:113
+#: kdenlive/trackpaneltransitionmovefunction.cpp:112
 #: kdenlive/trackpaneltransitionresizefunction.cpp:139
 msgid "Select Clip"
 msgstr "Klip kijelölése"
 
-#: kdenlive/kdenlive.cpp:3811
+#: kdenlive/kdenlive.cpp:3994
 msgid "Toggling snap marker"
 msgstr "Jelölő beállítása"
 
-#: kdenlive/kdenlive.cpp:3819 kdenlive/kdenlive.cpp:3834
+#: kdenlive/kdenlive.cpp:4002 kdenlive/kdenlive.cpp:4017
 msgid "Clearing snap markers"
 msgstr "Jelölő eltávolítása"
 
-#: kdenlive/kdenlive.cpp:3822
+#: kdenlive/kdenlive.cpp:4005
 msgid "Clear all snap markers"
 msgstr "Az összes jelölő eltávolítása"
 
-#: kdenlive/kdenlive.cpp:3837
+#: kdenlive/kdenlive.cpp:4020
 msgid "Clear selected snap markers"
 msgstr "Kiválasztott jelölők törlése"
 
-#: kdenlive/kdenlive.cpp:3856 kdenlive/kdenlive.cpp:3870
-#: kdenlive/kmmmonitor.cpp:427 kdenlive/trackpanelmarkerfunction.cpp:97
+#: kdenlive/kdenlive.cpp:4039 kdenlive/kdenlive.cpp:4053
+#: kdenlive/kmmmonitor.cpp:382 kdenlive/trackpanelmarkerfunction.cpp:97
 #: kdenlive/trackpanelmarkerfunction.cpp:108
 msgid "Marker comment: "
 msgstr "Jelölő megjegyzés :"
 
-#. i18n: file kdenlive/kdenliveui.rc line 301
-#. i18n: file kdenlive/kdenliveui.rc line 310
-#: kdenlive/kdenlive.cpp:3870 kdenlive/kmmmonitor.cpp:427 kdenlive/rc.cpp:78
-#: kdenlive/rc.cpp:168 kdenlive/rc.cpp:258 kdenlive/rc.cpp:348
-#: kdenlive/rc.cpp:438 kdenlive/rc.cpp:528 kdenlive/rc.cpp:618
+#. i18n: file kdenlive/kdenliveui.rc line 315
+#: kdenlive/kdenlive.cpp:4053 kdenlive/kmmmonitor.cpp:382 kdenlive/rc.cpp:78
 #: kdenlive/trackpanelmarkerfunction.cpp:108
 #, no-c-format
 msgid "Marker"
 msgstr "Jelölő"
 
-#: kdenlive/kdenlive.cpp:4005
+#: kdenlive/kdenlive.cpp:4190
 msgid "Please select a clip to apply transition"
 msgstr "Az átmenethez válasszon egy klipet."
 
-#: kdenlive/kdenlive.cpp:4022
+#: kdenlive/kdenlive.cpp:4207
 msgid "Please select a clip to delete transition"
 msgstr "Az átmenet törléséhez válasszon egy klipet."
 
-#: kdenlive/kdenlive.cpp:4039
+#: kdenlive/kdenlive.cpp:4224
 msgid "Please select a clip to edit transition"
 msgstr "Az átmenet szerkesztéséhez válasszon egy klipet."
 
-#: kdenlive/kdenlivesetupdlg.cpp:50
+#: kdenlive/kdenlivesetupdlg.cpp:51
 msgid "Interface"
 msgstr "Felület"
 
-#: kdenlive/kdenlivesetupdlg.cpp:51
+#: kdenlive/kdenlivesetupdlg.cpp:52
 msgid "Timeline"
 msgstr "Idővonal"
 
-#: kdenlive/kdenlivesetupdlg.cpp:52
+#: kdenlive/kdenlivesetupdlg.cpp:53
 msgid "Misc"
 msgstr "Egyéb"
 
-#: kdenlive/kdenlivesetupdlg.cpp:53 kdenlive/titlebasewidget_ui.cpp:153
+#: kdenlive/kdenlivesetupdlg.cpp:54 kdenlive/titlebasewidget_ui.cpp:153
 msgid "Titler"
 msgstr "Feliratozó"
 
-#: kdenlive/kdenlivesetupdlg.cpp:54
+#: kdenlive/kdenlivesetupdlg.cpp:55
 msgid "Default Project"
 msgstr "Alapértelmezett projekt"
 
-#: kdenlive/kdenlivesetupdlg.cpp:55
+#: kdenlive/kdenlivesetupdlg.cpp:56
 msgid "Capture"
 msgstr "Felvétel"
 
-#: kdenlive/kdenlivesetupdlg.cpp:56
+#: kdenlive/kdenlivesetupdlg.cpp:57
 msgid "Hardware"
 msgstr "Hardver"
 
-#: kdenlive/kdenlivesetupdlg.cpp:67 kdenlive/kdenlivesetupdlg.cpp:81
+#: kdenlive/kdenlivesetupdlg.cpp:66 kdenlive/kdenlivesetupdlg.cpp:80
 msgid "Automatic"
 msgstr "Automatikus"
 
-#: kdenlive/kdenlivesetupdlg.cpp:68
+#: kdenlive/kdenlivesetupdlg.cpp:67
 msgid "(OSS)"
 msgstr "(OSS)"
 
-#: kdenlive/kdenlivesetupdlg.cpp:69
+#: kdenlive/kdenlivesetupdlg.cpp:68
 msgid "(ALSA)"
 msgstr "(ALSA)"
 
-#: kdenlive/kdenlivesetupdlg.cpp:70
+#: kdenlive/kdenlivesetupdlg.cpp:69
 msgid "(OSS with DMA access)"
 msgstr "(OSS DMA eléréssel)"
 
-#: kdenlive/kdenlivesetupdlg.cpp:71
+#: kdenlive/kdenlivesetupdlg.cpp:70
 msgid "(Esound daemon)"
 msgstr "(Esound démon)"
 
-#: kdenlive/kdenlivesetupdlg.cpp:72
+#: kdenlive/kdenlivesetupdlg.cpp:71
 msgid "(ARTS daemon)"
 msgstr "(ARTS démon)"
 
-#: kdenlive/kdenlivesetupdlg.cpp:82
+#: kdenlive/kdenlivesetupdlg.cpp:81
 msgid "(Default)"
 msgstr "(Alapértelmezett)"
 
-#: kdenlive/kdenlivesetupdlg.cpp:83
+#: kdenlive/kdenlivesetupdlg.cpp:82
 msgid "(XFREE86 DGA 2.0)"
 msgstr "(XFREE86 DGA 2.0)"
 
-#: kdenlive/kdenlivesetupdlg.cpp:84
+#: kdenlive/kdenlivesetupdlg.cpp:83
 msgid "()"
 msgstr "()"
 
-#: kdenlive/kdenlivesetupdlg.cpp:85
+#: kdenlive/kdenlivesetupdlg.cpp:84
 msgid "(Framebuffer console)"
 msgstr "(Framebuffer konzol)"
 
-#: kdenlive/kdenlivesetupdlg.cpp:86
+#: kdenlive/kdenlivesetupdlg.cpp:85
 msgid "(DirectFB)"
 msgstr "(DirectFB)"
 
-#: kdenlive/kdenlivesetupdlg.cpp:87
+#: kdenlive/kdenlivesetupdlg.cpp:86
 msgid "(SVGAlib)"
 msgstr "(SVGAlib)"
 
-#: kdenlive/kdenlivesetupdlg.cpp:88
+#: kdenlive/kdenlivesetupdlg.cpp:87
 msgid "(General graphics interface)"
 msgstr "(Általános grafikus interfész)"
 
-#: kdenlive/kdenlivesetupdlg.cpp:89
+#: kdenlive/kdenlivesetupdlg.cpp:88
 msgid "(Ascii art library)"
 msgstr "(Ascii art könyvtár)"
 
@@ -2997,7 +3001,7 @@ msgstr "(Ascii art könyvtár)"
 msgid "Version 0.5svn"
 msgstr "Verzió 0.5 svn"
 
-#: kdenlive/keditclipcommand.cpp:127
+#: kdenlive/keditclipcommand.cpp:126
 msgid "Edit Clip"
 msgstr "Klip szerkesztés"
 
@@ -3009,11 +3013,11 @@ msgstr "Jelölő szerkesztése"
 msgid "Undo Edit Snap Marker"
 msgstr "Jelölő szerkesztésének visszavonása"
 
-#: kdenlive/kmmeditpanel.cpp:225 kdenlive/kmmrecpanel.cpp:133
+#: kdenlive/kmmeditpanel.cpp:191 kdenlive/kmmrecpanel.cpp:133
 msgid "Renderer connected"
 msgstr "Renderelő kapcsolódott"
 
-#: kdenlive/kmmeditpanel.cpp:230 kdenlive/kmmrecpanel.cpp:138
+#: kdenlive/kmmeditpanel.cpp:196 kdenlive/kmmrecpanel.cpp:138
 msgid "Renderer not connected"
 msgstr "Renderelő nem kapcsolódott"
 
@@ -3162,7 +3166,7 @@ msgstr "Idővonal nézet módosítása"
 msgid "Track %1"
 msgstr "%1 sáv"
 
-#: kdenlive/krender.cpp:151
+#: kdenlive/krender.cpp:152
 msgid ""
 "Could not create the video preview window.\n"
 "There is something wrong with your Kdenlive install.\n"
@@ -3172,20 +3176,25 @@ msgstr ""
 " Valami hibás a Kdenlive telepítéssel. \n"
 " Most kilépek..."
 
-#: kdenlive/krender.cpp:383 kdenlive/krender.cpp:435 kdenlive/krender.cpp:599
-#: kdenlive/krender.cpp:664
-msgid "Could not create the video preview window.\n There is something wrong with your Kdenlive install or your driver settings, please fix it."
-msgstr "Nem tudom létrehozni a videó előnézeti ablakot.\nValami hibás a Kdenlive telepítéssel. \n Most kilépek..."
+#: kdenlive/krender.cpp:404 kdenlive/krender.cpp:460 kdenlive/krender.cpp:635
+#: kdenlive/krender.cpp:700
+msgid ""
+"Could not create the video preview window.\n"
+"There is something wrong with your Kdenlive install or your driver settings, "
+"please fix it."
+msgstr ""
+"Nem tudom létrehozni a videó előnézeti ablakot.\n"
+"Valami hibás a Kdenlive telepítéssel.vagy a meghajtó beállításokkal. Kérem, javítsa ki. \n"
 
-#: kdenlive/krender.cpp:637
+#: kdenlive/krender.cpp:673
 msgid "Volume: "
 msgstr "Hangerő:"
 
-#: kdenlive/krender.cpp:949
+#: kdenlive/krender.cpp:977
 msgid "Cannot open file: "
 msgstr "Nem tudom a fájlt megnyitni:"
 
-#: kdenlive/krender.cpp:953
+#: kdenlive/krender.cpp:981
 msgid ""
 "NO firewire access on that port\n"
 "Make sure you have loaded the raw1394 module and that you have write access "
@@ -3195,11 +3204,11 @@ msgstr ""
 " Győződjön meg róla, hogy betöltötte a raw1394 kernelmodult, és hogy van-e "
 "írási joga a /dev/raw1394 - hez."
 
-#: kdenlive/krender.cpp:964
+#: kdenlive/krender.cpp:992
 msgid "NO DV device found"
 msgstr "Nem találtam DV eszközt"
 
-#: kdenlive/krender.cpp:968
+#: kdenlive/krender.cpp:996
 msgid ""
 "Transmission of dv file is finished.\n"
 "%1 frames were dropped during transfer."
@@ -3207,11 +3216,11 @@ msgstr ""
 "A dv fájl átvitele sikeresen befejeződött. \n"
 "%1 frame dobódott el az átvitel alatt."
 
-#: kdenlive/krender.cpp:969
+#: kdenlive/krender.cpp:997
 msgid "Transmission of dv file finished successfully."
 msgstr "A dv fájl átvitele sikeresen befejeződött."
 
-#: kdenlive/krender.cpp:971
+#: kdenlive/krender.cpp:999
 msgid ""
 "Firewire is not enabled on your system.\n"
 " Please install Libiec61883 and recompile Kdenlive"
@@ -3219,11 +3228,11 @@ msgstr ""
 "Firewire nincs engedélyezve a rendszerén.\n"
 " Kérem, telepítse a Libiec618883-at és fordítsa újra a Kdenlive-t!"
 
-#: kdenlive/krender.cpp:978
+#: kdenlive/krender.cpp:1006
 msgid "There is no clip, cannot extract frame."
 msgstr "Nincs klip, ezért nem tudok képkockát kiszedni.."
 
-#: kdenlive/kresizecommand.cpp:44
+#: kdenlive/kresizecommand.cpp:46
 msgid "Resize clip"
 msgstr "Klip átméretezése"
 
@@ -3231,11 +3240,11 @@ msgstr "Klip átméretezése"
 msgid "Roll clips"
 msgstr "Klipek görgetése"
 
-#: kdenlive/kruler.cpp:1126
+#: kdenlive/kruler.cpp:1127
 msgid "Guide %1"
 msgstr ""
 
-#: kdenlive/kruler.cpp:1131
+#: kdenlive/kruler.cpp:1132
 msgid "Chapter End"
 msgstr "Fejezet vége"
 
@@ -3288,8 +3297,7 @@ msgid "Piave renderer author"
 msgstr "Piave renderelő szerző"
 
 #: kdenlive/main.cpp:64
-msgid ""
-"Piave and Kdenlive internationalization, French translations, splashscreen"
+msgid "Piave and Kdenlive internationalization, French translations, splashscreen"
 msgstr "Piave és Kdenlive fordító, Francia fordítás, splash"
 
 #: kdenlive/main.cpp:69
@@ -3368,272 +3376,121 @@ msgstr ""
 msgid "Select View Type"
 msgstr "Nézet kiválasztása"
 
-#. i18n: file kdenlive/kdenliveui.rc line 34
-#. i18n: file kdenlive/kdenliveui.rc line 36
-#: kdenlive/rc.cpp:3 kdenlive/rc.cpp:93 kdenlive/rc.cpp:183
-#: kdenlive/rc.cpp:273 kdenlive/rc.cpp:363 kdenlive/rc.cpp:453
-#: kdenlive/rc.cpp:543
+#. i18n: file kdenlive/kdenliveui.rc line 41
+#: kdenlive/rc.cpp:3
 #, no-c-format
 msgid "&Project"
 msgstr "&Projekt "
 
-#. i18n: file kdenlive/kdenliveui.rc line 46
-#. i18n: file kdenlive/kdenliveui.rc line 48
-#: kdenlive/rc.cpp:6 kdenlive/rc.cpp:96 kdenlive/rc.cpp:186
-#: kdenlive/rc.cpp:276 kdenlive/rc.cpp:366 kdenlive/rc.cpp:456
-#: kdenlive/rc.cpp:546
+#. i18n: file kdenlive/kdenliveui.rc line 53
+#: kdenlive/rc.cpp:6
 #, no-c-format
 msgid "&Timeline"
 msgstr "&Idővonal"
 
-#. i18n: file kdenlive/kdenliveui.rc line 54
-#. i18n: file kdenlive/kdenliveui.rc line 238
-#. i18n: file kdenlive/kdenliveui.rc line 54
-#. i18n: file kdenlive/kdenliveui.rc line 238
-#. i18n: file kdenlive/kdenliveui.rc line 54
-#. i18n: file kdenlive/kdenliveui.rc line 238
-#. i18n: file kdenlive/kdenliveui.rc line 54
-#. i18n: file kdenlive/kdenliveui.rc line 238
-#. i18n: file kdenlive/kdenliveui.rc line 54
-#. i18n: file kdenlive/kdenliveui.rc line 238
-#. i18n: file kdenlive/kdenliveui.rc line 54
-#. i18n: file kdenlive/kdenliveui.rc line 238
-#. i18n: file kdenlive/kdenliveui.rc line 56
-#. i18n: file kdenlive/kdenliveui.rc line 247
-#: kdenlive/rc.cpp:9 kdenlive/rc.cpp:45 kdenlive/rc.cpp:99 kdenlive/rc.cpp:135
-#: kdenlive/rc.cpp:189 kdenlive/rc.cpp:225 kdenlive/rc.cpp:279
-#: kdenlive/rc.cpp:315 kdenlive/rc.cpp:369 kdenlive/rc.cpp:405
-#: kdenlive/rc.cpp:459 kdenlive/rc.cpp:495 kdenlive/rc.cpp:549
-#: kdenlive/rc.cpp:585
+#. i18n: file kdenlive/kdenliveui.rc line 61
+#. i18n: file kdenlive/kdenliveui.rc line 252
+#: kdenlive/rc.cpp:9 kdenlive/rc.cpp:45
 #, no-c-format
 msgid "Go To"
 msgstr "Ugrás"
 
-#. i18n: file kdenlive/kdenliveui.rc line 80
-#. i18n: file kdenlive/kdenliveui.rc line 82
-#: kdenlive/rc.cpp:12 kdenlive/rc.cpp:102 kdenlive/rc.cpp:192
-#: kdenlive/rc.cpp:282 kdenlive/rc.cpp:372 kdenlive/rc.cpp:462
-#: kdenlive/rc.cpp:552
+#. i18n: file kdenlive/kdenliveui.rc line 87
+#: kdenlive/rc.cpp:12
 #, no-c-format
 msgid "Monitor"
 msgstr "Monitor"
 
-#. i18n: file kdenlive/kdenliveui.rc line 88
-#. i18n: file kdenlive/kdenliveui.rc line 332
-#. i18n: file kdenlive/kdenliveui.rc line 88
-#. i18n: file kdenlive/kdenliveui.rc line 332
-#. i18n: file kdenlive/kdenliveui.rc line 88
-#. i18n: file kdenlive/kdenliveui.rc line 332
-#. i18n: file kdenlive/kdenliveui.rc line 88
-#. i18n: file kdenlive/kdenliveui.rc line 332
-#. i18n: file kdenlive/kdenliveui.rc line 88
-#. i18n: file kdenlive/kdenliveui.rc line 332
-#. i18n: file kdenlive/kdenliveui.rc line 88
-#. i18n: file kdenlive/kdenliveui.rc line 332
-#. i18n: file kdenlive/kdenliveui.rc line 92
-#. i18n: file kdenlive/kdenliveui.rc line 343
-#. i18n: file kdenlive/kdenliveui.rc line 359
-#: kdenlive/rc.cpp:15 kdenlive/rc.cpp:84 kdenlive/rc.cpp:105
-#: kdenlive/rc.cpp:174 kdenlive/rc.cpp:195 kdenlive/rc.cpp:264
-#: kdenlive/rc.cpp:285 kdenlive/rc.cpp:354 kdenlive/rc.cpp:375
-#: kdenlive/rc.cpp:444 kdenlive/rc.cpp:465 kdenlive/rc.cpp:534
-#: kdenlive/rc.cpp:555 kdenlive/rc.cpp:624 kdenlive/rc.cpp:627
+#. i18n: file kdenlive/kdenliveui.rc line 97
+#. i18n: file kdenlive/kdenliveui.rc line 348
+#. i18n: file kdenlive/kdenliveui.rc line 364
+#: kdenlive/rc.cpp:15 kdenlive/rc.cpp:84 kdenlive/rc.cpp:87
 #, no-c-format
 msgid "Preview Quality"
 msgstr "Előnézet Minőség"
 
-#. i18n: file kdenlive/kdenliveui.rc line 95
-#. i18n: file kdenlive/kdenliveui.rc line 99
-#: kdenlive/rc.cpp:18 kdenlive/rc.cpp:108 kdenlive/rc.cpp:198
-#: kdenlive/rc.cpp:288 kdenlive/rc.cpp:378 kdenlive/rc.cpp:468
-#: kdenlive/rc.cpp:558
+#. i18n: file kdenlive/kdenliveui.rc line 104
+#: kdenlive/rc.cpp:18
 #, no-c-format
 msgid "Render"
 msgstr "Renderelés"
 
-#. i18n: file kdenlive/kdenliveui.rc line 100
-#. i18n: file kdenlive/kdenliveui.rc line 104
-#: kdenlive/rc.cpp:21 kdenlive/rc.cpp:111 kdenlive/rc.cpp:201
-#: kdenlive/rc.cpp:291 kdenlive/rc.cpp:381 kdenlive/rc.cpp:471
-#: kdenlive/rc.cpp:561
+#. i18n: file kdenlive/kdenliveui.rc line 109
+#: kdenlive/rc.cpp:21
 #, no-c-format
 msgid "Layout"
 msgstr "Elrendezés"
 
-#. i18n: file kdenlive/kdenliveui.rc line 111
-#. i18n: file kdenlive/kdenliveui.rc line 115
-#: kdenlive/rc.cpp:24 kdenlive/rc.cpp:114 kdenlive/rc.cpp:204
-#: kdenlive/rc.cpp:294 kdenlive/rc.cpp:384 kdenlive/rc.cpp:474
-#: kdenlive/rc.cpp:564
+#. i18n: file kdenlive/kdenliveui.rc line 120
+#: kdenlive/rc.cpp:24
 #, no-c-format
 msgid "Windows"
 msgstr "Ablakok"
 
-#. i18n: file kdenlive/kdenliveui.rc line 141
-#. i18n: file kdenlive/kdenliveui.rc line 154
-#. i18n: file kdenlive/kdenliveui.rc line 170
-#. i18n: file kdenlive/kdenliveui.rc line 186
-#. i18n: file kdenlive/kdenliveui.rc line 202
-#. i18n: file kdenlive/kdenliveui.rc line 219
-#. i18n: file kdenlive/kdenliveui.rc line 141
-#. i18n: file kdenlive/kdenliveui.rc line 154
-#. i18n: file kdenlive/kdenliveui.rc line 170
-#. i18n: file kdenlive/kdenliveui.rc line 186
-#. i18n: file kdenlive/kdenliveui.rc line 202
-#. i18n: file kdenlive/kdenliveui.rc line 219
-#. i18n: file kdenlive/kdenliveui.rc line 141
-#. i18n: file kdenlive/kdenliveui.rc line 154
-#. i18n: file kdenlive/kdenliveui.rc line 170
-#. i18n: file kdenlive/kdenliveui.rc line 186
-#. i18n: file kdenlive/kdenliveui.rc line 202
-#. i18n: file kdenlive/kdenliveui.rc line 219
-#. i18n: file kdenlive/kdenliveui.rc line 141
-#. i18n: file kdenlive/kdenliveui.rc line 154
-#. i18n: file kdenlive/kdenliveui.rc line 170
-#. i18n: file kdenlive/kdenliveui.rc line 186
-#. i18n: file kdenlive/kdenliveui.rc line 202
-#. i18n: file kdenlive/kdenliveui.rc line 219
-#. i18n: file kdenlive/kdenliveui.rc line 141
-#. i18n: file kdenlive/kdenliveui.rc line 154
-#. i18n: file kdenlive/kdenliveui.rc line 170
-#. i18n: file kdenlive/kdenliveui.rc line 186
-#. i18n: file kdenlive/kdenliveui.rc line 202
-#. i18n: file kdenlive/kdenliveui.rc line 219
-#. i18n: file kdenlive/kdenliveui.rc line 141
-#. i18n: file kdenlive/kdenliveui.rc line 154
-#. i18n: file kdenlive/kdenliveui.rc line 170
-#. i18n: file kdenlive/kdenliveui.rc line 186
-#. i18n: file kdenlive/kdenliveui.rc line 202
-#. i18n: file kdenlive/kdenliveui.rc line 219
-#. i18n: file kdenlive/kdenliveui.rc line 145
-#. i18n: file kdenlive/kdenliveui.rc line 163
-#. i18n: file kdenlive/kdenliveui.rc line 179
-#. i18n: file kdenlive/kdenliveui.rc line 195
-#. i18n: file kdenlive/kdenliveui.rc line 211
-#. i18n: file kdenlive/kdenliveui.rc line 228
-#: kdenlive/rc.cpp:27 kdenlive/rc.cpp:30 kdenlive/rc.cpp:33 kdenlive/rc.cpp:36
-#: kdenlive/rc.cpp:39 kdenlive/rc.cpp:42 kdenlive/rc.cpp:117
-#: kdenlive/rc.cpp:120 kdenlive/rc.cpp:123 kdenlive/rc.cpp:126
-#: kdenlive/rc.cpp:129 kdenlive/rc.cpp:132 kdenlive/rc.cpp:207
-#: kdenlive/rc.cpp:210 kdenlive/rc.cpp:213 kdenlive/rc.cpp:216
-#: kdenlive/rc.cpp:219 kdenlive/rc.cpp:222 kdenlive/rc.cpp:297
-#: kdenlive/rc.cpp:300 kdenlive/rc.cpp:303 kdenlive/rc.cpp:306
-#: kdenlive/rc.cpp:309 kdenlive/rc.cpp:312 kdenlive/rc.cpp:387
-#: kdenlive/rc.cpp:390 kdenlive/rc.cpp:393 kdenlive/rc.cpp:396
-#: kdenlive/rc.cpp:399 kdenlive/rc.cpp:402 kdenlive/rc.cpp:477
-#: kdenlive/rc.cpp:480 kdenlive/rc.cpp:483 kdenlive/rc.cpp:486
-#: kdenlive/rc.cpp:489 kdenlive/rc.cpp:492 kdenlive/rc.cpp:567
-#: kdenlive/rc.cpp:570 kdenlive/rc.cpp:573 kdenlive/rc.cpp:576
-#: kdenlive/rc.cpp:579 kdenlive/rc.cpp:582
+#. i18n: file kdenlive/kdenliveui.rc line 150
+#. i18n: file kdenlive/kdenliveui.rc line 168
+#. i18n: file kdenlive/kdenliveui.rc line 184
+#. i18n: file kdenlive/kdenliveui.rc line 200
+#. i18n: file kdenlive/kdenliveui.rc line 216
+#. i18n: file kdenlive/kdenliveui.rc line 233
+#: kdenlive/rc.cpp:27 kdenlive/rc.cpp:30 kdenlive/rc.cpp:33
+#: kdenlive/rc.cpp:36 kdenlive/rc.cpp:39 kdenlive/rc.cpp:42
 #, no-c-format
 msgid "Create Clip"
 msgstr "Klip létrehozása "
 
-#. i18n: file kdenlive/kdenliveui.rc line 243
-#. i18n: file kdenlive/kdenliveui.rc line 265
-#. i18n: file kdenlive/kdenliveui.rc line 243
-#. i18n: file kdenlive/kdenliveui.rc line 265
-#. i18n: file kdenlive/kdenliveui.rc line 243
-#. i18n: file kdenlive/kdenliveui.rc line 265
-#. i18n: file kdenlive/kdenliveui.rc line 243
-#. i18n: file kdenlive/kdenliveui.rc line 265
-#. i18n: file kdenlive/kdenliveui.rc line 243
-#. i18n: file kdenlive/kdenliveui.rc line 265
-#. i18n: file kdenlive/kdenliveui.rc line 243
-#. i18n: file kdenlive/kdenliveui.rc line 265
-#. i18n: file kdenlive/kdenliveui.rc line 252
-#. i18n: file kdenlive/kdenliveui.rc line 274
-#: kdenlive/rc.cpp:48 kdenlive/rc.cpp:57 kdenlive/rc.cpp:138
-#: kdenlive/rc.cpp:147 kdenlive/rc.cpp:228 kdenlive/rc.cpp:237
-#: kdenlive/rc.cpp:318 kdenlive/rc.cpp:327 kdenlive/rc.cpp:408
-#: kdenlive/rc.cpp:417 kdenlive/rc.cpp:498 kdenlive/rc.cpp:507
-#: kdenlive/rc.cpp:588 kdenlive/rc.cpp:597
+#. i18n: file kdenlive/kdenliveui.rc line 257
+#. i18n: file kdenlive/kdenliveui.rc line 279
+#: kdenlive/rc.cpp:48 kdenlive/rc.cpp:57
 #, no-c-format
 msgid "Tools"
 msgstr "Eszközök"
 
-#. i18n: file kdenlive/kdenliveui.rc line 251
-#. i18n: file kdenlive/kdenliveui.rc line 273
-#. i18n: file kdenlive/kdenliveui.rc line 251
-#. i18n: file kdenlive/kdenliveui.rc line 273
-#. i18n: file kdenlive/kdenliveui.rc line 251
-#. i18n: file kdenlive/kdenliveui.rc line 273
-#. i18n: file kdenlive/kdenliveui.rc line 251
-#. i18n: file kdenlive/kdenliveui.rc line 273
-#. i18n: file kdenlive/kdenliveui.rc line 251
-#. i18n: file kdenlive/kdenliveui.rc line 273
-#. i18n: file kdenlive/kdenliveui.rc line 251
-#. i18n: file kdenlive/kdenliveui.rc line 273
-#. i18n: file kdenlive/kdenliveui.rc line 260
-#. i18n: file kdenlive/kdenliveui.rc line 282
-#: kdenlive/rc.cpp:51 kdenlive/rc.cpp:60 kdenlive/rc.cpp:141
-#: kdenlive/rc.cpp:150 kdenlive/rc.cpp:231 kdenlive/rc.cpp:240
-#: kdenlive/rc.cpp:321 kdenlive/rc.cpp:330 kdenlive/rc.cpp:411
-#: kdenlive/rc.cpp:420 kdenlive/rc.cpp:501 kdenlive/rc.cpp:510
-#: kdenlive/rc.cpp:591 kdenlive/rc.cpp:600
+#. i18n: file kdenlive/kdenliveui.rc line 265
+#. i18n: file kdenlive/kdenliveui.rc line 287
+#: kdenlive/rc.cpp:51 kdenlive/rc.cpp:60
 #, no-c-format
 msgid "Snap To"
 msgstr "Igazítás"
 
-#. i18n: file kdenlive/kdenliveui.rc line 256
-#. i18n: file kdenlive/kdenliveui.rc line 265
-#: kdenlive/rc.cpp:54 kdenlive/rc.cpp:144 kdenlive/rc.cpp:234
-#: kdenlive/rc.cpp:324 kdenlive/rc.cpp:414 kdenlive/rc.cpp:504
-#: kdenlive/rc.cpp:594
+#. i18n: file kdenlive/kdenliveui.rc line 270
+#: kdenlive/rc.cpp:54
 #, no-c-format
 msgid "Tracks"
 msgstr "Sávok"
 
-#. i18n: file kdenlive/kdenliveui.rc line 288
-#. i18n: file kdenlive/kdenliveui.rc line 297
-#: kdenlive/rc.cpp:63 kdenlive/rc.cpp:153 kdenlive/rc.cpp:243
-#: kdenlive/rc.cpp:333 kdenlive/rc.cpp:423 kdenlive/rc.cpp:513
-#: kdenlive/rc.cpp:603
+#. i18n: file kdenlive/kdenliveui.rc line 302
+#: kdenlive/rc.cpp:63
 #, no-c-format
 msgid "Add Transition"
 msgstr "Átmenet hozzáadása"
 
-#. i18n: file kdenlive/kdenliveui.rc line 295
-#. i18n: file kdenlive/kdenliveui.rc line 304
-#: kdenlive/rc.cpp:69 kdenlive/rc.cpp:159 kdenlive/rc.cpp:249
-#: kdenlive/rc.cpp:339 kdenlive/rc.cpp:429 kdenlive/rc.cpp:519
-#: kdenlive/rc.cpp:609
+#. i18n: file kdenlive/kdenliveui.rc line 309
+#: kdenlive/rc.cpp:69
 #, no-c-format
 msgid "Add Video Effect"
 msgstr "Videó effektus hozzáadása"
 
-#. i18n: file kdenlive/kdenliveui.rc line 297
-#. i18n: file kdenlive/kdenliveui.rc line 306
-#: kdenlive/rc.cpp:72 kdenlive/rc.cpp:162 kdenlive/rc.cpp:252
-#: kdenlive/rc.cpp:342 kdenlive/rc.cpp:432 kdenlive/rc.cpp:522
-#: kdenlive/rc.cpp:612
+#. i18n: file kdenlive/kdenliveui.rc line 311
+#: kdenlive/rc.cpp:72
 #, no-c-format
 msgid "Add Audio Effect"
 msgstr "Hang effektus hozzáadása"
 
-#. i18n: file kdenlive/kdenliveui.rc line 299
-#. i18n: file kdenlive/kdenliveui.rc line 308
-#: kdenlive/rc.cpp:75 kdenlive/rc.cpp:165 kdenlive/rc.cpp:255
-#: kdenlive/rc.cpp:345 kdenlive/rc.cpp:435 kdenlive/rc.cpp:525
-#: kdenlive/rc.cpp:615
+#. i18n: file kdenlive/kdenliveui.rc line 313
+#: kdenlive/rc.cpp:75
 #, no-c-format
 msgid "Delete Effect"
 msgstr "Effektus törlése"
 
-#. i18n: file kdenlive/kdenliveui.rc line 340
-#. i18n: file kdenlive/kdenliveui.rc line 367
-#: kdenlive/rc.cpp:87 kdenlive/rc.cpp:177 kdenlive/rc.cpp:267
-#: kdenlive/rc.cpp:357 kdenlive/rc.cpp:447 kdenlive/rc.cpp:537
-#: kdenlive/rc.cpp:630
+#. i18n: file kdenlive/kdenliveui.rc line 372
+#: kdenlive/rc.cpp:90
 #, no-c-format
 msgid "Timeline Toolbar"
 msgstr "Idővonal Eszköztár "
 
-#. i18n: file kdenlive/kdenliveui.rc line 356
-#. i18n: file kdenlive/kdenliveui.rc line 383
-#: kdenlive/rc.cpp:90 kdenlive/rc.cpp:180 kdenlive/rc.cpp:270
-#: kdenlive/rc.cpp:360 kdenlive/rc.cpp:450 kdenlive/rc.cpp:540
-#: kdenlive/rc.cpp:633
+#. i18n: file kdenlive/kdenliveui.rc line 388
+#: kdenlive/rc.cpp:93
 #, no-c-format
 msgid "Layout Toolbar"
 msgstr "Elrendezés eszköztár"
@@ -3684,7 +3541,7 @@ msgstr "Háttérbe küldés"
 msgid "Enter your text"
 msgstr "Adja meg a kívánt szöveget"
 
-#: kdenlive/trackviewtransitiondecorator.cpp:96
+#: kdenlive/trackviewtransitiondecorator.cpp:97
 msgid "> Background"
 msgstr "> Háttér"
 
@@ -3714,11 +3571,6 @@ msgstr "Háttér sáv (fekete) "
 msgid "PIP"
 msgstr "PIP "
 
-#: kdenlive/transitionlumafile_ui.cpp:76 kdenlive/transitionpip_ui.cpp:197
-#: kdenlive/transitionwipe_ui.cpp:235
-msgid "Softness"
-msgstr "Finomság"
-
 #: kdenlive/transitionpip_ui.cpp:192
 msgid "Vert. position"
 msgstr "Függőleges pozíció"
@@ -3746,3 +3598,4 @@ msgstr "Vége"
 #: kdenlive/transitionwipe_ui.cpp:237
 msgid "Rescale images"
 msgstr "Kép átméretezése"
+
