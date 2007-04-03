@@ -3,6 +3,7 @@
 # This file is put in the public domain.
 #
 # Sándor Zsolt <zsolt.sandor@gmail.com>, 2007.
+
 msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
