@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-03-29 10:55+0200\n"
-"PO-Revision-Date: 2007-04-05 22:18+0200\n"
+"PO-Revision-Date: 2007-04-05 23:44+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -63,11 +63,11 @@ msgstr "Piste audio"
 
 #: kdenlive/addtrackdialog_ui.cpp:121
 msgid "Above"
-msgstr "En dessous"
+msgstr "Au dessus"
 
 #: kdenlive/addtrackdialog_ui.cpp:122
 msgid "Under"
-msgstr "Sous"
+msgstr "En dessous"
 
 #: kdenlive/addtrackdialog_ui.cpp:124
 msgid "track"
