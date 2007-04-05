@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-03-29 10:55+0200\n"
-"PO-Revision-Date: 2007-03-31 14:31+0200\n"
+"PO-Revision-Date: 2007-04-05 22:18+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -883,7 +883,7 @@ msgstr "Trames clés"
 #: kdenlive/effectstacklistview.cpp:32 kdenlive/kdenlive.cpp:921
 #: kdenlive/kdenlive.cpp:1289 kdenlive/kdenlive.cpp:1292
 msgid "Effect Stack"
-msgstr "Effets utilisés"
+msgstr "Effets appliqués"
 
 #: kdenlive/exportbasewidget_ui.cpp:81 kdenlive/exportbasewidget_ui.cpp:94
 #: kdenlive/exportbasewidget_ui.cpp:107 kdenlive/exportbasewidget_ui.cpp:120
@@ -1322,9 +1322,8 @@ msgid "Intensity"
 msgstr "Intensité"
 
 #: kdenlive/initeffects.cpp:218
-#, fuzzy
 msgid "Box Blur"
-msgstr "Graver"
+msgstr "Flou par pixelisation"
 
 #: kdenlive/initeffects.cpp:222
 msgid "Blur factor"
