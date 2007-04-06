@@ -136,4 +136,3 @@ QCursor TrackPanelMarkerFunction::getMouseCursor(Gui::KTrackPanel * panel,
     return QCursor(Qt::PointingHandCursor);
 }
 
-#include "trackpanelmarkerfunction.moc"

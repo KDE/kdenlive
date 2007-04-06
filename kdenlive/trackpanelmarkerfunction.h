@@ -17,7 +17,8 @@
 #ifndef TRACKPANELMARKERFUNCTION_H
 #define TRACKPANELMARKERFUNCTION_H
 
-#include <trackpanelfunction.h>
+
+#include "trackpanelfunction.h"
 
 class QMouseEvent;
 
@@ -36,21 +37,42 @@ namespace Gui {
     TrackPanelMarkerFunction(Gui::KdenliveApp * app,
 	Gui::KTimeLine * timeline, KdenliveDoc * document);
 
-    ~TrackPanelMarkerFunction();
+    virtual ~TrackPanelMarkerFunction();
 
+	/**
+	Returns true if the specified position should cause this function to activate,
+	otherwise returns false.
+	*/
     virtual bool mouseApplies(Gui::KTrackPanel * panel,
 	QMouseEvent * event) const;
-    virtual bool mouseMoved(Gui::KTrackPanel * panel, QMouseEvent * event);
+
+	/**
+	Returns a relevant mouse cursor for the given mouse position
+	*/
+    virtual QCursor getMouseCursor(Gui::KTrackPanel * panel,
+	QMouseEvent * event);
+
+	/**
+	A mouse button has been pressed. Returns true if we want to handle this event
+	*/
     virtual bool mousePressed(Gui::KTrackPanel * panel,
 	QMouseEvent * event);
 
 	/** Processes Mouse double click.*/
     virtual bool mouseDoubleClicked(Gui::KTrackPanel * panel, QMouseEvent * event);
 
+	/**
+	Mouse Release Events in the track view area. Returns true if we have finished
+	an operation now.
+	*/
     virtual bool mouseReleased(Gui::KTrackPanel * panel,
 	QMouseEvent * event);
-    virtual QCursor getMouseCursor(Gui::KTrackPanel * panel,
-	QMouseEvent * event);
+
+	/**
+	Processes Mouse Move events in the track view area. Returns true if we are
+	continuing with the drag.*/
+    virtual bool mouseMoved(Gui::KTrackPanel * panel, QMouseEvent * event);
+
   private:
      Gui::KdenliveApp * m_app;
      Gui::KTimeLine * m_timeline;
