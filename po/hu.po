@@ -3185,7 +3185,7 @@ msgid ""
 "please fix it."
 msgstr ""
 "Nem tudom létrehozni a videó előnézeti ablakot.\n"
-"Valami hibás a Kdenlive telepítéssel.vagy a meghajtó beállításokkal. Kérem, javítsa ki. \n"
+"Valami hibás a Kdenlive telepítéssel.vagy a meghajtó beállításokkal. Kérem, javítsa ki."
 
 #: kdenlive/krender.cpp:673
 msgid "Volume: "
