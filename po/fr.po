@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-03-29 10:55+0200\n"
-"PO-Revision-Date: 2007-04-06 04:50+0200\n"
+"PO-Revision-Date: 2007-04-06 04:51+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2519,7 +2519,7 @@ msgstr "Exportation vers un fichier"
 
 #: kdenlive/kdenlive.cpp:1726
 msgid "Export will finish in %1h%2m%3s"
-msgstr "L'exportation prendra fin dans %1h%2m%3s"
+msgstr "L'exportation se terminera dans %1h%2m%3s"
 
 #: kdenlive/kdenlive.cpp:1874
 msgid "Cannot read file: %1"
