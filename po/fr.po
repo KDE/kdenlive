@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-03-29 10:55+0200\n"
-"PO-Revision-Date: 2007-04-05 23:44+0200\n"
+"PO-Revision-Date: 2007-04-06 04:50+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1339,7 +1339,7 @@ msgstr "Multiplicateur vertical"
 
 #: kdenlive/initeffects.cpp:248
 msgid "Wave"
-msgstr "Wave"
+msgstr "Ondulation"
 
 #: kdenlive/initeffects.cpp:252
 msgid "Amplitude"
