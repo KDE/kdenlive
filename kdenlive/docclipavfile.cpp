@@ -125,7 +125,7 @@ QDomElement element = node.documentElement();
                 setId(e.attribute("id", "-1").toInt());
                 m_filesize = e.attribute("filesize", "0").toInt();
 		m_alphaTransparency = e.attribute("transparency", "0").toInt();
-		if (m_clipType == DocClipBase::SLIDESHOW) {
+		if (clipType == DocClipBase::SLIDESHOW) {
 		    m_hasCrossfade = e.attribute("crossfade", "0").toInt();
 		    m_ttl = e.attribute("ttl", "0").toInt();
 		    m_luma = e.attribute("lumafile", QString::null);
@@ -139,7 +139,7 @@ QDomElement element = node.documentElement();
 		m_videoCodec = e.attribute("videocodec", QString::null);
 		m_audioCodec = e.attribute("audiocodec", QString::null);
 		m_durationKnown = e.attribute("durationknown", "0" ).toInt();
-		if (m_clipType == DocClipBase::COLOR) m_color = e.attribute("color", QString::null);
+		if (clipType == DocClipBase::COLOR) m_color = e.attribute("color", QString::null);
 		m_duration = GenTime(e.attribute("duration", "0").toInt(), KdenliveSettings::defaultfps());
 		setName(e.attribute("name", QString::null));
 		setDescription(e.attribute("description", QString::null));
