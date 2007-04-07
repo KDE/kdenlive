@@ -313,4 +313,3 @@ void CaptureMonitor::displayCapturedFiles()
 
 }
 
-#include "capturemonitor.moc"

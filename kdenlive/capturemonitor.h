@@ -44,7 +44,7 @@ A capture monitor, that allows you to capture video from various devices, as sup
 	CaptureMonitor(KdenliveApp * app, QWidget * parent =
 	    0, const char *name = 0);
 
-	~CaptureMonitor();
+	virtual ~CaptureMonitor();
 
         virtual void exportCurrentFrame(KURL url, bool notify) const;
 	virtual KMMEditPanel *editPanel() const;

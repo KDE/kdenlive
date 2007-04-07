@@ -95,5 +95,3 @@ void ConfigureProjectDialog::updateDisplay()
     aspectratio->setText(QString::number(params.aspect()));
 }
 
-
-#include "configureprojectdialog.moc"
