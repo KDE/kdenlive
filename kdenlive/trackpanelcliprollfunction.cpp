@@ -40,7 +40,7 @@ TrackPanelClipRollFunction::TrackPanelClipRollFunction(Gui::KdenliveApp * app, G
 m_app(app),
 m_timeline(timeline),
 m_document(document),
-m_clipUnderMouse(0), m_resizeState(None), m_rollCommand(0), m_snapToGrid()
+m_clipUnderMouse(0), m_resizeState(None), m_rollCommand(0), m_snapToGrid(), m_clipBeforeMouse(0), m_clipAfterMouse(0)
 {
 
 }
@@ -120,7 +120,7 @@ bool TrackPanelClipRollFunction::mousePressed(Gui::KTrackPanel * panel,
 		    s_resizeTolerance) {
 		    m_resizeState = Start;
 		}
-		if (fabs(m_timeline->mapValueToLocal((m_clipUnderMouse->
+		else if (fabs(m_timeline->mapValueToLocal((m_clipUnderMouse->
 				trackEnd()).frames(m_document->
 				framesPerSecond())) - event->x()) <
 		    s_resizeTolerance) {
@@ -131,7 +131,7 @@ bool TrackPanelClipRollFunction::mousePressed(Gui::KTrackPanel * panel,
 		macroCommand->addCommand(Command::KSelectClipCommand::selectNone(m_document));
 		//select both clips simultaneously
 
-		GenTime beforeTime(1, m_document->framesPerSecond());
+		GenTime beforeTime(s_resizeTolerance, m_document->framesPerSecond());
 		if (m_resizeState == Start) {
 	  	    macroCommand->addCommand(Command::KSelectClipCommand::selectClipAt(m_document, *track, m_clipUnderMouse->trackStart() + beforeTime));
 	  	    macroCommand->addCommand(Command::KSelectClipCommand::selectClipAt(m_document, *track, m_clipUnderMouse->trackStart() - beforeTime));
@@ -200,9 +200,11 @@ bool TrackPanelClipRollFunction::mouseReleased(Gui::KTrackPanel * panel,
     else m_rollCommand->setEndSize(*m_clipUnderMouse, *m_clipAfterMouse);
 
     m_app->addCommand(m_rollCommand, false);
+    m_app->addCommand(Command::KSelectClipCommand::selectNone(m_document), true);
     m_document->indirectlyModified();
     m_rollCommand = 0;
-
+    m_clipUnderMouse = 0;
+    m_clipBeforeMouse = 0;
     result = true;
     return result;
 }
@@ -222,8 +224,9 @@ bool TrackPanelClipRollFunction::mouseMoved(Gui::KTrackPanel * panel,
 
 	    if (m_clipUnderMouse) {
 		result = true;
-
+		bool sizeLimit = true;
 		if (m_resizeState == Start) {
+		    if (m_clipBeforeMouse->clipType() == DocClipBase::IMAGE || m_clipBeforeMouse->clipType() == DocClipBase::COLOR || m_clipBeforeMouse->clipType() == DocClipBase::TEXT) sizeLimit = false;
 		    if (mouseTime < m_clipUnderMouse->trackStart()) {
 			//dragging left, mouse on beginning of second track
 			if (m_clipBeforeMouse->cropDuration() >
@@ -242,9 +245,9 @@ bool TrackPanelClipRollFunction::mouseMoved(Gui::KTrackPanel * panel,
 			}
 		    } else {
 			//dragging right, mouse on beginning of second track
-			if (m_clipBeforeMouse->cropDuration() <=
+			if ((m_clipBeforeMouse->cropDuration() <=
 			    m_clipBeforeMouse->duration() -
-			    GenTime(getMinimumDrag())
+			    GenTime(getMinimumDrag()) || !sizeLimit)
 			    && m_clipUnderMouse->cropDuration() >
 			    GenTime(getMinimumDrag())) {
 			    track->resizeClipTrackStart(m_clipUnderMouse,
@@ -259,15 +262,16 @@ bool TrackPanelClipRollFunction::mouseMoved(Gui::KTrackPanel * panel,
 			}
 		    }
 		} else if (m_resizeState == End) {
+		    if (m_clipUnderMouse->clipType() == DocClipBase::IMAGE || m_clipUnderMouse->clipType() == DocClipBase::COLOR || m_clipUnderMouse->clipType() == DocClipBase::TEXT) sizeLimit = false;
 		    GenTime cropDuration =
 			mouseTime - m_clipUnderMouse->trackStart();
 		    if (mouseTime > m_clipUnderMouse->trackEnd()) {
 			//dragging right, mouse on end of first track
 			if (m_clipAfterMouse->cropDuration() >
 			    GenTime(getMinimumDrag())
-			    && m_clipUnderMouse->cropDuration() <=
+			    && (m_clipUnderMouse->cropDuration() <=
 			    m_clipUnderMouse->duration() -
-			    GenTime(getMinimumDrag())) {
+			    GenTime(getMinimumDrag()) || !sizeLimit)) {
 			    track->resizeClipTrackStart(m_clipAfterMouse,
 				mouseTime);
 			    emit signalClipCropStartChanged
