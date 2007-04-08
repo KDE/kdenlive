@@ -3644,10 +3644,19 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     }
 
     void KdenliveApp::slotRemoveSpace() {
-	int ix = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(mousePosition()).y())->documentTrackIndex();
+	KTrackPanel *panel = m_timeline->trackView()->panelAt(m_timeline->trackView()->mapFromGlobal(mousePosition()).y());
+	int ix;
+	GenTime mouseTime;
+	if (panel) {
+		ix = panel->documentTrackIndex();
+		mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(mousePosition()).x());
+	}
+	else {
+		ix = m_timeline->selectedTrack();
+		mouseTime = m_timeline->seekPosition();
+	}
 	DocTrackBase *track = getDocument()->track(ix);
 	if (!track) return;
-	GenTime mouseTime = m_timeline->timeUnderMouse(m_timeline->trackView()->mapFromGlobal(mousePosition()).x());
 	// calculate length of empty space between the 2 clips
 	GenTime space = track->spaceLength(mouseTime);
 
