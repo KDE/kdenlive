@@ -29,7 +29,7 @@ static const char *description = I18N_NOOP("Kdenlive"
     "\n\nA non-linear video editor for KDE."
     "\n\nKdenlive is a frontend for the Mlt Framework."
     "\nYou can download the Mlt Framework on this url:"
-    "\nhttp://mlt.sourceforge.net/");
+    "\nhttp://mltframework.org");
 
 static KCmdLineOptions options[] = {
     {"+[File]", I18N_NOOP("file to open"), 0},
@@ -44,15 +44,17 @@ int main(int argc, char *argv[])
 	VERSION,
 	description,
 	KAboutData::License_GPL,
-	"(c) 2002-2003, Jason Wood",
+	"(c) 2002-2003, Jason Wood\n(c) 2004-2007 Jean-Baptiste Mardelle",
 	0,
-        "http://kdenlive.sourceforge.net",
-	"jasonwood@blueyonder.co.uk");
+        "http://kdenlive.org","bugs@kdenlive.org"
+	);
 
     aboutData.addAuthor("Jason Wood",
 	I18N_NOOP("Kdenlive original author"),
 	"jasonwood@blueyonder.co.uk",
 	"http://www.uchian.pwp.blueyonder.co.uk/kdenlive.html");
+
+    aboutData.addAuthor("Jean-Baptiste Mardelle", I18N_NOOP("Kdenlive programmer, MLT porting, Effects, Transitions"), "jb@kdenlive.org", "");
 
     aboutData.addAuthor("Rolf Dubitzky",
 	I18N_NOOP("Piave renderer author"),
@@ -74,11 +76,8 @@ int main(int argc, char *argv[])
     
     aboutData.addAuthor("Marco Gittler", I18N_NOOP("Kdenlive programmer, Trackdecorators"),
 	"g.marco@freenet.de", "");
-    
-    aboutData.addAuthor("Jean-Baptiste Mardelle", I18N_NOOP("Kdenlive programmer, MLT porting, Effects, Transitions"), "jb@ader.ch", "");
 
     aboutData.addAuthor("Lucio Flavio Correa", I18N_NOOP("Kdenlive programmer"), "lucio.correa@gmail.com", "");
-
     aboutData.setTranslator(I18N_NOOP("_: NAME OF TRANSLATORS\\nYour names") ,I18N_NOOP("_: EMAIL OF TRANSLATORS\\nYour emails"));
 
     KCmdLineArgs::init(argc, argv, &aboutData);
