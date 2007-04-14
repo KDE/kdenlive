@@ -580,8 +580,8 @@ namespace Gui {
 	previewMidQuality->setExclusiveGroup("previewQuality");
 	previewBestQuality->setExclusiveGroup("previewQuality");
 
-	if (KdenliveSettings::previewquality() == "none") previewLowQuality->setChecked(true);
-	else if (KdenliveSettings::previewquality() == "nearest") previewMidQuality->setChecked(true);
+	if (KdenliveSettings::previewquality() == "nearest") previewLowQuality->setChecked(true);
+	else if (KdenliveSettings::previewquality() == "bilinear") previewMidQuality->setChecked(true);
 	else previewBestQuality->setChecked(true);
 
 	showAllMarkers =
