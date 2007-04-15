@@ -589,6 +589,8 @@ namespace Gui {
 	    this, SLOT(slotShowAllMarkers()), actionCollection(),
 	    "show_markers");
 
+	showAllMarkers->setChecked(KdenliveSettings::showallmarkers());
+
 	KAction *defineThumb = new KAction(i18n("Define Clip Thumbnail"), 0, this, SLOT(slotDefineClipThumb()), actionCollection(), "define_thumb");
 	defineThumb->setToolTip(i18n("Define thumbnail for the current clip"));
 
@@ -2784,6 +2786,7 @@ namespace Gui {
     }
 
     void KdenliveApp::slotShowAllMarkers() {
+	KdenliveSettings::setShowallmarkers(showAllMarkers->isChecked());
 	getDocument()->setShowAllMarkers(showAllMarkers->isChecked());
 	m_timeline->trackView()->setShowAllMarkers(showAllMarkers->isChecked());
 	m_timeline->drawTrackViewBackBuffer();
@@ -2804,6 +2807,7 @@ namespace Gui {
 	if (previewLowQuality->isChecked()) KdenliveSettings::setPreviewquality("nearest");
 	else if (previewMidQuality->isChecked()) KdenliveSettings::setPreviewquality("bilinear");
 	else KdenliveSettings::setPreviewquality("hyper");
+
 	m_monitorManager.resetMonitors();
 	m_monitorManager.deleteMonitors();
 	if (m_workspaceMonitor) delete m_workspaceMonitor;

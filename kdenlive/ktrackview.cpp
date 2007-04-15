@@ -39,7 +39,7 @@ namespace Gui {
     KTrackView::KTrackView(KTimeLine & timeLine, double fps, QWidget * parent,
 	const char *name):QWidget(parent, name), m_timeline(timeLine),
 	m_trackBaseNum(-1), m_panelUnderMouse(0), m_function(0),
-	m_dragFunction(0), m_showMarkers(false), m_selectionStart(QPoint()), m_selectionEnd(QPoint()), m_fps(fps) {
+	m_dragFunction(0), m_showMarkers(KdenliveSettings::showallmarkers()), m_selectionStart(QPoint()), m_selectionEnd(QPoint()), m_fps(fps) {
 	// we draw everything ourselves, no need to draw background.
 	setBackgroundMode(Qt::NoBackground);
 	setMouseTracking(true);
@@ -64,11 +64,6 @@ namespace Gui {
     void KTrackView::setShowAllMarkers(bool show)
     {
 	m_showMarkers = show;
-    }
-
-    bool KTrackView::showAllMarkers()
-    {
-	return m_showMarkers;
     }
 
     void KTrackView::tip(const QPoint &pos, QRect &rect, QString &tipText) {

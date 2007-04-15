@@ -142,6 +142,11 @@
       <default>true</default>
     </entry>
 
+    <entry name="showallmarkers" type="Bool">
+      <label>Show markers text in timeline.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="showtransitions" type="Bool">
       <label>Show transitions in timeline.</label>
       <default>true</default>

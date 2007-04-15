@@ -600,8 +600,9 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
     Mlt::Producer clip("westley-xml", tmp);
     delete tmp;
 
-    if (!clip.is_valid())
+    if (!clip.is_valid()) {
 	kdWarning()<<" ++++ WARNING, UNABLE TO CREATE MLT PRODUCER"<<endl;
+    }
     else {
         track.append(clip);
 	m_mltProducer = track.current();
@@ -709,6 +710,7 @@ void KRender::start()
 
 void KRender::clear()
 {
+    m_mltConsumer->set("refresh", 0);
     if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
 	m_mltConsumer->stop();
     }

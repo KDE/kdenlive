@@ -109,7 +109,6 @@ namespace Gui {
 	void invalidateBackBuffer(int startTrack = 0, int endTrack = -1);
         void invalidatePartialBackBuffer(int pos1, int pos2, int startTrack = 0, int endTrack = -1);
         void setShowAllMarkers(bool show);
-        bool showAllMarkers();
 
     signals: 
         void rightButtonPressed();

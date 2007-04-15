@@ -69,6 +69,7 @@ namespace Gui {
 		QSizePolicy::Expanding, FALSE));
 	//m_editPanel->setSizePolicy(QSizePolicy (QSizePolicy::Expanding, QSizePolicy::Maximum, FALSE));
 	 connectScreen();
+	 setSceneList(QDomDocument());
     } 
     
     KMMMonitor::~KMMMonitor() {
@@ -134,16 +135,7 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 
     void KMMMonitor::setSceneList(const QDomDocument & scenelist,
 	bool resetPosition) {
-
-// #HACK currently, if there is no clip, the scenelist is: "</westley>" and it crashes, so test length as a temporary workaround
-
-	if (scenelist.toString().length() > 20) 
-	    m_screen->setSceneList(scenelist, resetPosition);
-	else {
-		QDomDocument blankList;
-		blankList.setContent(QString("<westley><playlist></playlist></westley>"));
-		m_screen->setSceneList(blankList, resetPosition);
-	}
+	m_screen->setSceneList(scenelist, resetPosition);
     }
     
     void KMMMonitor::exportCurrentFrame(KURL url, bool notify) const {
@@ -268,11 +260,11 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	    m_clip = 0;
 	}
 	m_screen->setClipLength(GenTime());
-	m_screen->resetRenderer();
 	m_editPanel->setClipLength(0);
 	m_editPanel->setInpoint(GenTime(0));
 	m_editPanel->setOutpoint(GenTime(0));
         m_editPanel->seek(GenTime(0));
+	m_screen->resetRenderer();
     }
 
     void KMMMonitor::startDrag() {
