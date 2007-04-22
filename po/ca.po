@@ -1,16 +1,16 @@
-# Translation of Kdenlive.pot to Catalan
+# Translation of ca20070405.pot to Catalan
 # Traducció de Kdenlive al català
 # This file is put in the public domain.
 #
-# FIRST AUTHOR Joan M Herrera <herrej01@gmail.com>, 2007.
 # This file is distributed under the same license as the Kdenlive package.
-# 
+#
+# FIRST AUTHOR Joan M Herrera <herrej01@gmail.com>, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-03-26 15:47+0200\n"
-"PO-Revision-Date: 2007-04-01 22:07+0200\n"
+"PO-Revision-Date: 2007-04-12 22:15+0200\n"
 "Last-Translator: Joan M Herrera <herrej01@gmail.com>\n"
 "Language-Team: Catalan\n"
 "MIME-Version: 1.0\n"
@@ -62,15 +62,15 @@ msgstr "Nou capítol"
 
 #: kdenlive/addtrackdialog_ui.cpp:119
 msgid "Audio Track"
-msgstr "Pista de So"
+msgstr "Pista d'Àudio"
 
 #: kdenlive/addtrackdialog_ui.cpp:121
 msgid "Above"
-msgstr "Sobre"
+msgstr "A sobre"
 
 #: kdenlive/addtrackdialog_ui.cpp:122
 msgid "Under"
-msgstr "Sota"
+msgstr "A sota"
 
 #: kdenlive/addtrackdialog_ui.cpp:124
 msgid "track"
@@ -92,7 +92,7 @@ msgstr "Silenciar Clip de Vídeo"
 #: kdenlive/aviconviewitem.cpp:125 kdenlive/avlistviewitem.cpp:143
 #: kdenlive/clipproperties.cpp:180
 msgid "Audio Clip"
-msgstr "Clip de So"
+msgstr "Clip d'Àudio"
 
 #: kdenlive/aviconviewitem.cpp:127 kdenlive/avlistviewitem.cpp:145
 #: kdenlive/clipproperties.cpp:85 kdenlive/docclipavfile.cpp:53
@@ -145,11 +145,11 @@ msgstr "%1 Canals"
 
 #: kdenlive/aviconviewitem.cpp:154 kdenlive/avlistviewitem.cpp:172
 msgid "Audio: %1Hz %2"
-msgstr "So: %1Hz %2"
+msgstr "Àudio: %1Hz %2"
 
 #: kdenlive/aviconviewitem.cpp:156 kdenlive/avlistviewitem.cpp:174
 msgid "Usage: %1"
-msgstr "Us: %1"
+msgstr "Utilitzat: %1"
 
 #: kdenlive/aviconviewitem.cpp:159 kdenlive/avlistviewitem.cpp:177
 msgid "Folder"
@@ -197,7 +197,7 @@ msgstr "silenciar vídeo"
 
 #: kdenlive/avlistviewitem.cpp:218
 msgid "audio"
-msgstr "so"
+msgstr "àudio"
 
 #: kdenlive/avlistviewitem.cpp:221
 msgid "group"
@@ -209,7 +209,7 @@ msgstr "n/a"
 
 #: kdenlive/avlistviewitem.cpp:225
 msgid "Usage Count"
-msgstr "Comptador d'utilització"
+msgstr "Comptador d'utilitzacions"
 
 #: kdenlive/avlistviewitem.cpp:246 kdenlive/projectlistview.cpp:34
 msgid "Thumbnail"
@@ -221,19 +221,19 @@ msgid ""
 "be disabled until you install them."
 msgstr ""
 "<b>Els programes dvgrab o ffplay no s'han trobat</b>.<br>La captura mitjançant el port "
-"Fireware no funcionara mentre no siguin instal.lats."
+"Firewire no funcionarà mentre no siguin instal.lats."
 
 #: kdenlive/capturemonitor.cpp:74
 msgid ""
 "<b>The raw1394 module is not loaded or you don't have write access on /dev/"
 "raw1394. Please check your permissions."
 msgstr ""
-"<b>El módul raw1394 no esta carregat o no teniu permís d'escriptura a /dev/raw1394."
-"Sisplau verifiqueu els vostres permisos."
+"<b>El módul raw1394 no esta carregat o no tens permís d'escriptura a /dev/raw1394."
+"Sisplau verifica els teus permisos."
 
 #: kdenlive/capturemonitor.cpp:81
 msgid "Check again"
-msgstr "Comproba-ho un altre cop"
+msgstr "Comprova-ho un altre cop"
 
 #: kdenlive/capturemonitor.cpp:134
 msgid "Captured Clips"
@@ -261,11 +261,11 @@ msgstr "Fitxer existent"
 
 #: kdenlive/capturemonitor.cpp:182
 msgid "File already exists, enter a new name"
-msgstr "El fitxer ja existeix, introduiu un altre nom"
+msgstr "El fitxer ja existeix, introdueix un altre nom"
 
 #: kdenlive/capturemonitor.cpp:202
 msgid "The capture stopped, see details for more info."
-msgstr "Captura detinguda, veieu detalls per mes informacio."
+msgstr "Captura aturada, veure detalls per mes informacio."
 
 #: kdenlive/clipdrag.cpp:150 kdenlive/kdenlive.cpp:3026
 msgid "The clip %1 is already present in this project"
@@ -285,7 +285,7 @@ msgstr "Fitxer no trobat"
 
 #: kdenlive/clipmanager.cpp:75
 msgid "Find File"
-msgstr "Buscar Fitxer"
+msgstr "Cercar Fitxer"
 
 #: kdenlive/clipmanager.cpp:95 kdenlive/clipmanager.cpp:127
 #: kdenlive/clipmanager.cpp:154 kdenlive/clipmanager.cpp:187
@@ -337,11 +337,11 @@ msgstr "Tamany:"
 
 #: kdenlive/clipproperties_ui.cpp:290
 msgid "Audio:"
-msgstr "So:"
+msgstr "Àudio:"
 
 #: kdenlive/clipproperties_ui.cpp:292
 msgid "Video codec:"
-msgstr "Codec de vídeo:"
+msgstr "Còdec de vídeo:"
 
 #: kdenlive/clipproperties_ui.cpp:294
 msgid "Fps:"
@@ -349,7 +349,7 @@ msgstr "FPS:"
 
 #: kdenlive/clipproperties_ui.cpp:296
 msgid "Audio codec:"
-msgstr "Codec de so:"
+msgstr "Còdec d'àudio:"
 
 #: kdenlive/clipproperties_ui.cpp:298
 msgid "Type:"
@@ -402,7 +402,7 @@ msgstr "Metadades"
 #: kdenlive/kdenlive.cpp:220 kdenlive/transition.cpp:245
 #: kdenlive/transitiondialog.cpp:70
 msgid "Crossfade"
-msgstr "Crossfade"
+msgstr "Esvaiment creuat"
 
 #: kdenlive/clipproperties_ui.cpp:319 kdenlive/createslideshowclip_ui.cpp:180
 msgid "Use Luma"
@@ -420,7 +420,7 @@ msgstr "Suavitat"
 
 #: kdenlive/clippropertiesdialog.cpp:35
 msgid "Video Stream"
-msgstr "Sequencia de vídeo"
+msgstr "Sequència de vídeo"
 
 #: kdenlive/clippropertiesdialog.cpp:43 kdenlive/exportbasewidget_ui.cpp:260
 msgid "Filename:"
@@ -432,7 +432,7 @@ msgstr "Tamany de fotograma, (FPS):"
 
 #: kdenlive/clippropertiesdialog.cpp:45
 msgid "Length (hh:mm:ss):"
-msgstr "Longitut (hh:mm:ss):"
+msgstr "Longitud (hh:mm:ss):"
 
 #: kdenlive/clippropertiesdialog.cpp:46
 msgid "System:"
@@ -444,7 +444,7 @@ msgstr "Descompressor:"
 
 #: kdenlive/clippropertiesdialog.cpp:62
 msgid "Audio Stream"
-msgstr "Sequencia de So"
+msgstr "Sequencia d'àudio"
 
 #: kdenlive/clippropertiesdialog.cpp:70
 msgid "Sampling Rate:"
@@ -512,11 +512,11 @@ msgstr "Raw DV"
 
 #: kdenlive/confighard_ui.cpp:89
 msgid "Audio device:"
-msgstr "Dispositiu de so"
+msgstr "Dispositiu d'àudio"
 
 #: kdenlive/confighard_ui.cpp:90
 msgid "Audio driver:"
-msgstr "Controlador de so:"
+msgstr "Controlador d'àudio:"
 
 #: kdenlive/confighard_ui.cpp:91
 msgid "Video driver:"
@@ -532,7 +532,7 @@ msgstr "minuts"
 
 #: kdenlive/configinterface_ui.cpp:103
 msgid "Autosave project every"
-msgstr "Autoguardar projecte cada"
+msgstr "Desà automáticament el projecte cada"
 
 #: kdenlive/configinterface_ui.cpp:104
 msgid "Mouse wheel moves horizontally (Alt for vertical scroll)"
@@ -580,7 +580,7 @@ msgstr "Carpeta definida per l'usuari"
 
 #: kdenlive/configmisc_ui.cpp:130
 msgid "External audio editor"
-msgstr "Editor de so extern"
+msgstr "Editor d'àudio extern"
 
 #: kdenlive/configmisc_ui.cpp:131
 msgid "External image editor"
@@ -642,7 +642,7 @@ msgstr "Pistes de vídeo"
 
 #: kdenlive/configproject_ui.cpp:109
 msgid "Audio tracks"
-msgstr "Pistes de so"
+msgstr "Pistes d'àudio"
 
 #: kdenlive/configtimeline_ui.cpp:134
 msgid "Video Tracks"
@@ -662,11 +662,11 @@ msgstr "Desplaçament automàtic durant la reproducció"
 
 #: kdenlive/configtimeline_ui.cpp:140
 msgid "Audio Tracks"
-msgstr "Pistes de So"
+msgstr "Pistes d'àudio"
 
 #: kdenlive/configtimeline_ui.cpp:143
 msgid "Disable thumbnails for large clips on low zoom level"
-msgstr "Des-habilitar miniatures per clips llargs amb baix nivell de zoom"
+msgstr "Inhabilitar miniatures per clips llargs amb baix nivell de zoom"
 
 #: kdenlive/configtimeline_ui.cpp:146
 msgid "Normalise volume for thumbnail creation"
@@ -823,7 +823,7 @@ msgstr "Vídeo"
 
 #: kdenlive/effectlistdialog.cpp:50 kdenlive/exportbasewidget_ui.cpp:266
 msgid "Audio"
-msgstr "So"
+msgstr "Àudio"
 
 #: kdenlive/effectparamdialog.cpp:51 kdenlive/exportbasewidget_ui.cpp:271
 msgid "Custom"
@@ -835,7 +835,7 @@ msgstr "afegir"
 
 #: kdenlive/effectparamdialog.cpp:68
 msgid "delete"
-msgstr "borrar"
+msgstr "eliminar"
 
 #: kdenlive/effectstackdialog.cpp:71
 msgid "Move effect up"
@@ -927,7 +927,7 @@ msgstr "Afegir metadades"
 
 #: kdenlive/exportbasewidget_ui.cpp:282
 msgid "Play video after export"
-msgstr "Reproduir el vídeo despres de l'exportació"
+msgstr "Reproduir el vídeo després de l'exportació"
 
 #: kdenlive/exportdvd_ui.cpp:89 kdenlive/exportdvd_ui.cpp:379
 msgid "Chapter"
@@ -941,7 +941,7 @@ msgstr "Inici"
 #: kdenlive/exportdvd_ui.cpp:91 kdenlive/exportdvd_ui.cpp:381
 #: kdenlive/transitionwipe_ui.cpp:222
 msgid "End"
-msgstr "Fi"
+msgstr "Final"
 
 #: kdenlive/exportdvd_ui.cpp:374
 msgid "DVD Folder"
@@ -958,7 +958,7 @@ msgstr "*.vob | Fitxer de pel.licula DVD"
 
 #: kdenlive/exportdvd_ui.cpp:378
 msgid "Render file now"
-msgstr "Exportar el fitxer ara"
+msgstr "Renderitzar el fitxer ara"
 
 #: kdenlive/exportdvd_ui.cpp:385
 msgid "DVD Format"
@@ -966,7 +966,7 @@ msgstr "Format DVD"
 
 #: kdenlive/exportdvd_ui.cpp:386 kdenlive/exportdvddialog.cpp:62
 msgid "Rendering"
-msgstr "Exportar"
+msgstr "Renderitzant"
 
 #: kdenlive/exportdvd_ui.cpp:387
 msgid "Pause between chapters (seconds)"
@@ -990,7 +990,7 @@ msgstr "Imatge"
 
 #: kdenlive/exportdvd_ui.cpp:394
 msgid "Movie"
-msgstr "Pel.licula"
+msgstr "Pel.lícula"
 
 #: kdenlive/exportdvd_ui.cpp:396
 msgid "image/gif image/x-bmp image/png image/jpeg"
@@ -1014,7 +1014,7 @@ msgstr "Text"
 
 #: kdenlive/exportdvd_ui.cpp:402
 msgid "Play Movie"
-msgstr "Reproduir pel.licula"
+msgstr "Reproduir pel.lícula"
 
 #: kdenlive/exportdvd_ui.cpp:406
 msgid "Highlighted Text Color"
@@ -1030,7 +1030,7 @@ msgstr "Botons"
 
 #: kdenlive/exportdvd_ui.cpp:410
 msgid "Intro movie"
-msgstr "Pel.licula d'introducció"
+msgstr "Pel.lícula d'introducció"
 
 #: kdenlive/exportdvd_ui.cpp:412
 msgid "Intro"
@@ -1066,7 +1066,7 @@ msgstr "Mostrar la sortida del procés"
 
 #: kdenlive/exportdvd_ui.cpp:428
 msgid "Generating main movie"
-msgstr "Generant la pel.licula principal"
+msgstr "Generant la pel.lícula principal"
 
 #: kdenlive/exportdvd_ui.cpp:430
 msgid "Generating menu"
@@ -1080,7 +1080,7 @@ msgstr "Creació de DVD"
 msgid ""
 "Cannot find the program \"dvdauthor\" on your system. Install it if you want "
 "to be able to create a DVD"
-msgstr "No s'ha trobat el programa \"dvdauthor\" al sistema. S'ha d'instal.lar si vol crear un DVD"
+msgstr "No s'ha trobat el programa \"dvdauthor\" al sistema. S'ha d'instal.lar si vols crear un DVD"
 
 #: kdenlive/exportdvddialog.cpp:61
 msgid "Create DVD"
@@ -1110,11 +1110,11 @@ msgstr "NTSC 16:9"
 msgid ""
 "You can now close this dialog and keep on working on your project while the "
 "DVD is being created."
-msgstr "Ara pot tancar aquest dialeg i continuar treballant en el seu projecte mentre el DVD es crea"
+msgstr "Ara pots tancar aquest dialeg i continuar treballant en el teu projecte mentre el DVD es crea"
 
 #: kdenlive/exportdvddialog.cpp:200
 msgid "Enter name for rendered movie file"
-msgstr "Introdueixi un nom pel fitxer de pel.licula exportat"
+msgstr "Introdueix un nom pel fitxer de pel.lícula renderitzat"
 
 #: kdenlive/exportdvddialog.cpp:217 kdenlive/exportwidget.cpp:925
 msgid ""
@@ -1137,23 +1137,23 @@ msgstr "Capítol 0"
 msgid ""
 "You need the program \"K3b\" to burn your DVD. Please install it if you want "
 "to use this feature."
-msgstr "Necessita el programa \"K3b\" per grabar el seu DVD. Sisplau instal.li-ho si vol fer servir aquesta opció"
+msgstr "Necessites el programa \"K3b\" per grabar el seu DVD. Sisplau instal.la-ho si vols utilitzar aquesta funció"
 
 #: kdenlive/exportdvddialog.cpp:292
 msgid "You need to generate the DVD structure before burning."
-msgstr "Necessita generar l'estructura del DVD abans de grabar-ho"
+msgstr "Necessites generar l'estructura del DVD abans de grabar-ho"
 
 #: kdenlive/exportdvddialog.cpp:307
 msgid ""
 "You need the program \"xine\" to preview your DVD. Please install it if you "
 "want to use this feature."
-msgstr "Necessita el programa \"xine\" per veure el seu DVD. Sisplau instal.li-ho si vol fer servir aquesta opció"
+msgstr "Necessites el programa \"xine\" per veure el teu DVD. Sisplau instal.la-ho si vols utilitzar aquesta funció"
 
 #: kdenlive/exportdvddialog.cpp:321
 msgid ""
 "You need the program \"QDvdAuthor\" to preview your DVD. Please install it "
 "if you want to use this feature."
-msgstr "Necessita el programa \"QDvdAuthor\" per veure el seu DVD. Sisplau instal.li-ho si vol fer servir aquesta opció"
+msgstr "Necessites el programa \"QDvdAuthor\" per veure el teu DVD. Sisplau instal.la-ho si vols utilitzar aquesta funció"
 
 #: kdenlive/exportdvddialog.cpp:340
 msgid ""
@@ -1167,13 +1167,13 @@ msgstr ""
 msgid ""
 "You didn't select the video file for the DVD.\n"
 " Please choose one before starting any operation."
-msgstr "No ha seleccionat el fitxer de vídeo pel DVD.\n Sisplau escolli un abans de començar qualsevol operació."
+msgstr "No has seleccionat el fitxer de vídeo pel DVD.\n Sisplau tria un abans de començar qualsevol operació."
 
 #: kdenlive/exportdvddialog.cpp:490
 msgid ""
 "You need the program \"convert\" which is included in ImageMagick to create "
 "DVD menus. Install ImageMagick if you want to make a DVD with menu"
-msgstr "Necessita el programa \"convert\", inclós a ImageMagick per crear menús de DVD. Instal.li ImageMagick si vol crear un DVD amb menú"
+msgstr "Necessites el programa \"convert\", inclós a ImageMagick per crear menús de DVD. Instal.la ImageMagick si vols crear un DVD amb menú"
 
 #: kdenlive/exportdvddialog.cpp:819
 msgid "The creation of DVD structure is finished."
@@ -1185,7 +1185,7 @@ msgstr "La creació de la estructura del DVD ha fallat."
 
 #: kdenlive/exportwidget.cpp:70
 msgid "Render Timeline"
-msgstr "Exportar la línia de temps"
+msgstr "Renderitzar la línia de temps"
 
 #: kdenlive/exportwidget.cpp:83
 msgid "Low"
@@ -1201,11 +1201,11 @@ msgstr "Alt"
 
 #: kdenlive/exportwidget.cpp:305 kdenlive/exportwidget.cpp:343
 msgid "An encoder named %1 already exists, please choose another name."
-msgstr "Un codificador anomenat %1 ja existeix. Sisplau escolli un altre nom."
+msgstr "Un codificador anomenat %1 ja existeix. Sisplau tria un altre nom."
 
 #: kdenlive/exportwidget.cpp:622
 msgid "Please enter a file name"
-msgstr "Sisplau introdueixi el nom del fitxer"
+msgstr "Sisplau introdueix el nom del fitxer"
 
 #: kdenlive/exportwidget.cpp:631 kdenlive/kdenlive.cpp:2553
 #: kdenlive/kdenlive.cpp:2670 kdenlive/kdenlive.cpp:3541
@@ -1214,11 +1214,11 @@ msgid ""
 "Do you want to overwrite it ?"
 msgstr ""
 "El fitxer ja existeix.\n"
-"Vol sobreescriure'l ?"
+"Vols sobreescriure'l ?"
 
 #: kdenlive/exportwidget.cpp:696 kdenlive/exportwidget.cpp:710
 msgid "There is another file render currently running, cancel it ?"
-msgstr "Hi ha una altra exportació de fitxer executant-se. Vol cancel.lar-la ?"
+msgstr "Hi ha una altra renderització de fitxer executant-se. Vols cancel.lar-la ?"
 
 #: kdenlive/exportwidget.cpp:930
 msgid "Export of %1 is finished"
@@ -1243,7 +1243,7 @@ msgid ""
 "settings, they can always be adjusted later from the Settings dialog."
 msgstr ""
 "<b>Benvingut a Kdenlive</b><br>/n "
-"Aquesta es la primera vegada que executa Kdenlive. Sisplau defineixi la seva configuració preferida. Podrà modificar-la mes endavant des del dialeg de configuració."
+"Aquesta es la primera vegada que executes Kdenlive. Sisplau defineix la teva configuració preferida. Podràs modificar-la més endavant des del dialeg de configuració."
 
 #: kdenlive/initeffects.cpp:118
 msgid "Greyscale"
@@ -1295,10 +1295,12 @@ msgid "Intensity"
 msgstr "Intensitat"
 
 #: kdenlive/initeffects.cpp:218
+#, fuzzy
 msgid "Box Blur"
 msgstr "Box Blur"
 
 #: kdenlive/initeffects.cpp:222
+#, fuzzy
 msgid "Blur factor"
 msgstr "Factor de Blur"
 
@@ -1380,7 +1382,7 @@ msgstr "Estroboscopi"
 
 #: kdenlive/initeffects.cpp:387
 msgid "Reverse Playing"
-msgstr "Reproducció enrera"
+msgstr "Reproducció enrere"
 
 #: kdenlive/initeffects.cpp:394 kdenlive/kdenlive.cpp:374
 #: kdenlive/trackpanelclipmovefunction.cpp:378
@@ -1397,7 +1399,7 @@ msgstr "Congelar abans"
 
 #: kdenlive/initeffects.cpp:414
 msgid "Freeze After"
-msgstr "Congeler després"
+msgstr "Congelar després"
 
 #: kdenlive/initeffects.cpp:423 kdenlive/initeffects.cpp:427
 msgid "Gamma"
@@ -1424,6 +1426,7 @@ msgid "Crackle"
 msgstr "Crepitació"
 
 #: kdenlive/initeffects.cpp:493
+#, fuzzy
 msgid "Wear"
 msgstr "Wear"
 
@@ -1433,7 +1436,7 @@ msgstr "Modificació del to"
 
 #: kdenlive/initeffects.cpp:508
 msgid "Shift"
-msgstr "Maiuscules"
+msgstr "Canvi"
 
 #: kdenlive/initeffects.cpp:519
 msgid "Room reverb"
@@ -1508,6 +1511,7 @@ msgid "Rate"
 msgstr "Freqüència"
 
 #: kdenlive/initeffects.cpp:671
+#, fuzzy
 msgid "Phaser"
 msgstr "Phaser"
 
@@ -1521,7 +1525,7 @@ msgstr "Profunditat"
 
 #: kdenlive/initeffects.cpp:692
 msgid "Feedback"
-msgstr "Retroalimentació"
+msgstr "Retroacció"
 
 #: kdenlive/initeffects.cpp:701
 msgid "Spread"
@@ -1545,7 +1549,7 @@ msgstr "Afegir Clip"
 #: kdenlive/kdenlive.cpp:3325 kdenlive/kdenlive.cpp:3365
 #: kdenlive/projectlist.cpp:81
 msgid "Delete Clip"
-msgstr "Esborrar Clip"
+msgstr "Eliminar Clip"
 
 #: kdenlive/kaddeffectcommand.cpp:55
 msgid "Move Effect"
@@ -1557,7 +1561,7 @@ msgstr "Afegir Efecte"
 
 #: kdenlive/kaddeffectcommand.cpp:85
 msgid "Delete effect"
-msgstr "Esborrar Efecte"
+msgstr "Eliminar Efecte"
 
 #: kdenlive/kaddmarkercommand.cpp:46
 msgid "Add Snap Marker"
@@ -1565,13 +1569,13 @@ msgstr "Afegir Marcador"
 
 #: kdenlive/kaddmarkercommand.cpp:48
 msgid "Delete Snap Marker"
-msgstr "Esborrar Marcador"
+msgstr "Eliminar Marcador"
 
 #: kdenlive/kaddrefclipcommand.cpp:97 kdenlive/kaddrefclipcommand.cpp:120
 #: kdenlive/trackpanelclipmovefunction.cpp:514
 #: kdenlive/trackpanelclipslipfunction.cpp:518
 msgid "Delete Clips"
-msgstr "Esborrar Clips"
+msgstr "Eliminar Clips"
 
 #: kdenlive/kaddtransitioncommand.cpp:78
 msgid "Add transition"
@@ -1579,7 +1583,7 @@ msgstr "Afegir Transició"
 
 #: kdenlive/kaddtransitioncommand.cpp:78
 msgid "Delete transition"
-msgstr "Esborrar Transició"
+msgstr "Eliminar Transició"
 
 #: kdenlive/kdenlive.cpp:141
 msgid "PAL (720x576, 25fps)"
@@ -1658,7 +1662,7 @@ msgstr "Vista d'icones"
 
 #: kdenlive/kdenlive.cpp:516
 msgid "Move/Resize Tool"
-msgstr "Eina de Moure/Canviar tamany"
+msgstr "Eina de Moure/Redimensionar"
 
 #: kdenlive/kdenlive.cpp:520
 msgid "Razor Tool"
@@ -1783,7 +1787,7 @@ msgstr "Reproducció/Pausa"
 
 #: kdenlive/kdenlive.cpp:664
 msgid "Stop playing"
-msgstr "Parar la reproducció"
+msgstr "Aturar la reproducció"
 
 #: kdenlive/kdenlive.cpp:667
 msgid "Play Selection"
@@ -1803,15 +1807,15 @@ msgstr "Reproducció endavant"
 
 #: kdenlive/kdenlive.cpp:679
 msgid "Fast forwards playing (click several times for faster playing)"
-msgstr "Reproducció accelerada endavant (click varies vegades per reproducció més ràpida)"
+msgstr "Reproducció accelerada endavant (clic varies vegades per reproducció més ràpida)"
 
 #: kdenlive/kdenlive.cpp:681
 msgid "Play backward"
-msgstr "Reproducció endarrera"
+msgstr "Reproducció enrere"
 
 #: kdenlive/kdenlive.cpp:683
 msgid "Fast backwards playing (click several times for faster playing)"
-msgstr "Reproducció accelerada endarrera (click varies vegades per reproducció més ràpida)"
+msgstr "Reproducció accelerada enrere (clic varies vegades per reproducció més ràpida)"
 
 #: kdenlive/kdenlive.cpp:685
 msgid "Loop selected zone"
@@ -1819,7 +1823,7 @@ msgstr "Repetir la zona seleccionada"
 
 #: kdenlive/kdenlive.cpp:687
 msgid "Play selected zone in loop"
-msgstr "Reproduccío continua de la zona seleccionada"
+msgstr "Reproduccío contínua de la zona seleccionada"
 
 #: kdenlive/kdenlive.cpp:689 kdenlive/kdenlive.cpp:691
 msgid "Split Audio From Selected Clip"
@@ -1859,7 +1863,7 @@ msgstr "Retrocedir un segon"
 
 #: kdenlive/kdenlive.cpp:718
 msgid "Move cursor backwards one second"
-msgstr "Moure el cursor endarrera un segon"
+msgstr "Moure el cursor enrere un segon"
 
 #: kdenlive/kdenlive.cpp:720
 msgid "Forward to next snap point"
@@ -1871,7 +1875,7 @@ msgstr "Moure el cursor al següent punt d'ajust"
 
 #: kdenlive/kdenlive.cpp:725
 msgid "Rewind to previous snap point"
-msgstr "Retrocedir al punt d'ajust previ"
+msgstr "Rebobinar al punt d'ajust previ"
 
 #: kdenlive/kdenlive.cpp:728
 msgid "Move cursor to previous snap point"
@@ -2019,7 +2023,7 @@ msgstr "Guardar la zona seleccionada"
 
 #: kdenlive/kdenlive.cpp:851
 msgid "Save selected zone as playlist for future use"
-msgstr "Guardar la zona seleccionada com una llista de reproducció per un futur us"
+msgstr "Guardar la zona seleccionada com una llista de reproducció per un futur ús"
 
 #: kdenlive/kdenlive.cpp:853 kdenlive/kdenlive.cpp:2548
 msgid "Save Subclip"
@@ -2027,23 +2031,23 @@ msgstr "Guardar Subclip"
 
 #: kdenlive/kdenlive.cpp:856
 msgid "Save selected clip as playlist for future use"
-msgstr "Guardar el clip seleccionat com una llista de reproducció per un futur us"
+msgstr "Guardar el clip seleccionat com una llista de reproducció per un futur ús"
 
 #: kdenlive/kdenlive.cpp:859
 msgid "Render Selected Zone"
-msgstr "Exportar la zona seleccionada"
+msgstr "Renderitzar la zona seleccionada"
 
 #: kdenlive/kdenlive.cpp:862
 msgid "Render selected zone for future use"
-msgstr "Exportar la zona seleccionada per un futur us"
+msgstr "Renderitzar la zona seleccionada per un futur ús"
 
 #: kdenlive/kdenlive.cpp:864
 msgid "Render Selected Zone Audio"
-msgstr "Exportar el so de la zona seleccionada"
+msgstr "Renderitzar el so de la zona seleccionada"
 
 #: kdenlive/kdenlive.cpp:867
 msgid "Render selected zone audio for future use"
-msgstr "Exportar el so de la zona seleccionada per un futur us"
+msgstr "Renderitzar el so de la zona seleccionada per un futur ús"
 
 #: kdenlive/kdenlive.cpp:869 kdenlive/kdenlive.cpp:2581
 msgid "Create Virtual Clip"
@@ -2055,7 +2059,7 @@ msgstr "Crear un clip virtual a partir de la zona seleccionada"
 
 #: kdenlive/kdenlive.cpp:874
 msgid "Go To Virtual Zone"
-msgstr "Ana a Zona Virtual"
+msgstr "Anar a Zona Virtual"
 
 #: kdenlive/kdenlive.cpp:877
 msgid "Go to selected clip's virtual zone"
@@ -2198,7 +2202,7 @@ msgstr "Seleccionar la pista anterior"
 
 #: kdenlive/kdenlive.cpp:982
 msgid "Select Clip Under Cursor"
-msgstr "Seleccionar el Clip sota el cursor"
+msgstr "Seleccionar el Clip a sota del cursor"
 
 #: kdenlive/kdenlive.cpp:986
 msgid "Clip Auto Selection"
@@ -2294,12 +2298,12 @@ msgid ""
 "Shift all clips to the right of mouse. Ctrl + click to move only clips on "
 "current track."
 msgstr ""
-"Moure tots els clips a la dreta del ratolí. Ctrl + click per moure només els clips "
+"Moure tots els clips a la dreta del ratolí. Ctrl + clic per moure només els clips "
 "de la pista actual."
 
 #: kdenlive/kdenlive.cpp:1052
 msgid "Insert commented snap markers on clips (Ctrl + click to remove a marker)"
-msgstr "Inserir un marcador amb comentaris als clips (Ctrl + click per eliminar-ho)"
+msgstr "Inserir un marcador amb comentaris als clips (Ctrl + clic per eliminar-ho)"
 
 #: kdenlive/kdenlive.cpp:1055
 msgid "Move edit point between two selected clips"
@@ -2315,7 +2319,7 @@ msgstr "Alinear els clips al fotograma més proper"
 
 #: kdenlive/kdenlive.cpp:1063
 msgid "Align clips on nearest clip borders"
-msgstr "Alinear els clips al final del clip més proper"
+msgstr "Alinear els clips als costats del clip més proper"
 
 #: kdenlive/kdenlive.cpp:1066
 msgid "Align clips on snap markers"
@@ -2335,11 +2339,12 @@ msgstr "Eliminar clips no utilitzats"
 
 #: kdenlive/kdenlive.cpp:1073
 msgid "Start or stop playback"
-msgstr "Iniciar o finalitzar la reproducció"
+msgstr "Iniciar o aturar la reproducció"
 
 #: kdenlive/kdenlive.cpp:1076
 msgid "Start or stop playback of inpoint/outpoint selection"
-msgstr "Iniciar o finalitzar la reproducció de la selecció entre els "
+msgstr ""
+"Iniciar o aturar la reproducció de la selecció entre els "
 "punts d'entrada/sortida"
 
 #: kdenlive/kdenlive.cpp:1079
@@ -2348,7 +2353,7 @@ msgstr "Moure endavant un fotograma"
 
 #: kdenlive/kdenlive.cpp:1082
 msgid "Move backwards one frame"
-msgstr "Moure enrera un fotograma"
+msgstr "Moure enrere un fotograma"
 
 #: kdenlive/kdenlive.cpp:1084
 msgid "Set inpoint"
@@ -2376,7 +2381,7 @@ msgstr "Eliminar els marcadors dels clips seleccionats"
 
 #: kdenlive/kdenlive.cpp:1102
 msgid "Render timeline to a file"
-msgstr "Exportar la línia de temps a fitxer"
+msgstr "Renderitzar la línia de temps a fitxer"
 
 #: kdenlive/kdenlive.cpp:1104
 msgid "Configure project"
@@ -2417,7 +2422,7 @@ msgstr "Llest."
 
 #: kdenlive/kdenlive.cpp:1144
 msgid "Stop Export"
-msgstr "Parar l'exportació"
+msgstr "Aturar l'exportació"
 
 #: kdenlive/kdenlive.cpp:1161
 msgid "Show Effects"
@@ -2433,7 +2438,7 @@ msgstr "Mostrar Miniatures"
 
 #: kdenlive/kdenlive.cpp:1192
 msgid "Show Audio Thumbnails"
-msgstr "Mostrar Miniatures de So"
+msgstr "Mostrar Miniatures d'Àudio"
 
 #: kdenlive/kdenlive.cpp:1203
 msgid "Move/Resize mode"
@@ -2441,7 +2446,7 @@ msgstr "Mode Moure/Redimensionar"
 
 #: kdenlive/kdenlive.cpp:1210
 msgid "Abort export ?"
-msgstr "Cancel.lar exportació ?"
+msgstr "Interrompre exportació ?"
 
 #: kdenlive/kdenlive.cpp:1247 kdenlive/kdenlive.cpp:1251 kdenlive/main.cpp:43
 msgid "Kdenlive"
@@ -2457,9 +2462,9 @@ msgid ""
 "menu. In order to add sequences to the current video project, use the drag "
 "and drop."
 msgstr ""
-"Fitxers de vídeo que es poden fer servir al projecte. Pot afegir o eliminar "
+"Fitxers de vídeo que es poden fer servir al projecte. Afegeix o elimina "
 "fitxers amb el menú de contexte. Per afegir sequencies al projecte actual, "
-"faci servir drag and drop."
+"utilitza arrossegar i deixar anar."
 
 #. i18n: file kdenlive/kdenliveui.rc line 304
 #: kdenlive/kdenlive.cpp:1277 kdenlive/kdenlive.cpp:1280 kdenlive/rc.cpp:66
@@ -2469,11 +2474,11 @@ msgstr "Transició"
 
 #: kdenlive/kdenlive.cpp:1284
 msgid "Current effects usable with the renderer"
-msgstr "Efectes que es poden fer servir a l'hora d'exportar"
+msgstr "Efectes que es poden utilitzar amb el renderitzador"
 
 #: kdenlive/kdenlive.cpp:1670
 msgid "Generating audio thumb"
-msgstr "Generant miniatura de so"
+msgstr "Generant miniatura d'àudio"
 
 #: kdenlive/kdenlive.cpp:1695
 msgid "Generating video thumbnails"
@@ -2506,7 +2511,7 @@ msgid ""
 "Close anyways ?"
 msgstr ""
 "Un procés d'exportacio s'està executant actualment.\n"
-"Si tanca Kdenlive cancel.larà la exportació.\n"
+"Si tanques Kdenlive cancel.laràs la exportació.\n"
 "Tancar de totes maneres ?"
 
 #: kdenlive/kdenlive.cpp:2048
@@ -2515,7 +2520,7 @@ msgid ""
 "Do you want to save it?"
 msgstr ""
 "El fitxer actual ha sigut modificat.\n"
-"Vol guardar-ho ?"
+"Vols guardar-ho ?"
 
 #: kdenlive/kdenlive.cpp:2117
 msgid "Creating new project..."
@@ -2532,8 +2537,8 @@ msgid ""
 "files with write access in Kdenlive Settings dialog."
 msgstr ""
 "No es possible crear la carpeta pels fitxers temporals.\n"
-"Kdenlive no funcionarà correctament a menys que seleccioni una carpeta amb "
-"drets d'escriptura pels fitxers temporals al dialeg de Configuració de Kdenlive."
+"Kdenlive no funcionarà correctament a menys que seleccionis una carpeta amb "
+"drets d'escriptura pels fitxers temporals al diàleg de Configuració de Kdenlive."
 
 #: kdenlive/kdenlive.cpp:2229
 msgid "Select project file"
@@ -2630,8 +2635,8 @@ msgid ""
 "You didn't define any external editor for that kind of clip.\n"
 "Please go to Kdenlive settings -> Misc to define it."
 msgstr ""
-"No ha definit un editor extern per aquest tipus de clip.\n"
-"Sisplau, vagi a Preferencies -> Configurar Kdenlive -> Miscelània per definir-ho."
+"No has definit un editor extern per aquest tipus de clip.\n"
+"Sisplau, ves a Preferencies -> Configurar Kdenlive -> Misc per definir-ho."
 
 #: kdenlive/kdenlive.cpp:2498 kdenlive/kdenlive.cpp:2512
 #: kdenlive/kdenlive.cpp:2526 kdenlive/kdenlive.cpp:2545
@@ -2647,9 +2652,9 @@ msgid ""
 "time)"
 msgstr ""
 "La línia de temps seleccionada es menor de 10 fotogrames.\n"
-"Sisplau, seleccioni una zona amb l'eina de selecció de la línia de temps abans "
+"Sisplau, selecciona una zona amb l'eina de selecció de la línia de temps abans "
 "de crear un clip virtual.\n"
-"(Doble click al lliscador de la línia de temps per moure la zona seleccionada al "
+"(Doble clic al lliscador de la línia de temps per moure la zona seleccionada al "
 "temps actual)"
 
 #: kdenlive/kdenlive.cpp:2581
@@ -2710,15 +2715,15 @@ msgstr "Exportant Línia de Temps..."
 
 #: kdenlive/kdenlive.cpp:2905
 msgid "Editing Preferences"
-msgstr "Editant Preferencies"
+msgstr "Editant Preferències"
 
 #: kdenlive/kdenlive.cpp:2927
 msgid ""
 "Please restart Kdenlive to apply your changes\n"
 "to the audio/video system"
 msgstr ""
-"Sisplau reinicíi Kdenlive per aplicar els canvis\n"
-"al sistema de so/video"
+"Sisplau reinicia Kdenlive per aplicar els canvis\n"
+"al sistema d'àudio/video"
 
 #: kdenlive/kdenlive.cpp:2953 kdenlive/kdenlive.cpp:2988
 msgid "Enter new folder name: "
@@ -2730,9 +2735,9 @@ msgid ""
 "project.\n"
 "Delete this folder ?"
 msgstr ""
-"Eliminant aquesta carpeta eliminarà també les referencies als seus clips "
+"Eliminant aquesta carpeta s'eliminaran també les referencies als seus clips "
 "en el projecte.\n"
-"Vol esborrar la carpeta ?"
+"Vols eliminar la carpeta ?"
 
 #: kdenlive/kdenlive.cpp:2988
 msgid "New Folder"
@@ -2753,7 +2758,7 @@ msgstr "Afegint Clips"
 
 #: kdenlive/kdenlive.cpp:3024
 msgid "You cannot include the current Kdenlive document in itself."
-msgstr "No pot incloure el document de Kdenlive actual en si mateix"
+msgstr "No pots incloure el document de Kdenlive actual en si mateix"
 
 #: kdenlive/kdenlive.cpp:3170
 msgid "Add image to project"
@@ -2761,7 +2766,7 @@ msgstr "Afegir imatge al projecte"
 
 #: kdenlive/kdenlive.cpp:3181
 msgid "Please activate a monitor if you want to save a frame"
-msgstr "Sisplau, activi un monitor si vol guardar un fotograma"
+msgstr "Sisplau, activa un monitor si vols guardar un fotograma"
 
 #: kdenlive/kdenlive.cpp:3197
 msgid "Change Clip Duration"
@@ -2785,7 +2790,7 @@ msgid ""
 "clips. Are you sure you want to do this?"
 msgstr ""
 "Això eliminará tots els clips de la línia de temps que actualment fan servir "
-"el clip seleccionat. Està segur que vol fer això ?"
+"el clip seleccionat. Estàs segur que vols fer això ?"
 
 #: kdenlive/kdenlive.cpp:3399
 msgid "Cleaning Project"
@@ -2796,8 +2801,8 @@ msgid ""
 "Clean Project removes unused files.\t              Are you sure you want to "
 "do this?"
 msgstr ""
-"Netejar Projecte elimina els fitxers no utilitzats.\t              Està segur "
-"que vol fer això ?" 
+"Netejar Projecte elimina els fitxers no utilitzats.\t              Estàs segur "
+"que vols fer això ?"
 
 #: kdenlive/kdenlive.cpp:3432
 msgid "Play / Pause"
@@ -2805,7 +2810,7 @@ msgstr "Reproducció / Pausa"
 
 #: kdenlive/kdenlive.cpp:3449
 msgid "Starting/stopping playback of inpoint/outpoint section"
-msgstr "Començant/Parant la reproducció de la secció entre els punts d'entrada/sortida"
+msgstr "Iniciant/Aturant la reproducció de la secció entre els punts d'entrada/sortida"
 
 #: kdenlive/kdenlive.cpp:3461
 #, c-format
@@ -2815,31 +2820,31 @@ msgstr "Reproduint Endavant (%1x)"
 #: kdenlive/kdenlive.cpp:3468
 #, c-format
 msgid "Playing Backwards (%1x)"
-msgstr "Reproduint Enrera (%1x)"
+msgstr "Reproduint Enrere (%1x)"
 
 #: kdenlive/kdenlive.cpp:3473
 msgid "Play Loop"
-msgstr "Reproducció continua"
+msgstr "Reproducció contínua"
 
 #: kdenlive/kdenlive.cpp:3509
 msgid "Cannot find track to insert audio clip."
-msgstr "No es pot trobar una pista per insertar el clip de so"
+msgstr "No es pot trobar una pista per insertar el clip d'àudio"
 
 #: kdenlive/kdenlive.cpp:3533
 msgid "Add new audio clip to project"
-msgstr "Afegir nou clip de so al projecte"
+msgstr "Afegir nou clip d'àudio al projecte"
 
 #: kdenlive/kdenlive.cpp:3536
 msgid "Save Audio Track"
-msgstr "Guardar Pista de So"
+msgstr "Guardar Pista d'Àudio"
 
 #: kdenlive/kdenlive.cpp:3561
 msgid "Seeking Forwards one frame"
-msgstr "Busqueda Endavant un fotograma"
+msgstr "Cercant Endavant un fotograma"
 
 #: kdenlive/kdenlive.cpp:3573
 msgid "Seeking Backwards one frame"
-msgstr "Busqueda Enrera un fotograma"
+msgstr "Cercant Enrere un fotograma"
 
 #: kdenlive/kdenlive.cpp:3656
 msgid "Select Clips"
@@ -2906,15 +2911,15 @@ msgstr "Marcador"
 
 #: kdenlive/kdenlive.cpp:4190
 msgid "Please select a clip to apply transition"
-msgstr "Sisplau, seleccioni un clip per aplicar la transició"
+msgstr "Sisplau, selecciona un clip per aplicar la transició"
 
 #: kdenlive/kdenlive.cpp:4207
 msgid "Please select a clip to delete transition"
-msgstr "Sisplau, seleccioni un clip per eliminar la transició"
+msgstr "Sisplau, selecciona un clip per eliminar la transició"
 
 #: kdenlive/kdenlive.cpp:4224
 msgid "Please select a clip to edit transition"
-msgstr "Sisplau, seleccioni un clip per editar la transició"
+msgstr "Sisplau, selecciona un clip per editar la transició"
 
 #: kdenlive/kdenlivesetupdlg.cpp:51
 msgid "Interface"
@@ -3018,11 +3023,11 @@ msgstr "Desfer Editar Marcador"
 
 #: kdenlive/kmmeditpanel.cpp:191 kdenlive/kmmrecpanel.cpp:133
 msgid "Renderer connected"
-msgstr "Exportador conectada"
+msgstr "Renderitzador conectat"
 
 #: kdenlive/kmmeditpanel.cpp:196 kdenlive/kmmrecpanel.cpp:138
 msgid "Renderer not connected"
-msgstr "Exportador no conectat"
+msgstr "Renderitzador no conectat"
 
 #: kdenlive/kmmeditpanel_ui.cpp:445
 msgid "Move to start of clip"
@@ -3034,11 +3039,11 @@ msgstr "Rebobinar clip"
 
 #: kdenlive/kmmeditpanel_ui.cpp:449
 msgid "Rewind 1 frame"
-msgstr "Retrocedir 1 fotograma"
+msgstr "Rebobinar 1 fotograma"
 
 #: kdenlive/kmmeditpanel_ui.cpp:451
 msgid "Stop clip"
-msgstr "Parar clip"
+msgstr "Aturar clip"
 
 #: kdenlive/kmmeditpanel_ui.cpp:453
 msgid "Play clip"
@@ -3188,7 +3193,7 @@ msgid ""
 msgstr ""
 "No es pot crear la pantalla de visualització de vídeo.\n"
 "Hi ha algun error a la instal.lacio de Kdenlive o a la configuració del controlador. "
-"Sisplau solucioni-ho."
+"Sisplau soluciona-ho."
 
 #: kdenlive/krender.cpp:673
 msgid "Volume: "
@@ -3205,7 +3210,7 @@ msgid ""
 "on /dev/raw1394..."
 msgstr ""
 "No hi ha accés a Firewire en aquest port\n"
-"Aseguri's d'haver carregat el mòdul raw1394 i de que te permis d'escriptura "
+"Asegura't d'haver carregat el mòdul raw1394 i de que tens permís d'escriptura "
 "a /dev/raw1394..."
 
 #: kdenlive/krender.cpp:992
@@ -3229,8 +3234,8 @@ msgid ""
 "Firewire is not enabled on your system.\n"
 " Please install Libiec61883 and recompile Kdenlive"
 msgstr ""
-"Firewire no està activat al seu sistema.\n"
-" Sisplau instal.li Libiec61883 i tornir a compilar Kdenlive"
+"Firewire no està activat al teu sistema.\n"
+" Sisplau instal.la Libiec61883 i torna a compilar Kdenlive"
 
 #: kdenlive/krender.cpp:1006
 msgid "There is no clip, cannot extract frame."
@@ -3250,7 +3255,7 @@ msgstr "Guia %1"
 
 #: kdenlive/kruler.cpp:1132
 msgid "Chapter End"
-msgstr "Fi del capítol"
+msgstr "Final del capítol"
 
 #: kdenlive/kselectclipcommand.cpp:57 kdenlive/kselectclipcommand.cpp:61
 #: kdenlive/kselectclipcommand.cpp:83 kdenlive/kselectclipcommand.cpp:111
@@ -3278,15 +3283,15 @@ msgid ""
 "\n"
 "Kdenlive is a frontend for the Mlt Framework.\n"
 "You can download the Mlt Framework on this url:\n"
-"http://mltframework.org"
+"http://mltframework.org/"
 msgstr ""
 "Kdenlive\n"
 "\n"
 "Editor de vídeo no linear per KDE.\n"
 "\n"
-"Kdenlive es un frontend per l'entorn de treball Mlt.\n"
+"Kdenlive es un frontal per l'entorn de treball Mlt.\n"
 "Pot descarregar l'entorn de treball Mlt a aquesta url:\n"
-"http://mltframework.org"
+"http://mltframework.org/"
 
 #: kdenlive/main.cpp:35
 msgid "file to open"
@@ -3298,7 +3303,7 @@ msgstr "Autor original de Kdenlive"
 
 #: kdenlive/main.cpp:58
 msgid "Piave renderer author"
-msgstr "Autor de l'exportador Piave"
+msgstr "Autor del renderitzador Piave"
 
 #: kdenlive/main.cpp:64
 msgid "Piave and Kdenlive internationalization, French translations, splashscreen"
@@ -3334,7 +3339,7 @@ msgstr "*.kdenlive|Fitxers de projecte Kdenlive (*.kdenlive)"
 
 #: kdenlive/newproject_ui.cpp:146
 msgid "Default project folder (to store rendered files):"
-msgstr "Carpeta de projecte per defecte (per guardar els fitxers exportats):"
+msgstr "Carpeta de projecte per defecte (per guardar els fitxers renderitzats):"
 
 #: kdenlive/newproject_ui.cpp:147
 msgid "Project name:"
@@ -3342,7 +3347,7 @@ msgstr "Nom del Projecte:"
 
 #: kdenlive/newproject_ui.cpp:148
 msgid "Audio tracks:"
-msgstr "Pistes de So:"
+msgstr "Pistes d'Àudio:"
 
 #: kdenlive/newproject_ui.cpp:149
 msgid "Video tracks:"
@@ -3374,11 +3379,11 @@ msgid ""
 "Please check your permissions"
 msgstr ""
 "No es pot guardar el fitxer %1.\n"
-"Sisplau, verifiqui els seus permisos"
+"Sisplau, verifica els teus permisos"
 
 #: kdenlive/projectlist.cpp:78
 msgid "Select View Type"
-msgstr "Seleccioni el tipus de vista"
+msgstr "Selecciona el tipus de vista"
 
 #. i18n: file kdenlive/kdenliveui.rc line 41
 #: kdenlive/rc.cpp:3
@@ -3417,7 +3422,7 @@ msgstr "Qualitat de previsualització"
 #: kdenlive/rc.cpp:18
 #, no-c-format
 msgid "Render"
-msgstr "Exportar"
+msgstr "Renderitzar"
 
 #. i18n: file kdenlive/kdenliveui.rc line 109
 #: kdenlive/rc.cpp:21
@@ -3539,7 +3544,7 @@ msgstr "Portar al front"
 
 #: kdenlive/titlewidget.cpp:673
 msgid "Send to Background"
-msgstr "Enviar enrera"
+msgstr "Enviar al fons"
 
 #: kdenlive/titlewidget.cpp:741
 msgid "Enter your text"
@@ -3551,7 +3556,7 @@ msgstr "> Fons"
 
 #: kdenlive/transition.cpp:244
 msgid "Audio Fade"
-msgstr "Audio Fade"
+msgstr "Esvair Àudio"
 
 #: kdenlive/transitionaudiofade_ui.cpp:55
 #: kdenlive/transitioncrossfade_ui.cpp:55
@@ -3565,7 +3570,7 @@ msgstr "Executar transició amb: "
 
 #: kdenlive/transitiondialog.cpp:58
 msgid "Automatic - Use next video track"
-msgstr "Automàtic - Fer servir la seguent pista de vídeo"
+msgstr "Automàtic - Utilitzar la seguent pista de vídeo"
 
 #: kdenlive/transitiondialog.cpp:59
 msgid "Background track (black)"
@@ -3589,15 +3594,15 @@ msgstr "Posició horitzontal"
 
 #: kdenlive/transitionpip_ui.cpp:196 kdenlive/transitionwipe_ui.cpp:234
 msgid "Use luma file"
-msgstr "Fer servir fitxer Luma"
+msgstr "Utilitzar fitxer Luma"
 
 #: kdenlive/transitionpip_ui.cpp:199
 msgid "St&art"
-msgstr "In&ici"
+msgstr "Inici"
 
 #: kdenlive/transitionpip_ui.cpp:200
 msgid "E&nd"
-msgstr "F&i"
+msgstr "Final"
 
 #: kdenlive/transitionwipe_ui.cpp:237
 msgid "Rescale images"
