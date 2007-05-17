@@ -160,6 +160,19 @@ namespace Gui {
         event->rect().width(), event->rect().height());
     }
 
+    void KTrackView::scrollBackBuffer(int value) {
+	QPainter painter(&m_backBuffer);
+	if (value > 0) {
+	    painter.drawPixmap(0,0, m_backBuffer, value, 0);
+	    drawBackBuffer(this->width() - value, this->width());
+	}
+	else {
+	    painter.drawPixmap(-value, 0, m_backBuffer, 0, 0);
+	    drawBackBuffer(0, - value);
+	}
+	update();
+    }
+
     void KTrackView::drawBackBuffer() {
 	QPainter painter(&m_backBuffer);
 
@@ -224,8 +237,6 @@ namespace Gui {
 	// draw the vertical time marker
 	int value = m_timeline.mapValueToLocal(m_timeline.localSeekPosition());
 	painter.drawLine(value, 0, value, height());
-
-	
     }
     
     void KTrackView::drawBackBuffer(int start, int end) {

@@ -199,7 +199,7 @@ namespace Command {
 
     private:
 	/** GUI elements */
-	 QHBox * m_rulerBox;	// Horizontal box holding the ruler
+	QHBox * m_rulerBox;	// Horizontal box holding the ruler
 	QScrollView *m_trackScroll;	// Scrollview holding the tracks
 	QHBox *m_scrollBox;	// Horizontal box holding the horizontal scrollbar.
 	/** A custom widget that can appear to the side of the ruler. */
@@ -207,6 +207,7 @@ namespace Command {
 	KScalableRuler *m_ruler;
 	QWidget *m_scrollToolWidget;	// This widget is supplied by the constructor and appears to the left of the bottom scrollbar.
 	QScrollBar *m_scrollBar;	// this scroll bar's movement is measured in pixels, not frames.
+	int m_scrollValue;		// The position of scroll bar before last movement.
 	/** track varables */
 	 QPtrList < KTrackPanel > m_trackList;
 
@@ -241,6 +242,7 @@ namespace Command {
 	/** Update the back buffer for the track views, and tell the trackViewArea widget to
 	repaint itself. */
 	void drawTrackViewBackBuffer(int startTrack = 0, int endTrack = -1);
+	void scrollTrackViewBackBuffer(int value);
 	/** Update the back buffer for the track views, and tell the trackViewArea widget to
 	repaint itself. */
 	void drawPartialTrackViewBackBuffer(int start, int end, int startTrack = 0, int endTrack = -1);

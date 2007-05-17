@@ -55,7 +55,7 @@ namespace Gui {
 	QWidget * scrollToolWidget, QWidget * parent,
 	const char *name):QVBox(parent, name), m_scrollTimer(this,
 	"scroll timer"), m_scrollingRight(true), m_framesPerSecond(KdenliveSettings::defaultfps()),
-	m_editMode("undefined"), m_panelWidth(120), m_selectedTrack(0) {
+	m_editMode("undefined"), m_panelWidth(120), m_selectedTrack(0), m_scrollValue(0) {
 	m_rulerBox = new QHBox(this, "ruler box");
         m_trackScroll = new QScrollView(this, "track view", WPaintClever);
 	m_scrollBox = new QHBox(this, "scroll box");
@@ -100,7 +100,7 @@ namespace Gui {
 	    SLOT(update()));
 
 	 connect(m_scrollBar, SIGNAL(valueChanged(int)), this,
-	    SLOT(drawTrackViewBackBuffer()));
+	    SLOT(scrollTrackViewBackBuffer(int)));
          
 	 connect(m_ruler, SIGNAL(scaleChanged(double)), this,
 	    SLOT(resetProjectSize()));
@@ -244,9 +244,15 @@ pixels, the left-most pixel is returned. */
 	return m_ruler->mapValueToLocal(value);
     } 
     
+    void KTimeLine::scrollTrackViewBackBuffer(int value) {
+	m_trackViewArea->scrollBackBuffer(value - m_scrollValue);
+	m_scrollValue = value;
+    }
+
     void KTimeLine::drawTrackViewBackBuffer(int startTrack, int endTrack) {
 	m_trackViewArea->invalidateBackBuffer(startTrack, endTrack);
     }
+
 
     void KTimeLine::drawPartialTrackViewBackBuffer(int start, int end, int startTrack, int endTrack)
     {
@@ -301,7 +307,6 @@ the display. The scale is the size of one frame.*/
 	m_ruler->setValueScale(scale);
 	m_scrollBar->setValue((int) (scale * m_ruler->getSliderValue(0)) -
 	    localValue);
-
 	drawTrackViewBackBuffer();
     }
     
@@ -386,29 +391,30 @@ the display. The scale is the size of one frame.*/
 	return m_ruler->getSliderValue(0);
     }
 
-void KTimeLine::autoScroll() {
-  int max = (int) mapLocalToValue(viewWidth());
-  int min = max - (max - mapLocalToValue(0))/2.4;
+    void KTimeLine::autoScroll() {
+  	int max = (int) mapLocalToValue(viewWidth());
+  	int min = max - (max - mapLocalToValue(0))/2.4;
+	int currPos = seekPosition().frames( m_framesPerSecond );
 	// Only scroll if the cursor is in the right part of the timeline and 
 	// zoom factor is lower than 2 frames 
-	if (seekPosition().frames( m_framesPerSecond ) < min || seekPosition().frames( m_framesPerSecond ) > max || timeScale()>20) return;
-	int step = 1;
-  if (timeScale() > 1) step = (int) timeScale();
+	if (currPos < min || currPos > max || timeScale() > 50 ) return;
+	int step = mapValueToLocal(currPos) - mapValueToLocal(min);
 	m_scrollBar->setValue( m_scrollBar->value() + step );
+  	if (timeScale() > 3) drawPartialTrackViewBackBuffer(currPos - timeScale(), currPos);
     }
 
-void KTimeLine::ensureCursorVisible() {
-  int max =(int) mapLocalToValue(viewWidth());
-  int min = (int) mapLocalToValue(0);
+    void KTimeLine::ensureCursorVisible() {
+  	int max =(int) mapLocalToValue(viewWidth());
+  	int min = (int) mapLocalToValue(0);
 
 	// Only scroll if the cursor is out of view
 	if (seekPosition().frames( m_framesPerSecond ) < min ) {
-    int diff = (min -  seekPosition().frames(m_framesPerSecond) + (max - min) / 3) * timeScale();
-		m_scrollBar->setValue( m_scrollBar->value() - diff );
+    	    int diff = (min -  seekPosition().frames(m_framesPerSecond) + (max - min) / 3) * timeScale();
+	    m_scrollBar->setValue( m_scrollBar->value() - diff );
 	}
 	else if ( seekPosition().frames( m_framesPerSecond ) > max) {
-    int diff = (seekPosition().frames(m_framesPerSecond ) - max + (max - min) / 3) * timeScale();
-		m_scrollBar->setValue( m_scrollBar->value() + diff );
+    	    int diff = (seekPosition().frames(m_framesPerSecond ) - max + (max - min) / 3) * timeScale();
+	    m_scrollBar->setValue( m_scrollBar->value() + diff );
 	}
     }
     

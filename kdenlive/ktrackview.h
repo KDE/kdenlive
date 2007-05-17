@@ -106,6 +106,7 @@ namespace Gui {
 
     public slots:		// Public slots
 	/** Invalidate the back buffer, alerting the trackview that it should redraw itself. */
+	void scrollBackBuffer(int value);
 	void invalidateBackBuffer(int startTrack = 0, int endTrack = -1);
         void invalidatePartialBackBuffer(int pos1, int pos2, int startTrack = 0, int endTrack = -1);
         void setShowAllMarkers(bool show);
