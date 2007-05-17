@@ -287,8 +287,8 @@ void exportWidget::slotEditEncoder()
 	CustomEncoders.erase(it);
 	delete custom_encoders->currentItem();
 	QListViewItem *item = new QListViewItem(custom_encoders, dlg.encoder_name->text());
-	custom_encoders->setCurrentItem(item);
 	CustomEncoders<<"0:Custom:" + dlg.encoder_name->text() + "::::avformat::" + dlg.encoder_ext->text() + ":" + dlg.encoder_param->text().simplifyWhiteSpace();
+	custom_encoders->setCurrentItem(item);
     }
 }
 
@@ -776,12 +776,12 @@ void exportWidget::doExport(QString file, double ratio, QStringList params, bool
     }
     m_isRunning = true;
     exportButton->setText(i18n("Stop"));
-    kdDebug()<<"++++++  PREPARE TO WRITE TO: "<<m_tmpFile->name()<<endl;
+    kdDebug()<<"++++++  PREPARE TO WRITE TO: "<<m_tmpFile->name()<<", IN: "<<params<<endl;
+
     QTextStream stream( m_tmpFile->file() );
     stream << m_app->getDocument()->projectClip().generateSceneList(true, true).toString() << "\n";
     m_tmpFile->file()->close();
     m_exportProcess = new KProcess;
-
     if (!encoder_norm.isEmpty()) m_exportProcess->setEnvironment("MLT_NORMALISATION", encoder_norm);
     else if (m_format == PAL_VIDEO || m_format == PAL_WIDE) m_exportProcess->setEnvironment("MLT_NORMALISATION", "PAL");
     else if (m_format == NTSC_VIDEO || m_format == NTSC_WIDE) m_exportProcess->setEnvironment("MLT_NORMALISATION", "NTSC");
