@@ -240,7 +240,7 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	m_screen->setClipLength(m_clip->duration());
 	m_editPanel->setClipLength((int) m_clip->duration().
 	    frames(m_document->framesPerSecond()));
-
+	activateMonitor();
 	//COMMENTED BY ROBERT 08-13-2004 --WAS RESETTING SEEK AND INPOINT/OUTPOINT MARKERS WHEN MOVING A CLIP
         if (resetCropPosition) {
 	   m_editPanel->setInpoint(m_clip->cropStartTime());

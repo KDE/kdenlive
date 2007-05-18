@@ -31,7 +31,6 @@ namespace Gui {
 	const char *name):QVBox(parent, name), m_monitor(monitor),
         m_clipLength(0), m_name(name)
     {
-	//
 	m_render = m_monitor->findRenderer(name);
 	//connect(m_render, SIGNAL(replyCreateVideoXWindow(WId)), this, SLOT(embedWindow(WId)));
 	/*connect(m_render, SIGNAL(positionChanged(const GenTime &)), this,
@@ -43,7 +42,7 @@ namespace Gui {
 	    SLOT(slotPlaySpeedChanged(double)));
 	 connect(m_render, SIGNAL(stopped()), this,
 	    SLOT(slotRendererStopped()));
-	m_render->createVideoXWindow(false, winId(), m_monitor->externalMonitor());
+	m_render->createVideoXWindow(winId(), m_monitor->externalMonitor());
     } 
     
     KMMScreen::~KMMScreen() {
@@ -128,7 +127,6 @@ namespace Gui {
 /** Set the displayed scenelist to the one specified. */
     void KMMScreen::setSceneList(const QDomDocument & scenelist,
 	bool resetPosition) {
-	kdDebug()<<"**************  SCREEN SET SCENELIST"<<endl;
 	// #HACK currently, if there is no clip, the scenelist is: "</westley>" and it crashes, so test length as a temporary workaround
 
 	if (scenelist.toString().length() > 20) {

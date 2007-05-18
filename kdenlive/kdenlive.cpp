@@ -1387,12 +1387,17 @@ namespace Gui {
 	m_dockWorkspaceMonitor->setWidget(m_workspaceMonitor);
 	m_workspaceMonitor->show();
 	m_dockWorkspaceMonitor->update();
+	m_workspaceMonitor->setSceneList(QDomDocument());
 
 	if (m_clipMonitor) delete m_clipMonitor;
-	m_clipMonitor = m_monitorManager.createMonitor(getDocument(),m_dockClipMonitor, "ClipMonitor");
+	m_clipMonitor = m_monitorManager.createMonitor( getDocument(),m_dockClipMonitor, "ClipMonitor");
 	m_dockClipMonitor->setWidget(m_clipMonitor);
 	m_clipMonitor->show();
 	m_dockClipMonitor->update();
+	m_clipMonitor->setSceneList(QDomDocument());
+
+	activateWorkspaceMonitor();
+	activateClipMonitor();
 
         if (m_captureMonitor) delete m_captureMonitor;
 	m_captureMonitor = m_monitorManager.createCaptureMonitor( getDocument(), m_dockCaptureMonitor, "Capture Monitor" );
@@ -1461,8 +1466,6 @@ namespace Gui {
 	    SIGNAL(documentLengthChanged(const GenTime &)), m_timeline,
 	    SLOT(slotSetProjectLength(const GenTime &)));
 
-	connect(m_projectList, SIGNAL(clipSelected(DocClipRef *)), this,
-	    SLOT(activateClipMonitor()));
 	connect(m_projectList, SIGNAL(clipSelected(DocClipRef *)), this,
 	    SLOT(slotSetClipMonitorSource(DocClipRef *)));
 
@@ -3751,7 +3754,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 /** Sets the clip monitor source to be the given clip. */
     void KdenliveApp::slotSetClipMonitorSource(DocClipRef * clip) {
         if (clip) {
-	   activateClipMonitor();
+	   slotFocusClipMonitor();
 	   m_clipMonitor->slotSetClip(clip);
         }
         else activateWorkspaceMonitor();

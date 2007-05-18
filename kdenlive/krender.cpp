@@ -145,8 +145,12 @@ should create a video window. If show is true, then the window should be
 displayed, otherwise it should be hidden. KRender will emit the signal
 replyCreateVideoXWindow() once the renderer has replied. */
 
-void KRender::createVideoXWindow(bool , WId winid, WId externalMonitor)
+void KRender::createVideoXWindow(WId winid, WId externalMonitor)
 {
+    if (m_mltConsumer) {
+	delete m_mltConsumer;
+    }
+
     m_mltConsumer = new Mlt::Consumer("sdl_preview");
     if (!m_mltConsumer || !m_mltConsumer->is_valid()) {
 	KMessageBox::error(qApp->mainWidget(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install.\n Exiting now..."));
@@ -200,7 +204,7 @@ int KRender::resetRendererProfile(char * profile)
 
 void KRender::restartConsumer()
 {
-    if (m_winid != -1) createVideoXWindow(true, m_winid, m_externalwinid);
+    if (m_winid != -1) createVideoXWindow( m_winid, m_externalwinid);
 }
 
 /** Wraps the VEML command of the same name; Seeks the renderer clip to the given time. */

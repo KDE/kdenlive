@@ -82,7 +82,7 @@ class KRender:public QObject {
 	should create a video window. If show is true, then the window should be
 	displayed, otherwise it should be hidden. KRender will emit the signal
 	replyCreateVideoXWindow() once the renderer has replied. */
-    void createVideoXWindow(bool show, WId winid, WId externalMonitor);
+    void createVideoXWindow(WId winid, WId externalMonitor);
 	/** Seeks the renderer clip to the given time. */
     void seek(GenTime time);
     
