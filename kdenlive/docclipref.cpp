@@ -857,6 +857,8 @@ QDomDocumentFragment DocClipRef::generateXMLTransition(bool hideVideo, bool hide
             transition.setAttribute("mlt_service", "composite");
             transition.setAttribute("fill", "1");
             transition.setAttribute("progressive","1");
+	    transition.setAttribute("valign","1");
+	    transition.setAttribute("halign","1");
             transition.setAttribute("a_track", QString::number( playlistNextTrackNum()));
             transition.setAttribute("b_track", QString::number(playlistTrackNum()));
             list.appendChild(transition);
@@ -875,9 +877,15 @@ QDomDocumentFragment DocClipRef::generateXMLTransition(bool hideVideo, bool hide
             QDomElement transition = transitionList.createElement("transition");
             transition.setAttribute("in", QString::number((*itt)->transitionStartTime().frames(framesPerSecond())));
             transition.setAttribute("out", QString::number((*itt)->transitionEndTime().frames(framesPerSecond()) - 1));
-            if (type == Transition::PIP_TRANSITION) transition.setAttribute("mlt_service", "composite");
+            if (type == Transition::PIP_TRANSITION)
+		transition.setAttribute("mlt_service", "composite");
             else transition.setAttribute("mlt_service", (*itt)->transitionTag());
             transition.setAttribute("fill", "1");
+
+	    if (transition.attribute("mlt_service") == "composite") {
+		transition.setAttribute("valign", "1");
+		transition.setAttribute("halign", "1");
+	    }
             //transition.setAttribute("distort", "1");
 
 	    // Parse transition attributes
@@ -897,6 +905,8 @@ QDomDocumentFragment DocClipRef::generateXMLTransition(bool hideVideo, bool hide
 		if (!(*itt)->invertTransition()) geom = "0=0,0:100%x100%:0;-1=0,0:100%x100%:100";
 		else geom = "0=0,0:100%x100%:100;-1=0,0:100%x100%:0";
 		transition.setAttribute("geometry", geom);
+		transition.setAttribute("halign", 1);
+		transition.setAttribute("valign", 1);
 	    }
 
 	    if (type == Transition::LUMA_TRANSITION || type == Transition::MIX_TRANSITION || type == Transition::LUMAFILE_TRANSITION) {
@@ -945,6 +955,8 @@ QDomDocumentFragment DocClipRef::generateOffsetXMLTransition(bool hideVideo, boo
         transition.setAttribute("mlt_service", "composite");
         transition.setAttribute("fill", "1");
         transition.setAttribute("progressive","1");
+	transition.setAttribute("valign","1");
+	transition.setAttribute("halign","1");
         transition.setAttribute("a_track", QString::number( playlistNextTrackNum()));
         transition.setAttribute("b_track", QString::number(playlistTrackNum()));
         list.appendChild(transition);
@@ -966,6 +978,11 @@ QDomDocumentFragment DocClipRef::generateOffsetXMLTransition(bool hideVideo, boo
             if (type == Transition::PIP_TRANSITION) transition.setAttribute("mlt_service", "composite");
             else transition.setAttribute("mlt_service", (*itt)->transitionTag());
             transition.setAttribute("fill", "1");
+
+	    if (transition.attribute("mlt_service") == "composite") {
+		transition.setAttribute("valign", "1");
+		transition.setAttribute("halign", "1");
+	    }
             //transition.setAttribute("distort", "1");
 
 	    // Parse transition attributes
@@ -985,6 +1002,8 @@ QDomDocumentFragment DocClipRef::generateOffsetXMLTransition(bool hideVideo, boo
 		if (!(*itt)->invertTransition()) geom = "0=0,0:100%x100%:0;-1=0,0:100%x100%:100";
 		else geom = "0=0,0:100%x100%:100;-1=0,0:100%x100%:0";
 		transition.setAttribute("geometry", geom);
+		transition.setAttribute("halign", 1);
+		transition.setAttribute("valign", 1);
 	    }
 
 	    if (type == Transition::LUMA_TRANSITION || type == Transition::MIX_TRANSITION || type == Transition::LUMAFILE_TRANSITION) {
