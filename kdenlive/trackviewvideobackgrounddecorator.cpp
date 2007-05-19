@@ -26,6 +26,8 @@
 #include <qimage.h>
 #include <iostream>
 
+#include <mlt++/Mlt.h>
+
 
 namespace Gui {
     TrackViewVideoBackgroundDecorator::
@@ -44,7 +46,9 @@ namespace Gui {
                     bool selected) {
 			int sx = (int)startX;
 			int ex = (int)endX;
-			
+			if (sx < 0 ) sx = 0;
+			if (ex <= 0) return;
+
                         if (sx < rect.x()) {
                             sx = rect.x();
                         }
@@ -53,22 +57,11 @@ namespace Gui {
                         }
                         int y = rect.y();
                         int h = rect.height();
-
-                        QPixmap startThumbnail = clip->thumbnail();
-			int drawWidth = startThumbnail.width();
-
-                        /*if (m_shift && clip->audioChannels() > 0 && clip->speed() == 1.0) {
-                            h = h / 3 * 2;
-			    drawWidth = drawWidth / 3 * 2;
-			    startThumbnail = startThumbnail.convertToImage().smoothScale(drawWidth, h);
-			}*/
 			ex -= sx;
-			//kdDebug()<< "++++++++  VIDEO REFRESH ("<<clip->name()<<"): "<<startX<<", "<<endX<<", RECT: "<<rect.x()<<", "<<rect.width()<<endl;
-
                         QColor col = selected ? m_selected : m_unselected;
 			// fill clip with color
-			painter.setClipRect(sx, rect.y(), ex, h);
-                        painter.fillRect(sx, rect.y(), ex, h, col);
+			painter.setClipRect(sx, y, ex, h);
+                        painter.fillRect(sx, y, ex, h, col);
 			
 
                         double aspect = 4.0 / 3.0;
@@ -77,28 +70,63 @@ namespace Gui {
                                 (int) timeline()->mapValueToLocal(1) -
                                 (int) timeline()->mapValueToLocal(0);
 
-								int width1 = (int)((h) * aspect);
-                        if (width1 > width)
-                            width = width1;
-                        //int i = sx;
-                        //int frame = 0;
-								//int clipStart = (int)timeline()->mapValueToLocal(clip->trackStart().frames(document()->framesPerSecond()));
-								//int clipEnd = (int)timeline()->mapValueToLocal(clip->trackEnd().frames(document()->framesPerSecond()));
-                        /* Use the clip's default thumbnail & scale it to track size to decorate until we have some better stuff */
-                        
-                        if (endX - startX < drawWidth)
+			int width1 = (int)((h) * aspect);
+                        if (width1 > width) width = width1;
+
+			if (timeline()->timeScale() != 100.0 || (clip->clipType() != DocClipBase::VIDEO && clip->clipType() != DocClipBase::AV )) {
+                            /* Use the clip's default thumbnail & scale it to track size to decorate until we have some better stuff */
+			    QPixmap startThumbnail = clip->thumbnail();
+			    int drawWidth = startThumbnail.width();
+                            if (endX - startX < drawWidth)
 				drawWidth = (int)(endX - startX);
-                        if (ex + sx > endX - startThumbnail.width()) 
-			{
-                            QPixmap endThumbnail = clip->thumbnail(true);
-			    /*if (m_shift && clip->audioChannels() > 0 && clip->speed() == 1.0)
-				endThumbnail = endThumbnail.convertToImage().smoothScale(drawWidth, h);*/
-			    
-				 painter.drawPixmap((int)(endX-drawWidth), y, endThumbnail, 0, 0, drawWidth, h);
-                        }
-								if (sx < startX + startThumbnail.width()) painter.drawPixmap((int)startX, y, startThumbnail, 0, 0, drawWidth, h);
-                        //painter.drawRect(i, y, drawWidth, h);
-	//}
+                            if (ex + sx > endX - startThumbnail.width()) 
+			    {
+                                QPixmap endThumbnail = clip->thumbnail(true);
+			        painter.drawPixmap((int)(endX-drawWidth), y, endThumbnail, 0, 0, drawWidth, h);
+                            }
+			    if (sx < startX + startThumbnail.width()) 
+			        painter.drawPixmap((int)startX, y, startThumbnail, 0, 0, drawWidth, h);
+			}
+			else {
+			    /* Scale is 100%, draw a thumbnail for every frame */
+			    int nbFrames = ex / width + 2;
+			    int startFrame = timeline()->mapLocalToValue(sx);
+			    int realStart = (int) timeline()->mapValueToLocal(startFrame);
+			    // kdDebug()<<"///////STARTING AT FRAME ("<<clip->fileURL().path()<<"): "<<startFrame<<", "<<sx<<":"<<ex<<", "<<width<<endl;
+			    startFrame = startFrame + (clip->cropStartTime() - clip->trackStart()).frames(document()->framesPerSecond());
+			    // kdDebug()<<"///////Need to get "<<nbFrames<<" frames: "<<startFrame<<endl;
+			    uint drawWidth = clip->thumbnail().width();
+			    QPixmap image(width, h);
+    			    char *tmp = KRender::decodedString(clip->fileURL().path());
+    			    Mlt::Producer m_producer(tmp);
+    			    delete tmp;
+			    if (m_producer.is_blank()) {
+				kdDebug()<<"/*/*/*/*/ ERROR CANOT READ: "<<tmp<<endl;
+				return;
+			    }
+			    m_producer.seek(startFrame);
+			    Mlt::Filter m_convert("avcolour_space");
+    			    m_convert.set("forced", mlt_image_rgb24a);
+    			    m_producer.attach(m_convert);
+    			    mlt_image_format format = mlt_image_rgb24a;
+			    painter.setPen(Qt::red);
+			    for (int pos = startFrame; pos < startFrame + nbFrames; pos++) {
+    				m_producer.seek(pos);
+    				image.fill(Qt::black);
+    				Mlt::Frame * frame = m_producer.get_frame();
+    				if (frame) {
+ 			   	    uint8_t *thumb = frame->get_image(format, width, h);
+    				    QImage tmpimage(thumb, width, h, 32, NULL, 0, QImage::IgnoreEndian);
+				    tmpimage.setAlphaBuffer( true );
+   			 	    if (!tmpimage.isNull()) bitBlt(&image, 0, 0, &tmpimage, 0, 0, width, h);
+				    delete frame;
+    				}
+				else kdDebug()<<"// INVALID FRAME -------------"<<endl;
+				int start = realStart + width * (pos - startFrame);
+				painter.drawPixmap(start, y, image, 0, 0, width, h);
+				painter.drawLine(start, y, start,  y + h);
+			    }
+			}
         		painter.setClipping(false);
                     }
 
