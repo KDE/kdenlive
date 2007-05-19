@@ -1,0 +1,1 @@
+INSTALL (FILES norenderer.png kdenlive-splash.png music.png lighten.png darken.png DESTINATION share/apps/kdenlive/graphics)

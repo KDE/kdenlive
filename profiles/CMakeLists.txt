@@ -1,0 +1,1 @@
+INSTALL (FILES exports.profile metadata.properties DESTINATION share/apps/kdenlive/profiles)

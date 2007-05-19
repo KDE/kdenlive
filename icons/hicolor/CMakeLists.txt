@@ -1,0 +1,1 @@
+KDE3_INSTALL_ICONS(hicolor)

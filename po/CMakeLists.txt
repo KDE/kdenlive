@@ -1,0 +1,2 @@
+FIND_PACKAGE(Gettext)
+GETTEXT_CREATE_TRANSLATIONS(kdenlive.pot de.po)
