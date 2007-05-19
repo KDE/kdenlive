@@ -204,7 +204,7 @@
 
     <entry name="distortimages" type="Bool">
       <label>Distort images to fill screen.</label>
-      <default>true</default>
+      <default>false</default>
     </entry>
 
     <entry name="osdtimecode" type="Bool">
