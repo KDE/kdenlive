@@ -242,6 +242,9 @@ transitionPipWidget::transitionPipWidget(KdenliveApp * app, int width, int heigh
         QHBoxLayout* flayout = new QHBoxLayout( frame_preview, 1, 1, "flayout");
         flayout->addWidget( canview, 1 );
 
+	spin_size->setMaxValue(500);
+	slider_size->setMaxValue(500);
+
         connect(slider_transparency, SIGNAL(valueChanged(int)), spin_transparency, SLOT(setValue(int)));
         connect(spin_transparency, SIGNAL(valueChanged(int)), slider_transparency, SLOT(setValue(int)));
         connect(slider_size, SIGNAL(valueChanged(int)), spin_size, SLOT(setValue(int)));
@@ -369,6 +372,7 @@ void transitionPipWidget::adjustSliders(int x, int y)
 
 void transitionPipWidget::setParameters(QString params)
 {
+    if (params.isEmpty()) params = "0=0%,0%:100%x100%:100;-1=0%,0%:100%x100%:100";
     QString param1 = params.section(";",0,0);
     QString transp1 = QString::number(100-param1.section(":",-1).toInt());
     QString size1 = param1.section("x",1,1).section("%",0,0);
