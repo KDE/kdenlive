@@ -9,9 +9,6 @@ KDE3_AUTOMOC(capturemonitor.cpp configureprojectdialog.cpp)
 
 SET ( SRC_FILES
 avfilelist.cpp
-avformatdesccontainer.cpp
-avformatwidgetbool.cpp
-avformatwidgetcodec.cpp
 aviconviewitem.cpp
 avlistviewitem.cpp
 clipdrag.cpp
@@ -60,7 +57,6 @@ effectparameter.cpp
 effectstack.cpp
 effectstackdialog.cpp
 effectstacklistview.cpp
-exportconfig.cpp
 exportdvddialog.cpp
 exportwidget.cpp
 flatbutton.cpp

@@ -1,0 +1,7 @@
+FILE(GLOB _icons *.png)
+FOREACH(_current_ICON ${_icons})
+    STRING(REGEX REPLACE "^.*/[a-zA-Z]+([0-9]+)\\-([a-z]+)\\-(.+\\.png)$" "\\1" _size  "${_current_ICON}")
+    STRING(REGEX REPLACE "^.*/[a-zA-Z]+([0-9]+)\\-([a-z]+)\\-(.+\\.png)$" "\\2" _group "${_current_ICON}")
+    STRING(REGEX REPLACE "^.*/[a-zA-Z]+([0-9]+)\\-([a-z]+)\\-(.+\\.png)$" "\\3" _name  "${_current_ICON}")
+    INSTALL (FILES ${_current_ICON} DESTINATION share/apps/kdenlive/icons/hicolor/${_size}x${_size}/actions RENAME ${_name})
+ENDFOREACH(_current_ICON)
