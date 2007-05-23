@@ -1794,7 +1794,7 @@ void DocClipRef::clearVideoEffects()
 {
 	for (uint count = 0; count < m_effectStack.count(); ++count)
 	{
-	    if (m_effectStack.at(count)->effectDescription().type() == "video") {
+	    if (m_effectStack.at(count)->effectDescription().type() == VIDEOEFFECT) {
 		    m_effectStack.remove(count);
 		    count--;
 	    }
