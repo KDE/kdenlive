@@ -87,33 +87,13 @@ EffectParamDesc *EffectDesc::parameter(uint index) const
     return m_params.at(index);
 }
 
-Effect *EffectDesc::createEffect(const QString & preset)
+Effect *EffectDesc::createEffect()
 {
-    Effect *returnEffect = 0;
-    Effect *effectPreset = findPreset(preset);
-
-    if (effectPreset) {
-	returnEffect = effectPreset->clone();
-    } else {
-	returnEffect = new Effect(*this, this->stringId());
-    }
+    Effect *returnEffect = new Effect(*this, this->stringId());
 
     for (uint count = 0; count < numParameters(); ++count) {
 	returnEffect->addParameter(parameter(count)->name());
     }
 
     return returnEffect;
-}
-
-Effect *EffectDesc::findPreset(const QString & name)
-{
-    QPtrListIterator < Effect > itt(m_presets);
-
-    while (itt.current()) {
-	if (itt.current()->effectDescription().name() == name)
-	    return itt.current();
-	++itt;
-    }
-
-    return 0;
 }

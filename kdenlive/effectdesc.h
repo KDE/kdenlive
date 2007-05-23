@@ -53,7 +53,7 @@ class EffectDesc {
     EffectParamDesc *parameter(uint index) const;
 
 	/** Creates an effect with the correct number of parameters for this effect description. Use the given preset if one exists.*/
-    Effect *createEffect(const QString & preset = QString::null);
+    Effect *createEffect();
   private:
 	/** Revoke copy ctor */
      EffectDesc(const EffectDesc & copy);
@@ -70,11 +70,6 @@ class EffectDesc {
     bool m_mono;
 
      QPtrVector < EffectParamDesc > m_params;
-     QPtrList < Effect > m_presets;
-
-
-	/** find and return the preset effect with the given name. */
-    Effect *findPreset(const QString & name);
 };
 
 #endif
