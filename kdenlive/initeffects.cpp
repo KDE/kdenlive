@@ -1,5 +1,5 @@
 /***************************************************************************
-                          createslideshowclip.cpp  -  description
+                          initeffects.cpp  -  description
                              -------------------
     begin                :  Jul 2006
     copyright            : (C) 2006 by Jean-Baptiste Mardelle
