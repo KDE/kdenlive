@@ -360,7 +360,7 @@ namespace Gui {
 	DocClipRefList list = getDocument()->projectClip().selectedClipList();
 	QString effectId = getDocument()->getEffectStringId(effectName);
 	if (list.isEmpty() || !effectList().effectDescription(effectId)) return;
-	Effect *effect = effectList().effectDescription(effectId)->createEffect(effectId);
+	Effect *effect = effectList().effectDescription(effectId)->createEffect();
 	KMacroCommand *macroCommand = new KMacroCommand(i18n("Add Effect"));
 	DocClipRef *refClip;
 
@@ -3518,7 +3518,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	}
 	QString effectName = i18n("Mute");
 	if (clip->clipEffectNames().findIndex(effectName) == -1) {
-	    Effect *effect = effectList().effectDescription(effectName)->createEffect(effectName);
+	    QString effectId = getDocument()->getEffectStringId(effectName);
+	    Effect *effect = effectList().effectDescription(effectId)->createEffect();
 	    addCommand(Command::KAddEffectCommand::insertEffect(getDocument(), clip, clip->numEffects(), effect));
 	}
 	else clip2->deleteEffect(clip2->clipEffectNames().findIndex(effectName));
