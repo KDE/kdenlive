@@ -44,6 +44,10 @@ namespace Command {
 	void execute();
 	/** Specifies where the master clip should be moved to by this command. */
 	void setEndLocation(DocClipRef * master);
+
+	bool doesMove() {
+	    return m_startTime == m_endTime;
+	}
       private:
 	 KdenliveDoc * m_doc;
 

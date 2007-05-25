@@ -24,7 +24,7 @@ namespace Command {
 
     KMoveClipsCommand::KMoveClipsCommand(KdenliveDoc * doc,
 	DocClipRef * master)
-    :KCommand(), m_doc(doc) {
+    :KCommand(), m_doc(doc), m_endTime(0) {
 	m_startTrack = doc->trackIndex(doc->findTrack(master));
 	if (m_startTrack == -1) {
 	    kdError() <<
@@ -48,6 +48,7 @@ namespace Command {
 	m_endTrack = m_doc->trackIndex(m_doc->findTrack(master));
 	m_endTime = master->trackStart();
     }
+
 
 /** Executes this command */
     void KMoveClipsCommand::execute() {

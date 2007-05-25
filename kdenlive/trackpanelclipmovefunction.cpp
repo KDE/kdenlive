@@ -35,7 +35,7 @@ TrackPanelClipMoveFunction::TrackPanelClipMoveFunction(Gui::KdenliveApp * app, G
 m_app(app),
 m_timeline(timeline),
 m_document(document),
-m_dragging(false), m_startedClipMove(false), m_masterClip(0)
+m_dragging(false), m_startedClipMove(false), m_masterClip(0), m_clipOffset(0)
 {
     m_moveClipsCommand = 0;
     m_deleteClipsCommand = 0;
@@ -170,7 +170,6 @@ bool TrackPanelClipMoveFunction::mouseMoved(Gui::KTrackPanel * panel,
 		    }
 		    m_dragging = true;
 		    initiateDrag(m_clipUnderMouse, mouseTime);
-
 		    result = true;
 		}
 	    }
@@ -229,11 +228,12 @@ bool TrackPanelClipMoveFunction::dragMoved(Gui::KTrackPanel *, QDragMoveEvent * 
 	GenTime mouseTime = m_timeline->timeUnderMouse((double) pos.x()) - m_clipOffset;
 	mouseTime = m_snapToGrid.getSnappedTime(mouseTime);
 	mouseTime = mouseTime + m_clipOffset;
-
 	int trackUnder = trackUnderPoint(pos);
 
 	if (m_selection.isEmpty() || m_dragging) {
-	    moveSelectedClips(trackUnder, mouseTime - m_clipOffset);
+	        moveSelectedClips(trackUnder, mouseTime - m_clipOffset);
+		if (m_moveClipsCommand) delete m_moveClipsCommand;
+		m_moveClipsCommand = 0;
 	} else {
 	    if (m_document->projectClip().canAddClipsToTracks(m_selection,
 		    trackUnder, mouseTime)) {
@@ -350,9 +350,15 @@ bool TrackPanelClipMoveFunction::dragDropped(Gui::KTrackPanel * panel,
 
 	if (m_moveClipsCommand) {
 	    m_moveClipsCommand->setEndLocation(m_masterClip);
-	    m_app->addCommand(m_moveClipsCommand, false);
-	    m_moveClipsCommand = 0;	// KdenliveApp is now managing this command, we do not need to delete it.
-	    m_document->activateSceneListGeneration(true);
+	    if (!m_moveClipsCommand->doesMove())
+	    {
+	        m_app->addCommand(m_moveClipsCommand, false);
+	        m_moveClipsCommand = 0;	// KdenliveApp is now managing this command, we do not need to delete it.
+	    }
+	    else {
+		delete m_moveClipsCommand;
+		m_moveClipsCommand = 0;
+	    }
 	}
     } else if (EffectDrag::canDecode(event)) {
 	DocClipRef *clipUnderMouse = 0;
@@ -408,7 +414,7 @@ bool TrackPanelClipMoveFunction::moveSelectedClips(int newTrack,
 
     trackOffset = newTrack - trackOffset;
     startOffset = start - startOffset;
-
+    if (startOffset == GenTime()) return false;
     m_document->moveSelectedClips(startOffset, trackOffset);
     return true;
 }
