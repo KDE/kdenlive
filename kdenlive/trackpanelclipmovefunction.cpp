@@ -229,8 +229,6 @@ bool TrackPanelClipMoveFunction::dragMoved(Gui::KTrackPanel *, QDragMoveEvent * 
 
 	if (m_selection.isEmpty() || m_dragging) {
 	        moveSelectedClips(trackUnder, mouseTime - m_clipOffset);
-		if (m_moveClipsCommand) delete m_moveClipsCommand;
-		m_moveClipsCommand = 0;
 	} else {
 	    if (m_document->projectClip().canAddClipsToTracks(m_selection,
 		    trackUnder, mouseTime)) {
@@ -351,6 +349,7 @@ bool TrackPanelClipMoveFunction::dragDropped(Gui::KTrackPanel * panel,
 	    {
 	        m_app->addCommand(m_moveClipsCommand, false);
 	        m_moveClipsCommand = 0;	// KdenliveApp is now managing this command, we do not need to delete it.
+		m_document->activateSceneListGeneration(true);
 	    }
 	    else {
 		delete m_moveClipsCommand;
@@ -389,7 +388,6 @@ bool TrackPanelClipMoveFunction::dragDropped(Gui::KTrackPanel * panel,
     }
     m_timeline->stopScrollTimer();
     m_timeline->drawTrackViewBackBuffer();
-    m_document->activateSceneListGeneration(true);
     return true;
 }
 
