@@ -416,6 +416,7 @@ bool TrackPanelClipMoveFunction::moveSelectedClips(int newTrack,
     startOffset = start - startOffset;
     if (startOffset == GenTime()) return false;
     m_document->moveSelectedClips(startOffset, trackOffset);
+    m_document->activateSceneListGeneration(true);
     return true;
 }
 
