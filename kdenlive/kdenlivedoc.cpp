@@ -88,9 +88,10 @@ void KdenliveDoc::ensureCursorVisible()
     m_app->ensureCursorVisible();
 }
 
-GenTime KdenliveDoc::getTimecodePosition(const QString &pos)
+GenTime KdenliveDoc::getTimecodePosition(const QString &pos, int limit)
 {
     int frames = m_timecode.getFrameNumber(pos, framesPerSecond());
+    if (limit >0 && frames > limit) frames = limit;
     return GenTime(frames , framesPerSecond());
 }
 

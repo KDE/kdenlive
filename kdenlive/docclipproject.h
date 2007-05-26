@@ -24,6 +24,9 @@
 #include "transitionstack.h"
 #include "gentime.h"
 
+// MLT currently does not cope with image/color clips longer than 15000 frames
+#define MAXFRAMEDURATION 15000
+
 class ClipManager;
 
 /**This "clip" consists of a number of tracks, clips, overlays, transitions and effects. It is basically

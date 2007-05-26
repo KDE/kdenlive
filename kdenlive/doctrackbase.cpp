@@ -420,6 +420,9 @@ void DocTrackBase::resizeClipTrackStart(DocClipRef * clip,
 	newStart = GenTime() - clip->cropStartTime() / clip->speed();
     }
 
+    if (!sizeLimit && (clip->cropDuration() - newStart).frames(framesPerSecond()) > MAXFRAMEDURATION)
+	newStart = clip->cropDuration() - GenTime(MAXFRAMEDURATION, framesPerSecond());
+
     if ((clip->cropDuration() - newStart) > clip->duration() / clip->speed() && ( sizeLimit )) {
 	kdWarning() <<
 	    "clip new crop duration will be more than clip duration, trimming..."
@@ -479,13 +482,19 @@ void DocTrackBase::resizeClipTrackEnd(DocClipRef * clip, GenTime newEnd)
     }
 
     GenTime cropDuration = newEnd - clip->trackStart();
+    bool limit = false;
+    if (clip->clipType() == DocClipBase::TEXT || clip->clipType() == DocClipBase::IMAGE || clip->clipType() == DocClipBase::COLOR) limit = true;
     // If clip is a video, audio or slideshow, make sure user cannot make it bigger than possible
-    if (cropDuration > clip->duration() / clip->speed() - clip->cropStartTime() / clip->speed() && clip->clipType() != DocClipBase::TEXT && clip->clipType() != DocClipBase::IMAGE && clip->clipType() != DocClipBase::COLOR) {
+    if (!limit && cropDuration > clip->duration() / clip->speed() - clip->cropStartTime() / clip->speed()) {
 	kdWarning() <<
 	    "clip new crop end greater than duration, trimming..." << endl;
 	newEnd =
 	    clip->duration() / clip->speed() - clip->cropStartTime() / clip->speed() + clip->trackStart();
 	cropDuration = newEnd - clip->trackStart();
+    }
+    else if (limit && cropDuration.frames(framesPerSecond()) > MAXFRAMEDURATION) {
+	cropDuration =  GenTime(MAXFRAMEDURATION, framesPerSecond());
+	newEnd = clip->trackStart() + cropDuration;
     }
 
     if (newEnd < clip->trackStart()) {

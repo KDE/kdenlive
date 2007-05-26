@@ -601,7 +601,7 @@ namespace Gui {
 	gotoEnd->setToolTip(i18n("End of project"));
 
 	projectAddClips =
-	    new KAction(i18n("Add Clips"), "addclips.png", 0, this,
+	    new KAction(i18n("Add Clips"), "kdenlive_addclip.png", 0, this,
 	    SLOT(slotProjectAddClips()), actionCollection(),
 	    "project_add_clip");
 
@@ -630,7 +630,7 @@ namespace Gui {
 	
 
 	projectDeleteClips =
-	    new KAction(i18n("Delete Clip"), "editdelete.png", 0, this,
+	    new KAction(i18n("Delete Clip"), "kdenlive_delclip.png", 0, this,
 	    SLOT(slotProjectDeleteClips()), actionCollection(),
 	    "project_delete_clip");
 	projectClean =
@@ -3059,7 +3059,7 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	if (dia->exec() == QDialog::Accepted) {
 	    QString color = clipChoice->button_color->color().name();
 	    color = color.replace(0, 1, "0x") + "ff";
-            GenTime duration = getDocument()->getTimecodePosition(clipChoice->edit_duration->text());
+            GenTime duration = getDocument()->getTimecodePosition(clipChoice->edit_duration->text(), MAXFRAMEDURATION);
             
 	    KCommand *command =
 		new Command::KAddClipCommand(*m_doc, m_projectList->parentName(), color, duration,
@@ -3091,7 +3091,7 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	    dia->adjustSize();
 	    if (dia->exec() == QDialog::Accepted) {
 	        fileUrl = KURL(clipChoice->url_image->url());
-		duration = getDocument()->getTimecodePosition(clipChoice->edit_duration->text());
+		duration = getDocument()->getTimecodePosition(clipChoice->edit_duration->text(), MAXFRAMEDURATION);
 		description = clipChoice->edit_description->text();
 		isTransparent = clipChoice->transparentBg->isChecked();
 		slotStatusMsg(i18n("Ready."));
@@ -3105,7 +3105,7 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	}
 	else {
 	    fileUrl = imageUrl;
-	    duration = getDocument()->getTimecodePosition(KdenliveSettings::colorclipduration());
+	    duration = getDocument()->getTimecodePosition(KdenliveSettings::colorclipduration(), MAXFRAMEDURATION);
 	}
 
 	KCommand *command = new Command::KAddClipCommand(*m_doc, m_projectList->parentName(), fileUrl, duration, description, isTransparent, true);
@@ -3129,10 +3129,10 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    QString url = slideDialog->selectedFolder() + "/.all." + extension;
 	    QString lumaFile = QString::null;
 	    double lumasoftness = slideDialog->softness();
-	    GenTime duration = getDocument()->getTimecodePosition(slideDialog->duration());
-	    int ttl = (int) getDocument()->getTimecodePosition(slideDialog->ttl()).frames(getDocument()->framesPerSecond());
+	    GenTime duration = getDocument()->getTimecodePosition(slideDialog->duration(), MAXFRAMEDURATION);
+	    int ttl = (int) getDocument()->getTimecodePosition(slideDialog->ttl(), MAXFRAMEDURATION).frames(getDocument()->framesPerSecond());
 
-	    int lumaduration = (int) getDocument()->getTimecodePosition(slideDialog->lumaDuration()).frames(getDocument()->framesPerSecond());
+	    int lumaduration = (int) getDocument()->getTimecodePosition(slideDialog->lumaDuration(), MAXFRAMEDURATION).frames(getDocument()->framesPerSecond());
 	    if (slideDialog->useLuma()) lumaFile = m_transitionPanel->getLumaFilePath(slideDialog->currentLuma());
 	    KCommand *command =
 		new Command::KAddClipCommand(*m_doc, m_projectList->parentName(), KURL(url), extension, ttl, slideDialog->hasCrossfade(), lumaFile, lumasoftness, lumaduration, duration, slideDialog->description(), slideDialog->isTransparent(), true);
@@ -3153,7 +3153,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
         txtWidget->titleName->setText(i18n("Text Clip"));
         txtWidget->edit_duration->setText(KdenliveSettings::textclipduration());
         if (txtWidget->exec() == QDialog::Accepted) {
-	    GenTime duration = getDocument()->getTimecodePosition(txtWidget->edit_duration->text());
+	    GenTime duration = getDocument()->getTimecodePosition(txtWidget->edit_duration->text(), MAXFRAMEDURATION);
             QPixmap thumb = txtWidget->thumbnail(50, 40);
             QDomDocument xml = txtWidget->toXml();
             
@@ -3211,7 +3211,11 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	ed->setMinimumWidth(200);
 	if (dia->exec() == QDialog::Accepted) {
 	    Command::KResizeCommand *resizeCommand = new Command::KResizeCommand(getDocument(), *clip);
-	    GenTime newDuration = getDocument()->getTimecodePosition(ed->text());
+	    DocClipBase::CLIPTYPE type = clip->clipType();
+	    GenTime newDuration;
+	    if (type == DocClipBase::COLOR || type == DocClipBase::IMAGE || type == DocClipBase::SLIDESHOW) 
+	    newDuration = getDocument()->getTimecodePosition(ed->text(), MAXFRAMEDURATION);
+	    else newDuration = getDocument()->getTimecodePosition(ed->text());
 	    clip->parentTrack()->resizeClipTrackEnd(clip, newDuration + clip->trackStart());
     	    resizeCommand->setEndSize(*clip);
 	    addCommand(resizeCommand, true);
@@ -3265,7 +3269,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                 txtWidget->titleName->setText(clip->name());
                 txtWidget->transparentTitle->setChecked(clip->toDocClipTextFile()->isTransparent());
                 if (txtWidget->exec() == QDialog::Accepted) {
-		    GenTime duration = getDocument()->getTimecodePosition(txtWidget->edit_duration->text());
+		    GenTime duration = getDocument()->getTimecodePosition(txtWidget->edit_duration->text(), MAXFRAMEDURATION);
                     QPixmap thumb = txtWidget->thumbnail(50, 40);
                     QDomDocument xml = txtWidget->toXml();
                     Command::KEditClipCommand(*m_doc, refClip, duration, txtWidget->titleName->text(),QString::null, xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked());
@@ -3286,18 +3290,22 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		}
 
                 if (dia->exec() == QDialog::Accepted) {
+		    GenTime duration = dia->duration();
                     if (refClip->clipType() == DocClipBase::COLOR) {
+			if (duration > GenTime(MAXFRAMEDURATION, getDocument()->framesPerSecond())) duration = GenTime(MAXFRAMEDURATION, getDocument()->framesPerSecond());
                         Command::KEditClipCommand(*m_doc, refClip, dia->color(),
-                                dia->duration(), dia->name(), dia->description());
+                                duration, dia->name(), dia->description());
                     }
                     else if (refClip->clipType() == DocClipBase::IMAGE) {
 			QString url = dia->url();
-                        Command::KEditClipCommand(*m_doc, refClip, url, dia->duration(), dia->description(), dia->transparency());
+			if (duration > GenTime(MAXFRAMEDURATION, getDocument()->framesPerSecond())) duration = GenTime(MAXFRAMEDURATION, getDocument()->framesPerSecond());
+                        Command::KEditClipCommand(*m_doc, refClip, url, duration, dia->description(), dia->transparency());
 		    }
 		    else if (refClip->clipType() == DocClipBase::SLIDESHOW) {
 			QString lumaFile = m_transitionPanel->getLumaFilePath(dia->lumaFile());
 			QString url = dia->url() + "/.all." + dia->extension();
-                        Command::KEditClipCommand(*m_doc, refClip, url, "",dia->ttl(), dia->crossfading(), lumaFile, dia->lumaSoftness(), dia->lumaDuration(), dia->duration(), dia->description(), dia->transparency());
+			if (duration > GenTime(MAXFRAMEDURATION, getDocument()->framesPerSecond())) duration = GenTime(MAXFRAMEDURATION, getDocument()->framesPerSecond());
+                        Command::KEditClipCommand(*m_doc, refClip, url, "",dia->ttl(), dia->crossfading(), lumaFile, dia->lumaSoftness(), dia->lumaDuration(), duration, dia->description(), dia->transparency());
                     }
                     else { // Video clip
                         Command::KEditClipCommand(*m_doc, refClip, dia->url(),dia->description());

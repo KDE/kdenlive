@@ -185,7 +185,7 @@ class KdenliveDoc:public QObject {
     void setProjectFormat(VIDEOFORMAT vFormat);
 
 	/** Return A time in GenTime format from a timecode string like 00:01:23:04 */
-    GenTime getTimecodePosition(const QString &);
+    GenTime getTimecodePosition(const QString &, int limit = 0);
     void ensureCursorVisible();
     Timecode timeCode();
     void setFramesPerSecond(double fps);
