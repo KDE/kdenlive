@@ -183,15 +183,12 @@ bool TrackPanelClipMoveFunction::mouseMoved(Gui::KTrackPanel * panel,
 bool TrackPanelClipMoveFunction::dragEntered(Gui::KTrackPanel * panel,
     QDragEnterEvent * event)
 {
-
     if (m_startedClipMove) {
 	m_document->activateSceneListGeneration(false);
 	event->accept(true);
-
     } else if (ClipDrag::canDecode(event)) {
 	m_document->activateSceneListGeneration(false);
-	m_selection =
-	    ClipDrag::decode(m_document, event);
+	m_selection = ClipDrag::decode(m_document, event);
 
 
 	if (!m_selection.isEmpty()) {
@@ -328,7 +325,7 @@ bool TrackPanelClipMoveFunction::dragDropped(Gui::KTrackPanel * panel,
 {
     m_dragging = false;
     m_startedClipMove = false;
-    
+
     if (ClipDrag::canDecode(event)) {
 	if (!m_selection.isEmpty()) {
 	    m_selection.setAutoDelete(true);
@@ -392,6 +389,7 @@ bool TrackPanelClipMoveFunction::dragDropped(Gui::KTrackPanel * panel,
     }
     m_timeline->stopScrollTimer();
     m_timeline->drawTrackViewBackBuffer();
+    m_document->activateSceneListGeneration(true);
     return true;
 }
 
@@ -416,7 +414,6 @@ bool TrackPanelClipMoveFunction::moveSelectedClips(int newTrack,
     startOffset = start - startOffset;
     if (startOffset == GenTime()) return false;
     m_document->moveSelectedClips(startOffset, trackOffset);
-    m_document->activateSceneListGeneration(true);
     return true;
 }
 
