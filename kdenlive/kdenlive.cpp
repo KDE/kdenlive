@@ -16,8 +16,6 @@
  ***************************************************************************/
 
 #define _ISOC99_SOURCE
-#include <cmath>
-#include <iostream>
 
 // include files for QT
 #include <qdir.h>
@@ -3874,7 +3872,6 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     }
 
     void KdenliveApp::slotSetRenderFinished() {
-	std::cerr << "FINISHED RENDERING!" << std::endl;
 	m_statusBarProgress->setPercentageVisible(false);
 	m_statusBarProgress->setProgress(m_statusBarProgress->
 	    totalSteps());
