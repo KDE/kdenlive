@@ -15,11 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 #include <klocale.h>
+#include "kdenlive.h"
 #include "kdenlivesplash.h"
 
 KdenliveSplash::KdenliveSplash(const QPixmap & pixmap):KSplashScreen(pixmap, WStyle_StaysOnTop)
 {
-    message(i18n("Version 0.5svn"), AlignLeft, white);
+    message(i18n("Version "VERSION), AlignLeft, white);
 }
 
 KdenliveSplash::~KdenliveSplash()
