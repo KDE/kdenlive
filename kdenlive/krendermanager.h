@@ -44,7 +44,7 @@ class KRenderManager:public QObject {
     /** Finds a renderer by name. Returns null if no such renderer exists. */
     KRender * findRenderer(const QString & name);
     void resetRenderers();
-
+    void stopRenderers();
   private:
      QPtrList < KRender > m_renderList;
      Gui::KdenliveApp *m_app;

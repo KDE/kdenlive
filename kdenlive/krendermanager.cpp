@@ -70,3 +70,13 @@ void KRenderManager::resetRenderers()
         createRenderer(*it);
     }
 }
+
+
+void KRenderManager::stopRenderers()
+{
+    QPtrListIterator < KRender > itt(m_renderList);
+    while (itt.current()) {
+	itt.current()->stop();
+	++itt;
+    }
+}

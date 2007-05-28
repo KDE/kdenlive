@@ -244,12 +244,9 @@ namespace Gui {
 	connect(audioEffectsMenu, SIGNAL(activated(int)), this, SLOT(slotAddAudioEffect(int)));
 	connect(videoEffectsMenu, SIGNAL(activated(int)), this, SLOT(slotAddVideoEffect(int)));
 	connect(removeEffectsMenu, SIGNAL(activated(int)), this, SLOT(slotRemoveEffect(int)));
-
 	initDocument(videoTracks, audioTracks);
-
 	initWidgets();
 	readOptions();
-
 	// disable actions at startup
 	fileSave->setEnabled(false);
 	//  filePrint->setEnabled(false);
@@ -263,7 +260,6 @@ namespace Gui {
 	connect(m_autoSaveTimer, SIGNAL(timeout()), this, SLOT(slotAutoSave()));
 	if (KdenliveSettings::autosave())
 	    m_autoSaveTimer->start(KdenliveSettings::autosavetime() * 60000, false);
-        
 	// Reopen last project if user asked it
 	if (KdenliveSettings::openlast()) openLastFile();
         else if (!m_selectedFile.isEmpty()) openSelectedFile();
@@ -1341,9 +1337,13 @@ namespace Gui {
 	// create the main widget here that is managed by KTMainWindow's view-region and
 	// connect the widget to your document to display document contents.
 	kdDebug()<<"****************  INIT DOCUMENT VIEW ***************"<<endl;
+	renderManager()->stopRenderers();
+	if (m_workspaceMonitor) delete m_workspaceMonitor;
+	if (m_clipMonitor) delete m_clipMonitor;
 
 	if (m_transitionPanel) delete m_transitionPanel;
 	m_transitionPanel = new TransitionDialog(this, m_dockTransition);
+
 	m_dockTransition->setWidget(m_transitionPanel);
 	m_transitionPanel->show();
 
@@ -1377,23 +1377,16 @@ namespace Gui {
 
 	m_monitorManager.deleteMonitors();
 
-
-	if (m_workspaceMonitor) delete m_workspaceMonitor;
 	m_workspaceMonitor = m_monitorManager.createMonitor(getDocument(), m_dockWorkspaceMonitor, "Document");
-
 	m_workspaceMonitor->setNoSeek(true);
 	m_dockWorkspaceMonitor->setWidget(m_workspaceMonitor);
 	m_workspaceMonitor->show();
 	m_dockWorkspaceMonitor->update();
-	m_workspaceMonitor->setSceneList(QDomDocument());
 
-	if (m_clipMonitor) delete m_clipMonitor;
 	m_clipMonitor = m_monitorManager.createMonitor( getDocument(),m_dockClipMonitor, "ClipMonitor");
 	m_dockClipMonitor->setWidget(m_clipMonitor);
 	m_clipMonitor->show();
 	m_dockClipMonitor->update();
-	m_clipMonitor->setSceneList(QDomDocument());
-
 	activateWorkspaceMonitor();
 	activateClipMonitor();
 
@@ -1403,8 +1396,6 @@ namespace Gui {
 	m_captureMonitor->show();
 	m_dockCaptureMonitor->update();
 
-
-	kdDebug()<<"****************  INIT DOCUMENT VIEW 1***************"<<endl;	
 /*	
 	Don't display timeline clip in timeline monitor on single click
 	connect(getDocument(), SIGNAL(signalClipSelected(DocClipRef *)),
@@ -1862,13 +1853,18 @@ namespace Gui {
 	    kdWarning() << "Opening url " << url.path() << endl;
             requestDocumentClose(url);
 	    initView();
+	    kdWarning() << "Opening url 2" << endl;
     	    QTime t;
     	    t.start();
 	    m_projectFormatManager.openDocument(url, m_doc);
+	    kdWarning() << "Opening url 3" << endl;
 	    if (!m_exportWidget) slotRenderExportTimeline(false);
+	    kdWarning() << "Opening url 4" << endl;
 	    m_exportWidget->setMetaData(getDocument()->metadata());
+	    kdWarning() << "Opening url 5" << endl;
 	    setCaption(url.fileName() + " - " + easyName(m_projectFormat), false);
 	    fileOpenRecent->addURL(m_doc->URL());
+	    kdWarning() << "Opening url 6" << endl;
 	    m_timeline->slotSetFramesPerSecond(KdenliveSettings::defaultfps());
 	    if (m_exportWidget) m_exportWidget->resetValues();
 	    kdDebug()<<" + + +  Loading Time : "<<t.elapsed()<<"ms"<<endl;

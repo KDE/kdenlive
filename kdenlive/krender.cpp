@@ -57,6 +57,7 @@ extern "C" {
 #include "initeffects.h"
 
 static QMutex mutex (true);
+static bool m_block (true);
 
 KRender::KRender(const QString & rendererName, QWidget *parent, const char *name):QObject(parent, name), m_name(rendererName), m_renderingFormat(0),
 m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProducer(NULL), m_mltTextProducer(NULL), m_sceneList(QDomDocument()), m_winid(-1)
@@ -113,6 +114,7 @@ void KRender::closeMlt()
 static void consumer_frame_show(mlt_consumer, KRender * self, mlt_frame frame_ptr)
 {
     // detect if the producer has finished playing. Is there a better way to do it ?
+    if (m_block) return;
     if (mlt_properties_get_double( MLT_FRAME_PROPERTIES( frame_ptr ), "_speed" ) == 0)
         self->emitConsumerStopped();
     else {
@@ -157,6 +159,7 @@ void KRender::createVideoXWindow(WId winid, WId externalMonitor)
 	kdError()<<"Sorry, cannot create MLT consumer, check your MLT install you miss SDL libraries support in MLT"<<endl;
 	exit(1);
     }
+
     m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
     //m_mltConsumer->listen("consumer-stopped", this, (mlt_listener) consumer_stopped);
 
@@ -185,8 +188,7 @@ void KRender::createVideoXWindow(WId winid, WId externalMonitor)
     m_mltConsumer->set("progressive", 1);
     m_mltConsumer->set("audio_buffer", 1024);
     m_mltConsumer->set("frequency", 48000);
-    //m_mltConsumer->set("buffer", 1);
-
+//    m_mltConsumer->set("buffer", 25);
 }
 
 
@@ -564,6 +566,7 @@ void KRender::getFileProperties(KURL url, uint framenb)
 
                 // Generate thumbnail for this frame
 		QPixmap pixmap = frameThumbnail(frame, width, height, true);
+
                 emit replyGetImage(url, 0, pixmap, width, height);
 
 	    } else if (frame->get_int("test_audio") == 0) {
@@ -707,7 +710,8 @@ void KRender::start()
 	    return;
 	}
     	else {
-		//refresh();
+		m_block = false;
+		refresh();
 	}
     }
 }
@@ -733,6 +737,8 @@ void KRender::stop()
 	m_mltConsumer->stop();
     }
 
+    m_block = true;
+
     if (m_mltProducer) {
 	m_mltProducer->set_speed(0.0);
 	m_mltProducer->set("out", m_mltProducer->get_length() - 1);
@@ -745,6 +751,7 @@ void KRender::stop(const GenTime & startTime)
 	m_mltProducer->set_speed(0.0);
 	m_mltProducer->seek((int) startTime.frames(m_fps));
     }
+    m_mltConsumer->purge();
 }
 
 
@@ -754,8 +761,10 @@ void KRender::play(double speed)
 	return;
     m_mltProducer->set("out", m_mltProducer->get_length() - 1);
     m_mltProducer->set_speed(speed);
-    if (speed == 0.0)
+    if (speed == 0.0) {
 	m_mltProducer->seek((int) m_framePosition + 1);
+        m_mltConsumer->purge();
+    }
     refresh();
 }
 
@@ -766,6 +775,7 @@ void KRender::play(double speed, const GenTime & startTime)
     m_mltProducer->set("out", m_mltProducer->get_length() - 1);
     m_mltProducer->set_speed(speed);
     m_mltProducer->seek((int) (startTime.frames(m_fps)));
+    m_mltConsumer->purge();
     refresh();
 }
 
@@ -776,6 +786,7 @@ void KRender::play(double speed, const GenTime & startTime,
 	return;
     m_mltProducer->set("out", stopTime.frames(m_fps));
     m_mltProducer->seek((int) (startTime.frames(m_fps)));
+    m_mltConsumer->purge();
     m_mltProducer->set_speed(speed);
     refresh();
 }
@@ -794,6 +805,7 @@ void KRender::sendSeekCommand(GenTime time)
 	return;
     m_mltProducer->seek((int) (time.frames(m_fps)));
     refresh();
+    m_mltConsumer->purge();
 }
 
 void KRender::askForRefresh()
