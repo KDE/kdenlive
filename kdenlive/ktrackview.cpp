@@ -525,6 +525,7 @@ KTrackPanel *panel = panelAt(event->y());
 
 // virtual
     void KTrackView::dragLeaveEvent(QDragLeaveEvent * event) {
+	m_timeline.stopScrollTimer();
         /*
 	if (m_panelUnderMouse) {
 	    if (m_dragFunction)
