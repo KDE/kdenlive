@@ -818,7 +818,7 @@ GenTime KdenliveDoc::toSnapTime(GenTime currTime, bool forward, bool includeSnap
 
 void KdenliveDoc::updateTracksThumbnails()
 {
-    
+    if (!qApp->mainWidget()) return;
     QPtrListIterator < DocTrackBase > trackItt(trackList());
     QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(-1, 10006));
     int clipTotal = 0;
