@@ -587,6 +587,7 @@ QDomDocument KRender::sceneList() const
 /** Create the producer from the Westley QDomDocument */
 void KRender::setSceneList(QDomDocument list, bool resetPosition)
 {
+    if (!m_winid == -1) return;
     double pos = 0;
     m_sceneList = list;
 	m_mltConsumer->set("refresh", 0);
@@ -699,6 +700,10 @@ void KRender::slotOsdTimeout()
 
 void KRender::start()
 {
+    if (!m_winid == -1) {
+	restartConsumer();
+	return;
+    }
     if (!m_mltConsumer) {
 	restartConsumer();
 	return;
@@ -816,6 +821,8 @@ void KRender::askForRefresh()
 
 void KRender::refresh()
 {
+    if (!m_mltProducer)
+	return;
     refreshTimer->stop();
     if (m_mltConsumer) {
 	//m_mltConsumer->lock();
