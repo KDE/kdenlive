@@ -25,9 +25,9 @@
 #include <qtooltip.h>
 
 #include <kurl.h>
-#include <klistviewsearchline.h>
 #include <kiconviewsearchline.h>
 
+#include "listviewtagsearch.h"
 #include "projectlistview.h"
 #include "projecticonview.h"
 #include "projectview_ui.h"
@@ -78,7 +78,7 @@ namespace Gui {
 	ProjectIconView *m_iconView;
 	QPopupMenu *contextcreateMenu();
         columnToolTip * colToolTip;
-	KListViewSearchLineWidget *lv_search;
+	ListViewTagSearchWidget *lv_search;
 	KIconViewSearchLine *iv_search;
 	bool m_isIconView;
 

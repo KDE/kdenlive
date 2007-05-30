@@ -42,6 +42,7 @@ kdenlive_SOURCES = addmarker_ui.ui addtrackdialog_ui.ui avfilelist.cpp \
 	krendermanager.cpp kresizecommand.cpp krollcommand.cpp kruler.cpp krulermodel.cpp \
 	krulersliderbase.cpp krulertimemodel.cpp kscalableruler.cpp kselectclipcommand.cpp \
 	kthumb.cpp kthumb.h ktimeline.cpp ktrackpanel.cpp ktrackplacer.cpp ktrackview.cpp \
+	listviewtagsearch.cpp listviewtagsearch.h \
 	loadprogress_ui.ui loadprojectfilter.cpp loadprojectkinofilter.cpp \
 	loadprojectnativefilter.cpp main.cpp monitormanager.cpp newproject.cpp newproject_ui.ui \
 	newstuff.cpp newstuff.h projectformatmanager.cpp projecticonview.cpp \

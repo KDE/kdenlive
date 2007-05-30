@@ -98,7 +98,13 @@ namespace Gui {
 
     void ProjectList::setupListView() {
 	m_listView = new ProjectListView(view_frame);
-	lv_search = new KListViewSearchLineWidget(m_listView, lv_frame, "search_line");
+	lv_search = new ListViewTagSearchWidget(m_listView, lv_frame, "search_line");
+	// Add our file name and description to the list
+	QValueList<int> columns;
+	columns.push_back(1);
+	columns.push_back(2);
+	lv_search->searchLine()->setSearchColumns(columns);
+
 	m_listView->setDocument(m_document);
 	m_listView->show();
 	lv_search->show();
