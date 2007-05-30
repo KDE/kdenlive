@@ -105,6 +105,7 @@ ktimeline.cpp
 ktrackpanel.cpp
 ktrackplacer.cpp
 ktrackview.cpp
+listviewtagsearch.cpp
 loadprojectfilter.cpp
 loadprojectkinofilter.cpp
 loadprojectnativefilter.cpp
@@ -287,6 +288,7 @@ ktimeline.h
 ktrackpanel.h
 ktrackplacer.h
 ktrackview.h
+listviewtagsearch.h
 loadprojectfilter.h
 loadprojectkinofilter.h
 loadprojectnativefilter.h
@@ -341,6 +343,7 @@ TARGET_LINK_LIBRARIES(kdenlive ${QT_LIBRARIES} kio kdeui mlt++ kdecore knewstuff
 INSTALL (PROGRAMS kdenlive DESTINATION ${CMAKE_INSTALL_PREFIX}/bin )
 INSTALL (FILES kdenlive.kcfg DESTINATION share/config.cfg)
 INSTALL (FILES kdenliveui.rc eventsrc DESTINATION share/apps/kdenlive)
-INSTALL (FILES kdenlive.desktop DESTINATION share/applications/kde)
+INSTALL (FILES eventsrc DESTINATION share/applications/kde)
 INSTALL (FILES vnd.kde.kdenlive.desktop vnd.kde.kdenlive.scenelist.desktop DESTINATION share/mimelnk/application)
 
+INSTALL (FILES kdenlive.desktop DESTINATION share/applnk/Multimedia)

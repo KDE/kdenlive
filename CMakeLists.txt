@@ -1,2 +1,2 @@
-SUBDIRS(kdenlive renderer graphics profiles pgm icons doc)
+SUBDIRS(kdenlive renderer graphics profiles pgm icons doc po)
 
