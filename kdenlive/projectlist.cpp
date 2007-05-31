@@ -118,7 +118,7 @@ namespace Gui {
 	    SLOT(rightButtonPressed(QListViewItem *, const QPoint &,
 		    int)));
         connect(m_listView, SIGNAL(doubleClicked( QListViewItem *, const QPoint &, int )), this, SLOT(editRequested( QListViewItem *, const QPoint &, int )));
-	connect(m_listView, SIGNAL(selectionChanged()), this, SLOT(updateListItem()));
+	connect(m_listView, SIGNAL(executed(QListViewItem *)), this, SLOT(updateListItem()));
 	connect(m_listView, SIGNAL(addClipRequest()), this, SLOT(addClipRequest()));
     }
 
@@ -128,7 +128,7 @@ namespace Gui {
 	m_iconView->setDocument(m_document);
 	m_iconView->show();
 	iv_search->show();
-	connect(m_iconView, SIGNAL(selectionChanged()), this, SLOT(updateListItem()));
+	connect(m_iconView, SIGNAL(executed (QIconViewItem *)), this, SLOT(updateListItem()));
 	connect(m_iconView, SIGNAL(rightButtonPressed(QIconViewItem *, const QPoint &)), this, SLOT(rightButtonPressed(QIconViewItem *, const QPoint &)));
 	connect(m_iconView, SIGNAL(doubleClicked( QIconViewItem *)), this, SLOT(editRequested( QIconViewItem *)));
     }
