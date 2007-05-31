@@ -40,7 +40,7 @@ namespace Gui {
 	m_monitors.append(monitor);
 	connect(monitor, SIGNAL(monitorClicked(KMonitor *)), this,
 	    SLOT(slotMonitorClicked(KMonitor *)));
-	monitor->setSceneList(QDomDocument());
+	// monitor->setSceneList(QDomDocument());
 	return monitor;
     }
 

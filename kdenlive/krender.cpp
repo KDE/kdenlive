@@ -60,7 +60,7 @@ static QMutex mutex (true);
 static bool m_block (true);
 
 KRender::KRender(const QString & rendererName, QWidget *parent, const char *name):QObject(parent, name), m_name(rendererName), m_renderingFormat(0),
-m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProducer(NULL), m_mltTextProducer(NULL), m_sceneList(QDomDocument()), m_winid(-1)
+m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProducer(NULL), m_mltTextProducer(NULL), m_sceneList(QDomDocument()), m_winid(-1), m_framePosition(0)
 {
     openMlt();
     refreshTimer = new QTimer( this );
@@ -656,6 +656,8 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
 
 void KRender::refreshDisplay() {
 	if (!m_mltProducer) return;
+	//m_mltConsumer->set("refresh", 0);
+	//start();
 	mlt_properties properties = MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer());
 	if (KdenliveSettings::osdtimecode()) {
 	    mlt_properties_set_int( properties, "meta.attr.timecode", 1);
@@ -723,8 +725,8 @@ void KRender::start()
 
 void KRender::clear()
 {
-    m_mltConsumer->set("refresh", 0);
     if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
+	m_mltConsumer->set("refresh", 0);
 	m_mltConsumer->stop();
     }
 
@@ -740,6 +742,7 @@ void KRender::stop()
 {
     if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
 	m_mltConsumer->stop();
+	m_mltConsumer->set("refresh", 0);
     }
 
     m_block = true;

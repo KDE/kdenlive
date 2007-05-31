@@ -123,7 +123,9 @@ class DocClipRef:public QObject {
 	part of a clip is wanted in the edit. For example, a clip may be 60 seconds long, but the first
 	10 is not needed. Setting the "crop start time" to 10 seconds means that the first 10 seconds isn't
 	used. The crop times are necessary, so that if at later time you decide you need an extra second
-	at the beginning of the clip, you can re-add it.*/
+	at the beginning of the clip, you can re-add it. Crop times (including croptDuration()), like start
+	times and end times, are relative to the current speed of the clip. ie if the clip is set at 200%, 
+	a crop time of 5 seconds will be 10 seconds into the original clip*/
     void setCropStartTime(const GenTime &);
     void moveCropStartTime(const GenTime & time);
 

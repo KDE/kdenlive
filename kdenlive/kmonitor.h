@@ -45,9 +45,9 @@ ABC class for the various monitor types that exist in Kdenlive
 
 	public slots:
 	/** Sets this monitor to be the active monitor. It's colour changes to show it is active. */
-	 virtual void slotSetActive();
+	 virtual void slotSetActive() const;
 	/** Sets this monitor to be an inactive monitor. It's colour changes to show it is inactive. */
-	virtual void slotSetInactive();
+	virtual void slotSetInactive() const;
 
 	virtual void slotClearClip();
 

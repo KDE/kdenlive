@@ -118,9 +118,9 @@ namespace Gui {
 	/** Refresh display (check if on screen display should be on or off */
 	void refreshDisplay() const;
 	/** Sets this monitor to be the active monitor. It's colour changes to show it is active. */
-	void slotSetActive();
+	void slotSetActive() const;
 	/** Sets this monitor to be an inactive monitor. It's colour changes to show it is inactive. */
-	void slotSetInactive();
+	void slotSetInactive() const;
 	/** Sets the displayed clip in the timeline. */
 	void slotSetClip(DocClipBase * clip);
 	/** Sets the displayed clip in the timeline. */

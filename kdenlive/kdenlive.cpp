@@ -244,8 +244,8 @@ namespace Gui {
 	connect(audioEffectsMenu, SIGNAL(activated(int)), this, SLOT(slotAddAudioEffect(int)));
 	connect(videoEffectsMenu, SIGNAL(activated(int)), this, SLOT(slotAddVideoEffect(int)));
 	connect(removeEffectsMenu, SIGNAL(activated(int)), this, SLOT(slotRemoveEffect(int)));
-	initDocument(videoTracks, audioTracks);
 	initWidgets();
+	initDocument(videoTracks, audioTracks);
 	readOptions();
 	// disable actions at startup
 	fileSave->setEnabled(false);
@@ -272,8 +272,8 @@ namespace Gui {
 	}
 	connect(manager(), SIGNAL(change()), this, SLOT(slotUpdateLayoutState()));
 	setAutoSaveSettings();
+	initClipMonitor();
     }
-
 
     QStringList KdenliveApp::videoProjectFormats()
     {
@@ -1338,10 +1338,9 @@ namespace Gui {
 	// connect the widget to your document to display document contents.
 	kdDebug()<<"****************  INIT DOCUMENT VIEW ***************"<<endl;
 	renderManager()->stopRenderers();
-	if (m_workspaceMonitor) delete m_workspaceMonitor;
-	if (m_clipMonitor) delete m_clipMonitor;
 
 	if (m_transitionPanel) delete m_transitionPanel;
+
 	m_transitionPanel = new TransitionDialog(this, m_dockTransition);
 
 	m_dockTransition->setWidget(m_transitionPanel);
@@ -1375,7 +1374,10 @@ namespace Gui {
 	m_effectStackDialog->show();
 	m_dockEffectStack->update();
 
+	if (m_workspaceMonitor) delete m_workspaceMonitor;
+	if (m_clipMonitor) delete m_clipMonitor;
 	m_monitorManager.deleteMonitors();
+
 
 	m_workspaceMonitor = m_monitorManager.createMonitor(getDocument(), m_dockWorkspaceMonitor, "Document");
 	m_workspaceMonitor->setNoSeek(true);
@@ -1388,18 +1390,13 @@ namespace Gui {
 	m_clipMonitor->show();
 	m_dockClipMonitor->update();
 	activateWorkspaceMonitor();
-	activateClipMonitor();
-
+	//activateClipMonitor();
         if (m_captureMonitor) delete m_captureMonitor;
 	m_captureMonitor = m_monitorManager.createCaptureMonitor( getDocument(), m_dockCaptureMonitor, "Capture Monitor" );
 	m_dockCaptureMonitor->setWidget( m_captureMonitor );
 	m_captureMonitor->show();
 	m_dockCaptureMonitor->update();
 
-/*	
-	Don't display timeline clip in timeline monitor on single click
-	connect(getDocument(), SIGNAL(signalClipSelected(DocClipRef *)),
-	    this, SLOT(slotSetClipMonitorSource(DocClipRef *)));*/
 
 	connect(getDocument(), SIGNAL(signalOpenClip(DocClipRef *)),
 	    this, SLOT(slotSetClipMonitorSourceAndSeek(DocClipRef *)));
@@ -1511,7 +1508,6 @@ namespace Gui {
 	//register roll function -reh
 	m_timeline->trackView()->registerFunction("roll", m_rollFunction);
 
-
 	// connects for clip/timeline monitor activation (i.e. making sure they are visible when needed)
 
 	connect(m_transitionPanel, SIGNAL(transitionChanged(bool)),
@@ -1587,7 +1583,6 @@ namespace Gui {
 
 	connectMonitors();
 	slotSyncTimeLineWithDocument();
-
 	m_timeline->slotSetFramesPerSecond(KdenliveSettings::defaultfps());
 	m_timeline->slotSetProjectLength(getDocument()->projectClip().duration());
 
@@ -1850,21 +1845,16 @@ namespace Gui {
 	if (!saveModified()) {
 	    // here saving wasn't successful
 	} else if (KIO::NetAccess::exists(url, true, this)) {
-	    kdWarning() << "Opening url " << url.path() << endl;
             requestDocumentClose(url);
 	    initView();
-	    kdWarning() << "Opening url 2" << endl;
     	    QTime t;
     	    t.start();
+	    initClipMonitor();
 	    m_projectFormatManager.openDocument(url, m_doc);
-	    kdWarning() << "Opening url 3" << endl;
 	    if (!m_exportWidget) slotRenderExportTimeline(false);
-	    kdWarning() << "Opening url 4" << endl;
 	    m_exportWidget->setMetaData(getDocument()->metadata());
-	    kdWarning() << "Opening url 5" << endl;
 	    setCaption(url.fileName() + " - " + easyName(m_projectFormat), false);
 	    fileOpenRecent->addURL(m_doc->URL());
-	    kdWarning() << "Opening url 6" << endl;
 	    m_timeline->slotSetFramesPerSecond(KdenliveSettings::defaultfps());
 	    if (m_exportWidget) m_exportWidget->resetValues();
 	    kdDebug()<<" + + +  Loading Time : "<<t.elapsed()<<"ms"<<endl;
@@ -2135,6 +2125,7 @@ namespace Gui {
 	    	m_doc->setProjectName( newProjectName + ".kdenlive");
 		m_timeline->slotSetFramesPerSecond(KdenliveSettings::defaultfps());
 		if (m_exportWidget) m_exportWidget->resetValues();
+		initClipMonitor();
 	    }
 	}
 
@@ -2221,6 +2212,12 @@ namespace Gui {
 			*videoTracks = videoNum;
 			}
 		return true;
+	}
+
+    void KdenliveApp::initClipMonitor() {
+	if (!m_clipMonitor) return;
+	slotFocusClipMonitor();
+	m_clipMonitor->screen()->play(1.0);
 	}
 
 
@@ -3769,8 +3766,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
             GenTime value = getDocument()->renderer()->seekPosition();
             GenTime trackStart = clip->trackStart();
             GenTime trackEnd = clip->trackEnd();
+	    slotFocusClipMonitor();
             m_clipMonitor->slotSetClip(clip);
-            activateClipMonitor();
             if (value > trackStart && value < trackEnd) {
                 m_clipMonitor->editPanel()->seek(clip->cropStartTime() + value - trackStart);
             }

@@ -26,10 +26,10 @@ namespace Gui {
     void KMonitor::exportCurrentFrame(KURL url, bool notify) const {
     }
 
-    void KMonitor::slotSetActive() {
+    void KMonitor::slotSetActive() const{
     }
 
-    void KMonitor::slotSetInactive() {
+    void KMonitor::slotSetInactive() const{
     }
 
     void KMonitor::slotClearClip() {

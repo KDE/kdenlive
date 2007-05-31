@@ -220,7 +220,7 @@ void DocClipRef::doFetchStartThumbnail()
 {
 	uint height = (uint)(KdenliveSettings::videotracksize());
 	uint width = (uint)(height * 1.25);
-	emit getClipThumbnail(fileURL(), (int)m_cropStart.frames(KdenliveSettings::defaultfps()), width, height);
+	emit getClipThumbnail(fileURL(), (int) (m_cropStart.frames(KdenliveSettings::defaultfps()) * m_speed), width, height);
 }
 
 void DocClipRef::fetchThumbnails()
@@ -228,7 +228,7 @@ void DocClipRef::fetchThumbnails()
 	if (!m_thumbnail.isNull() && !m_endthumbnail.isNull() && m_thumbnail.height() == KdenliveSettings::videotracksize()) return;
 	uint height = (uint)(KdenliveSettings::videotracksize());
 	uint width = (uint)(height * 1.25);
-	int startFrame = (int)m_cropStart.frames(KdenliveSettings::defaultfps());
+	int startFrame = (int) (m_cropStart.frames(KdenliveSettings::defaultfps() * m_speed));
 	m_clip->thumbCreator->getThumbs(fileURL(), startFrame, (int) ( startFrame + cropDuration().frames(KdenliveSettings::defaultfps()) - 1), width, height);
 }
 
@@ -241,7 +241,7 @@ void DocClipRef::doFetchEndThumbnail()
 {
 	uint height = (uint)(KdenliveSettings::videotracksize());
 	uint width = (uint)(height * 1.25);
-	emit getClipThumbnail(fileURL(),(int) ( m_cropStart.frames(KdenliveSettings::defaultfps())+cropDuration().frames(KdenliveSettings::defaultfps()) - 1), width, height);
+	emit getClipThumbnail(fileURL(),(int) (( m_cropStart.frames(KdenliveSettings::defaultfps())+cropDuration().frames(KdenliveSettings::defaultfps()) - 1) * m_speed), width, height);
 }
 
 void DocClipRef::setCropStartTime(const GenTime & time)
@@ -776,6 +776,7 @@ void DocClipRef::setSpeed(double newspeed)
 	return;
     }
     double newDuration = (double)((m_trackEnd.frames(framesPerSecond()) - m_trackStart.frames(framesPerSecond())) * m_speed) / (newspeed);
+    double newCropStart = (double) m_cropStart.frames(framesPerSecond()) * m_speed / (newspeed);
     //double newDuration = origDuration * 2.0 / (newspeed + endspeed);
     if (trackEnd() != m_parentTrack->trackLength()) {
 	// The clip is not the last one on track, check available space
@@ -796,12 +797,36 @@ void DocClipRef::setSpeed(double newspeed)
     }
     m_speed = newspeed;
     m_trackEnd = m_trackStart + GenTime(newDuration, framesPerSecond());
+    m_cropStart = GenTime(newCropStart, framesPerSecond());
     if (m_parentTrack) m_parentTrack->notifyTrackChanged(this);
 }
 
 QDomDocument DocClipRef::generateSceneList(bool, bool)
 {
-    return m_clip->generateSceneList();
+    QDomDocument sceneList = m_clip->generateSceneList();
+    
+    // If this clip has a non 1.0 speed, wrap it in a framebuffer service so 
+    // that when resizing individual clips with a speed effect, the correct frame 
+    // is shown
+    if (m_speed == 1.0)
+        return sceneList;
+    
+    // Get the producer for this scene list. If it has no associated service, 
+    // give it to the frambuffer service and set its speed
+    QDomNodeList producers = sceneList.elementsByTagName("producer");
+    
+    if (producers.count() == 0)
+        return sceneList;
+    
+    QDomElement producer = producers.item(0).toElement();
+    
+    if (!producer.hasAttribute("resource") || producer.hasAttribute("mlt_service"))
+        return sceneList;
+
+    producer.setAttribute("mlt_service", "framebuffer");
+	producer.setAttribute("resource", producer.attribute("resource") + ":" + QString::number(m_speed));
+
+    return sceneList;
 }
 
 QDomDocumentFragment DocClipRef::generateXMLTransition(bool hideVideo, bool hideAudio)
@@ -1256,8 +1281,8 @@ QDomDocument DocClipRef::generateXMLClip(bool rendering)
 				QString fileName;
 				if (effect->effectDescription().name() == i18n("Speed")) {
 				    double speed = effect->effectDescription().parameter(0)->value().toDouble() / effect->effectDescription().parameter(0)->factor();
-				    entry.setAttribute("in", QString::number(entry.attribute("in").toInt() / speed));
-				    entry.setAttribute("out", QString::number(entry.attribute("out").toInt() / speed));
+				    // entry.setAttribute("in", QString::number(entry.attribute("in").toInt() / speed));
+				    // entry.setAttribute("out", QString::number(entry.attribute("out").toInt() / speed));
 				    fileName = fileURL().path() + ":" + QString::number(speed);
 				}
 				else fileName = fileURL().path();
@@ -1508,8 +1533,8 @@ QDomDocument DocClipRef::generateOffsetXMLClip(GenTime start, GenTime end)
 				QString fileName;
 				if (effect->effectDescription().name() == i18n("Speed")) {
 				    double speed = effect->effectDescription().parameter(0)->value().toDouble() / effect->effectDescription().parameter(0)->factor();
-				    entry.setAttribute("in", QString::number(entry.attribute("in").toInt() / speed));
-				    entry.setAttribute("out", QString::number(entry.attribute("out").toInt() / speed));
+				    // entry.setAttribute("in", QString::number(entry.attribute("in").toInt() / speed));
+				    // entry.setAttribute("out", QString::number(entry.attribute("out").toInt() / speed));
 				    fileName = fileURL().path() + ":" + QString::number(speed);
 				}
 				else fileName = fileURL().path();

@@ -158,13 +158,13 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	return m_app->renderManager()->findRenderer(name);
     }
 
-    void KMMMonitor::slotSetActive() {
+    void KMMMonitor::slotSetActive() const {
         m_editPanel->rendererConnected();
 	//m_screenHolder->setPaletteBackgroundColor(QColor(16, 32, 71));
 	m_screen->startRenderer();
     }
 
-    void KMMMonitor::slotSetInactive() {
+    void KMMMonitor::slotSetInactive() const {
         m_editPanel->rendererDisconnected();
 	m_screen->stopRenderer();
 	//m_screenHolder->setPaletteBackgroundColor(QColor(0, 0, 0));
@@ -237,17 +237,17 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
     void KMMMonitor::doCommonSetClip(bool resetCropPosition) {
 	QDomDocument scenelist = m_clip->generateSceneList();
 	setSceneList(scenelist, false);
-	m_screen->setClipLength(m_clip->duration());
-	m_editPanel->setClipLength((int) m_clip->duration().
-	    frames(m_document->framesPerSecond()));
+	GenTime clipDuration(m_clip->duration() / m_clip->speed());
+	m_screen->setClipLength(clipDuration);
+	m_editPanel->setClipLength((int) clipDuration.frames(m_document->framesPerSecond()));
 	activateMonitor();
-	//COMMENTED BY ROBERT 08-13-2004 --WAS RESETTING SEEK AND INPOINT/OUTPOINT MARKERS WHEN MOVING A CLIP
         if (resetCropPosition) {
 	   m_editPanel->setInpoint(m_clip->cropStartTime());
 	   m_editPanel->setOutpoint(m_clip->cropStartTime() + m_clip->cropDuration());
         }
 	if ((!m_noSeek) || (seekPosition() < m_clip->cropStartTime()) ||
-	    (seekPosition() > m_clip->cropStartTime() + m_clip->duration())) {
+	    (seekPosition() > clipDuration)) {
+	//cropStartTime() + m_clip->cropDuration()))) {
 	    m_screen->seek(m_clip->cropStartTime());
 	}
     }

@@ -156,9 +156,9 @@ bool KdenliveDoc::newDocument(int videoTracks, int audioTracks)
 
     m_doc_name = i18n("Untitled");
 
-    emit trackListChanged();
+    //emit trackListChanged();
     setModified(false);
-
+    kdDebug() << "Creating new document DONE " << endl;
     return true;
 }
 
