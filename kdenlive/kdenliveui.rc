@@ -3,7 +3,7 @@
 <MenuBar>
   <Menu name="file">
 	<Action name="merge_project"/>
-	<Separator lineSeperator="true"/>
+	<Separator />
 	<Action name="render_export_timeline"/>
 	<Action name="render_dvd"/>
 	<Action name="export_current_frame"/>
@@ -25,18 +25,18 @@
 	<Action name="move_down"/>
 	<Action name="select_current"/>	
 	<Action name="clip_auto_select"/>	
-	<Separator lineSeperator="true"/>
+	<Separator />
 	<Action name="delete_space"/>
-	<Separator lineSeperator="true"/>
+	<Separator />
 	<Action name="next_track"/>
 	<Action name="prev_track"/>
-	<Separator lineSeperator="true"/>	
+	<Separator />	
 	<Action name="clear_all_snap_markers"/>
 	<Action name="clear_snap_markers_from_selected"/>
   </Menu>
   <Menu name="view">
       <Action name="restore_zoom"/>
-      <Separator lineSeparator="true"/>
+      <Separator />
       <Action name="show_markers"/>
   </Menu>
   
@@ -49,7 +49,7 @@
 	<Action name="project_delete_clip"/>
 	<Action name="project_clean"/>
         <Action name="edit_clip"/>
-	<Separator lineSeparator="true"/>
+	<Separator />
 	<Action name="configure_project"/>
   </Menu>
   <Menu name="timeline"><text>&amp;Timeline</text>
@@ -59,7 +59,7 @@
 	<Action name="timeline_marker_tool"/>
 	<Action name="timeline_roll_tool"/>
 	<Action name="timeline_select_tool"/>
-	<Separator lineSeperator="true"/>
+	<Separator/>
 	<Menu name="goto"><text>Go To</text>
 		<Action name="timeline_go_start"/>
 		<Action name="timeline_go_end"/>
@@ -70,17 +70,17 @@
 		<Action name="forward_frame"/>
 		<Action name="backward_frame"/>
 	</Menu>
-	<Separator lineSeperator="true"/>	
+	<Separator/>	
 	<Action name="timeline_add_guide"/>
 	<Action name="timeline_edit_guide"/>
 	<Action name="timeline_delete_guide"/>
-	<Separator lineSeperator="true"/>	
+	<Separator />	
 	<Action name="save_zone"/>
 	<Action name="virtual_zone"/>
-	<Separator lineSeperator="true"/>	
+	<Separator />	
 	<Action name="timeline_add_track"/>	
 	<Action name="timeline_delete_track"/>
-	<Separator lineSeperator="true"/>
+	<Separator />
 	<Action name="timeline_snap_frame"/>
 	<Action name="timeline_snap_border"/>
 	<Action name="timeline_snap_marker"/>
@@ -93,7 +93,7 @@
 	  <Action name="toggle_forwards"/>
 	  <Action name="toggle_backwards"/>
 	  <Action name="stop_clip"/>
-	  <Separator lineSeperator="true"/>
+	  <Separator />
 	  <Action name="toggle_osd"/>
 	  <Action name="multi_cam"/>
 	  <Menu name="preview_quality"><text>Preview Quality</text>
@@ -108,7 +108,7 @@
   	<Action name="load_layout_2"/>
   	<Action name="load_layout_3"/>
   	<Action name="load_layout_4"/>
-	<Separator lineSeperator="true"/>
+	<Separator />
   	<Action name="save_layout_1"/>
   	<Action name="save_layout_2"/>
   	<Action name="save_layout_3"/>
@@ -122,7 +122,7 @@
 	  <Action name="toggle_effect_stack"/>
 	  <Action name="toggle_project_list"/>
           <Action name="toggle_transitions"/>
-	  <Separator lineSeperator="true"/>
+	  <Separator />
 	  <Action name="focus_clip_monitor"/>
 	  <Action name="focus_workspace_monitor"/>
 	  <Action name="focus_capture_monitor"/>
@@ -150,7 +150,7 @@
 		<Action name="project_add_slideshow_clip"/>
 		<Action name="project_add_text_clip"/>
 	</Menu>
-	<Separator lineSeparator="true"/>
+	<Separator />
 	<Action name="project_clean"/>
 </Menu>
 
@@ -171,7 +171,7 @@
 	<Action name="project_delete_clip"/>
         <Action name="edit_clip"/>
 	<Action name="project_extract_audio"/>
-        <Separator lineSeparator="true"/>
+        <Separator />
         <Action name="project_clean"/>
 </Menu>
 
@@ -187,7 +187,7 @@
 	<Action name="project_duplicate_text_clip"/>
 	<Action name="project_delete_clip"/>
         <Action name="edit_clip"/>
-        <Separator lineSeparator="true"/>
+        <Separator />
         <Action name="project_clean"/>
 </Menu>
 
@@ -203,7 +203,7 @@
 	<Action name="show_virtual_zone"/>
 	<Action name="project_delete_clip"/>
         <Action name="edit_clip"/>
-        <Separator lineSeparator="true"/>
+        <Separator />
         <Action name="project_clean"/>
 </Menu>
 
@@ -219,7 +219,7 @@
 	<Action name="external_audio"/>
 	<Action name="project_delete_clip"/>
         <Action name="edit_clip"/>
-        <Separator lineSeparator="true"/>
+        <Separator />
         <Action name="project_clean"/>
 </Menu>
 
@@ -234,7 +234,7 @@
 		<Action name="project_add_text_clip"/>
 	</Menu>
 	<Action name="delete_folder"/>
-	<Separator lineSeparator="true"/>
+	<Separator />
 	<Action name="project_clean"/>
 </Menu>
 
@@ -272,7 +272,7 @@
 
 <Menu name="timeline_context">
 	<Action name="edit_paste"/>
-	<Separator lineSeparator="true"/>
+	<Separator />
 	<Menu name="tools"><text>Tools</text>
 		<Action name="timeline_move_tool"/>
 		<Action name="timeline_razor_tool"/>
@@ -286,12 +286,12 @@
 		<Action name="timeline_snap_border"/>
 		<Action name="timeline_snap_marker"/>
 	</Menu>
-	<Separator lineSeparator="true"/>
+	<Separator />
 	<Action name="delete_space"/>
 	<Action name="razor_all_clips"/>
-	<Separator lineSeparator="true"/>
+	<Separator />
         <Action name="export_current_frame"/>
-	<Separator lineSeparator="true"/>
+	<Separator />
         <Action name="clear_all_snap_markers"/>
 </Menu>
 
@@ -302,7 +302,7 @@
       <Action name="edit_transition"/>
       <Action name="del_transition"/>
   </Menu>
-  <Separator lineSeparator="true"/>
+  <Separator />
   <Menu name="video_effect"><text>Add Video Effect</text>
   </Menu>
   <Menu name="audio_effect"><text>Add Audio Effect</text>
@@ -315,7 +315,7 @@
       <Action name="delete_marker"/>
       <Action name="clear_snap_markers_from_selected"/>
   </Menu>
-  <Separator lineSeparator="true"/>
+  <Separator />
   <Action name="edit_copy"/>
   <Action name="edit_cut"/>
   <Menu name="special_paste"><text>Paste</text>
@@ -324,11 +324,11 @@
   </Menu>
   <Action name="delete_selected_clips"/>
   <Action name="razor_selected_clips"/>
-  <Separator lineSeparator="true"/>
+  <Separator />
   <Action name="split_audio"/>
   <Action name="extract_audio"/>
   <Action name="save_subclip"/>
-  <Separator lineSeparator="true"/>
+  <Separator />
   <Action name="clip_set_duration"/>
   <Action name="project_edit_clip"/>
 </Menu>
@@ -339,9 +339,9 @@
 	<Action name="toggle_snap_marker"/>
 	<Action name="toggle_osd"/>
 	<Action name="multi_cam"/>
-	<Separator lineSeperator="true"/>
+	<Separator />
 	<Action name="export_current_frame"/>
-	<Separator lineSeperator="true"/>
+	<Separator />
 	<Menu name="preview_quality"><text>Preview Quality</text>
 		<Action name="low_quality"/>
 		<Action name="medium_quality"/>
@@ -355,9 +355,9 @@
 	<Action name="toggle_snap_marker"/>
 	<Action name="toggle_osd"/>
 	<Action name="define_thumb"/>
-	<Separator lineSeperator="true"/>
+	<Separator />
 	<Action name="export_current_frame"/>
-	<Separator lineSeperator="true"/>
+	<Separator />
 	<Menu name="preview_quality"><text>Preview Quality</text>
 		<Action name="low_quality"/>
 		<Action name="medium_quality"/>
@@ -373,7 +373,7 @@
 	<Action name="timeline_marker_tool"/>
 	<Action name="timeline_roll_tool"/>
 	<Action name="timeline_select_tool"/>
-	<Separator lineSeperator="true"/>
+	<Separator />
 	<Action name="timeline_snap_frame"/>
 	<Action name="timeline_snap_border"/>
 	<Action name="timeline_snap_marker"/>
