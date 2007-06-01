@@ -597,6 +597,7 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
 
     if (m_mltProducer != NULL) {
 	m_mltProducer->set_speed(0.0);
+	if (KdenliveSettings::osdtimecode() && m_osdInfo) m_mltProducer->detach(*m_osdInfo);
 	pos = m_mltProducer->position();
 	delete m_mltProducer;
 	m_mltProducer = NULL;
@@ -614,20 +615,28 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
     else {
         track.append(clip);
 	m_mltProducer = track.current();
+
 	m_mltProducer->optimise();
     	if (!resetPosition) m_mltProducer->seek((int) pos);
 
 	if (KdenliveSettings::osdtimecode()) {
 		// Attach filter for on screen display of timecode
 		delete m_osdInfo;
+		QString attr = "attr_check";
+		mlt_filter filter = mlt_factory_filter( "data_feed", (char*) attr.ascii() );
+		mlt_properties_set_int( MLT_FILTER_PROPERTIES( filter ), "_fezzik", 1 );
+		mlt_producer_attach( m_mltProducer->get_producer(), filter );
+		mlt_filter_close( filter );
+
     		m_osdInfo = new Mlt::Filter("data_show");
 		tmp = decodedString(m_osdProfile);
     		m_osdInfo->set("resource", tmp);
 		delete tmp;
 		mlt_properties properties = MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer());
 		mlt_properties_set_int( properties, "meta.attr.timecode", 1);
-		mlt_properties_set( properties, "meta.attr.timecode.markup", "\\#timecode\\#");
+		mlt_properties_set( properties, "meta.attr.timecode.markup", "Result: #timecode#");
 		m_osdInfo->set("dynamic", "1");
+
     		if (m_mltProducer->attach(*m_osdInfo) == 1) kdDebug()<<"////// error attaching filter"<<endl;
 	} else {
 		m_osdInfo->set("dynamic", "0");
@@ -661,7 +670,7 @@ void KRender::refreshDisplay() {
 	mlt_properties properties = MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer());
 	if (KdenliveSettings::osdtimecode()) {
 	    mlt_properties_set_int( properties, "meta.attr.timecode", 1);
-	    mlt_properties_set( properties, "meta.attr.timecode.markup", "\\#timecode\\#");
+	    mlt_properties_set( properties, "meta.attr.timecode.markup", "Result: #timecode#");
 	    m_osdInfo->set("dynamic", "1");
 	    m_mltProducer->attach(*m_osdInfo);
 	}
@@ -676,15 +685,15 @@ void KRender::setVolume(double volume)
 {
     if (!m_mltConsumer || !m_mltProducer) return;
     osdTimer->stop();
-    mlt_properties_set_double( MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer()), "meta.volume", volume );
-
     // Attach filter for on screen display of timecode
     mlt_properties properties = MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer());
-    mlt_properties_set_int( properties, "meta.attr.volume", 1);
-    mlt_properties_set( properties, "meta.attr.volume.markup", i18n("Volume: ") + QString::number(volume * 100));
+    mlt_properties_set_double( properties, "meta.volume", volume );
+    mlt_properties_set_int( properties, "meta.attr.osdvolume", 1);
+    mlt_properties_set( properties, "meta.attr.osdvolume.markup", i18n("Volume: ") + QString::number(volume * 100));
 
     if (!KdenliveSettings::osdtimecode()) {
 	m_mltProducer->detach(*m_osdInfo);
+	mlt_properties_set_int( properties, "meta.attr.timecode", 0);
     	if (m_mltProducer->attach(*m_osdInfo) == 1) kdDebug()<<"////// error attaching filter"<<endl;
     }
     refresh();
@@ -694,22 +703,19 @@ void KRender::setVolume(double volume)
 void KRender::slotOsdTimeout()
 {
     mlt_properties properties = MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer());
-    mlt_properties_set_int(properties, "meta.attr.volume", 0);
-    mlt_properties_set(properties, "meta.attr.volume.markup", NULL);
+    mlt_properties_set_int(properties, "meta.attr.osdvolume", 0);
+    mlt_properties_set(properties, "meta.attr.osdvolume.markup", NULL);
     if (!KdenliveSettings::osdtimecode()) m_mltProducer->detach(*m_osdInfo);
     refresh();
 }
 
 void KRender::start()
 {
-    if (!m_winid == -1) {
+    if (!m_mltConsumer || m_winid == -1) {
 	restartConsumer();
 	return;
     }
-    if (!m_mltConsumer) {
-	restartConsumer();
-	return;
-    }
+
     if (m_mltConsumer->is_stopped()) {
 	if (m_mltConsumer->start() == -1) {
 	    KMessageBox::error(qApp->mainWidget(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
@@ -731,6 +737,7 @@ void KRender::clear()
     }
 
     if (m_mltProducer) {
+	if (KdenliveSettings::osdtimecode() && m_osdInfo) m_mltProducer->detach(*m_osdInfo);
 	m_mltProducer->set_speed(0.0);
 	delete m_mltProducer;
 	m_mltProducer = NULL;
