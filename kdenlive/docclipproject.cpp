@@ -461,17 +461,33 @@ QDomDocument DocClipProject::generateSceneList(bool addProducers, bool rendering
         
     /* transition: mix all used audio tracks */
     
-    if (tracksCounter > 1)
-        for (uint i = 2; i <tracksCounter +1 ; i++) {
-	    QDomElement transition = doc.createElement("transition");
-	    transition.setAttribute("in", "0");
-            transition.setAttribute("out", projectLastFrame);
-            transition.setAttribute("a_track", QString::number(1));
-	    transition.setAttribute("b_track", QString::number(i));
-	    transition.setAttribute("mlt_service", "mix");
-            transition.setAttribute("combine", "1");
-	    tractor.appendChild(transition);
+    if (tracksCounter > 1) {
+	uint firstNonMutedTrack = 1;
+	QDomNode currTrack = multitrack.firstChild();
+	// skip first mute black track
+	currTrack = currTrack.nextSibling();
+	while (currTrack != QDomNode() && currTrack.toElement().attribute("hide") == "audio") {
+	    currTrack = currTrack.nextSibling();
+	    firstNonMutedTrack++;
 	}
+	currTrack = currTrack.nextSibling();
+        for (uint i = firstNonMutedTrack + 1; i <tracksCounter +1 ; i++) {
+	    // Is the track muted
+	    if (currTrack.toElement().attribute("hide") != "audio") {
+		//kdDebug()<<"+++   MIXING TRACK "<<i<<", "<<currTrack.toElement().attribute("id")<<endl;
+	        QDomElement transition = doc.createElement("transition");
+	        transition.setAttribute("in", "0");
+                transition.setAttribute("out", projectLastFrame);
+                transition.setAttribute("a_track", QString::number(firstNonMutedTrack));
+	        transition.setAttribute("b_track", QString::number(i));
+	        transition.setAttribute("mlt_service", "mix");
+                transition.setAttribute("combine", "1");
+	        tractor.appendChild(transition);
+	    }
+	    //else kdDebug()<<"+++   TRACK "<<i<<" is MUTED : "<<currTrack.toElement().attribute("id")<<endl;
+	    currTrack = currTrack.nextSibling();
+	}
+    }
 
     if (KdenliveSettings::multitrackview() && !rendering)
     for (uint i = 0; i <4 && i < videoTracks.count(); i++) {
