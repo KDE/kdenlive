@@ -634,7 +634,7 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
 		delete tmp;
 		mlt_properties properties = MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer());
 		mlt_properties_set_int( properties, "meta.attr.timecode", 1);
-		mlt_properties_set( properties, "meta.attr.timecode.markup", "Result: #timecode#");
+		mlt_properties_set( properties, "meta.attr.timecode.markup", "#timecode#");
 		m_osdInfo->set("dynamic", "1");
 
     		if (m_mltProducer->attach(*m_osdInfo) == 1) kdDebug()<<"////// error attaching filter"<<endl;
@@ -670,7 +670,7 @@ void KRender::refreshDisplay() {
 	mlt_properties properties = MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer());
 	if (KdenliveSettings::osdtimecode()) {
 	    mlt_properties_set_int( properties, "meta.attr.timecode", 1);
-	    mlt_properties_set( properties, "meta.attr.timecode.markup", "Result: #timecode#");
+	    mlt_properties_set( properties, "meta.attr.timecode.markup", "#timecode#");
 	    m_osdInfo->set("dynamic", "1");
 	    m_mltProducer->attach(*m_osdInfo);
 	}
