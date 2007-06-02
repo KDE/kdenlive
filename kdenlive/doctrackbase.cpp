@@ -56,7 +56,7 @@ void DocTrackBase::mute(bool muted)
 
 bool DocTrackBase::isMute()
 {
-    return m_mute;   
+    return m_mute;
 }
 
 void DocTrackBase::blind(bool blinded)
@@ -577,6 +577,9 @@ createTrack(KdenliveDoc *doc, DocClipProject * project, QDomElement elem)
 	return 0;
     }
 
+    if (elem.attribute("muted", "0") == "1") track->mute(true);
+    if (elem.attribute("hidden", "0") == "1") track->blind(true);
+
     QDomNode n = elem.firstChild();
 
     while (!n.isNull()) {
@@ -706,6 +709,8 @@ QDomDocument DocTrackBase::toXML()
 
     doc.appendChild(doc.createElement("kdenlivetrack"));
     doc.documentElement().setAttribute("cliptype", clipType());
+    doc.documentElement().setAttribute("muted", isMute());
+    doc.documentElement().setAttribute("hidden", isBlind());
 
     DocTrackClipIterator itt(*this);
 

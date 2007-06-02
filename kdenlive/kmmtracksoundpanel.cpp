@@ -44,13 +44,14 @@ namespace Gui {
 	QWidget * parent,
 	const char *name):KMMTrackPanel(timeline, document,
 	new KTrackPlacer(document, timeline, docTrack), SOUNDTRACK, parent,
-        name), m_trackHeader(this, "Sound Track"), m_mute(false) {
+        name), m_trackHeader(this, "Sound Track") {
 
             FlatButton *fl = new FlatButton(m_trackHeader.container, "expand", KGlobal::iconLoader()->loadIcon("kdenlive_down",KIcon::Toolbar,16), KGlobal::iconLoader()->loadIcon("kdenlive_right",KIcon::Toolbar,16), false);
 
 	    m_trackHeader.trackNumber->setText(i18n("Track %1").arg(document->trackIndex(docTrack)));
-            
-            FlatButton *fl3 = new FlatButton(m_trackHeader.container_3, "audio", KGlobal::iconLoader()->loadIcon("kdenlive_audiooff",KIcon::Toolbar,16), KGlobal::iconLoader()->loadIcon("kdenlive_audioon",KIcon::Toolbar,16), false);
+
+	    m_mute = docTrack->isMute();
+            FlatButton *fl3 = new FlatButton(m_trackHeader.container_3, "audio", KGlobal::iconLoader()->loadIcon("kdenlive_audiooff",KIcon::Toolbar,16), KGlobal::iconLoader()->loadIcon("kdenlive_audioon",KIcon::Toolbar,16), m_mute);
 
 	trackIsCollapsed = isCollapsed;
         connect(fl, SIGNAL(clicked()), this, SLOT(resizeTrack()));

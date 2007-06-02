@@ -57,12 +57,15 @@ namespace Gui {
 	QWidget * parent,
 	const char *name):KMMTrackPanel(timeline, doc,
 	new KTrackPlacer(doc, timeline, docTrack), VIDEOTRACK, parent,
-        name), m_trackHeader(this, "Video Track"), m_mute(false), m_blind(false) {
+        name), m_trackHeader(this, "Video Track") {
             FlatButton *fl = new FlatButton(m_trackHeader.container, "expand", KGlobal::iconLoader()->loadIcon("kdenlive_down",KIcon::Toolbar,16), KGlobal::iconLoader()->loadIcon("kdenlive_right",KIcon::Toolbar,16), false);
 	    m_trackHeader.trackNumber->setText(i18n("Track %1").arg(doc->trackIndex(docTrack)));
-            FlatButton *fl2 = new FlatButton(m_trackHeader.container_2, "video", KGlobal::iconLoader()->loadIcon("kdenlive_videooff",KIcon::Toolbar,16), KGlobal::iconLoader()->loadIcon("kdenlive_videoon",KIcon::Toolbar,16), false);
 
-            FlatButton *fl3 = new FlatButton(m_trackHeader.container_3, "audio", KGlobal::iconLoader()->loadIcon("kdenlive_audiooff",KIcon::Toolbar,16), KGlobal::iconLoader()->loadIcon("kdenlive_audioon",KIcon::Toolbar,16), false);
+	    m_blind = docTrack->isBlind();
+            FlatButton *fl2 = new FlatButton(m_trackHeader.container_2, "video", KGlobal::iconLoader()->loadIcon("kdenlive_videooff",KIcon::Toolbar,16), KGlobal::iconLoader()->loadIcon("kdenlive_videoon",KIcon::Toolbar,16), m_blind);
+
+	    m_mute = docTrack->isMute();
+            FlatButton *fl3 = new FlatButton(m_trackHeader.container_3, "audio", KGlobal::iconLoader()->loadIcon("kdenlive_audiooff",KIcon::Toolbar,16), KGlobal::iconLoader()->loadIcon("kdenlive_audioon",KIcon::Toolbar,16), m_mute);
 
 	trackIsCollapsed = isCollapsed;
         connect(fl, SIGNAL(clicked()), this, SLOT(resizeTrack()));
