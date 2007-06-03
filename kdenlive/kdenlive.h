@@ -156,6 +156,8 @@ namespace Gui {
 	QString projectFormatName(uint format);
 	formatTemplate projectFormatParameters(int format);
 	VIDEOFORMAT projectFormatFromName(QString formatName);
+		/** Adjust document and timeline to current fps */
+	void setFramesPerSecond();
 
       protected:
 		/** save general Options like all bar positions and status as well as the geometry and the recent file list to the configuration
@@ -436,7 +438,7 @@ namespace Gui {
 	void slotAdjustPreviewQuality();
 
       private slots: 
-	void initClipMonitor();
+	void initMonitors();
 	void slotGetNewLuma();
 	void slotSetDocumentMetadata(const QStringList list);
         void slotToggleClipMonitor();

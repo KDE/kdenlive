@@ -182,8 +182,6 @@ class KdenliveDoc:public QObject {
 	/** Return the list of tracks that make up this document. */
     const DocTrackBaseList & trackList() const;
     
-    void setProjectFormat(VIDEOFORMAT vFormat);
-
 	/** Return A time in GenTime format from a timecode string like 00:01:23:04 */
     GenTime getTimecodePosition(const QString &, int limit = 0);
     void ensureCursorVisible();

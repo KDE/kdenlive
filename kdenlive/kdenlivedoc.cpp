@@ -95,11 +95,6 @@ GenTime KdenliveDoc::getTimecodePosition(const QString &pos, int limit)
     return GenTime(frames , framesPerSecond());
 }
 
-void KdenliveDoc::setProjectFormat(VIDEOFORMAT vFormat)
-{
-    m_app->setProjectFormat(vFormat);
-}
-
 void KdenliveDoc::setURL(const KURL & url)
 {
     m_doc_url = url;

@@ -69,7 +69,7 @@ namespace Gui {
 		QSizePolicy::Expanding, FALSE));
 	//m_editPanel->setSizePolicy(QSizePolicy (QSizePolicy::Expanding, QSizePolicy::Maximum, FALSE));
 	 connectScreen();
-	 setSceneList(QDomDocument());
+	 //setSceneList(QDomDocument());
     } 
     
     KMMMonitor::~KMMMonitor() {

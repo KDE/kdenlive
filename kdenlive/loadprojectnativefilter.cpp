@@ -91,6 +91,8 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 		KdenliveSettings::setDefaultfps(e.attribute("projectfps","25.0").toDouble());
 		KdenliveSettings::setAspectratio(e.attribute("projectratio",QString::number(59.0 / 54.0)).toDouble());
 
+		document->application()->setFramesPerSecond();
+
 		currentPos = e.attribute("timeline_position","0").toInt();
 		inPoint = GenTime(e.attribute("inpoint","0").toInt(), KdenliveSettings::defaultfps());
 		outPoint = GenTime(e.attribute("outpoint","100").toInt(), KdenliveSettings::defaultfps());

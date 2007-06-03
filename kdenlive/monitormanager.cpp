@@ -71,7 +71,7 @@ namespace Gui {
     }
 
     bool MonitorManager::hasActiveMonitor() {
-	return m_active != 0;
+	return (m_active);
     }
 
     void MonitorManager::slotMonitorClicked(KMonitor * monitor) {

@@ -272,7 +272,7 @@ namespace Gui {
 	}
 	connect(manager(), SIGNAL(change()), this, SLOT(slotUpdateLayoutState()));
 	setAutoSaveSettings();
-	initClipMonitor();
+	initMonitors();
     }
 
     QStringList KdenliveApp::videoProjectFormats()
@@ -1373,10 +1373,9 @@ namespace Gui {
 	m_dockEffectStack->setWidget(m_effectStackDialog);
 	m_effectStackDialog->show();
 	m_dockEffectStack->update();
-
+	m_monitorManager.deleteMonitors();
 	if (m_workspaceMonitor) delete m_workspaceMonitor;
 	if (m_clipMonitor) delete m_clipMonitor;
-	m_monitorManager.deleteMonitors();
 
 
 	m_workspaceMonitor = m_monitorManager.createMonitor(getDocument(), m_dockWorkspaceMonitor, "Document");
@@ -1389,7 +1388,7 @@ namespace Gui {
 	m_dockClipMonitor->setWidget(m_clipMonitor);
 	m_clipMonitor->show();
 	m_dockClipMonitor->update();
-	activateWorkspaceMonitor();
+	//activateWorkspaceMonitor();
 	//activateClipMonitor();
         if (m_captureMonitor) delete m_captureMonitor;
 	m_captureMonitor = m_monitorManager.createCaptureMonitor( getDocument(), m_dockCaptureMonitor, "Capture Monitor" );
@@ -1847,15 +1846,14 @@ namespace Gui {
 	} else if (KIO::NetAccess::exists(url, true, this)) {
             requestDocumentClose(url);
 	    initView();
+	    initMonitors();
     	    QTime t;
     	    t.start();
-	    initClipMonitor();
 	    m_projectFormatManager.openDocument(url, m_doc);
 	    if (!m_exportWidget) slotRenderExportTimeline(false);
 	    m_exportWidget->setMetaData(getDocument()->metadata());
 	    setCaption(url.fileName() + " - " + easyName(m_projectFormat), false);
 	    fileOpenRecent->addURL(m_doc->URL());
-	    m_timeline->slotSetFramesPerSecond(KdenliveSettings::defaultfps());
 	    if (m_exportWidget) m_exportWidget->resetValues();
 	    kdDebug()<<" + + +  Loading Time : "<<t.elapsed()<<"ms"<<endl;
 	}
@@ -1883,7 +1881,7 @@ namespace Gui {
 		}
 	}
 	*/
-	QTimer::singleShot(500, m_timeline, SLOT(ensureCursorVisible()));
+	QTimer::singleShot(800, m_timeline, SLOT(ensureCursorVisible()));
 	slotStatusMsg(i18n("Ready."));
     }
 
@@ -2123,9 +2121,9 @@ namespace Gui {
 	    	m_doc->newDocument(videoTracks, audioTracks);
 	    	setCaption(newProjectName + ".kdenlive" + " - " + easyName(m_projectFormat), false);
 	    	m_doc->setProjectName( newProjectName + ".kdenlive");
-		m_timeline->slotSetFramesPerSecond(KdenliveSettings::defaultfps());
+		setFramesPerSecond();
 		if (m_exportWidget) m_exportWidget->resetValues();
-		initClipMonitor();
+		initMonitors();
 	    }
 	}
 
@@ -2214,10 +2212,11 @@ namespace Gui {
 		return true;
 	}
 
-    void KdenliveApp::initClipMonitor() {
-	if (!m_clipMonitor) return;
-	slotFocusClipMonitor();
-	m_clipMonitor->screen()->play(1.0);
+    void KdenliveApp::initMonitors() {
+	activateClipMonitor();
+	if (m_clipMonitor) m_clipMonitor->screen()->play(1.0);
+	activateWorkspaceMonitor();
+	if (m_workspaceMonitor) m_workspaceMonitor->screen()->play(1.0);
 	}
 
 
@@ -3906,9 +3905,14 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     {
 	// switch current video project to new format
 	setProjectFormat((int) projectFormatFromName(newFormat));
+	setFramesPerSecond();
+	getDocument()->activateSceneListGeneration(true);
+    }
+
+    void KdenliveApp::setFramesPerSecond()
+    {
 	getDocument()->setFramesPerSecond(KdenliveSettings::defaultfps());
 	m_timeline->slotSetFramesPerSecond(KdenliveSettings::defaultfps());
-	getDocument()->activateSceneListGeneration(true);
     }
 
     void KdenliveApp::slot_moveClips(QDropEvent * event, QListViewItem * parent) {
