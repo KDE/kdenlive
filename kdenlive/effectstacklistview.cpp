@@ -212,7 +212,7 @@ namespace Gui {
 		itemItt = itemItt->nextSibling();
 	    }
 	}
-	kdWarning() << "selectedEffectIndex = " << result << endl;
+	// kdWarning() << "selectedEffectIndex = " << result << endl;
 	return result;
     }
 
