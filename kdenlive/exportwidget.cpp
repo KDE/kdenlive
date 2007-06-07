@@ -788,11 +788,14 @@ void exportWidget::doExport(QString file, double ratio, QStringList params, bool
     *m_exportProcess << "kdenlive_renderer";
 
     *m_exportProcess << m_tmpFile->name();
+
     *m_exportProcess << "real_time=0";
     *m_exportProcess << "resize=hyper";
 //    *m_exportProcess << "progressive=1";
+
     *m_exportProcess << QString("in=%1").arg(startExportTime.frames(KdenliveSettings::defaultfps()));
     *m_exportProcess << QString("out=%1").arg(endExportTime.frames(KdenliveSettings::defaultfps()));
+
     *m_exportProcess << "-consumer";
     if (isDv) {
 	*m_exportProcess << QString("libdv:%1").arg(file);
@@ -802,14 +805,16 @@ void exportWidget::doExport(QString file, double ratio, QStringList params, bool
     *m_exportProcess << QString("avformat:%1").arg(file);
     if (audioOnly) *m_exportProcess <<"format=wav"<<"frequency=48000";
     else { 
+        if (ratio != 0.0) *m_exportProcess << QString("aspect_ratio=") + QString::number(ratio);
 	*m_exportProcess << params;
-        if (ratio != 0) *m_exportProcess << QString("aspect_ratio=") + QString::number(ratio);
     }
     if (addMetadata->isChecked()) *m_exportProcess << metadataString();
     *m_exportProcess << "real_time=0";
     *m_exportProcess << "stats_on=1";
     // workaround until MLT's default qscale value is fixed
     *m_exportProcess << "qscale=0";
+
+
     if (isDv && !KdenliveSettings::videoprofile().isEmpty()) 
 	*m_exportProcess<<"profile=" + KdenliveSettings::videoprofile();
     connect(m_exportProcess, SIGNAL(processExited(KProcess *)), this, SLOT(endExport(KProcess *)));
