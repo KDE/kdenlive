@@ -303,7 +303,7 @@ bool KdenliveDoc::moveSelectedClips(GenTime startOffset, int trackOffset)
 
 /** Returns a scene list generated from the current document. */
 
-QDomDocument KdenliveDoc::generateSceneList()
+void KdenliveDoc::generateSceneList()
 {
     if (m_projectClip) {
 	refreshVirtualClips();
@@ -312,7 +312,6 @@ QDomDocument KdenliveDoc::generateSceneList()
 	kdWarning() <<
 	    "Cannot generate scene list - m_projectClip is null!" << endl;
     }
-    return m_domSceneList;
 }
 
 void KdenliveDoc::slotSelectProjectItem(int id)

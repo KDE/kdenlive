@@ -128,7 +128,7 @@ class KdenliveDoc:public QObject {
 	/** Sets the modified state of the document, if this has changed, emits modified(state) */
     void setModified(bool state);
 	/** Returns a scene list generated from the current document. */
-    QDomDocument generateSceneList();
+    void generateSceneList();
 	/** Renders the current document timeline to the specified url. */
     void renderDocument(const KURL & url);
 	/** Returns renderer associated with this document. */
