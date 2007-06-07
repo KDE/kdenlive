@@ -122,7 +122,9 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 
     document->application()->setInpointPosition(inPoint);
     document->application()->setOutpointPosition(outPoint);
-    document->renderer()->seek(GenTime(currentPos, KdenliveSettings::defaultfps()));
+    kdDebug()<<" / / Loaded, seek to: "<<currentPos<<endl;
+    document->application()->setCursorPosition(GenTime(currentPos, KdenliveSettings::defaultfps()));
+    //document->renderer()->seek(GenTime(currentPos, KdenliveSettings::defaultfps()));
     return true;
 }
 

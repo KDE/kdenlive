@@ -366,7 +366,6 @@ namespace Gui {
 	m_effectStackDialog->slotSetEffectStack(list.last());
 	makeDockVisible(m_dockEffectStack);
 	if (effectName == i18n("Freeze")) getDocument()->emitCurrentClipPosition();
-	else getDocument()->activateSceneListGeneration(true);
     }
 
     void KdenliveApp::slotRemoveEffect(int ix)
@@ -384,7 +383,6 @@ namespace Gui {
 		if (effectIndex != -1) macroCommand->addCommand(Command::KAddEffectCommand::removeEffect(getDocument(), refClip, effectIndex));	
 	}
 	addCommand(macroCommand, true);
-	getDocument()->activateSceneListGeneration(true);
     }
 
     void KdenliveApp::slotAddVideoEffect(int ix)
@@ -595,26 +593,26 @@ namespace Gui {
 	gotoEnd->setToolTip(i18n("End of project"));
 
 	projectAddClips =
-	    new KAction(i18n("Add Clips"), "kdenlive_addclip.png", 0, this,
+	    new KAction(i18n("Add Clips"), "kdenlive_add_clip", 0, this,
 	    SLOT(slotProjectAddClips()), actionCollection(),
 	    "project_add_clip");
 
 	projectAddColorClip =
-	    new KAction(i18n("Create Color Clip"), "addclips.png", 0, this,
+	    new KAction(i18n("Create Color Clip"), "kdenlive_create_color", 0, this,
 	    SLOT(slotProjectAddColorClip()), actionCollection(),
 	    "project_add_color_clip");
 
 	projectAddImageClip =
-	    new KAction(i18n("Create Image Clip"), "addclips.png", 0, this,
+	    new KAction(i18n("Create Image Clip"), "kdenlive_create_image", 0, this,
 	    SLOT(slotProjectAddImageClip()), actionCollection(),
 	    "project_add_image_clip");
 
-	(void) new KAction(i18n("Create Slideshow Clip"), "addclips.png", 0, this,
+	(void) new KAction(i18n("Create Slideshow Clip"), "kdenlive_create_slide", 0, this,
 	    SLOT(slotProjectAddSlideshowClip()), actionCollection(),
 	    "project_add_slideshow_clip");
 
 	projectAddTextClip =
-	    new KAction(i18n("Create Text Clip"), "addclips.png", 0, this,
+	    new KAction(i18n("Create Text Clip"), "kdenlive_create_text", 0, this,
 	    SLOT(slotProjectAddTextClip()), actionCollection(),
 	    "project_add_text_clip");
 
@@ -1822,7 +1820,6 @@ namespace Gui {
 	clip->parentTrack()->resizeClipTrackStart(clip, getDocument()->renderer()->seekPosition());
     	resizeCommand->setEndSize(*clip);
     	addCommand(resizeCommand, true);
-	getDocument()->indirectlyModified();
     }
 
     void KdenliveApp::slotResizeClipEnd() {
@@ -1832,7 +1829,6 @@ namespace Gui {
 	clip->parentTrack()->resizeClipTrackEnd(clip, getDocument()->renderer()->seekPosition());
     	resizeCommand->setEndSize(*clip);
     	addCommand(resizeCommand, true);
-	getDocument()->indirectlyModified();
     }
 
     void KdenliveApp::slotSelectNextTrack() {
@@ -1881,7 +1877,7 @@ namespace Gui {
 		}
 	}
 	*/
-	QTimer::singleShot(800, m_timeline, SLOT(ensureCursorVisible()));
+	m_timeline->ensureCursorVisible();
 	slotStatusMsg(i18n("Ready."));
     }
 
@@ -1908,6 +1904,10 @@ namespace Gui {
 
     void KdenliveApp::setInpointPosition(const GenTime in) {
 	m_timeline->setInpointTimeline(in);
+    }
+
+    void KdenliveApp::setCursorPosition(const GenTime pos) {
+	m_timeline->seek(pos);
     }
 
     QDomDocument KdenliveApp::xmlGuides() {
@@ -3566,10 +3566,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     void KdenliveApp::slotNextFrame() {
 	slotStatusMsg(i18n("Seeking Forwards one frame"));
 	if (m_monitorManager.hasActiveMonitor()) {
-	    m_monitorManager.activeMonitor()->editPanel()->
-		seek(m_monitorManager.activeMonitor()->screen()->
-		seekPosition() + GenTime(1,
-		    getDocument()->framesPerSecond()));
+	    m_monitorManager.activeMonitor()->editPanel()->stepForwards();
 	    m_timeline->ensureCursorVisible();
 	    if (clipAutoSelect->isChecked()) selectClipUnderCursor();
 	}
@@ -3578,10 +3575,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     void KdenliveApp::slotLastFrame() {
 	slotStatusMsg(i18n("Seeking Backwards one frame"));
 	if (m_monitorManager.hasActiveMonitor()) {
-	    m_monitorManager.activeMonitor()->editPanel()->
-		seek(m_monitorManager.activeMonitor()->screen()->
-		seekPosition() - GenTime(1,
-		    getDocument()->framesPerSecond()));
+	    m_monitorManager.activeMonitor()->editPanel()->stepBack();
 	    m_timeline->ensureCursorVisible();
 	    if (clipAutoSelect->isChecked()) selectClipUnderCursor();
 	}
@@ -4339,9 +4333,12 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     }
 
     void KdenliveApp::slotRazorSelectedClips() {
-	addCommand(Command::DocumentMacroCommands::
-	    razorSelectedClipsAt(getDocument(),
-		m_timeline->seekPosition()), true);
+	DocClipRef *clip = getDocument()->projectClip().selectedClip();
+	if (!clip) return;
+	GenTime curr = m_timeline->seekPosition();
+	if ((curr <= clip->trackStart()) || (curr >= clip->trackEnd())) return;
+	getDocument()->activateSceneListGeneration(false);
+	addCommand(Command::DocumentMacroCommands::razorSelectedClipsAt(getDocument(), curr), true);
 	getDocument()->activateSceneListGeneration(true);
     }
 

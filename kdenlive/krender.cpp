@@ -57,10 +57,9 @@ extern "C" {
 #include "initeffects.h"
 
 static QMutex mutex (true);
-static bool m_block (true);
 
 KRender::KRender(const QString & rendererName, QWidget *parent, const char *name):QObject(parent, name), m_name(rendererName), m_renderingFormat(0),
-m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProducer(NULL), m_mltTextProducer(NULL), m_sceneList(QDomDocument()), m_winid(-1), m_framePosition(0)
+m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProducer(NULL), m_mltTextProducer(NULL), m_sceneList(QDomDocument()), m_winid(-1), m_framePosition(0), m_generateScenelist(false), m_isStopped(true), isBlocked(true)
 {
     openMlt();
     refreshTimer = new QTimer( this );
@@ -105,8 +104,8 @@ void KRender::closeMlt()
     if (m_mltFileProducer) delete m_mltFileProducer;
     if (m_mltConsumer)
         delete m_mltConsumer;
-    if (m_mltProducer);
-    delete m_mltProducer;
+    if (m_mltProducer)
+	delete m_mltProducer;
 }
 
  
@@ -114,18 +113,18 @@ void KRender::closeMlt()
 static void consumer_frame_show(mlt_consumer, KRender * self, mlt_frame frame_ptr)
 {
     // detect if the producer has finished playing. Is there a better way to do it ?
-    if (m_block) return;
-    if (mlt_properties_get_double( MLT_FRAME_PROPERTIES( frame_ptr ), "_speed" ) == 0)
+    if (self->isBlocked) return;
+    if (mlt_properties_get_double( MLT_FRAME_PROPERTIES( frame_ptr ), "_speed" ) == 0.0) {
         self->emitConsumerStopped();
+    }
     else {
 	self->emitFrameNumber(mlt_frame_get_position(frame_ptr));
     }
-
 }
 
 static void consumer_stopped(mlt_consumer, KRender * self, mlt_frame )
 {
-    self->emitConsumerStopped();
+    //self->emitConsumerStopped();
 }
 
 static void file_consumer_stopped(mlt_consumer, KRender * self, mlt_frame)
@@ -160,9 +159,6 @@ void KRender::createVideoXWindow(WId winid, WId externalMonitor)
 	exit(1);
     }
 
-    m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
-    //m_mltConsumer->listen("consumer-stopped", this, (mlt_listener) consumer_stopped);
-
     //only as is saw, if we want to lock something with the sdl lock
     if (!KdenliveSettings::videoprofile().isEmpty()) 
 	m_mltConsumer->set("profile", KdenliveSettings::videoprofile().ascii());
@@ -188,7 +184,10 @@ void KRender::createVideoXWindow(WId winid, WId externalMonitor)
     m_mltConsumer->set("progressive", 1);
     m_mltConsumer->set("audio_buffer", 1024);
     m_mltConsumer->set("frequency", 48000);
-//    m_mltConsumer->set("buffer", 25);
+
+    m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
+//  m_mltConsumer->listen("consumer-stopped", this, (mlt_listener) consumer_stopped);
+//  m_mltConsumer->set("buffer", 25);
 }
 
 
@@ -588,15 +587,20 @@ QDomDocument KRender::sceneList() const
 void KRender::setSceneList(QDomDocument list, bool resetPosition)
 {
     if (!m_winid == -1) return;
+    m_generateScenelist = true;
+    if (m_mltProducer) m_mltProducer->set_speed(0.0);
+    if (m_mltConsumer) {
+	m_mltConsumer->set("refresh", 0);
+	//if (!m_mltConsumer->is_stopped()) {
+	    emitConsumerStopped();
+	    m_mltConsumer->stop();
+	//}
+    }
     double pos = 0;
     m_sceneList = list;
-	m_mltConsumer->set("refresh", 0);
-    /*if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
-	m_mltConsumer->stop();
-    }*/
 
-    if (m_mltProducer != NULL) {
-	m_mltProducer->set_speed(0.0);
+    
+    if (m_mltProducer) {
 	if (KdenliveSettings::osdtimecode() && m_osdInfo) m_mltProducer->detach(*m_osdInfo);
 	pos = m_mltProducer->position();
 	delete m_mltProducer;
@@ -658,6 +662,7 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
 		refresh();
 	    }
 	}
+	m_generateScenelist = false;
     }
 }
 
@@ -723,10 +728,10 @@ void KRender::start()
 	    return;
 	}
     	else {
-		m_block = false;
 		refresh();
 	}
     }
+    isBlocked = false;
 }
 
 void KRender::clear()
@@ -748,11 +753,11 @@ void KRender::clear()
 void KRender::stop()
 {
     if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
-	m_mltConsumer->stop();
 	m_mltConsumer->set("refresh", 0);
+	m_mltConsumer->stop();
     }
 
-    m_block = true;
+    isBlocked = true;
 
     if (m_mltProducer) {
 	m_mltProducer->set_speed(0.0);
@@ -776,10 +781,10 @@ void KRender::play(double speed)
 	return;
     m_mltProducer->set("out", m_mltProducer->get_length() - 1);
     m_mltProducer->set_speed(speed);
-    if (speed == 0.0) {
+    /*if (speed == 0.0) {
 	m_mltProducer->seek((int) m_framePosition + 1);
         m_mltConsumer->purge();
-    }
+    }*/
     refresh();
 }
 
@@ -875,6 +880,8 @@ const QString & KRender::rendererName() const
 
 void KRender::emitFrameNumber(double position)
 {
+	if (m_generateScenelist) return;
+	m_isStopped = false;
 	m_framePosition = position;
         QApplication::postEvent(qApp->mainWidget(), new PositionChangeEvent( GenTime((int) position, m_fps), m_monitorId));
 }
@@ -889,7 +896,8 @@ void KRender::emitFileFrameNumber(const GenTime & , int eventType)
 void KRender::emitConsumerStopped()
 {
     // This is used to know when the playing stopped
-    if (m_mltProducer) {
+    if (m_mltProducer && !m_isStopped && !m_generateScenelist) {
+	m_isStopped = true;
 	double pos = m_mltProducer->position();
         QApplication::postEvent(qApp->mainWidget(), new PositionChangeEvent(GenTime((int) pos, m_fps), m_monitorId + 100));
 	//new QCustomEvent(10002));

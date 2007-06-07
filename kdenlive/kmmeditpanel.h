@@ -90,10 +90,7 @@ namespace Gui {
   	double m_volume;
 
    	// True if we are playing, false otherwise.
-	bool isPlaying() const {
-	    if (m_pauseMode) return false;
-	    return m_playSpeed != 0.0;
-	};
+	bool isPlaying() const;
 	bool isForwarding() const {
 	    return m_playSpeed > 1.0;
 	};
@@ -113,6 +110,8 @@ namespace Gui {
 	void stepBack();
   /** Called when the "stop" button has been pressed. */
 	void stop();
+  /** Called when the clip has changed, ensure we stop. */
+	void doStop();
   /** Called when the "play" button is pressed */
 	void play();
   /** Called when the "play selected" button is pressed */

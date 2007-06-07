@@ -94,10 +94,7 @@ bool TrackPanelClipMoveFunction::mousePressed(Gui::KTrackPanel * panel,
 
 	    if (m_clipUnderMouse) {
 		if (event->state() & Qt::ControlButton) {
-		    m_app->
-			addCommand(Command::KSelectClipCommand::
-			toggleSelectClipAt(m_document, *track, mouseTime),
-			true);
+		    m_app->addCommand(Command::KSelectClipCommand::toggleSelectClipAt(m_document, *track, mouseTime), true);
 		}
 		else {
 		    if (!track->clipSelected(m_clipUnderMouse)) {
@@ -323,7 +320,6 @@ bool TrackPanelClipMoveFunction::dragDropped(Gui::KTrackPanel * panel,
 {
     m_dragging = false;
     m_startedClipMove = false;
-
     if (ClipDrag::canDecode(event)) {
 	if (!m_selection.isEmpty()) {
 	    m_selection.setAutoDelete(true);
@@ -347,11 +343,12 @@ bool TrackPanelClipMoveFunction::dragDropped(Gui::KTrackPanel * panel,
 	    m_moveClipsCommand->setEndLocation(m_masterClip);
 	    if (!m_moveClipsCommand->doesMove())
 	    {
+		m_document->activateSceneListGeneration(true);
 	        m_app->addCommand(m_moveClipsCommand, false);
 	        m_moveClipsCommand = 0;	// KdenliveApp is now managing this command, we do not need to delete it.
-		m_document->activateSceneListGeneration(true);
 	    }
 	    else {
+		m_document->activateSceneListGeneration(true, false);
 		delete m_moveClipsCommand;
 		m_moveClipsCommand = 0;
 	    }

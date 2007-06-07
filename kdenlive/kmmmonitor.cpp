@@ -235,6 +235,7 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
     }
 
     void KMMMonitor::doCommonSetClip(bool resetCropPosition) {
+	m_editPanel->doStop();
 	QDomDocument scenelist = m_clip->generateSceneList();
 	setSceneList(scenelist, false);
 	GenTime clipDuration(m_clip->duration() / m_clip->speed());

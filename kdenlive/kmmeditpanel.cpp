@@ -298,9 +298,15 @@ namespace Gui {
 	//updateButtons();
     }
 
+    bool KMMEditPanel::isPlaying() const{
+	    return m_monitor->screen()->playSpeed() != 0.0;
+	};
+
     void KMMEditPanel::play() {
+	m_playSpeed = m_monitor->screen()->playSpeed();
 	m_playSelected = false;
 	m_loop = false;
+
 	if (isPlaying() && (m_playSpeed == 1.0)) {
 	    setPlaying(false);
 	    return;
@@ -320,6 +326,10 @@ namespace Gui {
 	m_monitor->screen()->playStopped(m_startPlayPosition);
     }
 
+    void KMMEditPanel::doStop() {
+	setPlaying(false);
+    }
+
     void KMMEditPanel::setPlaying(bool play) {
 	double playSpeed;
 	if (play && m_playSpeed == 0.0) m_playSpeed = 1.0;
@@ -330,7 +340,6 @@ namespace Gui {
 	else {
 		playSpeed = 0.0;
 	}
-
 	m_monitor->activateMonitor();
 
 	if (m_playSelected) {

@@ -159,6 +159,9 @@ namespace Gui {
 		/** Adjust document and timeline to current fps */
 	void setFramesPerSecond();
 
+		/** Seek timeline ruler cursor to given time */
+	void setCursorPosition(const GenTime pos);
+
       protected:
 		/** save general Options like all bar positions and status as well as the geometry and the recent file list to the configuration
 		 * file

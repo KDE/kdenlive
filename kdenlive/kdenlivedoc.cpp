@@ -449,10 +449,10 @@ DocClipRef *KdenliveDoc::selectedClip() const
     return pResult;
 }
 
-void KdenliveDoc::activateSceneListGeneration(bool active)
+void KdenliveDoc::activateSceneListGeneration(bool active, bool doit)
 {
     m_sceneListGeneration = active;
-    if (active) {
+    if (active && doit) {
 	hasBeenModified();
     }
 }

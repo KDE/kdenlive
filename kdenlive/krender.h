@@ -162,6 +162,7 @@ class KRender:public QObject {
     /** returns the current scenelist */
     QDomDocument sceneList() const;
     int resetRendererProfile(char * profile);
+    bool isBlocked;
  
   private:			// Private attributes & methods
 	/** The name of this renderer - useful to identify the renderes by what they do - e.g. background rendering, workspace monitor, etc... */
@@ -176,6 +177,8 @@ class KRender:public QObject {
      double m_framePosition;
      double m_fps;
      uint m_monitorId;
+     bool m_isStopped;
+     bool m_generateScenelist;
 
 	/** Holds the path to on screen display profile */
      QString m_osdProfile;
