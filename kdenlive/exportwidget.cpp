@@ -677,12 +677,17 @@ double exportWidget::getCurrentAspect()
 	double aspect = 0;
 	switch (encoders->currentPageIndex()) {
 	case 0:
+		if (m_format == PAL_WIDE) aspect = 16.0 / 9.0 * 576.0 / 720.0;
+		else if (m_format == NTSC_WIDE) aspect = 16.0 / 9.0 * 480.0 / 720.0;
+		else if (m_format == NTSC_VIDEO) aspect = 4.0 / 3.0 * 480.0 / 720.0;
+		else if (m_format == PAL_VIDEO) aspect = 4.0 / 3.0 * 576.0 / 720.0;
 		break;
 	case 1: 
 		size = med_encoders->currentItem()->parent()->text(0);
 		width = size.section("x", 0, 0).toInt();
 		height = size.section("x", 1, 1).toInt();
-		aspect = 4.0/3.0*height/width;
+		if (m_format == PAL_WIDE || m_format == NTSC_WIDE) aspect = 16.0 / 9.0 * height / width;
+		else aspect = 4.0 / 3.0 * height / width;
 		break;
 	default: 
 		break;
@@ -781,6 +786,7 @@ void exportWidget::doExport(QString file, double ratio, QStringList params, bool
     QTextStream stream( m_tmpFile->file() );
     stream << m_app->getDocument()->projectClip().generateSceneList(true, true).toString() << "\n";
     m_tmpFile->file()->close();
+
     m_exportProcess = new KProcess;
     if (!encoder_norm.isEmpty()) m_exportProcess->setEnvironment("MLT_NORMALISATION", encoder_norm);
     else if (m_format == PAL_VIDEO || m_format == PAL_WIDE) m_exportProcess->setEnvironment("MLT_NORMALISATION", "PAL");
@@ -796,6 +802,12 @@ void exportWidget::doExport(QString file, double ratio, QStringList params, bool
     *m_exportProcess << QString("in=%1").arg(startExportTime.frames(KdenliveSettings::defaultfps()));
     *m_exportProcess << QString("out=%1").arg(endExportTime.frames(KdenliveSettings::defaultfps()));
 
+    // Uncomment following to print timecode on exported video
+/*
+    *m_exportProcess << "meta.attr.timecode=1"<<"meta.attr.timecode.markup=#timecode#";
+    *m_exportProcess << "-attach"<<"data_feed:attr_check"<<"_fezzik=1";
+*/
+
     *m_exportProcess << "-consumer";
     if (isDv) {
 	*m_exportProcess << QString("libdv:%1").arg(file);
@@ -806,6 +818,8 @@ void exportWidget::doExport(QString file, double ratio, QStringList params, bool
     if (audioOnly) *m_exportProcess <<"format=wav"<<"frequency=48000";
     else { 
         if (ratio != 0.0) *m_exportProcess << QString("aspect_ratio=") + QString::number(ratio);
+	if (m_format == PAL_WIDE || m_format == NTSC_WIDE) *m_exportProcess << QString("display_ratio=") + QString::number(16.0/9.0);
+	else *m_exportProcess << QString("display_ratio=") + QString::number(4.0/3.0);
 	*m_exportProcess << params;
     }
     if (addMetadata->isChecked()) *m_exportProcess << metadataString();
@@ -814,6 +828,12 @@ void exportWidget::doExport(QString file, double ratio, QStringList params, bool
     // workaround until MLT's default qscale value is fixed
     *m_exportProcess << "qscale=0";
 
+    // Uncomment following to print timecode on exported video
+/*
+    QString filterLocation = "data_show:" + locate("data", "kdenlive/profiles/metadata.properties");
+    *m_exportProcess << "-attach"<<filterLocation;
+    *m_exportProcess << "dynamic=1";
+*/
 
     if (isDv && !KdenliveSettings::videoprofile().isEmpty()) 
 	*m_exportProcess<<"profile=" + KdenliveSettings::videoprofile();

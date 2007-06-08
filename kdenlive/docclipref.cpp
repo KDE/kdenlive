@@ -580,7 +580,7 @@ uint DocClipRef::clipHeight() const
 {
     if (m_clip->isDocClipAVFile())
         return m_clip->toDocClipAVFile()->clipHeight();
-    else if (m_clip->isDocClipTextFile())    
+    else if (m_clip->isDocClipTextFile())
         return m_clip->toDocClipTextFile()->clipHeight();
     return KdenliveSettings::defaultheight();
 }
@@ -881,6 +881,7 @@ QDomDocumentFragment DocClipRef::generateXMLTransition(bool hideVideo, bool hide
             transition.setAttribute("out", (*it).y());
             transition.setAttribute("mlt_service", "composite");
             transition.setAttribute("fill", "1");
+	    if (ct == DocClipBase::TEXT) transition.setAttribute("distort", "1");
             transition.setAttribute("progressive","1");
 	    transition.setAttribute("valign","1");
 	    transition.setAttribute("halign","1");

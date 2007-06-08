@@ -177,7 +177,7 @@ QDomElement SaveProjectNativeFilter::processedNode(DocumentClipNode *clipNode, Q
                 avfile.setAttribute("name", clipNode->clipRef()->name());
                 avfile.setAttribute("transparency", tclip->isTransparent());
 		avfile.setAttribute("hide", "audio");
-		avfile.setAttribute("aspect_ratio", QString::number( tclip->aspectRatio()));
+		//avfile.setAttribute("aspect_ratio", QString::number( tclip->aspectRatio()));
 
 		QDomDocument clipText = tclip->textClipXml();
 		avfile.appendChild(avfile.ownerDocument().importNode(clipText.documentElement(), true));
