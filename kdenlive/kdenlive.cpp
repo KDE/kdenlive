@@ -544,7 +544,7 @@ namespace Gui {
 	    "timeline_snap_marker");
 
 	onScreenDisplay =
-	    new KToggleAction(i18n("Display On Screen Infos"), 0, 0,
+	    new KToggleAction(i18n("Preview rendering in Timeline monitor"), 0, 0,
 	    this, SLOT(slotOnScreenDisplay()), actionCollection(),
 	    "toggle_osd");
 
