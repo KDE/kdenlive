@@ -79,7 +79,9 @@ namespace Gui {
 	KMMMonitor *m_monitor;
 	KdenliveDoc * m_document;
   	double m_playSpeed;
-  
+	QPixmap m_playPixmap;
+	QPixmap m_pausePixmap;
+
  	// Set or stop playback.
   	void setPlaying(bool play);
   	int buttonSize;

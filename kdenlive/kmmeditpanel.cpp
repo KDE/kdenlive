@@ -57,9 +57,12 @@ namespace Gui {
 
 	KIconLoader loader;
 
-
         // get the usual font height in pixel
         buttonSize = startButton->fontInfo().pixelSize ();
+
+	m_pausePixmap = loader.loadIcon("kdenlive_pause", KIcon::Small, buttonSize);
+	m_playPixmap = loader.loadIcon("kdenlive_play", KIcon::Small, buttonSize);
+
 	volumeButton->setToggleButton( false );
 	rew1Button->setToggleButton( false );
 	fwd1Button->setToggleButton( false );
@@ -354,13 +357,11 @@ namespace Gui {
     }
 
     void KMMEditPanel::updateButtons() {
-	KIconLoader loader;
 	stopButton->setDown(false);
 	if (m_loop) { 
 	    if (!loopSection->isOn()) loopSection->toggle();
 	    if (!playButton->isOn()) playButton->toggle();
-	    playButton->setPixmap(loader.loadIcon("kdenlive_pause",
-                                  KIcon::Small, buttonSize));
+	    playButton->setPixmap(m_pausePixmap);
 	    return;
 	}
 	if (isPlaying()) {
@@ -379,8 +380,7 @@ namespace Gui {
 		}
 	    }
 
-	    playButton->setPixmap(loader.loadIcon("kdenlive_pause",
-                                  KIcon::Small, buttonSize));
+	    playButton->setPixmap(m_pausePixmap);
 
 	} else {
 	    forwardButton->setDown(false);
@@ -388,8 +388,7 @@ namespace Gui {
 	    if (playButton->isOn()) playButton->toggle();
 	    if (playSectionButton->isOn()) playSectionButton->toggle();
 	    if (loopSection->isOn()) loopSection->toggle();
-	    playButton->setPixmap(loader.loadIcon("kdenlive_play",
-                                  KIcon::Small, buttonSize));
+	    playButton->setPixmap(m_playPixmap);
 	}
     }
 
