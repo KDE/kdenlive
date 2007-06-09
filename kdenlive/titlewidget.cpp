@@ -102,6 +102,7 @@ void FigureEditor::setTransparency ( bool isOn )
     m_transparent = isOn;
 }
 
+
 void FigureEditor::resizeEvent ( QResizeEvent * e)
 {
         //TODO make canvas keep a fixed ratio when resizing
@@ -162,17 +163,129 @@ void FigureEditor::contentsMouseReleaseEvent(QMouseEvent* e)
 }
 
 void FigureEditor::keyPressEvent ( QKeyEvent * e )
+{		
+	// delete item on del key press
+    if (e->key()==Qt::Key_Delete) {
+        if (selectedItem) {
+            deleteItem(selectedItem);
+            delete selection;
+            selection=0;
+            canvas()->update();
+        }
+    }
+    else if (e->key()==Key_Left) {
+        if (selectedItem) {
+            selection->moveBy(-10, 0);
+            selectedItem->moveBy(-10, 0);
+            canvas()->setAllChanged ();
+            canvas()->update();
+        }
+    } 
+    else if (e->key()==Key_Right) {
+        if (selectedItem) {
+            selection->moveBy(10, 0);
+            selectedItem->moveBy(10, 0);
+            canvas()->setAllChanged ();
+            canvas()->update();
+        }
+    } 
+    else if (e->key()==Key_Up) {
+        if (selectedItem) {
+            selection->moveBy(0, -10);
+            selectedItem->moveBy(0, -10);
+            canvas()->setAllChanged ();
+            canvas()->update();
+        }
+    } 
+    else if (e->key()==Key_Down) {
+        if (selectedItem) {
+            selection->moveBy(0, 10);
+            selectedItem->moveBy(0, 10);
+            canvas()->setAllChanged ();
+            canvas()->update();
+        }
+    } 
+    else
+        e->ignore();
+}
+
+
+void FigureEditor::alignModeChanged(int index)
 {
-        // delete item on del key press
-        if (e->key()==Qt::Key_Delete) {
-                if (selectedItem) {
-                        deleteItem(selectedItem);
-                        delete selection;
-                        selection=0;
-                        canvas()->update();
-                }
-        } else
-                e->ignore();
+    if(!selectedItem || selectedItem->rtti() != 3)
+        return;
+
+    // normalise position before
+    if(((QCanvasText*)(selectedItem))->textFlags() & Qt::AlignRight)
+        ((QCanvasText*)(selectedItem))->setX(((QCanvasText*)(selectedItem))->x() - ((QCanvasText*)(selectedItem))->boundingRect ().width());
+    else if(((QCanvasText*)(selectedItem))->textFlags() & Qt::AlignCenter)
+    {
+        ((QCanvasText*)(selectedItem))->setX(((QCanvasText*)(selectedItem))->x() - ((QCanvasText*)(selectedItem))->boundingRect ().width() / 2.0f);
+        
+        ((QCanvasText*)(selectedItem))->setY(((QCanvasText*)(selectedItem))->y() - (((QCanvasText*)(selectedItem))->boundingRect ().height() / 2.0f));
+    }
+    
+    if(index==0)
+    {
+        ((QCanvasText*)(selectedItem))->setTextFlags(Qt::AlignLeft);
+    }
+    else if(index == 1)
+    {
+        ((QCanvasText*)(selectedItem))->setTextFlags(Qt::AlignRight);
+        ((QCanvasText*)(selectedItem))->setX(((QCanvasText*)(selectedItem))->x() + ((QCanvasText*)(selectedItem))->boundingRect ().width());
+        
+    }
+    else if(index == 2)
+    {
+        ((QCanvasText*)(selectedItem))->setTextFlags(Qt::AlignCenter);
+        ((QCanvasText*)(selectedItem))->setX(((QCanvasText*)(selectedItem))->x() + ((QCanvasText*)(selectedItem))->boundingRect ().width() / 2.0f);
+        
+        ((QCanvasText*)(selectedItem))->setY(((QCanvasText*)(selectedItem))->y() + (((QCanvasText*)(selectedItem))->boundingRect ().height() / 2.0f));
+    }
+    else if(index == 3)
+        ((QCanvasText*)(selectedItem))->setTextFlags(Qt::AlignJustify);
+    
+    updateSelection();
+    canvas()->update();
+    
+}
+
+
+void FigureEditor::itemHCenter()
+{
+        // move item to horizontal center
+    if (!selectedItem)
+        return;
+      
+    if(((QCanvasText*)(selectedItem))->textFlags() == Qt::AlignRight)
+        selectedItem->setX((int) ((canvas()->width()/2.0f)+(((QCanvasText*)(selectedItem))->boundingRect ().width()/2.0f)));
+    else if(((QCanvasText*)(selectedItem))->textFlags() == Qt::AlignCenter)
+        selectedItem->setX((int) ((canvas()->width()/2.0f)));
+    else 
+        selectedItem->setX((int) ((canvas()->width()/2.0f)-(((QCanvasText*)(selectedItem))->boundingRect ().width()/2.0f)));
+    
+    selection->setX((int) ((canvas()->width()/2.0f)-(((QCanvasText*)(selectedItem))->boundingRect ().width()/2.0f)));
+    
+    updateSelection();
+    canvas()->update();
+}
+
+
+void FigureEditor::itemVCenter()
+{
+        // move item to vertical center
+    if (!selectedItem)
+        return;
+        
+    if(((QCanvasText*)(selectedItem))->textFlags() == Qt::AlignCenter)
+        selectedItem->setY((int) ((canvas()->height()/2.0f)));
+    else
+        selectedItem->setY((int) ((canvas()->height()/2.0f)-(((QCanvasText*)(selectedItem))->boundingRect ().height()/2.0f)));
+    
+    selection->setX((int) ((canvas()->width()/2.0f)-(((QCanvasText*)(selectedItem))->boundingRect ().width()/2.0f)));
+    
+    updateSelection();
+    canvas()->update();
 }
 
 
@@ -237,6 +350,7 @@ void FigureEditor::startResize(QPoint p)
 
 void FigureEditor::contentsMousePressEvent(QMouseEvent* e)
 {
+        setFocus();
         QPoint p = inverseWorldMatrix().map(e->pos());
         // Create new item if user wants to
         if (operationMode!=CursorMode) {
@@ -260,6 +374,7 @@ void FigureEditor::contentsMousePressEvent(QMouseEvent* e)
                 selection = 0;
                 moving = 0;
                 selectedItem=0;
+		emit emptySelection();
                 canvas()->update();
                 return;
         }
@@ -312,7 +427,7 @@ void FigureEditor::contentsMousePressEvent(QMouseEvent* e)
                 selectRectangle(*it);
                 emit selectedCanvasItem((QCanvasText*)(*it));
         }
-        if ( (*it)->rtti() == 5 ) {
+        else if ( (*it)->rtti() == 5 ) {
                 selectRectangle(*it);
                 emit selectedCanvasItem((QCanvasRectangle*)(*it));
         }
@@ -338,6 +453,18 @@ void FigureEditor::selectRectangle(QCanvasItem *it)
         canvas()->update();
 }
 
+
+void FigureEditor::updateSelection()
+{
+    if (!selectedItem)
+        return;
+
+	// Update selection rectangle
+    delete selection;
+    selectRectangle(selectedItem);
+}
+
+
 void FigureEditor::clear()
 {
         // clear all canvas
@@ -352,51 +479,138 @@ void FigureEditor::clear()
 
 void FigureEditor::changeTextSize(int newSize)
 {
-        if (!selectedItem || selectedItem->rtti()!=3)
-                return;
-        ((QCanvasText*)(selectedItem))->setFont(QFont(((QCanvasText*)(selectedItem))->font().family(),newSize));
+    if (!selectedItem || selectedItem->rtti()!=3)
+        return;
+	
+    QFont *tempFont = new QFont(((QCanvasText*)(selectedItem))->font().family(),newSize);
+    tempFont->setStrikeOut((((QCanvasText*)(selectedItem))->font().strikeOut()));
+    tempFont->setBold((((QCanvasText*)(selectedItem))->font().bold()));
+    tempFont->setItalic((((QCanvasText*)(selectedItem))->font().italic()));
+    tempFont->setUnderline((((QCanvasText*)(selectedItem))->font().underline()));
+
+    ((QCanvasText*)(selectedItem))->setFont(*tempFont);
 
         // Update selection rectangle
-        delete selection;
-        selection = new QCanvasRectangle(selectedItem->boundingRect (),canvas());
-        selection->setZ(1000);
-	QPen pen = QPen(QColor(120,60,60));
-        pen.setStyle(Qt::DotLine);
-        selection->setPen(pen);
-        selection->show();
-        canvas()->update();
+    updateSelection();
+
+    canvas()->update();
 }
 
 void FigureEditor::changeTextFace(const QString & newFace)
 {
-        if (!selectedItem || selectedItem->rtti()!=3)
-                return;
-        ((QCanvasText*)(selectedItem))->setFont(QFont(newFace,((QCanvasText*)(selectedItem))->font().pointSize()));
+    if (!selectedItem || selectedItem->rtti()!=3)
+        return;
+
+    QFont *tempFont = new QFont(newFace,((QCanvasText*)(selectedItem))->font().pointSize());
+    tempFont->setStrikeOut((((QCanvasText*)(selectedItem))->font().strikeOut()));
+    tempFont->setBold((((QCanvasText*)(selectedItem))->font().bold()));
+    tempFont->setItalic((((QCanvasText*)(selectedItem))->font().italic()));
+    tempFont->setUnderline((((QCanvasText*)(selectedItem))->font().underline()));
+
+    ((QCanvasText*)(selectedItem))->setFont(*tempFont);
 
         // Update selection rectangle
-        delete selection;
-        selection = new QCanvasRectangle(selectedItem->boundingRect (),canvas());
-        selection->setZ(1000);
-	QPen pen = QPen(QColor(120,60,60));
-        pen.setStyle(Qt::DotLine);
-        selection->setPen(pen);
-        selection->show();
-        canvas()->update();
+    updateSelection();
+
+    canvas()->update();
 }
 
 void FigureEditor::changeColor(const QColor & newColor)
 {
-        if (!selectedItem)
-                return;
-        if (selectedItem->rtti()==3)
-                ((QCanvasText*)(selectedItem))->setColor(newColor);
-        if (selectedItem->rtti()==5) {
-                ((QCanvasRectangle*)(selectedItem))->setBrush(newColor);
-                ((QCanvasRectangle*)(selectedItem))->setPen(QPen(newColor));
-        }
-        canvas()->update();
+    if (!selectedItem)
+        return;
+    if (selectedItem->rtti()==3)
+        ((QCanvasText*)(selectedItem))->setColor(newColor);
+    if (selectedItem->rtti()==5) {
+        ((QCanvasRectangle*)(selectedItem))->setBrush(newColor);
+        ((QCanvasRectangle*)(selectedItem))->setPen(QPen(newColor));
+    }
+    canvas()->update();
 }
 
+void FigureEditor::toggleBold()
+{
+    if (!selectedItem)
+        return;
+
+    if (selectedItem->rtti()==3)
+    {
+        QFont *tempFont = new QFont(((QCanvasText*)(selectedItem))->font().family(),((QCanvasText*)(selectedItem))->font().pointSize());
+        tempFont->setBold(!(((QCanvasText*)(selectedItem))->font().bold()));		
+        tempFont->setItalic((((QCanvasText*)(selectedItem))->font().italic()));
+        tempFont->setStrikeOut((((QCanvasText*)(selectedItem))->font().strikeOut()));
+        tempFont->setUnderline((((QCanvasText*)(selectedItem))->font().underline()));
+
+        ((QCanvasText*)(selectedItem))->setFont(*tempFont);
+		
+        updateSelection();
+
+        canvas()->update();
+    }
+}
+
+
+void FigureEditor::toggleItalic()
+{
+    if (!selectedItem)
+        return;
+	
+    if (selectedItem->rtti()==3)
+    {
+        QFont *tempFont = new QFont(((QCanvasText*)(selectedItem))->font().family(),((QCanvasText*)(selectedItem))->font().pointSize());
+        tempFont->setItalic(!(((QCanvasText*)(selectedItem))->font().italic()));
+        tempFont->setBold((((QCanvasText*)(selectedItem))->font().bold()));
+        tempFont->setStrikeOut((((QCanvasText*)(selectedItem))->font().strikeOut()));
+        tempFont->setUnderline((((QCanvasText*)(selectedItem))->font().underline()));
+
+        ((QCanvasText*)(selectedItem))->setFont(*tempFont);
+		
+        updateSelection();
+
+        canvas()->update();
+    }	
+}
+
+
+void FigureEditor::toggleStrikeOut()
+{
+    if (!selectedItem)
+        return;
+
+    if (selectedItem->rtti()==3)
+    {
+        QFont *tempFont = new QFont(((QCanvasText*)(selectedItem))->font().family(),((QCanvasText*)(selectedItem))->font().pointSize());
+        tempFont->setStrikeOut(!(((QCanvasText*)(selectedItem))->font().strikeOut()));
+        tempFont->setBold((((QCanvasText*)(selectedItem))->font().bold()));
+        tempFont->setItalic((((QCanvasText*)(selectedItem))->font().italic()));
+        tempFont->setUnderline((((QCanvasText*)(selectedItem))->font().underline()));
+
+        ((QCanvasText*)(selectedItem))->setFont(*tempFont);
+	
+        canvas()->update();
+    }	
+}
+
+
+void FigureEditor::toggleUnderline()
+{
+    if (!selectedItem)
+        return;
+
+    if (selectedItem->rtti()==3)
+    {
+        QFont *tempFont = new QFont(((QCanvasText*)(selectedItem))->font().family(),((QCanvasText*)(selectedItem))->font().pointSize());
+		
+        tempFont->setUnderline(!(((QCanvasText*)(selectedItem))->font().underline()));
+        tempFont->setStrikeOut((((QCanvasText*)(selectedItem))->font().strikeOut()));
+        tempFont->setBold((((QCanvasText*)(selectedItem))->font().bold()));
+        tempFont->setItalic((((QCanvasText*)(selectedItem))->font().italic()));
+
+        ((QCanvasText*)(selectedItem))->setFont(*tempFont);
+	
+        canvas()->update();
+    }	
+}
 
 void FigureEditor::contentsMouseMoveEvent(QMouseEvent* e)
 {
@@ -532,7 +746,7 @@ QPixmap FigureEditor::drawContent()
                 p.setFont(((QCanvasText*)(*it))->font());
                // int wi=((QCanvasText*)(*it))->boundingRect().width()/2;
                // int he=((QCanvasText*)(*it))->boundingRect().height();
-                p.drawText(((QCanvasText*)(*it))->boundingRect(),Qt::AlignAuto,((QCanvasText*)(*it))->text());
+                p.drawText(((QCanvasText*)(*it))->boundingRect(),((QCanvasText*)(*it))->textFlags(),((QCanvasText*)(*it))->text());
                 p.end();
 
 		if (m_transparent) {
@@ -540,7 +754,7 @@ QPixmap FigureEditor::drawContent()
                     p.begin(im.mask());
                     p.setPen(((QCanvasText*)(*it))->color());
                     p.setFont(((QCanvasText*)(*it))->font());
-                    p.drawText(((QCanvasText*)(*it))->boundingRect(),Qt::AlignAuto,((QCanvasText*)(*it))->text());
+                    p.drawText(((QCanvasText*)(*it))->boundingRect(),((QCanvasText*)(*it))->textFlags(),((QCanvasText*)(*it))->text());
                     p.end();
 		}
             }
@@ -587,6 +801,11 @@ QDomDocument FigureEditor::toXml()
                 producer.setAttribute("color", ((QCanvasText*)(*it))->color().name());
                 producer.setAttribute("font_family", ((QCanvasText*)(*it))->font().family());
                 producer.setAttribute("font_size", QString::number(((QCanvasText*)(*it))->font().pointSize()));
+                producer.setAttribute("underline", QString::number(((QCanvasText*)(*it))->font().underline()));
+                producer.setAttribute("bold", QString::number(((QCanvasText*)(*it))->font().bold()));
+                producer.setAttribute("italic", QString::number(((QCanvasText*)(*it))->font().italic()));
+                producer.setAttribute("strikeout", QString::number(((QCanvasText*)(*it))->font().strikeOut()));
+                producer.setAttribute("textAlign", QString::number(((QCanvasText*)(*it))->textFlags()));
                 producer.setAttribute("text", ((QCanvasText*)(*it))->text());
                 producer.setAttribute("x", QString::number(((QCanvasText*)(*it))->x()));
                 producer.setAttribute("y", QString::number(((QCanvasText*)(*it))->y()));
@@ -613,12 +832,20 @@ void FigureEditor::setXml(const QDomDocument &xml)
         QDomElement e = n.toElement(); // try to convert the node to an element.
         if( !e.isNull() ) {
             if (e.attribute("type")== "3") { // Insert text object
+
+                QFont *tempFont = new QFont(e.attribute("font_family"),e.attribute("font_size").toInt());
+                tempFont->setBold(e.attribute("bold").toInt());
+                tempFont->setItalic(e.attribute("italic").toInt());
+                tempFont->setStrikeOut(e.attribute("strikeout").toInt());
+                tempFont->setUnderline(e.attribute("underline").toInt());
+
                 QCanvasText* i = new QCanvasText(canvas());
                 i->setZ(e.attribute("z").toDouble());
                 i->setText(e.attribute("text"));
-                i->setFont(QFont(e.attribute("font_family"),e.attribute("font_size").toInt()));
+                i->setFont(*tempFont);
                 i->setColor(e.attribute("color"));
-                i->move(e.attribute("x").toDouble(),e.attribute("y").toDouble());
+                i->setTextFlags(e.attribute("textAlign").toInt());
+                i->move(e.attribute("x").toDouble(),e.attribute("y").toInt());
                 i->show();
                 numItems++;
             }
@@ -659,40 +886,63 @@ titleWidget::titleWidget(Gui::KMMScreen *screen, int width, int height, KURL tmp
 	}
 	
         // Put icons on buttons
-        textButton->setPixmap(KGlobal::iconLoader()->loadIcon("title_text",KIcon::Small,22));
-        rectButton->setPixmap(KGlobal::iconLoader()->loadIcon("title_rect",KIcon::Small,22));
-        cursorButton->setPixmap(KGlobal::iconLoader()->loadIcon("arrow",KIcon::Toolbar));
-        upButton->setPixmap(KGlobal::iconLoader()->loadIcon("up",KIcon::Toolbar));
-        downButton->setPixmap(KGlobal::iconLoader()->loadIcon("down",KIcon::Toolbar));
-        cursorButton->setOn(true);
+    textButton->setPixmap(KGlobal::iconLoader()->loadIcon("title_text",KIcon::Small,22));
+    rectButton->setPixmap(KGlobal::iconLoader()->loadIcon("title_rect",KIcon::Small,22));
+    cursorButton->setPixmap(KGlobal::iconLoader()->loadIcon("arrow",KIcon::Toolbar));
+    upButton->setPixmap(KGlobal::iconLoader()->loadIcon("up",KIcon::Toolbar));
+    downButton->setPixmap(KGlobal::iconLoader()->loadIcon("down",KIcon::Toolbar));
+    centerLRButton->setPixmap(KGlobal::iconLoader()->loadIcon("hcenter",KIcon::Small,22));
+    centerTBButton->setPixmap(KGlobal::iconLoader()->loadIcon("vcenter",KIcon::Small,22));
+    boldButton->setPixmap(KGlobal::iconLoader()->loadIcon("text_bold",KIcon::Small,22));
+    italicButton->setPixmap(KGlobal::iconLoader()->loadIcon("text_italic",KIcon::Small,22));
+    strikeButton->setPixmap(KGlobal::iconLoader()->loadIcon("text_strike",KIcon::Small,22));
+    underlineButton->setPixmap(KGlobal::iconLoader()->loadIcon("text_under",KIcon::Small,22));
+	
+    alignprobBox->insertItem ( KGlobal::iconLoader()->loadIcon("text_left",KIcon::Small,22), i18n( "Align Left" ));
+    alignprobBox->insertItem ( KGlobal::iconLoader()->loadIcon("text_right",KIcon::Small,22), i18n( "Align Right" ));
+    alignprobBox->insertItem ( KGlobal::iconLoader()->loadIcon("text_center",KIcon::Small,22), i18n( "Align Center" ));
+    alignprobBox->insertItem ( KGlobal::iconLoader()->loadIcon("text_block",KIcon::Small,22), i18n( "Align Block" ));
+			
+    cursorButton->setOn(true);
         
-        QToolTip::add( textButton, i18n( "Add Text" ) );
-        QToolTip::add( rectButton, i18n( "Add Rectangle" ) );
-        QToolTip::add( cursorButton, i18n( "Select Objects" ) );
-        QToolTip::add( upButton, i18n( "Bring to Front" ) );
-        QToolTip::add( downButton, i18n( "Send to Background" ) );
+    QToolTip::add( textButton, i18n( "Add Text" ) );
+    QToolTip::add( rectButton, i18n( "Add Rectangle" ) );
+    QToolTip::add( cursorButton, i18n( "Select Objects" ) );
+    QToolTip::add( upButton, i18n( "Bring to Front" ) );
+    QToolTip::add( downButton, i18n( "Send to Background" ) );
+    QToolTip::add( centerLRButton, i18n( "Center Horizontally" ) );
+    QToolTip::add( centerTBButton, i18n( "Center Vertically" ) );
 
         QHBoxLayout* flayout = new QHBoxLayout( frame, 1, 1, "flayout");
         flayout->addWidget( canview, 1 );
 
-        QObject::connect(canview,SIGNAL(adjustButtons()),this,SLOT(adjustButtons()));
-        QObject::connect(canview,SIGNAL(addText(QPoint)),this,SLOT(addText(QPoint)));
-        QObject::connect(textButton,SIGNAL(clicked()),this,SLOT(textMode()));
-        QObject::connect(buttonOk,SIGNAL(clicked()),canview,SLOT(saveImage()));
-        QObject::connect(transparentTitle, SIGNAL(toggled (bool)), this, SLOT(transparencyToggled(bool)));
-        QObject::connect(cursorButton,SIGNAL(clicked()),this,SLOT(cursorMode()));
-        QObject::connect(upButton,SIGNAL(clicked()),canview,SLOT(itemUp()));
-        QObject::connect(downButton,SIGNAL(clicked()),canview,SLOT(itemDown()));
-        QObject::connect(rectButton,SIGNAL(clicked()),this,SLOT(rectMode()));
-        QObject::connect(canview,SIGNAL(addRect(QRect,int)),this,SLOT(addBlock(QRect,int)));
-        QObject::connect(timelineSlider,SIGNAL(valueChanged(int)),this,SLOT(doPreview(int)));
-        QObject::connect(fontSize,SIGNAL(valueChanged(int)),canview,SLOT(changeTextSize(int)));
-        QObject::connect(fontFace,SIGNAL(textChanged(const QString &)),canview,SLOT(changeTextFace(const QString &)));
-        QObject::connect(fontColor,SIGNAL(changed(const QColor &)),canview,SLOT(changeColor(const QColor &)));
-        QObject::connect(canview,SIGNAL(editCanvasItem(QCanvasText*)),this,SLOT(editText(QCanvasText*)));
-        QObject::connect(canview,SIGNAL(selectedCanvasItem(QCanvasText*)),this,SLOT(adjustWidgets(QCanvasText*)));
-        QObject::connect(canview,SIGNAL(selectedCanvasItem(QCanvasRectangle*)),this,SLOT(adjustWidgets(QCanvasRectangle*)));
-	QObject::connect(timelineposition,SIGNAL(textChanged(const QString &)),this,SLOT(seekToPos(const QString &)));
+    QObject::connect(canview,SIGNAL(adjustButtons()),this,SLOT(adjustButtons()));
+    QObject::connect(canview,SIGNAL(addText(QPoint)),this,SLOT(addText(QPoint)));
+    QObject::connect(textButton,SIGNAL(clicked()),this,SLOT(textMode()));
+    QObject::connect(buttonOk,SIGNAL(clicked()),canview,SLOT(saveImage()));
+    QObject::connect(transparentTitle, SIGNAL(toggled (bool)), this, SLOT(transparencyToggled(bool)));
+    QObject::connect(cursorButton,SIGNAL(clicked()),this,SLOT(cursorMode()));
+    QObject::connect(upButton,SIGNAL(clicked()),canview,SLOT(itemUp()));
+    QObject::connect(downButton,SIGNAL(clicked()),canview,SLOT(itemDown()));
+    QObject::connect(rectButton,SIGNAL(clicked()),this,SLOT(rectMode()));
+    QObject::connect(canview,SIGNAL(addRect(QRect,int)),this,SLOT(addBlock(QRect,int)));
+    QObject::connect(timelineSlider,SIGNAL(valueChanged(int)),this,SLOT(doPreview(int)));
+    QObject::connect(boldButton,SIGNAL(clicked()),canview,SLOT(toggleBold()));
+    QObject::connect(italicButton,SIGNAL(clicked()),canview,SLOT(toggleItalic()));
+    QObject::connect(strikeButton,SIGNAL(clicked()),canview,SLOT(toggleStrikeOut()));
+    QObject::connect(underlineButton,SIGNAL(clicked()),canview,SLOT(toggleUnderline()));
+    QObject::connect(alignprobBox,SIGNAL(activated(int)),canview,SLOT(alignModeChanged(int)));
+    
+    QObject::connect(fontSize,SIGNAL(valueChanged(int)),canview,SLOT(changeTextSize(int)));
+    QObject::connect(fontFace,SIGNAL(textChanged(const QString &)),canview,SLOT(changeTextFace(const QString &)));
+    QObject::connect(fontColor,SIGNAL(changed(const QColor &)),canview,SLOT(changeColor(const QColor &)));
+    QObject::connect(canview,SIGNAL(editCanvasItem(QCanvasText*)),this,SLOT(editText(QCanvasText*)));
+    QObject::connect(canview,SIGNAL(selectedCanvasItem(QCanvasText*)),this,SLOT(adjustWidgets(QCanvasText*)));
+    QObject::connect(canview,SIGNAL(selectedCanvasItem(QCanvasRectangle*)),this,SLOT(adjustWidgets(QCanvasRectangle*)));
+    QObject::connect(canview,SIGNAL(emptySelection()),this,SLOT(adjustWidgets()));
+    QObject::connect(timelineposition,SIGNAL(textChanged(const QString &)),this,SLOT(seekToPos(const QString &)));
+    QObject::connect(centerLRButton,SIGNAL(clicked()),canview,SLOT(itemHCenter()));
+    QObject::connect(centerTBButton,SIGNAL(clicked()),canview,SLOT(itemVCenter()));
 }
 
 
@@ -745,7 +995,14 @@ void titleWidget::addText(QPoint p)
                 i->setZ(canview->numItems);
                 canview->numItems++;
                 i->setText(txt);
-                i->setFont(QFont(fontFace->currentFont(),fontSize->value()));
+                QFont *tempFont = new QFont(fontFace->currentFont(),fontSize->value());
+            
+                tempFont->setBold(boldButton->isDown());
+                tempFont->setItalic(italicButton->isDown());
+                tempFont->setStrikeOut(strikeButton->isDown());
+                tempFont->setUnderline(underlineButton->isDown());
+
+                i->setFont(*tempFont);
                 i->setColor(fontColor->color());
                 i->move(p.x(),p.y());
                 i->show();
@@ -806,19 +1063,56 @@ void titleWidget::editText(QCanvasText* i)
                 return;
         }
         i->setText(txt);
-        i->setFont(QFont(fontFace->currentFont(),fontSize->value()));
-        i->setColor(fontColor->color());
-        i->show();
-        canvas->update();
+
+    i->show();
+	
+     // Select it
+    canview->selectedItem=i;
+    canview->selectRectangle(i);
+    canview->operationMode=CursorMode;
+    canview->setCursor(arrowCursor);
+    canvas->update();
+    adjustButtons();
+    
+    canvas->update();
+    
+}
+
+
+void titleWidget::adjustWidgets()
+{
+        // User deselected item, reset buttons
+    boldButton->setOn(false);
+    italicButton->setOn(false);
+    strikeButton->setOn(false);
+    underlineButton->setOn(false);
+    alignprobBox->setCurrentItem(0);
 }
 
 
 void titleWidget::adjustWidgets(QCanvasText* i)
 {
         // Adjust font, size and color widgets according to the selected item
-        fontFace->setCurrentFont(i->font().family());
-        fontSize->setValue(i->font().pointSize ());
-        fontColor->setColor(i->color());
+    fontFace->setCurrentFont(i->font().family());
+    fontSize->setValue(i->font().pointSize ());
+    fontColor->setColor(i->color());
+    boldButton->setOn(i->font().bold());
+    italicButton->setOn(i->font().italic());
+    strikeButton->setOn(i->font().strikeOut());
+    underlineButton->setOn(i->font().underline());
+    
+    int item = -1;
+    if(i->textFlags() & Qt::AlignLeft)
+        item = 0;
+    if(i->textFlags() & Qt::AlignRight)
+        item = 1;
+    if(i->textFlags() & Qt::AlignCenter)
+        item = 2;
+    if(i->textFlags() & Qt::AlignJustify)
+        item = 3;
+
+    alignprobBox->setCurrentItem(item);
+    
 }
 
 void titleWidget::adjustWidgets(QCanvasRectangle* i)

@@ -61,6 +61,7 @@ signals:
         void selectedCanvasItem(QCanvasText *);
         void selectedCanvasItem(QCanvasRectangle *);
         void adjustButtons();
+	void emptySelection();
 
 public slots:
         void changeTextSize(int newSize);
@@ -75,7 +76,15 @@ public slots:
         void saveImage();
         QDomDocument toXml();
         void setXml(const QDomDocument &xml);
-	void setTransparency(bool isOn);
+        void setTransparency(bool isOn);
+        void itemHCenter();
+        void itemVCenter();
+        void toggleBold();
+        void toggleItalic();
+        void toggleStrikeOut();
+        void toggleUnderline();
+        void updateSelection();
+        void alignModeChanged(int index );
 
 private slots:
         void startResize(QPoint p);
@@ -107,6 +116,7 @@ private slots:
         void addBlock(QRect rec,int pos=-1);
         void doPreview(int pos);
         void editText(QCanvasText*);
+        void adjustWidgets();
         void adjustWidgets(QCanvasText* i);
         void adjustWidgets(QCanvasRectangle* i);
         void adjustButtons();
