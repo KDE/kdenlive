@@ -815,6 +815,12 @@ void exportWidget::doExport(QString file, double ratio, QStringList params, bool
     }
     else
     *m_exportProcess << QString("avformat:%1").arg(file);
+
+    *m_exportProcess << "real_time=0";
+    *m_exportProcess << "stats_on=1";
+    // workaround until MLT's default qscale value is fixed
+    *m_exportProcess << "qscale=0";
+
     if (audioOnly) *m_exportProcess <<"format=wav"<<"frequency=48000";
     else { 
         if (ratio != 0.0) *m_exportProcess << QString("aspect_ratio=") + QString::number(ratio);
@@ -823,10 +829,6 @@ void exportWidget::doExport(QString file, double ratio, QStringList params, bool
 	*m_exportProcess << params;
     }
     if (addMetadata->isChecked()) *m_exportProcess << metadataString();
-    *m_exportProcess << "real_time=0";
-    *m_exportProcess << "stats_on=1";
-    // workaround until MLT's default qscale value is fixed
-    *m_exportProcess << "qscale=0";
 
     // Uncomment following to print timecode on exported video
 /*
