@@ -487,7 +487,7 @@ void ExportDvdDialog::generateMenuMovie() {
     }
 
     if (KStandardDirs::findExe("convert") == QString::null) {
-	    KMessageBox::sorry(this, i18n("You need the program \"convert\" which is included in ImageMagick to create DVD menus. Install ImageMagick if you want to make a DVD with menu"));
+	    KMessageBox::sorry(this, i18n("You need the program \"convert\" which is included in ImageMagick to create DVD menus. Install ImageMagick if you want to make a DVD with menu."));
 	    showPage(page(1));
 	    create_menu->setChecked(false);
 	    menu_ok->setPixmap(KGlobal::iconLoader()->loadIcon("button_cancel", KIcon::Toolbar));
