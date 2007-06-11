@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-06-10 10:03+0200\n"
-"PO-Revision-Date: 2007-06-10 10:06+0200\n"
+"PO-Revision-Date: 2007-06-11 09:48+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1724,7 +1724,7 @@ msgstr "Faible qualité"
 
 #: kdenlive/kdenlive.cpp:567
 msgid "Best Quality"
-msgstr "Meilleure qualité"
+msgstr "Haute qualité"
 
 #: kdenlive/kdenlive.cpp:580
 msgid "Show all markers"
