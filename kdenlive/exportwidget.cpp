@@ -660,11 +660,8 @@ void exportWidget::startExport()
 	paramLine = paramLine.stripWhiteSpace();
 	paramLine = paramLine.simplifyWhiteSpace();
 	m_createdFile = fileExportFolder->url()+"/"+fileExportName->text();
-	if (paramLine.section(":", 6, 6) == "libdv") doExport(fileExportFolder->url()+"/"+fileExportName->text(), 0, QStringList(), true);
-	else {
-	    double ratio = getCurrentAspect();
-	    doExport(fileExportFolder->url()+"/"+fileExportName->text(), ratio, QStringList::split(" ", paramLine.section(":", 9)));
-	} 
+	double ratio = getCurrentAspect();
+	doExport(fileExportFolder->url()+"/"+fileExportName->text(), ratio, QStringList::split(" ", paramLine.section(":", 9)));
 
 	// Hide dialog when export starts
 	hide();
@@ -705,7 +702,11 @@ void exportWidget::renderSelectedZone(const QString &url, bool audioOnly)
     startExportTime = m_timeline->inpointPosition();
     endExportTime = m_timeline->outpointPosition();
     m_duration = endExportTime - startExportTime;
-    doExport(url, 0, QStringList(), true, audioOnly);
+    if (audioOnly) doExport(url, 0, QStringList(), audioOnly);
+    else {
+	show();
+        export_selected->setChecked(true);
+    }
     m_emitSignal = true;
 }
 
@@ -770,7 +771,7 @@ void exportWidget::generateDvdFile(QString file, GenTime start, GenTime end, VID
 
 }
 
-void exportWidget::doExport(QString file, double ratio, QStringList params, bool isDv, bool audioOnly)
+void exportWidget::doExport(QString file, double ratio, QStringList params, bool audioOnly)
 {
     if (m_tmpFile) delete m_tmpFile;
     m_tmpFile = new KTempFile( QString::null, ".westley");
@@ -781,7 +782,7 @@ void exportWidget::doExport(QString file, double ratio, QStringList params, bool
     }
     m_isRunning = true;
     exportButton->setText(i18n("Stop"));
-    kdDebug()<<"++++++  PREPARE TO WRITE TO: "<<m_tmpFile->name()<<", IN: "<<params<<endl;
+    //kdDebug()<<"++++++  PREPARE TO WRITE TO: "<<m_tmpFile->name()<<", IN: "<<params<<endl;
 
     QTextStream stream( m_tmpFile->file() );
     stream << m_app->getDocument()->projectClip().generateSceneList(true, true).toString() << "\n";
@@ -809,11 +810,6 @@ void exportWidget::doExport(QString file, double ratio, QStringList params, bool
 */
 
     *m_exportProcess << "-consumer";
-    if (isDv) {
-	*m_exportProcess << QString("libdv:%1").arg(file);
-	*m_exportProcess << "terminate_on_pause=1";
-    }
-    else
     *m_exportProcess << QString("avformat:%1").arg(file);
 
     *m_exportProcess << "real_time=0";
@@ -837,7 +833,7 @@ void exportWidget::doExport(QString file, double ratio, QStringList params, bool
     *m_exportProcess << "dynamic=1";
 */
 
-    if (isDv && !KdenliveSettings::videoprofile().isEmpty()) 
+    if (!KdenliveSettings::videoprofile().isEmpty()) 
 	*m_exportProcess<<"profile=" + KdenliveSettings::videoprofile();
     connect(m_exportProcess, SIGNAL(processExited(KProcess *)), this, SLOT(endExport(KProcess *)));
     connect(m_exportProcess, SIGNAL(receivedStderr (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));

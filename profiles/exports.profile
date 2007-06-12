@@ -6,17 +6,21 @@
 #### HQ
 
 # DV
-:HQ:DV (Raw):PAL:::libdv:PAL:dv:
-:HQ:DV (Raw):NTSC:::libdv:NTSC:dv:
-:HQ:DV (Avi):PAL:::avformat:PAL:avi:format=avi vcodec=dvvideo acodec=pcm_s16le size=720x576
-:HQ:DV (Avi):NTSC:::avformat:NTSC:avi:format=avi vcodec=dvvideo acodec=pcm_s16le size=720x480
+:HQ:DV (Raw):PAL:::avformat:PAL:dv:format=dv ildct=1 pix_fmt=yuv420p size=720x576
+:HQ:DV (Raw):NTSC:::avformat:NTSC:dv:format=dv ildct=1 pix_fmt=yuv411p size=720x480
+:HQ:DV50 (Raw):PAL:::avformat:PAL:dv:format=dv ildct=1 pix_fmt=yuv422p size=720x576
+:HQ:DV50 (Raw):NTSC:::avformat:NTSC:dv:format=dv ildct=1 pix_fmt=yuv422p size=720x480
+:HQ:DV (AVI):PAL:::avformat:PAL:avi:format=avi vcodec=dvvideo ildct=1 pix_fmt=yuv420p acodec=pcm_s16le size=720x576
+:HQ:DV (AVI):NTSC:::avformat:NTSC:avi:format=avi vcodec=dvvideo ildct=1 pix_fmt=yuv411p acodec=pcm_s16le size=720x480
+:HQ:DV50 (AVI):PAL:::avformat:PAL:avi:format=avi vcodec=dvvideo ildct=1 pix_fmt=yuv422p size=720x576
+:HQ:DV50 (AVI):NTSC:::avformat:NTSC:avi:format=avi vcodec=dvvideo ildct=1 pix_fmt=yuv422p size=720x480
 
 #DVD
-:HQ:DVD:PAL:::avformat:PAL:vob:format=dvd aspect=4:3 vcodec=mpeg2video acodec=ac3 video_bit_rate=6500000 video_rc_max_rate=8000000 video_rc_min_rate=0 video_rc_buffer_size=1835008 mux_packet_size=2048 mux_rate=10080000 audio_bit_rate=192000 audio_sample_rate=48000 frame_size=720x576 frame_rate=25 gop_size=15 me_range=63
-:HQ:DVD:NTSC:::avformat:NTSC:vob:format=dvd vcodec=mpeg2video acodec=ac3 size=720x480 video_bit_rate=6000000 video_rc_max_rate=9000000 video_rc_min_rate=0 video_rc_buffer_size=1835008 mux_packet_size=2048 mux_rate=10080000 audio_bit_rate=192000 audio_sample_rate=48000 frame_size=720x480 frame_rate=30000/1001 gop_size=18 me_range=63
+:HQ:DVD:PAL:::avformat:PAL:vob:format=dvd aspect=4:3 vcodec=mpeg2video acodec=ac3 video_bit_rate=6500000 video_rc_max_rate=8000000 video_rc_min_rate=0 video_rc_buffer_size=1835008 mux_packet_size=2048 mux_rate=10080000 audio_bit_rate=192000 audio_sample_rate=48000 frame_size=720x576 frame_rate=25 gop_size=15 me_range=63 ildct=1 ilme=1
+:HQ:DVD:NTSC:::avformat:NTSC:vob:format=dvd vcodec=mpeg2video acodec=ac3 size=720x480 video_bit_rate=6000000 video_rc_max_rate=9000000 video_rc_min_rate=0 video_rc_buffer_size=1835008 mux_packet_size=2048 mux_rate=10080000 audio_bit_rate=192000 audio_sample_rate=48000 frame_size=720x480 frame_rate=30000/1001 gop_size=18 me_range=63 ildct=1 ilme=1
 
-:HQ:DVD m2v:PAL:::avformat:PAL:m2v:format=mpeg1video aspect=4:3 video_bit_rate=6500000 video_rc_max_rate=8000000 video_rc_min_rate=0 video_rc_buffer_size=1835008 frame_size=720x576 frame_rate=25 gop_size=15 me_range=63
-:HQ:DVD m2v:NTSC:::avformat:NTSC:m2v:format=mpeg1video size=720x480 video_bit_rate=6000000 video_rc_max_rate=9000000 video_rc_min_rate=0 video_rc_buffer_size=1835008 mux_packet_size=2048 frame_size=720x480 frame_rate=30000/1001 gop_size=18 me_range=63
+:HQ:DVD m2v:PAL:::avformat:PAL:m2v:format=mpeg1video aspect=4:3 video_bit_rate=6500000 video_rc_max_rate=8000000 video_rc_min_rate=0 video_rc_buffer_size=1835008 frame_size=720x576 frame_rate=25 gop_size=15 me_range=63 ildct=1 ilme=1
+:HQ:DVD m2v:NTSC:::avformat:NTSC:m2v:format=mpeg1video size=720x480 video_bit_rate=6000000 video_rc_max_rate=9000000 video_rc_min_rate=0 video_rc_buffer_size=1835008 mux_packet_size=2048 frame_size=720x480 frame_rate=30000/1001 gop_size=18 me_range=63 ildct=1 ilme=1
 
 
 #### MEDIUM

@@ -184,6 +184,7 @@ namespace Gui {
 
 	int audioTracks = KdenliveSettings::audiotracks();
 	int videoTracks = KdenliveSettings::videotracks();
+	KdenliveSettings::setMultitrackview(false);
 
 	if (!KdenliveSettings::openlast() && !KdenliveSettings::openblank() && !newDoc) {
 		slotNewProject(&newProjectName, &m_selectedFile, &videoTracks, &audioTracks, false, true);
@@ -2490,16 +2491,8 @@ namespace Gui {
 
     void KdenliveApp::slotRenderZone()
     {
-        QCheckBox * addToProject = new QCheckBox(i18n("Add new clip to project"),this);
-        KFileDialog *fd = new KFileDialog(m_fileDialogPath.path(), "*.dv", this, "save_render", true,addToProject);
-        fd->setOperationMode(KFileDialog::Saving);
-        fd->setMode(KFile::File);
-        if (fd->exec() == QDialog::Accepted) {
-		if (!m_exportWidget) slotRenderExportTimeline(false);
-		m_exportWidget->renderSelectedZone(fd->selectedURL().path());
-	}
-	delete addToProject;
-	delete fd;
+	if (!m_exportWidget) slotRenderExportTimeline(false);
+	m_exportWidget->renderSelectedZone(NULL);
     }
 
     void KdenliveApp::slotRenderAudioZone()
