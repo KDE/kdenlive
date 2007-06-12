@@ -142,18 +142,23 @@ namespace Gui {
 	}
 
 	void drawHorizontalSlider(QPainter & painter, int x, int height) {
-	    QPointArray points(3);
+	    QPointArray points(4);
 
-	    points.setPoint(0, x, height);
-	    points.setPoint(1, x, height / 2);
-	    points.setPoint(2, x + (height / 4) + 1, (height * 3) / 4);
-	    painter.drawPolygon(points);
+	    points.setPoint(0, x - 3, height - 1);
+	    points.setPoint(1, x, height - 1);
+	    points.setPoint(2, x, height / 2 + 2);
+	    points.setPoint(3, x - 3, height / 2 + 2);
+
+	    QPen pen = painter.pen();
+	    // pen.setWidth(2);
+	    painter.setPen(pen);
+	    painter.drawPolyline(points);
 	}
 
 	bool underMouse(int x, int y, int midx, int height) const {
-	    if (x < midx)
+	    if (x < midx - 4)
 		return false;
-	    if (x > midx + (height / 4) + 1)
+	    if (x > midx + 1)
 		return false;
 	    if (y < height / 2)
 		return false;
@@ -161,11 +166,11 @@ namespace Gui {
 	} 
         
         int leftBound(int x, int height) {
-	    return x;
+	    return x - 4;
 	}
 
 	int rightBound(int x, int height) {
-	    return x + (height / 4) + 2;
+	    return x + 1;
 	}
     };
 
@@ -176,18 +181,22 @@ namespace Gui {
 	}
 
 	void drawHorizontalSlider(QPainter & painter, int x, int height) {
-	    QPointArray points(3);
+	    QPointArray points(4);
+	    points.setPoint(0, x + 3, height - 1);
+	    points.setPoint(1, x, height - 1);
+	    points.setPoint(2, x, height / 2 + 2);
+	    points.setPoint(3, x + 3, height / 2 + 2);
 
-	    points.setPoint(0, x - (height / 4) - 1, (height * 3) / 4);
-	    points.setPoint(1, x, height / 2);
-	    points.setPoint(2, x, height);
-	    painter.drawPolygon(points);
+	    QPen pen = painter.pen();
+	    // pen.setWidth(2);
+	    painter.setPen(pen);
+	    painter.drawPolyline(points);
 	}
 
 	bool underMouse(int x, int y, int midx, int height) const {
-	    if (x < midx - (height / 4) - 1)
+	    if (x < midx)
 		return false;
-	    if (x > midx)
+	    if (x > midx + 4)
 		return false;
 	    if (y < height / 2)
 		return false;
@@ -195,11 +204,11 @@ namespace Gui {
 	} 
         
         int leftBound(int x, int height) {
-	    return x - (height / 4) - 1;
+	    return x - 1;
 	}
 
 	int rightBound(int x, int height) {
-	    return x + 1;
+	    return x + 4;
 	}
     };
 
@@ -213,8 +222,8 @@ namespace Gui {
 	    QPointArray points(4);
 
 	    points.setPoint(0, x - 4, height - 2);
-	    points.setPoint(1, x - 4, (height / 2) + 1);
-	    points.setPoint(2, x + 4, (height / 2)  + 1);
+	    points.setPoint(1, x - 4, (height / 2) + 3);
+	    points.setPoint(2, x + 4, (height / 2)  + 3);
 	    points.setPoint(3, x + 4, height - 2);
 	    painter.drawPolygon(points);
 	    painter.drawLine(QPoint(x, height - 2), QPoint(x,
@@ -727,9 +736,12 @@ namespace Gui {
 		d->m_oldValue = -1;
 		emit rightButtonPressed();
 	} else if (event->button() == QMouseEvent::LeftButton) {
-	    if (d->m_oldValue == -1) {
+	    //if (d->m_oldValue == -1) 
+	    {
 		activateSliderUnderCoordinate(event->x(), event->y());
 		d->m_oldValue = getSliderValue(activeSliderID());
+		setSliderValue(activeSliderID(),
+		    (int) floor(mapLocalToValue((int) event->x())));
 	    }
 	}
     }
@@ -740,19 +752,20 @@ namespace Gui {
     }
 
     void KRuler::mouseReleaseEvent(QMouseEvent * event) {
-	if (event->button() == QMouseEvent::LeftButton) {
+	m_scrollTimer.stop();
+	/*if (event->button() == QMouseEvent::LeftButton) {
 	    if (d->m_oldValue != -1) {
 		d->m_oldValue = -1;
 		setSliderValue(activeSliderID(),
 		    (int) floor(mapLocalToValue((int) event->x()) + 0.5));
 	    }
 	    m_scrollTimer.stop();
-	}
+	}*/
     }
 
     void KRuler::mouseMoveEvent(QMouseEvent * event) {
 	if (event->state() & (QMouseEvent::LeftButton | QMouseEvent::RightButton | QMouseEvent::MidButton)) {
-	    if (d->m_oldValue != -1) {
+	    /*if (d->m_oldValue != -1)*/ {
 		setSliderValue(activeSliderID(), (int) (mapLocalToValue((int) event->x())));
 
     if (event->x() < (int) g_scrollThreshold) {
@@ -866,7 +879,7 @@ namespace Gui {
         }
         
         if (selectedStart < selectedEnd)
-            painter.fillRect(selectedStart, (int) height()/2, selectedEnd - selectedStart, (int) height()/2, QBrush(QColor(253,255,143)));
+            painter.fillRect(selectedStart, (int) height()/2 + 3, selectedEnd - selectedStart, (int) height()/2 - 4, QBrush(QColor(253,255,123)));
 
 	painter.setPen(palette().active().foreground());
 	painter.setBrush(palette().active().background());

@@ -516,7 +516,7 @@ the display. The scale is the size of one frame.*/
 
 /** Seek the timeline to the current position. */
     void KTimeLine::seek(const GenTime & time) {
-	m_ruler->setSliderValue(0, (int) floor(time.frames(m_framesPerSecond) + 0.5));
+	m_ruler->setSliderValue(0, (int) floor(time.frames(m_framesPerSecond)));
     }
 
     void KTimeLine::horizontalSlider(const GenTime & inpoint,
