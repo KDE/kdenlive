@@ -1156,8 +1156,8 @@ namespace Gui {
 	QToolTip::add( effectsButton, i18n( "Show Effects" ) );
 	connect(effectsButton, SIGNAL(clicked()), this, SLOT(slotDisableEffects()));
 	effectsButton->setToggleButton(true);
-	effectsButton->setMaximumSize(QSize(18, 18));
 	effectsButton->setFlat(true);
+	effectsButton->setMaximumSize(QSize(18, 18));
 	statusBar()->addWidget(effectsButton);
 
 	eff.setPixmap(loader.loadIcon("kdenlive_transitions", KIcon::Small, 16), QIconSet::Small, QIconSet::Normal, QIconSet::Off);
@@ -2408,6 +2408,14 @@ namespace Gui {
 		m_pastedClip->setParentTrack(getDocument()->track(ix), ix);
 		m_pastedClip->moveTrackStart(insertTime);
 		getDocument()->track(ix)->addClip(m_pastedClip, false);
+
+		KMacroCommand *macroCommand = new KMacroCommand(i18n("Paste"));
+		macroCommand->addCommand(Command::KSelectClipCommand::selectNone(getDocument()));
+		macroCommand->addCommand(new Command::KSelectClipCommand(getDocument(), m_pastedClip, true));
+	  	addCommand(macroCommand, true);
+
+		addCommand(new Command::KAddRefClipCommand(effectList(), *m_doc, m_pastedClip, true), false);
+
 		if (m_pastedClip->trackEnd() > getDocument()->projectClip().duration())
 			 getDocument()->track(ix)->checkTrackLength();
 		getDocument()->activateSceneListGeneration(true);
