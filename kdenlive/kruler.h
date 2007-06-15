@@ -163,7 +163,7 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
 	QDomDocument xmlGuides();
 	void guidesFromXml(QDomElement xml);
 	void slotSetVZone(QValueList < QPoint > zones);
-
+	void slotActivateSlider(int slider);
     signals:		// Signals
 	/** This signal is emitted when the ruler is resized. */
 	void resized();
@@ -181,6 +181,7 @@ ruler, and could be used to indicate the start and end of a repeated section, fo
         void moveBackward(bool);
         void moveForward(bool);
 	void rightButtonPressed();
+	void activatedSlider(int);
 
 
     protected slots:	// Protected slots

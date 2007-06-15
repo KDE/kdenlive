@@ -150,7 +150,7 @@ namespace Gui {
 	    points.setPoint(3, x - 3, height / 2 + 2);
 
 	    QPen pen = painter.pen();
-	    // pen.setWidth(2);
+	    pen.setWidth(2);
 	    painter.setPen(pen);
 	    painter.drawPolyline(points);
 	}
@@ -158,7 +158,7 @@ namespace Gui {
 	bool underMouse(int x, int y, int midx, int height) const {
 	    if (x < midx - 4)
 		return false;
-	    if (x > midx + 1)
+	    if (x > midx + 4)
 		return false;
 	    if (y < height / 2)
 		return false;
@@ -188,13 +188,13 @@ namespace Gui {
 	    points.setPoint(3, x + 3, height / 2 + 2);
 
 	    QPen pen = painter.pen();
-	    // pen.setWidth(2);
+	    pen.setWidth(2);
 	    painter.setPen(pen);
 	    painter.drawPolyline(points);
 	}
 
 	bool underMouse(int x, int y, int midx, int height) const {
-	    if (x < midx)
+	    if (x < midx - 4)
 		return false;
 	    if (x > midx + 4)
 		return false;
@@ -729,6 +729,10 @@ namespace Gui {
     int KRuler::maxValue() const {
 	return m_maxValue;
     } 
+
+    void KRuler::slotActivateSlider(int slider) {
+	activateSlider(slider);
+    }
     
     void KRuler::mousePressEvent(QMouseEvent * event) {
 	if (event->button() == QMouseEvent::RightButton) {
@@ -740,6 +744,7 @@ namespace Gui {
 	    {
 		activateSliderUnderCoordinate(event->x(), event->y());
 		d->m_oldValue = getSliderValue(activeSliderID());
+		emit activatedSlider(activeSliderID());
 		setSliderValue(activeSliderID(),
 		    (int) floor(mapLocalToValue((int) event->x())));
 	    }
@@ -879,7 +884,7 @@ namespace Gui {
         }
         
         if (selectedStart < selectedEnd)
-            painter.fillRect(selectedStart, (int) height()/2 + 3, selectedEnd - selectedStart, (int) height()/2 - 4, QBrush(QColor(253,255,123)));
+            painter.fillRect(selectedStart, (int) height()/2 + 3, selectedEnd - selectedStart, (int) height()/2 - 4, QBrush(QColor(83,223,111)));
 
 	painter.setPen(palette().active().foreground());
 	painter.setBrush(palette().active().background());

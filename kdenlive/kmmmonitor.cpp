@@ -53,6 +53,9 @@ namespace Gui {
 	    SIGNAL(inpointPositionChanged(const GenTime &)), this,
 	    SIGNAL(inpointPositionChanged(const GenTime &)));
 	 connect(m_editPanel,
+	    SIGNAL(activatedSlider(int)), this,
+	    SIGNAL(activatedSlider(int)));
+	 connect(m_editPanel,
 	    SIGNAL(outpointPositionChanged(const GenTime &)), this,
          SIGNAL(outpointPositionChanged(const GenTime &)));
 

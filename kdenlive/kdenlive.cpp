@@ -1316,6 +1316,7 @@ namespace Gui {
 	    connect(m_timeline, SIGNAL(outpointPositionChanged(const GenTime &)), m_workspaceMonitor->editPanel(), SLOT(setOutpoint(const GenTime &)));
 	    connect(m_workspaceMonitor, SIGNAL(seekPositionChanged(const GenTime &)), m_timeline, SLOT(seek(const GenTime &)));
 	    connect(m_workspaceMonitor, SIGNAL(inpointPositionChanged(const GenTime &)), m_timeline,SLOT(setInpointTimeline(const GenTime &)));
+	    connect(m_workspaceMonitor, SIGNAL(activatedSlider(int)), m_timeline,SLOT(slotActivateSlider(int)));
 	    connect(m_workspaceMonitor,SIGNAL(outpointPositionChanged(const GenTime &)), m_timeline, SLOT(setOutpointTimeline(const GenTime &)));
 	    connect(getDocument(), SIGNAL(documentChanged(DocClipBase *)), m_workspaceMonitor, SLOT(slotSetClip(DocClipBase *)));
 	}

@@ -70,6 +70,9 @@ namespace Gui {
 	 connect(m_ruler, SIGNAL(sliderValueChanged(int, int)), this,
 	    SLOT(rulerValueChanged(int, int)));
 
+	 connect(m_ruler, SIGNAL(activatedSlider(int)), this,
+	    SIGNAL(activatedSlider(int)));
+
 	 connect(startButton, SIGNAL(pressed()), this,
 	    SLOT(seekBeginning()));
 	 connect(endButton, SIGNAL(pressed()), this, SLOT(seekEnd()));

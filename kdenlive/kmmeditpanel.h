@@ -74,6 +74,7 @@ namespace Gui {
 	void toggleSnapMarker();
 /** Change MLT consumer volume */
 	void setVolume(double);
+	void activatedSlider(int);
 
     private:			// Private attributes
 	KMMMonitor *m_monitor;

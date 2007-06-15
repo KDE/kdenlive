@@ -265,8 +265,8 @@ pixels, the left-most pixel is returned. */
 	}
 	else {
 	    if (start != GenTime(0) && end != GenTime(0)) {
-		if (offset >= 0) drawPartialTrackViewBackBuffer(start.frames(m_framesPerSecond), end.frames(m_framesPerSecond), 2 * (track - offset), 2 * track + 1);
-	    	else drawPartialTrackViewBackBuffer(start.frames(m_framesPerSecond), end.frames(m_framesPerSecond), 2 * track, 2 * (track - offset) + 1);
+		if (offset >= 0) drawPartialTrackViewBackBuffer((int) start.frames(m_framesPerSecond), (int) end.frames(m_framesPerSecond), 2 * (track - offset), 2 * track + 1);
+	    	else drawPartialTrackViewBackBuffer((int) start.frames(m_framesPerSecond), (int) end.frames(m_framesPerSecond), 2 * track, 2 * (track - offset) + 1);
 	    } else {
 		if (offset >= 0) drawTrackViewBackBuffer(2 * (track - offset), 2 * track + 1);
 	    	else drawTrackViewBackBuffer(2 * track, 2 * (track - offset) + 1);
@@ -281,7 +281,7 @@ pixels, the left-most pixel is returned. */
 	}
 	else {
 	    if (start != GenTime(0) && end != GenTime(0)) {
-	    	 drawPartialTrackViewBackBuffer(start.frames(m_framesPerSecond), end.frames(m_framesPerSecond), 2 * track, 2 * track + 1);
+	    	 drawPartialTrackViewBackBuffer((int) start.frames(m_framesPerSecond), (int) end.frames(m_framesPerSecond), 2 * track, 2 * track + 1);
 	    } else {
 	    	drawTrackViewBackBuffer(2 * track, 2 * track + 1);
 	    }
@@ -400,7 +400,7 @@ the display. The scale is the size of one frame.*/
 	if (currPos < min || currPos > max || timeScale() > 50 ) return;
 	int step = mapValueToLocal(currPos) - mapValueToLocal(min);
 	m_scrollBar->setValue( m_scrollBar->value() + step );
-  	if (timeScale() > 3) drawPartialTrackViewBackBuffer(currPos - timeScale(), currPos);
+  	if (timeScale() > 3) drawPartialTrackViewBackBuffer(currPos - (int) timeScale(), currPos);
     }
 
     void KTimeLine::ensureCursorVisible() {
@@ -467,6 +467,10 @@ the display. The scale is the size of one frame.*/
 
     const QString & KTimeLine::editMode() const {
 	return m_editMode;
+    }
+
+    void KTimeLine::slotActivateSlider(int slider) {
+	m_ruler->slotActivateSlider(slider);
     }
     
 /** A ruler slider has moved - do something! */
@@ -535,7 +539,7 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
   GenTime value( (int) m_ruler->mapLocalToValue(posX), m_framesPerSecond);
 
 	if (snapToFrame())
-	    value = GenTime(floor(value.frames(m_framesPerSecond)) , m_framesPerSecond);
+	    value = GenTime((int) floor(value.frames(m_framesPerSecond)) , m_framesPerSecond);
 
 	return value;
     }
@@ -701,7 +705,7 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
 	AddMarker_UI dlg;
 	Timecode tcode;
 	if (m_framesPerSecond == 30000.0 / 1001.0 ) tcode.setFormat(30, true);
-        else tcode.setFormat(m_framesPerSecond);
+        else tcode.setFormat((int) m_framesPerSecond);
 	dlg.setCaption(i18n("Add Guide"));
 	GenTime pos = GenTime(m_ruler->getSliderValue(0), m_framesPerSecond);
 	dlg.marker_position->setText(tcode.getTimecode(pos, m_framesPerSecond));
@@ -739,7 +743,7 @@ GenTime KTimeLine::timeUnderMouse(double posX) {
 	dlg.setCaption(i18n("Edit Guide"));
 	Timecode tcode;
 	if (m_framesPerSecond == 30000.0 / 1001.0 ) tcode.setFormat(30, true);
-        else tcode.setFormat(m_framesPerSecond);
+        else tcode.setFormat((int) m_framesPerSecond);
 	GenTime position = GenTime(pos, m_framesPerSecond);
 	dlg.marker_position->setText(tcode.getTimecode(position, m_framesPerSecond));
 	dlg.marker_comment->setText(comment);

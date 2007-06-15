@@ -159,6 +159,7 @@ namespace Gui {
 	void inpointPositionChanged(const GenTime &);
 	/** Emitted when the monitor's current outpoint has changed. */
 	void outpointPositionChanged(const GenTime &);
+	void activatedSlider(int);
 
 	private slots:
 	    // Update the edit panel, make sure that it's buttons are in sync.

@@ -264,7 +264,7 @@ namespace Command {
 	void seek(const GenTime & time);
 	//move horizontal slider to the current position based on inpoint/outpoint -reh
 	void horizontalSlider(const GenTime & inpoint, const GenTime & outpoint);
-
+	void slotActivateSlider(int slider);
 	/** Scroll the timeline left */
 	void slotScrollLeft();
 	/** Scroll the timeline Right */
