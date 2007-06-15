@@ -435,7 +435,7 @@ QDomDocument DocClipProject::generateSceneList(bool addProducers, bool rendering
 	    }
 
             // Insert xml describing clip
-            playlist.appendChild(itt.current()->generateXMLClip(true).firstChild());
+            playlist.appendChild(itt.current()->generateXMLClip(rendering).firstChild());
 
             // Append clip's transitions for video tracks
             if (KdenliveSettings::showtransitions() || rendering) clipTransitions.appendChild(doc.importNode(itt.current()->generateXMLTransition(isBlind, isMute), true));
