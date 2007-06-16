@@ -153,14 +153,13 @@ void transitionWipeWidget::setParameters(QString geom)
 {
 	QString geom2 = geom.left(geom.find(";"));
 	geom = geom.section(";",1,1);
-	kdDebug()<<"++ RESULT 0: "<<geom<<endl;
-        
+
         if (geom2.right(4).contains(":",FALSE)!=0) { // Start transparency setting
             int pos = geom2.findRev(":");
             QString last = geom2.right(geom2.length() - pos -1);
             m_startTransparency = 100 - last.toInt();
         }
-        kdDebug()<<"++ RESULT 1: "<<geom<<endl;
+
 
         if (geom.right(4).contains(":",FALSE)!=0) { // Ending transparency setting
             int pos = geom.findRev(":");
@@ -168,7 +167,6 @@ void transitionWipeWidget::setParameters(QString geom)
             m_endTransparency = 100 - last.toInt();
 	    geom.truncate(pos);
         }
-	kdDebug()<<"++ RESULT 2: "<<geom<<endl;
 
 
 	if (geom2.startsWith("0=0%,0%")) startTransition = CENTER_TRANSITION;
