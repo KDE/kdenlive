@@ -2379,7 +2379,7 @@ namespace Gui {
 	while (itt != transitionStack.end()) {
 		Transition *tr = (*itt)->reparent(clipUnderMouse);
 		if (tr->isValid()) 
-			macroCommand->addCommand(Command::KAddTransitionCommand::appendTransition(clipUnderMouse, tr));
+			macroCommand->addCommand(Command::KAddTransitionCommand::appendTransition(getDocument(), clipUnderMouse, tr));
 		else delete tr;
 	    ++itt;
 	}
@@ -4212,8 +4212,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	int b_track = getDocument()->projectClip().selectedClip()->trackNum() + 1;
 	DocClipRef *b_clip = getDocument()->projectClip().getClipAt(b_track, mouseTime);
 	if (b_clip)
-	    addCommand(Command::KAddTransitionCommand::appendTransition(getDocument()->projectClip().selectedClip(), b_clip, transitionName), true);
-	else addCommand(Command::KAddTransitionCommand::appendTransition(getDocument()->projectClip().selectedClip(), mouseTime, transitionName), true);
+	    addCommand(Command::KAddTransitionCommand::appendTransition(getDocument(), getDocument()->projectClip().selectedClip(), b_clip, transitionName), true);
+	else addCommand(Command::KAddTransitionCommand::appendTransition(getDocument(), getDocument()->projectClip().selectedClip(), mouseTime, transitionName), true);
 	getDocument()->indirectlyModified();
     }
     
@@ -4228,7 +4228,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	Transition *transit = getDocument()->projectClip().selectedClip()->transitionAt(mouseTime);
 	if (transit) {
 	    if (m_transitionPanel->isActiveTransition(transit)) m_transitionPanel->setTransition(0); 
-	    addCommand(Command::KAddTransitionCommand::removeTransition(getDocument()->projectClip().selectedClip(), transit), true);
+	    addCommand(Command::KAddTransitionCommand::removeTransition(getDocument(), getDocument()->projectClip().selectedClip(), transit), true);
 	    getDocument()->indirectlyModified();
 	}
     }

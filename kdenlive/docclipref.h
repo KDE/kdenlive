@@ -278,6 +278,7 @@ class DocClipRef:public QObject {
 	/** Returns a list of the clip effects names */
     QStringList clipEffectNames() const;
     Transition *transitionAt(const GenTime &time);
+    QDomElement transitionAtIndex(int ix);
         /** Fetch the thumbnail for the clip start */
     void fetchStartThumbnail();
         /** Fetch the thumbnail for the clip end */
@@ -301,8 +302,9 @@ class DocClipRef:public QObject {
         
         bool hasTransition(DocClipRef *clip);
         void deleteTransitions();
-        void addTransition(Transition *transition);
+        int addTransition(Transition *transition);
 	void deleteTransition(QDomElement transitionXml);
+	void deleteTransition(int ix);
         TransitionStack clipTransitions();
         void resizeTransitionStart(uint ix, GenTime time);
         void resizeTransitionEnd(uint ix, GenTime time);

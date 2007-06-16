@@ -1853,10 +1853,11 @@ const QPixmap & DocClipRef::getAudioImage(int /*width*/, int /*height*/,
     return nullPixmap;
 }
 
-void DocClipRef::addTransition(Transition *transition)
+int DocClipRef::addTransition(Transition *transition)
 {
     m_transitionStack.append(transition);
     if (m_parentTrack) m_parentTrack->notifyClipChanged(this);
+    return m_transitionStack.count() - 1;
 }
 
 void DocClipRef::deleteTransition(QDomElement transitionXml)
@@ -1864,14 +1865,21 @@ void DocClipRef::deleteTransition(QDomElement transitionXml)
     if (m_transitionStack.isEmpty()) return;
     for ( uint i = 0; i < m_transitionStack.count(); ++i ) {
 	Transition *t = m_transitionStack.at(i);
-        if ( t && t->toXML().attribute("start") == transitionXml.attribute("start") && t->toXML().attribute("end") == transitionXml.attribute("end")) { 
-	m_transitionStack.remove(i);
+        if ( t && t->toXML().attribute("start") == transitionXml.attribute("start") && t->toXML().attribute("end") == transitionXml.attribute("end")) {
+	    m_transitionStack.remove(i);
 	}
     }
 
     if (m_parentTrack) m_parentTrack->notifyClipChanged(this);
 }
 
+
+void DocClipRef::deleteTransition(int ix)
+{
+    if (m_transitionStack.isEmpty() || ix > m_transitionStack.count() - 1) return;
+    m_transitionStack.remove(ix);
+    if (m_parentTrack) m_parentTrack->notifyClipChanged(this);
+}
 
 Transition *DocClipRef::transitionAt(const GenTime &time)
 {
@@ -1883,6 +1891,12 @@ Transition *DocClipRef::transitionAt(const GenTime &time)
         ++itt;
     }
     return 0;
+}
+
+QDomElement DocClipRef::transitionAtIndex(int ix)
+{
+    if (m_transitionStack.isEmpty() || ix > m_transitionStack.count() - 1) return QDomElement();
+    return m_transitionStack.at(ix)->toXML();
 }
 
 void DocClipRef::deleteTransitions()

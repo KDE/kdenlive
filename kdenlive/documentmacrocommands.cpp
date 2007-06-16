@@ -92,7 +92,7 @@ namespace Command {
     		    TransitionStack::iterator itt = transitionStack.begin();
     		    while (itt) {
         	        if ((*itt)->transitionStartTime()>=time) {
-			    Command::KAddTransitionCommand * remTransitionCommand = new Command::KAddTransitionCommand(clip, *itt, false);
+			    Command::KAddTransitionCommand * remTransitionCommand = new Command::KAddTransitionCommand(document, clip, *itt, false);
 			    command->addCommand(remTransitionCommand);
 		        }
         	        ++itt;

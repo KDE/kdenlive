@@ -30,25 +30,25 @@
 namespace Command {
 
 // static
-    KAddTransitionCommand *KAddTransitionCommand::appendTransition( DocClipRef * clip, GenTime time, const QString & type) {
+    KAddTransitionCommand *KAddTransitionCommand::appendTransition(KdenliveDoc * document, DocClipRef * clip, GenTime time, const QString & type) {
         Transition *transit = new Transition(clip, time, type);
-	if (transit) return new KAddTransitionCommand(clip, transit, true);
+	if (transit) return new KAddTransitionCommand(document, clip, transit, true);
     }
 
 // static
-    KAddTransitionCommand *KAddTransitionCommand::appendTransition( DocClipRef * a_clip, DocClipRef * b_clip, const QString & type) {
+    KAddTransitionCommand *KAddTransitionCommand::appendTransition(KdenliveDoc * document, DocClipRef * a_clip, DocClipRef * b_clip, const QString & type) {
         Transition *transit = new Transition(a_clip, b_clip, type);
-	if (transit) return new KAddTransitionCommand(a_clip, transit, true);
+	if (transit) return new KAddTransitionCommand(document, a_clip, transit, true);
     }
 
 // static
-    KAddTransitionCommand *KAddTransitionCommand::appendTransition( DocClipRef * clip, Transition *transit) {
-	return new KAddTransitionCommand(clip, transit, true);
+    KAddTransitionCommand *KAddTransitionCommand::appendTransition(KdenliveDoc * document, DocClipRef * clip, Transition *transit) {
+	return new KAddTransitionCommand(document, clip, transit, true);
     }
 
 // static
-    KAddTransitionCommand *KAddTransitionCommand::removeTransition( DocClipRef * clip, Transition *transit) {
-	return new KAddTransitionCommand(clip, transit, false);
+    KAddTransitionCommand *KAddTransitionCommand::removeTransition(KdenliveDoc * document, DocClipRef * clip, Transition *transit) {
+	return new KAddTransitionCommand(document, clip, transit, false);
     }
 
 // static
@@ -63,10 +63,11 @@ namespace Command {
 	return command;
     }*/
 
-  KAddTransitionCommand::KAddTransitionCommand(DocClipRef * clip, Transition *transit, bool add):
+  KAddTransitionCommand::KAddTransitionCommand(KdenliveDoc * document, DocClipRef * clip, Transition *transit, bool add):
     KCommand(),
-	m_addTransition(add), m_clip(clip),
-	m_transition(transit->toXML()) {
+	m_addTransition(add), m_trackIndex(clip->trackNum()),
+	m_position(clip->trackStart() + clip->cropDuration() / 2), 
+	m_transition(transit->toXML()), m_document(document), m_transitionIndex(-1) {
     }
 
 
@@ -76,7 +77,9 @@ namespace Command {
 // virtual
     QString KAddTransitionCommand::name() const {
 	return m_addTransition ? i18n("Add transition") : i18n("Delete transition");
-    } void KAddTransitionCommand::execute() {
+    } 
+
+    void KAddTransitionCommand::execute() {
 	if (m_addTransition) {
 	    addTransition();
 	} else {
@@ -93,14 +96,26 @@ namespace Command {
     }
 
     void KAddTransitionCommand::addTransition() {
-
-	Transition *tr = new Transition(m_clip, m_transition);
-	m_clip->addTransition(tr);
+	DocTrackBase *track = m_document->projectClip().track(m_trackIndex);
+	if (track) {
+		DocClipRef *clip = track->getClipAt(m_position);
+		if (!clip) return;
+		Transition *tr = new Transition(clip, m_transition);
+		m_transitionIndex = clip->addTransition(tr);
+	}
     }
 
     void KAddTransitionCommand::deleteTransition() {
-	
-	m_clip->deleteTransition(m_transition);
+	DocTrackBase *track = m_document->projectClip().track(m_trackIndex);
+	if (track) {
+		DocClipRef *clip = track->getClipAt(m_position);
+		if (!clip) return;
+		if (m_transitionIndex != -1) {
+		    m_transition = clip->transitionAtIndex(m_transitionIndex);
+		    clip->deleteTransition(m_transitionIndex);
+		}
+		else clip->deleteTransition(m_transition);
+	}
     }
 
 }

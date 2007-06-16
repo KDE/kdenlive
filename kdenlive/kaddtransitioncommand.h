@@ -36,10 +36,10 @@ Command to add effects to clips.
     class KAddTransitionCommand:public KCommand {
       public:
 	/** Returns an AddEffectCommand that will append the effect to the end of the effect list.*/
-	static KAddTransitionCommand *appendTransition(DocClipRef * clip, GenTime time, const QString & type);
-	static KAddTransitionCommand *appendTransition( DocClipRef * a_clip, DocClipRef * b_clip, const QString & type);
-	static KAddTransitionCommand *appendTransition( DocClipRef * clip, Transition *transit);
-	static KAddTransitionCommand *removeTransition(DocClipRef * clip, Transition *transit);
+	static KAddTransitionCommand *appendTransition(KdenliveDoc * document, DocClipRef * clip, GenTime time, const QString & type);
+	static KAddTransitionCommand *appendTransition(KdenliveDoc * document, DocClipRef * a_clip, DocClipRef * b_clip, const QString & type);
+	static KAddTransitionCommand *appendTransition(KdenliveDoc * document, DocClipRef * clip, Transition *transit);
+	static KAddTransitionCommand *removeTransition(KdenliveDoc * document, DocClipRef * clip, Transition *transit);
 
 	/** Constructs a command to move the specified effect to a new place in the effect list.
 		@param document The document this command will act upon.
@@ -52,7 +52,7 @@ Command to add effects to clips.
 	    DocClipRef * clip, int effectIndex, int newEffectIndex);
 */
 	/** Creates a KAddTransitionCommand that will add the specified effect at the specified effectIndex. */
-	 KAddTransitionCommand(DocClipRef * clip, Transition * transit, bool add);
+	 KAddTransitionCommand(KdenliveDoc * document, DocClipRef * clip, Transition * transit, bool add);
 	~KAddTransitionCommand();
 
 	/** Returns the (translated) name of this command */
@@ -71,7 +71,9 @@ Command to add effects to clips.
 	/** The clips position on the track. */
 	GenTime m_position;
 	QDomElement m_transition;
-	DocClipRef *m_clip;
+	/** Track index of the document track the clip is on. */
+	int m_trackIndex;
+	int m_transitionIndex;
 
 	/** Add the effect to the clip. */
 	void addTransition();

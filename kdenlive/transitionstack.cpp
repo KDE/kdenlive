@@ -24,8 +24,6 @@ TransitionStack::TransitionStack()
     setAutoDelete(true);
 }
 
-
-
 TransitionStack::~TransitionStack()
 {
 }
@@ -47,6 +45,7 @@ Transition* TransitionStack::exists(const DocClipRef * clipa, const DocClipRef *
 
 Transition *TransitionStack::selectedItem()
 {
+    if (index + 1> count ()) index = count() -1;
     return at(index);
 }
 
