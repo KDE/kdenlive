@@ -58,8 +58,7 @@ extern "C" {
 
 static QMutex mutex (true);
 
-KRender::KRender(const QString & rendererName, QWidget *parent, const char *name):QObject(parent, name), m_name(rendererName), m_renderingFormat(0),
-m_mltConsumer(NULL), m_mltProducer(NULL), m_fileRenderer(NULL), m_mltFileProducer(NULL), m_mltTextProducer(NULL), m_sceneList(QDomDocument()), m_winid(-1), m_framePosition(0), m_generateScenelist(false), m_isStopped(true), isBlocked(true)
+KRender::KRender(const QString & rendererName, QWidget *parent, const char *name):QObject(parent, name), m_name(rendererName), m_mltConsumer(NULL), m_mltProducer(NULL), m_mltTextProducer(NULL), m_sceneList(QDomDocument()), m_winid(-1), m_framePosition(0), m_generateScenelist(false), m_isStopped(true), isBlocked(true)
 {
     openMlt();
     refreshTimer = new QTimer( this );
@@ -100,8 +99,6 @@ void KRender::closeMlt()
 {
     delete osdTimer;
     delete refreshTimer;
-    if (m_fileRenderer) delete m_fileRenderer;
-    if (m_mltFileProducer) delete m_mltFileProducer;
     if (m_mltConsumer)
         delete m_mltConsumer;
     if (m_mltProducer)
@@ -125,11 +122,6 @@ static void consumer_frame_show(mlt_consumer, KRender * self, mlt_frame frame_pt
 static void consumer_stopped(mlt_consumer, KRender * self, mlt_frame )
 {
     //self->emitConsumerStopped();
-}
-
-static void file_consumer_stopped(mlt_consumer, KRender * self, mlt_frame)
-{
-    self->emitFileConsumerStopped();
 }
 
 void my_lock()
@@ -172,7 +164,6 @@ void KRender::createVideoXWindow(WId winid, WId externalMonitor)
 	m_mltConsumer->set("window_id", m_externalwinid);
     }
     else m_mltConsumer->set("window_id", m_winid);
-
     m_mltConsumer->set("resize", 1);
     m_mltConsumer->set("rescale", KdenliveSettings::previewquality().ascii());
 
@@ -825,7 +816,7 @@ void KRender::sendSeekCommand(GenTime time)
 	return;
     m_mltProducer->seek((int) (time.frames(m_fps)));
     refresh();
-    m_mltConsumer->purge();
+    //m_mltConsumer->purge();
 }
 
 void KRender::askForRefresh()
@@ -886,13 +877,6 @@ void KRender::emitFrameNumber(double position)
         QApplication::postEvent(qApp->mainWidget(), new PositionChangeEvent( GenTime((int) position, m_fps), m_monitorId));
 }
 
-void KRender::emitFileFrameNumber(const GenTime & , int eventType)
-{
-    if (m_fileRenderer) {
-        QApplication::postEvent(qApp->mainWidget(), new PositionChangeEvent(GenTime(m_mltFileProducer->position(), m_mltFileProducer->get_fps()), eventType));
-    }
-}
-
 void KRender::emitConsumerStopped()
 {
     // This is used to know when the playing stopped
@@ -904,22 +888,6 @@ void KRender::emitConsumerStopped()
     }
 }
 
-void KRender::emitFileConsumerStopped()
-{
-    if (m_fileRenderer) {
-        delete m_fileRenderer;
-        m_fileRenderer = NULL;
-    }
-    if (m_mltFileProducer) {
-        delete m_mltFileProducer;
-        m_mltFileProducer = NULL;
-    }
-
-        // This is used when exporting to a file so that we know when the export is finished
-    if (!m_exportedFile.isEmpty()) {
-	QApplication::postEvent(qApp->mainWidget(), new UrlEvent(m_exportedFile, 10003));
-    }
-}
 
 /*                           FILE RENDERING STUFF                     */
 
@@ -1049,39 +1017,23 @@ void KRender::exportCurrentFrame(KURL url, bool notify) {
 	KMessageBox::sorry(qApp->mainWidget(), i18n("There is no clip, cannot extract frame."));
 	return;
     }
-    m_mltProducer->set_speed(0.0);
+    int width = KdenliveSettings::defaultwidth();
+    if (KdenliveSettings::videoprofile() == "dv_wide") width = KdenliveSettings::defaultheight() * 16.0 / 9.0;
+    int height = KdenliveSettings::defaultheight();
 
-    QString frequency;
-    if (m_fileRenderer) {
-        delete m_fileRenderer;
-        m_fileRenderer = NULL;
+    QPixmap pix(width, height);
+
+    Mlt::Filter m_convert("avcolour_space");
+    m_convert.set("forced", mlt_image_rgb24a);
+    m_mltProducer->attach(m_convert);
+    Mlt::Frame * frame = m_mltProducer->get_frame();
+    m_mltProducer->detach(m_convert);
+    if (frame) {
+	pix = frameThumbnail(frame, width, height);
+	delete frame;
     }
-    if (m_mltFileProducer) {
-        delete m_mltFileProducer;
-        m_mltFileProducer = NULL;
-    }
-    if (notify) m_exportedFile = url;
-    else m_exportedFile = QString::null;
-    m_fileRenderer=new Mlt::Consumer("avformat");
-    char *tmp = decodedString(url.path());
-    m_fileRenderer->set ("target", tmp);
-    delete tmp;
-    if (!KdenliveSettings::videoprofile().isEmpty()) 
-	m_fileRenderer->set("profile", KdenliveSettings::videoprofile().ascii());
-    m_fileRenderer->set ("real_time","0");
-    m_fileRenderer->set ("progressive","1");
-    m_fileRenderer->set ("vcodec","png");
-    m_fileRenderer->set ("format","rawvideo");
-    m_fileRenderer->set ("vframes","1");
-    m_fileRenderer->set ("terminate_on_pause", 1);
-
-    m_fileRenderer->listen("consumer-stopped", this, (mlt_listener) file_consumer_stopped);
-
-    m_mltFileProducer = new Mlt::Producer(m_mltProducer->cut((int) m_mltProducer->position(), (int) m_mltProducer->position()));
-    
-    m_fileRenderer->connect(*m_mltFileProducer);
-    m_mltFileProducer->set_speed(1.0);
-    m_fileRenderer->start();
+    pix.save(url.path(), "PNG");
+    QApplication::postEvent(qApp->mainWidget(), new UrlEvent(url, 10003));
 }
 
 

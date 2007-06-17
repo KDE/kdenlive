@@ -143,11 +143,8 @@ class KRender:public QObject {
     const GenTime & seekPosition() const;
 
     void emitFrameNumber(double position);
-    void emitFileFrameNumber(const GenTime & time, int eventType);
     void emitConsumerStopped();
-    void emitFileConsumerStopped();
 
-    
     /** Gives the aspect ratio of the consumer */
     double consumerRatio() const;
 
@@ -167,11 +164,8 @@ class KRender:public QObject {
   private:			// Private attributes & methods
 	/** The name of this renderer - useful to identify the renderes by what they do - e.g. background rendering, workspace monitor, etc... */
      QString m_name;
-     QString m_renderingFormat;
      Mlt::Consumer * m_mltConsumer;
      Mlt::Producer * m_mltProducer;
-     Mlt::Consumer *m_fileRenderer;
-     Mlt::Producer * m_mltFileProducer;
      Mlt::Producer *m_mltTextProducer;
      Mlt::Filter *m_osdInfo;
      double m_framePosition;
