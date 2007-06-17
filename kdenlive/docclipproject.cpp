@@ -99,7 +99,6 @@ void DocClipProject::slotAddTrack(DocTrackBase * track, int ix)
 		ix = m_tracks.count();
     	else itt += ix;
     	while (itt) {
-		kdDebug()<<"////  CHANGING INDEX FOR TRACK: "<<trackIndex(itt)<<endl;
 		(*itt)->trackIndexChanged(trackIndex(itt) + 1);
 		itt += 1;
     	}
@@ -123,7 +122,6 @@ void DocClipProject::slotDeleteTrack(int ix)
 	ix = m_tracks.count();
     else itt += ix + 1;
     while (itt) {
-	kdDebug()<<"////  CHANGING INDEX FOR TRACK: "<<trackIndex(itt)<<endl;
 	(*itt)->trackIndexChanged(trackIndex(itt) - 1);
 	itt += 1;
     }

@@ -80,7 +80,6 @@ QDomElement element = node.documentElement();
 	if (!e.isNull()) {
 	    //kdWarning() << "DocClipRef::createClip() tag = " << e.tagName() << endl;
 	    if (e.tagName() == "avfile") {
-		kdDebug()<<"++ FOUND CLIP"<<endl;
 		m_url = KURL(e.attribute("url", QString::null));
                 setId(e.attribute("id", "-1").toInt());
                 m_filesize = e.attribute("filesize", "0").toInt();

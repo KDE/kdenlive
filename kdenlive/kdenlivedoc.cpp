@@ -321,7 +321,6 @@ void KdenliveDoc::generateSceneList()
 
 void KdenliveDoc::slotSelectProjectItem(int id)
 {
-    kdDebug()<<"++++++++++++  DOC SELECT NEW ITEM: "<<id<<endl;
     emit selectProjectItem(id);
 }
 
