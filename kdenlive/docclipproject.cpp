@@ -438,7 +438,7 @@ QDomDocument DocClipProject::generateSceneList(bool addProducers, bool rendering
             playlist.appendChild(itt.current()->generateXMLClip(rendering).firstChild());
 
             // Append clip's transitions for video tracks
-            if (KdenliveSettings::showtransitions() || rendering) clipTransitions.appendChild(doc.importNode(itt.current()->generateXMLTransition(isBlind, isMute), true));
+            if (KdenliveSettings::showtransitions() || rendering) clipTransitions.insertBefore(doc.importNode(itt.current()->generateXMLTransition(isBlind, isMute), true), QDomNode());
 
 	    timestart = (int)itt.current()->trackEnd().frames(framesPerSecond());
 	    ++itt;
@@ -608,7 +608,7 @@ QDomDocument DocClipProject::generatePartialSceneList(GenTime start, GenTime end
                 playlist.appendChild(itt.current()->generateOffsetXMLClip(start, end).firstChild());
 
                 // Append clip's transitions for video tracks
-                clipTransitions.appendChild(doc.importNode(itt.current()->generateOffsetXMLTransition(isBlind, isMute, start, end), true));
+                clipTransitions.insertBefore(doc.importNode(itt.current()->generateOffsetXMLTransition(isBlind, isMute, start, end), true), QDomNode());
 
 	        timestart = (int)(itt.current()->trackEnd()).frames(framesPerSecond());
 	    }
