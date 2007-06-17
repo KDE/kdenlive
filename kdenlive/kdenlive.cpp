@@ -3096,6 +3096,10 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	    }
 	}
 	else {
+	    if (getDocument()->clipManager().findClip(imageUrl)) {
+		KMessageBox::sorry(this, i18n("The clip %1 is already present in this project").arg(imageUrl.filename()));
+		return;
+	    }
 	    fileUrl = imageUrl;
 	    duration = getDocument()->getTimecodePosition(KdenliveSettings::colorclipduration(), MAXFRAMEDURATION);
 	}
