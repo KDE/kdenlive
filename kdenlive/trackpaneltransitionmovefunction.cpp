@@ -195,8 +195,8 @@ bool TrackPanelTransitionMoveFunction::mouseReleased(Gui::KTrackPanel * panel,
     bool result = false;
     m_selectedTransition = 0;
     m_dragging = false;
-    emit transitionChanged(true);
-
+    if (m_startedTransitionMove) emit transitionChanged(true);
+    m_startedTransitionMove = false;
     result = true;
     return result;
 }
