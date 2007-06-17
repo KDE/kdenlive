@@ -251,7 +251,6 @@ QPixmap KRender::extractFrame(int frame_position, int width, int height)
     Mlt::Filter m_convert("avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
     mlt_producer.attach(m_convert);
-    pix.fill(Qt::black);
 
     Mlt::Frame *frame = mlt_producer.get_frame();
 
