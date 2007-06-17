@@ -127,6 +127,8 @@ class KdenliveDoc:public QObject {
     int trackIndex(DocTrackBase * track) const;
 	/** Sets the modified state of the document, if this has changed, emits modified(state) */
     void setModified(bool state);
+	/** Sets the modified state of the document on loading, if files were relocated, state is false */
+    void setDocumentState(bool state);
 	/** Returns a scene list generated from the current document. */
     void generateSceneList();
 	/** Renders the current document timeline to the specified url. */
@@ -202,8 +204,10 @@ class KdenliveDoc:public QObject {
     bool m_modified;
     KURL m_doc_url;
     QString m_doc_name;
+	/** Holds project state on loading (if some files were relocated or not found) */
+    bool m_documentIsClean;
 
-/** HACK HACK - generate scenelist if true, don't if false) */
+    /** HACK HACK - generate scenelist if true, don't if false) */
     bool m_sceneListGeneration;
 
     bool m_showAllMarkers;

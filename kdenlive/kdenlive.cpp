@@ -249,12 +249,11 @@ namespace Gui {
 	initDocument(videoTracks, audioTracks);
 	readOptions();
 	// disable actions at startup
-	fileSave->setEnabled(false);
 	//  filePrint->setEnabled(false);
 	editCut->setEnabled(true);
 	editCopy->setEnabled(true);
 	editPaste->setEnabled(false);
-
+	fileSave->setEnabled(false);
 	fileSaveAs->setEnabled(true);
 
 	m_autoSaveTimer = new QTimer(this);
@@ -2750,11 +2749,7 @@ namespace Gui {
 
 /** Alerts the App to when the document has been modified. */
     void KdenliveApp::documentModified(bool modified) {
-	if (modified) {
-	    fileSave->setEnabled(true);
-	} else {
-	    fileSave->setEnabled(false);
-	}
+	fileSave->setEnabled(modified);
 	setCaption(m_doc->projectName() + " - " + easyName(m_projectFormat), modified);
     }
 

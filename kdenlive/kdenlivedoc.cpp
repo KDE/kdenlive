@@ -48,6 +48,7 @@ KdenliveDoc::KdenliveDoc(double fps, int width, int height, Gui::KdenliveApp * a
 QObject(parent, name),
 m_projectClip(new DocClipProject(fps, width, height)),
 m_modified(false),
+m_documentIsClean(true),
 m_sceneListGeneration(true),
 m_showAllMarkers(KdenliveSettings::showallmarkers()),
 m_clipHierarch(0), m_render(app->renderManager()->findRenderer("Document")), m_clipManager(m_render, this), m_app(app), m_metadata(NULL)
@@ -66,7 +67,6 @@ m_clipHierarch(0), m_render(app->renderManager()->findRenderer("Document")), m_c
     m_domSceneList.appendChild(m_domSceneList.createElement("scenelist"));
     generateSceneList();
     connectProjectClip();
-
     setModified(false);
 }
 
@@ -138,7 +138,7 @@ bool KdenliveDoc::newDocument(int videoTracks, int audioTracks)
     kdDebug() << "Creating new document" << endl;
 
     m_sceneListGeneration = true;
-
+    m_documentIsClean = true;
     deleteContents();
 
     m_clipHierarch = new DocumentGroupNode(0, i18n("Clips"));
@@ -260,6 +260,11 @@ void KdenliveDoc::setModified(bool state)
     }
 }
 
+void KdenliveDoc::setDocumentState(bool state)
+{
+    if (!state) m_documentIsClean = false;
+}
+
 /** Moves the currectly selected clips by the offsets specified, or returns false if this
 is not possible. */
 bool KdenliveDoc::moveSelectedClips(GenTime startOffset, int trackOffset)
@@ -357,7 +362,7 @@ void KdenliveDoc::hasBeenModified(bool mod)
         if (m_projectClip->producersList.isNull()) generateProducersList();
 	emit documentChanged(m_projectClip);
     }
-    setModified(mod);
+    if (mod) setModified(mod);
 }
 
 
@@ -603,6 +608,7 @@ void KdenliveDoc::setProjectClip(DocClipProject * projectClip)
     if (m_projectClip) {
 	delete m_projectClip;
     }
+    m_modified = false;
     m_projectClip = projectClip;
     updateReferences();
     emit trackListChanged();
@@ -611,7 +617,7 @@ void KdenliveDoc::setProjectClip(DocClipProject * projectClip)
     if (KdenliveSettings::videothumbnails()) updateTracksThumbnails();
     QTimer::singleShot(1000, this, SLOT(refreshAudioThumbnails()));
     connectProjectClip();
-    setModified(false);
+    setModified(!m_documentIsClean);
 }
 
 void KdenliveDoc::slotUpdateClipThumbnails(DocClipBase *clip)
