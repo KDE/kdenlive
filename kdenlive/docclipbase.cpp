@@ -128,8 +128,8 @@ createClip(KdenliveDoc *doc, const QDomElement & element)
     } else {
 	// setup DocClipBase specifics of the clip.
 	clip->setDescription(description);
+    	clip->setAudioThumbCreated(false);
     }
-    clip->setAudioThumbCreated(false);
     return clip;
 }
 
