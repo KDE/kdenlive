@@ -832,14 +832,14 @@ void KdenliveDoc::updateTracksThumbnails()
     int ix = 0;
     while (trackItt.current()) {
         QPtrListIterator < DocClipRef > clipItt(trackItt.current()->firstClip(true));
-        while (clipItt.current()) {
+        while (clipItt.current() && KdenliveSettings::videothumbnails()) {
             (*clipItt)->generateThumbnails();
             ++clipItt;
 	    ix++;
         }
         
         QPtrListIterator < DocClipRef > clipItt2(trackItt.current()->firstClip(false));
-        while (clipItt2.current()) {
+        while (clipItt2.current() && KdenliveSettings::videothumbnails()) {
             (*clipItt2)->generateThumbnails();
 	    QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(ix * 100 / clipTotal, 10006));
 	    qApp->processEvents();
