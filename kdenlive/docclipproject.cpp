@@ -436,7 +436,7 @@ QDomDocument DocClipProject::generateSceneList(bool addProducers, bool rendering
             playlist.appendChild(itt.current()->generateXMLClip(rendering).firstChild());
 
             // Append clip's transitions for video tracks
-            if (KdenliveSettings::showtransitions() || rendering) clipTransitions.insertBefore(doc.importNode(itt.current()->generateXMLTransition(isBlind, isMute), true), QDomNode());
+            if ((KdenliveSettings::showtransitions() && !KdenliveSettings::multitrackview()) || rendering) clipTransitions.insertBefore(doc.importNode(itt.current()->generateXMLTransition(isBlind, isMute), true), QDomNode());
 
 	    timestart = (int)itt.current()->trackEnd().frames(framesPerSecond());
 	    ++itt;
