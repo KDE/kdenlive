@@ -77,7 +77,7 @@ class TrackPanelTransitionMoveFunction:public TrackPanelFunction
 
 	/**
 	Processes Mouse double click.*/
-    virtual bool mouseDoubleClicked(Gui::KTrackPanel * panel, QMouseEvent * event);
+    virtual bool mouseDoubleClicked(Gui::KTrackPanel *, QMouseEvent *);
     
 //    virtual bool dragEntered(Gui::KTrackPanel * panel, QDragEnterEvent *);
     //virtual bool dragMoved(Gui::KTrackPanel * panel, QDragMoveEvent *);

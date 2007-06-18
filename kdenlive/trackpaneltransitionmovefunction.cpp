@@ -90,39 +90,9 @@ QCursor TrackPanelTransitionMoveFunction::getMouseCursor(Gui::KTrackPanel *
 
 
 
-bool TrackPanelTransitionMoveFunction::mouseDoubleClicked(Gui::KTrackPanel * panel, QMouseEvent * event)
+bool TrackPanelTransitionMoveFunction::mouseDoubleClicked(Gui::KTrackPanel *, QMouseEvent *)
 {
-    if (panel->hasDocumentTrackIndex()) {
-	DocTrackBase *track = m_document->track(panel->documentTrackIndex());
-	if (track) {
-	    GenTime mouseTime((int)m_timeline->mapLocalToValue(event->x()), m_document->framesPerSecond());
-	    DocClipRef *clip = track->getClipAt(mouseTime);
-	    if (clip) {
-                
-                TransitionStack m_transitions = clip->clipTransitions();
-                if (m_transitions.isEmpty()) return false;
-
-                TransitionStack::iterator itt = m_transitions.begin();
-                //  Loop through the clip's transitions
-                while (itt) {
-			int dx1 = (int)m_timeline->mapValueToLocal((*itt)->transitionStartTime().frames(m_document->framesPerSecond()));
-			int dx2 = (int)m_timeline->mapValueToLocal((*itt)->transitionEndTime().frames(m_document->framesPerSecond()));
-			if ((event->x() > dx1) && (event->x() < dx2)) {
- 				if (!track->clipSelected(clip)) {
-	  	        		KMacroCommand *macroCommand = new KMacroCommand(i18n("Select Clip"));
-	  	        		macroCommand->addCommand(Command::KSelectClipCommand::selectNone(m_document));
-	  	        		macroCommand->addCommand(new Command::KSelectClipCommand(m_document, clip, true));
-	  	        		m_app->addCommand(macroCommand, true);
-		    		}
-                        	emit editTransition(*itt);
-                        	break;
-                    }
-                    ++itt;
-                }
-	    }
-	}
-    }
-    return true;
+    return false;
 }
 
 bool TrackPanelTransitionMoveFunction::mousePressed(Gui::KTrackPanel * panel,
@@ -143,6 +113,13 @@ bool TrackPanelTransitionMoveFunction::mousePressed(Gui::KTrackPanel * panel,
 
                 TransitionStack::iterator itt = m_transitions.begin();
                 uint ix = 0;
+
+		if (!track->clipSelected(m_clipUnderMouse)) {
+		    KMacroCommand *macroCommand = new KMacroCommand(i18n("Select Clip"));
+	  	    macroCommand->addCommand(Command::KSelectClipCommand::selectNone(m_document));
+	  	    macroCommand->addCommand(new Command::KSelectClipCommand(m_document, m_clipUnderMouse, true));
+	  	    m_app->addCommand(macroCommand, true);
+		}
                 
                 //  Loop through the clip's transitions
                 while (itt) {
@@ -154,6 +131,7 @@ bool TrackPanelTransitionMoveFunction::mousePressed(Gui::KTrackPanel * panel,
                         m_dragging = true;
                         m_transitionOffset = (*itt)->transitionStartTime(); 
                         m_clipOffset = m_timeline->timeUnderMouse((double) event->x()) - m_transitionOffset;
+			emit editTransition(*itt);
                         break;
                     }
                     ++itt;
