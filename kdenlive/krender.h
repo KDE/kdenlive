@@ -171,7 +171,6 @@ class KRender:public QObject {
      double m_framePosition;
      double m_fps;
      uint m_monitorId;
-     bool m_isStopped;
      bool m_generateScenelist;
 
 	/** Holds the path to on screen display profile */

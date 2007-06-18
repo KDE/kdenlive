@@ -58,7 +58,7 @@ extern "C" {
 
 static QMutex mutex (true);
 
-KRender::KRender(const QString & rendererName, QWidget *parent, const char *name):QObject(parent, name), m_name(rendererName), m_mltConsumer(NULL), m_mltProducer(NULL), m_mltTextProducer(NULL), m_sceneList(QDomDocument()), m_winid(-1), m_framePosition(0), m_generateScenelist(false), m_isStopped(true), isBlocked(true)
+KRender::KRender(const QString & rendererName, QWidget *parent, const char *name):QObject(parent, name), m_name(rendererName), m_mltConsumer(NULL), m_mltProducer(NULL), m_mltTextProducer(NULL), m_sceneList(QDomDocument()), m_winid(-1), m_framePosition(0), m_generateScenelist(false), isBlocked(true)
 {
     openMlt();
     refreshTimer = new QTimer( this );
@@ -871,7 +871,6 @@ const QString & KRender::rendererName() const
 void KRender::emitFrameNumber(double position)
 {
 	if (m_generateScenelist) return;
-	m_isStopped = false;
 	m_framePosition = position;
         QApplication::postEvent(qApp->mainWidget(), new PositionChangeEvent( GenTime((int) position, m_fps), m_monitorId));
 }
@@ -879,8 +878,7 @@ void KRender::emitFrameNumber(double position)
 void KRender::emitConsumerStopped()
 {
     // This is used to know when the playing stopped
-    if (m_mltProducer && !m_isStopped && !m_generateScenelist) {
-	m_isStopped = true;
+    if (m_mltProducer && !m_generateScenelist) {
 	double pos = m_mltProducer->position();
         QApplication::postEvent(qApp->mainWidget(), new PositionChangeEvent(GenTime((int) pos, m_fps), m_monitorId + 100));
 	//new QCustomEvent(10002));
