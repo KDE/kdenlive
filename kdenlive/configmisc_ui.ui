@@ -142,7 +142,7 @@
                 <cstring>kcfg_osdtimecode</cstring>
             </property>
             <property name="text">
-                <string>On screen timecode display</string>
+                <string>Display timecode</string>
             </property>
         </widget>
         <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="2">
