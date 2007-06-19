@@ -43,8 +43,8 @@ bool SaveProjectScenelistFilter::save(QFile & file, KdenliveDoc * document)
     QDomNode playlist = doc.importNode(westleyList.documentElement(), true);
     doc.appendChild(playlist);
     
-    QString save = doc.toString();
-    file.writeBlock(save.utf8(), save.length());
+    QCString save = doc.toString().utf8();
+    file.writeBlock(save, save.length());
     return true;
 }
 

@@ -2527,8 +2527,8 @@ namespace Gui {
 		QDomDocument partial = getDocument()->projectClip().generatePartialSceneList(m_timeline->inpointPosition(), m_timeline->outpointPosition(), -1);
 		QFile file(fd->selectedURL().path());
 		file.open( IO_WriteOnly );
-		QString save = partial.toString();
-    		file.writeBlock(save.utf8(), save.length());
+		QCString save = partial.toString().utf8();
+    		file.writeBlock(save, save.length());
 		file.close();
 		if (addToProject->isChecked()) insertClipFromUrl(fd->selectedURL().path());
 	}
@@ -2552,8 +2552,8 @@ namespace Gui {
 		QDomDocument partial = clipUnderMouse->generateXMLClip();
 		QFile file(fd->selectedURL().path());
 		file.open( IO_WriteOnly );
-		QString save = "<westley><producer id=\"" + QString::number(clipUnderMouse->referencedClip()->getId()) + "\" resource=\"" + clipUnderMouse->fileURL().path() + "\" /><playlist>"+partial.toString()+"</playlist></westley>";
-    		file.writeBlock(save.utf8(), save.length());
+		QCString save = QString("<westley><producer id=\"" + QString::number(clipUnderMouse->referencedClip()->getId()) + "\" resource=\"" + clipUnderMouse->fileURL().path() + "\" /><playlist>"+partial.toString()+"</playlist></westley>").utf8();
+    		file.writeBlock(save, save.length());
 		file.close();
 		if (addToProject->isChecked()) insertClipFromUrl(fd->selectedURL().path());
 	}

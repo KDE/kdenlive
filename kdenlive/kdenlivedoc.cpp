@@ -334,10 +334,11 @@ void KdenliveDoc::refreshVirtualClips()
 	if (itt.current()->isDocClipVirtual()) {
 	    DocClipVirtual *vclip = itt.current()->toDocClipVirtual();
 	    if (vclip) {
-	        QString part = m_projectClip->generatePartialSceneList(vclip->virtualStartTime(), vclip->virtualEndTime(), vclip->getId()).toString();
+	        QCString part = m_projectClip->generatePartialSceneList(vclip->virtualStartTime(), vclip->virtualEndTime(), vclip->getId()).toString().utf8();
 	        QFile file(vclip->fileURL().path());
 	        file.open( IO_WriteOnly );
-    	        file.writeBlock(part.utf8(), part.length());
+		
+    	        file.writeBlock(part, part.length());
 	        file.close();
 	    }
 	} 
