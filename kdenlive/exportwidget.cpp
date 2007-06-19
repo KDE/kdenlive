@@ -671,7 +671,7 @@ double exportWidget::getCurrentAspect()
 {
 	QString size;
 	int width, height;
-	double aspect = 0;
+	double aspect = 0.0;
 	switch (encoders->currentPageIndex()) {
 	case 0:
 		if (m_format == PAL_WIDE) aspect = 16.0 / 9.0 * 576.0 / 720.0;
@@ -833,8 +833,8 @@ void exportWidget::doExport(QString file, double ratio, QStringList params, bool
     *m_exportProcess << "dynamic=1";
 */
 
-    if (!KdenliveSettings::videoprofile().isEmpty()) 
-	*m_exportProcess<<"profile=" + KdenliveSettings::videoprofile();
+    /*if (!KdenliveSettings::videoprofile().isEmpty()) 
+	*m_exportProcess<<"profile=" + KdenliveSettings::videoprofile();*/
     connect(m_exportProcess, SIGNAL(processExited(KProcess *)), this, SLOT(endExport(KProcess *)));
     connect(m_exportProcess, SIGNAL(receivedStderr (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));
 
