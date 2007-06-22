@@ -211,7 +211,7 @@ class DocClipBase:public QObject {
 	GenTime findNextSnapMarker(const GenTime & currTime);
 	GenTime findPreviousSnapMarker(const GenTime & currTime);
 	GenTime hasSnapMarkers(const GenTime & time);
-	bool deleteSnapMarker(const GenTime & time);
+	QString deleteSnapMarker(const GenTime & time);
 	void editSnapMarker(const GenTime & time, QString comment);
 	void addSnapMarker(const GenTime & time, QString comment);
 	QValueVector < GenTime > snapMarkers() const;

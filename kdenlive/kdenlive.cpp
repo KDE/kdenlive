@@ -4054,7 +4054,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	if (ok) {
 	    Command::KEditMarkerCommand * command = new Command::KEditMarkerCommand(*getDocument(), clipUnderMouse, cursorTime, comment, true);
 	    addCommand(command);
-	    documentModified(true);
+	    m_timeline->drawTrackViewBackBuffer();
 	}
     }
 
@@ -4068,7 +4068,6 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		if (ok) {
 		    Command::KAddMarkerCommand * command = new Command::KAddMarkerCommand(*getDocument(), clipUnderMouse->referencedClip()->getId(), cursorTime - clipUnderMouse->trackStart() + clipUnderMouse->cropStartTime(), comment, true);
 		    addCommand(command);
-		    documentModified(true);
 		}
     }
 
@@ -4079,7 +4078,6 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		if ((cursorTime < clipUnderMouse->trackStart()) || (cursorTime > clipUnderMouse->trackEnd())) return;
 	    	Command::KAddMarkerCommand * command = new Command::KAddMarkerCommand(*getDocument(), clipUnderMouse->referencedClip()->getId(), cursorTime - clipUnderMouse->trackStart() + clipUnderMouse->cropStartTime(), QString::null, false);
 		addCommand(command);
-		documentModified(true);
     }
 
     void KdenliveApp::toggleMarkerUnderCursor()
@@ -4090,7 +4088,6 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 			if ((cursorTime < clipUnderMouse->trackStart()) || (cursorTime > clipUnderMouse->trackEnd())) return;
 			if (clipUnderMouse->hasSnapMarker(cursorTime) != GenTime(0.0)) deleteMarkerUnderCursor();
 			else addMarkerUnderCursor();
-			documentModified(true);
 		}
     }
 

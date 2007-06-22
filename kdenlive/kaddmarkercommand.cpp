@@ -56,6 +56,7 @@ namespace Command {
 	} else {
 	    deleteMarker();
 	}
+	m_document.setModified(true);
     }
 
 /** Unexecute the command */
@@ -65,6 +66,7 @@ namespace Command {
 	} else {
 	    addMarker();
 	}
+	m_document.setModified(true);
     }
 
     void KAddMarkerCommand::addMarker() {
@@ -80,7 +82,7 @@ namespace Command {
     void KAddMarkerCommand::deleteMarker() {
 	DocClipBase *clip = m_document.findClipById(m_id);
 	if (clip) {
-	    clip->deleteSnapMarker(m_clipTime);
+	    m_comment = clip->deleteSnapMarker(m_clipTime);
 	    m_document.redrawTimeLine();
 	} else {
 	    kdError() <<"Trying to delete marker; no clip exists at this point on the track!"<< endl;

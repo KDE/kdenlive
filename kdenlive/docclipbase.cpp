@@ -276,8 +276,9 @@ void DocClipBase::editSnapMarker(const GenTime & time, QString comment)
     }
 }
 
-bool DocClipBase::deleteSnapMarker(const GenTime & time)
+QString DocClipBase::deleteSnapMarker(const GenTime & time)
 {
+    QString result = i18n("Marker");
     QValueVector < CommentedTime >::Iterator itt = m_snapMarkers.begin();
 
     while (itt != m_snapMarkers.end()) {
@@ -287,9 +288,10 @@ bool DocClipBase::deleteSnapMarker(const GenTime & time)
     }
 
     if ((itt != m_snapMarkers.end()) && ((*itt).time() == time)) {
+	result = (*itt).comment();
 	m_snapMarkers.erase(itt);
-	return true;
-    } else return false;
+    }
+    return result;
 }
 
 

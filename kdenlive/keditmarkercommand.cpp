@@ -56,6 +56,7 @@ namespace Command {
 	} else {
 	    deleteMarker();
 	}
+	m_document.setModified(true);
     }
 
 /** Unexecute the command */
@@ -65,6 +66,7 @@ namespace Command {
 	} else {
 	    addMarker();
 	}
+	m_document.setModified(true);
     }
 
     void KEditMarkerCommand::addMarker() {
