@@ -286,6 +286,10 @@ namespace Gui {
 	    setPlaying(true);
 	    return;
 	}
+	else if (m_playSelected) {
+	    m_playSelected = false;
+	    m_monitor->screen()->play(0.0);
+	}
 	if (m_pauseMode) return;
         m_playSpeed = 0.0;
         updateButtons();
