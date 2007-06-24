@@ -10,15 +10,14 @@ EXTRA_DIST = hi16-app-kdenlive.png hi32-app-kdenlive.png hi48-app-kdenlive.png h
 
 KDE_ICON = AUTO
 kde_icon_KDEICON = hi16-action-kdenlive_add_clip.png \
-	hi16-action-kdenlive_addclip.png hi16-action-kdenlive_audiothumbs.png \
-	hi16-action-kdenlive_audiothumbsoff.png hi16-action-kdenlive_create_color.png \
-	hi16-action-kdenlive_create_image.png hi16-action-kdenlive_create_slide.png \
-	hi16-action-kdenlive_create_text.png hi16-action-kdenlive_delclip.png hi16-action-kdenlive_effects.png \
-	hi16-action-kdenlive_effectsoff.png hi16-action-kdenlive_guide.png hi16-action-kdenlive_markdown.png \
-	hi16-action-kdenlive_markup.png hi16-action-kdenlive_new_clip.png hi16-action-kdenlive_pause.png \
+	hi16-action-kdenlive_audiothumbs.png hi16-action-kdenlive_audiothumbsoff.png \
+	hi16-action-kdenlive_create_color.png hi16-action-kdenlive_create_image.png \
+	hi16-action-kdenlive_create_slide.png hi16-action-kdenlive_create_text.png hi16-action-kdenlive_delclip.png \
+	hi16-action-kdenlive_effects.png hi16-action-kdenlive_effectsoff.png hi16-action-kdenlive_guide.png \
+	hi16-action-kdenlive_markdown.png hi16-action-kdenlive_markup.png hi16-action-kdenlive_pause.png \
 	hi16-action-kdenlive_play.png hi16-action-kdenlive_thumbs.png hi16-action-kdenlive_thumbsoff.png \
 	hi16-action-kdenlive_trans_down.png hi16-action-kdenlive_trans_pip.png hi16-action-kdenlive_trans_up.png \
 	hi16-action-kdenlive_trans_wiped.png hi16-action-kdenlive_trans_wipel.png \
 	hi16-action-kdenlive_trans_wiper.png hi16-action-kdenlive_trans_wipeu.png \
-	hi16-action-kdenlive_transitionsoff.png hi22-action-kdenlive_delclip.png hi32-action-hcenter.png \
+	hi16-action-kdenlive_transitionsoff.png hi22-action-kdenlive_new_clip.png hi32-action-hcenter.png \
 	hi32-action-vcenter.png
