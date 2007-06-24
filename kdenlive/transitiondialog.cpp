@@ -208,8 +208,19 @@ void TransitionDialog::resetTransitionDialog()
     transitPip->radio_start->setChecked(true);
 }
 
+bool TransitionDialog::checkTransition(DocClipRef *clip)
+{
+    if (m_transition == NULL || m_transition->belongsToClip(clip)) return true;
+    disconnectTransition();
+    m_transition = 0;
+    resetTransitionDialog();
+    setEnabled(false);
+    return false;
+}
+
 void TransitionDialog::setTransition(Transition *transition)
 {
+	if (m_transition == transition) return;
         disconnectTransition();
 	m_transition = transition;
         if (transition == 0) {

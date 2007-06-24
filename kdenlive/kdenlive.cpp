@@ -131,7 +131,7 @@ namespace Gui {
 
     KdenliveApp::KdenliveApp(bool newDoc, QWidget *parent,
 	const char *name):KDockMainWindow(parent, name), m_monitorManager(this),
-    m_workspaceMonitor(NULL), m_clipMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_renderManager(NULL), m_doc(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_projectList(NULL), m_effectStackDialog(NULL), m_effectListDialog(NULL), m_projectFormat(PAL_VIDEO), m_timelinePopupMenu(NULL), m_rulerPopupMenu(NULL), m_exportDvd(NULL), m_transitionPanel(NULL), m_resizeFunction(NULL), m_rollFunction(NULL), m_markerFunction(NULL),m_newLumaDialog(NULL), m_externalMonitor(0) {
+    m_workspaceMonitor(NULL), m_clipMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_renderManager(NULL), m_doc(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_projectList(NULL), m_effectStackDialog(NULL), m_effectListDialog(NULL), m_projectFormat(PAL_VIDEO), m_timelinePopupMenu(NULL), m_rulerPopupMenu(NULL), m_exportDvd(NULL), m_transitionPanel(NULL), m_resizeFunction(NULL), m_moveFunction(NULL), m_rollFunction(NULL), m_markerFunction(NULL),m_newLumaDialog(NULL), m_externalMonitor(0) {
 	config = kapp->config();
 
 	QString newProjectName;
@@ -1336,6 +1336,7 @@ namespace Gui {
 	// create the main widget here that is managed by KTMainWindow's view-region and
 	// connect the widget to your document to display document contents.
 	kdDebug()<<"****************  INIT DOCUMENT VIEW ***************"<<endl;
+	m_timeline->trackView()->setReady(false);
 	renderManager()->stopRenderers();
 
 	if (m_transitionPanel) delete m_transitionPanel;
@@ -1473,9 +1474,10 @@ namespace Gui {
 
 	m_timeline->trackView()->clearFunctions();
 
-	m_timeline->trackView()->registerFunction("move",
-	    new TrackPanelClipMoveFunction(this, m_timeline,
-		getDocument()));
+	m_moveFunction = new TrackPanelClipMoveFunction(this, m_timeline, getDocument());
+	m_timeline->trackView()->registerFunction("move", m_moveFunction);
+
+	connect(m_moveFunction, SIGNAL(checkTransition(DocClipRef *)), this, SLOT(slotCheckTransition(DocClipRef *)));
 
 	m_resizeFunction =
 	    new TrackPanelClipResizeFunction(this, m_timeline,
@@ -1510,9 +1512,6 @@ namespace Gui {
 
 	connect(m_transitionPanel, SIGNAL(transitionChanged(bool)),
                 getDocument(), SLOT(activateSceneListGeneration(bool)));
-
-	connect(m_transitionPanel, SIGNAL(transitionChanged(bool)),
-	    m_timeline, SLOT(drawTrackViewBackBuffer()));
 
 	connect(keyFrameFunction, SIGNAL(signalKeyFrameChanged(bool)),
 	    getDocument(), SLOT(activateSceneListGeneration(bool)));
@@ -1583,8 +1582,7 @@ namespace Gui {
 	slotSyncTimeLineWithDocument();
 	m_timeline->slotSetFramesPerSecond(KdenliveSettings::defaultfps());
 	m_timeline->slotSetProjectLength(getDocument()->projectClip().duration());
-
-        //QTimer::singleShot(200, getDocument(), SLOT(activateSceneListGeneration()));
+	m_timeline->trackView()->setReady(true);
 	m_doc->setModified(false);
 	
     }
@@ -1725,6 +1723,12 @@ namespace Gui {
 	m_transitionPanel->setTransition(transition);
         m_timeline->drawTrackViewBackBuffer();
     }
+
+    void KdenliveApp::slotCheckTransition(DocClipRef *clip) {
+	if (!m_transitionPanel->checkTransition(clip))
+            m_timeline->drawTrackViewBackBuffer();
+    }
+
 
     void KdenliveApp::slotToggleClipMonitor() {
 	m_dockClipMonitor->changeHideShowState();
@@ -4154,6 +4158,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	  	macroCommand->addCommand(Command::KSelectClipCommand::selectNone(getDocument()));
 	  	macroCommand->addCommand(new Command::KSelectClipCommand(getDocument(), clip, true));
 	  	addCommand(macroCommand, true);
+		slotCheckTransition(clip);
 	  }
 	  removeEffectsMenu->clear();
 	  QStringList clipEffects = clip->clipEffectNames();

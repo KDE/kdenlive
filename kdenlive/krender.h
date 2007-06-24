@@ -178,6 +178,7 @@ class KRender:public QObject {
      
      QTimer *refreshTimer;
      QTimer *osdTimer;
+     QTimer *m_connectTimer;
      KURL m_exportedFile;
      int exportDuration, firstExportFrame, lastExportFrame;
 
@@ -206,6 +207,7 @@ class KRender:public QObject {
         void refresh();
 	void slotOsdTimeout();
 	void restartConsumer();
+	void connectPlaylist();
 
      signals:			// Signals
 	/** This signal is emitted once a reply to createVideoXWidow() has been recieved. */

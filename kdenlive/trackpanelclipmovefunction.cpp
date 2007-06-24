@@ -93,6 +93,7 @@ bool TrackPanelClipMoveFunction::mousePressed(Gui::KTrackPanel * panel,
 	    m_clipUnderMouse = track->getClipAt(mouseTime);
 
 	    if (m_clipUnderMouse) {
+		emit checkTransition(m_clipUnderMouse);
 		if (event->state() & Qt::ControlButton) {
 		    m_app->addCommand(Command::KSelectClipCommand::toggleSelectClipAt(m_document, *track, mouseTime), true);
 		}

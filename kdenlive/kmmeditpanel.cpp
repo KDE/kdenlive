@@ -342,7 +342,10 @@ namespace Gui {
 
     void KMMEditPanel::setPlaying(bool play) {
 	double playSpeed;
-	if (play && m_playSpeed == 0.0) m_playSpeed = 1.0;
+	if (m_playSpeed == 0.0) {
+	    if (play) m_playSpeed = 1.0;
+	    else return;
+	}
 	m_pauseMode = !play;
 	if (play) {
 		playSpeed =  m_playSpeed;

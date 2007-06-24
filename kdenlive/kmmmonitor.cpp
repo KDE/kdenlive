@@ -220,7 +220,7 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	    kdError() << "Null clip passed, not setting monitor." << endl;
 	    return;
 	}
-        activateMonitor();
+        //activateMonitor();
 	m_referredClip = 0;
 	if (m_clip) {
 	    delete m_clip;

@@ -170,6 +170,9 @@ derived classes allow different behaviours to be added to panels as required.
 
 	/** Returns true if the x,y position is over a clip (and therefore, the move function applies) */
     bool mouseApplies(const QPoint & pos) const;
+
+    signals:
+	void checkTransition(DocClipRef*);
 };
 
 #endif

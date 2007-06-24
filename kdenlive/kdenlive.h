@@ -62,6 +62,7 @@ class DocClipBase;
 class DocClipRef;
 class TrackPanelClipRollFunction;
 class TrackPanelClipResizeFunction;
+class TrackPanelClipMoveFunction;
 class TrackPanelMarkerFunction;
 
 class PositionChangeEvent : public QCustomEvent
@@ -411,6 +412,7 @@ namespace Gui {
     	};
 
 	void slotEditTransition(Transition *transition);
+	void slotCheckTransition(DocClipRef *clip);
         
         void clipReferenceChanged();
 
@@ -691,6 +693,7 @@ namespace Gui {
 	ExportDvdDialog *m_exportDvd;
 	TransitionDialog *m_transitionPanel;
 	TrackPanelClipResizeFunction *m_resizeFunction;
+	TrackPanelClipMoveFunction *m_moveFunction;
 	TrackPanelClipRollFunction *m_rollFunction;
 	TrackPanelMarkerFunction *m_markerFunction;
 

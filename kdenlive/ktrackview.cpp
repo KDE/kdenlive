@@ -39,7 +39,8 @@ namespace Gui {
     KTrackView::KTrackView(KTimeLine & timeLine, double fps, QWidget * parent,
 	const char *name):QWidget(parent, name), m_timeline(timeLine),
 	m_trackBaseNum(-1), m_panelUnderMouse(0), m_function(0),
-	m_dragFunction(0), m_showMarkers(KdenliveSettings::showallmarkers()), m_selectionStart(QPoint()), m_selectionEnd(QPoint()), m_fps(fps) {
+	m_dragFunction(0), m_showMarkers(KdenliveSettings::showallmarkers()), m_selectionStart(QPoint()), 
+	m_selectionEnd(QPoint()), m_fps(fps), m_ready(false) {
 	// we draw everything ourselves, no need to draw background.
 	setBackgroundMode(Qt::NoBackground);
 	setMouseTracking(true);
@@ -54,6 +55,11 @@ namespace Gui {
 
     KTrackView::~KTrackView() {
 	delete trackview_tips;
+    }
+
+    void KTrackView::setReady(bool ready)
+    {
+	m_ready = ready;
     }
 
     void KTrackView::setFrameRate(bool fps)
@@ -97,6 +103,7 @@ namespace Gui {
     }
 
     void KTrackView::resizeEvent(QResizeEvent * event) {
+	if (!m_ready) return;
         m_bufferDrawList.setFullRange(0, width());
 	m_backBuffer.resize(event->size().width(), event->size().height());
 	m_startTrack = 0;

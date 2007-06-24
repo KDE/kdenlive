@@ -63,6 +63,10 @@ KRender::KRender(const QString & rendererName, QWidget *parent, const char *name
     openMlt();
     refreshTimer = new QTimer( this );
     connect( refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()) );
+
+    m_connectTimer = new QTimer( this );
+    connect( m_connectTimer, SIGNAL(timeout()), this, SLOT(connectPlaylist()) );
+
     if (rendererName == "Document") m_monitorId = 10000;
     else m_monitorId = 10001;
     osdTimer = new QTimer( this );
@@ -578,25 +582,9 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
 {
     if (!m_winid == -1) return;
     m_generateScenelist = true;
-    if (m_mltProducer) m_mltProducer->set_speed(0.0);
-    if (m_mltConsumer) {
-	m_mltConsumer->set("refresh", 0);
-	//if (!m_mltConsumer->is_stopped()) {
-	    emitConsumerStopped();
-	    m_mltConsumer->stop();
-	//}
-    }
+
     double pos = 0;
     m_sceneList = list;
-
-    
-    if (m_mltProducer) {
-	if (KdenliveSettings::osdtimecode() && m_osdInfo) m_mltProducer->detach(*m_osdInfo);
-	pos = m_mltProducer->position();
-	delete m_mltProducer;
-	m_mltProducer = NULL;
-	emit stopped();
-    }
 
     Mlt::Playlist track;
     char *tmp = decodedString(list.toString());
@@ -605,15 +593,35 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
 
     if (!clip.is_valid()) {
 	kdWarning()<<" ++++ WARNING, UNABLE TO CREATE MLT PRODUCER"<<endl;
+	m_generateScenelist = false;
+	return;
     }
-    else {
-        track.append(clip);
-	m_mltProducer = track.current();
 
-	m_mltProducer->optimise();
-    	if (!resetPosition) m_mltProducer->seek((int) pos);
+    track.append(clip);
 
-	if (KdenliveSettings::osdtimecode()) {
+    if (m_mltConsumer) {
+	m_mltConsumer->set("refresh", 0);
+	//if (!m_mltConsumer->is_stopped()) {
+	//emitConsumerStopped();
+	m_mltConsumer->stop();
+	//}
+    }
+
+    if (m_mltProducer) {
+	m_mltProducer->set_speed(0.0);
+	if (KdenliveSettings::osdtimecode() && m_osdInfo) m_mltProducer->detach(*m_osdInfo);
+	pos = m_mltProducer->position();
+	//mlt_producer_clear(m_mltProducer->get_producer());
+	delete m_mltProducer;
+	m_mltProducer = NULL;
+	emit stopped();
+    }
+
+    m_mltProducer = track.current();
+    m_mltProducer->optimise();
+    if (!resetPosition) m_mltProducer->seek((int) pos);
+
+    if (KdenliveSettings::osdtimecode()) {
 		// Attach filter for on screen display of timecode
 		delete m_osdInfo;
 		QString attr = "attr_check";
@@ -637,26 +645,26 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
 	}
 
 	m_fps = m_mltProducer->get_fps();
-
-    	//track.set_speed(0);
         if (!m_mltConsumer) {
 	    restartConsumer();
         }
-	else {
-            if (m_mltConsumer->start() == -1) {
-	    	KMessageBox::error(qApp->mainWidget(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
-	    	m_mltConsumer = NULL;
-	    }
-	    else {
-		m_mltConsumer->connect(*m_mltProducer);
-		refresh();
-	    }
-	}
+
+	m_connectTimer->start(100, TRUE);
 	m_generateScenelist = false;
-    }
+    
 }
 
 
+void KRender::connectPlaylist() {
+	if (m_mltConsumer->start() == -1) {
+	    	KMessageBox::error(qApp->mainWidget(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
+	    	m_mltConsumer = NULL;
+	}
+	else {
+    	    m_mltConsumer->connect(*m_mltProducer);
+    	    refresh();
+	}
+}
 
 void KRender::refreshDisplay() {
 	if (!m_mltProducer) return;
@@ -815,7 +823,6 @@ void KRender::sendSeekCommand(GenTime time)
 	return;
     m_mltProducer->seek((int) (time.frames(m_fps)));
     refresh();
-    //m_mltConsumer->purge();
 }
 
 void KRender::askForRefresh()
@@ -826,13 +833,12 @@ void KRender::askForRefresh()
 
 void KRender::refresh()
 {
+
     if (!m_mltProducer)
 	return;
     refreshTimer->stop();
     if (m_mltConsumer) {
-	//m_mltConsumer->lock();
 	m_mltConsumer->set("refresh", 1);
-	//m_mltConsumer->unlock();
     }
 }
 

@@ -68,6 +68,7 @@ namespace Gui {
     void refreshLumas();
     QMap <QString, QPixmap> lumaPreviews();
     void setVideoFormat(VIDEOFORMAT format);
+    bool checkTransition(DocClipRef *clip);
 
     private slots:
 	void applyChanges();

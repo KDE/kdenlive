@@ -68,6 +68,7 @@ namespace Gui {
 	void tip(const QPoint &pos, QRect &rect, QString &tipText);
 	void drawSelection(QPoint start, QPoint end);
 	void setFrameRate(bool fps);
+	void setReady(bool ready);
 
       protected:
           void wheelEvent( QWheelEvent * e );
@@ -85,6 +86,7 @@ namespace Gui {
 	 KTimeLine & m_timeline;
 	/** True if the back buffer needs to be redrawn. */
 	bool m_bufferInvalid;
+	bool m_ready;
 	int m_trackBaseNum;
 	bool m_showMarkers;
 	KTrackPanel *m_panelUnderMouse;
