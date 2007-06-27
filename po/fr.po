@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-18 12:57+0200\n"
-"PO-Revision-Date: 2007-06-18 12:58+0200\n"
+"POT-Creation-Date: 2007-06-27 16:30+0200\n"
+"PO-Revision-Date: 2007-06-27 16:31+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -93,12 +93,12 @@ msgstr "Clip audio"
 
 #: kdenlive/aviconviewitem.cpp:127 kdenlive/avlistviewitem.cpp:145
 #: kdenlive/clipproperties.cpp:85 kdenlive/docclipavfile.cpp:53
-#: kdenlive/kdenlive.cpp:3042
+#: kdenlive/kdenlive.cpp:3046
 msgid "Color Clip"
 msgstr "Clip couleur"
 
 #: kdenlive/aviconviewitem.cpp:129 kdenlive/avlistviewitem.cpp:147
-#: kdenlive/clipproperties.cpp:110 kdenlive/kdenlive.cpp:2577
+#: kdenlive/clipproperties.cpp:110 kdenlive/kdenlive.cpp:2581
 msgid "Virtual Clip"
 msgstr "Clip virtuel"
 
@@ -113,7 +113,7 @@ msgid "Slideshow Clip"
 msgstr "Clip diaporama"
 
 #: kdenlive/aviconviewitem.cpp:135 kdenlive/avlistviewitem.cpp:153
-#: kdenlive/kdenlive.cpp:3144
+#: kdenlive/kdenlive.cpp:3148
 msgid "Text Clip"
 msgstr "Clip texte"
 
@@ -268,8 +268,8 @@ msgstr ""
 "Interruption en cours de capture. Pour information, veuillez lire le "
 "message :"
 
-#: kdenlive/clipdrag.cpp:150 kdenlive/kdenlive.cpp:3020
-#: kdenlive/kdenlive.cpp:3095
+#: kdenlive/clipdrag.cpp:150 kdenlive/kdenlive.cpp:3024
+#: kdenlive/kdenlive.cpp:3099
 msgid "The clip %1 is already present in this project"
 msgstr "Le clip %1 se trouve déjà dans le projet"
 
@@ -537,10 +537,8 @@ msgid "Autosave project every"
 msgstr "Enregistrer automatiquement le projet toutes les"
 
 #: kdenlive/configinterface_ui.cpp:104
-msgid "Mouse wheel moves horizontally (Alt for vertical scroll)"
-msgstr ""
-"La roue de la souris provoque un déplacement horizontal (Alt pour un "
-"défilement vertical)"
+msgid "Scroll timeline using mouse wheel (Alt to zoom)"
+msgstr "Naviguer dans le montage en utilisant la roue la souris (Alt pour zoomer)"
 
 #: kdenlive/configinterface_ui.cpp:105
 msgid "Show splash screen"
@@ -746,6 +744,15 @@ msgstr "Aucune image dans le slideshow"
 #: kdenlive/docclipavfile.cpp:81
 msgid "Slideshow"
 msgstr "Diaporama"
+
+#. i18n: file kdenlive/kdenliveui.rc line 312
+#: kdenlive/docclipbase.cpp:281 kdenlive/kdenlive.cpp:4071
+#: kdenlive/kmmmonitor.cpp:378 kdenlive/rc.cpp:75 kdenlive/rc.cpp:165
+#: kdenlive/rc.cpp:255 kdenlive/rc.cpp:345 kdenlive/rc.cpp:435
+#: kdenlive/trackpanelmarkerfunction.cpp:108
+#, no-c-format
+msgid "Marker"
+msgstr "Repère"
 
 #: kdenlive/docclipref.cpp:789 kdenlive/docclipref.cpp:1283
 #: kdenlive/docclipref.cpp:1535 kdenlive/docclipref.cpp:1794
@@ -1102,7 +1109,7 @@ msgstr "Créer un DVD"
 msgid "Burning"
 msgstr "Gravure"
 
-#: kdenlive/exportdvddialog.cpp:70 kdenlive/kdenlive.cpp:1894
+#: kdenlive/exportdvddialog.cpp:70 kdenlive/kdenlive.cpp:1898
 msgid "PAL"
 msgstr "PAL"
 
@@ -1110,7 +1117,7 @@ msgstr "PAL"
 msgid "PAL 16:9"
 msgstr "PAL 16:9"
 
-#: kdenlive/exportdvddialog.cpp:72 kdenlive/kdenlive.cpp:1892
+#: kdenlive/exportdvddialog.cpp:72 kdenlive/kdenlive.cpp:1896
 msgid "NTSC"
 msgstr "NTSC"
 
@@ -1233,8 +1240,8 @@ msgstr "Un encodeur nommé %1 existe déjà, veuillez choisir un autre nom."
 msgid "Please enter a file name"
 msgstr "Saisir un nom de fichier"
 
-#: kdenlive/exportwidget.cpp:631 kdenlive/kdenlive.cpp:2549
-#: kdenlive/kdenlive.cpp:2666 kdenlive/kdenlive.cpp:3548
+#: kdenlive/exportwidget.cpp:631 kdenlive/kdenlive.cpp:2553
+#: kdenlive/kdenlive.cpp:2670 kdenlive/kdenlive.cpp:3552
 msgid ""
 "File already exists.\n"
 "Do you want to overwrite it ?"
@@ -1361,7 +1368,7 @@ msgstr "Volume"
 msgid "Gain"
 msgstr "Amplification"
 
-#: kdenlive/initeffects.cpp:296 kdenlive/kdenlive.cpp:3518
+#: kdenlive/initeffects.cpp:296 kdenlive/kdenlive.cpp:3522
 msgid "Mute"
 msgstr "Muet"
 
@@ -1402,7 +1409,7 @@ msgid "Reverse Playing"
 msgstr "Lire à l'envers"
 
 #: kdenlive/initeffects.cpp:385 kdenlive/kdenlive.cpp:368
-#: kdenlive/trackpanelclipmovefunction.cpp:377
+#: kdenlive/trackpanelclipmovefunction.cpp:378
 msgid "Freeze"
 msgstr "Geler"
 
@@ -1561,7 +1568,7 @@ msgstr "Ajouter un clip"
 
 #: kdenlive/kaddclipcommand.cpp:218 kdenlive/kaddrefclipcommand.cpp:44
 #: kdenlive/kdenlive.cpp:625 kdenlive/kdenlive.cpp:741
-#: kdenlive/kdenlive.cpp:3331 kdenlive/kdenlive.cpp:3371
+#: kdenlive/kdenlive.cpp:3335 kdenlive/kdenlive.cpp:3375
 #: kdenlive/projectlist.cpp:81
 msgid "Delete Clip"
 msgstr "Supprimer le clip"
@@ -1587,7 +1594,7 @@ msgid "Delete Snap Marker"
 msgstr "Supprimer le repère"
 
 #: kdenlive/kaddrefclipcommand.cpp:97 kdenlive/kaddrefclipcommand.cpp:120
-#: kdenlive/trackpanelclipmovefunction.cpp:513
+#: kdenlive/trackpanelclipmovefunction.cpp:514
 #: kdenlive/trackpanelclipslipfunction.cpp:518
 msgid "Delete Clips"
 msgstr "Supprimer les clips"
@@ -1755,16 +1762,16 @@ msgstr "Aller à la fin"
 msgid "End of project"
 msgstr "Fin de projet"
 
-#: kdenlive/kdenlive.cpp:596 kdenlive/kdenlive.cpp:3013
-#: kdenlive/kdenlive.cpp:3968
+#: kdenlive/kdenlive.cpp:596 kdenlive/kdenlive.cpp:3017
+#: kdenlive/kdenlive.cpp:3972
 msgid "Add Clips"
 msgstr "Ajouter des clips"
 
-#: kdenlive/kdenlive.cpp:601 kdenlive/kdenlive.cpp:3040
+#: kdenlive/kdenlive.cpp:601 kdenlive/kdenlive.cpp:3044
 msgid "Create Color Clip"
 msgstr "Créer un clip couleur"
 
-#: kdenlive/kdenlive.cpp:606 kdenlive/kdenlive.cpp:3070
+#: kdenlive/kdenlive.cpp:606 kdenlive/kdenlive.cpp:3074
 msgid "Create Image Clip"
 msgstr "Créer un clip image"
 
@@ -1976,7 +1983,7 @@ msgstr "Créer un dossier"
 msgid "Add folder"
 msgstr "Ajouter un dossier"
 
-#: kdenlive/kdenlive.cpp:807 kdenlive/kdenlive.cpp:2947
+#: kdenlive/kdenlive.cpp:807 kdenlive/kdenlive.cpp:2951
 msgid "Rename Folder"
 msgstr "Renommer le dossier"
 
@@ -2008,7 +2015,7 @@ msgstr "Modifier la transition"
 msgid "Edit transition from selected clip"
 msgstr "Modifier la transition du clip sélectionné"
 
-#: kdenlive/kdenlive.cpp:827 kdenlive/kdenlive.cpp:2464
+#: kdenlive/kdenlive.cpp:827 kdenlive/kdenlive.cpp:2468
 msgid "Add Track"
 msgstr "Ajouter une piste"
 
@@ -2016,7 +2023,7 @@ msgstr "Ajouter une piste"
 msgid "Add track"
 msgstr "Ajouter une piste"
 
-#: kdenlive/kdenlive.cpp:832 kdenlive/kdenlive.cpp:2448
+#: kdenlive/kdenlive.cpp:832 kdenlive/kdenlive.cpp:2452
 msgid "Delete Track"
 msgstr "Supprimer la piste"
 
@@ -2040,7 +2047,7 @@ msgstr "Enregistrer la zone sélectionnée"
 msgid "Save selected zone as playlist for future use"
 msgstr "Sauver la zone sélectionnée pour une utilisation ultérieure"
 
-#: kdenlive/kdenlive.cpp:847 kdenlive/kdenlive.cpp:2544
+#: kdenlive/kdenlive.cpp:847 kdenlive/kdenlive.cpp:2548
 msgid "Save Subclip"
 msgstr "Sauvegarder le sous-clip"
 
@@ -2067,7 +2074,7 @@ msgstr ""
 "Effectuer un rendu de la zone audio sélectionnée pour une utilisation "
 "ultérieure"
 
-#: kdenlive/kdenlive.cpp:863 kdenlive/kdenlive.cpp:2577
+#: kdenlive/kdenlive.cpp:863 kdenlive/kdenlive.cpp:2581
 msgid "Create Virtual Clip"
 msgstr "Créer un clip virtuel"
 
@@ -2091,7 +2098,7 @@ msgstr "Ajouter un guide"
 msgid "Add guide at cursor position"
 msgstr "Ajouter un guide à la position du curseur"
 
-#: kdenlive/kdenlive.cpp:878 kdenlive/kdenlive.cpp:4067
+#: kdenlive/kdenlive.cpp:878 kdenlive/kdenlive.cpp:4071
 #: kdenlive/kmmmonitor.cpp:378 kdenlive/trackpanelmarkerfunction.cpp:108
 msgid "Add Marker"
 msgstr "Ajouter un repère"
@@ -2100,7 +2107,7 @@ msgstr "Ajouter un repère"
 msgid "Add marker at cursor position"
 msgstr "Ajouter un repère à la position du curseur"
 
-#: kdenlive/kdenlive.cpp:883 kdenlive/kdenlive.cpp:4053
+#: kdenlive/kdenlive.cpp:883 kdenlive/kdenlive.cpp:4057
 #: kdenlive/trackpanelmarkerfunction.cpp:97
 msgid "Edit Marker"
 msgstr "Editer le repère"
@@ -2414,28 +2421,28 @@ msgstr "Scinder·tous les·clips à la·position·du·curseur"
 msgid "Razor clip at cursor position"
 msgstr "Scinder·le·clip à la·position·du·curseur"
 
-#: kdenlive/kdenlive.cpp:1123 kdenlive/kdenlive.cpp:1644
-#: kdenlive/kdenlive.cpp:1649 kdenlive/kdenlive.cpp:1670
-#: kdenlive/kdenlive.cpp:1675 kdenlive/kdenlive.cpp:1693
-#: kdenlive/kdenlive.cpp:1882 kdenlive/kdenlive.cpp:2131
-#: kdenlive/kdenlive.cpp:2254 kdenlive/kdenlive.cpp:2261
-#: kdenlive/kdenlive.cpp:2326 kdenlive/kdenlive.cpp:2340
-#: kdenlive/kdenlive.cpp:2362 kdenlive/kdenlive.cpp:2387
-#: kdenlive/kdenlive.cpp:2421 kdenlive/kdenlive.cpp:2650
-#: kdenlive/kdenlive.cpp:2678 kdenlive/kdenlive.cpp:2684
-#: kdenlive/kdenlive.cpp:2701 kdenlive/kdenlive.cpp:2876
-#: kdenlive/kdenlive.cpp:2929 kdenlive/kdenlive.cpp:3033
-#: kdenlive/kdenlive.cpp:3058 kdenlive/kdenlive.cpp:3084
-#: kdenlive/kdenlive.cpp:3089 kdenlive/kdenlive.cpp:3104
-#: kdenlive/kdenlive.cpp:3133 kdenlive/kdenlive.cpp:3156
-#: kdenlive/kdenlive.cpp:3241 kdenlive/kdenlive.cpp:3309
-#: kdenlive/kdenlive.cpp:3324 kdenlive/kdenlive.cpp:3361
-#: kdenlive/kdenlive.cpp:3399 kdenlive/kdenlive.cpp:3418
-#: kdenlive/kdenlive.cpp:3442 kdenlive/kdenlive.cpp:3450
-#: kdenlive/kdenlive.cpp:3460 kdenlive/kdenlive.cpp:3698
-#: kdenlive/kdenlive.cpp:3706 kdenlive/kdenlive.cpp:3722
-#: kdenlive/kdenlive.cpp:4012 kdenlive/kdenlive.cpp:4027
-#: kdenlive/kdenlive.cpp:4041
+#: kdenlive/kdenlive.cpp:1123 kdenlive/kdenlive.cpp:1642
+#: kdenlive/kdenlive.cpp:1647 kdenlive/kdenlive.cpp:1668
+#: kdenlive/kdenlive.cpp:1673 kdenlive/kdenlive.cpp:1691
+#: kdenlive/kdenlive.cpp:1886 kdenlive/kdenlive.cpp:2135
+#: kdenlive/kdenlive.cpp:2258 kdenlive/kdenlive.cpp:2265
+#: kdenlive/kdenlive.cpp:2330 kdenlive/kdenlive.cpp:2344
+#: kdenlive/kdenlive.cpp:2366 kdenlive/kdenlive.cpp:2391
+#: kdenlive/kdenlive.cpp:2425 kdenlive/kdenlive.cpp:2654
+#: kdenlive/kdenlive.cpp:2682 kdenlive/kdenlive.cpp:2688
+#: kdenlive/kdenlive.cpp:2705 kdenlive/kdenlive.cpp:2880
+#: kdenlive/kdenlive.cpp:2933 kdenlive/kdenlive.cpp:3037
+#: kdenlive/kdenlive.cpp:3062 kdenlive/kdenlive.cpp:3088
+#: kdenlive/kdenlive.cpp:3093 kdenlive/kdenlive.cpp:3108
+#: kdenlive/kdenlive.cpp:3137 kdenlive/kdenlive.cpp:3160
+#: kdenlive/kdenlive.cpp:3245 kdenlive/kdenlive.cpp:3313
+#: kdenlive/kdenlive.cpp:3328 kdenlive/kdenlive.cpp:3365
+#: kdenlive/kdenlive.cpp:3403 kdenlive/kdenlive.cpp:3422
+#: kdenlive/kdenlive.cpp:3446 kdenlive/kdenlive.cpp:3454
+#: kdenlive/kdenlive.cpp:3464 kdenlive/kdenlive.cpp:3702
+#: kdenlive/kdenlive.cpp:3710 kdenlive/kdenlive.cpp:3726
+#: kdenlive/kdenlive.cpp:4016 kdenlive/kdenlive.cpp:4031
+#: kdenlive/kdenlive.cpp:4045
 msgid "Ready."
 msgstr "Prêt."
 
@@ -2487,7 +2494,8 @@ msgstr ""
 
 #. i18n: file kdenlive/kdenliveui.rc line 301
 #: kdenlive/kdenlive.cpp:1271 kdenlive/kdenlive.cpp:1274 kdenlive/rc.cpp:63
-#: kdenlive/rc.cpp:153 kdenlive/rc.cpp:243
+#: kdenlive/rc.cpp:153 kdenlive/rc.cpp:243 kdenlive/rc.cpp:333
+#: kdenlive/rc.cpp:423
 #, no-c-format
 msgid "Transition"
 msgstr "Transition"
@@ -2496,35 +2504,35 @@ msgstr "Transition"
 msgid "Current effects usable with the renderer"
 msgstr "Effets utilisables par le moteur de rendu"
 
-#: kdenlive/kdenlive.cpp:1657
+#: kdenlive/kdenlive.cpp:1655
 msgid "Generating audio thumb"
 msgstr "Création des miniatures audio"
 
-#: kdenlive/kdenlive.cpp:1682
+#: kdenlive/kdenlive.cpp:1680
 msgid "Generating video thumbnails"
 msgstr "Création des miniatures vidéo"
 
-#: kdenlive/kdenlive.cpp:1701
+#: kdenlive/kdenlive.cpp:1699
 msgid "Exporting to File"
 msgstr "Exportation vers un fichier"
 
-#: kdenlive/kdenlive.cpp:1713
+#: kdenlive/kdenlive.cpp:1711
 msgid "Export will finish in %1h%2m%3s"
 msgstr "L'exportation se terminera dans %1h%2m%3s"
 
-#: kdenlive/kdenlive.cpp:1858
+#: kdenlive/kdenlive.cpp:1862
 msgid "Cannot read file: %1"
 msgstr "Impossible de lire le fichier : %1"
 
-#: kdenlive/kdenlive.cpp:1888
+#: kdenlive/kdenlive.cpp:1892
 msgid "HDV 1080"
 msgstr "HDV 1080"
 
-#: kdenlive/kdenlive.cpp:1890
+#: kdenlive/kdenlive.cpp:1894
 msgid "HDV 720"
 msgstr "HDV 720"
 
-#: kdenlive/kdenlive.cpp:2022
+#: kdenlive/kdenlive.cpp:2026
 msgid ""
 "An export process is currently running.\n"
 "Closing Kdenlive will terminate the export.\n"
@@ -2534,7 +2542,7 @@ msgstr ""
 "Arrêter Kdenlive mettra fin à l'exportation.\n"
 "Arrêter quand même ?"
 
-#: kdenlive/kdenlive.cpp:2036
+#: kdenlive/kdenlive.cpp:2040
 msgid ""
 "The current file has been modified.\n"
 "Do you want to save it?"
@@ -2542,15 +2550,15 @@ msgstr ""
 "Le projet courant a été modifié.\n"
 "Voulez-vous l'enregistrer ?"
 
-#: kdenlive/kdenlive.cpp:2105
+#: kdenlive/kdenlive.cpp:2109
 msgid "Creating new project..."
 msgstr "Créer un nouveau projet ..."
 
-#: kdenlive/kdenlive.cpp:2154
+#: kdenlive/kdenlive.cpp:2158
 msgid "Kdenlive - New Project"
 msgstr "Kdenlive -Nouveau projet"
 
-#: kdenlive/kdenlive.cpp:2206
+#: kdenlive/kdenlive.cpp:2210
 msgid ""
 "Unable to create a folder for temporary files.\n"
 "Kdenlive will not work properly unless you choose a folder for temporary "
@@ -2562,89 +2570,89 @@ msgstr ""
 "comporter des droits d'accès en écriture. Sélectionnez le dossier dans le "
 "dialogue de configuration de Kdenlive."
 
-#: kdenlive/kdenlive.cpp:2225
+#: kdenlive/kdenlive.cpp:2229
 msgid "Select project file"
 msgstr "Sélectionner le fichier projet"
 
-#: kdenlive/kdenlive.cpp:2226
+#: kdenlive/kdenlive.cpp:2230
 msgid "Merge project"
 msgstr "Fusionner le projet"
 
-#: kdenlive/kdenlive.cpp:2231
+#: kdenlive/kdenlive.cpp:2235
 msgid "Project file: "
 msgstr "Fichier de projet :"
 
-#: kdenlive/kdenlive.cpp:2238
+#: kdenlive/kdenlive.cpp:2242
 msgid "Timeline clips: "
 msgstr "Clips du montage"
 
-#: kdenlive/kdenlive.cpp:2241
+#: kdenlive/kdenlive.cpp:2245
 msgid "Ignore"
 msgstr "Ignore"
 
-#: kdenlive/kdenlive.cpp:2242
+#: kdenlive/kdenlive.cpp:2246
 msgid "Insert at current cursor position"
 msgstr "Insérer à la position actuelle du curseur"
 
-#: kdenlive/kdenlive.cpp:2243
+#: kdenlive/kdenlive.cpp:2247
 msgid "Insert at the beginning"
 msgstr "Insérer au début"
 
-#: kdenlive/kdenlive.cpp:2244
+#: kdenlive/kdenlive.cpp:2248
 msgid "Insert at the end"
 msgstr "Insérer à la fin"
 
-#: kdenlive/kdenlive.cpp:2258
+#: kdenlive/kdenlive.cpp:2262
 msgid "Opening file..."
 msgstr "Ouverture du fichier..."
 
-#: kdenlive/kdenlive.cpp:2259 kdenlive/kdenlive.cpp:3008
+#: kdenlive/kdenlive.cpp:2263 kdenlive/kdenlive.cpp:3012
 #: kdenlive/newproject.cpp:79
 msgid "Open File..."
 msgstr "Ouvrir un fichier..."
 
-#: kdenlive/kdenlive.cpp:2319 kdenlive/kdenlive.cpp:2332
+#: kdenlive/kdenlive.cpp:2323 kdenlive/kdenlive.cpp:2336
 msgid "No clip selected"
 msgstr "Impossible de sélectionner un clip"
 
-#: kdenlive/kdenlive.cpp:2322
+#: kdenlive/kdenlive.cpp:2326
 msgid "Copying clip %1."
 msgstr "Copie du clip %1."
 
-#: kdenlive/kdenlive.cpp:2335
+#: kdenlive/kdenlive.cpp:2339
 msgid "Cutting clip %1."
 msgstr "Scindage du clip %1"
 
-#: kdenlive/kdenlive.cpp:2346 kdenlive/kdenlive.cpp:2368
-#: kdenlive/kdenlive.cpp:2393
+#: kdenlive/kdenlive.cpp:2350 kdenlive/kdenlive.cpp:2372
+#: kdenlive/kdenlive.cpp:2397
 msgid "No clip in clipboard"
 msgstr "Le presse-papier ne contient aucun clip"
 
-#: kdenlive/kdenlive.cpp:2351
+#: kdenlive/kdenlive.cpp:2355
 msgid "Pasting clip %1 effects."
 msgstr "Collage des effets du clip %1."
 
-#: kdenlive/kdenlive.cpp:2353
+#: kdenlive/kdenlive.cpp:2357
 msgid "Copy Effects"
 msgstr "Copier les effets"
 
-#: kdenlive/kdenlive.cpp:2373
+#: kdenlive/kdenlive.cpp:2377
 msgid "Pasting clip %1 transitions."
 msgstr "Collage des transitions du clip %1."
 
-#: kdenlive/kdenlive.cpp:2376
+#: kdenlive/kdenlive.cpp:2380
 msgid "Copy Transitions"
 msgstr "Copier les transitions"
 
-#: kdenlive/kdenlive.cpp:2396
+#: kdenlive/kdenlive.cpp:2400
 msgid "Pasting clip %1."
 msgstr "Collage du clip %1."
 
-#: kdenlive/kdenlive.cpp:2424
+#: kdenlive/kdenlive.cpp:2428
 msgid "Cannot past clip %1 on track %2 at %3"
 msgstr "Impossible de coller le clip %1 sur les pistes %2 à la position %3"
 
-#: kdenlive/kdenlive.cpp:2448
+#: kdenlive/kdenlive.cpp:2452
 msgid ""
 "Remove track %1 ?\n"
 "This will remove all clips on that track."
@@ -2652,7 +2660,7 @@ msgstr ""
 "Effacer la piste %1 ?\n"
 "L'ensemble des clips de cette piste vont être effacés."
 
-#: kdenlive/kdenlive.cpp:2489
+#: kdenlive/kdenlive.cpp:2493
 msgid ""
 "You didn't define any external editor for that kind of clip.\n"
 "Please go to Kdenlive settings -> Misc to define it."
@@ -2661,12 +2669,12 @@ msgstr ""
 "Veuillez sélectionner Configuration -> Configuration de Kdenlive pour "
 "choisir un éditeur."
 
-#: kdenlive/kdenlive.cpp:2508 kdenlive/kdenlive.cpp:2522
-#: kdenlive/kdenlive.cpp:2541
+#: kdenlive/kdenlive.cpp:2512 kdenlive/kdenlive.cpp:2526
+#: kdenlive/kdenlive.cpp:2545
 msgid "Add new clip to project"
 msgstr "Ajouter un clip au projet"
 
-#: kdenlive/kdenlive.cpp:2573
+#: kdenlive/kdenlive.cpp:2577
 msgid ""
 "The selected timeline zone is smaller than 10 frames.\n"
 "Please select a zone with the timeline selection tool before creating a "
@@ -2680,67 +2688,67 @@ msgstr ""
 "(double-cliquer sur l'échelle temporelle de montage pour déplacer la zone "
 "sélectionnée à l'endroit actuel)"
 
-#: kdenlive/kdenlive.cpp:2577
+#: kdenlive/kdenlive.cpp:2581
 msgid "New clip name"
 msgstr "Nouveau nom de clip"
 
-#: kdenlive/kdenlive.cpp:2645
+#: kdenlive/kdenlive.cpp:2649
 msgid "Saving file..."
 msgstr "Enregistrer le fichier..."
 
-#: kdenlive/kdenlive.cpp:2656
+#: kdenlive/kdenlive.cpp:2660
 msgid "Saving file with a new filename..."
 msgstr "Enregistrer le fichier sous un nouveau nom..."
 
-#: kdenlive/kdenlive.cpp:2659
+#: kdenlive/kdenlive.cpp:2663
 msgid "Save as..."
 msgstr "Enregistrer sous ..."
 
-#: kdenlive/kdenlive.cpp:2682
+#: kdenlive/kdenlive.cpp:2686
 msgid "Closing file..."
 msgstr "Fermeture du fichier..."
 
-#: kdenlive/kdenlive.cpp:2688
+#: kdenlive/kdenlive.cpp:2692
 msgid "Printing..."
 msgstr "Impression en cours..."
 
-#: kdenlive/kdenlive.cpp:2705
+#: kdenlive/kdenlive.cpp:2709
 msgid "Exiting..."
 msgstr "Quitter..."
 
-#: kdenlive/kdenlive.cpp:2827
+#: kdenlive/kdenlive.cpp:2831
 msgid "Move/Resize tool"
 msgstr "Outils de déplacement / redimensionnement"
 
-#: kdenlive/kdenlive.cpp:2833
+#: kdenlive/kdenlive.cpp:2837
 msgid "Razor tool"
 msgstr "Outil de découpage"
 
-#: kdenlive/kdenlive.cpp:2839
+#: kdenlive/kdenlive.cpp:2843
 msgid "Separate tool"
 msgstr "Outil de séparation"
 
-#: kdenlive/kdenlive.cpp:2845
+#: kdenlive/kdenlive.cpp:2849
 msgid "Marker tool"
 msgstr "Outil de repérage"
 
-#: kdenlive/kdenlive.cpp:2851
+#: kdenlive/kdenlive.cpp:2855
 msgid "Roll tool"
 msgstr "Outil de frontière"
 
-#: kdenlive/kdenlive.cpp:2857
+#: kdenlive/kdenlive.cpp:2861
 msgid "Multiselect tool"
 msgstr "Outil de sélection multile"
 
-#: kdenlive/kdenlive.cpp:2863
+#: kdenlive/kdenlive.cpp:2867
 msgid "Exporting Timeline..."
 msgstr "Exporter le montage vidéo..."
 
-#: kdenlive/kdenlive.cpp:2899
+#: kdenlive/kdenlive.cpp:2903
 msgid "Editing Preferences"
 msgstr "Modification des préférences"
 
-#: kdenlive/kdenlive.cpp:2921
+#: kdenlive/kdenlive.cpp:2925
 msgid ""
 "Please restart Kdenlive to apply your changes\n"
 "to the audio/video system"
@@ -2748,11 +2756,11 @@ msgstr ""
 "La configuration audio/vidéo sera activée \n"
 "au prochain redémarrage de Kdenlive."
 
-#: kdenlive/kdenlive.cpp:2947 kdenlive/kdenlive.cpp:2982
+#: kdenlive/kdenlive.cpp:2951 kdenlive/kdenlive.cpp:2986
 msgid "Enter new folder name: "
 msgstr "Saisir un nouveau nom de dossier :"
 
-#: kdenlive/kdenlive.cpp:2967
+#: kdenlive/kdenlive.cpp:2971
 msgid ""
 "Deleting this folder will remove all reference to its clips in your "
 "project.\n"
@@ -2762,52 +2770,52 @@ msgstr ""
 "projet.\n"
 "Effacer ce dossier ?"
 
-#: kdenlive/kdenlive.cpp:2982
+#: kdenlive/kdenlive.cpp:2986
 msgid "New Folder"
 msgstr "Nouveau dossier"
 
-#: kdenlive/kdenlive.cpp:2997 kdenlive/kdenlivedoc.cpp:133
+#: kdenlive/kdenlive.cpp:3001 kdenlive/kdenlivedoc.cpp:133
 #: kdenlive/kdenlivedoc.cpp:144 kdenlive/loadprojectnativefilter.cpp:105
 #: kdenlive/loadprojectnativefilter.cpp:173
 #: kdenlive/loadprojectnativefilter.cpp:209
 msgid "Clips"
 msgstr "Clips"
 
-#: kdenlive/kdenlive.cpp:3002 kdenlive/kdenlive.cpp:3039
-#: kdenlive/kdenlive.cpp:3062 kdenlive/kdenlive.cpp:3109
-#: kdenlive/kdenlive.cpp:3139
+#: kdenlive/kdenlive.cpp:3006 kdenlive/kdenlive.cpp:3043
+#: kdenlive/kdenlive.cpp:3066 kdenlive/kdenlive.cpp:3113
+#: kdenlive/kdenlive.cpp:3143
 msgid "Adding Clips"
 msgstr "Ajouter des plans"
 
-#: kdenlive/kdenlive.cpp:3018
+#: kdenlive/kdenlive.cpp:3022
 msgid "You cannot include the current Kdenlive document in itself."
 msgstr "Il est impossible d'incorporer un document Kdenlive dans lui-même."
 
-#: kdenlive/kdenlive.cpp:3168
+#: kdenlive/kdenlive.cpp:3172
 msgid "Add image to project"
 msgstr "Ajouter une image au projet"
 
-#: kdenlive/kdenlive.cpp:3179
+#: kdenlive/kdenlive.cpp:3183
 msgid "Please activate a monitor if you want to save a frame"
 msgstr "Pour enregistrer une trame, vous devez d'abord activer un moniteur."
 
-#: kdenlive/kdenlive.cpp:3195
+#: kdenlive/kdenlive.cpp:3199
 msgid "Change Clip Duration"
 msgstr "Modifier la durée du clip"
 
-#: kdenlive/kdenlive.cpp:3197
+#: kdenlive/kdenlive.cpp:3201
 msgid "Enter new duration: "
 msgstr "Saisir une nouvelle durée :"
 
-#: kdenlive/kdenlive.cpp:3246
+#: kdenlive/kdenlive.cpp:3250
 msgid "Editing Clips"
 msgstr "Modification des clips"
 
-#: kdenlive/kdenlive.cpp:3316 kdenlive/kdenlive.cpp:3367
+#: kdenlive/kdenlive.cpp:3320 kdenlive/kdenlive.cpp:3371
 msgid "Removing Clips"
 msgstr "Suppression des clips"
 
-#: kdenlive/kdenlive.cpp:3322
+#: kdenlive/kdenlive.cpp:3326
 msgid ""
 "This will remove all clips on timeline that are currently using the selected "
 "clips. Are you sure you want to do this?"
@@ -2816,11 +2824,11 @@ msgstr ""
 "sélectionnés.\n"
 "Voulez-vous vraiment continuer ?"
 
-#: kdenlive/kdenlive.cpp:3405
+#: kdenlive/kdenlive.cpp:3409
 msgid "Cleaning Project"
 msgstr "Purger le projet"
 
-#: kdenlive/kdenlive.cpp:3408
+#: kdenlive/kdenlive.cpp:3412
 msgid ""
 "Clean Project removes unused files.\t              Are you sure you want to "
 "do this?"
@@ -2828,121 +2836,113 @@ msgstr ""
 "Nettoyer le projet supprime les fichiers non-utilisés.\n"
 "Voulez vous vraiment continuer ?"
 
-#: kdenlive/kdenlive.cpp:3438
+#: kdenlive/kdenlive.cpp:3442
 msgid "Play / Pause"
 msgstr "Lecture / Pause"
 
-#: kdenlive/kdenlive.cpp:3455
+#: kdenlive/kdenlive.cpp:3459
 msgid "Starting/stopping playback of inpoint/outpoint section"
 msgstr "Démarrer la lecture au point d'entrée et arrêter au point de sortie"
 
-#: kdenlive/kdenlive.cpp:3467
+#: kdenlive/kdenlive.cpp:3471
 #, c-format
 msgid "Playing Forwards (%1x)"
 msgstr "Avance rapide (% 1x)"
 
-#: kdenlive/kdenlive.cpp:3474
+#: kdenlive/kdenlive.cpp:3478
 #, c-format
 msgid "Playing Backwards (%1x)"
 msgstr "Retour rapide (% 1x)"
 
-#: kdenlive/kdenlive.cpp:3479
+#: kdenlive/kdenlive.cpp:3483
 msgid "Play Loop"
 msgstr "Lire en boucle"
 
-#: kdenlive/kdenlive.cpp:3515
+#: kdenlive/kdenlive.cpp:3519
 msgid "Cannot find track to insert audio clip."
 msgstr "Impossible d'insérer un clip audio, car aucune piste n'est disponible."
 
-#: kdenlive/kdenlive.cpp:3540
+#: kdenlive/kdenlive.cpp:3544
 msgid "Add new audio clip to project"
 msgstr "Ajouter un clip audio au projet"
 
-#: kdenlive/kdenlive.cpp:3543
+#: kdenlive/kdenlive.cpp:3547
 msgid "Save Audio Track"
 msgstr "Enregistrer piste audio"
 
-#: kdenlive/kdenlive.cpp:3568
+#: kdenlive/kdenlive.cpp:3572
 msgid "Seeking Forwards one frame"
 msgstr "Avancer d'une trame en avant"
 
-#: kdenlive/kdenlive.cpp:3577
+#: kdenlive/kdenlive.cpp:3581
 msgid "Seeking Backwards one frame"
 msgstr "En arrière d'une trame"
 
-#: kdenlive/kdenlive.cpp:3666
+#: kdenlive/kdenlive.cpp:3670
 msgid "Select Clips"
 msgstr "Sélectionner des clips"
 
-#: kdenlive/kdenlive.cpp:3672 kdenlive/kmoveclipscommand.cpp:44
+#: kdenlive/kdenlive.cpp:3676 kdenlive/kmoveclipscommand.cpp:44
 #: kdenlive/trackpanelspacerfunction.cpp:55
 msgid "Move Clips"
 msgstr "Déplacer les clips"
 
-#: kdenlive/kdenlive.cpp:3694
+#: kdenlive/kdenlive.cpp:3698
 msgid "Setting Inpoint"
 msgstr "Paramétrage du point d'entrée"
 
-#: kdenlive/kdenlive.cpp:3702
+#: kdenlive/kdenlive.cpp:3706
 msgid "Setting outpoint"
 msgstr "Paramétrage du point de sortie"
 
-#: kdenlive/kdenlive.cpp:3710
+#: kdenlive/kdenlive.cpp:3714
 msgid "Deleting Selected Clips"
 msgstr "Suppression des clips sélectionnés"
 
-#: kdenlive/kdenlive.cpp:3737 kdenlive/kdenlive.cpp:4156
-#: kdenlive/trackpanelclipmovefunction.cpp:101
-#: kdenlive/trackpanelclipmovefunction.cpp:162
+#: kdenlive/kdenlive.cpp:3741 kdenlive/kdenlive.cpp:4157
+#: kdenlive/trackpanelclipmovefunction.cpp:102
+#: kdenlive/trackpanelclipmovefunction.cpp:163
 #: kdenlive/trackpanelclipresizefunction.cpp:107
 #: kdenlive/trackpanelcliprollfunction.cpp:130
 #: kdenlive/trackpanelclipslipfunction.cpp:134
 #: kdenlive/trackpanelclipslipfunction.cpp:173
 #: kdenlive/trackpanelselectnonefunction.cpp:73
-#: kdenlive/trackpaneltransitionmovefunction.cpp:112
+#: kdenlive/trackpaneltransitionmovefunction.cpp:118
 #: kdenlive/trackpaneltransitionresizefunction.cpp:139
 msgid "Select Clip"
 msgstr "Sélectionner un clip"
 
-#: kdenlive/kdenlive.cpp:4008
+#: kdenlive/kdenlive.cpp:4012
 msgid "Toggling snap marker"
 msgstr "Basculer les repères"
 
-#: kdenlive/kdenlive.cpp:4016 kdenlive/kdenlive.cpp:4031
+#: kdenlive/kdenlive.cpp:4020 kdenlive/kdenlive.cpp:4035
 msgid "Clearing snap markers"
 msgstr "Effacer les repères"
 
-#: kdenlive/kdenlive.cpp:4019
+#: kdenlive/kdenlive.cpp:4023
 msgid "Clear all snap markers"
 msgstr "Effacer tous les repères"
 
-#: kdenlive/kdenlive.cpp:4034
+#: kdenlive/kdenlive.cpp:4038
 msgid "Clear selected snap markers"
 msgstr "Effacer les repères sélectionnés"
 
-#: kdenlive/kdenlive.cpp:4053 kdenlive/kdenlive.cpp:4067
+#: kdenlive/kdenlive.cpp:4057 kdenlive/kdenlive.cpp:4071
 #: kdenlive/kmmmonitor.cpp:378 kdenlive/trackpanelmarkerfunction.cpp:97
 #: kdenlive/trackpanelmarkerfunction.cpp:108
 msgid "Marker comment: "
 msgstr "Commentaires du repère"
 
-#. i18n: file kdenlive/kdenliveui.rc line 312
-#: kdenlive/kdenlive.cpp:4067 kdenlive/kmmmonitor.cpp:378 kdenlive/rc.cpp:75
-#: kdenlive/rc.cpp:165 kdenlive/rc.cpp:255
-#: kdenlive/trackpanelmarkerfunction.cpp:108
-#, no-c-format
-msgid "Marker"
-msgstr "Repère"
-
-#: kdenlive/kdenlive.cpp:4204
+#: kdenlive/kdenlive.cpp:4206
 msgid "Please select a clip to apply transition"
 msgstr "Veuillez sélectionner un clip pour appliquer une transition"
 
-#: kdenlive/kdenlive.cpp:4221
+#: kdenlive/kdenlive.cpp:4223
 msgid "Please select a clip to delete transition"
 msgstr "Veuillez sélectionner un clip pour effacer la transition"
 
-#: kdenlive/kdenlive.cpp:4238
+#: kdenlive/kdenlive.cpp:4240
 msgid "Please select a clip to edit transition"
 msgstr "Veuillez sélectionner un clip pour modifier la transition"
 
@@ -3199,7 +3199,7 @@ msgstr "Modifier l'affichage du montage"
 msgid "Track %1"
 msgstr "Piste %1"
 
-#: kdenlive/krender.cpp:149
+#: kdenlive/krender.cpp:153
 msgid ""
 "Could not create the video preview window.\n"
 "There is something wrong with your Kdenlive install.\n"
@@ -3209,8 +3209,8 @@ msgstr ""
 "L'installation de Kdenlive est probablement défectueuse.\n"
 "Fermeture de Kdenlive en cours..."
 
-#: kdenlive/krender.cpp:399 kdenlive/krender.cpp:455 kdenlive/krender.cpp:647
-#: kdenlive/krender.cpp:716
+#: kdenlive/krender.cpp:403 kdenlive/krender.cpp:459 kdenlive/krender.cpp:660
+#: kdenlive/krender.cpp:724
 msgid ""
 "Could not create the video preview window.\n"
 "There is something wrong with your Kdenlive install or your driver settings, "
@@ -3220,15 +3220,15 @@ msgstr ""
 "Il y a probablement un problème d'installation de Kdenlive ou de "
 "configuration des drivers, qu'il est nécessaire de corriger."
 
-#: kdenlive/krender.cpp:687
+#: kdenlive/krender.cpp:695
 msgid "Volume: "
 msgstr "Volume :"
 
-#: kdenlive/krender.cpp:987
+#: kdenlive/krender.cpp:991
 msgid "Cannot open file: "
 msgstr "Impossible d'ouvrir le fichier :"
 
-#: kdenlive/krender.cpp:991
+#: kdenlive/krender.cpp:995
 msgid ""
 "NO firewire access on that port\n"
 "Make sure you have loaded the raw1394 module and that you have write access "
@@ -3238,11 +3238,11 @@ msgstr ""
 "Vérifiez que vous avez installé le module raw1394 et que vous avez les "
 "droits d'accès sur : /dev/raw1394..."
 
-#: kdenlive/krender.cpp:1002
+#: kdenlive/krender.cpp:1006
 msgid "NO DV device found"
 msgstr "Impossible de trouver la connexion DV"
 
-#: kdenlive/krender.cpp:1006
+#: kdenlive/krender.cpp:1010
 msgid ""
 "Transmission of dv file is finished.\n"
 "%1 frames were dropped during transfer."
@@ -3250,11 +3250,11 @@ msgstr ""
 "La transmission du fichier DV est terminée.\n"
 "% images ont été supprimées pendant le transfert."
 
-#: kdenlive/krender.cpp:1007
+#: kdenlive/krender.cpp:1011
 msgid "Transmission of dv file finished successfully."
 msgstr "La transmission du fichier DV est terminée avec succès."
 
-#: kdenlive/krender.cpp:1009
+#: kdenlive/krender.cpp:1013
 msgid ""
 "Firewire is not enabled on your system.\n"
 " Please install Libiec61883 and recompile Kdenlive"
@@ -3262,7 +3262,7 @@ msgstr ""
 "Le port Firewire n'est pas actif sur votre système.\n"
 "Veuillez installer Libiec61883 et recompiler Kdenlive"
 
-#: kdenlive/krender.cpp:1016
+#: kdenlive/krender.cpp:1020
 msgid "There is no clip, cannot extract frame."
 msgstr "Aucun clip, impossible d'extraire la trame"
 
@@ -3418,12 +3418,14 @@ msgstr "Sélectionner le type d'affichage"
 
 #. i18n: file kdenlive/kdenliveui.rc line 43
 #: kdenlive/rc.cpp:3 kdenlive/rc.cpp:93 kdenlive/rc.cpp:183
+#: kdenlive/rc.cpp:273 kdenlive/rc.cpp:363
 #, no-c-format
 msgid "&Project"
 msgstr "&Projet"
 
 #. i18n: file kdenlive/kdenliveui.rc line 55
 #: kdenlive/rc.cpp:6 kdenlive/rc.cpp:96 kdenlive/rc.cpp:186
+#: kdenlive/rc.cpp:276 kdenlive/rc.cpp:366
 #, no-c-format
 msgid "&Timeline"
 msgstr "Mon&tage"
@@ -3434,14 +3436,20 @@ msgstr "Mon&tage"
 #. i18n: file kdenlive/kdenliveui.rc line 249
 #. i18n: file kdenlive/kdenliveui.rc line 63
 #. i18n: file kdenlive/kdenliveui.rc line 249
+#. i18n: file kdenlive/kdenliveui.rc line 63
+#. i18n: file kdenlive/kdenliveui.rc line 249
+#. i18n: file kdenlive/kdenliveui.rc line 63
+#. i18n: file kdenlive/kdenliveui.rc line 249
 #: kdenlive/rc.cpp:9 kdenlive/rc.cpp:42 kdenlive/rc.cpp:99 kdenlive/rc.cpp:132
-#: kdenlive/rc.cpp:189 kdenlive/rc.cpp:222
+#: kdenlive/rc.cpp:189 kdenlive/rc.cpp:222 kdenlive/rc.cpp:279
+#: kdenlive/rc.cpp:312 kdenlive/rc.cpp:369 kdenlive/rc.cpp:402
 #, no-c-format
 msgid "Go To"
 msgstr "Navigation"
 
 #. i18n: file kdenlive/kdenliveui.rc line 89
 #: kdenlive/rc.cpp:12 kdenlive/rc.cpp:102 kdenlive/rc.cpp:192
+#: kdenlive/rc.cpp:282 kdenlive/rc.cpp:372
 #, no-c-format
 msgid "Monitor"
 msgstr "Moniteur"
@@ -3455,25 +3463,47 @@ msgstr "Moniteur"
 #. i18n: file kdenlive/kdenliveui.rc line 99
 #. i18n: file kdenlive/kdenliveui.rc line 345
 #. i18n: file kdenlive/kdenliveui.rc line 361
+#. i18n: file kdenlive/kdenliveui.rc line 99
+#. i18n: file kdenlive/kdenliveui.rc line 345
+#. i18n: file kdenlive/kdenliveui.rc line 361
+#. i18n: file kdenlive/kdenliveui.rc line 99
+#. i18n: file kdenlive/kdenliveui.rc line 345
+#. i18n: file kdenlive/kdenliveui.rc line 361
 #: kdenlive/rc.cpp:15 kdenlive/rc.cpp:81 kdenlive/rc.cpp:84
 #: kdenlive/rc.cpp:105 kdenlive/rc.cpp:171 kdenlive/rc.cpp:174
 #: kdenlive/rc.cpp:195 kdenlive/rc.cpp:261 kdenlive/rc.cpp:264
+#: kdenlive/rc.cpp:285 kdenlive/rc.cpp:351 kdenlive/rc.cpp:354
+#: kdenlive/rc.cpp:375 kdenlive/rc.cpp:441 kdenlive/rc.cpp:444
 #, no-c-format
 msgid "Preview Quality"
 msgstr "Niveau de qualité de la prévisualisation"
 
 #. i18n: file kdenlive/kdenliveui.rc line 106
 #: kdenlive/rc.cpp:18 kdenlive/rc.cpp:108 kdenlive/rc.cpp:198
+#: kdenlive/rc.cpp:288 kdenlive/rc.cpp:378
 #, no-c-format
 msgid "Layout"
 msgstr "Environnement"
 
 #. i18n: file kdenlive/kdenliveui.rc line 117
 #: kdenlive/rc.cpp:21 kdenlive/rc.cpp:111 kdenlive/rc.cpp:201
+#: kdenlive/rc.cpp:291 kdenlive/rc.cpp:381
 #, no-c-format
 msgid "Windows"
 msgstr "Fenêtres"
 
+#. i18n: file kdenlive/kdenliveui.rc line 147
+#. i18n: file kdenlive/kdenliveui.rc line 165
+#. i18n: file kdenlive/kdenliveui.rc line 181
+#. i18n: file kdenlive/kdenliveui.rc line 197
+#. i18n: file kdenlive/kdenliveui.rc line 213
+#. i18n: file kdenlive/kdenliveui.rc line 230
+#. i18n: file kdenlive/kdenliveui.rc line 147
+#. i18n: file kdenlive/kdenliveui.rc line 165
+#. i18n: file kdenlive/kdenliveui.rc line 181
+#. i18n: file kdenlive/kdenliveui.rc line 197
+#. i18n: file kdenlive/kdenliveui.rc line 213
+#. i18n: file kdenlive/kdenliveui.rc line 230
 #. i18n: file kdenlive/kdenliveui.rc line 147
 #. i18n: file kdenlive/kdenliveui.rc line 165
 #. i18n: file kdenlive/kdenliveui.rc line 181
@@ -3497,7 +3527,11 @@ msgstr "Fenêtres"
 #: kdenlive/rc.cpp:117 kdenlive/rc.cpp:120 kdenlive/rc.cpp:123
 #: kdenlive/rc.cpp:126 kdenlive/rc.cpp:129 kdenlive/rc.cpp:204
 #: kdenlive/rc.cpp:207 kdenlive/rc.cpp:210 kdenlive/rc.cpp:213
-#: kdenlive/rc.cpp:216 kdenlive/rc.cpp:219
+#: kdenlive/rc.cpp:216 kdenlive/rc.cpp:219 kdenlive/rc.cpp:294
+#: kdenlive/rc.cpp:297 kdenlive/rc.cpp:300 kdenlive/rc.cpp:303
+#: kdenlive/rc.cpp:306 kdenlive/rc.cpp:309 kdenlive/rc.cpp:384
+#: kdenlive/rc.cpp:387 kdenlive/rc.cpp:390 kdenlive/rc.cpp:393
+#: kdenlive/rc.cpp:396 kdenlive/rc.cpp:399
 #, no-c-format
 msgid "Create Clip"
 msgstr "Créer un clip"
@@ -3508,8 +3542,14 @@ msgstr "Créer un clip"
 #. i18n: file kdenlive/kdenliveui.rc line 276
 #. i18n: file kdenlive/kdenliveui.rc line 254
 #. i18n: file kdenlive/kdenliveui.rc line 276
+#. i18n: file kdenlive/kdenliveui.rc line 254
+#. i18n: file kdenlive/kdenliveui.rc line 276
+#. i18n: file kdenlive/kdenliveui.rc line 254
+#. i18n: file kdenlive/kdenliveui.rc line 276
 #: kdenlive/rc.cpp:45 kdenlive/rc.cpp:54 kdenlive/rc.cpp:135
 #: kdenlive/rc.cpp:144 kdenlive/rc.cpp:225 kdenlive/rc.cpp:234
+#: kdenlive/rc.cpp:315 kdenlive/rc.cpp:324 kdenlive/rc.cpp:405
+#: kdenlive/rc.cpp:414
 #, no-c-format
 msgid "Tools"
 msgstr "Outils"
@@ -3520,50 +3560,63 @@ msgstr "Outils"
 #. i18n: file kdenlive/kdenliveui.rc line 284
 #. i18n: file kdenlive/kdenliveui.rc line 262
 #. i18n: file kdenlive/kdenliveui.rc line 284
+#. i18n: file kdenlive/kdenliveui.rc line 262
+#. i18n: file kdenlive/kdenliveui.rc line 284
+#. i18n: file kdenlive/kdenliveui.rc line 262
+#. i18n: file kdenlive/kdenliveui.rc line 284
 #: kdenlive/rc.cpp:48 kdenlive/rc.cpp:57 kdenlive/rc.cpp:138
 #: kdenlive/rc.cpp:147 kdenlive/rc.cpp:228 kdenlive/rc.cpp:237
+#: kdenlive/rc.cpp:318 kdenlive/rc.cpp:327 kdenlive/rc.cpp:408
+#: kdenlive/rc.cpp:417
 #, no-c-format
 msgid "Snap To"
 msgstr "Aligner sur"
 
 #. i18n: file kdenlive/kdenliveui.rc line 267
 #: kdenlive/rc.cpp:51 kdenlive/rc.cpp:141 kdenlive/rc.cpp:231
+#: kdenlive/rc.cpp:321 kdenlive/rc.cpp:411
 #, no-c-format
 msgid "Tracks"
 msgstr "Pistes"
 
 #. i18n: file kdenlive/kdenliveui.rc line 299
 #: kdenlive/rc.cpp:60 kdenlive/rc.cpp:150 kdenlive/rc.cpp:240
+#: kdenlive/rc.cpp:330 kdenlive/rc.cpp:420
 #, no-c-format
 msgid "Add Transition"
 msgstr "Ajouter une transition"
 
 #. i18n: file kdenlive/kdenliveui.rc line 306
 #: kdenlive/rc.cpp:66 kdenlive/rc.cpp:156 kdenlive/rc.cpp:246
+#: kdenlive/rc.cpp:336 kdenlive/rc.cpp:426
 #, no-c-format
 msgid "Add Video Effect"
 msgstr "Ajouter un effet vidéo"
 
 #. i18n: file kdenlive/kdenliveui.rc line 308
 #: kdenlive/rc.cpp:69 kdenlive/rc.cpp:159 kdenlive/rc.cpp:249
+#: kdenlive/rc.cpp:339 kdenlive/rc.cpp:429
 #, no-c-format
 msgid "Add Audio Effect"
 msgstr "Ajouter un effet audio"
 
 #. i18n: file kdenlive/kdenliveui.rc line 310
 #: kdenlive/rc.cpp:72 kdenlive/rc.cpp:162 kdenlive/rc.cpp:252
+#: kdenlive/rc.cpp:342 kdenlive/rc.cpp:432
 #, no-c-format
 msgid "Delete Effect"
 msgstr "Supprimer l'effet"
 
 #. i18n: file kdenlive/kdenliveui.rc line 369
 #: kdenlive/rc.cpp:87 kdenlive/rc.cpp:177 kdenlive/rc.cpp:267
+#: kdenlive/rc.cpp:357 kdenlive/rc.cpp:447
 #, no-c-format
 msgid "Timeline Toolbar"
 msgstr "Outils du montage"
 
 #. i18n: file kdenlive/kdenliveui.rc line 385
 #: kdenlive/rc.cpp:90 kdenlive/rc.cpp:180 kdenlive/rc.cpp:270
+#: kdenlive/rc.cpp:360 kdenlive/rc.cpp:450
 #, no-c-format
 msgid "Layout Toolbar"
 msgstr "Outils des fenêtres"
@@ -3702,6 +3755,11 @@ msgstr "Fi&n"
 #: kdenlive/transitionwipe_ui.cpp:237
 msgid "Rescale images"
 msgstr "Mettre à l'échelle les images"
+
+#~ msgid "Mouse wheel moves horizontally (Alt for vertical scroll)"
+#~ msgstr ""
+#~ "La roue de la souris provoque un déplacement horizontal (Alt pour un "
+#~ "défilement vertical)"
 
 #~ msgid "On screen timecode display"
 #~ msgstr "Incruster les informations d'horodatage à l'écran"
