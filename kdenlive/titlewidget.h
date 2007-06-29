@@ -19,7 +19,6 @@
 #include <qpoint.h>
 #include <qdom.h>
 
-#include <ktempfile.h>
 #include <kurl.h>
 
 #include "titlebasewidget_ui.h"
@@ -41,7 +40,6 @@ public:
         QCanvasItem* selectedItem;
         uint operationMode;
         uint numItems;
-        KTempFile *tmp;
 	QString tmpFileName;
 	bool m_transparent;
 
