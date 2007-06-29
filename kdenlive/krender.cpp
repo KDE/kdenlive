@@ -250,20 +250,18 @@ QPixmap KRender::extractFrame(int frame_position, int width, int height)
 	pix.fill(black);
 	return pix;
     }
-    Mlt::Producer mlt_producer(m_mltProducer->get_producer());
-    mlt_producer.seek(frame_position);
+    Mlt::Producer *mlt_producer = m_mltProducer->cut(frame_position, frame_position + 1);
     Mlt::Filter m_convert("avcolour_space");
     m_convert.set("forced", mlt_image_rgb24a);
-    mlt_producer.attach(m_convert);
-
-    Mlt::Frame *frame = mlt_producer.get_frame();
+    mlt_producer->attach(m_convert);
+    Mlt::Frame *frame = mlt_producer->get_frame();
 
     if (frame) {
 	pix = frameThumbnail(frame, width, height);
 	delete frame;
     }
     else pix.fill(black);
-
+    delete mlt_producer;
     return pix;
 }
 
@@ -387,83 +385,6 @@ double KRender::consumerRatio() const
     return (m_mltConsumer->get_double("aspect_ratio_num")/m_mltConsumer->get_double("aspect_ratio_den"));
 }
 
-void KRender::restoreProducer()
-{
-    if (!m_mltConsumer) {
-	restartConsumer();
-	return;
-    }
-    if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
-    if (m_mltTextProducer) delete m_mltTextProducer;
-    m_mltTextProducer = 0;
-    m_mltConsumer->purge();
-    if(m_mltProducer == NULL) return;
-    m_mltProducer->set_speed(0.0);
-    if (m_mltConsumer->start() == -1) {
-	KMessageBox::error(qApp->mainWidget(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
-	m_mltConsumer = NULL;
-    }
-    else {
-        m_mltConsumer->connect(*m_mltProducer);
-        refresh();
-    }
-}
-
-void KRender::setTitlePreview(QString tmpFileName)
-{
-    if (!m_mltConsumer) {
-	restartConsumer();
-	return;
-    }
-    if (!m_mltConsumer->is_stopped()) {
-        m_mltConsumer->stop();
-    }
-    m_mltConsumer->purge();
-    int pos = 0;
-    if (m_mltTextProducer) delete m_mltTextProducer;
-    m_mltTextProducer = 0;
-	// If there is no clip in the monitor, use a black video as first track	
-    if(m_mltProducer == NULL) {
-        QString ctext2;
-        ctext2="<producer><property name=\"mlt_service\">colour</property><property name=\"colour\">black</property></producer>";
-	char *tmp = decodedString(ctext2);
-        m_mltTextProducer = new Mlt::Producer("westley-xml",tmp);
-	delete tmp;
-    }
-    else {
-        pos = m_mltProducer->position();
-        m_mltTextProducer = new Mlt::Producer(m_mltProducer->get_producer());
-    }
-    // Create second producer with the png image created by the titler
-    QString ctext;
-    ctext="<producer><property name=\"resource\">"+tmpFileName+"</property></producer>";
-    char *tmp = decodedString(ctext);
-    Mlt::Producer prod2("westley-xml",tmp);
-    delete tmp;
-    Mlt::Tractor tracks;
-
-	// Add composite transition for overlaying the 2 tracks
-    Mlt::Transition convert( "composite" ); 
-    convert.set("distort",1);
-    convert.set("progressive",1);
-    convert.set("always_active",1);
-    
-	// Define the 2 tracks
-    tracks.set_track(*m_mltTextProducer,0);
-    tracks.set_track(prod2,1);
-    tracks.plant_transition( convert ,0,1);
-    tracks.seek(pos);
-    m_mltTextProducer->seek(pos);
-    tracks.set_speed(0.0);
-    if (m_mltConsumer->start() == -1) {
-	KMessageBox::error(qApp->mainWidget(), i18n("Could not create the video preview window.\nThere is something wrong with your Kdenlive install or your driver settings, please fix it."));
-	m_mltConsumer = NULL;
-    }
-    else {
-	m_mltConsumer->connect(tracks);
-	refresh();
-    }
-}
 
 int KRender::getLength()
 {

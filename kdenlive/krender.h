@@ -244,13 +244,7 @@ class KRender:public QObject {
     int getLength();
 	/** If the file is readable by mlt, return true, otherwise false */
     bool isValid(KURL url);
-    
-    /** Create a new producer to show the title clip on top of the current monitor view */
-    void setTitlePreview(QString tmpFileName);
-    
-    /** Restore the original producer after a title preview */
-    void restoreProducer();
-    
+
     	/** Wraps the VEML command of the same name. Requests the file properties
     for the specified url from the renderer. Upon return, the result will be emitted
     via replyGetFileProperties(). */

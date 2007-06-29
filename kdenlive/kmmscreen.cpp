@@ -144,16 +144,6 @@ namespace Gui {
         return m_render->getLength();
     }
     
-    void KMMScreen::setTitlePreview(QString tmpFileName)
-    {
-        m_render->setTitlePreview(tmpFileName);
-    }
-
-    void KMMScreen::restoreProducer()
-    {
-        m_render->restoreProducer();
-    }
-    
     void KMMScreen::slotRendererStopped() {
 	emit playSpeedChanged(0.0);
     }

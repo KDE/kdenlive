@@ -513,15 +513,15 @@ namespace Gui {
 	    KShortcut(Qt::Key_W), this, SLOT(slotTimelineRazorTool()),
 	    actionCollection(), "timeline_razor_tool");
 	timelineSpacerTool =
-	    new KRadioAction(i18n("Spacing Tool"), "spacer.png",
+	    new KRadioAction(i18n("Spacing Tool"), "kdenlive_spacer.png",
 	    KShortcut(Qt::Key_E), this, SLOT(slotTimelineSpacerTool()),
 	    actionCollection(), "timeline_spacer_tool");
 	timelineMarkerTool =
-	    new KRadioAction(i18n("Marker Tool"), "marker.png",
+	    new KRadioAction(i18n("Marker Tool"), "kdenlive_add_marker.png",
 	    KShortcut(Qt::Key_M), this, SLOT(slotTimelineMarkerTool()),
 	    actionCollection(), "timeline_marker_tool");
 	timelineRollTool =
-	    new KRadioAction(i18n("Roll Tool"), "rolltool.png",
+	    new KRadioAction(i18n("Roll Tool"), "kdenlive_roll.png",
 	    KShortcut(Qt::Key_R), this, SLOT(slotTimelineRollTool()),
 	    actionCollection(), "timeline_roll_tool");
 
@@ -3143,7 +3143,6 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
         slotStatusMsg(i18n("Adding Clips"));
 	int width = m_doc->projectClip().videoWidth();
 	if (KdenliveSettings::videoprofile() == "dv_wide") width = m_doc->projectClip().videoHeight() * 16.0 / 9.0;
-        activateWorkspaceMonitor();
         titleWidget *txtWidget=new titleWidget(m_workspaceMonitor->screen(), width, m_doc->projectClip().videoHeight(), NULL, this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
         txtWidget->titleName->setText(i18n("Text Clip"));
         txtWidget->edit_duration->setText(KdenliveSettings::textclipduration());
@@ -3156,7 +3155,6 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                     new Command::KAddClipCommand(*m_doc, m_projectList->parentName(), duration, txtWidget->titleName->text(),QString::null, xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked(), true);
             addCommand(command, true);
         }
-        m_workspaceMonitor->screen()->restoreProducer();
         slotStatusMsg(i18n("Ready."));
     }
     
@@ -3238,8 +3236,9 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
 	    KTempFile tmp(KdenliveSettings::currenttmpfolder(),".png");
 	    QPixmap thumb = clip->thumbnail();
+	    KIO::NetAccess::file_copy(clip->fileURL(), KURL(tmp.name()), -1, true);
             KCommand *command =
-                    new Command::KAddClipCommand(*m_doc, m_projectList->parentName(), refClip->duration(), clip->name(), QString::null, clip->toDocClipTextFile()->textClipXml() , KURL(tmp.name()), thumb, clip->toDocClipTextFile()->isTransparent(), true);
+                    new Command::KAddClipCommand(*m_doc, m_projectList->parentName(), refClip->duration(), clipName, QString::null, clip->toDocClipTextFile()->textClipXml() , KURL(tmp.name()), thumb, clip->toDocClipTextFile()->isTransparent(), true);
             addCommand(command, true);
 	}
 	slotStatusMsg(i18n("Ready."));
@@ -3253,7 +3252,6 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    DocClipBase *clip = refClip->referencedClip();
             
             if (refClip->clipType() == DocClipBase::TEXT) {
-                activateWorkspaceMonitor();
 		int width = m_doc->projectClip().videoWidth();
 		if (KdenliveSettings::videoprofile() == "dv_wide") width = m_doc->projectClip().videoHeight() * 16.0 / 9.0;
                 titleWidget *txtWidget=new titleWidget(m_workspaceMonitor->screen(), width, m_doc->projectClip().videoHeight(), clip->fileURL(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
@@ -3271,7 +3269,6 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
 		    if (refClip->numReferences() > 0) getDocument()->activateSceneListGeneration(true);
             	}
-                m_workspaceMonitor->screen()->restoreProducer();
             }
             else {
                 ClipProperties *dia = new ClipProperties(refClip, getDocument());

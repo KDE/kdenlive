@@ -95,8 +95,6 @@ public slots:
 	/** Called when the renderer stops playing */
 	void slotRendererStopped();
 	int getLength();
-  	void setTitlePreview(QString tmpFileName);
-  	void restoreProducer();
 
   	void exportToFirewire(QString url, int port, GenTime startTime, GenTime endTime);
   	void exportCurrentFrame(KURL url, bool notify);
