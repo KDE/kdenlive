@@ -902,7 +902,9 @@ titleWidget::titleWidget(Gui::KMMScreen *screen, int width, int height, KURL tmp
     alignprobBox->insertItem ( KGlobal::iconLoader()->loadIcon("text_block",KIcon::Small,22), i18n( "Align Block" ));
 			
     cursorButton->setOn(true);
-        
+    timelineposition->setEnabled(false);
+    timelineSlider->setEnabled(false);
+
     QToolTip::add( textButton, i18n( "Add Text" ) );
     QToolTip::add( rectButton, i18n( "Add Rectangle" ) );
     QToolTip::add( cursorButton, i18n( "Select Objects" ) );
@@ -949,9 +951,12 @@ titleWidget::~titleWidget()
 
 void titleWidget::transparencyToggled(bool isOn)
 {
+    timelineposition->setEnabled(isOn);
+    timelineSlider->setEnabled(isOn);
     canview->setTransparency(isOn);
     doPreview(timelineSlider->value());
 }
+
 
 void titleWidget::adjustButtons()
 {
