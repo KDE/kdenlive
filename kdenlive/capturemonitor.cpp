@@ -71,7 +71,7 @@ namespace Gui {
 	}
 	else if (!KIO::NetAccess::exists(KURL("/dev/raw1394"), false, this)) {
 		if (!warnMessage.isEmpty()) warnMessage += "<br>";
-		warnMessage += i18n("<b>The raw1394 module is not loaded or you don't have write access on /dev/raw1394. Please check your permissions.");
+		warnMessage += i18n("<b>Device not detected. Make sure that the camcorder is turned on. Please check that the kernel module raw1394 is loaded and that you have write permission to /dev/raw1394 or equivalent.");
 		m_readyForCapture = false;
 	}
 	else m_readyForCapture = true;
