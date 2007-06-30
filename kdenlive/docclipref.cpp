@@ -861,12 +861,14 @@ QDomDocumentFragment DocClipRef::generateXMLTransition(bool hideVideo, bool hide
 		int currentStart = (*it).x();
 		int currentEnd = (*it).y();
 		if (transStart <= currentEnd && transEnd >= currentStart) {
-		    
 		    if (currentStart != transStart) {
 			(*it) = QPoint(currentStart, transStart);
 			if (transEnd != currentEnd) blanklist.append(QPoint(transEnd, currentEnd));
 		    }
-		    else (*it) = QPoint(transEnd, currentEnd);
+		    else {
+			if (transEnd == currentEnd) blanklist.remove(*it);
+			else (*it) = QPoint(transEnd, currentEnd);
+		    }
 		    break;
 		}
 	    }
@@ -876,12 +878,12 @@ QDomDocumentFragment DocClipRef::generateXMLTransition(bool hideVideo, bool hide
 	// Insert "transparent" composite transition in places where the clip has no transition
 	QValueList < QPoint >::Iterator it;
  	for ( it = blanklist.begin(); it != blanklist.end(); ++it ) {
-            QDomElement transition = transitionList.createElement("transition");
+	    QDomElement transition = transitionList.createElement("transition");
             transition.setAttribute("in", (*it).x());
             transition.setAttribute("out", (*it).y());
             transition.setAttribute("mlt_service", "composite");
             transition.setAttribute("fill", "1");
-	    if (ct == DocClipBase::TEXT) transition.setAttribute("distort", "1");
+	    //if (ct == DocClipBase::TEXT) transition.setAttribute("distort", "1");
             transition.setAttribute("progressive","1");
 	    transition.setAttribute("valign","1");
 	    transition.setAttribute("halign","1");
