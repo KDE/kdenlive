@@ -744,62 +744,7 @@ QString KdenliveDoc::guidesStringList()
 GenTime KdenliveDoc::toSnapTime(GenTime currTime, bool forward, bool includeSnapMarkers, bool includeGuides)
 {
     QValueVector < GenTime > list;
-    bool includeUnselectedClips = true;
-    bool includeSelectedClips = true;
-    bool includeClipEnds = true;
-
-    for (uint count = 0; count < numTracks(); ++count) {
-	if (includeUnselectedClips) {
-	    QPtrListIterator < DocClipRef > clipItt =
-		track(count)->firstClip(false);
-	    while (clipItt.current()) {
-		if (includeClipEnds) {
-		    list.append(clipItt.current()->trackStart());
-		    list.append(clipItt.current()->trackEnd());
-		}
-
-		if (includeSnapMarkers) {
-		    QValueVector < GenTime > markers =
-			clipItt.current()->snapMarkersOnTrack();
-		    for (uint count = 0; count < markers.count(); ++count) {
-			list.append(markers[count]);
-		    }
-		}
-
-		++clipItt;
-	    }
-	}
-
-	if (includeSelectedClips) {
-	    QPtrListIterator < DocClipRef > clipItt =
-		track(count)->firstClip(true);
-	    while (clipItt.current()) {
-		if (includeClipEnds) {
-		    list.append(clipItt.current()->trackStart());
-		    list.append(clipItt.current()->trackEnd());
-		}
-
-		if (includeSnapMarkers) {
-		    QValueVector < GenTime > markers =
-			clipItt.current()->snapMarkersOnTrack();
-		    for (uint count = 0; count < markers.count(); ++count) {
-			list.append(markers[count]);
-		    }
-		}
-
-		++clipItt;
-	    }
-	}
-    }
-
-	if (includeGuides) {
-	    QValueList <int> guides;
-	    guides = m_app->timelineGuides();
-	    QValueList < int >::Iterator itt;
-            for ( itt = guides.begin(); itt != guides.end(); ++itt ) {
-	    	list.append(GenTime(*itt, framesPerSecond()));
-	    }
-	}
+    list = getSnapTimes(true, includeSnapMarkers, true, true, includeGuides);
 
      QValueVector <GenTime>::iterator it;
      GenTime diff(500.0);
