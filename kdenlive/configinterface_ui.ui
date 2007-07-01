@@ -56,7 +56,7 @@
                 <cstring>kcfg_horizontalmouse</cstring>
             </property>
             <property name="text">
-                <string>Scroll timeline using mouse wheel (Alt to zoom)</string>
+                <string>Scroll timeline using mouse wheel (Alt for vertical scroll)</string>
             </property>
         </widget>
         <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="3">
