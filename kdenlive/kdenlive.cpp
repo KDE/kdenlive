@@ -4045,8 +4045,17 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
     void KdenliveApp::editMarkerUnderCursor()
     {
-	DocClipRef *clipUnderMouse = getDocument()->projectClip().selectedClip();
-	GenTime cursorTime = getDocument()->renderer()->seekPosition() - clipUnderMouse->trackStart() + clipUnderMouse->cropStartTime();
+	DocClipRef *clipUnderMouse;
+	GenTime cursorTime = getDocument()->renderer()->seekPosition();
+
+	DocClipRefList list = getDocument()->projectClip().selectedClipList();
+    	for (clipUnderMouse = list.first(); clipUnderMouse; clipUnderMouse = list.next()) {
+		if ((cursorTime > clipUnderMouse->trackStart()) && (cursorTime < clipUnderMouse->trackEnd())) break;
+	}
+	if (clipUnderMouse == NULL) return;
+
+	cursorTime = cursorTime - clipUnderMouse->trackStart() + clipUnderMouse->cropStartTime();
+
 	GenTime markerTime = clipUnderMouse->hasSnapMarker(cursorTime);
 	if (markerTime <= GenTime(0.0)) return;
 	if (cursorTime > clipUnderMouse->cropStartTime() + clipUnderMouse->cropDuration()) return;
@@ -4061,35 +4070,47 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
     void KdenliveApp::addMarkerUnderCursor()
     {
-		bool ok;
-		DocClipRef *clipUnderMouse = getDocument()->projectClip().selectedClip();
-		GenTime cursorTime = getDocument()->renderer()->seekPosition();
-		if ((cursorTime < clipUnderMouse->trackStart()) || (cursorTime > clipUnderMouse->trackEnd())) return;
-		QString comment = KInputDialog::getText(i18n("Add Marker"), i18n("Marker comment: "), i18n("Marker"), &ok);
-		if (ok) {
-		    Command::KAddMarkerCommand * command = new Command::KAddMarkerCommand(*getDocument(), clipUnderMouse->referencedClip()->getId(), cursorTime - clipUnderMouse->trackStart() + clipUnderMouse->cropStartTime(), comment, true);
-		    addCommand(command);
-		}
+	bool ok;
+	DocClipRef *clipUnderMouse;
+	GenTime cursorTime = getDocument()->renderer()->seekPosition();
+
+	DocClipRefList list = getDocument()->projectClip().selectedClipList();
+	for (clipUnderMouse = list.first(); clipUnderMouse; clipUnderMouse = list.next()) {
+		if ((cursorTime > clipUnderMouse->trackStart()) && (cursorTime < clipUnderMouse->trackEnd())) break;
+	}
+	if (clipUnderMouse == NULL) return;
+	QString comment = KInputDialog::getText(i18n("Add Marker"), i18n("Marker comment: "), i18n("Marker"), &ok);
+	if (ok) {
+	    Command::KAddMarkerCommand * command = new Command::KAddMarkerCommand(*getDocument(), clipUnderMouse->referencedClip()->getId(), cursorTime - clipUnderMouse->trackStart() + clipUnderMouse->cropStartTime(), comment, true);
+	    addCommand(command);
+	}
     }
 
     void KdenliveApp::deleteMarkerUnderCursor()
     {
-		DocClipRef *clipUnderMouse = getDocument()->projectClip().selectedClip();
-		GenTime cursorTime = getDocument()->renderer()->seekPosition();
-		if ((cursorTime < clipUnderMouse->trackStart()) || (cursorTime > clipUnderMouse->trackEnd())) return;
-	    	Command::KAddMarkerCommand * command = new Command::KAddMarkerCommand(*getDocument(), clipUnderMouse->referencedClip()->getId(), cursorTime - clipUnderMouse->trackStart() + clipUnderMouse->cropStartTime(), QString::null, false);
-		addCommand(command);
+	DocClipRef *clipUnderMouse;
+	GenTime cursorTime = getDocument()->renderer()->seekPosition();
+	DocClipRefList list = getDocument()->projectClip().selectedClipList();
+	for (clipUnderMouse = list.first(); clipUnderMouse; clipUnderMouse = list.next()) {
+		if ((cursorTime > clipUnderMouse->trackStart()) && (cursorTime < clipUnderMouse->trackEnd())) break;
+	}
+	if (clipUnderMouse == NULL) return;
+    	Command::KAddMarkerCommand * command = new Command::KAddMarkerCommand(*getDocument(), clipUnderMouse->referencedClip()->getId(), cursorTime - clipUnderMouse->trackStart() + clipUnderMouse->cropStartTime(), QString::null, false);
+	addCommand(command);
     }
 
     void KdenliveApp::toggleMarkerUnderCursor()
     {
-		DocClipRef *clipUnderMouse = getDocument()->projectClip().selectedClip();
-		if (clipUnderMouse) {
-			GenTime cursorTime = getDocument()->renderer()->seekPosition();
-			if ((cursorTime < clipUnderMouse->trackStart()) || (cursorTime > clipUnderMouse->trackEnd())) return;
-			if (clipUnderMouse->hasSnapMarker(cursorTime) != GenTime(0.0)) deleteMarkerUnderCursor();
-			else addMarkerUnderCursor();
-		}
+	DocClipRef *clipUnderMouse;
+	GenTime cursorTime = getDocument()->renderer()->seekPosition();
+
+	DocClipRefList list = getDocument()->projectClip().selectedClipList();
+   		for (clipUnderMouse = list.first(); clipUnderMouse; clipUnderMouse = list.next()) {
+		if ((cursorTime > clipUnderMouse->trackStart()) && (cursorTime < clipUnderMouse->trackEnd())) break;
+	}
+	if (clipUnderMouse == NULL) return;
+	if (clipUnderMouse->hasSnapMarker(cursorTime) != GenTime(0.0)) deleteMarkerUnderCursor();
+	else addMarkerUnderCursor();
     }
 
     void KdenliveApp::populateClearSnapMarkers(KMacroCommand *
