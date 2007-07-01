@@ -959,7 +959,7 @@ void titleWidget::transparencyToggled(bool isOn)
     }
     else {
 	doPreview(timelineSlider->value());
-	seekToPos();
+	if (m_screen) seekToPos();
     }
 }
 
