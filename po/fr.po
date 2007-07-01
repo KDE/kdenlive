@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-07-01 09:50+0200\n"
-"PO-Revision-Date: 2007-07-01 09:52+0200\n"
+"PO-Revision-Date: 2007-07-01 09:56+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -590,7 +590,7 @@ msgstr "Editeur d'image externe"
 
 #: kdenlive/configmisc_ui.cpp:132
 msgid "Display timecode"
-msgstr "Incruster l'horodatage"
+msgstr "Afficher l'horodatage"
 
 #: kdenlive/configmisc_ui.cpp:133
 msgid "Distort Images (non proportionnal scaling)"
@@ -1720,11 +1720,11 @@ msgstr "Aligner sur le repère"
 
 #: kdenlive/kdenlive.cpp:547
 msgid "Display Timecode"
-msgstr "Incruster l'horodatage"
+msgstr "Afficher l'horodatage"
 
 #: kdenlive/kdenlive.cpp:552
 msgid "Multi Track View"
-msgstr "Affichage multi-pistes"
+msgstr "Afficher plusieurs pistes"
 
 #: kdenlive/kdenlive.cpp:557
 msgid "Low Quality"
