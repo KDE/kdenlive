@@ -87,7 +87,7 @@
                         <cstring>checkBox1</cstring>
                     </property>
                     <property name="text">
-                        <string>Use Drop Frame timecode</string>
+                        <string>Use Drop Frame timecode (NTSC only)</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string></string>
