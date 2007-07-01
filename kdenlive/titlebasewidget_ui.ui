@@ -8,7 +8,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>690</width>
+            <width>697</width>
             <height>479</height>
         </rect>
     </property>
@@ -251,6 +251,9 @@
         <widget class="QSlider" row="4" column="0" rowspan="1" colspan="9">
             <property name="name">
                 <cstring>timelineSlider</cstring>
+            </property>
+            <property name="maxValue">
+                <number>999</number>
             </property>
             <property name="orientation">
                 <enum>Horizontal</enum>

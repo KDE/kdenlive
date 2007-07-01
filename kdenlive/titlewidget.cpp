@@ -878,9 +878,8 @@ titleWidget::titleWidget(Gui::KMMScreen *screen, int width, int height, KURL tmp
         canvas=new QCanvas(width, height); //KdenliveSettings::defaultwidth(),KdenliveSettings::defaultheight());
         canview = new FigureEditor(*canvas, frame, tmpUrl);
 	if (screen) {
-	    int pos = screen->seekPosition().frames(KdenliveSettings::defaultfps()) * 100 / screen->getLength();
+	    int pos = screen->seekPosition().frames(KdenliveSettings::defaultfps()) * 1000 / screen->getLength();
 	    timelineSlider->setValue(pos);
-	//canview->canvas()->setBackgroundPixmap(screen->extractFrame(pos, KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight()));
 	}
 	
         // Put icons on buttons
@@ -954,7 +953,14 @@ void titleWidget::transparencyToggled(bool isOn)
     timelineposition->setEnabled(isOn);
     timelineSlider->setEnabled(isOn);
     canview->setTransparency(isOn);
-    doPreview(timelineSlider->value());
+    if (!isOn) {
+	canview->canvas()->setBackgroundColor(black);
+	canview->canvas()->setBackgroundPixmap(QPixmap());
+    }
+    else {
+	doPreview(timelineSlider->value());
+	seekToPos();
+    }
 }
 
 
@@ -1128,7 +1134,7 @@ void titleWidget::doPreview(int pos)
 {
         // Prepare for mlt preview
 	if (!m_screen) return;
-	int position = m_screen->getLength() * pos / 100;
+	int position = m_screen->getLength() * pos / 1000;
 	double fps = KdenliveSettings::defaultfps();
 	Timecode tcode;
 	if (fps == 30000.0 / 1001.0 ) tcode.setFormat(30, true);
@@ -1144,7 +1150,7 @@ void titleWidget::seekToPos(const QString &)
         else tcode.setFormat(fps);
 	QString dur = timelineposition->text();
 	int frames = tcode.getFrameNumber(dur, fps);
-	if (transparentTitle->isOn())
+	if (transparentTitle->isChecked())
         canview->canvas()->setBackgroundPixmap(m_screen->extractFrame(frames, canvas->width(), canvas->height()));
 	else canview->canvas()->setBackgroundPixmap(QPixmap());
 }
