@@ -16,7 +16,8 @@
  ***************************************************************************/
 #include "trackpanelclipresizefunction.h"
 
-#include "kdebug.h"
+#include <kdebug.h>
+#include <kiconloader.h>
 
 #include "doctrackbase.h"
 #include "kdenlive.h"
@@ -36,6 +37,9 @@ m_document(document),
 m_clipUnderMouse(0),
 m_resizeState(None), m_resizeCommand(0), m_snapToGrid()
 {
+KIconLoader* loader = KGlobal::iconLoader ();
+m_startCursor = QCursor(loader->loadIcon("resize_left_cursor.png", KIcon::NoGroup, 22), 3);
+m_endCursor = QCursor(loader->loadIcon("resize_right_cursor.png", KIcon::NoGroup, 22), 20);
 }
 
 TrackPanelClipResizeFunction::~TrackPanelClipResizeFunction()
@@ -56,14 +60,12 @@ bool TrackPanelClipResizeFunction::mouseApplies(Gui::KTrackPanel * panel,
 		m_document->framesPerSecond());
 	    DocClipRef *clip = track->getClipAt(mouseTime);
 	    if (clip) {
-		if (fabs(m_timeline->mapValueToLocal(clip->trackStart().
-			    frames(m_document->framesPerSecond())) -
-			event->x()) < s_resizeTolerance) {
+		if (event->x() <= (m_timeline->mapValueToLocal(clip->trackStart().
+			    frames(m_document->framesPerSecond())) + s_resizeTolerance)) {
 		    result = true;
 		}
-		if (fabs(m_timeline->mapValueToLocal((clip->trackEnd()).
-			    frames(m_document->framesPerSecond())) -
-			event->x()) < s_resizeTolerance) {
+		else if (event->x() >= (m_timeline->mapValueToLocal((clip->trackEnd()).
+			    frames(m_document->framesPerSecond())) - s_resizeTolerance)) {
 		    result = true;
 		}
 	    }
@@ -73,9 +75,30 @@ bool TrackPanelClipResizeFunction::mouseApplies(Gui::KTrackPanel * panel,
     return result;
 }
 
-QCursor TrackPanelClipResizeFunction::getMouseCursor(Gui::KTrackPanel *, QMouseEvent *)
+QCursor TrackPanelClipResizeFunction::getMouseCursor(Gui::KTrackPanel *panel, QMouseEvent *event)
 {
-    return QCursor(Qt::SizeHorCursor);
+
+    if (panel->hasDocumentTrackIndex()) {
+	DocTrackBase *track =
+	    m_document->track(panel->documentTrackIndex());
+	if (track) {
+		GenTime mouseTime((int)m_timeline->mapLocalToValue(event->x()),
+		m_document->framesPerSecond());
+	    DocClipRef *clip = track->getClipAt(mouseTime);
+	    if (clip) {
+		if (event->x() <= (m_timeline->mapValueToLocal(clip->trackStart().
+			    frames(m_document->framesPerSecond())) + s_resizeTolerance)) {
+		    return m_startCursor;
+		}
+		if (event->x() >= (m_timeline->mapValueToLocal((clip->trackEnd()).
+			    frames(m_document->framesPerSecond())) - s_resizeTolerance)) {
+		    return m_endCursor;
+		}
+	    }
+	}
+    }
+
+    //return QCursor(Qt::SizeHorCursor);
 }
 
 bool TrackPanelClipResizeFunction::mousePressed(Gui::KTrackPanel * panel,

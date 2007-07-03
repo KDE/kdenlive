@@ -86,6 +86,7 @@ derived classes allow different behaviours to be added to panels as required.
      Gui::KTimeLine * m_timeline;
      KdenliveDoc *m_document;
      DocClipRef *m_clipUnderMouse;
+    QCursor m_razorCursor;
 };
 
 #endif

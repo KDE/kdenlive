@@ -14,6 +14,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
+#include <kiconloader.h>
 #include "trackpanelrazorfunction.h"
 
 #include "docclipbase.h"
@@ -25,6 +27,7 @@
 TrackPanelRazorFunction::TrackPanelRazorFunction(Gui::KdenliveApp * app, Gui::KTimeLine * timeline, KdenliveDoc * document):
 m_app(app), m_timeline(timeline), m_document(document), m_clipUnderMouse(0)
 {
+m_razorCursor = QCursor(KGlobal::iconLoader ()->loadIcon("razor_cursor.png", KIcon::NoGroup, 22));
 }
 
 
@@ -66,7 +69,7 @@ QCursor TrackPanelRazorFunction::getMouseCursor(Gui::KTrackPanel * panel,
 	    }
 	}
     }
-    return QCursor(Qt::SplitHCursor);
+    return m_razorCursor;
 }
 
 bool TrackPanelRazorFunction::mousePressed(Gui::KTrackPanel * panel,

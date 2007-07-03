@@ -96,6 +96,10 @@ derived classes allow different behaviours to be added to panels as required.
     KdenliveDoc *m_document;
     DocClipRef *m_clipUnderMouse;
     ResizeState m_resizeState;
+
+    QCursor m_endCursor;
+    QCursor m_startCursor;
+
 	/** This command holds the resize information during a resize operation */
      Command::KResizeCommand * m_resizeCommand;
     SnapToGrid m_snapToGrid;
