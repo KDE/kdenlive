@@ -1,3 +1,3 @@
 kdenlivedir = $(kde_datadir)/kdenlive/graphics/
-kdenlive_DATA = norenderer.png kdenlive-splash.png music.png lighten.png \
-	darken.png
+kdenlive_DATA = darken.png grid.png kdenlive-splash.png lighten.png music.png \
+	norenderer.png
