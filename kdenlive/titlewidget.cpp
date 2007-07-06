@@ -692,11 +692,11 @@ void FigureEditor::exportContent(KURL url)
 {
     QPixmap im = drawContent();
         // Save resulting pixmap in a file for mlt
-    /*if (KdenliveSettings::videoprofile() == "dv_wide") {
+    if (KdenliveSettings::videoprofile() == "dv_wide") {
         QImage  src = im.convertToImage();
         QImage  dest = src.smoothScale( KdenliveSettings::defaultwidth(),KdenliveSettings::defaultheight());
         im.convertFromImage( dest );
-    }*/
+    }
     if (!url.isEmpty()) im.save(url.path(),"PNG");
     else im.save(tmpFileName,"PNG");
 }
@@ -705,11 +705,11 @@ void FigureEditor::saveImage()
 {
     QPixmap im = drawContent();
         // Save resulting pixmap in a file for mlt
-    /*if (KdenliveSettings::videoprofile() == "dv_wide") {
+    if (KdenliveSettings::videoprofile() == "dv_wide") {
         QImage  src = im.convertToImage();
         QImage  dest = src.smoothScale( KdenliveSettings::defaultwidth(),KdenliveSettings::defaultheight());
         im.convertFromImage( dest );
-    }*/
+    }
     im.save(tmpFileName,"PNG");
 }
 
