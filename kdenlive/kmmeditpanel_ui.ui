@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>277</width>
-            <height>40</height>
+            <width>309</width>
+            <height>44</height>
         </rect>
     </property>
     <property name="layoutMargin" stdset="0">
@@ -307,6 +307,12 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>22</width>
+                            <height>0</height>
+                        </size>
+                    </property>
                     <property name="maximumSize">
                         <size>
                             <width>32767</width>
@@ -338,6 +344,12 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>22</width>
+                            <height>0</height>
+                        </size>
+                    </property>
                     <property name="maximumSize">
                         <size>
                             <width>32767</width>
@@ -368,6 +380,12 @@
                             <horstretch>0</horstretch>
                             <verstretch>0</verstretch>
                         </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>22</width>
+                            <height>0</height>
+                        </size>
                     </property>
                     <property name="maximumSize">
                         <size>
@@ -402,6 +420,12 @@
                             <horstretch>0</horstretch>
                             <verstretch>0</verstretch>
                         </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>22</width>
+                            <height>0</height>
+                        </size>
                     </property>
                     <property name="maximumSize">
                         <size>
@@ -619,25 +643,25 @@
         <data format="PNG" length="118">89504e470d0a1a0a0000000d494844520000000e0000000d080600000099dc5f7f0000003d494441542891add2390a003008055193fbdf59fbf03724538a0f1bab3ed5e9e20d71bf7304a3cb0c5aaca0c40e529cc0b381103948918212a1e2cf59371b73090e64171dd10000000049454e44ae426082</data>
     </image>
     <image name="image8">
-        <data format="PNG" length="158">89504e470d0a1a0a0000000d494844520000000b0000000b0806000000a9ac77260000006549444154189585903912c0200c03574c8a0cffffaf5370441c21aa8c595b1a0b088a14d14a900480f752fb03f204be9441e15b277070bb86c9cd4649f7b2b9be176b57b2fa08ceb03ea9aa9e39225009ed0eda9dae0f9c1c3a2c29ff0db4187e118f34e80193e9253560e699030000000049454e44ae426082</data>
+        <data format="PNG" length="148">89504e470d0a1a0a0000000d494844520000000b0000000b0806000000a9ac77260000005b49444154189595904b0a00210c431399c5e0fdcfea36b3d091f8c70782c49aa6250c4920a94ee37f0fa6471ca8bfa46c68ce74bdc14495e3bcab6eb362006de62357c54fed9dd73666b201c3ea611b8364bfe76150774e5b5b001f3b202113d9a8c40f0000000049454e44ae426082</data>
     </image>
     <image name="image9">
-        <data format="PNG" length="150">89504e470d0a1a0a0000000d494844520000000b0000000b0806000000a9ac77260000005d4944415418958d91310ec0300c028f4e55feffd86e64a92d5749ac3245801176649b802400369c012e5638865e0c40003aa5542d78017749798a3907aab98a3b4427ef3a2f3bc4e38f39b7ed164c3df82ef913d4d5a8671b5d8de30f4e97332e214d957c0e0000000049454e44ae426082</data>
+        <data format="PNG" length="144">89504e470d0a1a0a0000000d494844520000000b0000000b0806000000a9ac7726000000574944415418959d8f410e80400803a79eccfeffad5eeb0924b8bac6262440ca00b24d48d25500b62529eb8db546c21a39a1416e7d00f646731958ae4e73d5979b7f9a6d1331bda7f45fc91dd0cdb7c7248d27f34c4724272992270edfa027910000000049454e44ae426082</data>
     </image>
     <image name="image10">
-        <data format="PNG" length="149">89504e470d0a1a0a0000000d494844520000000b0000000b0806000000a9ac77260000005c4944415418958d90411280200c03378c8fe0ff1fad072946503017a6996dc854407049ed25222d904432c5c09a6c035c77d09016eeb95ff8d6f4c30a9e167670aff917eed13b587ec615fc00c74ed5e7e16c00711890ddde1203e00468e92a2e663773770000000049454e44ae426082</data>
+        <data format="PNG" length="140">89504e470d0a1a0a0000000d494844520000000d0000000b0806000000a4b20761000000534944415428918dd1410e80400843d17eef7fe7ba7146508c6509bc34012459bd9024fb6e036de7d05c063e461d61bb6e6e78f599509cf887469820e971ac14b5a80451cf9fa01758b1d3735d41fadc3161d509f3ea1f135520c0600000000049454e44ae426082</data>
     </image>
     <image name="image11">
         <data format="PNG" length="133">89504e470d0a1a0a0000000d494844520000000e0000000d080600000099dc5f7f0000004c494441542891bd90c10e00200842a9f5ffbf6cb7560c1aeb1037a74f50e0b71ad595323b98400b1e02e214727157318cfbb19041ebc06290872dac1c1d2c6f740f51bddb2c4a38477a82224d84610e0b20f7bb250000000049454e44ae426082</data>
     </image>
     <image name="image12">
-        <data format="PNG" length="239">89504e470d0a1a0a0000000d49484452000000100000000b080600000076e20d39000000b649444154289195924b0ec2300c449f0b65c386eb220e03e2236e830001e7604b5b181638955b852246ca228e3c331ec7f813923af70298030da081f30416fde6841238ff20b8009340309584240a4935b0751739bc80bda4cacc70c2b23fd318387d51bf8686549bb50e9ca401d6409d51df793d06703733ccece320b83866d461209f228cd2002ba0eaa90f2339701723e0e0ec37a00cc947653a1904b227b0041ec0c63794c82d67c0fa9fc357d5bacbbc29f6bd01ec739139abfaf9f80000000049454e44ae426082</data>
+        <data format="PNG" length="212">89504e470d0a1a0a0000000d49484452000000100000000b080600000076e20d390000009b494441542891a592b10e83300c445f2a24862eedc2a730b1b074eae756edd0819daf61e95081940e75a40b1884c42db193dc9ded040e2200dd8e7b5fa004daf941612211e837046ae024f919f8a40a902a1e0eb93542728fc0151810d5a7add58c5c19f925e40c4162af8a06b898bb92c322e03f8fb788dca5858573820e6612f744f6669221387bfaac3760b4d86d610d6b7f23b2d1ce5e64023f79141b1e0efd5cb60000000049454e44ae426082</data>
     </image>
     <image name="image13">
-        <data format="PNG" length="198">89504e470d0a1a0a0000000d494844520000000c0000000b08060000004b706c5f0000008d4944415428919d8f310a42311005273980602d78092f6f636b218820a89d85a88585d8683b36c9670d9faff820103693792cfc9927e097f302c84002763f48f74042ad83fb80fd01a092eb05d80cd8b79d588d2dd71efb0d98552e57b27c5af6d857ea9a08869609700cf633308d4c8e2af502cc0b0cb0504f3450db32020ea569dcbea7b070979452dceb236fbd887b264ffba07f0000000049454e44ae426082</data>
+        <data format="PNG" length="166">89504e470d0a1a0a0000000d494844520000000d0000000b0806000000a4b207610000006d4944415428919d91310e80200c451fc4c4c1c589a338b9b0735c77776fe4e64249531a25fea521fcc76b02fc48a8f31ce8dec00ce4498100d70bb45993b61d0e9081a54ea2ba90723240aa407b2c988267db81552c1e64c1a2d66b89f4114b31e716cfa46d9de52b237f379e072c2c0e21ccb5b7d20000000049454e44ae426082</data>
     </image>
     <image name="image14">
-        <data format="PNG" length="250">89504e470d0a1a0a0000000d49484452000000100000000b080600000076e20d39000000c149444154289195d2c12e44411484e1af675c1b1b3bcf2a1e8618e26d04c16bb035f78eb2707b723266884ecee6a452f577754ba20e8efde32c761749d6b8c006f965269cd7e493d9a0533cff61f084a1120c486bad53dce1f300f9849b246325382deeddf0e540fa238e9258b4d6b4d6e0bd568111b77b28465c2799aaf8d09ceda178e8e9497ebe42b923bced50ac7155d36b079d66ea3dccfb01aff3ee1ecbfa6ff6112cd1ba6992112b7ce032c9a68ab7c2b9c8d4dd56d4dae0bbbce5aec117ae2e9f31a7d585e10000000049454e44ae426082</data>
+        <data format="PNG" length="212">89504e470d0a1a0a0000000d49484452000000100000000b080600000076e20d390000009b4944415428918d91b10ec2300c441f2d8281a5533f85892512231fd00fadc4c8cecf74624002cac0051963234e8a1cf972977302df5805bd148ba47ffa437b05d64bd3d800179936c00338ff30d8fa041d30995e4d3106e2a20b4b1390b3ea51b5777c2ff1e8135871e5a2143ba52df09a7536cb9b0dda1f4c7d8bab41849bea646eaf261f6f128d70075ac7d96fddeb4c886894c82445264ef104500e1e0e0807c73e0000000049454e44ae426082</data>
     </image>
     <image name="image15">
         <data format="PNG" length="119">89504e470d0a1a0a0000000d494844520000000e0000000e08060000001f482dd10000003e4944415428916360184ce03f1463054c7834e105d83462d38421c6842649c826b83c2ea7120454d1c808c5f8002306030d20fb15ab1a5c4e2564f35002007bd7090c2567fd1c0000000049454e44ae426082</data>
