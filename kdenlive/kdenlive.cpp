@@ -517,16 +517,16 @@ namespace Gui {
 	    KShortcut(Qt::Key_E), this, SLOT(slotTimelineSpacerTool()),
 	    actionCollection(), "timeline_spacer_tool");
 	timelineMarkerTool =
-	    new KRadioAction(i18n("Marker Tool"), "marker.png",
+	    new KRadioAction(i18n("Marker Tool"), "kdenlive_add_marker.png",
 	    KShortcut(Qt::Key_M), this, SLOT(slotTimelineMarkerTool()),
 	    actionCollection(), "timeline_marker_tool");
 	timelineRollTool =
-	    new KRadioAction(i18n("Roll Tool"), "rolltool.png",
+	    new KRadioAction(i18n("Roll Tool"), "kdenlive_roll.png",
 	    KShortcut(Qt::Key_R), this, SLOT(slotTimelineRollTool()),
 	    actionCollection(), "timeline_roll_tool");
 
 	timelineSelectTool =
-	    new KRadioAction(i18n("Multiselect Tool"), "selecttool.png",
+	    new KRadioAction(i18n("Multiselect Tool"), "kdenlive_select.png",
 	    KShortcut(Qt::Key_S), this, SLOT(slotTimelineSelectTool()),
 	    actionCollection(), "timeline_select_tool");
 
