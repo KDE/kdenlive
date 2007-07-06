@@ -42,6 +42,7 @@ public:
         uint numItems;
 	QString tmpFileName;
 	bool m_transparent;
+	void resetBackground();
 
 protected:
         void contentsMousePressEvent(QMouseEvent*);
@@ -92,6 +93,7 @@ private:
         QPoint moving_start;
         QPoint draw_start;
         bool m_isDrawing;
+	QPixmap m_bgPixmap;
 };
 
 

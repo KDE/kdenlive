@@ -40,6 +40,7 @@
 #include <ktempfile.h>
 #include <klocale.h>
 #include <krestrictedline.h>
+#include <kstandarddirs.h>
 
 #include "titlewidget.h"
 #include "kdenlivesettings.h"
@@ -74,8 +75,11 @@ FigureEditor::FigureEditor(
         setFocusPolicy(QWidget::StrongFocus);
         setFocus();
 
+
+	m_bgPixmap = QPixmap (locate("appdata", "graphics/grid.png"));
+
         //TODO make background color configurable
-        canvas()->setBackgroundColor(black);
+        canvas()->setBackgroundPixmap(m_bgPixmap);
         viewport()->setMouseTracking(true);
 
         // Draw rectangle showing safety margins for the text
@@ -100,6 +104,11 @@ void FigureEditor::setTransparency ( bool isOn )
     m_transparent = isOn;
 }
 
+
+void FigureEditor::resetBackground()
+{
+    canvas()->setBackgroundPixmap(m_bgPixmap);
+}
 
 void FigureEditor::resizeEvent ( QResizeEvent * e)
 {
@@ -954,8 +963,7 @@ void titleWidget::transparencyToggled(bool isOn)
     timelineSlider->setEnabled(isOn);
     canview->setTransparency(isOn);
     if (!isOn) {
-	canview->canvas()->setBackgroundColor(black);
-	canview->canvas()->setBackgroundPixmap(QPixmap());
+	canview->resetBackground();
     }
     else {
 	doPreview(timelineSlider->value());
