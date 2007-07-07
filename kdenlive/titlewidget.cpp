@@ -1158,8 +1158,7 @@ void titleWidget::seekToPos(const QString &)
         else tcode.setFormat(fps);
 	QString dur = timelineposition->text();
 	int frames = tcode.getFrameNumber(dur, fps);
-	if (transparentTitle->isChecked())
-        canview->canvas()->setBackgroundPixmap(m_screen->extractFrame(frames, canvas->width(), canvas->height()));
+	if (transparentTitle->isChecked())            canview->canvas()->setBackgroundPixmap(m_screen->extractFrame(frames, canvas->width(), canvas->height()));
 	else canview->canvas()->setBackgroundPixmap(QPixmap());
 }
 

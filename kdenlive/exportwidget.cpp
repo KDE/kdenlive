@@ -819,8 +819,10 @@ void exportWidget::doExport(QString file, double ratio, QStringList params, bool
 
     if (audioOnly) *m_exportProcess <<"format=wav"<<"frequency=48000";
     else { 
-        if (ratio != 0.0) *m_exportProcess << QString("aspect_ratio=") + QString::number(ratio);
-	if (m_format == PAL_WIDE || m_format == NTSC_WIDE) *m_exportProcess << QString("display_ratio=") + QString::number(16.0/9.0);
+	if (m_format == PAL_WIDE || m_format == NTSC_WIDE) {
+		*m_exportProcess << QString("display_ratio=") + QString::number(16.0/9.0);
+		if (ratio != 0.0) *m_exportProcess << QString("aspect_ratio=") + QString::number(ratio);
+	}
 	else *m_exportProcess << QString("display_ratio=") + QString::number(4.0/3.0);
 	*m_exportProcess << params;
     }

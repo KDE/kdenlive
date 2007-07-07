@@ -3143,6 +3143,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
         slotStatusMsg(i18n("Adding Clips"));
 	int width = m_doc->projectClip().videoWidth();
 	if (KdenliveSettings::videoprofile() == "dv_wide") width = m_doc->projectClip().videoHeight() * 16.0 / 9.0;
+	else width = m_doc->projectClip().videoHeight() * 4.0 / 3.0;
         titleWidget *txtWidget=new titleWidget(m_workspaceMonitor->screen(), width, m_doc->projectClip().videoHeight(), NULL, this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
         txtWidget->titleName->setText(i18n("Text Clip"));
         txtWidget->edit_duration->setText(KdenliveSettings::textclipduration());
@@ -3254,6 +3255,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
             if (refClip->clipType() == DocClipBase::TEXT) {
 		int width = m_doc->projectClip().videoWidth();
 		if (KdenliveSettings::videoprofile() == "dv_wide") width = m_doc->projectClip().videoHeight() * 16.0 / 9.0;
+		else width = m_doc->projectClip().videoHeight() * 4.0 / 3.0;
                 titleWidget *txtWidget=new titleWidget(m_workspaceMonitor->screen(), width, m_doc->projectClip().videoHeight(), clip->fileURL(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
                 
                 txtWidget->edit_duration->setText(getDocument()->timeCode().getTimecode(refClip->duration(), getDocument()->framesPerSecond()));

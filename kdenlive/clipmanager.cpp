@@ -623,6 +623,11 @@ QDomDocumentFragment ClipManager::producersList()
 		QDomElement producer = sceneList.createElement("producer");
 		producer.setAttribute("id", avClip->getId());
 		producer.setAttribute("mlt_service", "colour");
+		double ratio;
+		if (KdenliveSettings::videoprofile() == "dv_wide") ratio = 16.0 / 9.0;
+		else ratio = 4.0/3.0;
+		ratio = ratio / ((double) KdenliveSettings::defaultwidth()/KdenliveSettings::defaultheight());
+		producer.setAttribute("aspect_ratio", QString::number(ratio));
 		producer.setAttribute("hide", "audio");
 		producer.setAttribute("colour", avClip->color());
 		list.appendChild(producer);

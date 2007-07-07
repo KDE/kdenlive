@@ -203,8 +203,10 @@ uint DocClipTextFile::clipWidth() const
 
 double DocClipTextFile::aspectRatio() const
 {
+    return KdenliveSettings::aspectratio();
+/*
     double ratio = ((double) KdenliveSettings::defaultwidth()/KdenliveSettings::defaultheight())/((double)clipWidth()/clipHeight()) * KdenliveSettings::aspectratio();
-    return ratio;
+    return ratio;*/
 }
 
 // virtual
@@ -222,10 +224,8 @@ QDomDocument DocClipTextFile::generateSceneList(bool, bool) const
 
     QDomElement producer = sceneList.createElement("producer");
     producer.setAttribute("id", 0);
-//    producer.setAttribute("mlt_service", "pixbuf");
     producer.setAttribute("resource", fileURL().path());
     producer.setAttribute("aspect_ratio", QString::number(KdenliveSettings::aspectratio()));
-//    producer.setAttribute("aspect_ratio", QString::number(aspectRatio()));
     westley.appendChild(producer);
     QDomElement playlist = sceneList.createElement("playlist");
     playlist.setAttribute("in", "0");

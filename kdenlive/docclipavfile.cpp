@@ -385,6 +385,7 @@ void DocClipAVFile::stopAudioThumbs()
 
 double DocClipAVFile::aspectRatio() const
 {
+    return KdenliveSettings::aspectratio();
     double ratio = ((double) KdenliveSettings::defaultwidth()/KdenliveSettings::defaultheight())/((double)clipWidth()/clipHeight()) * KdenliveSettings::aspectratio();
     return ratio;
 }

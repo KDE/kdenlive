@@ -162,6 +162,11 @@ QDomElement SaveProjectNativeFilter::processedNode(DocumentClipNode *clipNode, Q
 		avfile.setAttribute("name", clipNode->clipRef()->name());
 		avfile.setAttribute("mlt_service", "colour");
 		avfile.setAttribute("hide", "audio");
+		double ratio;
+		if (KdenliveSettings::videoprofile() == "dv_wide") ratio = 16.0 / 9.0;
+		else ratio = 4.0/3.0;
+		ratio = ratio / ((double) KdenliveSettings::defaultwidth()/KdenliveSettings::defaultheight());
+		avfile.setAttribute("aspect_ratio", QString::number( ratio ));
 		avfile.setAttribute("colour",
 		    clipNode->clipRef()->referencedClip()->
 		    toDocClipAVFile()->color());
@@ -177,8 +182,7 @@ QDomElement SaveProjectNativeFilter::processedNode(DocumentClipNode *clipNode, Q
                 avfile.setAttribute("name", clipNode->clipRef()->name());
                 avfile.setAttribute("transparency", tclip->isTransparent());
 		avfile.setAttribute("hide", "audio");
-		//avfile.setAttribute("aspect_ratio", QString::number( tclip->aspectRatio()));
-
+		avfile.setAttribute("aspect_ratio", QString::number( tclip->aspectRatio()));
 		QDomDocument clipText = tclip->textClipXml();
 		avfile.appendChild(avfile.ownerDocument().importNode(clipText.documentElement(), true));
             }
