@@ -156,8 +156,8 @@ void KRender::createVideoXWindow(WId winid, WId externalMonitor)
     }
 
     //only as is saw, if we want to lock something with the sdl lock
-    /*if (!KdenliveSettings::videoprofile().isEmpty()) 
-	m_mltConsumer->set("profile", KdenliveSettings::videoprofile().ascii());*/
+    if (!KdenliveSettings::videoprofile().isEmpty()) 
+	m_mltConsumer->set("profile", KdenliveSettings::videoprofile().ascii());
     /*m_mltConsumer->set("app_locked", 1);
     m_mltConsumer->set("app_lock", (void *) &my_lock, 0);
     m_mltConsumer->set("app_unlock", (void *) &my_unlock, 0);*/
