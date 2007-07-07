@@ -169,7 +169,7 @@ DocClipRef *DocTrackBase::getClipAt(const GenTime & value) const
     while ((file = u_itt.current())) {
 	if (file->trackStart() > value)
 	    break;
-	if (file->trackEnd() >= value) {
+	if (file->trackEnd() > value) {
 	    return file;
 	}
 	++u_itt;
@@ -179,7 +179,7 @@ DocClipRef *DocTrackBase::getClipAt(const GenTime & value) const
     while ((file = s_itt.current())) {
 	if (file->trackStart() > value)
 	    break;
-	if (file->trackEnd() >= value) {
+	if (file->trackEnd() > value) {
 	    return file;
 	}
 	++s_itt;
