@@ -53,9 +53,9 @@ class ProjectListView:public KListView {
 
   signals:			// Signals
 	/** This signal is called whenever clips are drag'n'dropped onto the project list view. */
-    void dragDropOccured(QDropEvent * e, QListViewItem * parent);
+    void dragDropOccured(QDropEvent *, QListViewItem *);
 	/** This signal is called whenever a drag'n'drop is started */
-    void dragStarted(QListViewItem * i);
+    void dragStarted(QListViewItem *);
     void addClipRequest();
 
   protected:

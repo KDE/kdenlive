@@ -103,9 +103,9 @@ namespace Gui {
         
       signals:		// Signals
 	/** this signal is called when a number of clips have been dropped onto the project list view. */
-	void dragDropOccured(QDropEvent * drop, QListViewItem * parent);
+	void dragDropOccured(QDropEvent *, QListViewItem *);
 	/** This signal is emitted when an AVFile is selected in the project list. */
-	void clipSelected(DocClipRef * file);
+	void clipSelected(DocClipRef *);
         void editItem();
         
 	private slots:		// Private slots
