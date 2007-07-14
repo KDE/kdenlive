@@ -20,6 +20,8 @@
 
 #include "krulertimemodel.h"
 #include "kdenlivesettings.h"
+#include "timecode.h"
+
 
 namespace Gui {
 
@@ -32,34 +34,10 @@ namespace Gui {
     }
 
     QString KRulerTimeModel::mapValueToText(int value, double frames) {
-	QString text = "";
-	int frame;
-
-	if (value >= 0) {
-	    frame = value;
-	} else {
-	    frame = -value;
-	    text = "-";
-	}
-
-  int second = frame / (int) frames;
-  frame -= (second * (int) frames);
-
-	int minute = second / 60;
-	second %= 60;
-
-	int hour = minute / 60;
-	minute %= 60;
-
-	text.append(QString::number(hour).rightJustify(1, '0', FALSE));
-	text.append(":");
-	text.append(QString::number(minute).rightJustify(2, '0', FALSE));
-	text.append(":");
-	text.append(QString::number(second).rightJustify(2, '0', FALSE));
-	text.append(".");
-	text.append(QString::number(frame).rightJustify(2, '0', FALSE));
-
-	return text;
+	Timecode t;
+	if (frames == 30000.0 / 1001.0 ) t.setFormat(30, true);
+    	else t.setFormat(frames);
+	return t.getTimecodeFromFrames(value);
     }
 
 
@@ -127,9 +105,12 @@ namespace Gui {
 /** Sets the number of frames per second for this ruler model. */
     // virtual
     void KRulerTimeModel::setNumFrames(double frames) {
-	m_numFrames = floor(frames + 0.5);
+	m_numFrames = frames; //floor(frames + 0.5);
     }
 
+    // virtual
     double KRulerTimeModel::numFrames() const {
 	return m_numFrames;
-}}				// namespace Gui
+    }
+
+}				// namespace Gui

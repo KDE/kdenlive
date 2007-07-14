@@ -84,10 +84,14 @@ QString Timecode::getTimecode(const GenTime & time, double fps) const
     }
 }
 
+QString Timecode::getTimecodeFromFrames(int frames)
+{
+    return getTimecodeHH_MM_SS_FF(frames);
+}
+
 //static 
 QString Timecode::getEasyTimecode(const GenTime & time, const double &fps)
 {
-    
     // Returns the timecode in an easily read display, like 3 min. 5 sec.
     int frames = (int)time.frames(fps);
     int seconds = frames / (int) floor(fps + 0.5);
@@ -132,12 +136,17 @@ QString Timecode::getEasyTimecode(const GenTime & time, const double &fps)
     return text;
 }
 
+
 QString Timecode::getTimecodeHH_MM_SS_FF(const GenTime & time, double fps) const
 {
     if (m_dropFrame)
 	return getTimecodeDropFrame(time, fps);
 
-	 int frames = (int)time.frames(fps);
+    return getTimecodeHH_MM_SS_FF((int)time.frames(fps));
+}
+
+QString Timecode::getTimecodeHH_MM_SS_FF(int frames) const
+{
     int seconds = frames / m_displayedFramesPerSecond;
     frames = frames % m_displayedFramesPerSecond;
 

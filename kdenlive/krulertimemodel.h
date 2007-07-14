@@ -46,7 +46,7 @@ namespace Gui {
 	virtual int getTickDisplayInterval(const int tick) const;
   /** Sets the number of frames per second for this ruler model. */
 	virtual void setNumFrames(double frames);
-	double numFrames() const;
+	virtual double numFrames() const;
       private:			// Private attributes
   /** holds the number of frames per second. Whilst we say frames, this could just as easily be milliseconds. */
 	double m_numFrames;

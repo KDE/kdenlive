@@ -63,6 +63,7 @@ namespace Gui {
     this number of pixels. DisplayTicks are those which show text e.g. in HH:MM:SS format. */
 	void setMinimumDisplayTickSeperation(const int pixels);
 	virtual void setNumFrames(double frames);
+	virtual double numFrames();
       private:			// Private attributes
   /** Holds the minimum number of pixels that must exist between any two large ticks. */
 	int m_minimumLargeTickSeperation;

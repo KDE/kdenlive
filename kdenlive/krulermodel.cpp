@@ -120,4 +120,8 @@ namespace Gui {
     {
     }
 
+    double KRulerModel::numFrames()
+    {
+    }
+
 }				// namespace Gui

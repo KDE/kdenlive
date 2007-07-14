@@ -50,12 +50,14 @@ class Timecode {
     QString getTimecode(const GenTime & time, double fps) const;
     int getFrameNumber(const QString duration, double fps) const;
     static QString getEasyTimecode(const GenTime & time, const double &fps);
+    QString getTimecodeFromFrames(int frames);
   private:
     Formats m_format;
     bool m_dropFrame;
     int m_displayedFramesPerSecond;
 
     QString getTimecodeHH_MM_SS_FF(const GenTime & time, double fps) const;
+    QString getTimecodeHH_MM_SS_FF(int frames) const;
     QString getTimecodeHH_MM_SS_HH(const GenTime & time) const;
     QString getTimecodeFrames(const GenTime & time, double fps) const;
     QString getTimecodeSeconds(const GenTime & time) const;

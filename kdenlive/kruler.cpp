@@ -34,6 +34,7 @@
 #include "krulersliderbase.h"
 #include "krulermodel.h"
 
+
 namespace Gui {
 
     class KRulerPrivateSliderDiamond:public KRulerSliderBase {
@@ -463,11 +464,20 @@ namespace Gui {
     }
 
     void KRuler::tip(const QPoint &pos, QRect &rect, QString &tipText) {
-
-        QValueList < KTimelineGuide >::Iterator itt = m_guides.begin();
+	int value;
+	for (uint i = 1; i<4; i++) {
+	    value = (int) mapValueToLocal(getSliderValue(i));
+	    if (abs (pos.x() - value) < 7 ) {
+	    	rect.setRect( value -7, y(), 15, height());
+		if (i != 3) tipText = m_rulerModel->mapValueToText(getSliderValue(i));
+		else tipText = i18n("Duration:") + m_rulerModel->mapValueToText(getSliderValue(2) - getSliderValue(1));
+		return;
+	    }
+	}
+	QValueList < KTimelineGuide >::Iterator itt = m_guides.begin();
 	uint ct = 0;
         for ( itt = m_guides.begin(); itt != m_guides.end(); ++itt ) {
-	    int value = (int) mapValueToLocal((*itt).guidePosition());
+	    value = (int) mapValueToLocal((*itt).guidePosition());
 	    if (abs (pos.x() - value) < 7 ) { 
 		rect.setRect( value -7, y(), 15, height());
 		tipText = (*itt).guideComment();

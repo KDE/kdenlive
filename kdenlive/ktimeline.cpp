@@ -68,6 +68,7 @@ namespace Gui {
 	m_ruler =
 	    new KScalableRuler(new KRulerTimeModel(), m_rulerBox, "timeline_ruler");
 	m_ruler->addSlider(KRuler::TopMark, 0);
+	m_ruler->setNumFrames(m_framesPerSecond);
 	ruler_tips = new DynamicToolTip(m_ruler);
 	//added inpoint/outpoint markers -reh
 	m_ruler->addSlider(KRuler::StartMark, 0);
