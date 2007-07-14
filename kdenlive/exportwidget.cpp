@@ -74,6 +74,8 @@ exportWidget::exportWidget(Gui::KdenliveApp *app, Gui::KTimeLine *timeline, VIDE
     fileExportFolder->fileDialog()->setOperationMode(KFileDialog::Saving);
     updateGuides();
 
+    if (m_format == PAL_WIDE || m_format == NTSC_WIDE) export_wide->setChecked(true);
+
     // custom templates not implemented yet
     //encoders->page(3)->setEnabled(false);
     
@@ -113,6 +115,8 @@ exportWidget::~exportWidget()
 void exportWidget::setVideoFormat(VIDEOFORMAT format)
 {
     m_format = format;
+    if (m_format == PAL_WIDE || m_format == NTSC_WIDE) export_wide->setChecked(true);
+    else export_wide->setChecked(false);
     initEncoders();
 }
 
@@ -819,7 +823,7 @@ void exportWidget::doExport(QString file, double ratio, QStringList params, bool
 
     if (audioOnly) *m_exportProcess <<"format=wav"<<"frequency=48000";
     else { 
-	if (m_format == PAL_WIDE || m_format == NTSC_WIDE) {
+	if (export_wide->isChecked()) {
 		*m_exportProcess << QString("display_ratio=") + QString::number(16.0/9.0);
 		if (ratio != 0.0) *m_exportProcess << QString("aspect_ratio=") + QString::number(ratio);
 	}
