@@ -47,14 +47,14 @@ class exportWidget : public exportBaseWidget_UI
 {
         Q_OBJECT
 public:
-    exportWidget(Gui::KdenliveApp *app, Gui::KTimeLine *timeline, VIDEOFORMAT format, QWidget* parent=0, const char* name=0);
+    exportWidget(Gui::KdenliveApp *app, Gui::KTimeLine *timeline, formatTemplate format, QWidget* parent=0, const char* name=0);
         virtual ~exportWidget();
 
     bool isRunning();
     const QStringList getMetaData();
     void resetValues();
     void setMetaData(QStringList metaValues);
-    void setVideoFormat(VIDEOFORMAT format);
+    void setVideoFormat(formatTemplate format);
 
 private:
         QHBoxLayout* flayout;
@@ -70,7 +70,7 @@ private:
 	KTempFile *m_tmpFile;
 	QStringList m_guidesList;
 	QGrid *m_container;
-	VIDEOFORMAT m_format;
+	formatTemplate m_format;
 	QString m_createdFile;
 	QString encoder_norm;
 	bool m_emitSignal;
@@ -126,7 +126,7 @@ public slots:
         void stopExport();
 	void endExport();
 	void updateGuides();
-	void generateDvdFile(QString file, GenTime start, GenTime end, VIDEOFORMAT format);
+	void generateDvdFile(QString file, GenTime start, GenTime end, bool isNTSC);
 	void renderSelectedZone(const QString &url, bool audioOnly = false);
 	void renderSelectedClipAudio(const QString &source, const QString &dest);
 

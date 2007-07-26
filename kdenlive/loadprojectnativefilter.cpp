@@ -90,6 +90,7 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 		KdenliveSettings::setDefaultwidth(e.attribute("projectwidth","720").toInt());
 		KdenliveSettings::setDefaultfps(e.attribute("projectfps","25.0").toDouble());
 		KdenliveSettings::setAspectratio(e.attribute("projectratio",QString::number(59.0 / 54.0)).toDouble());
+		KdenliveSettings::setDisplayratio(e.attribute("projectdisplayratio",QString::number(4.0 / 3.0)).toDouble());
 
 		document->application()->setFramesPerSecond();
 

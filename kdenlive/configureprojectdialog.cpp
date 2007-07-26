@@ -71,7 +71,7 @@ void ConfigureProjectDialog::loadTemplates()
     templatesList->clear();
     templatesList->insertStringList(m_app->videoProjectFormats());
     projectFolder->setURL(KdenliveSettings::currentdefaultfolder());
-    templatesList->setCurrentText(m_app->projectFormatName((uint) m_app->projectVideoFormat()));
+    templatesList->setCurrentText(m_app->projectFormatName(m_app->projectVideoFormat()));
     updateDisplay();
 }
 
@@ -87,7 +87,7 @@ QString ConfigureProjectDialog::selectedFormat()
 
 void ConfigureProjectDialog::updateDisplay()
 {
-    formatTemplate params = m_app->projectFormatParameters((int) m_app->projectFormatFromName(templatesList->currentText()));
+    formatTemplate params = m_app->projectFormatParameters(m_app->projectFormatFromName(templatesList->currentText()));
 
     framespersecond->setText(QString::number(params.fps()));
     framewidth->setText(QString::number(params.width()));

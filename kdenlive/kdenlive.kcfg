@@ -109,9 +109,9 @@
 
    <group name="Unmanaged Settings">
 
-    <entry name="defaultprojectformat" type="Int">
+    <entry name="defaultprojectformat" type="String">
       <label>Default video project template</label>
-      <default>0</default>
+      <default>pal_dv</default>
     </entry>
 
     <entry name="defaultwidth" type="Int">
@@ -130,6 +130,16 @@
     <entry name="aspectratio" type="Double">
       <label>Aspect ratio.</label>
       <default>1.09259</default>
+    </entry>
+
+    <entry name="renderratio" type="Double">
+      <label>Render ratio.</label>
+      <default>1.09259</default>
+    </entry>
+
+    <entry name="displayratio" type="Double">
+      <label>Aspect ratio.</label>
+      <default>1.33333333</default>
     </entry>
 
     <entry name="videoprofile" type="String">
@@ -170,6 +180,11 @@
     </group>
     
     <group name="Misc">
+
+    <entry name="mltpath" type="String">
+      <label>Folder where the MLT video framework is installed</label>
+      <default>/usr/local/</default>
+    </entry>
 
     <entry name="userdefinedtmp" type="Bool">
       <label>User defined temporary folder.</label>

@@ -150,13 +150,13 @@ namespace Gui {
 		 * can proceed. i.e., the document has been saved or discarded. */
 	bool saveModified();
 	int getTimeScaleSliderText() const;
- 	void setProjectFormat(uint projectFormat);
+ 	void setProjectFormat(QString profile);
         void ensureCursorVisible();
 	int externalMonitor();
 	QStringList videoProjectFormats();
-	QString projectFormatName(uint format);
-	formatTemplate projectFormatParameters(int format);
-	VIDEOFORMAT projectFormatFromName(QString formatName);
+	QString projectFormatName(QString profile);
+	formatTemplate projectFormatParameters(QString profile);
+	QString projectFormatFromName(QString formatName);
 		/** Adjust document and timeline to current fps */
 	void setFramesPerSecond();
 
@@ -433,7 +433,7 @@ namespace Gui {
         void refreshClipTrack(DocClipRef * clip);
 	QDomDocument xmlGuides();
 	void guidesFromXml(QDomElement doc);
-	VIDEOFORMAT projectVideoFormat();
+	QString projectVideoFormat();
 	void refreshVirtualZone();
 	void insertClipFromUrl(QString path);
 	void toggleMarkerUnderCursor();
@@ -507,7 +507,6 @@ namespace Gui {
 	void slotStopExport();
 
 	bool slotNewProject(QString *newProjectName, KURL *fileUrl, int *videoTracks, int *audioTracks, bool byPass = false, bool exitMode = false);
-	QString easyName(VIDEOFORMAT format);
 	void selectClipUnderCursor();
 	void slotAddAudioEffect(int ix);
 	void slotAddVideoEffect(int ix);
@@ -680,8 +679,8 @@ namespace Gui {
 	KDockWidget *clipWidget;
 	KDockWidget *m_timelineWidget;
 
-	/** tells whether the project is PAL, NTSC or HDV; */
-	VIDEOFORMAT m_projectFormat;
+	/** name of MLT profile for the project*/
+	QString m_projectFormat;
 
 	QPopupMenu *m_timelinePopupMenu;
 	QPopupMenu *m_rulerPopupMenu;
@@ -723,6 +722,7 @@ namespace Gui {
 	void createExternalMonitor();
 	void switchProjectToFormat(QString newFormat);
 	QPoint mousePosition();
+	void parseProfiles();
     };
 
 }				// namespace Gui

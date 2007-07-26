@@ -156,8 +156,10 @@ void KRender::createVideoXWindow(WId winid, WId externalMonitor)
     }
 
     //only as is saw, if we want to lock something with the sdl lock
-    if (!KdenliveSettings::videoprofile().isEmpty()) 
-	m_mltConsumer->set("profile", KdenliveSettings::videoprofile().ascii());
+    /*if (!KdenliveSettings::videoprofile().isEmpty()) 
+	m_mltConsumer->set("profile", KdenliveSettings::videoprofile().ascii());*/
+    kdDebug()<<" + + CREATING CONSUMER WITH PROFILE: "<<KdenliveSettings::videoprofile()<<endl;
+    m_mltConsumer->set("profile", KdenliveSettings::videoprofile().ascii());
     /*m_mltConsumer->set("app_locked", 1);
     m_mltConsumer->set("app_lock", (void *) &my_lock, 0);
     m_mltConsumer->set("app_unlock", (void *) &my_unlock, 0);*/
@@ -177,10 +179,6 @@ void KRender::createVideoXWindow(WId winid, WId externalMonitor)
     if (!KdenliveSettings::audiodriver().isEmpty()) m_mltConsumer->set("audio_driver", KdenliveSettings::audiodriver().ascii());
     m_mltConsumer->set("audio_device", aDevice.section(";", 1).ascii());
     m_mltConsumer->set("progressive", 1);
-    if (KdenliveSettings::videoprofile() == "dv_wide") {
-        m_mltConsumer->set("aspect_ratio", 16.0/9.0 / ((double) KdenliveSettings::defaultwidth() / KdenliveSettings::defaultheight()));
-        m_mltConsumer->set("display_ratio", 16.0/9.0);
-    }
     m_mltConsumer->set("audio_buffer", 1024);
     m_mltConsumer->set("frequency", 48000);
 
@@ -194,6 +192,7 @@ int KRender::resetRendererProfile(char * profile)
 {
     if (!m_mltConsumer) return 0;
     m_mltConsumer->set("profile", profile);
+    kdDebug()<<" + + RESET CONSUMER WITH PROFILE: "<<profile<<endl;
     m_fps = KdenliveSettings::defaultfps();
     m_mltConsumer->set("fps", m_fps);
     mlt_properties properties = MLT_CONSUMER_PROPERTIES( m_mltConsumer->get_consumer() );
@@ -945,8 +944,9 @@ void KRender::exportCurrentFrame(KURL url, bool notify) {
 	KMessageBox::sorry(qApp->mainWidget(), i18n("There is no clip, cannot extract frame."));
 	return;
     }
-    int width = KdenliveSettings::defaultwidth();
-    if (KdenliveSettings::videoprofile() == "dv_wide") width = KdenliveSettings::defaultheight() * 16.0 / 9.0;
+    /*int width = KdenliveSettings::defaultwidth();
+    if (KdenliveSettings::displayratio() == 16.0 / 9.0) width = KdenliveSettings::defaultheight() * 16.0 / 9.0 + 0.5;*/
+    int width = KdenliveSettings::defaultheight() * KdenliveSettings::displayratio() + 0.5;
     int height = KdenliveSettings::defaultheight();
 
     QPixmap pix(width, height);

@@ -48,7 +48,7 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
     QDomElement westley = doc.createElement("westley");
     doc.appendChild(westley);
     QDomElement elem = doc.createElement("kdenlivedoc");
-    elem.setAttribute("version", "0.5");
+    elem.setAttribute("version", "0.6");
     westley.appendChild(elem);
     QDomElement docinfos = doc.createElement("properties");
     docinfos.setAttribute("projectfolder", KdenliveSettings::currentdefaultfolder());
@@ -57,7 +57,8 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
     docinfos.setAttribute("timeline_position", document->renderer()->seekPosition().frames(KdenliveSettings::defaultfps()));
     docinfos.setAttribute("projectfps", QString::number(KdenliveSettings::defaultfps()));
     docinfos.setAttribute("projectratio", QString::number(KdenliveSettings::aspectratio()));
-    docinfos.setAttribute("projectvideoformat", QString::number(document->application()->projectVideoFormat()));
+    docinfos.setAttribute("projectdisplayratio", QString::number(KdenliveSettings::displayratio()));
+    docinfos.setAttribute("projectvideoformat", document->application()->projectVideoFormat());
     docinfos.setAttribute("videoprofile", KdenliveSettings::videoprofile());
     docinfos.setAttribute("metadata", document->metadata().join("#"));
 
@@ -141,7 +142,7 @@ QDomElement SaveProjectNativeFilter::processedNode(DocumentClipNode *clipNode, Q
 		    QString::number(clipNode->clipRef()->duration().
 			frames(KdenliveSettings::defaultfps())));
 		avfile.setAttribute("hide", "audio");
-		avfile.setAttribute("aspect_ratio", QString::number(clipNode->clipRef()->referencedClip()->toDocClipAVFile()->aspectRatio()));
+		// avfile.setAttribute("aspect_ratio", QString::number(clipNode->clipRef()->referencedClip()->toDocClipAVFile()->aspectRatio()));
                 avfile.setAttribute("transparency",clipNode->clipRef()->referencedClip()->toDocClipAVFile()->isTransparent());
             }
 	    else if (clipType == DocClipBase::SLIDESHOW) {
@@ -162,9 +163,7 @@ QDomElement SaveProjectNativeFilter::processedNode(DocumentClipNode *clipNode, Q
 		avfile.setAttribute("name", clipNode->clipRef()->name());
 		avfile.setAttribute("mlt_service", "colour");
 		avfile.setAttribute("hide", "audio");
-		double ratio;
-		if (KdenliveSettings::videoprofile() == "dv_wide") ratio = 16.0 / 9.0;
-		else ratio = 4.0/3.0;
+		double ratio = KdenliveSettings::aspectratio();
 		ratio = ratio / ((double) KdenliveSettings::defaultwidth()/KdenliveSettings::defaultheight());
 		avfile.setAttribute("aspect_ratio", QString::number( ratio ));
 		avfile.setAttribute("colour",

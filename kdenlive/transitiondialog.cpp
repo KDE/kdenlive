@@ -58,7 +58,7 @@ namespace Gui {
     trackPolicy->insertItem(i18n("Automatic - Use next video track"));
     trackPolicy->insertItem(i18n("Background track (black)"));
 
-    m_videoFormat = app->projectVideoFormat();
+    m_videoFormat = app->projectFormatParameters(app->projectVideoFormat());
     int trackNb = app->getDocument()->trackList().count();
     uint ix = 1;
     while (trackNb > 0) {
@@ -99,7 +99,7 @@ TransitionDialog::~TransitionDialog()
     delete propertiesDialog;
 }
 
-void TransitionDialog::setVideoFormat(VIDEOFORMAT format)
+void TransitionDialog::setVideoFormat(formatTemplate format)
 {
     m_videoFormat = format;
     refreshLumas();
@@ -115,21 +115,7 @@ void TransitionDialog::refreshLumas()
 
 void TransitionDialog::initLumaFiles()
 {
-    QString inigoPath = KStandardDirs::findExe("inigo");
-    inigoPath = inigoPath.section('/', 0, -3);
-
-    if (m_videoFormat == PAL_VIDEO || m_videoFormat == PAL_WIDE) {
-	// PAL format
-	m_lumaType = "lumasPAL";
-	KGlobal::dirs()->addResourceType(m_lumaType, "");
-	QStringList kdenliveLumas = KGlobal::dirs()->findDirs("data", "kdenlive/pgm/PAL");
-	while (!kdenliveLumas.isEmpty()) {
-	    KGlobal::dirs()->addResourceDir(m_lumaType, kdenliveLumas.first());
-	    kdenliveLumas.pop_front();
-	}
-        KGlobal::dirs()->addResourceDir(m_lumaType, inigoPath + "/share/mlt/modules/lumas/PAL");
-    }
-    else if (m_videoFormat == NTSC_VIDEO || m_videoFormat == NTSC_WIDE) {
+    if (m_videoFormat.height() == 480) {
 	// NTSC format
 	m_lumaType = "lumasNTSC";
 	KGlobal::dirs()->addResourceType(m_lumaType, "");
@@ -139,9 +125,9 @@ void TransitionDialog::initLumaFiles()
 	    KGlobal::dirs()->addResourceDir(m_lumaType, kdenliveLumas.first());
 	    kdenliveLumas.pop_front();
 	}
-        KGlobal::dirs()->addResourceDir(m_lumaType, inigoPath + "/share/mlt/modules/lumas/NTSC");
+        KGlobal::dirs()->addResourceDir(m_lumaType, KdenliveSettings::mltpath() + "/share/mlt/modules/lumas/NTSC");
     }
-    else if (m_videoFormat == HDV1080PAL_VIDEO) {
+    else if (m_videoFormat.height() == 1080) {
 	// TODO, separate PAL AND NTSC HDV 1080
 	m_lumaType = "lumasHDV1080";
 	KGlobal::dirs()->addResourceType(m_lumaType, "");
@@ -151,9 +137,9 @@ void TransitionDialog::initLumaFiles()
 	    KGlobal::dirs()->addResourceDir(m_lumaType, kdenliveLumas.first());
 	    kdenliveLumas.pop_front();
 	}
-        KGlobal::dirs()->addResourceDir(m_lumaType, inigoPath + "/share/mlt/modules/lumas/HDV1080");
+        KGlobal::dirs()->addResourceDir(m_lumaType, KdenliveSettings::mltpath() + "/share/mlt/modules/lumas/HDV1080");
     }
-    else if (m_videoFormat == HDV720PAL_VIDEO) {
+    else if (m_videoFormat.height() == 720) {
 	// TODO, separate PAL AND NTSC HDV 720
 	m_lumaType = "lumasHDV720";
 	KGlobal::dirs()->addResourceType(m_lumaType, "");
@@ -163,7 +149,18 @@ void TransitionDialog::initLumaFiles()
 	    KGlobal::dirs()->addResourceDir(m_lumaType, kdenliveLumas.first());
 	    kdenliveLumas.pop_front();
 	}
-        KGlobal::dirs()->addResourceDir(m_lumaType, inigoPath + "/share/mlt/modules/lumas/HDV720");
+        KGlobal::dirs()->addResourceDir(m_lumaType, KdenliveSettings::mltpath() + "/share/mlt/modules/lumas/HDV720");
+    }
+    else  {
+	// PAL format
+	m_lumaType = "lumasPAL";
+	KGlobal::dirs()->addResourceType(m_lumaType, "");
+	QStringList kdenliveLumas = KGlobal::dirs()->findDirs("data", "kdenlive/pgm/PAL");
+	while (!kdenliveLumas.isEmpty()) {
+	    KGlobal::dirs()->addResourceDir(m_lumaType, kdenliveLumas.first());
+	    kdenliveLumas.pop_front();
+	}
+        KGlobal::dirs()->addResourceDir(m_lumaType, KdenliveSettings::mltpath() + "/share/mlt/modules/lumas/PAL");
     }
 
     QStringList iconList = KGlobal::dirs()->KStandardDirs::findAllResources(m_lumaType, "*.pgm");

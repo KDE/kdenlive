@@ -67,7 +67,7 @@ namespace Gui {
     QString getLumaFilePath(QString fileName);
     void refreshLumas();
     QMap <QString, QPixmap> lumaPreviews();
-    void setVideoFormat(VIDEOFORMAT format);
+    void setVideoFormat(formatTemplate format);
     bool checkTransition(DocClipRef *clip);
 
     private slots:
@@ -78,7 +78,7 @@ namespace Gui {
 	void initLumaFiles();
 
     private:
-	VIDEOFORMAT m_videoFormat;
+	formatTemplate m_videoFormat;
 	transitionCrossfade_UI *transitCrossfade;
 	transitionLumaFile_UI *transitLumaFile;
 	transitionAudiofade_UI *transitAudiofade;

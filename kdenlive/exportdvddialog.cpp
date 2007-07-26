@@ -51,7 +51,7 @@
 
 namespace Gui {
 
-ExportDvdDialog::ExportDvdDialog(DocClipProject *proj, exportWidget *render_widget, VIDEOFORMAT format, QWidget * parent, const char *name):ExportDvd_UI(parent, name), m_project(proj), m_exportProcess(0), m_render_widget(render_widget), m_format(format)
+ExportDvdDialog::ExportDvdDialog(DocClipProject *proj, exportWidget *render_widget, formatTemplate format, QWidget * parent, const char *name):ExportDvd_UI(parent, name), m_project(proj), m_exportProcess(0), m_render_widget(render_widget), m_format(format)
 {
     if (KStandardDirs::findExe("dvdauthor") == QString::null) KMessageBox::sorry(this, i18n("Cannot find the program \"dvdauthor\" on your system. Install it if you want to be able to create a DVD"));
     dvd_folder->setURL(KdenliveSettings::currentdefaultfolder() + "/dvd/");
@@ -72,9 +72,11 @@ ExportDvdDialog::ExportDvdDialog(DocClipProject *proj, exportWidget *render_widg
     dvd_standard->insertItem(i18n("NTSC"));
     dvd_standard->insertItem(i18n("NTSC 16:9"));
 
-    if (m_format == PAL_WIDE) dvd_standard->setCurrentItem(1);
+    m_isNTSC = (format.fps() == 30000.0 / 1001.0);
+
+    /*if (m_format == PAL_WIDE) dvd_standard->setCurrentItem(1);
     else if (m_format == NTSC_VIDEO) dvd_standard->setCurrentItem(2);
-    else if (m_format == NTSC_WIDE) dvd_standard->setCurrentItem(3);
+    else if (m_format == NTSC_WIDE) dvd_standard->setCurrentItem(3);*/
 
     cancelButton()->setText(i18n("Close"));
 
@@ -127,6 +129,7 @@ void ExportDvdDialog::slotUpdateNextButton(bool isOn)
 
 void ExportDvdDialog::slotSetStandard(int std)
 {
+/*
     switch (m_format)
     {
 	case 1:
@@ -142,6 +145,7 @@ void ExportDvdDialog::slotSetStandard(int std)
 	    m_format = PAL_VIDEO;
 	    break;
     }
+*/
 }
 
 void ExportDvdDialog::slotCheckMenuMovie()
@@ -176,7 +180,7 @@ void ExportDvdDialog::generateDvd() {
     dvd_info->setText(i18n("You can now close this dialog and keep on working on your project while the DVD is being created."));
     if (render_now->isChecked()) {
 	    main_ok->setPixmap(KGlobal::iconLoader()->loadIcon("1rightarrow", KIcon::Toolbar));
-	    m_render_widget->generateDvdFile(m_movie_file , timeFromString(chapter_list->firstChild()->text(1)), timeFromString(chapter_list->lastItem()->text(2)), m_format);
+	    m_render_widget->generateDvdFile(m_movie_file , timeFromString(chapter_list->firstChild()->text(1)), timeFromString(chapter_list->lastItem()->text(2)), m_isNTSC);
     }
     else {
 	uint dvdsize = 0;
@@ -200,11 +204,11 @@ void ExportDvdDialog::slotNextPage() {
 	    KURLRequesterDlg *getUrl = new KURLRequesterDlg(KdenliveSettings::currenttmpfolder() + "/movie.vob", i18n("Enter name for rendered movie file"), this, "dvd_file");
 	    getUrl->exec();
 	    KURL moviePath = getUrl->selectedURL ();
-	    //KURL moviePath = KURLRequesterDlg::getURL(KdenliveSettings::currentdefaultfolder() + "/movie.vob", i18n("Enter name for rendered movie file"), this, "dvd_file");
 	    if (moviePath.isEmpty()) {
 		showPage(page(0));
 		return;
 	    }
+	    delete getUrl;
 	    m_movie_file = moviePath.path();
 	    movie_path->setText(m_movie_file);
         }
@@ -243,7 +247,7 @@ void ExportDvdDialog::fillStructure(QDomDocument xml) {
     int currentChapter = 0;
     chapter_list->clear();
     Timecode tc;
-    if (m_fps == 30000.0 / 1001.0 ) tc.setFormat(30, true);
+    if (m_isNTSC) tc.setFormat(30, true);
     else tc.setFormat(25);
     while (!node.isNull()) {
 	QDomElement element = node.toElement();
@@ -360,7 +364,7 @@ void ExportDvdDialog::generateDvdXml() {
 
 
     Timecode tc;
-    if (m_fps == 30000.0 / 1001.0 ) tc.setFormat(30, true);
+    if (m_isNTSC) tc.setFormat(30, true);
     else tc.setFormat(25);
     QString chapterTimes;
     if (chapter_list->childCount() > 1) {
@@ -500,26 +504,18 @@ void ExportDvdDialog::generateMenuMovie() {
 	QString size;
 	QString fps;
 	QString gop;
-	if (m_format == NTSC_VIDEO || m_format == NTSC_WIDE) {
-	    if (KdenliveSettings::videoprofile() == "dv_wide") aspect_ratio = QString::number(40.0 / 33.0);
-	    else aspect_ratio = QString::number(10.0 / 11.0);
+	aspect_ratio = m_format.aspect();
+	fps = m_format.fps();
+	gop = "18";
+	if (m_isNTSC) {
 	    size = "720x480";
-	    fps = QString::number(30000.0 / 1001.0);
-	    gop = "18";
-
 	}
 	else {
-	    if (KdenliveSettings::videoprofile() == "dv_wide") aspect_ratio = QString::number(118.0 / 81.0);
-	    else aspect_ratio = QString::number(59.0/54.0);
 	    size = "720x576";
-	    fps = "25";
-	    gop = "18";
 	}
 
 	m_menu_movie_file = KdenliveSettings::currenttmpfolder() + "menu.vob";
 	KProcess *p = new KProcess;
-	if (m_format == PAL_VIDEO || m_format == PAL_WIDE) p->setEnvironment("MLT_NORMALISATION", "PAL");
-    	else if (m_format == NTSC_VIDEO || m_format == NTSC_WIDE) p->setEnvironment("MLT_NORMALISATION", "NTSC");
 	*p<<"kdenlive_renderer";
 
 	if (color_background->isChecked()) {
@@ -597,6 +593,10 @@ void ExportDvdDialog::generateMenuMovie() {
 	    *p<<"mux_rate=10080000";
 	    *p<<"audio_bit_rate=448000";
 	    *p<<"audio_sample_rate=48000";
+
+	    if (m_isNTSC) *p<<"profile=dv_ntsc";
+	    else  *p<<"profile=dv_pal";
+
 	    connect(p, SIGNAL(processExited(KProcess *)), this, SLOT(movieMenuDone(KProcess *)));
 	    setCursor(QCursor(Qt::WaitCursor));
 	    p->start();
@@ -643,7 +643,7 @@ void ExportDvdDialog::generateMenuPreview()
 	QPainter p;
 	int width = 720;
 	int height;
-	if (m_format == NTSC_VIDEO || m_format == NTSC_WIDE) height = 480;
+	if (m_isNTSC) height = 480;
 	else height = 576;
 
 	QPixmap pix(width, height);
@@ -726,7 +726,7 @@ void ExportDvdDialog::generateImage(QString imageName, QString buttonText, QColo
 	QPainter p;
 	int width = 720;
 	int height;
-	if (m_format == NTSC_VIDEO || m_format == NTSC_WIDE) height = 480;
+	if (m_isNTSC) height = 480;
 	else height = 576;
 
 	QPixmap pix(width, height);
@@ -772,7 +772,7 @@ void ExportDvdDialog::generateTranspImage(QString imageName, QString buttonText,
 	QPainter p;
 	int width = 720;
 	int height;
-	if (m_format == NTSC_VIDEO || m_format == NTSC_WIDE) height = 480;
+	if (m_isNTSC) height = 480;
 	else height = 576;
 
 	QPixmap pix(width, height);
@@ -832,7 +832,7 @@ void ExportDvdDialog::dvdFailed()
 
 GenTime ExportDvdDialog::timeFromString(QString timeString) {
     Timecode tc;
-    if (m_fps == 30000.0 / 1001.0 ) tc.setFormat(30, true);
+    if (m_isNTSC) tc.setFormat(30, true);
     else tc.setFormat(25);
     int frames = tc.getFrameNumber(timeString, m_fps);
     return GenTime(frames, m_fps);

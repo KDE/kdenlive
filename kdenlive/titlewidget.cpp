@@ -79,8 +79,13 @@ FigureEditor::FigureEditor(
 	m_bgPixmap = QPixmap (locate("appdata", "graphics/grid.png"));
 
         //TODO make background color configurable
+	canvas()->setBackgroundColor(red);
         canvas()->setBackgroundPixmap(m_bgPixmap);
         viewport()->setMouseTracking(true);
+
+    /*QWMatrix wm;
+    wm.scale( 0.5, 0.5 );   // Zooms in by 2 times
+    setWorldMatrix( wm );*/
 
         // Draw rectangle showing safety margins for the text
         QCanvasRectangle *marginRect = new QCanvasRectangle(QRect(horizontalMarginSize,verticalMarginSize,canvas()->width()-(2*horizontalMarginSize),canvas()->height()-(2*verticalMarginSize)),canvas());
@@ -701,7 +706,7 @@ void FigureEditor::exportContent(KURL url)
 {
     QPixmap im = drawContent();
         // Save resulting pixmap in a file for mlt
-    if (KdenliveSettings::videoprofile() == "dv_wide") {
+    if (KdenliveSettings::displayratio() == 16.0 / 9.0) {
         QImage  src = im.convertToImage();
         QImage  dest = src.smoothScale( KdenliveSettings::defaultwidth(),KdenliveSettings::defaultheight());
         im.convertFromImage( dest );
@@ -714,11 +719,11 @@ void FigureEditor::saveImage()
 {
     QPixmap im = drawContent();
         // Save resulting pixmap in a file for mlt
-    if (KdenliveSettings::videoprofile() == "dv_wide") {
+    /*if (KdenliveSettings::displayratio() == 16.0 / 9.0) {
         QImage  src = im.convertToImage();
         QImage  dest = src.smoothScale( KdenliveSettings::defaultwidth(),KdenliveSettings::defaultheight());
         im.convertFromImage( dest );
-    }
+    }*/
     im.save(tmpFileName,"PNG");
 }
 
@@ -878,8 +883,12 @@ titleWidget::titleWidget(Gui::KMMScreen *screen, int width, int height, KURL tmp
 {
         frame->setMinimumWidth(width);
         frame->setMinimumHeight(height);
+	frame->setMaximumWidth(width);
+        frame->setMaximumHeight(height);
 	QFont defFont = KdenliveSettings::titlerfont();
 	m_screen = screen;
+
+	kdDebug()<<" / / /TITLE SIZE: "<<width<<"x"<<height<<endl;
 
 	fontFace->setCurrentFont(defFont.family());
 	fontSize->setValue(defFont.pointSize());
@@ -1158,7 +1167,10 @@ void titleWidget::seekToPos(const QString &)
         else tcode.setFormat(fps);
 	QString dur = timelineposition->text();
 	int frames = tcode.getFrameNumber(dur, fps);
-	if (transparentTitle->isChecked())            canview->canvas()->setBackgroundPixmap(m_screen->extractFrame(frames, canvas->width(), canvas->height()));
+	kdDebug()<<" / /CANVAS WIDTH: "<<canvas->width()<<endl;
+
+	if (transparentTitle->isChecked()) 
+	    canview->canvas()->setBackgroundPixmap(m_screen->extractFrame(frames, canvas->width(), canvas->height()));
 	else canview->canvas()->setBackgroundPixmap(QPixmap());
 }
 

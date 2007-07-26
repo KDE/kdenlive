@@ -39,7 +39,7 @@ namespace Gui {
 
 class ExportDvdDialog:public ExportDvd_UI {
   Q_OBJECT public:
-    ExportDvdDialog(DocClipProject *proj, exportWidget *render_widget, VIDEOFORMAT format, QWidget * parent = 0, const char *name = 0);
+    ExportDvdDialog(DocClipProject *proj, exportWidget *render_widget, formatTemplate format, QWidget * parent = 0, const char *name = 0);
     virtual ~ExportDvdDialog();
 
     public slots:		// Public slots
@@ -82,7 +82,8 @@ class ExportDvdDialog:public ExportDvd_UI {
 	QString m_movie_file;
 	QString m_menu_movie_file;
 	QString m_processlog;
-	VIDEOFORMAT m_format;
+	formatTemplate m_format;
+	bool m_isNTSC;
 };
 
 }				// namespace Gui

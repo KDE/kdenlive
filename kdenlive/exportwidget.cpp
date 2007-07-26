@@ -53,14 +53,7 @@
 #include "kdenlivesettings.h"
 #include "krender.h"
 
-#define PAL 1
-#define NTSC 2
-#define HDV1080PAL 10
-#define HDV720PAL 11
-#define CUSTOMFORMAT 20
-
-
-exportWidget::exportWidget(Gui::KdenliveApp *app, Gui::KTimeLine *timeline, VIDEOFORMAT format, QWidget* parent, const char* name): exportBaseWidget_UI(parent,name), m_duration(0), m_exportProcess(NULL), m_convertProcess(NULL), m_app(app), m_timeline(timeline), m_tmpFile(NULL), m_format(format), m_emitSignal(false), m_meta_year(0), m_meta_track(0)
+exportWidget::exportWidget(Gui::KdenliveApp *app, Gui::KTimeLine *timeline, formatTemplate format, QWidget* parent, const char* name): exportBaseWidget_UI(parent,name), m_duration(0), m_exportProcess(NULL), m_convertProcess(NULL), m_app(app), m_timeline(timeline), m_tmpFile(NULL), m_format(format), m_emitSignal(false), m_meta_year(0), m_meta_track(0)
 
 {
 /*    m_node = -1;
@@ -73,8 +66,6 @@ exportWidget::exportWidget(Gui::KdenliveApp *app, Gui::KTimeLine *timeline, VIDE
     fileExportFolder->setMode(KFile::Directory);
     fileExportFolder->fileDialog()->setOperationMode(KFileDialog::Saving);
     updateGuides();
-
-    if (m_format == PAL_WIDE || m_format == NTSC_WIDE) export_wide->setChecked(true);
 
     // custom templates not implemented yet
     //encoders->page(3)->setEnabled(false);
@@ -112,11 +103,9 @@ exportWidget::~exportWidget()
     slotSaveCustomEncoders();
 }
 
-void exportWidget::setVideoFormat(VIDEOFORMAT format)
+void exportWidget::setVideoFormat(formatTemplate format)
 {
     m_format = format;
-    if (m_format == PAL_WIDE || m_format == NTSC_WIDE) export_wide->setChecked(true);
-    else export_wide->setChecked(false);
     initEncoders();
 }
 
@@ -382,7 +371,7 @@ QString exportWidget::slotEncoderCommand(QStringList list, QString arg1, QString
 			return (*it);
 			break;
 		}
-		else if (((*it).section(":", 7, 7) == "PAL" && (m_format == PAL_VIDEO || m_format == PAL_WIDE)) || ((*it).section(":", 7, 7) == "NTSC" && (m_format == NTSC_VIDEO || m_format == NTSC_WIDE))) {
+		else if (((*it).section(":", 7, 7) == "PAL" && (m_format.fps() == 25.0)) || ((*it).section(":", 7, 7) == "NTSC" && (m_format.fps() == 30000.0 / 1001.0 ))) {
 			return (*it);
 			break;
 		}
@@ -539,7 +528,7 @@ void exportWidget::initEncoders()
             line = stream.readLine(); // line of text excluding '\n'
 	    if (!line.startsWith("#")) {
 		if (line.section(":",1,1) == "HQ") {
-		    if ((line.section(":",7,7) == "PAL" && KdenliveSettings::defaultheight() == 576) || (line.section(":",7,7) == "NTSC" && KdenliveSettings::defaultheight() == 480)) {
+		    if ((line.section(":",7,7) == "PAL" && KdenliveSettings::defaultfps() == 25) || (line.section(":",7,7) == "NTSC" && KdenliveSettings::defaultfps() == 30000.0 / 1001.0)) {
 			QString name = line.section(":",2,2);
 			HQEncoders<<line;
 			QListViewItem *item =  hq_encoders->findItem(name, 0);
@@ -678,17 +667,13 @@ double exportWidget::getCurrentAspect()
 	double aspect = 0.0;
 	switch (encoders->currentPageIndex()) {
 	case 0:
-		if (m_format == PAL_WIDE) aspect = 16.0 / 9.0 * 576.0 / 720.0;
-		else if (m_format == NTSC_WIDE) aspect = 16.0 / 9.0 * 480.0 / 720.0;
-		else if (m_format == NTSC_VIDEO) aspect = 4.0 / 3.0 * 480.0 / 720.0;
-		else if (m_format == PAL_VIDEO) aspect = 4.0 / 3.0 * 576.0 / 720.0;
+		aspect = m_format.aspect() * m_format.height() / m_format.width();
 		break;
 	case 1: 
 		size = med_encoders->currentItem()->parent()->text(0);
 		width = size.section("x", 0, 0).toInt();
 		height = size.section("x", 1, 1).toInt();
-		if (m_format == PAL_WIDE || m_format == NTSC_WIDE) aspect = 16.0 / 9.0 * height / width;
-		else aspect = 4.0 / 3.0 * height / width;
+		aspect = m_format.aspect() * height / width;
 		break;
 	default: 
 		break;
@@ -725,7 +710,7 @@ void exportWidget::renderSelectedClipAudio(const QString &source, const QString 
     m_emitSignal = true;
 }
 
-void exportWidget::generateDvdFile(QString file, GenTime start, GenTime end, VIDEOFORMAT format)
+void exportWidget::generateDvdFile(QString file, GenTime start, GenTime end, bool isNTSC)
 {
     QStringList encoderParams;
     m_isRunning = true;
@@ -743,13 +728,14 @@ void exportWidget::generateDvdFile(QString file, GenTime start, GenTime end, VID
     stream << m_app->getDocument()->projectClip().generateSceneList(true, true).toString() << "\n";
     m_tmpFile->file()->close();
     m_exportProcess = new KProcess;
-    if (format == PAL_VIDEO || format == PAL_WIDE) {
-	m_exportProcess->setEnvironment("MLT_NORMALISATION", "PAL");
-	encoderParams = QStringList::split(" ",slotEncoderCommand(HQEncoders, "DVD", "PAL").section(":",9));
-    }
-    else if (format == NTSC_VIDEO || format == NTSC_WIDE) {
-	m_exportProcess->setEnvironment("MLT_NORMALISATION", "NTSC");
+    if (isNTSC) {
+	//m_exportProcess->setEnvironment("MLT_NORMALISATION", "NTSC");
 	encoderParams = QStringList::split(" ",slotEncoderCommand(HQEncoders, "DVD", "NTSC").section(":",9));
+	
+    }
+    else {
+	//m_exportProcess->setEnvironment("MLT_NORMALISATION", "PAL");
+	encoderParams = QStringList::split(" ",slotEncoderCommand(HQEncoders, "DVD", "PAL").section(":",9));
     }
     //kdDebug()<<" + + DVD EXPORT, PARAMS: "<<encoderParams<<endl;
     *m_exportProcess << "kdenlive_renderer";
@@ -765,8 +751,8 @@ void exportWidget::generateDvdFile(QString file, GenTime start, GenTime end, VID
     *m_exportProcess << "stats_on=1";
     // workaround until MLT's default qscale value is fixed
     *m_exportProcess << "qscale=0";
-    if (!KdenliveSettings::videoprofile().isEmpty()) 
-	*m_exportProcess<<"profile=" + KdenliveSettings::videoprofile();
+    /*if (!KdenliveSettings::videoprofile().isEmpty()) 
+	*m_exportProcess<<"profile=" + KdenliveSettings::videoprofile();*/
     *m_exportProcess << encoderParams;
 
     connect(m_exportProcess, SIGNAL(processExited(KProcess *)), this, SLOT(endDvdExport(KProcess *)));
@@ -788,14 +774,41 @@ void exportWidget::doExport(QString file, double ratio, QStringList params, bool
     exportButton->setText(i18n("Stop"));
     //kdDebug()<<"++++++  PREPARE TO WRITE TO: "<<m_tmpFile->name()<<", IN: "<<params<<endl;
 
+    int width;
+    int height;
+
+    if (encoders->currentPageIndex() != 1) {
+	// extract frame size for rendering format
+	QStringList::Iterator it;
+	for ( it = params.begin(); it != params.end(); ++it ) {
+            if ((*it).stripWhiteSpace().startsWith("size=")) break;
+	}
+	QString size = (*it).section("=",1);
+	width = size.section("x", 0, 0).toInt();
+	height = size.section("x", 1, 1).toInt();
+    }
+    else {
+	// MLT is using default pal profile
+	width = KdenliveSettings::defaultwidth();
+	height = KdenliveSettings::defaultheight();
+    }
+
+    if (width != 0 && height != 0) {
+	KdenliveSettings::setRenderratio(KdenliveSettings::displayratio() * (KdenliveSettings::defaultwidth() / KdenliveSettings::defaultheight()) / ((double) width / height));
+        m_app->getDocument()->generateProducersList();
+    }
+    // kdDebug()<<" / / /RENDERING, EXPORT SIZE: "<<width<<"x"<<height<<", RATIO: "<<KdenliveSettings::renderratio()<<endl;
+
     QTextStream stream( m_tmpFile->file() );
     stream << m_app->getDocument()->projectClip().generateSceneList(true, true).toString() << "\n";
     m_tmpFile->file()->close();
 
+    if (width != 0 && height != 0) {
+        KdenliveSettings::setRenderratio(KdenliveSettings::aspectratio());
+        m_app->getDocument()->generateProducersList();
+    }
+
     m_exportProcess = new KProcess;
-    if (!encoder_norm.isEmpty()) m_exportProcess->setEnvironment("MLT_NORMALISATION", encoder_norm);
-    else if (m_format == PAL_VIDEO || m_format == PAL_WIDE) m_exportProcess->setEnvironment("MLT_NORMALISATION", "PAL");
-    else if (m_format == NTSC_VIDEO || m_format == NTSC_WIDE) m_exportProcess->setEnvironment("MLT_NORMALISATION", "NTSC");
     *m_exportProcess << "kdenlive_renderer";
 
     *m_exportProcess << m_tmpFile->name();
@@ -823,11 +836,12 @@ void exportWidget::doExport(QString file, double ratio, QStringList params, bool
 
     if (audioOnly) *m_exportProcess <<"format=wav"<<"frequency=48000";
     else { 
-	if (export_wide->isChecked()) {
-		*m_exportProcess << QString("display_ratio=") + QString::number(16.0/9.0);
-		if (ratio != 0.0) *m_exportProcess << QString("aspect_ratio=") + QString::number(ratio);
+	if (encoders->currentPageIndex() == 1) {
+	    *m_exportProcess << QString("profile=") + KdenliveSettings::videoprofile();
+	    *m_exportProcess << QString("display_ratio=") + QString::number(KdenliveSettings::displayratio());
+	    double fr = KdenliveSettings::aspectratio() / ((double) KdenliveSettings::defaultwidth() / KdenliveSettings::defaultheight()) * ((double) width / height);
+	    *m_exportProcess << QString("aspect_ratio=") + QString::number( fr );
 	}
-	else *m_exportProcess << QString("display_ratio=") + QString::number(4.0/3.0);
 	*m_exportProcess << params;
     }
     if (addMetadata->isChecked()) *m_exportProcess << metadataString();
@@ -876,9 +890,6 @@ void exportWidget::doAudioExport(QString src, QString dest)
     exportButton->setText(i18n("Stop"));
     m_exportProcess = new KProcess;
 
-    if (!encoder_norm.isEmpty()) m_exportProcess->setEnvironment("MLT_NORMALISATION", encoder_norm);
-    else if (m_format == PAL_VIDEO || m_format == NTSC_WIDE) m_exportProcess->setEnvironment("MLT_NORMALISATION", "PAL");
-    else if (m_format == NTSC_VIDEO || m_format == NTSC_WIDE) m_exportProcess->setEnvironment("MLT_NORMALISATION", "NTSC");
     *m_exportProcess << "kdenlive_renderer";
 
     *m_exportProcess << m_tmpFile->name();
@@ -886,6 +897,7 @@ void exportWidget::doAudioExport(QString src, QString dest)
     *m_exportProcess << "-consumer";
     *m_exportProcess << QString("avformat:%1").arg(dest);
     *m_exportProcess << "format=wav" << "frequency=48000";
+    if (m_format.fps() == 30000.0 / 1001.0) *m_exportProcess << "profile=dv_ntsc";
     *m_exportProcess << "real_time=0";
     *m_exportProcess << "stats_on=1";
     // workaround until MLT's default qscale value is fixed

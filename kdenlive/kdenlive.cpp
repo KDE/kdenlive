@@ -131,17 +131,10 @@ namespace Gui {
 
     KdenliveApp::KdenliveApp(bool newDoc, QWidget *parent,
 	const char *name):KDockMainWindow(parent, name), m_monitorManager(this),
-    m_workspaceMonitor(NULL), m_clipMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_renderManager(NULL), m_doc(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_projectList(NULL), m_effectStackDialog(NULL), m_effectListDialog(NULL), m_projectFormat(PAL_VIDEO), m_timelinePopupMenu(NULL), m_rulerPopupMenu(NULL), m_exportDvd(NULL), m_transitionPanel(NULL), m_resizeFunction(NULL), m_moveFunction(NULL), m_rollFunction(NULL), m_markerFunction(NULL),m_newLumaDialog(NULL), m_externalMonitor(0) {
+    m_workspaceMonitor(NULL), m_clipMonitor(NULL), m_captureMonitor(NULL), m_exportWidget(NULL), m_renderManager(NULL), m_doc(NULL), m_selectedFile(NULL), m_copiedClip(NULL), m_projectList(NULL), m_effectStackDialog(NULL), m_effectListDialog(NULL), m_projectFormat("dv_pal"), m_timelinePopupMenu(NULL), m_rulerPopupMenu(NULL), m_exportDvd(NULL), m_transitionPanel(NULL), m_resizeFunction(NULL), m_moveFunction(NULL), m_rollFunction(NULL), m_markerFunction(NULL),m_newLumaDialog(NULL), m_externalMonitor(0) {
+
+	parseProfiles();
 	config = kapp->config();
-
-	QString newProjectName;
-
-	m_projectTemplates[i18n("PAL (720x576, 25fps)")] = formatTemplate(720, 576, 25.0, 59.0 / 54.0, "MLT_NORMALISATION=PAL", PAL_VIDEO);
-	m_projectTemplates[i18n("PAL 16:9 (720x576, 25fps)")] = formatTemplate(720, 576, 25.0, 118.0 / 81.0, "MLT_NORMALISATION=PAL", PAL_WIDE);
-
-	m_projectTemplates[i18n("NTSC (720x480, 30fps)")] = formatTemplate(720, 480, 30000.0 / 1001.0, 10.0 / 11.0, "MLT_NORMALISATION=NTSC", NTSC_VIDEO);
-	m_projectTemplates[i18n("NTSC 16:9 (720x480, 30fps)")] = formatTemplate(720, 480, 30000.0 / 1001.0, 40.0 / 33.0, "MLT_NORMALISATION=NTSC", NTSC_WIDE);
-
 	config->setGroup("General Options");
 	if (!config->readBoolEntry("FirstRun")) {
 	    // This is the first run of Kdenlive, ask user some basic things
@@ -176,14 +169,11 @@ namespace Gui {
 	    config->sync();
 	}
 
-	// HDV not implemented in MLT yet...
-	// videoProjectFormats << i18n("HDV-1080 (1440x1080, 25fps)");
-	// videoProjectFormats << i18n("HDV-720 (1280x720, 25fps)");
-
 	initStatusBar();
 
 	int audioTracks = KdenliveSettings::audiotracks();
 	int videoTracks = KdenliveSettings::videotracks();
+	QString newProjectName;
 	KdenliveSettings::setMultitrackview(false);
 
 	if (!KdenliveSettings::openlast() && !KdenliveSettings::openblank() && !newDoc) {
@@ -265,7 +255,7 @@ namespace Gui {
         else if (!m_selectedFile.isEmpty()) openSelectedFile();
 	else if (!newDoc || KdenliveSettings::openblank()) {
 	    initView();
-	    setCaption(newProjectName + ".kdenlive" + " - " + easyName(m_projectFormat), false);
+	    setCaption(newProjectName + ".kdenlive" + " - " + projectFormatName(m_projectFormat), false);
 	    m_doc->setProjectName( newProjectName + ".kdenlive");
 	    m_dockProjectList->makeDockVisible();
 	    if (KdenliveSettings::showsplash()) QTimer::singleShot(500, this, SLOT(slotSplashTimeout()));
@@ -275,42 +265,93 @@ namespace Gui {
 	initMonitors();
     }
 
+
+    void KdenliveApp::parseProfiles()
+    {
+        QString profilePath = KdenliveSettings::mltpath() + "/share/mlt/profiles/";
+	QStringList profilesList = QDir(profilePath).entryList("*", QDir::Files);
+
+	if (profilesList.isEmpty()) {
+	    // Cannot find MLT path, try finding inigo
+	    profilePath = KStandardDirs::findExe("inigo");
+	    if (!profilePath.isEmpty()) {
+		profilePath = profilePath.section('/', 0, -3);
+		KdenliveSettings::setMltpath(profilePath);
+		profilePath.append("/share/mlt/profiles/");
+		QStringList profilesList = QDir(profilePath).entryList("*", QDir::Files);
+	    }
+
+	    if (profilesList.isEmpty()) {
+	    	// Cannot find the MLT profiles, ask for location
+	    	KURLRequesterDlg *getUrl = new KURLRequesterDlg(KdenliveSettings::mltpath(), i18n("Cannot find your MLT installation, please give the path"), this, "mlt_path");
+	    	getUrl->exec();
+	    	KURL mltPath = getUrl->selectedURL ();
+	    	delete getUrl;
+	    	if (mltPath.isEmpty()) exit(1);
+		profilePath = mltPath.path();
+		KdenliveSettings::setMltpath(profilePath);
+		profilePath.append("/share/mlt/profiles/");
+		QStringList profilesList = QDir(profilePath).entryList("*", QDir::Files);
+	    }
+	}
+
+	// Parse MLT profiles to build a list of available video formats
+	if (profilesList.isEmpty()) parseProfiles();
+
+	uint i = 0;
+	for (; i < profilesList.count(); i++) { 
+	    KConfig confFile(profilePath + *profilesList.at(i), true);
+	    QString name = confFile.readEntry("description");
+	    int width = confFile.readNumEntry("width");
+	    int height = confFile.readNumEntry("height");
+	    int aspect_num = confFile.readNumEntry("sample_aspect_num");
+	    int aspect_den = confFile.readNumEntry("sample_aspect_den");
+	    int display_num = confFile.readNumEntry("display_aspect_num");
+	    int display_den = confFile.readNumEntry("display_aspect_den");
+	    int fps_num = confFile.readNumEntry("frame_rate_num");
+	    int fps_den = confFile.readNumEntry("frame_rate_den");
+	    int progressive = confFile.readNumEntry("progressive");
+	    if (!name.isEmpty()) m_projectTemplates[name] = formatTemplate(width, height, fps_num, fps_den, aspect_num, aspect_den, display_num, display_den, progressive, *profilesList.at(i));
+	}
+    }
+
     QStringList KdenliveApp::videoProjectFormats()
     {
 	QStringList list;
-    	QMap<QString, formatTemplate>::Iterator it;
-    	for ( it = m_projectTemplates.begin(); it != m_projectTemplates.end(); ++it ) {
+        QMap<QString, formatTemplate>::Iterator it;
+	for ( it = m_projectTemplates.begin(); it != m_projectTemplates.end(); ++it ) {
 	    list.append(it.key());
     	}
 	return list;
     }
 
-    QString KdenliveApp::projectFormatName(uint format)
+
+    QString KdenliveApp::projectFormatName(QString profile)
     {
     	QMap<QString, formatTemplate>::Iterator it;
     	for ( it = m_projectTemplates.begin(); it != m_projectTemplates.end(); ++it ) {
-	    if ((int) it.data().videoFormat() == format) break;
+	    if (it.data().profile() == profile) break;
     	}
 	return it.key();
     }
 
 
-    formatTemplate KdenliveApp::projectFormatParameters(int format)
+    formatTemplate KdenliveApp::projectFormatParameters(QString profile)
     {
     	QMap<QString, formatTemplate>::Iterator it;
     	for ( it = m_projectTemplates.begin(); it != m_projectTemplates.end(); ++it ) {
-	    if ((int) it.data().videoFormat() == format) break;
+	    if (it.data().profile() == profile) break;
     	}
 	return it.data();
     }
 
-    VIDEOFORMAT KdenliveApp::projectFormatFromName(QString formatName)
+    QString KdenliveApp::projectFormatFromName(QString formatName)
     {
     	QMap<QString, formatTemplate>::Iterator it;
     	for ( it = m_projectTemplates.begin(); it != m_projectTemplates.end(); ++it ) {
 	    if (it.key() == formatName) break;
     	}
-	return it.data().videoFormat();
+	return it.data().profile();
     }
 
     void KdenliveApp::slotSplashTimeout()
@@ -1691,7 +1732,7 @@ namespace Gui {
 		slotStatusMsg(i18n("Ready."));
 		m_statusBarExportProgress->hide();
 		m_stopExportButton->hide();
-		setCaption(m_doc->projectName() + " - " + easyName(m_projectFormat), false);
+		setCaption(m_doc->projectName() + " - " + projectFormatName(m_projectFormat), false);
 	    }
 	    else {
 		if ( val == 0 ) {
@@ -1712,7 +1753,7 @@ namespace Gui {
 		}
 		m_statusBarExportProgress->show();
 		m_stopExportButton->show();
-		setCaption(QString::number(val) + "% - " + m_doc->projectName() + " - " + easyName(m_projectFormat), false);
+		setCaption(QString::number(val) + "% - " + m_doc->projectName() + " - " + projectFormatName(m_projectFormat), false);
 	    }
 	    m_statusBarExportProgress->setProgress(val);
 	}
@@ -1853,7 +1894,7 @@ namespace Gui {
 	    m_projectFormatManager.openDocument(url, m_doc);
 	    if (!m_exportWidget) slotRenderExportTimeline(false);
 	    m_exportWidget->setMetaData(getDocument()->metadata());
-	    setCaption(url.fileName() + " - " + easyName(m_projectFormat), false);
+	    setCaption(url.fileName() + " - " + projectFormatName(m_projectFormat), false);
 	    fileOpenRecent->addURL(m_doc->URL());
 	    if (m_exportWidget) m_exportWidget->resetValues();
 	    kdDebug()<<" + + +  Loading Time : "<<t.elapsed()<<"ms"<<endl;
@@ -1886,20 +1927,7 @@ namespace Gui {
 	slotStatusMsg(i18n("Ready."));
     }
 
-    QString KdenliveApp::easyName(VIDEOFORMAT format) {
-	switch (format) {
-	    case HDV1080PAL_VIDEO:
-		return i18n("HDV 1080");
-	    case HDV720PAL_VIDEO:
-		return i18n("HDV 720");
-	    case NTSC_VIDEO:
-		return i18n("NTSC");
-	    default:
-		return i18n("PAL");
-	    }
-    }
-
-   VIDEOFORMAT KdenliveApp::projectVideoFormat() {
+   QString KdenliveApp::projectVideoFormat() {
 	return m_projectFormat;
    }
 
@@ -2008,14 +2036,14 @@ namespace Gui {
 		initView();
 		m_projectFormatManager.openDocument(_url, m_doc);
 		m_doc->setModified(true);
-	    	setCaption(url.fileName() + " - " + easyName(m_projectFormat), true);
+	    	setCaption(url.fileName() + " - " + projectFormatName(m_projectFormat), true);
 		QFile::remove(tempname);
 	    }
 	} else {
 	    if (!filename.isEmpty()) {
 		initView();
 		m_projectFormatManager.openDocument(url, m_doc);
-	    	setCaption(url.fileName() + " - " + easyName(m_projectFormat), false);
+	    	setCaption(url.fileName() + " - " + projectFormatName(m_projectFormat), false);
 	    }
 	}
     }
@@ -2075,30 +2103,35 @@ namespace Gui {
 	return true;
     }
 
-    void KdenliveApp::setProjectFormat(uint projectFormat) {
-	uint ix = 0;
+    void KdenliveApp::setProjectFormat(QString profile) {
+	QString profileName;
 	QMap<QString, formatTemplate>::Iterator it;
     	for ( it = m_projectTemplates.begin(); it != m_projectTemplates.end(); ++it ) {
-	    if ((uint) it.data().videoFormat() == projectFormat) {
+	    if (it.data().profile() == profile) {
+		KdenliveSettings::setDefaultheight(it.data().height());
+		KdenliveSettings::setDefaultwidth(it.data().width());
+		KdenliveSettings::setDefaultfps(it.data().fps());
+		KdenliveSettings::setAspectratio(it.data().aspect());
+		KdenliveSettings::setDisplayratio(it.data().display());
+		KdenliveSettings::setRenderratio(it.data().aspect());
+		profileName = it.key();
 		break;
 	    }
-	    ix++;
     	}
-	m_projectFormat = (VIDEOFORMAT) projectFormat;
-	KdenliveSettings::setDefaultheight(m_projectTemplates.values()[ix].height());
-	KdenliveSettings::setDefaultfps(m_projectTemplates.values()[ix].fps());
-	KdenliveSettings::setAspectratio(m_projectTemplates.values()[ix].aspect());
-	if (m_projectTemplates.values()[ix].videoFormat() == PAL_WIDE || m_projectTemplates.values()[ix].videoFormat() == NTSC_WIDE)
+	
+	m_projectFormat = profile;
+	/*if (m_projectTemplates.values()[ix].videoFormat() == PAL_WIDE || m_projectTemplates.values()[ix].videoFormat() == NTSC_WIDE)
 	    KdenliveSettings::setVideoprofile("dv_wide");
-	else KdenliveSettings::setVideoprofile("dv");
-	putenv (m_projectTemplates.values()[ix].normalisation());
-	if (m_transitionPanel) m_transitionPanel->setVideoFormat(m_projectFormat);
-	if (m_exportWidget) m_exportWidget->setVideoFormat(m_projectFormat);
+	else KdenliveSettings::setVideoprofile("dv");*/
+	KdenliveSettings::setVideoprofile(m_projectFormat);
+	//putenv (m_projectTemplates.values()[ix].normalisation());
+	if (m_transitionPanel) m_transitionPanel->setVideoFormat(projectFormatParameters(m_projectFormat));
+	if (m_exportWidget) m_exportWidget->setVideoFormat(projectFormatParameters(m_projectFormat));
 	if (getDocument() && getDocument()->renderer())
 	    getDocument()->renderer()->resetRendererProfile((char*) KdenliveSettings::videoprofile().ascii());
 	if (m_renderManager && m_renderManager->findRenderer("ClipMonitor"))
 	    m_renderManager->findRenderer("ClipMonitor")->resetRendererProfile((char*) KdenliveSettings::videoprofile().ascii());
-	statusBar()->changeItem(m_projectTemplates.keys()[ix], ID_TIMELINE_MSG);
+	statusBar()->changeItem(profileName, ID_TIMELINE_MSG);
     }
 
 /////////////////////////////////////////////////////////////////////
@@ -2124,7 +2157,7 @@ namespace Gui {
 		requestDocumentClose();
 		initView();
 	    	m_doc->newDocument(videoTracks, audioTracks);
-	    	setCaption(newProjectName + ".kdenlive" + " - " + easyName(m_projectFormat), false);
+	    	setCaption(newProjectName + ".kdenlive" + " - " + projectFormatName(m_projectFormat), false);
 	    	m_doc->setProjectName( newProjectName + ".kdenlive");
 		setFramesPerSecond();
 		if (m_exportWidget) m_exportWidget->resetValues();
@@ -2139,7 +2172,7 @@ namespace Gui {
 	bool KdenliveApp::slotNewProject(QString *newProjectName, KURL *fileUrl, int *videoTracks, int *audioTracks, bool byPass, bool exitMode) {
 		bool finished = false;
 		QString projectFolder;
-		int projectFormat = 0;
+		QString projectFormat;
 		int videoNum = 0;
 		int audioNum = 0;
 
@@ -2156,10 +2189,13 @@ namespace Gui {
 		    }
 		    newProject *newProjectDialog = new newProject(QDir::homeDirPath(), recentFiles, this, "new_project");
 		    newProjectDialog->setCaption(i18n("Kdenlive - New Project"));
-		    // Insert available video formats:
 
-		    newProjectDialog->video_format->insertStringList(videoProjectFormats());
+		    // Insert available video formats:
+		    QStringList templateNames = videoProjectFormats();
+		    kdDebug()<<" ----  GET READY TO INSERT: "<<templateNames<<endl;
+		    newProjectDialog->video_format->insertStringList(templateNames);
 		    newProjectDialog->video_format->setCurrentText(projectFormatName(KdenliveSettings::defaultprojectformat()));
+
 		    newProjectDialog->audioTracks->setValue(*audioTracks);
 		    newProjectDialog->videoTracks->setValue(*videoTracks);
 		    if (!exitMode) newProjectDialog->buttonQuit->setText(i18n("Cancel"));
@@ -2179,7 +2215,7 @@ namespace Gui {
     			QMap<QString, formatTemplate>::Iterator it;
     			for ( it = m_projectTemplates.begin(); it != m_projectTemplates.end(); ++it ) {
 	    			if (it.key() == formatName) {
-					projectFormat = (int) it.data().videoFormat();
+					projectFormat = it.data().profile();
 					break;
 				}
     			}
@@ -2283,18 +2319,35 @@ namespace Gui {
 	    		"KdenliveDoc::loadFromXML() document element has unknown tagName : "
 	    		<< documentElement.tagName() << endl;
     		}
-
+		double version = documentElement.attribute("version", "0").toDouble();
+		kdDebug()<<"// DOCUMENT: "<<new_url.path()<<", version: "<<version<<endl;
     		QDomNode n = documentElement.firstChild();
 
     		while (!n.isNull()) {
 			QDomElement e = n.toElement();
 			if (!e.isNull()) {
 	    		    if (e.tagName() == "properties") {
-				VIDEOFORMAT vFormat = (VIDEOFORMAT) e.attribute("projectvideoformat","0").toInt();
-				QString isWide = e.attribute("videoprofile", "dv");
-				if (vFormat == PAL_VIDEO && isWide == QString("dv_wide")) vFormat = PAL_WIDE;
-				else if (vFormat == NTSC_VIDEO && isWide == QString("dv_wide")) vFormat = NTSC_WIDE;
-				setProjectFormat((int) vFormat);
+				QString vFormat;
+				if (version < 0.6) {
+				    // convert video format from old project files
+				    int format = e.attribute("projectvideoformat","0").toInt();
+				    switch (format) {
+					case 1:
+					    vFormat = "dv_ntsc";
+					    break;
+					case 2:
+					    vFormat = "dv_pal_wide";
+					    break;
+					case 3:
+					    vFormat = "dv_ntsc_wide";
+					    break;
+					default:
+					    vFormat = "dv_pal";
+					    break;
+				    }
+				}
+				else vFormat = e.attribute("projectvideoformat","dv_pal");
+				setProjectFormat(vFormat);
 				foundFormat = true;
 				break;
 			    }
@@ -2302,12 +2355,12 @@ namespace Gui {
 			n = n.nextSibling();
 		}
 		if (!foundFormat) {
-			setProjectFormat(0);
+			setProjectFormat("dv_pal");
 		}
 		myFile.close();
 	}
 	else {
-		setProjectFormat(0);
+		setProjectFormat("dv_pal");
 	}
     }
 
@@ -2672,7 +2725,7 @@ namespace Gui {
 	    if (m_projectFormatManager.saveDocument(url, m_doc)) {
 	    fileOpenRecent->addURL(url);
 
-            setCaption(url.fileName() + " - " + easyName(m_projectFormat), m_doc->isModified());
+            setCaption(url.fileName() + " - " + projectFormatName(m_projectFormat), m_doc->isModified());
 	    m_doc->setURL(url);
 	    }
 	    m_fileDialogPath = url;
@@ -2754,7 +2807,7 @@ namespace Gui {
 /** Alerts the App to when the document has been modified. */
     void KdenliveApp::documentModified(bool modified) {
 	fileSave->setEnabled(modified);
-	setCaption(m_doc->projectName() + " - " + easyName(m_projectFormat), modified);
+	setCaption(m_doc->projectName() + " - " + projectFormatName(m_projectFormat), modified);
     }
 
     void KdenliveApp::slotTimelineSnapToBorder() {
@@ -2866,7 +2919,7 @@ namespace Gui {
     void KdenliveApp::slotRenderExportTimeline(bool show) {
 	slotStatusMsg(i18n("Exporting Timeline..."));
 	    if (!m_exportWidget) { 
-            m_exportWidget=new exportWidget(this, m_timeline, m_projectFormat, this,"exporter");
+            m_exportWidget=new exportWidget(this, m_timeline, projectFormatParameters(m_projectFormat), this,"exporter");
 	    m_exportWidget->setMetaData(getDocument()->metadata());
             connect(m_workspaceMonitor->screen(),SIGNAL(exportOver()),m_exportWidget,SLOT(endExport()));
             connect(m_exportWidget,SIGNAL(exportToFirewire(QString, int, GenTime, GenTime)),m_workspaceMonitor->screen(),SLOT(exportToFirewire(QString, int, GenTime, GenTime)));
@@ -2894,7 +2947,7 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 
     void KdenliveApp::slotRenderDvd() {
 	if (!m_exportWidget) slotRenderExportTimeline(false);
-	if (!m_exportDvd) m_exportDvd = new ExportDvdDialog(&getDocument()->projectClip(), m_exportWidget, m_projectFormat, this, "dvd");
+	if (!m_exportDvd) m_exportDvd = new ExportDvdDialog(&getDocument()->projectClip(), m_exportWidget, projectFormatParameters(m_projectFormat), this, "dvd");
 	m_exportDvd->fillStructure(xmlGuides());
 	m_exportDvd->show();
     }
@@ -2907,7 +2960,7 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	connect(dialog, SIGNAL(settingsChanged()), this,
 	    SLOT(updateConfiguration()));
 	if (dialog->exec() == QDialog::Accepted) {
-	    KdenliveSettings::setDefaultprojectformat((int) projectFormatFromName(dialog->page5->defaultprojectformat->currentText()));
+	    KdenliveSettings::setDefaultprojectformat(projectFormatFromName(dialog->page5->defaultprojectformat->currentText()));
 	    bool notify = false;
 	    if (dialog->selectedAudioDevice() != KdenliveSettings::audiodevice()) {
 	        KdenliveSettings::setAudiodevice(dialog->selectedAudioDevice());
@@ -3141,10 +3194,8 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 /* Create text clip */
     void KdenliveApp::slotProjectAddTextClip() {
         slotStatusMsg(i18n("Adding Clips"));
-	int width = m_doc->projectClip().videoWidth();
-	if (KdenliveSettings::videoprofile() == "dv_wide") width = m_doc->projectClip().videoHeight() * 16.0 / 9.0;
-	else width = m_doc->projectClip().videoHeight() * 4.0 / 3.0;
-        titleWidget *txtWidget=new titleWidget(m_workspaceMonitor->screen(), width, m_doc->projectClip().videoHeight(), NULL, this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
+	int width = KdenliveSettings::defaultheight() * KdenliveSettings::displayratio()  + 0.5;
+        titleWidget *txtWidget=new titleWidget(m_workspaceMonitor->screen(), width, KdenliveSettings::defaultheight(), NULL, this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
         txtWidget->titleName->setText(i18n("Text Clip"));
         txtWidget->edit_duration->setText(KdenliveSettings::textclipduration());
         if (txtWidget->exec() == QDialog::Accepted) {
@@ -3253,9 +3304,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    DocClipBase *clip = refClip->referencedClip();
             
             if (refClip->clipType() == DocClipBase::TEXT) {
-		int width = m_doc->projectClip().videoWidth();
-		if (KdenliveSettings::videoprofile() == "dv_wide") width = m_doc->projectClip().videoHeight() * 16.0 / 9.0;
-		else width = m_doc->projectClip().videoHeight() * 4.0 / 3.0;
+		int width = m_doc->projectClip().videoHeight() * KdenliveSettings::displayratio() + 0.5;
                 titleWidget *txtWidget=new titleWidget(m_workspaceMonitor->screen(), width, m_doc->projectClip().videoHeight(), clip->fileURL(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
                 
                 txtWidget->edit_duration->setText(getDocument()->timeCode().getTimecode(refClip->duration(), getDocument()->framesPerSecond()));
@@ -3891,7 +3940,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	if (configDialog.exec() == QDialog::Accepted ) {
 	    KdenliveSettings::setCurrentdefaultfolder(configDialog.selectedFolder());
 	    QString newFormat = configDialog.selectedFormat();
-	    if (newFormat != projectFormatName((uint) projectVideoFormat()))
+	    if (newFormat != projectFormatName(projectVideoFormat()))
 	    	switchProjectToFormat(newFormat);
 	    if (m_monitorManager.hasActiveMonitor())
 	    	m_monitorManager.activeMonitor()->slotSetInactive();
@@ -3902,7 +3951,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     void KdenliveApp::switchProjectToFormat(QString newFormat)
     {
 	// switch current video project to new format
-	setProjectFormat((int) projectFormatFromName(newFormat));
+	setProjectFormat(projectFormatFromName(newFormat));
 	setFramesPerSecond();
 	getDocument()->activateSceneListGeneration(true);
     }
