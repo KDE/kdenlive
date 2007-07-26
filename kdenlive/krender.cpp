@@ -658,9 +658,9 @@ void KRender::start()
 
 void KRender::clear()
 {
-    if (m_mltConsumer && !m_mltConsumer->is_stopped()) {
+    if (m_mltConsumer) {
 	m_mltConsumer->set("refresh", 0);
-	m_mltConsumer->stop();
+	if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
     }
 
     if (m_mltProducer) {
