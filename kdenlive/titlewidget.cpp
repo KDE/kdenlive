@@ -288,14 +288,19 @@ void FigureEditor::itemVCenter()
         // move item to vertical center
     if (!selectedItem)
         return;
-        
-    if(((QCanvasText*)(selectedItem))->textFlags() == Qt::AlignCenter)
-        selectedItem->setY((int) ((canvas()->height()/2.0f)));
-    else
-        selectedItem->setY((int) ((canvas()->height()/2.0f)-(((QCanvasText*)(selectedItem))->boundingRect ().height()/2.0f)));
+
+    if (selectedItem->rtti () == 3) {
+	if(((QCanvasText*)(selectedItem))->textFlags() == Qt::AlignCenter)
+            selectedItem->setY((int) ((canvas()->height()/2.0f)));
+    	else
+            selectedItem->setY((int) ((canvas()->height()/2.0f)-(((QCanvasText*)(selectedItem))->boundingRect ().height()/2.0f)));
     
-    selection->setX((int) ((canvas()->width()/2.0f)-(((QCanvasText*)(selectedItem))->boundingRect ().width()/2.0f)));
-    
+    	selection->setX((int) ((canvas()->width()/2.0f)-(((QCanvasText*)(selectedItem))->boundingRect ().width()/2.0f)));
+    }
+    else if (selectedItem->rtti () == 5) {
+	selectedItem->setY((int) ((canvas()->height()/2.0f)-(((QCanvasRectangle *)(selectedItem))->rect().height()/2.0f)));
+    }
+
     updateSelection();
     canvas()->update();
 }
