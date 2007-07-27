@@ -48,6 +48,7 @@ class KRenderManager:public QObject {
   private:
      QPtrList < KRender > m_renderList;
      Gui::KdenliveApp *m_app;
+     bool m_initialised;
 };
 
 #endif

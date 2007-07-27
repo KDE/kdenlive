@@ -18,10 +18,12 @@
 #include <kconfig.h>
 #include <kdebug.h>
 
+#include <mlt++/Mlt.h>
+
 #include "krendermanager.h"
 
 KRenderManager::KRenderManager(Gui::KdenliveApp *parent):
-QObject(), m_app(parent)
+QObject(), m_app(parent), m_initialised(false)
 {
     m_renderList.setAutoDelete(true);
 }
@@ -32,6 +34,13 @@ KRenderManager::~KRenderManager()
 /** Creates a new renderer, guaranteeing it it's own port number, etc. */
 KRender *KRenderManager::createRenderer(const QString &name)
 {
+    if (!m_initialised) {
+	if (Mlt::Factory::init(NULL) != 0) kdWarning()<<"Error initializing MLT, Crash will follow"<<endl;
+	else {
+	    m_initialised = true;
+	    kdDebug() << "Mlt inited" << endl;
+	}
+    }
     KRender *render = new KRender(name, m_app, name.ascii());
     m_renderList.append(render);
     return render;

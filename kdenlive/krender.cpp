@@ -60,7 +60,6 @@ static QMutex mutex (true);
 
 KRender::KRender(const QString & rendererName, QWidget *parent, const char *name):QObject(parent, name), m_name(rendererName), m_mltConsumer(NULL), m_mltProducer(NULL), m_mltTextProducer(NULL), m_sceneList(QDomDocument()), m_winid(-1), m_framePosition(0), m_generateScenelist(false), isBlocked(true)
 {
-    openMlt();
     refreshTimer = new QTimer( this );
     connect( refreshTimer, SIGNAL(timeout()), this, SLOT(refresh()) );
 
@@ -89,24 +88,19 @@ KRender::KRender(const QString & rendererName, QWidget *parent, const char *name
 KRender::~KRender()
 {
     closeMlt();
-    //killTimers();
 }
 
-
-void KRender::openMlt()
-{
-	if (Mlt::Factory::init(NULL) != 0) kdWarning()<<"Error initializing MLT, Crash will follow"<<endl;
-	else kdDebug() << "Mlt inited" << endl;
-}
 
 void KRender::closeMlt()
 {
+    delete m_connectTimer;
     delete osdTimer;
     delete refreshTimer;
     if (m_mltConsumer)
         delete m_mltConsumer;
     if (m_mltProducer)
 	delete m_mltProducer;
+    delete m_osdInfo;
 }
 
  
@@ -525,10 +519,10 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
 
     if (m_mltConsumer) {
 	m_mltConsumer->set("refresh", 0);
-	//if (!m_mltConsumer->is_stopped()) {
+	if (!m_mltConsumer->is_stopped()) {
 	//emitConsumerStopped();
 	m_mltConsumer->stop();
-	//}
+	}
     }
 
     if (m_mltProducer) {

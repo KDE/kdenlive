@@ -194,7 +194,6 @@ class KRender:public QObject {
 
 	/** Sets the description of this renderer to desc. */
     void setDescription(const QString & description);
-    void openMlt();
     void closeMlt();
     
 #ifdef ENABLE_FIREWIRE
