@@ -6,11 +6,11 @@
 #### HQ
 
 
-# HDV
-:HQ:HDV 1080 50i:PAL:::avformat:PAL:mpeg:format=mpegpes size=1440x1080 video_bit_rate=19700000 profile=hdv_1080_50i
-:HQ:HDV 1080 60i:NTSC:::avformat:NTSC:mpeg:format=mpegpes size=720x480 video_bit_rate=19700000 profile=hdv_1080_60i
-:HQ:HDV 720 25p:PAL:::avformat:PAL:mpeg:format=mpegpes size=1280x720 video_bit_rate=19700000 profile=hdv_720_25p
-:HQ:HDV 720 30p:NTSC:::avformat:NTSC:mpeg:format=mpegpes size=1280x720 video_bit_rate=19700000 profile=hdv_720_30p
+ # HDV
+:HQ:HDV 1080 50i:PAL:::avformat:PAL:m2t:format=mpegts size=1440x1080 video_bit_rate=19700000 audio_bit_rate=384000 gop_size=12 ildct=1 ilme=1 profile=hdv_1080_50i
+:HQ:HDV 1080 60i:NTSC:::avformat:NTSC:m2t:format=mpegts size=1440x1080 video_bit_rate=19700000 audio_bit_rate=384000 gop_size=15 ildct=1 ilme=1 profile=hdv_1080_60i
+:HQ:HDV 720 25p:PAL:::avformat:PAL:m2t:format=mpegts size=1280x720 video_bit_rate=19700000 audio_bit_rate=384000 gop_size=12 profile=hdv_720_25p
+:HQ:HDV 720 30p:NTSC:::avformat:NTSC:m2t:format=mpegts size=1280x720 video_bit_rate=19700000 audio_bit_rate=384000 gop_size=15 profile=hdv_720_30p
 
 # DV
 :HQ:DV (Raw):PAL:::avformat:PAL:dv:format=dv ildct=1 pix_fmt=yuv420p size=720x576 profile=dv_pal
