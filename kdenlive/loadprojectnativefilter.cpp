@@ -86,12 +86,6 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
 		QStringList meta = QStringList::split("#", e.attribute("metadata", QString::null), true);
 		if (!meta.isEmpty()) document->slotSetMetadata( meta );
 
-		KdenliveSettings::setDefaultheight(e.attribute("projectheight","576").toInt());
-		KdenliveSettings::setDefaultwidth(e.attribute("projectwidth","720").toInt());
-		KdenliveSettings::setDefaultfps(e.attribute("projectfps","25.0").toDouble());
-		KdenliveSettings::setAspectratio(e.attribute("projectratio",QString::number(59.0 / 54.0)).toDouble());
-		KdenliveSettings::setDisplayratio(e.attribute("projectdisplayratio",QString::number(4.0 / 3.0)).toDouble());
-
 		document->application()->setFramesPerSecond();
 
 		currentPos = e.attribute("timeline_position","0").toInt();
