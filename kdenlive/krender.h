@@ -105,7 +105,7 @@ class KRender:public QObject {
 
 	/** Wraps the VEML command of the same name. Sets the current scene list to
 	be list. */
-    void setSceneList(QDomDocument list, bool resetPosition = true);
+    void setSceneList(QDomDocument list, int position = 0);
 
 	/** Wraps the VEML command of the same name. Tells the renderer to
 	play the current scene at the speed specified, relative to normal

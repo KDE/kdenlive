@@ -112,8 +112,7 @@ namespace Gui {
 
 	public slots:		// Public slots
 	/** Set the monitors scenelist to the one specified. */
-	void setSceneList(const QDomDocument & scenelist,
-	    bool resetPosition = true);
+	void setSceneList(const QDomDocument & scenelist, int position = 0);
 	void slotSetVolume(double volume) const;
 	/** Refresh display (check if on screen display should be on or off */
 	void refreshDisplay() const;

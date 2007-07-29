@@ -125,18 +125,8 @@ namespace Gui {
 
     
 /** Set the displayed scenelist to the one specified. */
-    void KMMScreen::setSceneList(const QDomDocument & scenelist,
-	bool resetPosition) {
-	// #HACK currently, if there is no clip, the scenelist is: "</westley>" and it crashes, so test length as a temporary workaround
-
-	//if (scenelist.toString().length() > 20) {
-	    m_render->setSceneList(scenelist, resetPosition);
-	/*}
-	else {
-		QDomDocument blankList;
-		blankList.setContent(QString("<westley><producer id=\"black\" mlt_service=\"colour\" colour=\"blue\" /><playlist><entry in=\"0\" out=\"1\" producer=\"black\" /></playlist></westley>"));
-		m_render->setSceneList(blankList, resetPosition);
-	}*/
+    void KMMScreen::setSceneList(const QDomDocument & scenelist, int position) {
+	m_render->setSceneList(scenelist, position);
     }
 
     int KMMScreen::getLength()

@@ -162,6 +162,8 @@ namespace Gui {
 
 		/** Seek timeline ruler cursor to given time */
 	void setCursorPosition(const GenTime pos);
+		/** Retreive timeline ruler cursor time */
+	GenTime cursorPosition() const;
 
       protected:
 		/** save general Options like all bar positions and status as well as the geometry and the recent file list to the configuration

@@ -75,7 +75,7 @@ KRender::KRender(const QString & rendererName, QWidget *parent, const char *name
     m_osdInfo = new Mlt::Filter("data_show");
     char *tmp = decodedString(m_osdProfile);
     m_osdInfo->set("resource", tmp);
-    delete tmp;
+    delete[] tmp;
     //      Does it do anything usefull? I mean, KRenderThread doesn't do anything useful at the moment
     //      (except being cpu hungry :)
 
@@ -291,7 +291,7 @@ QPixmap KRender::getVideoThumbnail(KURL url, int frame_position, int width, int 
     QPixmap pix(width, height);
     char *tmp = decodedString(url.path());
     Mlt::Producer m_producer(tmp);
-    delete tmp;
+    delete[] tmp;
     if (m_producer.is_blank()) {
 	pix.fill(black);
 	return pix;
@@ -314,7 +314,7 @@ void KRender::getImage(KURL url, int frame_position, int width, int height)
 {
     char *tmp = decodedString(url.path());
     Mlt::Producer m_producer(tmp);
-    delete tmp;
+    delete[] tmp;
     if (m_producer.is_blank()) {
 	return;
     }
@@ -393,7 +393,7 @@ bool KRender::isValid(KURL url)
 {
     char *tmp = decodedString(url.path());
     Mlt::Producer producer(tmp);
-    delete tmp;
+    delete[] tmp;
     if (producer.is_blank())
 	return false;
 
@@ -403,11 +403,11 @@ bool KRender::isValid(KURL url)
 
 void KRender::getFileProperties(KURL url, uint framenb)
 {
-        int width = 50;
         int height = 40;
+        int width = 50;
 	char *tmp = decodedString(url.path());
 	Mlt::Producer producer(tmp);
-	delete tmp;
+	delete[] tmp;
     	if (producer.is_blank()) {
 	    return;
     	}
@@ -496,18 +496,17 @@ QDomDocument KRender::sceneList() const
 }
 
 /** Create the producer from the Westley QDomDocument */
-void KRender::setSceneList(QDomDocument list, bool resetPosition)
+void KRender::setSceneList(QDomDocument list, int position)
 {
     if (!m_winid == -1) return;
     m_generateScenelist = true;
 
-    double pos = 0;
     m_sceneList = list;
 
     Mlt::Playlist track;
     char *tmp = decodedString(list.toString());
     Mlt::Producer clip("westley-xml", tmp);
-    delete tmp;
+    delete[] tmp;
 
     if (!clip.is_valid()) {
 	kdWarning()<<" ++++ WARNING, UNABLE TO CREATE MLT PRODUCER"<<endl;
@@ -528,7 +527,6 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
     if (m_mltProducer) {
 	m_mltProducer->set_speed(0.0);
 	if (KdenliveSettings::osdtimecode() && m_osdInfo) m_mltProducer->detach(*m_osdInfo);
-	pos = m_mltProducer->position();
 	//mlt_producer_clear(m_mltProducer->get_producer());
 	delete m_mltProducer;
 	m_mltProducer = NULL;
@@ -537,7 +535,7 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
 
     m_mltProducer = track.current();
     m_mltProducer->optimise();
-    if (!resetPosition) m_mltProducer->seek((int) pos);
+    if (position != 0) m_mltProducer->seek(position);
 
     if (KdenliveSettings::osdtimecode()) {
 		// Attach filter for on screen display of timecode
@@ -551,7 +549,7 @@ void KRender::setSceneList(QDomDocument list, bool resetPosition)
     		m_osdInfo = new Mlt::Filter("data_show");
 		tmp = decodedString(m_osdProfile);
     		m_osdInfo->set("resource", tmp);
-		delete tmp;
+		delete[] tmp;
 		mlt_properties properties = MLT_PRODUCER_PROPERTIES(m_mltProducer->get_producer());
 		mlt_properties_set_int( properties, "meta.attr.timecode", 1);
 		mlt_properties_set( properties, "meta.attr.timecode.markup", "#timecode#");
@@ -938,8 +936,7 @@ void KRender::exportCurrentFrame(KURL url, bool notify) {
 	KMessageBox::sorry(qApp->mainWidget(), i18n("There is no clip, cannot extract frame."));
 	return;
     }
-    /*int width = KdenliveSettings::defaultwidth();
-    if (KdenliveSettings::displayratio() == 16.0 / 9.0) width = KdenliveSettings::defaultheight() * 16.0 / 9.0 + 0.5;*/
+
     int width = KdenliveSettings::defaultheight() * KdenliveSettings::displayratio() + 0.5;
     int height = KdenliveSettings::defaultheight();
 

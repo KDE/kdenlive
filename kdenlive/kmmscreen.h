@@ -90,8 +90,7 @@ public slots:
 	void play(double speed, const GenTime & startTime,
 	    const GenTime & endTime);
 	/** Set the displayed scenelist to the one specified. */
-	void setSceneList(const QDomDocument & scenelist,
-	    bool resetPosition = true);
+	void setSceneList(const QDomDocument & scenelist, int position = 0);
 	/** Called when the renderer stops playing */
 	void slotRendererStopped();
 	int getLength();

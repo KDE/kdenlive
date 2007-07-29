@@ -1894,7 +1894,7 @@ namespace Gui {
 	    m_projectFormatManager.openDocument(url, m_doc);
 	    if (!m_exportWidget) slotRenderExportTimeline(false);
 	    m_exportWidget->setMetaData(getDocument()->metadata());
-	    setCaption(url.fileName() + " - " + projectFormatName(m_projectFormat), false);
+	    documentModified(false);
 	    fileOpenRecent->addURL(m_doc->URL());
 	    if (m_exportWidget) m_exportWidget->resetValues();
 	    kdDebug()<<" + + +  Loading Time : "<<t.elapsed()<<"ms"<<endl;
@@ -1941,6 +1941,10 @@ namespace Gui {
 
     void KdenliveApp::setCursorPosition(const GenTime pos) {
 	m_timeline->seek(pos);
+    }
+
+    GenTime KdenliveApp::cursorPosition() const {
+	return m_timeline->seekPosition();
     }
 
     QDomDocument KdenliveApp::xmlGuides() {

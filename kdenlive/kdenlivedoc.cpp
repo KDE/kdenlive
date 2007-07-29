@@ -608,6 +608,7 @@ void KdenliveDoc::setProjectClip(DocClipProject * projectClip)
     if (m_projectClip) {
 	delete m_projectClip;
     }
+    m_sceneListGeneration = false;
     m_modified = false;
     m_projectClip = projectClip;
     updateReferences();

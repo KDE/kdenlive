@@ -136,9 +136,8 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	m_editPanel->screenPlayStopped();
     }
 
-    void KMMMonitor::setSceneList(const QDomDocument & scenelist,
-	bool resetPosition) {
-	m_screen->setSceneList(scenelist, resetPosition);
+    void KMMMonitor::setSceneList(const QDomDocument & scenelist, int position) {
+	m_screen->setSceneList(scenelist, position);
     }
     
     void KMMMonitor::exportCurrentFrame(KURL url, bool notify) const {
@@ -240,7 +239,7 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
     void KMMMonitor::doCommonSetClip(bool resetCropPosition) {
 	m_editPanel->doStop();
 	QDomDocument scenelist = m_clip->generateSceneList();
-	setSceneList(scenelist, false);
+	setSceneList(scenelist, (int) m_app->cursorPosition().frames(m_document->framesPerSecond()));
 	GenTime clipDuration(m_clip->duration() / m_clip->speed());
 	m_screen->setClipLength(clipDuration);
 	m_editPanel->setClipLength((int) clipDuration.frames(m_document->framesPerSecond()));
