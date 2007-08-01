@@ -284,6 +284,7 @@ namespace Gui {
 	    if (profilesList.isEmpty()) {
 	    	// Cannot find the MLT profiles, ask for location
 	    	KURLRequesterDlg *getUrl = new KURLRequesterDlg(KdenliveSettings::mltpath(), i18n("Cannot find your MLT installation, please give the path"), this, "mlt_path");
+		getUrl->fileDialog()->setMode(KFile::Directory);
 	    	getUrl->exec();
 	    	KURL mltPath = getUrl->selectedURL ();
 	    	delete getUrl;
