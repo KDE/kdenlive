@@ -185,6 +185,8 @@ void KRender::createVideoXWindow(WId winid, WId externalMonitor)
 int KRender::resetRendererProfile(char * profile)
 {
     if (!m_mltConsumer) return 0;
+    if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
+    m_mltConsumer->set("refresh", 0);
     m_mltConsumer->set("profile", profile);
     kdDebug()<<" + + RESET CONSUMER WITH PROFILE: "<<profile<<endl;
     m_fps = KdenliveSettings::defaultfps();
