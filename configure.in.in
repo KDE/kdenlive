@@ -12,7 +12,7 @@ KDE_FIND_PATH(mlt-config, MLT_CONFIG, [${prefix}/bin ${exec_prefix}/bin /usr/loc
 if test -n "$MLT_CONFIG"; 
 then
 	vers=`$MLT_CONFIG --version 2>/dev/null | awk 'BEGIN { FS = "."; } { printf "%d", ($1 * 1000 + $2) * 1000 + $3;}'`
-	if test -n "$vers" && test "$vers" -ge 0001001 
+	if test -n "$vers" && test "$vers" -ge 0002004 
 	then
 		LIBMLT_LIBS="`$MLT_CONFIG --libs`"
 
@@ -27,8 +27,11 @@ then
 
 		LIBMLT_RPATH=`echo $LIBMLT_RPATH | sed -e "s/-L/-R/g"`
 		LIBMLT_CFLAGS="`$MLT_CONFIG --cflags`"
+
+		MLT_PATH=`mlt-config --prefix`
+		CXXFLAGS='$CXXFLAGS -DMLT_PREFIX=\""'$MLT_PATH'"\"'
 	else
-		AC_MSG_WARN([You need at least mlt 0.1.1])	
+		AC_MSG_WARN([You need at least mlt 0.2.4])	
 		HELP_SUBDIR=
 	fi
 fi	

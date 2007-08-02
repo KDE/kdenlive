@@ -183,7 +183,7 @@
 
     <entry name="mltpath" type="String">
       <label>Folder where the MLT video framework is installed</label>
-      <default>/usr/local/</default>
+      <default></default>
     </entry>
 
     <entry name="userdefinedtmp" type="Bool">

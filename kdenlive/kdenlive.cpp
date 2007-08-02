@@ -268,6 +268,11 @@ namespace Gui {
 
     void KdenliveApp::parseProfiles()
     {
+	kdDebug()<<" + + YOUR MLT INSTALL WAS FOUND IN: "<< MLT_PREFIX <<endl;
+	if (KdenliveSettings::mltpath().isEmpty()) {
+	    KdenliveSettings::setMltpath(MLT_PREFIX);
+	}
+
         QString profilePath = KdenliveSettings::mltpath() + "/share/mlt/profiles/";
 	QStringList profilesList = QDir(profilePath).entryList("*", QDir::Files);
 
