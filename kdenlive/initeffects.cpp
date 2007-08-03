@@ -39,17 +39,9 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 {
     // Build effects. Retrieve the list of MLT's available effects first.
 
-    QString inigoPath = KStandardDirs::findExe("inigo");
-    inigoPath = inigoPath.section('/', 0, -3);
-
-    KGlobal::dirs()->addResourceType("mlt_data", "share/mlt/modules");
-    KGlobal::dirs()->addResourceDir("mlt_data", "/usr/share/mlt/modules");
-    KGlobal::dirs()->addResourceDir("mlt_data", "/usr/local/share/mlt/modules");
-    KGlobal::dirs()->addResourceDir("mlt_data", inigoPath + "/share/mlt/modules");
-    QString datFile = locate("mlt_data", "filters.dat");
+    QString datFile = KdenliveSettings::mltpath() + "/share/mlt/modules/filters.dat";
 
     QStringList filtersList;
-
     QFile file( datFile );
     if ( file.open( IO_ReadOnly ) ) {
         QTextStream stream( &file );
@@ -62,7 +54,7 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
     }
 
     // Build effects. check producers first.
-    datFile = locate("mlt_data", "producers.dat");
+    datFile = KdenliveSettings::mltpath() + "/share/mlt/modules/producers.dat";
     QStringList producersList;
 
     file.setName( datFile );
@@ -82,7 +74,6 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
     KGlobal::dirs()->addResourceDir("ladspa_plugin", "/usr/local/lib/ladspa");
     KGlobal::dirs()->addResourceDir("ladspa_plugin", "/opt/lib/ladspa");
     KGlobal::dirs()->addResourceDir("ladspa_plugin", "/opt/local/lib/ladspa");
-    KGlobal::dirs()->addResourceDir("ladspa_plugin", inigoPath + "/lib/ladspa");
 
     /**
 
