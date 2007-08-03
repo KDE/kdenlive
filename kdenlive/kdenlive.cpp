@@ -3326,7 +3326,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		    GenTime duration = getDocument()->getTimecodePosition(txtWidget->edit_duration->text(), MAXFRAMEDURATION);
                     QPixmap thumb = txtWidget->thumbnail(50, 40);
                     QDomDocument xml = txtWidget->toXml();
-                    Command::KEditClipCommand(*m_doc, refClip, duration, txtWidget->titleName->text(),QString::null, xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked());
+                    Command::KEditClipCommand(*m_doc, refClip, duration, txtWidget->titleName->text(), clip->description(), xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked());
 
 		    if (refClip->numReferences() > 0) getDocument()->activateSceneListGeneration(true);
             	}
