@@ -29,7 +29,7 @@ then
 		LIBMLT_CFLAGS="`$MLT_CONFIG --cflags`"
 
 		MLT_PATH=`mlt-config --prefix`
-		CXXFLAGS='$CXXFLAGS -DMLT_PREFIX=\""'$MLT_PATH'"\"'
+		CXXFLAGS="$CXXFLAGS -DMLT_PREFIX=\\\"\"$MLT_PATH\"\\\""
 	else
 		AC_MSG_WARN([You need at least mlt 0.2.4])	
 		HELP_SUBDIR=
