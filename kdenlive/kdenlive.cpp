@@ -3217,6 +3217,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                     new Command::KAddClipCommand(*m_doc, m_projectList->parentName(), duration, txtWidget->titleName->text(),QString::null, xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked(), true);
             addCommand(command, true);
         }
+	delete txtWidget;
         slotStatusMsg(i18n("Ready."));
     }
     
@@ -3330,6 +3331,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
 		    if (refClip->numReferences() > 0) getDocument()->activateSceneListGeneration(true);
             	}
+		delete txtWidget;
             }
             else {
                 ClipProperties *dia = new ClipProperties(refClip, getDocument());

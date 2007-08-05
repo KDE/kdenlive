@@ -145,6 +145,7 @@ void FigureEditor::contentsMouseReleaseEvent(QMouseEvent* e)
         if (operationMode == ResizeMode) {
 			  int pos=(int)selectedItem->z();
                 delete selectedItem;
+		selectedItem = 0;
                 delete drawingRect;
                 drawingRect=0;
                 QPoint p = inverseWorldMatrix().map(e->pos());
@@ -352,6 +353,7 @@ void FigureEditor::deleteItem(QCanvasItem *i)
             if ((*it)->z()>deletedIndex && (*it)->z()<1000)
                         (*it)->setZ((*it)->z()-1);
         }
+	selectedItem = 0;
 }
 
 
@@ -478,6 +480,7 @@ void FigureEditor::updateSelection()
 
 	// Update selection rectangle
     delete selection;
+    selection = 0;
     selectRectangle(selectedItem);
 }
 
@@ -959,7 +962,10 @@ titleWidget::titleWidget(Gui::KMMScreen *screen, int width, int height, KURL tmp
 
 
 titleWidget::~titleWidget()
-{}
+{
+    delete canview;
+    if (canvas) delete canvas;
+}
 
 void titleWidget::transparencyToggled(bool isOn)
 {
