@@ -52,6 +52,7 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
     
     QDomDocument doc;
     doc.setContent(&file, false);
+    file.close();
 
     QDomElement documentElement = doc.documentElement();
 
@@ -148,6 +149,7 @@ bool LoadProjectNativeFilter::merge(QFile & file, KdenliveDoc * document, bool i
     bool trackListLoaded = false;
     QDomDocument doc;
     doc.setContent(&file, false);
+    file.close();
 
     QDomElement documentElement = doc.documentElement();
 
