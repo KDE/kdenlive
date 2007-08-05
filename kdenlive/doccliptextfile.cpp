@@ -198,15 +198,13 @@ uint DocClipTextFile::clipHeight() const
 
 uint DocClipTextFile::clipWidth() const
 {
-    return KdenliveSettings::defaultwidth();
+    return clipHeight() * KdenliveSettings::displayratio();
 }
 
 double DocClipTextFile::aspectRatio() const
 {
-    return KdenliveSettings::aspectratio();
-/*
     double ratio = ((double) KdenliveSettings::defaultwidth()/KdenliveSettings::defaultheight())/((double)clipWidth()/clipHeight()) * KdenliveSettings::aspectratio();
-    return ratio;*/
+    return ratio;
 }
 
 // virtual

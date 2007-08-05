@@ -165,7 +165,7 @@ QDomElement SaveProjectNativeFilter::processedNode(DocumentClipNode *clipNode, Q
 		avfile.setAttribute("hide", "audio");
 		double ratio = KdenliveSettings::aspectratio();
 		ratio = ratio / ((double) KdenliveSettings::defaultwidth()/KdenliveSettings::defaultheight());
-		avfile.setAttribute("aspect_ratio", QString::number( ratio ));
+		//avfile.setAttribute("aspect_ratio", QString::number( ratio ));
 		avfile.setAttribute("colour",
 		    clipNode->clipRef()->referencedClip()->
 		    toDocClipAVFile()->color());

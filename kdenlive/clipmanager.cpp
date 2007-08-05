@@ -625,7 +625,7 @@ QDomDocumentFragment ClipManager::producersList()
 		producer.setAttribute("mlt_service", "colour");
 		double ratio = KdenliveSettings::renderratio();
 		//ratio = ratio / ((double) KdenliveSettings::defaultwidth()/KdenliveSettings::defaultheight());
-		producer.setAttribute("aspect_ratio", QString::number(ratio));
+		// producer.setAttribute("aspect_ratio", QString::number(ratio));
 		// producer.setAttribute("aspect_ratio", QString::number(KdenliveSettings::aspectratio()));
 		producer.setAttribute("hide", "audio");
 		producer.setAttribute("colour", avClip->color());
