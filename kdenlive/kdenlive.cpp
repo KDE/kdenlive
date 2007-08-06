@@ -2124,6 +2124,9 @@ namespace Gui {
 		KdenliveSettings::setAspectratio(it.data().aspect());
 		KdenliveSettings::setDisplayratio(it.data().display());
 		KdenliveSettings::setRenderratio(it.data().aspect());
+		KdenliveSettings::setCorrectionratio((double)it.data().width() * it.data().aspect() / it.data().height() / it.data().display());
+		KdenliveSettings::setDisplaywidth(it.data().height() * it.data().display() + 0.5);
+		KdenliveSettings::setDisplaywidth(it.data().height() * it.data().display() + 0.5);
 		profileName = it.key();
 		break;
 	    }
@@ -3204,8 +3207,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 /* Create text clip */
     void KdenliveApp::slotProjectAddTextClip() {
         slotStatusMsg(i18n("Adding Clips"));
-	int width = KdenliveSettings::defaultheight() * KdenliveSettings::displayratio()  + 0.5;
-        titleWidget *txtWidget=new titleWidget(m_workspaceMonitor->screen(), width, KdenliveSettings::defaultheight(), NULL, this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
+        titleWidget *txtWidget=new titleWidget(m_workspaceMonitor->screen(), KdenliveSettings::displaywidth(), KdenliveSettings::defaultheight(), NULL, this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
         txtWidget->titleName->setText(i18n("Text Clip"));
         txtWidget->edit_duration->setText(KdenliveSettings::textclipduration());
         if (txtWidget->exec() == QDialog::Accepted) {
@@ -3315,8 +3317,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    DocClipBase *clip = refClip->referencedClip();
             
             if (refClip->clipType() == DocClipBase::TEXT) {
-		int width = m_doc->projectClip().videoHeight() * KdenliveSettings::displayratio() + 0.5;
-                titleWidget *txtWidget=new titleWidget(m_workspaceMonitor->screen(), width, m_doc->projectClip().videoHeight(), clip->fileURL(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
+                titleWidget *txtWidget=new titleWidget(m_workspaceMonitor->screen(), KdenliveSettings::displaywidth(), m_doc->projectClip().videoHeight(), clip->fileURL(), this,"titler",Qt::WStyle_StaysOnTop | Qt::WType_Dialog | Qt::WDestructiveClose);
                 
                 txtWidget->edit_duration->setText(getDocument()->timeCode().getTimecode(refClip->duration(), getDocument()->framesPerSecond()));
 

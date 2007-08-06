@@ -939,7 +939,7 @@ void KRender::exportCurrentFrame(KURL url, bool notify) {
 	return;
     }
 
-    int width = KdenliveSettings::defaultheight() * KdenliveSettings::displayratio() + 0.5;
+    int width = KdenliveSettings::displaywidth();
     int height = KdenliveSettings::defaultheight();
 
     QPixmap pix(width, height);

@@ -114,6 +114,11 @@
       <default>pal_dv</default>
     </entry>
 
+    <entry name="displaywidth" type="Int">
+      <label>Width of the project's displayed video image (with aspect ratio correction).</label>
+      <default>768</default>
+    </entry>
+
     <entry name="defaultwidth" type="Int">
       <label>Width of the project's video image.</label>
       <default>720</default>
@@ -135,6 +140,11 @@
     <entry name="renderratio" type="Double">
       <label>Render ratio.</label>
       <default>1.09259</default>
+    </entry>
+
+    <entry name="correctionratio" type="Double">
+      <label>MLT correction ratio.</label>
+      <default>1.02431</default>
     </entry>
 
     <entry name="displayratio" type="Double">
