@@ -374,6 +374,7 @@ void TransitionDialog::setTransitionParameters(const QMap < QString, QString > p
 	// Luma transition
 	transitLumaFile->slider_soft->setValue(parameters["softness"].toDouble() * 100.0);
 	QString fileName = KURL(parameters["resource"]).filename();
+	if (fileName.isEmpty()) return;
 	fileName = fileName.left(fileName.length() - 4);
 	QIconViewItem *it = transitLumaFile->lumaView->findItem(fileName);
 	if (it) {
@@ -419,10 +420,11 @@ const QMap < QString, QString > TransitionDialog::transitionParameters()
     }
     else if (propertiesDialog->activePageIndex() == 3) // luma file
     {
-      QString fname;
+      QString fname = QString::null;
       if (transitLumaFile->lumaView->currentItem())
           fname = locate(m_lumaType, transitLumaFile->lumaView->currentItem()->text() + ".pgm");
-      else fname = locate(m_lumaType, transitLumaFile->lumaView->firstItem()->text() + ".pgm");
+      else if (transitLumaFile->lumaView->firstItem()) 
+          fname = locate(m_lumaType, transitLumaFile->lumaView->firstItem()->text() + ".pgm");
       paramList["resource"] = fname;
       paramList["softness"] = QString::number(((double) transitLumaFile->spin_soft->value()) / 100.0);
     }
