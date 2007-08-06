@@ -850,13 +850,13 @@ QDomDocumentFragment DocClipRef::generateXMLTransition(bool hideVideo, bool hide
     {
 	int transitionNumber = m_transitionStack.count();
 	QValueList < QPoint > blanklist;
-	blanklist.append(QPoint((int) trackStart().frames(framesPerSecond()), (int) trackEnd().frames(framesPerSecond()) - 1));
+	blanklist.append(QPoint((int) trackStart().frames(framesPerSecond()), (int) trackEnd().frames(framesPerSecond())));
 	while (transitionNumber > 0) {
 	    // Parse all clip transitions and build a list of times without transitions
 	    QValueList < QPoint >::Iterator it;
 	    Transition *t = m_transitionStack.at(transitionNumber - 1);
 	    int transStart = (int) t->transitionStartTime().frames(framesPerSecond());
-	    int transEnd = (int) t->transitionEndTime().frames(framesPerSecond()) - 1;
+	    int transEnd = (int) t->transitionEndTime().frames(framesPerSecond());
 	    for ( it = blanklist.begin(); it != blanklist.end(); ++it ) {
 		int currentStart = (*it).x();
 		int currentEnd = (*it).y();
@@ -884,7 +884,7 @@ QDomDocumentFragment DocClipRef::generateXMLTransition(bool hideVideo, bool hide
             transition.setAttribute("mlt_service", "composite");
             transition.setAttribute("fill", "1");
 	    //if (ct == DocClipBase::TEXT) transition.setAttribute("distort", "1");
-            transition.setAttribute("progressive","1");
+            //transition.setAttribute("progressive","1");
 	    transition.setAttribute("valign","1");
 	    transition.setAttribute("halign","1");
             transition.setAttribute("a_track", QString::number( playlistNextTrackNum()));
@@ -982,7 +982,7 @@ QDomDocumentFragment DocClipRef::generateOffsetXMLTransition(bool hideVideo, boo
         transition.setAttribute("out", (trackEnd() - start).frames(framesPerSecond()) - 1);
         transition.setAttribute("mlt_service", "composite");
         transition.setAttribute("fill", "1");
-        transition.setAttribute("progressive","1");
+        //transition.setAttribute("progressive","1");
 	transition.setAttribute("valign","1");
 	transition.setAttribute("halign","1");
         transition.setAttribute("a_track", QString::number( playlistNextTrackNum()));
