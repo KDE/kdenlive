@@ -69,7 +69,7 @@ class ExportDvdDialog:public ExportDvd_UI {
 	void generateDvd();
 	void dvdFailed();
 	void receivedStderr(KProcess *, char *buffer, int len);
-	void slotUpdateNextButton(bool isOn);
+	void slotUpdateNextButton();
 
     private:			// Private attributes
 	GenTime timeFromString(QString timeString);
