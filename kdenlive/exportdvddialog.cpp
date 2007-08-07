@@ -55,6 +55,7 @@ ExportDvdDialog::ExportDvdDialog(DocClipProject *proj, exportWidget *render_widg
 {
     if (KStandardDirs::findExe("dvdauthor") == QString::null) KMessageBox::sorry(this, i18n("Cannot find the program \"dvdauthor\" on your system. Install it if you want to be able to create a DVD"));
     dvd_folder->setURL(KdenliveSettings::currentdefaultfolder() + "/dvd/");
+    dvd_folder->setMode(KFile::Directory);
     m_fps = m_project->framesPerSecond();
     xml_file = KdenliveSettings::currenttmpfolder() + "/dvdauthor.xml";
     spuxml_file = KdenliveSettings::currenttmpfolder() + "/spumux.xml";
@@ -95,7 +96,8 @@ ExportDvdDialog::ExportDvdDialog(DocClipProject *proj, exportWidget *render_widg
     connect(button_burn, SIGNAL(clicked()), this, SLOT(burnDvd()));
     connect(button_qdvd, SIGNAL(clicked()), this, SLOT(openWithQDvdauthor()));
 
-    connect(use_existing, SIGNAL(toggled (bool)), this, SLOT(slotUpdateNextButton(bool)));
+    connect(use_existing, SIGNAL(toggled (bool)), this, SLOT(slotUpdateNextButton()));
+    connect(render_file, SIGNAL(textChanged(const QString &)), this, SLOT(slotUpdateNextButton()));
 
     connect(render_widget, SIGNAL(dvdExportOver(bool)), this, SLOT(slotFinishExport(bool)));
     connect(create_menu, SIGNAL(toggled ( bool )), this, SLOT( refreshPreview()));
@@ -121,9 +123,9 @@ ExportDvdDialog::~ExportDvdDialog()
     }
 }
 
-void ExportDvdDialog::slotUpdateNextButton(bool isOn)
+void ExportDvdDialog::slotUpdateNextButton()
 {
-    if (isOn && render_file->url().isEmpty()) nextButton()->setEnabled(false);
+    if (use_existing->isChecked() && render_file->url().isEmpty()) nextButton()->setEnabled(false);
     else nextButton()->setEnabled(true);
 }
 
