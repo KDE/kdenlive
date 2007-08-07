@@ -258,11 +258,11 @@ namespace Gui {
 	    setCaption(newProjectName + ".kdenlive" + " - " + projectFormatName(m_projectFormat), false);
 	    m_doc->setProjectName( newProjectName + ".kdenlive");
 	    m_dockProjectList->makeDockVisible();
-	    if (KdenliveSettings::showsplash()) QTimer::singleShot(500, this, SLOT(slotSplashTimeout()));
+	    initMonitors();
 	}
+	if (KdenliveSettings::showsplash()) QTimer::singleShot(500, this, SLOT(slotSplashTimeout()));
 	connect(manager(), SIGNAL(change()), this, SLOT(slotUpdateLayoutState()));
 	setAutoSaveSettings();
-	initMonitors();
     }
 
 
@@ -452,7 +452,6 @@ namespace Gui {
     void KdenliveApp::openSelectedFile()
     {
         openDocumentFile(m_selectedFile);
-        QTimer::singleShot(500, this, SLOT(slotSplashTimeout()));
     }
 
     void KdenliveApp::openLastFile()
@@ -461,7 +460,6 @@ namespace Gui {
         QString Lastproject = config->readPathEntry("File1");
         if (!Lastproject.isEmpty())
             openDocumentFile(KURL(Lastproject));
-        QTimer::singleShot(500, this, SLOT(slotSplashTimeout()));
     }
 
     void KdenliveApp::initActions() {
