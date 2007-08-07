@@ -357,6 +357,7 @@ void TransitionDialog::setTransitionParameters(const QMap < QString, QString > p
 	    transitWipe->luma_file->setCurrentText(fname);
 	    transitWipe->spin_soft->setValue(parameters["softness"].toDouble() * 100.0);
 	}
+	else transitWipe->use_luma->setChecked(false);
     }
     else if (propertiesDialog->activePageIndex() == 2) {
 	// Pip transition
@@ -369,7 +370,8 @@ void TransitionDialog::setTransitionParameters(const QMap < QString, QString > p
 	    transitPip->luma_file->setCurrentText(fname);
 	    transitPip->spin_soft->setValue(parameters["softness"].toDouble() * 100.0);
 	}
-        }
+	else transitPip->use_luma->setChecked(false);
+    }
     else if (propertiesDialog->activePageIndex() == 3) {
 	// Luma transition
 	transitLumaFile->slider_soft->setValue(parameters["softness"].toDouble() * 100.0);
