@@ -2203,9 +2203,10 @@ namespace Gui {
 
 		    // Insert available video formats:
 		    QStringList templateNames = videoProjectFormats();
-		    kdDebug()<<" ----  GET READY TO INSERT: "<<templateNames<<endl;
+		    // kdDebug()<<" ----  GET READY TO INSERT: "<<templateNames<<endl;
 		    newProjectDialog->video_format->insertStringList(templateNames);
-		    newProjectDialog->video_format->setCurrentText(projectFormatName(KdenliveSettings::defaultprojectformat()));
+		    if (templateNames.find(KdenliveSettings::defaultprojectformat()) != templateNames.end())
+		        newProjectDialog->video_format->setCurrentText(projectFormatName(KdenliveSettings::defaultprojectformat()));
 
 		    newProjectDialog->audioTracks->setValue(*audioTracks);
 		    newProjectDialog->videoTracks->setValue(*videoTracks);

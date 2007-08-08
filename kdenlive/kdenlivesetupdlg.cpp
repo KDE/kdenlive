@@ -46,8 +46,10 @@ namespace Gui {
 	
 	page3->kcfg_defaulttmpfolder->setMode(KFile::Directory);
 	page4->kcfg_titlerfont->enableColumn( KFontChooser::StyleList, false);
-	page5->defaultprojectformat->insertStringList(app->videoProjectFormats());
-	page5->defaultprojectformat->setCurrentText(app->projectFormatName(KdenliveSettings::defaultprojectformat()));
+	QStringList formats = app->videoProjectFormats();
+	page5->defaultprojectformat->insertStringList(formats);
+	if (formats.find(KdenliveSettings::defaultprojectformat()) != formats.end())
+	    page5->defaultprojectformat->setCurrentText(app->projectFormatName(KdenliveSettings::defaultprojectformat()));
 	addPage(page1, i18n("Interface"), "looknfeel");
 	addPage(page2, i18n("Timeline"), "view_details");
         addPage(page3, i18n("Misc"), "run");
