@@ -270,16 +270,18 @@ DocClipBase *ClipManager::insertColorClip(const QString & color,
                                           const QString & description, int clipId)
 {
     DocClipBase *clip;
-    if (clipId == -1) clip = new DocClipAVFile(color, duration, m_clipCounter);
+    if (clipId == -1) {
+	clipId = m_clipCounter;
+	clip = new DocClipAVFile(color, duration, m_clipCounter++);
+    }
     else {
         clip = new DocClipAVFile(color, duration, clipId);
-        m_clipCounter = clipId;
+        if (clipId >= (int) m_clipCounter) m_clipCounter = clipId + 1;
     }
     clip->setDescription(description);
     clip->setName(name);
     m_clipList.append(clip);
-    m_render->getImage(m_clipCounter, color, 50, 40);
-    m_clipCounter++;
+    m_render->getImage(clipId, color, 50, 40);
     emit clipListUpdated();
     return clip;
 }
