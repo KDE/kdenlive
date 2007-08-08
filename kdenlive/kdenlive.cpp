@@ -2205,7 +2205,7 @@ namespace Gui {
 		    QStringList templateNames = videoProjectFormats();
 		    // kdDebug()<<" ----  GET READY TO INSERT: "<<templateNames<<endl;
 		    newProjectDialog->video_format->insertStringList(templateNames);
-		    if (templateNames.find(KdenliveSettings::defaultprojectformat()) != templateNames.end())
+		    if (templateNames.find(projectFormatName(KdenliveSettings::defaultprojectformat())) != templateNames.end())
 		        newProjectDialog->video_format->setCurrentText(projectFormatName(KdenliveSettings::defaultprojectformat()));
 
 		    newProjectDialog->audioTracks->setValue(*audioTracks);

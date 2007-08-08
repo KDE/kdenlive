@@ -48,7 +48,7 @@ namespace Gui {
 	page4->kcfg_titlerfont->enableColumn( KFontChooser::StyleList, false);
 	QStringList formats = app->videoProjectFormats();
 	page5->defaultprojectformat->insertStringList(formats);
-	if (formats.find(KdenliveSettings::defaultprojectformat()) != formats.end())
+	if (formats.find(app->projectFormatName(KdenliveSettings::defaultprojectformat())) != formats.end())
 	    page5->defaultprojectformat->setCurrentText(app->projectFormatName(KdenliveSettings::defaultprojectformat()));
 	addPage(page1, i18n("Interface"), "looknfeel");
 	addPage(page2, i18n("Timeline"), "view_details");
