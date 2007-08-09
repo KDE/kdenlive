@@ -2723,7 +2723,7 @@ namespace Gui {
 
     void KdenliveApp::slotFileSaveAs(QString suggestedName) {
 	slotStatusMsg(i18n("Saving file with a new filename..."));
-
+	m_autoSaveTimer->stop();
 	KURL url = KFileDialog::getSaveURL(m_fileDialogPath.path() + "/" + suggestedName,
 	    m_projectFormatManager.saveMimeTypes(), this, i18n("Save as..."));
 
@@ -2731,8 +2731,10 @@ namespace Gui {
 	    if (!url.path().endsWith(".kdenlive"))
 		url.setFileName(url.filename() + ".kdenlive");
 
-	    if (KIO::NetAccess::exists(url, true, this)) {
-            	if (KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it ?")) ==  KMessageBox::No) return;
+	    if (KIO::NetAccess::exists(url, true, this) && KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it ?")) ==  KMessageBox::No) {
+		if (KdenliveSettings::autosave())
+	    	    m_autoSaveTimer->start(KdenliveSettings::autosavetime() * 60000, false);
+		return;
 	    }
 	    if (m_projectFormatManager.saveDocument(url, m_doc)) {
 	    fileOpenRecent->addURL(url);
@@ -2743,7 +2745,8 @@ namespace Gui {
 	    m_fileDialogPath = url;
 	    m_fileDialogPath.setFileName(QString::null);
 	}
-
+	if (KdenliveSettings::autosave())
+	    m_autoSaveTimer->start(KdenliveSettings::autosavetime() * 60000, false);
 	slotStatusMsg(i18n("Ready."));
     }
 
