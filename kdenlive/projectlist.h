@@ -68,6 +68,7 @@ namespace Gui {
 	void focusView();
 	bool hasChildren();
 	QStringList currentItemChildrenIds();
+	bool isEmpty();
 
       private:			// Private methods
 	/** Holds the document that this projectlist makes use of. */

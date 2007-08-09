@@ -366,7 +366,11 @@ namespace Gui {
 	    if (clip) emit clipSelected(clip);
 	}
     }
-    
+   
+    bool ProjectList::isEmpty() {
+	if (!m_isIconView) return m_listView->childCount() == 0;
+	return m_iconView->count() == 0;
+    } 
 
     DocClipRefList ProjectList::currentSelection() {
 	if (!m_isIconView) return m_listView->selectedItemsList();

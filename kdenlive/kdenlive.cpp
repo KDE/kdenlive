@@ -3031,7 +3031,7 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 
     void KdenliveApp::slotProjectDeleteFolder() {
 	//TODO: implement icon view folder deletion
-	if (m_projectList->currentClip() || !m_projectList->isListView()) return;
+	if (m_projectList->isEmpty() || m_projectList->currentClip() || !m_projectList->isListView()) return;
 	if (m_projectList->hasChildren())
 	if (KMessageBox::questionYesNo(this, i18n("Deleting this folder will remove all reference to its clips in your project.\nDelete this folder ?")) ==  KMessageBox::No) return;
 	QString folderName = m_projectList->currentItemName();
