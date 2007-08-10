@@ -97,6 +97,7 @@ private slots:
         void moveX(int x);
         void adjustTransparency(int x);
         void adjustSliders(int x, int y);
+	void focusInOut();
 
 public slots:
         QString parameters();

@@ -267,6 +267,9 @@ transitionPipWidget::transitionPipWidget(KdenliveApp * app, int width, int heigh
 
         
         connect(radio_start, SIGNAL(stateChanged(int)), this, SLOT(changeKeyFrame(int)));
+        connect(radio_start, SIGNAL(pressed()), this, SLOT(focusInOut()));
+        connect(radio_end, SIGNAL(pressed()), this, SLOT(focusInOut()));
+
         m_transitionParameters[0]="0:0:100:0";
         m_transitionParameters[1]="0:0:100:0";
         changeKeyFrame(radio_start->isChecked());
@@ -279,6 +282,17 @@ transitionPipWidget::~transitionPipWidget()
     if (canvas) delete canvas;
 }
 
+void transitionPipWidget::focusInOut()
+{
+
+    // Hack: if a spinbox has focus, we need to focus it out before changing keyframe so that a signal is emitted
+    // or the value will be assigned to wrong keyframe
+    if (spin_size->hasFocus()) slider_size->setFocus();
+    if (spin_transparency->hasFocus()) slider_transparency->setFocus();
+    if (spin_x->hasFocus()) slider_x->setFocus();
+    if (spin_y->hasFocus()) slider_y->setFocus();
+
+}
 
 void transitionPipWidget::changeKeyFrame(int isOn)
 {
