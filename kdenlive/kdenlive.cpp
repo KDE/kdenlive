@@ -2138,8 +2138,11 @@ namespace Gui {
 	//putenv (m_projectTemplates.values()[ix].normalisation());
 	if (m_transitionPanel) m_transitionPanel->setVideoFormat(projectFormatParameters(m_projectFormat));
 	if (m_exportWidget) m_exportWidget->setVideoFormat(projectFormatParameters(m_projectFormat));
-	if (getDocument() && getDocument()->renderer())
-	    getDocument()->renderer()->resetRendererProfile((char*) KdenliveSettings::videoprofile().ascii());
+	if (getDocument()) {
+	    if (getDocument()->renderer())
+		getDocument()->renderer()->resetRendererProfile((char*) KdenliveSettings::videoprofile().ascii());
+	    setCaption(m_doc->projectName() + " - " + projectFormatName(m_projectFormat), m_doc->isModified());
+	}
 	if (m_renderManager && m_renderManager->findRenderer("ClipMonitor"))
 	    m_renderManager->findRenderer("ClipMonitor")->resetRendererProfile((char*) KdenliveSettings::videoprofile().ascii());
 	statusBar()->changeItem(profileName, ID_TIMELINE_MSG);
