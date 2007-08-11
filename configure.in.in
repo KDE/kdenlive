@@ -1,6 +1,6 @@
 #MIN_CONFIG(3.2.0)
 
-AM_INIT_AUTOMAKE(kdenlive, 0.5svn)
+AM_INIT_AUTOMAKE(kdenlive, 0.5)
 AC_C_BIGENDIAN
 AC_CHECK_KDEMAXPATHLEN
 
@@ -31,7 +31,15 @@ then
 		MLT_PATH=`mlt-config --prefix`
 		CXXFLAGS="$CXXFLAGS -DMLT_PREFIX=\\\"\"$MLT_PATH\"\\\""
 	else
-		AC_MSG_WARN([You need at least mlt 0.2.4])	
+		AC_MSG_WARN([                                    ])
+		AC_MSG_WARN([************************************])
+		AC_MSG_WARN([*  WARNING: You need MLT >= 0.2.4  *])
+		AC_MSG_WARN([*  Please update your MLT version  *])
+		AC_MSG_WARN([*  from: http://mltframework.org.  *])
+		AC_MSG_WARN([*  Kdenlive will NOT work properly *])
+		AC_MSG_WARN([*  without an updated MLT version  *])
+		AC_MSG_WARN([************************************])
+		AC_MSG_WARN([                                    ])
 		HELP_SUBDIR=
 	fi
 fi	
