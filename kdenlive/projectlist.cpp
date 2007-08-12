@@ -180,7 +180,10 @@ namespace Gui {
 	QString folderName = currentItemName();
 	QListViewItem * myChild = m_listView->currentItem()->firstChild();
         while( myChild ) {
-	    list.append(QString::number((static_cast<AVListViewItem*>(myChild))->clip()->referencedClip()->getId()));
+	    BaseListViewItem::ITEMTYPE type = ((BaseListViewItem *) myChild)->getType();
+            if (type == BaseListViewItem::CLIP) {
+	        list.append(QString::number((static_cast<AVListViewItem*>(myChild))->clip()->referencedClip()->getId()));
+	    }
 	    myChild = myChild->nextSibling();
         }
 	return list;
@@ -188,8 +191,11 @@ namespace Gui {
 
     DocClipRef* ProjectList::currentClip() {
 	if (!m_isIconView) {
-	    if (!m_listView->currentItem()) return NULL;
-	    return (static_cast<AVListViewItem*>(m_listView->currentItem()))->clip();
+	    QListViewItem *item = m_listView->currentItem();
+	    if (!item) return NULL;
+	    BaseListViewItem::ITEMTYPE type = ((BaseListViewItem *) item)->getType();
+            if (type != BaseListViewItem::CLIP) return NULL;
+	    return (static_cast<AVListViewItem*>(item))->clip();
 	}
 	else return m_iconView->selectedItem();
     }
@@ -225,27 +231,31 @@ namespace Gui {
 /** No descriptions */
     void ProjectList::rightButtonPressed(QListViewItem * listViewItem,
 	const QPoint & pos, int column) {
-	QPopupMenu *menu;
+	QPopupMenu *menu = NULL;
 	if (!listViewItem) menu = (QPopupMenu *) m_app->factory()->container("projectlist_context", m_app);
-	else if (!static_cast<AVListViewItem*>(listViewItem)->clip())
-	    menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_folder", m_app);
 	else {
-	    switch (static_cast<AVListViewItem*>(listViewItem)->clip()->clipType()) {
-		case DocClipBase::VIRTUAL:
-		    menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_virtual", m_app);
-		break;
-		case DocClipBase::TEXT:
-		    menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_text", m_app);
-		break;
-		case DocClipBase::AUDIO:
-		    menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_audio", m_app);
-		break;
-		case DocClipBase::IMAGE:
-		    menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_audio", m_app);
-		break;
-		default:
-	            menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_clip", m_app);
-		break;
+	    BaseListViewItem::ITEMTYPE type = ((BaseListViewItem *) listViewItem)->getType();
+            if (type == BaseListViewItem::FOLDER) {
+		menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_folder", m_app);
+	    }
+            else if (type == BaseListViewItem::CLIP) {
+	    	switch (static_cast<AVListViewItem*>(listViewItem)->clip()->clipType()) {
+		    case DocClipBase::VIRTUAL:
+		    	menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_virtual", m_app);
+			break;
+		    case DocClipBase::TEXT:
+		    	menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_text", m_app);
+			break;
+		    case DocClipBase::AUDIO:
+		    	menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_audio", m_app);
+			break;
+		    case DocClipBase::IMAGE:
+		    	menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_audio", m_app);
+			break;
+		    default:
+	            	menu = (QPopupMenu *) m_app->factory()->container("projectlist_context_clip", m_app);
+			break;
+	        }
 	    }
 	}
 	if (menu) {
