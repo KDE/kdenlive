@@ -98,6 +98,7 @@ private slots:
         void adjustTransparency(int x);
         void adjustSliders(int x, int y);
 	void focusInOut();
+	void duplicateKeyFrame(bool);
 
 public slots:
         QString parameters();

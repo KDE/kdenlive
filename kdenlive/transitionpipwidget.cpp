@@ -30,6 +30,7 @@
 #include <qspinbox.h>
 #include <qtoolbutton.h>
 #include <qradiobutton.h>
+#include <qcheckbox.h>
 #include <qcursor.h>
 
 #include <kpushbutton.h>
@@ -270,6 +271,8 @@ transitionPipWidget::transitionPipWidget(KdenliveApp * app, int width, int heigh
         connect(radio_start, SIGNAL(pressed()), this, SLOT(focusInOut()));
         connect(radio_end, SIGNAL(pressed()), this, SLOT(focusInOut()));
 
+        connect(fixed_trans, SIGNAL(toggled(bool)), this, SLOT(duplicateKeyFrame(bool)));
+
         m_transitionParameters[0]="0:0:100:0";
         m_transitionParameters[1]="0:0:100:0";
         changeKeyFrame(radio_start->isChecked());
@@ -291,6 +294,45 @@ void transitionPipWidget::focusInOut()
     if (spin_transparency->hasFocus()) slider_transparency->setFocus();
     if (spin_x->hasFocus()) slider_x->setFocus();
     if (spin_y->hasFocus()) slider_y->setFocus();
+
+}
+
+void transitionPipWidget::duplicateKeyFrame(bool isOn)
+{
+    if (!isOn) {
+	radio_end->setEnabled(true);
+	return;
+    }
+    radio_end->setEnabled(false);
+    int current, toChange;
+    if (radio_start->isChecked()) {
+	current = 0;
+	toChange = 1;
+    }
+    else {
+    	current = 1;
+	toChange = 0;
+    }
+
+    // size
+    QString s1 = m_transitionParameters[current].section(":",0,1);
+    QString s2 = m_transitionParameters[current].section(":",3);
+    m_transitionParameters[toChange] = s1+":"+ QString::number(spin_size->value())+":"+s2;
+
+    // transparency
+    QString s = m_transitionParameters[current].section(":",0,2);
+    m_transitionParameters[toChange] = s1+":"+ QString::number(spin_transparency->value());
+
+    // x pos
+    s = m_transitionParameters[current].section(":",1);
+    m_transitionParameters[toChange] = QString::number(spin_x->value())+":"+s;
+
+    // y pos
+    s1 = m_transitionParameters[current].section(":",0,0);
+    s2 = m_transitionParameters[current].section(":",2);
+    m_transitionParameters[toChange] = s1+":"+ QString::number(spin_y->value())+":"+s2;
+    if (current == 1) radio_start->setChecked(true);
+    emit transitionChanged();
 
 }
 
@@ -323,6 +365,10 @@ void transitionPipWidget::adjustSize(int x)
     QString s1 = m_transitionParameters[ix].section(":",0,1);
     QString s2 = m_transitionParameters[ix].section(":",3);
     m_transitionParameters[ix] = s1+":"+ QString::number(x)+":"+s2;
+
+    if (fixed_trans->isChecked()) {
+	m_transitionParameters[1] = m_transitionParameters[0];
+    }
     canview->adjustSize(x);
     if (!m_silent) {
 	emit transitionChanged();
@@ -337,6 +383,10 @@ void transitionPipWidget::adjustTransparency(int x)
     else ix = 1;
     QString s1 = m_transitionParameters[ix].section(":",0,2);
     m_transitionParameters[ix] = s1+":"+ QString::number(x);
+
+    if (fixed_trans->isChecked()) {
+	m_transitionParameters[1] = m_transitionParameters[0];
+    }
     if (!m_silent) {
 	emit transitionChanged();
 	m_app->focusTimelineWidget();
@@ -350,6 +400,10 @@ void transitionPipWidget::moveX(int x)
     else ix = 1;
     QString s = m_transitionParameters[ix].section(":",1);
     m_transitionParameters[ix] = QString::number(x)+":"+s;
+
+    if (fixed_trans->isChecked()) {
+	m_transitionParameters[1] = m_transitionParameters[0];
+    }
     canview->moveX(x);
     if (!m_silent) {
 	emit transitionChanged();
@@ -365,6 +419,10 @@ void transitionPipWidget::moveY(int y)
     QString s1 = m_transitionParameters[ix].section(":",0,0);
     QString s2 = m_transitionParameters[ix].section(":",2);
     m_transitionParameters[ix] = s1+":"+ QString::number(y)+":"+s2;
+
+    if (fixed_trans->isChecked()) {
+	m_transitionParameters[1] = m_transitionParameters[0];
+    }
     canview->moveY(y);
     if (!m_silent) {
 	emit transitionChanged();
