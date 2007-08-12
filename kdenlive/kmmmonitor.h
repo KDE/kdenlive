@@ -124,6 +124,8 @@ namespace Gui {
 	void slotSetClip(DocClipBase * clip);
 	/** Sets the displayed clip in the timeline. */
 	void slotSetClip(DocClipRef * clip);
+
+	void slotSetClip(QDomDocument playlist, GenTime duration);
 	/** Clears the displayed clip on the timeline */
 	void slotClearClip();
 

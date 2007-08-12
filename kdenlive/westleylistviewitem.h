@@ -19,6 +19,8 @@
 #define WESTLEYLISTVIEWITEM_H
 
 #include <qdom.h>
+#include <qpoint.h>
+
 #include <klistview.h>
 
 #include "docclipbase.h"
@@ -37,13 +39,18 @@ class WestleyListViewItem:public BaseListViewItem {
     ~WestleyListViewItem();
     QString getId() const;
     bool isPlayListEntry() const;
+    bool isBroken() const;
     virtual QString getInfo() const;
     DocClipBase::CLIPTYPE getType() const;
+    QDomDocument getEntryPlaylist();
+    QDomElement getXml() const;
+    GenTime duration() const;
 
   private:
     void parseItem(int width, int height);
     QString getComment(Timecode tc) const;
     QString m_id;
+    bool m_isBroken;
     int m_in;
     int m_out;
     QDomElement m_xml;

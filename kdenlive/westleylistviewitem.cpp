@@ -25,6 +25,7 @@
 #include <kurl.h>
 #include <kiconloader.h>
 #include <klocale.h>
+#include <kio/netaccess.h>
 
 #include "gentime.h"
 #include "kdenlivesettings.h"
@@ -34,19 +35,25 @@
 WestleyListViewItem::WestleyListViewItem(QListViewItem * parent, QDomElement e, int width, int height):
 BaseListViewItem(parent, BaseListViewItem::PLAYLISTITEM), m_in(-1), m_out(-1), m_xml(e)
 {
+    m_isBroken = false;
     parseItem(width, height);
 }
 
 WestleyListViewItem::WestleyListViewItem(QListView * parent, QDomElement e, int width, int height):
 BaseListViewItem(parent, BaseListViewItem::PLAYLISTITEM), m_in(-1), m_out(-1), m_xml(e)
 {
+    m_isBroken = false;
     parseItem(width, height);
 }
 
 WestleyListViewItem::WestleyListViewItem(QListViewItem * parent, QString itemName, int in, int out, Timecode tc):
-BaseListViewItem(parent, BaseListViewItem::PLAYLISTITEM), m_in(in), m_out(out), m_id(QString::null)
+BaseListViewItem(parent, BaseListViewItem::PLAYLISTITEM), m_in(in), m_out(out)
 {
-    m_type = ((WestleyListViewItem *) parent)->getType();
+    WestleyListViewItem *item = (WestleyListViewItem *) parent;
+    m_type = item->getType();
+    m_id = item->getId();
+    m_isBroken = item->isBroken();
+    m_xml = item->getXml();
     setText(1, getComment(tc));
 }
 
@@ -73,7 +80,7 @@ void WestleyListViewItem::parseItem(int width, int height)
 	 	}
 		else if (m_type == DocClipBase::TEXT) {
 			    m_url = KURL(m_xml.attribute("resource", QString::null));
-			    setText(1, m_url.fileName());
+			    setText(1, DocClipBase::getTypeName(m_type));
 			    QImage i(m_url.path());
 			    QPixmap pix(width, height);
 			    pix.convertFromImage(i.smoothScale(width, height));
@@ -94,6 +101,10 @@ void WestleyListViewItem::parseItem(int width, int height)
 			    m_url =  KURL(m_xml.attribute("resource", QString::null));
 			    setText(1, m_url.fileName());
 		}
+	if (!m_url.isEmpty() && !KIO::NetAccess::exists(m_url, false)) {
+	    m_isBroken = true;
+	    setPixmap(1, KGlobal::iconLoader()->loadIcon("no", KIcon::Small));
+	}
 }
 
 
@@ -112,6 +123,45 @@ bool WestleyListViewItem::isPlayListEntry() const
     return (m_out != -1);
 }
 
+bool WestleyListViewItem::isBroken() const
+{
+    return m_isBroken;
+}
+
+GenTime WestleyListViewItem::duration() const
+{
+    return GenTime(m_out - m_in, KdenliveSettings::defaultfps());
+}
+
+QDomDocument WestleyListViewItem::getEntryPlaylist()
+{
+    QDomDocument doc;
+    QDomElement westley = doc.createElement("westley");
+    doc.appendChild(westley);
+    if (isBroken()) {
+	QDomElement producer = doc.createElement("producer");
+	producer.setAttribute("id", m_id);
+	producer.setAttribute("resource", "colour");
+	producer.setAttribute("colour", "blue");
+	westley.appendChild(producer);
+    }
+    else westley.appendChild(doc.importNode(m_xml, true));
+    QDomElement playlist = doc.createElement("playlist");
+    QDomElement entry = doc.createElement("entry");
+    entry.setAttribute("in", QString::number(m_in));
+    entry.setAttribute("out", QString::number(m_out));
+    entry.setAttribute("producer", m_id);
+    playlist.appendChild(entry);
+    westley.appendChild(playlist);
+
+    return doc;
+}
+
+QDomElement WestleyListViewItem::getXml() const
+{
+    return m_xml;
+}
+
 QString WestleyListViewItem::getInfo() const
 {
     QString text = "<b>"+i18n("Playlist Item\n") + DocClipBase::getTypeName(m_type) +"</b><br>";
@@ -124,7 +174,7 @@ QString WestleyListViewItem::getComment(Timecode tc) const {
 	double fps = KdenliveSettings::defaultfps();
 	text = tc.getTimecode(GenTime(m_in, fps), fps) + "-";
 	text += tc.getTimecode(GenTime(m_out, fps), fps);
-        text += " ( " + Timecode::getEasyTimecode(GenTime(m_out - m_in, fps), KdenliveSettings::defaultfps()) + " )";
+        text += " ( " + Timecode::getEasyTimecode(GenTime(m_out - m_in, fps), fps) + " )";
 	return text;
 }
 

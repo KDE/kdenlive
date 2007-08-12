@@ -236,6 +236,19 @@ void KMMMonitor::swapScreens(KMMMonitor *monitor)
 	}
     }
 
+    void KMMMonitor::slotSetClip(QDomDocument playlist, GenTime duration) {
+	if (m_clip) {
+	    delete m_clip;
+	    m_clip = 0;
+	}
+	m_referredClip = 0;
+	m_editPanel->doStop();
+	setSceneList(playlist);
+	m_screen->setClipLength(duration);
+	m_editPanel->setClipLength((int) duration.frames(m_document->framesPerSecond()));
+	activateMonitor();
+    }	
+
     void KMMMonitor::doCommonSetClip(bool resetCropPosition) {
 	m_editPanel->doStop();
 	QDomDocument scenelist = m_clip->generateSceneList();

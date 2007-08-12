@@ -359,23 +359,21 @@ namespace Gui {
 	        n = entriesList.item(i);
 	        e = n.toElement();
 	        if (!e.isNull()) {
-			    kdDebug()<<" / / / FOUND PLAYLIST..."<<endl;
-			    int in;
-			    int out;
-
-				    kdDebug()<<" // - - -FOUND ENTRY: "<<e.attribute("producer", QString::null)<<endl;
-				    in = e.attribute("in", QString::number(-1)).toInt();
-				    out = e.attribute("out", QString::number(-1)).toInt();
-				    QString itemId = e.attribute("producer", QString::null);
-				    WestleyListViewItem *it = (WestleyListViewItem *) item->firstChild();
-				    while (it) {
-					if (it->getId() == itemId) break;
-					it = (WestleyListViewItem *) it->nextSibling();
-				    }
-				    if (it) {
-					// insert sub item
-					QListViewItem *subchild = new WestleyListViewItem(it, i18n("Entry"), in, out, m_document->timeCode());
-				    }
+		    int in;
+		    int out;
+		    kdDebug()<<" // - - -FOUND ENTRY: "<<e.attribute("producer", QString::null)<<endl;
+		    in = e.attribute("in", QString::number(-1)).toInt();
+		    out = e.attribute("out", QString::number(-1)).toInt();
+		    QString itemId = e.attribute("producer", QString::null);
+		    WestleyListViewItem *it = (WestleyListViewItem *) item->firstChild();
+		    while (it) {
+			if (it->getId() == itemId) break;
+			it = (WestleyListViewItem *) it->nextSibling();
+		    }
+		    if (it) {
+			// insert sub item
+			QListViewItem *subchild = new WestleyListViewItem(it, i18n("Entry"), in, out, m_document->timeCode());
+		    }
 				
 		}
 	    }
@@ -477,6 +475,16 @@ namespace Gui {
 	        const AVListViewItem * avitem = (AVListViewItem *) m_listView->currentItem();
 	        if (!avitem) return;
 	        if (avitem->clip()) emit clipSelected(avitem->clip());
+	    }
+	    else if (type == BaseListViewItem::PLAYLISTITEM) {
+		WestleyListViewItem * item = (WestleyListViewItem *) m_listView->currentItem();
+		if (item->isPlayListEntry()) {
+		    emit playlistItemSelected(item->getEntryPlaylist(), item->duration());
+		}
+		else {
+		    WestleyListViewItem * subitem = (WestleyListViewItem *) item->firstChild();
+		    if (subitem) emit playlistItemSelected(subitem->getEntryPlaylist(), subitem->duration());
+		}
 	    }
 	    else if (type == BaseListViewItem::FOLDER) {
 		// do nothing for the moment

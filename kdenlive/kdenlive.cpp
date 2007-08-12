@@ -1565,6 +1565,9 @@ namespace Gui {
 	connect(m_projectList, SIGNAL(clipSelected(DocClipRef *)), this,
 	    SLOT(slotSetClipMonitorSource(DocClipRef *)));
 
+	connect(m_projectList, SIGNAL(playlistItemSelected(QDomDocument, GenTime)), this,
+	    SLOT(slotSetClipMonitorSource(QDomDocument, GenTime)));
+
 	connect(m_projectList, SIGNAL(dragDropOccured(QDropEvent *, QListViewItem *)), this,
 	    SLOT(slot_insertClips(QDropEvent *, QListViewItem *)));
         
@@ -4019,15 +4022,21 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 /** Sets the clip monitor source to be the given clip. */
     void KdenliveApp::slotSetClipMonitorSource(DocClipRef * clip) {
         if (clip) {
-	    kdDebug()<<"***  SELECT CLIP 1"<<clip->name()<<endl;
 	   slotFocusClipMonitor();
-kdDebug()<<"***  SELECT CLIP 2"<<endl;
 	   m_clipMonitor->slotSetClip(clip);
-kdDebug()<<"***  SELECT CLIP 3"<<endl;
         }
         else activateWorkspaceMonitor();
     }
-    
+
+/** Sets the clip monitor source to be the given playlist. */
+    void KdenliveApp::slotSetClipMonitorSource(QDomDocument playlist, GenTime duration) {
+        if (!playlist.isNull()) {
+	    slotFocusClipMonitor();
+	    m_clipMonitor->slotSetClip(playlist, duration);
+        }
+        else activateWorkspaceMonitor();
+    }
+
             /** Sets the clip monitor source to be the given clip. */
     void KdenliveApp::slotSetClipMonitorSourceAndSeek(DocClipRef * clip) {
         if (clip) {

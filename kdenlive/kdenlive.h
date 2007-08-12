@@ -341,6 +341,7 @@ namespace Gui {
 	void slotDeleteSelected();
 		/** Sets the clip monitor source to be the given clip. */
 	void slotSetClipMonitorSource(DocClipRef * clip);
+	void slotSetClipMonitorSource(QDomDocument playlist, GenTime duration);
         void slotSetClipMonitorSourceAndSeek(DocClipRef * clip);
 		/** SLots to Save/Load the current dockwidget layout to/from the layout number specified. */
 	void slotSetRenderProgress(const GenTime &);

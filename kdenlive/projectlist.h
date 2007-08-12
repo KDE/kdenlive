@@ -112,6 +112,7 @@ namespace Gui {
 	void dragDropOccured(QDropEvent *, QListViewItem *);
 	/** This signal is emitted when an AVFile is selected in the project list. */
 	void clipSelected(DocClipRef *);
+	void playlistItemSelected(QDomDocument, GenTime);
         void editItem();
         
 	private slots:		// Private slots
