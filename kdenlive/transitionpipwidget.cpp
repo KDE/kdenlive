@@ -239,6 +239,7 @@ transitionPipWidget::transitionPipWidget(KdenliveApp * app, int width, int heigh
         canvas=new QCanvas(imageWidth,imageHeight);
         canview = new ScreenPreview(*canvas,frame_preview);
         canview->initRectangle(imageWidth/2-frameWidth/2,imageHeight/2-frameHeight/2,frameWidth,frameHeight);
+	fixed_trans->setChecked(false);
 
         QHBoxLayout* flayout = new QHBoxLayout( frame_preview, 1, 1, "flayout");
         flayout->addWidget( canview, 1 );
