@@ -35,11 +35,11 @@ class LoadProjectNativeFilter:public LoadProjectFilter {
     QStringList handledFormats() const;
     virtual bool load(QFile & file, KdenliveDoc * document);
     virtual bool merge(QFile & file, KdenliveDoc * document, bool insertTimeLine = false, GenTime insertTime = GenTime());
+    static void addToDocument(const QString & parent, QDomElement & clip, KdenliveDoc * document);
+
   private:
     void loadAVFileList(QDomElement & element, KdenliveDoc * document);
     void loadTrackList(QDomElement & element, KdenliveDoc * document, GenTime insertTime = GenTime());
-    void addToDocument(const QString & parent, QDomElement & clip,
-	KdenliveDoc * document);
     QDomDocument upgradeDocumentFile(QDomDocument kdenlivedoc, KdenliveDoc * document, double version);
 };
 

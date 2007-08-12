@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Service
+Name=Westley Info
+Comment=
+Icon=kdenlive
+ServiceTypes=KFilePlugin
+PreferredGroups=
+PreferredItems=
+SupportsThumbnail=
+X-KDE-Library=kfile_westley
+MimeType=application/vnd.westley.scenelist;application/vnd.kde.kdenlive

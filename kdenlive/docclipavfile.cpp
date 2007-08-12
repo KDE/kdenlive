@@ -36,7 +36,7 @@
 DocClipAVFile::DocClipAVFile(const QString & name, const KURL & url,
     uint id):DocClipBase(), m_duration(0.0), m_url(url),
 m_durationKnown(false), m_framesPerSecond(0), m_color(QString::null),
-m_clipType(NONE), m_alphaTransparency(false), m_channels(0), m_frequency(0), m_ttl(0), m_hasCrossfade(false), m_audioTimer(0)
+m_clipType(NONE), m_alphaTransparency(false), m_loop(false), m_channels(0), m_frequency(0), m_ttl(0), m_hasCrossfade(false), m_audioTimer(0)
 {
     thumbCreator = new KThumb();
     m_audioTimer = new QTimer( this );
@@ -48,7 +48,7 @@ m_clipType(NONE), m_alphaTransparency(false), m_channels(0), m_frequency(0), m_t
 /* color clip */
 DocClipAVFile::DocClipAVFile(const QString & color, const GenTime & duration, uint id):DocClipBase(),  m_duration(duration),
 m_url(QString::null), m_hasCrossfade(false), m_durationKnown(true),m_framesPerSecond(KdenliveSettings::defaultfps()),
-m_color(color), m_clipType(COLOR), m_filesize(0), m_alphaTransparency(false),  m_channels(0),m_frequency(0), m_ttl(0), m_videoCodec(NULL), m_audioCodec(NULL), m_audioTimer(0)
+m_color(color), m_clipType(COLOR), m_filesize(0), m_alphaTransparency(false), m_loop(false), m_channels(0),m_frequency(0), m_ttl(0), m_videoCodec(NULL), m_audioCodec(NULL), m_audioTimer(0)
 {
     setName(i18n("Color Clip"));
     m_width = KdenliveSettings::defaultwidth();
@@ -59,7 +59,7 @@ m_color(color), m_clipType(COLOR), m_filesize(0), m_alphaTransparency(false),  m
 /*  Image clip */
 DocClipAVFile::DocClipAVFile(const KURL & url, const GenTime & duration, bool alphaTransparency, uint id):DocClipBase(),
 m_duration(duration), m_hasCrossfade(false), m_url(url), m_durationKnown(true),
-m_framesPerSecond(KdenliveSettings::defaultfps()), m_color(QString::null), m_clipType(IMAGE), m_alphaTransparency(alphaTransparency), m_channels(0), m_frequency(0), m_ttl(0), m_videoCodec(NULL), m_audioCodec(NULL), m_audioTimer(0)
+m_framesPerSecond(KdenliveSettings::defaultfps()), m_color(QString::null), m_clipType(IMAGE), m_alphaTransparency(alphaTransparency), m_loop(false), m_channels(0), m_frequency(0), m_ttl(0), m_videoCodec(NULL), m_audioCodec(NULL), m_audioTimer(0)
 {
     setName(url.fileName());
     setId(id);
@@ -74,9 +74,9 @@ m_framesPerSecond(KdenliveSettings::defaultfps()), m_color(QString::null), m_cli
 
 /*  Slideshow clip */
 DocClipAVFile::DocClipAVFile(const KURL & url, const QString & extension,
-    const int &ttl, const GenTime & duration, bool alphaTransparency, bool crossfade, const QString &lumaFile, double lumasoftness, uint lumaduration, uint id):DocClipBase(),
+    const int &ttl, const GenTime & duration, bool alphaTransparency, bool loop, bool crossfade, const QString &lumaFile, double lumasoftness, uint lumaduration, uint id):DocClipBase(),
 m_duration(duration), m_url(url), m_durationKnown(true), m_hasCrossfade(crossfade), m_luma(lumaFile), m_lumasoftness(lumasoftness), m_lumaduration(lumaduration),
-m_framesPerSecond(KdenliveSettings::defaultfps()), m_color(QString::null), m_clipType(SLIDESHOW), m_alphaTransparency(alphaTransparency), m_channels(0), m_frequency(0), m_ttl(ttl), m_videoCodec(NULL), m_audioCodec(NULL), m_audioTimer(0)
+m_framesPerSecond(KdenliveSettings::defaultfps()), m_color(QString::null), m_clipType(SLIDESHOW), m_alphaTransparency(alphaTransparency), m_loop(loop), m_channels(0), m_frequency(0), m_ttl(ttl), m_videoCodec(NULL), m_audioCodec(NULL), m_audioTimer(0)
 {
     setName(i18n("Slideshow"));
     setId(id);
@@ -93,7 +93,7 @@ DocClipAVFile::DocClipAVFile(const KURL & url):DocClipBase(),
 m_duration(0.0),
 m_url(url), m_hasCrossfade(false), 
 m_durationKnown(false), 
-m_framesPerSecond(0), m_color(QString::null), m_clipType(NONE), m_alphaTransparency(false),m_channels(0), m_frequency(0),  m_ttl(0), m_videoCodec(NULL), m_audioCodec(NULL), m_audioTimer(0)
+m_framesPerSecond(0), m_color(QString::null), m_clipType(NONE), m_alphaTransparency(false), m_loop(false), m_channels(0), m_frequency(0),  m_ttl(0), m_videoCodec(NULL), m_audioCodec(NULL), m_audioTimer(0)
 {
     setName(url.fileName());
     thumbCreator = new KThumb();
@@ -126,6 +126,7 @@ QDomElement element = node.documentElement();
 		m_alphaTransparency = e.attribute("transparency", "0").toInt();
 		if (clipType == DocClipBase::SLIDESHOW) {
 		    m_hasCrossfade = e.attribute("crossfade", "0").toInt();
+		    m_loop = e.attribute("loop", "0").toInt();
 		    m_ttl = e.attribute("ttl", "0").toInt();
 		    m_luma = e.attribute("lumafile", QString::null);
 		    m_lumasoftness = e.attribute("lumasoftness", "0").toDouble();
@@ -144,38 +145,44 @@ QDomElement element = node.documentElement();
 		setDescription(e.attribute("description", QString::null));
 		m_audioTimer = 0;
 		switch (clipType) {
-			case DocClipBase::NONE:
+		    case DocClipBase::NONE:
 			thumbCreator = new KThumb();
 			m_audioTimer = new QTimer( this );
 			connect(m_audioTimer, SIGNAL(timeout()), this, SLOT(getAudioThumbs()));
 			m_clipType = DocClipBase::NONE;
 			break;
-			case DocClipBase::AUDIO:
+		    case DocClipBase::AUDIO:
 			thumbCreator = new KThumb();
 			m_audioTimer = new QTimer( this );
 			connect(m_audioTimer, SIGNAL(timeout()), this, SLOT(getAudioThumbs()));
 			m_clipType = DocClipBase::AUDIO;
 			break;
-			case DocClipBase::VIDEO:
+		    case DocClipBase::VIDEO:
 			thumbCreator = new KThumb();
 			m_clipType = DocClipBase::VIDEO;
 			break;
-			case DocClipBase::AV:
+		    case DocClipBase::PLAYLIST:
+			thumbCreator = new KThumb();
+			m_audioTimer = new QTimer( this );
+			connect(m_audioTimer, SIGNAL(timeout()), this, SLOT(getAudioThumbs()));
+			m_clipType = DocClipBase::PLAYLIST;
+			break;
+		    case DocClipBase::AV:
 			thumbCreator = new KThumb();
 			m_audioTimer = new QTimer( this );
 			connect(m_audioTimer, SIGNAL(timeout()), this, SLOT(getAudioThumbs()));
 			m_clipType = DocClipBase::AV;
 			break;
-			case DocClipBase::COLOR:
+		    case DocClipBase::COLOR:
 			m_clipType = DocClipBase::COLOR;
 			break;
-			case DocClipBase::IMAGE:
+		    case DocClipBase::IMAGE:
 			m_clipType = DocClipBase::IMAGE;
 			break;
-			case DocClipBase::TEXT:
+		    case DocClipBase::TEXT:
 			m_clipType = DocClipBase::TEXT;
 			break;
-			case DocClipBase::SLIDESHOW:
+		    case DocClipBase::SLIDESHOW:
 			m_clipType = DocClipBase::SLIDESHOW;
 			break;
 		}
@@ -202,9 +209,19 @@ void DocClipAVFile::prepareThumbs() const
     if (m_audioTimer) m_audioTimer->start(1000, true);
 }
 
-bool DocClipAVFile::isTransparent()
+bool DocClipAVFile::isTransparent() const
 {
     return m_alphaTransparency;
+}
+
+bool DocClipAVFile::loop() const
+{
+    return m_loop;
+}
+
+void DocClipAVFile::setLoop(bool isOn)
+{
+    m_loop = isOn;
 }
 
 bool DocClipAVFile::hasCrossfade() const
@@ -544,6 +561,7 @@ QDomDocument DocClipAVFile::toXML() const
 
 		if (m_clipType == DocClipBase::SLIDESHOW) {
 		    avfile.setAttribute("crossfade", m_hasCrossfade);
+		    avfile.setAttribute("loop", m_loop);
 		    avfile.setAttribute("ttl", m_ttl);
 		    avfile.setAttribute("lumafile", m_luma);
 		    avfile.setAttribute("lumasoftness", m_lumasoftness);
@@ -646,6 +664,8 @@ void DocClipAVFile::calculateFileProperties(const QMap < QString,
 		m_clipType = VIDEO;
 	    else if (attributes["type"] == "av")
 		m_clipType = AV;
+	    else if (attributes["type"] == "playlist")
+		m_clipType = PLAYLIST;
 	} else {
 	    m_clipType = AV;
 	}
@@ -716,4 +736,34 @@ void DocClipAVFile::calculateFileProperties(const QMap < QString,
 	m_framesPerSecond = 0;
 	m_filesize = 0;
     }
+}
+
+QStringList DocClipAVFile::brokenPlayList()
+{
+    if (clipType() != PLAYLIST) return QStringList();
+    QStringList missingClips;
+    QDomDocument doc;
+    doc.setContent(&QFile(m_url.path()), false);
+    QDomElement documentElement = doc.documentElement();
+    if (documentElement.tagName() != "westley") {
+	kdWarning() << "KdenliveDoc::loadFromXML() document element has unknown tagName : " << documentElement.tagName() << endl;
+    }
+
+    QDomNode kdenlivedoc = documentElement.elementsByTagName("kdenlivedoc").item(0);
+    QDomNode n;
+    if (!kdenlivedoc.isNull()) n = kdenlivedoc.firstChild();
+    else n = documentElement.firstChild();
+    QDomElement e;
+    bool missingFiles = false;
+
+    while (!n.isNull()) {
+	e = n.toElement();
+	if (!e.isNull() && e.tagName() == "producer") {
+	    QString prodUrl = e.attribute("resource", QString::null);
+	    if (!prodUrl.isEmpty() && !KIO::NetAccess::exists(KURL(prodUrl), false)) 
+		missingClips.append(prodUrl);
+	}
+        n = n.nextSibling();
+    }
+    return missingClips;
 }

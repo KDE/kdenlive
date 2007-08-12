@@ -56,6 +56,7 @@ KListView(parent, name)
     connect(this, SIGNAL(dropped(QDropEvent *, QListViewItem *,
 		QListViewItem *)), this, SLOT(dragDropped(QDropEvent *,
 		QListViewItem *, QListViewItem *)));
+    connect(this, SIGNAL(expanded ( QListViewItem *)), this, SLOT(slotOpenItem(QListViewItem *)));
 
 }
 
@@ -67,15 +68,19 @@ QString ProjectListView::parentName()
 {
 	QString parentNode;
 	if (!currentItem()) parentNode = m_doc->clipHierarch()->name();
-	else if (!static_cast<AVListViewItem *>(currentItem())->clip()) {
-	    //currentItem()->setOpen(true);
-	    parentNode = currentItem()->text(1);
+	
+	else {
+	    BaseListViewItem::ITEMTYPE type = ((BaseListViewItem *) currentItem())->getType();
+	    if (type == BaseListViewItem::FOLDER) {
+	    	//currentItem()->setOpen(true);
+	    	parentNode = currentItem()->text(1);
+	    }
+	    else if (currentItem()->parent()) {
+	    	//currentItem()->parent()->setOpen(true);
+	    	parentNode = currentItem()->parent()->text(1);
+	    }
 	}
-	else if (currentItem()->parent()) {
-	    //currentItem()->parent()->setOpen(true);
-	    parentNode = currentItem()->parent()->text(1);
-	}
-	else parentNode = m_doc->clipHierarch()->name();
+	if (parentNode.isEmpty()) parentNode = m_doc->clipHierarch()->name();
 	return parentNode;
 }
 
@@ -89,6 +94,12 @@ void ProjectListView::setPopupText(QString txt)
 	m_popuptext = txt;
 }
 
+void ProjectListView::slotOpenItem(QListViewItem *item)
+{
+    emit createChildren(item);
+}
+
+
 DocClipRefList ProjectListView::selectedItemsList() const
 {
     QPtrList< QListViewItem > selectedItems;
@@ -96,8 +107,11 @@ DocClipRefList ProjectListView::selectedItemsList() const
     DocClipRefList selectedList;
     QListViewItem *item;
     for ( item = selectedItems.first(); item; item = selectedItems.next() ) {
-	AVListViewItem *avItem = (AVListViewItem *) item;
-	if (avItem && avItem->clip()) selectedList.append(avItem->clip());
+	BaseListViewItem::ITEMTYPE type = ((BaseListViewItem *) item)->getType();
+	if (type == BaseListViewItem::CLIP) {
+	    AVListViewItem *avItem = (AVListViewItem *) item;
+	    if (avItem && avItem->clip()) selectedList.append(avItem->clip());
+	}
     }
     return selectedList;
 }
@@ -110,8 +124,11 @@ QStringList ProjectListView::selectedItemsIds() const
     DocClipRefList selectedList;
     QListViewItem *item;
     for ( item = selectedItems.first(); item; item = selectedItems.next() ) {
-	AVListViewItem *avItem = (AVListViewItem *) item;
-	if (avItem && avItem->clip()) result.append(QString::number(avItem->clip()->referencedClip()->getId()));
+	BaseListViewItem::ITEMTYPE type = ((BaseListViewItem *) item)->getType();
+	if (type == BaseListViewItem::CLIP) {
+	    AVListViewItem *avItem = (AVListViewItem *) item;
+	    if (avItem && avItem->clip()) result.append(QString::number(avItem->clip()->referencedClip()->getId()));
+	}
     }
     return result;
 }
@@ -127,12 +144,15 @@ void ProjectListView::selectItemsFromIds(QStringList idList)
 	return;
     }
     while (itemItt) {
-	AVListViewItem *avItem = (AVListViewItem *) itemItt;
-	if (avItem && avItem->clip() && idList.findIndex(QString::number(avItem->clip()->referencedClip()->getId())) != -1) {
-	    itemItt->setSelected(true);
-	    lastItem = itemItt;
+	BaseListViewItem::ITEMTYPE type = ((BaseListViewItem *) itemItt)->getType();
+	if (type == BaseListViewItem::CLIP) {
+	    AVListViewItem *avItem = (AVListViewItem *) itemItt;
+	    if (avItem && avItem->clip() && idList.findIndex(QString::number(avItem->clip()->referencedClip()->getId())) != -1) {
+	    	itemItt->setSelected(true);
+	    	lastItem = itemItt;
+	    }
 	}
-	if (itemItt->childCount() > 0) {
+	else if (type == BaseListViewItem::FOLDER) {
 	    QListViewItem *subitemItt = itemItt->firstChild();
 	    while (subitemItt) {
 		AVListViewItem *avItem = (AVListViewItem *) subitemItt;

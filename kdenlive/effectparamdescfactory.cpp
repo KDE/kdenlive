@@ -41,6 +41,8 @@ EffectParamDescFactory::EffectParamDescFactory()
     registerFactory(new EffectParamDescFactoryTemplate <
 	EffectParamDoubleDesc > ("list"));
     registerFactory(new EffectParamDescFactoryTemplate <
+	EffectParamDoubleDesc > ("color"));
+    registerFactory(new EffectParamDescFactoryTemplate <
 	EffectParamComplexDesc > ("complex"));
 }
 

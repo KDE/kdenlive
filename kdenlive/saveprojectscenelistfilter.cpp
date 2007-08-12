@@ -34,7 +34,7 @@ SaveProjectScenelistFilter::~SaveProjectScenelistFilter()
 }
 
 
-bool SaveProjectScenelistFilter::save(QFile & file, KdenliveDoc * document)
+bool SaveProjectScenelistFilter::save(QFile & file, KdenliveDoc * document, bool)
 {
     QDomDocument doc;
  

@@ -288,6 +288,7 @@ class DocClipRef:public QObject {
 
     QPixmap thumbnail(bool end = false) const;
     int thumbnailWidth() const;
+    QPixmap extractThumbnail(int width, int height);
 
     
   public slots:
@@ -318,6 +319,7 @@ class DocClipRef:public QObject {
 	QValueVector < GenTime > transitionSnaps();
 	void doFetchStartThumbnail();
 	void doFetchEndThumbnail();
+	bool hasEffect(QString effectTag) const;
 
   private slots:
 	void fetchThumbnails();

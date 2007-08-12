@@ -32,9 +32,9 @@
 #include "timecode.h"
 #include "kdenlivesettings.h"
 
-AVListViewItem::AVListViewItem(KdenliveDoc * doc, QListViewItem * parent, DocumentBaseNode * node):
-KListViewItem(parent),
-m_listView(parent->listView()), m_node(node), m_doc(doc)
+AVListViewItem::AVListViewItem(QListViewItem * parent, DocumentBaseNode * node):
+BaseListViewItem(parent, BaseListViewItem::CLIP),
+m_listView(parent->listView()), m_node(node)
 {
     if (node == NULL) {
 	kdError() <<
@@ -44,24 +44,20 @@ m_listView(parent->listView()), m_node(node), m_doc(doc)
     doCommonCtor();
 }
 
-AVListViewItem::AVListViewItem(KdenliveDoc * doc, QListView * parent, DocumentBaseNode * node):
-KListViewItem(parent), m_listView(parent), m_node(node), m_doc(doc)
+AVListViewItem::AVListViewItem(QListView * parent, DocumentBaseNode * node):
+BaseListViewItem(parent, BaseListViewItem::CLIP), m_listView(parent), m_node(node)
 {
     doCommonCtor();
 }
 
+
 void AVListViewItem::doCommonCtor()
 {
-    if (m_node->asClipNode()) setRenameEnabled(2, true);
-    // recursively populate the rest of the node tree.
-    QPtrListIterator < DocumentBaseNode > child(m_node->children());
-    while (child.current()) {
-	if (child.current()) {
-		new AVListViewItem(m_doc, this, child.current());
-	}
-	++child;
+    DocumentClipNode *node = m_node->asClipNode();
+    if (m_node->asClipNode()) {
+	setRenameEnabled(2, true);
+	if (clip()->clipType() == DocClipBase::PLAYLIST) this->setExpandable(true);
     }
-
 }
 
 QString AVListViewItem::key ( int column, bool ascending ) const
@@ -141,6 +137,8 @@ QString AVListViewItem::getInfo() const
 		    text = "<b>"+i18n("Mute Video Clip")+"</b><br>";
 		else if (fileType == DocClipBase::AUDIO)
 		    text = "<b>"+i18n("Audio Clip")+"</b><br>";
+		else if (fileType == DocClipBase::PLAYLIST)
+		    text = "<b>"+i18n("Playlist Clip")+"</b><br>";
 	    	else if (fileType == DocClipBase::COLOR)
 		    text = "<b>"+i18n("Color Clip")+"</b><br>";
 	    	else if (fileType == DocClipBase::VIRTUAL)
@@ -172,11 +170,6 @@ QString AVListViewItem::getInfo() const
 	    text.append(i18n("Audio: %1Hz %2").arg(QString::number(clip->audioFrequency())).arg(soundChannels) + "<br>");
 	}
 	text.append(i18n("Usage: %1").arg(QString::number(clip->numReferences())));
-	}
-	else {
-		text = "<b>"+i18n("Folder")+"</b><br>";
-		text.append(i18n("%1 clips").arg(childCount()));
-
 	}
 	return text;
 }
@@ -216,6 +209,8 @@ QString AVListViewItem::text(int column) const
 		    text = i18n("mute video");
 		else if (clip->clipType() == DocClipBase::AUDIO)
 		    text = i18n("audio");
+		else if (clip->clipType() == DocClipBase::PLAYLIST)
+		    text = i18n("playlist");
 	    }
 	} else if (m_node->asGroupNode()) {
 	    text = i18n("group");

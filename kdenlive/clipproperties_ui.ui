@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>319</width>
-            <height>588</height>
+            <height>596</height>
         </rect>
     </property>
     <grid>
@@ -19,7 +19,7 @@
         <property name="margin">
             <number>0</number>
         </property>
-        <widget class="KColorButton" row="3" column="1" rowspan="1" colspan="2">
+        <widget class="KColorButton" row="3" column="1" rowspan="1" colspan="3">
             <property name="name">
                 <cstring>button_color</cstring>
             </property>
@@ -46,12 +46,12 @@
                 <string>Color:</string>
             </property>
         </widget>
-        <widget class="KURLRequester" row="1" column="1" rowspan="1" colspan="2">
+        <widget class="KURLRequester" row="1" column="1" rowspan="1" colspan="3">
             <property name="name">
                 <cstring>edit_url</cstring>
             </property>
         </widget>
-        <widget class="KLineEdit" row="2" column="1" rowspan="1" colspan="2">
+        <widget class="KLineEdit" row="2" column="1" rowspan="1" colspan="3">
             <property name="name">
                 <cstring>edit_name</cstring>
             </property>
@@ -78,7 +78,7 @@
                 <string>Name:</string>
             </property>
         </widget>
-        <widget class="QLayoutWidget" row="0" column="0" rowspan="1" colspan="3">
+        <widget class="QLayoutWidget" row="0" column="0" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>layout10</cstring>
             </property>
@@ -110,7 +110,7 @@
                         </color>
                     </property>
                     <property name="frameShape">
-                        <enum>Box</enum>
+                        <enum>StyledPanel</enum>
                     </property>
                     <property name="scaledContents">
                         <bool>false</bool>
@@ -391,7 +391,7 @@
                 <string>File size:</string>
             </property>
         </widget>
-        <widget class="KComboBox" row="6" column="2">
+        <widget class="KComboBox" row="6" column="2" rowspan="1" colspan="2">
             <item>
                 <property name="text">
                     <string>png</string>
@@ -432,7 +432,7 @@
                 <string>Image type</string>
             </property>
         </widget>
-        <widget class="KRestrictedLine" row="7" column="2">
+        <widget class="KRestrictedLine" row="7" column="2" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>edit_duration</cstring>
             </property>
@@ -443,7 +443,7 @@
                 <string>99:99:99:99; </string>
             </property>
         </widget>
-        <widget class="KRestrictedLine" row="5" column="2">
+        <widget class="KRestrictedLine" row="5" column="2" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>image_ttl</cstring>
             </property>
@@ -465,15 +465,7 @@
                 <string>99:99:99:99; </string>
             </property>
         </widget>
-        <widget class="QLabel" row="5" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>ttl_label</cstring>
-            </property>
-            <property name="text">
-                <string>Duration per Image</string>
-            </property>
-        </widget>
-        <widget class="QLabel" row="8" column="2">
+        <widget class="QLabel" row="8" column="2" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>clipFilesize</cstring>
             </property>
@@ -481,79 +473,7 @@
                 <string></string>
             </property>
         </widget>
-        <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="3">
-            <property name="name">
-                <cstring>transparent_bg</cstring>
-            </property>
-            <property name="text">
-                <string>Transparent &amp;background</string>
-            </property>
-        </widget>
-        <widget class="QTabWidget" row="11" column="0" rowspan="1" colspan="3">
-            <property name="name">
-                <cstring>tabWidget2</cstring>
-            </property>
-            <widget class="QWidget">
-                <property name="name">
-                    <cstring>tab</cstring>
-                </property>
-                <attribute name="title">
-                    <string>Description</string>
-                </attribute>
-                <grid>
-                    <property name="name">
-                        <cstring>unnamed</cstring>
-                    </property>
-                    <property name="margin">
-                        <number>0</number>
-                    </property>
-                    <widget class="QTextEdit" row="0" column="0">
-                        <property name="name">
-                            <cstring>edit_description</cstring>
-                        </property>
-                    </widget>
-                </grid>
-            </widget>
-            <widget class="QWidget">
-                <property name="name">
-                    <cstring>tab</cstring>
-                </property>
-                <attribute name="title">
-                    <string>Metadata</string>
-                </attribute>
-                <grid>
-                    <property name="name">
-                        <cstring>unnamed</cstring>
-                    </property>
-                    <widget class="QLabel" row="0" column="0">
-                        <property name="name">
-                            <cstring>meta_text</cstring>
-                        </property>
-                        <property name="text">
-                            <string></string>
-                        </property>
-                    </widget>
-                    <spacer row="1" column="0">
-                        <property name="name">
-                            <cstring>spacer3</cstring>
-                        </property>
-                        <property name="orientation">
-                            <enum>Vertical</enum>
-                        </property>
-                        <property name="sizeType">
-                            <enum>Expanding</enum>
-                        </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>12</width>
-                                <height>19</height>
-                            </size>
-                        </property>
-                    </spacer>
-                </grid>
-            </widget>
-        </widget>
-        <widget class="Line" row="10" column="0" rowspan="1" colspan="3">
+        <widget class="Line" row="10" column="0" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>line2</cstring>
             </property>
@@ -567,7 +487,7 @@
                 <enum>Horizontal</enum>
             </property>
         </widget>
-        <widget class="QGroupBox" row="9" column="0" rowspan="1" colspan="3">
+        <widget class="QGroupBox" row="9" column="0" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>crossfade</cstring>
             </property>
@@ -662,6 +582,132 @@
                 </widget>
             </grid>
         </widget>
+        <widget class="QTabWidget" row="11" column="0" rowspan="1" colspan="4">
+            <property name="name">
+                <cstring>tab_extra</cstring>
+            </property>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>tab</cstring>
+                </property>
+                <attribute name="title">
+                    <string>Description</string>
+                </attribute>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <property name="margin">
+                        <number>0</number>
+                    </property>
+                    <widget class="KTextEdit" row="0" column="0">
+                        <property name="name">
+                            <cstring>edit_description</cstring>
+                        </property>
+                    </widget>
+                </grid>
+            </widget>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>tab</cstring>
+                </property>
+                <attribute name="title">
+                    <string>Metadata</string>
+                </attribute>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <widget class="QLabel" row="0" column="0">
+                        <property name="name">
+                            <cstring>meta_text</cstring>
+                        </property>
+                        <property name="text">
+                            <string></string>
+                        </property>
+                    </widget>
+                    <spacer row="1" column="0">
+                        <property name="name">
+                            <cstring>spacer3</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>12</width>
+                                <height>19</height>
+                            </size>
+                        </property>
+                    </spacer>
+                </grid>
+            </widget>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>TabPage</cstring>
+                </property>
+                <attribute name="title">
+                    <string>Playlist</string>
+                </attribute>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <property name="margin">
+                        <number>0</number>
+                    </property>
+                    <widget class="KListView" row="0" column="0">
+                        <column>
+                            <property name="text">
+                                <string>Clips</string>
+                            </property>
+                            <property name="clickable">
+                                <bool>true</bool>
+                            </property>
+                            <property name="resizable">
+                                <bool>false</bool>
+                            </property>
+                        </column>
+                        <property name="name">
+                            <cstring>clips_list</cstring>
+                        </property>
+                        <property name="fullWidth">
+                            <bool>true</bool>
+                        </property>
+                    </widget>
+                </grid>
+            </widget>
+        </widget>
+        <widget class="QLabel" row="5" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>ttl_label</cstring>
+            </property>
+            <property name="text">
+                <string>Duration per Image</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="4" column="3">
+            <property name="name">
+                <cstring>slide_loop</cstring>
+            </property>
+            <property name="text">
+                <string>Loop</string>
+            </property>
+            <property name="accel">
+                <string></string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>transparent_bg</cstring>
+            </property>
+            <property name="text">
+                <string>Transparent &amp;background</string>
+            </property>
+        </widget>
     </grid>
 </widget>
 <customwidgets>
@@ -678,5 +724,7 @@
     <includehint>krestrictedline.h</includehint>
     <includehint>krestrictedline.h</includehint>
     <includehint>kcombobox.h</includehint>
+    <includehint>ktextedit.h</includehint>
+    <includehint>klistview.h</includehint>
 </includehints>
 </UI>

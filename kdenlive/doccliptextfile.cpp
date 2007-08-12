@@ -203,7 +203,7 @@ uint DocClipTextFile::clipWidth() const
 
 double DocClipTextFile::aspectRatio() const
 {
-    double ratio = ((double) KdenliveSettings::defaultwidth()/KdenliveSettings::defaultheight())/((double)clipWidth()/clipHeight()) * KdenliveSettings::aspectratio();
+    double ratio = ((double) KdenliveSettings::defaultwidth()/KdenliveSettings::defaultheight())/((double)KdenliveSettings::displayratio()) * KdenliveSettings::aspectratio();
     return ratio;
 }
 

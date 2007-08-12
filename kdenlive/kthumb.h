@@ -71,6 +71,7 @@ class KThumb:public QObject {
     ~KThumb();
 
 public slots:
+	QPixmap extractImage(KURL url, int frame, int width, int height);
 	void getImage(KURL url, int frame, int width, int height);
 	void getThumbs(KURL url, int startframe, int endframe, int width, int height);
 	void stopAudioThumbs();

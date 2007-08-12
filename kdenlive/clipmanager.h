@@ -65,6 +65,11 @@ class ClipManager:public QObject {
 	/** Find and return the AVFile with the id specified, or return null is no file matches. */
     DocClipBase *findClipById(uint id);
 
+	/** Check if the given producer Id already exists so that we don't insert 2 clips with same id */
+    bool producerIdExists(uint id) const;
+	/** Get a valid new clip ID */
+    int requestIdNumber();
+
 	/** Find and return the AVFile with the url specified, or return null is no file matches. */
     DocClipBase *findClip(const KURL & file);
 
@@ -133,9 +138,9 @@ class ClipManager:public QObject {
 
 	/** Insert a slideshow clip */
     DocClipBase *insertSlideshowClip(const KURL & file,
-	const QString & extension, const int &ttl, bool crossfade, const QString &lumaFile, double lumasoftness, uint lumaduration, const GenTime & duration, const QString & description, bool alphaTransparency, int clipId = -1);
+	const QString & extension, const int &ttl, bool crossfade, const QString &lumaFile, double lumasoftness, uint lumaduration, const GenTime & duration, const QString & description, bool alphaTransparency, bool loop, int clipId = -1);
     QDomDocument buildSlideshowClip(const KURL & file,
-	const QString & extension, const int &ttl, bool crossfade, const QString &lumaFile, double lumasoftness, uint lumaduration, const GenTime & duration, const QString & description, bool alphaTransparency, int clipId = -1);
+	const QString & extension, const int &ttl, bool crossfade, const QString &lumaFile, double lumasoftness, uint lumaduration, const GenTime & duration, const QString & description, bool alphaTransparency, bool loop, int clipId = -1);
 
 	/** Insert a specific clip */
     DocClipBase *insertClip(const QDomElement & clip, int clipId = -1);
@@ -179,6 +184,8 @@ class ClipManager:public QObject {
     QString > &metadata);
     void AVImageArrived(const KURL &, int, const QPixmap &);
     void AVImageArrived(int id, const QPixmap &);
+	/** Regenerate thumbnails for all clips in the list */
+    void refreshThumbNails();
 	/** returns an mlt list of producers for all the clips */
     QDomDocumentFragment producersList();
     QDomDocumentFragment virtualProducersList();
@@ -213,6 +220,8 @@ class ClipManager:public QObject {
 	/** When opening a document, if a file is not found, ask user for new path. We store the path so that
 	if there are other missing files, we look in that location too */
     QString m_relocateUrl;
+	/** Holds the size for clip thumbnails in project view */
+    QPoint m_thumbSize;
 };
 
 #endif				// CLIPMANAGER_H

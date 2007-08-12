@@ -46,6 +46,7 @@ namespace Gui {
 	QString description() const;
 	bool isTransparent() const;
 	bool hasCrossfade() const;
+	bool loop() const;
 	int imageCount() const;
 	QString duration() const;
 	void insertLuma(const QPixmap &pix, const QString &txt);

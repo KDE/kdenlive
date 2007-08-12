@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <qlayout.h>
+#include <qapplication.h>
 #include <qfont.h>
 #include <qpoint.h>
 #include <qcolor.h>
@@ -30,6 +31,7 @@
 #include <qtoolbutton.h>
 #include <qcursor.h>
 #include <qcheckbox.h>
+#include <qlabel.h>
 
 #include <kpushbutton.h>
 #include <kfontcombo.h>
@@ -83,10 +85,6 @@ FigureEditor::FigureEditor(
         canvas()->setBackgroundPixmap(m_bgPixmap);
         viewport()->setMouseTracking(true);
 
-    /*QWMatrix wm;
-    wm.scale( 0.5, 0.5 );   // Zooms in by 2 times
-    setWorldMatrix( wm );*/
-
         // Draw rectangle showing safety margins for the text
         QCanvasRectangle *marginRect = new QCanvasRectangle(QRect(horizontalMarginSize,verticalMarginSize,canvas()->width()-(2*horizontalMarginSize),canvas()->height()-(2*verticalMarginSize)),canvas());
         marginRect->setZ(-100);
@@ -127,28 +125,30 @@ void FigureEditor::resizeEvent ( QResizeEvent * e)
 void FigureEditor::contentsMouseDoubleClickEvent(QMouseEvent* e)
 {
         // Double clicking on a text item opens the text edit widget
-        if (selection)
-                delete selection;
-        selection=0;
+	moving = 0;
         QPoint p = inverseWorldMatrix().map(e->pos());
         QCanvasItemList l=canvas()->collisions(p);
         if (l.isEmpty())
                 return;
-        if ( (l.first())->rtti() == 3 )
-                emit editCanvasItem((QCanvasText*)(l.first()));
+        QCanvasItemList::Iterator it=l.begin();
+        if (*it == selection) it++;
+        if ( ((*it))->rtti() == 3 )
+                emit editCanvasItem((QCanvasText*)(*it));
 }
 
 
 void FigureEditor::contentsMouseReleaseEvent(QMouseEvent* e)
 {
+	if ( e->button() != QMouseEvent::LeftButton ) return;
+	QPoint p = inverseWorldMatrix().map(e->pos());
+
         // If user was resizing replace rect with the new one
         if (operationMode == ResizeMode) {
-			  int pos=(int)selectedItem->z();
+		int pos=(int)selectedItem->z();
                 delete selectedItem;
 		selectedItem = 0;
                 delete drawingRect;
-                drawingRect=0;
-                QPoint p = inverseWorldMatrix().map(e->pos());
+                drawingRect = 0;
                 emit addRect(QRect(draw_start,p),pos);
                 return;
         }
@@ -157,7 +157,6 @@ void FigureEditor::contentsMouseReleaseEvent(QMouseEvent* e)
                 m_isDrawing = false;
                 delete drawingRect;
                 drawingRect=0;
-                QPoint p = inverseWorldMatrix().map(e->pos());
                 if ((p-draw_start).manhattanLength()>20)
                         emit addRect(QRect(draw_start,p),-1);
                 // If new rectangle is too tiny, don't create it, was probably a user mistake
@@ -172,8 +171,51 @@ void FigureEditor::contentsMouseReleaseEvent(QMouseEvent* e)
         else if (moving) {
                 moving=0;
                 setCursor(QCursor(Qt::ArrowCursor));
+		objectMoved();
         }
+	else {
+        // Deselect item if user clicks in an empty area
+        QCanvasItemList l=canvas()->collisions(p);
+
+        if (l.isEmpty() || (l.first()->z()<0)) {
+                if (selection)
+                        delete selection;
+                selection = 0;
+                moving = 0;
+                selectedItem=0;
+		emit emptySelection();
+                canvas()->update();
+                return;
+        }
+
+        // Select item
+        QCanvasItemList::Iterator it=l.begin();
+        if (*it == selection) it++;
+        if (selection)
+                delete selection;
+        selection=0;
+
+	selectedItem = *it;
+
+        if ( (*it)->rtti() == 3) {
+                selectRectangle(*it);
+                emit selectedCanvasItem((QCanvasText*)(*it));
+        }
+        else if ( (*it)->rtti() == 5 && (*it)->z() >= 0) {
+                selectRectangle(*it);
+                emit selectedCanvasItem((QCanvasRectangle*)(*it));
+        }
+        canvas()->update();
+	}
 }
+
+void FigureEditor::objectMoved ()
+{
+    if (!selectedItem) emit emptySelection();
+    else if (selectedItem->rtti() == 3) emit selectedCanvasItem((QCanvasText*) selectedItem);
+    else if (selectedItem->rtti() == 5) emit selectedCanvasItem((QCanvasRectangle*) selectedItem);
+}
+
 
 void FigureEditor::keyPressEvent ( QKeyEvent * e )
 {		
@@ -184,6 +226,7 @@ void FigureEditor::keyPressEvent ( QKeyEvent * e )
             delete selection;
             selection=0;
             canvas()->update();
+	    objectMoved();
         }
     }
     else if (e->key()==Key_Left) {
@@ -192,6 +235,7 @@ void FigureEditor::keyPressEvent ( QKeyEvent * e )
             selectedItem->moveBy(-10, 0);
             canvas()->setAllChanged ();
             canvas()->update();
+	    objectMoved();
         }
     } 
     else if (e->key()==Key_Right) {
@@ -200,6 +244,7 @@ void FigureEditor::keyPressEvent ( QKeyEvent * e )
             selectedItem->moveBy(10, 0);
             canvas()->setAllChanged ();
             canvas()->update();
+	    objectMoved();
         }
     } 
     else if (e->key()==Key_Up) {
@@ -208,6 +253,7 @@ void FigureEditor::keyPressEvent ( QKeyEvent * e )
             selectedItem->moveBy(0, -10);
             canvas()->setAllChanged ();
             canvas()->update();
+	    objectMoved();
         }
     } 
     else if (e->key()==Key_Down) {
@@ -216,12 +262,31 @@ void FigureEditor::keyPressEvent ( QKeyEvent * e )
             selectedItem->moveBy(0, 10);
             canvas()->setAllChanged ();
             canvas()->update();
+	    objectMoved();
         }
-    } 
+    }
     else
         e->ignore();
 }
 
+
+void FigureEditor::adjustCurrentItem(int x, int y, int w, int h)
+{
+    if(!selectedItem) return;
+
+    if (selectedItem->rtti() == 3 ) {
+	// text item
+	selectedItem->setX(x);
+	selectedItem->setY(y);
+    }
+    else if (selectedItem->rtti() == 5) {
+	// rectangle item
+	selectedItem->setX(x);
+	selectedItem->setY(y);
+	((QCanvasRectangle *) selectedItem)->setSize(w, h);
+    }
+    updateSelection();
+}
 
 void FigureEditor::alignModeChanged(int index)
 {
@@ -260,7 +325,7 @@ void FigureEditor::alignModeChanged(int index)
     
     updateSelection();
     canvas()->update();
-    
+    objectMoved();
 }
 
 
@@ -281,6 +346,7 @@ void FigureEditor::itemHCenter()
     
     updateSelection();
     canvas()->update();
+    objectMoved();
 }
 
 
@@ -304,6 +370,7 @@ void FigureEditor::itemVCenter()
 
     updateSelection();
     canvas()->update();
+    objectMoved();
 }
 
 
@@ -354,13 +421,14 @@ void FigureEditor::deleteItem(QCanvasItem *i)
                         (*it)->setZ((*it)->z()-1);
         }
 	selectedItem = 0;
+	emit emptySelection();
 }
 
 
 void FigureEditor::startResize(QPoint p)
 {
         // User wants to resize a rectangle
-        delete selection;
+        if (selection) delete selection;
         selection=0;
         operationMode=ResizeMode;
         draw_start=p;
@@ -369,11 +437,22 @@ void FigureEditor::startResize(QPoint p)
 
 void FigureEditor::contentsMousePressEvent(QMouseEvent* e)
 {
+	if ( e->button() != QMouseEvent::LeftButton ) {
+            QPoint p = inverseWorldMatrix().map(e->pos());
+            QCanvasItemList l=canvas()->collisions(p);
+            if (l.isEmpty())
+                return;
+            QCanvasItemList::Iterator it=l.begin();
+            if (*it == selection) it++;
+            if ( ((*it))->rtti() == 3 )
+                emit editCanvasItem((QCanvasText*)(*it));
+	    return;
+	}
         setFocus();
         QPoint p = inverseWorldMatrix().map(e->pos());
         // Create new item if user wants to
         if (operationMode!=CursorMode) {
-                delete selection;
+                if (selection) delete selection;
                 selection=0;
                 moving = 0;
                 selectedItem = 0;
@@ -385,19 +464,8 @@ void FigureEditor::contentsMousePressEvent(QMouseEvent* e)
                 return;
         }
 
-        // Deselect item if user clicks in an empty area
-        QCanvasItemList l=canvas()->collisions(p);
-        if (l.isEmpty() || (l.first()->z()<0)) {
-                if (selection)
-                        delete selection;
-                selection = 0;
-                moving = 0;
-                selectedItem=0;
-		emit emptySelection();
-                canvas()->update();
-                return;
-        }
 
+        QCanvasItemList l=canvas()->collisions(p);
 	QCanvasItemList::Iterator it=l.begin();
         // If user clicked in a rectangle corner, start resizing
         for (; it!=l.end(); ++it) {
@@ -434,29 +502,20 @@ void FigureEditor::contentsMousePressEvent(QMouseEvent* e)
         }
 
         // Otherwise, select item and prepare for moving
-        it = l.begin();
+        it=l.begin();
         if (*it == selection) it++;
-        moving = *it;
-        selectedItem = moving;
-        if (selection)
-                delete selection;
-        selection=0;
-
-        if ( (*it)->rtti() == 3 ) {
-                selectRectangle(*it);
-                emit selectedCanvasItem((QCanvasText*)(*it));
-        }
-        else if ( (*it)->rtti() == 5 ) {
-                selectRectangle(*it);
-                emit selectedCanvasItem((QCanvasRectangle*)(*it));
-        }
-        moving_start = p;
+        if (it!=l.end() && selectedItem == *it && (*it)->z() >= 0) {
+	    moving = *it;
+            moving_start = p;
+	}
         canvas()->update();
 }
 
 
 void FigureEditor::selectRectangle(QCanvasItem *it)
 {
+	if (selection) delete selection;
+	selection = 0;
         // Draw selection rectangle around selected item
         if ( (it)->rtti() == 3 )
                 selection = new QCanvasRectangle(((QCanvasText*)(it))->boundingRect (),canvas());
@@ -477,10 +536,7 @@ void FigureEditor::updateSelection()
 {
     if (!selectedItem)
         return;
-
 	// Update selection rectangle
-    delete selection;
-    selection = 0;
     selectRectangle(selectedItem);
 }
 
@@ -636,7 +692,6 @@ void FigureEditor::contentsMouseMoveEvent(QMouseEvent* e)
 {
         QPoint p = inverseWorldMatrix().map(e->pos());
         QCanvasItemList l=canvas()->collisions(p);
-        
         // move item
         if ( moving ) {
                 setCursor(QCursor(Qt::SizeAllCursor));
@@ -745,7 +800,7 @@ QPixmap FigureEditor::drawContent()
 
     QCanvasItemList list=canvas()->collisions(canvas()->rect());
 
-        // Parse items in revers order to draw them on the pixmap
+        // Parse items in reverse order to draw them on the pixmap
     QCanvasItemList::Iterator it = list.fromLast ();
     for (; it!=list.end(); --it) {
         if ( *it ) {
@@ -879,6 +934,8 @@ void FigureEditor::setXml(const QDomDocument &xml)
 titleWidget::titleWidget(Gui::KMMScreen *screen, int width, int height, KURL tmpUrl, QWidget* parent, const char* name, WFlags fl ):
                 titleBaseWidget(parent,name)
 {
+	m_zoomFactor = 1.0;
+	m_block = false;
         frame->setMinimumWidth(width);
         frame->setMinimumHeight(height);
 	frame->setMaximumWidth(width);
@@ -897,7 +954,11 @@ titleWidget::titleWidget(Gui::KMMScreen *screen, int width, int height, KURL tmp
 	    int pos = screen->seekPosition().frames(KdenliveSettings::defaultfps()) * 1000 / screen->getLength();
 	    timelineSlider->setValue(pos);
 	}
-	
+
+	int screenWidth = QApplication::desktop()->width();
+	if (width > screenWidth) zoomOut();
+
+	zoomFactor->setText(QString::number(m_zoomFactor));
         // Put icons on buttons
     textButton->setPixmap(KGlobal::iconLoader()->loadIcon("title_text",KIcon::Small,22));
     rectButton->setPixmap(KGlobal::iconLoader()->loadIcon("title_rect",KIcon::Small,22));
@@ -910,6 +971,8 @@ titleWidget::titleWidget(Gui::KMMScreen *screen, int width, int height, KURL tmp
     italicButton->setPixmap(KGlobal::iconLoader()->loadIcon("text_italic",KIcon::Small,22));
     strikeButton->setPixmap(KGlobal::iconLoader()->loadIcon("text_strike",KIcon::Small,22));
     underlineButton->setPixmap(KGlobal::iconLoader()->loadIcon("text_under",KIcon::Small,22));
+    zoomInButton->setPixmap(KGlobal::iconLoader()->loadIcon("viewmag+",KIcon::Small,22));
+    zoomOutButton->setPixmap(KGlobal::iconLoader()->loadIcon("viewmag-",KIcon::Small,22));
 	
     alignprobBox->insertItem ( KGlobal::iconLoader()->loadIcon("text_left",KIcon::Small,22), i18n( "Align Left" ));
     alignprobBox->insertItem ( KGlobal::iconLoader()->loadIcon("text_right",KIcon::Small,22), i18n( "Align Right" ));
@@ -958,6 +1021,15 @@ titleWidget::titleWidget(Gui::KMMScreen *screen, int width, int height, KURL tmp
     QObject::connect(timelineposition,SIGNAL(textChanged(const QString &)),this,SLOT(seekToPos(const QString &)));
     QObject::connect(centerLRButton,SIGNAL(clicked()),canview,SLOT(itemHCenter()));
     QObject::connect(centerTBButton,SIGNAL(clicked()),canview,SLOT(itemVCenter()));
+
+    QObject::connect(zoomInButton,SIGNAL(clicked()),this,SLOT(zoomIn()));
+    QObject::connect(zoomOutButton,SIGNAL(clicked()),this,SLOT(zoomOut()));
+
+    QObject::connect(pos_x,SIGNAL(valueChanged(int)),this,SLOT(adjustObject()));
+    QObject::connect(pos_y,SIGNAL(valueChanged(int)),this,SLOT(adjustObject()));
+    QObject::connect(pos_w,SIGNAL(valueChanged(int)),this,SLOT(adjustObject()));
+    QObject::connect(pos_h,SIGNAL(valueChanged(int)),this,SLOT(adjustObject()));
+
 }
 
 
@@ -990,6 +1062,11 @@ void titleWidget::adjustButtons()
         rectButton->setOn(canview->operationMode == RectMode);
 }
 
+void titleWidget::adjustObject()
+{
+	if (!m_block)
+	    canview->adjustCurrentItem(pos_x->value(), pos_y->value(), pos_w->value(), pos_h->value());
+}
 
 void titleWidget::cursorMode()
 {
@@ -1040,6 +1117,18 @@ void titleWidget::addText(QPoint p)
                 canview->selectedItem=i;
                 canview->selectRectangle(i);
                 canvas->update();
+
+    		pos_x->setEnabled(true);
+    		pos_y->setEnabled(true);
+    		pos_w->setEnabled(false);
+    		pos_h->setEnabled(false);
+    		m_block = true;
+
+    		pos_x->setValue(i->x());
+    		pos_y->setValue(i->y());
+
+		m_block = false;
+
         }
         canview->operationMode=CursorMode;
         canview->setCursor(arrowCursor);
@@ -1073,6 +1162,7 @@ void titleWidget::addBlock(QRect rec,int pos)
         canview->selectRectangle(i);
         canview->operationMode=CursorMode;
         canview->setCursor(arrowCursor);
+	adjustWidgets(i);
         canvas->update();
         adjustButtons();
 }
@@ -1080,17 +1170,16 @@ void titleWidget::addBlock(QRect rec,int pos)
 
 void titleWidget::editText(QCanvasText* i)
 {
-        bool ok;
-        QString txt=KInputDialog::getMultiLineText("Enter your text",QString::null, i->text(),&ok,this);
-        if (!ok)
-                return;
-        // If empty text is returned, delete text item
-        if (txt==QString::null) {
-                canview->deleteItem((QCanvasItem *)(i));
-                return;
-        }
-        i->setText(txt);
+    bool ok;
+    QString txt=KInputDialog::getMultiLineText("Enter your text",QString::null, i->text(),&ok,this);
+    if (!ok) return;
+    // If empty text is returned, delete text item
+    if (txt==QString::null) {
+	canview->deleteItem((QCanvasItem *)(i));
+	return;
+    }
 
+    i->setText(txt);
     i->show();
 	
      // Select it
@@ -1100,9 +1189,7 @@ void titleWidget::editText(QCanvasText* i)
     canview->setCursor(arrowCursor);
     canvas->update();
     adjustButtons();
-    
     canvas->update();
-    
 }
 
 
@@ -1113,6 +1200,10 @@ void titleWidget::adjustWidgets()
     italicButton->setOn(false);
     strikeButton->setOn(false);
     underlineButton->setOn(false);
+    pos_x->setEnabled(false);
+    pos_y->setEnabled(false);
+    pos_w->setEnabled(false);
+    pos_h->setEnabled(false);
     alignprobBox->setCurrentItem(0);
 }
 
@@ -1127,7 +1218,19 @@ void titleWidget::adjustWidgets(QCanvasText* i)
     italicButton->setOn(i->font().italic());
     strikeButton->setOn(i->font().strikeOut());
     underlineButton->setOn(i->font().underline());
-    
+
+    pos_x->setEnabled(true);
+    pos_y->setEnabled(true);
+    pos_w->setEnabled(false);
+    pos_h->setEnabled(false);
+
+    m_block = true;
+
+    pos_x->setValue(i->x());
+    pos_y->setValue(i->y());
+
+    m_block = false;
+
     int item = -1;
     if(i->textFlags() & Qt::AlignLeft)
         item = 0;
@@ -1144,8 +1247,21 @@ void titleWidget::adjustWidgets(QCanvasText* i)
 
 void titleWidget::adjustWidgets(QCanvasRectangle* i)
 {
-        // Adjust color widget according to the selected item
-        fontColor->setColor(i->brush().color());
+    // Adjust color widget according to the selected item
+    fontColor->setColor(i->brush().color());
+    pos_x->setEnabled(true);
+    pos_y->setEnabled(true);
+    pos_w->setEnabled(true);
+    pos_h->setEnabled(true);
+
+    m_block = true;
+    QRect rect = i->rect().normalize();
+    pos_x->setValue(rect.x());
+    pos_y->setValue(rect.y());
+    pos_w->setValue(rect.width());
+    pos_h->setValue(rect.height());
+
+    m_block = false;
 }
 
 void titleWidget::doPreview(int pos)
@@ -1186,11 +1302,11 @@ KURL titleWidget::previewFile()
     return KURL(canview->tmpFileName);
 }
 
-QPixmap titleWidget::thumbnail(int width, int height)
+QPixmap titleWidget::thumbnail(QPoint size)
 {
     QPixmap pm = canview->drawContent();
     QImage  src = pm.convertToImage();
-    QImage  dest = src.smoothScale( width, height );
+    QImage  dest = src.smoothScale( size.x(), size.y());
     pm.convertFromImage( dest );
     return pm;
 }
@@ -1203,6 +1319,38 @@ QDomDocument titleWidget::toXml()
 void titleWidget::setXml(const QDomDocument &xml)
 {
     canview->setXml(xml);
+}
+
+void titleWidget::zoomIn()
+{
+    QWMatrix m = canview->worldMatrix();
+    m_zoomFactor = m_zoomFactor * 2;
+    m.scale( 2, 2 );
+    canview->setWorldMatrix( m );
+    int width = frame->width() * 2;
+    int height = frame->height() * 2;
+    frame->setMinimumWidth(width);
+    frame->setMinimumHeight(height);
+    frame->setMaximumWidth(width);
+    frame->setMaximumHeight(height);
+    zoomFactor->setText(QString::number(m_zoomFactor));
+    adjustSize();
+}
+
+void titleWidget::zoomOut()
+{
+    QWMatrix m = canview->worldMatrix();
+    m_zoomFactor = m_zoomFactor / 2;
+    m.scale( 0.5, 0.5 );
+    canview->setWorldMatrix( m );
+    int width = frame->width() / 2;
+    int height = frame->height() / 2;
+    frame->setMinimumWidth(width);
+    frame->setMinimumHeight(height);
+    frame->setMaximumWidth(width);
+    frame->setMaximumHeight(height);
+    zoomFactor->setText(QString::number(m_zoomFactor));
+    adjustSize(); //resize(100, 100);
 }
 
 

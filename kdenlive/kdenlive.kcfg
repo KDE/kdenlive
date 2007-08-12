@@ -114,15 +114,16 @@
       <default>pal_dv</default>
     </entry>
 
+    <entry name="defaultwidth" type="Int">
+      <label>Width of the project's video image.</label>
+      <default>720</default>
+    </entry>
+
     <entry name="displaywidth" type="Int">
       <label>Width of the project's displayed video image (with aspect ratio correction).</label>
       <default>768</default>
     </entry>
 
-    <entry name="defaultwidth" type="Int">
-      <label>Width of the project's video image.</label>
-      <default>720</default>
-    </entry>
     <entry name="defaultheight" type="Int">
       <label>Height of the project's video image.</label>
       <default>576</default>
@@ -155,6 +156,11 @@
     <entry name="videoprofile" type="String">
       <label>Normal or 16:9 profile.</label>
       <default>dv</default>
+    </entry>
+
+    <entry name="addnewlysaved" type="Bool">
+      <label>Add newly created clip / image to current project.</label>
+      <default>true</default>
     </entry>
 
     <entry name="showeffects" type="Bool">

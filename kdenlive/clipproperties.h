@@ -50,15 +50,16 @@ namespace Gui {
               ClipProperties(DocClipRef *refClip, KdenliveDoc * document, QWidget * parent = 0, const char *name = 0);
         virtual ~ ClipProperties();
 
-        QString color();
-        QString name();
-        QString description();
-        GenTime duration();
-        QString url();
-        bool transparency();
-	bool crossfading();
-	int ttl();
-	QString extension();
+        QString color() const;
+        QString name() const;
+        QString description() const;
+        GenTime duration() const;
+        QString url() const;
+        bool transparency() const;
+	bool crossfading() const;
+	bool loop() const;
+	int ttl() const;
+	QString extension() const;
 	void insertLuma(const QPixmap &pix, const QString &txt);
 	void preselectLuma();
 	double lumaSoftness() const;
@@ -70,7 +71,10 @@ namespace Gui {
         void updateThumb(const QString &path);
 	void updateList();
 	void updateDuration();
-        
+	void slotEditPlayList();
+	void saveDescription();
+	void slotEnableSaveDescription();
+
       private:
         int m_height;
         int m_width;
@@ -79,6 +83,9 @@ namespace Gui {
         KdenliveDoc *m_document;
 	DocClipBase::CLIPTYPE m_clipType;
 	QString m_luma;
+
+	/** Parses a playlist clip (.westley or .kdenlive) to find included clips and detect missing ones */
+	void parsePlayList(KURL url);
     };
 
 }				// namespace Gui

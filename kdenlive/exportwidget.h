@@ -121,6 +121,8 @@ private slots:
 	void slotGuideZone(bool isOn);
 	QStringList metadataString();
 	double getCurrentAspect();
+	void generateScript();
+	void slotAddTimecode();
 
 public slots:
         void stopExport();

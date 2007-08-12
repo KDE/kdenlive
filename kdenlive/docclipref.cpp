@@ -57,7 +57,7 @@ m_clip(clip),  m_speed(1.0)
     DocClipBase::CLIPTYPE t = m_clip->clipType();
 
     // If clip is a video, resizing it should update the thumbnails
-    if (t == DocClipBase::VIDEO || t == DocClipBase::AV || t == DocClipBase::VIRTUAL) {
+    if (t == DocClipBase::VIDEO || t == DocClipBase::AV || t == DocClipBase::VIRTUAL || t == DocClipBase::PLAYLIST) {
 	m_thumbnail = QPixmap();
         m_endthumbnail = QPixmap();
         startTimer = new QTimer( this );
@@ -110,21 +110,21 @@ void DocClipRef::refreshCurrentTrack()
 bool DocClipRef::hasVariableThumbnails()
 {
     DocClipBase::CLIPTYPE t = m_clip->clipType();
-    if (( t != DocClipBase::VIDEO && t != DocClipBase::AV && t != DocClipBase::VIRTUAL) || !KdenliveSettings::videothumbnails())
-        return false;
-    return true;
+    if (( t == DocClipBase::VIDEO || t == DocClipBase::AV || t == DocClipBase::VIRTUAL || t == DocClipBase::PLAYLIST) && KdenliveSettings::videothumbnails())
+        return true;
+    return false;
 }
 
 void DocClipRef::generateThumbnails()
 {
     DocClipBase::CLIPTYPE t = m_clip->clipType();
-    if (t == DocClipBase::VIDEO || t == DocClipBase::AV || t == DocClipBase::VIRTUAL) {
+    if (t == DocClipBase::VIDEO || t == DocClipBase::AV || t == DocClipBase::VIRTUAL || t == DocClipBase::PLAYLIST) {
 	fetchThumbnails();
 	return;
     }
 
     uint height = (uint)KdenliveSettings::videotracksize();
-    uint width = (uint) (height * 1.25);
+    uint width = (uint) (height * KdenliveSettings::displayratio());
 
     QPixmap result(width, height);
     result.fill(Qt::black);
@@ -181,6 +181,11 @@ void DocClipRef::generateThumbnails()
     	}
 }
 
+QPixmap DocClipRef::extractThumbnail(int width, int height)
+{
+    return m_clip->thumbCreator->extractImage( fileURL(), referencedClip()->getProjectThumbFrame(), width, height );
+}
+
 const GenTime & DocClipRef::trackStart() const
 {
     return m_trackStart;
@@ -219,7 +224,7 @@ void DocClipRef::fetchStartThumbnail()
 void DocClipRef::doFetchStartThumbnail()
 {
 	uint height = (uint)(KdenliveSettings::videotracksize());
-	uint width = (uint)(height * 1.25);
+	uint width = (uint)(height * KdenliveSettings::displayratio());
 	emit getClipThumbnail(fileURL(), (int) (m_cropStart.frames(KdenliveSettings::defaultfps()) * m_speed), width, height);
 }
 
@@ -227,7 +232,7 @@ void DocClipRef::fetchThumbnails()
 {
 	if (!m_thumbnail.isNull() && !m_endthumbnail.isNull() && m_thumbnail.height() == KdenliveSettings::videotracksize()) return;
 	uint height = (uint)(KdenliveSettings::videotracksize());
-	uint width = (uint)(height * 1.25);
+	uint width = (uint)(height * KdenliveSettings::displayratio());
 	int startFrame = (int) (m_cropStart.frames(KdenliveSettings::defaultfps() * m_speed));
 	m_clip->thumbCreator->getThumbs(fileURL(), startFrame, (int) ( startFrame + cropDuration().frames(KdenliveSettings::defaultfps()) - 1), width, height);
 }
@@ -240,7 +245,7 @@ void DocClipRef::fetchEndThumbnail()
 void DocClipRef::doFetchEndThumbnail()
 {
 	uint height = (uint)(KdenliveSettings::videotracksize());
-	uint width = (uint)(height * 1.25);
+	uint width = (uint)(height * KdenliveSettings::displayratio());
 	emit getClipThumbnail(fileURL(),(int) (( m_cropStart.frames(KdenliveSettings::defaultfps())+cropDuration().frames(KdenliveSettings::defaultfps()) - 1) * m_speed), width, height);
 }
 
@@ -333,7 +338,6 @@ void DocClipRef::updateThumbnail(int frame, QPixmap newpix)
     if (m_parentTrack) m_parentTrack->notifyClipChanged(this);
 }
 
-
 QPixmap DocClipRef::thumbnail(bool end) const
 {
     if (end) return m_endthumbnail;
@@ -344,9 +348,6 @@ int DocClipRef::thumbnailWidth() const
 {
     return m_thumbnail.width();
 }
-
-
-
 
 DocClipRef *DocClipRef::
 createClip(KdenliveDoc *doc, const QDomElement & element)
@@ -845,8 +846,9 @@ QDomDocumentFragment DocClipRef::generateXMLTransition(bool hideVideo, bool hide
 	    transparentBackgroundClip = true;
     }
 
-    // Add transition to create transparent bg effect for image/text clips
-    if (transparentBackgroundClip)
+    // Add transition to create transparent bg effect for image/text clips 
+    //	or clips with Blue screen effect
+    if (transparentBackgroundClip || hasEffect("chroma"))
     {
 	int transitionNumber = m_transitionStack.count();
 	QValueList < QPoint > blanklist;
@@ -860,6 +862,8 @@ QDomDocumentFragment DocClipRef::generateXMLTransition(bool hideVideo, bool hide
 	    for ( it = blanklist.begin(); it != blanklist.end(); ++it ) {
 		int currentStart = (*it).x();
 		int currentEnd = (*it).y();
+		kdDebug()<<"// CURRENT TRANSITION IS: "<<transStart<<" - "<<transEnd<<endl;
+		kdDebug()<<"// CURRENT ANALYSED: "<<currentStart<<" - "<<currentEnd<<endl;
 		if (transStart <= currentEnd && transEnd >= currentStart) {
 		    if (currentStart != transStart) {
 			(*it) = QPoint(currentStart, transStart);
@@ -884,7 +888,7 @@ QDomDocumentFragment DocClipRef::generateXMLTransition(bool hideVideo, bool hide
             transition.setAttribute("mlt_service", "composite");
             transition.setAttribute("fill", "1");
 	    //if (ct == DocClipBase::TEXT) transition.setAttribute("distort", "1");
-            //transition.setAttribute("progressive","1");
+            transition.setAttribute("progressive","1");
 	    transition.setAttribute("valign","1");
 	    transition.setAttribute("halign","1");
             transition.setAttribute("a_track", QString::number( playlistNextTrackNum()));
@@ -975,14 +979,14 @@ QDomDocumentFragment DocClipRef::generateOffsetXMLTransition(bool hideVideo, boo
     }
 
     // Add transition to create transparent bg effect for image/text clips
-    if (transparentBackgroundClip && m_transitionStack.count() == 0)
+    if (( transparentBackgroundClip && m_transitionStack.count() == 0 )  || hasEffect("chroma"))
     {
         QDomElement transition = transitionList.createElement("transition");
         transition.setAttribute("in", (trackStart() - start).frames(framesPerSecond()));
         transition.setAttribute("out", (trackEnd() - start).frames(framesPerSecond()) - 1);
         transition.setAttribute("mlt_service", "composite");
         transition.setAttribute("fill", "1");
-        //transition.setAttribute("progressive","1");
+        transition.setAttribute("progressive","1");
 	transition.setAttribute("valign","1");
 	transition.setAttribute("halign","1");
         transition.setAttribute("a_track", QString::number( playlistNextTrackNum()));
@@ -1106,7 +1110,27 @@ QDomDocument DocClipRef::generateXMLClip(bool rendering)
 	    uint parameterNum = 0;
 	   // bool hasParameters = false;
 
-	    if (effect->effectDescription().tag().startsWith("ladspa", false)) {
+	    if (effect->effectDescription().tag() == "sox") {
+		// THIS is a SOX FILTER, process 
+                        QDomElement clipFilter = sceneList.createElement("filter");
+			clipFilter.setAttribute("mlt_service", "sox");
+			QStringList params;
+			params<<QString(effect->effectDescription().stringId()).remove("sox_");
+			while (effect->parameter(parameterNum)) {
+		    	if (effect->effectDescription().parameter(parameterNum)->type() == "constant") {
+				double effectParam;
+			    	if (effect->effectDescription().parameter(parameterNum)->factor() != 1.0)
+                            		effectParam = effect->effectDescription().parameter(parameterNum)->value().toDouble() / effect->effectDescription().parameter(parameterNum)->factor();
+			    	else effectParam = effect->effectDescription().parameter(parameterNum)->value().toDouble();
+				params.append(QString::number(effectParam));
+			    }
+			    //params.append(effect->effectDescription().parameter(parameterNum)->value());
+			    parameterNum++;
+			}
+			clipFilter.setAttribute("effect", params.join(" "));
+			entry.appendChild(clipFilter);
+	    }
+	    else if (effect->effectDescription().tag().startsWith("ladspa", false)) {
 		// THIS is a LADSPA FILTER, process 
                         QDomElement clipFilter = sceneList.createElement("filter");
 			clipFilter.setAttribute("mlt_service", "ladspa");
@@ -1259,7 +1283,8 @@ QDomDocument DocClipRef::generateXMLClip(bool rendering)
 		    if (effect->effectDescription().
 			parameter(parameterNum)->type() == "constant" || effect->effectDescription().
 			parameter(parameterNum)->type() == "list" || effect->effectDescription().
-			parameter(parameterNum)->type() == "bool")
+			parameter(parameterNum)->type() == "bool" || effect->effectDescription().
+			parameter(parameterNum)->type() == "color")
 			while (effect->parameter(parameterNum)) {
 			    if (effect->effectDescription().parameter(parameterNum)->factor() != 1.0)
                             clipFilter.setAttribute(effect->
@@ -1311,7 +1336,7 @@ QDomDocument DocClipRef::generateXMLClip(bool rendering)
 
 QDomDocument DocClipRef::generateOffsetXMLClip(GenTime start, GenTime end)
 {
-    if (m_cropStart == m_trackEnd)
+    if (m_cropStart == m_trackEnd || m_trackStart.frames(framesPerSecond())  == end.frames(framesPerSecond()) - 1)
 	return QDomDocument();
 
     QDomDocument sceneList;
@@ -1334,7 +1359,7 @@ QDomDocument DocClipRef::generateOffsetXMLClip(GenTime start, GenTime end)
 	entry.appendChild(clipFilter);
     }
 
-    // Check if clip is positionned under 0 in the timeline
+    // Check if clip is starting before selected zone in the timeline
 	 int checkStart = (int)((m_trackStart - start).frames(framesPerSecond()));
     if (checkStart < 0)
         entry.setAttribute("in", QString::number(m_cropStart.frames(framesPerSecond()) - checkStart));
@@ -1840,6 +1865,18 @@ Effect *DocClipRef::effectAt(uint index) const
     }
     //kdError() << "DocClipRef::effectAt() : index out of range" << endl;
     return 0;
+}
+
+bool DocClipRef::hasEffect(QString effectTag) const
+{
+    EffectStack::iterator itt = m_effectStack.begin();
+
+    while (itt != m_effectStack.end()) {
+	if ((*itt)->effectDescription().tag() == effectTag && (*itt)->isEnabled());
+	return true;
+	++itt;
+    }
+    return false;
 }
 
 void DocClipRef::setEffectStack(const EffectStack & effectStack)

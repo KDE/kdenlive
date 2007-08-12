@@ -34,7 +34,7 @@ class SaveProjectFilter {
     virtual ~ SaveProjectFilter();
 
 	/** Save the document to the specified url. */
-    virtual bool save(QFile & file, KdenliveDoc * document) = 0;
+    virtual bool save(QFile & file, KdenliveDoc * document, bool includeMltPlaylist = true) = 0;
 
 	/** Returns a list of formats handled by this filter. */
     virtual QStringList handledFormats() const = 0;

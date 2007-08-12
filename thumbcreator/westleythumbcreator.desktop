@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Service
+Name=MLT Westley Playlist
+Comment=
+ServiceTypes=ThumbCreator
+MimeTypes=application/vnd.westley.scenelist
+X-KDE-Library=westleythumbcreator
+CacheThumbnail=true
+IgnoreMaximumSize=

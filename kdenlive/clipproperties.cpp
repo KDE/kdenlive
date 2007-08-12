@@ -23,32 +23,39 @@
 #include <qlayout.h>
 #include <qslider.h>
 #include <qcheckbox.h>
-#include <qtextedit.h>
 #include <qcolor.h>
 #include <qtoolbutton.h>
 #include <qradiobutton.h>
 #include <qspinbox.h>
+#include <qtabwidget.h>
 
 #include <kpushbutton.h>
 #include <kurlrequester.h>
 #include <klocale.h>
 #include <kcolorbutton.h>
+#include <ktextedit.h>
 #include <kfiledialog.h>
 #include <kcombobox.h>
+#include <klistview.h>
+#include <kiconloader.h>
 #include <kdebug.h>
+#include <kio/netaccess.h>
+#include <krun.h>
 
 #include "transition.h"
 #include "docclipref.h"
 #include "docclipavfile.h"
 #include "clipproperties.h"
 #include "kdenlivesettings.h"
-
+#include "playlist.h"
 
 namespace Gui {
 
-    ClipProperties::ClipProperties(DocClipRef *refClip, KdenliveDoc * document, QWidget * parent, const char *name):  KDialogBase (KDialogBase::Swallow, 0, parent,name, true, i18n("Clip Properties"), KDialogBase::Ok | KDialogBase::Cancel), m_imageCount(0) {
+    ClipProperties::ClipProperties(DocClipRef *refClip, KdenliveDoc * document, QWidget * parent, const char *name):  KDialogBase (KDialogBase::Swallow, 0, parent,name, true, i18n("Clip Properties"), KDialogBase::User2 | KDialogBase::User1 | KDialogBase::Stretch | KDialogBase::Ok | KDialogBase::Cancel), m_imageCount(0) {
 
         clipChoice = new clipProperties_UI(this);
+	setButtonText(KDialogBase::User1, i18n("Edit"));
+	setButtonText(KDialogBase::User2, i18n("Save Description"));
         clipChoice->edit_name->setText(refClip->name());
         clipChoice->edit_description->setText(refClip->description());
         clipChoice->edit_duration->setText(document->timeCode().getTimecode(refClip->duration(), KdenliveSettings::defaultfps()));
@@ -63,6 +70,16 @@ namespace Gui {
 
 	DocClipAVFile * avclip = refClip->referencedClip()->toDocClipAVFile();
 
+	if (m_clipType != DocClipBase::PLAYLIST) {
+	    showButton( KDialogBase::User1, false);
+	    showButton( KDialogBase::User2, false);
+	}
+	else {
+	    connect(this, SIGNAL(user1Clicked()), this, SLOT(slotEditPlayList()));
+	    connect(this, SIGNAL(user2Clicked()), this, SLOT(saveDescription()));
+	    connect(clipChoice->edit_description, SIGNAL(textChanged()), this, SLOT(slotEnableSaveDescription()));
+	}
+
 	// slideshow stuff
 	if (m_clipType != DocClipBase::SLIDESHOW) {
             clipChoice->ttl_label->hide();
@@ -70,7 +87,9 @@ namespace Gui {
             clipChoice->image_ttl->hide();
             clipChoice->image_type_label->hide();
             clipChoice->imageType->hide();
+	    clipChoice->slide_loop->hide();
 	}
+
         if (m_clipType == DocClipBase::COLOR) {
             QString color = avclip->color();
             color = color.replace(0, 2, "#");
@@ -87,6 +106,7 @@ namespace Gui {
             clipChoice->clipFps->setText("-");
 	    clipChoice->clipAudio->setText("-");
             clipChoice->clipFilesize->setText("-");
+	    clipChoice->tab_extra->removePage(clipChoice->tab_extra->page(2));
         }
         else if (m_clipType == DocClipBase::IMAGE) {
             clipChoice->transparent_bg->setChecked(avclip->isTransparent());
@@ -101,6 +121,7 @@ namespace Gui {
 	    clipChoice->clipFps->setText("-");
 	    clipChoice->clipAudio->setText("-");
             clipChoice->clipFilesize->setText(refClip->formattedFileSize());
+	    clipChoice->tab_extra->removePage(clipChoice->tab_extra->page(2));
 	}
         else if (m_clipType == DocClipBase::VIRTUAL) {
             clipChoice->label_color->hide();
@@ -112,8 +133,10 @@ namespace Gui {
 	    clipChoice->clipFps->setText("-");
 	    clipChoice->clipAudio->setText("-");
             clipChoice->clipFilesize->setText("-");
+	    clipChoice->tab_extra->removePage(clipChoice->tab_extra->page(2));
 	}
 	else if (m_clipType == DocClipBase::SLIDESHOW) {
+	    clipChoice->slide_loop->setChecked(avclip->loop());
 	    clipChoice->transparent_bg->setChecked(avclip->isTransparent());
 	    clipChoice->crossfade->setChecked(avclip->hasCrossfade());
 	    m_luma = avclip->lumaFile();
@@ -147,6 +170,7 @@ namespace Gui {
             clipChoice->clipFps->setText("-");
 	    clipChoice->clipAudio->setText("-");
             clipChoice->clipFilesize->setText(refClip->formattedFileSize());
+	    clipChoice->tab_extra->removePage(clipChoice->tab_extra->page(2));
         }
         else {
 		clipChoice->meta_text->setText(avclip->formattedMetaData());
@@ -178,12 +202,23 @@ namespace Gui {
 	    else clipChoice->clipAudio->setText(i18n("None"));
 	    if (m_clipType == DocClipBase::AUDIO) {
             	clipChoice->clipType->setText(i18n("Audio Clip"));
+		clipChoice->tab_extra->removePage(clipChoice->tab_extra->page(2));
             }
             else { // Video clip
             	QPixmap pix = document->renderer()->getVideoThumbnail(refClip->fileURL().path(), clip->getProjectThumbFrame(), clipChoice->preview_pixmap->width(), clipChoice->preview_pixmap->height());
             	if (!pix.isNull()) clipChoice->preview_pixmap->setPixmap(pix);
-            	clipChoice->clipType->setText(i18n("Video Clip"));
             	clipChoice->clipSize->setText(QString::number(refClip->clipWidth())+"x"+QString::number(refClip->clipHeight()));
+	    	if (m_clipType == DocClipBase::PLAYLIST) {
+		    // westley clip, populate playlist tab
+		    clipChoice->tab_extra->page(2)->setEnabled(true);
+		    clipChoice->tab_extra->removePage(clipChoice->tab_extra->page(1));
+		    parsePlayList(refClip->fileURL());
+		    clipChoice->clipType->setText(i18n("Playlist Clip"));
+	    	}
+		else {
+		    clipChoice->clipType->setText(i18n("Video Clip"));
+		    clipChoice->tab_extra->removePage(clipChoice->tab_extra->page(2));
+		}
             }
         }
 
@@ -196,6 +231,60 @@ namespace Gui {
 
     ClipProperties::~ClipProperties() 
     {
+    }
+
+    void ClipProperties::saveDescription()
+    {
+	PlayList::saveDescription(url(), description());
+	enableButton(KDialogBase::User2, false);
+    }
+
+    void ClipProperties::slotEnableSaveDescription()
+    {
+	enableButton(KDialogBase::User2, true);
+    }
+
+    void ClipProperties::slotEditPlayList()
+    {
+	(void) new KRun(KURL(clipChoice->edit_url->url()));
+    }
+
+    void ClipProperties::parsePlayList(KURL url)
+    {
+	QDomDocument doc;
+	doc.setContent(&QFile(url.path()), false);
+	QDomElement documentElement = doc.documentElement();
+	if (documentElement.tagName() != "westley") {
+	kdWarning() << "KdenliveDoc::loadFromXML() document element has unknown tagName : " << documentElement.tagName() << endl;
+	}
+
+    	QDomNode kdenlivedoc = documentElement.elementsByTagName("kdenlivedoc").item(0);
+	QDomNode n;
+	if (!kdenlivedoc.isNull()) n = kdenlivedoc.firstChild();
+	else n = documentElement.firstChild();
+	QDomElement e;
+	bool missingFiles = false;
+
+	while (!n.isNull()) {
+	    e = n.toElement();
+	    if (!e.isNull() && e.tagName() == "producer") {
+		    QString prodUrl = e.attribute("resource", QString::null);
+		    if (!prodUrl.isEmpty()) {
+			QListViewItem *item = new QListViewItem(clipChoice->clips_list, prodUrl);
+			if (KIO::NetAccess::exists(KURL(prodUrl), false, this)) 
+			    item->setPixmap(0, KGlobal::iconLoader()->loadIcon("ok", KIcon::Small));
+		        else {
+			    item->setPixmap(0, KGlobal::iconLoader()->loadIcon("no", KIcon::Small));
+			    missingFiles = true;
+			}
+		    }
+	    }
+	    n = n.nextSibling();
+	}
+	if (missingFiles) {
+	    clipChoice->tab_extra->setTabIconSet(clipChoice->tab_extra->page(1), KGlobal::iconLoader()->loadIcon("file_broken", KIcon::Small));
+	    clipChoice->tab_extra->setCurrentPage(1);
+	}
     }
 
     void ClipProperties::insertLuma(const QPixmap &pix, const QString &txt)
@@ -246,34 +335,39 @@ namespace Gui {
         if (!pix.isNull()) clipChoice->preview_pixmap->setPixmap(pix);
     }
 
-    QString ClipProperties::color()
+    QString ClipProperties::color() const
     {
         QString color = clipChoice->button_color->color().name();
         color = color.replace(0, 1, "0x") + "ff";
         return color;
     }
     
-    QString ClipProperties::name()
+    QString ClipProperties::name() const
     {
         return clipChoice->edit_name->text();
     }
 
-    int ClipProperties::ttl()
+    bool ClipProperties::loop() const
+    {
+	return clipChoice->slide_loop->isChecked();
+    }
+
+    int ClipProperties::ttl() const
     {
         return  m_document->getTimecodePosition(clipChoice->image_ttl->text()).frames(KdenliveSettings::defaultfps());
     }
 
-    QString ClipProperties::extension()
+    QString ClipProperties::extension() const
     {
         return clipChoice->imageType->currentText();
     }
     
-    QString ClipProperties::description()
+    QString ClipProperties::description() const
     {
         return clipChoice->edit_description->text();
     }
     
-    GenTime ClipProperties::duration()
+    GenTime ClipProperties::duration() const
     {
         QString d = clipChoice->edit_duration->text();
         return m_document->getTimecodePosition(d);
@@ -285,17 +379,17 @@ namespace Gui {
         clipChoice->preview_pixmap->repaint();
     }
     
-    QString ClipProperties::url()
+    QString ClipProperties::url() const
     {
         return clipChoice->edit_url->url(); 
     }
     
-    bool ClipProperties::transparency()
+    bool ClipProperties::transparency() const
     {
         return clipChoice->transparent_bg->isChecked(); 
     }
 
-    bool ClipProperties::crossfading()
+    bool ClipProperties::crossfading() const
     {
         return clipChoice->crossfade->isChecked(); 
     }

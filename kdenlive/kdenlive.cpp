@@ -57,6 +57,7 @@
 #include <kinputdialog.h>
 #include <kpassivepopup.h>
 #include <kprogress.h>
+#include <kpopupmenu.h>
 
 // application specific includes
 // p.s., get the idea this class is kind, central to everything?
@@ -109,6 +110,9 @@
 #include "keditmarkercommand.h"
 #include "docclipvirtual.h"
 #include "firstrun_ui.h"
+#include "printproperties.h"
+#include "playlist.h"
+#include "saveprojectnativefilter.h"
 
 #include "trackpanelclipmovefunction.h"
 #include "trackpanelrazorfunction.h"
@@ -126,6 +130,7 @@
 #define ID_STATUS_MSG 1
 #define ID_EDITMODE_MSG 2
 #define ID_TIMELINE_MSG 3
+
 
 namespace Gui {
 
@@ -175,11 +180,20 @@ namespace Gui {
 	int videoTracks = KdenliveSettings::videotracks();
 	QString newProjectName;
 	KdenliveSettings::setMultitrackview(false);
+	bool crashRecovery = false;
+	m_recoveryFile = KGlobal::dirs()->saveLocation("appdata") + "recovery.kdenlive" ;
 
-	if (!KdenliveSettings::openlast() && !KdenliveSettings::openblank() && !newDoc) {
+	QFile backup(m_recoveryFile);
+	if (backup.exists()) {
+	    if (KMessageBox::questionYesNo(this, i18n("It seems like Kdenlive did not close properly during the previous session.\nDo you want to recover the project file?")) == KMessageBox::Yes) {
+		crashRecovery = true;
+	    }
+	}
+
+	if (!crashRecovery && !KdenliveSettings::openlast() && !KdenliveSettings::openblank() && !newDoc) {
 		slotNewProject(&newProjectName, &m_selectedFile, &videoTracks, &audioTracks, false, true);
 	}
-	else if (KdenliveSettings::openblank() && !newDoc) {
+	else if (!crashRecovery && KdenliveSettings::openblank() && !newDoc) {
 		slotNewProject(&newProjectName, &m_selectedFile, &videoTracks, &audioTracks, true, true);
 	}
 
@@ -198,23 +212,37 @@ namespace Gui {
 
 	// call inits to invoke all other construction parts
 	m_commandHistory = new KCommandHistory(actionCollection(), true);
+   
 	initActions();
 
 	m_effectList.setAutoDelete(true);
 
 	initEffects::initializeEffects( &m_effectList );
 
-	// init transitions & effects menu
-	transitionsMenu = ((QPopupMenu *) factory()->container("add_transition_menu", this));
+	// init dynamic transitions & effects menu
+	transitionsMenu = new QPopupMenu;
 	transitionsMenu->insertItem(i18n("Crossfade"));
 	transitionsMenu->insertItem(i18n("Push"));
 	transitionsMenu->insertItem(i18n("Pip"));
 	transitionsMenu->insertItem(i18n("Wipe"));
 	connect(transitionsMenu, SIGNAL(activated(int)), this, SLOT(slotAddTransition(int)));
 
-	audioEffectsMenu = ((QPopupMenu *) factory()->container("audio_effect", this));
-	videoEffectsMenu = ((QPopupMenu *) factory()->container("video_effect", this));
-	removeEffectsMenu = ((QPopupMenu *) factory()->container("remove_effect", this));
+	audioEffectsMenu = new QPopupMenu;
+	videoEffectsMenu = new QPopupMenu;
+	removeEffectsMenu = new QPopupMenu;
+
+	QPopupMenu * menu = ((QPopupMenu *) factory()->container("timeline_clip_context", this));
+	menu->insertItem(i18n("Add Transition"), transitionsMenu, -1, 0);
+	menu->insertItem(i18n("Add Video Effect"), videoEffectsMenu, -1, 3);
+	menu->insertItem(i18n("Add Audio Effect"), audioEffectsMenu, -1, 4);
+	menu->insertItem(i18n("Delete Effect"), removeEffectsMenu, -1, 5);
+
+	menu = ((QPopupMenu *) factory()->container("timeline_playlist_context", this));
+	menu->insertItem(i18n("Add Transition"), transitionsMenu, -1, 0);
+	menu->insertItem(i18n("Add Video Effect"), videoEffectsMenu, -1, 3);
+	menu->insertItem(i18n("Add Audio Effect"), audioEffectsMenu, -1, 4);
+	menu->insertItem(i18n("Delete Effect"), removeEffectsMenu, -1, 5);
+
 	QPtrListIterator < EffectDesc > itt(m_effectList);
 	QStringList videoEffectsList;
 	QStringList audioEffectsList;
@@ -251,7 +279,12 @@ namespace Gui {
 	if (KdenliveSettings::autosave())
 	    m_autoSaveTimer->start(KdenliveSettings::autosavetime() * 60000, false);
 	// Reopen last project if user asked it
-	if (KdenliveSettings::openlast()) openLastFile();
+	if (crashRecovery) {
+	    openDocumentFile(m_recoveryFile);
+	    setCaption(i18n("Untitled") + ".kdenlive" + " - " + projectFormatName(m_projectFormat), false);
+	    m_doc->setProjectName( i18n("Untitled") + ".kdenlive");
+	}
+	else if (KdenliveSettings::openlast()) openLastFile();
         else if (!m_selectedFile.isEmpty()) openSelectedFile();
 	else if (!newDoc || KdenliveSettings::openblank()) {
 	    initView();
@@ -263,6 +296,10 @@ namespace Gui {
 	if (KdenliveSettings::showsplash()) QTimer::singleShot(500, this, SLOT(slotSplashTimeout()));
 	connect(manager(), SIGNAL(change()), this, SLOT(slotUpdateLayoutState()));
 	setAutoSaveSettings();
+
+	m_crashTimer = new QTimer( this );
+    	connect( m_crashTimer, SIGNAL(timeout()), this, SLOT(crashPrevent()) );
+	m_crashTimer->start(20000);
     }
 
 
@@ -272,7 +309,6 @@ namespace Gui {
 	if (KdenliveSettings::mltpath().isEmpty()) {
 	    KdenliveSettings::setMltpath(MLT_PREFIX);
 	}
-
         QString profilePath = KdenliveSettings::mltpath() + "/share/mlt/profiles/";
 	QStringList profilesList = QDir(profilePath).entryList("*", QDir::Files);
 
@@ -369,6 +405,9 @@ namespace Gui {
     
     KdenliveApp::~KdenliveApp() {
 	KdenliveSettings::writeConfig();
+	QFile backup(m_recoveryFile);
+	backup.remove();
+	if (m_crashTimer) delete m_crashTimer;
 	if (m_statusBarTimer) delete m_statusBarTimer;
         if (splash) delete splash;
         if (m_renderManager) delete m_renderManager;
@@ -390,6 +429,18 @@ namespace Gui {
         if (m_dockTransition) delete m_dockTransition;
 	if (m_commandHistory) delete m_commandHistory;
     }
+
+
+    void KdenliveApp::crashPrevent()
+    {
+	if (m_doc->backupModified()) {
+	    m_projectFormatManager.backupDocument(KURL(m_recoveryFile), m_doc);
+	    kdDebug()<<"/ / / / / SAVING RECOVERY FILE"<<endl;
+	    m_doc->setBackupModified(false);
+	}
+	
+    }
+
     
     const EffectDescriptionList & KdenliveApp::effectList() const
     {
@@ -489,7 +540,9 @@ namespace Gui {
 	    KStdAction::saveAs(this, SLOT(slotFileSaveAs()),
 	    actionCollection());
 	//fileClose = KStdAction::close(this, SLOT(slotFileClose()), actionCollection());
-	//  filePrint = KStdAction::print(this, SLOT(slotFilePrint()), actionCollection());
+
+	KStdAction::print(this, SLOT(slotPrint()), actionCollection());
+
 	fileQuit =
 	    KStdAction::quit(this, SLOT(slotFileQuit()),
 	    actionCollection());
@@ -673,6 +726,11 @@ namespace Gui {
 	projectClean =
 	    new KAction(i18n("Clean Project"), "cleanproject.png", 0, this,
 	    SLOT(slotProjectClean()), actionCollection(), "project_clean");
+
+	projectFixPlaylist =
+	    new KAction(i18n("Fix Playlist Clips"), "cleanproject.png", 0, this,
+	    SLOT(slotFixPlaylists()), actionCollection(), "fix_playlists");
+
 /*	projectClipProperties =
 	    new KAction(i18n("Clip properties"), "clipproperties.png", 0,
 	    this, SLOT(slotProjectClipProperties()), actionCollection(),
@@ -893,6 +951,11 @@ namespace Gui {
         SLOT(slotSaveSubClip()), actionCollection(),
         "save_subclip");
 	saveSubClip->setToolTip(i18n("Save selected clip as playlist for future use"));
+
+	KAction *explodePlaylist = new KAction(i18n("Explode Playlist"), 0, this,
+        SLOT(slotExplodePlaylist()), actionCollection(),
+        "explode_playlist");
+	explodePlaylist->setToolTip(i18n("Explode playlist in several clips"));
 
 
 	KAction *renderZone = new KAction(i18n("Render Selected Zone"), 0, this,
@@ -1251,9 +1314,12 @@ namespace Gui {
 
     void KdenliveApp::initDocument(int vtracks, int atracks) {
 	if (m_doc) delete m_doc;
+    kdDebug()<<"---------  close 1b"<<endl;
 	renderManager()->resetRenderers();
+    kdDebug()<<"---------  close 2b"<<endl;
         m_doc = new KdenliveDoc(KdenliveSettings::defaultfps(), KdenliveSettings::defaultwidth(), KdenliveSettings::defaultheight(), this, this);
 	m_doc->newDocument(vtracks, atracks);
+    kdDebug()<<"---------  close 3b"<<endl;
 	connect(m_doc, SIGNAL(modified(bool)), this, SLOT(documentModified(bool)));
     }
 
@@ -1896,11 +1962,11 @@ namespace Gui {
     	    QTime t;
     	    t.start();
 	    m_projectFormatManager.openDocument(url, m_doc);
-	    if (!m_exportWidget) slotRenderExportTimeline(false);
+	    initRenderExport();
 	    m_exportWidget->setMetaData(getDocument()->metadata());
 	    documentModified(false);
-	    fileOpenRecent->addURL(m_doc->URL());
-	    if (m_exportWidget) m_exportWidget->resetValues();
+	    if (m_doc->URL() != KURL(m_recoveryFile)) fileOpenRecent->addURL(m_doc->URL());
+	    m_transitionPanel->refreshTracks(getDocument()->trackList().count());
 	    kdDebug()<<" + + +  Loading Time : "<<t.elapsed()<<"ms"<<endl;
 	}
 	else {
@@ -2123,7 +2189,6 @@ namespace Gui {
 		KdenliveSettings::setDisplayratio(it.data().display());
 		KdenliveSettings::setRenderratio(it.data().aspect());
 		KdenliveSettings::setCorrectionratio((double)it.data().width() * it.data().aspect() / it.data().height() / it.data().display());
-		KdenliveSettings::setDisplaywidth(it.data().height() * it.data().display() + 0.5);
 		KdenliveSettings::setDisplaywidth(it.data().height() * it.data().display() + 0.5);
 		profileName = it.key();
 		break;
@@ -2476,6 +2541,7 @@ namespace Gui {
 	DocClipRefList selectedClip;
 	selectedClip.append(m_pastedClip);
 	if (getDocument()->projectClip().canAddClipsToTracks(selectedClip, ix, insertTime)) {
+		kdDebug()<<"/ / / PASTING CLPI TOP TRACK: "<<ix<<endl;
 		m_pastedClip->setParentTrack(getDocument()->track(ix), ix);
 		m_pastedClip->moveTrackStart(insertTime);
 		getDocument()->track(ix)->addClip(m_pastedClip, false);
@@ -2522,6 +2588,7 @@ namespace Gui {
 	addCommand(Command::KAddRefClipCommand::deleteAllTrackClips(getDocument(), ix));
 	if (m_transitionPanel->isOnTrack(ix)) m_transitionPanel->setTransition(0); 
 	getDocument()->slotDeleteTrack(ix);
+	m_transitionPanel->refreshTracks(getDocument()->trackList().count());
     }
 
     void KdenliveApp::slotAddTrack()
@@ -2541,6 +2608,7 @@ namespace Gui {
 		if (addTrack->trackVideo->isChecked())
 			getDocument()->addVideoTrack(ix);
 		else getDocument()->addSoundTrack(ix);
+		m_transitionPanel->refreshTracks(getDocument()->trackList().count());
 	}
     }
 
@@ -2571,7 +2639,7 @@ namespace Gui {
 
     void KdenliveApp::slotRenderZone()
     {
-	if (!m_exportWidget) slotRenderExportTimeline(false);
+	initRenderExport(false);
 	m_exportWidget->renderSelectedZone(NULL);
     }
 
@@ -2582,7 +2650,7 @@ namespace Gui {
         fd->setOperationMode(KFileDialog::Saving);
         fd->setMode(KFile::File);
         if (fd->exec() == QDialog::Accepted) {
-		if (!m_exportWidget) slotRenderExportTimeline(false);
+		initRenderExport(false);
 		m_exportWidget->renderSelectedZone(fd->selectedURL().path(), true);
 	}
 	delete addToProject;
@@ -2591,45 +2659,159 @@ namespace Gui {
 
     void KdenliveApp::slotSaveZone()
     {
-        QCheckBox * addToProject = new QCheckBox(i18n("Add new clip to project"),this);
-        KFileDialog *fd = new KFileDialog(m_fileDialogPath.path(), "application/vnd.westley.scenelist", this, "save_westley", true,addToProject);
+	QWidget *container = new QWidget();
+	QGridLayout *lo = new QGridLayout ( container, 4, 2 );
+    	lo->setSpacing( KDialog::spacingHint() );
+
+	QLabel *lab = new QLabel(i18n("Clip description:"), container);
+	KLineEdit *le = new KLineEdit(container);
+    	lo->addWidget(lab, 0, 0);
+    	lo->addWidget(le, 0, 1);
+        QCheckBox * addToProject = new QCheckBox(i18n("Add new clip to project"),container);
+	addToProject->setChecked(KdenliveSettings::addnewlysaved());
+	lo->addMultiCellWidget( addToProject, 1, 1, 0, 1 );
+
+        KFileDialog *fd = new KFileDialog(m_fileDialogPath.path(), "application/vnd.westley.scenelist", this, "save_westley", true, container);
         fd->setOperationMode(KFileDialog::Saving);
         fd->setMode(KFile::File);
         if (fd->exec() == QDialog::Accepted) {
-		QDomDocument partial = getDocument()->projectClip().generatePartialSceneList(m_timeline->inpointPosition(), m_timeline->outpointPosition(), -1);
-		QFile file(fd->selectedURL().path());
-		file.open( IO_WriteOnly );
-		QCString save = partial.toString().utf8();
-    		file.writeBlock(save, save.length());
-		file.close();
-		if (addToProject->isChecked()) insertClipFromUrl(fd->selectedURL().path());
+		bool doIt = true;
+	    	if (KIO::NetAccess::exists(fd->selectedURL(), false, this)) {
+            	    if (KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it ?")) ==  KMessageBox::No) doIt = false;
+	    	}
+		if (doIt) {
+		    QDomDocument partial = getDocument()->projectClip().generatePartialSceneList(m_timeline->inpointPosition(), m_timeline->outpointPosition(), -1);
+
+		    if (!le->text().isEmpty()) {
+		        QDomElement documentElement = partial.documentElement();
+		    	if (documentElement.tagName() != "westley") {
+		    	    kdWarning() << "KdenliveDoc::loadFromXML() document element has unknown tagName : " << documentElement.tagName() << endl;
+		    	}
+		    	documentElement.setAttribute("title", le->text());
+		    }
+		
+		    QFile file(fd->selectedURL().path());
+		    file.open( IO_WriteOnly );
+		    QCString save = partial.toString().utf8();
+    		    file.writeBlock(save, save.length());
+		    file.close();
+		    if (addToProject->isChecked()) insertClipFromUrl(fd->selectedURL().path());
+		}
 	}
 	delete addToProject;
 	delete fd;
     }
 
+    void KdenliveApp::slotExplodePlaylist()
+    {
+	DocClipRefList list = getDocument()->projectClip().selectedClipList();
+	DocClipRef *clipUnderMouse;
+
+	// check if all clips are on the same track. If not, user needs to save selected zone
+	int track;
+	clipUnderMouse = list.first();
+
+	while (clipUnderMouse) {
+	    if (clipUnderMouse->clipType() == DocClipBase::PLAYLIST) {
+		track = clipUnderMouse->trackNum();
+		PlayList::explodePlaylist(clipUnderMouse, this);
+
+	    }
+	    clipUnderMouse = list.next();
+	}
+
+    }
+
     void KdenliveApp::slotSaveSubClip()
     {
-        QCheckBox * addToProject = new QCheckBox(i18n("Add new clip to project"),this);
-	addToProject->setChecked(true);
-        KFileDialog *fd = new KFileDialog(m_fileDialogPath.path(), "application/vnd.westley.scenelist", this, "save_westley", true, addToProject);
+
+	DocClipRefList list = getDocument()->projectClip().selectedClipList();
+	DocClipRef *clipUnderMouse;
+
+	// check if all clips are on the same track. If not, user needs to save selected zone
+	int track;
+	clipUnderMouse = list.first();
+	track = clipUnderMouse->trackNum();
+	clipUnderMouse = list.next();
+	for (; clipUnderMouse; clipUnderMouse = list.next()) {
+	    if (track != clipUnderMouse->trackNum()) {	
+		KMessageBox::sorry(this, i18n("You have selected clips on several tracks.\nSaving a subclip does not allow this, please use the \"Save selected zone\" option."));
+		return;
+	    }
+	}
+
+	QWidget *container = new QWidget();
+	QGridLayout *lo = new QGridLayout ( container, 4, 2 );
+    	lo->setSpacing( KDialog::spacingHint() );
+
+	QLabel *lab = new QLabel(i18n("Clip description:"), container);
+	KLineEdit *le = new KLineEdit(container);
+    	lo->addWidget(lab, 0, 0);
+    	lo->addWidget(le, 0, 1);
+        QCheckBox * addToProject = new QCheckBox(i18n("Add new clip to project"),container);
+	addToProject->setChecked(KdenliveSettings::addnewlysaved());
+	lo->addMultiCellWidget( addToProject, 1, 1, 0, 1 );
+        KFileDialog *fd = new KFileDialog(QString::null, "application/vnd.westley.scenelist", this, "save_westley", true, container);
 	fd->setCaption(i18n("Save Subclip"));
         fd->setOperationMode(KFileDialog::Saving);
         fd->setMode(KFile::File);
         if (fd->exec() == QDialog::Accepted) {
+		bool doIt = true;
 	    	if (KIO::NetAccess::exists(fd->selectedURL(), false, this)) {
-            	    if (KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it ?")) ==  KMessageBox::No) return;
+            	    if (KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it ?")) ==  KMessageBox::No) doIt = false;
 	    	}
-		DocClipRef *clipUnderMouse = getDocument()->projectClip().selectedClip();
-		QDomDocument partial = clipUnderMouse->generateXMLClip();
-		QFile file(fd->selectedURL().path());
-		file.open( IO_WriteOnly );
-		QCString save = QString("<westley><producer id=\"" + QString::number(clipUnderMouse->referencedClip()->getId()) + "\" resource=\"" + clipUnderMouse->fileURL().path() + "\" /><playlist>"+partial.toString()+"</playlist></westley>").utf8();
-    		file.writeBlock(save, save.length());
-		file.close();
-		if (addToProject->isChecked()) insertClipFromUrl(fd->selectedURL().path());
-	}
+
+    		if (doIt) {
+		    QDomDocument doc;
+    		    QDomElement westley = doc.createElement("westley");
+    		    doc.appendChild(westley);
+		    if (!le->text().isEmpty()) westley.setAttribute("title", le->text());
+    		    QDomElement playlist = doc.createElement("playlist");
+
+		    clipUnderMouse = list.first();
+		    double fps = KdenliveSettings::defaultfps();
+		    int timestart = clipUnderMouse->trackStart().frames(fps);
+		    QDomElement producer, blank;
+		    QStringList resources;
+
+    		    for (; clipUnderMouse; clipUnderMouse = list.next()) {
+		    	QDomDocument partial = clipUnderMouse->generateXMLClip();
+			int producerId = clipUnderMouse->referencedClip()->getId();
+    			DocumentBaseNode *node = getDocument()->findClipNodeById(producerId);
+    			if (node && resources.find(QString::number(producerId)) == resources.end()) {
+			    DocumentClipNode *clipNode = node->asClipNode();
+				if (clipNode) {
+				    QDomElement avfile = doc.createElement("producer");
+				    westley.appendChild(SaveProjectNativeFilter::processedNode(clipNode, avfile));
+				    resources.append(QString::number(producerId));
+				}
+			}
+
+	            	if (clipUnderMouse->trackStart().frames(fps) - timestart > 0.01) {
+			    blank = doc.createElement("blank");
+			    blank.setAttribute("length", clipUnderMouse->trackStart().frames(fps) - timestart);
+			    playlist.appendChild(blank);
+	            	}
+		    	playlist.appendChild(partial.firstChild());
+		    	timestart = (int)(clipUnderMouse->trackEnd()).frames(fps);
+		    }
+		    westley.appendChild(playlist);
+
+		    QCString save = doc.toString().utf8();
+
+		    QFile file(fd->selectedURL().path());
+		    file.open( IO_WriteOnly );
+    		    file.writeBlock(save, save.length());
+		    file.close();
+		    KdenliveSettings::setAddnewlysaved(addToProject->isChecked());
+		    if (addToProject->isChecked()) insertClipFromUrl(fd->selectedURL().path());
+		}
+	    }
+	delete le;
+	delete lab;
 	delete addToProject;
+	delete lo;
+	delete container;
 	delete fd;
     }
 
@@ -2934,20 +3116,24 @@ namespace Gui {
     }
 
 /** Called when the user activates the "Export Timeline" action */
-    void KdenliveApp::slotRenderExportTimeline(bool show) {
-	slotStatusMsg(i18n("Exporting Timeline..."));
-	    if (!m_exportWidget) { 
+    void KdenliveApp::initRenderExport(bool reset) {
+	if (!m_exportWidget) {
             m_exportWidget=new exportWidget(this, m_timeline, projectFormatParameters(m_projectFormat), this,"exporter");
 	    m_exportWidget->setMetaData(getDocument()->metadata());
             connect(m_workspaceMonitor->screen(),SIGNAL(exportOver()),m_exportWidget,SLOT(endExport()));
             connect(m_exportWidget,SIGNAL(exportToFirewire(QString, int, GenTime, GenTime)),m_workspaceMonitor->screen(),SLOT(exportToFirewire(QString, int, GenTime, GenTime)));
 	    connect(m_exportWidget,SIGNAL(addFileToProject(const QString &)),this,SLOT(slotAddFileToProject(const QString &)));
 	    connect(m_exportWidget,SIGNAL(metadataChanged(const QStringList)), this, SLOT(slotSetDocumentMetadata(const QStringList)));
-	    }
-	    if (show) {
-	        if (m_exportWidget->isVisible()) m_exportWidget->hide();
-	        else m_exportWidget->show();
-	    }
+	}
+	else if (reset) m_exportWidget->resetValues();
+    }
+
+/** Called when the user activates the "Export Timeline" action */
+    void KdenliveApp::slotRenderExportTimeline() {
+	slotStatusMsg(i18n("Exporting Timeline..."));
+	initRenderExport(false);
+	if (m_exportWidget->isVisible()) m_exportWidget->hide();
+	else m_exportWidget->show();
         slotStatusMsg(i18n("Ready."));
     }
 
@@ -2964,7 +3150,7 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 
 
     void KdenliveApp::slotRenderDvd() {
-	if (!m_exportWidget) slotRenderExportTimeline(false);
+	initRenderExport(false);
 	if (!m_exportDvd) m_exportDvd = new ExportDvdDialog(&getDocument()->projectClip(), m_exportWidget, projectFormatParameters(m_projectFormat), this, "dvd");
 	m_exportDvd->fillStructure(xmlGuides());
 	m_exportDvd->show();
@@ -3039,7 +3225,7 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	//TODO: implement icon view folder deletion
 	if (m_projectList->isEmpty() || m_projectList->currentClip() || !m_projectList->isListView()) return;
 	if (m_projectList->hasChildren())
-	if (KMessageBox::questionYesNo(this, i18n("Deleting this folder will remove all reference to its clips in your project.\nDelete this folder ?")) ==  KMessageBox::No) return;
+	    if (KMessageBox::questionYesNo(this, i18n("Deleting this folder will remove all reference to its clips in your project.\nDelete this folder ?")) ==  KMessageBox::No) return;
 	QString folderName = m_projectList->currentItemName();
 	QStringList folderItems = m_projectList->currentItemChildrenIds();
 	/*
@@ -3070,18 +3256,17 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	//AVListViewItem *item = new AVListViewItem(getDocument(), m_projectList->m_listView->firstChild(), nFolder);
 	//item->setExpandable(true);
 	getDocument()->addClipNode(i18n("Clips"), nFolder);
+	documentModified(true);
     }
 
 /** Add clips to the project */
-    void KdenliveApp::slotProjectAddClips() {
+    void KdenliveApp::slotProjectAddClips(KURL::List urlList, bool silent) {
 	slotStatusMsg(i18n("Adding Clips"));
-
-	// Make a reasonable filter for video / audio files.
-	QString filter = "application/vnd.kde.kdenlive application/vnd.westley.scenelist application/flv application/vnd.rn-realmedia video/x-dv video/x-msvideo video/mpeg video/x-ms-wmv audio/x-mp3 audio/x-wav application/ogg *.m2t *.dv video/mp4 video/quicktime image/gif image/jpeg image/png image/x-bmp image/svg+xml image/tiff image/x-xcf-gimp image/x-vnd.adobe.photoshop image/x-pcx image/x-exr";
-	KURL::List urlList =
-	    KFileDialog::getOpenURLs(m_fileDialogPath.path(), filter, this,
-        i18n("Open File..."));
-
+	if (urlList.isEmpty()) {
+	    // Make a reasonable filter for video / audio files.
+	    QString filter = "application/vnd.kde.kdenlive application/vnd.westley.scenelist application/flv application/vnd.rn-realmedia video/x-dv video/x-msvideo video/mpeg video/x-ms-wmv audio/x-mp3 audio/x-wav application/ogg *.m2t *.dv video/mp4 video/quicktime image/gif image/jpeg image/png image/x-bmp image/svg+xml image/tiff image/x-xcf-gimp image/x-vnd.adobe.photoshop image/x-pcx image/x-exr";
+	    urlList = KFileDialog::getOpenURLs(m_fileDialogPath.path(), filter, this, i18n("Open File..."));
+	}
 	KURL::List::Iterator it;
 	KURL url;
 	
@@ -3090,21 +3275,21 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	    url = (*it);
 	    if (!url.isEmpty()) {
 		if (m_doc->URL() == url) {
-			KMessageBox::sorry(this, i18n("You cannot include the current Kdenlive document in itself."));
+		    KMessageBox::sorry(this, i18n("You cannot include the current Kdenlive document in itself."));
 		}
-		else if (getDocument()->clipManager().findClip(url)) KMessageBox::sorry(this, i18n("The clip %1 is already present in this project").arg(url.filename()));
+		else if (getDocument()->clipManager().findClip(url)) {
+		    if (!silent) KMessageBox::sorry(this, i18n("The clip %1 is already present in this project").arg(url.filename()));
+		}
 		else { 
-			Command::KAddClipCommand * command;
-			command = new Command::KAddClipCommand(*m_doc, m_projectList->parentName(), url, true);
-			macroCommand->addCommand(command);
+		    Command::KAddClipCommand * command;
+		    command = new Command::KAddClipCommand(*m_doc, m_projectList->parentName(), url, true);
+		    macroCommand->addCommand(command);
 		}
 		m_fileDialogPath = url;
 	    }
 	}
 	addCommand(macroCommand, true);
-
 	m_fileDialogPath.setFileName(QString::null);
-
 	slotStatusMsg(i18n("Ready."));
     }
 
@@ -3133,7 +3318,7 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	slotStatusMsg(i18n("Ready."));
     }
 
-    void KdenliveApp::slotProjectAddImageClip(KURL imageUrl) {
+    void KdenliveApp::slotProjectAddImageClip(KURL imageUrl, bool silent) {
 	slotStatusMsg(i18n("Adding Clips"));
 	KDialogBase *dia;
 	KURL fileUrl;
@@ -3167,7 +3352,7 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	}
 	else {
 	    if (getDocument()->clipManager().findClip(imageUrl)) {
-		KMessageBox::sorry(this, i18n("The clip %1 is already present in this project").arg(imageUrl.filename()));
+		if (!silent) KMessageBox::sorry(this, i18n("The clip %1 is already present in this project").arg(imageUrl.filename()));
 		return;
 	    }
 	    fileUrl = imageUrl;
@@ -3201,7 +3386,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    int lumaduration = (int) getDocument()->getTimecodePosition(slideDialog->lumaDuration(), MAXFRAMEDURATION).frames(getDocument()->framesPerSecond());
 	    if (slideDialog->useLuma()) lumaFile = m_transitionPanel->getLumaFilePath(slideDialog->currentLuma());
 	    KCommand *command =
-		new Command::KAddClipCommand(*m_doc, m_projectList->parentName(), KURL(url), extension, ttl, slideDialog->hasCrossfade(), lumaFile, lumasoftness, lumaduration, duration, slideDialog->description(), slideDialog->isTransparent(), true);
+		new Command::KAddClipCommand(*m_doc, m_projectList->parentName(), KURL(url), extension, ttl, slideDialog->hasCrossfade(), lumaFile, lumasoftness, lumaduration, duration, slideDialog->description(), slideDialog->isTransparent(), slideDialog->loop(), true);
 	    addCommand(command, true);
 	}
 	delete slideDialog;
@@ -3217,7 +3402,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
         txtWidget->edit_duration->setText(KdenliveSettings::textclipduration());
         if (txtWidget->exec() == QDialog::Accepted) {
 	    GenTime duration = getDocument()->getTimecodePosition(txtWidget->edit_duration->text(), MAXFRAMEDURATION);
-            QPixmap thumb = txtWidget->thumbnail(50, 40);
+            QPixmap thumb = txtWidget->thumbnail(getDocument()->thumbSize());
             QDomDocument xml = txtWidget->toXml();
             
             KCommand *command =
@@ -3238,12 +3423,17 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
         if (m_monitorManager.hasActiveMonitor() && m_monitorManager.activeMonitor()->clip()) {
             QString filter = "image/png";
             QCheckBox * addToProject = new QCheckBox(i18n("Add image to project"),this);
-	    addToProject->setChecked(true);
+	    addToProject->setChecked(KdenliveSettings::addnewlysaved());
             KFileDialog *fd = new KFileDialog(m_fileDialogPath.path(), filter, this, "save_frame", true,addToProject);
             fd->setOperationMode(KFileDialog::Saving);
             fd->setMode(KFile::File);
             if (fd->exec() == QDialog::Accepted) {
-                m_monitorManager.activeMonitor()->exportCurrentFrame(fd->selectedURL(), addToProject->isChecked());
+		KdenliveSettings::setAddnewlysaved(addToProject->isChecked());
+		bool doIt = true;
+		if (KIO::NetAccess::exists(fd->selectedURL(), false, this)) {
+            	    if (KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it ?")) ==  KMessageBox::No) doIt = false;
+	    	}
+                if (doIt) m_monitorManager.activeMonitor()->exportCurrentFrame(fd->selectedURL(), addToProject->isChecked());
             }
 	    delete addToProject;
             delete fd;
@@ -3331,7 +3521,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                 txtWidget->transparentTitle->setChecked(clip->toDocClipTextFile()->isTransparent());
                 if (txtWidget->exec() == QDialog::Accepted) {
 		    GenTime duration = getDocument()->getTimecodePosition(txtWidget->edit_duration->text(), MAXFRAMEDURATION);
-                    QPixmap thumb = txtWidget->thumbnail(50, 40);
+                    QPixmap thumb = txtWidget->thumbnail(getDocument()->thumbSize());
                     QDomDocument xml = txtWidget->toXml();
                     Command::KEditClipCommand(*m_doc, refClip, duration, txtWidget->titleName->text(), clip->description(), xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked());
 
@@ -3470,7 +3660,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
     }
 
 
-/** Cleans the project of unwanted clips */
+/** Cleans the project of unused clips */
     void KdenliveApp::slotProjectClean() {
 	slotStatusMsg(i18n("Cleaning Project"));
 
@@ -3485,6 +3675,13 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	    addCommand(command, true);
 	}
 
+	slotStatusMsg(i18n("Ready."));
+    }
+
+/** Fix broken paths in playlist clips */
+    void KdenliveApp::slotFixPlaylists() {
+	slotStatusMsg(i18n("Fixing Playlist clips"));
+	m_projectList->fixPlaylists();
 	slotStatusMsg(i18n("Ready."));
     }
 
@@ -3614,16 +3811,20 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
         fd->setOperationMode(KFileDialog::Saving);
         fd->setMode(KFile::File);
         if (fd->exec() == QDialog::Accepted) {
+		bool doIt = true;
 	    	if (KIO::NetAccess::exists(fd->selectedURL(), false, this)) {
-            	    if (KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it ?")) ==  KMessageBox::No) return;
+            	    if (KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it ?")) ==  KMessageBox::No) doIt = false;
 	    	}
+		if (doIt) {
+		    QDomDocument partial = clip->generateXMLClip();
+		    QString save = "<westley><producer id=\"" + QString::number(clip->referencedClip()->getId()) + "\" resource=\"" + clip->fileURL().path() + "\" /><playlist>"+partial.toString()+"</playlist></westley>";
 
-		QDomDocument partial = clip->generateXMLClip();
-		QString save = "<westley><producer id=\"" + QString::number(clip->referencedClip()->getId()) + "\" resource=\"" + clip->fileURL().path() + "\" /><playlist>"+partial.toString()+"</playlist></westley>";
-
-		if (!m_exportWidget) slotRenderExportTimeline(false);
-		m_exportWidget->renderSelectedClipAudio(save, fd->selectedURL().path());
+		    initRenderExport(false);
+		    m_exportWidget->renderSelectedClipAudio(save, fd->selectedURL().path());
+		}
 	}
+	delete addToProject;
+	delete fd;
     }
 
     void KdenliveApp::slotSeekTo(GenTime time) {
@@ -3757,7 +3958,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	DocClipRef *clip = m_projectList->currentClip();
 	if (!clip) return;
  	clip->referencedClip()->setProjectThumbFrame((int) m_clipMonitor->editPanel()->point().frames(getDocument()->framesPerSecond()) );
-	getDocument()->renderer()->getImage(clip->fileURL(), clip->referencedClip()->getProjectThumbFrame(), 50, 40);
+	getDocument()->renderer()->getImage(clip->fileURL(), clip->referencedClip()->getProjectThumbFrame(), getDocument()->thumbSize());
     }
 
     void KdenliveApp::slotSetInpoint() {
@@ -3818,8 +4019,11 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 /** Sets the clip monitor source to be the given clip. */
     void KdenliveApp::slotSetClipMonitorSource(DocClipRef * clip) {
         if (clip) {
+	    kdDebug()<<"***  SELECT CLIP 1"<<clip->name()<<endl;
 	   slotFocusClipMonitor();
+kdDebug()<<"***  SELECT CLIP 2"<<endl;
 	   m_clipMonitor->slotSetClip(clip);
+kdDebug()<<"***  SELECT CLIP 3"<<endl;
         }
         else activateWorkspaceMonitor();
     }
@@ -3989,11 +4193,11 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	DocumentBaseNode *parentNode;
 	// find folder on which the item was dropped
 	if (parent) {
-		//kdDebug()<<"+++++++ dropped on: "<<parent->text(1)<<endl;
-		if (static_cast<AVListViewItem *>(parent)->clip() == 0) {
+		BaseListViewItem::ITEMTYPE type = ((BaseListViewItem *) parent)->getType();
+	        if (type == BaseListViewItem::FOLDER) {
 			parentNode = getDocument()->findClipNode(parent->text(1));
 		}
-		else if (parent->parent() && (static_cast<AVListViewItem *>(parent->parent()))->clip() == 0) { 
+		else if (parent->parent() && ((BaseListViewItem *) parent->parent())->getType() == BaseListViewItem::FOLDER) { 
 			parentNode = getDocument()->findClipNode(parent->parent()->text(1));
 		}
 		else parentNode = getDocument()->clipHierarch();
@@ -4254,7 +4458,9 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	      removeEffectsMenu->insertItem(*it, ix);
 	      ix++;
 	  }
-          m_timelinePopupMenu = (QPopupMenu *) factory()->container("timeline_clip_context", this);
+	  if (clip->clipType() != DocClipBase::PLAYLIST)
+              m_timelinePopupMenu = (QPopupMenu *) factory()->container("timeline_clip_context", this);
+	  else m_timelinePopupMenu = (QPopupMenu *) factory()->container("timeline_playlist_context", this);
 	}
 	else {
 	    m_timeline->selectTrack(ix);
@@ -4431,5 +4637,34 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	addCommand(Command::DocumentMacroCommands::razorSelectedClipsAt(getDocument(), curr), true);
 	getDocument()->activateSceneListGeneration(true);
     }
+
+void KdenliveApp::slotPrint()
+{
+        // create the KPrinter object with default options
+        KPrinter        printer;
+
+        printer.addDialogPage(new PrintSettings);
+
+        // start the print dialog to initialize the KPrinter object
+        if (printer.setup(this))
+        {
+                // do the actual printing job
+                doPrint(&printer);
+        }
+}
+
+void KdenliveApp::doPrint(KPrinter *printer)
+{
+        // create the painter object
+        QPainter        painter(printer);
+
+        // at this moment we print the image using default options,
+        // later we may want to customize printing.
+	
+	bool printFullPath = (printer->option("kde-kdenlive-fullpath") == "true") ? true : false;
+	bool printFilter = (printer->option("kde-kdenlive-filter") == "true") ? true : false;
+        // do the actual painting job
+        m_projectList->doPrinting(printer, &painter, printer->option("kde-kdenlive-images").toInt(), printFullPath, printFilter);
+}
 
 }				// namespace Gui

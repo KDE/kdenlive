@@ -8,7 +8,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>425</width>
+            <width>432</width>
             <height>245</height>
         </rect>
     </property>
@@ -167,10 +167,10 @@
                 </size>
             </property>
             <property name="frameShape">
-                <enum>Box</enum>
+                <enum>StyledPanel</enum>
             </property>
             <property name="frameShadow">
-                <enum>Plain</enum>
+                <enum>Sunken</enum>
             </property>
         </widget>
         <widget class="QGroupBox" row="5" column="0" rowspan="1" colspan="5">
@@ -190,7 +190,7 @@
                 <string>Use luma file</string>
             </property>
             <property name="alignment">
-                <set>AlignAuto</set>
+                <set>AlignHCenter</set>
             </property>
             <property name="flat">
                 <bool>true</bool>
@@ -330,6 +330,20 @@
 </widget>
 <customwidgets>
 </customwidgets>
+<tabstops>
+    <tabstop>spin_transparency</tabstop>
+    <tabstop>spin_size</tabstop>
+    <tabstop>spin_x</tabstop>
+    <tabstop>spin_y</tabstop>
+    <tabstop>radio_start</tabstop>
+    <tabstop>slider_transparency</tabstop>
+    <tabstop>slider_size</tabstop>
+    <tabstop>slider_x</tabstop>
+    <tabstop>slider_y</tabstop>
+    <tabstop>luma_file</tabstop>
+    <tabstop>slider_soft</tabstop>
+    <tabstop>spin_soft</tabstop>
+</tabstops>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>kcombobox.h</includehint>

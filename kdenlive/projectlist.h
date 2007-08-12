@@ -25,6 +25,7 @@
 #include <qtooltip.h>
 
 #include <kurl.h>
+#include <kprinter.h>
 #include <kiconviewsearchline.h>
 
 #include "listviewtagsearch.h"
@@ -69,6 +70,9 @@ namespace Gui {
 	bool hasChildren();
 	QStringList currentItemChildrenIds();
 	bool isEmpty();
+	/** Fix broken url in playlist clips */
+	void fixPlaylists();
+	void doPrinting(KPrinter *printer, QPainter *p, uint images, bool fullPath, bool filtered);
 
       private:			// Private methods
 	/** Holds the document that this projectlist makes use of. */
@@ -101,6 +105,7 @@ namespace Gui {
 	void updateListItem();
         void selectClip(DocClipBase *clip);
         void selectItem(int id);
+	void createItemChildren(QListViewItem *item);
         
       signals:		// Signals
 	/** this signal is called when a number of clips have been dropped onto the project list view. */
@@ -118,6 +123,7 @@ namespace Gui {
 	void setupListView();
 	void setupIconView();
 	void addClipRequest();
+	void projectModified();
     };
 
 }				// namespace Gui

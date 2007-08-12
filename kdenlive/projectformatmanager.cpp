@@ -98,7 +98,7 @@ bool ProjectFormatManager::openDocument(const KURL & url,
 	    }
 	    KIO::NetAccess::removeTempFile(tmpfile);
 	    //document->initSceneListGeneration();
-	    QTimer::singleShot(200, document, SLOT(initSceneListGeneration()));
+	    QTimer::singleShot(500, document, SLOT(initSceneListGeneration()));
 	    return true;
 	}
 //      } else {
@@ -134,6 +134,33 @@ bool ProjectFormatManager::saveDocument(const KURL & url,
     }
 
     if (result) document->setModified(false);
+    return result;
+}
+
+bool ProjectFormatManager::backupDocument(const KURL & url,
+    KdenliveDoc * document)
+{
+    if (url.isEmpty())
+	return false;
+    bool result = false;
+    KMimeType::Ptr format = KMimeType::findByURL(url);
+    SaveProjectFilter *filter = m_saveFilters.first();
+
+    if (filter) {
+	KTempFile file;
+	//file.setAutoDelete(true);
+
+	if ((filter->save(*file.file(), document, false))) {
+	    file.close();
+	    if (!KIO::NetAccess::upload(file.name(), url, 0)) {
+		//kdError() << "Could not upload file to correct location" << endl;
+		KMessageBox::sorry(0, i18n("Could not save file %1.\nPlease check your permissions").arg(url.path()));
+	    }
+	    else result = true;
+	} else {
+	    kdError() << "Save failed" << endl;
+	}
+    }
     return result;
 }
 

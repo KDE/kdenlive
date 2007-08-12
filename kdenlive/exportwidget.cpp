@@ -43,6 +43,7 @@
 #include <kfiledialog.h>
 #include <kiconloader.h>
 #include <kio/netaccess.h>
+#include <kio/job.h>
 #include <knotifyclient.h>
 
 #include "kdenlive.h"
@@ -80,6 +81,7 @@ exportWidget::exportWidget(Gui::KdenliveApp *app, Gui::KTimeLine *timeline, form
     slotLoadCustomEncoders();
 
     connect(exportButton,SIGNAL(clicked()),this,SLOT(startExport()));
+    connect(scriptButton,SIGNAL(clicked()),this,SLOT(generateScript()));
 
     connect(guide_start, SIGNAL(activated(int)),this,SLOT(slotAdjustGuides(int)));
     connect(export_guide, SIGNAL(toggled(bool)), guide_box, SLOT(setEnabled(bool)));
@@ -96,6 +98,7 @@ exportWidget::exportWidget(Gui::KdenliveApp *app, Gui::KTimeLine *timeline, form
     connect(button_delete, SIGNAL( clicked() ), this, SLOT( slotDeleteEncoder()));
     connect(button_metadata, SIGNAL( clicked() ), this, SLOT( slotEditMetaData()));
     connect(custom_encoders, SIGNAL( doubleClicked ( QListViewItem *, const QPoint &, int ) ), this, SLOT( slotEditEncoder()));
+    connect(button_timecode, SIGNAL( clicked() ), this, SLOT( slotAddTimecode()));
 }
 
 exportWidget::~exportWidget()
@@ -210,6 +213,11 @@ QStringList exportWidget::metadataString()
     if (m_meta_year != 0) result << QString( "meta.attr.year.markup=" + QString::number(m_meta_year));
     if (m_meta_track != 0) result << QString( "meta.attr.track.markup=" + QString::number(m_meta_track));
     return result;
+}
+
+void exportWidget::slotAddTimecode()
+{
+    text_overlay->insert("#timecode#");
 }
 
 void exportWidget::slotGuideZone(bool isOn)
@@ -593,8 +601,8 @@ void exportWidget::initEncoders()
 
 	    }
 	}
+        file.close();
     }
-
 }
 
 
@@ -658,6 +666,172 @@ void exportWidget::startExport()
 
 	// Hide dialog when export starts
 	hide();
+}
+
+void exportWidget::generateScript()
+{
+        if (fileExportName->text().isEmpty()) {
+            KMessageBox::sorry(this, i18n("Please enter a file name"));
+            return;
+        }
+
+        KFileDialog *fd = new KFileDialog(NULL, "*.sh", this, "save_script", true);
+        fd->setOperationMode(KFileDialog::Saving);
+        fd->setMode(KFile::File);
+        if (fd->exec() != QDialog::Accepted) return;
+        QString scriptPath = fd->selectedURL().path();
+	delete fd;
+
+        if (KIO::NetAccess::exists(KURL(scriptPath), false, this))
+            if (KMessageBox::questionYesNo(this, i18n("File already exists.\nDo you want to overwrite it ?")) ==  KMessageBox::No) return;
+        
+        if (export_selected->isChecked()) {
+            startExportTime = m_timeline->inpointPosition();
+            endExportTime = m_timeline->outpointPosition();
+        }
+        else if (export_guide->isChecked()){
+	    startExportTime = m_timeline->guideTime(guide_start->currentItem ());
+            endExportTime = m_timeline->guideTime(guide_end->currentItem () + guide_start->currentItem () + 1);
+	} else {
+            startExportTime = GenTime(0);
+            endExportTime = m_timeline->projectLength();
+        }
+        m_duration = endExportTime - startExportTime;
+	QString paramLine;
+	switch (encoders->currentPageIndex()) {
+	case 0:
+		paramLine = slotCommandForItem(HQEncoders, hq_encoders->currentItem());
+		break;
+	case 1: 
+		paramLine = slotCommandForItem(MedEncoders, med_encoders->currentItem());
+		break;
+	case 2: 
+		paramLine = slotCommandForItem(AudioEncoders, audio_encoders->currentItem());
+		break;
+	case 3:
+		paramLine = slotCommandForItem(CustomEncoders, custom_encoders->currentItem());
+		break;
+	}
+	paramLine = paramLine.stripWhiteSpace();
+	paramLine = paramLine.simplifyWhiteSpace();
+	m_createdFile = fileExportFolder->url()+"/"+fileExportName->text();
+	double ratio = getCurrentAspect();
+
+	QStringList params = QStringList::split(" ", paramLine.section(":", 9));
+
+    int width;
+    int height;
+
+    if (encoders->currentPageIndex() != 1) {
+	// extract frame size for rendering format
+	QStringList::Iterator it;
+	for ( it = params.begin(); it != params.end(); ++it ) {
+            if ((*it).stripWhiteSpace().startsWith("size=")) break;
+	}
+	QString size = (*it).section("=",1);
+	width = size.section("x", 0, 0).toInt();
+	height = size.section("x", 1, 1).toInt();
+    }
+    else {
+	// MLT is using default pal profile
+	width = KdenliveSettings::defaultwidth();
+	height = KdenliveSettings::defaultheight();
+    }
+
+    /*if (width != 0 && height != 0) {
+	KdenliveSettings::setRenderratio(KdenliveSettings::displayratio() * (KdenliveSettings::defaultwidth() / KdenliveSettings::defaultheight()) / ((double) width / height));
+        m_app->getDocument()->generateProducersList();
+    }*/
+    // kdDebug()<<" / / /RENDERING, EXPORT SIZE: "<<width<<"x"<<height<<", RATIO: "<<KdenliveSettings::renderratio()<<endl;
+    QFile file( scriptPath + ".westley" );
+    if ( file.open( IO_WriteOnly ) ) {
+	QTextStream stream( &file );
+	stream << m_app->getDocument()->projectClip().generateSceneList(true, true).toString() << "\n";
+	file.close();
+    }
+
+    /*if (width != 0 && height != 0) {
+        KdenliveSettings::setRenderratio(KdenliveSettings::aspectratio());
+        m_app->getDocument()->generateProducersList();
+    }*/
+
+    QStringList cmdArgs;
+
+    cmdArgs<<"#! /bin/sh\n\n" ;
+
+    cmdArgs<< QString("output_file=%1\n").arg(fileExportName->text());
+
+    cmdArgs<< "if [ -f $output_file ]\n";
+    cmdArgs<< "then\n";
+    cmdArgs<< " echo file $output_file already exists, aborting...\n";
+    cmdArgs<< " exit\n";
+    cmdArgs<< "fi\n\n";
+
+    cmdArgs<< " echo Starting rendering to $output_file...\n";
+
+    cmdArgs << "kdenlive_renderer";
+
+    cmdArgs << scriptPath + ".westley";
+
+    cmdArgs << "real_time=0";
+    cmdArgs << "resize=hyper";
+//    *m_exportProcess << "progressive=1";
+
+    cmdArgs << QString("in=%1").arg(startExportTime.frames(KdenliveSettings::defaultfps()));
+    cmdArgs << QString("out=%1").arg(endExportTime.frames(KdenliveSettings::defaultfps()));
+
+    // Uncomment following to print timecode on exported video
+    if (add_overlay->isChecked()) {
+	cmdArgs << "meta.attr.timecode=1"<<QString("meta.attr.timecode.markup=\"%1\"").arg(text_overlay->text());
+	cmdArgs << "-attach"<<"data_feed:attr_check"<<"_fezzik=1";
+    }
+
+
+    cmdArgs << "-consumer";
+    cmdArgs << "avformat:$output_file";
+
+    cmdArgs << "real_time=0";
+    cmdArgs << "stats_on=2";
+    // workaround until MLT's default qscale value is fixed
+    cmdArgs << "qscale=0";
+
+    //if (audioOnly) cmdArgs <<"format=wav"<<"frequency=48000";
+    // else 
+    { 
+	if (encoders->currentPageIndex() == 1) {
+	    cmdArgs << QString("profile=") + KdenliveSettings::videoprofile();
+	    cmdArgs << QString("display_ratio=") + QString::number(KdenliveSettings::displayratio());
+	    double fr = KdenliveSettings::aspectratio() / ((double) KdenliveSettings::defaultwidth() / KdenliveSettings::defaultheight()) * ((double) width / height);
+	    cmdArgs << QString("aspect_ratio=") + QString::number( fr );
+	}
+	cmdArgs << paramLine;
+    }
+    if (addMetadata->isChecked()) cmdArgs << metadataString().join(" ");
+
+    // Uncomment following to print timecode on exported video
+    if (add_overlay->isChecked()) {
+	QString filterLocation = "data_show:" + locate("data", "kdenlive/profiles/metadata.properties");
+	cmdArgs << "-attach"<<filterLocation;
+	cmdArgs << "dynamic=1";
+    }
+
+    cmdArgs<< "\n\n";
+    cmdArgs<< " echo Rendering over...\n";
+    QString commandLine = cmdArgs.join(" ");
+
+
+    QFile script( scriptPath );
+    if ( script.open( IO_WriteOnly ) ) {
+	QTextStream stream( &script );
+	stream << commandLine << "\n";
+	script.close();
+    }
+
+    KIO::chmod(KURL(scriptPath), 0755);
+
+    /*kdDebug()<<"------------------------"<<endl;
+    kdDebug()<<commandLine<<endl;
+    kdDebug()<<"------------------------"<<endl;*/
 }
 
 double exportWidget::getCurrentAspect()
@@ -804,7 +978,7 @@ void exportWidget::doExport(QString file, double ratio, QStringList params, bool
     m_tmpFile->file()->close();
 
     if (width != 0 && height != 0) {
-        KdenliveSettings::setRenderratio(KdenliveSettings::aspectratio());
+        KdenliveSettings::setRenderratio( KdenliveSettings::aspectratio() );
         m_app->getDocument()->generateProducersList();
     }
 
@@ -821,10 +995,11 @@ void exportWidget::doExport(QString file, double ratio, QStringList params, bool
     *m_exportProcess << QString("out=%1").arg(endExportTime.frames(KdenliveSettings::defaultfps()));
 
     // Uncomment following to print timecode on exported video
-/*
-    *m_exportProcess << "meta.attr.timecode=1"<<"meta.attr.timecode.markup=#timecode#";
-    *m_exportProcess << "-attach"<<"data_feed:attr_check"<<"_fezzik=1";
-*/
+    if (add_overlay->isChecked()) {
+	*m_exportProcess << "meta.attr.timecode=1"<<QString("meta.attr.timecode.markup=\"%1\"").arg(text_overlay->text());
+	*m_exportProcess << "-attach"<<"data_feed:attr_check"<<"_fezzik=1";
+    }
+
 
     *m_exportProcess << "-consumer";
     *m_exportProcess << QString("avformat:%1").arg(file);
@@ -847,11 +1022,12 @@ void exportWidget::doExport(QString file, double ratio, QStringList params, bool
     if (addMetadata->isChecked()) *m_exportProcess << metadataString();
 
     // Uncomment following to print timecode on exported video
-/*
-    QString filterLocation = "data_show:" + locate("data", "kdenlive/profiles/metadata.properties");
-    *m_exportProcess << "-attach"<<filterLocation;
-    *m_exportProcess << "dynamic=1";
-*/
+    if (add_overlay->isChecked()) {
+	QString filterLocation = "data_show:" + locate("data", "kdenlive/profiles/metadata.properties");
+	*m_exportProcess << "-attach"<<filterLocation;
+	*m_exportProcess << "dynamic=1";
+    }
+
 
     /*if (!KdenliveSettings::videoprofile().isEmpty()) 
 	*m_exportProcess<<"profile=" + KdenliveSettings::videoprofile();*/
@@ -869,6 +1045,7 @@ void exportWidget::doExport(QString file, double ratio, QStringList params, bool
 	    m_exportProcess->setPriority(-15);
 	    break;
     }
+    QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(0, 10007));
     m_exportProcess->start(KProcess::NotifyOnExit, KProcess::Stderr);
 }
 
@@ -923,9 +1100,10 @@ void exportWidget::receivedStderr(KProcess *, char *buffer, int len)
 {
 	QCString res(buffer, len);
 	QString result = res;
+	kdDebug()<<"// RECEIVED: "<<result<<endl;
 	result = result.simplifyWhiteSpace();
 	result = result.section(" ", -1);
-	int progress = (int) (100.0 * result.toInt() / m_duration.frames(KdenliveSettings::defaultfps()));
+	int progress = result.toInt(); //(int) (100.0 * result.toInt() / m_duration.frames(KdenliveSettings::defaultfps()));
 	if (progress > m_progress) {
 		m_progress = progress;
 		QApplication::postEvent(qApp->mainWidget(), new ProgressEvent(progress, 10007));

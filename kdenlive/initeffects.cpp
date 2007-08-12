@@ -42,6 +42,7 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
     QString datFile = KdenliveSettings::mltpath() + "/share/mlt/modules/filters.dat";
 
     QStringList filtersList;
+
     QFile file( datFile );
     if ( file.open( IO_ReadOnly ) ) {
         QTextStream stream( &file );
@@ -122,6 +123,68 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
     }
 
 
+    if (filtersList.findIndex("threshold") != -1) {
+        // Threshold
+        EffectDesc *threshold = new EffectDesc(i18n("Threshold"), "threshold", "threshold", VIDEOEFFECT);
+        xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "constant");
+        xmlAttr.append("name", QString::null, QString::null, "midpoint");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Threshold value"));
+        xmlAttr.append("max", QString::null, QString::null, "255");
+        xmlAttr.append("min", QString::null, QString::null, "0");
+        xmlAttr.append("default", QString::null, QString::null, "128");
+	threshold->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	xmlAttr.clear();
+	xmlAttr.append("type", QString::null, QString::null, "bool");
+	xmlAttr.append("name", QString::null, QString::null, "use_alpha");
+	xmlAttr.append("description", QString::null, QString::null, i18n("Use transparency"));
+	xmlAttr.append("default", QString::null, QString::null, "0");
+	threshold->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	effectList->append(threshold);
+    }
+
+    if (filtersList.findIndex("chroma") != -1) {
+        // chroma
+        EffectDesc *chroma = new EffectDesc(i18n("Blue Screen"), "chroma", "chroma", VIDEOEFFECT);
+        xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "color");
+        xmlAttr.append("name", QString::null, QString::null, "key");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Color key"));
+        xmlAttr.append("default", QString::null, QString::null, "0x000000");
+	chroma->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+        xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "constant");
+        xmlAttr.append("name", QString::null, QString::null, "variance");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Variance"));
+        xmlAttr.append("max", QString::null, QString::null, "100");
+        xmlAttr.append("min", QString::null, QString::null, "0");
+        xmlAttr.append("factor", QString::null, QString::null, "100");
+        xmlAttr.append("default", QString::null, QString::null, "15");
+	chroma->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	effectList->append(chroma);
+    }
+
+    if (filtersList.findIndex("chroma_hold") != -1) {
+        // chroma hold
+        EffectDesc *chroma_hold = new EffectDesc(i18n("Chroma Hold"), "chroma_hold", "chroma_hold", VIDEOEFFECT);
+        xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "color");
+        xmlAttr.append("name", QString::null, QString::null, "key");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Color key"));
+        xmlAttr.append("default", QString::null, QString::null, "0x000000");
+	chroma_hold->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+        xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "constant");
+        xmlAttr.append("name", QString::null, QString::null, "variance");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Variance"));
+        xmlAttr.append("max", QString::null, QString::null, "100");
+        xmlAttr.append("min", QString::null, QString::null, "0");
+        xmlAttr.append("factor", QString::null, QString::null, "100");
+        xmlAttr.append("default", QString::null, QString::null, "15");
+	chroma_hold->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	effectList->append(chroma_hold);
+    }
+
     if (filtersList.findIndex("sepia") != -1) {
         // Sepia
         EffectDesc *sepia = new EffectDesc(i18n("Sepia"), "sepia", "sepia", VIDEOEFFECT);
@@ -142,6 +205,39 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
 	xmlAttr.append("default", QString::null, QString::null, "150");
 	sepia->addParameter(effectDescParamFactory.createParameter(xmlAttr));
 	effectList->append(sepia);
+    }
+
+    if (filtersList.findIndex("affine") != -1) {
+        // Rotate
+        EffectDesc *rotate = new EffectDesc(i18n("Rotate"), "affine", "affine", VIDEOEFFECT);
+        xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "constant");
+        xmlAttr.append("name", QString::null, QString::null, "transition.rotate_x");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Rotation x"));
+        xmlAttr.append("max", QString::null, QString::null, "200");
+        xmlAttr.append("min", QString::null, QString::null, "-200");
+        xmlAttr.append("default", QString::null, QString::null, "0");
+        xmlAttr.append("factor", QString::null, QString::null, "10");
+	rotate->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+        xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "constant");
+        xmlAttr.append("name", QString::null, QString::null, "transition.rotate_y");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Rotation y"));
+        xmlAttr.append("max", QString::null, QString::null, "200");
+        xmlAttr.append("min", QString::null, QString::null, "-200");
+        xmlAttr.append("default", QString::null, QString::null, "0");
+        xmlAttr.append("factor", QString::null, QString::null, "10");
+	rotate->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+        xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "constant");
+        xmlAttr.append("name", QString::null, QString::null, "transition.rotate_z");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Rotation z"));
+        xmlAttr.append("max", QString::null, QString::null, "200");
+        xmlAttr.append("min", QString::null, QString::null, "-200");
+        xmlAttr.append("default", QString::null, QString::null, "0");
+        xmlAttr.append("factor", QString::null, QString::null, "10");
+	rotate->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	effectList->append(rotate);
     }
 
     if (filtersList.findIndex("charcoal") != -1) {
@@ -267,6 +363,169 @@ void initEffects::initializeEffects(EffectDescriptionList *effectList)
         effectList->append(wave );
     }
 
+    if (filtersList.findIndex("sox") != -1) {
+
+	// Pitch shift
+	EffectDesc *pitch = new EffectDesc(i18n("Sox Pitch Shift"), "sox_pitch", "sox", AUDIOEFFECT);
+	xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "constant");
+        xmlAttr.append("name", QString::null, QString::null, "shift");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Shift"));
+        xmlAttr.append("max", QString::null, QString::null, "1500");
+        xmlAttr.append("min", QString::null, QString::null, "-1500");
+        xmlAttr.append("default", QString::null, QString::null, "0");
+        pitch->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+
+	xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "constant");
+        xmlAttr.append("name", QString::null, QString::null, "window");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Time window (ms)"));
+        xmlAttr.append("max", QString::null, QString::null, "30");
+        xmlAttr.append("min", QString::null, QString::null, "10");
+        xmlAttr.append("default", QString::null, QString::null, "20");
+        pitch->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	effectList->append(pitch);
+
+
+	// Vibro
+	EffectDesc *vibro = new EffectDesc(i18n("Sox Vibro"), "sox_vibro", "sox", AUDIOEFFECT);
+	xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "constant");
+        xmlAttr.append("name", QString::null, QString::null, "speed");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Speed"));
+        xmlAttr.append("max", QString::null, QString::null, "30");
+        xmlAttr.append("min", QString::null, QString::null, "1");
+        xmlAttr.append("default", QString::null, QString::null, "15");
+        vibro->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	effectList->append(vibro);
+
+	// Flanger
+	EffectDesc *flanger = new EffectDesc(i18n("Sox Flanger"), "sox_flanger", "sox", AUDIOEFFECT);
+	xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "constant");
+        xmlAttr.append("name", QString::null, QString::null, "gain-in");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Gain In"));
+        xmlAttr.append("max", QString::null, QString::null, "100");
+        xmlAttr.append("min", QString::null, QString::null, "0");
+        xmlAttr.append("default", QString::null, QString::null, "50");
+        xmlAttr.append("factor", QString::null, QString::null, "100");
+        flanger->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+
+	xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "constant");
+        xmlAttr.append("name", QString::null, QString::null, "gain-out");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Gain Out"));
+        xmlAttr.append("max", QString::null, QString::null, "100");
+        xmlAttr.append("min", QString::null, QString::null, "0");
+        xmlAttr.append("default", QString::null, QString::null, "50");
+        xmlAttr.append("factor", QString::null, QString::null, "100");
+        flanger->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+
+	xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "constant");
+        xmlAttr.append("name", QString::null, QString::null, "delay");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Delay"));
+        xmlAttr.append("max", QString::null, QString::null, "500");
+        xmlAttr.append("min", QString::null, QString::null, "0");
+        xmlAttr.append("default", QString::null, QString::null, "100");
+        xmlAttr.append("factor", QString::null, QString::null, "100");
+        flanger->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+
+	xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "constant");
+        xmlAttr.append("name", QString::null, QString::null, "decay");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Decay"));
+        xmlAttr.append("max", QString::null, QString::null, "100");
+        xmlAttr.append("min", QString::null, QString::null, "0");
+        xmlAttr.append("default", QString::null, QString::null, "100");
+        xmlAttr.append("factor", QString::null, QString::null, "100");
+        flanger->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+
+	xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "constant");
+        xmlAttr.append("name", QString::null, QString::null, "speed");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Speed"));
+        xmlAttr.append("max", QString::null, QString::null, "20");
+        xmlAttr.append("min", QString::null, QString::null, "0");
+        xmlAttr.append("default", QString::null, QString::null, "10");
+        xmlAttr.append("factor", QString::null, QString::null, "10");
+        flanger->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	effectList->append(flanger);
+
+	// Reverb
+	EffectDesc *reverb = new EffectDesc(i18n("Sox Reverb"), "sox_reverb", "sox", AUDIOEFFECT);
+	xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "constant");
+        xmlAttr.append("name", QString::null, QString::null, "gain-out");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Gain Out"));
+        xmlAttr.append("max", QString::null, QString::null, "100");
+        xmlAttr.append("min", QString::null, QString::null, "0");
+        xmlAttr.append("default", QString::null, QString::null, "50");
+        xmlAttr.append("factor", QString::null, QString::null, "100");
+        reverb->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+
+	xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "constant");
+        xmlAttr.append("name", QString::null, QString::null, "reverb-time");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Reverb Time"));
+        xmlAttr.append("max", QString::null, QString::null, "5000");
+        xmlAttr.append("min", QString::null, QString::null, "100");
+        xmlAttr.append("default", QString::null, QString::null, "1000");
+        reverb->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+
+	xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "constant");
+        xmlAttr.append("name", QString::null, QString::null, "delay");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Delay"));
+        xmlAttr.append("max", QString::null, QString::null, "500");
+        xmlAttr.append("min", QString::null, QString::null, "100");
+        xmlAttr.append("default", QString::null, QString::null, "200");
+        reverb->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	effectList->append(reverb);
+
+	// Echo
+	EffectDesc *chorus = new EffectDesc(i18n("Sox Echo"), "sox_echo", "sox", AUDIOEFFECT);
+	xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "constant");
+        xmlAttr.append("name", QString::null, QString::null, "gain-in");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Gain In"));
+        xmlAttr.append("max", QString::null, QString::null, "100");
+        xmlAttr.append("min", QString::null, QString::null, "0");
+        xmlAttr.append("default", QString::null, QString::null, "50");
+        xmlAttr.append("factor", QString::null, QString::null, "100");
+        chorus->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+
+	xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "constant");
+        xmlAttr.append("name", QString::null, QString::null, "gain-out");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Gain Out"));
+        xmlAttr.append("max", QString::null, QString::null, "100");
+        xmlAttr.append("min", QString::null, QString::null, "0");
+        xmlAttr.append("default", QString::null, QString::null, "100");
+        xmlAttr.append("factor", QString::null, QString::null, "100");
+        chorus->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+
+	xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "constant");
+        xmlAttr.append("name", QString::null, QString::null, "delay");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Delay"));
+        xmlAttr.append("max", QString::null, QString::null, "500");
+        xmlAttr.append("min", QString::null, QString::null, "0");
+        xmlAttr.append("default", QString::null, QString::null, "150");
+        chorus->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+
+	xmlAttr.clear();
+        xmlAttr.append("type", QString::null, QString::null, "constant");
+        xmlAttr.append("name", QString::null, QString::null, "decay");
+        xmlAttr.append("description", QString::null, QString::null, i18n("Decay"));
+        xmlAttr.append("max", QString::null, QString::null, "100");
+        xmlAttr.append("min", QString::null, QString::null, "0");
+        xmlAttr.append("default", QString::null, QString::null, "80");
+        xmlAttr.append("factor", QString::null, QString::null, "100");
+        chorus->addParameter(effectDescParamFactory.createParameter(xmlAttr));
+	effectList->append(chorus);
+
+    }
 
     if (filtersList.findIndex("volume") != -1) {
         // Audio volume

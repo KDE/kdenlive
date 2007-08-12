@@ -34,6 +34,7 @@
 #include <kpushbutton.h>
 #include <klocale.h>
 #include <kcombobox.h>
+#include <kcolorbutton.h>
 
 #include <effectstacklistview.h>
 
@@ -280,7 +281,21 @@ namespace Gui {
 		m_frame->show();
 		m_hasKeyFrames = true;
 	    }
+	    else if (m_effecttype == "color") {
+		  (void) new QLabel(effect->effectDescription().parameter(parameterNum)->description(), m_container);
+		  //#HACK: Grid has 3 columns, so insert empty widget in the middle when line only has 2 widgets
+		  (void) new QWidget(m_container);
+		  QString widgetName = QString("param");
+		  widgetName.append(QString::number(parameterNum));
+		  QString value = effect->effectDescription().parameter(parameterNum)->value();
+		  kdDebug()<<" ++++  COLOR PARAM: "<<value<<endl;
+            	  value = value.replace(0, 2, "#");
+            	  //value = value.left(7);
+		  KColorButton *colorParam = new KColorButton(QColor(value), m_container, widgetName.ascii());
+		  kdDebug()<<" ++++  VALUE FOR COLOR PARAM: "<<effect->effectDescription().parameter(parameterNum)->description()<<" IS: "<<value<<endl;
+		  connect(colorParam, SIGNAL(changed(const QColor &)), this, SLOT(parameterChanged()));
 
+	    }
 	    else if (m_effecttype == "complex") {
 		m_frame = new QFrame(k_container, "container2");
 		m_frame->setSizePolicy(QSizePolicy::MinimumExpanding,
@@ -389,6 +404,23 @@ namespace Gui {
 		    int value = sbox->isChecked() ? 1 : 0;
 		    effect->effectDescription().parameter(parameterNum)->
 			setValue(QString::number(value));
+		}
+	    }
+	    else if (m_effecttype == "color") {
+		KColorButton *sbox =
+		    dynamic_cast <
+		    KColorButton * >(m_parameter->child(widgetName.ascii(),
+			"KColorButton"));
+		if (!sbox)
+		    kdWarning() <<
+			"EFFECTSTACKDIALOG ERROR, CANNOT FIND BOX FOR PARAMETER "
+			<< parameterNum <<", "<<widgetName.ascii()<< endl;
+		else {
+		    QString value = sbox->color().name();
+		    value = value.replace(0, 1, "0x");
+		    kdDebug()<<"///  SETTING COLOR: "<<value<<endl;
+		    effect->effectDescription().parameter(parameterNum)->
+			setValue(value);
 		}
 	    }
 	    else if (m_effecttype == "list") {

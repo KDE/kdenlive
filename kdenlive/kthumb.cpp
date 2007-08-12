@@ -144,6 +144,34 @@ KThumb::~KThumb()
     if (thumbProducer.running ()) thumbProducer.exit();
 }
 
+QPixmap KThumb::extractImage(KURL url, int frame, int width, int height)
+{
+    if (url.isEmpty()) return QPixmap();
+    QPixmap image(width, height);
+    char *tmp = KRender::decodedString(url.path());
+    Mlt::Producer m_producer(tmp);
+    delete tmp;
+    image.fill(Qt::black);
+
+    if (m_producer.is_blank()) {
+	return QPixmap();
+    }
+    Mlt::Filter m_convert("avcolour_space");
+    m_convert.set("forced", mlt_image_rgb24a);
+    m_producer.attach(m_convert);
+    m_producer.seek(frame);
+    Mlt::Frame * m_frame = m_producer.get_frame();
+    mlt_image_format format = mlt_image_rgb24a;
+    width = width - 2;
+    height = height - 2;
+    if (m_frame && m_frame->is_valid()) {
+    	uint8_t *thumb = m_frame->get_image(format, width, height);
+    	QImage tmpimage(thumb, width, height, 32, NULL, 0, QImage::IgnoreEndian);
+    	if (!tmpimage.isNull()) bitBlt(&image, 1, 1, &tmpimage, 0, 0, width + 2, height + 2);
+    }
+    if (m_frame) delete m_frame;
+    return image;
+}
 
 void KThumb::getImage(KURL url, int frame, int width, int height)
 {

@@ -55,17 +55,9 @@ namespace Gui {
 
     QLabel *lab = new QLabel(i18n("Perform transition with: "), this);
     trackPolicy = new KComboBox(this);
-    trackPolicy->insertItem(i18n("Automatic - Use next video track"));
-    trackPolicy->insertItem(i18n("Background track (black)"));
+    refreshTracks(app->getDocument()->trackList().count());
 
     m_videoFormat = app->projectFormatParameters(app->projectVideoFormat());
-    int trackNb = app->getDocument()->trackList().count();
-    uint ix = 1;
-    while (trackNb > 0) {
-	trackPolicy->insertItem(i18n("Track %1").arg(ix));
-	trackNb--;
-	ix++;
-    }
     propertiesDialog = new KJanusWidget(this, name, KJanusWidget::IconList);
     transitCrossfade = new transitionCrossfade_UI(propertiesDialog->addVBoxPage(i18n("Crossfade"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_down", KIcon::Small, 15)));
 
@@ -292,6 +284,21 @@ void TransitionDialog::applyChanges()
         }
 }
 
+void TransitionDialog::refreshTracks(int trackNb)
+{
+    trackPolicy->clear();
+    uint ix = 1;
+    trackPolicy->insertItem(i18n("Automatic - Use next video track"));
+    trackPolicy->insertItem(i18n("Background track (black)"));
+    while (trackNb > 0) {
+	trackPolicy->insertItem(i18n("Track %1").arg(ix));
+	trackNb--;
+	ix++;
+    }
+
+
+}
+
 void TransitionDialog::setActivePage(const Transition::TRANSITIONTYPE &pageName)
 {
     switch (pageName) {
@@ -429,7 +436,7 @@ const QMap < QString, QString > TransitionDialog::transitionParameters()
       if (transitLumaFile->lumaView->currentItem())
           fname = locate(m_lumaType, transitLumaFile->lumaView->currentItem()->text() + ".pgm");
       else if (transitLumaFile->lumaView->firstItem()) 
-          fname = locate(m_lumaType, transitLumaFile->lumaView->firstItem()->text() + ".pgm");
+	  fname = locate(m_lumaType, transitLumaFile->lumaView->firstItem()->text() + ".pgm");
       paramList["resource"] = fname;
       paramList["softness"] = QString::number(((double) transitLumaFile->spin_soft->value()) / 100.0);
     }

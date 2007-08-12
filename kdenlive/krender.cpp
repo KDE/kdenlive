@@ -312,7 +312,7 @@ QPixmap KRender::getVideoThumbnail(KURL url, int frame_position, int width, int 
 }
 
 
-void KRender::getImage(KURL url, int frame_position, int width, int height)
+void KRender::getImage(KURL url, int frame_position, QPoint size)
 {
     char *tmp = decodedString(url.path());
     Mlt::Producer m_producer(tmp);
@@ -328,28 +328,28 @@ void KRender::getImage(KURL url, int frame_position, int width, int height)
     Mlt::Frame * frame = m_producer.get_frame();
 
     if (frame) {
-	QPixmap pix = frameThumbnail(frame, width, height, true);
+	QPixmap pix = frameThumbnail(frame, size.x(), size.y(), true);
 	delete frame;
-	emit replyGetImage(url, frame_position, pix, width, height);
+	emit replyGetImage(url, frame_position, pix, size.x(), size.y());
     }
 }
 
 /* Create thumbnail for color */
-void KRender::getImage(int id, QString color, int width, int height)
+void KRender::getImage(int id, QString color, QPoint size)
 {
-    QPixmap pixmap(width-2, height-2);
+    QPixmap pixmap(size.x() - 2, size.y() - 2);
     color = color.replace(0, 2, "#");
     color = color.left(7);
     pixmap.fill(QColor(color));
-    QPixmap result(width, height);
+    QPixmap result(size.x(), size.y());
     result.fill(Qt::black);
-    copyBlt(&result, 1, 1, &pixmap, 0, 0, width - 2, height - 2);
-    emit replyGetImage(id, result, width, height);
+    copyBlt(&result, 1, 1, &pixmap, 0, 0, size.x() - 2, size.y() - 2);
+    emit replyGetImage(id, result, size.x(), size.y());
 
 }
 
 /* Create thumbnail for image */
-void KRender::getImage(KURL url, int width, int height)
+void KRender::getImage(KURL url, QPoint size)
 {
     QImage im;
     QPixmap pixmap;
@@ -370,11 +370,11 @@ void KRender::getImage(KURL url, int width, int height)
     }
     else im.load(url.path());
 
-    pixmap = im.smoothScale(width-2, height-2);
-    QPixmap result(width, height);
+    pixmap = im.smoothScale(size.x() - 2, size.y() - 2);
+    QPixmap result(size.x(), size.y());
     result.fill(Qt::black);
-    copyBlt(&result, 1, 1, &pixmap, 0, 0, width - 2, height - 2);
-    emit replyGetImage(url, 1, result, width, height);
+    copyBlt(&result, 1, 1, &pixmap, 0, 0, size.x() - 2, size.y() - 2);
+    emit replyGetImage(url, 1, result, size.x(), size.y());
 }
 
 
@@ -406,7 +406,7 @@ bool KRender::isValid(KURL url)
 void KRender::getFileProperties(KURL url, uint framenb)
 {
         int height = 40;
-        int width = 50;
+        int width = height * KdenliveSettings::displayratio();
 	char *tmp = decodedString(url.path());
 	Mlt::Producer producer(tmp);
 	delete[] tmp;
@@ -472,7 +472,11 @@ void KRender::getFileProperties(KURL url, uint framenb)
 	    }
 
 	    if (frame->get_int("test_image") == 0) {
-		if (frame->get_int("test_audio") == 0)
+		if (url.path().endsWith(".westley") || url.path().endsWith(".kdenlive")) {
+		    filePropertyMap["type"] = "playlist";
+		    metadataPropertyMap["comment"] = QString::fromUtf8(mlt_properties_get( MLT_SERVICE_PROPERTIES( producer.get_service() ), "title"));
+		}
+		else if (frame->get_int("test_audio") == 0)
 		    filePropertyMap["type"] = "av";
 		else
 		    filePropertyMap["type"] = "video";
@@ -939,8 +943,8 @@ void KRender::exportCurrentFrame(KURL url, bool notify) {
 	return;
     }
 
-    int width = KdenliveSettings::displaywidth();
     int height = KdenliveSettings::defaultheight();
+    int width = KdenliveSettings::displaywidth();
 
     QPixmap pix(width, height);
 

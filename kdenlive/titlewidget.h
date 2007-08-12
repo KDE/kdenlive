@@ -84,6 +84,7 @@ public slots:
         void toggleUnderline();
         void updateSelection();
         void alignModeChanged(int index );
+	void adjustCurrentItem(int x, int y, int w, int h);
 
 private slots:
         void startResize(QPoint p);
@@ -94,6 +95,7 @@ private:
         QPoint draw_start;
         bool m_isDrawing;
 	QPixmap m_bgPixmap;
+	void objectMoved();
 };
 
 
@@ -107,6 +109,9 @@ public:
 private:
         QCanvas *canvas;
 	Gui::KMMScreen *m_screen;
+	double m_zoomFactor;
+	/** Used to block signals so that items are not moved around when they don't need it */
+	bool m_block;
 
 private slots:
         void textMode();
@@ -122,9 +127,12 @@ private slots:
         void adjustButtons();
 	void transparencyToggled(bool isOn);
 	void seekToPos(const QString &str = QString::null);
+	void zoomOut();
+	void zoomIn();
+	void adjustObject();
 
 public slots:
-    QPixmap thumbnail(int width, int height);
+    QPixmap thumbnail(QPoint size);
     KURL previewFile();
     QDomDocument toXml();
     void setXml(const QDomDocument &xml);

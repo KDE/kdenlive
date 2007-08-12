@@ -35,8 +35,8 @@ class SaveProjectNativeFilter:public SaveProjectFilter {
     virtual ~ SaveProjectNativeFilter();
 
 	/** Save the document to the specified url. */
-    virtual bool save(QFile & file, KdenliveDoc * document);
-    QDomElement processedNode(DocumentClipNode *clipNode, QDomElement avfile);
+    virtual bool save(QFile & file, KdenliveDoc * document, bool includeMltPlaylist = true);
+    static QDomElement processedNode(DocumentClipNode *clipNode, QDomElement avfile);
     virtual QStringList handledFormats() const;
 };
 

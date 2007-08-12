@@ -69,6 +69,7 @@ namespace Gui {
     QMap <QString, QPixmap> lumaPreviews();
     void setVideoFormat(formatTemplate format);
     bool checkTransition(DocClipRef *clip);
+    void refreshTracks(int trackNb);
 
     private slots:
 	void applyChanges();

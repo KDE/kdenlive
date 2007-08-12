@@ -90,18 +90,18 @@ class KRender:public QObject {
     QPixmap getImageThumbnail(KURL url, int width, int height);
 
 	/** Return thumbnail for color clip */
-    void getImage(int id, QString color, int width, int height);
+    void getImage(int id, QString color, QPoint size);
 
     QPixmap frameThumbnail(Mlt::Frame *frame, int width, int height, bool border = false);
     
     /** Return thumbnail for image clip */
-    void getImage(KURL url, int width, int height);
+    void getImage(KURL url, QPoint size);
 
 	/** Requests a particular frame from the given file. 
 	 * 
 	 * The pixmap will be returned by emitting the replyGetImage() signal.
 	 * */
-    void getImage(KURL url, int frame, int width, int height);
+    void getImage(KURL url, int frame, QPoint size);
 
 	/** Wraps the VEML command of the same name. Sets the current scene list to
 	be list. */

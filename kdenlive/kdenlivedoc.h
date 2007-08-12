@@ -193,13 +193,20 @@ class KdenliveDoc:public QObject {
 	/** Return string id for an effect based on it's i18n name (used for converting
 	old project files */
     const QString getEffectStringId(QString effectName) const;
+	/** Returns size for project thumbnails */
+    QPoint thumbSize();
+
+    bool backupModified() const;
+    void setBackupModified(bool state);
+
 
   private:
 	/** The base clip for this document. This must be a project clip, as it lists the tracks within
 	 * the project, etc. */
     DocClipProject * m_projectClip;
     Timecode m_timecode;
-
+	/** Holds size for clip thumbnails in project tree */
+    QPoint m_thumbSize;
 	/** the modified flag of the current document */
     bool m_modified;
     KURL m_doc_url;
@@ -211,6 +218,9 @@ class KdenliveDoc:public QObject {
     bool m_sceneListGeneration;
 
     bool m_showAllMarkers;
+
+	/** Has the document changed since last backup copy */
+    bool m_backupModified;
 
 	/** The clip hierarchy for this project. Clips can be put into groups. */
     DocumentBaseNode *m_clipHierarch;
@@ -278,6 +288,8 @@ class KdenliveDoc:public QObject {
     }
 	/** Generates a list of all different clips in mlt's xml format*/
     void generateProducersList();
+	/** Retreive a producer's westley definition by id */
+    QDomNode getProducerById(int id);
     void slotSelectProjectItem(int id);
 
     private slots:		// Private slots

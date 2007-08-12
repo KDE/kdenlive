@@ -53,7 +53,6 @@ bool LoadProjectNativeFilter::load(QFile & file, KdenliveDoc * document)
     QDomDocument doc;
     doc.setContent(&file, false);
     file.close();
-
     QDomElement documentElement = doc.documentElement();
 
     if (documentElement.tagName() != "westley") {
@@ -150,7 +149,6 @@ bool LoadProjectNativeFilter::merge(QFile & file, KdenliveDoc * document, bool i
     QDomDocument doc;
     doc.setContent(&file, false);
     file.close();
-
     QDomElement documentElement = doc.documentElement();
 
     if (documentElement.tagName() != "kdenlivedoc") {
@@ -230,6 +228,8 @@ void LoadProjectNativeFilter::loadTrackList(QDomElement & element,
     }
 }
 
+
+// static
 void LoadProjectNativeFilter::addToDocument(const QString & parent,
     QDomElement & clip, KdenliveDoc * document)
 {
@@ -243,7 +243,7 @@ void LoadProjectNativeFilter::addToDocument(const QString & parent,
 	    clipType = clip.attribute("type", "").toInt();
 	    DocClipBase *baseClip=0;
 
-	    if (clipType < 4)	//  AUDIO OR VIDEO CLIP
+	    if (clipType < 4 || clipType == DocClipBase::PLAYLIST)	//  AUDIO OR VIDEO CLIP
 	    {
 		baseClip =
 		    document->clipManager().insertClip(KURL(clip.

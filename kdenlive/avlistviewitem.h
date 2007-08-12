@@ -19,21 +19,22 @@
 #define AVLISTVIEWITEM_H
 
 #include <klistview.h>
+#include "baselistviewitem.h"
 
 class DocClipRef;
 class DocumentBaseNode;
-class KdenliveDoc;
+
 
 /**Allows clips to be displayed in a QListView
   *@author Jason Wood
   */
 
-class AVListViewItem:public KListViewItem {
+class AVListViewItem:public BaseListViewItem {
   public:
 	/** Create an AVListViewItem. Note that AVList takes ownership of the clip passed in. */
-    AVListViewItem(KdenliveDoc * doc, QListViewItem * parent,
+    AVListViewItem(QListViewItem * parent,
 	DocumentBaseNode * node);
-    AVListViewItem(KdenliveDoc * doc, QListView * parent,
+    AVListViewItem(QListView * parent,
 	DocumentBaseNode * node);
     ~AVListViewItem();
     virtual void setText(int column, const QString & text);
@@ -43,7 +44,7 @@ class AVListViewItem:public KListViewItem {
     DocClipRef *clip() const;
     virtual void paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align);
 
-    QString getInfo() const;
+    virtual QString getInfo() const;
 
 
   private:
@@ -51,7 +52,6 @@ class AVListViewItem:public KListViewItem {
     QString clipDuration() const;
     QListView *m_listView;
     DocumentBaseNode *m_node;
-    KdenliveDoc *m_doc;
 };
 
 #endif

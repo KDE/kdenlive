@@ -23,21 +23,19 @@
 #include <config.h>
 #endif
 
-// include files for Qt
-
 // include files for KDE
 #include <kapp.h>
 #include <kdockwidget.h>
 #include <kaccel.h>
 #include <kaction.h>
 #include <kurl.h>
+#include <kprinter.h>
 
 #include "gentime.h"
 #include "monitormanager.h"
 #include "projectformatmanager.h"
 #include "kdenlivesettings.h"
-
-
+ 
 
 #include "exportwidget.h"
 #include "transitiondialog.h"
@@ -165,6 +163,7 @@ namespace Gui {
 		/** Retreive timeline ruler cursor time */
 	GenTime cursorPosition() const;
 
+
       protected:
 		/** save general Options like all bar positions and status as well as the geometry and the recent file list to the configuration
 		 * file
@@ -271,8 +270,7 @@ namespace Gui {
 	void slotTimelineRollTool();
 		/** Called when the select tool is selected  -reh */
 	void slotTimelineSelectTool();
-		/** Called when the user activates the "Export Timeline" action */
-	void slotRenderExportTimeline(bool show = true);
+
 	void slotRenderDvd();
 		/** Called when the user activates the "Configure Project" action */
 	void slotConfigureProject();
@@ -280,15 +278,17 @@ namespace Gui {
 	void slotOptionsPreferences();
 		/** Update kdenlive to reflect preference changes */
 	void updateConfiguration();
-		/** Cleans the project of unwanted clips */
+		/** Cleans the project of unused clips */
 	void slotProjectClean();
+		/** Fix broken paths in playlist clips */
+	void slotFixPlaylists();
 		/** Remove clips from the project */
 	void slotProjectDeleteClips(bool confirm = true);
 	void slotProjectDeleteClips(QStringList list);
 		/** Add clips to the project */
-	void slotProjectAddClips();
+	void slotProjectAddClips(KURL::List urlList = KURL::List(), bool silent = false);
 	void slotProjectAddColorClip();
-	void slotProjectAddImageClip(KURL imageUrl = NULL);
+	void slotProjectAddImageClip(KURL imageUrl = NULL, bool silent = false);
 	void slotProjectAddSlideshowClip();
 	void slotProjectAddTextClip();
 	void slotProjectDuplicateTextClip();
@@ -446,6 +446,8 @@ namespace Gui {
 
       private slots: 
 	void initMonitors();
+	void slotPrint();
+	void doPrint(KPrinter *printer);
 	void slotGetNewLuma();
 	void slotSetDocumentMetadata(const QStringList list);
         void slotToggleClipMonitor();
@@ -465,6 +467,8 @@ namespace Gui {
 	void slotFocusProjectList();
         void slotFocusTransitions();
 	void slotResetTimelineMenuPosition();
+		/** Called when the user activates the "Export Timeline" action */
+	void slotRenderExportTimeline();
 
 	/** changes the statusbar contents for the standard label permanently, used to indicate current actions.
 	 * @param text the text that is displayed in the statusbar
@@ -518,6 +522,7 @@ namespace Gui {
 	/** Save the selected zone as Westley playlist */
 	void slotSaveZone();
 	void slotSaveSubClip();
+	void slotExplodePlaylist();
 
 	/** Create a virtual clip */
 	void slotVirtualZone();
@@ -544,6 +549,7 @@ namespace Gui {
 	/** Define thumbnail for current clip */
 	void slotDefineClipThumb();
 	void slotMergeProject();
+	void crashPrevent();
 
       private:
 		/** the configuration object of the application */
@@ -557,6 +563,12 @@ namespace Gui {
 	/** Holds a list of all available effects. */
 	EffectDescriptionList m_effectList;
 
+	/** Timer used to save file for crash recovery */
+	QTimer *m_crashTimer;
+
+	/** Path for the recovery file */
+	QString m_recoveryFile;
+
 	// KAction pointers to enable/disable actions
 	KAction *fileNew;
 	KAction *fileOpen;
@@ -564,7 +576,7 @@ namespace Gui {
 	KAction *fileSave;
 	KAction *fileSaveAs;
 	//    KAction* fileClose;
-	//    KAction* filePrint;
+
 	KAction *fileQuit;
 	KAction *editCut;
 	KAction *editCopy;
@@ -577,6 +589,7 @@ namespace Gui {
 	KAction *projectAddTextClip;
 	KAction *projectDeleteClips;
 	KAction *projectClean;
+	KAction *projectFixPlaylist;
 	KAction *projectClipProperties;
 	KAction *configureToolbars;
 	KAction *fitToWidth;
@@ -690,6 +703,7 @@ namespace Gui {
 	QPopupMenu *audioEffectsMenu;
 	QPopupMenu *removeEffectsMenu;
 	QPopupMenu *transitionsMenu;
+	QPopupMenu *transitionsMenu2;
 
 	ExportDvdDialog *m_exportDvd;
 	TransitionDialog *m_transitionPanel;
@@ -725,6 +739,8 @@ namespace Gui {
 	void switchProjectToFormat(QString newFormat);
 	QPoint mousePosition();
 	void parseProfiles();
+		/** Create the export widget dialog */
+    	void initRenderExport(bool reset = true);
     };
 
 }				// namespace Gui

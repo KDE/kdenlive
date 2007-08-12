@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>492</width>
-            <height>322</height>
+            <width>523</width>
+            <height>326</height>
         </rect>
     </property>
     <grid>
@@ -32,7 +32,7 @@
                 <string>Duration per Image</string>
             </property>
         </widget>
-        <widget class="KURLRequester" row="0" column="2" rowspan="1" colspan="4">
+        <widget class="KURLRequester" row="0" column="2" rowspan="1" colspan="5">
             <property name="name">
                 <cstring>url_image</cstring>
             </property>
@@ -70,7 +70,7 @@
                 <cstring>imageType</cstring>
             </property>
         </widget>
-        <widget class="KLineEdit" row="5" column="1" rowspan="1" colspan="5">
+        <widget class="KLineEdit" row="5" column="1" rowspan="1" colspan="6">
             <property name="name">
                 <cstring>edit_description</cstring>
             </property>
@@ -81,14 +81,6 @@
             </property>
             <property name="text">
                 <string>Description</string>
-            </property>
-        </widget>
-        <widget class="QCheckBox" row="2" column="4" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>transparentBg</cstring>
-            </property>
-            <property name="text">
-                <string>Transparent background</string>
             </property>
         </widget>
         <widget class="QLabel" row="1" column="4">
@@ -121,7 +113,7 @@
                 <string>99:99:99:99; </string>
             </property>
         </widget>
-        <widget class="KRestrictedLine" row="1" column="5">
+        <widget class="KRestrictedLine" row="1" column="5" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>edit_duration</cstring>
             </property>
@@ -151,7 +143,7 @@
                 <string>No images in slideshow</string>
             </property>
         </widget>
-        <widget class="QGroupBox" row="4" column="3" rowspan="1" colspan="3">
+        <widget class="QGroupBox" row="4" column="3" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>crossfade</cstring>
             </property>
@@ -290,6 +282,22 @@
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                 </sizepolicy>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="2" column="4" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>transparentBg</cstring>
+            </property>
+            <property name="text">
+                <string>Transparent background</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="2" column="6">
+            <property name="name">
+                <cstring>loop</cstring>
+            </property>
+            <property name="text">
+                <string>Loop</string>
             </property>
         </widget>
     </grid>

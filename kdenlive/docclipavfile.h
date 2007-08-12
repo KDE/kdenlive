@@ -43,7 +43,7 @@ class DocClipAVFile:public DocClipBase {
 
     /**  slideshow clip  */
      DocClipAVFile(const KURL & url, const QString & extension,
-                   const int &ttl, const GenTime & duration, bool alphaTransparency, bool crossfade, const QString &lumaFile, double lumasoftness, uint lumaduration, uint id);
+                   const int &ttl, const GenTime & duration, bool alphaTransparency, bool loop, bool crossfade, const QString &lumaFile, double lumasoftness, uint lumaduration, uint id);
 
     /* color clip */
      DocClipAVFile(const QString & color, const GenTime & duration,
@@ -95,10 +95,15 @@ class DocClipAVFile:public DocClipBase {
 	 *  to DocClipAVFile. This action should only occur via the clipManager.*/
     static DocClipAVFile *createClip(const QDomElement element);
 	/** Returns true if the clip duration is known, false otherwise. */
-    
+    virtual bool durationKnown() const;
+	/** If the clip is a playlist, returns a list of broken clip urls */
+    QStringList brokenPlayList();
+
     void setAlpha(bool transp);
     void setCrossfade( bool cross);
-    bool isTransparent();
+    bool isTransparent() const;
+    bool loop() const;
+    void setLoop(bool isOn);
     bool hasCrossfade() const;
     int clipTtl() const;
     void setClipTtl(const int &ttl);
@@ -109,7 +114,6 @@ class DocClipAVFile:public DocClipBase {
     void setLumaDuration(const uint & duration);
     const uint &lumaDuration() const;
 
-    virtual bool durationKnown() const;
     virtual double framesPerSecond() const;
     //returns clip video properties -reh
     virtual uint clipWidth() const;
@@ -191,10 +195,12 @@ class DocClipAVFile:public DocClipBase {
 
 	/** The size in bytes of this AVFile */
     uint m_filesize;
-    /** Should the background be transparent (for image clips) */
+    /** Should the background be transparent (for image / slideshow clips) */
     bool m_alphaTransparency;
     /** Should we crossfade between images (only for slideshows) */
     bool m_hasCrossfade;
+    /** Should we loop through the images (only for slideshows) */
+    bool m_loop;
 
     /** Holds file metadata (comment, copyright, author,...) */
     QMap < QString, QString > m_metadata;

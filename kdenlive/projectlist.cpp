@@ -15,27 +15,31 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "projectlist.h"
-#include "avlistviewitem.h"
-#include "kdenlive.h"
-#include "kdenlivedoc.h"
-#include "docclipavfile.h"
-#include "timecode.h"
-
-/* This define really should go in projectlist_ui, but qt just puts the classname there at the moment :-( */
-#include <qpushbutton.h>
-
-#include <qcursor.h>
-#include <qlabel.h>
-
 #include <kdebug.h>
 #include <klineedit.h>
 #include <klocale.h>
 #include <kiconloader.h>
-#include <kfiledialog.h>
-#include <kmessagebox.h>
 #include <kpushbutton.h>
-#include <documentbasenode.h>
+
+/* This define really should go in projectlist_ui, but qt just puts the classname there at the moment :-( */
+#include <qpushbutton.h>
+#include <qpaintdevicemetrics.h>
+#include <qpainter.h>
+
+#include <qcursor.h>
+#include <qlabel.h>
+
+
+#include "documentbasenode.h"
+#include "projectlist.h"
+#include "avlistviewitem.h"
+#include "folderlistviewitem.h"
+#include "westleylistviewitem.h"
+#include "kdenlive.h"
+#include "kdenlivedoc.h"
+#include "docclipavfile.h"
+#include "timecode.h"
+#include "playlist.h"
 
 
 #include <iostream>
@@ -45,7 +49,7 @@
 namespace Gui {
 
     ProjectList::ProjectList(KdenliveApp * app, KdenliveDoc * document, bool iconView, QWidget * parent, const char *name):ProjectList_UI(parent, name),
-	m_document(document), m_app(app), m_isIconView(iconView) {
+	m_document(document), m_app(app), m_isIconView(iconView), m_listView(NULL), m_iconView(NULL) {
 	if (!document) {
 	    kdError() <<
 		"ProjectList created with no document - expect a crash shortly"
@@ -120,6 +124,8 @@ namespace Gui {
         connect(m_listView, SIGNAL(doubleClicked( QListViewItem *, const QPoint &, int )), this, SLOT(editRequested( QListViewItem *, const QPoint &, int )));
 	connect(m_listView, SIGNAL(selectionChanged()), this, SLOT(updateListItem()));
 	connect(m_listView, SIGNAL(addClipRequest()), this, SLOT(addClipRequest()));
+	connect(m_listView, SIGNAL(itemRenamed(QListViewItem *, int)), this, SLOT(projectModified()));
+	connect(m_listView, SIGNAL(createChildren(QListViewItem *)), this, SLOT(createItemChildren(QListViewItem *)));
     }
 
     void ProjectList::setupIconView() {
@@ -163,6 +169,7 @@ namespace Gui {
     bool ProjectList::hasChildren() {
 	// TODO: implement folder functionnality in icon view
 	if (m_isIconView) return true;
+	if (!m_listView->currentItem()) return false;
 	return m_listView->currentItem()->childCount() > 0;
     }
 
@@ -208,6 +215,11 @@ namespace Gui {
     void ProjectList::editRequested( QIconViewItem *)
     {
         emit editItem();
+    }
+
+    void ProjectList::projectModified()
+    {
+	m_app->documentModified(true);
     }
 
 /** No descriptions */
@@ -280,6 +292,104 @@ namespace Gui {
 	updateListItem();
     }
 
+    void ProjectList::createItemChildren(QListViewItem *item)
+    {
+	if (item->childCount() > 0) return;
+	BaseListViewItem::ITEMTYPE type = ((BaseListViewItem *) item)->getType();
+        if (type != BaseListViewItem::CLIP) return;
+        DocClipRef *clip = static_cast<AVListViewItem *>(item)->clip();
+        if (clip && clip->clipType() == DocClipBase::PLAYLIST) {
+	    // clip is a playlist, generate a list of children...
+	    QDomDocument doc;
+	    QFile file(clip->fileURL().path());
+	    doc.setContent(&file, false);
+	    file.close();
+	    QDomElement documentElement = doc.documentElement();
+	    if (documentElement.tagName() != "westley") {
+	    	kdWarning() << "KdenliveDoc::loadFromXML() document element has unknown tagName : " << documentElement.tagName() << endl;
+	    }
+	    int tracksCount = 0;
+
+	    QDomNode kdenlivedoc = documentElement.elementsByTagName("kdenlivedoc").item(0);
+	    QDomNode n, node;
+	    QMap <QString, QString> prods;
+	    QDomElement e, entry;
+
+	    if (!kdenlivedoc.isNull()) n = kdenlivedoc.firstChild();
+	    else n = documentElement.firstChild();
+
+	    while (!n.isNull()) {
+	    	e = n.toElement();
+	    	if (!e.isNull()) {
+		    if (e.tagName() == "producer") {
+		    	kdDebug()<<"// FOPUND A PRODUCER"<<endl;
+		    	// found producer, adding it to the document...
+		    	int cliptype = e.attribute("type", QString::number(-1)).toInt();
+		    	if (cliptype == DocClipBase::COLOR) {
+			    QListViewItem *child = new WestleyListViewItem( item, i18n("Color Clip"));
+			    QPixmap pix = QPixmap(40, 30);
+			    QString col = e.attribute("colour", QString::null);
+        		    col = col.replace(0, 2, "#");
+        		    pix.fill(QColor(col.left(7)));
+			    child->setPixmap(0, pix);
+		    	}
+			else if (cliptype == DocClipBase::AUDIO) {
+			    KURL resource =  KURL(e.attribute("resource", QString::null));
+			    QListViewItem *child = new WestleyListViewItem(item, resource.fileName());
+		    	}
+			else if (cliptype == DocClipBase::AV || cliptype == DocClipBase::VIDEO) {
+			    KURL resource =  KURL(e.attribute("resource", QString::null));
+			    QListViewItem *child = new WestleyListViewItem(item, resource.fileName());
+			    QPixmap pix = m_document->renderer()->getVideoThumbnail(resource, 1, 40, 30);
+			    child->setPixmap(0, pix);
+		    	}
+			else if (cliptype == DocClipBase::PLAYLIST) {
+			     KURL resource =  KURL(e.attribute("resource", QString::null));
+			    QListViewItem *child = new WestleyListViewItem(item, resource.fileName());
+			    QPixmap pix = m_document->renderer()->getVideoThumbnail(resource, 1, 40, 30);
+			    child->setPixmap(0, pix);
+		    	}
+			else if (cliptype == DocClipBase::TEXT) {
+			    QListViewItem *child = new WestleyListViewItem(item, i18n("Text Clip"));
+			    QString resource =  e.attribute("resource", QString::null);
+			    QImage i(resource);
+			    QPixmap pix(40, 30);
+			    pix.convertFromImage(i.smoothScale(40, 30));
+			    child->setPixmap(0, pix);
+		    	}
+			else if (cliptype == DocClipBase::IMAGE) {
+			     KURL resource =  KURL(e.attribute("resource", QString::null));
+			    QListViewItem *child = new WestleyListViewItem(item, resource.fileName());
+			    QImage i(resource.path());
+			    QPixmap pix(40, 30);
+			    pix.convertFromImage(i.smoothScale(40, 30));
+			    child->setPixmap(0, pix);
+		    	}
+			else if (cliptype == DocClipBase::SLIDESHOW) {
+			    QListViewItem *child = new WestleyListViewItem(item, i18n("Slideshow Clip"));
+		    	}
+			else {
+			     KURL resource =  KURL(e.attribute("resource", QString::null));
+			    QListViewItem *child = new WestleyListViewItem(item, resource.fileName());
+			    QPixmap pix = m_document->renderer()->getVideoThumbnail(resource, 1, 40, 30);
+			    child->setPixmap(0, pix);
+			}
+		    	
+/*
+		    	QString resource = e.attribute("resource", QString::null);
+		    	if (!resource.isEmpty()) {
+			    producersList.append(KURL(resource));
+			    prods[e.attribute("id", QString::number(-1))] = resource;
+			    kdDebug()<<"// APPENDING: "<<resource<<endl;
+		    	}*/
+		    }
+	    	}
+	    	n = n.nextSibling();
+	    }
+    	}
+    }
+
+
 /** Get a fresh copy of files from KdenliveDoc and display them. */
     void ProjectList::slot_UpdateList() {
 	QStringList openFolders;
@@ -287,8 +397,10 @@ namespace Gui {
 	if (!m_isIconView) {
             QListViewItemIterator it( m_listView );
             while ( it.current() ) {
+		// BaseListViewItem::ITEMTYPE type = ((BaseListViewItem *) it.current())->getType();
                 if (it.current()->isOpen()) {
-	        openFolders.append(it.current()->text(1));
+	            //if (type == BaseListViewItem::FOLDER) 
+		    openFolders.append(it.current()->text(1));
 	        }
                 ++it;
             }
@@ -300,7 +412,16 @@ namespace Gui {
 		QPtrListIterator < DocumentBaseNode > child(node->children());
     		while (child.current()) {
 			if (child.current())
-				new AVListViewItem(m_document, m_listView, child.current());
+				if (child.current()->asClipNode()) (void) new AVListViewItem( m_listView, child.current());
+				else {
+				    FolderListViewItem *item = new FolderListViewItem( m_listView, child.current()->name());
+				        // recursively populate the rest of the node tree.
+    				    QPtrListIterator < DocumentBaseNode > itemchild(child.current()->children());
+    				    while (itemchild.current()) {
+					new AVListViewItem(item, itemchild.current());
+					++itemchild;
+    				    }
+				}
 			++child;
     		}
 	    }
@@ -357,20 +478,27 @@ namespace Gui {
 /** Called when the project list changes. */
     void ProjectList::updateListItem() {
 	if (!m_isIconView) {
-	    const AVListViewItem * avitem = (AVListViewItem *) m_listView->currentItem();
-	    if (!avitem) return;
-	    if (avitem->clip()) emit clipSelected(avitem->clip());
+	    if (!m_listView->currentItem()) return;
+	    BaseListViewItem::ITEMTYPE type = ((BaseListViewItem *) m_listView->currentItem())->getType();
+	    if (type == BaseListViewItem::CLIP) {
+	        const AVListViewItem * avitem = (AVListViewItem *) m_listView->currentItem();
+	        if (!avitem) return;
+	        if (avitem->clip()) emit clipSelected(avitem->clip());
+	    }
+	    else if (type == BaseListViewItem::FOLDER) {
+		// do nothing for the moment
+	    }
 	}
 	else {
 	    DocClipRef *clip = m_iconView->selectedItem();
 	    if (clip) emit clipSelected(clip);
 	}
     }
-   
+
     bool ProjectList::isEmpty() {
 	if (!m_isIconView) return m_listView->childCount() == 0;
 	return m_iconView->count() == 0;
-    } 
+    }
 
     DocClipRefList ProjectList::currentSelection() {
 	if (!m_isIconView) return m_listView->selectedItemsList();
@@ -413,6 +541,113 @@ namespace Gui {
 	return menu;
     }
 
+
+    void ProjectList::fixPlaylists() {
+	PlayList *pl = new PlayList(m_listView, m_iconView, m_isIconView, this);
+	connect(pl, SIGNAL(signalFixed()), &(m_document->clipManager()), SLOT(refreshThumbNails()));
+	pl->exec();
+    }
+
+    void ProjectList::doPrinting(KPrinter *printer, QPainter *p, uint images, bool fullPath, bool filtered) {
+        // We use a QPaintDeviceMetrics to know the actual page size in pixel,
+        // this gives the real painting area
+	//p->begin(printer);
+	QFontMetrics fm = p->fontMetrics();
+        QPaintDeviceMetrics metrics(p->device());
+	int yPos = 0;
+
+        const int Margin = 10;
+        int pageNo = 1;
+        int indent = 0;
+
+	p->drawText( Margin, Margin, metrics.width(), fm.lineSpacing(), ExpandTabs | DontClip, m_document->URL().path() + ", " + i18n("Page %1").arg(pageNo));
+	yPos = 2* fm.lineSpacing();
+
+	if (!m_isIconView) {
+        QListViewItemIterator it( m_listView );
+	int maxItems = m_listView->childCount();
+        while ( it.current() ) {
+            const AVListViewItem *avitem = static_cast < AVListViewItem * >(*it);
+	    if (!filtered || (*it)->isVisible())
+            if (avitem && avitem->clip()) {
+		if (indent != 0) {
+		    indent = (*it)->depth() * 3 * Margin;
+		    if (indent == 0) {
+			p->drawLine ( Margin, Margin + yPos, metrics.width() - Margin, Margin + yPos);
+		    	yPos += Margin;
+		    }
+		}
+		else indent = (*it)->depth() * 3 * Margin;
+
+		// Get thumbnail for current item
+	    	DocClipBase *baseClip = avitem->clip()->referencedClip();
+	    	QPixmap pix;
+		if (images == 1) {
+		    pix = avitem->clip()->thumbnail();
+		    if (pix.isNull()) {
+		        avitem->clip()->generateThumbnails();
+		        pix = avitem->clip()->thumbnail();
+		    }
+		    if (pix.isNull()) pix = baseClip->thumbnail();
+		}
+		else if (images == 2) {
+		    pix = avitem->clip()->extractThumbnail(80 * KdenliveSettings::displayratio(), 80);
+		    if (pix.isNull()) pix = baseClip->thumbnail();
+		}
+
+		// check if it needs a new page
+		if ( Margin + yPos +  pix.height()> metrics.height() - Margin ) {
+		    printer->newPage();
+		    pageNo++;
+		    p->drawText( Margin, Margin, metrics.width(), fm.lineSpacing(), ExpandTabs | DontClip, m_document->URL().path() + ", " + i18n("Page %1").arg(pageNo));
+		    yPos = 2* fm.lineSpacing();
+		}
+
+		QString title;
+		if (!fullPath) title = baseClip->name();
+		else title = baseClip->fileURL().path();
+		title += " (" + Timecode::getEasyTimecode(baseClip->duration(), KdenliveSettings::defaultfps()) + ")";
+
+		p->drawPixmap(Margin + indent, Margin + yPos, pix);
+		p->drawText( Margin + indent + pix.width() + Margin, Margin + yPos,
+                            metrics.width(), fm.lineSpacing(),
+                            ExpandTabs | DontClip, title);
+		
+		p->drawText( Margin + indent + pix.width() + Margin, Margin + yPos + fm.lineSpacing(),
+                            metrics.width(), fm.lineSpacing(),
+                            ExpandTabs | DontClip,
+                            baseClip->description() );
+		yPos = yPos + fm.lineSpacing() + pix.height();
+		
+                }
+		else {
+		    if ( Margin + yPos > metrics.height() - Margin ) {
+		        printer->newPage();
+		        pageNo++;
+		        p->drawText( Margin, Margin, metrics.width(), fm.lineSpacing(), ExpandTabs | DontClip, m_document->URL().path() + ", " + i18n("Page %1").arg(pageNo));
+		        yPos = 2* fm.lineSpacing();
+		    }
+		    p->drawLine ( Margin, Margin + yPos, metrics.width() - Margin, Margin + yPos);
+		    yPos += Margin;
+		    p->drawText( Margin, Margin + yPos,
+                            metrics.width(), fm.lineSpacing(),
+                            ExpandTabs | DontClip, (*it)->text(1) );
+		    yPos = yPos + 2*fm.lineSpacing();
+	    }
+            ++it;
+        }
+	}
+	else {
+	    for ( QIconViewItem *item = m_iconView->firstItem(); item; item = item->nextItem() )
+	    {
+            	const AVIconViewItem *avitem = static_cast < AVIconViewItem * >(item);
+            	if (avitem && avitem->clip()) {
+            	}
+            }
+	}
+    }
+
+
     columnToolTip::columnToolTip(QHeader * header, QToolTipGroup * group)
   :	QToolTip(header, group) {
     }
@@ -431,5 +666,6 @@ namespace Gui {
 	QString tipString = header->label(section);
 	tip(header->sectionRect(section), tipString, "");
     }
+
 
 }				// namespace Gui

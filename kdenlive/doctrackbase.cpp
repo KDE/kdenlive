@@ -21,11 +21,14 @@
 #include "doctracksound.h"
 #include "doctrackclipiterator.h"
 #include "docclipproject.h"
+#include "docclipavfile.h"
 #include "clipmanager.h"
 #include "effectdesc.h"
 #include "effectparamdesc.h"
 #include "effectparameter.h"
 #include "kdenlivesettings.h"
+
+
 
 DocTrackBase::DocTrackBase(DocClipProject * project)
 {
@@ -411,7 +414,8 @@ void DocTrackBase::resizeClipTrackStart(DocClipRef * clip,
 	return;
     }
     bool sizeLimit = true;
-    if (clip->clipType() == DocClipBase::IMAGE || clip->clipType() == DocClipBase::TEXT || clip->clipType() == DocClipBase::COLOR) sizeLimit = false;
+    DocClipBase::CLIPTYPE t = clip->clipType();
+    if (t == DocClipBase::IMAGE || t == DocClipBase::TEXT || t == DocClipBase::COLOR || (t == DocClipBase::SLIDESHOW && clip->referencedClip()->toDocClipAVFile()->loop() == true)) sizeLimit = false;
     newStart = newStart - clip->trackStart();
 
     if (clip->cropStartTime() + newStart < GenTime()) {
@@ -482,17 +486,18 @@ void DocTrackBase::resizeClipTrackEnd(DocClipRef * clip, GenTime newEnd)
     }
 
     GenTime cropDuration = newEnd - clip->trackStart();
-    bool limit = false;
-    if (clip->clipType() == DocClipBase::TEXT || clip->clipType() == DocClipBase::IMAGE || clip->clipType() == DocClipBase::COLOR) limit = true;
+    bool sizeLimit = true;
+    DocClipBase::CLIPTYPE t = clip->clipType();
+    if (t == DocClipBase::IMAGE || t == DocClipBase::TEXT || t == DocClipBase::COLOR || (t == DocClipBase::SLIDESHOW && clip->referencedClip()->toDocClipAVFile()->loop() == true)) sizeLimit = false;
     // If clip is a video, audio or slideshow, make sure user cannot make it bigger than possible
-    if (!limit && cropDuration > clip->duration() / clip->speed() - clip->cropStartTime()) {
+    if (sizeLimit && cropDuration > clip->duration() / clip->speed() - clip->cropStartTime()) {
 	kdWarning() <<
 	    "clip new crop end greater than duration, trimming..." << endl;
 	newEnd =
 	    clip->duration() / clip->speed() - clip->cropStartTime() + clip->trackStart();
 	cropDuration = newEnd - clip->trackStart();
     }
-    else if (limit && cropDuration.frames(framesPerSecond()) > MAXFRAMEDURATION) {
+    else if (!sizeLimit && cropDuration.frames(framesPerSecond()) > MAXFRAMEDURATION) {
 	cropDuration =  GenTime(MAXFRAMEDURATION, framesPerSecond());
 	newEnd = clip->trackStart() + cropDuration;
     }

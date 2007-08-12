@@ -41,7 +41,7 @@ SaveProjectNativeFilter::~SaveProjectNativeFilter()
 }
 
 // virtual
-bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
+bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document, bool includeMltPlaylist)
 {
     QDomDocument doc;
 
@@ -115,10 +115,12 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
     if (!trackList.isNull()) elem.appendChild(doc.importNode(trackList.documentElement(), true));
 
     // include a copy of the MLT playlist so that the project file can be played directly
-    QDomDocument westleyList = document->projectClip().generateSceneList(false);
-    if (!westleyList.isNull()) {
-	QDomNode playlist = doc.importNode(westleyList.documentElement(), true);
-    	westley.appendChild(playlist);
+    if (includeMltPlaylist) {
+	QDomDocument westleyList = document->projectClip().generateSceneList(false);
+	if (!westleyList.isNull()) {
+	    QDomNode playlist = doc.importNode(westleyList.documentElement(), true);
+	    westley.appendChild(playlist);
+	}
     }
 
     QCString save = doc.toString().utf8();
@@ -126,6 +128,7 @@ bool SaveProjectNativeFilter::save(QFile & file, KdenliveDoc * document)
 
     return true;
 }
+
 
 QDomElement SaveProjectNativeFilter::processedNode(DocumentClipNode *clipNode, QDomElement avfile)
 {

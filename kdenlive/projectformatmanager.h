@@ -44,7 +44,8 @@ class ProjectFormatManager {
     bool mergeDocument(const KURL & url, KdenliveDoc * document);
 	/** saves the document under filename and format.*/
     bool saveDocument(const KURL & url, KdenliveDoc * document);
-
+	/** saves a copy of the document for crash recovery.*/
+    bool backupDocument(const KURL & url, KdenliveDoc * document);
 	/** Returns the mime types that can be loaded in */
     QString loadMimeTypes();
 

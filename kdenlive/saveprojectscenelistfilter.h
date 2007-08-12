@@ -30,7 +30,7 @@ class SaveProjectScenelistFilter:public SaveProjectFilter {
 
     ~SaveProjectScenelistFilter();
 
-    virtual bool save(QFile & file, KdenliveDoc * document);
+    virtual bool save(QFile & file, KdenliveDoc * document, bool includeMltPlaylist = true);
     virtual QStringList handledFormats() const;
 
 };

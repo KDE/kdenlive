@@ -48,13 +48,13 @@ KdenliveDoc::KdenliveDoc(double fps, int width, int height, Gui::KdenliveApp * a
 QObject(parent, name),
 m_projectClip(new DocClipProject(fps, width, height)),
 m_modified(false),
+m_backupModified(false),
 m_documentIsClean(true),
 m_sceneListGeneration(true),
 m_showAllMarkers(KdenliveSettings::showallmarkers()),
+m_thumbSize(QPoint(40 * KdenliveSettings::displayratio(), 40)),
 m_clipHierarch(0), m_render(app->renderManager()->findRenderer("Document")), m_clipManager(m_render, this), m_app(app), m_metadata(NULL)
 {
-    //m_render = m_app->renderManager()->createRenderer("Document");
-    //m_clipManager = new ClipManager(m_render)
     if (fps == 30000.0 / 1001.0 ) m_timecode.setFormat(30, true);
     else m_timecode.setFormat(fps);
     connect(this, SIGNAL(trackListChanged()), this, SLOT(hasBeenModified()));
@@ -76,6 +76,11 @@ KdenliveDoc::~KdenliveDoc()
 	m_projectClip->requestProjectClose();
 	delete m_projectClip;
     }
+}
+
+QPoint KdenliveDoc::thumbSize()
+{
+    return m_thumbSize;
 }
 
 Timecode KdenliveDoc::timeCode()
@@ -254,10 +259,21 @@ int KdenliveDoc::trackIndex(DocTrackBase * track) const
 /** Sets the modified state of the document, if this has changed, emits modified(state) */
 void KdenliveDoc::setModified(bool state)
 {
+    if (state) m_backupModified = true;
     if (m_modified != state) {
 	m_modified = state;
 	emit modified(state);
     }
+}
+
+bool KdenliveDoc::backupModified() const
+{
+    return m_backupModified;
+}
+
+void KdenliveDoc::setBackupModified(bool state)
+{
+    m_backupModified = state;
 }
 
 void KdenliveDoc::setDocumentState(bool state)
@@ -351,6 +367,22 @@ void KdenliveDoc::generateProducersList()
 {
     m_projectClip->producersList = m_clipManager.producersList();
     m_projectClip->virtualProducersList = m_clipManager.virtualProducersList();
+}
+
+/** Creates a list of producers */
+QDomNode KdenliveDoc::getProducerById(int id)
+{
+    QDomDocumentFragment prods = m_projectClip->producersList;
+    QDomNode n = prods.firstChild();
+    QDomElement e;
+    while (!n.isNull()) {
+	e = n.toElement();
+ 	if (!e.isNull() && e.tagName() == "producer") {
+	    if (e.attribute("id") == QString::number(id)) break;
+	}
+	n = n.nextSibling();
+    }
+    return n;
 }
 
 
@@ -570,11 +602,11 @@ void KdenliveDoc::slotClipChanged(DocClipBase * file)
 		duration());
 	    emit clipChanged(clipNode->clipRef());
 	}
-    } else {
+    } /*else {
 	kdWarning() <<
 	    "Got a request for a changed clip that is not in the document : "
 	    << file->name() << endl;
-    }
+    }*/
 }
 
 void KdenliveDoc::refreshAudioThumbnails()

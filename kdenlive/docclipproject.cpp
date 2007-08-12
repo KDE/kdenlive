@@ -516,8 +516,9 @@ QDomDocument DocClipProject::generateSceneList(bool addProducers, bool rendering
     }
 
     westley.appendChild(tractor);
-         //kdDebug() << doc.toString() << endl;
-         //kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
+	/* kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl;
+         kdDebug() << doc.toString() << endl;
+         kdDebug()<<"+++++++++++  Generating scenelist end...  ++++++++++++++++++"<<endl; */
     return doc;
 }
 
@@ -537,11 +538,11 @@ QDomDocument DocClipProject::generatePartialSceneList(GenTime start, GenTime end
     doc.appendChild(westley);
 
     QDomDocumentFragment clipTransitions = doc.createDocumentFragment();
-    QDomElement blackprod = doc.createElement("producer");
+    /*QDomElement blackprod = doc.createElement("producer");
     blackprod.setAttribute("id", "black");
     blackprod.setAttribute("mlt_service", "colour");
     blackprod.setAttribute("colour", "black");
-    westley.appendChild(blackprod);
+    westley.appendChild(blackprod);*/
 
     QDomElement tractor = doc.createElement("tractor");
     QDomElement multitrack = doc.createElement("multitrack");
@@ -553,7 +554,7 @@ QDomDocument DocClipProject::generatePartialSceneList(GenTime start, GenTime end
     
     // Add black clip as first track, so that empty spaces appear black 
     // (looks like color producer cannot be longer than 15000 frames, so hack around it... 
-    QDomElement playlist = doc.createElement("playlist");
+    /*QDomElement playlist = doc.createElement("playlist");
     int dur = (end - start).frames(framesPerSecond()) - 1;
 
     // black background	 track
@@ -570,7 +571,7 @@ QDomDocument DocClipProject::generatePartialSceneList(GenTime start, GenTime end
     blank.setAttribute("out", QString::number(dur));
     blank.setAttribute("producer", "black");
     playlist.appendChild(blank);
-    multitrack.appendChild(playlist);
+    multitrack.appendChild(playlist);*/
 
     // parse the tracks in reverse order so that the upper tracks appear in front of the lower ones
     trackItt.toLast();
@@ -633,8 +634,8 @@ QDomDocument DocClipProject::generatePartialSceneList(GenTime start, GenTime end
 	    QDomElement transition = doc.createElement("transition");
 	    transition.setAttribute("in", "0");
             transition.setAttribute("out", projectLastFrame);
-            transition.setAttribute("a_track", QString::number(1));
-	    transition.setAttribute("b_track", QString::number(i));
+            transition.setAttribute("a_track", QString::number(0));
+	    transition.setAttribute("b_track", QString::number(i-1));
 	    transition.setAttribute("mlt_service", "mix");
             transition.setAttribute("combine", "1");
 	    tractor.appendChild(transition);

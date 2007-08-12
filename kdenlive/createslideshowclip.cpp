@@ -97,6 +97,11 @@ namespace Gui {
 	return clipChoice->image_ttl->text();
     }
 
+    bool createSlideshowClip::loop() const
+    {
+	return clipChoice->loop->isChecked();
+    }
+
     int createSlideshowClip::imageCount() const
     {
 	return m_imageCount;
@@ -147,7 +152,7 @@ namespace Gui {
         for ( it = more.begin() ; it != more.end() ; ++it )
             if ((*it).endsWith("." + selectedExtension(), FALSE)) {
 		m_imageCount++;
-		QPixmap p = QImage(selectedFolder() + "/" + (*it)).smoothScale(50, 40);
+		QPixmap p = QImage(selectedFolder() + "/" + (*it)).smoothScale(40 * KdenliveSettings::displayratio(), 40);
 		clipChoice->imageList->insertItem(p, (*it));
 	    }
 

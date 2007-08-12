@@ -25,6 +25,7 @@
 #include <klistview.h>
 
 #include "avlistviewitem.h"
+#include "folderlistviewitem.h"
 #include "docclipbase.h"
 #include "kdenlivedoc.h"
 
@@ -57,6 +58,7 @@ class ProjectListView:public KListView {
 	/** This signal is called whenever a drag'n'drop is started */
     void dragStarted(QListViewItem *);
     void addClipRequest();
+    void createChildren(QListViewItem *);
 
   protected:
 		/** returns true if the drop event is compatable with the project list */
@@ -65,8 +67,10 @@ class ProjectListView:public KListView {
 
   private slots:		// Private slots
 	/** This slot function should be called whenever a drag has been dropped onto the class. */
-    void dragDropped(QDropEvent * e, QListViewItem * parent,
-	QListViewItem * after);
+    void dragDropped(QDropEvent * e, QListViewItem * parent, QListViewItem * after);
+	/** User click on an expandable item, generate its children if it is a playlist */
+    void slotOpenItem(QListViewItem *);
+
   private:			// Private attributes
 	/** The document that keeps this list up-to-date. */
      KdenliveDoc * m_doc;
@@ -85,11 +89,18 @@ private:
 inline ListViewToolTip::ListViewToolTip( QListView* parent )
     : QToolTip( parent->viewport() ), listView( parent ) {}
 inline void ListViewToolTip::maybeTip( const QPoint& p ) {
-    if ( !listView )
+    if ( !listView || !listView->itemAt( p ))
         return;
-    const AVListViewItem* item = static_cast<AVListViewItem *>(listView->itemAt( p ));
-    if ( !item )
-        return;
+
+    const BaseListViewItem* item = static_cast<BaseListViewItem *>(listView->itemAt( p ));
+	if ( !item )
+            return;
+/*
+    else if (type == BaseListViewItem::FOLDER) {
+	const FolderListViewItem* item = static_cast<FolderListViewItem *>(listView->itemAt( p ));
+	if ( !item )
+            return;*/
+
     const QRect itemRect = listView->itemRect( item );
     if ( !itemRect.isValid() )
         return;

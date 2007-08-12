@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kdenlive" version="29">
+<kpartgui name="kdenlive" version="36">
 <MenuBar>
   <Menu name="file">
 	<Action name="merge_project"/>
@@ -47,6 +47,7 @@
 	<Action name="project_add_slideshow_clip"/>
 	<Action name="project_add_text_clip"/>
 	<Action name="project_delete_clip"/>
+	<Action name="fix_playlists"/>
 	<Action name="project_clean"/>
         <Action name="edit_clip"/>
 	<Separator />
@@ -151,6 +152,7 @@
 		<Action name="project_add_text_clip"/>
 	</Menu>
 	<Separator />
+	<Action name="fix_playlists"/>
 	<Action name="project_clean"/>
 </Menu>
 
@@ -172,6 +174,7 @@
         <Action name="edit_clip"/>
 	<Action name="project_extract_audio"/>
         <Separator />
+	<Action name="fix_playlists"/>
         <Action name="project_clean"/>
 </Menu>
 
@@ -188,6 +191,7 @@
 	<Action name="project_delete_clip"/>
         <Action name="edit_clip"/>
         <Separator />
+	<Action name="fix_playlists"/>
         <Action name="project_clean"/>
 </Menu>
 
@@ -204,6 +208,7 @@
 	<Action name="project_delete_clip"/>
         <Action name="edit_clip"/>
         <Separator />
+	<Action name="fix_playlists"/>
         <Action name="project_clean"/>
 </Menu>
 
@@ -220,6 +225,7 @@
 	<Action name="project_delete_clip"/>
         <Action name="edit_clip"/>
         <Separator />
+	<Action name="fix_playlists"/>
         <Action name="project_clean"/>
 </Menu>
 
@@ -235,6 +241,7 @@
 	</Menu>
 	<Action name="delete_folder"/>
 	<Separator />
+	<Action name="fix_playlists"/>
 	<Action name="project_clean"/>
 </Menu>
 
@@ -296,19 +303,11 @@
 </Menu>
 
 <Menu name="timeline_clip_context">
-  <Menu name="add_transition_menu"><text>Add Transition</text>
-  </Menu>
   <Menu name="transition_menu"><text>Transition</text>
       <Action name="edit_transition"/>
       <Action name="del_transition"/>
   </Menu>
   <Separator />
-  <Menu name="video_effect"><text>Add Video Effect</text>
-  </Menu>
-  <Menu name="audio_effect"><text>Add Audio Effect</text>
-  </Menu>
-  <Menu name="remove_effect"><text>Delete Effect</text>
-  </Menu>
   <Menu name="marker_menu"><text>Marker</text>
       <Action name="add_marker"/>
       <Action name="edit_marker"/>
@@ -331,6 +330,37 @@
   <Separator />
   <Action name="clip_set_duration"/>
   <Action name="project_edit_clip"/>
+</Menu>
+
+<Menu name="timeline_playlist_context">
+	<Menu name="transition_menu"><text>Transition</text>
+		<Action name="edit_transition"/>
+		<Action name="del_transition"/>
+	</Menu>
+	<Separator />
+	<Menu name="marker_menu"><text>Marker</text>
+		<Action name="add_marker"/>
+		<Action name="edit_marker"/>
+		<Action name="delete_marker"/>
+		<Action name="clear_snap_markers_from_selected"/>
+	</Menu>
+	<Separator />
+	<Action name="edit_copy"/>
+	<Action name="edit_cut"/>
+	<Menu name="special_paste"><text>Paste</text>
+		<Action name="paste_effects"/>
+		<Action name="paste_transitions"/>
+	</Menu>
+	<Action name="delete_selected_clips"/>
+	<Action name="razor_selected_clips"/>
+	<Separator />
+	<Action name="split_audio"/>
+	<Action name="extract_audio"/>
+	<Action name="save_subclip"/>
+	<Action name="explode_playlist"/>
+	<Separator />
+	<Action name="clip_set_duration"/>
+	<Action name="project_edit_clip"/>
 </Menu>
 
 <Menu name="monitor_context">
