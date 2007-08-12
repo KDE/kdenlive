@@ -320,81 +320,64 @@ namespace Gui {
 	    }
 	    int tracksCount = 0;
 
+	    QDomNodeList producersList = documentElement.elementsByTagName("producer");
+	    QDomNodeList entriesList = documentElement.elementsByTagName("entry");
+
 	    QDomNode kdenlivedoc = documentElement.elementsByTagName("kdenlivedoc").item(0);
-	    QDomNode n, node;
+	    QDomNode n;
 	    QMap <QString, QString> prods;
 	    QDomElement e, entry;
 
 	    if (!kdenlivedoc.isNull()) n = kdenlivedoc.firstChild();
 	    else n = documentElement.firstChild();
 
-	    while (!n.isNull()) {
-	    	e = n.toElement();
-	    	if (!e.isNull()) {
-		    if (e.tagName() == "producer") {
-		    	kdDebug()<<"// FOPUND A PRODUCER"<<endl;
-		    	// found producer, adding it to the document...
-		    	int cliptype = e.attribute("type", QString::number(-1)).toInt();
-		    	if (cliptype == DocClipBase::COLOR) {
-			    QListViewItem *child = new WestleyListViewItem( item, i18n("Color Clip"));
-			    QPixmap pix = QPixmap(40, 30);
-			    QString col = e.attribute("colour", QString::null);
-        		    col = col.replace(0, 2, "#");
-        		    pix.fill(QColor(col.left(7)));
-			    child->setPixmap(0, pix);
-		    	}
-			else if (cliptype == DocClipBase::AUDIO) {
+	    // sub items thumbnail size
+	    int height = 30;
+	    int width = height * KdenliveSettings::displayratio() + 0.5;
+
+	    int max = producersList.count();
+	    int i;
+	    for (i = 0; i < max; i++)
+	    {
+	        n = producersList.item(i);
+	        e = n.toElement();
+	        if (!e.isNull()) {
+		    // found producer, adding it to the document...
+		    QListViewItem *child = new WestleyListViewItem( item, e, width, height);
+		    int cliptype = e.attribute("type", QString::number(-1)).toInt();
+		    if (cliptype == DocClipBase::PLAYLIST || cliptype == DocClipBase::VIDEO || cliptype == DocClipBase::AV || cliptype == -1) {
 			    KURL resource =  KURL(e.attribute("resource", QString::null));
-			    QListViewItem *child = new WestleyListViewItem(item, resource.fileName());
-		    	}
-			else if (cliptype == DocClipBase::AV || cliptype == DocClipBase::VIDEO) {
-			    KURL resource =  KURL(e.attribute("resource", QString::null));
-			    QListViewItem *child = new WestleyListViewItem(item, resource.fileName());
-			    QPixmap pix = m_document->renderer()->getVideoThumbnail(resource, 1, 40, 30);
+			    QPixmap pix = m_document->renderer()->getVideoThumbnail(resource, 1, width, height);
 			    child->setPixmap(0, pix);
-		    	}
-			else if (cliptype == DocClipBase::PLAYLIST) {
-			     KURL resource =  KURL(e.attribute("resource", QString::null));
-			    QListViewItem *child = new WestleyListViewItem(item, resource.fileName());
-			    QPixmap pix = m_document->renderer()->getVideoThumbnail(resource, 1, 40, 30);
-			    child->setPixmap(0, pix);
-		    	}
-			else if (cliptype == DocClipBase::TEXT) {
-			    QListViewItem *child = new WestleyListViewItem(item, i18n("Text Clip"));
-			    QString resource =  e.attribute("resource", QString::null);
-			    QImage i(resource);
-			    QPixmap pix(40, 30);
-			    pix.convertFromImage(i.smoothScale(40, 30));
-			    child->setPixmap(0, pix);
-		    	}
-			else if (cliptype == DocClipBase::IMAGE) {
-			     KURL resource =  KURL(e.attribute("resource", QString::null));
-			    QListViewItem *child = new WestleyListViewItem(item, resource.fileName());
-			    QImage i(resource.path());
-			    QPixmap pix(40, 30);
-			    pix.convertFromImage(i.smoothScale(40, 30));
-			    child->setPixmap(0, pix);
-		    	}
-			else if (cliptype == DocClipBase::SLIDESHOW) {
-			    QListViewItem *child = new WestleyListViewItem(item, i18n("Slideshow Clip"));
-		    	}
-			else {
-			     KURL resource =  KURL(e.attribute("resource", QString::null));
-			    QListViewItem *child = new WestleyListViewItem(item, resource.fileName());
-			    QPixmap pix = m_document->renderer()->getVideoThumbnail(resource, 1, 40, 30);
-			    child->setPixmap(0, pix);
-			}
-		    	
-/*
-		    	QString resource = e.attribute("resource", QString::null);
-		    	if (!resource.isEmpty()) {
-			    producersList.append(KURL(resource));
-			    prods[e.attribute("id", QString::number(-1))] = resource;
-			    kdDebug()<<"// APPENDING: "<<resource<<endl;
-		    	}*/
 		    }
-	    	}
-	    	n = n.nextSibling();
+	        }
+	    }
+
+	    max = entriesList.count();
+	    for (i = 0; i < max; i++)
+	    {
+	        n = entriesList.item(i);
+	        e = n.toElement();
+	        if (!e.isNull()) {
+			    kdDebug()<<" / / / FOUND PLAYLIST..."<<endl;
+			    int in;
+			    int out;
+
+				    kdDebug()<<" // - - -FOUND ENTRY: "<<e.attribute("producer", QString::null)<<endl;
+				    in = e.attribute("in", QString::number(-1)).toInt();
+				    out = e.attribute("out", QString::number(-1)).toInt();
+				    QString itemId = e.attribute("producer", QString::null);
+				    WestleyListViewItem *it = (WestleyListViewItem *) item->firstChild();
+				    while (it) {
+					if (it->getId() == itemId) break;
+					it = (WestleyListViewItem *) it->nextSibling();
+				    }
+				    if (it) {
+					// insert sub item
+					QListViewItem *subchild = new WestleyListViewItem(it, i18n("Entry"), in, out, m_document->timeCode());
+				    }
+				
+		}
 	    }
     	}
     }

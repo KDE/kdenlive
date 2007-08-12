@@ -18,9 +18,12 @@
 #ifndef WESTLEYLISTVIEWITEM_H
 #define WESTLEYLISTVIEWITEM_H
 
+#include <qdom.h>
 #include <klistview.h>
-#include "baselistviewitem.h"
 
+#include "docclipbase.h"
+#include "baselistviewitem.h"
+#include "timecode.h"
 
 /** Allows folders to be displayed in the project view
   *@author Jean-Baptiste Mardelle
@@ -28,12 +31,24 @@
 
 class WestleyListViewItem:public BaseListViewItem {
   public:
-    WestleyListViewItem(QListViewItem * parent, QString folderName);
-    WestleyListViewItem(QListView * parent, QString folderName);
+    WestleyListViewItem(QListViewItem * parent, QDomElement e, int width, int height);
+    WestleyListViewItem(QListViewItem * parent, QString itemName, int in, int out, Timecode tc);
+    WestleyListViewItem(QListView * parent, QDomElement e, int width, int height);
     ~WestleyListViewItem();
-
+    QString getId() const;
+    bool isPlayListEntry() const;
     virtual QString getInfo() const;
+    DocClipBase::CLIPTYPE getType() const;
 
+  private:
+    void parseItem(int width, int height);
+    QString getComment(Timecode tc) const;
+    QString m_id;
+    int m_in;
+    int m_out;
+    QDomElement m_xml;
+    KURL m_url;
+    DocClipBase::CLIPTYPE m_type;
 };
 
 #endif

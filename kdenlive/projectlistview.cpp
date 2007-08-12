@@ -68,16 +68,16 @@ QString ProjectListView::parentName()
 {
 	QString parentNode;
 	if (!currentItem()) parentNode = m_doc->clipHierarch()->name();
-	
 	else {
-	    BaseListViewItem::ITEMTYPE type = ((BaseListViewItem *) currentItem())->getType();
+	    QListViewItem *item = currentItem();
+	    while (item->depth() > 1) {
+	    BaseListViewItem::ITEMTYPE type = ((BaseListViewItem *) item)->getType();
 	    if (type == BaseListViewItem::FOLDER) {
 	    	//currentItem()->setOpen(true);
 	    	parentNode = currentItem()->text(1);
+		break;
 	    }
-	    else if (currentItem()->parent()) {
-	    	//currentItem()->parent()->setOpen(true);
-	    	parentNode = currentItem()->parent()->text(1);
+	    else item = item->parent();
 	    }
 	}
 	if (parentNode.isEmpty()) parentNode = m_doc->clipHierarch()->name();

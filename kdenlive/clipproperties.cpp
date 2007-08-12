@@ -79,7 +79,7 @@ namespace Gui {
 	    connect(this, SIGNAL(user2Clicked()), this, SLOT(saveDescription()));
 	    connect(clipChoice->edit_description, SIGNAL(textChanged()), this, SLOT(slotEnableSaveDescription()));
 	}
-
+	clipChoice->clipType->setText(DocClipBase::getTypeName(m_clipType));
 	// slideshow stuff
 	if (m_clipType != DocClipBase::SLIDESHOW) {
             clipChoice->ttl_label->hide();
@@ -101,7 +101,6 @@ namespace Gui {
             clipChoice->transparent_bg->hide();
             clipChoice->label_file->hide();
             clipChoice->edit_url->hide();
-            clipChoice->clipType->setText(i18n("Color Clip"));
             clipChoice->clipSize->setText("-");
             clipChoice->clipFps->setText("-");
 	    clipChoice->clipAudio->setText("-");
@@ -116,7 +115,6 @@ namespace Gui {
             clipChoice->button_color->hide();
             clipChoice->label_name->hide();
             clipChoice->edit_name->hide();
-	    clipChoice->clipType->setText(i18n("Image Clip"));
             clipChoice->clipSize->setText(QString::number(refClip->clipWidth())+"x"+QString::number(refClip->clipHeight()));
 	    clipChoice->clipFps->setText("-");
 	    clipChoice->clipAudio->setText("-");
@@ -128,7 +126,6 @@ namespace Gui {
             clipChoice->button_color->hide();
             clipChoice->label_name->hide();
             clipChoice->edit_name->hide();
-	    clipChoice->clipType->setText(i18n("Virtual Clip"));
             clipChoice->clipSize->setText(QString::number(refClip->clipWidth())+"x"+QString::number(refClip->clipHeight()));
 	    clipChoice->clipFps->setText("-");
 	    clipChoice->clipAudio->setText("-");
@@ -152,7 +149,6 @@ namespace Gui {
             clipChoice->button_color->hide();
             clipChoice->label_name->hide();
             clipChoice->edit_name->hide();
-	    clipChoice->clipType->setText(i18n("Slideshow Clip"));
 	    clipChoice->image_ttl->setText(document->timeCode().getTimecode(GenTime(avclip->clipTtl(), KdenliveSettings::defaultfps()), KdenliveSettings::defaultfps()));
 	    clipChoice->transition_ttl->setText(document->timeCode().getTimecode(GenTime(avclip->lumaDuration(), KdenliveSettings::defaultfps()), KdenliveSettings::defaultfps()));
 
@@ -201,7 +197,6 @@ namespace Gui {
 	    }
 	    else clipChoice->clipAudio->setText(i18n("None"));
 	    if (m_clipType == DocClipBase::AUDIO) {
-            	clipChoice->clipType->setText(i18n("Audio Clip"));
 		clipChoice->tab_extra->removePage(clipChoice->tab_extra->page(2));
             }
             else { // Video clip
@@ -213,10 +208,8 @@ namespace Gui {
 		    clipChoice->tab_extra->page(2)->setEnabled(true);
 		    clipChoice->tab_extra->removePage(clipChoice->tab_extra->page(1));
 		    parsePlayList(refClip->fileURL());
-		    clipChoice->clipType->setText(i18n("Playlist Clip"));
 	    	}
 		else {
-		    clipChoice->clipType->setText(i18n("Video Clip"));
 		    clipChoice->tab_extra->removePage(clipChoice->tab_extra->page(2));
 		}
             }

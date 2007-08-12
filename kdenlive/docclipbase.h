@@ -182,6 +182,8 @@ class DocClipBase:public QObject {
     /** format is frame -> channel ->bytes */
     QMap<int,QMap<int,QByteArray> > audioFrameChache;
 
+	/** return english name for clip type */
+    static QString getTypeName(CLIPTYPE type);
 
   private:			// Private attributes
 	/** The name of this clip */

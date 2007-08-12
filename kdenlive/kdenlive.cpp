@@ -3299,7 +3299,7 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 	slotStatusMsg(i18n("Adding Clips"));
         KDialogBase *dia = new KDialogBase(  KDialogBase::Swallow, i18n("Create Color Clip"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "create_clip", true);
 	createColorClip_UI *clipChoice = new createColorClip_UI(dia);
-	clipChoice->edit_name->setText(i18n("Color Clip"));
+	clipChoice->edit_name->setText(DocClipBase::getTypeName(DocClipBase::COLOR));
         clipChoice->edit_duration->setText(KdenliveSettings::colorclipduration());
 	dia->setMainWidget(clipChoice);
 	dia->adjustSize();
