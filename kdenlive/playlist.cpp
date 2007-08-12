@@ -345,7 +345,7 @@ namespace Gui {
 		    		    clip->setCropStartTime(insertTime);
 		    		    clip->setCropDuration(endTime);
 				    clip->setParentTrack(app->getDocument()->track(track), track);
-
+				    baseClip->addReference();
 		    		    startTime+=endTime;
 				    KMacroCommand *macroCommand = new KMacroCommand(i18n("Paste"));
 				    macroCommand->addCommand(Command::KSelectClipCommand::selectNone(app->getDocument()));
@@ -365,6 +365,7 @@ namespace Gui {
 	    n = n.nextSibling();
 	}
 	app->getDocument()->track(track)->checkTrackLength();
+	app->getDocument()->generateProducersList();
 	app->getDocument()->activateSceneListGeneration(true);
 
     }
