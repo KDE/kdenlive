@@ -137,8 +137,10 @@ QMap < QString, QString > transitionWipeWidget::parameters()
     if (use_luma->isChecked()) {
 	QString fname = luma_file->currentText();
 	fname = locate(m_lumaType, fname + ".pgm");
-	paramList["luma"] = fname;
-	paramList["softness"] = QString::number(((double) spin_soft->value()) / 100.0);
+	if (!fname.isEmpty()) {
+	    paramList["luma"] = fname;
+	    paramList["softness"] = QString::number(((double) spin_soft->value()) / 100.0);
+	}
     }
 
     return paramList;
