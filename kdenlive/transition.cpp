@@ -287,6 +287,9 @@ QPixmap Transition::transitionPixmap()
     else if (m_transitionType == COMPOSITE_TRANSITION) {
          return KGlobal::iconLoader()->loadIcon("kdenlive_trans_wiper", KIcon::Small, 15);
     }
+    else if (m_transitionType == LUMAFILE_TRANSITION) {
+         return KGlobal::iconLoader()->loadIcon("kdenlive_trans_luma", KIcon::Small, 15);
+    }
     else return KGlobal::iconLoader()->loadIcon("kdenlive_trans_pip", KIcon::Small, 15);
 }
 

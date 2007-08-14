@@ -16,9 +16,9 @@ kde_icon_KDEICON = hi16-action-kdenlive_add_clip.png \
 	hi16-action-kdenlive_effects.png hi16-action-kdenlive_effectsoff.png hi16-action-kdenlive_guide.png \
 	hi16-action-kdenlive_markdown.png hi16-action-kdenlive_markup.png hi16-action-kdenlive_pause.png \
 	hi16-action-kdenlive_play.png hi16-action-kdenlive_thumbs.png hi16-action-kdenlive_thumbsoff.png \
-	hi16-action-kdenlive_trans_down.png hi16-action-kdenlive_trans_pip.png hi16-action-kdenlive_trans_up.png \
-	hi16-action-kdenlive_trans_wiped.png hi16-action-kdenlive_trans_wipel.png \
-	hi16-action-kdenlive_trans_wiper.png hi16-action-kdenlive_trans_wipeu.png \
-	hi16-action-kdenlive_transitionsoff.png hi22-action-kdenlive_new_clip.png hi22-action-razor_cursor.png \
-	hi22-action-resize_left_cursor.png hi22-action-resize_right_cursor.png hi32-action-hcenter.png \
-	hi32-action-vcenter.png
+	hi16-action-kdenlive_trans_down.png hi16-action-kdenlive_trans_luma.png hi16-action-kdenlive_trans_pip.png \
+	hi16-action-kdenlive_trans_up.png hi16-action-kdenlive_trans_wiped.png \
+	hi16-action-kdenlive_trans_wipel.png hi16-action-kdenlive_trans_wiper.png \
+	hi16-action-kdenlive_trans_wipeu.png hi16-action-kdenlive_transitionsoff.png \
+	hi22-action-kdenlive_new_clip.png hi22-action-razor_cursor.png hi22-action-resize_left_cursor.png \
+	hi22-action-resize_right_cursor.png hi32-action-hcenter.png hi32-action-vcenter.png

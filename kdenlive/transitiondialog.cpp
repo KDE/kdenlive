@@ -65,7 +65,7 @@ namespace Gui {
 
     transitPip = new transitionPipWidget(app, 240,192, propertiesDialog->addVBoxPage(i18n("PIP"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_pip", KIcon::Small, 15)));
 
-    transitLumaFile = new transitionLumaFile_UI(propertiesDialog->addVBoxPage(i18n("Wipe"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_wiper", KIcon::Small, 15)));
+    transitLumaFile = new transitionLumaFile_UI(propertiesDialog->addVBoxPage(i18n("Wipe"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_luma", KIcon::Small, 15)));
     transitLumaFile->lumaView->showToolTips();
     transitLumaFile->lumaView->setGridX(60);
     transitLumaFile->lumaView->setGridY(40);
