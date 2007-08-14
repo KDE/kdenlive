@@ -33,6 +33,7 @@ static void transport( mlt_producer producer, mlt_consumer consumer )
 	int stats = mlt_properties_get_int( MLT_CONSUMER_PROPERTIES( consumer ), "stats_on" );
 	int pos = 0;
 	int currentPos = 0;
+	int totalLength = (int)mlt_producer_get_length( producer );
 	/*struct timespec tm { 0, 40000 };*/
 
 	if ( mlt_properties_get_int( properties, "done" ) == 0 && !mlt_consumer_is_stopped( consumer ) )
@@ -42,7 +43,7 @@ static void transport( mlt_producer producer, mlt_consumer consumer )
 			if ( stats != 0 ) {
 				currentPos = (int)mlt_producer_position( producer );
 				if (currentPos > pos) {
-					fprintf( stderr, "Current Position: %10d\n", currentPos);
+					fprintf( stderr, "Current Frame %10d, percentage: %10d\r", currentPos, (int) 100 * currentPos / totalLength);
 					pos = currentPos;
 				}
 			}

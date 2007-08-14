@@ -1100,7 +1100,6 @@ void exportWidget::receivedStderr(KProcess *, char *buffer, int len)
 {
 	QCString res(buffer, len);
 	QString result = res;
-	kdDebug()<<"// RECEIVED: "<<result<<endl;
 	result = result.simplifyWhiteSpace();
 	result = result.section(" ", -1);
 	int progress = result.toInt(); //(int) (100.0 * result.toInt() / m_duration.frames(KdenliveSettings::defaultfps()));
