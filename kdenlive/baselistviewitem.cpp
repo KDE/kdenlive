@@ -36,3 +36,13 @@ BaseListViewItem::~BaseListViewItem()
 {
 }
 
+
+QString BaseListViewItem::key ( int column, bool ascending ) const
+{
+  if (column == 0) column = 1;
+  QString key = QListViewItem::key(column, ascending);
+  // Hack to make folders appear first in the list
+  if (m_type == FOLDER) key = "000000" + key;
+  return key; 
+} 
+

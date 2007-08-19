@@ -62,15 +62,6 @@ void AVListViewItem::doCommonCtor()
     }
 }
 
-QString AVListViewItem::key ( int column, bool ascending ) const
-{
-  if (column == 0) column = 1;
-  QString key = QListViewItem::key(column, ascending);
-  // Hack to make folders appear first in the list
-  if (!m_node->asClipNode()) key = "000000" + key;
-  return key; 
-} 
-
 void AVListViewItem::paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align)
 {
     if (column == 1 && m_node->asClipNode()) {

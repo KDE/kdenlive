@@ -39,6 +39,7 @@ class BaseListViewItem:public KListViewItem {
     BaseListViewItem::ITEMTYPE getType() const;
 
     virtual QString getInfo() const = 0;
+    virtual QString key ( int , bool ) const;
 
 
   private:
