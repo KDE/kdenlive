@@ -38,6 +38,7 @@ public:
 private:
         QCheckBox       *m_printFullPath;
         QCheckBox       *m_printFilter;
+        QCheckBox       *m_printGray;
 	QComboBox	*m_images;
 
 };

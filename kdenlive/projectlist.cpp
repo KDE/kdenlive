@@ -15,20 +15,19 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kdebug.h>
-#include <klineedit.h>
-#include <klocale.h>
-#include <kiconloader.h>
-#include <kpushbutton.h>
 
 /* This define really should go in projectlist_ui, but qt just puts the classname there at the moment :-( */
 #include <qpushbutton.h>
 #include <qpaintdevicemetrics.h>
 #include <qpainter.h>
-
-#include <qcursor.h>
 #include <qlabel.h>
 
+#include <kdebug.h>
+#include <klineedit.h>
+#include <klocale.h>
+#include <kiconloader.h>
+#include <kpushbutton.h>
+#include <kimageeffect.h>
 
 #include "documentbasenode.h"
 #include "projectlist.h"
@@ -549,7 +548,7 @@ namespace Gui {
 	pl->exec();
     }
 
-    void ProjectList::doPrinting(KPrinter *printer, QPainter *p, uint images, bool fullPath, bool filtered) {
+    void ProjectList::doPrinting(KPrinter *printer, QPainter *p, uint images, bool fullPath, bool grayscale, bool filtered) {
         // We use a QPaintDeviceMetrics to know the actual page size in pixel,
         // this gives the real painting area
 	//p->begin(printer);
@@ -560,6 +559,20 @@ namespace Gui {
         const int Margin = 10;
         int pageNo = 1;
         int indent = 0;
+	int pixmapHeight;
+	switch (images) {
+	    case 1:
+		pixmapHeight = 2 * fm.lineSpacing();
+		break;
+	    case 2:
+		pixmapHeight = 5 * fm.lineSpacing();
+		break;
+	    default:
+		pixmapHeight = 2 * fm.lineSpacing();
+		break;
+	}
+	int pixmapWidth = pixmapHeight * KdenliveSettings::displayratio();
+
 
 	p->drawText( Margin, Margin, metrics.width(), fm.lineSpacing(), ExpandTabs | DontClip, m_document->URL().path() + ", " + i18n("Page %1").arg(pageNo));
 	yPos = 2* fm.lineSpacing();
@@ -592,12 +605,18 @@ namespace Gui {
 		    if (pix.isNull()) pix = baseClip->thumbnail();
 		}
 		else if (images == 2) {
-		    pix = avitem->clip()->extractThumbnail(80 * KdenliveSettings::displayratio(), 80);
+		    pix = avitem->clip()->extractThumbnail(200 * KdenliveSettings::displayratio(), 200);
 		    if (pix.isNull()) pix = baseClip->thumbnail();
 		}
-
+		if (grayscale && !pix.isNull()) {
+		    QImage img = pix.convertToImage();
+		    //pix.convertFromImage(KImageEffect::intensity(KImageEffect::toGray(img), 1));
+		    KImageEffect::toGray(img);
+		    KImageEffect::equalize(img);
+		    pix.convertFromImage(img);
+		}
 		// check if it needs a new page
-		if ( Margin + yPos +  pix.height()> metrics.height() - Margin ) {
+		if ( Margin + yPos +  pixmapHeight> metrics.height() - Margin ) {
 		    printer->newPage();
 		    pageNo++;
 		    p->drawText( Margin, Margin, metrics.width(), fm.lineSpacing(), ExpandTabs | DontClip, m_document->URL().path() + ", " + i18n("Page %1").arg(pageNo));
@@ -609,16 +628,16 @@ namespace Gui {
 		else title = baseClip->fileURL().path();
 		title += " (" + Timecode::getEasyTimecode(baseClip->duration(), KdenliveSettings::defaultfps()) + ")";
 
-		p->drawPixmap(Margin + indent, Margin + yPos, pix);
-		p->drawText( Margin + indent + pix.width() + Margin, Margin + yPos,
+		p->drawPixmap(QRect(Margin + indent, Margin + yPos, pixmapWidth, pixmapHeight), pix);
+		p->drawText( Margin + indent + pixmapWidth + Margin, Margin + yPos,
                             metrics.width(), fm.lineSpacing(),
                             ExpandTabs | DontClip, title);
 		
-		p->drawText( Margin + indent + pix.width() + Margin, Margin + yPos + fm.lineSpacing(),
+		p->drawText( Margin + indent + pixmapWidth + Margin, Margin + yPos + fm.lineSpacing(),
                             metrics.width(), fm.lineSpacing(),
                             ExpandTabs | DontClip,
                             baseClip->description() );
-		yPos = yPos + fm.lineSpacing() + pix.height();
+		yPos = yPos + fm.lineSpacing() + pixmapHeight;
 		
                 }
 		else {

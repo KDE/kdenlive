@@ -4672,8 +4672,9 @@ void KdenliveApp::doPrint(KPrinter *printer)
 	
 	bool printFullPath = (printer->option("kde-kdenlive-fullpath") == "true") ? true : false;
 	bool printFilter = (printer->option("kde-kdenlive-filter") == "true") ? true : false;
+	bool printGray = (printer->option("kde-kdenlive-gray") == "true") ? true : false;
         // do the actual painting job
-        m_projectList->doPrinting(printer, &painter, printer->option("kde-kdenlive-images").toInt(), printFullPath, printFilter);
+        m_projectList->doPrinting(printer, &painter, printer->option("kde-kdenlive-images").toInt(), printFullPath, printGray, printFilter);
 }
 
 }				// namespace Gui

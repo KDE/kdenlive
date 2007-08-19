@@ -43,8 +43,11 @@ PrintSettings::PrintSettings( QWidget *parent, const char *name )
     m_printFullPath = new QCheckBox(i18n("Print full path for clip names"), this);
     lo->addMultiCellWidget( m_printFullPath, 1, 1, 0, 1 );
 
+    m_printGray = new QCheckBox(i18n("Grayscale images"), this);
+    lo->addMultiCellWidget( m_printGray, 2, 2, 0, 1);
+
     m_printFilter = new QCheckBox(i18n("Print filtered clips only"), this);
-    lo->addMultiCellWidget( m_printFilter, 2, 2, 0, 1);
+    lo->addMultiCellWidget( m_printFilter, 3, 3, 0, 1);
 }
 
 void PrintSettings::setOptions(const QMap<QString,QString>& opts)
@@ -64,6 +67,11 @@ void PrintSettings::setOptions(const QMap<QString,QString>& opts)
     if ( ! v.isEmpty() )
 	m_printFilter->setChecked( v == "true" );
 
+    v = opts["kde-kdenlive-gray"];
+    if ( ! v.isEmpty() )
+	m_printGray->setChecked( v == "true" );
+    else m_printGray->setChecked( true );
+
 }
 
 void PrintSettings::getOptions(QMap<QString,QString>& opts, bool )
@@ -71,6 +79,7 @@ void PrintSettings::getOptions(QMap<QString,QString>& opts, bool )
     opts["kde-kdenlive-images"] = QString::number(m_images->currentItem());
     opts["kde-kdenlive-fullpath"] = m_printFullPath->isChecked() ? "true" : "false";
     opts["kde-kdenlive-filter"] = m_printFilter->isChecked() ? "true" : "false";
+    opts["kde-kdenlive-gray"] = m_printGray->isChecked() ? "true" : "false";
 }
 
 bool PrintSettings::isValid(QString& msg)

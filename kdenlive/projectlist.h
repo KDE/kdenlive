@@ -72,7 +72,7 @@ namespace Gui {
 	bool isEmpty();
 	/** Fix broken url in playlist clips */
 	void fixPlaylists();
-	void doPrinting(KPrinter *printer, QPainter *p, uint images, bool fullPath, bool filtered);
+	void doPrinting(KPrinter *printer, QPainter *p, uint images, bool fullPath, bool grayscale, bool filtered);
 
       private:			// Private methods
 	/** Holds the document that this projectlist makes use of. */
