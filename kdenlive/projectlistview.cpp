@@ -70,14 +70,14 @@ QString ProjectListView::parentName()
 	if (!currentItem()) parentNode = m_doc->clipHierarch()->name();
 	else {
 	    QListViewItem *item = currentItem();
-	    while (item->depth() > 1) {
-	    BaseListViewItem::ITEMTYPE type = ((BaseListViewItem *) item)->getType();
-	    if (type == BaseListViewItem::FOLDER) {
-	    	//currentItem()->setOpen(true);
-	    	parentNode = currentItem()->text(1);
-		break;
-	    }
-	    else item = item->parent();
+	    while (item != 0) {
+	    	BaseListViewItem::ITEMTYPE type = ((BaseListViewItem *) item)->getType();
+	    	if (type == BaseListViewItem::FOLDER) {
+	    	    //currentItem()->setOpen(true);
+	    	    parentNode = item->text(1);
+		    break;
+	    	}
+	    	else item = item->parent();
 	    }
 	}
 	if (parentNode.isEmpty()) parentNode = m_doc->clipHierarch()->name();
@@ -167,11 +167,10 @@ void ProjectListView::selectItemsFromIds(QStringList idList)
     }
     if (lastItem) {
 	// if last item is in an opened folder , focus it
-	if (lastItem->depth() == 0) {
+	if (lastItem->depth() == 0 || lastItem->parent()->isOpen()) {
 	    ensureItemVisible(lastItem);	
 	    setCurrentItem(lastItem);
 	}
-	else if (lastItem->parent()->isOpen()) ensureItemVisible(lastItem);
 	else {
 	    clearSelection();
 	    lastItem->parent()->setSelected(true);
