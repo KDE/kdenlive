@@ -99,6 +99,9 @@
             <property name="inputMask">
                 <string>99:99:99:99; </string>
             </property>
+            <property name="toolTip" stdset="0">
+                <string>Duration in hours:minutes:seconds:frames</string>
+            </property>
         </widget>
         <widget class="KRestrictedLine" row="1" column="4" rowspan="1" colspan="2">
             <property name="name">
