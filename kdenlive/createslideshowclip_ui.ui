@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>523</width>
-            <height>326</height>
+            <width>547</width>
+            <height>453</height>
         </rect>
     </property>
     <grid>
@@ -32,7 +32,7 @@
                 <string>Duration per Image</string>
             </property>
         </widget>
-        <widget class="KURLRequester" row="0" column="2" rowspan="1" colspan="5">
+        <widget class="KURLRequester" row="0" column="2" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>url_image</cstring>
             </property>
@@ -45,7 +45,7 @@
                 <string>Image type</string>
             </property>
         </widget>
-        <widget class="KComboBox" row="2" column="2" rowspan="1" colspan="2">
+        <widget class="KComboBox" row="2" column="2">
             <item>
                 <property name="text">
                     <string>png</string>
@@ -70,20 +70,7 @@
                 <cstring>imageType</cstring>
             </property>
         </widget>
-        <widget class="KLineEdit" row="5" column="1" rowspan="1" colspan="6">
-            <property name="name">
-                <cstring>edit_description</cstring>
-            </property>
-        </widget>
-        <widget class="QLabel" row="5" column="0">
-            <property name="name">
-                <cstring>textLabel1_2</cstring>
-            </property>
-            <property name="text">
-                <string>Description</string>
-            </property>
-        </widget>
-        <widget class="QLabel" row="1" column="4">
+        <widget class="QLabel" row="1" column="3">
             <property name="name">
                 <cstring>textLabel4</cstring>
             </property>
@@ -91,7 +78,7 @@
                 <string>Total duration</string>
             </property>
         </widget>
-        <widget class="KRestrictedLine" row="1" column="2" rowspan="1" colspan="2">
+        <widget class="KRestrictedLine" row="1" column="2">
             <property name="name">
                 <cstring>image_ttl</cstring>
             </property>
@@ -113,7 +100,7 @@
                 <string>99:99:99:99; </string>
             </property>
         </widget>
-        <widget class="KRestrictedLine" row="1" column="5" rowspan="1" colspan="2">
+        <widget class="KRestrictedLine" row="1" column="4" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>edit_duration</cstring>
             </property>
@@ -143,14 +130,56 @@
                 <string>No images in slideshow</string>
             </property>
         </widget>
-        <widget class="QGroupBox" row="4" column="3" rowspan="1" colspan="4">
+        <widget class="QCheckBox" row="2" column="3" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>transparentBg</cstring>
+            </property>
+            <property name="text">
+                <string>Transparent background</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="2" column="5">
+            <property name="name">
+                <cstring>loop</cstring>
+            </property>
+            <property name="text">
+                <string>Loop</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="6" column="0">
+            <property name="name">
+                <cstring>textLabel1_2</cstring>
+            </property>
+            <property name="text">
+                <string>Description</string>
+            </property>
+        </widget>
+        <widget class="KLineEdit" row="6" column="1" rowspan="1" colspan="5">
+            <property name="name">
+                <cstring>edit_description</cstring>
+            </property>
+        </widget>
+        <widget class="KListBox" row="4" column="0" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>imageList</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>7</hsizetype>
+                    <vsizetype>3</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+        </widget>
+        <widget class="QGroupBox" row="5" column="0" rowspan="1" colspan="6">
             <property name="name">
                 <cstring>crossfade</cstring>
             </property>
             <property name="sizePolicy">
                 <sizepolicy>
-                    <hsizetype>1</hsizetype>
-                    <vsizetype>5</vsizetype>
+                    <hsizetype>5</hsizetype>
+                    <vsizetype>4</vsizetype>
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                 </sizepolicy>
@@ -201,6 +230,30 @@
                         <string>99:99:99:99; </string>
                     </property>
                 </widget>
+                <widget class="QSlider" row="2" column="1" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>luma_softness</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>7</hsizetype>
+                            <vsizetype>7</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="2" column="0">
+                    <property name="name">
+                        <cstring>textLabel1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Softness</string>
+                    </property>
+                </widget>
                 <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="2">
                     <property name="name">
                         <cstring>luma_selected</cstring>
@@ -209,7 +262,7 @@
                         <string>Use Luma</string>
                     </property>
                 </widget>
-                <widget class="KComboBox" row="2" column="0" rowspan="1" colspan="3">
+                <widget class="KComboBox" row="1" column="2">
                     <property name="name">
                         <cstring>luma_list</cstring>
                     </property>
@@ -228,76 +281,37 @@
                         </size>
                     </property>
                 </widget>
-                <widget class="QSlider" row="3" column="1" rowspan="1" colspan="2">
-                    <property name="name">
-                        <cstring>luma_softness</cstring>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>7</hsizetype>
-                            <vsizetype>7</vsizetype>
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                </widget>
-                <spacer row="4" column="2">
-                    <property name="name">
-                        <cstring>spacer3</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Vertical</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>20</width>
-                            <height>90</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="QLabel" row="3" column="0">
-                    <property name="name">
-                        <cstring>textLabel1</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Softness</string>
-                    </property>
-                </widget>
             </grid>
         </widget>
-        <widget class="KListBox" row="4" column="0" rowspan="1" colspan="3">
+        <widget class="QLabel" row="4" column="3" rowspan="1" colspan="3">
             <property name="name">
-                <cstring>imageList</cstring>
+                <cstring>image_preview</cstring>
             </property>
             <property name="sizePolicy">
                 <sizepolicy>
                     <hsizetype>5</hsizetype>
-                    <vsizetype>7</vsizetype>
+                    <vsizetype>3</vsizetype>
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                 </sizepolicy>
             </property>
-        </widget>
-        <widget class="QCheckBox" row="2" column="4" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>transparentBg</cstring>
+            <property name="minimumSize">
+                <size>
+                    <width>270</width>
+                    <height>0</height>
+                </size>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>270</width>
+                    <height>32767</height>
+                </size>
+            </property>
+            <property name="frameShape">
+                <enum>Box</enum>
             </property>
             <property name="text">
-                <string>Transparent background</string>
-            </property>
-        </widget>
-        <widget class="QCheckBox" row="2" column="6">
-            <property name="name">
-                <cstring>loop</cstring>
-            </property>
-            <property name="text">
-                <string>Loop</string>
+                <string></string>
             </property>
         </widget>
     </grid>
@@ -310,11 +324,11 @@
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>
     <includehint>kcombobox.h</includehint>
+    <includehint>krestrictedline.h</includehint>
+    <includehint>krestrictedline.h</includehint>
     <includehint>klineedit.h</includehint>
-    <includehint>krestrictedline.h</includehint>
-    <includehint>krestrictedline.h</includehint>
+    <includehint>klistbox.h</includehint>
     <includehint>krestrictedline.h</includehint>
     <includehint>kcombobox.h</includehint>
-    <includehint>klistbox.h</includehint>
 </includehints>
 </UI>

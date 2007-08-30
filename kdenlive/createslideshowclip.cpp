@@ -55,6 +55,8 @@ namespace Gui {
 	connect(clipChoice->url_image, SIGNAL(textChanged (const QString &)), this, SLOT(updateList()));
 	connect(clipChoice->imageType, SIGNAL(activated (int)), this, SLOT(updateList()));
 	connect(clipChoice->image_ttl, SIGNAL(textChanged(const QString &)), this, SLOT(updateDuration()));
+	connect(clipChoice->imageList, SIGNAL(currentChanged ( QListBoxItem * )), this, SLOT(updateThumb(QListBoxItem * )));
+
 	updateList();
 	updateDuration();
     }
@@ -152,8 +154,8 @@ namespace Gui {
         for ( it = more.begin() ; it != more.end() ; ++it )
             if ((*it).endsWith("." + selectedExtension(), FALSE)) {
 		m_imageCount++;
-		QPixmap p = QImage(selectedFolder() + "/" + (*it)).smoothScale(40 * KdenliveSettings::displayratio(), 40);
-		clipChoice->imageList->insertItem(p, (*it));
+		/*QPixmap p = QImage(selectedFolder() + "/" + (*it)).smoothScale(40 * KdenliveSettings::displayratio(), 40);*/
+		clipChoice->imageList->insertItem((*it));
 	    }
 
 	updateDuration();
@@ -162,6 +164,13 @@ namespace Gui {
 
 	if (m_imageCount == 0) enableButtonOK(false);
 	else enableButtonOK(true);
+    }
+
+    void createSlideshowClip::updateThumb(QListBoxItem *item)
+    {
+	QString path = selectedFolder() + "/" + item->text();
+	QPixmap p = QImage(path).smoothScale(clipChoice->image_preview->width(), clipChoice->image_preview->width() / KdenliveSettings::displayratio());
+	clipChoice->image_preview->setPixmap(p);
     }
 
 } // namespace Gui

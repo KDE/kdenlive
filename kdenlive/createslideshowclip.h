@@ -63,6 +63,7 @@ namespace Gui {
       private slots:
 	void updateList();
 	void updateDuration();
+	void updateThumb(QListBoxItem *item);
     };
 
 }				// namespace Gui
