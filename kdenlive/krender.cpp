@@ -1218,6 +1218,7 @@ void KRender::mltChangeTrackState(int track, bool mute, bool blind)
     }
     tractor.multitrack()->refresh();
     tractor.refresh();
+    refresh();
 }
 
 void KRender::mltResizeClipStart(int track, GenTime pos, GenTime moveEnd, GenTime moveStart, GenTime in, GenTime out)
