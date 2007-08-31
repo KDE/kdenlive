@@ -26,6 +26,7 @@
 #include "klocale.h"
 
 #include "kdenlivedoc.h"
+#include "docclipproject.h"
 #include "kdenlivesettings.h"
 #include "trackviewbackgrounddecorator.h"
 #include "trackviewmarkerdecorator.h"
@@ -87,7 +88,8 @@ namespace Gui {
     {
         m_mute = !m_mute;
         document()->track(documentTrackIndex())->mute(m_mute);
-        document()->activateSceneListGeneration(true);
+	document()->renderer()->mltChangeTrackState(document()->projectClip().playlistTrackNum(documentTrackIndex()), m_mute, true);
+        //document()->activateSceneListGeneration(true);
     }
     
     

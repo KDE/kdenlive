@@ -101,14 +101,16 @@ namespace Gui {
     {
         m_mute = !m_mute;
         document()->track(documentTrackIndex())->mute(m_mute);
-        document()->activateSceneListGeneration(true);
+	document()->renderer()->mltChangeTrackState(document()->projectClip().playlistTrackNum(documentTrackIndex()), m_mute, m_blind);
+        //document()->activateSceneListGeneration(true);
     }
     
     void KMMTrackVideoPanel::blindTrack()
     {
         m_blind = !m_blind;
         document()->track(documentTrackIndex())->blind(m_blind);
-        document()->activateSceneListGeneration(true);
+	document()->renderer()->mltChangeTrackState(document()->projectClip().playlistTrackNum(documentTrackIndex()), m_mute, m_blind);
+        //document()->activateSceneListGeneration(true);
     }
 
     void KMMTrackVideoPanel::resizeTrack() {

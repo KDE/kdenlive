@@ -22,13 +22,13 @@
  *                                                                         *
  ***************************************************************************/
 
+// ffmpeg Header files
+
 extern "C" {
 #include <ffmpeg/avformat.h>
 }
 
 #include <iostream>
-
-// ffmpeg Header files
 
 #include <mlt++/Mlt.h>
 
@@ -177,6 +177,7 @@ void KRender::createVideoXWindow(WId winid, WId externalMonitor)
     m_mltConsumer->set("frequency", 48000);
 
     m_mltConsumer->listen("consumer-frame-show", this, (mlt_listener) consumer_frame_show);
+
 //  m_mltConsumer->listen("consumer-stopped", this, (mlt_listener) consumer_stopped);
 //  m_mltConsumer->set("buffer", 25);
 }
@@ -387,7 +388,7 @@ double KRender::consumerRatio() const
 
 int KRender::getLength()
 {
-    if (m_mltProducer) return m_mltProducer->get_length();
+    if (m_mltProducer) return mlt_producer_get_playtime(m_mltProducer->get_producer());
     return 0;
 }
 
@@ -532,6 +533,7 @@ void KRender::setSceneList(QDomDocument list, int position)
 
     if (m_mltProducer) {
 	m_mltProducer->set_speed(0.0);
+
 	if (KdenliveSettings::osdtimecode() && m_osdInfo) m_mltProducer->detach(*m_osdInfo);
 	//mlt_producer_clear(m_mltProducer->get_producer());
 	delete m_mltProducer;
@@ -573,7 +575,7 @@ void KRender::setSceneList(QDomDocument list, int position)
 
 	m_connectTimer->start(100, TRUE);
 	m_generateScenelist = false;
-    
+  
 }
 
 
@@ -959,6 +961,378 @@ void KRender::exportCurrentFrame(KURL url, bool notify) {
     }
     pix.save(url.path(), "PNG");
     QApplication::postEvent(qApp->mainWidget(), new UrlEvent(url, 10003));
+}
+
+/**	MLT PLAYLIST DIRECT MANIPULATON		**/
+
+
+void KRender::mltInsertClip(int track, int position, QString resource)
+{
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    if (service.type() == playlist_type) kdDebug()<<"// PLAYLIST TYPE"<<endl;
+    if (service.type() == tractor_type) kdDebug()<<"// TRACOT TYPE"<<endl;
+    if (service.type() == multitrack_type) kdDebug()<<"// MULTITRACK TYPE"<<endl;
+    if (service.type() == producer_type) kdDebug()<<"// PROD TYPE"<<endl;
+
+    Mlt::Tractor tractor(service);
+    kdDebug()<<"/ / / / TRACTOR: "<<tractor.count()<<endl;
+    Mlt::Producer trackProducer(tractor.track(track));
+    Mlt::Playlist trackPlaylist(( mlt_playlist ) trackProducer.get_service());
+    char *tmp = decodedString(resource);
+    Mlt::Producer *prod = new Mlt::Producer(tmp);
+    delete[] tmp;
+    trackPlaylist.insert_at(position, prod, 1);
+    double duration = Mlt::Producer(trackPlaylist.get_producer()).get_playtime();
+    kdDebug()<<"// +  +INSERTING CLIP: "<<resource<<" AT: "<<position<<" on track: "<<track<<", DURATION: "<<duration<<endl;
+    tractor.multitrack()->refresh();
+    tractor.refresh();
+    int length = (int) mlt_producer_get_playtime(tractor.get_producer());
+    m_mltProducer->set("out", length);
+}
+
+void KRender::mltCutClip(int track, GenTime position)
+{
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    if (service.type() == playlist_type) kdDebug()<<"// PLAYLIST TYPE"<<endl;
+    if (service.type() == tractor_type) kdDebug()<<"// TRACOT TYPE"<<endl;
+    if (service.type() == multitrack_type) kdDebug()<<"// MULTITRACK TYPE"<<endl;
+    if (service.type() == producer_type) kdDebug()<<"// PROD TYPE"<<endl;
+
+    Mlt::Tractor tractor(service);
+    Mlt::Producer trackProducer(tractor.track(track));
+    Mlt::Playlist trackPlaylist(( mlt_playlist ) trackProducer.get_service());
+    trackPlaylist.split_at(position.frames(m_fps));
+    trackPlaylist.consolidate_blanks(0);
+    kdDebug()<<"/ / / /CUTTING CLIP AT: "<<position.frames(m_fps)<<endl;
+}
+
+void KRender::mltRemoveClip(int track, GenTime position)
+{
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    if (service.type() == playlist_type) kdDebug()<<"// PLAYLIST TYPE"<<endl;
+    if (service.type() == tractor_type) kdDebug()<<"// TRACOT TYPE"<<endl;
+    if (service.type() == multitrack_type) kdDebug()<<"// MULTITRACK TYPE"<<endl;
+    if (service.type() == producer_type) kdDebug()<<"// PROD TYPE"<<endl;
+
+    Mlt::Tractor tractor(service);
+    Mlt::Producer trackProducer(tractor.track(track));
+    Mlt::Playlist trackPlaylist(( mlt_playlist ) trackProducer.get_service());
+    int clipIndex = trackPlaylist.get_clip_index_at(position.frames(m_fps));
+    //trackPlaylist.remove(clipIndex);
+    trackPlaylist.replace_with_blank(clipIndex);
+    trackPlaylist.consolidate_blanks(0);
+}
+
+void KRender::mltRemoveEffect(int track, GenTime position, QString id, QString tag, int index)
+{
+    Mlt::Service service(m_mltProducer->parent().get_service());
+
+    Mlt::Tractor tractor(service);
+    Mlt::Producer trackProducer(tractor.track(track));
+    Mlt::Playlist trackPlaylist(( mlt_playlist ) trackProducer.get_service());
+    //int clipIndex = trackPlaylist.get_clip_index_at(position.frames(m_fps));
+    Mlt::Producer *clip = trackPlaylist.get_clip_at(position.frames(m_fps));
+    if (!clip) {
+	kdDebug()<<" / / / CANNOT FIND CLIP TO REMOVE EFFECT"<<endl;
+	return;
+    }
+    Mlt::Service clipService(clip->get_service());
+
+    if (tag.startsWith("ladspa")) tag = "ladspa";
+
+    if (index == -1) {
+	int ct = 0;
+	Mlt::Filter *filter = clipService.filter( ct );
+	while (filter) {
+	    if (filter->get("mlt_service") == tag && filter->get("kdenlive_id") == id) {
+		clipService.detach(*filter);
+		kdDebug()<<" / / / DLEETED EFFECT: "<<ct<<endl;
+	    }
+	    filter = clipService.filter( ct );
+	}
+    }
+    else {
+        Mlt::Filter *filter = clipService.filter( index );
+        if (filter && filter->get("mlt_service") == tag && filter->get("kdenlive_id") == id) clipService.detach(*filter);
+        else {
+	    kdDebug()<<"WARINIG, FILTER "<<id<<" NOT FOUND!!!!!"<<endl;
+        }
+    }
+    refresh();
+}
+
+
+void KRender::mltAddEffect(int track, GenTime position, QString id, QString tag, QMap <QString, QString> args)
+{
+    Mlt::Service service(m_mltProducer->parent().get_service());
+
+    Mlt::Tractor tractor(service);
+    Mlt::Producer trackProducer(tractor.track(track));
+    Mlt::Playlist trackPlaylist(( mlt_playlist ) trackProducer.get_service());
+
+    Mlt::Producer *clip = trackPlaylist.get_clip_at(position.frames(m_fps));
+    Mlt::Service clipService(clip->get_service());
+
+    // create filter
+    kdDebug()<<" / / INSERTING EFFECT: "<<id<<endl;
+    if (tag.startsWith("ladspa")) tag = "ladspa";
+    char *filterId = decodedString(tag);
+    Mlt::Filter *filter = new Mlt::Filter(filterId);
+
+    QMap<QString, QString>::Iterator it;
+    QString keyFrameNumber = "#0";
+
+    for ( it = args.begin(); it != args.end(); ++it ) {
+    kdDebug()<<" / / INSERTING EFFECT ARGS: "<<it.key()<<": "<<it.data()<<endl;
+	QString key;
+	QString currentKeyFrameNumber;
+	if (it.key().startsWith("#")) {
+	    currentKeyFrameNumber = it.key().section(":", 0, 0);
+	    if (currentKeyFrameNumber != keyFrameNumber) {
+    		// attach filter to the clip
+		clipService.attach(*filter);
+	        filter = new Mlt::Filter(filterId);
+		keyFrameNumber = currentKeyFrameNumber;
+	    }
+	    key = it.key().section(":", 1);
+	}
+	else key = it.key();
+        char *name = decodedString(key);
+        char *value = decodedString(it.data());
+        filter->set(name, value);
+	filter->set("kdenlive_id", id);
+	delete[] name;
+	delete[] value;
+    }
+    // attach filter to the clip
+    clipService.attach(*filter);
+    delete[] filterId;
+    refresh();
+
+}
+
+void KRender::mltEditEffect(int track, GenTime position, int index, QString id, QString tag, QMap <QString, QString> args)
+{
+    QMap<QString, QString>::Iterator it = args.begin();
+    if (it.key().startsWith("#") || tag.startsWith("ladspa") || tag == "sox") {
+	// This is a keyframe effect, to edit it, we remove it and re-add it.
+	mltRemoveEffect(track, position, id, tag, -1);
+	mltAddEffect(track, position, id, tag, args);
+	return;
+    }
+
+    // create filter
+    Mlt::Service service(m_mltProducer->parent().get_service());
+
+    Mlt::Tractor tractor(service);
+    Mlt::Producer trackProducer(tractor.track(track));
+    Mlt::Playlist trackPlaylist(( mlt_playlist ) trackProducer.get_service());
+    //int clipIndex = trackPlaylist.get_clip_index_at(position.frames(m_fps));
+    Mlt::Producer *clip = trackPlaylist.get_clip_at(position.frames(m_fps));
+    Mlt::Service clipService(clip->get_service());
+    Mlt::Filter *filter = clipService.filter( index );
+
+
+    if (!filter || filter->get("mlt_service") != tag) {
+	kdDebug()<<"WARINIG, FILTER NOT FOUND!!!!!"<<endl;
+	int index = 0;
+	filter = clipService.filter( index );
+	while (filter) {
+	    if (filter->get("mlt_service") == tag && filter->get("kdenlive_id") == id) break;
+	    index++;
+	    filter = clipService.filter( index );
+	}
+    }
+    if (!filter) {
+	kdDebug()<<"WARINIG, FILTER "<<id<<" NOT FOUND!!!!!"<<endl;
+	return;
+    }
+
+    for ( it = args.begin(); it != args.end(); ++it ) {
+    kdDebug()<<" / / INSERTING EFFECT ARGS: "<<it.key()<<": "<<it.data()<<endl;
+        char *name = decodedString(it.key());
+        char *value = decodedString(it.data());
+        filter->set(name, value);
+	delete[] name;
+	delete[] value;
+    }
+    refresh();
+}
+
+void KRender::mltResizeClipEnd(int track, GenTime pos, GenTime in, GenTime out)
+{
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    if (service.type() == playlist_type) kdDebug()<<"// PLAYLIST TYPE"<<endl;
+    if (service.type() == tractor_type) kdDebug()<<"// TRACOT TYPE"<<endl;
+    if (service.type() == multitrack_type) kdDebug()<<"// MULTITRACK TYPE"<<endl;
+    if (service.type() == producer_type) kdDebug()<<"// PROD TYPE"<<endl;
+
+    Mlt::Tractor tractor(service);
+    Mlt::Producer trackProducer(tractor.track(track));
+    Mlt::Playlist trackPlaylist(( mlt_playlist ) trackProducer.get_service());
+    int clipIndex = trackPlaylist.get_clip_index_at(pos.frames(m_fps) + 1);
+
+    int previousDuration = trackPlaylist.clip_length(clipIndex);
+    int newDuration = out.frames(m_fps);
+
+    kdDebug()<<" ** RESIZING CLIP END:" << clipIndex << " on track:"<< track <<", mid pos: "<<pos.frames(25)<<", in: "<<in.frames(25)<<", out: "<<out.frames(25)<<", PREVIOUS duration: "<<previousDuration<<endl;
+    trackPlaylist.resize_clip(clipIndex, in.frames(m_fps), newDuration);
+    trackPlaylist.consolidate_blanks(0);
+    if (previousDuration < newDuration) {
+	// clip was made longer, trim next blank if there is one.
+	if (trackPlaylist.is_blank(clipIndex + 1)) {
+	    trackPlaylist.split(clipIndex + 1, newDuration - previousDuration);
+	    trackPlaylist.remove(clipIndex + 1);
+	}
+    }
+    else trackPlaylist.insert_blank(clipIndex + 1, previousDuration - newDuration);
+
+    trackPlaylist.consolidate_blanks(0);
+    tractor.multitrack()->refresh();
+    tractor.refresh();
+    int length = (int) mlt_producer_get_playtime(tractor.get_producer());
+    kdDebug()<<"// LENGT AFTER RESIZE: "<<length<<endl;
+    m_mltProducer->set("out", length);
+}
+
+void KRender::mltChangeTrackState(int track, bool mute, bool blind)
+{
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    if (service.type() == playlist_type) kdDebug()<<"// PLAYLIST TYPE"<<endl;
+    if (service.type() == tractor_type) kdDebug()<<"// TRACOT TYPE"<<endl;
+    if (service.type() == multitrack_type) kdDebug()<<"// MULTITRACK TYPE"<<endl;
+    if (service.type() == producer_type) kdDebug()<<"// PROD TYPE"<<endl;
+
+    Mlt::Tractor tractor(service);
+    Mlt::Producer trackProducer(tractor.track(track));
+    Mlt::Playlist trackPlaylist(( mlt_playlist ) trackProducer.get_service());
+    if (mute) {
+	if (blind) trackProducer.set("hide", 3);
+	else trackProducer.set("hide", 2);
+    }
+    else if (blind) {
+	trackProducer.set("hide", 1);
+    }
+    else {
+	trackProducer.set("hide", 0);
+    }
+    tractor.multitrack()->refresh();
+    tractor.refresh();
+}
+
+void KRender::mltResizeClipStart(int track, GenTime pos, GenTime moveEnd, GenTime moveStart, GenTime in, GenTime out)
+{
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    if (service.type() == playlist_type) kdDebug()<<"// PLAYLIST TYPE"<<endl;
+    if (service.type() == tractor_type) kdDebug()<<"// TRACOT TYPE"<<endl;
+    if (service.type() == multitrack_type) kdDebug()<<"// MULTITRACK TYPE"<<endl;
+    if (service.type() == producer_type) kdDebug()<<"// PROD TYPE"<<endl;
+
+    int moveFrame = (moveEnd - moveStart).frames(m_fps);
+
+    Mlt::Tractor tractor(service);
+    Mlt::Producer trackProducer(tractor.track(track));
+    Mlt::Playlist trackPlaylist(( mlt_playlist ) trackProducer.get_service());
+    int clipIndex = trackPlaylist.get_clip_index_at(pos.frames(m_fps) - 1);
+    kdDebug()<<" ** RESIZING CLIP START:" << clipIndex << " on track:"<< track <<", mid pos: "<<pos.frames(25)<<", moving: "<<moveFrame<<", in: "<<in.frames(25)<<", out: "<<out.frames(25)<<endl;
+
+    trackPlaylist.resize_clip(clipIndex, in.frames(m_fps), out.frames(m_fps));
+    if (moveFrame > 0) trackPlaylist.insert_blank(clipIndex, moveFrame);
+    else {
+	int midpos = moveStart.frames(m_fps) + (moveFrame / 2);
+	int blankIndex = trackPlaylist.get_clip_index_at(midpos);
+	int blankLength = trackPlaylist.clip_length(blankIndex);
+	kdDebug()<<" + resizing blank: "<<blankIndex<<", Mid: "<<midpos<<", Length: "<<blankLength<< ", SIZE DIFF: "<<moveFrame<<endl;
+	trackPlaylist.resize_clip(blankIndex, 0, blankLength + moveFrame);
+    }
+    trackPlaylist.consolidate_blanks(0);
+}
+
+void KRender::mltMoveClip(int startTrack, int endTrack, GenTime moveStart, GenTime moveEnd)
+{
+    mltMoveClip(startTrack, endTrack, (int) moveStart.frames(m_fps), (int) moveEnd.frames(m_fps));
+}
+
+void KRender::mltMoveClip(int startTrack, int endTrack, int moveStart, int moveEnd)
+{
+    Mlt::Service service(m_mltProducer->parent().get_service());
+    if (service.type() == playlist_type) kdDebug()<<"// PLAYLIST TYPE"<<endl;
+    if (service.type() == tractor_type) kdDebug()<<"// TRACOT TYPE"<<endl;
+    if (service.type() == multitrack_type) kdDebug()<<"// MULTITRACK TYPE"<<endl;
+    if (service.type() == producer_type) kdDebug()<<"// PROD TYPE"<<endl;
+
+    Mlt::Tractor tractor(service);
+    Mlt::Producer trackProducer(tractor.track(startTrack));
+    Mlt::Playlist trackPlaylist(( mlt_playlist ) trackProducer.get_service());
+    int clipIndex = trackPlaylist.get_clip_index_at(moveStart + 1);
+
+    kdDebug()<<"// Playtime for start track : "<<startTrack<<" is: "<<mlt_producer_get_playtime(trackPlaylist.get_producer())<<endl;
+
+    Mlt::Producer clipProducer(trackPlaylist.replace_with_blank(clipIndex));
+    trackPlaylist.consolidate_blanks(1);
+    if (endTrack == startTrack) {
+	kdDebug()<<" / / / moving clip from: "<<moveStart<<" to: "<<moveEnd<<endl;
+	trackPlaylist.insert_at(moveEnd, clipProducer, 1);
+	trackPlaylist.consolidate_blanks(0);
+    }
+    else {
+	Mlt::Producer destTrackProducer(tractor.track(endTrack));
+	Mlt::Playlist destTrackPlaylist(( mlt_playlist ) destTrackProducer.get_service());
+	destTrackPlaylist.consolidate_blanks(1);
+	destTrackPlaylist.insert_at(moveEnd, clipProducer, 1);
+	destTrackPlaylist.consolidate_blanks(0);
+    }
+
+    /*
+    Mlt::Field *field = tractor.field();
+    Mlt::Service service2(m_mltProducer->get_service());
+    //Mlt::Service service2(mlt_service_get_producer(tractor.field()->get_service()));
+
+    kdDebug()<<"--------------------------------- FIELD TYPE IS: "<<service2.get("resource")<<endl;
+    if (service2.type() == playlist_type) kdDebug()<<"// PLAYLIST TYPE"<<endl;
+    else if (service2.type() == tractor_type) kdDebug()<<"// TRACTOR TYPE"<<endl;
+    else if (service2.type() == multitrack_type) kdDebug()<<"// MULTITRACK TYPE"<<endl;
+    else if (service2.type() == producer_type) kdDebug()<<"// PROD TYPE"<<endl;
+    else if (service2.type() == transition_type) kdDebug()<<"//WELL DONE,  TRANSITION TYPE"<<endl;
+    else kdDebug()<<"//UNKNOWN SERVICE..."<<endl;
+    kdDebug()<<"-------------------------------------------------------- "<<endl;
+
+    Mlt::Producer prod2(service2);
+    //Mlt::Service service4(mlt_producer_service(prod2.get_parent()));
+    mlt_field fld = mlt_tractor_field((mlt_tractor) mlt_producer_service(prod2.get_parent()));
+    //Mlt::Field field2 = tractor.field();
+    
+    Mlt::Service *service4 = new Mlt::Service(mlt_field_service(fld));
+    while (service4 && service4->type() == producer_type) service4 = new Mlt::Service (mlt_service_get_producer(service4->get_service()));
+
+
+    mlt_field fld2 = mlt_tractor_field((mlt_tractor) service4);
+
+    Mlt::Service *service3 = new Mlt::Service(mlt_field_service(fld2));
+
+	
+    if (service3) 
+    {
+
+    //kdDebug()<<"--------------------------------- FIELD SERICE TYPE IS: "<<service3->get("resource")<<endl;
+    if (service3->type() == playlist_type) kdDebug()<<"// PLAYLIST TYPE"<<endl;
+    else if (service3->type() == tractor_type) kdDebug()<<"// TRACTOR TYPE"<<endl;
+    else if (service3->type() == multitrack_type) kdDebug()<<"// MULTITRACK TYPE"<<endl;
+    else if (service3->type() == producer_type) kdDebug()<<"// PROD TYPE"<<endl;
+    else if (service3->type() == transition_type) kdDebug()<<"//WELL DONE,  TRANSITION TYPE"<<endl;
+    else if (service3->type() == filter_type) kdDebug()<<"// FILTER TYPE"<<endl;
+    else if (service3->type() == unknown_type) kdDebug()<<"// UNKNWN TYPE"<<endl;
+    else kdDebug()<<"//UNKNOWN SERVICE..."<<endl;
+    kdDebug()<<"-------------------------------------------------------- "<<endl;
+
+    }*/
+
+    tractor.multitrack()->refresh();
+    tractor.refresh();
+
+    int length = (int) mlt_producer_get_playtime(tractor.get_producer());
+    m_mltProducer->set("out", length);
+
 }
 
 

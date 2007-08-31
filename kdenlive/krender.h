@@ -55,6 +55,8 @@ namespace Mlt {
     class Frame;
     class Producer;
     class Filter;
+
+    class Multitrack;
 };
 
 
@@ -138,7 +140,6 @@ class KRender:public QObject {
 	/** Returns the speed at which the renderer is currently playing, 0.0 if the renderer is
 	not playing anything. */
     double playSpeed();
-
 	/** Returns the current seek position of the renderer. */
     const GenTime & seekPosition() const;
 
@@ -160,6 +161,19 @@ class KRender:public QObject {
     QDomDocument sceneList() const;
     int resetRendererProfile(char * profile);
     bool isBlocked;
+
+    /** Playlist manipulation */
+    void mltInsertClip(int track, int position, QString resource);
+    void mltCutClip(int track, GenTime position);
+    void mltResizeClipEnd(int track, GenTime pos, GenTime in, GenTime out);
+    void mltResizeClipStart(int track, GenTime pos, GenTime moveEnd, GenTime moveStart, GenTime in, GenTime out);
+    void mltMoveClip(int startTrack, int endTrack, GenTime pos, GenTime moveStart);
+    void mltMoveClip(int startTrack, int endTrack, int pos, int moveStart);
+    void mltRemoveClip(int track, GenTime position);
+    void mltRemoveEffect(int track, GenTime position, QString id, QString tag, int index);
+    void mltAddEffect(int track, GenTime position, QString id, QString tag, QMap <QString, QString> args);
+    void mltEditEffect(int track, GenTime position, int index, QString id, QString tag, QMap <QString, QString> args);
+    void mltChangeTrackState(int track, bool mute, bool blind);
  
   private:			// Private attributes & methods
 	/** The name of this renderer - useful to identify the renderes by what they do - e.g. background rendering, workspace monitor, etc... */
