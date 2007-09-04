@@ -3206,22 +3206,16 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 
 
     void KdenliveApp::slotProjectRenameFolder(QString message) {
-	if (m_projectList->currentClip()) return;
+        if (!m_projectList->currentItemIsFolder()) return;
 	QString currentFolderName = m_projectList->currentItemName();
 	QString folderName = KInputDialog::getText(i18n("Rename Folder"), message + i18n("Enter new folder name: "), currentFolderName);
 	if (folderName.isEmpty()) return;
 	// check folder name doesn't exist
-        /*QListViewItemIterator it( m_projectList->m_listView );
-        while ( it.current() ) {
-            if (it.current()->text(1) == folderName && (!static_cast<AVListViewItem *>(it.current())->clip())) {
-		slotProjectRenameFolder(i18n("Folder %1 already exists\n").arg(folderName));
-		return;
-	    }
-            ++it;
-        }*/
-
-	DocumentGroupNode *folder = getDocument()->findClipNode(currentFolderName)->asGroupNode();
-	folder->rename(folderName);
+	if (m_projectList->renameFolder(folderName)) {
+	    DocumentGroupNode *folder = getDocument()->findClipNode(currentFolderName)->asGroupNode();
+	    folder->rename(folderName);
+	}
+	else slotProjectRenameFolder(i18n("Folder %1 already exists\n").arg(folderName));
     }
 
     void KdenliveApp::slotProjectDeleteFolder() {
@@ -3527,7 +3521,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                     QPixmap thumb = txtWidget->thumbnail(getDocument()->thumbSize());
                     QDomDocument xml = txtWidget->toXml();
                     Command::KEditClipCommand(*m_doc, refClip, duration, txtWidget->titleName->text(), clip->description(), xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked());
-
+		    m_projectList->refreshCurrentSelection();
 		    if (refClip->numReferences() > 0) getDocument()->activateSceneListGeneration(true);
             	}
 		delete txtWidget;
@@ -3549,17 +3543,20 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 			if (duration > GenTime(MAXFRAMEDURATION, getDocument()->framesPerSecond())) duration = GenTime(MAXFRAMEDURATION, getDocument()->framesPerSecond());
                         Command::KEditClipCommand(*m_doc, refClip, dia->color(),
                                 duration, dia->name(), dia->description());
+			m_projectList->refreshCurrentSelection();
                     }
                     else if (refClip->clipType() == DocClipBase::IMAGE) {
 			QString url = dia->url();
 			if (duration > GenTime(MAXFRAMEDURATION, getDocument()->framesPerSecond())) duration = GenTime(MAXFRAMEDURATION, getDocument()->framesPerSecond());
                         Command::KEditClipCommand(*m_doc, refClip, url, duration, dia->description(), dia->transparency());
+			m_projectList->refreshCurrentSelection();
 		    }
 		    else if (refClip->clipType() == DocClipBase::SLIDESHOW) {
 			QString lumaFile = m_transitionPanel->getLumaFilePath(dia->lumaFile());
 			QString url = dia->url() + "/.all." + dia->extension();
 			if (duration > GenTime(MAXFRAMEDURATION, getDocument()->framesPerSecond())) duration = GenTime(MAXFRAMEDURATION, getDocument()->framesPerSecond());
                         Command::KEditClipCommand(*m_doc, refClip, url, "",dia->ttl(), dia->crossfading(), lumaFile, dia->lumaSoftness(), dia->lumaDuration(), duration, dia->description(), dia->transparency());
+			m_projectList->refreshCurrentSelection();
                     }
                     else { // Video clip
                         Command::KEditClipCommand(*m_doc, refClip, dia->url(),dia->description());
@@ -4202,12 +4199,16 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	DocumentBaseNode *parentNode;
 	// find folder on which the item was dropped
 	if (parent) {
-		BaseListViewItem::ITEMTYPE type = ((BaseListViewItem *) parent)->getType();
-	        if (type == BaseListViewItem::FOLDER) {
-			parentNode = getDocument()->findClipNode(parent->text(1));
-		}
-		else if (parent->parent() && ((BaseListViewItem *) parent->parent())->getType() == BaseListViewItem::FOLDER) { 
-			parentNode = getDocument()->findClipNode(parent->parent()->text(1));
+		BaseListViewItem::ITEMTYPE type = BaseListViewItem::CLIP;
+		while (parent) {
+		    type = ((BaseListViewItem *) parent)->getType();
+            	    if (type == BaseListViewItem::FOLDER) {
+			break;
+		    }
+		    else parent = parent->parent();
+		} 
+		if (parent) {
+		    parentNode = getDocument()->findClipNode(parent->text(1));
 		}
 		else parentNode = getDocument()->clipHierarch();
 	}
@@ -4215,7 +4216,7 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 
 	// reparent the item
 	while (itt.current()) {
-	    DocumentBaseNode *node = m_doc->findClipNode(itt.current()->name());
+	    DocumentBaseNode *node = m_doc->findClipNodeById(itt.current()->referencedClip()->getId());
 	    if (node->hasParent() && node->parent()->name() != parentNode->name()) {
 		DocumentBaseNode *oldParentNode = node->parent();
 		oldParentNode->removeChild(node);
@@ -4241,9 +4242,15 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	QPtrListIterator < DocClipRef > itt(clips);
 	DocumentBaseNode *parentNode;
 	if (parent) {
-		if (parent->pixmap(0) == 0) parentNode = getDocument()->findClipNode(parent->text(1));
-		else if (parent->parent() && parent->parent()->pixmap(0) == 0) 
-			parentNode = getDocument()->findClipNode(parent->parent()->text(1));
+		BaseListViewItem::ITEMTYPE type = BaseListViewItem::CLIP;
+		while (parent) {
+		    type = ((BaseListViewItem *) parent)->getType();
+            	    if (type == BaseListViewItem::FOLDER) {
+			break;
+		    }
+		    else parent = parent->parent();
+		} 
+		if (parent) parentNode = getDocument()->findClipNode(parent->text(1));
 		else parentNode = getDocument()->clipHierarch();
 	}
 	else parentNode = getDocument()->clipHierarch();

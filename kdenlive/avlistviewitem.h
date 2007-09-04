@@ -37,12 +37,14 @@ class AVListViewItem:public BaseListViewItem {
     AVListViewItem(QListView * parent,
 	DocumentBaseNode * node);
     ~AVListViewItem();
+
+    DocClipRef *clip() const;
+    void refresh();
+
     virtual void setText(int column, const QString & text);
     virtual QString text(int column) const;
     virtual const QPixmap *pixmap(int column) const;
-    DocClipRef *clip() const;
     virtual void paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align);
-
     virtual QString getInfo() const;
 
 

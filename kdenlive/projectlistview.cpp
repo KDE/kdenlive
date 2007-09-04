@@ -112,6 +112,10 @@ DocClipRefList ProjectListView::selectedItemsList() const
 	    AVListViewItem *avItem = (AVListViewItem *) item;
 	    if (avItem && avItem->clip()) selectedList.append(avItem->clip());
 	}
+	else if (type == BaseListViewItem::PLAYLISTITEM) {
+	    AVListViewItem *avItem = (AVListViewItem *) item->parent();
+	    if (avItem && avItem->clip()) selectedList.append(avItem->clip());
+	}
     }
     return selectedList;
 }

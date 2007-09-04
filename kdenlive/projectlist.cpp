@@ -208,6 +208,30 @@ namespace Gui {
 	if (!m_isIconView)  return m_listView->currentItem()->text(1);
 	else return m_iconView->currentItem()->text();
     }
+
+    bool ProjectList::currentItemIsFolder() {
+	if (!m_isIconView) {
+	    BaseListViewItem::ITEMTYPE type = ((BaseListViewItem *) m_listView->currentItem())->getType();
+	    return type == BaseListViewItem::FOLDER;
+	}
+	else return false;
+    }
+
+
+    bool ProjectList::renameFolder(QString newName) {
+	if (!currentItemIsFolder()) return false;
+        QListViewItemIterator it( m_listView );
+        while ( it.current() ) {
+            if (it.current()->text(1) == newName && ((BaseListViewItem *) it.current())->getType() == BaseListViewItem::FOLDER) {
+		return false;
+	    }
+            ++it;
+        }
+	m_listView->currentItem()->setText(1, newName);
+	return true;
+    }
+
+
     
     /** An item was double clicked */
     void ProjectList::editRequested( QListViewItem *, const QPoint &, int col)
@@ -324,7 +348,6 @@ namespace Gui {
 
 	    QDomNode kdenlivedoc = documentElement.elementsByTagName("kdenlivedoc").item(0);
 	    QDomNode n;
-	    QMap <QString, QString> prods;
 	    QDomElement e, entry;
 
 	    if (!kdenlivedoc.isNull()) n = kdenlivedoc.firstChild();
@@ -503,6 +526,17 @@ namespace Gui {
     DocClipRefList ProjectList::currentSelection() {
 	if (!m_isIconView) return m_listView->selectedItemsList();
 	return m_iconView->selectedItemsList();
+    }
+
+    void ProjectList::refreshCurrentSelection() {
+	if (m_isIconView) return;
+	if (!m_listView->currentItem()) return;
+	BaseListViewItem::ITEMTYPE type = ((BaseListViewItem *) m_listView->currentItem())->getType();
+	if (type == BaseListViewItem::CLIP) {
+	        AVListViewItem * avitem = (AVListViewItem *) m_listView->currentItem();
+	        if (!avitem) return;
+	        avitem->refresh();
+	}
     }
     
     void ProjectList::selectClip(DocClipBase *clip) {

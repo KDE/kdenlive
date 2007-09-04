@@ -116,6 +116,12 @@ QString AVListViewItem::clipDuration() const {
 	return text;
 }
 
+void AVListViewItem::refresh()
+{
+    m_comment = clipDuration();
+    repaint();
+}
+
 QString AVListViewItem::getInfo() const
 {
 	QString text;

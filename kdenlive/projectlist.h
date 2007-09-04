@@ -60,9 +60,12 @@ namespace Gui {
 	~ProjectList();
 	/** Returns the currently selected clip in the project list. */
 	DocClipRefList currentSelection();
+	void refreshCurrentSelection();
 	DocClipRef* currentClip();
         QString parentName();
 	QString currentItemName();
+	bool currentItemIsFolder();
+	bool renameFolder(QString newName);
 	void setListView();
 	void setIconView();
 	bool isListView();
