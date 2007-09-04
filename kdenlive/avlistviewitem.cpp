@@ -42,14 +42,12 @@ m_listView(parent->listView()), m_node(node)
 	    << endl;
     }
     doCommonCtor();
-    m_comment = clipDuration();
 }
 
 AVListViewItem::AVListViewItem(QListView * parent, DocumentBaseNode * node):
 BaseListViewItem(parent, BaseListViewItem::CLIP), m_listView(parent), m_node(node)
 {
     doCommonCtor();
-    m_comment = clipDuration();
 }
 
 
@@ -81,7 +79,7 @@ void AVListViewItem::paintCell(QPainter *p, const QColorGroup &cg, int column, i
         QRect r2(0, height()/2 - (fontHeight + smallFontHeight)/2 + fontHeight, m_listView->header()->sectionSize(1), smallFontHeight);
 	p->setFont(font);
         p->setPen(cg.mid());
-	p->drawText(r2, Qt::AlignLeft | Qt::AlignTop | Qt::SingleLine, m_comment);
+	p->drawText(r2, Qt::AlignLeft | Qt::AlignTop | Qt::SingleLine, clipDuration());
 	return;
     }
     KListViewItem::paintCell(p, cg, column, width, align);
@@ -116,11 +114,6 @@ QString AVListViewItem::clipDuration() const {
 	return text;
 }
 
-void AVListViewItem::refresh()
-{
-    m_comment = clipDuration();
-    repaint();
-}
 
 QString AVListViewItem::getInfo() const
 {

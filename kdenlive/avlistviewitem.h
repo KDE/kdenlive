@@ -49,7 +49,6 @@ class AVListViewItem:public BaseListViewItem {
 
 
   private:
-    QString m_comment;
     void doCommonCtor();
     QString clipDuration() const;
     QListView *m_listView;

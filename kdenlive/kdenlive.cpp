@@ -3521,7 +3521,6 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
                     QPixmap thumb = txtWidget->thumbnail(getDocument()->thumbSize());
                     QDomDocument xml = txtWidget->toXml();
                     Command::KEditClipCommand(*m_doc, refClip, duration, txtWidget->titleName->text(), clip->description(), xml , txtWidget->previewFile(), thumb, txtWidget->transparentTitle->isChecked());
-		    m_projectList->refreshCurrentSelection();
 		    if (refClip->numReferences() > 0) getDocument()->activateSceneListGeneration(true);
             	}
 		delete txtWidget;
@@ -3543,20 +3542,17 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 			if (duration > GenTime(MAXFRAMEDURATION, getDocument()->framesPerSecond())) duration = GenTime(MAXFRAMEDURATION, getDocument()->framesPerSecond());
                         Command::KEditClipCommand(*m_doc, refClip, dia->color(),
                                 duration, dia->name(), dia->description());
-			m_projectList->refreshCurrentSelection();
                     }
                     else if (refClip->clipType() == DocClipBase::IMAGE) {
 			QString url = dia->url();
 			if (duration > GenTime(MAXFRAMEDURATION, getDocument()->framesPerSecond())) duration = GenTime(MAXFRAMEDURATION, getDocument()->framesPerSecond());
                         Command::KEditClipCommand(*m_doc, refClip, url, duration, dia->description(), dia->transparency());
-			m_projectList->refreshCurrentSelection();
 		    }
 		    else if (refClip->clipType() == DocClipBase::SLIDESHOW) {
 			QString lumaFile = m_transitionPanel->getLumaFilePath(dia->lumaFile());
 			QString url = dia->url() + "/.all." + dia->extension();
 			if (duration > GenTime(MAXFRAMEDURATION, getDocument()->framesPerSecond())) duration = GenTime(MAXFRAMEDURATION, getDocument()->framesPerSecond());
                         Command::KEditClipCommand(*m_doc, refClip, url, "",dia->ttl(), dia->crossfading(), lumaFile, dia->lumaSoftness(), dia->lumaDuration(), duration, dia->description(), dia->transparency());
-			m_projectList->refreshCurrentSelection();
                     }
                     else { // Video clip
                         Command::KEditClipCommand(*m_doc, refClip, dia->url(),dia->description());

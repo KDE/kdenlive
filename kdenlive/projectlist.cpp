@@ -528,17 +528,7 @@ namespace Gui {
 	return m_iconView->selectedItemsList();
     }
 
-    void ProjectList::refreshCurrentSelection() {
-	if (m_isIconView) return;
-	if (!m_listView->currentItem()) return;
-	BaseListViewItem::ITEMTYPE type = ((BaseListViewItem *) m_listView->currentItem())->getType();
-	if (type == BaseListViewItem::CLIP) {
-	        AVListViewItem * avitem = (AVListViewItem *) m_listView->currentItem();
-	        if (!avitem) return;
-	        avitem->refresh();
-	}
-    }
-    
+
     void ProjectList::selectClip(DocClipBase *clip) {
 	if (!m_isIconView) {
         m_listView->clearSelection();

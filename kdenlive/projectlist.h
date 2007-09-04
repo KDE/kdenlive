@@ -60,7 +60,6 @@ namespace Gui {
 	~ProjectList();
 	/** Returns the currently selected clip in the project list. */
 	DocClipRefList currentSelection();
-	void refreshCurrentSelection();
 	DocClipRef* currentClip();
         QString parentName();
 	QString currentItemName();
