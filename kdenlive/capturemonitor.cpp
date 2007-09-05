@@ -244,12 +244,18 @@ void CaptureMonitor::displayCapturedFiles()
         captureProcess->setEnvironment("SDL_WINDOWID", QString::number(m_screen->winId()));
 	*captureProcess<<"dvgrab";
 
+	bool isHdv = false;
+
 	switch (KdenliveSettings::captureformat()){
 	    case 0:
  		*captureProcess<<"--format"<<"dv1";
 		break;
 	    case 1:
  		*captureProcess<<"--format"<<"dv2";
+		break;
+	    case 3:
+ 		*captureProcess<<"--format"<<"hdv";
+		isHdv = true;
 		break;
 	    default:
         	*captureProcess<<"--format"<<"raw";
@@ -259,7 +265,10 @@ void CaptureMonitor::displayCapturedFiles()
 	if (KdenliveSettings::autosplit()) *captureProcess<<"--autosplit";
 	if (KdenliveSettings::timestamp()) *captureProcess<<"--timestamp";
 	*captureProcess<<"-i"<<"capture"<<"-";
-        *captureProcess<<"|"<<"ffplay"<<"-f"<<"dv"<<"-x"<<QString::number(m_screen->width())<<"-y"<<QString::number(m_screen->height())<<"-";
+        if (isHdv)
+	    *captureProcess<<"|"<<"ffplay"<<"-f"<<"mpegts"<<"-x"<<QString::number(m_screen->width())<<"-y"<<QString::number(m_screen->height())<<"-";
+	else 
+	    *captureProcess<<"|"<<"ffplay"<<"-f"<<"dv"<<"-x"<<QString::number(m_screen->width())<<"-y"<<QString::number(m_screen->height())<<"-";
         connect(captureProcess, SIGNAL(processExited(KProcess *)), this, SLOT(slotProcessStopped(KProcess *)));
     	connect(captureProcess, SIGNAL(receivedStderr (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));
 	captureProcess->start(KProcess::NotifyOnExit, KProcess::Communication(KProcess::Stdin | KProcess::Stderr));
