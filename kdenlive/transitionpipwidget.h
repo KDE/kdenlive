@@ -92,7 +92,6 @@ private:
         /** when changing keyframe, emit only one refresh signal, not one for every parameter. m_silent is used for that...*/
         bool m_silent;
 	KdenliveApp *m_app;
-	int m_freeze;
 	int m_frameHeight;
 
 private slots:

@@ -231,7 +231,7 @@ void ScreenPreview::contentsMouseMoveEvent(QMouseEvent* e)
 
 
 transitionPipWidget::transitionPipWidget(KdenliveApp * app, int width, int height, QWidget* parent, const char* name, WFlags fl ):
-        transitionPip_UI(parent,name), m_silent(false), m_app(app), m_freeze(-1)
+        transitionPip_UI(parent,name), m_silent(false), m_app(app)
 {
         frame_preview->setMinimumWidth(width);
 	frame_preview->setMaximumWidth(width);
@@ -316,14 +316,21 @@ void transitionPipWidget::duplicateKeyFrame(bool isOn)
 	button_create->setEnabled(true);
 	button_delete->setEnabled(true);
 	keyframe_number->setEnabled(true);
-	m_freeze = -1;
+	m_transitionParameters[-1] = m_transitionParameters[0];
 	return;
     }
     //radio_end->setEnabled(false);
-    m_freeze = keyframe_number->value();
     button_create->setEnabled(false);
     button_delete->setEnabled(false);
     keyframe_number->setEnabled(false);
+
+    int pos = getKeyFrameIndex(keyframe_number->value());
+
+    QString value = m_transitionParameters[pos];
+    m_transitionParameters.clear();
+    m_transitionParameters[0] = value;
+    changeKeyFrame(0);
+
     /*int current, toChange;
     if (radio_start->isChecked()) {
 	current = 0;
@@ -530,7 +537,7 @@ void transitionPipWidget::setParameters(QString params, int duration)
 	ct++;
 	param = params.section(";", ct, ct);
     }
-
+    if (ct == 1) fixed_trans->setChecked(true);
 /*    if (m_transitionParameters[0] == m_transitionParameters[1]) fixed_trans->setChecked(true);
     else fixed_trans->setChecked(false);*/
 
@@ -574,6 +581,7 @@ void transitionPipWidget::slotAddKeyFrame()
     GenTime cursorPos = m_app->cursorPosition();
     GenTime transStart = m_app->transitionPanel()->activeTransition()->transitionStartTime();
     int pos = (cursorPos - transStart).frames(KdenliveSettings::defaultfps());
+    if ((pos < 1) || (pos > slider_pos->maxValue() - 2)) return;
     m_transitionParameters[pos] = "0:0:100:0";
     emit transitionChanged();
 }
@@ -591,6 +599,7 @@ void transitionPipWidget::slotDeleteKeyFrame()
 	}
     }
     changeKeyFrame(pos);
+    emit transitionChanged();
 }
 
 }  //  end GUI namespace
