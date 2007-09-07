@@ -271,6 +271,8 @@ class KdenliveDoc:public QObject {
     void activateSceneListGeneration(bool active = false, bool enable = true);
     /** When a transition was deleted, disable the transition dialog in case its transition was deleted*/
     void slotDeleteClipTransition();
+    void slotCheckCurrentTransition();
+    void slotResizeClipTransition(const QString &duration);
     void slotUpdateClipThumbnails(DocClipBase *clip);
 	/** Check that all audio thumbnails have been generated. */
     void refreshAudioThumbnails();

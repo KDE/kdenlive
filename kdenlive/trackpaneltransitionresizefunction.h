@@ -84,7 +84,8 @@ class TrackPanelTransitionResizeFunction:public TrackPanelFunction
   Emitted when a keyframe was changed.
   */
     void redrawTrack();
-    void transitionChanged(bool);;
+    void transitionChanged(bool);
+    void signalTransitionDurationChanged(Transition *);
 
   private:
     enum ResizeState { None, Start, End };

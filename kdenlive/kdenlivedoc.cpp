@@ -909,6 +909,24 @@ void KdenliveDoc::slotDeleteClipTransition()
     emit documentChanged(m_projectClip);
 }
 
+void KdenliveDoc::slotCheckCurrentTransition()
+{
+    m_app->slotCheckTransitionDuration(m_app->transitionPanel()->activeTransition());
+}
+
+void KdenliveDoc::slotResizeClipTransition(const QString &duration)
+{
+    Transition *trans = m_app->transitionPanel()->activeTransition();
+    GenTime dur = getTimecodePosition(duration);
+    GenTime endTime;
+    if (dur > trans->transitionEndTime()) endTime = dur;
+    else endTime = trans->transitionEndTime();
+
+    trans->resizeTransitionEnd(trans->transitionStartTime() + dur);
+    emit refreshCurrentClipTrack(trans->transitionDocumentTrack(), 0, trans->transitionStartTime(), endTime);
+    emit documentChanged(m_projectClip);
+}
+
 
 const DocTrackBaseList & KdenliveDoc::trackList() const
 {

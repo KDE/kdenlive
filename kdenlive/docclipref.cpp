@@ -862,8 +862,6 @@ QDomDocumentFragment DocClipRef::generateXMLTransition(bool hideVideo, bool hide
 	    for ( it = blanklist.begin(); it != blanklist.end(); ++it ) {
 		int currentStart = (*it).x();
 		int currentEnd = (*it).y();
-		kdDebug()<<"// CURRENT TRANSITION IS: "<<transStart<<" - "<<transEnd<<endl;
-		kdDebug()<<"// CURRENT ANALYSED: "<<currentStart<<" - "<<currentEnd<<endl;
 		if (transStart <= currentEnd && transEnd >= currentStart) {
 		    if (currentStart != transStart) {
 			(*it) = QPoint(currentStart, transStart);

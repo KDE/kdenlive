@@ -50,12 +50,17 @@ namespace Gui {
     QFont dialogFont = font();
     dialogFont.setPointSize(dialogFont.pointSize() - 1);
     setFont(dialogFont);
-    QGridLayout *m_container = new QGridLayout(this, 2, 2);
+    m_container = new QGridLayout(this, 2, 5);
     m_container->setMargin(5);
 
-    QLabel *lab = new QLabel(i18n("Perform transition with: "), this);
+    trackLab = new QLabel(i18n("Perform transition with: "), this);
     trackPolicy = new KComboBox(this);
     refreshTracks(app->getDocument()->trackList().count());
+
+    transLab = new QLabel(i18n("Duration: "), this);
+    transitionDuration = new KRestrictedLine(this);
+    transitionDuration->setInputMask("99:99:99:99; ");
+    connect(transitionDuration,SIGNAL(textChanged(const QString &)), this, SIGNAL(resizeTransition(const QString &)));
 
     m_videoFormat = app->projectFormatParameters(app->projectVideoFormat());
     propertiesDialog = new KJanusWidget(this, name, KJanusWidget::IconList);
@@ -63,7 +68,7 @@ namespace Gui {
 
     transitWipe = new transitionWipeWidget(propertiesDialog->addVBoxPage(i18n("Push"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_wiper", KIcon::Small, 15)));
 
-    transitPip = new transitionPipWidget(app, 240,192, propertiesDialog->addVBoxPage(i18n("PIP"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_pip", KIcon::Small, 15)));
+    transitPip = new transitionPipWidget(app, 200,(int) (200.0 / KdenliveSettings::displayratio()), propertiesDialog->addVBoxPage(i18n("PIP"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_pip", KIcon::Small, 15)));
 
     transitLumaFile = new transitionLumaFile_UI(propertiesDialog->addVBoxPage(i18n("Wipe"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_luma", KIcon::Small, 15)));
     transitLumaFile->lumaView->showToolTips();
@@ -75,9 +80,14 @@ namespace Gui {
 
     /*transitAudiofade = new transitionAudiofade_UI(addPage(i18n("Audio Fade"), QString::null, KGlobal::iconLoader()->loadIcon("kdenlive_trans_down", KIcon::Small, 15)));*/
     initLumaFiles();
-    m_container->addWidget(lab, 0, 0);
+    m_container->addWidget(trackLab, 0, 0);
     m_container->addWidget(trackPolicy, 0, 1);
-    m_container->addMultiCellWidget(propertiesDialog, 1, 1, 0, 1);
+    m_spacer = new QSpacerItem(10, 10, QSizePolicy::MinimumExpanding);
+    m_container->addItem(m_spacer, 0, 2);
+    m_container->addWidget(transLab, 0, 3);
+    m_container->addWidget(transitionDuration, 0, 4);
+
+    m_container->addMultiCellWidget(propertiesDialog, 1, 4, 0, 4);
     setEnabled(false);
     adjustSize();
 }
@@ -89,6 +99,11 @@ TransitionDialog::~TransitionDialog()
     delete transitWipe;
     delete transitPip;
     delete propertiesDialog;
+    delete trackLab;
+    delete transLab;
+    delete trackPolicy;
+    delete transitionDuration;
+    delete m_container;
 }
 
 void TransitionDialog::setVideoFormat(formatTemplate format)
@@ -197,7 +212,8 @@ void TransitionDialog::resetTransitionDialog()
     transitPip->slider_size->setValue(100);
     transitPip->slider_x->setValue(0);
     transitPip->slider_y->setValue(0);
-    transitPip->radio_start->setChecked(true);
+    //transitPip->radio_start->setChecked(true);
+    transitPip->keyframe_number->setValue(0);
 }
 
 bool TransitionDialog::checkTransition(DocClipRef *clip)
@@ -210,7 +226,7 @@ bool TransitionDialog::checkTransition(DocClipRef *clip)
     return false;
 }
 
-void TransitionDialog::setTransition(Transition *transition)
+void TransitionDialog::setTransition(Transition *transition, KdenliveDoc *doc)
 {
 	if (m_transition == transition) return;
         disconnectTransition();
@@ -225,9 +241,29 @@ void TransitionDialog::setTransition(Transition *transition)
         setTransitionDirection(transition->invertTransition());
         setTransitionParameters(transition->transitionParameters());
 	trackPolicy->setCurrentItem(m_transition->transitionTrack());
+	QString currentDuration = doc->timeCode().getTimecode(transition->transitionDuration(), doc->framesPerSecond());
+    	transitionDuration->setText(currentDuration);
+
         connectTransition();
 }
 
+void TransitionDialog::slotRedrawTransition()
+{
+    if (!m_transition) return;
+    int clipTrack = m_transition->referencedClip()->trackNum();
+    GenTime start = m_transition->referencedClip()->trackStart();
+    GenTime end = m_transition->referencedClip()->trackEnd();
+    emit redrawTransition(clipTrack, start, end);
+
+}
+
+void TransitionDialog::slotMoveCursor(int position)
+{
+    if (!m_transition) return;
+    const GenTime pos = m_transition->referencedClip()->trackStart() + GenTime(position, KdenliveSettings::defaultfps());
+    emit adjustCursorPosition(pos);
+    
+}
 
 void TransitionDialog::connectTransition()
 {
@@ -237,6 +273,9 @@ void TransitionDialog::connectTransition()
    connect(transitCrossfade->invertTransition, SIGNAL(released()), this, SLOT(applyChanges()));
    connect(trackPolicy, SIGNAL(activated(int)), this, SLOT(applyChanges()));
    connect(transitPip, SIGNAL(transitionChanged()), this, SLOT(applyChanges()));
+   connect(transitPip, SIGNAL(transitionNeedsRedraw()), this, SLOT(slotRedrawTransition()));
+   connect(transitPip, SIGNAL(moveCursorToKeyFrame(int)), this, SLOT(slotMoveCursor(int)));
+
    connect(transitPip->use_luma, SIGNAL(toggled(bool)), this, SLOT(applyChanges()));
    connect(transitLumaFile->spin_soft, SIGNAL(valueChanged(int)), this, SLOT(applyChanges()));
    connect(transitLumaFile->lumaView, SIGNAL(selectionChanged ()), this, SLOT(applyChanges()));
@@ -259,10 +298,15 @@ void TransitionDialog::disconnectTransition()
     
 }
 
-bool TransitionDialog::isActiveTransition(Transition *transition)
+bool TransitionDialog::isActiveTransition(Transition *transition) const
 {
 	if (transition == m_transition) return true;
 	return false;
+}
+
+Transition *TransitionDialog::activeTransition() const
+{
+	return m_transition;
 }
 
 bool TransitionDialog::belongsToClip(DocClipRef *clip)
@@ -271,6 +315,18 @@ bool TransitionDialog::belongsToClip(DocClipRef *clip)
 	return false;
 }
 
+int TransitionDialog::selectedKeyFramePosition() const
+{
+	if (!m_transition || m_transition->transitionType() != Transition::PIP_TRANSITION)
+	    return -1;
+	return transitPip->getKeyFrameIndex(transitPip->keyframe_number->value());
+}
+
+
+void TransitionDialog::setDuration(const QString &dur)
+{
+	transitionDuration->setText(dur);
+}
 
 void TransitionDialog::applyChanges()
 {
@@ -280,6 +336,8 @@ void TransitionDialog::applyChanges()
         	m_transition->setTransitionParameters(transitionParameters());
 		m_transition->setTransitionDirection(transitionDirection());
 		m_transition->setTransitionTrack(trackPolicy->currentItem());
+		slotRedrawTransition();
+		kdDebug()<<" / / / / / / / / / / / / TRANSITION CHANGED"<<endl;
 		emit transitionChanged(true);
         }
 }
@@ -371,7 +429,7 @@ void TransitionDialog::setTransitionParameters(const QMap < QString, QString > p
     }
     else if (propertiesDialog->activePageIndex() == 2) {
 	// Pip transition
-        transitPip->setParameters(parameters["geometry"]);
+        transitPip->setParameters(parameters["geometry"], m_transition->transitionDuration().frames(KdenliveSettings::defaultfps()));
 	QString fname = parameters["luma"];
 	if (!fname.isEmpty()) {
 	    transitPip->use_luma->setChecked(true);

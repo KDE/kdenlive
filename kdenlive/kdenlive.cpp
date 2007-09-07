@@ -1239,6 +1239,11 @@ namespace Gui {
 	m_statusBarTimer = new QTimer(this);
 	connect(m_statusBarTimer, SIGNAL(timeout()), this, SLOT(slotStatusMsg()));
 
+	statusBar()->insertItem(i18n("Move/Resize mode"), ID_EDITMODE_MSG,
+	    0, true);
+	statusBar()->insertItem(QString::null, ID_TIMELINE_MSG,
+	    0, true);
+
 	// Stop export button
 	KIconLoader loader;
 	QIconSet eff;
@@ -1265,7 +1270,7 @@ namespace Gui {
 	effectsButton->setToggleButton(true);
 	effectsButton->setFlat(true);
 	effectsButton->setMaximumSize(QSize(18, 18));
-	statusBar()->addWidget(effectsButton);
+	statusBar()->addWidget(effectsButton, 0, true);
 
 	eff.setPixmap(loader.loadIcon("kdenlive_transitions", KIcon::Small, 16), QIconSet::Small, QIconSet::Normal, QIconSet::Off);
 	eff.setPixmap(loader.loadIcon("kdenlive_transitionsoff", KIcon::Small, 16), QIconSet::Small, QIconSet::Normal, QIconSet::On);
@@ -1275,7 +1280,7 @@ namespace Gui {
 	transitionsButton->setToggleButton(true);
 	transitionsButton->setFlat(true);
 	transitionsButton->setMaximumSize(QSize(18, 18));
-	statusBar()->addWidget(transitionsButton);
+	statusBar()->addWidget(transitionsButton, 0, true);
 
 	eff.setPixmap(loader.loadIcon("kdenlive_thumbs", KIcon::Small, 16), QIconSet::Small, QIconSet::Normal, QIconSet::Off);
 	eff.setPixmap(loader.loadIcon("kdenlive_thumbsoff", KIcon::Small, 16), QIconSet::Small, QIconSet::Normal, QIconSet::On);
@@ -1286,7 +1291,7 @@ namespace Gui {
 	thumbsButton->setFlat(true);
 	thumbsButton->setOn(!KdenliveSettings::videothumbnails());
 	thumbsButton->setMaximumSize(QSize(18, 18));
-	statusBar()->addWidget(thumbsButton);
+	statusBar()->addWidget(thumbsButton, 0, true);
 
 	eff.setPixmap(loader.loadIcon("kdenlive_audiothumbs", KIcon::Small, 16), QIconSet::Small, QIconSet::Normal, QIconSet::Off);
 	eff.setPixmap(loader.loadIcon("kdenlive_audiothumbsoff", KIcon::Small, 16), QIconSet::Small, QIconSet::Normal, QIconSet::On);
@@ -1297,15 +1302,11 @@ namespace Gui {
 	audioThumbsButton->setFlat(true);
 	audioThumbsButton->setOn(!KdenliveSettings::audiothumbnails());
 	audioThumbsButton->setMaximumSize(QSize(18, 18));
-	statusBar()->addWidget(audioThumbsButton);
+	statusBar()->addWidget(audioThumbsButton, 0, true);
 
 	KdenliveSettings::setShoweffects(true);
 	KdenliveSettings::setShowtransitions(true);
 
-	statusBar()->insertItem(i18n("Move/Resize mode"), ID_EDITMODE_MSG,
-	    0, true);
-	statusBar()->insertItem(QString::null, ID_TIMELINE_MSG,
-	    0, true);
     }
 
     void KdenliveApp::slotStopExport() {
@@ -1627,6 +1628,16 @@ namespace Gui {
 	connect(m_transitionPanel, SIGNAL(transitionChanged(bool)),
                 getDocument(), SLOT(activateSceneListGeneration(bool)));
 
+	connect(m_transitionPanel, SIGNAL(redrawTransition(int, GenTime, GenTime)), m_timeline,
+	    SLOT(drawPartialTrack(int, GenTime, GenTime)));
+
+	connect(m_transitionPanel, SIGNAL(adjustCursorPosition(const GenTime)), this,
+	    SLOT(setCursorPosition(const GenTime)));
+
+
+	connect(m_transitionPanel, SIGNAL(resizeTransition(const QString &)),
+                getDocument(), SLOT(slotResizeClipTransition(const QString &)));
+
 	connect(keyFrameFunction, SIGNAL(signalKeyFrameChanged(bool)),
 	    getDocument(), SLOT(activateSceneListGeneration(bool)));
         
@@ -1638,6 +1649,9 @@ namespace Gui {
         
         connect(transitionResizeFunction, SIGNAL(transitionChanged(bool)),
                 getDocument(), SLOT(activateSceneListGeneration(bool)));
+
+        connect(transitionResizeFunction, SIGNAL(signalTransitionDurationChanged(Transition *)),
+                this, SLOT(slotCheckTransitionDuration(Transition *)));
 
 	connect(keyFrameFunction, SIGNAL(redrawTrack()),
 	    m_effectStackDialog, SLOT(updateKeyFrames()));
@@ -1834,8 +1848,15 @@ namespace Gui {
 
     void KdenliveApp::slotEditTransition(Transition *transition) {
 	m_dockTransition->makeDockVisible();
-	m_transitionPanel->setTransition(transition);
+	m_transitionPanel->setTransition(transition, getDocument());
         m_timeline->drawTrackViewBackBuffer();
+    }
+
+    void KdenliveApp::slotCheckTransitionDuration(Transition *transition) {
+	if (transition && m_transitionPanel->isActiveTransition(transition)) {
+	    QString currentDuration = getDocument()->timeCode().getTimecode(transition->transitionDuration(), KdenliveSettings::defaultfps());
+	    m_transitionPanel->setDuration(currentDuration);
+	}
     }
 
     void KdenliveApp::slotCheckTransition(DocClipRef *clip) {
@@ -3207,6 +3228,7 @@ void KdenliveApp::slotAddFileToProject(const QString &url) {
 
     void KdenliveApp::slotProjectRenameFolder(QString message) {
         if (!m_projectList->currentItemIsFolder()) return;
+	
 	QString currentFolderName = m_projectList->currentItemName();
 	QString folderName = KInputDialog::getText(i18n("Rename Folder"), message + i18n("Enter new folder name: "), currentFolderName);
 	if (folderName.isEmpty()) return;
@@ -3582,17 +3604,16 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		    }
 	    }
 	    DocClipRef *refClip;
-
+	    bool usedClip = false;
 	    // Create a macro command that will delete all clips from the timeline involving this avfile. Then, delete it.
 	    KMacroCommand *macroCommand = new KMacroCommand(i18n("Delete Clip"));
-
 	    for (refClip = refClipList.first(); refClip; refClip = refClipList.next()) {
 	    	DocClipBase *clip = refClip->referencedClip();
-
+		if (clip->numReferences() > 0) usedClip = true;
 		// NOTE - we clear the monitors of the clip here - this does _not_ go into the macro command.
 		int id = clip->getId();
 		m_monitorManager.clearClip(clip);
-
+			
 		DocClipRefList list = m_doc->referencedClips(clip);
 		QPtrListIterator < DocClipRef > itt(list);
 
@@ -3602,16 +3623,14 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 		    macroCommand->addCommand(command);
 		    ++itt;
 		}
-
 		// remove audio thumbnail and tmp files
 		clip->removeTmpFile();
-
 		DocumentBaseNode *node = m_doc->findClipNodeById(id);
 		if (!node) kdDebug()<<"++++++  CANNOT FIND NODE: "<<id<<endl;
 		macroCommand->addCommand(new Command::KAddClipCommand(*m_doc, node->name(), clip, node->parent(), false));
 	    }
 	    addCommand(macroCommand, true);
-	    if (confirm) getDocument()->activateSceneListGeneration(true);
+	    if (confirm && usedClip) getDocument()->activateSceneListGeneration(true);
 	}
 	else if (confirm) slotProjectDeleteFolder();
 	slotStatusMsg(i18n("Ready."));
@@ -4645,9 +4664,9 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	if (!clip) return;
 	GenTime curr = m_timeline->seekPosition();
 	if ((curr <= clip->trackStart()) || (curr >= clip->trackEnd())) return;
-	getDocument()->activateSceneListGeneration(false);
+	//getDocument()->activateSceneListGeneration(false);
 	addCommand(Command::DocumentMacroCommands::razorSelectedClipsAt(getDocument(), curr), true);
-	getDocument()->activateSceneListGeneration(true);
+	//getDocument()->activateSceneListGeneration(true);
     }
 
 void KdenliveApp::slotPrint()

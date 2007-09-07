@@ -117,8 +117,8 @@ bool TrackPanelTransitionResizeFunction::mousePressed(Gui::KTrackPanel * panel,
                 
                 m_resizeState = None;
                 while (itt) {
-						 dx1 = (uint)(*itt)->transitionStartTime().frames(m_document->framesPerSecond());
-						 dx2 = (uint)(*itt)->transitionEndTime().frames(m_document->framesPerSecond());
+		    dx1 = (uint)(*itt)->transitionStartTime().frames(m_document->framesPerSecond());
+		    dx2 = (uint)(*itt)->transitionEndTime().frames(m_document->framesPerSecond());
                     if ((fabs(m_timeline->mapValueToLocal(dx1) - event->x()) < s_resizeTolerance)) {
                         m_resizeState = Start;
                         m_dragStarted = true;
@@ -206,11 +206,13 @@ bool TrackPanelTransitionResizeFunction::mouseMoved(Gui::KTrackPanel * panel,
 
             if (m_clipUnderMouse && m_dragStarted) {
                 result = true;
+		TransitionStack transitions = m_clipUnderMouse->clipTransitions();
                 if (m_resizeState == Start) {
                     m_clipUnderMouse->resizeTransitionStart(m_selectedTransition, mouseTime);
-                    //emit signalClipCropStartChanged(m_clipUnderMouse);
+                    emit signalTransitionDurationChanged(transitions[m_selectedTransition]);
                 } else if (m_resizeState == End) {
                     m_clipUnderMouse->resizeTransitionEnd(m_selectedTransition, mouseTime);
+                    emit signalTransitionDurationChanged(transitions[m_selectedTransition]);
                     //emit signalClipCropEndChanged(m_clipUnderMouse);
                 } else {
                     kdError() <<

@@ -44,6 +44,7 @@ public:
         QCanvasItem* selectedItem;
         uint operationMode;
         uint numItems;
+	int m_frameHeight;
 
 protected:
         void contentsMousePressEvent(QMouseEvent*);
@@ -82,6 +83,8 @@ public:
         transitionPipWidget( KdenliveApp * app, int width, int height, QWidget* parent=0, const char* name=0, WFlags fl=0);
         virtual ~transitionPipWidget();
         ScreenPreview *canview;
+	int getKeyFrameIndex(int nb);
+
 private:
         QCanvas *canvas;
         QPoint start, end;
@@ -89,6 +92,8 @@ private:
         /** when changing keyframe, emit only one refresh signal, not one for every parameter. m_silent is used for that...*/
         bool m_silent;
 	KdenliveApp *m_app;
+	int m_freeze;
+	int m_frameHeight;
 
 private slots:
         void changeKeyFrame(int ix);
@@ -99,13 +104,18 @@ private slots:
         void adjustSliders(int x, int y);
 	void focusInOut();
 	void duplicateKeyFrame(bool);
+	QString getParametersFromString(QString param);
+	void slotAddKeyFrame();
+	void slotDeleteKeyFrame();
 
 public slots:
         QString parameters();
-        void setParameters(QString params);
+        void setParameters(QString params, int duration);
 
 signals:
         void transitionChanged();
+	void transitionNeedsRedraw();
+	void moveCursorToKeyFrame(int);
 };
 
 }  //  end GUI namespace

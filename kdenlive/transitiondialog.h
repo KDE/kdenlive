@@ -26,6 +26,7 @@
 
 #include <kjanuswidget.h>
 #include <kcombobox.h>
+#include <krestrictedline.h>
 
 #include "transition.h"
 #include "transitioncrossfade_ui.h"
@@ -60,8 +61,8 @@ namespace Gui {
     void setActivePage(const Transition::TRANSITIONTYPE &pageName);
     void setTransitionDirection(bool direc);
     void setTransitionParameters(const QMap < QString, QString > parameters);
-    void setTransition(Transition *transition);
-    bool isActiveTransition(Transition *transition);
+    void setTransition(Transition *transition, KdenliveDoc *doc = 0);
+    bool isActiveTransition(Transition *transition) const;
     bool belongsToClip(DocClipRef *clip);
     bool isOnTrack(int ix);
     QString getLumaFilePath(QString fileName);
@@ -70,6 +71,9 @@ namespace Gui {
     void setVideoFormat(formatTemplate format);
     bool checkTransition(DocClipRef *clip);
     void refreshTracks(int trackNb);
+    Transition *activeTransition() const;
+    void setDuration(const QString &dur);
+    int selectedKeyFramePosition() const;
 
     private slots:
 	void applyChanges();
@@ -77,6 +81,8 @@ namespace Gui {
         void disconnectTransition();
 	void resetTransitionDialog();
 	void initLumaFiles();
+	void slotRedrawTransition();
+	void slotMoveCursor(int);
 
     private:
 	formatTemplate m_videoFormat;
@@ -88,9 +94,19 @@ namespace Gui {
 	Transition *m_transition;
 	KJanusWidget *propertiesDialog;
 	KComboBox *trackPolicy;
+	KRestrictedLine *transitionDuration;
 	char *m_lumaType;
+
+	QLabel *trackLab;
+	QLabel *transLab;
+	QGridLayout *m_container;
+	QSpacerItem *m_spacer;
+
     signals:
 	void transitionChanged(bool);
+	void resizeTransition(const QString &);
+	void redrawTransition(int, GenTime, GenTime);
+	void adjustCursorPosition(const GenTime);
     };
 
 }				// namespace Gui

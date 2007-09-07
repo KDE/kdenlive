@@ -56,32 +56,34 @@ class Transition {
     /** Returns an XML representation of this transition. */
     QDomElement toXML();
     
-    GenTime transitionStartTime();
-    GenTime transitionEndTime();
+    GenTime transitionStartTime() const;
+    GenTime transitionEndTime() const;
     /** Return the track number of transition in the document*/
-    int transitionDocumentTrack();
+    int transitionDocumentTrack() const;
     /** Return the track number of transition in the playlist*/
-    int transitionStartTrack();
-    int transitionEndTrack();
+    int transitionStartTrack() const;
+    int transitionEndTrack() const;
     Transition *clone();
-    bool hasClip(const DocClipRef * clip);
-    bool belongsToClip(const DocClipRef * clip);
+    bool hasClip(const DocClipRef * clip) const;
+    bool belongsToClip(const DocClipRef * clip) const;
     void resizeTransitionEnd(GenTime time);
     void resizeTransitionStart(GenTime time);
     void moveTransition(GenTime time);
-    bool invertTransition();
-    TRANSITIONTYPE transitionType();
-    QString transitionTag();
-    QString transitionName();
+    bool invertTransition() const;
+    TRANSITIONTYPE transitionType() const;
+    QString transitionTag() const;
+    QString transitionName() const;
     void setTransitionType(TRANSITIONTYPE newType);
-    const QMap < QString, QString > transitionParameters();
+    const QMap < QString, QString > transitionParameters() const;
     void setTransitionParameters(const QMap < QString, QString > parameters);
     void setTransitionDirection(bool inv);
-    int transitionTrack();
+    int transitionTrack() const;
     void setTransitionTrack(int track);
-    QPixmap transitionPixmap();
+    QPixmap transitionPixmap() const;
     Transition *reparent(const DocClipRef * clip);
-    bool isValid();
+    bool isValid() const;
+    GenTime transitionDuration() const;
+    const DocClipRef *referencedClip() const;
 
   private:
 

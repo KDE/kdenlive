@@ -78,15 +78,51 @@ namespace Gui {
 
         //uint half = rect.height()*2/3;
         QColor col(252,255,79);
-        if (document()->application()->transitionPanel()->isActiveTransition( *itt)) col.setRgb(255,50,50);
+	int selectedKeyFrame = -1;
+
+        if (document()->application()->transitionPanel()->isActiveTransition( *itt)) { 
+	    col.setRgb(255,50,50);
+	    if ((*itt)->transitionType() == Transition::PIP_TRANSITION) 
+		selectedKeyFrame = document()->application()->transitionPanel()->selectedKeyFramePosition();
+	}
         int start = timeline()->mapValueToLocal((*itt)->transitionStartTime().frames(document()->framesPerSecond()));
         int end = timeline()->mapValueToLocal((*itt)->transitionEndTime().frames(document()->framesPerSecond()))-start;
-        //painter.fillRect(start, rect.y(), end, rect.height(), QBrush(col));  //, Qt::Dense5Pattern));
+
 	QBrush br = painter.brush();
 	painter.setBrush(QBrush(col));
         painter.drawRect(start, rect.y(), end, rect.height());
 	painter.setBrush(br);
 	painter.setClipRect(start, rect.y(), end, rect.height());
+
+	if ((*itt)->transitionType() == Transition::PIP_TRANSITION) {
+	    // Draw keyframes
+	    QMap < QString, QString > parameters = (*itt)->transitionParameters();
+	    QStringList geom = QStringList::split (";", parameters["geometry"]);
+
+	    int pos;
+	    if (geom.count() > 2) {
+	        QPen pen1 = painter.pen();
+		pen1.setStyle(Qt::DotLine);
+		QPen pen2 = pen1;
+		pen2.setColor(Qt::white);
+		painter.setPen(pen1);
+
+	        for ( QStringList::Iterator it = geom.begin(); it != geom.end(); ++it ) {
+		    pos = (*it).section("=", 0, 0).toInt();
+		    if (pos != 0 && pos != -1) {
+		    	int realPos = timeline()->mapValueToLocal((*itt)->transitionStartTime().frames(document()->framesPerSecond()) + pos);
+
+		    	if (pos == selectedKeyFrame) painter.setPen(pen2);
+		    	painter.drawLine(realPos, rect.y() + 1, realPos, rect.y() + rect.height() - 2);
+		    	painter.setPen(pen1);
+		    }
+	    	}
+		painter.setPen(Qt::SolidLine);
+	    }
+	
+	}
+        //painter.fillRect(start, rect.y(), end, rect.height(), QBrush(col));  //, Qt::Dense5Pattern));
+
 	
 	 
 	    

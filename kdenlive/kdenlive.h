@@ -158,8 +158,6 @@ namespace Gui {
 		/** Adjust document and timeline to current fps */
 	void setFramesPerSecond();
 
-		/** Seek timeline ruler cursor to given time */
-	void setCursorPosition(const GenTime pos);
 		/** Retreive timeline ruler cursor time */
 	GenTime cursorPosition() const;
 
@@ -215,6 +213,8 @@ namespace Gui {
         virtual void customEvent(QCustomEvent * e);
 
 	public slots:
+		/** Seek timeline ruler cursor to given time */
+	void setCursorPosition(const GenTime);
 		/** opens a file specified by commandline option
 		 */
 	void openDocumentFile(const KURL & url = 0);
@@ -415,6 +415,7 @@ namespace Gui {
     	};
 
 	void slotEditTransition(Transition *transition);
+	void slotCheckTransitionDuration(Transition *transition);
 	void slotCheckTransition(DocClipRef *clip);
         
         void clipReferenceChanged();

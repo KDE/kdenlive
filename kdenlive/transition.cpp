@@ -216,12 +216,12 @@ void Transition::setTransitionType(TRANSITIONTYPE newType)
     m_transitionName = getTransitionName(m_transitionType);
 }
 
-Transition::TRANSITIONTYPE Transition::transitionType()
+Transition::TRANSITIONTYPE Transition::transitionType() const
 {
     return m_transitionType;
 }
 
-QString Transition::transitionTag()
+QString Transition::transitionTag()const
 {
     switch (m_transitionType) {
 	case COMPOSITE_TRANSITION:
@@ -254,7 +254,7 @@ Transition::TRANSITIONTYPE Transition::getTransitionForName(const QString & type
 }
 
 
-QString Transition::transitionName()
+QString Transition::transitionName() const
 {
     return m_transitionName;
 }
@@ -264,12 +264,12 @@ void Transition::setTransitionParameters(const QMap < QString, QString > paramet
     m_transitionParameters = parameters;
 }
 
-const QMap < QString, QString > Transition::transitionParameters()
+const QMap < QString, QString > Transition::transitionParameters() const
 {
     return m_transitionParameters;
 }
 
-bool Transition::invertTransition()
+bool Transition::invertTransition() const
 {
     if (!m_singleClip) {
         if (m_referenceClip->trackStart() < m_secondClip->trackStart()) return true;
@@ -278,7 +278,7 @@ bool Transition::invertTransition()
     return m_invertTransition;
 }
 
-QPixmap Transition::transitionPixmap()
+QPixmap Transition::transitionPixmap() const
 {
     if (m_transitionType == LUMA_TRANSITION) {
 	if (invertTransition()) return KGlobal::iconLoader()->loadIcon("kdenlive_trans_down", KIcon::Small, 15);
@@ -293,7 +293,7 @@ QPixmap Transition::transitionPixmap()
     else return KGlobal::iconLoader()->loadIcon("kdenlive_trans_pip", KIcon::Small, 15);
 }
 
-int Transition::transitionTrack()
+int Transition::transitionTrack() const
 {
     return m_transitionTrack;
 }
@@ -308,17 +308,17 @@ void Transition::setTransitionDirection(bool inv)
     m_invertTransition = inv;
 }
 
-int Transition::transitionDocumentTrack()
+int Transition::transitionDocumentTrack() const
 {
     return m_referenceClip->trackNum();
 }
 
-int Transition::transitionStartTrack()
+int Transition::transitionStartTrack() const
 {
     return m_referenceClip->playlistTrackNum();
 }
 
-int Transition::transitionEndTrack()
+int Transition::transitionEndTrack() const
 {
     if (!m_singleClip) return m_secondClip->playlistTrackNum();
     if (m_transitionTrack == 0) return m_referenceClip->playlistNextTrackNum();
@@ -326,7 +326,12 @@ int Transition::transitionEndTrack()
     else return m_referenceClip->playlistOtherTrackNum(m_transitionTrack - 1);
 }
 
-GenTime Transition::transitionStartTime()
+GenTime Transition::transitionDuration() const
+{
+    return transitionEndTime() - transitionStartTime();
+}
+
+GenTime Transition::transitionStartTime() const
 {
     if (!m_singleClip) {
         GenTime startb = m_secondClip->trackStart();
@@ -340,7 +345,7 @@ GenTime Transition::transitionStartTime()
 }
 
 
-GenTime Transition::transitionEndTime()
+GenTime Transition::transitionEndTime() const
 {
     if (!m_singleClip) {
         GenTime endb = m_secondClip->trackEnd();
@@ -364,7 +369,7 @@ void Transition::resizeTransitionStart(GenTime time)
     if (time < m_referenceClip->trackStart()) time = m_referenceClip->trackStart();
     // Transitions shouldn't be shorter than 3 frames, about 0.12 seconds
     if ( transitionEndTime().ms() - time.ms() < 120.0) time = transitionEndTime() - GenTime(0.12);
-    m_transitionDuration =m_transitionDuration - (time - m_referenceClip->trackStart() - m_transitionStart);
+    m_transitionDuration = m_transitionDuration - (time - m_referenceClip->trackStart() - m_transitionStart);
     m_transitionStart = time - m_referenceClip->trackStart();
 }
 
@@ -387,13 +392,13 @@ void Transition::moveTransition(GenTime time)
     if (m_transitionStart < GenTime(0.0)) m_transitionStart = GenTime(0.0);
 }
 
-bool Transition::hasClip(const DocClipRef * clip)
+bool Transition::hasClip(const DocClipRef * clip) const
 {
     if (clip == m_secondClip) return true;
     return false;
 }
 
-bool Transition::belongsToClip(const DocClipRef * clip)
+bool Transition::belongsToClip(const DocClipRef * clip) const
 {
     if (clip == m_referenceClip) return true;
     return false;
@@ -413,9 +418,14 @@ Transition *Transition::reparent(const DocClipRef * clip)
     return new Transition::Transition(clip, this->toXML(), m_referenceClip->trackStart());
 }
 
-bool Transition::isValid()
+bool Transition::isValid() const
 {
     return (m_transitionDuration != GenTime());
+}
+
+const DocClipRef *Transition::referencedClip() const
+{
+    return m_referenceClip;
 }
 
 QDomElement Transition::toXML()

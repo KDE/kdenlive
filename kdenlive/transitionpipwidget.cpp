@@ -51,11 +51,10 @@
 #define ResizeMode 4
 
 //TODO don't hardcode image size
-#define imageWidth 240
+#define imageWidth 200
 #define imageHeight 192
 // safety margin for text
 #define frameWidth 80
-#define frameHeight 64
 
 
 namespace Gui {
@@ -72,7 +71,9 @@ ScreenPreview::ScreenPreview(QCanvas& c, QWidget* parent, const char* name, WFla
         canvas()->setBackgroundColor(black);
 
         // Draw the monitor rectangle
-        QCanvasRectangle *marginRect = new QCanvasRectangle(QRect(imageWidth/2-frameWidth/2,imageHeight/2-frameHeight/2,frameWidth,frameHeight),canvas());
+
+	m_frameHeight = (int) ((double) frameWidth / KdenliveSettings::displayratio());
+        QCanvasRectangle *marginRect = new QCanvasRectangle(QRect((canvas()->width()-frameWidth)/2,  (canvas()->height()-m_frameHeight)/2, frameWidth, m_frameHeight),canvas());
         marginRect->setZ(-100);
         marginRect->setPen(QPen(QColor(255,255,255)));
         marginRect->show();
@@ -109,7 +110,7 @@ void ScreenPreview::resizeEvent ( QResizeEvent * e)
 {
         //TODO make canvas keep a fixed ratio when resizing
         QWMatrix wm;
-        wm.scale(((double) width()-10)/((double) imageWidth),((double) height()-10)/((double) imageHeight));
+        wm.scale(((double) width()-10)/((double) width()),((double) height()-10)/((double) height()));
         setWorldMatrix (wm);
 }
 
@@ -143,8 +144,8 @@ void ScreenPreview::contentsMouseReleaseEvent(QMouseEvent* e)
                 }
         }
         // If user was moving an item, end the move
-		  int x = (int)((moving->x() + frameWidth/2 - imageWidth/2) * 100.0 /(frameWidth));
-		  int y = (int)((moving->y() + frameHeight/2 - imageHeight/2) * 100.0 /(frameHeight));
+		  int x = (int)((moving->x() + frameWidth/2 - width()/2) * 100.0 /(frameWidth));
+		  int y = (int)((moving->y() + m_frameHeight/2 - height()/2) * 100.0 /(m_frameHeight));
         emit positionRect(x,y);
 
 }
@@ -184,7 +185,7 @@ void ScreenPreview::moveX(int x)
 {
     if ( moving ) {
         setCursor(QCursor(Qt::SizeAllCursor));
-        moving->setX(imageWidth/2 + frameWidth * x/100.0 - frameWidth/2);
+        moving->setX(width()/2 + frameWidth * x/100.0 - frameWidth/2);
         if (!m_silent) canvas()->update();
     }
 }
@@ -193,7 +194,7 @@ void ScreenPreview::moveY(int y)
 {
     if ( moving ) {
         setCursor(QCursor(Qt::SizeAllCursor));
-        moving->setY(imageHeight/2 + frameHeight * y/100.0 - frameHeight/2);
+        moving->setY(height()/2 + m_frameHeight * y/100.0 - m_frameHeight/2);
         if (!m_silent) canvas()->update();
     }
 }
@@ -202,7 +203,7 @@ void ScreenPreview::adjustSize(int x)
 {
     if ( moving ) {
         setCursor(QCursor(Qt::SizeAllCursor));
-		  ((QCanvasRectangle*)(moving))->setSize((int)(x/100.0 * frameWidth), (int)(x/100.0 * frameHeight));
+		  ((QCanvasRectangle*)(moving))->setSize((int)(x/100.0 * frameWidth), (int)(x/100.0 * m_frameHeight));
         if (!m_silent) canvas()->update();
     }
     
@@ -230,15 +231,19 @@ void ScreenPreview::contentsMouseMoveEvent(QMouseEvent* e)
 
 
 transitionPipWidget::transitionPipWidget(KdenliveApp * app, int width, int height, QWidget* parent, const char* name, WFlags fl ):
-        transitionPip_UI(parent,name), m_silent(false), m_app(app)
+        transitionPip_UI(parent,name), m_silent(false), m_app(app), m_freeze(-1)
 {
-        /*frame_preview->setMinimumWidth(width);
+        frame_preview->setMinimumWidth(width);
 	frame_preview->setMaximumWidth(width);
         frame_preview->setMinimumHeight(height);
-	frame_preview->setMaximumHeight(height);*/
-        canvas=new QCanvas(imageWidth,imageHeight);
+	frame_preview->setMaximumHeight(height);
+
+	m_frameHeight = (int) ((double) frameWidth / KdenliveSettings::displayratio());
+
+        canvas=new QCanvas(width,height);
         canview = new ScreenPreview(*canvas,frame_preview);
-        canview->initRectangle(imageWidth/2-frameWidth/2,imageHeight/2-frameHeight/2,frameWidth,frameHeight);
+        canview->initRectangle(width/2-frameWidth/2, height/2-m_frameHeight/2, frameWidth, m_frameHeight);
+
 	fixed_trans->setChecked(false);
 
         QHBoxLayout* flayout = new QHBoxLayout( frame_preview, 1, 1, "flayout");
@@ -268,15 +273,21 @@ transitionPipWidget::transitionPipWidget(KdenliveApp * app, int width, int heigh
 	connect(luma_file, SIGNAL(activated(int)), this, SIGNAL(transitionChanged()));
 
         
-        connect(radio_start, SIGNAL(stateChanged(int)), this, SLOT(changeKeyFrame(int)));
+        /*connect(radio_start, SIGNAL(stateChanged(int)), this, SLOT(changeKeyFrame(int)));
         connect(radio_start, SIGNAL(pressed()), this, SLOT(focusInOut()));
-        connect(radio_end, SIGNAL(pressed()), this, SLOT(focusInOut()));
+        connect(radio_end, SIGNAL(pressed()), this, SLOT(focusInOut()));*/
+
+	connect(keyframe_number, SIGNAL(valueChanged(int)), this, SLOT(changeKeyFrame(int)));
+	connect(slider_pos, SIGNAL(valueChanged(int)), spin_pos, SLOT(setValue(int)));
+	connect(spin_pos, SIGNAL(valueChanged(int)), slider_pos, SLOT(setValue(int)));
+	connect(button_create, SIGNAL(clicked()), this, SLOT(slotAddKeyFrame()));
+	connect(button_delete, SIGNAL(clicked()), this, SLOT(slotDeleteKeyFrame()));
 
         connect(fixed_trans, SIGNAL(toggled(bool)), this, SLOT(duplicateKeyFrame(bool)));
 
         m_transitionParameters[0]="0:0:100:0";
-        m_transitionParameters[1]="0:0:100:0";
-        changeKeyFrame(radio_start->isChecked());
+        m_transitionParameters[-1]="0:0:100:0";
+        //changeKeyFrame(radio_start->isChecked());
 }
 
 
@@ -301,11 +312,19 @@ void transitionPipWidget::focusInOut()
 void transitionPipWidget::duplicateKeyFrame(bool isOn)
 {
     if (!isOn) {
-	radio_end->setEnabled(true);
+	//radio_end->setEnabled(true);
+	button_create->setEnabled(true);
+	button_delete->setEnabled(true);
+	keyframe_number->setEnabled(true);
+	m_freeze = -1;
 	return;
     }
-    radio_end->setEnabled(false);
-    int current, toChange;
+    //radio_end->setEnabled(false);
+    m_freeze = keyframe_number->value();
+    button_create->setEnabled(false);
+    button_delete->setEnabled(false);
+    keyframe_number->setEnabled(false);
+    /*int current, toChange;
     if (radio_start->isChecked()) {
 	current = 0;
 	toChange = 1;
@@ -332,44 +351,70 @@ void transitionPipWidget::duplicateKeyFrame(bool isOn)
     s1 = m_transitionParameters[current].section(":",0,0);
     s2 = m_transitionParameters[current].section(":",2);
     m_transitionParameters[toChange] = s1+":"+ QString::number(spin_y->value())+":"+s2;
-    if (current == 1) radio_start->setChecked(true);
+    if (current == 1) radio_start->setChecked(true);*/
     emit transitionChanged();
 
 }
 
-void transitionPipWidget::changeKeyFrame(int isOn)
+int transitionPipWidget::getKeyFrameIndex(int nb)
 {
-    int x, y, size, transp, ix;
-    if (isOn) ix = 0;
-    else ix = 1;
-    x = m_transitionParameters[ix].section(":",0,0).toInt();
-    y = m_transitionParameters[ix].section(":",1,1).toInt();
-    size = m_transitionParameters[ix].section(":",2,2).toInt();
-    transp = m_transitionParameters[ix].section(":",3,3).toInt();
+   QMap < int, QString >::Iterator it = m_transitionParameters.begin();
+    int ct = 0;
+    it++;
+    for ( ; it != m_transitionParameters.end(); ++it ) {
+	if (ct == nb) break;
+	ct++;
+    }
+    if (it == m_transitionParameters.end()) it = m_transitionParameters.begin();
+    return it.key();
+}
+
+void transitionPipWidget::changeKeyFrame(int nb)
+{
+    int x, y, size, transp, ix, pos;
+    if (nb + 1 > m_transitionParameters.size()) nb = m_transitionParameters.size() - 1;
+    keyframe_number->setValue(nb);
+    pos = getKeyFrameIndex(nb);
+
+    if (pos == 0 || pos == -1) button_delete->setEnabled(false);
+    else button_delete->setEnabled(true);
+
+    
+    QString params = m_transitionParameters[pos];
+    x = params.section(":",0,0).toInt();
+    y = params.section(":",1,1).toInt();
+    size = params.section(":",2,2).toInt();
+    transp = params.section(":",3,3).toInt();
     m_silent = true;
     canview->setSilent(true);
+    if (pos == -1) pos = spin_pos->maxValue();
+    spin_pos->setValue(pos);
     slider_x->setValue(x);
     slider_y->setValue(y);
     slider_size->setValue(size);
     slider_transparency->setValue(transp);
     m_silent = false;
     canview->setSilent(false);
-    emit transitionChanged();
+    emit transitionNeedsRedraw(); //transitionChanged();
+    emit moveCursorToKeyFrame(pos);
     canview->canvas()->update();
 }
 
 void transitionPipWidget::adjustSize(int x)
 {
     int ix;
-    if (radio_start->isChecked()) ix = 0;
-    else ix = 1;
-    QString s1 = m_transitionParameters[ix].section(":",0,1);
-    QString s2 = m_transitionParameters[ix].section(":",3);
-    m_transitionParameters[ix] = s1+":"+ QString::number(x)+":"+s2;
+    ix = keyframe_number->value();
 
-    if (fixed_trans->isChecked()) {
+    int pos = getKeyFrameIndex(ix);
+    QString data = m_transitionParameters[pos];
+
+    QString s1 = data.section(":",0,1);
+    QString s2 = data.section(":",3);
+    m_transitionParameters[pos] = s1+":"+ QString::number(x)+":"+s2;
+
+    /*if (fixed_trans->isChecked()) {
 	m_transitionParameters[1] = m_transitionParameters[0];
-    }
+    }*/
     canview->adjustSize(x);
     if (!m_silent) {
 	emit transitionChanged();
@@ -380,14 +425,19 @@ void transitionPipWidget::adjustSize(int x)
 void transitionPipWidget::adjustTransparency(int x)
 {
     int ix;
-    if (radio_start->isChecked()) ix = 0;
-    else ix = 1;
-    QString s1 = m_transitionParameters[ix].section(":",0,2);
-    m_transitionParameters[ix] = s1+":"+ QString::number(x);
+    /*if (radio_start->isChecked()) ix = 0;
+    else ix = 1;*/
+    ix = keyframe_number->value();
 
-    if (fixed_trans->isChecked()) {
+    int pos = getKeyFrameIndex(ix);
+    QString data = m_transitionParameters[pos];
+
+    QString s1 = data.section(":",0,2);
+    m_transitionParameters[pos] = s1+":"+ QString::number(x);
+
+    /*if (fixed_trans->isChecked()) {
 	m_transitionParameters[1] = m_transitionParameters[0];
-    }
+    }*/
     if (!m_silent) {
 	emit transitionChanged();
 	m_app->focusTimelineWidget();
@@ -397,14 +447,18 @@ void transitionPipWidget::adjustTransparency(int x)
 void transitionPipWidget::moveX(int x)
 {
     int ix;
-    if (radio_start->isChecked()) ix = 0;
-    else ix = 1;
-    QString s = m_transitionParameters[ix].section(":",1);
-    m_transitionParameters[ix] = QString::number(x)+":"+s;
+    /*if (radio_start->isChecked()) ix = 0;
+    else ix = 1;*/
+    ix = keyframe_number->value();
+    int pos = getKeyFrameIndex(ix);
+    QString data = m_transitionParameters[pos];
 
-    if (fixed_trans->isChecked()) {
+    QString s = data.section(":",1);
+    m_transitionParameters[pos] = QString::number(x)+":"+s;
+
+    /*if (fixed_trans->isChecked()) {
 	m_transitionParameters[1] = m_transitionParameters[0];
-    }
+    }*/
     canview->moveX(x);
     if (!m_silent) {
 	emit transitionChanged();
@@ -415,15 +469,19 @@ void transitionPipWidget::moveX(int x)
 void transitionPipWidget::moveY(int y)
 {
     int ix;
-    if (radio_start->isChecked()) ix = 0;
-    else ix = 1;
-    QString s1 = m_transitionParameters[ix].section(":",0,0);
-    QString s2 = m_transitionParameters[ix].section(":",2);
-    m_transitionParameters[ix] = s1+":"+ QString::number(y)+":"+s2;
+    /*if (radio_start->isChecked()) ix = 0;
+    else ix = 1;*/
+    ix = keyframe_number->value();
+    int pos = getKeyFrameIndex(ix);
+    QString data = m_transitionParameters[pos];
 
-    if (fixed_trans->isChecked()) {
+    QString s1 = data.section(":",0,0);
+    QString s2 = data.section(":",2);
+    m_transitionParameters[pos] = s1+":"+ QString::number(y)+":"+s2;
+
+    /*if (fixed_trans->isChecked()) {
 	m_transitionParameters[1] = m_transitionParameters[0];
-    }
+    }*/
     canview->moveY(y);
     if (!m_silent) {
 	emit transitionChanged();
@@ -434,50 +492,105 @@ void transitionPipWidget::moveY(int y)
 void transitionPipWidget::adjustSliders(int x, int y)
 {
     int ix;
-    if (radio_start->isChecked()) ix = 0;
-    else ix = 1;
-    QString s = m_transitionParameters[ix].section(":",2);
-    m_transitionParameters[ix] = QString::number(x)+":"+QString::number(y)+":"+s;
+    /*if (radio_start->isChecked()) ix = 0;
+    else ix = 1;*/
+    ix = keyframe_number->value();
+    int pos = getKeyFrameIndex(ix);
+    QString data = m_transitionParameters[pos];
+
+    QString s = data.section(":",2);
+    m_transitionParameters[pos] = QString::number(x)+":"+QString::number(y)+":"+s;
     spin_x->setValue(x);
     spin_y->setValue(y);
 }
 
 
-void transitionPipWidget::setParameters(QString params)
+QString transitionPipWidget::getParametersFromString(QString param)
 {
-    if (params.isEmpty()) params = "0=0%,0%:100%x100%:100;-1=0%,0%:100%x100%:100";
-    QString param1 = params.section(";",0,0);
-    QString transp1 = QString::number(100-param1.section(":",-1).toInt());
-    QString size1 = param1.section("x",1,1).section("%",0,0);
-    QString x1 = param1.section("=",1,1).section("%",0,0);
-    QString y1 = param1.section(",",1,1).section("%",0,0);
-    
-    QString param2 = params.section(";",1,1);
-    QString transp2 = QString::number(100 - param2.section(":",-1).toInt());
-    QString size2 = param2.section("x",1,1).section("%",0,0);
-    QString x2 = param2.section("=",1,1).section("%",0,0);
-    QString y2 = param2.section(",",1,1).section("%",0,0);
-    
-    m_transitionParameters[0]=x1+":"+y1+":"+size1+":"+transp1;
-    m_transitionParameters[1]=x2+":"+y2+":"+size2+":"+transp2;
-    changeKeyFrame(radio_start->isChecked());
+    QString transp = QString::number(100-param.section(":",-1).toInt());
+    QString size = param.section("x",1,1).section("%",0,0);
+    QString x = param.section("%",0,0);
+    QString y = param.section(",",1,1).section("%",0,0);
+    return x+":"+y+":"+size+":"+transp;
+}
 
+void transitionPipWidget::setParameters(QString params, int duration)
+{
+    if (params.isEmpty()) {
+	params = "0=0%,0%:100%x100%:100;-1=0%,0%:100%x100%:100";
+    }
+    int ct = 0;
+    QString param = params.section(";",0,0);
+    m_transitionParameters.clear();
+    while (!param.isEmpty()) {
+	int pos = param.section("=", 0, 0).toInt();
+	QString data = param.section("=", 1);
+	m_transitionParameters[pos] = getParametersFromString(data);
+	kdDebug()<<"// inserting param at: "<<pos<<", with value: "<<m_transitionParameters[pos]<<endl;
+	ct++;
+	param = params.section(";", ct, ct);
+    }
+
+/*    if (m_transitionParameters[0] == m_transitionParameters[1]) fixed_trans->setChecked(true);
+    else fixed_trans->setChecked(false);*/
+
+//    changeKeyFrame(radio_start->isChecked());
+    spin_pos->setMaxValue(duration - 1);
+    slider_pos->setMaxValue(duration - 1);
+    changeKeyFrame(0);
 }
 
 
 QString transitionPipWidget::parameters()
 {
-    QString x1 = m_transitionParameters[0].section(":",0,0)+"%";
-    QString y1 = m_transitionParameters[0].section(":",1,1)+"%";
-    QString size1 = m_transitionParameters[0].section(":",2,2)+"%";
-    QString transp1 = QString::number(100 - m_transitionParameters[0].section(":",3,3).toInt());
-    
-    QString x2 = m_transitionParameters[1].section(":",0,0)+"%";
+    QString result;
+    QString x, y, size, transp, pos;
+    uint max = m_transitionParameters.size();
+    uint ct = 0;
+
+    QMap < int, QString >::Iterator it;
+    for ( it = m_transitionParameters.begin(); it != m_transitionParameters.end(); ++it ) {
+	pos = QString::number(it.key()); //m_transitionParameters[i].section(":",0,0);
+	QString params = it.data();
+	x = params.section(":",0,0)+"%";
+	y = params.section(":",1,1)+"%";
+	size = params.section(":",2,2)+"%";
+	transp = QString::number(100 - params.section(":",3,3).toInt());
+	result += QString(pos+"="+x+","+y+":"+size+"x"+size+":"+transp);
+	ct++;
+	if (ct != max) result += ";";
+    }
+    kdDebug()<<" + + +TRANS RESULT: "<<result<<endl;
+    /*QString x2 = m_transitionParameters[1].section(":",0,0)+"%";
     QString y2 = m_transitionParameters[1].section(":",1,1)+"%";
     QString size2 = m_transitionParameters[1].section(":",2,2)+"%";
-    QString transp2 = QString::number(100 - m_transitionParameters[1].section(":",3,3).toInt());
+    QString transp2 = QString::number(100 - m_transitionParameters[1].section(":",3,3).toInt());*/
     
-    return QString("0="+x1+","+y1+":"+size1+"x"+size1+":"+transp1+";-1="+x2+","+y2+":"+size2+"x"+size2+":"+transp2);
+    return result; /*QString("0="+x1+","+y1+":"+size1+"x"+size1+":"+transp1+";-1="+x2+","+y2+":"+size2+"x"+size2+":"+transp2);*/
+}
+
+void transitionPipWidget::slotAddKeyFrame()
+{
+    GenTime cursorPos = m_app->cursorPosition();
+    GenTime transStart = m_app->transitionPanel()->activeTransition()->transitionStartTime();
+    int pos = (cursorPos - transStart).frames(KdenliveSettings::defaultfps());
+    m_transitionParameters[pos] = "0:0:100:0";
+    emit transitionChanged();
+}
+
+void transitionPipWidget::slotDeleteKeyFrame()
+{
+    int pos = keyframe_number->value();
+    int value = getKeyFrameIndex(pos);
+    if (value == 0 || value == -1) return;
+    QMap < int, QString >::Iterator it;
+    for ( it = m_transitionParameters.begin(); it != m_transitionParameters.end(); ++it ) {
+	if (it.key() == value) {
+	    m_transitionParameters.remove(it);
+	    break;
+	}
+    }
+    changeKeyFrame(pos);
 }
 
 }  //  end GUI namespace
