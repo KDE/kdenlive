@@ -492,6 +492,7 @@ namespace Gui {
         void slotSplitAudio();
 	void slotExtractAudio();
 	void slotProjectExtractAudio();
+	void slotProjectImportCue();
 	void slotExtractClipAudio(DocClipRef *clip);
 
         /** Add a transition between the 2 selected clips */

@@ -795,6 +795,10 @@ namespace Gui {
 	    SLOT(slotProjectExtractAudio()), actionCollection(), "project_extract_audio");
 	projectExtractAudio->setToolTip(i18n("Extract Audio From Clip"));
 
+	KAction *projectImportCueSheet = new KAction(i18n("Import Cue Sheet"), 0, this,
+	    SLOT(slotProjectImportCue()), actionCollection(), "project_attach_cue");
+	projectImportCueSheet->setToolTip(i18n("Import Markers From Cue Sheet"));
+
 	actionNextFrame =
 	    new KAction(i18n("Forward one frame"),
 	    KShortcut(Qt::Key_Right), this, SLOT(slotNextFrame()),
@@ -3816,6 +3820,51 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	DocClipRef *clip = m_projectList->currentClip();
 	if (!clip || clip->audioChannels() == 0) return;
 	slotExtractClipAudio(clip);
+    }
+
+    void KdenliveApp::slotProjectImportCue() {
+	DocClipRef *clip = m_projectList->currentClip();
+	if (!clip) return;
+	KURL url = KFileDialog::getOpenURL(QString(), i18n( "*.cue|Cue sheet (*.cue)" ), this, i18n("Open File..."));
+	if (url.isEmpty()) return;
+		QStringList cueList;
+		QStringList titleList;
+		QFile file(url.path());
+		QString line;
+		QString title;
+  		if ( file.open(IO_ReadOnly) ) {
+    		    QTextStream t( &file );        // use a text stream
+    		    while ( !t.eof() ) {
+      			line = t.readLine();
+			line = line.simplifyWhiteSpace();
+			if (line.startsWith("title", false)) {
+			    title = line.section("\"", 1, 1);
+			}
+			else if (line.startsWith("index", false)) {
+			    cueList.append(line.section(" ", -1));
+			    titleList.append(title);
+			    title = QString::null;
+			}
+    		    }
+    		// Close the file
+    		file.close();
+  		}
+
+	QValueVector < CommentedTime > markers;
+	GenTime time;
+	QString comment;
+	int fps = KdenliveSettings::defaultfps();
+	int ct = 0;
+	for ( QStringList::Iterator it = cueList.begin(); it != cueList.end(); ++it ) {
+		int frames = (int) ((*it).section(":", 0, 0).toInt() * 60 * fps + (*it).section(":", 1, 1).toInt() * fps + (*it).section(":", 2, 2).toInt() * fps / 74);
+		time = GenTime(frames, fps);
+		comment = titleList[ct];
+		CommentedTime marker(time, comment);
+		markers.append(marker);
+		ct++;
+        }
+	if (markers.size() > 0)
+	    clip->referencedClip()->setSnapMarkers(markers);
     }
 
     void KdenliveApp::slotExtractClipAudio(DocClipRef *clip) {

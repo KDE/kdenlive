@@ -173,6 +173,7 @@
 	<Action name="project_delete_clip"/>
         <Action name="edit_clip"/>
 	<Action name="project_extract_audio"/>
+	<Action name="project_attach_cue"/>
         <Separator />
 	<Action name="fix_playlists"/>
         <Action name="project_clean"/>
