@@ -19,7 +19,6 @@
 #include <cmath>
 
 #include <kled.h>
-#include <qlcdnumber.h>
 #include <kdebug.h>
 
 #include "kmmrecpanel.h"
@@ -44,11 +43,6 @@ namespace Gui {
 	renderStatus->setColor(QColor(0, 200, 0));
 	renderStatus->setFixedSize(20, 20);
 
-	timeCode->setSegmentStyle(QLCDNumber::Flat);
-	timeCode->setPaletteBackgroundColor(Qt::black);
-	timeCode->setPaletteForegroundColor(Qt::green);
-	timeCode->setNumDigits(11);
-
 	KIconLoader loader;
 
 
@@ -69,9 +63,6 @@ namespace Gui {
 	 connect(stopButton, SIGNAL(pressed()), this, SIGNAL(stopDevice()));
 	 connect(stopButton, SIGNAL(pressed()), this,
 	    SLOT(updateButtons()));
-
-	// timecode from camera not working for the moment
-	timeCode->hide();
     } 
     
     KMMRecPanel::~KMMRecPanel() {}
