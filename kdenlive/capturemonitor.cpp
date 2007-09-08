@@ -225,6 +225,7 @@ void CaptureMonitor::displayCapturedFiles()
 	    captureProcess = 0;
 	}
 	m_recPanel->rendererDisconnected();
+	m_recPanel->capture_format->setEnabled(true);
 	if (hasCapturedFiles) displayCapturedFiles();
 	m_recPanel->unsetRecording();
     }
@@ -273,6 +274,7 @@ void CaptureMonitor::displayCapturedFiles()
         connect(captureProcess, SIGNAL(processExited(KProcess *)), this, SLOT(slotProcessStopped(KProcess *)));
     	connect(captureProcess, SIGNAL(receivedStderr (KProcess *, char *, int )), this, SLOT(receivedStderr(KProcess *, char *, int)));
 	captureProcess->start(KProcess::NotifyOnExit, KProcess::Communication(KProcess::Stdin | KProcess::Stderr));
+	m_recPanel->capture_format->setEnabled(false);
 	m_recPanel->rendererConnected();
     }
 
@@ -285,15 +287,6 @@ void CaptureMonitor::displayCapturedFiles()
     void CaptureMonitor::slotPlay() {
 	if (!captureProcess) slotInit();
 	captureProcess->writeStdin(" ", 1);
-
-	/*if (captureProcess) return;
-	captureProcess = new KProcess();
-        captureProcess->setUseShell(true);
-        captureProcess->setEnvironment("SDL_WINDOWID", QString::number(m_screen->captureId()));
-        *captureProcess<<"dvgrab";
-        *captureProcess<<"--format"<<"raw"<<"-"; //<<"testme-";
-        *captureProcess<<"|"<<"ffplay"<<"-f"<<"dv"<<"-";
-	captureProcess->start();*/
     }
 
     void CaptureMonitor::slotRec() {
