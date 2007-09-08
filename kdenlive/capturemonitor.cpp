@@ -43,6 +43,7 @@ namespace Gui {
 	m_screen->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
 	m_screen->setBackgroundMode(Qt::PaletteDark);
 	slotCheckCaptureStatus();
+	m_recPanel->capture_format->setCurrentItem(KdenliveSettings::captureformat());
 
 	connect(m_recPanel, SIGNAL(activateMonitor()), this,  SLOT(activateMonitor()));
 	connect(m_recPanel, SIGNAL(stopDevice()), this, SLOT(slotStop()));
@@ -246,7 +247,7 @@ void CaptureMonitor::displayCapturedFiles()
 
 	bool isHdv = false;
 
-	switch (KdenliveSettings::captureformat()){
+	switch (m_recPanel->capture_format->currentItem()){
 	    case 0:
  		*captureProcess<<"--format"<<"dv1";
 		break;

@@ -62,7 +62,7 @@
                 </sizepolicy>
             </property>
             <property name="text">
-                <string>DV capture format:</string>
+                <string>Default capture format:</string>
             </property>
         </widget>
         <widget class="KComboBox" row="2" column="1">
