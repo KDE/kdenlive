@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kdenlive" version="36">
+<kpartgui name="kdenlive" version="38">
 <MenuBar>
   <Menu name="file">
 	<Action name="merge_project"/>
@@ -173,10 +173,10 @@
 	<Action name="project_delete_clip"/>
         <Action name="edit_clip"/>
 	<Action name="project_extract_audio"/>
-	<Action name="project_attach_cue"/>
-        <Separator />
-	<Action name="fix_playlists"/>
-        <Action name="project_clean"/>
+	<Menu name="clip_markers"><text>Markers</text>
+		<Action name="project_attach_cue"/>
+		<Action name="project_delete_markers"/>
+	</Menu>
 </Menu>
 
 <Menu name="projectlist_context_text">
@@ -191,9 +191,6 @@
 	<Action name="project_duplicate_text_clip"/>
 	<Action name="project_delete_clip"/>
         <Action name="edit_clip"/>
-        <Separator />
-	<Action name="fix_playlists"/>
-        <Action name="project_clean"/>
 </Menu>
 
 <Menu name="projectlist_context_virtual">
@@ -208,9 +205,6 @@
 	<Action name="show_virtual_zone"/>
 	<Action name="project_delete_clip"/>
         <Action name="edit_clip"/>
-        <Separator />
-	<Action name="fix_playlists"/>
-        <Action name="project_clean"/>
 </Menu>
 
 <Menu name="projectlist_context_audio">
@@ -225,9 +219,10 @@
 	<Action name="external_audio"/>
 	<Action name="project_delete_clip"/>
         <Action name="edit_clip"/>
-        <Separator />
-	<Action name="fix_playlists"/>
-        <Action name="project_clean"/>
+	<Menu name="clip_markers"><text>Markers</text>
+		<Action name="project_attach_cue"/>
+		<Action name="project_delete_markers"/>
+	</Menu>
 </Menu>
 
 <Menu name="projectlist_context_folder">
@@ -241,9 +236,6 @@
 		<Action name="project_add_text_clip"/>
 	</Menu>
 	<Action name="delete_folder"/>
-	<Separator />
-	<Action name="fix_playlists"/>
-	<Action name="project_clean"/>
 </Menu>
 
 <Menu name="ruler_context">

@@ -299,6 +299,7 @@ namespace Gui {
 	void slotProjectEditClip();
         void slotProjectEditParentClip();
 	void slotSetClipDuration();
+	void slotProjectDeleteClipMarkers();
 		/** Opens a clip properties dialog */
 	//void slotProjectClipProperties();
 	//sets properties for selected clip without showing dialog
@@ -542,6 +543,7 @@ namespace Gui {
         void slotRenderAudioZone();
 	void addMarkerUnderCursor();
 	void deleteMarkerUnderCursor();
+	void deleteClipMarkers(DocClipRef *clip);
         void editMarkerUnderCursor();
 	/** Hide / show effects in timeline */
 	void slotDisableEffects();

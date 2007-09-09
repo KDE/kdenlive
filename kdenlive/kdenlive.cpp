@@ -799,6 +799,10 @@ namespace Gui {
 	    SLOT(slotProjectImportCue()), actionCollection(), "project_attach_cue");
 	projectImportCueSheet->setToolTip(i18n("Import Markers From Cue Sheet"));
 
+	KAction *projectDeleteMarkers = new KAction(i18n("Delete Markers"), 0, this,
+	    SLOT(slotProjectDeleteClipMarkers()), actionCollection(), "project_delete_markers");
+	projectImportCueSheet->setToolTip(i18n("Delete Clip Markers"));
+
 	actionNextFrame =
 	    new KAction(i18n("Forward one frame"),
 	    KShortcut(Qt::Key_Right), this, SLOT(slotNextFrame()),
@@ -3822,49 +3826,54 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	slotExtractClipAudio(clip);
     }
 
+    void KdenliveApp::slotProjectDeleteClipMarkers() {
+	DocClipRef *clip = m_projectList->currentClip();
+	if (!clip) return;
+	deleteClipMarkers(clip);
+    }
+
     void KdenliveApp::slotProjectImportCue() {
 	DocClipRef *clip = m_projectList->currentClip();
 	if (!clip) return;
-	KURL url = KFileDialog::getOpenURL(QString(), i18n( "*.cue|Cue sheet (*.cue)" ), this, i18n("Open File..."));
-	if (url.isEmpty()) return;
-		QStringList cueList;
-		QStringList titleList;
-		QFile file(url.path());
+
+	QCheckBox * mergeCues = new QCheckBox(i18n("Merge with existing cues"),this);
+        KFileDialog *fd = new KFileDialog(m_fileDialogPath.path(), "*.cue", this, "import_cue", true, mergeCues);
+	fd->setCaption(i18n("Open File..."));
+        fd->setOperationMode(KFileDialog::Opening);
+        fd->setMode(KFile::File);
+        if (fd->exec() == QDialog::Accepted) {
+	    QFile file(fd->selectedFile());
+	    if ( file.open(IO_ReadOnly) ) {
+		QString cueTime;
 		QString line;
 		QString title;
-  		if ( file.open(IO_ReadOnly) ) {
-    		    QTextStream t( &file );        // use a text stream
-    		    while ( !t.eof() ) {
-      			line = t.readLine();
-			line = line.simplifyWhiteSpace();
-			if (line.startsWith("title", false)) {
-			    title = line.section("\"", 1, 1);
-			}
-			else if (line.startsWith("index", false)) {
-			    cueList.append(line.section(" ", -1));
-			    titleList.append(title);
-			    title = QString::null;
-			}
-    		    }
-    		// Close the file
-    		file.close();
-  		}
-
-	QValueVector < CommentedTime > markers;
-	GenTime time;
-	QString comment;
-	int fps = KdenliveSettings::defaultfps();
-	int ct = 0;
-	for ( QStringList::Iterator it = cueList.begin(); it != cueList.end(); ++it ) {
-		int frames = (int) ((*it).section(":", 0, 0).toInt() * 60 * fps + (*it).section(":", 1, 1).toInt() * fps + (*it).section(":", 2, 2).toInt() * fps / 74);
-		time = GenTime(frames, fps);
-		comment = titleList[ct];
-		CommentedTime marker(time, comment);
-		markers.append(marker);
-		ct++;
-        }
-	if (markers.size() > 0)
-	    clip->referencedClip()->setSnapMarkers(markers);
+		GenTime time;
+		int fps = KdenliveSettings::defaultfps();
+		int id = clip->referencedClip()->getId();
+		if (!mergeCues->isChecked()) deleteClipMarkers(clip);
+		KMacroCommand *macroCommand = new KMacroCommand(i18n("Import Markers"));
+    		QTextStream t( &file );        // use a text stream
+    		while ( !t.eof() ) {
+      		    line = t.readLine();
+      		    line = line.simplifyWhiteSpace();
+      		    if (line.startsWith("title", false)) {
+			title = line.section("\"", 1, 1);
+      		    }
+      		    else if (line.startsWith("index", false)) {
+			cueTime = line.section(" ", -1);
+			int frames = (int) (cueTime.section(":", 0, 0).toInt() * 60 * fps + cueTime.section(":", 1, 1).toInt() * fps + cueTime.section(":", 2, 2).toInt() * fps / 74);
+			time = GenTime(frames, fps);
+			Command::KAddMarkerCommand * command = new Command::KAddMarkerCommand(*getDocument(), id, time, title, true);
+		    	macroCommand->addCommand(command);
+			title = QString::null;
+		    }
+    		}
+   		file.close();
+		addCommand(macroCommand, true);
+	    }
+	}
+	delete mergeCues;
+	delete fd;
     }
 
     void KdenliveApp::slotExtractClipAudio(DocClipRef *clip) {
@@ -4450,6 +4459,20 @@ void KdenliveApp::slotProjectAddSlideshowClip() {
 	if (clipUnderMouse == NULL) return;
     	Command::KAddMarkerCommand * command = new Command::KAddMarkerCommand(*getDocument(), clipUnderMouse->referencedClip()->getId(), cursorTime - clipUnderMouse->trackStart() + clipUnderMouse->cropStartTime(), QString::null, false);
 	addCommand(command);
+    }
+
+    void KdenliveApp::deleteClipMarkers(DocClipRef *clip)
+    {
+	QValueVector < CommentedTime > markers = clip->commentedSnapMarkers();
+	QValueVector < CommentedTime >::iterator markerItt = markers.begin();
+	KMacroCommand *macroCommand = new KMacroCommand(i18n("Delete Markers"));
+	int id = clip->referencedClip()->getId();
+	while (markerItt != markers.end()) {
+	    Command::KAddMarkerCommand * command = new Command::KAddMarkerCommand(*getDocument(), id, (*markerItt).time(), (*markerItt).comment(), false);
+	    macroCommand->addCommand(command);
+	    ++markerItt;
+	}
+	addCommand(macroCommand);
     }
 
     void KdenliveApp::toggleMarkerUnderCursor()
