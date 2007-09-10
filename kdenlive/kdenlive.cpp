@@ -2926,7 +2926,7 @@ namespace Gui {
 
 
     void KdenliveApp::slotFileSave() {
-	if (m_doc->URL().isEmpty()) slotFileSaveAs(m_doc->projectName());
+	if (m_doc->URL().isEmpty() || m_doc->URL() == KURL(m_recoveryFile)) slotFileSaveAs(m_doc->projectName());
 	else {
 		slotStatusMsg(i18n("Saving file..."));
 		if (KIO::NetAccess::exists(m_doc->URL(), true, this)) {
