@@ -389,6 +389,7 @@ namespace Gui {
 
     QString ClipProperties::lumaFile() const
     {
+	if (!clipChoice->luma_selected->isChecked()) return QString::null;
         return clipChoice->luma_list->currentText();
     }
 
