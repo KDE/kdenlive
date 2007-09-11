@@ -99,6 +99,8 @@ exportWidget::exportWidget(Gui::KdenliveApp *app, Gui::KTimeLine *timeline, form
     connect(button_metadata, SIGNAL( clicked() ), this, SLOT( slotEditMetaData()));
     connect(custom_encoders, SIGNAL( doubleClicked ( QListViewItem *, const QPoint &, int ) ), this, SLOT( slotEditEncoder()));
     connect(button_timecode, SIGNAL( clicked() ), this, SLOT( slotAddTimecode()));
+
+    connect(add_overlay, SIGNAL( toggled(bool) ), text_overlay, SLOT( setEnabled(bool)));
 }
 
 exportWidget::~exportWidget()
@@ -658,7 +660,6 @@ void exportWidget::startExport()
 		paramLine = slotCommandForItem(CustomEncoders, custom_encoders->currentItem());
 		break;
 	}
-	paramLine = paramLine.stripWhiteSpace();
 	paramLine = paramLine.simplifyWhiteSpace();
 	m_createdFile = fileExportFolder->url()+"/"+fileExportName->text();
 	double ratio = getCurrentAspect();
@@ -712,7 +713,6 @@ void exportWidget::generateScript()
 		paramLine = slotCommandForItem(CustomEncoders, custom_encoders->currentItem());
 		break;
 	}
-	paramLine = paramLine.stripWhiteSpace();
 	paramLine = paramLine.simplifyWhiteSpace();
 	m_createdFile = fileExportFolder->url()+"/"+fileExportName->text();
 	double ratio = getCurrentAspect();
@@ -759,7 +759,7 @@ void exportWidget::generateScript()
 
     cmdArgs<<"#! /bin/sh\n\n" ;
 
-    cmdArgs<< QString("output_file=%1\n").arg(fileExportName->text());
+    cmdArgs<< QString("output_file=\"%1\"\n").arg(QFile::encodeName(fileExportName->text()));
 
     cmdArgs<< "if [ -f $output_file ]\n";
     cmdArgs<< "then\n";
@@ -771,7 +771,7 @@ void exportWidget::generateScript()
 
     cmdArgs << "kdenlive_renderer";
 
-    cmdArgs << scriptPath + ".westley";
+    cmdArgs << "\"" + QFile::encodeName(scriptPath + ".westley") + "\"";
 
     cmdArgs << "real_time=0";
     cmdArgs << "resize=hyper";
@@ -804,7 +804,10 @@ void exportWidget::generateScript()
 	    double fr = KdenliveSettings::aspectratio() / ((double) KdenliveSettings::defaultwidth() / KdenliveSettings::defaultheight()) * ((double) width / height);
 	    cmdArgs << QString("aspect_ratio=") + QString::number( fr );
 	}
-	cmdArgs << paramLine;
+	QStringList::Iterator it;
+	for ( it = params.begin(); it != params.end(); ++it ) {
+            cmdArgs << (*it);
+	}
     }
     if (addMetadata->isChecked()) cmdArgs << metadataString().join(" ");
 
