@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-07-26 22:57+0200\n"
-"PO-Revision-Date: 2007-09-18 10:00+0200\n"
+"PO-Revision-Date: 2007-09-18 10:08+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1317,7 +1317,7 @@ msgstr "Chrominance V"
 
 #: kdenlive/initeffects.cpp:158
 msgid "Charcoal"
-msgstr "Solarisation"
+msgstr "Crayonné"
 
 #: kdenlive/initeffects.cpp:162
 msgid "Horizontal scatter"
