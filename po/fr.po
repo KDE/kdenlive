@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-07-26 22:57+0200\n"
-"PO-Revision-Date: 2007-07-26 22:59+0200\n"
+"PO-Revision-Date: 2007-09-18 10:00+0200\n"
 "Last-Translator: jb <jb@ader.ch>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1478,7 +1478,7 @@ msgstr "Modulation"
 
 #: kdenlive/initeffects.cpp:510
 msgid "Room reverb"
-msgstr "Echo de type pièce"
+msgstr "Reverbération dans une pièce"
 
 #: kdenlive/initeffects.cpp:514
 msgid "Room size (m)"
@@ -1494,11 +1494,11 @@ msgstr "Amortissement"
 
 #: kdenlive/initeffects.cpp:543
 msgid "Reverb"
-msgstr "Echo"
+msgstr "Réverbération"
 
 #: kdenlive/initeffects.cpp:547
 msgid "Reverb time"
-msgstr "Durée de l'écho"
+msgstr "Durée de réverbération"
 
 #: kdenlive/initeffects.cpp:568
 msgid "Equalizer"
@@ -2817,9 +2817,8 @@ msgid ""
 "This will remove all clips on timeline that are currently using the selected "
 "clips. Are you sure you want to do this?"
 msgstr ""
-"Cette action supprime tous les clips du montage utilisant les clips "
-"sélectionnés.\n"
-"Voulez-vous vraiment continuer ?"
+"Les plans du montage vidéo correspondant aux fichiers sélectionnés seront également supprimés.\n"
+"Confirmez-vous cette action ?"
 
 #: kdenlive/kdenlive.cpp:3457
 msgid "Cleaning Project"
