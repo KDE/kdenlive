@@ -11,6 +11,8 @@ SET ( SRC_FILES
 avfilelist.cpp
 aviconviewitem.cpp
 avlistviewitem.cpp
+baselistviewitem.cpp
+westleylistviewitem.cpp
 clipdrag.cpp
 clipmanager.cpp
 clipproperties.cpp
@@ -60,6 +62,7 @@ effectstacklistview.cpp
 exportdvddialog.cpp
 exportwidget.cpp
 flatbutton.cpp
+folderlistviewitem.cpp
 gentime.cpp
 initeffects.cpp
 kaddavfilecommand.cpp
@@ -93,6 +96,7 @@ kplacer.cpp
 krender.cpp
 krendermanager.cpp
 kresizecommand.cpp
+kmovetransitioncommand.cpp
 krollcommand.cpp
 kruler.cpp
 krulermodel.cpp
@@ -100,6 +104,7 @@ krulersliderbase.cpp
 krulertimemodel.cpp
 kscalableruler.cpp
 kselectclipcommand.cpp
+krazorclipscommand.cpp
 kthumb.cpp
 ktimeline.cpp
 ktrackpanel.cpp
@@ -113,6 +118,8 @@ main.cpp
 monitormanager.cpp
 newproject.cpp
 newstuff.cpp
+playlist.cpp
+printproperties.cpp
 projectformatmanager.cpp
 projecticonview.cpp
 projectlist.cpp
@@ -185,6 +192,7 @@ transitioncrossfade_ui.ui
 transitionlumafile_ui.ui
 transitionpip_ui.ui
 transitionwipe_ui.ui
+fixplaylist_ui.ui
 )
 KDE3_ADD_KCFG_FILES(SRC_KCFG kdenlivesettings.kcfgc)
 
@@ -194,6 +202,8 @@ avfile.h
 avfilelist.h
 aviconviewitem.h
 avlistviewitem.h
+baselistviewitem.h
+westleylistviewitem.h
 capturemonitor.h
 clipdrag.h
 clipmanager.h
@@ -244,6 +254,7 @@ effectstacklistview.h
 exportdvddialog.h
 exportwidget.h
 flatbutton.h
+folderlistviewitem.h
 gentime.h
 initeffects.h
 kaddavfilecommand.h
@@ -276,6 +287,7 @@ kplacer.h
 krender.h
 krendermanager.h
 kresizecommand.h
+kmovetransitioncommand.cpp
 krollcommand.h
 kruler.h
 krulermodel.h
@@ -283,6 +295,7 @@ krulersliderbase.h
 krulertimemodel.h
 kscalableruler.h
 kselectclipcommand.h
+krazorclipscommand.h
 kthumb.h
 ktimeline.h
 ktrackpanel.h
@@ -295,6 +308,8 @@ loadprojectnativefilter.h
 monitormanager.h
 newproject.h
 newstuff.h
+playlist.h
+printproperties.h
 projectformatmanager.h
 projecticonview.h
 projectlist.h
@@ -334,11 +349,12 @@ transitionstack.h
 transitionwipewidget.h
 )
 
-ADD_DEFINITIONS ( ${QT_DEFINITIONS} -DVERSION=\\"0.5\\" -D__STDC_CONSTANT_MACROS)
+ADD_DEFINITIONS ( ${QT_DEFINITIONS} -DVERSION=\\"0.6svn\\" -D__STDC_CONSTANT_MACROS)
+
 INCLUDE_DIRECTORIES(. ${KDE3_INCLUDE_DIR} ${QT_INCLUDE_DIR} /usr/include/mlt /usr/include/mlt++ )
 LINK_DIRECTORIES( ${KDE3_LIB_DIR} ) 
 ADD_EXECUTABLE(kdenlive ${SRC_FILES} ${SRC_MOC} ${SRC_UI} ${SRC_KCFG} )
-TARGET_LINK_LIBRARIES(kdenlive ${QT_LIBRARIES} kio kdeui mlt++ kdecore knewstuff)
+TARGET_LINK_LIBRARIES(kdenlive ${QT_LIBRARIES} kio kdeui mlt++ kdecore knewstuff kdeprint)
 
 INSTALL (PROGRAMS kdenlive DESTINATION ${CMAKE_INSTALL_PREFIX}/bin )
 INSTALL (FILES kdenlive.kcfg DESTINATION share/config.cfg)
