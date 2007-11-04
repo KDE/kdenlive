@@ -2,6 +2,7 @@
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1.2-Based Variant V1.0//EN" "dtd/kdex.dtd" [
   <!ENTITY kdenlive '<application>Kdenlive</application>'>
   <!ENTITY piave '<application>Piave</application>'>
+  <!ENTITY mlt '<application>MLT</application>'>
   <!ENTITY kino '<application>Kino</application>'>
   <!ENTITY kapp "&kdenlive;"><!-- replace kdenlive here -->
   <!ENTITY % addindex "IGNORE">
@@ -11,27 +12,6 @@
   <!-- Do not define any other entities; instead, use the entities
        from kde-genent.entities and $LANG/user.entities. -->
 ]>
-<!-- kdoctemplate v0.8 October 1 1999 
-     Minor update to "Credits and Licenses" section on August 24, 2000
-     Removed "Revision history" section on 22 January 2001   -->
-
-<!--
-This template was designed by: David Rugge davidrugge@mindspring.com
-with lots of help from: Eric Bischoff ebisch@cybercable.tm.fr
-and Frederik Fouvry fouvry@sfs.nphil.uni-tuebingen.de
-of the KDE DocBook team.
-
-You may freely use this template for writing any sort of KDE documentation.
-If you have any changes or improvements, please let us know.
-
-In the future, we may want to change from SGML-based DocBook to XML-based
-DocBook. To make this change easier, please be careful :
-- in XML, the case of the <tags> and attributes is relevant ;
-- also, quote all attributes.
-
-Please don't forget to remove all these comments in your final documentation,
-thanks ;-).
--->
 
 <!-- ................................................................ -->
 
@@ -66,11 +46,26 @@ as Authors, publish date, the abstract, and Keywords -->
 </author>
 </authorgroup>
 
+<authorgroup>
+<author>
+<firstname>José</firstname>
+<surname>Jorge</surname>
+<affiliation>
+<address><email>lists.jjorge@free.fr</email></address>
+</affiliation>
+</author>
+</authorgroup>
+
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
 
 <copyright>
 <year>2003</year>
 <holder>Jason Wood</holder>
+</copyright>
+
+<copyright>
+<year>2007</year>
+<holder>Fabricio Rocha</holder>
 </copyright>
 <!-- Translators: put here the copyright notice of the translation -->
 <!-- Put here the FDL notice.  Read the explanation in fdl-notice.docbook 
@@ -84,8 +79,8 @@ Please respect the format of the date (DD/MM/YYYY) and of the version
 (V.MM.LL), it could be used by automation scripts.
 Do NOT change these in the translation. -->
 
-<date>28/08/2003</date>
-<releaseinfo>0.2.3</releaseinfo>
+<date>18/09/2007</date>
+<releaseinfo>0.5.0</releaseinfo>
 
 <!-- Abstract about this handbook -->
 
@@ -95,18 +90,9 @@ Do NOT change these in the translation. -->
 </para>
 
 <para>
-	WARNING - this document has not yet been finished. In particular, information on contributors
-	to &kapp;, requirements for &kapp;, installation instructions for &kapp; and the changelog
-	info are all wrong at present. 
-	Also, please contact me at <email>jasonwood@blueyonder.co.uk</email> rather than bugging any 
+	WARNING - this document was rewritten from the online kdenlive english wikibook. Some informations may be outdated.
+	So, please contact me at <email>lists.jjorge@free.fr</email> rather than bugging any 
 	of the kde mailing lists.
-</para>
-
-<para>
-	Cheers,
-</para>
-<para>
-	Jason
 </para>
 
 </abstract>
@@ -145,7 +131,7 @@ revision history. (see installation appendix comment) -->
 <para>
 	&kapp; is a non-linear video editor for KDE.
 	
-	Please report any problems or feature requests to <email>jasonwood@blueyonder.co.uk</email>
+	Please report any problems or feature requests to <email>kdenlive-devel@lists.sourceforge.net</email>
 </para>
 <sect1 id="whatisavideoeditor">
 	<title>What is a video editor?</title>
@@ -224,9 +210,19 @@ revision history. (see installation appendix comment) -->
 				</mediaobject>
 			</screenshot>
 			<para>
-				The panel to the top left holds various informational and editing panels 
-				about the current project. Of most interest to us for this tutorial is 
-				the Project List. This window shows which video clips are in the project.
+				The panel to the top left holds various informational and editing tabs about the current project:
+			</para>
+			<para>
+				The first one is the Project List tab. The Project List shows the video clips, images, slideshows, colour clips and title clips that belong to your project.
+			</para>
+			<para>
+				Second tab is the Transitions tab. It shows you all available video transitions that can be used in your project and, while in editing mode, allows you to change different parameters.
+			</para>
+			<para>
+				Third tab is the Effect List tab. In the same way as transitions, it shows you available audio and video effects for your project.
+			</para>
+			<para>
+				Finally, last tab is the Effect Stack tab. If you have different effects applied to your clips, in this tab you will be able to define the processing order and also parametrise them.
 			</para>
 		</sect2>
 
@@ -243,14 +239,20 @@ revision history. (see installation appendix comment) -->
 				</mediaobject>
 			</screenshot>
 			<para>
-				The panel to the top right holds the various monitors that &kdenlive; uses. 
-				The workspace monitor displays the final video - what our final edit will
-				look like. The clip monitor is used to preview clips, and to select a 
-				section of a clip to add to the timeline.
+				The panel to the top right holds the various monitors that &kdenlive; uses.
+			</para>
+			<para>
+				The Timeline monitor displays the final video - what your final edit will look like.
+			</para>
+			<para>
+				The Clip monitor is used to preview clips, and to select a section of a clip to add to the timeline.
+			</para>
+			<para>
+				The Capture monitor allows you to directly capture video from a camera connected to your computer Firewire port. Provided your camera allows, you'll be able also to control it from the monitor (Play, Stop, FF, ...), preview your video and capture any part of it as a DV file.
 			</para>
 		</sect2>
 		
-		<sect2>
+		<sect2 id="timeline">
 			<title>The Timeline</title>
 			<screenshot>
 				<mediaobject>
@@ -263,49 +265,49 @@ revision history. (see installation appendix comment) -->
 				</mediaobject>
 			</screenshot>
 			<para>
-				The panel at the bottom of the window holds the timeline. The timeline
-				gives you a visual representation of your project, and shows when clips 
-				start, when they end, and in the case of overlapping clips, which one 
-				will actually be used (whilst the architecture is mostly in place, 
-				&kdenlive;/&piave; do not as yet support effects. This will be added in
-			       	&kdenlive;/&piave; 0.3.0
+				The panel at the bottom of the window holds the timeline. The timeline gives you a visual representation of your project, and shows when clips start, when they end, and in the case of overlapping clips, which one will actually be used. The timeline can contain multiple tracks. You can add video clips, sound clips, and other fancy stuffs to the tracks.
 			</para>
+			<para>
+				A status bar is located at the bottom of the timeline. This bar provides information about your project and also holds some useful icons to toggle on/off the thumbnails for video, audio, transitions and effects.
+			</para>
+			<screenshot>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="statusbar.png" format="PNG"/>
+					</imageobject>
+			      		<textobject>
+						<phrase>The status bar</phrase>
+					</textobject>
+				</mediaobject>
+			</screenshot>
 		</sect2>
 	</sect1>
-	<sect1 id="addingclips">
-		<title>Adding clips to your project</title>
+	<sect1 id="first-video">
+		<title>Now, to the video!</title>
 
 		<para>
-			Now that you have a little understanding about the layout of &kdenlive;, it is 
-			time to add some clips to the project. Now, it goes without saying that to get
-			any further, you will need to have some clips on your computer that you can use.
-			At this moment in time, &kdenlive; does not include capture capabilities, and so
-			you must use another application to get the clips that you want. I recommend 
-			Kino, which you can download from 
-			<ulink url="http://kino.schirmacher.de/">http://kino.schirmacher.de/</ulink>.
+			Now that you know what all those sections and buttons in the window are, we will do a basic configuration for a project, add pieces of video and sound to it, move those pieces around and so on.
 		</para>
-
-		<para>
-			Now that you have some clips, you can add them to your project. Select the
-			Project List tab on the project pane, and then right click on it to bring up
-			the context menu. From here, select <guimenuitem>Add Clips</guimenuitem> to bring
-			up a standard &kde; open dialog. Find your clips, select as many as you want to
-			add, and they will be added!
-		</para>
-		<caution>
+		<sect2 id="project-settings">
+			<title>Project Settings and Preferences</title>
 			<para>
-				Attempting to add some invalid file types to the project may cause the
-				underlying renderer to crash. This is a known bug, if it occurs, then
-				simply save your project (it is safe to do so, although it is recommended
-				that you save as a different filename), close &kdenlive; and restart. See 
-				the  <link linkend="known-issues">Known Issues</link> section for more 
-				details.
+				Before starting your first project, please go to the Settings -> Configure &kdenlive; menu option to define your default preferences (e.g. working directory, number of tracks, capture settings, etc) and to the Project -> Configure Project menu option to define the characteristics of your project.
 			</para>
-		</caution>
-		<para>
-			Your added clips will now appear in the project list, along with their duration
-			and a few other pieces of information about them.
-		</para>
+		</sect2>
+		<sect2 id="using-clips">
+			<title>Using clips in your project</title>
+			<para>
+				It goes without saying that to get any further, you will need to have some clips on your computer that you can use, or capture them directly from your video camera. For this section we assume that you already have some files available that are supported by Kdenlive.
+			</para>
+			<para>
+				Now that you have some clips, you can add them to your project. Select the Project List tab on the project pane, and then click on the "Add clip" icon in the top right to bring up the context menu. From here, select "Add Clips" to bring up a standard KDE open dialog. Find your clips, select as many as you want to add (select more than one by holding the Ctrl key), and they will be added!
+			</para>
+			<para>
+				Your added clips will now appear in the project list, along with their duration and a few other pieces of information (like a thumbnail).
+			</para>
+			<para>
+				For the purpose of this Quickstart guide, and in order to show you the basic &kdenlive; functionalities, we'll work with two of your clips, adding a title at the beginning, a video transition between them and a video effect to a part of one clip. Finally, we'll render the project to obtain a nice DVD ready to be burned and played on our TV.
+			</para>
 		<screenshot>
 			<mediaobject>
 				<imageobject>
@@ -316,94 +318,295 @@ revision history. (see installation appendix comment) -->
 				</textobject>
 			</mediaobject>
 		</screenshot>
-	</sect1>
-	<sect1 id="clips-to-timeline">
-		<title>Dragging clips to the timeline</title>
-
-		<para>
-			Now that you have some clips in your project, it is time to start editing them
-			together into your dream video. There are a two basic ways in which to add a clip
-			to the timeline.
-		</para>
-		<para>
-			You can drag a clip directly from the project list. Select one of the clips
-			that you have added to the project list, and drag it to the timeline. As
-			soon as the mouse reaches a track, the clip will appear on the track. With this
-			kind of drag, the entire duration of the clip is placed on the timeline. You can
-			then edit the clip from the timeline.
-		</para>
-		<para>
-			When you click on a clip in the project list, the clip monitor will automatically
-			load the clip. You can then press play on clip monitor and get an idea as to which
-			bits of the clip you actually want on the timeline. Then, position the seek marker
-			to where you want your clip to start and click the "inpoint" button. Move to where
-			you want the clip to end and click the "outpoint" button. Finally, you can drag this
-			cut-down clip by clicking on the video on the clip monitor and dragging to the 
-			timeline. The clip that appears on the timeline will be that part of the clip between
-			the in and out points on the monitor.
-		</para>
-	</sect1>
-
-	<sect1 id="selecting-clips">
-		<title>Selecting Clips on the Timeline</title>
-
-		<para>
-			You can select a clip from the timeline by clicking the left mouse bouton. If you want
-			to add clips to the current selection, hold down Shift while clicking on the clips
-			you want to add. Finally, you can toggle whether a clip is selected or not by
-		       	holding down Ctrl whilst clicking on it. 
-		</para>
-	</sect1>
-
-	<sect1 id="manipulatings-clips-on-timeline">
-		<title>Moving and Resizing Clips on the Timeline</title>
-		<para>
-			Moving the selected clips around on the timeline is as simple as clicking on them
-			with the left mouse bouton and dragging them around. You can resize clips directly
-			from the timeline. Simply move the mouse cursor to the the beginning or end of the
-			clip you want to resize. Now, click and drag with the left mouse bouton to resize
-			the clip.
-		</para>
-		<para>
-			Resizing a clip changes it's in and outpoints. If you reselect the clip and look
-			in the clip monitor, you will see that the in and out points on the monitor show
-			the new positions.
-		</para>
-		<note>
+		</sect2>
+		<sect2 id="title-clip">
+			<title>Creating a title</title>
 			<para>
-				It is not possible to resize a clip past it's length - if a clip is 30
-				seconds in length, then you will not be able to resize the clip so that
-				it finishes playing 35 seconds into the clip!
+				Firstly, we are going to create a title clip for your project. &kdenlive; is able to create simple titles. We can also work with external image editors (like GIMP) to create more sophisticated titles and then add them to the project list as explained above.
 			</para>
-		</note>
-		<para>
-			When you are resizing and moving clips, there is a handy "snap to" feature, which
-			will snap the edges of clips to other clips and the current seek position. This
-			is useful for quickly lining clips up with each other, but in some cases may not
-			be what you want. You can turn this behaviour on and off using the 
-			Timeline->Snap To Border menu item.
-		</para>
-	</sect1>
+			<para>
+				To create a title clip, select "Add clip" icon and, in the context menu, select "Create Title Clip". A new window like this will be presented:
+			</para>
+			<screenshot>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="title_window.png" format="PNG"/>
+					</imageobject>
+					<textobject>
+						<phrase>The Titler Window</phrase>
+					</textobject>
+				</mediaobject>
+			</screenshot>
+			<para>
+				In this window, you can give a name to your clip, define the duration, the letter type, size and colour.
+			</para>
+			<para>
+				You can now select the "Enter text" icon, write the title and click "OK". The text will appear in the window and you can drag and drop it wherever you want on the screen. To improve your title, click the "Draw box" icon and, with the left mouse button pressed, draw a box on the screen. Before doing so, you need to change the box colour in the same way as you did for the text. If the box and the text have the same colour, they may interfere!
+			</para>
+			<para>
+				Don't worry if you can't see your text now! Select the box and try with the "Bring to front/send back" icons. Better now, huh?
+			</para>
+			<para>
+				By dragging and dropping the box and the text and by playing with the movement icons, you can obtain quite nice titles!
+			</para>
+		</sect2>
+		<sect2 id="clips-to-timeline">
+			<title>Dragging clips to the timeline</title>
 	
-	<sect1 id="removing-clips-from-timeline">
-		<title>Removing clips from the timeline</title>
-
-		<para>
-			There are currently two ways to remove a clip from the timeline. The first way
-			is to select the clip or clips that you want to delete, and to press 
-			<keycombo action="simul"><keycap>delete</keycap></keycombo>.
-		</para>
-		<para>
-			The second way is to select the clips that you want to delete, and to drag
-			them away from the timeline. As soon as the clips leave the timeline, they
-			will disappear.
-		</para>
-		<note>
 			<para>
-				It not yet decided if this behaviour is a good thing or a bad thing.
-				It may be removed in later versions of &kdenlive;. You have been warned!
+				Now that you have some clips in your project, it is time to start editing them
+				together into your dream video. There are a two basic ways in which to add a clip
+				to the timeline.
 			</para>
-		</note>
+			<para>
+				You can drag a clip directly from the project list. Select one of the clips
+				that you have added to the project list, and drag it to the timeline. As
+				soon as the mouse reaches a track, the clip will appear on the track. With this
+				kind of drag, the entire duration of the clip is placed on the timeline. You can
+				then edit the clip from the timeline.
+			</para>
+			<para>
+				The other way is to select a segment of a clip and then add this segment to the timeline. When you click on a clip in the project list, the Clip Monitor will automatically load the clip. You can then press Play on the Clip Monitor and get an idea of which bits of the clip you actually want on the timeline.
+			</para>
+			<para>
+				Then, position the seek marker to where you want your clip to start and click the "inpoint" button. Move the cursor to where you want the clip to end, and click the "outpoint" button. Finally, you can move this cut-down clip to the timeline by clicking the video screen on the Clip Monitor and, holding down the left mouse button, placing it in the desired point of the timeline. The selected zone between the in and out point will then appear there as a clip (to be more precise, a subclip as we've selected only a part of the original clip).
+			</para>
+			<para>
+				Choose your way and, to continue with the quickstart guide, be sure to move two clips (or subclips) to the timeline. One to Track #1 and the other to Track #2.
+			</para>
+		</sect2>
+	
+		<sect2 id="moving-clips">
+			<title>Moving and resizing clips on the timeline</title>
+	
+			<para>
+				Moving the selected clips around on the timeline is as simple as clicking on them with the left mouse button and dragging them around. You can resize clips directly from the timeline. Simply move the mouse cursor to the beginning or end of the clip you want to resize. Now, click and drag with the left mouse button to resize the clip.
+			</para>
+			<para>
+				Resizing a clip changes its in and out points. If you reselect the clip and look in the clip monitor, you will see that the in and out points on the monitor show the new positions.	
+			</para>
+			<note>
+				<para>
+					It is not possible to resize a clip past it's length - if a clip is 30
+					seconds in length, then you will not be able to resize the clip so that
+					it finishes playing 35 seconds into the clip!
+				</para>
+				<para>
+				On the other hand, you can resize text, image or color clips to increase or reduce their length as you want.
+				</para>
+			</note>
+			<para>
+				When you are resizing and moving clips, there is a handy "snap to" feature, which will snap the edges of clips to other clips and the current seek position. This is useful for quickly lining clips up with each other, but in some cases may not be what you want. You can turn this behaviour on and off using the "Snap to" icons.
+			</para>
+		</sect2>
+		
+		<sect2 id="removing-clips-from-timeline">
+			<title>Removing clips from the timeline</title>
+	
+			<para>
+				There are currently two ways to remove a clip from the timeline. The first way
+				is to select the clip or clips that you want to delete, and to press 
+				<keycombo action="simul"><keycap>delete</keycap></keycombo>.
+			</para>
+			<para>
+				Another way is to select the clips that you want to delete, press the right mouse button and in the context menu select option Delete Clip.
+			</para>
+			<note>
+				<para>
+					By this, you'll remove the clip from the timeline but it still appears in the "Project Tree" list. If you select the clip here and proceed as above, you'll remove it also from the project. But do not worry, it still remains physically in your disk!
+				</para>
+			</note>
+		</sect2>
+		<sect2 id="splitting-clips-in-the-timeline">
+			<title>Splitting clips in the timeline</title>
+	
+			<para>
+				Sometimes you may need to delete (maybe because you let your camera recording without realize :-)) or apply a video effect to only a part of a clip. &kdenlive; allows you to do so by splitting the original clip.
+			</para>
+			<para>
+				To split a clip, the easier way is to place the timeline cursor at the splitting point (you can adjust the exact position by playing with the "Next frame" and "Previous frame" buttons in the "Timeline Monitor"). Then press the right mouse button and in the context menu select option Razor Clip. With this option only the clip in the current track will be splitted. You can split all clips at that position selection option Razor All Clips.
+			</para>
+			<para>
+				If you repeat this action, you can create different subclips that will appear in the "Project Tree" list. Then you can move, delete or resize these clips as you want.
+			</para>
+		</sect2>
+		<sect2 id="adding-a-transition">
+			<title>Adding a transition</title>
+	
+			<para>
+				We are going now to add a transition between two clips. Transitions are normally used to smoothly change from one clip to another (or from one scene to another). Some transitions can be used also as video effects (Picture in Picture, for example). These powerful features are explained in detail in the manual, but for the purpose of this quickstart guide, we'll focus on an easy one, the crossfade transition.
+			</para>
+			<para>
+				Before start, be sure that you have your two videoclips in tracks #1 and #2. Also, move (as explained before) the tittle clip that we've created previously to the start of track #0.
+			</para>
+			<para>
+				If we want to apply a transition, we need to overlap the required clips in different tracks. So first thing to do is to move the clip in track #1 to overlap with the tittle in track #0, let say by 2 seconds.
+			</para>
+			<para>
+				To better control this overlap you can change the timeline zoom using the viewer tool Image:Timeline_scale.jpg. Click on the magnifying glass and select a small scale or click on the ruler and drag left.
+			</para>
+			<para>
+				Once done, click on the tittle clip and press the right mouse button. In the context menu select Add transition -> Crossfade. A yellow bar will appear between the clips in tracks #0 and #1 indicating your transition has been added to the project.
+			</para>
+			<para>
+				At this point your screen should look like this one:
+			</para>
+			<screenshot>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="transition.png" format="PNG"/>
+					</imageobject>
+					<textobject>
+						<phrase>A transition</phrase>
+					</textobject>
+				</mediaobject>
+			</screenshot>
+			<para>
+				To have a real time view of how your transition works, you can click the seek marker and drag it over the transition area. If everything is OK, you should see in the "Timeline Monitor" how the tittle clip dissapears at the same time the video clip is displayed.
+			</para>
+			<para>
+				To edit a transition and change parameters, you can double click on it (the yellow bar). In this way, it will become red and the focus in the "Project Panel" will change to the "Transition tab". In this tab you'll be able to change the transition parameters if needed.
+			</para>
+			<para>
+				As the Crossfade is an easy transition, the only parameters you can change are the transition direction and the track where it applies.
+			</para>
+			<para>
+				If the Invert direction parameter is selected, the upper track clip is shown first and the transition is applied until the view changes to the lower track clip. If the parameter is not selected, then the direction is the other way round.
+			</para>
+			<para>
+				The track to apply the transition is normally the next track after the one where we created the transition. But you can change this behaviour by selecting others in the Track Selection List. This is a powerful feature for advanced transitions, but for the moment we'll not use, so be sure your selection is Automatic – Use next video track.
+			</para>
+			<para>
+				You can play now creating a new transition between clips in tracks #1 and #2 in the same way as explained above.
+			</para>
+		</sect2>
+		<sect2 id="adding-effects">
+			<title>Adding effects</title>
+	
+			<para>
+				Now you know how to create a transition between clips, is time to experiment with another feature in Kdenlive: The effects.
+			</para>
+			<para>
+				Effects are ways to change your original clip. Kdenlive comes with different effects that can be applied to the audio and others that can be applied to the video. The small number of standard audio effects can be easily increased if you use the Ladspa plug-ins (see this page to know how to load them).
+			</para>
+			<para>
+				To know in detail all effects and how they works, you can have a look at this page.
+			</para>
+			<para>
+				In this guide we'll know how to apply a "Greyscale" effect to a clip. This effect, as the name indicates, will take out colors from the video and display it in black and white (well, really using black, white and different grey tones! ).
+				Normally, except some of them, the effects apply to a full clip so, if you want to limit the effect to just a part, you need to create "subclips" as explained before in this page.
+			</para>
+			<para>
+				So let's go to clip in track #2. Select it and click the right mouse button. In the context menu select Add Video Effect -> Greyscale. You'll see immediatly how the colours in your clip dissapear and are replaced by grey tones!
+			</para>
+			<para>
+				In the same way as transitions, you can also edit the effect parameters. To do so, select the "Effect Stack" tab in the Project Panel. Unfortunately, the Greyscale effect is so easy that has no parameters!
+			</para>
+			<para>
+				But in this tab, you can also find some useful icons to organize the effects:
+				- "Effect Up" to move the effect up in the list (that means it will be applied first to the clip)
+				- "Effect down" to move the effect down in the list
+				- "Reset" to reset all effect parameters to the default values
+				- "Remove effect" to remove the effect from the clip
+			</para>
+			<para>
+				You can see also that behind the effect name there's a checkbox. If you uncheck it, the effect will not be applied but still remains in the effect list with the selected parameters (if any!). This is useful if you want to use it later on.
+			</para>
+			<para>
+				And behind the "Parameters" tab, you'll notice another one titled "Keyframes". For some effects, you can select as many keyframes as you need in the clip and for each keyframe you can define different parameters. This is useful if you want, for example, mute a part of a clip. You can do so in two ways:
+			</para>
+			<para>
+				- Creating a subclip and applying the "Mute" audio effect to this subclip
+			</para>
+			<para>
+				- Using the "Volume" effect. This can be applied to the full clip and, by defining different keyframes you can adjust the volume, for example, to start muted, then increase progressively, then continue at normal level, then decrease progressively and become muted, continue muted for a time and start again progressively ...
+			</para>
+		</sect2>
+		<sect2 id="rendering-your-work">
+			<title>Rendering your work</title>
+	
+			<para>
+				At this point we are ready to render our project and see how it looks on our TV, PC, ... If you've followed the steps until now, your screen should look like this one:
+			</para>
+			<screenshot>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="effects.png" format="PNG"/>
+					</imageobject>
+					<textobject>
+						<phrase>Effects</phrase>
+					</textobject>
+				</mediaobject>
+			</screenshot>
+			<para>
+				You have a title clip in track #0 with a crossfade transition between it and the other clip in track #1. Another transition (this one costum made by you!) between this clip and the one in track #2 and a greyscale effect applied to this clip.
+			</para>
+			<para>
+				Now follow some steps to create a DVD with this project. With &kdenlive; you'll be able to easily create a DVD video structure and burn it (if you have installed the program k3b). You will also add a simple menu with chapters and even with an intro movie if you like.
+			</para>
+			<para>To create a DVD video, you can follow these steps: select the menu option Render -> Export to DVD. - You'll be presented with a window to enter export details:
+			</para>
+			<screenshot>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="Create_DVD_1.png" format="PNG"/>
+					</imageobject>
+					<textobject>
+						<phrase>Create DVD step 1</phrase>
+					</textobject>
+				</mediaobject>
+			</screenshot>
+			<para>
+				In this screen you should enter the folder name where the DVD structure should be created and the DVD format (PAL/NTSC). Be sure that the option "Render file now" is selected.
+			</para>
+			<para>
+				As you can see, in this screen it's also possible to define the DVD chapters and also to create the DVD from an existing video file (.VOB), but for the moment we are not going to use these options.
+			</para>
+			<para>
+				Press the "Next" button. In the following dialog you can select to create a DVD menu or not. If you want to, check the "Create Menu" option and the rest of the data will be accessible.
+			</para>
+			<screenshot>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="Create_DVD_2.png" format="PNG"/>
+					</imageobject>
+					<textobject>
+						<phrase>Create DVD step 2</phrase>
+					</textobject>
+				</mediaobject>
+			</screenshot>
+			<para>
+				You can choose to use a plain colored screen for your menu (click on the color box to select it), an image file or even a movie file (enter the path and name if selected). Also, you can define a pause between chapters if you have created such.
+			</para>
+			<para>
+				In the "Buttons" tab you can define the title text, font and size and the different colors for the button depending on status (not selected, selected, pressed).
+			</para>
+			<para>
+				In the "Intro" tab you can indicate a video file to be presented before the menu appears in the screen (like an introduction video).
+			</para>
+			<para>
+				When you've entered data, press again the "Next" button. Kdenlive is now ready to generate the DVD using the program DvdAuthor. Click on "Generate DVD" to do so.
+			</para>
+			<screenshot>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="Create_DVD_3.png" format="PNG"/>
+					</imageobject>
+					<textobject>
+						<phrase>Create DVD step 3</phrase>
+					</textobject>
+				</mediaobject>
+			</screenshot>
+			<para>
+				A message will appear telling you to continue working while the video is generated. You can see progress in the "Status Bar".
+			</para>
+			<para>
+				When the process is finished, you may choose to work with the generated DVD externally (you'll find the Audio and Video directories in the specified path) or return again to this screen by selecting menu option Render -> Export to DVD. If you decided to go on with &kdenlive;, you'll have options to directly burn your video (using k3b), preview it (using Xine) or edit again the structure (using QDvdAuthor).
+			</para>
+			<para>
+				Congratulations! You've created your first video with &kdenlive;. Enjoy it and continue reading to know more about this program and its advanced features.
+			</para>
+		</sect2>
 	</sect1>
 </chapter>
 
@@ -440,20 +643,6 @@ your application. -->
 			list.
 		</para>
 	</sect2>
-	<sect2 id="kapp-projectlist-deletingclips">
-		<title>Deleting clips via the Project List</title>
-		<para>
-			Delete clips is currently non-functional - the only way to delete clips is to use
-			clean-project.
-		</para>
-	</sect2>
-	<sect2 id="kapp-projectlist-clipproperties">
-		<title>Examining Clip Properties</title>
-		<para>
-			Clip Properties is currently non-functional - there is no way to examine the
-		       	format of a clip except by examining the debug output ;-)
-		</para>
-	</sect2>
 	<sect2 id="kapp-projectlist-cleanproject">
 		<title>Clean Project - Removing unused Clips</title>
 		<para>
@@ -464,53 +653,6 @@ your application. -->
 		       	no longer in use anywhere.
 		</para>
 	</sect2>
-</sect1>
-
-<sect1 id="kapp-debugwindow">
-	<title>The Debug Panel</title>
-	<screenshot>
-		<mediaobject>
-			<imageobject>
-				<imagedata fileref="debug_tab.png" format="PNG"/>
-			</imageobject>
-	      		<textobject>
-				<phrase>The Debug Panel</phrase>
-			</textobject>
-		</mediaobject>
-	</screenshot>
-	<para>
-		The debug panel is of most use to developers of &kdenlive;. It gives a highly detailed
-		account of what is going on behind the scenes of &kdenlive;. This section will not help
-		you to understand the output of the debug panel, but will tell you why it looks like it
-		is and how to operate it.
-	</para>
-	<para>
-		On the left, the debug panel shows a list of the renderers in use by &kdenlive;. Each
-		renderer has a name that says which part of &kdenlive; it is used by. There are three
-		such renderers in the current version of &kdenlive;. Clip monitor handles playback of
-	       	video in the Clip Monitor. Workspace monitor handles playback in the Workspace Monitor. 
-		The Document renderer handles all other tasks, such as determining the lengths of
-		video files, and exporting the final video footage.
-	</para>
-	<para>
-		If you select one of the renderers from the list, the text area will show all debug output
-		from the renderer. For general usage of &kdenlive;, you do not need to understand this, but
-		it is very important when filing bug reports to send a copy of these messages - doing so
-		will better aid us in fixing your problems. Click the Save Messages button to bring up
-		a standard save dialog in which you can save the output.
-	</para>
-	<note>
-		<para>
-			The Save Messages button will save output for all of the renderers. You do not 
-			need to save each renderer's output individually.
-		</para>
-	</note>
-	<para>
-		There is a checkbox on the debug panel that allows you to turn off the output of the
-		debug messages. This may be necessary on slower machines or if you run &kdenlive; for
-		a long time, as keeping track of the messages does slow &kdenlive; down, and will
-		consume more and more memory the longer that &kdenlive; is running for.
-	</para>
 </sect1>
 
 <sect1 id="kapp-effectlist">
@@ -1265,27 +1407,13 @@ taken from that reference and shortened a bit for readability. -->
 	<title>Known Issues, Workarounds and Recovery Procedures</title>
 
 	<para>
-		If &kdenlive; or one of the &piave; renderers crashes, it is possible that
-		it will prevent the current or and new copies of &kdenlive; from running
-		correctly.
+		If you upgrade &kdenlive; the user interface may be strange. This is because of the way &kapp; stores window positions in his configuration file.
 	</para>
 	<para>
-		There are two reasons why this may happen. The first is if one of the &piave;
-		processes did not shut down on the previous run of &kdenlive;. The simple
-		solution to this is to close down &kdenlive; and type from the command line:
+		The simplest way to make it work is removing all previous configuration file, typing from the command line:
 		<screen width="40">
-			<prompt>%</prompt> <userinput>killall -9 piave</userinput>
+			<prompt>%</prompt> <userinput>rm ~/.kde/share/config/kdenliverc</userinput>
 		</screen>
-	</para>
-	<para>
-		This will kill any stray &piave; processes, and should allow you to run &kdenlive;
-		normally again.
-	</para>
-	<para>
-		If you try the above and it says <quote>piave:no process killed</quote> then
-		it may be that one of the ports that &piave; listens on has not yet been
-		freed after the previous run. Wait for about one minute before starting 
-		&kdenlive; again - the TCP port will time out and become usable again.
 	</para>
 </chapter>
 
@@ -1314,97 +1442,15 @@ taken from that reference and shortened a bit for readability. -->
 			</question>
 			<answer>
 				<para>
-					Currently, &kapp; supports playback of AVI files that use the
-					DV codec (other types of AVI file will fail) and Raw DV files.
-					Both of these formats are exported by &kino;.
+					Currently, &kapp; accepts all files supported by the project ffmpeg. So the list is huge, even if it can happen that some file won't be displayed in &kapp;
 				</para>
 				<note>
 					<para>
 						On a technical note, &kapp; does not provide any video formats
 						itself; all video formats are provided by the backend renderer,
-						&piave;.
+						&mlt;.
 					</para>
 				</note>
-			</answer>
-		</qandaentry>
-		<qandaentry>
-			<question>
-				<para>
-					When will &kapp; support divx/mpeg files?
-				</para>
-			</question>
-			<answer>
-				<para>
-					Short answer : When somebody codes the relevant plugin for &piave;.
-				</para>
-				<para>
-					The long answer : Supporting divx files in an editing application
-				        is difficult. divx and mpeg formats are not designed for video editing.
-					Some frames contain only part of the information required to display that
-					frame, which makes the random acces required by a video editing application
-					difficult to achieve. There are also quality issues with decompressing and
-					recompressing files that need to be taken into account. For these reasons,
-					support for these formats in &kapp; itself are of low priority compared to
-				       	the effect framework, the capture program and other such features.
-				</para>
-				<para>
-					If somebody is interested is adding divx/mpeg support to &kapp; (or to
-					be technically correct, &piave;) then please contact me, and I will point
-					you in the right direction. In the meantime, it is suggested that you
-					capture video directly in Raw DV using &kino;, or convert your files to 
-					Raw DV format for use with &kapp;
-				</para>
-			</answer>
-		</qandaentry>
-		<qandaentry>
-			<question>
-				<para>
-					When will &kapp; support mp3 files and other audio formats?
-				</para>
-			</question>
-			<answer>
-				<para>
-					Sometime in the future, perhaps version 0.4.0 or 0.5.0.
-					The roadmap on the website gives a rough idea of the order in which 
-					features are being added to &kapp;. The next priority is the
-					effect framework, which will be the made addition for the 0.3.0 release.
-					Once &kapp; 0.3.0 is released, we will decide on the next most important
-					feature. This may be separate audio tracks.
-				</para>
-			</answer>
-		</qandaentry>
-		<qandaentry>
-			<question>
-				<para>When I add clips to the project, the times show up as 'unknown'. I
-					know these clips are valid, why does this happen?</para>
-			</question>
-			<answer>
-				<para>
-					This is a sign that something has gone wrong with &piave;.
-					Whilst &kapp; will do it's best to pull itself back into working
-					order, this is still relatively new software and it doesn't manage
-					it as often as one would hope! The best solution is to quit &kapp;
-					(if you have done any work, then you are quite safe to save it),
-					perform the following operation: 
-					<screen width="40">
-						<prompt>%</prompt> <userinput>killall -9 piave</userinput>.
-					</screen>
-					Wait a few seconds, and then restart kdenlive.
-				</para>
-			</answer>
-		</qandaentry>
-		<qandaentry>
-			<question>
-				<para>The &kdenlive; user interface is not keeping up when I play a 
-					video! What is wrong?</para>
-			</question>
-			<answer>
-				<para>
-					Go to the debug panel and try checking the Ignore Incoming Messages
-					button. This will turn off output to the debug window, which can
-					slow the interface down considerably whilst playing back videos,
-					especially when they are long in length.
-				</para>
 			</answer>
 		</qandaentry>
 	</qandaset>
@@ -1431,6 +1477,11 @@ distribution. -->
 		<listitem>
 			<para>
 				Caulier Gilles <email>caulier.Gilles@free.fr</email> : &kdenlive; and &piave; i18n, French translations, splashscreen
+			</para>
+		</listitem>
+		<listitem>
+			<para>
+				José Jorge <email>jjorge@free.fr</email> documentation update, French and Portuguese translations
 			</para>
 		</listitem>
 		<listitem>
@@ -1468,7 +1519,7 @@ distribution. -->
 
 <para>
 	The &kdenlive; WEB site is 
-	<ulink url="http://www.uchian.pwp.blueyonder.co.uk/kdenlive.html">http://www.uchian.pwp.blueyonder.co.uk/kdenlive.html</ulink>.
+	<ulink url="http://www.kdenlive.org">http://www.kdenlive.org</ulink>.
 	&kdenlive; can be found in the SourceForge project page on
 	<ulink url="http://sourceforge.net/projects/kdenlive/">http://sourceforge.net/projects/kdenlive/</ulink>
 </para>
@@ -1490,19 +1541,19 @@ information here.
 
 <para>
 	In order to successfully use &kdenlive;, you need KDE 3.0 or higher. Additionally,
-	you need piave in order to do anthing useful - kdenlive itself is after all, just
+	you need MLT in order to do anthing useful - kdenlive itself is after all, just
        	an interface :-)
 </para>
 
 <para>
 	All required libraries as well as &kdenlive; itself can be found on or via 
-	<ulink url="http://pwp.blueyonder.co.uk/kdenlive.html">The &kdenlive; home page</ulink>.
+	<ulink url="http://www.kdenlive.org">The &kdenlive; home page</ulink>.
 </para>
 
 <!-- For a list of updates, you may refer to the application web site
 or the ChangeLog file, or ... -->
 <para>
-	You can find a list of changes at <ulink url="http://pwp.blueyonder.co.uk/kdenlive.html">http://pwp.blueyonder.co.uk/kdenlive.html</ulink>. FIXME : this link does not actually point at a changelog.
+	You can find new releases in the <ulink url="http://www.kdenlive.org/news.php">News page</ulink>.
 </para>
 </sect1>
 
@@ -1533,8 +1584,8 @@ or the ChangeLog file, or ... -->
 
 	<para>
 		Since &kdenlive; uses autoconf and automake you should have not trouble compiling it.
-		Should you run into problems please report them to 
-		<email>jasonwood@blueyonder.co.uk</email>.
+		Should you run into problems please report them in the <ulink url="http://www.kdenlive.org/contact.php">
+		Contact Page</ulink>.
 	</para>
 
 </sect1>
